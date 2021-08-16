@@ -1,50 +1,49 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C497E72
-	for <ntfs3@lists.linux.dev>; Mon, 16 Aug 2021 10:38:10 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id i9so12688655lfg.10
-        for <ntfs3@lists.linux.dev>; Mon, 16 Aug 2021 03:38:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE40272
+	for <ntfs3@lists.linux.dev>; Mon, 16 Aug 2021 12:02:09 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id i28so5469269ljm.7
+        for <ntfs3@lists.linux.dev>; Mon, 16 Aug 2021 05:02:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NfJatabbDRuLjub7mFadaE4bzboEivABMiAWlTI3GXI=;
-        b=FRcS1yQ12WU7K0ZrS2Mhi1L27mX8U82kp/YGBiFsbIYoKjAefR8yXpjynkLeKOfHYb
-         U0FrZU0SQuNc0RxvrQ1up2dlos0z2hheRmKN2oWXX0r5zmlrIC3Fvvo1qSvEm2eM1IjR
-         tAFI+qqwks7gCwE0pOb6EvnmY7D0A1MWSazaarkx1NPPhdX3dZ7AMdznWSiHHTnqB57S
-         2eWJDIIe/5hrQbpmLGVxU7O8cYSKi7GXwq2jevYN1eaoHBVwC7lrcXIGFWa36l4cn/cf
-         3/fFmlE69w09gXSJ/6xTtjGbH13yE5833d1l3vrCGzNhownB42FmTIfNtBKjnoPep9iY
-         ILHg==
+        bh=r6r8va6Dg2Si6p1qLWqzldiHMFwpXfRX5u3lnqvgf50=;
+        b=jdBYVl6FVZiGHHJ07dR6L+gaooQEvB6aUPT7DdTl2sxzZB72QvIm8RjFuksMDCsvxs
+         QACEMWzp/Q3iBoOjiKNZgcOebLotXfTDiRG/6VU7bW+9PQAEVQbbM8sfV9+AeK8NCbwB
+         dOqsowtWGiOYzzik+kGvYfcRt/uHZPFJLL5DHMbAXigBGPSv+cDn20pKDwtJucPdL07E
+         aYBSAPv3PU0ANahj14MJS6sUfUfrTJYD7yuklIwmLKbTFEUsIPqOhyA6x+wk33Ix/KAs
+         zf6OvGO8cFF6p7JbPnyC+e2+p1WgCyFyO+5nuoUWR6d7Jq89QOQbkWDOwNhTt6xOB3LZ
+         /2pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NfJatabbDRuLjub7mFadaE4bzboEivABMiAWlTI3GXI=;
-        b=YmLb5nM452L5xjeHjmIodzUxtoGVVnxWni2h+XVgmZx0gF/ugtgOdC3FhE2f0UHAGw
-         cAvz3gIGLGQ92rESHNBndhPSMn2p7zO+6pJk4sOEpRB/S/830LlGxIaPndnuxSS8BKgL
-         7I+noLJm2jLUUIlfkDRd1+MenpbMPukhvAQLHhTyyZ2BSTUD9jrc2b55CgmIvv78Mv06
-         MWtuWyA5qde0MzoaJzcwUT+oLBFuoA+gk8vxM5dv2Gldtjv6izaYMNZHxKGJYo1MNHIO
-         koWAcXsESXVI42LUWayezDhYM7SjoMGarVPtIZIVwnfXjK7LEH0DoENiHGPyXZeBUfsQ
-         wsxQ==
-X-Gm-Message-State: AOAM532e453fOrYv3MQ0E16rCtqNnRdNTmjO4gn9Yz5L1Ll35vxetpRE
-	mAXYVT1FYEl8rXmn9DkNjOY=
-X-Google-Smtp-Source: ABdhPJzs6220+8j1LIoVUYyvXJU+Edf3AwZGR/I89cb68hlCM2Bx8p3TwSGwCvE0yxT4Bgq0Mf12BA==
-X-Received: by 2002:a05:6512:3f16:: with SMTP id y22mr10805648lfa.356.1629110288803;
-        Mon, 16 Aug 2021 03:38:08 -0700 (PDT)
+        bh=r6r8va6Dg2Si6p1qLWqzldiHMFwpXfRX5u3lnqvgf50=;
+        b=rxIVbGKKLrhhW0M1x/STi1bHUf1PZidnsKI+8GIZ3ApEf4BMlnHalkFTLKIHdB4E8a
+         NogJD0NO95lMYjXpfQisnThWy63LEqLWAB7R9S3h1elYYQuciWcUDzikOMYyQrgz6Eg4
+         ypRLq3EUXpw4gXuq6VQJVG+YbivBSxt+DEwbCtszXOi4ukBwVCcHInNmIoID8nRVXIl8
+         IDwujZR3JggjdF5c1gVk36d8NnSPTsD1sEf1i8Gx0PlxCCxxblKf4YuK/5zihV/ggPFD
+         bfpVO54dmZMg8t7efbabIKhABMHgjcDKxPKdJuZkC87KrPdMR5Lx05MoErNHb/otMhi7
+         53hw==
+X-Gm-Message-State: AOAM530yL1OPA2/NMkHpIjYmbdR61yACRehg7lPqlqQoofw0K78DvQtV
+	x57qk0lR0Bq31Tr5dJF+L+M=
+X-Google-Smtp-Source: ABdhPJwuu5CRQ+ULVJ3im3r0i6BORE41/c2yLBzmo1gk45h3Bk3q0m02bP4lyLSStgA+Aeyo4cDcTA==
+X-Received: by 2002:a2e:b80f:: with SMTP id u15mr9208488ljo.232.1629115326402;
+        Mon, 16 Aug 2021 05:02:06 -0700 (PDT)
 Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id l6sm1136044ljj.40.2021.08.16.03.38.07
+        by smtp.gmail.com with ESMTPSA id c10sm1144333ljr.134.2021.08.16.05.02.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 03:38:08 -0700 (PDT)
+        Mon, 16 Aug 2021 05:02:05 -0700 (PDT)
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
 Cc: Kari Argillander <kari.argillander@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: Use linux/log2 is_power_of_2 function
-Date: Mon, 16 Aug 2021 13:37:32 +0300
-Message-Id: <20210816103732.177207-1-kari.argillander@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: Add ifndef + define to all header files
+Date: Mon, 16 Aug 2021 15:01:56 +0300
+Message-Id: <20210816120156.186193-1-kari.argillander@gmail.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -54,98 +53,77 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We do not need our own implementation for this function in this
-driver. It is much better to use generic one.
+Add guards so that compiler will only include header files once.
 
 Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 ---
- fs/ntfs3/ntfs_fs.h | 5 -----
- fs/ntfs3/run.c     | 3 ++-
- fs/ntfs3/super.c   | 9 +++++----
- 3 files changed, 7 insertions(+), 10 deletions(-)
+I do not mind if this get's merged to V28/V29 without commit.
+---
+ fs/ntfs3/debug.h   | 5 +++++
+ fs/ntfs3/ntfs.h    | 3 +++
+ fs/ntfs3/ntfs_fs.h | 5 +++++
+ 3 files changed, 13 insertions(+)
 
+diff --git a/fs/ntfs3/debug.h b/fs/ntfs3/debug.h
+index dfaa4c79dc6d..465466631d38 100644
+--- a/fs/ntfs3/debug.h
++++ b/fs/ntfs3/debug.h
+@@ -7,6 +7,9 @@
+  */
+ 
+ // clang-format off
++#ifndef _LINUX_NTFS3_DEBUG_H
++#define _LINUX_NTFS3_DEBUG_H
++
+ #ifndef Add2Ptr
+ #define Add2Ptr(P, I)		((void *)((u8 *)(P) + (I)))
+ #define PtrOffset(B, O)		((size_t)((size_t)(O) - (size_t)(B)))
+@@ -61,4 +64,6 @@ void ntfs_inode_printk(struct inode *inode, const char *fmt, ...)
+ #define ntfs_free(p)		kfree(p)
+ #define ntfs_vfree(p)		kvfree(p)
+ #define ntfs_memdup(src, len)	kmemdup(src, len, GFP_NOFS)
++
++#endif /* _LINUX_NTFS3_DEBUG_H */
+ // clang-format on
+diff --git a/fs/ntfs3/ntfs.h b/fs/ntfs3/ntfs.h
+index 40398e6c39c9..16da514af124 100644
+--- a/fs/ntfs3/ntfs.h
++++ b/fs/ntfs3/ntfs.h
+@@ -7,6 +7,8 @@
+  */
+ 
+ // clang-format off
++#ifndef _LINUX_NTFS3_NTFS_H
++#define _LINUX_NTFS3_NTFS_H
+ 
+ /* TODO:
+  * - Check 4K mft record and 512 bytes cluster
+@@ -1235,4 +1237,5 @@ struct SID {
+ };
+ static_assert(offsetof(struct SID, SubAuthority) == 8);
+ 
++#endif /* _LINUX_NTFS3_NTFS_H */
+ // clang-format on
 diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index 0c3ac89c3115..c8ea6dd38c21 100644
+index 0c3ac89c3115..80e1dea2579a 100644
 --- a/fs/ntfs3/ntfs_fs.h
 +++ b/fs/ntfs3/ntfs_fs.h
-@@ -972,11 +972,6 @@ static inline struct buffer_head *ntfs_bread(struct super_block *sb,
- 	return NULL;
- }
+@@ -6,6 +6,9 @@
+  */
  
--static inline bool is_power_of2(size_t v)
--{
--	return v && !(v & (v - 1));
--}
--
- static inline struct ntfs_inode *ntfs_i(struct inode *inode)
+ // clang-format off
++#ifndef _LINUX_NTFS3_NTFS_FS_H
++#define _LINUX_NTFS3_NTFS_FS_H
++
+ #define MINUS_ONE_T			((size_t)(-1))
+ /* Biggest MFT / smallest cluster */
+ #define MAXIMUM_BYTES_PER_MFT		4096
+@@ -1090,3 +1093,5 @@ static inline void le64_sub_cpu(__le64 *var, u64 val)
  {
- 	return container_of(inode, struct ntfs_inode, vfs_inode);
-diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
-index 5cdf6efe67e0..ce6bff3568df 100644
---- a/fs/ntfs3/run.c
-+++ b/fs/ntfs3/run.c
-@@ -9,6 +9,7 @@
- #include <linux/blkdev.h>
- #include <linux/buffer_head.h>
- #include <linux/fs.h>
-+#include <linux/log2.h>
- #include <linux/nls.h>
- 
- #include "debug.h"
-@@ -376,7 +377,7 @@ bool run_add_entry(struct runs_tree *run, CLST vcn, CLST lcn, CLST len,
- 			if (!used) {
- 				bytes = 64;
- 			} else if (used <= 16 * PAGE_SIZE) {
--				if (is_power_of2(run->allocated))
-+				if (is_power_of_2(run->allocated))
- 					bytes = run->allocated << 1;
- 				else
- 					bytes = (size_t)1
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 6be13e256c1a..c1b7127f5e61 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -29,6 +29,7 @@
- #include <linux/exportfs.h>
- #include <linux/fs.h>
- #include <linux/iversion.h>
-+#include <linux/log2.h>
- #include <linux/module.h>
- #include <linux/nls.h>
- #include <linux/parser.h>
-@@ -735,13 +736,13 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
- 
- 	boot_sector_size = (u32)boot->bytes_per_sector[1] << 8;
- 	if (boot->bytes_per_sector[0] || boot_sector_size < SECTOR_SIZE ||
--	    !is_power_of2(boot_sector_size)) {
-+	    !is_power_of_2(boot_sector_size)) {
- 		goto out;
- 	}
- 
- 	/* cluster size: 512, 1K, 2K, 4K, ... 2M */
- 	sct_per_clst = true_sectors_per_clst(boot);
--	if (!is_power_of2(sct_per_clst))
-+	if (!is_power_of_2(sct_per_clst))
- 		goto out;
- 
- 	mlcn = le64_to_cpu(boot->mft_clst);
-@@ -757,14 +758,14 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
- 	/* Check MFT record size */
- 	if ((boot->record_size < 0 &&
- 	     SECTOR_SIZE > (2U << (-boot->record_size))) ||
--	    (boot->record_size >= 0 && !is_power_of2(boot->record_size))) {
-+	    (boot->record_size >= 0 && !is_power_of_2(boot->record_size))) {
- 		goto out;
- 	}
- 
- 	/* Check index record size */
- 	if ((boot->index_size < 0 &&
- 	     SECTOR_SIZE > (2U << (-boot->index_size))) ||
--	    (boot->index_size >= 0 && !is_power_of2(boot->index_size))) {
-+	    (boot->index_size >= 0 && !is_power_of_2(boot->index_size))) {
- 		goto out;
- 	}
- 
+ 	*var = cpu_to_le64(le64_to_cpu(*var) - val);
+ }
++
++#endif /* _LINUX_NTFS3_NTFS_FS_H */
 -- 
 2.30.2
 
