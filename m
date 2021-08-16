@@ -1,135 +1,151 @@
-Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7539C6D17
-	for <ntfs3@lists.linux.dev>; Mon, 16 Aug 2021 10:13:17 +0000 (UTC)
-Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 5A89B4066D;
-	Mon, 16 Aug 2021 10:13:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1629108789;
-	bh=ekQSJfklDT9uSnv9OoKFyRnMJCNZF91NF2do21ZeR1c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
-	b=fpOKtBN7+f2B4banU1KlQoTzq/QNBTKsS4+3MS12hzONxJN14FYx5Zpy7mFnEo8OX
-	 HL6myAexAApj11yuxhNPt9WgQ3wwReh+lEqCsMpsHmQdDSsSzWL7XJtiYF77zxwUvn
-	 I32KsiGss4foz6PjjFymgT9bboYM2KxnkwEqPfVflNC4amxs/NE/T+TAb8ljWep1c/
-	 nLgmiu5sDD+G/QF1JtaCaxIpoBoN7Jr7Fno+aW2GKd4T86Y2ISdlxObKmF9OSdqCFH
-	 V7lPunEGLOy9nbbl7evkFjdcnVx3cQbd3aZxCo5lg5E6gCzRQYqJRMpasSvnBBM0BA
-	 4tDXUjqX5wD1w==
-From: Colin King <colin.king@canonical.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C497E72
+	for <ntfs3@lists.linux.dev>; Mon, 16 Aug 2021 10:38:10 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id i9so12688655lfg.10
+        for <ntfs3@lists.linux.dev>; Mon, 16 Aug 2021 03:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NfJatabbDRuLjub7mFadaE4bzboEivABMiAWlTI3GXI=;
+        b=FRcS1yQ12WU7K0ZrS2Mhi1L27mX8U82kp/YGBiFsbIYoKjAefR8yXpjynkLeKOfHYb
+         U0FrZU0SQuNc0RxvrQ1up2dlos0z2hheRmKN2oWXX0r5zmlrIC3Fvvo1qSvEm2eM1IjR
+         tAFI+qqwks7gCwE0pOb6EvnmY7D0A1MWSazaarkx1NPPhdX3dZ7AMdznWSiHHTnqB57S
+         2eWJDIIe/5hrQbpmLGVxU7O8cYSKi7GXwq2jevYN1eaoHBVwC7lrcXIGFWa36l4cn/cf
+         3/fFmlE69w09gXSJ/6xTtjGbH13yE5833d1l3vrCGzNhownB42FmTIfNtBKjnoPep9iY
+         ILHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NfJatabbDRuLjub7mFadaE4bzboEivABMiAWlTI3GXI=;
+        b=YmLb5nM452L5xjeHjmIodzUxtoGVVnxWni2h+XVgmZx0gF/ugtgOdC3FhE2f0UHAGw
+         cAvz3gIGLGQ92rESHNBndhPSMn2p7zO+6pJk4sOEpRB/S/830LlGxIaPndnuxSS8BKgL
+         7I+noLJm2jLUUIlfkDRd1+MenpbMPukhvAQLHhTyyZ2BSTUD9jrc2b55CgmIvv78Mv06
+         MWtuWyA5qde0MzoaJzcwUT+oLBFuoA+gk8vxM5dv2Gldtjv6izaYMNZHxKGJYo1MNHIO
+         koWAcXsESXVI42LUWayezDhYM7SjoMGarVPtIZIVwnfXjK7LEH0DoENiHGPyXZeBUfsQ
+         wsxQ==
+X-Gm-Message-State: AOAM532e453fOrYv3MQ0E16rCtqNnRdNTmjO4gn9Yz5L1Ll35vxetpRE
+	mAXYVT1FYEl8rXmn9DkNjOY=
+X-Google-Smtp-Source: ABdhPJzs6220+8j1LIoVUYyvXJU+Edf3AwZGR/I89cb68hlCM2Bx8p3TwSGwCvE0yxT4Bgq0Mf12BA==
+X-Received: by 2002:a05:6512:3f16:: with SMTP id y22mr10805648lfa.356.1629110288803;
+        Mon, 16 Aug 2021 03:38:08 -0700 (PDT)
+Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id l6sm1136044ljj.40.2021.08.16.03.38.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Aug 2021 03:38:08 -0700 (PDT)
+From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
+Cc: Kari Argillander <kari.argillander@gmail.com>,
 	linux-kernel@vger.kernel.org,
-	Kari Argillander <kari.argillander@gmail.com>
-Subject: [PATCH][next][V2] fs/ntfs3: Fix various spelling mistakes
-Date: Mon, 16 Aug 2021 11:13:08 +0100
-Message-Id: <20210816101308.67769-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.32.0
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: Use linux/log2 is_power_of_2 function
+Date: Mon, 16 Aug 2021 13:37:32 +0300
+Message-Id: <20210816103732.177207-1-kari.argillander@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-From: Colin Ian King <colin.king@canonical.com>
+We do not need our own implementation for this function in this
+driver. It is much better to use generic one.
 
-There is a spelling mistake in a ntfs_err error message. Also
-fix various spelling mistakes in comments.
-
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
-Reviewed-by Kari Argillander <kari.argillander@gmail.com>
+Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 ---
-V2: Also fix spelling mistakes in comments, thanks to Kari Argillander 
-    for noting that these need fixing too.
----
- fs/ntfs3/debug.h                 | 2 +-
- fs/ntfs3/lib/decompress_common.c | 2 +-
- fs/ntfs3/run.c                   | 2 +-
- fs/ntfs3/super.c                 | 4 ++--
- fs/ntfs3/upcase.c                | 2 +-
- 5 files changed, 6 insertions(+), 6 deletions(-)
+ fs/ntfs3/ntfs_fs.h | 5 -----
+ fs/ntfs3/run.c     | 3 ++-
+ fs/ntfs3/super.c   | 9 +++++----
+ 3 files changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/fs/ntfs3/debug.h b/fs/ntfs3/debug.h
-index dfaa4c79dc6d..15ac42185e5b 100644
---- a/fs/ntfs3/debug.h
-+++ b/fs/ntfs3/debug.h
-@@ -3,7 +3,7 @@
-  *
-  * Copyright (C) 2019-2021 Paragon Software GmbH, All rights reserved.
-  *
-- * useful functions for debuging
-+ * useful functions for debugging
-  */
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 0c3ac89c3115..c8ea6dd38c21 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -972,11 +972,6 @@ static inline struct buffer_head *ntfs_bread(struct super_block *sb,
+ 	return NULL;
+ }
  
- // clang-format off
-diff --git a/fs/ntfs3/lib/decompress_common.c b/fs/ntfs3/lib/decompress_common.c
-index 83c9e93aea77..850d8e8c8f1f 100644
---- a/fs/ntfs3/lib/decompress_common.c
-+++ b/fs/ntfs3/lib/decompress_common.c
-@@ -292,7 +292,7 @@ int make_huffman_decode_table(u16 decode_table[], const u32 num_syms,
- 				 * of as simply the root of the tree.  The
- 				 * representation of these internal nodes is
- 				 * simply the index of the left child combined
--				 * with the special bits 0xC000 to distingush
-+				 * with the special bits 0xC000 to distinguish
- 				 * the entry from direct mapping and leaf node
- 				 * entries.
- 				 */
+-static inline bool is_power_of2(size_t v)
+-{
+-	return v && !(v & (v - 1));
+-}
+-
+ static inline struct ntfs_inode *ntfs_i(struct inode *inode)
+ {
+ 	return container_of(inode, struct ntfs_inode, vfs_inode);
 diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
-index 5cdf6efe67e0..f9c362ac672e 100644
+index 5cdf6efe67e0..ce6bff3568df 100644
 --- a/fs/ntfs3/run.c
 +++ b/fs/ntfs3/run.c
-@@ -949,7 +949,7 @@ int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
- 		if (next_vcn > 0x100000000ull || (lcn + len) > 0x100000000ull) {
- 			ntfs_err(
- 				sbi->sb,
--				"This driver is compiled whitout CONFIG_NTFS3_64BIT_CLUSTER (like windows driver).\n"
-+				"This driver is compiled without CONFIG_NTFS3_64BIT_CLUSTER (like windows driver).\n"
- 				"Volume contains 64 bits run: vcn %llx, lcn %llx, len %llx.\n"
- 				"Activate CONFIG_NTFS3_64BIT_CLUSTER to process this case",
- 				vcn64, lcn, len);
+@@ -9,6 +9,7 @@
+ #include <linux/blkdev.h>
+ #include <linux/buffer_head.h>
+ #include <linux/fs.h>
++#include <linux/log2.h>
+ #include <linux/nls.h>
+ 
+ #include "debug.h"
+@@ -376,7 +377,7 @@ bool run_add_entry(struct runs_tree *run, CLST vcn, CLST lcn, CLST len,
+ 			if (!used) {
+ 				bytes = 64;
+ 			} else if (used <= 16 * PAGE_SIZE) {
+-				if (is_power_of2(run->allocated))
++				if (is_power_of_2(run->allocated))
+ 					bytes = run->allocated << 1;
+ 				else
+ 					bytes = (size_t)1
 diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 6be13e256c1a..84d4f389f685 100644
+index 6be13e256c1a..c1b7127f5e61 100644
 --- a/fs/ntfs3/super.c
 +++ b/fs/ntfs3/super.c
-@@ -124,7 +124,7 @@ void ntfs_inode_printk(struct inode *inode, const char *fmt, ...)
- /*
-  * Shared memory struct.
-  *
-- * on-disk ntfs's upcase table is created by ntfs formater
-+ * on-disk ntfs's upcase table is created by ntfs formatter
-  * 'upcase' table is 128K bytes of memory
-  * we should read it into memory when mounting
-  * Several ntfs volumes likely use the same 'upcase' table
-@@ -1208,7 +1208,7 @@ static int ntfs_fill_super(struct super_block *sb, void *data, int silent)
- 	sbi->def_entries = 1;
- 	done = sizeof(struct ATTR_DEF_ENTRY);
- 	sbi->reparse.max_size = MAXIMUM_REPARSE_DATA_BUFFER_SIZE;
--	sbi->ea_max_size = 0x10000; /* default formater value */
-+	sbi->ea_max_size = 0x10000; /* default formatter value */
+@@ -29,6 +29,7 @@
+ #include <linux/exportfs.h>
+ #include <linux/fs.h>
+ #include <linux/iversion.h>
++#include <linux/log2.h>
+ #include <linux/module.h>
+ #include <linux/nls.h>
+ #include <linux/parser.h>
+@@ -735,13 +736,13 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
  
- 	while (done + sizeof(struct ATTR_DEF_ENTRY) <= bytes) {
- 		u32 t32 = le32_to_cpu(t->type);
-diff --git a/fs/ntfs3/upcase.c b/fs/ntfs3/upcase.c
-index 9617382aca64..b53943538f9f 100644
---- a/fs/ntfs3/upcase.c
-+++ b/fs/ntfs3/upcase.c
-@@ -27,7 +27,7 @@ static inline u16 upcase_unicode_char(const u16 *upcase, u16 chr)
- /*
-  * Thanks Kari Argillander <kari.argillander@gmail.com> for idea and implementation 'bothcase'
-  *
-- * Straigth way to compare names:
-+ * Straight way to compare names:
-  * - case insensitive
-  * - if name equals and 'bothcases' then
-  * - case sensitive
+ 	boot_sector_size = (u32)boot->bytes_per_sector[1] << 8;
+ 	if (boot->bytes_per_sector[0] || boot_sector_size < SECTOR_SIZE ||
+-	    !is_power_of2(boot_sector_size)) {
++	    !is_power_of_2(boot_sector_size)) {
+ 		goto out;
+ 	}
+ 
+ 	/* cluster size: 512, 1K, 2K, 4K, ... 2M */
+ 	sct_per_clst = true_sectors_per_clst(boot);
+-	if (!is_power_of2(sct_per_clst))
++	if (!is_power_of_2(sct_per_clst))
+ 		goto out;
+ 
+ 	mlcn = le64_to_cpu(boot->mft_clst);
+@@ -757,14 +758,14 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+ 	/* Check MFT record size */
+ 	if ((boot->record_size < 0 &&
+ 	     SECTOR_SIZE > (2U << (-boot->record_size))) ||
+-	    (boot->record_size >= 0 && !is_power_of2(boot->record_size))) {
++	    (boot->record_size >= 0 && !is_power_of_2(boot->record_size))) {
+ 		goto out;
+ 	}
+ 
+ 	/* Check index record size */
+ 	if ((boot->index_size < 0 &&
+ 	     SECTOR_SIZE > (2U << (-boot->index_size))) ||
+-	    (boot->index_size >= 0 && !is_power_of2(boot->index_size))) {
++	    (boot->index_size >= 0 && !is_power_of_2(boot->index_size))) {
+ 		goto out;
+ 	}
+ 
 -- 
-2.32.0
+2.30.2
 
