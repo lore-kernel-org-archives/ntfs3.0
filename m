@@ -1,141 +1,131 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DB96D19
-	for <ntfs3@lists.linux.dev>; Mon, 16 Aug 2021 02:48:28 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id z2so31633092lft.1
-        for <ntfs3@lists.linux.dev>; Sun, 15 Aug 2021 19:48:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7F32FAE
+	for <ntfs3@lists.linux.dev>; Mon, 16 Aug 2021 03:00:25 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id c24so31535691lfi.11
+        for <ntfs3@lists.linux.dev>; Sun, 15 Aug 2021 20:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iYz9vWgNSNALF0ku2PXSCElORiPAPuGLP9E83ZEt3mg=;
-        b=cZp0EcbuoXb094Fa+0A2X0Axmo8Is+WEreRzqFc9l7hBq/RU6qPOcjFijQ1RKl4Llq
-         ESDDbZt65QR1DowjIeNF5DpHOLY8P5gsbNpxGwkNu1SlO/xpJszYPpMBnJUn/fgVC4Cv
-         zqgMwhuF/yaZ6Z6JfPSkXBaZRE9l1yHYNgIjZd51E04Uf9q93VXWaTXiIHpfl+9ihaOX
-         N+Y/ymJ18SpgvErC94kVxAtsRy2ejQLCfRayZ2ecl80q+CzZsFtm0f0ioOpFG3kkozuH
-         AG5aYXjyze7bO+kNiW1a3MF8SXCcoRa3WPYXHsMOMS9kHo7oFo+wkRClfqW/5UIQPLB6
-         zMXA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UVxo0TU1/PZKTtidRHbhDfJ247pdNPz8xHTGf3pxWZE=;
+        b=ihucGqvPgXI3Q6uE/m5kq1YEuqWcpsa4C1ezuf1fv7ZJUx5qyF0/GwWMt3KgSMuXhU
+         rZpcxtJHUGm7BAuZTrRIGunaQJn7TY5bkbxi6QREE2J5vcnzUMcOHyN3XcTFvDJ3Kf96
+         JLvB2DCuRyDPZkqmGTAFe4kEMzLGV+jX4bvYNpAkZj/k73gSj6bl6PYz7hSy+7SQKYYc
+         Uge1NzbSQQS1Zmtz9C+K9/uaELSMIJJnQZhXSYsI1WScMfG1y34mVeBWo6LMS+0FKjbn
+         CQjgnVt9ixuseMQSWx8M5q1f/JEt8tl3Wr4rqkfpQgsfE3QJSIizuP0cJTthUqEIgog7
+         uUvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iYz9vWgNSNALF0ku2PXSCElORiPAPuGLP9E83ZEt3mg=;
-        b=UjdhUEr4fYwyIBfFyxsiS95BMdQDSEXHlo7AvEtTMMW7aUBSLwnMZ0Nq5XbivRnMQH
-         xp6KsAnnc9+5FYt7YVCCgr1EM1mNOJEjMZVFTg73VavCd51PzUisx+mHCn2qJ66Anq6o
-         7O5+3QjLml/j4ZM5nNj4JlwRzxt9KHmC43kEXMLu1uH7WxFK3uWM+RIzLyvrSOm45kcv
-         OutfgLeRsbllW+aJ58tf8yt1wTUrBRLV12HfCf3LaH1zeiUCYKuIetOPnaoHmaA3hiSp
-         Ah+6b84mo9nuj5H/g78K9gG6Yk+EFCge/QowPz53WKx3QAVyXgQoQYxFMbN+FDYec0a3
-         tyTA==
-X-Gm-Message-State: AOAM533iGYNnVgyy7yu2Hvr26aOtwZBFEiMno2L3YXXZu9QRBzAJgSI3
-	1GPWWPXbTJTARUH1Dzd/v08=
-X-Google-Smtp-Source: ABdhPJx6TMgsxM82KUFNsSMqgYnQ1K/+2Bw1KpPLpVuKVWH1slkF6yi4IoRTvj84ckvU3XZnElAVwQ==
-X-Received: by 2002:a05:6512:3887:: with SMTP id n7mr10007419lft.572.1629082106427;
-        Sun, 15 Aug 2021 19:48:26 -0700 (PDT)
-Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id b12sm425392lfs.152.2021.08.15.19.48.25
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UVxo0TU1/PZKTtidRHbhDfJ247pdNPz8xHTGf3pxWZE=;
+        b=T7jtSgYDYAyq3kCSuKEDQINJm3qegVewiBi74U7pIAJENXg9Etk4SkUUKy2KNYuy9T
+         +kP/w8Wu6hjbGA+fSdvmNj74I6x7T2GZbPE/QVURbQqVGWqiaobibKzTpX5ydx23CuU0
+         FccME9jw7U7NNiT3uBK8I4XhNymq6Xl4GRWk/kRZ5EX8EZKyouhh/fgNuzpZ37/bCHI9
+         njbjWHV2iL8U5kZUN/1Hdfu3XxSH9rej8eCt93otTtmyluGxU1/UT+JP8DL8FbJ0qMdS
+         hXpr00T1d84CWOyfsHDNHYz6jute7BzozydU+hqlQggVUZ17e3MO1Tj5ZSZ26btE03V6
+         FHCQ==
+X-Gm-Message-State: AOAM532XSJVPeHhUaCVrT25IKdjhtg9B3M2Se8MdLDVzdwNBIMIrdqsO
+	VuGrBPhQBPBf6XykjRWSHZ4=
+X-Google-Smtp-Source: ABdhPJySVRynnB0BISUVxbKKXS6GOaAOFU/7gx4atEEA98LMe/FDhrLKjMYzXxvyFWhbQo3ydspnfQ==
+X-Received: by 2002:a05:6512:33c7:: with SMTP id d7mr7655994lfg.545.1629082823521;
+        Sun, 15 Aug 2021 20:00:23 -0700 (PDT)
+Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id h6sm890880lfu.230.2021.08.15.20.00.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Aug 2021 19:48:26 -0700 (PDT)
+        Sun, 15 Aug 2021 20:00:23 -0700 (PDT)
+Date: Mon, 16 Aug 2021 06:00:21 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Christoph Hellwig <hch@lst.de>
-Cc: Kari Argillander <kari.argillander@gmail.com>,
-	ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: [RFC PATCH 4/4] fs/ntfs3: Add iocharset= mount option as alias for nls=
-Date: Mon, 16 Aug 2021 05:47:03 +0300
-Message-Id: <20210816024703.107251-5-kari.argillander@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210816024703.107251-1-kari.argillander@gmail.com>
-References: <20210816024703.107251-1-kari.argillander@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	"Leonidas P. Papadakos" <papadakospan@gmail.com>,
+	"zajec5@gmail.com" <zajec5@gmail.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Matthew Wilcox <willy@infradead.org>,
+	"ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>
+Subject: Re: Paragon NTFSv3 (was Re: [GIT PULL] vboxsf fixes for 5.14-1)
+Message-ID: <20210816030021.dgd6xrsjcuajkaq7@kari-VirtualBox>
+References: <4e8c0640-d781-877c-e6c5-ed5cc09443f6@gmail.com>
+ <20210716114635.14797-1-papadakospan@gmail.com>
+ <CAHk-=whfeq9gyPWK3yao6cCj7LKeU3vQEDGJ3rKDdcaPNVMQzQ@mail.gmail.com>
+ <afd62ae457034c3fbc4f2d38408d359d@paragon-software.com>
+ <CAHk-=wjn4W-7ZbHrw08cWy=12DgheFUKLO5YLgG6in5TA5HxqQ@mail.gmail.com>
+ <a9114805f777461eac6fbb0e8e5c46f6@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a9114805f777461eac6fbb0e8e5c46f6@paragon-software.com>
 
-Other fs drivers are using iocharset= mount option for specifying charset.
-So add it also for ntfs3 and mark old nls= mount option as deprecated.
+On Fri, Aug 13, 2021 at 04:11:10PM +0000, Konstantin Komarov wrote:
+> > From: Linus Torvalds <torvalds@linux-foundation.org>
+> > Sent: Friday, July 30, 2021 8:24 PM
+> > To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>; Stephen Rothwell <sfr@canb.auug.org.au>
+> > Cc: Leonidas P. Papadakos <papadakospan@gmail.com>; zajec5@gmail.com; Darrick J. Wong <djwong@kernel.org>; Greg Kroah-
+> > Hartman <gregkh@linuxfoundation.org>; Hans de Goede <hdegoede@redhat.com>; linux-fsdevel <linux-fsdevel@vger.kernel.org>;
+> > Linux Kernel Mailing List <linux-kernel@vger.kernel.org>; Al Viro <viro@zeniv.linux.org.uk>; Matthew Wilcox <willy@infradead.org>
+> > Subject: Paragon NTFSv3 (was Re: [GIT PULL] vboxsf fixes for 5.14-1)
+> > 
+> > On Fri, Jul 30, 2021 at 8:55 AM Konstantin Komarov
+> > <almaz.alexandrovich@paragon-software.com> wrote:
+> > >
+> > > We've just sent the 27th patch series which fixes to the buildability against
+> > > current linux-next. And we'll need several days to prepare a proper pull request
+> > > before sending it to you.
+> > 
+> > Well, I won't pull until the next merge window opens anyway (about a
+> > month away). But it would be good to have your tree in linux-next for
+> > at least a couple of weeks before that happens.
+> > 
+> > Added Stephen to the participants list as a heads-up for him - letting
+> > him know where to fetch the git tree from will allow that to happen if
+> > you haven't done so already.
+> > 
+> 
+> Thanks for this clarification, Linus!
+> Stephen, please find the tree here:
+> https://github.com/Paragon-Software-Group/linux-ntfs3.git
+> It is the fork from 5.14-rc5 tag with ntfs3 patches applied.
+> Also, the latest changes
+> - fix some generic/XYZ xfstests, which were discussed
+> with Theodore, Darrick and others
+> - updates the MAINTAINERS with mailing list (also added to CC here) and scm tree link.
 
-Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
----
- Documentation/filesystems/ntfs3.rst |  4 ++--
- fs/ntfs3/super.c                    | 14 +++++++++-----
- 2 files changed, 11 insertions(+), 7 deletions(-)
+Can you please send this also as normal patch series to mailing lists so
+we can comment there.
 
-diff --git a/Documentation/filesystems/ntfs3.rst b/Documentation/filesystems/ntfs3.rst
-index af7158de6fde..ded706474825 100644
---- a/Documentation/filesystems/ntfs3.rst
-+++ b/Documentation/filesystems/ntfs3.rst
-@@ -32,12 +32,12 @@ generic ones.
- 
- ===============================================================================
- 
--nls=name		This option informs the driver how to interpret path
-+iocharset=name		This option informs the driver how to interpret path
- 			strings and translate them to Unicode and back. If
- 			this option is not set, the default codepage will be
- 			used (CONFIG_NLS_DEFAULT).
- 			Examples:
--				'nls=utf8'
-+				'iocharset=utf8'
- 
- uid=
- gid=
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 2a4866c2a512..886c495d2f5c 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -240,7 +240,7 @@ enum Opt {
- 	Opt_nohidden,
- 	Opt_showmeta,
- 	Opt_acl,
--	Opt_nls,
-+	Opt_iocharset,
- 	Opt_prealloc,
- 	Opt_no_acs_rules,
- 	Opt_err,
-@@ -260,9 +260,13 @@ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
- 	fsparam_flag_no("hidden",		Opt_nohidden),
- 	fsparam_flag_no("acl",			Opt_acl),
- 	fsparam_flag_no("showmeta",		Opt_showmeta),
--	fsparam_string("nls",			Opt_nls),
- 	fsparam_flag_no("prealloc",		Opt_prealloc),
- 	fsparam_flag("no_acs_rules",		Opt_no_acs_rules),
-+	fsparam_string("iocharset",		Opt_iocharset),
-+
-+	__fsparam(fs_param_is_string,
-+		  "nls", Opt_iocharset,
-+		  fs_param_deprecated, NULL),
- 	{}
- };
- // clang-format on
-@@ -342,7 +346,7 @@ static int ntfs_fs_parse_param(struct fs_context *fc, struct fs_parameter *param
- 	case Opt_showmeta:
- 		opts->showmeta = result.negated ? 0 : 1;
- 		break;
--	case Opt_nls:
-+	case Opt_iocharset:
- 		unload_nls(opts->nls);
- 
- 		opts->nls = ntfs_load_nls(param->string);
-@@ -529,9 +533,9 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
- 	if (opts->dmask)
- 		seq_printf(m, ",dmask=%04o", ~opts->fs_dmask_inv);
- 	if (opts->nls)
--		seq_printf(m, ",nls=%s", opts->nls->charset);
-+		seq_printf(m, ",iocharset=%s", opts->nls->charset);
- 	else
--		seq_puts(m, ",nls=utf8");
-+		seq_puts(m, ",iocharset=utf8");
- 	if (opts->sys_immutable)
- 		seq_puts(m, ",sys_immutable");
- 	if (opts->discard)
--- 
-2.25.1
+One thing a like to ask you to do before that is add reviewed-by tag
+and signed-off-by tag as stated here
+https://lore.kernel.org/linux-fsdevel/20210810054637.aap4zuiiparfl2gq@kari-VirtualBox/
+and
+https://lore.kernel.org/linux-fsdevel/20210810074740.mkjcow2inyjaakch@kari-VirtualBox/
 
+> Please let me know if additional changes requred to get fetched into linux-next.
+> 
+> > The one other thing I do want when there's big new pieces like this
+> > being added is to ask you to make sure that everything is signed-off
+> > properly, and that there is no internal confusion about the GPLv2
+> > inside Paragon, and that any legal people etc are all aware of this
+> > all and are on board. The last thing we want to see is some "oops, we
+> > didn't mean to do this" brouhaha six months later.
+> > 
+> > I doubt that's an issue, considering how public this all has been, but
+> > I just wanted to mention it just to be very obvious about it.
+> > 
+> >                   Linus
+> Indeed, there is no internal confusion about the GPLv2 and we mean to make this contribution.
+> 
+> Best regards,
+> Konstantin.
