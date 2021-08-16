@@ -1,148 +1,102 @@
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C2F168
-	for <ntfs3@lists.linux.dev>; Sun, 15 Aug 2021 20:42:33 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4GnprD250wz9sT6;
-	Mon, 16 Aug 2021 06:32:28 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=201702; t=1629059550;
-	bh=klHHQ9z9GKs3lX1MqIe6u7DuwKvRYcvA7swPOyG2u3Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TpCl9Nx8G2SExc9Qp9MEF6XRZ83Gg2nvrKTjNHOaJWkUw6rozloTK+GivG/GLzr8g
-	 AT8eEyj7ZocYZ/AnBDMW3UTy56Dff9fCEfhO1EV0KmIcfFIU/L0b2ePL2y3o4R6Vuk
-	 DAEuyBC42zalBn+gPDTUcgA/lon0YGV5AN7/iBZMuy1v2hCdfVHaN+FaiJ9ZKEVoAR
-	 7N+tiLJd9qRxFdq+3ZNpgxP8rS4XVN0t2KkvVGy6x5OG5mvy0ilcxhjiLqZC6A7UPR
-	 cwjSGSWshHCy8BwnfKnXzjlF7Jvd5HDpPFo/WpvogvkryabJLGjNxDGqV5KC9UuYLw
-	 HyifnjzpRqrOQ==
-Date: Mon, 16 Aug 2021 06:32:25 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, "Leonidas P. Papadakos"
- <papadakospan@gmail.com>, "zajec5@gmail.com" <zajec5@gmail.com>, "Darrick
- J. Wong" <djwong@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, "Matthew
- Wilcox" <willy@infradead.org>, "ntfs3@lists.linux.dev"
- <ntfs3@lists.linux.dev>
-Subject: Re: Paragon NTFSv3 (was Re: [GIT PULL] vboxsf fixes for 5.14-1)
-Message-ID: <20210816063225.22d992ff@canb.auug.org.au>
-In-Reply-To: <a9114805f777461eac6fbb0e8e5c46f6@paragon-software.com>
-References: <4e8c0640-d781-877c-e6c5-ed5cc09443f6@gmail.com>
-	<20210716114635.14797-1-papadakospan@gmail.com>
-	<CAHk-=whfeq9gyPWK3yao6cCj7LKeU3vQEDGJ3rKDdcaPNVMQzQ@mail.gmail.com>
-	<afd62ae457034c3fbc4f2d38408d359d@paragon-software.com>
-	<CAHk-=wjn4W-7ZbHrw08cWy=12DgheFUKLO5YLgG6in5TA5HxqQ@mail.gmail.com>
-	<a9114805f777461eac6fbb0e8e5c46f6@paragon-software.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C372FAE
+	for <ntfs3@lists.linux.dev>; Mon, 16 Aug 2021 02:48:16 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id q21so3439907ljj.6
+        for <ntfs3@lists.linux.dev>; Sun, 15 Aug 2021 19:48:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ek7ku5pzAIW7bPVgrzyzxLQzx4qAfj45w3UfCpvp4ME=;
+        b=Z3+Q5Wh28hwoZquCVOlPnqqEayj53MCAaun+CHrQmpaUcSeuQ6HPahzkA1ehgNkZEU
+         elUH8JKQRedtvoSvntnl1ZGaYmklZ34ymRe5nsu213pOwWWToTqOgwiqg9D2iJyfV3+I
+         SUpXk/1r8n7wy9hO6IdcNmkxokmuKf0ud+WYzHr99dedYFAlHbllb5uW6rSYrgV0Kg1f
+         4OOjGDbuU5RUfQohLkSHsoxsx9spJANWLLFH42H2qGAFLKnmlbpuIRgdYjxgcmi/l90P
+         VXje6nqKebD11U9j9urEL6hSzILH9XfCTMur/6uRcEnrgq4pMYKcP+jYpXcLxegjk6TV
+         bvqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ek7ku5pzAIW7bPVgrzyzxLQzx4qAfj45w3UfCpvp4ME=;
+        b=J1rGA3vxygFAHS9Y9y8YTWk6/5lzvexLtY5iYQCrE7Kb1Pkmj/2NjI+/SzA6fts1CE
+         GcAA5RFYzc72cltjpxP/lcnkgoROJx+Z6FTy7BJ2fNJbaivo6U+93+FClcK2X4Dn0Ji6
+         n9+54PBV79+SOpwLQTccnDKTnjxZSL33vwag0Qj5/OP07pFB3EnpbEIY0C14I38XP4Aa
+         H5223gMMyAv0t6P954NsXBL4vh1++jzQPbpN+cJVYgCm40L6EhWtRjtRIgjomsoQwRqS
+         xXVf7g6ikiOZtqgQu4u7pjQLNJPlATr1pZVyMO1y8qsaXt0MMAxkd9bPDMfCyucIhBg0
+         LXcg==
+X-Gm-Message-State: AOAM532/Zyg0IPeE2mbfe4EkIAZe3jqdWbTzgmUCmBELETT3Dx/3jOIF
+	43o51whUuo1BepCfUNHCfuM=
+X-Google-Smtp-Source: ABdhPJyFZh1QCZx/JQlCBWRfNvOjXF3gHZGMYx2/0YB1v6Nt/3Fl9TI6zNovVKHrlnk2QZtWaHPwJQ==
+X-Received: by 2002:a2e:a54c:: with SMTP id e12mr11206844ljn.139.1629082094650;
+        Sun, 15 Aug 2021 19:48:14 -0700 (PDT)
+Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id b12sm425392lfs.152.2021.08.15.19.48.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Aug 2021 19:48:14 -0700 (PDT)
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Christoph Hellwig <hch@lst.de>
+Cc: Kari Argillander <kari.argillander@gmail.com>,
+	ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: 
+Date: Mon, 16 Aug 2021 05:46:59 +0300
+Message-Id: <20210816024703.107251-1-kari.argillander@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/K=b9Pf+l2P0E7k_xtah2jkH";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 
---Sig_/K=b9Pf+l2P0E7k_xtah2jkH
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Aug 2021 04:08:46 +0300
+Subject: [RFC PATCH 0/4] fs/ntfs3: Use new mount api and change some opts
 
-Hi Konstantin,
+This series modify ntfs3 to use new mount api as Christoph Hellwig wish
+for.
+https://lore.kernel.org/linux-fsdevel/20210810090234.GA23732@lst.de/
 
-On Fri, 13 Aug 2021 16:11:10 +0000 Konstantin Komarov <almaz.alexandrovich@=
-paragon-software.com> wrote:
->
-> > From: Linus Torvalds <torvalds@linux-foundation.org>
-> > Sent: Friday, July 30, 2021 8:24 PM
-> > To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>; Step=
-hen Rothwell <sfr@canb.auug.org.au>
-> > Cc: Leonidas P. Papadakos <papadakospan@gmail.com>; zajec5@gmail.com; D=
-arrick J. Wong <djwong@kernel.org>; Greg Kroah-
-> > Hartman <gregkh@linuxfoundation.org>; Hans de Goede <hdegoede@redhat.co=
-m>; linux-fsdevel <linux-fsdevel@vger.kernel.org>;
-> > Linux Kernel Mailing List <linux-kernel@vger.kernel.org>; Al Viro <viro=
-@zeniv.linux.org.uk>; Matthew Wilcox <willy@infradead.org>
-> > Subject: Paragon NTFSv3 (was Re: [GIT PULL] vboxsf fixes for 5.14-1)
-> >=20
-> > On Fri, Jul 30, 2021 at 8:55 AM Konstantin Komarov
-> > <almaz.alexandrovich@paragon-software.com> wrote: =20
-> > >
-> > > We've just sent the 27th patch series which fixes to the buildability=
- against
-> > > current linux-next. And we'll need several days to prepare a proper p=
-ull request
-> > > before sending it to you. =20
-> >=20
-> > Well, I won't pull until the next merge window opens anyway (about a
-> > month away). But it would be good to have your tree in linux-next for
-> > at least a couple of weeks before that happens.
-> >=20
-> > Added Stephen to the participants list as a heads-up for him - letting
-> > him know where to fetch the git tree from will allow that to happen if
-> > you haven't done so already.
-> >  =20
->=20
-> Thanks for this clarification, Linus!
-> Stephen, please find the tree here:
-> https://github.com/Paragon-Software-Group/linux-ntfs3.git
-> It is the fork from 5.14-rc5 tag with ntfs3 patches applied.
-> Also, the latest changes
-> - fix some generic/XYZ xfstests, which were discussed
-> with Theodore, Darrick and others
-> - updates the MAINTAINERS with mailing list (also added to CC here) and s=
-cm tree link.
->=20
-> Please let me know if additional changes requred to get fetched into linu=
-x-next.
+It also modify mount options noatime (not needed) and make new alias
+for nls because kernel is changing to use it as described in here
+https://lore.kernel.org/linux-fsdevel/20210808162453.1653-1-pali@kernel.org/
 
-Added from today.  It looks good, we will see how it goes when integrated/b=
-uilt.
+I would like really like to get fsparam_flag_no also for no_acs_rules
+but then we have to make new name for it. Other possibility is to
+modify mount api so it mount option can be no/no_. I think that would
+maybe be good change. 
 
-Thanks for adding your subsystem tree as a participant of linux-next.  As
-you may know, this is not a judgement of your code.  The purpose of
-linux-next is for integration testing and to lower the impact of
-conflicts between subsystems in the next merge window.=20
+I did not quite like how I did nls table loading because now it always
+first load default table and if user give option then default table is
+dropped and if reconfigure is happening and this was same as before then
+it is dropped. I try to make loading in fill_super and fs_reconfigure
+but that just look ugly. This is quite readible so I leave it like this.
+We also do not mount/remount so often that this probebly does not
+matter. It seems that if new mount api had possibility to give default
+value for mount option then there is not this kind of problem.
 
-You will need to ensure that the patches/commits in your tree/series have
-been:
-     * submitted under GPL v2 (or later) and include the Contributor's
-        Signed-off-by,
-     * posted to the relevant mailing list,
-     * reviewed by you (or another maintainer of your subsystem tree),
-     * successfully unit tested, and=20
-     * destined for the current or next Linux merge window.
+I would hope that these will added top of the now going ntfs3 patch
+series. I do not have so many contributions to kernel yet and I would
+like to get my name going there so that in future it would be easier to
+contribute kernel.
 
-Basically, this should be just what you would send to Linus (or ask him
-to fetch).  It is allowed to be rebased if you deem it necessary.
+Kari Argillander (4):
+  fs/ntfs3: Use new api for mounting
+  fs/ntfs3: Remove unnecesarry mount option noatime
+  fs/ntfs3: Make mount option nohidden more universal
+  fs/ntfs3: Add iocharset= mount option as alias for nls=
 
---=20
-Cheers,
-Stephen Rothwell=20
-sfr@canb.auug.org.au
+ Documentation/filesystems/ntfs3.rst |   4 -
+ fs/ntfs3/super.c                    | 391 ++++++++++++++--------------
+ 2 files changed, 196 insertions(+), 199 deletions(-)
 
---=20
-Cheers,
-Stephen Rothwell
+-- 
+2.25.1
 
---Sig_/K=b9Pf+l2P0E7k_xtah2jkH
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmEZedkACgkQAVBC80lX
-0GxprAf/SBzaK8sX8zNMX6JSgph/ESO9fU4/kwPPZ8MrhayR7+1nI433dLmDb3xO
-MU3o+3/o4tkyoZkasyMzgJPRPeXP0xLlr7hA1rvQfwN9IZvgUiXiv8IDUVymZiGn
-+xn8fedA3/XEpHcSpOarVVo7SAcEbPbY1M18dRTXX2ok84GjLR5aUQvsR3yYZOWI
-pb9m2u8xdWMz4Zxr3A5tvon56apfeX7fX9dLaI8k7/Wv1VKqZfVmW3YeVIxYkfsM
-fEJATxBXPeWeuF47MFWzW1zfSAyXCA7AvQE/gFtWogODLwpwMgcZhcdA5xOVIYfR
-VlNH7G0udZ+LJDvlf44Y3UVl/PWWrQ==
-=cB5h
------END PGP SIGNATURE-----
-
---Sig_/K=b9Pf+l2P0E7k_xtah2jkH--
