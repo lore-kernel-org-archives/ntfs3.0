@@ -1,173 +1,72 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0AC6D17
-	for <ntfs3@lists.linux.dev>; Thu, 19 Aug 2021 00:27:19 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id x7so8287092ljn.10
-        for <ntfs3@lists.linux.dev>; Wed, 18 Aug 2021 17:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=OuvPHidmzGM3xfvyJ/iRKu/nSL+2mL7ylUN+am7Bbio=;
-        b=QHLuK343vWAbHssWFJiqUq/ClvS8ybP8SFbiNvZdDGERaX8lm1TiDdscI58S6H0brn
-         Eh5mHnYJpSUloyVBFz9UdJiB/Fi91YUkuZ4mLc9zDbZ8pCn9IXzZ3+c6xcqcsLguGNvr
-         NqbQihZmTgou2SRrEUMfiHLJcNhgqEXeobum2ayxoFkbh3H9iDb9q7WjlvdbzvwSpszy
-         TS0gceKowVH5pVA/uCaJV+sfu7xgg1Ypo4ERRJw2Hxj8rLnUdJ6EnVhDef5XjeZZfwbw
-         clNSp7oPFAbO6IfZwCu8GBrkfjohEczljt/LrIEqgNY+mwAlylqefmI96dQxWLQPg3LJ
-         9gSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=OuvPHidmzGM3xfvyJ/iRKu/nSL+2mL7ylUN+am7Bbio=;
-        b=HZRuvUEeARf312oGqn+2V/l31SXHP1pMCKGMyl96Km6dpTt5f5uOgAQ+4y/74U6Prr
-         STYgPapQa4q5oAKD1+wGVIbPQ3wtP9qurFi4xyASaBHxFzDonqbrvK8RVCNvUPAfu/k6
-         PKG6/yt9ljPwr+uPvdwAKZ187XAbwIm2GW4Z/PnBvOX+pR0+Do9BrZy/ECk2PVFqBpQX
-         SjNEe1tEhZf8mf8COl2BxY7qqDJRl2lvby3ngQG+m9h3x9miy9d0AFwlpiK3oeHN2F+p
-         R8vLUT3f71kN/aPvY0ut8SZos6aNYv1UrQtmpRnLXw4QAdkyFlbV9hYhefSvPvtUadRH
-         E4LQ==
-X-Gm-Message-State: AOAM530jc0Ph/l5PiSW6KamF3XxIeC7YBJqbV1+p0nnR8oHYgtTAJk2b
-	FtjJSie9rApe4wFbPtBr424=
-X-Google-Smtp-Source: ABdhPJzNY06Mdbi0olL8L1uvNM5ELIcy5kw93h80MXSXsXqRbYMBDqVIa2QxmhSxS/+xaf9EiS0iBg==
-X-Received: by 2002:a2e:a912:: with SMTP id j18mr8953804ljq.330.1629332837418;
-        Wed, 18 Aug 2021 17:27:17 -0700 (PDT)
-Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id l14sm125907lji.106.2021.08.18.17.27.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 17:27:17 -0700 (PDT)
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Christoph Hellwig <hch@lst.de>
-Cc: Kari Argillander <kari.argillander@gmail.com>,
-	ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC116D1B
+	for <ntfs3@lists.linux.dev>; Thu, 19 Aug 2021 08:18:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1DDBD61139;
+	Thu, 19 Aug 2021 08:18:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1629361111;
+	bh=CEbIrDdhxLBG3UOQ0SIJDOcUYVzcUjSinMnWqdzBTqg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JroX3RhgPBClAzXd/NVpaiGqXyoepzPbCc/Dhci036xrY8b6r9GuzBjlVtmhwnSiw
+	 ftTNMRWI9g/bHvtkgx+vE+P92R5N2lBFqu6s/B/NUSYRd3FjSuJgTqjevNfpZNRi1g
+	 8RosFTSplDrNmMB/W9y866apgI2vBbPQ1HHdF7FlLqZMoSzBvbfqCluOVl5WLRhIpq
+	 w7dyVypGEbvlpYULiOtzlErmFA21TY+FZ/w4LdjFCQbcziAPcBCREXaQBWzYbcCv2h
+	 ST8AZkOW1dejhErieVml5FUEDpfhvFfUetkPZBpz3coobvTlJXq0tDni0UzSbNhZk+
+	 6DWdhYL2W+mTA==
+Received: by pali.im (Postfix)
+	id CB4D47EA; Thu, 19 Aug 2021 10:18:28 +0200 (CEST)
+Date: Thu, 19 Aug 2021 10:18:28 +0200
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: Kari Argillander <kari.argillander@gmail.com>
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Christoph Hellwig <hch@lst.de>, ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	Matthew Wilcox <willy@infradead.org>,
 	Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH v2 6/6] fs/ntfs3: Rename mount option no_acl_rules > (no)acl_rules
-Date: Thu, 19 Aug 2021 03:26:33 +0300
-Message-Id: <20210819002633.689831-7-kari.argillander@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210819002633.689831-1-kari.argillander@gmail.com>
+Subject: Re: [PATCH v2 3/6] fs/ntfs3: Use new api for mounting
+Message-ID: <20210819081828.zdlejcujqmpzpzif@pali>
 References: <20210819002633.689831-1-kari.argillander@gmail.com>
+ <20210819002633.689831-4-kari.argillander@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210819002633.689831-4-kari.argillander@gmail.com>
+User-Agent: NeoMutt/20180716
 
-Rename mount option no_acl_rules to noacl_rules. This allow us to use
-possibility to mount with options noacl_rules or acl_rules.
+Hello! I have there one comment:
 
-Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
----
- Documentation/filesystems/ntfs3.rst |  2 +-
- fs/ntfs3/file.c                     |  2 +-
- fs/ntfs3/ntfs_fs.h                  |  2 +-
- fs/ntfs3/super.c                    | 12 ++++++------
- fs/ntfs3/xattr.c                    |  2 +-
- 5 files changed, 10 insertions(+), 10 deletions(-)
+On Thursday 19 August 2021 03:26:30 Kari Argillander wrote:
+> @@ -545,10 +518,8 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
+>  		seq_printf(m, ",fmask=%04o", ~opts->fs_fmask_inv);
+>  	if (opts->dmask)
+>  		seq_printf(m, ",dmask=%04o", ~opts->fs_dmask_inv);
+> -	if (opts->nls)
+> -		seq_printf(m, ",nls=%s", opts->nls->charset);
+> -	else
+> -		seq_puts(m, ",nls=utf8");
+> +	if (opts->nls_name)
+> +		seq_printf(m, ",nls=%s", opts->nls_name);
 
-diff --git a/Documentation/filesystems/ntfs3.rst b/Documentation/filesystems/ntfs3.rst
-index ded706474825..bdc9dd5a9185 100644
---- a/Documentation/filesystems/ntfs3.rst
-+++ b/Documentation/filesystems/ntfs3.rst
-@@ -73,7 +73,7 @@ prealloc		Preallocate space for files excessively when file size is
- 			increasing on writes. Decreases fragmentation in case of
- 			parallel write operations to different files.
- 
--no_acs_rules		"No access rules" mount option sets access rights for
-+noacs_rules		"No access rules" mount option sets access rights for
- 			files/folders to 777 and owner/group to root. This mount
- 			option absorbs all other permissions:
- 			- permissions change for files/folders will be reported
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 59344985c2e8..de3c6c76ab7d 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -743,7 +743,7 @@ int ntfs3_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
- 	umode_t mode = inode->i_mode;
- 	int err;
- 
--	if (sbi->options.no_acs_rules) {
-+	if (sbi->options.noacs_rules) {
- 		/* "no access rules" - force any changes of time etc. */
- 		attr->ia_valid |= ATTR_FORCE;
- 		/* and disable for editing some attributes */
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index 1f07dd17c6c7..bec51e6f476d 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -67,7 +67,7 @@ struct ntfs_mount_options {
- 		showmeta : 1, /*show meta files*/
- 		nohidden : 1, /*do not show hidden files*/
- 		force : 1, /*rw mount dirty volume*/
--		no_acs_rules : 1, /*exclude acs rules*/
-+		noacs_rules : 1, /*exclude acs rules*/
- 		prealloc : 1 /*preallocate space when file is growing*/
- 		;
- };
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index c3c07c181f15..a94a094463ad 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -242,7 +242,7 @@ enum Opt {
- 	Opt_acl,
- 	Opt_iocharset,
- 	Opt_prealloc,
--	Opt_no_acs_rules,
-+	Opt_noacs_rules,
- 	Opt_err,
- };
- 
-@@ -260,7 +260,7 @@ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
- 	fsparam_flag_no("acl",			Opt_acl),
- 	fsparam_flag_no("showmeta",		Opt_showmeta),
- 	fsparam_flag_no("prealloc",		Opt_prealloc),
--	fsparam_flag("no_acs_rules",		Opt_no_acs_rules),
-+	fsparam_flag_no("acs_rules",		Opt_noacs_rules),
- 	fsparam_string("iocharset",		Opt_iocharset),
- 
- 	__fsparam(fs_param_is_string,
-@@ -343,8 +343,8 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
- 	case Opt_prealloc:
- 		opts->prealloc = result.negated ? 0 : 1;
- 		break;
--	case Opt_no_acs_rules:
--		opts->no_acs_rules = 1;
-+	case Opt_noacs_rules:
-+		opts->noacs_rules = result.negated ? 1 : 0;
- 		break;
- 	default:
- 		/* Should not be here unless we forget add case. */
-@@ -536,8 +536,8 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
- 		seq_puts(m, ",nohidden");
- 	if (opts->force)
- 		seq_puts(m, ",force");
--	if (opts->no_acs_rules)
--		seq_puts(m, ",no_acs_rules");
-+	if (opts->noacs_rules)
-+		seq_puts(m, ",noacs_rules");
- 	if (opts->prealloc)
- 		seq_puts(m, ",prealloc");
- 	if (sb->s_flags & SB_POSIXACL)
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 98871c895e77..e20e710a065f 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -774,7 +774,7 @@ int ntfs_acl_chmod(struct user_namespace *mnt_userns, struct inode *inode)
- int ntfs_permission(struct user_namespace *mnt_userns, struct inode *inode,
- 		    int mask)
- {
--	if (ntfs_sb(inode->i_sb)->options.no_acs_rules) {
-+	if (ntfs_sb(inode->i_sb)->options.noacs_rules) {
- 		/* "no access rules" mode - allow all changes */
- 		return 0;
- 	}
--- 
-2.25.1
+Please always print correct "nls=". Obviously ntfs driver (which
+internally stores filenames in UTF-16) must always use some conversion
+to null-term bytes. And if some kernel/driver default conversion is used
+then userspace should know it, what exactly is used (e.g. to ensure that
+would use correct encoding name argument of open(), stat()... syscalls).
 
+>  	if (opts->sys_immutable)
+>  		seq_puts(m, ",sys_immutable");
+>  	if (opts->discard)
+> @@ -619,7 +590,6 @@ static const struct super_operations ntfs_sops = {
+>  	.statfs = ntfs_statfs,
+>  	.show_options = ntfs_show_options,
+>  	.sync_fs = ntfs_sync_fs,
+> -	.remount_fs = ntfs_remount,
+>  	.write_inode = ntfs3_write_inode,
+>  };
