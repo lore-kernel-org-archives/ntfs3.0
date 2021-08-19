@@ -1,50 +1,54 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66FB6D1B
-	for <ntfs3@lists.linux.dev>; Thu, 19 Aug 2021 11:05:17 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id u22so11973872lfq.13
-        for <ntfs3@lists.linux.dev>; Thu, 19 Aug 2021 04:05:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947EA3FC4
+	for <ntfs3@lists.linux.dev>; Thu, 19 Aug 2021 21:53:20 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id s3so13819173ljp.11
+        for <ntfs3@lists.linux.dev>; Thu, 19 Aug 2021 14:53:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=dwNmdQpLJD7B+msYQhGKkmB2rXBh0sZ7boDUuFMKREc=;
-        b=VHrkkTsg+SZWiv/iXZ6ryn/LWRC9qlLL3CrXx2Zduz1l8d+IulS6BzZVT6lZbKLWRc
-         kI/dVT59/Ll9tg/KZiN6tKXWMcZuIkFTPQF22qlVQ0AfBhV573YmTcKhSMleWfJpxq3H
-         WnAotFYdjULuaIAE2kTy81wHqn713ztZNo0esKNNmn9uy5pO8KLZeUKkUvpR/IvA08H7
-         kByRggkdEdOSgXmN+m6CpDLXNRTCyh+3xYIby8tLAMYM8fhzhDa3P3uLk1qKJpFY2tc9
-         4cEtWzJZp313bw+e6o2ld95QS3nZNGncEwlAV4OcbZnoLNO2rDUf74qdMfsEi/s8aWUP
-         ygrg==
+        bh=Gh7P+bJgD4ftBn8Xyzyldousp27lYpH1a6zXj2KjV24=;
+        b=XZbj/Sdebgb0gcuT1OyWLtHFrLJTQj9LA+coAC9fb0pHjyxdCKO9C4w2Y5rI84fuId
+         QX1KgfEw+8IW3VdphwJ7fLI/nx2cVKKVWiwD6sMWoNTxyYvQxdUR0RGO8A79jADBooyx
+         tL6mYdbkri53XlFvnGOnik+xAExIWM5cCPD1T6uF5mUEPnY0QcP13dwzNDLAcDM4rn0b
+         zvO4DMwi5Mur1VoFrsenaICWSbP4Co/pPUBWdKiEW643ZP+xAhY3oRCvcm1VYZR4ER7O
+         RKve46kIY1+Q+kOQR1DNr5+ppQY+DVi4WYN5Nn4xBgTrwIPKsgpaIgh7AFveFI1tw8Kw
+         KnZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=dwNmdQpLJD7B+msYQhGKkmB2rXBh0sZ7boDUuFMKREc=;
-        b=N3A0B6sdlJ79FClofC0XkhmPre2uc/mBjNj9C4DdAsESApk446/15J/BReiawshV96
-         WKtgYWuzIL3zU0P2Nc4YebPXJsgaW3NKbn5XOfnCy0dJyIOCuIGCUejwh6tkFRNAY+Jn
-         yXLvWu9RjmKQF8B2FRmxK4GAsMMLDs8JnM/Vt9huTmxJ61dV6xwDzORJg0qERGJqKhea
-         svgXya+le4URqhSURWIRSPiMWZwylriZgl9Ho0z2TYiLw5YcgCmNjUeJ2xXdLW2qdxeF
-         GJ+8tnRyQRW6w8Vy/3yeiRtZdTLN6/Wjn+nOr7+OmrtsdDN8P3jAv5lwPuPLX/2qVSFD
-         mk6A==
-X-Gm-Message-State: AOAM532r52yqVLlritQz45QbMMfBDbzQ9JRfeWsxvOhnpYw3xG66dZYl
-	CreLIzsshfk2qtdzsw2/lLo=
-X-Google-Smtp-Source: ABdhPJzstQPsh+acMze1ytayn7jedZsnrRa37ObK3H8IBRO1hHIC6fDDqltqS1wBql6oRiSEcmodOQ==
-X-Received: by 2002:ac2:58d4:: with SMTP id u20mr9822418lfo.157.1629371116056;
-        Thu, 19 Aug 2021 04:05:16 -0700 (PDT)
+        bh=Gh7P+bJgD4ftBn8Xyzyldousp27lYpH1a6zXj2KjV24=;
+        b=luL22HHQJatS2fzOeRUDqfK+cBD+RFOHfqwudNY0z/gKcqZpg7cLKavA+Yynarzb5X
+         gOr0/ziMZpIgRN8RC0FbBSW7j7D/EusWHcy47Exwz5G/j8JSryMSzQANk9Q3mBqkLpqe
+         hVHmXC/jhEITU7yZ2dm1EESjrCU0rxBMCXgph2OsIIMX+avWgj+GgLCWW8KAiEybp5Hc
+         yDaP0TbBHRmgjYtw2JAjTTT/bDjbtqIyu5V6VhsNSEoInVdflPXGuJQ6vBThmXXHN5um
+         cv5dACdvM3nZgIhD83LyMxOCWw9wXjBk1Ur6bEOciUfETU3TGescx5tHOYp7fpNu5Zr0
+         FS9Q==
+X-Gm-Message-State: AOAM533Qp0z8m4YZp4jm2Tmk2FP+7HkynjsSYEWW6UnEBWIigmeRVMtn
+	qYc4iFbfjv9ztYOJL/MQhEc=
+X-Google-Smtp-Source: ABdhPJzTm68pE189pRq4MGEImt0mACD+8SqkCBSoHcqbpUBBeTYQqd6d49J7CZ4NhKj010k4o5ajFA==
+X-Received: by 2002:a2e:a713:: with SMTP id s19mr3835976lje.177.1629409998665;
+        Thu, 19 Aug 2021 14:53:18 -0700 (PDT)
 Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id d4sm270087lfg.261.2021.08.19.04.05.15
+        by smtp.gmail.com with ESMTPSA id b14sm364264ljr.111.2021.08.19.14.53.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 04:05:15 -0700 (PDT)
-Date: Thu, 19 Aug 2021 14:05:13 +0300
+        Thu, 19 Aug 2021 14:53:18 -0700 (PDT)
+Date: Fri, 20 Aug 2021 00:53:15 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc: almaz.alexandrovich@paragon-software.com, nathan@kernel.org,
-	ndesaulniers@google.com, ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH] fs/ntfs3: Remove unused including <linux/version.h>
-Message-ID: <20210819110513.wdyry5rp7orw3s36@kari-VirtualBox>
-References: <1629361417-94657-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Christoph Hellwig <hch@lst.de>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Christian Brauner <christian.brauner@ubuntu.com>
+Subject: Re: [PATCH v2 3/6] fs/ntfs3: Use new api for mounting
+Message-ID: <20210819215315.uhst4ppwdbed65x7@kari-VirtualBox>
+References: <20210819002633.689831-1-kari.argillander@gmail.com>
+ <20210819002633.689831-4-kari.argillander@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -53,35 +57,124 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1629361417-94657-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20210819002633.689831-4-kari.argillander@gmail.com>
 
-On Thu, Aug 19, 2021 at 04:23:37PM +0800, Jiapeng Chong wrote:
-> Eliminate the follow versioncheck warning:
+On Thu, Aug 19, 2021 at 03:26:30AM +0300, Kari Argillander wrote:
+> We have now new mount api as described in Documentation/filesystems. We
+> should use it as it gives us some benefits which are desribed here
+> lore.kernel.org/linux-fsdevel/159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk/
 > 
-> ./fs/ntfs3/inode.c: 16 linux/version.h not needed.
+> Nls loading is changed a to load with string. This did make code also
+> little cleaner.
 > 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> Also try to use fsparam_flag_no as much as possible. This is just nice
+> little touch and is not mandatory but it should not make any harm. It
+> is just convenient that we can use example acl/noacl mount options.
+> 
+> Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 
-Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
+I will send new patches when Komarov has take a look of these. I have
+found some bugs and how to improve things. Please take a look below my
+second comment.
 
-> ---
->  fs/ntfs3/inode.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index bf51e29..bb01f1b 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -13,7 +13,6 @@
->  #include <linux/namei.h>
->  #include <linux/nls.h>
->  #include <linux/uio.h>
-> -#include <linux/version.h>
->  #include <linux/writeback.h>
->  
->  #include "debug.h"
-> -- 
-> 1.8.3.1
-> 
+>  fs/ntfs3/super.c   | 392 +++++++++++++++++++++++----------------------
+
+> +static void ntfs_fs_free(struct fs_context *fc)
+> +{
+> +	struct ntfs_sb_info *sbi = fc->s_fs_info;
+> +
+> +	if (sbi)
+> +		put_ntfs(sbi);
+> +}
+> +
+> +static const struct fs_context_operations ntfs_context_ops = {
+> +	.parse_param	= ntfs_fs_parse_param,
+> +	.get_tree	= ntfs_fs_get_tree,
+> +	.reconfigure	= ntfs_fs_reconfigure,
+> +	.free		= ntfs_fs_free,
+> +};
+> +
+> +static int ntfs_init_fs_context(struct fs_context *fc)
+>  {
+> -	return mount_bdev(fs_type, flags, dev_name, data, ntfs_fill_super);
+> +	struct ntfs_sb_info *sbi;
+> +
+> +	sbi = ntfs_zalloc(sizeof(struct ntfs_sb_info));
+> +	if (!sbi)
+> +		return -ENOMEM;
+> +
+> +	/* Default options */
+> +	sbi->options.fs_uid = current_uid();
+> +	sbi->options.fs_gid = current_gid();
+> +	sbi->options.fs_fmask_inv = ~current_umask();
+> +	sbi->options.fs_dmask_inv = ~current_umask();
+> +
+> +	fc->s_fs_info = sbi;
+> +	fc->ops = &ntfs_context_ops;
+> +
+> +	return 0;
+>  }
+ 
+In this code I did not like that we make whole new sbi everytime.
+Especially because we do zalloc. So when we regonfigure then new sbi
+is allocated just for options. I notice that example xfs does allocate
+their "sbi" everytime. Then I notice that example squashfs allocate
+just mount options.
+
+I have impression that we should allocate sbi if it first time so I
+did "between code". I would like to do things like they are intended
+with api so can Christoph comment that is this "right" thing to do
+and is there any draw backs which I should know.
+
+static void ntfs_fs_free(struct fs_context *fc)
+{
+	struct ntfs_mount_options *opts = fc->fs_private;
+	struct ntfs_sb_info *sbi = fc->s_fs_info;
+
+	if (sbi)
+		put_ntfs(sbi);
+
+	if (opts)
+		clear_mount_options(opts);
+}
+
+static int ntfs_init_fs_context(struct fs_context *fc)
+{
+	struct ntfs_mount_options *opts;
+	struct ntfs_sb_info *sbi = NULL;
+
+	fc->ops = &ntfs_context_ops;
+
+	opts = ntfs_zalloc(sizeof(struct ntfs_mount_options));
+	if (!opts)
+		return -ENOMEM;
+
+	/* Default options. */
+	opts->fs_uid = current_uid();
+	opts->fs_gid = current_gid();
+	opts->fs_fmask_inv = ~current_umask();
+	opts->fs_dmask_inv = ~current_umask();
+
+	fc->fs_private = opts;
+
+	/* No need to initialize sbi if we just reconf. */
+	if (fc->purpose == FS_CONTEXT_FOR_RECONFIGURE)
+		return 0;
+
+	sbi = ntfs_zalloc(sizeof(struct ntfs_sb_info));
+	if (!sbi) {
+		ntfs_free(opts);
+		return -ENOMEM;
+	}
+
+	mutex_init(&sbi->compress.mtx_lznt);
+#ifdef CONFIG_NTFS3_LZX_XPRESS
+	mutex_init(&sbi->compress.mtx_xpress);
+	mutex_init(&sbi->compress.mtx_lzx);
+#endif
+
+	sbi->options = opts;
+	fc->s_fs_info = sbi;
+
+	return 0;
+}
