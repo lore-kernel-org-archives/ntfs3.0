@@ -1,41 +1,41 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FF26D17
-	for <ntfs3@lists.linux.dev>; Thu, 19 Aug 2021 00:27:17 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id h9so8322847ljq.8
-        for <ntfs3@lists.linux.dev>; Wed, 18 Aug 2021 17:27:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0AC6D17
+	for <ntfs3@lists.linux.dev>; Thu, 19 Aug 2021 00:27:19 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id x7so8287092ljn.10
+        for <ntfs3@lists.linux.dev>; Wed, 18 Aug 2021 17:27:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DOuni2n/29LbC0ytAK0Fi8GuUBVC6c+VlqLmnjT4LqI=;
-        b=emAMHPR2eshcvqE3HBYuyFC4p3XBf3LMqQL/Mb5s/G07siv0KIi1+8HtbTEGrqkRT+
-         /01tH6FRvnoM85cxpHdL72VrHIs+tQlYdD09YEiuJBBqj6aSqQ8tixp9CSBT68mcnq7f
-         y2We3CorfLz/6ciy99TVZF00BjpC3BOZhvUgp+HUsktQ9EvLPn1w6fg1ZFT6OS/3Xb90
-         ADtjbb/dHJ/vEkLpbfFNPWZ40bjS1Sx8loX+SjCEFnNpfCoRBnd7WxsHKjLYr0WSDKxk
-         DBYeg2hFfJox56SAAsk6qYyzDCamx4L92zHgN03xTGGc30xar+lVlndErPkfHm0/u2M9
-         b1+Q==
+        bh=OuvPHidmzGM3xfvyJ/iRKu/nSL+2mL7ylUN+am7Bbio=;
+        b=QHLuK343vWAbHssWFJiqUq/ClvS8ybP8SFbiNvZdDGERaX8lm1TiDdscI58S6H0brn
+         Eh5mHnYJpSUloyVBFz9UdJiB/Fi91YUkuZ4mLc9zDbZ8pCn9IXzZ3+c6xcqcsLguGNvr
+         NqbQihZmTgou2SRrEUMfiHLJcNhgqEXeobum2ayxoFkbh3H9iDb9q7WjlvdbzvwSpszy
+         TS0gceKowVH5pVA/uCaJV+sfu7xgg1Ypo4ERRJw2Hxj8rLnUdJ6EnVhDef5XjeZZfwbw
+         clNSp7oPFAbO6IfZwCu8GBrkfjohEczljt/LrIEqgNY+mwAlylqefmI96dQxWLQPg3LJ
+         9gSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DOuni2n/29LbC0ytAK0Fi8GuUBVC6c+VlqLmnjT4LqI=;
-        b=MhMCIYO5fJaZBhkpXJkUSAWRv8462G1LHE5NdiydRA25+fF2BaqrG8ewyPuapjbH3d
-         xjIJtw1sjlZ9YHTdqQyZYNKnHz8Te4DBk9w2/BAVI6xOEEQeqsETvoNHNOmuktM18kqw
-         jY0At7RscoQW5tdzYTqd2gfRKCqQey5lTRdLw1H4gr9XyMceJAOCWRWKdgrCa/VGaQpd
-         mLEWpNo09+VHBPjWCyW+ppI9DLH1jxqroP9IgULGoaohQjeZEGJRUCagDEy50LArAeV6
-         XQgVX2l/YkECdRVPSKus78oD2CRU/E4n0IVTa1SxJCScp1GBXiq6FZzOE+nB6fb5zxjl
-         n1Ug==
-X-Gm-Message-State: AOAM531cZMitNd2GpULtAUoMUDNL9VdXOl2fwAKP86jqpwCNp11br7aa
-	es74qLeqMTxmlmLNOpIVgC4=
-X-Google-Smtp-Source: ABdhPJxCrzU2oaf6pHPW39AB8R+VNEta0gb/FOqjgHsyTDV/Qrr39Yg42+D8rgutlUtM2FVm7GWacg==
-X-Received: by 2002:a2e:3914:: with SMTP id g20mr9926594lja.88.1629332835912;
-        Wed, 18 Aug 2021 17:27:15 -0700 (PDT)
+        bh=OuvPHidmzGM3xfvyJ/iRKu/nSL+2mL7ylUN+am7Bbio=;
+        b=HZRuvUEeARf312oGqn+2V/l31SXHP1pMCKGMyl96Km6dpTt5f5uOgAQ+4y/74U6Prr
+         STYgPapQa4q5oAKD1+wGVIbPQ3wtP9qurFi4xyASaBHxFzDonqbrvK8RVCNvUPAfu/k6
+         PKG6/yt9ljPwr+uPvdwAKZ187XAbwIm2GW4Z/PnBvOX+pR0+Do9BrZy/ECk2PVFqBpQX
+         SjNEe1tEhZf8mf8COl2BxY7qqDJRl2lvby3ngQG+m9h3x9miy9d0AFwlpiK3oeHN2F+p
+         R8vLUT3f71kN/aPvY0ut8SZos6aNYv1UrQtmpRnLXw4QAdkyFlbV9hYhefSvPvtUadRH
+         E4LQ==
+X-Gm-Message-State: AOAM530jc0Ph/l5PiSW6KamF3XxIeC7YBJqbV1+p0nnR8oHYgtTAJk2b
+	FtjJSie9rApe4wFbPtBr424=
+X-Google-Smtp-Source: ABdhPJzNY06Mdbi0olL8L1uvNM5ELIcy5kw93h80MXSXsXqRbYMBDqVIa2QxmhSxS/+xaf9EiS0iBg==
+X-Received: by 2002:a2e:a912:: with SMTP id j18mr8953804ljq.330.1629332837418;
+        Wed, 18 Aug 2021 17:27:17 -0700 (PDT)
 Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id l14sm125907lji.106.2021.08.18.17.27.15
+        by smtp.gmail.com with ESMTPSA id l14sm125907lji.106.2021.08.18.17.27.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 17:27:15 -0700 (PDT)
+        Wed, 18 Aug 2021 17:27:17 -0700 (PDT)
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Christoph Hellwig <hch@lst.de>
@@ -46,9 +46,9 @@ Cc: Kari Argillander <kari.argillander@gmail.com>,
 	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
 	Matthew Wilcox <willy@infradead.org>,
 	Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH v2 5/6] fs/ntfs3: Add iocharset= mount option as alias for nls=
-Date: Thu, 19 Aug 2021 03:26:32 +0300
-Message-Id: <20210819002633.689831-6-kari.argillander@gmail.com>
+Subject: [PATCH v2 6/6] fs/ntfs3: Rename mount option no_acl_rules > (no)acl_rules
+Date: Thu, 19 Aug 2021 03:26:33 +0300
+Message-Id: <20210819002633.689831-7-kari.argillander@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210819002633.689831-1-kari.argillander@gmail.com>
 References: <20210819002633.689831-1-kari.argillander@gmail.com>
@@ -60,80 +60,114 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Other fs drivers are using iocharset= mount option for specifying charset.
-So add it also for ntfs3 and mark old nls= mount option as deprecated.
+Rename mount option no_acl_rules to noacl_rules. This allow us to use
+possibility to mount with options noacl_rules or acl_rules.
 
 Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 ---
- Documentation/filesystems/ntfs3.rst |  4 ++--
- fs/ntfs3/super.c                    | 12 ++++++++----
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ Documentation/filesystems/ntfs3.rst |  2 +-
+ fs/ntfs3/file.c                     |  2 +-
+ fs/ntfs3/ntfs_fs.h                  |  2 +-
+ fs/ntfs3/super.c                    | 12 ++++++------
+ fs/ntfs3/xattr.c                    |  2 +-
+ 5 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/Documentation/filesystems/ntfs3.rst b/Documentation/filesystems/ntfs3.rst
-index af7158de6fde..ded706474825 100644
+index ded706474825..bdc9dd5a9185 100644
 --- a/Documentation/filesystems/ntfs3.rst
 +++ b/Documentation/filesystems/ntfs3.rst
-@@ -32,12 +32,12 @@ generic ones.
+@@ -73,7 +73,7 @@ prealloc		Preallocate space for files excessively when file size is
+ 			increasing on writes. Decreases fragmentation in case of
+ 			parallel write operations to different files.
  
- ===============================================================================
+-no_acs_rules		"No access rules" mount option sets access rights for
++noacs_rules		"No access rules" mount option sets access rights for
+ 			files/folders to 777 and owner/group to root. This mount
+ 			option absorbs all other permissions:
+ 			- permissions change for files/folders will be reported
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 59344985c2e8..de3c6c76ab7d 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -743,7 +743,7 @@ int ntfs3_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
+ 	umode_t mode = inode->i_mode;
+ 	int err;
  
--nls=name		This option informs the driver how to interpret path
-+iocharset=name		This option informs the driver how to interpret path
- 			strings and translate them to Unicode and back. If
- 			this option is not set, the default codepage will be
- 			used (CONFIG_NLS_DEFAULT).
- 			Examples:
--				'nls=utf8'
-+				'iocharset=utf8'
- 
- uid=
- gid=
+-	if (sbi->options.no_acs_rules) {
++	if (sbi->options.noacs_rules) {
+ 		/* "no access rules" - force any changes of time etc. */
+ 		attr->ia_valid |= ATTR_FORCE;
+ 		/* and disable for editing some attributes */
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 1f07dd17c6c7..bec51e6f476d 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -67,7 +67,7 @@ struct ntfs_mount_options {
+ 		showmeta : 1, /*show meta files*/
+ 		nohidden : 1, /*do not show hidden files*/
+ 		force : 1, /*rw mount dirty volume*/
+-		no_acs_rules : 1, /*exclude acs rules*/
++		noacs_rules : 1, /*exclude acs rules*/
+ 		prealloc : 1 /*preallocate space when file is growing*/
+ 		;
+ };
 diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 8e86e1956486..c3c07c181f15 100644
+index c3c07c181f15..a94a094463ad 100644
 --- a/fs/ntfs3/super.c
 +++ b/fs/ntfs3/super.c
-@@ -240,7 +240,7 @@ enum Opt {
- 	Opt_nohidden,
- 	Opt_showmeta,
+@@ -242,7 +242,7 @@ enum Opt {
  	Opt_acl,
--	Opt_nls,
-+	Opt_iocharset,
+ 	Opt_iocharset,
  	Opt_prealloc,
- 	Opt_no_acs_rules,
+-	Opt_no_acs_rules,
++	Opt_noacs_rules,
  	Opt_err,
-@@ -259,9 +259,13 @@ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
- 	fsparam_flag_no("hidden",		Opt_nohidden),
- 	fsparam_flag_no("acl",			Opt_acl),
- 	fsparam_flag_no("showmeta",		Opt_showmeta),
--	fsparam_string("nls",			Opt_nls),
- 	fsparam_flag_no("prealloc",		Opt_prealloc),
- 	fsparam_flag("no_acs_rules",		Opt_no_acs_rules),
-+	fsparam_string("iocharset",		Opt_iocharset),
-+
-+	__fsparam(fs_param_is_string,
-+		  "nls", Opt_iocharset,
-+		  fs_param_deprecated, NULL),
- 	{}
  };
  
-@@ -332,7 +336,7 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
- 	case Opt_showmeta:
- 		opts->showmeta = result.negated ? 0 : 1;
+@@ -260,7 +260,7 @@ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
+ 	fsparam_flag_no("acl",			Opt_acl),
+ 	fsparam_flag_no("showmeta",		Opt_showmeta),
+ 	fsparam_flag_no("prealloc",		Opt_prealloc),
+-	fsparam_flag("no_acs_rules",		Opt_no_acs_rules),
++	fsparam_flag_no("acs_rules",		Opt_noacs_rules),
+ 	fsparam_string("iocharset",		Opt_iocharset),
+ 
+ 	__fsparam(fs_param_is_string,
+@@ -343,8 +343,8 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
+ 	case Opt_prealloc:
+ 		opts->prealloc = result.negated ? 0 : 1;
  		break;
--	case Opt_nls:
-+	case Opt_iocharset:
- 		opts->nls_name = param->string;
- 		param->string = NULL;
+-	case Opt_no_acs_rules:
+-		opts->no_acs_rules = 1;
++	case Opt_noacs_rules:
++		opts->noacs_rules = result.negated ? 1 : 0;
  		break;
-@@ -519,7 +523,7 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
- 	if (opts->dmask)
- 		seq_printf(m, ",dmask=%04o", ~opts->fs_dmask_inv);
- 	if (opts->nls_name)
--		seq_printf(m, ",nls=%s", opts->nls_name);
-+		seq_printf(m, ",iocharset=%s", opts->nls_name);
- 	if (opts->sys_immutable)
- 		seq_puts(m, ",sys_immutable");
- 	if (opts->discard)
+ 	default:
+ 		/* Should not be here unless we forget add case. */
+@@ -536,8 +536,8 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
+ 		seq_puts(m, ",nohidden");
+ 	if (opts->force)
+ 		seq_puts(m, ",force");
+-	if (opts->no_acs_rules)
+-		seq_puts(m, ",no_acs_rules");
++	if (opts->noacs_rules)
++		seq_puts(m, ",noacs_rules");
+ 	if (opts->prealloc)
+ 		seq_puts(m, ",prealloc");
+ 	if (sb->s_flags & SB_POSIXACL)
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index 98871c895e77..e20e710a065f 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -774,7 +774,7 @@ int ntfs_acl_chmod(struct user_namespace *mnt_userns, struct inode *inode)
+ int ntfs_permission(struct user_namespace *mnt_userns, struct inode *inode,
+ 		    int mask)
+ {
+-	if (ntfs_sb(inode->i_sb)->options.no_acs_rules) {
++	if (ntfs_sb(inode->i_sb)->options.noacs_rules) {
+ 		/* "no access rules" mode - allow all changes */
+ 		return 0;
+ 	}
 -- 
 2.25.1
 
