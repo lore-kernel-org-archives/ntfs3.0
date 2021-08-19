@@ -1,99 +1,87 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC71D72
-	for <ntfs3@lists.linux.dev>; Thu, 19 Aug 2021 10:01:41 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id w4so9068911ljh.13
-        for <ntfs3@lists.linux.dev>; Thu, 19 Aug 2021 03:01:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66FB6D1B
+	for <ntfs3@lists.linux.dev>; Thu, 19 Aug 2021 11:05:17 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id u22so11973872lfq.13
+        for <ntfs3@lists.linux.dev>; Thu, 19 Aug 2021 04:05:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=2cL/kIS6p4aIzzhUBR+U0xZgdJ0R2i9add4dnTAHrZs=;
-        b=vNjFmzqoH/KKyce63ZJFwoXYgRQP6+TTCCgtE8h8Ybn9aoPdDjpucXtJ5SdzjcCjpD
-         ytW0GuSAj8x7SLzPOjdQJayEV8NWJQ6Lvj/iOqkFcyv4fmSNMeQGuG5ZKZ0YEI7AwS3r
-         n9CuK8kGG0YwTTG0vV2w7aRkNBQDoLA3/ttI44guAZLGPSSaiaWxg62wfS90DzsdPqBy
-         4qKYggYcme7pP6YD254UBlcyGzdGz4xfTfVZmfk+WPhq21lcWxByr2M+t48SSWANhnax
-         mf5gwyaGRueByzgbP9Pty3XQKasRFA5ocmXlgGoq/ofCSvVQxcml1KyOo1jdu9jcI/+4
-         wxOQ==
+         :content-disposition:in-reply-to;
+        bh=dwNmdQpLJD7B+msYQhGKkmB2rXBh0sZ7boDUuFMKREc=;
+        b=VHrkkTsg+SZWiv/iXZ6ryn/LWRC9qlLL3CrXx2Zduz1l8d+IulS6BzZVT6lZbKLWRc
+         kI/dVT59/Ll9tg/KZiN6tKXWMcZuIkFTPQF22qlVQ0AfBhV573YmTcKhSMleWfJpxq3H
+         WnAotFYdjULuaIAE2kTy81wHqn713ztZNo0esKNNmn9uy5pO8KLZeUKkUvpR/IvA08H7
+         kByRggkdEdOSgXmN+m6CpDLXNRTCyh+3xYIby8tLAMYM8fhzhDa3P3uLk1qKJpFY2tc9
+         4cEtWzJZp313bw+e6o2ld95QS3nZNGncEwlAV4OcbZnoLNO2rDUf74qdMfsEi/s8aWUP
+         ygrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=2cL/kIS6p4aIzzhUBR+U0xZgdJ0R2i9add4dnTAHrZs=;
-        b=qMfFSGX6iGN3EWs6yDxcnIivf1wMHpBi6zdN9g9GHipcWgA/Ex3fQZ4epZz5EpPwIb
-         zsrEmts8Kp9uiYyA82hsI0MHkkr1LMgdlzoLVTM+CqFimQrRGKgNT4wIIs2iXo8Ga8ye
-         kYxthb/UC0eJ0lSWzxWEVdvdh4+CUXZqF3M6boTMpBuIRwExmf3YvWxjeZDZm/SLHRFE
-         Km6A7BGd2XaU2PrscZBfJ1B/GDC2f+2/UXKv2xXk+91sGWJoeHyzEf5KJ4fQdW805KSV
-         lsc6eJM1J1PhVFAl0UKcLtph/2b/Zzed2KGOdmhexaSbn8FaHWe7eqT+Wgfld7/dNwWV
-         zdUw==
-X-Gm-Message-State: AOAM532rmcpaVtoeGNHjVXHRv+WH5cHBb2QrkCVkhP4gvmi2U+DLqRJg
-	b/qXYbOTrvAx9WK9uOpFH1A=
-X-Google-Smtp-Source: ABdhPJzDs8yVZFmyam3hm0ByKmiHAlqGasNP2Pwe/ePVFpzy/cc6fBCqLVZE0ZcHoJf3HoHlt2jjLQ==
-X-Received: by 2002:a05:651c:1190:: with SMTP id w16mr11373932ljo.327.1629367300118;
-        Thu, 19 Aug 2021 03:01:40 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to;
+        bh=dwNmdQpLJD7B+msYQhGKkmB2rXBh0sZ7boDUuFMKREc=;
+        b=N3A0B6sdlJ79FClofC0XkhmPre2uc/mBjNj9C4DdAsESApk446/15J/BReiawshV96
+         WKtgYWuzIL3zU0P2Nc4YebPXJsgaW3NKbn5XOfnCy0dJyIOCuIGCUejwh6tkFRNAY+Jn
+         yXLvWu9RjmKQF8B2FRmxK4GAsMMLDs8JnM/Vt9huTmxJ61dV6xwDzORJg0qERGJqKhea
+         svgXya+le4URqhSURWIRSPiMWZwylriZgl9Ho0z2TYiLw5YcgCmNjUeJ2xXdLW2qdxeF
+         GJ+8tnRyQRW6w8Vy/3yeiRtZdTLN6/Wjn+nOr7+OmrtsdDN8P3jAv5lwPuPLX/2qVSFD
+         mk6A==
+X-Gm-Message-State: AOAM532r52yqVLlritQz45QbMMfBDbzQ9JRfeWsxvOhnpYw3xG66dZYl
+	CreLIzsshfk2qtdzsw2/lLo=
+X-Google-Smtp-Source: ABdhPJzstQPsh+acMze1ytayn7jedZsnrRa37ObK3H8IBRO1hHIC6fDDqltqS1wBql6oRiSEcmodOQ==
+X-Received: by 2002:ac2:58d4:: with SMTP id u20mr9822418lfo.157.1629371116056;
+        Thu, 19 Aug 2021 04:05:16 -0700 (PDT)
 Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id v16sm220089ljc.138.2021.08.19.03.01.39
+        by smtp.gmail.com with ESMTPSA id d4sm270087lfg.261.2021.08.19.04.05.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 03:01:39 -0700 (PDT)
-Date: Thu, 19 Aug 2021 13:01:37 +0300
+        Thu, 19 Aug 2021 04:05:15 -0700 (PDT)
+Date: Thu, 19 Aug 2021 14:05:13 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
-To: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Christoph Hellwig <hch@lst.de>, ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>,
-	Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH v2 3/6] fs/ntfs3: Use new api for mounting
-Message-ID: <20210819100137.5se3otjz5ngcfswz@kari-VirtualBox>
-References: <20210819002633.689831-1-kari.argillander@gmail.com>
- <20210819002633.689831-4-kari.argillander@gmail.com>
- <20210819081828.zdlejcujqmpzpzif@pali>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: almaz.alexandrovich@paragon-software.com, nathan@kernel.org,
+	ndesaulniers@google.com, ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH] fs/ntfs3: Remove unused including <linux/version.h>
+Message-ID: <20210819110513.wdyry5rp7orw3s36@kari-VirtualBox>
+References: <1629361417-94657-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210819081828.zdlejcujqmpzpzif@pali>
+In-Reply-To: <1629361417-94657-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 
-On Thu, Aug 19, 2021 at 10:18:28AM +0200, Pali Rohár wrote:
-> Hello! I have there one comment:
+On Thu, Aug 19, 2021 at 04:23:37PM +0800, Jiapeng Chong wrote:
+> Eliminate the follow versioncheck warning:
 > 
-> On Thursday 19 August 2021 03:26:30 Kari Argillander wrote:
-> > @@ -545,10 +518,8 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
-> >  		seq_printf(m, ",fmask=%04o", ~opts->fs_fmask_inv);
-> >  	if (opts->dmask)
-> >  		seq_printf(m, ",dmask=%04o", ~opts->fs_dmask_inv);
-> > -	if (opts->nls)
-> > -		seq_printf(m, ",nls=%s", opts->nls->charset);
-> > -	else
-> > -		seq_puts(m, ",nls=utf8");
-> > +	if (opts->nls_name)
-> > +		seq_printf(m, ",nls=%s", opts->nls_name);
+> ./fs/ntfs3/inode.c: 16 linux/version.h not needed.
 > 
-> Please always print correct "nls=". Obviously ntfs driver (which
-> internally stores filenames in UTF-16) must always use some conversion
-> to null-term bytes. And if some kernel/driver default conversion is used
-> then userspace should know it, what exactly is used (e.g. to ensure that
-> would use correct encoding name argument of open(), stat()... syscalls).
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 
-Thanks. That was actually my intention, but it seems that there is bug
-from my part and it will be fixed in v3. Thanks for reviewing.
+Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
 
+> ---
+>  fs/ntfs3/inode.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> >  	if (opts->sys_immutable)
-> >  		seq_puts(m, ",sys_immutable");
-> >  	if (opts->discard)
-> > @@ -619,7 +590,6 @@ static const struct super_operations ntfs_sops = {
-> >  	.statfs = ntfs_statfs,
-> >  	.show_options = ntfs_show_options,
-> >  	.sync_fs = ntfs_sync_fs,
-> > -	.remount_fs = ntfs_remount,
-> >  	.write_inode = ntfs3_write_inode,
-> >  };
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index bf51e29..bb01f1b 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -13,7 +13,6 @@
+>  #include <linux/namei.h>
+>  #include <linux/nls.h>
+>  #include <linux/uio.h>
+> -#include <linux/version.h>
+>  #include <linux/writeback.h>
+>  
+>  #include "debug.h"
+> -- 
+> 1.8.3.1
 > 
