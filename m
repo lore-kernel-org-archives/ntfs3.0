@@ -1,209 +1,649 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93693FC0
-	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 11:52:50 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17OBG7PM001041;
-	Tue, 24 Aug 2021 11:52:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=HLKXcSt6ypzWwaDGc/EXJKn8Az1DAUk4l4L5+JiNxw8=;
- b=Kmi/RKX6SWEHy46uJlRUYLviUbT2arZCvCI/EbaFK+jsWpHaFcMteov/rjkD53ViQ3+a
- Zx4BeOy3mYFONXu4LgiLmda/LmWZZKuW2KqDwrGII6g4WzG9DXT0iyKKksqnHKsx6fI1
- CUE/k13uzELayG4s1m9Bzc2Fhz4irfCCPsE16Uhxthvzoi0XTjEsR1GyVhdM9iDFFTit
- 9Yh1L2QzaZqL5zB1GifrrvvxhUKyJICyz6KcHcUd9Z18FFzG7us5M06KIN7kNgoXKnx6
- COI+Gel57IEdWMeHRSYlw0YjIHKu9UEuutQOHF1SCad00z+df0kOu0HYj/2oMY9ma6YQ hA== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2020-01-29;
- bh=HLKXcSt6ypzWwaDGc/EXJKn8Az1DAUk4l4L5+JiNxw8=;
- b=kxUyXaY+dPj1z5nOjgJbq7zfe6Cjmq0Z1Ks10d+bhIie+d+nBj9bLL+siKb39Okl3D8d
- 90sGrr2MNxYXCJdkHyO64/aKobrn3I1AxP6X9howFZcTOWGZC/yvO/5JkzD8k9l9kUJE
- sTzpCcVUF4MQRdS/o1PSut4mj/guh8kGyBPbKYB/3ScIyqqYV/3TaOnpV3ZUHccIp0Bw
- lhYNXutxXQAfNVhn6szCz+iaRikMPejLLWo+5dXQG3wLY0vX2dndDeSdHpmDNVhbHAhY
- iGsRF1h6wOFLQLkCFV2fk72zd/E+QfrXnFB47NZSEJXKzd3VoSRBAum9Qz/2G/q5JxmS BQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3amvtvrhdd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Aug 2021 11:52:50 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17OBjFpd100482;
-	Tue, 24 Aug 2021 11:52:49 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2046.outbound.protection.outlook.com [104.47.74.46])
-	by aserp3020.oracle.com with ESMTP id 3ajsa552pt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Aug 2021 11:52:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AW87cuSCdX6sVACzwsZ3CuO0NBNAUCt3Lm6pMCyLrVEugMY5f4c2+Y3mLVgIleMsiCIU6YFR2K3Su8cvi33hcGyCaRsOC1ffOEeaFTwzKpNR5eMGqFhBosXO7ox3Ndy4JdDc5f585vnY6aAg9d0cT3hfsbEvV2b0JxXD9oTmN72K8wAyEFo+NcyqB8HsuIcaC7MlxFG+ZiM54RRYdF+rG09ev7tLM+bWzQv8U+7+9jhZYCfN1VbCwKooKKcq9Pmu5V1vwUzdkXlQNkzRsmbdMVs626TNtgnupJlIjdrneaDpiEp56ku/t01NJ01Jon3h4a1LfejCIQyBPoH7ThQ1HQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HLKXcSt6ypzWwaDGc/EXJKn8Az1DAUk4l4L5+JiNxw8=;
- b=gEPV3iyyaDMQwmO6ZkTWUV3nRvYMAN+KDGXYOPdK3VdKsBBS1D414lMiad9fVseo2rgzdm8xuUbvbnyoPecfJIJTyHoFp22wm6fZkENb2+2WabBARmqRtlrrckRbOYifmWnskX6IP0xtJUF5KNKXZTD+pb5xK8h0BNynwjPacOe+vvAihH5CAEq/gEL3c+2DrgKt1hF7Qi3/wE54/FlQ23Q3Budmy84Cd9dbYrxK75aJKfriv6K8hv7PGkfmxFjY7z3Jwhg+xHJ2AxwLH1JxIu2oQFRcXc7h4OkIOAAAtwzawBuIkNNWzA2G+zeJh5xQmUhyTZix+a1A76o+Af+jYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8663FC1
+	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 14:14:01 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id k5so45880775lfu.4
+        for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 07:14:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HLKXcSt6ypzWwaDGc/EXJKn8Az1DAUk4l4L5+JiNxw8=;
- b=tGxG0I3YPFH5jyE124UjqXHil8Ucfk0cuTnOBmSme1H/tBIebfQLHJmi8m0KOatz+mMwktMBJD7feez5tehBrWWPodCEhKhDIGTc+tTCKplyS5KVzgK+AHJ43KyGKBDnk4f2q4Dm0HrmH+iT79U+oARiwj4MfGWvq0bMiUCNYWs=
-Authentication-Results: paragon-software.com; dkim=none (message not signed)
- header.d=none;paragon-software.com; dmarc=none action=none
- header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO1PR10MB4595.namprd10.prod.outlook.com
- (2603:10b6:303:98::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.23; Tue, 24 Aug
- 2021 11:52:47 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4436.025; Tue, 24 Aug 2021
- 11:52:47 +0000
-Date: Tue, 24 Aug 2021 14:52:36 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: add checks for allocation failure
-Message-ID: <20210824115236.GJ31143@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZR0P278CA0091.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:23::6) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Il8QPYmtppOj+rKx0alBHML4ENAz1dGDRtwWZ8GyQ8Y=;
+        b=GyCvD2GXIciKsHNfMm/CkGWXsVaBNCiKkUN0CaaNMmbmT+Lp+WImiB5bxRDPUEMLRd
+         Fxl7ru42YCVo/wiD0vjbBCj/eV0/OoiddhD8TuS6RA+HQA8vyhgN5Xwj3ybv5FLTLTtt
+         wDkB/FRTWAff8Qg7k9UmRb4QCLns19fxAYDBYMwuVHZh7ddAFt0raN204/e8gU1hjdtG
+         5yu+SLMpHFnQA5WUC3HlIAudFeQ5aTW6+m22Q2a5tWKvtdfFLJwsxjZhHCwdRRDmNpKk
+         Z/Rtx0njdJNMOFJ8yBZCuAj9twcbpnSvnQrxjr22KmK5W1rEDJshuD7UqLpDqSdNDjVg
+         4wTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Il8QPYmtppOj+rKx0alBHML4ENAz1dGDRtwWZ8GyQ8Y=;
+        b=hT+R4ahRajtRyyNqycLj1vfYf2Z6H8fu4wFHkLeMSnbmDNaw4+U9H/NzQvnw9mtEkV
+         johWxMOCesiY1pXfd3EDQIlei+n0UpoRM3i7vYqqIYZEXh9GMtT6+HmYnUCnStR6XFib
+         fhJvXZMakAtzTMe016BMByIdQ+ZMMIBY8ZJTYUPDXUfuuC9x6UsH/AE42M+cKS2g2FLd
+         RNrvqon0m8joIEm9F9TZS2vedV4azg580tEdezUzLiTF6070am0h9oDOHG3ndEkZEuCH
+         iAx9xvNEQnTiyksogh9Ybw4jTNrsUIThwWqbffPkS/5/cNb6b1hwF69foo5vueoaN96c
+         YF5g==
+X-Gm-Message-State: AOAM533uCdMowrbPWxgwpvwM2EgOTFyiwiAxcxWxE2GFTMPYoFkM2xOz
+	4MAgMAAAXartXlozOpJMbRg=
+X-Google-Smtp-Source: ABdhPJx3mJ+HBJTjTcF8htftYgvOEciZ6Gh1a9zI376CytV8AkJXKUeRQ0UiPVsMTm4K0tTuycTY7g==
+X-Received: by 2002:a19:f513:: with SMTP id j19mr719195lfb.583.1629814439643;
+        Tue, 24 Aug 2021 07:13:59 -0700 (PDT)
+Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id z24sm1768317lfr.105.2021.08.24.07.13.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 07:13:58 -0700 (PDT)
+Date: Tue, 24 Aug 2021 17:13:56 +0300
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Christian Brauner <christian.brauner@ubuntu.com>
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Christoph Hellwig <hch@lst.de>, ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2 3/6] fs/ntfs3: Use new api for mounting
+Message-ID: <20210824141356.qjrq2ffuoci34wnd@kari-VirtualBox>
+References: <20210819002633.689831-1-kari.argillander@gmail.com>
+ <20210819002633.689831-4-kari.argillander@gmail.com>
+ <20210824113217.ncuwc3zs452mdgec@wittgenstein>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kili (62.8.83.99) by ZR0P278CA0091.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:23::6) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend Transport; Tue, 24 Aug 2021 11:52:44 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 743295a2-b7bb-4210-89fc-08d966f5b0f0
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4595:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<CO1PR10MB459588A08179824623B24B498EC59@CO1PR10MB4595.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	q4GvekiMfJ+qt995Ojb3HaB8MXpRfV+KBKXrMLjH1F9phQ6r6X+YTRTkIvjUf85ZbpKT2Hp9HxP7XyY73hi2dL9SP7Zue5KeTWm/9K1cwkF6YQ38acY2L7n4ltZfGcmd1/i2co3tLJlWELYilVq9lKtt2rZEhosUVjS0gWJFNpAzfjs1Pwzh1zAFCFWUPS+uMX7sJNu4ZQnrqpytSpaXYz2Enu1xENB0Q+2sNYLs2C5Qb3uVX+wlJ8hvfCu4qzdPlNhc5nsNyT9Ka7odxHBKsHkd6CUBnlWDGBLD5KPQu1WpF+MT7o0wX5PnEl/m1k3j2TkD+Xfv2JbB0Wj7zeUX5YEwkDlc3KVJfYegKfh6Gw6VVAs3Qwa+CM/eZc/icfr6TVE5jNjoNil+0Vmhlst3iCVoLLOtSJyz2+zSbIKghvsNYnwdl/wn+ln4RyAte+bWCVJsjIBpPOXPPCJ8KOS2GMY7WK/RadY+x/wVw7weOC/JylXIiBsQPQpt48C075oXHcONEs5hy8G9FCxTJZ7Sndaa63R9DhyM4vCAuc1lowk5LayBvWB58qIzYO6Hhru1Z9enmI+lnnvBHF17N7vHE6YaW2Rxp2layClsAdDW5B0pRAFayas//K8kyI4OKXW5NxGV9kyfzskuGlihB7O7JgzHS0MnIcQz1/rbQZvysqOqqb8GJzAA1WcnYdGN+tBuZpuOe36h1Q0fy4aHE0GYgQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(136003)(39860400002)(366004)(376002)(396003)(38100700002)(38350700002)(6666004)(1076003)(86362001)(9686003)(66946007)(4326008)(2906002)(6496006)(66476007)(33656002)(316002)(55016002)(52116002)(26005)(478600001)(186003)(5660300002)(6916009)(8676002)(33716001)(956004)(66556008)(83380400001)(44832011)(9576002)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?/o+5nQ/IFbaqbJtS9EZGX1OykpXtXbwjkWEdbFUfbxWGVCSP5xDNk0UyJRKB?=
- =?us-ascii?Q?rmZ2XOiCdz7PnQxCCCtbI+FttfQJ9dWZDIrNQJEvuVlF/TtU7Xy5Dtw+jyoZ?=
- =?us-ascii?Q?ffvgoPlyyYZVAfg4ukdV8jVqPO8gsihFEFbS2TWzlTBOWHI3Pn/oEOnw0cKL?=
- =?us-ascii?Q?D5UhlBqXs7dQuica+PF6zp3kbOW9OBmfWmvLWmuNHRNZLonn0p622VqeLcsB?=
- =?us-ascii?Q?FtISm1UP2t8w5t8kRf29LtRqBfHwRCssJDsgS4p08lHg5e6jS/eSlIzMBmBo?=
- =?us-ascii?Q?LLOan0YOIQ/qjpHvqwe34rHmkbhMzu4RiJPQc9nUOeqWaRe+TNUb72yvfsLw?=
- =?us-ascii?Q?xhdi6d9maxIOHE/5XUVHqDV9lByDPnIO4Zne/AAyZrYmmRjN4WUx6hBEpzQG?=
- =?us-ascii?Q?YjWUMQF54CocsyZ4J3QGnsZH/RhjOxqF7PES/dNkupxtzVGtw50NmO+Nfsqe?=
- =?us-ascii?Q?Y+2YJzegxakziQi98bdZ6dkDzXHwgTU3O92Hv1unSeD+W/n3YAjg6YGvFQOU?=
- =?us-ascii?Q?76uzynMrRD5XslvdgQPXuiAj0S7NFe4pscSYLF0eMH0IU1cXGgCT5UHFqEfS?=
- =?us-ascii?Q?ThflGLWVtiKo1vWW939snKJWTzG9CVaxcpHRnYJec8JMoudIiVc669n5/Jhj?=
- =?us-ascii?Q?iVXfnEBqtnibntLlfPFSxbXkxnziZtgvxfiZhIAVzBCHoosGhIepe+aeG09U?=
- =?us-ascii?Q?3lVtzj5Z+K9geBqK8TpzSFGVr6YpY7/MQ0XRVNThg+eMmbXqk/E5WcnEV8c+?=
- =?us-ascii?Q?fEJ7Ii762pvnLMap8MaDpCQ5KAofQWRd2ibcOrQIxM4Jg+JaWQwdtlTbqaK8?=
- =?us-ascii?Q?N/jDpejRPTLYpWS4Ix2CnSu4AN5icrOUHonasFOzV7XU0wsu/oN2kho6N0tz?=
- =?us-ascii?Q?2CGUCDBcB4HDVbzMtjKW/iJsxke9ScX7FwJvM40oZS80HDnitxAwIjWRK1Da?=
- =?us-ascii?Q?35GUl4Hhm8IpkBS8fbRTxO1yHWg+AUq04Yvl27WKlKYU7OU+nXJrEL+2Hqv3?=
- =?us-ascii?Q?PHsycv/t0d4bQAdxZRIn10m4u4S5Xn5yu+pxGM+6N/1yKboZMZjGPa8NhfFf?=
- =?us-ascii?Q?VTvCkwMXOjigvKq81oMAjpcqHIlPo8VM8Qo7qy0pJFyFfzpEDBkgHkPiRnJ9?=
- =?us-ascii?Q?ewOpsWqnkJop5rhPbT6wFalZLbQ5s468Rg0eVrHty5Js+5Hkw1YnHDv54NEI?=
- =?us-ascii?Q?y4nk2Ym8QFnx9WL5ptWUK7q/HkQb00tXjAIRVWd6kubNk4MveahY55Zwkkpx?=
- =?us-ascii?Q?4rKEIYtSS5rknm/oVYNblf4jyhB9hlb2ZLzFYUT8FeP8wZEx9FkuMmqAHhu+?=
- =?us-ascii?Q?zmOtK+9uQ6yovWP10LM7B/53?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 743295a2-b7bb-4210-89fc-08d966f5b0f0
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 11:52:47.3659
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HbrQf3EX6YMrcf7QfhpSzS1I4ylsIev89+FC/IvgZi9DcCtcNV7GI01p1VGyER3t51OXoHECOORUoYtwCpMJOaSFQllcT/lMbDfR2OrdFOo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4595
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10085 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0
- mlxlogscore=999 bulkscore=0 mlxscore=0 adultscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108240079
-X-Proofpoint-ORIG-GUID: BgFkqI8raG-amR3p8fnnosbWIF3PgSjN
-X-Proofpoint-GUID: BgFkqI8raG-amR3p8fnnosbWIF3PgSjN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210824113217.ncuwc3zs452mdgec@wittgenstein>
 
-Add a check for when the kzalloc() in init_rsttbl() fails.  Some of
-the callers checked for NULL and some did not.  I went down the call
-tree and added NULL checks where ever they were missing.
+On Tue, Aug 24, 2021 at 01:32:17PM +0200, Christian Brauner wrote:
+> On Thu, Aug 19, 2021 at 03:26:30AM +0300, Kari Argillander wrote:
+> > We have now new mount api as described in Documentation/filesystems. We
+> > should use it as it gives us some benefits which are desribed here
+> > lore.kernel.org/linux-fsdevel/159646178122.1784947.11705396571718464082.stgit@warthog.procyon.org.uk/
+> > 
+> > Nls loading is changed a to load with string. This did make code also
+> > little cleaner.
+> > 
+> > Also try to use fsparam_flag_no as much as possible. This is just nice
+> > little touch and is not mandatory but it should not make any harm. It
+> > is just convenient that we can use example acl/noacl mount options.
+> > 
+> > Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
+> > ---
+> 
+> Looks mostly sane to me. Thanks!
+> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
 
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- fs/ntfs3/fslog.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+Thanks for ack.
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 397ba6a956e7..209fe6ddead0 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -807,7 +807,11 @@ static inline struct RESTART_TABLE *init_rsttbl(u16 esize, u16 used)
- 	u32 off;
- 	u32 bytes = esize * used + sizeof(struct RESTART_TABLE);
- 	u32 lf = sizeof(struct RESTART_TABLE) + (used - 1) * esize;
--	struct RESTART_TABLE *t = ntfs_zalloc(bytes);
-+	struct RESTART_TABLE *t;
-+
-+	t = ntfs_zalloc(bytes);
-+	if (!t)
-+		return NULL;
- 
- 	t->size = cpu_to_le16(esize);
- 	t->used = cpu_to_le16(used);
-@@ -831,7 +835,11 @@ static inline struct RESTART_TABLE *extend_rsttbl(struct RESTART_TABLE *tbl,
- 	u16 esize = le16_to_cpu(tbl->size);
- 	__le32 osize = cpu_to_le32(bytes_per_rt(tbl));
- 	u32 used = le16_to_cpu(tbl->used);
--	struct RESTART_TABLE *rt = init_rsttbl(esize, used + add);
-+	struct RESTART_TABLE *rt;
-+
-+	rt = init_rsttbl(esize, used + add);
-+	if (!rt)
-+		return NULL;
- 
- 	memcpy(rt + 1, tbl + 1, esize * used);
- 
-@@ -864,8 +872,11 @@ static inline void *alloc_rsttbl_idx(struct RESTART_TABLE **tbl)
- 	__le32 *e;
- 	struct RESTART_TABLE *t = *tbl;
- 
--	if (!t->first_free)
-+	if (!t->first_free) {
- 		*tbl = t = extend_rsttbl(t, 16, ~0u);
-+		if (!t)
-+			return NULL;
-+	}
- 
- 	off = le32_to_cpu(t->first_free);
- 
-@@ -4482,6 +4493,10 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 		}
- 
- 		dp = alloc_rsttbl_idx(&dptbl);
-+		if (!dp) {
-+			err = -ENOMEM;
-+			goto out;
-+		}
- 		dp->target_attr = cpu_to_le32(t16);
- 		dp->transfer_len = cpu_to_le32(t32 << sbi->cluster_bits);
- 		dp->lcns_follow = cpu_to_le32(t32);
--- 
-2.20.1
+> 
+> >  fs/ntfs3/ntfs_fs.h |   1 +
+> >  fs/ntfs3/super.c   | 392 +++++++++++++++++++++++----------------------
+> >  2 files changed, 199 insertions(+), 194 deletions(-)
+> > 
+> > diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+> > index 0c3ac89c3115..1f07dd17c6c7 100644
+> > --- a/fs/ntfs3/ntfs_fs.h
+> > +++ b/fs/ntfs3/ntfs_fs.h
+> > @@ -50,6 +50,7 @@
+> >  
+> >  struct ntfs_mount_options {
+> >  	struct nls_table *nls;
+> > +	char *nls_name;
+> >  
+> >  	kuid_t fs_uid;
+> >  	kgid_t fs_gid;
+> > diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+> > index 702da1437cfd..39936a4ce831 100644
+> > --- a/fs/ntfs3/super.c
+> > +++ b/fs/ntfs3/super.c
+> > @@ -28,10 +28,11 @@
+> >  #include <linux/buffer_head.h>
+> >  #include <linux/exportfs.h>
+> >  #include <linux/fs.h>
+> > +#include <linux/fs_context.h>
+> > +#include <linux/fs_parser.h>
+> >  #include <linux/iversion.h>
+> >  #include <linux/module.h>
+> >  #include <linux/nls.h>
+> > -#include <linux/parser.h>
+> >  #include <linux/seq_file.h>
+> >  #include <linux/statfs.h>
+> >  
+> > @@ -197,8 +198,32 @@ void *ntfs_put_shared(void *ptr)
+> >  	return ret;
+> >  }
+> >  
+> > +/*
+> > + * Load nls table or if @nls is utf8 then return NULL because
+> > + * nls=utf8 is totally broken.
+> > + */
+> > +static struct nls_table *ntfs_load_nls(char *nls)
+> > +{
+> > +	struct nls_table *ret;
+> > +
+> > +	if (!nls)
+> > +		nls = CONFIG_NLS_DEFAULT;
+> > +
+> > +	if (strcmp(nls, "utf8"))
+> > +		return NULL;
+> > +	if (strcmp(nls, CONFIG_NLS_DEFAULT))
+> > +		return load_nls_default();
+> > +
+> > +	ret = load_nls(nls);
+> > +	if (!ret)
+> > +		return ERR_PTR(-EINVAL);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  static inline void clear_mount_options(struct ntfs_mount_options *options)
+> >  {
+> > +	kfree(options->nls_name);
+> >  	unload_nls(options->nls);
+> >  }
+> >  
+> > @@ -221,202 +246,150 @@ enum Opt {
+> >  	Opt_err,
+> >  };
+> >  
+> > -static const match_table_t ntfs_tokens = {
+> > -	{ Opt_uid, "uid=%u" },
+> > -	{ Opt_gid, "gid=%u" },
+> > -	{ Opt_umask, "umask=%o" },
+> > -	{ Opt_dmask, "dmask=%o" },
+> > -	{ Opt_fmask, "fmask=%o" },
+> > -	{ Opt_immutable, "sys_immutable" },
+> > -	{ Opt_discard, "discard" },
+> > -	{ Opt_force, "force" },
+> > -	{ Opt_sparse, "sparse" },
+> > -	{ Opt_nohidden, "nohidden" },
+> > -	{ Opt_acl, "acl" },
+> > -	{ Opt_showmeta, "showmeta" },
+> > -	{ Opt_nls, "nls=%s" },
+> > -	{ Opt_prealloc, "prealloc" },
+> > -	{ Opt_no_acs_rules, "no_acs_rules" },
+> > -	{ Opt_err, NULL },
+> > +static const struct fs_parameter_spec ntfs_fs_parameters[] = {
+> > +	fsparam_u32("uid",			Opt_uid),
+> > +	fsparam_u32("gid",			Opt_gid),
+> > +	fsparam_u32oct("umask",			Opt_umask),
+> > +	fsparam_u32oct("dmask",			Opt_dmask),
+> > +	fsparam_u32oct("fmask",			Opt_fmask),
+> > +	fsparam_flag_no("sys_immutable",	Opt_immutable),
+> > +	fsparam_flag_no("discard",		Opt_discard),
+> > +	fsparam_flag_no("force",		Opt_force),
+> > +	fsparam_flag_no("sparse",		Opt_sparse),
+> > +	fsparam_flag("nohidden",		Opt_nohidden),
+> > +	fsparam_flag_no("acl",			Opt_acl),
+> > +	fsparam_flag_no("showmeta",		Opt_showmeta),
+> > +	fsparam_string("nls",			Opt_nls),
+> > +	fsparam_flag_no("prealloc",		Opt_prealloc),
+> > +	fsparam_flag("no_acs_rules",		Opt_no_acs_rules),
+> > +	{}
+> >  };
+> >  
+> > -static noinline int ntfs_parse_options(struct super_block *sb, char *options,
+> > -				       int silent,
+> > -				       struct ntfs_mount_options *opts)
+> > +static int ntfs_fs_parse_param(struct fs_context *fc,
+> > +			       struct fs_parameter *param)
+> >  {
+> > -	char *p;
+> > -	substring_t args[MAX_OPT_ARGS];
+> > -	int option;
+> > -	char nls_name[30];
+> > -	struct nls_table *nls;
+> > -
+> > -	opts->fs_uid = current_uid();
+> > -	opts->fs_gid = current_gid();
+> > -	opts->fs_fmask_inv = opts->fs_dmask_inv = ~current_umask();
+> > -	nls_name[0] = 0;
+> > -
+> > -	if (!options)
+> > -		goto out;
+> > -
+> > -	while ((p = strsep(&options, ","))) {
+> > -		int token;
+> > +	struct ntfs_sb_info *sbi = fc->s_fs_info;
+> > +	struct ntfs_mount_options *opts = &sbi->options;
+> > +	struct fs_parse_result result;
+> > +	int opt;
+> >  
+> > -		if (!*p)
+> > -			continue;
+> > +	opt = fs_parse(fc, ntfs_fs_parameters, param, &result);
+> > +	if (opt < 0)
+> > +		return opt;
+> >  
+> > -		token = match_token(p, ntfs_tokens, args);
+> > -		switch (token) {
+> > -		case Opt_immutable:
+> > -			opts->sys_immutable = 1;
+> > -			break;
+> > -		case Opt_uid:
+> > -			if (match_int(&args[0], &option))
+> > -				return -EINVAL;
+> > -			opts->fs_uid = make_kuid(current_user_ns(), option);
+> > -			if (!uid_valid(opts->fs_uid))
+> > -				return -EINVAL;
+> > -			opts->uid = 1;
+> > -			break;
+> > -		case Opt_gid:
+> > -			if (match_int(&args[0], &option))
+> > -				return -EINVAL;
+> > -			opts->fs_gid = make_kgid(current_user_ns(), option);
+> > -			if (!gid_valid(opts->fs_gid))
+> > -				return -EINVAL;
+> > -			opts->gid = 1;
+> > -			break;
+> > -		case Opt_umask:
+> > -			if (match_octal(&args[0], &option))
+> > -				return -EINVAL;
+> > -			opts->fs_fmask_inv = opts->fs_dmask_inv = ~option;
+> > -			opts->fmask = opts->dmask = 1;
+> > -			break;
+> > -		case Opt_dmask:
+> > -			if (match_octal(&args[0], &option))
+> > -				return -EINVAL;
+> > -			opts->fs_dmask_inv = ~option;
+> > -			opts->dmask = 1;
+> > -			break;
+> > -		case Opt_fmask:
+> > -			if (match_octal(&args[0], &option))
+> > -				return -EINVAL;
+> > -			opts->fs_fmask_inv = ~option;
+> > -			opts->fmask = 1;
+> > -			break;
+> > -		case Opt_discard:
+> > -			opts->discard = 1;
+> > -			break;
+> > -		case Opt_force:
+> > -			opts->force = 1;
+> > -			break;
+> > -		case Opt_sparse:
+> > -			opts->sparse = 1;
+> > -			break;
+> > -		case Opt_nohidden:
+> > -			opts->nohidden = 1;
+> > -			break;
+> > -		case Opt_acl:
+> > +	switch (opt) {
+> > +	case Opt_uid:
+> > +		opts->fs_uid = make_kuid(current_user_ns(), result.uint_32);
+> > +		if (!uid_valid(opts->fs_uid))
+> > +			return -EINVAL;
+> > +		opts->uid = 1;
+> 
+> If you're only using opts->uid to check whether ->fs_*id is set then you
+> can probably simplify this. You're expressing the expectation that if
+> ->fs_*id is set that it must be a valid *id. So you could initialize
+> ->fs_*id to INVALID_*ID and then instead of having to check "if
+> (opts->uid)" in later code you can directly check "if (valid_uid(opts->fs_uid))".
+> Just a thought.
 
+Yeah opts->uid can be refactored away. It is only used to check if we
+have changed fs_uid. Then show_options knows that we have change that
+option.
+
+There is couple options to refactor opts->*id away
+	- show_options will check if (fs_*id != current_uid())
+	- show_options will check if (fs_*id != GLOBAL_ROOT_UID)
+	- show_options will always show fs_*id
+		I probably prefer this one, because who will know know
+		when driver is not showing option. Of course driver is
+		not showing option when it is default but in this case
+		default is not so easy to understand.
+
+This is how other did it in show_options
+adfs/exfat:
+	if (!uid_eq(opts->fs_uid, GLOBAL_ROOT_UID))
+ext2/ext4:
+	if (!uid_eq(sbi->s_resuid, make_kuid(&init_user_ns, EXT2_DEF_RESUID)) ||
+	le16_to_cpu(es->s_def_resuid) != EXT2_DEF_RESUID)
+hfs/hpfs/ntfs:
+	always print
+jfs (no way like this, seems like bug):
+	if (uid_valid(sbi->uid))
+udf (same like ntfs3 right now):
+	if (UDF_QUERY_FLAG(sb, UDF_FLAG_UID_SET))
+ 
+> > +		break;
+> > +	case Opt_gid:
+> > +		opts->fs_gid = make_kgid(current_user_ns(), result.uint_32);
+> > +		if (!gid_valid(opts->fs_gid))
+> > +			return -EINVAL;
+> > +		opts->gid = 1;
+> > +		break;
+> > +	case Opt_umask:
+> > +		opts->fs_fmask_inv = ~result.uint_32;
+> > +		opts->fs_dmask_inv = ~result.uint_32;
+> > +		opts->fmask = 1;
+> > +		opts->dmask = 1;
+> > +		break;
+> > +	case Opt_dmask:
+> > +		opts->fs_dmask_inv = ~result.uint_32;
+> > +		opts->dmask = 1;
+> > +		break;
+> > +	case Opt_fmask:
+> > +		opts->fs_fmask_inv = ~result.uint_32;
+> > +		opts->fmask = 1;
+> > +		break;
+> > +	case Opt_immutable:
+> > +		opts->sys_immutable = result.negated ? 0 : 1;
+> > +		break;
+> > +	case Opt_discard:
+> > +		opts->discard = result.negated ? 0 : 1;
+> > +		break;
+> > +	case Opt_force:
+> > +		opts->force = result.negated ? 0 : 1;
+> > +		break;
+> > +	case Opt_sparse:
+> > +		opts->sparse = result.negated ? 0 : 1;
+> > +		break;
+> > +	case Opt_nohidden:
+> > +		opts->nohidden = 1;
+> > +		break;
+> > +	case Opt_acl:
+> > +		if (!result.negated)
+> >  #ifdef CONFIG_NTFS3_FS_POSIX_ACL
+> > -			sb->s_flags |= SB_POSIXACL;
+> > -			break;
+> > +			fc->sb_flags |= SB_POSIXACL;
+> >  #else
+> > -			ntfs_err(sb, "support for ACL not compiled in!");
+> > -			return -EINVAL;
+> > +			return invalf(fc, "ntfs3: Support for ACL not compiled in!");
+> >  #endif
+> > -		case Opt_showmeta:
+> > -			opts->showmeta = 1;
+> > -			break;
+> > -		case Opt_nls:
+> > -			match_strlcpy(nls_name, &args[0], sizeof(nls_name));
+> > -			break;
+> > -		case Opt_prealloc:
+> > -			opts->prealloc = 1;
+> > -			break;
+> > -		case Opt_no_acs_rules:
+> > -			opts->no_acs_rules = 1;
+> > -			break;
+> > -		default:
+> > -			if (!silent)
+> > -				ntfs_err(
+> > -					sb,
+> > -					"Unrecognized mount option \"%s\" or missing value",
+> > -					p);
+> > -			//return -EINVAL;
+> > -		}
+> > +		else
+> > +			fc->sb_flags &= ~SB_POSIXACL;
+> > +		break;
+> > +	case Opt_showmeta:
+> > +		opts->showmeta = result.negated ? 0 : 1;
+> > +		break;
+> > +	case Opt_nls:
+> > +		opts->nls_name = param->string;
+> > +		param->string = NULL;
+> > +		break;
+> > +	case Opt_prealloc:
+> > +		opts->prealloc = result.negated ? 0 : 1;
+> > +		break;
+> > +	case Opt_no_acs_rules:
+> > +		opts->no_acs_rules = 1;
+> > +		break;
+> > +	default:
+> > +		/* Should not be here unless we forget add case. */
+> > +		return -EINVAL;
+> >  	}
+> > -
+> > -out:
+> > -	if (!strcmp(nls_name[0] ? nls_name : CONFIG_NLS_DEFAULT, "utf8")) {
+> > -		/* For UTF-8 use utf16s_to_utf8s/utf8s_to_utf16s instead of nls */
+> > -		nls = NULL;
+> > -	} else if (nls_name[0]) {
+> > -		nls = load_nls(nls_name);
+> > -		if (!nls) {
+> > -			ntfs_err(sb, "failed to load \"%s\"", nls_name);
+> > -			return -EINVAL;
+> > -		}
+> > -	} else {
+> > -		nls = load_nls_default();
+> > -		if (!nls) {
+> > -			ntfs_err(sb, "failed to load default nls");
+> > -			return -EINVAL;
+> > -		}
+> > -	}
+> > -	opts->nls = nls;
+> > -
+> >  	return 0;
+> >  }
+> >  
+> > -static int ntfs_remount(struct super_block *sb, int *flags, char *data)
+> > +static int ntfs_fs_reconfigure(struct fs_context *fc)
+> >  {
+> > -	int err, ro_rw;
+> > +	struct super_block *sb = fc->root->d_sb;
+> >  	struct ntfs_sb_info *sbi = sb->s_fs_info;
+> > -	struct ntfs_mount_options old_opts;
+> > -	char *orig_data = kstrdup(data, GFP_KERNEL);
+> > +	struct ntfs_mount_options *new_opts = fc->s_fs_info;
+> > +	int ro_rw;
+> >  
+> > -	if (data && !orig_data)
+> > -		return -ENOMEM;
+> > -
+> > -	/* Store  original options */
+> > -	memcpy(&old_opts, &sbi->options, sizeof(old_opts));
+> > -	clear_mount_options(&sbi->options);
+> > -	memset(&sbi->options, 0, sizeof(sbi->options));
+> > -
+> > -	err = ntfs_parse_options(sb, data, 0, &sbi->options);
+> > -	if (err)
+> > -		goto restore_opts;
+> > -
+> > -	ro_rw = sb_rdonly(sb) && !(*flags & SB_RDONLY);
+> > +	ro_rw = sb_rdonly(sb) && !(fc->sb_flags & SB_RDONLY);
+> >  	if (ro_rw && (sbi->flags & NTFS_FLAGS_NEED_REPLAY)) {
+> > -		ntfs_warn(
+> > -			sb,
+> > -			"Couldn't remount rw because journal is not replayed. Please umount/remount instead\n");
+> > -		err = -EINVAL;
+> > -		goto restore_opts;
+> > +		errorf(fc, "ntfs3: Couldn't remount rw because journal is not replayed. Please umount/remount instead\n");
+> > +		goto clear_new_fc;
+> >  	}
+> >  
+> >  	sync_filesystem(sb);
+> >  
+> >  	if (ro_rw && (sbi->volume.flags & VOLUME_FLAG_DIRTY) &&
+> > -	    !sbi->options.force) {
+> > -		ntfs_warn(sb, "volume is dirty and \"force\" flag is not set!");
+> > -		err = -EINVAL;
+> > -		goto restore_opts;
+> > +	    !new_opts->force) {
+> > +		errorf(fc, "ntfs3: Volume is dirty and \"force\" flag is not set!");
+> > +		goto clear_new_fc;
+> >  	}
+> >  
+> > -	clear_mount_options(&old_opts);
+> > +	/*
+> > +	 * TODO: We should probably check some mount options does
+> > +	 * they all work after remount. Example can we really change
+> > +	 * nls. Remove this comment when all testing is done or
+> > +	 * even better xfstest is made for it.
+> > +	 */
+> >  
+> > -	ntfs_info(sb, "re-mounted. Opts: %s", orig_data);
+> > -	err = 0;
+> > -	goto out;
+> > +	new_opts->nls = ntfs_load_nls(new_opts->nls_name);
+> > +	if (IS_ERR(new_opts->nls)) {
+> > +		errorf(fc, "ntfs3: Cannot load nls %s", new_opts->nls_name);
+> > +		goto clear_new_fc;
+> > +	}
+> >  
+> > -restore_opts:
+> >  	clear_mount_options(&sbi->options);
+> > -	memcpy(&sbi->options, &old_opts, sizeof(old_opts));
+> > +	sbi->options = *new_opts;
+> > +	return 0;
+> >  
+> > -out:
+> > -	kfree(orig_data);
+> > -	return err;
+> > +clear_new_fc:
+> > +	clear_mount_options(new_opts);
+> > +	return -EINVAL;
+> >  }
+> >  
+> >  static struct kmem_cache *ntfs_inode_cachep;
+> > @@ -545,10 +518,8 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
+> >  		seq_printf(m, ",fmask=%04o", ~opts->fs_fmask_inv);
+> >  	if (opts->dmask)
+> >  		seq_printf(m, ",dmask=%04o", ~opts->fs_dmask_inv);
+> > -	if (opts->nls)
+> > -		seq_printf(m, ",nls=%s", opts->nls->charset);
+> > -	else
+> > -		seq_puts(m, ",nls=utf8");
+> > +	if (opts->nls_name)
+> > +		seq_printf(m, ",nls=%s", opts->nls_name);
+> >  	if (opts->sys_immutable)
+> >  		seq_puts(m, ",sys_immutable");
+> >  	if (opts->discard)
+> > @@ -619,7 +590,6 @@ static const struct super_operations ntfs_sops = {
+> >  	.statfs = ntfs_statfs,
+> >  	.show_options = ntfs_show_options,
+> >  	.sync_fs = ntfs_sync_fs,
+> > -	.remount_fs = ntfs_remount,
+> >  	.write_inode = ntfs3_write_inode,
+> >  };
+> >  
+> > @@ -883,10 +853,10 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+> >  }
+> >  
+> >  /* try to mount*/
+> > -static int ntfs_fill_super(struct super_block *sb, void *data, int silent)
+> > +static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+> >  {
+> >  	int err;
+> > -	struct ntfs_sb_info *sbi;
+> > +	struct ntfs_sb_info *sbi = sb->s_fs_info;
+> >  	struct block_device *bdev = sb->s_bdev;
+> >  	struct inode *bd_inode = bdev->bd_inode;
+> >  	struct request_queue *rq = bdev_get_queue(bdev);
+> > @@ -905,11 +875,6 @@ static int ntfs_fill_super(struct super_block *sb, void *data, int silent)
+> >  
+> >  	ref.high = 0;
+> >  
+> > -	sbi = ntfs_zalloc(sizeof(struct ntfs_sb_info));
+> > -	if (!sbi)
+> > -		return -ENOMEM;
+> > -
+> > -	sb->s_fs_info = sbi;
+> >  	sbi->sb = sb;
+> >  	sb->s_flags |= SB_NODIRATIME;
+> >  	sb->s_magic = 0x7366746e; // "ntfs"
+> > @@ -921,10 +886,6 @@ static int ntfs_fill_super(struct super_block *sb, void *data, int silent)
+> >  	ratelimit_state_init(&sbi->msg_ratelimit, DEFAULT_RATELIMIT_INTERVAL,
+> >  			     DEFAULT_RATELIMIT_BURST);
+> >  
+> > -	err = ntfs_parse_options(sb, data, silent, &sbi->options);
+> > -	if (err)
+> > -		goto out;
+> > -
+> >  	if (!rq || !blk_queue_discard(rq) || !rq->limits.discard_granularity) {
+> >  		;
+> 
+> Sidenote, why is this lonely semicolon here? Maybe you can rewrite this
+> so you don't need this branch at all.
+
+I have patch series coming which will refactor fill_super and this will
+be there. So I will not touch this in this series.
+
+> 
+> >  	} else {
+> > @@ -933,6 +894,14 @@ static int ntfs_fill_super(struct super_block *sb, void *data, int silent)
+> >  			~(u64)(sbi->discard_granularity - 1);
+> >  	}
+> >  
+> > +	sbi->options.nls = ntfs_load_nls(sbi->options.nls_name);
+> > +	if (IS_ERR(sbi->options.nls)) {
+> > +		ntfs_err(sb, "ntfs3: Cannot load nls %s",
+> > +				sbi->options.nls_name);
+> > +		err = PTR_ERR(sbi->options.nls);
+> > +		goto out;
+> > +	}
+> > +
+> >  	sb_set_blocksize(sb, PAGE_SIZE);
+> >  
+> >  	/* parse boot */
+> > @@ -1400,19 +1369,54 @@ int ntfs_discard(struct ntfs_sb_info *sbi, CLST lcn, CLST len)
+> >  	return err;
+> >  }
+> >  
+> > -static struct dentry *ntfs_mount(struct file_system_type *fs_type, int flags,
+> > -				 const char *dev_name, void *data)
+> > +static int ntfs_fs_get_tree(struct fs_context *fc)
+> > +{
+> > +	return get_tree_bdev(fc, ntfs_fill_super);
+> > +}
+> > +
+> > +static void ntfs_fs_free(struct fs_context *fc)
+> > +{
+> > +	struct ntfs_sb_info *sbi = fc->s_fs_info;
+> > +
+> > +	if (sbi)
+> > +		put_ntfs(sbi);
+> > +}
+> > +
+> > +static const struct fs_context_operations ntfs_context_ops = {
+> > +	.parse_param	= ntfs_fs_parse_param,
+> > +	.get_tree	= ntfs_fs_get_tree,
+> > +	.reconfigure	= ntfs_fs_reconfigure,
+> > +	.free		= ntfs_fs_free,
+> > +};
+> > +
+> > +static int ntfs_init_fs_context(struct fs_context *fc)
+> >  {
+> > -	return mount_bdev(fs_type, flags, dev_name, data, ntfs_fill_super);
+> > +	struct ntfs_sb_info *sbi;
+> > +
+> > +	sbi = ntfs_zalloc(sizeof(struct ntfs_sb_info));
+> > +	if (!sbi)
+> > +		return -ENOMEM;
+> > +
+> > +	/* Default options */
+> > +	sbi->options.fs_uid = current_uid();
+> > +	sbi->options.fs_gid = current_gid();
+> > +	sbi->options.fs_fmask_inv = ~current_umask();
+> > +	sbi->options.fs_dmask_inv = ~current_umask();
+> > +
+> > +	fc->s_fs_info = sbi;
+> > +	fc->ops = &ntfs_context_ops;
+> > +
+> > +	return 0;
+> >  }
+> >  
+> >  // clang-format off
+> >  static struct file_system_type ntfs_fs_type = {
+> > -	.owner		= THIS_MODULE,
+> > -	.name		= "ntfs3",
+> > -	.mount		= ntfs_mount,
+> > -	.kill_sb	= kill_block_super,
+> > -	.fs_flags	= FS_REQUIRES_DEV | FS_ALLOW_IDMAP,
+> > +	.owner			= THIS_MODULE,
+> > +	.name			= "ntfs3",
+> > +	.init_fs_context	= ntfs_init_fs_context,
+> > +	.parameters		= ntfs_fs_parameters,
+> > +	.kill_sb		= kill_block_super,
+> > +	.fs_flags		= FS_REQUIRES_DEV | FS_ALLOW_IDMAP,
+> >  };
+> >  // clang-format on
+> >  
+> > -- 
+> > 2.25.1
+> > 
