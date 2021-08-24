@@ -1,76 +1,76 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4CC72
-	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 09:43:03 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17O8q24a021191;
-	Tue, 24 Aug 2021 09:43:02 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AC572
+	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 09:53:24 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17O7LrxU030422;
+	Tue, 24 Aug 2021 09:53:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=yRKikx1elmcWMA54tugeZWJsY4HZeMEEjuQYPGJ43zw=;
- b=gYzCApxg5xOvuNzzpA7Bl24eo0Rw+Nv+QPrjnHsw//hVbdP18++srK4iY8wWbEngiVrk
- qTzncB4Z3l39O6VXd7lsszVYbRDkPfVCPq661aKD8b1SiCSezVm/NZq02iv4h9gI3H3F
- Jj9ymUblLhoMzFw8oVqnduOUfJa0wfFwbHSO/y2u78Lw0wKHqI3HzutSKUoF4KdzP4F5
- sHRliGlQ+uRxA0lesvYHAgR7Fuik/+feOLuH4yj512Vi29yhg/T6jMm9Qoqbro5nvk74
- zbMPMWMxTWZiyqv7xkwLH11JNjkrJhUDA0oP2FuQ5I0VpSSEImFm267lxpR8Q0iuda9q FA== 
+ bh=zBR6Auuw8TDb/kJQJmnYoxdABn16affgVeJptk+hYxg=;
+ b=aFBn7O1X7wUv/Ns3UvEkeYD+JnK+qMxp2frl3Rtnk6D7FtbeJ9ooEvXtxC+QjpWBn8yW
+ Wj8Dn7zAXzlTPEEF8+HS8fvH92ZLmfOA1543jRM0P3lf1VgD7RIVhLLEq4jZAo/CtwqS
+ fBGXZznQ//N60r3ibjamT90vsitKilSk8cVWPis+iHyKn4WMo1PTp6UTVJb0sBoYdGHI
+ 4Zxo4UlELyBd9avrja1S3OhwDzG88JvY3fFt6U+ZrwF0eE40agg3NwAxHVzU7/TGPQjf
+ lfMKAMZGru4YE3mx6RaLyIAAgg91ad0VsNe97PdDMRV9d+qY0rtjndOBLYrfPliw/7oe OQ== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : content-type : mime-version; s=corp-2020-01-29;
- bh=yRKikx1elmcWMA54tugeZWJsY4HZeMEEjuQYPGJ43zw=;
- b=ODetnqmT6TCbIWpl9CCInYpPycJ+sAvYm+M337GyYlZxrSHwnUQH6qGvvYx+8JV/KvoF
- iZKVFqDhypr+Sz1XWUZBBEUAAJ8JQJbS0EtaZRdf0CR0n4es83jdNzH+BxPe2blQK2bt
- zyd+XCo2ckQ8Pm/9/RhuebRPqTxz13DmXmI3qtiQaR/YDWSsxtNDolu5+4DK3lznlbXn
- 9NZ2eaLjzdLfk3u4SX+c03nnO6JDqA/DvFBNDUCEsOkmXtCI+O10AfrHmZdrWd0+6R/i
- NSaNsMXEN4qMAQ9JapgEsSji81zJNk0PK104wciv+W/nJFN5si8EySKk7NNTU3NQdGIv 4g== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3amwmv84b6-1
+ bh=zBR6Auuw8TDb/kJQJmnYoxdABn16affgVeJptk+hYxg=;
+ b=gwiUqhwF4zqilnlOvmjocJzmU3ffsADO7EGMa/YKbykrlu2gnpIE4FAUgeHYyKNrYqZD
+ XAxsDSsOcl3nCk+sU+sAPouAhjSZSejZ4VrBhEIK5iqRHUbqqjLeiftVZCvdHe21Dx+Q
+ BlSU79nbBNB8UwhLfNunymAddc0xr8MKlQsYfoUhQWFix7uHVp/CwsQ/LyTPzZt8U9ZP
+ VbwCYrHeeO/wjKO4RavrRY+/sVYj8mjGLy0Wp8nSWeKthaAAZniD1FuzhXUOuViOfUFa
+ gNMMmJj2XQHKn5nSregBtHn8LDM5kQpxG63yF1EmReWm0V1UPI6ehnYvbGNsMfUJJzld eQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3amv678d29-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Aug 2021 09:43:02 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17O9fEoL119538;
-	Tue, 24 Aug 2021 09:43:01 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2105.outbound.protection.outlook.com [104.47.55.105])
-	by aserp3020.oracle.com with ESMTP id 3ajsa4ysd9-1
+	Tue, 24 Aug 2021 09:53:24 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17O9jKmw011381;
+	Tue, 24 Aug 2021 09:53:23 GMT
+Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2044.outbound.protection.outlook.com [104.47.74.44])
+	by aserp3030.oracle.com with ESMTP id 3ajqheas4n-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Aug 2021 09:43:01 +0000
+	Tue, 24 Aug 2021 09:53:23 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hV13rXStDrYzRQTZ0wLrFGeWzlLnatwwws8wlNZbHNXH412xTRVBLL6PDWpIvFyGr7lcWDkiouJl0dz9Mdlqyq45vuBfch8iNqy9ngO+HbsUtkV1salydIlt0EyZqGS18hV42v+605LTE3yPWvzoYJrOySK7TQCnTinV+nox2V80YddhqwAtmEn8ergtSmWWYy9f0JpQhGrWeDwgMcK0XLE+Bzoc/2dyjQUKSAvhfugRTrUoRnvCh85q92oONyFD+sxHYaqfHckk+eear6BMp5+mcYg+iW5G+2cDAUgLk6Unyt6OGX+7r5nR3YocK4uLxZGoev/0LblOd8Pn11WXpQ==
+ b=SyFO8bc+S72pssrs1mhsh7z7v+YQIL1nFwkB927ZKtbM0OACG8L8VwSIFENIZyMXEUqzrJLdJ+mAHz/MqQtflVh1e+pkfcMBywbZGyHPeU7PADhevQmNfdaO3XdnbttNr6Ud+DBKzaKdn7NUexIbEuPuTGeBYOKeA9YCFRz298R+xLmY9iHJAvo/cMuZZPTDwvaLDf6WzXebBphjZYW8bFnaiuuS3fiO0KxcC1EBDHU10xmRBpHHRInEOWTJzM+QVoMibAdkttvBlucKUa3cj44QA6tD2AgcFHENAzpUYjugrMy5CJI5UjoikP+IM7xf8YwXnH3ZWA6+UZU8OabEPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yRKikx1elmcWMA54tugeZWJsY4HZeMEEjuQYPGJ43zw=;
- b=ao59yYoGa96nNYZPcQuEAA8q2xPskDxDAb50YU3+JoT0gMU58XbwpbuHasZU5O14z5hfFaR9fJ/Xg2ZKNhJ8udLWXOIMWaCojz8w/TbKSvMTFfFW3Rj/ol4OUw9Ek9aIONhAPUgb2lb/82ypw+q3WYKLXTdzrYSHNJFFXWJYwJdS4tcT/gCG+lo+ZXieVDkqvYGW++8nrpImGFZxWldi2tiace77XaA9iNg7T8N6CqW+yE6+T0lgUIto9feAMfBRaJjvMFDinRGEiHpDd+J7PGuBdQcmb4+kcMUhCsYXcJUUa8+Pgvp/XI566re8H9JtZGCdFoAurENgUS/xYUWpVg==
+ bh=zBR6Auuw8TDb/kJQJmnYoxdABn16affgVeJptk+hYxg=;
+ b=K9VWdoFDhxKAK2eD498vKgoaWg0ObHvIwAshZTGNQhyQ+hSppr/MO2ZxbA82XGjikcXmZzCLWgjrYTiRMhtNcN6dnn8I9RdQ4Hanv5fpx46+IutuIdIlH+9Z/+izu961uuxYgHLZua4Ksohz0DjAy8A10hZquPxdhs/94QUxStb1aF9zG3NYlLRQot8qyJfA9CUupwey8XuarvI7fsBG6GQkXrAXW/g96/TzZGFMk1m/4W6E7rxONf0pPZ9nvVYe2WrZpn6hE6motFB1hWRB0N2ov85fageV0jGqUvF/tl/ToyQUZ772GKPMvyMXnsGaBrass+E8nOIZIG7ciJfsZQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yRKikx1elmcWMA54tugeZWJsY4HZeMEEjuQYPGJ43zw=;
- b=tgPpF8f28pOnvXBYTNoW9lzFOrPKAEso4zGgpMZM00YQEOrfLnEj8+T5oD8v9TZrNllgndH13jux1MBq0MoTiXtVIMSOTHAPqxd77pFS5zXhoaadogdVoWVwpCPzZyOeZShGOW4vHyKYghSR1HlJ3UhHreqM99/eeutfcYhXCdk=
+ bh=zBR6Auuw8TDb/kJQJmnYoxdABn16affgVeJptk+hYxg=;
+ b=xNRhLL3mjURqZ66jHDlRvl23dcwKgozCuNvqTEbRsIof0aPSOSUvqK0oWi8PvX6XRq1r2UD6L9kVu3pRG1F8LhnPkpw/E3R7c/AfvTPa7NosKu3WrEfugGuK2GwV+hlX/cj8QJO4Q4TdpoJ/zQ9s+9TRh1f73M0GBSyGhbfimuE=
 Authentication-Results: paragon-software.com; dkim=none (message not signed)
  header.d=none;paragon-software.com; dmarc=none action=none
  header.from=oracle.com;
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO1PR10MB4500.namprd10.prod.outlook.com
- (2603:10b6:303:98::18) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:301:2d::28) by MWHPR10MB1246.namprd10.prod.outlook.com
+ (2603:10b6:301:5::21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Tue, 24 Aug
- 2021 09:42:59 +0000
+ 2021 09:53:21 +0000
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4436.025; Tue, 24 Aug 2021
- 09:42:59 +0000
-Date: Tue, 24 Aug 2021 12:42:49 +0300
+ 09:53:21 +0000
+Date: Tue, 24 Aug 2021 12:53:09 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: almaz.alexandrovich@paragon-software.com
 Cc: ntfs3@lists.linux.dev
 Subject: [bug report] fs/ntfs3: Add attrib operations
-Message-ID: <20210824094249.GA22644@kili>
+Message-ID: <20210824095309.GA23599@kili>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZR0P278CA0101.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:23::16) To MWHPR1001MB2365.namprd10.prod.outlook.com
+X-ClientProxiedBy: ZRAP278CA0013.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:10::23) To MWHPR1001MB2365.namprd10.prod.outlook.com
  (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -79,64 +79,64 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kili (62.8.83.99) by ZR0P278CA0101.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:23::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Tue, 24 Aug 2021 09:42:57 +0000
+Received: from kili (62.8.83.99) by ZRAP278CA0013.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend Transport; Tue, 24 Aug 2021 09:53:19 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 73fc2f34-eee2-46b0-4687-08d966e38f1d
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4500:
+X-MS-Office365-Filtering-Correlation-Id: ce7834ae-4557-4cd6-88d3-08d966e50180
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1246:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<CO1PR10MB4500823308CD1A481E3436708EC59@CO1PR10MB4500.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+	<MWHPR10MB12466061D86F205531C4DEEB8EC59@MWHPR10MB1246.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	SHOvgQkavwpiRs5Y2IU0yoHQdoeB5LntWJa1MqVVFVbqR3UtDkqieLeUCR2YkMOnhUlMZx33prceRj6HEtn1DUYL9SXJ7Hx7grYtsS7+/9RekWmhx+QOLd30BOW3AWJlt/qbhRCWJywZByXXr/IN725uh+dtIXxoRVNqByLn5Z+Ao6x4tGDIc8QyWPaLMzDlE7Pvsfhee7OwSIQHQUmLMlOPEOC/NqIlb10azqeamPXc+gGaEtirUjKzi83sUuIi98y8e6bimoOyjvCPQF07vp5Gci0p4YOo09hoWVy8mHTYTJWZWd2V8JiEdGbvRIjlK2uXStettQ0aTCic3VtBfaqzFqVjwmTM3qyqtOWDePK7Dxj39tFHJXiSYQp5ywWci2yt5SFooNZ9VsWMTZAHmkekfsduXB8vDRpoCS0E8smxa57vdpBYLXhRye5R4WwTnOmLo+VBMfIq0yN4n/CIuJTtQSkwRMsvWoDwl5kEWhc7oyZNsdGiHt/0Ofyvj7leIddr0o7GiX6zYJ9ej+N8mFhul2fIcDm/SnwA1p5//oYkWsMw72jq9089Qv00tbr3JvkT2kLF7mD1O1H7SrIshC3ggQeUq/8wzn5jctdomJpKevYCpeZl2vKSi0Q2/yH4bSs1RI7iuRdvVwkM2s711JOaQU41fxPyQbKGT0V5Hqz5OHw03LsgCTZI88EI2weNsSRvpbLCGFtbyXYPbFQlUQ==
+	IFWAMAYAVNc1Y0b+vd8KdK6UEfsN+OLF75TN60mRbCSrLb8WDVme3ojIOsoETXDE02r8gC9ZOBDsnJZYoJ5oXIZ6EKb/ze8SRaZedWSRSWhOrhdp+Sy7ewD/olMC7ystp8JIF0b44/uyWoE7ro0bA7NLFCHbI97aLIpYsggRjzf4td0+vLwYVBnZL0Pp0251P/86RiygzckeWXZwruMgT3dxRwxHI0fYp6fY+u6+OHruCP5yrbAqkvmdawtCG6DG2wS7PjRdV6hK5eBdsth6jUfm2WmREvrYmadTWyRtiYXSLMQ3dnXweJyiCflksaSKRJVXIojUPlEHXvqRRis7XbuCixbwFu40wlODW6eMUELhQEBi1GImnAhQjZxqB6hKpLus8GM28eiCi8meJLQdJYhPST0EZ4bXeK/TNSn5ZKvWLe12pHiErDdxx66IwINiwgPObIbd35BA41WwOif1MM2pKRBJIxRmQBIm6WAB0GwFt6xFU2vh5iRpHbqGjNUFZRfb5uGXzVFEUpgmc2t3weJsjJ/2ZLH8YkGyr1mTN3ECTwUnpVxrpkkclj49tldsUgT3pJKK+iiSV8yhQC8nIfu2kTurEA3+bJtPRSFsNVWNsG1UXLCwGrgol+fxS4DX1sLsLQbslt5x8FhniradjhUrqugb0C1UuD940wI/fYfv8rJuBRmb2CMKcxtjU9TUZa5SW8LrNk/h30LzTXoOrg==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(376002)(136003)(396003)(366004)(346002)(8936002)(2906002)(33716001)(66556008)(9576002)(316002)(83380400001)(186003)(44832011)(9686003)(6916009)(956004)(86362001)(38350700002)(33656002)(38100700002)(5660300002)(66476007)(4326008)(55016002)(1076003)(66946007)(6496006)(6666004)(478600001)(8676002)(52116002)(26005);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(366004)(346002)(39860400002)(136003)(376002)(956004)(478600001)(52116002)(38350700002)(38100700002)(1076003)(8936002)(2906002)(44832011)(5660300002)(316002)(6666004)(9576002)(55016002)(86362001)(4326008)(33716001)(66476007)(66556008)(186003)(33656002)(26005)(6916009)(8676002)(83380400001)(66946007)(6496006)(9686003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?2LaY1PseI+5O9Qky+Bo7xLrADNIEAd0FEevwBpVnDbCNZBKPX7Iw/8KAFQra?=
- =?us-ascii?Q?0rTs8V7l/YfY5adOLkW5ojsOjI3pU82sNJd5JJtl9YtNQ4o39I5YwR3+tbmQ?=
- =?us-ascii?Q?nOD07MwMKglr9HJ/YTwrWrJjMUtN1cU8gNGx1bzPm+y7oy+GQgF04GImY5yX?=
- =?us-ascii?Q?Q9nCHpIpC98RBNEL/6SuEi6JEw54dPhBPJiRsazUMX9lIlld8ZTWMKrQDOpl?=
- =?us-ascii?Q?M05yYi4Wp5muiktClCUNenIKXBmty4S1eY91cqR/fzNSkXgoiprtMOagw/dW?=
- =?us-ascii?Q?JBDW3OY6eFI23Wu58hX+rOrNchj7uelZQoSvII8g76tADqsilt1Rk6iiba7Q?=
- =?us-ascii?Q?cPH/1jubKaYvR+ZmPcd88ry7jq00Fr7x1DK5oMV6t9ANuwG0lIEfClm7fhFg?=
- =?us-ascii?Q?Hqxs9dShBDiYk+Unq5LHY35HAZoLDcUgvnZc0+SDepejXWvqMIS7Vfm4RmxI?=
- =?us-ascii?Q?BvJOibLLt3Pfjyg8ySTZh5uNZB/z5HLtS2Gj5h+l8gz0wevVsXaZsnZtrlDJ?=
- =?us-ascii?Q?vgNDrpz45fAEUdcAHTqYCDEFI9plyhHOHVi+cwjfPbAhqnejrkfwjPMxrzhZ?=
- =?us-ascii?Q?11daeKVIMGEizrYXjG7c2W2+TS8BxSQnsWPs3WrQ4hqPZIyPjCfBBB+byulh?=
- =?us-ascii?Q?/DfWPMf1WpxL3LwyiNBldNbAWH8udjesE33NcBb2HumoMbdO5s6hTUTqzNtl?=
- =?us-ascii?Q?I1tvg1crv/8q9JAIWPc0rYJAFzzcfwo/Z06Cz+mG2hFqdRtsmUnGNs5UD5Ac?=
- =?us-ascii?Q?ld4HGcAVJOTpD/izWYrIRcWQdpTop3f517AEYcMhMC5xWZhAz76g+TvjV00q?=
- =?us-ascii?Q?1U3XZ2bzEL3nYr2AMNj5qKv0arN2wGbIzGmCLeMlsry3c8kwMJIyH8Bhm5qm?=
- =?us-ascii?Q?0Pj1J89bJotwojf4jUebue3Ch9G8sx21g0jql2uGHEfyh+Cq+jSguKihtgau?=
- =?us-ascii?Q?cRe47Yv150p6CPiIg9xv3s97IOYx6mDaqN777gxkUQDlcbGSMhu/WjTb71xE?=
- =?us-ascii?Q?pTEePqP/1N9JuosFubKFnKMTFyfWZnrsBnvgd48qTx6/YsnOhU7LjJ9Fo61V?=
- =?us-ascii?Q?ptgqUQrV3ODu7V/w2WrusmUVs86JoFj1H27BvYg+yoreBquK9+pF84eFCeht?=
- =?us-ascii?Q?t95r2HwVXeQBHAPEXJ8gDPW6SkV6arqqEj/etvxPwssN82qfWRiQrN79E6xm?=
- =?us-ascii?Q?PI16dJe6mc6bvcoFE80J45Up6in5wX1KzJYVApQ2Qp9hbYBiATX/mjcp3xoZ?=
- =?us-ascii?Q?E5v2vigBENOo7V19qdoTKNSzr//0+zHRtYm8aiP5ZZVanE3LpU/A2hhRCdvp?=
- =?us-ascii?Q?h962au4lLzJ7Tf6htwFPHB96?=
+	=?us-ascii?Q?S8/sOn5JUQz8o82oTF6RtxLgwHOqrBKi0Z6NLsvzNXHF6x2S3HwEAwJUPXLH?=
+ =?us-ascii?Q?nNvbgP5ZnwueYSZgY4x8iiDNbQxBUwGOjDAOEr+Ey8ysCNnvLiZiyeen5d5X?=
+ =?us-ascii?Q?wD4hsIYhcnR5atam1LzQonnFqYH48bbgSLLWdQz7s3qsupBgv7k7By/qHk2L?=
+ =?us-ascii?Q?2op/ylOdqsDXovZRTLmfeSpZrU5fpbAOnOi4KNduvpxjhOgCgdX+jH3foEFf?=
+ =?us-ascii?Q?G1zD0XK0tj3MGX4yttCkStIGZowhpKKLgi/qBfccPu+IjyApg346WEh4FFUZ?=
+ =?us-ascii?Q?j/VUAkViGMaT+5XeNcDO2SlYnFP4eahJY0ya3uxSoP8zYaa1xZkXklK6btg6?=
+ =?us-ascii?Q?LFARPV3BFs2npG/bN+pfGX5RgqlBzS1IqOw2KFE9asOa+JO7j7LQfY7GtSN7?=
+ =?us-ascii?Q?leqm6dfQD6k+E0WtxUOV+K6gyarvwNMB+JTyUOZTSlUoC0CCDIELIlYUufaI?=
+ =?us-ascii?Q?m3l7LDjTp998zGQyWZgDLacRppp0AX9+OFpcso515W7QeQ6SvLN/bivuXp2S?=
+ =?us-ascii?Q?GD5Q9O71pgKmFUCWzfbayzVQzR+HGC9fP6/bWOP5n39nYqmAiLP7aT922deX?=
+ =?us-ascii?Q?QKvSH9MjI9NYviyjfkU9dhyu2czlsBXXhyxm4NHnUOafSGmmLOH+xeXIB2q/?=
+ =?us-ascii?Q?KfDdoBH/ll6TSxK/v7kZISMan6PirImxi9AHt3zu01rSawGh2sXweplhsmfg?=
+ =?us-ascii?Q?/oU2sTw4ROrdY7EiF/zPEWvs1mexqesdefXUlsTdptf2vOKi7ca+19qSlfFq?=
+ =?us-ascii?Q?IPgcmvl5jLJgcmBYFmQi4RT44sifo+bn8cIxeulw41KRxq5Ust6Cjf3WMN6j?=
+ =?us-ascii?Q?cPhSx+cC+IKxcUIQKdJdzWxinubS2EWlokD9t4rY8g1XXeXC+Htc94FhzCq1?=
+ =?us-ascii?Q?DfPzbRSgA10WeQBnqWHiDAX9VVhW7RWoXEqRqsFMDHZv6oUTQnurJTlwXb0/?=
+ =?us-ascii?Q?M4LBj2ke5hGJE0jfhM0QiB6Ww2WnWw6zsHXtUqqc+j4RB9YWPi/vXxvXnjo9?=
+ =?us-ascii?Q?Jbkh9dxbppU6RU8illu18Yf3C+L+Dz47WVCFTedGG6k1SPBWi+ZXkDkigSir?=
+ =?us-ascii?Q?ufmM2yEI/Ik9Q3hvGT/iJue7LnyGsebr3ljNPYWiW48bIaSyvgJBQkX59U79?=
+ =?us-ascii?Q?95c9caMkew9ZctWQXulVG8TfTJxN50IJzxpoxebot3DxvTmLCqI2VZZUvoUp?=
+ =?us-ascii?Q?qtryzo8hhsJfmTTw+SymffijnDt5pK27lblgxavwI6Ga5S6X+htxQ6QL0cG5?=
+ =?us-ascii?Q?BAEmYDr/naXXk7yLm3CpT1ua8mswAIqvi5FbEiWzHS8JsgDcFAnKoIg3DTna?=
+ =?us-ascii?Q?/SriMiBnSKRXvkXVcHZt13nG?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73fc2f34-eee2-46b0-4687-08d966e38f1d
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce7834ae-4557-4cd6-88d3-08d966e50180
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 09:42:59.7553
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 09:53:21.1388
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: plmWLG1/K4L9h7BcCDLKyfOH35p7+aInSM9ksdbbrhWKHAvtBqQWqFeyoTeWe4Ux5whl+x9IO72MgTNQrWhcBH4O5uAOsH5ZKCShSNpaxSQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4500
+X-MS-Exchange-CrossTenant-UserPrincipalName: su1D3zkNDUReyBzUQUjpe785H8nAwfp6AWJ3MlyTB+k4OAWNTtF8yug9hGoVWr4Sw5wqp6+v+XOOBjq3I5aHYjJfXLmf3EXoNccAZ1svAZQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1246
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10085 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0
- mlxlogscore=999 bulkscore=0 mlxscore=0 adultscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108240063
-X-Proofpoint-GUID: PEp1VZp9N0JSan4igQFnXrgyw4I0tloq
-X-Proofpoint-ORIG-GUID: PEp1VZp9N0JSan4igQFnXrgyw4I0tloq
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108240064
+X-Proofpoint-ORIG-GUID: LUX28XXoZbPu9jtyxMm5sJBbjKMX1kr6
+X-Proofpoint-GUID: LUX28XXoZbPu9jtyxMm5sJBbjKMX1kr6
 
 Hello Konstantin Komarov,
 
@@ -144,58 +144,140 @@ The patch be71b5cba2e6: "fs/ntfs3: Add attrib operations" from Aug
 13, 2021, leads to the following
 Smatch static checker warning:
 
-	fs/ntfs3/attrib.c:383 attr_set_size_res()
-	warn: was expecting a 64 bit value instead of '~7'
+	fs/ntfs3/attrib.c:882 attr_data_get_block()
+	warn: was expecting a 64 bit value instead of '~(clst_per_frame - 1)'
 
 fs/ntfs3/attrib.c
-    370 static int attr_set_size_res(struct ntfs_inode *ni, struct ATTRIB *attr,
-    371 			     struct ATTR_LIST_ENTRY *le, struct mft_inode *mi,
-    372 			     u64 new_size, struct runs_tree *run,
-    373 			     struct ATTRIB **ins_attr)
-    374 {
-    375 	struct ntfs_sb_info *sbi = mi->sbi;
-    376 	struct MFT_REC *rec = mi->mrec;
-    377 	u32 used = le32_to_cpu(rec->used);
-    378 	u32 asize = le32_to_cpu(attr->size);
-    379 	u32 aoff = PtrOffset(rec, attr);
-    380 	u32 rsize = le32_to_cpu(attr->res.data_size);
-    381 	u32 tail = used - aoff - asize;
-    382 	char *next = Add2Ptr(attr, asize);
---> 383 	s64 dsize = QuadAlign(new_size) - QuadAlign(rsize);
-                            ^^^^^^^^^^^^^^^^^^
-QuadAlign() is a bad name.
+    823 int attr_data_get_block(struct ntfs_inode *ni, CLST vcn, CLST clen, CLST *lcn,
+    824 			CLST *len, bool *new)
+    825 {
+    826 	int err = 0;
+    827 	struct runs_tree *run = &ni->file.run;
+    828 	struct ntfs_sb_info *sbi;
+    829 	u8 cluster_bits;
+    830 	struct ATTRIB *attr = NULL, *attr_b;
+    831 	struct ATTR_LIST_ENTRY *le, *le_b;
+    832 	struct mft_inode *mi, *mi_b;
+    833 	CLST hint, svcn, to_alloc, evcn1, next_svcn, asize, end;
+    834 	u64 total_size;
+    835 	u32 clst_per_frame;
+    836 	bool ok;
+    837 
+    838 	if (new)
+    839 		*new = false;
+    840 
+    841 	down_read(&ni->file.run_lock);
+    842 	ok = run_lookup_entry(run, vcn, lcn, len, NULL);
+    843 	up_read(&ni->file.run_lock);
+    844 
+    845 	if (ok && (*lcn != SPARSE_LCN || !new)) {
+    846 		/* normal way */
+    847 		return 0;
+    848 	}
+    849 
+    850 	if (!clen)
+    851 		clen = 1;
+    852 
+    853 	if (ok && clen > *len)
+    854 		clen = *len;
+    855 
+    856 	sbi = ni->mi.sbi;
+    857 	cluster_bits = sbi->cluster_bits;
+    858 
+    859 	ni_lock(ni);
+    860 	down_write(&ni->file.run_lock);
+    861 
+    862 	le_b = NULL;
+    863 	attr_b = ni_find_attr(ni, NULL, &le_b, ATTR_DATA, NULL, 0, NULL, &mi_b);
+    864 	if (!attr_b) {
+    865 		err = -ENOENT;
+    866 		goto out;
+    867 	}
+    868 
+    869 	if (!attr_b->non_res) {
+    870 		*lcn = RESIDENT_LCN;
+    871 		*len = 1;
+    872 		goto out;
+    873 	}
+    874 
+    875 	asize = le64_to_cpu(attr_b->nres.alloc_size) >> sbi->cluster_bits;
+    876 	if (vcn >= asize) {
+    877 		err = -EINVAL;
+    878 		goto out;
+    879 	}
+    880 
+    881 	clst_per_frame = 1u << attr_b->nres.c_unit;
+--> 882 	to_alloc = (clen + clst_per_frame - 1) & ~(clst_per_frame - 1);
 
-The ntfs3 code has a bunch of bad macros like ntfs_malloc() which will
-need to be removed hopefully?  I haven't seen this code before today but
-presumably everyone has mentioned this already.
+In this config "clen" is a u64 and "clst_per_frame" is a u32 so this
+code will truncate to_alloc to a u32.  An easy fix is to use the
+ALIGN() macro.
 
-Anyway, new_size is a u64 and QuadAlign() truncates it to u32.  Use the
-normal ALIGN() macro.
+		to_alloc = ALIGN(clen, clst_per_frame);
 
-    384 
-    385 	if (dsize < 0) {
-    386 		memmove(next + dsize, next, tail);
-    387 	} else if (dsize > 0) {
-    388 		if (used + dsize > sbi->max_bytes_per_attr)
-    389 			return attr_make_nonresident(ni, attr, le, mi, new_size,
-    390 						     run, ins_attr, NULL);
-    391 
-    392 		memmove(next + dsize, next, tail);
-    393 		memset(next, 0, dsize);
-    394 	}
-    395 
-    396 	if (new_size > rsize)
-    397 		memset(Add2Ptr(resident_data(attr), rsize), 0,
-    398 		       new_size - rsize);
-    399 
-    400 	rec->used = cpu_to_le32(used + dsize);
-    401 	attr->size = cpu_to_le32(asize + dsize);
-    402 	attr->res.data_size = cpu_to_le32(new_size);
-    403 	mi->dirty = true;
-    404 	*ins_attr = attr;
-    405 
-    406 	return 0;
-    407 }
+However, I still had some questions below so I did not write a patch.
 
+    883 
+    884 	if (vcn + to_alloc > asize)
+    885 		to_alloc = asize - vcn;
+
+If to_alloc is too large for asize then make it smaller.  Is it still
+ALIGNED?
+
+    886 
+    887 	svcn = le64_to_cpu(attr_b->nres.svcn);
+    888 	evcn1 = le64_to_cpu(attr_b->nres.evcn) + 1;
+    889 
+    890 	attr = attr_b;
+    891 	le = le_b;
+    892 	mi = mi_b;
+    893 
+    894 	if (le_b && (vcn < svcn || evcn1 <= vcn)) {
+    895 		attr = ni_find_attr(ni, attr_b, &le, ATTR_DATA, NULL, 0, &vcn,
+    896 				    &mi);
+    897 		if (!attr) {
+    898 			err = -EINVAL;
+    899 			goto out;
+    900 		}
+    901 		svcn = le64_to_cpu(attr->nres.svcn);
+    902 		evcn1 = le64_to_cpu(attr->nres.evcn) + 1;
+    903 	}
+    904 
+    905 	err = attr_load_runs(attr, ni, run, NULL);
+    906 	if (err)
+    907 		goto out;
+    908 
+    909 	if (!ok) {
+    910 		ok = run_lookup_entry(run, vcn, lcn, len, NULL);
+    911 		if (ok && (*lcn != SPARSE_LCN || !new)) {
+    912 			/* normal way */
+    913 			err = 0;
+    914 			goto ok;
+    915 		}
+    916 
+    917 		if (!ok && !new) {
+    918 			*len = 0;
+    919 			err = 0;
+    920 			goto ok;
+    921 		}
+    922 
+    923 		if (ok && clen > *len) {
+    924 			clen = *len;
+    925 			to_alloc = (clen + clst_per_frame - 1) &
+    926 				   ~(clst_per_frame - 1);
+
+We re-assign to_alloc here.  And it's smaller than before, but it hasn't
+been checked against asize so it might not be small enough?
+
+
+    927 		}
+    928 	}
+    929 
+    930 	if (!is_attr_ext(attr_b)) {
+    931 		err = -EINVAL;
+    932 		goto out;
+    933 	}
+    934 
+ 
 regards,
 dan carpenter
