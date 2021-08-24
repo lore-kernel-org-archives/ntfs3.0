@@ -1,41 +1,41 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCC93FC1
-	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 18:37:16 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id y34so47438880lfa.8
-        for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 11:37:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0744029CA
+	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 18:37:20 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id g13so47429349lfj.12
+        for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 11:37:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+cwbm0dtVbTskGDHM6fDYi7+zCShasPxmbKd2QwmHNI=;
-        b=UBPam4ErsN9K2v4R2gZdSjQ6cNCfpfbMS1Nh+CViIHsg21KeFVKbDR5HaQuBfBxkVJ
-         X5ocneg3CQVaQDYxiSlsxT0t5xNgnpc2DJybMxFHOe4XG4c2JOnPs7zQtl6CTyj/9LP1
-         Tvo+zbzXuGLXYAnGk1jwxccvRikoQnt/g2QrAaTFiIe+y7uhVU1XwjCKmTXRMs5GO5g1
-         wuUwZYRZ9kHp6rY2nG0QDOx6rkD18skJdle/C+d0Xc5ehIKKzrJ+NfJBxql/ZCLNEzLs
-         kWWBnoL6WRaJGe0X+LCwuOCyT6Sl+9s1KgRSZCjgh4/Kl2PMedI9QCY6gNaFYPXFNO0B
-         CFOw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=hUkG3xr/dMt/8zI98k75vhyv50SLMYA7N1BDb0m4ctg=;
+        b=hcp5pLtAOovIB3GujgCAwVZ1xEnCaTwVJZn/SkMdDESmxQBFocjHffQae3ojrqGcPw
+         SGXVOXws20bN0r3xbs7NfpSQsFM/KM0NqAXl8M7oKPUfhdRiS5RoZs3P6JS4UKArQunn
+         YPdHNSr/1xEO2pGARWBZxQpU84KDhtIavmVhJXAh9qvRl9A95lLI5im52d4sX3bOI2l8
+         72NZa9aAmv4LAKdQLuy2jc1xXaxuQ9F6JoQCbqVrejO7aTMjLPaAdh3XD5FCDgpPY/Zl
+         NX9DgMNKAbbbQPRF2ij700FZxaVwxLgv+qtg8s+szXtiXjBIgYllT+SsbqaNLc8KNOBV
+         zE9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+cwbm0dtVbTskGDHM6fDYi7+zCShasPxmbKd2QwmHNI=;
-        b=sXivu5vS946eSyhPp5WtewODoDPAzb4JAqOS9zgfhhf4HxwNYN5zyMuGldAJVrXSTB
-         jIdcSeR6S9tEmJpfb4LgJTNcMDHvYcyKNufiEJwxgmrBAtPxfoldx8ZE/5/sTXUqlFNm
-         Q0u8sLnBvO6U+Zb5s4ZLff1xR/V5v7J+6EW8cysV5grnWQ4pkzBeGBKxgiEEyVxr+1OR
-         Ppq0I3vDtpn47SDS/LVhFMEgYkDXo56RWlFH5QAfGlskiqBL8mzA/co/vRz6Y/TW/Ptw
-         DKfDXOdfNvmpUpBGRVtE08Grkkt6R4tLcR+QxT3gMb22WpUo/yOqAp0QROTegYMizKtL
-         72wQ==
-X-Gm-Message-State: AOAM532uQMvPsP4hAKHIiSysZP5fcGsgjfo08qvF2tYdgsuykLEEgO8t
-	WSMPo8EfCEHq4f7QF5b1SLQaP/xPP6RN2A==
-X-Google-Smtp-Source: ABdhPJzJAo3KMmDx+Ar7gi+3SNs2Lu5FPjuJg1/ruzsod3SLQKDSaGxJAgANpEvQ9t9IGbRmk6b+FQ==
-X-Received: by 2002:ac2:5b9e:: with SMTP id o30mr4391440lfn.400.1629830234563;
-        Tue, 24 Aug 2021 11:37:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hUkG3xr/dMt/8zI98k75vhyv50SLMYA7N1BDb0m4ctg=;
+        b=Ox4/fewxqZ8h1tQa61tyTU/XIzdY8FoHZ/e1RZP58WM9iMU8IqXqnjeE0L0QFFU2GK
+         WfCJ4Ygg/hPj57wJh/v9OBqNjJHnW+DbrnBb/PmAGtFJ+TALySbptgvSV5CBH5IU95h0
+         Q30mbMsIlpMorDt8ZHpKZ4SI/eVFcbBc1JB41rrC7TscUs/6N6d0Gcrr1AKAatp0EK7H
+         Go46jfqogr3yVrifaPt9ieBIn9VXFWDlWWg2FMUXcsZL0bpApxNFSsVYuwgSgJ5jlQ7k
+         k808UeMj5fKkHktQ6+uLanmAoJEE9XU4OgC1fyYu8K6KNLSl+ZhdM6GKIui/1J7kZpXE
+         hmvw==
+X-Gm-Message-State: AOAM530WZAhteoegLIk2nLxo5REA2XjToo+fPgRdhwdQ+ZXH22GcPlfU
+	AKlhVdeoDBOcEYQs9zXQp8Y=
+X-Google-Smtp-Source: ABdhPJzXhOKJZPwAVsi9vxhpDDwEKS1xbHj1fQb3JS9IV+Dn+VVF3m9PaZRkLIM3OoCcJy+dToqRIg==
+X-Received: by 2002:a05:6512:2603:: with SMTP id bt3mr29708927lfb.476.1629830238207;
+        Tue, 24 Aug 2021 11:37:18 -0700 (PDT)
 Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id k13sm1826378lfm.168.2021.08.24.11.37.13
+        by smtp.gmail.com with ESMTPSA id k13sm1826378lfm.168.2021.08.24.11.37.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 11:37:14 -0700 (PDT)
+        Tue, 24 Aug 2021 11:37:17 -0700 (PDT)
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev,
@@ -43,66 +43,61 @@ To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 Cc: Kari Argillander <kari.argillander@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	Joe Perches <joe@perches.com>
-Subject: [PATCH v4 0/3] fs/ntfs3: Use kernel alloc wrappers and fix warnings
-Date: Tue, 24 Aug 2021 21:37:05 +0300
-Message-Id: <20210824183708.1008538-1-kari.argillander@gmail.com>
+Subject: [PATCH v4 1/3] fs/ntfs3: Restyle comment block in ni_parse_reparse()
+Date: Tue, 24 Aug 2021 21:37:06 +0300
+Message-Id: <20210824183708.1008538-2-kari.argillander@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210824183708.1008538-1-kari.argillander@gmail.com>
+References: <20210824183708.1008538-1-kari.argillander@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-In ntfs3 driver there is allocation made like this ntfs_malloc().
-Patch 2/3 will converter these to kernel ones like kmalloc(). After I
-did this then checkpatch raise warnings about array allocations so I
-fix these in patch 3/3.
+First of this fix one none utf8 char in this comment block. Maybe
+this happened because error in filesystem ;)
 
-I also notice when I made patch that there is broken utf8 char so I
-wanted first fix that because it raised some warning in my editor and
-did not want to "break" patch 2/3. And because we are editing comment
-then make whole comment block clean. So patch 1/3 address that. I did
-try to apply this and it seem to work without issues.
+Also this block was hard to read because long lines so make it max 80
+long. And while we doing this stuff make little better grammer.
 
-v2:
- - Add patch 1/3 because I found broken utf8 char in source file
- - Add another patch 3/3 which will fix allocation warnings
- - Rewrite some of commit message from first patch
-v3:
- - Patch series didn't have X/X numbers
- - Cover letter didn't have fs/ntfs3 in it
- - One kmalloc was converted to kcalloc insted of kmalloc_array
- 	Thanks Joe Perches
-v4:
- - Wrap whole comment block in patch 1/1 max 80 char. And restyle.
- 	Thanks Christoph Hellwig for noting this
- - Add Reviewed-by: from Christoph Hellwig to patch 2 and 3
+Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
+---
+ fs/ntfs3/frecord.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-Kari Argillander (3):
-  fs/ntfs3: Restyle comment block in ni_parse_reparse()
-  fs/ntfs3: Do not use driver own alloc wrappers
-  fs/ntfs3: Use kcalloc/kmalloc_array over kzalloc/kmalloc
-
- fs/ntfs3/attrib.c   |   6 +-
- fs/ntfs3/attrlist.c |  10 +--
- fs/ntfs3/bitmap.c   |   8 +--
- fs/ntfs3/debug.h    |   7 --
- fs/ntfs3/file.c     |   4 +-
- fs/ntfs3/frecord.c  |  42 ++++++-----
- fs/ntfs3/fslog.c    | 172 ++++++++++++++++++++++----------------------
- fs/ntfs3/fsntfs.c   |   8 +--
- fs/ntfs3/index.c    |  54 +++++++-------
- fs/ntfs3/inode.c    |  10 +--
- fs/ntfs3/lznt.c     |   4 +-
- fs/ntfs3/ntfs_fs.h  |  18 ++---
- fs/ntfs3/record.c   |   8 +--
- fs/ntfs3/run.c      |   8 +--
- fs/ntfs3/super.c    |  20 +++---
- fs/ntfs3/xattr.c    |  18 ++---
- 16 files changed, 197 insertions(+), 200 deletions(-)
-
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index c3121bf9c62f..e94d830b2f4a 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -1782,14 +1782,18 @@ enum REPARSE_SIGN ni_parse_reparse(struct ntfs_inode *ni, struct ATTRIB *attr,
+ 		break;
+ 	case IO_REPARSE_TAG_COMPRESS:
+ 		/*
+-		 * WOF - Windows Overlay Filter - used to compress files with lzx/xpress
+-		 * Unlike native NTFS file compression, the Windows Overlay Filter supports
+-		 * only read operations. This means that it doesn’t need to sector-align each
+-		 * compressed chunk, so the compressed data can be packed more tightly together.
+-		 * If you open the file for writing, the Windows Overlay Filter just decompresses
++		 * WOF - Windows Overlay Filter - Used to compress files with
++		 * LZX/Xpress.
++		 *
++		 * Unlike native NTFS file compression, the Windows
++		 * Overlay Filter supports only read operations. This means
++		 * that it doesn't need to sector-align each compressed chunk,
++		 * so the compressed data can be packed more tightly together.
++		 * If you open the file for writing, the WOF just decompresses
+ 		 * the entire file, turning it back into a plain file.
+ 		 *
+-		 * ntfs3 driver decompresses the entire file only on write or change size requests
++		 * Ntfs3 driver decompresses the entire file only on write or
++		 * change size requests.
+ 		 */
+ 
+ 		cmpr = &rp->CompressReparseBuffer;
 -- 
 2.25.1
 
