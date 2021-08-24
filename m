@@ -1,50 +1,50 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2C53FC0
-	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 16:02:48 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id r9so46635055lfn.3
-        for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 09:02:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50ACA72
+	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 16:38:56 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id h1so10485205ljl.9
+        for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 09:38:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=poU6UxSe+vqBcMpX3p5PAXt32In/R0qv0Zl1gWkMej0=;
-        b=u48N+5kK/p3O1LusihjD74avPElDU4N3bsljZPgfQZ0p0zH+fHDGLBt1RxRnIeCAaw
-         CjqxonXgj/EL8EtOarJIBQg6Fc8xtLCWY7K6oe4pHvCbQx/Gk+Qdp+s2PUsEEijQhqaI
-         v6EDsIyuAFHeR22fDLix8Q92iduNYMpyzNiKb+DBg8GgwQmfk3BrqPunz7Zl0RKiwSeM
-         SZceBqvuUUWOFoJ+LHKCadWF7dRt2sdpNIiQh/y86BB8L9ADAqGgVzQZJi48nD3ANJK6
-         2ehmjqblhq8AAk4IWUfyCndVZMKWXLObW6tK64FCuoqZKVAik1Ll2Afk0U2Wtdac+CuQ
-         zfPA==
+        bh=WcbXWm6oOaII+80v56ACkIrGHjl86sgP+RyMxyJ09A8=;
+        b=VgxR+vLNCWaXX9vH/TiuNk1s8Blpj/bHixJKjJU8IGBVkICQ7DLFmkxnyRWOxZ/0uw
+         daB4SlrZ4MqsYuoMQpI0of0QMv4MM3OcWX065ZRTbRMTnRPsngLy2R6JpCcMoijeHmP/
+         0JslrMM3Yx9RR1/AWzAffIk322NP1mjsmufc1i8I56HpqDrpSZXXxx1rEBF1C8LC3D75
+         Zda4qNu88qlU9byf/V5g1l7NeH9wpfbtRuydUbiHRc48uhnh+i8/WXvV6rOrgbp0xFXr
+         yGyCK1zFOFfv9CNLimnl9JfCMGVHaQxG22WTaV5/QM6xw736/WAyZ6HL7Vl+PMeMRJRg
+         sHog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=poU6UxSe+vqBcMpX3p5PAXt32In/R0qv0Zl1gWkMej0=;
-        b=Di5yUXjII3ZEYTm1TL6YU0awOptdivHQU30SRoE5siYopYHvGXT/llB6tIecH1WSTj
-         M7Wbd1/iCjGAt8b6KGHaiIQx1gvdOCv94TkwmZvqIL4F+VAhGKU2mKFb7oitFs9Rkbvq
-         aoJBvc+2YLIWGCsedFOoGVTOPdu+H4lCH8Xm5+r1WMYuEo91jiovCdx+DJ5Yu2vqB/ws
-         M61tmu+6BE62cP0xDAobImYksCJNLvW/04P1KokOLW1u0rh53xn9gXZqFuQQwsHRTOXX
-         TzsZfNZ1EyI7ZiIqBu8QZQYWzykly1+XCWc2buNIiD29sx/02H7op3sISNJ8jxnihmSU
-         QNGA==
-X-Gm-Message-State: AOAM5338o7WAeSPGVPSLt3UVm6x86SERE9zWB+a1yxX9KFO2YhDEoDos
-	uN0chWe4hIzdl2368wvizRA=
-X-Google-Smtp-Source: ABdhPJwAdruZqs4SZAUqfnw1zEdXAYFJFJPv5dblFrUIB2G03WennhJ9xl9YqYQjF4ZN0VfUNDfZ/Q==
-X-Received: by 2002:ac2:5091:: with SMTP id f17mr28576173lfm.42.1629820966958;
-        Tue, 24 Aug 2021 09:02:46 -0700 (PDT)
+        bh=WcbXWm6oOaII+80v56ACkIrGHjl86sgP+RyMxyJ09A8=;
+        b=aiZWQKo882tZiXwIJ25MUVD3/GXd3JR5DQm4t+Gbv/mFlSSkgkmaRkI6p+KbwFZuuI
+         roLpdWd1nUEVmdL1lUZ6kh8Jg/10CUhpbXcWrDGZLEjtErzK1wql8+NV/4so4S4iMryx
+         GpdKkWf191n8v4KtoQ0bl1waNyGLdAFYF5xFt45/tvDBo08HARGRaHdvPJDU9u7WAgV5
+         6W6L7lvKu0T9rR3Vz3EOjN6nlQl6RAmIEfr1izaHrjdxZrUSiJaGuQrBX2AUpPq1bvmM
+         8cND2YGaXN+JuKYttlHq0snN4ZLvAwqXQ3JyVSfmCAEIQ5W2eqiEIkgosm4PH0BwN1Z7
+         tKFg==
+X-Gm-Message-State: AOAM5339ZQtgUBrMSOhUzxMOtpr6SsiMBIuLvSHeY6CbfvE/bHE/1TCs
+	vF4P8V/NgIops3uMIocgmjU=
+X-Google-Smtp-Source: ABdhPJzDvjUxWIex+xrOYK6wlSZ+gkF2dbG3MzCDm/VmX9bJU/GDpgRr9W5Bxm5NUsP2QJiV2bruUQ==
+X-Received: by 2002:a05:651c:235:: with SMTP id z21mr31938880ljn.462.1629823133430;
+        Tue, 24 Aug 2021 09:38:53 -0700 (PDT)
 Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id y5sm1238590ljd.38.2021.08.24.09.02.45
+        by smtp.gmail.com with ESMTPSA id o16sm210439lfu.45.2021.08.24.09.38.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 09:02:46 -0700 (PDT)
-Date: Tue, 24 Aug 2021 19:02:44 +0300
+        Tue, 24 Aug 2021 09:38:52 -0700 (PDT)
+Date: Tue, 24 Aug 2021 19:38:51 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Dan Carpenter <dan.carpenter@oracle.com>
 Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
 	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] fs/ntfs3: add checks for allocation failure
-Message-ID: <20210824160244.ruutwl3nq6b5feec@kari-VirtualBox>
-References: <20210824115236.GJ31143@kili>
+Subject: Re: [PATCH] fs/ntfs3: fix an error code in ntfs_get_acl_ex()
+Message-ID: <20210824163851.hfbjqqpztgk4ngd5@kari-VirtualBox>
+References: <20210824114858.GH31143@kili>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -53,81 +53,78 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210824115236.GJ31143@kili>
+In-Reply-To: <20210824114858.GH31143@kili>
 
-On Tue, Aug 24, 2021 at 02:52:36PM +0300, Dan Carpenter wrote:
-> Add a check for when the kzalloc() in init_rsttbl() fails.  Some of
-> the callers checked for NULL and some did not.  I went down the call
-> tree and added NULL checks where ever they were missing.
+On Tue, Aug 24, 2021 at 02:48:58PM +0300, Dan Carpenter wrote:
+> The ntfs_get_ea() function returns negative error codes or on success
+
+Not reletad to this patch but ntfs_get_wsl_perm() seems quite bug
+because in there ntfs_get_ea use is not checked at all.
+
+Also ntfs_getxattr() should probably send errno if ntfs_get_ea() is 0.
+
+> it returns the length.  In the original code a zero length return was
+> treated as -ENODATA and results in a NULL return.  But it should be
+> treated as an invalid length and result in an PTR_ERR(-EINVAL) return.
 > 
-> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+> Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
 > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-Seems ok. It is not easist file to follow. log_replay is monster and
-it should be refactor in some point. I'm certain that many more bugs
-will be founded there. Also at least community does not have very good
-testing interface for this. 
-
-Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
-
-> ---
->  fs/ntfs3/fslog.c | 21 ++++++++++++++++++---
->  1 file changed, 18 insertions(+), 3 deletions(-)
 > 
-> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index 397ba6a956e7..209fe6ddead0 100644
-> --- a/fs/ntfs3/fslog.c
-> +++ b/fs/ntfs3/fslog.c
-> @@ -807,7 +807,11 @@ static inline struct RESTART_TABLE *init_rsttbl(u16 esize, u16 used)
->  	u32 off;
->  	u32 bytes = esize * used + sizeof(struct RESTART_TABLE);
->  	u32 lf = sizeof(struct RESTART_TABLE) + (used - 1) * esize;
-> -	struct RESTART_TABLE *t = ntfs_zalloc(bytes);
-> +	struct RESTART_TABLE *t;
-> +
-> +	t = ntfs_zalloc(bytes);
-> +	if (!t)
-> +		return NULL;
+> I'm not super familiar with this code.  Please review this one
+> extra carefully.  I think it's theoretical because hopefully
+> ntfs_get_ea() doesn't ever return invalid lengths.
+
+ntfs_get_ea() will return 0 if no info and this can happend quite
+easily in my eyes. 
+
+Here's snippets
+
+ntfs_read_ea()
+{
+	attr_info =
+		ni_find_attr(ni, NULL, &le, ATTR_EA_INFO, NULL, 0, NULL, NULL);
+	attr_ea =
+		ni_find_attr(ni, attr_info, &le, ATTR_EA, NULL, 0, NULL, NULL);
+
+	if (!attr_ea || !attr_info)
+		return 0;	
+}
+
+ntfs_get_ea()
+{
+	len = 0;
+	err = ntfs_read_ea(ni, &ea_all, 0, &info);
+	if (err)
+		goto out;
+	if (!info)
+		goto out;
+out:
+	return err ? err : len;
+}
+
+> 
+>  fs/ntfs3/xattr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+> index 9239c388050e..e8ed38d0c4c9 100644
+> --- a/fs/ntfs3/xattr.c
+> +++ b/fs/ntfs3/xattr.c
+> @@ -521,7 +521,7 @@ static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
+>  		ni_unlock(ni);
 >  
->  	t->size = cpu_to_le16(esize);
->  	t->used = cpu_to_le16(used);
-> @@ -831,7 +835,11 @@ static inline struct RESTART_TABLE *extend_rsttbl(struct RESTART_TABLE *tbl,
->  	u16 esize = le16_to_cpu(tbl->size);
->  	__le32 osize = cpu_to_le32(bytes_per_rt(tbl));
->  	u32 used = le16_to_cpu(tbl->used);
-> -	struct RESTART_TABLE *rt = init_rsttbl(esize, used + add);
-> +	struct RESTART_TABLE *rt;
-> +
-> +	rt = init_rsttbl(esize, used + add);
-> +	if (!rt)
-> +		return NULL;
->  
->  	memcpy(rt + 1, tbl + 1, esize * used);
->  
-> @@ -864,8 +872,11 @@ static inline void *alloc_rsttbl_idx(struct RESTART_TABLE **tbl)
->  	__le32 *e;
->  	struct RESTART_TABLE *t = *tbl;
->  
-> -	if (!t->first_free)
-> +	if (!t->first_free) {
->  		*tbl = t = extend_rsttbl(t, 16, ~0u);
-> +		if (!t)
-> +			return NULL;
-> +	}
->  
->  	off = le32_to_cpu(t->first_free);
->  
-> @@ -4482,6 +4493,10 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
->  		}
->  
->  		dp = alloc_rsttbl_idx(&dptbl);
-> +		if (!dp) {
-> +			err = -ENOMEM;
-> +			goto out;
-> +		}
->  		dp->target_attr = cpu_to_le32(t16);
->  		dp->transfer_len = cpu_to_le32(t32 << sbi->cluster_bits);
->  		dp->lcns_follow = cpu_to_le32(t32);
+>  	/* Translate extended attribute to acl */
+> -	if (err > 0) {
+> +	if (err >= 0) {
+
+So now if err (size) is 0 it will try to get acl. Didn't you just say
+that you want to return PTR_ERR(-EINVAL)?
+
+So overall good finding but maybe more work is needed with this one.
+
+>  		acl = posix_acl_from_xattr(mnt_userns, buf, err);
+>  		if (!IS_ERR(acl))
+>  			set_cached_acl(inode, type, acl);
 > -- 
 > 2.20.1
 > 
