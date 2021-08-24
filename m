@@ -1,79 +1,76 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CEB43FC1
-	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 07:51:24 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17O7LrjV028126;
-	Tue, 24 Aug 2021 07:51:24 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065A83FC1
+	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 07:58:33 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17O7LqHl030409;
+	Tue, 24 Aug 2021 07:58:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : in-reply-to : mime-version;
- s=corp-2021-07-09; bh=l/VhNxu8IQl8PPUrDbEAv7kyNBjLZrE+YdWmk9wG5mM=;
- b=Px8RKnf7fgci3nSAW1opfXwKKOPzpo+mQuQH0U2Di/PjFjP9pb+rnMFfu6FCL27KQKwY
- uF4mwYAQYYpBKbSmrDV7pzmBEdd5fqkhHQKYdCbd6WByRW1OPajOlIA4SIM+PRy9eW+V
- DT7TwvYjFnwvITmKVYeTiQVKdUXIP/nCMKjdNAQqEW/yPPS/NxUOPnR3hOEngeq1MNM6
- LSMXQJLDtMsjnyNBZGKtcM81aZbTwYVoqViUDR5NGquro3URF8EXSKFzc8TaPvxinnu7
- DtolBAB0CH8JX1uMguf9obGYYT6QtN4fKAhwXOS0RZaXXiUIpDpJplzqUB/4Y/+s3LlZ rA== 
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=zF3Xi1BNL0IAeAvlhOHJ2R8YHMpTbm+3H8gzvlc8vh8=;
+ b=oF3bDZYnrnDpIOye/SvcU/wSVyeUUv8Z4wCTQ/WfYxdngD3fXc7Oczdtc5hN6abu7KqI
+ /u1uJhVsBM05kii/RBEauO1ShIaJmWMUCX7a2QfkXf9HH1ydEv9mJzFtFILBYrZtnJcI
+ aZ/9RT/3L+f71NUU/SYu3U4ZW07YIiZD/zSjmgrOE57rKI/ubrIhYvkNYPoFcArvBwTX
+ xensFSgi1Z/ybNYnUK9M/B4m+b6OWoxNPNoCJKjKkTc3vpNjBPAGfreM8VTpBU4ckHk0
+ emdrncfFvzDQDwD3VhlIOecGlm8o3skLG+Ln5MkoF00zBjmIdJ4KQ9OUQXsRXE/OWLwz Kg== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : in-reply-to : mime-version;
- s=corp-2020-01-29; bh=l/VhNxu8IQl8PPUrDbEAv7kyNBjLZrE+YdWmk9wG5mM=;
- b=CQ27EWRjbhDJWQPVVOKmI3toT6VUsVUvkhLsPL9k657d6u8IBAxH+atVuZWbTt95cYWr
- GuHx3w9fZ3wfRpX9nOrdpoZwDim8aLZ7IKGZn2we8b4deD7gJwPUhugFSgszOIVEJnIc
- oqUKbc1A+zOUttnHqQN48wuf119WasK+5a+USQn5KC1esivykZRTjOOEHPk+XLdZKX7h
- m4okAqoNjSQjgPSBIzM8r52MzWHac8Tc4qR4i1ur2S0n0GlZxckamJp77hvAO/b4QQ8v
- 0Cw7xWxb4hATHW6NkzZ35jtCHXpvWNlNbJilmXGntRODlDwOkUlrvmLGZrsVnPkI0VxH /g== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3akwfm3m0a-1
+ : subject : message-id : content-type : mime-version; s=corp-2020-01-29;
+ bh=zF3Xi1BNL0IAeAvlhOHJ2R8YHMpTbm+3H8gzvlc8vh8=;
+ b=Iy2djzt67HQuHomJLBbhVomi0WCZvtszyJU52C5XG2aw70QHuHrD2/oweZiv1GnELScy
+ I0zcOp5RqKiLuN/Q1I7X2PzUSdk/8tcp4/8l+zSIGW0XIvEI4yAL+pW0L2fBlnBmuMcF
+ HoSjru0CR6WdA8hy3eVDv6EOQycgXN8SNGC23Mp2JkjTn2jL4YdrAj7hHoVCZXJ+M7l1
+ 3ErxLCGklJ4DhqvpiaRJOSRQUou3JAAkodRITuzjXOpsrgz1ICcxoP1A07HHUNGsgqSA
+ Bn/lJ3BfgK3T4Wnq+fjTKDKqTgXffURikxw6CQU+PLQjJrnuZXOUdeTHjfAo/8uwQvDT lg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3amv6782xy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Aug 2021 07:51:24 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17O7pK3W038917;
-	Tue, 24 Aug 2021 07:51:23 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2042.outbound.protection.outlook.com [104.47.51.42])
-	by aserp3030.oracle.com with ESMTP id 3ajqhe5e9m-1
+	Tue, 24 Aug 2021 07:58:32 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17O7tEFO169734;
+	Tue, 24 Aug 2021 07:58:32 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2170.outbound.protection.outlook.com [104.47.55.170])
+	by aserp3020.oracle.com with ESMTP id 3ajsa4u2v6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Aug 2021 07:51:22 +0000
+	Tue, 24 Aug 2021 07:58:32 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gIqItBn4jh12Wi7mr0lTT4UhnxJahRy0v1d7IPrbCStLB5X4Ic+D1d1Fl91r+ypBDfLYo/qz7ol8jE9MD/g8p0QR6cZjok1eSp0zmZUu/BAwgjEjhFQ0xwbYlDyuXVXU+WaiPXHzaXMznF8XuNKMOtqVVIDzsCR30bVCtUc/4PFhaM9r6vHd97KJOKpJrP1QGqsckfVO09xfVdoKUK9m9vYIaD9Bcb0XJq12gU//8VZ2bhbwVsLWnJJb81dbT/vZ4tO7XuBw0JkB+D0BI9ZUF1gvEtGcY2VRzsgxjPAVA0JVuMIrmMC2m9+P3EYzpmGrh0qYe+dR2g/RsZYEHSklLA==
+ b=KYJ2LbCXp4izq6/VKfZ7ZUGjK2l0AYct8Wf+WHVpR/nS0rIigbuBmyuHm19S/jOAFoJwWKmQd54Za5DaHb/+0fpud4nW9+AnyOFHqugaMExwQ2jBBgg0xOXkby5qSKBr6bUVmMCu6cPzPI2HSNoPZmPnog+0vnFggOr7p96kJFRSzngzYAJdiSZmiFUMVgTgXn2dGU5QIoSRP2y5vf/h8UIAwgbbECCaC5/wOA1pL/lhDAd4OZf+z7pymxhtfl52QhmQCkhmNji0x7YlR8oCQ3KB5JdCzYWViODlfMhzZ+76YSKVYNpP675Ct0FXwzHNDf0Oq8LL+HlPRJd6Jon8+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l/VhNxu8IQl8PPUrDbEAv7kyNBjLZrE+YdWmk9wG5mM=;
- b=XZ5WT8+Dq5O/Ty6eIOqeScJjcO0teV+r4lzcV7ahfs1lBoIzvFlkxs0dyURmZJNlOOFqcokFN0jH6hvCJhzybJeXfOveCR/9gFsCXFWDxHoRxbwzip0Drxtr/GaLX3QUz45DH69EN7LGC69chxxBw97mQlzBp2hD/2nPU/mPO/8l4Ex09XfeH4FHAXSsLjSfD4S0yTHKSnVFjVJEqXaM7uken4vfh+EieWwH52vgI/IuyHtzsaTbMnAHiuo2JQHIKUtSsviY3JHqE+oarjYEB5StsNYdpE0Uq+7wJgmNfZR8LVK8+dM9J4qYdWyo0yMawNwuN8OIzOY9MKNohkZLuA==
+ bh=zF3Xi1BNL0IAeAvlhOHJ2R8YHMpTbm+3H8gzvlc8vh8=;
+ b=GuAUDsYIwvpuHKJtV+vH3vs5Xh8J6p1WWf4ChkDg7WFQ1lw4RwxJP/PgOSNOTdDOoWax7b95Cs6f65S62gpGzI3jbGsF00z0m/hscsRJa2CPZL2AmI69W/ckCvSg5vbQiKYjgLe6IpW8abz+djBinV1C0WtsnTHp/NjP36ZRjXWgcgvztIgT6Uf8cRC3lNdiVnFT7Lu04lUcYmkqperFZ8SswcWS7pCmLOhrAyasfvWHIhwCZ41LVJXdCVhUKs9N/wGdQP/AN7WsRHjXGbANLoNiPauHFXphXahbbssFHhIMKOW3v8MI5K7uHbmHX6GQpDxK0jEhLhWZf+1bdvIMdA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l/VhNxu8IQl8PPUrDbEAv7kyNBjLZrE+YdWmk9wG5mM=;
- b=S9LWJBaZJC00qHXT+XarVFc2gMe19hMUdSLp3/VmfUONsbRohDfyfRiWEBYmctXbKG6TER6BeEO+CDNZ+BYrnM8ju27WoWd0UdRBWV2faxE7KcBNu3r7uHUgLip2ACFk4u0YI9gk+izvXkqUYy1W1WUxxv0vKyMLWavljTQYjBQ=
+ bh=zF3Xi1BNL0IAeAvlhOHJ2R8YHMpTbm+3H8gzvlc8vh8=;
+ b=AZU9ko3rX7u/mp6WPubZ5ieCEgu0lKo53M80r9f/cSGz5qsnuNFyREyTfQQfzq7jXwLpi7zGhajfY3TyK0SyKcGg2INnEYrx+YXw1SggngISqLx++XDUpf/w//rNbsahDWSIlhe3L2c1KfliUggM5xfyMxEZCYFY6lKusOz4auU=
 Authentication-Results: paragon-software.com; dkim=none (message not signed)
  header.d=none;paragon-software.com; dmarc=none action=none
  header.from=oracle.com;
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1821.namprd10.prod.outlook.com
- (2603:10b6:300:107::19) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:301:2d::28) by MWHPR10MB1661.namprd10.prod.outlook.com
+ (2603:10b6:301:8::15) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Tue, 24 Aug
- 2021 07:51:14 +0000
+ 2021 07:58:30 +0000
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4436.024; Tue, 24 Aug 2021
- 07:51:14 +0000
-Date: Tue, 24 Aug 2021 10:51:04 +0300
+ 07:58:30 +0000
+Date: Tue, 24 Aug 2021 10:58:19 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH 3/3] fs/ntfs3: Fix error handling in indx_insert_into_root()
-Message-ID: <20210824075103.GC13096@kili>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev
+Subject: [bug report] fs/ntfs3: Add initialization of super block
+Message-ID: <20210824075819.GA13628@kili>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210824074932.GA13096@kili>
-X-Mailer: git-send-email haha only kidding
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZRAP278CA0005.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:10::15) To MWHPR1001MB2365.namprd10.prod.outlook.com
+X-ClientProxiedBy: ZR0P278CA0084.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:22::17) To MWHPR1001MB2365.namprd10.prod.outlook.com
  (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -82,208 +79,106 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kili (62.8.83.99) by ZRAP278CA0005.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend Transport; Tue, 24 Aug 2021 07:51:12 +0000
+Received: from kili (62.8.83.99) by ZR0P278CA0084.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:22::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Tue, 24 Aug 2021 07:58:28 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8a484b56-4758-4b0b-70d1-08d966d3f2a5
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1821:
+X-MS-Office365-Filtering-Correlation-Id: 61f794cc-2eda-40e0-52c8-08d966d4f665
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1661:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<MWHPR10MB18211DEB8D9BEADD2F2352B48EC59@MWHPR10MB1821.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:459;
+	<MWHPR10MB166183C46D1903FC6AE02B3C8EC59@MWHPR10MB1661.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	wrTog+O/vdh/Zt6dnRkTLrrKiV/IEe2JzhA34QlpPQOI8b/hUqHB7E3Kj4R2MfdwTggwugU6bWmuU0Sif7Y0X+LTW6YlseaNtNVy8pHSa1keRFqkTm0zUO1P7lWIYM/q4uxqsurIRk3gJjag9mVWd4emZOOii7XHif2hc6hiZ6TUd3kh2ynKvgEZdgeDG4Nghl74x1s16NtJYRUPuqzYUhOX6VGuIlgn7eE0hxSd13Wv6CvV+iTL4jXOl3cMwbMSM7ZK7n72krgTPorq1wr+5vIN00OBnvfs187W3Fh+jtJLQS9+2sD9fSDWgQM4wAt9FxLQUnkY9LfR/NoXxssB0MuhpEXfipzNZGsFIPO9NPJRbC/AqrSHvKjqbtpOHNxiNyip94rnVrBkzR/39ik+Uv3aH8Q16k2kJNy8sMAxK53ADuYa5xZ7D/lEBYkzZpPrSoTACmtilyUqKKx0uxHsIlJrnF/32Aj1NNCTkfy/jXnYh3ShJ4/IZWFDNhywXGW51LLg8oBBx1w+wJHw6WNz5UabKr2SuqHnfTrJx5RhuvdoAE1jDMjfBtHi+bMs2ds5IQApJmSLofHrgX9LVYhdpZA3Xn6rKD9mXSbLXnXOUstdsb3S3zVsdvKQJyiE3r/y+xRiyvA0aZsEmVVt/Hgp85+S4EdaXc9X3yPSvMfSGMkWbgxMK7nxALxecjWdgFibQmn0+Y7ojAcpOrrY5DYwcA==
+	BH7Y+/PG6XmTZmV0P1+02KnNqVsFYvivWYCyV0pobPjTek0WFd9IwytG3NcR0c16xYO4RCu2yN7rsMr1bDcojJNl0MfFD2X3PoMuvZz5U733TNsb7DYJzpku+HeC80irToI6/g3686uq1S+Ie3uosKLTphsx0gNhyAHXILyQP1epAM/UfXgdk2CmzjW2RZYv/uPul7r8KZdIYkAxsLly1F5n9YX2k7LUOQHitcCtAlHFfYpHfzDiSCzi4Caf1zuZSAp2l3ObA56BihSkpI7MGhMnPhMySPkh/cdWJ1wLbyd8LuQBAPPoB2JKJZL7hDlpTUMwQUO99S6lpfVFU6/dhrWmzlRWWLIQeBk8Pj+gGyrPYk6cmhuyabvPDm8DI9p1vR+IBbMRE3Cd08x5HgUc45A8XrxlkrHY0nzxm8uErtGOUFgOuu6fxJ7V6wV8Q0bETnmbqrwqT0w2iD3gAUbN/W+2Kor6S4+RZG/2RC7r8JNQ5mfk8FH4UXIDrS92bKP5oBqp5LcG3E++smAy6Q5gh9g1AL3m2vysUzOSSZKsfvkGAftmv5QD/wUWObsX5lgY3FwJBwdmC+whN1T9KGZ/0/bj9N03qkxn51V1dkAeA4/N/vaRqiXVEvHYpvlLKIZ+SxTd0KacUOPcPTovfSZSSca37wTaQgLXI2WEprqC3A21oYYkw0y0JZsKvZdgc43Tx9nScOgoZjebhCmiksKHHw==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(396003)(136003)(366004)(376002)(346002)(1076003)(9686003)(956004)(86362001)(6916009)(55016002)(5660300002)(44832011)(9576002)(6666004)(83380400001)(478600001)(33656002)(186003)(26005)(8676002)(8936002)(6496006)(66476007)(66946007)(38100700002)(66556008)(4326008)(38350700002)(316002)(2906002)(33716001)(52116002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(376002)(136003)(39860400002)(396003)(366004)(26005)(6666004)(4326008)(66476007)(66556008)(6916009)(33656002)(2906002)(66946007)(956004)(9686003)(55016002)(186003)(86362001)(1076003)(33716001)(38100700002)(38350700002)(8936002)(9576002)(478600001)(6496006)(83380400001)(316002)(8676002)(52116002)(5660300002)(44832011);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?6M4GmLTnE6o2jAZRCK6Cw1pNHQUO1/UDfXKfFnQ2sjdaU179vY2nvw+9TFYW?=
- =?us-ascii?Q?kTgZBBbpGskxTwmYzZFsIx0h8gz3/+nW7qOzWwdMeGOZI9knCVLUmqAs0kH+?=
- =?us-ascii?Q?oEg1S5dJQT+F3IoYLnmxoxBP8m99KgXzIH/9+FuLXASt1JtYkUwecuQpfO+u?=
- =?us-ascii?Q?QjBLK1SeCztG8VXCYbBP5hp2WhkkLuw5PWFnn+iqaZWOsncrl7tsGE4aH8fw?=
- =?us-ascii?Q?rj/+pcl/OKYutymjEgrpP1UuRcSMEkfOsrgFqZg8dDWuuIt9CCVvJOhUAHur?=
- =?us-ascii?Q?6SQhGK7M+Fgpm7K6/+AQlLSgX30NplrPMHLMd3sG6EXO7+18MNb0lFOPSKcp?=
- =?us-ascii?Q?kPhiio3iJRMvt1iLqIV8YZuf8kebQVHa1NN9EAw4rN/ZtAmU0enasPRK0R0l?=
- =?us-ascii?Q?m6YVy4mt3Q1MoquFBmBeSW6SBuBWalxLfaWEBP6CDJO3NrP5I0gVgvtoGnyA?=
- =?us-ascii?Q?J+31AALV634CDhqO1tusZAJEmzNxcRc4IVajhLZJJmbO57rrDydxqaH1MFxm?=
- =?us-ascii?Q?kTtp/nnhwZuou3vJysl6TxsbMdIHaF6DkYKiIu0DxU0ZxBGgjSPMLqHRqOEN?=
- =?us-ascii?Q?MmlEBBf4V9NUoHuMcZGMQ45OoR7DsUnTwvXpobIQjpb2gGW7qioUFfpcPCOS?=
- =?us-ascii?Q?MCaXnYTA9YO4VjmT9fDHUi91AoaRPTQOFm0PpNaRkPzS+Y64cosdRSqsu6Vr?=
- =?us-ascii?Q?MCp5WfwCI9MOCFjBW7OKiffR87Q3pXXxcp59CoTS6T1Bad0Vlda7KUVKHPGO?=
- =?us-ascii?Q?0td91CQP7FoEtanazrrtVLS7KsVN0WK+c+QSiUzLAK28Mmtd0iNTIcqfnVLv?=
- =?us-ascii?Q?ywJtH8AqdPUUlitInVJNoVlfdovyRn8KWwlX35nsp1N3LjVNvbPcOj/OZTQR?=
- =?us-ascii?Q?Gj0JLfAi7GZZ33YiWh3AAvORh+mukP8spgHCIGvadoX/efGLfsYJsBHyKxoP?=
- =?us-ascii?Q?eBJRkyZI8j239tWPJXPQqrTW9y20Q7MIun9P579scob7Qbmc95Qn0Yf/Sgd2?=
- =?us-ascii?Q?MCUgO7vC6jPmNqNBBUy2MMKlIR1aeG7tOxqahw1y93VAYTQsJSfEolcUSra1?=
- =?us-ascii?Q?XYVvGlGCDBNB6oKO5VFC9MEkBwmgKk7MHQ9aRkCUMs8DqJKgaWD9EUSLbCUx?=
- =?us-ascii?Q?ULqRp3rZrxRkyfJic/OWTd4FIyztP7w+YRciLh0wc+Fj5RegGdhzm9GceKgM?=
- =?us-ascii?Q?gqR/QoDRBdlhVk2WyKDGAE5mJPriclEcxi89NE9jP94ppD/f2jI917z7f8En?=
- =?us-ascii?Q?nTrs+gPxqgDl5tr/Pz/5vAiq7eHGdaoZQLVUc+0Tweo66ljGscufeIrgIz6N?=
- =?us-ascii?Q?ydUB1mQZzkrKKC+/su/CPabU?=
+	=?us-ascii?Q?/boivM4sy/36qaBT+8WeOGuXjw5kLXzXEKQuym52S47GbklBiMhLER9HOfmP?=
+ =?us-ascii?Q?YYapyNBvIA++jp+4YcVJapUEL7o9y7XQnMonqghx6YD3wk5ljxbPrOCiIzVV?=
+ =?us-ascii?Q?PKZ0W26GUlLyDSVpaW2gtbV+79kJuJcnCUWwCyrn8kzXGaZ7pMpLInqztufL?=
+ =?us-ascii?Q?+iaqSRaAkWqxvUR4BGZfWJSMBPv06QHzT8umt5gjZ4K2UqAhUmoVOozYFoq/?=
+ =?us-ascii?Q?J7IqLjKF3mXS7b2tlOD25masNgjMEvXOI7T9NQjxLEv7mnh/KeevaIIY4npb?=
+ =?us-ascii?Q?LplnYfloPQ5AiFMLjczoiYb/R0jMl5EMm6SQJcdmiBqn67upO8ET0Orx3KnR?=
+ =?us-ascii?Q?23u61Ugwm+KLdh8GsaKIeLbxoyqGfDyE9JH6yo7dfGgC9pMazTEwUrNxgOwv?=
+ =?us-ascii?Q?HsTF/66jjg9VB/LRLLIBuZ5sG2qodIWRzmNjC73nWqbwjSbQTKk4TlEIDWAx?=
+ =?us-ascii?Q?f7fquuTmNRI3fQUNi3euU5kq7pqLI7KRk9GpF8PnZwnxHfr2UAw6B0rQxog6?=
+ =?us-ascii?Q?AmdlR3btB0c+CECzgx2UQS0eA5VCzkwEZ6qjWEl56eiHELwY2hu/dFSfbKA9?=
+ =?us-ascii?Q?AiK9IpckVZZ5olu9yFgRjxv+sK6mSJ5VrA/NXon2PEvvgpS3qcPgQOg2op20?=
+ =?us-ascii?Q?ldudUIBxvQtYc2lJHfkvYapkYBYfYC+mcsCOLmEqZoZSs9qr2aIE4dZIEE5g?=
+ =?us-ascii?Q?CjC3JlHjb3kSbRXwM2FLNMb674QLvTWXB55+ncjuMDjUUvgHZN1N1Xv5k3kO?=
+ =?us-ascii?Q?ToSpxldBmIoLfzjLKnBG/EzgHNIXXmE9AwC1PFNLkfl50gKRL5iCd0bimSHJ?=
+ =?us-ascii?Q?7VPUogMmjpdyMXTjJ2u/djCMcBYxkggnZGjCpqfX8Hoi2zrRHiedg/2jSc2R?=
+ =?us-ascii?Q?ndWeXUdKuVuiOjf7U/0dprj9fPW+uklfV0HjR+ikRxP2w7+/fxGiWm/35WL5?=
+ =?us-ascii?Q?xVRdELyP3VsRrqp4LWZrRj49yYhDV69KxtK1idMtobzuc8o4eK6oMIYLPn1T?=
+ =?us-ascii?Q?fuqxWkNkCUD8Uyyz/Y/27mCnxVafZ/DJDo26gETfwsKl/NwckZkrJbIRjbQJ?=
+ =?us-ascii?Q?NstKFtqoG02IDz7vf5M97Vu4lcTrkcBC/LBuoqHWzpHYgmlA8Nz5T5urygNL?=
+ =?us-ascii?Q?OMRmp1MbSvzaYMaQF3Bq7WRKiN5m/jjmmE5BaJl+T2Vhr+wZsklFna8fK9GU?=
+ =?us-ascii?Q?TZjB7bxcWZwavub8YUDA76y8lEO5tymdS2zjeCl1VuZsusOt7QeWlEezGPF9?=
+ =?us-ascii?Q?T+thzAfRme3/3mB6OtJ/Wr0KXGJt9xVgVNxGBvN8jz7NyFJPmdM1ZyBoYV4G?=
+ =?us-ascii?Q?GoywZzj3EzXmglVPUZ4HQZV/?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a484b56-4758-4b0b-70d1-08d966d3f2a5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61f794cc-2eda-40e0-52c8-08d966d4f665
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 07:51:14.7575
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 07:58:30.3980
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3U39OwASdAg6WYnmOQWzelslUB7ifnIDCPdEn9kpfrC+Rx11MJwQteWgfM8pBNmF5uibyrBDzxKqOpbsQ/obSUeBu6q6yLgCQy5DPIUanUE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1821
+X-MS-Exchange-CrossTenant-UserPrincipalName: J0nGDJXhGGq6ibxaY1682dMdklgBP1Tun6+oNImwzo5hqOyWvR3Th5dBKaf0EkDX6oifgnriXInyr/rlSSY2D/HdNGDzTYfOhcD8wmR0fjQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1661
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10085 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
- spamscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108240053
-X-Proofpoint-ORIG-GUID: 8zBrQ5UIjzOfsJP3tSy1S95sUI1sYzTJ
-X-Proofpoint-GUID: 8zBrQ5UIjzOfsJP3tSy1S95sUI1sYzTJ
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0
+ mlxlogscore=914 bulkscore=0 mlxscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108240054
+X-Proofpoint-ORIG-GUID: _pOzIGKGfp5LVmN_HJgIPx6e-eHZBaW4
+X-Proofpoint-GUID: _pOzIGKGfp5LVmN_HJgIPx6e-eHZBaW4
 
-There are three bugs in this code:
-1) If indx_get_root() fails, then return -EINVAL instead of success.
-2) On the "/* make root external */" -EOPNOTSUPP; error path it should
-   free "re" but it has a memory leak.
-3) If indx_new() fails then it will lead to an error pointer dereference
-   when we call put_indx_node().
+Hello Konstantin Komarov,
 
-I've re-written the error handling to be more clear.
+The patch 82cae269cfa9: "fs/ntfs3: Add initialization of super block"
+from Aug 13, 2021, leads to the following
+Smatch static checker warning:
 
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- fs/ntfs3/index.c | 36 ++++++++++++++++--------------------
- 1 file changed, 16 insertions(+), 20 deletions(-)
+	fs/ntfs3/index.c:238 bmp_buf_get()
+	warn: 'bh' could be an error pointer
 
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index 489e0fffbc75..4f2d24010386 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -1554,12 +1554,12 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
- 	u32 root_size, new_root_size;
- 	struct ntfs_sb_info *sbi;
- 	int ds_root;
--	struct INDEX_ROOT *root, *a_root = NULL;
-+	struct INDEX_ROOT *root, *a_root;
- 
- 	/* Get the record this root placed in */
- 	root = indx_get_root(indx, ni, &attr, &mi);
- 	if (!root)
--		goto out;
-+		return -EINVAL;
- 
- 	/*
- 	 * Try easy case:
-@@ -1591,10 +1591,8 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
- 
- 	/* Make a copy of root attribute to restore if error */
- 	a_root = ntfs_memdup(attr, asize);
--	if (!a_root) {
--		err = -ENOMEM;
--		goto out;
--	}
-+	if (!a_root)
-+		return -ENOMEM;
- 
- 	/* copy all the non-end entries from the index root to the new buffer.*/
- 	to_move = 0;
-@@ -1604,7 +1602,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
- 	for (e = e0;; e = hdr_next_de(hdr, e)) {
- 		if (!e) {
- 			err = -EINVAL;
--			goto out;
-+			goto out_free_root;
- 		}
- 
- 		if (de_is_last(e))
-@@ -1612,14 +1610,13 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
- 		to_move += le16_to_cpu(e->size);
- 	}
- 
--	n = NULL;
- 	if (!to_move) {
- 		re = NULL;
- 	} else {
- 		re = ntfs_memdup(e0, to_move);
- 		if (!re) {
- 			err = -ENOMEM;
--			goto out;
-+			goto out_free_root;
- 		}
- 	}
- 
-@@ -1636,7 +1633,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
- 	if (ds_root > 0 && used + ds_root > sbi->max_bytes_per_attr) {
- 		/* make root external */
- 		err = -EOPNOTSUPP;
--		goto out;
-+		goto out_free_re;
- 	}
- 
- 	if (ds_root)
-@@ -1666,7 +1663,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
- 		/* bug? */
- 		ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
- 		err = -EINVAL;
--		goto out1;
-+		goto out_free_re;
- 	}
- 
- 	if (err) {
-@@ -1677,7 +1674,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
- 			/* bug? */
- 			ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
- 		}
--		goto out1;
-+		goto out_free_re;
- 	}
- 
- 	e = (struct NTFS_DE *)(root + 1);
-@@ -1688,7 +1685,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
- 	n = indx_new(indx, ni, new_vbn, sub_vbn);
- 	if (IS_ERR(n)) {
- 		err = PTR_ERR(n);
--		goto out1;
-+		goto out_free_re;
- 	}
- 
- 	hdr = &n->index->ihdr;
-@@ -1715,7 +1712,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
- 		put_indx_node(n);
- 		fnd_clear(fnd);
- 		err = indx_insert_entry(indx, ni, new_de, ctx, fnd);
--		goto out;
-+		goto out_free_root;
- 	}
- 
- 	/*
-@@ -1725,7 +1722,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
- 	e = hdr_insert_de(indx, hdr, new_de, NULL, ctx);
- 	if (!e) {
- 		err = -EINVAL;
--		goto out1;
-+		goto out_put_n;
- 	}
- 	fnd_push(fnd, n, e);
- 
-@@ -1734,12 +1731,11 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
- 
- 	n = NULL;
- 
--out1:
-+out_put_n:
-+	put_indx_node(n);
-+out_free_re:
- 	ntfs_free(re);
--	if (n)
--		put_indx_node(n);
--
--out:
-+out_free_root:
- 	ntfs_free(a_root);
- 	return err;
- }
--- 
-2.20.1
+fs/ntfs3/index.c
+    229 	data_size = le64_to_cpu(b->nres.data_size);
+    230 	if (WARN_ON(off >= data_size)) {
+    231 		/* looks like filesystem error */
+    232 		return -EINVAL;
+    233 	}
+    234 
+    235 	valid_size = le64_to_cpu(b->nres.valid_size);
+    236 
+    237 	bh = ntfs_bread_run(sbi, &indx->bitmap_run, off);
+--> 238 	if (!bh)
+    239 		return -EIO;
+    240 
+    241 	if (IS_ERR(bh))
 
+This is not a bug, but it is wrong style.  When a function returns both
+error pointers and NULL then the NULL return is means the feature is
+disabled.  It's not an error.  Just that the feature is turned off
+deliberately in the Kconfig or whatever.  Don't print an error message,
+just continue with the feature disabled as the admin has requested.
+
+But here NULL is just an error.  The ntfs_bread_run() should do:
+
+	bh = ntfs_bread();
+	if (!bh)
+		return ERR_PTR(-EIO);
+	return bh;
+
+    242 		return PTR_ERR(bh);
+    243 
+    244 	bbuf->bh = bh;
+    245 
+
+regards,
+dan carpenter
