@@ -1,52 +1,48 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DCD72
-	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 10:22:42 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id v19so19149175lfo.7
-        for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 03:22:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6D43FC0
+	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 10:33:47 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id g13so44412563lfj.12
+        for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 03:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=3W1xdoehyf4t4+YBmZDr+1dBA3rDa3UkltsorCMol7k=;
-        b=ddnCZOAS3Wo8OipZfYJJuvS2YXvmHX+Cdn78WN4kJM+plWe+dGDDJNW4C3uBOfl8b7
-         6itn+dB8ZjqkQGlFTo2nABgJUki15P+L/qFOXKfO1kOK6CBr0cgArav5zkVBbpuvldxJ
-         7ZeTy5NCb0H4YVq+23RGtSFnUyZdEpKpFJ48W7fhEu/27NbUwgIh4xFcEFki2yoJ1F9g
-         z6RfuPtwW5Hg1fQGQzhjkhuuaA8ypdmhV3b1Uc6NeQNEvA1PzCuecNb5tioTs7ED/uDC
-         w6IRWdTEvms2fHwOIhs+/z+CymZIDsNr5UgeFaYLLliAzCj3S8cr5yZ/XjFEFEe+wU6f
-         dCew==
+        bh=toxam9jI47eYcvVp6UVp7uH5UQbd8oMPHPmdoq6nmzc=;
+        b=l39wmwFhQpOVjrBMv+bIoaTesnPcrg1OtTkGUoGtG8Hv5/qn0Q6CKIaBnQx+W2Dlml
+         J2U2SaS1JEK5DG7OeJeiXMwcUSb9OuUKvOy+KJ+A3TdJcpKMQCUgn1b5Rdn1R+br8eVs
+         Fb3bcO9NHx7TkMxSA3IsLSDx5TY2ILhcQWhYepPk19DW88NwtIryYCfjJTSTeCPfcL1/
+         j0Wi7EOVtls8HjVFhvzzarXofqwNPcgH4intYLPdwNa93fhUm5jN3BDZbXMvHeeMdvCV
+         IIM3CRD4Guhn5SFVLaq2qrSXxSnA9w5XXtLZOpRNQHCZhQHvCfi7DJC/s0HqO9brv6vu
+         /qEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=3W1xdoehyf4t4+YBmZDr+1dBA3rDa3UkltsorCMol7k=;
-        b=Ti3mihACqSr1JT5jJ3ug6CjmQgBetrOi6d4Ts01V1qItVYxre++pJz3AUURl0coMUC
-         TN6Zb4339A2S68Gxhz/6de/Nj7K9hqF5byqDTho/cqQfRNbrhL4Eyo8TYPRC3KjLYsXk
-         eV3gkOduZctoZrYKoHnKgcLEzvNWFij/yX8hKEio9f3drUSK0fD9kiYOafh30ZTmPBZl
-         B08MUCdm38CvGiBtREfUw4uwO46rHGC5H3hEXWlyqY9JI8/iOnSDRGD5h/oSA6v2oSWV
-         lmDFUkQztoSSC/WjDw1y2wpfH24z/Pa/ZjcVVHkn9dDjTgPAI8mUZLWbDtpgGM9MGXXg
-         ABhA==
-X-Gm-Message-State: AOAM533w1bmHDsqkaLPd5DwMZAjuxJS+riweGPLu9+tNVl0xkfkaoffJ
-	DgUHNzMPWE3xL9GvduQDsfM=
-X-Google-Smtp-Source: ABdhPJw3pCLmmDVNHPZK0n8tNAg+seiilW+FZe41WVWztfBf1SQVLyGtYmvruA6jBEQUYCu7cIm0Bg==
-X-Received: by 2002:a05:6512:358c:: with SMTP id m12mr8884498lfr.413.1629800560906;
-        Tue, 24 Aug 2021 03:22:40 -0700 (PDT)
+        bh=toxam9jI47eYcvVp6UVp7uH5UQbd8oMPHPmdoq6nmzc=;
+        b=iVD5T0hjU0NXr9VlSpIVN9E6dhEZLiZRuJJ2wphgjTXdzegQ/aVqBfsKlvbTe5PbkQ
+         gC1hW479+ithyPk24VPlAhBiOl9x64tNg5Sg1zGhlIt4Wv4xA6tNUDFASMZ7m8lOkXJp
+         ptUrn4ghEYBTgm9DgEd8IJyWk47pJGKMMSxiyCDcpvwlt+presk/YEQYPl2A7zjuxDjj
+         G2FxO8AhSww0ojXHWR7nhgTKEfCi3EpatFnyuFNDeiV7Vi/76DrChk3Fe4tLaV39FQqL
+         5esNX+RJBv16dMEYR6Eo98rH8mQE7EYfEHsSTLcies9XhaRugf3zPWKntB8QXxFqZnnC
+         Z77A==
+X-Gm-Message-State: AOAM530i32OzDEktNKGEDzjBlQRRDAeJOh7nis4n67C+3cW/a+ykOGnB
+	D0CQdMpbtgSFL56vEf30xfU=
+X-Google-Smtp-Source: ABdhPJw1+exh+KtSVl9uFiZvc37FyLCLtr1Vu+RMh30d/iejDnBzR/ULfTr7FoCMiuQliwsuGxx5XQ==
+X-Received: by 2002:a19:dc47:: with SMTP id f7mr27973617lfj.71.1629801225911;
+        Tue, 24 Aug 2021 03:33:45 -0700 (PDT)
 Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id y35sm478697lfa.107.2021.08.24.03.22.40
+        by smtp.gmail.com with ESMTPSA id l8sm376126lfh.157.2021.08.24.03.33.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 03:22:40 -0700 (PDT)
-Date: Tue, 24 Aug 2021 13:22:38 +0300
+        Tue, 24 Aug 2021 03:33:45 -0700 (PDT)
+Date: Tue, 24 Aug 2021 13:33:43 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 3/3] fs/ntfs3: Fix error handling in
- indx_insert_into_root()
-Message-ID: <20210824102238.a73zhglpqsj5xnf5@kari-VirtualBox>
-References: <20210824074932.GA13096@kili>
- <20210824075103.GC13096@kili>
+Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev
+Subject: Re: [bug report] fs/ntfs3: Add initialization of super block
+Message-ID: <20210824103343.pwnjzsi4yt4yiuvh@kari-VirtualBox>
+References: <20210824075819.GA13628@kili>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -55,186 +51,58 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210824075103.GC13096@kili>
+In-Reply-To: <20210824075819.GA13628@kili>
 
-On Tue, Aug 24, 2021 at 10:51:04AM +0300, Dan Carpenter wrote:
-> There are three bugs in this code:
-> 1) If indx_get_root() fails, then return -EINVAL instead of success.
-> 2) On the "/* make root external */" -EOPNOTSUPP; error path it should
->    free "re" but it has a memory leak.
-> 3) If indx_new() fails then it will lead to an error pointer dereference
->    when we call put_indx_node().
+On Tue, Aug 24, 2021 at 10:58:19AM +0300, Dan Carpenter wrote:
+> Hello Konstantin Komarov,
 > 
-> I've re-written the error handling to be more clear.
+> The patch 82cae269cfa9: "fs/ntfs3: Add initialization of super block"
+> from Aug 13, 2021, leads to the following
+> Smatch static checker warning:
 > 
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-Minor things in comments. With or without they being made:
-
-Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
-
-> ---
->  fs/ntfs3/index.c | 36 ++++++++++++++++--------------------
->  1 file changed, 16 insertions(+), 20 deletions(-)
+> 	fs/ntfs3/index.c:238 bmp_buf_get()
+> 	warn: 'bh' could be an error pointer
 > 
-> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-> index 489e0fffbc75..4f2d24010386 100644
-> --- a/fs/ntfs3/index.c
-> +++ b/fs/ntfs3/index.c
-> @@ -1554,12 +1554,12 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
-
-
-	int err = 0;
-
-No need to initiliaze err anymore.
-
->  	u32 root_size, new_root_size;
->  	struct ntfs_sb_info *sbi;
->  	int ds_root;
-> -	struct INDEX_ROOT *root, *a_root = NULL;
-> +	struct INDEX_ROOT *root, *a_root;
->  
->  	/* Get the record this root placed in */
->  	root = indx_get_root(indx, ni, &attr, &mi);
->  	if (!root)
-> -		goto out;
-> +		return -EINVAL;
->  
->  	/*
->  	 * Try easy case:
-> @@ -1591,10 +1591,8 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  
->  	/* Make a copy of root attribute to restore if error */
->  	a_root = ntfs_memdup(attr, asize);
-> -	if (!a_root) {
-> -		err = -ENOMEM;
-> -		goto out;
-> -	}
-> +	if (!a_root)
-> +		return -ENOMEM;
-
-a_root could be moved little further but maybe it makes sense to live
-here. Not effecting your patch but I wonder if attr should be restored
-in more situatations. attr is restored only in one place. But you do
-not have to check any of this if not intrested. Just thinking out loud
-here.
-
->  
->  	/* copy all the non-end entries from the index root to the new buffer.*/
->  	to_move = 0;
-> @@ -1604,7 +1602,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  	for (e = e0;; e = hdr_next_de(hdr, e)) {
->  		if (!e) {
->  			err = -EINVAL;
-> -			goto out;
-> +			goto out_free_root;
->  		}
->  
->  		if (de_is_last(e))
-> @@ -1612,14 +1610,13 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  		to_move += le16_to_cpu(e->size);
->  	}
->  
-> -	n = NULL;
->  	if (!to_move) {
->  		re = NULL;
->  	} else {
->  		re = ntfs_memdup(e0, to_move);
->  		if (!re) {
->  			err = -ENOMEM;
-> -			goto out;
-> +			goto out_free_root;
->  		}
->  	}
->  
-> @@ -1636,7 +1633,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  	if (ds_root > 0 && used + ds_root > sbi->max_bytes_per_attr) {
->  		/* make root external */
->  		err = -EOPNOTSUPP;
-> -		goto out;
-> +		goto out_free_re;
->  	}
->  
->  	if (ds_root)
-> @@ -1666,7 +1663,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  		/* bug? */
->  		ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
->  		err = -EINVAL;
-> -		goto out1;
-> +		goto out_free_re;
->  	}
->  
->  	if (err) {
-> @@ -1677,7 +1674,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  			/* bug? */
->  			ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
->  		}
-> -		goto out1;
-> +		goto out_free_re;
->  	}
->  
->  	e = (struct NTFS_DE *)(root + 1);
-> @@ -1688,7 +1685,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  	n = indx_new(indx, ni, new_vbn, sub_vbn);
->  	if (IS_ERR(n)) {
->  		err = PTR_ERR(n);
-> -		goto out1;
-> +		goto out_free_re;
->  	}
->  
->  	hdr = &n->index->ihdr;
-> @@ -1715,7 +1712,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
-
-
-		ntfs_free(re);
-
-Take this off
-
->  		put_indx_node(n);
-
-and this off
-
->  		fnd_clear(fnd);
->  		err = indx_insert_entry(indx, ni, new_de, ctx, fnd);
-> -		goto out;
-> +		goto out_free_root;
-
-and call out_put_n here. Right?
-
->  	}
->  
->  	/*
-> @@ -1725,7 +1722,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  	e = hdr_insert_de(indx, hdr, new_de, NULL, ctx);
->  	if (!e) {
->  		err = -EINVAL;
-> -		goto out1;
-> +		goto out_put_n;
->  	}
->  	fnd_push(fnd, n, e);
->  
-> @@ -1734,12 +1731,11 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  
->  	n = NULL;
->  
-> -out1:
-> +out_put_n:
-> +	put_indx_node(n);
-> +out_free_re:
->  	ntfs_free(re);
-> -	if (n)
-> -		put_indx_node(n);
-> -
-> -out:
-> +out_free_root:
->  	ntfs_free(a_root);
->  	return err;
->  }
-
-Overall lot cleaner now. Thanks.
-
-> -- 
-> 2.20.1
+> fs/ntfs3/index.c
+>     229 	data_size = le64_to_cpu(b->nres.data_size);
+>     230 	if (WARN_ON(off >= data_size)) {
+>     231 		/* looks like filesystem error */
+>     232 		return -EINVAL;
+>     233 	}
+>     234 
+>     235 	valid_size = le64_to_cpu(b->nres.valid_size);
+>     236 
+>     237 	bh = ntfs_bread_run(sbi, &indx->bitmap_run, off);
+> --> 238 	if (!bh)
+>     239 		return -EIO;
+>     240 
+>     241 	if (IS_ERR(bh))
 > 
+> This is not a bug, but it is wrong style.  When a function returns both
+> error pointers and NULL then the NULL return is means the feature is
+> disabled.  It's not an error.  Just that the feature is turned off
+> deliberately in the Kconfig or whatever.  Don't print an error message,
+> just continue with the feature disabled as the admin has requested.
 > 
+> But here NULL is just an error.  The ntfs_bread_run() should do:
+
+Agreed.
+
+> 
+> 	bh = ntfs_bread();
+> 	if (!bh)
+> 		return ERR_PTR(-EIO);
+> 	return bh;
+
+Can also be like below but probably your version is more readable.
+
+return ntfs_bread(sb, lbo >> sb->s_blocksize_bits) ? : ERR_PTR(-EIO);
+
+> 
+>     242 		return PTR_ERR(bh);
+>     243 
+>     244 	bbuf->bh = bh;
+>     245 
+> 
+> regards,
+> dan carpenter
