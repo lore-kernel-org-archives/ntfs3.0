@@ -1,177 +1,102 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0670772
-	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 17:07:38 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17OFDYrC015014;
-	Tue, 24 Aug 2021 17:07:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=CxA6NxgJgDIHh2yqatTAP+Xqkcn0X+wgnlAWzGmj414=;
- b=tZktPbJRvmnXr5aUzviQM/gFqHTyfF0TiGnqAov46Ob8ro0iZkdp88kXFDhkvNKXHLLy
- GbpYGJL1Oth9eiT55oZyvDmlWOM4XWo7ctY2MiP5Q2GnRjxmuZA1YEVxSZUcLlWblxyo
- PNNbdJYR1pOSBhZZ5PN7PXHIEm1R0CRfUDwzHQeOCyzNG4Tbv5V05W6SRDFzXJ/8qVW4
- 9+y1DS+3VOJrKvB5ibmeh6bu8rag9MUfeMU8aptw9qSzhWdjHuTuIztjrazyt0kLaZP8
- FqqaUsviuj8xuuqt2rQ+iwnhkwiUSGJfnsHecCQ1enw3kzAT6/1J2FIDo7qwdce+wPwG gQ== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=CxA6NxgJgDIHh2yqatTAP+Xqkcn0X+wgnlAWzGmj414=;
- b=UjX2MrsUywF4Zq0Qp+sOGSVcFM/QAHC55pXmssYVFGWl7bxuux7R3QSqytkaT8wct55p
- /ieIxH9IOemf0haJ9UQ2XSVjj/69PohREwNbr/o39MnXDskUI5px4XpMDw+nXianevGl
- 8EVuWECmrmbifZ5H2/oK/m58DE1SGX9lmhOpGP6UFyEjlJ3CqI9qNJztccOYZYyxVhQ8
- rbOFXjNCcSInaEFHuEDd8xFYkc+qSZvCh8HEP8N1mwLTIV363CxwTyRzTlxG9wdT6AK3
- u2v2g++/2t6u4EbR4KyXn//80RXwv16aDEiZkx4H7npjFC0Ri5clK7eIXGX7l9gXxd9D QA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3amwh6h82w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Aug 2021 17:07:37 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17OH5UWa011519;
-	Tue, 24 Aug 2021 17:07:36 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
-	by aserp3030.oracle.com with ESMTP id 3ajqheya45-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Aug 2021 17:07:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XXFldN5B2Fc6utmlMbMsDKrUCCuISHMxU4KM3L/Mei1C7WrNnn3eE94TOAAcOYpB0M5Kt6A10DEfu3XLtgwRYH8/Mj2UTQcbqBEzqYY6ZY27WIp2L7MjkIoHW5o4uH0FZiMMwabeVLFn/wBaMw0lOF2JdKy1bevcLipytKlfq8uX26I7qiZqRerKK0FuP/ag48aefejYfHrUBGv8Vgr4HwsBUjwcfytDUz7pWggChXoQBXzyszIxiYMPPnB3EX+jyC5BhYhTKu8AlAXwgnzr32la3a75yBxy1r4iBX6tcgea6mkI5Bl/XRN5x2SJAxrfFIo6mLVGcexpVgnusPkr/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CxA6NxgJgDIHh2yqatTAP+Xqkcn0X+wgnlAWzGmj414=;
- b=g3uATw0zRDO9L/x5M7hpHU9alRgt2onPkzHGXe/EKGtbA/Dopg8bErlzZWhhFEniS/8rMO1uYaum1MpkrCjRyPV2dVfgn+nf5zb+D/T/MRkMolATL2adVF6or93NsoSlr/zrZUFtdvapP+eNbHqtavzWkJXp6PRnVjqIPmP7XpLUvAQkMJ5mUdm6iPrITCwBpnx22JuiuWuvf5W7z+Ksd9NXSHBFpI/C69DQebDOKSMhGktGeyt8o7lK4DxMiTmOW2duxD1/fEMVfxSQY9k8CjHg9mq1Z6csOY6CVpwL96h72NUwPRwQaWNgzbPkdpD3GlEpvkhdQXosJUbboAakfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41BB72
+	for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 18:20:39 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id j12so24770693ljg.10
+        for <ntfs3@lists.linux.dev>; Tue, 24 Aug 2021 11:20:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CxA6NxgJgDIHh2yqatTAP+Xqkcn0X+wgnlAWzGmj414=;
- b=H00p8/BkAL4qk4Lj1yrMImzFVFOFp+JlIedMgHjNEtkl0tM/MIAJ9KY/tfI2rqmXA4nzO7HOaEBqAINshA9Jo7PdYPJ1Wx6XglF/9vpRo1TGzXEJK83UVlYpZGyz6l1igNCC3yM/+TmUj+mIfdwz5v4oohiyLNl7QURAWkDibiY=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
-Received: from CY4PR1001MB2358.namprd10.prod.outlook.com
- (2603:10b6:910:4a::32) by CY4PR10MB1637.namprd10.prod.outlook.com
- (2603:10b6:910:8::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.22; Tue, 24 Aug
- 2021 17:07:34 +0000
-Received: from CY4PR1001MB2358.namprd10.prod.outlook.com
- ([fe80::784c:a501:738a:143a]) by CY4PR1001MB2358.namprd10.prod.outlook.com
- ([fe80::784c:a501:738a:143a%2]) with mapi id 15.20.4436.024; Tue, 24 Aug 2021
- 17:07:34 +0000
-Date: Tue, 24 Aug 2021 20:07:20 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Kari Argillander <kari.argillander@gmail.com>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] fs/ntfs3: fix an error code in ntfs_get_acl_ex()
-Message-ID: <20210824170720.GO7722@kadam>
-References: <20210824114858.GH31143@kili>
- <20210824163851.hfbjqqpztgk4ngd5@kari-VirtualBox>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210824163851.hfbjqqpztgk4ngd5@kari-VirtualBox>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0005.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::10)
- To CY4PR1001MB2358.namprd10.prod.outlook.com (2603:10b6:910:4a::32)
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VBABjmHqYwSGMvrKOv+LHJL9S1tFaoQC8OEouPmbANI=;
+        b=NGhAAuZZ/gVDx4WlrNQt8cLEsDc+JhpFXPBX3Wob3AVse2hz8oe5+DtC+NUIoqMo1a
+         g8RxCqsMETMsufGr7r06hpQ1nDPwNKzUdhVp4X6EeDZ5I5iq3EeaRcjNb4kRHCt227lD
+         a/vyTBt0djsZSHKsTLSOOiBLOqzpWccgfVXKhorFuRxfGU2SNmWiBdokCBAfU2Zx/4mC
+         ILyAjXDIFzGOxondKuMt86R131+T6AxfRHABjdR5C7NFBuhWgMhqu2hxs8/OJ71jURWQ
+         iruIlLTu5ynm42WAWV2L4EFNJFxALiuJF77fMaO97GLg699vZVKJahgo01Rfub1q6eos
+         m/ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VBABjmHqYwSGMvrKOv+LHJL9S1tFaoQC8OEouPmbANI=;
+        b=mV5usxcnwFwaB7y4mIadwOexsrILVFNulXiMZDrVPlqCQfiwnXpukl4eTd88rjagaw
+         dhDDf6lQ62kxHuGzZKgBcdetzHAnvX4lM95G+5Cwa9eUrFSvIXgD1hzd63IAaMQJJOFJ
+         33OGlvLOSGNW+na4MI6ayWr8ayLNufbAL/I4KSRZolJaESf6TJQASjhtYpyX0hW9WcXe
+         27vzHSv2SGeJSdvxKu7hhb/XxQOvk0gxnaAXer9abtfu9WhZciFjrowuPjz9mmBLEbFc
+         LE6bgJjw6HaC8tDM2taxgLj0qxZt/LE0zQhxLXRm7FypwpkT9Q5Lv1FlSY5zXPDFYVf9
+         4gkg==
+X-Gm-Message-State: AOAM532TZ7DuQEymfJ9y7wTrUmYzaWH0bvFu2yzKPBHBajVfLOgvTjBA
+	+z7ZqndE6TJIo84QNKcc5O4=
+X-Google-Smtp-Source: ABdhPJxQUZ6wDtkA/pCRg7RLySrQbFXiTPbB78Q6+KHCxEe3xzRHc6jp2wV9DUMZTJUKCOjDcE7EGQ==
+X-Received: by 2002:a05:651c:225:: with SMTP id z5mr22991979ljn.409.1629829237833;
+        Tue, 24 Aug 2021 11:20:37 -0700 (PDT)
+Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id p5sm1823783lfs.99.2021.08.24.11.20.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 11:20:37 -0700 (PDT)
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: Kari Argillander <kari.argillander@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
+Subject: [PATCH] fs/ntfs3: Remove fat ioctl's from ntfs3 driver for now
+Date: Tue, 24 Aug 2021 21:20:20 +0300
+Message-Id: <20210824182020.1007329-1-kari.argillander@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kadam (62.8.83.99) by JNAP275CA0005.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::10) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Tue, 24 Aug 2021 17:07:30 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 26573e35-2641-4355-0fa9-08d96721aa9d
-X-MS-TrafficTypeDiagnostic: CY4PR10MB1637:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<CY4PR10MB163781A2324E58F7AF98A5C18EC59@CY4PR10MB1637.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	kDyrTHI+xJCDZ68AsBbGXUmdWPDBmIja+CSC6hZbylx0omNFMlgUE5DktV8kTm8/5ep95vC6WjMXTrzKwBYqQmVROrdan/5CAiRkMyTI0ezxte1/3RDMgzMbG3wqp8am9uq3JK+gkvvtuN1YYSmt1TLt/mzhXaQgpLATXeDVQXBudZA+1CFnl7+ji0O3DWx2EsLA70jnSLynT/iZKIZR/yNGP4MU2CGU6n/a+w6/XQ9biNXwv+Xixgb0YCOWtZrnmMvdhrDxijRhquTqF7YqSzhWr2SKE3oI+s2w+p2cAg1Vpnrk30QjK2+kTFv3w7lPCimCZa9OODLG0+2uIFtBgmIoo69KYBD+q5GIt7JE4243PIRmIOiwTrYMxRSnnu3/ug9HWxrIPLuP8WWL1kO4hQk3QocpvAUY0mky2J6/1S8pnzrmjbtJO2cmJ5kLRUJU5GO2XAsrXxDkMg4kN3asLEKThViZlFyWKOzByxhTA/V8VzCyVFn6JL7PtFck3hlGfBPr2PmUPkPGKPpKQb+Exar8l0O8kJurUsRt1altLUvqR6f3J+L28rSHkovCeNuUWjq7xkPkGXRo4vZkgMUjVhGUrbR6gj0q1Iu23Mjuelsy89fSu965J9EHCYziQRbfiMVF7dVxsnWKTJ9rFVZpSuk0lSIxCrCW7pbbgbunxjJzt/lz82OuPv48oaH3fjI9uF/8NhDNrYYYe28xtT87lQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR1001MB2358.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(366004)(39860400002)(346002)(396003)(376002)(26005)(1076003)(38350700002)(5660300002)(38100700002)(33716001)(86362001)(9576002)(186003)(55016002)(2906002)(8676002)(956004)(66946007)(9686003)(4326008)(6916009)(6496006)(8936002)(316002)(66556008)(66476007)(478600001)(33656002)(52116002)(83380400001)(6666004)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?pj9UGV4v3NYFDoAEJtTfnuAtkRIvaGVnS/tTYzoNSNeM0By1r5NWFBaiOQvv?=
- =?us-ascii?Q?mkOtkX4LrnwIGctApTfTPekhgnmJWUuRIcUSo4+siW1CySPwLzSh+2fFkema?=
- =?us-ascii?Q?1nqAjIpNKTO7YqD+5d0p0ar6cf8xFe+37q814I8QCmvgllMMSYYWD9/+PxR/?=
- =?us-ascii?Q?cXOz0mFw1IngEGlFSLsShkRGitHSz05f9e3sXv7PWtCC+CKcqnUkPnsUMiTR?=
- =?us-ascii?Q?pW+Mu+icdp6+SD2XJdZzyxeXcQNVDZNaA+sdIHrew2PkskZQ5/WB7fg+IZb8?=
- =?us-ascii?Q?xQIt6MSl9JrPYDh9AiKTLnsQnK1nveRW+cJ8VMyabeExVVmIIfEZLNSaGj9f?=
- =?us-ascii?Q?IPeKD3fvzOzZtxzn3b5Y+rpNd/namr8f5nzEW2VVy5iZ74sY41nGTmJc535s?=
- =?us-ascii?Q?l+znEzZ8RsdG7PNOg/11RLuRaEtoR5ICxcVs5gA/mS+OZbmbTVqARzes+frF?=
- =?us-ascii?Q?YxQYUCJnwij8WGAAflk6wXJk4Sv4JAh9BVqTlGdkuKCxTXGmzfsScrlN7LTG?=
- =?us-ascii?Q?DCJLhnBnyNa5EECXp+enzamvxylprROBz3Y+3X45TrKiMIP7erxqsLMVRmGy?=
- =?us-ascii?Q?4vGPD8BtLEzCdkC4IYMl7MLI+LiALTrVl3lpXZpfokBjtQq5I0+61Nf8akFQ?=
- =?us-ascii?Q?qfg6umgRbFiqd76t1n/tRJyjvQerPahTDoIKFCmZ3IvTC+GIdh6FPV46WLeB?=
- =?us-ascii?Q?BHyJTZloxF0WrkKxU5nfO6txH9S0kO5vB8kom/l9evDuVLc/6r537B3bY5ED?=
- =?us-ascii?Q?9ZO4Oy7BuspeyWAddtQFJCaZ9iyzbwM57J4lsT5jZpkbg7lfMBcRywO6InCv?=
- =?us-ascii?Q?Wd4fQu+wrQk0jfZqhf+qc3NvDXKxjk7+VMG4uP8o56glqn0aMxEYetmPojeg?=
- =?us-ascii?Q?GCxVEGP/MAULmlUQhwhC5CifIvLqGRSLJ5fZ0xdjxdJvZTTEJVioGYcIfoL+?=
- =?us-ascii?Q?0fdljqehOSAahE+3eijxYnf79rjEnmPgApk6mb36BPXQt5/q2XYFWolB9B6Y?=
- =?us-ascii?Q?lSj8IsLgcDb6D3Lco99yNhCUygh6y95mwmKFK80qD0clrf5kfn24VP9qbA1+?=
- =?us-ascii?Q?0XZuVOh9aAlIFDJNfZkKf4pKsIomVfOeOhYKukFsEwsIA3ol4DuQKAC5l995?=
- =?us-ascii?Q?4D65vmexKHU0eXdVWpNtHoy4qf5yVbn7hITpumY9jE/YlwiITbS7INzxxkK0?=
- =?us-ascii?Q?TbPh5QDIbXHyvuo5ZzysSp5E0fxzuGmuLWdJpYZdmj1dqufcTKyaP8OxhITH?=
- =?us-ascii?Q?XkNHp0+ceAN9gRIINDhUh8HpD69/jxVmmmwRIyMrhGlZv3Dj1UGHp2Ex8MxE?=
- =?us-ascii?Q?DAePNT1EUoQzW1PSEEy6029S?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26573e35-2641-4355-0fa9-08d96721aa9d
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR1001MB2358.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 17:07:34.4966
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m0YHES+5f4NVVT6axK8k5bvaoFRaluMpKDSl9SzON8Z53ydV1V2j/QXKbPwIdrCtgoJfZyKG7BYIq1wDShvmfs+xtvkKk3/QkVL+sgm2vR4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1637
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10086 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
- spamscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108240113
-X-Proofpoint-ORIG-GUID: 3raqVmNtmgUJwyrIbjkfFIKdY-hF3qNA
-X-Proofpoint-GUID: 3raqVmNtmgUJwyrIbjkfFIKdY-hF3qNA
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 24, 2021 at 07:38:51PM +0300, Kari Argillander wrote:
-> On Tue, Aug 24, 2021 at 02:48:58PM +0300, Dan Carpenter wrote:
-> > diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-> > index 9239c388050e..e8ed38d0c4c9 100644
-> > --- a/fs/ntfs3/xattr.c
-> > +++ b/fs/ntfs3/xattr.c
-> > @@ -521,7 +521,7 @@ static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
-> >  		ni_unlock(ni);
-> >  
-> >  	/* Translate extended attribute to acl */
-> > -	if (err > 0) {
-> > +	if (err >= 0) {
-> 
-> So now if err (size) is 0 it will try to get acl. Didn't you just say
-> that you want to return PTR_ERR(-EINVAL)?
-> 
+For some reason we have FAT ioctl calls. Even old ntfs driver did not
+use these. We should not use these because it his hard to get things out
+of kernel when they are upstream. That's why we remove these for now.
 
-If you pass an invalid too short size to posix_acl_from_xattr() then it
-returns PTR_ERR(-EINVAL).  It was hard to phrase this in the change log
-but I feel like length of 1 and 0 should be treated the same.
+More discussion is needed what ioctl should be implemented and what is
+important.
 
+Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
+---
+Earlier disgussion with Pali can be founded here:
+lore.kernel.org/linux-fsdevel/20210824113304.eabzy7ulbuouzlac@pali/
+---
+ fs/ntfs3/file.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-> So overall good finding but maybe more work is needed with this one.
-> 
-> >  		acl = posix_acl_from_xattr(mnt_userns, buf, err);
-> >  		if (!IS_ERR(acl))
-> >  			set_cached_acl(inode, type, acl);
-
-regards,
-dan carpenter
-
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 59344985c2e8..819afc4c902b 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -10,7 +10,6 @@
+ #include <linux/compat.h>
+ #include <linux/falloc.h>
+ #include <linux/fiemap.h>
+-#include <linux/msdos_fs.h> /* FAT_IOCTL_XXX */
+ #include <linux/nls.h>
+ 
+ #include "debug.h"
+@@ -50,15 +49,8 @@ static long ntfs_ioctl(struct file *filp, u32 cmd, unsigned long arg)
+ {
+ 	struct inode *inode = file_inode(filp);
+ 	struct ntfs_sb_info *sbi = inode->i_sb->s_fs_info;
+-	u32 __user *user_attr = (u32 __user *)arg;
+ 
+ 	switch (cmd) {
+-	case FAT_IOCTL_GET_ATTRIBUTES:
+-		return put_user(le32_to_cpu(ntfs_i(inode)->std_fa), user_attr);
+-
+-	case FAT_IOCTL_GET_VOLUME_ID:
+-		return put_user(sbi->volume.ser_num, user_attr);
+-
+ 	case FITRIM:
+ 		return ntfs_ioctl_fitrim(sbi, arg);
+ 	}
+-- 
+2.30.2
 
