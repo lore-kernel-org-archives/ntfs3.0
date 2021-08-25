@@ -1,47 +1,51 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2782FB2
-	for <ntfs3@lists.linux.dev>; Wed, 25 Aug 2021 19:27:50 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id j4so1165728lfg.9
-        for <ntfs3@lists.linux.dev>; Wed, 25 Aug 2021 12:27:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0212D3FC2
+	for <ntfs3@lists.linux.dev>; Wed, 25 Aug 2021 19:31:03 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id o10so1164009lfr.11
+        for <ntfs3@lists.linux.dev>; Wed, 25 Aug 2021 12:31:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=6Iq8wyP9bfu0acszg2LRSmGYllk6hX7iU9bhGsJbEx8=;
-        b=lJGomNfAfCRBeyML465YfwiYC9EIaA7nLfxj1leWBRVJ+b5wmbP3xc4r4e00iuwGZd
-         fdwBKaB309OlJekyr58HUrq6d4X+9If53Inyu8eyF310/kbbykJtZXtfhRazq4JVO3sT
-         47yUrCIEYtwB1slTOdiptUawftOCEToHjBDT3uoRa/EI/+HCnn4qalLRMeUNWG5qdICf
-         Uwf6ZW/rSmW9TsKKCEki8KTSgrB4iEG051c/+HfMzVqG4LHHTaCwOsz12TdZtY1umO+V
-         keGR+h0dzkODZ++sXPoHWtSwZlf5QhaFsM1WEuxEtziIcQILSdVk14pC3rLSie7fqa2S
-         poeg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8ci8RsGCUHfQz7nmoHgVgYoNhxkkZ9gzkCCxPYWj1Kw=;
+        b=YPTMaBTqCggdBkLCMMZEIi33gvKL6fqCAK93ss8pGeknbOaA/+JbrcCnkIU2jc8p5O
+         1CrJaqe8upu7Ms5/ZcMGP2E3QnwD8aTf66I19j/5gDuuenCauWQcw7mgFBrRZqv+gReD
+         CnLUQ9kwpMSGHaC0YgsmqiRhLhvUx8mGGn6yJXr8hC1FyoG8ntnT3WthyGorfBDHDwkA
+         kV07G28ZaDjV4qGlS1j+/cb+yYtttoMRqVxCQdkQjnoSyCioffDgQDPuPpe67gY/sIn8
+         GiCg+taD7mbDwEshYcwDLJwZCllOggYBq0f9jTkG6DSu8MCe5W0vT80L97po8wXGR9YT
+         tk7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=6Iq8wyP9bfu0acszg2LRSmGYllk6hX7iU9bhGsJbEx8=;
-        b=ARx3HrfDnbg0QERivy/F7pxyzCUSU6WKpfbhF/eR2SMwdi99mUlxPfgAiTeDmkcsyC
-         J5Ty19kfFKs2T9nC+WWDXSzoAXZlEag59sV10qzDOOB5Uw1u6QCxKXxRrtMUrmd6d0u6
-         siyJSLcCadeWFDAp6EUE3tp3L2kwqnL46mUSEZ+0Qm0qO3VKQK0W9SGsM8wiE8JnWnvq
-         loQ+5Sh1PosIGmtBvZObAUhFw4+ww1Hqps0fpmBz4F6sycLLQL26NvxyejXQ14iA3khu
-         3+DL89TjDKlByJVQ8lkuxkK3cuj2wcl3gsASRG2mzRh0C0EGqNPDAEC47dzMDSPA4hmU
-         T0og==
-X-Gm-Message-State: AOAM532F1u9JLiteUmQkY+DJmBlf3Bsl1VZNr7Ir2OyJpQgoXazLYylX
-	s7STxen76vojlm2BTpOAp0U=
-X-Google-Smtp-Source: ABdhPJwl3skOW4hGk8fQic1CH0gQjOep5JnW8oJnLkSZ3BEwwndG4g//jYO4Dbmrjn7DgqQ7kLaYJw==
-X-Received: by 2002:a05:6512:21b1:: with SMTP id c17mr34623772lft.34.1629919668896;
-        Wed, 25 Aug 2021 12:27:48 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8ci8RsGCUHfQz7nmoHgVgYoNhxkkZ9gzkCCxPYWj1Kw=;
+        b=ZAoMjXgF8unc7dE0TNWS4Uc+vwYF0NiwiYFqHy8/I/bzdPP2FfukLn6wiUxgjW652O
+         RwA+6BaYS075Z0ULTR1mjYXjClKoVH7mEDDkmV9kDSlaTgvpqMjqtQao9ofesyZ6MCqS
+         kkKtK2HquowflWOYgDHeHTh5Bz/Y4chM3x/dYnGrLYRfXgFXbk+oXRyquH+1MES+WmOR
+         lgXRW7CFhyF9nr0wpds603X7bat2H2yXXZw4kgKkHiJHhe0USYkPi57CW/cGK8rKNY1c
+         rVxCYzHOOj7LshPYtZfyAsyTjk5Fssbtbohu22PGQOZfIyNmR0pFi2gnDBXe7OxcXQC/
+         ioUg==
+X-Gm-Message-State: AOAM533GCWByWE6s0ogGhigC3lZCLof5VAY1sZPWt4D5u8/907GbW1Wq
+	9BtBnaY1LTYrYmx/tOGgkvQ=
+X-Google-Smtp-Source: ABdhPJwCTVJ7Pbr7mOv2KUJCeiKaehlnS7v7SEIiGOr6TmwoXcfdlPlRDgFsEWrl21KSsOdOYrr26A==
+X-Received: by 2002:a05:6512:96f:: with SMTP id v15mr5698347lft.455.1629919862077;
+        Wed, 25 Aug 2021 12:31:02 -0700 (PDT)
 Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id e8sm94154ljj.132.2021.08.25.12.27.48
+        by smtp.gmail.com with ESMTPSA id o20sm91400lfu.148.2021.08.25.12.31.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 12:27:48 -0700 (PDT)
-Date: Wed, 25 Aug 2021 22:27:46 +0300
+        Wed, 25 Aug 2021 12:31:01 -0700 (PDT)
+Date: Wed, 25 Aug 2021 22:31:00 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Ntfs3 git repo in github should not back merge
-Message-ID: <20210825192746.ryi2vzn5gz4myxri@kari-VirtualBox>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fs/ntfs3: Remove unnecessary condition checking from
+ ntfs_file_read_iter
+Message-ID: <20210825193100.fix4o2p7swifru5o@kari-VirtualBox>
+References: <20210825182522.1367594-1-kari.argillander@gmail.com>
+ <20210825191757.GW7722@kadam>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -50,62 +54,37 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210825191757.GW7722@kadam>
 
-Hello Konstantin.
+On Wed, Aug 25, 2021 at 10:17:57PM +0300, Dan Carpenter wrote:
+> On Wed, Aug 25, 2021 at 09:25:22PM +0300, Kari Argillander wrote:
+> > This check will be also performed in generic_file_read_iter() so we do
+> > not want to check this two times in a row.
+> > 
+> > This was founded with Smatch
+> > 	fs/ntfs3/file.c:803 ntfs_file_read_iter()
+> > 	warn: unused return: count = iov_iter_count()
+> > 
+> > Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
+> > ---
+> > I cc Dan also because I am happy that I finally managed to install
+> > Smack and straight away I found something with it. Thank you for
+> > this great tool.
+> 
+> Thanks!
+> 
+> You got a bit lucky, because you're using the --two-passes and the truth
+> is I haven't looked at that in years so I'm worried it's probably not
+> great.  You probably be better off not using the --two-passes option.  :/
+> I should remove it.
 
-I notice that you have made back-merge in ntfs3 git repo in github.
-This should not be done without good reason and there is none in this
-case. If there is reason you should also write good merge commit for it.
-As you are just coming to maintener I will write little info about how
-this stuff works. I'm not maintainer, but I have study about how kernel
-is maintained.
+Haha no I need it :D I was just testing what this tool can do. I also
+notice that --two-passes seems quite bad to read. But hey I found
+something! :D Good to know that you are not using it. I will not use it
+then. Thanks.
 
-Here is link which you can read about back-merges. If you have any
-questions you can always ask.
-
-01.org/linuxgraphics/gfx-docs/drm/maintainer/rebasing-and-merging.html#merging-from-sibling-or-upstream-trees
-
-You could also go check some other trees how they do it. Usually there
-is next/master/main/for-next which will be repo which will contain stuff
-for next-merge window. This is usually based on rc1, rc2, rc3 depending
-when you put first patches to next merge window. As you based your
-branch top of the rc5.
-
-https://git.kernel.org/?s=idle
-
-Because your master branch is  for next you could have rebased your
-branch top of the rc7 if you want to but that is kinda pointless. You
-could always fix little mistakes in next branch with rebase, but you
-should propably info this action to ntfs3 mailing list.
-
-The idea is that this repo has very clean history always when it get
-merged to Linus tree. Also developers who work with ntfs3 can see
-everything in one eye.
-
-Example take a look Ext4 dev (for-next) branch
-https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git/log/?h=dev
-You see that this is based on rc2. Theodore will create pull-request
-based on this when he creates pull-request. Very clean history and no
-back-merges.
-
-If you wonder how should you do development then if you can't back
-merge. You should do develompent in linux-next branch. This way you
-always know if others break something reletad to ntfs3. Then you check
-who was it and send email about it and you solve it together. It can be
-tricky some times who will take which patches but help is given if you
-ask.
-
-There is lot of small info what I did not include here and hopefully
-everything is correct. Hopefully you will also in near future respond
-patches which are sent to you. There is already quite lot. If you need
-any help how to maintainer should handle those I can assisntant you best
-I can. There will be example little bit work howto make all fixes tags
-right because you will have to rebase your current commits as they do
-not have example reviewed-tags.
-
-I also CC linux-next maintainer as he knows this stuff and can say if I
-say something wrong. And I feel like new maintainer can have little help
-from gurus.
-
-Kari Argillander
-
+> 
+> regards,
+> dan carpenter
+> 
+> 
