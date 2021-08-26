@@ -1,90 +1,70 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0212D3FC2
-	for <ntfs3@lists.linux.dev>; Wed, 25 Aug 2021 19:31:03 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id o10so1164009lfr.11
-        for <ntfs3@lists.linux.dev>; Wed, 25 Aug 2021 12:31:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CAB72
+	for <ntfs3@lists.linux.dev>; Thu, 26 Aug 2021 08:36:00 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id bq28so5125611lfb.7
+        for <ntfs3@lists.linux.dev>; Thu, 26 Aug 2021 01:36:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=8ci8RsGCUHfQz7nmoHgVgYoNhxkkZ9gzkCCxPYWj1Kw=;
-        b=YPTMaBTqCggdBkLCMMZEIi33gvKL6fqCAK93ss8pGeknbOaA/+JbrcCnkIU2jc8p5O
-         1CrJaqe8upu7Ms5/ZcMGP2E3QnwD8aTf66I19j/5gDuuenCauWQcw7mgFBrRZqv+gReD
-         CnLUQ9kwpMSGHaC0YgsmqiRhLhvUx8mGGn6yJXr8hC1FyoG8ntnT3WthyGorfBDHDwkA
-         kV07G28ZaDjV4qGlS1j+/cb+yYtttoMRqVxCQdkQjnoSyCioffDgQDPuPpe67gY/sIn8
-         GiCg+taD7mbDwEshYcwDLJwZCllOggYBq0f9jTkG6DSu8MCe5W0vT80L97po8wXGR9YT
-         tk7A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WOVmDtgV07MxR0ve6Zn2DEYBTC5oECP7BrAEQqsJwb0=;
+        b=lZzksODnRxRDYImF3JeKxu1709B21pfaMBhqgWKl4TOtzRcwcgmuGRNa/XKd8VGwL/
+         DLIAe9kvBDtOSlrZ+K/0S/W7QSxDDOympLZNcdDFy9cB4kryvb/FwA/KktgITMLMI3VB
+         31wwuBfVdYmO0eWbS4FtHMUnr97FOpwTaf3WA+uTBS2HlGdpYQNWqn9GIaCGmuc9Rb2z
+         fQ07IyIxYe6R4uJfhxj9YJUcFHm5haPQVMHy2a4KeERkwtiFMSQr9KpUo0jPNIpjCex4
+         IKlQgDPukWjoi7gWwYQLeye2U3sLY8wPWPrvJ+TDP/v4ogQMK9D5SBmClkui6N5/EdVU
+         Q7fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8ci8RsGCUHfQz7nmoHgVgYoNhxkkZ9gzkCCxPYWj1Kw=;
-        b=ZAoMjXgF8unc7dE0TNWS4Uc+vwYF0NiwiYFqHy8/I/bzdPP2FfukLn6wiUxgjW652O
-         RwA+6BaYS075Z0ULTR1mjYXjClKoVH7mEDDkmV9kDSlaTgvpqMjqtQao9ofesyZ6MCqS
-         kkKtK2HquowflWOYgDHeHTh5Bz/Y4chM3x/dYnGrLYRfXgFXbk+oXRyquH+1MES+WmOR
-         lgXRW7CFhyF9nr0wpds603X7bat2H2yXXZw4kgKkHiJHhe0USYkPi57CW/cGK8rKNY1c
-         rVxCYzHOOj7LshPYtZfyAsyTjk5Fssbtbohu22PGQOZfIyNmR0pFi2gnDBXe7OxcXQC/
-         ioUg==
-X-Gm-Message-State: AOAM533GCWByWE6s0ogGhigC3lZCLof5VAY1sZPWt4D5u8/907GbW1Wq
-	9BtBnaY1LTYrYmx/tOGgkvQ=
-X-Google-Smtp-Source: ABdhPJwCTVJ7Pbr7mOv2KUJCeiKaehlnS7v7SEIiGOr6TmwoXcfdlPlRDgFsEWrl21KSsOdOYrr26A==
-X-Received: by 2002:a05:6512:96f:: with SMTP id v15mr5698347lft.455.1629919862077;
-        Wed, 25 Aug 2021 12:31:02 -0700 (PDT)
-Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id o20sm91400lfu.148.2021.08.25.12.31.01
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WOVmDtgV07MxR0ve6Zn2DEYBTC5oECP7BrAEQqsJwb0=;
+        b=JrTd35GHul+9eZe5X+/9gnt/Bv6APiuU9CGgiAg2mB/0gJjH7h+eug63AmoMd8cYht
+         Oy97XILpuQ8FqNkEOrcqaO0z+r3jN8n8giJkNLQbs1QQqWigHAXm/d7wWX3gGG9mzunK
+         0xqmLNB+5x5Bbcp7WRGPbrDAIeVYQ/RFBjcScG3XrQzeyRDOkFNK/lZQ+RteVRLOG6El
+         Rr1USK8esS4LA6o9utwBN2iD41MdErsB9Zk4+uEuYp3WPOjyKnxE4tJtr4p9JqkIdflo
+         HrmStJMPIj5pRSj88oyOxMjzXEdxfdNEKdwdbhMtOTmY7zGJyXOFv3Mqnr60Mz/drvF8
+         7akw==
+X-Gm-Message-State: AOAM531S3mHGWSZbg3/ulbPXnay50hru5TJ8DTpoVK9SD4y8UJHtswKr
+	Mev0c4mXydJ8I8D2vw5a51Y=
+X-Google-Smtp-Source: ABdhPJwj5Dyyc+BRGKfwKkXZK81haLb+viOeICgbrn/vJ7wiI4019ywPnTHpsKIQa22aaYLB1N4/8Q==
+X-Received: by 2002:a05:6512:3688:: with SMTP id d8mr1855960lfs.356.1629966958594;
+        Thu, 26 Aug 2021 01:35:58 -0700 (PDT)
+Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id bp25sm251936lfb.51.2021.08.26.01.35.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 12:31:01 -0700 (PDT)
-Date: Wed, 25 Aug 2021 22:31:00 +0300
+        Thu, 26 Aug 2021 01:35:57 -0700 (PDT)
 From: Kari Argillander <kari.argillander@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fs/ntfs3: Remove unnecessary condition checking from
- ntfs_file_read_iter
-Message-ID: <20210825193100.fix4o2p7swifru5o@kari-VirtualBox>
-References: <20210825182522.1367594-1-kari.argillander@gmail.com>
- <20210825191757.GW7722@kadam>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: Kari Argillander <kari.argillander@gmail.com>
+Subject: [PATCH 0/2] fs/ntfs3: Fix minor things in ntfs_get_acl_ex()
+Date: Thu, 26 Aug 2021 11:35:47 +0300
+Message-Id: <20210826083549.1565173-1-kari.argillander@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210825191757.GW7722@kadam>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 25, 2021 at 10:17:57PM +0300, Dan Carpenter wrote:
-> On Wed, Aug 25, 2021 at 09:25:22PM +0300, Kari Argillander wrote:
-> > This check will be also performed in generic_file_read_iter() so we do
-> > not want to check this two times in a row.
-> > 
-> > This was founded with Smatch
-> > 	fs/ntfs3/file.c:803 ntfs_file_read_iter()
-> > 	warn: unused return: count = iov_iter_count()
-> > 
-> > Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
-> > ---
-> > I cc Dan also because I am happy that I finally managed to install
-> > Smack and straight away I found something with it. Thank you for
-> > this great tool.
-> 
-> Thanks!
-> 
-> You got a bit lucky, because you're using the --two-passes and the truth
-> is I haven't looked at that in years so I'm worried it's probably not
-> great.  You probably be better off not using the --two-passes option.  :/
-> I should remove it.
+First patch fix Smatch warning.
 
-Haha no I need it :D I was just testing what this tool can do. I also
-notice that --two-passes seems quite bad to read. But hey I found
-something! :D Good to know that you are not using it. I will not use it
-then. Thanks.
+Second one add missing default path. This is not necessarylly needed,
+but will not make any harm and other filesystems have it and it is also
+checked some places in ntfs3. So let's be consistent.
 
-> 
-> regards,
-> dan carpenter
-> 
-> 
+Kari Argillander (2):
+  fs/ntfs3: Fix pass zero to ERR_PTR() in ntfs_get_acl_ex
+  fs/ntfs3: Fix missing type checking in ntfs_get_acl_ex
+
+ fs/ntfs3/xattr.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
+
+-- 
+2.25.1
+
