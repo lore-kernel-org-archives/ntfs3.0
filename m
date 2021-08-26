@@ -1,51 +1,51 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A28072
-	for <ntfs3@lists.linux.dev>; Thu, 26 Aug 2021 08:36:23 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id y6so3738400lje.2
-        for <ntfs3@lists.linux.dev>; Thu, 26 Aug 2021 01:36:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE74972
+	for <ntfs3@lists.linux.dev>; Thu, 26 Aug 2021 08:56:54 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id q21so3791484ljj.6
+        for <ntfs3@lists.linux.dev>; Thu, 26 Aug 2021 01:56:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ACgkWCKwF/Ed6sQZAHX+dVeKUJeJvUfwNZpntSmnQ8o=;
-        b=IGCwH1mx+kjEja/5htKO73W8tRblt++9oAJKOgqP7mGqVIH4qQttERYuaXhbQB3AzT
-         FPgAkC0oz/tiZyIxdID80EAadPSl2poX5/5I226ZNDE81XvCILI1NCLk0YdIZi+KthCQ
-         tBPy2pBfeKY5yY9pvk6QKO9lr8r3q6HDuFtv99zQpd/217iJRycJcZB4pmHB8rOif7wS
-         1lscSCg/C7N8ix1Qc9NdS6jOc0U92WeTe0/yhtu/n7L0jDjgvNlzrqSc9MfITwrv3WMf
-         yg3zBJFvm1sxIxX1z0es2c5vD1Czuv+Dp8hRMnXzKw/gaWnpUwzfAJraAS44olafHISX
-         c1FQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LopMwJgNojSHsSlh+VZEWYEkFQkn7mLrLysULsfB7ho=;
+        b=a+pxoR0h9BNPQW76x0sKZdQt6TRKqjJPtOUfAoahMLaf3EORxGYcFiTIH1K36m78eK
+         xqP1zzs+Er80rjOLylDEvnEL2ThFXtPMj998OZtXVzxlctf4s0bIKlE9Jak//mfIqZQq
+         nOIjeV283FAiwp5LHpu0VEgb/+/gdp3sj6FlJn9CpJ+ofjSYA8K2NzU8RHpYzMWxO1ZA
+         bUQP6hYEpVL7lYCVvbw7PDbaWPsP8PUcvx+KADl/IND9s9skwNX+wh8JVBvd7KbmoV8Y
+         e9CNBmaAbkzqtp6qcqcw41q7L2RhXMkyti0FZNd4vR/uyl6wB0d+faA3mPjFVgZRraCi
+         J4nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ACgkWCKwF/Ed6sQZAHX+dVeKUJeJvUfwNZpntSmnQ8o=;
-        b=DiRyhmUXc28R3aUzbs7YgjbVbiDkxU88g0LlNRS9IfsI8yCb+vYbgSJ+rrG86Ug0aE
-         hTZNJ/+4Llu97CC3CfQTvN+jd6++Y992iMQH+udx9gCsf7S7PbO3/gSXHWCwY+KOOjYN
-         oZCVifilmEPTJ7ayZmFTa0zCNIJTmX/gCh/KZX/TIJAoBxYZIUcLCfAm6SIv6frMvLOS
-         NrMyUFAat9WQq+elIr2CwYs3mL0vDRvoSW1kIJlz4RnvBXCWtabg2fQ5x9jFocy6DoKU
-         ydLPGZFGW2lv3aEoHPB01pxrsaB+1tP+Wb2ci9VM5+HPYpCEIEP24XRLV5B4PUhUVJDQ
-         kRCQ==
-X-Gm-Message-State: AOAM533WRQgfjtKdJsJz1y1dbZ9J+gMErW9e8u43Onf4uvPiB7UBPMgZ
-	9///M9IbGgnyZTPgzNxbuZ0VcIJhKQE=
-X-Google-Smtp-Source: ABdhPJw5zLS95TxhHuiFmvWLOvAnsgtMf0RVXsRTlp5WR2Flfcpe20neUt/KvLvQXWblopb4QsSs2Q==
-X-Received: by 2002:a05:651c:158f:: with SMTP id h15mr2096170ljq.249.1629966981835;
-        Thu, 26 Aug 2021 01:36:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LopMwJgNojSHsSlh+VZEWYEkFQkn7mLrLysULsfB7ho=;
+        b=JvwUgiArhUqoPyo77jc92Da8GNk4G38PrMCvtOdEmBLBG7JAs0ULjgluO024LVtbZS
+         kGbaMOvSnzaOfE8sIddICNIy3QFugl6haVQLYd89+zbXdaTCb1rHNbZ9McNMtR4n+4qP
+         qx5yjmvs0jK/gVHEMiugjiA7KxF1IFnOt7kRyIUq7objdBnxWT2xZyULeL3olTRoO1hW
+         fyRY77qu4Ejx2wsx5dRglymxTdyMvAUsNb9fr55egqeYFzX1XlrNPT/kkUlYqBnNv6VS
+         qnAncUxXZDJ90YsN9emqoQ4NFBgQnZ23M9ONFPBSe2mxlYS6J7aE0JqMbODOQV/i/zhM
+         CEDQ==
+X-Gm-Message-State: AOAM531/pnnPTdkOQdh7h9sY77bGntyvDCG1y5pYgEFVXsjjOgD2x8/g
+	wiQhj9Hza2upJ2kgX/Mqjew=
+X-Google-Smtp-Source: ABdhPJw5CVh4NES6OdzUq23rNMuOCRFAsjkqOHWo3ZN/tPonF/byX32PRjJUmP6SoruC8jW6C2OhyA==
+X-Received: by 2002:a2e:9cd9:: with SMTP id g25mr2115409ljj.346.1629968212979;
+        Thu, 26 Aug 2021 01:56:52 -0700 (PDT)
 Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id bp25sm251936lfb.51.2021.08.26.01.36.21
+        by smtp.gmail.com with ESMTPSA id i5sm256829lfb.124.2021.08.26.01.56.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 01:36:21 -0700 (PDT)
+        Thu, 26 Aug 2021 01:56:52 -0700 (PDT)
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
-Cc: Kari Argillander <kari.argillander@gmail.com>
-Subject: [PATCH 2/2] fs/ntfs3: Fix missing type checking in ntfs_get_acl_ex
-Date: Thu, 26 Aug 2021 11:35:49 +0300
-Message-Id: <20210826083549.1565173-3-kari.argillander@gmail.com>
+Cc: Kari Argillander <kari.argillander@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH v2] fs/ntfs3: Use kernel ALIGN macros over driver specific
+Date: Thu, 26 Aug 2021 11:56:29 +0300
+Message-Id: <20210826085629.1566449-1-kari.argillander@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210826083549.1565173-1-kari.argillander@gmail.com>
-References: <20210826083549.1565173-1-kari.argillander@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -54,55 +54,577 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add default path for type checking. Comment says that this is checked
-above, but for fast eyes I do not find it. We have this check also in
-ntfs_set_acl_ex() so let's be consistent. Also other fs driver had
-implemented default path. Some are even throwing BUG(), but that feels
-little too harsh.
+The static checkers (Smatch) were complaining because QuadAlign() was
+buggy.  If you try to align something higher than UINT_MAX it got
+truncated to a u32.
 
-Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
+Smatch warning was:
+	fs/ntfs3/attrib.c:383 attr_set_size_res()
+	warn: was expecting a 64 bit value instead of '~7'
+
+So that this will not happen again we will change all these macros to
+kernel made ones. This can also help some other static analyzing tools
+to give us better warnings.
+
+Patch was generated with Coccinelle script and after that some style
+issue was hand fixed.
+
+Coccinelle script:
+
+virtual patch
+
+@alloc depends on patch@
+expression x;
+@@
+(
+-	#define QuadAlign(n)		(((n) + 7u) & (~7u))
+|
+-	QuadAlign(x)
++	ALIGN(x, 8)
+|
+-	#define IsQuadAligned(n)	(!((size_t)(n)&7u))
+|
+-	IsQuadAligned(x)
++	IS_ALIGNED(x, 8)
+|
+-	#define Quad2Align(n)		(((n) + 15u) & (~15u))
+|
+-	Quad2Align(x)
++	ALIGN(x, 16)
+|
+-	#define IsQuad2Aligned(n)	(!((size_t)(n)&15u))
+|
+-	IsQuad2Aligned(x)
++	IS_ALIGNED(x, 16)
+|
+-	#define Quad4Align(n)		(((n) + 31u) & (~31u))
+|
+-	Quad4Align(x)
++	ALIGN(x, 32)
+|
+-	#define IsSizeTAligned(n)	(!((size_t)(n) & (sizeof(size_t) - 1)))
+|
+-	IsSizeTAligned(x)
++	IS_ALIGNED(x, sizeof(size_t))
+|
+-	#define DwordAlign(n)		(((n) + 3u) & (~3u))
+|
+-	DwordAlign(x)
++	ALIGN(x, 4)
+|
+-	#define IsDwordAligned(n)	(!((size_t)(n)&3u))
+|
+-	IsDwordAligned(x)
++	IS_ALIGNED(x, 4)
+|
+-	#define WordAlign(n)		(((n) + 1u) & (~1u))
+|
+-	WordAlign(x)
++	ALIGN(x, 2)
+|
+-	#define IsWordAligned(n)	(!((size_t)(n)&1u))
+|
+-	IsWordAligned(x)
++	IS_ALIGNED(x, 2)
+|
+)
+
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 ---
- fs/ntfs3/xattr.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+Disgussion that these should be changed can be found here
+lore.kernel.org/ntfs3/20210824104910.v3mvpw5zb2jqmvbo@kari-VirtualBox/
 
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 944557d3a769..5e86bea7e0ab 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -498,20 +498,24 @@ static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
- 	int err;
- 	void *buf;
+V2:
+	Make better commit message. Request by Dan Carpenter.
+---
+ fs/ntfs3/attrib.c  |  2 +-
+ fs/ntfs3/debug.h   | 11 -----------
+ fs/ntfs3/frecord.c | 14 +++++++-------
+ fs/ntfs3/fslog.c   | 32 ++++++++++++++++----------------
+ fs/ntfs3/fsntfs.c  |  4 ++--
+ fs/ntfs3/index.c   |  4 ++--
+ fs/ntfs3/inode.c   |  8 ++++----
+ fs/ntfs3/namei.c   |  2 +-
+ fs/ntfs3/ntfs.h    | 16 ++++++++--------
+ fs/ntfs3/ntfs_fs.h |  2 +-
+ fs/ntfs3/record.c  | 10 +++++-----
+ fs/ntfs3/super.c   | 10 +++++-----
+ fs/ntfs3/xattr.c   |  8 ++++----
+ 13 files changed, 56 insertions(+), 67 deletions(-)
+
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index 046dc57f75f2..c15467ec12ed 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -380,7 +380,7 @@ static int attr_set_size_res(struct ntfs_inode *ni, struct ATTRIB *attr,
+ 	u32 rsize = le32_to_cpu(attr->res.data_size);
+ 	u32 tail = used - aoff - asize;
+ 	char *next = Add2Ptr(attr, asize);
+-	s64 dsize = QuadAlign(new_size) - QuadAlign(rsize);
++	s64 dsize = ALIGN(new_size, 8) - ALIGN(rsize, 8);
  
--	/* allocate PATH_MAX bytes */
--	buf = __getname();
--	if (!buf)
--		return ERR_PTR(-ENOMEM);
+ 	if (dsize < 0) {
+ 		memmove(next + dsize, next, tail);
+diff --git a/fs/ntfs3/debug.h b/fs/ntfs3/debug.h
+index dfaa4c79dc6d..fe5ed660c3b0 100644
+--- a/fs/ntfs3/debug.h
++++ b/fs/ntfs3/debug.h
+@@ -12,17 +12,6 @@
+ #define PtrOffset(B, O)		((size_t)((size_t)(O) - (size_t)(B)))
+ #endif
+ 
+-#define QuadAlign(n)		(((n) + 7u) & (~7u))
+-#define IsQuadAligned(n)	(!((size_t)(n)&7u))
+-#define Quad2Align(n)		(((n) + 15u) & (~15u))
+-#define IsQuad2Aligned(n)	(!((size_t)(n)&15u))
+-#define Quad4Align(n)		(((n) + 31u) & (~31u))
+-#define IsSizeTAligned(n)	(!((size_t)(n) & (sizeof(size_t) - 1)))
+-#define DwordAlign(n)		(((n) + 3u) & (~3u))
+-#define IsDwordAligned(n)	(!((size_t)(n)&3u))
+-#define WordAlign(n)		(((n) + 1u) & (~1u))
+-#define IsWordAligned(n)	(!((size_t)(n)&1u))
 -
--	/* Possible values of 'type' was already checked above */
--	if (type == ACL_TYPE_ACCESS) {
-+	switch (type) {
-+	case ACL_TYPE_ACCESS:
- 		name = XATTR_NAME_POSIX_ACL_ACCESS;
- 		name_len = sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1;
--	} else {
-+		break;
-+	case ACL_TYPE_DEFAULT:
- 		name = XATTR_NAME_POSIX_ACL_DEFAULT;
- 		name_len = sizeof(XATTR_NAME_POSIX_ACL_DEFAULT) - 1;
-+		break;
-+	default:
-+		return ERR_PTR(-EINVAL);
+ #ifdef CONFIG_PRINTK
+ __printf(2, 3)
+ void ntfs_printk(const struct super_block *sb, const char *fmt, ...);
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index c3121bf9c62f..28c471e5b098 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -1249,7 +1249,7 @@ static int ni_expand_mft_list(struct ntfs_inode *ni)
+ 	if (err < 0)
+ 		goto out;
+ 
+-	run_size = QuadAlign(err);
++	run_size = ALIGN(err, 8);
+ 	err = 0;
+ 
+ 	if (plen < svcn) {
+@@ -1269,7 +1269,7 @@ static int ni_expand_mft_list(struct ntfs_inode *ni)
+ 	if (err < 0)
+ 		goto out;
+ 
+-	run_size = QuadAlign(err);
++	run_size = ALIGN(err, 8);
+ 	err = 0;
+ 
+ 	if (plen < evcn + 1 - svcn) {
+@@ -1392,7 +1392,7 @@ int ni_insert_nonresident(struct ntfs_inode *ni, enum ATTR_TYPE type,
+ 	struct ATTRIB *attr;
+ 	bool is_ext =
+ 		(flags & (ATTR_FLAG_SPARSED | ATTR_FLAG_COMPRESSED)) && !svcn;
+-	u32 name_size = QuadAlign(name_len * sizeof(short));
++	u32 name_size = ALIGN(name_len * sizeof(short), 8);
+ 	u32 name_off = is_ext ? SIZEOF_NONRESIDENT_EX : SIZEOF_NONRESIDENT;
+ 	u32 run_off = name_off + name_size;
+ 	u32 run_size, asize;
+@@ -1403,7 +1403,7 @@ int ni_insert_nonresident(struct ntfs_inode *ni, enum ATTR_TYPE type,
+ 	if (err < 0)
+ 		goto out;
+ 
+-	run_size = QuadAlign(err);
++	run_size = ALIGN(err, 8);
+ 
+ 	if (plen < len) {
+ 		err = -EINVAL;
+@@ -1463,8 +1463,8 @@ int ni_insert_resident(struct ntfs_inode *ni, u32 data_size,
+ 		       struct ATTRIB **new_attr, struct mft_inode **mi)
+ {
+ 	int err;
+-	u32 name_size = QuadAlign(name_len * sizeof(short));
+-	u32 asize = SIZEOF_RESIDENT + name_size + QuadAlign(data_size);
++	u32 name_size = ALIGN(name_len * sizeof(short), 8);
++	u32 asize = SIZEOF_RESIDENT + name_size + ALIGN(data_size, 8);
+ 	struct ATTRIB *attr;
+ 
+ 	err = ni_insert_attr(ni, type, name, name_len, asize, SIZEOF_RESIDENT,
+@@ -2849,7 +2849,7 @@ static bool ni_update_parent(struct ntfs_inode *ni, struct NTFS_DUP_INFO *dup,
+ 		} else if (!attr->non_res) {
+ 			u32 data_size = le32_to_cpu(attr->res.data_size);
+ 
+-			dup->alloc_size = cpu_to_le64(QuadAlign(data_size));
++			dup->alloc_size = cpu_to_le64(ALIGN(data_size, 8));
+ 			dup->data_size = cpu_to_le64(data_size);
+ 		} else {
+ 			u64 new_valid = ni->i_valid;
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index 397ba6a956e7..5a118c351441 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -456,7 +456,7 @@ static inline bool is_rst_page_hdr_valid(u32 file_off,
+ 		return false;
+ 
+ 	ro = le16_to_cpu(rhdr->ra_off);
+-	if (!IsQuadAligned(ro) || ro > sys_page)
++	if (!IS_ALIGNED(ro, 8) || ro > sys_page)
+ 		return false;
+ 
+ 	end_usa = ((sys_page >> SECTOR_SHIFT) + 1) * sizeof(short);
+@@ -488,7 +488,7 @@ static inline bool is_rst_area_valid(const struct RESTART_HDR *rhdr)
+ 
+ 	off = le16_to_cpu(ra->client_off);
+ 
+-	if (!IsQuadAligned(off) || ro + off > SECTOR_SIZE - sizeof(short))
++	if (!IS_ALIGNED(off, 8) || ro + off > SECTOR_SIZE - sizeof(short))
+ 		return false;
+ 
+ 	off += cl * sizeof(struct CLIENT_REC);
+@@ -526,8 +526,8 @@ static inline bool is_rst_area_valid(const struct RESTART_HDR *rhdr)
  	}
  
-+	/* allocate PATH_MAX bytes */
-+	buf = __getname();
-+	if (!buf)
-+		return ERR_PTR(-ENOMEM);
-+
- 	if (!locked)
- 		ni_lock(ni);
+ 	/* The log page data offset and record header length must be quad-aligned */
+-	if (!IsQuadAligned(le16_to_cpu(ra->data_off)) ||
+-	    !IsQuadAligned(le16_to_cpu(ra->rec_hdr_len)))
++	if (!IS_ALIGNED(le16_to_cpu(ra->data_off), 8) ||
++	    !IS_ALIGNED(le16_to_cpu(ra->rec_hdr_len), 8))
+ 		return false;
  
+ 	return true;
+@@ -1355,9 +1355,9 @@ static void log_create(struct ntfs_log *log, u32 l_size, const u64 last_lsn,
+ 		log->l_flags |= NTFSLOG_MULTIPLE_PAGE_IO;
+ 
+ 	/* Compute the log page values */
+-	log->data_off = QuadAlign(
++	log->data_off = ALIGN(
+ 		offsetof(struct RECORD_PAGE_HDR, fixups) +
+-		sizeof(short) * ((log->page_size >> SECTOR_SHIFT) + 1));
++		sizeof(short) * ((log->page_size >> SECTOR_SHIFT) + 1), 8);
+ 	log->data_size = log->page_size - log->data_off;
+ 	log->record_header_len = sizeof(struct LFS_RECORD_HDR);
+ 
+@@ -1365,9 +1365,9 @@ static void log_create(struct ntfs_log *log, u32 l_size, const u64 last_lsn,
+ 	log->reserved = log->data_size - log->record_header_len;
+ 
+ 	/* Compute the restart page values. */
+-	log->ra_off = QuadAlign(
++	log->ra_off = ALIGN(
+ 		offsetof(struct RESTART_HDR, fixups) +
+-		sizeof(short) * ((log->sys_page_size >> SECTOR_SHIFT) + 1));
++		sizeof(short) * ((log->sys_page_size >> SECTOR_SHIFT) + 1), 8);
+ 	log->restart_size = log->sys_page_size - log->ra_off;
+ 	log->ra_size = struct_size(log->ra, clients, 1);
+ 	log->current_openlog_count = open_log_count;
+@@ -1496,7 +1496,7 @@ static int next_log_lsn(struct ntfs_log *log, const struct LFS_RECORD_HDR *rh,
+ 
+ 		vbo = hdr_off + log->data_off;
+ 	} else {
+-		vbo = QuadAlign(end);
++		vbo = ALIGN(end, 8);
+ 	}
+ 
+ 	/* Compute the lsn based on the file offset and the sequence count */
+@@ -2982,7 +2982,7 @@ static struct ATTRIB *attr_create_nonres_log(struct ntfs_sb_info *sbi,
+ 					     __le16 flags)
+ {
+ 	struct ATTRIB *attr;
+-	u32 name_size = QuadAlign(name_len * sizeof(short));
++	u32 name_size = ALIGN(name_len * sizeof(short), 8);
+ 	bool is_ext = flags & (ATTR_FLAG_COMPRESSED | ATTR_FLAG_SPARSED);
+ 	u32 asize = name_size +
+ 		    (is_ext ? SIZEOF_NONRESIDENT_EX : SIZEOF_NONRESIDENT);
+@@ -3220,7 +3220,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 			goto dirty_vol;
+ 
+ 		memmove(attr, attr2, dlen);
+-		rec->used = cpu_to_le32(QuadAlign(roff + dlen));
++		rec->used = cpu_to_le32(ALIGN(roff + dlen, 8));
+ 
+ 		mi->dirty = true;
+ 		break;
+@@ -3231,7 +3231,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 		used = le32_to_cpu(rec->used);
+ 
+ 		if (!check_if_attr(rec, lrh) || dlen < SIZEOF_RESIDENT ||
+-		    !IsQuadAligned(asize) ||
++		    !IS_ALIGNED(asize, 8) ||
+ 		    Add2Ptr(attr2, asize) > Add2Ptr(lrh, rec_len) ||
+ 		    dlen > record_size - used) {
+ 			goto dirty_vol;
+@@ -3296,7 +3296,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 		if (nsize > asize && nsize - asize > record_size - used)
+ 			goto dirty_vol;
+ 
+-		nsize = QuadAlign(nsize);
++		nsize = ALIGN(nsize, 8);
+ 		data_off = le16_to_cpu(attr->res.data_off);
+ 
+ 		if (nsize < asize) {
+@@ -3341,7 +3341,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 			goto dirty_vol;
+ 		}
+ 
+-		nsize = QuadAlign(nsize);
++		nsize = ALIGN(nsize, 8);
+ 
+ 		memmove(Add2Ptr(attr, nsize), Add2Ptr(attr, asize),
+ 			used - le16_to_cpu(lrh->record_off) - asize);
+@@ -5103,8 +5103,8 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+ 	rh->sys_page_size = cpu_to_le32(log->page_size);
+ 	rh->page_size = cpu_to_le32(log->page_size);
+ 
+-	t16 = QuadAlign(offsetof(struct RESTART_HDR, fixups) +
+-			sizeof(short) * t16);
++	t16 = ALIGN(offsetof(struct RESTART_HDR, fixups) +
++		    sizeof(short) * t16, 8);
+ 	rh->ra_off = cpu_to_le16(t16);
+ 	rh->minor_ver = cpu_to_le16(1); // 0x1A:
+ 	rh->major_ver = cpu_to_le16(1); // 0x1C:
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index 92140050fb6c..488e47c7f670 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -1944,7 +1944,7 @@ int ntfs_security_init(struct ntfs_sb_info *sbi)
+ 	sbi->security.next_id = SECURITY_ID_FIRST;
+ 	/* Always write new security at the end of bucket */
+ 	sbi->security.next_off =
+-		Quad2Align(sds_size - SecurityDescriptorsBlockSize);
++			ALIGN(sds_size - SecurityDescriptorsBlockSize, 16);
+ 
+ 	cnt = 0;
+ 	off = 0;
+@@ -2099,7 +2099,7 @@ int ntfs_insert_security(struct ntfs_sb_info *sbi,
+ 	struct NTFS_DE_SII sii_e;
+ 	struct SECURITY_HDR *d_security;
+ 	u32 new_sec_size = size_sd + SIZEOF_SECURITY_HDR;
+-	u32 aligned_sec_size = Quad2Align(new_sec_size);
++	u32 aligned_sec_size = ALIGN(new_sec_size, 16);
+ 	struct SECURITY_KEY hash_key;
+ 	struct ntfs_fnd *fnd_sdh = NULL;
+ 	const struct INDEX_ROOT *root_sdh;
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 6aa9540ece47..3fdec8871fab 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -701,7 +701,7 @@ static struct NTFS_DE *hdr_find_e(const struct ntfs_index *indx,
+ 
+ 	if (max_idx >= nslots) {
+ 		u16 *ptr;
+-		int new_slots = QuadAlign(2 * nslots);
++		int new_slots = ALIGN(2 * nslots, 8);
+ 
+ 		ptr = ntfs_malloc(sizeof(u16) * new_slots);
+ 		if (ptr)
+@@ -958,7 +958,7 @@ static struct indx_node *indx_new(struct ntfs_index *indx,
+ 	index->rhdr.fix_num = cpu_to_le16(fn);
+ 	index->vbn = cpu_to_le64(vbn);
+ 	hdr = &index->ihdr;
+-	eo = QuadAlign(sizeof(struct INDEX_BUFFER) + fn * sizeof(short));
++	eo = ALIGN(sizeof(struct INDEX_BUFFER) + fn * sizeof(short), 8);
+ 	hdr->de_off = cpu_to_le32(eo);
+ 
+ 	e = Add2Ptr(hdr, eo);
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index bf51e294432e..36f673857ebd 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -1336,7 +1336,7 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+ 	fname->dup.ea_size = fname->dup.reparse = 0;
+ 
+ 	dsize = le16_to_cpu(new_de->key_size);
+-	asize = QuadAlign(SIZEOF_RESIDENT + dsize);
++	asize = ALIGN(SIZEOF_RESIDENT + dsize, 8);
+ 
+ 	attr->type = ATTR_NAME;
+ 	attr->size = cpu_to_le32(asize);
+@@ -1350,7 +1350,7 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+ 
+ 	if (security_id == SECURITY_ID_INVALID) {
+ 		/* Insert security attribute */
+-		asize = SIZEOF_RESIDENT + QuadAlign(sd_size);
++		asize = SIZEOF_RESIDENT + ALIGN(sd_size, 8);
+ 
+ 		attr->type = ATTR_SECURE;
+ 		attr->size = cpu_to_le32(asize);
+@@ -1473,7 +1473,7 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+ 		attr->id = cpu_to_le16(aid++);
+ 
+ 		/* resident or non resident? */
+-		asize = QuadAlign(SIZEOF_RESIDENT + nsize);
++		asize = ALIGN(SIZEOF_RESIDENT + nsize, 8);
+ 		t16 = PtrOffset(rec, attr);
+ 
+ 		if (asize + t16 + 8 > sbi->record_size) {
+@@ -1509,7 +1509,7 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+ 				goto out5;
+ 			}
+ 
+-			asize = SIZEOF_NONRESIDENT + QuadAlign(err);
++			asize = SIZEOF_NONRESIDENT + ALIGN(err, 8);
+ 			inode->i_size = nsize;
+ 		} else {
+ 			attr->res.data_off = SIZEOF_RESIDENT_LE;
+diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
+index b1ccd66172f2..0626844e6bdc 100644
+--- a/fs/ntfs3/namei.c
++++ b/fs/ntfs3/namei.c
+@@ -57,7 +57,7 @@ int fill_name_de(struct ntfs_sb_info *sbi, void *buf, const struct qstr *name,
+ 	fname->type = FILE_NAME_POSIX;
+ 	data_size = fname_full_size(fname);
+ 
+-	e->size = cpu_to_le16(QuadAlign(data_size) + sizeof(struct NTFS_DE));
++	e->size = cpu_to_le16(ALIGN(data_size, 8) + sizeof(struct NTFS_DE));
+ 	e->key_size = cpu_to_le16(data_size);
+ 	e->flags = 0;
+ 	e->res = 0;
+diff --git a/fs/ntfs3/ntfs.h b/fs/ntfs3/ntfs.h
+index 40398e6c39c9..d6480845ce1f 100644
+--- a/fs/ntfs3/ntfs.h
++++ b/fs/ntfs3/ntfs.h
+@@ -390,8 +390,8 @@ static inline u64 attr_ondisk_size(const struct ATTRIB *attr)
+ 	return attr->non_res ? ((attr->flags &
+ 				 (ATTR_FLAG_COMPRESSED | ATTR_FLAG_SPARSED)) ?
+ 					le64_to_cpu(attr->nres.total_size) :
+-					le64_to_cpu(attr->nres.alloc_size)) :
+-			       QuadAlign(le32_to_cpu(attr->res.data_size));
++					le64_to_cpu(attr->nres.alloc_size))
++			     : ALIGN(le32_to_cpu(attr->res.data_size), 8);
+ }
+ 
+ static inline u64 attr_size(const struct ATTRIB *attr)
+@@ -527,8 +527,8 @@ static_assert(sizeof(struct ATTR_LIST_ENTRY) == 0x20);
+ 
+ static inline u32 le_size(u8 name_len)
+ {
+-	return QuadAlign(offsetof(struct ATTR_LIST_ENTRY, name) +
+-			 name_len * sizeof(short));
++	return ALIGN(offsetof(struct ATTR_LIST_ENTRY, name) +
++		     name_len * sizeof(short), 8);
+ }
+ 
+ /* returns 0 if 'attr' has the same type and name */
+@@ -689,10 +689,10 @@ static inline bool de_has_vcn_ex(const struct NTFS_DE *e)
+ 							sizeof(__le64)));
+ }
+ 
+-#define MAX_BYTES_PER_NAME_ENTRY					       \
+-	QuadAlign(sizeof(struct NTFS_DE) +				       \
+-		  offsetof(struct ATTR_FILE_NAME, name) +		       \
+-		  NTFS_NAME_LEN * sizeof(short))
++#define MAX_BYTES_PER_NAME_ENTRY \
++	ALIGN(sizeof(struct NTFS_DE) + \
++	      offsetof(struct ATTR_FILE_NAME, name) + \
++	      NTFS_NAME_LEN * sizeof(short), 8)
+ 
+ struct INDEX_HDR {
+ 	__le32 de_off;	// 0x00: The offset from the start of this structure
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 0c3ac89c3115..69bf1edc561e 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -897,7 +897,7 @@ static inline bool run_is_empty(struct runs_tree *run)
+ /* NTFS uses quad aligned bitmaps */
+ static inline size_t bitmap_size(size_t bits)
+ {
+-	return QuadAlign((bits + 7) >> 3);
++	return ALIGN((bits + 7) >> 3, 8);
+ }
+ 
+ #define _100ns2seconds 10000000
+diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
+index 0d4a6251bddc..721c14f83e2b 100644
+--- a/fs/ntfs3/record.c
++++ b/fs/ntfs3/record.c
+@@ -206,7 +206,7 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
+ 			return NULL;
+ 
+ 		if (off >= used || off < MFTRECORD_FIXUP_OFFSET_1 ||
+-		    !IsDwordAligned(off)) {
++		    !IS_ALIGNED(off, 4)) {
+ 			return NULL;
+ 		}
+ 
+@@ -235,7 +235,7 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
+ 
+ 	/* Can we use the first field (attr->type) */
+ 	if (off + 8 > used) {
+-		static_assert(QuadAlign(sizeof(enum ATTR_TYPE)) == 8);
++		static_assert(ALIGN(sizeof(enum ATTR_TYPE), 8) == 8);
+ 		return NULL;
+ 	}
+ 
+@@ -539,7 +539,7 @@ bool mi_resize_attr(struct mft_inode *mi, struct ATTRIB *attr, int bytes)
+ 	next = Add2Ptr(attr, asize);
+ 
+ 	if (bytes > 0) {
+-		dsize = QuadAlign(bytes);
++		dsize = ALIGN(bytes, 8);
+ 		if (used + dsize > total)
+ 			return false;
+ 		nsize = asize + dsize;
+@@ -549,7 +549,7 @@ bool mi_resize_attr(struct mft_inode *mi, struct ATTRIB *attr, int bytes)
+ 		used += dsize;
+ 		rsize += dsize;
+ 	} else {
+-		dsize = QuadAlign(-bytes);
++		dsize = ALIGN(-bytes, 8);
+ 		if (dsize > asize)
+ 			return false;
+ 		nsize = asize - dsize;
+@@ -596,7 +596,7 @@ int mi_pack_runs(struct mft_inode *mi, struct ATTRIB *attr,
+ 		return err;
+ 	}
+ 
+-	new_run_size = QuadAlign(err);
++	new_run_size = ALIGN(err, 8);
+ 
+ 	memmove(next + new_run_size - run_size, next + dsize, tail);
+ 
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 6be13e256c1a..1f4784f8bfaf 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -808,9 +808,9 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+ 	sbi->attr_size_tr = (5 * record_size >> 4); // ~320 bytes
+ 
+ 	sbi->max_bytes_per_attr =
+-		record_size - QuadAlign(MFTRECORD_FIXUP_OFFSET_1) -
+-		QuadAlign(((record_size >> SECTOR_SHIFT) * sizeof(short))) -
+-		QuadAlign(sizeof(enum ATTR_TYPE));
++		record_size - ALIGN(MFTRECORD_FIXUP_OFFSET_1, 8) -
++		ALIGN(((record_size >> SECTOR_SHIFT) * sizeof(short)), 8) -
++		ALIGN(sizeof(enum ATTR_TYPE), 8);
+ 
+ 	sbi->index_size = boot->index_size < 0
+ 				  ? 1u << (-boot->index_size)
+@@ -858,9 +858,9 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+ 	rec->rhdr.fix_off = cpu_to_le16(MFTRECORD_FIXUP_OFFSET_1);
+ 	fn = (sbi->record_size >> SECTOR_SHIFT) + 1;
+ 	rec->rhdr.fix_num = cpu_to_le16(fn);
+-	ao = QuadAlign(MFTRECORD_FIXUP_OFFSET_1 + sizeof(short) * fn);
++	ao = ALIGN(MFTRECORD_FIXUP_OFFSET_1 + sizeof(short) * fn, 8);
+ 	rec->attr_off = cpu_to_le16(ao);
+-	rec->used = cpu_to_le32(ao + QuadAlign(sizeof(enum ATTR_TYPE)));
++	rec->used = cpu_to_le32(ao + ALIGN(sizeof(enum ATTR_TYPE), 8));
+ 	rec->total = cpu_to_le32(sbi->record_size);
+ 	((struct ATTRIB *)Add2Ptr(rec, ao))->type = ATTR_END;
+ 
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index 98871c895e77..6b17d46b9506 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -26,9 +26,9 @@
+ static inline size_t unpacked_ea_size(const struct EA_FULL *ea)
+ {
+ 	return ea->size ? le32_to_cpu(ea->size)
+-			: DwordAlign(struct_size(
+-				  ea, name,
+-				  1 + ea->name_len + le16_to_cpu(ea->elength)));
++			: ALIGN(struct_size(
++			      ea, name,
++			      1 + ea->name_len + le16_to_cpu(ea->elength)), 4);
+ }
+ 
+ static inline size_t packed_ea_size(const struct EA_FULL *ea)
+@@ -289,7 +289,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+ 		goto out;
+ 	}
+ 
+-	add = DwordAlign(struct_size(ea_all, name, 1 + name_len + val_size));
++	add = ALIGN(struct_size(ea_all, name, 1 + name_len + val_size), 4);
+ 
+ 	err = ntfs_read_ea(ni, &ea_all, add, &info);
+ 	if (err)
 -- 
 2.25.1
 
