@@ -1,37 +1,37 @@
 Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B803FC2
-	for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 16:18:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B127A3FC2
+	for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 16:27:01 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 05F6782090;
-	Fri, 27 Aug 2021 19:08:35 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 0E9BD820C9;
+	Fri, 27 Aug 2021 19:27:00 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1630080515;
-	bh=nD33TNXGbeVwtfqT0HqayU2dyuRSJU6rquy3c3fui+A=;
+	d=paragon-software.com; s=mail; t=1630081620;
+	bh=tt5mEXv8qlqB4YWly4mTmZV3s2uSzB94kC/w5/UcOAA=;
 	h=From:To:CC:Subject:Date:References:In-Reply-To;
-	b=WXcjg/KBKuMlhtBAPGOOBYsOV3DS8S7ezzCfYPWuzGoKfg/uAxqk/j6XDWxTi92gS
-	 Q88/ng5/y4wgS3l7Z/TJ30APBleuNB+kPfKoTv2e/cKyQ6gFEV09VlCb9kHbkgQWky
-	 eNNHYBp5ViKVc38Rw/q1D0gmW7woL63GzEhNXQpg=
+	b=DnbMDwgJ1skFvRHRP9TsCDgd4tSsKgmEQOAvDWxEa+W9b5OnWPw9f4t7/OCOBrqtn
+	 k3W3blR5if8lKOGw2lazGBz/JWGXbnmh0jnM63d05DufaU1cwrGYZsoeOShVZy3jdX
+	 udFgsQTUT6Ysmc2lZU6CHSCuB3/9xLadKhEfhL8Q=
 Received: from vdlg-exch-02.paragon-software.com (172.30.1.105) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 27 Aug 2021 19:08:34 +0300
+ 15.1.2176.2; Fri, 27 Aug 2021 19:26:59 +0300
 Received: from vdlg-exch-02.paragon-software.com ([fe80::586:6d72:3fe5:bd9b])
  by vdlg-exch-02.paragon-software.com ([fe80::586:6d72:3fe5:bd9b%12]) with
- mapi id 15.01.2176.009; Fri, 27 Aug 2021 19:08:34 +0300
+ mapi id 15.01.2176.009; Fri, 27 Aug 2021 19:26:59 +0300
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: Kari Argillander <kari.argillander@gmail.com>, "ntfs3@lists.linux.dev"
-	<ntfs3@lists.linux.dev>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: RE: [PATCH] fs/ntfs3: Use linux/log2 is_power_of_2 function
-Thread-Topic: [PATCH] fs/ntfs3: Use linux/log2 is_power_of_2 function
-Thread-Index: AQHXkorR1aO5dQA04k2VH8WfP//lc6uHllhQ
-Date: Fri, 27 Aug 2021 16:08:34 +0000
-Message-ID: <215724bb79f24c7281731b6637fe7164@paragon-software.com>
-References: <20210816103732.177207-1-kari.argillander@gmail.com>
-In-Reply-To: <20210816103732.177207-1-kari.argillander@gmail.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+CC: "ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
+Subject: RE: [PATCH][next] fs/ntfs3: Fix fall-through warnings for Clang
+Thread-Topic: [PATCH][next] fs/ntfs3: Fix fall-through warnings for Clang
+Thread-Index: AQHXlH8GgQxbFi/fhU2Z/WpnkAbBi6uHl4+Q
+Date: Fri, 27 Aug 2021 16:26:59 +0000
+Message-ID: <aeb1cad119034c359939c76c4835b86a@paragon-software.com>
+References: <20210818222146.GA312859@embeddedor>
+In-Reply-To: <20210818222146.GA312859@embeddedor>
 Accept-Language: ru-RU, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -46,113 +46,60 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
-> From: Kari Argillander <kari.argillander@gmail.com>
-> Sent: Monday, August 16, 2021 1:38 PM
-> To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>; ntfs3@=
-lists.linux.dev
-> Cc: Kari Argillander <kari.argillander@gmail.com>; linux-kernel@vger.kern=
-el.org; linux-fsdevel@vger.kernel.org
-> Subject: [PATCH] fs/ntfs3: Use linux/log2 is_power_of_2 function
+> From: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Sent: Thursday, August 19, 2021 1:22 AM
+> To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+> Cc: ntfs3@lists.linux.dev; linux-kernel@vger.kernel.org; Gustavo A. R. Si=
+lva <gustavoars@kernel.org>; linux-
+> hardening@vger.kernel.org
+> Subject: [PATCH][next] fs/ntfs3: Fix fall-through warnings for Clang
 >=20
-> We do not need our own implementation for this function in this
-> driver. It is much better to use generic one.
+> Fix the following fallthrough warnings:
 >=20
-> Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
+> fs/ntfs3/inode.c:1792:2: warning: unannotated fall-through between switch=
+ labels [-Wimplicit-fallthrough]
+> fs/ntfs3/index.c:178:2: warning: unannotated fall-through between switch =
+labels [-Wimplicit-fallthrough]
+>=20
+> This helps with the ongoing efforts to globally enable
+> -Wimplicit-fallthrough for Clang.
+>=20
+> Link: https://github.com/KSPP/linux/issues/115
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 > ---
->  fs/ntfs3/ntfs_fs.h | 5 -----
->  fs/ntfs3/run.c     | 3 ++-
->  fs/ntfs3/super.c   | 9 +++++----
->  3 files changed, 7 insertions(+), 10 deletions(-)
+>  fs/ntfs3/index.c | 1 +
+>  fs/ntfs3/inode.c | 1 +
+>  2 files changed, 2 insertions(+)
 >=20
-> diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-> index 0c3ac89c3115..c8ea6dd38c21 100644
-> --- a/fs/ntfs3/ntfs_fs.h
-> +++ b/fs/ntfs3/ntfs_fs.h
-> @@ -972,11 +972,6 @@ static inline struct buffer_head *ntfs_bread(struct =
-super_block *sb,
->  	return NULL;
->  }
->=20
-> -static inline bool is_power_of2(size_t v)
-> -{
-> -	return v && !(v & (v - 1));
-> -}
-> -
->  static inline struct ntfs_inode *ntfs_i(struct inode *inode)
->  {
->  	return container_of(inode, struct ntfs_inode, vfs_inode);
-> diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
-> index 5cdf6efe67e0..ce6bff3568df 100644
-> --- a/fs/ntfs3/run.c
-> +++ b/fs/ntfs3/run.c
-> @@ -9,6 +9,7 @@
->  #include <linux/blkdev.h>
->  #include <linux/buffer_head.h>
->  #include <linux/fs.h>
-> +#include <linux/log2.h>
->  #include <linux/nls.h>
->=20
->  #include "debug.h"
-> @@ -376,7 +377,7 @@ bool run_add_entry(struct runs_tree *run, CLST vcn, C=
-LST lcn, CLST len,
->  			if (!used) {
->  				bytes =3D 64;
->  			} else if (used <=3D 16 * PAGE_SIZE) {
-> -				if (is_power_of2(run->allocated))
-> +				if (is_power_of_2(run->allocated))
->  					bytes =3D run->allocated << 1;
->  				else
->  					bytes =3D (size_t)1
-> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-> index 6be13e256c1a..c1b7127f5e61 100644
-> --- a/fs/ntfs3/super.c
-> +++ b/fs/ntfs3/super.c
-> @@ -29,6 +29,7 @@
->  #include <linux/exportfs.h>
->  #include <linux/fs.h>
->  #include <linux/iversion.h>
-> +#include <linux/log2.h>
->  #include <linux/module.h>
->  #include <linux/nls.h>
->  #include <linux/parser.h>
-> @@ -735,13 +736,13 @@ static int ntfs_init_from_boot(struct super_block *=
-sb, u32 sector_size,
->=20
->  	boot_sector_size =3D (u32)boot->bytes_per_sector[1] << 8;
->  	if (boot->bytes_per_sector[0] || boot_sector_size < SECTOR_SIZE ||
-> -	    !is_power_of2(boot_sector_size)) {
-> +	    !is_power_of_2(boot_sector_size)) {
->  		goto out;
+> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+> index 6aa9540ece47..76eae60b7fce 100644
+> --- a/fs/ntfs3/index.c
+> +++ b/fs/ntfs3/index.c
+> @@ -175,6 +175,7 @@ static inline NTFS_CMP_FUNC get_cmp_func(const struct=
+ INDEX_ROOT *root)
+>  		default:
+>  			break;
+>  		}
+> +		break;
+>  	default:
+>  		break;
 >  	}
->=20
->  	/* cluster size: 512, 1K, 2K, 4K, ... 2M */
->  	sct_per_clst =3D true_sectors_per_clst(boot);
-> -	if (!is_power_of2(sct_per_clst))
-> +	if (!is_power_of_2(sct_per_clst))
->  		goto out;
->=20
->  	mlcn =3D le64_to_cpu(boot->mft_clst);
-> @@ -757,14 +758,14 @@ static int ntfs_init_from_boot(struct super_block *=
-sb, u32 sector_size,
->  	/* Check MFT record size */
->  	if ((boot->record_size < 0 &&
->  	     SECTOR_SIZE > (2U << (-boot->record_size))) ||
-> -	    (boot->record_size >=3D 0 && !is_power_of2(boot->record_size))) {
-> +	    (boot->record_size >=3D 0 && !is_power_of_2(boot->record_size))) {
->  		goto out;
->  	}
->=20
->  	/* Check index record size */
->  	if ((boot->index_size < 0 &&
->  	     SECTOR_SIZE > (2U << (-boot->index_size))) ||
-> -	    (boot->index_size >=3D 0 && !is_power_of2(boot->index_size))) {
-> +	    (boot->index_size >=3D 0 && !is_power_of_2(boot->index_size))) {
->  		goto out;
->  	}
->=20
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index bf51e294432e..a573c6e98cb8 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -1789,6 +1789,7 @@ int ntfs_unlink_inode(struct inode *dir, const stru=
+ct dentry *dentry)
+>  	switch (err) {
+>  	case 0:
+>  		drop_nlink(inode);
+> +		break;
+>  	case -ENOTEMPTY:
+>  	case -ENOSPC:
+>  	case -EROFS:
 > --
-> 2.30.2
+> 2.27.0
 
-Hi Kari! Thanks for the patch, applied.
+Hi Gustavo, thank you. Picked into ntfs3 tree.
 
 Best regards.
