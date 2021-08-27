@@ -1,37 +1,40 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6782A72
-	for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 17:16:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC64772
+	for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 17:17:56 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 8B5A942C;
-	Fri, 27 Aug 2021 20:16:57 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 1115082098;
+	Fri, 27 Aug 2021 20:17:55 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1630084617;
-	bh=aKDGBWbxN6juVo3fEnLuKdso5Um1Is+UUWiB/hlPvxg=;
+	d=paragon-software.com; s=mail; t=1630084675;
+	bh=5Nw7v9NTMS8258UFCfYCXGLMQoTyuQKiZqWPaggUcRg=;
 	h=From:To:CC:Subject:Date:References:In-Reply-To;
-	b=nMT53Rx2IyypXu0kTAPoH6O5BkKpNTOTYTMT3ynbQcZLPUCO9oOHIak2/ByYhQVYY
-	 yWi73i2UwNK8VidYS5QCXAAOVdDgjxkDjdHDhmx8gIJ71kMpFmLiQWLBxCXcHgIjLs
-	 /6oDqf+7AllwEIOXHc/YPISLMbxlaz4UoazwxsC8=
+	b=pdVACW35hyhaFzg3zWisQOuPMSYYs1UIjG96vGDuqJqVxdnqb543ANHeTHaE5Oil3
+	 P+gkXxKGL59DG69Of1wKoTNWHY2DiaBaOPEQ294l5Q7uIaTd//1Ranf2Oqy5nT8EZ0
+	 pQiEeh/LOv7IYFHZbAWhk3MoHf8ZRHp7UtXfUhLc=
 Received: from vdlg-exch-02.paragon-software.com (172.30.1.105) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 27 Aug 2021 20:16:57 +0300
+ 15.1.2176.2; Fri, 27 Aug 2021 20:17:54 +0300
 Received: from vdlg-exch-02.paragon-software.com ([fe80::586:6d72:3fe5:bd9b])
  by vdlg-exch-02.paragon-software.com ([fe80::586:6d72:3fe5:bd9b%12]) with
- mapi id 15.01.2176.009; Fri, 27 Aug 2021 20:16:57 +0300
+ mapi id 15.01.2176.009; Fri, 27 Aug 2021 20:17:54 +0300
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>, Kari Argillander
+	<kari.argillander@gmail.com>
 CC: "ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	"kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
-Subject: RE: [PATCH] fs/ntfs3: add checks for allocation failure
-Thread-Topic: [PATCH] fs/ntfs3: add checks for allocation failure
-Thread-Index: AQHXmN6VFXy+PyddQ0qyTjMLzsfUaKuHnNlw
-Date: Fri, 27 Aug 2021 17:16:57 +0000
-Message-ID: <433bf776e8cf4fcc8dc9c1db4e43151b@paragon-software.com>
-References: <20210824115236.GJ31143@kili>
-In-Reply-To: <20210824115236.GJ31143@kili>
+Subject: RE: [PATCH] fs/ntfs3: fix an error code in ntfs_get_acl_ex()
+Thread-Topic: [PATCH] fs/ntfs3: fix an error code in ntfs_get_acl_ex()
+Thread-Index: AQHXmN4THTu3LgVVhE6dhDj9H1dO4KuCqQOAgAAH9QCABOwqsA==
+Date: Fri, 27 Aug 2021 17:17:54 +0000
+Message-ID: <dbd79495182b43568d1c6b397d1abfff@paragon-software.com>
+References: <20210824114858.GH31143@kili>
+ <20210824163851.hfbjqqpztgk4ngd5@kari-VirtualBox>
+ <20210824170720.GO7722@kadam>
+In-Reply-To: <20210824170720.GO7722@kadam>
 Accept-Language: ru-RU, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -47,83 +50,44 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
 > From: Dan Carpenter <dan.carpenter@oracle.com>
-> Sent: Tuesday, August 24, 2021 2:53 PM
-> To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-> Cc: ntfs3@lists.linux.dev; linux-kernel@vger.kernel.org; kernel-janitors@=
-vger.kernel.org
-> Subject: [PATCH] fs/ntfs3: add checks for allocation failure
+> Sent: Tuesday, August 24, 2021 8:07 PM
+> To: Kari Argillander <kari.argillander@gmail.com>
+> Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>; ntfs3@=
+lists.linux.dev; linux-kernel@vger.kernel.org; kernel-
+> janitors@vger.kernel.org
+> Subject: Re: [PATCH] fs/ntfs3: fix an error code in ntfs_get_acl_ex()
 >=20
-> Add a check for when the kzalloc() in init_rsttbl() fails.  Some of
-> the callers checked for NULL and some did not.  I went down the call
-> tree and added NULL checks where ever they were missing.
+> On Tue, Aug 24, 2021 at 07:38:51PM +0300, Kari Argillander wrote:
+> > On Tue, Aug 24, 2021 at 02:48:58PM +0300, Dan Carpenter wrote:
+> > > diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+> > > index 9239c388050e..e8ed38d0c4c9 100644
+> > > --- a/fs/ntfs3/xattr.c
+> > > +++ b/fs/ntfs3/xattr.c
+> > > @@ -521,7 +521,7 @@ static struct posix_acl *ntfs_get_acl_ex(struct u=
+ser_namespace *mnt_userns,
+> > >  		ni_unlock(ni);
+> > >
+> > >  	/* Translate extended attribute to acl */
+> > > -	if (err > 0) {
+> > > +	if (err >=3D 0) {
+> >
+> > So now if err (size) is 0 it will try to get acl. Didn't you just say
+> > that you want to return PTR_ERR(-EINVAL)?
+> >
 >=20
-> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->  fs/ntfs3/fslog.c | 21 ++++++++++++++++++---
->  1 file changed, 18 insertions(+), 3 deletions(-)
+> If you pass an invalid too short size to posix_acl_from_xattr() then it
+> returns PTR_ERR(-EINVAL).  It was hard to phrase this in the change log
+> but I feel like length of 1 and 0 should be treated the same.
 >=20
-> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index 397ba6a956e7..209fe6ddead0 100644
-> --- a/fs/ntfs3/fslog.c
-> +++ b/fs/ntfs3/fslog.c
-> @@ -807,7 +807,11 @@ static inline struct RESTART_TABLE *init_rsttbl(u16 =
-esize, u16 used)
->  	u32 off;
->  	u32 bytes =3D esize * used + sizeof(struct RESTART_TABLE);
->  	u32 lf =3D sizeof(struct RESTART_TABLE) + (used - 1) * esize;
-> -	struct RESTART_TABLE *t =3D ntfs_zalloc(bytes);
-> +	struct RESTART_TABLE *t;
-> +
-> +	t =3D ntfs_zalloc(bytes);
-> +	if (!t)
-> +		return NULL;
 >=20
->  	t->size =3D cpu_to_le16(esize);
->  	t->used =3D cpu_to_le16(used);
-> @@ -831,7 +835,11 @@ static inline struct RESTART_TABLE *extend_rsttbl(st=
-ruct RESTART_TABLE *tbl,
->  	u16 esize =3D le16_to_cpu(tbl->size);
->  	__le32 osize =3D cpu_to_le32(bytes_per_rt(tbl));
->  	u32 used =3D le16_to_cpu(tbl->used);
-> -	struct RESTART_TABLE *rt =3D init_rsttbl(esize, used + add);
-> +	struct RESTART_TABLE *rt;
-> +
-> +	rt =3D init_rsttbl(esize, used + add);
-> +	if (!rt)
-> +		return NULL;
+> > So overall good finding but maybe more work is needed with this one.
+> >
+> > >  		acl =3D posix_acl_from_xattr(mnt_userns, buf, err);
+> > >  		if (!IS_ERR(acl))
+> > >  			set_cached_acl(inode, type, acl);
 >=20
->  	memcpy(rt + 1, tbl + 1, esize * used);
+> regards,
+> dan carpenter
 >=20
-> @@ -864,8 +872,11 @@ static inline void *alloc_rsttbl_idx(struct RESTART_=
-TABLE **tbl)
->  	__le32 *e;
->  	struct RESTART_TABLE *t =3D *tbl;
->=20
-> -	if (!t->first_free)
-> +	if (!t->first_free) {
->  		*tbl =3D t =3D extend_rsttbl(t, 16, ~0u);
-> +		if (!t)
-> +			return NULL;
-> +	}
->=20
->  	off =3D le32_to_cpu(t->first_free);
->=20
-> @@ -4482,6 +4493,10 @@ int log_replay(struct ntfs_inode *ni, bool *initia=
-lized)
->  		}
->=20
->  		dp =3D alloc_rsttbl_idx(&dptbl);
-> +		if (!dp) {
-> +			err =3D -ENOMEM;
-> +			goto out;
-> +		}
->  		dp->target_attr =3D cpu_to_le32(t16);
->  		dp->transfer_len =3D cpu_to_le32(t32 << sbi->cluster_bits);
->  		dp->lcns_follow =3D cpu_to_le32(t32);
-> --
-> 2.20.1
 
-Hi Dan! Thanks, applied :)
-
-Best regards
+Applied, thanks!
