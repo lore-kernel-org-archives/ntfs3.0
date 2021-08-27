@@ -1,45 +1,44 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBAD3FC2
-	for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 16:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B803FC2
+	for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 16:18:10 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 4ED8D42C;
-	Fri, 27 Aug 2021 19:06:42 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 05F6782090;
+	Fri, 27 Aug 2021 19:08:35 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1630080402;
-	bh=03pdRXHJ2rUmLpMSqJkMnzOyz6oSUVCwF8fWVn/2NAs=;
+	d=paragon-software.com; s=mail; t=1630080515;
+	bh=nD33TNXGbeVwtfqT0HqayU2dyuRSJU6rquy3c3fui+A=;
 	h=From:To:CC:Subject:Date:References:In-Reply-To;
-	b=CDC6G99xrns7UnMunNBwh0pDyuzuAS7ptBAij+6yAxn4Q9pC4Dn2Mgu5NWJOP1oVk
-	 xgW2ocJgR8iIBbUxkW9iiPu74/bgMDAcaTlUFWjg2O5aQoDWZ9LFJyKW8IgK/fh1+N
-	 okiKpSDJIxltNGpDc6eMWi9PzGc1O5hZyut0Ov28=
+	b=WXcjg/KBKuMlhtBAPGOOBYsOV3DS8S7ezzCfYPWuzGoKfg/uAxqk/j6XDWxTi92gS
+	 Q88/ng5/y4wgS3l7Z/TJ30APBleuNB+kPfKoTv2e/cKyQ6gFEV09VlCb9kHbkgQWky
+	 eNNHYBp5ViKVc38Rw/q1D0gmW7woL63GzEhNXQpg=
 Received: from vdlg-exch-02.paragon-software.com (172.30.1.105) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 27 Aug 2021 19:06:41 +0300
+ 15.1.2176.2; Fri, 27 Aug 2021 19:08:34 +0300
 Received: from vdlg-exch-02.paragon-software.com ([fe80::586:6d72:3fe5:bd9b])
  by vdlg-exch-02.paragon-software.com ([fe80::586:6d72:3fe5:bd9b%12]) with
- mapi id 15.01.2176.009; Fri, 27 Aug 2021 19:06:41 +0300
+ mapi id 15.01.2176.009; Fri, 27 Aug 2021 19:08:34 +0300
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: Colin King <colin.king@canonical.com>, "ntfs3@lists.linux.dev"
+To: Kari Argillander <kari.argillander@gmail.com>, "ntfs3@lists.linux.dev"
 	<ntfs3@lists.linux.dev>
-CC: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Kari
- Argillander" <kari.argillander@gmail.com>
-Subject: RE: [PATCH][next][V2] fs/ntfs3: Fix various spelling mistakes
-Thread-Topic: [PATCH][next][V2] fs/ntfs3: Fix various spelling mistakes
-Thread-Index: AQHXkodWkC9fdf6SXUu+H4zBGVMAuquHlYag
-Date: Fri, 27 Aug 2021 16:06:41 +0000
-Message-ID: <d7c358f769494cb2b1983df27df0e335@paragon-software.com>
-References: <20210816101308.67769-1-colin.king@canonical.com>
-In-Reply-To: <20210816101308.67769-1-colin.king@canonical.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: RE: [PATCH] fs/ntfs3: Use linux/log2 is_power_of_2 function
+Thread-Topic: [PATCH] fs/ntfs3: Use linux/log2 is_power_of_2 function
+Thread-Index: AQHXkorR1aO5dQA04k2VH8WfP//lc6uHllhQ
+Date: Fri, 27 Aug 2021 16:08:34 +0000
+Message-ID: <215724bb79f24c7281731b6637fe7164@paragon-software.com>
+References: <20210816103732.177207-1-kari.argillander@gmail.com>
+In-Reply-To: <20210816103732.177207-1-kari.argillander@gmail.com>
 Accept-Language: ru-RU, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-originating-ip: [172.30.0.26]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -47,81 +46,113 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
-PiBGcm9tOiBDb2xpbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+DQo+IFNlbnQ6IE1v
-bmRheSwgQXVndXN0IDE2LCAyMDIxIDE6MTMgUE0NCj4gVG86IEtvbnN0YW50aW4gS29tYXJvdiA8
-YWxtYXouYWxleGFuZHJvdmljaEBwYXJhZ29uLXNvZnR3YXJlLmNvbT47IG50ZnMzQGxpc3RzLmxp
-bnV4LmRldg0KPiBDYzoga2VybmVsLWphbml0b3JzQHZnZXIua2VybmVsLm9yZzsgbGludXgta2Vy
-bmVsQHZnZXIua2VybmVsLm9yZzsgS2FyaSBBcmdpbGxhbmRlciA8a2FyaS5hcmdpbGxhbmRlckBn
-bWFpbC5jb20+DQo+IFN1YmplY3Q6IFtQQVRDSF1bbmV4dF1bVjJdIGZzL250ZnMzOiBGaXggdmFy
-aW91cyBzcGVsbGluZyBtaXN0YWtlcw0KPiANCj4gRnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGlu
-LmtpbmdAY2Fub25pY2FsLmNvbT4NCj4gDQo+IFRoZXJlIGlzIGEgc3BlbGxpbmcgbWlzdGFrZSBp
-biBhIG50ZnNfZXJyIGVycm9yIG1lc3NhZ2UuIEFsc28NCj4gZml4IHZhcmlvdXMgc3BlbGxpbmcg
-bWlzdGFrZXMgaW4gY29tbWVudHMuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBDb2xpbiBJYW4gS2lu
-ZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPg0KPiBSZXZpZXdlZC1ieSBLYXJpIEFyZ2lsbGFu
-ZGVyIDxrYXJpLmFyZ2lsbGFuZGVyQGdtYWlsLmNvbT4NCj4gLS0tDQo+IFYyOiBBbHNvIGZpeCBz
-cGVsbGluZyBtaXN0YWtlcyBpbiBjb21tZW50cywgdGhhbmtzIHRvIEthcmkgQXJnaWxsYW5kZXIN
-Cj4gICAgIGZvciBub3RpbmcgdGhhdCB0aGVzZSBuZWVkIGZpeGluZyB0b28uDQo+IC0tLQ0KPiAg
-ZnMvbnRmczMvZGVidWcuaCAgICAgICAgICAgICAgICAgfCAyICstDQo+ICBmcy9udGZzMy9saWIv
-ZGVjb21wcmVzc19jb21tb24uYyB8IDIgKy0NCj4gIGZzL250ZnMzL3J1bi5jICAgICAgICAgICAg
-ICAgICAgIHwgMiArLQ0KPiAgZnMvbnRmczMvc3VwZXIuYyAgICAgICAgICAgICAgICAgfCA0ICsr
-LS0NCj4gIGZzL250ZnMzL3VwY2FzZS5jICAgICAgICAgICAgICAgIHwgMiArLQ0KPiAgNSBmaWxl
-cyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0t
-Z2l0IGEvZnMvbnRmczMvZGVidWcuaCBiL2ZzL250ZnMzL2RlYnVnLmgNCj4gaW5kZXggZGZhYTRj
-NzlkYzZkLi4xNWFjNDIxODVlNWIgMTAwNjQ0DQo+IC0tLSBhL2ZzL250ZnMzL2RlYnVnLmgNCj4g
-KysrIGIvZnMvbnRmczMvZGVidWcuaA0KPiBAQCAtMyw3ICszLDcgQEANCj4gICAqDQo+ICAgKiBD
-b3B5cmlnaHQgKEMpIDIwMTktMjAyMSBQYXJhZ29uIFNvZnR3YXJlIEdtYkgsIEFsbCByaWdodHMg
-cmVzZXJ2ZWQuDQo+ICAgKg0KPiAtICogdXNlZnVsIGZ1bmN0aW9ucyBmb3IgZGVidWdpbmcNCj4g
-KyAqIHVzZWZ1bCBmdW5jdGlvbnMgZm9yIGRlYnVnZ2luZw0KPiAgICovDQo+IA0KPiAgLy8gY2xh
-bmctZm9ybWF0IG9mZg0KPiBkaWZmIC0tZ2l0IGEvZnMvbnRmczMvbGliL2RlY29tcHJlc3NfY29t
-bW9uLmMgYi9mcy9udGZzMy9saWIvZGVjb21wcmVzc19jb21tb24uYw0KPiBpbmRleCA4M2M5ZTkz
-YWVhNzcuLjg1MGQ4ZThjOGYxZiAxMDA2NDQNCj4gLS0tIGEvZnMvbnRmczMvbGliL2RlY29tcHJl
-c3NfY29tbW9uLmMNCj4gKysrIGIvZnMvbnRmczMvbGliL2RlY29tcHJlc3NfY29tbW9uLmMNCj4g
-QEAgLTI5Miw3ICsyOTIsNyBAQCBpbnQgbWFrZV9odWZmbWFuX2RlY29kZV90YWJsZSh1MTYgZGVj
-b2RlX3RhYmxlW10sIGNvbnN0IHUzMiBudW1fc3ltcywNCj4gIAkJCQkgKiBvZiBhcyBzaW1wbHkg
-dGhlIHJvb3Qgb2YgdGhlIHRyZWUuICBUaGUNCj4gIAkJCQkgKiByZXByZXNlbnRhdGlvbiBvZiB0
-aGVzZSBpbnRlcm5hbCBub2RlcyBpcw0KPiAgCQkJCSAqIHNpbXBseSB0aGUgaW5kZXggb2YgdGhl
-IGxlZnQgY2hpbGQgY29tYmluZWQNCj4gLQkJCQkgKiB3aXRoIHRoZSBzcGVjaWFsIGJpdHMgMHhD
-MDAwIHRvIGRpc3Rpbmd1c2gNCj4gKwkJCQkgKiB3aXRoIHRoZSBzcGVjaWFsIGJpdHMgMHhDMDAw
-IHRvIGRpc3Rpbmd1aXNoDQo+ICAJCQkJICogdGhlIGVudHJ5IGZyb20gZGlyZWN0IG1hcHBpbmcg
-YW5kIGxlYWYgbm9kZQ0KPiAgCQkJCSAqIGVudHJpZXMuDQo+ICAJCQkJICovDQo+IGRpZmYgLS1n
-aXQgYS9mcy9udGZzMy9ydW4uYyBiL2ZzL250ZnMzL3J1bi5jDQo+IGluZGV4IDVjZGY2ZWZlNjdl
-MC4uZjljMzYyYWM2NzJlIDEwMDY0NA0KPiAtLS0gYS9mcy9udGZzMy9ydW4uYw0KPiArKysgYi9m
-cy9udGZzMy9ydW4uYw0KPiBAQCAtOTQ5LDcgKzk0OSw3IEBAIGludCBydW5fdW5wYWNrKHN0cnVj
-dCBydW5zX3RyZWUgKnJ1biwgc3RydWN0IG50ZnNfc2JfaW5mbyAqc2JpLCBDTFNUIGlubywNCj4g
-IAkJaWYgKG5leHRfdmNuID4gMHgxMDAwMDAwMDB1bGwgfHwgKGxjbiArIGxlbikgPiAweDEwMDAw
-MDAwMHVsbCkgew0KPiAgCQkJbnRmc19lcnIoDQo+ICAJCQkJc2JpLT5zYiwNCj4gLQkJCQkiVGhp
-cyBkcml2ZXIgaXMgY29tcGlsZWQgd2hpdG91dCBDT05GSUdfTlRGUzNfNjRCSVRfQ0xVU1RFUiAo
-bGlrZSB3aW5kb3dzIGRyaXZlcikuXG4iDQo+ICsJCQkJIlRoaXMgZHJpdmVyIGlzIGNvbXBpbGVk
-IHdpdGhvdXQgQ09ORklHX05URlMzXzY0QklUX0NMVVNURVIgKGxpa2Ugd2luZG93cyBkcml2ZXIp
-LlxuIg0KPiAgCQkJCSJWb2x1bWUgY29udGFpbnMgNjQgYml0cyBydW46IHZjbiAlbGx4LCBsY24g
-JWxseCwgbGVuICVsbHguXG4iDQo+ICAJCQkJIkFjdGl2YXRlIENPTkZJR19OVEZTM182NEJJVF9D
-TFVTVEVSIHRvIHByb2Nlc3MgdGhpcyBjYXNlIiwNCj4gIAkJCQl2Y242NCwgbGNuLCBsZW4pOw0K
-PiBkaWZmIC0tZ2l0IGEvZnMvbnRmczMvc3VwZXIuYyBiL2ZzL250ZnMzL3N1cGVyLmMNCj4gaW5k
-ZXggNmJlMTNlMjU2YzFhLi44NGQ0ZjM4OWY2ODUgMTAwNjQ0DQo+IC0tLSBhL2ZzL250ZnMzL3N1
-cGVyLmMNCj4gKysrIGIvZnMvbnRmczMvc3VwZXIuYw0KPiBAQCAtMTI0LDcgKzEyNCw3IEBAIHZv
-aWQgbnRmc19pbm9kZV9wcmludGsoc3RydWN0IGlub2RlICppbm9kZSwgY29uc3QgY2hhciAqZm10
-LCAuLi4pDQo+ICAvKg0KPiAgICogU2hhcmVkIG1lbW9yeSBzdHJ1Y3QuDQo+ICAgKg0KPiAtICog
-b24tZGlzayBudGZzJ3MgdXBjYXNlIHRhYmxlIGlzIGNyZWF0ZWQgYnkgbnRmcyBmb3JtYXRlcg0K
-PiArICogb24tZGlzayBudGZzJ3MgdXBjYXNlIHRhYmxlIGlzIGNyZWF0ZWQgYnkgbnRmcyBmb3Jt
-YXR0ZXINCj4gICAqICd1cGNhc2UnIHRhYmxlIGlzIDEyOEsgYnl0ZXMgb2YgbWVtb3J5DQo+ICAg
-KiB3ZSBzaG91bGQgcmVhZCBpdCBpbnRvIG1lbW9yeSB3aGVuIG1vdW50aW5nDQo+ICAgKiBTZXZl
-cmFsIG50ZnMgdm9sdW1lcyBsaWtlbHkgdXNlIHRoZSBzYW1lICd1cGNhc2UnIHRhYmxlDQo+IEBA
-IC0xMjA4LDcgKzEyMDgsNyBAQCBzdGF0aWMgaW50IG50ZnNfZmlsbF9zdXBlcihzdHJ1Y3Qgc3Vw
-ZXJfYmxvY2sgKnNiLCB2b2lkICpkYXRhLCBpbnQgc2lsZW50KQ0KPiAgCXNiaS0+ZGVmX2VudHJp
-ZXMgPSAxOw0KPiAgCWRvbmUgPSBzaXplb2Yoc3RydWN0IEFUVFJfREVGX0VOVFJZKTsNCj4gIAlz
-YmktPnJlcGFyc2UubWF4X3NpemUgPSBNQVhJTVVNX1JFUEFSU0VfREFUQV9CVUZGRVJfU0laRTsN
-Cj4gLQlzYmktPmVhX21heF9zaXplID0gMHgxMDAwMDsgLyogZGVmYXVsdCBmb3JtYXRlciB2YWx1
-ZSAqLw0KPiArCXNiaS0+ZWFfbWF4X3NpemUgPSAweDEwMDAwOyAvKiBkZWZhdWx0IGZvcm1hdHRl
-ciB2YWx1ZSAqLw0KPiANCj4gIAl3aGlsZSAoZG9uZSArIHNpemVvZihzdHJ1Y3QgQVRUUl9ERUZf
-RU5UUlkpIDw9IGJ5dGVzKSB7DQo+ICAJCXUzMiB0MzIgPSBsZTMyX3RvX2NwdSh0LT50eXBlKTsN
-Cj4gZGlmZiAtLWdpdCBhL2ZzL250ZnMzL3VwY2FzZS5jIGIvZnMvbnRmczMvdXBjYXNlLmMNCj4g
-aW5kZXggOTYxNzM4MmFjYTY0Li5iNTM5NDM1MzhmOWYgMTAwNjQ0DQo+IC0tLSBhL2ZzL250ZnMz
-L3VwY2FzZS5jDQo+ICsrKyBiL2ZzL250ZnMzL3VwY2FzZS5jDQo+IEBAIC0yNyw3ICsyNyw3IEBA
-IHN0YXRpYyBpbmxpbmUgdTE2IHVwY2FzZV91bmljb2RlX2NoYXIoY29uc3QgdTE2ICp1cGNhc2Us
-IHUxNiBjaHIpDQo+ICAvKg0KPiAgICogVGhhbmtzIEthcmkgQXJnaWxsYW5kZXIgPGthcmkuYXJn
-aWxsYW5kZXJAZ21haWwuY29tPiBmb3IgaWRlYSBhbmQgaW1wbGVtZW50YXRpb24gJ2JvdGhjYXNl
-Jw0KPiAgICoNCj4gLSAqIFN0cmFpZ3RoIHdheSB0byBjb21wYXJlIG5hbWVzOg0KPiArICogU3Ry
-YWlnaHQgd2F5IHRvIGNvbXBhcmUgbmFtZXM6DQo+ICAgKiAtIGNhc2UgaW5zZW5zaXRpdmUNCj4g
-ICAqIC0gaWYgbmFtZSBlcXVhbHMgYW5kICdib3RoY2FzZXMnIHRoZW4NCj4gICAqIC0gY2FzZSBz
-ZW5zaXRpdmUNCj4gLS0NCj4gMi4zMi4wDQoNCkhpIENvbGluLCB0aGFua3MgYSBsb3QgZm9yIHRo
-ZSBwYXRjaCAtIHdlJ3ZlIHBpY2tlZCBpdC4NCg0KQmVzdCByZWdhcmRzLg0K
+> From: Kari Argillander <kari.argillander@gmail.com>
+> Sent: Monday, August 16, 2021 1:38 PM
+> To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>; ntfs3@=
+lists.linux.dev
+> Cc: Kari Argillander <kari.argillander@gmail.com>; linux-kernel@vger.kern=
+el.org; linux-fsdevel@vger.kernel.org
+> Subject: [PATCH] fs/ntfs3: Use linux/log2 is_power_of_2 function
+>=20
+> We do not need our own implementation for this function in this
+> driver. It is much better to use generic one.
+>=20
+> Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
+> ---
+>  fs/ntfs3/ntfs_fs.h | 5 -----
+>  fs/ntfs3/run.c     | 3 ++-
+>  fs/ntfs3/super.c   | 9 +++++----
+>  3 files changed, 7 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+> index 0c3ac89c3115..c8ea6dd38c21 100644
+> --- a/fs/ntfs3/ntfs_fs.h
+> +++ b/fs/ntfs3/ntfs_fs.h
+> @@ -972,11 +972,6 @@ static inline struct buffer_head *ntfs_bread(struct =
+super_block *sb,
+>  	return NULL;
+>  }
+>=20
+> -static inline bool is_power_of2(size_t v)
+> -{
+> -	return v && !(v & (v - 1));
+> -}
+> -
+>  static inline struct ntfs_inode *ntfs_i(struct inode *inode)
+>  {
+>  	return container_of(inode, struct ntfs_inode, vfs_inode);
+> diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
+> index 5cdf6efe67e0..ce6bff3568df 100644
+> --- a/fs/ntfs3/run.c
+> +++ b/fs/ntfs3/run.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/blkdev.h>
+>  #include <linux/buffer_head.h>
+>  #include <linux/fs.h>
+> +#include <linux/log2.h>
+>  #include <linux/nls.h>
+>=20
+>  #include "debug.h"
+> @@ -376,7 +377,7 @@ bool run_add_entry(struct runs_tree *run, CLST vcn, C=
+LST lcn, CLST len,
+>  			if (!used) {
+>  				bytes =3D 64;
+>  			} else if (used <=3D 16 * PAGE_SIZE) {
+> -				if (is_power_of2(run->allocated))
+> +				if (is_power_of_2(run->allocated))
+>  					bytes =3D run->allocated << 1;
+>  				else
+>  					bytes =3D (size_t)1
+> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+> index 6be13e256c1a..c1b7127f5e61 100644
+> --- a/fs/ntfs3/super.c
+> +++ b/fs/ntfs3/super.c
+> @@ -29,6 +29,7 @@
+>  #include <linux/exportfs.h>
+>  #include <linux/fs.h>
+>  #include <linux/iversion.h>
+> +#include <linux/log2.h>
+>  #include <linux/module.h>
+>  #include <linux/nls.h>
+>  #include <linux/parser.h>
+> @@ -735,13 +736,13 @@ static int ntfs_init_from_boot(struct super_block *=
+sb, u32 sector_size,
+>=20
+>  	boot_sector_size =3D (u32)boot->bytes_per_sector[1] << 8;
+>  	if (boot->bytes_per_sector[0] || boot_sector_size < SECTOR_SIZE ||
+> -	    !is_power_of2(boot_sector_size)) {
+> +	    !is_power_of_2(boot_sector_size)) {
+>  		goto out;
+>  	}
+>=20
+>  	/* cluster size: 512, 1K, 2K, 4K, ... 2M */
+>  	sct_per_clst =3D true_sectors_per_clst(boot);
+> -	if (!is_power_of2(sct_per_clst))
+> +	if (!is_power_of_2(sct_per_clst))
+>  		goto out;
+>=20
+>  	mlcn =3D le64_to_cpu(boot->mft_clst);
+> @@ -757,14 +758,14 @@ static int ntfs_init_from_boot(struct super_block *=
+sb, u32 sector_size,
+>  	/* Check MFT record size */
+>  	if ((boot->record_size < 0 &&
+>  	     SECTOR_SIZE > (2U << (-boot->record_size))) ||
+> -	    (boot->record_size >=3D 0 && !is_power_of2(boot->record_size))) {
+> +	    (boot->record_size >=3D 0 && !is_power_of_2(boot->record_size))) {
+>  		goto out;
+>  	}
+>=20
+>  	/* Check index record size */
+>  	if ((boot->index_size < 0 &&
+>  	     SECTOR_SIZE > (2U << (-boot->index_size))) ||
+> -	    (boot->index_size >=3D 0 && !is_power_of2(boot->index_size))) {
+> +	    (boot->index_size >=3D 0 && !is_power_of_2(boot->index_size))) {
+>  		goto out;
+>  	}
+>=20
+> --
+> 2.30.2
+
+Hi Kari! Thanks for the patch, applied.
+
+Best regards.
