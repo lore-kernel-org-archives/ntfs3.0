@@ -1,334 +1,179 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F375472
-	for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 09:43:25 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id i9so13121867lfg.10
-        for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 02:43:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06003FC4
+	for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 10:05:43 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17R8SK8E015338;
+	Fri, 27 Aug 2021 10:05:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=no/FDc1aatHCB+2e5Do+ceFlEkU5/j/aHpVdi1zT1pc=;
+ b=Cwvw5GRSl49ba7n4qPavQIoJO/NWY/T/GPdvN7RJn7KhsDZelPxdyL0zSAj++4020d0+
+ 6pw8+JB06R7u82IPX/nY5lInAI4F238yFTkHShONGdaL/oh791dR4tpns7sE+9t5G1Sg
+ rGeKjact0h5FrJpObJb5QjGLvb+DWXv+jm0Xd0WMs06NOX4UxSq41Z8q5XsooDqliBiK
+ sDE+lVyySI9LT6ZipbBh5ZCcwTyQe9d2oei0BlfSkTk02KEdVoSe4M/baOrdS4UVzkgZ
+ DOhhKO8q3C4dXpClbWYDHD4nln3K25c2jOUKvgPNZkW7Rz4oZ/12KacRbE+fZHte+0+p 1w== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2020-01-29;
+ bh=no/FDc1aatHCB+2e5Do+ceFlEkU5/j/aHpVdi1zT1pc=;
+ b=A0JEcF1jwRvP7vaqPxH862+nycuWY9Yb8IBBQ3LFE60VfDUnsRmThmL4d5gQgmM2z+46
+ PJ7IrfhuGVXZcHTmwK1d2cS7EG0m+FkxEDQ9lFSzKvJu5TRoCE0tXh2YGstcZ7GTxl3F
+ RjAtl+ugbXI7Uf0QVxbs4Gj500zqktGaicvNWh6DpfxFV+p+YQb/b/91HqrLnC4R8LPX
+ vGatRIF4we5LVyd46AHM7iyT8WE2rv68oGHwF6DERz6uae1Z/UaV57LgQR/JOxQjV+ZR
+ hzEMb14fo6kKpR6Qt4tQIAntI1LUdcKyDLYa956zAf65wNvd8ltO0TkDuYATYLLvaARU 7w== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3apvjr07pb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Aug 2021 10:05:42 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17RA5YJt035585;
+	Fri, 27 Aug 2021 10:05:42 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
+	by aserp3030.oracle.com with ESMTP id 3ajqhmapww-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Aug 2021 10:05:41 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eJsv5fRkzdK3DVG0/5g3e6uOrSIqng0Gcgvp7lny5e+DrQsuUfBCDMZxpgzIh1xREUy3mS4kcElxuFls16QMofYAEW3dhPR9aTXbSJA9vWz2VMsYuReHYKrQmRgk5jg10Tbjgtew+gMGi0znctOpKqNtXPSE85Ek46Pe5HWBgPitbp16O8jNzWKrHY5nZhPmGKeuTffIDmNH+JfgFpf4/GVDPZP4tqi+0ZzD3jEzUTP6oNr1j27Waoq0BI0men7x7AJag5KpmDBRnKa7RVsSmpLsLIrzVG6Da7i6rAASmZNAIt+DLlZy8rH0SnIPr8aHMo8TnRFZ3Is7KcmPEpw2jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=no/FDc1aatHCB+2e5Do+ceFlEkU5/j/aHpVdi1zT1pc=;
+ b=K8NcQcYwEUCv3rayenO2vY6hthWGyO7ibFxzOBaCOvIUXcdtlzwseDLINVc5+QJCidCnqpDz6gILkToK3rSb6sH1VR12aZHMWLxpDJ+qsK54hITvehXGbweayZxj2cen02Zmkj2hNC6GceNrq5MXA0WTFignnYk2h69bJaieUpByTxOTQUoeY4Va5A7KJMmr05tDsBZUZ44jUdpgrVMq7v3eR4NWjx2uz9gcA6cgtFe2BHVw0PUXJ7rGwxndfXi6YsDeB6emxjVuZgmqWhQlvrumuukHhNsmbbfgWRrip4dlwu/X93dGJdiHcogZWVMpGruHvjvjijmmN/jExeH+1Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=x6pU9uaWUe7Vofvdr9IcoW1Wt/2k8KaV3FfF55Sakjo=;
-        b=L4iSNQ9A3oiI+Bj6bWPrr7uaxBH+PNnf2wYWwqo/sJMdLCu3UaGKtPCL1855UlrcPq
-         lrVJ2k/dIs1Wt50pyJm+v0c759O8qP7H3nyoHlMG1uZzpOCwB47fK/yxHVNDilqvSvs+
-         nEJ/cPEAynH7BJ4aLWH4COIsNv5NCMRtWoPMZXrylvt15sfkHLRn8HdOVOqh9Ncp+dUa
-         lxkbUxSiiCZYU3s3jwzdlt/jVavu3JBuRIWK2EOEqEwx3zQiSTk6EUaiohjNrNlPwsRr
-         L+muE5RlbBozkP7DtE8FGOMHnoEA/d+Om6tEzQnOqMu9qPLKIn/y3yvvG7EQx1y7Kxu4
-         bdJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=x6pU9uaWUe7Vofvdr9IcoW1Wt/2k8KaV3FfF55Sakjo=;
-        b=UpPB4eAwKYvelFIXSA39KNmTYd9pIR7leBWf0c/vb3eiurIxQ9Ff8IKBPpfF/IcElJ
-         0ncxy5NYnsANLwTZkazkwKlpykRAmtiScewLKfe4/ec+snxDbfhH/7VpcJ5D59mCD243
-         xsV+6Db3HX3+igaz0T8HqVbUcT2HEmqp2KEzbW69W0ZFInEJjmxpDrVF3RlAjkzQ06u9
-         3wk12uJHRlEIOghC5+kwPYG/fmvk+aMBf2XDCZGshfIpbVvo/KPMFVy3rfLICEl9cb8/
-         9URD0HoBO8791fC/f7E0T7LMV7o8RDARNkFacYTmKkFseGykIjbEU0S+0AzU9PJqbMDp
-         p8zg==
-X-Gm-Message-State: AOAM532Pafexfw3zrS29Z3Xq01asyXLqm2Fqg0v5FKXNL2eLp9A34WNu
-	bjp+rP/B/fFQ57wAKI0SSLU=
-X-Google-Smtp-Source: ABdhPJztZ5RthXUVzcWbtbx5LIoG4rFvX+gCATzgbFSaK2N9Mlue9acvjeNU4BYJVwbSMIRfXJuolQ==
-X-Received: by 2002:ac2:4d48:: with SMTP id 8mr6237888lfp.244.1630057404017;
-        Fri, 27 Aug 2021 02:43:24 -0700 (PDT)
-Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id u10sm545891lft.252.2021.08.27.02.43.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Aug 2021 02:43:23 -0700 (PDT)
-Date: Fri, 27 Aug 2021 12:43:21 +0300
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev
-Subject: Re: [bug report] fs/ntfs3: missing error code in
- attr_data_get_block()
-Message-ID: <20210827094321.r2nxmzdq44lc6a2m@kari-VirtualBox>
-References: <20210827085757.GA9449@kili>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=no/FDc1aatHCB+2e5Do+ceFlEkU5/j/aHpVdi1zT1pc=;
+ b=lko81CD52Wqv0Bbzg7CTrXBbOedLi7PkMgK4ITnY4MmwfssVg7qZlgax4HovWgD7Yma4jK5ODenU4wcb3uHnrP65posJ4ycFjbaAL0s+9ubsu0uYg+DF3TNbsZSRL4bLbkIFqtZ3xQvjnGcQNEdnaii/IvuLA5OE4LSkdMCBTMI=
+Authentication-Results: paragon-software.com; dkim=none (message not signed)
+ header.d=none;paragon-software.com; dmarc=none action=none
+ header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO1PR10MB4689.namprd10.prod.outlook.com
+ (2603:10b6:303:98::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.22; Fri, 27 Aug
+ 2021 10:05:40 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4457.019; Fri, 27 Aug 2021
+ 10:05:40 +0000
+Date: Fri, 27 Aug 2021 13:05:29 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, kernel-janitors@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: Delete dead code in ni_write_frame()
+Message-ID: <20210827100528.GC9449@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: ZR0P278CA0010.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:16::20) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210827085757.GA9449@kili>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kili (62.8.83.99) by ZR0P278CA0010.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:16::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend Transport; Fri, 27 Aug 2021 10:05:37 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 83184276-29df-4ad3-7074-08d969423946
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4689:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<CO1PR10MB4689C3E7C3E7AB5483CE1C9D8EC89@CO1PR10MB4689.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1332;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	izriqGpp14sRcJpoPIwxTxD81ass74YtGF8Djd7FkSMNGgJu4UMEXr8xPwjpWxEfWhRkoMVPFlAe026UYmlt6Uxn3FELQ3scyJoMH2f9VCA/LhqRHPdPB4MeuxbWvytu19Y45ajzGpOVy9SHC3MSkjiyZk0ObOjkzR0/EFGjmyIcKiCWIsXS8pmXQraK1RodQP9hVsCOSeYLtst6rycv+RPBBKQ5h+RFEP7y6bHM0wY6dXrzCtdPsWYvBbcOg4DrcoP567g4TKKOt1lYSrITMT6Fi8P98QchltxmO2bEO6Hfqu70U4uyWdlWzvaOKFoOsFUTMQtxI95052yABTe7DMpMR4/RdwBE1dVNA6A2FLZFbdcqioL+AR9suHCO0HeFA3CtiWlYlr/mtB3tTi+FYx7eB/qK3rreWO2bgbcFlfsaKXV35Bu5nHpHqm7p40AfPwShqShCO3UwvHM5vqbcHBRLmrsNFojVElfb/2fFzxBGH1Aw9F3nqudwIAsgm/Hpd9B5Vgs+qlSZNaOt+38QvOFTkThjf8h2GX5Ml/dtDTL11rXo9+mewNHOA6gXQh+IZ6Spf26A9PVZcw39e6g6kz+53+iF/aumItubrAp/VVgI4XBihJ2eq9Hn6dKFkSQpi4r4qXNxjYdgsI9187vE1NYH+8idDmIfSMHYzE91PK/8ymrMVjel7aPRfgzgRIdc233RW/Mtqf6b4Yl5AlEIrA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(366004)(346002)(396003)(376002)(39860400002)(55016002)(66556008)(1076003)(33716001)(2906002)(9686003)(4326008)(83380400001)(8676002)(5660300002)(44832011)(186003)(33656002)(8936002)(6916009)(52116002)(38350700002)(38100700002)(478600001)(6496006)(66476007)(26005)(66946007)(4744005)(316002)(6666004)(956004)(9576002)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?ZJNaBjeHkqL5CE7ubBMIlWX+C+mbN00jodMQVpCzbuHcp/PdGTXxaUG9Pd/H?=
+ =?us-ascii?Q?NMwSMNwefyFrqfjJN2Lx5atsdG/Peu4XUeTUMXtgarIhdZ43mbmz7vmrZxpe?=
+ =?us-ascii?Q?QwKY+8DqDpwIfqVLPIGLI6cObLayYEwfMnPalHifZ9/VyLGSI9rAExgGi6mm?=
+ =?us-ascii?Q?m7+0iZqo6189zbSxHS2CsSt0GnOr8xb/o5VkkgQKfrW3on4PQKV4WZJ87mGl?=
+ =?us-ascii?Q?Zebn38c31/uRBN0VP7nOZFhws4LejBt+Yci4xnTA/k9PhOqSX4PR2marQhai?=
+ =?us-ascii?Q?MAFQNvxN/+mRT6ptd+qorTxosPkaqJm5+vsHRqAhW4C/MggRc4Nrhf72jp3Z?=
+ =?us-ascii?Q?EzcBecTnZRNsqWsuKVEvNIvsRwGAOJL3tPmLaNN3l8L0gmx4K5qu4dmrfl0o?=
+ =?us-ascii?Q?j9H4Ee3Chg4snMwiPwf+G1TfkZj71kZWv1FsSSj4DRbXdCQqeX8BS1+0+Ngx?=
+ =?us-ascii?Q?To8kN81uv1qaQi8HWHuTH4myPxDW4bKO8YCzHXE8gDdkB54qjIj43yScWo53?=
+ =?us-ascii?Q?ZyzjM/NzHWriK5wQfAdbydSXZVrdWpGZXDWQZRu/gxg4jnT0KFHk91g13Ay7?=
+ =?us-ascii?Q?OlgQL9H0uj4OaTcN/YC50mQ4vNMyXtH7FEXX/xH5nhoz0YuqKy7164LbtBDr?=
+ =?us-ascii?Q?oRzqHUcBwUd24kwX1KzknMNuMSs1h02+deh2cZXauvdUN+FGIUSmVYI6gmOK?=
+ =?us-ascii?Q?WQor1FnZ6Bz3HRo5DO7muyqi9pkvUhkR378tk2rsejhU9IlkLSjUIGHwuvvf?=
+ =?us-ascii?Q?4aaDrYRkX+xLNh7hbForPNLFLNRcPTCg8BiUK2sGbj9J7CZGdJua2z9lQVkl?=
+ =?us-ascii?Q?WhBaLpZtPbHgB0jL0RqqkAySRiUWAMGnL02IyAe9HF0Pgqm7TSc3rM/JxI96?=
+ =?us-ascii?Q?raGWBXD6+CbSMOMwtpopbMDTNssqRX3HcTaxDJ24vTlV+jZehiPlrqdPfnI3?=
+ =?us-ascii?Q?3afa4i/3Vtt37m15smrpx+mFo09ZUR5+1xz3xIEyiLXNeYWbD04S0I0dJw4Z?=
+ =?us-ascii?Q?5Fy7TpC8DkdRXY6QAqO4R8Lc/vnSBFN53XVrLAy3FgcDO8vBlaHHltd7MMmY?=
+ =?us-ascii?Q?c/6PTAie9tklSFOyS8aUrqRHPrBQoJDnpgloTWbnET8UhI6qEir8Lkm7Z3iX?=
+ =?us-ascii?Q?/SpSEAsWDoEUzFOUvIWPjNDBGeG8l9rFymwaat9xEbwfixKXggSA3QoWXfhq?=
+ =?us-ascii?Q?mfZaaFTZR1LKe/8t1Wc3HZ29S4R5kJWE+amEVwYJ9pI6EDqjUXLaG9bTf3CJ?=
+ =?us-ascii?Q?c0tbeX6AW+9l5WO8eyaYoSYw9f2K+uzuuhlQpIiqFFj3awgWP2euZYg6KpE8?=
+ =?us-ascii?Q?7iEQtGK54zdP8EgLi+tt1bnb?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83184276-29df-4ad3-7074-08d969423946
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 10:05:40.2355
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 208rdw0NL0e2j1SR9HEi+OoNzLqQT0eG/gD7sQ5ctMYrggOGlleKDhEjFxGDMQlkP0oE3/Dsq82yw5fSR/59yH0yZ6AuBxZQ9Sz5W+capCc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4689
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10088 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108270064
+X-Proofpoint-GUID: gRSUFUjxtjUV9i965rL_rcWZSkVaP3FD
+X-Proofpoint-ORIG-GUID: gRSUFUjxtjUV9i965rL_rcWZSkVaP3FD
 
-On Fri, Aug 27, 2021 at 11:57:57AM +0300, Dan Carpenter wrote:
-> Hello Konstantin Komarov,
-> 
-> The patch be71b5cba2e6: "fs/ntfs3: Add attrib operations" from Aug
-> 13, 2021, leads to the following
-> Smatch static checker warning:
-> 
-> 	fs/ntfs3/attrib.c:1031 attr_data_get_block()
-> 	warn: missing error code here? 'ni_load_mi()' failed. 'err' = '0'
-> 
-> fs/ntfs3/attrib.c
->     823 int attr_data_get_block(struct ntfs_inode *ni, CLST vcn, CLST clen, CLST *lcn,
->     824                         CLST *len, bool *new)
->     825 {
->     826         int err = 0;
->     827         struct runs_tree *run = &ni->file.run;
->     828         struct ntfs_sb_info *sbi;
->     829         u8 cluster_bits;
->     830         struct ATTRIB *attr = NULL, *attr_b;
->     831         struct ATTR_LIST_ENTRY *le, *le_b;
->     832         struct mft_inode *mi, *mi_b;
->     833         CLST hint, svcn, to_alloc, evcn1, next_svcn, asize, end;
->     834         u64 total_size;
->     835         u32 clst_per_frame;
->     836         bool ok;
->     837 
->     838         if (new)
->     839                 *new = false;
->     840 
->     841         down_read(&ni->file.run_lock);
->     842         ok = run_lookup_entry(run, vcn, lcn, len, NULL);
->     843         up_read(&ni->file.run_lock);
->     844 
->     845         if (ok && (*lcn != SPARSE_LCN || !new)) {
->     846                 /* normal way */
->     847                 return 0;
->     848         }
->     849 
->     850         if (!clen)
->     851                 clen = 1;
->     852 
->     853         if (ok && clen > *len)
->     854                 clen = *len;
->     855 
->     856         sbi = ni->mi.sbi;
->     857         cluster_bits = sbi->cluster_bits;
->     858 
->     859         ni_lock(ni);
->     860         down_write(&ni->file.run_lock);
->     861 
->     862         le_b = NULL;
->     863         attr_b = ni_find_attr(ni, NULL, &le_b, ATTR_DATA, NULL, 0, NULL, &mi_b);
->     864         if (!attr_b) {
->     865                 err = -ENOENT;
->     866                 goto out;
->     867         }
->     868 
->     869         if (!attr_b->non_res) {
->     870                 *lcn = RESIDENT_LCN;
->     871                 *len = 1;
->     872                 goto out;
->     873         }
->     874 
->     875         asize = le64_to_cpu(attr_b->nres.alloc_size) >> sbi->cluster_bits;
->     876         if (vcn >= asize) {
->     877                 err = -EINVAL;
->     878                 goto out;
->     879         }
->     880 
->     881         clst_per_frame = 1u << attr_b->nres.c_unit;
->     882         to_alloc = (clen + clst_per_frame - 1) & ~(clst_per_frame - 1);
->     883 
->     884         if (vcn + to_alloc > asize)
->     885                 to_alloc = asize - vcn;
->     886 
->     887         svcn = le64_to_cpu(attr_b->nres.svcn);
->     888         evcn1 = le64_to_cpu(attr_b->nres.evcn) + 1;
->     889 
->     890         attr = attr_b;
->     891         le = le_b;
->     892         mi = mi_b;
->     893 
->     894         if (le_b && (vcn < svcn || evcn1 <= vcn)) {
->     895                 attr = ni_find_attr(ni, attr_b, &le, ATTR_DATA, NULL, 0, &vcn,
->     896                                     &mi);
->     897                 if (!attr) {
->     898                         err = -EINVAL;
->     899                         goto out;
->     900                 }
->     901                 svcn = le64_to_cpu(attr->nres.svcn);
->     902                 evcn1 = le64_to_cpu(attr->nres.evcn) + 1;
->     903         }
->     904 
->     905         err = attr_load_runs(attr, ni, run, NULL);
->     906         if (err)
->     907                 goto out;
->     908 
->     909         if (!ok) {
->     910                 ok = run_lookup_entry(run, vcn, lcn, len, NULL);
->     911                 if (ok && (*lcn != SPARSE_LCN || !new)) {
->     912                         /* normal way */
->     913                         err = 0;
->     914                         goto ok;
->     915                 }
->     916 
->     917                 if (!ok && !new) {
->     918                         *len = 0;
->     919                         err = 0;
->     920                         goto ok;
->     921                 }
->     922 
->     923                 if (ok && clen > *len) {
->     924                         clen = *len;
->     925                         to_alloc = (clen + clst_per_frame - 1) &
->     926                                    ~(clst_per_frame - 1);
->     927                 }
->     928         }
->     929 
->     930         if (!is_attr_ext(attr_b)) {
->     931                 err = -EINVAL;
->     932                 goto out;
->     933         }
->     934 
->     935         /* Get the last lcn to allocate from */
->     936         hint = 0;
->     937 
->     938         if (vcn > evcn1) {
->     939                 if (!run_add_entry(run, evcn1, SPARSE_LCN, vcn - evcn1,
->     940                                    false)) {
->     941                         err = -ENOMEM;
->     942                         goto out;
->     943                 }
->     944         } else if (vcn && !run_lookup_entry(run, vcn - 1, &hint, NULL, NULL)) {
->     945                 hint = -1;
->     946         }
->     947 
->     948         err = attr_allocate_clusters(
->     949                 sbi, run, vcn, hint + 1, to_alloc, NULL, 0, len,
->     950                 (sbi->record_size - le32_to_cpu(mi->mrec->used) + 8) / 3 + 1,
->     951                 lcn);
->     952         if (err)
->     953                 goto out;
->     954         *new = true;
->     955 
->     956         end = vcn + *len;
->     957 
->     958         total_size = le64_to_cpu(attr_b->nres.total_size) +
->     959                      ((u64)*len << cluster_bits);
->     960 
->     961 repack:
->     962         err = mi_pack_runs(mi, attr, run, max(end, evcn1) - svcn);
->     963         if (err)
->     964                 goto out;
->     965 
->     966         attr_b->nres.total_size = cpu_to_le64(total_size);
->     967         inode_set_bytes(&ni->vfs_inode, total_size);
->     968         ni->ni_flags |= NI_FLAG_UPDATE_PARENT;
->     969 
->     970         mi_b->dirty = true;
->     971         mark_inode_dirty(&ni->vfs_inode);
->     972 
->     973         /* stored [vcn : next_svcn) from [vcn : end) */
->     974         next_svcn = le64_to_cpu(attr->nres.evcn) + 1;
->     975 
->     976         if (end <= evcn1) {
->     977                 if (next_svcn == evcn1) {
->     978                         /* Normal way. update attribute and exit */
->     979                         goto ok;
->     980                 }
->     981                 /* add new segment [next_svcn : evcn1 - next_svcn )*/
->     982                 if (!ni->attr_list.size) {
->     983                         err = ni_create_attr_list(ni);
->     984                         if (err)
->     985                                 goto out;
->     986                         /* layout of records is changed */
->     987                         le_b = NULL;
->     988                         attr_b = ni_find_attr(ni, NULL, &le_b, ATTR_DATA, NULL,
->     989                                               0, NULL, &mi_b);
->     990                         if (!attr_b) {
->     991                                 err = -ENOENT;
->     992                                 goto out;
->     993                         }
->     994 
->     995                         attr = attr_b;
->     996                         le = le_b;
->     997                         mi = mi_b;
->     998                         goto repack;
->     999                 }
->     1000         }
->     1001 
->     1002         svcn = evcn1;
->     1003 
->     1004         /* Estimate next attribute */
->     1005         attr = ni_find_attr(ni, attr, &le, ATTR_DATA, NULL, 0, &svcn, &mi);
->     1006 
->     1007         if (attr) {
->     1008                 CLST alloc = bytes_to_cluster(
->     1009                         sbi, le64_to_cpu(attr_b->nres.alloc_size));
->     1010                 CLST evcn = le64_to_cpu(attr->nres.evcn);
->     1011 
->     1012                 if (end < next_svcn)
->     1013                         end = next_svcn;
->     1014                 while (end > evcn) {
->     1015                         /* remove segment [svcn : evcn)*/
->     1016                         mi_remove_attr(mi, attr);
->     1017 
->     1018                         if (!al_remove_le(ni, le)) {
->     1019                                 err = -EINVAL;
->     1020                                 goto out;
->     1021                         }
->     1022 
->     1023                         if (evcn + 1 >= alloc) {
->     1024                                 /* last attribute segment */
->     1025                                 evcn1 = evcn + 1;
->     1026                                 goto ins_ext;
->     1027                         }
->     1028 
->     1029                         if (ni_load_mi(ni, le, &mi)) {
->     1030                                 attr = NULL;
-> 
-> No error code on this path.  Also no need to set "attr" to NULL.
+This code sets "lznt" to NULL and then kfrees it.  Kfreeing a NULL is a
+no-op so delete the code.
 
-This same code can also be founded from attr_allocate_frame(). This
-"repack" really needs to be own function.
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ fs/ntfs3/frecord.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-> 
-> --> 1031                                 goto out;
->     1032                         }
->     1033 
->     1034                         attr = mi_find_attr(mi, NULL, ATTR_DATA, NULL, 0,
->     1035                                             &le->id);
->     1036                         if (!attr) {
->     1037                                 err = -EINVAL;
->     1038                                 goto out;
->     1039                         }
->     1040                         svcn = le64_to_cpu(attr->nres.svcn);
->     1041                         evcn = le64_to_cpu(attr->nres.evcn);
->     1042                 }
->     1043 
->     1044                 if (end < svcn)
->     1045                         end = svcn;
->     1046 
->     1047                 err = attr_load_runs(attr, ni, run, &end);
->     1048                 if (err)
->     1049                         goto out;
->     1050 
->     1051                 evcn1 = evcn + 1;
->     1052                 attr->nres.svcn = cpu_to_le64(next_svcn);
->     1053                 err = mi_pack_runs(mi, attr, run, evcn1 - next_svcn);
->     1054                 if (err)
->     1055                         goto out;
->     1056 
->     1057                 le->vcn = cpu_to_le64(next_svcn);
->     1058                 ni->attr_list.dirty = true;
->     1059                 mi->dirty = true;
->     1060 
->     1061                 next_svcn = le64_to_cpu(attr->nres.evcn) + 1;
->     1062         }
->     1063 ins_ext:
->     1064         if (evcn1 > next_svcn) {
->     1065                 err = ni_insert_nonresident(ni, ATTR_DATA, NULL, 0, run,
->     1066                                             next_svcn, evcn1 - next_svcn,
->     1067                                             attr_b->flags, &attr, &mi);
->     1068                 if (err)
->     1069                         goto out;
->     1070         }
->     1071 ok:
->     1072         run_truncate_around(run, vcn);
->     1073 out:
->     1074         up_write(&ni->file.run_lock);
->     1075         ni_unlock(ni);
->     1076 
->     1077         return err;
->     1078 }
-> 
-> regards,
-> dan carpenter
-> 
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index c3121bf9c62f..c1a9f124f771 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -2742,7 +2742,6 @@ int ni_write_frame(struct ntfs_inode *ni, struct page **pages,
+ 	}
+ 
+ 	mutex_lock(&sbi->compress.mtx_lznt);
+-	lznt = NULL;
+ 	if (!sbi->compress.lznt) {
+ 		/*
+ 		 * lznt implements two levels of compression:
+@@ -2758,14 +2757,12 @@ int ni_write_frame(struct ntfs_inode *ni, struct page **pages,
+ 		}
+ 
+ 		sbi->compress.lznt = lznt;
+-		lznt = NULL;
+ 	}
+ 
+ 	/* compress: frame_mem -> frame_ondisk */
+ 	compr_size = compress_lznt(frame_mem, frame_size, frame_ondisk,
+ 				   frame_size, sbi->compress.lznt);
+ 	mutex_unlock(&sbi->compress.mtx_lznt);
+-	ntfs_free(lznt);
+ 
+ 	if (compr_size + sbi->cluster_size > frame_size) {
+ 		/* frame is not compressed */
+-- 
+2.20.1
+
