@@ -1,195 +1,137 @@
 Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1AD72
-	for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 17:47:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE2F72
+	for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 18:27:49 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 485D08221E;
-	Fri, 27 Aug 2021 20:47:28 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 8994682098;
+	Fri, 27 Aug 2021 21:27:47 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1630086448;
-	bh=cQHGVALsR0wITXNG82rls7Ltz5TIhHWjctlfp9KdpL0=;
-	h=Subject:To:CC:References:From:Date:In-Reply-To;
-	b=laIFR4i5oregS0eTBrhg8j22S1NlqhDlfjJP0n0L+30rksGU3LS9A2uD0CQxcrLEe
-	 4Jy1rMkhIubwvkzpazqphNmVoTdsJ/TwQOQoTy+4KCZ97mRzqx33zzdDWGIdN/Hj+i
-	 TlgUuf738m/x5Rx0sVdjnIhBRI/r9xtgU+X6lF0I=
-Received: from [192.168.211.135] (192.168.211.135) by
+	d=paragon-software.com; s=mail; t=1630088867;
+	bh=PutFRYxjXodbWViMVg+LuI9INKa/f4FnuJ9noz48B/E=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To;
+	b=Y/TqgD+v+VnAMaOFLsYEujukHPg3o+sLrPPOpWY8NTzRd8OSKUhnNakNpMpP5P9Ot
+	 B5klg/z8X1g+jS0n1GEaF3MCERngJMJqFBN5egGLueRAGaqXFDe3Dn88KLwBX6OHcH
+	 MgXrCJbdUqs410HviRn+RGfVn0peRES5PCc6fl/w=
+Received: from vdlg-exch-02.paragon-software.com (172.30.1.105) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 27 Aug 2021 20:47:27 +0300
-Subject: Re: [PATCH 3/3] fs/ntfs3: Fix error handling in
- indx_insert_into_root()
-To: Dan Carpenter <dan.carpenter@oracle.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<kernel-janitors@vger.kernel.org>
-References: <20210824075103.GC13096@kili>
+ 15.1.2176.2; Fri, 27 Aug 2021 21:27:47 +0300
+Received: from vdlg-exch-02.paragon-software.com ([fe80::586:6d72:3fe5:bd9b])
+ by vdlg-exch-02.paragon-software.com ([fe80::586:6d72:3fe5:bd9b%12]) with
+ mapi id 15.01.2176.009; Fri, 27 Aug 2021 21:27:47 +0300
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Message-ID: <a154fe47-8634-415c-2f53-8dcd3ee67665@paragon-software.com>
-Date: Fri, 27 Aug 2021 20:47:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+To: Kari Argillander <kari.argillander@gmail.com>, "ntfs3@lists.linux.dev"
+	<ntfs3@lists.linux.dev>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Stephen
+ Rothwell" <sfr@canb.auug.org.au>
+Subject: RE: Ntfs3 git repo in github should not back merge
+Thread-Topic: Ntfs3 git repo in github should not back merge
+Thread-Index: AQHXmedQiBjFmTMWl0yF1pCHwuQpm6uHqJ9A
+Date: Fri, 27 Aug 2021 18:27:47 +0000
+Message-ID: <3e3b8facf46c4d68afeb0346dee66f5b@paragon-software.com>
+References: <20210825192746.ryi2vzn5gz4myxri@kari-VirtualBox>
+In-Reply-To: <20210825192746.ryi2vzn5gz4myxri@kari-VirtualBox>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.30.0.26]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210824075103.GC13096@kili>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.135]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
+> From: Kari Argillander <kari.argillander@gmail.com>
+> Sent: Wednesday, August 25, 2021 10:28 PM
+> To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>; ntfs3@=
+lists.linux.dev
+> Cc: linux-kernel@vger.kernel.org; Stephen Rothwell <sfr@canb.auug.org.au>
+> Subject: Ntfs3 git repo in github should not back merge
+>=20
+> Hello Konstantin.
+>=20
+> I notice that you have made back-merge in ntfs3 git repo in github.
+> This should not be done without good reason and there is none in this
+> case. If there is reason you should also write good merge commit for it.
+> As you are just coming to maintener I will write little info about how
+> this stuff works. I'm not maintainer, but I have study about how kernel
+> is maintained.
+>=20
+> Here is link which you can read about back-merges. If you have any
+> questions you can always ask.
+>=20
+> 01.org/linuxgraphics/gfx-docs/drm/maintainer/rebasing-and-merging.html#me=
+rging-from-sibling-or-upstream-trees
+>=20
 
+Hi Kari!
+Thanks a lot for this piece of information. It is really important to know.
+Apologies for messing the back-merge up, we'll study the provided documenta=
+tion
+and will follow it in future (and won't be back merging again).
+There is really a LOT of information to handle there.
 
-On 24.08.2021 10:51, Dan Carpenter wrote:
-> There are three bugs in this code:
-> 1) If indx_get_root() fails, then return -EINVAL instead of success.
-> 2) On the "/* make root external */" -EOPNOTSUPP; error path it should
->    free "re" but it has a memory leak.
-> 3) If indx_new() fails then it will lead to an error pointer dereference
->    when we call put_indx_node().
-> 
-> I've re-written the error handling to be more clear.
-> 
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->  fs/ntfs3/index.c | 36 ++++++++++++++++--------------------
->  1 file changed, 16 insertions(+), 20 deletions(-)
-> 
-> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-> index 489e0fffbc75..4f2d24010386 100644
-> --- a/fs/ntfs3/index.c
-> +++ b/fs/ntfs3/index.c
-> @@ -1554,12 +1554,12 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  	u32 root_size, new_root_size;
->  	struct ntfs_sb_info *sbi;
->  	int ds_root;
-> -	struct INDEX_ROOT *root, *a_root = NULL;
-> +	struct INDEX_ROOT *root, *a_root;
->  
->  	/* Get the record this root placed in */
->  	root = indx_get_root(indx, ni, &attr, &mi);
->  	if (!root)
-> -		goto out;
-> +		return -EINVAL;
->  
->  	/*
->  	 * Try easy case:
-> @@ -1591,10 +1591,8 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  
->  	/* Make a copy of root attribute to restore if error */
->  	a_root = ntfs_memdup(attr, asize);
-> -	if (!a_root) {
-> -		err = -ENOMEM;
-> -		goto out;
-> -	}
-> +	if (!a_root)
-> +		return -ENOMEM;
->  
->  	/* copy all the non-end entries from the index root to the new buffer.*/
->  	to_move = 0;
-> @@ -1604,7 +1602,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  	for (e = e0;; e = hdr_next_de(hdr, e)) {
->  		if (!e) {
->  			err = -EINVAL;
-> -			goto out;
-> +			goto out_free_root;
->  		}
->  
->  		if (de_is_last(e))
-> @@ -1612,14 +1610,13 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  		to_move += le16_to_cpu(e->size);
->  	}
->  
-> -	n = NULL;
->  	if (!to_move) {
->  		re = NULL;
->  	} else {
->  		re = ntfs_memdup(e0, to_move);
->  		if (!re) {
->  			err = -ENOMEM;
-> -			goto out;
-> +			goto out_free_root;
->  		}
->  	}
->  
-> @@ -1636,7 +1633,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  	if (ds_root > 0 && used + ds_root > sbi->max_bytes_per_attr) {
->  		/* make root external */
->  		err = -EOPNOTSUPP;
-> -		goto out;
-> +		goto out_free_re;
->  	}
->  
->  	if (ds_root)
-> @@ -1666,7 +1663,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  		/* bug? */
->  		ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
->  		err = -EINVAL;
-> -		goto out1;
-> +		goto out_free_re;
->  	}
->  
->  	if (err) {
-> @@ -1677,7 +1674,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  			/* bug? */
->  			ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
->  		}
-> -		goto out1;
-> +		goto out_free_re;
->  	}
->  
->  	e = (struct NTFS_DE *)(root + 1);
-> @@ -1688,7 +1685,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  	n = indx_new(indx, ni, new_vbn, sub_vbn);
->  	if (IS_ERR(n)) {
->  		err = PTR_ERR(n);
-> -		goto out1;
-> +		goto out_free_re;
->  	}
->  
->  	hdr = &n->index->ihdr;
-> @@ -1715,7 +1712,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  		put_indx_node(n);
->  		fnd_clear(fnd);
->  		err = indx_insert_entry(indx, ni, new_de, ctx, fnd);
-> -		goto out;
-> +		goto out_free_root;
->  	}
->  
->  	/*
-> @@ -1725,7 +1722,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  	e = hdr_insert_de(indx, hdr, new_de, NULL, ctx);
->  	if (!e) {
->  		err = -EINVAL;
-> -		goto out1;
-> +		goto out_put_n;
->  	}
->  	fnd_push(fnd, n, e);
->  
-> @@ -1734,12 +1731,11 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->  
->  	n = NULL;
->  
-> -out1:
-> +out_put_n:
-> +	put_indx_node(n);
-> +out_free_re:
->  	ntfs_free(re);
-> -	if (n)
-> -		put_indx_node(n);
-> -
-> -out:
-> +out_free_root:
->  	ntfs_free(a_root);
->  	return err;
->  }
-> 
+> You could also go check some other trees how they do it. Usually there
+> is next/master/main/for-next which will be repo which will contain stuff
+> for next-merge window. This is usually based on rc1, rc2, rc3 depending
+> when you put first patches to next merge window. As you based your
+> branch top of the rc5.
+>=20
+> https://git.kernel.org/?s=3Didle
+>=20
+> Because your master branch is  for next you could have rebased your
+> branch top of the rc7 if you want to but that is kinda pointless. You
+> could always fix little mistakes in next branch with rebase, but you
+> should propably info this action to ntfs3 mailing list.
+>=20
+> The idea is that this repo has very clean history always when it get
+> merged to Linus tree. Also developers who work with ntfs3 can see
+> everything in one eye.
+>=20
+> Example take a look Ext4 dev (for-next) branch
+> https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git/log/?h=3Dd=
+ev
+> You see that this is based on rc2. Theodore will create pull-request
+> based on this when he creates pull-request. Very clean history and no
+> back-merges.
+>=20
+> If you wonder how should you do development then if you can't back
+> merge. You should do develompent in linux-next branch. This way you
+> always know if others break something reletad to ntfs3. Then you check
+> who was it and send email about it and you solve it together. It can be
+> tricky some times who will take which patches but help is given if you
+> ask.
+>=20
+This last paragraph actually is not very clear. Can you please refer couple=
+ of
+examples of such activity?
 
-Hi, Dan!
+> There is lot of small info what I did not include here and hopefully
+> everything is correct. Hopefully you will also in near future respond
+> patches which are sent to you. There is already quite lot. If you need
+> any help how to maintainer should handle those I can assisntant you best
+> I can. There will be example little bit work howto make all fixes tags
+> right because you will have to rebase your current commits as they do
+> not have example reviewed-tags.
+>=20
+We've just applied several patches proposed for past ~month. Please have a =
+look
+on them - we tried to stick to the patch acception guidelines. Hopefully, t=
+hey
+are good from this point of view.
 
-Applied all 3 patches, thanks!
+> I also CC linux-next maintainer as he knows this stuff and can say if I
+> say something wrong. And I feel like new maintainer can have little help
+> from gurus.
+>=20
+> Kari Argillander
+
+Thanks a lot once again, Kari! Really great help here.
+
+Best regards,
+Konstantin
