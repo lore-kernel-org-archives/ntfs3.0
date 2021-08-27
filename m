@@ -1,38 +1,39 @@
-Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E5772
-	for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 16:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8B572
+	for <ntfs3@lists.linux.dev>; Fri, 27 Aug 2021 17:12:32 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 91A0E821CB;
-	Fri, 27 Aug 2021 19:31:07 +0300 (MSK)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 711D642C;
+	Fri, 27 Aug 2021 20:12:29 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1630081867;
-	bh=mTPrU7Xby7bdyA5QoWyXxTNUqhVFSY/ggcdmXWm3lTw=;
+	d=paragon-software.com; s=mail; t=1630084349;
+	bh=k5CkhsWtPfiYob9Y++gS1X8TgF++lJOzIgl5gQZ+Ozc=;
 	h=From:To:CC:Subject:Date:References:In-Reply-To;
-	b=ch6SmnIk2fS3FTquU3QgRc/OP3pBtHdJVdoFFbGWiPs0eYY++ropdyQyjFbNd+u76
-	 K8Be20RFRsAjMvBcgr5tT4cSyEQtBj7IuxwRAUX91gcRjaNCn3jLtj0dBsUF81nRoV
-	 KJ/XHRnjFPsOLK5mRCjMjypPUcxMOeb13aQABmIc=
+	b=VrqxzgSpIl30A1GybMbPKXlhEprRJNwFGYOhrd6poyuqXfma2TWKixjCVN0HXjoiF
+	 nOBlT3pJEPPu5VmPrgfIgGhvMCNdJEfXYbzYmJPPxR8KSQuLUFz9P/CX2W/V4xP0ky
+	 w83dYXhmMuuxuLAUywEo/DGOWn8MjKG3zggFpbxY=
 Received: from vdlg-exch-02.paragon-software.com (172.30.1.105) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 27 Aug 2021 19:31:07 +0300
+ 15.1.2176.2; Fri, 27 Aug 2021 20:12:29 +0300
 Received: from vdlg-exch-02.paragon-software.com ([fe80::586:6d72:3fe5:bd9b])
  by vdlg-exch-02.paragon-software.com ([fe80::586:6d72:3fe5:bd9b%12]) with
- mapi id 15.01.2176.009; Fri, 27 Aug 2021 19:31:07 +0300
+ mapi id 15.01.2176.009; Fri, 27 Aug 2021 20:12:29 +0300
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-CC: "nathan@kernel.org" <nathan@kernel.org>, "ndesaulniers@google.com"
-	<ndesaulniers@google.com>, "ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"clang-built-linux@googlegroups.com" <clang-built-linux@googlegroups.com>
-Subject: RE: [PATCH] fs/ntfs3: Remove unused including <linux/version.h>
-Thread-Topic: [PATCH] fs/ntfs3: Remove unused including <linux/version.h>
-Thread-Index: AQHXlNOYiBEK8ENRz0Won74AeeEXEauHl8Bg
-Date: Fri, 27 Aug 2021 16:31:07 +0000
-Message-ID: <3f2f11cc4e414f088ed60919e7d9cd56@paragon-software.com>
-References: <1629361417-94657-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <1629361417-94657-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+To: Kari Argillander <kari.argillander@gmail.com>, "ntfs3@lists.linux.dev"
+	<ntfs3@lists.linux.dev>, Christoph Hellwig <hch@lst.de>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Joe Perches
+	<joe@perches.com>
+Subject: RE: [PATCH v4 0/3] fs/ntfs3: Use kernel alloc wrappers and fix
+ warnings
+Thread-Topic: [PATCH v4 0/3] fs/ntfs3: Use kernel alloc wrappers and fix
+ warnings
+Thread-Index: AQHXmRcWmaTmTKjT70K3YgZRTKjTH6uHms+A
+Date: Fri, 27 Aug 2021 17:12:28 +0000
+Message-ID: <373c644eff6d4e2b8137acc0ca6faf7f@paragon-software.com>
+References: <20210824183708.1008538-1-kari.argillander@gmail.com>
+In-Reply-To: <20210824183708.1008538-1-kari.argillander@gmail.com>
 Accept-Language: ru-RU, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -47,38 +48,68 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
-> From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> Sent: Thursday, August 19, 2021 11:24 AM
-> To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-> Cc: nathan@kernel.org; ndesaulniers@google.com; ntfs3@lists.linux.dev; li=
-nux-kernel@vger.kernel.org; clang-built-
-> linux@googlegroups.com; Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> Subject: [PATCH] fs/ntfs3: Remove unused including <linux/version.h>
+> From: Kari Argillander <kari.argillander@gmail.com>
+> Sent: Tuesday, August 24, 2021 9:37 PM
+> To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>; ntfs3@=
+lists.linux.dev; Christoph Hellwig <hch@lst.de>
+> Cc: Kari Argillander <kari.argillander@gmail.com>; linux-kernel@vger.kern=
+el.org; Joe Perches <joe@perches.com>
+> Subject: [PATCH v4 0/3] fs/ntfs3: Use kernel alloc wrappers and fix warni=
+ngs
 >=20
-> Eliminate the follow versioncheck warning:
+> In ntfs3 driver there is allocation made like this ntfs_malloc().
+> Patch 2/3 will converter these to kernel ones like kmalloc(). After I
+> did this then checkpatch raise warnings about array allocations so I
+> fix these in patch 3/3.
 >=20
-> ./fs/ntfs3/inode.c: 16 linux/version.h not needed.
+> I also notice when I made patch that there is broken utf8 char so I
+> wanted first fix that because it raised some warning in my editor and
+> did not want to "break" patch 2/3. And because we are editing comment
+> then make whole comment block clean. So patch 1/3 address that. I did
+> try to apply this and it seem to work without issues.
 >=20
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  fs/ntfs3/inode.c | 1 -
->  1 file changed, 1 deletion(-)
+> v2:
+>  - Add patch 1/3 because I found broken utf8 char in source file
+>  - Add another patch 3/3 which will fix allocation warnings
+>  - Rewrite some of commit message from first patch
+> v3:
+>  - Patch series didn't have X/X numbers
+>  - Cover letter didn't have fs/ntfs3 in it
+>  - One kmalloc was converted to kcalloc insted of kmalloc_array
+>  	Thanks Joe Perches
+> v4:
+>  - Wrap whole comment block in patch 1/1 max 80 char. And restyle.
+>  	Thanks Christoph Hellwig for noting this
+>  - Add Reviewed-by: from Christoph Hellwig to patch 2 and 3
 >=20
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index bf51e29..bb01f1b 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -13,7 +13,6 @@
->  #include <linux/namei.h>
->  #include <linux/nls.h>
->  #include <linux/uio.h>
-> -#include <linux/version.h>
->  #include <linux/writeback.h>
+> Kari Argillander (3):
+>   fs/ntfs3: Restyle comment block in ni_parse_reparse()
+>   fs/ntfs3: Do not use driver own alloc wrappers
+>   fs/ntfs3: Use kcalloc/kmalloc_array over kzalloc/kmalloc
 >=20
->  #include "debug.h"
+>  fs/ntfs3/attrib.c   |   6 +-
+>  fs/ntfs3/attrlist.c |  10 +--
+>  fs/ntfs3/bitmap.c   |   8 +--
+>  fs/ntfs3/debug.h    |   7 --
+>  fs/ntfs3/file.c     |   4 +-
+>  fs/ntfs3/frecord.c  |  42 ++++++-----
+>  fs/ntfs3/fslog.c    | 172 ++++++++++++++++++++++----------------------
+>  fs/ntfs3/fsntfs.c   |   8 +--
+>  fs/ntfs3/index.c    |  54 +++++++-------
+>  fs/ntfs3/inode.c    |  10 +--
+>  fs/ntfs3/lznt.c     |   4 +-
+>  fs/ntfs3/ntfs_fs.h  |  18 ++---
+>  fs/ntfs3/record.c   |   8 +--
+>  fs/ntfs3/run.c      |   8 +--
+>  fs/ntfs3/super.c    |  20 +++---
+>  fs/ntfs3/xattr.c    |  18 ++---
+>  16 files changed, 197 insertions(+), 200 deletions(-)
+>=20
 > --
-> 1.8.3.1
-Hi Jiapeng! Applied, thanks.
-Best regards.
+> 2.25.1
+
+Hi Kari, Christoph and Joe! Thanks for your contribution, applied these pat=
+ch series to our tree.
+
+Best regards,
+Konstantin
