@@ -1,123 +1,197 @@
 Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577893FC2
-	for <ntfs3@lists.linux.dev>; Sun, 29 Aug 2021 14:43:04 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id c8so13053980lfi.3
-        for <ntfs3@lists.linux.dev>; Sun, 29 Aug 2021 07:43:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B634429CA
+	for <ntfs3@lists.linux.dev>; Sun, 29 Aug 2021 18:36:46 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id g13so26497354lfj.12
+        for <ntfs3@lists.linux.dev>; Sun, 29 Aug 2021 11:36:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vi12hNY0vhgn8mLCqZgcRjNvZYn/ptAUd78nem7zDq4=;
-        b=cTQuN78djINDAQssTLQIH/74drUr9Hb0HB8nJyPEd4+B1hbL8eWMDDQwJ7dMMUyaZj
-         U499KSS2J+AR7bQDpgVK3XxR62dw/7gq1apwvIyqLJrMrk4JNeTOjZjLlhKIFN+eaMTv
-         7hhuibxe/4Stkmi6UUt47lm5zsiX2TL1EXw8AJIYTCQFUoel32qsTaPeQIAfp8HJ5jtb
-         S8ZUT6g4omL96B+lsAMr7zdpPcXxi1F1TR7DiZIQYqCumD+hijjkC63Hs2HhbnCzwrhg
-         cjGFuqRt25efc+/lxuJJ0mRNkTBkj7JNRBg7ldt9aoG0UFogbLrR10O/vmvfV8bXHZYh
-         OLlg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=m7TWMTgfTxT7/7EG4LyyaJdKNT+SzQbfeGl2On3Ben0=;
+        b=JQ3HYwdgVvoPpGPUramb0TGGe61AeJS8g+Pqi8hjJhZnI8qBalEUMEajfzTkQs3PPJ
+         aKKJ/wJvPdaN/+xrBveH0+/CgeSLuyUOmcfvSjmRbAiGn6ANrzQi+TwXoYfNql8oJwEi
+         SVDpXyo2+jJ8LYlaIdi6VWydSd6gd4rW61D9uQ9BB2fCrY8/wTtEcN0esYiwlSrjpY5w
+         8g2AroIOZpZPLQwpUiNPZIGgjHY181s1AEfzahC1A5ZZMK1inhsNnkyZZS1vg4fTdHzO
+         J7hhOkEc1UxOBk4cv0vefIrnqxmaPJbnyFJU6sJYm4djP2f30bHsWtqPDjqcRnL1BB7j
+         Yasw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vi12hNY0vhgn8mLCqZgcRjNvZYn/ptAUd78nem7zDq4=;
-        b=QXSCRI7XqqBCmt+Cjj4BUmUf6bq9A6e+0XqNCyO4olJLcv6QkzJyeFjk5tpGerseCF
-         TNeNiXBN4Lm7DzI4sUs/Xeg0PKhs+2TwvKJcUEL/Gf35zJd0ry5qIIlC7F6HVOeSTEWS
-         wGB8RSzIZKV+nCL6dlblV+AbYl8fkUGGZuDqED9pucSdbZ1t0anzDPGZJhK8w/clIDVC
-         NJZjep9wFoph2kqngWhvuBeotpBBltjD2BJUUolZFW8sqUloxmOML8X0/3lVR2kB5TYs
-         pi5aJYw0XkfcQR+svwA3gTxHGua1cg+g9SedtmTl15lSXIc+FLYVQZtOO+86YF26T/TH
-         gQVA==
-X-Gm-Message-State: AOAM533o29fKjSczOuKG6KN0g0mKXqGKPs6XmXgEj/LENeUX50znfR4v
-	Q+IRTQCetocIKAj0hiKyfNI=
-X-Google-Smtp-Source: ABdhPJw/4PUswN4lra3ZqGZzoe9lPY2QQLqYXBn22OYOKWmGo4+MWq8Fzrvo9ygtCXLex8We+z/a6A==
-X-Received: by 2002:a05:6512:3407:: with SMTP id i7mr2831754lfr.254.1630248182388;
-        Sun, 29 Aug 2021 07:43:02 -0700 (PDT)
-Received: from localhost.localdomain (37-33-245-172.bb.dnainternet.fi. [37.33.245.172])
-        by smtp.gmail.com with ESMTPSA id q9sm1243403lfn.170.2021.08.29.07.43.01
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=m7TWMTgfTxT7/7EG4LyyaJdKNT+SzQbfeGl2On3Ben0=;
+        b=UBvyFIyJqO4wy4fW+8xukmsUkYidXMD8vfSr0LnwNpCAtCLLBPGm7OcX++CgCLd31q
+         M04SguSRjADvKTbYwuH8NJKRV2bROZczhfgNbNijkFolvPoCnXfQGjdO8ZbSoA2aFDpB
+         3kgSaKaFvZXhp4aMDk+p/R0UnUv9NPKYWHoiqYU39Vp/Ea8YAG+J+HUwCykxqq4gX+DQ
+         7Wl0FrhF//JP5t7rr2DWuoAM5aubhpGSbzdLyI7gSrTRr3RYz3pLziEByb8BTwiDWBz4
+         BR+StXXraz9mxBSPW1c4/OSajK9X6nhy8+2v094hXOQo+pu22M4ZoclMdoc1yLApvQBZ
+         YYtw==
+X-Gm-Message-State: AOAM530N5gvVK1KTL2ooNW7+HViroDWZuqao1JpnBDmDtY7iDCt/AzFV
+	mbcVSb7mef1GEh+4MXmEg1qMXR1OqlfSaA==
+X-Google-Smtp-Source: ABdhPJxYCUPgZSYc5epJ+WPhXSFNm/VKSXCbNN6B1UPueZ38rsAAozV16DJm6AehLCFFyy598d4g3Q==
+X-Received: by 2002:a05:6512:3f1a:: with SMTP id y26mr14486247lfa.263.1630262204716;
+        Sun, 29 Aug 2021 11:36:44 -0700 (PDT)
+Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id z5sm1533509ljc.123.2021.08.29.11.36.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Aug 2021 07:43:01 -0700 (PDT)
+        Sun, 29 Aug 2021 11:36:44 -0700 (PDT)
+Date: Sun, 29 Aug 2021 21:36:42 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Cc: Kari Argillander <kari.argillander@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: Change how module init/info messages are displayed
-Date: Sun, 29 Aug 2021 17:42:39 +0300
-Message-Id: <20210829144239.58213-1-kari.argillander@gmail.com>
-X-Mailer: git-send-email 2.25.1
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: "ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: Ntfs3 git repo in github should not back merge
+Message-ID: <20210829183642.xatnwsqfmmq6vxx7@kari-VirtualBox>
+References: <20210825192746.ryi2vzn5gz4myxri@kari-VirtualBox>
+ <3e3b8facf46c4d68afeb0346dee66f5b@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3e3b8facf46c4d68afeb0346dee66f5b@paragon-software.com>
 
-Usually in file system init() messages are only displayed in info level.
-Change level from notice to info, but keep CONFIG_NTFS3_64BIT_CLUSTER in
-notice level. Also this need even more attention so let's put big
-warning here so that nobody will not try accidentally use it.
+On Fri, Aug 27, 2021 at 06:27:47PM +0000, Konstantin Komarov wrote:
+> > From: Kari Argillander <kari.argillander@gmail.com>
+> > Sent: Wednesday, August 25, 2021 10:28 PM
+> > To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>; ntfs3@lists.linux.dev
+> > Cc: linux-kernel@vger.kernel.org; Stephen Rothwell <sfr@canb.auug.org.au>
+> > Subject: Ntfs3 git repo in github should not back merge
+> > 
+> > Hello Konstantin.
+> > 
+> > I notice that you have made back-merge in ntfs3 git repo in github.
+> > This should not be done without good reason and there is none in this
+> > case. If there is reason you should also write good merge commit for it.
+> > As you are just coming to maintener I will write little info about how
+> > this stuff works. I'm not maintainer, but I have study about how kernel
+> > is maintained.
+> > 
+> > Here is link which you can read about back-merges. If you have any
+> > questions you can always ask.
+> > 
+> > 01.org/linuxgraphics/gfx-docs/drm/maintainer/rebasing-and-merging.html#merging-from-sibling-or-upstream-trees
+> > 
+> 
+> Hi Kari!
+> Thanks a lot for this piece of information. It is really important to know.
+> Apologies for messing the back-merge up, we'll study the provided documentation
+> and will follow it in future (and won't be back merging again).
+> There is really a LOT of information to handle there.
 
-There is also no good reason to display internal stuff like binary tree
-search. This is always on option which can only disabled for debugging
-purposes by developer. Also this message does not even check if
-developer has disabled it or not so it is useless info.
+I think we should fix this before sending pr to Linus. I think he will
+not be happy to see it. You are allowed to force push in situations like
+this.
 
-Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
----
- fs/ntfs3/super.c | 27 ++++++++-------------------
- 1 file changed, 8 insertions(+), 19 deletions(-)
+> > You could also go check some other trees how they do it. Usually there
+> > is next/master/main/for-next which will be repo which will contain stuff
+> > for next-merge window. This is usually based on rc1, rc2, rc3 depending
+> > when you put first patches to next merge window. As you based your
+> > branch top of the rc5.
+> > 
+> > https://git.kernel.org/?s=idle
+> > 
+> > Because your master branch is  for next you could have rebased your
+> > branch top of the rc7 if you want to but that is kinda pointless. You
+> > could always fix little mistakes in next branch with rebase, but you
+> > should propably info this action to ntfs3 mailing list.
+> > 
+> > The idea is that this repo has very clean history always when it get
+> > merged to Linus tree. Also developers who work with ntfs3 can see
+> > everything in one eye.
+> > 
+> > Example take a look Ext4 dev (for-next) branch
+> > https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git/log/?h=dev
+> > You see that this is based on rc2. Theodore will create pull-request
+> > based on this when he creates pull-request. Very clean history and no
+> > back-merges.
+> > 
+> > If you wonder how should you do development then if you can't back
+> > merge. You should do develompent in linux-next branch. This way you
+> > always know if others break something reletad to ntfs3. Then you check
+> > who was it and send email about it and you solve it together. It can be
+> > tricky some times who will take which patches but help is given if you
+> > ask.
+> > 
+> This last paragraph actually is not very clear. Can you please refer couple of
+> examples of such activity?
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 17ee715ab539..7895039cf673 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -1430,21 +1430,14 @@ static int __init init_ntfs_fs(void)
- {
- 	int err;
- 
--	pr_notice("ntfs3: Index binary search\n");
--	pr_notice("ntfs3: Hot fix free clusters\n");
--	pr_notice("ntfs3: Max link count %u\n", NTFS_LINK_MAX);
-+	pr_info("ntfs3: Max link count %u\n", NTFS_LINK_MAX);
- 
--#ifdef CONFIG_NTFS3_FS_POSIX_ACL
--	pr_notice("ntfs3: Enabled Linux POSIX ACLs support\n");
--#endif
--#ifdef CONFIG_NTFS3_64BIT_CLUSTER
--	pr_notice("ntfs3: Activated 64 bits per cluster\n");
--#else
--	pr_notice("ntfs3: Activated 32 bits per cluster\n");
--#endif
--#ifdef CONFIG_NTFS3_LZX_XPRESS
--	pr_notice("ntfs3: Read-only lzx/xpress compression included\n");
--#endif
-+	if (IS_ENABLED(CONFIG_NTFS3_FS_POSIX_ACL))
-+		pr_info("ntfs3: Enabled Linux POSIX ACLs support\n");
-+	if (IS_ENABLED(CONFIG_NTFS3_64BIT_CLUSTER))
-+		pr_notice("ntfs3: Warning: Activated 64 bits per cluster. Windows does not support this\n");
-+	if (IS_ENABLED(CONFIG_NTFS3_LZX_XPRESS))
-+		pr_info("ntfs3: Read-only LZX/Xpress compression included\n");
- 
- 	err = ntfs3_init_bitmap();
- 	if (err)
-@@ -1484,15 +1477,11 @@ static void __exit exit_ntfs_fs(void)
- 
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("ntfs3 read/write filesystem");
--MODULE_INFO(behaviour, "Index binary search");
--MODULE_INFO(behaviour, "Hot fix free clusters");
- #ifdef CONFIG_NTFS3_FS_POSIX_ACL
- MODULE_INFO(behaviour, "Enabled Linux POSIX ACLs support");
- #endif
- #ifdef CONFIG_NTFS3_64BIT_CLUSTER
--MODULE_INFO(cluster, "Activated 64 bits per cluster");
--#else
--MODULE_INFO(cluster, "Activated 32 bits per cluster");
-+MODULE_INFO(cluster, "Warning: Activated 64 bits per cluster. Windows does not support this");
- #endif
- #ifdef CONFIG_NTFS3_LZX_XPRESS
- MODULE_INFO(compression, "Read-only lzx/xpress compression included");
--- 
-2.30.2
+Good that you ask.
 
+Example if you now we are trying to get ntfs3 in to 5.15. Linux-next is
+kinda snapshot what 5.15 will look like. It is not absolute truth but
+close. Our master branch will included linux-next every day and so are
+everyone else trees. If you develop something new you should do this in
+linux-next so you will notice right away if something breaks. It is good
+happit to rebase current work top that if not everyday at least once a
+week.
+
+When something breaks you will know that something needs to be resolved
+before you make pr. Or at least you need to info Linus that this kind of
+situation will happend with tree X. If build breaks you will probably
+get email from Stephen about it. But there is situations which can break
+ntfs3 without breaking the build.
+
+One another thing with linux-next is that if you use it you will help
+others. If something breaks you can info other maintainer that something
+is wrong. Same thing will happend other way around. 
+
+Little off topic but, I will in near future make CI system which will
+test ntfs3 in linux-next everytime new linux-next tag comes up. 
+
+So using linux-next is not absolute necessary, but will benefit
+everyone. There will also be times when someone send you patch and that
+patch will only apply example to last stable Linux version. Then you ask
+to rebase top of the linux-next or ntfs3/master. This is also reason why
+development should be done in linux-next.
+
+> 
+> > There is lot of small info what I did not include here and hopefully
+> > everything is correct. Hopefully you will also in near future respond
+> > patches which are sent to you. There is already quite lot. If you need
+> > any help how to maintainer should handle those I can assisntant you best
+> > I can. There will be example little bit work howto make all fixes tags
+> > right because you will have to rebase your current commits as they do
+> > not have example reviewed-tags.
+> > 
+> We've just applied several patches proposed for past ~month. Please have a look
+> on them - we tried to stick to the patch acception guidelines. Hopefully, they
+> are good from this point of view.
+
+They are ok :) Only wrong thing which I found was that with one patch
+you first apply v1 and then v2. v1 was not needed. These where patches
+
+v1:
+ be87e821fdb5 ("fs/ntfs3: Fix one none utf8 char in source file")
+v2:
+ 24516d481dfc ("fs/ntfs3: Restyle comment block in ni_parse_reparse()")
+
+But this mistake where ok and did not do any harm.
+
+I notice that you also made devel branch to github. I can help you with
+these things that you first made changes to devel and then send email to
+ntfs3 list or directly to me and I can check that it is ok and then you
+push it to master. This way no messing up "public" branch. Just for
+starter so that we get these things going.
+
+I also advice you to not only applying patches, but also replying emails
+to thouse which you did not apply. Usually people will resend in week or
+two if nobody haven't respond.
+
+> > I also CC linux-next maintainer as he knows this stuff and can say if I
+> > say something wrong. And I feel like new maintainer can have little help
+> > from gurus.
+> > 
+> > Kari Argillander
+> 
+> Thanks a lot once again, Kari! Really great help here.
+
+Happy to help.
+
+> Best regards,
+> Konstantin
