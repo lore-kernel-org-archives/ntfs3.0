@@ -1,89 +1,128 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2839172
-	for <ntfs3@lists.linux.dev>; Sat, 28 Aug 2021 17:13:31 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id o10so21382141lfr.11
-        for <ntfs3@lists.linux.dev>; Sat, 28 Aug 2021 10:13:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2A472
+	for <ntfs3@lists.linux.dev>; Sun, 29 Aug 2021 09:56:31 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id m4so20067153ljq.8
+        for <ntfs3@lists.linux.dev>; Sun, 29 Aug 2021 02:56:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PG8z+XIonuWGdu3czEMXRzaWItNuzacbk0dZJgvuswY=;
-        b=daw0rvbIk5V4Zm8DIXbqAHGUuI91vkfb3EyX9zrL+a+hl26XvDgDL8r9dYETKE/Ae6
-         NVz34RW6KNXXaquZKrMsm4y3n1D2vXOf6KLPgIF3dO3k1XtDxSAoVKVtq5UPuEzZOwXY
-         C+6YEcQF+K1cqgH+D2AtQjtQx4cGEZE99d2fs=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7dy64JCm4INpSzM1TYkFxB4+j6CWHYLWvpVuPYin1b4=;
+        b=RtWjFJVSa5qOrZW9iG2JrOrwqnCEKjZu+fBipcNcPQFfxKmoeS/SpkUe6kz3mgChEL
+         MUxEjZ0RMYbl5aheIyjbh/GYtZoY9Yu6Y6JgZ2iWoZVB9fRaLwCIdMbD+uRtVit4oHtJ
+         zQgMdxsyG+qQqztBuLo5mcf2HCKuoTX2aUV8AqVqXGmI1lNgLRk2kkXGCxoWQufESVYf
+         1lIbkYH53XdHS3/1ZgOCWosto56zqZyf8974NL14xa27sAQr3E3gs8cTOgl/G1/u7BSi
+         ZDDRSrJZZlkwuUIF39q5kJ0C9dskPeSc6xubhfmHm3EYRge44xX6/JlYWD/Y3zlrIIjs
+         0uxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PG8z+XIonuWGdu3czEMXRzaWItNuzacbk0dZJgvuswY=;
-        b=rbtb+Bmjd0hqykBsD8MbxTE87EPs0rySxX9MtdSaQwIAH79smPIcWXQxg4y3VRYAd0
-         ak3E9WvAwmZuuEDsuu0IE6kWTjOgrdqcjVHpcEuzAHFdG5RNrITNVv4W8MajFexRaZRt
-         CuYCDMP3rRWuxGx3Xjk9eYvbLyVcvL7kV5MpvBe2DDMomaIF4mu4HCb8nl4LlLM3SwSK
-         9kYvwWNgnDj9xWYdqWT/7Mso7U4PjJaMI2/qpxVEW7D28S8yO5t12iKFm14BTayIBHw5
-         h1yR2xpA4rsLYHhMPkV2r/tjm/YFgWp2TL4e8cMz56gaCp5UesPOXUBZ2wRJIlDegyfC
-         aM9g==
-X-Gm-Message-State: AOAM533yuDYb+qXCWYYCaFkVUew4Ni9sxAie1BA4OHYnT/fwicOlIxmT
-	jK4vaB9heaUZSAygLlcq/Dd+0aeP5xUTFWpm
-X-Google-Smtp-Source: ABdhPJx/6QItbMdm3cE9zyo1LYe3hFqYGLiRQ7QAAGfAe4ZX9JzIz6UpI94U5gTopBpamjGb3yM9Dw==
-X-Received: by 2002:a19:c197:: with SMTP id r145mr10002757lff.276.1630170808605;
-        Sat, 28 Aug 2021 10:13:28 -0700 (PDT)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
-        by smtp.gmail.com with ESMTPSA id j18sm816599lfe.301.2021.08.28.10.13.27
-        for <ntfs3@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Aug 2021 10:13:27 -0700 (PDT)
-Received: by mail-lj1-f171.google.com with SMTP id l18so17401449lji.12
-        for <ntfs3@lists.linux.dev>; Sat, 28 Aug 2021 10:13:27 -0700 (PDT)
-X-Received: by 2002:a2e:7d0e:: with SMTP id y14mr12752568ljc.251.1630170807239;
- Sat, 28 Aug 2021 10:13:27 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7dy64JCm4INpSzM1TYkFxB4+j6CWHYLWvpVuPYin1b4=;
+        b=MFlMvKSonGddNcPeF6aCs7TYndfkw+2MOF/VOFDX3CLh5LBn5VYNZgnjCb/pFOFvwA
+         dpARRZHHlWigCC5mHTGN9HpGR9csnUr00BLPUKXJyl436TjxXooF0YIFZHRZlDoh+my9
+         rYbuKdq0AK5M0cYlHnZkJjs6xhb2oayKZl0UomtUA8nou7ejxHpXy5mdh7Ii9anmct8K
+         1addWUx7oE32z26P6fXpuZrRs9Xenum5x2VJDMBvfHZPKhQWQln3XHqcJDVBs+zgbVBa
+         2gaZTsAHC6awx96Ulo8RKKRYx/pLgQZFOGykmjnZ4UGMZpfRL+O4Z2TNYnNnPRyfRgLv
+         Pg6Q==
+X-Gm-Message-State: AOAM531Mb2SxteW/X6128Hk2Qzz8hAbhHVizsezKLWME1VrL3nKEOBoV
+	0lswrnZLSTPFDrqKa1Z36Og=
+X-Google-Smtp-Source: ABdhPJxKmCxSQAzOdeFdxNjx4kUhgBUQ1ddvBNDA8SnKZlaTSMKkuvvbtlJ6JP7kxoaS3gMPKnqNyw==
+X-Received: by 2002:a05:651c:113b:: with SMTP id e27mr11513416ljo.6.1630230989518;
+        Sun, 29 Aug 2021 02:56:29 -0700 (PDT)
+Received: from localhost.localdomain (37-33-245-172.bb.dnainternet.fi. [37.33.245.172])
+        by smtp.gmail.com with ESMTPSA id d6sm1090521lfi.57.2021.08.29.02.56.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Aug 2021 02:56:29 -0700 (PDT)
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: Kari Argillander <kari.argillander@gmail.com>,
+	Christoph Hellwig <hch@lst.de>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Christian Brauner <christian.brauner@ubuntu.com>
+Subject: [PATCH v3 0/9] fs/ntfs3: Use new mount api and change some opts
+Date: Sun, 29 Aug 2021 12:56:05 +0300
+Message-Id: <20210829095614.50021-1-kari.argillander@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210827164926.1726765-1-agruenba@redhat.com> <20210827164926.1726765-5-agruenba@redhat.com>
- <20210827205644.lkihrypv27er5km3@kari-VirtualBox>
-In-Reply-To: <20210827205644.lkihrypv27er5km3@kari-VirtualBox>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 28 Aug 2021 10:13:11 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh-TeAeraYo9jM7FsAVDtfCji_5ao=B3eoO10Sf2SdeTA@mail.gmail.com>
-Message-ID: <CAHk-=wh-TeAeraYo9jM7FsAVDtfCji_5ao=B3eoO10Sf2SdeTA@mail.gmail.com>
-Subject: Re: [PATCH v7 04/19] iov_iter: Turn iov_iter_fault_in_readable into fault_in_iov_iter_readable
-To: Kari Argillander <kari.argillander@gmail.com>
-Cc: Andreas Gruenbacher <agruenba@redhat.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christoph Hellwig <hch@infradead.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
-	cluster-devel <cluster-devel@redhat.com>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, ocfs2-devel@oss.oracle.com, 
-	ntfs3@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 27, 2021 at 1:56 PM Kari Argillander
-<kari.argillander@gmail.com> wrote:
->
-> At least this patch will break ntfs3 which is in next. It has been there
-> just couple weeks so I understand. I added Konstantin and ntfs3 list so
-> that we know what is going on. Can you please info if and when do we
-> need rebase.
+See V2 if you want:
+lore.kernel.org/ntfs3/20210819002633.689831-1-kari.argillander@gmail.com
 
-No need to rebase. It just makes it harder for me to pick one pull
-over another, since it would mix the two things together.
+NLS change is now blocked when remounting. Christoph also suggest that
+we block all other mount options, but I have tested a couple and they
+seem to work. I wish that we do not block any other than NLS because
+in theory they should work. Also Konstantin can comment about this.
 
-I'll notice the semantic conflict as I do my merge build test, and
-it's easy for me to fix as part of the merge - whichever one I merge
-later.
+I have not include reviewed/acked to patch "Use new api for mounting"
+because it change so much. I have also included three new patch to this
+series:
+	- Convert mount options to pointer in sbi
+		So that we do not need to initiliaze whole spi in 
+		remount.
+	- Init spi more in init_fs_context than fill_super
+		This is just refactoring. (Series does not depend on this)
+	- Show uid/gid always in show_options()
+		Christian Brauner kinda ask this. (Series does not depend
+		on this)
 
-It's good if both sides remind me about the issue, but these kinds of
-conflicts are not a problem.
+Series is ones again tested with kvm-xfstests. Every commit is build
+tested.
 
-And yes, it does happen that I miss conflicts like this if I merge
-while on the road and don't do my full build tests, or if it's some
-architecture-specific thing or a problem that doesn't happen on my
-usual allmodconfig testing.  But neither of those cases should be
-present in this situation.
+v3:
+	- Add patch "Convert mount options to pointer in sbi"
+	- Add patch "Init spi more in init_fs_context than fill_super"
+	- Add patch "Show uid/gid always in show_options"
+	- Patch "Use new api for mounting" has make over
+	- NLS loading is not anymore possible when remounting
+	- show_options() iocharset printing is fixed
+	- Delete comment that testing should be done with other
+	  mount options.
+	- Add reviewed/acked-tags to 1,2,6,8 
+	- Rewrite this cover
+v2:
+	- Rewrite this cover leter
+	- Reorder noatime to first patch
+	- NLS loading with string
+	- Delete default_options function
+	- Remove remount flags
+	- Rename no_acl_rules mount option
+	- Making code cleaner
+	- Add comment that mount options should be tested
 
-                    Linus
+Kari Argillander (9):
+  fs/ntfs3: Remove unnecesarry mount option noatime
+  fs/ntfs3: Remove unnecesarry remount flag handling
+  fs/ntfs3: Convert mount options to pointer in sbi
+  fs/ntfs3: Use new api for mounting
+  fs/ntfs3: Init spi more in init_fs_context than fill_super
+  fs/ntfs3: Make mount option nohidden more universal
+  fs/ntfs3: Add iocharset= mount option as alias for nls=
+  fs/ntfs3: Rename mount option no_acl_rules > (no)acl_rules
+  fs/ntfs3: Show uid/gid always in show_options()
+
+ Documentation/filesystems/ntfs3.rst |  10 +-
+ fs/ntfs3/attrib.c                   |   2 +-
+ fs/ntfs3/dir.c                      |   8 +-
+ fs/ntfs3/file.c                     |   4 +-
+ fs/ntfs3/inode.c                    |  12 +-
+ fs/ntfs3/ntfs_fs.h                  |  26 +-
+ fs/ntfs3/super.c                    | 486 +++++++++++++++-------------
+ fs/ntfs3/xattr.c                    |   2 +-
+ 8 files changed, 284 insertions(+), 266 deletions(-)
+
+-- 
+2.25.1
+
