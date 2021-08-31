@@ -1,50 +1,49 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D733FC2
-	for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 19:56:53 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id m28so1319219lfj.6
-        for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 12:56:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD8B3FC3
+	for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 21:54:15 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id w4so1207290ljh.13
+        for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 14:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=CDEBcyI78lCEp/a6yagpA6RrIJWapwQCXeq6VoRM8yQ=;
-        b=FeCi4tff81PEQZd8cFCYHM1Lb3XURt3gLp6TK25IHXYS9sKYJLV9LFNQXKFfOEIfxl
-         fU5Udi0tUqOz14nGHITO0J9J23YwAl+Rx/VfcyOIOSJjOk5Ky8Jsv4PcMvYLPwHJ+wZs
-         TUnhEbS+KtPaITc5F4aNPDPKG6+GagA1Wd6OhYDuQNAGt5oI6GFMyAecY1bhjt3tcB1i
-         COrLI0TrGx366c5QG5Rzdx0kCkQNGC1fEqsP/lUgJNX9Ql3vfEKnbgKoql3xaXGj/kOw
-         sGR5A+vEAlP+AGiEeYDxOwzO0twY4tH7Q0ApbnLdfn4aXo9mzU4iDUfuQiW8BgE8rn8S
-         81Dw==
+        bh=Yn7kY0+ZqcKBGO15qoxRhkt8dbSMFL2aEpbkJ8qKlBs=;
+        b=sBhUYev66r6Hw0CXEulsWJV3qcQHHWDq3LuGfIhcEP3CitVNxR8W6xkKt7PR1AGFUL
+         6PyrHhHzktEKT6Zw1BymLkhnuz7AK2TKWBoG4QlZ6Z026CqyOv7DW6gqRPOCpLWmRPnf
+         oikY748d4wK2g9xXajZa377RohH7u4qua8Dc2bmnqsbu9i4TlVL4KhDIGXUSxeMhPK38
+         cw378VTj4jHJHeuzpBSzgwDsHML74pZhu4Dw2dBWfefahtH3a6BLUoTntg9OY+hyd8/I
+         eFEXOdNcqg4JW4/dRbM8a07IonRM7ElwqSDWv/sZR4fxERtFHLWnrinFDgHlcrBF1gf4
+         JmAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=CDEBcyI78lCEp/a6yagpA6RrIJWapwQCXeq6VoRM8yQ=;
-        b=Id3YBUZAOdruXj5kqm/jdzcVNe8bU585QxFcLrfxzU5xakw7ntd35oCwlkLS7Vmyk1
-         Sw5kPJR7nABqkjeU12S2GP8oN9HZm7OB5NPghb7Z9YUb8GTYE2OgfabZMuCf/jC7CANF
-         w789et7zTaL//BAARLb9d5+8YjFvmonkfDroF2C6VRsk6WrSbrvgQ+HnT0OCPx2A3ur/
-         57xX/XPI+qK6YiRThT9z9iNYb+SJMZX45EjXnQvROTwbULei2zkX7aKmnK8QaH51CvEv
-         kyD6zdRUIQgPNU4w35PhlM7KST7XUHVBRwQ12dBu/wKDVW06nUYTvag8SkWTnuQJg5Oi
-         CSsw==
-X-Gm-Message-State: AOAM530knnKYF3KXZn5a3WRc2L5uAILfXDlsxcRTOkZTuINMNAYzStsB
-	rmGg0whKMYcH4kJ01YbCHXg=
-X-Google-Smtp-Source: ABdhPJzQDTnrQV+j5ow6Yadl391tqLVGiWS1YyKDOG2nTLxrAIxHmDaAbbt2YBMU6ORAhAC0GJI/6A==
-X-Received: by 2002:a05:6512:752:: with SMTP id c18mr22572135lfs.346.1630439811233;
-        Tue, 31 Aug 2021 12:56:51 -0700 (PDT)
+        bh=Yn7kY0+ZqcKBGO15qoxRhkt8dbSMFL2aEpbkJ8qKlBs=;
+        b=Mo1ecbNtoM4NdhzAQ6V8M6c2qJZmkrOxEHoQVHzpwBdeoKEEBmMZe11DagS+YcEi8M
+         QICS6FMcbnIOk7hliwUnEtqZ+PzHS7cEuswyPnQD2YYzzc4MyQ5V/9Q4L72wERt+yTK4
+         77aY8aK30nI7yAkmprtLzmn/Id/eVbl3Rg+oL2fo0OF4tITHylpw6BGXPi5RQxYFXcw/
+         +wIQK/SI1NLpl52ATOMur4RspnHQPi4MXZ0fjtOKhRDtyBTxyZ77j2mRyEVVnPCCPWbO
+         tgPDd16jL4cn1B9UVm0B6axWHF3XDP+wTOM5uGJzgxnF9JEvbIhUim3VvrHYEzCsrQtm
+         fX2w==
+X-Gm-Message-State: AOAM530AFS1aC8JnH0AFrsiD1bvvv34+I20242Hszshm+11xymiS3mQe
+	u2/J6NleMH+qjiGRY9iO5Im5MbpiTJUJmg==
+X-Google-Smtp-Source: ABdhPJwZIXdw534TKgicftioA1y7MnVrNKUqU0fXKmWN2t3IARik7ZGJVBH4QSt4rtlXSqbwqEs0YA==
+X-Received: by 2002:a2e:bd06:: with SMTP id n6mr26881012ljq.52.1630446853085;
+        Tue, 31 Aug 2021 14:54:13 -0700 (PDT)
 Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id f17sm2224115ljn.44.2021.08.31.12.56.50
+        by smtp.gmail.com with ESMTPSA id j13sm1837259lfu.214.2021.08.31.14.54.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 12:56:50 -0700 (PDT)
-Date: Tue, 31 Aug 2021 22:56:48 +0300
+        Tue, 31 Aug 2021 14:54:12 -0700 (PDT)
+Date: Wed, 1 Sep 2021 00:54:10 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-	sfr@canb.auug.org.au
-Subject: Re: [PATCH] fs/ntfs3: Restyle comments to better align with
- kernel-doc
-Message-ID: <20210831195648.u2k2gh5ivg7olevl@kari-VirtualBox>
-References: <b0ef6ddc-b623-0585-e03f-75d66d1a92eb@paragon-software.com>
+	sfr@canb.auug.org.au, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] fs/ntfs3: Rework file operations
+Message-ID: <20210831215410.wkolls3jvev2rebk@kari-VirtualBox>
+References: <c076bd59-64b1-149b-3a23-5e89a77b7795@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -53,657 +52,2109 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b0ef6ddc-b623-0585-e03f-75d66d1a92eb@paragon-software.com>
+In-Reply-To: <c076bd59-64b1-149b-3a23-5e89a77b7795@paragon-software.com>
+
+First of this commit is already in ntfs3/master without review. Please
+do not do that. We are middle of merge window and new this kind of patch
+is in.
+
+This patch does also lot of refactoring, dead code removel, maybe some
+bug fixes and who knows what else. One patch should address only one
+thing.  I did not review whole thing but some comments there.  I also
+feel like this is kinda impossible to review because so much happening.
+This is over 2000 lines long patch.  Do you want to review this kind of
+patches yourself? I cc also fsdevel, maybe someone can help us little
+bit.
+
+Partial review starts here:
 
 sfr@canb.auug.org.au
+^^
+There is this same cc. Accident?
 
-This was in cc. Is this accident?
+Subject: [PATCH] fs/ntfs3: Rework file operations
 
-This is already in git repo. Please submit patch first to review process
-before apply it to master. I still comment here as I do not know if you
-are going to revert or rebase.
+^^ Not very informative commit header
 
-On Tue, Aug 31, 2021 at 07:38:27PM +0300, Konstantin Komarov wrote:
-> Capitalize comments and end with period for better reading.
+Maybe better should be:
+Change rename logic to add new name and then remove old one 
 
-This is better commit header without "for better reading".
+
+Please also use at least checkpatch. It found three warnings with this
+patch.
+
+On Tue, Aug 31, 2021 at 07:34:28PM +0300, Konstantin Komarov wrote:
+> Rename now works "Add new name and remove old name".
+> "Remove old name and add new name" may result in bad inode
+> if we can't add new name and then can't restore (add) old name.
+
+Also little hard to read commit message. Let me help a little bit. 
+Maybe something like (not checked your patch yet):
+
+Current rename logic is that we first remove old name and then add new
+name.  This can result bad inode if there is situation that when we add
+new name and it fails we have no option to return old one.
+
+Change behavier so that we first try to add new name and only after that
+we delete old one.
 
 > 
 > Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 > ---
->  fs/ntfs3/attrib.c  | 18 +++++++++++-------
->  fs/ntfs3/bitmap.c  |  5 ++---
->  fs/ntfs3/file.c    | 18 +++++++++---------
->  fs/ntfs3/frecord.c | 27 +++++++++++++--------------
->  fs/ntfs3/fslog.c   | 11 +++++++----
->  fs/ntfs3/fsntfs.c  |  8 ++++----
->  fs/ntfs3/index.c   |  8 +++++---
->  fs/ntfs3/inode.c   | 20 ++++++++++----------
->  fs/ntfs3/lznt.c    |  5 +++--
->  fs/ntfs3/ntfs.h    |  2 +-
->  fs/ntfs3/ntfs_fs.h | 24 ++++++++++++------------
->  fs/ntfs3/record.c  |  2 +-
->  fs/ntfs3/super.c   |  2 +-
->  fs/ntfs3/upcase.c  |  2 +-
->  fs/ntfs3/xattr.c   |  7 ++++---
->  15 files changed, 84 insertions(+), 75 deletions(-)
+>  fs/ntfs3/attrib.c   |  17 +--
+>  fs/ntfs3/attrlist.c |  26 ++--
+>  fs/ntfs3/frecord.c  | 342 ++++++++++++++++++++++++++++++++++++--------
+>  fs/ntfs3/fsntfs.c   |  87 +++++------
+>  fs/ntfs3/index.c    |  45 +++---
+>  fs/ntfs3/inode.c    | 275 ++++++++++++-----------------------
+>  fs/ntfs3/namei.c    | 236 ++++++++----------------------
+>  fs/ntfs3/ntfs_fs.h  |  31 +++-
+>  fs/ntfs3/record.c   |   8 +-
+>  fs/ntfs3/xattr.c    |  25 ++--
+>  10 files changed, 563 insertions(+), 529 deletions(-)
 > 
 > diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-> index ffc323bacc9f..34c4cbf7e29b 100644
+> index 4b285f704e62..ffc323bacc9f 100644
 > --- a/fs/ntfs3/attrib.c
 > +++ b/fs/ntfs3/attrib.c
-> @@ -199,6 +199,7 @@ int attr_allocate_clusters(struct ntfs_sb_info *sbi, struct runs_tree *run,
+> @@ -218,9 +218,11 @@ int attr_allocate_clusters(struct ntfs_sb_info *sbi, struct runs_tree *run,
+>  	}
 >  
->  		/* Add new fragment into run storage. */
->  		if (!run_add_entry(run, vcn, lcn, flen, opt == ALLOCATE_MFT)) {
-> +			/* Undo last 'ntfs_look_for_free_space' */
->  			down_write_nested(&wnd->rw_lock, BITMAP_MUTEX_CLUSTERS);
->  			wnd_set_free(wnd, lcn, flen);
->  			up_write(&wnd->rw_lock);
-> @@ -351,7 +352,6 @@ int attr_make_nonresident(struct ntfs_inode *ni, struct ATTRIB *attr,
->  	run_close(run);
->  out1:
->  	kfree(attr_s);
-> -	/* Reinsert le. */
 >  out:
+> -	/* Undo. */
+> -	run_deallocate_ex(sbi, run, vcn0, vcn - vcn0, NULL, false);
+> -	run_truncate(run, vcn0);
+> +	/* Undo 'ntfs_look_for_free_space' */
+> +	if (vcn - vcn0) {
+> +		run_deallocate_ex(sbi, run, vcn0, vcn - vcn0, NULL, false);
+> +		run_truncate(run, vcn0);
+> +	}
+
+Can this happend for both goto out paths? If not then other should
+return err straight away. 
+
+>  
 >  	return err;
 >  }
-> @@ -1153,14 +1153,18 @@ int attr_load_runs_vcn(struct ntfs_inode *ni, enum ATTR_TYPE type,
->  	u16 ro;
+> @@ -701,7 +703,7 @@ int attr_set_size(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>  			 * (list entry for std attribute always first).
+>  			 * So it is safe to step back.
+>  			 */
+> -			mi_remove_attr(mi, attr);
+> +			mi_remove_attr(NULL, mi, attr);
 >  
->  	attr = ni_find_attr(ni, NULL, NULL, type, name, name_len, &vcn, NULL);
-> -	if (!attr)
-> +	if (!attr) {
-> +		/* Is record corrupted? */
->  		return -ENOENT;
+>  			if (!al_remove_le(ni, le)) {
+>  				err = -EINVAL;
+> @@ -1004,7 +1006,7 @@ int attr_data_get_block(struct ntfs_inode *ni, CLST vcn, CLST clen, CLST *lcn,
+>  			end = next_svcn;
+>  		while (end > evcn) {
+>  			/* Remove segment [svcn : evcn). */
+> -			mi_remove_attr(mi, attr);
+> +			mi_remove_attr(NULL, mi, attr);
+>  
+>  			if (!al_remove_le(ni, le)) {
+>  				err = -EINVAL;
+> @@ -1600,7 +1602,7 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
+>  			end = next_svcn;
+>  		while (end > evcn) {
+>  			/* Remove segment [svcn : evcn). */
+> -			mi_remove_attr(mi, attr);
+> +			mi_remove_attr(NULL, mi, attr);
+>  
+>  			if (!al_remove_le(ni, le)) {
+>  				err = -EINVAL;
+> @@ -1836,13 +1838,12 @@ int attr_collapse_range(struct ntfs_inode *ni, u64 vbo, u64 bytes)
+>  			u16 le_sz;
+>  			u16 roff = le16_to_cpu(attr->nres.run_off);
+>  
+> -			/* run==1 means unpack and deallocate. */
+
+What's whit this one? Old comment maybe but should not be addressed with
+this patch.
+
+>  			run_unpack_ex(RUN_DEALLOCATE, sbi, ni->mi.rno, svcn,
+>  				      evcn1 - 1, svcn, Add2Ptr(attr, roff),
+>  				      le32_to_cpu(attr->size) - roff);
+>  
+>  			/* Delete this attribute segment. */
+> -			mi_remove_attr(mi, attr);
+> +			mi_remove_attr(NULL, mi, attr);
+>  			if (!le)
+>  				break;
+>  
+> diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
+> index 32ca990af64b..fa32399eb517 100644
+> --- a/fs/ntfs3/attrlist.c
+> +++ b/fs/ntfs3/attrlist.c
+> @@ -279,7 +279,7 @@ int al_add_le(struct ntfs_inode *ni, enum ATTR_TYPE type, const __le16 *name,
+>  	struct ATTR_LIST_ENTRY *le;
+>  	size_t off;
+>  	u16 sz;
+> -	size_t asize, new_asize;
+> +	size_t asize, new_asize, old_size;
+>  	u64 new_size;
+>  	typeof(ni->attr_list) *al = &ni->attr_list;
+>  
+> @@ -287,8 +287,9 @@ int al_add_le(struct ntfs_inode *ni, enum ATTR_TYPE type, const __le16 *name,
+>  	 * Compute the size of the new 'le'
+>  	 */
+>  	sz = le_size(name_len);
+> -	new_size = al->size + sz;
+> -	asize = al_aligned(al->size);
+> +	old_size = al->size;
+> +	asize = al_aligned(old_size);
+>  	new_asize = al_aligned(new_size);
+>  
+>  	/* Scan forward to the point at which the new 'le' should be inserted. */
+> @@ -302,13 +303,14 @@ int al_add_le(struct ntfs_inode *ni, enum ATTR_TYPE type, const __le16 *name,
+>  			return -ENOMEM;
+>  
+>  		memcpy(ptr, al->le, off);
+> -		memcpy(Add2Ptr(ptr, off + sz), le, al->size - off);
+> +		memcpy(Add2Ptr(ptr, off + sz), le, old_size - off);
+>  		le = Add2Ptr(ptr, off);
+>  		kfree(al->le);
+>  		al->le = ptr;
+>  	} else {
+> -		memmove(Add2Ptr(le, sz), le, al->size - off);
+> +		memmove(Add2Ptr(le, sz), le, old_size - off);
+>  	}
+> +	*new_le = le;
+>  
+>  	al->size = new_size;
+>  
+> @@ -321,23 +323,25 @@ int al_add_le(struct ntfs_inode *ni, enum ATTR_TYPE type, const __le16 *name,
+>  	le->id = id;
+>  	memcpy(le->name, name, sizeof(short) * name_len);
+>  
+> -	al->dirty = true;
+> -
+>  	err = attr_set_size(ni, ATTR_LIST, NULL, 0, &al->run, new_size,
+>  			    &new_size, true, &attr);
+> -	if (err)
+> +	if (err) {
+> +		/* Undo memmove above. */
+
+There is path also for memcpy. What if we go there. Is this path then
+impossible? Just checking.
+
+> +		memmove(le, Add2Ptr(le, sz), old_size - off);
+> +		al->size = old_size;
+>  		return err;
 > +	}
+> +
+> +	al->dirty = true;
 >  
->  	svcn = le64_to_cpu(attr->nres.svcn);
->  	evcn = le64_to_cpu(attr->nres.evcn);
+>  	if (attr && attr->non_res) {
+>  		err = ntfs_sb_write_run(ni->mi.sbi, &al->run, 0, al->le,
+>  					al->size);
+>  		if (err)
+>  			return err;
+> +		al->dirty = false;
+>  	}
 >  
-> -	if (evcn < vcn || vcn < svcn)
-> +	if (evcn < vcn || vcn < svcn) {
-> +		/* Is record corrupted? */
->  		return -EINVAL;
-> +	}
->  
->  	ro = le16_to_cpu(attr->nres.run_off);
->  	err = run_unpack_ex(run, ni->mi.sbi, ni->mi.rno, svcn, evcn, svcn,
-> @@ -1171,7 +1175,7 @@ int attr_load_runs_vcn(struct ntfs_inode *ni, enum ATTR_TYPE type,
+> -	al->dirty = false;
+> -	*new_le = le;
+> -
+>  	return 0;
 >  }
 >  
+> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+> index 9d374827750b..3f48b612ec96 100644
+> --- a/fs/ntfs3/frecord.c
+> +++ b/fs/ntfs3/frecord.c
+> @@ -163,7 +163,7 @@ int ni_load_mi_ex(struct ntfs_inode *ni, CLST rno, struct mft_inode **mi)
 >  /*
-> - * attr_wof_load_runs_range - Load runs for given range [from to).
-> + * attr_load_runs_range - Load runs for given range [from to).
+>   * ni_load_mi - Load mft_inode corresponded list_entry.
 >   */
->  int attr_load_runs_range(struct ntfs_inode *ni, enum ATTR_TYPE type,
->  			 const __le16 *name, u8 name_len, struct runs_tree *run,
-> @@ -1974,7 +1978,7 @@ int attr_punch_hole(struct ntfs_inode *ni, u64 vbo, u64 bytes, u32 *frame_size)
->  	total_size = le64_to_cpu(attr_b->nres.total_size);
+> -int ni_load_mi(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
+> +int ni_load_mi(struct ntfs_inode *ni, const struct ATTR_LIST_ENTRY *le,
+>  	       struct mft_inode **mi)
+
+Feels like unnecesary change for this patch.
+
+>  {
+>  	CLST rno;
+> @@ -402,7 +402,7 @@ int ni_remove_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>  		if (!attr)
+>  			return -ENOENT;
 >  
->  	if (vbo >= alloc_size) {
-> -		// NOTE: It is allowed.
-> +		/* NOTE: It is allowed. */
+> -		mi_remove_attr(&ni->mi, attr);
+> +		mi_remove_attr(ni, &ni->mi, attr);
 >  		return 0;
 >  	}
 >  
-> @@ -1986,9 +1990,9 @@ int attr_punch_hole(struct ntfs_inode *ni, u64 vbo, u64 bytes, u32 *frame_size)
->  	bytes -= vbo;
+> @@ -441,7 +441,7 @@ int ni_remove_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>  		if (!attr)
+>  			return -ENOENT;
 >  
->  	if ((vbo & mask) || (bytes & mask)) {
-> -		/* We have to zero a range(s)*/
-> +		/* We have to zero a range(s). */
->  		if (frame_size == NULL) {
-> -			/* Caller insists range is aligned */
-> +			/* Caller insists range is aligned. */
->  			return -EINVAL;
->  		}
->  		*frame_size = mask + 1;
-> diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
-> index 06ae38adb8ad..831501555009 100644
-> --- a/fs/ntfs3/bitmap.c
-> +++ b/fs/ntfs3/bitmap.c
-> @@ -29,7 +29,6 @@ struct rb_node_key {
->  	size_t key;
->  };
+> -		mi_remove_attr(mi, attr);
+> +		mi_remove_attr(ni, mi, attr);
 >  
-> -/* Tree is sorted by start (key). */
->  struct e_node {
->  	struct rb_node_key start; /* Tree sorted by start. */
->  	struct rb_node_key count; /* Tree sorted by len. */
-> @@ -1117,7 +1116,7 @@ size_t wnd_find(struct wnd_bitmap *wnd, size_t to_alloc, size_t hint,
->  	sb = wnd->sb;
->  	log2_bits = sb->s_blocksize_bits + 3;
->  
-> -	/* At most two ranges [hint, max_alloc) + [0, hint) */
-> +	/* At most two ranges [hint, max_alloc) + [0, hint). */
->  Again:
->  
->  	/* TODO: Optimize request for case nbits > wbits. */
-> @@ -1241,7 +1240,7 @@ size_t wnd_find(struct wnd_bitmap *wnd, size_t to_alloc, size_t hint,
->  			continue;
->  		}
->  
-> -		/* Read window */
-> +		/* Read window. */
->  		bh = wnd_map(wnd, iw);
->  		if (IS_ERR(bh)) {
->  			// TODO: Error.
-> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-> index 62ebfa324bff..89557d60a9b0 100644
-> --- a/fs/ntfs3/file.c
-> +++ b/fs/ntfs3/file.c
-> @@ -190,7 +190,8 @@ static int ntfs_extend_initialized_size(struct file *file,
->  
->  /*
->   * ntfs_zero_range - Helper function for punch_hole.
-> - * It zeroes a range [vbo, vbo_to)
-> + *
-> + * It zeroes a range [vbo, vbo_to).
+>  		if (PtrOffset(ni->attr_list.le, le) >= ni->attr_list.size)
+>  			return 0;
+> @@ -454,12 +454,11 @@ int ni_remove_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>   *
+>   * Return: Not full constructed attribute or NULL if not possible to create.
 >   */
->  static int ntfs_zero_range(struct inode *inode, u64 vbo, u64 vbo_to)
+> -static struct ATTRIB *ni_ins_new_attr(struct ntfs_inode *ni,
+> -				      struct mft_inode *mi,
+> -				      struct ATTR_LIST_ENTRY *le,
+> -				      enum ATTR_TYPE type, const __le16 *name,
+> -				      u8 name_len, u32 asize, u16 name_off,
+> -				      CLST svcn)
+> +static struct ATTRIB *
+> +ni_ins_new_attr(struct ntfs_inode *ni, struct mft_inode *mi,
+> +		struct ATTR_LIST_ENTRY *le, enum ATTR_TYPE type,
+> +		const __le16 *name, u8 name_len, u32 asize, u16 name_off,
+> +		CLST svcn, struct ATTR_LIST_ENTRY **ins_le)
+
+Reviewing would be lot lot easier if you make one patch which just adds
+this new ins_le to every function needed. Just call it with NULL. Then
+there would be much less noise to watch.
+
 >  {
-> @@ -231,12 +232,12 @@ static int ntfs_zero_range(struct inode *inode, u64 vbo, u64 vbo_to)
+>  	int err;
+>  	struct ATTRIB *attr;
+> @@ -507,6 +506,8 @@ static struct ATTRIB *ni_ins_new_attr(struct ntfs_inode *ni,
+>  	le->ref = ref;
 >  
->  			if (!buffer_mapped(bh)) {
->  				ntfs_get_block(inode, iblock, bh, 0);
-> -				/* unmapped? It's a hole - nothing to do */
-> +				/* Unmapped? It's a hole - nothing to do. */
->  				if (!buffer_mapped(bh))
->  					continue;
->  			}
->  
-> -			/* Ok, it's mapped. Make sure it's up-to-date */
-> +			/* Ok, it's mapped. Make sure it's up-to-date. */
->  			if (PageUptodate(page))
->  				set_buffer_uptodate(bh);
->  
-> @@ -272,9 +273,8 @@ static int ntfs_zero_range(struct inode *inode, u64 vbo, u64 vbo_to)
+>  out:
+> +	if (ins_le)
+> +		*ins_le = le;
+>  	return attr;
 >  }
 >  
->  /*
-> - * ntfs_sparse_cluster
-> + * ntfs_sparse_cluster - Helper function to zero a new allocated clusters.
->   *
-> - * Helper function to zero a new allocated clusters
->   * NOTE: 512 <= cluster size <= 2M
->   */
->  void ntfs_sparse_cluster(struct inode *inode, struct page *page0, CLST vcn,
-> @@ -588,7 +588,7 @@ static long ntfs_fallocate(struct file *file, int mode, loff_t vbo, loff_t len)
->  		truncate_pagecache(inode, vbo_down);
->  
->  		if (!is_sparsed(ni) && !is_compressed(ni)) {
-> -			/* normal file */
-> +			/* Normal file. */
->  			err = ntfs_zero_range(inode, vbo, end);
->  			goto out;
+> @@ -599,7 +600,7 @@ static int ni_repack(struct ntfs_inode *ni)
+>  		if (next_svcn >= evcn + 1) {
+>  			/* We can remove this attribute segment. */
+>  			al_remove_le(ni, le);
+> -			mi_remove_attr(mi, attr);
+> +			mi_remove_attr(NULL, mi, attr);
+>  			le = le_p;
+>  			continue;
 >  		}
-> @@ -599,7 +599,7 @@ static long ntfs_fallocate(struct file *file, int mode, loff_t vbo, loff_t len)
->  		if (err != E_NTFS_NOTALIGNED)
->  			goto out;
+> @@ -695,8 +696,8 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
+>  		free -= asize;
+>  	}
 >  
-> -		/* process not aligned punch */
-> +		/* Process not aligned punch. */
->  		mask = frame_size - 1;
->  		vbo_a = (vbo + mask) & ~mask;
->  		end_a = end & ~mask;
-> @@ -647,7 +647,7 @@ static long ntfs_fallocate(struct file *file, int mode, loff_t vbo, loff_t len)
+> -	/* Is seems that attribute list can be removed from primary record. */
+> -	mi_remove_attr(&ni->mi, attr_list);
+> +	/* It seems that attribute list can be removed from primary record. */
+> +	mi_remove_attr(NULL, &ni->mi, attr_list);
+>  
+>  	/*
+>  	 * Repeat the cycle above and move all attributes to primary record.
+> @@ -724,7 +725,7 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
+>  		attr_ins->id = id;
+>  
+>  		/* Remove from original record. */
+> -		mi_remove_attr(mi, attr);
+> +		mi_remove_attr(NULL, mi, attr);
+>  	}
+>  
+>  	run_deallocate(sbi, &ni->attr_list.run, true);
+> @@ -842,7 +843,8 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+>  		memcpy(attr, b, asize);
+>  		attr->id = le_b[nb]->id;
+>  
+> -		WARN_ON(!mi_remove_attr(&ni->mi, b));
+> +		/* Remove from primary record. */
+> +		WARN_ON(!mi_remove_attr(NULL, &ni->mi, b));
+>  
+>  		if (to_free <= asize)
+>  			break;
+> @@ -883,7 +885,8 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+>  static int ni_ins_attr_ext(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
+>  			   enum ATTR_TYPE type, const __le16 *name, u8 name_len,
+>  			   u32 asize, CLST svcn, u16 name_off, bool force_ext,
+> -			   struct ATTRIB **ins_attr, struct mft_inode **ins_mi)
+> +			   struct ATTRIB **ins_attr, struct mft_inode **ins_mi,
+> +			   struct ATTR_LIST_ENTRY **ins_le)
+>  {
+>  	struct ATTRIB *attr;
+>  	struct mft_inode *mi;
+> @@ -956,12 +959,14 @@ static int ni_ins_attr_ext(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
+>  
+>  		/* Try to insert attribute into this subrecord. */
+>  		attr = ni_ins_new_attr(ni, mi, le, type, name, name_len, asize,
+> -				       name_off, svcn);
+> +				       name_off, svcn, ins_le);
+>  		if (!attr)
+>  			continue;
+>  
+>  		if (ins_attr)
+>  			*ins_attr = attr;
+> +		if (ins_mi)
+> +			*ins_mi = mi;
+>  		return 0;
+>  	}
+>  
+> @@ -977,7 +982,7 @@ static int ni_ins_attr_ext(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
+>  	}
+>  
+>  	attr = ni_ins_new_attr(ni, mi, le, type, name, name_len, asize,
+> -			       name_off, svcn);
+> +			       name_off, svcn, ins_le);
+>  	if (!attr)
+>  		goto out2;
+>  
+> @@ -1016,7 +1021,8 @@ static int ni_ins_attr_ext(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
+>  static int ni_insert_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>  			  const __le16 *name, u8 name_len, u32 asize,
+>  			  u16 name_off, CLST svcn, struct ATTRIB **ins_attr,
+> -			  struct mft_inode **ins_mi)
+> +			  struct mft_inode **ins_mi,
+> +			  struct ATTR_LIST_ENTRY **ins_le)
+>  {
+>  	struct ntfs_sb_info *sbi = ni->mi.sbi;
+>  	int err;
+> @@ -1045,7 +1051,7 @@ static int ni_insert_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>  
+>  	if (asize <= free) {
+>  		attr = ni_ins_new_attr(ni, &ni->mi, NULL, type, name, name_len,
+> -				       asize, name_off, svcn);
+> +				       asize, name_off, svcn, ins_le);
+>  		if (attr) {
+>  			if (ins_attr)
+>  				*ins_attr = attr;
+> @@ -1059,7 +1065,8 @@ static int ni_insert_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>  	if (!is_mft || type != ATTR_DATA || svcn) {
+>  		/* This ATTRIB will be external. */
+>  		err = ni_ins_attr_ext(ni, NULL, type, name, name_len, asize,
+> -				      svcn, name_off, false, ins_attr, ins_mi);
+> +				      svcn, name_off, false, ins_attr, ins_mi,
+> +				      ins_le);
+>  		goto out;
+>  	}
+>  
+> @@ -1117,7 +1124,7 @@ static int ni_insert_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>  		t16 = le16_to_cpu(attr->name_off);
+>  		err = ni_ins_attr_ext(ni, le, attr->type, Add2Ptr(attr, t16),
+>  				      attr->name_len, t32, attr_svcn(attr), t16,
+> -				      false, &eattr, NULL);
+> +				      false, &eattr, NULL, NULL);
+>  		if (err)
+>  			return err;
+>  
+> @@ -1125,8 +1132,8 @@ static int ni_insert_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>  		memcpy(eattr, attr, t32);
+>  		eattr->id = id;
+>  
+> -		/* Remove attrib from primary record. */
+> -		mi_remove_attr(&ni->mi, attr);
+> +		/* Remove from primary record. */
+> +		mi_remove_attr(NULL, &ni->mi, attr);
+>  
+>  		/* attr now points to next attribute. */
+>  		if (attr->type == ATTR_END)
+> @@ -1136,7 +1143,7 @@ static int ni_insert_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>  		;
+>  
+>  	attr = ni_ins_new_attr(ni, &ni->mi, NULL, type, name, name_len, asize,
+> -			       name_off, svcn);
+> +			       name_off, svcn, ins_le);
+>  	if (!attr) {
+>  		err = -EINVAL;
+>  		goto out;
+> @@ -1251,7 +1258,7 @@ static int ni_expand_mft_list(struct ntfs_inode *ni)
+>  	 */
+>  	attr = ni_ins_new_attr(ni, mi_min, NULL, ATTR_DATA, NULL, 0,
+>  			       SIZEOF_NONRESIDENT + run_size,
+> -			       SIZEOF_NONRESIDENT, svcn);
+> +			       SIZEOF_NONRESIDENT, svcn, NULL);
+>  	if (!attr) {
+>  		err = -EINVAL;
+>  		goto out;
+> @@ -1315,14 +1322,15 @@ int ni_expand_list(struct ntfs_inode *ni)
+>  		err = ni_ins_attr_ext(ni, le, attr->type, attr_name(attr),
+>  				      attr->name_len, asize, attr_svcn(attr),
+>  				      le16_to_cpu(attr->name_off), true,
+> -				      &ins_attr, NULL);
+> +				      &ins_attr, NULL, NULL);
+>  
 >  		if (err)
 >  			goto out;
 >  
-> -		/* Wait for existing dio to complete */
-> +		/* Wait for existing dio to complete. */
->  		inode_dio_wait(inode);
+>  		memcpy(ins_attr, attr, asize);
+>  		ins_attr->id = le->id;
+> -		mi_remove_attr(&ni->mi, attr);
+> +		/* Remove from primary record. */
+> +		mi_remove_attr(NULL, &ni->mi, attr);
 >  
->  		truncate_pagecache(inode, vbo_down);
-> @@ -1127,7 +1127,7 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+>  		done += asize;
 >  		goto out;
->  
->  	if (WARN_ON(ni->ni_flags & NI_FLAG_COMPRESSED_MASK)) {
-> -		/* Should never be here, see ntfs_file_open() */
-> +		/* Should never be here, see ntfs_file_open(). */
->  		ret = -EOPNOTSUPP;
->  		goto out;
+> @@ -1382,7 +1390,7 @@ int ni_insert_nonresident(struct ntfs_inode *ni, enum ATTR_TYPE type,
 >  	}
-> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-> index 3f48b612ec96..938b12d56ca6 100644
-> --- a/fs/ntfs3/frecord.c
-> +++ b/fs/ntfs3/frecord.c
-> @@ -56,7 +56,7 @@ static struct mft_inode *ni_find_mi(struct ntfs_inode *ni, CLST rno)
 >  
->  /*
->   * ni_add_mi - Add new mft_inode into ntfs_inode.
-> -*/
-> + */
->  static void ni_add_mi(struct ntfs_inode *ni, struct mft_inode *mi)
+>  	err = ni_insert_attr(ni, type, name, name_len, asize, name_off, svcn,
+> -			     &attr, mi);
+> +			     &attr, mi, NULL);
+>  
+>  	if (err)
+>  		goto out;
+> @@ -1422,7 +1430,8 @@ int ni_insert_nonresident(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>   */
+>  int ni_insert_resident(struct ntfs_inode *ni, u32 data_size,
+>  		       enum ATTR_TYPE type, const __le16 *name, u8 name_len,
+> -		       struct ATTRIB **new_attr, struct mft_inode **mi)
+> +		       struct ATTRIB **new_attr, struct mft_inode **mi,
+> +		       struct ATTR_LIST_ENTRY **le)
 >  {
->  	ni_ins_mi(ni, &ni->mi_tree, mi->rno, &mi->node);
-> @@ -70,9 +70,8 @@ void ni_remove_mi(struct ntfs_inode *ni, struct mft_inode *mi)
->  	rb_erase(&mi->node, &ni->mi_tree);
+>  	int err;
+>  	u32 name_size = ALIGN(name_len * sizeof(short), 8);
+> @@ -1430,7 +1439,7 @@ int ni_insert_resident(struct ntfs_inode *ni, u32 data_size,
+>  	struct ATTRIB *attr;
+>  
+>  	err = ni_insert_attr(ni, type, name, name_len, asize, SIZEOF_RESIDENT,
+> -			     0, &attr, mi);
+> +			     0, &attr, mi, le);
+>  	if (err)
+>  		return err;
+>  
+> @@ -1439,8 +1448,13 @@ int ni_insert_resident(struct ntfs_inode *ni, u32 data_size,
+>  
+>  	attr->res.data_size = cpu_to_le32(data_size);
+>  	attr->res.data_off = cpu_to_le16(SIZEOF_RESIDENT + name_size);
+> -	if (type == ATTR_NAME)
+> +	if (type == ATTR_NAME) {
+>  		attr->res.flags = RESIDENT_FLAG_INDEXED;
+> +
+> +		/* is_attr_indexed(attr)) == true */
+> +		le16_add_cpu(&ni->mi.mrec->hard_links, +1);
+> +		ni->mi.dirty = true;
+> +	}
+>  	attr->res.res = 0;
+>  
+>  	if (new_attr)
+> @@ -1452,22 +1466,13 @@ int ni_insert_resident(struct ntfs_inode *ni, u32 data_size,
+>  /*
+>   * ni_remove_attr_le - Remove attribute from record.
+>   */
+> -int ni_remove_attr_le(struct ntfs_inode *ni, struct ATTRIB *attr,
+> -		      struct ATTR_LIST_ENTRY *le)
+> +void ni_remove_attr_le(struct ntfs_inode *ni, struct ATTRIB *attr,
+> +		       struct mft_inode *mi, struct ATTR_LIST_ENTRY *le)
+>  {
+> -	int err;
+> -	struct mft_inode *mi;
+> -
+> -	err = ni_load_mi(ni, le, &mi);
+> -	if (err)
+> -		return err;
+> -
+> -	mi_remove_attr(mi, attr);
+> +	mi_remove_attr(ni, mi, attr);
+>  
+>  	if (le)
+>  		al_remove_le(ni, le);
+> -
+> -	return 0;
 >  }
 >  
-> -/* ni_std
-> - *
-> - * Return: Pointer into std_info from primary record.
-> +/*
-> + * ni_std - Return: Pointer into std_info from primary record.
-
-If we want to follow kernel doc style then Return should be like it was.
-
->   */
->  struct ATTR_STD_INFO *ni_std(struct ntfs_inode *ni)
->  {
-> @@ -385,7 +384,7 @@ bool ni_add_subrecord(struct ntfs_inode *ni, CLST rno, struct mft_inode **mi)
->  
 >  /*
->   * ni_remove_attr - Remove all attributes for the given type/name/id.
-> -*/
-> + */
->  int ni_remove_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
->  		   const __le16 *name, size_t name_len, bool base_only,
->  		   const __le16 *id)
-> @@ -740,7 +739,7 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
+> @@ -1549,10 +1554,12 @@ int ni_delete_all(struct ntfs_inode *ni)
 >  
->  /*
->   * ni_create_attr_list - Generates an attribute list for this primary record.
-> -*/
-> + */
->  int ni_create_attr_list(struct ntfs_inode *ni)
->  {
->  	struct ntfs_sb_info *sbi = ni->mi.sbi;
-> @@ -939,7 +938,7 @@ static int ni_ins_attr_ext(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
->  		if (is_mft_data &&
->  		    (mi_enum_attr(mi, NULL) ||
->  		     vbo <= ((u64)mi->rno << sbi->record_bits))) {
-> -			/* We can't accept this record 'case MFT's bootstrapping. */
-> +			/* We can't accept this record 'cause MFT's bootstrapping. */
-
-This should be splitted if we want kinda follow <= 80 rule.
-
->  			continue;
->  		}
->  		if (is_mft &&
-> @@ -1078,7 +1077,7 @@ static int ni_insert_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
->  	 */
->  	max_free = free;
->  
-> -	/* Estimate the result of moving all possible attributes away.*/
-> +	/* Estimate the result of moving all possible attributes away. */
->  	attr = NULL;
->  
->  	while ((attr = mi_enum_attr(&ni->mi, attr))) {
-> @@ -1095,7 +1094,7 @@ static int ni_insert_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
->  		goto out;
->  	}
->  
-> -	/* Start real attribute moving */
-> +	/* Start real attribute moving. */
->  	attr = NULL;
->  
->  	for (;;) {
-> @@ -1542,7 +1541,7 @@ int ni_delete_all(struct ntfs_inode *ni)
->  		node = next;
->  	}
->  
-> -	/* Free base record */
-> +	/* Free base record. */
->  	clear_rec_inuse(ni->mi.mrec);
->  	ni->mi.dirty = true;
->  	err = mi_write(&ni->mi, 0);
-> @@ -2243,7 +2242,7 @@ int ni_decompress_file(struct ntfs_inode *ni)
->  	}
->  
->  	if (attr->non_res && is_attr_sparsed(attr)) {
-> -		/* Sarsed attribute header is 8 bytes bigger than normal. */
-> +		/* Sparsed attribute header is 8 bytes bigger than normal. */
->  		struct MFT_REC *rec = mi->mrec;
->  		u32 used = le32_to_cpu(rec->used);
->  		u32 asize = le32_to_cpu(attr->size);
-> @@ -2324,7 +2323,7 @@ static int decompress_lzx_xpress(struct ntfs_sb_info *sbi, const char *cmpr,
->  		mutex_lock(&sbi->compress.mtx_xpress);
->  		ctx = sbi->compress.xpress;
->  		if (!ctx) {
-> -			/* Lazy initialize Xpress decompress context */
-> +			/* Lazy initialize Xpress decompress context. */
->  			ctx = xpress_allocate_decompressor();
->  			if (!ctx) {
->  				err = -ENOMEM;
-> @@ -2348,7 +2347,7 @@ static int decompress_lzx_xpress(struct ntfs_sb_info *sbi, const char *cmpr,
->  /*
->   * ni_read_frame
+>  /* ni_fname_name
 >   *
-> - * Pages - array of locked pages.
-> + * Pages - Array of locked pages.
+> - *Return: File name attribute by its value. */
+> + * Return: File name attribute by its value.
+> + */
+>  struct ATTR_FILE_NAME *ni_fname_name(struct ntfs_inode *ni,
+>  				     const struct cpu_str *uni,
+>  				     const struct MFT_REF *home_dir,
+> +				     struct mft_inode **mi,
+>  				     struct ATTR_LIST_ENTRY **le)
+>  {
+>  	struct ATTRIB *attr = NULL;
+> @@ -1562,7 +1569,7 @@ struct ATTR_FILE_NAME *ni_fname_name(struct ntfs_inode *ni,
+>  
+>  	/* Enumerate all names. */
+>  next:
+> -	attr = ni_find_attr(ni, attr, le, ATTR_NAME, NULL, 0, NULL, NULL);
+> +	attr = ni_find_attr(ni, attr, le, ATTR_NAME, NULL, 0, NULL, mi);
+>  	if (!attr)
+>  		return NULL;
+>  
+> @@ -1592,6 +1599,7 @@ struct ATTR_FILE_NAME *ni_fname_name(struct ntfs_inode *ni,
+>   * Return: File name attribute with given type.
 >   */
->  int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
->  		  u32 pages_per_frame)
-> @@ -2740,7 +2739,7 @@ int ni_write_frame(struct ntfs_inode *ni, struct page **pages,
->  		lznt = NULL;
+>  struct ATTR_FILE_NAME *ni_fname_type(struct ntfs_inode *ni, u8 name_type,
+> +				     struct mft_inode **mi,
+>  				     struct ATTR_LIST_ENTRY **le)
+>  {
+>  	struct ATTRIB *attr = NULL;
+> @@ -1599,10 +1607,12 @@ struct ATTR_FILE_NAME *ni_fname_type(struct ntfs_inode *ni, u8 name_type,
+>  
+>  	*le = NULL;
+>  
+> +	if (FILE_NAME_POSIX == name_type)
+> +		return NULL;
+> +
+>  	/* Enumerate all names. */
+>  	for (;;) {
+> -		attr = ni_find_attr(ni, attr, le, ATTR_NAME, NULL, 0, NULL,
+> -				    NULL);
+> +		attr = ni_find_attr(ni, attr, le, ATTR_NAME, NULL, 0, NULL, mi);
+>  		if (!attr)
+>  			return NULL;
+>  
+> @@ -2788,6 +2798,222 @@ int ni_write_frame(struct ntfs_inode *ni, struct page **pages,
+>  	return err;
+>  }
+>  
+> +/*
+> + * ni_remove_name - Removes name 'de' from MFT and from directory.
+> + * 'de2' and 'undo_step' are used to restore MFT/dir, if error occurs.
+> + */
+> +int ni_remove_name(struct ntfs_inode *dir_ni, struct ntfs_inode *ni,
+> +		   struct NTFS_DE *de, struct NTFS_DE **de2, int *undo_step)
+> +{
+> +	int err;
+> +	struct ntfs_sb_info *sbi = ni->mi.sbi;
+> +	struct ATTR_FILE_NAME *de_name = (struct ATTR_FILE_NAME *)(de + 1);
+> +	struct ATTR_FILE_NAME *fname;
+> +	struct ATTR_LIST_ENTRY *le;
+> +	struct mft_inode *mi;
+> +	u16 de_key_size = le16_to_cpu(de->key_size);
+> +	u8 name_type;
+> +
+> +	*undo_step = 0;
+
+It looks to me that this function can make undo by itself. There is no
+need for ni_remove_name_undo. This looks very strange way to do this.
+
+One other way if really needed is also to use return value, but this
+pointer undo_step feels just wrong. 
+
+> +
+> +	/* Find name in record. */
+> +	mi_get_ref(&dir_ni->mi, &de_name->home);
+> +
+> +	fname = ni_fname_name(ni, (struct cpu_str *)&de_name->name_len,
+> +			      &de_name->home, &mi, &le);
+> +	if (!fname)
+> +		return -ENOENT;
+> +
+> +	memcpy(&de_name->dup, &fname->dup, sizeof(struct NTFS_DUP_INFO));
+> +	name_type = paired_name(fname->type);
+> +
+> +	/* Mark ntfs as dirty. It will be cleared at umount. */
+> +	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
+> +
+> +	/* Step 1: Remove name from directory. */
+> +	err = indx_delete_entry(&dir_ni->dir, dir_ni, fname, de_key_size, sbi);
+> +	if (err)
+> +		return err;
+> +
+> +	/* Step 2: Remove name from MFT. */
+> +	ni_remove_attr_le(ni, attr_from_name(fname), mi, le);
+> +
+> +	*undo_step = 2;
+> +
+> +	/* Get paired name. */
+> +	fname = ni_fname_type(ni, name_type, &mi, &le);
+
+It does not feel right that ni_fname_type does not return anything if
+name_type is FILE_NAME_POSIX. It can do it right? Why won't we check
+before ni_fname_type call if name_type == FILE_NAME_POSIX and just exit
+with return 0 if it is.
+
+> +	if (fname) {
+> +		u16 de2_key_size = fname_full_size(fname);
+> +
+> +		*de2 = Add2Ptr(de, 1024);
+> +		(*de2)->key_size = cpu_to_le16(de2_key_size);
+> +
+> +		memcpy(*de2 + 1, fname, de2_key_size);
+> +
+> +		/* Step 3: Remove paired name from directory. */
+> +		err = indx_delete_entry(&dir_ni->dir, dir_ni, fname,
+> +					de2_key_size, sbi);
+> +		if (err)
+> +			return err;
+> +
+> +		/* Step 4: Remove paired name from MFT. */
+> +		ni_remove_attr_le(ni, attr_from_name(fname), mi, le);
+> +
+> +		*undo_step = 4;
+> +	}
+> +	return 0;
+> +}
+> +
+> +/*
+> + * ni_remove_name_undo - Paired function for ni_remove_name.
+> + *
+> + * Return: True if ok
+> + */
+> +bool ni_remove_name_undo(struct ntfs_inode *dir_ni, struct ntfs_inode *ni,
+> +			 struct NTFS_DE *de, struct NTFS_DE *de2, int undo_step)
+> +{
+> +	struct ntfs_sb_info *sbi = ni->mi.sbi;
+> +	struct ATTRIB *attr;
+> +	u16 de_key_size = de2 ? le16_to_cpu(de2->key_size) : 0;
+> +
+> +	switch (undo_step) {
+> +	case 4:
+> +		if (ni_insert_resident(ni, de_key_size, ATTR_NAME, NULL, 0,
+> +				       &attr, NULL, NULL)) {
+> +			return false;
+> +		}
+> +		memcpy(Add2Ptr(attr, SIZEOF_RESIDENT), de2 + 1, de_key_size);
+> +
+> +		mi_get_ref(&ni->mi, &de2->ref);
+> +		de2->size = cpu_to_le16(ALIGN(de_key_size, 8) +
+> +					sizeof(struct NTFS_DE));
+> +		de2->flags = 0;
+> +		de2->res = 0;
+> +
+> +		if (indx_insert_entry(&dir_ni->dir, dir_ni, de2, sbi, NULL,
+> +				      1)) {
+> +			return false;
+> +		}
+> +		fallthrough;
+> +
+> +	case 2:
+> +		de_key_size = le16_to_cpu(de->key_size);
+> +
+> +		if (ni_insert_resident(ni, de_key_size, ATTR_NAME, NULL, 0,
+> +				       &attr, NULL, NULL)) {
+> +			return false;
+> +		}
+> +
+> +		memcpy(Add2Ptr(attr, SIZEOF_RESIDENT), de + 1, de_key_size);
+> +		mi_get_ref(&ni->mi, &de->ref);
+> +
+> +		if (indx_insert_entry(&dir_ni->dir, dir_ni, de, sbi, NULL, 1)) {
+> +			return false;
+> +		}
+> +	}
+> +
+> +	return true;
+> +}
+> +
+> +/*
+> + * ni_add_name - Add new name in MFT and in directory.
+
+*to would be better? Also in comments.
+
+> + */
+> +int ni_add_name(struct ntfs_inode *dir_ni, struct ntfs_inode *ni,
+> +		struct NTFS_DE *de)
+> +{
+> +	int err;
+> +	struct ATTRIB *attr;
+> +	struct ATTR_LIST_ENTRY *le;
+> +	struct mft_inode *mi;
+> +	struct ATTR_FILE_NAME *de_name = (struct ATTR_FILE_NAME *)(de + 1);
+> +	u16 de_key_size = le16_to_cpu(de->key_size);
+> +
+> +	mi_get_ref(&ni->mi, &de->ref);
+> +	mi_get_ref(&dir_ni->mi, &de_name->home);
+> +
+> +	/* Insert new name in MFT. */
+> +	err = ni_insert_resident(ni, de_key_size, ATTR_NAME, NULL, 0, &attr,
+> +				 &mi, &le);
+> +	if (err)
+> +		return err;
+> +
+> +	memcpy(Add2Ptr(attr, SIZEOF_RESIDENT), de_name, de_key_size);
+> +
+> +	/* Insert new name in directory. */
+> +	err = indx_insert_entry(&dir_ni->dir, dir_ni, de, ni->mi.sbi, NULL, 0);
+> +	if (err)
+> +		ni_remove_attr_le(ni, attr, mi, le);
+> +
+> +	return err;
+> +}
+> +
+> +/*
+> + * ni_rename - Remove one name and insert new name.
+> + */
+> +int ni_rename(struct ntfs_inode *dir_ni, struct ntfs_inode *new_dir_ni,
+> +	      struct ntfs_inode *ni, struct NTFS_DE *de, struct NTFS_DE *new_de,
+> +	      bool *is_bad)
+> +{
+> +	int err;
+> +	struct NTFS_DE *de2 = NULL;
+> +	int undo = 0;
+> +
+> +	/*
+> +	 * There are two possible ways to rename:
+> +	 * 1) Add new name and remove old name.
+> +	 * 2) Remove old name and add new name.
+> +	 *
+> +	 * In most cases (not all!) adding new name in MFT and in directory can
+> +	 * allocate additional cluster(s).
+> +	 * Second way may result to bad inode if we can't add new name
+> +	 * and then can't restore (add) old name.
+> +	 */
+> +
+> +	/*
+> +	 * Way 1 - Add new + remove old.
+> +	 */
+
+Way too big comment for thing this small.
+
+> +	err = ni_add_name(new_dir_ni, ni, new_de);
+
+if (err)
+	return err;
+
+> +	if (!err) {
+> +		err = ni_remove_name(dir_ni, ni, de, &de2, &undo);
+> +		if (err && ni_remove_name(new_dir_ni, ni, new_de, &de2, &undo))
+> +			*is_bad = true;
+
+Maybe we can return errno or 1 here. is_bad is again imo little
+unnecessary here. And now that I think this maybe this should be in
+caller site in ntfs_rename. 
+
+> +	}
+> +
+> +	/*
+> +	 * Way 2 - Remove old + add new.
+> +	 */
+> +	/*
+> +	 *	err = ni_remove_name(dir_ni, ni, de, &de2, &undo);
+> +	 *	if (!err) {
+> +	 *		err = ni_add_name(new_dir_ni, ni, new_de);
+> +	 *		if (err && !ni_remove_name_undo(dir_ni, ni, de, de2, undo))
+> +	 *			*is_bad = true;
+> +	 *	}
+> +	 */
+> +
+> +	return err;
+> +}
+> +
+> +/*
+> + * ni_is_dirty - Return: True if 'ni' requires ni_write_inode.
+> + */
+> +bool ni_is_dirty(struct inode *inode)
+> +{
+> +	struct ntfs_inode *ni = ntfs_i(inode);
+> +	struct rb_node *node;
+> +
+> +	if (ni->mi.dirty || ni->attr_list.dirty ||
+> +	    (ni->ni_flags & NI_FLAG_UPDATE_PARENT))
+
+No need to save space here. Just another if statment for third one.
+
+> +		return true;
+> +
+> +	for (node = rb_first(&ni->mi_tree); node; node = rb_next(node)) {
+> +		if (rb_entry(node, struct mft_inode, node)->dirty)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+>  /*
+>   * ni_update_parent
+>   *
+> @@ -2802,8 +3028,6 @@ static bool ni_update_parent(struct ntfs_inode *ni, struct NTFS_DUP_INFO *dup,
+>  	struct ntfs_sb_info *sbi = ni->mi.sbi;
+>  	struct super_block *sb = sbi->sb;
+>  	bool re_dirty = false;
+> -	bool active = sb->s_flags & SB_ACTIVE;
+> -	bool upd_parent = ni->ni_flags & NI_FLAG_UPDATE_PARENT;
+>  
+>  	if (ni->mi.mrec->flags & RECORD_FLAG_DIR) {
+>  		dup->fa |= FILE_ATTRIBUTE_DIRECTORY;
+> @@ -2867,19 +3091,9 @@ static bool ni_update_parent(struct ntfs_inode *ni, struct NTFS_DUP_INFO *dup,
+>  		struct ATTR_FILE_NAME *fname;
+>  
+>  		fname = resident_data_ex(attr, SIZEOF_ATTRIBUTE_FILENAME);
+> -		if (!fname)
+> +		if (!fname || !memcmp(&fname->dup, dup, sizeof(fname->dup)))
+>  			continue;
+>  
+> -		if (memcmp(&fname->dup, dup, sizeof(fname->dup))) {
+> -			memcpy(&fname->dup, dup, sizeof(fname->dup));
+> -			mi->dirty = true;
+> -		} else if (!upd_parent) {
+> -			continue;
+> -		}
+> -
+> -		if (!active)
+> -			continue; /* Avoid __wait_on_freeing_inode(inode); */
+> -
+>  		/* ntfs_iget5 may sleep. */
+>  		dir = ntfs_iget5(sb, &fname->home, NULL);
+>  		if (IS_ERR(dir)) {
+> @@ -2898,6 +3112,8 @@ static bool ni_update_parent(struct ntfs_inode *ni, struct NTFS_DUP_INFO *dup,
+>  			} else {
+>  				indx_update_dup(dir_ni, sbi, fname, dup, sync);
+>  				ni_unlock(dir_ni);
+> +				memcpy(&fname->dup, dup, sizeof(fname->dup));
+> +				mi->dirty = true;
+>  			}
+>  		}
+>  		iput(dir);
+> @@ -2969,7 +3185,9 @@ int ni_write_inode(struct inode *inode, int sync, const char *hint)
+>  			ni->mi.dirty = true;
+>  
+>  		if (!ntfs_is_meta_file(sbi, inode->i_ino) &&
+> -		    (modified || (ni->ni_flags & NI_FLAG_UPDATE_PARENT))) {
+> +		    (modified || (ni->ni_flags & NI_FLAG_UPDATE_PARENT))
+> +		    /* Avoid __wait_on_freeing_inode(inode). */
+> +		    && (sb->s_flags & SB_ACTIVE)) {
+>  			dup.cr_time = std->cr_time;
+>  			/* Not critical if this function fail. */
+>  			re_dirty = ni_update_parent(ni, &dup, sync);
+> @@ -3033,7 +3251,7 @@ int ni_write_inode(struct inode *inode, int sync, const char *hint)
+>  		return err;
 >  	}
 >  
-> -	/* Compress: frame_mem -> frame_ondisk. */
-> +	/* Compress: frame_mem -> frame_ondisk */
->  	compr_size = compress_lznt(frame_mem, frame_size, frame_ondisk,
->  				   frame_size, sbi->compress.lznt);
->  	mutex_unlock(&sbi->compress.mtx_lznt);
-> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index 6f6057129fdd..b5853aed0e25 100644
-> --- a/fs/ntfs3/fslog.c
-> +++ b/fs/ntfs3/fslog.c
-> @@ -1362,7 +1362,8 @@ static void log_create(struct ntfs_log *log, u32 l_size, const u64 last_lsn,
->  	/* Compute the log page values. */
->  	log->data_off = ALIGN(
->  		offsetof(struct RECORD_PAGE_HDR, fixups) +
-> -		sizeof(short) * ((log->page_size >> SECTOR_SHIFT) + 1), 8);
-> +			sizeof(short) * ((log->page_size >> SECTOR_SHIFT) + 1),
-> +		8);
-
-This is not comment like commit message says.
-
->  	log->data_size = log->page_size - log->data_off;
->  	log->record_header_len = sizeof(struct LFS_RECORD_HDR);
+> -	if (re_dirty && (sb->s_flags & SB_ACTIVE))
+> +	if (re_dirty)
+>  		mark_inode_dirty_sync(inode);
 >  
-> @@ -1372,7 +1373,9 @@ static void log_create(struct ntfs_log *log, u32 l_size, const u64 last_lsn,
->  	/* Compute the restart page values. */
->  	log->ra_off = ALIGN(
->  		offsetof(struct RESTART_HDR, fixups) +
-> -		sizeof(short) * ((log->sys_page_size >> SECTOR_SHIFT) + 1), 8);
-> +			sizeof(short) *
-> +				((log->sys_page_size >> SECTOR_SHIFT) + 1),
-> +		8);
-
-Same here.
-
->  	log->restart_size = log->sys_page_size - log->ra_off;
->  	log->ra_size = struct_size(log->ra, clients, 1);
->  	log->current_openlog_count = open_log_count;
-> @@ -5132,8 +5135,8 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
->  	rh->sys_page_size = cpu_to_le32(log->page_size);
->  	rh->page_size = cpu_to_le32(log->page_size);
->  
-> -	t16 = ALIGN(offsetof(struct RESTART_HDR, fixups) +
-> -		    sizeof(short) * t16, 8);
-> +	t16 = ALIGN(offsetof(struct RESTART_HDR, fixups) + sizeof(short) * t16,
-> +		    8);
-
-Same here.
-
->  	rh->ra_off = cpu_to_le16(t16);
->  	rh->minor_ver = cpu_to_le16(1); // 0x1A:
->  	rh->major_ver = cpu_to_le16(1); // 0x1C:
+>  	return 0;
 > diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-> index 669249439217..91e3743e1442 100644
+> index 0edb95ed9717..669249439217 100644
 > --- a/fs/ntfs3/fsntfs.c
 > +++ b/fs/ntfs3/fsntfs.c
-> @@ -312,7 +312,7 @@ int ntfs_loadlog_and_replay(struct ntfs_inode *ni, struct ntfs_sb_info *sbi)
->  	if (sb_rdonly(sb) || !initialized)
+> @@ -358,29 +358,25 @@ int ntfs_look_for_free_space(struct ntfs_sb_info *sbi, CLST lcn, CLST len,
+>  			     enum ALLOCATE_OPT opt)
+>  {
+>  	int err;
+> +	CLST alen = 0;
+>  	struct super_block *sb = sbi->sb;
+> -	size_t a_lcn, zlen, zeroes, zlcn, zlen2, ztrim, new_zlen;
+> +	size_t alcn, zlen, zeroes, zlcn, zlen2, ztrim, new_zlen;
+>  	struct wnd_bitmap *wnd = &sbi->used.bitmap;
+>  
+>  	down_write_nested(&wnd->rw_lock, BITMAP_MUTEX_CLUSTERS);
+>  	if (opt & ALLOCATE_MFT) {
+> -		CLST alen;
+> -
+>  		zlen = wnd_zone_len(wnd);
+>  
+>  		if (!zlen) {
+>  			err = ntfs_refresh_zone(sbi);
+>  			if (err)
+>  				goto out;
+
+Before we return this error code. Now we return -ENOSPC if this error.
+
+> -
+>  			zlen = wnd_zone_len(wnd);
+> +		}
+>  
+> -			if (!zlen) {
+> -				ntfs_err(sbi->sb,
+> -					 "no free space to extend mft");
+> -				err = -ENOSPC;
+> -				goto out;
+> -			}
+> +		if (!zlen) {
+> +			ntfs_err(sbi->sb, "no free space to extend mft");
+> +			goto out;
+
+This is just refactoring and should do in different patch.
+
+>  		}
+>  
+>  		lcn = wnd_zone_bit(wnd);
+> @@ -389,14 +385,13 @@ int ntfs_look_for_free_space(struct ntfs_sb_info *sbi, CLST lcn, CLST len,
+>  		wnd_zone_set(wnd, lcn + alen, zlen - alen);
+>  
+>  		err = wnd_set_used(wnd, lcn, alen);
+> -		if (err)
+> -			goto out;
+> -
+> -		*new_lcn = lcn;
+> -		*new_len = alen;
+> -		goto ok;
+> +		if (err) {
+> +			up_write(&wnd->rw_lock);
+> +			return err;
+> +		}
+> +		alcn = lcn;
+> +		goto out;
+>  	}
+> -
+>  	/*
+>  	 * 'Cause cluster 0 is always used this value means that we should use
+>  	 * cached value of 'next_free_lcn' to improve performance.
+> @@ -407,22 +402,17 @@ int ntfs_look_for_free_space(struct ntfs_sb_info *sbi, CLST lcn, CLST len,
+>  	if (lcn >= wnd->nbits)
+>  		lcn = 0;
+>  
+> -	*new_len = wnd_find(wnd, len, lcn, BITMAP_FIND_MARK_AS_USED, &a_lcn);
+> -	if (*new_len) {
+> -		*new_lcn = a_lcn;
+> -		goto ok;
+> -	}
+> +	alen = wnd_find(wnd, len, lcn, BITMAP_FIND_MARK_AS_USED, &alcn);
+> +	if (alen)
+> +		goto out;
+>  
+>  	/* Try to use clusters from MftZone. */
+>  	zlen = wnd_zone_len(wnd);
+>  	zeroes = wnd_zeroes(wnd);
+>  
+> -	/* Check too big request. */
+> -	if (len > zeroes + zlen)
+> -		goto no_space;
+> -
+> -	if (zlen <= NTFS_MIN_MFT_ZONE)
+> -		goto no_space;
+> +	/* Check too big request */
+> +	if (len > zeroes + zlen || zlen <= NTFS_MIN_MFT_ZONE)
+> +		goto out;
+>  
+>  	/* How many clusters to cat from zone. */
+>  	zlcn = wnd_zone_bit(wnd);
+> @@ -439,31 +429,24 @@ int ntfs_look_for_free_space(struct ntfs_sb_info *sbi, CLST lcn, CLST len,
+>  	wnd_zone_set(wnd, zlcn, new_zlen);
+>  
+>  	/* Allocate continues clusters. */
+> -	*new_len =
+> -		wnd_find(wnd, len, 0,
+> -			 BITMAP_FIND_MARK_AS_USED | BITMAP_FIND_FULL, &a_lcn);
+> -	if (*new_len) {
+> -		*new_lcn = a_lcn;
+> -		goto ok;
+> -	}
+> -
+> -no_space:
+> -	up_write(&wnd->rw_lock);
+> -
+> -	return -ENOSPC;
+> -
+> -ok:
+> -	err = 0;
+> +	alen = wnd_find(wnd, len, 0,
+> +			BITMAP_FIND_MARK_AS_USED | BITMAP_FIND_FULL, &alcn);
+>  
+> -	ntfs_unmap_meta(sb, *new_lcn, *new_len);
+> +out:
+> +	if (alen) {
+
+Just use more goto if needed. This is hard to follow when we come here
+and when not.
+
+> +		err = 0;
+> +		*new_len = alen;
+> +		*new_lcn = alcn;
+>  
+> -	if (opt & ALLOCATE_MFT)
+> -		goto out;
+> +		ntfs_unmap_meta(sb, alcn, alen);
+>  
+> -	/* Set hint for next requests. */
+> -	sbi->used.next_free_lcn = *new_lcn + *new_len;
+> +		/* Set hint for next requests. */
+> +		if (!(opt & ALLOCATE_MFT))
+> +			sbi->used.next_free_lcn = alcn + alen;
+> +	} else {
+> +		err = -ENOSPC;
+> +	}
+>  
+> -out:
+
+Example here 
+
+err_up_write:
+
+and you can use that for many place
+
+>  	up_write(&wnd->rw_lock);
+>  	return err;
+>  }
+> @@ -2226,7 +2209,7 @@ int ntfs_insert_security(struct ntfs_sb_info *sbi,
+>  	sii_e.sec_id = d_security->key.sec_id;
+>  	memcpy(&sii_e.sec_hdr, d_security, SIZEOF_SECURITY_HDR);
+>  
+> -	err = indx_insert_entry(indx_sii, ni, &sii_e.de, NULL, NULL);
+> +	err = indx_insert_entry(indx_sii, ni, &sii_e.de, NULL, NULL, 0);
+>  	if (err)
 >  		goto out;
 >  
-> -	/* Fill LogFile by '-1' if it is initialized.ssss */
-> +	/* Fill LogFile by '-1' if it is initialized. */
->  	err = ntfs_bio_fill_1(sbi, &ni->file.run);
+> @@ -2247,7 +2230,7 @@ int ntfs_insert_security(struct ntfs_sb_info *sbi,
 >  
->  out:
-> @@ -960,10 +960,10 @@ int ntfs_set_state(struct ntfs_sb_info *sbi, enum NTFS_DIRTY_FLAGS dirty)
->  	/* verify(!ntfs_update_mftmirr()); */
+>  	fnd_clear(fnd_sdh);
+>  	err = indx_insert_entry(indx_sdh, ni, &sdh_e.de, (void *)(size_t)1,
+> -				fnd_sdh);
+> +				fnd_sdh, 0);
+>  	if (err)
+>  		goto out;
 >  
->  	/*
-> -	 * if we used wait=1, sync_inode_metadata waits for the io for the
-> +	 * If we used wait=1, sync_inode_metadata waits for the io for the
->  	 * inode to finish. It hangs when media is removed.
->  	 * So wait=0 is sent down to sync_inode_metadata
-> -	 * and filemap_fdatawrite is used for the data blocks
-> +	 * and filemap_fdatawrite is used for the data blocks.
->  	 */
->  	err = sync_inode_metadata(&ni->vfs_inode, 0);
->  	if (!err)
-> @@ -1917,7 +1917,7 @@ int ntfs_security_init(struct ntfs_sb_info *sbi)
->  	sbi->security.next_id = SECURITY_ID_FIRST;
->  	/* Always write new security at the end of bucket. */
->  	sbi->security.next_off =
-> -			ALIGN(sds_size - SecurityDescriptorsBlockSize, 16);
-> +		ALIGN(sds_size - SecurityDescriptorsBlockSize, 16);
-
-Not comment.
-
+> @@ -2385,7 +2368,7 @@ int ntfs_insert_reparse(struct ntfs_sb_info *sbi, __le32 rtag,
 >  
->  	off = 0;
->  	ne = NULL;
+>  	mutex_lock_nested(&ni->ni_lock, NTFS_INODE_MUTEX_REPARSE);
+>  
+> -	err = indx_insert_entry(indx, ni, &re.de, NULL, NULL);
+> +	err = indx_insert_entry(indx, ni, &re.de, NULL, NULL, 0);
+>  
+>  	mark_inode_dirty(&ni->vfs_inode);
+>  	ni_unlock(ni);
 > diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-> index 1224b8e42b3e..0daca9adc54c 100644
+> index 70ef59455b72..1224b8e42b3e 100644
 > --- a/fs/ntfs3/index.c
 > +++ b/fs/ntfs3/index.c
-> @@ -2624,17 +2624,19 @@ int indx_update_dup(struct ntfs_inode *ni, struct ntfs_sb_info *sbi,
->  	e_fname = (struct ATTR_FILE_NAME *)(e + 1);
+> @@ -1427,7 +1427,7 @@ static int indx_create_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  	alloc->nres.valid_size = alloc->nres.data_size = cpu_to_le64(data_size);
 >  
->  	if (!memcmp(&e_fname->dup, dup, sizeof(*dup))) {
-> -		/* Nothing to update in index! Try to avoid this call. */
-> +		/*
-> +		 * Nothing to update in index! Try to avoid this call.
-> +		 */
+>  	err = ni_insert_resident(ni, bitmap_size(1), ATTR_BITMAP, in->name,
+> -				 in->name_len, &bitmap, NULL);
+> +				 in->name_len, &bitmap, NULL, NULL);
+>  	if (err)
+>  		goto out2;
+>  
+> @@ -1443,7 +1443,7 @@ static int indx_create_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  	return 0;
+>  
+>  out2:
+> -	mi_remove_attr(&ni->mi, alloc);
+> +	mi_remove_attr(NULL, &ni->mi, alloc);
+>  
+>  out1:
+>  	run_deallocate(sbi, &run, false);
+> @@ -1529,24 +1529,24 @@ static int indx_add_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  /*
+>   * indx_insert_into_root - Attempt to insert an entry into the index root.
+>   *
+> + * @undo - True if we undoing previous remove.
+>   * If necessary, it will twiddle the index b-tree.
+>   */
+>  static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  				 const struct NTFS_DE *new_de,
+>  				 struct NTFS_DE *root_de, const void *ctx,
+> -				 struct ntfs_fnd *fnd)
+> +				 struct ntfs_fnd *fnd, bool undo)
+>  {
+>  	int err = 0;
+>  	struct NTFS_DE *e, *e0, *re;
+>  	struct mft_inode *mi;
+>  	struct ATTRIB *attr;
+> -	struct MFT_REC *rec;
+>  	struct INDEX_HDR *hdr;
+>  	struct indx_node *n;
+>  	CLST new_vbn;
+>  	__le64 *sub_vbn, t_vbn;
+>  	u16 new_de_size;
+> -	u32 hdr_used, hdr_total, asize, used, to_move;
+> +	u32 hdr_used, hdr_total, asize, to_move;
+>  	u32 root_size, new_root_size;
+>  	struct ntfs_sb_info *sbi;
+>  	int ds_root;
+> @@ -1559,12 +1559,11 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  
+>  	/*
+>  	 * Try easy case:
+> -	 * hdr_insert_de will succeed if there's room the root for the new entry.
+> +	 * hdr_insert_de will succeed if there's
+> +	 * room the root for the new entry.
 
-What is the point of multiline?
+Not relevant for this patch.
 
->  		goto out;
+>  	 */
+>  	hdr = &root->ihdr;
+>  	sbi = ni->mi.sbi;
+> -	rec = mi->mrec;
+> -	used = le32_to_cpu(rec->used);
+>  	new_de_size = le16_to_cpu(new_de->size);
+>  	hdr_used = le32_to_cpu(hdr->used);
+>  	hdr_total = le32_to_cpu(hdr->total);
+> @@ -1573,9 +1572,9 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  
+>  	ds_root = new_de_size + hdr_used - hdr_total;
+>  
+> -	if (used + ds_root < sbi->max_bytes_per_attr) {
+> -		/* Make a room for new elements. */
+> -		mi_resize_attr(mi, attr, ds_root);
+> +	/* If 'undo' is set then reduce requirements. */
+> +	if ((undo || asize + ds_root < sbi->max_bytes_per_attr) &&
+> +	    mi_resize_attr(mi, attr, ds_root)) {
+>  		hdr->total = cpu_to_le32(hdr_total + ds_root);
+>  		e = hdr_insert_de(indx, hdr, new_de, root_de, ctx);
+>  		WARN_ON(!e);
+> @@ -1629,7 +1628,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  			sizeof(u64);
+>  	ds_root = new_root_size - root_size;
+>  
+> -	if (ds_root > 0 && used + ds_root > sbi->max_bytes_per_attr) {
+> +	if (ds_root > 0 && asize + ds_root > sbi->max_bytes_per_attr) {
+>  		/* Make root external. */
+>  		err = -EOPNOTSUPP;
+>  		goto out_free_re;
+> @@ -1710,7 +1709,7 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  
+>  		put_indx_node(n);
+>  		fnd_clear(fnd);
+> -		err = indx_insert_entry(indx, ni, new_de, ctx, fnd);
+> +		err = indx_insert_entry(indx, ni, new_de, ctx, fnd, undo);
+>  		goto out_free_root;
 >  	}
 >  
->  	memcpy(&e_fname->dup, dup, sizeof(*dup));
->  
->  	if (fnd->level) {
-> -		/* directory entry in index */
-> +		/* Directory entry in index. */
->  		err = indx_write(indx, ni, fnd->nodes[fnd->level - 1], sync);
+> @@ -1854,7 +1853,7 @@ indx_insert_into_buffer(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  	 */
+>  	if (!level) {
+>  		/* Insert in root. */
+> -		err = indx_insert_into_root(indx, ni, up_e, NULL, ctx, fnd);
+> +		err = indx_insert_into_root(indx, ni, up_e, NULL, ctx, fnd, 0);
+>  		if (err)
+>  			goto out;
 >  	} else {
-> -		/* directory entry in directory MFT record */
-> +		/* Directory entry in directory MFT record. */
->  		mi->dirty = true;
->  		if (sync)
->  			err = mi_write(mi, 1);
+> @@ -1876,10 +1875,12 @@ indx_insert_into_buffer(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  
+>  /*
+>   * indx_insert_entry - Insert new entry into index.
+> + *
+> + * @undo - True if we undoing previous remove.
+>   */
+>  int indx_insert_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  		      const struct NTFS_DE *new_de, const void *ctx,
+> -		      struct ntfs_fnd *fnd)
+> +		      struct ntfs_fnd *fnd, bool undo)
+>  {
+>  	int err;
+>  	int diff;
+> @@ -1925,7 +1926,7 @@ int indx_insert_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  		 * new entry into it.
+>  		 */
+>  		err = indx_insert_into_root(indx, ni, new_de, fnd->root_de, ctx,
+> -					    fnd);
+> +					    fnd, undo);
+>  		if (err)
+>  			goto out;
+>  	} else {
+> @@ -2302,7 +2303,7 @@ int indx_delete_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  							      fnd->level - 1,
+>  							      fnd)
+>  				    : indx_insert_into_root(indx, ni, re, e,
+> -							    ctx, fnd);
+> +							    ctx, fnd, 0);
+>  			kfree(re);
+>  
+>  			if (err)
+> @@ -2507,7 +2508,7 @@ int indx_delete_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  		 * Re-insert the entry into the tree.
+>  		 * Find the spot the tree where we want to insert the new entry.
+>  		 */
+> -		err = indx_insert_entry(indx, ni, me, ctx, fnd);
+> +		err = indx_insert_entry(indx, ni, me, ctx, fnd, 0);
+>  		kfree(me);
+>  		if (err)
+>  			goto out;
+> @@ -2595,10 +2596,8 @@ int indx_update_dup(struct ntfs_inode *ni, struct ntfs_sb_info *sbi,
+>  	struct ntfs_index *indx = &ni->dir;
+>  
+>  	fnd = fnd_get();
+> -	if (!fnd) {
+> -		err = -ENOMEM;
+> -		goto out1;
+> -	}
+> +	if (!fnd)
+> +		return -ENOMEM;
+>  
+>  	root = indx_get_root(indx, ni, NULL, &mi);
+>  	if (!root) {
+> @@ -2645,7 +2644,5 @@ int indx_update_dup(struct ntfs_inode *ni, struct ntfs_sb_info *sbi,
+>  
+>  out:
+>  	fnd_put(fnd);
+> -
+> -out1:
+>  	return err;
+>  }
 > diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index 8f72066b3229..db2a5a4c38e4 100644
+> index b86ec7dd731c..8f72066b3229 100644
 > --- a/fs/ntfs3/inode.c
 > +++ b/fs/ntfs3/inode.c
-> @@ -89,7 +89,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
->  	}
->  
->  	if (le32_to_cpu(rec->total) != sbi->record_size) {
-> -		// Bad inode?
-> +		/* Bad inode? */
->  		err = -EINVAL;
+> @@ -399,6 +399,12 @@ static struct inode *ntfs_read_mft(struct inode *inode,
 >  		goto out;
 >  	}
-> @@ -605,7 +605,7 @@ static noinline int ntfs_get_block_vbo(struct inode *inode, u64 vbo,
->  		if (vbo >= valid)
->  			set_buffer_new(bh);
->  	} else if (create) {
-> -		/*normal write*/
-> +		/* Normal write. */
->  		if (bytes > bh->b_size)
->  			bytes = bh->b_size;
 >  
-> @@ -1091,7 +1091,7 @@ int inode_write_data(struct inode *inode, const void *data, size_t bytes)
->  /*
->   * ntfs_reparse_bytes
->   *
-> - * Number of bytes to for REPARSE_DATA_BUFFER(IO_REPARSE_TAG_SYMLINK)
-> + * Number of bytes for REPARSE_DATA_BUFFER(IO_REPARSE_TAG_SYMLINK)
->   * for unicode string of @uni_len length.
->   */
->  static inline u32 ntfs_reparse_bytes(u32 uni_len)
-> @@ -1205,13 +1205,13 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
->  		return ERR_PTR(-EINVAL);
+> +	if (names != le16_to_cpu(rec->hard_links)) {
+> +		/* Correct minor error on the fly. Do not mark inode as dirty. */
+> +		rec->hard_links = cpu_to_le16(names);
+> +		ni->mi.dirty = true;
+> +	}
+> +
+>  	set_nlink(inode, names);
 >  
 >  	if (S_ISDIR(mode)) {
-> -		/* use parent's directory attributes */
-> +		/* Use parent's directory attributes. */
->  		fa = dir_ni->std_fa | FILE_ATTRIBUTE_DIRECTORY |
->  		     FILE_ATTRIBUTE_ARCHIVE;
+> @@ -1279,6 +1285,7 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+>  	}
+>  	inode = &ni->vfs_inode;
+>  	inode_init_owner(mnt_userns, inode, dir, mode);
+> +	mode = inode->i_mode;
+>  
+>  	inode->i_atime = inode->i_mtime = inode->i_ctime = ni->i_crtime =
+>  		current_time(inode);
+> @@ -1371,6 +1378,7 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+>  		attr = Add2Ptr(attr, asize);
+>  	}
+>  
+> +	attr->id = cpu_to_le16(aid++);
+>  	if (fa & FILE_ATTRIBUTE_DIRECTORY) {
 >  		/*
-> -		 * By default child directory inherits parent attributes
-> -		 * root directory is hidden + system
-> -		 * Make an exception for children in root
-> +		 * By default child directory inherits parent attributes.
-> +		 * Root directory is hidden + system.
-> +		 * Make an exception for children in root.
+>  		 * Regular directory or symlink to directory.
+> @@ -1381,7 +1389,6 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+>  
+>  		attr->type = ATTR_ROOT;
+>  		attr->size = cpu_to_le32(asize);
+> -		attr->id = cpu_to_le16(aid++);
+>  
+>  		attr->name_len = ARRAY_SIZE(I30_NAME);
+>  		attr->name_off = SIZEOF_RESIDENT_LE;
+> @@ -1412,52 +1419,46 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+>  		/* Insert empty ATTR_DATA */
+>  		attr->type = ATTR_DATA;
+>  		attr->size = cpu_to_le32(SIZEOF_RESIDENT);
+> -		attr->id = cpu_to_le16(aid++);
+>  		attr->name_off = SIZEOF_RESIDENT_LE;
+>  		attr->res.data_off = SIZEOF_RESIDENT_LE;
+> -	} else {
+> +	} else if (S_ISREG(mode)) {
+
+This should definetly be own patch. Way too much noice. And yes I think
+this is a good change but if this is in this patch then how do we see
+what is relevant?
+
+>  		/*
+> -		 * Regular file or node.
+> +		 * Regular file. Create empty non resident data attribute.
 >  		 */
->  		if (dir->i_ino == MFT_REC_ROOT)
->  			fa &= ~(FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_SYSTEM);
-> @@ -1220,8 +1220,8 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
->  		fa = FILE_ATTRIBUTE_REPARSE_POINT;
->  
->  		/*
-> -		 * linux: there are dir/file/symlink and so on.
-> -		 * NTFS: symlinks are "dir + reparse" or "file + reparse".
-> +		 * Linux: there are dir/file/symlink and so on.
-> +		 * NTFS: symlinks are "dir + reparse" or "file + reparse"
->  		 * It is good idea to create:
->  		 * dir + reparse if 'symname' points to directory
->  		 * or
-> @@ -1860,7 +1860,7 @@ static noinline int ntfs_readlink_hlp(struct inode *inode, char *buffer,
->  
->  	default:
->  		if (IsReparseTagMicrosoft(rp->ReparseTag)) {
-> -			/* unknown Microsoft Tag */
-> +			/* Unknown Microsoft Tag. */
->  			goto out;
+>  		attr->type = ATTR_DATA;
+> -		attr->id = cpu_to_le16(aid++);
+> -
+> -		if (S_ISREG(mode)) {
+> -			/* Create empty non resident data attribute. */
+> -			attr->non_res = 1;
+> -			attr->nres.evcn = cpu_to_le64(-1ll);
+> -			if (fa & FILE_ATTRIBUTE_SPARSE_FILE) {
+> -				attr->size =
+> -					cpu_to_le32(SIZEOF_NONRESIDENT_EX + 8);
+> -				attr->name_off = SIZEOF_NONRESIDENT_EX_LE;
+> -				attr->flags = ATTR_FLAG_SPARSED;
+> -				asize = SIZEOF_NONRESIDENT_EX + 8;
+> -			} else if (fa & FILE_ATTRIBUTE_COMPRESSED) {
+> -				attr->size =
+> -					cpu_to_le32(SIZEOF_NONRESIDENT_EX + 8);
+> -				attr->name_off = SIZEOF_NONRESIDENT_EX_LE;
+> -				attr->flags = ATTR_FLAG_COMPRESSED;
+> -				attr->nres.c_unit = COMPRESSION_UNIT;
+> -				asize = SIZEOF_NONRESIDENT_EX + 8;
+> -			} else {
+> -				attr->size =
+> -					cpu_to_le32(SIZEOF_NONRESIDENT + 8);
+> -				attr->name_off = SIZEOF_NONRESIDENT_LE;
+> -				asize = SIZEOF_NONRESIDENT + 8;
+> -			}
+> -			attr->nres.run_off = attr->name_off;
+> +		attr->non_res = 1;
+> +		attr->nres.evcn = cpu_to_le64(-1ll);
+> +		if (fa & FILE_ATTRIBUTE_SPARSE_FILE) {
+> +			attr->size = cpu_to_le32(SIZEOF_NONRESIDENT_EX + 8);
+> +			attr->name_off = SIZEOF_NONRESIDENT_EX_LE;
+> +			attr->flags = ATTR_FLAG_SPARSED;
+> +			asize = SIZEOF_NONRESIDENT_EX + 8;
+> +		} else if (fa & FILE_ATTRIBUTE_COMPRESSED) {
+> +			attr->size = cpu_to_le32(SIZEOF_NONRESIDENT_EX + 8);
+> +			attr->name_off = SIZEOF_NONRESIDENT_EX_LE;
+> +			attr->flags = ATTR_FLAG_COMPRESSED;
+> +			attr->nres.c_unit = COMPRESSION_UNIT;
+> +			asize = SIZEOF_NONRESIDENT_EX + 8;
+>  		} else {
+> -			/* Create empty resident data attribute. */
+> -			attr->size = cpu_to_le32(SIZEOF_RESIDENT);
+> -			attr->name_off = SIZEOF_RESIDENT_LE;
+> -			if (fa & FILE_ATTRIBUTE_SPARSE_FILE)
+> -				attr->flags = ATTR_FLAG_SPARSED;
+> -			else if (fa & FILE_ATTRIBUTE_COMPRESSED)
+> -				attr->flags = ATTR_FLAG_COMPRESSED;
+> -			attr->res.data_off = SIZEOF_RESIDENT_LE;
+> -			asize = SIZEOF_RESIDENT;
+> -			ni->ni_flags |= NI_FLAG_RESIDENT;
+> +			attr->size = cpu_to_le32(SIZEOF_NONRESIDENT + 8);
+> +			attr->name_off = SIZEOF_NONRESIDENT_LE;
+> +			asize = SIZEOF_NONRESIDENT + 8;
 >  		}
->  		if (!IsReparseTagNameSurrogate(rp->ReparseTag) ||
-> diff --git a/fs/ntfs3/lznt.c b/fs/ntfs3/lznt.c
-> index 3acf0d9f0b15..f1f691a67cc4 100644
-> --- a/fs/ntfs3/lznt.c
-> +++ b/fs/ntfs3/lznt.c
-> @@ -296,8 +296,9 @@ static inline ssize_t decompress_chunk(u8 *unc, u8 *unc_end, const u8 *cmpr,
->   */
->  struct lznt *get_lznt_ctx(int level)
+> +		attr->nres.run_off = attr->name_off;
+> +	} else {
+> +		/*
+> +		 * Node. Create empty resident data attribute.
+> +		 */
+> +		attr->type = ATTR_DATA;
+> +		attr->size = cpu_to_le32(SIZEOF_RESIDENT);
+> +		attr->name_off = SIZEOF_RESIDENT_LE;
+> +		if (fa & FILE_ATTRIBUTE_SPARSE_FILE)
+> +			attr->flags = ATTR_FLAG_SPARSED;
+> +		else if (fa & FILE_ATTRIBUTE_COMPRESSED)
+> +			attr->flags = ATTR_FLAG_COMPRESSED;
+> +		attr->res.data_off = SIZEOF_RESIDENT_LE;
+> +		asize = SIZEOF_RESIDENT;
+> +		ni->ni_flags |= NI_FLAG_RESIDENT;
+>  	}
+>  
+>  	if (S_ISDIR(mode)) {
+> @@ -1485,7 +1486,8 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+>  		asize = ALIGN(SIZEOF_RESIDENT + nsize, 8);
+>  		t16 = PtrOffset(rec, attr);
+>  
+> -		if (asize + t16 + 8 > sbi->record_size) {
+> +		/* 0x78 - the size of EA + EAINFO to store WSL */
+> +		if (asize + t16 + 0x78 + 8 > sbi->record_size) {
+>  			CLST alen;
+>  			CLST clst = bytes_to_cluster(sbi, nsize);
+>  
+> @@ -1545,20 +1547,15 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+>  	rec->next_attr_id = cpu_to_le16(aid);
+>  
+>  	/* Step 2: Add new name in index. */
+> -	err = indx_insert_entry(&dir_ni->dir, dir_ni, new_de, sbi, fnd);
+> +	err = indx_insert_entry(&dir_ni->dir, dir_ni, new_de, sbi, fnd, 0);
+>  	if (err)
+>  		goto out6;
+>  
+> -	/* Update current directory record. */
+> -	mark_inode_dirty(dir);
+> -
+
+This was also probably just fix it is own?
+
+>  	inode->i_generation = le16_to_cpu(rec->seq);
+>  
+>  	dir->i_mtime = dir->i_ctime = inode->i_atime;
+>  
+>  	if (S_ISDIR(mode)) {
+> -		if (dir->i_mode & S_ISGID)
+> -			mode |= S_ISGID;
+
+This also is not relevant for this patch. Yes dead code but not releted
+to this one. This kind of stuff takes lot of reviewers time.
+
+
+I do not even feel like i will continue this review. There is just way
+too much stuff and would definetly nack. But as this already is in ntfs3
+master I just don't know what to do. I cc fsdevel so maybe they can help
+a little bit.
+
+	Argillander
+
+>  		inode->i_op = &ntfs_dir_inode_operations;
+>  		inode->i_fop = &ntfs_dir_operations;
+>  	} else if (S_ISLNK(mode)) {
+> @@ -1601,8 +1598,8 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+>  	d_instantiate(dentry, inode);
+>  
+>  	ntfs_save_wsl_perm(inode);
+> -	mark_inode_dirty(inode);
+>  	mark_inode_dirty(dir);
+> +	mark_inode_dirty(inode);
+>  
+>  	/* Normal exit. */
+>  	goto out2;
+> @@ -1646,61 +1643,36 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+>  int ntfs_link_inode(struct inode *inode, struct dentry *dentry)
 >  {
-> -	struct lznt *r = kzalloc(level ? offsetof(struct lznt, hash) :
-> -					 sizeof(struct lznt), GFP_NOFS);
-> +	struct lznt *r = kzalloc(level ? offsetof(struct lznt, hash)
-> +				       : sizeof(struct lznt),
-> +				 GFP_NOFS);
-
-Not comment.
-
+>  	int err;
+> -	struct inode *dir = d_inode(dentry->d_parent);
+> -	struct ntfs_inode *dir_ni = ntfs_i(dir);
+>  	struct ntfs_inode *ni = ntfs_i(inode);
+> -	struct super_block *sb = inode->i_sb;
+> -	struct ntfs_sb_info *sbi = sb->s_fs_info;
+> -	const struct qstr *name = &dentry->d_name;
+> -	struct NTFS_DE *new_de = NULL;
+> -	struct ATTR_FILE_NAME *fname;
+> -	struct ATTRIB *attr;
+> -	u16 key_size;
+> -	struct INDEX_ROOT *dir_root;
+> -
+> -	dir_root = indx_get_root(&dir_ni->dir, dir_ni, NULL, NULL);
+> -	if (!dir_root)
+> -		return -EINVAL;
+> +	struct ntfs_sb_info *sbi = inode->i_sb->s_fs_info;
+> +	struct NTFS_DE *de;
+> +	struct ATTR_FILE_NAME *de_name;
 >  
->  	if (r)
->  		r->std = !level;
-> diff --git a/fs/ntfs3/ntfs.h b/fs/ntfs3/ntfs.h
-> index 0fd7bffb98d4..6bb3e595263b 100644
-> --- a/fs/ntfs3/ntfs.h
-> +++ b/fs/ntfs3/ntfs.h
-> @@ -262,7 +262,7 @@ enum RECORD_FLAG {
->  	RECORD_FLAG_UNKNOWN	= cpu_to_le16(0x0008),
->  };
+>  	/* Allocate PATH_MAX bytes. */
+> -	new_de = __getname();
+> -	if (!new_de)
+> +	de = __getname();
+> +	if (!de)
+>  		return -ENOMEM;
 >  
-> -/* MFT Record structure, */
-> +/* MFT Record structure. */
->  struct MFT_REC {
->  	struct NTFS_RECORD_HEADER rhdr; // 'FILE'
+> -	/* Mark rw ntfs as dirty.  It will be cleared at umount. */
+> -	ntfs_set_state(ni->mi.sbi, NTFS_DIRTY_DIRTY);
+> -
+> -	/* Insert file name. */
+> -	err = fill_name_de(sbi, new_de, name, NULL);
+> -	if (err)
+> -		goto out;
+> -
+> -	key_size = le16_to_cpu(new_de->key_size);
+> -	err = ni_insert_resident(ni, key_size, ATTR_NAME, NULL, 0, &attr, NULL);
+> -	if (err)
+> -		goto out;
+> -
+> -	mi_get_ref(&ni->mi, &new_de->ref);
+> -
+> -	fname = (struct ATTR_FILE_NAME *)(new_de + 1);
+> -	mi_get_ref(&dir_ni->mi, &fname->home);
+> -	fname->dup.cr_time = fname->dup.m_time = fname->dup.c_time =
+> -		fname->dup.a_time = kernel2nt(&inode->i_ctime);
+> -	fname->dup.alloc_size = fname->dup.data_size = 0;
+> -	fname->dup.fa = ni->std_fa;
+> -	fname->dup.ea_size = fname->dup.reparse = 0;
+> -
+> -	memcpy(Add2Ptr(attr, SIZEOF_RESIDENT), fname, key_size);
+> +	/* Mark rw ntfs as dirty. It will be cleared at umount. */
+> +	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
 >  
-> diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-> index f9436cbbc347..97e682ebcfb9 100644
-> --- a/fs/ntfs3/ntfs_fs.h
-> +++ b/fs/ntfs3/ntfs_fs.h
-> @@ -59,18 +59,18 @@ struct ntfs_mount_options {
->  	u16 fs_fmask_inv;
->  	u16 fs_dmask_inv;
+> -	err = indx_insert_entry(&dir_ni->dir, dir_ni, new_de, sbi, NULL);
+> +	/* Construct 'de'. */
+> +	err = fill_name_de(sbi, de, &dentry->d_name, NULL);
+>  	if (err)
+>  		goto out;
 >  
-> -	unsigned uid : 1,	/* uid was set. */
-> -		gid : 1,	/* gid was set. */
-> -		fmask : 1,	/* fmask was set. */
-> -		dmask : 1,	/* dmask was set. */
-> -		sys_immutable : 1,/* Immutable system files. */
-> -		discard : 1,	/* Issue discard requests on deletions. */
-> -		sparse : 1,	/* Create sparse files. */
-> -		showmeta : 1,	/* Show meta files. */
-> -		nohidden : 1, 	/* Do not show hidden files. */
-> -		force : 1, 	/* Rw mount dirty volume. */
-> -		no_acs_rules : 1,/*Exclude acs rules. */
-> -		prealloc : 1	/* Preallocate space when file is growing. */
-> +	unsigned uid : 1, /* uid was set. */
-> +		gid : 1, /* gid was set. */
-> +		fmask : 1, /* fmask was set. */
-> +		dmask : 1, /* dmask was set. */
-> +		sys_immutable : 1, /* Immutable system files. */
-> +		discard : 1, /* Issue discard requests on deletions. */
-> +		sparse : 1, /* Create sparse files. */
-> +		showmeta : 1, /* Show meta files. */
-> +		nohidden : 1, /* Do not show hidden files. */
-> +		force : 1, /* Rw mount dirty volume. */
-> +		no_acs_rules : 1, /*Exclude acs rules. */
-> +		prealloc : 1 /* Preallocate space when file is growing. */
->  		;
->  };
+> -	le16_add_cpu(&ni->mi.mrec->hard_links, 1);
+> -	ni->mi.dirty = true;
+> +	de_name = (struct ATTR_FILE_NAME *)(de + 1);
+> +	/* Fill duplicate info. */
+> +	de_name->dup.cr_time = de_name->dup.m_time = de_name->dup.c_time =
+> +		de_name->dup.a_time = kernel2nt(&inode->i_ctime);
+> +	de_name->dup.alloc_size = de_name->dup.data_size =
+> +		cpu_to_le64(inode->i_size);
+> +	de_name->dup.fa = ni->std_fa;
+> +	de_name->dup.ea_size = de_name->dup.reparse = 0;
 >  
-> diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-> index 61e3f2fb619f..103705c86772 100644
-> --- a/fs/ntfs3/record.c
-> +++ b/fs/ntfs3/record.c
-> @@ -219,7 +219,7 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
->  
->  		asize = le32_to_cpu(attr->size);
->  		if (asize < SIZEOF_RESIDENT) {
-> -			/* Impossible 'cause we should not return such attribute */
-> +			/* Impossible 'cause we should not return such attribute. */
-
-Over > 80
-
->  			return NULL;
->  		}
->  
-> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-> index 2fbab8a931ee..dbecf095da59 100644
-> --- a/fs/ntfs3/super.c
-> +++ b/fs/ntfs3/super.c
-> @@ -1053,7 +1053,7 @@ static int ntfs_fill_super(struct super_block *sb, void *data, int silent)
->  
->  	iput(inode);
->  
-> -	/* Load $LogFile to replay. */
-> +	/* Load LogFile to replay. */
-
-I feel like we should leave $ mark. I know that checkpatch will
-complain, but we can try to change checkpatch behavier so that it will
-not false alarm about these. I will add that to my todo list.
-
->  	ref.low = cpu_to_le32(MFT_REC_LOG);
->  	ref.seq = cpu_to_le16(MFT_REC_LOG);
->  	inode = ntfs_iget5(sb, &ref, &NAME_LOGFILE);
-> diff --git a/fs/ntfs3/upcase.c b/fs/ntfs3/upcase.c
-> index eb65bbd939e8..bbeba778237e 100644
-> --- a/fs/ntfs3/upcase.c
-> +++ b/fs/ntfs3/upcase.c
-> @@ -34,7 +34,7 @@ static inline u16 upcase_unicode_char(const u16 *upcase, u16 chr)
->   * - Case insensitive
->   * - If name equals and 'bothcases' then
->   * - Case sensitive
-> - * 'Straigth way' code scans input names twice in worst case.
-> + * 'Straight way' code scans input names twice in worst case.
->   * Optimized code scans input names only once.
->   */
->  int ntfs_cmp_names(const __le16 *s1, size_t l1, const __le16 *s2, size_t l2,
-> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-> index 22fd5eb32c5b..b15d532e4a17 100644
-> --- a/fs/ntfs3/xattr.c
-> +++ b/fs/ntfs3/xattr.c
-> @@ -26,9 +26,10 @@
->  static inline size_t unpacked_ea_size(const struct EA_FULL *ea)
->  {
->  	return ea->size ? le32_to_cpu(ea->size)
-> -			: ALIGN(struct_size(
-> -			      ea, name,
-> -			      1 + ea->name_len + le16_to_cpu(ea->elength)), 4);
-> +			: ALIGN(struct_size(ea, name,
-> +					    1 + ea->name_len +
-> +						    le16_to_cpu(ea->elength)),
-> +				4);
-
-Not a comment.
-
+> +	err = ni_add_name(ntfs_i(d_inode(dentry->d_parent)), ni, de);
+>  out:
+> -	__putname(new_de);
+> +	__putname(de);
+>  	return err;
 >  }
 >  
->  static inline size_t packed_ea_size(const struct EA_FULL *ea)
+> @@ -1713,113 +1685,56 @@ int ntfs_link_inode(struct inode *inode, struct dentry *dentry)
+>  int ntfs_unlink_inode(struct inode *dir, const struct dentry *dentry)
+>  {
+>  	int err;
+> -	struct super_block *sb = dir->i_sb;
+> -	struct ntfs_sb_info *sbi = sb->s_fs_info;
+> +	struct ntfs_sb_info *sbi = dir->i_sb->s_fs_info;
+>  	struct inode *inode = d_inode(dentry);
+>  	struct ntfs_inode *ni = ntfs_i(inode);
+> -	const struct qstr *name = &dentry->d_name;
+>  	struct ntfs_inode *dir_ni = ntfs_i(dir);
+> -	struct ntfs_index *indx = &dir_ni->dir;
+> -	struct cpu_str *uni = NULL;
+> -	struct ATTR_FILE_NAME *fname;
+> -	u8 name_type;
+> -	struct ATTR_LIST_ENTRY *le;
+> -	struct MFT_REF ref;
+> -	bool is_dir = S_ISDIR(inode->i_mode);
+> -	struct INDEX_ROOT *dir_root;
+> +	struct NTFS_DE *de, *de2 = NULL;
+> +	int undo_remove;
+>  
+> -	dir_root = indx_get_root(indx, dir_ni, NULL, NULL);
+> -	if (!dir_root)
+> +	if (ntfs_is_meta_file(sbi, ni->mi.rno))
+>  		return -EINVAL;
+>  
+> +	/* Allocate PATH_MAX bytes. */
+> +	de = __getname();
+> +	if (!de)
+> +		return -ENOMEM;
+> +
+>  	ni_lock(ni);
+>  
+> -	if (is_dir && !dir_is_empty(inode)) {
+> +	if (S_ISDIR(inode->i_mode) && !dir_is_empty(inode)) {
+>  		err = -ENOTEMPTY;
+> -		goto out1;
+> -	}
+> -
+> -	if (ntfs_is_meta_file(sbi, inode->i_ino)) {
+> -		err = -EINVAL;
+> -		goto out1;
+> -	}
+> -
+> -	/* Allocate PATH_MAX bytes. */
+> -	uni = __getname();
+> -	if (!uni) {
+> -		err = -ENOMEM;
+> -		goto out1;
+> +		goto out;
+>  	}
+>  
+> -	/* Convert input string to unicode. */
+> -	err = ntfs_nls_to_utf16(sbi, name->name, name->len, uni, NTFS_NAME_LEN,
+> -				UTF16_HOST_ENDIAN);
+> +	err = fill_name_de(sbi, de, &dentry->d_name, NULL);
+>  	if (err < 0)
+> -		goto out2;
+> -
+> -	/* Mark rw ntfs as dirty.  It will be cleared at umount. */
+> -	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
+> -
+> -	/* Find name in record. */
+> -	mi_get_ref(&dir_ni->mi, &ref);
+> -
+> -	le = NULL;
+> -	fname = ni_fname_name(ni, uni, &ref, &le);
+> -	if (!fname) {
+> -		err = -ENOENT;
+> -		goto out3;
+> -	}
+> -
+> -	name_type = paired_name(fname->type);
+> -
+> -	err = indx_delete_entry(indx, dir_ni, fname, fname_full_size(fname),
+> -				sbi);
+> -	if (err)
+> -		goto out3;
+> -
+> -	/* Then remove name from MFT. */
+> -	ni_remove_attr_le(ni, attr_from_name(fname), le);
+> -
+> -	le16_add_cpu(&ni->mi.mrec->hard_links, -1);
+> -	ni->mi.dirty = true;
+> -
+> -	if (name_type != FILE_NAME_POSIX) {
+> -		/* Now we should delete name by type. */
+> -		fname = ni_fname_type(ni, name_type, &le);
+> -		if (fname) {
+> -			err = indx_delete_entry(indx, dir_ni, fname,
+> -						fname_full_size(fname), sbi);
+> -			if (err)
+> -				goto out3;
+> +		goto out;
+>  
+> -			ni_remove_attr_le(ni, attr_from_name(fname), le);
+> +	undo_remove = 0;
+> +	err = ni_remove_name(dir_ni, ni, de, &de2, &undo_remove);
+>  
+> -			le16_add_cpu(&ni->mi.mrec->hard_links, -1);
+> -		}
+> -	}
+> -out3:
+> -	switch (err) {
+> -	case 0:
+> +	if (!err) {
+>  		drop_nlink(inode);
+> -		break;
+> -	case -ENOTEMPTY:
+> -	case -ENOSPC:
+> -	case -EROFS:
+> -		break;
+> -	default:
+> +		dir->i_mtime = dir->i_ctime = current_time(dir);
+> +		mark_inode_dirty(dir);
+> +		inode->i_ctime = dir->i_ctime;
+> +		if (inode->i_nlink)
+> +			mark_inode_dirty(inode);
+> +	} else if (!ni_remove_name_undo(dir_ni, ni, de, de2, undo_remove)) {
+>  		make_bad_inode(inode);
+> +		ntfs_inode_err(inode, "failed to undo unlink");
+> +		ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
+> +	} else {
+> +		if (ni_is_dirty(dir))
+> +			mark_inode_dirty(dir);
+> +		if (ni_is_dirty(inode))
+> +			mark_inode_dirty(inode);
+>  	}
+>  
+> -	dir->i_mtime = dir->i_ctime = current_time(dir);
+> -	mark_inode_dirty(dir);
+> -	inode->i_ctime = dir->i_ctime;
+> -	if (inode->i_nlink)
+> -		mark_inode_dirty(inode);
+> -
+> -out2:
+> -	__putname(uni);
+> -out1:
+> +out:
+>  	ni_unlock(ni);
+> +	__putname(de);
+>  	return err;
+>  }
+>  
+> diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
+> index f79a399bd015..e58415d07132 100644
+> --- a/fs/ntfs3/namei.c
+> +++ b/fs/ntfs3/namei.c
+> @@ -152,12 +152,14 @@ static int ntfs_link(struct dentry *ode, struct inode *dir, struct dentry *de)
+>  	if (inode != dir)
+>  		ni_lock(ni);
+>  
+> -	dir->i_ctime = dir->i_mtime = inode->i_ctime = current_time(inode);
+>  	inc_nlink(inode);
+>  	ihold(inode);
+>  
+>  	err = ntfs_link_inode(inode, de);
+> +
+>  	if (!err) {
+> +		dir->i_ctime = dir->i_mtime = inode->i_ctime =
+> +			current_time(dir);
+>  		mark_inode_dirty(inode);
+>  		mark_inode_dirty(dir);
+>  		d_instantiate(de, inode);
+> @@ -249,25 +251,26 @@ static int ntfs_rmdir(struct inode *dir, struct dentry *dentry)
+>  /*
+>   * ntfs_rename - inode_operations::rename
+>   */
+> -static int ntfs_rename(struct user_namespace *mnt_userns, struct inode *old_dir,
+> -		       struct dentry *old_dentry, struct inode *new_dir,
+> +static int ntfs_rename(struct user_namespace *mnt_userns, struct inode *dir,
+> +		       struct dentry *dentry, struct inode *new_dir,
+>  		       struct dentry *new_dentry, u32 flags)
+>  {
+>  	int err;
+> -	struct super_block *sb = old_dir->i_sb;
+> +	struct super_block *sb = dir->i_sb;
+>  	struct ntfs_sb_info *sbi = sb->s_fs_info;
+> -	struct ntfs_inode *old_dir_ni = ntfs_i(old_dir);
+> +	struct ntfs_inode *dir_ni = ntfs_i(dir);
+>  	struct ntfs_inode *new_dir_ni = ntfs_i(new_dir);
+> -	struct ntfs_inode *old_ni;
+> -	struct ATTR_FILE_NAME *old_name, *new_name, *fname;
+> -	u8 name_type;
+> -	bool is_same;
+> -	struct inode *old_inode, *new_inode;
+> -	struct NTFS_DE *old_de, *new_de;
+> -	struct ATTRIB *attr;
+> -	struct ATTR_LIST_ENTRY *le;
+> -	u16 new_de_key_size;
+> -
+> +	struct inode *inode = d_inode(dentry);
+> +	struct ntfs_inode *ni = ntfs_i(inode);
+> +	struct inode *new_inode = d_inode(new_dentry);
+> +	struct NTFS_DE *de, *new_de;
+> +	bool is_same, is_bad;
+> +	/*
+> +	 * de		- memory of PATH_MAX bytes:
+> +	 * [0-1024)	- original name (dentry->d_name)
+> +	 * [1024-2048)	- paired to original name, usually DOS variant of dentry->d_name
+> +	 * [2048-3072)	- new name (new_dentry->d_name)
+> +	 */
+>  	static_assert(SIZEOF_ATTRIBUTE_FILENAME_MAX + SIZEOF_RESIDENT < 1024);
+>  	static_assert(SIZEOF_ATTRIBUTE_FILENAME_MAX + sizeof(struct NTFS_DE) <
+>  		      1024);
+> @@ -276,24 +279,18 @@ static int ntfs_rename(struct user_namespace *mnt_userns, struct inode *old_dir,
+>  	if (flags & ~RENAME_NOREPLACE)
+>  		return -EINVAL;
+>  
+> -	old_inode = d_inode(old_dentry);
+> -	new_inode = d_inode(new_dentry);
+> -
+> -	old_ni = ntfs_i(old_inode);
+> +	is_same = dentry->d_name.len == new_dentry->d_name.len &&
+> +		  !memcmp(dentry->d_name.name, new_dentry->d_name.name,
+> +			  dentry->d_name.len);
+>  
+> -	is_same = old_dentry->d_name.len == new_dentry->d_name.len &&
+> -		  !memcmp(old_dentry->d_name.name, new_dentry->d_name.name,
+> -			  old_dentry->d_name.len);
+> -
+> -	if (is_same && old_dir == new_dir) {
+> +	if (is_same && dir == new_dir) {
+>  		/* Nothing to do. */
+> -		err = 0;
+> -		goto out;
+> +		return 0;
+>  	}
+>  
+> -	if (ntfs_is_meta_file(sbi, old_inode->i_ino)) {
+> -		err = -EINVAL;
+> -		goto out;
+> +	if (ntfs_is_meta_file(sbi, inode->i_ino)) {
+> +		/* Should we print an error? */
+> +		return -EINVAL;
+>  	}
+>  
+>  	if (new_inode) {
+> @@ -304,168 +301,61 @@ static int ntfs_rename(struct user_namespace *mnt_userns, struct inode *old_dir,
+>  		ni_unlock(new_dir_ni);
+>  		dput(new_dentry);
+>  		if (err)
+> -			goto out;
+> +			return err;
+>  	}
+>  
+>  	/* Allocate PATH_MAX bytes. */
+> -	old_de = __getname();
+> -	if (!old_de) {
+> -		err = -ENOMEM;
+> -		goto out;
+> -	}
+> +	de = __getname();
+> +	if (!de)
+> +		return -ENOMEM;
+>  
+> -	err = fill_name_de(sbi, old_de, &old_dentry->d_name, NULL);
+> +	/* Translate dentry->d_name into unicode form. */
+> +	err = fill_name_de(sbi, de, &dentry->d_name, NULL);
+>  	if (err < 0)
+> -		goto out1;
+> -
+> -	old_name = (struct ATTR_FILE_NAME *)(old_de + 1);
+> +		goto out;
+>  
+>  	if (is_same) {
+> -		new_de = old_de;
+> +		/* Reuse 'de'. */
+> +		new_de = de;
+>  	} else {
+> -		new_de = Add2Ptr(old_de, 1024);
+> +		/* Translate new_dentry->d_name into unicode form. */
+> +		new_de = Add2Ptr(de, 2048);
+>  		err = fill_name_de(sbi, new_de, &new_dentry->d_name, NULL);
+>  		if (err < 0)
+> -			goto out1;
+> -	}
+> -
+> -	ni_lock_dir(old_dir_ni);
+> -	ni_lock(old_ni);
+> -
+> -	mi_get_ref(&old_dir_ni->mi, &old_name->home);
+> -
+> -	/* Get pointer to file_name in MFT. */
+> -	fname = ni_fname_name(old_ni, (struct cpu_str *)&old_name->name_len,
+> -			      &old_name->home, &le);
+> -	if (!fname) {
+> -		err = -EINVAL;
+> -		goto out2;
+> +			goto out;
+>  	}
+>  
+> -	/* Copy fname info from record into new fname. */
+> -	new_name = (struct ATTR_FILE_NAME *)(new_de + 1);
+> -	memcpy(&new_name->dup, &fname->dup, sizeof(fname->dup));
+> -
+> -	name_type = paired_name(fname->type);
+> -
+> -	/* Remove first name from directory. */
+> -	err = indx_delete_entry(&old_dir_ni->dir, old_dir_ni, old_de + 1,
+> -				le16_to_cpu(old_de->key_size), sbi);
+> -	if (err)
+> -		goto out3;
+> -
+> -	/* Remove first name from MFT. */
+> -	err = ni_remove_attr_le(old_ni, attr_from_name(fname), le);
+> -	if (err)
+> -		goto out4;
+> -
+> -	le16_add_cpu(&old_ni->mi.mrec->hard_links, -1);
+> -	old_ni->mi.dirty = true;
+> -
+> -	if (name_type != FILE_NAME_POSIX) {
+> -		/* Get paired name. */
+> -		fname = ni_fname_type(old_ni, name_type, &le);
+> -		if (fname) {
+> -			/* Remove second name from directory. */
+> -			err = indx_delete_entry(&old_dir_ni->dir, old_dir_ni,
+> -						fname, fname_full_size(fname),
+> -						sbi);
+> -			if (err)
+> -				goto out5;
+> -
+> -			/* Remove second name from MFT. */
+> -			err = ni_remove_attr_le(old_ni, attr_from_name(fname),
+> -						le);
+> -			if (err)
+> -				goto out6;
+> -
+> -			le16_add_cpu(&old_ni->mi.mrec->hard_links, -1);
+> -			old_ni->mi.dirty = true;
+> +	ni_lock_dir(dir_ni);
+> +	ni_lock(ni);
+> +
+> +	is_bad = false;
+> +	err = ni_rename(dir_ni, new_dir_ni, ni, de, new_de, &is_bad);
+> +	if (is_bad) {
+> +		/* Restore after failed rename failed too. */
+> +		make_bad_inode(inode);
+> +		ntfs_inode_err(inode, "failed to undo rename");
+> +		ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
+> +	} else if (!err) {
+> +		inode->i_ctime = dir->i_ctime = dir->i_mtime =
+> +			current_time(dir);
+> +		mark_inode_dirty(inode);
+> +		mark_inode_dirty(dir);
+> +		if (dir != new_dir) {
+> +			new_dir->i_mtime = new_dir->i_ctime = dir->i_ctime;
+> +			mark_inode_dirty(new_dir);
+>  		}
+> -	}
+> -
+> -	/* Add new name. */
+> -	mi_get_ref(&old_ni->mi, &new_de->ref);
+> -	mi_get_ref(&ntfs_i(new_dir)->mi, &new_name->home);
+> -
+> -	new_de_key_size = le16_to_cpu(new_de->key_size);
+> -
+> -	/* Insert new name in MFT. */
+> -	err = ni_insert_resident(old_ni, new_de_key_size, ATTR_NAME, NULL, 0,
+> -				 &attr, NULL);
+> -	if (err)
+> -		goto out7;
+> -
+> -	attr->res.flags = RESIDENT_FLAG_INDEXED;
+> -
+> -	memcpy(Add2Ptr(attr, SIZEOF_RESIDENT), new_name, new_de_key_size);
+> -
+> -	le16_add_cpu(&old_ni->mi.mrec->hard_links, 1);
+> -	old_ni->mi.dirty = true;
+> -
+> -	/* Insert new name in directory. */
+> -	err = indx_insert_entry(&new_dir_ni->dir, new_dir_ni, new_de, sbi,
+> -				NULL);
+> -	if (err)
+> -		goto out8;
+>  
+> -	if (IS_DIRSYNC(new_dir))
+> -		err = ntfs_sync_inode(old_inode);
+> -	else
+> -		mark_inode_dirty(old_inode);
+> +		if (IS_DIRSYNC(dir))
+> +			ntfs_sync_inode(dir);
+>  
+> -	old_dir->i_ctime = old_dir->i_mtime = current_time(old_dir);
+> -	if (IS_DIRSYNC(old_dir))
+> -		(void)ntfs_sync_inode(old_dir);
+> -	else
+> -		mark_inode_dirty(old_dir);
+> -
+> -	if (old_dir != new_dir) {
+> -		new_dir->i_mtime = new_dir->i_ctime = old_dir->i_ctime;
+> -		mark_inode_dirty(new_dir);
+> -	}
+> -
+> -	if (old_inode) {
+> -		old_inode->i_ctime = old_dir->i_ctime;
+> -		mark_inode_dirty(old_inode);
+> +		if (IS_DIRSYNC(new_dir))
+> +			ntfs_sync_inode(inode);
+>  	}
+>  
+> -	err = 0;
+> -	/* Normal way* */
+> -	goto out2;
+> -
+> -out8:
+> -	/* undo
+> -	 * ni_insert_resident(old_ni, new_de_key_size, ATTR_NAME, NULL, 0,
+> -	 *			 &attr, NULL);
+> -	 */
+> -	mi_remove_attr(&old_ni->mi, attr);
+> -out7:
+> -	/* undo
+> -	 * ni_remove_attr_le(old_ni, attr_from_name(fname), le);
+> -	 */
+> -out6:
+> -	/* undo
+> -	 * indx_delete_entry(&old_dir_ni->dir, old_dir_ni,
+> -	 *					fname, fname_full_size(fname),
+> -	 *					sbi);
+> -	 */
+> -out5:
+> -	/* undo
+> -	 * ni_remove_attr_le(old_ni, attr_from_name(fname), le);
+> -	 */
+> -out4:
+> -	/* undo:
+> -	 * indx_delete_entry(&old_dir_ni->dir, old_dir_ni, old_de + 1,
+> -	 *			old_de->key_size, NULL);
+> -	 */
+> -out3:
+> -out2:
+> -	ni_unlock(old_ni);
+> -	ni_unlock(old_dir_ni);
+> -out1:
+> -	__putname(old_de);
+> +	ni_unlock(ni);
+> +	ni_unlock(dir_ni);
+>  out:
+> +	__putname(de);
+>  	return err;
+>  }
+>  
+> diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+> index 64ef92e16363..f9436cbbc347 100644
+> --- a/fs/ntfs3/ntfs_fs.h
+> +++ b/fs/ntfs3/ntfs_fs.h
+> @@ -478,7 +478,7 @@ struct ATTR_STD_INFO *ni_std(struct ntfs_inode *ni);
+>  struct ATTR_STD_INFO5 *ni_std5(struct ntfs_inode *ni);
+>  void ni_clear(struct ntfs_inode *ni);
+>  int ni_load_mi_ex(struct ntfs_inode *ni, CLST rno, struct mft_inode **mi);
+> -int ni_load_mi(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
+> +int ni_load_mi(struct ntfs_inode *ni, const struct ATTR_LIST_ENTRY *le,
+>  	       struct mft_inode **mi);
+>  struct ATTRIB *ni_find_attr(struct ntfs_inode *ni, struct ATTRIB *attr,
+>  			    struct ATTR_LIST_ENTRY **entry_o,
+> @@ -505,15 +505,18 @@ int ni_insert_nonresident(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>  			  struct mft_inode **mi);
+>  int ni_insert_resident(struct ntfs_inode *ni, u32 data_size,
+>  		       enum ATTR_TYPE type, const __le16 *name, u8 name_len,
+> -		       struct ATTRIB **new_attr, struct mft_inode **mi);
+> -int ni_remove_attr_le(struct ntfs_inode *ni, struct ATTRIB *attr,
+> -		      struct ATTR_LIST_ENTRY *le);
+> +		       struct ATTRIB **new_attr, struct mft_inode **mi,
+> +		       struct ATTR_LIST_ENTRY **le);
+> +void ni_remove_attr_le(struct ntfs_inode *ni, struct ATTRIB *attr,
+> +		       struct mft_inode *mi, struct ATTR_LIST_ENTRY *le);
+>  int ni_delete_all(struct ntfs_inode *ni);
+>  struct ATTR_FILE_NAME *ni_fname_name(struct ntfs_inode *ni,
+>  				     const struct cpu_str *uni,
+>  				     const struct MFT_REF *home,
+> +				     struct mft_inode **mi,
+>  				     struct ATTR_LIST_ENTRY **entry);
+>  struct ATTR_FILE_NAME *ni_fname_type(struct ntfs_inode *ni, u8 name_type,
+> +				     struct mft_inode **mi,
+>  				     struct ATTR_LIST_ENTRY **entry);
+>  int ni_new_attr_flags(struct ntfs_inode *ni, enum FILE_ATTRIBUTE new_fa);
+>  enum REPARSE_SIGN ni_parse_reparse(struct ntfs_inode *ni, struct ATTRIB *attr,
+> @@ -528,6 +531,21 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
+>  		  u32 pages_per_frame);
+>  int ni_write_frame(struct ntfs_inode *ni, struct page **pages,
+>  		   u32 pages_per_frame);
+> +int ni_remove_name(struct ntfs_inode *dir_ni, struct ntfs_inode *ni,
+> +		   struct NTFS_DE *de, struct NTFS_DE **de2, int *undo_step);
+> +
+> +bool ni_remove_name_undo(struct ntfs_inode *dir_ni, struct ntfs_inode *ni,
+> +			 struct NTFS_DE *de, struct NTFS_DE *de2,
+> +			 int undo_step);
+> +
+> +int ni_add_name(struct ntfs_inode *dir_ni, struct ntfs_inode *ni,
+> +		struct NTFS_DE *de);
+> +
+> +int ni_rename(struct ntfs_inode *dir_ni, struct ntfs_inode *new_dir_ni,
+> +	      struct ntfs_inode *ni, struct NTFS_DE *de, struct NTFS_DE *new_de,
+> +	      bool *is_bad);
+> +
+> +bool ni_is_dirty(struct inode *inode);
+>  
+>  /* Globals from fslog.c */
+>  int log_replay(struct ntfs_inode *ni, bool *initialized);
+> @@ -631,7 +649,7 @@ int indx_find_raw(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  		  size_t *off, struct ntfs_fnd *fnd);
+>  int indx_insert_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  		      const struct NTFS_DE *new_de, const void *param,
+> -		      struct ntfs_fnd *fnd);
+> +		      struct ntfs_fnd *fnd, bool undo);
+>  int indx_delete_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  		      const void *key, u32 key_len, const void *param);
+>  int indx_update_dup(struct ntfs_inode *ni, struct ntfs_sb_info *sbi,
+> @@ -694,7 +712,8 @@ struct ATTRIB *mi_insert_attr(struct mft_inode *mi, enum ATTR_TYPE type,
+>  			      const __le16 *name, u8 name_len, u32 asize,
+>  			      u16 name_off);
+>  
+> -bool mi_remove_attr(struct mft_inode *mi, struct ATTRIB *attr);
+> +bool mi_remove_attr(struct ntfs_inode *ni, struct mft_inode *mi,
+> +		    struct ATTRIB *attr);
+>  bool mi_resize_attr(struct mft_inode *mi, struct ATTRIB *attr, int bytes);
+>  int mi_pack_runs(struct mft_inode *mi, struct ATTRIB *attr,
+>  		 struct runs_tree *run, CLST len);
+> diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
+> index d48a5e6c5045..61e3f2fb619f 100644
+> --- a/fs/ntfs3/record.c
+> +++ b/fs/ntfs3/record.c
+> @@ -489,7 +489,8 @@ struct ATTRIB *mi_insert_attr(struct mft_inode *mi, enum ATTR_TYPE type,
+>   *
+>   * NOTE: The source attr will point to next attribute.
+>   */
+> -bool mi_remove_attr(struct mft_inode *mi, struct ATTRIB *attr)
+> +bool mi_remove_attr(struct ntfs_inode *ni, struct mft_inode *mi,
+> +		    struct ATTRIB *attr)
+>  {
+>  	struct MFT_REC *rec = mi->mrec;
+>  	u32 aoff = PtrOffset(rec, attr);
+> @@ -499,6 +500,11 @@ bool mi_remove_attr(struct mft_inode *mi, struct ATTRIB *attr)
+>  	if (aoff + asize > used)
+>  		return false;
+>  
+> +	if (ni && is_attr_indexed(attr)) {
+> +		le16_add_cpu(&ni->mi.mrec->hard_links, -1);
+> +		ni->mi.dirty = true;
+> +	}
+> +
+>  	used -= asize;
+>  	memmove(attr, Add2Ptr(attr, asize), used - aoff);
+>  	rec->used = cpu_to_le32(used);
+> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+> index b4c921e4bc1a..22fd5eb32c5b 100644
+> --- a/fs/ntfs3/xattr.c
+> +++ b/fs/ntfs3/xattr.c
+> @@ -395,11 +395,13 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+>  		}
+>  
+>  		err = ni_insert_resident(ni, sizeof(struct EA_INFO),
+> -					 ATTR_EA_INFO, NULL, 0, NULL, NULL);
+> +					 ATTR_EA_INFO, NULL, 0, NULL, NULL,
+> +					 NULL);
+>  		if (err)
+>  			goto out;
+>  
+> -		err = ni_insert_resident(ni, 0, ATTR_EA, NULL, 0, NULL, NULL);
+> +		err = ni_insert_resident(ni, 0, ATTR_EA, NULL, 0, NULL, NULL,
+> +					 NULL);
+>  		if (err)
+>  			goto out;
+>  	}
+> @@ -419,9 +421,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+>  
+>  	if (!size) {
+>  		/* Delete xattr, ATTR_EA_INFO */
+> -		err = ni_remove_attr_le(ni, attr, le);
+> -		if (err)
+> -			goto out;
+> +		ni_remove_attr_le(ni, attr, mi, le);
+>  	} else {
+>  		p = resident_data_ex(attr, sizeof(struct EA_INFO));
+>  		if (!p) {
+> @@ -441,9 +441,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+>  
+>  	if (!size) {
+>  		/* Delete xattr, ATTR_EA */
+> -		err = ni_remove_attr_le(ni, attr, le);
+> -		if (err)
+> -			goto out;
+> +		ni_remove_attr_le(ni, attr, mi, le);
+>  	} else if (attr->non_res) {
+>  		err = ntfs_sb_write_run(sbi, &ea_run, 0, ea_all, size);
+>  		if (err)
+> @@ -605,8 +603,7 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
+>  			goto out;
+>  	}
+>  
+> -	err = ntfs_set_ea(inode, name, name_len, value, size,
+> -			  acl ? 0 : XATTR_REPLACE, locked);
+> +	err = ntfs_set_ea(inode, name, name_len, value, size, 0, locked);
+>  	if (!err)
+>  		set_cached_acl(inode, type, acl);
+>  
+> @@ -632,8 +629,10 @@ static int ntfs_xattr_get_acl(struct user_namespace *mnt_userns,
+>  	struct posix_acl *acl;
+>  	int err;
+>  
+> -	if (!(inode->i_sb->s_flags & SB_POSIXACL))
+> +	if (!(inode->i_sb->s_flags & SB_POSIXACL)) {
+> +		ntfs_inode_warn(inode, "add mount option \"acl\" to use acl");
+>  		return -EOPNOTSUPP;
+> +	}
+>  
+>  	acl = ntfs_get_acl(inode, type);
+>  	if (IS_ERR(acl))
+> @@ -655,8 +654,10 @@ static int ntfs_xattr_set_acl(struct user_namespace *mnt_userns,
+>  	struct posix_acl *acl;
+>  	int err;
+>  
+> -	if (!(inode->i_sb->s_flags & SB_POSIXACL))
+> +	if (!(inode->i_sb->s_flags & SB_POSIXACL)) {
+> +		ntfs_inode_warn(inode, "add mount option \"acl\" to use acl");
+>  		return -EOPNOTSUPP;
+> +	}
+>  
+>  	if (!inode_owner_or_capable(mnt_userns, inode))
+>  		return -EPERM;
 > -- 
 > 2.28.0
-> 
 > 
