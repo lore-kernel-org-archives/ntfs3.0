@@ -1,49 +1,49 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6497372
-	for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 18:15:21 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id s10so621785lfr.11
-        for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 11:15:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF1572
+	for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 18:15:22 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id i28so229352ljm.7
+        for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 11:15:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JHwVl9p3WIdSGjWbPUSNGnijhNENWZWD5QfH1eVWlE4=;
-        b=cRaWoteDywWKRle0O6x88j38TTkXzjFwy28g2Z7CtEEsieen3UuD4OcN76wU9rkEY0
-         MYvfdkZ6lQ75oYM74QcpDX31P/vaHdnxu0N+IXd0qn+eNFuS3U6ty+hAJauRO0RFVLL9
-         IKFbPK3uqSg2av/EVmfs5hzs0HDx/Q3VWmJGVh1caUQhYAFP30N3R4YQ6/Tcy0D2mFJc
-         iB4WJQl4hI8tSVURmf2ZAummiaHV3QhrW2JVnlf1xCpGUlGXUDrGY+kcOwMW1kgSLAkN
-         b7HEZxRTWHV9RFsCD0+OVAAfjH7zhRnbzeiw1nfz6RXnW0th9PPxZOHveY3sGbmm6Ig8
-         DW6g==
+        bh=a/2+IO+onR8n3ZdfuwB5lM1ps4vOPHv1OrjjTrVRTCk=;
+        b=X0ufsWfC9N2z4/uotq23vGlo/DdqC+468GqPtNuc1ZZfkah7kMxpeku5LUa9pPVVH+
+         TmWaglhxqM2zYn1HRHLkMhgeU8GgkEefvt3gA9U7CPFqiu18mEllBf6br8uo/VF7RVYo
+         vuSImix2ItWDgrpRdbjLgfyxGDmxG0BJvNJvJNxVLtDdmrShZaXBLrOjOCJ+zXD7gA+r
+         If0dgYQk9rhRpbxyhrzFLL11zbsKubj/F4bY9dEJ1B86QOXvHBcK7UzFGPRCS9w5DO7W
+         5fv/MjFwb2VWAHeBpssB14VYKbmiaRyiSVKnqK+y/k6BNcpuxvn9/LzCdd/drCH2kLj9
+         xaVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JHwVl9p3WIdSGjWbPUSNGnijhNENWZWD5QfH1eVWlE4=;
-        b=PcS++46GZ6l/VGyZYxi9iEhxyPX71uBnwENL/ayFmAmDbKftyyNI8vSEBDdkZO5E4h
-         9xkndpexjoxezexT8jn5V9HK1zHviy1CVib0GRwNr8pGG/5zeb6IVJxol4dJde8fFvRb
-         I0uTJRDBFreEqPHImnjgfydLadJSR9+NZP8I8JedW+xIhkbTV/o3l/hn+z3//5pkL9qT
-         POH84vt9i1Forx70+KWq6pq+hMRMcEShPpuleZ0QGblUDjDvRIdec1U2h6or7MSwJ+Ey
-         loZQTSCZx7koe2ZGPCBaWnV86nDf2z2TxOA9vO0jqDm9zX7Wc8FfxeKmRFSbxBazPjEV
-         19wQ==
-X-Gm-Message-State: AOAM5312t+Re9OvbN2WReifbmQuAaBxedDVwjneFWsJRNGZFE9TPj+vf
-	Keh3KdAWo7ifz9Tl3X+ysoI=
-X-Google-Smtp-Source: ABdhPJxfH0Jemwd+4N04GgmmLpXPStD7IWJ37erkb6a9OETOhF+smVyfGWrUXJX3wP7U5LbP1gitlw==
-X-Received: by 2002:a05:6512:302:: with SMTP id t2mr11287728lfp.87.1630433719610;
-        Tue, 31 Aug 2021 11:15:19 -0700 (PDT)
+        bh=a/2+IO+onR8n3ZdfuwB5lM1ps4vOPHv1OrjjTrVRTCk=;
+        b=X7PN2Ptej/TIw6g8HlMeXvO3x0bdUZvhpfnfP+cekTuSHbWQLp4JkPRgd+sYjsXVno
+         xIHlqHnRyYxSXRvmtKogMNHqQYUdPuCFHosBpPRLMzjVQ8nqnxNx222xzkRPG+8mo1KR
+         3CGMqtiBBxO6n/dkX2l8+mPftNFMgDCI/UqalTlaiMAQI/dSIyfl1kDaHpxUu9tWmtJt
+         zubT6PpM9DIf8eZooH+Y54k6YnMEgJcdBzjKwUTLqlDas254vOJZdb9GvAHoyHA/QZz0
+         bEM2H9cwbKrAR4oCuUEb1HzVeCyeGD/BP5rkfpHAys+Ay5+aUA7xVI8lhvJqyJjFRj4l
+         TqPg==
+X-Gm-Message-State: AOAM5321pN6MrA76PHXQ9jLW5aOBRiEJb2aZcEX7DQpZcLOOwmd6s2/p
+	XDIxRGPoaj0Ge74k4RTah4Q=
+X-Google-Smtp-Source: ABdhPJxhmdZK3kigK1ngsxDNVQmlXUBtaQ3R9N3n636p96WyNZX9i6F2MzjU99X5en0g7aZpxIpBkg==
+X-Received: by 2002:a2e:84c5:: with SMTP id q5mr7039974ljh.43.1630433720728;
+        Tue, 31 Aug 2021 11:15:20 -0700 (PDT)
 Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id z11sm2270757ljn.114.2021.08.31.11.15.18
+        by smtp.gmail.com with ESMTPSA id z11sm2270757ljn.114.2021.08.31.11.15.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 11:15:19 -0700 (PDT)
+        Tue, 31 Aug 2021 11:15:20 -0700 (PDT)
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
 Cc: Kari Argillander <kari.argillander@gmail.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/5] fs/ntfs3: Place Comparisons constant right side of the test
-Date: Tue, 31 Aug 2021 21:15:03 +0300
-Message-Id: <20210831181505.1074767-4-kari.argillander@gmail.com>
+Subject: [PATCH 4/5] fs/ntfs3: Remove braces from single statment block
+Date: Tue, 31 Aug 2021 21:15:04 +0300
+Message-Id: <20210831181505.1074767-5-kari.argillander@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210831181505.1074767-1-kari.argillander@gmail.com>
 References: <20210831181505.1074767-1-kari.argillander@gmail.com>
@@ -55,27 +55,31 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For better code readability place constant always right side of the
-test. This will also address checkpatch warning.
+Remove braces from single statment block as they are not needed. Also
+Linux kernel coding style guide recommend this and checkpatch warn about
+this.
 
 Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 ---
- fs/ntfs3/frecord.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/ntfs3/frecord.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index b207d260ac06..bc3887635012 100644
+index bc3887635012..61448325c4d1 100644
 --- a/fs/ntfs3/frecord.c
 +++ b/fs/ntfs3/frecord.c
-@@ -1606,7 +1606,7 @@ struct ATTR_FILE_NAME *ni_fname_type(struct ntfs_inode *ni, u8 name_type,
+@@ -2906,9 +2906,9 @@ bool ni_remove_name_undo(struct ntfs_inode *dir_ni, struct ntfs_inode *ni,
+ 		memcpy(Add2Ptr(attr, SIZEOF_RESIDENT), de + 1, de_key_size);
+ 		mi_get_ref(&ni->mi, &de->ref);
  
- 	*le = NULL;
+-		if (indx_insert_entry(&dir_ni->dir, dir_ni, de, sbi, NULL, 1)) {
++		if (indx_insert_entry(&dir_ni->dir, dir_ni, de, sbi, NULL, 1))
+ 			return false;
+-		}
++
+ 	}
  
--	if (FILE_NAME_POSIX == name_type)
-+	if (name_type == FILE_NAME_POSIX)
- 		return NULL;
- 
- 	/* Enumerate all names. */
+ 	return true;
 -- 
 2.25.1
 
