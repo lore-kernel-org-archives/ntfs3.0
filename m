@@ -1,50 +1,52 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2BD72
-	for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 18:15:16 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id i28so228864ljm.7
-        for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 11:15:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4209F72
+	for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 18:15:18 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id l10so703189lfg.4
+        for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 11:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HeW13tvhrL9w5gUzeL7/FrKd5rvLwTrOT4w/pqdAqYI=;
-        b=gXGwAW3ph6ywIS8Sz5jE+FROTf5zxy9FLtAF8gdEQCU88x0F4zTKe6GmlfHoU+uqYL
-         7bg9ATTsnSiC+2DcSi8q6dBnNfY0sJbTvPXohDhE7IcGz/nNL+zK2ELfa1UUaXksTMwu
-         AXI9v49SXZPQlSwh3gY2g65C+VIPKJTWREAdZqBQ3mLW+F8IPttFsw/i72huSIuE9kD2
-         b6wpnHPHRV8NCLdOjADGs59MaNeq3nB4law5rpgXyAyxK8R9sj7i4SLWOmIQ/n71gzZc
-         4HrLEGrl2PGAf8O8xu5bTHzmuru3w8pmkcF7AEXKip4rhaKGFOcMncYI7XF/py6uHVxM
-         lYZg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=RAusKbpb86Vg8k5m89yF2Mh6kI0kDJIwV1Xq0hJWA0I=;
+        b=rqrCS+RxI/ekdxKFmYlycymJSguGBQKJHXcU43HB1sHn6OPmupvwEmIsd69snQRjIx
+         BQpqSueP5p6VI6OALuuTSnm6vHwDsTCv+Hu2X1k7fjbsGZIpOhVmZzvlD9CpofADPI76
+         XeXNEKcp2aGhbCBY83R+Xk6JmjABCqNg0FwVNmx1ZKbPTpIXs2ZbKyBhqBr9y+8/zE9Y
+         7RVUUVdyQUdCEnLIa78RfTPl9/E8y2Nvb3weD82wJvFbQNAaJnO9bL7lsJqdsgi92AHx
+         BTdtMafN57kcKhupMB6k1NjENC0+SrchewVB/jMezkH634zHxLpTuLdAwNgYZRt7FXUr
+         Nyyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HeW13tvhrL9w5gUzeL7/FrKd5rvLwTrOT4w/pqdAqYI=;
-        b=YdKi3siOAgVS0jl1WXiqwqotTIUpBj+AdTpMPR4+4hzpYqIVa5iqll6cAfingIc70S
-         +phM5HqgGtZLRXrMC6Sg44tM909++OOuZRaA47fPhQ2NnnHe25d+pL5yODFqT8HfkmLr
-         /usO6C6964mjiHHlW7goafUMEyaQ12Recto8JYLZ1g60zVn/nvFl1S1iPynblzhicr5Y
-         X/xnI/OutW2rSD6wpGnlfbQq1L1y1K84l8lGDRKkgXNyqwbtG8O9XyEVRUpwwyrm0Udu
-         5EM+huKb1/4P+tNKUi3/R63SWZ6seaNoN5NCygYYOp0frqyVF3jSn5rLMlK0ev1B2byD
-         mBCw==
-X-Gm-Message-State: AOAM530OHNFAev3NIupSSeHfCNbiwR1kUlckYWUvZelNdQH1NtN3nDFI
-	88XhkUb0CNWIqMDYxav3xg0=
-X-Google-Smtp-Source: ABdhPJxewjW9UZrju5EUVd3IeOVLtk2BregE54DcFplZw6qtPBzo0F7AYM26Qs/ppjaObvXxOZmm7A==
-X-Received: by 2002:a2e:9798:: with SMTP id y24mr25635516lji.165.1630433714811;
-        Tue, 31 Aug 2021 11:15:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=RAusKbpb86Vg8k5m89yF2Mh6kI0kDJIwV1Xq0hJWA0I=;
+        b=l9LiywYm0Ves+E5TZMDzybHE0O2tqykybOH0r5CLYrA+7CJghYA6HHvwBvF4XZK2GO
+         C8iuQKobAeS7pfr+5tLLLk1NWAah8H4nfn1czH1QSmkoAgV3xe4aM/AH6zrWH5piXtxn
+         Zj9t/E+060UX6M7Fphs+rNfBWjzrtchxH+cw9TPXFpAClEyRKbQ3hC63gdDB7IDuqXC/
+         IXlLp4L8XmL6Bf2TkZpIQ6ELFTSZVXRsxBBV7Cl59vQ6Lzr/zWBM+0PFLxelCtomwmJX
+         7x977PXmyEWuCs+VYbUuJpVeFzKjdVUhSJ5pPivdZl4Xg2sG8yCIVUC2ZELKzZW69HkR
+         KIiA==
+X-Gm-Message-State: AOAM533GMv0w2Rt7De4E7Ug3IAmoFBJTBhvaStmbSGZM92L2vxDLNYCe
+	56oAHKsSJ7KqScYnosBcnQc=
+X-Google-Smtp-Source: ABdhPJzrd9aT+f5ERjLskDYJiGvaEYnZizSLZ/u+TwtTjeoh9qqRlIS4d0aR5Fn7vig9dY0U1+WHJQ==
+X-Received: by 2002:a05:6512:241:: with SMTP id b1mr22003224lfo.99.1630433716453;
+        Tue, 31 Aug 2021 11:15:16 -0700 (PDT)
 Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id z11sm2270757ljn.114.2021.08.31.11.15.13
+        by smtp.gmail.com with ESMTPSA id z11sm2270757ljn.114.2021.08.31.11.15.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 11:15:14 -0700 (PDT)
+        Tue, 31 Aug 2021 11:15:16 -0700 (PDT)
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
 Cc: Kari Argillander <kari.argillander@gmail.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/5] fs/ntfs3: Fix various styling issues
-Date: Tue, 31 Aug 2021 21:15:00 +0300
-Message-Id: <20210831181505.1074767-1-kari.argillander@gmail.com>
+Subject: [PATCH 1/5] fs/ntfs3: Use kmalloc_array over kmalloc with multiply
+Date: Tue, 31 Aug 2021 21:15:01 +0300
+Message-Id: <20210831181505.1074767-2-kari.argillander@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210831181505.1074767-1-kari.argillander@gmail.com>
+References: <20210831181505.1074767-1-kari.argillander@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -53,33 +55,50 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Many new checkpatch warnings have been introduce to ntfs3. These could
-have been prevent if checkpatch is used. One thing that worrys me is
-that Konstantin puts new code without code reviewing process to ntfs3.
-Patch commit message says one thing, but one huge patch address that and
-lot of just refactoring code.  Also with review process we can prevent
-these kind of silly checkpatch mistakes.
+If we do not use kmalloc_array we get checkpatch warning. It is also
+little safer if something goes wrong with coding.
 
-Kmalloc_array was my fault for some reason checkpatch did not show
-those. I have no idea how, but I just fix it now and be very ashamed.
-You should also Konstantin use checkpatch always before push so you can
-spot these things before hand. I will try to get CI going for patches.
+Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
+---
+ fs/ntfs3/bitmap.c | 2 +-
+ fs/ntfs3/index.c  | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Kari Argillander (5):
-  fs/ntfs3: Use kmalloc_array over kmalloc with multiply
-  fs/ntfs3: Use consistent spacing around '+'
-  fs/ntfs3: Place Comparisons constant right side of the test
-  fs/ntfs3: Remove braces from single statment block
-  fs/ntfs3: Remove tabs before spaces from comment
-
- fs/ntfs3/bitmap.c  | 2 +-
- fs/ntfs3/frecord.c | 8 ++++----
- fs/ntfs3/index.c   | 4 ++--
- fs/ntfs3/lznt.c    | 2 +-
- 4 files changed, 8 insertions(+), 8 deletions(-)
-
-
-base-commit: d3624466b56dd5b1886c1dff500525b544c19c83
+diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
+index 831501555009..aa0b1ea66cd0 100644
+--- a/fs/ntfs3/bitmap.c
++++ b/fs/ntfs3/bitmap.c
+@@ -1331,7 +1331,7 @@ int wnd_extend(struct wnd_bitmap *wnd, size_t new_bits)
+ 		new_last = wbits;
+ 
+ 	if (new_wnd != wnd->nwnd) {
+-		new_free = kmalloc(new_wnd * sizeof(u16), GFP_NOFS);
++		new_free = kmalloc_array(new_wnd, sizeof(u16), GFP_NOFS);
+ 		if (!new_free)
+ 			return -ENOMEM;
+ 
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 0daca9adc54c..7676a4a657d5 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -685,7 +685,7 @@ static struct NTFS_DE *hdr_find_e(const struct ntfs_index *indx,
+ 	if (end > 0x10000)
+ 		goto next;
+ 
+-	offs = kmalloc(sizeof(u16) * nslots, GFP_NOFS);
++	offs = kmalloc_array(nslots, sizeof(u16), GFP_NOFS);
+ 	if (!offs)
+ 		goto next;
+ 
+@@ -707,7 +707,7 @@ static struct NTFS_DE *hdr_find_e(const struct ntfs_index *indx,
+ 		u16 *ptr;
+ 		int new_slots = ALIGN(2 * nslots, 8);
+ 
+-		ptr = kmalloc(sizeof(u16) * new_slots, GFP_NOFS);
++		ptr = kmalloc_array(new_slots, sizeof(u16), GFP_NOFS);
+ 		if (ptr)
+ 			memcpy(ptr, offs, sizeof(u16) * max_idx);
+ 		kfree(offs);
 -- 
 2.25.1
 
