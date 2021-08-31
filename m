@@ -1,308 +1,96 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C402FAF
-	for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 14:15:11 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id y6so32098444lje.2
-        for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 07:15:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B113FC3
+	for <ntfs3@lists.linux.dev>; Tue, 31 Aug 2021 16:19:51 +0000 (UTC)
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 87FC81D34;
+	Tue, 31 Aug 2021 19:19:42 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wwFBa6ID2CU7IVCJdpVesspkl7cQEPY7fvmjvIApmuo=;
-        b=jwRI7kWHlrfPZQmfPHYGVlfBIptRF6mhDuUvY+UI9DiL97IYcWoL2lnxSM9O1MS4bf
-         crxBlK90EylzTVK1eyMhTTtR8k6zthuLf8LEGXSQ3iZ+cL/UEiLjmAizSOCBZW8t8aQ7
-         1nYhkbGEpnxcy0qZtIOnADopwFFMj1B0fjWOEKfk/+uU2GiEOY4c6U+gdy/1cLmwi1MF
-         fasrMyXeXyexYn9qBijcwOir/tFySqMMSeWfS1h8O/8/sf+vqAZtzwzD7QBDdXnLJPRC
-         k7EuRraSADK2xRQXmpmTpP6hbgNmcOg/+HdxbJq7s6kIDT3Bi6LjahtCUnBLp2jpph+y
-         g2Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wwFBa6ID2CU7IVCJdpVesspkl7cQEPY7fvmjvIApmuo=;
-        b=DmlaMLQu1NKAdcqyCu0w/b7HCAdljUa+IPXF+4kI/MLuX/tukbDtQYG8L8ZiyOb5M1
-         zK9ZRFMOkFeVgByXkoZXOizUtT0DYHN9GnLEU9s/PX9Gjb4xE+1IhNfo88gGReA/2zM5
-         mv/D2vrLC3ukwKrTXXaooh+20iCx30NE9CtR1PrKDnqGT4aYMfH9VZZUr+J14uyIcayh
-         bf1SLcozrBWe7947jFaKpdK5RO3JjzG2WygWtDnTGuUjF2tToWx6LVYlSQ5ENr7RLDxM
-         WEuv3uImS2oUwqUZDeubnZ+WawRcOUhG6ZNJ2tnmv+ez1SLTJwIHDRgMnE6P2C9qQPlM
-         cy9w==
-X-Gm-Message-State: AOAM530MNP/oj9vqnQLr38EUUTDGKcDXN/9pn7tXHe0qjKw31UMWsa4g
-	r4OHDLKwnQNWlwufUgbA1qI=
-X-Google-Smtp-Source: ABdhPJwj6KQ23nDAa7hZXMw5ODJAaLZkmN3HDJ/2IdpkPYgNeKkHdOp2dV6Mdvp/DHpTwVdxQXky+w==
-X-Received: by 2002:a2e:a363:: with SMTP id i3mr24971842ljn.56.1630419309740;
-        Tue, 31 Aug 2021 07:15:09 -0700 (PDT)
-Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id i30sm2202187ljb.48.2021.08.31.07.15.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 07:15:09 -0700 (PDT)
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Cc: Kari Argillander <kari.argillander@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] fs/ntfs3: Remove unneeded header files from c files
-Date: Tue, 31 Aug 2021 17:14:34 +0300
-Message-Id: <20210831141434.975175-8-kari.argillander@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210831141434.975175-1-kari.argillander@gmail.com>
-References: <20210831141434.975175-1-kari.argillander@gmail.com>
+	d=paragon-software.com; s=mail; t=1630426782;
+	bh=6sjBYsgnQ2PmPdX06AQ2JvJobRcP9kuSQdfucv7aW/g=;
+	h=Subject:To:CC:References:From:Date:In-Reply-To;
+	b=R3WujCfrqq7sHpYvvOlG4SgWfCw0p/CAma29nRskX4ZoZHrY30yiPutTYabEKQuUp
+	 UZNGkWFIEY8wz7vyKzKsr8kLRtlcGzvcVQe1cOo0OeDI12enM3Q3mCUranQTM/OjvH
+	 //WUXBMp1hnKMu5KgtmdNiqZ7n5psUbSACJy10nI=
+Received: from [192.168.211.15] (192.168.211.15) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 31 Aug 2021 19:19:42 +0300
+Subject: Re: [PATCH] fs/ntfs3: Remove fat ioctl's from ntfs3 driver for now
+To: Kari Argillander <kari.argillander@gmail.com>, <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, =?UTF-8?Q?Pali_Roh=c3=a1r?=
+	<pali@kernel.org>
+References: <20210824182020.1007329-1-kari.argillander@gmail.com>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Message-ID: <ca096313-ddb6-6897-67a6-3f0d45deefce@paragon-software.com>
+Date: Tue, 31 Aug 2021 19:19:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210824182020.1007329-1-kari.argillander@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.211.15]
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-We have lot of unnecessary headers in these files. Remove them so that
-we help compiler a little bit.
 
-Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
----
- fs/ntfs3/attrib.c   | 5 -----
- fs/ntfs3/attrlist.c | 3 ---
- fs/ntfs3/bitmap.c   | 3 ---
- fs/ntfs3/dir.c      | 3 ---
- fs/ntfs3/file.c     | 1 -
- fs/ntfs3/frecord.c  | 3 ---
- fs/ntfs3/fslog.c    | 4 ----
- fs/ntfs3/fsntfs.c   | 1 -
- fs/ntfs3/index.c    | 1 -
- fs/ntfs3/inode.c    | 2 --
- fs/ntfs3/namei.c    | 4 ----
- fs/ntfs3/record.c   | 3 ---
- fs/ntfs3/run.c      | 2 --
- fs/ntfs3/super.c    | 2 --
- fs/ntfs3/xattr.c    | 3 ---
- 15 files changed, 40 deletions(-)
 
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index 4b285f704e62..b4290b4f996d 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -6,12 +6,7 @@
-  * TODO: Merge attr_set_size/attr_data_get_block/attr_allocate_frame?
-  */
- 
--#include <linux/blkdev.h>
--#include <linux/buffer_head.h>
- #include <linux/fs.h>
--#include <linux/hash.h>
--#include <linux/nls.h>
--#include <linux/ratelimit.h>
- #include <linux/slab.h>
- 
- #include "debug.h"
-diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
-index 32ca990af64b..4d1bb695e650 100644
---- a/fs/ntfs3/attrlist.c
-+++ b/fs/ntfs3/attrlist.c
-@@ -5,10 +5,7 @@
-  *
-  */
- 
--#include <linux/blkdev.h>
--#include <linux/buffer_head.h>
- #include <linux/fs.h>
--#include <linux/nls.h>
- 
- #include "debug.h"
- #include "ntfs.h"
-diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
-index 06ae38adb8ad..01c639865132 100644
---- a/fs/ntfs3/bitmap.c
-+++ b/fs/ntfs3/bitmap.c
-@@ -10,12 +10,9 @@
-  *
-  */
- 
--#include <linux/blkdev.h>
- #include <linux/buffer_head.h>
- #include <linux/fs.h>
--#include <linux/nls.h>
- 
--#include "debug.h"
- #include "ntfs.h"
- #include "ntfs_fs.h"
- 
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index 93f6d485564e..76697ec3c146 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -7,10 +7,7 @@
-  *
-  */
- 
--#include <linux/blkdev.h>
--#include <linux/buffer_head.h>
- #include <linux/fs.h>
--#include <linux/iversion.h>
- #include <linux/nls.h>
- 
- #include "debug.h"
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 26346771d9dc..bf3b7b666423 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -13,7 +13,6 @@
- #include <linux/falloc.h>
- #include <linux/fiemap.h>
- #include <linux/msdos_fs.h> /* FAT_IOCTL_XXX */
--#include <linux/nls.h>
- 
- #include "debug.h"
- #include "ntfs.h"
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 9d374827750b..50c185da8fbb 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -5,11 +5,8 @@
-  *
-  */
- 
--#include <linux/blkdev.h>
--#include <linux/buffer_head.h>
- #include <linux/fiemap.h>
- #include <linux/fs.h>
--#include <linux/nls.h>
- #include <linux/vmalloc.h>
- 
- #include "debug.h"
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 6f6057129fdd..38235c1c60a2 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -6,12 +6,8 @@
-  */
- 
- #include <linux/blkdev.h>
--#include <linux/buffer_head.h>
- #include <linux/fs.h>
--#include <linux/hash.h>
--#include <linux/nls.h>
- #include <linux/random.h>
--#include <linux/ratelimit.h>
- #include <linux/slab.h>
- 
- #include "debug.h"
-diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-index 0edb95ed9717..3eec44671a71 100644
---- a/fs/ntfs3/fsntfs.c
-+++ b/fs/ntfs3/fsntfs.c
-@@ -8,7 +8,6 @@
- #include <linux/blkdev.h>
- #include <linux/buffer_head.h>
- #include <linux/fs.h>
--#include <linux/nls.h>
- 
- #include "debug.h"
- #include "ntfs.h"
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index 70ef59455b72..fec1e72206e8 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -8,7 +8,6 @@
- #include <linux/blkdev.h>
- #include <linux/buffer_head.h>
- #include <linux/fs.h>
--#include <linux/nls.h>
- 
- #include "debug.h"
- #include "ntfs.h"
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index b86ec7dd731c..00ce4c40b3fc 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -5,10 +5,8 @@
-  *
-  */
- 
--#include <linux/blkdev.h>
- #include <linux/buffer_head.h>
- #include <linux/fs.h>
--#include <linux/iversion.h>
- #include <linux/mpage.h>
- #include <linux/namei.h>
- #include <linux/nls.h>
-diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
-index f79a399bd015..67cb541a5b12 100644
---- a/fs/ntfs3/namei.c
-+++ b/fs/ntfs3/namei.c
-@@ -5,11 +5,7 @@
-  *
-  */
- 
--#include <linux/blkdev.h>
--#include <linux/buffer_head.h>
- #include <linux/fs.h>
--#include <linux/iversion.h>
--#include <linux/namei.h>
- #include <linux/nls.h>
- 
- #include "debug.h"
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index d48a5e6c5045..ff09ff2714fc 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -5,10 +5,7 @@
-  *
-  */
- 
--#include <linux/blkdev.h>
--#include <linux/buffer_head.h>
- #include <linux/fs.h>
--#include <linux/nls.h>
- 
- #include "debug.h"
- #include "ntfs.h"
-diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
-index 26ed2b64345e..a8fec651f973 100644
---- a/fs/ntfs3/run.c
-+++ b/fs/ntfs3/run.c
-@@ -7,10 +7,8 @@
-  */
- 
- #include <linux/blkdev.h>
--#include <linux/buffer_head.h>
- #include <linux/fs.h>
- #include <linux/log2.h>
--#include <linux/nls.h>
- 
- #include "debug.h"
- #include "ntfs.h"
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 2fbab8a931ee..1934c273ee1d 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -23,12 +23,10 @@
-  *
-  */
- 
--#include <linux/backing-dev.h>
- #include <linux/blkdev.h>
- #include <linux/buffer_head.h>
- #include <linux/exportfs.h>
- #include <linux/fs.h>
--#include <linux/iversion.h>
- #include <linux/log2.h>
- #include <linux/module.h>
- #include <linux/nls.h>
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index b4c921e4bc1a..b84d15e8d3a2 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -5,10 +5,7 @@
-  *
-  */
- 
--#include <linux/blkdev.h>
--#include <linux/buffer_head.h>
- #include <linux/fs.h>
--#include <linux/nls.h>
- #include <linux/posix_acl.h>
- #include <linux/posix_acl_xattr.h>
- #include <linux/xattr.h>
--- 
-2.25.1
+On 24.08.2021 21:20, Kari Argillander wrote:
+> For some reason we have FAT ioctl calls. Even old ntfs driver did not
+> use these. We should not use these because it his hard to get things out
+> of kernel when they are upstream. That's why we remove these for now.
+> 
+> More discussion is needed what ioctl should be implemented and what is
+> important.
+> 
+> Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
+> ---
+> Earlier disgussion with Pali can be founded here:
+> lore.kernel.org/linux-fsdevel/20210824113304.eabzy7ulbuouzlac@pali/
+> ---
+>  fs/ntfs3/file.c | 8 --------
+>  1 file changed, 8 deletions(-)
+> 
+> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+> index 59344985c2e8..819afc4c902b 100644
+> --- a/fs/ntfs3/file.c
+> +++ b/fs/ntfs3/file.c
+> @@ -10,7 +10,6 @@
+>  #include <linux/compat.h>
+>  #include <linux/falloc.h>
+>  #include <linux/fiemap.h>
+> -#include <linux/msdos_fs.h> /* FAT_IOCTL_XXX */
+>  #include <linux/nls.h>
+>  
+>  #include "debug.h"
+> @@ -50,15 +49,8 @@ static long ntfs_ioctl(struct file *filp, u32 cmd, unsigned long arg)
+>  {
+>  	struct inode *inode = file_inode(filp);
+>  	struct ntfs_sb_info *sbi = inode->i_sb->s_fs_info;
+> -	u32 __user *user_attr = (u32 __user *)arg;
+>  
+>  	switch (cmd) {
+> -	case FAT_IOCTL_GET_ATTRIBUTES:
+> -		return put_user(le32_to_cpu(ntfs_i(inode)->std_fa), user_attr);
+> -
+> -	case FAT_IOCTL_GET_VOLUME_ID:
+> -		return put_user(sbi->volume.ser_num, user_attr);
+> -
+>  	case FITRIM:
+>  		return ntfs_ioctl_fitrim(sbi, arg);
+>  	}
+> 
 
+Hi, Kari!
+
+Applied, thanks.
+
+Best regards.
