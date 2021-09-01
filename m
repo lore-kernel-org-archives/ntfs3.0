@@ -1,62 +1,98 @@
-Received: from smtprelay.hostedemail.com (smtprelay0025.hostedemail.com [216.40.44.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67253FC2
-	for <ntfs3@lists.linux.dev>; Wed,  1 Sep 2021 04:36:13 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave02.hostedemail.com (Postfix) with ESMTP id D88101801273C
-	for <ntfs3@lists.linux.dev>; Wed,  1 Sep 2021 02:41:07 +0000 (UTC)
-Received: from omf03.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay01.hostedemail.com (Postfix) with ESMTP id 2F702100E7B45;
-	Wed,  1 Sep 2021 02:41:01 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id 6A68B13D97;
-	Wed,  1 Sep 2021 02:41:00 +0000 (UTC)
-Message-ID: <5197939870d1867dd2131a8fdff8842b777c6016.camel@perches.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73FD2FAE
+	for <ntfs3@lists.linux.dev>; Wed,  1 Sep 2021 13:24:52 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id x27so6393581lfu.5
+        for <ntfs3@lists.linux.dev>; Wed, 01 Sep 2021 06:24:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=QemmkFCPO2XG2CVrKSAGiBckmZ349ANW8qbai2Np90w=;
+        b=SZpMER4hKSqMQ6aYsX4MQM1Rgw6YufSMtrsBxKsTySz+4wTNo2lCSC5JOMo58bZTRp
+         3W4Pb3FBCVeiYGO3d7sDNnx2Kksvt75iN9CEmMmlqGJbiJ1hU2VwTXM8aHTF1nsBfWZ9
+         nqE9AOkDO2lMurOBG9Mi5sEPM7ZsSnwZ60hBzCYIA7iVKJNcEm2W/KFPv3Zr2zRRUoXO
+         1YvmMb4yF5VCnQqdKG++EYAGc3JokgF9akCL37M9zWpj2IPZ+1uE4mTLpCy30LRARbnY
+         JuXkq54GdvFr2kz2jUl40SDgBjq+w26SpRpzp6mjG14MI2eXBVTvCWzfXe1HzypUpcKv
+         KnQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=QemmkFCPO2XG2CVrKSAGiBckmZ349ANW8qbai2Np90w=;
+        b=PGJtx0gX6f6UGbQNm2677gbVhmhnotSz/getGAD4cq9z1agsZLRw5yM4ZZ4cgaxYBi
+         VGUac9Y3uek+RP+EySXGL2Tlzd0Md8YDlOf9r0gjFF4Y2tcCgX2JKQUm3MvGpx7xHgh5
+         loxjiyR3CCBKX9bdrjun8SephmM+V3UjIJi5AHaWgGOmQ6UChicoPikcv1UGU+WjsEKA
+         fBAqFKzIc23D7AeL/q/dluvyVIh8wFsFbDL5vZq6S5TenPmP0pnVQ28K0WTqbldStSIe
+         5aR2faOdsQHjsP3QN/PdBSs7LpMohIaa2OaMVUBEfPEtB/dsKB2zYf5Mxsbwj+/frYt6
+         lrBQ==
+X-Gm-Message-State: AOAM533cVUtXkU3lNKKlSndti16lqBblPSRewnDL3p8B3T7YjR9PD2oy
+	OrgC/4uTrIS8gcNkdtbfltQ=
+X-Google-Smtp-Source: ABdhPJw8kxMfoCdm6f55Xe/Dr9DRmQLIbBhJiWXx91a/912clcMF5Q/aJkx6UVdYSC3BAojmGlHq/Q==
+X-Received: by 2002:a05:6512:3b94:: with SMTP id g20mr2877227lfv.409.1630502690740;
+        Wed, 01 Sep 2021 06:24:50 -0700 (PDT)
+Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id x74sm312309lff.179.2021.09.01.06.24.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 06:24:50 -0700 (PDT)
+Date: Wed, 1 Sep 2021 16:24:48 +0300
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Joe Perches <joe@perches.com>
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 1/5] fs/ntfs3: Use kmalloc_array over kmalloc with
  multiply
-From: Joe Perches <joe@perches.com>
-To: Kari Argillander <kari.argillander@gmail.com>, Konstantin Komarov
-	 <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org
-Date: Tue, 31 Aug 2021 19:40:58 -0700
-In-Reply-To: <20210831181505.1074767-2-kari.argillander@gmail.com>
+Message-ID: <20210901132448.mgkkyvqszc7lsnwy@kari-VirtualBox>
 References: <20210831181505.1074767-1-kari.argillander@gmail.com>
-	 <20210831181505.1074767-2-kari.argillander@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
+ <20210831181505.1074767-2-kari.argillander@gmail.com>
+ <5197939870d1867dd2131a8fdff8842b777c6016.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=6.31
-X-Stat-Signature: ocpfoi6u79nnsuqi3qfgc1bwhd7u4rmf
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 6A68B13D97
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18uSKCNe+O15Z6+tqeiXjSvmPXVWSJxc2w=
-X-HE-Tag: 1630464060-919141
+In-Reply-To: <5197939870d1867dd2131a8fdff8842b777c6016.camel@perches.com>
 
-On Tue, 2021-08-31 at 21:15 +0300, Kari Argillander wrote:
-> If we do not use kmalloc_array we get checkpatch warning. It is also
-> little safer if something goes wrong with coding.
-[]
-> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-[]
-> @@ -707,7 +707,7 @@ static struct NTFS_DE *hdr_find_e(const struct ntfs_index *indx,
->  		u16 *ptr;
->  		int new_slots = ALIGN(2 * nslots, 8);
->  
+On Tue, Aug 31, 2021 at 07:40:58PM -0700, Joe Perches wrote:
+> On Tue, 2021-08-31 at 21:15 +0300, Kari Argillander wrote:
+> > If we do not use kmalloc_array we get checkpatch warning. It is also
+> > little safer if something goes wrong with coding.
+> []
+> > diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+> []
+> > @@ -707,7 +707,7 @@ static struct NTFS_DE *hdr_find_e(const struct ntfs_index *indx,
+> >  		u16 *ptr;
+> >  		int new_slots = ALIGN(2 * nslots, 8);
+> >  
+> > 
+> > -		ptr = kmalloc(sizeof(u16) * new_slots, GFP_NOFS);
+> > +		ptr = kmalloc_array(new_slots, sizeof(u16), GFP_NOFS);
+> >  		if (ptr)
+> >  			memcpy(ptr, offs, sizeof(u16) * max_idx);
 > 
-> -		ptr = kmalloc(sizeof(u16) * new_slots, GFP_NOFS);
-> +		ptr = kmalloc_array(new_slots, sizeof(u16), GFP_NOFS);
->  		if (ptr)
->  			memcpy(ptr, offs, sizeof(u16) * max_idx);
+> This multiplication could also overflow.
+> 
+> Maybe use krealloc?
 
-This multiplication could also overflow.
+Seems to fit lot better here. But as I was watching this it seems that
+we do not even need to resize this array. It is quite costly operation
+compared to what entry compare cost.
 
-Maybe use krealloc?
+We just need to compare it and if entry diff > 0 then we start entry
+table again from zero without need resize array. It may be that we do
+not even need to allocate memory. We can probably survive with stack,
+but let's think that later.
 
+This can also speed up search a lot. It is quite odd that we always fill
+whole table and will not never check if we are over. Worst case is very
+very bad. With this change this will be more like jump search but I
+think it will be good in this case because we won't need memory allocation.
+
+Thanks Joe.
 
