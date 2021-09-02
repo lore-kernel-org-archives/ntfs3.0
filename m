@@ -1,30 +1,30 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0A172
-	for <ntfs3@lists.linux.dev>; Thu,  2 Sep 2021 16:31:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DE972
+	for <ntfs3@lists.linux.dev>; Thu,  2 Sep 2021 16:37:27 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 705B21D99;
-	Thu,  2 Sep 2021 19:31:09 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 1B5E0821A0;
+	Thu,  2 Sep 2021 19:37:26 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1630600269;
-	bh=0PEs+2tQ7ZmF73BqpIRvwTSI41YUXcuWRwtZTt/Qn28=;
+	d=paragon-software.com; s=mail; t=1630600646;
+	bh=/Vc4FLhSkksqr+H2ybhe9q6KfMyJY35ZtSabsZexfnQ=;
 	h=Subject:To:CC:References:From:Date:In-Reply-To;
-	b=tz27rhaHmItyR6Lkxnwqq/S/fZ9+iwCXsW7woLRSuA7nDqSeASdXncFLfQ1ad6D7h
-	 eFKD2vFh4yRKHIj1FCMOE/Sw8yneF1Qb2vu9UWLCs98K2P7/H3+ZN+Y3j1aZIfyFeM
-	 8TdNtKTKcz/SZn7DehY7Bonw8uwUwWtLVarDVwQ0=
+	b=A8PquZcBh9qeio7WXRBSlqcfJc+ZgPlDcXuoAeeCRUKm4ohAKjkrnIKT9gzv6b0ST
+	 r1OrtOBrDjf+JvQUG7IpmG66fcZ8kXsUvmSJfNXGI8oFaOzF7Y+YK+xme4wRnoumGH
+	 IU3T8yqt21omIpgk+Qk80hndR7ey9TtEZKveF44g=
 Received: from [192.168.211.59] (192.168.211.59) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 2 Sep 2021 19:31:09 +0300
-Subject: Re: [PATCH] fs/ntfs3: Remove GPL boilerplates from decompress lib
- files
+ 15.1.2176.2; Thu, 2 Sep 2021 19:37:25 +0300
+Subject: Re: [PATCH] fs/ntfs3: Change how module init/info messages are
+ displayed
 To: Kari Argillander <kari.argillander@gmail.com>, <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, Eric Biggers <ebiggers@kernel.org>
-References: <20210826214441.1614837-1-kari.argillander@gmail.com>
+CC: <linux-kernel@vger.kernel.org>
+References: <20210829144239.58213-1-kari.argillander@gmail.com>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Message-ID: <e90b9068-2b23-0a6d-944b-c8eab7cf5107@paragon-software.com>
-Date: Thu, 2 Sep 2021 19:31:08 +0300
+Message-ID: <8c05acf1-b6eb-09b0-e4ea-e9d3c6343545@paragon-software.com>
+Date: Thu, 2 Sep 2021 19:37:25 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 Precedence: bulk
@@ -33,7 +33,7 @@ List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210826214441.1614837-1-kari.argillander@gmail.com>
+In-Reply-To: <20210829144239.58213-1-kari.argillander@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -43,122 +43,72 @@ X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
 
 
 
-On 27.08.2021 00:44, Kari Argillander wrote:
-> Files already have SDPX identifier so no reason to keep boilerplates in
-> these files anymore.
+On 29.08.2021 17:42, Kari Argillander wrote:
+> Usually in file system init() messages are only displayed in info level.
+> Change level from notice to info, but keep CONFIG_NTFS3_64BIT_CLUSTER in
+> notice level. Also this need even more attention so let's put big
+> warning here so that nobody will not try accidentally use it.
 > 
-> CC: Eric Biggers <ebiggers@kernel.org>
+> There is also no good reason to display internal stuff like binary tree
+> search. This is always on option which can only disabled for debugging
+> purposes by developer. Also this message does not even check if
+> developer has disabled it or not so it is useless info.
+> 
 > Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 > ---
-> This is probably ok to you Eric just wanted to make sure and be polite.
-> ---
->  fs/ntfs3/lib/decompress_common.c | 13 -------------
->  fs/ntfs3/lib/decompress_common.h | 14 --------------
->  fs/ntfs3/lib/lzx_decompress.c    | 13 -------------
->  fs/ntfs3/lib/xpress_decompress.c | 13 -------------
->  4 files changed, 53 deletions(-)
+>  fs/ntfs3/super.c | 27 ++++++++-------------------
+>  1 file changed, 8 insertions(+), 19 deletions(-)
 > 
-> diff --git a/fs/ntfs3/lib/decompress_common.c b/fs/ntfs3/lib/decompress_common.c
-> index 83c9e93aea77..09e9e6544946 100644
-> --- a/fs/ntfs3/lib/decompress_common.c
-> +++ b/fs/ntfs3/lib/decompress_common.c
-> @@ -3,19 +3,6 @@
->   * decompress_common.c - Code shared by the XPRESS and LZX decompressors
->   *
->   * Copyright (C) 2015 Eric Biggers
-> - *
-> - * This program is free software: you can redistribute it and/or modify it under
-> - * the terms of the GNU General Public License as published by the Free Software
-> - * Foundation, either version 2 of the License, or (at your option) any later
-> - * version.
-> - *
-> - * This program is distributed in the hope that it will be useful, but WITHOUT
-> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-> - * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-> - * details.
-> - *
-> - * You should have received a copy of the GNU General Public License along with
-> - * this program.  If not, see <http://www.gnu.org/licenses/>.
->   */
+> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+> index 17ee715ab539..7895039cf673 100644
+> --- a/fs/ntfs3/super.c
+> +++ b/fs/ntfs3/super.c
+> @@ -1430,21 +1430,14 @@ static int __init init_ntfs_fs(void)
+>  {
+>  	int err;
 >  
->  #include "decompress_common.h"
-> diff --git a/fs/ntfs3/lib/decompress_common.h b/fs/ntfs3/lib/decompress_common.h
-> index 66297f398403..2d70ae42f1b5 100644
-> --- a/fs/ntfs3/lib/decompress_common.h
-> +++ b/fs/ntfs3/lib/decompress_common.h
-> @@ -1,22 +1,8 @@
->  /* SPDX-License-Identifier: GPL-2.0-or-later */
-> -
->  /*
->   * decompress_common.h - Code shared by the XPRESS and LZX decompressors
->   *
->   * Copyright (C) 2015 Eric Biggers
-> - *
-> - * This program is free software: you can redistribute it and/or modify it under
-> - * the terms of the GNU General Public License as published by the Free Software
-> - * Foundation, either version 2 of the License, or (at your option) any later
-> - * version.
-> - *
-> - * This program is distributed in the hope that it will be useful, but WITHOUT
-> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-> - * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-> - * details.
-> - *
-> - * You should have received a copy of the GNU General Public License along with
-> - * this program.  If not, see <http://www.gnu.org/licenses/>.
->   */
+> -	pr_notice("ntfs3: Index binary search\n");
+> -	pr_notice("ntfs3: Hot fix free clusters\n");
+> -	pr_notice("ntfs3: Max link count %u\n", NTFS_LINK_MAX);
+> +	pr_info("ntfs3: Max link count %u\n", NTFS_LINK_MAX);
 >  
->  #include <linux/string.h>
-> diff --git a/fs/ntfs3/lib/lzx_decompress.c b/fs/ntfs3/lib/lzx_decompress.c
-> index 77a381a693d1..6b16f07073c1 100644
-> --- a/fs/ntfs3/lib/lzx_decompress.c
-> +++ b/fs/ntfs3/lib/lzx_decompress.c
-> @@ -6,19 +6,6 @@
->   * this is the only size used in System Compression.
->   *
->   * Copyright (C) 2015 Eric Biggers
-> - *
-> - * This program is free software: you can redistribute it and/or modify it under
-> - * the terms of the GNU General Public License as published by the Free Software
-> - * Foundation, either version 2 of the License, or (at your option) any later
-> - * version.
-> - *
-> - * This program is distributed in the hope that it will be useful, but WITHOUT
-> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-> - * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-> - * details.
-> - *
-> - * You should have received a copy of the GNU General Public License along with
-> - * this program.  If not, see <http://www.gnu.org/licenses/>.
->   */
+> -#ifdef CONFIG_NTFS3_FS_POSIX_ACL
+> -	pr_notice("ntfs3: Enabled Linux POSIX ACLs support\n");
+> -#endif
+> -#ifdef CONFIG_NTFS3_64BIT_CLUSTER
+> -	pr_notice("ntfs3: Activated 64 bits per cluster\n");
+> -#else
+> -	pr_notice("ntfs3: Activated 32 bits per cluster\n");
+> -#endif
+> -#ifdef CONFIG_NTFS3_LZX_XPRESS
+> -	pr_notice("ntfs3: Read-only lzx/xpress compression included\n");
+> -#endif
+> +	if (IS_ENABLED(CONFIG_NTFS3_FS_POSIX_ACL))
+> +		pr_info("ntfs3: Enabled Linux POSIX ACLs support\n");
+> +	if (IS_ENABLED(CONFIG_NTFS3_64BIT_CLUSTER))
+> +		pr_notice("ntfs3: Warning: Activated 64 bits per cluster. Windows does not support this\n");
+> +	if (IS_ENABLED(CONFIG_NTFS3_LZX_XPRESS))
+> +		pr_info("ntfs3: Read-only LZX/Xpress compression included\n");
 >  
->  #include "decompress_common.h"
-> diff --git a/fs/ntfs3/lib/xpress_decompress.c b/fs/ntfs3/lib/xpress_decompress.c
-> index 3d98f36a981e..769c6d3dde67 100644
-> --- a/fs/ntfs3/lib/xpress_decompress.c
-> +++ b/fs/ntfs3/lib/xpress_decompress.c
-> @@ -5,19 +5,6 @@
->   * based on the code from wimlib.
->   *
->   * Copyright (C) 2015 Eric Biggers
-> - *
-> - * This program is free software: you can redistribute it and/or modify it under
-> - * the terms of the GNU General Public License as published by the Free Software
-> - * Foundation, either version 2 of the License, or (at your option) any later
-> - * version.
-> - *
-> - * This program is distributed in the hope that it will be useful, but WITHOUT
-> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-> - * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-> - * details.
-> - *
-> - * You should have received a copy of the GNU General Public License along with
-> - * this program.  If not, see <http://www.gnu.org/licenses/>.
->   */
+>  	err = ntfs3_init_bitmap();
+>  	if (err)
+> @@ -1484,15 +1477,11 @@ static void __exit exit_ntfs_fs(void)
 >  
->  #include "decompress_common.h"
+>  MODULE_LICENSE("GPL");
+>  MODULE_DESCRIPTION("ntfs3 read/write filesystem");
+> -MODULE_INFO(behaviour, "Index binary search");
+> -MODULE_INFO(behaviour, "Hot fix free clusters");
+>  #ifdef CONFIG_NTFS3_FS_POSIX_ACL
+>  MODULE_INFO(behaviour, "Enabled Linux POSIX ACLs support");
+>  #endif
+>  #ifdef CONFIG_NTFS3_64BIT_CLUSTER
+> -MODULE_INFO(cluster, "Activated 64 bits per cluster");
+> -#else
+> -MODULE_INFO(cluster, "Activated 32 bits per cluster");
+> +MODULE_INFO(cluster, "Warning: Activated 64 bits per cluster. Windows does not support this");
+>  #endif
+>  #ifdef CONFIG_NTFS3_LZX_XPRESS
+>  MODULE_INFO(compression, "Read-only lzx/xpress compression included");
 > 
-
-Hi, Kari, Eric!
 
 Applied, thanks!
