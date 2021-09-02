@@ -1,86 +1,95 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4418A3FD3
-	for <ntfs3@lists.linux.dev>; Thu,  2 Sep 2021 14:03:21 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-90-tzR3TaFjMtSaC8iSrW3zwg-1; Thu, 02 Sep 2021 15:03:18 +0100
-X-MC-Unique: tzR3TaFjMtSaC8iSrW3zwg-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.23; Thu, 2 Sep 2021 15:03:17 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.023; Thu, 2 Sep 2021 15:03:17 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Joe Perches' <joe@perches.com>, Kari Argillander
-	<kari.argillander@gmail.com>, Konstantin Komarov
-	<almaz.alexandrovich@paragon-software.com>, "ntfs3@lists.linux.dev"
-	<ntfs3@lists.linux.dev>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 1/5] fs/ntfs3: Use kmalloc_array over kmalloc with
- multiply
-Thread-Topic: [PATCH 1/5] fs/ntfs3: Use kmalloc_array over kmalloc with
- multiply
-Thread-Index: AQHXntrPdHiUovXUwEmoBRmrkk5W9KuQyAlw
-Date: Thu, 2 Sep 2021 14:03:17 +0000
-Message-ID: <6c078835254b43ec82bf45db3b241510@AcuMS.aculab.com>
-References: <20210831181505.1074767-1-kari.argillander@gmail.com>
-         <20210831181505.1074767-2-kari.argillander@gmail.com>
- <5197939870d1867dd2131a8fdff8842b777c6016.camel@perches.com>
-In-Reply-To: <5197939870d1867dd2131a8fdff8842b777c6016.camel@perches.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96393FC1
+	for <ntfs3@lists.linux.dev>; Thu,  2 Sep 2021 15:40:57 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id c8so5248421lfi.3
+        for <ntfs3@lists.linux.dev>; Thu, 02 Sep 2021 08:40:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EuYhyTGw4lWqSUdES+fH4JDl0igY3Z4nvbSSawEsyY8=;
+        b=q2wgJmOJjmwtv6XnpZyovktbSHyXroKKJ2fF1aUJor5EIp3Rd/ebY/PBptHCiPGyMz
+         bzpoFgKjl6118ndzykrhkCWga2CoqXIJTRYJTrSM6B/64Xqnl0shWAmpUUcuCSuetWqm
+         p5ps+nYVeSQW4aVY/aIJYAvr2RL/ybwK6xC3tJTDItyPDasKPB/GiyFqY+QjDPzHPLrd
+         Cl4o7i1RZMjc7ryI324/et0O73ZFmBqcMv+uNslz5k4LcPwWV1StWy5LFt+supK7k66A
+         jaHzDiLzfqceMzTkLzSNaFJjOeEsquwp2MT7fF0ZkXchXoV81KQ9V0c9DW+01SmR98D6
+         L6fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EuYhyTGw4lWqSUdES+fH4JDl0igY3Z4nvbSSawEsyY8=;
+        b=lwzQXRsO/dYEh9I3Xw2eRnbz8h8eSLQBZvgfabedxG5kLy4KAB0PEOb8QmrsfyxFig
+         9t4KyJF/IdFF3HkgaMf6/E6bHZfBE+6wg4C3L5gV7951mIOmX8NDZrD4qfoqJD8alUE+
+         3fhMasNmrMmE4/EKt6oa2u7G52I7L5duxQy4upuI8+81EDPZLFOJbwkPYD5qTF9eEfNp
+         mjDt4y20+Kw2f8OoSVXbxm4xAnasKSKL5lA7m+1/cjgnA4aDp4WYv2SZ7CfRdY/wqi8l
+         LzrX+ISTcioSe4QgcJvea5EWnhwNPCUja2AvNY/sXGyOMiF41U3TERf8VbUfP6JhIxxK
+         qEYw==
+X-Gm-Message-State: AOAM5314/E8yqig4Rhv4x7LsZc333qxrC5vo2k3aAhTugNIZnvnuOpGO
+	jMgc+VGTIxPzp6y18MzVnK0=
+X-Google-Smtp-Source: ABdhPJyHgof7YjHUqCBdwf9LcChC69K35HwidG8abusTBlBaVtir5R1C9iO1PLdN3iVOmgCNY9Qmyw==
+X-Received: by 2002:a05:6512:22c4:: with SMTP id g4mr2936623lfu.500.1630597254951;
+        Thu, 02 Sep 2021 08:40:54 -0700 (PDT)
+Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id 25sm258630ljw.31.2021.09.02.08.40.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Sep 2021 08:40:54 -0700 (PDT)
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: Kari Argillander <kari.argillander@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Joe Perches <joe@perches.com>
+Subject: [PATCH 0/3] fs/ntfs3: Make entry binary search faster
+Date: Thu,  2 Sep 2021 18:40:47 +0300
+Message-Id: <20210902154050.5075-1-kari.argillander@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-From: Joe Perches
-> Sent: 01 September 2021 03:41
->=20
-> On Tue, 2021-08-31 at 21:15 +0300, Kari Argillander wrote:
-> > If we do not use kmalloc_array we get checkpatch warning. It is also
-> > little safer if something goes wrong with coding.
-> []
-> > diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-> []
-> > @@ -707,7 +707,7 @@ static struct NTFS_DE *hdr_find_e(const struct ntfs=
-_index *indx,
-> > =C2=A0=09=09u16 *ptr;
-> > =C2=A0=09=09int new_slots =3D ALIGN(2 * nslots, 8);
-> >
-> >
-> > -=09=09ptr =3D kmalloc(sizeof(u16) * new_slots, GFP_NOFS);
-> > +=09=09ptr =3D kmalloc_array(new_slots, sizeof(u16), GFP_NOFS);
-> > =C2=A0=09=09if (ptr)
-> > =C2=A0=09=09=09memcpy(ptr, offs, sizeof(u16) * max_idx);
->=20
-> This multiplication could also overflow.
+This series will make binary search faster with removing the need of
+allocations. We will only use stack memory. This will also make possible
+to remove linear search completely.
 
-Not if kmalloc_array() has suceeded.
-OTOH the ALIGN(2 * nslots, 8) can also go wrong.
-(But probably not if the previous kmalloc() for 1/2 the size worked.)
+It is good also point out that full binary search not quite fit with
+entry search because entrys are not always same size. This why we first
+need linear table fill algorithm. My implementation try to use the fact
+that we should not linear fill full table before not doing any checking
+of the entrys. It is example 50/50 change if we are in middle that entry
+is in first half. So it is very inefficient to fill table after we are
+middle point.
 
-But there really ought to be some kind of bound check earlier.
+We could also predict how many entrys there is and use this information,
+but I did not do that in this point. I'm more than happy to improve this
+more if someone has ideas.
 
-=09David
+I have tested this with xfstests and did not see regressions. Checkpatch
+and build tests for every patch have been done. I haven't done major
+bench marking with this one. Idea that this is better is just my two
+cent. Paragon has hopefully done bencmarking with old binary search
+compared to linear search? I'm quite certain that this will win old
+binary search algorithm because no need for allocations.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+Thanks Joe for let me notice this improvement.
+
+Kari Argillander (3):
+  fs/ntfs3: Limit binary search table size
+  fs/ntfs3: Make binary search to search smaller chunks in beginning
+  fs/ntfs3: Always use binary search with entry search
+
+ fs/ntfs3/index.c | 153 ++++++++++++++---------------------------------
+ fs/ntfs3/ntfs.h  |   3 -
+ 2 files changed, 45 insertions(+), 111 deletions(-)
+
+
+base-commit: d3624466b56dd5b1886c1dff500525b544c19c83
+-- 
+2.25.1
 
