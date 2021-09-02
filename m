@@ -1,49 +1,49 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0272FAF
-	for <ntfs3@lists.linux.dev>; Thu,  2 Sep 2021 16:15:38 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id s10so5438979lfr.11
-        for <ntfs3@lists.linux.dev>; Thu, 02 Sep 2021 09:15:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2EE2FAF
+	for <ntfs3@lists.linux.dev>; Thu,  2 Sep 2021 16:15:39 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id d16so4572172ljq.4
+        for <ntfs3@lists.linux.dev>; Thu, 02 Sep 2021 09:15:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TFcTQJKSbXDRLP9mWB7XxD8YdU1LWh59xr03hi/9bMs=;
-        b=Ncbaywy50BWV9K53Lja0oOK+hE2NJc3JWDDWmDuJkBmZFH3dJuRUQhFel0fj8Oie3/
-         Iib1SN4j3zZkSg/U13+RuASbw9thH/kaiaR9DbbwMJh5lyS2abh7XOGUvTsLVtNIOLPC
-         i/JbMPIpRx1zY+3diKLAWqMUq2DLX/O64A7H0x3dwDs89DK4vm0+iQZF/mpljg45gpZx
-         idAkOeUndYt0yWcqoNe22CrXa9Gymjy2YIG+rkf+CzKMtVcfTeIjHRec1cLDxDbGvvVj
-         2eDryjk02v3/0vu7oIclQxktr1j0G37wH7B/1noKm4FfZA+psBcMuqUlsf+0TOba290V
-         KucA==
+        bh=ob2HCfLbexy1luGulrKway4plF2/kkuH1W1saHNOCQo=;
+        b=pBCxKSVw9Ji4JYB5OCdXI+l/dHNLz3ePATOIic0bMy2s5V1v1K7+nJuX+gJ9McOrFL
+         +y40utIyAcTazzv0nwWgFvKYak5VSSfbWPc06wD6eDnYR7S+0DtOsUj90gmrjUevQeRR
+         NxKzJzah5fFZXFgLTek90NBWN5ppDC3qHVGU/nK9BwnoEh+GFmpDexeEhwu6BfOJAEkA
+         rKVyQJ+fqhXNXlgomeR326ZuS7nWIkQRwHLm7lBDC2W7iZfZZtO/1EI+RF3PW2bPtGQk
+         YGDKuNEZtnarz69TTUHP7456py1We+6cUXuMVf0vvnvm4yovuQmogJlXiGRF5a/epk8C
+         SEvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TFcTQJKSbXDRLP9mWB7XxD8YdU1LWh59xr03hi/9bMs=;
-        b=ByJiYfJU+906apjA4j3cednon+FrLpCPFJ6EFHDHaOjoX/Pbr13fOZAUfHeejskNlZ
-         JzjCqlKw+WL0mkZCgsaRtRcyAoVH9Fd2RysuOTJaYH2lJXIzB/K0jgy/Fcx+OT2StMLA
-         ptEkVhwwlTlQlm9bRIJPtN9DDXVW4IKUGO8RZOT5bFZ4ULo3HxkB0aV5nQa6lZWqDpDw
-         ipXSJcYXVCTp9utSEqNspNlWcOEh1gWFaeAii/BEzWwvdadrLN2qJz7tjfZwgnHGpwxN
-         E7uF+yg58dZDfrF2zJGlnwWU3tBR5XFBq7mXwFoVJVUb5daWvnVfHX18pomlXk7tY0vJ
-         tYIA==
-X-Gm-Message-State: AOAM531uXj8ygxLEQydo/U6sxoT60LI+rG7ExwEfJhWMxvCbvZv8sL7x
-	rrJg9BdCLeznZFVOfyg/VeOOH5y4JviCJw==
-X-Google-Smtp-Source: ABdhPJyNOOMEs/bXSH41xnWiO4/nVy+dtMoDUlM/uXEKQkHzOL69XPmqEPxeEsAd5vv85Z3jWJ+SNw==
-X-Received: by 2002:a19:4853:: with SMTP id v80mr3147164lfa.365.1630599336951;
-        Thu, 02 Sep 2021 09:15:36 -0700 (PDT)
+        bh=ob2HCfLbexy1luGulrKway4plF2/kkuH1W1saHNOCQo=;
+        b=MtgNhSc1aiMn5bNWs8C8hnsE8DWbxxsezQYggaZjN8QysNWBPN8AlxnTfU6ax48ax8
+         evHBwW/OYsEmaOpK45TWzDVSDZ/gmXp19MKEKhC+vISPkU+fBkku7qkAMYY8FTN2qaub
+         xHWc3q08e7u9Uea5ldltf5VdriPuVDLC16OFGzUIXxBNjNeVJGys1R1yhptbdKBR8AeM
+         v8On96DfXk9Vntk8nIXZxOhKLTjp2uPRR8+357GHIsoLGtgz20mbdhxiaUzbEF1iiT6p
+         lG4xhX+MDKr7XZK9PW1P+5y08PjDnNUH6vN1s4WvEheFNcq9W57rTSifcANhJ3jDr5eK
+         Fevg==
+X-Gm-Message-State: AOAM532bzXjuX9q10SCJD7J9zeNkqd5wVY6RxAHxusa3JCqyCyw9ZbaL
+	fdmzb3o5n77xQ/3Kw4AxCSc=
+X-Google-Smtp-Source: ABdhPJyUWIfCl011zCkaBs+2pmSQuInn2PxqJd8IYtR8wyl/+dBK3vvWaVV6Tp6YsYo9hRx1az3E+w==
+X-Received: by 2002:a05:651c:98c:: with SMTP id b12mr3248586ljq.83.1630599338250;
+        Thu, 02 Sep 2021 09:15:38 -0700 (PDT)
 Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id m7sm267811ljj.58.2021.09.02.09.15.36
+        by smtp.gmail.com with ESMTPSA id m7sm267811ljj.58.2021.09.02.09.15.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Sep 2021 09:15:36 -0700 (PDT)
+        Thu, 02 Sep 2021 09:15:37 -0700 (PDT)
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
 Cc: Kari Argillander <kari.argillander@gmail.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/8] fs/ntfs3. Add forward declarations for structs to debug.h
-Date: Thu,  2 Sep 2021 19:15:21 +0300
-Message-Id: <20210902161528.6262-2-kari.argillander@gmail.com>
+Subject: [PATCH v2 2/8] fs/ntfs3: Add missing header files to ntfs.h
+Date: Thu,  2 Sep 2021 19:15:22 +0300
+Message-Id: <20210902161528.6262-3-kari.argillander@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210902161528.6262-1-kari.argillander@gmail.com>
 References: <20210902161528.6262-1-kari.argillander@gmail.com>
@@ -55,28 +55,44 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add forward declarations for structs so that we can include this file
-without warnings even without linux/fs.h
+We do not have header files at all in this file. Add following headers
+and there is also explanation which for it was added. Note that
+explanation might not be complete, but it just proofs it is needed.
+
+<linux/blkdev.h> // SECTOR_SHIFT
+<linux/build_bug.h> // static_assert()
+<linux/kernel.h> // cpu_to_le64, cpu_to_le32, ALIGN
+<linux/stddef.h> // offsetof()
+<linux/string.h> // memcmp()
+<linux/types.h> //__le32, __le16
+
+"debug.h" // PtrOffset(), Add2Ptr()
 
 Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 ---
- fs/ntfs3/debug.h | 3 +++
- 1 file changed, 3 insertions(+)
+ fs/ntfs3/ntfs.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/fs/ntfs3/debug.h b/fs/ntfs3/debug.h
-index 31120569a87b..53ef7489c75f 100644
---- a/fs/ntfs3/debug.h
-+++ b/fs/ntfs3/debug.h
-@@ -11,6 +11,9 @@
- #ifndef _LINUX_NTFS3_DEBUG_H
- #define _LINUX_NTFS3_DEBUG_H
+diff --git a/fs/ntfs3/ntfs.h b/fs/ntfs3/ntfs.h
+index 6bb3e595263b..695b684bce20 100644
+--- a/fs/ntfs3/ntfs.h
++++ b/fs/ntfs3/ntfs.h
+@@ -10,6 +10,15 @@
+ #ifndef _LINUX_NTFS3_NTFS_H
+ #define _LINUX_NTFS3_NTFS_H
  
-+struct super_block;
-+struct inode;
++#include <linux/blkdev.h>
++#include <linux/build_bug.h>
++#include <linux/kernel.h>
++#include <linux/stddef.h>
++#include <linux/string.h>
++#include <linux/types.h>
 +
- #ifndef Add2Ptr
- #define Add2Ptr(P, I)		((void *)((u8 *)(P) + (I)))
- #define PtrOffset(B, O)		((size_t)((size_t)(O) - (size_t)(B)))
++#include "debug.h"
++
+ /* TODO: Check 4K MFT record and 512 bytes cluster. */
+ 
+ /* Activate this define to use binary search in indexes. */
 -- 
 2.25.1
 
