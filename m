@@ -1,66 +1,98 @@
-Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE293FD5
-	for <ntfs3@lists.linux.dev>; Fri,  3 Sep 2021 13:25:05 +0000 (UTC)
-Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 1463F4060A;
-	Fri,  3 Sep 2021 13:24:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1630675499;
-	bh=sfWVSkiVXrsH15ykdL6F1vaX2G6vomR361T+ZKMS4bk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
-	b=ayvrDtnfNQ1bjF5hZ4vvzMrfEXmqcD90XQojCtdQ4D7WyR3ZXwUKLxHGOpl8KlDnF
-	 l9FosKX/xPMdlnrg+VwCujg7vzhUBzNYZMMT49rJxfa210CYhUJDpf0bNh6yJyLmex
-	 XIz4zLm+lfBDId6qSzP4cJl4cZ7DwvCwVRx5KILRpymhY/r5vwDSdXlVqkGR8G/ol8
-	 46eRbkWUv5rGtIbXxplLSznxSbQTPoBTLcn7vgEY589J+acVPm46RBLmp180H16WiA
-	 yUYBFWs3o30RPxhVrYKbMFjWWLoU5L2VE+Oi0mayvNlIT/DNiJfaC2Zew9BKedNGHk
-	 hAIu0mKDjKs5g==
-From: Colin King <colin.king@canonical.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7369C3FC1
+	for <ntfs3@lists.linux.dev>; Fri,  3 Sep 2021 14:46:05 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id p15so10008342ljn.3
+        for <ntfs3@lists.linux.dev>; Fri, 03 Sep 2021 07:46:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=iNqobfro7OKzCHlE+ueste6F4lAQYDNz3YZQNe0s7dU=;
+        b=FbgW7NwtvajiLnGoaMmhlDH5/uBbf1qmObSH5E/hHzIFvyikRu51F1trXnepspUoJT
+         yJb+hOYC81u7xYkr5eNzAZLLA+d4HPbjlfbNNESBDYuh3LfnihT8i/S/Y+eKIKDbhtf5
+         g+8hsfPQ4gdjGurrJAWTspoUIPw6hcid2lOjQrmG2GInWQShCaHzXk5au3RUCmm3Vhkn
+         nLzPCWHkqPkNZ7ynuGU6wD1Z5/aCfuMQqBCpHZoqVm/nCep7x6pcGU5pO9vjOhn0wqCk
+         h109089zTIRx6o9hh4CFKQTfgg+4C8DM2iBnUaa1laUKDZJW/v2ajkSyJyM99n8/AEKs
+         znGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=iNqobfro7OKzCHlE+ueste6F4lAQYDNz3YZQNe0s7dU=;
+        b=S9Lz0jTfGvYmJjULxZ9lUl+V8wfa0oB93kvildWTNZqZndEVp077CGXJBqSnmfqtbg
+         s4qyp5Pwvy2E+3gHDnezDQjUirfGXqc418+PPyJX6qNQSIuVPrMBPH/LNfOoL9UYCVTd
+         pFknDp1tbZrtQ5VSkHsNuss+9wUeY4RdGNd9qcaXxPFDEboYuTBIrdhnBQSTyw08z15g
+         Rag9snbMm8YXAWMd72qxk8Go4zIr66Jx2udWnw4khjo2o2cpD2cfZxka7wpKcCJDV+GS
+         yLPcexsYqwtyDng/76IRzH9tUZUgXMuTvRNNxF4OmAUSjnYQz4iJZwPN2T9MPhIPlryU
+         HV/w==
+X-Gm-Message-State: AOAM530zROd7KJ8a2nUCCCcGC7UgH4ytijBRftoZzDd//TmlXXpsV2P1
+	mSqPByu7UAqdgqP8ZKjd+oY=
+X-Google-Smtp-Source: ABdhPJy9LfCNoBvM62pq4as9H3XZW5V4z2XdwFa4/LA49+UUyWD8Gc9+AHU04fT21rTFWQ1hQAQ3mA==
+X-Received: by 2002:a05:651c:54c:: with SMTP id q12mr3261368ljp.369.1630680363432;
+        Fri, 03 Sep 2021 07:46:03 -0700 (PDT)
+Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id f20sm644300ljc.81.2021.09.03.07.46.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Sep 2021 07:46:02 -0700 (PDT)
+Date: Fri, 3 Sep 2021 17:46:01 +0300
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Colin King <colin.king@canonical.com>
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev, kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] fs/ntfs3: Remove redundant initialization of variable err
-Date: Fri,  3 Sep 2021 14:24:58 +0100
-Message-Id: <20210903132458.14342-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.32.0
+Subject: Re: [PATCH][next] fs/ntfs3: Remove redundant initialization of
+ variable err
+Message-ID: <20210903144601.jrqsjeaetxm3bcr3@kari-VirtualBox>
+References: <20210903132458.14342-1-colin.king@canonical.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210903132458.14342-1-colin.king@canonical.com>
 
-From: Colin Ian King <colin.king@canonical.com>
+On Fri, Sep 03, 2021 at 02:24:58PM +0100, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
+> 
+> The variable err is being initialized with a value that is never read, it
+> is being updated later on. The assignment is redundant and can be removed.
+> 
+> Addresses-Coverity: ("Unused value")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 
-The variable err is being initialized with a value that is never read, it
-is being updated later on. The assignment is redundant and can be removed.
+Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
 
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- fs/ntfs3/index.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Please note Konstantin that you should not yet, put this to master. You
+can collect these already, but if ntfs3 get merged to 5.15 we will start
+start master again later. You could but these in example devel if you
+want.
 
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index 0daca9adc54c..b1175542d854 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -1401,7 +1401,7 @@ int indx_find_raw(struct ntfs_index *indx, struct ntfs_inode *ni,
- static int indx_create_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
- 				CLST *vbn)
- {
--	int err = -ENOMEM;
-+	int err;
- 	struct ntfs_sb_info *sbi = ni->mi.sbi;
- 	struct ATTRIB *bitmap;
- 	struct ATTRIB *alloc;
--- 
-2.32.0
+Then we also need branch just for bug fixes. Example this will have to
+go to 5.16 because it is not bug fix. Our master is our for-next branch
+so this will go there when time comes.
 
+> ---
+>  fs/ntfs3/index.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+> index 0daca9adc54c..b1175542d854 100644
+> --- a/fs/ntfs3/index.c
+> +++ b/fs/ntfs3/index.c
+> @@ -1401,7 +1401,7 @@ int indx_find_raw(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  static int indx_create_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  				CLST *vbn)
+>  {
+> -	int err = -ENOMEM;
+> +	int err;
+>  	struct ntfs_sb_info *sbi = ni->mi.sbi;
+>  	struct ATTRIB *bitmap;
+>  	struct ATTRIB *alloc;
+> -- 
+> 2.32.0
+> 
