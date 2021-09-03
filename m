@@ -1,62 +1,66 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73BB3FC9
-	for <ntfs3@lists.linux.dev>; Fri,  3 Sep 2021 06:23:24 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id t12so9498629lfg.9
-        for <ntfs3@lists.linux.dev>; Thu, 02 Sep 2021 23:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=dTYOXH7zK0vPgrarPgldqYxyLQBs1zMUKXRf1qh7M7c=;
-        b=X8uK0KppmfcXaTvcG4M6gJFAzLmhzPapPqlPcfW4C3ZlgGKw6o3OSSL15N/3wICP5A
-         mM782u5rNZSykV55miEaPV0FdTV1KzdBGShVKWhaINOknmkMF1W18ywyvQrOB0u5dFzK
-         1N5nc4MLrrxK+16v7vaoB0p7ezdRFHIe+0MUfsIzAchRi+CT+iKy0ki3We7QQy2820IA
-         10Wj+FUA5GvUGR8unNP4m3h7DZkyd1BAJFCN6tbXw9olkxW/6PgN3poNMjD7L26C1Ezh
-         Q8cRdTVwq2x+IdGSkyAxtC0WK47oNtlAi99xtLl85QYjsCjewJFhmczsOtMQrz8KeaGd
-         edag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=dTYOXH7zK0vPgrarPgldqYxyLQBs1zMUKXRf1qh7M7c=;
-        b=Ha/8ETJX8HLCwlQokiyrsmNvc1LVYTWc3yk2YvWw9yHIk4drEDevKUhkVZSXU36Fnp
-         mNNA8O+dvndt+v0wm+xhC+3v5WotW0OaQuiFyAyCD1HT2ytIvKHfERxFR2BlI8ONlhfl
-         0qP1ZkgQytD9eLhYFajy7yEDRG1fiyODXvQhQ41zdOY/nZeoNDyGmpm+T9hyc3A9Eo+X
-         R5JmV0Z2FlD49LNJjeVPfwMzO+mo3hTLSuNsPIFfuMZHyTqZIElPPAhLOChwxCfdN20K
-         PlZ6s+u3CkSqDUT8JS23/V+JzbUE6svtHb1JJDOUgwF1k12+O7erKtATqn3x/EjKmfMM
-         OOFw==
-X-Gm-Message-State: AOAM530RC9bFbio8EuXLXdSXwyZTsOVI1eSm1BjB0zyf7+TLDIRvwZ6f
-	DCswccvx2IkIcmok75ev7MB+6ZDptIO3JQ==
-X-Google-Smtp-Source: ABdhPJyDRCu1pP1mXhe9mFWyARklrHQdg4/UrV5QLlTKm++vyS2nXR2QHPLKnhBtO6ShYB2qpEaYiw==
-X-Received: by 2002:a05:6512:22d3:: with SMTP id g19mr1614158lfu.544.1630650202662;
-        Thu, 02 Sep 2021 23:23:22 -0700 (PDT)
-Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id x6sm402461lfd.208.2021.09.02.23.23.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Sep 2021 23:23:22 -0700 (PDT)
-Date: Fri, 3 Sep 2021 09:23:20 +0300
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev
-Subject: ntfs3 pull request to linus
-Message-ID: <20210903062320.kk57imzcf47pzpzh@kari-VirtualBox>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE293FD5
+	for <ntfs3@lists.linux.dev>; Fri,  3 Sep 2021 13:25:05 +0000 (UTC)
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 1463F4060A;
+	Fri,  3 Sep 2021 13:24:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1630675499;
+	bh=sfWVSkiVXrsH15ykdL6F1vaX2G6vomR361T+ZKMS4bk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	b=ayvrDtnfNQ1bjF5hZ4vvzMrfEXmqcD90XQojCtdQ4D7WyR3ZXwUKLxHGOpl8KlDnF
+	 l9FosKX/xPMdlnrg+VwCujg7vzhUBzNYZMMT49rJxfa210CYhUJDpf0bNh6yJyLmex
+	 XIz4zLm+lfBDId6qSzP4cJl4cZ7DwvCwVRx5KILRpymhY/r5vwDSdXlVqkGR8G/ol8
+	 46eRbkWUv5rGtIbXxplLSznxSbQTPoBTLcn7vgEY589J+acVPm46RBLmp180H16WiA
+	 yUYBFWs3o30RPxhVrYKbMFjWWLoU5L2VE+Oi0mayvNlIT/DNiJfaC2Zew9BKedNGHk
+	 hAIu0mKDjKs5g==
+From: Colin King <colin.king@canonical.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] fs/ntfs3: Remove redundant initialization of variable err
+Date: Fri,  3 Sep 2021 14:24:58 +0100
+Message-Id: <20210903132458.14342-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hello Konstantin.
+From: Colin Ian King <colin.king@canonical.com>
 
-Linus has just stated that he is waiting for your pull request [1]. As
-this is your first can you please send pull request first to this list
-or to me personally so that we/I can check that it is somehow correct.
-Please note that this is quite urgant already if we want ntfs3 to be
-merged in this merge window.
+The variable err is being initialized with a value that is never read, it
+is being updated later on. The assignment is redundant and can be removed.
 
-[1]: https://lore.kernel.org/linux-fsdevel/CAHk-=wg7GMGD1YNM7WgPAU3nwHhMAvQ8yvdwvJtuwe9J1pBgvg@mail.gmail.com/
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ fs/ntfs3/index.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 0daca9adc54c..b1175542d854 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -1401,7 +1401,7 @@ int indx_find_raw(struct ntfs_index *indx, struct ntfs_inode *ni,
+ static int indx_create_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 				CLST *vbn)
+ {
+-	int err = -ENOMEM;
++	int err;
+ 	struct ntfs_sb_info *sbi = ni->mi.sbi;
+ 	struct ATTRIB *bitmap;
+ 	struct ATTRIB *alloc;
+-- 
+2.32.0
 
