@@ -1,114 +1,62 @@
-Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DE972
-	for <ntfs3@lists.linux.dev>; Thu,  2 Sep 2021 16:37:27 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 1B5E0821A0;
-	Thu,  2 Sep 2021 19:37:26 +0300 (MSK)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73BB3FC9
+	for <ntfs3@lists.linux.dev>; Fri,  3 Sep 2021 06:23:24 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id t12so9498629lfg.9
+        for <ntfs3@lists.linux.dev>; Thu, 02 Sep 2021 23:23:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1630600646;
-	bh=/Vc4FLhSkksqr+H2ybhe9q6KfMyJY35ZtSabsZexfnQ=;
-	h=Subject:To:CC:References:From:Date:In-Reply-To;
-	b=A8PquZcBh9qeio7WXRBSlqcfJc+ZgPlDcXuoAeeCRUKm4ohAKjkrnIKT9gzv6b0ST
-	 r1OrtOBrDjf+JvQUG7IpmG66fcZ8kXsUvmSJfNXGI8oFaOzF7Y+YK+xme4wRnoumGH
-	 IU3T8yqt21omIpgk+Qk80hndR7ey9TtEZKveF44g=
-Received: from [192.168.211.59] (192.168.211.59) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 2 Sep 2021 19:37:25 +0300
-Subject: Re: [PATCH] fs/ntfs3: Change how module init/info messages are
- displayed
-To: Kari Argillander <kari.argillander@gmail.com>, <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>
-References: <20210829144239.58213-1-kari.argillander@gmail.com>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Message-ID: <8c05acf1-b6eb-09b0-e4ea-e9d3c6343545@paragon-software.com>
-Date: Thu, 2 Sep 2021 19:37:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=dTYOXH7zK0vPgrarPgldqYxyLQBs1zMUKXRf1qh7M7c=;
+        b=X8uK0KppmfcXaTvcG4M6gJFAzLmhzPapPqlPcfW4C3ZlgGKw6o3OSSL15N/3wICP5A
+         mM782u5rNZSykV55miEaPV0FdTV1KzdBGShVKWhaINOknmkMF1W18ywyvQrOB0u5dFzK
+         1N5nc4MLrrxK+16v7vaoB0p7ezdRFHIe+0MUfsIzAchRi+CT+iKy0ki3We7QQy2820IA
+         10Wj+FUA5GvUGR8unNP4m3h7DZkyd1BAJFCN6tbXw9olkxW/6PgN3poNMjD7L26C1Ezh
+         Q8cRdTVwq2x+IdGSkyAxtC0WK47oNtlAi99xtLl85QYjsCjewJFhmczsOtMQrz8KeaGd
+         edag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=dTYOXH7zK0vPgrarPgldqYxyLQBs1zMUKXRf1qh7M7c=;
+        b=Ha/8ETJX8HLCwlQokiyrsmNvc1LVYTWc3yk2YvWw9yHIk4drEDevKUhkVZSXU36Fnp
+         mNNA8O+dvndt+v0wm+xhC+3v5WotW0OaQuiFyAyCD1HT2ytIvKHfERxFR2BlI8ONlhfl
+         0qP1ZkgQytD9eLhYFajy7yEDRG1fiyODXvQhQ41zdOY/nZeoNDyGmpm+T9hyc3A9Eo+X
+         R5JmV0Z2FlD49LNJjeVPfwMzO+mo3hTLSuNsPIFfuMZHyTqZIElPPAhLOChwxCfdN20K
+         PlZ6s+u3CkSqDUT8JS23/V+JzbUE6svtHb1JJDOUgwF1k12+O7erKtATqn3x/EjKmfMM
+         OOFw==
+X-Gm-Message-State: AOAM530RC9bFbio8EuXLXdSXwyZTsOVI1eSm1BjB0zyf7+TLDIRvwZ6f
+	DCswccvx2IkIcmok75ev7MB+6ZDptIO3JQ==
+X-Google-Smtp-Source: ABdhPJyDRCu1pP1mXhe9mFWyARklrHQdg4/UrV5QLlTKm++vyS2nXR2QHPLKnhBtO6ShYB2qpEaYiw==
+X-Received: by 2002:a05:6512:22d3:: with SMTP id g19mr1614158lfu.544.1630650202662;
+        Thu, 02 Sep 2021 23:23:22 -0700 (PDT)
+Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id x6sm402461lfd.208.2021.09.02.23.23.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Sep 2021 23:23:22 -0700 (PDT)
+Date: Fri, 3 Sep 2021 09:23:20 +0300
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev
+Subject: ntfs3 pull request to linus
+Message-ID: <20210903062320.kk57imzcf47pzpzh@kari-VirtualBox>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210829144239.58213-1-kari.argillander@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.59]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hello Konstantin.
 
+Linus has just stated that he is waiting for your pull request [1]. As
+this is your first can you please send pull request first to this list
+or to me personally so that we/I can check that it is somehow correct.
+Please note that this is quite urgant already if we want ntfs3 to be
+merged in this merge window.
 
-On 29.08.2021 17:42, Kari Argillander wrote:
-> Usually in file system init() messages are only displayed in info level.
-> Change level from notice to info, but keep CONFIG_NTFS3_64BIT_CLUSTER in
-> notice level. Also this need even more attention so let's put big
-> warning here so that nobody will not try accidentally use it.
-> 
-> There is also no good reason to display internal stuff like binary tree
-> search. This is always on option which can only disabled for debugging
-> purposes by developer. Also this message does not even check if
-> developer has disabled it or not so it is useless info.
-> 
-> Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
-> ---
->  fs/ntfs3/super.c | 27 ++++++++-------------------
->  1 file changed, 8 insertions(+), 19 deletions(-)
-> 
-> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-> index 17ee715ab539..7895039cf673 100644
-> --- a/fs/ntfs3/super.c
-> +++ b/fs/ntfs3/super.c
-> @@ -1430,21 +1430,14 @@ static int __init init_ntfs_fs(void)
->  {
->  	int err;
->  
-> -	pr_notice("ntfs3: Index binary search\n");
-> -	pr_notice("ntfs3: Hot fix free clusters\n");
-> -	pr_notice("ntfs3: Max link count %u\n", NTFS_LINK_MAX);
-> +	pr_info("ntfs3: Max link count %u\n", NTFS_LINK_MAX);
->  
-> -#ifdef CONFIG_NTFS3_FS_POSIX_ACL
-> -	pr_notice("ntfs3: Enabled Linux POSIX ACLs support\n");
-> -#endif
-> -#ifdef CONFIG_NTFS3_64BIT_CLUSTER
-> -	pr_notice("ntfs3: Activated 64 bits per cluster\n");
-> -#else
-> -	pr_notice("ntfs3: Activated 32 bits per cluster\n");
-> -#endif
-> -#ifdef CONFIG_NTFS3_LZX_XPRESS
-> -	pr_notice("ntfs3: Read-only lzx/xpress compression included\n");
-> -#endif
-> +	if (IS_ENABLED(CONFIG_NTFS3_FS_POSIX_ACL))
-> +		pr_info("ntfs3: Enabled Linux POSIX ACLs support\n");
-> +	if (IS_ENABLED(CONFIG_NTFS3_64BIT_CLUSTER))
-> +		pr_notice("ntfs3: Warning: Activated 64 bits per cluster. Windows does not support this\n");
-> +	if (IS_ENABLED(CONFIG_NTFS3_LZX_XPRESS))
-> +		pr_info("ntfs3: Read-only LZX/Xpress compression included\n");
->  
->  	err = ntfs3_init_bitmap();
->  	if (err)
-> @@ -1484,15 +1477,11 @@ static void __exit exit_ntfs_fs(void)
->  
->  MODULE_LICENSE("GPL");
->  MODULE_DESCRIPTION("ntfs3 read/write filesystem");
-> -MODULE_INFO(behaviour, "Index binary search");
-> -MODULE_INFO(behaviour, "Hot fix free clusters");
->  #ifdef CONFIG_NTFS3_FS_POSIX_ACL
->  MODULE_INFO(behaviour, "Enabled Linux POSIX ACLs support");
->  #endif
->  #ifdef CONFIG_NTFS3_64BIT_CLUSTER
-> -MODULE_INFO(cluster, "Activated 64 bits per cluster");
-> -#else
-> -MODULE_INFO(cluster, "Activated 32 bits per cluster");
-> +MODULE_INFO(cluster, "Warning: Activated 64 bits per cluster. Windows does not support this");
->  #endif
->  #ifdef CONFIG_NTFS3_LZX_XPRESS
->  MODULE_INFO(compression, "Read-only lzx/xpress compression included");
-> 
+[1]: https://lore.kernel.org/linux-fsdevel/CAHk-=wg7GMGD1YNM7WgPAU3nwHhMAvQ8yvdwvJtuwe9J1pBgvg@mail.gmail.com/
 
-Applied, thanks!
