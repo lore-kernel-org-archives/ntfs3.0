@@ -1,162 +1,89 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2BE53FC1
-	for <ntfs3@lists.linux.dev>; Fri,  3 Sep 2021 15:19:53 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 097B11CC;
-	Fri,  3 Sep 2021 18:19:51 +0300 (MSK)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D443FC1
+	for <ntfs3@lists.linux.dev>; Sat,  4 Sep 2021 17:34:33 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id t19so4781531lfe.13
+        for <ntfs3@lists.linux.dev>; Sat, 04 Sep 2021 10:34:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1630682391;
-	bh=C7LWXvYDBulnF8t609DkfrxLr/asKLyhnDepGTY/Ot0=;
-	h=To:CC:From:Subject:Date;
-	b=iDbs8OQvp2LnUzBucwMyPHCufaJUX28lcdc6o3G1r4TyTuNun8YhltwmJp3lw/+Dj
-	 14EH9+6xKGghOhEGNAKNfBFDWYQLE3lBfM4HbgYKUDeXFfnND5spv/UartP+hwR6vx
-	 tFdTLT9YaAB4BKuhxj13SJUUK1c84Yt0ZsjQvqog=
-Received: from [192.168.211.96] (192.168.211.96) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 3 Sep 2021 18:19:50 +0300
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [GIT PULL] ntfs3: new NTFS driver for 5.15
-Message-ID: <aa4aa155-b9b2-9099-b7a2-349d8d9d8fbd@paragon-software.com>
-Date: Fri, 3 Sep 2021 18:19:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=X1/lHCDC58EpZAP3lSL5HIsZ7t+vVs/gedrU1qbfjC0=;
+        b=g5E0A7pKVAwqmS28GONd127aSSuVA2rRCo0KFjrdmCpo6rlWVPKyBE1s+a1I99PChg
+         pjdcRsvnYRVw/J0kgR4KTYtC7JHVyybTqboHqN+10p/hmcbHYK/1Q7FFPkYWSLmMWBLR
+         6+tIcgDsIrGGM3fiRmY2IlkJv2zcOqPBLJ1BM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=X1/lHCDC58EpZAP3lSL5HIsZ7t+vVs/gedrU1qbfjC0=;
+        b=WKyKUWLf8ZEuMjvfIxyUrS4l3DAY75FG4WMq9iZ7rOcISW50kBNDsueBGxlCx/hJ72
+         /wv5oOPL8QY8GdKNWiQI2PMBP+sA0JxeMyKTgwxaKuEyY7C8DULN7T92+YmyXHeVE8wN
+         NdAYW/2oSpxf3gZ/9dAsfZi/ivev7qlDheLrcMvWl68+3ZFl158++CvwOhYTrWH6hTma
+         7IYUAgvsDEMZht0i7Jvpr4M5f5RK16V0KRfegiILigwIJDu3Mg/aVgbMtEUiV7KXSnnU
+         o7f/jBAj+x1H+K6pi1mPUkkX+lI5MXOqBNbWXI5+Y6kjhxTK2Z7h8Glqr31jRZ7VbmDl
+         PHMA==
+X-Gm-Message-State: AOAM530tKgt0I1VlzLki7j0597sCPYmr1tshbgyIpiaWj0dv8H0o0vyE
+	f4eY/nHJtaNbRq5a1vPgMBBI4Xz/IDnSb4PB
+X-Google-Smtp-Source: ABdhPJyRzi27baLRNcRuzE0ThFEvMYyy36qHJL1P29sgKab3BEZ4xkp28aO3KL14rP3XSyW63Rux3w==
+X-Received: by 2002:ac2:523b:: with SMTP id i27mr3491630lfl.678.1630776871512;
+        Sat, 04 Sep 2021 10:34:31 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
+        by smtp.gmail.com with ESMTPSA id r67sm290870lff.31.2021.09.04.10.34.30
+        for <ntfs3@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Sep 2021 10:34:30 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id f18so4788465lfk.12
+        for <ntfs3@lists.linux.dev>; Sat, 04 Sep 2021 10:34:30 -0700 (PDT)
+X-Received: by 2002:a05:6512:3987:: with SMTP id j7mr3646341lfu.280.1630776870597;
+ Sat, 04 Sep 2021 10:34:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.96]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+References: <aa4aa155-b9b2-9099-b7a2-349d8d9d8fbd@paragon-software.com>
+In-Reply-To: <aa4aa155-b9b2-9099-b7a2-349d8d9d8fbd@paragon-software.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sat, 4 Sep 2021 10:34:14 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whFAkqwGSNXqeN4KfNwXeCzp9-uoy69_mLExEydTajvGw@mail.gmail.com>
+Message-ID: <CAHk-=whFAkqwGSNXqeN4KfNwXeCzp9-uoy69_mLExEydTajvGw@mail.gmail.com>
+Subject: Re: [GIT PULL] ntfs3: new NTFS driver for 5.15
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Linus,
+On Fri, Sep 3, 2021 at 8:19 AM Konstantin Komarov
+<almaz.alexandrovich@paragon-software.com> wrote:
+>
+>   https://github.com/Paragon-Software-Group/linux-ntfs3.git master
 
-Please pull this branch containing ntfs3 code for 5.15.
+Oh, I didn't notice this until now, as I was lining up to actually pull this.
 
-This is NTFS read-write driver. Current version works with 
-normal/compressed/sparse files and supports acl,
-NTFS journal replaying.
+I probably forgot to say this originally:
 
-Most of the code was in linux-next branch since Aug 13, but
-there are some patches, that were in linux-next branch only
-for a couple of days. Hopefully it is ok - no regression
-was detected in tests.
+For github accounts (or really, anything but kernel.org where I can
+just trust the account management), I really want the pull request to
+be a signed tag, not just a plain branch.
 
-Linus, sorry for messing up, but there was a back merge
-from Linux 5.14-rc5 to 5.14-rc7 with github web
-interface.
+In a perfect world, it would be a PGP signature that I can trace
+directly to you through the chain of trust, but I've never actually
+required that.
 
-There is build failure after merge of the overlayfs tree
-in linux-next [1].
+So while I prefer to see a full chain of trust, I realize that isn't
+always easy to set up, and so at least I want to see an "identity"
+that stays constant so that I can see that pulls come from the same
+consistent source that controls that key.
 
-Regards,
+(We've also had situations where the chain of trust just didn't exist
+_yet_, but then later on it can be established as a developer ends up
+becoming more integral in the community)
 
-Konstantin
+Signed tags are easy to use - the hardest part is having any pgp key
+setup at all, then git makes using the keys trivial with "git tag -s
+.."
 
-[1]: https://lore.kernel.org/linux-next/20210819093910.55f96720@canb.auug.org.au/
-
-----------------------------------------------------------------
-
-The following changes since commit 36a21d51725af2ce0700c6ebcb6b9594aac658a6:
-
-  Linux 5.14-rc5 (Sun Aug 8 13:49:31 2021 -0700)
-
-are available in the Git repository at:
-
-  https://github.com/Paragon-Software-Group/linux-ntfs3.git master
-
-for you to fetch changes up to 2e3a51b59ea26544303e168de8a0479915f09aa3:
-
-  fs/ntfs3: Change how module init/info messages are displayed (Sun Aug 29 17:42:39 2021 +0300)
-
-----------------------------------------------------------------
-Konstantin Komarov (12)
-      fs/ntfs3: Restyle comments to better align with kernel-doc
-      fs/ntfs3: Rework file operations
-      fs/ntfs3: Add MAINTAINERS
-      fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
-      fs/ntfs3: Add Kconfig, Makefile and doc
-      fs/ntfs3: Add NTFS journal
-      fs/ntfs3: Add compression
-      fs/ntfs3: Add attrib operations
-      fs/ntfs3: Add file operations and implementation
-      fs/ntfs3: Add bitmap
-      fs/ntfs3: Add initialization of super block
-      fs/ntfs3: Add headers and misc files
-
-Kari Argillander (13)
-      fs/ntfs3: Change how module init/info messages are displayed
-      fs/ntfs3: Remove GPL boilerplates from decompress lib files
-      fs/ntfs3: Remove unnecessary condition checking from ntfs_file_read_iter
-      fs/ntfs3: Fix integer overflow in ni_fiemap with fiemap_prep()
-      fs/ntfs3: Remove fat ioctl's from ntfs3 driver for now
-      fs/ntfs3: Restyle comments to better align with kernel-doc
-      fs/ntfs3: Use kcalloc/kmalloc_array over kzalloc/kmalloc
-      fs/ntfs3: Do not use driver own alloc wrappers
-      fs/ntfs3: Use kernel ALIGN macros over driver specific
-      fs/ntfs3: Restyle comment block in ni_parse_reparse()
-      fs/ntfs3: Fix one none utf8 char in source file
-      fs/ntfs3: Add ifndef + define to all header files
-      fs/ntfs3: Use linux/log2 is_power_of_2 function
-
-Dan Carpenter (5)
-      fs/ntfs3: Fix error handling in indx_insert_into_root()
-      fs/ntfs3: Potential NULL dereference in hdr_find_split()
-      fs/ntfs3: Fix error code in indx_add_allocate()
-      fs/ntfs3: fix an error code in ntfs_get_acl_ex()
-      fs/ntfs3: add checks for allocation failure
-
-Jiapeng Chong (1)
-      fs/ntfs3: Remove unused including <linux/version.h>
-
-Gustavo A. R. Silva (1)
-      fs/ntfs3: Fix fall-through warnings for Clang
-
-Nathan Chancellor (1)
-      fs/ntfs3: Remove unused variable cnt in ntfs_security_init()
-
-Colin Ian King (2)
-      fs/ntfs3: Fix integer overflow in multiplication
-      fs/ntfs3: Fix various spelling mistakes
-
- Documentation/filesystems/index.rst |   1 +
- Documentation/filesystems/ntfs3.rst | 106 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/Kconfig                    |   46 +++
- fs/ntfs3/Makefile                   |   36 ++
- fs/ntfs3/attrib.c                   | 2093 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/attrlist.c                 |  460 +++++++++++++++++++++
- fs/ntfs3/bitfunc.c                  |  134 +++++++
- fs/ntfs3/bitmap.c                   | 1493 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/debug.h                    |   52 +++
- fs/ntfs3/dir.c                      |  599 ++++++++++++++++++++++++++++
- fs/ntfs3/file.c                     | 1251 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/frecord.c                  | 3257 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/fslog.c                    | 5217 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/fsntfs.c                   | 2509 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/index.c                    | 2650 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/inode.c                    | 1957 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/lib/decompress_common.c    |  319 +++++++++++++++
- fs/ntfs3/lib/decompress_common.h    |  338 ++++++++++++++++
- fs/ntfs3/lib/lib.h                  |   26 ++
- fs/ntfs3/lib/lzx_decompress.c       |  670 +++++++++++++++++++++++++++++++
- fs/ntfs3/lib/xpress_decompress.c    |  142 +++++++
- fs/ntfs3/lznt.c                     |  453 +++++++++++++++++++++
- fs/ntfs3/namei.c                    |  411 +++++++++++++++++++
- fs/ntfs3/ntfs.h                     | 1216 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/ntfs_fs.h                  | 1111 +++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/record.c                   |  605 ++++++++++++++++++++++++++++
- fs/ntfs3/run.c                      | 1113 +++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/super.c                    | 1512 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs3/upcase.c                   |  108 +++++
- fs/ntfs3/xattr.c                    | 1119 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 30 files changed, 31004 insertions(+)
+              Linus
