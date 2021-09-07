@@ -1,41 +1,41 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53C572
-	for <ntfs3@lists.linux.dev>; Tue,  7 Sep 2021 15:36:28 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id d16so17240032ljq.4
-        for <ntfs3@lists.linux.dev>; Tue, 07 Sep 2021 08:36:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483DD3FDE
+	for <ntfs3@lists.linux.dev>; Tue,  7 Sep 2021 15:36:30 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id t19so20285370lfe.13
+        for <ntfs3@lists.linux.dev>; Tue, 07 Sep 2021 08:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6IBOhrHMY/c1tfwUMPdU4gIC4AvL9Y2ZEu59nLM3Bis=;
-        b=ecuY4YKKqY9hcXGVgcr5eF6494AIrirQii9krUItCo+qkAgsKVoph54s8t7Iy2wKDI
-         ciFIB303/DuMBw8wqrCNcV2J0fZae4BNrYGctK33CNJpwEUdhP54Kgo4DwsmNbILVCgB
-         g81DUJ3/Bbx6psqZeKu2zgxOJrJmGxEFi06NLa64SKUulTWhAHX9Qnfe4opfekArtskT
-         zQJD2csRnZ4vRs3HqVmhtp4yHYGOLHm4ey/9julIymM1sk+No2FYfDGSEP8unMCHHsXr
-         3BXhx+y241cMSZiyz0im/U96+dd7gEnA+oJHq2IB/DAkwHKIzXNYo//8B+C4wt7TZle6
-         3xuQ==
+        bh=Ylxb5RZ+eMJvrKhxMzlFWiAiShFTuT1l3TN+viEp6UY=;
+        b=bTiYvWMbHeuqnhR0ZZ7sF/A3QNiMGYrTuIy1x4pDCfq3Hy57eWQFfLIzLCjvMbOCh9
+         y8KHuUa2g3U32Rt49yN2OuzEpXFWKEokWQYVW71+8okQuJCVFh9G+xhkmllEgvUEgZa2
+         e6bKeeb7t05489op6NF2PBSNmIXueAGSkYAJQGYlwQM27dNd7i9IeJFOWv/e+6hMHKrt
+         adZHBIT71wUuJs6drLNSGmIIZiRMjYsgtGY2m6CT3DD/maxM0ZqsdScSXVXD6JnFXust
+         Xc/qZ6AQ/VsKM/cmober/QfbUL2b+L8eEXnjHXP3iSvzrY2S21tDYZGMfmh5ZCyv0Cxs
+         r8+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6IBOhrHMY/c1tfwUMPdU4gIC4AvL9Y2ZEu59nLM3Bis=;
-        b=pLziq5gKRMl1rik2a6chuQSeL/L+4A2Z0h6cVk6/p/6S1WSlgLIVFq3cgdD1+1QpiJ
-         bIowLGBANeBZgyKaSQYx/rIaAstAVxkRwafCWkoKzREbg2DbM0G9JB3HSqQnC6wlUehd
-         TBrS5bJuuo6yqbdSft0J1h9cOzVTvqpnrSBlCpOkgzhv9sN44hU1G61KXCxcFH1TRoyB
-         nnHH2qgKmXnwvS6M4ZQWNchYdBcokExFfIUqaE3VCf+mhY1Slo+BRE2Vjk7vTefUVinQ
-         URtvAb8X5UZXHIhkxqtpvidAIWyNsxUk6fQGQSTo2FKBdx2b6eDZBEdhh9go3i7ypwDU
-         Nr5w==
-X-Gm-Message-State: AOAM530uj3I34igP1rOCjidygaF91ZPs8nfetQn87IC+VcgIxUsi94Tv
-	SJtO53/aAOofDgp3BszR+64=
-X-Google-Smtp-Source: ABdhPJwpmkQPafKAJkRMMmr+44q6bqHZjG8USn5+w+wAveGGiMn9+GDaA6WHOcgJotZAMY4rGoeKmw==
-X-Received: by 2002:a2e:9dcb:: with SMTP id x11mr15667575ljj.137.1631028986922;
-        Tue, 07 Sep 2021 08:36:26 -0700 (PDT)
+        bh=Ylxb5RZ+eMJvrKhxMzlFWiAiShFTuT1l3TN+viEp6UY=;
+        b=K622SKGz+H8Hn1C1E8BeJHmYW+I+/KVjufauCQayL3JdJK1d2/C6PO2Dqk5J0XH6fG
+         2xn2Pza3zP4pWAYqJYF2fZGWjJhNQxLvAzIXp8d7tbTr2cbprNhcTVTo3Wt/k3M6cHli
+         /WTmloMDE4Y+3eYRTVf584IFlDYFjOnORIj3N9cjgVamJkJIL6pryEHjdTOD1YPuEsSp
+         mlsLV/wV3c+MgKxSdcAHp2O8Gx+M1XSlTE7UftV9RScH75ZFwiWf1+8cPlUrHhZ3rQ7M
+         dbKuDBTbzPMGfQuvvJ45/xuH0oCvTw6oXk1VuPVhS9u/jjIoTbTAx8kPhRqG8uTuTQKK
+         F/4A==
+X-Gm-Message-State: AOAM531GFPSNiEkALb8syNxMiTExA5b5sH3y5tryO7Y9hCRlw7LQri+W
+	XkVYu7YaEtgavhbFKRwqK6Y=
+X-Google-Smtp-Source: ABdhPJww8obqgjqp+QMqrJ/aiJi9o7nTCoVkSIvWmlT0cZSwVG8oFr0dlhrzE6CWhirxyPi5ckXNYA==
+X-Received: by 2002:ac2:4906:: with SMTP id n6mr13046916lfi.381.1631028988446;
+        Tue, 07 Sep 2021 08:36:28 -0700 (PDT)
 Received: from kari-VirtualBox.telewell.oy ([31.132.12.44])
-        by smtp.gmail.com with ESMTPSA id p14sm1484458lji.56.2021.09.07.08.36.26
+        by smtp.gmail.com with ESMTPSA id p14sm1484458lji.56.2021.09.07.08.36.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Sep 2021 08:36:26 -0700 (PDT)
+        Tue, 07 Sep 2021 08:36:28 -0700 (PDT)
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
@@ -46,9 +46,9 @@ Cc: Kari Argillander <kari.argillander@gmail.com>,
 	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
 	Matthew Wilcox <willy@infradead.org>,
 	Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH v4 8/9] fs/ntfs3: Rename mount option no_acs_rules > (no)acsrules
-Date: Tue,  7 Sep 2021 18:35:56 +0300
-Message-Id: <20210907153557.144391-9-kari.argillander@gmail.com>
+Subject: [PATCH v4 9/9] fs/ntfs3: Show uid/gid always in show_options()
+Date: Tue,  7 Sep 2021 18:35:57 +0300
+Message-Id: <20210907153557.144391-10-kari.argillander@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210907153557.144391-1-kari.argillander@gmail.com>
 References: <20210907153557.144391-1-kari.argillander@gmail.com>
@@ -60,116 +60,91 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename mount option no_acs_rules to (no)acsrules. This allow us to use
-possibility to mount with options noaclrules or aclrules.
+Show options should show option according documentation when some value
+is not default or when ever coder wants. Uid/gid are problematic because
+it is hard to know which are defaults. In file system there is many
+different implementation for this problem.
 
-Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Some file systems show uid/gid when they are different than root, some
+when user has set them and some show them always. There is also problem
+that what if root uid/gid change. This code just choose to show them
+always. This way we do not need to think this any more.
+
 Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 ---
- Documentation/filesystems/ntfs3.rst |  2 +-
- fs/ntfs3/file.c                     |  2 +-
- fs/ntfs3/ntfs_fs.h                  |  2 +-
- fs/ntfs3/super.c                    | 12 ++++++------
- fs/ntfs3/xattr.c                    |  2 +-
- 5 files changed, 10 insertions(+), 10 deletions(-)
+ fs/ntfs3/ntfs_fs.h | 23 ++++++++++-------------
+ fs/ntfs3/super.c   | 12 ++++--------
+ 2 files changed, 14 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/filesystems/ntfs3.rst b/Documentation/filesystems/ntfs3.rst
-index ded706474825..7b6afe452197 100644
---- a/Documentation/filesystems/ntfs3.rst
-+++ b/Documentation/filesystems/ntfs3.rst
-@@ -73,7 +73,7 @@ prealloc		Preallocate space for files excessively when file size is
- 			increasing on writes. Decreases fragmentation in case of
- 			parallel write operations to different files.
- 
--no_acs_rules		"No access rules" mount option sets access rights for
-+noacsrules		"No access rules" mount option sets access rights for
- 			files/folders to 777 and owner/group to root. This mount
- 			option absorbs all other permissions:
- 			- permissions change for files/folders will be reported
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index fef57141b161..0743d806c567 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -737,7 +737,7 @@ int ntfs3_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
- 	umode_t mode = inode->i_mode;
- 	int err;
- 
--	if (sbi->options->no_acs_rules) {
-+	if (sbi->options->noacsrules) {
- 		/* "No access rules" - Force any changes of time etc. */
- 		attr->ia_valid |= ATTR_FORCE;
- 		/* and disable for editing some attributes. */
 diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index aa18f12b7096..15bab48bc1ad 100644
+index 15bab48bc1ad..372cda697dd4 100644
 --- a/fs/ntfs3/ntfs_fs.h
 +++ b/fs/ntfs3/ntfs_fs.h
-@@ -70,7 +70,7 @@ struct ntfs_mount_options {
- 		showmeta : 1, /* Show meta files. */
- 		nohidden : 1, /* Do not show hidden files. */
- 		force : 1, /* Rw mount dirty volume. */
--		no_acs_rules : 1, /*Exclude acs rules. */
-+		noacsrules : 1, /*Exclude acs rules. */
- 		prealloc : 1 /* Preallocate space when file is growing. */
- 		;
+@@ -60,19 +60,16 @@ struct ntfs_mount_options {
+ 	u16 fs_fmask_inv;
+ 	u16 fs_dmask_inv;
+ 
+-	unsigned uid : 1, /* uid was set. */
+-		gid : 1, /* gid was set. */
+-		fmask : 1, /* fmask was set. */
+-		dmask : 1, /* dmask was set. */
+-		sys_immutable : 1, /* Immutable system files. */
+-		discard : 1, /* Issue discard requests on deletions. */
+-		sparse : 1, /* Create sparse files. */
+-		showmeta : 1, /* Show meta files. */
+-		nohidden : 1, /* Do not show hidden files. */
+-		force : 1, /* Rw mount dirty volume. */
+-		noacsrules : 1, /*Exclude acs rules. */
+-		prealloc : 1 /* Preallocate space when file is growing. */
+-		;
++	unsigned fmask : 1; /* fmask was set. */
++	unsigned dmask : 1; /*dmask was set. */
++	unsigned sys_immutable : 1; /* Immutable system files. */
++	unsigned discard : 1; /* Issue discard requests on deletions. */
++	unsigned sparse : 1; /* Create sparse files. */
++	unsigned showmeta : 1; /* Show meta files. */
++	unsigned nohidden : 1; /* Do not show hidden files. */
++	unsigned force : 1; /* RW mount dirty volume. */
++	unsigned noacsrules : 1; /* Exclude acs rules. */
++	unsigned prealloc : 1; /* Preallocate space when file is growing. */
  };
+ 
+ /* Special value to unpack and deallocate. */
 diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 503e2e23f711..0690e7e4f00d 100644
+index 0690e7e4f00d..3cba0b5e7ac7 100644
 --- a/fs/ntfs3/super.c
 +++ b/fs/ntfs3/super.c
-@@ -228,7 +228,7 @@ enum Opt {
- 	Opt_acl,
- 	Opt_iocharset,
- 	Opt_prealloc,
--	Opt_no_acs_rules,
-+	Opt_noacsrules,
- 	Opt_err,
- };
- 
-@@ -246,7 +246,7 @@ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
- 	fsparam_flag_no("acl",			Opt_acl),
- 	fsparam_flag_no("showmeta",		Opt_showmeta),
- 	fsparam_flag_no("prealloc",		Opt_prealloc),
--	fsparam_flag("no_acs_rules",		Opt_no_acs_rules),
-+	fsparam_flag_no("acsrules",		Opt_noacsrules),
- 	fsparam_string("iocharset",		Opt_iocharset),
- 
- 	__fsparam(fs_param_is_string,
-@@ -358,8 +358,8 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
- 	case Opt_prealloc:
- 		opts->prealloc = result.negated ? 0 : 1;
+@@ -294,13 +294,11 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
+ 		opts->fs_uid = make_kuid(current_user_ns(), result.uint_32);
+ 		if (!uid_valid(opts->fs_uid))
+ 			return invalf(fc, "ntfs3: Invalid value for uid.");
+-		opts->uid = 1;
  		break;
--	case Opt_no_acs_rules:
--		opts->no_acs_rules = 1;
-+	case Opt_noacsrules:
-+		opts->noacsrules = result.negated ? 1 : 0;
+ 	case Opt_gid:
+ 		opts->fs_gid = make_kgid(current_user_ns(), result.uint_32);
+ 		if (!gid_valid(opts->fs_gid))
+ 			return invalf(fc, "ntfs3: Invalid value for gid.");
+-		opts->gid = 1;
  		break;
- 	default:
- 		/* Should not be here unless we forget add case. */
-@@ -547,8 +547,8 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
- 		seq_puts(m, ",nohidden");
- 	if (opts->force)
- 		seq_puts(m, ",force");
--	if (opts->no_acs_rules)
--		seq_puts(m, ",no_acs_rules");
-+	if (opts->noacsrules)
-+		seq_puts(m, ",noacsrules");
- 	if (opts->prealloc)
- 		seq_puts(m, ",prealloc");
- 	if (sb->s_flags & SB_POSIXACL)
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index ac4b37bf8832..6f88cb77a17f 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -769,7 +769,7 @@ int ntfs_acl_chmod(struct user_namespace *mnt_userns, struct inode *inode)
- int ntfs_permission(struct user_namespace *mnt_userns, struct inode *inode,
- 		    int mask)
- {
--	if (ntfs_sb(inode->i_sb)->options->no_acs_rules) {
-+	if (ntfs_sb(inode->i_sb)->options->noacsrules) {
- 		/* "No access rules" mode - Allow all changes. */
- 		return 0;
- 	}
+ 	case Opt_umask:
+ 		if (result.uint_32 & ~07777)
+@@ -521,12 +519,10 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
+ 	struct ntfs_mount_options *opts = sbi->options;
+ 	struct user_namespace *user_ns = seq_user_ns(m);
+ 
+-	if (opts->uid)
+-		seq_printf(m, ",uid=%u",
+-			   from_kuid_munged(user_ns, opts->fs_uid));
+-	if (opts->gid)
+-		seq_printf(m, ",gid=%u",
+-			   from_kgid_munged(user_ns, opts->fs_gid));
++	seq_printf(m, ",uid=%u",
++		  from_kuid_munged(user_ns, opts->fs_uid));
++	seq_printf(m, ",gid=%u",
++		  from_kgid_munged(user_ns, opts->fs_gid));
+ 	if (opts->fmask)
+ 		seq_printf(m, ",fmask=%04o", ~opts->fs_fmask_inv);
+ 	if (opts->dmask)
 -- 
 2.25.1
 
