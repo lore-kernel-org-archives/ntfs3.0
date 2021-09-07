@@ -1,30 +1,33 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D3E72
-	for <ntfs3@lists.linux.dev>; Tue,  7 Sep 2021 16:14:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E227072
+	for <ntfs3@lists.linux.dev>; Tue,  7 Sep 2021 16:23:21 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 96512415;
-	Tue,  7 Sep 2021 19:14:27 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 42E43821B6;
+	Tue,  7 Sep 2021 19:23:14 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1631031267;
-	bh=/677Cv3P5bvchgyfuP6mrlK0Dsgo2NNOnd1aDEVqAAo=;
+	d=paragon-software.com; s=mail; t=1631031794;
+	bh=DyFRy6mgDgXsW8PfqWeNWX+7xung96yyOFRQPeJPy/M=;
 	h=Subject:To:CC:References:From:Date:In-Reply-To;
-	b=QjktKAFowwn+q8Y00od4uRHxYS8XFM7RFHPLlw9LNKN4Jx3i+SFrwalJqrRLHBrSF
-	 B7RO9TQG1kDipw7g2cjd1yirJUzVIqq5vkd8P06f6mrrIqv2FcYXyUCo/N/4MhZpjA
-	 FkHVw4lHqOr3TW2ZEXRTYdtQraAO059R4syB/aVI=
+	b=hoAGxUBFPTEBhZOZLuy7ZvLiqjuUOs26qv0erv/QQAxE/wei2tG7zarTQLLB7Qun3
+	 j7T8PN8QV8Tif8w+jxPLJHPQzAn0Qdjc3rbbDGs/pteOrBffKiiEwwkHoqsPXygwV+
+	 SR8e7cG17Ci0v/n51GYU7A7U8fO4fK1llG8aS6Z4=
 Received: from [192.168.211.115] (192.168.211.115) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 7 Sep 2021 19:14:27 +0300
-Subject: Re: [PATCH v3 0/9] fs/ntfs3: Use new mount api and change some opts
-To: Kari Argillander <kari.argillander@gmail.com>, <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-References: <20210829095614.50021-1-kari.argillander@gmail.com>
- <20210907073618.bpz3fmu7jcx5mlqh@kari-VirtualBox>
+ 15.1.2176.2; Tue, 7 Sep 2021 19:23:13 +0300
+Subject: Re: [PATCH 2/5] fs/ntfs3: Use consistent spacing around '+'
+To: Kari Argillander <kari.argillander@gmail.com>
+CC: Joe Perches <joe@perches.com>, <ntfs3@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+References: <20210831181505.1074767-1-kari.argillander@gmail.com>
+ <20210831181505.1074767-3-kari.argillander@gmail.com>
+ <1d303f4553e67abee4f0c4cdc32231813a4bcb3f.camel@perches.com>
+ <20210902081020.g5hclc45zjng3ll2@kari-VirtualBox>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Message-ID: <69c8ab24-9443-59ad-d48d-7765b29f28f9@paragon-software.com>
-Date: Tue, 7 Sep 2021 19:14:26 +0300
+Message-ID: <bb8fff4c-ae09-cab0-cd71-c34b872c9211@paragon-software.com>
+Date: Tue, 7 Sep 2021 19:23:13 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 Precedence: bulk
@@ -33,93 +36,43 @@ List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210907073618.bpz3fmu7jcx5mlqh@kari-VirtualBox>
+In-Reply-To: <20210902081020.g5hclc45zjng3ll2@kari-VirtualBox>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [192.168.211.115]
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
 
 
-On 07.09.2021 10:36, Kari Argillander wrote:
-> On Sun, Aug 29, 2021 at 12:56:05PM +0300, Kari Argillander wrote:
->> See V2 if you want:
->> lore.kernel.org/ntfs3/20210819002633.689831-1-kari.argillander@gmail.com
+On 02.09.2021 11:10, Kari Argillander wrote:
+> On Wed, Sep 01, 2021 at 09:22:19PM -0700, Joe Perches wrote:
+>> On Tue, 2021-08-31 at 21:15 +0300, Kari Argillander wrote:
+>>> Use consistent spacing around '+' for better code reading. Checkpatch
+>>> will also be happy.
 >>
->> NLS change is now blocked when remounting. Christoph also suggest that
->> we block all other mount options, but I have tested a couple and they
->> seem to work. I wish that we do not block any other than NLS because
->> in theory they should work. Also Konstantin can comment about this.
->>
->> I have not include reviewed/acked to patch "Use new api for mounting"
->> because it change so much. I have also included three new patch to this
->> series:
->> 	- Convert mount options to pointer in sbi
->> 		So that we do not need to initiliaze whole spi in 
->> 		remount.
->> 	- Init spi more in init_fs_context than fill_super
->> 		This is just refactoring. (Series does not depend on this)
->> 	- Show uid/gid always in show_options()
->> 		Christian Brauner kinda ask this. (Series does not depend
->> 		on this)
->>
->> Series is ones again tested with kvm-xfstests. Every commit is build
->> tested.
+>> I think you should remove the + instead
 > 
-> I will send v4 within couple of days. It will address issues what Pali
-> says in patch 8/9. Everything else should be same at least for now. Is
-> everything else looking ok?
+> Konstantin can you look this as this was introduce by you just couple
+> days ago? 
 > 
+>>
+>>> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+>> []
+>>> @@ -1451,7 +1451,7 @@ int ni_insert_resident(struct ntfs_inode *ni, u32 data_size,
+>>>  		attr->res.flags = RESIDENT_FLAG_INDEXED;
+>>>  
+>>>
+>>>  		/* is_attr_indexed(attr)) == true */
+>>> -		le16_add_cpu(&ni->mi.mrec->hard_links, +1);
+>>> +		le16_add_cpu(&ni->mi.mrec->hard_links, + 1);
+>>
+>> 		le16_add_cpu(&ni->mi.mrec->hard_links, 1);
+>>
+>>
 
-Yes, everything else seems good. 
-We tested patches locally - no regression was found.
-
->>
->> v3:
->> 	- Add patch "Convert mount options to pointer in sbi"
->> 	- Add patch "Init spi more in init_fs_context than fill_super"
->> 	- Add patch "Show uid/gid always in show_options"
->> 	- Patch "Use new api for mounting" has make over
->> 	- NLS loading is not anymore possible when remounting
->> 	- show_options() iocharset printing is fixed
->> 	- Delete comment that testing should be done with other
->> 	  mount options.
->> 	- Add reviewed/acked-tags to 1,2,6,8 
->> 	- Rewrite this cover
->> v2:
->> 	- Rewrite this cover leter
->> 	- Reorder noatime to first patch
->> 	- NLS loading with string
->> 	- Delete default_options function
->> 	- Remove remount flags
->> 	- Rename no_acl_rules mount option
->> 	- Making code cleaner
->> 	- Add comment that mount options should be tested
->>
->> Kari Argillander (9):
->>   fs/ntfs3: Remove unnecesarry mount option noatime
->>   fs/ntfs3: Remove unnecesarry remount flag handling
->>   fs/ntfs3: Convert mount options to pointer in sbi
->>   fs/ntfs3: Use new api for mounting
->>   fs/ntfs3: Init spi more in init_fs_context than fill_super
->>   fs/ntfs3: Make mount option nohidden more universal
->>   fs/ntfs3: Add iocharset= mount option as alias for nls=
->>   fs/ntfs3: Rename mount option no_acl_rules > (no)acl_rules
->>   fs/ntfs3: Show uid/gid always in show_options()
->>
->>  Documentation/filesystems/ntfs3.rst |  10 +-
->>  fs/ntfs3/attrib.c                   |   2 +-
->>  fs/ntfs3/dir.c                      |   8 +-
->>  fs/ntfs3/file.c                     |   4 +-
->>  fs/ntfs3/inode.c                    |  12 +-
->>  fs/ntfs3/ntfs_fs.h                  |  26 +-
->>  fs/ntfs3/super.c                    | 486 +++++++++++++++-------------
->>  fs/ntfs3/xattr.c                    |   2 +-
->>  8 files changed, 284 insertions(+), 266 deletions(-)
->>
->> -- 
->> 2.25.1
->>
->>
+Hi, Kari, Joe!
+Yes, '+' can be removed, it was added for better visibility,
+but it's subjective. 
+After checking code - it's the only place with '+1', so let's remove it.
