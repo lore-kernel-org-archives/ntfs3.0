@@ -1,41 +1,41 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DDB33FDE
-	for <ntfs3@lists.linux.dev>; Tue,  7 Sep 2021 15:36:21 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id t19so20284581lfe.13
-        for <ntfs3@lists.linux.dev>; Tue, 07 Sep 2021 08:36:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A77A72
+	for <ntfs3@lists.linux.dev>; Tue,  7 Sep 2021 15:36:25 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id d16so17239697ljq.4
+        for <ntfs3@lists.linux.dev>; Tue, 07 Sep 2021 08:36:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZfTZD2BK9OlT42vnGAs2eW6uulsF/+Be/8upspiEcGI=;
-        b=nn22WeONuQDWrItj4HpTHAQ7dwAX51UBc43MhAZjGfRsvushjj5dGhl96Tj/djaRXk
-         lSawt8oBukDPxxNw+wmfezepiWpSmRJ9LEVm1+XEuzykX1R1d2DeIUH/RdYJnlQW8tk3
-         euXuamsehkVBr1qgdoyJVT34kwcv1vEGbuVUSvGlcDfZ9732AgqftgSDzbaijBIR58Ol
-         eWWkQZK1TAa0atmDZJMqiHR3mmL9xybJCFFZxKsJQv3LQSOpspKXJy8yWs7ZM0m0pF15
-         LWDkz/2cojQ04z5BtTImODXX4nW/eBHDxbyHftO6Z9pVyA1HiIs1zSYgMlGBTFIo0BQb
-         L4BQ==
+        bh=Epwz9tOgzNdT5eJf6A6dPhiUiuiznCpEaozn8HC4mtE=;
+        b=aclqQKLURedcL8YOp8JmRei8QCBPzB/+7FryeRIOuCxEZds/Y/yoOc01vpj3PYr0m7
+         pt+41iqBuvPhcEknCaPpRrWVrySfUaZ4NcymHreqFFbgaHqzVLb0UVG+p9936ebtzHGF
+         iNA06ICMDybNjDoyARNj5eJtI1LF2qMTwj+oWZWacvQ4+FjZrmbazZPCM5wlmuSzLSly
+         FW+O6QXiXorvQ8Q6tXQ9DlvImWPxC9O9+pB5E0xtncblo43QZoccUYT8wKG460IEufor
+         wHxgzAdlnGC+izoS5Mda+gOR0gmWi3mnE9anr1k9a3pcvGWd3PYrWMUHpjBOtGRY6z/i
+         xYFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZfTZD2BK9OlT42vnGAs2eW6uulsF/+Be/8upspiEcGI=;
-        b=le0wTOFHtj+jPIX2+86Ns9miHRWW+O1ZawRa5kLk+Jqcs6Di+Ek+CjHk4v9OLnhnAp
-         IXqMuVCEfhJ6WPnB1jddz4WhwumW3mDenRsdaLGcGae7xdyZAFMSm/o9rhNC3KpCX4q5
-         Uy2lHb+9ltyeQ/+Ol3xfIon2mZuN684nebPZVHGmHjs8h7BB6M1HqOlYFjsq8RBUIES8
-         ACdcrYg4TaeiaxEUc68Ye8G8JWEKgqwT70N3bWdUhg9flfUwJcnmnBFxU1BHfGhlaEwb
-         2ShzhRoca3pJ4Jhf8CMTzLmLf7UBYbsdZhGa+GHdb9XvtmQkkCXDyD+uGothIVLnPmSx
-         KG0w==
-X-Gm-Message-State: AOAM5323ZQvWbWU2qUKiQNAcXGhwEOZBDnOOeOstgzCFnzLTnyBe2dQp
-	TgR9bF9DU4rHqhwtrCAQzWs=
-X-Google-Smtp-Source: ABdhPJy3n1OhoIgD3JgIRKoHX/v4Q75f0ng1LbQuWlanfiAQN5PzM7HDJWkJcWYH0J3xw3H1k+67Fg==
-X-Received: by 2002:a05:6512:388e:: with SMTP id n14mr13431241lft.242.1631028979649;
-        Tue, 07 Sep 2021 08:36:19 -0700 (PDT)
+        bh=Epwz9tOgzNdT5eJf6A6dPhiUiuiznCpEaozn8HC4mtE=;
+        b=Qp3cW4UhqO+Bfwtz93hs31vG4mp1hLPnixQ4ULYfBov9a0LRDbFeS/k7a/wKHgHVh4
+         O136TyYW8qmZdvMMCANqN5jZs7P7rtxVKLVFGZgcn6qRVPjFg5U7O/cC3QnJ4lXJWMhe
+         rKN1iPAe7I6slC9M2MbKaqeNA6BTy4x+5EkptEZJBhxufCFEf0sphElmDOXUIngbfgAj
+         XJY6PN5QYPHEFxNmMcP2j9nD5PChgPEGwKJltp/7Ee6B2O9DSNYAYpL2xQsI6lhrkTjL
+         gyFrIulv55isMihfw2Eklp5S1nX8sFr1Jf8HbU8jsR//plY4IO+DhfUF1Ns84REAZQDW
+         xjpQ==
+X-Gm-Message-State: AOAM530YNmgCfwjWLIo9FaPjEUc9A2Nll402WPz725FZAb2/P1BjhK33
+	HU3c+35kXHsqm9wRz8Mchiin3zNbFTe1EA==
+X-Google-Smtp-Source: ABdhPJwx/9G/1Sh8TeuVIbvlSLdoKlW78mtKLU4Vm5q47XvdIemAJOanz3QYviGH/tliK3b2ezpGYA==
+X-Received: by 2002:a05:651c:178d:: with SMTP id bn13mr15428224ljb.530.1631028983294;
+        Tue, 07 Sep 2021 08:36:23 -0700 (PDT)
 Received: from kari-VirtualBox.telewell.oy ([31.132.12.44])
-        by smtp.gmail.com with ESMTPSA id p14sm1484458lji.56.2021.09.07.08.36.18
+        by smtp.gmail.com with ESMTPSA id p14sm1484458lji.56.2021.09.07.08.36.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Sep 2021 08:36:19 -0700 (PDT)
+        Tue, 07 Sep 2021 08:36:22 -0700 (PDT)
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
@@ -46,9 +46,9 @@ Cc: Kari Argillander <kari.argillander@gmail.com>,
 	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
 	Matthew Wilcox <willy@infradead.org>,
 	Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH v4 6/9] fs/ntfs3: Make mount option nohidden more universal
-Date: Tue,  7 Sep 2021 18:35:54 +0300
-Message-Id: <20210907153557.144391-7-kari.argillander@gmail.com>
+Subject: [PATCH v4 7/9] fs/ntfs3: Add iocharset= mount option as alias for nls=
+Date: Tue,  7 Sep 2021 18:35:55 +0300
+Message-Id: <20210907153557.144391-8-kari.argillander@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210907153557.144391-1-kari.argillander@gmail.com>
 References: <20210907153557.144391-1-kari.argillander@gmail.com>
@@ -60,40 +60,97 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If we call Opt_nohidden with just keyword hidden, then we can use
-hidden/nohidden when mounting. We already use this method for almoust
-all other parameters so it is just logical that this will use same
-method.
+Other fs drivers are using iocharset= mount option for specifying charset.
+So add it also for ntfs3 and mark old nls= mount option as deprecated.
 
-Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 ---
- fs/ntfs3/super.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/filesystems/ntfs3.rst |  4 ++--
+ fs/ntfs3/super.c                    | 18 +++++++++++-------
+ 2 files changed, 13 insertions(+), 9 deletions(-)
 
+diff --git a/Documentation/filesystems/ntfs3.rst b/Documentation/filesystems/ntfs3.rst
+index af7158de6fde..ded706474825 100644
+--- a/Documentation/filesystems/ntfs3.rst
++++ b/Documentation/filesystems/ntfs3.rst
+@@ -32,12 +32,12 @@ generic ones.
+ 
+ ===============================================================================
+ 
+-nls=name		This option informs the driver how to interpret path
++iocharset=name		This option informs the driver how to interpret path
+ 			strings and translate them to Unicode and back. If
+ 			this option is not set, the default codepage will be
+ 			used (CONFIG_NLS_DEFAULT).
+ 			Examples:
+-				'nls=utf8'
++				'iocharset=utf8'
+ 
+ uid=
+ gid=
 diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 420cd1409170..729ead6f2fac 100644
+index 729ead6f2fac..503e2e23f711 100644
 --- a/fs/ntfs3/super.c
 +++ b/fs/ntfs3/super.c
-@@ -242,7 +242,7 @@ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
- 	fsparam_flag_no("discard",		Opt_discard),
- 	fsparam_flag_no("force",		Opt_force),
- 	fsparam_flag_no("sparse",		Opt_sparse),
--	fsparam_flag("nohidden",		Opt_nohidden),
-+	fsparam_flag_no("hidden",		Opt_nohidden),
+@@ -226,7 +226,7 @@ enum Opt {
+ 	Opt_nohidden,
+ 	Opt_showmeta,
+ 	Opt_acl,
+-	Opt_nls,
++	Opt_iocharset,
+ 	Opt_prealloc,
+ 	Opt_no_acs_rules,
+ 	Opt_err,
+@@ -245,9 +245,13 @@ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
+ 	fsparam_flag_no("hidden",		Opt_nohidden),
  	fsparam_flag_no("acl",			Opt_acl),
  	fsparam_flag_no("showmeta",		Opt_showmeta),
- 	fsparam_string("nls",			Opt_nls),
-@@ -331,7 +331,7 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
- 		opts->sparse = result.negated ? 0 : 1;
+-	fsparam_string("nls",			Opt_nls),
+ 	fsparam_flag_no("prealloc",		Opt_prealloc),
+ 	fsparam_flag("no_acs_rules",		Opt_no_acs_rules),
++	fsparam_string("iocharset",		Opt_iocharset),
++
++	__fsparam(fs_param_is_string,
++		  "nls", Opt_iocharset,
++		  fs_param_deprecated, NULL),
+ 	{}
+ };
+ 
+@@ -346,7 +350,7 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
+ 	case Opt_showmeta:
+ 		opts->showmeta = result.negated ? 0 : 1;
  		break;
- 	case Opt_nohidden:
--		opts->nohidden = 1;
-+		opts->nohidden = result.negated ? 1 : 0;
- 		break;
- 	case Opt_acl:
- 		if (!result.negated)
+-	case Opt_nls:
++	case Opt_iocharset:
+ 		kfree(opts->nls_name);
+ 		opts->nls_name = param->string;
+ 		param->string = NULL;
+@@ -380,11 +384,11 @@ static int ntfs_fs_reconfigure(struct fs_context *fc)
+ 	new_opts->nls = ntfs_load_nls(new_opts->nls_name);
+ 	if (IS_ERR(new_opts->nls)) {
+ 		new_opts->nls = NULL;
+-		errorf(fc, "ntfs3: Cannot load nls %s", new_opts->nls_name);
++		errorf(fc, "ntfs3: Cannot load iocharset %s", new_opts->nls_name);
+ 		return -EINVAL;
+ 	}
+ 	if (new_opts->nls != sbi->options->nls)
+-		return invalf(fc, "ntfs3: Cannot use different nls when remounting!");
++		return invalf(fc, "ntfs3: Cannot use different iocharset when remounting!");
+ 
+ 	sync_filesystem(sb);
+ 
+@@ -528,9 +532,9 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
+ 	if (opts->dmask)
+ 		seq_printf(m, ",dmask=%04o", ~opts->fs_dmask_inv);
+ 	if (opts->nls)
+-		seq_printf(m, ",nls=%s", opts->nls->charset);
++		seq_printf(m, ",iocharset=%s", opts->nls->charset);
+ 	else
+-		seq_puts(m, ",nls=utf8");
++		seq_puts(m, ",iocharset=utf8");
+ 	if (opts->sys_immutable)
+ 		seq_puts(m, ",sys_immutable");
+ 	if (opts->discard)
 -- 
 2.25.1
 
