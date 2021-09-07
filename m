@@ -1,99 +1,160 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4657B72
-	for <ntfs3@lists.linux.dev>; Tue,  7 Sep 2021 16:25:24 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id m4so17465917ljq.8
-        for <ntfs3@lists.linux.dev>; Tue, 07 Sep 2021 09:25:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355DC72
+	for <ntfs3@lists.linux.dev>; Tue,  7 Sep 2021 20:47:59 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id w19so93929oik.10
+        for <ntfs3@lists.linux.dev>; Tue, 07 Sep 2021 13:47:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Tg0EHKkItjWDiEA+fsZ1a2tx5JVSC+kcRVqQGEHCSHA=;
-        b=j/bw1IZaL0/LtUVfO364susiJxdEyFn4BQ2MkKinL+gubHKsIQTF8Yp1iCaSWK5xrv
-         vjp+mjTy7Ph+Bf/klgDHvUE8Mdrz80RNnpzhTWQOXB7Gwtr/GckvNwIQTpWcoHevFHUw
-         wSmIEp0fuCo1jL92GszSd4ydlUkFov2EsJjsV92bomUw0LRHxicPWrcu+nrGIh3lunGL
-         LxA+rwZuDaCYBTkRyhSYproUKZvUuaiIXpMyvmd/mBptanvn05wFM826WZwX9pj7ZQQa
-         V1p07gWh6orm+/m7kyA33xKh6OsNilvWPcY/yY9D6UZHswyFtV2ER+pvai8fpS2/pyva
-         906A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UopwoFn7rqfh5UL49/4APVM7g8LLvGNu8u3opnFNc2M=;
+        b=d9GH4MSSomWd+TKdZBGJoBuJk9sGkSDpXWx6iBm+Bz6kOHnqz1OO8gIpo+FBeJItw2
+         zrBk832kEv8OerXc0q77211wGWbsGk9W2wYVXVH5L5o2PJGl58H+dSFa2a81xtPvC/8l
+         JRMI/DUMXpN3SxfBpv0uZisT9VS2pySj3GyzG26O3avpYH3AP4EKmR7stPM8qlJoXTzp
+         N+a41OLUOsf+4wFrrFBLUJdeY9XD0TQ49FIa3SV7vLokHDUMldiGPdkZQKKRFKTAOK8F
+         2ABEywcaEKKfEIsq0fZruRbgPk0cdMZAm0DhzetPPck+o1yCTTrUPlgtsBEuc+TUvbGi
+         qBdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Tg0EHKkItjWDiEA+fsZ1a2tx5JVSC+kcRVqQGEHCSHA=;
-        b=sHNkuuAmxrGYfKAkiRkX6vE6DnY6NnjnYw8KXNMlChS//kiXyGUVSWCQfp8K9FLDTD
-         CkHePvKniMpkChS0tMjccPVe/0q6apL+ehdvos22t3AM0tIYf4RLYp+pctQQ1VnMJSOG
-         tF5lJFPHzhb/akIWKVykAvF1+aSSWzjELrGdGFXNGjgENJywi6QMmKYSUptC1rGd48Lf
-         uN0d3BN3dB+00bvYFFZOb95mEgaA28mmFEBhzcNc38KZyS1eIYwEa8TP/YddtNto9I43
-         5PodrQXZZ+9G/GO4HYzhJKjwL/XQBU2t+OLDarSMqwNoMWfNmj9dH5RUaFYTFwWrivvA
-         2Xog==
-X-Gm-Message-State: AOAM532/BFgMvyfXaq8dIeTbDcyPtZM+9iuf7v9OCW4M+M6aYKo6PNL5
-	9F0uJRtCryhPnvucGsRe8C0=
-X-Google-Smtp-Source: ABdhPJx6Oc/Qs3swNhEPu+sVGZpxDFpHPcBUKJZxHPw8vmoR+DtOCDmWjKBZbVo8hfckSOg6TyqImg==
-X-Received: by 2002:a2e:350e:: with SMTP id z14mr15475520ljz.183.1631031922358;
-        Tue, 07 Sep 2021 09:25:22 -0700 (PDT)
-Received: from kari-VirtualBox ([31.132.12.44])
-        by smtp.gmail.com with ESMTPSA id e15sm1466391ljn.25.2021.09.07.09.25.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Sep 2021 09:25:21 -0700 (PDT)
-Date: Tue, 7 Sep 2021 19:25:20 +0300
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: Joe Perches <joe@perches.com>, ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/5] fs/ntfs3: Use consistent spacing around '+'
-Message-ID: <20210907162520.pi6djmu32iajayme@kari-VirtualBox>
-References: <20210831181505.1074767-1-kari.argillander@gmail.com>
- <20210831181505.1074767-3-kari.argillander@gmail.com>
- <1d303f4553e67abee4f0c4cdc32231813a4bcb3f.camel@perches.com>
- <20210902081020.g5hclc45zjng3ll2@kari-VirtualBox>
- <bb8fff4c-ae09-cab0-cd71-c34b872c9211@paragon-software.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UopwoFn7rqfh5UL49/4APVM7g8LLvGNu8u3opnFNc2M=;
+        b=tqWLyyVWG1d4NTgH/7kX210BWAB5hP9l4GGUSKJZHr1DoMl2x/uG6dAn1F3i/tt/Lb
+         hIF7FFyZMQLmsd22B5C5XtWq7i88wWGJp3GfKqjjBZXgGKmx+SMs4JaLhDTlfDSoAj7X
+         KKV0ykj0IIQxnLekjhcSiwyE9u3GgEGdgtSzxhQko2Wytdx17YmCZ9v3VVP6GcnmiU+b
+         jXmeHfLuC3jaDFZ7gLlYZsA8nHSApQ8L7bG+kSbDAFIDp2RfMSX7u8/czzj4uLJ56xGI
+         KSvnfdMAT7EMo54XAx7DxTCzGw+ptNGTasZMPdgoXhfLG5AP0zhNbvkCEuPxuN72eKv2
+         TA8A==
+X-Gm-Message-State: AOAM530C6M/yrNKc1Z3CRNfqZsZhtUOAns3ya6s6Lv2DAQMlx77g154n
+	7TN1L7p/iP3t1pXbdJY2qTFw6OuOwuB9pjok4RE=
+X-Google-Smtp-Source: ABdhPJwgnAxOzHlN5kUGiujwfo4/KLkFbgPPlSslacq4qvxiaXwPBsJux4afJod6S7AxtahsF30JNkQIckD99eekPM8=
+X-Received: by 2002:a05:6808:209a:: with SMTP id s26mr20818oiw.98.1631047678287;
+ Tue, 07 Sep 2021 13:47:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bb8fff4c-ae09-cab0-cd71-c34b872c9211@paragon-software.com>
+References: <20210829095614.50021-1-kari.argillander@gmail.com>
+ <20210907073618.bpz3fmu7jcx5mlqh@kari-VirtualBox> <69c8ab24-9443-59ad-d48d-7765b29f28f9@paragon-software.com>
+ <CAHp75Vd==Dm1s=WK9p2q3iEBSHxN-1spHmmtZ21eRNoqyJ5v=Q@mail.gmail.com>
+In-Reply-To: <CAHp75Vd==Dm1s=WK9p2q3iEBSHxN-1spHmmtZ21eRNoqyJ5v=Q@mail.gmail.com>
+From: Kari Argillander <kari.argillander@gmail.com>
+Date: Tue, 7 Sep 2021 23:47:47 +0300
+Message-ID: <CAC=eVgTwDsE+i3jG+iwZJhFDBXzCyPprRnGk5tjUKXP+Ltrw4w@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] fs/ntfs3: Use new mount api and change some opts
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	"ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 07, 2021 at 07:23:13PM +0300, Konstantin Komarov wrote:
-> 
-> 
-> On 02.09.2021 11:10, Kari Argillander wrote:
-> > On Wed, Sep 01, 2021 at 09:22:19PM -0700, Joe Perches wrote:
-> >> On Tue, 2021-08-31 at 21:15 +0300, Kari Argillander wrote:
-> >>> Use consistent spacing around '+' for better code reading. Checkpatch
-> >>> will also be happy.
-> >>
-> >> I think you should remove the + instead
-> > 
-> > Konstantin can you look this as this was introduce by you just couple
-> > days ago? 
-> > 
-> >>
-> >>> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-> >> []
-> >>> @@ -1451,7 +1451,7 @@ int ni_insert_resident(struct ntfs_inode *ni, u32 data_size,
-> >>>  		attr->res.flags = RESIDENT_FLAG_INDEXED;
-> >>>  
-> >>>
-> >>>  		/* is_attr_indexed(attr)) == true */
-> >>> -		le16_add_cpu(&ni->mi.mrec->hard_links, +1);
-> >>> +		le16_add_cpu(&ni->mi.mrec->hard_links, + 1);
-> >>
-> >> 		le16_add_cpu(&ni->mi.mrec->hard_links, 1);
-> >>
-> >>
-> 
-> Hi, Kari, Joe!
-> Yes, '+' can be removed, it was added for better visibility,
-> but it's subjective. 
-> After checking code - it's the only place with '+1', so let's remove it.
+On Tuesday, September 7, 2021, Andy Shevchenko
+(andy.shevchenko@gmail.com) wrote:
+> On Tuesday, September 7, 2021, Konstantin Komarov <almaz.alexandrovich@paragon-software.com> wrote:
+>> On 07.09.2021 10:36, Kari Argillander wrote:
+>> > On Sun, Aug 29, 2021 at 12:56:05PM +0300, Kari Argillander wrote:
+>> >> See V2 if you want:
+>> >> lore.kernel.org/ntfs3/20210819002633.689831-1-kari.argillander@gmail.com
+>> >>
+>> >> NLS change is now blocked when remounting. Christoph also suggest that
+>> >> we block all other mount options, but I have tested a couple and they
+>> >> seem to work. I wish that we do not block any other than NLS because
+>> >> in theory they should work. Also Konstantin can comment about this.
+>> >>
+>> >> I have not include reviewed/acked to patch "Use new api for mounting"
+>> >> because it change so much. I have also included three new patch to this
+>> >> series:
+>> >>      - Convert mount options to pointer in sbi
+>> >>              So that we do not need to initiliaze whole spi in
+>> >>              remount.
+>> >>      - Init spi more in init_fs_context than fill_super
+>> >>              This is just refactoring. (Series does not depend on this)
+>> >>      - Show uid/gid always in show_options()
+>> >>              Christian Brauner kinda ask this. (Series does not depend
+>> >>              on this)
+>> >>
+>> >> Series is ones again tested with kvm-xfstests. Every commit is build
+>> >> tested.
+>> >
+>> > I will send v4 within couple of days. It will address issues what Pali
+>> > says in patch 8/9. Everything else should be same at least for now. Is
+>> > everything else looking ok?
+>> >
+>>
+>> Yes, everything else seems good.
+>> We tested patches locally - no regression was
+>
+> The formal answer in such case should also contain the Tested-by tag. I would suggest you to read the Submitting Patches document (available in the Linux kernel source tree).
 
-Already done in v2 [1].
+He is a maintainer so he can add tags when he picks this up. This is not
+really relevant here. Yes it should be good to include that but I have already
+sended v4 which he has not tested. So I really cannot put this tag for him.
+So at the end he really should not even put it here.
 
-[1]: lore.kernel.org/ntfs3/20210907083441.3212-1-kari.argillander@gmail.com
+Also usually the maintainers will always make their own tests and usually
+they will not even bother with a tested-by tag. Or do you say to me that I
+should go read Submitting Patches document as I'm the one who submit
+this?
+
+  Argillander
+
+>> >>
+>> >> v3:
+>> >>      - Add patch "Convert mount options to pointer in sbi"
+>> >>      - Add patch "Init spi more in init_fs_context than fill_super"
+>> >>      - Add patch "Show uid/gid always in show_options"
+>> >>      - Patch "Use new api for mounting" has make over
+>> >>      - NLS loading is not anymore possible when remounting
+>> >>      - show_options() iocharset printing is fixed
+>> >>      - Delete comment that testing should be done with other
+>> >>        mount options.
+>> >>      - Add reviewed/acked-tags to 1,2,6,8
+>> >>      - Rewrite this cover
+>> >> v2:
+>> >>      - Rewrite this cover leter
+>> >>      - Reorder noatime to first patch
+>> >>      - NLS loading with string
+>> >>      - Delete default_options function
+>> >>      - Remove remount flags
+>> >>      - Rename no_acl_rules mount option
+>> >>      - Making code cleaner
+>> >>      - Add comment that mount options should be tested
+>> >>
+>> >> Kari Argillander (9):
+>> >>   fs/ntfs3: Remove unnecesarry mount option noatime
+>> >>   fs/ntfs3: Remove unnecesarry remount flag handling
+>> >>   fs/ntfs3: Convert mount options to pointer in sbi
+>> >>   fs/ntfs3: Use new api for mounting
+>> >>   fs/ntfs3: Init spi more in init_fs_context than fill_super
+>> >>   fs/ntfs3: Make mount option nohidden more universal
+>> >>   fs/ntfs3: Add iocharset= mount option as alias for nls=
+>> >>   fs/ntfs3: Rename mount option no_acl_rules > (no)acl_rules
+>> >>   fs/ntfs3: Show uid/gid always in show_options()
+>> >>
+>> >>  Documentation/filesystems/ntfs3.rst |  10 +-
+>> >>  fs/ntfs3/attrib.c                   |   2 +-
+>> >>  fs/ntfs3/dir.c                      |   8 +-
+>> >>  fs/ntfs3/file.c                     |   4 +-
+>> >>  fs/ntfs3/inode.c                    |  12 +-
+>> >>  fs/ntfs3/ntfs_fs.h                  |  26 +-
+>> >>  fs/ntfs3/super.c                    | 486 +++++++++++++++-------------
+>> >>  fs/ntfs3/xattr.c                    |   2 +-
+>> >>  8 files changed, 284 insertions(+), 266 deletions(-)
+>> >>
+>> >> --
+>> >> 2.25.1
+>> >>
+>> >>
+>
+>
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
