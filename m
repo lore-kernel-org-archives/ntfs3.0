@@ -1,24 +1,24 @@
-Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490592FAE
-	for <ntfs3@lists.linux.dev>; Thu,  9 Sep 2021 10:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C553FE1
+	for <ntfs3@lists.linux.dev>; Thu,  9 Sep 2021 10:58:15 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id D13FA8222B;
-	Thu,  9 Sep 2021 13:58:04 +0300 (MSK)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 626C21D37;
+	Thu,  9 Sep 2021 13:58:00 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1631185084;
-	bh=pGRek/hfohXY6dQN+Oe6F3DUHHeJDG5t4TgyGR+GJ+s=;
+	d=paragon-software.com; s=mail; t=1631185080;
+	bh=fFhI2jZqVUvYHRUsDIGDkYy9fTbmvFt7gL2uySKNajk=;
 	h=Date:To:CC:From:Subject;
-	b=LcoRI7x+dXi6QWVx05NIN1uM33Udb/dKIqalBcHX74T9oAPgUCB7mD0Z3u+aROCH8
-	 l23NQXrHKfF3x0wn4CJCJBjB3gllODvz2Ws+fvfM9oP3RM9JNCRRGwaDOhnEKoKCxB
-	 qd5ReyZnc7RGiGo+q2Mm0uD0n9j3nYYZlZiJgoBk=
+	b=Zt/T/iUm11rNcXrIFJXskphS5o1q4VE4MjbiHzgoS9VxcTLeMGSm4kxKVvVZ8w/t3
+	 PX6RT3Q43QuVKDAXWqETApmvhgmyuj24aV0Q8zD8uzsaWTj4csjs2rVIwpCSXR3M/q
+	 6pFQKfZtprsYiXKlVc8XvWvdU+Jpm2Al8/uwNewY=
 Received: from [192.168.211.46] (192.168.211.46) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 9 Sep 2021 13:58:04 +0300
-Message-ID: <89127d37-a38a-d15c-36f1-62f2ac0f4507@paragon-software.com>
-Date: Thu, 9 Sep 2021 13:58:04 +0300
+ 15.1.2176.2; Thu, 9 Sep 2021 13:58:00 +0300
+Message-ID: <732a18ee-20ea-3e53-056c-8a4d496e5522@paragon-software.com>
+Date: Thu, 9 Sep 2021 13:57:59 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -31,34 +31,34 @@ Content-Language: en-US
 To: <ntfs3@lists.linux.dev>
 CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH 2/3] fs/ntfs3: Change max hardlinks limit to 4000
+Subject: [PATCH 1/3] fs/ntfs3: Fix insertion of attr in ni_ins_attr_ext
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [192.168.211.46]
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-xfstest 041 works with 3003, so we need to
-raise limit.
+Do not try to insert attribute if there is no room in record.
 
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
- fs/ntfs3/ntfs.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/ntfs3/frecord.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/fs/ntfs3/ntfs.h b/fs/ntfs3/ntfs.h
-index 6bb3e595263b..0006481db7fa 100644
---- a/fs/ntfs3/ntfs.h
-+++ b/fs/ntfs3/ntfs.h
-@@ -21,7 +21,8 @@
- #define NTFS_NAME_LEN 255
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 938b12d56ca6..5dd7b7a7c5e0 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -956,6 +956,10 @@ static int ni_ins_attr_ext(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
+ 			continue;
+ 		}
  
- /* ntfs.sys used 500 maximum links on-disk struct allows up to 0xffff. */
--#define NTFS_LINK_MAX 0x400
-+/* xfstest 041 creates 3003 hardlinks. */
-+#define NTFS_LINK_MAX 4000
- //#define NTFS_LINK_MAX 0xffff
- 
- /*
++		/* Do not try to insert this attribute if there is no room in record. */
++		if (le32_to_cpu(mi->mrec->used) + asize > sbi->record_size)
++			continue;
++
+ 		/* Try to insert attribute into this subrecord. */
+ 		attr = ni_ins_new_attr(ni, mi, le, type, name, name_len, asize,
+ 				       name_off, svcn, ins_le);
 -- 
 2.28.0
