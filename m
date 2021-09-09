@@ -1,49 +1,50 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9633FC8
-	for <ntfs3@lists.linux.dev>; Thu,  9 Sep 2021 12:36:32 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id k4so3403499lfj.7
-        for <ntfs3@lists.linux.dev>; Thu, 09 Sep 2021 05:36:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84AE3FC8
+	for <ntfs3@lists.linux.dev>; Thu,  9 Sep 2021 12:53:41 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id l10so3543395lfg.4
+        for <ntfs3@lists.linux.dev>; Thu, 09 Sep 2021 05:53:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=QwiVhbC5w9i7Idj/dJDuFYurFbOrQGVL6Jy6zXvxSuk=;
-        b=q6yLhuEjqVvg/BDMnA1qtYup1DXo46hpFkxKAwS0EnFwqg+dYpLKOhvEsDw/Oh0INC
-         GJQC3XLmSb4YBBpnajRmL9gf1hAzYUbgv2x2+MmXiBfYZqtcv29AkPWAxbpgdlIwmUpM
-         1ZJnfq1k+SQ9MXWsVxfy9meQ97xFqr+D3/kRgBbUcrnBc6ajIP9PypEydnZvfbzTsNs5
-         6blD3uG3RjkVFa91G+s/H+XkfRONSGvd9h7mbwqoIJKsbQ+ZRHLe6zpYVcm2CPRaxFZn
-         sJiJE0G4x832iDguljIf+JQ8y9nG0GB68GVRgL6JXjmktqsgtH0Zs1V8m9zk4UcQoQ1Q
-         kPVg==
+        bh=XCX2UYSZQUn08q9KgA+a/AS7BgY7qzOnl3a2YH/6Kuw=;
+        b=eAduYSyq3BXBiMt/5ixhkpPXUguKt3L3vs0oOTKzbfvKtth0bD+uim1i2YIh0SCp/N
+         QF/XdsMzRXyuoFq0XjQTwpY77rL/CW9H2g5w1MbtuIjSzwm6/RmY9xCwTlKkX7u/Eskv
+         O3YvZhZUYbbgVwQRa75rhbD2YvKhaeq6N40XO+Cr/MxI70ACWpbmO1IGQGZwm/PCt3WI
+         s5vzQRS7nWRO5q3Dml33bIvfHKS83CS3WyCMnS4zJ8ut0gOXjjNes2BfjOFjg15LuhsF
+         6bqkJfurYW2qyv9apcO+hp0Et9Kh94JEqGJHfbju5QA+B3xVtsacVk5YY34OXjpA+Ppl
+         b6jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=QwiVhbC5w9i7Idj/dJDuFYurFbOrQGVL6Jy6zXvxSuk=;
-        b=CMkMjK/ujRM6p1rjuILI6lULyriDjRTO+m1fXTe4T8NIpTP4BwJiTQeQj0LMlw9PKR
-         g2nJgMz0U4FPWgq0MSyY+sx9f3gdRHrYPNLr+OTrbfR8YsjRKF9jyEveVLCzF2PQ1s6B
-         oJ4Iym57Qm8sdkUGyvKfImCv4tQgM3z50Z9jPtHXCEm4STWfdNK7VoK6JTa8wU/qvPu9
-         uDNnBOzIRji1sAW4HJAfRXQtQssH6RI7i+ISWOmnAJl1YtTn8301tZXubUC08Qc2WYo0
-         fh8HcHGNTT4iIoJXsHmNQ4NGwUl9Q8f4uNqJ33mApFIuqdzqZk+bJRX8ifMvPM3trwBT
-         cl8g==
-X-Gm-Message-State: AOAM532ScCmTTdzatoAxrXJ5IdUhHUv7Z2lWR3ep1iVT/Pll+uG1v7i3
-	7thbLl99BSrlBemO8v47d5HfM4wWD2s=
-X-Google-Smtp-Source: ABdhPJwBgpkPXY0gmbVnYHEDaLXYyNBjkY11EjIpz5A+a5LOMaxlk0pYVyEo++Ob70qAwMwgDMLxXw==
-X-Received: by 2002:a19:c107:: with SMTP id r7mr2208817lff.29.1631190990725;
-        Thu, 09 Sep 2021 05:36:30 -0700 (PDT)
+        bh=XCX2UYSZQUn08q9KgA+a/AS7BgY7qzOnl3a2YH/6Kuw=;
+        b=YWNdI3QHFHo5+bOwubu4LFEHruIxljnozS6ksqdJ0+lyfQeqg/3FpUnV0An68ylPED
+         mwb3+15LGnSGCsBWMYhbhHk4HDBUZiw5+Bl3YFJOjQr5YCRjxCCxXExKC+hYguWMufNq
+         GxHafdOVIJcNX5CO/zJivQ95X25BtJQyB8W3YoD/yNjTaS3XyE2xd/TD5snRV64tncfK
+         B18s/+mvLmSD0q//ykzKAgnaYnwhFegUJQGCnvUKtsJTxRozMvGzNBg/+rpqsQ25KcXW
+         PbgLl18Jvx4lYTzdrf6HSgS28ahTrmi9Vb/vdDuGG4yat5lbTj9kIDNct0ZTLd1kYC9j
+         XNrA==
+X-Gm-Message-State: AOAM533GU5AndRZcZt9zD/eGCCqnjqB+8hVOQb2Qd9byMMx6BFGLfkfW
+	B4mtSCBA/D5HpyhLbSaa5Zw=
+X-Google-Smtp-Source: ABdhPJwCPp4aujaH2CwqmOaRLoiQKu8uRpFu8nsdXcaf9BbvGIVFheodyVV1j0kHVwI7LWQsUiOMqw==
+X-Received: by 2002:ac2:5fc5:: with SMTP id q5mr2161495lfg.629.1631192019881;
+        Thu, 09 Sep 2021 05:53:39 -0700 (PDT)
 Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id q22sm187387lfc.121.2021.09.09.05.36.29
+        by smtp.gmail.com with ESMTPSA id m5sm191061lfk.267.2021.09.09.05.53.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 05:36:30 -0700 (PDT)
-Date: Thu, 9 Sep 2021 15:36:28 +0300
+        Thu, 09 Sep 2021 05:53:39 -0700 (PDT)
+Date: Thu, 9 Sep 2021 15:53:37 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/3] fs/ntfs3: Fix insertion of attr in ni_ins_attr_ext
-Message-ID: <20210909123628.m5agndj35sesdurv@kari-VirtualBox>
-References: <732a18ee-20ea-3e53-056c-8a4d496e5522@paragon-software.com>
+Subject: Re: [PATCH 3/3] fs/ntfs3: Add sync flag to ntfs_sb_write_run and
+ al_update
+Message-ID: <20210909125337.664ezyu7jrke5vdn@kari-VirtualBox>
+References: <8a99d42f-1097-9c0d-d1b2-5b971a8a4d1f@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -52,33 +53,209 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <732a18ee-20ea-3e53-056c-8a4d496e5522@paragon-software.com>
+In-Reply-To: <8a99d42f-1097-9c0d-d1b2-5b971a8a4d1f@paragon-software.com>
 
-On Thu, Sep 09, 2021 at 01:57:59PM +0300, Konstantin Komarov wrote:
-> Do not try to insert attribute if there is no room in record.
+On Thu, Sep 09, 2021 at 01:58:08PM +0300, Konstantin Komarov wrote:
+> This allows to wait only when it's requested.
+> It speeds up creation of hardlinks.
 > 
 > Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 > ---
->  fs/ntfs3/frecord.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  fs/ntfs3/attrib.c   | 2 +-
+>  fs/ntfs3/attrlist.c | 6 +++---
+>  fs/ntfs3/frecord.c  | 2 +-
+>  fs/ntfs3/fslog.c    | 9 +++++----
+>  fs/ntfs3/fsntfs.c   | 8 ++++----
+>  fs/ntfs3/inode.c    | 2 +-
+>  fs/ntfs3/ntfs_fs.h  | 4 ++--
+>  fs/ntfs3/xattr.c    | 2 +-
+>  8 files changed, 18 insertions(+), 17 deletions(-)
 > 
+> diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+> index 34c4cbf7e29b..64a28fe7c124 100644
+> --- a/fs/ntfs3/attrib.c
+> +++ b/fs/ntfs3/attrib.c
+> @@ -291,7 +291,7 @@ int attr_make_nonresident(struct ntfs_inode *ni, struct ATTRIB *attr,
+>  		if (!rsize) {
+>  			/* Empty resident -> Non empty nonresident. */
+>  		} else if (!is_data) {
+> -			err = ntfs_sb_write_run(sbi, run, 0, data, rsize);
+> +			err = ntfs_sb_write_run(sbi, run, 0, data, rsize, 0);
+>  			if (err)
+>  				goto out2;
+>  		} else if (!page) {
+> diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
+> index fa32399eb517..e41443cb3d63 100644
+> --- a/fs/ntfs3/attrlist.c
+> +++ b/fs/ntfs3/attrlist.c
+> @@ -336,7 +336,7 @@ int al_add_le(struct ntfs_inode *ni, enum ATTR_TYPE type, const __le16 *name,
+>  
+>  	if (attr && attr->non_res) {
+>  		err = ntfs_sb_write_run(ni->mi.sbi, &al->run, 0, al->le,
+> -					al->size);
+> +					al->size, 0);
+>  		if (err)
+>  			return err;
+>  		al->dirty = false;
+> @@ -423,7 +423,7 @@ bool al_delete_le(struct ntfs_inode *ni, enum ATTR_TYPE type, CLST vcn,
+>  	return true;
+>  }
+>  
+> -int al_update(struct ntfs_inode *ni)
+> +int al_update(struct ntfs_inode *ni, int sync)
+>  {
+>  	int err;
+>  	struct ATTRIB *attr;
+> @@ -445,7 +445,7 @@ int al_update(struct ntfs_inode *ni)
+>  		memcpy(resident_data(attr), al->le, al->size);
+>  	} else {
+>  		err = ntfs_sb_write_run(ni->mi.sbi, &al->run, 0, al->le,
+> -					al->size);
+> +					al->size, sync);
+>  		if (err)
+>  			goto out;
+>  
 > diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-> index 938b12d56ca6..5dd7b7a7c5e0 100644
+> index 5dd7b7a7c5e0..8478be3ab0e4 100644
 > --- a/fs/ntfs3/frecord.c
 > +++ b/fs/ntfs3/frecord.c
-> @@ -956,6 +956,10 @@ static int ni_ins_attr_ext(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
->  			continue;
->  		}
+> @@ -3209,7 +3209,7 @@ int ni_write_inode(struct inode *inode, int sync, const char *hint)
+>  					goto out;
+>  			}
 >  
-> +		/* Do not try to insert this attribute if there is no room in record. */
+> -			err = al_update(ni);
+> +			err = al_update(ni, sync);
+>  			if (err)
+>  				goto out;
+>  		}
+> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+> index b5853aed0e25..5c82b6218d94 100644
+> --- a/fs/ntfs3/fslog.c
+> +++ b/fs/ntfs3/fslog.c
+> @@ -2219,7 +2219,7 @@ static int last_log_lsn(struct ntfs_log *log)
+>  
+>  			err = ntfs_sb_write_run(log->ni->mi.sbi,
+>  						&log->ni->file.run, off, page,
+> -						log->page_size);
+> +						log->page_size, 0);
+>  
+>  			if (err)
+>  				goto out;
+> @@ -3710,7 +3710,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+>  
+>  	if (a_dirty) {
+>  		attr = oa->attr;
+> -		err = ntfs_sb_write_run(sbi, oa->run1, vbo, buffer_le, bytes);
+> +		err = ntfs_sb_write_run(sbi, oa->run1, vbo, buffer_le, bytes,
+> +					0);
 
-Multiline comment as this gets very long.
+If you don't mind that this is oneline I won't mind. 80 is limit, but
+case like this imo checkpatch limit was raised to 100. So vote for this
+becoming oneliner.
 
-> +		if (le32_to_cpu(mi->mrec->used) + asize > sbi->record_size)
-> +			continue;
-> +
->  		/* Try to insert attribute into this subrecord. */
->  		attr = ni_ins_new_attr(ni, mi, le, type, name, name_len, asize,
->  				       name_off, svcn, ins_le);
+>  		if (err)
+>  			goto out;
+>  	}
+> @@ -5152,10 +5153,10 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+>  
+>  	ntfs_fix_pre_write(&rh->rhdr, log->page_size);
+>  
+> -	err = ntfs_sb_write_run(sbi, &ni->file.run, 0, rh, log->page_size);
+> +	err = ntfs_sb_write_run(sbi, &ni->file.run, 0, rh, log->page_size, 0);
+>  	if (!err)
+>  		err = ntfs_sb_write_run(sbi, &log->ni->file.run, log->page_size,
+> -					rh, log->page_size);
+> +					rh, log->page_size, 0);
+>  
+>  	kfree(rh);
+>  	if (err)
+> diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+> index 91e3743e1442..c89a0f5c5ad4 100644
+> --- a/fs/ntfs3/fsntfs.c
+> +++ b/fs/ntfs3/fsntfs.c
+> @@ -1080,7 +1080,7 @@ int ntfs_sb_write(struct super_block *sb, u64 lbo, size_t bytes,
+>  }
+>  
+>  int ntfs_sb_write_run(struct ntfs_sb_info *sbi, const struct runs_tree *run,
+> -		      u64 vbo, const void *buf, size_t bytes)
+> +		      u64 vbo, const void *buf, size_t bytes, int sync)
+>  {
+>  	struct super_block *sb = sbi->sb;
+>  	u8 cluster_bits = sbi->cluster_bits;
+> @@ -1100,7 +1100,7 @@ int ntfs_sb_write_run(struct ntfs_sb_info *sbi, const struct runs_tree *run,
+>  
+>  	for (;;) {
+>  		u32 op = len < bytes ? len : bytes;
+> -		int err = ntfs_sb_write(sb, lbo, op, buf, 0);
+> +		int err = ntfs_sb_write(sb, lbo, op, buf, sync);
+>  
+>  		if (err)
+>  			return err;
+> @@ -2175,7 +2175,7 @@ int ntfs_insert_security(struct ntfs_sb_info *sbi,
+>  
+>  	/* Write main SDS bucket. */
+>  	err = ntfs_sb_write_run(sbi, &ni->file.run, sbi->security.next_off,
+> -				d_security, aligned_sec_size);
+> +				d_security, aligned_sec_size, 0);
+>  
+>  	if (err)
+>  		goto out;
+> @@ -2193,7 +2193,7 @@ int ntfs_insert_security(struct ntfs_sb_info *sbi,
+>  
+>  	/* Write copy SDS bucket. */
+>  	err = ntfs_sb_write_run(sbi, &ni->file.run, mirr_off, d_security,
+> -				aligned_sec_size);
+> +				aligned_sec_size, 0);
+>  	if (err)
+>  		goto out;
+>  
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index 187ef6adc9e1..aa519ed4453c 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -1593,7 +1593,7 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+>  
+>  	/* Write non resident data. */
+>  	if (nsize) {
+> -		err = ntfs_sb_write_run(sbi, &ni->file.run, 0, rp, nsize);
+> +		err = ntfs_sb_write_run(sbi, &ni->file.run, 0, rp, nsize, 0);
+>  		if (err)
+>  			goto out7;
+>  	}
+> diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+> index 97e682ebcfb9..a29578fa935b 100644
+> --- a/fs/ntfs3/ntfs_fs.h
+> +++ b/fs/ntfs3/ntfs_fs.h
+> @@ -436,7 +436,7 @@ bool al_remove_le(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le);
+>  bool al_delete_le(struct ntfs_inode *ni, enum ATTR_TYPE type, CLST vcn,
+>  		  const __le16 *name, size_t name_len,
+>  		  const struct MFT_REF *ref);
+> -int al_update(struct ntfs_inode *ni);
+> +int al_update(struct ntfs_inode *ni, int sync);
+>  static inline size_t al_aligned(size_t size)
+>  {
+>  	return (size + 1023) & ~(size_t)1023;
+> @@ -577,7 +577,7 @@ int ntfs_sb_read(struct super_block *sb, u64 lbo, size_t bytes, void *buffer);
+>  int ntfs_sb_write(struct super_block *sb, u64 lbo, size_t bytes,
+>  		  const void *buffer, int wait);
+>  int ntfs_sb_write_run(struct ntfs_sb_info *sbi, const struct runs_tree *run,
+> -		      u64 vbo, const void *buf, size_t bytes);
+> +		      u64 vbo, const void *buf, size_t bytes, int sync);
+>  struct buffer_head *ntfs_bread_run(struct ntfs_sb_info *sbi,
+>  				   const struct runs_tree *run, u64 vbo);
+>  int ntfs_read_run_nb(struct ntfs_sb_info *sbi, const struct runs_tree *run,
+> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+> index 83de1fd3b9c3..210a23979e71 100644
+> --- a/fs/ntfs3/xattr.c
+> +++ b/fs/ntfs3/xattr.c
+> @@ -444,7 +444,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+>  		/* Delete xattr, ATTR_EA */
+>  		ni_remove_attr_le(ni, attr, mi, le);
+>  	} else if (attr->non_res) {
+> -		err = ntfs_sb_write_run(sbi, &ea_run, 0, ea_all, size);
+> +		err = ntfs_sb_write_run(sbi, &ea_run, 0, ea_all, size, 0);
+>  		if (err)
+>  			goto out;
+>  	} else {
 > -- 
 > 2.28.0
