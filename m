@@ -1,50 +1,50 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095643FF2
-	for <ntfs3@lists.linux.dev>; Thu,  9 Sep 2021 18:10:01 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id f2so4380511ljn.1
-        for <ntfs3@lists.linux.dev>; Thu, 09 Sep 2021 11:10:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561C83FF0
+	for <ntfs3@lists.linux.dev>; Thu,  9 Sep 2021 18:10:02 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id c8so5429099lfi.3
+        for <ntfs3@lists.linux.dev>; Thu, 09 Sep 2021 11:10:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Xyyx98ohvBGLtu/RXBFKIsLv16m8Wp4VyNHMtY264u0=;
-        b=VzYjqIkohug8LcjSPPZbKDhi+RnOICZQIhj5CQdOX0jebUnadgBAvGoOsliXZ6/swK
-         LquJdWA/OJWavR/uAeFfuJ4FVHmmV82X7i9EssOEVeA39xGw94dmYlkD/nvXZv0ahHFU
-         JHl8TX/O+e/Rkb2GGen7mLyy0Il42Sl09fsgL4Uq1M2uAYI0KNHexZzixSAZSsHFyu4y
-         3yqeUgOxofqcnfGa+92r4sIUTIevbTs9+jHaucbyvwLVPbnw/IK1shfSwNMmL0WFCU+X
-         IeFf6zK3gcHbBJliSNkZpXTrqo/dXQHVRNk6vBpH7XcbAUXcOXku0EhmIL5PdBqlN0Zt
-         KZWg==
+        bh=IudACyYdUqJ7gnt0VBJlepLQi1HYDs/W9JfdNcI6Qbw=;
+        b=NEGi3nHWsfQg+1RLKfc0kywSDw4++RzTTs2UlUBBrdQ3VPzSjxiKHQ0j8p9JIjAydy
+         iqFUV7kdLN7h2dYd+DI5Pv/uprCzhNmTayfGGNs8RXuCw8sN0uh2KYyqkjSnibLmCr09
+         RgeWYLzfh3O+DB63OcsQ2ZTUQNiBXZiYx5T6sq7FlCpRjM4o6pYztOkFYGqru1EdDlvY
+         76yafJ7u/yTPdNVc9g7RkBRbzAU+UAKbgpyfEwZjoC4K73YFExpxQrL0ZajdZaRiQ+xu
+         dVhpXshnSR9xOg3gBQhvDTHFvic/5mIeN9GrPtUHL5KR9oquTNlAUILp2QB/LsXfPBYi
+         odIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Xyyx98ohvBGLtu/RXBFKIsLv16m8Wp4VyNHMtY264u0=;
-        b=g6Ij2rv+BGGwTYAxk3T207H5ZoSh7DhnqpgX9ITfmqgbGl34vGuQeDMl0GaTOyxrlu
-         ynLrNJRjOY65TZx81KM7yS11k3SNFmkTZBnAod9ro05dF1CUOThPv6WkdyJlMTEG0sKT
-         4wUrthtzkSlScg+l7myo6ofcZwIjlkIKhgoZV0v7qyWynuP5+cr1lsVfy//5x9ChlTzE
-         0CNHvmr0ryHjxKnAWad20EwCtnq8dIiLYDZmaxuTRzuykpYKe5VufJu6PDdZIGpUNeX2
-         FWNVrsYQo2tjuim/yUX6DwFUIMtfz9Lrvo5C67g7neTYQ9wZwldILmMUArXuY6BzW7Xb
-         3BHw==
-X-Gm-Message-State: AOAM530uEzpkqhrqMNPijJYsTgqdEMyogeykkdAR97d9u5X50cIew8+X
-	7BscLhmt0PkPvUxKGQA56oo=
-X-Google-Smtp-Source: ABdhPJyrS8ytRV+reeTGCs9+kg8U+/JVQ78r1mc/Dny6y+bu4yOKYC1AaVHhu/K0FRLqs2peASq3Sg==
-X-Received: by 2002:a2e:9607:: with SMTP id v7mr863208ljh.405.1631210999293;
-        Thu, 09 Sep 2021 11:09:59 -0700 (PDT)
+        bh=IudACyYdUqJ7gnt0VBJlepLQi1HYDs/W9JfdNcI6Qbw=;
+        b=vp4NzjviKQcqyF5xGms8/le4SiUCVu8uNfsOPLsJA5GlguXdaQB4QgGhFzv+zr08lh
+         NOyYCZ7ggeBW7p2DSUtDubMrDx9FTJk3GXBXxhCWhnyhknvwwQb9XkDzbLbBSKbI7ORW
+         XhMttNWMubAxqbmoqRwBK5akY5ygX6FUkCo046kpALVh9dYqd4+Yomu2JpxTGW55agQr
+         v7gBYpUkLz2F2/hLeqZtKXMkhT0F+f6/9Sxgd15TkfKOdc52dIpk9SwEatVsgKsFhLrX
+         WMpQ5Spo454tH9cW5ZBLQZdIauVlzt6Jn99mAO3GfO/XQQt/bvGNGw1V36+jPen+z2fG
+         fAzw==
+X-Gm-Message-State: AOAM533DFsTCooZasebv9lzrsFNXkQI6ON+daWYb/kK0SBfsTlq9G9vp
+	rL15eAWCz6e2doxkNiXrtVA=
+X-Google-Smtp-Source: ABdhPJx8eDqX1tvtW/eN6WUxAqVJouZ5RSQZPsB2dAsBOIfznfCiN8DNeyZyOZL+ubLnLajOgtZrAw==
+X-Received: by 2002:a05:6512:39c9:: with SMTP id k9mr819851lfu.351.1631211000536;
+        Thu, 09 Sep 2021 11:10:00 -0700 (PDT)
 Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id u2sm270276lff.238.2021.09.09.11.09.58
+        by smtp.gmail.com with ESMTPSA id u2sm270276lff.238.2021.09.09.11.09.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 11:09:58 -0700 (PDT)
+        Thu, 09 Sep 2021 11:10:00 -0700 (PDT)
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
 Cc: Kari Argillander <kari.argillander@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH 05/11] fs/ntfs3: Remove unnecessary variable loading in fill_super
-Date: Thu,  9 Sep 2021 21:09:36 +0300
-Message-Id: <20210909180942.8634-6-kari.argillander@gmail.com>
+Subject: [PATCH 06/11] fs/ntfs3: Use sb instead of sbi->sb in fill_super
+Date: Thu,  9 Sep 2021 21:09:37 +0300
+Message-Id: <20210909180942.8634-7-kari.argillander@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210909180942.8634-1-kari.argillander@gmail.com>
 References: <20210909180942.8634-1-kari.argillander@gmail.com>
@@ -56,80 +56,45 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove some unnecessary variable loading. These look like copy paste
-work and they are not used to anything.
+Use sb instead of sbi->sb in fill_super. We have sb so why not use
+it. Also makes code more readable.
 
 Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 ---
- fs/ntfs3/super.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ fs/ntfs3/super.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index f3c3c2bea6ca..2eb1227bbf5a 100644
+index 2eb1227bbf5a..efe12c45e421 100644
 --- a/fs/ntfs3/super.c
 +++ b/fs/ntfs3/super.c
-@@ -879,7 +879,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	struct block_device *bdev = sb->s_bdev;
- 	struct inode *bd_inode = bdev->bd_inode;
- 	struct request_queue *rq = bdev_get_queue(bdev);
--	struct inode *inode = NULL;
-+	struct inode *inode;
- 	struct ntfs_inode *ni;
- 	size_t i, tt;
- 	CLST vcn, lcn, len;
-@@ -979,9 +979,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	sbi->volume.major_ver = info->major_ver;
- 	sbi->volume.minor_ver = info->minor_ver;
- 	sbi->volume.flags = info->flags;
--
- 	sbi->volume.ni = ni;
--	inode = NULL;
- 
- 	/* Load $MFTMirr to estimate recs_mirr. */
- 	ref.low = cpu_to_le32(MFT_REC_MIRR);
-@@ -1013,7 +1011,6 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 		goto out;
+@@ -1012,7 +1012,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
  
  	iput(inode);
--	inode = NULL;
  
- 	is_ro = sb_rdonly(sbi->sb);
+-	is_ro = sb_rdonly(sbi->sb);
++	is_ro = sb_rdonly(sb);
  
-@@ -1090,8 +1087,6 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 		return PTR_ERR(inode);
- 	}
+ 	if (sbi->flags & NTFS_FLAGS_NEED_REPLAY) {
+ 		if (!is_ro) {
+@@ -1103,7 +1103,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
  
--	ni = ntfs_i(inode);
--
- #ifndef CONFIG_NTFS3_64BIT_CLUSTER
- 	if (inode->i_size >> 32) {
- 		err = -EINVAL;
-@@ -1190,8 +1185,6 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 		return PTR_ERR(inode);
- 	}
- 
--	ni = ntfs_i(inode);
--
- 	if (inode->i_size != 0x10000 * sizeof(short)) {
- 		err = -EINVAL;
+ 	/* Not necessary. */
+ 	sbi->used.bitmap.set_tail = true;
+-	err = wnd_init(&sbi->used.bitmap, sbi->sb, tt);
++	err = wnd_init(&sbi->used.bitmap, sb, tt);
+ 	if (err)
  		goto out;
-@@ -1227,7 +1220,6 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	}
  
- 	iput(inode);
--	inode = NULL;
- 
- 	if (is_ntfs3(sbi)) {
- 		/* Load $Secure. */
-@@ -1261,8 +1253,6 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+@@ -1117,7 +1117,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	/* Load $AttrDef. */
+ 	ref.low = cpu_to_le32(MFT_REC_ATTR);
+ 	ref.seq = cpu_to_le16(MFT_REC_ATTR);
+-	inode = ntfs_iget5(sbi->sb, &ref, &NAME_ATTRDEF);
++	inode = ntfs_iget5(sb, &ref, &NAME_ATTRDEF);
+ 	if (IS_ERR(inode)) {
+ 		ntfs_err(sb, "Failed to load $AttrDef -> %d", err);
  		return PTR_ERR(inode);
- 	}
- 
--	ni = ntfs_i(inode);
--
- 	sb->s_root = d_make_root(inode);
- 	if (!sb->s_root)
- 		return -ENOMEM;
 -- 
 2.25.1
 
