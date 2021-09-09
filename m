@@ -1,111 +1,86 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918FF3FF0
-	for <ntfs3@lists.linux.dev>; Thu,  9 Sep 2021 16:39:08 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 1DD5A1D24;
-	Thu,  9 Sep 2021 19:39:06 +0300 (MSK)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE503FF0
+	for <ntfs3@lists.linux.dev>; Thu,  9 Sep 2021 18:09:53 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id h1so4351562ljl.9
+        for <ntfs3@lists.linux.dev>; Thu, 09 Sep 2021 11:09:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1631205546;
-	bh=Ah4+46r6nDVwZfNEa9ffS5opMw0+uC0WLLzuSRXzu8A=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=UueLkuTdfOdie9h3/mwjNGsgiHnS4bt3wgnmhfKdmgGvyO7s5kqo1RaHOLSA+9sz7
-	 ZyogONE6ERN5hly94a/Cyc17c4NokwSWsrQIwfLvuHh9odXgwpW4jYcQE+E6I0TRHf
-	 gpVzq+LePzy6QXLrtqln9pYAC8J4n395pdB3IbK8=
-Received: from [192.168.211.46] (192.168.211.46) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 9 Sep 2021 19:39:05 +0300
-Message-ID: <6a4ef0b6-a855-646a-91cc-81060b63850f@paragon-software.com>
-Date: Thu, 9 Sep 2021 19:39:04 +0300
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AB61zsK+RFLEdyaoe9KR+20N8SgtCfi8JZyiKRinXAk=;
+        b=dm0TfN8BgHSqqqVA8lnL7eqFLdStV9hpOtUIENtwBaPaJelVeQD8FrsxB9iMnYGjay
+         yyC9P0aLvs1AmIQk6ynvwj4vi5wI9v1MmaGxdKX4R4oeOF2JEI9p1uNjqRzyhzhmo9n/
+         U71eXCqRgRDVzs382aOmBOVdJkYmCnnGGkS5opNXKdixs5Q3A4+Vwj9WmUKwEwhG4HQP
+         QVGPMwSW14j5LxrZJsPFj+wGlQiSVYpl8dYq92kLL0GgvQD3Tsh7AdIGMCEEGHu48A2h
+         rxZOOUSO1TSpRzjcvpRDY/sZZI0dzZBKyeiijvbDPK5SEYTVNHWPqBqeRCjcB+0u81Ud
+         whMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AB61zsK+RFLEdyaoe9KR+20N8SgtCfi8JZyiKRinXAk=;
+        b=J2pKV6cuhaKDz1oRR1aoQ8HaJJN4a7eZbjeVu1VXsPxMVbI5GmeyZGcZnpi+6O16kU
+         ndKy7ux7mjoqEUye53JefWCIYv8ng+vRt/KzY+NvSOB3E6dlZ5T1We+Y0eLPLqnemqYR
+         GtYJbqxgz2pwIbGXwA0eIS0newQCUn+urilqz/l3WV9KHAny9AjD98mDApJO2CG4yzUM
+         bHGH1cz8QB6MIk3i7p4SyzuTEX/YWYWoB/lKfIySFvjOM9ZkeyL99NV3CjsyZhqTQ7T7
+         Lbg/HwfE8jXnctrTUHbMOYGnBupKnvfwi22LqnBftRZXtfkgMeNLMac1+WropR3VXmcn
+         BVuw==
+X-Gm-Message-State: AOAM532wtrBBFjuewhxI7Qp5GqGlaKzK7vf1zqiH4NLGO/JWUXOwbeTn
+	WBtx6vZjfyAwEomyn24sXm0=
+X-Google-Smtp-Source: ABdhPJxBD7xsOHwsxthzYDI7T7Q63R6eQMvs8VSCRs4tvENHKqkwTtMJJPEMiLg9XN4JtUX2CD7zFQ==
+X-Received: by 2002:a2e:a903:: with SMTP id j3mr911508ljq.347.1631210991177;
+        Thu, 09 Sep 2021 11:09:51 -0700 (PDT)
+Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id u2sm270276lff.238.2021.09.09.11.09.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Sep 2021 11:09:50 -0700 (PDT)
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: Kari Argillander <kari.argillander@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Christian Brauner <christian.brauner@ubuntu.com>
+Subject: [PATCH 00/11] fs/ntfs3: Refactor fill_super
+Date: Thu,  9 Sep 2021 21:09:31 +0300
+Message-Id: <20210909180942.8634-1-kari.argillander@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v4 0/9] fs/ntfs3: Use new mount api and change some opts
-Content-Language: en-US
-To: Kari Argillander <kari.argillander@gmail.com>, <ntfs3@lists.linux.dev>
-CC: Christoph Hellwig <hch@lst.de>, <linux-kernel@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, =?UTF-8?Q?Pali_Roh=c3=a1r?=
-	<pali@kernel.org>, Matthew Wilcox <willy@infradead.org>, Christian Brauner
-	<christian.brauner@ubuntu.com>
-References: <20210907153557.144391-1-kari.argillander@gmail.com>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20210907153557.144391-1-kari.argillander@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.46]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Transfer-Encoding: 8bit
+
+Two first ones are only ones that fix something. Everything else
+just take off dead code or make it little bit cleaner. They should
+be pretty trivial.
+
+As promise to Christian, 10/11 makes one section cleaner as he
+wanted [1].
+
+[1]: lore.kernel.org/ntfs3/20210824113217.ncuwc3zs452mdgec@wittgenstein
+
+Kari Argillander (11):
+  fs/ntfs3: Fix wrong error message $Logfile -> $UpCase
+  fs/ntfs3: Change EINVAL to ENOMEM when d_make_root fails
+  fs/ntfs3: Remove impossible fault condition in fill_super
+  fs/ntfs3: Return straight without goto in fill_super
+  fs/ntfs3: Remove unnecessary variable loading in fill_super
+  fs/ntfs3: Use sb instead of sbi->sb in fill_super
+  fs/ntfs3: Remove tmp var is_ro in ntfs_fill_super
+  fs/ntfs3: Remove tmp pointer bd_inode in fill_super
+  fs/ntfs3: Remove tmp pointer upcase in fill_super
+  fs/ntfs3: Initialize pointer before use place in fill_super
+  fs/ntfs3: Initiliaze sb blocksize only in one place + refactor
+
+ fs/ntfs3/super.c | 121 +++++++++++++----------------------------------
+ 1 file changed, 33 insertions(+), 88 deletions(-)
 
 
+base-commit: 15b2ae776044ac52cddda8a3e6c9fecd15226b8c
+-- 
+2.25.1
 
-On 07.09.2021 18:35, Kari Argillander wrote:
-> v3 link:
-> lore.kernel.org/ntfs3/20210829095614.50021-1-kari.argillander@gmail.com
-> 
-> This series will delete unnecessary mount options and rename some.
-> Also this will convert ntfs3 to use new mount api. In my opinion we
-> should get this in 5.15 because after that basically we have to have
-> deprecated flag with new mount options. Let's try to avoid that if
-> possible.
-> 
-> v4:
-> 	- Rebased top of the current ntfs3/master
-> 	- Rename mount option (no)acs_rules -> (no)acsrules
-> 	- Fix acs commit message acl -> acs (Thank Pali)
-> v3:
-> 	- Add patch "Convert mount options to pointer in sbi"
-> 	- Add patch "Init spi more in init_fs_context than fill_super"
-> 	- Add patch "Show uid/gid always in show_options"
-> 	- Patch "Use new api for mounting" has make over
-> 	- NLS loading is not anymore possible when remounting
-> 	- show_options() iocharset printing is fixed
-> 	- Delete comment that testing should be done with other
-> 	  mount options.
-> 	- Add reviewed/acked-tags to 1,2,6,8 
-> 	- Rewrite this cover
-> v2:
-> 	- Rewrite this cover leter
-> 	- Reorder noatime to first patch
-> 	- NLS loading with string
-> 	- Delete default_options function
-> 	- Remove remount flags
-> 	- Rename no_acl_rules mount option
-> 	- Making code cleaner
-> 	- Add comment that mount options should be tested
-> 
-> Kari Argillander (9):
->   fs/ntfs3: Remove unnecesarry mount option noatime
->   fs/ntfs3: Remove unnecesarry remount flag handling
->   fs/ntfs3: Convert mount options to pointer in sbi
->   fs/ntfs3: Use new api for mounting
->   fs/ntfs3: Init spi more in init_fs_context than fill_super
->   fs/ntfs3: Make mount option nohidden more universal
->   fs/ntfs3: Add iocharset= mount option as alias for nls=
->   fs/ntfs3: Rename mount option no_acs_rules > (no)acsrules
->   fs/ntfs3: Show uid/gid always in show_options()
-> 
->  Documentation/filesystems/ntfs3.rst |  10 +-
->  fs/ntfs3/attrib.c                   |   2 +-
->  fs/ntfs3/dir.c                      |   8 +-
->  fs/ntfs3/file.c                     |   4 +-
->  fs/ntfs3/inode.c                    |  12 +-
->  fs/ntfs3/ntfs_fs.h                  |  26 +-
->  fs/ntfs3/super.c                    | 498 +++++++++++++++-------------
->  fs/ntfs3/xattr.c                    |   2 +-
->  8 files changed, 290 insertions(+), 272 deletions(-)
-> 
-> 
-> base-commit: 2e3a51b59ea26544303e168de8a0479915f09aa3
-> 
-
-Applied, thanks for patches and review!
-
-Best regards,
-Konstantin
