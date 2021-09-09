@@ -1,239 +1,97 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1089E3FE1
-	for <ntfs3@lists.linux.dev>; Thu,  9 Sep 2021 10:58:18 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 9D0731D78;
-	Thu,  9 Sep 2021 13:58:09 +0300 (MSK)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E3C3FC8
+	for <ntfs3@lists.linux.dev>; Thu,  9 Sep 2021 12:30:38 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id l11so3410045lfe.1
+        for <ntfs3@lists.linux.dev>; Thu, 09 Sep 2021 05:30:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1631185089;
-	bh=Gvw8TGpTmwC4QvKKtiXTUz8bcFGI+HJPLVvq+sRhbLo=;
-	h=Date:To:CC:From:Subject;
-	b=Kv8AjDJQ20D1udCY+cKQalI8HJulDnPo001+nok8X0nHdT3FDVUH1QryuzlSl8Ms6
-	 MW9k5hhWz4tNNVAfG2UOayoAdi8tMF+cZOR/etpbARBx3QN0PImB107RlyLJ13kLYl
-	 TRZUnU5snnXEz/KM2+5U3K0ZzsuIbEAB+8U4uY7A=
-Received: from [192.168.211.46] (192.168.211.46) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 9 Sep 2021 13:58:09 +0300
-Message-ID: <8a99d42f-1097-9c0d-d1b2-5b971a8a4d1f@paragon-software.com>
-Date: Thu, 9 Sep 2021 13:58:08 +0300
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=TAl/OZXNRp/QAbUi6FlwGJXU2TI4ZvTh9dSb4AyChuI=;
+        b=IHBcF9fW/zT6xas0XbHv0lbF++TAh4rpkz3W5Vvr6PSzbIocMq9GcKAPb5Wj9LMUI8
+         v2KO0fNYYWttrO6UD3GtUpiyC0m7tPbHiWkVwuPHQtFyZPR44ns6Rqc2XQoJhKSIgfho
+         OBxCO4QGDcN3izAGsNxEK+NMOqTqGoFmqyCeFbEq1IKEIgFyxtwVtyqP+ZqnCcqy9ZrQ
+         0F3RKNfLCWKhFy5RrFee/hfsL6j9VXkm5Q1W/6zUsTv8QHYx3VDhtWrdb51mwdKFp+Z5
+         5KWQv+6kSTwqpBlXcxRXcUaXvEpUzKOEX2kpbSzgH+mpBcIfDs8lOqZ+PwujhQryvMvq
+         tONA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TAl/OZXNRp/QAbUi6FlwGJXU2TI4ZvTh9dSb4AyChuI=;
+        b=4ZA4+dbjFSykcn9CvJcpN0c6YOlwrgLytBLZmI6aYzvOnGPtrpC0rzt8jLmNZ6J61g
+         kYLJMxwNyasUUkhB1xEQAs39pZ03k/73DeVP6mnSoDjGbUTvVfPnCICIl/1dQ5kQhR5T
+         zD7zrjVbRdT5L2mnH6xciDpvE2LSKKjy2iPxfn19/ka8AH9tlmaGnHyBsMXHgYWjCVXK
+         CC/pdEnMFX+LJpdL6VIlAdqELodO+4yqCG4k6Q/9nwnbwoc1IS9bvyRq/+Fjw4eGE+B1
+         yxC4yEhhnAHWzbvUstpHkgQ31kT7WTJ7VzhHNPSQ268P+thxZibtKvDGiJ+SXIg16IkA
+         AWBQ==
+X-Gm-Message-State: AOAM533TEpbZtoGaVjenlwLKv02VGB638pmqJTzZbPvOcKwhh+KNMJ/B
+	CUWtj5wW6H8UOf7xA82IoaA=
+X-Google-Smtp-Source: ABdhPJxa3w6Kqrb3uUV9i/wSpTFxJwPM+mc4Mrm3bk5Q5bnmgsRhV5dZAczLADmQxXMOXwIax+LQiw==
+X-Received: by 2002:a19:c7cb:: with SMTP id x194mr2190596lff.490.1631190636694;
+        Thu, 09 Sep 2021 05:30:36 -0700 (PDT)
+Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id t17sm186042lfq.176.2021.09.09.05.30.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Sep 2021 05:30:36 -0700 (PDT)
+Date: Thu, 9 Sep 2021 15:30:34 +0300
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/3] fs/ntfs3: Change max hardlinks limit to 4000
+Message-ID: <20210909123034.mlsq57bsjvonwwd2@kari-VirtualBox>
+References: <89127d37-a38a-d15c-36f1-62f2ac0f4507@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Content-Language: en-US
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH 3/3] fs/ntfs3: Add sync flag to ntfs_sb_write_run and
- al_update
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.46]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <89127d37-a38a-d15c-36f1-62f2ac0f4507@paragon-software.com>
 
-This allows to wait only when it's requested.
-It speeds up creation of hardlinks.
+On Thu, Sep 09, 2021 at 01:58:04PM +0300, Konstantin Komarov wrote:
+> xfstest 041 works with 3003, so we need to
+> raise limit.
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
----
- fs/ntfs3/attrib.c   | 2 +-
- fs/ntfs3/attrlist.c | 6 +++---
- fs/ntfs3/frecord.c  | 2 +-
- fs/ntfs3/fslog.c    | 9 +++++----
- fs/ntfs3/fsntfs.c   | 8 ++++----
- fs/ntfs3/inode.c    | 2 +-
- fs/ntfs3/ntfs_fs.h  | 4 ++--
- fs/ntfs3/xattr.c    | 2 +-
- 8 files changed, 18 insertions(+), 17 deletions(-)
+No need to linebreak.
 
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index 34c4cbf7e29b..64a28fe7c124 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -291,7 +291,7 @@ int attr_make_nonresident(struct ntfs_inode *ni, struct ATTRIB *attr,
- 		if (!rsize) {
- 			/* Empty resident -> Non empty nonresident. */
- 		} else if (!is_data) {
--			err = ntfs_sb_write_run(sbi, run, 0, data, rsize);
-+			err = ntfs_sb_write_run(sbi, run, 0, data, rsize, 0);
- 			if (err)
- 				goto out2;
- 		} else if (!page) {
-diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
-index fa32399eb517..e41443cb3d63 100644
---- a/fs/ntfs3/attrlist.c
-+++ b/fs/ntfs3/attrlist.c
-@@ -336,7 +336,7 @@ int al_add_le(struct ntfs_inode *ni, enum ATTR_TYPE type, const __le16 *name,
- 
- 	if (attr && attr->non_res) {
- 		err = ntfs_sb_write_run(ni->mi.sbi, &al->run, 0, al->le,
--					al->size);
-+					al->size, 0);
- 		if (err)
- 			return err;
- 		al->dirty = false;
-@@ -423,7 +423,7 @@ bool al_delete_le(struct ntfs_inode *ni, enum ATTR_TYPE type, CLST vcn,
- 	return true;
- }
- 
--int al_update(struct ntfs_inode *ni)
-+int al_update(struct ntfs_inode *ni, int sync)
- {
- 	int err;
- 	struct ATTRIB *attr;
-@@ -445,7 +445,7 @@ int al_update(struct ntfs_inode *ni)
- 		memcpy(resident_data(attr), al->le, al->size);
- 	} else {
- 		err = ntfs_sb_write_run(ni->mi.sbi, &al->run, 0, al->le,
--					al->size);
-+					al->size, sync);
- 		if (err)
- 			goto out;
- 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 5dd7b7a7c5e0..8478be3ab0e4 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -3209,7 +3209,7 @@ int ni_write_inode(struct inode *inode, int sync, const char *hint)
- 					goto out;
- 			}
- 
--			err = al_update(ni);
-+			err = al_update(ni, sync);
- 			if (err)
- 				goto out;
- 		}
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index b5853aed0e25..5c82b6218d94 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -2219,7 +2219,7 @@ static int last_log_lsn(struct ntfs_log *log)
- 
- 			err = ntfs_sb_write_run(log->ni->mi.sbi,
- 						&log->ni->file.run, off, page,
--						log->page_size);
-+						log->page_size, 0);
- 
- 			if (err)
- 				goto out;
-@@ -3710,7 +3710,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 
- 	if (a_dirty) {
- 		attr = oa->attr;
--		err = ntfs_sb_write_run(sbi, oa->run1, vbo, buffer_le, bytes);
-+		err = ntfs_sb_write_run(sbi, oa->run1, vbo, buffer_le, bytes,
-+					0);
- 		if (err)
- 			goto out;
- 	}
-@@ -5152,10 +5153,10 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 
- 	ntfs_fix_pre_write(&rh->rhdr, log->page_size);
- 
--	err = ntfs_sb_write_run(sbi, &ni->file.run, 0, rh, log->page_size);
-+	err = ntfs_sb_write_run(sbi, &ni->file.run, 0, rh, log->page_size, 0);
- 	if (!err)
- 		err = ntfs_sb_write_run(sbi, &log->ni->file.run, log->page_size,
--					rh, log->page_size);
-+					rh, log->page_size, 0);
- 
- 	kfree(rh);
- 	if (err)
-diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-index 91e3743e1442..c89a0f5c5ad4 100644
---- a/fs/ntfs3/fsntfs.c
-+++ b/fs/ntfs3/fsntfs.c
-@@ -1080,7 +1080,7 @@ int ntfs_sb_write(struct super_block *sb, u64 lbo, size_t bytes,
- }
- 
- int ntfs_sb_write_run(struct ntfs_sb_info *sbi, const struct runs_tree *run,
--		      u64 vbo, const void *buf, size_t bytes)
-+		      u64 vbo, const void *buf, size_t bytes, int sync)
- {
- 	struct super_block *sb = sbi->sb;
- 	u8 cluster_bits = sbi->cluster_bits;
-@@ -1100,7 +1100,7 @@ int ntfs_sb_write_run(struct ntfs_sb_info *sbi, const struct runs_tree *run,
- 
- 	for (;;) {
- 		u32 op = len < bytes ? len : bytes;
--		int err = ntfs_sb_write(sb, lbo, op, buf, 0);
-+		int err = ntfs_sb_write(sb, lbo, op, buf, sync);
- 
- 		if (err)
- 			return err;
-@@ -2175,7 +2175,7 @@ int ntfs_insert_security(struct ntfs_sb_info *sbi,
- 
- 	/* Write main SDS bucket. */
- 	err = ntfs_sb_write_run(sbi, &ni->file.run, sbi->security.next_off,
--				d_security, aligned_sec_size);
-+				d_security, aligned_sec_size, 0);
- 
- 	if (err)
- 		goto out;
-@@ -2193,7 +2193,7 @@ int ntfs_insert_security(struct ntfs_sb_info *sbi,
- 
- 	/* Write copy SDS bucket. */
- 	err = ntfs_sb_write_run(sbi, &ni->file.run, mirr_off, d_security,
--				aligned_sec_size);
-+				aligned_sec_size, 0);
- 	if (err)
- 		goto out;
- 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 187ef6adc9e1..aa519ed4453c 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -1593,7 +1593,7 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
- 
- 	/* Write non resident data. */
- 	if (nsize) {
--		err = ntfs_sb_write_run(sbi, &ni->file.run, 0, rp, nsize);
-+		err = ntfs_sb_write_run(sbi, &ni->file.run, 0, rp, nsize, 0);
- 		if (err)
- 			goto out7;
- 	}
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index 97e682ebcfb9..a29578fa935b 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -436,7 +436,7 @@ bool al_remove_le(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le);
- bool al_delete_le(struct ntfs_inode *ni, enum ATTR_TYPE type, CLST vcn,
- 		  const __le16 *name, size_t name_len,
- 		  const struct MFT_REF *ref);
--int al_update(struct ntfs_inode *ni);
-+int al_update(struct ntfs_inode *ni, int sync);
- static inline size_t al_aligned(size_t size)
- {
- 	return (size + 1023) & ~(size_t)1023;
-@@ -577,7 +577,7 @@ int ntfs_sb_read(struct super_block *sb, u64 lbo, size_t bytes, void *buffer);
- int ntfs_sb_write(struct super_block *sb, u64 lbo, size_t bytes,
- 		  const void *buffer, int wait);
- int ntfs_sb_write_run(struct ntfs_sb_info *sbi, const struct runs_tree *run,
--		      u64 vbo, const void *buf, size_t bytes);
-+		      u64 vbo, const void *buf, size_t bytes, int sync);
- struct buffer_head *ntfs_bread_run(struct ntfs_sb_info *sbi,
- 				   const struct runs_tree *run, u64 vbo);
- int ntfs_read_run_nb(struct ntfs_sb_info *sbi, const struct runs_tree *run,
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 83de1fd3b9c3..210a23979e71 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -444,7 +444,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
- 		/* Delete xattr, ATTR_EA */
- 		ni_remove_attr_le(ni, attr, mi, le);
- 	} else if (attr->non_res) {
--		err = ntfs_sb_write_run(sbi, &ea_run, 0, ea_all, size);
-+		err = ntfs_sb_write_run(sbi, &ea_run, 0, ea_all, size, 0);
- 		if (err)
- 			goto out;
- 	} else {
--- 
-2.28.0
+> 
+> Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+> ---
+>  fs/ntfs3/ntfs.h | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/ntfs3/ntfs.h b/fs/ntfs3/ntfs.h
+> index 6bb3e595263b..0006481db7fa 100644
+> --- a/fs/ntfs3/ntfs.h
+> +++ b/fs/ntfs3/ntfs.h
+> @@ -21,7 +21,8 @@
+>  #define NTFS_NAME_LEN 255
+>  
+>  /* ntfs.sys used 500 maximum links on-disk struct allows up to 0xffff. */
+> -#define NTFS_LINK_MAX 0x400
+> +/* xfstest 041 creates 3003 hardlinks. */
+
+It think comment is unnecessary here. If you think this is necassarry
+comment then please but it same comment block as last row.
+
+> +#define NTFS_LINK_MAX 4000
+
+What draw backs there is if this is 4000? We really do not care about
+xfstests if we have some reason to not do this. This info can be but
+to commit message.
+
+>  //#define NTFS_LINK_MAX 0xffff
+
+We can probably same time get rid of this.
+
+>  
+>  /*
+> -- 
+> 2.28.0
+> 
