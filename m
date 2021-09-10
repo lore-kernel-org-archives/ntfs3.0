@@ -1,114 +1,92 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475B03FC3
-	for <ntfs3@lists.linux.dev>; Fri, 10 Sep 2021 12:19:29 +0000 (UTC)
-Received: by mail-oi1-f180.google.com with SMTP id n27so2714515oij.0
-        for <ntfs3@lists.linux.dev>; Fri, 10 Sep 2021 05:19:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8220C3FC3
+	for <ntfs3@lists.linux.dev>; Fri, 10 Sep 2021 18:12:31 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id s12so4632416ljg.0
+        for <ntfs3@lists.linux.dev>; Fri, 10 Sep 2021 11:12:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=m7N91pqKq8beoDgw/AQ3VlvWVBfWO9GtOToYGj0IQ50=;
-        b=IfqToNnCoZ3YN849dLmvG2gmwSx4vYcHgCOoDaef6PE96595XSw607vvL2Q6ZdEhEh
-         Ovq1ccG9+u6oCuRkvnNU/7RTWcNpBJb0+LKE1R204Uva1Seuuch9iafDI9t+btT6F32f
-         MiXsC5f6gSi32ULZGxjNYfqEht3ULsY+dEAM1ZOyfVPVF2G3KtlvpeqHpbSE47MvkeIU
-         4zM4niLWK4mY0RCEslasUbsEm0wf3kreZtpyh9gGgC+RSqzUYU0t0vuUSqhUWlR0hX0b
-         uZ03efzVqLnFZYEMXCZwnzgixAjC7vQK3fDAWB4UQFnMPibXNXBhyOFfmvm0obk/O0Uk
-         uFaQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=yAS2V26MFTPXdp5D+1VvRXcpwyS1dkM+dGnCynSdaik=;
+        b=QZCMZ92pfp0Aw7elF0GYvXcwRYYzg/cDsaEmEba4f+WIMOVwz64HZqjB1pjqWaqukb
+         BIwSvfvT4DWFNxpLG6dqJIBwAdLbGHF5xXrKnAarI5o91JevyqVgKYgwE2SaxNHrunCS
+         41lNXtxFKbJ3d1/82AzOiHGuEiHzg7/4kipXZOrwcZ87+wKE/3L7czuJk+oxX/0d73E+
+         uJKdkUoRTBaP30HwMX4u4SGP4p5MrIDNZdNwZ7xq99qXL5FvCE6QdiJ0WfJSNj1ERa8l
+         hbcqa6ILYPJB1hgBsrFvgArXvSZEZ1WXL7ylaUIYasJ2G85yWH7wzbrFjioLsLpt0W0Y
+         mfYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=m7N91pqKq8beoDgw/AQ3VlvWVBfWO9GtOToYGj0IQ50=;
-        b=va5q3LJSeorGzkxDdRl1oOQxsJRoVn1Yngtw2HFFdVi2AJtOTlElQesN1+GGzBa22H
-         7xE89Gqob4h/Wi76Q8YKX6IEloSKjP/4jDZd8kNDA9AnwXX/uEm+3lRLGMOTHCvMBwPE
-         S+wI/bJmeAzkHsmWWPtPoU07GNRDBuBq1YRFRvBQ2C+H7oflbEeAqahh9tmJTPmc8QYy
-         YTtuazlydTlr/h7t9SIFK717vx5MQgmXqb7Pi9ljpoHOOxxYY0bT/XkjUnl3b4a0oI1N
-         mUS+rohkUYH4BKXH8MPr3uMLOCZY9XE0kJVDeHxPldpbdI2PBxVw7mVDJUwnCYuIDv0e
-         1dmA==
-X-Gm-Message-State: AOAM531nJnBfEKZQwRIAIR8FBDFOD7IcgH6kafiYTwh64G5JRutzLavP
-	qSIl/8/xEm9FaysCsPvazw9L9hCvpPj3b8A9ef0=
-X-Google-Smtp-Source: ABdhPJybGAvirYtlTNGtvzGtavu0JzXzwICVUsbU6PRjwVVdmxgANHwypFZZP1w7wnvqQ/WjLk0+aZtUuW7M0S/w+IQ=
-X-Received: by 2002:a05:6808:1a19:: with SMTP id bk25mr3821810oib.62.1631276368327;
- Fri, 10 Sep 2021 05:19:28 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=yAS2V26MFTPXdp5D+1VvRXcpwyS1dkM+dGnCynSdaik=;
+        b=GB6zgj/A/IvLqkmqVjyvUN9JjhOGIEyOk+QJZRtXBuB00OffZ7ZPtELFE+RfEp+05c
+         kMQVCLfLOdcakgz0r27NuDuKAmVYZt7XsuIUGPQ1bm14Hl6MEndnKRKUq0tabfepF0i3
+         ug27WYrliMsqzP92IV1u3q2yM0wWNpxfuM26jUAEmfKbiZ1mhCUJnMhySoaR2bwrzEFk
+         DnWki1Qdab46pzeEwTuY39MBOAiFkRBCt4WGB4djHhC6dO4gk0E5gYdZvLbCgFDjhQ3y
+         a1D5vFWsN893tc/LFRIzk7pugYsiIt5g7OJuPelBNYWYjq0MyufQwP58CdDgutDdmHiL
+         CeUA==
+X-Gm-Message-State: AOAM5318OnBt79MGk26x5Ix9uXhRobyyIQIQQpHuxbtEK0vJyPH8DC9n
+	HqDzij+VOLowHtX2CWL6IpU=
+X-Google-Smtp-Source: ABdhPJyv+ihp3UJkL+McKA/31v+I+WB/lbUcXTkXIuSsRWwmYlY+S/nkN2pZwedAzLWpLNtlfn1zyg==
+X-Received: by 2002:a2e:bb93:: with SMTP id y19mr5072294lje.79.1631297549627;
+        Fri, 10 Sep 2021 11:12:29 -0700 (PDT)
+Received: from kari-VirtualBox ([31.132.12.44])
+        by smtp.gmail.com with ESMTPSA id o16sm623643lfu.45.2021.09.10.11.12.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Sep 2021 11:12:28 -0700 (PDT)
+Date: Fri, 10 Sep 2021 21:12:27 +0300
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: fs/ntfs3: Runtree implementation with rbtree or others
+Message-ID: <20210910181227.4tr3xn2aooeo2lvw@kari-VirtualBox>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJZVDJAJa+j=hx2JswdvS35t9VU6TYF3uDZnzZ5hhtSzo9E-LA@mail.gmail.com>
-In-Reply-To: <CAJZVDJAJa+j=hx2JswdvS35t9VU6TYF3uDZnzZ5hhtSzo9E-LA@mail.gmail.com>
-From: Kari Argillander <kari.argillander@gmail.com>
-Date: Fri, 10 Sep 2021 15:19:16 +0300
-Message-ID: <CAC=eVgQKOdNbyDf2Qf=O9SnG=6nAGZ-nyuwOosf7YW5R3xbVLw@mail.gmail.com>
-Subject: Re: ntfs3 mount options
-To: Marcos Mello <marcosfrm@gmail.com>, ntfs3@lists.linux.dev, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-10.09.2021 14.23 Marcos Mello (marcosfrm@gmail.com) wrote:
-> Hi, sorry email you directly, but this mailing list thing is cryptic
-> to me.
+Hello.
 
-I CC also lists to this so now everyone knows. Also CC couple
-others who might be interested to talk about this.
+Konstantin you have wrote in ntfs_fs.h in struct runs_tree:
 
-> I was reading your patches cleaning up ntfs3 documentation and
-> realized some mount options diverge from NTFS-3G. This will make
-> udisks people unhappy.
+/* TODO: Use rb tree instead of array. */
+struct runs_tree {
+	struct rb_root root;
 
-This is true. They also diverge from the current NTFS driver. We have
-talk about it a little bit and before ntfs driver can go out from kernel we
-need to support those flags or at least some. udisk currently does only
-support NTFS-3G and it does not support kernel ntfs driver. So nothing
-will change.
+	struct ntfs_run *runs;
+	size_t count; /* Currently used size a ntfs_run storage. */
+	size_t allocated; /* Currently allocated ntfs_run storage size. */
+};
 
-I also agree that we should check mount options from ntfs-3g and maybe
-implement them in. Maybe we can just take some mount options with
-deprecated and print that this option is meant to use with ntfs-3g please
-note that this is kernel ntfs3 driver or something. It would still work for
-users. Ntfs-3g contains imo lot of unnecessary flags. Kernel community
-would probably not want to maintain so large list of different options.
 
-Ntfs-3g group also has acounted problems because they say that you
-should example use "big_writes", but not everyone does and that drops
-performance. Driver should work good way by default. And only if there
-is really demand there should be real mount option. But like I said, maybe
-we should add "fake" ntfs-3g options so if some user change to use ntfs3
-it will be pretty painless.
+But right now it is not array. It is just memory. Probably some early
+comment, but I check that little bit and I think rb tree may not be good
+choice. Right now we allocate more memory with kvmalloc() and then make
+space for one entry with memmove. I do not quite understand why cannot
+memory be other way around. This way we do not memmove. We can just put
+new entry to other end right?
 
-> NTFS-3G options:
-> https://github.com/tuxera/ntfs-3g/blob/edge/src/ntfs-3g.8.in
->
-> UDISKS default and allowed options:
-> https://github.com/storaged-project/udisks/blob/master/data/builtin_mount_options.conf
->
-> For example, windows_names is not supported in ntfs3 and
-> show_sys_files should probably be an alias to showmeta.
+Also one thing what comes to my mind is to allocate page at the time. Is
+there any drawbacks? If we do this with rb_tree we get many small entrys
+and it also seems to problem. Ntfs-3g allocate 4kiB at the time. But
+they still reallocate which I think is avoidable.
 
-Imo windows_names is good option. There is so many users who just
-want to use this with dual boot. That is why I think best option would
-be windows_compatible or something. Then we do everything to user
-not screw up things with disk and that when he checks disk with windows
-everything will be ok. This option has to also select ignore_case.
+Also one nice trick with merging two run_tree togethor would be not to
+allocate new memory for it but just use pointer to other list. This way
+we can have big run_tree but it is in multi page. No need to reallocate
+with this strategy. 
 
-But right now we are horry to take every mount option away what we won't
-need. We can add options later. And this is so early that we really cannot
-think so much how UDSIKS threats ntfs-3g. It should imo not be problem
-for them to also support for ntfs3 with different options.
+I just want some thoughts about this before starting implementation. If
+you think rb_tree would be right call then I can do that. It just seems
+to me that it might not be. But if search speed is big factor then it
+might be. I just do not yet understand enogh that I can fully understand
+benefits and drawbacks.
 
-> Also, is NTFS-3G locale= equivalent to ntfs3 nls=?
+  Argillander
 
-Pretty much. It is now called iocharset and nls will be deprecated.
-This is work towards that every Linux kernel filesystem driver which
-depends on this option will be same name. Ntfs-3g should also use
-it.
-
-> Thank you a lot for all the work put into ntfs3!
->
-> Marcos
