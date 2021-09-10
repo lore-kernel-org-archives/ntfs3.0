@@ -1,97 +1,114 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AC43FC3
-	for <ntfs3@lists.linux.dev>; Fri, 10 Sep 2021 10:50:22 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id m28so3165487lfj.6
-        for <ntfs3@lists.linux.dev>; Fri, 10 Sep 2021 03:50:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475B03FC3
+	for <ntfs3@lists.linux.dev>; Fri, 10 Sep 2021 12:19:29 +0000 (UTC)
+Received: by mail-oi1-f180.google.com with SMTP id n27so2714515oij.0
+        for <ntfs3@lists.linux.dev>; Fri, 10 Sep 2021 05:19:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=eKzR9oqZtxb76e9ajCaeipteTFurfCH3JAineo6pIuM=;
-        b=VJ6fhld+oMLvdqeJZJ4x+KXrdwelIlyHC6Y1HU9DXoN9zQagksco0D3jSyu7brffEL
-         qqGLIVxK139LXLhvwHlPB1YD+Nbq498Z2BKU/0H/bRQhy9FTzxSgmzy2peIstkWmnzgC
-         rwUJKpqiJGsXEFobGoqVT4BaCMggfJ2klvjAtlPINHqus8eM55kWkJWem7udMndHxh8b
-         eryJxzjyTnrndyQlik14jaD6xoaWMAEfNfmZWTzNb2VMC095MfY8Aln8//ex/25LWd6x
-         z8I9rVdeX7kpehWcLRys9/Z4c33/G3zs0TvBAfpvIgDbpsY6KWE9mYd4ogVLIUaXhX+D
-         896Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=m7N91pqKq8beoDgw/AQ3VlvWVBfWO9GtOToYGj0IQ50=;
+        b=IfqToNnCoZ3YN849dLmvG2gmwSx4vYcHgCOoDaef6PE96595XSw607vvL2Q6ZdEhEh
+         Ovq1ccG9+u6oCuRkvnNU/7RTWcNpBJb0+LKE1R204Uva1Seuuch9iafDI9t+btT6F32f
+         MiXsC5f6gSi32ULZGxjNYfqEht3ULsY+dEAM1ZOyfVPVF2G3KtlvpeqHpbSE47MvkeIU
+         4zM4niLWK4mY0RCEslasUbsEm0wf3kreZtpyh9gGgC+RSqzUYU0t0vuUSqhUWlR0hX0b
+         uZ03efzVqLnFZYEMXCZwnzgixAjC7vQK3fDAWB4UQFnMPibXNXBhyOFfmvm0obk/O0Uk
+         uFaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=eKzR9oqZtxb76e9ajCaeipteTFurfCH3JAineo6pIuM=;
-        b=VJnVLMpBNVQ68xFcPxqkSotpmnIv3uoWt1btMbSN0Tz7/IhIW+CYB9MH3AZqNk7luX
-         sfsS7T2axXC9CIVObMCg3CCB/bCSD2ufVqeZsjG0vhLaOAD/KX3Dzcpcv6aktO2q1AT/
-         1gS3e46FkdxEuM6V/FU4Ojb3clcHLmbREz0JEx4RTib5DjYgCxq25YJdliOfYltbDT/d
-         FGqJXswsD/0vZB5xashGKF2Hsh1R9EwVNt6EegHcrP6+gETwhhPU/VZmDKfzQehiLU2/
-         ajCZeLQwuPQWwq/CtMSYlrodr/NwPaPbWHeCYMm0MgojYrehB3oMfNRrFk97it8zNsoL
-         JWkw==
-X-Gm-Message-State: AOAM533Av4YmR1OXyN0HvnQBdgHfjZfWDVU/5cIIdT5kuZDi6RaMJenF
-	Y8OuQDbkKZKzGPp0TH4ZjGk=
-X-Google-Smtp-Source: ABdhPJx4g/HVf1ebfdBtL/JfNxGhY6W+Q0U4hjhZol5YQdSf8f3MtKVIR+0Kn3ZWjKrx/qFlC/tkjg==
-X-Received: by 2002:a05:6512:2202:: with SMTP id h2mr3411408lfu.494.1631271020592;
-        Fri, 10 Sep 2021 03:50:20 -0700 (PDT)
-Received: from kari-VirtualBox ([31.132.12.44])
-        by smtp.gmail.com with ESMTPSA id z16sm535665lfu.110.2021.09.10.03.50.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 03:50:20 -0700 (PDT)
-Date: Fri, 10 Sep 2021 13:50:18 +0300
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Colin King <colin.king@canonical.com>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev, kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] fs/ntfs3: Fix a memory leak on object opts
-Message-ID: <20210910105018.asvmzihjdqeqm25v@kari-VirtualBox>
-References: <20210910100202.29254-1-colin.king@canonical.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=m7N91pqKq8beoDgw/AQ3VlvWVBfWO9GtOToYGj0IQ50=;
+        b=va5q3LJSeorGzkxDdRl1oOQxsJRoVn1Yngtw2HFFdVi2AJtOTlElQesN1+GGzBa22H
+         7xE89Gqob4h/Wi76Q8YKX6IEloSKjP/4jDZd8kNDA9AnwXX/uEm+3lRLGMOTHCvMBwPE
+         S+wI/bJmeAzkHsmWWPtPoU07GNRDBuBq1YRFRvBQ2C+H7oflbEeAqahh9tmJTPmc8QYy
+         YTtuazlydTlr/h7t9SIFK717vx5MQgmXqb7Pi9ljpoHOOxxYY0bT/XkjUnl3b4a0oI1N
+         mUS+rohkUYH4BKXH8MPr3uMLOCZY9XE0kJVDeHxPldpbdI2PBxVw7mVDJUwnCYuIDv0e
+         1dmA==
+X-Gm-Message-State: AOAM531nJnBfEKZQwRIAIR8FBDFOD7IcgH6kafiYTwh64G5JRutzLavP
+	qSIl/8/xEm9FaysCsPvazw9L9hCvpPj3b8A9ef0=
+X-Google-Smtp-Source: ABdhPJybGAvirYtlTNGtvzGtavu0JzXzwICVUsbU6PRjwVVdmxgANHwypFZZP1w7wnvqQ/WjLk0+aZtUuW7M0S/w+IQ=
+X-Received: by 2002:a05:6808:1a19:: with SMTP id bk25mr3821810oib.62.1631276368327;
+ Fri, 10 Sep 2021 05:19:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210910100202.29254-1-colin.king@canonical.com>
+References: <CAJZVDJAJa+j=hx2JswdvS35t9VU6TYF3uDZnzZ5hhtSzo9E-LA@mail.gmail.com>
+In-Reply-To: <CAJZVDJAJa+j=hx2JswdvS35t9VU6TYF3uDZnzZ5hhtSzo9E-LA@mail.gmail.com>
+From: Kari Argillander <kari.argillander@gmail.com>
+Date: Fri, 10 Sep 2021 15:19:16 +0300
+Message-ID: <CAC=eVgQKOdNbyDf2Qf=O9SnG=6nAGZ-nyuwOosf7YW5R3xbVLw@mail.gmail.com>
+Subject: Re: ntfs3 mount options
+To: Marcos Mello <marcosfrm@gmail.com>, ntfs3@lists.linux.dev, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 10, 2021 at 11:02:02AM +0100, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> Currently a failed allocation on sbi->upcase will cause an exit via
-> the label free_sbi causing a memory leak on object opts. Fix this by
-> re-ordering the exit paths free_opts and free_sbi so that kfree's occur
-> in the reverse allocation order.
-> 
-> Addresses-Coverity: ("Resource leak")
-> Fixes: 27fac77707a1 ("fs/ntfs3: Init spi more in init_fs_context than fill_super")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
+10.09.2021 14.23 Marcos Mello (marcosfrm@gmail.com) wrote:
+> Hi, sorry email you directly, but this mailing list thing is cryptic
+> to me.
 
-Thanks Colin.
+I CC also lists to this so now everyone knows. Also CC couple
+others who might be interested to talk about this.
 
-Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
+> I was reading your patches cleaning up ntfs3 documentation and
+> realized some mount options diverge from NTFS-3G. This will make
+> udisks people unhappy.
 
->  fs/ntfs3/super.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-> index 3cba0b5e7ac7..69f23db0d727 100644
-> --- a/fs/ntfs3/super.c
-> +++ b/fs/ntfs3/super.c
-> @@ -1450,10 +1450,10 @@ static int ntfs_init_fs_context(struct fs_context *fc)
->  	fc->ops = &ntfs_context_ops;
->  
->  	return 0;
-> -free_opts:
-> -	kfree(opts);
->  free_sbi:
->  	kfree(sbi);
-> +free_opts:
-> +	kfree(opts);
->  	return -ENOMEM;
->  }
->  
-> -- 
-> 2.32.0
-> 
+This is true. They also diverge from the current NTFS driver. We have
+talk about it a little bit and before ntfs driver can go out from kernel we
+need to support those flags or at least some. udisk currently does only
+support NTFS-3G and it does not support kernel ntfs driver. So nothing
+will change.
+
+I also agree that we should check mount options from ntfs-3g and maybe
+implement them in. Maybe we can just take some mount options with
+deprecated and print that this option is meant to use with ntfs-3g please
+note that this is kernel ntfs3 driver or something. It would still work for
+users. Ntfs-3g contains imo lot of unnecessary flags. Kernel community
+would probably not want to maintain so large list of different options.
+
+Ntfs-3g group also has acounted problems because they say that you
+should example use "big_writes", but not everyone does and that drops
+performance. Driver should work good way by default. And only if there
+is really demand there should be real mount option. But like I said, maybe
+we should add "fake" ntfs-3g options so if some user change to use ntfs3
+it will be pretty painless.
+
+> NTFS-3G options:
+> https://github.com/tuxera/ntfs-3g/blob/edge/src/ntfs-3g.8.in
+>
+> UDISKS default and allowed options:
+> https://github.com/storaged-project/udisks/blob/master/data/builtin_mount_options.conf
+>
+> For example, windows_names is not supported in ntfs3 and
+> show_sys_files should probably be an alias to showmeta.
+
+Imo windows_names is good option. There is so many users who just
+want to use this with dual boot. That is why I think best option would
+be windows_compatible or something. Then we do everything to user
+not screw up things with disk and that when he checks disk with windows
+everything will be ok. This option has to also select ignore_case.
+
+But right now we are horry to take every mount option away what we won't
+need. We can add options later. And this is so early that we really cannot
+think so much how UDSIKS threats ntfs-3g. It should imo not be problem
+for them to also support for ntfs3 with different options.
+
+> Also, is NTFS-3G locale= equivalent to ntfs3 nls=?
+
+Pretty much. It is now called iocharset and nls will be deprecated.
+This is work towards that every Linux kernel filesystem driver which
+depends on this option will be same name. Ntfs-3g should also use
+it.
+
+> Thank you a lot for all the work put into ntfs3!
+>
+> Marcos
