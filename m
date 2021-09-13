@@ -1,24 +1,24 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82DD3FC5
-	for <ntfs3@lists.linux.dev>; Mon, 13 Sep 2021 16:49:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8713FC5
+	for <ntfs3@lists.linux.dev>; Mon, 13 Sep 2021 16:52:49 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 53B381D40;
-	Mon, 13 Sep 2021 19:49:52 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id C1D4C8226C;
+	Mon, 13 Sep 2021 19:52:47 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1631551792;
-	bh=QZCRnWQdSHor/Ryg4X8KggMjh3St8DKV+rc3R8trBA4=;
+	d=paragon-software.com; s=mail; t=1631551967;
+	bh=PDgIp30dcU6oTi9tvqsbgLoR0+LbWe2UZNzoDH8i1fo=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=WqfsCsTqMjbyHD8t0J8VAvE9do5+UH2ejGWlKYi9q03mf70M5QRP9s123m/aA2dAO
-	 UN/E983ZwBmfxYE9VQw6SlvS1yQ3BXv7VjrjERpShXtpYVLRLextEveYeLKlcmxZ3O
-	 tQUG7SLzPK+x3bPj8Wd4qTkS05Coqo09XExv2RUM=
+	b=NSFEEpjHDDLBjONE8Iqkops8Lr3x3oGzzR6jFP8zLQMFYLgSvIAFoen65pB/EIkJc
+	 /CuZmX3S2KEZ7DDg56IQ5S2NpzbY2Uiim3QwdMUN3rhflw2xrsVq+h5wYckpNHCoJl
+	 2jYS2S9NyCUl8AeDZ7TKsE17DJYmkQCwOnw1bqh0=
 Received: from [192.168.211.103] (192.168.211.103) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 13 Sep 2021 19:49:51 +0300
-Message-ID: <472ecb1c-578d-137a-9ec1-182642dac037@paragon-software.com>
-Date: Mon, 13 Sep 2021 19:49:51 +0300
+ 15.1.2176.2; Mon, 13 Sep 2021 19:52:47 +0300
+Message-ID: <babdd096-38e2-6cab-3326-3d2c97332980@paragon-software.com>
+Date: Mon, 13 Sep 2021 19:52:46 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,14 +27,13 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH][next] fs/ntfs3: Remove redundant initialization of
- variable err
+Subject: Re: [PATCH v2 0/8] fs/ntfs3: Refactor header includes
 Content-Language: en-US
-To: Colin King <colin.king@canonical.com>, <ntfs3@lists.linux.dev>
-CC: <kernel-janitors@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20210903132458.14342-1-colin.king@canonical.com>
+To: Kari Argillander <kari.argillander@gmail.com>, <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>
+References: <20210902161528.6262-1-kari.argillander@gmail.com>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20210903132458.14342-1-colin.king@canonical.com>
+In-Reply-To: <20210902161528.6262-1-kari.argillander@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [192.168.211.103]
@@ -43,33 +42,72 @@ X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
 
 
 
-On 03.09.2021 16:24, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
+On 02.09.2021 19:15, Kari Argillander wrote:
+> Right now header includes are big mess with ntfs3 imo. We cannot example
+> include ntfs3 headers without need of punch of includes to source file.
+> This patch set try to address that. When this patch series is applied we
+> can include any header file without need of include anything else. This
+> does not mean source file should rely what header file includes. Instead
+> it should include them by self also if it needs them.
 > 
-> The variable err is being initialized with a value that is never read, it
-> is being updated later on. The assignment is redundant and can be removed.
+> When some include is added I have write why this is needed to commit
+> message. Hopefully this will help when someone wants to correct them
+> again. I have also just delete unnecessary headers from some .c files
+> and not added what is needed. Usually deleted headers where there
+> because ntfs_fs.h need them not file itself. When file was simple enough
+> I added all necessary linux headers.
 > 
-> Addresses-Coverity: ("Unused value")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  fs/ntfs3/index.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> I did not add linux/headers to all files yet. That is big job. This is
+> good starting point. I did try to build every file itself so this will
+> build like it should.
 > 
-> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-> index 0daca9adc54c..b1175542d854 100644
-> --- a/fs/ntfs3/index.c
-> +++ b/fs/ntfs3/index.c
-> @@ -1401,7 +1401,7 @@ int indx_find_raw(struct ntfs_index *indx, struct ntfs_inode *ni,
->  static int indx_create_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
->  				CLST *vbn)
->  {
-> -	int err = -ENOMEM;
-> +	int err;
->  	struct ntfs_sb_info *sbi = ni->mi.sbi;
->  	struct ATTRIB *bitmap;
->  	struct ATTRIB *alloc;
+> Please do not hesitate to tell if there is something wrong with this
+> series or somethings could be done better.
+> 
+> V2:
+> 	Add missing first patch
+> 	Rebase
+> 	Use base-commit with format-patch
+> 
+> Kari Argillander (8):
+>   fs/ntfs3. Add forward declarations for structs to debug.h
+>   fs/ntfs3: Add missing header files to ntfs.h
+>   fs/ntfs3: Add missing headers and forward declarations to ntfs_fs.h
+>   fs/ntfs3: Add missing header and guards to lib/ headers
+>   fs/ntfs3: Change right headers to bitfunc.c
+>   fs/ntfs3: Change right headers to upcase.c
+>   fs/ntfs3: Change right headers to lznt.c
+>   fs/ntfs3: Remove unneeded header files from c files
+> 
+>  fs/ntfs3/attrib.c                |  5 -----
+>  fs/ntfs3/attrlist.c              |  3 ---
+>  fs/ntfs3/bitfunc.c               |  7 +------
+>  fs/ntfs3/bitmap.c                |  3 ---
+>  fs/ntfs3/debug.h                 |  3 +++
+>  fs/ntfs3/dir.c                   |  3 ---
+>  fs/ntfs3/file.c                  |  1 -
+>  fs/ntfs3/frecord.c               |  3 ---
+>  fs/ntfs3/fslog.c                 |  4 ----
+>  fs/ntfs3/fsntfs.c                |  1 -
+>  fs/ntfs3/index.c                 |  1 -
+>  fs/ntfs3/inode.c                 |  2 --
+>  fs/ntfs3/lib/decompress_common.h |  5 +++++
+>  fs/ntfs3/lib/lib.h               |  6 ++++++
+>  fs/ntfs3/lznt.c                  | 10 +++++-----
+>  fs/ntfs3/namei.c                 |  4 ----
+>  fs/ntfs3/ntfs.h                  |  9 +++++++++
+>  fs/ntfs3/ntfs_fs.h               | 31 +++++++++++++++++++++++++++++++
+>  fs/ntfs3/record.c                |  3 ---
+>  fs/ntfs3/run.c                   |  2 --
+>  fs/ntfs3/super.c                 |  2 --
+>  fs/ntfs3/upcase.c                |  8 ++------
+>  fs/ntfs3/xattr.c                 |  3 ---
+>  23 files changed, 62 insertions(+), 57 deletions(-)
+> 
+> 
+> base-commit: d3624466b56dd5b1886c1dff500525b544c19c83
 > 
 
-Hi Colin, thanks for the patch - applied it.
+Hi Kari!
 
-Best regards.
+Thanks for work - applied!
