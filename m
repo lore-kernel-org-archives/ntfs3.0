@@ -1,24 +1,24 @@
-Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8713FC5
-	for <ntfs3@lists.linux.dev>; Mon, 13 Sep 2021 16:52:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CED3FC5
+	for <ntfs3@lists.linux.dev>; Mon, 13 Sep 2021 16:55:53 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id C1D4C8226C;
-	Mon, 13 Sep 2021 19:52:47 +0300 (MSK)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id A62971D40;
+	Mon, 13 Sep 2021 19:55:51 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1631551967;
-	bh=PDgIp30dcU6oTi9tvqsbgLoR0+LbWe2UZNzoDH8i1fo=;
+	d=paragon-software.com; s=mail; t=1631552151;
+	bh=5FGvKa6/SY7v3aG+gp0qf1IhE5WNXd9rsEH3ZXI2TfM=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=NSFEEpjHDDLBjONE8Iqkops8Lr3x3oGzzR6jFP8zLQMFYLgSvIAFoen65pB/EIkJc
-	 /CuZmX3S2KEZ7DDg56IQ5S2NpzbY2Uiim3QwdMUN3rhflw2xrsVq+h5wYckpNHCoJl
-	 2jYS2S9NyCUl8AeDZ7TKsE17DJYmkQCwOnw1bqh0=
+	b=WKNmc8FsMpBC0NASRjIZvxdS9DzRFCkA6Z/h9fwLWBrJB9rlcvq/76GQEhwvlD+xN
+	 eZZYciJwxLjJSgyL4/OKXzjwcNTk5ZVoP+BFZGgNeDJIX2eekQYrbw44E/wbVaWJ/A
+	 rbs0trEHA+m3+xkA6z2pe7g2s2bN74capqaUm5jI=
 Received: from [192.168.211.103] (192.168.211.103) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 13 Sep 2021 19:52:47 +0300
-Message-ID: <babdd096-38e2-6cab-3326-3d2c97332980@paragon-software.com>
-Date: Mon, 13 Sep 2021 19:52:46 +0300
+ 15.1.2176.2; Mon, 13 Sep 2021 19:55:51 +0300
+Message-ID: <d2636759-7809-e080-952a-b24123744eb1@paragon-software.com>
+Date: Mon, 13 Sep 2021 19:55:50 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,13 +27,13 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v2 0/8] fs/ntfs3: Refactor header includes
+Subject: Re: [PATCH 0/3] fs/ntfs3: Make entry binary search faster
 Content-Language: en-US
 To: Kari Argillander <kari.argillander@gmail.com>, <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>
-References: <20210902161528.6262-1-kari.argillander@gmail.com>
+CC: <linux-kernel@vger.kernel.org>, Joe Perches <joe@perches.com>
+References: <20210902154050.5075-1-kari.argillander@gmail.com>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20210902161528.6262-1-kari.argillander@gmail.com>
+In-Reply-To: <20210902154050.5075-1-kari.argillander@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [192.168.211.103]
@@ -42,72 +42,45 @@ X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
 
 
 
-On 02.09.2021 19:15, Kari Argillander wrote:
-> Right now header includes are big mess with ntfs3 imo. We cannot example
-> include ntfs3 headers without need of punch of includes to source file.
-> This patch set try to address that. When this patch series is applied we
-> can include any header file without need of include anything else. This
-> does not mean source file should rely what header file includes. Instead
-> it should include them by self also if it needs them.
+On 02.09.2021 18:40, Kari Argillander wrote:
+> This series will make binary search faster with removing the need of
+> allocations. We will only use stack memory. This will also make possible
+> to remove linear search completely.
 > 
-> When some include is added I have write why this is needed to commit
-> message. Hopefully this will help when someone wants to correct them
-> again. I have also just delete unnecessary headers from some .c files
-> and not added what is needed. Usually deleted headers where there
-> because ntfs_fs.h need them not file itself. When file was simple enough
-> I added all necessary linux headers.
+> It is good also point out that full binary search not quite fit with
+> entry search because entrys are not always same size. This why we first
+> need linear table fill algorithm. My implementation try to use the fact
+> that we should not linear fill full table before not doing any checking
+> of the entrys. It is example 50/50 change if we are in middle that entry
+> is in first half. So it is very inefficient to fill table after we are
+> middle point.
 > 
-> I did not add linux/headers to all files yet. That is big job. This is
-> good starting point. I did try to build every file itself so this will
-> build like it should.
+> We could also predict how many entrys there is and use this information,
+> but I did not do that in this point. I'm more than happy to improve this
+> more if someone has ideas.
 > 
-> Please do not hesitate to tell if there is something wrong with this
-> series or somethings could be done better.
+> I have tested this with xfstests and did not see regressions. Checkpatch
+> and build tests for every patch have been done. I haven't done major
+> bench marking with this one. Idea that this is better is just my two
+> cent. Paragon has hopefully done bencmarking with old binary search
+> compared to linear search? I'm quite certain that this will win old
+> binary search algorithm because no need for allocations.
 > 
-> V2:
-> 	Add missing first patch
-> 	Rebase
-> 	Use base-commit with format-patch
+> Thanks Joe for let me notice this improvement.
 > 
-> Kari Argillander (8):
->   fs/ntfs3. Add forward declarations for structs to debug.h
->   fs/ntfs3: Add missing header files to ntfs.h
->   fs/ntfs3: Add missing headers and forward declarations to ntfs_fs.h
->   fs/ntfs3: Add missing header and guards to lib/ headers
->   fs/ntfs3: Change right headers to bitfunc.c
->   fs/ntfs3: Change right headers to upcase.c
->   fs/ntfs3: Change right headers to lznt.c
->   fs/ntfs3: Remove unneeded header files from c files
+> Kari Argillander (3):
+>   fs/ntfs3: Limit binary search table size
+>   fs/ntfs3: Make binary search to search smaller chunks in beginning
+>   fs/ntfs3: Always use binary search with entry search
 > 
->  fs/ntfs3/attrib.c                |  5 -----
->  fs/ntfs3/attrlist.c              |  3 ---
->  fs/ntfs3/bitfunc.c               |  7 +------
->  fs/ntfs3/bitmap.c                |  3 ---
->  fs/ntfs3/debug.h                 |  3 +++
->  fs/ntfs3/dir.c                   |  3 ---
->  fs/ntfs3/file.c                  |  1 -
->  fs/ntfs3/frecord.c               |  3 ---
->  fs/ntfs3/fslog.c                 |  4 ----
->  fs/ntfs3/fsntfs.c                |  1 -
->  fs/ntfs3/index.c                 |  1 -
->  fs/ntfs3/inode.c                 |  2 --
->  fs/ntfs3/lib/decompress_common.h |  5 +++++
->  fs/ntfs3/lib/lib.h               |  6 ++++++
->  fs/ntfs3/lznt.c                  | 10 +++++-----
->  fs/ntfs3/namei.c                 |  4 ----
->  fs/ntfs3/ntfs.h                  |  9 +++++++++
->  fs/ntfs3/ntfs_fs.h               | 31 +++++++++++++++++++++++++++++++
->  fs/ntfs3/record.c                |  3 ---
->  fs/ntfs3/run.c                   |  2 --
->  fs/ntfs3/super.c                 |  2 --
->  fs/ntfs3/upcase.c                |  8 ++------
->  fs/ntfs3/xattr.c                 |  3 ---
->  23 files changed, 62 insertions(+), 57 deletions(-)
+>  fs/ntfs3/index.c | 153 ++++++++++++++---------------------------------
+>  fs/ntfs3/ntfs.h  |   3 -
+>  2 files changed, 45 insertions(+), 111 deletions(-)
 > 
 > 
 > base-commit: d3624466b56dd5b1886c1dff500525b544c19c83
 > 
 
-Hi Kari!
+Hi Joe, Kari!
 
-Thanks for work - applied!
+Applied, thanks!
