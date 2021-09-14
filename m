@@ -1,24 +1,24 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CED3FC5
-	for <ntfs3@lists.linux.dev>; Mon, 13 Sep 2021 16:55:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B773FC5
+	for <ntfs3@lists.linux.dev>; Tue, 14 Sep 2021 16:33:41 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id A62971D40;
-	Mon, 13 Sep 2021 19:55:51 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 9EECC824BC;
+	Tue, 14 Sep 2021 19:33:33 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1631552151;
-	bh=5FGvKa6/SY7v3aG+gp0qf1IhE5WNXd9rsEH3ZXI2TfM=;
+	d=paragon-software.com; s=mail; t=1631637213;
+	bh=0EREs/Pch2eAfzrgJxooP8sPf5HUcH1pFhCFNPXsfj4=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=WKNmc8FsMpBC0NASRjIZvxdS9DzRFCkA6Z/h9fwLWBrJB9rlcvq/76GQEhwvlD+xN
-	 eZZYciJwxLjJSgyL4/OKXzjwcNTk5ZVoP+BFZGgNeDJIX2eekQYrbw44E/wbVaWJ/A
-	 rbs0trEHA+m3+xkA6z2pe7g2s2bN74capqaUm5jI=
-Received: from [192.168.211.103] (192.168.211.103) by
+	b=XLzi1V631QNh4On++MFFGJw3yjQtEnSYbDAmoT4V9oem02g6RQzFswXEKnghqfNMz
+	 1+oahgubsOEX65nwiqhtrII82kv6ZEYtyx/o8OghmVDje5eknK7BIahlV9p58n9tsg
+	 EE2Z586VtQjm3fAYIbQKxGTqjHhn1W8suQZE/D2I=
+Received: from [192.168.211.158] (192.168.211.158) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 13 Sep 2021 19:55:51 +0300
-Message-ID: <d2636759-7809-e080-952a-b24123744eb1@paragon-software.com>
-Date: Mon, 13 Sep 2021 19:55:50 +0300
+ 15.1.2176.2; Tue, 14 Sep 2021 19:33:33 +0300
+Message-ID: <367b6153-c044-da71-39ed-132c0b79690f@paragon-software.com>
+Date: Tue, 14 Sep 2021 19:33:32 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,60 +27,180 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 0/3] fs/ntfs3: Make entry binary search faster
+Subject: Re: ntfs3 mount options
 Content-Language: en-US
-To: Kari Argillander <kari.argillander@gmail.com>, <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, Joe Perches <joe@perches.com>
-References: <20210902154050.5075-1-kari.argillander@gmail.com>
+To: Kari Argillander <kari.argillander@gmail.com>, =?UTF-8?Q?Pali_Roh=c3=a1r?=
+	<pali@kernel.org>
+CC: Marcos Mello <marcosfrm@gmail.com>, <ntfs3@lists.linux.dev>, linux-fsdevel
+	<linux-fsdevel@vger.kernel.org>, Linux Kernel Mailing List
+	<linux-kernel@vger.kernel.org>
+References: <CAJZVDJAJa+j=hx2JswdvS35t9VU6TYF3uDZnzZ5hhtSzo9E-LA@mail.gmail.com>
+ <CAC=eVgQKOdNbyDf2Qf=O9SnG=6nAGZ-nyuwOosf7YW5R3xbVLw@mail.gmail.com>
+ <20210912184347.zrb44vpc3lfyy3px@pali>
+ <20210912194859.saoxuy3bbi2mmj5x@kari-VirtualBox>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20210902154050.5075-1-kari.argillander@gmail.com>
+In-Reply-To: <20210912194859.saoxuy3bbi2mmj5x@kari-VirtualBox>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.103]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.211.158]
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
 
 
-On 02.09.2021 18:40, Kari Argillander wrote:
-> This series will make binary search faster with removing the need of
-> allocations. We will only use stack memory. This will also make possible
-> to remove linear search completely.
+On 12.09.2021 22:48, Kari Argillander wrote:
+> On Sun, Sep 12, 2021 at 08:43:47PM +0200, Pali Rohár wrote:
+>> Hello!
+>>
+>> On Friday 10 September 2021 15:19:16 Kari Argillander wrote:
+>>> 10.09.2021 14.23 Marcos Mello (marcosfrm@gmail.com) wrote:
+>>>> Hi, sorry email you directly, but this mailing list thing is cryptic
+>>>> to me.
+>>>
+>>> I CC also lists to this so now everyone knows. Also CC couple
+>>> others who might be interested to talk about this.
+>>>
+>>>> I was reading your patches cleaning up ntfs3 documentation and
+>>>> realized some mount options diverge from NTFS-3G. This will make
+>>>> udisks people unhappy.
+>>
+>> If you still have to specify which fs driver want to use (ntfs, ntfs-3g,
+>> ntfs3). So each software needs to be adjusted if want to start using
+>> different fs driver even when mount options are same. So I think there
+>> are no big issues that different fs driver are using different mount
+>> options.
+>>
+>>> This is true. They also diverge from the current NTFS driver. We have
+>>> talk about it a little bit and before ntfs driver can go out from kernel we
+>>> need to support those flags or at least some. udisk currently does only
+>>> support NTFS-3G and it does not support kernel ntfs driver. So nothing
+>>> will change.
+>>>
+>>> I also agree that we should check mount options from ntfs-3g and maybe
+>>> implement them in. Maybe we can just take some mount options with
+>>> deprecated and print that this option is meant to use with ntfs-3g please
+>>> note that this is kernel ntfs3 driver or something. It would still work for
+>>> users. Ntfs-3g contains imo lot of unnecessary flags. Kernel community
+>>> would probably not want to maintain so large list of different options.
+>>
+>> Mount options which makes sense could be implemented. Just somebody
+>> needs to do it.
+>>
+>>> Ntfs-3g group also has acounted problems because they say that you
+>>> should example use "big_writes", but not everyone does and that drops
+>>> performance. Driver should work good way by default.
+>>
+>> I agree. Mount option which is just a hack because of some poor
+>> implementation should not be introduced. Instead bugs should be fixed.
+>> Also it applies for "performance issues" which do not change behavior of
+>> fs operations (i.e. read() / write() operations do same thing on raw
+>> disk).
+>>
+>>> And only if there
+>>> is really demand there should be real mount option. But like I said, maybe
+>>> we should add "fake" ntfs-3g options so if some user change to use ntfs3
+>>> it will be pretty painless.
+>>
+>> This really should not be in kernel. You can implement userspace mount
+>> helper which translates "legacy" ntfs-3g options into "correct" kernel
+>> options. /bin/mount already supports these helpers / wrappers... Just
+>> people do not know much about them.
 > 
-> It is good also point out that full binary search not quite fit with
-> entry search because entrys are not always same size. This why we first
-> need linear table fill algorithm. My implementation try to use the fact
-> that we should not linear fill full table before not doing any checking
-> of the entrys. It is example 50/50 change if we are in middle that entry
-> is in first half. So it is very inefficient to fill table after we are
-> middle point.
+> Good to know. Thanks for this info.
 > 
-> We could also predict how many entrys there is and use this information,
-> but I did not do that in this point. I'm more than happy to improve this
-> more if someone has ideas.
+>>
+>>>> NTFS-3G options:
+>>>> https://github.com/tuxera/ntfs-3g/blob/edge/src/ntfs-3g.8.in
+>>>>
+>>>> UDISKS default and allowed options:
+>>>> https://github.com/storaged-project/udisks/blob/master/data/builtin_mount_options.conf
+>>>>
+>>>> For example, windows_names is not supported in ntfs3 and
+>>>> show_sys_files should probably be an alias to showmeta.
+>>>
+>>> Imo windows_names is good option. There is so many users who just
+>>> want to use this with dual boot. That is why I think best option would
+>>> be windows_compatible or something. Then we do everything to user
+>>> not screw up things with disk and that when he checks disk with windows
+>>> everything will be ok. This option has to also select ignore_case.
+>>>
+>>> But right now we are horry to take every mount option away what we won't
+>>> need. We can add options later. And this is so early that we really cannot
+>>> think so much how UDSIKS threats ntfs-3g. It should imo not be problem
+>>> for them to also support for ntfs3 with different options.
+>>
+>> This is something which needs to be handled and fixed systematically. We
+>> have at least 5 filesystems in kernel (bonus question, try to guess
+>> them :D) which support some kind/parts of "windows nt" functionality.
+>> And it is pain if every one fs would use different option for
+>> similar/same functionality.
 > 
-> I have tested this with xfstests and did not see regressions. Checkpatch
-> and build tests for every patch have been done. I haven't done major
-> bench marking with this one. Idea that this is better is just my two
-> cent. Paragon has hopefully done bencmarking with old binary search
-> compared to linear search? I'm quite certain that this will win old
-> binary search algorithm because no need for allocations.
+> Hopefully we can tackle this issue someday. But we will have lot of
+> deprecated options if we tackle this, but it is good thing and should
+> done in some point. I will answer your bonus question when we can throw
+> away one of those drivers.
 > 
-> Thanks Joe for let me notice this improvement.
+>>>> Also, is NTFS-3G locale= equivalent to ntfs3 nls=?
+>>>
+>>> Pretty much. It is now called iocharset and nls will be deprecated.
+>>> This is work towards that every Linux kernel filesystem driver which
+>>> depends on this option will be same name. Ntfs-3g should also use
+>>> it.
+>>
+>> iocharset= is what most fs supports. Just few name this option as nls=
+>> and for consistency I preparing patches which adds iocharset= alias for
+>> all kernel filesystems. nls= (for those few fs) stay supported as legacy
+>> alias for iocharset=.
+>>
+>> Kari, now I'm thinking about nls= in new ntfs3 kernel driver. It is
+>> currently being marked as deprecated. Does it really make sense to
+>> introduce in new fs already deprecated option? Now when final linux
+>> version which introduce this driver was not released yet, we can simply
+>> drop (= do not introduce this option). 
 > 
-> Kari Argillander (3):
->   fs/ntfs3: Limit binary search table size
->   fs/ntfs3: Make binary search to search smaller chunks in beginning
->   fs/ntfs3: Always use binary search with entry search
+> We have discuss this earlier [1]. I think Konstantin can really decide
+> this one. I think it is he "rights" like was kinda chosen that ntfs64
+> can live in kernel because Paragon say some of they customers need it. I
+> have after that include big warning about using it. Because thing is
+> that if Paragon will not support it nobady will and someone will just
+> drop support for it.
 > 
->  fs/ntfs3/index.c | 153 ++++++++++++++---------------------------------
->  fs/ntfs3/ntfs.h  |   3 -
->  2 files changed, 45 insertions(+), 111 deletions(-)
+> Marking some option to deprecated is just 4 trivial line of code. I also
+> did not even bother to documented it. I can live with that if we won't
+> have this option but it can be little easier to some if we have that.
+> And I really do not mind if 4 extra line code inside structs. So my vote
+> is for deprecated.
 > 
-> 
-> base-commit: d3624466b56dd5b1886c1dff500525b544c19c83
-> 
+> Konstantion: Can you give us your opionion on this one?
 
-Hi Joe, Kari!
+Before answering I want to know: is it easy to remove deprecated option
+from code? I read different opinions in this thread.
 
-Applied, thanks!
+If removal will be easy, then I vote for deprecated option.
+Supporting familiar mount options will help in transition.
+After some time (one or two kernel releases?) this support can be dropped.
+
+If removal will be hard, then better to remove now.
+It will make things a bit harder for user, but it's better, than
+having a list of deprecated options, that do nothing and will be there forever.
+
+> 
+> [1]: https://lore.kernel.org/ntfs3/20210819095527.w4uv6gzuyaotxjpe@pali/
+> 
+>> But after release, there would be no easy way to remove it. Adding a
+>> new option can be done at any time later easily...
+> 
+> I think if something is has been deprecated from the start we can just
+> drop it when ever we want, but maybe we should add comment there and
+> just choose that first release in 2027 will not anymore have this
+> option. I recommend that you made this kind of thing in your patch
+> series too. XFS has commented nicely that we really drop this in x date.
+> This way decision is made before and then even janitor can come and
+> clean it when that time comes.
+> 
+>   Argillander
+> 
+>>>> Thank you a lot for all the work put into ntfs3!
+>>>>
+>>>> Marcos
+>>
