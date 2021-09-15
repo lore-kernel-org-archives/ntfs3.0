@@ -1,66 +1,98 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FB53FC3
-	for <ntfs3@lists.linux.dev>; Tue, 14 Sep 2021 20:53:48 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B6EE22CA;
-	Tue, 14 Sep 2021 20:53:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B6EE22CA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1631652821; bh=qNG+QjYpTqVVqPYQyVubIzCa4nYlNsW4VLhC6GdB9/Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=kvKW++o9akpZL2djRjp3Gh2X0Q4u5rv8gexPH5qwZ+kHS0rhS9cyHvaZvQDiT70o5
-	 su8sgfPO1tcPn3+xLbg6w//gvKJgLRuIuzVwDwE57P8ZNd5Z0CnTQ4QvTy0+mwv7vN
-	 qJnaLZICjkt/oYgWgfqZyigwWtUvDuFk1rvA6Cl/KwsOXV3PVHE2UqhI8GJP5D1IsQ
-	 0cFk/HO56WWZ7Ks+pvMdtxfelJT0LTrs0ILqJNUBOyPZnCX3GWMvoJa/BSTVpI1Xdh
-	 gpl9ffTbsIOWwY/+04dg6bFBm32QFOgWNP2asLYlKiw2Lzvn6PQbPC9bF5KZG5l89L
-	 5DXshKbS/EzbA==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Kari Argillander <kari.argillander@gmail.com>, Konstantin Komarov
- <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev
-Cc: Kari Argillander <kari.argillander@gmail.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Doc/fs/ntfs3: Fix rst format and make it cleaner
-In-Reply-To: <20210909215753.34138-1-kari.argillander@gmail.com>
-References: <20210909215753.34138-1-kari.argillander@gmail.com>
-Date: Tue, 14 Sep 2021 14:53:41 -0600
-Message-ID: <878rzyev56.fsf@meer.lwn.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7CB3FC5
+	for <ntfs3@lists.linux.dev>; Wed, 15 Sep 2021 15:44:57 +0000 (UTC)
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 784101DFE;
+	Wed, 15 Sep 2021 18:44:49 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1631720689;
+	bh=C1wc08fKU2WdcMNukQweD6oi5adNTrQv/uJCJAmSZpU=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=d0W7jGHOvhYCxPZZkWKWPGflpqn3Q4cRXfgSNvyuUHJCdFLVPOMtZ54sxf6iXxQ2w
+	 2DtUs4gMBIBlRpYaKA3a1uYqy37jaFVTxoAJaXo1YXrapqOfjgkuw3R1czzhWYOInv
+	 tW2+qmBlQTI3bpkLYLaZtsuBZuluMbbBR8zp9IR8=
+Received: from [192.168.211.19] (192.168.211.19) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 15 Sep 2021 18:44:49 +0300
+Message-ID: <2609058c-7b2d-fc66-3589-bd0337fd0a9e@paragon-software.com>
+Date: Wed, 15 Sep 2021 18:44:48 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: fs/ntfs3: Runtree implementation with rbtree or others
+Content-Language: en-US
+To: Kari Argillander <kari.argillander@gmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+References: <20210910181227.4tr3xn2aooeo2lvw@kari-VirtualBox>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20210910181227.4tr3xn2aooeo2lvw@kari-VirtualBox>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.211.19]
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Kari Argillander <kari.argillander@gmail.com> writes:
 
-> Current ntfs3 rst documentation is broken. I turn table to list table as
-> this is current Linux documentation quide line. Simple table also did
-> not quite work in our situation as we need to span rows together.
->
-> It still look quite good as text so we did not loss anything. This will
-> also make diffing quite bit more pleasure.
->
-> Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
-> ---
-> As this is pretty new to me and Konstantin I CC Jonathan because he is
-> maintainer of documentation section. Do you want to get all
-> documentation patches to you about ntfs3? This probably still goes
-> through our tree? I ask because checkpatch will give your address also
-> and it is not clear to me at least should I send these to you also.
 
-Don't hesitate to CC people when in doubt - it's the kernel way :)
+On 10.09.2021 21:12, Kari Argillander wrote:
+> Hello.
+> 
+> Konstantin you have wrote in ntfs_fs.h in struct runs_tree:
+> 
+> /* TODO: Use rb tree instead of array. */
+> struct runs_tree {
+> 	struct rb_root root;
+> 
+> 	struct ntfs_run *runs;
+> 	size_t count; /* Currently used size a ntfs_run storage. */
+> 	size_t allocated; /* Currently allocated ntfs_run storage size. */
+> };
+> 
+> 
+> But right now it is not array. It is just memory. Probably some early
+> comment, but I check that little bit and I think rb tree may not be good
+> choice. Right now we allocate more memory with kvmalloc() and then make
+> space for one entry with memmove. I do not quite understand why cannot
+> memory be other way around. This way we do not memmove. We can just put
+> new entry to other end right?
+> 
+> Also one thing what comes to my mind is to allocate page at the time. Is
+> there any drawbacks? If we do this with rb_tree we get many small entrys
+> and it also seems to problem. Ntfs-3g allocate 4kiB at the time. But
+> they still reallocate which I think is avoidable.
+> 
+> Also one nice trick with merging two run_tree togethor would be not to
+> allocate new memory for it but just use pointer to other list. This way
+> we can have big run_tree but it is in multi page. No need to reallocate
+> with this strategy. 
+> 
+> I just want some thoughts about this before starting implementation. If
+> you think rb_tree would be right call then I can do that. It just seems
+> to me that it might not be. But if search speed is big factor then it
+> might be. I just do not yet understand enogh that I can fully understand
+> benefits and drawbacks.
+> 
+>   Argillander
+> 
 
-As for merging, documentation patches should go through whatever is the
-best path.  Some subsystem maintainers want me to take them, others want
-to handle them themselves.  It sounds like you're in the latter camp, so
-I'll assume I don't need to apply this one; let me know if I've
-misunderstood.
+Hello.
 
-Thanks,
+Rb tree is used in ext4 in similar use case (see extent_status in
+fs/ext4/extents_status.h and fs/ext4/extents_status.c).
+But ntfs3 use relatively small number of elements. 
+Tests on fragmented volume showed < 64000 elements in array.
+So rb tree probably won't give big benefit. It can even consume more memory.
+It is difficult to predict, only comparison between current
+implementation and rb tree will answer question "what is better?".
+That's why it's not urgent TODO.
 
-jon
+Konstantin
