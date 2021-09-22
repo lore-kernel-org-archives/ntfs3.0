@@ -1,51 +1,51 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEF43FCB
-	for <ntfs3@lists.linux.dev>; Wed, 22 Sep 2021 18:12:52 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id b15so14843055lfe.7
-        for <ntfs3@lists.linux.dev>; Wed, 22 Sep 2021 11:12:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C3A3FCB
+	for <ntfs3@lists.linux.dev>; Wed, 22 Sep 2021 18:23:51 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id x27so15570296lfu.5
+        for <ntfs3@lists.linux.dev>; Wed, 22 Sep 2021 11:23:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=okAjIGLjrgqxq64pmQoOBCNH489YYnDxMve8Hgv5WkA=;
-        b=crHPOrCuizBy5akbvOdzBt9y0DIz1mKFtYHHZtqliBi7SijmyDEdlWEVduxJFgAmud
-         3gjsHwjXTxPsEk/1VMDHXeya1qTAxfKL0PLhbb+kf9vZsur0nucFmTn0+4pV/iNOzkpI
-         TEK7T5UB8uydOeSV3QRAiiB08tCV3B62CLsUc90VRlla7wTSTTAdBloseobfZRCdIiRS
-         IEV7pZ3DyafTmVYuF9PDE7iGrnn92853zGfWgABy9NmeaWQwU/h147kw6ELB522cud8b
-         IAfJ5XKIX54O2PIDk7eEcKooMN9KQKPLTtxyTdC/AeI4ZvDaA3B7v+12sgoYPUUu3r8Q
-         W7Sg==
+        bh=wKRwU9c+/pSkhmvdQwO2DPV9Q3SZon6fkbx8oBC8l1g=;
+        b=LEoLv+U1//8JcyzFn3DpD/I2BUc/E2ldSsQdrzSYBYjVSdztxjniRdFePUDBUhKJa7
+         Gfqycnonsb7pav9/IPFNt+1mg5Op1xL5NgIwaHNHmxLjXd9h3boGhuxQfWNIzul/Ecah
+         ztQHhgfEMExp4nV4gym0n+3Sb8HwEt7Q55wlkS5Adj1OQdBLT5hcgStknO+kj0M8e4yt
+         aRM/YefMB2V5/BY7mGe74BanUupiPfbI96aRVBx5C4KUSZzB+XEeehZx9MD25V23H+Yw
+         FDpzPvAf3w284n8Lz+TPefKyvdKpArTOSMkYaKrEIqPkYIweQsUv96Skhm9zuSmLJMBv
+         NEzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=okAjIGLjrgqxq64pmQoOBCNH489YYnDxMve8Hgv5WkA=;
-        b=Men8jtgvvl6W9vVMuM2sGR0ZX4mXiG0+wpiwSc9wjfbbcq/eVHUO7YceKaDR5veXvw
-         kBQdJMKLRGIg/BjkAnrdV+yQ8LperT9whaY+StxkkFPRpksG15rNosJZL9W4NUZWqztB
-         lVaJweAtOb0sQOFZwGL8dz8lQEs1naDSceOq258xQK9pUtza6GsE3ubhV5JHYZRt7qvC
-         OPWabZcmPMhiXZiBvT5JsUd+nDOuMHq/3Cts2DqmJlX3RXhwJaxG8iWul50oS5StCzXD
-         qSwEu1BTQ8xdsQELJ1tx9EZ3RXFbu8ccDxSDC46OLQ4pqztNTMKkCBvQZsMDmn7xrBZi
-         OTKA==
-X-Gm-Message-State: AOAM530bDYZS9QuOuYn2ZmYqeZF3T60khehtD5kzAfZTV6TioAgbLEU3
-	Nj44sKAl+KldjDLkOZxt+GIXMrNCr/GBPg==
-X-Google-Smtp-Source: ABdhPJyYPhjMRfAArfiWxEVEbH5e9MyX7K4drThW40rxD+7J/n8TTqB43BQlbu/mcXiniBg9gMM09g==
-X-Received: by 2002:a2e:4c09:: with SMTP id z9mr699303lja.390.1632334366688;
-        Wed, 22 Sep 2021 11:12:46 -0700 (PDT)
+        bh=wKRwU9c+/pSkhmvdQwO2DPV9Q3SZon6fkbx8oBC8l1g=;
+        b=GHn5Pae1t9eegMtm6EQnEuxNdg7zeI4dw8NmUS+cASsOQPQrQo8iSeHZ3qe4tc0yrT
+         O0hj2HPGxH8VYVtlbROxUGWEKI3zq/eCQS0XetN45ulB34BmBxQ70hc8sqf9BtTpRRvf
+         pvx+eeU9aYFjONY1/XXHP8Ck+/yOZPhcyOF2WmHxS8VzJS4t4Ow61Fq8PBPOVsfp/K8C
+         o43DNCB9x2cUXh9YiJ6omlaPBGO/3Zrb44m1yGXA5HJ6R/zTKyUaazo20Lzvt+/JbChL
+         F50Au6Di3CeeGgTKC2mR2Ni+jdWeZWBzFh3z7Jx2EMY1YoIbmKmMfz+bjOZmBLUsNMdV
+         HZCw==
+X-Gm-Message-State: AOAM532/VuaQoDxcWuqcndvFFGqiZiHctU6ACansFCr9V+RpXOFSFeSl
+	Nn7BrzmRSfZ659UzZUeoWhZjHq6FG5rwWQ==
+X-Google-Smtp-Source: ABdhPJw0ar4WYCQsQMIEXySCREhX0gOjWrAnByoMEycfOFe0yVzzH+jeZZFKy7YcxQZOs1PN9uxhkA==
+X-Received: by 2002:a05:651c:170c:: with SMTP id be12mr746530ljb.230.1632335029441;
+        Wed, 22 Sep 2021 11:23:49 -0700 (PDT)
 Received: from kari-VirtualBox ([31.132.12.44])
-        by smtp.gmail.com with ESMTPSA id b22sm233682lfi.67.2021.09.22.11.12.45
+        by smtp.gmail.com with ESMTPSA id w13sm235378lft.94.2021.09.22.11.23.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 11:12:46 -0700 (PDT)
-Date: Wed, 22 Sep 2021 21:12:44 +0300
+        Wed, 22 Sep 2021 11:23:49 -0700 (PDT)
+Date: Wed, 22 Sep 2021 21:23:47 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/5] fs/ntfs3: Move ni_lock_dir and ni_unlock into
- ntfs_create_inode
-Message-ID: <20210922181244.tjxij5gi6xft4wwh@kari-VirtualBox>
+Subject: Re: [PATCH 4/5] fs/ntfs3: Change posix_acl_equiv_mode to
+ posix_acl_update_mode
+Message-ID: <20210922182347.yp4gxxoljc3vfnuu@kari-VirtualBox>
 References: <2771ff62-e612-a8ed-4b93-5534c26aef9e@paragon-software.com>
- <a269be2f-4ab6-b1c6-790c-9d3052bf22cc@paragon-software.com>
+ <18250134-b9a0-c2af-ce7f-9ec01ddfdb9a@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -54,154 +54,53 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a269be2f-4ab6-b1c6-790c-9d3052bf22cc@paragon-software.com>
+In-Reply-To: <18250134-b9a0-c2af-ce7f-9ec01ddfdb9a@paragon-software.com>
 
-On Wed, Sep 22, 2021 at 07:17:13PM +0300, Konstantin Komarov wrote:
-> Now ntfs3 locks mutex for smaller time.
-
-Really like this change. It was my todo list also. Thanks. Still some
-comments below.
-
+On Wed, Sep 22, 2021 at 07:20:05PM +0300, Konstantin Komarov wrote:
+> Right now ntfs3 uses posix_acl_equiv_mode instead of
+> posix_acl_update_mode like all other fs.
 > 
 > Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+
+Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
+
 > ---
->  fs/ntfs3/inode.c | 17 ++++++++++++++---
->  fs/ntfs3/namei.c | 20 --------------------
->  2 files changed, 14 insertions(+), 23 deletions(-)
+>  fs/ntfs3/xattr.c | 15 ++++-----------
+>  1 file changed, 4 insertions(+), 11 deletions(-)
 > 
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index d583b71bec50..6fc99eebd1c1 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -1198,9 +1198,13 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
->  	struct REPARSE_DATA_BUFFER *rp = NULL;
->  	bool rp_inserted = false;
+> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+> index 70f2f9eb6b1e..59ec5e61a239 100644
+> --- a/fs/ntfs3/xattr.c
+> +++ b/fs/ntfs3/xattr.c
+> @@ -559,22 +559,15 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
+>  		if (acl) {
+>  			umode_t mode = inode->i_mode;
 >  
-> +	ni_lock_dir(dir_ni);
-> +
->  	dir_root = indx_get_root(&dir_ni->dir, dir_ni, NULL, NULL);
-> -	if (!dir_root)
-> -		return ERR_PTR(-EINVAL);
-> +	if (!dir_root) {
-> +		err = -EINVAL;
-> +		goto out1;
-> +	}
+> -			err = posix_acl_equiv_mode(acl, &mode);
+> -			if (err < 0)
+> -				return err;
+> +			err = posix_acl_update_mode(mnt_userns, inode, &mode,
+> +						    &acl);
+> +			if (err)
+> +				goto out;
 >  
->  	if (S_ISDIR(mode)) {
->  		/* Use parent's directory attributes. */
-> @@ -1549,6 +1553,9 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
->  	if (err)
->  		goto out6;
->  
-> +	/* Unlock parent directory before ntfs_init_acl. */
-> +	ni_unlock(dir_ni);
-
-There is err path which can go to err6 (line 1585). Then we get double
-unlock situation.
-
-> +
->  	inode->i_generation = le16_to_cpu(rec->seq);
->  
->  	dir->i_mtime = dir->i_ctime = inode->i_atime;
-> @@ -1605,8 +1612,10 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
->  out7:
->  
->  	/* Undo 'indx_insert_entry'. */
-> +	ni_lock_dir(dir_ni);
->  	indx_delete_entry(&dir_ni->dir, dir_ni, new_de + 1,
->  			  le16_to_cpu(new_de->key_size), sbi);
-> +	/* ni_unlock(dir_ni); will be called later. */
->  out6:
->  	if (rp_inserted)
->  		ntfs_remove_reparse(sbi, IO_REPARSE_TAG_SYMLINK, &new_de->ref);
-> @@ -1630,8 +1639,10 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
->  	kfree(rp);
->  
->  out1:
-> -	if (err)
-> +	if (err) {
-> +		ni_unlock(dir_ni);
-
-This will be double unlock if we exit with err path out6.
-
-  Argillander
-
->  		return ERR_PTR(err);
-> +	}
->  
->  	unlock_new_inode(inode);
->  
-> diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
-> index 1c475da4e19d..bc741213ad84 100644
-> --- a/fs/ntfs3/namei.c
-> +++ b/fs/ntfs3/namei.c
-> @@ -95,16 +95,11 @@ static struct dentry *ntfs_lookup(struct inode *dir, struct dentry *dentry,
->  static int ntfs_create(struct user_namespace *mnt_userns, struct inode *dir,
->  		       struct dentry *dentry, umode_t mode, bool excl)
->  {
-> -	struct ntfs_inode *ni = ntfs_i(dir);
->  	struct inode *inode;
->  
-> -	ni_lock_dir(ni);
+>  			if (inode->i_mode != mode) {
+>  				inode->i_mode = mode;
+>  				mark_inode_dirty(inode);
+>  			}
 > -
->  	inode = ntfs_create_inode(mnt_userns, dir, dentry, NULL, S_IFREG | mode,
->  				  0, NULL, 0, NULL);
->  
-> -	ni_unlock(ni);
-> -
->  	return IS_ERR(inode) ? PTR_ERR(inode) : 0;
->  }
->  
-> @@ -116,16 +111,11 @@ static int ntfs_create(struct user_namespace *mnt_userns, struct inode *dir,
->  static int ntfs_mknod(struct user_namespace *mnt_userns, struct inode *dir,
->  		      struct dentry *dentry, umode_t mode, dev_t rdev)
->  {
-> -	struct ntfs_inode *ni = ntfs_i(dir);
->  	struct inode *inode;
->  
-> -	ni_lock_dir(ni);
-> -
->  	inode = ntfs_create_inode(mnt_userns, dir, dentry, NULL, mode, rdev,
->  				  NULL, 0, NULL);
->  
-> -	ni_unlock(ni);
-> -
->  	return IS_ERR(inode) ? PTR_ERR(inode) : 0;
->  }
->  
-> @@ -196,15 +186,10 @@ static int ntfs_symlink(struct user_namespace *mnt_userns, struct inode *dir,
->  {
->  	u32 size = strlen(symname);
->  	struct inode *inode;
-> -	struct ntfs_inode *ni = ntfs_i(dir);
-> -
-> -	ni_lock_dir(ni);
->  
->  	inode = ntfs_create_inode(mnt_userns, dir, dentry, NULL, S_IFLNK | 0777,
->  				  0, symname, size, NULL);
->  
-> -	ni_unlock(ni);
-> -
->  	return IS_ERR(inode) ? PTR_ERR(inode) : 0;
->  }
->  
-> @@ -215,15 +200,10 @@ static int ntfs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
->  		      struct dentry *dentry, umode_t mode)
->  {
->  	struct inode *inode;
-> -	struct ntfs_inode *ni = ntfs_i(dir);
-> -
-> -	ni_lock_dir(ni);
->  
->  	inode = ntfs_create_inode(mnt_userns, dir, dentry, NULL, S_IFDIR | mode,
->  				  0, NULL, 0, NULL);
->  
-> -	ni_unlock(ni);
-> -
->  	return IS_ERR(inode) ? PTR_ERR(inode) : 0;
->  }
->  
+> -			if (!err) {
+> -				/*
+> -				 * ACL can be exactly represented in the
+> -				 * traditional file mode permission bits.
+> -				 */
+> -				acl = NULL;
+> -			}
+>  		}
+>  		name = XATTR_NAME_POSIX_ACL_ACCESS;
+>  		name_len = sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1;
 > -- 
 > 2.33.0
+> 
 > 
 > 
