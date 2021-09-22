@@ -1,51 +1,50 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C3A3FCB
-	for <ntfs3@lists.linux.dev>; Wed, 22 Sep 2021 18:23:51 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id x27so15570296lfu.5
-        for <ntfs3@lists.linux.dev>; Wed, 22 Sep 2021 11:23:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A643FC8
+	for <ntfs3@lists.linux.dev>; Wed, 22 Sep 2021 18:41:16 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id y28so15624710lfb.0
+        for <ntfs3@lists.linux.dev>; Wed, 22 Sep 2021 11:41:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=wKRwU9c+/pSkhmvdQwO2DPV9Q3SZon6fkbx8oBC8l1g=;
-        b=LEoLv+U1//8JcyzFn3DpD/I2BUc/E2ldSsQdrzSYBYjVSdztxjniRdFePUDBUhKJa7
-         Gfqycnonsb7pav9/IPFNt+1mg5Op1xL5NgIwaHNHmxLjXd9h3boGhuxQfWNIzul/Ecah
-         ztQHhgfEMExp4nV4gym0n+3Sb8HwEt7Q55wlkS5Adj1OQdBLT5hcgStknO+kj0M8e4yt
-         aRM/YefMB2V5/BY7mGe74BanUupiPfbI96aRVBx5C4KUSZzB+XEeehZx9MD25V23H+Yw
-         FDpzPvAf3w284n8Lz+TPefKyvdKpArTOSMkYaKrEIqPkYIweQsUv96Skhm9zuSmLJMBv
-         NEzw==
+        bh=UgTnUajNxhQv1bSX+L1qSLXHcGp1ndN6rNMXC6wSsEI=;
+        b=CtVAn9D+YM9Vnvy+1+BtULuJyZyJKCEph3eYUCFDduRHUrzDP9b/YFQTpvFz6u5S+b
+         N8w7DARSL3InG4KhOdhx3S+qqr/korqSCYwetJyHPjo/1sUh4J0Kbvkc3tezaTH0rk3c
+         CQzyHWrE2LHsHBg5485CkijaXn2ephH29HozLQvw4odr6voMjEPSVc8NP7aNh7lpnxTJ
+         kODPEC+57jENJVuq6p0JJZaPw+941POgg5BM0BafdVas1RSzWwXFXZkfDMrIGIxqzxSt
+         ZKk7akk3TSOIatvY8LLd5fMdDtmjIyGpXG/emLwiGSF2VY2QRew2+TLI3g/+eT1TbfeU
+         qSIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=wKRwU9c+/pSkhmvdQwO2DPV9Q3SZon6fkbx8oBC8l1g=;
-        b=GHn5Pae1t9eegMtm6EQnEuxNdg7zeI4dw8NmUS+cASsOQPQrQo8iSeHZ3qe4tc0yrT
-         O0hj2HPGxH8VYVtlbROxUGWEKI3zq/eCQS0XetN45ulB34BmBxQ70hc8sqf9BtTpRRvf
-         pvx+eeU9aYFjONY1/XXHP8Ck+/yOZPhcyOF2WmHxS8VzJS4t4Ow61Fq8PBPOVsfp/K8C
-         o43DNCB9x2cUXh9YiJ6omlaPBGO/3Zrb44m1yGXA5HJ6R/zTKyUaazo20Lzvt+/JbChL
-         F50Au6Di3CeeGgTKC2mR2Ni+jdWeZWBzFh3z7Jx2EMY1YoIbmKmMfz+bjOZmBLUsNMdV
-         HZCw==
-X-Gm-Message-State: AOAM532/VuaQoDxcWuqcndvFFGqiZiHctU6ACansFCr9V+RpXOFSFeSl
-	Nn7BrzmRSfZ659UzZUeoWhZjHq6FG5rwWQ==
-X-Google-Smtp-Source: ABdhPJw0ar4WYCQsQMIEXySCREhX0gOjWrAnByoMEycfOFe0yVzzH+jeZZFKy7YcxQZOs1PN9uxhkA==
-X-Received: by 2002:a05:651c:170c:: with SMTP id be12mr746530ljb.230.1632335029441;
-        Wed, 22 Sep 2021 11:23:49 -0700 (PDT)
+        bh=UgTnUajNxhQv1bSX+L1qSLXHcGp1ndN6rNMXC6wSsEI=;
+        b=ftqUmOEHXTtb0djHD49gB39Wf7hRscjNWZBI699LpUXbQ+1JHTduh4g/eOdsuiIZ7I
+         Pl5SSeJu/qh/WZkti9X74SFuWEvYgMTjUALAy/5P23LUBK9Xgi2tznF6lm0XLZwsyKR9
+         3NiRuTi7SCYsCoZkaYL1QM2VPEfsooa2rCGRt3R2U8gUvF9A3lGYqYVHSzjv2K0iRRXi
+         kW8CXjBiV7nH878n8nPJWIAUZrJQkYGWCTtZhN3jxwFH/ePlcSrIQZlrE7fQg91G1gUy
+         4HGzSOYdD88gJBCcP7+QudCTd/Umah8UEMJa/T6iUn66Lsb1PF97fIh33B1Uc0gvFwFE
+         yhYw==
+X-Gm-Message-State: AOAM531HwdVCV+ABBQP64kgrvrvlils908aYCUhA/egwWBo2rmiLRVBq
+	66KCZ8d839MKEKB3pNMwzaM=
+X-Google-Smtp-Source: ABdhPJwegIF5Vau8XaRZHRp5eAFJumV1Po63gcC4JGip15grFPwVzAVKh7wYhAzYSozAVaaILh2IAw==
+X-Received: by 2002:a05:6512:10cf:: with SMTP id k15mr375857lfg.617.1632336074338;
+        Wed, 22 Sep 2021 11:41:14 -0700 (PDT)
 Received: from kari-VirtualBox ([31.132.12.44])
-        by smtp.gmail.com with ESMTPSA id w13sm235378lft.94.2021.09.22.11.23.48
+        by smtp.gmail.com with ESMTPSA id i10sm237802lfu.71.2021.09.22.11.41.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 11:23:49 -0700 (PDT)
-Date: Wed, 22 Sep 2021 21:23:47 +0300
+        Wed, 22 Sep 2021 11:41:13 -0700 (PDT)
+Date: Wed, 22 Sep 2021 21:41:12 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 4/5] fs/ntfs3: Change posix_acl_equiv_mode to
- posix_acl_update_mode
-Message-ID: <20210922182347.yp4gxxoljc3vfnuu@kari-VirtualBox>
+Subject: Re: [PATCH 5/5] fs/ntfs3: Refactoring lock in ntfs_init_acl
+Message-ID: <20210922184112.r7ljydxc3rb3xifm@kari-VirtualBox>
 References: <2771ff62-e612-a8ed-4b93-5534c26aef9e@paragon-software.com>
- <18250134-b9a0-c2af-ce7f-9ec01ddfdb9a@paragon-software.com>
+ <ed6426f4-a579-86ce-a54f-ac356991a797@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -54,51 +53,94 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <18250134-b9a0-c2af-ce7f-9ec01ddfdb9a@paragon-software.com>
+In-Reply-To: <ed6426f4-a579-86ce-a54f-ac356991a797@paragon-software.com>
 
-On Wed, Sep 22, 2021 at 07:20:05PM +0300, Konstantin Komarov wrote:
-> Right now ntfs3 uses posix_acl_equiv_mode instead of
-> posix_acl_update_mode like all other fs.
+On Wed, Sep 22, 2021 at 07:20:49PM +0300, Konstantin Komarov wrote:
+> This is possible because of moving lock into ntfs_create_inode.
 > 
 > Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+
+Looks good.
 
 Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
 
 > ---
->  fs/ntfs3/xattr.c | 15 ++++-----------
->  1 file changed, 4 insertions(+), 11 deletions(-)
+>  fs/ntfs3/xattr.c | 55 ++++++++++++------------------------------------
+>  1 file changed, 14 insertions(+), 41 deletions(-)
 > 
 > diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-> index 70f2f9eb6b1e..59ec5e61a239 100644
+> index 59ec5e61a239..83bbee277e12 100644
 > --- a/fs/ntfs3/xattr.c
 > +++ b/fs/ntfs3/xattr.c
-> @@ -559,22 +559,15 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
->  		if (acl) {
->  			umode_t mode = inode->i_mode;
+> @@ -693,54 +693,27 @@ int ntfs_init_acl(struct user_namespace *mnt_userns, struct inode *inode,
+>  	struct posix_acl *default_acl, *acl;
+>  	int err;
 >  
-> -			err = posix_acl_equiv_mode(acl, &mode);
-> -			if (err < 0)
-> -				return err;
-> +			err = posix_acl_update_mode(mnt_userns, inode, &mode,
-> +						    &acl);
-> +			if (err)
-> +				goto out;
->  
->  			if (inode->i_mode != mode) {
->  				inode->i_mode = mode;
->  				mark_inode_dirty(inode);
->  			}
+> -	/*
+> -	 * TODO: Refactoring lock.
+> -	 * ni_lock(dir) ... -> posix_acl_create(dir,...) -> ntfs_get_acl -> ni_lock(dir)
+> -	 */
+> -	inode->i_default_acl = NULL;
 > -
-> -			if (!err) {
-> -				/*
-> -				 * ACL can be exactly represented in the
-> -				 * traditional file mode permission bits.
-> -				 */
-> -				acl = NULL;
-> -			}
->  		}
->  		name = XATTR_NAME_POSIX_ACL_ACCESS;
->  		name_len = sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1;
+> -	default_acl = ntfs_get_acl_ex(mnt_userns, dir, ACL_TYPE_DEFAULT, 1);
+> -
+> -	if (!default_acl || default_acl == ERR_PTR(-EOPNOTSUPP)) {
+> -		inode->i_mode &= ~current_umask();
+> -		err = 0;
+> -		goto out;
+> -	}
+> -
+> -	if (IS_ERR(default_acl)) {
+> -		err = PTR_ERR(default_acl);
+> -		goto out;
+> -	}
+> -
+> -	acl = default_acl;
+> -	err = __posix_acl_create(&acl, GFP_NOFS, &inode->i_mode);
+> -	if (err < 0)
+> -		goto out1;
+> -	if (!err) {
+> -		posix_acl_release(acl);
+> -		acl = NULL;
+> -	}
+> -
+> -	if (!S_ISDIR(inode->i_mode)) {
+> -		posix_acl_release(default_acl);
+> -		default_acl = NULL;
+> -	}
+> +	err = posix_acl_create(dir, &inode->i_mode, &default_acl, &acl);
+> +	if (err)
+> +		return err;
+>  
+> -	if (default_acl)
+> +	if (default_acl) {
+>  		err = ntfs_set_acl_ex(mnt_userns, inode, default_acl,
+>  				      ACL_TYPE_DEFAULT, 1);
+> +		posix_acl_release(default_acl);
+> +	} else {
+> +		inode->i_default_acl = NULL;
+> +	}
+>  
+>  	if (!acl)
+>  		inode->i_acl = NULL;
+> -	else if (!err)
+> -		err = ntfs_set_acl_ex(mnt_userns, inode, acl, ACL_TYPE_ACCESS,
+> -				      1);
+> -
+> -	posix_acl_release(acl);
+> -out1:
+> -	posix_acl_release(default_acl);
+> +	else {
+> +		if (!err)
+> +			err = ntfs_set_acl_ex(mnt_userns, inode, acl,
+> +					      ACL_TYPE_ACCESS, 1);
+> +		posix_acl_release(acl);
+> +	}
+>  
+> -out:
+>  	return err;
+>  }
+>  #endif
 > -- 
 > 2.33.0
 > 
