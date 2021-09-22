@@ -1,24 +1,24 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B1F2FB2
-	for <ntfs3@lists.linux.dev>; Wed, 22 Sep 2021 16:18:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4223FC7
+	for <ntfs3@lists.linux.dev>; Wed, 22 Sep 2021 16:19:22 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 81FB81D1D;
-	Wed, 22 Sep 2021 19:18:19 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id BC25782301;
+	Wed, 22 Sep 2021 19:19:20 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1632327499;
-	bh=P0QxpD6OvYLGv8lTPq3qwBSTDBJSkeBOFJ4WRSqNZgU=;
+	d=paragon-software.com; s=mail; t=1632327560;
+	bh=ha5KScEEr/4qiK0D82pDFvi0KlfCBt3k5qZ32Ma0pI4=;
 	h=Date:Subject:From:To:References:CC:In-Reply-To;
-	b=rhVCNHnmjznucc/VVrqdOfXiULPqrb/ZOmVoPnibCIdlswya729l4z9hR3EGhDw4s
-	 sNyBF2B9FbZTgA8Y+jWkVti8ybbPWAhBi9QZ9AK07ZO144B+lOlnMmBY6wI9oq14sM
-	 U4KjBnL47FTlYvVd+3och7ueaCJ5E0q+kWPNhOwo=
+	b=eWnwG8/LYteUmYBDXEPA4JgEEErk+znXQLcq0vZtU+swgyx9Fs0zjmn2C64IT9hjI
+	 6DbIsH/rX7GXzRabn8T0UttC/5wH+M119Ppz7VPMQOv1yPvftH9nqHTABdqORnDf/7
+	 /3M/nhjpyYbrhqpJ5JHwBH9/36gXXKS6LaB7T1qw=
 Received: from [192.168.211.195] (192.168.211.195) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 22 Sep 2021 19:18:19 +0300
-Message-ID: <994cb658-d2f8-a797-e947-35ac0a203ea2@paragon-software.com>
-Date: Wed, 22 Sep 2021 19:18:18 +0300
+ 15.1.2176.2; Wed, 22 Sep 2021 19:19:20 +0300
+Message-ID: <fd75b417-f5a0-d0f2-c2d3-35d465e41334@paragon-software.com>
+Date: Wed, 22 Sep 2021 19:19:19 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,7 +27,7 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.1
-Subject: [PATCH 2/5] fs/ntfs3: Refactor ntfs_get_acl_ex for better readability
+Subject: [PATCH 3/5] fs/ntfs3: Pass flags to ntfs_set_ea in ntfs_set_acl_ex
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
@@ -42,32 +42,48 @@ X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
 
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
- fs/ntfs3/xattr.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ fs/ntfs3/xattr.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 5c7c5c7a5ec1..3795943efc8e 100644
+index 3795943efc8e..70f2f9eb6b1e 100644
 --- a/fs/ntfs3/xattr.c
 +++ b/fs/ntfs3/xattr.c
-@@ -518,12 +518,15 @@ static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
- 	/* Translate extended attribute to acl. */
- 	if (err >= 0) {
- 		acl = posix_acl_from_xattr(mnt_userns, buf, err);
--		if (!IS_ERR(acl))
--			set_cached_acl(inode, type, acl);
-+	} else if (err == -ENODATA) {
-+		acl = NULL;
- 	} else {
--		acl = err == -ENODATA ? NULL : ERR_PTR(err);
-+		acl = ERR_PTR(err);
+@@ -549,6 +549,7 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
+ 	size_t size, name_len;
+ 	void *value = NULL;
+ 	int err = 0;
++	int flags;
+ 
+ 	if (S_ISLNK(inode->i_mode))
+ 		return -EOPNOTSUPP;
+@@ -591,20 +592,24 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
  	}
  
-+	if (!IS_ERR(acl))
-+		set_cached_acl(inode, type, acl);
-+
- 	__putname(buf);
+ 	if (!acl) {
++		/* Remove xattr if it can be presented via mode. */
+ 		size = 0;
+ 		value = NULL;
++		flags = XATTR_REPLACE;
+ 	} else {
+ 		size = posix_acl_xattr_size(acl->a_count);
+ 		value = kmalloc(size, GFP_NOFS);
+ 		if (!value)
+ 			return -ENOMEM;
+-
+ 		err = posix_acl_to_xattr(mnt_userns, acl, value, size);
+ 		if (err < 0)
+ 			goto out;
++		flags = 0;
+ 	}
  
- 	return acl;
+-	err = ntfs_set_ea(inode, name, name_len, value, size, 0, locked);
++	err = ntfs_set_ea(inode, name, name_len, value, size, flags, locked);
++	if (err == -ENODATA && !size)
++		err = 0; /* Removing non existed xattr. */
+ 	if (!err)
+ 		set_cached_acl(inode, type, acl);
+ 
 -- 
 2.33.0
 
