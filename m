@@ -1,88 +1,59 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE703FC5
-	for <ntfs3@lists.linux.dev>; Tue, 21 Sep 2021 21:41:13 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id i4so3261245lfv.4
-        for <ntfs3@lists.linux.dev>; Tue, 21 Sep 2021 14:41:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA6A3FC7
+	for <ntfs3@lists.linux.dev>; Wed, 22 Sep 2021 16:15:29 +0000 (UTC)
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 7BEED82304;
+	Wed, 22 Sep 2021 19:15:20 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ZUtb7BIX5XGWejYsRp211NK6WbRuQYuJ0FbAcrgDYUQ=;
-        b=RArBOm+P6N7devHl97Vz76wgY+677t3peLjp1TDhFjw1JMmHA9YdrX1ZoA75rm4eQx
-         GhqEKHezdYVD9esq7SFJ+UgSI2RuhK8eJHB/JINnEm0rzCLCbOE2iU5KL8JPWsmoV0SG
-         tXP2y4Nu+5g17tRWPL6+q2wgdFzOR3Dh/vGztN+dTx/Wu5smKWYzvum9vY13oZ03AvC4
-         OIhg3UP/CkqjmFvWn5+gHx0vkUxAFZEq03hjdyNrydt11i+af/rq8xDdTGn2r7giKF+2
-         5kSJOs09m1rpjGL3jIV5j8SExjKj81h+/nKrKGuJMFcxSISfHFV+w+9sxwF7pd43aHEZ
-         Mqlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ZUtb7BIX5XGWejYsRp211NK6WbRuQYuJ0FbAcrgDYUQ=;
-        b=TIo7l8wEpFy4QzCBcaXAyLEKpbdgXD32ZGIAIiOeLyJNkGVEdOKMbweEsPlwrCEb2I
-         JVl8DdeBDg/LVI+L1xP2x3EKifnBtJF16bz6NOxQYeADBXS3ncsVffycCUh191edqKaa
-         3IkiyE7x8moxTeerbccz34FEJM13ltDM0iQ3riR/27qPHV5BRRtmWLuoesp6hrDyCeqE
-         +6DTa6SpBbpNUOglVgHyT20+0oK+gZNQrT7IDc3mo7DBxNahESOzKDGrDULbzMPSlfWM
-         w4AwyTFeociSSlSUvHmqGCezs1ZoyxeHJ5vBdsgN9rjKL72/+UREO3GIb97Pg1xUn9pH
-         cqWA==
-X-Gm-Message-State: AOAM531hvlQtEXjrJo0sCU+xMREwBewDIdxxQlX+msMDM8enOzEqnHxj
-	HwRuIjYwLlyYooStl9FzSKs=
-X-Google-Smtp-Source: ABdhPJx2QPLy5x0ifdZlTK6Xj/oVSyCM0uw46wy/DAsGiXc2WmVFvtFZf2I43C9vlK+Jvz1djDf42Q==
-X-Received: by 2002:a05:6512:48f:: with SMTP id v15mr24543665lfq.690.1632260471910;
-        Tue, 21 Sep 2021 14:41:11 -0700 (PDT)
-Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id t13sm15303lff.279.2021.09.21.14.41.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Sep 2021 14:41:11 -0700 (PDT)
-Date: Wed, 22 Sep 2021 00:41:09 +0300
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 2/2] fs/ntfs3: Remove a useless shadowing variable
-Message-ID: <20210921214109.i4njjbzuspceoe7w@kari-VirtualBox>
-References: <704648698ab3a8e2de118c1bfcb7cec9d84738d4.1631994909.git.christophe.jaillet@wanadoo.fr>
- <6cf8bdec16086835c771d797f83b7c298c3667fc.1631994909.git.christophe.jaillet@wanadoo.fr>
+	d=paragon-software.com; s=mail; t=1632327320;
+	bh=M5bfFgoFlXE4KcXmZ923eoBepB1UY06djY36XfpJqD8=;
+	h=Date:To:CC:From:Subject;
+	b=AnMm+MOUivqDSWHpbRKht4sFkHLQT7L8HPV68cpsn0MjCXqblrfjIydc08/7e4tjY
+	 V3PJq2xYOaIQ4BVgwbjAmg3X5w3NtDxeTz4TqZDioDVSligWOQzcT97hOwobWYQf1o
+	 wMvCFINhroRqEj6nM6VzpbkjCdg/EJNE0e15oyCg=
+Received: from [192.168.211.195] (192.168.211.195) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 22 Sep 2021 19:15:20 +0300
+Message-ID: <2771ff62-e612-a8ed-4b93-5534c26aef9e@paragon-software.com>
+Date: Wed, 22 Sep 2021 19:15:19 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6cf8bdec16086835c771d797f83b7c298c3667fc.1631994909.git.christophe.jaillet@wanadoo.fr>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Content-Language: en-US
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH 0/5] Refactor locking in inode_operations
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.211.195]
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On Sat, Sep 18, 2021 at 09:56:28PM +0200, Christophe JAILLET wrote:
-> There is already a 'u8 mask' defined at the top of the function.
-> There is no need to define a new one here.
-> 
-> Remove the useless and shadowing new 'mask' variable.
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Speed up work with dir lock.
+Theoretically in successful cases those locks aren't needed at all.
+But proving the same for error cases is difficult.
+So instead of removing them we just move them.
 
-Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
+Konstantin Komarov (5):
+  fs/ntfs3: Move ni_lock_dir and ni_unlock into ntfs_create_inode
+  fs/ntfs3: Refactor ntfs_get_acl_ex for better readability
+  fs/ntfs3: Pass flags to ntfs_set_ea in ntfs_set_acl_ex
+  fs/ntfs3: Change posix_acl_equiv_mode to posix_acl_update_mode
+  fs/ntfs3: Refactoring lock in ntfs_init_acl
 
-> ---
->  fs/ntfs3/bitfunc.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/fs/ntfs3/bitfunc.c b/fs/ntfs3/bitfunc.c
-> index bf10e2da5c6e..50d838093790 100644
-> --- a/fs/ntfs3/bitfunc.c
-> +++ b/fs/ntfs3/bitfunc.c
-> @@ -119,8 +119,7 @@ bool are_bits_set(const ulong *lmap, size_t bit, size_t nbits)
->  
->  	pos = nbits & 7;
->  	if (pos) {
-> -		u8 mask = fill_mask[pos];
-> -
-> +		mask = fill_mask[pos];
->  		if ((*map & mask) != mask)
->  			return false;
->  	}
-> -- 
-> 2.30.2
-> 
+ fs/ntfs3/inode.c | 17 ++++++++--
+ fs/ntfs3/namei.c | 20 -----------
+ fs/ntfs3/xattr.c | 88 +++++++++++++++++-------------------------------
+ 3 files changed, 45 insertions(+), 80 deletions(-)
+
+-- 
+2.33.0
