@@ -1,24 +1,24 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C95A3FCB
-	for <ntfs3@lists.linux.dev>; Thu, 23 Sep 2021 15:44:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A653FCB
+	for <ntfs3@lists.linux.dev>; Thu, 23 Sep 2021 15:45:46 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 803F11D99;
-	Thu, 23 Sep 2021 18:44:56 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id A7DFA82255;
+	Thu, 23 Sep 2021 18:45:44 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1632411896;
-	bh=SuD8zN6xNAKrdgxn219w20we7FQ4HvQ5FkLa7M0DkHU=;
+	d=paragon-software.com; s=mail; t=1632411944;
+	bh=1Rg2zXZ/vgixRrUZ0go+XppCVTwHrFXwMt2I9sXaE38=;
 	h=Date:Subject:From:To:References:CC:In-Reply-To;
-	b=G+mHblGnK8rNSp7ONON6k/QvKelb3TjsmJnOmb18XWa1n6tuqMqynrc4i0D5KovGE
-	 zet35q7FlpGnH0JfaQLHem3oDnv+7jQF7u5i2Y4vfbxGQyJKHVE3c2hoSh80uDxNbH
-	 P3Dtt9xZOXxyZ63uje/ZdIPZJhZP50h45MQ5Go2I=
+	b=H7Y1VQG4nfpOb2qXJVQVZXs/x7vb9PI2NnD363MYSKG/mxYaylCn4lpFS0m/lqcXc
+	 FhVOtOZRN4hv7INYOOJfSu5nF3pMn7lhoi5gwzvCx9UnuigzCVOA7gNakFsq1xARSy
+	 69bhEfKSbLPWBXCoGcjULONIiW9VRBjK9WZkerag=
 Received: from [192.168.211.73] (192.168.211.73) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 23 Sep 2021 18:44:56 +0300
-Message-ID: <22b8b701-e0c0-9b3f-dd58-0e8ab7c54754@paragon-software.com>
-Date: Thu, 23 Sep 2021 18:44:55 +0300
+ 15.1.2176.2; Thu, 23 Sep 2021 18:45:44 +0300
+Message-ID: <894082b3-16c2-d9bd-13c3-476c0a80308a@paragon-software.com>
+Date: Thu, 23 Sep 2021 18:45:43 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,8 +27,7 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.1
-Subject: [PATCH v2 5/6] fs/ntfs3: Change posix_acl_equiv_mode to
- posix_acl_update_mode
+Subject: [PATCH v2 6/6] fs/ntfs3: Refactoring lock in ntfs_init_acl
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
@@ -41,46 +40,87 @@ X-Originating-IP: [192.168.211.73]
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Right now ntfs3 uses posix_acl_equiv_mode instead of
-posix_acl_update_mode like all other fs.
+This is possible because of moving lock into ntfs_create_inode.
 
 Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
- fs/ntfs3/xattr.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+ fs/ntfs3/xattr.c | 55 ++++++++++++------------------------------------
+ 1 file changed, 14 insertions(+), 41 deletions(-)
 
 diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 70f2f9eb6b1e..59ec5e61a239 100644
+index 59ec5e61a239..83bbee277e12 100644
 --- a/fs/ntfs3/xattr.c
 +++ b/fs/ntfs3/xattr.c
-@@ -559,22 +559,15 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
- 		if (acl) {
- 			umode_t mode = inode->i_mode;
+@@ -693,54 +693,27 @@ int ntfs_init_acl(struct user_namespace *mnt_userns, struct inode *inode,
+ 	struct posix_acl *default_acl, *acl;
+ 	int err;
  
--			err = posix_acl_equiv_mode(acl, &mode);
--			if (err < 0)
--				return err;
-+			err = posix_acl_update_mode(mnt_userns, inode, &mode,
-+						    &acl);
-+			if (err)
-+				goto out;
- 
- 			if (inode->i_mode != mode) {
- 				inode->i_mode = mode;
- 				mark_inode_dirty(inode);
- 			}
+-	/*
+-	 * TODO: Refactoring lock.
+-	 * ni_lock(dir) ... -> posix_acl_create(dir,...) -> ntfs_get_acl -> ni_lock(dir)
+-	 */
+-	inode->i_default_acl = NULL;
 -
--			if (!err) {
--				/*
--				 * ACL can be exactly represented in the
--				 * traditional file mode permission bits.
--				 */
--				acl = NULL;
--			}
- 		}
- 		name = XATTR_NAME_POSIX_ACL_ACCESS;
- 		name_len = sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1;
+-	default_acl = ntfs_get_acl_ex(mnt_userns, dir, ACL_TYPE_DEFAULT, 1);
+-
+-	if (!default_acl || default_acl == ERR_PTR(-EOPNOTSUPP)) {
+-		inode->i_mode &= ~current_umask();
+-		err = 0;
+-		goto out;
+-	}
+-
+-	if (IS_ERR(default_acl)) {
+-		err = PTR_ERR(default_acl);
+-		goto out;
+-	}
+-
+-	acl = default_acl;
+-	err = __posix_acl_create(&acl, GFP_NOFS, &inode->i_mode);
+-	if (err < 0)
+-		goto out1;
+-	if (!err) {
+-		posix_acl_release(acl);
+-		acl = NULL;
+-	}
+-
+-	if (!S_ISDIR(inode->i_mode)) {
+-		posix_acl_release(default_acl);
+-		default_acl = NULL;
+-	}
++	err = posix_acl_create(dir, &inode->i_mode, &default_acl, &acl);
++	if (err)
++		return err;
+ 
+-	if (default_acl)
++	if (default_acl) {
+ 		err = ntfs_set_acl_ex(mnt_userns, inode, default_acl,
+ 				      ACL_TYPE_DEFAULT, 1);
++		posix_acl_release(default_acl);
++	} else {
++		inode->i_default_acl = NULL;
++	}
+ 
+ 	if (!acl)
+ 		inode->i_acl = NULL;
+-	else if (!err)
+-		err = ntfs_set_acl_ex(mnt_userns, inode, acl, ACL_TYPE_ACCESS,
+-				      1);
+-
+-	posix_acl_release(acl);
+-out1:
+-	posix_acl_release(default_acl);
++	else {
++		if (!err)
++			err = ntfs_set_acl_ex(mnt_userns, inode, acl,
++					      ACL_TYPE_ACCESS, 1);
++		posix_acl_release(acl);
++	}
+ 
+-out:
+ 	return err;
+ }
+ #endif
 -- 
 2.33.0
 
