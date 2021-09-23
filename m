@@ -1,24 +1,24 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734B53FCB
-	for <ntfs3@lists.linux.dev>; Thu, 23 Sep 2021 16:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964523FCB
+	for <ntfs3@lists.linux.dev>; Thu, 23 Sep 2021 16:12:54 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E07CC1D40;
-	Thu, 23 Sep 2021 19:11:29 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id D132F8232E;
+	Thu, 23 Sep 2021 19:12:52 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1632413489;
-	bh=8ye9Cx7G+0A6KCJSzmDTdmMy2k/YcvE7Qnx+pY0deQc=;
+	d=paragon-software.com; s=mail; t=1632413572;
+	bh=vRdKG05gnFQuVqKHvc+k3WvT4wAdI0k7moN34fawWr4=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=qBWaGzDFDSp/wTFs7O6KkRKNm3SPkKjk76KHeCX5eXt1li1xgvSRCBlh8J+3uDeIa
-	 9Yws9za22AWmgnsqN3+4HAYLghC2TBeCz49PdPwrDWiQQUZSHZX1iZhQxjDYaVIqaW
-	 yyAXt5hfVVxXQooGhNmNHQ16dcuT90J9H2Zb80u0=
+	b=Viw9CUlXJRojXEftTFp6cWD8CxulPFF5FBMuAyLMgFq9/G0U5Xr8gjYYWAT8TfObc
+	 +9FQlM2f/ShBkMC+ObjvFVf0aSS9ihcNdC45oegI0j6guV2c7xTpXM+vran7uaiOsd
+	 Z1KsA4p4o1Tcu1GNmAPkTb6mb56VhpGH+zBqz6YQ=
 Received: from [192.168.211.73] (192.168.211.73) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 23 Sep 2021 19:11:29 +0300
-Message-ID: <fbc33faa-5eec-527c-3c78-4966a5480f44@paragon-software.com>
-Date: Thu, 23 Sep 2021 19:11:29 +0300
+ 15.1.2176.2; Thu, 23 Sep 2021 19:12:52 +0300
+Message-ID: <a3dad3d1-6216-c289-d0fe-ffb36950481c@paragon-software.com>
+Date: Thu, 23 Sep 2021 19:12:52 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,15 +27,14 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.1
-Subject: Re: [PATCH 1/2] fs/ntfs3: Remove a useless test in 'indx_find()'
+Subject: Re: [PATCH v2] fs/ntfs3: Remove deprecated mount options nls
 Content-Language: en-US
-To: Kari Argillander <kari.argillander@gmail.com>, Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>
-CC: <ntfs3@lists.linux.dev>, <kernel-janitors@vger.kernel.org>
-References: <704648698ab3a8e2de118c1bfcb7cec9d84738d4.1631994909.git.christophe.jaillet@wanadoo.fr>
- <20210921213955.se7svkfr62xndnlc@kari-VirtualBox>
+To: Kari Argillander <kari.argillander@gmail.com>, <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, =?UTF-8?Q?Pali_Roh=c3=a1r?=
+	<pali@kernel.org>
+References: <20210921171901.49176-1-kari.argillander@gmail.com>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20210921213955.se7svkfr62xndnlc@kari-VirtualBox>
+In-Reply-To: <20210921171901.49176-1-kari.argillander@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [192.168.211.73]
@@ -44,42 +43,42 @@ X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
 
 
 
-On 22.09.2021 00:39, Kari Argillander wrote:
-> On Sat, Sep 18, 2021 at 09:56:19PM +0200, Christophe JAILLET wrote:
->> 'fnd' has been dereferenced several time before, so testing it here is
->> pointless.
->> Moreover, all callers of 'indx_find()' already have some error handling
->> code that makes sure that no NULL 'fnd' is passed.
->>
->> So, remove the useless test.
->>
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+On 21.09.2021 20:19, Kari Argillander wrote:
+> Some discussion has been spoken that this deprecated mount options
+> should be removed before 5.15 lands. This driver is not never seen day
+> light so it was decided that nls mount option has to be removed. We have
+> always possibility to add this if needed.
 > 
-> Seems correct, thanks.
+> One possible need is example if current ntfs driver will be taken out of
+> kernel and ntfs3 needs to support mount options what it has.
 > 
-> Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
+> Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
+> ---
+> Patch is compile and checkpatch tested.
 > 
->> ---
->>  fs/ntfs3/index.c | 4 +---
->>  1 file changed, 1 insertion(+), 3 deletions(-)
->>
->> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
->> index 4f71a91f07d9..6f81e3a49abf 100644
->> --- a/fs/ntfs3/index.c
->> +++ b/fs/ntfs3/index.c
->> @@ -1072,9 +1072,7 @@ int indx_find(struct ntfs_index *indx, struct ntfs_inode *ni,
->>  	if (!e)
->>  		return -EINVAL;
->>  
->> -	if (fnd)
->> -		fnd->root_de = e;
->> -
->> +	fnd->root_de = e;
->>  	err = 0;
->>  
->>  	for (;;) {
->> -- 
->> 2.30.2
->>
+> v2:
+> 	-Do not delete {}
+> ---
+>  fs/ntfs3/super.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+> index 6a535b144ff9..800897777eb0 100644
+> --- a/fs/ntfs3/super.c
+> +++ b/fs/ntfs3/super.c
+> @@ -246,10 +246,6 @@ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
+>  	fsparam_flag_no("prealloc",		Opt_prealloc),
+>  	fsparam_flag_no("acsrules",		Opt_noacsrules),
+>  	fsparam_string("iocharset",		Opt_iocharset),
+> -
+> -	__fsparam(fs_param_is_string,
+> -		  "nls", Opt_iocharset,
+> -		  fs_param_deprecated, NULL),
+>  	{}
+>  };
+>  
+> 
+> base-commit: 6354467245ff8dd04b54e39790f2ee4d21d5419e
+> 
 
-Thanks for work - applied!
+Applied, thanks!
