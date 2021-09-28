@@ -1,168 +1,61 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C42D72
-	for <ntfs3@lists.linux.dev>; Mon, 27 Sep 2021 19:39:19 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id b20so82544295lfv.3
-        for <ntfs3@lists.linux.dev>; Mon, 27 Sep 2021 12:39:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1E529CA
+	for <ntfs3@lists.linux.dev>; Tue, 28 Sep 2021 17:16:30 +0000 (UTC)
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id D6C7F81FE6;
+	Tue, 28 Sep 2021 20:16:22 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=lQhqwgKc+3MgcNnjasbAchY3FY8i0ZMRACEKim1a6VQ=;
-        b=gM3NwiYFMI4MN2z1ChxIAIDTULrVWvBiZJN/5cJvuqiF5WUVmD/+pxfMoSZFmljLPy
-         ceoVeG0KYybOnirBpgJEPyCE8JySJEJ5ZYfvMu2sE2mFEaK/5tLm3T3PUdOlqC2N8iVC
-         EOzc1H1ymVRlW3nU6CO8agRrVi9Om3p4aSoOGMh7N4ewCnPdjzgIC7eDnK28d/816TFz
-         XNGJsCqOGOx5DK+xtIs7O6HpfyDk8GMwFCZN4xzYEXvyi9fW354Po3zGyL7OwUjVNfxS
-         Qj75v8hp7FILuKJpnzvZdL203PN/+tXYj5kD6vwzlf352IASqJTDHC4vvBAiz/0fSQMc
-         reDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lQhqwgKc+3MgcNnjasbAchY3FY8i0ZMRACEKim1a6VQ=;
-        b=AfUFZJXzS+rwyAOWm9jZVdxotr1zMZB1PqYN9aCKhlLHCnbx5EqCU9HN776qRtu7+i
-         /9A9qPHCpprizI8zEBmYtQQgdNV9FCMKWr9BvuP3AXgH/90LkxlNc56nPctons1uJhyz
-         ofJKW+H1BzGIyeItp1WSc0AB7dCLgQGsmDpmeyWFSIRKDgz9KH7kBvkPG0Dg/ThL7r/e
-         0bWqwAxDmON1gDjM46SSmDrijm+zJ6FXh6Sd9jLOtDatxkfxicjRYTcYwz6067wbXIYc
-         d4qIywbzjEhTiWzrGaAWRsyoJ0QVVhvDZ8qPFYxXxccVe6ttN7onX+FUKcJf8SgDPh8U
-         vMFA==
-X-Gm-Message-State: AOAM5315/uq47ERQDIUVXyO1dcXUrJ1rxhXUVpQ+WTNChIpEwJV/+kFX
-	7CdUBckoBK6q+lyolm5fMwQ=
-X-Google-Smtp-Source: ABdhPJz04abIHMOQQkApaNgKaDil76rU8yGuSAgzhZE2rkkRulp2hByvcV1AI0Va8Y/cW3sJrGd4/g==
-X-Received: by 2002:a19:c145:: with SMTP id r66mr1472825lff.563.1632771557260;
-        Mon, 27 Sep 2021 12:39:17 -0700 (PDT)
-Received: from kari-VirtualBox ([31.132.12.44])
-        by smtp.gmail.com with ESMTPSA id f26sm2089980ljj.82.2021.09.27.12.39.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Sep 2021 12:39:16 -0700 (PDT)
-Date: Mon, 27 Sep 2021 22:39:15 +0300
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	joe@perches.com
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] fs/ntfs3: Refactoring of ntfs_set_ea
-Message-ID: <20210927193915.a6yexhkgfqt23bim@kari-VirtualBox>
-References: <a1204ce8-80e6-bf44-e7d1-f1674ff28dcd@paragon-software.com>
- <eeaa59a8-4ca1-9392-69f9-e3179a75de75@paragon-software.com>
- <20210927192236.3s75h74aglrpg3s2@kari-VirtualBox>
+	d=paragon-software.com; s=mail; t=1632849382;
+	bh=q9FQW1NyPX+/PEIXZoUtfUROqa82bC7XxrBaUVEa47g=;
+	h=Date:To:CC:From:Subject;
+	b=Jn1HIwncXV3i6cPUwtI4YlFT5xHagzc+ohiRu/AKMhvQcqH6j8xiU+xdW+x3xCZFv
+	 7vn0Rgc/SsFBA19DWM1kcnpM5MGOQz+W5duFqUHtYDs77IW6exfr7C0CEXiFJy1vB5
+	 OpOV6NnZinexR4bStw6PDfJ69+u47eD1/mK+wwvs=
+Received: from [192.168.211.85] (192.168.211.85) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 28 Sep 2021 20:16:22 +0300
+Message-ID: <a7c2e6d3-68a1-25f7-232e-935ae9e5f6c8@paragon-software.com>
+Date: Tue, 28 Sep 2021 20:16:20 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210927192236.3s75h74aglrpg3s2@kari-VirtualBox>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Content-Language: en-US
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<kari.argillander@gmail.com>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH v2 0/3] fs/ntfs3: Refactoring of super.c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.211.85]
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Joe's address was wrong. Just resend.
+Fix memory leak in ntfs_discard.
+Reject mount so we won't corrupt fs.
+Refactor ntfs_init_from_boot function.
 
-On Mon, Sep 27, 2021 at 10:22:36PM +0300, Kari Argillander wrote:
-> On Mon, Sep 27, 2021 at 06:28:37PM +0300, Konstantin Komarov wrote:
-> > Make code more readable.
-> > Don't try to read zero bytes.
-> > Add warning when size of exteneded attribute exceeds limit.
-> > Thanks Joe Perches <joe@perches.com> for help.
-> 
-> Usually if someone review and suggest something small do not add this
-> kind of line to commit message. Also you need permission to add this. It
-> us same kind of situation when we add suggested-by tag. Linux
-> documentation stated that it cannot be there if we do not have
-> permission from other.
-> 
-> Also at least add that person email 'to line'. Sometimes if someone make
-> huge impact to patch you can ask and add this kind of line. But then
-> again it might make more sense to add it suggested or even signed off
-> tag depending in situation.
-> 
-> It can stay if Joe says it is ok.
-> 
-> > 
-> > Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-> > ---
-> >  fs/ntfs3/xattr.c | 31 +++++++++++++++++--------------
-> >  1 file changed, 17 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-> > index 1ab109723b10..5023d6f7e671 100644
-> > --- a/fs/ntfs3/xattr.c
-> > +++ b/fs/ntfs3/xattr.c
-> > @@ -75,6 +75,7 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
-> >  			size_t add_bytes, const struct EA_INFO **info)
-> >  {
-> >  	int err;
-> > +	struct ntfs_sb_info *sbi = ni->mi.sbi;
-> >  	struct ATTR_LIST_ENTRY *le = NULL;
-> >  	struct ATTRIB *attr_info, *attr_ea;
-> >  	void *ea_p;
-> > @@ -99,10 +100,10 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
-> >  
-> >  	/* Check Ea limit. */
-> >  	size = le32_to_cpu((*info)->size);
-> > -	if (size > ni->mi.sbi->ea_max_size)
-> > +	if (size > sbi->ea_max_size)
-> >  		return -EFBIG;
-> >  
-> > -	if (attr_size(attr_ea) > ni->mi.sbi->ea_max_size)
-> > +	if (attr_size(attr_ea) > sbi->ea_max_size)
-> >  		return -EFBIG;
-> >  
-> >  	/* Allocate memory for packed Ea. */
-> > @@ -110,15 +111,16 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
-> >  	if (!ea_p)
-> >  		return -ENOMEM;
-> >  
-> > -	if (attr_ea->non_res) {
-> > +	if (!size) {
-> > +		;
-> > +	} else if (attr_ea->non_res) {
-> >  		struct runs_tree run;
-> >  
-> >  		run_init(&run);
-> >  
-> >  		err = attr_load_runs(attr_ea, ni, &run, NULL);
-> >  		if (!err)
-> > -			err = ntfs_read_run_nb(ni->mi.sbi, &run, 0, ea_p, size,
-> > -					       NULL);
-> > +			err = ntfs_read_run_nb(sbi, &run, 0, ea_p, size, NULL);
-> >  		run_close(&run);
-> >  
-> >  		if (err)
-> > @@ -366,21 +368,22 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
-> >  	new_ea->name[name_len] = 0;
-> >  	memcpy(new_ea->name + name_len + 1, value, val_size);
-> >  	new_pack = le16_to_cpu(ea_info.size_pack) + packed_ea_size(new_ea);
-> > -
-> > -	/* Should fit into 16 bits. */
-> > -	if (new_pack > 0xffff) {
-> > -		err = -EFBIG; // -EINVAL?
-> > -		goto out;
-> > -	}
-> >  	ea_info.size_pack = cpu_to_le16(new_pack);
-> > -
-> >  	/* New size of ATTR_EA. */
-> >  	size += add;
-> > -	if (size > sbi->ea_max_size) {
-> > +	ea_info.size = cpu_to_le32(size);
-> > +
-> > +	/*
-> > +	 * 1. Check ea_info.size_pack for overflow.
-> > +	 * 2. New attibute size must fit value from $AttrDef
-> > +	 */
-> > +	if (new_pack > 0xffff || size > sbi->ea_max_size) {
-> > +		ntfs_inode_warn(
-> > +			inode,
-> > +			"The size of extended attributes must not exceed 64KiB");
-> >  		err = -EFBIG; // -EINVAL?
-> >  		goto out;
-> >  	}
-> > -	ea_info.size = cpu_to_le32(size);
-> >  
-> >  update_ea:
-> >  
-> > -- 
-> > 2.33.0
-> > 
-> > 
+v2:
+  Fixed wrong patch 1/3.
+  Merged two changes to the same piece of code.
+
+Konstantin Komarov (3):
+  fs/ntfs3: Fix memory leak if fill_super failed
+  fs/ntfs3: Reject mount if boot's cluster size < media sector size
+  fs/ntfs3: Refactoring of ntfs_init_from_boot
+
+ fs/ntfs3/ntfs_fs.h |  2 --
+ fs/ntfs3/super.c   | 36 +++++++++++++++++++++++++-----------
+ 2 files changed, 25 insertions(+), 13 deletions(-)
+
+-- 
+2.33.0
+
