@@ -1,24 +1,24 @@
-Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5F829CA
-	for <ntfs3@lists.linux.dev>; Tue, 28 Sep 2021 17:17:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16C63FC8
+	for <ntfs3@lists.linux.dev>; Tue, 28 Sep 2021 17:18:18 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id C6EFF81FE6;
-	Tue, 28 Sep 2021 20:17:31 +0300 (MSK)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id B5F99454;
+	Tue, 28 Sep 2021 20:18:09 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1632849451;
-	bh=Qv4CDeHYjjOUMFCGMiQN+LeUoFSnLzhnAn/G99wvURI=;
+	d=paragon-software.com; s=mail; t=1632849489;
+	bh=I6dxCXn0jNZZaFv7JKVRXPY3OVFbnaASgRPEVdZRV64=;
 	h=Date:Subject:From:To:CC:References:In-Reply-To;
-	b=dH3nwHDwDKkLkTvb3LixHQgCxrcGSBJolBVu/49HzQwXRb2BOWG2pqJ1Ihlx00Ul5
-	 hydZQtV/wdT6ULBDaOwhtt8mzGNwX1Anmbb9XvrqmEOCa9i2Ua1zaLxqECP1Ko1gU0
-	 Rk8F3Y9QgXGaIvKgghhJSJCE9mqpBorQsitGil/0=
+	b=tmgfn5XZBuktnx7r+Z2I5Aih9gscWadHYr+f4C7XeJK1kpZrdqTTPL36+R5VPFkZY
+	 82dXSp3u4M7ELZCpP8E/E9Wc1aenVnm227WzX2iLlV0OZq69N6dI/qOjsjosheaAEY
+	 sNatroK63X7KjOshvde02fdUDVoeqF6Kd69LVl+Q=
 Received: from [192.168.211.85] (192.168.211.85) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 28 Sep 2021 20:17:31 +0300
-Message-ID: <5ee2a090-1709-5ca0-1e78-8db1f3ded973@paragon-software.com>
-Date: Tue, 28 Sep 2021 20:17:29 +0300
+ 15.1.2176.2; Tue, 28 Sep 2021 20:18:08 +0300
+Message-ID: <228cbe20-87d6-4020-55fb-111d22e2b487@paragon-software.com>
+Date: Tue, 28 Sep 2021 20:18:07 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,7 +27,8 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.1
-Subject: [PATCH v2 1/3] fs/ntfs3: Fix memory leak if fill_super failed
+Subject: [PATCH v2 2/3] fs/ntfs3: Reject mount if boot's cluster size < media
+ sector size
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
@@ -41,28 +42,39 @@ X-Originating-IP: [192.168.211.85]
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Restore fc->s_fs_info to free memory allocated in ntfs_init_fs_context.
+If we continue to work in this case, then we can corrupt fs.
 
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
- fs/ntfs3/super.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ fs/ntfs3/super.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 800897777eb0..aff90f70e7bf 100644
+index aff90f70e7bf..890c5d9d6d60 100644
 --- a/fs/ntfs3/super.c
 +++ b/fs/ntfs3/super.c
-@@ -1242,6 +1242,10 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	return 0;
- out:
- 	iput(inode);
-+
-+	/* Restore fc->s_fs_info to free memory allocated in ntfs_init_fs_context. */
-+	fc->s_fs_info = sbi;
-+
- 	return err;
- }
+@@ -763,9 +763,20 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+ 	sbi->mft.lbo = mlcn << sbi->cluster_bits;
+ 	sbi->mft.lbo2 = mlcn2 << sbi->cluster_bits;
  
+-	if (sbi->cluster_size < sbi->sector_size)
++	/* Compare boot's cluster and sector. */
++	if (sbi->cluster_size < boot_sector_size)
+ 		goto out;
+ 
++	/* Compare boot's cluster and media sector. */
++	if (sbi->cluster_size < sector_size) {
++		/* No way to use ntfs_get_block in this case. */
++		ntfs_err(
++			sb,
++			"Failed to mount 'cause NTFS's cluster size (%u) is less than media sector size (%u)",
++			sbi->cluster_size, sector_size);
++		goto out;
++	}
++
+ 	sbi->cluster_mask = sbi->cluster_size - 1;
+ 	sbi->cluster_mask_inv = ~(u64)sbi->cluster_mask;
+ 	sbi->record_size = record_size = boot->record_size < 0
 -- 
 2.33.0
 
