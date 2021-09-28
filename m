@@ -1,108 +1,111 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947703FCB
-	for <ntfs3@lists.linux.dev>; Tue, 28 Sep 2021 18:32:36 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id t10so95492785lfd.8
-        for <ntfs3@lists.linux.dev>; Tue, 28 Sep 2021 11:32:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74773FCB
+	for <ntfs3@lists.linux.dev>; Tue, 28 Sep 2021 18:33:05 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id ba1so28909881edb.4
+        for <ntfs3@lists.linux.dev>; Tue, 28 Sep 2021 11:33:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=G+CYfrIO1JCw1yxm6yg+/r1TsCdRkQWZWs7PCERtxoE=;
-        b=NxxHSHEqx5cBCRtezWHHqmqIDBczPEzUFzqarhaQ7yDb9PcQXiK3pjqbgZII8wI/34
-         fu006zFbJs1bfrRhChbg38ch4nSptHGRQobJ7gpR3Nf8MKdUBm1Ls0EP5J68I3jttFS5
-         g88KyyqBWTs1fvTdgHOOXCnoNVWjIFgHBG40x5K+EwgOdMJNCuAdlpaiwrPskn0V9oov
-         GOgA9aVyAT1ib22TcHjIYzqneT3hYbq7RHM/VwKHxckBoVIPr9vgJkbYAi84J2QQaFke
-         XZpyBnr4fj9cuCcUhybTWojOBFxy+wJgkozCH+5Y/whW4hOvB2FXQiHvcbJH4pV1fEQg
-         z3AA==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qESl3rMYHtCNsN1KYJrZYVtclXyNC4opKxEbtNkEn8A=;
+        b=P1R5PSgD6HEYoUj5joCV0pBdshOX5aFC25ZEGGufht/4X2mNwstChoDfxDkpD6FQEQ
+         0QOIQ4+QSlHTUuxV6b/+oaBWPV4IAxSnKlIa1YKiBbV/w2Z28GbiWmzb8JdC+92Cejms
+         mG1sE06vJcpthaMA+W7KT0nv4znZpWBeQX0+wMzkMB2782mMibJ5bxPsWzCjVrtuzYGI
+         OMrgx/9hrKAZMDAcYA8ZwOYFw4IAMeQ8hiAmryvEcuEDsauqz3CvKw65l1P5P4tw1rl1
+         tgr6uto7EVuiMF62crDbWny+8aCUeEW6jFKNhjzJ8e1Ldl4rVmla3ipAlzgwS9Op/BCI
+         MTqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=G+CYfrIO1JCw1yxm6yg+/r1TsCdRkQWZWs7PCERtxoE=;
-        b=MTwWdhCfey4bnp30NJkffG6y/6pAuwYINRQE8Ncso8hxkMg2kRON64ai2MtY+b5Smq
-         mgnpGRgOlH+tZhSPmGyhi9ay/pt3TehWhkMSEE/cl32afN0RjeSkP+XLqMBPfl2BOhxp
-         59vLNZiSzUnn10jpqEHdo89KKrfOp65KhirlLghn6fZIFHh1cNYUv69cUicrlHM+xxbU
-         zHt8+UyRFOeKxPnl5U045xc0wfLzjEeL0C/ErjJnoy95xBlAUcdnEOK6bZ3mEKILHIPb
-         tOZbSfOovUA+BzLyJmFxa7ju+iqAul+BZq4KGxhEsIdgHigWOJTwlaKPyYgoMOuuuqoH
-         SkAQ==
-X-Gm-Message-State: AOAM5336lXW/Zz0BpYjqkxkCcRhi6h4Z3jqsi6KjcVACpFtBIIDDqrij
-	HZ10LLlieXwAk4UDqtb4Ln0=
-X-Google-Smtp-Source: ABdhPJxI/hl8PMmYNQUW8K1GZjpDc+8DxBV5fxrptnA97ex+/ZC+hX89FNRKJ5SIB8Ui7ljOdI/FxQ==
-X-Received: by 2002:a05:651c:988:: with SMTP id b8mr1385441ljq.187.1632853954646;
-        Tue, 28 Sep 2021 11:32:34 -0700 (PDT)
-Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id t12sm1988158lfc.55.2021.09.28.11.32.33
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=qESl3rMYHtCNsN1KYJrZYVtclXyNC4opKxEbtNkEn8A=;
+        b=Lq2clNP+VOCspNDcGczcRDLC0nCoW3ilgFua3oCl4BlGhMlPHZuN/4b8MxA/syUyP0
+         yuF1P+uSTVYVNFcBpUpBYsn9GLpHk2DHs+m3tSbgcnFnjnIPLRfgcsQ6xOMibETPoaEh
+         923ZwxHeLVJGpcpJ7Az7/OZabduOula9Gy5+BLsFAVRzU9Sz3eZZhtCqMcvPmGVqa6mW
+         3ISEeLddTYfO8Ew9MDQFDhY/VoDrpqolc/av49fzDop2xx0NTxlBJ8gLSHW3HCHLzSQi
+         oPSkZ96Ajs9Q+AFISjKQwwSWVT/DZfrmDH7mUPYTrroKWo0lHn9geHtp6vU6AvkTWN4o
+         t2NQ==
+X-Gm-Message-State: AOAM531EjX5umzfRg4y8s2lOjvN6cH2ZBW+1hJl5QvbjxFV1WpJ85/la
+	RW8hR4rwsUfvOn9CDRy7krc7gJQN13M=
+X-Google-Smtp-Source: ABdhPJw5mtXNgAu3Xen12QSCp2XpNiIljxYskSDSscf6O0YmXGYEaGs2B3PteQmL/bt1S6PPS/rLww==
+X-Received: by 2002:a50:d80d:: with SMTP id o13mr9511244edj.204.1632853984029;
+        Tue, 28 Sep 2021 11:33:04 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8010:64ea:0:fad1:11ff:fead:57db])
+        by smtp.gmail.com with ESMTPSA id l8sm10903897ejn.103.2021.09.28.11.33.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Sep 2021 11:32:34 -0700 (PDT)
-Date: Tue, 28 Sep 2021 21:32:32 +0300
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] fs/ntfs3: Forbid FALLOC_FL_PUNCH_HOLE for normal files
-Message-ID: <20210928183232.qi63jh2feknm3e7t@kari-VirtualBox>
-References: <fad6f129-c53f-d751-be43-c403b1031449@paragon-software.com>
+        Tue, 28 Sep 2021 11:33:03 -0700 (PDT)
+Sender: Mark Harmstone <mark.harmstone@gmail.com>
+From: Mark Harmstone <mark@harmstone.com>
+To: ntfs3@lists.linux.dev
+Cc: Mark Harmstone <mark@harmstone.com>
+Subject: [PATCH] fs/ntfs3: Fix logic in ntfs_cmp_names_cpu
+Date: Tue, 28 Sep 2021 19:33:00 +0100
+Message-Id: <20210928183300.12946-1-mark@harmstone.com>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fad6f129-c53f-d751-be43-c403b1031449@paragon-software.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 28, 2021 at 08:25:58PM +0300, Konstantin Komarov wrote:
-> FALLOC_FL_PUNCH_HOLE isn't allowed with normal files.
+I'm not quite sure what was intended by the logic in ntfs_cmp_names_cpu,
+but it was broken when comparing case-insensitively. If the strings
+matched but differ in case, diff1 would be non-zero, meaning that the
+function would always return a non-zero value.
 
-But is this absolute or just for now it can't? In my mind this can be
-done, but you are expert here. Please write about it here. This will
-help who ever will implement this in future. Example why ntfs_zero_range
-did not punch a hole for normal file. You did actually implement that
-function for this purpose right?
+Signed-off-by: Mark Harmstone <mark@harmstone.com>
+---
+ fs/ntfs3/upcase.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-> Fixes xfstest generic/016 021 022
+diff --git a/fs/ntfs3/upcase.c b/fs/ntfs3/upcase.c
+index b5e8256fd710..dd28c2133a4c 100644
+--- a/fs/ntfs3/upcase.c
++++ b/fs/ntfs3/upcase.c
+@@ -74,31 +74,29 @@ int ntfs_cmp_names_cpu(const struct cpu_str *uni1, const struct le_str *uni2,
+ 	size_t l1 = uni1->len;
+ 	size_t l2 = uni2->len;
+ 	size_t len = min(l1, l2);
+-	int diff1 = 0;
+-	int diff2;
++	int diff;
+ 
+ 	if (!bothcase && upcase)
+ 		goto case_insentive;
+ 
+ 	for (; len; s1++, s2++, len--) {
+-		diff1 = *s1 - le16_to_cpu(*s2);
+-		if (diff1) {
++		diff = *s1 - le16_to_cpu(*s2);
++		if (diff) {
+ 			if (bothcase && upcase)
+ 				goto case_insentive;
+ 
+-			return diff1;
++			return diff;
+ 		}
+ 	}
+ 	return l1 - l2;
+ 
+ case_insentive:
+ 	for (; len; s1++, s2++, len--) {
+-		diff2 = upcase_unicode_char(upcase, *s1) -
++		diff = upcase_unicode_char(upcase, *s1) -
+ 			upcase_unicode_char(upcase, le16_to_cpu(*s2));
+-		if (diff2)
+-			return diff2;
++		if (diff)
++			return diff;
+ 	}
+ 
+-	diff2 = l1 - l2;
+-	return diff2 ? diff2 : diff1;
++	return l1 - l2;
+ }
+-- 
+2.31.1
 
-Lot of grepping is done with these so use full format generic/xxx with
-each of these.
-
-Also this affects also to these, but I did not look if there is other
-problems than punching.
-
-  generic/012
-  generic/177
-  generic/255
-  generic/316
-
-
-Add fixes tag here.
-> Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-
-> ---
->  fs/ntfs3/file.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-> index 5fb3508e5422..02ca665baa5f 100644
-> --- a/fs/ntfs3/file.c
-> +++ b/fs/ntfs3/file.c
-> @@ -587,8 +587,8 @@ static long ntfs_fallocate(struct file *file, int mode, loff_t vbo, loff_t len)
->  		truncate_pagecache(inode, vbo_down);
->  
->  		if (!is_sparsed(ni) && !is_compressed(ni)) {
-> -			/* Normal file. */
-> -			err = ntfs_zero_range(inode, vbo, end);
-> +			/* Normal file, can't make hole. */
-
-If this is just for now plese write example
-			/* TODO: Can't make hole to normal files yet. */
-
-> +			err = -EOPNOTSUPP;
->  			goto out;
->  		}
->  
-> -- 
-> 2.33.0
-> 
