@@ -1,47 +1,47 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E772FAF
-	for <ntfs3@lists.linux.dev>; Tue, 28 Sep 2021 19:11:52 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id z24so278808lfu.13
-        for <ntfs3@lists.linux.dev>; Tue, 28 Sep 2021 12:11:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED332F80
+	for <ntfs3@lists.linux.dev>; Tue, 28 Sep 2021 22:07:22 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id u18so2043381lfd.12
+        for <ntfs3@lists.linux.dev>; Tue, 28 Sep 2021 15:07:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=PVzXGdplLjQJVdKCGryHH4oZ1fNenSGYn+YBI2SMp48=;
-        b=Xa74LXYddB+j0W1UF8TL83u2BaxuaVBFtyCtuOT72FWtlL2eGluovKMUqqkrvlnKte
-         UwIY2SENbCWvvlAhT8VQbGos0pw+QvBdioHUvcXWBgxApceKTkR4toriTpQvNtbTKSot
-         mOSJz+FiKpyZAN5e3LMS5kT08Lk2uUPiRlnGGwCRnczxV7DanszbkYyShTxT9ICJl9mY
-         xsSpxITpfVVcbHGpoTF4K/l6XJNKGnmAlTqUcBUXzOkXi+xvb0vWWbXidR3fwhK58epk
-         +SyIHXwfwEWTJPWqkYBJl4Of0vwfVRMRG1IDxTcoq+BjLEF9eLhmv0G9cPNtGJbwSarx
-         4nXg==
+        bh=nu0M98UVqY88vsCYKGIMtrGkVcnQeCcutmGcWJYHcYw=;
+        b=qnJFrjIc6ciRpxDFYfcEPFJjOIt1yOxna0RyqPuCEOOOZ3nR0c82HbL65x++e/tT1c
+         +YskyvT6zlw3DbOfhyJKytexTRm7TX3fJMNfLTZ1rxye3aWMemh1okoCjcxvbl/2s6Q1
+         33448FoNunyCdhlxsxgDpD9dsXvP6hLDLmMRO3UEC4IYlmPrrrDDXJCbNNPr/T1SF2eI
+         knXgbxzg139ncvpvxNNkQxHX07WruDxE5TCl89TPtww8uDxArbeEX2ZYFHQp1PagJIQL
+         o7IIy7DmaAuiLMtu51lGGQBDEE9l6COLN2hEd7v4OnaAK4DxgCsZDmwdzXXmnJxowyYE
+         0hAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=PVzXGdplLjQJVdKCGryHH4oZ1fNenSGYn+YBI2SMp48=;
-        b=cmC0rOqZUf2F6je2Mhyazh1ACTFD/0XXdlyJrBKS487CNFbsQUQsP2HVI1RMP7oKws
-         2Bm++vWhdydwc4iWIGTjZSS3dgg1mTL+tWoXZfcGlGbJ1fDisph+knkadkzyNdNtrFuB
-         1vBK/EXUXziwMQsxbnljn8oA0MDUoIvWf0cdeXNFynXzKgiM98hnnOmzfxk5TtEmB4jn
-         ipshqAVrxtwNEhqwGEepMPlDKXWTpI+BM1U4s1N86eCscpihE6v70vYWvquy0Nn58vrT
-         8Kp2vJbjYqLER9qLKPkL/GRo8R/RJaOq7pmv2IhQegszSc3Qg1grPBt69mm5oKINt2PJ
-         MfsA==
-X-Gm-Message-State: AOAM531GvFmbJ74kWAOtiTzMP5+8Hr552O7St+GdkoK2zildI1qhUdP4
-	ut0Dtn2nr5p2sAI6gVsdD+Kz1I3fr2Q=
-X-Google-Smtp-Source: ABdhPJwDFQS1IINAAfXexqZJV2c9P9nGjQqJhHLP4tS5PsHXJaaFDOqWe2sdFNRexX6ASWDqTfXj5g==
-X-Received: by 2002:a2e:140e:: with SMTP id u14mr1648273ljd.26.1632856310691;
-        Tue, 28 Sep 2021 12:11:50 -0700 (PDT)
+        bh=nu0M98UVqY88vsCYKGIMtrGkVcnQeCcutmGcWJYHcYw=;
+        b=gvsmKjEgZM1b5cOWC6fK5AaHTnKEtd/PdZfh/1PW3MpTQHX9PTPvSd48d6w8/DOUs6
+         HluUyOQZttEjf9/pqsaR9fviUks2glMvICvIRghrUcjp5GHb1cDbUCiM4zOoGPzDcpEz
+         meNpKUC7TAAF/DJNNQMjjhb4/Bs3mjtFfig6+IhpVg2nj7Am86qjpPUvg9foMzhc4ExX
+         XNnTSyj+o5kpmUEoMtSjjsXVpo18Dz895QJ1/YZipMjMpGFRl8Fcin/WYjpz7tJrGQCW
+         R8R5TmlkAaNQiyXoKgLICfXusNJpRagL/ZUJk6aZepNY1KyiT1bqHt1UKVENBRqXgI+8
+         Ioag==
+X-Gm-Message-State: AOAM532SBpYMVTb5RCU85D5u+VUKPcjDGY5y9izvSgitU+hW/5/Kj+6F
+	E3OqHtfGGYmhbfPy74v9oaM=
+X-Google-Smtp-Source: ABdhPJypqpd7HPYxMfN1gg3KcISmSFh8tkYidRfDc3KWb3iqWMvkhCX5LPTcpSNaJrr4uC95u4u+DA==
+X-Received: by 2002:a2e:5c88:: with SMTP id q130mr2444278ljb.170.1632866840453;
+        Tue, 28 Sep 2021 15:07:20 -0700 (PDT)
 Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id f9sm2002012lfc.189.2021.09.28.12.11.49
+        by smtp.gmail.com with ESMTPSA id w26sm44272ljo.33.2021.09.28.15.07.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Sep 2021 12:11:50 -0700 (PDT)
-Date: Tue, 28 Sep 2021 22:11:48 +0300
+        Tue, 28 Sep 2021 15:07:19 -0700 (PDT)
+Date: Wed, 29 Sep 2021 01:07:18 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Mark Harmstone <mark@harmstone.com>
 Cc: ntfs3@lists.linux.dev
 Subject: Re: [PATCH] fs/ntfs3: Fix logic in ntfs_cmp_names_cpu
-Message-ID: <20210928191148.dazawymnmd6rjutg@kari-VirtualBox>
+Message-ID: <20210928220718.fk2g7itrgmyxooql@kari-VirtualBox>
 References: <20210928183300.12946-1-mark@harmstone.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -59,16 +59,21 @@ On Tue, Sep 28, 2021 at 07:33:00PM +0100, Mark Harmstone wrote:
 > matched but differ in case, diff1 would be non-zero, meaning that the
 > function would always return a non-zero value.
 
-Original idea can be found in here [1]. So recap. If we need first check
-lower case and then upcase we can actually do this in just one time. We
-first find first mismatch. Then we in that point on try to find if we
-find another mismatch when upcasing. This way only one compare round is
-needed in worst case.
+So I have checked this now. Yes function will always return non-zero
+value if we use bothcase and this is intended behavier. But if 
+bothcase is false and upcase is not NULL then function can return zero
+value.
 
-I will look this patch more closly soon.
+Do you have some problems? There could be that in some place this or
+other cmp function is called with wrong parameters. Example with
+bothcase true when only case_insentive is needed. 
 
-[1]: https://lore.kernel.org/all/20210103231755.bcmyalz3maq4ama2@kari-VirtualBox/
+I admit that this was not clenest way of implementing this. Maybe we
+should make bothcase enum with three values. Example CASE_SENSITIVE,
+CASE_INSENTIVE, CASE_BOTH. I do not like name BOTH so if anyone know
+any better please tell.
 
+  Argillander
 > 
 > Signed-off-by: Mark Harmstone <mark@harmstone.com>
 > ---
