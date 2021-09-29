@@ -1,24 +1,24 @@
-Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBB0173
-	for <ntfs3@lists.linux.dev>; Wed, 29 Sep 2021 16:49:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C363FC3
+	for <ntfs3@lists.linux.dev>; Wed, 29 Sep 2021 16:49:55 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 972FA82310;
-	Wed, 29 Sep 2021 19:49:08 +0300 (MSK)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E56DE439;
+	Wed, 29 Sep 2021 19:49:52 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1632934148;
-	bh=tv0XIl1MxadhTuZKMMBzRGDZkXxBOqIE3ZCVXFzUm8w=;
-	h=Date:To:CC:From:Subject;
-	b=I99jydNXa5cuV8peQvZryWiB0FnSJsTABQ+Trr5MkkVPfP6qmwvJiFoLft8SvvCUg
-	 9/lo8lKDzoinssilLTLyacR/j6Tj2/yOkomtm/A23/WPoLyJw4iu/GTHjOqSMYvrph
-	 OZJFMCdAjGJG8wePbkSoshdvYzluiFxs9d5Wf/k0=
+	d=paragon-software.com; s=mail; t=1632934192;
+	bh=AIg9rkQY3+i/Vv+sIzG4WbPk6OdyngEjF1gtfZjJ8+s=;
+	h=Date:Subject:From:To:CC:References:In-Reply-To;
+	b=AR92/WPNAWP1pd/PCqBveW5ZF9FXMmrG88Tr3SVenqkZA9mG4IPtdyGH3YrSCkA7C
+	 HUMFr2B60/UO8AEx4lP4Nz461e9jqHG5iAVwfE7gTtnqL/Dm/00d+bdQaKdetbjOhy
+	 epF2rBlP1IjeMAauapSBOEf2tgPgbOF0KiKrhIPw=
 Received: from [192.168.211.131] (192.168.211.131) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 29 Sep 2021 19:49:08 +0300
-Message-ID: <1514c7ce-9b2c-fc12-75c4-3b4cfd2639a5@paragon-software.com>
-Date: Wed, 29 Sep 2021 19:49:07 +0300
+ 15.1.2176.2; Wed, 29 Sep 2021 19:49:52 +0300
+Message-ID: <e33d2976-96fa-0870-9ec7-119f81870867@paragon-software.com>
+Date: Wed, 29 Sep 2021 19:49:51 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,37 +27,65 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.1
+Subject: [PATCH v3 1/3] fs/ntfs3: Use available posix_acl_release instead of
+ ntfs_posix_acl_release
 Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
 CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
 	<kari.argillander@gmail.com>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH v3 0/3] fs/ntfs3: Refactoring of xattr.c
+References: <1514c7ce-9b2c-fc12-75c4-3b4cfd2639a5@paragon-software.com>
+In-Reply-To: <1514c7ce-9b2c-fc12-75c4-3b4cfd2639a5@paragon-software.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [192.168.211.131]
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Removed function, that already have been in kernel.
-Changed locking policy to fix some potential bugs.
-Changed code for readability.
+We don't need to maintain ntfs_posix_acl_release.
 
-v3:
-  added todo in ntfs_save_wsl_perm function.
+Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+---
+ fs/ntfs3/xattr.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-v2:
-  fixed typo.
-
-Konstantin Komarov (3):
-  fs/ntfs3: Use available posix_acl_release instead of
-    ntfs_posix_acl_release
-  fs/ntfs3: Remove locked argument in ntfs_set_ea
-  fs/ntfs3: Refactoring of ntfs_set_ea
-
- fs/ntfs3/xattr.c | 70 +++++++++++++++++++++++-------------------------
- 1 file changed, 33 insertions(+), 37 deletions(-)
-
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index 83bbee277e12..253a07d9aa7b 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -475,12 +475,6 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+ }
+ 
+ #ifdef CONFIG_NTFS3_FS_POSIX_ACL
+-static inline void ntfs_posix_acl_release(struct posix_acl *acl)
+-{
+-	if (acl && refcount_dec_and_test(&acl->a_refcount))
+-		kfree(acl);
+-}
+-
+ static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
+ 					 struct inode *inode, int type,
+ 					 int locked)
+@@ -641,7 +635,7 @@ static int ntfs_xattr_get_acl(struct user_namespace *mnt_userns,
+ 		return -ENODATA;
+ 
+ 	err = posix_acl_to_xattr(mnt_userns, acl, buffer, size);
+-	ntfs_posix_acl_release(acl);
++	posix_acl_release(acl);
+ 
+ 	return err;
+ }
+@@ -678,7 +672,7 @@ static int ntfs_xattr_set_acl(struct user_namespace *mnt_userns,
+ 	err = ntfs_set_acl(mnt_userns, inode, acl, type);
+ 
+ release_and_out:
+-	ntfs_posix_acl_release(acl);
++	posix_acl_release(acl);
+ 	return err;
+ }
+ 
 -- 
 2.33.0
+
 
