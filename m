@@ -1,24 +1,24 @@
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CB92C86
-	for <ntfs3@lists.linux.dev>; Tue,  5 Oct 2021 15:55:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB182C89
+	for <ntfs3@lists.linux.dev>; Tue,  5 Oct 2021 16:43:33 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 2CFE31D39;
-	Tue,  5 Oct 2021 18:55:45 +0300 (MSK)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 158531D3B;
+	Tue,  5 Oct 2021 19:43:31 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1633449345;
-	bh=/gfbbuiOSNq4drucxDzOCK9oky1obIbH1XZM3jxuHik=;
+	d=paragon-software.com; s=mail; t=1633452211;
+	bh=4SlxtbDubO4N9p0GVXOUXPd4mZzR8LaYmU53E74TNIU=;
 	h=Date:To:CC:From:Subject;
-	b=HBH7eNdTjDZv8pLrprVHBehsFzRcgCAIq2knQDb9nYWFPAvAgLDibbWj/nkpT1Xpe
-	 sHaUwTK+kKe8fYgIZd2xpr1Q0Mtq/oJrV2ZmZwYUIjOYRTkjQuePuGLJO0r5lHoTYC
-	 TAiXAagdd2F8GTv3fSjXZO3uCW4qyYvaemvHFjj0=
+	b=PMwhkxL3MzQ53EEWM5lt9YyZYfaXSwAxsqB11nxTrDsiiUh6atG5QwMSYNLbodFp3
+	 LmA5IDcBNZzApAPM+G+6nVQyjIbuk0j+PyTugHMangT286JlwvBqykTrHUEx1EkAr8
+	 9D2CgDjP1NeDhRbJoGVyZEXySp8K91EySL7//TRY=
 Received: from [192.168.211.181] (192.168.211.181) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 5 Oct 2021 18:55:44 +0300
-Message-ID: <bb2782a2-d6af-ef7e-2e35-3b1d87a11ff7@paragon-software.com>
-Date: Tue, 5 Oct 2021 18:55:44 +0300
+ 15.1.2176.2; Tue, 5 Oct 2021 19:43:30 +0300
+Message-ID: <98a166e4-f894-8bff-9479-05ef5435f1ed@paragon-software.com>
+Date: Tue, 5 Oct 2021 19:43:30 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -29,59 +29,36 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.2
 Content-Language: en-US
 To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<kari.argillander@gmail.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH v2] fs/ntfs3: Keep prealloc for all types of files
+Subject: [PATCH 0/5] fs/ntfs3: Reworking symlink functions
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [192.168.211.181]
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Before we haven't kept prealloc for sparse files because we thought that
-it will speed up create / write operations.
-It lead to situation, when user reserved some space for sparse file,
-filled volume, and wasn't able to write in reserved file.
-With this commit we keep prealloc.
-Now xfstest generic/274 pass.
-Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
+If length of symlink > 255, then we tried to convert
+length of symlink +- some random number.
+So main theme is removing 255 symbols limit in ntfs_utf16_to_nls.
+Other bug - we haven't always returned correct size of symlink,
+so we save it now in ntfs_create_inode.
+Many commits affected, so no fixes tag.
+This series fixes xfstest generic/423.
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
----
-v2:
-  Expanded commit message.
+Konstantin Komarov (5):
+  fs/ntfs3: Rework ntfs_utf16_to_nls
+  fs/ntfs3: Refactor ntfs_readlink_hlp
+  fs/ntfs3: Refactor ntfs_create_inode
+  fs/ntfs3: Refactor ni_parse_reparse
+  fs/ntfs3: Refactor ntfs_read_mft
 
- fs/ntfs3/attrib.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ fs/ntfs3/dir.c     |  19 +++----
+ fs/ntfs3/frecord.c |   9 ++--
+ fs/ntfs3/inode.c   | 124 +++++++++++++++++++++------------------------
+ fs/ntfs3/ntfs_fs.h |   4 +-
+ 4 files changed, 74 insertions(+), 82 deletions(-)
 
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index 8a00fa978f5f..e8c00dda42ad 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -447,11 +447,8 @@ int attr_set_size(struct ntfs_inode *ni, enum ATTR_TYPE type,
- again_1:
- 	align = sbi->cluster_size;
- 
--	if (is_ext) {
-+	if (is_ext)
- 		align <<= attr_b->nres.c_unit;
--		if (is_attr_sparsed(attr_b))
--			keep_prealloc = false;
--	}
- 
- 	old_valid = le64_to_cpu(attr_b->nres.valid_size);
- 	old_size = le64_to_cpu(attr_b->nres.data_size);
-@@ -461,9 +458,6 @@ int attr_set_size(struct ntfs_inode *ni, enum ATTR_TYPE type,
- 	new_alloc = (new_size + align - 1) & ~(u64)(align - 1);
- 	new_alen = new_alloc >> cluster_bits;
- 
--	if (keep_prealloc && is_ext)
--		keep_prealloc = false;
--
- 	if (keep_prealloc && new_size < old_size) {
- 		attr_b->nres.data_size = cpu_to_le64(new_size);
- 		mi_b->dirty = true;
 -- 
 2.33.0
 
