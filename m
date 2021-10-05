@@ -1,24 +1,24 @@
-Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA102C89
-	for <ntfs3@lists.linux.dev>; Tue,  5 Oct 2021 16:47:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D330D2C89
+	for <ntfs3@lists.linux.dev>; Tue,  5 Oct 2021 16:48:15 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id B382D81FEE;
-	Tue,  5 Oct 2021 19:47:52 +0300 (MSK)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id D06F01D3B;
+	Tue,  5 Oct 2021 19:48:13 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1633452472;
-	bh=quBU1mR1RrqkwyVnquG48EtBwZjzQ1thh2lG+82YiH0=;
+	d=paragon-software.com; s=mail; t=1633452493;
+	bh=YuskuQuAgZsOqG0YgqLVC+7Kcm0wSnwnkm4o59cUwKY=;
 	h=Date:Subject:From:To:CC:References:In-Reply-To;
-	b=XpJ7aZ2WLz9rvu4Ut+a7ng6nhJ26TDt2nosis2qux4cZJh5BN0JKC94JrVNsbe1th
-	 ypJRC0qH9CTqLqlYBDUc5l1YoQ8ylR8LWGOJ/QslkddNs45ZD6y0hN2/II2pFX0mhl
-	 DZLRsoiiwcbCCJBm52PDbRYIi9GF2bvRaL30ZGlg=
+	b=SZ8XrpNBmCFHkO9W4bNRP7bYOkUVfJ9pJzl3mYijVoejGQExvwMYCuc2Yn/hgpYL7
+	 fN4I37AC16I1AcTkBeAi9h2DSY2lR8k9EojxVLv7vpvD98v5soc4Pdp21GdGmJKPf5
+	 Ndk41kjOYTmPZi3w+2lNgDcajefr2+Mo7rRutdbc=
 Received: from [192.168.211.181] (192.168.211.181) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 5 Oct 2021 19:47:52 +0300
-Message-ID: <2dc232a1-effd-0c06-6b6a-7e4019bb9ace@paragon-software.com>
-Date: Tue, 5 Oct 2021 19:47:51 +0300
+ 15.1.2176.2; Tue, 5 Oct 2021 19:48:13 +0300
+Message-ID: <4446f0e7-4b15-2e51-a752-e07e95a6da24@paragon-software.com>
+Date: Tue, 5 Oct 2021 19:48:12 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,7 +27,7 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.2
-Subject: [PATCH 3/5] fs/ntfs3: Refactor ntfs_create_inode
+Subject: [PATCH 4/5] fs/ntfs3: Refactor ni_parse_reparse
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
@@ -40,55 +40,63 @@ X-Originating-IP: [192.168.211.181]
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Set size for symlink, so we don't need to calculate it on the fly.
+Change argument from void* to struct REPARSE_DATA_BUFFER*
+We copy data to buffer, so we can read it later in ntfs_read_mft.
 
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
- fs/ntfs3/inode.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ fs/ntfs3/frecord.c | 9 +++++----
+ fs/ntfs3/ntfs_fs.h | 2 +-
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index d618b0573533..bdebbbd53e76 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -1488,7 +1488,10 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
- 		asize = ALIGN(SIZEOF_RESIDENT + nsize, 8);
- 		t16 = PtrOffset(rec, attr);
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 007602badd90..ecb965e4afd0 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -1710,18 +1710,16 @@ int ni_new_attr_flags(struct ntfs_inode *ni, enum FILE_ATTRIBUTE new_fa)
+ /*
+  * ni_parse_reparse
+  *
+- * Buffer is at least 24 bytes.
++ * buffer - memory for reparse buffer header
+  */
+ enum REPARSE_SIGN ni_parse_reparse(struct ntfs_inode *ni, struct ATTRIB *attr,
+-				   void *buffer)
++				   struct REPARSE_DATA_BUFFER *buffer)
+ {
+ 	const struct REPARSE_DATA_BUFFER *rp = NULL;
+ 	u8 bits;
+ 	u16 len;
+ 	typeof(rp->CompressReparseBuffer) *cmpr;
  
--		/* 0x78 - the size of EA + EAINFO to store WSL */
-+		/*
-+		 * Below function 'ntfs_save_wsl_perm' requires 0x78 bytes.
-+		 * It is good idea to keep extened attributes resident.
-+		 */
- 		if (asize + t16 + 0x78 + 8 > sbi->record_size) {
- 			CLST alen;
- 			CLST clst = bytes_to_cluster(sbi, nsize);
-@@ -1523,14 +1526,14 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
- 			}
+-	static_assert(sizeof(struct REPARSE_DATA_BUFFER) <= 24);
+-
+ 	/* Try to estimate reparse point. */
+ 	if (!attr->non_res) {
+ 		rp = resident_data_ex(attr, sizeof(struct REPARSE_DATA_BUFFER));
+@@ -1807,6 +1805,9 @@ enum REPARSE_SIGN ni_parse_reparse(struct ntfs_inode *ni, struct ATTRIB *attr,
+ 		return REPARSE_NONE;
+ 	}
  
- 			asize = SIZEOF_NONRESIDENT + ALIGN(err, 8);
--			inode->i_size = nsize;
- 		} else {
- 			attr->res.data_off = SIZEOF_RESIDENT_LE;
- 			attr->res.data_size = cpu_to_le32(nsize);
- 			memcpy(Add2Ptr(attr, SIZEOF_RESIDENT), rp, nsize);
--			inode->i_size = nsize;
- 			nsize = 0;
- 		}
-+		/* Size of symlink equals the length of input string. */
-+		inode->i_size = size;
- 
- 		attr->size = cpu_to_le32(asize);
- 
-@@ -1567,6 +1570,8 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
- 		inode->i_op = &ntfs_link_inode_operations;
- 		inode->i_fop = NULL;
- 		inode->i_mapping->a_ops = &ntfs_aops;
-+		inode->i_size = size;
-+		inode_nohighmem(inode);
- 	} else if (S_ISREG(mode)) {
- 		inode->i_op = &ntfs_file_inode_operations;
- 		inode->i_fop = &ntfs_file_operations;
++	if (buffer != rp)
++		memcpy(buffer, rp, sizeof(struct REPARSE_DATA_BUFFER));
++
+ 	/* Looks like normal symlink. */
+ 	return REPARSE_LINK;
+ }
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 9277b552f257..e95d93c683ed 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -547,7 +547,7 @@ struct ATTR_FILE_NAME *ni_fname_type(struct ntfs_inode *ni, u8 name_type,
+ 				     struct ATTR_LIST_ENTRY **entry);
+ int ni_new_attr_flags(struct ntfs_inode *ni, enum FILE_ATTRIBUTE new_fa);
+ enum REPARSE_SIGN ni_parse_reparse(struct ntfs_inode *ni, struct ATTRIB *attr,
+-				   void *buffer);
++				   struct REPARSE_DATA_BUFFER *buffer);
+ int ni_write_inode(struct inode *inode, int sync, const char *hint);
+ #define _ni_write_inode(i, w) ni_write_inode(i, w, __func__)
+ int ni_fiemap(struct ntfs_inode *ni, struct fiemap_extent_info *fieinfo,
 -- 
 2.33.0
 
