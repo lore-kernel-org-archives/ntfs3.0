@@ -1,24 +1,24 @@
 Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF752C89
-	for <ntfs3@lists.linux.dev>; Tue,  5 Oct 2021 16:48:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780152C86
+	for <ntfs3@lists.linux.dev>; Wed,  6 Oct 2021 14:37:08 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id A5F4681FEE;
-	Tue,  5 Oct 2021 19:48:30 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 32FCC820BB;
+	Wed,  6 Oct 2021 17:37:06 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1633452510;
-	bh=Zre4cSfIxDvE43kuIW5Oeh8hW2AAvbtXh8IQ7/+ZDcs=;
-	h=Date:Subject:From:To:CC:References:In-Reply-To;
-	b=UYuie3A7wmuGhbI41tthfPTda1G616JH5ZT6R5rpmokX9evrCztGcEtqNOPcMrN2a
-	 hZlhVFA0ZVtO4qXxifBW5OGdGbpYQVjUwTRwO94WrNCy0KN+LxFwcftvaTkCImExaO
-	 4rUG+gweNN+FY5z/PEoNfOYpOf66LTrzxKeXEdS0=
-Received: from [192.168.211.181] (192.168.211.181) by
+	d=paragon-software.com; s=mail; t=1633531026;
+	bh=K4ZQchUzlnGR3B+6vfzh80aY4MDzOWiUIXba3jxV5lE=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=FuZrwLceF8iXbfAdRHwoINWlXtjGK4CO48rfKAPH/nDY7IO0cAgiuWQSj+EUYyPTH
+	 0GkvF7w8MvSMNO6t6pubgTESfvv7odAqVcnJzPvFJRCgxbPsLUO6whJrHdDtLbBbX1
+	 HGTn+PVGfKECwRPUXRGd2uLl3/Aoh/QemtwLatCU=
+Received: from [192.168.211.53] (192.168.211.53) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 5 Oct 2021 19:48:30 +0300
-Message-ID: <0310433c-d9dc-da5b-f642-2ad4298a8918@paragon-software.com>
-Date: Tue, 5 Oct 2021 19:48:29 +0300
+ 15.1.2176.2; Wed, 6 Oct 2021 17:37:05 +0300
+Message-ID: <7590c4b0-7e44-ebed-9029-38fb59880c7b@paragon-software.com>
+Date: Wed, 6 Oct 2021 17:37:05 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,77 +27,52 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.2
-Subject: [PATCH 5/5] fs/ntfs3: Refactor ntfs_read_mft
+Subject: Re: [PATCH] fs/ntfs3: Fix logic in ntfs_cmp_names_cpu
 Content-Language: en-US
+To: Mark Harmstone <mark@harmstone.com>, Kari Argillander
+	<kari.argillander@gmail.com>
+CC: <ntfs3@lists.linux.dev>
+References: <20210928183300.12946-1-mark@harmstone.com>
+ <20210928220718.fk2g7itrgmyxooql@kari-VirtualBox>
+ <261705dd-64b2-32e0-e8d6-3be9fa202f0b@harmstone.com>
+ <95b14c81-05e8-63ac-5f1e-7dc0c66cdcd5@harmstone.com>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-References: <98a166e4-f894-8bff-9479-05ef5435f1ed@paragon-software.com>
-In-Reply-To: <98a166e4-f894-8bff-9479-05ef5435f1ed@paragon-software.com>
+In-Reply-To: <95b14c81-05e8-63ac-5f1e-7dc0c66cdcd5@harmstone.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.181]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+X-Originating-IP: [192.168.211.53]
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-[PATCH 5/5] fs/ntfs3: Refactor ntfs_read_mft
-
-Don't save size of attribute reparse point as size of symlink.
-
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
----
- fs/ntfs3/inode.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
-
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index bdebbbd53e76..859951d785cb 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -222,9 +222,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
- 		if (!attr->non_res) {
- 			ni->i_valid = inode->i_size = rsize;
- 			inode_set_bytes(inode, rsize);
--			t32 = asize;
--		} else {
--			t32 = le16_to_cpu(attr->nres.run_off);
- 		}
- 
- 		mode = S_IFREG | (0777 & sbi->options->fs_fmask_inv);
-@@ -313,17 +310,14 @@ static struct inode *ntfs_read_mft(struct inode *inode,
- 		rp_fa = ni_parse_reparse(ni, attr, &rp);
- 		switch (rp_fa) {
- 		case REPARSE_LINK:
--			if (!attr->non_res) {
--				inode->i_size = rsize;
--				inode_set_bytes(inode, rsize);
--				t32 = asize;
--			} else {
--				inode->i_size =
--					le64_to_cpu(attr->nres.data_size);
--				t32 = le16_to_cpu(attr->nres.run_off);
--			}
-+			/*
-+			 * Normal symlink.
-+			 * Assume one unicode symbol == one utf8.
-+			 */
-+			inode->i_size = le16_to_cpu(rp.SymbolicLinkReparseBuffer
-+							    .PrintNameLength) /
-+					sizeof(u16);
- 
--			/* Looks like normal symlink. */
- 			ni->i_valid = inode->i_size;
- 
- 			/* Clear directory bit. */
-@@ -420,7 +414,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
- 		ni->std_fa &= ~FILE_ATTRIBUTE_DIRECTORY;
- 		inode->i_op = &ntfs_link_inode_operations;
- 		inode->i_fop = NULL;
--		inode_nohighmem(inode); // ??
-+		inode_nohighmem(inode);
- 	} else if (S_ISREG(mode)) {
- 		ni->std_fa &= ~FILE_ATTRIBUTE_DIRECTORY;
- 		inode->i_op = &ntfs_file_inode_operations;
--- 
-2.33.0
 
 
+On 04.10.2021 21:25, Mark Harmstone wrote:
+> Kari, Konstantin, what's your conclusion on this? Do you agree that
+> case-insensitivity is broken at present, or is there something screwy
+> going on with my set-up?
+> 
+> Mark
+
+
+Hello.
+
+Right now we can create two files "File" and "file" on ntfs3.
+If we won't force case sensitivity, then it will become one and same file.
+The same behavior you can see in
+CreateFileA function with FILE_FLAG_POSIX_SEMANTICS [1]
+or in NtSetInformationFile function with FileCaseSensitiveInformation [2].
+So it's expected for `ls WINDOWS` to fail.
+
+Should ntfs3 be the exact copy of windows api or not?
+(ntfs.sys is case sensitive).
+Should ntfs3 work with `ls WINDOWS`?
+As I see, Microsoft makes steps towards case sensitivity.
+
+There is indeed some dubious code with ntfs_cmp_names_cpu / ntfs_cmp_names.
+We must always compare filenames with bothcase == true.
+There will be patch to fix this situation.
+
+Thanks for telling about this problem.
+
+[1]: https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilea
+[2]: https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-ntsetinformationfile
