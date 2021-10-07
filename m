@@ -1,24 +1,24 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6422E2C81
-	for <ntfs3@lists.linux.dev>; Thu,  7 Oct 2021 14:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19E52C81
+	for <ntfs3@lists.linux.dev>; Thu,  7 Oct 2021 15:38:03 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id C26FA1E00;
-	Thu,  7 Oct 2021 17:33:32 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id 4DC59808DD;
+	Thu,  7 Oct 2021 18:37:56 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1633617212;
-	bh=vsX6icmv6TXycar9IX1Waq8BmgTCuk5oO8nNAGvl0X8=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=KZjSocfnhejR0hjuFU5FsoLJPbVo7ps3FQF2c2VD5XcAkM1WXcozqW3iaoBy1XLMd
-	 oPyAVEMUZSt6X29evJvkeo20suMuMkCLlXVfoWia96XQK95zwYDrqZfuLYXXcKs8sD
-	 32JspJfq4ksF0VKKD+QQNtxwQzZy7tMx4sKI9WsE=
+	d=paragon-software.com; s=mail; t=1633621076;
+	bh=onWB3Za1LakJhYJnlNQYet5LYke85q/oBbAW+MzRXy4=;
+	h=Date:To:CC:From:Subject;
+	b=QVAc9ANQ3OamfaApzFGi8m3C5Qv/NHUUKJPV0kUaZQAybSW1K22k0M4DYiqcbb37e
+	 u1KfQrQLyg4w9Z0FwAG9t9/f9u0hS4Z+Y5ZmMYyZoq+61rbpbIyRLHk8YcxrfOyp3r
+	 EZz3qwxu2hJsdAeBWyuL+6YUortVOP+ATxPJXz8M=
 Received: from [192.168.211.112] (192.168.211.112) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 7 Oct 2021 17:33:32 +0300
-Message-ID: <14130f55-f61f-fb39-c653-02b4dd39bc6b@paragon-software.com>
-Date: Thu, 7 Oct 2021 17:33:31 +0300
+ 15.1.2176.2; Thu, 7 Oct 2021 18:37:55 +0300
+Message-ID: <45f2af05-9f5c-bf56-aa91-47d8b0055f5b@paragon-software.com>
+Date: Thu, 7 Oct 2021 18:37:55 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,107 +27,220 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.2
-Subject: Re: [PATCH] fs/ntfs3: Fix logic in ntfs_cmp_names_cpu
 Content-Language: en-US
-To: Mark Harmstone <mark@harmstone.com>, Kari Argillander
-	<kari.argillander@gmail.com>
-CC: <ntfs3@lists.linux.dev>
-References: <20210928183300.12946-1-mark@harmstone.com>
- <20210928220718.fk2g7itrgmyxooql@kari-VirtualBox>
- <261705dd-64b2-32e0-e8d6-3be9fa202f0b@harmstone.com>
- <95b14c81-05e8-63ac-5f1e-7dc0c66cdcd5@harmstone.com>
- <7590c4b0-7e44-ebed-9029-38fb59880c7b@paragon-software.com>
- <057f9a4f-a836-a0f9-02a1-c77519163375@harmstone.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<mark@harmstone.com>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <057f9a4f-a836-a0f9-02a1-c77519163375@harmstone.com>
+Subject: [PATCH] fs/ntfs3: Remove bothcase variable
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [192.168.211.112]
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
+bothcase == true when upcase != NULL
+bothcase == false when upcase == NULL
+We don't need to have second variable, that is a copy of upcase.
 
+Suggested-by: Mark Harmstone <mark@harmstone.com>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+---
+ fs/ntfs3/attrlist.c |  8 +++-----
+ fs/ntfs3/frecord.c  |  3 +--
+ fs/ntfs3/index.c    |  6 ++----
+ fs/ntfs3/inode.c    |  2 +-
+ fs/ntfs3/ntfs_fs.h  |  4 ++--
+ fs/ntfs3/record.c   |  2 +-
+ fs/ntfs3/upcase.c   | 18 ++++++------------
+ 7 files changed, 16 insertions(+), 27 deletions(-)
 
-On 06.10.2021 20:03, Mark Harmstone wrote:
-> On 6/10/21 15:37, Konstantin Komarov wrote:
->> So it's expected for `ls WINDOWS` to fail.
-> 
-> I'm confused. If this deliberate, why does cmp_fnames pass the upcase pointer
-> to ntfs_cmp_names_cpu? Or for that matter, why do you bother loading the
-> upcase block at all?
-> 
+diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
+index bad6d8a849a2..1a31ef4ed92b 100644
+--- a/fs/ntfs3/attrlist.c
++++ b/fs/ntfs3/attrlist.c
+@@ -194,8 +194,7 @@ struct ATTR_LIST_ENTRY *al_find_ex(struct ntfs_inode *ni,
+ 			 * Compare entry names only for entry with vcn == 0.
+ 			 */
+ 			diff = ntfs_cmp_names(le_name(le), name_len, name,
+-					      name_len, ni->mi.sbi->upcase,
+-					      true);
++					      name_len, ni->mi.sbi->upcase);
+ 			if (diff < 0)
+ 				continue;
+ 
+@@ -246,8 +245,7 @@ static struct ATTR_LIST_ENTRY *al_find_le_to_insert(struct ntfs_inode *ni,
+ 			 * Compare entry names only for entry with vcn == 0.
+ 			 */
+ 			diff = ntfs_cmp_names(le_name(le), le->name_len, name,
+-					      name_len, ni->mi.sbi->upcase,
+-					      true);
++					      name_len, ni->mi.sbi->upcase);
+ 			if (diff < 0)
+ 				continue;
+ 
+@@ -393,7 +391,7 @@ bool al_delete_le(struct ntfs_inode *ni, enum ATTR_TYPE type, CLST vcn,
+ 	if (le->name_len != name_len)
+ 		return false;
+ 	if (name_len && ntfs_cmp_names(le_name(le), name_len, name, name_len,
+-				       ni->mi.sbi->upcase, true))
++				       ni->mi.sbi->upcase))
+ 		return false;
+ 	if (le64_to_cpu(le->vcn) != vcn)
+ 		return false;
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 007602badd90..ecf982aca437 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -1589,8 +1589,7 @@ struct ATTR_FILE_NAME *ni_fname_name(struct ntfs_inode *ni,
+ 	if (uni->len != fname->name_len)
+ 		goto next;
+ 
+-	if (ntfs_cmp_names_cpu(uni, (struct le_str *)&fname->name_len, NULL,
+-			       false))
++	if (ntfs_cmp_names_cpu(uni, (struct le_str *)&fname->name_len, NULL))
+ 		goto next;
+ 
+ 	return fname;
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 6f81e3a49abf..a12f6fa0537e 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -38,7 +38,6 @@ static int cmp_fnames(const void *key1, size_t l1, const void *key2, size_t l2,
+ 	const struct ntfs_sb_info *sbi = data;
+ 	const struct ATTR_FILE_NAME *f1;
+ 	u16 fsize2;
+-	bool both_case;
+ 
+ 	if (l2 <= offsetof(struct ATTR_FILE_NAME, name))
+ 		return -1;
+@@ -47,7 +46,6 @@ static int cmp_fnames(const void *key1, size_t l1, const void *key2, size_t l2,
+ 	if (l2 < fsize2)
+ 		return -1;
+ 
+-	both_case = f2->type != FILE_NAME_DOS /*&& !sbi->options.nocase*/;
+ 	if (!l1) {
+ 		const struct le_str *s2 = (struct le_str *)&f2->name_len;
+ 
+@@ -55,12 +53,12 @@ static int cmp_fnames(const void *key1, size_t l1, const void *key2, size_t l2,
+ 		 * If names are equal (case insensitive)
+ 		 * try to compare it case sensitive.
+ 		 */
+-		return ntfs_cmp_names_cpu(key1, s2, sbi->upcase, both_case);
++		return ntfs_cmp_names_cpu(key1, s2, sbi->upcase);
+ 	}
+ 
+ 	f1 = key1;
+ 	return ntfs_cmp_names(f1->name, f1->name_len, f2->name, f2->name_len,
+-			      sbi->upcase, both_case);
++			      sbi->upcase);
+ }
+ 
+ /*
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 7dd162f6a7e2..c7014e5f941c 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -179,7 +179,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+ 		names += 1;
+ 		if (name && name->len == fname->name_len &&
+ 		    !ntfs_cmp_names_cpu(name, (struct le_str *)&fname->name_len,
+-					NULL, false))
++					NULL))
+ 			is_match = true;
+ 
+ 		goto next_attr;
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 38b7c1a9dc52..859624d0dccb 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -830,9 +830,9 @@ int ntfs_trim_fs(struct ntfs_sb_info *sbi, struct fstrim_range *range);
+ 
+ /* Globals from upcase.c */
+ int ntfs_cmp_names(const __le16 *s1, size_t l1, const __le16 *s2, size_t l2,
+-		   const u16 *upcase, bool bothcase);
++		   const u16 *upcase);
+ int ntfs_cmp_names_cpu(const struct cpu_str *uni1, const struct le_str *uni2,
+-		       const u16 *upcase, bool bothcase);
++		       const u16 *upcase);
+ 
+ /* globals from xattr.c */
+ #ifdef CONFIG_NTFS3_FS_POSIX_ACL
+diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
+index 861e35791506..6afd3c20b0d3 100644
+--- a/fs/ntfs3/record.c
++++ b/fs/ntfs3/record.c
+@@ -23,7 +23,7 @@ static inline int compare_attr(const struct ATTRIB *left, enum ATTR_TYPE type,
+ 
+ 	/* They have the same type code, so we have to compare the names. */
+ 	return ntfs_cmp_names(attr_name(left), left->name_len, name, name_len,
+-			      upcase, true);
++			      upcase);
+ }
+ 
+ /*
+diff --git a/fs/ntfs3/upcase.c b/fs/ntfs3/upcase.c
+index b5e8256fd710..c15ae0993839 100644
+--- a/fs/ntfs3/upcase.c
++++ b/fs/ntfs3/upcase.c
+@@ -24,29 +24,26 @@ static inline u16 upcase_unicode_char(const u16 *upcase, u16 chr)
+ /*
+  * ntfs_cmp_names
+  *
+- * Thanks Kari Argillander <kari.argillander@gmail.com> for idea and implementation 'bothcase'
++ * Thanks Kari Argillander <kari.argillander@gmail.com> for idea and implementation
+  *
+  * Straight way to compare names:
+  * - Case insensitive
+- * - If name equals and 'bothcases' then
++ * - If name equals and 'upcase' then
+  * - Case sensitive
+  * 'Straight way' code scans input names twice in worst case.
+  * Optimized code scans input names only once.
+  */
+ int ntfs_cmp_names(const __le16 *s1, size_t l1, const __le16 *s2, size_t l2,
+-		   const u16 *upcase, bool bothcase)
++		   const u16 *upcase)
+ {
+ 	int diff1 = 0;
+ 	int diff2;
+ 	size_t len = min(l1, l2);
+ 
+-	if (!bothcase && upcase)
+-		goto case_insentive;
+-
+ 	for (; len; s1++, s2++, len--) {
+ 		diff1 = le16_to_cpu(*s1) - le16_to_cpu(*s2);
+ 		if (diff1) {
+-			if (bothcase && upcase)
++			if (upcase)
+ 				goto case_insentive;
+ 
+ 			return diff1;
+@@ -67,7 +64,7 @@ int ntfs_cmp_names(const __le16 *s1, size_t l1, const __le16 *s2, size_t l2,
+ }
+ 
+ int ntfs_cmp_names_cpu(const struct cpu_str *uni1, const struct le_str *uni2,
+-		       const u16 *upcase, bool bothcase)
++		       const u16 *upcase)
+ {
+ 	const u16 *s1 = uni1->name;
+ 	const __le16 *s2 = uni2->name;
+@@ -77,13 +74,10 @@ int ntfs_cmp_names_cpu(const struct cpu_str *uni1, const struct le_str *uni2,
+ 	int diff1 = 0;
+ 	int diff2;
+ 
+-	if (!bothcase && upcase)
+-		goto case_insentive;
+-
+ 	for (; len; s1++, s2++, len--) {
+ 		diff1 = *s1 - le16_to_cpu(*s2);
+ 		if (diff1) {
+-			if (bothcase && upcase)
++			if (upcase)
+ 				goto case_insentive;
+ 
+ 			return diff1;
+-- 
+2.33.0
 
-As I've said, it's expected, that ntfs3 case sensitive.
-So it's expected for `ls WINDOWS` to fail.
-
-About upcase block. How ntfs_cmp_names_cpu work:
-First we compare case sensitive.
-If we found something ( diff1 ), then we go to case insensitive loop
-( that's where upcase is needed ).
-There we compare case insensitive.
-If we found something ( diff2 ), then we return it.
-If not, then we return case sensitive result ( diff1 ).
-
-Why such convoluted process?
-This is optimized way of this algorithm ( from comment to ntfs_cmp_names ):
- * Straight way to compare names:
- * - Case insensitive
- * - If name equals and 'upcase' then
- * - Case sensitive
-
->> The same behavior you can see in
->> CreateFileA function with FILE_FLAG_POSIX_SEMANTICS [1]
->> or in NtSetInformationFile function with FileCaseSensitiveInformation [2].
-> 
-> Two different things. AIUI, FILE_FLAG_POSIX_SEMANTICS passes the
-> SL_CASE_SENSITIVE flag through to the FS driver's IRP_MJ_CREATE function, doing
-> a case-sensitive lookup on what would otherwise be a normal directory. The
-> FileCaseSensitiveInformation flag is set on the inode and forces Windows 10 to
-> always do case-sensitive lookups for that directory (i.e. it's the inverse of
-> ext4's casefolding flag).
-> 
-
-Two different things from perspective of implementation.
-From perspective of user they are similar: case sensitive lookup.
-
-> This issue came to my attention because I've been doing a lot of research into
-> NTFS recently, and want to add FileCaseSensitiveInformation support to your
-> driver. But obviously this issue is a blocker for that.
-> 
->> We must always compare filenames with bothcase == true.
-> 
-> You *really* need to rename this variable, it makes no sense at it is. As I
-> said, as far as I can make out it means "assume that one of the strings is
-> already uppercase".
-> 
-
-Yes, that's what I've meant by "There will be patch to fix this situation".
-Patch fixes situation with bothcase variable.
-
->> There will be patch to fix this situation.
-> 
-> Not to be funny, but I've already provided you with one... You'll drive away
-> potential contributors if you ignore their patches without a good reason.
-
-As I've said previously right now ntfs3 is case sensitive.
-Your patch will change it ( case sensitive result diff1 won't be returned ).
-I've opened discussion on theme "should ntfs3 be case sensitive or case
-insensitive" by writing "Should ntfs3 work with `ls WINDOWS`?".
-I think, that ntfs3 need to be case sensitive.
-And listed things, that I think support my opinion.
-That's why I've mentioned that ntfs.sys is case sensitive.
-That's why I've mentioned FILE_FLAG_POSIX_SEMANTICS and
-FileCaseSensitiveInformation.
-I don't think, that copying win32 api behavior is good,
-when Microsoft makes steps to make ntfs work in posix way.
-I'm sorry for not writing it more clear in previous letter.
-
-Please don't think, that your work is disregarded.
-You already found problem with bothcase.
-I just can't accept patch, that will change default behavior of driver from
-"case sensitive" to "case insensitive", without any discussion.
-
-If I remember correctly, to make ntfs3 case insensitive you will need to provide
-special functions d_hash and d_compare from struct dentry_operations
-( examples: fs/fat and fs/exfat ).
-Right now we use default versions, because they work with case sensitive fs.
