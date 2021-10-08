@@ -1,59 +1,48 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC462C83
-	for <ntfs3@lists.linux.dev>; Thu,  7 Oct 2021 20:34:07 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id m22so22931972wrb.0
-        for <ntfs3@lists.linux.dev>; Thu, 07 Oct 2021 13:34:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6822B2C83
+	for <ntfs3@lists.linux.dev>; Fri,  8 Oct 2021 05:51:42 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id x27so34406054lfa.9
+        for <ntfs3@lists.linux.dev>; Thu, 07 Oct 2021 22:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=oRHLMXqM2mOHKQkvAS6+tYUY5LlYB8LRMPXHWuw9B8E=;
-        b=aG64N/jQuE34ZKMSNShRa+Ja4JVAiPYFIz95sBcNyloZBgIQpf3sYKN8eDTazJLVku
-         2QVO1Pq6Asb1QqrY6+RNty76uCLVhwdUfuqMqePqFbJJhiHcc6kFUT1/iN3fcfOXCJUW
-         PUPeJhL9TonpGsViBNxFv46TUI6mbBy/9i5j3WfIb3mQKo45/Ob4kIzCtrRNriwAI7qW
-         85tODJJcA7oukJ3sUMNnEz51wlRKIUnqNke/cfVJc0QUrtHsayRHJnU/Ds/Kv1mMJ5ha
-         6txVSyRNj215S3IawSRpRld+kwqBy2kLT8U5AH4danmgkLxddyuN0SN49DLA7WYFLZVj
-         Rn1Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=P1mgz4E3k+xDC7FjEQwHm2u2pzlHKm9bOZA2p3LDPlQ=;
+        b=aFG/XpJyX/MUsVDlvdZfn1pFqtLBZVrVbMzOro8KyscJ4kT5HX/RT5gz/m62OjNwYD
+         cApP8MAk19lkeDDvlmiq/j99ftPe8Bhgdo2vrzIqmOOryV/ufr66YnLWXQJf2cnsIkGd
+         cIyMqD+siH8fTe0AIBdcGxFBYCCvDR36ZxFtnts0MsyN/cqR81PoF1NgKTM9rEBImgFo
+         3us+qbjmljLEhAwmMG5boLxfx2nQrplk3yc4WW1j2x/JMlpDqOHWN2w2gcncq6OAUDSS
+         ayoMLEfnjuEfzD2KVWDUMZl8J4qW+7NzFoASfJ/vG0YrBvfA9RHy6iW+MrbRnxiJxN2X
+         UkFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=oRHLMXqM2mOHKQkvAS6+tYUY5LlYB8LRMPXHWuw9B8E=;
-        b=p+XVDTKCulwVid65sbBcipUtxkw4nyIK4DhVy3Mep+Vij/vadsM0ZOm4aeHCwUhA7z
-         bAlDMqFGb47l5j+p6L99v5FlA6iGjnrDUMWqYXZe7CZLh4Oy8dQQfvInhoS7rWQRBEHo
-         HJ3UqvDgMWKgLmgZNd52/iqgPBLuG93WAgilwVEniL5rVHqIM50DAJ1sSYW0YT2+hKGW
-         QcuSr2iaAKTKLflsLmkZa+B5yGAU2KOUIIMSDwkpzDk+wSR+4JU8z9lOmdo/de+a1wqd
-         L5fd2IQ2Q0btawYpKyxJllTnFP8D4nyKhAmmTVHgI7LemXbV1ILlt+xN6qC+YvI3MbQ7
-         VjwA==
-X-Gm-Message-State: AOAM531VSljc6Hw57p0jCVU6FySddYaYRlxcYNeRazKeneB2d2ApmVj7
-	OG1WhZZnqMf+li0NgRhfHjk=
-X-Google-Smtp-Source: ABdhPJzoZEQ2+bVfQIYt1OJ/JKny5uKSCEirMBRqqFEhWInh3ZdCHScFCglbqqbrG+rGSQ+5CfFesw==
-X-Received: by 2002:a7b:cb8c:: with SMTP id m12mr18163078wmi.77.1633638845394;
-        Thu, 07 Oct 2021 13:34:05 -0700 (PDT)
-Received: from ?IPV6:2a02:8010:64ea:0:fad1:11ff:fead:57db? ([2a02:8010:64ea:0:fad1:11ff:fead:57db])
-        by smtp.googlemail.com with UTF8SMTPSA id h15sm384794wrt.0.2021.10.07.13.34.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Oct 2021 13:34:04 -0700 (PDT)
-Sender: Mark Harmstone <mark.harmstone@gmail.com>
-Message-ID: <ae5c8b89-5bcf-7ad5-c7b8-d54dd229e5f6@harmstone.com>
-Date: Thu, 7 Oct 2021 21:34:02 +0100
-Precedence: bulk
-X-Mailing-List: ntfs3@lists.linux.dev
-List-Id: <ntfs3.lists.linux.dev>
-List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.1
-Subject: Re: [PATCH] fs/ntfs3: Fix logic in ntfs_cmp_names_cpu
-Content-Language: en-US
-To: Kari Argillander <kari.argillander@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=P1mgz4E3k+xDC7FjEQwHm2u2pzlHKm9bOZA2p3LDPlQ=;
+        b=Xq56K9DdepgW9LuCR3vMZMlxXZBzM5ujp3JoK5f7C6w39/DaRHH8qJXRmKw2BJTmho
+         Qsno+NSCKDjZFt3wRcTTwRP4dYxEO9RuF8gkowAbcJaOuUUKJPFtdjd2EWwbR1flXeAr
+         fmehlf1yZMArCZFnaVgm4qrLkKMJ7Ao0uWpmqUMkRKNufKR3Q6tkNRfd+ZvunsHkpvZ2
+         CXgr/rweqCdazC7cpCHUkvSUZ8pH924UjXLEHZGLprV5CKz0W5v2S5HE7fkSUXnEQQIu
+         JQlx+yUuk/1b3NoEufgpJJ+WRUdawm3vJx/FHowDsxLFSMPuT+nUPR0r3nh391lpR8Bv
+         EiGA==
+X-Gm-Message-State: AOAM532qmCftb4bFf4K+az2agqk1qTheSMzzuSnwt/hkGu4o1QO1DR5r
+	tN1vMfgArqoJtXEtuM73Vww=
+X-Google-Smtp-Source: ABdhPJw1H4265A0nDgMyL8MpQHfCYDNyZBIIG117G8pO+Ef3jJAB5Duu5PVsiq55xbwmNdS/mJLlyA==
+X-Received: by 2002:a05:6512:402a:: with SMTP id br42mr8552690lfb.23.1633672300271;
+        Thu, 07 Oct 2021 22:51:40 -0700 (PDT)
+Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id m27sm150134lfc.178.2021.10.07.22.51.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Oct 2021 22:51:39 -0700 (PDT)
+Date: Fri, 8 Oct 2021 08:51:37 +0300
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Mark Harmstone <mark@harmstone.com>
 Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- ntfs3@lists.linux.dev
+	ntfs3@lists.linux.dev
+Subject: Re: [PATCH] fs/ntfs3: Fix logic in ntfs_cmp_names_cpu
+Message-ID: <20211008055137.55c7anomki3ylhve@kari-VirtualBox>
 References: <20210928183300.12946-1-mark@harmstone.com>
  <20210928220718.fk2g7itrgmyxooql@kari-VirtualBox>
  <261705dd-64b2-32e0-e8d6-3be9fa202f0b@harmstone.com>
@@ -63,41 +52,59 @@ References: <20210928183300.12946-1-mark@harmstone.com>
  <14130f55-f61f-fb39-c653-02b4dd39bc6b@paragon-software.com>
  <1068834b-5c16-84e4-2692-938dd4e91121@harmstone.com>
  <20211007201231.ald2tfljtuidcimz@kari-VirtualBox>
-From: Mark Harmstone <mark@harmstone.com>
-In-Reply-To: <20211007201231.ald2tfljtuidcimz@kari-VirtualBox>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <ae5c8b89-5bcf-7ad5-c7b8-d54dd229e5f6@harmstone.com>
+Precedence: bulk
+X-Mailing-List: ntfs3@lists.linux.dev
+List-Id: <ntfs3.lists.linux.dev>
+List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ae5c8b89-5bcf-7ad5-c7b8-d54dd229e5f6@harmstone.com>
 
-On 7/10/21 21:12, Kari Argillander wrote:
-> NTFS is case-sensitive filesystem which Windows treats with tricks like
-> case-insentive.
-
-This is a distinction without a difference. It's not by default case-sensitive,
-but it is case-preserving.
-
->> Your driver lets me create a file called foo.txt and one called FOO.TXT in a
->> normal directory, and when I double-click on one in Windows the wrong file gets
->> opened. That's 100% a bug.
+On Thu, Oct 07, 2021 at 09:34:02PM +0100, Mark Harmstone wrote:
+> On 7/10/21 21:12, Kari Argillander wrote:
+> > NTFS is case-sensitive filesystem which Windows treats with tricks like
+> > case-insentive.
 > 
-> I disagree. NTFS point of view no bug at all. I agree that it maybe
-> Windows point view might be a bug. I agree that it might be good thing
-> to add mount option flag to control this behavier. Maybe nicest thing
-> would be that if we save other file which match case sensitive we just
-> raise flag for this folder and atleast never Windows will be able handle
-> those correctly. What do you think about this Konstantin?
+> This is a distinction without a difference. It's not by default case-sensitive,
+> but it is case-preserving.
+> 
+> > > Your driver lets me create a file called foo.txt and one called FOO.TXT in a
+> > > normal directory, and when I double-click on one in Windows the wrong file gets
+> > > opened. That's 100% a bug.
+> > 
+> > I disagree. NTFS point of view no bug at all. I agree that it maybe
+> > Windows point view might be a bug. I agree that it might be good thing
+> > to add mount option flag to control this behavier. Maybe nicest thing
+> > would be that if we save other file which match case sensitive we just
+> > raise flag for this folder and atleast never Windows will be able handle
+> > those correctly. What do you think about this Konstantin?
+> 
+> Very dangerous. If you did this in System32 say, you could very easily nuke
+> your boot because Windows was looking for NTOSKRNL.EXE rather than ntoskrnl.exe -
+> even if that's not the file you were using.
+> 
+> > > It's worth pointing out that the Linux vfat driver handles case-sensitivity on
+> > > Microsoft's other filesystem correctly.
+> 
+> Question: do you disagree with the approach the vfat writers took? And if not,
+> what's the difference between FAT and NTFS in this regard?
 
-Very dangerous. If you did this in System32 say, you could very easily nuke
-your boot because Windows was looking for NTOSKRNL.EXE rather than ntoskrnl.exe -
-even if that's not the file you were using.
+Difference be that ntfs will be more commonly use at boot drive or home
+folder in Linux.
 
->> It's worth pointing out that the Linux vfat driver handles case-sensitivity on
->> Microsoft's other filesystem correctly.
+> Quite apart from anything else, the principle of least astonishment says that
+> Linux should follow what the reference implementation does. By all means add
+> a mount option to force case-sensitivity throughout, but this shouldn't be
+> the default.
 
-Question: do you disagree with the approach the vfat writers took? And if not,
-what's the difference between FAT and NTFS in this regard?
-
-Quite apart from anything else, the principle of least astonishment says that
-Linux should follow what the reference implementation does. By all means add
-a mount option to force case-sensitivity throughout, but this shouldn't be
-the default.
+Changing behavier before we have mount option or other solution to this
+is totally wrong thing to do. Then you basically break Linux user
+experience. Example you will not be able to save kernel source to ntfs
+and build it from Linux. Sure Windows will not see couple of files, but
+it will still work. If you do save something in Linux case sensitive
+manner you usually have reason for it so there should not be many
+problems to user. We can discuss default after we have solutions.
 
