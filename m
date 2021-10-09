@@ -1,110 +1,152 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6822B2C83
-	for <ntfs3@lists.linux.dev>; Fri,  8 Oct 2021 05:51:42 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id x27so34406054lfa.9
-        for <ntfs3@lists.linux.dev>; Thu, 07 Oct 2021 22:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=P1mgz4E3k+xDC7FjEQwHm2u2pzlHKm9bOZA2p3LDPlQ=;
-        b=aFG/XpJyX/MUsVDlvdZfn1pFqtLBZVrVbMzOro8KyscJ4kT5HX/RT5gz/m62OjNwYD
-         cApP8MAk19lkeDDvlmiq/j99ftPe8Bhgdo2vrzIqmOOryV/ufr66YnLWXQJf2cnsIkGd
-         cIyMqD+siH8fTe0AIBdcGxFBYCCvDR36ZxFtnts0MsyN/cqR81PoF1NgKTM9rEBImgFo
-         3us+qbjmljLEhAwmMG5boLxfx2nQrplk3yc4WW1j2x/JMlpDqOHWN2w2gcncq6OAUDSS
-         ayoMLEfnjuEfzD2KVWDUMZl8J4qW+7NzFoASfJ/vG0YrBvfA9RHy6iW+MrbRnxiJxN2X
-         UkFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=P1mgz4E3k+xDC7FjEQwHm2u2pzlHKm9bOZA2p3LDPlQ=;
-        b=Xq56K9DdepgW9LuCR3vMZMlxXZBzM5ujp3JoK5f7C6w39/DaRHH8qJXRmKw2BJTmho
-         Qsno+NSCKDjZFt3wRcTTwRP4dYxEO9RuF8gkowAbcJaOuUUKJPFtdjd2EWwbR1flXeAr
-         fmehlf1yZMArCZFnaVgm4qrLkKMJ7Ao0uWpmqUMkRKNufKR3Q6tkNRfd+ZvunsHkpvZ2
-         CXgr/rweqCdazC7cpCHUkvSUZ8pH924UjXLEHZGLprV5CKz0W5v2S5HE7fkSUXnEQQIu
-         JQlx+yUuk/1b3NoEufgpJJ+WRUdawm3vJx/FHowDsxLFSMPuT+nUPR0r3nh391lpR8Bv
-         EiGA==
-X-Gm-Message-State: AOAM532qmCftb4bFf4K+az2agqk1qTheSMzzuSnwt/hkGu4o1QO1DR5r
-	tN1vMfgArqoJtXEtuM73Vww=
-X-Google-Smtp-Source: ABdhPJw1H4265A0nDgMyL8MpQHfCYDNyZBIIG117G8pO+Ef3jJAB5Duu5PVsiq55xbwmNdS/mJLlyA==
-X-Received: by 2002:a05:6512:402a:: with SMTP id br42mr8552690lfb.23.1633672300271;
-        Thu, 07 Oct 2021 22:51:40 -0700 (PDT)
-Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id m27sm150134lfc.178.2021.10.07.22.51.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Oct 2021 22:51:39 -0700 (PDT)
-Date: Fri, 8 Oct 2021 08:51:37 +0300
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Mark Harmstone <mark@harmstone.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FE02C83
+	for <ntfs3@lists.linux.dev>; Sat,  9 Oct 2021 11:42:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5E8B460F55;
+	Sat,  9 Oct 2021 11:42:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1633779775;
+	bh=T4zLC2wq7Ew+/gREr7dQWKQu8oEQOgyhjA1bYwutRow=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Bk00IqJOHz2JLrg4Q2254i35CtdF2AqaBldbRYLwOcnYYiG77LthopT4hiNZbYxn4
+	 7DCoJXrRPzYmdxelXcGatKBD/JRh8XKzysJbvAGXUEjoiFBWzKUIe9wy/TjRw2ccwU
+	 /dD5578rEDZ2eRn7NXvfXsziNb6uCqrJ8+ER3mxOXZRTRez1S/9amqooK9gVczUf9M
+	 +XmE+MPDkk0F8dOqkyazSmaOTB3/1c231m4YZilnl0sykCzoK0TkTGmDUxJWIv4+47
+	 eXSeg0OvF2q6ThYRFhZs7P/4kmcObLTex4gjlildMuwRlnHT+aErJv0Y1v3ez6DXv9
+	 5CWYXm2kM1tTA==
+Received: by pali.im (Postfix)
+	id B9356310; Sat,  9 Oct 2021 13:42:52 +0200 (CEST)
+Date: Sat, 9 Oct 2021 13:42:52 +0200
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: Kari Argillander <kari.argillander@gmail.com>
 Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Subject: Re: [PATCH] fs/ntfs3: Fix logic in ntfs_cmp_names_cpu
-Message-ID: <20211008055137.55c7anomki3ylhve@kari-VirtualBox>
-References: <20210928183300.12946-1-mark@harmstone.com>
- <20210928220718.fk2g7itrgmyxooql@kari-VirtualBox>
- <261705dd-64b2-32e0-e8d6-3be9fa202f0b@harmstone.com>
- <95b14c81-05e8-63ac-5f1e-7dc0c66cdcd5@harmstone.com>
- <7590c4b0-7e44-ebed-9029-38fb59880c7b@paragon-software.com>
- <057f9a4f-a836-a0f9-02a1-c77519163375@harmstone.com>
- <14130f55-f61f-fb39-c653-02b4dd39bc6b@paragon-software.com>
- <1068834b-5c16-84e4-2692-938dd4e91121@harmstone.com>
- <20211007201231.ald2tfljtuidcimz@kari-VirtualBox>
- <ae5c8b89-5bcf-7ad5-c7b8-d54dd229e5f6@harmstone.com>
+	ntfs3@lists.linux.dev, Christoph Hellwig <hch@lst.de>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>,
+	Christian Brauner <christian.brauner@ubuntu.com>
+Subject: Re: [PATCH v4 7/9] fs/ntfs3: Add iocharset= mount option as alias
+ for nls=
+Message-ID: <20211009114252.jn2uehmaveucimp5@pali>
+References: <20210907153557.144391-1-kari.argillander@gmail.com>
+ <20210907153557.144391-8-kari.argillander@gmail.com>
+ <20210908190938.l32kihefvtfw5tjp@pali>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ae5c8b89-5bcf-7ad5-c7b8-d54dd229e5f6@harmstone.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210908190938.l32kihefvtfw5tjp@pali>
+User-Agent: NeoMutt/20180716
 
-On Thu, Oct 07, 2021 at 09:34:02PM +0100, Mark Harmstone wrote:
-> On 7/10/21 21:12, Kari Argillander wrote:
-> > NTFS is case-sensitive filesystem which Windows treats with tricks like
-> > case-insentive.
-> 
-> This is a distinction without a difference. It's not by default case-sensitive,
-> but it is case-preserving.
-> 
-> > > Your driver lets me create a file called foo.txt and one called FOO.TXT in a
-> > > normal directory, and when I double-click on one in Windows the wrong file gets
-> > > opened. That's 100% a bug.
+Hello!
+
+This patch have not been applied yet:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/ntfs3/super.c#n247
+
+What happened that in upstream tree is still only nls= option and not
+this iocharset=?
+
+On Wednesday 08 September 2021 21:09:38 Pali Rohár wrote:
+> On Tuesday 07 September 2021 18:35:55 Kari Argillander wrote:
+> > Other fs drivers are using iocharset= mount option for specifying charset.
+> > So add it also for ntfs3 and mark old nls= mount option as deprecated.
 > > 
-> > I disagree. NTFS point of view no bug at all. I agree that it maybe
-> > Windows point view might be a bug. I agree that it might be good thing
-> > to add mount option flag to control this behavier. Maybe nicest thing
-> > would be that if we save other file which match case sensitive we just
-> > raise flag for this folder and atleast never Windows will be able handle
-> > those correctly. What do you think about this Konstantin?
+> > Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 > 
-> Very dangerous. If you did this in System32 say, you could very easily nuke
-> your boot because Windows was looking for NTOSKRNL.EXE rather than ntoskrnl.exe -
-> even if that's not the file you were using.
+> Reviewed-by: Pali Rohár <pali@kernel.org>
 > 
-> > > It's worth pointing out that the Linux vfat driver handles case-sensitivity on
-> > > Microsoft's other filesystem correctly.
-> 
-> Question: do you disagree with the approach the vfat writers took? And if not,
-> what's the difference between FAT and NTFS in this regard?
-
-Difference be that ntfs will be more commonly use at boot drive or home
-folder in Linux.
-
-> Quite apart from anything else, the principle of least astonishment says that
-> Linux should follow what the reference implementation does. By all means add
-> a mount option to force case-sensitivity throughout, but this shouldn't be
-> the default.
-
-Changing behavier before we have mount option or other solution to this
-is totally wrong thing to do. Then you basically break Linux user
-experience. Example you will not be able to save kernel source to ntfs
-and build it from Linux. Sure Windows will not see couple of files, but
-it will still work. If you do save something in Linux case sensitive
-manner you usually have reason for it so there should not be many
-problems to user. We can discuss default after we have solutions.
-
+> > ---
+> >  Documentation/filesystems/ntfs3.rst |  4 ++--
+> >  fs/ntfs3/super.c                    | 18 +++++++++++-------
+> >  2 files changed, 13 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/Documentation/filesystems/ntfs3.rst b/Documentation/filesystems/ntfs3.rst
+> > index af7158de6fde..ded706474825 100644
+> > --- a/Documentation/filesystems/ntfs3.rst
+> > +++ b/Documentation/filesystems/ntfs3.rst
+> > @@ -32,12 +32,12 @@ generic ones.
+> >  
+> >  ===============================================================================
+> >  
+> > -nls=name		This option informs the driver how to interpret path
+> > +iocharset=name		This option informs the driver how to interpret path
+> >  			strings and translate them to Unicode and back. If
+> >  			this option is not set, the default codepage will be
+> >  			used (CONFIG_NLS_DEFAULT).
+> >  			Examples:
+> > -				'nls=utf8'
+> > +				'iocharset=utf8'
+> >  
+> >  uid=
+> >  gid=
+> > diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+> > index 729ead6f2fac..503e2e23f711 100644
+> > --- a/fs/ntfs3/super.c
+> > +++ b/fs/ntfs3/super.c
+> > @@ -226,7 +226,7 @@ enum Opt {
+> >  	Opt_nohidden,
+> >  	Opt_showmeta,
+> >  	Opt_acl,
+> > -	Opt_nls,
+> > +	Opt_iocharset,
+> >  	Opt_prealloc,
+> >  	Opt_no_acs_rules,
+> >  	Opt_err,
+> > @@ -245,9 +245,13 @@ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
+> >  	fsparam_flag_no("hidden",		Opt_nohidden),
+> >  	fsparam_flag_no("acl",			Opt_acl),
+> >  	fsparam_flag_no("showmeta",		Opt_showmeta),
+> > -	fsparam_string("nls",			Opt_nls),
+> >  	fsparam_flag_no("prealloc",		Opt_prealloc),
+> >  	fsparam_flag("no_acs_rules",		Opt_no_acs_rules),
+> > +	fsparam_string("iocharset",		Opt_iocharset),
+> > +
+> > +	__fsparam(fs_param_is_string,
+> > +		  "nls", Opt_iocharset,
+> > +		  fs_param_deprecated, NULL),
+> >  	{}
+> >  };
+> >  
+> > @@ -346,7 +350,7 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
+> >  	case Opt_showmeta:
+> >  		opts->showmeta = result.negated ? 0 : 1;
+> >  		break;
+> > -	case Opt_nls:
+> > +	case Opt_iocharset:
+> >  		kfree(opts->nls_name);
+> >  		opts->nls_name = param->string;
+> >  		param->string = NULL;
+> > @@ -380,11 +384,11 @@ static int ntfs_fs_reconfigure(struct fs_context *fc)
+> >  	new_opts->nls = ntfs_load_nls(new_opts->nls_name);
+> >  	if (IS_ERR(new_opts->nls)) {
+> >  		new_opts->nls = NULL;
+> > -		errorf(fc, "ntfs3: Cannot load nls %s", new_opts->nls_name);
+> > +		errorf(fc, "ntfs3: Cannot load iocharset %s", new_opts->nls_name);
+> >  		return -EINVAL;
+> >  	}
+> >  	if (new_opts->nls != sbi->options->nls)
+> > -		return invalf(fc, "ntfs3: Cannot use different nls when remounting!");
+> > +		return invalf(fc, "ntfs3: Cannot use different iocharset when remounting!");
+> >  
+> >  	sync_filesystem(sb);
+> >  
+> > @@ -528,9 +532,9 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
+> >  	if (opts->dmask)
+> >  		seq_printf(m, ",dmask=%04o", ~opts->fs_dmask_inv);
+> >  	if (opts->nls)
+> > -		seq_printf(m, ",nls=%s", opts->nls->charset);
+> > +		seq_printf(m, ",iocharset=%s", opts->nls->charset);
+> >  	else
+> > -		seq_puts(m, ",nls=utf8");
+> > +		seq_puts(m, ",iocharset=utf8");
+> >  	if (opts->sys_immutable)
+> >  		seq_puts(m, ",sys_immutable");
+> >  	if (opts->discard)
+> > -- 
+> > 2.25.1
+> > 
