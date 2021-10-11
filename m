@@ -1,176 +1,380 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CE12C83
-	for <ntfs3@lists.linux.dev>; Mon, 11 Oct 2021 20:56:25 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id d9so48600401edh.5
-        for <ntfs3@lists.linux.dev>; Mon, 11 Oct 2021 13:56:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACEE2C83
+	for <ntfs3@lists.linux.dev>; Mon, 11 Oct 2021 21:50:48 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id y26so79891688lfa.11
+        for <ntfs3@lists.linux.dev>; Mon, 11 Oct 2021 14:50:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:from:subject:to:cc
-         :references:content-language:in-reply-to:content-transfer-encoding;
-        bh=ou+xUmJ66fQiXPaSvBFHMERJHyRQrKzeVENEuBhsFMw=;
-        b=owW+fhG7GjuwP1vy5pweOXYMtVFuNOKqE9mr2LzmYD4pTxTYggUcNvNs6W/f9y13ep
-         TUYNkj1dOWPbHbdVzOFqUuhKpi4c3SbGhqyy3lqk0HNSmtCmfePBAEwlTbjweruk0CB/
-         My+jLK+fAhlao8lNRgqVtHqldCwin7KnF0nYQYvZcR8Dr1OSl8HVaex9m/+VkQS8C6V+
-         mpnNQ+CG3fOUqMOWrOx3uf79IowRQJheFfAQCbsmhw/yn+3Xc4HoU3dnnd9n+FvaCOMk
-         vtiaipsQZxce2wfvh0I+UiXp//NSxEd1ree+UKYvuTWL+4IdG2mxqUT/OACB3Au+IWZ7
-         Wwqg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=CFOKAogMPVQB4oZNJlqugjaqysN1b1PYFPOt9WrOaLM=;
+        b=nA0+CHF93/xmhq6amcMoaHPsMhXaApVzdhVkN5jWi2UvnLoAtsQb9YyzA4I0WJ3qmI
+         RhAd+LxzrFJTy9m4foJchTdiqMTMOlU9coIQM+UFHhuwOCqv/9+ot+ktYznvBK2ZNWzw
+         QwgBYNjhIzww4+J9B09dh0l8V3pirFrne46ybTSriXLotideg1SA/mdRmtO3+zR/FCY0
+         vvzwcb7/ec7qQgzPyBuEUXBJtqjapKSX3NSPNvl72bSkVxN6ZYoYG1F592KAUdiVgWwT
+         Sngg6Sw1QI6lcVb3dxqoVrUnhxkVfB72l7TQNv/LM++Jiyu6tjcBulHYeGobqhHFcA3E
+         2b6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
-         :subject:to:cc:references:content-language:in-reply-to
-         :content-transfer-encoding;
-        bh=ou+xUmJ66fQiXPaSvBFHMERJHyRQrKzeVENEuBhsFMw=;
-        b=ZcDDDftMV60bDLhzsd6X4G5vnqsSgNaeW4H/7SlovQ3KW4Wm0vqsDOiI4YFXr9UfiL
-         e2xtEctKxG40w2zwewhEMA+/d17ElLleKgrk+27nTago6h+FYQJLyt/tdQj9FYEwiFrc
-         S+ujxrg2JSOqnD+/gLeJY2hj20tqd6njt9YBJ9B9/GEVWTosIFK+msILviJ/PGTmUcQC
-         UBzNJui0YJX75fIA8JcIGjcaSxd0tQJIA2vAs4MR3pRCMLtI6Fs9PtcSdxkdeXSWz3H+
-         7S8tmrWw4qeMdxxiEScQiuDOeisOuYf8VZpxEyDTtQ+KNL5S7hpjOjG8XpjUJWSvHnuf
-         UeRQ==
-X-Gm-Message-State: AOAM533KYx0xkqBkbpugkYmyqy5bIOBmJp0OmbWzWof5kkHO+I4WHEnY
-	FEDXApLJv8eU/d0kV3pXIbk=
-X-Google-Smtp-Source: ABdhPJwSODPcwmzd88n3/Iui5Rdwmxb8aTTUKUAVsLOv+cz4qEqxxTdTPz0CbDqbLD5vNGYWb7JmUQ==
-X-Received: by 2002:a05:6402:5189:: with SMTP id q9mr19506883edd.94.1633985784310;
-        Mon, 11 Oct 2021 13:56:24 -0700 (PDT)
-Received: from [192.168.0.163] ([37.239.218.34])
-        by smtp.gmail.com with ESMTPSA id n6sm4772657eds.10.2021.10.11.13.56.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Oct 2021 13:56:24 -0700 (PDT)
-Message-ID: <0021ec0c-737a-398f-53ca-8daa284744b6@gmail.com>
-Date: Mon, 11 Oct 2021 23:56:22 +0300
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CFOKAogMPVQB4oZNJlqugjaqysN1b1PYFPOt9WrOaLM=;
+        b=6wpyddpVGtBFNcSGS8Kkf51NtQ+Fnfcpm23J82B00V8Dnt35nwF7FdVWM0EElzO+kT
+         kYf4oQ50rWjVfjDCdXCrHt2IsMBCzMg0cgNcIpcKQuF5WY37TDCLXsityradXkdt0jmd
+         Q9GtQNWswVzikDhjflliSkyfz+pHidy1Yz9kUlZ0L+DkFdQfua4NUqf1j7AomQ0WpgVj
+         p2317+h2fVnjpL4V80pDSP9bVNDqQ7cC9KaWsDzPWxQkcFJ2WH8o5noSWKKmr0Oipss4
+         nAVPWgRshUHgL5uDGRieNR76cSr7KzR0//BP0u6eBFCeIgef71Lt1NgoNDQFYfy83Ybz
+         JPZg==
+X-Gm-Message-State: AOAM533CoXtU/GivWleXPg1DiQoDlrGlKVZgVmZwjESo93lOl7sF5QHZ
+	SMDBlPbaT2vEITjdvPsEbQQ=
+X-Google-Smtp-Source: ABdhPJyV7p5NoQM7I45hzXf6Ifacl28t/3kSejfgMVnTOMkGgFwyBTiZkiRHs/0homVhYv9tMBHrnw==
+X-Received: by 2002:a2e:7205:: with SMTP id n5mr7220886ljc.65.1633989046697;
+        Mon, 11 Oct 2021 14:50:46 -0700 (PDT)
+Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id w6sm913789lfk.200.2021.10.11.14.50.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Oct 2021 14:50:46 -0700 (PDT)
+Date: Tue, 12 Oct 2021 00:50:44 +0300
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2] fs/ntfs3: Fix memory leak if fill_super failed
+Message-ID: <20211011215044.dwxmyy2o6nqers3i@kari-VirtualBox>
+References: <79791816-db23-f3b4-3ea8-139add705c45@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-From: Mohammad Rasim <mohammad.rasim96@gmail.com>
-Subject: Re: [PATCH] fs/ntfs3: Check for NULL if ATTR_EA_INFO is incorrect
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Kari Argillander <kari.argillander@gmail.com>
-References: <227c13e3-5a22-0cba-41eb-fcaf41940711@paragon-software.com>
- <20211003175036.ly4m3lw2bjoippsh@kari-VirtualBox>
- <c892016c-3e50-739b-38d2-010f02d52019@gmail.com>
- <bcbb8ddc-3ddf-4a91-6e92-d5cee2722bad@paragon-software.com>
- <2998a9b9-8ea0-6a44-7093-66c7a08dcab2@gmail.com>
- <7e5b8dc9-9989-0e8a-9e8d-ae26b6e74df4@paragon-software.com>
-Content-Language: en-US
-In-Reply-To: <7e5b8dc9-9989-0e8a-9e8d-ae26b6e74df4@paragon-software.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <79791816-db23-f3b4-3ea8-139add705c45@paragon-software.com>
 
+On Tue, Oct 05, 2021 at 06:26:53PM +0300, Konstantin Komarov wrote:
+> In ntfs_init_fs_context we allocate memory in fc->s_fs_info.
+> In case of failed mount we must free it in ntfs_fill_super.
+> We can't do it in ntfs_fs_free, because ntfs_fs_free called
+> with fc->s_fs_info == NULL.
+> fc->s_fs_info became NULL in sget_fc.
 
-On 10/11/21 19:55, Konstantin Komarov wrote:
-> Hello.
->
-> Presumably we found the code, that panics.
-> But it panics in place, where pointer must be always not NULL.
-> Please try patch provided below.
-> If it helps (there is no panic), then check dmesg for
-> message "Looks like internal error".
-> And please compare copied folders.
-> This way it will be clear what file / folder cause this logic error.
->
-> Thanks for all your help so far.
+Thanks for fixing this. You can always ask that person who introduce bug
+will fix it.
 
-Ok,
+> Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-This helped, unfortunately the error is sporadic and i can't easily 
-track down which file caused the crash .
+Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
 
-In one test it seemd it was caused by files in three directories 
-"package", "system" , "support" (all these directories are from the 
-"buildroot" tree, most of the files that failed to copy were symlinks, 
-don't know if that makes a difference)  but after rebooting and loading 
-the unpatched ntfs3.ko i was able to copy these files without a crash!
-
-It seems that the crash happens when copying large number of files so 
-even a failed file can be copied if it was copied alone (I might be very 
-wrong in my conclusion here)
-
-anyways, i did multiple tests. in the first a few it copied without a 
-crash and skipped a few files( the dmesg didn't contain the "Looks like 
-internal error" message).
-
-on subsequent tests i did get that message like so:
-
-[  186.295722] ntfs3: sdb1: ino=1a, Looks like internal error
-[  186.296219] ntfs3: sdb1: ntfs3_write_inode r=1a failed, -22
-
-That "ino=1a" looks wrong to me !
-
-  I will try to do more tests if i can but it's a bit annoying because 
-each crash causes the file system to be corrupted and "ntfsfix" can't 
-fix these errors so i have to reboot to windows os to be able to use 
-"chkdsk" to fix the filesystem before doing the next test.
-
-It would be nice if Paragon  releases "fsck.ntfs" that works well in 
-these situations so we don't need to boot to windows to fix them
-
-
-Regards
-
-
->
-> [PATCH] fs/ntfs3: Check for NULL pointers in ni_try_remove_attr_list
->
-> All these checks must be redundant.
-> If this commit helps, then there is bug in code.
->
-> Signed-off-by: Konstantin 
-> Komarov<almaz.alexandrovich@paragon-software.com>
 > ---
-> fs/ntfs3/frecord.c | 23 ++++++++++++++++++++++-
-> 1 file changed, 22 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-> index ecb965e4afd0..37e19fe7d496 100644
-> --- a/fs/ntfs3/frecord.c
-> +++ b/fs/ntfs3/frecord.c
-> @@ -705,18 +705,35 @@ static int ni_try_remove_attr_list(struct 
-> ntfs_inode *ni)
-> continue;
-> mi = ni_find_mi(ni, ino_get(&le->ref));
-> + if (!mi) {
-> + /* Should never happened, 'cause already checked. */
-> + goto bad;
-> + }
-> attr = mi_find_attr(mi, NULL, le->type, le_name(le),
-> le->name_len, &le->id);
-> + if (!attr) {
-> + /* Should never happened, 'cause already checked. */
-> + goto bad;
-> + }
-> asize = le32_to_cpu(attr->size);
-> /* Insert into primary record. */
-> attr_ins = mi_insert_attr(&ni->mi, le->type, le_name(le),
-> le->name_len, asize,
-> le16_to_cpu(attr->name_off));
-> - id = attr_ins->id;
-> + if (!attr_ins) {
-> + /*
-> + * Internal error.
-> + * Either no space in primary record (already checked).
-> + * Either tried to insert another
-> + * non indexed attribute (logic error).
-> + */
-> + goto bad;
-> + }
-> /* Copy all except id. */
-> + id = attr_ins->id;
-> memcpy(attr_ins, attr, asize);
-> attr_ins->id = id;
-> @@ -732,6 +749,10 @@ static int ni_try_remove_attr_list(struct 
-> ntfs_inode *ni)
-> ni->attr_list.dirty = false;
-> return 0;
-> +bad:
-> + ntfs_inode_err(&ni->vfs_inode, "Looks like internal error");
-> + make_bad_inode(&ni->vfs_inode);
-> + return -EINVAL;
-> }
-> /*
+> v2:
+>   Changed fix - now we free memory instead of restoring pointer to memory.
+>   Added context how we allocate and free memory.
+>   Many commits affected, so no fixes tag.
+
+Many commit affected, but fixed tag is the first one which introduce it.
+This case: 
+
+Fixes: 610f8f5a7baf ("fs/ntfs3: Use new api for mounting")
+
+This will help backporting fixes to stable branches.
+
+> 
+>  fs/ntfs3/super.c | 90 ++++++++++++++++++++++++++++++------------------
+>  1 file changed, 56 insertions(+), 34 deletions(-)
+> 
+> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+> index 705d8b4f4894..d41d76979e12 100644
+> --- a/fs/ntfs3/super.c
+> +++ b/fs/ntfs3/super.c
+> @@ -908,7 +908,8 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	if (IS_ERR(sbi->options->nls)) {
+>  		sbi->options->nls = NULL;
+>  		errorf(fc, "Cannot load nls %s", sbi->options->nls_name);
+> -		return -EINVAL;
+> +		err = -EINVAL;
+> +		goto out;
+>  	}
+>  
+>  	rq = bdev_get_queue(bdev);
+> @@ -922,7 +923,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	err = ntfs_init_from_boot(sb, rq ? queue_logical_block_size(rq) : 512,
+>  				  bdev->bd_inode->i_size);
+>  	if (err)
+> -		return err;
+> +		goto out;
+>  
+>  	/*
+>  	 * Load $Volume. This should be done before $LogFile
+> @@ -933,7 +934,8 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	inode = ntfs_iget5(sb, &ref, &NAME_VOLUME);
+>  	if (IS_ERR(inode)) {
+>  		ntfs_err(sb, "Failed to load $Volume.");
+> -		return PTR_ERR(inode);
+> +		err = PTR_ERR(inode);
+> +		goto out;
+>  	}
+>  
+>  	ni = ntfs_i(inode);
+> @@ -954,19 +956,19 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	} else {
+>  		/* Should we break mounting here? */
+>  		//err = -EINVAL;
+> -		//goto out;
+> +		//goto put_inode_out;
+>  	}
+>  
+>  	attr = ni_find_attr(ni, attr, NULL, ATTR_VOL_INFO, NULL, 0, NULL, NULL);
+>  	if (!attr || is_attr_ext(attr)) {
+>  		err = -EINVAL;
+> -		goto out;
+> +		goto put_inode_out;
+>  	}
+>  
+>  	info = resident_data_ex(attr, SIZEOF_ATTRIBUTE_VOLUME_INFO);
+>  	if (!info) {
+>  		err = -EINVAL;
+> -		goto out;
+> +		goto put_inode_out;
+>  	}
+>  
+>  	sbi->volume.major_ver = info->major_ver;
+> @@ -980,7 +982,8 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	inode = ntfs_iget5(sb, &ref, &NAME_MIRROR);
+>  	if (IS_ERR(inode)) {
+>  		ntfs_err(sb, "Failed to load $MFTMirr.");
+> -		return PTR_ERR(inode);
+> +		err = PTR_ERR(inode);
+> +		goto out;
+>  	}
+>  
+>  	sbi->mft.recs_mirr =
+> @@ -994,14 +997,15 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	inode = ntfs_iget5(sb, &ref, &NAME_LOGFILE);
+>  	if (IS_ERR(inode)) {
+>  		ntfs_err(sb, "Failed to load \x24LogFile.");
+> -		return PTR_ERR(inode);
+> +		err = PTR_ERR(inode);
+> +		goto out;
+>  	}
+>  
+>  	ni = ntfs_i(inode);
+>  
+>  	err = ntfs_loadlog_and_replay(ni, sbi);
+>  	if (err)
+> -		goto out;
+> +		goto put_inode_out;
+>  
+>  	iput(inode);
+>  
+> @@ -1009,14 +1013,16 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  		if (!sb_rdonly(sb)) {
+>  			ntfs_warn(sb,
+>  				  "failed to replay log file. Can't mount rw!");
+> -			return -EINVAL;
+> +			err = -EINVAL;
+> +			goto out;
+>  		}
+>  	} else if (sbi->volume.flags & VOLUME_FLAG_DIRTY) {
+>  		if (!sb_rdonly(sb) && !sbi->options->force) {
+>  			ntfs_warn(
+>  				sb,
+>  				"volume is dirty and \"force\" flag is not set!");
+> -			return -EINVAL;
+> +			err = -EINVAL;
+> +			goto out;
+>  		}
+>  	}
+>  
+> @@ -1027,7 +1033,8 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	inode = ntfs_iget5(sb, &ref, &NAME_MFT);
+>  	if (IS_ERR(inode)) {
+>  		ntfs_err(sb, "Failed to load $MFT.");
+> -		return PTR_ERR(inode);
+> +		err = PTR_ERR(inode);
+> +		goto out;
+>  	}
+>  
+>  	ni = ntfs_i(inode);
+> @@ -1038,11 +1045,11 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  
+>  	err = wnd_init(&sbi->mft.bitmap, sb, tt);
+>  	if (err)
+> -		goto out;
+> +		goto put_inode_out;
+>  
+>  	err = ni_load_all_mi(ni);
+>  	if (err)
+> -		goto out;
+> +		goto put_inode_out;
+>  
+>  	sbi->mft.ni = ni;
+>  
+> @@ -1052,7 +1059,8 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	inode = ntfs_iget5(sb, &ref, &NAME_BADCLUS);
+>  	if (IS_ERR(inode)) {
+>  		ntfs_err(sb, "Failed to load $BadClus.");
+> -		return PTR_ERR(inode);
+> +		err = PTR_ERR(inode);
+> +		goto out;
+>  	}
+>  
+>  	ni = ntfs_i(inode);
+> @@ -1075,13 +1083,14 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	inode = ntfs_iget5(sb, &ref, &NAME_BITMAP);
+>  	if (IS_ERR(inode)) {
+>  		ntfs_err(sb, "Failed to load $Bitmap.");
+> -		return PTR_ERR(inode);
+> +		err = PTR_ERR(inode);
+> +		goto out;
+>  	}
+>  
+>  #ifndef CONFIG_NTFS3_64BIT_CLUSTER
+>  	if (inode->i_size >> 32) {
+>  		err = -EINVAL;
+> -		goto out;
+> +		goto put_inode_out;
+>  	}
+>  #endif
+>  
+> @@ -1089,21 +1098,21 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	tt = sbi->used.bitmap.nbits;
+>  	if (inode->i_size < bitmap_size(tt)) {
+>  		err = -EINVAL;
+> -		goto out;
+> +		goto put_inode_out;
+>  	}
+>  
+>  	/* Not necessary. */
+>  	sbi->used.bitmap.set_tail = true;
+>  	err = wnd_init(&sbi->used.bitmap, sb, tt);
+>  	if (err)
+> -		goto out;
+> +		goto put_inode_out;
+>  
+>  	iput(inode);
+>  
+>  	/* Compute the MFT zone. */
+>  	err = ntfs_refresh_zone(sbi);
+>  	if (err)
+> -		return err;
+> +		goto out;
+>  
+>  	/* Load $AttrDef. */
+>  	ref.low = cpu_to_le32(MFT_REC_ATTR);
+> @@ -1111,18 +1120,19 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	inode = ntfs_iget5(sb, &ref, &NAME_ATTRDEF);
+>  	if (IS_ERR(inode)) {
+>  		ntfs_err(sb, "Failed to load $AttrDef -> %d", err);
+> -		return PTR_ERR(inode);
+> +		err = PTR_ERR(inode);
+> +		goto out;
+>  	}
+>  
+>  	if (inode->i_size < sizeof(struct ATTR_DEF_ENTRY)) {
+>  		err = -EINVAL;
+> -		goto out;
+> +		goto put_inode_out;
+>  	}
+>  	bytes = inode->i_size;
+>  	sbi->def_table = t = kmalloc(bytes, GFP_NOFS);
+>  	if (!t) {
+>  		err = -ENOMEM;
+> -		goto out;
+> +		goto put_inode_out;
+>  	}
+>  
+>  	for (done = idx = 0; done < bytes; done += PAGE_SIZE, idx++) {
+> @@ -1131,7 +1141,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  
+>  		if (IS_ERR(page)) {
+>  			err = PTR_ERR(page);
+> -			goto out;
+> +			goto put_inode_out;
+>  		}
+>  		memcpy(Add2Ptr(t, done), page_address(page),
+>  		       min(PAGE_SIZE, tail));
+> @@ -1139,7 +1149,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  
+>  		if (!idx && ATTR_STD != t->type) {
+>  			err = -EINVAL;
+> -			goto out;
+> +			goto put_inode_out;
+>  		}
+>  	}
+>  
+> @@ -1173,12 +1183,13 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	inode = ntfs_iget5(sb, &ref, &NAME_UPCASE);
+>  	if (IS_ERR(inode)) {
+>  		ntfs_err(sb, "Failed to load $UpCase.");
+> -		return PTR_ERR(inode);
+> +		err = PTR_ERR(inode);
+> +		goto out;
+>  	}
+>  
+>  	if (inode->i_size != 0x10000 * sizeof(short)) {
+>  		err = -EINVAL;
+> -		goto out;
+> +		goto put_inode_out;
+>  	}
+>  
+>  	for (idx = 0; idx < (0x10000 * sizeof(short) >> PAGE_SHIFT); idx++) {
+> @@ -1188,7 +1199,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  
+>  		if (IS_ERR(page)) {
+>  			err = PTR_ERR(page);
+> -			goto out;
+> +			goto put_inode_out;
+>  		}
+>  
+>  		src = page_address(page);
+> @@ -1214,7 +1225,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  		/* Load $Secure. */
+>  		err = ntfs_security_init(sbi);
+>  		if (err)
+> -			return err;
+> +			goto out;
+>  
+>  		/* Load $Extend. */
+>  		err = ntfs_extend_init(sbi);
+> @@ -1239,19 +1250,30 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	inode = ntfs_iget5(sb, &ref, &NAME_ROOT);
+>  	if (IS_ERR(inode)) {
+>  		ntfs_err(sb, "Failed to load root.");
+> -		return PTR_ERR(inode);
+> +		err = PTR_ERR(inode);
+> +		goto out;
+>  	}
+>  
+>  	sb->s_root = d_make_root(inode);
+> -	if (!sb->s_root)
+> -		return -ENOMEM;
+> +	if (!sb->s_root) {
+> +		err = -ENOMEM;
+> +		goto put_inode_out;
+> +	}
+>  
+>  	fc->fs_private = NULL;
+> -	fc->s_fs_info = NULL;
+>  
+>  	return 0;
+> -out:
+> +
+> +put_inode_out:
+>  	iput(inode);
+> +out:
+> +	/*
+> +	 * Free resources here.
+> +	 * ntfs_fs_free will be called with fc->s_fs_info = NULL
+> +	 */
+> +	put_ntfs(sbi);
+> +	sb->s_fs_info = NULL;
+> +
+>  	return err;
+>  }
+>  
+> -- 
+> 2.33.0
+> 
