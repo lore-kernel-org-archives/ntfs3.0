@@ -1,33 +1,33 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E5972
-	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 10:47:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCBD72
+	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 10:59:30 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 7D0952233C;
-	Wed, 13 Oct 2021 10:47:27 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTP id 93ED8201DF;
+	Wed, 13 Oct 2021 10:42:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1634122047; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1634121747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3iVmoGzS1CFC1ZYp5GIospF+GcEKdIrbvLtreROQEfY=;
-	b=rXel6gwbSuBhNp51al563AO6FS+XBZGOh/Hjm+BJIWuWOyU/3AT5rJWXw07dBi66Lgwd4D
-	ooX5FTPfl/pC0Td0V4J2NhW4+JnUKlh9zrRP1nHxExJjHSCOfj8B/qV2wki4afni9YWLzI
-	rwBdjQuKJBSvHiqfDFKdm53Pp8cWtVg=
+	bh=N0GvhK4+pf78+YayVDkGIffFnkCb2fz2sREfm5d2qF8=;
+	b=H24phU547XirHse7Nci4ET0LH9jNf/Q+T4ZusqCWao+YzmwL+VGT3gHA3cdzoickGxjMaa
+	kqC6Iw8fnsenRTDSukxgrNL8nHrlo2izz7ocIMMb1MImbr8T1yY6qVZdNNI8ScbznCiAGa
+	bK06jVDdk3xEQJMf/tu1JN9PEbNq4Ec=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1634122047;
+	s=susede2_ed25519; t=1634121747;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3iVmoGzS1CFC1ZYp5GIospF+GcEKdIrbvLtreROQEfY=;
-	b=pxc3ajuVJ6QppWl3+pNc7cHhWSy4VS/lmsQeRbZ/ZEMgrJnYBtPjQ3jjf0R56GrDxVMQsV
-	jv2YKpSzp52reSBQ==
+	bh=N0GvhK4+pf78+YayVDkGIffFnkCb2fz2sREfm5d2qF8=;
+	b=KoHGcWYpTWpMUms1s91oVAh3J20gdF15BUjE8rR9iMGx06Ifqq61fgHN+kYv6/2hTAU9qd
+	NTHMh16pB+U8Z4DA==
 Received: from quack2.suse.cz (unknown [10.100.224.230])
-	by relay2.suse.de (Postfix) with ESMTP id 60639A3B81;
-	Wed, 13 Oct 2021 10:47:27 +0000 (UTC)
+	by relay2.suse.de (Postfix) with ESMTP id 7BD8CA3B89;
+	Wed, 13 Oct 2021 10:42:27 +0000 (UTC)
 Received: by quack2.suse.cz (Postfix, from userid 1000)
-	id 41BDE1E11B6; Wed, 13 Oct 2021 12:47:27 +0200 (CEST)
-Date: Wed, 13 Oct 2021 12:47:27 +0200
+	id 5DCC91E11B6; Wed, 13 Oct 2021 12:42:27 +0200 (CEST)
+Date: Wed, 13 Oct 2021 12:42:27 +0200
 From: Jan Kara <jack@suse.cz>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>,
@@ -50,10 +50,11 @@ Cc: Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>,
 	jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
 	linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
-Subject: Re: [PATCH 29/29] udf: use sb_bdev_nr_blocks
-Message-ID: <20211013104727.GJ19200@quack2.suse.cz>
+Subject: Re: [PATCH 08/29] fs: use bdev_nr_sectors instead of open coding it
+ in blkdev_max_block
+Message-ID: <20211013104227.GE19200@quack2.suse.cz>
 References: <20211013051042.1065752-1-hch@lst.de>
- <20211013051042.1065752-30-hch@lst.de>
+ <20211013051042.1065752-9-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -62,11 +63,11 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211013051042.1065752-30-hch@lst.de>
+In-Reply-To: <20211013051042.1065752-9-hch@lst.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Wed 13-10-21 07:10:42, Christoph Hellwig wrote:
-> Use the sb_bdev_nr_blocks helper instead of open coding it.
+On Wed 13-10-21 07:10:21, Christoph Hellwig wrote:
+> Use the proper helper to read the block device size.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
@@ -75,7 +76,6 @@ Looks good. Feel free to add:
 Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
-
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
