@@ -1,227 +1,136 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C752C83
-	for <ntfs3@lists.linux.dev>; Mon, 11 Oct 2021 22:05:28 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id x27so79042086lfa.9
-        for <ntfs3@lists.linux.dev>; Mon, 11 Oct 2021 15:05:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=t//VfIkjwQXqxb3+6HcAZOI39YFeCdYqc5EmeEugUiM=;
-        b=LRfZYb2oYtFdaCGAqgENP68VqIS3FtOaa4y00ZpjQ73DyqKx7qpIoRptdFkkzi8IZw
-         CvgHnxi6Eiv0ACcze7BW+YCVhYoCTTagnPQID5x//kANR4A5nKGKRIXXDOi/B3Q1aH2c
-         PYhDxJ9n6L0zOr/5pO8hEaBCevc2O3XODIu4F89fi0KCYmaCssnae6gdUZBjTAXG8hyo
-         tqkeBrStIJHUOkQW0iA8RvG7bDWRPzTpg79jaJAEGR2bGAv9EFMbVHsStIjkOv7MNzVm
-         Kcm63wz6L+c0RuJbMV7NWHC7ItQQHdMkmkfS+j26MzU4kWu0nrR/9GrnneWiDzk8kB2y
-         0IJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=t//VfIkjwQXqxb3+6HcAZOI39YFeCdYqc5EmeEugUiM=;
-        b=3BbeATDy/AZdJ7BnIvbnmTiDZ/XhyCRb6SJ1808i6P9Ft/iz++BL3FDR7/vSMgJMvj
-         JoJB1eq7Vv9X2QWm1nX9XoKRBhzypOe3l7uAWfsPFLVo4ndOCPq9D6F7O49qm3vTL1jh
-         OVCoDZhtlgCCpO4IJJ5jWQrUdYLPy0i+6hwZHtdfBUPJfsha7VqNAxZ3I20tolXZ1yMe
-         7qgtNez47o9XU2R/lQ7WPe5wVUjKgdSV5jNJBD2pmOSecTLOE12sCfi4YQ0sTGWxI1YL
-         9OWudTsx3N8poKXNvFDT51EQfWl6iJMjsIuQyFR/D6lCsPUSdUMrJNbiiCtduQpuijqR
-         qN0g==
-X-Gm-Message-State: AOAM533Mv+3D976xRi0PkC10MAqD4Gd8WpdNMNcJosDwCccocNBdko+O
-	MSFX8m6Rtjz4ymDEpWj27rM=
-X-Google-Smtp-Source: ABdhPJzE2xywrVGoYO6jnH0X0hlidV7nukzzc/FaBfvY3s6ir9rBtVz7eOExZMKV3Bomawxik3twkw==
-X-Received: by 2002:ac2:4e02:: with SMTP id e2mr30412482lfr.264.1633989926514;
-        Mon, 11 Oct 2021 15:05:26 -0700 (PDT)
-Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id b9sm844307lfe.85.2021.10.11.15.05.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 15:05:26 -0700 (PDT)
-Date: Tue, 12 Oct 2021 01:05:24 +0300
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, ntfs3@lists.linux.dev,
-	Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-	Christian Brauner <christian.brauner@ubuntu.com>,
-	torvalds@linux-foundation.org
-Subject: Re: [PATCH v4 7/9] fs/ntfs3: Add iocharset= mount option as alias
- for nls=
-Message-ID: <20211011220524.azcaxs7y5zgd2uwz@kari-VirtualBox>
-References: <20210907153557.144391-1-kari.argillander@gmail.com>
- <20210907153557.144391-8-kari.argillander@gmail.com>
- <20210908190938.l32kihefvtfw5tjp@pali>
- <20211009114252.jn2uehmaveucimp5@pali>
- <20211009143327.mqwwwlc4bgwtpush@kari-VirtualBox>
- <204a5be9-f0a2-1c85-d3a8-3011578b9299@paragon-software.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2E32C81
+	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 05:13:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=ocvXC+DvSauKdmmvS3p+BxJi5u95doUk5KlK23wKtqo=; b=lKRpM4ZXjdzEAs+vZHMan9ZhwK
+	q3qA9dd5QajFA+KsuGdVyTH2p+oZZPEv/z2NSgSxTwIMMwqmktOR+s0Mrd19t1c1Y/TakGT40A9Wj
+	fXHJiNb6NQJwkxlZ/5iLycWCBNdMTLXRP1g8wuFiwK5UhTbY4DE7tpL0AHanppMBRE/m1Ine/XAEK
+	um2dw0LVt4/UjLCyOHoVNjJK0jpXEaLw+w3Q6MwnUfqPKIR8hZ7XIOjLGS/AwhJhnrAzptzhgIYv3
+	k508G2hmAkGrCbErzCtBLkTxM5WVEpuUuduXQQzcasviJArvc73oNwcMB0CSLN98PutjOV+1MzU1W
+	3RwzUyhQ==;
+Received: from 089144212063.atnat0021.highway.a1.net ([89.144.212.63] helo=localhost)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1maWXM-0075tt-3G; Wed, 13 Oct 2021 05:10:57 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Coly Li <colyli@suse.de>,
+	Mike Snitzer <snitzer@redhat.com>,
+	Song Liu <song@kernel.org>,
+	David Sterba <dsterba@suse.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	"Theodore Ts'o" <tytso@mit.edu>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Dave Kleikamp <shaggy@kernel.org>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Anton Altaparmakov <anton@tuxera.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Kees Cook <keescook@chromium.org>,
+	Phillip Lougher <phillip@squashfs.org.uk>,
+	Jan Kara <jack@suse.com>,
+	linux-block@vger.kernel.org,
+	dm-devel@redhat.com,
+	drbd-dev@lists.linbit.com,
+	linux-bcache@vger.kernel.org,
+	linux-raid@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	jfs-discussion@lists.sourceforge.net,
+	linux-nfs@vger.kernel.org,
+	linux-nilfs@vger.kernel.org,
+	linux-ntfs-dev@lists.sourceforge.net,
+	ntfs3@lists.linux.dev,
+	reiserfs-devel@vger.kernel.org
+Subject: don't use ->bd_inode to access the block device size
+Date: Wed, 13 Oct 2021 07:10:13 +0200
+Message-Id: <20211013051042.1065752-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <204a5be9-f0a2-1c85-d3a8-3011578b9299@paragon-software.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, Oct 11, 2021 at 08:14:28PM +0300, Konstantin Komarov wrote:
-> 
-> 
-> On 09.10.2021 17:33, Kari Argillander wrote:
-> > Choose to add Linus to CC so that he also knows whats coming.
-> > 
-> > On Sat, Oct 09, 2021 at 01:42:52PM +0200, Pali Rohár wrote:
-> >> Hello!
-> >>
-> >> This patch have not been applied yet:
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/ntfs3/super.c#n247
-> >>
-> >> What happened that in upstream tree is still only nls= option and not
-> >> this iocharset=?
-> > 
-> > Very valid question. For some reason Konstantin has not sended pr to
-> > Linus. I have also address my concern that pr is not yet sended and he
-> > will make very massive "patch dumb" to rc6/rc7. See thread [1]. There is
-> > about 50-70 patch already which he will send to rc6/rc7. I have get also
-> > impression that patches which are not yet even applied to ntfs3 tree [2]
-> > will be also sended to rc6/rc7. There is lot of refactoring and new
-> > algorithms which imo are not rc material. I have sended many message to
-> > Konstantin about this topic, but basically ignored.
-> > 
-> > Basically we do not have anything for next merge window and every patch
-> > will be sended for 5.15.
-> > 
-> > [1] lore.kernel.org/lkml/20210925082823.fo2wm62xlcexhwvi@kari-VirtualBox
-> > [2] https://github.com/Paragon-Software-Group/linux-ntfs3/commits/master
-> > 
-> >   Argillander
-> > 
-> 
-> Hello.
-> 
-> I was planning to send pull request on Friday 08.10.
-> But there is still one panic, that wasn't resolved [1].
-> It seems to be tricky, so I'll be content even with quick band-aid [2].
-> After confirming, that it works, I plan on sending pull request.
-> I don't want for this panic to remain in 5.15.
+Hi Jens,
 
-Of course we won't want panic to remain 5.15, but that does not mean you
-can't send pr for other patches. You can still send other pr later for
-other rc's. If you will send pr late it might be that Linus will not
-apply any of them because it will be too big pr for late rc. I'm sure he
-will be resonable in first time because ntfs3 is new driver and will
-accept pr in this case, but this cannot come habbit.
+various drivers currently poke directy at the block device inode, which
+is a bit of a mess.  This series cleans up the places that read the
+block device size to use the proper helpers.  I have separate patches
+for many of the other bd_inode uses, but this series is already big
+enough as-is,
 
-Normally rc cycle is for this kind of things. We fix things we broke
-during merge window, but right now it is real danger that we introduce
-many bugs because people cannot test ntfs3 because you hold on patches.
-They belong to also to Linus tree not just to linux-next. Many user use
-Linus tree and there are many who send good bug reports.
+I wondered about adding a helper for looking at the size in byte units
+to avoid the SECTOR_SHIFT shifts in various places.  But given that
+I could not come up with a good name and block devices fundamentally
+work in sector size granularity I decided against that.
 
-But do not take this too harsh. I'm just personally worried here. Also I
-think you as maintainer had improved well in short time.
-
-> [1]: https://lore.kernel.org/ntfs3/f9de5807-2311-7374-afb0-bc5dffb522c0@gmail.com/
-> [2]: https://lore.kernel.org/ntfs3/7e5b8dc9-9989-0e8a-9e8d-ae26b6e74df4@paragon-software.com/
-> 
-> >>
-> >> On Wednesday 08 September 2021 21:09:38 Pali Rohár wrote:
-> >>> On Tuesday 07 September 2021 18:35:55 Kari Argillander wrote:
-> >>>> Other fs drivers are using iocharset= mount option for specifying charset.
-> >>>> So add it also for ntfs3 and mark old nls= mount option as deprecated.
-> >>>>
-> >>>> Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
-> >>>
-> >>> Reviewed-by: Pali Rohár <pali@kernel.org>
-> >>>
-> >>>> ---
-> >>>>  Documentation/filesystems/ntfs3.rst |  4 ++--
-> >>>>  fs/ntfs3/super.c                    | 18 +++++++++++-------
-> >>>>  2 files changed, 13 insertions(+), 9 deletions(-)
-> >>>>
-> >>>> diff --git a/Documentation/filesystems/ntfs3.rst b/Documentation/filesystems/ntfs3.rst
-> >>>> index af7158de6fde..ded706474825 100644
-> >>>> --- a/Documentation/filesystems/ntfs3.rst
-> >>>> +++ b/Documentation/filesystems/ntfs3.rst
-> >>>> @@ -32,12 +32,12 @@ generic ones.
-> >>>>  
-> >>>>  ===============================================================================
-> >>>>  
-> >>>> -nls=name		This option informs the driver how to interpret path
-> >>>> +iocharset=name		This option informs the driver how to interpret path
-> >>>>  			strings and translate them to Unicode and back. If
-> >>>>  			this option is not set, the default codepage will be
-> >>>>  			used (CONFIG_NLS_DEFAULT).
-> >>>>  			Examples:
-> >>>> -				'nls=utf8'
-> >>>> +				'iocharset=utf8'
-> >>>>  
-> >>>>  uid=
-> >>>>  gid=
-> >>>> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-> >>>> index 729ead6f2fac..503e2e23f711 100644
-> >>>> --- a/fs/ntfs3/super.c
-> >>>> +++ b/fs/ntfs3/super.c
-> >>>> @@ -226,7 +226,7 @@ enum Opt {
-> >>>>  	Opt_nohidden,
-> >>>>  	Opt_showmeta,
-> >>>>  	Opt_acl,
-> >>>> -	Opt_nls,
-> >>>> +	Opt_iocharset,
-> >>>>  	Opt_prealloc,
-> >>>>  	Opt_no_acs_rules,
-> >>>>  	Opt_err,
-> >>>> @@ -245,9 +245,13 @@ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
-> >>>>  	fsparam_flag_no("hidden",		Opt_nohidden),
-> >>>>  	fsparam_flag_no("acl",			Opt_acl),
-> >>>>  	fsparam_flag_no("showmeta",		Opt_showmeta),
-> >>>> -	fsparam_string("nls",			Opt_nls),
-> >>>>  	fsparam_flag_no("prealloc",		Opt_prealloc),
-> >>>>  	fsparam_flag("no_acs_rules",		Opt_no_acs_rules),
-> >>>> +	fsparam_string("iocharset",		Opt_iocharset),
-> >>>> +
-> >>>> +	__fsparam(fs_param_is_string,
-> >>>> +		  "nls", Opt_iocharset,
-> >>>> +		  fs_param_deprecated, NULL),
-> >>>>  	{}
-> >>>>  };
-> >>>>  
-> >>>> @@ -346,7 +350,7 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
-> >>>>  	case Opt_showmeta:
-> >>>>  		opts->showmeta = result.negated ? 0 : 1;
-> >>>>  		break;
-> >>>> -	case Opt_nls:
-> >>>> +	case Opt_iocharset:
-> >>>>  		kfree(opts->nls_name);
-> >>>>  		opts->nls_name = param->string;
-> >>>>  		param->string = NULL;
-> >>>> @@ -380,11 +384,11 @@ static int ntfs_fs_reconfigure(struct fs_context *fc)
-> >>>>  	new_opts->nls = ntfs_load_nls(new_opts->nls_name);
-> >>>>  	if (IS_ERR(new_opts->nls)) {
-> >>>>  		new_opts->nls = NULL;
-> >>>> -		errorf(fc, "ntfs3: Cannot load nls %s", new_opts->nls_name);
-> >>>> +		errorf(fc, "ntfs3: Cannot load iocharset %s", new_opts->nls_name);
-> >>>>  		return -EINVAL;
-> >>>>  	}
-> >>>>  	if (new_opts->nls != sbi->options->nls)
-> >>>> -		return invalf(fc, "ntfs3: Cannot use different nls when remounting!");
-> >>>> +		return invalf(fc, "ntfs3: Cannot use different iocharset when remounting!");
-> >>>>  
-> >>>>  	sync_filesystem(sb);
-> >>>>  
-> >>>> @@ -528,9 +532,9 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
-> >>>>  	if (opts->dmask)
-> >>>>  		seq_printf(m, ",dmask=%04o", ~opts->fs_dmask_inv);
-> >>>>  	if (opts->nls)
-> >>>> -		seq_printf(m, ",nls=%s", opts->nls->charset);
-> >>>> +		seq_printf(m, ",iocharset=%s", opts->nls->charset);
-> >>>>  	else
-> >>>> -		seq_puts(m, ",nls=utf8");
-> >>>> +		seq_puts(m, ",iocharset=utf8");
-> >>>>  	if (opts->sys_immutable)
-> >>>>  		seq_puts(m, ",sys_immutable");
-> >>>>  	if (opts->discard)
-> >>>> -- 
-> >>>> 2.25.1
-> >>>>
+Diffstat:
+ block/fops.c                        |    2 +-
+ drivers/block/drbd/drbd_int.h       |    3 +--
+ drivers/md/bcache/super.c           |    2 +-
+ drivers/md/bcache/util.h            |    4 ----
+ drivers/md/bcache/writeback.c       |    2 +-
+ drivers/md/dm-bufio.c               |    2 +-
+ drivers/md/dm-cache-metadata.c      |    2 +-
+ drivers/md/dm-cache-target.c        |    2 +-
+ drivers/md/dm-clone-target.c        |    2 +-
+ drivers/md/dm-dust.c                |    5 ++---
+ drivers/md/dm-ebs-target.c          |    2 +-
+ drivers/md/dm-era-target.c          |    2 +-
+ drivers/md/dm-exception-store.h     |    2 +-
+ drivers/md/dm-flakey.c              |    3 +--
+ drivers/md/dm-integrity.c           |    6 +++---
+ drivers/md/dm-linear.c              |    3 +--
+ drivers/md/dm-log-writes.c          |    4 ++--
+ drivers/md/dm-log.c                 |    2 +-
+ drivers/md/dm-mpath.c               |    2 +-
+ drivers/md/dm-raid.c                |    6 +++---
+ drivers/md/dm-switch.c              |    2 +-
+ drivers/md/dm-table.c               |    3 +--
+ drivers/md/dm-thin-metadata.c       |    2 +-
+ drivers/md/dm-thin.c                |    2 +-
+ drivers/md/dm-verity-target.c       |    3 +--
+ drivers/md/dm-writecache.c          |    2 +-
+ drivers/md/dm-zoned-target.c        |    2 +-
+ drivers/md/md.c                     |   26 +++++++++++---------------
+ drivers/mtd/devices/block2mtd.c     |    5 +++--
+ drivers/nvme/target/io-cmd-bdev.c   |    4 ++--
+ drivers/target/target_core_iblock.c |    5 +++--
+ fs/affs/super.c                     |    2 +-
+ fs/btrfs/dev-replace.c              |    2 +-
+ fs/btrfs/disk-io.c                  |    3 ++-
+ fs/btrfs/ioctl.c                    |    4 ++--
+ fs/btrfs/volumes.c                  |    7 ++++---
+ fs/buffer.c                         |    4 ++--
+ fs/cramfs/inode.c                   |    2 +-
+ fs/ext4/super.c                     |    2 +-
+ fs/fat/inode.c                      |    5 +----
+ fs/hfs/mdb.c                        |    2 +-
+ fs/hfsplus/wrapper.c                |    2 +-
+ fs/jfs/resize.c                     |    5 ++---
+ fs/jfs/super.c                      |    5 ++---
+ fs/nfs/blocklayout/dev.c            |    4 ++--
+ fs/nilfs2/ioctl.c                   |    2 +-
+ fs/nilfs2/super.c                   |    2 +-
+ fs/nilfs2/the_nilfs.c               |    3 ++-
+ fs/ntfs/super.c                     |    8 +++-----
+ fs/ntfs3/super.c                    |    3 +--
+ fs/pstore/blk.c                     |    4 ++--
+ fs/reiserfs/super.c                 |    7 ++-----
+ fs/squashfs/super.c                 |    5 +++--
+ fs/udf/lowlevel.c                   |    5 ++---
+ fs/udf/super.c                      |    9 +++------
+ include/linux/genhd.h               |    6 ++++++
+ 56 files changed, 100 insertions(+), 117 deletions(-)
