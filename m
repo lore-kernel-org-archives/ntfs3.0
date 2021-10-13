@@ -1,21 +1,21 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CF92C81
-	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 05:21:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A592C81
+	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 05:22:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=aKWVIKm4qTCGfWucJpKknVpyj1fAJQTGUy8obOoxkuQ=; b=RruPipVajHMi0j7MHBs3Pon4xn
-	jelNKvVU+XoTDnYNF2QzP2GYE7Sfm2SF51tl6epi3hb0itbFUOW3ZvWYBpv4nzQucieSoY1wg8cEy
-	7jTrW7JOcLfXCnEJq5CDbdYCmLxZfHH7VEFcxlrY4XQ7LGxjg4YR0toqWEF+IQe2JJO1fFap5pCwf
-	XWXaOHoEtOTdzZgATJL0Ovs/f/Xya495HJde/3+pli0uXmnff+dOVz2Z7XS7Ep8cPSBgQHTq3AQao
-	/ITUxljsQ4XCV3xji5dilEDib1A3E1VfB4m34M0Azks0NOaCgg1QYJZy32D43YXfa7P//2TdWAXN7
-	xgbFX/kQ==;
+	bh=2DQz2WV/6nrwiR72242gRkqq8vUi4whhUhfjcP1bIOA=; b=Xa7GvbJUMqzfvYueWwVUK3Ux0y
+	yeuPdYMbBAsv9epgGKu1vVzGX5AB9rd3WONNmNoS6gf48CEj/PVW94BBUJX37asekH4NgbraHAxgt
+	WFbcI0BRgTaJDdjCqpms7HMs5C8IrEAXCvDE3EtdqraUh37FzwbfyoXL8GMrpEuNmvxXHABcddDQj
+	moa/NVUObti9FIhR2tmwTqQ9CsQE6vspnROJ/w7q712HU1YfTb1JyVgsUDPAlJjCQuTqpVjblOKfa
+	d1LJSuZJXvLyYiS+rDzxGbQbtLoGp+8OE0X2NKJLWnwHbMtue0DP5hxKAu9iTrDO6aiD7Uy0tXmC+
+	90afCgmw==;
 Received: from 089144212063.atnat0021.highway.a1.net ([89.144.212.63] helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maWcn-0076CB-CH; Wed, 13 Oct 2021 05:16:42 +0000
+	id 1maWdg-0076G9-GA; Wed, 13 Oct 2021 05:17:32 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -50,9 +50,9 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
 	reiserfs-devel@vger.kernel.org
-Subject: [PATCH 06/29] nvmet: use bdev_nr_sectors instead of open coding it
-Date: Wed, 13 Oct 2021 07:10:19 +0200
-Message-Id: <20211013051042.1065752-7-hch@lst.de>
+Subject: [PATCH 07/29] target/iblock: use bdev_nr_sectors instead of open coding it
+Date: Wed, 13 Oct 2021 07:10:20 +0200
+Message-Id: <20211013051042.1065752-8-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211013051042.1065752-1-hch@lst.de>
 References: <20211013051042.1065752-1-hch@lst.de>
@@ -69,31 +69,25 @@ Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/target/io-cmd-bdev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/target/target_core_iblock.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 6139e1de50a66..683246303f62e 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -87,7 +87,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
- 		ns->bdev = NULL;
- 		return ret;
- 	}
--	ns->size = i_size_read(ns->bdev->bd_inode);
-+	ns->size = bdev_nr_sectors(ns->bdev) << SECTOR_SHIFT;
- 	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
- 
- 	ns->pi_type = 0;
-@@ -108,7 +108,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
- 
- void nvmet_bdev_ns_revalidate(struct nvmet_ns *ns)
+diff --git a/drivers/target/target_core_iblock.c b/drivers/target/target_core_iblock.c
+index 31df20abe141f..ab7f5678ebc44 100644
+--- a/drivers/target/target_core_iblock.c
++++ b/drivers/target/target_core_iblock.c
+@@ -232,8 +232,9 @@ static unsigned long long iblock_emulate_read_cap_with_block_size(
+ 	struct block_device *bd,
+ 	struct request_queue *q)
  {
--	ns->size = i_size_read(ns->bdev->bd_inode);
-+	ns->size = bdev_nr_sectors(ns->bdev) << SECTOR_SHIFT;
- }
+-	unsigned long long blocks_long = (div_u64(i_size_read(bd->bd_inode),
+-					bdev_logical_block_size(bd)) - 1);
++	loff_t size = bdev_nr_sectors(bd) << SECTOR_SHIFT;
++	unsigned long long blocks_long =
++		div_u64(size, bdev_logical_block_size(bd)) - 1;
+ 	u32 block_size = bdev_logical_block_size(bd);
  
- u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
+ 	if (block_size == dev->dev_attrib.block_size)
 -- 
 2.30.2
 
