@@ -1,21 +1,21 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226512C81
-	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 05:41:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3E72C81
+	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 05:43:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=B7QUfk1V5g8os83d9H1pzKVS9Wky59aiatgX6MLOno0=; b=CuLaz4HX5JZzaiVl+rrp1XndWm
-	e85pf4KU0S4KS7k7a+Wkegm4zhjEcCEdUBRwtldyb4HFr1gr6lgjLQj5gR2x0k9qZ9N9Fi8WCz2xT
-	8lNfgQhpAFUxT3Ufk/vyJR4YsqVM6aNVMZAfOHIMxlln4kh1U5jQB+VQARv68hhX7otTu4X5BswHz
-	cDJoWPnUZvJYLvt/R4l57Ff41h5Bq0YtrIJd4PJZIkxEo6zcABBBk3oC13aDY8YQSnJFo4HO1M+Jv
-	hM3ZRc3MS/f9El5do1DMz2+5eS1XxDW0umV7kD9UxXVALr22ThZ0cfVN+QmtRS3JTKFR+4iWuZfuY
-	nidJqMvw==;
+	bh=Jn3vPWURqTLCTgey+1ZKUDn76o/D4LziuPXo21jTcNA=; b=hRwOIaUT4TV+iuM/Zg8w7n25xq
+	4JP07oWgVj96DxAIyE5GugNAoImIQjt6YOnfusnDpQHqpMzsfUUyomS23Xdp6GlGxW3N9d9yv8zRS
+	Hpba9F54jbcMwbBNW8QibfhbiimOvdOmbo+bN2OBMyd97mLTimJW2mXzi7iAyeKKMK46Qo3qyEEEa
+	rak7t0pG0xoWK9og1uwIKQIsTozlfX1z449iRcMhaqjTRmWD/ItgnJgiWeePTgAAgRxi2mKfmIrf0
+	aPWD/qlzTxrcJbhN3jtl/ZC96e/wuQfBrUM++RgMnBjSBr/PpZLjvhZ0imDh0CcCecmWUWPsOtrDH
+	PvSE0SHg==;
 Received: from 089144212063.atnat0021.highway.a1.net ([89.144.212.63] helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maWwF-0077wR-3t; Wed, 13 Oct 2021 05:36:43 +0000
+	id 1maWxN-007832-Di; Wed, 13 Oct 2021 05:38:03 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -50,9 +50,9 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
 	reiserfs-devel@vger.kernel.org
-Subject: [PATCH 22/29] squashfs: use bdev_nr_sectors instead of open coding it
-Date: Wed, 13 Oct 2021 07:10:35 +0200
-Message-Id: <20211013051042.1065752-23-hch@lst.de>
+Subject: [PATCH 23/29] block: use bdev_nr_sectors instead of open coding it in blkdev_fallocate
+Date: Wed, 13 Oct 2021 07:10:36 +0200
+Message-Id: <20211013051042.1065752-24-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211013051042.1065752-1-hch@lst.de>
 References: <20211013051042.1065752-1-hch@lst.de>
@@ -69,32 +69,22 @@ Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/squashfs/super.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ block/fops.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/squashfs/super.c b/fs/squashfs/super.c
-index 60d6951915f44..e83042ecf0d86 100644
---- a/fs/squashfs/super.c
-+++ b/fs/squashfs/super.c
-@@ -16,6 +16,7 @@
+diff --git a/block/fops.c b/block/fops.c
+index 7bb9581a146cf..6e27dd2748504 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -548,7 +548,7 @@ static long blkdev_fallocate(struct file *file, int mode, loff_t start,
+ 		return -EOPNOTSUPP;
  
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
-+#include <linux/blkdev.h>
- #include <linux/fs.h>
- #include <linux/fs_context.h>
- #include <linux/fs_parser.h>
-@@ -179,8 +180,8 @@ static int squashfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	/* Check the filesystem does not extend beyond the end of the
- 	   block device */
- 	msblk->bytes_used = le64_to_cpu(sblk->bytes_used);
--	if (msblk->bytes_used < 0 || msblk->bytes_used >
--			i_size_read(sb->s_bdev->bd_inode))
-+	if (msblk->bytes_used < 0 ||
-+	    msblk->bytes_used > (bdev_nr_sectors(sb->s_bdev) << SECTOR_SHIFT))
- 		goto failed_mount;
- 
- 	/* Check block size for sanity */
+ 	/* Don't go off the end of the device. */
+-	isize = i_size_read(bdev->bd_inode);
++	isize = bdev_nr_sectors(bdev) << SECTOR_SHIFT;
+ 	if (start >= isize)
+ 		return -EINVAL;
+ 	if (end >= isize) {
 -- 
 2.30.2
 
