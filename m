@@ -1,71 +1,71 @@
-Received: from p3plwbeout25-04.prod.phx3.secureserver.net (p3plsmtp25-04-2.prod.phx3.secureserver.net [216.69.139.18])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DB72C87
-	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 19:40:00 +0000 (UTC)
-Received: from mailex.mailcore.me ([94.136.40.144])
-	by :WBEOUT: with ESMTP
-	id ak3omd5ZTYtUJak3pmI9J5; Wed, 13 Oct 2021 12:37:09 -0700
-X-CMAE-Analysis: v=2.4 cv=Gu+HRm5C c=1 sm=1 tr=0 ts=61673565
- a=wXHyRMViKMYRd//SnbHIqA==:117 a=84ok6UeoqCVsigPHarzEiQ==:17
- a=ggZhUymU-5wA:10 a=IkcTkHD0fZMA:10 a=8gfv0ekSlNoA:10 a=FXvPX3liAAAA:8
- a=Tqnnkb1RH65CB2acoZsA:9 a=QEXdDO2ut3YA:10 a=SM4aVyO6fsoA:10
- a=UxLD5KG5Eu0A:10 a=OunuuIp3J4_2X_e7vt2U:22 a=fDQtvUcBV1mJc6yKnRhE:22
- a=UObqyxdv-6Yh2QiB9mM_:22
-X-SECURESERVER-ACCT: phillip@squashfs.org.uk  
-X-SID: ak3omd5ZTYtUJ
-Received: from 82-69-79-175.dsl.in-addr.zen.co.uk ([82.69.79.175] helo=[192.168.178.33])
-	by smtp01.mailcore.me with esmtpa (Exim 4.94.2)
-	(envelope-from <phillip@squashfs.org.uk>)
-	id 1mak3n-0001YR-Im; Wed, 13 Oct 2021 20:37:07 +0100
-Subject: Re: [PATCH 22/29] squashfs: use bdev_nr_sectors instead of open
- coding it
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
- Song Liu <song@kernel.org>, David Sterba <dsterba@suse.com>,
- Josef Bacik <josef@toxicpanda.com>, Theodore Ts'o <tytso@mit.edu>,
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
- Dave Kleikamp <shaggy@kernel.org>,
- Ryusuke Konishi <konishi.ryusuke@gmail.com>,
- Anton Altaparmakov <anton@tuxera.com>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Kees Cook <keescook@chromium.org>, Jan Kara <jack@suse.com>,
- linux-block@vger.kernel.org, dm-devel@redhat.com, drbd-dev@lists.linbit.com,
- linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
- linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
- linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
- reiserfs-devel@vger.kernel.org
-References: <20211013051042.1065752-1-hch@lst.de>
- <20211013051042.1065752-23-hch@lst.de>
-From: Phillip Lougher <phillip@squashfs.org.uk>
-Message-ID: <cbd3585f-87c6-ab31-2911-4d3550287e22@squashfs.org.uk>
-Date: Wed, 13 Oct 2021 20:37:03 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120742C83
+	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 21:14:45 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A689561175
+	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 21:14:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1634159685;
+	bh=SlbEmP0SftpYg5Qzgl+3uhbNwtKN42MS1eJbqRVvz8o=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=hiKscGct16rhTAVFUvB8ulUGFNYX0XJpF+2YqPKF0No0/OTxa8B+FbCYvPeznM3IT
+	 o7+9DVjPYoKAxa50QdWsJ1gL4J+4wBU1jNZrm6P/FvNKQ8G7E2qrXO9VM2GBzVJvw8
+	 S/gFZjYpmMou1VruRE19i94wuylZi24lJbQ6yAN6OeRqXntYIE5B0JYh+T/uz9ctke
+	 L86OtKTf7XCkJxLOyXfeIFv5kZLrR3s6zlWx8Mcxq8cYKDBsASwSQxb8GUZPcnzqgT
+	 VFHmPHbz4NrsEHQ/qmk1iEmYL+m9W0ImnKdxKKKAOXKE+hMXaoTAVCJomjq0s1kTjo
+	 7pgsY+NMeWiSg==
+Received: by mail-lf1-f50.google.com with SMTP id t9so17456323lfd.1
+        for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 14:14:45 -0700 (PDT)
+X-Gm-Message-State: AOAM531rXfs18hScl1JxntKIygquKzBw3brCjSMmFPKEKfoHtm7z39D2
+	dEiUGVGp0iXm4FJ5qZq6EdfpDZvuJ0IUWIx+4wo=
+X-Google-Smtp-Source: ABdhPJy4PwudaFsA5k7zIKbmlSW7M8/j3iWHJKEthDYdjnMO754KPa3JLlK+wmXJkye7TEJ2vXHzCCixulymuZnDiqk=
+X-Received: by 2002:a2e:6e0b:: with SMTP id j11mr1736234ljc.527.1634159683768;
+ Wed, 13 Oct 2021 14:14:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211013051042.1065752-23-hch@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Mailcore-Auth: 439999529
-X-Mailcore-Domain: 1394945
-X-123-reg-Authenticated:  phillip@squashfs.org.uk  
-X-Originating-IP: 82.69.79.175
-X-CMAE-Envelope: MS4xfHO+nEXloPD2dzP2pILrP6zc2lLsFdTpcQ+26yXSdkM87gqTXHZy1PKGIqs5CJ6UcgskLdnm5XYfZuHa0PikObZBotvKhA1awL5Rrvo0+R3CGfQzGjjO
- LP6RehgoVa3sTQslvQ6mq1HCq1OUvFy7z26wUhhzTdhiKWlo39U+Hwy2j7sxrIsXBpVmI5i8odEUQfBIKSVT5HYFo8fcX+900V0=
+References: <20211013051042.1065752-1-hch@lst.de> <20211013051042.1065752-5-hch@lst.de>
+ <202110122311.B43459E21@keescook>
+In-Reply-To: <202110122311.B43459E21@keescook>
+From: Song Liu <song@kernel.org>
+Date: Wed, 13 Oct 2021 14:14:32 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW6MFRmKfpUxLL3=TRAgNTuTMFySc=_-NA7YOWDAvYAxyQ@mail.gmail.com>
+Message-ID: <CAPhsuW6MFRmKfpUxLL3=TRAgNTuTMFySc=_-NA7YOWDAvYAxyQ@mail.gmail.com>
+Subject: Re: [PATCH 04/29] md: use bdev_nr_sectors instead of open coding it
+To: Kees Cook <keescook@chromium.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>, 
+	Mike Snitzer <snitzer@redhat.com>, David Sterba <dsterba@suse.com>, 
+	Josef Bacik <josef@toxicpanda.com>, "Theodore Ts'o" <tytso@mit.edu>, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Dave Kleikamp <shaggy@kernel.org>, 
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>, Anton Altaparmakov <anton@tuxera.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Phillip Lougher <phillip@squashfs.org.uk>, Jan Kara <jack@suse.com>, linux-block@vger.kernel.org, 
+	dm-devel@redhat.com, drbd-dev@lists.linbit.com, linux-bcache@vger.kernel.org, 
+	linux-raid <linux-raid@vger.kernel.org>, linux-mtd@lists.infradead.org, 
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, 
+	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org, 
+	linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net, 
+	ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 13/10/2021 06:10, Christoph Hellwig wrote:
-> Use the proper helper to read the block device size.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On Tue, Oct 12, 2021 at 11:12 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Wed, Oct 13, 2021 at 07:10:17AM +0200, Christoph Hellwig wrote:
+> > Use the proper helper to read the block device size.
+> >
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+>
+> I think it might make sense, as you suggest earlier, to add a "bytes"
+> helper. This is the first user in the series needing:
+>
+>         bdev_nr_sectors(...bdev) << SECTOR_SHIFT
+>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Acked-by: Phillip Lougher <phillip@squashfs.org.uk>
+Acked-by: Song Liu <song@kernel.org>
