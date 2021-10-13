@@ -1,21 +1,21 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300672C81
-	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 05:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88082C81
+	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 05:32:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=ThhwJoeorMicfGUoJpj8bDFZXXZ2Sru2bDJViO7vTu8=; b=LCiRvxWM1CTaMWKxh92Deomiwf
-	AY9T2YY1wAWxayl0vHnI1Q7mpxaX7UvIsbVjgD5F5J0/8Qm83whK+tQBPPPd8pmhB0O4eGWD4XqfT
-	c51RkGegU087jx0bEhd8pTkptR/xVbI1krXiYhhsCMIgD4nHHZeeyW9HDn7opQL1nNlHC+MWFxmZj
-	O53LeicK40qW4KmNGbDlJiMfRDGAw1iqHT+q8MOwN7FIAQVaGPNnSrsAg3Oezji+43Uw1qYjdH5Lx
-	A2knf7KchBs3lZTE5z1hpj3gY1+JYG/FFOQsWofs+2X44MCi4XFeV63rKedqfr82Gv2DcvsEarZbm
-	idOFCkQg==;
+	bh=0CzA0kx7s0ELl4fQaEsB/E18rmbbLoNYy9NgcttMCgE=; b=s850+REbvrp3/XaEZ2dVkFtPhB
+	JH3B5n6vi8GZO0CrPY80C03Q/cFTmPiE1wrowrI7rJsSj/FMjJJAm1wgEFlg/oN38LWuJs9+w3qaj
+	JOr++LQ0C4hBbFHbUtjCyVMmtv53TCQsnjPZVarJWW6jW0TPh4tuKEPBFBunbl2rZo31UTzriKxef
+	nBFI2fyhpnRl86xFUK8q9XSiOYKTmS1DDxP8fQBakR7jFtS62ovDP5AinjajecjLCvn1zf+S3aKqO
+	a4Lh0rv3PbIhCtKh2iHDLUlw47l464l14UlBBBhiZ/0t4t/7n3iaXy4wNfPu4Ad37gKED1cr6tnYs
+	Tkw4jXlg==;
 Received: from 089144212063.atnat0021.highway.a1.net ([89.144.212.63] helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maWmy-00775i-Fe; Wed, 13 Oct 2021 05:27:05 +0000
+	id 1maWnk-0077Aj-0S; Wed, 13 Oct 2021 05:27:52 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -50,9 +50,9 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
 	reiserfs-devel@vger.kernel.org
-Subject: [PATCH 14/29] hfs: use bdev_nr_sectors instead of open coding it
-Date: Wed, 13 Oct 2021 07:10:27 +0200
-Message-Id: <20211013051042.1065752-15-hch@lst.de>
+Subject: [PATCH 15/29] hfsplus: use bdev_nr_sectors instead of open coding it
+Date: Wed, 13 Oct 2021 07:10:28 +0200
+Message-Id: <20211013051042.1065752-16-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211013051042.1065752-1-hch@lst.de>
 References: <20211013051042.1065752-1-hch@lst.de>
@@ -69,21 +69,21 @@ Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/hfs/mdb.c | 2 +-
+ fs/hfsplus/wrapper.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
-index cdf0edeeb2781..5beb826524354 100644
---- a/fs/hfs/mdb.c
-+++ b/fs/hfs/mdb.c
-@@ -36,7 +36,7 @@ static int hfs_get_last_session(struct super_block *sb,
+diff --git a/fs/hfsplus/wrapper.c b/fs/hfsplus/wrapper.c
+index 0350dc7821bf9..51ae6f1eb4a55 100644
+--- a/fs/hfsplus/wrapper.c
++++ b/fs/hfsplus/wrapper.c
+@@ -131,7 +131,7 @@ static int hfsplus_get_last_session(struct super_block *sb,
  
  	/* default values */
  	*start = 0;
 -	*size = i_size_read(sb->s_bdev->bd_inode) >> 9;
 +	*size = bdev_nr_sectors(sb->s_bdev);
  
- 	if (HFS_SB(sb)->session >= 0) {
+ 	if (HFSPLUS_SB(sb)->session >= 0) {
  		struct cdrom_tocentry te;
 -- 
 2.30.2
