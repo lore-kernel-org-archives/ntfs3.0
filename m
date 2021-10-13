@@ -1,91 +1,71 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from p3plwbeout25-04.prod.phx3.secureserver.net (p3plsmtp25-04-2.prod.phx3.secureserver.net [216.69.139.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7925572
-	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 16:43:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1634143395;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DvE9A+LL2XADoLsMv/QT6HGglilUC7cXAXtJNsfa8lA=;
-	b=IIypTiFYhWCZbUSA7VEpUQlZe+SKXR1aCyCxIeoqcvY99VskuswRyMMy2b0K556uJIiCjv
-	Ox6qgb6HttmrXI9seTaJDYkZUlW9UeyOf+kL7QD/bz8MJ74DIoTbmWfaHbeNmatD8nYYnh
-	K+JHChfxdua7U/XCkmmnTUNapGNrs3s=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-iC5x_SKgOcuJZ1_GyiV4bw-1; Wed, 13 Oct 2021 12:43:14 -0400
-X-MC-Unique: iC5x_SKgOcuJZ1_GyiV4bw-1
-Received: by mail-qt1-f200.google.com with SMTP id 12-20020aed208c000000b002a78b33ad97so2458424qtb.23
-        for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 09:43:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DvE9A+LL2XADoLsMv/QT6HGglilUC7cXAXtJNsfa8lA=;
-        b=gxbUPEQNeEPjoEnP4OrmyaOAUPwSIuRNR6wMo9JJJHSdxE5pHh7ZVqvuFJyheCIz6z
-         OHKkyGZe/3Fcq0RYDIrcgMObC2ymJLsTWJQUn0tnyEQC6DsmyEPUHgIbV2BSEGwA3JfC
-         CAoB1uT8wnoovreChmyPVukGAku0vPB6od6sb0S5ldnTm3HUQ4U1q5Bvb8WxfJLRQ+2J
-         Llw5LfQMIm4j+SrxEOCB8PWBN5lqkEpaR0Ix3ZahY3JBNufX+rFHIBcbbKP1vKp0N2C+
-         YWH8uFxq/hz+kqpr6ZjBZvXYSEYzWWgR0rUDvQ+24pkVYz5QLGYzE+JKz+s6WnE00EV7
-         6j1A==
-X-Gm-Message-State: AOAM531dJqR5IbClPFKAB6OV8gV229ZlVU8/FH7PEmijazwOYCQrLXBf
-	IipUR44Hr1I2IDkwNTJ8ynNeQ3tWA+ouKSNoJIQul9NRTymcldoc4NqfKLvxl7rUdrSJY3WuK7d
-	3X4exRy5iglBIgw==
-X-Received: by 2002:ac8:7d02:: with SMTP id g2mr450218qtb.66.1634143393836;
-        Wed, 13 Oct 2021 09:43:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy4uQGBl82DdkygPL4oygkwPDtljuRYBV8+ESqW4tKnOahM7pZ+SYljUTQ3BKpa4FdVi33PjA==
-X-Received: by 2002:ac8:7d02:: with SMTP id g2mr450159qtb.66.1634143393507;
-        Wed, 13 Oct 2021 09:43:13 -0700 (PDT)
-Received: from localhost ([45.130.83.141])
-        by smtp.gmail.com with ESMTPSA id q14sm77870qtl.73.2021.10.13.09.43.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Oct 2021 09:43:13 -0700 (PDT)
-Date: Wed, 13 Oct 2021 12:43:12 -0400
-From: Mike Snitzer <snitzer@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>,
-	David Sterba <dsterba@suse.com>, Josef Bacik <josef@toxicpanda.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Anton Altaparmakov <anton@tuxera.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Kees Cook <keescook@chromium.org>,
-	Phillip Lougher <phillip@squashfs.org.uk>, Jan Kara <jack@suse.com>,
-	linux-block@vger.kernel.org, dm-devel@redhat.com,
-	drbd-dev@lists.linbit.com, linux-bcache@vger.kernel.org,
-	linux-raid@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-	linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
-	ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
-Subject: Re: [PATCH 03/29] dm: use bdev_nr_sectors instead of open coding it
-Message-ID: <YWcMoCZxfpUzKZQ+@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DB72C87
+	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 19:40:00 +0000 (UTC)
+Received: from mailex.mailcore.me ([94.136.40.144])
+	by :WBEOUT: with ESMTP
+	id ak3omd5ZTYtUJak3pmI9J5; Wed, 13 Oct 2021 12:37:09 -0700
+X-CMAE-Analysis: v=2.4 cv=Gu+HRm5C c=1 sm=1 tr=0 ts=61673565
+ a=wXHyRMViKMYRd//SnbHIqA==:117 a=84ok6UeoqCVsigPHarzEiQ==:17
+ a=ggZhUymU-5wA:10 a=IkcTkHD0fZMA:10 a=8gfv0ekSlNoA:10 a=FXvPX3liAAAA:8
+ a=Tqnnkb1RH65CB2acoZsA:9 a=QEXdDO2ut3YA:10 a=SM4aVyO6fsoA:10
+ a=UxLD5KG5Eu0A:10 a=OunuuIp3J4_2X_e7vt2U:22 a=fDQtvUcBV1mJc6yKnRhE:22
+ a=UObqyxdv-6Yh2QiB9mM_:22
+X-SECURESERVER-ACCT: phillip@squashfs.org.uk  
+X-SID: ak3omd5ZTYtUJ
+Received: from 82-69-79-175.dsl.in-addr.zen.co.uk ([82.69.79.175] helo=[192.168.178.33])
+	by smtp01.mailcore.me with esmtpa (Exim 4.94.2)
+	(envelope-from <phillip@squashfs.org.uk>)
+	id 1mak3n-0001YR-Im; Wed, 13 Oct 2021 20:37:07 +0100
+Subject: Re: [PATCH 22/29] squashfs: use bdev_nr_sectors instead of open
+ coding it
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
+ Song Liu <song@kernel.org>, David Sterba <dsterba@suse.com>,
+ Josef Bacik <josef@toxicpanda.com>, Theodore Ts'o <tytso@mit.edu>,
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+ Dave Kleikamp <shaggy@kernel.org>,
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ Anton Altaparmakov <anton@tuxera.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Kees Cook <keescook@chromium.org>, Jan Kara <jack@suse.com>,
+ linux-block@vger.kernel.org, dm-devel@redhat.com, drbd-dev@lists.linbit.com,
+ linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
+ linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
+ linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
+ reiserfs-devel@vger.kernel.org
 References: <20211013051042.1065752-1-hch@lst.de>
- <20211013051042.1065752-4-hch@lst.de>
+ <20211013051042.1065752-23-hch@lst.de>
+From: Phillip Lougher <phillip@squashfs.org.uk>
+Message-ID: <cbd3585f-87c6-ab31-2911-4d3550287e22@squashfs.org.uk>
+Date: Wed, 13 Oct 2021 20:37:03 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211013051042.1065752-4-hch@lst.de>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=snitzer@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <20211013051042.1065752-23-hch@lst.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Mailcore-Auth: 439999529
+X-Mailcore-Domain: 1394945
+X-123-reg-Authenticated:  phillip@squashfs.org.uk  
+X-Originating-IP: 82.69.79.175
+X-CMAE-Envelope: MS4xfHO+nEXloPD2dzP2pILrP6zc2lLsFdTpcQ+26yXSdkM87gqTXHZy1PKGIqs5CJ6UcgskLdnm5XYfZuHa0PikObZBotvKhA1awL5Rrvo0+R3CGfQzGjjO
+ LP6RehgoVa3sTQslvQ6mq1HCq1OUvFy7z26wUhhzTdhiKWlo39U+Hwy2j7sxrIsXBpVmI5i8odEUQfBIKSVT5HYFo8fcX+900V0=
 
-On Wed, Oct 13 2021 at  1:10P -0400,
-Christoph Hellwig <hch@lst.de> wrote:
-
+On 13/10/2021 06:10, Christoph Hellwig wrote:
 > Use the proper helper to read the block device size.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Acked-by: Mike Snitzer <snitzer@redhat.com>
-
+Acked-by: Phillip Lougher <phillip@squashfs.org.uk>
