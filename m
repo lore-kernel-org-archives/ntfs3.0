@@ -1,21 +1,21 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BE12C81
-	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 05:37:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A992C81
+	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 05:39:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=33Kpz8F8FGjSbdRAMq7HTBWO+Ph84SxFsnzh+Fl4YH0=; b=bUBWM9E0kevwkz0oRgsZfI9CMF
-	ZUPyHsGUclotLd55WmI+eaVvflFgBxLcus2lpXpx0mZyStR/3/FCF/44mLAC2KAw5HkaknNFTyWul
-	95oN+GXGf0W87rf7b9hUoYFz+LgPcF1UQiZk0lxdwkSS8zAsp970ILPZ0yAG02FBB1kPky2dmgrz7
-	iOytwOcmSOtZqMNk6rVXDwsLu7suuI10UT8Ul0+A1wZIaRop3q/Xq81eTV3Wyoj0ZgIEOVsn9MX91
-	HsMDIVSGJfAJMNHMOf9oH0gO5sAq4xNqFkAoKSOOggtp1jBQDbooEOLsZXXUjkzl7ja0WuP6IeEX6
-	4mXzyEBQ==;
+	bh=DI57HM99JgBzfFnLmBUybQWNf682vnIdHw9T61SP0gQ=; b=vNbS7uqoz6/aNrya2ptXVceM+G
+	Skcz/WgNdnkyrlwsdIEGVCi7e7QuKXvljYw9z9lYreb/M56Q3xCWJPS4TFHuwso/XAOq/0HS/IXaL
+	ppl46l7/TyY3Q9sUEfW2RdBsCLctWocpR21vfbIiyhG6Q7sG24gAEK6ui0dSC8cH45NZt498z107H
+	+m54zXQrXvLIUveBpSb09/sJLLhPgmEmV7GVD4LusuGHTFNdeYqaehK1OAo0cgyKsPhLYTBHGuabV
+	oanuJI2d6DyBNBOEQS538E1Ld8Q99m/XmzMYCfe/qgfpraqlpkqpSPldbRTfV+9B7Y3nqBeOYAgRS
+	3372D83Q==;
 Received: from 089144212063.atnat0021.highway.a1.net ([89.144.212.63] helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maWsY-0077bb-D4; Wed, 13 Oct 2021 05:32:59 +0000
+	id 1maWtU-0077im-2k; Wed, 13 Oct 2021 05:33:50 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -50,9 +50,9 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
 	reiserfs-devel@vger.kernel.org
-Subject: [PATCH 19/29] ntfs3: use bdev_nr_sectors instead of open coding it
-Date: Wed, 13 Oct 2021 07:10:32 +0200
-Message-Id: <20211013051042.1065752-20-hch@lst.de>
+Subject: [PATCH 20/29] pstore/blk: use bdev_nr_sectors instead of open coding it
+Date: Wed, 13 Oct 2021 07:10:33 +0200
+Message-Id: <20211013051042.1065752-21-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211013051042.1065752-1-hch@lst.de>
 References: <20211013051042.1065752-1-hch@lst.de>
@@ -69,30 +69,24 @@ Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/ntfs3/super.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ fs/pstore/blk.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 55bbc9200a10e..b9782b57a4036 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -918,7 +918,6 @@ static int ntfs_fill_super(struct super_block *sb, void *data, int silent)
- 	int err;
- 	struct ntfs_sb_info *sbi;
- 	struct block_device *bdev = sb->s_bdev;
--	struct inode *bd_inode = bdev->bd_inode;
- 	struct request_queue *rq = bdev_get_queue(bdev);
- 	struct inode *inode = NULL;
- 	struct ntfs_inode *ni;
-@@ -967,7 +966,7 @@ static int ntfs_fill_super(struct super_block *sb, void *data, int silent)
+diff --git a/fs/pstore/blk.c b/fs/pstore/blk.c
+index 04ce58c939a0b..f43009cb2ec82 100644
+--- a/fs/pstore/blk.c
++++ b/fs/pstore/blk.c
+@@ -223,8 +223,8 @@ static int __register_pstore_blk(struct pstore_device_info *dev,
+ 		goto err_fput;
+ 	}
  
- 	/* Parse boot. */
- 	err = ntfs_init_from_boot(sb, rq ? queue_logical_block_size(rq) : 512,
--				  bd_inode->i_size);
-+				  bdev_nr_sectors(bdev) << SECTOR_SHIFT);
- 	if (err)
- 		goto out;
+-	inode = I_BDEV(psblk_file->f_mapping->host)->bd_inode;
+-	dev->zone.total_size = i_size_read(inode);
++	inode = psblk_file->f_mapping->host;
++	dev->zone.total_size = bdev_nr_sectors(I_BDEV(inode)) << SECTOR_SHIFT;
  
+ 	ret = __register_pstore_device(dev);
+ 	if (ret)
 -- 
 2.30.2
 
