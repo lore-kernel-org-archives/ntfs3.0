@@ -1,39 +1,39 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFD02C85
-	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 06:33:06 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id pi19-20020a17090b1e5300b0019fdd3557d3so1436944pjb.5
-        for <ntfs3@lists.linux.dev>; Tue, 12 Oct 2021 23:33:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846BD2C85
+	for <ntfs3@lists.linux.dev>; Wed, 13 Oct 2021 06:33:22 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id x4so1121862pln.5
+        for <ntfs3@lists.linux.dev>; Tue, 12 Oct 2021 23:33:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=WOss03228JS+U0E2OXL79/LG2Z2ctX8IyohOEDd3STQ=;
-        b=SG8eTx4PGHBkPjipBIRHezrGg40X7FKDH3dcqzGEh0ZG/tSW8qND+TAMrNp3f/wqwx
-         MhgHQ6qj4VZF73LZ68/IqBwYNjD0oJqF3VY+z4T9q23FV/6ltSnjivxfcuufOGGKlehP
-         NgIRnRpzLQoV7Ik4Dnr+7MYlEdDMy98DEnQAc=
+        bh=KN0hCxg4qCtDzIgJk5dwSpisgOtLaF48lTZLQMzdZGQ=;
+        b=ZSgj9MSpSxiaNFjR5pl+MhsOPNs6TAo40lkstJ1+NMBhxL+4AoJC++ueHgXgDZsxkL
+         A4rqeGya73qL9mbxIoCLhchn4/FA1cf285nRCQSnbarbdqSIQhxR7IZtW3h248WE8YVx
+         CokTYsr+EOLC9mMcAUh/RiJhbXXJcMY50cpmY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=WOss03228JS+U0E2OXL79/LG2Z2ctX8IyohOEDd3STQ=;
-        b=r55AsuPCzNE5tMfOJgfdpAWJ9eijY+2jkyq4hZpDDOayufdxShM0GnJQgZnpJr8dQ2
-         qYT0hJAr6rHMdsoPoaObuZZ/VDwaaI1q5Vso2sgHQJLiGAVWdn4oXGgNZqV3N7fiLi8n
-         qHGJWmsNJz0h9RGaQvZABXphdRIAHdbeWd45ZqbBeModvSZi1UrkuJBg5nf0rP4fdEMb
-         RQrmFXRXrwqmIUkBmBvXAC9bqQ9a7a10nSpe8cRw9v1FpfVGdlHf/uq/Ukw8vJA3qa9S
-         U6E6VgI2awj68iZnzax06IMAO0SRtS+XjenmGoyoCWfbMeJ4uiIpDsTJHvgYujU/1Wd0
-         WqfQ==
-X-Gm-Message-State: AOAM532bKWav4SiZN17ZA5all/MlyMLXBMp1UDNz0l4vkgOxrqhYHgFw
-	MJpuSeUJxobFf2D/KmJESUOntg==
-X-Google-Smtp-Source: ABdhPJznx7wYhVexbMFNDV4dCepvElOzihP1I4t7IwLHfcLc7mdWs+S7z03dgD05iBEaGZ31xHHwig==
-X-Received: by 2002:a17:90b:368a:: with SMTP id mj10mr2200890pjb.201.1634106786111;
-        Tue, 12 Oct 2021 23:33:06 -0700 (PDT)
+        bh=KN0hCxg4qCtDzIgJk5dwSpisgOtLaF48lTZLQMzdZGQ=;
+        b=G0jTjK16d/xMnof6EKkdUE8kB6W1RAYhJPl1sFIZq5yh1Cf4wZwQ0w5zgZXiMoeKsl
+         AAeJh5DzfX5z5bXBekn/EbSQkOIeUUAP8r6+rIU3yXhgbCHTOOtijYaGpO4+BBa3Apie
+         3llBarfoMqWMVFH3MPfzpvh1BoLpXoRIgtV7CUvpgTXx/Ubutcd0fN0OTaKubwt7ZlmJ
+         Eup4vRVFcc2qlq86smablzr88VwHTEShMaNnZyph3XaRipPQftfn4djJvDfURzpC6Fgu
+         Uom9FLqRv5RNsexKasQmI0dQ/tXeE7U7bHi5m6Gs+Z9gcp9DNMo8Ruj2/ZJ9SI1GWQ2E
+         fg2w==
+X-Gm-Message-State: AOAM53158RSytxJMXRaGxaG7WadlvbhzTRzFUbg+YHngw1OCQ274q8vT
+	s+Ggm1fAiwBdDs484I2qi7ltnw==
+X-Google-Smtp-Source: ABdhPJwSbdMnxpZNPs6DEcJzD+WCYFHCQcM73CXxNLIwDuWek8lOvAv7bQAbdyDz750VOQBh4gVb4A==
+X-Received: by 2002:a17:902:e5d2:b0:13f:21c1:b44f with SMTP id u18-20020a170902e5d200b0013f21c1b44fmr23591611plf.30.1634106800893;
+        Tue, 12 Oct 2021 23:33:20 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id r31sm4746519pjg.28.2021.10.12.23.33.05
+        by smtp.gmail.com with ESMTPSA id s8sm8887899pfh.186.2021.10.12.23.33.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Oct 2021 23:33:05 -0700 (PDT)
-Date: Tue, 12 Oct 2021 23:33:04 -0700
+        Tue, 12 Oct 2021 23:33:20 -0700 (PDT)
+Date: Tue, 12 Oct 2021 23:33:19 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>,
@@ -55,10 +55,10 @@ Cc: Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>,
 	jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
 	linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
-Subject: Re: [PATCH 27/29] ntfs: use sb_bdev_nr_blocks
-Message-ID: <202110122332.53B5925A@keescook>
+Subject: Re: [PATCH 28/29] reiserfs: use sb_bdev_nr_blocks
+Message-ID: <202110122333.7CE920EB9@keescook>
 References: <20211013051042.1065752-1-hch@lst.de>
- <20211013051042.1065752-28-hch@lst.de>
+ <20211013051042.1065752-29-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -67,58 +67,14 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211013051042.1065752-28-hch@lst.de>
+In-Reply-To: <20211013051042.1065752-29-hch@lst.de>
 
-On Wed, Oct 13, 2021 at 07:10:40AM +0200, Christoph Hellwig wrote:
+On Wed, Oct 13, 2021 at 07:10:41AM +0200, Christoph Hellwig wrote:
 > Use the sb_bdev_nr_blocks helper instead of open coding it.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  fs/ntfs/super.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-> index 0d7e948cb29c9..5ae8de09b271b 100644
-> --- a/fs/ntfs/super.c
-> +++ b/fs/ntfs/super.c
-> @@ -2772,13 +2772,12 @@ static int ntfs_fill_super(struct super_block *sb, void *opt, const int silent)
->  	ntfs_debug("Set device block size to %i bytes (block size bits %i).",
->  			blocksize, sb->s_blocksize_bits);
->  	/* Determine the size of the device in units of block_size bytes. */
-> -	if (!i_size_read(sb->s_bdev->bd_inode)) {
-> +	vol->nr_blocks = sb_bdev_nr_blocks(sb);
-> +	if (!vol->nr_blocks) {
-
-I might be worth mentioning in the commit log why this is safe (i.e. the
-"side effect" of the assignment doesn't need to be delayed since it will
-be thrown away in the failure path).
-
->  		if (!silent)
->  			ntfs_error(sb, "Unable to determine device size.");
->  		goto err_out_now;
->  	}
-> -	vol->nr_blocks = i_size_read(sb->s_bdev->bd_inode) >>
-> -			sb->s_blocksize_bits;
->  	/* Read the boot sector and return unlocked buffer head to it. */
->  	if (!(bh = read_ntfs_boot_sector(sb, silent))) {
->  		if (!silent)
-> @@ -2816,8 +2815,7 @@ static int ntfs_fill_super(struct super_block *sb, void *opt, const int silent)
->  			goto err_out_now;
->  		}
->  		BUG_ON(blocksize != sb->s_blocksize);
-> -		vol->nr_blocks = i_size_read(sb->s_bdev->bd_inode) >>
-> -				sb->s_blocksize_bits;
-> +		vol->nr_blocks = sb_bdev_nr_blocks(sb);
->  		ntfs_debug("Changed device block size to %i bytes (block size "
->  				"bits %i) to match volume sector size.",
->  				blocksize, sb->s_blocksize_bits);
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
-
-
-> -- 
-> 2.30.2
-> 
 
 -- 
 Kees Cook
