@@ -1,27 +1,16 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374E62C82
-	for <ntfs3@lists.linux.dev>; Thu, 14 Oct 2021 02:44:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 94F2A610E7;
-	Thu, 14 Oct 2021 02:44:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1634179482;
-	bh=It2mkzx6TjfzrxKa1z+glKX99V3LF5sLjb+XStt8Wuw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mzz6lXM/GRSQKnipiuaTPceCHZUCG+Zwebj9V2e3D3u8BDYOSVlhmPweg8g6YiI8d
-	 r+FzG9sPVr+Hk4H2lOIBtjdINIDEutvPeEs53/z+5bq+4EPnsRZGELeTPAvwoMl5bY
-	 D5WR/vTtqwKDBMa4OMVf2PvJL0TBX8SE4EyM+00T66l6gCQbaCkFBvjZHr4BqEXJ5u
-	 yuO9zeVQIl48uQmyOc9Be0MLM+3GoQiZYDItlKL+q86y0ZlJKAGDhfO7K6kMaufy3f
-	 D7Hd7Q0saLd9aej/pORbgOIvPmwFjh+idyJi5NYgYOFIwSmTP7R1qlYbeAyhEajjn0
-	 kkbqUUfNjdm3A==
-Date: Wed, 13 Oct 2021 19:44:38 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>,
-	Mike Snitzer <snitzer@redhat.com>, Song Liu <song@kernel.org>,
-	David Sterba <dsterba@suse.com>, Josef Bacik <josef@toxicpanda.com>,
-	Theodore Ts'o <tytso@mit.edu>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC642C80
+	for <ntfs3@lists.linux.dev>; Thu, 14 Oct 2021 06:37:56 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 5DA6768B05; Thu, 14 Oct 2021 08:28:44 +0200 (CEST)
+Date: Thu, 14 Oct 2021 08:28:44 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
+	Song Liu <song@kernel.org>, David Sterba <dsterba@suse.com>,
+	Josef Bacik <josef@toxicpanda.com>, Theodore Ts'o <tytso@mit.edu>,
 	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
 	Dave Kleikamp <shaggy@kernel.org>,
 	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
@@ -38,11 +27,9 @@ Cc: Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>,
 	jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
 	linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
-Subject: Re: [PATCH 11/29] btrfs: use bdev_nr_sectors instead of open coding
- it
-Message-ID: <20211014024438.GG1594461@dhcp-10-100-145-180.wdc.com>
+Subject: Re: don't use ->bd_inode to access the block device size
+Message-ID: <20211014062844.GA25448@lst.de>
 References: <20211013051042.1065752-1-hch@lst.de>
- <20211013051042.1065752-12-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -51,10 +38,16 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211013051042.1065752-12-hch@lst.de>
+In-Reply-To: <20211013051042.1065752-1-hch@lst.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Oct 13, 2021 at 07:10:24AM +0200, Christoph Hellwig wrote:
-> Use the proper helper to read the block device size.
+On Wed, Oct 13, 2021 at 07:10:13AM +0200, Christoph Hellwig wrote:
+> I wondered about adding a helper for looking at the size in byte units
+> to avoid the SECTOR_SHIFT shifts in various places.  But given that
+> I could not come up with a good name and block devices fundamentally
+> work in sector size granularity I decided against that.
 
-Just IMO, this patch looks like it wants a new bdev_nr_bytes() helper
-instead of using the double shifting sectors back to bytes.
+So it seems like the biggest review feedback is that we should have
+such a helper.  I think the bdev_size name is the worst as size does
+not imply a particular unit.  bdev_nr_bytes is a little better but I'm
+not too happy.  Any other suggestions or strong opinions?
