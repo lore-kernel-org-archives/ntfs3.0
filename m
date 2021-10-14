@@ -1,188 +1,90 @@
-Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10olkn2080.outbound.protection.outlook.com [40.92.41.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAEE168
-	for <ntfs3@lists.linux.dev>; Thu, 14 Oct 2021 16:25:19 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id BA8AB82189;
-	Thu, 14 Oct 2021 19:25:07 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1634228707;
-	bh=s1WF9iRBOqToM0ZVB4vrYm5q31mqCpBrO4ted2GwVOY=;
-	h=Date:To:CC:From:Subject;
-	b=R7St9veIt+ZpKBKLsZRQkuoKGa3/rJ0Q67egIHlpHak0LdTyuU7v1wnKV0BXgvq10
-	 YAjBBHUcYErbin4cSQqI0dFuODkBHb5nLI3JSSRKXaU2hWas3aKvu/hosj5W3vIG/z
-	 F46yOXfQZA0QSE3AI7wg3EjpaTkPzwVAdUpwomq4=
-Received: from [192.168.211.42] (192.168.211.42) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 14 Oct 2021 19:25:07 +0300
-Message-ID: <795fb170-9696-bf0f-632c-c8e84ee98a31@paragon-software.com>
-Date: Thu, 14 Oct 2021 19:25:07 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B804F2C80
+	for <ntfs3@lists.linux.dev>; Thu, 14 Oct 2021 16:52:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ieP9Mybb9Xm1h0Al23svqKNCiGXqBewVrAUQiSPuXsRSXGYCeEx6Z/9JmJRF/JNAqQyrxnJKzvmHVIJPyiz4IQKDziw5SBb1zs0AJwopXqp6kHQ415g03r9zXzzt+NoCm34yTkKtg9aEf2c57GcICXE9AKaYyUjUMcZ1Z4CTFH2PswPNReRw0Pi8IibSSo+3xrQwQgdh1JWFMQSwhFIl0TN83+eq4hg9hCzPql+oCqWayjLxJw3LgMvFkW5USTLW912IgP7FdMKgqeC2di33MG071ekpianqKARAWgb1m4uoiOmNXu3Mtyloz9LpUITJQSlHAM5uCQQEbwXhUA0Utg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zLN0lZFRx9VK+BNTZYvMOLakHlCJWfIO3w4PEXtDg+E=;
+ b=kQM2nEAJts4VgChX2N62oBkWQRG1bz6jLrQ9s1WsFtDz3MuuYw3kcwH+a+SiDuJZEqSMVboTbliKTEjg+Dy0wBjzoMkdCXH9dpucgF0Ak3orwUPYCb1JEPMeKSvNpemzF+q29iq2Nrejzkfgk2APdT2YHxRAhF00uzdsF0fENQ/0irSCcaUuz1BtfbdCtHh+YIAeZMPdRfRUsoWAWPNIf6OK+Z0tXZ+/boyQK2aS88V78vuFqnxYYSDwylkCYBLIn0GF2+Nypr7jwve0stEdlLMXbDniQfFMjriimre+lrQAbJGtOK4KrhW13QEsi4LO+vOTo8XteaudI8hdt94xkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zLN0lZFRx9VK+BNTZYvMOLakHlCJWfIO3w4PEXtDg+E=;
+ b=JvUxD4z55DFtZ8VcKHQrRGnuxEZ33S643fUwA7xBv+OUZ70BnxARwq1gfqwuVLymrdsIbAiYPDKOwXynYtg/llE1D8n90+UiOOcM6TtlERiaw9IqjYte2W3GwW4gTjVQQ2G/b2mXD+YsAG9M+LwFQeYq2vXpTjdYEJjbwUShZFCHiI3eipMrLnjjQJEaXn67nmRrYrSdUgs3GsAxarraXFZ7SubFluy6qlxzdOuCGSYwgr/NZrckSVAR5rX2aAfUEWlgh8tXluo8uKQVU/t06Su8q+EFYKrgZksWyABpHM+pLsnuy+VWBGrUP6VmA0GT4gUWIx6bG9pq544bSHbfnQ==
+Received: from PH0PR04MB7237.namprd04.prod.outlook.com (2603:10b6:510:a::22)
+ by PH0PR04MB7381.namprd04.prod.outlook.com (2603:10b6:510:1a::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Thu, 14 Oct
+ 2021 16:52:03 +0000
+Received: from PH0PR04MB7237.namprd04.prod.outlook.com
+ ([fe80::356f:7265:a54a:3abf]) by PH0PR04MB7237.namprd04.prod.outlook.com
+ ([fe80::356f:7265:a54a:3abf%9]) with mapi id 15.20.4587.030; Thu, 14 Oct 2021
+ 16:52:03 +0000
+From: Ganapathi Kamath <hgkamath@hotmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	"ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>
+Subject: Bug 214719 - ntfs3: disk usage of file not updated on overwrite by
+ smaller file 
+Thread-Topic: Bug 214719 - ntfs3: disk usage of file not updated on overwrite
+ by smaller file 
+Thread-Index: AQHXwRufLCKhmE9zJ0W5ufBEhY0k+A==
+Date: Thu, 14 Oct 2021 16:52:03 +0000
+Message-ID:
+ <PH0PR04MB7237BAC4FBD1976C83D1D158DAB89@PH0PR04MB7237.namprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+suggested_attachment_session_id: 784764de-7811-2f40-7e3a-c5fde3a14690
+x-tmn: [xBZiMTKxDvPe/h1z15o6st2TaFj1DJv2uS7T7Zh2rkQ=]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 373e0e94-4a29-47dc-4b9c-08d98f32f2d6
+x-ms-traffictypediagnostic: PH0PR04MB7381:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ dlJQ8MX0S+EqHqf5EksIyjmh+vuiBzTVptaFE5vDDOeJGQ/2JKx/a3WJO6XIiNng8F2MMFC/vszHQ7uY3LO43UCCJTY6m5gZyp/k7S+/MT63wGdL7RSWbMk/Plbzn1QnUaVOqVclO0q5l5fOEg2aj1qnDY0fTjxSaaocXNifM/uyxm2NdOAqrj3EPFjsmtkQ/T3zNhdwGMRypvPnyK8Xz7cYKHjiRwyzQiyHtI+S4p8uX9Qb75m2303HyFOL7xMpLe1F8+0MfTOMtAGz78X6hZy+VTKPOtE4t/gksiIxJwhgY/iFMKCv7ZtvUt1F+qiLcWE28wdBbIBtTjMijt3MTBVd2IgyvyZ8aeJ/NbkaU5zk8UEWSZgM6HINclYBP3zBDbJ2u+y7h3vjCBQoYZeSpYhNhUAPovZLu6C7ktZKw8wB3SJKObYGillGlFH8gX85EqwsdqAOvsRgly3nMF+AShXhDv+Fr7fAtsPGRXDYVIOIViL8XnrhdgFpTaiiau6M/ljYjdm9pKGGN9L4lr0eIHho7S38fQxwdClyE0/Kk1EuHjP+NMM303UlYFvuF3LqDy/tv3GppbywqFtUsUowLg==
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ nrTobg/6RijKIu1fnl29BQpVL4adm30K6KlgHSYk2pYM9TcuB+euWbPNUODjzYXcaeAheFlYaxJryavFsR8i5NjDf0yCTFKru5RANriIkd3WrWJRIj06OHE7BJwHlV8h2dPkB83uK/3w348qG/qBlQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Content-Language: en-US
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [GIT PULL] ntfs3 changes for 5.15
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.42]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-OriginatorOrg: sct-15-20-3174-20-msonline-outlook-529c7.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR04MB7237.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 373e0e94-4a29-47dc-4b9c-08d98f32f2d6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2021 16:52:03.3608
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB7381
 
-Hi Linus,
-
-Please pull this branch containing ntfs3 code for 5.15.
-
-New features:
-new api for mounting (was requested in [1]).
-
-Fixed:
-- some memory leaks and panic;
-- fixed xfstests (tested on x86_64)
-generic/016 generic/021 generic/022 generic/041 generic/274 generic/423;
-- some typos, wrong returned error codes, dead code, etc.
-
-Most of the code was in linux-next branch since September, but
-there are some patches, that were in linux-next branch only
-for a couple of days. There is no regression in tests.
-
-There is merge conflict in linux-next [2].
-
-After this release we plan to move from github.com to kernel.org
-(github can remain as ro mirror).
-
-Regards,
-
-Konstantin
-
-[1]: https://lore.kernel.org/lkml/20210810090234.GA23732@lst.de/
-[2]: https://lore.kernel.org/lkml/20211006101533.3556de51@canb.auug.org.au/
-
-----------------------------------------------------------------
-
-The following changes since commit 2e3a51b59ea26544303e168de8a0479915f09aa3:
-
-  fs/ntfs3: Change how module init/info messages are displayed (Sun Aug 29 17:42:39 2021 +0300)
-
-are available in the Git repository at:
-
-  https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_5.15
-
-for you to fetch changes up to 8607954cf255329d1c6dfc073ff1508b7585573c:
-
-  fs/ntfs3: Check for NULL pointers in ni_try_remove_attr_list (Mon Oct 11 19:43:29 2021 +0300)
-
-----------------------------------------------------------------
-Konstantin Komarov (25)
-    fs/ntfs3: Check for NULL pointers in ni_try_remove_attr_list
-    fs/ntfs3: Refactor ntfs_read_mft
-    fs/ntfs3: Refactor ni_parse_reparse
-    fs/ntfs3: Refactor ntfs_create_inode
-    fs/ntfs3: Refactor ntfs_readlink_hlp
-    fs/ntfs3: Rework ntfs_utf16_to_nls
-    fs/ntfs3: Fix memory leak if fill_super failed
-    fs/ntfs3: Keep prealloc for all types of files
-    fs/ntfs3: Remove unnecessary functions
-    fs/ntfs3: Forbid FALLOC_FL_PUNCH_HOLE for normal files
-    fs/ntfs3: Refactoring of ntfs_set_ea
-    fs/ntfs3: Remove locked argument in ntfs_set_ea
-    fs/ntfs3: Use available posix_acl_release instead of ntfs_posix_acl_release
-    fs/ntfs3: Check for NULL if ATTR_EA_INFO is incorrect
-    fs/ntfs3: Refactoring of ntfs_init_from_boot
-    fs/ntfs3: Reject mount if boot's cluster size < media sector size
-    fs/ntfs3: Refactoring lock in ntfs_init_acl
-    fs/ntfs3: Change posix_acl_equiv_mode to posix_acl_update_mode
-    fs/ntfs3: Pass flags to ntfs_set_ea in ntfs_set_acl_ex
-    fs/ntfs3: Refactor ntfs_get_acl_ex for better readability
-    fs/ntfs3: Move ni_lock_dir and ni_unlock into ntfs_create_inode
-    fs/ntfs3: Fix logical error in ntfs_create_inode
-    fs/ntfs3: Add sync flag to ntfs_sb_write_run and al_update
-    fs/ntfs3: Change max hardlinks limit to 4000
-    fs/ntfs3: Fix insertion of attr in ni_ins_attr_ext
-
-Kari Argillander (41)
-    fs/ntfs3: Remove deprecated mount options nls
-    Doc/fs/ntfs3: Fix rst format and make it cleaner
-    fs/ntfs3: Initiliaze sb blocksize only in one place + refactor
-    fs/ntfs3: Initialize pointer before use place in fill_super
-    fs/ntfs3: Remove tmp pointer upcase in fill_super
-    fs/ntfs3: Remove tmp pointer bd_inode in fill_super
-    fs/ntfs3: Remove tmp var is_ro in ntfs_fill_super
-    fs/ntfs3: Use sb instead of sbi->sb in fill_super
-    fs/ntfs3: Remove unnecessary variable loading in fill_super
-    fs/ntfs3: Return straight without goto in fill_super
-    fs/ntfs3: Remove impossible fault condition in fill_super
-    fs/ntfs3: Change EINVAL to ENOMEM when d_make_root fails
-    fs/ntfs3: Fix wrong error message $Logfile -> $UpCase
-    fs/ntfs3: Use min/max macros instated of ternary operators
-    fs/ntfs3: Use clamp/max macros instead of comparisons
-    fs/ntfs3: Remove always false condition check
-    fs/ntfs3: Fix ntfs_look_for_free_space() does only report -ENOSPC
-    fs/ntfs3: Remove tabs before spaces from comment
-    fs/ntfs3: Remove braces from single statment block
-    fs/ntfs3: Place Comparisons constant right side of the test
-    fs/ntfs3: Remove '+' before constant in ni_insert_resident()
-    fs/ntfs3: Always use binary search with entry search
-    fs/ntfs3: Make binary search to search smaller chunks in beginning
-    fs/ntfs3: Limit binary search table size
-    fs/ntfs3: Remove unneeded header files from c files
-    fs/ntfs3: Change right headers to lznt.c
-    fs/ntfs3: Change right headers to upcase.c
-    fs/ntfs3: Change right headers to bitfunc.c
-    fs/ntfs3: Add missing header and guards to lib/ headers
-    fs/ntfs3: Add missing headers and forward declarations to ntfs_fs.h
-    fs/ntfs3: Add missing header files to ntfs.h
-    fs/ntfs3. Add forward declarations for structs to debug.h
-    fs/ntfs3: Show uid/gid always in show_options()
-    fs/ntfs3: Rename mount option no_acs_rules > (no)acsrules
-    fs/ntfs3: Add iocharset= mount option as alias for nls=
-    fs/ntfs3: Make mount option nohidden more universal
-    fs/ntfs3: Init spi more in init_fs_context than fill_super
-    fs/ntfs3: Use new api for mounting
-    fs/ntfs3: Convert mount options to pointer in sbi
-    fs/ntfs3: Remove unnecesarry remount flag handling
-    fs/ntfs3: Remove unnecesarry mount option noatime
-
-Christophe JAILLET (2)
-    fs/ntfs3: Remove a useless shadowing variable
-    fs/ntfs3: Remove a useless test in 'indx_find()'
-
-Colin Ian King (2)
-    fs/ntfs3: Fix a memory leak on object opts
-    fs/ntfs3: Remove redundant initialization of variable err
-
- Documentation/filesystems/ntfs3.rst | 141 +++++++++++++++++++++++++++------------------------
- fs/ntfs3/attrib.c                   |  20 ++------
- fs/ntfs3/attrlist.c                 |   9 ++--
- fs/ntfs3/bitfunc.c                  |  10 +---
- fs/ntfs3/bitmap.c                   |  14 +++---
- fs/ntfs3/debug.h                    |   3 ++
- fs/ntfs3/dir.c                      |  30 +++++------
- fs/ntfs3/file.c                     |  12 +++--
- fs/ntfs3/frecord.c                  |  55 ++++++++++++++------
- fs/ntfs3/fslog.c                    |  12 ++---
- fs/ntfs3/fsntfs.c                   |  77 ++++++++++++++--------------
- fs/ntfs3/index.c                    | 160 +++++++++++++++++-----------------------------------------
- fs/ntfs3/inode.c                    | 159 +++++++++++++++++++++++++++++-----------------------------
- fs/ntfs3/lib/decompress_common.h    |   5 ++
- fs/ntfs3/lib/lib.h                  |   6 +++
- fs/ntfs3/lznt.c                     |  12 ++---
- fs/ntfs3/namei.c                    |  24 ---------
- fs/ntfs3/ntfs.h                     |  20 +++++---
- fs/ntfs3/ntfs_fs.h                  |  67 +++++++++++++++++--------
- fs/ntfs3/record.c                   |   3 --
- fs/ntfs3/run.c                      |   2 -
- fs/ntfs3/super.c                    | 651 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------------------------------------------------------------------------------------------------------
- fs/ntfs3/upcase.c                   |   8 +--
- fs/ntfs3/xattr.c                    | 249 +++++++++++++++++++++++-------------------------------------------------------------------
- 24 files changed, 787 insertions(+), 962 deletions(-)
+Attn:=A0Konstantin Komarov <almaz.alexandrovich@paragon-software.com> , ntf=
+s3@lists.linux.dev=0A=
+Sorry if duplicate, resend in plain text=0A=
+=0A=
+Subj: Just bringing a bug report to your attentions=0A=
+=0A=
+Found email-ids from https://git.kernel.org/pub/scm/linux/kernel/git/torval=
+ds/linux.git/tree/MAINTAINERS=0A=
+=0A=
+Bug 214719 - ntfs3: disk usage of file not updated on overwrite by smaller =
+file=A0=0A=
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214719=0A=
+=0A=
+Thx=0A=
+-Gana=
