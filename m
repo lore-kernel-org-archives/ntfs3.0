@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320362C80
-	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:27:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62CF2C82
+	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:27:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=brrNeCrpSVGZomYuK+0XdDRpBpOzq/Tfwu+Oh+282Uo=; b=IxLeKtcq5OzxV91L8hTsh+7Wn6
-	GlocDXjqZDpKZlfP0UYVJ6BEdGYan+wi1rVHDqD7apTedacgzPz/ay+ildx+shvtzPpsAEQ1PxRZu
-	F+2A+Xp7CEiJPBI1rRydwkIH3jEs5fLQZYWGW7ZpoXWC7/sqRQB4Q+yfmq/NjEBYZFGbvSIFKLP+5
-	HZ4numWQM2crsRS3Y0bBhZdCBgmIt8jZTZI3m2/tYEQs9btUPJ0nPqDcW8keyyKPd6rkEI37HdlUh
-	/Iaszs3O8OiNHbWqQ1Xfy8qE3WbJ7te1x7WzzugXIOJXRQ3cv3Gn1lYYgA5DwQWsjfPpsJA9Bqe7z
-	peZfYXaQ==;
+	bh=AcEX6OpFDERvfacKxgLT0Jy2T+5w2Rz/ks1kzajBMSE=; b=HfrK1GIcSpNTBGSg2LI4ERqY2S
+	W+i7Xbd8j9znkMdl1J268MRsqcN335wRXFVmMZlzEgW+QCvzZ8KfZnVNaeGdLDrWfTXt0em7TOeic
+	Uld3vieJNiglw95gjDQZmu7ul+FrWm8JwOv3gM7ZiocCPmj1/u4C/AA0J4KfbPwQ1IveNlzZ5f6Yw
+	lzgJa4BKZxfTFpLI0dlUmEe3tere8eUaQeuHnZIDFimilsqhMFzf7hS5AZX/1khYRxt4crf0R8V84
+	dJPLv84JRFlFes8pOMQFQxBJe/yu+u8O33FgTLMrkG0ZFLE5v0PtrmKL7gPQtj5w11MN0fq2EwkRl
+	3AKFl1tw==;
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNEr-007CtU-GU; Fri, 15 Oct 2021 13:27:09 +0000
+	id 1mbNF1-007D5b-QU; Fri, 15 Oct 2021 13:27:20 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -48,12 +48,10 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-nilfs@vger.kernel.org,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
-	reiserfs-devel@vger.kernel.org,
-	Jan Kara <jack@suse.cz>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 09/30] fs: use bdev_nr_bytes instead of open coding it in blkdev_max_block
-Date: Fri, 15 Oct 2021 15:26:22 +0200
-Message-Id: <20211015132643.1621913-10-hch@lst.de>
+	reiserfs-devel@vger.kernel.org
+Subject: [PATCH 13/30] cramfs: use bdev_nr_bytes instead of open coding it
+Date: Fri, 15 Oct 2021 15:26:26 +0200
+Message-Id: <20211015132643.1621913-14-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
 References: <20211015132643.1621913-1-hch@lst.de>
@@ -69,25 +67,23 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.
 Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- fs/buffer.c | 2 +-
+ fs/cramfs/inode.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index c615387aedcae..156358977249f 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -878,7 +878,7 @@ link_dev_buffers(struct page *page, struct buffer_head *head)
- static sector_t blkdev_max_block(struct block_device *bdev, unsigned int size)
- {
- 	sector_t retval = ~((sector_t)0);
--	loff_t sz = i_size_read(bdev->bd_inode);
-+	loff_t sz = bdev_nr_bytes(bdev);
+diff --git a/fs/cramfs/inode.c b/fs/cramfs/inode.c
+index 2be65269a987c..666aa380011e0 100644
+--- a/fs/cramfs/inode.c
++++ b/fs/cramfs/inode.c
+@@ -209,7 +209,7 @@ static void *cramfs_blkdev_read(struct super_block *sb, unsigned int offset,
+ 		return read_buffers[i] + blk_offset;
+ 	}
  
- 	if (sz) {
- 		unsigned int sizebits = blksize_bits(size);
+-	devsize = mapping->host->i_size >> PAGE_SHIFT;
++	devsize = bdev_nr_bytes(sb->s_bdev) >> PAGE_SHIFT;
+ 
+ 	/* Ok, read in BLKS_PER_BUF pages completely first. */
+ 	for (i = 0; i < BLKS_PER_BUF; i++) {
 -- 
 2.30.2
 
