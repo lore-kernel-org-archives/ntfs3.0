@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297482C82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2971A2C80
 	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:27:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=+2yJxJ+hf9XUBY4z1V99jSIIsm/dOzULx7L59VG8I+E=; b=crPCTzLfFokh6HdWRPl/DSRFmP
-	4NrnDcgsWiCSPgK6k5zMFdXvTDT/BeZQNIIvwB0L8L+iFpx9EQHAYnotAiy3eAvJX/OHX41MHwWog
-	ZgnJAvYhmgw98+t1qKUnThY/iMc7ATdEVFq/VdV+F02dIRkc73iSoxtQgzlzKUMG4EYQeWBq7rKXo
-	nmgQ2taJ6bPmWVwuia8aMR3e7QNEvG5M/aYVrSr8/1hfnC+cXjiCDGqzTeqSI72B9dyj7cx6ib/18
-	SoJ78LcvB2/t1JkfFCu4kii4mB88+ArYpsAoIM3r/cYpn1fAVs5uFaOXIax82VvWBJBVIPThhduVB
-	F59/wepw==;
+	bh=GrMAkYzXypftu2Q93j+7zCry2NCsZMMZP71gZdhVD6M=; b=u0Jh/pk//vKTObitfYlxlIGC4J
+	NliEBUrfu8nRvsuQqfa0JdudddIgT4cUPUUQhhD1H73tpwx2VJ3xZKmlBURkgE0Wlwlj5sC9k38A4
+	Jlulwzv9b+pm5R7pWDiKTLnasKDPcPonGfj+WoDLUsvjVXgS6O9ZPJPNY80acEExcRozq9ODkVYoU
+	cBI8mRHR3nwjqo8o+yLJAkhg4oxrz4AanNeNGgBQGOEB96Mhoi/robn53SwHYX1l6Ozdhd6Bf1imN
+	l3cTw2JImqG5tWyrDjeMpk9nDeFErssO0HV37CTbED9wzNn+MLmDMzWTsxQB0LjQmWxrn+3mG/Bgf
+	rD4cqhcg==;
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNEb-007CgS-N2; Fri, 15 Oct 2021 13:26:54 +0000
+	id 1mbNEW-007CcF-HX; Fri, 15 Oct 2021 13:26:48 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -49,9 +49,9 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
 	reiserfs-devel@vger.kernel.org
-Subject: [PATCH 03/30] bcache: remove bdev_sectors
-Date: Fri, 15 Oct 2021 15:26:16 +0200
-Message-Id: <20211015132643.1621913-4-hch@lst.de>
+Subject: [PATCH 01/30] block: move the SECTOR_SIZE related definitions to blk_types.h
+Date: Fri, 15 Oct 2021 15:26:14 +0200
+Message-Id: <20211015132643.1621913-2-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
 References: <20211015132643.1621913-1-hch@lst.de>
@@ -64,56 +64,71 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Use the equivalent block layer helper instead.
+Ensure these are always available for inlines in the various block layer
+headers.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Acked-by: Coly Li <colyli@suse.de>
 ---
- drivers/md/bcache/super.c     | 2 +-
- drivers/md/bcache/util.h      | 4 ----
- drivers/md/bcache/writeback.c | 2 +-
- 3 files changed, 2 insertions(+), 6 deletions(-)
+ include/linux/blk_types.h | 17 +++++++++++++++++
+ include/linux/blkdev.h    | 17 -----------------
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
-index f2874c77ff797..4f89985abe4b7 100644
---- a/drivers/md/bcache/super.c
-+++ b/drivers/md/bcache/super.c
-@@ -1002,7 +1002,7 @@ static void calc_cached_dev_sectors(struct cache_set *c)
- 	struct cached_dev *dc;
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 3b967053e9f5a..dc8da0c7fa09b 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -20,6 +20,23 @@ struct cgroup_subsys_state;
+ typedef void (bio_end_io_t) (struct bio *);
+ struct bio_crypt_ctx;
  
- 	list_for_each_entry(dc, &c->cached_devs, list)
--		sectors += bdev_sectors(dc->bdev);
-+		sectors += bdev_nr_sectors(dc->bdev);
- 
- 	c->cached_dev_sectors = sectors;
++/*
++ * The basic unit of block I/O is a sector. It is used in a number of contexts
++ * in Linux (blk, bio, genhd). The size of one sector is 512 = 2**9
++ * bytes. Variables of type sector_t represent an offset or size that is a
++ * multiple of 512 bytes. Hence these two constants.
++ */
++#ifndef SECTOR_SHIFT
++#define SECTOR_SHIFT 9
++#endif
++#ifndef SECTOR_SIZE
++#define SECTOR_SIZE (1 << SECTOR_SHIFT)
++#endif
++
++#define PAGE_SECTORS_SHIFT	(PAGE_SHIFT - SECTOR_SHIFT)
++#define PAGE_SECTORS		(1 << PAGE_SECTORS_SHIFT)
++#define SECTOR_MASK		(PAGE_SECTORS - 1)
++
+ struct block_device {
+ 	sector_t		bd_start_sect;
+ 	struct disk_stats __percpu *bd_stats;
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 17705c970d7e1..161496d1aced0 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -571,23 +571,6 @@ static inline struct request_queue *bdev_get_queue(struct block_device *bdev)
+ 	return bdev->bd_disk->queue;	/* this is never NULL */
  }
-diff --git a/drivers/md/bcache/util.h b/drivers/md/bcache/util.h
-index b64460a762677..a7da7930a7fda 100644
---- a/drivers/md/bcache/util.h
-+++ b/drivers/md/bcache/util.h
-@@ -584,8 +584,4 @@ static inline unsigned int fract_exp_two(unsigned int x,
- void bch_bio_map(struct bio *bio, void *base);
- int bch_bio_alloc_pages(struct bio *bio, gfp_t gfp_mask);
  
--static inline sector_t bdev_sectors(struct block_device *bdev)
--{
--	return bdev->bd_inode->i_size >> 9;
--}
- #endif /* _BCACHE_UTIL_H */
-diff --git a/drivers/md/bcache/writeback.c b/drivers/md/bcache/writeback.c
-index 8120da278161e..c7560f66dca88 100644
---- a/drivers/md/bcache/writeback.c
-+++ b/drivers/md/bcache/writeback.c
-@@ -45,7 +45,7 @@ static uint64_t __calc_target_rate(struct cached_dev *dc)
- 	 * backing volume uses about 2% of the cache for dirty data.
- 	 */
- 	uint32_t bdev_share =
--		div64_u64(bdev_sectors(dc->bdev) << WRITEBACK_SHARE_SHIFT,
-+		div64_u64(bdev_nr_sectors(dc->bdev) << WRITEBACK_SHARE_SHIFT,
- 				c->cached_dev_sectors);
+-/*
+- * The basic unit of block I/O is a sector. It is used in a number of contexts
+- * in Linux (blk, bio, genhd). The size of one sector is 512 = 2**9
+- * bytes. Variables of type sector_t represent an offset or size that is a
+- * multiple of 512 bytes. Hence these two constants.
+- */
+-#ifndef SECTOR_SHIFT
+-#define SECTOR_SHIFT 9
+-#endif
+-#ifndef SECTOR_SIZE
+-#define SECTOR_SIZE (1 << SECTOR_SHIFT)
+-#endif
+-
+-#define PAGE_SECTORS_SHIFT	(PAGE_SHIFT - SECTOR_SHIFT)
+-#define PAGE_SECTORS		(1 << PAGE_SECTORS_SHIFT)
+-#define SECTOR_MASK		(PAGE_SECTORS - 1)
+-
+ #ifdef CONFIG_BLK_DEV_ZONED
  
- 	uint64_t cache_dirty_target =
+ /* Helper to convert BLK_ZONE_ZONE_XXX to its string format XXX */
 -- 
 2.30.2
 
