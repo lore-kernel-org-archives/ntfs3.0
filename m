@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76622C80
-	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8242C82
+	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:27:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Y/n231v6mya+HLQ5553wYpz7337dsR2Clc1g640C0Nc=; b=BB4JfGoiie1pNfsAnvXlwjZi5K
-	Fx5hb32xXP0l7YaFHEiXr4L0C4Enhgw0Lp81hJm5Fh85aut47MyZ0n/9gFFXwMVITN/ErvTeHF4X9
-	q7jknmYftG5pGWvU2/qT48pHexS5DRJuhdEcpeVE07G4jUdLr0yPE1mMbR/6t0O3yHEpIXMOdjzH3
-	hqJD3fcQNdkSob9MiAKkadZjfZoQvi1Xha7LwGsqmwkyz8PshfN26LnBkSBLlPArPP837YQoRSHEX
-	q33QvKhhu8jYW3dB8u6uLjXffxvkAeXmKdHVcNbROVc8hXVuSRMrhbGR6s738/ASu5/G7J17g1w8e
-	mYHXoq3w==;
+	bh=79IfCL0cwBZyl3TQ005uMyV6UFeBUdi+0xEOD4Xebrg=; b=484wuo5ApXYHJ1gwVkbfmaWvz0
+	Psc3ElysSbrWt3zDOEnzImuxkoRsCZi+k7KdvirlXuxk3kYtIzBGIRiCVQDNq4qFi6wH207IhosnU
+	TODkbz2vxD0rg9jjrkgDJG/zPZAV/1eGwDzlDjli6KEeRQtBCM7/pf/M/PYlq9SiRTIlbRpr9SceV
+	n2ZblPKQ0vvPIPNkfWMAToJq2ahTA8qnMUg77IxuZKyIbWw47aFK9+EZstiD6ZFb4/uqP3965SSkF
+	TOplTd77vyoEt068L0rP0zmi0mU0fQ1o+LDGesDwE7a9qSyur0k7qqt1sv1T/4uL1oSdK5oBtoxMs
+	5mLeYUiQ==;
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNF9-007DFa-J7; Fri, 15 Oct 2021 13:27:28 +0000
+	id 1mbNFH-007DOn-Bg; Fri, 15 Oct 2021 13:27:35 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -49,9 +49,9 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
 	reiserfs-devel@vger.kernel.org
-Subject: [PATCH 16/30] hfsplus: use bdev_nr_sectors instead of open coding it
-Date: Fri, 15 Oct 2021 15:26:29 +0200
-Message-Id: <20211015132643.1621913-17-hch@lst.de>
+Subject: [PATCH 19/30] nilfs2: use bdev_nr_bytes instead of open coding it
+Date: Fri, 15 Oct 2021 15:26:32 +0200
+Message-Id: <20211015132643.1621913-20-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
 References: <20211015132643.1621913-1-hch@lst.de>
@@ -67,24 +67,51 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.
 Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- fs/hfsplus/wrapper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/nilfs2/ioctl.c     | 2 +-
+ fs/nilfs2/super.c     | 2 +-
+ fs/nilfs2/the_nilfs.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/fs/hfsplus/wrapper.c b/fs/hfsplus/wrapper.c
-index 0350dc7821bf9..51ae6f1eb4a55 100644
---- a/fs/hfsplus/wrapper.c
-+++ b/fs/hfsplus/wrapper.c
-@@ -131,7 +131,7 @@ static int hfsplus_get_last_session(struct super_block *sb,
+diff --git a/fs/nilfs2/ioctl.c b/fs/nilfs2/ioctl.c
+index 640ac8fe891e6..1d0583cfd9701 100644
+--- a/fs/nilfs2/ioctl.c
++++ b/fs/nilfs2/ioctl.c
+@@ -1107,7 +1107,7 @@ static int nilfs_ioctl_set_alloc_range(struct inode *inode, void __user *argp)
+ 		goto out;
  
- 	/* default values */
- 	*start = 0;
--	*size = i_size_read(sb->s_bdev->bd_inode) >> 9;
-+	*size = bdev_nr_sectors(sb->s_bdev);
+ 	ret = -ERANGE;
+-	if (range[1] > i_size_read(inode->i_sb->s_bdev->bd_inode))
++	if (range[1] > bdev_nr_bytes(inode->i_sb->s_bdev))
+ 		goto out;
  
- 	if (HFSPLUS_SB(sb)->session >= 0) {
- 		struct cdrom_tocentry te;
+ 	segbytes = nilfs->ns_blocks_per_segment * nilfs->ns_blocksize;
+diff --git a/fs/nilfs2/super.c b/fs/nilfs2/super.c
+index f6b2d280aab5a..3134c0e42fd46 100644
+--- a/fs/nilfs2/super.c
++++ b/fs/nilfs2/super.c
+@@ -403,7 +403,7 @@ int nilfs_resize_fs(struct super_block *sb, __u64 newsize)
+ 	int ret;
+ 
+ 	ret = -ERANGE;
+-	devsize = i_size_read(sb->s_bdev->bd_inode);
++	devsize = bdev_nr_bytes(sb->s_bdev);
+ 	if (newsize > devsize)
+ 		goto out;
+ 
+diff --git a/fs/nilfs2/the_nilfs.c b/fs/nilfs2/the_nilfs.c
+index c8bfc01da5d71..1bfcb5d3ea480 100644
+--- a/fs/nilfs2/the_nilfs.c
++++ b/fs/nilfs2/the_nilfs.c
+@@ -489,7 +489,7 @@ static int nilfs_load_super_block(struct the_nilfs *nilfs,
+ {
+ 	struct nilfs_super_block **sbp = nilfs->ns_sbp;
+ 	struct buffer_head **sbh = nilfs->ns_sbh;
+-	u64 sb2off = NILFS_SB2_OFFSET_BYTES(nilfs->ns_bdev->bd_inode->i_size);
++	u64 sb2off = NILFS_SB2_OFFSET_BYTES(bdev_nr_bytes(nilfs->ns_bdev));
+ 	int valid[2], swp = 0;
+ 
+ 	sbp[0] = nilfs_read_super_block(sb, NILFS_SB_OFFSET_BYTES, blocksize,
 -- 
 2.30.2
 
