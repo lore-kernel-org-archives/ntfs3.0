@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319C42C83
-	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:27:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E232C82
+	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:27:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=l6H+xWHI2buGGvGsIZb/A3dvICuo/7ewDE4S1/fqN/c=; b=PZKuiIv/qJljrkxnxnKD+h7ASp
-	t1DY8S37VxTjS5GVdTkbLu2mMuhS6r19M9P18jq5XWRRb/cDXTKEhdKZpbi6BYfjD+qVUx98A7XOx
-	dOceraYZgfKi6i/cyCWYpqxoLOymY2Qbs01Ah8Y+ZKKT9clwZtoud58n6FEGbl464S2EYE1cDTPWl
-	4k2uxiZ1Ufz8ImJJ9J6PAiEaI3OVRm7cm1hnYyVq9H/QoM0+iG2ltlqYPdw3Ica7l/zAFYvuR19Li
-	1xrYDx5RlNaWSbE2njYmuPk8oSACh0P63MHKOWIgGLbA1JAiNrz3A7Mcdmlh/tLrvL90Jz6F3+CFW
-	fbcCjk3g==;
+	bh=vRl4Zm9Wc0bX9vcfgcN3R2fcrAySbja8d/dJRwsxk/k=; b=SjceqoN9hMXVwPg33NFbkx+N3G
+	JYcnC39lSKGD60nhKY3H+IVJQNzuqS9CYolhKZujAUGHAM1QnkGz3pA3vfHyja3EbjScZui9rmzo0
+	/LtH8cJ93TjF7XK3SnsJz66XXydp94fn7+SUXKu3an6pH6FZSwXsS1w9dH8Ojvb8IIGvddxPNSfXc
+	9BWfT+mlxT67KNt/57k1LCgzEfjEcQYCMYk+j4ELkxc6ZTVlhh2USIukUC1Wqif86V6Iq3LvKEz/L
+	GIoBmGHUlu6eyZVN6GtRFqbuljjfrrUNS+UmJRbO6cYfuATPUl71Vf8h8zVjdJt7vQ2nQ72x6v++I
+	DcDgIMRw==;
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNF4-007D8w-Ce; Fri, 15 Oct 2021 13:27:22 +0000
+	id 1mbNEz-007D1k-7p; Fri, 15 Oct 2021 13:27:17 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -48,10 +48,12 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-nilfs@vger.kernel.org,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
-	reiserfs-devel@vger.kernel.org
-Subject: [PATCH 14/30] fat: use bdev_nr_sectors instead of open coding it
-Date: Fri, 15 Oct 2021 15:26:27 +0200
-Message-Id: <20211015132643.1621913-15-hch@lst.de>
+	reiserfs-devel@vger.kernel.org,
+	Anand Jain <anand.jain@oracle.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 12/30] btrfs: use bdev_nr_bytes instead of open coding it
+Date: Fri, 15 Oct 2021 15:26:25 +0200
+Message-Id: <20211015132643.1621913-13-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
 References: <20211015132643.1621913-1-hch@lst.de>
@@ -67,31 +69,97 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.
 Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Anand Jain <anand.jain@oracle.com>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- fs/fat/inode.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ fs/btrfs/dev-replace.c | 3 +--
+ fs/btrfs/disk-io.c     | 2 +-
+ fs/btrfs/ioctl.c       | 4 ++--
+ fs/btrfs/volumes.c     | 8 ++++----
+ 4 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/fs/fat/inode.c b/fs/fat/inode.c
-index de0c9b013a851..9f3cd03668adc 100644
---- a/fs/fat/inode.c
-+++ b/fs/fat/inode.c
-@@ -1536,14 +1536,11 @@ static int fat_read_static_bpb(struct super_block *sb,
- 	struct fat_bios_param_block *bpb)
- {
- 	static const char *notdos1x = "This doesn't look like a DOS 1.x volume";
--
-+	sector_t bd_sects = bdev_nr_sectors(sb->s_bdev);
- 	struct fat_floppy_defaults *fdefaults = NULL;
- 	int error = -EINVAL;
--	sector_t bd_sects;
- 	unsigned i;
+diff --git a/fs/btrfs/dev-replace.c b/fs/btrfs/dev-replace.c
+index d029be40ea6f0..fbb8b4457a721 100644
+--- a/fs/btrfs/dev-replace.c
++++ b/fs/btrfs/dev-replace.c
+@@ -283,8 +283,7 @@ static int btrfs_init_dev_replace_tgtdev(struct btrfs_fs_info *fs_info,
+ 	}
  
--	bd_sects = i_size_read(sb->s_bdev->bd_inode) / SECTOR_SIZE;
--
- 	/* 16-bit DOS 1.x reliably wrote bootstrap short-jmp code */
- 	if (b->ignored[0] != 0xeb || b->ignored[2] != 0x90) {
- 		if (!silent)
+ 
+-	if (i_size_read(bdev->bd_inode) <
+-	    btrfs_device_get_total_bytes(srcdev)) {
++	if (bdev_nr_bytes(bdev) < btrfs_device_get_total_bytes(srcdev)) {
+ 		btrfs_err(fs_info,
+ 			  "target device is smaller than source device!");
+ 		ret = -EINVAL;
+diff --git a/fs/btrfs/disk-io.c b/fs/btrfs/disk-io.c
+index 355ea88d5c5f7..29e7598584c4c 100644
+--- a/fs/btrfs/disk-io.c
++++ b/fs/btrfs/disk-io.c
+@@ -3740,7 +3740,7 @@ struct btrfs_super_block *btrfs_read_dev_one_super(struct block_device *bdev,
+ 	else if (ret)
+ 		return ERR_PTR(ret);
+ 
+-	if (bytenr + BTRFS_SUPER_INFO_SIZE >= i_size_read(bdev->bd_inode))
++	if (bytenr + BTRFS_SUPER_INFO_SIZE >= bdev_nr_bytes(bdev))
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	page = read_cache_page_gfp(mapping, bytenr >> PAGE_SHIFT, GFP_NOFS);
+diff --git a/fs/btrfs/ioctl.c b/fs/btrfs/ioctl.c
+index cc61813213d83..36ff713da1b12 100644
+--- a/fs/btrfs/ioctl.c
++++ b/fs/btrfs/ioctl.c
+@@ -1730,7 +1730,7 @@ static noinline int btrfs_ioctl_resize(struct file *file,
+ 	}
+ 
+ 	if (!strcmp(sizestr, "max"))
+-		new_size = device->bdev->bd_inode->i_size;
++		new_size = bdev_nr_bytes(device->bdev);
+ 	else {
+ 		if (sizestr[0] == '-') {
+ 			mod = -1;
+@@ -1771,7 +1771,7 @@ static noinline int btrfs_ioctl_resize(struct file *file,
+ 		ret = -EINVAL;
+ 		goto out_finish;
+ 	}
+-	if (new_size > device->bdev->bd_inode->i_size) {
++	if (new_size > bdev_nr_bytes(device->bdev)) {
+ 		ret = -EFBIG;
+ 		goto out_finish;
+ 	}
+diff --git a/fs/btrfs/volumes.c b/fs/btrfs/volumes.c
+index 2ec3b8ac8fa35..676c7c4e6e59d 100644
+--- a/fs/btrfs/volumes.c
++++ b/fs/btrfs/volumes.c
+@@ -1286,7 +1286,7 @@ static struct btrfs_super_block *btrfs_read_disk_super(struct block_device *bdev
+ 	pgoff_t index;
+ 
+ 	/* make sure our super fits in the device */
+-	if (bytenr + PAGE_SIZE >= i_size_read(bdev->bd_inode))
++	if (bytenr + PAGE_SIZE >= bdev_nr_bytes(bdev))
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	/* make sure our super fits in the page */
+@@ -2610,8 +2610,8 @@ int btrfs_init_new_device(struct btrfs_fs_info *fs_info, const char *device_path
+ 	device->io_width = fs_info->sectorsize;
+ 	device->io_align = fs_info->sectorsize;
+ 	device->sector_size = fs_info->sectorsize;
+-	device->total_bytes = round_down(i_size_read(bdev->bd_inode),
+-					 fs_info->sectorsize);
++	device->total_bytes =
++		round_down(bdev_nr_bytes(bdev), fs_info->sectorsize);
+ 	device->disk_total_bytes = device->total_bytes;
+ 	device->commit_total_bytes = device->total_bytes;
+ 	set_bit(BTRFS_DEV_STATE_IN_FS_METADATA, &device->dev_state);
+@@ -7236,7 +7236,7 @@ static int read_one_dev(struct extent_buffer *leaf,
+ 
+ 	fill_device_from_item(leaf, dev_item, device);
+ 	if (device->bdev) {
+-		u64 max_total_bytes = i_size_read(device->bdev->bd_inode);
++		u64 max_total_bytes = bdev_nr_bytes(device->bdev);
+ 
+ 		if (device->total_bytes > max_total_bytes) {
+ 			btrfs_err(fs_info,
 -- 
 2.30.2
 
