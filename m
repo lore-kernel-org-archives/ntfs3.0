@@ -1,39 +1,39 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6912C82
-	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 16:54:02 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id d9so1664553pfl.6
-        for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 09:54:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A17F2C82
+	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 16:54:36 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id ls18-20020a17090b351200b001a00250584aso9742811pjb.4
+        for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 09:54:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=+MbYp/9I6HwSPkAmORgtqKp7aAXKpROAHsI0KkahVSk=;
-        b=ikEdVtNf9eRQss1RELdYd+gQGtRkJJNUyxABmsyhavxmXS/GWW1GmjaIFqcZC+V7d0
-         jxPVuirO3PDa+xeNqLrVJO8s8KcCPrKVcuz5mnU+QJTWjswUytrClmIjf52ECv87VZwj
-         IWYURypnyInULxZ6QO8cmc8sNxz7IQsLEMu78=
+        bh=++j3EKFYagTjYpVDRmVtpilprtSSGPZNL/U6+y1BFYU=;
+        b=PGVMrxoIP54zTy3fYRiGwM3tLAZD1Sg5qwTZ/1sUpFUKPeoK4gaEUh4gDn9vmINL5R
+         K6Diz6OFYGVqe3eH+J4BPfR7/r8fI1+hdPS73Dcjh+YNC+lZ5T7DwLWnu9B82X3frAPd
+         N9HCX5/hrMJFRwzEMhEqi5qndMOp+CdKnJFuY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=+MbYp/9I6HwSPkAmORgtqKp7aAXKpROAHsI0KkahVSk=;
-        b=0FkENUNyV96VtBlFlg4i+g3nNOrdChuiViz/CclXF0ymetDvuzd0PL2oVzOeMh7i2m
-         Zyei6iMFp1j5jb3Gln0lDm3gTt+Oav957+4VY0joLIxbZizWTErC4IAFMqz4G3wkA5T7
-         VElINQUGr5rKv7u9Pc9AdpE4+lxoAoaq379xj3zVgoPO5KdSgwQwGZU99Xz6v8bTnU0E
-         frS3MZz2Lp06N+/lFjmfx8OpR0q6JCyzKPrbJJhxOB4h8Ki2Sqv9v+DlRoJBNT0hEo/H
-         eEjQXjChi36sT/9nyHGrJoSZPQcbjD7kdAV3/5b06/v4gFWullo3whv6jbXnMtzHRjxQ
-         U3Cw==
-X-Gm-Message-State: AOAM533+mSXwfulrfHgpzhvC0ZOH5obkz6PuZiB0+JZpUSSAGPc6/RXB
-	EfgMItDgpL5cmwj7gOsc1rCf1w==
-X-Google-Smtp-Source: ABdhPJxRzD0WBfqSsRnsWWctoiC4ZL/68Vbzs2wYW5pL6AgqTKpTz7zCXFAYZWzBRrc637AgBAl43A==
-X-Received: by 2002:a63:7f0e:: with SMTP id a14mr3656783pgd.390.1634316842164;
-        Fri, 15 Oct 2021 09:54:02 -0700 (PDT)
+        bh=++j3EKFYagTjYpVDRmVtpilprtSSGPZNL/U6+y1BFYU=;
+        b=Z5FOdSSOBj/lCCpF2nF7zsVciHpDAhCDdxHoE7Pnauni95ViAA2OYzePmhGeEfzHbz
+         ow55Di6lmRchrQ27biWG69nMZnRBa5g16OZlBIe3qVyvG3K+pnVqHIpBp6Px4xnSAd/Z
+         sucVF0SB7a/ZKvFzZQEP9wAQmdxlji1GWyRiQq+jP1bysrcD5G2X1w68YncGu5oe6gz3
+         SBhTPrJJFcfrj2DCp7YrVyEnZJ+8sSwLxAq+KQEGvaBgiYMjojYvhwp+Xla+8ba/k3M5
+         Uru66vgaKneU0CMhf455v49lXtselrgCLiA/tA8gSuRfpMpBP2YmpyMflcz9sbG634y3
+         zrAQ==
+X-Gm-Message-State: AOAM532MguWlSh27X9Yad0JdBHNtMjqRj7m5nz0DYvPyOTKuYDbcqVXE
+	/Bq0Y5nsbvUZxy4sXwZbRdWQcA==
+X-Google-Smtp-Source: ABdhPJxiUcnkoooEgdTHhZSK5QlfnfikulhFK8mfbnmCN2PXzxc7k6fawv/6LA10hComZoogNKw4PQ==
+X-Received: by 2002:a17:903:3092:b0:13f:663d:f008 with SMTP id u18-20020a170903309200b0013f663df008mr11973339plc.13.1634316876253;
+        Fri, 15 Oct 2021 09:54:36 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b8sm5387267pfi.103.2021.10.15.09.54.01
+        by smtp.gmail.com with ESMTPSA id t126sm5505715pfc.80.2021.10.15.09.54.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Oct 2021 09:54:01 -0700 (PDT)
-Date: Fri, 15 Oct 2021 09:54:01 -0700
+        Fri, 15 Oct 2021 09:54:35 -0700 (PDT)
+Date: Fri, 15 Oct 2021 09:54:35 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>,
@@ -55,11 +55,10 @@ Cc: Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>,
 	linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
 	linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
 	reiserfs-devel@vger.kernel.org
-Subject: Re: [PATCH 18/30] nfs/blocklayout: use bdev_nr_bytes instead of open
- coding it
-Message-ID: <202110150953.4A7CC49DC@keescook>
+Subject: Re: [PATCH 19/30] nilfs2: use bdev_nr_bytes instead of open coding it
+Message-ID: <202110150954.45A4DFA79@keescook>
 References: <20211015132643.1621913-1-hch@lst.de>
- <20211015132643.1621913-19-hch@lst.de>
+ <20211015132643.1621913-20-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -68,9 +67,9 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211015132643.1621913-19-hch@lst.de>
+In-Reply-To: <20211015132643.1621913-20-hch@lst.de>
 
-On Fri, Oct 15, 2021 at 03:26:31PM +0200, Christoph Hellwig wrote:
+On Fri, Oct 15, 2021 at 03:26:32PM +0200, Christoph Hellwig wrote:
 > Use the proper helper to read the block device size.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
