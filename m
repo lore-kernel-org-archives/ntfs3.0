@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DEE2C82
-	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3F22C83
+	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=1gZf+H891s0ly+N+We+WSsOR96hNSH99XqMkm5gKgvI=; b=RDHYYgcGN9PaDAozXwF6WCq5ZQ
-	vQmGUkV4vlqpmdgCFL/+bRr0uv6B/CdPuHyIZkSZv5nbxRyyaF+3ziby3b88erRtK2sLdqdLPjyCY
-	h4oscNozWFDpjCZ3oi46Hl92Vhy1Clw72WTF97haQ046mCu6qnrZfy1qgxxoTvUrfDROX7qU18of4
-	grPRJSTSjq/1Tt8u+zIQnOtvbvVtqpSN9z26aSTSdxR675n6SsfhZSnUQ4WA7IdJGKMpoktsAwIje
-	2JmVEHM1qeLV16q6FAl/hOsVEd80SGZXQD4heaZhYPH9+TlfKWQ+GpVeTCiLYdriYAEoXA0LzL4d1
-	oNeYLWlQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=m11Dq4cW6FA9xt6yZiLfFZy28M5hrrDxv9fMOoQKfEw=; b=uCUSRnMNJ6iAkq7Ql9eS8UB78r
+	ZUKu0FwbuHM5gwIZZ5C6rzyInrghQOiMBN0Wt3ZVp4tRWfHLI5lsRPuzzNF2xoArcp7I595KhvRFq
+	J8hdGD7Ai4d9Bhpx05mHeTY3p1xGxNOTGGkExIDDMTQPOwgHYOpPwe/auNS6cVLV4a2+PbLpdpdfk
+	Ee5rDwTmGI3bQP+5U/IbzpGmiq8b7nlDL/YgM8KZ9/cQwCPGJWuv5jQtAUcL6AP8jfSfn2reujKLl
+	SvjqEAx/nwvdXb6q0aVC2dt9aDl7DjF0HLTA2VxvJoK5OtlM5V6Iu9bvv4rwIW3QQjr+k7HfdvPMD
+	GpsHUkvw==;
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNEj-007CmW-Eb; Fri, 15 Oct 2021 13:27:01 +0000
+	id 1mbNET-007CaP-Um; Fri, 15 Oct 2021 13:26:46 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -49,12 +49,10 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
 	reiserfs-devel@vger.kernel.org
-Subject: [PATCH 06/30] md: use bdev_nr_sectors instead of open coding it
-Date: Fri, 15 Oct 2021 15:26:19 +0200
-Message-Id: <20211015132643.1621913-7-hch@lst.de>
+Subject: don't use ->bd_inode to access the block device size v2
+Date: Fri, 15 Oct 2021 15:26:13 +0200
+Message-Id: <20211015132643.1621913-1-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
-References: <20211015132643.1621913-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -64,108 +62,77 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Use the proper helper to read the block device size.
+Hi Jens,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Acked-by: Song Liu <song@kernel.org>
----
- drivers/md/md.c | 26 +++++++++++---------------
- 1 file changed, 11 insertions(+), 15 deletions(-)
+various drivers currently poke directy at the block device inode, which
+is a bit of a mess.  This series cleans up the places that read the
+block device size to use the proper helpers.  I have separate patches
+for many of the other bd_inode uses, but this series is already big
+enough as-is,
 
-diff --git a/drivers/md/md.c b/drivers/md/md.c
-index ec09083ff0eff..0c75ba047ef60 100644
---- a/drivers/md/md.c
-+++ b/drivers/md/md.c
-@@ -890,8 +890,7 @@ static struct md_personality *find_pers(int level, char *clevel)
- /* return the offset of the super block in 512byte sectors */
- static inline sector_t calc_dev_sboffset(struct md_rdev *rdev)
- {
--	sector_t num_sectors = i_size_read(rdev->bdev->bd_inode) / 512;
--	return MD_NEW_SIZE_SECTORS(num_sectors);
-+	return MD_NEW_SIZE_SECTORS(bdev_nr_sectors(rdev->bdev));
- }
- 
- static int alloc_disk_sb(struct md_rdev *rdev)
-@@ -1633,8 +1632,7 @@ static int super_1_load(struct md_rdev *rdev, struct md_rdev *refdev, int minor_
- 	 */
- 	switch(minor_version) {
- 	case 0:
--		sb_start = i_size_read(rdev->bdev->bd_inode) >> 9;
--		sb_start -= 8*2;
-+		sb_start = bdev_nr_sectors(rdev->bdev) - 8 * 2;
- 		sb_start &= ~(sector_t)(4*2-1);
- 		break;
- 	case 1:
-@@ -1789,10 +1787,9 @@ static int super_1_load(struct md_rdev *rdev, struct md_rdev *refdev, int minor_
- 		else
- 			ret = 0;
- 	}
--	if (minor_version) {
--		sectors = (i_size_read(rdev->bdev->bd_inode) >> 9);
--		sectors -= rdev->data_offset;
--	} else
-+	if (minor_version)
-+		sectors = bdev_nr_sectors(rdev->bdev) - rdev->data_offset;
-+	else
- 		sectors = rdev->sb_start;
- 	if (sectors < le64_to_cpu(sb->data_size))
- 		return -EINVAL;
-@@ -2170,8 +2167,7 @@ super_1_rdev_size_change(struct md_rdev *rdev, sector_t num_sectors)
- 		return 0; /* too confusing */
- 	if (rdev->sb_start < rdev->data_offset) {
- 		/* minor versions 1 and 2; superblock before data */
--		max_sectors = i_size_read(rdev->bdev->bd_inode) >> 9;
--		max_sectors -= rdev->data_offset;
-+		max_sectors = bdev_nr_sectors(rdev->bdev) - rdev->data_offset;
- 		if (!num_sectors || num_sectors > max_sectors)
- 			num_sectors = max_sectors;
- 	} else if (rdev->mddev->bitmap_info.offset) {
-@@ -2180,7 +2176,7 @@ super_1_rdev_size_change(struct md_rdev *rdev, sector_t num_sectors)
- 	} else {
- 		/* minor version 0; superblock after data */
- 		sector_t sb_start, bm_space;
--		sector_t dev_size = i_size_read(rdev->bdev->bd_inode) >> 9;
-+		sector_t dev_size = bdev_nr_sectors(rdev->bdev);
- 
- 		/* 8K is for superblock */
- 		sb_start = dev_size - 8*2;
-@@ -3384,7 +3380,7 @@ rdev_size_store(struct md_rdev *rdev, const char *buf, size_t len)
- 			if (!sectors)
- 				return -EBUSY;
- 		} else if (!sectors)
--			sectors = (i_size_read(rdev->bdev->bd_inode) >> 9) -
-+			sectors = bdev_nr_sectors(rdev->bdev) -
- 				rdev->data_offset;
- 		if (!my_mddev->pers->resize)
- 			/* Cannot change size for RAID0 or Linear etc */
-@@ -3711,7 +3707,7 @@ static struct md_rdev *md_import_device(dev_t newdev, int super_format, int supe
- 
- 	kobject_init(&rdev->kobj, &rdev_ktype);
- 
--	size = i_size_read(rdev->bdev->bd_inode) >> BLOCK_SIZE_BITS;
-+	size = bdev_nr_bytes(rdev->bdev) >> BLOCK_SIZE_BITS;
- 	if (!size) {
- 		pr_warn("md: %s has zero or unknown size, marking faulty!\n",
- 			bdevname(rdev->bdev,b));
-@@ -6882,7 +6878,7 @@ int md_add_new_disk(struct mddev *mddev, struct mdu_disk_info_s *info)
- 
- 		if (!mddev->persistent) {
- 			pr_debug("md: nonpersistent superblock ...\n");
--			rdev->sb_start = i_size_read(rdev->bdev->bd_inode) / 512;
-+			rdev->sb_start = bdev_nr_sectors(rdev->bdev);
- 		} else
- 			rdev->sb_start = calc_dev_sboffset(rdev);
- 		rdev->sectors = rdev->sb_start;
-@@ -6969,7 +6965,7 @@ static int hot_add_disk(struct mddev *mddev, dev_t dev)
- 	if (mddev->persistent)
- 		rdev->sb_start = calc_dev_sboffset(rdev);
- 	else
--		rdev->sb_start = i_size_read(rdev->bdev->bd_inode) / 512;
-+		rdev->sb_start = bdev_nr_sectors(rdev->bdev);
- 
- 	rdev->sectors = rdev->sb_start;
- 
--- 
-2.30.2
+Changes since v1:
+ - move SECTOR_SIZE & co
+ - use SECTOR_SHIFT in sb_bdev_nr_blocks
+ - add a bdev_nr_bytes helper
+ - reuse a variable in the SCSI target code
+ - drop the block2mtd patch, a bigger rewrite for that code is pending
 
+Diffstat:
+ block/fops.c                        |    2 +-
+ drivers/block/drbd/drbd_int.h       |    3 +--
+ drivers/md/bcache/super.c           |    2 +-
+ drivers/md/bcache/util.h            |    4 ----
+ drivers/md/bcache/writeback.c       |    2 +-
+ drivers/md/dm-bufio.c               |    2 +-
+ drivers/md/dm-cache-metadata.c      |    2 +-
+ drivers/md/dm-cache-target.c        |    2 +-
+ drivers/md/dm-clone-target.c        |    2 +-
+ drivers/md/dm-dust.c                |    5 ++---
+ drivers/md/dm-ebs-target.c          |    2 +-
+ drivers/md/dm-era-target.c          |    2 +-
+ drivers/md/dm-exception-store.h     |    2 +-
+ drivers/md/dm-flakey.c              |    3 +--
+ drivers/md/dm-integrity.c           |    6 +++---
+ drivers/md/dm-linear.c              |    3 +--
+ drivers/md/dm-log-writes.c          |    4 ++--
+ drivers/md/dm-log.c                 |    2 +-
+ drivers/md/dm-mpath.c               |    2 +-
+ drivers/md/dm-raid.c                |    6 +++---
+ drivers/md/dm-switch.c              |    2 +-
+ drivers/md/dm-table.c               |    3 +--
+ drivers/md/dm-thin-metadata.c       |    2 +-
+ drivers/md/dm-thin.c                |    2 +-
+ drivers/md/dm-verity-target.c       |    3 +--
+ drivers/md/dm-writecache.c          |    2 +-
+ drivers/md/dm-zoned-target.c        |    2 +-
+ drivers/md/md.c                     |   26 +++++++++++---------------
+ drivers/nvme/target/io-cmd-bdev.c   |    4 ++--
+ drivers/target/target_core_iblock.c |    4 ++--
+ fs/affs/super.c                     |    2 +-
+ fs/btrfs/dev-replace.c              |    3 +--
+ fs/btrfs/disk-io.c                  |    2 +-
+ fs/btrfs/ioctl.c                    |    4 ++--
+ fs/btrfs/volumes.c                  |    8 ++++----
+ fs/buffer.c                         |    4 ++--
+ fs/cramfs/inode.c                   |    2 +-
+ fs/ext4/super.c                     |    2 +-
+ fs/fat/inode.c                      |    5 +----
+ fs/hfs/mdb.c                        |    2 +-
+ fs/hfsplus/wrapper.c                |    2 +-
+ fs/jfs/resize.c                     |    5 ++---
+ fs/jfs/super.c                      |    5 ++---
+ fs/nfs/blocklayout/dev.c            |    4 ++--
+ fs/nilfs2/ioctl.c                   |    2 +-
+ fs/nilfs2/super.c                   |    2 +-
+ fs/nilfs2/the_nilfs.c               |    2 +-
+ fs/ntfs/super.c                     |    8 +++-----
+ fs/ntfs3/super.c                    |    3 +--
+ fs/pstore/blk.c                     |    8 +++-----
+ fs/reiserfs/super.c                 |    8 ++------
+ fs/squashfs/super.c                 |    5 +++--
+ fs/udf/lowlevel.c                   |    5 ++---
+ fs/udf/super.c                      |    9 +++------
+ include/linux/blk_types.h           |   17 +++++++++++++++++
+ include/linux/blkdev.h              |   17 -----------------
+ include/linux/genhd.h               |   13 ++++++++++++-
+ 57 files changed, 118 insertions(+), 139 deletions(-)
