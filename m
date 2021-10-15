@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3302C82
-	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403182C80
+	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:28:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Ce/xbUkNVs/DL/PvHdluKHxtvXGNzoHJMZpOCdwn74E=; b=r/QHR/F6RJsJcfLIVRGjeC5TYi
-	5vsdVf6ApaX1IQECl5wxhGgOynF/Aqp4gEFihxuCKRT2s2aoKg3SDG/LPXP0bGeV+glcs4kj+3Zgq
-	vCHQ77R0gaRd8gPCg3LXCWdFi8b/DgIdfgQprpQHhUT55MbVXSj7vccFpDppmJwX6cAVJCsnuUNyx
-	KawwFXaAxCMSPbAj7bUYyWV1BnqpcYo6SMbBzSiuxZhuLtdUVp2aXUipo78/Nk1bzSV3Qsn5E42V2
-	v5r/BUecEti/NhnmdbhCf0FSHSoSh4DhIpUX5IgHCbWePlBgWfyWJuU/iPatQeIeJ5TsKaDntuWbc
-	J6PmFpPw==;
+	bh=kigc0P3dFD0qfhBcYu9B5JW+OSpi6OsZX3RdDiLn0fI=; b=LCt4ntrZkKIcG3YhEqxvrAUtxT
+	V3gC/ilrIwuQ6rMwyBixGsZPIKmIGI5iri2yGEkJgmD9XxkMSz6NT74oEfGFEA7hQHpzJFZ+3leeE
+	NwZam6HF/cTq3dB1ZAm+ZCgCIELOEB+AphB4iZlEdL5XDFyb9fn8I0d0fPTKmXapO75K2Ek2bPdgL
+	pBRNjtr+q3XLSUv6GekhIoXXSJ4MQIJ/ysnnyRWzSBz6l4kL803FFSlJ++APIB5pEcUU0Nl54FD2G
+	56wIKY5m+wHbLh1oZ/LykRavub0YOJ4kIFh5cTla1GyEz0I9addIH9LUh89uBVihmpBJnu4ErIk7G
+	NuUPA2WQ==;
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNFR-007DZR-Me; Fri, 15 Oct 2021 13:27:46 +0000
+	id 1mbNFW-007Dfi-S5; Fri, 15 Oct 2021 13:27:51 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -49,9 +49,9 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
 	reiserfs-devel@vger.kernel.org
-Subject: [PATCH 23/30] squashfs: use bdev_nr_bytes instead of open coding it
-Date: Fri, 15 Oct 2021 15:26:36 +0200
-Message-Id: <20211015132643.1621913-24-hch@lst.de>
+Subject: [PATCH 25/30] block: add a sb_bdev_nr_blocks helper
+Date: Fri, 15 Oct 2021 15:26:38 +0200
+Message-Id: <20211015132643.1621913-26-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
 References: <20211015132643.1621913-1-hch@lst.de>
@@ -64,37 +64,33 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Use the proper helper to read the block device size.
+Add a helper to return the size of sb->s_bdev in sb->s_blocksize_bits
+based unites.  Note that SECTOR_SHIFT has to be open coded due to
+include dependency issues for now, but I have a plan to sort that out
+eventually.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Phillip Lougher <phillip@squashfs.org.uk>
 ---
- fs/squashfs/super.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ include/linux/genhd.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/fs/squashfs/super.c b/fs/squashfs/super.c
-index 60d6951915f44..bb44ff4c5cc67 100644
---- a/fs/squashfs/super.c
-+++ b/fs/squashfs/super.c
-@@ -16,6 +16,7 @@
+diff --git a/include/linux/genhd.h b/include/linux/genhd.h
+index f67db3c5a04b3..70b4ac47e693c 100644
+--- a/include/linux/genhd.h
++++ b/include/linux/genhd.h
+@@ -250,6 +250,12 @@ static inline sector_t get_capacity(struct gendisk *disk)
+ 	return bdev_nr_sectors(disk->part0);
+ }
  
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++static inline u64 sb_bdev_nr_blocks(struct super_block *sb)
++{
++	return bdev_nr_sectors(sb->s_bdev) >>
++		(sb->s_blocksize_bits - SECTOR_SHIFT);
++}
++
+ int bdev_disk_changed(struct gendisk *disk, bool invalidate);
+ void blk_drop_partitions(struct gendisk *disk);
  
-+#include <linux/blkdev.h>
- #include <linux/fs.h>
- #include <linux/fs_context.h>
- #include <linux/fs_parser.h>
-@@ -179,8 +180,8 @@ static int squashfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	/* Check the filesystem does not extend beyond the end of the
- 	   block device */
- 	msblk->bytes_used = le64_to_cpu(sblk->bytes_used);
--	if (msblk->bytes_used < 0 || msblk->bytes_used >
--			i_size_read(sb->s_bdev->bd_inode))
-+	if (msblk->bytes_used < 0 ||
-+	    msblk->bytes_used > bdev_nr_bytes(sb->s_bdev))
- 		goto failed_mount;
- 
- 	/* Check block size for sanity */
 -- 
 2.30.2
 
