@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228882C80
-	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:27:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319C42C83
+	for <ntfs3@lists.linux.dev>; Fri, 15 Oct 2021 13:27:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=4+4aho7Od7CaYcuq9D5nzrbKD6dBz8xE3WUEnLiAMa8=; b=njF1lec5ToI1mF57nm85IhKdj0
-	R4hMIfun9fY3BAXnq2O3pwjWa9Yt+TLx9N+CKb+hbwwZsb7BmEGSKJ+y+JTe0PuviO7YsVgzHDBMq
-	P+X5kEL75/uDtXbzZ9PYeumMpGPAXVPmL/a9Mk4lggk1lRinjRoJOvH4G1BQkSuxqrKWXzzb0vuee
-	vkFF60DWx0p4PiABO9m18Mk+Wmr08nwkEtbxYJmdqxY8PBsUn4OfwqpSFFwThqis0kY8xJmmNWq9s
-	LrfzgH4Wt8+bIkiFrGPQNv8u0vdWAxRq5WmN2xGi+vF1lijX5TkCen4UBOXbvs7MGTvHtep/9pzQ9
-	ZQXXo4MA==;
+	bh=l6H+xWHI2buGGvGsIZb/A3dvICuo/7ewDE4S1/fqN/c=; b=PZKuiIv/qJljrkxnxnKD+h7ASp
+	t1DY8S37VxTjS5GVdTkbLu2mMuhS6r19M9P18jq5XWRRb/cDXTKEhdKZpbi6BYfjD+qVUx98A7XOx
+	dOceraYZgfKi6i/cyCWYpqxoLOymY2Qbs01Ah8Y+ZKKT9clwZtoud58n6FEGbl464S2EYE1cDTPWl
+	4k2uxiZ1Ufz8ImJJ9J6PAiEaI3OVRm7cm1hnYyVq9H/QoM0+iG2ltlqYPdw3Ica7l/zAFYvuR19Li
+	1xrYDx5RlNaWSbE2njYmuPk8oSACh0P63MHKOWIgGLbA1JAiNrz3A7Mcdmlh/tLrvL90Jz6F3+CFW
+	fbcCjk3g==;
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNEw-007Cyg-LO; Fri, 15 Oct 2021 13:27:15 +0000
+	id 1mbNF4-007D8w-Ce; Fri, 15 Oct 2021 13:27:22 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -49,9 +49,9 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
 	reiserfs-devel@vger.kernel.org
-Subject: [PATCH 11/30] affs: use bdev_nr_sectors instead of open coding it
-Date: Fri, 15 Oct 2021 15:26:24 +0200
-Message-Id: <20211015132643.1621913-12-hch@lst.de>
+Subject: [PATCH 14/30] fat: use bdev_nr_sectors instead of open coding it
+Date: Fri, 15 Oct 2021 15:26:27 +0200
+Message-Id: <20211015132643.1621913-15-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
 References: <20211015132643.1621913-1-hch@lst.de>
@@ -69,22 +69,29 @@ Use the proper helper to read the block device size.
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- fs/affs/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/fat/inode.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/fs/affs/super.c b/fs/affs/super.c
-index c6c2a513ec92d..c609005a9eaaa 100644
---- a/fs/affs/super.c
-+++ b/fs/affs/super.c
-@@ -389,7 +389,7 @@ static int affs_fill_super(struct super_block *sb, void *data, int silent)
- 	 * blocks, we will have to change it.
- 	 */
+diff --git a/fs/fat/inode.c b/fs/fat/inode.c
+index de0c9b013a851..9f3cd03668adc 100644
+--- a/fs/fat/inode.c
++++ b/fs/fat/inode.c
+@@ -1536,14 +1536,11 @@ static int fat_read_static_bpb(struct super_block *sb,
+ 	struct fat_bios_param_block *bpb)
+ {
+ 	static const char *notdos1x = "This doesn't look like a DOS 1.x volume";
+-
++	sector_t bd_sects = bdev_nr_sectors(sb->s_bdev);
+ 	struct fat_floppy_defaults *fdefaults = NULL;
+ 	int error = -EINVAL;
+-	sector_t bd_sects;
+ 	unsigned i;
  
--	size = i_size_read(sb->s_bdev->bd_inode) >> 9;
-+	size = bdev_nr_sectors(sb->s_bdev);
- 	pr_debug("initial blocksize=%d, #blocks=%d\n", 512, size);
- 
- 	affs_set_blocksize(sb, PAGE_SIZE);
+-	bd_sects = i_size_read(sb->s_bdev->bd_inode) / SECTOR_SIZE;
+-
+ 	/* 16-bit DOS 1.x reliably wrote bootstrap short-jmp code */
+ 	if (b->ignored[0] != 0xeb || b->ignored[2] != 0x90) {
+ 		if (!silent)
 -- 
 2.30.2
 
