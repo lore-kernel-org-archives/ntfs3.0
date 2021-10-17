@@ -1,50 +1,50 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A07A2C80
-	for <ntfs3@lists.linux.dev>; Sat, 16 Oct 2021 10:42:13 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id t9so52296996lfd.1
-        for <ntfs3@lists.linux.dev>; Sat, 16 Oct 2021 03:42:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F862C80
+	for <ntfs3@lists.linux.dev>; Sun, 17 Oct 2021 08:10:32 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id 145so2700722ljj.1
+        for <ntfs3@lists.linux.dev>; Sun, 17 Oct 2021 01:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=JE2ZEhnUZTL3zV3Jn9NvK7Qo/yNCMgF3TmpQvT7J8Zg=;
-        b=T/x9sy7/FO+PHLiFkOYn3cDMPoMa0Vv5EmeswMChUTYXoOPbERNuLBQzKvWguiu61W
-         tf4BnfgZDeRMZ072LrHly+MoZ3O5GMk6uG6LJ10e4u/Pr+4nFQ+pdC3y524BDiIruMxG
-         1ixN6ZlvPtlxGDhv7Thb00oDFC4uzo3v3jvIqmxivov+J/agUsJrSVjgF09FmXwNkEr6
-         nNzj8pdKASz9xpqPfXsnC0iCJuginWVKQcDQPOXBzlLv+PDxllC946aaPOerjBRpHsXk
-         JJqRST//jBeeiioEQ4ZbpF8SJEMo7QpXhS5xUtEB8bYq51oN1tvLatAOUKSvholtsu9w
-         pPgw==
+        bh=uVvk0GkTxHaq+zMgcywPyhp00COcyzzLvDsUILCtVnQ=;
+        b=UXS43IeMFnuTbNf0Qx3NrjWUyJBLg0El+hSwvwbl7ZSDbO1ADomHLAd93j/07a4Djj
+         u70rjjmyd0uMiQCkxBqHARA3EyWqnlGQV0leu8vXEAkb6clxBcspBgWsTh+h6MdZouXq
+         /9t2TWyvpRJcwjsrXi1gGy2uX2CScM70vSYp2GI+WPKePpKhOWdsFo2HZNoXj4Zzh3Gr
+         L1O38ov03wliUgnazRd8+SsaWbOjGLPTcsWMGuZw6XXezly/RnjPRASQsShGt0/hbxUl
+         ORy08sM6uAEQdCFCP/XdejoJ3NKULDowqeY2EUnrqb4KF/CAELE4yZ8+UvK5aPkzwQzA
+         uA6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=JE2ZEhnUZTL3zV3Jn9NvK7Qo/yNCMgF3TmpQvT7J8Zg=;
-        b=M3Cq/+nqtcTboGuIzUN/BSJlpVK7pnTt4ebNoQi/0hLJ8bHIYt52uRIK+WYg8aiEVR
-         vs6Xad8nQMqxjzWnEqg/pgDgxFI1H14bl2PwDI1GBAKvpc4XDx3wVPZktRklOvNT4tLk
-         OKfXHBwahxetX9zHnuTQZLdmdEPgKBQO/5J571bzCUdqg4JIoCWyldr5VOMkOIxrcMaV
-         Ue+4LW9k8ds+Dvmz0SBs8kixdBXHbi0rbCJNgQp+BvUsbemEo8zhPIFVdT0O0kEXdJjC
-         PpRwsfx4xvsB9wXRMnEk/g66oMQzOo2xcdkG80h0K8fW7R+HpF8oE06hDxx5l48rnW7S
-         M3IQ==
-X-Gm-Message-State: AOAM533VaoU48K6pY9ZmiKvkAJiP29fknQAu5FZwruzN27UpihHyAkj/
-	nQzF4fLKvByeoFNZSTZuGM8=
-X-Google-Smtp-Source: ABdhPJz1rS1St0yUfy676/Y4tMxC9j5/ojmJ9VJqWqk2IHUPPHCwGEVV6xyYm24k+7r/G+MAwvAAJQ==
-X-Received: by 2002:a05:6512:3b21:: with SMTP id f33mr16820364lfv.88.1634380931402;
-        Sat, 16 Oct 2021 03:42:11 -0700 (PDT)
+        bh=uVvk0GkTxHaq+zMgcywPyhp00COcyzzLvDsUILCtVnQ=;
+        b=A2rey7dwJo+mdc40Q8JHwCXukQHD01ouIWp1fCctNzNJ9SNXYkfztheNlC6fON5kSI
+         CrHSyEjU793cxsS16rvaaQSIZdGxJT+sVM1t7xdHCs9V0J8J3a0R/CjOrfN9piJl1DeM
+         lmSALPJyP8LN15UoRwHuYcFED6Q4DAym7H+L3pbScs0tpKQnVBQSwJKxnd17WLeI2DrY
+         JxcR/9H2IHshWFCTJxMUYxO7BW42Mz+o72LGtnYHm1tiK1N1zi2UJvBREr9JTI4API32
+         ZxlkU4QJvZyBKhkXOLAwOQT7AwLW7s33+J8LxQBMcPwlEZPjQmkdEKv7eznFwknKtB7h
+         H9RA==
+X-Gm-Message-State: AOAM531bcglncP0XaFsz5klbnBS52uRPZ0wYqsaZiXswk+rKcM9KP9lT
+	PJct4DZBh84NCodvBbxA5W4=
+X-Google-Smtp-Source: ABdhPJzh1BYjoxhUnC+38CDk89mP0e2ywkEjhqSnAL9dbH+0/dkLRrAedtdTvbPRq8pNaNT3VJ2/Bw==
+X-Received: by 2002:a2e:361a:: with SMTP id d26mr24619050lja.104.1634458230351;
+        Sun, 17 Oct 2021 01:10:30 -0700 (PDT)
 Received: from kari-VirtualBox (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
-        by smtp.gmail.com with ESMTPSA id i8sm809164lfb.227.2021.10.16.03.42.10
+        by smtp.gmail.com with ESMTPSA id t13sm1093053lfc.34.2021.10.17.01.10.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Oct 2021 03:42:10 -0700 (PDT)
-Date: Sat, 16 Oct 2021 13:42:09 +0300
+        Sun, 17 Oct 2021 01:10:29 -0700 (PDT)
+Date: Sun, 17 Oct 2021 11:10:27 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] fs/ntfs3: Remove unnecessary functions
-Message-ID: <20211016104209.r6mgz2ote4jcmgcj@kari-VirtualBox>
-References: <992eee8f-bed8-4019-a966-1988bd4dd5de@paragon-software.com>
- <2ce78ab6-453d-d7bf-9969-eb47b7347098@paragon-software.com>
+Subject: Re: [PATCH 1/5] fs/ntfs3: Rework ntfs_utf16_to_nls
+Message-ID: <20211017081027.zxh2hbbxdk7ffwqn@kari-VirtualBox>
+References: <98a166e4-f894-8bff-9479-05ef5435f1ed@paragon-software.com>
+ <5f5a0b13-90bd-b97c-aa50-c646bb243bde@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -53,151 +53,116 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2ce78ab6-453d-d7bf-9969-eb47b7347098@paragon-software.com>
+In-Reply-To: <5f5a0b13-90bd-b97c-aa50-c646bb243bde@paragon-software.com>
 
-On Fri, Oct 01, 2021 at 07:02:12PM +0300, Konstantin Komarov wrote:
-> We don't need ntfs_xattr_get_acl and ntfs_xattr_set_acl.
-> There are ntfs_get_acl_ex and ntfs_set_acl_ex.
-
-I just bisect this commit after tests
-
-"generic/099,generic/105,generic/307,generic/318,generic/319,generic/375,generic/444"
-
-fails for me. Fails happends because mount option acl was not defined.
-Before they where skipped, but now fail occurs. Also generic/099 was
-passing if acl mount option was defined, but after this patch it also
-fail. Every other test fail for me as well, but that is not related to
-this patch.
-
-So should we revert or do you make new patch to fix the issue or do you
-think we won't have any issue here?
-
-  Argillander
-
+On Tue, Oct 05, 2021 at 07:47:03PM +0300, Konstantin Komarov wrote:
+> Now ntfs_utf16_to_nls takes length as one of arguments.
+> If length of symlink > 255, then we tried to convert
+> length of symlink +- some random number.
+> Now 255 symbols limit was removed.
+> 
 > Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 > ---
->  fs/ntfs3/xattr.c | 94 ------------------------------------------------
->  1 file changed, 94 deletions(-)
+>  fs/ntfs3/dir.c     | 19 ++++++++-----------
+>  fs/ntfs3/ntfs_fs.h |  2 +-
+>  2 files changed, 9 insertions(+), 12 deletions(-)
 > 
-> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-> index 83bbee277e12..111355692163 100644
-> --- a/fs/ntfs3/xattr.c
-> +++ b/fs/ntfs3/xattr.c
-> @@ -621,67 +621,6 @@ int ntfs_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
->  	return ntfs_set_acl_ex(mnt_userns, inode, acl, type, 0);
->  }
+> diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+> index 785e72d4392e..fb438d604040 100644
+> --- a/fs/ntfs3/dir.c
+> +++ b/fs/ntfs3/dir.c
+> @@ -15,11 +15,10 @@
+>  #include "ntfs_fs.h"
 >  
-> -static int ntfs_xattr_get_acl(struct user_namespace *mnt_userns,
-> -			      struct inode *inode, int type, void *buffer,
-> -			      size_t size)
-> -{
-> -	struct posix_acl *acl;
-> -	int err;
-> -
-> -	if (!(inode->i_sb->s_flags & SB_POSIXACL)) {
-> -		ntfs_inode_warn(inode, "add mount option \"acl\" to use acl");
-> -		return -EOPNOTSUPP;
-> -	}
-> -
-> -	acl = ntfs_get_acl(inode, type);
-> -	if (IS_ERR(acl))
-> -		return PTR_ERR(acl);
-> -
-> -	if (!acl)
-> -		return -ENODATA;
-> -
-> -	err = posix_acl_to_xattr(mnt_userns, acl, buffer, size);
-> -	ntfs_posix_acl_release(acl);
-> -
-> -	return err;
-> -}
-> -
-> -static int ntfs_xattr_set_acl(struct user_namespace *mnt_userns,
-> -			      struct inode *inode, int type, const void *value,
-> -			      size_t size)
-> -{
-> -	struct posix_acl *acl;
-> -	int err;
-> -
-> -	if (!(inode->i_sb->s_flags & SB_POSIXACL)) {
-> -		ntfs_inode_warn(inode, "add mount option \"acl\" to use acl");
-> -		return -EOPNOTSUPP;
-> -	}
-> -
-> -	if (!inode_owner_or_capable(mnt_userns, inode))
-> -		return -EPERM;
-> -
-> -	if (!value) {
-> -		acl = NULL;
-> -	} else {
-> -		acl = posix_acl_from_xattr(mnt_userns, value, size);
-> -		if (IS_ERR(acl))
-> -			return PTR_ERR(acl);
-> -
-> -		if (acl) {
-> -			err = posix_acl_valid(mnt_userns, acl);
-> -			if (err)
-> -				goto release_and_out;
-> -		}
-> -	}
-> -
-> -	err = ntfs_set_acl(mnt_userns, inode, acl, type);
-> -
-> -release_and_out:
-> -	ntfs_posix_acl_release(acl);
-> -	return err;
-> -}
-> -
->  /*
->   * ntfs_init_acl - Initialize the ACLs of a new inode.
->   *
-> @@ -848,23 +787,6 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
->  		goto out;
+>  /* Convert little endian UTF-16 to NLS string. */
+> -int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const struct le_str *uni,
+> +int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const __le16 *name, u32 len,
+>  		      u8 *buf, int buf_len)
+
+I just like to point out that this patch break the build. We cannot
+break build in any commit. If you make change you need to make sure
+everything still works. This is of course now late, but I just bring it
+up if you did not know it already.
+
+Problem here is that you change callers to match this in patch 2/5. You
+need to make it in same patch. Basically every patch should build it is
+own and even all tests should work.
+
+Reason here is git bisecting. We really want to easy way to bisect bugs
+and if some commit break something then it make bisecting more
+difficult.
+
+I also wonder why 0day bot did not report this. Maybe because there was
+no base or something, but I have to look into that as for now that is
+only CI system we have. When we get ntfs3 to kernel.org then we also can
+use patchwork and then my first thing to do is to start CI system that
+reports results to patchwork.
+
+I will use Snowpatch to fetch patches from patchwork and Jenkins to CI.
+
+>  {
+> -	int ret, uni_len, warn;
+> -	const __le16 *ip;
+> +	int ret, warn;
+>  	u8 *op;
+>  	struct nls_table *nls = sbi->options->nls;
+>  
+> @@ -27,18 +26,16 @@ int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const struct le_str *uni,
+>  
+>  	if (!nls) {
+>  		/* UTF-16 -> UTF-8 */
+> -		ret = utf16s_to_utf8s((wchar_t *)uni->name, uni->len,
+> -				      UTF16_LITTLE_ENDIAN, buf, buf_len);
+> +		ret = utf16s_to_utf8s(name, len, UTF16_LITTLE_ENDIAN, buf,
+> +				      buf_len);
+>  		buf[ret] = '\0';
+>  		return ret;
 >  	}
 >  
-> -#ifdef CONFIG_NTFS3_FS_POSIX_ACL
-> -	if ((name_len == sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1 &&
-> -	     !memcmp(name, XATTR_NAME_POSIX_ACL_ACCESS,
-> -		     sizeof(XATTR_NAME_POSIX_ACL_ACCESS))) ||
-> -	    (name_len == sizeof(XATTR_NAME_POSIX_ACL_DEFAULT) - 1 &&
-> -	     !memcmp(name, XATTR_NAME_POSIX_ACL_DEFAULT,
-> -		     sizeof(XATTR_NAME_POSIX_ACL_DEFAULT)))) {
-> -		/* TODO: init_user_ns? */
-> -		err = ntfs_xattr_get_acl(
-> -			&init_user_ns, inode,
-> -			name_len == sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1
-> -				? ACL_TYPE_ACCESS
-> -				: ACL_TYPE_DEFAULT,
-> -			buffer, size);
-> -		goto out;
-> -	}
-> -#endif
->  	/* Deal with NTFS extended attribute. */
->  	err = ntfs_get_ea(inode, name, name_len, buffer, size, NULL);
+> -	ip = uni->name;
+>  	op = buf;
+> -	uni_len = uni->len;
+>  	warn = 0;
 >  
-> @@ -977,22 +899,6 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
->  		goto out;
->  	}
+> -	while (uni_len--) {
+> +	while (len--) {
+>  		u16 ec;
+>  		int charlen;
+>  		char dump[5];
+> @@ -49,7 +46,7 @@ int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const struct le_str *uni,
+>  			break;
+>  		}
 >  
-> -#ifdef CONFIG_NTFS3_FS_POSIX_ACL
-> -	if ((name_len == sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1 &&
-> -	     !memcmp(name, XATTR_NAME_POSIX_ACL_ACCESS,
-> -		     sizeof(XATTR_NAME_POSIX_ACL_ACCESS))) ||
-> -	    (name_len == sizeof(XATTR_NAME_POSIX_ACL_DEFAULT) - 1 &&
-> -	     !memcmp(name, XATTR_NAME_POSIX_ACL_DEFAULT,
-> -		     sizeof(XATTR_NAME_POSIX_ACL_DEFAULT)))) {
-> -		err = ntfs_xattr_set_acl(
-> -			mnt_userns, inode,
-> -			name_len == sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1
-> -				? ACL_TYPE_ACCESS
-> -				: ACL_TYPE_DEFAULT,
-> -			value, size);
-> -		goto out;
-> -	}
-> -#endif
->  	/* Deal with NTFS extended attribute. */
->  	err = ntfs_set_ea(inode, name, name_len, value, size, flags, 0);
+> -		ec = le16_to_cpu(*ip++);
+> +		ec = le16_to_cpu(*name++);
+>  		charlen = nls->uni2char(ec, op, buf_len);
 >  
+>  		if (charlen > 0) {
+> @@ -304,8 +301,8 @@ static inline int ntfs_filldir(struct ntfs_sb_info *sbi, struct ntfs_inode *ni,
+>  	if (sbi->options->nohidden && (fname->dup.fa & FILE_ATTRIBUTE_HIDDEN))
+>  		return 0;
+>  
+> -	name_len = ntfs_utf16_to_nls(sbi, (struct le_str *)&fname->name_len,
+> -				     name, PATH_MAX);
+> +	name_len = ntfs_utf16_to_nls(sbi, fname->name, fname->name_len, name,
+> +				     PATH_MAX);
+>  	if (name_len <= 0) {
+>  		ntfs_warn(sbi->sb, "failed to convert name for inode %lx.",
+>  			  ino);
+> diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+> index 38b7c1a9dc52..9277b552f257 100644
+> --- a/fs/ntfs3/ntfs_fs.h
+> +++ b/fs/ntfs3/ntfs_fs.h
+> @@ -475,7 +475,7 @@ bool are_bits_set(const ulong *map, size_t bit, size_t nbits);
+>  size_t get_set_bits_ex(const ulong *map, size_t bit, size_t nbits);
+>  
+>  /* Globals from dir.c */
+> -int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const struct le_str *uni,
+> +int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const __le16 *name, u32 len,
+>  		      u8 *buf, int buf_len);
+>  int ntfs_nls_to_utf16(struct ntfs_sb_info *sbi, const u8 *name, u32 name_len,
+>  		      struct cpu_str *uni, u32 max_ulen,
 > -- 
 > 2.33.0
+> 
 > 
