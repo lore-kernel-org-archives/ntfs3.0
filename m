@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490E92C88
-	for <ntfs3@lists.linux.dev>; Mon, 18 Oct 2021 10:11:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13E82C87
+	for <ntfs3@lists.linux.dev>; Mon, 18 Oct 2021 10:11:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=ua3x6oobbjatF9m91a/TfkciVlhvg2RT0UK88GOOPcc=; b=XVvSoKdE/JlZNBYXu3Ks8GFKiV
-	uBg2o6bTqPw8jV9jsJP/6Xo3xrXV54Voyi6107pWBLswXWKXRq5pIREuha41ZOOOccwKG65hUSxAU
-	7qBe1++VbFG4N2fuRQJMgE06VcbEEyqmXUtZCer4nKhLTfPoO+CFctkUyy/Ygd4OC5M4bAWP90mYz
-	NjOJBD/jP48NB//Iv9fCWg39CKTCiAm6HKw0iU0N+jy4zrqld2bksmjJ2B2cI9x2/CQ1g/BXmKB6h
-	icmh+FGURhCSucrRb/qUhGGftx7odANOXNfnpx2jvK35uvbIyNF/e1RVCQq4oJhEjA2UZNBsiUWak
-	XMAxmBzg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=XEauwBeyle229Q9YGjw8X73gVoQGpNTHUdJ6d3ufcSY=; b=OPyMmGmlhYqRTyBq1xysZRbGz+
+	4FdOau0hna6c1i4ag1CGi2DKKpsXddty9p0sFjlrqRziwmbkNyV7e7UOi9BElxioDEozNZ+pQBXP5
+	s6bIy3U2NhCphJhPcL1sYOi0up1FJ4SmKjnMiv8+6awRaPgIW6gjimONq4E2b+uLeXVG70W5jjudH
+	NEaekXB87lL4qQpQMAaXI+J7xErv1an4Is7hU4Ea34/FNhsGWy64rpszdidrWAdzhx6MJL34xcMOa
+	j6hOszoE3Evw74AMK55enAdcSU9yDd/sGcJguy6adxGflR+1TbLqRDN48cGsnBHeqR7rT5F7A3RZA
+	iorHKJlg==;
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPcL-00Eu0X-91; Mon, 18 Oct 2021 10:11:41 +0000
+	id 1mcPcD-00EtyD-1s; Mon, 18 Oct 2021 10:11:33 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -48,14 +48,11 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-nilfs@vger.kernel.org,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
-	reiserfs-devel@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 03/30] bcache: remove bdev_sectors
-Date: Mon, 18 Oct 2021 12:11:03 +0200
-Message-Id: <20211018101130.1838532-4-hch@lst.de>
+	reiserfs-devel@vger.kernel.org
+Subject: don't use ->bd_inode to access the block device size v3
+Date: Mon, 18 Oct 2021 12:11:00 +0200
+Message-Id: <20211018101130.1838532-1-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
-References: <20211018101130.1838532-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -65,57 +62,82 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Use the equivalent block layer helper instead.
+Hi Jens,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Acked-by: Coly Li <colyli@suse.de>
----
- drivers/md/bcache/super.c     | 2 +-
- drivers/md/bcache/util.h      | 4 ----
- drivers/md/bcache/writeback.c | 2 +-
- 3 files changed, 2 insertions(+), 6 deletions(-)
+various drivers currently poke directy at the block device inode, which
+is a bit of a mess.  This series cleans up the places that read the
+block device size to use the proper helpers.  I have separate patches
+for many of the other bd_inode uses, but this series is already big
+enough as-is,
 
-diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
-index f2874c77ff797..4f89985abe4b7 100644
---- a/drivers/md/bcache/super.c
-+++ b/drivers/md/bcache/super.c
-@@ -1002,7 +1002,7 @@ static void calc_cached_dev_sectors(struct cache_set *c)
- 	struct cached_dev *dc;
- 
- 	list_for_each_entry(dc, &c->cached_devs, list)
--		sectors += bdev_sectors(dc->bdev);
-+		sectors += bdev_nr_sectors(dc->bdev);
- 
- 	c->cached_dev_sectors = sectors;
- }
-diff --git a/drivers/md/bcache/util.h b/drivers/md/bcache/util.h
-index b64460a762677..a7da7930a7fda 100644
---- a/drivers/md/bcache/util.h
-+++ b/drivers/md/bcache/util.h
-@@ -584,8 +584,4 @@ static inline unsigned int fract_exp_two(unsigned int x,
- void bch_bio_map(struct bio *bio, void *base);
- int bch_bio_alloc_pages(struct bio *bio, gfp_t gfp_mask);
- 
--static inline sector_t bdev_sectors(struct block_device *bdev)
--{
--	return bdev->bd_inode->i_size >> 9;
--}
- #endif /* _BCACHE_UTIL_H */
-diff --git a/drivers/md/bcache/writeback.c b/drivers/md/bcache/writeback.c
-index 8120da278161e..c7560f66dca88 100644
---- a/drivers/md/bcache/writeback.c
-+++ b/drivers/md/bcache/writeback.c
-@@ -45,7 +45,7 @@ static uint64_t __calc_target_rate(struct cached_dev *dc)
- 	 * backing volume uses about 2% of the cache for dirty data.
- 	 */
- 	uint32_t bdev_share =
--		div64_u64(bdev_sectors(dc->bdev) << WRITEBACK_SHARE_SHIFT,
-+		div64_u64(bdev_nr_sectors(dc->bdev) << WRITEBACK_SHARE_SHIFT,
- 				c->cached_dev_sectors);
- 
- 	uint64_t cache_dirty_target =
--- 
-2.30.2
+Changes since v2:
+ - bdev_nr_bytes should return loff_t
+ - fix a commit message typo
+ - drop a redundant note in a commit message
 
+Changes since v1:
+ - move SECTOR_SIZE & co
+ - use SECTOR_SHIFT in sb_bdev_nr_blocks
+ - add a bdev_nr_bytes helper
+ - reuse a variable in the SCSI target code
+ - drop the block2mtd patch, a bigger rewrite for that code is pending
+
+Diffstat:
+ block/fops.c                        |    2 +-
+ drivers/block/drbd/drbd_int.h       |    3 +--
+ drivers/md/bcache/super.c           |    2 +-
+ drivers/md/bcache/util.h            |    4 ----
+ drivers/md/bcache/writeback.c       |    2 +-
+ drivers/md/dm-bufio.c               |    2 +-
+ drivers/md/dm-cache-metadata.c      |    2 +-
+ drivers/md/dm-cache-target.c        |    2 +-
+ drivers/md/dm-clone-target.c        |    2 +-
+ drivers/md/dm-dust.c                |    5 ++---
+ drivers/md/dm-ebs-target.c          |    2 +-
+ drivers/md/dm-era-target.c          |    2 +-
+ drivers/md/dm-exception-store.h     |    2 +-
+ drivers/md/dm-flakey.c              |    3 +--
+ drivers/md/dm-integrity.c           |    6 +++---
+ drivers/md/dm-linear.c              |    3 +--
+ drivers/md/dm-log-writes.c          |    4 ++--
+ drivers/md/dm-log.c                 |    2 +-
+ drivers/md/dm-mpath.c               |    2 +-
+ drivers/md/dm-raid.c                |    6 +++---
+ drivers/md/dm-switch.c              |    2 +-
+ drivers/md/dm-table.c               |    3 +--
+ drivers/md/dm-thin-metadata.c       |    2 +-
+ drivers/md/dm-thin.c                |    2 +-
+ drivers/md/dm-verity-target.c       |    3 +--
+ drivers/md/dm-writecache.c          |    2 +-
+ drivers/md/dm-zoned-target.c        |    2 +-
+ drivers/md/md.c                     |   26 +++++++++++---------------
+ drivers/nvme/target/io-cmd-bdev.c   |    4 ++--
+ drivers/target/target_core_iblock.c |    4 ++--
+ fs/affs/super.c                     |    2 +-
+ fs/btrfs/dev-replace.c              |    3 +--
+ fs/btrfs/disk-io.c                  |    2 +-
+ fs/btrfs/ioctl.c                    |    4 ++--
+ fs/btrfs/volumes.c                  |    8 ++++----
+ fs/buffer.c                         |    4 ++--
+ fs/cramfs/inode.c                   |    2 +-
+ fs/ext4/super.c                     |    2 +-
+ fs/fat/inode.c                      |    5 +----
+ fs/hfs/mdb.c                        |    2 +-
+ fs/hfsplus/wrapper.c                |    2 +-
+ fs/jfs/resize.c                     |    5 ++---
+ fs/jfs/super.c                      |    5 ++---
+ fs/nfs/blocklayout/dev.c            |    4 ++--
+ fs/nilfs2/ioctl.c                   |    2 +-
+ fs/nilfs2/super.c                   |    2 +-
+ fs/nilfs2/the_nilfs.c               |    2 +-
+ fs/ntfs/super.c                     |    8 +++-----
+ fs/ntfs3/super.c                    |    3 +--
+ fs/pstore/blk.c                     |    8 +++-----
+ fs/reiserfs/super.c                 |    8 ++------
+ fs/squashfs/super.c                 |    5 +++--
+ fs/udf/lowlevel.c                   |    5 ++---
+ fs/udf/super.c                      |    9 +++------
+ include/linux/blk_types.h           |   17 +++++++++++++++++
+ include/linux/blkdev.h              |   17 -----------------
+ include/linux/genhd.h               |   13 ++++++++++++-
+ 57 files changed, 118 insertions(+), 139 deletions(-)
