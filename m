@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B9F2C81
-	for <ntfs3@lists.linux.dev>; Mon, 18 Oct 2021 10:12:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F462C85
+	for <ntfs3@lists.linux.dev>; Mon, 18 Oct 2021 10:12:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=8OnUiqFNA3rHNzLjA1n31wEQQeZqPf+auxUoglxcYro=; b=UHRswqexFwV0oo2rSODzspiz3i
-	UVE7wBcsI5sgz3Ao8yhe3ZoPdIGxp3nRU3jEZIG0KWvPlJhtO9QQr9r0X2sH94zyZowQnIj+qPGz3
-	Ya5gaKWX5L/NDy/oTtejm/u7ipvwELGvfMxfGYF3Cy9j3QuOWX7Y+4hzKh14yW0hz5sKn/tyl1fXz
-	2YNr1fi527GYkPPYC+lK+3Iu6rdY4D5psAiTkmSo1xxvckIMgYzjFLNYSKQ5+mB3Nm/A60TI2HwUT
-	tMIVIbc42oEgel1czPS5tVkdUELWfuuCoRmn7qWzUjsKne0Gpd8hHexhvPbdEgRZWIK6NVJgaZ5U8
-	E884db0Q==;
+	bh=KKpZYPqA+aHhFWKK1GwhpuFCmBp6m2jbf9clBVipcrc=; b=rbaL/zSEUOlFe3jpy6TO5r3MCZ
+	Qz4mDPkAX7cxls/CPcF3T1V5Nab59QQ5vlGUwnuObfME/oajHQGn5N2hS5zsqoSMkiHNvQd7If7o7
+	+NUBZhkGdP6qK9fEQ4TCvP55JJQZvLVBBV/wCOxdBdidMW+u3mYti/2SYMRLJ976eZY7GSuNBcBe8
+	ROzKKOS5Tt5TIb9cocp3dOH8YsSF44W0jDmsnO6Fn1iQITvlkcfagbN0XrOb+IEt7rGY2IOCD0z4w
+	svDCxbnzE+CT7J9Silg8aX+LsKNu+bQxURiIHlOAm0aJnJwYIyokfSWr4mDDYYRMUhBLOHT8e0bwn
+	UoShl3YA==;
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPdI-00Eusw-8N; Mon, 18 Oct 2021 10:12:40 +0000
+	id 1mcPdK-00EuvH-T1; Mon, 18 Oct 2021 10:12:43 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -49,10 +49,11 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
 	reiserfs-devel@vger.kernel.org,
+	Jan Kara <jack@suse.cz>,
 	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 25/30] block: add a sb_bdev_nr_blocks helper
-Date: Mon, 18 Oct 2021 12:11:25 +0200
-Message-Id: <20211018101130.1838532-26-hch@lst.de>
+Subject: [PATCH 26/30] ext4: use sb_bdev_nr_blocks
+Date: Mon, 18 Oct 2021 12:11:26 +0200
+Message-Id: <20211018101130.1838532-27-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
 References: <20211018101130.1838532-1-hch@lst.de>
@@ -65,33 +66,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Add a helper to return the size of sb->s_bdev in sb->s_blocksize_bits
-based unites.
+Use the sb_bdev_nr_blocks helper instead of open coding it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Jan Kara <jack@suse.cz>
 Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Acked-by: Theodore Ts'o <tytso@mit.edu>
 ---
- include/linux/genhd.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ fs/ext4/super.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index b560aee1d69f0..7a48d3ac725f3 100644
---- a/include/linux/genhd.h
-+++ b/include/linux/genhd.h
-@@ -250,6 +250,12 @@ static inline sector_t get_capacity(struct gendisk *disk)
- 	return bdev_nr_sectors(disk->part0);
- }
+diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+index 0775950ee84e3..3dde8be5df490 100644
+--- a/fs/ext4/super.c
++++ b/fs/ext4/super.c
+@@ -4468,7 +4468,7 @@ static int ext4_fill_super(struct super_block *sb, void *data, int silent)
+ 		goto cantfind_ext4;
  
-+static inline u64 sb_bdev_nr_blocks(struct super_block *sb)
-+{
-+	return bdev_nr_sectors(sb->s_bdev) >>
-+		(sb->s_blocksize_bits - SECTOR_SHIFT);
-+}
-+
- int bdev_disk_changed(struct gendisk *disk, bool invalidate);
- void blk_drop_partitions(struct gendisk *disk);
- 
+ 	/* check blocks count against device size */
+-	blocks_count = sb->s_bdev->bd_inode->i_size >> sb->s_blocksize_bits;
++	blocks_count = sb_bdev_nr_blocks(sb);
+ 	if (blocks_count && ext4_blocks_count(es) > blocks_count) {
+ 		ext4_msg(sb, KERN_WARNING, "bad geometry: block count %llu "
+ 		       "exceeds size of device (%llu blocks)",
 -- 
 2.30.2
 
