@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460DA2C81
-	for <ntfs3@lists.linux.dev>; Mon, 18 Oct 2021 10:12:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B9F2C81
+	for <ntfs3@lists.linux.dev>; Mon, 18 Oct 2021 10:12:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=c5d0QK+yd5Xo4ZZ7wO7eHh2GZgh8Yi/WWWEcEdNRvZM=; b=Q9jhLz2siMwmvSLPOYWYIPiZGP
-	y0U915DZ+evlzqHVz3DV1O/FavmbvZsw7RfdBAWNnvNJaj6+9Nq4DvZsR/YTJcgEYCGxXaqatGHKP
-	yDvyRHFSy00UJZV752BkfjEH/fD2461Kd2Nh/ZIawUOt0iHor/iPgWmAxvmZxwX55Ed/7cx/j8rPV
-	SNf6ZgiAQe3sIAPF11RZQEN1siUerZhJDcXbSSZfMbhVxXWTMClr0uAeQSWkuueQUtX0vO+lmSbYq
-	UAh0GV1QcM2anbJwBeynrb7HmdJqrQveP82CI6hD1ieBX5VV3uAjGozfv3N2xisMO2f3bs4Pq82GI
-	etwLfkEQ==;
+	bh=8OnUiqFNA3rHNzLjA1n31wEQQeZqPf+auxUoglxcYro=; b=UHRswqexFwV0oo2rSODzspiz3i
+	UVE7wBcsI5sgz3Ao8yhe3ZoPdIGxp3nRU3jEZIG0KWvPlJhtO9QQr9r0X2sH94zyZowQnIj+qPGz3
+	Ya5gaKWX5L/NDy/oTtejm/u7ipvwELGvfMxfGYF3Cy9j3QuOWX7Y+4hzKh14yW0hz5sKn/tyl1fXz
+	2YNr1fi527GYkPPYC+lK+3Iu6rdY4D5psAiTkmSo1xxvckIMgYzjFLNYSKQ5+mB3Nm/A60TI2HwUT
+	tMIVIbc42oEgel1czPS5tVkdUELWfuuCoRmn7qWzUjsKne0Gpd8hHexhvPbdEgRZWIK6NVJgaZ5U8
+	E884db0Q==;
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPdF-00EupS-H7; Mon, 18 Oct 2021 10:12:37 +0000
+	id 1mcPdI-00Eusw-8N; Mon, 18 Oct 2021 10:12:40 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -49,11 +49,10 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
 	reiserfs-devel@vger.kernel.org,
-	Jan Kara <jack@suse.cz>,
 	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 24/30] block: use bdev_nr_bytes instead of open coding it in blkdev_fallocate
-Date: Mon, 18 Oct 2021 12:11:24 +0200
-Message-Id: <20211018101130.1838532-25-hch@lst.de>
+Subject: [PATCH 25/30] block: add a sb_bdev_nr_blocks helper
+Date: Mon, 18 Oct 2021 12:11:25 +0200
+Message-Id: <20211018101130.1838532-26-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
 References: <20211018101130.1838532-1-hch@lst.de>
@@ -66,29 +65,33 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Use the proper helper to read the block device size.
+Add a helper to return the size of sb->s_bdev in sb->s_blocksize_bits
+based unites.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Jan Kara <jack@suse.cz>
 Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- block/fops.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/genhd.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/block/fops.c b/block/fops.c
-index 7bb9581a146cf..a6a4d412720cd 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -548,7 +548,7 @@ static long blkdev_fallocate(struct file *file, int mode, loff_t start,
- 		return -EOPNOTSUPP;
+diff --git a/include/linux/genhd.h b/include/linux/genhd.h
+index b560aee1d69f0..7a48d3ac725f3 100644
+--- a/include/linux/genhd.h
++++ b/include/linux/genhd.h
+@@ -250,6 +250,12 @@ static inline sector_t get_capacity(struct gendisk *disk)
+ 	return bdev_nr_sectors(disk->part0);
+ }
  
- 	/* Don't go off the end of the device. */
--	isize = i_size_read(bdev->bd_inode);
-+	isize = bdev_nr_bytes(bdev);
- 	if (start >= isize)
- 		return -EINVAL;
- 	if (end >= isize) {
++static inline u64 sb_bdev_nr_blocks(struct super_block *sb)
++{
++	return bdev_nr_sectors(sb->s_bdev) >>
++		(sb->s_blocksize_bits - SECTOR_SHIFT);
++}
++
+ int bdev_disk_changed(struct gendisk *disk, bool invalidate);
+ void blk_drop_partitions(struct gendisk *disk);
+ 
 -- 
 2.30.2
 
