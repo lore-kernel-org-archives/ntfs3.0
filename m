@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13E82C87
-	for <ntfs3@lists.linux.dev>; Mon, 18 Oct 2021 10:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6CF2C85
+	for <ntfs3@lists.linux.dev>; Mon, 18 Oct 2021 10:12:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=XEauwBeyle229Q9YGjw8X73gVoQGpNTHUdJ6d3ufcSY=; b=OPyMmGmlhYqRTyBq1xysZRbGz+
-	4FdOau0hna6c1i4ag1CGi2DKKpsXddty9p0sFjlrqRziwmbkNyV7e7UOi9BElxioDEozNZ+pQBXP5
-	s6bIy3U2NhCphJhPcL1sYOi0up1FJ4SmKjnMiv8+6awRaPgIW6gjimONq4E2b+uLeXVG70W5jjudH
-	NEaekXB87lL4qQpQMAaXI+J7xErv1an4Is7hU4Ea34/FNhsGWy64rpszdidrWAdzhx6MJL34xcMOa
-	j6hOszoE3Evw74AMK55enAdcSU9yDd/sGcJguy6adxGflR+1TbLqRDN48cGsnBHeqR7rT5F7A3RZA
-	iorHKJlg==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=6+r/5plvJ8OP57S4LNsM02c/IkmCxsa75L+hdJWrUDU=; b=CDejVvRDk7Qb9gEhmgVjzqQBVb
+	hvfANwFgD7mOJI0RdAxab+2iVmaL0EuslPUiSh8SHK8RScRHDdkm+lx4pF6Ai1uKLbtJJIbF7vWFx
+	X5xYRd2RUCJuROiA0FbpJdYGvAApQ7ITvpqhJkJ6O5MDI0+PBQADpk12TdZMvXI/cKUgdVyS4Tace
+	LoxsNvO3Dw9y1fZLvdmOdSwrPtf8ErzRdno4kZO0tgeZ4ODs+8bVCKv0QR2EgOvzhnPnPmFFuJ2R7
+	CihJa9cH9kwa15XDTY3ZZMl8Xagl5mAfuWw8Ry/2YwSJlxXugjUSblFi9tIr/9Ewm9gOhaodLSiJd
+	vFU/zxiw==;
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPcD-00EtyD-1s; Mon, 18 Oct 2021 10:11:33 +0000
+	id 1mcPcN-00Eu1r-TL; Mon, 18 Oct 2021 10:11:44 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>,
@@ -48,11 +48,15 @@ Cc: Coly Li <colyli@suse.de>,
 	linux-nilfs@vger.kernel.org,
 	linux-ntfs-dev@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
-	reiserfs-devel@vger.kernel.org
-Subject: don't use ->bd_inode to access the block device size v3
-Date: Mon, 18 Oct 2021 12:11:00 +0200
-Message-Id: <20211018101130.1838532-1-hch@lst.de>
+	reiserfs-devel@vger.kernel.org,
+	Lee Duncan <lduncan@suse.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 04/30] drbd: use bdev_nr_sectors instead of open coding it
+Date: Mon, 18 Oct 2021 12:11:04 +0200
+Message-Id: <20211018101130.1838532-5-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
+References: <20211018101130.1838532-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -62,82 +66,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi Jens,
+Use the proper helper to read the block device size.
 
-various drivers currently poke directy at the block device inode, which
-is a bit of a mess.  This series cleans up the places that read the
-block device size to use the proper helpers.  I have separate patches
-for many of the other bd_inode uses, but this series is already big
-enough as-is,
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Lee Duncan <lduncan@suse.com>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ drivers/block/drbd/drbd_int.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Changes since v2:
- - bdev_nr_bytes should return loff_t
- - fix a commit message typo
- - drop a redundant note in a commit message
+diff --git a/drivers/block/drbd/drbd_int.h b/drivers/block/drbd/drbd_int.h
+index 5d9181382ce19..75fda53eed8cf 100644
+--- a/drivers/block/drbd/drbd_int.h
++++ b/drivers/block/drbd/drbd_int.h
+@@ -1826,8 +1826,7 @@ static inline sector_t drbd_md_last_sector(struct drbd_backing_dev *bdev)
+ /* Returns the number of 512 byte sectors of the device */
+ static inline sector_t drbd_get_capacity(struct block_device *bdev)
+ {
+-	/* return bdev ? get_capacity(bdev->bd_disk) : 0; */
+-	return bdev ? i_size_read(bdev->bd_inode) >> 9 : 0;
++	return bdev ? bdev_nr_sectors(bdev) : 0;
+ }
+ 
+ /**
+-- 
+2.30.2
 
-Changes since v1:
- - move SECTOR_SIZE & co
- - use SECTOR_SHIFT in sb_bdev_nr_blocks
- - add a bdev_nr_bytes helper
- - reuse a variable in the SCSI target code
- - drop the block2mtd patch, a bigger rewrite for that code is pending
-
-Diffstat:
- block/fops.c                        |    2 +-
- drivers/block/drbd/drbd_int.h       |    3 +--
- drivers/md/bcache/super.c           |    2 +-
- drivers/md/bcache/util.h            |    4 ----
- drivers/md/bcache/writeback.c       |    2 +-
- drivers/md/dm-bufio.c               |    2 +-
- drivers/md/dm-cache-metadata.c      |    2 +-
- drivers/md/dm-cache-target.c        |    2 +-
- drivers/md/dm-clone-target.c        |    2 +-
- drivers/md/dm-dust.c                |    5 ++---
- drivers/md/dm-ebs-target.c          |    2 +-
- drivers/md/dm-era-target.c          |    2 +-
- drivers/md/dm-exception-store.h     |    2 +-
- drivers/md/dm-flakey.c              |    3 +--
- drivers/md/dm-integrity.c           |    6 +++---
- drivers/md/dm-linear.c              |    3 +--
- drivers/md/dm-log-writes.c          |    4 ++--
- drivers/md/dm-log.c                 |    2 +-
- drivers/md/dm-mpath.c               |    2 +-
- drivers/md/dm-raid.c                |    6 +++---
- drivers/md/dm-switch.c              |    2 +-
- drivers/md/dm-table.c               |    3 +--
- drivers/md/dm-thin-metadata.c       |    2 +-
- drivers/md/dm-thin.c                |    2 +-
- drivers/md/dm-verity-target.c       |    3 +--
- drivers/md/dm-writecache.c          |    2 +-
- drivers/md/dm-zoned-target.c        |    2 +-
- drivers/md/md.c                     |   26 +++++++++++---------------
- drivers/nvme/target/io-cmd-bdev.c   |    4 ++--
- drivers/target/target_core_iblock.c |    4 ++--
- fs/affs/super.c                     |    2 +-
- fs/btrfs/dev-replace.c              |    3 +--
- fs/btrfs/disk-io.c                  |    2 +-
- fs/btrfs/ioctl.c                    |    4 ++--
- fs/btrfs/volumes.c                  |    8 ++++----
- fs/buffer.c                         |    4 ++--
- fs/cramfs/inode.c                   |    2 +-
- fs/ext4/super.c                     |    2 +-
- fs/fat/inode.c                      |    5 +----
- fs/hfs/mdb.c                        |    2 +-
- fs/hfsplus/wrapper.c                |    2 +-
- fs/jfs/resize.c                     |    5 ++---
- fs/jfs/super.c                      |    5 ++---
- fs/nfs/blocklayout/dev.c            |    4 ++--
- fs/nilfs2/ioctl.c                   |    2 +-
- fs/nilfs2/super.c                   |    2 +-
- fs/nilfs2/the_nilfs.c               |    2 +-
- fs/ntfs/super.c                     |    8 +++-----
- fs/ntfs3/super.c                    |    3 +--
- fs/pstore/blk.c                     |    8 +++-----
- fs/reiserfs/super.c                 |    8 ++------
- fs/squashfs/super.c                 |    5 +++--
- fs/udf/lowlevel.c                   |    5 ++---
- fs/udf/super.c                      |    9 +++------
- include/linux/blk_types.h           |   17 +++++++++++++++++
- include/linux/blkdev.h              |   17 -----------------
- include/linux/genhd.h               |   13 ++++++++++++-
- 57 files changed, 118 insertions(+), 139 deletions(-)
