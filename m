@@ -1,198 +1,86 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C654A72
-	for <ntfs3@lists.linux.dev>; Tue, 19 Oct 2021 17:19:32 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 402461D2E;
-	Tue, 19 Oct 2021 20:11:27 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1634663487;
-	bh=rJZBCzj6lfZaYCwFdreaBYuWTvpigDJUzTf1ZhgWeas=;
-	h=Date:From:Subject:To:CC:References:In-Reply-To;
-	b=Lvgm6u5liG4yqYIHf35Nt4i9wkSCqJTSL3YFiSe6JoX2mHSClDjRpTbo60h/JqUfS
-	 gQjKzRF1rUK19sYB4L00t+I/tGUSb5zWwAkQUe6Xhd9qfTbtYcpa5payYV0A3IjkGM
-	 8KBBfvXJx0RUTX7O3PxD4nU6yFAzQqzNRD1NXKXs=
-Received: from [192.168.211.54] (192.168.211.54) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 19 Oct 2021 20:11:26 +0300
-Message-ID: <3bd566c0-6d4b-11ab-1402-a8ee63502dec@paragon-software.com>
-Date: Tue, 19 Oct 2021 20:11:26 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA932C80
+	for <ntfs3@lists.linux.dev>; Thu, 21 Oct 2021 20:19:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=y8JHDYkPJzIgkqIK04aJFKPmGCunlhTpxDzk6/5wJ6k=; b=imSnGuN5gACmlntKD2y7aDIcAu
+	ew/YvoiSKRxLyXfYxlwO66ByAfMXP5I03MyNPErjXLufNiQWS2TWYfqHl6yNpVwiL4QbbK+GUJUsF
+	q4BV+dXecs9YueWam7eUoXdjuNuoZ/jCa9k0JqlQsKBntxmFQEoxSaJX9d+862mkfJR4FFwkrW18+
+	JtuN6VSCxEhva705ABKaJ5Hint+7qKU/AloddUcxKh8lxB7CciPkREirPiu91kHNeEtOxnEF7i/fx
+	OLRULCIezXEw2SATL2d9qyvEKCpxd19nVczRYAdrbp/hWcMK+x4PRB7W+F+nuIBDKgo2LiEq0QM2q
+	1RbJ+WSA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1mdeVQ-00DW0g-3x; Thu, 21 Oct 2021 20:17:57 +0000
+Date: Thu, 21 Oct 2021 21:17:40 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>,
+	Phillip Lougher <phillip@squashfs.org.uk>,
+	linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org,
+	linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
+	linux-bcache@vger.kernel.org
+Cc: David Howells <dhowells@redhat.com>, Hsin-Yi Wang <hsinyi@chromium.org>
+Subject: Readahead for compressed data
+Message-ID: <YXHK5HrQpJu9oy8w@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: Re: [PATCH 1/2] fs/ntfs3: Remove unnecessary functions
-To: Kari Argillander <kari.argillander@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-References: <992eee8f-bed8-4019-a966-1988bd4dd5de@paragon-software.com>
- <2ce78ab6-453d-d7bf-9969-eb47b7347098@paragon-software.com>
- <20211016104209.r6mgz2ote4jcmgcj@kari-VirtualBox>
-Content-Language: en-US
-In-Reply-To: <20211016104209.r6mgz2ote4jcmgcj@kari-VirtualBox>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.54]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+As far as I can tell, the following filesystems support compressed data:
 
+bcachefs, btrfs, erofs, ntfs, squashfs, zisofs
 
-On 16.10.2021 13:42, Kari Argillander wrote:
-> On Fri, Oct 01, 2021 at 07:02:12PM +0300, Konstantin Komarov wrote:
->> We don't need ntfs_xattr_get_acl and ntfs_xattr_set_acl.
->> There are ntfs_get_acl_ex and ntfs_set_acl_ex.
-> 
-> I just bisect this commit after tests
-> 
-> "generic/099,generic/105,generic/307,generic/318,generic/319,generic/375,generic/444"
-> 
-> fails for me. Fails happends because mount option acl was not defined.
-> Before they where skipped, but now fail occurs. Also generic/099 was
-> passing if acl mount option was defined, but after this patch it also
-> fail. Every other test fail for me as well, but that is not related to
-> this patch.
-> 
-> So should we revert or do you make new patch to fix the issue or do you
-> think we won't have any issue here?
-> 
->   Argillander
-> 
+I'd like to make it easier and more efficient for filesystems to
+implement compressed data.  There are a lot of approaches in use today,
+but none of them seem quite right to me.  I'm going to lay out a few
+design considerations next and then propose a solution.  Feel free to
+tell me I've got the constraints wrong, or suggest alternative solutions.
 
-We skipped these tests(muted them in beginning and forgot to unmute).
-Thanks for pointing this out. There will be patch to fix them.
+When we call ->readahead from the VFS, the VFS has decided which pages
+are going to be the most useful to bring in, but it doesn't know how
+pages are bundled together into blocks.  As I've learned from talking to
+Gao Xiang, sometimes the filesystem doesn't know either, so this isn't
+something we can teach the VFS.
 
->> Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
->> ---
->>  fs/ntfs3/xattr.c | 94 ------------------------------------------------
->>  1 file changed, 94 deletions(-)
->>
->> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
->> index 83bbee277e12..111355692163 100644
->> --- a/fs/ntfs3/xattr.c
->> +++ b/fs/ntfs3/xattr.c
->> @@ -621,67 +621,6 @@ int ntfs_set_acl(struct user_namespace *mnt_userns, struct inode *inode,
->>  	return ntfs_set_acl_ex(mnt_userns, inode, acl, type, 0);
->>  }
->>  
->> -static int ntfs_xattr_get_acl(struct user_namespace *mnt_userns,
->> -			      struct inode *inode, int type, void *buffer,
->> -			      size_t size)
->> -{
->> -	struct posix_acl *acl;
->> -	int err;
->> -
->> -	if (!(inode->i_sb->s_flags & SB_POSIXACL)) {
->> -		ntfs_inode_warn(inode, "add mount option \"acl\" to use acl");
->> -		return -EOPNOTSUPP;
->> -	}
->> -
->> -	acl = ntfs_get_acl(inode, type);
->> -	if (IS_ERR(acl))
->> -		return PTR_ERR(acl);
->> -
->> -	if (!acl)
->> -		return -ENODATA;
->> -
->> -	err = posix_acl_to_xattr(mnt_userns, acl, buffer, size);
->> -	ntfs_posix_acl_release(acl);
->> -
->> -	return err;
->> -}
->> -
->> -static int ntfs_xattr_set_acl(struct user_namespace *mnt_userns,
->> -			      struct inode *inode, int type, const void *value,
->> -			      size_t size)
->> -{
->> -	struct posix_acl *acl;
->> -	int err;
->> -
->> -	if (!(inode->i_sb->s_flags & SB_POSIXACL)) {
->> -		ntfs_inode_warn(inode, "add mount option \"acl\" to use acl");
->> -		return -EOPNOTSUPP;
->> -	}
->> -
->> -	if (!inode_owner_or_capable(mnt_userns, inode))
->> -		return -EPERM;
->> -
->> -	if (!value) {
->> -		acl = NULL;
->> -	} else {
->> -		acl = posix_acl_from_xattr(mnt_userns, value, size);
->> -		if (IS_ERR(acl))
->> -			return PTR_ERR(acl);
->> -
->> -		if (acl) {
->> -			err = posix_acl_valid(mnt_userns, acl);
->> -			if (err)
->> -				goto release_and_out;
->> -		}
->> -	}
->> -
->> -	err = ntfs_set_acl(mnt_userns, inode, acl, type);
->> -
->> -release_and_out:
->> -	ntfs_posix_acl_release(acl);
->> -	return err;
->> -}
->> -
->>  /*
->>   * ntfs_init_acl - Initialize the ACLs of a new inode.
->>   *
->> @@ -848,23 +787,6 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
->>  		goto out;
->>  	}
->>  
->> -#ifdef CONFIG_NTFS3_FS_POSIX_ACL
->> -	if ((name_len == sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1 &&
->> -	     !memcmp(name, XATTR_NAME_POSIX_ACL_ACCESS,
->> -		     sizeof(XATTR_NAME_POSIX_ACL_ACCESS))) ||
->> -	    (name_len == sizeof(XATTR_NAME_POSIX_ACL_DEFAULT) - 1 &&
->> -	     !memcmp(name, XATTR_NAME_POSIX_ACL_DEFAULT,
->> -		     sizeof(XATTR_NAME_POSIX_ACL_DEFAULT)))) {
->> -		/* TODO: init_user_ns? */
->> -		err = ntfs_xattr_get_acl(
->> -			&init_user_ns, inode,
->> -			name_len == sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1
->> -				? ACL_TYPE_ACCESS
->> -				: ACL_TYPE_DEFAULT,
->> -			buffer, size);
->> -		goto out;
->> -	}
->> -#endif
->>  	/* Deal with NTFS extended attribute. */
->>  	err = ntfs_get_ea(inode, name, name_len, buffer, size, NULL);
->>  
->> @@ -977,22 +899,6 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
->>  		goto out;
->>  	}
->>  
->> -#ifdef CONFIG_NTFS3_FS_POSIX_ACL
->> -	if ((name_len == sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1 &&
->> -	     !memcmp(name, XATTR_NAME_POSIX_ACL_ACCESS,
->> -		     sizeof(XATTR_NAME_POSIX_ACL_ACCESS))) ||
->> -	    (name_len == sizeof(XATTR_NAME_POSIX_ACL_DEFAULT) - 1 &&
->> -	     !memcmp(name, XATTR_NAME_POSIX_ACL_DEFAULT,
->> -		     sizeof(XATTR_NAME_POSIX_ACL_DEFAULT)))) {
->> -		err = ntfs_xattr_set_acl(
->> -			mnt_userns, inode,
->> -			name_len == sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1
->> -				? ACL_TYPE_ACCESS
->> -				: ACL_TYPE_DEFAULT,
->> -			value, size);
->> -		goto out;
->> -	}
->> -#endif
->>  	/* Deal with NTFS extended attribute. */
->>  	err = ntfs_set_ea(inode, name, name_len, value, size, flags, 0);
->>  
->> -- 
->> 2.33.0
->>
+We (David) added readahead_expand() recently to let the filesystem
+opportunistically add pages to the page cache "around" the area requested
+by the VFS.  That reduces the number of times the filesystem has to
+decompress the same block.  But it can fail (due to memory allocation
+failures or pages already being present in the cache).  So filesystems
+still have to implement some kind of fallback.
+
+For many (all?) compression algorithms (all?) the data must be mapped at
+all times.  Calling kmap() and kunmap() would be an intolerable overhead.
+At the same time, we cannot write to a page in the page cache which is
+marked Uptodate.  It might be mapped into userspace, or a read() be in
+progress against it.  For writable filesystems, it might even be dirty!
+As far as I know, no compression algorithm supports "holes", implying
+that we must allocate memory which is then discarded.
+
+To me, this calls for a vmap() based approach.  So I'm thinking
+something like ...
+
+void *readahead_get_block(struct readahead_control *ractl, loff_t start,
+			size_t len);
+void readahead_put_block(struct readahead_control *ractl, void *addr,
+			bool success);
+
+Once you've figured out which bytes this encrypted block expands to, you
+call readahead_get_block(), specifying the offset in the file and length
+and get back a pointer.  When you're done decompressing that block of
+the file, you get rid of it again.
+
+It's the job of readahead_get_block() to allocate additional pages
+into the page cache or temporary pages.  readahead_put_block() will
+mark page cache pages as Uptodate if 'success' is true, and unlock
+them.  It'll free any temporary pages.
+
+Thoughts?  Anyone want to be the guinea pig?  ;-)
