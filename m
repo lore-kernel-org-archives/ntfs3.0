@@ -1,222 +1,79 @@
 Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AD22C9F
-	for <ntfs3@lists.linux.dev>; Fri, 22 Oct 2021 10:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2D32CA2
+	for <ntfs3@lists.linux.dev>; Fri, 22 Oct 2021 12:50:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1634899209;
-	bh=P3pL0z5U1lr82ILvj/7RspKnruMijC05DS94G9TQaDc=;
-	h=X-UI-Sender-Class:Date:To:References:From:Subject:In-Reply-To;
-	b=DhxXAmbhxw5I6uIQhKKOcHxXKVyVQ804xYm8hIGroBVVQTSMYL2FQmZ7T3/8KM+Q+
-	 4tGRd/8ZPHgpQ/GRV1ylmZ5qHP/k8UAPq9L0s+kykMBfsF/6BUtt1LeR7wU1rkeC1U
-	 ECREQXjXbq4Rj4o6Eq9+RRa6DmqwodYHrrIMdhF4=
+	s=badeba3b8450; t=1634907005;
+	bh=KS/9whcDPw1ndHBEsLlb8P6qp+yO/GIaFcaG2MusrkY=;
+	h=X-UI-Sender-Class:Date:To:From:Subject:Cc;
+	b=aFM/U80bGGdLwC/V1uT4FaDeycCndLSnnTBL5bPlX68Hbzc0QC8qjfdMyjkvqrhPD
+	 bNla0j16dyoUjmHIu1tZptqEtiep4Rxa5j6dFDpW/Vt/SVxv51J5b0/GFvtYqNF2iS
+	 vjlFQDtWKp5CTWAuumQRtUVMLN+wJlteF2xNERvI=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [0.0.0.0] ([149.28.201.231]) by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MFsYx-1mTiZK0V7H-00HMcZ; Fri, 22
- Oct 2021 12:40:09 +0200
-Message-ID: <93e4eccb-d839-0e8e-4b87-1964232a0458@gmx.com>
-Date: Fri, 22 Oct 2021 18:40:02 +0800
+Received: from [192.168.1.252] ([5.166.175.137]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1N4QsY-1mn9PH2gsw-011Vp4; Fri, 22
+ Oct 2021 14:50:05 +0200
+Message-ID: <6391e3b4-40db-100e-dd48-e3eb42acf71d@gmx.com>
+Date: Fri, 22 Oct 2021 12:50:04 +0000
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Content-Language: en-US
-To: Jan Kara <jack@suse.cz>, Phillip Susi <phill@thesusis.net>,
- linux-ntfs-dev@lists.sourceforge.net, Matthew Wilcox <willy@infradead.org>,
- David Howells <dhowells@redhat.com>, linux-bcache@vger.kernel.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, linux-fsdevel@vger.kernel.org,
- Phillip Lougher <phillip@squashfs.org.uk>, ntfs3@lists.linux.dev,
- linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org
-References: <YXHK5HrQpJu9oy8w@casper.infradead.org>
- <87tuh9n9w2.fsf@vps.thesusis.net> <20211022084127.GA1026@quack2.suse.cz>
- <YXKARs0QpAZWl6Hi@B-P7TQMD6M-0146.local>
- <62f5f68d-7e3f-9238-5417-c64d8dcf2214@gmx.com>
- <YXKG0V99Ph9KhDyg@B-P7TQMD6M-0146.local>
- <YXKKOx6OX1LzLShe@B-P7TQMD6M-0146.local>
-From: Qu Wenruo <quwenruo.btrfs@gmx.com>
-Subject: Re: Readahead for compressed data
-In-Reply-To: <YXKKOx6OX1LzLShe@B-P7TQMD6M-0146.local>
+To: ntfs3@lists.linux.dev
+From: "Artem S. Tashkinov" <aros@gmx.com>
+Subject: NTFS3: junctions are not properly resolved
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XaNW1n6QiLwbDcJuGYG2KuaxcGS/lNhVqz994mJdjFhdak8XHNx
- P3uHq1BxPePF5ZPfY0V9Oold01NUP2jZWnLdXeW+LI1ea267R3os6v1Z4HwnrzGq5dFbDoG
- 4FlctrJUAemI8gI2DiXrq9CWZ5Zf9Fg2IZv2SetOd+Ra+P7ecZN4tfG2+gsQlvsbZVIzoA4
- bBghD2DLCCzez9t2IiRgg==
+X-Provags-ID: V03:K1:qUUch2k6zCNOsql04uys4a77O5++C6+1XNLE7ibdR3lHa4DzhRh
+ HgLKZupBnLJWGAC6R1pbF3+lpMXtXKawy4oKsfsLPzXIz2Z6PcbupehxxcGanfOTzU0CSSj
+ gRX+GdiARAmvt+fY7Nx4A704YFx8zFDMgCRtFqAnh2RKNRDyMrlqv3IQAEBWMpIwAVhBkyW
+ OaMcvH80UFavrMuqzT14g==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Oq6mfoU8d9w=:I5ti4YfEhwgoBn0lqMXVxk
- WVT10J57+uUdZyn3btezxd2lgD7qoOPHkoOIvtVq0HTHpW9z5pqZZyIr6jGe8UOy+OduVzVYf
- 8dH3YlfHPuBAvnd3+5CIToFOVZ41PCiP10u67Ms5LdLQkztpQ3qXGlR8Dz1bRTzCoX86UgRN+
- xAEsZK3xObBinyluHwGJQSD07+tlXVjRFzZ3fMCJS+hhrzL+JN9sVGIx+GVhoi5aGIVnTjLil
- PQOeFUTCpoYPKvzaDYhRjhECeNk3jnBJ0eoRywrfpre7C1lLC3YU9Mywd+8vyH240kelUGSrq
- RX9MLZPw82Q0/mxc/ZfQ4UNmWCoA0HT9ia2SlE7Fh47A66PwrvbNXc/XupSvLUgmbP2zFXc6D
- J0ReYjpi4bmutPK5pLgL9EjjTWKBq0CVoxc0c/fS3IU7e+H2K1IZvLRm6buDeFuhAyo34Jf2Q
- MhTYURJqFvhOeHgGcqwnVhLR8RyhtJVJ0UByLjLBGmPKW9sLkdL7iW51Y4bQcBpkxAp8nTC9o
- CzTdXj6HouOsU/CaKpRRgVu91pVSStNObxxI9T3x77fSsWKvsTL9i0wsfqOwnAFjvUl8OlqHh
- ASt9zOE3iQfE/shJxDu/9YCfq94ZadnU1wpSr5OogQPG+zkBIdAHo7UbNUWlNLdBsbVhSTPcv
- D+FedBvtyP5TmsANQ5Ad8JjsF9Tacvi8rRxN3KLVDmQimNkYOJHvJD5h6Bf35DKws/M/jlHoh
- C73rU/Srjc70GSvIv1+OZ0OobhD4BI7GqaOzXdegV4JkReTQTchqyguBxWoyZLQcqEpqYdeFt
- 7eZ0ReNjgCzUv/pDcYE1mN+GzphB8Hvhl48+phxG0p8LfvYs47HTq8EbFkDi8RAayr9rgwb4e
- 0SOmKI2qgEoTz14MTcRa4MXqR/Egr/2WIGdccyBcnI2Cv6huoXmLZ6uAIHgA/ncAlRYYhiCS/
- GydBgauPDM9YetxNKMITQuAJbV/tuXAv/RR3fTYF+2zA5RKHnVIN9Iu6mjlpsA+dGqhHsSixp
- AzpE4OJjRnxLS3nsVIEiKMpigCWEHQHy6byuWFFpPYBpse3Cg+xD7PY8NUK2vAonvEsu3N7Xm
- bXUfXsGXjsQ/PY=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Xfeko688nC4=:yNd3K6BTSto+YjqsRt3pJl
+ ZCNJfGNzfbQgOsENJxq48BbI2HxFZVoKWTA51dE6TxQRydu0e0JxdVJtfgV2QX9I+XzcEqLWA
+ eGIlElwhGUuivYD0owyoppaY7rpEjyc7dQE1X8G6Ay3yZCAfb5veGUDZkthAfvnn2RVDH9DZe
+ 1Ppalbv61QpVN1qS3Yjka85NdgMYfyIeJmRlJ0/kJhrp+FSqd5FtuVKUl8PTl+fStHZfb8Bdi
+ fX8gVacLII4q0PzL6Nd63mjCimPBAtruBSsBCNYnLObGnqfIdx67XFr3agC2Nt7jfV+SZO4hz
+ Me4lc2cVSnqGXEBjdncGjhyxhQSnIivF8lV1PLLt48roqMybu7c8EbyFiIzb7wqFickwYPfIU
+ vBl8LnSAoiBt0kGIF3Jn1GU80vKwjZoaAJpT3MpyShm3Rgr8gBjIKdukvy5rPfffgzHwo+5h1
+ lbsczb8kSVuYFt6c5fCrfJ8FR3qLLx5kE6rtE+8juugRIXjoYsYkSSTnMcVEu1fm7fv85FxmG
+ q8omGdAVSFLOEjVb0lsVoI2qOTzxb4kFpznZPdPHVsdM+iTHaRNhDUAS4eXPXZ+MjHeT/U0PX
+ /B/EZc0QgixkWHe4EQEX5Sx+6YLBln1ip4hxm58ERts18iiKR0vTblILesqy/nu0Xg/NgYms0
+ PxnwI0BktKCWr0uRTuTLi5/e26/1jO7f9BNMp2LTtM0XziTJPzTqzQBiovg0Ri1/5QYKyea7l
+ UMXyVwF+BlZfP6BI5qshH2VVIENVpqr3WzfLpcxQVK0QQ2IfjzIdAFnZfyuBms5k6T6disx04
+ yVA+JSR3q8QkStSP6VxGhgeIVDUrD8+NHRytM5LHrWbrXYnjd1tsW474ZrkyzmU8yP1UPKjYC
+ UMhQc9oFiHuGGUfrtlb6ysQPpoIe4urs77AKz7NShkCYdUlkzOHmrto7Ju6gJq9G3GqhbGekz
+ VMvkc/IKIuyK+DDhkqGpHi78d+7gDpj0ZW4l18rcBmtzed1++cxqfD8qeCrKqb82oOx6Fdtm3
+ Ojsf/u9TuyeJwybGgdbWAQHpksKxN0lzlyhamw3zoICTDqN5KWMfoQro4iz5C/8xmg==
+
+Hello,
+
+Would be nice if the new NTFS3 driver properly resolved junctions. Case
+in point.
+
+
+Under ntfs-3g:
+
+lrwxrwxrwx. 2 root root    15 Oct 21 07:59 'Documents and Settings' ->
+/mnt/Windows10/Users
+
+a proper working link.
 
 
 
-On 2021/10/22 17:54, Gao Xiang wrote:
-> On Fri, Oct 22, 2021 at 05:39:29PM +0800, Gao Xiang wrote:
->> Hi Qu,
->>
->> On Fri, Oct 22, 2021 at 05:22:28PM +0800, Qu Wenruo wrote:
->>>
->>>
->>> On 2021/10/22 17:11, Gao Xiang wrote:
->>>> On Fri, Oct 22, 2021 at 10:41:27AM +0200, Jan Kara wrote:
->>>>> On Thu 21-10-21 21:04:45, Phillip Susi wrote:
->>>>>>
->>>>>> Matthew Wilcox <willy@infradead.org> writes:
->>>>>>
->>>>>>> As far as I can tell, the following filesystems support compressed=
- data:
->>>>>>>
->>>>>>> bcachefs, btrfs, erofs, ntfs, squashfs, zisofs
->>>>>>>
->>>>>>> I'd like to make it easier and more efficient for filesystems to
->>>>>>> implement compressed data.  There are a lot of approaches in use t=
-oday,
->>>>>>> but none of them seem quite right to me.  I'm going to lay out a f=
-ew
->>>>>>> design considerations next and then propose a solution.  Feel free=
- to
->>>>>>> tell me I've got the constraints wrong, or suggest alternative sol=
-utions.
->>>>>>>
->>>>>>> When we call ->readahead from the VFS, the VFS has decided which p=
-ages
->>>>>>> are going to be the most useful to bring in, but it doesn't know h=
-ow
->>>>>>> pages are bundled together into blocks.  As I've learned from talk=
-ing to
->>>>>>> Gao Xiang, sometimes the filesystem doesn't know either, so this i=
-sn't
->>>>>>> something we can teach the VFS.
->>>>>>>
->>>>>>> We (David) added readahead_expand() recently to let the filesystem
->>>>>>> opportunistically add pages to the page cache "around" the area re=
-quested
->>>>>>> by the VFS.  That reduces the number of times the filesystem has t=
-o
->>>>>>> decompress the same block.  But it can fail (due to memory allocat=
-ion
->>>>>>> failures or pages already being present in the cache).  So filesys=
-tems
->>>>>>> still have to implement some kind of fallback.
->>>>>>
->>>>>> Wouldn't it be better to keep the *compressed* data in the cache an=
-d
->>>>>> decompress it multiple times if needed rather than decompress it on=
-ce
->>>>>> and cache the decompressed data?  You would use more CPU time
->>>>>> decompressing multiple times, but be able to cache more data and av=
-oid
->>>>>> more disk IO, which is generally far slower than the CPU can decomp=
-ress
->>>>>> the data.
->>>>>
->>>>> Well, one of the problems with keeping compressed data is that for m=
-map(2)
->>>>> you have to have pages decompressed so that CPU can access them. So =
-keeping
->>>>> compressed data in the page cache would add a bunch of complexity. T=
-hat
->>>>> being said keeping compressed data cached somewhere else than in the=
- page
->>>>> cache may certainly me worth it and then just filling page cache on =
-demand
->>>>> from this data...
->>>>
->>>> It can be cached with a special internal inode, so no need to take
->>>> care of the memory reclaim or migration by yourself.
->>>
->>> There is another problem for btrfs (and maybe other fses).
->>>
->>> Btrfs can refer to part of the uncompressed data extent.
->>>
->>> Thus we could have the following cases:
->>>
->>> 	0	4K	8K	12K
->>> 	|	|	|	|
->>> 		    |	    \- 4K of an 128K compressed extent,
->>> 		    |		compressed size is 16K
->>> 		    \- 4K of an 64K compressed extent,
->>> 			compressed size is 8K
->>
->> Thanks for this, but the diagram is broken on my side.
->> Could you help fix this?
->
-> Ok, I understand it. I think here is really a strategy problem
-> out of CoW, since only 2*4K is needed, you could
->   1) cache the whole compressed extent and hope they can be accessed
->      later, so no I/O later at all;
->   2) don't cache such incomplete compressed extents;
->   3) add some trace record and do some finer strategy.
+Under ntfs3:
 
-Yeah, this should be determined by each fs, like whether they want to
-cache compressed extent at all, and at which condition to cache
-compressed extent.
+lrwxrwxrwx. 1 root root     8 Oct 21 07:59 'Documents and Settings' ->
+C:/Users
 
-(e.g. for btrfs, if we find the range we want is even smaller than the
-compressed size, we can skip such cache)
+this and other links, e.g. Users/All Users, Users/Default User, etc. are
+all broken.
 
-Thus I don't think there would be a silver bullet for such case.
 
->
->>
->>>
->>> In above case, we really only need 8K for page cache, but if we're
->>> caching the compressed extent, it will take extra 24K.
->>
->> Apart from that, with my wild guess, could we cache whatever the
->> real I/O is rather than the whole compressed extent unconditionally?
->> If the whole compressed extent is needed then, we could check if
->> it's all available in cache, or read the rest instead?
->>
->> Also, I think no need to cache uncompressed COW data...
 
-Yeah, that's definitely the case, as page cache is already doing the
-work for us.
-
-Thanks,
-Qu
-
->>
->> Thanks,
->> Gao Xiang
->>
->>>
->>> It's definitely not really worthy for this particular corner case.
->>>
->>> But it would be pretty common for btrfs, as CoW on compressed data can
->>> easily lead to above cases.
->>>
->>> Thanks,
->>> Qu
->>>
->>>>
->>>> Otherwise, these all need to be take care of. For fixed-sized input
->>>> compression, since they are reclaimed in page unit, so it won't be
->>>> quite friendly since such data is all coupling. But for fixed-sized
->>>> output compression, it's quite natural.
->>>>
->>>> Thanks,
->>>> Gao Xiang
->>>>
->>>>>
->>>>> 								Honza
->>>>> --
->>>>> Jan Kara <jack@suse.com>
->>>>> SUSE Labs, CR
+Best regards,
+Artem
