@@ -1,24 +1,24 @@
 Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D97F29CA
-	for <ntfs3@lists.linux.dev>; Fri, 22 Oct 2021 15:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B232B2C8B
+	for <ntfs3@lists.linux.dev>; Fri, 22 Oct 2021 16:03:10 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id DA553822AB;
-	Fri, 22 Oct 2021 18:56:07 +0300 (MSK)
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id E7ABB81C3F;
+	Fri, 22 Oct 2021 18:53:39 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1634918167;
-	bh=YOq5hRPWPXZWRVKy7bnM5IrY3Tf2tWJN1KcRTVcIT5A=;
-	h=Date:Subject:From:To:CC:References:In-Reply-To;
-	b=hHLJ+Z5Nnnb93SNIuWuF0/IBwg2m9NDjZZysaR+/SmD8CgfCSeq+JLCAIr3P/5lqE
-	 KhbGqsRn9m+WQVG0zMP0Kc2UEezW896F3hq/mu9G6akD2op+x+A5QwUh+Dzeot9RGc
-	 n9ZXJa1xU0nCENyNsvxRVh4jOToZVcVs4HkM/oRI=
+	d=paragon-software.com; s=mail; t=1634918019;
+	bh=Lxw5GkdUO2KWgwUcR9Ex5W3ZS1/0b0VHIXt7Vr5Qi6Y=;
+	h=Date:To:CC:From:Subject;
+	b=UzBQYO2a/+BZxw0JTN+IsGvwUR7yTPczHxEy0wJtN9URAQUdks8lSmQ8ITKALUsbH
+	 qzU+Ylk/iO01rHQzGoDlijMrOXAwkCd1ieAaK73PAT0bXIkjoo+vIj35WjDlD4Pifd
+	 9ybVVGutu6Vu9N0CcuxrKWb2z5J54V0PbFPMtIuU=
 Received: from [192.168.211.69] (192.168.211.69) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 22 Oct 2021 18:56:07 +0300
-Message-ID: <a4ce42f1-19b4-67ac-660d-228ae10f125c@paragon-software.com>
-Date: Fri, 22 Oct 2021 18:56:07 +0300
+ 15.1.2176.2; Fri, 22 Oct 2021 18:53:39 +0300
+Message-ID: <09b42386-3e6d-df23-12c2-23c2718f766b@paragon-software.com>
+Date: Fri, 22 Oct 2021 18:53:38 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,43 +27,30 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: [PATCH 4/4] fs/ntfs3: Update i_ctime when xattr is added
 Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
 CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-References: <09b42386-3e6d-df23-12c2-23c2718f766b@paragon-software.com>
-In-Reply-To: <09b42386-3e6d-df23-12c2-23c2718f766b@paragon-software.com>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH 0/4] fs/ntfs3: Various fixes for xattr and files
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [192.168.211.69]
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Ctime wasn't updated after setfacl command.
-This commit fixes xfstest generic/307
-Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
+Various problems were detected by xfstests.
+This series aims to fix them.
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
----
- fs/ntfs3/xattr.c | 3 +++
- 1 file changed, 3 insertions(+)
+Konstantin Komarov (4):
+  fs/ntfs3: Keep preallocated only if option prealloc enabled
+  fs/ntfs3: Restore ntfs_xattr_get_acl and ntfs_xattr_set_acl functions
+  fs/ntfs3: Optimize locking in ntfs_save_wsl_perm
+  fs/ntfs3: Update i_ctime when xattr is added
 
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index bc3144608ce1..702775a559f5 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -994,6 +994,9 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
- 	err = ntfs_set_ea(inode, name, name_len, value, size, flags, 0);
- 
- out:
-+	inode->i_ctime = current_time(inode);
-+	mark_inode_dirty(inode);
-+
- 	return err;
- }
- 
+ fs/ntfs3/file.c  |   2 +-
+ fs/ntfs3/xattr.c | 123 ++++++++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 113 insertions(+), 12 deletions(-)
+
 -- 
 2.33.0
-
 
