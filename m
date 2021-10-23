@@ -1,50 +1,52 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284F82C81
-	for <ntfs3@lists.linux.dev>; Sat, 23 Oct 2021 09:40:51 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id 204so5430477ljf.9
-        for <ntfs3@lists.linux.dev>; Sat, 23 Oct 2021 02:40:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AC52C81
+	for <ntfs3@lists.linux.dev>; Sat, 23 Oct 2021 09:56:03 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id br29so393884lfb.7
+        for <ntfs3@lists.linux.dev>; Sat, 23 Oct 2021 02:56:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=pT0uTKRS3mJTAOZ8+3JtVuSzB8Uv+VsNHlXjOV4iOi4=;
-        b=KnpYQRwx7RC97GWh9T04A9uTAD8Ow3F99TO9rrM7D40Nq3haq6QCDxQa5U/XVEfkg9
-         1rXO88dcRvaGMcgGsgS8Fbwg6Rmc3rzQlNfIwevF8HfWIieZ/11LzofJ3bWj5aPuNruo
-         r8SDabG4Fk2s3LyMLivyjfTHKoknkhzqaazo8CqN1h9eQXRPRXY45H/Szia1ObIOyS1J
-         0cnkpnznv6ZxhJgiwtU8KLjHE+tF+3JpEz3PTphHxNDYDAMp82C+WFPBOrHGIgude63z
-         engPR8Ja7nCFENYazT2TsI1KG5hxaNltIUBDr+AG1pye4dg6hD+EnkzZE2VbF0QkbVym
-         uZyg==
+        bh=LXv2Bng4C8uj1DNivI+o5gz96luQJc9s1jkjFvg2HPM=;
+        b=FNfLdmxXyGg552hX75/Ju2SLVddrS3u3m2N/LBTcy59HUYPb2JtpHiLmUjAvPlaMxP
+         LY3vbPS5xMLnp+Exyqy2PKaInV8DxfpXtAb8neFrZ/GrdFYis0zKrDV2c/bbr2KHJ+Uw
+         k18Cpp2YvbBDy37GV73VIgFjEGhKpazb2303L04g7tDXzR84f+PN5+DmDxIBI7rEVbSG
+         eVm34SU5GznIsuOJZd+GVJD8bvFdsV2BLg/4HQVNf5z6KPvKR6IcRdyrupj5ZdQjYCtF
+         VVLYsr3uIVPtnQ8rVZiHbZANIPbzubXc6c9p4VQ4l1y5rszXTGY82dr6kC9qNydy3md5
+         0hWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=pT0uTKRS3mJTAOZ8+3JtVuSzB8Uv+VsNHlXjOV4iOi4=;
-        b=frbc2PxyRjga8/GS7KQqInSodc4PhbONFthzctjP1EcxroJEHGMorZcG03stbPj0Yp
-         0djKPbQuJe/nQp1qzivh4Q0d/EtJf9R0gHkW8TJvOyIrkQ+nxnfh8/PUk6n/9AcARrKt
-         qoygEBpcFgX21RRGkLazvmxuDjs2Sm5Kf9wpGdgcf0SeIK+UXZkSdqso2aGTjqhZwCu1
-         qmVrHmPfpG4eeVFICZ7EnQDtBO5e65710fRgB3FMhKvr6brn7bOZARCOT+GgVhnL+BFb
-         qlRl0n6gP2+2atXaH8x2Z9vZba83wiEp6t6vVORP4PgtYC0fMjCcWRCtrMPodJCdwV9b
-         L2NQ==
-X-Gm-Message-State: AOAM532P4wqV4RgPMh0L4MZnA0BJIE0FiOqRLzkpBa1JfUZE2gwqJ+zQ
-	Yacu52aG8Ul+ZG24pugrt3B2QYtngWA=
-X-Google-Smtp-Source: ABdhPJwlmdgj128rN/MS3Rb97HNTUy9v+WphgRpNC0649RR+Lw9XYCn/OsNljj/9+Ec6wa4sAFZYHQ==
-X-Received: by 2002:a05:651c:324:: with SMTP id b4mr5336419ljp.498.1634982049243;
-        Sat, 23 Oct 2021 02:40:49 -0700 (PDT)
+        bh=LXv2Bng4C8uj1DNivI+o5gz96luQJc9s1jkjFvg2HPM=;
+        b=3w9L+SKcSeeCxP3g5F439/skKEO/sOvztojmyPrJ6C+ew4izD8Nm4HTaQo9OntEa0r
+         L7Avx33w8mUaN2Sm86+L/4ysTtHUKSYNfznYDvdBEtqE/J0IrFa4dxmbwObP/arZJv+T
+         U5X8IMESexJCcho3r/qBAeRmUyPIhhBsuZ/G/uEka7Yalk01T1TUDvJZd2DuYrvJPmPB
+         6fas0nzuoGZBPR5J0mb4BkkHR5HNCfWkZAeVoAbFWo3n/hmwDa5ZxflIWuD7+gaFmEWG
+         R6Ql/3yAjCmCw5ndoFanke/05kEMPrgdRD0olGzgIS1nv9o5Ts2njxdCJ1JjQbifENEP
+         vmxQ==
+X-Gm-Message-State: AOAM530LQzxSLiTmgQyoYXuF2KTx1riDk8hjQiSbSszIK7eXiNh7OZz1
+	5t4yAu1vvuNuJLsXS3MU6cE=
+X-Google-Smtp-Source: ABdhPJzh395qQXJTPuGWeDEcS/35igOwFxdh/Pf4A1OMsfPxknPxuIH3cuL+1C6rzTvcjEnKVySFiw==
+X-Received: by 2002:a05:6512:926:: with SMTP id f6mr4904456lft.495.1634982961249;
+        Sat, 23 Oct 2021 02:56:01 -0700 (PDT)
 Received: from kari-VirtualBox ([31.132.12.44])
-        by smtp.gmail.com with ESMTPSA id p28sm980138lfo.71.2021.10.23.02.40.48
+        by smtp.gmail.com with ESMTPSA id v62sm980321lfa.23.2021.10.23.02.56.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Oct 2021 02:40:48 -0700 (PDT)
-Date: Sat, 23 Oct 2021 12:40:47 +0300
+        Sat, 23 Oct 2021 02:56:00 -0700 (PDT)
+Date: Sat, 23 Oct 2021 12:55:59 +0300
 From: Kari Argillander <kari.argillander@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	hgkamath@hotmail.com
 Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 4/4] fs/ntfs3: Update i_ctime when xattr is added
-Message-ID: <20211023094047.o4mrisdlf3eadxwp@kari-VirtualBox>
+Subject: Re: [PATCH 1/4] fs/ntfs3: Keep preallocated only if option prealloc
+ enabled
+Message-ID: <20211023095559.ythxb2z2ptdrlr5s@kari-VirtualBox>
 References: <09b42386-3e6d-df23-12c2-23c2718f766b@paragon-software.com>
- <a4ce42f1-19b4-67ac-660d-228ae10f125c@paragon-software.com>
+ <aaf41f35-b702-b391-1cff-de4688b3bb65@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -53,39 +55,42 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a4ce42f1-19b4-67ac-660d-228ae10f125c@paragon-software.com>
+In-Reply-To: <aaf41f35-b702-b391-1cff-de4688b3bb65@paragon-software.com>
 
-On Fri, Oct 22, 2021 at 06:56:07PM +0300, Konstantin Komarov wrote:
-> Ctime wasn't updated after setfacl command.
-> This commit fixes xfstest generic/307
-> Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
+On Fri, Oct 22, 2021 at 06:54:31PM +0300, Konstantin Komarov wrote:
+> If size of file was reduced, we still kept allocated blocks.
+> This commit makes ntfs3 work as other fs like btrfs.
+> https://bugzilla.kernel.org/show_bug.cgi?id=214719
 
-Because this is fix I would suggest you make this patch 3/4. Usually
-fixes should be first so it is easier for stable team to pick them with
-confident.
-
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=214719
+> Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
 > 
+> Reported-by: Ganapathi Kamath
+
+Add <hgkamath@hotmail.com>
+
+I also added to loop here. Ganapathi can you test if this patch fix your
+problem?
+
 > Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 > ---
->  fs/ntfs3/xattr.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  fs/ntfs3/file.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-> index bc3144608ce1..702775a559f5 100644
-> --- a/fs/ntfs3/xattr.c
-> +++ b/fs/ntfs3/xattr.c
-> @@ -994,6 +994,9 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
->  	err = ntfs_set_ea(inode, name, name_len, value, size, flags, 0);
+> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+> index 43b1451bff53..3ac0482c6880 100644
+> --- a/fs/ntfs3/file.c
+> +++ b/fs/ntfs3/file.c
+> @@ -494,7 +494,7 @@ static int ntfs_truncate(struct inode *inode, loff_t new_size)
 >  
->  out:
-> +	inode->i_ctime = current_time(inode);
-> +	mark_inode_dirty(inode);
-> +
->  	return err;
->  }
+>  	down_write(&ni->file.run_lock);
+>  	err = attr_set_size(ni, ATTR_DATA, NULL, 0, &ni->file.run, new_size,
+> -			    &new_valid, true, NULL);
+> +			    &new_valid, ni->mi.sbi->options->prealloc, NULL);
+>  	up_write(&ni->file.run_lock);
 >  
+>  	if (new_valid < ni->i_valid)
 > -- 
 > 2.33.0
-> 
 > 
 > 
