@@ -1,151 +1,62 @@
-Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1852C9F
-	for <ntfs3@lists.linux.dev>; Tue, 26 Oct 2021 16:42:18 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id D398B82240;
-	Tue, 26 Oct 2021 19:42:16 +0300 (MSK)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF292C9F
+	for <ntfs3@lists.linux.dev>; Tue, 26 Oct 2021 17:44:07 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id j205so221087wmj.3
+        for <ntfs3@lists.linux.dev>; Tue, 26 Oct 2021 10:44:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1635266536;
-	bh=IjeT8cKFVkmsNvbWpOOmmiH68Y2cE+w6uPiAlQbq6cM=;
-	h=Date:Subject:From:To:CC:References:In-Reply-To;
-	b=txkLAxFs1VhwsuwNiJzEeG4W7uxz274rgMMgag8jUCeokgxKhfxvY0l+U+oyiK0BE
-	 oFi4MqV8OPOUUnJoSzea2LL2vzdbNfVDGKfTUIdSl88TOb1MZ5EYet1Qf+jGuEtcWr
-	 0fzwiaTvi1ktXE6AEJqclehZZNkuNLzKeuI4ZnZA=
-Received: from [192.168.211.149] (192.168.211.149) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 26 Oct 2021 19:42:16 +0300
-Message-ID: <d8ea9103-27d7-0217-297a-57aac6b0a5dc@paragon-software.com>
-Date: Tue, 26 Oct 2021 19:42:15 +0300
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version;
+        bh=/AmK1INZwgpbu3TdbjGC8udW5frsQ094cuLGkeFBK9U=;
+        b=lvmb5RXfgvG8ko6tNUBQx3RPos51PlUI56Pdi+BmGIQOxm4GmU7KNAWONMkckfzx85
+         oJSAcSS5qvLdHR6Gbod17Nem9R9KxcbQLClGBQqzEE7X8/+TCzEKygCLjDeZRMityYZi
+         pMt7auKOqTTyj4cq1yoPevz9BddlQ3/BJtOGpEw/EoE7ysNUQ7jw2CbRpscuukvwXTSk
+         5DSCNPx3kPFXARmJd8wiaBbYNZSrgMApD7Q4Ko9YU59w6Bry00FX8qOenKDUioPv4oQK
+         lTapxPZuxvmtTNCy/+gcrMIFL7Dwaf83Kr3sNq/nmwjgFOKteo9PIThlp0zuXGecqJNS
+         i3tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version;
+        bh=/AmK1INZwgpbu3TdbjGC8udW5frsQ094cuLGkeFBK9U=;
+        b=0FgUG4AAPIkkx2dLWrfz/1l+gpum0GQHKhoargOV7sO/sDL4WKVEfJJMNbljBhFOUu
+         EGGTcO5KaEQ6EpTlhc8uel+u71T9L9PzRSs3hrmMv6tGdVpOpB/MzqhVWx/+YhOJrvOt
+         07h76ErLrxfReRFR5MkjNlBJqaIoRsqWiIcS3Tv1F4hnHTDZ719U2JfTll2aQc5100mw
+         dleIsm7Uc0jVtZcIc+ROops9HQ5SVed9u64gBzoCRfwW8DSVFc7jx6u8COfz8YXWJ88p
+         pfuMYbo6rGreFzGiekljCn6sILgJJfQpV85DwcZo1y+3sfBaaiivz6Z5nPY/jU7Sy7wk
+         9Uag==
+X-Gm-Message-State: AOAM533TZ7eY191oM8txapfUrblXDIfbffKwND7m9cZSek26PKtg00Pm
+	F5yxsuc9P178gqPsJLWlGG4Wzxq5fh8=
+X-Google-Smtp-Source: ABdhPJwvopxZ/y0QuZn0rjxhlbi/9Hv4pdGyKsDA5kO5ogvmEe6Y/Z64t3iRdo4GYc4q5ZC69UrN8g==
+X-Received: by 2002:a1c:8002:: with SMTP id b2mr134456wmd.124.1635270245694;
+        Tue, 26 Oct 2021 10:44:05 -0700 (PDT)
+Received: from mStation (h17-ipv4-77-240-224.mynet.it. [77.240.224.17])
+        by smtp.gmail.com with ESMTPSA id z17sm1150536wml.15.2021.10.26.10.44.04
+        for <ntfs3@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Oct 2021 10:44:05 -0700 (PDT)
+Date: Tue, 26 Oct 2021 19:44:04 +0200 (CEST)
+From: Enrico Mioso <mrkiko.rs@gmail.com>
+To: ntfs3@lists.linux.dev
+Subject: (very low importance) NTFS version message
+Message-ID: <c3cb4ca3-5c5a-626c-8fbb-41fdd5ecfff@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: [PATCH 4/4] fs/ntfs3: Optimize locking in ntfs_save_wsl_perm
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<kari.argillander@gmail.com>
-References: <a57c1c49-4ef3-15ee-d2cd-d77fb4246b3c@paragon-software.com>
-In-Reply-To: <a57c1c49-4ef3-15ee-d2cd-d77fb4246b3c@paragon-software.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.149]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; format=flowed; charset=US-ASCII
 
-Right now in ntfs_save_wsl_perm we lock/unlock 4 times.
-This commit fixes this situation.
-We add "locked" argument to ntfs_set_ea.
+Hello folks!!
 
-Suggested-by: Kari Argillander <kari.argillander@gmail.com>
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
----
- fs/ntfs3/xattr.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+in ntfs_extend_ini I would be more explicit when NTFS version is lower than 3.
 
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 157b70aecb4f..6d8b1cd7681d 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -259,7 +259,7 @@ static int ntfs_get_ea(struct inode *inode, const char *name, size_t name_len,
- 
- static noinline int ntfs_set_ea(struct inode *inode, const char *name,
- 				size_t name_len, const void *value,
--				size_t val_size, int flags)
-+				size_t val_size, int flags, bool locked)
- {
- 	struct ntfs_inode *ni = ntfs_i(inode);
- 	struct ntfs_sb_info *sbi = ni->mi.sbi;
-@@ -278,7 +278,8 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
- 	u64 new_sz;
- 	void *p;
- 
--	ni_lock(ni);
-+	if (!locked)
-+		ni_lock(ni);
- 
- 	run_init(&ea_run);
- 
-@@ -467,7 +468,8 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
- 	mark_inode_dirty(&ni->vfs_inode);
- 
- out:
--	ni_unlock(ni);
-+	if (!locked)
-+		ni_unlock(ni);
- 
- 	run_close(&ea_run);
- 	kfree(ea_all);
-@@ -595,7 +597,7 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
- 		flags = 0;
- 	}
- 
--	err = ntfs_set_ea(inode, name, name_len, value, size, flags);
-+	err = ntfs_set_ea(inode, name, name_len, value, size, flags, 0);
- 	if (err == -ENODATA && !size)
- 		err = 0; /* Removing non existed xattr. */
- 	if (!err)
-@@ -989,7 +991,7 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
- 	}
- #endif
- 	/* Deal with NTFS extended attribute. */
--	err = ntfs_set_ea(inode, name, name_len, value, size, flags);
-+	err = ntfs_set_ea(inode, name, name_len, value, size, flags, 0);
- 
- out:
- 	inode->i_ctime = current_time(inode);
-@@ -1007,35 +1009,37 @@ int ntfs_save_wsl_perm(struct inode *inode)
- {
- 	int err;
- 	__le32 value;
-+	struct ntfs_inode *ni = ntfs_i(inode);
- 
--	/* TODO: refactor this, so we don't lock 4 times in ntfs_set_ea */
-+	ni_lock(ni);
- 	value = cpu_to_le32(i_uid_read(inode));
- 	err = ntfs_set_ea(inode, "$LXUID", sizeof("$LXUID") - 1, &value,
--			  sizeof(value), 0);
-+			  sizeof(value), 0, true); /* true == already locked. */
- 	if (err)
- 		goto out;
- 
- 	value = cpu_to_le32(i_gid_read(inode));
- 	err = ntfs_set_ea(inode, "$LXGID", sizeof("$LXGID") - 1, &value,
--			  sizeof(value), 0);
-+			  sizeof(value), 0, true);
- 	if (err)
- 		goto out;
- 
- 	value = cpu_to_le32(inode->i_mode);
- 	err = ntfs_set_ea(inode, "$LXMOD", sizeof("$LXMOD") - 1, &value,
--			  sizeof(value), 0);
-+			  sizeof(value), 0, true);
- 	if (err)
- 		goto out;
- 
- 	if (S_ISCHR(inode->i_mode) || S_ISBLK(inode->i_mode)) {
- 		value = cpu_to_le32(inode->i_rdev);
- 		err = ntfs_set_ea(inode, "$LXDEV", sizeof("$LXDEV") - 1, &value,
--				  sizeof(value), 0);
-+				  sizeof(value), 0, true);
- 		if (err)
- 			goto out;
- 	}
- 
- out:
-+	ni_unlock(ni);
- 	/* In case of error should we delete all WSL xattr? */
- 	return err;
- }
--- 
-2.33.0
+I would replace
+ntfs_notice(sb, "Skip $Extend 'cause NTFS version");
+with
+ntfs_notice(sb, "Skip $Extend initialization due to NTFS version lower than 3");
+or something like that.
+What do you think?
 
-
+Enrico
