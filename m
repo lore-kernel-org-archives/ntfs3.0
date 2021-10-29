@@ -1,87 +1,130 @@
-Received: from smtprelay.hostedemail.com (smtprelay0184.hostedemail.com [216.40.44.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCE672
-	for <ntfs3@lists.linux.dev>; Wed, 27 Oct 2021 16:29:05 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave05.hostedemail.com (Postfix) with ESMTP id E091C1812C28E
-	for <ntfs3@lists.linux.dev>; Wed, 27 Oct 2021 09:21:59 +0000 (UTC)
-Received: from omf12.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay05.hostedemail.com (Postfix) with ESMTP id ED9CD182CCFC9;
-	Wed, 27 Oct 2021 09:21:52 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf12.hostedemail.com (Postfix) with ESMTPA id E7717240239;
-	Wed, 27 Oct 2021 09:21:51 +0000 (UTC)
-Message-ID: <83b27d29bc19f146f7fdfede24786ef01076fcd3.camel@perches.com>
-Subject: Re: [PATCH] checkpatch: Remove cvs keyword check
-From: Joe Perches <joe@perches.com>
-To: Kari Argillander <kari.argillander@gmail.com>
-Cc: apw@canonical.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev
-Date: Wed, 27 Oct 2021 02:21:50 -0700
-In-Reply-To: <20211027073542.qxbu236cg2wic25n@kari-VirtualBox>
-References: <20211026231637.3750-1-kari.argillander@gmail.com>
-	 <868c29d45172a151b6a751de4ba32165cbf7a4cc.camel@perches.com>
-	 <20211027073542.qxbu236cg2wic25n@kari-VirtualBox>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9384672
+	for <ntfs3@lists.linux.dev>; Fri, 29 Oct 2021 06:20:31 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2CA2721968;
+	Fri, 29 Oct 2021 06:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1635488112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E919aeXK8dC3N34MDRziiU6STn2FmtpVBAk+ecOLJjo=;
+	b=rHi5YhKLU0rlCRHyPeKnauDRrrKyNolq7E6F6dDcjkjrYygp8K9iGOEHJj1sMmsNmnFoqm
+	JXUgJyq68i9P1XXycPxZOj9RRmHZ61CddjBbgHSqzeBEgXTEn3O/eT1/pGQOrrjanxFKqN
+	Ws1Xa0M9ZepgclsMvVLPpSC9aP/pzDs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1635488112;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E919aeXK8dC3N34MDRziiU6STn2FmtpVBAk+ecOLJjo=;
+	b=S6CjmYqZCZ0yYeJGy3BiUS6TxG8jiMGcenKddoe10AYo6bdOAQvrpluZxu5uvYpr7RJ4EU
+	3KaNhyzDb7UqKtAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 55C5313AF5;
+	Fri, 29 Oct 2021 06:15:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id Ah71CW2Re2HXXAAAMHmgww
+	(envelope-from <colyli@suse.de>); Fri, 29 Oct 2021 06:15:09 +0000
+Message-ID: <b11bb34b-8fdf-b6ed-b305-e7145f2a7ab2@suse.de>
+Date: Fri, 29 Oct 2021 14:15:07 +0800
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.2.1
+Subject: Re: Readahead for compressed data
+Content-Language: en-US
+To: Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
+ Jan Kara <jack@suse.cz>, Phillip Lougher <phillip@squashfs.org.uk>,
+ linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org,
+ linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
+ linux-bcache@vger.kernel.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ David Howells <dhowells@redhat.com>
+Cc: linux-bcachefs@vger.kernel.org,
+ Kent Overstreet <kent.overstreet@gmail.com>
+References: <YXHK5HrQpJu9oy8w@casper.infradead.org>
+From: Coly Li <colyli@suse.de>
+In-Reply-To: <YXHK5HrQpJu9oy8w@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: E7717240239
-X-Spam-Status: No, score=-1.18
-X-Stat-Signature: kwgr96gmjyk6a5n3b8o5ac3aezwtitp3
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18yOmW2Nqoj78JaWFX5tq/fBLk6mdVaKk0=
-X-HE-Tag: 1635326511-284707
 
-On Wed, 2021-10-27 at 10:35 +0300, Kari Argillander wrote:
-> On Tue, Oct 26, 2021 at 05:26:21PM -0700, Joe Perches wrote:
-> > On Wed, 2021-10-27 at 02:16 +0300, Kari Argillander wrote:
-> > > Time has pass and we do not need these anymore as almost all people are
-> > > using git now days. Those who use cvs for kernel development probably
-> > > will handle cvs pretty well already so this check is not needed anymore.
-> > 
-> > I think it's a relatively harmless thing to keep.
-> > 
-> > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> > []
-> > > @@ -4017,12 +4017,6 @@ sub process {
-> > >  			}
-> > >  		}
-> > >  
-> > > -# check for RCS/CVS revision markers
-> > > -		if ($rawline =~ /^\+.*\$(Revision|Log|Id)(?:\$|)/) {
-> > 
-> > Looks like this would be better using
-> > 
-> > 		if ($rawline =~ /^\+.*\b\$(?:Revision|Log|Id)\$?\b/) {
-> As I say before I do not know much about cvs or perl regex, but I do not
-> get any match with your suggestion
+On 10/22/21 4:17 AM, Matthew Wilcox wrote:
+> As far as I can tell, the following filesystems support compressed data:
+>
+> bcachefs, btrfs, erofs, ntfs, squashfs, zisofs
 
-Meh.  The regex doesn't like the \b before and after the $
+Hi Matthew,
 
-This seems better:
----
- scripts/checkpatch.pl | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+There is a new bcachefs mailing list linux-bcachefs@vger.kernel.org for 
+bcachefs. I add it in Cc in this reply email.
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 1784921c645da..40552da610019 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -4063,7 +4063,7 @@ sub process {
- 		}
- 
- # check for RCS/CVS revision markers
--		if ($rawline =~ /^\+.*\$(Revision|Log|Id)(?:\$|)/) {
-+		if ($rawline =~ /^\+.*\$(?:Revision|Log|Id)(?::.*)?\$/) {
- 			WARN("CVS_KEYWORD",
- 			     "CVS style keyword markers, these will _not_ be updated\n". $herecurr);
- 		}
+Just FYI for you and other receivers.
 
+Thanks.
+
+Coly Li
+
+
+>
+> I'd like to make it easier and more efficient for filesystems to
+> implement compressed data.  There are a lot of approaches in use today,
+> but none of them seem quite right to me.  I'm going to lay out a few
+> design considerations next and then propose a solution.  Feel free to
+> tell me I've got the constraints wrong, or suggest alternative solutions.
+>
+> When we call ->readahead from the VFS, the VFS has decided which pages
+> are going to be the most useful to bring in, but it doesn't know how
+> pages are bundled together into blocks.  As I've learned from talking to
+> Gao Xiang, sometimes the filesystem doesn't know either, so this isn't
+> something we can teach the VFS.
+>
+> We (David) added readahead_expand() recently to let the filesystem
+> opportunistically add pages to the page cache "around" the area requested
+> by the VFS.  That reduces the number of times the filesystem has to
+> decompress the same block.  But it can fail (due to memory allocation
+> failures or pages already being present in the cache).  So filesystems
+> still have to implement some kind of fallback.
+>
+> For many (all?) compression algorithms (all?) the data must be mapped at
+> all times.  Calling kmap() and kunmap() would be an intolerable overhead.
+> At the same time, we cannot write to a page in the page cache which is
+> marked Uptodate.  It might be mapped into userspace, or a read() be in
+> progress against it.  For writable filesystems, it might even be dirty!
+> As far as I know, no compression algorithm supports "holes", implying
+> that we must allocate memory which is then discarded.
+>
+> To me, this calls for a vmap() based approach.  So I'm thinking
+> something like ...
+>
+> void *readahead_get_block(struct readahead_control *ractl, loff_t start,
+> 			size_t len);
+> void readahead_put_block(struct readahead_control *ractl, void *addr,
+> 			bool success);
+>
+> Once you've figured out which bytes this encrypted block expands to, you
+> call readahead_get_block(), specifying the offset in the file and length
+> and get back a pointer.  When you're done decompressing that block of
+> the file, you get rid of it again.
+>
+> It's the job of readahead_get_block() to allocate additional pages
+> into the page cache or temporary pages.  readahead_put_block() will
+> mark page cache pages as Uptodate if 'success' is true, and unlock
+> them.  It'll free any temporary pages.
+>
+> Thoughts?  Anyone want to be the guinea pig?  ;-)
 
