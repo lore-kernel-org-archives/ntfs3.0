@@ -1,130 +1,185 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from srv.fail (srv.fail [135.181.244.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9384672
-	for <ntfs3@lists.linux.dev>; Fri, 29 Oct 2021 06:20:31 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2CA2721968;
-	Fri, 29 Oct 2021 06:15:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1635488112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=E919aeXK8dC3N34MDRziiU6STn2FmtpVBAk+ecOLJjo=;
-	b=rHi5YhKLU0rlCRHyPeKnauDRrrKyNolq7E6F6dDcjkjrYygp8K9iGOEHJj1sMmsNmnFoqm
-	JXUgJyq68i9P1XXycPxZOj9RRmHZ61CddjBbgHSqzeBEgXTEn3O/eT1/pGQOrrjanxFKqN
-	Ws1Xa0M9ZepgclsMvVLPpSC9aP/pzDs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1635488112;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=E919aeXK8dC3N34MDRziiU6STn2FmtpVBAk+ecOLJjo=;
-	b=S6CjmYqZCZ0yYeJGy3BiUS6TxG8jiMGcenKddoe10AYo6bdOAQvrpluZxu5uvYpr7RJ4EU
-	3KaNhyzDb7UqKtAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 55C5313AF5;
-	Fri, 29 Oct 2021 06:15:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Ah71CW2Re2HXXAAAMHmgww
-	(envelope-from <colyli@suse.de>); Fri, 29 Oct 2021 06:15:09 +0000
-Message-ID: <b11bb34b-8fdf-b6ed-b305-e7145f2a7ab2@suse.de>
-Date: Fri, 29 Oct 2021 14:15:07 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C082C80
+	for <ntfs3@lists.linux.dev>; Thu, 11 Nov 2021 04:39:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by srv.fail (Postfix) with ESMTP id 2E717152D871
+	for <ntfs3@lists.linux.dev>; Thu, 11 Nov 2021 05:39:21 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at srv.fail
+Received: from srv.fail ([127.0.0.1])
+	by localhost (srv.fail [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id rM8a-2NqGkxP for <ntfs3@lists.linux.dev>;
+	Thu, 11 Nov 2021 05:39:19 +0100 (CET)
+Received: from [IPV6:2a02:908:1086:27c0::84a] (unknown [IPv6:2a02:908:1086:27c0::84a])
+	by srv.fail (Postfix) with ESMTPSA id B7548152D837
+	for <ntfs3@lists.linux.dev>; Thu, 11 Nov 2021 05:39:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=totally.rip;
+	s=default; t=1636605559;
+	bh=+qq1biahaDn6SOzs45njVFH/T3Q95h/VdttCA6APLR8=;
+	h=Date:From:Subject:To:From;
+	b=jBk8wBkLzAMN+OCg2U9dPN/ilcUN/6bOft2hNaNDsgWNIYMYzAx6d5aWYiGXQczoV
+	 YP1yNGx/0ZVpMslyVggSojHOaBbe4dJGZk3KGucAuH4Gwl0VX//qWHuWArZcBsTcfV
+	 6DIZcDvk61v1a5AaSajZQycBLYZ+Ym1G50MGUiybed995IDSUROKQCGhDv9kkAqI+h
+	 XR9qnz4+d3nJcM/5RsHV2LoD5xq+zIWsxIKiuddWpmxAEl49lYH17IqqBy27OsGm60
+	 9emRvAZK2tvTBcwB7P0tuYoe8Gjif7+IvR5ztyFWOuymfkuoO2ZXq5mvn/nD2sj7sh
+	 6y8Hflver5b4g==
+Message-ID: <27056d4a-ad2f-c37d-7aa6-007576a26a84@totally.rip>
+Date: Thu, 11 Nov 2021 05:39:19 +0100
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.1
-Subject: Re: Readahead for compressed data
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+From: jkhsjdhjs <jkhsjdhjs@totally.rip>
+Subject: [BUG] Unable to mount NTFS drive, no error in dmesg
+To: ntfs3@lists.linux.dev
 Content-Language: en-US
-To: Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Phillip Lougher <phillip@squashfs.org.uk>,
- linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org,
- linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
- linux-bcache@vger.kernel.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- David Howells <dhowells@redhat.com>
-Cc: linux-bcachefs@vger.kernel.org,
- Kent Overstreet <kent.overstreet@gmail.com>
-References: <YXHK5HrQpJu9oy8w@casper.infradead.org>
-From: Coly Li <colyli@suse.de>
-In-Reply-To: <YXHK5HrQpJu9oy8w@casper.infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/22/21 4:17 AM, Matthew Wilcox wrote:
-> As far as I can tell, the following filesystems support compressed data:
->
-> bcachefs, btrfs, erofs, ntfs, squashfs, zisofs
+Dear ntfs3-Maintainers,
 
-Hi Matthew,
+I updated my kernel to version 5.15.1 today, using the package manager 
+of my distro. Since I use a software RAID1 with NTFS, I wanted to mount 
+it with the new ntfs3 driver instead of ntfs-3g. The RAID consists of 2x 
+8TB HGST drives and will be referred to as /dev/md0 in this email.
 
-There is a new bcachefs mailing list linux-bcachefs@vger.kernel.org for 
-bcachefs. I add it in Cc in this reply email.
+Mounting the raid unfortunately didn't work, because the filesystem was 
+dirty:
+ntfs3: md0: volume is dirty and "force" flag is not set!
 
-Just FYI for you and other receivers.
+I then first tried to mount it anyways with -o force:
+# mount -t ntfs3 -o force /dev/md0 /mnt/archive
 
-Thanks.
+This didn't work either, but without any error in dmesg this time. The 
+mount command just printed:
+mount: /mnt/archive: wrong fs type, bad option, bad superblock on 
+/dev/md0, missing codepage or helper program, or other error.
 
-Coly Li
+Since I apparently couldn't ignore the volume being dirty, I ran ntfsfix 
+-d /dev/md0, which removed the dirty bit.
+
+Then I tried to mount the raid again:
+# mount -t ntfs3 /dev/md0 /mnt/archive
+mount: /mnt/archive: wrong fs type, bad option, bad superblock on 
+/dev/md0, missing codepage or helper program, or other error.
+
+Again, without any message from the ntfs3 module in dmesg. I tried to 
+mount the RAID with ntfs-3g again, and that still worked:
+# mount -t ntfs-3g /dev/md0 /mnt/archive
+
+I attempted to mount /dev/md0 a few more times and even rebooted my 
+computer, but it didn't help. I asked in the discussion channel of my 
+linux distribution on matrix, and the people there had a few more 
+suggestions:
+
+- Check if I'm using the correct mount options since some are not 
+supported anymore with ntfs3.
+=> Shouldn't be an issue, since I didn't use any except force once.
+
+- Try running mount with -v for more output.
+=> Resulted in no additional output
+
+- Maybe there's a problem with software raids and ntfs3.
+=> I created a raid1 consisting of two partitions on a flash drive, had 
+no issues mounting that with ntfs3.
+
+- Does the partition contain hiberfil.sys and/or is the partition marked 
+as bootable?
+=> Nope & nope. While checking this I noticed that some directories on 
+the RAID contain non-ascii characters. However, that's not an issue as I 
+noticed in a separate check.
+
+Since I really don't know what else to try I'm writing this mail and am 
+hoping that you can help me with this issue. This might not even be an 
+issue with ntfs3, maybe my ntfs partition is just using something that 
+isn't supported in ntfs3. Anyways, you'll probably want to give a better 
+error message if that's the case, so I'm keeping the [BUG] flag in the 
+subject.
+
+I'll provide some additional information below from which I don't know 
+whether it will be helpful or not. If I can provide other information or 
+should test a patched ntfs3 module with debug logging or similar, please 
+just ask me.
+
+Best Regards,
+
+Leon
 
 
->
-> I'd like to make it easier and more efficient for filesystems to
-> implement compressed data.  There are a lot of approaches in use today,
-> but none of them seem quite right to me.  I'm going to lay out a few
-> design considerations next and then propose a solution.  Feel free to
-> tell me I've got the constraints wrong, or suggest alternative solutions.
->
-> When we call ->readahead from the VFS, the VFS has decided which pages
-> are going to be the most useful to bring in, but it doesn't know how
-> pages are bundled together into blocks.  As I've learned from talking to
-> Gao Xiang, sometimes the filesystem doesn't know either, so this isn't
-> something we can teach the VFS.
->
-> We (David) added readahead_expand() recently to let the filesystem
-> opportunistically add pages to the page cache "around" the area requested
-> by the VFS.  That reduces the number of times the filesystem has to
-> decompress the same block.  But it can fail (due to memory allocation
-> failures or pages already being present in the cache).  So filesystems
-> still have to implement some kind of fallback.
->
-> For many (all?) compression algorithms (all?) the data must be mapped at
-> all times.  Calling kmap() and kunmap() would be an intolerable overhead.
-> At the same time, we cannot write to a page in the page cache which is
-> marked Uptodate.  It might be mapped into userspace, or a read() be in
-> progress against it.  For writable filesystems, it might even be dirty!
-> As far as I know, no compression algorithm supports "holes", implying
-> that we must allocate memory which is then discarded.
->
-> To me, this calls for a vmap() based approach.  So I'm thinking
-> something like ...
->
-> void *readahead_get_block(struct readahead_control *ractl, loff_t start,
-> 			size_t len);
-> void readahead_put_block(struct readahead_control *ractl, void *addr,
-> 			bool success);
->
-> Once you've figured out which bytes this encrypted block expands to, you
-> call readahead_get_block(), specifying the offset in the file and length
-> and get back a pointer.  When you're done decompressing that block of
-> the file, you get rid of it again.
->
-> It's the job of readahead_get_block() to allocate additional pages
-> into the page cache or temporary pages.  readahead_put_block() will
-> mark page cache pages as Uptodate if 'success' is true, and unlock
-> them.  It'll free any temporary pages.
->
-> Thoughts?  Anyone want to be the guinea pig?  ;-)
+Relevant options my kernel is built with: 
+https://github.com/archlinux/svntogit-packages/blob/75e1c89c13da96f2155e4a396840d93a5d0d57e7/linux/trunk/config#L9551-L9554
+
+# ntfsinfo -m /dev/md0
+Volume Information
+         Name of device: /dev/md0
+         Device state: 11
+         Volume Name: archive
+         Volume State: 91
+         Volume Flags: 0x0000
+         Volume Version: 3.1
+         Sector Size: 512
+         Cluster Size: 4096
+         Index Block Size: 4096
+         Volume Size in Clusters: 1953473359
+MFT Information
+         MFT Record Size: 1024
+         MFT Zone Multiplier: 0
+         MFT Data Position: 24
+         MFT Zone Start: 0
+         MFT Zone End: 244184173
+         MFT Zone Position: 4
+         Current Position in First Data Zone: 244184173
+         Current Position in Second Data Zone: 0
+         Allocated clusters 519608 (0,0%)
+         LCN of Data Attribute for FILE_MFT: 4
+         FILE_MFTMirr Size: 4
+         LCN of Data Attribute for File_MFTMirr: 976753192
+         Size of Attribute Definition Table: 2560
+         Number of Attached Extent Inodes: 0
+FILE_Bitmap Information
+         FILE_Bitmap MFT Record Number: 6
+         State of FILE_Bitmap Inode: 80
+         Length of Attribute List: 0
+         Number of Attached Extent Inodes: 0
+FILE_Bitmap Data Attribute Information
+         Decompressed Runlist: not done yet
+         Base Inode: 6
+         Attribute Types: not done yet
+         Attribute Name Length: 0
+         Attribute State: 3
+         Attribute Allocated Size: 234987520
+         Attribute Data Size: 234985352
+         Attribute Initialized Size: 234985352
+         Attribute Compressed Size: 0
+         Compression Block Size: 0
+         Compression Block Size Bits: 0
+         Compression Block Clusters: 0
+         Free Clusters: 709352752 (36,3%)
+
+
+sdb              8:16   1   7,3T  0 disk
+└─sdb1           8:17   1   7,3T  0 part
+   └─md0          9:0    0   7,3T  0 raid1
+sdc              8:32   1   7,3T  0 disk
+└─sdc1           8:33   1   7,3T  0 part
+   └─md0          9:0    0   7,3T  0 raid1
+
+
+# ntfsfix -d /dev/md0
+Mounting volume... OK
+Processing of $MFT and $MFTMirr completed successfully.
+Checking the alternate boot sector... OK
+NTFS volume version is 3.1.
+NTFS partition /dev/md0 was processed successfully.
+
+
+When loading the ntfs3 module initially:
+ntfs3: Max link count 4000
+ntfs3: Enabled Linux POSIX ACLs support
+ntfs3: Read-only LZX/Xpress compression included
 
