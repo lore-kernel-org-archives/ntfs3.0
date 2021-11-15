@@ -1,59 +1,99 @@
-Received: from smtp.smtpout.orange.fr (smtp02.smtpout.orange.fr [80.12.242.124])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 226E92C81
-	for <ntfs3@lists.linux.dev>; Thu, 11 Nov 2021 07:53:23 +0000 (UTC)
-Received: from pop-os.home ([86.243.171.122])
-	by smtp.orange.fr with ESMTPA
-	id l4mHmSjb5Bazol4mHmZJcd; Thu, 11 Nov 2021 08:45:46 +0100
-X-ME-Helo: pop-os.home
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Thu, 11 Nov 2021 08:45:46 +0100
-X-ME-IP: 86.243.171.122
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] fs/ntfs3: Fix some memory leaks in an error handling path of 'log_replay()'
-Date: Thu, 11 Nov 2021 08:45:44 +0100
-Message-Id: <a2244abd11dc5f5ee8a0dcec97da33b75923facb.1636616693.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.30.2
+Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624DA2C83
+	for <ntfs3@lists.linux.dev>; Mon, 15 Nov 2021 15:58:11 +0000 (UTC)
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id B268F821D9;
+	Mon, 15 Nov 2021 18:50:17 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1636991417;
+	bh=qD3HKvrsZCU1PXTGecu+drDpYLl62caCO8M8BtKuoPg=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=cAIMFjsumCl22bvvmlJkb53uXjM+mYIuLw7DuGZjgb5snYLQPLLPzbMSHhk1tzipU
+	 do+RcBh1iFp2InlBrxPwHLENIn8xHmDYMY0Ss0m6+fAGXj7NHkgmiMzEB4LvR4Cjwt
+	 zzLs73bs6EeMyUYS1kuZTcCv6A0hCOrpREoTcIYs=
+Received: from [192.168.211.139] (192.168.211.139) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Mon, 15 Nov 2021 18:50:17 +0300
+Message-ID: <2a86fac1-5363-96c0-7132-dc8b33853a16@paragon-software.com>
+Date: Mon, 15 Nov 2021 18:50:17 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 3/4] fs/ntfs3: Update i_ctime when xattr is added
+Content-Language: en-US
+To: Kari Argillander <kari.argillander@gmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+References: <a57c1c49-4ef3-15ee-d2cd-d77fb4246b3c@paragon-software.com>
+ <d5482090-67d1-3a54-c351-b756b757a647@paragon-software.com>
+ <20211026204132.kyez7uu4qhv7q2wl@kari-VirtualBox>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20211026204132.kyez7uu4qhv7q2wl@kari-VirtualBox>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.211.139]
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-All error handling paths lead to 'out' where many resources are freed.
 
-Do it as well here instead of a direct return, otherwise 'log', 'ra' and
-'log->one_page_buf' (at least) will leak.
 
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- fs/ntfs3/fslog.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On 26.10.2021 23:41, Kari Argillander wrote:
+> On Tue, Oct 26, 2021 at 07:41:50PM +0300, Konstantin Komarov wrote:
+>> Ctime wasn't updated after setfacl command.
+>> This commit fixes xfstest generic/307
+> 
+> When I run xfstest I get
+> 
+> generic/307		[20:37:41][   21.436315] run fstests generic/307 at 2021-10-26 20:37:41
+> [   23.362544]  vdc:
+> [failed, exit status 1] [20:37:45]- output mismatch (see /results/ntfs3/results-default/generic/307.out.bad)
+>     --- tests/generic/307.out	2021-08-03 00:08:10.000000000 +0000
+>     +++ /results/ntfs3/results-default/generic/307.out.bad	2021-10-26 20:37:45.172171949 +0000
+>     @@ -1,2 +1,4 @@
+>      QA output created by 307
+>      Silence is golden
+>     +setfacl: symbol lookup error: setfacl: undefined symbol: walk_tree
+>     +error: ctime not updated after setfacl
+>     ...
+>     (Run 'diff -u /root/xfstests/tests/generic/307.out /results/ntfs3/results-default/generic/307.out.bad'  to see the entire diff)
+> 
+> any ideas you get different result?
+> 
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 06492f088d60..915f42cf07bc 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -4085,8 +4085,10 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 		if (client == LFS_NO_CLIENT_LE) {
- 			/* Insert "NTFS" client LogFile. */
- 			client = ra->client_idx[0];
--			if (client == LFS_NO_CLIENT_LE)
--				return -EINVAL;
-+			if (client == LFS_NO_CLIENT_LE) {
-+				err = -EINVAL;
-+				goto out;
-+			}
- 
- 			t16 = le16_to_cpu(client);
- 			cr = ca + t16;
--- 
-2.30.2
+What are mount options for this test?
+generic/307 passes with "acl" and "sparse,acl".
+Can you try to locate where is "undefined symbol: walk_tree" coming from?
 
+>> Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
+>>
+>> Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+>> ---
+>>  fs/ntfs3/xattr.c | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+>> index 3ccdb8c2ac0b..157b70aecb4f 100644
+>> --- a/fs/ntfs3/xattr.c
+>> +++ b/fs/ntfs3/xattr.c
+>> @@ -992,6 +992,9 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
+>>  	err = ntfs_set_ea(inode, name, name_len, value, size, flags);
+>>  
+>>  out:
+>> +	inode->i_ctime = current_time(inode);
+>> +	mark_inode_dirty(inode);
+>> +
+>>  	return err;
+>>  }
+>>  
+>> -- 
+>> 2.33.0
+>>
+>>
