@@ -1,99 +1,60 @@
-Received: from relaydlg-01.paragon-software.com (relaydlg-01.paragon-software.com [81.5.88.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624DA2C83
-	for <ntfs3@lists.linux.dev>; Mon, 15 Nov 2021 15:58:11 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relaydlg-01.paragon-software.com (Postfix) with ESMTPS id B268F821D9;
-	Mon, 15 Nov 2021 18:50:17 +0300 (MSK)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E7368
+	for <ntfs3@lists.linux.dev>; Tue, 16 Nov 2021 17:16:41 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id z10so64594205edc.11
+        for <ntfs3@lists.linux.dev>; Tue, 16 Nov 2021 09:16:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1636991417;
-	bh=qD3HKvrsZCU1PXTGecu+drDpYLl62caCO8M8BtKuoPg=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=cAIMFjsumCl22bvvmlJkb53uXjM+mYIuLw7DuGZjgb5snYLQPLLPzbMSHhk1tzipU
-	 do+RcBh1iFp2InlBrxPwHLENIn8xHmDYMY0Ss0m6+fAGXj7NHkgmiMzEB4LvR4Cjwt
-	 zzLs73bs6EeMyUYS1kuZTcCv6A0hCOrpREoTcIYs=
-Received: from [192.168.211.139] (192.168.211.139) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Mon, 15 Nov 2021 18:50:17 +0300
-Message-ID: <2a86fac1-5363-96c0-7132-dc8b33853a16@paragon-software.com>
-Date: Mon, 15 Nov 2021 18:50:17 +0300
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=nD5YA8Q0SaYT5tGVhwUF69BMltqLjIJd1I7ZJVJiop0=;
+        b=COY1FPGul6lpeAe9541xbGL6riE2omphurxT+vO6XIoEmwEtBmEq/mwpdXILdvfjJx
+         mWijUzgrqmS1Z5NhnmU4Fw/V3dVEKHXI7j5NJQla/AS/dit5sLcBfuPV/EFnDTN2s7OO
+         cldDidr8rGMZVGWqwfJQglrIl/tWtsCmMCzJ6YSXHmil1eXXYJP3LgSCwkDrrDbvV5kW
+         nBAoXpP3sSjJ2D2hgkV5JfvDXgWOuxFDIzHTEjuCMaZXDkjkrc0kh0oaWtvFBpt05MtT
+         PPHAsmXaLKIGXLSyt/soJJqLwAujL4jvkTk2P8VERfQk+4bWrG8l6jpCPRL1tLYdpfni
+         QlRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=nD5YA8Q0SaYT5tGVhwUF69BMltqLjIJd1I7ZJVJiop0=;
+        b=lFW6LWPvk/wZ0Mj2CMjH4UaM9TQ2z0QMqHmMNSaQthCFRUfzhnncqiEIoOEvN6aQCs
+         Sw4cn9IIw3pcu9JKq1vrWAS611h4YUWdeNzNM9wd+A/mnxLo78ovpjHIhP9zbA04UyTE
+         H+X3wT660C9tL9yEpAnZ1D686JeDnDUHPiEnCDDO1bcJ9oG1PLK0tr+UsNQIxQ7QcTRv
+         /9VW0XhjT0YsE/L0I0nsKqqF613S58qdIhguMKVYzVrq+PvtmE7ak0JFGZVFPigWdw70
+         2+psAzyF01zUThcSvdgWMtcp3bbkEo2NXIfICUN1//jWf675i1ZgyScocuWc2WVvJ5+u
+         hbUw==
+X-Gm-Message-State: AOAM5300+iCgEH+70vf2RCP3kfjjVQKD56G9ixpRSUxO49iR4iRhSbJJ
+	sA2tngm4YJo6pZVZmPSnH0Ig57ZxjSqf2ty0SpZjoJIWunW6Qw==
+X-Google-Smtp-Source: ABdhPJw8jDp6v05yzQ0eaU/3NbrfPoXAZtuWrsoEkuxjmys7MpLiwXB7gQH5+MRKaXTXOT84D5jfZ/UKUJHt2+1wBw0=
+X-Received: by 2002:a05:6402:1a27:: with SMTP id be7mr11675342edb.187.1637082999568;
+ Tue, 16 Nov 2021 09:16:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 3/4] fs/ntfs3: Update i_ctime when xattr is added
-Content-Language: en-US
-To: Kari Argillander <kari.argillander@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-References: <a57c1c49-4ef3-15ee-d2cd-d77fb4246b3c@paragon-software.com>
- <d5482090-67d1-3a54-c351-b756b757a647@paragon-software.com>
- <20211026204132.kyez7uu4qhv7q2wl@kari-VirtualBox>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20211026204132.kyez7uu4qhv7q2wl@kari-VirtualBox>
+From: Antonio Petricca <antonio.petricca@gmail.com>
+Date: Tue, 16 Nov 2021 18:16:03 +0100
+Message-ID: <CAHyOv-b4sxAES5Wbg9f8A2Z2XMrmdp8VLRx-NSNEEsyxtBKG8w@mail.gmail.com>
+Subject: No more accessible (compromised) NTFS volume
+To: ntfs3@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.139]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
+ntfs3@lists.linux.dev
 
+Hi All, I experienced a fatal issue which I submitted as a bug at
+https://bugzilla.kernel.org/show_bug.cgi?id=215033 .
 
-On 26.10.2021 23:41, Kari Argillander wrote:
-> On Tue, Oct 26, 2021 at 07:41:50PM +0300, Konstantin Komarov wrote:
->> Ctime wasn't updated after setfacl command.
->> This commit fixes xfstest generic/307
-> 
-> When I run xfstest I get
-> 
-> generic/307		[20:37:41][   21.436315] run fstests generic/307 at 2021-10-26 20:37:41
-> [   23.362544]  vdc:
-> [failed, exit status 1] [20:37:45]- output mismatch (see /results/ntfs3/results-default/generic/307.out.bad)
->     --- tests/generic/307.out	2021-08-03 00:08:10.000000000 +0000
->     +++ /results/ntfs3/results-default/generic/307.out.bad	2021-10-26 20:37:45.172171949 +0000
->     @@ -1,2 +1,4 @@
->      QA output created by 307
->      Silence is golden
->     +setfacl: symbol lookup error: setfacl: undefined symbol: walk_tree
->     +error: ctime not updated after setfacl
->     ...
->     (Run 'diff -u /root/xfstests/tests/generic/307.out /results/ntfs3/results-default/generic/307.out.bad'  to see the entire diff)
-> 
-> any ideas you get different result?
-> 
+At the moment my only solution is to rely on the deprecated NTFS-3G
+which is able to read the NTFS volume, in spite, unfortunatey, of
+NTFS3.
 
-What are mount options for this test?
-generic/307 passes with "acl" and "sparse,acl".
-Can you try to locate where is "undefined symbol: walk_tree" coming from?
+Could you point me to the solution.
 
->> Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
->>
->> Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
->> ---
->>  fs/ntfs3/xattr.c | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
->> index 3ccdb8c2ac0b..157b70aecb4f 100644
->> --- a/fs/ntfs3/xattr.c
->> +++ b/fs/ntfs3/xattr.c
->> @@ -992,6 +992,9 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
->>  	err = ntfs_set_ea(inode, name, name_len, value, size, flags);
->>  
->>  out:
->> +	inode->i_ctime = current_time(inode);
->> +	mark_inode_dirty(inode);
->> +
->>  	return err;
->>  }
->>  
->> -- 
->> 2.33.0
->>
->>
+I would go back to using NTFS3.
+
+Thank you so much,
+Antonio Petricca
