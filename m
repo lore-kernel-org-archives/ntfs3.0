@@ -1,79 +1,115 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F2168
-	for <ntfs3@lists.linux.dev>; Tue, 23 Nov 2021 15:53:09 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 48C861D6E;
-	Tue, 23 Nov 2021 18:47:29 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1637682449;
-	bh=QOqRFVptfs1cQfkqyxylbZmta/oLcPwVd88JVhuyUZw=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=T6IzT5hl833cFx+WVTuAXGSLcSJ22gsRQOsVx3toCHCmdz2tXqCRgZiFgIjmDpeX/
-	 3Cwe0IAhXQSW4jCmd1e0pzk0IB2FGFecg15R0+o/mda36Xn3TOMngAP2fEQAqeVxVg
-	 xybmAuWwDLQlmUJ3XmRMo0FRaPsHFQk5n0m6gM8w=
-Received: from [192.168.211.16] (192.168.211.16) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9DE68
+	for <ntfs3@lists.linux.dev>; Fri, 26 Nov 2021 02:15:37 +0000 (UTC)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4J0d8j5JRXz91CD;
+	Fri, 26 Nov 2021 09:54:29 +0800 (CST)
+Received: from kwepemm600019.china.huawei.com (7.193.23.64) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 23 Nov 2021 18:47:28 +0300
-Message-ID: <8fe8f1fd-b6ca-a8be-b899-b93d855e7748@paragon-software.com>
-Date: Tue, 23 Nov 2021 18:47:28 +0300
+ 15.1.2308.20; Fri, 26 Nov 2021 09:54:57 +0800
+Received: from [10.174.177.210] (10.174.177.210) by
+ kwepemm600019.china.huawei.com (7.193.23.64) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 26 Nov 2021 09:54:56 +0800
+Subject: Re: [ramfs] 0858d7da8a: canonical_address#:#[##]
+To: Linus Torvalds <torvalds@linux-foundation.org>, kernel test robot
+	<oliver.sang@intel.com>, Konstantin Komarov
+	<almaz.alexandrovich@paragon-software.com>,
+	<almaz.alexandrovich@paragon-software.com>, <kari.argillander@gmail.com>
+CC: Al Viro <viro@zeniv.linux.org.uk>, Andrew Morton
+	<akpm@linux-foundation.org>, LKML <linux-kernel@vger.kernel.org>,
+	<lkp@lists.01.org>, kernel test robot <lkp@intel.com>,
+	<ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>
+References: <20211125140816.GC3109@xsang-OptiPlex-9020>
+ <CAHk-=widXZyzRiEzmYuG-bLVtNsptxt4TqAhy75Tbio-V_9oNQ@mail.gmail.com>
+From: yangerkun <yangerkun@huawei.com>
+Message-ID: <68587446-fb74-b411-ba19-dd52395567c9@huawei.com>
+Date: Fri, 26 Nov 2021 09:54:56 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH] fs/ntfs3: Fix some memory leaks in an error handling path
- of 'log_replay()'
+In-Reply-To: <CAHk-=widXZyzRiEzmYuG-bLVtNsptxt4TqAhy75Tbio-V_9oNQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<kernel-janitors@vger.kernel.org>
-References: <a2244abd11dc5f5ee8a0dcec97da33b75923facb.1636616693.git.christophe.jaillet@wanadoo.fr>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <a2244abd11dc5f5ee8a0dcec97da33b75923facb.1636616693.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.16]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Originating-IP: [10.174.177.210]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemm600019.china.huawei.com (7.193.23.64)
+X-CFilter-Loop: Reflected
+
+Cc ntfs3:
+
+Maybe it's a problem like this:
+
+do_new_mount
+   fs_context_for_mount
+     alloc_fs_context
+       ntfs_init_fs_context
+         sbi = kzalloc(sizeof(struct ntfs_sb_info), GFP_NOFS);
+         fc->s_fs_info = sbi;
+   vfs_get_tree
+     ntfs_fs_get_tree
+       get_tree_bdev
+         blkdev_get_by_path  // return error and sbi->sb will be NULL
+   put_fs_context
+     ntfs_fs_free
+       put_ntfs
+         ntfs_update_mftmirr
+           struct super_block *sb = sbi->sb; // NULL
+           u32 blocksize = sb->s_blocksize; // BOOM
+
+It's actually a ntfs3 bug which may be introduced by:
+
+610f8f5a7baf fs/ntfs3: Use new api for mounting
 
 
-
-On 11.11.2021 10:45, Christophe JAILLET wrote:
-> All error handling paths lead to 'out' where many resources are freed.
+On 2021/11/26 2:03, Linus Torvalds wrote:
+> On Thu, Nov 25, 2021 at 6:08 AM kernel test robot <oliver.sang@intel.com> wrote:
+>> FYI, we noticed the following commit (built with clang-14):
+>>
+>> commit: 0858d7da8a09e440fb192a0239d20249a2d16af8 ("ramfs: fix mount source show for ramfs")
 > 
-> Do it as well here instead of a direct return, otherwise 'log', 'ra' and
-> 'log->one_page_buf' (at least) will leak.
+> Funky. That commit seems to have nothing to do with the oops:
 > 
-> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  fs/ntfs3/fslog.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>> [  806.257788][  T204] /dev/root: Can't open blockdev
+>> [  806.259101][  T204] general protection fault, probably for non-canonical address 0xdffffc0000000003: 0000 [#1] SMP KASAN
+>> [  806.263082][  T204] KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
 > 
-> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index 06492f088d60..915f42cf07bc 100644
-> --- a/fs/ntfs3/fslog.c
-> +++ b/fs/ntfs3/fslog.c
-> @@ -4085,8 +4085,10 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
->  		if (client == LFS_NO_CLIENT_LE) {
->  			/* Insert "NTFS" client LogFile. */
->  			client = ra->client_idx[0];
-> -			if (client == LFS_NO_CLIENT_LE)
-> -				return -EINVAL;
-> +			if (client == LFS_NO_CLIENT_LE) {
-> +				err = -EINVAL;
-> +				goto out;
-> +			}
->  
->  			t16 = le16_to_cpu(client);
->  			cr = ca + t16;
+> Not a very helpful error message,a nd the KASAN comment makes little sense, but
 > 
-
-
-Thanks for patch, applied!
+>> [ 806.267540][ T204] RIP: 0010:ntfs_update_mftmirr (kbuild/src/consumer/fs/ntfs3/fsntfs.c:834)
+> 
+> That's
+> 
+>          u32 blocksize = sb->s_blocksize;
+> 
+> and presumably with KASAN you end up getting hat odd 0xdffffc0000000003 thing.
+> 
+> Anyway, looks like sb is NULL, and the code is
+> 
+>    int ntfs_update_mftmirr(struct ntfs_sb_info *sbi, int wait)
+>    {
+>          int err;
+>          struct super_block *sb = sbi->sb;
+>          u32 blocksize = sb->s_blocksize;
+>          sector_t block1, block2;
+> 
+> although I have no idea how sbi->sb could be NULL.
+> 
+> Konstantin? See
+> 
+>      https://lore.kernel.org/lkml/20211125140816.GC3109@xsang-OptiPlex-9020/
+> 
+> for the full thing.
+> 
+>               Linus
+> .
+> 
