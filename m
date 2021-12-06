@@ -1,78 +1,119 @@
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB212C80
-	for <ntfs3@lists.linux.dev>; Tue, 30 Nov 2021 16:41:39 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id B95AA40D;
-	Tue, 30 Nov 2021 19:41:30 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1638290490;
-	bh=/gt5meQDcE4KHTZT7C03i/3WGT8X/p7mNPvhNZSWk2k=;
-	h=Date:To:CC:From:Subject;
-	b=mhupN5segY8sg3kmtxwKzBw3B/YaGurptL96TSoz/W6x3KwzD4GQDZRz0mARc3gFq
-	 onTMwULXEvLqHPCkVp0/KPYkbnXiQIYIAlfvW3LvIan6EZL3M62NfaLZpU8NDExxnn
-	 qtIZovJLSithA3MS79Lt1MBoTk4dWS2L2vPuVwq8=
-Received: from [192.168.211.41] (192.168.211.41) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 30 Nov 2021 19:41:30 +0300
-Message-ID: <8b4de37d-1073-ca87-1df8-ccd8d09444af@paragon-software.com>
-Date: Tue, 30 Nov 2021 19:41:29 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57AD68
+	for <ntfs3@lists.linux.dev>; Mon,  6 Dec 2021 02:46:00 +0000 (UTC)
+X-UUID: a46e52ad887a47babfb69df7a5707fea-20211206
+X-CPASD-INFO: e9cade70235244928ee33cc2d62db7a9@romdgZGXZWBeU3d-g3eEbFiWlWNkj4O
+	BpnBSlJBnjVmVhH5xTWJsXVKBfG5QZWNdYVN_eGpQY19gZFB5i3-XblBgXoZgUZB3tHudgZSTZw==
+X-CPASD-FEATURE: 0.0
+X-CLOUD-ID: e9cade70235244928ee33cc2d62db7a9
+X-CPASD-SUMMARY: SIP:-1,APTIP:-2.0,KEY:0.0,FROMBLOCK:1,EXT:0.0,OB:0.0,URL:-5,T
+	VAL:173.0,ESV:0.0,ECOM:-5.0,ML:0.0,FD:1.0,CUTS:246.0,IP:-2.0,MAL:0.0,ATTNUM:0
+	.0,PHF:-5.0,PHC:-5.0,SPF:4.0,EDMS:-3,IPLABEL:4488.0,FROMTO:0,AD:0,FFOB:0.0,CF
+	OB:0.0,SPC:0.0,SIG:-5,AUF:16,DUF:24983,ACD:124,DCD:226,SL:0,AG:0,CFC:0.346,CF
+	SR:0.062,UAT:0,RAF:0,VERSION:2.3.4
+X-CPASD-ID: a46e52ad887a47babfb69df7a5707fea-20211206
+X-CPASD-BLOCK: 1001
+X-CPASD-STAGE: 1, 1
+X-UUID: a46e52ad887a47babfb69df7a5707fea-20211206
+X-User: yinxiujiang@kylinos.cn
+Received: from localhost.localdomain [(118.26.139.139)] by nksmu.kylinos.cn
+	(envelope-from <yinxiujiang@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1558014127; Mon, 06 Dec 2021 10:49:06 +0800
+From: Yin Xiujiang <yinxiujiang@kylinos.cn>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: Fix slab-out-of-bounds in r_page
+Date: Mon,  6 Dec 2021 10:40:45 +0800
+Message-Id: <20211206024045.15539-1-yinxiujiang@kylinos.cn>
+X-Mailer: git-send-email 2.30.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Content-Language: en-US
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH] fs/ntfs3: Fix NULL dereference in ntfs_update_mftmirr
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.211.41]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Transfer-Encoding: 8bit
 
-We can get NULL pointer to struct super_block.
-This commit adds check for such situation.
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Thread: https://lore.kernel.org/lkml/20211125140816.GC3109@xsang-OptiPlex-9020/
+When PAGE_SIZE is 64K, if read_log_page is called by log_read_rst for
+the first time, the size of *buffer would be equal to
+DefaultLogPageSize(4K).But for *buffer operations like memcpy,
+if the memory area size(n) which being assigned to buffer is larger
+than 4K (log->page_size(64K) or bytes(64K-page_off)), it will cause
+an out of boundary error.
+ Call trace:
+  [...]
+  kasan_report+0x44/0x130
+  check_memory_region+0xf8/0x1a0
+  memcpy+0xc8/0x100
+  ntfs_read_run_nb+0x20c/0x460
+  read_log_page+0xd0/0x1f4
+  log_read_rst+0x110/0x75c
+  log_replay+0x1e8/0x4aa0
+  ntfs_loadlog_and_replay+0x290/0x2d0
+  ntfs_fill_super+0x508/0xec0
+  get_tree_bdev+0x1fc/0x34c
+  [...]
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Fix this by setting variable r_page to NULL in log_read_rst.
+
+Signed-off-by: Yin Xiujiang <yinxiujiang@kylinos.cn>
 ---
- fs/ntfs3/fsntfs.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ fs/ntfs3/fslog.c | 24 +-----------------------
+ 1 file changed, 1 insertion(+), 23 deletions(-)
 
-diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-index 4de9acb16968..38de8cb53183 100644
---- a/fs/ntfs3/fsntfs.c
-+++ b/fs/ntfs3/fsntfs.c
-@@ -831,14 +831,17 @@ int ntfs_update_mftmirr(struct ntfs_sb_info *sbi, int wait)
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index 06492f088d60..4fdb5bdfc2ee 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -1180,10 +1180,7 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
+ 			struct restart_info *info)
  {
- 	int err;
- 	struct super_block *sb = sbi->sb;
--	u32 blocksize = sb->s_blocksize;
-+	u32 blocksize, bytes;
- 	sector_t block1, block2;
--	u32 bytes;
+ 	u32 skip, vbo;
+-	struct RESTART_HDR *r_page = kmalloc(DefaultLogPageSize, GFP_NOFS);
+-
+-	if (!r_page)
+-		return -ENOMEM;
++	struct RESTART_HDR *r_page = NULL;
  
--	if (!(sbi->flags & NTFS_FLAGS_MFTMIRR))
-+	/*
-+	 * sb can be NULL here. In this case sbi->flags should be 0 too.
-+	 */
-+	if (!sb || !(sbi->flags & NTFS_FLAGS_MFTMIRR))
- 		return 0;
+ 	memset(info, 0, sizeof(struct restart_info));
  
- 	err = 0;
-+	blocksize = sb->s_blocksize;
- 	bytes = sbi->mft.recs_mirr << sbi->record_bits;
- 	block1 = sbi->mft.lbo >> sb->s_blocksize_bits;
- 	block2 = sbi->mft.lbo2 >> sb->s_blocksize_bits;
+@@ -1199,7 +1196,6 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
+ 	/* Loop continuously until we succeed. */
+ 	for (; vbo < l_size; vbo = 2 * vbo + skip, skip = 0) {
+ 		bool usa_error;
+-		u32 sys_page_size;
+ 		bool brst, bchk;
+ 		struct RESTART_AREA *ra;
+ 
+@@ -1253,24 +1249,6 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
+ 			goto check_result;
+ 		}
+ 
+-		/* Read the entire restart area. */
+-		sys_page_size = le32_to_cpu(r_page->sys_page_size);
+-		if (DefaultLogPageSize != sys_page_size) {
+-			kfree(r_page);
+-			r_page = kzalloc(sys_page_size, GFP_NOFS);
+-			if (!r_page)
+-				return -ENOMEM;
+-
+-			if (read_log_page(log, vbo,
+-					  (struct RECORD_PAGE_HDR **)&r_page,
+-					  &usa_error)) {
+-				/* Ignore any errors. */
+-				kfree(r_page);
+-				r_page = NULL;
+-				continue;
+-			}
+-		}
+-
+ 		if (is_client_area_valid(r_page, usa_error)) {
+ 			info->valid_page = true;
+ 			ra = Add2Ptr(r_page, le16_to_cpu(r_page->ra_off));
 -- 
-2.33.1
+2.30.0
 
