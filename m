@@ -1,119 +1,216 @@
-Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57AD68
-	for <ntfs3@lists.linux.dev>; Mon,  6 Dec 2021 02:46:00 +0000 (UTC)
-X-UUID: a46e52ad887a47babfb69df7a5707fea-20211206
-X-CPASD-INFO: e9cade70235244928ee33cc2d62db7a9@romdgZGXZWBeU3d-g3eEbFiWlWNkj4O
-	BpnBSlJBnjVmVhH5xTWJsXVKBfG5QZWNdYVN_eGpQY19gZFB5i3-XblBgXoZgUZB3tHudgZSTZw==
-X-CPASD-FEATURE: 0.0
-X-CLOUD-ID: e9cade70235244928ee33cc2d62db7a9
-X-CPASD-SUMMARY: SIP:-1,APTIP:-2.0,KEY:0.0,FROMBLOCK:1,EXT:0.0,OB:0.0,URL:-5,T
-	VAL:173.0,ESV:0.0,ECOM:-5.0,ML:0.0,FD:1.0,CUTS:246.0,IP:-2.0,MAL:0.0,ATTNUM:0
-	.0,PHF:-5.0,PHC:-5.0,SPF:4.0,EDMS:-3,IPLABEL:4488.0,FROMTO:0,AD:0,FFOB:0.0,CF
-	OB:0.0,SPC:0.0,SIG:-5,AUF:16,DUF:24983,ACD:124,DCD:226,SL:0,AG:0,CFC:0.346,CF
-	SR:0.062,UAT:0,RAF:0,VERSION:2.3.4
-X-CPASD-ID: a46e52ad887a47babfb69df7a5707fea-20211206
-X-CPASD-BLOCK: 1001
-X-CPASD-STAGE: 1, 1
-X-UUID: a46e52ad887a47babfb69df7a5707fea-20211206
-X-User: yinxiujiang@kylinos.cn
-Received: from localhost.localdomain [(118.26.139.139)] by nksmu.kylinos.cn
-	(envelope-from <yinxiujiang@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 1558014127; Mon, 06 Dec 2021 10:49:06 +0800
-From: Yin Xiujiang <yinxiujiang@kylinos.cn>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: Fix slab-out-of-bounds in r_page
-Date: Mon,  6 Dec 2021 10:40:45 +0800
-Message-Id: <20211206024045.15539-1-yinxiujiang@kylinos.cn>
-X-Mailer: git-send-email 2.30.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57182C80
+	for <ntfs3@lists.linux.dev>; Tue,  7 Dec 2021 10:31:49 +0000 (UTC)
+Received: from mail-notes.avm.de (mail-notes.avm.de [172.16.0.1])
+	by mail.avm.de (Postfix) with ESMTP;
+	Tue,  7 Dec 2021 11:31:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1638873107; bh=pp4Derk/QtrY/93T7G4BebwlxTAK+8lT96TFpjMZh4Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=gCR9QGDK/0prD531OPEUum2MYEB5lo5xDBW2fFnaeQV/wuZJNBSr/Q3gJrW5AlaKo
+	 w98bgSiBe2HYOTwnRysI3JjvrsNnlbMXfncYsoM8vrjuryCqAJZoxYgicDr5oDEZbL
+	 OjF064fcUNJMCak6uY0FNXp1F6BW3cGHxGmq9sEU=
+Received: from tkh-linux.avm.de ([172.17.33.53])
+          by mail-notes.avm.de (HCL Domino Release 11.0.1FP4)
+          with ESMTP id 2021120711314710-7978 ;
+          Tue, 7 Dec 2021 11:31:47 +0100 
+From: =?UTF-8?q?Thomas=20K=C3=BChnel?= <thomas.kuehnel@avm.de>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Thomas=20K=C3=BChnel?= <thomas.kuehnel@avm.de>
+Subject: [PATCH 3/3] fs/ntfs3: use _le variants of bitops functions
+Date: Tue, 7 Dec 2021 11:24:55 +0100
+Message-Id: <20211207102454.576906-4-thomas.kuehnel@avm.de>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211207102454.576906-1-thomas.kuehnel@avm.de>
+References: <20211207102454.576906-1-thomas.kuehnel@avm.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on ANIS1/AVM(Release 11.0.1FP4|October 01, 2021) at
+ 07.12.2021 11:31:47,
+	Serialize by Router on ANIS1/AVM(Release 11.0.1FP4|October 01, 2021) at
+ 07.12.2021 11:31:47,
+	Serialize complete at 07.12.2021 11:31:47
+X-TNEFEvaluated: 1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+X-purgate-ID: 149429::1638873107-0000056E-2492F8FC/0/0
+X-purgate-type: clean
+X-purgate-size: 5811
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-When PAGE_SIZE is 64K, if read_log_page is called by log_read_rst for
-the first time, the size of *buffer would be equal to
-DefaultLogPageSize(4K).But for *buffer operations like memcpy,
-if the memory area size(n) which being assigned to buffer is larger
-than 4K (log->page_size(64K) or bytes(64K-page_off)), it will cause
-an out of boundary error.
- Call trace:
-  [...]
-  kasan_report+0x44/0x130
-  check_memory_region+0xf8/0x1a0
-  memcpy+0xc8/0x100
-  ntfs_read_run_nb+0x20c/0x460
-  read_log_page+0xd0/0x1f4
-  log_read_rst+0x110/0x75c
-  log_replay+0x1e8/0x4aa0
-  ntfs_loadlog_and_replay+0x290/0x2d0
-  ntfs_fill_super+0x508/0xec0
-  get_tree_bdev+0x1fc/0x34c
-  [...]
+The functions from bitops.h already have _le variants so use them to
+prevent invalid reads/writes of the bitmap on big endian systems.
 
-Fix this by setting variable r_page to NULL in log_read_rst.
-
-Signed-off-by: Yin Xiujiang <yinxiujiang@kylinos.cn>
+Signed-off-by: Thomas Kühnel <thomas.kuehnel@avm.de>
 ---
- fs/ntfs3/fslog.c | 24 +-----------------------
- 1 file changed, 1 insertion(+), 23 deletions(-)
+ fs/ntfs3/bitmap.c | 10 +++++-----
+ fs/ntfs3/fsntfs.c |  8 ++++----
+ fs/ntfs3/index.c  | 14 +++++++-------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 06492f088d60..4fdb5bdfc2ee 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -1180,10 +1180,7 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
- 			struct restart_info *info)
- {
- 	u32 skip, vbo;
--	struct RESTART_HDR *r_page = kmalloc(DefaultLogPageSize, GFP_NOFS);
--
--	if (!r_page)
--		return -ENOMEM;
-+	struct RESTART_HDR *r_page = NULL;
+diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
+index b61cf533b030..e3dc6714ef25 100644
+--- a/fs/ntfs3/bitmap.c
++++ b/fs/ntfs3/bitmap.c
+@@ -71,7 +71,7 @@ static size_t wnd_scan(const ulong *buf, size_t wbit, u32 wpos, u32 wend,
+ 	while (wpos < wend) {
+ 		size_t free_len;
+ 		u32 free_bits, end;
+-		u32 used = find_next_zero_bit(buf, wend, wpos);
++		u32 used = find_next_zero_bit_le(buf, wend, wpos);
  
- 	memset(info, 0, sizeof(struct restart_info));
+ 		if (used >= wend) {
+ 			if (*b_len < *prev_tail) {
+@@ -97,7 +97,7 @@ static size_t wnd_scan(const ulong *buf, size_t wbit, u32 wpos, u32 wend,
+ 		 * Now we have a fragment [wpos, wend) staring with 0.
+ 		 */
+ 		end = wpos + to_alloc - *prev_tail;
+-		free_bits = find_next_bit(buf, min(end, wend), wpos);
++		free_bits = find_next_bit_le(buf, min(end, wend), wpos);
  
-@@ -1199,7 +1196,6 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
- 	/* Loop continuously until we succeed. */
- 	for (; vbo < l_size; vbo = 2 * vbo + skip, skip = 0) {
- 		bool usa_error;
--		u32 sys_page_size;
- 		bool brst, bchk;
- 		struct RESTART_AREA *ra;
+ 		free_len = *prev_tail + free_bits - wpos;
  
-@@ -1253,24 +1249,6 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
- 			goto check_result;
+@@ -579,7 +579,7 @@ static int wnd_rescan(struct wnd_bitmap *wnd)
+ 			wbits = wnd->nbits - wbit;
+ 
+ 		do {
+-			used = find_next_zero_bit(buf, wbits, wpos);
++			used = find_next_zero_bit_le(buf, wbits, wpos);
+ 
+ 			if (used > wpos && prev_tail) {
+ 				wnd_add_free_ext(wnd, wbit + wpos - prev_tail,
+@@ -595,7 +595,7 @@ static int wnd_rescan(struct wnd_bitmap *wnd)
+ 				break;
+ 			}
+ 
+-			frb = find_next_bit(buf, wbits, wpos);
++			frb = find_next_bit_le(buf, wbits, wpos);
+ 			if (frb >= wbits) {
+ 				/* Keep last free block. */
+ 				prev_tail += frb - wpos;
+@@ -1457,7 +1457,7 @@ int ntfs_trim_fs(struct ntfs_sb_info *sbi, struct fstrim_range *range)
+ 		buf = (ulong *)bh->b_data;
+ 
+ 		for (; wbit < wbits; wbit++) {
+-			if (!test_bit(wbit, buf)) {
++			if (!test_bit_le(wbit, buf)) {
+ 				if (!len)
+ 					lcn = lcn_wnd + wbit;
+ 				len += 1;
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index 4de9acb16968..1f801c9eae67 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -618,13 +618,13 @@ int ntfs_look_free_mft(struct ntfs_sb_info *sbi, CLST *rno, bool mft,
+ 						 NULL, 0, NULL, NULL))
+ 					goto next;
+ 
+-				__clear_bit(ir - MFT_REC_RESERVED,
++				__clear_bit_le(ir - MFT_REC_RESERVED,
+ 					    &sbi->mft.reserved_bitmap);
+ 			}
  		}
  
--		/* Read the entire restart area. */
--		sys_page_size = le32_to_cpu(r_page->sys_page_size);
--		if (DefaultLogPageSize != sys_page_size) {
--			kfree(r_page);
--			r_page = kzalloc(sys_page_size, GFP_NOFS);
--			if (!r_page)
--				return -ENOMEM;
--
--			if (read_log_page(log, vbo,
--					  (struct RECORD_PAGE_HDR **)&r_page,
--					  &usa_error)) {
--				/* Ignore any errors. */
--				kfree(r_page);
--				r_page = NULL;
--				continue;
--			}
--		}
--
- 		if (is_client_area_valid(r_page, usa_error)) {
- 			info->valid_page = true;
- 			ra = Add2Ptr(r_page, le16_to_cpu(r_page->ra_off));
+ 		/* Scan 5 bits for zero. Bit 0 == MFT_REC_RESERVED */
+-		zbit = find_next_zero_bit(&sbi->mft.reserved_bitmap,
++		zbit = find_next_zero_bit_le(&sbi->mft.reserved_bitmap,
+ 					  MFT_REC_FREE, MFT_REC_RESERVED);
+ 		if (zbit >= MFT_REC_FREE) {
+ 			sbi->mft.next_reserved = MFT_REC_FREE;
+@@ -692,7 +692,7 @@ int ntfs_look_free_mft(struct ntfs_sb_info *sbi, CLST *rno, bool mft,
+ 	if (*rno >= MFT_REC_FREE)
+ 		wnd_set_used(wnd, *rno, 1);
+ 	else if (*rno >= MFT_REC_RESERVED && sbi->mft.reserved_bitmap_inited)
+-		__set_bit(*rno - MFT_REC_RESERVED, &sbi->mft.reserved_bitmap);
++		__set_bit_le(*rno - MFT_REC_RESERVED, &sbi->mft.reserved_bitmap);
+ 
+ out:
+ 	if (!mft)
+@@ -718,7 +718,7 @@ void ntfs_mark_rec_free(struct ntfs_sb_info *sbi, CLST rno)
+ 		else
+ 			wnd_set_free(wnd, rno, 1);
+ 	} else if (rno >= MFT_REC_RESERVED && sbi->mft.reserved_bitmap_inited) {
+-		__clear_bit(rno - MFT_REC_RESERVED, &sbi->mft.reserved_bitmap);
++		__clear_bit_le(rno - MFT_REC_RESERVED, &sbi->mft.reserved_bitmap);
+ 	}
+ 
+ 	if (rno < wnd_zone_bit(wnd))
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 6f81e3a49abf..9547422200ab 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -323,7 +323,7 @@ static int indx_mark_used(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 	if (err)
+ 		return err;
+ 
+-	__set_bit(bit - bbuf.bit, bbuf.buf);
++	__set_bit_le(bit - bbuf.bit, bbuf.buf);
+ 
+ 	bmp_buf_put(&bbuf, true);
+ 
+@@ -343,7 +343,7 @@ static int indx_mark_free(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 	if (err)
+ 		return err;
+ 
+-	__clear_bit(bit - bbuf.bit, bbuf.buf);
++	__clear_bit_le(bit - bbuf.bit, bbuf.buf);
+ 
+ 	bmp_buf_put(&bbuf, true);
+ 
+@@ -457,7 +457,7 @@ static int scan_nres_bitmap(struct ntfs_inode *ni, struct ATTRIB *bitmap,
+ 
+ static bool scan_for_free(const ulong *buf, u32 bit, u32 bits, size_t *ret)
+ {
+-	size_t pos = find_next_zero_bit(buf, bits, bit);
++	size_t pos = find_next_zero_bit_le(buf, bits, bit);
+ 
+ 	if (pos >= bits)
+ 		return false;
+@@ -489,7 +489,7 @@ static int indx_find_free(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 
+ 	if (!b->non_res) {
+ 		u32 nbits = 8 * le32_to_cpu(b->res.data_size);
+-		size_t pos = find_next_zero_bit(resident_data(b), nbits, 0);
++		size_t pos = find_next_zero_bit_le(resident_data(b), nbits, 0);
+ 
+ 		if (pos < nbits)
+ 			*bit = pos;
+@@ -505,7 +505,7 @@ static int indx_find_free(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 
+ static bool scan_for_used(const ulong *buf, u32 bit, u32 bits, size_t *ret)
+ {
+-	size_t pos = find_next_bit(buf, bits, bit);
++	size_t pos = find_next_bit_le(buf, bits, bit);
+ 
+ 	if (pos >= bits)
+ 		return false;
+@@ -536,7 +536,7 @@ int indx_used_bit(struct ntfs_index *indx, struct ntfs_inode *ni, size_t *bit)
+ 
+ 	if (!b->non_res) {
+ 		u32 nbits = le32_to_cpu(b->res.data_size) * 8;
+-		size_t pos = find_next_bit(resident_data(b), nbits, from);
++		size_t pos = find_next_bit_le(resident_data(b), nbits, from);
+ 
+ 		if (pos < nbits)
+ 			*bit = pos;
+@@ -1954,7 +1954,7 @@ static int indx_shrink(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 		if (bit >= nbits)
+ 			return 0;
+ 
+-		pos = find_next_bit(bm, nbits, bit);
++		pos = find_next_bit_le(bm, nbits, bit);
+ 		if (pos < nbits)
+ 			return 0;
+ 	} else {
 -- 
-2.30.0
+2.25.1
 
