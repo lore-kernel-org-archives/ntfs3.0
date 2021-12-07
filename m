@@ -1,176 +1,122 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.119])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8914C2C9E
-	for <ntfs3@lists.linux.dev>; Tue,  7 Dec 2021 10:40:20 +0000 (UTC)
-Received: from mail-notes.avm.de (mail-notes.avm.de [172.16.0.1])
-	by mail.avm.de (Postfix) with ESMTP;
-	Tue,  7 Dec 2021 11:31:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1638873106; bh=2FoNj0UdYpbmPLjQuSBiG98mRXupPeFFU07UlhIAPzM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CdQ/3nEMBuHiDPkdW410mpH1iFQ2Wk/juGgMvTQAIOWZsKKIDlz4VexKc5TJA02Dj
-	 a+Pnhsj+YvGnNo42D3hwHdjo2g+MQrNGnKnEoqjcDO5FpCbYJoWFMkyXyhF57FNHIS
-	 fGSVV3o27fwG37JV8BWsprfZTbQ052oIlQrnc2KE=
-Received: from tkh-linux.avm.de ([172.17.33.53])
-          by mail-notes.avm.de (HCL Domino Release 11.0.1FP4)
-          with ESMTP id 2021120711314642-7977 ;
-          Tue, 7 Dec 2021 11:31:46 +0100 
-From: =?UTF-8?q?Thomas=20K=C3=BChnel?= <thomas.kuehnel@avm.de>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
- =?UTF-8?q?Thomas=20K=C3=BChnel?= <thomas.kuehnel@avm.de>, Nicolas Schier
- <n.schier@avm.de>
-Subject: [PATCH 2/3] fs/ntfs3: add functions to modify LE bitmaps
-Date: Tue, 7 Dec 2021 11:24:54 +0100
-Message-Id: <20211207102454.576906-3-thomas.kuehnel@avm.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211207102454.576906-1-thomas.kuehnel@avm.de>
-References: <20211207102454.576906-1-thomas.kuehnel@avm.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029A82CA0
+	for <ntfs3@lists.linux.dev>; Tue,  7 Dec 2021 16:01:10 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="298400935"
+X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; 
+   d="scan'208";a="298400935"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2021 08:01:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; 
+   d="scan'208";a="461312003"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 07 Dec 2021 08:01:07 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+	(envelope-from <lkp@intel.com>)
+	id 1muctv-000MkV-4J; Tue, 07 Dec 2021 16:01:07 +0000
+Date: Wed, 8 Dec 2021 00:00:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?K=FChnel?= <thomas.kuehnel@avm.de>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: kbuild-all@lists.01.org, ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Thomas =?iso-8859-1?Q?K=FChnel?= <thomas.kuehnel@avm.de>,
+	Nicolas Schier <n.schier@avm.de>
+Subject: Re: [PATCH 1/3] fs/ntfs3: fix endian conversion in ni_fname_name
+Message-ID: <202112072356.fmLjngs7-lkp@intel.com>
+References: <20211207102454.576906-2-thomas.kuehnel@avm.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on ANIS1/AVM(Release 11.0.1FP4|October 01, 2021) at
- 07.12.2021 11:31:46,
-	Serialize by Router on ANIS1/AVM(Release 11.0.1FP4|October 01, 2021) at
- 07.12.2021 11:31:46,
-	Serialize complete at 07.12.2021 11:31:46
-X-TNEFEvaluated: 1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset=UTF-8
-X-purgate-ID: 149429::1638873106-0000056E-C186803A/0/0
-X-purgate-type: clean
-X-purgate-size: 4144
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211207102454.576906-2-thomas.kuehnel@avm.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-__bitmap_set/__bitmap_clear only works with bitmaps in CPU order.
-Define a variant of these functions in ntfs3 to handle modifying bitmaps
-read from the filesystem.
+Hi "Thomas,
 
-Signed-off-by: Thomas Kühnel <thomas.kuehnel@avm.de>
-Reviewed-by: Nicolas Schier <n.schier@avm.de>
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on 0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1]
+
+url:    https://github.com/0day-ci/linux/commits/Thomas-K-hnel/fs-ntfs3-Fixes-for-big-endian-systems/20211207-184206
+base:   0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1
+config: arm64-randconfig-s031-20211207 (https://download.01.org/0day-ci/archive/20211207/202112072356.fmLjngs7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/0day-ci/linux/commit/d2fb837ced1828c5a57feac3690d3cc8a36b2fdc
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Thomas-K-hnel/fs-ntfs3-Fixes-for-big-endian-systems/20211207-184206
+        git checkout d2fb837ced1828c5a57feac3690d3cc8a36b2fdc
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash fs/ntfs3/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+>> fs/ntfs3/frecord.c:1615:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le16 const [usertype] *s1 @@     got unsigned short const * @@
+   fs/ntfs3/frecord.c:1615:28: sparse:     expected restricted __le16 const [usertype] *s1
+   fs/ntfs3/frecord.c:1615:28: sparse:     got unsigned short const *
+
+vim +1615 fs/ntfs3/frecord.c
+
+  1578	
+  1579	/* ni_fname_name
+  1580	 *
+  1581	 * Return: File name attribute by its value.
+  1582	 */
+  1583	struct ATTR_FILE_NAME *ni_fname_name(struct ntfs_inode *ni,
+  1584					     const struct cpu_str *uni,
+  1585					     const struct MFT_REF *home_dir,
+  1586					     struct mft_inode **mi,
+  1587					     struct ATTR_LIST_ENTRY **le)
+  1588	{
+  1589		struct ATTRIB *attr = NULL;
+  1590		struct ATTR_FILE_NAME *fname;
+  1591		struct le_str *fns;
+  1592	
+  1593		*le = NULL;
+  1594	
+  1595		/* Enumerate all names. */
+  1596	next:
+  1597		attr = ni_find_attr(ni, attr, le, ATTR_NAME, NULL, 0, NULL, mi);
+  1598		if (!attr)
+  1599			return NULL;
+  1600	
+  1601		fname = resident_data_ex(attr, SIZEOF_ATTRIBUTE_FILENAME);
+  1602		if (!fname)
+  1603			goto next;
+  1604	
+  1605		if (home_dir && memcmp(home_dir, &fname->home, sizeof(*home_dir)))
+  1606			goto next;
+  1607	
+  1608		if (!uni)
+  1609			goto next;
+  1610	
+  1611		if (uni->len != fname->name_len)
+  1612			goto next;
+  1613	
+  1614		fns = (struct le_str *)&fname->name_len;
+> 1615		if (ntfs_cmp_names(uni->name, uni->len, fns->name, fns->len, NULL,
+  1616				       false))
+  1617			goto next;
+  1618	
+  1619		return fname;
+  1620	}
+  1621	
+
 ---
- fs/ntfs3/bitmap.c  | 46 +++++++++++++++++++++++++++++++++++++++++++---
- fs/ntfs3/fslog.c   |  4 ++--
- fs/ntfs3/ntfs_fs.h |  3 +++
- 3 files changed, 48 insertions(+), 5 deletions(-)
-
-diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
-index aa184407520f..b61cf533b030 100644
---- a/fs/ntfs3/bitmap.c
-+++ b/fs/ntfs3/bitmap.c
-@@ -741,7 +741,7 @@ int wnd_set_free(struct wnd_bitmap *wnd, size_t bit, size_t bits)
- 
- 		lock_buffer(bh);
- 
--		__bitmap_clear(buf, wbit, op);
-+		ntfs_bitmap_clear_le(buf, wbit, op);
- 
- 		wnd->free_bits[iw] += op;
- 
-@@ -793,7 +793,7 @@ int wnd_set_used(struct wnd_bitmap *wnd, size_t bit, size_t bits)
- 
- 		lock_buffer(bh);
- 
--		__bitmap_set(buf, wbit, op);
-+		ntfs_bitmap_set_le(buf, wbit, op);
- 		wnd->free_bits[iw] -= op;
- 
- 		set_buffer_uptodate(bh);
-@@ -1370,7 +1370,7 @@ int wnd_extend(struct wnd_bitmap *wnd, size_t new_bits)
- 		lock_buffer(bh);
- 		buf = (ulong *)bh->b_data;
- 
--		__bitmap_clear(buf, b0, blocksize * 8 - b0);
-+		ntfs_bitmap_clear_le(buf, b0, blocksize * 8 - b0);
- 		frb = wbits - __bitmap_weight(buf, wbits);
- 		wnd->total_zeroes += frb - wnd->free_bits[iw];
- 		wnd->free_bits[iw] = frb;
-@@ -1489,3 +1489,43 @@ int ntfs_trim_fs(struct ntfs_sb_info *sbi, struct fstrim_range *range)
- 
- 	return err;
- }
-+
-+void ntfs_bitmap_set_le(unsigned long *map, unsigned int start, int len)
-+{
-+	unsigned long *p = map + BIT_WORD(start);
-+	const unsigned int size = start + len;
-+	int bits_to_set = BITS_PER_LONG - (start % BITS_PER_LONG);
-+	unsigned long mask_to_set = cpu_to_le32(BITMAP_FIRST_WORD_MASK(start));
-+
-+	while (len - bits_to_set >= 0) {
-+		*p |= mask_to_set;
-+		len -= bits_to_set;
-+		bits_to_set = BITS_PER_LONG;
-+		mask_to_set = ~0UL;
-+		p++;
-+	}
-+	if (len) {
-+		mask_to_set &= cpu_to_le32(BITMAP_LAST_WORD_MASK(size));
-+		*p |= mask_to_set;
-+	}
-+}
-+
-+void ntfs_bitmap_clear_le(unsigned long *map, unsigned int start, int len)
-+{
-+	unsigned long *p = map + BIT_WORD(start);
-+	const unsigned int size = start + len;
-+	int bits_to_clear = BITS_PER_LONG - (start % BITS_PER_LONG);
-+	unsigned long mask_to_clear = cpu_to_le32(BITMAP_FIRST_WORD_MASK(start));
-+
-+	while (len - bits_to_clear >= 0) {
-+		*p &= ~mask_to_clear;
-+		len -= bits_to_clear;
-+		bits_to_clear = BITS_PER_LONG;
-+		mask_to_clear = ~0UL;
-+		p++;
-+	}
-+	if (len) {
-+		mask_to_clear &= cpu_to_le32(BITMAP_LAST_WORD_MASK(size));
-+		*p &= ~mask_to_clear;
-+	}
-+}
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 06492f088d60..5ec7dbad3add 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -3646,7 +3646,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 			goto dirty_vol;
- 		}
- 
--		__bitmap_set(Add2Ptr(buffer_le, roff), bmp_off, bmp_bits);
-+		ntfs_bitmap_set_le(Add2Ptr(buffer_le, roff), bmp_off, bmp_bits);
- 		a_dirty = true;
- 		break;
- 
-@@ -3660,7 +3660,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 			goto dirty_vol;
- 		}
- 
--		__bitmap_clear(Add2Ptr(buffer_le, roff), bmp_off, bmp_bits);
-+		ntfs_bitmap_clear_le(Add2Ptr(buffer_le, roff), bmp_off, bmp_bits);
- 		a_dirty = true;
- 		break;
- 
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index 8aaec7e0804e..aaecddeff4e5 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -828,6 +828,9 @@ int wnd_extend(struct wnd_bitmap *wnd, size_t new_bits);
- void wnd_zone_set(struct wnd_bitmap *wnd, size_t Lcn, size_t Len);
- int ntfs_trim_fs(struct ntfs_sb_info *sbi, struct fstrim_range *range);
- 
-+void ntfs_bitmap_set_le(unsigned long *map, unsigned int start, int len);
-+void ntfs_bitmap_clear_le(unsigned long *map, unsigned int start, int len);
-+
- /* Globals from upcase.c */
- int ntfs_cmp_names(const __le16 *s1, size_t l1, const __le16 *s2, size_t l2,
- 		   const u16 *upcase, bool bothcase);
--- 
-2.25.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
