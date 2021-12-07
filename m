@@ -1,22 +1,22 @@
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029A82CA0
-	for <ntfs3@lists.linux.dev>; Tue,  7 Dec 2021 16:01:10 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="298400935"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5202A2CA8
+	for <ntfs3@lists.linux.dev>; Tue,  7 Dec 2021 17:48:09 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="217662934"
 X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; 
-   d="scan'208";a="298400935"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2021 08:01:09 -0800
+   d="scan'208";a="217662934"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2021 09:32:12 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; 
-   d="scan'208";a="461312003"
+   d="scan'208";a="515617230"
 Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 07 Dec 2021 08:01:07 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 07 Dec 2021 09:32:10 -0800
 Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
 	(envelope-from <lkp@intel.com>)
-	id 1muctv-000MkV-4J; Tue, 07 Dec 2021 16:01:07 +0000
-Date: Wed, 8 Dec 2021 00:00:53 +0800
+	id 1mueK1-000MoR-Rz; Tue, 07 Dec 2021 17:32:09 +0000
+Date: Wed, 8 Dec 2021 01:31:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas =?iso-8859-1?Q?K=FChnel?= <thomas.kuehnel@avm.de>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
@@ -24,9 +24,9 @@ Cc: kbuild-all@lists.01.org, ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Thomas =?iso-8859-1?Q?K=FChnel?= <thomas.kuehnel@avm.de>,
 	Nicolas Schier <n.schier@avm.de>
-Subject: Re: [PATCH 1/3] fs/ntfs3: fix endian conversion in ni_fname_name
-Message-ID: <202112072356.fmLjngs7-lkp@intel.com>
-References: <20211207102454.576906-2-thomas.kuehnel@avm.de>
+Subject: Re: [PATCH 2/3] fs/ntfs3: add functions to modify LE bitmaps
+Message-ID: <202112080045.huYZOn4p-lkp@intel.com>
+References: <20211207102454.576906-3-thomas.kuehnel@avm.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -35,7 +35,7 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211207102454.576906-2-thomas.kuehnel@avm.de>
+In-Reply-To: <20211207102454.576906-3-thomas.kuehnel@avm.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 
 Hi "Thomas,
@@ -46,17 +46,17 @@ Thank you for the patch! Perhaps something to improve:
 
 url:    https://github.com/0day-ci/linux/commits/Thomas-K-hnel/fs-ntfs3-Fixes-for-big-endian-systems/20211207-184206
 base:   0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1
-config: arm64-randconfig-s031-20211207 (https://download.01.org/0day-ci/archive/20211207/202112072356.fmLjngs7-lkp@intel.com/config)
+config: arm64-randconfig-s031-20211207 (https://download.01.org/0day-ci/archive/20211208/202112080045.huYZOn4p-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 11.2.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/d2fb837ced1828c5a57feac3690d3cc8a36b2fdc
+        # https://github.com/0day-ci/linux/commit/2227622e39d3100d10077199481f05ccb9a17204
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Thomas-K-hnel/fs-ntfs3-Fixes-for-big-endian-systems/20211207-184206
-        git checkout d2fb837ced1828c5a57feac3690d3cc8a36b2fdc
+        git checkout 2227622e39d3100d10077199481f05ccb9a17204
         # save the config file to linux build tree
         mkdir build_dir
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash fs/ntfs3/
@@ -66,56 +66,48 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 sparse warnings: (new ones prefixed by >>)
->> fs/ntfs3/frecord.c:1615:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le16 const [usertype] *s1 @@     got unsigned short const * @@
-   fs/ntfs3/frecord.c:1615:28: sparse:     expected restricted __le16 const [usertype] *s1
-   fs/ntfs3/frecord.c:1615:28: sparse:     got unsigned short const *
+>> fs/ntfs3/bitmap.c:1498:37: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask_to_set @@     got restricted __le32 [usertype] @@
+   fs/ntfs3/bitmap.c:1498:37: sparse:     expected unsigned long mask_to_set
+   fs/ntfs3/bitmap.c:1498:37: sparse:     got restricted __le32 [usertype]
+>> fs/ntfs3/bitmap.c:1508:29: sparse: sparse: invalid assignment: &=
+>> fs/ntfs3/bitmap.c:1508:29: sparse:    left side has type unsigned long
+>> fs/ntfs3/bitmap.c:1508:29: sparse:    right side has type restricted __le32
+>> fs/ntfs3/bitmap.c:1518:39: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask_to_clear @@     got restricted __le32 [usertype] @@
+   fs/ntfs3/bitmap.c:1518:39: sparse:     expected unsigned long mask_to_clear
+   fs/ntfs3/bitmap.c:1518:39: sparse:     got restricted __le32 [usertype]
+   fs/ntfs3/bitmap.c:1528:31: sparse: sparse: invalid assignment: &=
+   fs/ntfs3/bitmap.c:1528:31: sparse:    left side has type unsigned long
+   fs/ntfs3/bitmap.c:1528:31: sparse:    right side has type restricted __le32
 
-vim +1615 fs/ntfs3/frecord.c
+vim +1498 fs/ntfs3/bitmap.c
 
-  1578	
-  1579	/* ni_fname_name
-  1580	 *
-  1581	 * Return: File name attribute by its value.
-  1582	 */
-  1583	struct ATTR_FILE_NAME *ni_fname_name(struct ntfs_inode *ni,
-  1584					     const struct cpu_str *uni,
-  1585					     const struct MFT_REF *home_dir,
-  1586					     struct mft_inode **mi,
-  1587					     struct ATTR_LIST_ENTRY **le)
-  1588	{
-  1589		struct ATTRIB *attr = NULL;
-  1590		struct ATTR_FILE_NAME *fname;
-  1591		struct le_str *fns;
-  1592	
-  1593		*le = NULL;
-  1594	
-  1595		/* Enumerate all names. */
-  1596	next:
-  1597		attr = ni_find_attr(ni, attr, le, ATTR_NAME, NULL, 0, NULL, mi);
-  1598		if (!attr)
-  1599			return NULL;
-  1600	
-  1601		fname = resident_data_ex(attr, SIZEOF_ATTRIBUTE_FILENAME);
-  1602		if (!fname)
-  1603			goto next;
-  1604	
-  1605		if (home_dir && memcmp(home_dir, &fname->home, sizeof(*home_dir)))
-  1606			goto next;
-  1607	
-  1608		if (!uni)
-  1609			goto next;
-  1610	
-  1611		if (uni->len != fname->name_len)
-  1612			goto next;
-  1613	
-  1614		fns = (struct le_str *)&fname->name_len;
-> 1615		if (ntfs_cmp_names(uni->name, uni->len, fns->name, fns->len, NULL,
-  1616				       false))
-  1617			goto next;
-  1618	
-  1619		return fname;
-  1620	}
-  1621	
+  1492	
+  1493	void ntfs_bitmap_set_le(unsigned long *map, unsigned int start, int len)
+  1494	{
+  1495		unsigned long *p = map + BIT_WORD(start);
+  1496		const unsigned int size = start + len;
+  1497		int bits_to_set = BITS_PER_LONG - (start % BITS_PER_LONG);
+> 1498		unsigned long mask_to_set = cpu_to_le32(BITMAP_FIRST_WORD_MASK(start));
+  1499	
+  1500		while (len - bits_to_set >= 0) {
+  1501			*p |= mask_to_set;
+  1502			len -= bits_to_set;
+  1503			bits_to_set = BITS_PER_LONG;
+  1504			mask_to_set = ~0UL;
+  1505			p++;
+  1506		}
+  1507		if (len) {
+> 1508			mask_to_set &= cpu_to_le32(BITMAP_LAST_WORD_MASK(size));
+  1509			*p |= mask_to_set;
+  1510		}
+  1511	}
+  1512	
+  1513	void ntfs_bitmap_clear_le(unsigned long *map, unsigned int start, int len)
+  1514	{
+  1515		unsigned long *p = map + BIT_WORD(start);
+  1516		const unsigned int size = start + len;
+  1517		int bits_to_clear = BITS_PER_LONG - (start % BITS_PER_LONG);
+> 1518		unsigned long mask_to_clear = cpu_to_le32(BITMAP_FIRST_WORD_MASK(start));
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
