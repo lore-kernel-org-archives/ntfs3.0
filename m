@@ -1,114 +1,156 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5202A2CA8
-	for <ntfs3@lists.linux.dev>; Tue,  7 Dec 2021 17:48:09 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="217662934"
-X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; 
-   d="scan'208";a="217662934"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2021 09:32:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; 
-   d="scan'208";a="515617230"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Dec 2021 09:32:10 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-	(envelope-from <lkp@intel.com>)
-	id 1mueK1-000MoR-Rz; Tue, 07 Dec 2021 17:32:09 +0000
-Date: Wed, 8 Dec 2021 01:31:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?K=FChnel?= <thomas.kuehnel@avm.de>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: kbuild-all@lists.01.org, ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?K=FChnel?= <thomas.kuehnel@avm.de>,
-	Nicolas Schier <n.schier@avm.de>
-Subject: Re: [PATCH 2/3] fs/ntfs3: add functions to modify LE bitmaps
-Message-ID: <202112080045.huYZOn4p-lkp@intel.com>
-References: <20211207102454.576906-3-thomas.kuehnel@avm.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E292C9E
+	for <ntfs3@lists.linux.dev>; Thu,  9 Dec 2021 11:00:05 +0000 (UTC)
+Received: from mail-notes.avm.de (mail-notes.avm.de [172.16.0.1])
+	by mail.avm.de (Postfix) with ESMTP;
+	Thu,  9 Dec 2021 11:51:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1639047093; bh=PfmdlE0WCq1Daz4yKMlJ7WU8epSeXu1J1q9c/d9oOcc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=CaVf2i92sF771Cv77R1b8W5Edsd3kZ0u94AL67txHjHmfVdqU+T5uYGeUmeXIkvJM
+	 OvW9t/eAznkIykqGmXfC5sG0BgxLDAOviqt+q3PZeDVN3JqZ7GS7dQI1Dh3Wys6uwC
+	 rUvCMxTdA6QWpMf2I40sNaETv4mzoip12e1BjHKQ=
+Received: from tkh-linux.avm.de ([172.17.33.53])
+          by mail-notes.avm.de (HCL Domino Release 11.0.1FP4)
+          with ESMTP id 2021120911513282-7104 ;
+          Thu, 9 Dec 2021 11:51:32 +0100 
+From: =?UTF-8?q?Thomas=20K=C3=BChnel?= <thomas.kuehnel@avm.de>
+To: kernel test robot <lkp@intel.com>, Konstantin Komarov
+ <almaz.alexandrovich@paragon-software.com>
+Cc: kbuild-all@lists.01.org, ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Nicolas Schier <n.schier@avm.de>, =?UTF-8?Q?Thomas_K=c3=bchnel?=
+ <thomas.kuehnel@avm.de>
+Subject: Re: [PATCH 1/3] fs/ntfs3: fix endian conversion in ni_fname_name
+Date: Thu, 9 Dec 2021 11:50:40 +0100
+Message-Id: <d82ff770-a34c-5ae2-024c-07c4c06c868f@avm.de>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <202112072356.fmLjngs7-lkp@intel.com>
+References: <20211207102454.576906-2-thomas.kuehnel@avm.de> <202112072356.fmLjngs7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211207102454.576906-3-thomas.kuehnel@avm.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-MIMETrack: Itemize by SMTP Server on ANIS1/AVM(Release 11.0.1FP4|October 01, 2021) at
+ 09.12.2021 11:51:32,
+	Serialize by Router on ANIS1/AVM(Release 11.0.1FP4|October 01, 2021) at
+ 09.12.2021 11:51:32,
+	Serialize complete at 09.12.2021 11:51:32
+X-TNEFEvaluated: 1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-purgate-ID: 149429::1639047092-0000060F-3B17705D/0/0
+X-purgate-type: clean
+X-purgate-size: 3962
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-Hi "Thomas,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on 0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1]
-
-url:    https://github.com/0day-ci/linux/commits/Thomas-K-hnel/fs-ntfs3-Fixes-for-big-endian-systems/20211207-184206
-base:   0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1
-config: arm64-randconfig-s031-20211207 (https://download.01.org/0day-ci/archive/20211208/202112080045.huYZOn4p-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/2227622e39d3100d10077199481f05ccb9a17204
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Thomas-K-hnel/fs-ntfs3-Fixes-for-big-endian-systems/20211207-184206
-        git checkout 2227622e39d3100d10077199481f05ccb9a17204
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash fs/ntfs3/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-
-sparse warnings: (new ones prefixed by >>)
->> fs/ntfs3/bitmap.c:1498:37: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask_to_set @@     got restricted __le32 [usertype] @@
-   fs/ntfs3/bitmap.c:1498:37: sparse:     expected unsigned long mask_to_set
-   fs/ntfs3/bitmap.c:1498:37: sparse:     got restricted __le32 [usertype]
->> fs/ntfs3/bitmap.c:1508:29: sparse: sparse: invalid assignment: &=
->> fs/ntfs3/bitmap.c:1508:29: sparse:    left side has type unsigned long
->> fs/ntfs3/bitmap.c:1508:29: sparse:    right side has type restricted __le32
->> fs/ntfs3/bitmap.c:1518:39: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask_to_clear @@     got restricted __le32 [usertype] @@
-   fs/ntfs3/bitmap.c:1518:39: sparse:     expected unsigned long mask_to_clear
-   fs/ntfs3/bitmap.c:1518:39: sparse:     got restricted __le32 [usertype]
-   fs/ntfs3/bitmap.c:1528:31: sparse: sparse: invalid assignment: &=
-   fs/ntfs3/bitmap.c:1528:31: sparse:    left side has type unsigned long
-   fs/ntfs3/bitmap.c:1528:31: sparse:    right side has type restricted __le32
-
-vim +1498 fs/ntfs3/bitmap.c
-
-  1492	
-  1493	void ntfs_bitmap_set_le(unsigned long *map, unsigned int start, int len)
-  1494	{
-  1495		unsigned long *p = map + BIT_WORD(start);
-  1496		const unsigned int size = start + len;
-  1497		int bits_to_set = BITS_PER_LONG - (start % BITS_PER_LONG);
-> 1498		unsigned long mask_to_set = cpu_to_le32(BITMAP_FIRST_WORD_MASK(start));
-  1499	
-  1500		while (len - bits_to_set >= 0) {
-  1501			*p |= mask_to_set;
-  1502			len -= bits_to_set;
-  1503			bits_to_set = BITS_PER_LONG;
-  1504			mask_to_set = ~0UL;
-  1505			p++;
-  1506		}
-  1507		if (len) {
-> 1508			mask_to_set &= cpu_to_le32(BITMAP_LAST_WORD_MASK(size));
-  1509			*p |= mask_to_set;
-  1510		}
-  1511	}
-  1512	
-  1513	void ntfs_bitmap_clear_le(unsigned long *map, unsigned int start, int len)
-  1514	{
-  1515		unsigned long *p = map + BIT_WORD(start);
-  1516		const unsigned int size = start + len;
-  1517		int bits_to_clear = BITS_PER_LONG - (start % BITS_PER_LONG);
-> 1518		unsigned long mask_to_clear = cpu_to_le32(BITMAP_FIRST_WORD_MASK(start));
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+=0D
+=0D
+On 07.12.21 17:00, kernel test robot wrote:=0D
+> Hi "Thomas,=0D
+> =0D
+> Thank you for the patch! Perhaps something to improve:=0D
+> =0D
+> [auto build test WARNING on 0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1]=0D
+> =0D
+> url:    https://github.com/0day-ci/linux/commits/Thomas-K-hnel/fs-ntfs3-F=
+ixes-for-big-endian-systems/20211207-184206=0D
+> base:   0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1=0D
+> config: arm64-randconfig-s031-20211207 (https://download.01.org/0day-ci/a=
+rchive/20211207/202112072356.fmLjngs7-lkp@intel.com/config)=0D
+> compiler: aarch64-linux-gcc (GCC) 11.2.0=0D
+> reproduce:=0D
+>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sb=
+in/make.cross -O ~/bin/make.cross=0D
+>          chmod +x ~/bin/make.cross=0D
+>          # apt-get install sparse=0D
+>          # sparse version: v0.6.4-dirty=0D
+>          # https://github.com/0day-ci/linux/commit/d2fb837ced1828c5a57fea=
+c3690d3cc8a36b2fdc=0D
+>          git remote add linux-review https://github.com/0day-ci/linux=0D
+>          git fetch --no-tags linux-review Thomas-K-hnel/fs-ntfs3-Fixes-fo=
+r-big-endian-systems/20211207-184206=0D
+>          git checkout d2fb837ced1828c5a57feac3690d3cc8a36b2fdc=0D
+>          # save the config file to linux build tree=0D
+>          mkdir build_dir=0D
+>          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cr=
+oss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
+=3Darm64 SHELL=3D/bin/bash fs/ntfs3/=0D
+> =0D
+> If you fix the issue, kindly add following tag as appropriate=0D
+> Reported-by: kernel test robot <lkp@intel.com>=0D
+> =0D
+> =0D
+> sparse warnings: (new ones prefixed by >>)=0D
+>>> fs/ntfs3/frecord.c:1615:28: sparse: sparse: incorrect type in argument =
+1 (different base types) @@     expected restricted __le16 const [usertype]=
+ *s1 @@     got unsigned short const * @@=0D
+>     fs/ntfs3/frecord.c:1615:28: sparse:     expected restricted __le16 co=
+nst [usertype] *s1=0D
+>     fs/ntfs3/frecord.c:1615:28: sparse:     got unsigned short const *=0D
+> =0D
+> vim +1615 fs/ntfs3/frecord.c=0D
+> =0D
+>    1578	=0D
+>    1579	/* ni_fname_name=0D
+>    1580	 *=0D
+>    1581	 * Return: File name attribute by its value.=0D
+>    1582	 */=0D
+>    1583	struct ATTR_FILE_NAME *ni_fname_name(struct ntfs_inode *ni,=0D
+>    1584					     const struct cpu_str *uni,=0D
+=0D
+=0D
+Changing the type of uni to struct le_str * should fix the warning.=0D
+I'll change this in the next version of this patch.=0D
+=0D
+>    1585					     const struct MFT_REF *home_dir,=0D
+>    1586					     struct mft_inode **mi,=0D
+>    1587					     struct ATTR_LIST_ENTRY **le)=0D
+>    1588	{=0D
+>    1589		struct ATTRIB *attr =3D NULL;=0D
+>    1590		struct ATTR_FILE_NAME *fname;=0D
+>    1591		struct le_str *fns;=0D
+>    1592	=0D
+>    1593		*le =3D NULL;=0D
+>    1594	=0D
+>    1595		/* Enumerate all names. */=0D
+>    1596	next:=0D
+>    1597		attr =3D ni_find_attr(ni, attr, le, ATTR_NAME, NULL, 0, NULL, mi=
+);=0D
+>    1598		if (!attr)=0D
+>    1599			return NULL;=0D
+>    1600	=0D
+>    1601		fname =3D resident_data_ex(attr, SIZEOF_ATTRIBUTE_FILENAME);=0D
+>    1602		if (!fname)=0D
+>    1603			goto next;=0D
+>    1604	=0D
+>    1605		if (home_dir && memcmp(home_dir, &fname->home, sizeof(*home_dir)=
+))=0D
+>    1606			goto next;=0D
+>    1607	=0D
+>    1608		if (!uni)=0D
+>    1609			goto next;=0D
+>    1610	=0D
+>    1611		if (uni->len !=3D fname->name_len)=0D
+>    1612			goto next;=0D
+>    1613	=0D
+>    1614		fns =3D (struct le_str *)&fname->name_len;=0D
+>> 1615		if (ntfs_cmp_names(uni->name, uni->len, fns->name, fns->len, NULL,=
+=0D
+>    1616				       false))=0D
+>    1617			goto next;=0D
+>    1618	=0D
+>    1619		return fname;=0D
+>    1620	}=0D
+>    1621	=0D
+> =0D
+> ---=0D
+> 0-DAY CI Kernel Test Service, Intel Corporation=0D
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org=0D
+> =0D
