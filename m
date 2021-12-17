@@ -1,156 +1,122 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E292C9E
-	for <ntfs3@lists.linux.dev>; Thu,  9 Dec 2021 11:00:05 +0000 (UTC)
-Received: from mail-notes.avm.de (mail-notes.avm.de [172.16.0.1])
-	by mail.avm.de (Postfix) with ESMTP;
-	Thu,  9 Dec 2021 11:51:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1639047093; bh=PfmdlE0WCq1Daz4yKMlJ7WU8epSeXu1J1q9c/d9oOcc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CaVf2i92sF771Cv77R1b8W5Edsd3kZ0u94AL67txHjHmfVdqU+T5uYGeUmeXIkvJM
-	 OvW9t/eAznkIykqGmXfC5sG0BgxLDAOviqt+q3PZeDVN3JqZ7GS7dQI1Dh3Wys6uwC
-	 rUvCMxTdA6QWpMf2I40sNaETv4mzoip12e1BjHKQ=
-Received: from tkh-linux.avm.de ([172.17.33.53])
-          by mail-notes.avm.de (HCL Domino Release 11.0.1FP4)
-          with ESMTP id 2021120911513282-7104 ;
-          Thu, 9 Dec 2021 11:51:32 +0100 
-From: =?UTF-8?q?Thomas=20K=C3=BChnel?= <thomas.kuehnel@avm.de>
-To: kernel test robot <lkp@intel.com>, Konstantin Komarov
- <almaz.alexandrovich@paragon-software.com>
-Cc: kbuild-all@lists.01.org, ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
- Nicolas Schier <n.schier@avm.de>, =?UTF-8?Q?Thomas_K=c3=bchnel?=
- <thomas.kuehnel@avm.de>
-Subject: Re: [PATCH 1/3] fs/ntfs3: fix endian conversion in ni_fname_name
-Date: Thu, 9 Dec 2021 11:50:40 +0100
-Message-Id: <d82ff770-a34c-5ae2-024c-07c4c06c868f@avm.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202112072356.fmLjngs7-lkp@intel.com>
-References: <20211207102454.576906-2-thomas.kuehnel@avm.de> <202112072356.fmLjngs7-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DF62C9D
+	for <ntfs3@lists.linux.dev>; Fri, 17 Dec 2021 08:46:10 +0000 (UTC)
+X-UUID: 9ebb265394f644a28082d8fa0cf33104-20211217
+X-CPASD-INFO: ab51b6a6359040eda70f8bc932f74613@qrJvUY9oj2ZfVXt8g3OwnoFoYJZpjoO
+	IdWyGZ2JmXVOVhH5xTWJsXVKBfG5QZWNdYVN_eGpQY19gZFB5i3-XblBgXoZgUZB3sKRvUZJkkQ==
+X-CPASD-FEATURE: 0.0
+X-CLOUD-ID: ab51b6a6359040eda70f8bc932f74613
+X-CPASD-SUMMARY: SIP:-1,APTIP:-2.0,KEY:0.0,FROMBLOCK:1,EXT:0.0,OB:0.0,URL:-5,T
+	VAL:184.0,ESV:0.0,ECOM:-5.0,ML:0.0,FD:1.0,CUTS:246.0,IP:-2.0,MAL:0.0,ATTNUM:0
+	.0,PHF:-5.0,PHC:-5.0,SPF:4.0,EDMS:-3,IPLABEL:4488.0,FROMTO:0,AD:0,FFOB:0.0,CF
+	OB:0.0,SPC:0.0,SIG:-5,AUF:98,DUF:27000,ACD:135,DCD:238,SL:0,AG:0,CFC:0.347,CF
+	SR:0.061,UAT:0,RAF:0,VERSION:2.3.4
+X-CPASD-ID: 9ebb265394f644a28082d8fa0cf33104-20211217
+X-CPASD-BLOCK: 1001
+X-CPASD-STAGE: 1, 1
+X-UUID: 9ebb265394f644a28082d8fa0cf33104-20211217
+X-User: yinxiujiang@kylinos.cn
+Received: from localhost.localdomain [(118.26.139.139)] by nksmu.kylinos.cn
+	(envelope-from <yinxiujiang@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1550983070; Fri, 17 Dec 2021 16:48:58 +0800
+From: Yin Xiujiang <yinxiujiang@kylinos.cn>
+To: thomas.kuehnel@avm.de,
+	almaz.alexandrovich@paragon-software.com
+Cc: kbuild-all@lists.01.org,
+	ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	n.schier@avm.de
+Subject: [PATCH] Fix slab-out-of-bounds in r_page
+Date: Fri, 17 Dec 2021 16:40:45 +0800
+Message-Id: <20211217084045.363818-1-yinxiujiang@kylinos.cn>
+X-Mailer: git-send-email 2.30.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on ANIS1/AVM(Release 11.0.1FP4|October 01, 2021) at
- 09.12.2021 11:51:32,
-	Serialize by Router on ANIS1/AVM(Release 11.0.1FP4|October 01, 2021) at
- 09.12.2021 11:51:32,
-	Serialize complete at 09.12.2021 11:51:32
-X-TNEFEvaluated: 1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-purgate-ID: 149429::1639047092-0000060F-3B17705D/0/0
-X-purgate-type: clean
-X-purgate-size: 3962
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
+Content-Transfer-Encoding: 8bit
 
-=0D
-=0D
-On 07.12.21 17:00, kernel test robot wrote:=0D
-> Hi "Thomas,=0D
-> =0D
-> Thank you for the patch! Perhaps something to improve:=0D
-> =0D
-> [auto build test WARNING on 0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1]=0D
-> =0D
-> url:    https://github.com/0day-ci/linux/commits/Thomas-K-hnel/fs-ntfs3-F=
-ixes-for-big-endian-systems/20211207-184206=0D
-> base:   0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1=0D
-> config: arm64-randconfig-s031-20211207 (https://download.01.org/0day-ci/a=
-rchive/20211207/202112072356.fmLjngs7-lkp@intel.com/config)=0D
-> compiler: aarch64-linux-gcc (GCC) 11.2.0=0D
-> reproduce:=0D
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sb=
-in/make.cross -O ~/bin/make.cross=0D
->          chmod +x ~/bin/make.cross=0D
->          # apt-get install sparse=0D
->          # sparse version: v0.6.4-dirty=0D
->          # https://github.com/0day-ci/linux/commit/d2fb837ced1828c5a57fea=
-c3690d3cc8a36b2fdc=0D
->          git remote add linux-review https://github.com/0day-ci/linux=0D
->          git fetch --no-tags linux-review Thomas-K-hnel/fs-ntfs3-Fixes-fo=
-r-big-endian-systems/20211207-184206=0D
->          git checkout d2fb837ced1828c5a57feac3690d3cc8a36b2fdc=0D
->          # save the config file to linux build tree=0D
->          mkdir build_dir=0D
->          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cr=
-oss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
-=3Darm64 SHELL=3D/bin/bash fs/ntfs3/=0D
-> =0D
-> If you fix the issue, kindly add following tag as appropriate=0D
-> Reported-by: kernel test robot <lkp@intel.com>=0D
-> =0D
-> =0D
-> sparse warnings: (new ones prefixed by >>)=0D
->>> fs/ntfs3/frecord.c:1615:28: sparse: sparse: incorrect type in argument =
-1 (different base types) @@     expected restricted __le16 const [usertype]=
- *s1 @@     got unsigned short const * @@=0D
->     fs/ntfs3/frecord.c:1615:28: sparse:     expected restricted __le16 co=
-nst [usertype] *s1=0D
->     fs/ntfs3/frecord.c:1615:28: sparse:     got unsigned short const *=0D
-> =0D
-> vim +1615 fs/ntfs3/frecord.c=0D
-> =0D
->    1578	=0D
->    1579	/* ni_fname_name=0D
->    1580	 *=0D
->    1581	 * Return: File name attribute by its value.=0D
->    1582	 */=0D
->    1583	struct ATTR_FILE_NAME *ni_fname_name(struct ntfs_inode *ni,=0D
->    1584					     const struct cpu_str *uni,=0D
-=0D
-=0D
-Changing the type of uni to struct le_str * should fix the warning.=0D
-I'll change this in the next version of this patch.=0D
-=0D
->    1585					     const struct MFT_REF *home_dir,=0D
->    1586					     struct mft_inode **mi,=0D
->    1587					     struct ATTR_LIST_ENTRY **le)=0D
->    1588	{=0D
->    1589		struct ATTRIB *attr =3D NULL;=0D
->    1590		struct ATTR_FILE_NAME *fname;=0D
->    1591		struct le_str *fns;=0D
->    1592	=0D
->    1593		*le =3D NULL;=0D
->    1594	=0D
->    1595		/* Enumerate all names. */=0D
->    1596	next:=0D
->    1597		attr =3D ni_find_attr(ni, attr, le, ATTR_NAME, NULL, 0, NULL, mi=
-);=0D
->    1598		if (!attr)=0D
->    1599			return NULL;=0D
->    1600	=0D
->    1601		fname =3D resident_data_ex(attr, SIZEOF_ATTRIBUTE_FILENAME);=0D
->    1602		if (!fname)=0D
->    1603			goto next;=0D
->    1604	=0D
->    1605		if (home_dir && memcmp(home_dir, &fname->home, sizeof(*home_dir)=
-))=0D
->    1606			goto next;=0D
->    1607	=0D
->    1608		if (!uni)=0D
->    1609			goto next;=0D
->    1610	=0D
->    1611		if (uni->len !=3D fname->name_len)=0D
->    1612			goto next;=0D
->    1613	=0D
->    1614		fns =3D (struct le_str *)&fname->name_len;=0D
->> 1615		if (ntfs_cmp_names(uni->name, uni->len, fns->name, fns->len, NULL,=
-=0D
->    1616				       false))=0D
->    1617			goto next;=0D
->    1618	=0D
->    1619		return fname;=0D
->    1620	}=0D
->    1621	=0D
-> =0D
-> ---=0D
-> 0-DAY CI Kernel Test Service, Intel Corporation=0D
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org=0D
-> =0D
+When PAGE_SIZE is 64K, if read_log_page is called by log_read_rst for
+the first time, the size of *buffer would be equal to
+DefaultLogPageSize(4K).But for *buffer operations like memcpy,
+if the memory area size(n) which being assigned to buffer is larger
+than 4K (log->page_size(64K) or bytes(64K-page_off)), it will cause
+an out of boundary error.
+ Call trace:
+  [...]
+  kasan_report+0x44/0x130
+  check_memory_region+0xf8/0x1a0
+  memcpy+0xc8/0x100
+  ntfs_read_run_nb+0x20c/0x460
+  read_log_page+0xd0/0x1f4
+  log_read_rst+0x110/0x75c
+  log_replay+0x1e8/0x4aa0
+  ntfs_loadlog_and_replay+0x290/0x2d0
+  ntfs_fill_super+0x508/0xec0
+  get_tree_bdev+0x1fc/0x34c
+  [...]
+
+Fix this by setting variable r_page to NULL in log_read_rst.
+
+Signed-off-by: Yin Xiujiang <yinxiujiang@kylinos.cn>
+---
+ fs/ntfs3/fslog.c | 24 +-----------------------
+ 1 file changed, 1 insertion(+), 23 deletions(-)
+
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index 06492f088d60..4fdb5bdfc2ee 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -1180,10 +1180,7 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
+ 			struct restart_info *info)
+ {
+ 	u32 skip, vbo;
+-	struct RESTART_HDR *r_page = kmalloc(DefaultLogPageSize, GFP_NOFS);
+-
+-	if (!r_page)
+-		return -ENOMEM;
++	struct RESTART_HDR *r_page = NULL;
+ 
+ 	memset(info, 0, sizeof(struct restart_info));
+ 
+@@ -1199,7 +1196,6 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
+ 	/* Loop continuously until we succeed. */
+ 	for (; vbo < l_size; vbo = 2 * vbo + skip, skip = 0) {
+ 		bool usa_error;
+-		u32 sys_page_size;
+ 		bool brst, bchk;
+ 		struct RESTART_AREA *ra;
+ 
+@@ -1253,24 +1249,6 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
+ 			goto check_result;
+ 		}
+ 
+-		/* Read the entire restart area. */
+-		sys_page_size = le32_to_cpu(r_page->sys_page_size);
+-		if (DefaultLogPageSize != sys_page_size) {
+-			kfree(r_page);
+-			r_page = kzalloc(sys_page_size, GFP_NOFS);
+-			if (!r_page)
+-				return -ENOMEM;
+-
+-			if (read_log_page(log, vbo,
+-					  (struct RECORD_PAGE_HDR **)&r_page,
+-					  &usa_error)) {
+-				/* Ignore any errors. */
+-				kfree(r_page);
+-				r_page = NULL;
+-				continue;
+-			}
+-		}
+-
+ 		if (is_client_area_valid(r_page, usa_error)) {
+ 			info->valid_page = true;
+ 			ra = Add2Ptr(r_page, le16_to_cpu(r_page->ra_off));
+-- 
+2.30.0
+
