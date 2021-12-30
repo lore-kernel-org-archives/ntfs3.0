@@ -1,83 +1,85 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFE3168
-	for <ntfs3@lists.linux.dev>; Wed, 29 Dec 2021 01:13:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=+nRTvO53WeuNv1E69jypme2WVDT32jB4X4TndGtcxyw=; b=LGV3UfBPp7rlTepDGAuRlTVVv7
-	6dpMmkL3w7RJ7xlkVzB5atEJ7uPJjSNMfZdzamgYtt/1m6daoR3nwwoZO3w5kW4Yky53/3phgK2Jy
-	SqSXJ8rMY/BnxXibqd0zdsaSu+lfgQQtiCFIFBq93uPKHYn0FploCEAm+hd+l8JEik3X8KigeiTjo
-	hq/O0F7E22vkEugwVnzl404HA6t/ynUaQHw+zXDS/E+/qi11s10+UhBusoghHR98ZnMR1rRtx6dfA
-	gNbBUKpFRLdITilfP3mUBW+bOPYf0gXRE/CIy2HrwS3Bw1iB1Xf0q9FdZvsuA7arnef7lI363qE4K
-	O4IbGsXg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n2NWq-008dt6-DM; Wed, 29 Dec 2021 01:13:20 +0000
-Date: Wed, 29 Dec 2021 01:13:20 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: August Wikerfors <august.wikerfors@gmail.com>
-Cc: Mohan R <mohan43u@gmail.com>, uwe.sauter.de@gmail.com,
-	almaz.alexandrovich@paragon-software.com,
-	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
-	Jan Kara <jack@suse.cz>
-Subject: Re: Bug using new ntfs3 file system driver (5.15.2 on Arch Linux)
-Message-ID: <Ycu2MGt/raXJ+wCb@casper.infradead.org>
-References: <CAFYqD2pe-sjPrHXGsNCHa2fcdECNm44UEZbEn4P5VgygFnrn7A@mail.gmail.com>
- <YaJFoadpGAwPfdLv@casper.infradead.org>
- <CAP62yhUh2ULCaD4+RX6Lj_QZmJN+uh5L46xzb7NvrWU3vHeCfw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A782F2C82;
+	Thu, 30 Dec 2021 15:59:54 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id e5so15475307wmq.1;
+        Thu, 30 Dec 2021 07:59:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8ElIR6SV1fiPS3Db/Lzyt+T8zyl4XcGvw2nOq8Z4FEE=;
+        b=NQlx2zcOwB4ZlmjL8sh8qtALR9ZAIL7hqYDT012U86kTOdj2R7cb2rY/RR3nCj+19G
+         dscWE1hNfj7ypnj4wqHsgHxT9nS1x0Jzt9rxEFTuD1Dgl/SLa0UJdsuPqIZAiRO3J2ew
+         Rhqdg5uKBDhFwpZ2I3irFWdI3AIQSRCfvHPcA5M7wzqEQZRbANWDfJjYoeCeopfuaRqk
+         yULVdN7mK6LMkOfWZ8VfZo4omTmLH0haX/fCracCKeBDxC4mwcwxNQk0/Lx8ZIfcrrPv
+         xJmLNAuqbg1VY6TRv06psO8PXtdB3nwT6JK+6ccRMZeLukBUYlw+du50lMkaGTBiUkwL
+         NeJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8ElIR6SV1fiPS3Db/Lzyt+T8zyl4XcGvw2nOq8Z4FEE=;
+        b=j4GTgRqJfU/kCcoumsVIM97j7LsP0X//qTMpgtNRPfAtTvF0mbJFwWwlzl5VfSPdmY
+         PtYtI49p76d3wvfDnab7gBnXK0SKVMpkv9aNuNpw3GYEt3LXQkjNASS3xlaB0PQGT/vC
+         6NRh8mWrJ2Y3X3UUGi/AsH6L50p+I3xIAqmoVH0PgpCnb1+vnoSpDqOYDuoNdLP120TE
+         NtknJ5x1uoftrcnYONnocvsSSUW8v7vMU45SkZgO8slqdAiHepao9FIYW+lMo5mwcZgG
+         vGbmeyE5aMpcX8D/bF52xh/JestRVFs0HhZsbZHR5xLbYJUb8f+w9FtaLw7d2go7QvHo
+         n99A==
+X-Gm-Message-State: AOAM533FRz6wRlubC1/sdEm/9Fxylfle7t4v/H0/Y0foxQ6v8SG9uATl
+	yww8L5GhLPV11KflEQcmzr8=
+X-Google-Smtp-Source: ABdhPJwlVTezB17og28kivWq3KhIcT1izqy5mOu9TzI+W/ETJQFvP+0PwaMlPC0ejKF9v5U4hlBUdA==
+X-Received: by 2002:a05:600c:1c9f:: with SMTP id k31mr26653681wms.170.1640879993149;
+        Thu, 30 Dec 2021 07:59:53 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id m17sm28645320wms.25.2021.12.30.07.59.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Dec 2021 07:59:52 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] fs/ntfs3: remove redundant assignment to variable frame
+Date: Thu, 30 Dec 2021 15:59:52 +0000
+Message-Id: <20211230155952.379721-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAP62yhUh2ULCaD4+RX6Lj_QZmJN+uh5L46xzb7NvrWU3vHeCfw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 28, 2021 at 10:00:53PM +0100, August Wikerfors wrote:
-> (resending from gmail due to bounce with outlook)
-> 
-> Hi, I ran into a bug with a very similar call trace, also when copying files
-> with rsync from a filesystem mounted using ntfs3. I was able to reproduce it
-> on both the default Arch Linux kernel (5.15.11-arch2-1) and on mainline
-> 5.16-rc7.
+Variable frame is assigned a value that is never read. The
+assignment is redundant and can be removed. Cleans up the
+clang-scan build warning:
 
-Hi August!  This is very helpful; thank you for putting in the work to
-figure this out.  I am still a little baffled:
+fs/ntfs3/file.c:995:3: warning: Value stored to 'frame' is
+never read [deadcode.DeadStores]
+                frame = pos >> frame_bits;
 
-> [  486.361177] RIP: 0010:0xffffff8306d925ff
-> [  486.361192] Code: Unable to access opcode bytes at RIP 0xffffff8306d925d5.
-> [  486.361214] RSP: 0018:ffffaa9ec0f8fb37 EFLAGS: 00010246
-> [  486.361232] RAX: 0000000000000000 RBX: 00000000000002ab RCX: 0000000000000000
-> [  486.361255] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-> [  486.361279] RBP: ffaa9ec0f8fbf800 R08: 0000000000000000 R09: 0000000000000000
-> [  486.361302] R10: 0000000000000000 R11: 0000000000000000 R12: ff99687f5746e000
-> [  486.361324] R13: 00000001112ccaff R14: fffcbb8097368000 R15: 00000000000001ff
-> [  486.361349]  ? page_cache_ra_unbounded+0x1c5/0x250
-> [  486.361369]  ? filemap_get_pages+0x117/0x730
-> [  486.361386]  ? make_kuid+0xf/0x20
-> [  486.361401]  ? generic_permission+0x27/0x210
-> [  486.361419]  ? walk_component+0x11d/0x1c0
-> [  486.361435]  ? filemap_read+0xb9/0x360
-> [  486.361451]  ? new_sync_read+0x159/0x1f0
-> [  486.361467]  ? vfs_read+0xff/0x1a0
-> [  486.361489]  ? ksys_read+0x67/0xf0
-> [  486.361503]  ? do_syscall_64+0x5c/0x90
-> 
-> $ scripts/faddr2line vmlinux.5.15.11-arch2-1 page_cache_ra_unbounded+0x1c5/0x250
-> page_cache_ra_unbounded+0x1c5/0x250:
-> filemap_invalidate_unlock_shared at include/linux/fs.h:853
-> (inlined by) page_cache_ra_unbounded at mm/readahead.c:240
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ fs/ntfs3/file.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-So ... Jan added this code in commit 730633f0b7f9, but I don't see how
-it could be buggy:
-
-        filemap_invalidate_lock_shared(mapping);
-... things that don't change mapping ...
-        filemap_invalidate_unlock_shared(mapping);
-and the _unlock_ appears to have a bad pointer.  Which makes no sense
-to me.  Jan, any ideas?
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 3bae76930e68..27c32692513c 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -992,7 +992,6 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
+ 		if (bytes > count)
+ 			bytes = count;
+ 
+-		frame = pos >> frame_bits;
+ 		frame_vbo = pos & ~(frame_size - 1);
+ 		index = frame_vbo >> PAGE_SHIFT;
+ 
+-- 
+2.33.1
 
