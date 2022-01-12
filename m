@@ -1,136 +1,147 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EDC168
-	for <ntfs3@lists.linux.dev>; Wed, 12 Jan 2022 07:58:10 +0000 (UTC)
-Received: by mail-il1-f171.google.com with SMTP id y18so1572120iln.3
-        for <ntfs3@lists.linux.dev>; Tue, 11 Jan 2022 23:58:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dVQHC0GxTkVqAfD+KHCO6cWHLTOb4XHRFU2PnvbvOvM=;
-        b=d5xRdIanQ2tq7k14loEE90bkerVEyih10QULvUdYkZrIJRS6CBKA3PsAg/i90aPeS6
-         v2tR9OBFWTjrK9SodH+labYJD4Oib5tDw+GL2xDq6/ZRRS7kC4yaC1CU6nwVyouOTmot
-         1ImFEuol8PxFJYlprhPPgpKGNy+iH15DJcqAhi6vpzRv1MQqOQYkpz+ObjBGsfV4TJ8G
-         7Kgdo5f8r9A/xVkkQ/tgzzpAC+/Xyh7JqiEzPY5IL2MGJzKS91VCI6xdE/Irug1baLCE
-         WMbfZ4oGcINBVPvEgnUndJUQsUAtysVnxbQQid1KXbg3LjOKuDr8pK0VkqWGkjwYFZvX
-         6qeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dVQHC0GxTkVqAfD+KHCO6cWHLTOb4XHRFU2PnvbvOvM=;
-        b=jgcPyxIsfLkBbvl2b5/5ZGVjZv/05Lym7DqT5r4E+9RbB5GMR7xyY1xQ4c631iquW6
-         wfWvrwbTO9UpOUPxJ1hSQ8LL/16HGTnzyyZxmeP94O5JNH/CmApIUUoq+4d8IuPeBoLQ
-         ymSBpkLMoGOk26bkgGQ1p2DMSaYZDWnaD4SrUG8D9a9gchzrJYXlNX6TsB8W4uvxbcQj
-         uz4s9VmfCg1HPiCjUFhgz+tvy9hyNXrBBgGmKn3jyJr5pZ0IWoA31lkzIxqu1xsWWalQ
-         qdlPUXHFWBlNAgbvRjEg4W9ozlc6C4b9t0Sy8PifSRZ9ICs1ROQIyVg8oVaXeXyH3ICP
-         OQWA==
-X-Gm-Message-State: AOAM533eK3hbTVOGlU3lPjsgsJK0UZFx0id1trPMIsGoMc2+IsdVABbN
-	5HeiaSLXWpFMrBt3j51F9UlAWPi2m+JwdsyXgeo=
-X-Google-Smtp-Source: ABdhPJxj9W6HbPxWl7TmaDWpcZBQYEtjUpLThUvKEIVgKtoBq96Xsi2ow12ffnF5FTKzaa3lubY4jIyqZphvUBcd/Xk=
-X-Received: by 2002:a05:6e02:b21:: with SMTP id e1mr4511683ilu.254.1641974289495;
- Tue, 11 Jan 2022 23:58:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D1E2C80
+	for <ntfs3@lists.linux.dev>; Wed, 12 Jan 2022 17:43:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35393C36AE5;
+	Wed, 12 Jan 2022 17:43:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1642009382;
+	bh=L5o3p0wuBHzN9b7DsFmDk5i5nOc1gWICMYhr98lMFsI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cUeuVHe+nqNsG9Pll7a0kuKfqU0In+6N6fpi0pqA1YUGJJFYb1nVVUjd1KkEO9nYR
+	 r3AilCCE9tlzdEBaJHXqFh0WzyGjVB0gHMVHSNHiFsX8fJJ+bZnbyysTThtJo8ercj
+	 +kKXuaJYs2pC0iAYf6IoswpM1Op26BuHTpvAoJeeD/ISziQhHAl+Mx/ZJ75ZCPBcmD
+	 Ygk+90p0YYqo/b0/Jx5ja7MFa19ieRxfoqmKu04i/2hUqppT8roTlzCDaQJAjssc2u
+	 hhozyq9dtypeyCdv5O/vuiTDnIPw1E7DWQLIsIKPLnNQEMq+uAqndPxLzge/dVnBF3
+	 jqWWhfnp+GTqA==
+Date: Wed, 12 Jan 2022 09:43:01 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	richard.sharpe@primarydata.com,
+	Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
+	lance.shelton@hammerspace.com,
+	Anna Schumaker <Anna.Schumaker@netapp.com>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Linux API <linux-api@vger.kernel.org>,
+	CIFS <linux-cifs@vger.kernel.org>, ntfs3@lists.linux.dev,
+	Steve French <sfrench@samba.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: Re: [bug report] NFS: Support statx_get and statx_set ioctls
+Message-ID: <20220112174301.GB19154@magnolia>
+References: <20220111074309.GA12918@kili>
+ <Yd1ETmx/HCigOrzl@infradead.org>
+ <CAOQ4uxg9V4Jsg3jRPnsk2AN7gPrNY8jRAc87tLvGW+TqH9OU-A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220111074309.GA12918@kili> <Yd1ETmx/HCigOrzl@infradead.org>
-In-Reply-To: <Yd1ETmx/HCigOrzl@infradead.org>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 12 Jan 2022 09:57:58 +0200
-Message-ID: <CAOQ4uxg9V4Jsg3jRPnsk2AN7gPrNY8jRAc87tLvGW+TqH9OU-A@mail.gmail.com>
-Subject: Re: [bug report] NFS: Support statx_get and statx_set ioctls
-To: Christoph Hellwig <hch@infradead.org>, Trond Myklebust <trond.myklebust@hammerspace.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, richard.sharpe@primarydata.com, 
-	Linux NFS Mailing List <linux-nfs@vger.kernel.org>, lance.shelton@hammerspace.com, 
-	Anna Schumaker <Anna.Schumaker@netapp.com>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	Linux API <linux-api@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>, 
-	ntfs3@lists.linux.dev, Steve French <sfrench@samba.org>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxg9V4Jsg3jRPnsk2AN7gPrNY8jRAc87tLvGW+TqH9OU-A@mail.gmail.com>
 
-On Wed, Jan 12, 2022 at 4:10 AM Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Tue, Jan 11, 2022 at 10:43:09AM +0300, Dan Carpenter wrote:
-> > Hello Richard Sharpe,
+On Wed, Jan 12, 2022 at 09:57:58AM +0200, Amir Goldstein wrote:
+> On Wed, Jan 12, 2022 at 4:10 AM Christoph Hellwig <hch@infradead.org> wrote:
 > >
-> > This is a semi-automatic email about new static checker warnings.
+> > On Tue, Jan 11, 2022 at 10:43:09AM +0300, Dan Carpenter wrote:
+> > > Hello Richard Sharpe,
+> > >
+> > > This is a semi-automatic email about new static checker warnings.
+> > >
+> > > The patch bc66f6805766: "NFS: Support statx_get and statx_set ioctls"
+> > > from Dec 27, 2021, leads to the following Smatch complaint:
 > >
-> > The patch bc66f6805766: "NFS: Support statx_get and statx_set ioctls"
-> > from Dec 27, 2021, leads to the following Smatch complaint:
->
-> Yikes, how did that crap get merged?
+> > Yikes, how did that crap get merged?
+> 
+> Did it? The bots are scanning through patches on ML:
+> 
+> https://lore.kernel.org/linux-nfs/20211227190504.309612-1-trondmy@kernel.org/
+> 
+> > Why the f**k does a remote file system need to duplicate stat?
+> > This kind of stuff needs a proper discussion on linux-fsdevel.
+> 
+> +ntfs3 +linux-cifs +linux-api
+> 
+> The proposal of statx_get() is very peculiar.
+> statx() was especially designed to be extended and accommodate
+> a diversity of filesystem attributes.
+> 
+> Moreover, NFSv4 is not the only fs that supports those extra attributes.
+> ntfs3 supports set/get of dos attrib bits via xattr SYSTEM_NTFS_ATTRIB.
+> cifs support set/get of CIFS_XATTR_ATTRIB and CIFS_XATTR_CREATETIME.
+> 
+> Not only that, but Linux now has ksmbd which actually emulates
+> those attributes on the server side (like samba) by storing a samba
+> formatted blob in user.DOSATTRIB xattr.
+> It should have a way to get/set them on filesystems that support them
+> natively.
+> 
+> The whole thing shouts for standardization.
+> 
+> Samba should be able to get/set the extra attributes by statx() and
+> ksmbd should be able to get them from the filesystem by vfs_getattr().
+> 
+> WRT statx_set(), standardization is also in order, both for userspace
 
-Did it? The bots are scanning through patches on ML:
+So, uh, this is the first I've heard of statx_set in years.
 
-https://lore.kernel.org/linux-nfs/20211227190504.309612-1-trondmy@kernel.org/
+I'm glad to hear that standardizing FSGETFLAGS/FSSETXATTR/etc is still
+alive. :)
 
-> Why the f**k does a remote file system need to duplicate stat?
-> This kind of stuff needs a proper discussion on linux-fsdevel.
+> API and for vfs API to be used by ksmbd and nfsd v4.
+> 
+> The new-ish vfs API fileattr_get/set() comes to mind when considering
+> a method to set the dos attrib bits.
+> Heck, FS_NODUMP_FL is the same as FILE_ATTRIBUTE_ARCHIVE.
+> That will also make it easy for filesystems that support the fileattr flags
+> to add support for FS_SYSTEM_FL, FS_HIDDEN_FL.
+> 
+> There is a use case for that. It can be inferred from samba config options
+> "map hidden/system/archive" that are used to avoid the cost of getxattr
+> per file during a "readdirplus" query. I recently quantified this cost on a
+> standard file server and it was very high.
+> 
+> Which leaves us with an API to set the 'time backup' attribute, which
+> is a "mutable creation time" [*].
+> cifs supports setting it via setxattr and I guess ntfs3 could use an
+> API to set it as well.
+> 
+> One natural interface that comes to mind is:
+> 
+> struct timespec times[3] = {/* atime, mtime, crtime */}
+> utimensat(dirfd, path, times, AT_UTIMES_ARCHIVE);
+> 
+> and add ia_crtime with ATTR_CRTIME to struct iattr.
+> 
+> Trond,
+> 
+> Do you agree to rework your patches in this direction?
+> Perhaps as the first stage, just use statx() and ioctls to set the
+> attributes to give enough time for bikeshedding the set APIs
+> and follow up with the generic set API patches later?
+> 
+> Thanks,
+> Amir.
+> 
+> [*] I find it convenient to use the statx() terminology of "btime"
+> to refer to the immutable birth time provided by some filesystems
+> and to use "crtime" for the mutable creation time for archiving,
+> so that at some point, some filesystems may provide both of
+> these times independently.
 
-+ntfs3 +linux-cifs +linux-api
+I disagree because XFS and ext4 both use 'crtime' for the immutable
+birth time, not a mutable creation time for archiving.  I think we'd
+need to be careful about wording here if there is interest in adding a
+user-modifiable file creation time (as opposed to creation time for a
+specific instance of an inode) to filesystems.
 
-The proposal of statx_get() is very peculiar.
-statx() was especially designed to be extended and accommodate
-a diversity of filesystem attributes.
+Once a year or so we get a question/complaint from a user about how they
+can't change the file creation time and we have to explain to them
+what's really going on.
 
-Moreover, NFSv4 is not the only fs that supports those extra attributes.
-ntfs3 supports set/get of dos attrib bits via xattr SYSTEM_NTFS_ATTRIB.
-cifs support set/get of CIFS_XATTR_ATTRIB and CIFS_XATTR_CREATETIME.
-
-Not only that, but Linux now has ksmbd which actually emulates
-those attributes on the server side (like samba) by storing a samba
-formatted blob in user.DOSATTRIB xattr.
-It should have a way to get/set them on filesystems that support them
-natively.
-
-The whole thing shouts for standardization.
-
-Samba should be able to get/set the extra attributes by statx() and
-ksmbd should be able to get them from the filesystem by vfs_getattr().
-
-WRT statx_set(), standardization is also in order, both for userspace
-API and for vfs API to be used by ksmbd and nfsd v4.
-
-The new-ish vfs API fileattr_get/set() comes to mind when considering
-a method to set the dos attrib bits.
-Heck, FS_NODUMP_FL is the same as FILE_ATTRIBUTE_ARCHIVE.
-That will also make it easy for filesystems that support the fileattr flags
-to add support for FS_SYSTEM_FL, FS_HIDDEN_FL.
-
-There is a use case for that. It can be inferred from samba config options
-"map hidden/system/archive" that are used to avoid the cost of getxattr
-per file during a "readdirplus" query. I recently quantified this cost on a
-standard file server and it was very high.
-
-Which leaves us with an API to set the 'time backup' attribute, which
-is a "mutable creation time" [*].
-cifs supports setting it via setxattr and I guess ntfs3 could use an
-API to set it as well.
-
-One natural interface that comes to mind is:
-
-struct timespec times[3] = {/* atime, mtime, crtime */}
-utimensat(dirfd, path, times, AT_UTIMES_ARCHIVE);
-
-and add ia_crtime with ATTR_CRTIME to struct iattr.
-
-Trond,
-
-Do you agree to rework your patches in this direction?
-Perhaps as the first stage, just use statx() and ioctls to set the
-attributes to give enough time for bikeshedding the set APIs
-and follow up with the generic set API patches later?
-
-Thanks,
-Amir.
-
-[*] I find it convenient to use the statx() terminology of "btime"
-to refer to the immutable birth time provided by some filesystems
-and to use "crtime" for the mutable creation time for archiving,
-so that at some point, some filesystems may provide both of
-these times independently.
+--D
