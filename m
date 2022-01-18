@@ -1,79 +1,134 @@
-Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120862C9D
-	for <ntfs3@lists.linux.dev>; Thu, 13 Jan 2022 17:51:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
-	s=42; h=Message-ID:Cc:To:From:Date;
-	bh=CNaJaJCmLDp4zjhKf+vfOZmV8TnPhZwBnI3AdU8wd4E=; b=MT3Y1MSajJXlnSVfhVIkWRxFI/
-	S1R3sqPvTgeTTwIHIKwTXYR5EUfhoAh2Bmstgz3ljsVXk6X+d8/5npIB+eAbF02uj76UqndpkxWxz
-	AXDZ5qtx3mAXwCoqwrX/I96p++rUwdrClC6NYuhJhAQSSt4uH5E9vPCzQdXyC0i3CZg1FsrB/iJiq
-	1Mcn6kXO/lmq8mv2obVuQu0haRmHHrobGbTOYtNdGNowwhK8RmoCDVa4r0v+LGGayrcQoNwDh8TZc
-	ulB+w80Wljy6zAFGRUyBNcOrzmRexjR0zh4QOEYFvNmTRFL7gsVHBuM/UewAsEi9VdukSssG8Xbp0
-	SJDGz0IZyKXS/4paRUPtQ3HXw08GgHiZy7CpHdJluLhsZ9JicLxbi+dgHyazcw0LOfJSjYr3gqj1B
-	I0cPSEbVLjITGprzMlZXhKIgkRK27NXQtg5tslZSby8+3Q7LvSYTQMoiLYimfMJNGMbG0y21qhXCB
-	nT3v/RBhhCSrhnN9+0cpmUqH;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
-	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
-	(Exim)
-	id 1n84FM-0078Sr-Tp; Thu, 13 Jan 2022 17:50:49 +0000
-Date: Thu, 13 Jan 2022 09:50:44 -0800
-From: Jeremy Allison <jra@samba.org>
-To: Trond Myklebust <trondmy@hammerspace.com>
-Cc: "amir73il@gmail.com" <amir73il@gmail.com>,
-	Lance Shelton <Lance.Shelton@hammerspace.com>,
-	Richard Sharpe <Richard.Sharpe@hammerspace.com>,
-	"linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
-	"hch@infradead.org" <hch@infradead.org>,
-	"almaz.alexandrovich@paragon-software.com" <almaz.alexandrovich@paragon-software.com>,
-	"djwong@kernel.org" <djwong@kernel.org>,
-	"dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
-	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-	"Anna.Schumaker@netapp.com" <Anna.Schumaker@netapp.com>,
-	"slow@samba.org" <slow@samba.org>,
-	"sfrench@samba.org" <sfrench@samba.org>
-Subject: Re: [bug report] NFS: Support statx_get and statx_set ioctls
-Message-ID: <YeBmdHzvSlIIwmIM@jeremy-acer>
-Reply-To: Jeremy Allison <jra@samba.org>
-References: <20220111074309.GA12918@kili>
- <Yd1ETmx/HCigOrzl@infradead.org>
- <CAOQ4uxg9V4Jsg3jRPnsk2AN7gPrNY8jRAc87tLvGW+TqH9OU-A@mail.gmail.com>
- <20220112174301.GB19154@magnolia>
- <CAOQ4uxh7wpxx2H6Vpm26OdigXbWCCLO1xbFapupvLCn8xOiL=w@mail.gmail.com>
- <Yd/HIYsCBPH5jPmS@jeremy-acer>
- <3cf76cc19f12f3e9da2eae7fe12e2719c8e499f8.camel@hammerspace.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CAE2C9E
+	for <ntfs3@lists.linux.dev>; Tue, 18 Jan 2022 07:20:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=YxQPbVqFWlutwQ2g8QVoc6P1c2MdSC28Qzk+anwg+hU=; b=Aj57TSt044wK2CCPLfgXb0ZAwk
+	9mWJT/5UNCkKd3f1yXIMAN9xyDLJUu3QU7reZqN8AlrNxLUkACdZGVqWAyrPW2DXx4b56mN360ajs
+	tnrM1tSyMJMrxuGoWL7slxfWQQoTCNIGc+Rce+QIvDGRGudY75/w9mNMqH7INE3qjcSL6PPIQSpar
+	izSBzVi51KHPBDpVwknJRkLmOKFNYTbqx6opFFMC7PlZQEtbU/zkFVQ4suZAA2E9o65JtfCHUoPjI
+	mvtq0z4UUf/AABSsCrJejqHjARkD7w5ZiIc7BbCbrPrVs9JefbbyVyP6CMS+regjgEJQy9onPqeWH
+	P5XYqC+Q==;
+Received: from [2001:4bb8:184:72a4:a4a9:19c0:5242:7768] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1n9imb-000ZN9-IU; Tue, 18 Jan 2022 07:19:58 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Pavel Begunkov <asml.silence@gmail.com>,
+	Mike Snitzer <snitzer@redhat.com>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Md . Haris Iqbal " <haris.iqbal@ionos.com>,
+	Jack Wang <jinpu.wang@ionos.com>,
+	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.co>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	linux-block@vger.kernel.org,
+	dm-devel@redhat.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-nilfs@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	xen-devel@lists.xenproject.org,
+	drbd-dev@lists.linbit.com
+Subject: [PATCH 01/19] fs: remove mpage_alloc
+Date: Tue, 18 Jan 2022 08:19:34 +0100
+Message-Id: <20220118071952.1243143-2-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220118071952.1243143-1-hch@lst.de>
+References: <20220118071952.1243143-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <3cf76cc19f12f3e9da2eae7fe12e2719c8e499f8.camel@hammerspace.com>
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Thu, Jan 13, 2022 at 02:58:19PM +0000, Trond Myklebust wrote:
->On Wed, 2022-01-12 at 22:30 -0800, Jeremy Allison wrote:
->> On Thu, Jan 13, 2022 at 05:52:40AM +0200, Amir Goldstein wrote:
->> >
->> > To add one more terminology to the mix - when Samba needed to cope
->> > with these two terminologies they came up with itime for
->> > "instantiation time"
->> > (one may also consider it "immutable time").
->>
->> No, that's not what itime is. It's used as the basis
->> for the fileid return as MacOSX clients insist on no-reuse
->> of inode numbers when a file is deleted then re-created,
->> and ext4 will re-use the same inode.
->
->So basically it serves more or less the same purpose as the generation
->counter that most Linux filesystems use in the filehandle to provide
->similar only-once semantics?
+open code mpage_alloc in it's two callers and simplify the results
+because of the context:
 
-Kind of, although we moved it recently to be
-a current_time + random skew as the timestamp
-resolution in ext4 just wasn't enough to get us
-unique fileids.
+ - __mpage_writepage always passes GFP_NOFS and can thus always sleep and
+    will never get a NULL return from bio_alloc at all.
+ - do_mpage_readpage can only get a non-sleeping context for readahead
+   which never sets PF_MEMALLOC and thus doesn't need the retry loop
+   either.
+
+Both cases will never have __GFP_HIGH set.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/mpage.c | 35 ++++++-----------------------------
+ 1 file changed, 6 insertions(+), 29 deletions(-)
+
+diff --git a/fs/mpage.c b/fs/mpage.c
+index 334e7d09aa652..c5817699b369b 100644
+--- a/fs/mpage.c
++++ b/fs/mpage.c
+@@ -67,29 +67,6 @@ static struct bio *mpage_bio_submit(int op, int op_flags, struct bio *bio)
+ 	return NULL;
+ }
+ 
+-static struct bio *
+-mpage_alloc(struct block_device *bdev,
+-		sector_t first_sector, int nr_vecs,
+-		gfp_t gfp_flags)
+-{
+-	struct bio *bio;
+-
+-	/* Restrict the given (page cache) mask for slab allocations */
+-	gfp_flags &= GFP_KERNEL;
+-	bio = bio_alloc(gfp_flags, nr_vecs);
+-
+-	if (bio == NULL && (current->flags & PF_MEMALLOC)) {
+-		while (!bio && (nr_vecs /= 2))
+-			bio = bio_alloc(gfp_flags, nr_vecs);
+-	}
+-
+-	if (bio) {
+-		bio_set_dev(bio, bdev);
+-		bio->bi_iter.bi_sector = first_sector;
+-	}
+-	return bio;
+-}
+-
+ /*
+  * support function for mpage_readahead.  The fs supplied get_block might
+  * return an up to date buffer.  This is used to map that buffer into
+@@ -303,10 +280,11 @@ static struct bio *do_mpage_readpage(struct mpage_readpage_args *args)
+ 								page))
+ 				goto out;
+ 		}
+-		args->bio = mpage_alloc(bdev, blocks[0] << (blkbits - 9),
+-					bio_max_segs(args->nr_pages), gfp);
++		args->bio = bio_alloc(gfp, bio_max_segs(args->nr_pages));
+ 		if (args->bio == NULL)
+ 			goto confused;
++		bio_set_dev(args->bio, bdev);
++		args->bio->bi_iter.bi_sector = blocks[0] << (blkbits - 9);
+ 	}
+ 
+ 	length = first_hole << blkbits;
+@@ -615,10 +593,9 @@ static int __mpage_writepage(struct page *page, struct writeback_control *wbc,
+ 								page, wbc))
+ 				goto out;
+ 		}
+-		bio = mpage_alloc(bdev, blocks[0] << (blkbits - 9),
+-				BIO_MAX_VECS, GFP_NOFS|__GFP_HIGH);
+-		if (bio == NULL)
+-			goto confused;
++		bio = bio_alloc(GFP_NOFS, BIO_MAX_VECS);
++		bio_set_dev(bio, bdev);
++		bio->bi_iter.bi_sector = blocks[0] << (blkbits - 9);
+ 
+ 		wbc_init_bio(wbc, bio);
+ 		bio->bi_write_hint = inode->i_write_hint;
+-- 
+2.30.2
+
