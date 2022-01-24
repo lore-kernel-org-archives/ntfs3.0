@@ -1,222 +1,150 @@
-Received: from srv.fail (srv.fail [135.181.244.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3502C9C
-	for <ntfs3@lists.linux.dev>; Sat, 22 Jan 2022 16:59:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by srv.fail (Postfix) with ESMTP id B0086152FA23
-	for <ntfs3@lists.linux.dev>; Sat, 22 Jan 2022 17:52:16 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at srv.fail
-Received: from srv.fail ([127.0.0.1])
-	by localhost (srv.fail [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Fr7UfnMI6YGc for <ntfs3@lists.linux.dev>;
-	Sat, 22 Jan 2022 17:52:13 +0100 (CET)
-Received: from [IPV6:2a02:908:1086:27c0::84a] (unknown [IPv6:2a02:908:1086:27c0::84a])
-	by srv.fail (Postfix) with ESMTPSA id 7D242152C772
-	for <ntfs3@lists.linux.dev>; Sat, 22 Jan 2022 17:52:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=totally.rip;
-	s=default; t=1642870333;
-	bh=fYcJihL0qSSEA1LUbX667R4tqQBG0l/94QM2nlDaNuY=;
-	h=Date:Subject:From:To:References:In-Reply-To:From;
-	b=WuO9kRmUEhlyetrvJ3jpKm4QWm+vVoZfEef4lUoOIoVRrectBSANSru5i5c2JvJ+o
-	 guVi1Ip2mUDDc6XzmTOynDjORKvqOC0gi+NYQDkXr+vD6RxgwI/MfiStWLIHTFKQhI
-	 GNKc7R1gD+M5x8Abbnmh8rJp8V/lWrihsmVkwF2P59pHENdQNeQIYeyHqoiAOL4Z1K
-	 VcubbV8ERnpL14ECk/HBQAzAZDljCF4xbKU0Z4suBbLQr4TREAyy806nJDfCrEbX6d
-	 9gcwBs/UixXoyZN6qyPmPexpTvyQn78USxAJsX5cfcOuZy1zw4Y8Y9Ns1yTIcUfaHS
-	 o0KE09MmS8lRw==
-Message-ID: <3cb02bbe-945a-6d29-cd3f-2199131071d9@totally.rip>
-Date: Sat, 22 Jan 2022 17:52:12 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01C6173
+	for <ntfs3@lists.linux.dev>; Mon, 24 Jan 2022 09:11:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=1yiFS3ezJsiNcQQCNo+FJNFqcIQE91ajvdAy/sKWSB4=; b=dNNxqAx0zWkEqdV7/b0emSzmAV
+	KVVvuwIWXkQFQyoYY5YDqz/URzmW+OjGlUuB44FdPtaVwG1P5GtdplXzkCndI0bH60IkUO47UPLhz
+	S2JoUcpt/7LvHhHWafiGFH0X+1iwj0YVxms2MtUklTePRVn1uenKkqD6Cg2SPrGLnop53TzV6Arcx
+	T6i0YUlPLY7zKouXXV6jM5xu0eEr7/gTFvHBrNjHv0AoD45hIui+1gO9NpOzTBe/TKD2uDehDoPiS
+	jTeEj1oSSUGDKTwEGspNcmf1o9fhjOWrT04yzhTW12m4CCWbYLYRpFkmXrRjZ+n7HrnRzdFlYOCPQ
+	x4FPDuIg==;
+Received: from [2001:4bb8:184:72a4:a337:a75f:a24e:7e39] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nBvNV-002jyR-9a; Mon, 24 Jan 2022 09:11:09 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Pavel Begunkov <asml.silence@gmail.com>,
+	Mike Snitzer <snitzer@redhat.com>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Md . Haris Iqbal " <haris.iqbal@ionos.com>,
+	Jack Wang <jinpu.wang@ionos.com>,
+	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.co>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	linux-block@vger.kernel.org,
+	dm-devel@redhat.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-nilfs@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	xen-devel@lists.xenproject.org,
+	drbd-dev@lists.linbit.com
+Subject: improve the bio allocation interface v2
+Date: Mon, 24 Jan 2022 10:10:48 +0100
+Message-Id: <20220124091107.642561-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [BUG] Unable to mount NTFS drive, no error in dmesg
-Content-Language: en-US
-From: jkhsjdhjs <jkhsjdhjs@totally.rip>
-To: ntfs3@lists.linux.dev
-References: <27056d4a-ad2f-c37d-7aa6-007576a26a84@totally.rip>
-In-Reply-To: <27056d4a-ad2f-c37d-7aa6-007576a26a84@totally.rip>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-It seems that while ntfs-3g was able to mount the filesystem, there were 
-some issues with the FS nevertheless:
+Hi Jens,
 
-# ntfsresize -i /dev/md0
-ntfsresize v2021.8.22 (libntfs-3g)
-Device name        : /dev/md0
-NTFS volume version: 3.1
-Cluster size       : 4096 bytes
-Current volume size: 8001426878976 bytes (8001427 MB)
-Current device size: 8001426882560 bytes (8001427 MB)
-Checking filesystem consistency ...
-100.00 percent completed
-Accounting clusters ...
-Cluster accounting failed at 1879882812 (0x700cbc3c): extra cluster in 
-$Bitmap
-Cluster accounting failed at 1879882813 (0x700cbc3d): extra cluster in 
-$Bitmap
-Cluster accounting failed at 1879882814 (0x700cbc3e): extra cluster in 
-$Bitmap
-Cluster accounting failed at 1879882815 (0x700cbc3f): extra cluster in 
-$Bitmap
-ERROR: $Bitmap size is smaller than expected (244184170 != 234985352)
+this series is posted early because it has wide-ranging changes and could use some
+early ACKs before -rc1.
 
-The solution was to copy the filesystem to another disk and let windows 
-fix it (since there's no real driver for md raids on windows). To avoid 
-having to copy the FS again in the future I'm now using a windows 
-software raid with LDM, which can be read on linux using libldm. 
-Anyways, I'm now able to mount the filesystem with ntfs3 without issues.
+It changes the interface to the bio allocators to always pass a block_device and
+the operation, which is information needed for every bio submitted through
+bio_submit.  This means the fields can be directly initialized in bio_init instead
+of first being zeroed and thus should help to micro-optimize even better than the
+__bio_set_dev that Pavel proposed while also cleaning up code.
 
-Best Regards,
-Leon
+I have a follow on series to also deal with the bio cloning interfaces that need
+even more love, and additional cleanups for the callers which might be material
+for the next merge window.
 
+Changes since v1:
+ - fix bio_add_page return value handling in rnbd-srv
+ - fix bio clenup in rnbd-srv
+ - fix a few commit message typos
+ - fix a bisection hazard in rnbd
+ - fix an initialization order issue in bio_alloc_bioset/bio_init
 
-On 11.11.21 05:39, jkhsjdhjs wrote:
-> Dear ntfs3-Maintainers,
->
-> I updated my kernel to version 5.15.1 today, using the package manager 
-> of my distro. Since I use a software RAID1 with NTFS, I wanted to 
-> mount it with the new ntfs3 driver instead of ntfs-3g. The RAID 
-> consists of 2x 8TB HGST drives and will be referred to as /dev/md0 in 
-> this email.
->
-> Mounting the raid unfortunately didn't work, because the filesystem 
-> was dirty:
-> ntfs3: md0: volume is dirty and "force" flag is not set!
->
-> I then first tried to mount it anyways with -o force:
-> # mount -t ntfs3 -o force /dev/md0 /mnt/archive
->
-> This didn't work either, but without any error in dmesg this time. The 
-> mount command just printed:
-> mount: /mnt/archive: wrong fs type, bad option, bad superblock on 
-> /dev/md0, missing codepage or helper program, or other error.
->
-> Since I apparently couldn't ignore the volume being dirty, I ran 
-> ntfsfix -d /dev/md0, which removed the dirty bit.
->
-> Then I tried to mount the raid again:
-> # mount -t ntfs3 /dev/md0 /mnt/archive
-> mount: /mnt/archive: wrong fs type, bad option, bad superblock on 
-> /dev/md0, missing codepage or helper program, or other error.
->
-> Again, without any message from the ntfs3 module in dmesg. I tried to 
-> mount the RAID with ntfs-3g again, and that still worked:
-> # mount -t ntfs-3g /dev/md0 /mnt/archive
->
-> I attempted to mount /dev/md0 a few more times and even rebooted my 
-> computer, but it didn't help. I asked in the discussion channel of my 
-> linux distribution on matrix, and the people there had a few more 
-> suggestions:
->
-> - Check if I'm using the correct mount options since some are not 
-> supported anymore with ntfs3.
-> => Shouldn't be an issue, since I didn't use any except force once.
->
-> - Try running mount with -v for more output.
-> => Resulted in no additional output
->
-> - Maybe there's a problem with software raids and ntfs3.
-> => I created a raid1 consisting of two partitions on a flash drive, 
-> had no issues mounting that with ntfs3.
->
-> - Does the partition contain hiberfil.sys and/or is the partition 
-> marked as bootable?
-> => Nope & nope. While checking this I noticed that some directories on 
-> the RAID contain non-ascii characters. However, that's not an issue as 
-> I noticed in a separate check.
->
-> Since I really don't know what else to try I'm writing this mail and 
-> am hoping that you can help me with this issue. This might not even be 
-> an issue with ntfs3, maybe my ntfs partition is just using something 
-> that isn't supported in ntfs3. Anyways, you'll probably want to give a 
-> better error message if that's the case, so I'm keeping the [BUG] flag 
-> in the subject.
->
-> I'll provide some additional information below from which I don't know 
-> whether it will be helpful or not. If I can provide other information 
-> or should test a patched ntfs3 module with debug logging or similar, 
-> please just ask me.
->
-> Best Regards,
->
-> Leon
->
->
-> Relevant options my kernel is built with: 
-> https://github.com/archlinux/svntogit-packages/blob/75e1c89c13da96f2155e4a396840d93a5d0d57e7/linux/trunk/config#L9551-L9554
->
-> # ntfsinfo -m /dev/md0
-> Volume Information
->         Name of device: /dev/md0
->         Device state: 11
->         Volume Name: archive
->         Volume State: 91
->         Volume Flags: 0x0000
->         Volume Version: 3.1
->         Sector Size: 512
->         Cluster Size: 4096
->         Index Block Size: 4096
->         Volume Size in Clusters: 1953473359
-> MFT Information
->         MFT Record Size: 1024
->         MFT Zone Multiplier: 0
->         MFT Data Position: 24
->         MFT Zone Start: 0
->         MFT Zone End: 244184173
->         MFT Zone Position: 4
->         Current Position in First Data Zone: 244184173
->         Current Position in Second Data Zone: 0
->         Allocated clusters 519608 (0,0%)
->         LCN of Data Attribute for FILE_MFT: 4
->         FILE_MFTMirr Size: 4
->         LCN of Data Attribute for File_MFTMirr: 976753192
->         Size of Attribute Definition Table: 2560
->         Number of Attached Extent Inodes: 0
-> FILE_Bitmap Information
->         FILE_Bitmap MFT Record Number: 6
->         State of FILE_Bitmap Inode: 80
->         Length of Attribute List: 0
->         Number of Attached Extent Inodes: 0
-> FILE_Bitmap Data Attribute Information
->         Decompressed Runlist: not done yet
->         Base Inode: 6
->         Attribute Types: not done yet
->         Attribute Name Length: 0
->         Attribute State: 3
->         Attribute Allocated Size: 234987520
->         Attribute Data Size: 234985352
->         Attribute Initialized Size: 234985352
->         Attribute Compressed Size: 0
->         Compression Block Size: 0
->         Compression Block Size Bits: 0
->         Compression Block Clusters: 0
->         Free Clusters: 709352752 (36,3%)
->
->
-> sdb              8:16   1   7,3T  0 disk
-> └─sdb1           8:17   1   7,3T  0 part
->   └─md0          9:0    0   7,3T  0 raid1
-> sdc              8:32   1   7,3T  0 disk
-> └─sdc1           8:33   1   7,3T  0 part
->   └─md0          9:0    0   7,3T  0 raid1
->
->
-> # ntfsfix -d /dev/md0
-> Mounting volume... OK
-> Processing of $MFT and $MFTMirr completed successfully.
-> Checking the alternate boot sector... OK
-> NTFS volume version is 3.1.
-> NTFS partition /dev/md0 was processed successfully.
->
->
-> When loading the ntfs3 module initially:
-> ntfs3: Max link count 4000
-> ntfs3: Enabled Linux POSIX ACLs support
-> ntfs3: Read-only LZX/Xpress compression included
->
+Diffstat:
+ block/bio.c                         |   73 ++++++++++++++++++++++++------------
+ block/blk-flush.c                   |    4 -
+ block/blk-lib.c                     |   32 ++-------------
+ block/blk-zoned.c                   |   14 +-----
+ block/blk.h                         |    2 
+ block/bounce.c                      |    6 --
+ block/fops.c                        |   35 +++++++----------
+ drivers/block/drbd/drbd_actlog.c    |    5 --
+ drivers/block/drbd/drbd_bitmap.c    |    7 +--
+ drivers/block/drbd/drbd_receiver.c  |   32 +++------------
+ drivers/block/floppy.c              |    4 -
+ drivers/block/pktcdvd.c             |    8 ---
+ drivers/block/rnbd/rnbd-srv-dev.c   |   61 ------------------------------
+ drivers/block/rnbd/rnbd-srv-dev.h   |   18 --------
+ drivers/block/rnbd/rnbd-srv.c       |   45 ++++++++--------------
+ drivers/block/rnbd/rnbd-srv.h       |    1 
+ drivers/block/xen-blkback/blkback.c |   25 ++----------
+ drivers/block/zram/zram_drv.c       |   16 ++-----
+ drivers/md/bcache/io.c              |    3 -
+ drivers/md/bcache/journal.c         |   16 ++-----
+ drivers/md/bcache/movinggc.c        |    4 -
+ drivers/md/bcache/request.c         |   18 +++-----
+ drivers/md/bcache/super.c           |    8 +--
+ drivers/md/bcache/writeback.c       |    4 -
+ drivers/md/dm-crypt.c               |   27 ++++---------
+ drivers/md/dm-io.c                  |    5 --
+ drivers/md/dm-log-writes.c          |   39 +++----------------
+ drivers/md/dm-snap.c                |   21 ----------
+ drivers/md/dm-thin.c                |   41 +++++---------------
+ drivers/md/dm-writecache.c          |    7 +--
+ drivers/md/dm-zoned-metadata.c      |   26 ++----------
+ drivers/md/dm.c                     |   12 ++---
+ drivers/md/md-multipath.c           |    2 
+ drivers/md/md.c                     |   24 +++++------
+ drivers/md/raid1.c                  |    8 +--
+ drivers/md/raid10.c                 |   14 ++----
+ drivers/md/raid5-cache.c            |   19 +++------
+ drivers/md/raid5-ppl.c              |   13 ++----
+ drivers/md/raid5.c                  |   12 ++---
+ drivers/nvdimm/nd_virtio.c          |    6 +-
+ drivers/nvme/target/io-cmd-bdev.c   |   18 +++-----
+ drivers/nvme/target/passthru.c      |    7 +--
+ drivers/nvme/target/zns.c           |   14 +++---
+ drivers/scsi/ufs/ufshpb.c           |    4 -
+ drivers/target/target_core_iblock.c |   11 +----
+ fs/btrfs/disk-io.c                  |   10 +---
+ fs/btrfs/extent_io.c                |    2 
+ fs/buffer.c                         |   14 ++----
+ fs/crypto/bio.c                     |   13 ++----
+ fs/direct-io.c                      |    5 --
+ fs/erofs/zdata.c                    |    5 --
+ fs/ext4/page-io.c                   |    3 -
+ fs/ext4/readpage.c                  |    8 +--
+ fs/f2fs/data.c                      |    7 +--
+ fs/gfs2/lops.c                      |    8 +--
+ fs/gfs2/meta_io.c                   |    4 -
+ fs/gfs2/ops_fstype.c                |    4 -
+ fs/hfsplus/wrapper.c                |    4 -
+ fs/iomap/buffered-io.c              |   26 +++++-------
+ fs/iomap/direct-io.c                |    8 ---
+ fs/jfs/jfs_logmgr.c                 |   11 -----
+ fs/jfs/jfs_metapage.c               |    9 +---
+ fs/mpage.c                          |   34 ++--------------
+ fs/nfs/blocklayout/blocklayout.c    |   26 +-----------
+ fs/nilfs2/segbuf.c                  |   31 +--------------
+ fs/ntfs3/fsntfs.c                   |   27 -------------
+ fs/ocfs2/cluster/heartbeat.c        |    4 -
+ fs/squashfs/block.c                 |   11 ++---
+ fs/xfs/xfs_bio_io.c                 |   14 ++----
+ fs/xfs/xfs_buf.c                    |    4 -
+ fs/xfs/xfs_log.c                    |   14 +++---
+ fs/zonefs/super.c                   |    9 +---
+ include/linux/bio.h                 |   30 ++++++--------
+ kernel/power/swap.c                 |    5 --
+ mm/page_io.c                        |   10 +---
+ 75 files changed, 372 insertions(+), 759 deletions(-)
