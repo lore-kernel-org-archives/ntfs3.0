@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B640B2CA3
-	for <ntfs3@lists.linux.dev>; Mon, 24 Jan 2022 09:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807BA2CA3
+	for <ntfs3@lists.linux.dev>; Mon, 24 Jan 2022 09:11:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=k9xFroBmk3qsQBF01SQtJtA/UuQWo3OoxDB4XEu/hlU=; b=eOrLkdjf0mmS8f/CtvAZiPo6uX
-	G/VVNiKCFucEha0OyK/bZHsYEWLQ8xt7Bm9GixZ3tXgynPAQ2lxe/OElmzLeezeL0/RwDpkgmYeKY
-	sz0jxyE8u/ZmbzvVPqeFTOOgFV5BttmczKSHZSHX083YPyiVCbcYIJUXbwklJ27Jxtkj9NACszfwn
-	KyrdR4b8FWyP3Y2PI8CYfXr543bSterKv2k1N8EN6qQbnNeTnXRNQZ1IY/xSrJDRAih0f3uqmi1Wh
-	Xl0xPQ3rDdce0WxMXn872laxukK7ywf9uRa3awgU+FjYW4wAryVnmN6XEnrDqL3ko+YEed4hUg3uX
-	3w4WP7yw==;
+	bh=pMAOIxwEWgivE8T/8jAutxBqi67ojpc7aSJ9Dfvp1Nk=; b=xHe2ACiTwAYAjp/I5zJRyXa8ki
+	JlnNLXudrLlXUiX6cEigCKlkTBhciArJsMDCFKqz+sqi60Z5HlA6HuKOjc7Lxa8uuV31Tjrrn9i2o
+	fuitG3t8mkNF95ga5JGVLb/VdVUg2NdWllmOqOY00XjI0JRdDRzciunmhniPRzNPdtSaYWxdCyNzc
+	Musr2zaRq8/xl+srtNtDGeIaNmqqS9DkkHEJKhT1AK/jQGaZWQNg+DZ6Yc1BQDudjwt+F39JP3zQ7
+	blPTtw58n/XnFVYKRC4Mt5UJvveE4UCZ4e+Nrt7XpLtReKDGM7X7AGj2ChOx6sVKSwUgI5CuSTWdy
+	lzb9QxpQ==;
 Received: from [2001:4bb8:184:72a4:a337:a75f:a24e:7e39] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nBvNY-002jyp-2k; Mon, 24 Jan 2022 09:11:12 +0000
+	id 1nBvNd-002k0e-Og; Mon, 24 Jan 2022 09:11:18 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Pavel Begunkov <asml.silence@gmail.com>,
@@ -36,9 +36,9 @@ Cc: Pavel Begunkov <asml.silence@gmail.com>,
 	ntfs3@lists.linux.dev,
 	xen-devel@lists.xenproject.org,
 	drbd-dev@lists.linbit.com
-Subject: [PATCH 01/19] fs: remove mpage_alloc
-Date: Mon, 24 Jan 2022 10:10:49 +0100
-Message-Id: <20220124091107.642561-2-hch@lst.de>
+Subject: [PATCH 03/19] nfs/blocklayout: remove bl_alloc_init_bio
+Date: Mon, 24 Jan 2022 10:10:51 +0100
+Message-Id: <20220124091107.642561-4-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220124091107.642561-1-hch@lst.de>
 References: <20220124091107.642561-1-hch@lst.de>
@@ -51,84 +51,58 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-open code mpage_alloc in it's two callers and simplify the results
-because of the context:
-
- - __mpage_writepage always passes GFP_NOFS and can thus always sleep and
-    will never get a NULL return from bio_alloc at all.
- - do_mpage_readpage can only get a non-sleeping context for readahead
-   which never sets PF_MEMALLOC and thus doesn't need the retry loop
-   either.
-
-Both cases will never have __GFP_HIGH set.
+bio_alloc will never fail when it can sleep.  Remove the now simple
+bl_alloc_init_bio helper and open code it in the only caller.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/mpage.c | 35 ++++++-----------------------------
- 1 file changed, 6 insertions(+), 29 deletions(-)
+ fs/nfs/blocklayout/blocklayout.c | 26 +++++---------------------
+ 1 file changed, 5 insertions(+), 21 deletions(-)
 
-diff --git a/fs/mpage.c b/fs/mpage.c
-index 87f5cfef6caa7..06e95d777e940 100644
---- a/fs/mpage.c
-+++ b/fs/mpage.c
-@@ -66,29 +66,6 @@ static struct bio *mpage_bio_submit(int op, int op_flags, struct bio *bio)
+diff --git a/fs/nfs/blocklayout/blocklayout.c b/fs/nfs/blocklayout/blocklayout.c
+index fe860c5387476..38e063af7e98a 100644
+--- a/fs/nfs/blocklayout/blocklayout.c
++++ b/fs/nfs/blocklayout/blocklayout.c
+@@ -115,23 +115,6 @@ bl_submit_bio(struct bio *bio)
  	return NULL;
  }
  
--static struct bio *
--mpage_alloc(struct block_device *bdev,
--		sector_t first_sector, int nr_vecs,
--		gfp_t gfp_flags)
+-static struct bio *bl_alloc_init_bio(unsigned int npg,
+-		struct block_device *bdev, sector_t disk_sector,
+-		bio_end_io_t end_io, struct parallel_io *par)
 -{
 -	struct bio *bio;
 -
--	/* Restrict the given (page cache) mask for slab allocations */
--	gfp_flags &= GFP_KERNEL;
--	bio = bio_alloc(gfp_flags, nr_vecs);
--
--	if (bio == NULL && (current->flags & PF_MEMALLOC)) {
--		while (!bio && (nr_vecs /= 2))
--			bio = bio_alloc(gfp_flags, nr_vecs);
--	}
--
+-	npg = bio_max_segs(npg);
+-	bio = bio_alloc(GFP_NOIO, npg);
 -	if (bio) {
+-		bio->bi_iter.bi_sector = disk_sector;
 -		bio_set_dev(bio, bdev);
--		bio->bi_iter.bi_sector = first_sector;
+-		bio->bi_end_io = end_io;
+-		bio->bi_private = par;
 -	}
 -	return bio;
 -}
 -
- /*
-  * support function for mpage_readahead.  The fs supplied get_block might
-  * return an up to date buffer.  This is used to map that buffer into
-@@ -296,10 +273,11 @@ static struct bio *do_mpage_readpage(struct mpage_readpage_args *args)
- 								page))
- 				goto out;
- 		}
--		args->bio = mpage_alloc(bdev, blocks[0] << (blkbits - 9),
--					bio_max_segs(args->nr_pages), gfp);
-+		args->bio = bio_alloc(gfp, bio_max_segs(args->nr_pages));
- 		if (args->bio == NULL)
- 			goto confused;
-+		bio_set_dev(args->bio, bdev);
-+		args->bio->bi_iter.bi_sector = blocks[0] << (blkbits - 9);
+ static bool offset_in_map(u64 offset, struct pnfs_block_dev_map *map)
+ {
+ 	return offset >= map->start && offset < map->start + map->len;
+@@ -171,10 +154,11 @@ do_add_page_to_bio(struct bio *bio, int npg, int rw, sector_t isect,
+ 
+ retry:
+ 	if (!bio) {
+-		bio = bl_alloc_init_bio(npg, map->bdev,
+-				disk_addr >> SECTOR_SHIFT, end_io, par);
+-		if (!bio)
+-			return ERR_PTR(-ENOMEM);
++		bio = bio_alloc(GFP_NOIO, bio_max_segs(npg));
++		bio->bi_iter.bi_sector = disk_addr >> SECTOR_SHIFT;
++		bio_set_dev(bio, map->bdev);
++		bio->bi_end_io = end_io;
++		bio->bi_private = par;
+ 		bio_set_op_attrs(bio, rw, 0);
  	}
- 
- 	length = first_hole << blkbits;
-@@ -608,10 +586,9 @@ static int __mpage_writepage(struct page *page, struct writeback_control *wbc,
- 								page, wbc))
- 				goto out;
- 		}
--		bio = mpage_alloc(bdev, blocks[0] << (blkbits - 9),
--				BIO_MAX_VECS, GFP_NOFS|__GFP_HIGH);
--		if (bio == NULL)
--			goto confused;
-+		bio = bio_alloc(GFP_NOFS, BIO_MAX_VECS);
-+		bio_set_dev(bio, bdev);
-+		bio->bi_iter.bi_sector = blocks[0] << (blkbits - 9);
- 
- 		wbc_init_bio(wbc, bio);
- 		bio->bi_write_hint = inode->i_write_hint;
+ 	if (bio_add_page(bio, page, *len, offset) < *len) {
 -- 
 2.30.2
 
