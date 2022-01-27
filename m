@@ -1,224 +1,88 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43BA2CA7
-	for <ntfs3@lists.linux.dev>; Mon, 24 Jan 2022 21:07:39 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id j2so24788089ejk.6
-        for <ntfs3@lists.linux.dev>; Mon, 24 Jan 2022 13:07:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ePWzg4KksjRUDSjqr+o9tEK0DbR7L8NzVM+5lIUlDPo=;
-        b=UryOzKtTd2BAlxPDRNgCwCESf13lD5IW6bNOSpBDepFbuH7r9fjbsT6cE5x5Ghft6m
-         mvPNVWtkz01mVJrSqeC/gB7JTH8T6qFvFS/VnIIFZHW5/gP/sOhhcnNoyYhFzrPdUaVF
-         FvDL8M4vNuURIqj/n/AdjkvXl39lYlpRohMIl+wO54x442N5Kx3ijGlQ972NHhWQkaPM
-         2PB2Ht3BymPWofX9NOCMsDhYcC+73YD1E+ldRp1Zbpzgc9ITLFFrLh5PDvAi6v8hFREw
-         ZBIZaScnPoiVR8zI3lCx6RkrB7DD23Vmu/ZR3nC2SK8GmSX6IQ39leUg3dHZiL44CE+y
-         QY2Q==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247E129CA
+	for <ntfs3@lists.linux.dev>; Thu, 27 Jan 2022 17:09:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1643303340;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kAV23rTMcuty4CJFZ8o8ysOxnvRFj2DI1yB1mT746og=;
+	b=QU+UARpVft1TH4Ycj9CFqX254OOzM8EVrl3ZtSl6Dm32JTefsVBZbhy/HPfFFespA+mbTR
+	N92inGTPutQzpsDrmtG8FbGj739lvdaM7u5zo/Los13xUSThaZNJ09o4q0S2CfBUaczQ+J
+	pX2caUc1wui+XiRXE/spsU6KvZ7L4xc=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-422-dVfEiX-xPWqWF1oYOnaE0Q-1; Thu, 27 Jan 2022 12:08:59 -0500
+X-MC-Unique: dVfEiX-xPWqWF1oYOnaE0Q-1
+Received: by mail-qk1-f200.google.com with SMTP id u12-20020a05620a0c4c00b00475a9324977so2822937qki.13
+        for <ntfs3@lists.linux.dev>; Thu, 27 Jan 2022 09:08:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ePWzg4KksjRUDSjqr+o9tEK0DbR7L8NzVM+5lIUlDPo=;
-        b=i6gDs/u+uZYGwYq04c6HObqiwWMVyD3bTNv25Hs8jkssxZl4kDWlgisnKtt3gJWA4f
-         +stWYrb1l/ZWQV6WQ+xu+HgI3bGjFjPQ1hft+8GzG8Mf28yxXY2rOFQiAc9/0vWEQF4N
-         6Jgyi/quaYldT1j3RMCZzHlg7fCsvVsI4ZiEbUGQJZqyd2txfWeLuJkVKfEwwziFmquu
-         bd5DwoT1HCmIfAN2k2zgP/GCveyi9IlBsPW5cF++TmUQXQ1qUszngJkHSxVKTwSDNATR
-         yZ9W9U7ymufuY+jUCxvoRfJOpWjSf7YkhZW3yKYQB8rqzbWrslDn9HFVnysTmkP01fWf
-         rSCQ==
-X-Gm-Message-State: AOAM532Ug73fCsbmtu0l5rmZgBr97Wv8dUwRAMPAGhTcxt94tZp71W56
-	LsrbZupByF/p1OzUb0/JyBIgbJar+Vm0ISVmyavDgA==
-X-Google-Smtp-Source: ABdhPJxclIDTBsv4yYQkMf2IKJZoaAKnmKikCbThIVE5NKI9QkHybFZsTLU/0wfsssiMKHH11b6mrHEUsG/59h5Yi1w=
-X-Received: by 2002:a17:907:1c23:: with SMTP id nc35mr11335786ejc.624.1643058458017;
- Mon, 24 Jan 2022 13:07:38 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kAV23rTMcuty4CJFZ8o8ysOxnvRFj2DI1yB1mT746og=;
+        b=TwRQnLE1LNjWDHV2AU9BjSmI41a+YtMCP7ksNGwLBj6nZ77x2ab3j6T82l6W+wk+2f
+         M8F61qNefgN0Iocpd6Uk78mZY+5Nj+W6B46+ANVLH3HeUf0Mot4TaEn53pmFcK2Uo1rD
+         haxXh3FvdCNGcNG/lm55DsEq1eA14dnF2TJK8RGtNwi59ls3QMqV7oQnvn35bOc7bJR2
+         B6dxR9sY6HXKz3wrRu/0sSHzQByPn0D+QGMljb9RjEDY6obp4ivlXZp8HJyPhMoBkE7v
+         TIljWzVhs9qKMxFJ/gAJRvmj82o4lc3HMbwgixou0WIJt4HJ6/ejcCAaxzytmD2Ahenk
+         hEfw==
+X-Gm-Message-State: AOAM5323lEvdQCtubAEzHwO3zwDZL1szGBK7Bb2V7KQG40GNx05h1+4h
+	d3c6jQvCak86VX74Liy11hxZrlS7U3uI8WsUbbEYUxFWMiA1R5djPrBtJ9tRvhPJGLLHblKWdCt
+	C5TIp1Lc4cTDGHQ==
+X-Received: by 2002:ac8:44c9:: with SMTP id b9mr3555325qto.524.1643303338470;
+        Thu, 27 Jan 2022 09:08:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyDu0k2yM0Z7B8jNmnNXJFkDazruS7TZzFMNaHKbWmY0JBs9tIC0IfQuLij5Gmty6LtXXG+Yw==
+X-Received: by 2002:ac8:44c9:: with SMTP id b9mr3555294qto.524.1643303338263;
+        Thu, 27 Jan 2022 09:08:58 -0800 (PST)
+Received: from localhost (pool-68-160-176-52.bstnma.fios.verizon.net. [68.160.176.52])
+        by smtp.gmail.com with ESMTPSA id a141sm1694826qkc.73.2022.01.27.09.08.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jan 2022 09:08:57 -0800 (PST)
+Date: Thu, 27 Jan 2022 12:08:56 -0500
+From: Mike Snitzer <snitzer@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Pavel Begunkov <asml.silence@gmail.com>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Md . Haris Iqbal " <haris.iqbal@ionos.com>,
+	Jack Wang <jinpu.wang@ionos.com>,
+	Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.co>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	linux-block@vger.kernel.org, dm-devel@redhat.com,
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
+	xen-devel@lists.xenproject.org, drbd-dev@lists.linbit.com
+Subject: Re: [PATCH 05/19] dm: bio_alloc can't fail if it is allowed to sleep
+Message-ID: <YfLRqCMAhLH8xhDD@redhat.com>
+References: <20220124091107.642561-1-hch@lst.de>
+ <20220124091107.642561-6-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220124091107.642561-1-hch@lst.de> <20220124091107.642561-12-hch@lst.de>
-In-Reply-To: <20220124091107.642561-12-hch@lst.de>
-From: Jinpu Wang <jinpu.wang@ionos.com>
-Date: Mon, 24 Jan 2022 22:07:26 +0100
-Message-ID: <CAMGffEknV3j8nm__Bc_q7QUra+MV2kj-CMcq8O2ZdEK+B3om_Q@mail.gmail.com>
-Subject: Re: [PATCH 11/19] rnbd-srv: remove struct rnbd_dev_blk_io
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Pavel Begunkov <asml.silence@gmail.com>, 
-	Mike Snitzer <snitzer@redhat.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Md . Haris Iqbal" <haris.iqbal@ionos.com>, 
-	=?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.co>, 
-	Philipp Reisner <philipp.reisner@linbit.com>, Lars Ellenberg <lars.ellenberg@linbit.com>, 
-	linux-block@vger.kernel.org, dm-devel@redhat.com, 
-	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev, 
-	xen-devel@lists.xenproject.org, drbd-dev@lists.linbit.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20220124091107.642561-6-hch@lst.de>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=snitzer@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Jan 24, 2022 at 10:11 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> Only the priv field of rnbd_dev_blk_io is used, so store the value of
-> that in bio->bi_private directly and remove the entire bio_set overhead.
->
+On Mon, Jan 24 2022 at  4:10P -0500,
+Christoph Hellwig <hch@lst.de> wrote:
+
+> Remove handling of NULL returns from sleeping bio_alloc calls given that
+> those can't fail.
+> 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Jack Wang <jinpu.wang@ionos.com>
-Thanks!
-> ---
->  drivers/block/rnbd/rnbd-srv-dev.c |  4 +---
->  drivers/block/rnbd/rnbd-srv-dev.h | 13 ++-----------
->  drivers/block/rnbd/rnbd-srv.c     | 27 ++++-----------------------
->  drivers/block/rnbd/rnbd-srv.h     |  1 -
->  4 files changed, 7 insertions(+), 38 deletions(-)
->
-> diff --git a/drivers/block/rnbd/rnbd-srv-dev.c b/drivers/block/rnbd/rnbd-srv-dev.c
-> index 98d3e591a0885..c5d0a03911659 100644
-> --- a/drivers/block/rnbd/rnbd-srv-dev.c
-> +++ b/drivers/block/rnbd/rnbd-srv-dev.c
-> @@ -12,8 +12,7 @@
->  #include "rnbd-srv-dev.h"
->  #include "rnbd-log.h"
->
-> -struct rnbd_dev *rnbd_dev_open(const char *path, fmode_t flags,
-> -                              struct bio_set *bs)
-> +struct rnbd_dev *rnbd_dev_open(const char *path, fmode_t flags)
->  {
->         struct rnbd_dev *dev;
->         int ret;
-> @@ -30,7 +29,6 @@ struct rnbd_dev *rnbd_dev_open(const char *path, fmode_t flags,
->
->         dev->blk_open_flags = flags;
->         bdevname(dev->bdev, dev->name);
-> -       dev->ibd_bio_set = bs;
->
->         return dev;
->
-> diff --git a/drivers/block/rnbd/rnbd-srv-dev.h b/drivers/block/rnbd/rnbd-srv-dev.h
-> index 1a14ece0be726..2c3df02b5e8ec 100644
-> --- a/drivers/block/rnbd/rnbd-srv-dev.h
-> +++ b/drivers/block/rnbd/rnbd-srv-dev.h
-> @@ -14,25 +14,16 @@
->
->  struct rnbd_dev {
->         struct block_device     *bdev;
-> -       struct bio_set          *ibd_bio_set;
->         fmode_t                 blk_open_flags;
->         char                    name[BDEVNAME_SIZE];
->  };
->
-> -struct rnbd_dev_blk_io {
-> -       struct rnbd_dev *dev;
-> -       void             *priv;
-> -       /* have to be last member for front_pad usage of bioset_init */
-> -       struct bio      bio;
-> -};
-> -
->  /**
->   * rnbd_dev_open() - Open a device
-> + * @path:      path to open
->   * @flags:     open flags
-> - * @bs:                bio_set to use during block io,
->   */
-> -struct rnbd_dev *rnbd_dev_open(const char *path, fmode_t flags,
-> -                              struct bio_set *bs);
-> +struct rnbd_dev *rnbd_dev_open(const char *path, fmode_t flags);
->
->  /**
->   * rnbd_dev_close() - Close a device
-> diff --git a/drivers/block/rnbd/rnbd-srv.c b/drivers/block/rnbd/rnbd-srv.c
-> index 6d228af1dcc35..ff9b389976078 100644
-> --- a/drivers/block/rnbd/rnbd-srv.c
-> +++ b/drivers/block/rnbd/rnbd-srv.c
-> @@ -116,9 +116,7 @@ rnbd_get_sess_dev(int dev_id, struct rnbd_srv_session *srv_sess)
->
->  static void rnbd_dev_bi_end_io(struct bio *bio)
->  {
-> -       struct rnbd_dev_blk_io *io = bio->bi_private;
-> -
-> -       rnbd_endio(io->priv, blk_status_to_errno(bio->bi_status));
-> +       rnbd_endio(bio->bi_private, blk_status_to_errno(bio->bi_status));
->         bio_put(bio);
->  }
->
-> @@ -131,7 +129,6 @@ static int process_rdma(struct rnbd_srv_session *srv_sess,
->         struct rnbd_srv_sess_dev *sess_dev;
->         u32 dev_id;
->         int err;
-> -       struct rnbd_dev_blk_io *io;
->         struct bio *bio;
->         short prio;
->
-> @@ -152,7 +149,7 @@ static int process_rdma(struct rnbd_srv_session *srv_sess,
->         priv->sess_dev = sess_dev;
->         priv->id = id;
->
-> -       bio = bio_alloc_bioset(GFP_KERNEL, 1, sess_dev->rnbd_dev->ibd_bio_set);
-> +       bio = bio_alloc(GFP_KERNEL, 1);
->         if (bio_add_page(bio, virt_to_page(data), datalen,
->                         offset_in_page(data)) != datalen) {
->                 rnbd_srv_err(sess_dev, "Failed to map data to bio\n");
-> @@ -160,12 +157,8 @@ static int process_rdma(struct rnbd_srv_session *srv_sess,
->                 goto bio_put;
->         }
->
-> -       io = container_of(bio, struct rnbd_dev_blk_io, bio);
-> -       io->dev = sess_dev->rnbd_dev;
-> -       io->priv = priv;
-> -
->         bio->bi_end_io = rnbd_dev_bi_end_io;
-> -       bio->bi_private = io;
-> +       bio->bi_private = priv;
->         bio->bi_opf = rnbd_to_bio_flags(le32_to_cpu(msg->rw));
->         bio->bi_iter.bi_sector = le64_to_cpu(msg->sector);
->         bio->bi_iter.bi_size = le32_to_cpu(msg->bi_size);
-> @@ -260,7 +253,6 @@ static void destroy_sess(struct rnbd_srv_session *srv_sess)
->
->  out:
->         xa_destroy(&srv_sess->index_idr);
-> -       bioset_exit(&srv_sess->sess_bio_set);
->
->         pr_info("RTRS Session %s disconnected\n", srv_sess->sessname);
->
-> @@ -289,16 +281,6 @@ static int create_sess(struct rtrs_srv_sess *rtrs)
->                 return -ENOMEM;
->
->         srv_sess->queue_depth = rtrs_srv_get_queue_depth(rtrs);
-> -       err = bioset_init(&srv_sess->sess_bio_set, srv_sess->queue_depth,
-> -                         offsetof(struct rnbd_dev_blk_io, bio),
-> -                         BIOSET_NEED_BVECS);
-> -       if (err) {
-> -               pr_err("Allocating srv_session for path %s failed\n",
-> -                      pathname);
-> -               kfree(srv_sess);
-> -               return err;
-> -       }
-> -
->         xa_init_flags(&srv_sess->index_idr, XA_FLAGS_ALLOC);
->         INIT_LIST_HEAD(&srv_sess->sess_dev_list);
->         mutex_init(&srv_sess->lock);
-> @@ -747,8 +729,7 @@ static int process_msg_open(struct rnbd_srv_session *srv_sess,
->                 goto reject;
->         }
->
-> -       rnbd_dev = rnbd_dev_open(full_path, open_flags,
-> -                                &srv_sess->sess_bio_set);
-> +       rnbd_dev = rnbd_dev_open(full_path, open_flags);
->         if (IS_ERR(rnbd_dev)) {
->                 pr_err("Opening device '%s' on session %s failed, failed to open the block device, err: %ld\n",
->                        full_path, srv_sess->sessname, PTR_ERR(rnbd_dev));
-> diff --git a/drivers/block/rnbd/rnbd-srv.h b/drivers/block/rnbd/rnbd-srv.h
-> index e5604bce123ab..be2ae486d407e 100644
-> --- a/drivers/block/rnbd/rnbd-srv.h
-> +++ b/drivers/block/rnbd/rnbd-srv.h
-> @@ -23,7 +23,6 @@ struct rnbd_srv_session {
->         struct rtrs_srv_sess    *rtrs;
->         char                    sessname[NAME_MAX];
->         int                     queue_depth;
-> -       struct bio_set          sess_bio_set;
->
->         struct xarray           index_idr;
->         /* List of struct rnbd_srv_sess_dev */
-> --
-> 2.30.2
->
+
+Acked-by: Mike Snitzer <snitzer@redhat.com>
+
