@@ -1,106 +1,77 @@
-Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FAA2F21
-	for <ntfs3@lists.linux.dev>; Wed,  2 Feb 2022 22:52:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0DA2F21
+	for <ntfs3@lists.linux.dev>; Sat,  5 Feb 2022 21:17:28 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id l5so21021835edv.3
+        for <ntfs3@lists.linux.dev>; Sat, 05 Feb 2022 13:17:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=FqrKBPkHRfyho1U9UAA7ovLP2+cdIlL1lGjk1PM2E+k=;
+        b=AdpD9edo4BTq7eAFF3UN+AYnwWAfE9CSS1XWkGGrkQZBedUugj6prvxj1+GsYU/EW/
+         EBVFx6sXTlOHT8nijROAOD2UJijNSFlE/WOot8xkNC/AJYjxRJJnC6ignYyyb3o5A405
+         vfsXLXjZE1akbvhBjXBSUO/gh24UBVHEAopvARaYj8yFXIzCNyJHdPw1udhM67tsk51R
+         4q3N4nEOhpm8/JlbOljY9MTYUabxqdHolbs1CypJn1UctVrmtCkMtieziS489KWNO5bM
+         rdMmid30uQCdbZ/+fJOCLGDx/Pg5PXwLo9TD9aJNbn7Tt5nolNQd2gQK42Dm4thJu/ht
+         N5YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=FqrKBPkHRfyho1U9UAA7ovLP2+cdIlL1lGjk1PM2E+k=;
+        b=7Z+SVa8MhAYNfVyWiTf76dTc7dMZRnheolOkUx9DPeasmPz9HzBXzDoNMOSJ/LXQOO
+         JUAgcLNAvNxBuoD7zH3ENM/hKP1ObZUk+poWtBtQKU4LeMsz/SyVUwhLNuiSs89+ew04
+         ek81eq7/XVLa1yZ2vpGqokeArhVOy32mkG+JtF+EXYKJ5J8zGhWCmr7zoEvN7NEUpIxn
+         R4B/D+QdEWqD1K582GysDAENdwJO/marwQqQD0UZicp3HMIZjlijACvNzsAssy3Gjwfj
+         7vGZVR8FITNI13Z1OAFOViRXlAAJ4S0n/qTIn8ubU8iJFsC0VbGT0cYeJlwUpNbmsWCp
+         gScA==
+X-Gm-Message-State: AOAM531aGbgOq7c2eG6De2DotutXHBcd1vwBA6oAZOX0+ypphUnkUd4e
+	Kp0DXX+CWoDTEWaWWDbAW+KXYU3od5qGz7yPiA+4HSAJQ4DRlg==
+X-Google-Smtp-Source: ABdhPJwhWIf2lKypuWUUQo++QegA6w7AHDoEAACN/ZjaWjIQl7zRX0E4jsGZz1c7UmsUDVvzC7erf1SnkCyX1Y+CTcM=
+X-Received: by 2002:aa7:cfcd:: with SMTP id r13mr5017375edy.55.1644095846928;
+ Sat, 05 Feb 2022 13:17:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rjp.ie; s=key1;
-	t=1643841990;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ym57gwtinGAeXQeN5EneRQSMvHaGjfDYtqoatbtUZ6Q=;
-	b=IeOO7kP3lOwV0jb5iKO4KJ6r2Pwu0LIccXKuPaDPnh97vXVAk6qEDDhMytoqCnshyDkhFE
-	6hhtJ0+KpcFLgVujRQnzW6N72HdX0HpMiR7tHYFF7IwZqyFzN6vcX2eipo/mdrdbm8Spo/
-	+ELVVZQDnl3E+d9bfb2JKE6actLIEEU=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 02 Feb 2022 15:46:27 -0700
-Message-Id: <CHLXCNVSULCF.76JU3S42R5UT@rxps>
-Subject: Panic on shutdown in ntfs_put_super
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Ronan Pigott" <ronan@rjp.ie>
-To: <ntfs3@lists.linux.dev>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: rjp.ie
+From: Marius Cirsta <mforce2@gmail.com>
+Date: Sat, 5 Feb 2022 23:17:04 +0200
+Message-ID: <CANO0Vk4Qrgv-oHWqyJwW-TC-oHnsG-B3u=2ggvTiEg7xCoRMxQ@mail.gmail.com>
+Subject: Long mount time using ntfs3
+To: ntfs3@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Dear maintainers,
+Hi,
 
-I have a reproducible panic on shutdown in the ntfs3 module. It happens
-when I shutdown while I have an ntfs file system mounted, but does not
-happen if I manually umount the partition before poweroff. I recovered
-the following stack trace from a picture I took of my screen:
+ Using Arch and the latest kernel :  5.16.5-arch1-1
 
-	R13: ffffffffc0775c3d R14: ffff990700042200 R15: 00[...]
-	FS:  00007f5eed0f0a40(0000) GS:ffff990a6e50000(0000)
-	CS:  0010 DS: 0000 ES: 0000 CR0: 000000000000033
-	CR2: 00007f5eeda906cb CR3: 00000001037a6001 CR4: 00[...]
-	Call Trace:
-	 <TASK>
-	 ntfs_put_super+0x2d/0x70 [ntfs3 49778e649db467d967[...]
-	 generic_shutdown_super+0x71/0x120
-	 kill_block_super+0x21/0x50
-	 deactivate_locked_super+0x33/0xa0
-	 cleanup_mnt+0x131/0x190
-	 task_work_run+0x59/0x90
-	 exit_to_user_mode_prepare+0x17e/0x180
-	 syscll_exit_to_user_mode+0x23/0x50
-	 do_syscall_64+0x69/0x90
-	 ? do_user_addr_fault+0x1d7/0x6a0
-	 ? exc_page_fault+0x72/0x180
-	 entry_SYSCALL_64_after_hwframe+0x44/0xae
-	RIP: 0033:0x7f5eedb2161b
-	Code: 18 0c 00 f7 d8 64 89 01 48 83 c8 ff c3 66 90 f[...]
-	[...]
-	</TASK>
+ I am getting a really long mount time using ntfs3 ( about 50 seconds
+)  for this ntfs partition :
 
-The ellipsized portions are outside the image frame. My kernel version
-was 5.16.3-arch1-1, but it has been reproducible as long as I have used
-the ntfs3 module.
+ ntfsresize -i /dev/sda2
+ntfsresize v2021.8.22 (libntfs-3g)
+Device name        : /dev/sda2
+NTFS volume version: 3.1
+Cluster size       : 4096 bytes
+Current volume size: 6001039241728 bytes (6001040 MB)
+Current device size: 6001039245312 bytes (6001040 MB)
+Checking filesystem consistency ...
+100.00 percent completed
+Accounting clusters ...
+Space in use       : 5063774 MB (84.4%)
+Collecting resizing constraints ...
+You might resize at 5063773290496 bytes or 5063774 MB (freeing 937266 MB).
+Please make a test run using both the -n and -s options before real resizing!
 
-When built with debug symbols, I get the following (truncated) output
-from objdump:
+This is an external disk attached over USB 2.0 but for the same
+partition I get a much faster mount time of less than 3 seconds using
+ntf-3g.
 
-	$ objdump -j.text --disassemble=3Dntfs_put_super -S fs/ntfs3/ntfs3.ko
-	Disassembly of section .text:
-	static void ntfs_put_super(struct super_block *sb)
-	{
-	   29c10:	e8 00 00 00 00       	call   29c15 <ntfs_put_super+0x5>
-	   29c15:	41 54                	push   %r12
-		struct ntfs_sb_info *sbi =3D sb->s_fs_info;
+Connecting the drive over USB 3.0 results in a faster mount but still
+slower than with ntfs-3g on USB 2.0
 
-		/* Mark rw ntfs as clear, if possible. */
-		ntfs_set_state(sbi, NTFS_DIRTY_CLEAR);
-	   29c17:	31 f6                	xor    %esi,%esi
-	{
-	   29c19:	55                   	push   %rbp
-	   29c1a:	53                   	push   %rbx
-		struct ntfs_sb_info *sbi =3D sb->s_fs_info;
-	   29c1b:	48 8b af 98 03 00 00 	mov    0x398(%rdi),%rbp
-	{
-	   29c22:	48 89 fb             	mov    %rdi,%rbx
-		ntfs_set_state(sbi, NTFS_DIRTY_CLEAR);
-	   29c25:	48 89 ef             	mov    %rbp,%rdi
-	   29c28:	e8 00 00 00 00       	call   29c2d <ntfs_put_super+0x1d>
+If you need any further information let me know.
 
-		put_mount_options(sbi->options);
-	   29c2d:	4c 8b a5 f8 04 00 00 	mov    0x4f8(%rbp),%r12
-		kfree(options->nls_name);
-	   29c34:	49 8b 3c 24          	mov    (%r12),%rdi
-	   29c38:	e8 00 00 00 00       	call   29c3d <ntfs_put_super+0x2d>
-		unload_nls(options->nls);
-	   29c3d:	49 8b 7c 24 08       	mov    0x8(%r12),%rdi // CRASH HERE
-	   [...]
-
-The last line is the ntfs_put_super+0x2d intsruction from the stack trace.
-
-So it appears that options->nls_name does not crash, but options->nls
-does? I'm not sure how to investigate further, so I'm mailing this list.
-
-Thanks,
-Ronan
+ Thank you
