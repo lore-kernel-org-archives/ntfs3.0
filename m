@@ -1,172 +1,166 @@
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com [195.245.231.4])
+Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4381017EC
-	for <ntfs3@lists.linux.dev>; Wed,  6 Apr 2022 07:05:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1649228714; i=@fujitsu.com;
-	bh=05cGtA6yxrBEXr8TsKfNblRw+Bdby9YhP92PsT290U4=;
-	h=Date:To:Cc:Subject:Message-ID:Reply-To:References:MIME-Version:
-	 Content-Type:In-Reply-To:From;
-	b=BJDFFQHg7gw8WYACPIsS5IO7QZ2Et0/snRy0O1P7sPcx3klPBjnAcFB0x5vQmkc7B
-	 wdj7sgZsarcq07EkkN9Uk7cWaXRM4BHIkDNaIuDnoDW/xdWPN+yfeRQ0VLd0GPd0XX
-	 YqbordNSTrdttI2gAjHO+G0BfdXM58RE64W8BbUe7mviFWROX5XjUVwj2GTsNCRtCK
-	 2WJ4V8hKwe8nmUuYA+n39zIapfnu0J3NGApl7UCEEBLyvU7tS2BrmjwMlFpa9b2hDX
-	 gUaY7GvBudukN14SBUkBadO1YF+sMHYk2wGdlkRTCLILZZ+pMjV2no6kK1JlP7i/NG
-	 hrGSl+X1ARJQg==
-X-Brightmail-Tracker: H4sIAAAAAAAAA1WSf1CTdRzH+T4bzx5hDz38iq9L8ljCH3ibDDW
-  +ilh6lk8nFJfJJVfZgyy2GsjteThnXAdKKIcRKiTHVFDHrwFhB6OIOQ60BDwhGM6BFxWyGU4R
-  kwqMX+1p54/+e3/u9fq8P/98CEFAPS4hlDpOqc1gNFLcR7h5E8HI6mITUqJcB19GDaPFOHowc
-  gJDvQ3jOLLcP+WNxmx1QmRs+BFDg3/kY+jKtzcwZLm5GlnH60SovOJnHFnPb0cXLb1C9Evjkj
-  f6YakYIPOhGhGaL1uHKmucInSksh2gY+fyBOiovQ1HRfXxqH2+TYTmnF9jyDjeiqH2e/0ilF8
-  9iaHavgoczZhKsFdD6aG+LLr54QkR3VKVQ3/+22GcLhmuBfRESzmgzWenMfryg+tC2jySi9MD
-  Nfdw2vZ3noCe6rDh9HTzi4lksrc6I2Wf7kNv1dRoF5Y56KNrt1zGc8E8UQiWEQGUCcBbV94sB
-  D7ubASwqMMkKASEe8iChp/EvCOkVkFLpRnwOYiSQqerD/C+gGoiYZfTIeL9QCoZLt6O5x2Sio
-  Z/3jJgnv6X4BnbAs77JDVLwuq2CW8PyIZHf50Uehb8YW+5478soCLh8OIdjO8UUC/A2kWCj8u
-  oJJh/XMobkFoB54wzOJ+D3fVNhl7AKzi1BrqKGI8SAW39zYJjIFD/TL/+mX790/6zQFAPNqZo
-  1WkqLp1Ra2SKqCiZQrFetjZGptggZz6VMXJllmy/kuVk0XJmPytXsqycPZC+V5Mqz1ByzcD9Q
-  qlseGAbKDA+kl8CywlMGkz6KhJSAvxS9qUeUDGsao82S6NkL4EVBCGFZBxyM3+tMk2p+0itcT
-  /iYwwJsTSIrNroxiSbyaSz6jQPugrCJCHkyAY3oHigysp4svb4ha0gVBJIAi8vrwBxplKbrub
-  +z10ghADSQHIHXy9WZ3BP2l3uw5j78P1rb/CHOeYpkuRiOVWl7x8SfveXV2mR5OTzV3PqoheN
-  8ht3LNyuk9zUZwMLSQn2nG7ZBY2j9fXj4/Xh6J+Y0PeSaktax4Y6d4cFOZ7z//LgrtqvDm/2t
-  W9dWnvb3L/tiNrwdkfbzTDCd94gjg5/95FjbO+gZtI+y5ozcZk43XrBOln9+2vFBZvW567Z9r
-  1f6qzuA8KkHzrTOXG3xfXJW3si49dl55zK18VVrPzm9FJB8kxZ07XEPMeA3frKF82dFysL5hq
-  Dd6++a1ie0POwZ2DnaGwMN709Qp+4yh63My4WdkU4sod7ulc6TeLr3X51WxpLqKCwyK0maam1
-  qj6pbOGdEGdhiVl3Pu3jc0Nb9JxUyKoYRaRAyzL/Akr/LJA9BAAA
-X-Env-Sender: Alan.Robinson@fujitsu.com
-X-Msg-Ref: server-8.tower-548.messagelabs.com!1649228712!85085!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received:
-X-StarScan-Version: 9.85.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 31866 invoked from network); 6 Apr 2022 07:05:12 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-8.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 6 Apr 2022 07:05:12 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 3681F100190;
-	Wed,  6 Apr 2022 08:05:12 +0100 (BST)
-Received: from nera.osd.abg.fsc.net (unknown [172.17.20.8])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with SMTP id 07836100181;
-	Wed,  6 Apr 2022 08:05:10 +0100 (BST)
-Received: by nera.osd.abg.fsc.net (Postfix, from userid 5004)
-	id B86E417478B; Wed,  6 Apr 2022 09:04:46 +0200 (CEST)
-Date: Wed, 6 Apr 2022 09:04:46 +0200
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	"jfs-discussion@lists.sourceforge.net" <jfs-discussion@lists.sourceforge.net>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"virtualization@lists.linux-foundation.org" <virtualization@lists.linux-foundation.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"dm-devel@redhat.com" <dm-devel@redhat.com>,
-	"target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
-	"linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
-	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-	"linux-nilfs@vger.kernel.org" <linux-nilfs@vger.kernel.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"cluster-devel@redhat.com" <cluster-devel@redhat.com>,
-	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
-	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-	"linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-	"nbd@other.debian.org" <nbd@other.debian.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-bcache@vger.kernel.org" <linux-bcache@vger.kernel.org>,
-	"ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-	"linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-	"linux-f2fs-devel@lists.sourceforge.net" <linux-f2fs-devel@lists.sourceforge.net>,
-	"linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-	"ocfs2-devel@oss.oracle.com" <ocfs2-devel@oss.oracle.com>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Subject: Re: [PATCH 15/27] block: use bdev_alignment_offset in
- part_alignment_offset_show
-Message-ID: <20220406070446.GA1722@ts.fujitsu.com>
-Reply-To: Alan.Robinson@fujitsu.com
-Mail-Followup-To: Alan.Robinson@fujitsu.com, Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>,
-	"jfs-discussion@lists.sourceforge.net" <jfs-discussion@lists.sourceforge.net>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"virtualization@lists.linux-foundation.org" <virtualization@lists.linux-foundation.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"dm-devel@redhat.com" <dm-devel@redhat.com>,
-	"target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
-	"linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
-	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-	"linux-nilfs@vger.kernel.org" <linux-nilfs@vger.kernel.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"cluster-devel@redhat.com" <cluster-devel@redhat.com>,
-	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
-	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-	"linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-	"nbd@other.debian.org" <nbd@other.debian.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-bcache@vger.kernel.org" <linux-bcache@vger.kernel.org>,
-	"ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-	"linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-	"linux-f2fs-devel@lists.sourceforge.net" <linux-f2fs-devel@lists.sourceforge.net>,
-	"linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-	"ocfs2-devel@oss.oracle.com" <ocfs2-devel@oss.oracle.com>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-References: <20220406060516.409838-1-hch@lst.de>
- <0b7ae3df301c4fdd8d37f773d8d1eb93@FR3P281MB0843.DEUP281.PROD.OUTLOOK.COM>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8757D17FB
+	for <ntfs3@lists.linux.dev>; Wed,  6 Apr 2022 08:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1649235232; x=1680771232;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=LFM3dJ4XtmmQmpjm/ADKwYliPf/iPacGMSt9/3x5IFU=;
+  b=f6ypYCzlm+ondAQv6e7Lia42zEldWusAvcrQbzXpJTUj6PM/SqPFrQnA
+   T+13wEy4zZW+YlLCacjTHFLiDTEvxW/JGtyeF1zga2qVgWvnmxMebMtpA
+   AZSVo5RIhdp0S8UGumMYxbYDKkM6KecLwOB+4BMZQiN6eOg49XH2mnm7Z
+   RrMpJF6p/W91urQSsJ2kyfQtdo5q8wZU3HoiHLoGO9tUAg61l6sqCCMjK
+   4l7QeHeBV54qSrs09Mk1dJJnNfEgytmuRbj9TfKU/fj9DpJBT8E5Mi7nF
+   4UcONl8tTum80EB9MvKZVxAQO0HV18/UQpDJnK+8VE8+RYbnpS28Y5J6G
+   g==;
+X-IronPort-AV: E=Sophos;i="5.90,239,1643644800"; 
+   d="scan'208";a="196092189"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 06 Apr 2022 16:52:43 +0800
+IronPort-SDR: TRsYsvR+diQ7e9de2UZXYvgitV93YzqDmSTqYSwKlhVBhU03vxvDY6XPZ6TaSqMdDVv9uWlSGk
+ aQ78FTdG0RL8uG8lOhcY9v+xNUGewW76q+PsAHHLQTKLfxA2tvnIH3r2/VsX8v+gwRfquvRDnO
+ utGUsgGeCiKY8+MF5oe9JkBB06ddxkavBhFArlzv2M/zA/tYEh8vGjD84GS5foveOTn0gAKQoH
+ If2Zy48fkNplbj7xHSzqdMG0HvzIPHvrh6f2tRi8xle7LSX4V4YaZinfaZ5wR1mr+QQ/QBzKJk
+ eQmB8XjhDK5a9AyI77arcKiH
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 Apr 2022 01:23:24 -0700
+IronPort-SDR: zidiocLyHMsXwpTGppQTKym/XKJQUtkaMWNdDO1Q3628I3ZDg2P5frM68da/yY+BdJwJ57bsxb
+ e5q2DCurLh4HpiMTzPSnWD3EnUjlyDVe3C2lR+McWX5m5rmToL/KwkbL9Y5QnE+dhQLvNaY5zK
+ t7+trea1g9Cg5JyCHAm4uZQfZ0VsEcyYBXyxJRGdbFg7GO3NnC+cBOPo1mTip+sPArBM9x096I
+ JlNtcf/bj6Hgbpy1RyOxHi17XXTldk8FUymqFKzFiMl0EK2v5PKhm7dNbuSZ7unDFEGCcpL63K
+ 7/w=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 Apr 2022 01:52:43 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KYJDp2lbfz1SVp3
+	for <ntfs3@lists.linux.dev>; Wed,  6 Apr 2022 01:52:42 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1649235161; x=1651827162; bh=LFM3dJ4XtmmQmpjm/ADKwYliPf/iPacGMSt
+	9/3x5IFU=; b=qvkCgjbtXOykeK3hzZNeB4nFZLJBLeVyzVQiFxPBd+c54HMRQrR
+	r3mHxfVWNdkNw5DIJA4fgfkXPh93epK0mDoQ3kgu2fpFkbSa8brjeKFgTDNdjUXK
+	QEdaChXXlXS0VTxT7h9gL19ju3gtHs6R6Mypq0Cc5OI+h1pEURz6XYf1UQ1mcqds
+	uMy2QNMB1cQhY28LO46skbuCxOrF4i88P2mQlM7t3vtuiUBfVFmxO2ZMvku2/0fT
+	GRED3B4iBwE6imVQ9DU7YD88eHs1K7YN6+E1hQRftlmDiNgCGpghEuxtQnop4vN/
+	eOwwsoVyhIxEYaxD0ZFdcLlRFvL5b8ALceg==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 08KxBiHsagMs for <ntfs3@lists.linux.dev>;
+	Wed,  6 Apr 2022 01:52:41 -0700 (PDT)
+Received: from [10.149.53.254] (washi.fujisawa.hgst.com [10.149.53.254])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KYJDg4WyPz1Rvlx;
+	Wed,  6 Apr 2022 01:52:35 -0700 (PDT)
+Message-ID: <ea3d14cb-00ea-8d7b-4615-9347fdd7aa27@opensource.wdc.com>
+Date: Wed, 6 Apr 2022 17:52:34 +0900
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0b7ae3df301c4fdd8d37f773d8d1eb93@FR3P281MB0843.DEUP281.PROD.OUTLOOK.COM>
-X-sent-by-me: robin@sanpedro
-User-Agent: Mutt/1.9.3 (2018-01-21)
-From: Alan.Robinson@fujitsu.com (Alan Robinson)
-X-Virus-Scanned: ClamAV using ClamSMTP
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 14/27] block: add a bdev_max_zone_append_sectors helper
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-block@vger.kernel.org, drbd-dev@lists.linbit.com,
+ nbd@other.debian.org, ceph-devel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, xen-devel@lists.xenproject.org,
+ linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
+ jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
+ ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com, linux-mm@kvack.org
+References: <20220406060516.409838-1-hch@lst.de>
+ <20220406060516.409838-15-hch@lst.de>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20220406060516.409838-15-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Christoph,
-
-On Wed, Apr 06, 2022 at 06:05:04AM +0000, Christoph Hellwig wrote:
-> From: Christoph Hellwig <hch@lst.de>
-> Subject: [PATCH 15/27] block: use bdev_alignment_offset in
->  part_alignment_offset_show
-> 
-> Replace the open coded offset calculation with the proper helper.
-> This is an ABI change in that the -1 for a misaligned partition is
-> properly propagated, which can be considered a bug fix and maches
-
-s/maches/matches/
-
-> what is done on the whole device.
+On 4/6/22 15:05, Christoph Hellwig wrote:
+> Add a helper to check the max supported sectors for zone append based on
+> the block_device instead of having to poke into the block layer internal
+> request_queue.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  block/partitions/core.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
+>   drivers/nvme/target/zns.c | 3 +--
+>   fs/zonefs/super.c         | 3 +--
+>   include/linux/blkdev.h    | 6 ++++++
+>   3 files changed, 8 insertions(+), 4 deletions(-)
 > 
-> diff --git a/block/partitions/core.c b/block/partitions/core.c
-> index 2ef8dfa1e5c85..240b3fff521e4 100644
-> --- a/block/partitions/core.c
-> +++ b/block/partitions/core.c
-> @@ -200,11 +200,7 @@ static ssize_t part_ro_show(struct device *dev,
->  static ssize_t part_alignment_offset_show(struct device *dev,
->  					  struct device_attribute *attr, char *buf)
->  {
-> -	struct block_device *bdev = dev_to_bdev(dev);
-> -
-> -	return sprintf(buf, "%u\n",
-> -		queue_limit_alignment_offset(&bdev_get_queue(bdev)->limits,
-> -				bdev->bd_start_sect));
-> +	return sprintf(buf, "%u\n", bdev_alignment_offset(dev_to_bdev(dev)));
+> diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+> index e34718b095504..82b61acf7a72b 100644
+> --- a/drivers/nvme/target/zns.c
+> +++ b/drivers/nvme/target/zns.c
+> @@ -34,8 +34,7 @@ static int validate_conv_zones_cb(struct blk_zone *z,
+>   
+>   bool nvmet_bdev_zns_enable(struct nvmet_ns *ns)
+>   {
+> -	struct request_queue *q = ns->bdev->bd_disk->queue;
+> -	u8 zasl = nvmet_zasl(queue_max_zone_append_sectors(q));
+> +	u8 zasl = nvmet_zasl(bdev_max_zone_append_sectors(ns->bdev));
+>   	struct gendisk *bd_disk = ns->bdev->bd_disk;
+>   	int ret;
+>   
+> diff --git a/fs/zonefs/super.c b/fs/zonefs/super.c
+> index 3614c7834007d..7a63807b736c4 100644
+> --- a/fs/zonefs/super.c
+> +++ b/fs/zonefs/super.c
+> @@ -678,13 +678,12 @@ static ssize_t zonefs_file_dio_append(struct kiocb *iocb, struct iov_iter *from)
+>   	struct inode *inode = file_inode(iocb->ki_filp);
+>   	struct zonefs_inode_info *zi = ZONEFS_I(inode);
+>   	struct block_device *bdev = inode->i_sb->s_bdev;
+> -	unsigned int max;
+> +	unsigned int max = bdev_max_zone_append_sectors(bdev);
+>   	struct bio *bio;
+>   	ssize_t size;
+>   	int nr_pages;
+>   	ssize_t ret;
+>   
+> -	max = queue_max_zone_append_sectors(bdev_get_queue(bdev));
+>   	max = ALIGN_DOWN(max << SECTOR_SHIFT, inode->i_sb->s_blocksize);
+>   	iov_iter_truncate(from, max);
+>   
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index a433798c3343e..f8c50b77543eb 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -1188,6 +1188,12 @@ static inline unsigned int queue_max_zone_append_sectors(const struct request_qu
+>   	return min(l->max_zone_append_sectors, l->max_sectors);
+>   }
+>   
+> +static inline unsigned int
+> +bdev_max_zone_append_sectors(struct block_device *bdev)
+> +{
+> +	return queue_max_zone_append_sectors(bdev_get_queue(bdev));
+> +}
+> +
+>   static inline unsigned queue_logical_block_size(const struct request_queue *q)
+>   {
+>   	int retval = 512;
 
-Should this now be %d instead of %u, there are one or two examples of
-both in the rest of the patch series.
+Looks good.
 
-Alan
+Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 
+-- 
+Damien Le Moal
+Western Digital Research
