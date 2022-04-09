@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426F37E6
-	for <ntfs3@lists.linux.dev>; Sat,  9 Apr 2022 04:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A07F7E5
+	for <ntfs3@lists.linux.dev>; Sat,  9 Apr 2022 04:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=fGcL4rT6o55inYg+xD7k4NQPOksglZvB+PFSEP+xhA8=; b=x49SryV2SEOzb+YKli0UJZwys7
-	Znb1rsPTkSfYcHPVo9D6b2U83E7uqw2G98XO8zYfl/hKwrvVhicKgqjDvuZYTEB489P843L//CwDT
-	gqCbBf9JUwJ6J0Nu3a/lcC/IfwnnEVdVHN84pWvuhxzJiYH6crHhPnTIzf9dIWY5MLhKlVfzyM0Vq
-	bwRuU6hgXkjUYp1qcxu8V6Fo824rSDUIbNTnNROyu48YrBGf3oVsysJ9CQPrqpevcWLNQdLnu2N4C
-	4XspCM6we8vYPn8dRLL0TG98f118C88z+RALpryzLlARTzoVN3y6dQTJp4lOBr41BAbVo0sl+miwh
-	a6JWWqsQ==;
+	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Sender:Reply-To:Content-ID:Content-Description;
+	bh=o0hivJC1zBmf2OLswEv2WeM9LwYiU39b8DIC3mFzVkc=; b=3F4Gy8p9Tvq+5pylL46uvOJn7h
+	o2XZpRogXFQL3VJFZPE+ZZDtjrf9Pc2OTl5fZtGSYd57hTdFlYXIdIHOqaBXa/gwwIgNeTwpzh8E1
+	QxRCn+KG2Muq11G9sBZPqcFJsQdF+RO1A1/vOYvAkvrZpiLwvpNlQupw5qXMvPBGR692SLA9Gc4O9
+	+WQuMA5xQqJyH9AX6svLk38kVSqqX8kZssANUh1VF1n2HxXeQbt2B929yqhRSjrF5mSUtQQl9u3kF
+	pbbIDtUGIe8ib42MP8DoNYMKEID8G4oja6vJ3M+Cjui+ZmorwUZF4pyM0UDyDdlGBMS8H8gcMK1Fa
+	XnV5hFlQ==;
 Received: from 213-147-167-116.nat.highway.webapn.at ([213.147.167.116] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nd345-0020fc-8h; Sat, 09 Apr 2022 04:51:13 +0000
+	id 1nd33w-0020Yw-4P; Sat, 09 Apr 2022 04:51:04 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: dm-devel@redhat.com,
@@ -45,10 +45,10 @@ Cc: dm-devel@redhat.com,
 	ntfs3@lists.linux.dev,
 	ocfs2-devel@oss.oracle.com,
 	linux-mm@kvack.org,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: [PATCH 08/27] btrfs: use bdev_max_active_zones instead of open coding it
-Date: Sat,  9 Apr 2022 06:50:24 +0200
-Message-Id: <20220409045043.23593-9-hch@lst.de>
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
+Subject: [PATCH 05/27] drbd: use bdev based limit helpers in drbd_send_sizes
+Date: Sat,  9 Apr 2022 06:50:21 +0200
+Message-Id: <20220409045043.23593-6-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220409045043.23593-1-hch@lst.de>
 References: <20220409045043.23593-1-hch@lst.de>
@@ -58,36 +58,51 @@ List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
----
- fs/btrfs/zoned.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Use the bdev based limits helpers where they exist.
 
-diff --git a/fs/btrfs/zoned.c b/fs/btrfs/zoned.c
-index 1b1b310c3c510..f72cad7391a11 100644
---- a/fs/btrfs/zoned.c
-+++ b/fs/btrfs/zoned.c
-@@ -350,7 +350,6 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device, bool populate_cache)
- 	struct btrfs_fs_info *fs_info = device->fs_info;
- 	struct btrfs_zoned_device_info *zone_info = NULL;
- 	struct block_device *bdev = device->bdev;
--	struct request_queue *queue = bdev_get_queue(bdev);
- 	unsigned int max_active_zones;
- 	unsigned int nactive;
- 	sector_t nr_sectors;
-@@ -410,7 +409,7 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device, bool populate_cache)
- 	if (!IS_ALIGNED(nr_sectors, zone_sectors))
- 		zone_info->nr_zones++;
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
+---
+ drivers/block/drbd/drbd_main.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index 1262fe1c33618..aa2c21aeb747c 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -924,7 +924,9 @@ int drbd_send_sizes(struct drbd_peer_device *peer_device, int trigger_reply, enu
  
--	max_active_zones = queue_max_active_zones(queue);
-+	max_active_zones = bdev_max_active_zones(bdev);
- 	if (max_active_zones && max_active_zones < BTRFS_MIN_ACTIVE_ZONES) {
- 		btrfs_err_in_rcu(fs_info,
- "zoned: %s: max active zones %u is too small, need at least %u active zones",
+ 	memset(p, 0, packet_size);
+ 	if (get_ldev_if_state(device, D_NEGOTIATING)) {
+-		struct request_queue *q = bdev_get_queue(device->ldev->backing_bdev);
++		struct block_device *bdev = device->ldev->backing_bdev;
++		struct request_queue *q = bdev_get_queue(bdev);
++
+ 		d_size = drbd_get_max_capacity(device->ldev);
+ 		rcu_read_lock();
+ 		u_size = rcu_dereference(device->ldev->disk_conf)->disk_size;
+@@ -933,13 +935,13 @@ int drbd_send_sizes(struct drbd_peer_device *peer_device, int trigger_reply, enu
+ 		max_bio_size = queue_max_hw_sectors(q) << 9;
+ 		max_bio_size = min(max_bio_size, DRBD_MAX_BIO_SIZE);
+ 		p->qlim->physical_block_size =
+-			cpu_to_be32(queue_physical_block_size(q));
++			cpu_to_be32(bdev_physical_block_size(bdev));
+ 		p->qlim->logical_block_size =
+-			cpu_to_be32(queue_logical_block_size(q));
++			cpu_to_be32(bdev_logical_block_size(bdev));
+ 		p->qlim->alignment_offset =
+ 			cpu_to_be32(queue_alignment_offset(q));
+-		p->qlim->io_min = cpu_to_be32(queue_io_min(q));
+-		p->qlim->io_opt = cpu_to_be32(queue_io_opt(q));
++		p->qlim->io_min = cpu_to_be32(bdev_io_min(bdev));
++		p->qlim->io_opt = cpu_to_be32(bdev_io_opt(bdev));
+ 		p->qlim->discard_enabled = blk_queue_discard(q);
+ 		put_ldev(device);
+ 	} else {
 -- 
 2.30.2
 
