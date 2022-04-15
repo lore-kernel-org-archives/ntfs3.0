@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174F97A
-	for <ntfs3@lists.linux.dev>; Fri, 15 Apr 2022 04:54:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24CF17D0
+	for <ntfs3@lists.linux.dev>; Fri, 15 Apr 2022 04:54:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=J+DlKJplDF1Q+uvJsRC9/x84m39e7OAPqS6lbIf59go=; b=SEeH/79eKPqdW8SzrNl3V2nOHl
-	ZWhXxUOKMmxbomD4h47qxDHhmZR1AcrilsdsHynv3whZecHSbjPQD1q9d/FU6+E8K/5xf+VTFPZEC
-	yjptUXDEOozEKnhNef4pA/iH+U6X5UT2a4kDQV1dcB4OMBiR7EqjwvZGUpUqzaw/ctS1BK7jfj0ET
-	6bEbZ634DG1jUBSD4gMSefXlbHX9s1oVYHaM3eb8uWhP4KXYOa4yPkTPaEVS3k17D/+asg++w51Tw
-	tL9Bw3UnRO/ROF9NNLI3S4GrxiqTSBVA9Nyw52Y9tkIfGW9lfoR4Uoz9tWbp7jnXJX8faoVQRTg4x
-	Z/Iw+o9w==;
+	bh=LA03+v2RMrt5LLwAfTBpcNFXpYhSXKyM/LEXrkZN1Tc=; b=LADyBsuLQpSvZVOI9iNu3zFf2Z
+	SEH5za8/XrvPRuwh4TwHe7OlvnSu6j9qkRRGGecLPPLsoWIvS7KxzQE5AizDIz9MvjgfVsuNp13Eq
+	ZByoLLOiZSAgO2FmaZjLKmy35f7AqZ0bRkQXyFt0KFpuATixmIymK5iv+aV8uMY/BiO9z1ISlyebq
+	wDQWs1lYdYUlF31lbm99N6Kdbl82pDjKi5m2oYGDMZ/ESoukEtgyT6rpjPpocnNkNMxqHhSPxrha3
+	uTQvCNZSoso625zW5i+ex0gK0vrdhQ8qDshZOw3gMwuVl8MKqYXFvH6egXHkAdYDBWWCkoyT5Gevx
+	A5jRU7mg==;
 Received: from [2a02:1205:504b:4280:f5dd:42a4:896c:d877] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nfDy6-008PUJ-Fn; Fri, 15 Apr 2022 04:54:02 +0000
+	id 1nfDy3-008PQw-Ke; Fri, 15 Apr 2022 04:54:00 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: dm-devel@redhat.com,
@@ -46,9 +46,9 @@ Cc: dm-devel@redhat.com,
 	ocfs2-devel@oss.oracle.com,
 	linux-mm@kvack.org,
 	"Martin K . Petersen" <martin.petersen@oracle.com>
-Subject: [PATCH 19/27] block: remove queue_discard_alignment
-Date: Fri, 15 Apr 2022 06:52:50 +0200
-Message-Id: <20220415045258.199825-20-hch@lst.de>
+Subject: [PATCH 18/27] block: move bdev_alignment_offset and queue_limit_alignment_offset out of line
+Date: Fri, 15 Apr 2022 06:52:49 +0200
+Message-Id: <20220415045258.199825-19-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220415045258.199825-1-hch@lst.de>
 References: <20220415045258.199825-1-hch@lst.de>
@@ -61,49 +61,85 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Just use bdev_alignment_offset in disk_discard_alignment_show instead.
-That helpers is the same except for an always false branch that doesn't
-matter in this slow path.
+No need to inline these fairly larger helpers.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 ---
- block/genhd.c          | 2 +-
- include/linux/blkdev.h | 8 --------
- 2 files changed, 1 insertion(+), 9 deletions(-)
+ block/blk-settings.c   | 23 +++++++++++++++++++++++
+ include/linux/blkdev.h | 21 +--------------------
+ 2 files changed, 24 insertions(+), 20 deletions(-)
 
-diff --git a/block/genhd.c b/block/genhd.c
-index 712031ce19070..36532b9318419 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -1019,7 +1019,7 @@ static ssize_t disk_discard_alignment_show(struct device *dev,
- {
- 	struct gendisk *disk = dev_to_disk(dev);
- 
--	return sprintf(buf, "%d\n", queue_discard_alignment(disk->queue));
-+	return sprintf(buf, "%d\n", bdev_alignment_offset(disk->part0));
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index b83df3d2eebca..94410a13c0dee 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -468,6 +468,16 @@ void blk_queue_io_opt(struct request_queue *q, unsigned int opt)
  }
+ EXPORT_SYMBOL(blk_queue_io_opt);
  
- static ssize_t diskseq_show(struct device *dev,
++static int queue_limit_alignment_offset(struct queue_limits *lim,
++		sector_t sector)
++{
++	unsigned int granularity = max(lim->physical_block_size, lim->io_min);
++	unsigned int alignment = sector_div(sector, granularity >> SECTOR_SHIFT)
++		<< SECTOR_SHIFT;
++
++	return (granularity + lim->alignment_offset - alignment) % granularity;
++}
++
+ static unsigned int blk_round_down_sectors(unsigned int sectors, unsigned int lbs)
+ {
+ 	sectors = round_down(sectors, lbs >> SECTOR_SHIFT);
+@@ -901,3 +911,16 @@ void blk_queue_set_zoned(struct gendisk *disk, enum blk_zoned_model model)
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(blk_queue_set_zoned);
++
++int bdev_alignment_offset(struct block_device *bdev)
++{
++	struct request_queue *q = bdev_get_queue(bdev);
++
++	if (q->limits.misaligned)
++		return -1;
++	if (bdev_is_partition(bdev))
++		return queue_limit_alignment_offset(&q->limits,
++				bdev->bd_start_sect);
++	return q->limits.alignment_offset;
++}
++EXPORT_SYMBOL_GPL(bdev_alignment_offset);
 diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 0a1795ac26275..5a9b7aeda010b 100644
+index d5346e72e3645..0a1795ac26275 100644
 --- a/include/linux/blkdev.h
 +++ b/include/linux/blkdev.h
-@@ -1253,14 +1253,6 @@ bdev_zone_write_granularity(struct block_device *bdev)
+@@ -1251,26 +1251,7 @@ bdev_zone_write_granularity(struct block_device *bdev)
+ 	return queue_zone_write_granularity(bdev_get_queue(bdev));
+ }
  
- int bdev_alignment_offset(struct block_device *bdev);
- 
--static inline int queue_discard_alignment(const struct request_queue *q)
+-static inline int queue_limit_alignment_offset(struct queue_limits *lim, sector_t sector)
 -{
--	if (q->limits.discard_misaligned)
--		return -1;
+-	unsigned int granularity = max(lim->physical_block_size, lim->io_min);
+-	unsigned int alignment = sector_div(sector, granularity >> SECTOR_SHIFT)
+-		<< SECTOR_SHIFT;
 -
--	return q->limits.discard_alignment;
+-	return (granularity + lim->alignment_offset - alignment) % granularity;
 -}
 -
- static inline int queue_limit_discard_alignment(struct queue_limits *lim, sector_t sector)
+-static inline int bdev_alignment_offset(struct block_device *bdev)
+-{
+-	struct request_queue *q = bdev_get_queue(bdev);
+-
+-	if (q->limits.misaligned)
+-		return -1;
+-	if (bdev_is_partition(bdev))
+-		return queue_limit_alignment_offset(&q->limits,
+-				bdev->bd_start_sect);
+-	return q->limits.alignment_offset;
+-}
++int bdev_alignment_offset(struct block_device *bdev);
+ 
+ static inline int queue_discard_alignment(const struct request_queue *q)
  {
- 	unsigned int alignment, granularity, offset;
 -- 
 2.30.2
 
