@@ -1,43 +1,43 @@
-Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
+Received: from esa3.hgst.iphmx.com (esa3.hgst.iphmx.com [216.71.153.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589377A
-	for <ntfs3@lists.linux.dev>; Fri, 15 Apr 2022 05:09:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0ECD7A
+	for <ntfs3@lists.linux.dev>; Fri, 15 Apr 2022 05:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1649999376; x=1681535376;
+  t=1649999457; x=1681535457;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=Fza98p6Hk/Oo3R5YjAQC2Nws92s1JhenlM6js5zQuBI=;
-  b=ZSvt3T8OQ2Jm2/Xfxgrk/uVbw7y49fZfGvJ4GiWDoRq4bIXAVHddFrqp
-   frzmY79dJgOJMC3dLLRPg9ZopZK/RjU7vHU1miL3Wl2zHgR18o5Uk04mM
-   aWiEO9FR7d7MnU/wJ8S/xTMddAI1bGlAv7yadtHeX9nMYym1RiL2rsHU8
-   VLqE/MSDtgc01uz5LoIRWA8WHeFR+u8eUQdtcUnoMDNpJHIq4y6dc6lia
-   X5E4v2yk63S2lHtgYLpgW4LnLsIJK3g+/vudri9h99FurVjVmiMWbGc/q
-   oHQufLJgcWaqkJHE2CUDaNKLj12mpBCp5XuNVagbRt2k8iN2FsfPDtV1M
-   g==;
+  bh=wC6/PVYH+J9es8aT7sK5ZaGwsGnDQHOFu7y4PW6r0NI=;
+  b=Bu5LNv1u1pRxujSrsEZW+SFPkTvE/OpvCafjLEugCRfQp8iUwCPD6L4M
+   H7SkIVlsIOYsC1JwARVhFLXO+JvIHxm8Y3XlLvWKoqU6Y6LcFz5HFXjM0
+   2gaY81gCFUAtLEJKCeJQzOEJsrMX2UiCzUe1c5sIw4cXoY+jXiOqiYdJJ
+   iNrmlu4YttBw2XAlaiECvHqriR0PuXxPBYcidIj/erWU0AqalBef041h8
+   XcQKrSbcYp+hTErLm6ZzW/8BgA8goQHUrj9wKQQwEcWOjCRXwyprutSzK
+   q4rAGrHFjYmA7KikosGa05yhrZwe7qrlY6f8YONrIoVM5pKyCD7bz78AP
+   A==;
 X-IronPort-AV: E=Sophos;i="5.90,261,1643644800"; 
-   d="scan'208";a="198866561"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 15 Apr 2022 13:08:29 +0800
-IronPort-SDR: FHgERS8KOIIRGBSL3BGvaf5Z1gFPfd0ggrHxe6SAM6n7KSiJXDgBoSUvoySuGvh6aa73gxPgRd
- +khkhpPsiwT3x8Hfb+9akztC3JXA5ALWh2MYLg+8SY7Rmbn0T10go6niunfQ8qY+renDa0Rtxi
- A8Zgf3RWmjIsS9vvr5GrmMoEwY/IQ56DJuDU+B9Arlc7znWt6lIUGMFaM05vXX1d1qsvDoID4d
- J9yz3MEy/fK/k8bEf6DRSJebuc+vbz/0PMngjq+jSdirGlowZ7+iio46sRWv7p4FzN9iXfUUE1
- 7mtCVJ9Qv4n263TsvqsL0Wrq
+   d="scan'208";a="202830516"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 15 Apr 2022 13:09:49 +0800
+IronPort-SDR: xunX3AkSgA6q/4wxBE8bEWg+WuZ6QvH/W2WdIO1ZGNMUuUP+ov1/keqWwVKrYJYEuppLubGZ3M
+ Qs3d0cIsfp+wJPRr/RiXUCEcSrwc7dlTigpSSrMMb9dpIJmNnOBZCgajKqIsh+eUJ6OwzXVAWp
+ XBR28/xxYm9w82SsKFLTjeGJwVtSWiUhIT6bIgrkPv45g3EaS77VTzVzbHd/qzDb3RL0GRxGKA
+ p4jIySFWxuIJEBS+3RYRFEh7aCtXenFWpCFgAvPVEkSR4ONqIDyn9lt6uCbIbAK30vXJVDEkwR
+ jOxB8QzK5aNuqptrV9AZmPsb
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Apr 2022 21:39:39 -0700
-IronPort-SDR: 98ZV1nWfudwPOzr6+40En8gQWowCxF7vlbTPqOTzWbV650uiD1GlBA8lLZfdjJ1VxT/RCSrfVn
- NYwiXcwLM1pFkGvhmT43CYa13HbkohuV2NZMgL/+hoajJhkZtvn1xYRbwVEU7n6Vvx5o2DHT3j
- GOhzSLD1tSQ8/zi0omrauPkBfeQNGf9LfkL4+PHb5k2lkHFMAVuoKlKlMKPa48W5CTGwXJQs4z
- AtbvVnZA6+qCGeSv/EobdLjvlvVrdRL6+8s7I3usc110O1iMzCyfHBE3ih3AeZ0pEfiCSFwUME
- BMk=
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Apr 2022 21:40:14 -0700
+IronPort-SDR: 1jpEEdlqOpxI0AJJ4ersH6g+h0jAS1RWVhdpLPbl4IIuSIFk5qhDWN+S2rTiFitO85C5vH1MC7
+ 3GPCcDoVUbZ+e2kZBSc3Q7JrlUqMlTVCB+YuaWjvTr30yKS4X/Se8aDp+t93MuL5m6HN3He4aj
+ gG0kRr9QV3QoVAi8xNrme+B3Bhjle2+19n6qweZ/dIxYQ78nOCmh6kxeaFC0O/hzG9KRw4rEM8
+ KxJb9xoOFTcLSa0weJxBBSm47X2pEV21jZb+Iq/90o2TkxS52dG/bFsLwvgIBQ6aDodUCzKQds
+ HXI=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Apr 2022 22:08:29 -0700
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Apr 2022 22:09:50 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Kfkqv63f7z1Rwrw
-	for <ntfs3@lists.linux.dev>; Thu, 14 Apr 2022 22:08:27 -0700 (PDT)
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KfksT169qz1SVny
+	for <ntfs3@lists.linux.dev>; Thu, 14 Apr 2022 22:09:49 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
 	reason="pass (just generated, assumed good)"
 	header.d=opensource.wdc.com
@@ -45,23 +45,23 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
 	opensource.wdc.com; h=content-transfer-encoding:content-type
 	:in-reply-to:organization:from:references:to:content-language
 	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
-	1649999307; x=1652591308; bh=Fza98p6Hk/Oo3R5YjAQC2Nws92s1JhenlM6
-	js5zQuBI=; b=PnLGxxEK3pLyssa8yxGNdC4XjW2wbor1ccVbtGFYLuF6J3cLtHd
-	AbpMYH7aDhgG/pTbCzP2Jz5UXeITA2uAAyiR/Fy6attbFAobIm77MiZ1d9JwxmK8
-	shfFnnjg3a2RytIj37jVhbyrF9O4v+hLyhCzQz2dnHJygtOnBuY0SiH0emrVEC5V
-	37Q51RwNl9CEkvSI7J63mNoy2HlvXkxHid/Xl33/pVaD25Hfmrh/cyibuFKv7AtS
-	/tmUO1ElBPCNJo60JkfPy33eMUDO0eae+UlOxVUV5CwFdxfl0b0VIs1osnbs2TmY
-	qPuOzeMMi/kXJvdALFOBXWDwdlihcT0EYFQ==
+	1649999388; x=1652591389; bh=wC6/PVYH+J9es8aT7sK5ZaGwsGnDQHOFu7y
+	4PW6r0NI=; b=D8kdC3rz3pjqnugRL+G3XHXL6Ng78iZSZCza4fEMQpTN/xdgY6D
+	ndgbPRv8Ii6RTniwYP01qFwFHzH91r1LoAWx6xGwWEN+Qsp3Ex2YpjoRKlcblFjc
+	7yjQF4oBeK9egOucgCIrr2m+tKTIlJA0mcKIvKIgWCVnz5iEJtEs0vxeju2wZT96
+	jtBkpdSzig+EY3uiGMCOqAfDYf4ob5UMdfn63Y/7o6floZGBngeQCZ8K+n+vY3d5
+	lYsSP/0Lz/G5amM7P4+yygELabSZDZHGZG/YfdQpCLMrO4FBxFoQbF9pdD3HvN17
+	o1OWdE4/X82Vq8Fyie48I/oIcM5G/NLyIZA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
 	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id kyUCwL3vygvr for <ntfs3@lists.linux.dev>;
-	Thu, 14 Apr 2022 22:08:27 -0700 (PDT)
+	with ESMTP id rMTXULe7m5dl for <ntfs3@lists.linux.dev>;
+	Thu, 14 Apr 2022 22:09:48 -0700 (PDT)
 Received: from [10.225.163.9] (unknown [10.225.163.9])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Kfkqn6sCZz1Rvlx;
-	Thu, 14 Apr 2022 22:08:21 -0700 (PDT)
-Message-ID: <d7a39cfc-9b28-f0d6-bf62-4351c55daec2@opensource.wdc.com>
-Date: Fri, 15 Apr 2022 14:08:20 +0900
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KfksM3c9Fz1Rvlx;
+	Thu, 14 Apr 2022 22:09:43 -0700 (PDT)
+Message-ID: <62ebc311-e5ef-cea5-5236-0c83d1a3eb64@opensource.wdc.com>
+Date: Fri, 15 Apr 2022 14:09:42 +0900
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 27/27] direct-io: remove random prefetches
+Subject: Re: [PATCH 10/27] mm: use bdev_is_zoned in claim_swapfile
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
@@ -87,28 +87,38 @@ Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
  jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
  ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com, linux-mm@kvack.org
 References: <20220415045258.199825-1-hch@lst.de>
- <20220415045258.199825-28-hch@lst.de>
+ <20220415045258.199825-11-hch@lst.de>
 From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Organization: Western Digital Research
-In-Reply-To: <20220415045258.199825-28-hch@lst.de>
+In-Reply-To: <20220415045258.199825-11-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 4/15/22 13:52, Christoph Hellwig wrote:
-> Randomly poking into block device internals for manual prefetches isn't
-> exactly a very maintainable thing to do.  And none of the performance
-> criticil direct I/O implementations still use this library function
-
-s/criticil/critical
-
-> anyway, so just drop it.
+> Use the bdev based helper instead of poking into the queue.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  mm/swapfile.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/mm/swapfile.c b/mm/swapfile.c
+> index 63c61f8b26118..4c7537162af5e 100644
+> --- a/mm/swapfile.c
+> +++ b/mm/swapfile.c
+> @@ -2761,7 +2761,7 @@ static int claim_swapfile(struct swap_info_struct *p, struct inode *inode)
+>  		 * write only restriction.  Hence zoned block devices are not
+>  		 * suitable for swapping.  Disallow them here.
+>  		 */
+> -		if (blk_queue_is_zoned(p->bdev->bd_disk->queue))
+> +		if (bdev_is_zoned(p->bdev))
+>  			return -EINVAL;
+>  		p->flags |= SWP_BLKDEV;
+>  	} else if (S_ISREG(inode->i_mode)) {
 
-Looks good to me.
+Looks good.
 
 Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-
 
 -- 
 Damien Le Moal
