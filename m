@@ -1,90 +1,118 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BB21867
-	for <ntfs3@lists.linux.dev>; Wed, 20 Apr 2022 17:50:23 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id d6so4311190lfv.9
-        for <ntfs3@lists.linux.dev>; Wed, 20 Apr 2022 10:50:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=2ZGr/C4YHnUNk7lN0mv918/bGtJvx/1MHI63Lmkgn+E=;
-        b=XI+G083i3kbH2ZRnllhvwDYgzjAniaZMIMKiGuBohJYBKoI3HwFR+TLEbkaohtAHLt
-         /9SiWWtjeouR1C/FUGa5ZDZDxrUQAZjQBdU5wfGU9UnLKeiqHt27eiMWYwaMWJTNTV8p
-         bkxqxL3cDZkjttS2Ot4ytFwE+MkVfkDFmd04ccmZFYkZmi7kdEObf+AooIw8lCFnCs8W
-         EWUX3+obkK85/1XHobtVwfyRsNGuRM8TMoA0pjulswKgfvSeQHU7bUeEfgy0nW8qxF4Z
-         c7U8S9iffS3yDgdjNgQG9qxdDbR3jJqVnYO8BA1FL/Jh2Ii3WRLJRLKrdeistIJt7505
-         DvFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=2ZGr/C4YHnUNk7lN0mv918/bGtJvx/1MHI63Lmkgn+E=;
-        b=gO7U2Cgy3H3GLJyLKq160IKA3q1jxSp7vpNuXPqIHzR+4lXayxwkmRIxXom0jTsbN/
-         syr/0CfY0EedleXLNOsSdQSIEpUiuFPVaTOwQa5FS3nayDHk7ScxodEKeCOYnenMw+1S
-         npbIaaOcY5EqeWkQeKEHtUN8hI1BCjN4csWfTbJTIEWJ/7ZhE6iEELMAHAbZ/4I4WMJi
-         l4hr8k91XEYhSyADp6wwwbMaIyroH12xtexORfCti14SnGXJNWIqphsslQbsbPY/ltnE
-         dH1bwWY3bSqknp6M3AN2VdGbi/iijODVFd6AS+XJXYwOAhzyEpfgKW7jxhfp9E52OS44
-         YntQ==
-X-Gm-Message-State: AOAM530dd+Smqw65tRuDwtYPbP8CGhCBd4D7ei7cfIxO89EaxZvg5YuI
-	h9ollVrK6A6xK30zSdMvxH+NBVsyh5ozDwMA
-X-Google-Smtp-Source: ABdhPJz7zOAmPJaWfffoVrh/Yp0ZX6KkJOKzy2SKhApJ5vbCy2LH3v+PPDT6G4PHEzVD3uKAnEzI6Q==
-X-Received: by 2002:a05:6512:10d4:b0:471:a1f3:62eb with SMTP id k20-20020a05651210d400b00471a1f362ebmr8589788lfg.76.1650477021425;
-        Wed, 20 Apr 2022 10:50:21 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:9cae:8c00:9682:e720:334f:2fac? (dxw3k4yf2tnxwyp6sg02y-3.rev.dnainternet.fi. [2001:14ba:9cae:8c00:9682:e720:334f:2fac])
-        by smtp.gmail.com with ESMTPSA id b6-20020a196706000000b0046b8cf894d9sm1884157lfc.216.2022.04.20.10.50.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Apr 2022 10:50:20 -0700 (PDT)
-Message-ID: <1fccbccb-b7d0-6f9f-e4c2-14d36e7c912c@gmail.com>
-Date: Wed, 20 Apr 2022 20:50:27 +0300
+Received: from mail105.syd.optusnet.com.au (mail105.syd.optusnet.com.au [211.29.132.249])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CE667A
+	for <ntfs3@lists.linux.dev>; Wed, 20 Apr 2022 22:13:11 +0000 (UTC)
+Received: from dread.disaster.area (pa49-181-115-138.pa.nsw.optusnet.com.au [49.181.115.138])
+	by mail105.syd.optusnet.com.au (Postfix) with ESMTPS id A37F310E5CE6;
+	Thu, 21 Apr 2022 07:52:54 +1000 (AEST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+	(envelope-from <david@fromorbit.com>)
+	id 1nhIFo-002XWU-OW; Thu, 21 Apr 2022 07:52:52 +1000
+Date: Thu, 21 Apr 2022 07:52:52 +1000
+From: Dave Chinner <david@fromorbit.com>
+To: "xuyang2018.jy@fujitsu.com" <xuyang2018.jy@fujitsu.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
+	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+	"linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+	"djwong@kernel.org" <djwong@kernel.org>,
+	"jlayton@kernel.org" <jlayton@kernel.org>,
+	"ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
+	"chao@kernel.org" <chao@kernel.org>,
+	"linux-f2fs-devel@lists.sourceforge.net" <linux-f2fs-devel@lists.sourceforge.net>
+Subject: Re: [PATCH v4 1/8] fs: move sgid strip operation from
+ inode_init_owner into inode_sgid_strip
+Message-ID: <20220420215252.GO1544202@dread.disaster.area>
+References: <1650368834-2420-1-git-send-email-xuyang2018.jy@fujitsu.com>
+ <20220419140508.b6c4uit3u5hmdql4@wittgenstein>
+ <625F6FE6.4010305@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] fs: ntfs3: fix Using uninitialized value n when calling
- indx_read
-Content-Language: en-US
-To: chinayanlei2002@163.com, almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev, Yan Lei <yan_lei@dahuatech.com>
-References: <20220410060929.4027-1-chinayanlei2002@163.com>
-From: Kari Argillander <kari.argillander@gmail.com>
-In-Reply-To: <20220410060929.4027-1-chinayanlei2002@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <625F6FE6.4010305@fujitsu.com>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=VuxAv86n c=1 sm=1 tr=0 ts=626080b7
+	a=/kVtbFzwtM2bJgxRVb+eeA==:117 a=/kVtbFzwtM2bJgxRVb+eeA==:17
+	a=kj9zAlcOel0A:10 a=z0gMJWrwH1QA:10 a=omOdbC7AAAAA:8 a=VwQbUJbxAAAA:8
+	a=7-415B0cAAAA:8 a=dB9dRndzBIRXieEivdAA:9 a=CjuIK1q_8ugA:10
+	a=AjGcO6oz07-iQ99wixmX:22 a=biEYGPWJfzWAr4FL6Ov7:22
 
-This patch is sended from address chinayanlei2002@163.com you need to 
-send it from yan_lei@dahuatech.com this was probably mistake?
-
-Also please write commit message. Always good to write how did you spot 
-this and what message some analyzer showed to you. This way everyone 
-else will can verify and maybe even learn to use new tools. This also 
-looks like it really fix something so this needs fix tag so it can be 
-easily back ported to stable.
-
-On 10.4.2022 9.09, chinayanlei2002@163.com wrote:
-> From: Yan Lei <yan_lei@dahuatech.com>
+On Wed, Apr 20, 2022 at 01:27:39AM +0000, xuyang2018.jy@fujitsu.com wrote:
+> on 2022/4/19 22:05, Christian Brauner wrote:
+> > On Tue, Apr 19, 2022 at 07:47:07PM +0800, Yang Xu wrote:
+> >> This has no functional change. Just create and export inode_sgid_strip api for
+> >> the subsequent patch. This function is used to strip S_ISGID mode when init
+> >> a new inode.
+> >>
+> >> Acked-by: Christian Brauner (Microsoft)<brauner@kernel.org>
+> >> Signed-off-by: Yang Xu<xuyang2018.jy@fujitsu.com>
+> >> ---
+> >>   fs/inode.c         | 22 ++++++++++++++++++----
+> >>   include/linux/fs.h |  3 ++-
+> >>   2 files changed, 20 insertions(+), 5 deletions(-)
+> >>
+> >> diff --git a/fs/inode.c b/fs/inode.c
+> >> index 9d9b422504d1..3215e61a0021 100644
+> >> --- a/fs/inode.c
+> >> +++ b/fs/inode.c
+> >> @@ -2246,10 +2246,8 @@ void inode_init_owner(struct user_namespace *mnt_userns, struct inode *inode,
+> >>   		/* Directories are special, and always inherit S_ISGID */
+> >>   		if (S_ISDIR(mode))
+> >>   			mode |= S_ISGID;
+> >> -		else if ((mode&  (S_ISGID | S_IXGRP)) == (S_ISGID | S_IXGRP)&&
+> >> -			 !in_group_p(i_gid_into_mnt(mnt_userns, dir))&&
+> >> -			 !capable_wrt_inode_uidgid(mnt_userns, dir, CAP_FSETID))
+> >> -			mode&= ~S_ISGID;
+> >> +		else
+> >> +			inode_sgid_strip(mnt_userns, dir,&mode);
+> >>   	} else
+> >>   		inode_fsgid_set(inode, mnt_userns);
+> >>   	inode->i_mode = mode;
+> >> @@ -2405,3 +2403,19 @@ struct timespec64 current_time(struct inode *inode)
+> >>   	return timestamp_truncate(now, inode);
+> >>   }
+> >>   EXPORT_SYMBOL(current_time);
+> >> +
+> >> +void inode_sgid_strip(struct user_namespace *mnt_userns,
+> >> +		      const struct inode *dir, umode_t *mode)
+> >> +{
+> >
+> > I think with Willy agreeing in an earlier version with me and you
+> > needing to resend anyway I'd say have this return umode_t instead of
+> > passing a pointer.
 > 
-> Signed-off-by: Yan Lei <yan_lei@dahuatech.com>
-> ---
->   fs/ntfs3/index.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-> index 6f81e3a49..76ebea253 100644
-> --- a/fs/ntfs3/index.c
-> +++ b/fs/ntfs3/index.c
-> @@ -1994,7 +1994,7 @@ static int indx_free_children(struct ntfs_index *indx, struct ntfs_inode *ni,
->   			      const struct NTFS_DE *e, bool trim)
->   {
->   	int err;
-> -	struct indx_node *n;
-> +	struct indx_node *n = NULL;
->   	struct INDEX_HDR *hdr;
->   	CLST vbn = de_get_vbn(e);
->   	size_t i;
+> IMO, I am fine with your and Willy way. But I need a reason otherwise
+> I can't convince myself why not use mode pointer directly.
+
+You should listen to experienced developers like Willy and Christian
+when they say "follow existing coding conventions".  Indeed, Darrick
+has also mentioned he'd prefer it to return the new mode, and I'd
+also prefer that it returns the new mode.
+
+> I have asked you and Willy before why return umode_t value is better, 
+> why not modify mode pointer directly? Since we have use mode as 
+> argument, why not modify mode pointer directly in function?
+
+If the function had mulitple return status (e.g. an error or a mode)
+the convention is to pass the mode output variable by reference and
+return the error status. But there is only one return value from
+this function - the mode - and hence it should be returned in the
+return value, not passed by reference.
+
+Passing by reference unnecessarily makes the code more complex and
+less mainatainable.  Code that returns a single value is easy to
+understand, is more flexible in the way callers can use it and it's
+simpler to maintain.
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
