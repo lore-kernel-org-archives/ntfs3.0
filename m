@@ -1,120 +1,92 @@
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com [195.245.230.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95C610F0
-	for <ntfs3@lists.linux.dev>; Wed, 20 Apr 2022 07:47:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1650440857; i=@fujitsu.com;
-	bh=L0gnk54iyGfM60Qjlex0JGvplvmF+grDZIqDPCSoCAQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=xt/uU5KH9IyTuI4epuL69C6cN45I2fqW85KQDZhfnrIBrIRZbbpW6xbQqUgEP/LLn
-	 5DA/6j6o4CHKg2Z6B/Lyq4YwsbLm9fa7kTkXMK5uoYRR/38kzZPEvKyl1vQ6m0/Yrt
-	 fXBnt7RbiDLb8815pw4hgaTmj2gkDi1ZCj7kEBkliSgec7MCt7h0Sjjafq31lfuXB+
-	 6eF/74yJw2/JiKVYM+kEi9JeEUDmPk3+Y5Di5txXleBfLWnfbKBhzqB7JYRqe5d+m+
-	 NYH6FDJMzkwGX9El3dAuhFmijkVD8NdP+tov+1C7K+fYfefzkl1Se4n78gus8cocBd
-	 LLfE025T8VY6Q==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRWlGSWpSXmKPExsViZ8MRojtjV3y
-  SwbcrhhbXHh9it1j5eCuTA5PHi80zGT1mHrrAEsAUxZqZl5RfkcCaMfdXccEL7oojU+ayNjC2
-  cnQxcnEICbxmlDj6fhoLhLOHUeLp9V+MXYycHGwCmhLPOhcwg9giAnoSd+8cZeti5OBgFnCQ2
-  HIlEiQsLOAv0TXxAxOIzSKgKnG+8S4biM0r4CGxdPESsDESAgoSUx6+Z4aIC0qcnPmEBcRmFp
-  CQOPjiBTNEjaLEpY5vUPUVErNmtTFNYOSdhaRlFpKWBYxMqxgtk4oy0zNKchMzc3QNDQx0DQ1
-  NdU10LY31Eqt0E/VSS3XLU4tLdA31EsuL9VKLi/WKK3OTc1L08lJLNjECQy6lmCV2B+PWvp96
-  hxglOZiURHnPLotPEuJLyk+pzEgszogvKs1JLT7EKMPBoSTBe2UHUE6wKDU9tSItMwcY/jBpC
-  Q4eJRHe0nVAad7igsTc4sx0iNQpRl2OSX+u7WUWYsnLz0uVEud13QlUJABSlFGaBzcCFouXGG
-  WlhHkZGRgYhHgKUotyM0tQ5V8xinMwKgnzvgC5hCczrwRu0yugI5iAjqieEgtyREkiQkqqgWn
-  arj09SY4n5S/9/Rnp8jz2ZFl03alNmvt74g9eyv32xphjsnWhRIxt2MfiTSbagllJd7NqriUt
-  Tz0bwSYUJnPLL3F+3hOG3lVWh5TmCsUFCF5nXX5pvtma3tzbkoGCup0b324y+rqM8950W023X
-  bpPr5/cVpxbIvxdOsnreEbPRLnOllmX/Tp+FvVU/FKb/qucKzzVI8mx6oh/o0lgnOOXrRZaOS
-  sv5/bULBA5z2LnqNkXlN5V9140ZOu+8LoHhXcl91dqbTzXk8GpYiC0Zb36xiwbV96VDv9CBG8
-  Jq+1b905n7aPvwvqT1osudy35YzRjhr1vUenuJNulVh8t10tUbJJ5VpIWVrbQobxfiaU4I9FQ
-  i7moOBEAjmUOm0ADAAA=
-X-Env-Sender: xuyang2018.jy@fujitsu.com
-X-Msg-Ref: server-14.tower-591.messagelabs.com!1650440856!347957!1
-X-Originating-IP: [62.60.8.84]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received:
-X-StarScan-Version: 9.85.8; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 2175 invoked from network); 20 Apr 2022 07:47:36 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-14.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 20 Apr 2022 07:47:36 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 23K7lQDS009802
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 20 Apr 2022 08:47:36 +0100
-Received: from localhost.localdomain (10.167.220.84) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Wed, 20 Apr 2022 08:47:24 +0100
-From: Yang Xu <xuyang2018.jy@fujitsu.com>
-To: <almaz.alexandrovich@paragon-software.com>
-CC: <ntfs3@lists.linux.dev>, Yang Xu <xuyang2018.jy@fujitsu.com>
-Subject: [RFC] ntfs3: Use the same order for acl pointer check in ntfs_init_acl
-Date: Wed, 20 Apr 2022 16:48:29 +0800
-Message-ID: <1650444509-3330-1-git-send-email-xuyang2018.jy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6D61867;
+	Wed, 20 Apr 2022 17:40:04 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id y32so4282645lfa.6;
+        Wed, 20 Apr 2022 10:40:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=fDm0hCeP1iuF9WL7RiqDe/J3rtlxPQX1zeA/vezHRa0=;
+        b=WA6ZRCaU3cdlumlpbvWHxfloi03BAMhbknENhqsaWPbHRTCv9SZOTLs6l5atjl/rNB
+         WhDgJgxuFoJ/Qjj/q6o0HjImWWNexAoe3iis41zRi8T7cp+cNxoIeLsaIrzGx7M+aP5f
+         yTAUWAt+k6SrK4lNorKyp7zkayVMzWGHtU826B3wT4VF+PqS8rhJhhQw+6nzVJOpHjPO
+         Z+fl0//75bOefoMVkqelSYCTT7/Fe7c10WZtohovtXDzsn3PyILek6foHM5/OQmQFSLW
+         u1+mJd34DWLpm19EGHWC0J1RcHPjVNnGwatLnAkk0E4lmNtGfNVpgiVhfCCchSqTE+cC
+         Tr+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=fDm0hCeP1iuF9WL7RiqDe/J3rtlxPQX1zeA/vezHRa0=;
+        b=WMEi57qSd9EkeFHulpYq+I8GI/7Dyrqw8rpQZMk5iPwa0aPWIAhDUAeVKlI7f4ydlm
+         qRoRQLKBFGfYjj2jXICSpJErIaiBa2OC7sGFwsLlEzaTq9Y0ff4T0HVn+uG2h41mzFuh
+         SiSTCqoyQCbadkYUSlEqv6V/cE0dJcb20ejmUr7YijtKJe5qBLlgniYYXqXIT4Q+pD8D
+         jdUCMH5/ku2X5e1EUaexF9QO1fZ1xMGom7Kza5pWfCFD2nKuFI3UxxlDhBErCE0nOclH
+         fyR52W9OiPSupTNPk5iABW6cEtXvNp4dZpOmIG6nAj5pJ3x9k7VuLC73T97MrvLXwUyL
+         fi/Q==
+X-Gm-Message-State: AOAM530v76bN5SEh3pN8le9pnJQNBsjkJaPyTm01vPme7/CWdhcI/bnd
+	yJNsgIFXH/jBYWWvqF8Yk9g=
+X-Google-Smtp-Source: ABdhPJxge8XTkpASmraJ0VjrGWjf9n/ju/ayI7pvlM3z8AJpfQOWU1Cqk3TRPVw0hpSrfMk+YQhJmQ==
+X-Received: by 2002:a05:6512:1504:b0:44b:36e:b50d with SMTP id bq4-20020a056512150400b0044b036eb50dmr15640332lfb.558.1650476402746;
+        Wed, 20 Apr 2022 10:40:02 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:9cae:8c00:9682:e720:334f:2fac? (dxw3k4yf2tnxwyp6sg02y-3.rev.dnainternet.fi. [2001:14ba:9cae:8c00:9682:e720:334f:2fac])
+        by smtp.gmail.com with ESMTPSA id s17-20020a195e11000000b0046eec768984sm1785063lfb.200.2022.04.20.10.40.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Apr 2022 10:40:02 -0700 (PDT)
+Message-ID: <90e11a93-4f3a-2209-2bc2-acfb791b8ac0@gmail.com>
+Date: Wed, 20 Apr 2022 20:40:08 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.220.84]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] fs/ntfs3: remove redundant assignment to variable vcn
+Content-Language: en-US
+To: Colin Ian King <colin.i.king@gmail.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ ntfs3@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <20220418140038.82843-1-colin.i.king@gmail.com>
+From: Kari Argillander <kari.argillander@gmail.com>
+In-Reply-To: <20220418140038.82843-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Like ext4 and other use ${fs}_init_acl filesystem, they all used the following
-style
+On 18.4.2022 17.00, Colin Ian King wrote:
+> Variable vcn is being assigned a value that is never read, it is
+> being re-assigned again in the initialization of a for-loop.  The
+> assignment is redundant and can be removed.
+> 
+> Cleans up clang scan build warning:
+> fs/ntfs3/attrib.c:1176:7: warning: Value stored to 'vcn' during its
+> initialization is never read [deadcode.DeadStores]
+> 
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 
-       error = posix_acl_create(dir, &inode->i_mode, &default_acl, &acl);
-       if (error)
-                return error;
+Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
 
-        if (default_acl) {
-                error = __ext4_set_acl(handle, inode, ACL_TYPE_DEFAULT,
-                                       default_acl, XATTR_CREATE);
-                posix_acl_release(default_acl);
-        } else {
-                inode->i_default_acl = NULL;
-        }
-        if (acl) {
-                if (!error)
-                        error = __ext4_set_acl(handle, inode, ACL_TYPE_ACCESS,
-                                               acl, XATTR_CREATE);
-                posix_acl_release(acl);
-        } else {
-                inode->i_acl = NULL;
-        }
-	...
-
-So for the readability and unity of the code, adjust this order.
-
-Signed-off-by: Yang Xu <xuyang2018.jy@fujitsu.com>
----
- fs/ntfs3/xattr.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index afd0ddad826f..64cefa869a61 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -642,13 +642,13 @@ int ntfs_init_acl(struct user_namespace *mnt_userns, struct inode *inode,
- 		inode->i_default_acl = NULL;
- 	}
- 
--	if (!acl)
--		inode->i_acl = NULL;
--	else {
-+	if (acl) {
- 		if (!err)
- 			err = ntfs_set_acl_ex(mnt_userns, inode, acl,
- 					      ACL_TYPE_ACCESS);
- 		posix_acl_release(acl);
-+	} else {
-+		inode->i_acl = NULL;
- 	}
- 
- 	return err;
--- 
-2.27.0
-
+> ---
+>   fs/ntfs3/attrib.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+> index e8c00dda42ad..fc0623b029e6 100644
+> --- a/fs/ntfs3/attrib.c
+> +++ b/fs/ntfs3/attrib.c
+> @@ -1173,7 +1173,7 @@ int attr_load_runs_range(struct ntfs_inode *ni, enum ATTR_TYPE type,
+>   {
+>   	struct ntfs_sb_info *sbi = ni->mi.sbi;
+>   	u8 cluster_bits = sbi->cluster_bits;
+> -	CLST vcn = from >> cluster_bits;
+> +	CLST vcn;
+>   	CLST vcn_last = (to - 1) >> cluster_bits;
+>   	CLST lcn, clen;
+>   	int err;
