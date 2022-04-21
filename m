@@ -1,91 +1,132 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687CC1FA2
-	for <ntfs3@lists.linux.dev>; Thu, 21 Apr 2022 08:37:25 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id x8-20020a056602160800b00654b3a46b66so2816378iow.19
-        for <ntfs3@lists.linux.dev>; Thu, 21 Apr 2022 01:37:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300CB46B0
+	for <ntfs3@lists.linux.dev>; Thu, 21 Apr 2022 09:05:45 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id bf11so4955256ljb.7
+        for <ntfs3@lists.linux.dev>; Thu, 21 Apr 2022 02:05:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=JO+97LmndPyQ1Thx7oPnFlG7Yx3/payY/8BbczBjJ5g=;
+        b=OCoSMAi2WFK9EaMgZWjpDtTWuv9HeyFzEr8SB+nH5zvzMU8Jz3PnYZHPhLYEFuFsJ3
+         +REsgaR/Z2yweWnmJnW7ukouTSfxWcHFKJdMQjAgZzZBIVnFJXf1wVGAnUIJWBDbknv7
+         +EWL8Re48pibj0zqBzWbg/OuRVb7T26oLYzUAcVz0kzwVISScLwoPkbhDPSQN0pZ6BpQ
+         lZBj/sYvRWiFMiBNaUcKEMbCqVTfEVLi1E7CSsdbl5hdCv7WS7Hazq8PHDLAm5/qRz/3
+         kgj4kYx+8f50GrGsgLGX+BKcbgI+8fTTf5+n8oxlZ401dkQ1ggmXrQOKnQhQ96YKF+mI
+         SWkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=Z3COjImbkOiEoOAzeO8GIdxDewk8AQvlhTEHNm0MlOw=;
-        b=j2c5HHkQHjQztIu+nkPNT9GuwqRGzatEOQE8kLV5TuIxjj27+KOIWFlRdoc2DEzSkK
-         0N4HwgkCpjOriqv4ZRiB7uYNu5W+3qDSxq05uHK1a0PIKcd1MDrEUWo9fPriyaWac29u
-         Pfj24+G/MvCxWSFgprnKeeI0qT8Fa3o5t7wWU83HKoW0YkETO4rXa33HiQR4OLZLZNAy
-         h/7l39zyb106rCDGK47HHrdJegMTulM84fGdV3NTg9SrKChVDbYwVWIB/lIMNyPDN/Zs
-         jo2LCeVTPJCrPtOOCaF5xqjqKlKk6DAY5FIWb+QTZNqon4m6OJm1RROtuo0sCspoxk10
-         Nexw==
-X-Gm-Message-State: AOAM533xlNAlFf4t1OsTUDXrJ6V3MPCr/rlXxRXMyxLCNMs2sb/CdG0T
-	rMLUa8A1hqHkD7vJiG8E+8suIzaaQXU2Z963rc+rjlMC7cGi
-X-Google-Smtp-Source: ABdhPJwl3/XXfAKfEcos1SazqUljVxiPCxXMPwsY8wSp6dJPzIeZNsFQ2CEKPoASmEbz3qZzqC7Y3N4nsJfiwq7n40kifY7eBpdV
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=JO+97LmndPyQ1Thx7oPnFlG7Yx3/payY/8BbczBjJ5g=;
+        b=yOpfIU3gYqUsQhBNvgqlPN1TZErs5NlM4Ima04+Seua+z8rOJ4IP97tRvkk7GeoZiH
+         MeyLXOh1701dSD8Uw61ItUkKrXUtoTfuwY4kYTasWsEPJkPcPxWZiAeKyHp+GoSHMLyF
+         LePBQVGs+U7ILtkzF07aqPXYMxKzjxmv5PMkfpT3XprMe2WipCYOPSQJDVv6fWuRN9cG
+         EOV7Azu5ENAf7NIVUM4KKLl0VPLRpfsdUntsOz6dnwgRnrwC9Cw8PKTPfJ3NMAF84rVs
+         CYYlKPQvBOLy7IzrBf2nhMvsKpb+rFJrwJNqMjjThfIlavOJFTIOtfFJlnp1Kau+gHJG
+         /P8Q==
+X-Gm-Message-State: AOAM530yNRShVFzX+HUILUqroLouXmcx0c8CNkXcu7Q5ry1F/Gpr3nW4
+	xU+jmPobjJmRYeTJMET/nHA=
+X-Google-Smtp-Source: ABdhPJzo2Tkn3kc96zKN4+3aE4sWzC7ioRWQ94ia4vOnotmz7yZK6Ja6Frgpsoszi0mgXN9Ikvjfqg==
+X-Received: by 2002:a2e:2f14:0:b0:24a:e877:7f19 with SMTP id v20-20020a2e2f14000000b0024ae8777f19mr15447116ljv.379.1650531943007;
+        Thu, 21 Apr 2022 02:05:43 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:9cae:8c00:9682:e720:334f:2fac? (dxw3k4yf2tnxwyp6sg02y-3.rev.dnainternet.fi. [2001:14ba:9cae:8c00:9682:e720:334f:2fac])
+        by smtp.gmail.com with ESMTPSA id b21-20020a2e8955000000b0024da19039a8sm2014810ljk.81.2022.04.21.02.05.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Apr 2022 02:05:42 -0700 (PDT)
+Message-ID: <ad6d9ad3-1b9d-5e18-6d80-039680c5bede@gmail.com>
+Date: Thu, 21 Apr 2022 12:05:48 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1bc7:b0:2cc:5965:ea80 with SMTP id
- x7-20020a056e021bc700b002cc5965ea80mr3176767ilv.221.1650530244546; Thu, 21
- Apr 2022 01:37:24 -0700 (PDT)
-Date: Thu, 21 Apr 2022 01:37:24 -0700
-In-Reply-To: <000000000000f8b5ef05dd25b963@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000ead34405dd2604f0@google.com>
-Subject: Re: [syzbot] UBSAN: shift-out-of-bounds in ntfs_fill_super
-From: syzbot <syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RFC] ntfs3: Use the same order for acl pointer check in
+ ntfs_init_acl
+Content-Language: en-US
+To: "xuyang2018.jy@fujitsu.com" <xuyang2018.jy@fujitsu.com>
+Cc: "almaz.alexandrovich@paragon-software.com"
+ <almaz.alexandrovich@paragon-software.com>,
+ "ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>
+References: <1650444509-3330-1-git-send-email-xuyang2018.jy@fujitsu.com>
+ <b5eb5779-5dba-c266-4fa0-37d47b53614a@stargateuniverse.net>
+ <6260C881.9000404@fujitsu.com>
+From: Kari Argillander <kari.argillander@gmail.com>
+In-Reply-To: <6260C881.9000404@fujitsu.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-syzbot has found a reproducer for the following issue on:
+On 21.4.2022 4.57, xuyang2018.jy@fujitsu.com wrote:
+> on 2022/4/21 1:43, Kari Argillander wrote:
+>> I do not understand why this RFC and not a patch.
+> I don't sure whether this small nit is a problem and can be accepted by
+> nfs3 group. So When generate a patch, I add RFC subject for it.
 
-HEAD commit:    b253435746d9 Merge tag 'xtensa-20220416' of https://github..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=177e30e8f00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ff9f8140cbb3af7
-dashboard link: https://syzkaller.appspot.com/bug?extid=1631f09646bc214d2e76
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12e13cfcf00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=135e3008f00000
+RFC means request for comments. Usually this means that patch needs more
+work but I would like to discuss this topic before I continue this work.
+This was small nit and is no problem, but I just wanted to point that
+out.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com
+   Argillander
 
-loop0: detected capacity change from 0 to 8189
-================================================================================
-UBSAN: shift-out-of-bounds in fs/ntfs3/super.c:673:16
-shift exponent -192 is negative
-CPU: 1 PID: 3587 Comm: syz-executor611 Not tainted 5.18.0-rc3-syzkaller-00016-gb253435746d9 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- ubsan_epilogue+0xb/0x50 lib/ubsan.c:151
- __ubsan_handle_shift_out_of_bounds.cold+0xb1/0x187 lib/ubsan.c:322
- ntfs_fill_super.cold+0x2bf/0x549 fs/ntfs/bitmap.c:84
- get_tree_bdev+0x440/0x760 fs/super.c:1292
- vfs_get_tree+0x89/0x2f0 fs/super.c:1497
- do_new_mount fs/namespace.c:3040 [inline]
- path_mount+0x1320/0x1fa0 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7fb8d7bcd7ea
-Code: 83 c4 08 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffdfb6d7948 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007ffdfb6d79a0 RCX: 00007fb8d7bcd7ea
-RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007ffdfb6d7960
-RBP: 00007ffdfb6d7960 R08: 00007ffdfb6d79a0 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000286 R12: 0000000020001b80
-R13: 0000000000000003 R14: 0000000000000004 R15: 0000000000000110
- </TASK>
-================================================================================
-
+>> On 20.4.2022 11.48, Yang Xu wrote:
+>>> Like ext4 and other use ${fs}_init_acl filesystem, they all used the
+>>> following
+>>> style
+>>>
+>>> error = posix_acl_create(dir, &inode->i_mode, &default_acl, &acl);
+>>> if (error)
+>>> return error;
+>>>
+>>> if (default_acl) {
+>>> error = __ext4_set_acl(handle, inode, ACL_TYPE_DEFAULT,
+>>> default_acl, XATTR_CREATE);
+>>> posix_acl_release(default_acl);
+>>> } else {
+>>> inode->i_default_acl = NULL;
+>>> }
+>>> if (acl) {
+>>> if (!error)
+>>> error = __ext4_set_acl(handle, inode, ACL_TYPE_ACCESS,
+>>> acl, XATTR_CREATE);
+>>> posix_acl_release(acl);
+>>> } else {
+>>> inode->i_acl = NULL;
+>>> }
+>>> ...
+>>>
+>>> So for the readability and unity of the code, adjust this order.
+>>>
+>>> Signed-off-by: Yang Xu <xuyang2018.jy@fujitsu.com>
+>> Reviewed-by: Kari Argillander <kari.argillander@gmail.com>
+>>
+>>> ---
+>>> fs/ntfs3/xattr.c | 6 +++---
+>>> 1 file changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+>>> index afd0ddad826f..64cefa869a61 100644
+>>> --- a/fs/ntfs3/xattr.c
+>>> +++ b/fs/ntfs3/xattr.c
+>>> @@ -642,13 +642,13 @@ int ntfs_init_acl(struct user_namespace
+>>> *mnt_userns, struct inode *inode,
+>>> inode->i_default_acl = NULL;
+>>> }
+>>> - if (!acl)
+>>> - inode->i_acl = NULL;
+>>> - else {
+>>> + if (acl) {
+>>> if (!err)
+>>> err = ntfs_set_acl_ex(mnt_userns, inode, acl,
+>>> ACL_TYPE_ACCESS);
+>>> posix_acl_release(acl);
+>>> + } else {
+>>> + inode->i_acl = NULL;
+>>> }
+>>> return err;
