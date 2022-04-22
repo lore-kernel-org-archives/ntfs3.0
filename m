@@ -1,145 +1,121 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4421123B3
-	for <ntfs3@lists.linux.dev>; Thu, 21 Apr 2022 20:53:49 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id p12so5245894lfs.5
-        for <ntfs3@lists.linux.dev>; Thu, 21 Apr 2022 13:53:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA30223A4
+	for <ntfs3@lists.linux.dev>; Fri, 22 Apr 2022 08:51:39 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id h27so12839915lfj.13
+        for <ntfs3@lists.linux.dev>; Fri, 22 Apr 2022 01:51:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=B4VBOlm6iLOGzQv2TEwbkAlQp6pIkWL2NhOTXS+7ZNY=;
-        b=fdLo4s0Nu2zUGhClmHv8PKZgp1GL9H9AbH4jUaDUyIpGOsuxxDZNuAUWwM6pymGBqo
-         Hh7rWHGt2CLMO46r+IDFRUBjgL8+R10mpiAC2qlVvgI5oofaPA6N4YM5+QQT/hcMwT7M
-         JxMB9yKo/Ldr+Kv5PoeNQhXVG6UUfh1QDhz8ofxxrNwus5uj4WUH1qhmW+0uC5Ctk5Kx
-         L7SlfISj2Rr3kGv24ALM+khZcuOm2eFWFo11dZjrZMo+MMD+WS/8A5bVfeEIKwyv7gAX
-         Z+m5/tMtYt+0sNX8H1uhqw5iV1r9mmGvMZCspuV8XmSSQIofoOdPe9Fe09WQJpb9WdZg
-         pUiQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=0qrl7VfFdydVs4dilnimskLHm3Pr4FcqtJFxCKtM1Yg=;
+        b=Y6zo+EzR9UelJqrjklp1jAhhye+mC0qKPF5pldTeGkf71BhUnUTlUznfQMRte7P2uL
+         YZqu4KctqFBu/ipi4IpKGrMWGeudTynFrgplFHnSUfztfgscSOza1MwuK6inA+zfqOQO
+         Q+oY7O7mNoyflAi7UVp64o71ehhK1psfRngwAGaGIHXbtXVH0rp37GnW2LB6QPG0OWrE
+         Ed8g4ptcw3MjRJBZgdQmn3gZ2sNJ7J2jUIxC3dLoHpAx25rd7szKoXYV8/TiT2jJf3Mo
+         jvprGssZXQUgK/0vSz0p8BeatQIYKcCJXnUpmHaV9LUJZPlGbmUNcWZcpqgrWhA01t3U
+         IeAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=B4VBOlm6iLOGzQv2TEwbkAlQp6pIkWL2NhOTXS+7ZNY=;
-        b=p7cN/AZv25xBEvm7Th1lyhlB42NvB/ZYOVFRN5ojH+8sQDj0TeogpEPTqMn18cKlK9
-         c/aIOVYrzuanHFHvjZfm8ATDjtMD5dKkmGBE9E4f+u6DJ+vWu+o3ZF9IuAtYpTqlCtuh
-         2YNgB3FdgLLUYfu9QkpDwHL6j7JZvpBxYyYrDdBymL0+hBehxYyKNqPgJTmqV+f/oLBe
-         azyb+Yv7WO7bnf3P1HNOQzwuxWtIfJmySBJuNm2VH6i7OZDg3mzKkvhwIseh64TDhHlX
-         p7z3NbbMf0Jt0b/lOmUNqEV9Tz/FHxgSep9P2lJsm7qcLdd8cZbCZRgfJFBAsVcR+UK9
-         leEg==
-X-Gm-Message-State: AOAM530BTs4ZBhdVobwIcC8bEzJdB3UGydoO1HOhsDY27GglUqXle5kG
-	ZjRXHOl8g4CaqNJ5SL3bw+uxk5GTuLwpfA==
-X-Google-Smtp-Source: ABdhPJzIbPyJ6oyHi/bK9nnaXuZ7z14Vq28pCBJBiE15yzKRuOWBae1IN3O2XYL3K0hksKoI4OVT2w==
-X-Received: by 2002:a05:6512:3193:b0:471:8eee:44d6 with SMTP id i19-20020a056512319300b004718eee44d6mr848240lfe.439.1650574427190;
-        Thu, 21 Apr 2022 13:53:47 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.225.17])
-        by smtp.gmail.com with ESMTPSA id m21-20020a197115000000b004719502fb63sm12703lfc.77.2022.04.21.13.53.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 13:53:46 -0700 (PDT)
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: almaz.alexandrovich@paragon-software.com,
-	ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH 2/2] ntfs3: make ntfs_update_mftmirr return void
-Date: Thu, 21 Apr 2022 23:53:45 +0300
-Message-Id: <a6b74fe2eb5a15eec42d3488d289e105bffb94ee.1650574393.git.paskripkin@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <85293dd018cae78e4d48d74ca77710b11eed59ba.1650574393.git.paskripkin@gmail.com>
-References: <85293dd018cae78e4d48d74ca77710b11eed59ba.1650574393.git.paskripkin@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=0qrl7VfFdydVs4dilnimskLHm3Pr4FcqtJFxCKtM1Yg=;
+        b=mgJnBvAo6nV06I0hXMZqLPtSoW4sZhx0I766Ny8IJ2OkRUo9KvwDZXPqNKbxEtUsZv
+         9lnoMcB0O2ziRsLBXfrUDe/gadfqY93Qt9Pa4wxaa1Vz2xMostajvDAT68tTGxihfCud
+         tbBRkoXm7zd/GgP+TMORMj/oglYhN+qa0K1Mtbnwt2gSs9vxQiszKcyZr1hGGVWyyrRL
+         Un3Mi8KNIo1EzT5sMoPetKn5/SpXfXuU8xmF8sY/0LD74dUd9RPkVTeihxTFVJT7eBhB
+         MUNDpSo78MzG3JIeV4ZltAW44UphbYmCE/nHTZTTVR2x5YcMfiTIJQ/8pod5uNVWXaQl
+         6FWw==
+X-Gm-Message-State: AOAM530Gr4gfmQfuUaBIkBXPfofgpEx2VK8P66nmlJeBa+62Eb+9PODa
+	Uiwg/jR/LvEg1JxM+iOhR6E=
+X-Google-Smtp-Source: ABdhPJxKfKWW/QkeRE1xunvvraYvDWln3MqvqyYwgJqOkSNvbE+uFKppRibCs90aGcTmbrdeMCNyoA==
+X-Received: by 2002:a05:6512:169e:b0:470:2124:63fb with SMTP id bu30-20020a056512169e00b00470212463fbmr2471028lfb.616.1650617497779;
+        Fri, 22 Apr 2022 01:51:37 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:9cae:8c00:9682:e720:334f:2fac? (dxw3k4yf2tnxwyp6sg02y-3.rev.dnainternet.fi. [2001:14ba:9cae:8c00:9682:e720:334f:2fac])
+        by smtp.gmail.com with ESMTPSA id z14-20020a2e7e0e000000b0024ac33571fbsm143835ljc.62.2022.04.22.01.51.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Apr 2022 01:51:37 -0700 (PDT)
+Message-ID: <6a5cf7da-9ff3-e0dd-19d9-63aa82e6d06a@gmail.com>
+Date: Fri, 22 Apr 2022 11:51:42 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] fs: ntfs3: fix Using uninitialized value n when calling
+ indx_read
+Content-Language: en-US
+To: yan <chinayanlei2002@163.com>
+Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
+ Yan Lei <yan_lei@dahuatech.com>
+References: <20220410060929.4027-1-chinayanlei2002@163.com>
+ <1fccbccb-b7d0-6f9f-e4c2-14d36e7c912c@gmail.com>
+ <6a8bea15.34ed.1805067b0fb.Coremail.chinayanlei2002@163.com>
+From: Kari Argillander <kari.argillander@gmail.com>
+In-Reply-To: <6a8bea15.34ed.1805067b0fb.Coremail.chinayanlei2002@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-None of callers check the return value of ntfs_update_mftmirr(), so make
-it return void to make code simpler.
+Do not top post.
 
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- fs/ntfs3/fsntfs.c  | 20 +++++++-------------
- fs/ntfs3/ntfs_fs.h |  2 +-
- 2 files changed, 8 insertions(+), 14 deletions(-)
+On 22.4.2022 11.33, yan wrote:
+> 
+>     It's not a mistake, I can't send patchs with my company's email due 
+> to some security issues。
 
-diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-index 891125ca6848..938acb246b58 100644
---- a/fs/ntfs3/fsntfs.c
-+++ b/fs/ntfs3/fsntfs.c
-@@ -827,7 +827,7 @@ int ntfs_refresh_zone(struct ntfs_sb_info *sbi)
- /*
-  * ntfs_update_mftmirr - Update $MFTMirr data.
-  */
--int ntfs_update_mftmirr(struct ntfs_sb_info *sbi, int wait)
-+void ntfs_update_mftmirr(struct ntfs_sb_info *sbi, int wait)
- {
- 	int err;
- 	struct super_block *sb = sbi->sb;
-@@ -836,12 +836,12 @@ int ntfs_update_mftmirr(struct ntfs_sb_info *sbi, int wait)
- 	u32 bytes;
- 
- 	if (!sb)
--		return -EINVAL;
-+		return;
- 
- 	blocksize = sb->s_blocksize;
- 
- 	if (!(sbi->flags & NTFS_FLAGS_MFTMIRR))
--		return 0;
-+		return;
- 
- 	err = 0;
- 	bytes = sbi->mft.recs_mirr << sbi->record_bits;
-@@ -852,16 +852,13 @@ int ntfs_update_mftmirr(struct ntfs_sb_info *sbi, int wait)
- 		struct buffer_head *bh1, *bh2;
- 
- 		bh1 = sb_bread(sb, block1++);
--		if (!bh1) {
--			err = -EIO;
--			goto out;
--		}
-+		if (!bh1)
-+			return;
- 
- 		bh2 = sb_getblk(sb, block2++);
- 		if (!bh2) {
- 			put_bh(bh1);
--			err = -EIO;
--			goto out;
-+			return;
- 		}
- 
- 		if (buffer_locked(bh2))
-@@ -881,13 +878,10 @@ int ntfs_update_mftmirr(struct ntfs_sb_info *sbi, int wait)
- 
- 		put_bh(bh2);
- 		if (err)
--			goto out;
-+			return;
- 	}
- 
- 	sbi->flags &= ~NTFS_FLAGS_MFTMIRR;
--
--out:
--	return err;
- }
- 
- /*
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index fb825059d488..061dafbdcedd 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -592,7 +592,7 @@ int ntfs_look_free_mft(struct ntfs_sb_info *sbi, CLST *rno, bool mft,
- void ntfs_mark_rec_free(struct ntfs_sb_info *sbi, CLST rno);
- int ntfs_clear_mft_tail(struct ntfs_sb_info *sbi, size_t from, size_t to);
- int ntfs_refresh_zone(struct ntfs_sb_info *sbi);
--int ntfs_update_mftmirr(struct ntfs_sb_info *sbi, int wait);
-+void ntfs_update_mftmirr(struct ntfs_sb_info *sbi, int wait);
- enum NTFS_DIRTY_FLAGS {
- 	NTFS_DIRTY_CLEAR = 0,
- 	NTFS_DIRTY_DIRTY = 1,
--- 
-2.35.1
+Then patch cannot be accepted. If you tag patch with email which does
+not work how do people message to you if needed. Also how we can know
+that it is your email if you event can't use it. That company security
+policy goes too far if you can't even use your email address.
 
+>     The CWE bug were detected by a static code scanning tool called 
+> CodeS of my company（I don't kown its real name）.
+>     The CodeS reports:
+>     Use of an uninitialized variable(CWE-457)
+>     Using uninitialized value "n" when calling indx_read.
+> 
+>     commit messages is as below:
+>     This CWE bug were detected by a static code scanning tool，
+>     Fix using unitialized value n when calling indx_read
+
+You need to send v2.
+
+> At 2022-04-21 01:50:27, "Kari Argillander" <kari.argillander@gmail.com> wrote:
+>>This patch is sended from address chinayanlei2002@163.com you need to 
+>>send it from yan_lei@dahuatech.com this was probably mistake?
+>>
+>>Also please write commit message. Always good to write how did you spot 
+>>this and what message some analyzer showed to you. This way everyone 
+>>else will can verify and maybe even learn to use new tools. This also 
+>>looks like it really fix something so this needs fix tag so it can be 
+>>easily back ported to stable.
+>>
+>>On 10.4.2022 9.09, chinayanlei2002@163.com wrote:
+>>> From: Yan Lei <yan_lei@dahuatech.com>
+>>> 
+>>> Signed-off-by: Yan Lei <yan_lei@dahuatech.com>
+>>> ---
+>>>   fs/ntfs3/index.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>> 
+>>> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+>>> index 6f81e3a49..76ebea253 100644
+>>> --- a/fs/ntfs3/index.c
+>>> +++ b/fs/ntfs3/index.c
+>>> @@ -1994,7 +1994,7 @@ static int indx_free_children(struct ntfs_index *indx, struct ntfs_inode *ni,
+>>>   			      const struct NTFS_DE *e, bool trim)
+>>>   {
+>>>   	int err;
+>>> -	struct indx_node *n;
+>>> +	struct indx_node *n = NULL;
+>>>   	struct INDEX_HDR *hdr;
+>>>   	CLST vbn = de_get_vbn(e);
+>>>   	size_t i;
+> 
+> 
+> 
