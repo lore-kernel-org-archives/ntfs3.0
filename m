@@ -1,121 +1,240 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA30223A4
-	for <ntfs3@lists.linux.dev>; Fri, 22 Apr 2022 08:51:39 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id h27so12839915lfj.13
-        for <ntfs3@lists.linux.dev>; Fri, 22 Apr 2022 01:51:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=0qrl7VfFdydVs4dilnimskLHm3Pr4FcqtJFxCKtM1Yg=;
-        b=Y6zo+EzR9UelJqrjklp1jAhhye+mC0qKPF5pldTeGkf71BhUnUTlUznfQMRte7P2uL
-         YZqu4KctqFBu/ipi4IpKGrMWGeudTynFrgplFHnSUfztfgscSOza1MwuK6inA+zfqOQO
-         Q+oY7O7mNoyflAi7UVp64o71ehhK1psfRngwAGaGIHXbtXVH0rp37GnW2LB6QPG0OWrE
-         Ed8g4ptcw3MjRJBZgdQmn3gZ2sNJ7J2jUIxC3dLoHpAx25rd7szKoXYV8/TiT2jJf3Mo
-         jvprGssZXQUgK/0vSz0p8BeatQIYKcCJXnUpmHaV9LUJZPlGbmUNcWZcpqgrWhA01t3U
-         IeAQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E3628F4
+	for <ntfs3@lists.linux.dev>; Fri, 22 Apr 2022 13:07:19 +0000 (UTC)
+Received: by mail-il1-f198.google.com with SMTP id u11-20020a056e021a4b00b002cc315db462so4421512ilv.4
+        for <ntfs3@lists.linux.dev>; Fri, 22 Apr 2022 06:07:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=0qrl7VfFdydVs4dilnimskLHm3Pr4FcqtJFxCKtM1Yg=;
-        b=mgJnBvAo6nV06I0hXMZqLPtSoW4sZhx0I766Ny8IJ2OkRUo9KvwDZXPqNKbxEtUsZv
-         9lnoMcB0O2ziRsLBXfrUDe/gadfqY93Qt9Pa4wxaa1Vz2xMostajvDAT68tTGxihfCud
-         tbBRkoXm7zd/GgP+TMORMj/oglYhN+qa0K1Mtbnwt2gSs9vxQiszKcyZr1hGGVWyyrRL
-         Un3Mi8KNIo1EzT5sMoPetKn5/SpXfXuU8xmF8sY/0LD74dUd9RPkVTeihxTFVJT7eBhB
-         MUNDpSo78MzG3JIeV4ZltAW44UphbYmCE/nHTZTTVR2x5YcMfiTIJQ/8pod5uNVWXaQl
-         6FWw==
-X-Gm-Message-State: AOAM530Gr4gfmQfuUaBIkBXPfofgpEx2VK8P66nmlJeBa+62Eb+9PODa
-	Uiwg/jR/LvEg1JxM+iOhR6E=
-X-Google-Smtp-Source: ABdhPJxKfKWW/QkeRE1xunvvraYvDWln3MqvqyYwgJqOkSNvbE+uFKppRibCs90aGcTmbrdeMCNyoA==
-X-Received: by 2002:a05:6512:169e:b0:470:2124:63fb with SMTP id bu30-20020a056512169e00b00470212463fbmr2471028lfb.616.1650617497779;
-        Fri, 22 Apr 2022 01:51:37 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:9cae:8c00:9682:e720:334f:2fac? (dxw3k4yf2tnxwyp6sg02y-3.rev.dnainternet.fi. [2001:14ba:9cae:8c00:9682:e720:334f:2fac])
-        by smtp.gmail.com with ESMTPSA id z14-20020a2e7e0e000000b0024ac33571fbsm143835ljc.62.2022.04.22.01.51.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Apr 2022 01:51:37 -0700 (PDT)
-Message-ID: <6a5cf7da-9ff3-e0dd-19d9-63aa82e6d06a@gmail.com>
-Date: Fri, 22 Apr 2022 11:51:42 +0300
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=Pdzb3i5KyQeTk+zvHZ+u9HIYBMcZ66XsdCqWjq0KVso=;
+        b=7oXLDDLOiuMz2QlW7/znyRcttl2Jtxu6z6yREFa3uAcguZJlXhYV3jxpSsFs075zBE
+         FqZR3Ta5l1cJ5qGiPVLLrSCNI9fxJmEwaJUp7LHulv27x+H5d3SVHWkctweZXvHAwkby
+         L+Qr52WZ7WzfHaJpGkRq84tWwtgy4tR2X9k1yKWaDgdFiN8cQjt/m2Lum+3Z250Wct/K
+         f6FADjYqlMI0PRJVXKkR/mn1qNFtpe04m2I3EvjaTQoX+AFLsoICANN1uCaxHCGiHTC6
+         3nngEwsjQmfwxFl/HEBEJ7WxH4KxssTudA1YgRm4x/wA663o7b5B+DY9uOsfQo5buNw6
+         oKVQ==
+X-Gm-Message-State: AOAM530aooZCXuvWo1ubcBvIP685Sbbo0PiUGF6qJ+9TiqaZys8Y8Vpr
+	czVas7JzOa41kgtSnvI9p9ho46TM+gYCIjFtfsh8hJPuXvxq
+X-Google-Smtp-Source: ABdhPJx3jeyD1SzEsNko6rMOpkq/4qmVE9zBCiLOxqBdtZJtQ9YLaimz+/B1Rvfi9C38fbtiOLWZYEEhmGML2gXl2OwK4VfZB9Ql
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] fs: ntfs3: fix Using uninitialized value n when calling
- indx_read
-Content-Language: en-US
-To: yan <chinayanlei2002@163.com>
-Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
- Yan Lei <yan_lei@dahuatech.com>
-References: <20220410060929.4027-1-chinayanlei2002@163.com>
- <1fccbccb-b7d0-6f9f-e4c2-14d36e7c912c@gmail.com>
- <6a8bea15.34ed.1805067b0fb.Coremail.chinayanlei2002@163.com>
-From: Kari Argillander <kari.argillander@gmail.com>
-In-Reply-To: <6a8bea15.34ed.1805067b0fb.Coremail.chinayanlei2002@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6638:2510:b0:323:dcd9:91dd with SMTP id
+ v16-20020a056638251000b00323dcd991ddmr2078306jat.168.1650632838694; Fri, 22
+ Apr 2022 06:07:18 -0700 (PDT)
+Date: Fri, 22 Apr 2022 06:07:18 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000000149eb05dd3de8cc@google.com>
+Subject: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_iget5
+From: syzbot <syzbot+b4084c18420f9fad0b4f@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-Do not top post.
+Hello,
 
-On 22.4.2022 11.33, yan wrote:
-> 
->     It's not a mistake, I can't send patchs with my company's email due 
-> to some security issues。
+syzbot found the following issue on:
 
-Then patch cannot be accepted. If you tag patch with email which does
-not work how do people message to you if needed. Also how we can know
-that it is your email if you event can't use it. That company security
-policy goes too far if you can't even use your email address.
+HEAD commit:    d569e86915b7 Merge tag 'drm-fixes-2022-04-22' of git://ano..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13285ddcf00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=71bf5c8488a4e33a
+dashboard link: https://syzkaller.appspot.com/bug?extid=b4084c18420f9fad0b4f
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
->     The CWE bug were detected by a static code scanning tool called 
-> CodeS of my company（I don't kown its real name）.
->     The CodeS reports:
->     Use of an uninitialized variable(CWE-457)
->     Using uninitialized value "n" when calling indx_read.
-> 
->     commit messages is as below:
->     This CWE bug were detected by a static code scanning tool，
->     Fix using unitialized value n when calling indx_read
+Unfortunately, I don't have any reproducer for this issue yet.
 
-You need to send v2.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b4084c18420f9fad0b4f@syzkaller.appspotmail.com
 
-> At 2022-04-21 01:50:27, "Kari Argillander" <kari.argillander@gmail.com> wrote:
->>This patch is sended from address chinayanlei2002@163.com you need to 
->>send it from yan_lei@dahuatech.com this was probably mistake?
->>
->>Also please write commit message. Always good to write how did you spot 
->>this and what message some analyzer showed to you. This way everyone 
->>else will can verify and maybe even learn to use new tools. This also 
->>looks like it really fix something so this needs fix tag so it can be 
->>easily back ported to stable.
->>
->>On 10.4.2022 9.09, chinayanlei2002@163.com wrote:
->>> From: Yan Lei <yan_lei@dahuatech.com>
->>> 
->>> Signed-off-by: Yan Lei <yan_lei@dahuatech.com>
->>> ---
->>>   fs/ntfs3/index.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>> 
->>> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
->>> index 6f81e3a49..76ebea253 100644
->>> --- a/fs/ntfs3/index.c
->>> +++ b/fs/ntfs3/index.c
->>> @@ -1994,7 +1994,7 @@ static int indx_free_children(struct ntfs_index *indx, struct ntfs_inode *ni,
->>>   			      const struct NTFS_DE *e, bool trim)
->>>   {
->>>   	int err;
->>> -	struct indx_node *n;
->>> +	struct indx_node *n = NULL;
->>>   	struct INDEX_HDR *hdr;
->>>   	CLST vbn = de_get_vbn(e);
->>>   	size_t i;
-> 
-> 
-> 
+loop2: detected capacity change from 0 to 8185
+ntfs3: loop2: Different NTFS' sector size (2048) and media sector size (512)
+==================================================================
+BUG: KASAN: slab-out-of-bounds in ntfs_iget5+0x2b93/0x3240 fs/ntfs3/inode.c:501
+Read of size 8 at addr ffff888073687f28 by task syz-executor.2/9904
+
+CPU: 1 PID: 9904 Comm: syz-executor.2 Not tainted 5.18.0-rc3-syzkaller-00080-gd569e86915b7 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+ print_address_description.constprop.0.cold+0xeb/0x495 mm/kasan/report.c:313
+ print_report mm/kasan/report.c:429 [inline]
+ kasan_report.cold+0xf4/0x1c6 mm/kasan/report.c:491
+ ntfs_iget5+0x2b93/0x3240 fs/ntfs3/inode.c:501
+ ntfs_fill_super+0x2529/0x37b0 fs/ntfs3/super.c:1083
+ get_tree_bdev+0x440/0x760 fs/super.c:1292
+ vfs_get_tree+0x89/0x2f0 fs/super.c:1497
+ do_new_mount fs/namespace.c:3040 [inline]
+ path_mount+0x1320/0x1fa0 fs/namespace.c:3370
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7f6e8f88a61a
+Code: 48 c7 c2 b8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 b8 04 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f6e90903f88 EFLAGS: 00000206 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000020000200 RCX: 00007f6e8f88a61a
+RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007f6e90903fe0
+RBP: 00007f6e90904020 R08: 00007f6e90904020 R09: 0000000020000000
+R10: 0000000000000000 R11: 0000000000000206 R12: 0000000020000000
+R13: 0000000020000100 R14: 00007f6e90903fe0 R15: 000000002007a980
+ </TASK>
+
+Allocated by task 3611:
+ kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+ kasan_set_track mm/kasan/common.c:45 [inline]
+ set_alloc_info mm/kasan/common.c:436 [inline]
+ __kasan_slab_alloc+0x90/0xc0 mm/kasan/common.c:469
+ kasan_slab_alloc include/linux/kasan.h:224 [inline]
+ slab_post_alloc_hook mm/slab.h:749 [inline]
+ slab_alloc_node mm/slub.c:3217 [inline]
+ slab_alloc mm/slub.c:3225 [inline]
+ __kmem_cache_alloc_lru mm/slub.c:3232 [inline]
+ kmem_cache_alloc_lru+0x255/0x720 mm/slub.c:3249
+ alloc_inode_sb include/linux/fs.h:2966 [inline]
+ sock_alloc_inode+0x23/0x1d0 net/socket.c:304
+ alloc_inode+0x61/0x230 fs/inode.c:260
+ new_inode_pseudo+0x14/0xe0 fs/inode.c:1018
+ sock_alloc+0x3c/0x260 net/socket.c:627
+ __sock_create+0xb9/0x790 net/socket.c:1432
+ sock_create net/socket.c:1519 [inline]
+ __sys_socket+0xef/0x200 net/socket.c:1561
+ __do_sys_socket net/socket.c:1570 [inline]
+ __se_sys_socket net/socket.c:1568 [inline]
+ __x64_sys_socket+0x6f/0xb0 net/socket.c:1568
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+
+Last potentially related work creation:
+ kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+ __kasan_record_aux_stack+0xbe/0xd0 mm/kasan/generic.c:348
+ call_rcu+0x99/0x790 kernel/rcu/tree.c:3074
+ destroy_inode+0x129/0x1b0 fs/inode.c:315
+ iput_final fs/inode.c:1744 [inline]
+ iput.part.0+0x562/0x820 fs/inode.c:1770
+ iput+0x58/0x70 fs/inode.c:1760
+ dentry_unlink_inode+0x2b1/0x460 fs/dcache.c:401
+ __dentry_kill+0x3c0/0x640 fs/dcache.c:607
+ dentry_kill fs/dcache.c:733 [inline]
+ dput+0x806/0xdb0 fs/dcache.c:913
+ __fput+0x39c/0x9d0 fs/file_table.c:330
+ task_work_run+0xdd/0x1a0 kernel/task_work.c:164
+ resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:169 [inline]
+ exit_to_user_mode_prepare+0x23c/0x250 kernel/entry/common.c:201
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
+ syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:294
+ do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+
+Second to last potentially related work creation:
+ kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+ __kasan_record_aux_stack+0xbe/0xd0 mm/kasan/generic.c:348
+ call_rcu+0x99/0x790 kernel/rcu/tree.c:3074
+ destroy_inode+0x129/0x1b0 fs/inode.c:315
+ iput_final fs/inode.c:1744 [inline]
+ iput.part.0+0x562/0x820 fs/inode.c:1770
+ iput+0x58/0x70 fs/inode.c:1760
+ dentry_unlink_inode+0x2b1/0x460 fs/dcache.c:401
+ __dentry_kill+0x3c0/0x640 fs/dcache.c:607
+ dentry_kill fs/dcache.c:733 [inline]
+ dput+0x806/0xdb0 fs/dcache.c:913
+ __fput+0x39c/0x9d0 fs/file_table.c:330
+ task_work_run+0xdd/0x1a0 kernel/task_work.c:164
+ resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:169 [inline]
+ exit_to_user_mode_prepare+0x23c/0x250 kernel/entry/common.c:201
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
+ syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:294
+ do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+
+The buggy address belongs to the object at ffff888073687800
+ which belongs to the cache sock_inode_cache of size 1408
+The buggy address is located 424 bytes to the right of
+ 1408-byte region [ffff888073687800, ffff888073687d80)
+
+The buggy address belongs to the physical page:
+page:ffffea0001cda000 refcount:1 mapcount:0 mapping:0000000000000000 index:0xffff888073680600 pfn:0x73680
+head:ffffea0001cda000 order:3 compound_mapcount:0 compound_pincount:0
+memcg:ffff888079fa8401
+flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000010200 0000000000000000 dead000000000001 ffff888140795500
+raw: ffff888073680600 000000008015000b 00000001ffffffff ffff888079fa8401
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Reclaimable, gfp_mask 0xd20d0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC|__GFP_RECLAIMABLE), pid 3171, tgid 3171 (dhcpcd), ts 33789392393, free_ts 10721584612
+ prep_new_page mm/page_alloc.c:2441 [inline]
+ get_page_from_freelist+0xba2/0x3e00 mm/page_alloc.c:4182
+ __alloc_pages+0x1b2/0x500 mm/page_alloc.c:5408
+ alloc_pages+0x1aa/0x310 mm/mempolicy.c:2272
+ alloc_slab_page mm/slub.c:1799 [inline]
+ allocate_slab+0x26c/0x3c0 mm/slub.c:1944
+ new_slab mm/slub.c:2004 [inline]
+ ___slab_alloc+0x8df/0xf20 mm/slub.c:3005
+ __slab_alloc.constprop.0+0x4d/0xa0 mm/slub.c:3092
+ slab_alloc_node mm/slub.c:3183 [inline]
+ slab_alloc mm/slub.c:3225 [inline]
+ __kmem_cache_alloc_lru mm/slub.c:3232 [inline]
+ kmem_cache_alloc_lru+0x504/0x720 mm/slub.c:3249
+ alloc_inode_sb include/linux/fs.h:2966 [inline]
+ sock_alloc_inode+0x23/0x1d0 net/socket.c:304
+ alloc_inode+0x61/0x230 fs/inode.c:260
+ new_inode_pseudo+0x14/0xe0 fs/inode.c:1018
+ sock_alloc+0x3c/0x260 net/socket.c:627
+ __sock_create+0xb9/0x790 net/socket.c:1432
+ sock_create net/socket.c:1519 [inline]
+ __sys_socket+0xef/0x200 net/socket.c:1561
+ __do_sys_socket net/socket.c:1570 [inline]
+ __se_sys_socket net/socket.c:1568 [inline]
+ __x64_sys_socket+0x6f/0xb0 net/socket.c:1568
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1356 [inline]
+ free_pcp_prepare+0x549/0xd20 mm/page_alloc.c:1406
+ free_unref_page_prepare mm/page_alloc.c:3328 [inline]
+ free_unref_page+0x19/0x6a0 mm/page_alloc.c:3423
+ free_contig_range+0xb1/0x180 mm/page_alloc.c:9418
+ destroy_args+0xa8/0x646 mm/debug_vm_pgtable.c:1018
+ debug_vm_pgtable+0x2a51/0x2ae3 mm/debug_vm_pgtable.c:1332
+ do_one_initcall+0x103/0x650 init/main.c:1298
+ do_initcall_level init/main.c:1371 [inline]
+ do_initcalls init/main.c:1387 [inline]
+ do_basic_setup init/main.c:1406 [inline]
+ kernel_init_freeable+0x6b1/0x73a init/main.c:1613
+ kernel_init+0x1a/0x1d0 init/main.c:1502
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:298
+
+Memory state around the buggy address:
+ ffff888073687e00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888073687e80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff888073687f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                                  ^
+ ffff888073687f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888073688000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
