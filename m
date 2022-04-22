@@ -1,240 +1,164 @@
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E3628F4
-	for <ntfs3@lists.linux.dev>; Fri, 22 Apr 2022 13:07:19 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id u11-20020a056e021a4b00b002cc315db462so4421512ilv.4
-        for <ntfs3@lists.linux.dev>; Fri, 22 Apr 2022 06:07:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD642C80
+	for <ntfs3@lists.linux.dev>; Fri, 22 Apr 2022 19:42:40 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id bn33so10849044ljb.6
+        for <ntfs3@lists.linux.dev>; Fri, 22 Apr 2022 12:42:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:from:subject:to
+         :content-language;
+        bh=N/LSFQN/sybhfpg0wHH6B71OMHYJrSE5MA4h92oUuNo=;
+        b=m267B1Gu2nw+Dord633lckwQOCBFAjfwEorD614/lS14Sa6Rp0or3BiBkEJ/zd2dOw
+         XMIvsBv5p8P0W9CjjSHyqf3l4G+LsjcgdGqDLJbASo/HEq0iAW25mdNDWCqjXeDy5DP4
+         5bAngKz9KwMiA4iS3RklfzZGK2gtzr3j9J5Omips0RfzjXWfUNg+2Lr31qS19Qr9xgLm
+         /ZGLJezlXZoEO9R104e9vBuu4AOvD15Otcgipv1gZN228uHQMVs698o6hg0MsKmelUIb
+         rIHvxxlXJAC0rpKMQ4HYVwN3N6tILjhIHMhCn7o7p8ov33VMd3N9iq0wU14kHizsg2qz
+         ndBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=Pdzb3i5KyQeTk+zvHZ+u9HIYBMcZ66XsdCqWjq0KVso=;
-        b=7oXLDDLOiuMz2QlW7/znyRcttl2Jtxu6z6yREFa3uAcguZJlXhYV3jxpSsFs075zBE
-         FqZR3Ta5l1cJ5qGiPVLLrSCNI9fxJmEwaJUp7LHulv27x+H5d3SVHWkctweZXvHAwkby
-         L+Qr52WZ7WzfHaJpGkRq84tWwtgy4tR2X9k1yKWaDgdFiN8cQjt/m2Lum+3Z250Wct/K
-         f6FADjYqlMI0PRJVXKkR/mn1qNFtpe04m2I3EvjaTQoX+AFLsoICANN1uCaxHCGiHTC6
-         3nngEwsjQmfwxFl/HEBEJ7WxH4KxssTudA1YgRm4x/wA663o7b5B+DY9uOsfQo5buNw6
-         oKVQ==
-X-Gm-Message-State: AOAM530aooZCXuvWo1ubcBvIP685Sbbo0PiUGF6qJ+9TiqaZys8Y8Vpr
-	czVas7JzOa41kgtSnvI9p9ho46TM+gYCIjFtfsh8hJPuXvxq
-X-Google-Smtp-Source: ABdhPJx3jeyD1SzEsNko6rMOpkq/4qmVE9zBCiLOxqBdtZJtQ9YLaimz+/B1Rvfi9C38fbtiOLWZYEEhmGML2gXl2OwK4VfZB9Ql
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+         :subject:to:content-language;
+        bh=N/LSFQN/sybhfpg0wHH6B71OMHYJrSE5MA4h92oUuNo=;
+        b=PF5Vg0xaSXbAZrkoHEj5J4FznJD/B1nryN17/yImVtY2s2IyPgxPxVkcteUicETzqC
+         73Nt5IFihWhVQc8yf2mv3PWkJw0PZNAEGefNZnLibGyIaU7x4bXB+Kd0sV1E/KTqimmc
+         EPxoOUDxN72DHfNyW04zmVAYrh9XKtYSB64pGVpVejRFx//6q3xSw9r8LB9i3z2fZf9m
+         VCSFXsjKhEUDyQTJxHsSMyohnoUjfMTnEd8aroNNeY0Hcd89uL8VJqfV0f2EXZo1U7SF
+         Aeb9fk0qXsRfgyFcscl26eIOBnFAj+C9n2qAWtbDvht43KCds8ABALEFy/P9Y8ZbgEIM
+         +pTA==
+X-Gm-Message-State: AOAM530OpbZHjSNsqgTZ/fzLJEF21XbZAs4aUbcdJiD5b45ShYvwJx4f
+	C1UnkhbHluD2nKwuVKGJcGfLBn86kZc=
+X-Google-Smtp-Source: ABdhPJxnFoFZCgR/KyhPk64u7Wm+62Q1oFXkAF35DBDHkeBUatmk2JkOuCJHGfBzg+xxA7Wm8VE0ZA==
+X-Received: by 2002:a2e:3c17:0:b0:24d:a54b:7f5 with SMTP id j23-20020a2e3c17000000b0024da54b07f5mr3620129lja.396.1650656558747;
+        Fri, 22 Apr 2022 12:42:38 -0700 (PDT)
+Received: from [192.168.53.192] (h77-53-209-86.cust.a3fiber.se. [77.53.209.86])
+        by smtp.gmail.com with ESMTPSA id l12-20020a056512332c00b0046d0e0e5b44sm330775lfe.20.2022.04.22.12.42.38
+        for <ntfs3@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Apr 2022 12:42:38 -0700 (PDT)
+Message-ID: <780a74c2-5b01-8b99-6c91-1b64397ce6d3@gmail.com>
+Date: Fri, 22 Apr 2022 21:42:37 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:2510:b0:323:dcd9:91dd with SMTP id
- v16-20020a056638251000b00323dcd991ddmr2078306jat.168.1650632838694; Fri, 22
- Apr 2022 06:07:18 -0700 (PDT)
-Date: Fri, 22 Apr 2022 06:07:18 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000000149eb05dd3de8cc@google.com>
-Subject: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_iget5
-From: syzbot <syzbot+b4084c18420f9fad0b4f@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+From: Linus Kardell <linus.kardell@gmail.com>
+Subject: Unable to properly read some files with ntfs3
+To: ntfs3@lists.linux.dev
+Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------j5VlXtdpege9nTEFTf2E9x5y"
 
-Hello,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------j5VlXtdpege9nTEFTf2E9x5y
+Content-Type: multipart/mixed; boundary="------------AjbNijYerKc40FGnikQMgcCj";
+ protected-headers="v1"
+From: Linus Kardell <linus.kardell@gmail.com>
+To: ntfs3@lists.linux.dev
+Message-ID: <780a74c2-5b01-8b99-6c91-1b64397ce6d3@gmail.com>
+Subject: Unable to properly read some files with ntfs3
 
-syzbot found the following issue on:
+--------------AjbNijYerKc40FGnikQMgcCj
+Content-Type: multipart/mixed; boundary="------------dR6zsrp7YJ73zpweTcbM7B4G"
 
-HEAD commit:    d569e86915b7 Merge tag 'drm-fixes-2022-04-22' of git://ano..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13285ddcf00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=71bf5c8488a4e33a
-dashboard link: https://syzkaller.appspot.com/bug?extid=b4084c18420f9fad0b4f
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+--------------dR6zsrp7YJ73zpweTcbM7B4G
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Unfortunately, I don't have any reproducer for this issue yet.
+SSdtIHRyeWluZyBvdXQgdGhlIG50ZnMzIGtlcm5lbCBkcml2ZXIgb24gT3BlblNVU0UgVHVt
+Ymxld2VlZCwgYnV0IEknbSANCnVuYWJsZSB0byByZWFkIHNvbWUgZmlsZXMuIEkgYWxzbyBw
+b3N0ZWQgYWJvdXQgdGhpcyBoZXJlOiANCmh0dHBzOi8vcmVkZGl0LmNvbS9yL29wZW5TVVNF
+L2NvbW1lbnRzL3U2OTN2bS9ub19zdWNoX2ZpbGVfb3JfZGlyZWN0b3J5X3doZW5fcmVhZGlu
+Z19zb21lX2ZpbGVzLywgDQpodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvc2hvd19idWcu
+Y2dpP2lkPTIxNTg2NCBhbmQgDQpodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvc2hvd19i
+dWcuY2dpP2lkPTIxNTg2NA0KDQpUaGUgZmlsZXMgdGhhdCBpdCBoYXBwZW5zIHRvIGFyZSBh
+IGZldyBHaUIgaW4gc2l6ZS4gSXQgZG9lc24ndCBmYWlsIA0KaW1tZWRpYXRlbHksIHJhdGhl
+ciB3aGVuIEkgcmVhZCBpdCB3aXRoIGRkIHN0YXR1cz1wcm9ncmVzcyB0aGUgZmlyc3QgDQp0
+aW1lIGl0IHJlYWRzIGEgYml0IGludG8gdGhlIGZpbGUgKGEgZmV3IE1pQiBvciBvdmVyIGEg
+aHVuZHJlZCBNaUIsIA0KZGVwZW5kaW5nIG9uIHRoZSBmaWxlcywgYnV0IGl0IHNlZW1zIHRv
+IGFsd2F5cyBiZSB0aGUgc2FtZSBkaXN0YW5jZSBmb3IgDQp0aGUgc2FtZSBmaWxlKSwgYW5k
+IHRoZW4gdGhyb3dzICJObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5Ii4gQmFzZWQgb24gDQpz
+dHJhY2UgaXQgZ2V0cyBFTk9FTlQgZnJvbSBhIHJlYWQgY2FsbCwgYWZ0ZXIgaXQncyBhbHJl
+YWR5IHJlYWQgDQptZWdhYnl0ZXMgb2YgZGF0YSBmcm9tIHRoZSBzYW1lIGZkLg0KDQpPbiBz
+dWJzZXF1ZW50IHJlYWRzLCBpdCBnZXRzIHRocm91Z2ggdGhlIHdob2xlIGZpbGUuIE9ubHks
+IGl0IGRvZXNuJ3QgDQpyZWFsbHksIGJlY2F1c2UgdGhlIHJlc3VsdGluZyBjb250ZW50IGlz
+IHdyb25nLiBTbyBpdCBuZXZlciB0cnVseSByZWFkcyANCnRoZSB3aG9sZSBmaWxlLCBidXQg
+b25seSBzb21ldGltZXMgdGhyb3dzIGFuIGVycm9yICh3aGVuIGl0J3Mgbm90IGluIA0KZGlz
+ayBjYWNoZT8pLiBUaGUgc2FtZSBmaWxlIGlzIGFsd2F5cyByZWFkIGNvcnJlY3RseSB3aXRo
+IG50ZnMtM2cuDQoNCkFsc28sIG5vdCBzdXJlIGlmIHJlbGF0ZWQsIGJ1dCBhZnRlciBJJ3Zl
+IG1vdW50ZWQgYW5kIHVubW91bnRlZCBhIGZldyANCnRpbWVzIHdpdGggbnRmMyBhbmQgbnRm
+cy0zZywgbnRmczMgc3RhcnRzIHRocm93aW5nIGVycm9ycyBzYXlpbmc6DQoNCiJtb3VudDog
+L3dpbmRvd3MvZDogd3JvbmcgZnMgdHlwZSwgYmFkIG9wdGlvbiwgYmFkIHN1cGVyYmxvY2sg
+b24gDQovZGV2L3NkYTEsIG1pc3NpbmcgY29kZXBhZ2Ugb3IgaGVscGVyIHByb2dyYW0sIG9y
+IG90aGVyIGVycm9yLiINCg0KYW5kIHJlZnVzZXMgdG8gbW91bnQgaXQgdW5sZXNzIEkgYWRk
+IC1vIHJvLiBJdCBzdGlsbCB3b3JrcyBwcm9wZXJseSBpbiANCm50ZnMtM2cuDQoNClRoZSBm
+aWxlc3lzdGVtIGhhcyBjb21wcmVzc2lvbiBlbmFibGVkLCBpbiBjYXNlIHRoYXQgbWF0dGVy
+cyAoIkNvbXByZXNzIA0KdGhpcyBkcml2ZSB0byBzYXZlIGRpc2sgc3BhY2UiIGlzIGNoZWNr
+ZWQgaW4gdGhlIGZpbGUgc3lzdGVtIHNldHRpbmdzIGluIA0KV2luZG93cyksIHRob3VnaCB0
+aGUgZmlsZXMgc2hvdWxkIGJlIGluY29tcHJlc3NpYmxlLCBhcyB0aGV5J3JlIGd6aXBwZWQg
+DQpvciByYW5kb20uDQoNCkkgdHJpZWQgcnVubmluZyBjaGtkc2sgZnJvbSBXaW5kb3dzLCBi
+dXQgdGhhdCBkaWQgbm90IGZpeCBpdCAoZXhjZXB0IEkgDQp0aGluayBpdCB0ZW1wb3Jhcmls
+eSBnb3QgcmlkIG9mIHRoZSAid3JvbmcgZnMgdHlwZS4uLiIgbW91bnQgZXJyb3IpLg0KDQpJ
+IGNhbiByZXByb2R1Y2UgaXQgYnkgZGQ6aW5nIDQgR2lCIG9mIC9kZXYvdXJhbmRvbSB0byBh
+IGZpbGUgYW5kIGNvcHlpbmcgDQppdCBvbnRvIHRoZSBOVEZTIHBhcnRpdGlvbiB3aGlsZSBt
+b3VudGVkIHdpdGggbnRmcy0zZywgYW5kIHRoZW4gdHJ5aW5nIA0KdG8gcmVhZCB0aGUgZmls
+ZSB3aGlsZSBtb3VudGVkIHdpdGggbnRmczMuDQoNCk15IGZ1bGwgbW91bnQgb3B0aW9ucyBh
+cmU6DQpudGZzLTNnOiBmbWFzaz0xMTMsZG1hc2s9MDAyLGdpZD0xMDAsbm9hdGltZSx3aW5k
+b3dzX25hbWVzLGNvbXByZXNzaW9uDQpudGZzMzogaW9jaGFyc2V0PXV0ZjgsZm1hc2s9MTEz
+LGRtYXNrPTAwMixnaWQ9MTAwLG5vYXRpbWUNCg0KdW5hbWUgLXI6IDUuMTcuMi0xLWRlZmF1
+bHQNCnJwbSAtcSBudGZzcHJvZ3M6IG50ZnNwcm9ncy0yMDIxLjguMjItMi4yLng4Nl82NA0K
+cnBtIC1xIG50ZnMtM2c6IG50ZnMtM2ctMjAyMS44LjIyLTIuMi54ODZfNjQNCg==
+--------------dR6zsrp7YJ73zpweTcbM7B4G
+Content-Type: application/pgp-keys; name="OpenPGP_0x13A0FDC40794CE02.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x13A0FDC40794CE02.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b4084c18420f9fad0b4f@syzkaller.appspotmail.com
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-loop2: detected capacity change from 0 to 8185
-ntfs3: loop2: Different NTFS' sector size (2048) and media sector size (512)
-==================================================================
-BUG: KASAN: slab-out-of-bounds in ntfs_iget5+0x2b93/0x3240 fs/ntfs3/inode.c:501
-Read of size 8 at addr ffff888073687f28 by task syz-executor.2/9904
-
-CPU: 1 PID: 9904 Comm: syz-executor.2 Not tainted 5.18.0-rc3-syzkaller-00080-gd569e86915b7 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- print_address_description.constprop.0.cold+0xeb/0x495 mm/kasan/report.c:313
- print_report mm/kasan/report.c:429 [inline]
- kasan_report.cold+0xf4/0x1c6 mm/kasan/report.c:491
- ntfs_iget5+0x2b93/0x3240 fs/ntfs3/inode.c:501
- ntfs_fill_super+0x2529/0x37b0 fs/ntfs3/super.c:1083
- get_tree_bdev+0x440/0x760 fs/super.c:1292
- vfs_get_tree+0x89/0x2f0 fs/super.c:1497
- do_new_mount fs/namespace.c:3040 [inline]
- path_mount+0x1320/0x1fa0 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7f6e8f88a61a
-Code: 48 c7 c2 b8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 b8 04 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f6e90903f88 EFLAGS: 00000206 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 0000000020000200 RCX: 00007f6e8f88a61a
-RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007f6e90903fe0
-RBP: 00007f6e90904020 R08: 00007f6e90904020 R09: 0000000020000000
-R10: 0000000000000000 R11: 0000000000000206 R12: 0000000020000000
-R13: 0000000020000100 R14: 00007f6e90903fe0 R15: 000000002007a980
- </TASK>
-
-Allocated by task 3611:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
- kasan_set_track mm/kasan/common.c:45 [inline]
- set_alloc_info mm/kasan/common.c:436 [inline]
- __kasan_slab_alloc+0x90/0xc0 mm/kasan/common.c:469
- kasan_slab_alloc include/linux/kasan.h:224 [inline]
- slab_post_alloc_hook mm/slab.h:749 [inline]
- slab_alloc_node mm/slub.c:3217 [inline]
- slab_alloc mm/slub.c:3225 [inline]
- __kmem_cache_alloc_lru mm/slub.c:3232 [inline]
- kmem_cache_alloc_lru+0x255/0x720 mm/slub.c:3249
- alloc_inode_sb include/linux/fs.h:2966 [inline]
- sock_alloc_inode+0x23/0x1d0 net/socket.c:304
- alloc_inode+0x61/0x230 fs/inode.c:260
- new_inode_pseudo+0x14/0xe0 fs/inode.c:1018
- sock_alloc+0x3c/0x260 net/socket.c:627
- __sock_create+0xb9/0x790 net/socket.c:1432
- sock_create net/socket.c:1519 [inline]
- __sys_socket+0xef/0x200 net/socket.c:1561
- __do_sys_socket net/socket.c:1570 [inline]
- __se_sys_socket net/socket.c:1568 [inline]
- __x64_sys_socket+0x6f/0xb0 net/socket.c:1568
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-
-Last potentially related work creation:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
- __kasan_record_aux_stack+0xbe/0xd0 mm/kasan/generic.c:348
- call_rcu+0x99/0x790 kernel/rcu/tree.c:3074
- destroy_inode+0x129/0x1b0 fs/inode.c:315
- iput_final fs/inode.c:1744 [inline]
- iput.part.0+0x562/0x820 fs/inode.c:1770
- iput+0x58/0x70 fs/inode.c:1760
- dentry_unlink_inode+0x2b1/0x460 fs/dcache.c:401
- __dentry_kill+0x3c0/0x640 fs/dcache.c:607
- dentry_kill fs/dcache.c:733 [inline]
- dput+0x806/0xdb0 fs/dcache.c:913
- __fput+0x39c/0x9d0 fs/file_table.c:330
- task_work_run+0xdd/0x1a0 kernel/task_work.c:164
- resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
- exit_to_user_mode_loop kernel/entry/common.c:169 [inline]
- exit_to_user_mode_prepare+0x23c/0x250 kernel/entry/common.c:201
- __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
- syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:294
- do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-
-Second to last potentially related work creation:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
- __kasan_record_aux_stack+0xbe/0xd0 mm/kasan/generic.c:348
- call_rcu+0x99/0x790 kernel/rcu/tree.c:3074
- destroy_inode+0x129/0x1b0 fs/inode.c:315
- iput_final fs/inode.c:1744 [inline]
- iput.part.0+0x562/0x820 fs/inode.c:1770
- iput+0x58/0x70 fs/inode.c:1760
- dentry_unlink_inode+0x2b1/0x460 fs/dcache.c:401
- __dentry_kill+0x3c0/0x640 fs/dcache.c:607
- dentry_kill fs/dcache.c:733 [inline]
- dput+0x806/0xdb0 fs/dcache.c:913
- __fput+0x39c/0x9d0 fs/file_table.c:330
- task_work_run+0xdd/0x1a0 kernel/task_work.c:164
- resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
- exit_to_user_mode_loop kernel/entry/common.c:169 [inline]
- exit_to_user_mode_prepare+0x23c/0x250 kernel/entry/common.c:201
- __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
- syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:294
- do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-
-The buggy address belongs to the object at ffff888073687800
- which belongs to the cache sock_inode_cache of size 1408
-The buggy address is located 424 bytes to the right of
- 1408-byte region [ffff888073687800, ffff888073687d80)
-
-The buggy address belongs to the physical page:
-page:ffffea0001cda000 refcount:1 mapcount:0 mapping:0000000000000000 index:0xffff888073680600 pfn:0x73680
-head:ffffea0001cda000 order:3 compound_mapcount:0 compound_pincount:0
-memcg:ffff888079fa8401
-flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000010200 0000000000000000 dead000000000001 ffff888140795500
-raw: ffff888073680600 000000008015000b 00000001ffffffff ffff888079fa8401
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Reclaimable, gfp_mask 0xd20d0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC|__GFP_RECLAIMABLE), pid 3171, tgid 3171 (dhcpcd), ts 33789392393, free_ts 10721584612
- prep_new_page mm/page_alloc.c:2441 [inline]
- get_page_from_freelist+0xba2/0x3e00 mm/page_alloc.c:4182
- __alloc_pages+0x1b2/0x500 mm/page_alloc.c:5408
- alloc_pages+0x1aa/0x310 mm/mempolicy.c:2272
- alloc_slab_page mm/slub.c:1799 [inline]
- allocate_slab+0x26c/0x3c0 mm/slub.c:1944
- new_slab mm/slub.c:2004 [inline]
- ___slab_alloc+0x8df/0xf20 mm/slub.c:3005
- __slab_alloc.constprop.0+0x4d/0xa0 mm/slub.c:3092
- slab_alloc_node mm/slub.c:3183 [inline]
- slab_alloc mm/slub.c:3225 [inline]
- __kmem_cache_alloc_lru mm/slub.c:3232 [inline]
- kmem_cache_alloc_lru+0x504/0x720 mm/slub.c:3249
- alloc_inode_sb include/linux/fs.h:2966 [inline]
- sock_alloc_inode+0x23/0x1d0 net/socket.c:304
- alloc_inode+0x61/0x230 fs/inode.c:260
- new_inode_pseudo+0x14/0xe0 fs/inode.c:1018
- sock_alloc+0x3c/0x260 net/socket.c:627
- __sock_create+0xb9/0x790 net/socket.c:1432
- sock_create net/socket.c:1519 [inline]
- __sys_socket+0xef/0x200 net/socket.c:1561
- __do_sys_socket net/socket.c:1570 [inline]
- __se_sys_socket net/socket.c:1568 [inline]
- __x64_sys_socket+0x6f/0xb0 net/socket.c:1568
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-page last free stack trace:
- reset_page_owner include/linux/page_owner.h:24 [inline]
- free_pages_prepare mm/page_alloc.c:1356 [inline]
- free_pcp_prepare+0x549/0xd20 mm/page_alloc.c:1406
- free_unref_page_prepare mm/page_alloc.c:3328 [inline]
- free_unref_page+0x19/0x6a0 mm/page_alloc.c:3423
- free_contig_range+0xb1/0x180 mm/page_alloc.c:9418
- destroy_args+0xa8/0x646 mm/debug_vm_pgtable.c:1018
- debug_vm_pgtable+0x2a51/0x2ae3 mm/debug_vm_pgtable.c:1332
- do_one_initcall+0x103/0x650 init/main.c:1298
- do_initcall_level init/main.c:1371 [inline]
- do_initcalls init/main.c:1387 [inline]
- do_basic_setup init/main.c:1406 [inline]
- kernel_init_freeable+0x6b1/0x73a init/main.c:1613
- kernel_init+0x1a/0x1d0 init/main.c:1502
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:298
-
-Memory state around the buggy address:
- ffff888073687e00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888073687e80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->ffff888073687f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-                                  ^
- ffff888073687f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888073688000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-==================================================================
+xjMEYb3ETBYJKwYBBAHaRw8BAQdA4WHRQQtiWRi6cRUNGY62ChTDoegaMhhovgnN
+hSXUjhbNKExpbnVzIEthcmRlbGwgPGxpbnVzLmthcmRlbGxAa3JhbW5ldC5zZT7C
+mgQTFgoAQhYhBPJaMLRXuc8Ej2gulhOg/cQHlM4CBQJhvcdNAhsDBQkDwmHkBQsJ
+CAcCAyICAQYVCgkICwIEFgIDAQIeBwIXgAAKCRAToP3EB5TOAhGHAP9JJlsj5wxU
+w7RBZGoxJk7p6Lpw0GYvuiFmf7c2ya7sZwEArWmopDtYd7w/hmim6ZNpoZNdQ1be
+uawoppR7cvB+JALNJ0xpbnVzIEthcmRlbGwgPGxpbnVzLmthcmRlbGxAZ21haWwu
+Y29tPsKaBBMWCgBCFiEE8lowtFe5zwSPaC6WE6D9xAeUzgIFAmG9xEwCGwMFCQPC
+YeQFCwkIBwIDIgIBBhUKCQgLAgQWAgMBAh4HAheAAAoJEBOg/cQHlM4C6eYA/jOb
+wxrfFwNh86E4nuhWun/+ipEe8szpIMo2uTO9VkI7AP4tXl0Ujnkn/d3Gab+R2g3T
+axp22WeKf6kmiIsW1wjBCc0nTGludXMgS2FyZGVsbCA8bGludXNfYV9nX2tAaG90
+bWFpbC5jb20+wpoEExYKAEIWIQTyWjC0V7nPBI9oLpYToP3EB5TOAgUCYb3HaAIb
+AwUJA8Jh5AULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQE6D9xAeUzgLV
+ggEA0VPi7Jqg7A6ycm3NHID3+8ioSXAQ8jfErtWCdApGssoBAOr24XrOoGXewIAw
+BpXl2Cam9LOzJWiKsfP5ntI2e+oKzjgEYb3ETBIKKwYBBAGXVQEFAQEHQN4pfMVa
+aRpd46c7Y5l701XkPPkZTV33Zw/9gfxBfocGAwEIB8J+BBgWCgAmFiEE8lowtFe5
+zwSPaC6WE6D9xAeUzgIFAmG9xEwCGwwFCQPCYeQACgkQE6D9xAeUzgLYeQD/ec/5
+ZmZb03OTbE0gk6PH598/OwW/7W4vqUkP9LepQzgA/2KtkRXB1dmxwKWBWs6ognKX
+m0lV3kuKZKp6ggnGIkAH
+=3D9oZd
+-----END PGP PUBLIC KEY BLOCK-----
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+--------------dR6zsrp7YJ73zpweTcbM7B4G--
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+--------------AjbNijYerKc40FGnikQMgcCj--
+
+--------------j5VlXtdpege9nTEFTf2E9x5y
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQTyWjC0V7nPBI9oLpYToP3EB5TOAgUCYmMFLQUDAAAAAAAKCRAToP3EB5TOAoVR
+AP9VcjhbwnOQEd/4l+qbAbvCyT5CVCeScrCYrL9PnVLKwgD/SeKiEwN6B/+zB1VcF4yiRnj1ZRo5
+WymO3/p7nHKDUAg=
+=MTys
+-----END PGP SIGNATURE-----
+
+--------------j5VlXtdpege9nTEFTf2E9x5y--
