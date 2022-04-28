@@ -1,77 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997217E
-	for <ntfs3@lists.linux.dev>; Thu, 28 Apr 2022 00:47:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 348C2C385B0
-	for <ntfs3@lists.linux.dev>; Thu, 28 Apr 2022 00:47:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1651106878;
-	bh=z76S75gHWRBeo2WeeqouXCUPQvpWiCldWKzSEf9wLvs=;
-	h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-	b=rCTodqKoEkhbHbnskTQlzdGc/rZXFY8qeiYBjKg1OmVyhRW7U3FNT9+nkuJzoPyEu
-	 9A5S/PGhPcNnm3csoR39/CPR09VntQDU14diH8Nws++a4CmouiEeqWjTyElosZW8Cn
-	 zDDPbCc5tWAOGOxTI8f2RiePHMkPkIS1dM2G/lCpkULT7QhEeN2IHhjop46NbQMaBG
-	 DmU5OtPgeunF+Dcs0iVcKXvrVozbuccHSODPPznjitqgEcaxx8jB0050rw8CLFI8l6
-	 No9cKe3WGfcIlYdUiGPmLnCE8BeZ7KtaF27Fn6WXFzZWXr0RzU6lkNfeDEWT7HabqZ
-	 YkgKhhjbrGyVA==
-Received: by mail-wr1-f47.google.com with SMTP id e2so4647980wrh.7
-        for <ntfs3@lists.linux.dev>; Wed, 27 Apr 2022 17:47:58 -0700 (PDT)
-X-Gm-Message-State: AOAM533QFzszREKip0xb1MxWjFXJOY7+b5QtVuoUdpr8CzQ82i1uu4Qa
-	KWLdbgUgXhKGaCTTycH/icSUm6N6WC5H/ZlMIQQ=
-X-Google-Smtp-Source: ABdhPJxGzxOVO1oQ28XErTn5grU1C68oVDLlC3tEYTQrXeg72jCtnscD+8a6dcuZ/lwywZE6Nylt+PUo7p5opvy2woU=
-X-Received: by 2002:a5d:47ab:0:b0:20a:7f8a:ec69 with SMTP id
- 11-20020a5d47ab000000b0020a7f8aec69mr24366063wrb.504.1651106876322; Wed, 27
- Apr 2022 17:47:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D15EC2
+	for <ntfs3@lists.linux.dev>; Thu, 28 Apr 2022 09:39:23 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id e24so5927357wrc.9
+        for <ntfs3@lists.linux.dev>; Thu, 28 Apr 2022 02:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:subject:from:reply-to:to:cc:date:in-reply-to
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=6ZKHGiDRzRbPXQHyr5VeHk6x4y/gIT70tGEEovHIImo=;
+        b=PeHfrQr7jWNTLtX4c68wBxngwOTuc6NMSZlesvJOJtSY33jMGK1xGMQsMiFCXinjGw
+         MS75GZe+n0mkK44PFTKNmKnl3KJN8OqrtQp59FO5P7sTHkcbRqSjAyfeULI6ezborhrm
+         E+nHrGb2E8hBzTAikcfkXLMhQCLXNnONjR3+5xgcJq6D8ZBEw8iPxVpG+Ap9iC7B0fK/
+         fnPsJHVIjwfdihDqsFnKv2Qtf/KhJexR5uFwI6pNDTLPEO+klzuh7npnpSvnShNvbGbs
+         LS1tbiRj8GD3fy6nPgsFHtOWDN3P5u5FBS0b612O7SgX+7vA4WTLb3w+G5+R9a428qf8
+         SS3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+         :in-reply-to:content-transfer-encoding:user-agent:mime-version;
+        bh=6ZKHGiDRzRbPXQHyr5VeHk6x4y/gIT70tGEEovHIImo=;
+        b=Cv/Cc1rC946gRkdHaIQm4wJaP+LvyMeUCHcVyOIGPFNLUkhYIU6i41oeUT8CK1Lzr9
+         y92Zm4nm7P/RWq5p6ue5LmzzQH25wjmoClbpPHmcp9/6kFJGFS1n6AtvkKwN1d2v1DDP
+         acvGQ0ztDmO9U8bAxaREMhF+TUr93Ep/JAKFD/2dvXSyQTVZhJn6UZWOd8Y9nxOUEVdB
+         zMlolnA5sVTK+pd1vibZvTX6UhG6Ce9m2qxtK7Ge22ybuozG/1bhkp0V0KZXMaKr9r3w
+         6XjGSKftbRFCOodmV9d3L60rcBsAEtW5LRTiUhHqGLH6JdgjDunmXjBzBJLBEZnnQx5H
+         cwuA==
+X-Gm-Message-State: AOAM531YtPJ0iKmo8VouHfDwiHMbwk1VsN4cWbX0dnP4lq1b1rQ9/3DZ
+	XDNrNmkwOWoZeLk7mZGqmGI=
+X-Google-Smtp-Source: ABdhPJzq8Avm5kj5cxYcajFINUiU3+GPuk/6MpZQ3CFwCbRNxAjyTyWjHfcLKbugSSXMG2vEJZ97dQ==
+X-Received: by 2002:a5d:59af:0:b0:20a:e9e7:5c12 with SMTP id p15-20020a5d59af000000b0020ae9e75c12mr8781894wrr.572.1651138761316;
+        Thu, 28 Apr 2022 02:39:21 -0700 (PDT)
+Received: from ?IPv6:2a02:587:7e0b:5403:d800:75d5:89c1:5d9c? ([2a02:587:7e0b:5403:d800:75d5:89c1:5d9c])
+        by smtp.gmail.com with ESMTPSA id o21-20020adfa115000000b0020adea2767csm8944012wro.83.2022.04.28.02.39.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Apr 2022 02:39:20 -0700 (PDT)
+Message-ID: <14ca7a53c11effb4e4f711b0dee60ebf041884b0.camel@gmail.com>
+Subject: Re: NTFS3 driver is orphan already. What we do?
+From: Leonidas-Panagiotis Papadakos <papadakospan@gmail.com>
+Reply-To: CAHk-=wihuvzVTozzNLZT=uFzJH6uM7ZNKN7fYVpm0v2KkY6Jxg@mail.gmail.com
+To: torvalds@linux-foundation.org
+Cc: almaz.alexandrovich@paragon-software.com, christian.brauner@ubuntu.com, 
+ djwong@kernel.org, ebiggers@kernel.org, hch@lst.de, 
+ kari.argillander@stargateuniverse.net, linux-kernel@vger.kernel.org, 
+ ntfs3@lists.linux.dev, tytso@mit.edu, viro@zeniv.linux.org.uk,
+ willy@infradead.org
+Date: Thu, 28 Apr 2022 12:38:48 +0300
+In-Reply-To: <CAHk-=wihuvzVTozzNLZT=uFzJH6uM7ZNKN7fYVpm0v2KkY6Jxg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1 
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: by 2002:a5d:64e7:0:0:0:0:0 with HTTP; Wed, 27 Apr 2022 17:47:55
- -0700 (PDT)
-In-Reply-To: <CAHk-=wihuvzVTozzNLZT=uFzJH6uM7ZNKN7fYVpm0v2KkY6Jxg@mail.gmail.com>
-References: <da20d32b-5185-f40b-48b8-2986922d8b25@stargateuniverse.net> <CAHk-=wihuvzVTozzNLZT=uFzJH6uM7ZNKN7fYVpm0v2KkY6Jxg@mail.gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Thu, 28 Apr 2022 09:47:55 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd89Ypc09ZkuZT+w3TDscpB8_=wHY=JpZJb7LY1LDg+7Uw@mail.gmail.com>
-Message-ID: <CAKYAXd89Ypc09ZkuZT+w3TDscpB8_=wHY=JpZJb7LY1LDg+7Uw@mail.gmail.com>
-Subject: Re: NTFS3 driver is orphan already. What we do?
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Kari Argillander <kari.argillander@stargateuniverse.net>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev, 
-	"Theodore Ts'o" <tytso@mit.edu>, Christoph Hellwig <hch@lst.de>, Matthew Wilcox <willy@infradead.org>, 
-	Eric Biggers <ebiggers@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Christian Brauner <christian.brauner@ubuntu.com>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 
-2022-04-28 2:47 GMT+09:00, Linus Torvalds <torvalds@linux-foundation.org>:
-> [ Sad state of affairs mostly edited out ]
->
-> On Tue, Apr 26, 2022 at 2:22 AM Kari Argillander
-> <kari.argillander@stargateuniverse.net> wrote:
->>
->> I also did suggest that I could co maintain this driver to take burden
->> from
->> Konstantin, but haven't got any replay.
->
-> If you are willing to maintain it (and maybe find other like-minded
-> people to help you), I think that would certainly be a thing to try.
-I can help him.
->
-> And if we can find *nobody* that ends up caring and maintaining, then
-> I guess we should remove it, rather than end up with *two* effectively
-> unmaintained copies of NTFS drivers.
-And I'm currently working write support on read-only NTFS(fs/ntfs)
-with the goal of being released in a few months. And after that, I am
-planning to start working fsck in ntfsprogs in ntfs-3g to solve the
-current lack of utility issue.
-
-Thanks!
->
-> Not that two unmaintained filesystems are much worse than one :-p
->
->            Linus
->
+If Linux has to avoid having 2 unmaintained drivers, wouldn't it be better =
+to
+remove the old read-only one from (I think) 2001 and keep Paragon's version=
+?
