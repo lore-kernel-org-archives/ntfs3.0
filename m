@@ -1,85 +1,120 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19501851
-	for <ntfs3@lists.linux.dev>; Fri, 29 Apr 2022 17:27:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=CyYw8T+qukf404HNKztzaHFlirz/BOX9g+8WVJEmfQ0=; b=pnbT8Hzd/d+sSPW2g85GnrTFbR
-	/wc//8WZVroAEfoW49Pbw1aLahqDjU9vq0OcbpTqM4se1PLVGC3b5I0JtS7s7PolofvTMwRgGseWL
-	1ZhTejUgScHpFugb1sMndXuNqBQSygbW5T7N05OxU+xgH6Mdxe0ALcEdt4y+UvA95V+0j/i8eACXv
-	lcClE4Czgt69UfxPethBv4i5tulNmyNTI7cZPVtiv1N4OmEq3+S9tXu3Lm4tXbwRgfBTrP41NmCLM
-	/gBgXrszsMI7pFfMK/8up7Z9Svw/1QYSu+Fg4X9WEyrNnFLN6qtWzRNmWNUAoUmnS5o6Ef7rJaooe
-	NIjSWLKA==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nkUOe-00C54G-PQ; Fri, 29 Apr 2022 17:27:12 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kari Argillander <kari.argillander@stargateuniverse.net>,
-	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH] fs/ntfs3: validate BOOT sectors_per_clusters
-Date: Fri, 29 Apr 2022 10:27:11 -0700
-Message-Id: <20220429172711.31894-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF77D1851
+	for <ntfs3@lists.linux.dev>; Fri, 29 Apr 2022 17:30:23 +0000 (UTC)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-d6e29fb3d7so8778609fac.7
+        for <ntfs3@lists.linux.dev>; Fri, 29 Apr 2022 10:30:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=pxm0dsgAzCk9wAwKBKmMz3LOeS/VE9qe1SAYtrlypBA=;
+        b=Z40LuESLr0lD/LvE9lR9gaRy0TkxC7wFkAFDnYt2PzEzqN6FIIOXRblVuWbbHww8o+
+         V+gmwHJk7O2tW/l/hiVqXE+TTMQms6u8KF4jKEZJ41Wfdgk+tJSlioHVuaBNRbjtGS3w
+         8F0zgcixOIresLOFoZNkJK9P58cJukhNZq+fLfcz5h9ST6zP4UZ/HVpLTWjhT+yPhr5O
+         Y6zBnU4XH/5260/45TRjAugCfcu2wk29vQevNvopRjgTRcGy2JVXabenN8GZLkLaEUQH
+         3hqiKxr9dQMNpTmUvbKWLPbltE1+HKlesQJ//0mU4abfcRIYF0qTpSUN83M3jkRjw6WD
+         5TQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=pxm0dsgAzCk9wAwKBKmMz3LOeS/VE9qe1SAYtrlypBA=;
+        b=3jkX8WOnOoMXd7k0rgML9GwsONB/vI5iqg6MmM0pgcTG7IxBODiY+70PTruzYms70f
+         Of7q5pZf7ojhkHB+8THqDTv8NMjddLf9TDAo0SwkvXFcewTnWhqdsKcV5VPKA06wxN7k
+         BxVVAqCA/NWfFBSHqLJwmsplWTwBI0ZzRX4I+n0xXDCEngnFqYIoOWIsnA2NZCxo/MRF
+         6+DWhzZQ86xaa/B1oclnfP7TNebW512A2UkqHEwKI3Rb5squzdLse0xpfA1cNv80VKXe
+         Uth/knRhGswd9BcbU9H4Aj4wjIbhBZoGO60ddRlo9lEfVlz61dc8QRjinkgtqARbTypB
+         fo4Q==
+X-Gm-Message-State: AOAM530GcY/ZdCqRAqPohH0DcEW0KAtP1M6SU9IcreEamn6CcYhy967Z
+	Q1onGOgibZlq5AeHYPuLgl6E7sOM/rP05WkwlRyKda/dCCI=
+X-Google-Smtp-Source: ABdhPJy/p9fncl/LEwhE6sDnWd/s+uLnpHPJ7Tocs2+EasCm6NRgQLCNgd4Lyaopwbso3CWF1x/s8vSTeJPisL5XcJE=
+X-Received: by 2002:a05:6870:2103:b0:e9:6d65:4abb with SMTP id
+ f3-20020a056870210300b000e96d654abbmr1977862oae.261.1651253422597; Fri, 29
+ Apr 2022 10:30:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:6851:2e1a:b0:2ec:a8a6:e1cf with HTTP; Fri, 29 Apr 2022
+ 10:30:22 -0700 (PDT)
+In-Reply-To: <CAOzgRdZoovCTQHgoH+nKJEhwe28ZUmBJusFhptNuq_nTJhQGwQ@mail.gmail.com>
+References: <CAOzgRdYrcfN-erA_EbD9+ci1WYvrEr=bS-5=Td0YZeeuGvqMEw@mail.gmail.com>
+ <CAOzgRdZoovCTQHgoH+nKJEhwe28ZUmBJusFhptNuq_nTJhQGwQ@mail.gmail.com>
+From: youling 257 <youling257@gmail.com>
+Date: Sat, 30 Apr 2022 01:30:22 +0800
+Message-ID: <CAOzgRdYybkaBja-eBucy7YvJFXYSodXvKw2L15arxmo-1KhPqQ@mail.gmail.com>
+Subject: Re: ntfs3 slow than ntfs-3g
+To: ntfs3@lists.linux.dev, almaz.alexandrovich@paragon-software.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When the NTFS BOOT sectors_per_clusters field is > 0x80,
-it represents a shift value. First change its sign to positive
-and then make sure that the shift count is not too large.
-This prevents negative shift values and shift values that are
-larger than the field size.
+700MB/S is sync speed, 1G/S is direct speed,
+may be ntfs3 not support io direct.
 
-Prevents this UBSAN error:
-
- UBSAN: shift-out-of-bounds in ../fs/ntfs3/super.c:673:16
- shift exponent -192 is negative
-
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Kari Argillander <kari.argillander@stargateuniverse.net>
-Cc: Namjae Jeon <linkinjeon@kernel.org>
----
- fs/ntfs3/super.c |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
---- linux-next-20220428.orig/fs/ntfs3/super.c
-+++ linux-next-20220428/fs/ntfs3/super.c
-@@ -670,7 +670,8 @@ static u32 true_sectors_per_clst(const s
- {
- 	return boot->sectors_per_clusters <= 0x80
- 		       ? boot->sectors_per_clusters
--		       : (1u << (0 - boot->sectors_per_clusters));
-+		       : -(s8)boot->sectors_per_clusters > 31 ? -1
-+		       : (1u << -(s8)boot->sectors_per_clusters);
- }
- 
- /*
-@@ -713,7 +714,7 @@ static int ntfs_init_from_boot(struct su
- 
- 	/* cluster size: 512, 1K, 2K, 4K, ... 2M */
- 	sct_per_clst = true_sectors_per_clst(boot);
--	if (!is_power_of_2(sct_per_clst))
-+	if ((int)sct_per_clst < 0 || !is_power_of_2(sct_per_clst))
- 		goto out;
- 
- 	mlcn = le64_to_cpu(boot->mft_clst);
+2022-04-30 1:05 GMT+08:00, youling 257 <youling257@gmail.com>:
+> 700MB/S is USB Mass Storage device speed, 1GB/S is usb uas speed,
+> may be ntfs3 not support uas.
+>
+> 2022-04-30 1:03 GMT+08:00, youling 257 <youling257@gmail.com>:
+>> [ 3193.462354] usb 4-1: new SuperSpeed Plus Gen 2x2 USB device number
+>> 3 using xhci_hcd
+>>                                                        [ 3193.501223]
+>> scsi host9: uas
+>> [ 3194.397127] scsi 9:0:0:0: Direct-Access     ASMT     ASM236X NVME
+>>   0    PQ: 0 ANSI: 6
+>>                                                       [ 3194.537445]
+>> sd 9:0:0:0: Attached scsi generic sg0 type 0
+>> [ 3194.537841] sd 9:0:0:0: [sda] 500118192 512-byte logical blocks:
+>> (256 GB/238 GiB)
+>>                                                          [
+>> 3194.537913] sd 9:0:0:0: [sda] Write Protect is off
+>> [ 3194.537916] sd 9:0:0:0: [sda] Mode Sense: 43 00 00 00
+>>
+>>                                                       [ 3194.538036]
+>> sd 9:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't
+>> support DPO or FUA
+>> [ 3194.538565] sd 9:0:0:0: [sda] Optimal transfer size 2097152 bytes
+>>
+>>                                                       [ 3194.563302]
+>> sda: sda1 sda2 sda3
+>> [ 3194.564255] sd 9:0:0:0: [sda] Attached SCSI disk
+>>
+>> in my test, ntfs3 slow than ntfs-3g.
+>>
+>> ntfs-3g /dev/block/sda3 /1
+>>
+>> /dev/block/sda3 on /1 type fuseblk
+>> (rw,relatime,user_id=3D0,group_id=3D0,allow_other,blksize=3D4096)
+>> root@localhost:~# cd /1
+>> root@localhost:/1# time dd if=3D/dev/zero of=3Dtestw.dbf bs=3D1M count=
+=3D1000
+>> oflag=3Ddirect status=3Dprogress
+>> 1018167296=E5=AD=97=E8=8A=82=EF=BC=881.0 GB=EF=BC=8C971 MiB=EF=BC=89=E5=
+=B7=B2=E5=A4=8D=E5=88=B6=EF=BC=8C1 s=EF=BC=8C1.0 GB/s
+>> =E8=AE=B0=E5=BD=95=E4=BA=861000+0 =E7=9A=84=E8=AF=BB=E5=85=A5
+>> =E8=AE=B0=E5=BD=95=E4=BA=861000+0 =E7=9A=84=E5=86=99=E5=87=BA
+>> 1048576000=E5=AD=97=E8=8A=82=EF=BC=881.0 GB=EF=BC=8C1000 MiB=EF=BC=89=E5=
+=B7=B2=E5=A4=8D=E5=88=B6=EF=BC=8C1.03421 s=EF=BC=8C1.0 GB/s
+>>
+>>
+>>
+>> mount -t ntfs3 /dev/block/sda3 /1
+>>
+>> /dev/block/sda3 on /1 type ntfs3 (rw,relatime,uid=3D0,gid=3D0,iocharset=
+=3Dutf8)
+>> root@localhost:/# cd /1
+>> root@localhost:/1# time dd if=3D/dev/zero of=3Dtestw.dbf bs=3D1M count=
+=3D1000
+>> oflag=3Ddirect status=3Dprogress
+>> 707788800=E5=AD=97=E8=8A=82=EF=BC=88708 MB=EF=BC=8C675 MiB=EF=BC=89=E5=
+=B7=B2=E5=A4=8D=E5=88=B6=EF=BC=8C1 s=EF=BC=8C707 MB/s
+>> =E8=AE=B0=E5=BD=95=E4=BA=861000+0 =E7=9A=84=E8=AF=BB=E5=85=A5
+>> =E8=AE=B0=E5=BD=95=E4=BA=861000+0 =E7=9A=84=E5=86=99=E5=87=BA
+>> 1048576000=E5=AD=97=E8=8A=82=EF=BC=881.0 GB=EF=BC=8C1000 MiB=EF=BC=89=E5=
+=B7=B2=E5=A4=8D=E5=88=B6=EF=BC=8C1.50322 s=EF=BC=8C698 MB/s
+>>
+>
