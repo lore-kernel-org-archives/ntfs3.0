@@ -1,88 +1,102 @@
-Received: from twin.jikos.cz (twin.jikos.cz [91.219.245.39])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C4607B
-	for <ntfs3@lists.linux.dev>; Fri, 29 Apr 2022 20:03:06 +0000 (UTC)
-Received: from twin.jikos.cz (dave@localhost [127.0.0.1])
-	by twin.jikos.cz (8.13.6/8.13.6) with ESMTP id 23TJxqce021173
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 29 Apr 2022 21:59:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=jikos.cz; s=twin;
-	t=1651262393; bh=VzLGIghLtW44gaV6piRFTko5CkCVGLje8VzOmGvSv9I=;
-	h=Received:Date:From:To:Cc:Subject:Message-ID:Reply-To:
-	 Mail-Followup-To:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:User-Agent; b=Of48yY/gsil0Fi9ss77I
-	BasrlP3ehM2uPO8+pQXXT9JQhWG4aaeDR1RhhKXSEZ1MPOk+ZIiCEP/KNfYc7hgJIDX
-	0laaGG0aFQvyLJTpWPZF2J7AoBXPoA1T6eN/kt7dEGlt7KXMqTFReuO1utYmBVdWvGi
-	EQdGFyi16QxwOP7hU=
-Received: (from dave@localhost)
-	by twin.jikos.cz (8.13.6/8.13.6/Submit) id 23TJxonk021168;
-	Fri, 29 Apr 2022 21:59:50 +0200
-Date: Fri, 29 Apr 2022 21:59:50 +0200
-From: David Sterba <dave@jikos.cz>
-To: Kari Argillander <kari.argillander@stargateuniverse.net>
-Cc: Namjae Jeon <linkinjeon@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        ntfs3@lists.linux.dev, "Theodore Ts'o" <tytso@mit.edu>,
-        Christoph Hellwig <hch@lst.de>, Matthew Wilcox <willy@infradead.org>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: NTFS3 driver is orphan already. What we do?
-Message-ID: <20220429195950.GQ3658@twin.jikos.cz>
-Reply-To: dave@jikos.cz
-Mail-Followup-To: Kari Argillander <kari.argillander@stargateuniverse.net>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev, Theodore Ts'o <tytso@mit.edu>,
-	Christoph Hellwig <hch@lst.de>,
-	Matthew Wilcox <willy@infradead.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Christian Brauner <christian.brauner@ubuntu.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <da20d32b-5185-f40b-48b8-2986922d8b25@stargateuniverse.net>
- <CAHk-=wihuvzVTozzNLZT=uFzJH6uM7ZNKN7fYVpm0v2KkY6Jxg@mail.gmail.com>
- <CAKYAXd89Ypc09ZkuZT+w3TDscpB8_=wHY=JpZJb7LY1LDg+7Uw@mail.gmail.com>
- <0bf74850-fa56-9dbe-7b08-f66a9fcd39e2@stargateuniverse.net>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C841852
+	for <ntfs3@lists.linux.dev>; Sat, 30 Apr 2022 02:40:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0ED9C385B3
+	for <ntfs3@lists.linux.dev>; Sat, 30 Apr 2022 02:40:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1651286447;
+	bh=zLfo+GvFiKZgTEynXurdG2YKtO/BFvAhw7DQB0A4KG8=;
+	h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
+	b=bX41Ta8+2BvwlS0luypDmuOFI/bOxWMYU6PU0p0v9VboEuvONu+616JMjGVl7smMb
+	 31iL8QqjFu/JTsga+MJK2rf0WPk/srg65WXG2Y4LnwOq/PjiCMyKtdlL2hJACKchXM
+	 zkcRNwODiTc06mht/omEj6JdnPGlylb6m3J3M2k5o9eiR3yEhUo5jX7pRmxKqqXVGl
+	 //Fd2V+2mjanLz2sFe6DaTvPk1oZWJQ34UWUNT/ys57/m9AhIPbk6LrsuODf1C/4bv
+	 99/khb6IM51AzGZ7oHhc3PZT0WE93UKyVgRkaS9Xa0gdh00Xdsdoa+EARCQRQbFdse
+	 d7ouhw8b85Fgg==
+Received: by mail-wr1-f50.google.com with SMTP id w4so12858253wrg.12
+        for <ntfs3@lists.linux.dev>; Fri, 29 Apr 2022 19:40:47 -0700 (PDT)
+X-Gm-Message-State: AOAM53188s3kBHK/0wURm/Fg+QvnAq9/XiCRlb5d1R/3nS7EN2vZx/NN
+	AuQHl44bEET6xhMRM54J9R2k/FMiTYCbmBalxTo=
+X-Google-Smtp-Source: ABdhPJzKyGWonoStbzv4Bu+k1DC+e+3vHWcwTToYoIVn4YSSfWO1tTFaPgQC53UjfU+g2PEPF+RGnU+vPL9RwqazxF0=
+X-Received: by 2002:a05:6000:1a8b:b0:20c:45fe:b02e with SMTP id
+ f11-20020a0560001a8b00b0020c45feb02emr1431662wry.504.1651286445699; Fri, 29
+ Apr 2022 19:40:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0bf74850-fa56-9dbe-7b08-f66a9fcd39e2@stargateuniverse.net>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Received: by 2002:a5d:64e7:0:0:0:0:0 with HTTP; Fri, 29 Apr 2022 19:40:44
+ -0700 (PDT)
+In-Reply-To: <20220429200100.22659-1-rdunlap@infradead.org>
+References: <20220429200100.22659-1-rdunlap@infradead.org>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Sat, 30 Apr 2022 11:40:44 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8BKGgsbn7428CTfUhnrunBPsSeTdXgiyKQU_cqYKOk1w@mail.gmail.com>
+Message-ID: <CAKYAXd8BKGgsbn7428CTfUhnrunBPsSeTdXgiyKQU_cqYKOk1w@mail.gmail.com>
+Subject: Re: [PATCH v2] fs/ntfs3: validate BOOT sectors_per_clusters
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kari Argillander <kari.argillander@stargateuniverse.net>, 
+	Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Apr 29, 2022 at 07:45:42PM +0300, Kari Argillander wrote:
-> On 28.4.2022 3.47, Namjae Jeon wrote:
-> > 2022-04-28 2:47 GMT+09:00, Linus Torvalds <torvalds@linux-foundation.org>:
-> >> [ Sad state of affairs mostly edited out ]
-> >>
-> >> On Tue, Apr 26, 2022 at 2:22 AM Kari Argillander
-> >> <kari.argillander@stargateuniverse.net> wrote:
-> >>>
-> >>> I also did suggest that I could co maintain this driver to take burden
-> >>> from
-> >>> Konstantin, but haven't got any replay.
-> >>
-> >> If you are willing to maintain it (and maybe find other like-minded
-> >> people to help you), I think that would certainly be a thing to try.
-> > I can help him.
-> 
-> We have now discuss with Namjae and we will start this and let's see
-> where it goes. I will get my PGP signed soon. I really want code to be
-> in kernel.org so that maintainership is easily transfer if necessary,
-> but let's hope long and steady route now on.
-> 
-> Hopefully we are ready to start by next merge window.
-
-Feel free to ping me if you have questions regarding the pull requests
-or would like to have it checked before sending. It would be
-disappointing to see the NTFS3 module removed, thanks for taking up the
-torch.
+2022-04-30 5:01 GMT+09:00, Randy Dunlap <rdunlap@infradead.org>:
+> When the NTFS BOOT sectors_per_clusters field is > 0x80,
+> it represents a shift value. Make sure that the shift value is
+> not too large (> 31) before using it. Return 0xffffffff if it is.
+>
+> This prevents negative shift values and shift values that are
+> larger than the field size.
+>
+> Prevents this UBSAN error:
+>
+>  UBSAN: shift-out-of-bounds in ../fs/ntfs3/super.c:673:16
+>  shift exponent -192 is negative
+>
+> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com
+> Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+> Cc: ntfs3@lists.linux.dev
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Kari Argillander <kari.argillander@stargateuniverse.net>
+> Cc: Namjae Jeon <linkinjeon@kernel.org>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> ---
+> v2: use Willy's suggestions
+>
+>  fs/ntfs3/super.c |    8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> --- linux-next-20220428.orig/fs/ntfs3/super.c
+> +++ linux-next-20220428/fs/ntfs3/super.c
+> @@ -668,9 +668,11 @@ static u32 format_size_gb(const u64 byte
+>
+>  static u32 true_sectors_per_clst(const struct NTFS_BOOT *boot)
+>  {
+> -	return boot->sectors_per_clusters <= 0x80
+> -		       ? boot->sectors_per_clusters
+> -		       : (1u << (0 - boot->sectors_per_clusters));
+> +	if (boot->sectors_per_clusters <= 0x80)
+> +		return boot->sectors_per_clusters;
+> +	if (boot->sectors_per_clusters > 0xe0) /* limit to 31-bit shift */
+ntfs maximum cluster size is 2MB. I think that we can change it to
+boot->sectors_per_clusters >= 0xf4.
+> +		return 1U << (0 - boot->sectors_per_clusters);
+> +	return 0xffffffff;
+It would be better to change it to return an error(-EINVAL) instead of
+0xffffffff.
+and if sct_per_clst < 0, goto out immediately..
+>  }
+>
+>  /*
+>
+>
