@@ -1,102 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C841852
-	for <ntfs3@lists.linux.dev>; Sat, 30 Apr 2022 02:40:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0ED9C385B3
-	for <ntfs3@lists.linux.dev>; Sat, 30 Apr 2022 02:40:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1651286447;
-	bh=zLfo+GvFiKZgTEynXurdG2YKtO/BFvAhw7DQB0A4KG8=;
-	h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-	b=bX41Ta8+2BvwlS0luypDmuOFI/bOxWMYU6PU0p0v9VboEuvONu+616JMjGVl7smMb
-	 31iL8QqjFu/JTsga+MJK2rf0WPk/srg65WXG2Y4LnwOq/PjiCMyKtdlL2hJACKchXM
-	 zkcRNwODiTc06mht/omEj6JdnPGlylb6m3J3M2k5o9eiR3yEhUo5jX7pRmxKqqXVGl
-	 //Fd2V+2mjanLz2sFe6DaTvPk1oZWJQ34UWUNT/ys57/m9AhIPbk6LrsuODf1C/4bv
-	 99/khb6IM51AzGZ7oHhc3PZT0WE93UKyVgRkaS9Xa0gdh00Xdsdoa+EARCQRQbFdse
-	 d7ouhw8b85Fgg==
-Received: by mail-wr1-f50.google.com with SMTP id w4so12858253wrg.12
-        for <ntfs3@lists.linux.dev>; Fri, 29 Apr 2022 19:40:47 -0700 (PDT)
-X-Gm-Message-State: AOAM53188s3kBHK/0wURm/Fg+QvnAq9/XiCRlb5d1R/3nS7EN2vZx/NN
-	AuQHl44bEET6xhMRM54J9R2k/FMiTYCbmBalxTo=
-X-Google-Smtp-Source: ABdhPJzKyGWonoStbzv4Bu+k1DC+e+3vHWcwTToYoIVn4YSSfWO1tTFaPgQC53UjfU+g2PEPF+RGnU+vPL9RwqazxF0=
-X-Received: by 2002:a05:6000:1a8b:b0:20c:45fe:b02e with SMTP id
- f11-20020a0560001a8b00b0020c45feb02emr1431662wry.504.1651286445699; Fri, 29
- Apr 2022 19:40:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F52D2907
+	for <ntfs3@lists.linux.dev>; Sun,  1 May 2022 17:23:20 +0000 (UTC)
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 8BE5D23E8;
+	Sun,  1 May 2022 17:13:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1651425213;
+	bh=+7dSocgdKOwnHjit7kSTGbHZMbMHppkIre6dLkmO8Cw=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To;
+	b=F2IdnanVZjeIFlluSGTpSZv3RvVD0PAiRPxCCpjcpFGQPpfB4a8BAwhDZkWINbnPx
+	 DdBqQZSrzVhk53Xs2alY8n0w6HiI+SXLxjYRBnma+pLr80Z9y62s46SQxTPK6SYPbE
+	 YcC7Ud3m6SlaKqkjYdqU2syu2WE6HBJSiek3jrsQ=
+Received: from vdlg-exch-02.paragon-software.com (172.30.1.105) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Sun, 1 May 2022 20:13:39 +0300
+Received: from vdlg-exch-02.paragon-software.com ([fe80::586:6d72:3fe5:bd9b])
+ by vdlg-exch-02.paragon-software.com ([fe80::586:6d72:3fe5:bd9b%12]) with
+ mapi id 15.01.2375.007; Sun, 1 May 2022 20:13:39 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>, Kari Argillander
+	<kari.argillander@stargateuniverse.net>
+CC: "ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>, Theodore Ts'o
+	<tytso@mit.edu>, Christoph Hellwig <hch@lst.de>, Matthew Wilcox
+	<willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, "Darrick J. Wong"
+	<djwong@kernel.org>, Christian Brauner <christian.brauner@ubuntu.com>, "Al
+ Viro" <viro@zeniv.linux.org.uk>, Linux Kernel Mailing List
+	<linux-kernel@vger.kernel.org>
+Subject: RE: NTFS3 driver is orphan already. What we do?
+Thread-Topic: NTFS3 driver is orphan already. What we do?
+Thread-Index: AQHYWU8d5UQareA1dE+mIW4HKVrLlK0D2MOAgAZo1WA=
+Date: Sun, 1 May 2022 17:13:39 +0000
+Message-ID: <0f48e2eb2b0740b1b85e3b8d910c4bd8@paragon-software.com>
+References: <da20d32b-5185-f40b-48b8-2986922d8b25@stargateuniverse.net>
+ <CAHk-=wihuvzVTozzNLZT=uFzJH6uM7ZNKN7fYVpm0v2KkY6Jxg@mail.gmail.com>
+In-Reply-To: <CAHk-=wihuvzVTozzNLZT=uFzJH6uM7ZNKN7fYVpm0v2KkY6Jxg@mail.gmail.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.30.0.26]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: by 2002:a5d:64e7:0:0:0:0:0 with HTTP; Fri, 29 Apr 2022 19:40:44
- -0700 (PDT)
-In-Reply-To: <20220429200100.22659-1-rdunlap@infradead.org>
-References: <20220429200100.22659-1-rdunlap@infradead.org>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Sat, 30 Apr 2022 11:40:44 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8BKGgsbn7428CTfUhnrunBPsSeTdXgiyKQU_cqYKOk1w@mail.gmail.com>
-Message-ID: <CAKYAXd8BKGgsbn7428CTfUhnrunBPsSeTdXgiyKQU_cqYKOk1w@mail.gmail.com>
-Subject: Re: [PATCH v2] fs/ntfs3: validate BOOT sectors_per_clusters
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kari Argillander <kari.argillander@stargateuniverse.net>, 
-	Matthew Wilcox <willy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
 
-2022-04-30 5:01 GMT+09:00, Randy Dunlap <rdunlap@infradead.org>:
-> When the NTFS BOOT sectors_per_clusters field is > 0x80,
-> it represents a shift value. Make sure that the shift value is
-> not too large (> 31) before using it. Return 0xffffffff if it is.
->
-> This prevents negative shift values and shift values that are
-> larger than the field size.
->
-> Prevents this UBSAN error:
->
->  UBSAN: shift-out-of-bounds in ../fs/ntfs3/super.c:673:16
->  shift exponent -192 is negative
->
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Reported-by: syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com
-> Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-> Cc: ntfs3@lists.linux.dev
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Kari Argillander <kari.argillander@stargateuniverse.net>
-> Cc: Namjae Jeon <linkinjeon@kernel.org>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> ---
-> v2: use Willy's suggestions
->
->  fs/ntfs3/super.c |    8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> --- linux-next-20220428.orig/fs/ntfs3/super.c
-> +++ linux-next-20220428/fs/ntfs3/super.c
-> @@ -668,9 +668,11 @@ static u32 format_size_gb(const u64 byte
->
->  static u32 true_sectors_per_clst(const struct NTFS_BOOT *boot)
->  {
-> -	return boot->sectors_per_clusters <= 0x80
-> -		       ? boot->sectors_per_clusters
-> -		       : (1u << (0 - boot->sectors_per_clusters));
-> +	if (boot->sectors_per_clusters <= 0x80)
-> +		return boot->sectors_per_clusters;
-> +	if (boot->sectors_per_clusters > 0xe0) /* limit to 31-bit shift */
-ntfs maximum cluster size is 2MB. I think that we can change it to
-boot->sectors_per_clusters >= 0xf4.
-> +		return 1U << (0 - boot->sectors_per_clusters);
-> +	return 0xffffffff;
-It would be better to change it to return an error(-EINVAL) instead of
-0xffffffff.
-and if sct_per_clst < 0, goto out immediately..
->  }
->
->  /*
->
->
+PiBGcm9tOiBMaW51cyBUb3J2YWxkcyA8dG9ydmFsZHNAbGludXgtZm91bmRhdGlvbi5vcmc+DQo+
+IFNlbnQ6IFdlZG5lc2RheSwgQXByaWwgMjcsIDIwMjIgNzo0NyBQTQ0KPiBUbzogS2FyaSBBcmdp
+bGxhbmRlciA8a2FyaS5hcmdpbGxhbmRlckBzdGFyZ2F0ZXVuaXZlcnNlLm5ldD4NCj4gQ2M6IEtv
+bnN0YW50aW4gS29tYXJvdiA8YWxtYXouYWxleGFuZHJvdmljaEBwYXJhZ29uLXNvZnR3YXJlLmNv
+bT47IG50ZnMzQGxpc3RzLmxpbnV4LmRldjsgVGhlb2RvcmUgVHMnbyA8dHl0c29AbWl0LmVkdT47
+DQo+IENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPjsgTWF0dGhldyBXaWxjb3ggPHdpbGx5
+QGluZnJhZGVhZC5vcmc+OyBFcmljIEJpZ2dlcnMgPGViaWdnZXJzQGtlcm5lbC5vcmc+OyBEYXJy
+aWNrIEouIFdvbmcNCj4gPGRqd29uZ0BrZXJuZWwub3JnPjsgQ2hyaXN0aWFuIEJyYXVuZXIgPGNo
+cmlzdGlhbi5icmF1bmVyQHVidW50dS5jb20+OyBBbCBWaXJvIDx2aXJvQHplbml2LmxpbnV4Lm9y
+Zy51az47IExpbnV4IEtlcm5lbCBNYWlsaW5nDQo+IExpc3QgPGxpbnV4LWtlcm5lbEB2Z2VyLmtl
+cm5lbC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBOVEZTMyBkcml2ZXIgaXMgb3JwaGFuIGFscmVhZHku
+IFdoYXQgd2UgZG8/DQo+IA0KPiBbIFNhZCBzdGF0ZSBvZiBhZmZhaXJzIG1vc3RseSBlZGl0ZWQg
+b3V0IF0NCj4gDQo+IE9uIFR1ZSwgQXByIDI2LCAyMDIyIGF0IDI6MjIgQU0gS2FyaSBBcmdpbGxh
+bmRlcg0KPiA8a2FyaS5hcmdpbGxhbmRlckBzdGFyZ2F0ZXVuaXZlcnNlLm5ldD4gd3JvdGU6DQo+
+ID4NCj4gPiBJIGFsc28gZGlkIHN1Z2dlc3QgdGhhdCBJIGNvdWxkIGNvIG1haW50YWluIHRoaXMg
+ZHJpdmVyIHRvIHRha2UgYnVyZGVuIGZyb20NCj4gPiBLb25zdGFudGluLCBidXQgaGF2ZW4ndCBn
+b3QgYW55IHJlcGxheS4NCj4gDQo+IElmIHlvdSBhcmUgd2lsbGluZyB0byBtYWludGFpbiBpdCAo
+YW5kIG1heWJlIGZpbmQgb3RoZXIgbGlrZS1taW5kZWQNCj4gcGVvcGxlIHRvIGhlbHAgeW91KSwg
+SSB0aGluayB0aGF0IHdvdWxkIGNlcnRhaW5seSBiZSBhIHRoaW5nIHRvIHRyeS4NCj4gDQo+IEFu
+ZCBpZiB3ZSBjYW4gZmluZCAqbm9ib2R5KiB0aGF0IGVuZHMgdXAgY2FyaW5nIGFuZCBtYWludGFp
+bmluZywgdGhlbg0KPiBJIGd1ZXNzIHdlIHNob3VsZCByZW1vdmUgaXQsIHJhdGhlciB0aGFuIGVu
+ZCB1cCB3aXRoICp0d28qIGVmZmVjdGl2ZWx5DQo+IHVubWFpbnRhaW5lZCBjb3BpZXMgb2YgTlRG
+UyBkcml2ZXJzLg0KPiANCj4gTm90IHRoYXQgdHdvIHVubWFpbnRhaW5lZCBmaWxlc3lzdGVtcyBh
+cmUgbXVjaCB3b3JzZSB0aGFuIG9uZSA6LXANCj4gDQo+ICAgICAgICAgICAgTGludXMNCg0KSGVs
+bG8gTGludXMsIEthcmkgYW5kIGFsbC4NCg0KRmlyc3QgYW5kIGZvcmVtb3N0IEkgbmVlZCB0byBz
+dGF0ZSB0aGF0IGFjdGl2ZSB3b3JrIG9uIE5URlMzIGRyaXZlciBoYXMgbmV2ZXIgc3RvcHBlZCwN
+CmFuZCBpdCB3YXMgbmV2ZXIgZGVjaWRlZCB0byAib3JwaGFuIiBOVEZTMy4gIEN1cnJlbnRseSB3
+ZSBhcmUgc3RpbGwgaW4gdGhlIG1pZGRsZSBvZiB0aGUgcHJvY2Vzcw0Kb2YgZ2V0dGluZyB0aGUg
+S2VybmVsLm9yZyBhY2NvdW50LiBXZSBuZWVkIHRvIHNpZ24gb3VyIFBHUCBrZXkgdG8gbW92ZSBm
+b3J3YXJkLCBidXQNCnRoZSBwcm9jZXNzIGlzIG5vdCBzbyBjbGVhciAod2lsbCBiZSBncmF0ZWZ1
+bCB0byBnZXQgc29tZSBwcm9jZXNzIGRlc2NpcHRpb24pLCBzbyBpdCBpcyBnb2luZyBxdWl0ZSBz
+bG93DQp0cnlpbmcgdG8gdW5yYXZlbCB0aGUgdG9waWMuDQoNCkFzIGZvciBub3csIHdlIGNhbiBw
+cmVwYXJlIHBhdGNoZXMvcHVsbCByZXF1ZXN0cyB0aHJvdWdoIHRoZSBnaXRodWIsIA0KYW5kIHN1
+Ym1pdCB0aGVtIHJpZ2h0IG5vdyAod2UgaGF2ZSBxdWl0ZSBhIGJ1bmNoIG9mIGZpeGVzDQpmb3Ig
+bmV3IEtlcm5lbHMgc3VwcG9ydCwgYnVnZml4ZXMgYW5kIGZzdGVzdHMgZml4ZXMpIC0tIGlmIExp
+bnVzIGFwcHJvdmVzIHRoaXMgYXBwcm9hY2gNCnVudGlsIHdlIHNldCB1cCB0aGUgcHJvcGVyIGdp
+dC5rZXJuZWwub3JnIHJlcG8uDQoNCkFsc28sIHRvIGNsYXJpZnkgdGhpcyBleHBsaWNpdGx5OiBp
+biBhZGRpdGlvbiB0byB0aGUgZHJpdmVyLCB3ZSdyZSB3b3JraW5nIG9mIG50ZnMzIHV0aWxpdGll
+cyBhcyB3ZWxsLg0KDQpPdmVyYWxsLCBuZXZlcnRoZWxlc3MgdGhlIE5URlMzIGRldmVsb3BtZW50
+IHBhY2UgaGFzIGJlZW4gc2xvd2VkIGRvd24gYSBiaXQgZm9yIHByZXZpb3VzIGNvdXBsZQ0Kb2Yg
+bW9udGhzLCBpdHMgc3RhdGUgaXMgc3RpbGwgdGhlIHNhbWUgYXMgYmVmb3JlOiBpdCBpcyBmdWxs
+eSBtYWludGFpbmVkIGFuZCBiZWluZyBkZXZlbG9wZWQuDQoNCkFuZCBmaW5hbGx5LCB3ZSBhcG9s
+b2dpemUgZm9yIGxhdGUgcmVwbHk7IEkgYWxsb3dlZCBtZSBzaG9ydCB2YWNhdGlvbiBhZnRlciBt
+b3N0IHJlc3RyaWN0aW9ucyBiZWNhdXNlDQpvZiBjb3ZpZCBlbmRlZCB1cCB0aGlzIG1vbnRoIGlu
+IEdlcm1hbnkuDQoNClRoYW5rcy4NCg==
