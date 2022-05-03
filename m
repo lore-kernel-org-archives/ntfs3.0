@@ -1,55 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249B717D2
-	for <ntfs3@lists.linux.dev>; Tue,  3 May 2022 06:15:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4E3AC385A9
-	for <ntfs3@lists.linux.dev>; Tue,  3 May 2022 06:15:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1651558512;
-	bh=z7EijqrE3d5VjY35BMeH+t4YsXimOOv7VTpHoW6GE1w=;
-	h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-	b=O4+Ofb4+KNQ9xBTYKLlZblaINIZSCJz/cccgC+/Pig3cg67c5koYAAmE2DehhuFFp
-	 H+gntwo3y9G3MarB+gexQ/LweM36nmLX5sSP6B8JSt55O/O56fsOhydK+KmRH0WTyT
-	 z+dGmi+N43XKddpvKjdwiK4OmJer/sZ0In574kt2X8zTa4Eu63KOPiDAAIAkQa/s0R
-	 cEEiDK4bKQyGiWO/IWU18xMRtdBKxPpqIJSN5APY4U2A/oJvIk7skNb8j6p4mTvRsl
-	 22w3u43JiW0//9I0eYU7BiwlHOKxNewlu06d8NhHZ/tt12oloZmQUjSjkWaxNzjlXJ
-	 qXgSPy+KOlOcw==
-Received: by mail-wm1-f49.google.com with SMTP id c190-20020a1c35c7000000b0038e37907b5bso730236wma.0
-        for <ntfs3@lists.linux.dev>; Mon, 02 May 2022 23:15:12 -0700 (PDT)
-X-Gm-Message-State: AOAM533x33iedKunmvIlfOOyJOteaxn84M5foS45SqMdEufA97J2AhiT
-	R+zgcM90XON5uUFeCgPWCyAmkWHCohtldX0FNbk=
-X-Google-Smtp-Source: ABdhPJx6ppSJSx3kZIrU1OUbZLvsNKGTUGinUkr7ddRvDFpf/Md6SAgjSOobi33gFdRE1l3WTHPWDHicAjitZdXLkn8=
-X-Received: by 2002:a05:600c:19d2:b0:393:efff:7c26 with SMTP id
- u18-20020a05600c19d200b00393efff7c26mr1980269wmq.9.1651558511066; Mon, 02 May
- 2022 23:15:11 -0700 (PDT)
+Received: from mail.77msk.ru (mail.77msk.ru [84.204.203.133])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 211DF322E
+	for <ntfs3@lists.linux.dev>; Tue,  3 May 2022 16:12:49 +0000 (UTC)
+Received: from mail.77msk.ru (gatekeeper.domain007.com [192.168.2.20])
+	by hermes.domain007.com (Postfix) with ESMTP id 9C56EFA60EB
+	for <ntfs3@lists.linux.dev>; Tue,  3 May 2022 18:33:07 +0300 (MSK)
+Received: from asda.co.uk (unknown [20.97.211.134])
+	by gatekeeper.domain007.com (Postfix) with ESMTPSA id 378403200A8
+	for <ntfs3@lists.linux.dev>; Tue,  3 May 2022 18:33:07 +0300 (MSK)
+Reply-To: sales@asdaa.uk
+From: ASDA Stores Limited <Hanes.Thomas44@asda.co.uk>
+To: ntfs3@lists.linux.dev
+Subject: ASDA Procurement order
+Date: 03 May 2022 15:33:06 +0000
+Message-ID: <20220503141531.47A0317D1EF4B434@asda.co.uk>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: by 2002:a5d:4571:0:0:0:0:0 with HTTP; Mon, 2 May 2022 23:15:10 -0700 (PDT)
-In-Reply-To: <20220429172556.3011843-20-willy@infradead.org>
-References: <20220429172556.3011843-1-willy@infradead.org> <20220429172556.3011843-20-willy@infradead.org>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 3 May 2022 15:15:10 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-XzbDQEU3OCv82qF6a3Kvc-e2rqtJes06a4PVq41kDaA@mail.gmail.com>
-Message-ID: <CAKYAXd-XzbDQEU3OCv82qF6a3Kvc-e2rqtJes06a4PVq41kDaA@mail.gmail.com>
-Subject: Re: [PATCH 19/69] ntfs3: Call ntfs_write_begin() and ntfs_write_end() directly
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Kari Argillander <kari.argillander@stargateuniverse.net>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev, 
-	Kari Argillander <kari.argillander@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Virus-Scanned: clamav-milter 0.102.4 at hermes
+X-Virus-Status: Clean
 
-2022-04-30 2:25 GMT+09:00, Matthew Wilcox (Oracle) <willy@infradead.org>:
-> There is only one kind of write_begin/write_end aops, so we don't need to
-> look up which aop it is, just make ntfs_write_begin() and ntfs_write_end()
-> available to this file and call them directly.
->
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-Reviewed-by: Namjae Jeon <linkinjeon@kernel.org>
+Dear ntfs3
 
-Thanks.
+We are interested in having some of your hot selling product in=20
+our stores and outlets spread all over United Kingdom, Northern=20
+Island and Africa. ASDA Stores Limited is one of the highest-
+ranking Wholesale & Retail outlets in the United Kingdom. 
+=20=20
+We shall furnish our detailed company profile in our next=20
+correspondent. However, it would be appreciated if you can send=20
+us your catalog through email to learn more about your company's=20
+products and wholesale quote. It is hopeful that we can start a=20
+viable long-lasting business relationship (partnership) with you.=20=20
+  
+=20=20
+Your prompt response would be delightfully appreciated. 
+=20=20
+Best Wishes=20
+  
+=20=20
+Hanes S. Thomas=20
+Procurement Office.=20
+ASDA Stores Limited=20
+Tel:  + 44 - 7451271650=20
+WhatsApp: + 44 =E2=80=93 7441440360=20
+Website: www.asda.co.uk
