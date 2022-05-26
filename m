@@ -1,83 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B711FAA
-	for <ntfs3@lists.linux.dev>; Thu, 19 May 2022 00:55:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7927C385A9
-	for <ntfs3@lists.linux.dev>; Thu, 19 May 2022 00:55:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1652921747;
-	bh=+w7bxSwboW1VzAC18RChvyM/QQVFk/VXGDrhCmYTkKM=;
-	h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-	b=sj33+a6eM/yrurgd05V1SCh9AA7YADFweeVAmx8tNxRPqzYEtQwcpd08oK+zQiX9H
-	 cVvMKMf1JnETwr8FhftPgWe38RNC/q4Da18MJNZzOxbevDGjx45BuX1OQgWyeLPLOj
-	 s4qBg1QdmS0vHtXE8UlmTYzt/7pRYyX6ogsN+pvkJ2xeg6h9qQUifiaPm8P4+Soo8o
-	 bHaHZjtcz/600JCQFnMpmSCCRU9iM/ImuEjn6/+vd4WCN7EC6ZU2H5s76M8jAoilYd
-	 XbdwGhI0+HktrUnM+Gz/AJ6LOb/pRwemUVp50kWkeyL/bbQHr6laC0z8wT/musQMu9
-	 y0UltHu10rmBA==
-Received: by mail-wr1-f52.google.com with SMTP id k30so4961706wrd.5
-        for <ntfs3@lists.linux.dev>; Wed, 18 May 2022 17:55:47 -0700 (PDT)
-X-Gm-Message-State: AOAM533VI8Mm8dgrKaS1HQ43z9fyezWQUlnFmDFh3PbSqAu3igOIKFjy
-	au/AgfukpjK5msSs+HRzb1K+jHHEZYdjINdRO4A=
-X-Google-Smtp-Source: ABdhPJzUNgRO6DvQuX8+CsnYTnp5W7tYne/MYsgi00ftQrYYON5+oXvWIDFqia9QsujGG30+jmTKALuqGOP6lqY+cHg=
-X-Received: by 2002:a5d:584a:0:b0:20c:5bad:11c1 with SMTP id
- i10-20020a5d584a000000b0020c5bad11c1mr1831044wrf.62.1652921746214; Wed, 18
- May 2022 17:55:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E702F1368
+	for <ntfs3@lists.linux.dev>; Thu, 26 May 2022 10:28:50 +0000 (UTC)
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 8B90E217A;
+	Thu, 26 May 2022 10:22:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1653560574;
+	bh=W0DpAQyoq876DrlqhAskeolqdKC31dHHiEqyp43/xeA=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=nVKc598zYVkv4trcv6ycpLzm2MBB7bkuHWBKSVJ48+E/dr80+9RoTkfwTODOmZtK2
+	 HwcMM/G8xbobEczyaUoIDErAZso5CRSRXydi2RKvyx7TroYYiH4ZhoobB4p5g8JRsO
+	 lZVB6lSGUDhHkNY+5vv3KitKM+580cIO1AyD0tao=
+Received: from [172.30.8.65] (172.30.8.65) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Thu, 26 May 2022 13:23:21 +0300
+Message-ID: <14b2ae23-2f7b-401a-dcee-cc6114849022@paragon-software.com>
+Date: Thu, 26 May 2022 13:22:27 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: by 2002:adf:f344:0:0:0:0:0 with HTTP; Wed, 18 May 2022 17:55:45
- -0700 (PDT)
-In-Reply-To: <YnjY58EpRzaZP+YC@kili>
-References: <YnjY58EpRzaZP+YC@kili>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Thu, 19 May 2022 09:55:45 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8qxUTJLnah1Yu46j-esGKCaOb6aM-CUPNf-bvFn_e5uQ@mail.gmail.com>
-Message-ID: <CAKYAXd8qxUTJLnah1Yu46j-esGKCaOb6aM-CUPNf-bvFn_e5uQ@mail.gmail.com>
-Subject: Re: [PATCH] fs/ntfs3: Don't clear upper bits accidentally in log_replay()
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	kernel-janitors <kernel-janitors@vger.kernel.org>, 
-	Kari Argillander <kari.argillander@stargateuniverse.net>, 
-	Kari Argillander <kari.argillander@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] fs/ntfs3: fix null pointer dereference in
+ d_flags_for_inode
+Content-Language: en-US
+To: Liangbin Lian <jjm2473@gmail.com>, <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>
+References: <20220506034656.50038-1-jjm2473@gmail.com>
+From: Almaz Alexandrovich <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20220506034656.50038-1-jjm2473@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.30.8.65]
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-2022-05-09 18:03 GMT+09:00, Dan Carpenter <dan.carpenter@oracle.com>:
-> The "vcn" variable is a 64 bit.  The "log->clst_per_page" variable is a
-> u32.  This means that the mask accidentally clears out the high 32 bits
-> when it was only supposed to clear some low bits.  Fix this by adding a
-> cast to u64.
->
-> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Reviewed-by: Namjae Jeon <linkinjeon@kernel.org>
+Hello.
 
+Thank you for reporting this bug.
+The bug happens because we don't initialize i_op for records in $Extend.
+We tested patch on our side, let me know if patch helps you too.
+
+     fs/ntfs3: Fix missing i_op in ntfs_read_mft
+     
+     There is null pointer dereference because i_op == NULL.
+     The bug happens because we don't initialize i_op for records in $Extend.
+     Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+     
+     Reported-by: Liangbin Lian <jjm2473@gmail.com>
+     Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 879952254071..b2cc1191be69 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -430,6 +430,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+         } else if (fname && fname->home.low == cpu_to_le32(MFT_REC_EXTEND) &&
+                    fname->home.seq == cpu_to_le16(MFT_REC_EXTEND)) {
+                 /* Records in $Extend are not a files or general directories. */
++               inode->i_op = &ntfs_file_inode_operations;
+         } else {
+                 err = -EINVAL;
+                 goto out;
+
+
+On 5/6/22 06:46, Liangbin Lian wrote:
+> ntfs_read_mft may return inode with null i_op, cause null pointer dereference in d_flags_for_inode (inode->i_op->get_link).
+> Reproduce:
+>   - sudo mount -t ntfs3 -o loop ntfs.img ntfs
+>   - ls ntfs/'$Extend/$Quota'
+> 
+> The call trace is shown below (striped):
+>   BUG: kernel NULL pointer dereference, address: 0000000000000008
+>   CPU: 0 PID: 577 Comm: ls Tainted: G           OE     5.16.0-0.bpo.4-amd64 #1  Debian 5.16.12-1~bpo11+1
+>   RIP: 0010:d_flags_for_inode+0x65/0x90
+>   Call Trace:
+>   ntfs_lookup
+>   +--- dir_search_u
+>   |    +--- ntfs_iget5
+>   |         +--- ntfs_read_mft
+>   +--- d_splice_alias
+>        +--- __d_add
+>             +--- d_flags_for_inode
+> 
+> Signed-off-by: Liangbin Lian <jjm2473@gmail.com>
 > ---
-> Why am I getting new Smatch warnings in old ntfs3 code?  It is a mystery.
->
->  fs/ntfs3/fslog.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index 915f42cf07bc..0da339fda2f4 100644
-> --- a/fs/ntfs3/fslog.c
-> +++ b/fs/ntfs3/fslog.c
-> @@ -5057,7 +5057,7 @@ int log_replay(struct ntfs_inode *ni, bool
-> *initialized)
->  		goto add_allocated_vcns;
->
->  	vcn = le64_to_cpu(lrh->target_vcn);
-> -	vcn &= ~(log->clst_per_page - 1);
-> +	vcn &= ~(u64)(log->clst_per_page - 1);
->
->  add_allocated_vcns:
->  	for (i = 0, vcn = le64_to_cpu(lrh->target_vcn),
-> --
-> 2.35.1
->
->
->
+>   fs/ntfs3/inode.c | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index 9eab11e3b..b68d26fa8 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -45,7 +45,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+>   	struct MFT_REC *rec;
+>   	struct runs_tree *run;
+>   
+> -	inode->i_op = NULL;
+>   	/* Setup 'uid' and 'gid' */
+>   	inode->i_uid = sbi->options->fs_uid;
+>   	inode->i_gid = sbi->options->fs_gid;
