@@ -1,24 +1,34 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E702F1368
-	for <ntfs3@lists.linux.dev>; Thu, 26 May 2022 10:28:50 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 8B90E217A;
-	Thu, 26 May 2022 10:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A80185D
+	for <ntfs3@lists.linux.dev>; Fri, 27 May 2022 14:15:32 +0000 (UTC)
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 419F22628;
+	Fri, 27 May 2022 14:14:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1653560574;
-	bh=W0DpAQyoq876DrlqhAskeolqdKC31dHHiEqyp43/xeA=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=nVKc598zYVkv4trcv6ycpLzm2MBB7bkuHWBKSVJ48+E/dr80+9RoTkfwTODOmZtK2
-	 HwcMM/G8xbobEczyaUoIDErAZso5CRSRXydi2RKvyx7TroYYiH4ZhoobB4p5g8JRsO
-	 lZVB6lSGUDhHkNY+5vv3KitKM+580cIO1AyD0tao=
+	d=paragon-software.com; s=mail; t=1653660896;
+	bh=67MOUGxu0l15uGeKsZwN2GwiXwDwoeIuJxDyF86Rp9U=;
+	h=Date:To:CC:From:Subject;
+	b=amn5GupqaKheBOh3foRQJg0q+Q1T9FL43e+1OorHlIYvnwEKZdYfJz2IRiwsJMNy8
+	 krwm/TM5NwgnZBeB6neVxrONgK2rSWyKsPPtBGyVmniLxknEDEcRe3AaTLUjy8T877
+	 bnVvNzxeRT7j5f9M7Q2gNAN+7Q7n1NhL2OAORC8g=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E352D220D;
+	Fri, 27 May 2022 14:15:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1653660923;
+	bh=67MOUGxu0l15uGeKsZwN2GwiXwDwoeIuJxDyF86Rp9U=;
+	h=Date:To:CC:From:Subject;
+	b=l00AhmcIDSaUNE9GoTj82KzDDZAvSu7h9onySYWhTC/m6KqTtvQGRPIxrYhDdIOCh
+	 uXcrk0VPAUB0wgUJJchpz9pZRNcxjKbw9MXq7dIJbxbKY/sACZkRp1OhFvWC01t6nS
+	 3Cb4tQPCoBRxA9qy+gjbKHL8voDTmoY0y6IDW0QI=
 Received: from [172.30.8.65] (172.30.8.65) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 26 May 2022 13:23:21 +0300
-Message-ID: <14b2ae23-2f7b-401a-dcee-cc6114849022@paragon-software.com>
-Date: Thu, 26 May 2022 13:22:27 +0300
+ 15.1.2375.7; Fri, 27 May 2022 17:15:23 +0300
+Message-ID: <75a1215a-eda2-d0dc-b962-0334356eef7c@paragon-software.com>
+Date: Fri, 27 May 2022 17:15:23 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,82 +37,34 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH] fs/ntfs3: fix null pointer dereference in
- d_flags_for_inode
 Content-Language: en-US
-To: Liangbin Lian <jjm2473@gmail.com>, <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>
-References: <20220506034656.50038-1-jjm2473@gmail.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
 From: Almaz Alexandrovich <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20220506034656.50038-1-jjm2473@gmail.com>
+Subject: [PATCH 0/3] fs/ntfs3: Refactoring and bugfix
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [172.30.8.65]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hello.
+There are 3 commits.
+First - to improve code readability.
+Second - bugfix for xfstest (fixing wrong logic).
+Third - restructuring function logic so
+we can restore inode in some error cases.
 
-Thank you for reporting this bug.
-The bug happens because we don't initialize i_op for records in $Extend.
-We tested patch on our side, let me know if patch helps you too.
+Konstantin Komarov (3):
+   fs/ntfs3: Refactoring of indx_find function
+   fs/ntfs3: Fix double free on remount
+   fs/ntfs3: Refactor ni_try_remove_attr_list function
 
-     fs/ntfs3: Fix missing i_op in ntfs_read_mft
-     
-     There is null pointer dereference because i_op == NULL.
-     The bug happens because we don't initialize i_op for records in $Extend.
-     Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-     
-     Reported-by: Liangbin Lian <jjm2473@gmail.com>
-     Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+  fs/ntfs3/frecord.c | 49 ++++++++++++++++++++++++++++++++++------------
+  fs/ntfs3/index.c   | 20 ++++++-------------
+  fs/ntfs3/record.c  |  5 ++---
+  fs/ntfs3/super.c   |  8 ++++----
+  4 files changed, 49 insertions(+), 33 deletions(-)
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 879952254071..b2cc1191be69 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -430,6 +430,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
-         } else if (fname && fname->home.low == cpu_to_le32(MFT_REC_EXTEND) &&
-                    fname->home.seq == cpu_to_le16(MFT_REC_EXTEND)) {
-                 /* Records in $Extend are not a files or general directories. */
-+               inode->i_op = &ntfs_file_inode_operations;
-         } else {
-                 err = -EINVAL;
-                 goto out;
+-- 
+2.36.1
 
-
-On 5/6/22 06:46, Liangbin Lian wrote:
-> ntfs_read_mft may return inode with null i_op, cause null pointer dereference in d_flags_for_inode (inode->i_op->get_link).
-> Reproduce:
->   - sudo mount -t ntfs3 -o loop ntfs.img ntfs
->   - ls ntfs/'$Extend/$Quota'
-> 
-> The call trace is shown below (striped):
->   BUG: kernel NULL pointer dereference, address: 0000000000000008
->   CPU: 0 PID: 577 Comm: ls Tainted: G           OE     5.16.0-0.bpo.4-amd64 #1  Debian 5.16.12-1~bpo11+1
->   RIP: 0010:d_flags_for_inode+0x65/0x90
->   Call Trace:
->   ntfs_lookup
->   +--- dir_search_u
->   |    +--- ntfs_iget5
->   |         +--- ntfs_read_mft
->   +--- d_splice_alias
->        +--- __d_add
->             +--- d_flags_for_inode
-> 
-> Signed-off-by: Liangbin Lian <jjm2473@gmail.com>
-> ---
->   fs/ntfs3/inode.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index 9eab11e3b..b68d26fa8 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -45,7 +45,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
->   	struct MFT_REC *rec;
->   	struct runs_tree *run;
->   
-> -	inode->i_op = NULL;
->   	/* Setup 'uid' and 'gid' */
->   	inode->i_uid = sbi->options->fs_uid;
->   	inode->i_gid = sbi->options->fs_gid;
