@@ -1,52 +1,123 @@
-Received: from mail104.syd.optusnet.com.au (mail104.syd.optusnet.com.au [211.29.132.246])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E35877B
-	for <ntfs3@lists.linux.dev>; Sat, 28 May 2022 00:27:19 +0000 (UTC)
-Received: from dread.disaster.area (pa49-181-2-147.pa.nsw.optusnet.com.au [49.181.2.147])
-	by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 7E642538FEE;
-	Sat, 28 May 2022 10:06:21 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-	(envelope-from <david@fromorbit.com>)
-	id 1nujyG-00HDH2-8o; Sat, 28 May 2022 10:06:20 +1000
-Date: Sat, 28 May 2022 10:06:20 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Almaz Alexandrovich <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/3] fs/ntfs3: Refactoring of indx_find function
-Message-ID: <20220528000620.GH3923443@dread.disaster.area>
-References: <75a1215a-eda2-d0dc-b962-0334356eef7c@paragon-software.com>
- <0f9648cc-66af-077c-88e6-8650fd78f44c@paragon-software.com>
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF34C2564
+	for <ntfs3@lists.linux.dev>; Sat, 28 May 2022 13:42:38 +0000 (UTC)
+Received: by mail-oi1-f181.google.com with SMTP id r206so1700546oib.8
+        for <ntfs3@lists.linux.dev>; Sat, 28 May 2022 06:42:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dKpNSqmJyc1shBqMlT5prVldbUvob7Rd4vFWEPuuWto=;
+        b=fjVmfPSNYRpqwphaGhURNuDnDdgHyg/WoDK1VtYpkAMM18CoBqGxan49lp6lT/2Kih
+         EmlLReFpHH94QEjOjNK4R0/3XY5ds77+tEx5EREvT8FhaJU1clSFYe00oZalvmd8E2Xl
+         tarFK9WQKu62Xbx6/fB0g6NYFSqh4Aab3DSdF6+HMzOCq0C9AT9GNhzOFrOtbPT73Rr4
+         mjxvizPCqNdPqTm+m2VHWr1B3M4JLwlMstZDWi8s1ugy8Ua1aU+yDTnjbGp7MvQHss+a
+         GEe3Xb84p5yKgxzF6Nrtm8IgAJ/IWKLo0eVPIlWgHHT8UKBZILMzTfOYElB+MyWHEBlA
+         idJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dKpNSqmJyc1shBqMlT5prVldbUvob7Rd4vFWEPuuWto=;
+        b=VNqh3K172PY0Lbmx53wXpGQG5B9KlJ28cpLwYCdu47z6dolWv+w7Y7Q8iwHGk2qCp/
+         bk+SC3u0m3mQUHONsolZ7eXS471r5O1ty6caJihBUDYr1vOzx6CRY7saomo2IZbzpIXY
+         la5C7+4Ae12l5fQW2UFekwd3b241ZSbyzbq30+ldoGzNt7ARIiJVvRehenJjFEvvhBsH
+         bsVqVu8Hlp7DkmhZ6sSYPKf534zMso339UCJXNWsIwwsajsfvW2RnTv//atEXgKNhweR
+         ykZvonqBZ5lcFHW05BvGCm0lJ8nkFYHwFdVRXnsLhFuUrLUp9a3NNETDx5y4Gb1/ccj8
+         cFTA==
+X-Gm-Message-State: AOAM532VmDE1LhE9rpRvhJruLLUTZ8k52wL/tNaCLvTj5bXYd6pgtCfG
+	cwNlEKYanPKaL7EjIAzVMZdhBuzD3F27D3hJAY8=
+X-Google-Smtp-Source: ABdhPJwtKUwt73stNMVhFtfOqxAg5fXTLoVWI6r4XBXkcNoRYm8rnSm/ghiol73l5Ix4xXqD10j9UyHI8So3OAUJN9Q=
+X-Received: by 2002:a05:6808:20a5:b0:32b:2825:acba with SMTP id
+ s37-20020a05680820a500b0032b2825acbamr6206816oiw.283.1653745358037; Sat, 28
+ May 2022 06:42:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0f9648cc-66af-077c-88e6-8650fd78f44c@paragon-software.com>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.4 cv=e9dl9Yl/ c=1 sm=1 tr=0 ts=6291677e
-	a=ivVLWpVy4j68lT4lJFbQgw==:117 a=ivVLWpVy4j68lT4lJFbQgw==:17
-	a=kj9zAlcOel0A:10 a=oZkIemNP1mAA:10 a=GFCt93a2AAAA:8 a=7-415B0cAAAA:8
-	a=0CrOsYfU3WwKmZ_veyUA:9 a=CjuIK1q_8ugA:10 a=CZlV3fpBRwkA:10
-	a=0UNspqPZPZo5crgNHNjb:22 a=biEYGPWJfzWAr4FL6Ov7:22
+References: <20220506034656.50038-1-jjm2473@gmail.com> <14b2ae23-2f7b-401a-dcee-cc6114849022@paragon-software.com>
+In-Reply-To: <14b2ae23-2f7b-401a-dcee-cc6114849022@paragon-software.com>
+From: =?UTF-8?B?57uD5Lqu5paM?= <jjm2473@gmail.com>
+Date: Sat, 28 May 2022 21:42:26 +0800
+Message-ID: <CAP_9mL7O7YyW56HBorZ7727m22NjbQcfcu_J4_XOBoXigQvGCg@mail.gmail.com>
+Subject: Re: [PATCH] fs/ntfs3: fix null pointer dereference in d_flags_for_inode
+To: Almaz Alexandrovich <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 27, 2022 at 05:21:03PM +0300, Almaz Alexandrovich wrote:
-> This commit makes function a bit more readable
-> 
-> Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Hello.
+`inode->i_op` already initialized when inode alloc, this bug was
+introduced by `inode->i_op = NULL;`, just delete this line.
+Please check my patch, maybe it's a better one, I have tested it on my project.
 
-This looks wrong. The email is from
-
- "From: Almaz Alexandrovich <almaz.alexandrovich@paragon-software.com>"
-
-So it looks like the S-o-B has the wrong email address in it. All
-the patches have this same problem.
-
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+On 5/26/22 18:23, Almaz Alexandrovich wrote:
+>
+> Hello.
+>
+> Thank you for reporting this bug.
+> The bug happens because we don't initialize i_op for records in $Extend.
+> We tested patch on our side, let me know if patch helps you too.
+>
+>      fs/ntfs3: Fix missing i_op in ntfs_read_mft
+>
+>      There is null pointer dereference because i_op == NULL.
+>      The bug happens because we don't initialize i_op for records in $Extend.
+>      Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+>
+>      Reported-by: Liangbin Lian <jjm2473@gmail.com>
+>      Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+>
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index 879952254071..b2cc1191be69 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -430,6 +430,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+>          } else if (fname && fname->home.low == cpu_to_le32(MFT_REC_EXTEND) &&
+>                     fname->home.seq == cpu_to_le16(MFT_REC_EXTEND)) {
+>                  /* Records in $Extend are not a files or general directories. */
+> +               inode->i_op = &ntfs_file_inode_operations;
+>          } else {
+>                  err = -EINVAL;
+>                  goto out;
+>
+>
+> On 5/6/22 06:46, Liangbin Lian wrote:
+> > ntfs_read_mft may return inode with null i_op, cause null pointer dereference in d_flags_for_inode (inode->i_op->get_link).
+> > Reproduce:
+> >   - sudo mount -t ntfs3 -o loop ntfs.img ntfs
+> >   - ls ntfs/'$Extend/$Quota'
+> >
+> > The call trace is shown below (striped):
+> >   BUG: kernel NULL pointer dereference, address: 0000000000000008
+> >   CPU: 0 PID: 577 Comm: ls Tainted: G           OE     5.16.0-0.bpo.4-amd64 #1  Debian 5.16.12-1~bpo11+1
+> >   RIP: 0010:d_flags_for_inode+0x65/0x90
+> >   Call Trace:
+> >   ntfs_lookup
+> >   +--- dir_search_u
+> >   |    +--- ntfs_iget5
+> >   |         +--- ntfs_read_mft
+> >   +--- d_splice_alias
+> >        +--- __d_add
+> >             +--- d_flags_for_inode
+> >
+> > Signed-off-by: Liangbin Lian <jjm2473@gmail.com>
+> > ---
+> >   fs/ntfs3/inode.c | 1 -
+> >   1 file changed, 1 deletion(-)
+> >
+> > diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> > index 9eab11e3b..b68d26fa8 100644
+> > --- a/fs/ntfs3/inode.c
+> > +++ b/fs/ntfs3/inode.c
+> > @@ -45,7 +45,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+> >       struct MFT_REC *rec;
+> >       struct runs_tree *run;
+> >
+> > -     inode->i_op = NULL;
+> >       /* Setup 'uid' and 'gid' */
+> >       inode->i_uid = sbi->options->fs_uid;
+> >       inode->i_gid = sbi->options->fs_gid;
