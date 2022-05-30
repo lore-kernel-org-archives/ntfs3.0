@@ -1,24 +1,24 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B676B3201
-	for <ntfs3@lists.linux.dev>; Mon, 30 May 2022 16:40:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30622FAF
+	for <ntfs3@lists.linux.dev>; Mon, 30 May 2022 17:11:27 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 759F31F86;
-	Mon, 30 May 2022 16:40:25 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id F329C1F86;
+	Mon, 30 May 2022 17:10:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1653928825;
-	bh=sICHCfo4uTR9mxXHyCTyqelqqIWYEf1R3oO5FRPMAf0=;
-	h=Date:Subject:From:To:CC:References:In-Reply-To;
-	b=uGpJDEEz+5fYhvd+y3hQkruz0yb7f05Qhm3qvxK7CN586eb//uucHu1KgjKgpmXFb
-	 21dBh1irQdVa0Ru3y7iQDa5+ykmabI+7exB5PspCIlL3XtSHL4xYdjWymgoqIfPdJJ
-	 B8lQ0Xit7TNefNZC/GRvXNllRL/NDYkGg5U9TYOw=
+	d=paragon-software.com; s=mail; t=1653930655;
+	bh=8VawmhTG+GHXT/MqMClG55CYn/p1qfgGoNeayV4I14I=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=FppLj4+tXN0lfjH0ZLbXyWZlpqsHu4M6HQkX8W5yhH79I9PSoeMTVxIYzm7xlCOss
+	 Rc4HfZIOf62fcCL9mateBBiSLrBMMeULR1cvY3KU99IDX/gdXOgZLPS/9oAKXBuZ0Y
+	 pSMhTGFE25hCSX83f5CSwiCOKd6+hfqLO84cYQlw=
 Received: from [172.30.8.65] (172.30.8.65) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Mon, 30 May 2022 19:40:55 +0300
-Message-ID: <10fe5b38-eb6c-8cb2-5355-1952a6cfb447@paragon-software.com>
-Date: Mon, 30 May 2022 19:40:55 +0300
+ 15.1.2375.7; Mon, 30 May 2022 20:11:24 +0300
+Message-ID: <075d601a-1d79-acbd-2d03-92a1a73cf9c7@paragon-software.com>
+Date: Mon, 30 May 2022 20:11:24 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,161 +27,94 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: [PATCH v2 3/3] fs/ntfs3: Refactor ni_try_remove_attr_list function
+Subject: Re: [PATCH 1/3] fs/ntfs3: Refactoring of indx_find function
 Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
+To: Joe Perches <joe@perches.com>, <ntfs3@lists.linux.dev>
 CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-References: <6afbf4c7-825b-7148-b130-55f720857cb0@paragon-software.com>
-In-Reply-To: <6afbf4c7-825b-7148-b130-55f720857cb0@paragon-software.com>
+References: <75a1215a-eda2-d0dc-b962-0334356eef7c@paragon-software.com>
+ <0f9648cc-66af-077c-88e6-8650fd78f44c@paragon-software.com>
+ <94dd870e498e89e0998dee4dd0dbaaa4b4497929.camel@perches.com>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <94dd870e498e89e0998dee4dd0dbaaa4b4497929.camel@perches.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [172.30.8.65]
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Now we save a copy of primary record for restoration.
-Also now we remove all attributes from subrecords.
+Hello.
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
----
-  fs/ntfs3/frecord.c | 49 ++++++++++++++++++++++++++++++++++------------
-  fs/ntfs3/record.c  |  5 ++---
-  2 files changed, 39 insertions(+), 15 deletions(-)
-
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 18842998c8fa..3576268ee0a1 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -7,6 +7,7 @@
-  
-  #include <linux/fiemap.h>
-  #include <linux/fs.h>
-+#include <linux/minmax.h>
-  #include <linux/vmalloc.h>
-  
-  #include "debug.h"
-@@ -649,6 +650,7 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
-  	struct mft_inode *mi;
-  	u32 asize, free;
-  	struct MFT_REF ref;
-+	struct MFT_REC *mrec;
-  	__le16 id;
-  
-  	if (!ni->attr_list.dirty)
-@@ -692,11 +694,17 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
-  		free -= asize;
-  	}
-  
-+	/* Make a copy of primary record to restore if error. */
-+	mrec = kmemdup(ni->mi.mrec, sbi->record_size, GFP_NOFS);
-+	if (!mrec)
-+		return 0; /* Not critical. */
-+
-  	/* It seems that attribute list can be removed from primary record. */
-  	mi_remove_attr(NULL, &ni->mi, attr_list);
-  
-  	/*
--	 * Repeat the cycle above and move all attributes to primary record.
-+	 * Repeat the cycle above and copy all attributes to primary record.
-+	 * Do not remove original attributes from subrecords!
-  	 * It should be success!
-  	 */
-  	le = NULL;
-@@ -707,14 +715,14 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
-  		mi = ni_find_mi(ni, ino_get(&le->ref));
-  		if (!mi) {
-  			/* Should never happened, 'cause already checked. */
--			goto bad;
-+			goto out;
-  		}
-  
-  		attr = mi_find_attr(mi, NULL, le->type, le_name(le),
-  				    le->name_len, &le->id);
-  		if (!attr) {
-  			/* Should never happened, 'cause already checked. */
--			goto bad;
-+			goto out;
-  		}
-  		asize = le32_to_cpu(attr->size);
-  
-@@ -724,18 +732,33 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
-  					  le16_to_cpu(attr->name_off));
-  		if (!attr_ins) {
-  			/*
--			 * Internal error.
--			 * Either no space in primary record (already checked).
--			 * Either tried to insert another
--			 * non indexed attribute (logic error).
-+			 * No space in primary record (already checked).
-  			 */
--			goto bad;
-+			goto out;
-  		}
-  
-  		/* Copy all except id. */
-  		id = attr_ins->id;
-  		memcpy(attr_ins, attr, asize);
-  		attr_ins->id = id;
-+	}
-+
-+	/*
-+	 * Repeat the cycle above and remove all attributes from subrecords.
-+	 */
-+	le = NULL;
-+	while ((le = al_enumerate(ni, le))) {
-+		if (!memcmp(&le->ref, &ref, sizeof(ref)))
-+			continue;
-+
-+		mi = ni_find_mi(ni, ino_get(&le->ref));
-+		if (!mi)
-+			continue;
-+
-+		attr = mi_find_attr(mi, NULL, le->type, le_name(le),
-+				    le->name_len, &le->id);
-+		if (!attr)
-+			continue;
-  
-  		/* Remove from original record. */
-  		mi_remove_attr(NULL, mi, attr);
-@@ -748,11 +771,13 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
-  	ni->attr_list.le = NULL;
-  	ni->attr_list.dirty = false;
-  
-+	kfree(mrec);
-+	return 0;
-+out:
-+	/* Restore primary record. */
-+	swap(mrec, ni->mi.mrec);
-+	kfree(mrec);
-  	return 0;
--bad:
--	ntfs_inode_err(&ni->vfs_inode, "Internal error");
--	make_bad_inode(&ni->vfs_inode);
--	return -EINVAL;
-  }
-  
-  /*
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index 861e35791506..8fe0a876400a 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -445,12 +445,11 @@ struct ATTRIB *mi_insert_attr(struct mft_inode *mi, enum ATTR_TYPE type,
-  	attr = NULL;
-  	while ((attr = mi_enum_attr(mi, attr))) {
-  		diff = compare_attr(attr, type, name, name_len, upcase);
--		if (diff > 0)
--			break;
-+
-  		if (diff < 0)
-  			continue;
-  
--		if (!is_attr_indexed(attr))
-+		if (!diff && !is_attr_indexed(attr))
-  			return NULL;
-  		break;
-  	}
--- 
-2.36.1
+Thanks for your input.
+It's nice to have a clear typical return value, so I've updated patch.
 
 
+On 5/27/22 19:07, Joe Perches wrote:
+> On Fri, 2022-05-27 at 17:21 +0300, Almaz Alexandrovich wrote:
+>> This commit makes function a bit more readable
+> 
+> trivia:
+> 
+>> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+> []
+>> @@ -1042,19 +1042,16 @@ int indx_find(struct ntfs_index *indx, struct ntfs_inode *ni,
+>>    {
+>>    	int err;
+>>    	struct NTFS_DE *e;
+>> -	const struct INDEX_HDR *hdr;
+>>    	struct indx_node *node;
+>>    
+>>    	if (!root)
+>>    		root = indx_get_root(&ni->dir, ni, NULL, NULL);
+>>    
+>>    	if (!root) {
+>> -		err = -EINVAL;
+>> -		goto out;
+>> +		/* Should not happed. */
+>> +		return -EINVAL;
+> 
+> s/happed/happen/
+> 
+>>    	for (;;) {
+>>    		node = NULL;
+>>    		if (*diff >= 0 || !de_has_vcn_ex(e)) {
+>>    			*entry = e;
+>> -			goto out;
+>> +			return 0;
+>>    		}
+> 
+> might be nicer with a break; or a while like
+> 
+> 	while (*diff < 0 && de_has_vcn_ex(e)) {
+> 		node = NULL;
+> 
+> 
+>>    		/* Read next level. */
+>>    		err = indx_read(indx, ni, de_get_vbn(e), &node);
+>>    		if (err)
+>> -			goto out;
+>> +			return err;
+>>    
+>>    		/* Lookup entry that is <= to the search value. */
+>>    		e = hdr_find_e(indx, &node->index->ihdr, key, key_len, ctx,
+>>    			       diff);
+>>    		if (!e) {
+>> -			err = -EINVAL;
+>>    			put_indx_node(node);
+>> -			goto out;
+>> +			return -EINVAL;
+>>    		}
+>>    
+>>    		fnd_push(fnd, node, e);
+>>    	}
+>> -
+>> -out:
+>> -	return err;
+> 
+> and a return 0;
+> 
+> or
+> 	*entry = e;
+> 	return 0;
+> 
+> so it appears that the function has a typical return value.
+> 
