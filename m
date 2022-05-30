@@ -1,132 +1,66 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85BA529A8
-	for <ntfs3@lists.linux.dev>; Mon, 30 May 2022 12:57:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1653915439;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9RJe5ZBe82VXM39djh4zovede5FtpngukpR679+LUo0=;
-	b=FeXryHkGrJF0dLY3uikoHhk6p0r6rIj1Gzl4i5D0N9aqIGxEX+9oKYXWwGd6dPvrnerM+F
-	dUFwJbEl7fvMoOfVF4Mbjxhh8b9evkHG6zxTW5faANq6/gmqZLmHx4bz+tjcdyysZO+dMH
-	fvz8jpRf85zn8udFEnEZiVKugEZCPzU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-164-2qDKP66pM56eyuhcFQSYfQ-1; Mon, 30 May 2022 08:57:15 -0400
-X-MC-Unique: 2qDKP66pM56eyuhcFQSYfQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7123329ABA2F;
-	Mon, 30 May 2022 12:57:15 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 69554492C3B;
-	Mon, 30 May 2022 12:57:15 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
-	by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 24UCvFVq030152;
-	Mon, 30 May 2022 08:57:15 -0400
-Received: from localhost (mpatocka@localhost)
-	by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 24UCvF0M030148;
-	Mon, 30 May 2022 08:57:15 -0400
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
-Date: Mon, 30 May 2022 08:57:15 -0400 (EDT)
-From: Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To: Matthew Wilcox <willy@infradead.org>
-cc: manualinux@yahoo.es,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>, ntfs3@lists.linux.dev,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] ntfs3: provide block_invalidate_folio to fix memory
- leak
-In-Reply-To: <YpS2EX+lHkqaxh0d@casper.infradead.org>
-Message-ID: <alpine.LRH.2.02.2205300830220.28067@file01.intranet.prod.int.rdu2.redhat.com>
-References: <20220524075112.5438df32@yahoo.es> <alpine.LRH.2.02.2205240501130.17784@file01.intranet.prod.int.rdu2.redhat.com> <20220524113314.71fe17f0@yahoo.es> <20220525130538.38fd3d35@yahoo.es> <20220527072629.332b078d@yahoo.es> <20220527080211.15d631be@yahoo.es>
- <alpine.LRH.2.02.2205271338250.20527@file01.intranet.prod.int.rdu2.redhat.com> <20220528061836.22230f86@yahoo.es> <20220530131524.7fb5640d@yahoo.es> <alpine.LRH.2.02.2205300746310.21817@file01.intranet.prod.int.rdu2.redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123E92F38
+	for <ntfs3@lists.linux.dev>; Mon, 30 May 2022 13:53:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=OiY2rgRVZOqCidaxajNJLm4/9jAUCwIR4FPAxWy2Dkw=; b=CKyErjZFlP08nqv37BWO212Qxe
+	PVg5/e1gISSY/X/5qshOtglb7m0BTOFeaZBjS+jiMuCYJ+umqqv0nGbwt1i+IeQI4V+l+RHWgdlz4
+	AwAeA5R8VOy/kG6mVS9fpVGuapZVWvvUAcUOWBEBYdOjusfyA7bSOmErRoejdBu5u6qGg3jF5qLGl
+	v3Z0nnygaaGS14GAZDFbUXM9ygDOjq1n+ThDO/9TS13H+UYOmgkS3AWzcir7oV4YRZk51X3ZSE27y
+	/5ZnWLvUPY9KAq5L0N0R4b3pKfmIJCRUEvSmrvmCJn5lcqUaC36rmdlfuAcTDZgmwgZ3QlAj/CuIT
+	ggo0H0AQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nvfpj-004WKH-M8; Mon, 30 May 2022 13:53:23 +0000
+Date: Mon, 30 May 2022 14:53:23 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Mikulas Patocka <mpatocka@redhat.com>
+Cc: manualinux@yahoo.es,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] ntfs3: provide block_invalidate_folio to fix memory leak
+Message-ID: <YpTMU0zutHgxPI45@casper.infradead.org>
+References: <20220524113314.71fe17f0@yahoo.es>
+ <20220525130538.38fd3d35@yahoo.es>
+ <20220527072629.332b078d@yahoo.es>
+ <20220527080211.15d631be@yahoo.es>
+ <alpine.LRH.2.02.2205271338250.20527@file01.intranet.prod.int.rdu2.redhat.com>
+ <20220528061836.22230f86@yahoo.es>
+ <20220530131524.7fb5640d@yahoo.es>
+ <alpine.LRH.2.02.2205300746310.21817@file01.intranet.prod.int.rdu2.redhat.com>
  <YpS2EX+lHkqaxh0d@casper.infradead.org>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+ <alpine.LRH.2.02.2205300830220.28067@file01.intranet.prod.int.rdu2.redhat.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: MULTIPART/MIXED; BOUNDARY="185206533-875691919-1653915435=:28067"
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.LRH.2.02.2205300830220.28067@file01.intranet.prod.int.rdu2.redhat.com>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---185206533-875691919-1653915435=:28067
-Content-Type: TEXT/PLAIN; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
-
-
-
-On Mon, 30 May 2022, Matthew Wilcox wrote:
-
-> On Mon, May 30, 2022 at 08:00:12AM -0400, Mikulas Patocka wrote:
-> > The ntfs3 filesystem lacks the 'invalidate_folio' method and it causes
-> > memory leak. If you write to the filesystem and then unmount it, the
-> > cached written data are not freed and they are permanently leaked.
-> > 
-> > Signed-off-by: Mikulas Patocka <mpatocka@redhat.com>
-> > Reported-by: José Luis Lara Carrascal <manualinux@yahoo.es>
-> > Fixes: 7ba13abbd31e ("fs: Turn block_invalidatepage into block_invalidate_folio")
+On Mon, May 30, 2022 at 08:57:15AM -0400, Mikulas Patocka wrote:
+> In the kernel 5.17 and before, if the "invalidatepage" method is NULL, the 
+> kernel will use block_invalidatepage (see do_invalidatepage). So, we don't 
+> have to provide explicit "invalidatepage" in 5.17 and before and we don't 
+> have to backport this bugfix there.
 > 
-> That commit is innocent here.  Rather, this should be:
+> Note that the commit 7ba13abbd31e contains this piece of code:
+> -#ifdef CONFIG_BLOCK
+> -	if (!invalidatepage)
+> -		invalidatepage = block_invalidatepage;
+> -#endif
 > 
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+> So, it explicitly breaks filesystems that have NULL invalidatepage and 
+> NULL invalidate_folio and that relied on block_invalidatepage being called 
+> implicitly. So, I believe this commit is the root cause of this bug.
 
-82cae269cfa9 is included in the 5.15 kernel - and this bug only happens in 
-5.18. So, how could 82cae269cfa9 cause it?
+Oh, right, I missed ntfs3 in that commit.  Oops.
 
-> Yes, trees before 7ba13abbd31e will need to change the patch to add
-> invalidate_page instead of invalidate_folio, but that's a normal part
-> of the process.
-
-In the kernel 5.17 and before, if the "invalidatepage" method is NULL, the 
-kernel will use block_invalidatepage (see do_invalidatepage). So, we don't 
-have to provide explicit "invalidatepage" in 5.17 and before and we don't 
-have to backport this bugfix there.
-
-Note that the commit 7ba13abbd31e contains this piece of code:
--#ifdef CONFIG_BLOCK
--	if (!invalidatepage)
--		invalidatepage = block_invalidatepage;
--#endif
-
-So, it explicitly breaks filesystems that have NULL invalidatepage and 
-NULL invalidate_folio and that relied on block_invalidatepage being called 
-implicitly. So, I believe this commit is the root cause of this bug.
-
-I grepped the kernel for "dirty_folio" and it seems that ntfs3 is the only 
-filesystem that provides "dirty_folio" and doesn't provide 
-"invalidate_folio".
-
-Mikulas
-
-> > Cc: stable@vger.kernel.org	# v5.18
-> > 
-> > ---
-> >  fs/ntfs3/inode.c |    1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > Index: linux-2.6/fs/ntfs3/inode.c
-> > ===================================================================
-> > --- linux-2.6.orig/fs/ntfs3/inode.c	2022-05-16 16:57:24.000000000 +0200
-> > +++ linux-2.6/fs/ntfs3/inode.c	2022-05-30 13:36:45.000000000 +0200
-> > @@ -1951,6 +1951,7 @@ const struct address_space_operations nt
-> >  	.direct_IO	= ntfs_direct_IO,
-> >  	.bmap		= ntfs_bmap,
-> >  	.dirty_folio	= block_dirty_folio,
-> > +	.invalidate_folio = block_invalidate_folio,
-> >  };
-> >  
-> >  const struct address_space_operations ntfs_aops_cmpr = {
-> 
---185206533-875691919-1653915435=:28067--
+Acked-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
