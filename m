@@ -1,123 +1,134 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF34C2564
-	for <ntfs3@lists.linux.dev>; Sat, 28 May 2022 13:42:38 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id r206so1700546oib.8
-        for <ntfs3@lists.linux.dev>; Sat, 28 May 2022 06:42:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dKpNSqmJyc1shBqMlT5prVldbUvob7Rd4vFWEPuuWto=;
-        b=fjVmfPSNYRpqwphaGhURNuDnDdgHyg/WoDK1VtYpkAMM18CoBqGxan49lp6lT/2Kih
-         EmlLReFpHH94QEjOjNK4R0/3XY5ds77+tEx5EREvT8FhaJU1clSFYe00oZalvmd8E2Xl
-         tarFK9WQKu62Xbx6/fB0g6NYFSqh4Aab3DSdF6+HMzOCq0C9AT9GNhzOFrOtbPT73Rr4
-         mjxvizPCqNdPqTm+m2VHWr1B3M4JLwlMstZDWi8s1ugy8Ua1aU+yDTnjbGp7MvQHss+a
-         GEe3Xb84p5yKgxzF6Nrtm8IgAJ/IWKLo0eVPIlWgHHT8UKBZILMzTfOYElB+MyWHEBlA
-         idJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dKpNSqmJyc1shBqMlT5prVldbUvob7Rd4vFWEPuuWto=;
-        b=VNqh3K172PY0Lbmx53wXpGQG5B9KlJ28cpLwYCdu47z6dolWv+w7Y7Q8iwHGk2qCp/
-         bk+SC3u0m3mQUHONsolZ7eXS471r5O1ty6caJihBUDYr1vOzx6CRY7saomo2IZbzpIXY
-         la5C7+4Ae12l5fQW2UFekwd3b241ZSbyzbq30+ldoGzNt7ARIiJVvRehenJjFEvvhBsH
-         bsVqVu8Hlp7DkmhZ6sSYPKf534zMso339UCJXNWsIwwsajsfvW2RnTv//atEXgKNhweR
-         ykZvonqBZ5lcFHW05BvGCm0lJ8nkFYHwFdVRXnsLhFuUrLUp9a3NNETDx5y4Gb1/ccj8
-         cFTA==
-X-Gm-Message-State: AOAM532VmDE1LhE9rpRvhJruLLUTZ8k52wL/tNaCLvTj5bXYd6pgtCfG
-	cwNlEKYanPKaL7EjIAzVMZdhBuzD3F27D3hJAY8=
-X-Google-Smtp-Source: ABdhPJwtKUwt73stNMVhFtfOqxAg5fXTLoVWI6r4XBXkcNoRYm8rnSm/ghiol73l5Ix4xXqD10j9UyHI8So3OAUJN9Q=
-X-Received: by 2002:a05:6808:20a5:b0:32b:2825:acba with SMTP id
- s37-20020a05680820a500b0032b2825acbamr6206816oiw.283.1653745358037; Sat, 28
- May 2022 06:42:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7682F29
+	for <ntfs3@lists.linux.dev>; Mon, 30 May 2022 12:00:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1653912017;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s6m/WuTtMLiTml1zyTa6vH2XE0zybbCP5FZ30i2PI+w=;
+	b=Uz/azQ5WCX4NGGoPkvxt88a/Z7PZCNa4+qsF4Kz/3uJjZUt7mOYZH2zHES09NGHHhae7vt
+	FAoVKWqzaEOZU7BShjOtCQaKdIxkzufQAw0g+gJINOHpDaZFw7lAkScAEpZ2gtMfqgsqYk
+	ap3rMLu7UrJJuqnNE9WZpCoiWhuyNHM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-543-246OYT5qPbK6TzGSISrxqg-1; Mon, 30 May 2022 08:00:13 -0400
+X-MC-Unique: 246OYT5qPbK6TzGSISrxqg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DFB21802814;
+	Mon, 30 May 2022 12:00:12 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id BFDAE492C3B;
+	Mon, 30 May 2022 12:00:12 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
+	by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 24UC0Cg0027804;
+	Mon, 30 May 2022 08:00:12 -0400
+Received: from localhost (mpatocka@localhost)
+	by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 24UC0CQ2027800;
+	Mon, 30 May 2022 08:00:12 -0400
+X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
+Date: Mon, 30 May 2022 08:00:12 -0400 (EDT)
+From: Mikulas Patocka <mpatocka@redhat.com>
+X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
+To: manualinux@yahoo.es,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: [PATCH] ntfs3: provide block_invalidate_folio to fix memory leak
+In-Reply-To: <20220530131524.7fb5640d@yahoo.es>
+Message-ID: <alpine.LRH.2.02.2205300746310.21817@file01.intranet.prod.int.rdu2.redhat.com>
+References: <20220524075112.5438df32.ref@yahoo.es> <20220524075112.5438df32@yahoo.es> <alpine.LRH.2.02.2205240501130.17784@file01.intranet.prod.int.rdu2.redhat.com> <20220524113314.71fe17f0@yahoo.es> <20220525130538.38fd3d35@yahoo.es> <20220527072629.332b078d@yahoo.es>
+ <20220527080211.15d631be@yahoo.es> <alpine.LRH.2.02.2205271338250.20527@file01.intranet.prod.int.rdu2.redhat.com> <20220528061836.22230f86@yahoo.es> <20220530131524.7fb5640d@yahoo.es>
+User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220506034656.50038-1-jjm2473@gmail.com> <14b2ae23-2f7b-401a-dcee-cc6114849022@paragon-software.com>
-In-Reply-To: <14b2ae23-2f7b-401a-dcee-cc6114849022@paragon-software.com>
-From: =?UTF-8?B?57uD5Lqu5paM?= <jjm2473@gmail.com>
-Date: Sat, 28 May 2022 21:42:26 +0800
-Message-ID: <CAP_9mL7O7YyW56HBorZ7727m22NjbQcfcu_J4_XOBoXigQvGCg@mail.gmail.com>
-Subject: Re: [PATCH] fs/ntfs3: fix null pointer dereference in d_flags_for_inode
-To: Almaz Alexandrovich <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: MULTIPART/MIXED; BOUNDARY="185206533-914130331-1653911218=:21817"
+Content-ID: <alpine.LRH.2.02.2205300747050.21817@file01.intranet.prod.int.rdu2.redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 
-Hello.
-`inode->i_op` already initialized when inode alloc, this bug was
-introduced by `inode->i_op = NULL;`, just delete this line.
-Please check my patch, maybe it's a better one, I have tested it on my project.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On 5/26/22 18:23, Almaz Alexandrovich wrote:
->
-> Hello.
->
-> Thank you for reporting this bug.
-> The bug happens because we don't initialize i_op for records in $Extend.
-> We tested patch on our side, let me know if patch helps you too.
->
->      fs/ntfs3: Fix missing i_op in ntfs_read_mft
->
->      There is null pointer dereference because i_op == NULL.
->      The bug happens because we don't initialize i_op for records in $Extend.
->      Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
->
->      Reported-by: Liangbin Lian <jjm2473@gmail.com>
->      Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
->
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index 879952254071..b2cc1191be69 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -430,6 +430,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
->          } else if (fname && fname->home.low == cpu_to_le32(MFT_REC_EXTEND) &&
->                     fname->home.seq == cpu_to_le16(MFT_REC_EXTEND)) {
->                  /* Records in $Extend are not a files or general directories. */
-> +               inode->i_op = &ntfs_file_inode_operations;
->          } else {
->                  err = -EINVAL;
->                  goto out;
->
->
-> On 5/6/22 06:46, Liangbin Lian wrote:
-> > ntfs_read_mft may return inode with null i_op, cause null pointer dereference in d_flags_for_inode (inode->i_op->get_link).
-> > Reproduce:
-> >   - sudo mount -t ntfs3 -o loop ntfs.img ntfs
-> >   - ls ntfs/'$Extend/$Quota'
-> >
-> > The call trace is shown below (striped):
-> >   BUG: kernel NULL pointer dereference, address: 0000000000000008
-> >   CPU: 0 PID: 577 Comm: ls Tainted: G           OE     5.16.0-0.bpo.4-amd64 #1  Debian 5.16.12-1~bpo11+1
-> >   RIP: 0010:d_flags_for_inode+0x65/0x90
-> >   Call Trace:
-> >   ntfs_lookup
-> >   +--- dir_search_u
-> >   |    +--- ntfs_iget5
-> >   |         +--- ntfs_read_mft
-> >   +--- d_splice_alias
-> >        +--- __d_add
-> >             +--- d_flags_for_inode
-> >
-> > Signed-off-by: Liangbin Lian <jjm2473@gmail.com>
-> > ---
-> >   fs/ntfs3/inode.c | 1 -
-> >   1 file changed, 1 deletion(-)
-> >
-> > diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> > index 9eab11e3b..b68d26fa8 100644
-> > --- a/fs/ntfs3/inode.c
-> > +++ b/fs/ntfs3/inode.c
-> > @@ -45,7 +45,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
-> >       struct MFT_REC *rec;
-> >       struct runs_tree *run;
-> >
-> > -     inode->i_op = NULL;
-> >       /* Setup 'uid' and 'gid' */
-> >       inode->i_uid = sbi->options->fs_uid;
-> >       inode->i_gid = sbi->options->fs_gid;
+--185206533-914130331-1653911218=:21817
+Content-Type: TEXT/PLAIN; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
+Content-ID: <alpine.LRH.2.02.2205300747051.21817@file01.intranet.prod.int.rdu2.redhat.com>
+
+
+
+On Mon, 30 May 2022, manualinux@yahoo.es wrote:
+
+> 
+> Hello again,
+> 
+> When you have time, try moving a large file from a SpadFS partition to
+> an NTFS partition mounted with the NTFS3 driver and with a 5.18 kernel,
+> and then, move the same file back again, to the SpadFS partition. At
+> that very moment is when the size of the file remains permanently in
+> the system memory (in my particular case). This does not happen if we
+> do it to another Linux file system, nor does it happen if we do it from
+> a NTFS partition to another XFS or Ext4 partition.
+> 
+> So no ccache or anything, I swap files quite often between the SpadFS
+> partition and an external hard disk with an NTFS partition. Anyway,
+> this problem is really unusual, and it must have some technical
+> explanation, because with the ntfs-3g driver this doesn't happen.
+> 
+> If this information is of any use to you I will be satisfied.
+> 
+> Regards,
+>      
+> José Luis Lara Carrascal - Webmaster de Manualinux - GNU/Linux en
+> Español (https://manualinux.es)
+
+Hi
+
+SpadFS is innocent here :)
+
+The NTFS3 driver in the kernel 5.18 contains the same bug as SpadFS did - 
+missing the invalidate_folio method. This patch adds this method and fixes 
+the bug.
+
+Mikulas
+
+
+
+Author: Mikulas Patocka <mpatocka@redhat.com>
+
+The ntfs3 filesystem lacks the 'invalidate_folio' method and it causes
+memory leak. If you write to the filesystem and then unmount it, the
+cached written data are not freed and they are permanently leaked.
+
+Signed-off-by: Mikulas Patocka <mpatocka@redhat.com>
+Reported-by: José Luis Lara Carrascal <manualinux@yahoo.es>
+Fixes: 7ba13abbd31e ("fs: Turn block_invalidatepage into block_invalidate_folio")
+Cc: stable@vger.kernel.org	# v5.18
+
+---
+ fs/ntfs3/inode.c |    1 +
+ 1 file changed, 1 insertion(+)
+
+Index: linux-2.6/fs/ntfs3/inode.c
+===================================================================
+--- linux-2.6.orig/fs/ntfs3/inode.c	2022-05-16 16:57:24.000000000 +0200
++++ linux-2.6/fs/ntfs3/inode.c	2022-05-30 13:36:45.000000000 +0200
+@@ -1951,6 +1951,7 @@ const struct address_space_operations nt
+ 	.direct_IO	= ntfs_direct_IO,
+ 	.bmap		= ntfs_bmap,
+ 	.dirty_folio	= block_dirty_folio,
++	.invalidate_folio = block_invalidate_folio,
+ };
+ 
+ const struct address_space_operations ntfs_aops_cmpr = {
+--185206533-914130331-1653911218=:21817--
+
