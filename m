@@ -1,122 +1,53 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740FBEC6
-	for <ntfs3@lists.linux.dev>; Fri,  3 Jun 2022 11:27:06 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 49AEC2698;
-	Fri,  3 Jun 2022 11:26:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1654255584;
-	bh=HVPX9ugwZpjN4d10W+xJnrpqV9wwOQw9BPCuiHwX/Z4=;
-	h=Date:To:CC:From:Subject;
-	b=XsmIGJkbYCZ/8M03RLAOCj60tGHjaZZ4KYoBL30IENFRY8HO6vvRAvdPppu2Le/qX
-	 szw96Y1ikALRSYczYTpcb/3JtYAaUlw/cRSWAi1GPVXk9Yuh/601qhJVYMbZCeQgZd
-	 0pzI+fbueqaKRPf6g26GluIBZziY5AaDvC1fhb+Q=
-Received: from [172.30.8.65] (172.30.8.65) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 3 Jun 2022 14:26:57 +0300
-Message-ID: <c5c16f3d-c8a7-96b0-4fd6-056c4159fcef@paragon-software.com>
-Date: Fri, 3 Jun 2022 14:26:57 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09977EA0
+	for <ntfs3@lists.linux.dev>; Sat,  4 Jun 2022 00:06:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9E983C385A9;
+	Sat,  4 Jun 2022 00:06:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654301160;
+	bh=bB/7Qg/ZWdTRZBizAQW+tLeYFyUrjLlJ+g9oiaJnNPQ=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=rF4ikw/L2wjG3Aa8eLURpCFcpl9uqcsY7m6zMeF+ead3CbyZH9+R0DCTpO5lsmawc
+	 +SCIlyAZ+nG4+zLOaqjaVXzvV+op0CcTOrUuxfiSyeQK+4XBwdgq82heNSGY8MjduU
+	 AFDpNO0aVaMrPkodlCbRBLadr444fhAIo+id3qGzKSYqEKkYUQVxtDmbjO/wY9+gMm
+	 Y+c1xrK89GVQMWKi5qM3X1O3HRYgw3y14EEXE6rlpotDIH82J9WUDRWBmKV+twivcR
+	 wFTbtumYFZphBH7x2Nk57Ptb+ZVMupbS7rbnTrMROdog4InFPH6ANtossUkWIj5ua2
+	 Cnjgpyv2OkOvg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8AA20F03950;
+	Sat,  4 Jun 2022 00:06:00 +0000 (UTC)
+Subject: Re: [GIT PULL] ntfs3: bugfixes for 5.19
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <c5c16f3d-c8a7-96b0-4fd6-056c4159fcef@paragon-software.com>
+References: <c5c16f3d-c8a7-96b0-4fd6-056c4159fcef@paragon-software.com>
+X-PR-Tracked-List-Id: <ntfs3.lists.linux.dev>
+X-PR-Tracked-Message-Id: <c5c16f3d-c8a7-96b0-4fd6-056c4159fcef@paragon-software.com>
+X-PR-Tracked-Remote: https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_5.19
+X-PR-Tracked-Commit-Id: 724bbe49c5e427cb077357d72d240a649f2e4054
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 1f952675835bfe18d6ae494a5581724d68c52352
+Message-Id: <165430116055.8653.4989553009324938778.pr-tracker-bot@kernel.org>
+Date: Sat, 04 Jun 2022 00:06:00 +0000
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: torvalds@linux-foundation.org, ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-US
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [GIT PULL] ntfs3: bugfixes for 5.19
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.30.8.65]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hi Linus,
+The pull request you sent on Fri, 3 Jun 2022 14:26:57 +0300:
 
-Please pull this branch containing ntfs3 code for 5.19.
+> https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_5.19
 
-Fixed:
-- some memory leaks and panic;
-- fixed xfstests (tested on x86_64)
-generic/092 generic/099 generic/228 generic/240 generic/307 generic/444;
-- bugfix (memory leak) for 5.18 [1];
-- some typos, dead code, etc.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/1f952675835bfe18d6ae494a5581724d68c52352
 
-Most of the code was in linux-next branch for several months,
-but there are some patches, that were in linux-next branch only
-for a couple of days. Hopefully it is ok - no regression
-was detected in tests.
+Thank you!
 
-Note: after first 9 commits there was merge with Linux 5.18.
-I'm not sure if this complicates things, so I've listed all commits too.
-
-Regards,
-
-Konstantin
-
-[1]: https://www.spinics.net/lists/ntfs3/msg01036.html
-
-----------------------------------------------------------------
-
-The following changes since commit 8bb7eca972ad531c9b149c0a51ab43a417385813:
-
-   Linux 5.15 (Sun Oct 31 13:53:10 2021 -0700)
-
-are available in the Git repository at:
-
-   https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_5.19
-
-for you to fetch changes up to 724bbe49c5e427cb077357d72d240a649f2e4054:
-
-   fs/ntfs3: provide block_invalidate_folio to fix memory leak (Mon May 30 13:36:45 2022 +0200)
-
-All commits:
-
-724bbe49c5e4 fs/ntfs3: provide block_invalidate_folio to fix memory leak
-f26967b9f7a8 fs/ntfs3: Fix invalid free in log_replay
-< merge with 5.18 happened >
-52e00ea6b26e fs/ntfs3: Update valid size if -EIOCBQUEUED
-114346978cf6 fs/ntfs3: Check new size for limits
-3880f2b816a7 fs/ntfs3: Fix fiemap + fix shrink file size (to remove preallocated space)
-9186d472ee78 fs/ntfs3: In function ntfs_set_acl_ex do not change inode->i_mode if called from function ntfs_init_acl
-3a2154b25a9f fs/ntfs3: Optimize locking in ntfs_save_wsl_perm
-2d44667c306e fs/ntfs3: Update i_ctime when xattr is added
-87e21c99bad7 fs/ntfs3: Restore ntfs_xattr_get_acl and ntfs_xattr_set_acl functions
-e95113ed4d42 fs/ntfs3: Keep preallocated only if option prealloc enabled
-e589f9b7078e fs/ntfs3: Fix some memory leaks in an error handling path of 'log_replay()'
-
-----------------------------------------------------------------
-
-Konstantin Komarov (8)
-  fs/ntfs3: Update valid size if -EIOCBQUEUED
-  fs/ntfs3: Check new size for limits
-  fs/ntfs3: Fix fiemap + fix shrink file size (to remove preallocated space)
-  fs/ntfs3: In function ntfs_set_acl_ex do not change inode->i_mode if called from function ntfs_init_acl
-  fs/ntfs3: Optimize locking in ntfs_save_wsl_perm
-  fs/ntfs3: Update i_ctime when xattr is added
-  fs/ntfs3: Restore ntfs_xattr_get_acl and ntfs_xattr_set_acl functions
-  fs/ntfs3: Keep preallocated only if option prealloc enabled
-
-Mikulas Patocka (1)
-  fs/ntfs3: provide block_invalidate_folio to fix memory leak
-
-Namjae Jeon (1)
-  fs/ntfs3: Fix invalid free in log_replay
-
-Christophe JAILLET (1)
-  fs/ntfs3: Fix some memory leaks in an error handling path of 'log_replay()'
-
-  fs/ntfs3/file.c    |  12 +++++++++---
-  fs/ntfs3/frecord.c |  10 +++++++---
-  fs/ntfs3/fslog.c   |  12 +++++++-----
-  fs/ntfs3/inode.c   |   9 ++++++--
-  fs/ntfs3/xattr.c   | 136 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------
-  5 files changed, 149 insertions(+), 30 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
