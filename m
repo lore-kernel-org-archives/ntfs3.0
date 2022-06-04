@@ -1,53 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09977EA0
-	for <ntfs3@lists.linux.dev>; Sat,  4 Jun 2022 00:06:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9E983C385A9;
-	Sat,  4 Jun 2022 00:06:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654301160;
-	bh=bB/7Qg/ZWdTRZBizAQW+tLeYFyUrjLlJ+g9oiaJnNPQ=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=rF4ikw/L2wjG3Aa8eLURpCFcpl9uqcsY7m6zMeF+ead3CbyZH9+R0DCTpO5lsmawc
-	 +SCIlyAZ+nG4+zLOaqjaVXzvV+op0CcTOrUuxfiSyeQK+4XBwdgq82heNSGY8MjduU
-	 AFDpNO0aVaMrPkodlCbRBLadr444fhAIo+id3qGzKSYqEKkYUQVxtDmbjO/wY9+gMm
-	 Y+c1xrK89GVQMWKi5qM3X1O3HRYgw3y14EEXE6rlpotDIH82J9WUDRWBmKV+twivcR
-	 wFTbtumYFZphBH7x2Nk57Ptb+ZVMupbS7rbnTrMROdog4InFPH6ANtossUkWIj5ua2
-	 Cnjgpyv2OkOvg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8AA20F03950;
-	Sat,  4 Jun 2022 00:06:00 +0000 (UTC)
-Subject: Re: [GIT PULL] ntfs3: bugfixes for 5.19
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <c5c16f3d-c8a7-96b0-4fd6-056c4159fcef@paragon-software.com>
-References: <c5c16f3d-c8a7-96b0-4fd6-056c4159fcef@paragon-software.com>
-X-PR-Tracked-List-Id: <ntfs3.lists.linux.dev>
-X-PR-Tracked-Message-Id: <c5c16f3d-c8a7-96b0-4fd6-056c4159fcef@paragon-software.com>
-X-PR-Tracked-Remote: https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_5.19
-X-PR-Tracked-Commit-Id: 724bbe49c5e427cb077357d72d240a649f2e4054
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 1f952675835bfe18d6ae494a5581724d68c52352
-Message-Id: <165430116055.8653.4989553009324938778.pr-tracker-bot@kernel.org>
-Date: Sat, 04 Jun 2022 00:06:00 +0000
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: torvalds@linux-foundation.org, ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F23136A
+	for <ntfs3@lists.linux.dev>; Sat,  4 Jun 2022 11:42:25 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id t13so11048664ljd.6
+        for <ntfs3@lists.linux.dev>; Sat, 04 Jun 2022 04:42:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to;
+        bh=8SwrRgdR9JzGwBlcOs2mbd+GmNcjHpu3NUyHm9CLdNI=;
+        b=fJRtLtsU2bmtIOImkMpo8PQCkECthFAt0naWKfmu7nEPH15Q8RdZ/VI1Q7BX18nzHN
+         uhXZge2i3oZNWw+V6FccO72+UoCPRVnm7iflWmQ+7NBOyBunV9/tPpxK3bhgHrwNezzZ
+         ZSQV40OJyK5UbIvPil9N67HGSskpGRmvl0Pcu+myI2sVVifo54xjfUFCzAwjZ2CMncB5
+         X95snmBkoiuoFcqbkCnspfSVeZtW4y7AI9fI5xTzULyxYK+f+zOKf6lWP5w6WOh0kXQY
+         qFJlRWXEWAY14jolG2yFdi9jg/q3k9XEuAkt81VUpYNPNXkaL4yNHitEpuvyqx2EblR5
+         5RFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to;
+        bh=8SwrRgdR9JzGwBlcOs2mbd+GmNcjHpu3NUyHm9CLdNI=;
+        b=L1eWrZDSB2QgapFyghoMs6j5r3bMRTNjJQWuUjfIKU4utnslscrtT96+rY4TmPO/ov
+         qjOpsd3r2PfG9MJv1134UyfXvck6OOISdlYyT9TMxbqDvm9LnrJJoddfNcfxhN21POBl
+         mqqVUXFWx6H4W0mfoMMrcEAtQnDqgRCR4uqVGUZGfnowEUomnb2FRcpmxxZSIogsnrpM
+         M+B4u//7R6axuuqfp20Kr8+guUDxcktB9zsF5nIl1G9F3e0qu6QOM6JoLw7t5jcIFoEC
+         /62lwPw5AscCU/zkZQMzIl9aG8kHtbSg3L3RTSOiOnRiBiSEGsNNV0ybcBBXnSxxQ1RR
+         EsKA==
+X-Gm-Message-State: AOAM532JFFglZdkiZy1WrVLHYioHHCbw+gRcRZ3Gmz8TuDLQZeXLjVxR
+	wszHUquKXCtoNRi2liaUJtY=
+X-Google-Smtp-Source: ABdhPJyypDEAMipFXoT/Ecjg4pAYViLXjBIG5AP/UNOmwVOX4fliozloqTcE4nFaU4qu8xCfDJK5/g==
+X-Received: by 2002:a2e:a4da:0:b0:255:799e:218a with SMTP id p26-20020a2ea4da000000b00255799e218amr5695333ljm.195.1654342943139;
+        Sat, 04 Jun 2022 04:42:23 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.4])
+        by smtp.gmail.com with ESMTPSA id l10-20020a056512110a00b004791c4858e0sm743048lfg.114.2022.06.04.04.42.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Jun 2022 04:42:22 -0700 (PDT)
+Message-ID: <89d2979c-7e8a-f63f-327e-1969a4c03c11@gmail.com>
+Date: Sat, 4 Jun 2022 14:42:20 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 1/2] ntfs3: fix NULL deref in ntfs_update_mftmirr
+Content-Language: en-US
+To: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: syzbot+c95173762127ad76a824@syzkaller.appspotmail.com
+References: <85293dd018cae78e4d48d74ca77710b11eed59ba.1650574393.git.paskripkin@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <85293dd018cae78e4d48d74ca77710b11eed59ba.1650574393.git.paskripkin@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------FBHa9shtdytwPV0otyLwX20K"
 
-The pull request you sent on Fri, 3 Jun 2022 14:26:57 +0300:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------FBHa9shtdytwPV0otyLwX20K
+Content-Type: multipart/mixed; boundary="------------5k9b1s0YW701NL8kLjgffOzh";
+ protected-headers="v1"
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: syzbot+c95173762127ad76a824@syzkaller.appspotmail.com
+Message-ID: <89d2979c-7e8a-f63f-327e-1969a4c03c11@gmail.com>
+Subject: Re: [PATCH 1/2] ntfs3: fix NULL deref in ntfs_update_mftmirr
+References: <85293dd018cae78e4d48d74ca77710b11eed59ba.1650574393.git.paskripkin@gmail.com>
+In-Reply-To: <85293dd018cae78e4d48d74ca77710b11eed59ba.1650574393.git.paskripkin@gmail.com>
 
-> https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_5.19
+--------------5k9b1s0YW701NL8kLjgffOzh
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/1f952675835bfe18d6ae494a5581724d68c52352
+T24gNC8yMS8yMiAyMzo1MywgUGF2ZWwgU2tyaXBraW4gd3JvdGU6DQo+IElmIG50ZnNfZmls
+bF9zdXBlcigpIHdhc24ndCBjYWxsZWQgdGhlbiBzYmktPnNiIHdpbGwgYmUgZXF1YWwgdG8g
+TlVMTC4NCj4gQ29kZSBzaG91bGQgY2hlY2sgdGhpcyBwdHIgYmVmb3JlIGRlcmVmZXJlbmNp
+bmcuIFN5emJvdCBoaXQgdGhpcyBpc3N1ZQ0KPiB2aWEgcGFzc2luZyB3cm9uZyBtb3VudCBw
+YXJhbSBhcyBjYW4gYmUgc2VlbiBmcm9tIGxvZyBiZWxvdw0KPiANCj4gRmFpbCBsb2c6DQo+
+IG50ZnMzOiBVbmtub3duIHBhcmFtZXRlciAnaW9jaHZyc2V0Jw0KPiBnZW5lcmFsIHByb3Rl
+Y3Rpb24gZmF1bHQsIHByb2JhYmx5IGZvciBub24tY2Fub25pY2FsIGFkZHJlc3MgMHhkZmZm
+ZmMwMDAwMDAwMDAzOiAwMDAwIFsjMV0gUFJFRU1QVCBTTVAgS0FTQU4NCj4gS0FTQU46IG51
+bGwtcHRyLWRlcmVmIGluIHJhbmdlIFsweDAwMDAwMDAwMDAwMDAwMTgtMHgwMDAwMDAwMDAw
+MDAwMDFmXQ0KPiBDUFU6IDEgUElEOiAzNTg5IENvbW06IHN5ei1leGVjdXRvcjIxMCBOb3Qg
+dGFpbnRlZCA1LjE4LjAtcmMzLXN5emthbGxlci0wMDAxNi1nYjI1MzQzNTc0NmQ5ICMwDQo+
+IC4uLg0KPiBDYWxsIFRyYWNlOg0KPiAgIDxUQVNLPg0KPiAgIHB1dF9udGZzKzB4MWVkLzB4
+MmEwIGZzL250ZnMzL3N1cGVyLmM6NDYzDQo+ICAgbnRmc19mc19mcmVlKzB4NmEvMHhlMCBm
+cy9udGZzMy9zdXBlci5jOjEzNjMNCj4gICBwdXRfZnNfY29udGV4dCsweDExOS8weDdhMCBm
+cy9mc19jb250ZXh0LmM6NDY5DQo+ICAgZG9fbmV3X21vdW50KzB4MmI0LzB4YWQwIGZzL25h
+bWVzcGFjZS5jOjMwNDQNCj4gICBkb19tb3VudCBmcy9uYW1lc3BhY2UuYzozMzgzIFtpbmxp
+bmVdDQo+ICAgX19kb19zeXNfbW91bnQgZnMvbmFtZXNwYWNlLmM6MzU5MSBbaW5saW5lXQ0K
+PiANCj4gRml4ZXM6IDgyY2FlMjY5Y2ZhOSAoImZzL250ZnMzOiBBZGQgaW5pdGlhbGl6YXRp
+b24gb2Ygc3VwZXIgYmxvY2siKQ0KPiBSZXBvcnRlZC1hbmQtdGVzdGVkLWJ5OiBzeXpib3Qr
+Yzk1MTczNzYyMTI3YWQ3NmE4MjRAc3l6a2FsbGVyLmFwcHNwb3RtYWlsLmNvbQ0KPiBTaWdu
+ZWQtb2ZmLWJ5OiBQYXZlbCBTa3JpcGtpbiA8cGFza3JpcGtpbkBnbWFpbC5jb20+DQoNCmdl
+bnRsZSBwaW5nDQoNCg0KDQoNCldpdGggcmVnYXJkcywNClBhdmVsIFNrcmlwa2luDQo=
 
-Thank you!
+--------------5k9b1s0YW701NL8kLjgffOzh--
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+--------------FBHa9shtdytwPV0otyLwX20K
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmKbRRwFAwAAAAAACgkQbk1w61LbBA3z
+oQ/+IAgmQPRhQh5nW1zoL/BL5+ZXBCnFTdcDlcTKTg1uyaFSML0HBLPrH5JzlUgjCd4KI0KfQ/u9
+Qot9iQzJRMzcG5mZhE/4CqinvY4tOkFNiMmHF8Wy7tcFdnvb8gD4dqfCjD8kxjuaFVa6idm07+oP
+nRMzeM56W5cWFQ1nNjn9LT3HnEn8DQhWGyWim4+VnR5gMwtQjVjQp836Q/TxdzVOzDANyAZ/DtRk
+gBcRPz02VN26u5i57ZX6VV1/w2ghYwcN1kSbvbg2TZCR7r6XWOHv2A+t2N7raT50zjHH5tnpY/WT
+e6kqkppR9o5iIYQmJpZ6f9a2YGpKtNVA4klz0ZJDo0SHxSzOgUNtOAscW1N9gm0f6VQYmo3dXJDj
+lmVqxCw4Z8VQYHmm7mEEPn6xwX1yP+8phABOBd1STxjO+OaEUbSgIKBB0KdRZ6S6l5TzcORTwhdF
+K1i4NcCK0FgsmoEFeVM244+kGH2G+72tgDpx6R0ElCeDmn5TR6IkAvVQctvldfr65xk00OPRpNxQ
+jywh/H6ZoAQvb9Z6wgFZd9vivNfYh+jqtJwAmm0YqzTUJqubvJjtH7EVgNI0uS4b4EIMxOXumc/k
+Fqy+d4YD/lcUz3Pifl/9UqGYLvNDiEpsM1R69uxDdEo/dZy6sa9JCWEKj8xhddh2ozWwODsnSN7/
+nKs=
+=DJ2z
+-----END PGP SIGNATURE-----
+
+--------------FBHa9shtdytwPV0otyLwX20K--
