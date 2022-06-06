@@ -1,43 +1,34 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F23136A
-	for <ntfs3@lists.linux.dev>; Sat,  4 Jun 2022 11:42:25 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id t13so11048664ljd.6
-        for <ntfs3@lists.linux.dev>; Sat, 04 Jun 2022 04:42:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BEF728E6
+	for <ntfs3@lists.linux.dev>; Mon,  6 Jun 2022 16:06:20 +0000 (UTC)
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id B7D76264C;
+	Mon,  6 Jun 2022 16:05:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to;
-        bh=8SwrRgdR9JzGwBlcOs2mbd+GmNcjHpu3NUyHm9CLdNI=;
-        b=fJRtLtsU2bmtIOImkMpo8PQCkECthFAt0naWKfmu7nEPH15Q8RdZ/VI1Q7BX18nzHN
-         uhXZge2i3oZNWw+V6FccO72+UoCPRVnm7iflWmQ+7NBOyBunV9/tPpxK3bhgHrwNezzZ
-         ZSQV40OJyK5UbIvPil9N67HGSskpGRmvl0Pcu+myI2sVVifo54xjfUFCzAwjZ2CMncB5
-         X95snmBkoiuoFcqbkCnspfSVeZtW4y7AI9fI5xTzULyxYK+f+zOKf6lWP5w6WOh0kXQY
-         qFJlRWXEWAY14jolG2yFdi9jg/q3k9XEuAkt81VUpYNPNXkaL4yNHitEpuvyqx2EblR5
-         5RFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to;
-        bh=8SwrRgdR9JzGwBlcOs2mbd+GmNcjHpu3NUyHm9CLdNI=;
-        b=L1eWrZDSB2QgapFyghoMs6j5r3bMRTNjJQWuUjfIKU4utnslscrtT96+rY4TmPO/ov
-         qjOpsd3r2PfG9MJv1134UyfXvck6OOISdlYyT9TMxbqDvm9LnrJJoddfNcfxhN21POBl
-         mqqVUXFWx6H4W0mfoMMrcEAtQnDqgRCR4uqVGUZGfnowEUomnb2FRcpmxxZSIogsnrpM
-         M+B4u//7R6axuuqfp20Kr8+guUDxcktB9zsF5nIl1G9F3e0qu6QOM6JoLw7t5jcIFoEC
-         /62lwPw5AscCU/zkZQMzIl9aG8kHtbSg3L3RTSOiOnRiBiSEGsNNV0ybcBBXnSxxQ1RR
-         EsKA==
-X-Gm-Message-State: AOAM532JFFglZdkiZy1WrVLHYioHHCbw+gRcRZ3Gmz8TuDLQZeXLjVxR
-	wszHUquKXCtoNRi2liaUJtY=
-X-Google-Smtp-Source: ABdhPJyypDEAMipFXoT/Ecjg4pAYViLXjBIG5AP/UNOmwVOX4fliozloqTcE4nFaU4qu8xCfDJK5/g==
-X-Received: by 2002:a2e:a4da:0:b0:255:799e:218a with SMTP id p26-20020a2ea4da000000b00255799e218amr5695333ljm.195.1654342943139;
-        Sat, 04 Jun 2022 04:42:23 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.67.4])
-        by smtp.gmail.com with ESMTPSA id l10-20020a056512110a00b004791c4858e0sm743048lfg.114.2022.06.04.04.42.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Jun 2022 04:42:22 -0700 (PDT)
-Message-ID: <89d2979c-7e8a-f63f-327e-1969a4c03c11@gmail.com>
-Date: Sat, 4 Jun 2022 14:42:20 +0300
+	d=paragon-software.com; s=mail; t=1654531535;
+	bh=YC954AWf4ar090GjDL597H0eq+vVgEaQ+bJ5qpgYd/k=;
+	h=Date:To:CC:From:Subject;
+	b=Bc6ubdrza7z2nTSXbqcXOFvPTnlp87pXcFXdBTVo2gX1BryWPdJY+MkfFCc4VatFN
+	 zu1boaKtxXgL/40tEHlajJrvLOJMdc0JjoGCgDVmZjO44ZrzGrAptUVNsG1Cb298fb
+	 ER4+T83BdToH0/va+nA7N+WPBoY7Mx3qF/ABuXos=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id EC8C82469;
+	Mon,  6 Jun 2022 16:06:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1654531571;
+	bh=YC954AWf4ar090GjDL597H0eq+vVgEaQ+bJ5qpgYd/k=;
+	h=Date:To:CC:From:Subject;
+	b=LLXnxji9bgLV7PfybHzeFxe7ce+Rz8f21T7TLROgiSSJwX5GXpHY9TNSeA4VhA8y0
+	 J/oMpoOCiE7hS/449qobAvw7Z1M/MjWDx7hd9Gvhzn4EhpmAOe/lwoBQI/DGLDxtnj
+	 AEGZNP2gJKSM5gllQlF9iD0QJeuIaybzEFtA3KQA=
+Received: from [172.30.8.65] (172.30.8.65) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Mon, 6 Jun 2022 19:06:11 +0300
+Message-ID: <475f1975-7275-de01-f947-677e3f184276@paragon-software.com>
+Date: Mon, 6 Jun 2022 19:06:11 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -46,79 +37,37 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH 1/2] ntfs3: fix NULL deref in ntfs_update_mftmirr
 Content-Language: en-US
-To: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: syzbot+c95173762127ad76a824@syzkaller.appspotmail.com
-References: <85293dd018cae78e4d48d74ca77710b11eed59ba.1650574393.git.paskripkin@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <85293dd018cae78e4d48d74ca77710b11eed59ba.1650574393.git.paskripkin@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------FBHa9shtdytwPV0otyLwX20K"
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH] fs/ntfs3: Add missing error check
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.30.8.65]
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------FBHa9shtdytwPV0otyLwX20K
-Content-Type: multipart/mixed; boundary="------------5k9b1s0YW701NL8kLjgffOzh";
- protected-headers="v1"
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: syzbot+c95173762127ad76a824@syzkaller.appspotmail.com
-Message-ID: <89d2979c-7e8a-f63f-327e-1969a4c03c11@gmail.com>
-Subject: Re: [PATCH 1/2] ntfs3: fix NULL deref in ntfs_update_mftmirr
-References: <85293dd018cae78e4d48d74ca77710b11eed59ba.1650574393.git.paskripkin@gmail.com>
-In-Reply-To: <85293dd018cae78e4d48d74ca77710b11eed59ba.1650574393.git.paskripkin@gmail.com>
+We must check return value of log_read_rst
 
---------------5k9b1s0YW701NL8kLjgffOzh
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+---
+  fs/ntfs3/fslog.c | 2 ++
+  1 file changed, 2 insertions(+)
 
-T24gNC8yMS8yMiAyMzo1MywgUGF2ZWwgU2tyaXBraW4gd3JvdGU6DQo+IElmIG50ZnNfZmls
-bF9zdXBlcigpIHdhc24ndCBjYWxsZWQgdGhlbiBzYmktPnNiIHdpbGwgYmUgZXF1YWwgdG8g
-TlVMTC4NCj4gQ29kZSBzaG91bGQgY2hlY2sgdGhpcyBwdHIgYmVmb3JlIGRlcmVmZXJlbmNp
-bmcuIFN5emJvdCBoaXQgdGhpcyBpc3N1ZQ0KPiB2aWEgcGFzc2luZyB3cm9uZyBtb3VudCBw
-YXJhbSBhcyBjYW4gYmUgc2VlbiBmcm9tIGxvZyBiZWxvdw0KPiANCj4gRmFpbCBsb2c6DQo+
-IG50ZnMzOiBVbmtub3duIHBhcmFtZXRlciAnaW9jaHZyc2V0Jw0KPiBnZW5lcmFsIHByb3Rl
-Y3Rpb24gZmF1bHQsIHByb2JhYmx5IGZvciBub24tY2Fub25pY2FsIGFkZHJlc3MgMHhkZmZm
-ZmMwMDAwMDAwMDAzOiAwMDAwIFsjMV0gUFJFRU1QVCBTTVAgS0FTQU4NCj4gS0FTQU46IG51
-bGwtcHRyLWRlcmVmIGluIHJhbmdlIFsweDAwMDAwMDAwMDAwMDAwMTgtMHgwMDAwMDAwMDAw
-MDAwMDFmXQ0KPiBDUFU6IDEgUElEOiAzNTg5IENvbW06IHN5ei1leGVjdXRvcjIxMCBOb3Qg
-dGFpbnRlZCA1LjE4LjAtcmMzLXN5emthbGxlci0wMDAxNi1nYjI1MzQzNTc0NmQ5ICMwDQo+
-IC4uLg0KPiBDYWxsIFRyYWNlOg0KPiAgIDxUQVNLPg0KPiAgIHB1dF9udGZzKzB4MWVkLzB4
-MmEwIGZzL250ZnMzL3N1cGVyLmM6NDYzDQo+ICAgbnRmc19mc19mcmVlKzB4NmEvMHhlMCBm
-cy9udGZzMy9zdXBlci5jOjEzNjMNCj4gICBwdXRfZnNfY29udGV4dCsweDExOS8weDdhMCBm
-cy9mc19jb250ZXh0LmM6NDY5DQo+ICAgZG9fbmV3X21vdW50KzB4MmI0LzB4YWQwIGZzL25h
-bWVzcGFjZS5jOjMwNDQNCj4gICBkb19tb3VudCBmcy9uYW1lc3BhY2UuYzozMzgzIFtpbmxp
-bmVdDQo+ICAgX19kb19zeXNfbW91bnQgZnMvbmFtZXNwYWNlLmM6MzU5MSBbaW5saW5lXQ0K
-PiANCj4gRml4ZXM6IDgyY2FlMjY5Y2ZhOSAoImZzL250ZnMzOiBBZGQgaW5pdGlhbGl6YXRp
-b24gb2Ygc3VwZXIgYmxvY2siKQ0KPiBSZXBvcnRlZC1hbmQtdGVzdGVkLWJ5OiBzeXpib3Qr
-Yzk1MTczNzYyMTI3YWQ3NmE4MjRAc3l6a2FsbGVyLmFwcHNwb3RtYWlsLmNvbQ0KPiBTaWdu
-ZWQtb2ZmLWJ5OiBQYXZlbCBTa3JpcGtpbiA8cGFza3JpcGtpbkBnbWFpbC5jb20+DQoNCmdl
-bnRsZSBwaW5nDQoNCg0KDQoNCldpdGggcmVnYXJkcywNClBhdmVsIFNrcmlwa2luDQo=
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index 915f42cf07bc..abc8aeffc364 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -3843,6 +3843,8 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+  		goto check_restart_area;
+  
+  	err = log_read_rst(log, l_size, false, &rst_info2);
++	if (err)
++		goto out;
+  
+  	/* Determine which restart area to use. */
+  	if (!rst_info2.restart || rst_info2.last_lsn <= rst_info.last_lsn)
+-- 
+2.36.1
 
---------------5k9b1s0YW701NL8kLjgffOzh--
-
---------------FBHa9shtdytwPV0otyLwX20K
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmKbRRwFAwAAAAAACgkQbk1w61LbBA3z
-oQ/+IAgmQPRhQh5nW1zoL/BL5+ZXBCnFTdcDlcTKTg1uyaFSML0HBLPrH5JzlUgjCd4KI0KfQ/u9
-Qot9iQzJRMzcG5mZhE/4CqinvY4tOkFNiMmHF8Wy7tcFdnvb8gD4dqfCjD8kxjuaFVa6idm07+oP
-nRMzeM56W5cWFQ1nNjn9LT3HnEn8DQhWGyWim4+VnR5gMwtQjVjQp836Q/TxdzVOzDANyAZ/DtRk
-gBcRPz02VN26u5i57ZX6VV1/w2ghYwcN1kSbvbg2TZCR7r6XWOHv2A+t2N7raT50zjHH5tnpY/WT
-e6kqkppR9o5iIYQmJpZ6f9a2YGpKtNVA4klz0ZJDo0SHxSzOgUNtOAscW1N9gm0f6VQYmo3dXJDj
-lmVqxCw4Z8VQYHmm7mEEPn6xwX1yP+8phABOBd1STxjO+OaEUbSgIKBB0KdRZ6S6l5TzcORTwhdF
-K1i4NcCK0FgsmoEFeVM244+kGH2G+72tgDpx6R0ElCeDmn5TR6IkAvVQctvldfr65xk00OPRpNxQ
-jywh/H6ZoAQvb9Z6wgFZd9vivNfYh+jqtJwAmm0YqzTUJqubvJjtH7EVgNI0uS4b4EIMxOXumc/k
-Fqy+d4YD/lcUz3Pifl/9UqGYLvNDiEpsM1R69uxDdEo/dZy6sa9JCWEKj8xhddh2ozWwODsnSN7/
-nKs=
-=DJ2z
------END PGP SIGNATURE-----
-
---------------FBHa9shtdytwPV0otyLwX20K--
