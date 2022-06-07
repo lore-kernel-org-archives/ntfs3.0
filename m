@@ -1,83 +1,95 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1FD28FB;
-	Tue,  7 Jun 2022 16:22:40 +0000 (UTC)
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 98938255B;
-	Tue,  7 Jun 2022 16:21:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1654618915;
-	bh=irHcnff1wq9PsQ/ooZgwpGjN4eo9539UTqaoXdp+yZM=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=RyjHxpnZI5dvE9YplBk3xvaTo2NI1eh/x14lJCEoBOJVxmqU7PjnKjM9V6LKGPBnj
-	 4YzQM7LlXpBE8PzJHVBCh0QKmPmdoEO6ZWjqGbP6C4hNW7zOn8+SKn1dzucoNObJhF
-	 1I4Z2gNobFI4cjiCRm0V63wWDX7M8rLpYFSjMRzw=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id A8B462144;
-	Tue,  7 Jun 2022 16:22:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1654618952;
-	bh=irHcnff1wq9PsQ/ooZgwpGjN4eo9539UTqaoXdp+yZM=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=jlaRx3pBEkdB2/ZiAEJKNHge609MRLnrknR9OgcnwIUIxBx7GHR95VeNcV5FFMYQC
-	 IwY3YOmnZY+ZDdO9QZf8il6ZCdDTasUdC9U0jtU9VOzCtciDOc94/Sjz5OyIVou5rz
-	 XgTliCaHuKppKheWt3+n/gr4rA7tuv/o7i6uIXZ0=
-Received: from [172.30.8.65] (172.30.8.65) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 7 Jun 2022 19:22:32 +0300
-Message-ID: <4d81ad89-57c4-88a9-8730-14c0fd9bb075@paragon-software.com>
-Date: Tue, 7 Jun 2022 19:22:31 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573B07F
+	for <ntfs3@lists.linux.dev>; Tue,  7 Jun 2022 17:52:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 149E1C385A5;
+	Tue,  7 Jun 2022 17:52:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654624351;
+	bh=h9I8z9yfCsj9WKik3+U8sz5LvflAmBBSL/fxUrdruoU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=YjiKO2q2e2G+ErzK/uIwUNkOjTaL/bWPJ9CY0J7fiZ1UN+3xlll1ip0Owdy075rCx
+	 ZXpZth8k+AQEWLrrUbCo6uxMxtt2Zu/S6uITqwmYumZSKkSOH3TugdGXjjQplX1ab0
+	 ULyM+b1KFIjJykAqAA9E38KCXk5wT5IbX5N7ScUFBmAHXIo+Hr6ghEHyicTJ8gxL2r
+	 ZHEf94FIMxHy66dEYXUnTpJEA5iXSeZg6AzQEoodJypCsrJRUH32tSFA1GTwB0Rc+r
+	 Mlt0h5/euyEYBJW726xj6fB4Np9B/bGFP+op5T6Z+BPVlQoueUOQp1MU4wnbKjY/CD
+	 4JSE8lp+60GUw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Namjae Jeon <linkinjeon@kernel.org>,
+	Gerald Lee <sundaywind2004@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Sasha Levin <sashal@kernel.org>,
+	ntfs3@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.18 59/68] fs/ntfs3: Fix invalid free in log_replay
+Date: Tue,  7 Jun 2022 13:48:25 -0400
+Message-Id: <20220607174846.477972-59-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220607174846.477972-1-sashal@kernel.org>
+References: <20220607174846.477972-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] fs/ntfs3: remove redundant assignment to variable frame
-Content-Language: en-US
-To: Colin Ian King <colin.i.king@gmail.com>, <ntfs3@lists.linux.dev>
-CC: <kernel-janitors@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<llvm@lists.linux.dev>
-References: <20211230155952.379721-1-colin.i.king@gmail.com>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20211230155952.379721-1-colin.i.king@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.30.8.65]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
+From: Namjae Jeon <linkinjeon@kernel.org>
 
+[ Upstream commit f26967b9f7a830e228bb13fb41bd516ddd9d789d ]
 
-On 12/30/21 18:59, Colin Ian King wrote:
-> Variable frame is assigned a value that is never read. The
-> assignment is redundant and can be removed. Cleans up the
-> clang-scan build warning:
-> 
-> fs/ntfs3/file.c:995:3: warning: Value stored to 'frame' is
-> never read [deadcode.DeadStores]
->                  frame = pos >> frame_bits;
-> 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
->   fs/ntfs3/file.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-> index 3bae76930e68..27c32692513c 100644
-> --- a/fs/ntfs3/file.c
-> +++ b/fs/ntfs3/file.c
-> @@ -992,7 +992,6 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
->   		if (bytes > count)
->   			bytes = count;
->   
-> -		frame = pos >> frame_bits;
->   		frame_vbo = pos & ~(frame_size - 1);
->   		index = frame_vbo >> PAGE_SHIFT;
->   
+log_read_rst() returns ENOMEM error when there is not enough memory.
+In this case, if info is returned without initialization,
+it attempts to kfree the uninitialized info->r_page pointer. This patch
+moves the memset initialization code to before log_read_rst() is called.
 
-Applied, thanks!
+Reported-by: Gerald Lee <sundaywind2004@gmail.com>
+Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/ntfs3/fslog.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index 06492f088d60..fc36c53b865a 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -1185,8 +1185,6 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
+ 	if (!r_page)
+ 		return -ENOMEM;
+ 
+-	memset(info, 0, sizeof(struct restart_info));
+-
+ 	/* Determine which restart area we are looking for. */
+ 	if (first) {
+ 		vbo = 0;
+@@ -3791,10 +3789,11 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+ 	if (!log)
+ 		return -ENOMEM;
+ 
++	memset(&rst_info, 0, sizeof(struct restart_info));
++
+ 	log->ni = ni;
+ 	log->l_size = l_size;
+ 	log->one_page_buf = kmalloc(page_size, GFP_NOFS);
+-
+ 	if (!log->one_page_buf) {
+ 		err = -ENOMEM;
+ 		goto out;
+@@ -3842,6 +3841,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+ 	if (rst_info.vbo)
+ 		goto check_restart_area;
+ 
++	memset(&rst_info2, 0, sizeof(struct restart_info));
+ 	err = log_read_rst(log, l_size, false, &rst_info2);
+ 
+ 	/* Determine which restart area to use. */
+-- 
+2.35.1
+
