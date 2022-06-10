@@ -1,24 +1,24 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E72D7A
-	for <ntfs3@lists.linux.dev>; Thu,  9 Jun 2022 16:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D707C
+	for <ntfs3@lists.linux.dev>; Fri, 10 Jun 2022 16:21:31 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 6292F244E;
-	Thu,  9 Jun 2022 16:41:29 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 911C91D99;
+	Fri, 10 Jun 2022 16:20:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1654792889;
-	bh=y32IiNUxl6m5I0VISQueAwvEd4gOfccyXSQVopjX+0I=;
+	d=paragon-software.com; s=mail; t=1654878049;
+	bh=ioFgM6y+XdcF78saLPERgD1M4sbpP2D6QZPHFDZ9vvM=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=keGcOE0GqLju67sIkEbWxg1NvfrbRoda8cQNe+eMr0c18+gLwOLQChAOZRCeRZhRU
-	 fXaKZUiH8y6E3WRpZ6K5PHXXJRdPfdxjsrZt27ze5WFIZ4MeD5jK/IIpWb4pjoRuuA
-	 2V1uxdvBTAH13wBAlF/tKwpDyhx2adJpAtYG2NyE=
+	b=Jvmkrgx162jlNF4axBM0VM7hdMFogDadVe78W2/U6nIUULF1a9PVKdVlVLRfieBO+
+	 MrGGkX1zIh/bk8yx4gXZqT2uR0SLgJBZJLkDo2DoHMc09sB4k769MJZwWDNZOOYTH3
+	 CCi7I0BhjvNaL11AOtTwvTxmU/3bfF5FTnik8wRM=
 Received: from [172.30.8.65] (172.30.8.65) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 9 Jun 2022 19:42:07 +0300
-Message-ID: <7bfc9b09-e7ee-d781-5ea3-ac31d42c34e1@paragon-software.com>
-Date: Thu, 9 Jun 2022 19:42:07 +0300
+ 15.1.2375.7; Fri, 10 Jun 2022 19:21:29 +0300
+Message-ID: <01e2f814-1fcf-bc0c-b580-e3879eda85b6@paragon-software.com>
+Date: Fri, 10 Jun 2022 19:21:28 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,61 +27,49 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH 1/2] ntfs3: fix NULL deref in ntfs_update_mftmirr
+Subject: Re: [PATCH] fs/ntfs3: Don't clear upper bits accidentally in
+ log_replay()
 Content-Language: en-US
-To: Pavel Skripkin <paskripkin@gmail.com>, <ntfs3@lists.linux.dev>
-CC: <syzbot+c95173762127ad76a824@syzkaller.appspotmail.com>,
-	<linux-kernel@vger.kernel.org>
-References: <85293dd018cae78e4d48d74ca77710b11eed59ba.1650574393.git.paskripkin@gmail.com>
- <89d2979c-7e8a-f63f-327e-1969a4c03c11@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>
+References: <YnjY58EpRzaZP+YC@kili>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <89d2979c-7e8a-f63f-327e-1969a4c03c11@gmail.com>
+In-Reply-To: <YnjY58EpRzaZP+YC@kili>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [172.30.8.65]
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
 
 
-On 6/4/22 14:42, Pavel Skripkin wrote:
-> On 4/21/22 23:53, Pavel Skripkin wrote:
->> If ntfs_fill_super() wasn't called then sbi->sb will be equal to NULL.
->> Code should check this ptr before dereferencing. Syzbot hit this issue
->> via passing wrong mount param as can be seen from log below
->>
->> Fail log:
->> ntfs3: Unknown parameter 'iochvrset'
->> general protection fault, probably for non-canonical address 0xdffffc0000000003: 0000 [#1] PREEMPT SMP KASAN
->> KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
->> CPU: 1 PID: 3589 Comm: syz-executor210 Not tainted 5.18.0-rc3-syzkaller-00016-gb253435746d9 #0
->> ...
->> Call Trace:
->>   <TASK>
->>   put_ntfs+0x1ed/0x2a0 fs/ntfs3/super.c:463
->>   ntfs_fs_free+0x6a/0xe0 fs/ntfs3/super.c:1363
->>   put_fs_context+0x119/0x7a0 fs/fs_context.c:469
->>   do_new_mount+0x2b4/0xad0 fs/namespace.c:3044
->>   do_mount fs/namespace.c:3383 [inline]
->>   __do_sys_mount fs/namespace.c:3591 [inline]
->>
->> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
->> Reported-and-tested-by: syzbot+c95173762127ad76a824@syzkaller.appspotmail.com
->> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+On 5/9/22 12:03, Dan Carpenter wrote:
+> The "vcn" variable is a 64 bit.  The "log->clst_per_page" variable is a
+> u32.  This means that the mask accidentally clears out the high 32 bits
+> when it was only supposed to clear some low bits.  Fix this by adding a
+> cast to u64.
 > 
-> gentle ping
+> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> Why am I getting new Smatch warnings in old ntfs3 code?  It is a mystery.
 > 
+>   fs/ntfs3/fslog.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> 
-> 
-> With regards,
-> Pavel Skripkin
+> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+> index 915f42cf07bc..0da339fda2f4 100644
+> --- a/fs/ntfs3/fslog.c
+> +++ b/fs/ntfs3/fslog.c
+> @@ -5057,7 +5057,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+>   		goto add_allocated_vcns;
+>   
+>   	vcn = le64_to_cpu(lrh->target_vcn);
+> -	vcn &= ~(log->clst_per_page - 1);
+> +	vcn &= ~(u64)(log->clst_per_page - 1);
+>   
+>   add_allocated_vcns:
+>   	for (i = 0, vcn = le64_to_cpu(lrh->target_vcn),
 
-1st patch is correct.
-2nd patch is a good catch, but I'm not sure if simply ignoring is good.
-If mftmirr is broken / missing, then theoretically we can continue working.
-But still it's a major fs error.
-I'm thinking about exiting mount with error, and if "force" is present,
-then continue with mount.
-I'll reply again when I'll be sure what is correct behavior.
-Thank you for your work!
+Thanks for patch, applied!
