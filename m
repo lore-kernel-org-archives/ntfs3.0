@@ -1,121 +1,89 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B18E1364
-	for <ntfs3@lists.linux.dev>; Mon, 13 Jun 2022 10:53:38 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 9359221CB6;
-	Mon, 13 Jun 2022 10:53:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1655117616; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SFH6QqZIOI9s+Mj8/zkFHLSyGhk8xsqPs0kVQb84l4k=;
-	b=fFHe5pXKIIyFXvVsWeA/5WwBk+JfSkvwsgCSRADe8dDe5Ku4q3TD/oasfVz4ymT/ybJgCj
-	h5xIHw1yUvIV1YfrXPfQRKgs3q+0jQkQGo87/mz4Dewh2tv2Is0uDhmp1+lH3DHk+mGcIQ
-	eHELgFs8EmLVc80PVcIRxowjqs7Wv+U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1655117616;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SFH6QqZIOI9s+Mj8/zkFHLSyGhk8xsqPs0kVQb84l4k=;
-	b=zFN63R7DlhvmT+8mWOPnSKzEGh9Hlk6jWAyjUdLUjI2EU9tTrCyM6k2lnTj14xtxLpBF2c
-	0skkcWCRQPx1+TDQ==
-Received: from quack3.suse.cz (unknown [10.163.28.18])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by relay2.suse.de (Postfix) with ESMTPS id 819EE2C141;
-	Mon, 13 Jun 2022 10:53:36 +0000 (UTC)
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 4431BA0634; Mon, 13 Jun 2022 12:53:36 +0200 (CEST)
-Date: Mon, 13 Jun 2022 12:53:36 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.com>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
-	ntfs3@lists.linux.dev
-Subject: Re: [PATCH 6/6] fs: remove the NULL get_block case in
- mpage_writepages
-Message-ID: <20220613105336.dnqraf7tmxhdphyf@quack3.lan>
-References: <20220613053715.2394147-1-hch@lst.de>
- <20220613053715.2394147-7-hch@lst.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BB41376
+	for <ntfs3@lists.linux.dev>; Mon, 13 Jun 2022 12:43:49 +0000 (UTC)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LMB6F1gG9zjXYh;
+	Mon, 13 Jun 2022 20:42:13 +0800 (CST)
+Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 13 Jun 2022 20:43:41 +0800
+Received: from huawei.com (10.174.178.102) by dggpemm100009.china.huawei.com
+ (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 13 Jun
+ 2022 20:43:40 +0800
+From: linshengwang <linshengwang1@huawei.com>
+To: <almaz.alexandrovich@paragon-software.com>, <ntfs3@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, <linshengwang1@huawei.com>
+Subject: [PATCH -next] fs/ntfs3: Remove unused function 'attr_must_be_resident'
+Date: Mon, 13 Jun 2022 20:43:39 +0800
+Message-ID: <20220613124339.552-1-linshengwang1@huawei.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220613053715.2394147-7-hch@lst.de>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.178.102]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm100009.china.huawei.com (7.185.36.113)
+X-CFilter-Loop: Reflected
 
-On Mon 13-06-22 07:37:15, Christoph Hellwig wrote:
-> No one calls mpage_writepages with a NULL get_block paramter, so remove
-> support for that case.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+From: Lin Shengwang <linshengwang1@huawei.com>
 
-Looks good. Feel free to add:
+It is introduced by commit be71b5cba2e6 ("fs/ntfs3:
+Add attrib operations"), but never used, so remove it.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Lin Shengwang <linshengwang1@huawei.com>
+---
+ fs/ntfs3/attrib.c | 27 ---------------------------
+ 1 file changed, 27 deletions(-)
 
-								Honza
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index fc0623b029e6..3df0c3f5ec72 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -54,33 +54,6 @@ static inline u64 get_pre_allocated(u64 size)
+ 	return ret;
+ }
 
-> ---
->  fs/mpage.c | 22 ++++++----------------
->  1 file changed, 6 insertions(+), 16 deletions(-)
-> 
-> diff --git a/fs/mpage.c b/fs/mpage.c
-> index a354ef2b4b4eb..e4cf881634a6a 100644
-> --- a/fs/mpage.c
-> +++ b/fs/mpage.c
-> @@ -636,8 +636,6 @@ static int __mpage_writepage(struct page *page, struct writeback_control *wbc,
->   * @mapping: address space structure to write
->   * @wbc: subtract the number of written pages from *@wbc->nr_to_write
->   * @get_block: the filesystem's block mapper function.
-> - *             If this is NULL then use a_ops->writepage.  Otherwise, go
-> - *             direct-to-BIO.
->   *
->   * This is a library function, which implements the writepages()
->   * address_space_operation.
-> @@ -654,24 +652,16 @@ int
->  mpage_writepages(struct address_space *mapping,
->  		struct writeback_control *wbc, get_block_t get_block)
->  {
-> +	struct mpage_data mpd = {
-> +		.get_block	= get_block,
-> +	};
->  	struct blk_plug plug;
->  	int ret;
->  
->  	blk_start_plug(&plug);
-> -
-> -	if (!get_block)
-> -		ret = generic_writepages(mapping, wbc);
-> -	else {
-> -		struct mpage_data mpd = {
-> -			.bio = NULL,
-> -			.last_block_in_bio = 0,
-> -			.get_block = get_block,
-> -		};
-> -
-> -		ret = write_cache_pages(mapping, wbc, __mpage_writepage, &mpd);
-> -		if (mpd.bio)
-> -			mpage_bio_submit(mpd.bio);
-> -	}
-> +	ret = write_cache_pages(mapping, wbc, __mpage_writepage, &mpd);
-> +	if (mpd.bio)
-> +		mpage_bio_submit(mpd.bio);
->  	blk_finish_plug(&plug);
->  	return ret;
->  }
-> -- 
-> 2.30.2
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+-/*
+- * attr_must_be_resident
+- *
+- * Return: True if attribute must be resident.
+- */
+-static inline bool attr_must_be_resident(struct ntfs_sb_info *sbi,
+-					 enum ATTR_TYPE type)
+-{
+-	const struct ATTR_DEF_ENTRY *de;
+-
+-	switch (type) {
+-	case ATTR_STD:
+-	case ATTR_NAME:
+-	case ATTR_ID:
+-	case ATTR_LABEL:
+-	case ATTR_VOL_INFO:
+-	case ATTR_ROOT:
+-	case ATTR_EA_INFO:
+-		return true;
+-	default:
+-		de = ntfs_query_def(sbi, type);
+-		if (de && (de->flags & NTFS_ATTR_MUST_BE_RESIDENT))
+-			return true;
+-		return false;
+-	}
+-}
+-
+ /*
+  * attr_load_runs - Load all runs stored in @attr.
+  */
+--
+2.17.1
+
+
