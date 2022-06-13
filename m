@@ -1,98 +1,97 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA0DECA
+	for <ntfs3@lists.linux.dev>; Mon, 13 Jun 2022 10:46:59 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id E7BB421D73;
+	Mon, 13 Jun 2022 10:46:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1655117210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9D4LOgTRI6f8VNdDcls0w5x8mnJwI93bl+ycJ6sjsC4=;
+	b=Bpm0Q6U8QbyeXOfR3l+Bb6BF+MAecgp+oNatjUaaVxt7qP708uexjMBZWCGyWLsfIOZFGX
+	6jS46bbjkex9hEULZZwfFWHh0B87lxiP28OPbYCwxj5TrWdAgyID+DxElk3aW6hoA7GAkQ
+	VrrbyMb554Kfx4olzIdGBXOb2OOz3x4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1655117210;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9D4LOgTRI6f8VNdDcls0w5x8mnJwI93bl+ycJ6sjsC4=;
+	b=Tqql0ADCuLk5NfS41NVndCiy75JS/KRScqvTHZgWFvE8DzXzmhIgnPbO/a8jOX+Obw0YAs
+	HSu2pqV650JLf2Ag==
+Received: from quack3.suse.cz (unknown [10.163.28.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A416910F1
-	for <ntfs3@lists.linux.dev>; Mon, 13 Jun 2022 05:37:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Zp2A2WsdHhKodTSMNz93mFV0bupP5ggkN3XKeFjb+k0=; b=TkFyl6H75fM8c9tKEtfeL1KjsG
-	CaJ7Oa0Qby+KbEh93MbSGeNt6+Hb0Lsv4whlxvXNFQru8rZdWgVQPCWbmlNxFDK/doxGYWpgCjkIL
-	FLoWBjKj8yg5+LWJwsn1xbEpvaKsIcE/n//P51Nh0sVCcD74niLAOC9BL7tfa+CpEE4KGhniOxYlu
-	korHNvCyxqqp1We7PbToGW9NGxeC6/ymAX43zRsxTYdeEX4ESxpkpstlYzG5NSojl0Ndkcmjojn6h
-	1yVZl0stpkYwXy3332y+rRPyZmpO8UQu0QDJCe7Ldx6GgbaIjPwdXs3UPLTipev2ydkLedaXeggZl
-	ss3HGNUA==;
-Received: from [2001:4bb8:180:36f6:f125:c38b:d3d6:ae6c] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o0cla-001V6O-Kt; Mon, 13 Jun 2022 05:37:35 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.com>,
+	by relay2.suse.de (Postfix) with ESMTPS id CCB732C141;
+	Mon, 13 Jun 2022 10:46:50 +0000 (UTC)
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 830CAA0634; Mon, 13 Jun 2022 12:46:47 +0200 (CEST)
+Date: Mon, 13 Jun 2022 12:46:47 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.com>,
 	Dave Kleikamp <shaggy@kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jfs-discussion@lists.sourceforge.net,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
 	ntfs3@lists.linux.dev
-Subject: [PATCH 6/6] fs: remove the NULL get_block case in mpage_writepages
-Date: Mon, 13 Jun 2022 07:37:15 +0200
-Message-Id: <20220613053715.2394147-7-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220613053715.2394147-1-hch@lst.de>
+Subject: Re: [PATCH 1/6] ntfs3: refactor ntfs_writepages
+Message-ID: <20220613104647.wjt27tqijdou3vm4@quack3.lan>
 References: <20220613053715.2394147-1-hch@lst.de>
+ <20220613053715.2394147-2-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220613053715.2394147-2-hch@lst.de>
 
-No one calls mpage_writepages with a NULL get_block paramter, so remove
-support for that case.
+On Mon 13-06-22 07:37:10, Christoph Hellwig wrote:
+> Handle the resident case with an explicit generic_writepages call instead
+> of using the obscure overload that makes mpage_writepages with a NULL
+> get_block do the same thing.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- fs/mpage.c | 22 ++++++----------------
- 1 file changed, 6 insertions(+), 16 deletions(-)
+Yeah, much more obvious :). Feel free to add:
 
-diff --git a/fs/mpage.c b/fs/mpage.c
-index a354ef2b4b4eb..e4cf881634a6a 100644
---- a/fs/mpage.c
-+++ b/fs/mpage.c
-@@ -636,8 +636,6 @@ static int __mpage_writepage(struct page *page, struct writeback_control *wbc,
-  * @mapping: address space structure to write
-  * @wbc: subtract the number of written pages from *@wbc->nr_to_write
-  * @get_block: the filesystem's block mapper function.
-- *             If this is NULL then use a_ops->writepage.  Otherwise, go
-- *             direct-to-BIO.
-  *
-  * This is a library function, which implements the writepages()
-  * address_space_operation.
-@@ -654,24 +652,16 @@ int
- mpage_writepages(struct address_space *mapping,
- 		struct writeback_control *wbc, get_block_t get_block)
- {
-+	struct mpage_data mpd = {
-+		.get_block	= get_block,
-+	};
- 	struct blk_plug plug;
- 	int ret;
- 
- 	blk_start_plug(&plug);
--
--	if (!get_block)
--		ret = generic_writepages(mapping, wbc);
--	else {
--		struct mpage_data mpd = {
--			.bio = NULL,
--			.last_block_in_bio = 0,
--			.get_block = get_block,
--		};
--
--		ret = write_cache_pages(mapping, wbc, __mpage_writepage, &mpd);
--		if (mpd.bio)
--			mpage_bio_submit(mpd.bio);
--	}
-+	ret = write_cache_pages(mapping, wbc, __mpage_writepage, &mpd);
-+	if (mpd.bio)
-+		mpage_bio_submit(mpd.bio);
- 	blk_finish_plug(&plug);
- 	return ret;
- }
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/ntfs3/inode.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index be4ebdd8048b0..28c09c25b823d 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -851,12 +851,10 @@ static int ntfs_writepage(struct page *page, struct writeback_control *wbc)
+>  static int ntfs_writepages(struct address_space *mapping,
+>  			   struct writeback_control *wbc)
+>  {
+> -	struct inode *inode = mapping->host;
+> -	struct ntfs_inode *ni = ntfs_i(inode);
+>  	/* Redirect call to 'ntfs_writepage' for resident files. */
+> -	get_block_t *get_block = is_resident(ni) ? NULL : &ntfs_get_block;
+> -
+> -	return mpage_writepages(mapping, wbc, get_block);
+> +	if (is_resident(ntfs_i(mapping->host)))
+> +		return generic_writepages(mapping, wbc);
+> +	return mpage_writepages(mapping, wbc, ntfs_get_block);
+>  }
+>  
+>  static int ntfs_get_block_write_begin(struct inode *inode, sector_t vbn,
+> -- 
+> 2.30.2
+> 
 -- 
-2.30.2
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
