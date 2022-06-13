@@ -1,176 +1,75 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6C936F
-	for <ntfs3@lists.linux.dev>; Sat, 11 Jun 2022 02:56:39 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id p129so1518084oig.3
-        for <ntfs3@lists.linux.dev>; Fri, 10 Jun 2022 19:56:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=jctRilESZhviTKf/9k9B8kFmXNclCH0IwN1Q3ytmaBU=;
-        b=RiO89JynyAWJauusXlni0Uw+tWhpwg6Zkd/CQF2VrK1+ef2N8wg3fHJ5mz1wKCoXks
-         75C9yB/WN8MCz6x126AgrvnPwX7AKFY26wYhjdwS4oGMWWvFyPWBiGe4m78KzswP+5xc
-         ciRy8KqsJ2OyOiZwOmOwBl1qCSUY1ppYXS48yE5/CSFUsteVQHDqrwd3oonh2cAmctsS
-         C5A0jAQ4he2iR630XM2YxQI4QiUvQ3GtK/JM88o41TqictJ97jdfFeIdmzwzIBTUAU62
-         XypxGesXdr9RRdzlRkeAU8hWe28YII5zuuiUMVXBO6LaJPsnUX2hKRZhyHnOtCL9gE1s
-         qC9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=jctRilESZhviTKf/9k9B8kFmXNclCH0IwN1Q3ytmaBU=;
-        b=hJr1GLV/3xH5DJoCWsO1FaOcKki+h91qykgX0MyLuCAl43a65ip/mmRXadmXfw2Lig
-         6w37kOAT6xGuAGDVPltncNZVMfY/z6s058qmilP5BSkVrtKEaxiC0JHFB+WTjMvnUucZ
-         R/VkAhWWhfy6nFHZrFXfJzYDvNI8zhIp+gLoLNYP+lb36ws2M4viBBFwiKOxju9kb12k
-         fBFSWu0GOOMkkNsi5JZA7QOJzLMMg6GDuX1E4sQ7H1u6/TqhPsPUpV3B5AXoGgI9hQ5s
-         Ia+Qse2c8SznGJ7JO+o/CGC3B6v2OX5Bplp+pjvJkLrcjJ2XsbPv3pZ6C/8kiftOLGPt
-         kVuw==
-X-Gm-Message-State: AOAM533WJRBgIue6PlOkjyNTAmAUATaiNdx1wBZDCJx3E9QZ3aCnfpOK
-	pvHsEUizIlkZuOR9SqGwAgD1w/6I4iSRrH63W3Q=
-X-Google-Smtp-Source: ABdhPJwagasm37nc90xZijauKcqv8CyeDsKyStRUZS9nTXaJal8nJwj3QxzCRfvTuFSFXt9jQfe2BKsFexjpeVvOW/o=
-X-Received: by 2002:aca:6c5:0:b0:325:5bce:bbc1 with SMTP id
- 188-20020aca06c5000000b003255bcebbc1mr1434585oig.221.1654916198714; Fri, 10
- Jun 2022 19:56:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECE510F1
+	for <ntfs3@lists.linux.dev>; Mon, 13 Jun 2022 05:37:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=DDsG9TIypX9i4Jub9ds/rZf5G8m0UHXd5E1QbdoBBD0=; b=N9TsM8iT7ekZbDQfUGaiTFwUXU
+	JcI0aBGvdUEZlGHwm/7Gg19OovVj+VIwh/QosgXQTjie0wQ5v6DSgzZEOGJHsJQ4BQPEuuEkHddhv
+	/Mb8t3PZkjApccMEshQeDjGPr4ZIL01urVDOiZJMlV7XetbwzGTWR1jOLSNkHdWkbQm0UsSPYaCRf
+	V9LU0XmI/FR72D18BfloytbAj/xb6rWUIRKfCAGGPZCyzLf2QjZJWUIiDEgZkl+0OUSB4Tu9Yojo9
+	x2Ka0CGp1GvnzyMkLcGbhDM+ML2XWh0ReJ2ijpIE4h0Jery3bob4pKQtwxcC3N82tUVGyhUAsurVo
+	nBM/rNQA==;
+Received: from [2001:4bb8:180:36f6:f125:c38b:d3d6:ae6c] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o0clN-001V4A-It; Mon, 13 Jun 2022 05:37:22 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.com>,
+	Dave Kleikamp <shaggy@kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: linux-ext4@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jfs-discussion@lists.sourceforge.net,
+	ntfs3@lists.linux.dev
+Subject: [PATCH 1/6] ntfs3: refactor ntfs_writepages
+Date: Mon, 13 Jun 2022 07:37:10 +0200
+Message-Id: <20220613053715.2394147-2-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220613053715.2394147-1-hch@lst.de>
+References: <20220613053715.2394147-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220506034656.50038-1-jjm2473@gmail.com> <14b2ae23-2f7b-401a-dcee-cc6114849022@paragon-software.com>
- <CAP_9mL7O7YyW56HBorZ7727m22NjbQcfcu_J4_XOBoXigQvGCg@mail.gmail.com> <e40981eb-8243-4bb1-44ef-5393cc464c03@paragon-software.com>
-In-Reply-To: <e40981eb-8243-4bb1-44ef-5393cc464c03@paragon-software.com>
-From: =?UTF-8?B?57uD5Lqu5paM?= <jjm2473@gmail.com>
-Date: Sat, 11 Jun 2022 10:56:27 +0800
-Message-ID: <CAP_9mL45iewg0Y_cDYdNZbv11RZfJtcbOia_GU+9=9paXV7zaQ@mail.gmail.com>
-Subject: Re: [PATCH] fs/ntfs3: fix null pointer dereference in d_flags_for_inode
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hello.
+Handle the resident case with an explicit generic_writepages call instead
+of using the obscure overload that makes mpage_writepages with a NULL
+get_block do the same thing.
 
-If ntfs_file_inode_operations is ok for $Extend, that's fine with me.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/ntfs3/inode.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-=E4=BA=8E2022=E5=B9=B46=E6=9C=881=E6=97=A5=E5=91=A8=E4=B8=89 00:34=E5=86=99=
-=E9=81=93=EF=BC=9A
->
-> Hello.
->
-> In the end of ntfs_read_mft function we must assign correct i_op:
-> inode->i_op =3D &ntfs_dir_inode_operations;
-> <...>
-> inode->i_op =3D &ntfs_link_inode_operations;
-> <...>
-> inode->i_op =3D &ntfs_file_inode_operations;
-> <...>
-> inode->i_op =3D &ntfs_special_inode_operations;
->
-> In this if .. else if .. else is an error:
-> records in $Extend doesn't get correct i_op.
-> This was fixed in my patch.
->
-> Line in beginning of ntfs_read_mft function
-> inode->i_op =3D NULL;
-> triggered null pointer dereference because
-> inode->i_op =3D &ntfs_file_inode_operations;
-> is missing for records in $Extend.
->
-> If I just remove inode->i_op =3D NULL,
-> then in i_op will be some previous value.
-> Sometimes this value is correct, sometimes it's not.
->
-> I'm thankful, that you've spent time to find and debug this issue.
-> This was reflected in line Reported-by: Liangbin Lian <jjm2473@gmail.com>
-> I hope I've made more clear my previous message.
->
->
-> On 5/28/22 16:42, =E7=BB=83=E4=BA=AE=E6=96=8C wrote:
-> > Hello.
-> > `inode->i_op` already initialized when inode alloc, this bug was
-> > introduced by `inode->i_op =3D NULL;`, just delete this line.
-> > Please check my patch, maybe it's a better one, I have tested it on my =
-project.
-> >
-> > On 5/26/22 18:23, Almaz Alexandrovich wrote:
-> >>
-> >> Hello.
-> >>
-> >> Thank you for reporting this bug.
-> >> The bug happens because we don't initialize i_op for records in $Exten=
-d.
-> >> We tested patch on our side, let me know if patch helps you too.
-> >>
-> >>       fs/ntfs3: Fix missing i_op in ntfs_read_mft
-> >>
-> >>       There is null pointer dereference because i_op =3D=3D NULL.
-> >>       The bug happens because we don't initialize i_op for records in =
-$Extend.
-> >>       Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super bloc=
-k")
-> >>
-> >>       Reported-by: Liangbin Lian <jjm2473@gmail.com>
-> >>       Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-s=
-oftware.com>
-> >>
-> >> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> >> index 879952254071..b2cc1191be69 100644
-> >> --- a/fs/ntfs3/inode.c
-> >> +++ b/fs/ntfs3/inode.c
-> >> @@ -430,6 +430,7 @@ static struct inode *ntfs_read_mft(struct inode *i=
-node,
-> >>           } else if (fname && fname->home.low =3D=3D cpu_to_le32(MFT_R=
-EC_EXTEND) &&
-> >>                      fname->home.seq =3D=3D cpu_to_le16(MFT_REC_EXTEND=
-)) {
-> >>                   /* Records in $Extend are not a files or general dir=
-ectories. */
-> >> +               inode->i_op =3D &ntfs_file_inode_operations;
-> >>           } else {
-> >>                   err =3D -EINVAL;
-> >>                   goto out;
-> >>
-> >>
-> >> On 5/6/22 06:46, Liangbin Lian wrote:
-> >>> ntfs_read_mft may return inode with null i_op, cause null pointer der=
-eference in d_flags_for_inode (inode->i_op->get_link).
-> >>> Reproduce:
-> >>>    - sudo mount -t ntfs3 -o loop ntfs.img ntfs
-> >>>    - ls ntfs/'$Extend/$Quota'
-> >>>
-> >>> The call trace is shown below (striped):
-> >>>    BUG: kernel NULL pointer dereference, address: 0000000000000008
-> >>>    CPU: 0 PID: 577 Comm: ls Tainted: G           OE     5.16.0-0.bpo.=
-4-amd64 #1  Debian 5.16.12-1~bpo11+1
-> >>>    RIP: 0010:d_flags_for_inode+0x65/0x90
-> >>>    Call Trace:
-> >>>    ntfs_lookup
-> >>>    +--- dir_search_u
-> >>>    |    +--- ntfs_iget5
-> >>>    |         +--- ntfs_read_mft
-> >>>    +--- d_splice_alias
-> >>>         +--- __d_add
-> >>>              +--- d_flags_for_inode
-> >>>
-> >>> Signed-off-by: Liangbin Lian <jjm2473@gmail.com>
-> >>> ---
-> >>>    fs/ntfs3/inode.c | 1 -
-> >>>    1 file changed, 1 deletion(-)
-> >>>
-> >>> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> >>> index 9eab11e3b..b68d26fa8 100644
-> >>> --- a/fs/ntfs3/inode.c
-> >>> +++ b/fs/ntfs3/inode.c
-> >>> @@ -45,7 +45,6 @@ static struct inode *ntfs_read_mft(struct inode *in=
-ode,
-> >>>        struct MFT_REC *rec;
-> >>>        struct runs_tree *run;
-> >>>
-> >>> -     inode->i_op =3D NULL;
-> >>>        /* Setup 'uid' and 'gid' */
-> >>>        inode->i_uid =3D sbi->options->fs_uid;
-> >>>        inode->i_gid =3D sbi->options->fs_gid;
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index be4ebdd8048b0..28c09c25b823d 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -851,12 +851,10 @@ static int ntfs_writepage(struct page *page, struct writeback_control *wbc)
+ static int ntfs_writepages(struct address_space *mapping,
+ 			   struct writeback_control *wbc)
+ {
+-	struct inode *inode = mapping->host;
+-	struct ntfs_inode *ni = ntfs_i(inode);
+ 	/* Redirect call to 'ntfs_writepage' for resident files. */
+-	get_block_t *get_block = is_resident(ni) ? NULL : &ntfs_get_block;
+-
+-	return mpage_writepages(mapping, wbc, get_block);
++	if (is_resident(ntfs_i(mapping->host)))
++		return generic_writepages(mapping, wbc);
++	return mpage_writepages(mapping, wbc, ntfs_get_block);
+ }
+ 
+ static int ntfs_get_block_write_begin(struct inode *inode, sector_t vbn,
+-- 
+2.30.2
+
