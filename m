@@ -1,35 +1,35 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5544E4406
-	for <ntfs3@lists.linux.dev>; Sat,  2 Jul 2022 18:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D1C1FA8
+	for <ntfs3@lists.linux.dev>; Sat,  2 Jul 2022 19:00:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656788399; x=1688324399;
+  t=1656788454; x=1688324454;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=liQng1oi5pVFzQvSZ7Grrfdjo3Vt/r0DpAmqCyflPt8=;
-  b=GmiEvPpzcgwd2MUqXiZa4kz9Kq0uAoz3/6ccp4S8NcAtv6n30wQqxuYQ
-   9KqNdccACtUVdgUxtX78PWGgcRjdGCnY/788BTV2hQohRxbu4IYwMUAF1
-   xcz5Rxm2oqvr2FXxHX1SqCIlHeBm76AiZ52KVSXL6HG45a+XmcM/Rfw6I
-   MKs//01fJLWV44xJQZZqnWrjBKEbqN9VPaAfVQ+sQk9t7Li+eoDV5K7uA
-   8ajf3ffUwGKhZ/Tv3+eFiFFgP9Nx/ObsKKXLru8L2uwlO2ksy6KMaMWI2
-   1vuoFEWY+cbweK8oB2G1/7wuJm9nd1cmUbXavHKRM0uc0l/NhXa2UPMDn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10396"; a="369186274"
+  bh=yvU0XF5WPIv08rLvOwNYp2E3/4NRlwUAnfDXcMlIHUk=;
+  b=XnaKlipab4fN3AC7pB9r/8cV4uHrC0ZIkU5QH1OqTXdXa/90knfRTOm4
+   ttdM8iwNxQJ9sXEltZ72cEqilo+HqNx7Qa8ZsYakVpVgFH8+DLujM1L6N
+   f9eHic79KswIFVy5gGKkaNfYCYTyOlu88vQEJ1+8o8MlrHcsbstyPI2DE
+   AhZrxFBKXlE8iNB5fA1NruyrbF778wcNkE1eANhLLXVrShfwYIC4VTpF0
+   DiCZRHvu2l84cJEA5PCWRG719ALa157jlNio/U0aCtTYu9S7A/y1abiMO
+   KOb/zdOYysVerbgFLlu31FoibRSVrKOqcrnURwKr6ta6Wt+QE5jUiL9rW
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10396"; a="281623138"
 X-IronPort-AV: E=Sophos;i="5.92,240,1650956400"; 
-   d="scan'208";a="369186274"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 11:59:58 -0700
+   d="scan'208";a="281623138"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 12:00:53 -0700
 X-IronPort-AV: E=Sophos;i="5.92,240,1650956400"; 
-   d="scan'208";a="718968459"
+   d="scan'208";a="542052848"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 11:59:54 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 12:00:49 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1o7iLP-0013q3-0M;
-	Sat, 02 Jul 2022 21:59:51 +0300
-Date: Sat, 2 Jul 2022 21:59:50 +0300
+	id 1o7iKB-0013px-1y;
+	Sat, 02 Jul 2022 21:58:35 +0300
+Date: Sat, 2 Jul 2022 21:58:35 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Cc: agk@redhat.com, snitzer@kernel.org, dm-devel@redhat.com,
@@ -40,10 +40,10 @@ Cc: agk@redhat.com, snitzer@kernel.org, dm-devel@redhat.com,
 	linux@rasmusvillemoes.dk, linux-s390@vger.kernel.org,
 	ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
 	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 3/4] bitmap: Introduce bitmap_size()
-Message-ID: <YsCVpifccOebP3Ot@smile.fi.intel.com>
+Subject: Re: [PATCH 2/4] fs/ntfs3: Rename bitmap_size() as ntfs3_bitmap_size()
+Message-ID: <YsCVW5Dt3YcE3TLL@smile.fi.intel.com>
 References: <cover.1656785856.git.christophe.jaillet@wanadoo.fr>
- <98f5d3d855a9c687ccc035edf62016b02a6876b7.1656785856.git.christophe.jaillet@wanadoo.fr>
+ <56a3cb896ec446ca24e4756042d9f0829afc671a.1656785856.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -52,82 +52,26 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <98f5d3d855a9c687ccc035edf62016b02a6876b7.1656785856.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <56a3cb896ec446ca24e4756042d9f0829afc671a.1656785856.git.christophe.jaillet@wanadoo.fr>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Sat, Jul 02, 2022 at 08:29:36PM +0200, Christophe JAILLET wrote:
-> The new bitmap_size() function returns the size, in bytes, of a bitmap.
-> 
-> Remove the already existing bitmap_size() functions and macro in some
-> files.
-> These files already use the bitmap API and will use the new function
-> in bitmap.h automatically.
+On Sat, Jul 02, 2022 at 08:29:27PM +0200, Christophe JAILLET wrote:
+> In order to introduce a bitmap_size() function in the bitmap API, we have
+> to rename functions with a similar name.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+...
 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  drivers/md/dm-clone-metadata.c | 5 -----
->  include/linux/bitmap.h         | 6 ++++++
->  lib/math/prime_numbers.c       | 2 --
->  3 files changed, 6 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/md/dm-clone-metadata.c b/drivers/md/dm-clone-metadata.c
-> index c43d55672bce..47c1fa7aad8b 100644
-> --- a/drivers/md/dm-clone-metadata.c
-> +++ b/drivers/md/dm-clone-metadata.c
-> @@ -465,11 +465,6 @@ static void __destroy_persistent_data_structures(struct dm_clone_metadata *cmd)
->  
->  /*---------------------------------------------------------------------------*/
->  
-> -static size_t bitmap_size(unsigned long nr_bits)
-> -{
-> -	return BITS_TO_LONGS(nr_bits) * sizeof(long);
-> -}
-> -
->  static int __dirty_map_init(struct dirty_map *dmap, unsigned long nr_words,
->  			    unsigned long nr_regions)
+>  /* NTFS uses quad aligned bitmaps. */
+> -static inline size_t bitmap_size(size_t bits)
+> +static inline size_t ntfs3_bitmap_size(size_t bits)
 >  {
-> diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
-> index f091a1664bf1..f66fb98a4126 100644
-> --- a/include/linux/bitmap.h
-> +++ b/include/linux/bitmap.h
-> @@ -48,6 +48,7 @@ struct device;
->   *  bitmap_equal(src1, src2, nbits)             Are *src1 and *src2 equal?
->   *  bitmap_intersects(src1, src2, nbits)        Do *src1 and *src2 overlap?
->   *  bitmap_subset(src1, src2, nbits)            Is *src1 a subset of *src2?
-> + *  bitmap_size(nbits)                          Size, in bytes, of a bitmap
->   *  bitmap_empty(src, nbits)                    Are all bits zero in *src?
->   *  bitmap_full(src, nbits)                     Are all bits set in *src?
->   *  bitmap_weight(src, nbits)                   Hamming Weight: number set bits
-> @@ -124,6 +125,11 @@ unsigned long *bitmap_alloc_node(unsigned int nbits, gfp_t flags, int node);
->  unsigned long *bitmap_zalloc_node(unsigned int nbits, gfp_t flags, int node);
->  void bitmap_free(const unsigned long *bitmap);
->  
-> +static __always_inline size_t bitmap_size(unsigned long nbits)
-> +{
-> +	return BITS_TO_LONGS(nbits) * sizeof(unsigned long);
-> +}
-> +
->  /* Managed variants of the above. */
->  unsigned long *devm_bitmap_alloc(struct device *dev,
->  				 unsigned int nbits, gfp_t flags);
-> diff --git a/lib/math/prime_numbers.c b/lib/math/prime_numbers.c
-> index d42cebf7407f..d3b64b10da1c 100644
-> --- a/lib/math/prime_numbers.c
-> +++ b/lib/math/prime_numbers.c
-> @@ -6,8 +6,6 @@
->  #include <linux/prime_numbers.h>
->  #include <linux/slab.h>
->  
-> -#define bitmap_size(nbits) (BITS_TO_LONGS(nbits) * sizeof(unsigned long))
-> -
->  struct primes {
->  	struct rcu_head rcu;
->  	unsigned long last, sz;
-> -- 
-> 2.34.1
-> 
+>  	return ALIGN((bits + 7) >> 3, 8);
+
+It would be easier to understand in a way
+
+	return BITS_TO_BYTES(ALIGN(bits, 64));
+
+>  }
 
 -- 
 With Best Regards,
