@@ -1,126 +1,89 @@
-Received: from smtp.smtpout.orange.fr (smtp02.smtpout.orange.fr [80.12.242.124])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A6C81FD1
-	for <ntfs3@lists.linux.dev>; Sun,  3 Jul 2022 06:58:00 +0000 (UTC)
-Received: from [192.168.1.18] ([90.11.190.129])
-	by smtp.orange.fr with ESMTPA
-	id 7tQyovloGEMbD7tQyoi3Jm; Sun, 03 Jul 2022 08:50:22 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Sun, 03 Jul 2022 08:50:22 +0200
-X-ME-IP: 90.11.190.129
-Message-ID: <4dc5d50a-2291-1d3a-efac-3f6378a15d69@wanadoo.fr>
-Date: Sun, 3 Jul 2022 08:50:19 +0200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC6C1FA0
+	for <ntfs3@lists.linux.dev>; Sun,  3 Jul 2022 15:21:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656861662; x=1688397662;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=jXW12Ga9G65nqsGYdHBdlWQ5IJhoQ1DN2e8R+iyO4VE=;
+  b=hk/DyHciJM43sj1vk/J/swjmBjYo7E5A2DOKeMwRRGO2NiDWKNbzGitB
+   TpMXFuqxNrpgWQmhbplFPN1uxQgRQbTZHTzzvek/3JZe2PiWRbfhLVmB1
+   FsxA5BVa0+gwSLkVMZ1EZRWyQJ8Y8zUU1nLmq92EwAHqqkTBOX1EzhXXw
+   X6h5Os2mURtjstKAmNEdYw8114nF0ve2LJaceQ4jr8isKGXb4lN3QDGoD
+   N1Z+11C4X5jEjybf4fMq27Z4CJWRx8u3L3RTZXnUJp/CjuJIpVBcd4M4Y
+   ngZ2VJR3Yz23HV5f+Y/4I6+/iwfsaM/Z2Vi4d3KVfCQBkVLLI4Z4GhYfX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10397"; a="280513286"
+X-IronPort-AV: E=Sophos;i="5.92,241,1650956400"; 
+   d="scan'208";a="280513286"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2022 08:21:01 -0700
+X-IronPort-AV: E=Sophos;i="5.92,241,1650956400"; 
+   d="scan'208";a="542233739"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2022 08:20:57 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1o81P4-0014Px-0j;
+	Sun, 03 Jul 2022 18:20:54 +0300
+Date: Sun, 3 Jul 2022 18:20:53 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Yury Norov <yury.norov@gmail.com>, agk@redhat.com, snitzer@kernel.org,
+	dm-devel@redhat.com, vneethv@linux.ibm.com, oberpar@linux.ibm.com,
+	hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
+	borntraeger@linux.ibm.com, svens@linux.ibm.com,
+	almaz.alexandrovich@paragon-software.com, linux@rasmusvillemoes.dk,
+	linux-s390@vger.kernel.org, ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH 3/4] bitmap: Introduce bitmap_size()
+Message-ID: <YsGz1Xp0RDM5ZhVY@smile.fi.intel.com>
+References: <cover.1656785856.git.christophe.jaillet@wanadoo.fr>
+ <98f5d3d855a9c687ccc035edf62016b02a6876b7.1656785856.git.christophe.jaillet@wanadoo.fr>
+ <YsC0GpltMVaCPhkJ@yury-laptop>
+ <4dc5d50a-2291-1d3a-efac-3f6378a15d69@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 3/4] bitmap: Introduce bitmap_size()
-Content-Language: en-US
-To: Yury Norov <yury.norov@gmail.com>
-Cc: agk@redhat.com, snitzer@kernel.org, dm-devel@redhat.com,
- vneethv@linux.ibm.com, oberpar@linux.ibm.com, hca@linux.ibm.com,
- gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
- svens@linux.ibm.com, almaz.alexandrovich@paragon-software.com,
- andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
- linux-s390@vger.kernel.org, ntfs3@lists.linux.dev,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Newsgroups: gmane.linux.kernel.janitors,gmane.linux.kernel.device-mapper.devel,gmane.linux.kernel
-References: <cover.1656785856.git.christophe.jaillet@wanadoo.fr>
- <98f5d3d855a9c687ccc035edf62016b02a6876b7.1656785856.git.christophe.jaillet@wanadoo.fr>
- <YsC0GpltMVaCPhkJ@yury-laptop>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <YsC0GpltMVaCPhkJ@yury-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <4dc5d50a-2291-1d3a-efac-3f6378a15d69@wanadoo.fr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Le 02/07/2022 Ã  23:09, Yury Norov a Ã©critÂ :
-> On Sat, Jul 02, 2022 at 08:29:36PM +0200, Christophe JAILLET wrote:
->> The new bitmap_size() function returns the size, in bytes, of a bitmap.
->>
->> Remove the already existing bitmap_size() functions and macro in some
->> files.
->> These files already use the bitmap API and will use the new function
->> in bitmap.h automatically.
->>
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> ---
->>   drivers/md/dm-clone-metadata.c | 5 -----
->>   include/linux/bitmap.h         | 6 ++++++
->>   lib/math/prime_numbers.c       | 2 --
->>   3 files changed, 6 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/md/dm-clone-metadata.c b/drivers/md/dm-clone-metadata.c
->> index c43d55672bce..47c1fa7aad8b 100644
->> --- a/drivers/md/dm-clone-metadata.c
->> +++ b/drivers/md/dm-clone-metadata.c
->> @@ -465,11 +465,6 @@ static void __destroy_persistent_data_structures(struct dm_clone_metadata *cmd)
->>   
->>   /*---------------------------------------------------------------------------*/
->>   
->> -static size_t bitmap_size(unsigned long nr_bits)
->> -{
->> -	return BITS_TO_LONGS(nr_bits) * sizeof(long);
->> -}
->> -
->>   static int __dirty_map_init(struct dirty_map *dmap, unsigned long nr_words,
->>   			    unsigned long nr_regions)
->>   {
->> diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
->> index f091a1664bf1..f66fb98a4126 100644
->> --- a/include/linux/bitmap.h
->> +++ b/include/linux/bitmap.h
->> @@ -48,6 +48,7 @@ struct device;
->>    *  bitmap_equal(src1, src2, nbits)             Are *src1 and *src2 equal?
->>    *  bitmap_intersects(src1, src2, nbits)        Do *src1 and *src2 overlap?
->>    *  bitmap_subset(src1, src2, nbits)            Is *src1 a subset of *src2?
->> + *  bitmap_size(nbits)                          Size, in bytes, of a bitmap
->>    *  bitmap_empty(src, nbits)                    Are all bits zero in *src?
->>    *  bitmap_full(src, nbits)                     Are all bits set in *src?
->>    *  bitmap_weight(src, nbits)                   Hamming Weight: number set bits
->> @@ -124,6 +125,11 @@ unsigned long *bitmap_alloc_node(unsigned int nbits, gfp_t flags, int node);
->>   unsigned long *bitmap_zalloc_node(unsigned int nbits, gfp_t flags, int node);
->>   void bitmap_free(const unsigned long *bitmap);
->>   
->> +static __always_inline size_t bitmap_size(unsigned long nbits)
->> +{
->> +	return BITS_TO_LONGS(nbits) * sizeof(unsigned long);
->> +}
->> +
->>   /* Managed variants of the above. */
->>   unsigned long *devm_bitmap_alloc(struct device *dev,
->>   				 unsigned int nbits, gfp_t flags);
->> diff --git a/lib/math/prime_numbers.c b/lib/math/prime_numbers.c
->> index d42cebf7407f..d3b64b10da1c 100644
->> --- a/lib/math/prime_numbers.c
->> +++ b/lib/math/prime_numbers.c
->> @@ -6,8 +6,6 @@
->>   #include <linux/prime_numbers.h>
->>   #include <linux/slab.h>
->>   
->> -#define bitmap_size(nbits) (BITS_TO_LONGS(nbits) * sizeof(unsigned long))
->> -
+On Sun, Jul 03, 2022 at 08:50:19AM +0200, Christophe JAILLET wrote:
+> Le 02/07/2022 à 23:09, Yury Norov a écrit :
+> > On Sat, Jul 02, 2022 at 08:29:36PM +0200, Christophe JAILLET wrote:
+
+...
+
+> > This should be dropped, for sure, and kmalloc() at line 128 should be
+> > replaced with bitmap_alloc().
 > 
-> This should be dropped, for sure, and kmalloc() at line 128 should be
-> replaced with bitmap_alloc().
-
-This kmalloc() is for a structure and a flexible array.
-
-You mean re-arranging the code to allocate the structure alone at first, 
-then the bitmap?
-
-CJ
-
+> This kmalloc() is for a structure and a flexible array.
 > 
-> For the driver, we need to introduce bitmap_kvmalloc/bitmap_kvfree etc.
-> 
->>   struct primes {
->>   	struct rcu_head rcu;
->>   	unsigned long last, sz;
->> -- 
->> 2.34.1
-> 
+> You mean re-arranging the code to allocate the structure alone at first,
+> then the bitmap?
+
+It's one way, but it will increase fragmentation of memory. The other one
+as it seems to me is to name a new API properly, i.e. bitmap_size_to_bytes().
+
+In such case you won't need renames to begin with. And then would be able
+to convert driver-by-driver in cases of duplicated code.
+
+I think that's what confused Yuri and I kinda agree that bitmap_size() should
+return bits, and not bytes. Also argument for pure bitmap_size() would be
+bitmap itself, but we have no way to detect the length of bitmap because we
+are using POD and not a specific data structure for it.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
