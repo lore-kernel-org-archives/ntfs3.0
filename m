@@ -1,105 +1,140 @@
-Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr [80.12.242.125])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C396A2CA5
-	for <ntfs3@lists.linux.dev>; Sun,  3 Jul 2022 20:41:38 +0000 (UTC)
-Received: from [192.168.1.18] ([90.11.190.129])
-	by smtp.orange.fr with ESMTPA
-	id 86PIo6R3j5ohR86PIo6kvF; Sun, 03 Jul 2022 22:41:30 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Sun, 03 Jul 2022 22:41:30 +0200
-X-ME-IP: 90.11.190.129
-Message-ID: <effcd39c-7f86-5f69-0663-4b81015cfc7c@wanadoo.fr>
-Date: Sun, 3 Jul 2022 22:41:27 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A22515A2
+	for <ntfs3@lists.linux.dev>; Mon,  4 Jul 2022 04:28:33 +0000 (UTC)
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2643jHaL012941;
+	Mon, 4 Jul 2022 04:28:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=VMtwyktu+dJ4wzEnFU0hwQW3sEjaFjy4E0H7JQ9GIRE=;
+ b=k4IDoj46aQAEJAJZRUqLNTIW+8j/+yHieq96vrozq+I2bci6oBgfp7O5Z62SvMLfsWxu
+ Ypwjk9Uvdy0SzRIz3ESdDU7Aj01LBMV6kBlwOZVjFDZG8l1/EjTLJPveZwXbdsfdDGh/
+ bq/hY1iwNAeHeg1NitHtFWuleUPUZKS8LD6IjxpOzl5TJxSpibqG+0X8+ORdzFoPoSP5
+ TjlovfGhl/hxNCdicYMf4WfdQmpVmjwsrL2UXCNWtMc5763c4hfeM+3ztkfYETH9dRS0
+ bb5DXJn+LxHPnoa716MRcpmg2Vp6gARE7juZY4vl7Ow2nQt0wiJeGqztDqrSkhN96oqv Zw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h3rk1gn7t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 04 Jul 2022 04:28:30 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2644PL7g024924;
+	Mon, 4 Jul 2022 04:28:30 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h3rk1gn7d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 04 Jul 2022 04:28:30 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+	by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2644LRBF003174;
+	Mon, 4 Jul 2022 04:28:27 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+	by ppma04ams.nl.ibm.com with ESMTP id 3h2dn924a8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 04 Jul 2022 04:28:27 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+	by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2644SOPL10092988
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 4 Jul 2022 04:28:24 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 897875204F;
+	Mon,  4 Jul 2022 04:28:24 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 7680C5204E;
+	Mon,  4 Jul 2022 04:28:24 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 55398)
+	id 30422E022D; Mon,  4 Jul 2022 06:28:24 +0200 (CEST)
+Date: Mon, 4 Jul 2022 06:28:24 +0200
+From: Vineeth Vijayan <vneethv@linux.ibm.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: agk@redhat.com, snitzer@kernel.org, dm-devel@redhat.com,
+        oberpar@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com,
+        almaz.alexandrovich@paragon-software.com, yury.norov@gmail.com,
+        linux@rasmusvillemoes.dk, linux-s390@vger.kernel.org,
+        ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH 1/4] s390/cio: Rename bitmap_size() as idset_bitmap_size()
+Message-ID: <YsJsaLy5PDzMOvTo@tuxmaker.boeblingen.de.ibm.com>
+References: <cover.1656785856.git.christophe.jaillet@wanadoo.fr>
+ <3f2ad7fb91948525f6c52e0d36ec223cd3049c88.1656785856.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 3/4] bitmap: Introduce bitmap_size()
-Content-Language: en-US
-To: Yury Norov <yury.norov@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: agk@redhat.com, snitzer@kernel.org, dm-devel@redhat.com,
- vneethv@linux.ibm.com, oberpar@linux.ibm.com, hca@linux.ibm.com,
- gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
- svens@linux.ibm.com, almaz.alexandrovich@paragon-software.com,
- linux@rasmusvillemoes.dk, linux-s390@vger.kernel.org, ntfs3@lists.linux.dev,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <cover.1656785856.git.christophe.jaillet@wanadoo.fr>
- <98f5d3d855a9c687ccc035edf62016b02a6876b7.1656785856.git.christophe.jaillet@wanadoo.fr>
- <YsC0GpltMVaCPhkJ@yury-laptop>
- <4dc5d50a-2291-1d3a-efac-3f6378a15d69@wanadoo.fr>
- <YsGz1Xp0RDM5ZhVY@smile.fi.intel.com> <YsHqRDfCQVwyA2m1@yury-laptop>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <YsHqRDfCQVwyA2m1@yury-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3f2ad7fb91948525f6c52e0d36ec223cd3049c88.1656785856.git.christophe.jaillet@wanadoo.fr>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: eAg0oUXfuRnB6456bOXSml23Gr8U_wzs
+X-Proofpoint-GUID: qjZ0nfzdInS6KSnT9L43sDps6GYuPudN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-04_03,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ lowpriorityscore=0 mlxlogscore=717 suspectscore=0 malwarescore=0
+ bulkscore=0 adultscore=0 impostorscore=0 priorityscore=1501 clxscore=1011
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2207040016
 
-Le 03/07/2022 à 21:13, Yury Norov a écrit :
-> On Sun, Jul 03, 2022 at 06:20:53PM +0300, Andy Shevchenko wrote:
->> On Sun, Jul 03, 2022 at 08:50:19AM +0200, Christophe JAILLET wrote:
->>> Le 02/07/2022 à 23:09, Yury Norov a écrit :
->>>> On Sat, Jul 02, 2022 at 08:29:36PM +0200, Christophe JAILLET wrote:
->>
->> ...
->>
->>>> This should be dropped, for sure, and kmalloc() at line 128 should be
->>>> replaced with bitmap_alloc().
->>>
->>> This kmalloc() is for a structure and a flexible array.
->>>
->>> You mean re-arranging the code to allocate the structure alone at first,
->>> then the bitmap?
+On Sat, Jul 02, 2022 at 08:29:09PM +0200, Christophe JAILLET wrote:
+> In order to introduce a bitmap_size() function in the bitmap API, we have
+> to rename functions with a similar name.
 > 
-> We can change struct primes to:
->          struct primes {
->                  struct rcu_head rcu;
->                  unsigned long last, sz;
->                  unsigned long *primes;
->          };
+> Add a "idset_" prefix and change bitmap_size() into idset_bitmap_size().
 > 
-> And then either allocate twice:
->          new = kmalloc(sizeof(struct primes);
->          new->primes = bitmap_alloc(sz);
+> No functional change.
 > 
-> Or keep the same struct primes for all expansions, and just allocate
-> new bitmap for ->primes when needed. This is what I meant.
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>  drivers/s390/cio/idset.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> This a bit deeper rework, but it addresses Andy's concern about excessive
-> fragmentation. (Did anyone before complain? Is it measurable?)
-> 
->> It's one way, but it will increase fragmentation of memory. The other one
->> as it seems to me is to name a new API properly, i.e. bitmap_size_to_bytes().
->>
->> In such case you won't need renames to begin with. And then would be able
->> to convert driver-by-driver in cases of duplicated code.
->>
->> I think that's what confused Yuri and I kinda agree that bitmap_size() should
->> return bits, and not bytes. Also argument for pure bitmap_size() would be
->> bitmap itself, but we have no way to detect the length of bitmap because we
->> are using POD and not a specific data structure for it.
-> 
-> bitmap_size_to_bytes() sounds better. How many places in the kernel
-> do we have where we can't simply use bitmap_alloc(), and need this
-> machinery? If this is the only one, I'd prefer to switch it to
-> bitmap_alloc() instead.
+> diff --git a/drivers/s390/cio/idset.c b/drivers/s390/cio/idset.c
+> index 45f9c0736be4..e1e77fe080bf 100644
+> --- a/drivers/s390/cio/idset.c
+> +++ b/drivers/s390/cio/idset.c
+> @@ -16,7 +16,7 @@ struct idset {
+>  	unsigned long bitmap[];
+>  };
+>  
+> -static inline unsigned long bitmap_size(int num_ssid, int num_id)
+> +static inline unsigned long idset_bitmap_size(int num_ssid, int num_id)
+>  {
+>  	return BITS_TO_LONGS(num_ssid * num_id) * sizeof(unsigned long);
+>  }
+> @@ -25,11 +25,11 @@ static struct idset *idset_new(int num_ssid, int num_id)
+>  {
+>  	struct idset *set;
+>  
+> -	set = vmalloc(sizeof(struct idset) + bitmap_size(num_ssid, num_id));
+> +	set = vmalloc(sizeof(struct idset) + idset_bitmap_size(num_ssid, num_id));
+>  	if (set) {
+>  		set->num_ssid = num_ssid;
+>  		set->num_id = num_id;
+> -		memset(set->bitmap, 0, bitmap_size(num_ssid, num_id));
+> +		memset(set->bitmap, 0, idset_bitmap_size(num_ssid, num_id));
+>  	}
+>  	return set;
+>  }
 
-I'll spot some places that would require a bitmap_size_to_bytes().
+Thank you CJ for this patchset.
+As pointed out by others, it would be great to directly use tthe
+bitmap-APIs instead of having an intermediate patch, which renames the
+functions. As you mentioned, it is minimal, but the otherway would be
+better for maintainability.
 
-This way, we'll have some more information to decide if:
-    - bitmap_size_to_bytes() makes sense or not
-    - other helper functions are better suited
-    - these places need some rework to use the existing API
-
-CJ
-
+> @@ -41,7 +41,7 @@ void idset_free(struct idset *set)
+>  
+>  void idset_fill(struct idset *set)
+>  {
+> -	memset(set->bitmap, 0xff, bitmap_size(set->num_ssid, set->num_id));
+> +	memset(set->bitmap, 0xff, idset_bitmap_size(set->num_ssid, set->num_id));
+>  }
+>  
+>  static inline void idset_add(struct idset *set, int ssid, int id)
+> -- 
+> 2.34.1
 > 
-> Thanks,
-> Yury
-> 
-
