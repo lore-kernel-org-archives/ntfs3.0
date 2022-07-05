@@ -1,79 +1,76 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FE846BF
-	for <ntfs3@lists.linux.dev>; Mon,  4 Jul 2022 18:53:22 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id r81-20020a1c4454000000b003a0297a61ddso8493323wma.2
-        for <ntfs3@lists.linux.dev>; Mon, 04 Jul 2022 11:53:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9041833C7
+	for <ntfs3@lists.linux.dev>; Tue,  5 Jul 2022 13:31:21 +0000 (UTC)
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id D0F441E39;
+	Tue,  5 Jul 2022 13:30:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=T1YetwhZb3OgibIUGFFuv352SwQk2UY8NZnYhEM765U=;
-        b=lNmrkBXzGPjuvDVI9s8mP5gy3z8tuSbD3fF5goEhL+xcTBkDvxLphfho2IGzOMVnFE
-         PRS4P3AwX8EKEkrn5c9JBZX7JrNoc0o2mKo8QFgx/CTByvzT282a6O5kjKgRyOAqx/rl
-         Iepu4fPVQ1F7LnhPqKkuYTowGsthDaO4IE7nGUtszRw5+x3Wfz3yJA2eb1LoHb/GmBzi
-         7GIvfxBSrRgw+l3YG3dV8+Mn29s/ewYutcOlpfAVPI6Ss5SyrFXrAy0jYtPMSmrvmR7O
-         EXNaMbXXzPcgf4Q0khCAgh9C+poLbndlE1zaveKYow1JLUsBpRU42bcDdrwS994bYRy+
-         sAKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=T1YetwhZb3OgibIUGFFuv352SwQk2UY8NZnYhEM765U=;
-        b=Jl47uvmhDbFxa/tRhDdYVMYQH2Fi1Ao1pKv2d7sIm9pQJ8QWx+ofvUTmH5wd0/m6pt
-         p0jVwf9ZedGToFT2JP2alwF8JkJ0pi/TDY6gezFXVWSyAC5z4NIkGcqhX1XNnkwlrMPn
-         rzUg2/V8guL7sJzUkEzoLo8NSITtcWJ1yqUHhH5h2Denvo5cKDE/rbwApURfeOixrm4Z
-         Npr1OLXHxvRu15KKH19/39htDCQVC26t3Jra7b3di69eJQsuBGYgtJqZXx7R1t+IrAeK
-         4+gZktBuq3Ym0H9RZgBHAsW/JYYFBRpVWwdSEtvYCI0ShY879yLJrKjYm0td0ZBs4JpB
-         /yiA==
-X-Gm-Message-State: AJIora/r0iZAL44GFNxLqcEkhkNdkICbPyFx1aLuCgZHvEWusG0qNQ10
-	9vdfQ+yQIBFuA93Sxar+noY=
-X-Google-Smtp-Source: AGRyM1vrBQHyhEqZZoyA4hn6r7CWyFalKKLaQYe4c6q+MWprWZDioffoMIe1RQn59/cE20iBV1Leyg==
-X-Received: by 2002:a05:600c:2315:b0:3a1:772e:b9a6 with SMTP id 21-20020a05600c231500b003a1772eb9a6mr29213575wmo.34.1656960800853;
-        Mon, 04 Jul 2022 11:53:20 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id by13-20020a056000098d00b0021b89f8662esm7273877wrb.13.2022.07.04.11.53.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jul 2022 11:53:20 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] fs/ntfs3: remove duplicated assignment to variable r
-Date: Mon,  4 Jul 2022 19:53:19 +0100
-Message-Id: <20220704185319.592631-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.35.3
+	d=paragon-software.com; s=mail; t=1657027812;
+	bh=tXgr5Hqp5H2iD+PQI9Vm2wRIGpuc9+y5lPyxRPwiv3E=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=oIlS1TPq5mkYb/ry3WG2OWTjFuwDFF7PnOnL526QB0ntSaonh78C64JwWRwjof4dv
+	 ZAxNToo1e/t+4qL6ophbeOnGKfvxTkeeH71DlLb2QeWu9aH+jPy/A/55XOzgG5WC9s
+	 NNOfOH2O/lSdlecziXhMV0tJ3dg+Wh6TOVG+FcO0=
+Received: from [172.30.8.65] (172.30.8.65) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 5 Jul 2022 16:31:13 +0300
+Message-ID: <2a329e2e-d00b-28c5-7ab9-d9ce8bb543d2@paragon-software.com>
+Date: Tue, 5 Jul 2022 16:31:12 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] fs/ntfs3: unlock on error in attr_insert_range()
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@oracle.com>
+CC: <ntfs3@lists.linux.dev>, <kernel-janitors@vger.kernel.org>
+References: <Yr2g4N+3Xf9X7Hgn@kili>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <Yr2g4N+3Xf9X7Hgn@kili>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.30.8.65]
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-The assignment to variable r is duplicated, the second assignment
-is redundant and can be removed.
+On 6/30/22 16:10, Dan Carpenter wrote:
+> This error path needs to call up_write(&ni->file.run_lock) and do some
+> other clean up before returning.
+> 
+> Fixes: aa30eccb24e5 ("fs/ntfs3: Fallocate (FALLOC_FL_INSERT_RANGE) implementation")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> This patch is based on static analysis.  I'm pretty sure that unlocking
+> is the correct thing and, of course, I try to not send patches that
+> introduce bugs.  But it's untested and needs to be reviewed extra
+> carefully.
+> 
+>   fs/ntfs3/attrib.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+> index 86e688b95ad5..3e9aefcb3e6c 100644
+> --- a/fs/ntfs3/attrib.c
+> +++ b/fs/ntfs3/attrib.c
+> @@ -2153,8 +2153,10 @@ int attr_insert_range(struct ntfs_inode *ni, u64 vbo, u64 bytes)
+>   		le_b = NULL;
+>   		attr_b = ni_find_attr(ni, NULL, &le_b, ATTR_DATA, NULL, 0, NULL,
+>   				      &mi_b);
+> -		if (!attr_b)
+> -			return -ENOENT;
+> +		if (!attr_b) {
+> +			err = -ENOENT;
+> +			goto out;
+> +		}
+>   		if (!attr_b->non_res) {
+>   			err = -EINVAL;
+>   			goto out;
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- fs/ntfs3/run.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
-index 7609d45a2d72..aba8ab1b9fcb 100644
---- a/fs/ntfs3/run.c
-+++ b/fs/ntfs3/run.c
-@@ -563,7 +563,6 @@ bool run_insert_range(struct runs_tree *run, CLST vcn, CLST len)
- 	e = run->runs + run->count;
- 	r = run->runs + index;
- 
--	r = run->runs + index;
- 	if (vcn > r->vcn)
- 		r += 1;
- 
--- 
-2.35.3
-
+Applied, thanks!
