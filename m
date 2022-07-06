@@ -1,24 +1,34 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E5E33C7
-	for <ntfs3@lists.linux.dev>; Tue,  5 Jul 2022 13:34:19 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id E5F471E39;
-	Tue,  5 Jul 2022 13:33:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D271D5381
+	for <ntfs3@lists.linux.dev>; Wed,  6 Jul 2022 16:10:19 +0000 (UTC)
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 5060420FD;
+	Wed,  6 Jul 2022 16:09:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1657027997;
-	bh=MFERf1XEK+8Zqa9iJXsrH9Wb2AmYnu6f21K7ML0QXkM=;
-	h=Date:Subject:From:To:CC:References:In-Reply-To;
-	b=MKbn2bcjz1aZEmrfxN69RywlpL+7dqR1AjMgkktDq98dxZjvFNDCbDHMbHHOTxeDJ
-	 pHt86ntpn/tmzBbCYnFqRmRnH/gNfd5ownnhNzOc0S3CfGJQRpN5RQju+HlQ+xGbB8
-	 Ympx1PZ0LScat8NMeUxGnPo90ljDs59Kwxj/sQkI=
+	d=paragon-software.com; s=mail; t=1657123749;
+	bh=3YGmqJNC0z7ScYj2kVJNbbiNALnLk+mxn85TugXCSlA=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=u1epzL3nN66SkYQHBd4EtdtJfXIMoqWNbKvtkgcgrExwj2q4qrSfjIcjPZ2A/3LWM
+	 ON1zVOsAyV90JWfJbadrYJE/JhzPBOSIDczCdpyS47/u3L9QlE0T7vWimhZRnCxRRR
+	 zpWYux0ywl7T/JiAp/+7WCLkq2Bn2zJfB82GW5Ys=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id F1680455;
+	Wed,  6 Jul 2022 16:10:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1657123810;
+	bh=3YGmqJNC0z7ScYj2kVJNbbiNALnLk+mxn85TugXCSlA=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=mfpEIpZz5ZxE3WG/P96wN4o/7POQNRlQKL5cBudOqvddgThhADHL8nJluTiQFv2sM
+	 fuK2VkaqtfiQSoqi3qjlnBsA+6oAWuDnza2K5Yvk9z+nUVBXGyDi99qfaWe7TI7Y39
+	 lubxFlVyRVqGEoI6JAFUpYecTwObg8DXnbsQkgPw=
 Received: from [172.30.8.65] (172.30.8.65) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 5 Jul 2022 16:34:17 +0300
-Message-ID: <b006448b-811f-a188-5bae-a7f9279a326b@paragon-software.com>
-Date: Tue, 5 Jul 2022 16:34:16 +0300
+ 15.1.2375.7; Wed, 6 Jul 2022 19:10:10 +0300
+Message-ID: <7a1f5139-fe5d-2b9b-7738-d2283599cdfb@paragon-software.com>
+Date: Wed, 6 Jul 2022 19:10:10 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,67 +37,43 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] ntfs3: fix NULL deref in ntfs_update_mftmirr
+Subject: Re: [PATCH] fs/ntfs3/indx: Remove unnecessary 'NULL' values from
+ Pointer
 Content-Language: en-US
+To: Li kunyu <kunyu@nfschina.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20220704103113.5529-1-kunyu@nfschina.com>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: Pavel Skripkin <paskripkin@gmail.com>, <ntfs3@lists.linux.dev>
-CC: <syzbot+c95173762127ad76a824@syzkaller.appspotmail.com>,
-	<linux-kernel@vger.kernel.org>
-References: <85293dd018cae78e4d48d74ca77710b11eed59ba.1650574393.git.paskripkin@gmail.com>
- <89d2979c-7e8a-f63f-327e-1969a4c03c11@gmail.com>
- <7bfc9b09-e7ee-d781-5ea3-ac31d42c34e1@paragon-software.com>
-In-Reply-To: <7bfc9b09-e7ee-d781-5ea3-ac31d42c34e1@paragon-software.com>
+In-Reply-To: <20220704103113.5529-1-kunyu@nfschina.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [172.30.8.65]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 6/9/22 19:42, Konstantin Komarov wrote:
+On 7/4/22 13:31, Li kunyu wrote:
+> Pointer variables allocate memory first, and then judge. There is no
+> need to initialize the assignment.
 > 
+> Signed-off-by: Li kunyu <kunyu@nfschina.com>
+> ---
+>   fs/ntfs3/index.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> On 6/4/22 14:42, Pavel Skripkin wrote:
->> On 4/21/22 23:53, Pavel Skripkin wrote:
->>> If ntfs_fill_super() wasn't called then sbi->sb will be equal to NULL.
->>> Code should check this ptr before dereferencing. Syzbot hit this issue
->>> via passing wrong mount param as can be seen from log below
->>>
->>> Fail log:
->>> ntfs3: Unknown parameter 'iochvrset'
->>> general protection fault, probably for non-canonical address 0xdffffc0000000003: 0000 [#1] PREEMPT SMP KASAN
->>> KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
->>> CPU: 1 PID: 3589 Comm: syz-executor210 Not tainted 5.18.0-rc3-syzkaller-00016-gb253435746d9 #0
->>> ...
->>> Call Trace:
->>>   <TASK>
->>>   put_ntfs+0x1ed/0x2a0 fs/ntfs3/super.c:463
->>>   ntfs_fs_free+0x6a/0xe0 fs/ntfs3/super.c:1363
->>>   put_fs_context+0x119/0x7a0 fs/fs_context.c:469
->>>   do_new_mount+0x2b4/0xad0 fs/namespace.c:3044
->>>   do_mount fs/namespace.c:3383 [inline]
->>>   __do_sys_mount fs/namespace.c:3591 [inline]
->>>
->>> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
->>> Reported-and-tested-by: syzbot+c95173762127ad76a824@syzkaller.appspotmail.com
->>> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
->>
->> gentle ping
->>
->>
->>
->>
->> With regards,
->> Pavel Skripkin
-> 
-> 1st patch is correct.
-> 2nd patch is a good catch, but I'm not sure if simply ignoring is good.
-> If mftmirr is broken / missing, then theoretically we can continue working.
-> But still it's a major fs error.
-> I'm thinking about exiting mount with error, and if "force" is present,
-> then continue with mount.
-> I'll reply again when I'll be sure what is correct behavior.
-> Thank you for your work!
+> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+> index 6f81e3a49abf..b5c92b6ce01c 100644
+> --- a/fs/ntfs3/index.c
+> +++ b/fs/ntfs3/index.c
+> @@ -1685,8 +1685,8 @@ indx_insert_into_buffer(struct ntfs_index *indx, struct ntfs_inode *ni,
+>   {
+>   	int err;
+>   	const struct NTFS_DE *sp;
+> -	struct NTFS_DE *e, *de_t, *up_e = NULL;
+> -	struct indx_node *n2 = NULL;
+> +	struct NTFS_DE *e, *de_t, *up_e;
+> +	struct indx_node *n2;
+>   	struct indx_node *n1 = fnd->nodes[level];
+>   	struct INDEX_HDR *hdr1 = &n1->index->ihdr;
+>   	struct INDEX_HDR *hdr2;
 
-I've accepted both patches.
-I don't want to invent convoluted logic for mftmirr.
-Thanks again for your work!
+Thanks for patch, applied!
