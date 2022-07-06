@@ -1,34 +1,34 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D271D5381
-	for <ntfs3@lists.linux.dev>; Wed,  6 Jul 2022 16:10:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E557258B
+	for <ntfs3@lists.linux.dev>; Wed,  6 Jul 2022 17:31:29 +0000 (UTC)
 Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 5060420FD;
-	Wed,  6 Jul 2022 16:09:09 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id B5F7E1D06;
+	Wed,  6 Jul 2022 17:30:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1657123749;
-	bh=3YGmqJNC0z7ScYj2kVJNbbiNALnLk+mxn85TugXCSlA=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=u1epzL3nN66SkYQHBd4EtdtJfXIMoqWNbKvtkgcgrExwj2q4qrSfjIcjPZ2A/3LWM
-	 ON1zVOsAyV90JWfJbadrYJE/JhzPBOSIDczCdpyS47/u3L9QlE0T7vWimhZRnCxRRR
-	 zpWYux0ywl7T/JiAp/+7WCLkq2Bn2zJfB82GW5Ys=
+	d=paragon-software.com; s=mail; t=1657128624;
+	bh=TxFto+XyTzzpSGbGmxKAFRhYC4BH97NHqyyBDVSPC14=;
+	h=Date:To:CC:From:Subject;
+	b=TOFZ47Jv8S/zLdB944jKEvgNjZK9KpdRFOCxO0fRq1KgkVW3bsQAKBne5Dvz4SI7w
+	 PHCwZpHnfn+7LL5gK8jvB3Vkp3HU27uRo8ttsiQQ4YEOqdFNGhqB3MX4mb0vOlpn8r
+	 uMQdNcwaP2KCpTXO8Rml66BrUgHaxchfd5YAE4Co=
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id F1680455;
-	Wed,  6 Jul 2022 16:10:10 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 6FC762133;
+	Wed,  6 Jul 2022 17:31:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1657123810;
-	bh=3YGmqJNC0z7ScYj2kVJNbbiNALnLk+mxn85TugXCSlA=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=mfpEIpZz5ZxE3WG/P96wN4o/7POQNRlQKL5cBudOqvddgThhADHL8nJluTiQFv2sM
-	 fuK2VkaqtfiQSoqi3qjlnBsA+6oAWuDnza2K5Yvk9z+nUVBXGyDi99qfaWe7TI7Y39
-	 lubxFlVyRVqGEoI6JAFUpYecTwObg8DXnbsQkgPw=
+	d=paragon-software.com; s=mail; t=1657128686;
+	bh=TxFto+XyTzzpSGbGmxKAFRhYC4BH97NHqyyBDVSPC14=;
+	h=Date:To:CC:From:Subject;
+	b=uV4GCvSLVBrIjnxduhw1q78x8XN27Sq7LdiktiX55UKoKVLD0vS+tlJnhckIbbo50
+	 FFuE7Y57cZ9drf9mrz5hqY7bttGnqJpel8JftbvaAqmaAB/KLEg/0XX2FvIjcGQlE0
+	 bGmwPfc5pq5bz714eF1eg9/ppjgMcoqNst+vBLKs=
 Received: from [172.30.8.65] (172.30.8.65) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 6 Jul 2022 19:10:10 +0300
-Message-ID: <7a1f5139-fe5d-2b9b-7738-d2283599cdfb@paragon-software.com>
-Date: Wed, 6 Jul 2022 19:10:10 +0300
+ 15.1.2375.7; Wed, 6 Jul 2022 20:31:26 +0300
+Message-ID: <d578fcbe-e1f7-ffc7-2535-52eecb271a01@paragon-software.com>
+Date: Wed, 6 Jul 2022 20:31:25 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -37,43 +37,31 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] fs/ntfs3/indx: Remove unnecessary 'NULL' values from
- Pointer
 Content-Language: en-US
-To: Li kunyu <kunyu@nfschina.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-References: <20220704103113.5529-1-kunyu@nfschina.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20220704103113.5529-1-kunyu@nfschina.com>
+Subject: [PATCH 0/2] fs/ntfs3: Refactoring and improving logic in run_pack
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [172.30.8.65]
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 7/4/22 13:31, Li kunyu wrote:
-> Pointer variables allocate memory first, and then judge. There is no
-> need to initialize the assignment.
-> 
-> Signed-off-by: Li kunyu <kunyu@nfschina.com>
-> ---
->   fs/ntfs3/index.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-> index 6f81e3a49abf..b5c92b6ce01c 100644
-> --- a/fs/ntfs3/index.c
-> +++ b/fs/ntfs3/index.c
-> @@ -1685,8 +1685,8 @@ indx_insert_into_buffer(struct ntfs_index *indx, struct ntfs_inode *ni,
->   {
->   	int err;
->   	const struct NTFS_DE *sp;
-> -	struct NTFS_DE *e, *de_t, *up_e = NULL;
-> -	struct indx_node *n2 = NULL;
-> +	struct NTFS_DE *e, *de_t, *up_e;
-> +	struct indx_node *n2;
->   	struct indx_node *n1 = fnd->nodes[level];
->   	struct INDEX_HDR *hdr1 = &n1->index->ihdr;
->   	struct INDEX_HDR *hdr2;
+2 patches:
+- some comments and making function static;
+- improving speed of run_pack by checking runs in advance
 
-Thanks for patch, applied!
+Konstantin Komarov (2):
+   fs/ntfs3: Added comments to frecord functions
+   fs/ntfs3: Check possible errors in run_pack in advance
+
+  fs/ntfs3/bitmap.c  |  3 +--
+  fs/ntfs3/frecord.c |  8 ++++----
+  fs/ntfs3/ntfs_fs.h |  1 -
+  fs/ntfs3/run.c     | 41 +++++++++++++++++++++++------------------
+  4 files changed, 28 insertions(+), 25 deletions(-)
+
+-- 
+2.37.0
+
