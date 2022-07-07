@@ -1,139 +1,64 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055654A3D
-	for <ntfs3@lists.linux.dev>; Wed,  6 Jul 2022 17:33:14 +0000 (UTC)
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 139A21D06;
-	Wed,  6 Jul 2022 17:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1657128731;
-	bh=LgQprGKfPWWuIWgll8EWNs0wlfhTJEIbWh1bL9GAuCI=;
-	h=Date:Subject:From:To:CC:References:In-Reply-To;
-	b=oDBtcpPS2VLw6xbG4fTzvuM3c72F+gQXF1y9LLiTqTh3O6P+geSF4SBaRIqhFRYVk
-	 qMe/e7i1yhc0Hbz6irA3TTDoC2efuJeaekfOdF/AvgBg2ly6T1nH+eh8wPsDKlGoqE
-	 ag3r+vwIiy1NVKSmFoqgK3n+oCU/bGmGiquvG/44=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id BEAC92133;
-	Wed,  6 Jul 2022 17:33:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1657128792;
-	bh=LgQprGKfPWWuIWgll8EWNs0wlfhTJEIbWh1bL9GAuCI=;
-	h=Date:Subject:From:To:CC:References:In-Reply-To;
-	b=t+uPJMkAnFdfLNFSKZnSIx+x3gvlKrH69UgQy6X+gRUooNaEd/DDOkuku1YDKoY2u
-	 qx6QvgmvwJUYInctEPGG/5EWtp5048G8PlyUqn8FxSO12r59vo4VanvHvATIL03kS8
-	 A1EsDEhCNaZEUlBXs7vDeXI5b2/7XpOsNExyQTMA=
-Received: from [172.30.8.65] (172.30.8.65) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 6 Jul 2022 20:33:12 +0300
-Message-ID: <1e532f1e-1ba5-11a8-8cb1-100b5c3a0f3b@paragon-software.com>
-Date: Wed, 6 Jul 2022 20:33:12 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C2A7C
+	for <ntfs3@lists.linux.dev>; Thu,  7 Jul 2022 04:42:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=AbIgiz4HdWTHJrDcwgiMjNLozJ+fa1Um61VNXrTWXuw=; b=JLXuMSRapJzauQSgyJpNyTpYAj
+	FHX1E3ZNecpiiGROvvfEp8SwwbAs3xM7y7Gtww8T317u7YSPOLnT7Om54pv+VxZCzOcBD9Wf617/U
+	yOM3KkO/FIEZ72d73h5KUdTJADuM8/wuU5dGtUEIr5/LNK4TbRZbdy1IB+ApOtViLobIewkOar6fx
+	R3cwAKogG84EkVmlNXr2awmyI///KOGitJJfgjGOjUVyoRiDbY1Blylwee9XOgx/Ql13EuncLaMeN
+	BEww+BEZ9E4q+i0/JKMTPE9dGNbmok0FTBvCd/LTdoUoZvgdVi9X+x9JeWzH7MYTDSb8xYIOZYUSB
+	ZG3eBhbw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o9JLc-00DW1r-FB; Thu, 07 Jul 2022 04:42:40 +0000
+Date: Wed, 6 Jul 2022 21:42:40 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 0/2] fs/ntfs3: Refactoring and improving logic in run_pack
+Message-ID: <YsZkQAsKC6qxY8gi@infradead.org>
+References: <d578fcbe-e1f7-ffc7-2535-52eecb271a01@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: [PATCH 2/2] fs/ntfs3: Check possible errors in run_pack in advance
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-References: <d578fcbe-e1f7-ffc7-2535-52eecb271a01@paragon-software.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <d578fcbe-e1f7-ffc7-2535-52eecb271a01@paragon-software.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.30.8.65]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Checking in advance speeds things up in some cases.
+Hi Konstantin,
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
----
-  fs/ntfs3/run.c | 39 ++++++++++++++++++++++-----------------
-  1 file changed, 22 insertions(+), 17 deletions(-)
+now that you have time to actively work on the ntfs3 driver again, can
+you consider looking into converting the I/O path to iomap, as already
+request during the merge?  Getting drivers off the old buffer head based
+I/O helpers is something we need to address in the coming years, so
+any relatively simple and actually maintained file system would be a
+good start.
 
-diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
-index 95fb9d739706..e4bd46b02531 100644
---- a/fs/ntfs3/run.c
-+++ b/fs/ntfs3/run.c
-@@ -821,26 +821,36 @@ int run_pack(const struct runs_tree *run, CLST svcn, CLST len, u8 *run_buf,
-  	CLST next_vcn, vcn, lcn;
-  	CLST prev_lcn = 0;
-  	CLST evcn1 = svcn + len;
-+	const struct ntfs_run *r, *r_end;
-  	int packed_size = 0;
-  	size_t i;
--	bool ok;
-  	s64 dlcn;
-  	int offset_size, size_size, tmp;
-  
--	next_vcn = vcn = svcn;
--
-  	*packed_vcns = 0;
-  
-  	if (!len)
-  		goto out;
-  
--	ok = run_lookup_entry(run, vcn, &lcn, &len, &i);
-+	/* Check all required entries [svcn, encv1) available. */
-+	if (!run_lookup(run, svcn, &i))
-+		return -ENOENT;
-  
--	if (!ok)
--		goto error;
-+	r_end = run->runs + run->count;
-+	r = run->runs + i;
-  
--	if (next_vcn != vcn)
--		goto error;
-+	for (next_vcn = r->vcn + r->len; next_vcn < evcn1;
-+	     next_vcn = r->vcn + r->len) {
-+		if (++r >= r_end || r->vcn != next_vcn)
-+			return -ENOENT;
-+	}
-+
-+	/* Repeat cycle above and pack runs. Assume no errors. */
-+	r = run->runs + i;
-+	len = svcn - r->vcn;
-+	vcn = svcn;
-+	lcn = r->lcn == SPARSE_LCN ? SPARSE_LCN : (r->lcn + len);
-+	len = r->len - len;
-  
-  	for (;;) {
-  		next_vcn = vcn + len;
-@@ -889,12 +899,10 @@ int run_pack(const struct runs_tree *run, CLST svcn, CLST len, u8 *run_buf,
-  		if (packed_size + 1 >= run_buf_size || next_vcn >= evcn1)
-  			goto out;
-  
--		ok = run_get_entry(run, ++i, &vcn, &lcn, &len);
--		if (!ok)
--			goto error;
--
--		if (next_vcn != vcn)
--			goto error;
-+		r += 1;
-+		vcn = r->vcn;
-+		lcn = r->lcn;
-+		len = r->len;
-  	}
-  
-  out:
-@@ -903,9 +911,6 @@ int run_pack(const struct runs_tree *run, CLST svcn, CLST len, u8 *run_buf,
-  		run_buf[0] = 0;
-  
-  	return packed_size + 1;
--
--error:
--	return -EOPNOTSUPP;
-  }
-  
-  /*
--- 
-2.37.0
-
-
+On Wed, Jul 06, 2022 at 08:31:25PM +0300, Konstantin Komarov wrote:
+> 2 patches:
+> - some comments and making function static;
+> - improving speed of run_pack by checking runs in advance
+> 
+> Konstantin Komarov (2):
+>   fs/ntfs3: Added comments to frecord functions
+>   fs/ntfs3: Check possible errors in run_pack in advance
+> 
+>  fs/ntfs3/bitmap.c  |  3 +--
+>  fs/ntfs3/frecord.c |  8 ++++----
+>  fs/ntfs3/ntfs_fs.h |  1 -
+>  fs/ntfs3/run.c     | 41 +++++++++++++++++++++++------------------
+>  4 files changed, 28 insertions(+), 25 deletions(-)
+> 
+> -- 
+> 2.37.0
+> 
+---end quoted text---
