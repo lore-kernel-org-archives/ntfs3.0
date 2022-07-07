@@ -1,64 +1,177 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C2A7C
-	for <ntfs3@lists.linux.dev>; Thu,  7 Jul 2022 04:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=AbIgiz4HdWTHJrDcwgiMjNLozJ+fa1Um61VNXrTWXuw=; b=JLXuMSRapJzauQSgyJpNyTpYAj
-	FHX1E3ZNecpiiGROvvfEp8SwwbAs3xM7y7Gtww8T317u7YSPOLnT7Om54pv+VxZCzOcBD9Wf617/U
-	yOM3KkO/FIEZ72d73h5KUdTJADuM8/wuU5dGtUEIr5/LNK4TbRZbdy1IB+ApOtViLobIewkOar6fx
-	R3cwAKogG84EkVmlNXr2awmyI///KOGitJJfgjGOjUVyoRiDbY1Blylwee9XOgx/Ql13EuncLaMeN
-	BEww+BEZ9E4q+i0/JKMTPE9dGNbmok0FTBvCd/LTdoUoZvgdVi9X+x9JeWzH7MYTDSb8xYIOZYUSB
-	ZG3eBhbw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9JLc-00DW1r-FB; Thu, 07 Jul 2022 04:42:40 +0000
-Date: Wed, 6 Jul 2022 21:42:40 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/2] fs/ntfs3: Refactoring and improving logic in run_pack
-Message-ID: <YsZkQAsKC6qxY8gi@infradead.org>
-References: <d578fcbe-e1f7-ffc7-2535-52eecb271a01@paragon-software.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D67439F
+	for <ntfs3@lists.linux.dev>; Thu,  7 Jul 2022 16:36:44 +0000 (UTC)
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 784E61D5D;
+	Thu,  7 Jul 2022 16:35:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1657211733;
+	bh=u1JrIeuaLqGDHjQvEYZJzgoBWDe5t+TsYMJ94XUgDBg=;
+	h=Date:To:CC:From:Subject;
+	b=W+iNGlFbw4MDmBwPubUZCsxpWZ+fz/CX4rpS+TTtMLNiESJIk9TygE/X0btO+npaM
+	 Ss3EjNCDGbjNNWFzx3m/5icfPJ1DBoE95G6jizg5yZz7jlsx9otB6rrzq2vJFTWLEa
+	 t9tdbun8vPeOpTSc2zfK4LLbZtU4J6lddI77vcjM=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 0BA4820F5;
+	Thu,  7 Jul 2022 16:36:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1657211796;
+	bh=u1JrIeuaLqGDHjQvEYZJzgoBWDe5t+TsYMJ94XUgDBg=;
+	h=Date:To:CC:From:Subject;
+	b=owc2eDIrKMMVinRIr3kOMRsMcHDcUeze6pEoD47ZnesYUKUsOpSo8lxdyaYk8iH0J
+	 t32gXu2IpRibhzDCiwDOZ+tvElEXIo3M8Tzlrs3PcvG4CIq3mgLEJXlYtQpcpTe2H+
+	 F9W08ArWyQ1cwsEg/ssQ/XWxqJMI3KHUP/ZFWt/0=
+Received: from [172.30.8.65] (172.30.8.65) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Thu, 7 Jul 2022 19:36:35 +0300
+Message-ID: <24343399-2866-2a52-ef86-3b1722fc04cd@paragon-software.com>
+Date: Thu, 7 Jul 2022 19:36:35 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d578fcbe-e1f7-ffc7-2535-52eecb271a01@paragon-software.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH] fs/ntfs3: Make MFT zone less fragmented
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.30.8.65]
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hi Konstantin,
+Now we take free space after the MFT zone if the MFT zone shrinks.
 
-now that you have time to actively work on the ntfs3 driver again, can
-you consider looking into converting the I/O path to iomap, as already
-request during the merge?  Getting drivers off the old buffer head based
-I/O helpers is something we need to address in the coming years, so
-any relatively simple and actually maintained file system would be a
-good start.
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+---
+  fs/ntfs3/fsntfs.c  | 39 +++++++++++++++++++++++++--------------
+  fs/ntfs3/ntfs_fs.h |  1 +
+  fs/ntfs3/super.c   |  7 +++++++
+  3 files changed, 33 insertions(+), 14 deletions(-)
 
-On Wed, Jul 06, 2022 at 08:31:25PM +0300, Konstantin Komarov wrote:
-> 2 patches:
-> - some comments and making function static;
-> - improving speed of run_pack by checking runs in advance
-> 
-> Konstantin Komarov (2):
->   fs/ntfs3: Added comments to frecord functions
->   fs/ntfs3: Check possible errors in run_pack in advance
-> 
->  fs/ntfs3/bitmap.c  |  3 +--
->  fs/ntfs3/frecord.c |  8 ++++----
->  fs/ntfs3/ntfs_fs.h |  1 -
->  fs/ntfs3/run.c     | 41 +++++++++++++++++++++++------------------
->  4 files changed, 28 insertions(+), 25 deletions(-)
-> 
-> -- 
-> 2.37.0
-> 
----end quoted text---
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index c53dd4c9e47b..ed9a1b851ce9 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -783,7 +783,7 @@ int ntfs_clear_mft_tail(struct ntfs_sb_info *sbi, size_t from, size_t to)
+   */
+  int ntfs_refresh_zone(struct ntfs_sb_info *sbi)
+  {
+-	CLST zone_limit, zone_max, lcn, vcn, len;
++	CLST lcn, vcn, len;
+  	size_t lcn_s, zlen;
+  	struct wnd_bitmap *wnd = &sbi->used.bitmap;
+  	struct ntfs_inode *ni = sbi->mft.ni;
+@@ -792,16 +792,6 @@ int ntfs_refresh_zone(struct ntfs_sb_info *sbi)
+  	if (wnd_zone_len(wnd))
+  		return 0;
+  
+-	/*
+-	 * Compute the MFT zone at two steps.
+-	 * It would be nice if we are able to allocate 1/8 of
+-	 * total clusters for MFT but not more then 512 MB.
+-	 */
+-	zone_limit = (512 * 1024 * 1024) >> sbi->cluster_bits;
+-	zone_max = wnd->nbits >> 3;
+-	if (zone_max > zone_limit)
+-		zone_max = zone_limit;
+-
+  	vcn = bytes_to_cluster(sbi,
+  			       (u64)sbi->mft.bitmap.nbits << sbi->record_bits);
+  
+@@ -815,7 +805,7 @@ int ntfs_refresh_zone(struct ntfs_sb_info *sbi)
+  	lcn_s = lcn + 1;
+  
+  	/* Try to allocate clusters after last MFT run. */
+-	zlen = wnd_find(wnd, zone_max, lcn_s, 0, &lcn_s);
++	zlen = wnd_find(wnd, sbi->zone_max, lcn_s, 0, &lcn_s);
+  	if (!zlen) {
+  		ntfs_notice(sbi->sb, "MftZone: unavailable");
+  		return 0;
+@@ -1398,7 +1388,7 @@ int ntfs_write_bh(struct ntfs_sb_info *sbi, struct NTFS_RECORD_HEADER *rhdr,
+  		if (buffer_locked(bh))
+  			__wait_on_buffer(bh);
+  
+-		lock_buffer(nb->bh[idx]);
++		lock_buffer(bh);
+  
+  		bh_data = bh->b_data + off;
+  		end_data = Add2Ptr(bh_data, op);
+@@ -2427,7 +2417,7 @@ static inline void ntfs_unmap_and_discard(struct ntfs_sb_info *sbi, CLST lcn,
+  
+  void mark_as_free_ex(struct ntfs_sb_info *sbi, CLST lcn, CLST len, bool trim)
+  {
+-	CLST end, i;
++	CLST end, i, zone_len, zlen;
+  	struct wnd_bitmap *wnd = &sbi->used.bitmap;
+  
+  	down_write_nested(&wnd->rw_lock, BITMAP_MUTEX_CLUSTERS);
+@@ -2462,6 +2452,27 @@ void mark_as_free_ex(struct ntfs_sb_info *sbi, CLST lcn, CLST len, bool trim)
+  		ntfs_unmap_and_discard(sbi, lcn, len);
+  	wnd_set_free(wnd, lcn, len);
+  
++	/* append to MFT zone, if possible. */
++	zone_len = wnd_zone_len(wnd);
++	zlen = min(zone_len + len, sbi->zone_max);
++
++	if (zlen == zone_len) {
++		/* MFT zone already has maximum size. */
++	} else if (!zone_len) {
++		/* Create MFT zone. */
++		wnd_zone_set(wnd, lcn, zlen);
++	} else {
++		CLST zone_lcn = wnd_zone_bit(wnd);
++
++		if (lcn + len == zone_lcn) {
++			/* Append into head MFT zone. */
++			wnd_zone_set(wnd, lcn, zlen);
++		} else if (zone_lcn + zone_len == lcn) {
++			/* Append into tail MFT zone. */
++			wnd_zone_set(wnd, zone_lcn, zlen);
++		}
++	}
++
+  out:
+  	up_write(&wnd->rw_lock);
+  }
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index cf1fa69a0eb8..54c20700afd3 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -220,6 +220,7 @@ struct ntfs_sb_info {
+  
+  	u32 flags; // See NTFS_FLAGS_XXX.
+  
++	CLST zone_max; // Maximum MFT zone length in clusters
+  	CLST bad_clusters; // The count of marked bad clusters.
+  
+  	u16 max_bytes_per_attr; // Maximum attribute size in record.
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index eacea72ff92f..6fad173a8b8f 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -867,6 +867,13 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+  	sb->s_maxbytes = 0xFFFFFFFFull << sbi->cluster_bits;
+  #endif
+  
++	/*
++	 * Compute the MFT zone at two steps.
++	 * It would be nice if we are able to allocate 1/8 of
++	 * total clusters for MFT but not more then 512 MB.
++	 */
++	sbi->zone_max = min_t(CLST, 0x20000000 >> sbi->cluster_bits, clusters >> 3);
++
+  	err = 0;
+  
+  out:
+-- 
+2.37.0
+
