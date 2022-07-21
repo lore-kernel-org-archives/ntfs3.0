@@ -1,137 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out199-15.us.a.mail.aliyun.com (out199-15.us.a.mail.aliyun.com [47.90.199.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96821FA7
-	for <ntfs3@lists.linux.dev>; Wed, 20 Jul 2022 12:33:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9C0C3411E;
-	Wed, 20 Jul 2022 12:33:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658320386;
-	bh=Z4c82suRVc4GtGCbhpnDlMD+hZbL411UX1V6St46LPw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=SQhwbOIQP1Xw/KysKVUDtDqMwFP7yFLU76xvoCHpYoajLs3HlZqLXXbp7vstIn/uj
-	 NMVavLhVIyz5tYT3rUt3BF/mgF4R0M10as0Q3DPZbVroc2lZbcf5BrrvcwP/IE/P6S
-	 eg2UR2EjpACddywZnU+UHHSMDzVPMDeo8QfJBwa3+L6N9yGg9NDe5NIs8uDsVTuNXi
-	 bFXboxU2TForJRt4etKt139zv9cIKIZKKsNS26YTuweIdB5lPoFfFdpQDiTNg5JZfe
-	 M4RmIXv9zjjvMGZWts7ryvao/CHbR6OL0sRAgYzK32MdhH2D2OOuJTZ7fUwjG/wmT+
-	 UVA+aKWOf9lKQ==
-From: Christian Brauner <brauner@kernel.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH] ntfs: fix acl handling
-Date: Wed, 20 Jul 2022 14:32:52 +0200
-Message-Id: <20220720123252.686466-1-brauner@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF29623A0
+	for <ntfs3@lists.linux.dev>; Thu, 21 Jul 2022 03:34:39 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0VJzWb5G_1658373523;
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0VJzWb5G_1658373523)
+          by smtp.aliyun-inc.com;
+          Thu, 21 Jul 2022 11:18:52 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH] fs/ntfs3: Remove unused function wnd_bits
+Date: Thu, 21 Jul 2022 11:18:41 +0800
+Message-Id: <20220721031841.24571-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3790; h=from:subject; bh=Z4c82suRVc4GtGCbhpnDlMD+hZbL411UX1V6St46LPw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMSRd//qhSm/PPD/lKZJ1HxKFF2z7+FIqecPbtaeul08ucN1y qyZatKOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAidYUM/yzkKp2n7S0v7Q2a+GTyG6 +sH8umZcmU/fW6rDNfSWfmpJOMDKeqzH26Z7AycSc3X9vPpvkx4YL6t1vydTazD83Ktl8+kQMA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-While looking at our current POSIX ACL handling in the context of some
-overlayfs work I went through a range of other filesystems checking how they
-handle them currently and encountered ntfs3.
+Since the function wnd_bits is defined but not called in any file, it is
+a useless function, and we delete it in view of the brevity of the code.
 
-The posic_acl_{from,to}_xattr() helpers always need to operate on the
-filesystem idmapping. Since ntfs3 can only be mounted in the initial user
-namespace the relevant idmapping is init_user_ns.
+Remove some warnings found by running scripts/kernel-doc, which is
+caused by using 'make W=1'.
 
-The posix_acl_{from,to}_xattr() helpers are concerned with translating between
-the kernel internal struct posix_acl{_entry} and the uapi struct
-posix_acl_xattr_{header,entry} and the kernel internal data structure is cached
-filesystem wide.
+fs/ntfs3/bitmap.c:54:19: warning: unused function 'wnd_bits' [-Wunused-function].
 
-Additional idmappings such as the caller's idmapping or the mount's idmapping
-are handled higher up in the VFS. Individual filesystems usually do not need to
-concern themselves with these.
-
-The posix_acl_valid() helper is concerned with checking whether the values in
-the kernel internal struct posix_acl can be represented in the filesystem's
-idmapping. IOW, if they can be written to disk. So this helper too needs to
-take the filesystem's idmapping.
-
-Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev
-Signed-off-by: Christian Brauner (Microsoft) <brauner@kernel.org>
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- fs/ntfs3/xattr.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ fs/ntfs3/bitmap.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 5e0e0280e70d..3e9118705174 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -478,8 +478,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
+index e3b5680fd516..177c5bc53373 100644
+--- a/fs/ntfs3/bitmap.c
++++ b/fs/ntfs3/bitmap.c
+@@ -51,11 +51,6 @@ void ntfs3_exit_bitmap(void)
+ 	kmem_cache_destroy(ntfs_enode_cachep);
  }
  
- #ifdef CONFIG_NTFS3_FS_POSIX_ACL
--static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
--					 struct inode *inode, int type,
-+static struct posix_acl *ntfs_get_acl_ex(struct inode *inode, int type,
- 					 int locked)
- {
- 	struct ntfs_inode *ni = ntfs_i(inode);
-@@ -514,7 +513,7 @@ static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
- 
- 	/* Translate extended attribute to acl. */
- 	if (err >= 0) {
--		acl = posix_acl_from_xattr(mnt_userns, buf, err);
-+		acl = posix_acl_from_xattr(&init_user_ns, buf, err);
- 	} else if (err == -ENODATA) {
- 		acl = NULL;
- 	} else {
-@@ -537,8 +536,7 @@ struct posix_acl *ntfs_get_acl(struct inode *inode, int type, bool rcu)
- 	if (rcu)
- 		return ERR_PTR(-ECHILD);
- 
--	/* TODO: init_user_ns? */
--	return ntfs_get_acl_ex(&init_user_ns, inode, type, 0);
-+	return ntfs_get_acl_ex(inode, type, 0);
- }
- 
- static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
-@@ -595,7 +593,7 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
- 		value = kmalloc(size, GFP_NOFS);
- 		if (!value)
- 			return -ENOMEM;
--		err = posix_acl_to_xattr(mnt_userns, acl, value, size);
-+		err = posix_acl_to_xattr(&init_user_ns, acl, value, size);
- 		if (err < 0)
- 			goto out;
- 		flags = 0;
-@@ -641,7 +639,7 @@ static int ntfs_xattr_get_acl(struct user_namespace *mnt_userns,
- 	if (!acl)
- 		return -ENODATA;
- 
--	err = posix_acl_to_xattr(mnt_userns, acl, buffer, size);
-+	err = posix_acl_to_xattr(&init_user_ns, acl, buffer, size);
- 	posix_acl_release(acl);
- 
- 	return err;
-@@ -665,12 +663,12 @@ static int ntfs_xattr_set_acl(struct user_namespace *mnt_userns,
- 	if (!value) {
- 		acl = NULL;
- 	} else {
--		acl = posix_acl_from_xattr(mnt_userns, value, size);
-+		acl = posix_acl_from_xattr(&init_user_ns, value, size);
- 		if (IS_ERR(acl))
- 			return PTR_ERR(acl);
- 
- 		if (acl) {
--			err = posix_acl_valid(mnt_userns, acl);
-+			err = posix_acl_valid(&init_user_ns, acl);
- 			if (err)
- 				goto release_and_out;
- 		}
-
-base-commit: ff6992735ade75aae3e35d16b17da1008d753d28
+-static inline u32 wnd_bits(const struct wnd_bitmap *wnd, size_t i)
+-{
+-	return i + 1 == wnd->nwnd ? wnd->bits_last : wnd->sb->s_blocksize * 8;
+-}
+-
+ /*
+  * wnd_scan
+  *
 -- 
-2.34.1
+2.20.1.7.g153144c
 
