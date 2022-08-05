@@ -1,98 +1,73 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from walmailout01.yourhostingaccount.com (walmailout01.yourhostingaccount.com [65.254.253.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB2B7F;
-	Wed,  3 Aug 2022 06:03:40 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id tl27so11722283ejc.1;
-        Tue, 02 Aug 2022 23:03:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yTj4TmBw1tO+s+/E622v1pc0c4D1v+OSObDkqpLLc1Q=;
-        b=Kjtj2j7Rz3OIlku0tpUDJ/ObZMtg4OlvZ2wGAUwzDXRw/S20lSlIiGkgZfS4mBx3Iv
-         WTN9C3cyOfi68EsojmWc3d6iz/tfws8SNd5trGJ+Sz/0VGh0PRY9UojGb5SJpHhSUuMJ
-         k8Cvq3nKK69REeNEcVP+IKi45zM/f1nOsr0my6kTbBm1GtXtASmljWg2eShpGEkIWxFE
-         BRcveCFRXNa/QKYZ0JR8YPGNvnObPPQL/e1Om9YLYocwPRcUY0tPFhJq0rLpnKSrgvpx
-         Fe+CxNA35b45VtEdVkb2VI9wXuyXpsNN4P4h/t/jBsPxkvoCb1GWsbUvP2e6tMTaUX/M
-         Y4yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yTj4TmBw1tO+s+/E622v1pc0c4D1v+OSObDkqpLLc1Q=;
-        b=sgdDrLw1VmMgWI6RlaP8J6mIn6u41cvqWaGnK5/ddlkTr1k0Mf+11pnHE8cZxRmTPv
-         7xyP8fCGCL344ZlSGovZgx/nUiW4a1CtyfDz4OaQKjProk3MqrFBwXuc16heElxX/kns
-         34WWfHhFT28vpGClmD9q3IkarkN0l7Cvvm4tdBlYfwvz+oiq1rizH4t5R5nI0bBl8lOE
-         vG79VWXH4o4msQuq/Vbj6duJHYh5FCI72aMpZGVdA1Ueu3DQw4kTk/HxCoKzP5XwHjcx
-         lamCiYCNrAqVUWB0bMSpWW5T5eoP8hwgSNPsvyNuIjBLZ+KITKbXC1vwLMKK/PRZY4fB
-         WNDQ==
-X-Gm-Message-State: AJIora+j2ZAR8hf58EFrH8Gnn0wqYwZYueWu8VhWcXWjNPPHPOdZYlga
-	m7TagAJvwtgDcUqJqiwLpEsMIOocb8SZTdXQcJI=
-X-Google-Smtp-Source: AGRyM1uCK81RAEqXiBmO2EIzhypQxUIlr239lYiNo/9nXBq0084bUhbDXRpBqWRalkCn3onW4J1LbdDavAsumgDm9uw=
-X-Received: by 2002:a17:907:3e11:b0:72b:49d1:2054 with SMTP id
- hp17-20020a1709073e1100b0072b49d12054mr19202140ejc.78.1659506618976; Tue, 02
- Aug 2022 23:03:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5E01C13
+	for <ntfs3@lists.linux.dev>; Fri,  5 Aug 2022 16:43:33 +0000 (UTC)
+Received: from mailscan01.yourhostingaccount.com ([10.1.15.1] helo=walmailscan01.yourhostingaccount.com)
+	by walmailout01.yourhostingaccount.com with esmtp (Exim)
+	id 1oJzwh-0000it-Pg
+	for ntfs3@lists.linux.dev; Fri, 05 Aug 2022 12:13:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=eldoradogems.com; s=dkim; h=Sender:Date:Message-ID:
+	Content-Transfer-Encoding:Content-Type:From:MIME-Version:Subject:To:Reply-To:
+	Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	 bh=hlhiNi02+C+AN2ke9Fra+li2KnIcyRhyRtQOhJu+xpM=; b=PjbID23Y9zoXeU3JPaByvul4U
+	5mEAQctSf8TwQoW+RR1bW6AlGXZzut2HGgN3Z4SiAXaqo/udkYjRzDltwnL60MVlOerKLRPKzUpIF
+	qZOXaUiHBm55Of7WNWgJJ1K71YHlS4GMRmvwxl6QWb7mlO4/CbShTcUDtg4wSQVQfVvtkepU2L5dM
+	iNKAL4loBt92Tfh0TlM/l6pbrmY0oHdCsOHOxcjD8GH7l+g8ZqyXgHrGuQpLC5bHNGNX2cGT9exL1
+	/dsuS2HkvXuztIEOm2W06LXEupn/JPha8mFuyosGu7n2p02taFrrH2FIOldquTR8HhxWI46Xl8Pjx
+	pWzVNZDVw==;
+Received: from [10.114.3.22] (helo=walimpout02)
+	by walmailscan01.yourhostingaccount.com with esmtp (Exim)
+	id 1oJzwh-0006tW-G8
+	for ntfs3@lists.linux.dev; Fri, 05 Aug 2022 12:13:07 -0400
+Received: from walcustweb1104.yourhostingaccount.com ([10.1.112.64])
+	by walimpout02 with 
+	id 3sD42800H1PR0bN01sD7Fn; Fri, 05 Aug 2022 12:13:07 -0400
+X-Authority-Analysis: v=2.3 cv=BvkGPbf5 c=1 sm=1 tr=0
+ a=7bwhMLdmRGO9BM92vfj8Tg==:117 a=IkcTkHD0fZMA:10 a=Ipw1FqU43LUA:10
+ a=biHskzXt2R4A:10 a=ntHkufNL5ogA:10 a=G7ipKTrHp8AA:10 a=4BlUPY5NAAAA:20
+ a=33jBo8WcAAAA:20 a=4tTZIC_KAAAA:8 a=TOhomXQKdA9KY2okTRsA:9 a=QEXdDO2ut3YA:10
+ a=ibO11mGPptoA:10 a=ORSVQPocC9YncIH7rfm0:22
+Received: from moo.felix by walcustweb1104.yourhostingaccount.com with local (Exim)
+	id 1oJzvs-0000HJ-0O
+	for ntfs3@lists.linux.dev; Fri, 05 Aug 2022 12:12:16 -0400
+X-EN-Info: U=moo.felix P=/index.php
+X-EN-CGIUser: moo.felix
+X-EN-CGIPath: /index.php
+X-EN-OrigIP: 191.101.217.29
+To: ntfs3@lists.linux.dev
+Subject: Your Account Details
+X-PHP-Originating-Script: 1487889:htmlMimeMail.php
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CANX2M5Y+98u3R9zATF_VQnxCGzmg59O1sNnTc1sH-wgWFJbLrQ@mail.gmail.com>
-In-Reply-To: <CANX2M5Y+98u3R9zATF_VQnxCGzmg59O1sNnTc1sH-wgWFJbLrQ@mail.gmail.com>
-From: Dipanjan Das <mail.dipanjan.das@gmail.com>
-Date: Tue, 2 Aug 2022 23:03:27 -0700
-Message-ID: <CANX2M5ZEFGToH42rW+yndG59Uebcj-Eiv21Q2ykvHj=eVjpn+w@mail.gmail.com>
-Subject: Re: KASAN: slab-out-of-bounds Read in ntfs_get_ea
-To: almaz.alexandrovich@paragon-software.com, nathan@kernel.org, 
-	ndesaulniers@google.com, trix@redhat.com, ntfs3@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Cc: syzkaller@googlegroups.com, fleischermarius@googlemail.com, 
-	its.priyanka.bose@gmail.com
+From: Eldorado Gems <orders@eldoradogems.com>
+X-Mailer: CubeCart Mailer
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <rg5h0f.vn51xe@www.eldoradogems.com>
+X-EN-Timestamp: Fri, 05 Aug 2022 12:12:16 -0400
+Date: Fri, 05 Aug 2022 12:12:16 -0400
+Sender:  Eldorado Gems <orders@eldoradogems.com>
 
-On Fri, Jul 22, 2022 at 5:51 PM Dipanjan Das
-<mail.dipanjan.das@gmail.com> wrote:
->
-> Hi,
->
-> We would like to report the following bug which has been found by our
-> modified version of syzkaller.
->
-> ======================================================
-> description: KASAN: slab-out-of-bounds Read in ntfs_get_ea
-> affected file: fs/ntfs3/xattr.c
-> kernel version: 5.19-rc6
-> kernel commit: 32346491ddf24599decca06190ebca03ff9de7f8
-> git tree: upstream
-> kernel config: https://syzkaller.appspot.com/text?tag=KernelConfig&x=cd73026ceaed1402
-> crash reproducer: attached
-> ======================================================
+Dear A FINANCIAL CRISIS CAN MAKE YOU VERY RICH! &gt;&gt;&gt; https://telegra.ph/Cryptocurrency-makes-people-millionaires-at-15-people-per-hour---Page-162178-08-02  A FINANCIAL CRISIS CAN MAKE YOU A MILLIONAIRE! &gt;&gt;&gt; https://telegra.ph/Cryptocurrency-makes-people-millionaires-at-15-people-per-hour---Page-908798-08-02 ,
 
-Here is our initial analysis and findings regarding this crash (when
-we run the repro attached to our original report):
-In `fs/ntfs3/xattr.c`, the memory size `size` allocated to hold all
-the extended attributes is `60` bytes which is pointed to by `ea_all`
-in `ntfs_get_ea`. `find_ea`  iterates over the `ea_all` by adding an
-`offset` to current `ea` address to find a matching `ea`. The offset
-is calculated either using the size of the extended attribute in
-`ea->size` or using struct size of the `ea`, if `ea->size` is 0. The
-loop terminates if (1) one matched extended attribute `ea` is found or
-(2)  The calculated offset is greater than `size`.
+For your records the following account has been setup so that you can login to our site. Once logged in you can view the status of your orders, make repeat orders efficiently and amend your profile.
 
-In this case, at one point the calculated `offset` becomes `56` which
-does not satisfy any of the terminating conditions and therefore it
-still attempts to find the next `ea`. In order to do that, it
-calculates the size of the current `ea`. Since current `ea->size` is
-0, struct size of the current `ea` is used. During that calculation,
-the field value `ea->name` is dereferenced to calculate the size
-occupied by that field and the address of  `ea->name` falls beyond the
-`60` byte slab range. Hence, the slab out of bound occurs.
+Your access details are:
 
-Please let us know if this helps, or we need to dig in further.
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Email:	ntfs3@lists.linux.dev
+Password:	6H^2zf7irpE
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--- 
-Thanks and Regards,
+This email was sent from https://www.eldoradogems.com
 
-Dipanjan
+Registration IP Address: 191.101.217.29
+
