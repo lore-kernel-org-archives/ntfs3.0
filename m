@@ -1,78 +1,74 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from omta002.cacentral1.a.cloudfilter.net (omta002.cacentral1.a.cloudfilter.net [3.97.99.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753962CA7
-	for <ntfs3@lists.linux.dev>; Wed, 10 Aug 2022 16:22:59 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id D97111FA5;
-	Wed, 10 Aug 2022 16:15:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1660148140;
-	bh=TS+7ykxS+/RbIUIrMkBZtw+JsrC7IJjJ/ehW21gIdRc=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=Sni8K2LkW8vrm0wv1vYyOcqiGezy0wbf8/S+RUDwWLMacS8KaZWVYYPzdixnrgOlA
-	 4t+etfNF7yD93OTw9nvuGnWKrirZ6H4zXaKfWEm5aDEvs0yFwSIacyP2cyY9BfVpnO
-	 KL2hweUpBdBDtiv6EBkfeUiPNkVp7djmfQbXPk/s=
-Received: from [172.30.8.65] (172.30.8.65) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 10 Aug 2022 19:17:12 +0300
-Message-ID: <8a3b479b-dedc-2a73-32fa-5c0440048b7d@paragon-software.com>
-Date: Wed, 10 Aug 2022 19:17:11 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C285533C1
+	for <ntfs3@lists.linux.dev>; Wed, 10 Aug 2022 20:29:43 +0000 (UTC)
+Received: from shw-obgw-4004a.ext.cloudfilter.net ([10.228.9.227])
+	by cmsmtp with ESMTP
+	id LrDPodApOSp39LsJBoa2fZ; Wed, 10 Aug 2022 20:28:05 +0000
+Received: from fanir.tuyoix.net ([68.150.218.192])
+	by cmsmtp with ESMTP
+	id LsJBoKEiFGRNlLsJBo8I7A; Wed, 10 Aug 2022 20:28:05 +0000
+X-Authority-Analysis: v=2.4 cv=Sfrky9du c=1 sm=1 tr=0 ts=62f414d5
+ a=LfNn7serMq+1bQZBlMsSfQ==:117 a=LfNn7serMq+1bQZBlMsSfQ==:17
+ a=biHskzXt2R4A:10 a=M51BFTxLslgA:10 a=nlC_4_pT8q9DhB4Ho9EA:9 a=3I1X_3ewAAAA:8
+ a=bLrhdl3v5zxwkAIYeHEA:9 a=QEXdDO2ut3YA:10 a=VG9N9RgkD3hcbI6YpJ1l:22
+Received: from tuyoix.net (fanir.tuyoix.net [192.168.144.16])
+	(authenticated bits=0)
+	by fanir.tuyoix.net (8.17.1/8.17.1) with ESMTPSA id 27AKS4OF023471
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Wed, 10 Aug 2022 14:28:04 -0600
+Date: Wed, 10 Aug 2022 14:28:04 -0600 (MDT)
+From: =?UTF-8?Q?Marc_Aur=C3=A8le_La_France?= <tsi@tuyoix.net>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH} ntfs3: fix [df]mask display in /proc/mounts
+Message-ID: <d3337d95-201c-43bd-3b37-4fd9e654d821@tuyoix.net>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] fs/ntfs3: Remove unused function wnd_bits
-Content-Language: en-US
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Abaci Robot
-	<abaci@linux.alibaba.com>
-References: <20220721031841.24571-1-jiapeng.chong@linux.alibaba.com>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20220721031841.24571-1-jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.30.8.65]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: multipart/mixed; boundary="-1463807856-683457024-1660163285=:22026"
+X-CMAE-Envelope: MS4xfHzSaq5HPqQVabYBLWfN2WxjESpgcdfyF6ZSYuqNPItuCIej61v/TD644pVI1eAyqPIOv7J9ObNCpmtPMjIJsyj2A4pdWaT8aWxrxgZBq7RTEL+qCWC8
+ oSCaPHbcJ6JJv2uAesfLdFuraokVFbt9ibwJajonRo1osHnTpcBmoZ0h0Y65DAeAeNbK4yRrZe9lLo1KD7JsySrTZA54OEWYlZPQEo4BnRs6Cl6CQBumw9MY
+ 3SFb886bEIfz9SG1zRl77b3hExPm+auyGcCRy0XtVu5xaBmSCDDpgpoCrCSZXu+Y
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
+---1463807856-683457024-1660163285=:22026
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-On 7/21/22 06:18, Jiapeng Chong wrote:
-> Since the function wnd_bits is defined but not called in any file, it is
-> a useless function, and we delete it in view of the brevity of the code.
-> 
-> Remove some warnings found by running scripts/kernel-doc, which is
-> caused by using 'make W=1'.
-> 
-> fs/ntfs3/bitmap.c:54:19: warning: unused function 'wnd_bits' [-Wunused-function].
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->   fs/ntfs3/bitmap.c | 5 -----
->   1 file changed, 5 deletions(-)
-> 
-> diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
-> index e3b5680fd516..177c5bc53373 100644
-> --- a/fs/ntfs3/bitmap.c
-> +++ b/fs/ntfs3/bitmap.c
-> @@ -51,11 +51,6 @@ void ntfs3_exit_bitmap(void)
->   	kmem_cache_destroy(ntfs_enode_cachep);
->   }
->   
-> -static inline u32 wnd_bits(const struct wnd_bitmap *wnd, size_t i)
-> -{
-> -	return i + 1 == wnd->nwnd ? wnd->bits_last : wnd->sb->s_blocksize * 8;
-> -}
-> -
->   /*
->    * wnd_scan
->    *
+ntfs3's dmask and fmask mount options are 16-bit quantities but are displayed
+as 1-extended 32-bit values in /proc/mounts.  Fix this by circumventing
+integer promotion.
 
-Applied, thanks!
+This change is not eligible for stable@.
+
+Please Reply-To-All.
+
+Thanks and have a great day.
+
+Marc.
+
+Signed-off-by: Marc Aurèle La France <tsi@tuyoix.net>
+
+diff -aNpRruz -X /etc/diff.excludes linux-5.17.1/fs/ntfs3/super.c devel-5.17.1/fs/ntfs3/super.c
+--- linux-5.17.1/fs/ntfs3/super.c	2022-03-28 02:03:22.000000000 -0600
++++ devel-5.17.1/fs/ntfs3/super.c	2022-03-28 07:14:10.799008309 -0600
+@@ -518,9 +518,9 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
+ 	seq_printf(m, ",gid=%u",
+ 		  from_kgid_munged(user_ns, opts->fs_gid));
+ 	if (opts->fmask)
+-		seq_printf(m, ",fmask=%04o", ~opts->fs_fmask_inv);
++		seq_printf(m, ",fmask=%04o", opts->fs_fmask_inv ^ 0xffff);
+ 	if (opts->dmask)
+-		seq_printf(m, ",dmask=%04o", ~opts->fs_dmask_inv);
++		seq_printf(m, ",dmask=%04o", opts->fs_dmask_inv ^ 0xffff);
+ 	if (opts->nls)
+ 		seq_printf(m, ",iocharset=%s", opts->nls->charset);
+ 	else
+---1463807856-683457024-1660163285=:22026--
