@@ -1,89 +1,148 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B401398
-	for <ntfs3@lists.linux.dev>; Mon, 15 Aug 2022 11:07:29 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id bv3so8682200wrb.5
-        for <ntfs3@lists.linux.dev>; Mon, 15 Aug 2022 04:07:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C149E3D8C
+	for <ntfs3@lists.linux.dev>; Wed, 17 Aug 2022 16:44:00 +0000 (UTC)
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 7CEA92147;
+	Wed, 17 Aug 2022 16:42:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=0w9+PjA609EvTdhJ21FdPZXkjOwyQWsh3sVgxJTFZ6o=;
-        b=mpIQlUx8naMiLfDubLm93ghNfu2hM9q79depVhpdHOHndayUW+ZQqz3R6VCFDtTWaV
-         dqU1RsDPCKbEvO772qY0rFXbU0jSZmMJbIws0Afa9Bxo1bJOaTbAd1pZQSmP5vEOCKsK
-         i/c4Id14Mu91nbCJVk1FfQoyoi+guS86d8/S9yGGmg35o8bhJiUpqZUuxHEuBfJQACw3
-         jXH9qSKAUvBsYHJ+ZegPDcZAJ7xOQHAKOCHGKEHkNLqSkqIFJF18l7sPDEGolyOMgRnL
-         52+CvGaw8LTAZt2LjjNWTPFJnJArztIZry18J1ZzHAVhy/Lvp1RYVNs2m7WtFU4iR+f3
-         NUpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=0w9+PjA609EvTdhJ21FdPZXkjOwyQWsh3sVgxJTFZ6o=;
-        b=muQ3+ypjIxgzW4yrjlblpcfOXb43DjJHoOiW0HvFjX1FCZnwVavq5132gQlAw4iQx+
-         d1Z5r+pWP+B5OLhYeK1P/cvvo4oy+t/RlbXq3T8ga/CPmwRKZD3ZhvvGQkCTHEr2vn9M
-         kTxRdILda4EsX/j1Sr1ksWoZsIdqvos7knlLZpRwxf8wMny3fO6AUWc/0F2izOgDn47H
-         Ksot7Ekrh14kphPpQ2tLKlUQe7oOdymGbH6z0Fjio6JvH26bzYM6HwXJa8RVNbF6rXnP
-         NfUezAKO1mfO7y/JUn5oi0KdAHvcinp/399081de4SXoyuUbbVG9pOFnCeT1Rwxz6pzL
-         GmEA==
-X-Gm-Message-State: ACgBeo14roNY1fFiJV1YU01gUdIGxQcLsIf3wCWRYoFiz8vNpRbOcTvr
-	tU1XXTcQS4FmlVKBEzTYREI=
-X-Google-Smtp-Source: AA6agR7i31Xj+ZM9+1J0Djq7tauEnM82gZdc579QUNS1r4rvynLN98xgq8/gthUZVGoQ9ljutmcSQA==
-X-Received: by 2002:adf:eb50:0:b0:21e:3d13:3a91 with SMTP id u16-20020adfeb50000000b0021e3d133a91mr8213168wrn.484.1660561647708;
-        Mon, 15 Aug 2022 04:07:27 -0700 (PDT)
-Received: from localhost.localdomain (bzq-233-168-31-62.red.bezeqint.net. [31.168.233.62])
-        by smtp.gmail.com with ESMTPSA id d2-20020adffbc2000000b002206203ed3dsm6996651wrs.29.2022.08.15.04.07.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Aug 2022 04:07:27 -0700 (PDT)
-From: Alon Zahavi <zahavi.alon@gmail.com>
-X-Google-Original-From: Alon Zahavi <zahavi.alon@gmail.com
-To: almaz.alexandrovich@paragon-software.com,
-	ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Alon Zahavi <zahavi.alon@gmail.com>,
-	Tal Lossos <tallossos@gmail.com>
-Subject: [PATCH] ntfs3: Fix attr_punch_hole() null pointer derenference
-Date: Mon, 15 Aug 2022 14:07:12 +0300
-Message-Id: <20220815110712.36982-1-zahavi.alon@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	d=paragon-software.com; s=mail; t=1660754534;
+	bh=EHA8PmNWIXmclwoQXYiUp1GSP3DqbAL/8zItVTO2gng=;
+	h=Date:To:CC:From:Subject;
+	b=eTPt7DTKPc4x3xuSpmh5lDYpIqjPaka20te2ilGPqiNd/POTi/XPcLQ1xqkRGc/Tv
+	 ZR1VszXzN4s4kOIzhVK6GhAMcn57I2rKJ0j7DkHchTdn/Sekqi9IL1SOhQesdLQB7h
+	 4uuyjC1fB596qJg52V3D3GryuP+Kt+4sA9JuDaG0=
+Received: from [172.30.8.65] (172.30.8.65) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 17 Aug 2022 19:43:51 +0300
+Message-ID: <db8cb5d9-56d6-a00a-9cf0-4deec9056433@paragon-software.com>
+Date: Wed, 17 Aug 2022 19:43:51 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+To: <torvalds@linux-foundation.org>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [GIT PULL] ntfs3: bugfixes for 6.0
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.30.8.65]
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-From: Alon Zahavi <zahavi.alon@gmail.com>
+Hi Linus,
 
-The bug occours due to a misuse of `attr` variable instead of `attr_b`.
-`attr` is being initialized as NULL, then being derenfernced
-as `attr->res.data_size`.
+Please pull this branch containing ntfs3 code for 6.0.
 
-This bug causes a crash of the ntfs3 driver itself,
-If compiled directly to the kernel, it crashes the whole system.
+Fixed:
+- some logic errors;
+- fixed xfstests (tested on x86_64)
+generic/064 generic/213 generic/300 generic/361 generic/449 generic/485;
+- some dead code was removed or refactored.
 
-Signed-off-by: Alon Zahavi <zahavi.alon@gmail.com>
-Co-developed-by: Tal Lossos <tallossos@gmail.com>
-Signed-off-by: Tal Lossos <tallossos@gmail.com>
----
- fs/ntfs3/attrib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Most of the code was in linux-next branch for several weeks,
+but there are some patches, that were in linux-next branch only
+for a week.
 
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index e8c00dda42ad..4e74bc8f01ed 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -1949,7 +1949,7 @@ int attr_punch_hole(struct ntfs_inode *ni, u64 vbo, u64 bytes, u32 *frame_size)
- 		return -ENOENT;
- 
- 	if (!attr_b->non_res) {
--		u32 data_size = le32_to_cpu(attr->res.data_size);
-+		u32 data_size = le32_to_cpu(attr_b->res.data_size);
- 		u32 from, to;
- 
- 		if (vbo > data_size)
--- 
-2.25.1
+Regards,
 
+Konstantin
+
+----------------------------------------------------------------
+
+The following changes since commit 724bbe49c5e427cb077357d72d240a649f2e4054:
+
+   fs/ntfs3: provide block_invalidate_folio to fix memory leak (Mon May 30 13:36:45 2022 +0200)
+
+are available in the Git repository at:
+
+   https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_6.0
+
+for you to fetch changes up to d4073595d0c61463ec3a87411b19e2a90f76d3f8:
+
+   fs/ntfs3: uninitialized variable in ntfs_set_acl_ex() (Mon Aug 8 11:34:41 2022 +0300)
+
+----------------------------------------------------------------
+
+Christophe JAILLET (1)
+  fs/ntfs3: Remove a useless test
+
+Colin Ian King (3)
+  fs/ntfs3: Remove duplicated assignment to variable r
+  fs/ntfs3: Remove redundant assignment to variable vcn
+  fs/ntfs3: Remove redundant assignment to variable frame
+
+Yan Lei (1)
+  fs/ntfs3: Fix using uninitialized value n when calling indx_read
+
+Yang Xu (1)
+  fs/ntfs3: Use the same order for acl pointer check in ntfs_init_acl
+
+Dan Carpenter (3)
+  fs/ntfs3: uninitialized variable in ntfs_set_acl_ex()
+  fs/ntfs3: Unlock on error in attr_insert_range()
+  fs/ntfs3: Don't clear upper bits accidentally in log_replay()
+
+Pavel Skripkin (2)
+  fs/ntfs3: Make ntfs_update_mftmirr return void
+  fs/ntfs3: Fix NULL deref in ntfs_update_mftmirr
+
+Li Kunyu (1)
+  fs/ntfs3: Remove unnecessary 'NULL' values from pointers
+
+Jiapeng Chong (1)
+  fs/ntfs3: Remove unused function wnd_bits
+
+Konstantin Komarov (26)
+  fs/ntfs3: Make ni_ins_new_attr return error
+  fs/ntfs3: Create MFT zone only if length is large enough
+  fs/ntfs3: Refactoring attr_insert_range to restore after errors
+  fs/ntfs3: Refactoring attr_punch_hole to restore after errors
+  fs/ntfs3: Refactoring attr_set_size to restore after errors
+  fs/ntfs3: New function ntfs_bad_inode
+  fs/ntfs3: Make MFT zone less fragmented
+  fs/ntfs3: Check possible errors in run_pack in advance
+  fs/ntfs3: Added comments to frecord functions
+  fs/ntfs3: Fill duplicate info in ni_add_name
+  fs/ntfs3: Make static function attr_load_runs
+  fs/ntfs3: Add new argument is_mft to ntfs_mark_rec_free
+  fs/ntfs3: Remove unused mi_mark_free
+  fs/ntfs3: Fix very fragmented case in attr_punch_hole
+  fs/ntfs3: Fix work with fragmented xattr
+  fs/ntfs3: Make ntfs_fallocate return -ENOSPC instead of -EFBIG
+  fs/ntfs3: extend ni_insert_nonresident to return inserted ATTR_LIST_ENTRY
+  fs/ntfs3: Check reserved size for maximum allowed
+  fs/ntfs3: Do not change mode if ntfs_set_ea failed
+  fs/ntfs3: Enable FALLOC_FL_INSERT_RANGE
+  fs/ntfs3: Fallocate (FALLOC_FL_INSERT_RANGE) implementation
+  fs/ntfs3: Add missing error check
+  fs/ntfs3: Fix missing i_op in ntfs_read_mft
+  fs/ntfs3: Refactor ni_try_remove_attr_list function
+  fs/ntfs3: Fix double free on remount
+  fs/ntfs3: Refactoring of indx_find function
+
+
+  fs/ntfs3/attrib.c  | 557 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------------
+  fs/ntfs3/bitmap.c  |  12 +---
+  fs/ntfs3/file.c    | 110 +++++++++++++++++------------
+  fs/ntfs3/frecord.c | 128 +++++++++++++++++++++++----------
+  fs/ntfs3/fslog.c   |   4 +-
+  fs/ntfs3/fsntfs.c  |  92 +++++++++++++++---------
+  fs/ntfs3/index.c   |  33 ++++-----
+  fs/ntfs3/inode.c   |  19 ++---
+  fs/ntfs3/namei.c   |   6 +-
+  fs/ntfs3/ntfs_fs.h |  16 +++--
+  fs/ntfs3/record.c  |  27 +------
+  fs/ntfs3/run.c     | 108 +++++++++++++++++++++++-----
+  fs/ntfs3/super.c   |  17 +++--
+  fs/ntfs3/xattr.c   |  35 +++++----
+  14 files changed, 835 insertions(+), 329 deletions(-)
