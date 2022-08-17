@@ -1,148 +1,77 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C149E3D8C
-	for <ntfs3@lists.linux.dev>; Wed, 17 Aug 2022 16:44:00 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 7CEA92147;
-	Wed, 17 Aug 2022 16:42:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110CE7463
+	for <ntfs3@lists.linux.dev>; Wed, 17 Aug 2022 21:55:56 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id w3so19224125edc.2
+        for <ntfs3@lists.linux.dev>; Wed, 17 Aug 2022 14:55:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1660754534;
-	bh=EHA8PmNWIXmclwoQXYiUp1GSP3DqbAL/8zItVTO2gng=;
-	h=Date:To:CC:From:Subject;
-	b=eTPt7DTKPc4x3xuSpmh5lDYpIqjPaka20te2ilGPqiNd/POTi/XPcLQ1xqkRGc/Tv
-	 ZR1VszXzN4s4kOIzhVK6GhAMcn57I2rKJ0j7DkHchTdn/Sekqi9IL1SOhQesdLQB7h
-	 4uuyjC1fB596qJg52V3D3GryuP+Kt+4sA9JuDaG0=
-Received: from [172.30.8.65] (172.30.8.65) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 17 Aug 2022 19:43:51 +0300
-Message-ID: <db8cb5d9-56d6-a00a-9cf0-4deec9056433@paragon-software.com>
-Date: Wed, 17 Aug 2022 19:43:51 +0300
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=kEu3LoPnwB+E9uQr3yvAY75tc6MJOyqDhxfB70KSfNQ=;
+        b=T0msTuPhx1VfnQd74B08rOH2exZjqLNW3BuxKYcVBR5qhseNUY9XMELlXRFDvhrxoJ
+         bEafhlfHAxOLps/yKbluH4hwDq0ekhNmANb6lKeJsYf00OMickttnHUIVACROCoCNhBh
+         Bm93sJt54QVLsKi/DqcQHvTmze8JXzUNAFb0g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=kEu3LoPnwB+E9uQr3yvAY75tc6MJOyqDhxfB70KSfNQ=;
+        b=UG3KH7AYD4HGTdy7BAi26xjr7Ec3ZyOAwuVAnx3+hGHpJBFXZcWMNjHKi1JcE1HGso
+         8hypz/gD7kVerER5hab8wl8bxwRZAl9uk4+OBZNIfwSa3IMSrpsQrte9nRwZGp62t2f7
+         0yDxCRhVLTjsMKNEbNYwj8BCy1fZ8TWWT+0IN45KbSQbW4qmEiOZgeBWlQkmbNphYvLH
+         8/Ozdjy1zXmViTfnDh1nzwLYnas+Tmz7r2hQo23lgO6O1oQnSKN2j/KlCFHr6F7O2mFN
+         7VBMpoLW3ApfzYgrTo+i9j6xwnXOl+vHSjvo0fxjbsy76vAbEvJJ3xEW5ZIej+RY4R7G
+         JCFQ==
+X-Gm-Message-State: ACgBeo2oFbJvppeXpJ7Q/co6Bjm7hXzD/2dmoJNCb1f0Epq0G5+qs+ct
+	DX0ipjSz9YpFw/Qdtbm6dIgis4D/mXDROSmU
+X-Google-Smtp-Source: AA6agR7M5jqvp4x0eu5Q840inSHIZhH9p9JaRSc5mI1vgTudpFum3ueIHdWY4mkzwGeqTa8QtN/dJw==
+X-Received: by 2002:a05:6402:35c:b0:43c:8f51:130 with SMTP id r28-20020a056402035c00b0043c8f510130mr52936edw.393.1660773355041;
+        Wed, 17 Aug 2022 14:55:55 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com. [209.85.221.45])
+        by smtp.gmail.com with ESMTPSA id ov14-20020a170906fc0e00b007311eb42e40sm7353540ejb.54.2022.08.17.14.55.54
+        for <ntfs3@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Aug 2022 14:55:54 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id h24so3573105wrb.8
+        for <ntfs3@lists.linux.dev>; Wed, 17 Aug 2022 14:55:54 -0700 (PDT)
+X-Received: by 2002:a5d:6248:0:b0:222:cd3b:94c8 with SMTP id
+ m8-20020a5d6248000000b00222cd3b94c8mr26766wrv.97.1660773354188; Wed, 17 Aug
+ 2022 14:55:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Content-Language: en-US
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [GIT PULL] ntfs3: bugfixes for 6.0
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.30.8.65]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+References: <db8cb5d9-56d6-a00a-9cf0-4deec9056433@paragon-software.com>
+In-Reply-To: <db8cb5d9-56d6-a00a-9cf0-4deec9056433@paragon-software.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 17 Aug 2022 14:55:38 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg53xW_ppC5w_tDvWKn3Q7i-hWmd09KM-O1npQHWoBBGw@mail.gmail.com>
+Message-ID: <CAHk-=wg53xW_ppC5w_tDvWKn3Q7i-hWmd09KM-O1npQHWoBBGw@mail.gmail.com>
+Subject: Re: [GIT PULL] ntfs3: bugfixes for 6.0
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Linus,
+On Wed, Aug 17, 2022 at 9:43 AM Konstantin Komarov
+<almaz.alexandrovich@paragon-software.com> wrote:
+>
+> Please pull this branch containing ntfs3 code for 6.0.
 
-Please pull this branch containing ntfs3 code for 6.0.
+This really should have come in during the merge window.
 
-Fixed:
-- some logic errors;
-- fixed xfstests (tested on x86_64)
-generic/064 generic/213 generic/300 generic/361 generic/449 generic/485;
-- some dead code was removed or refactored.
+Yes, there are clearly several fixes in here, but at least that
+FALLOC_FL_INSERT_RANGE is clearly new development. And a lot of it
+looks like just refactoring and cleanup, and again that is something
+that should come in during the merge window.
 
-Most of the code was in linux-next branch for several weeks,
-but there are some patches, that were in linux-next branch only
-for a week.
+But since this all affects only ntfs3, and I consider that still
+fairly solidly experimental, I'll let it slide. But please keep this
+in mind for next time - new work (whether cleanups or actual new code)
+during the merge window, and obvious fixes afterwards.
 
-Regards,
-
-Konstantin
-
-----------------------------------------------------------------
-
-The following changes since commit 724bbe49c5e427cb077357d72d240a649f2e4054:
-
-   fs/ntfs3: provide block_invalidate_folio to fix memory leak (Mon May 30 13:36:45 2022 +0200)
-
-are available in the Git repository at:
-
-   https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_6.0
-
-for you to fetch changes up to d4073595d0c61463ec3a87411b19e2a90f76d3f8:
-
-   fs/ntfs3: uninitialized variable in ntfs_set_acl_ex() (Mon Aug 8 11:34:41 2022 +0300)
-
-----------------------------------------------------------------
-
-Christophe JAILLET (1)
-  fs/ntfs3: Remove a useless test
-
-Colin Ian King (3)
-  fs/ntfs3: Remove duplicated assignment to variable r
-  fs/ntfs3: Remove redundant assignment to variable vcn
-  fs/ntfs3: Remove redundant assignment to variable frame
-
-Yan Lei (1)
-  fs/ntfs3: Fix using uninitialized value n when calling indx_read
-
-Yang Xu (1)
-  fs/ntfs3: Use the same order for acl pointer check in ntfs_init_acl
-
-Dan Carpenter (3)
-  fs/ntfs3: uninitialized variable in ntfs_set_acl_ex()
-  fs/ntfs3: Unlock on error in attr_insert_range()
-  fs/ntfs3: Don't clear upper bits accidentally in log_replay()
-
-Pavel Skripkin (2)
-  fs/ntfs3: Make ntfs_update_mftmirr return void
-  fs/ntfs3: Fix NULL deref in ntfs_update_mftmirr
-
-Li Kunyu (1)
-  fs/ntfs3: Remove unnecessary 'NULL' values from pointers
-
-Jiapeng Chong (1)
-  fs/ntfs3: Remove unused function wnd_bits
-
-Konstantin Komarov (26)
-  fs/ntfs3: Make ni_ins_new_attr return error
-  fs/ntfs3: Create MFT zone only if length is large enough
-  fs/ntfs3: Refactoring attr_insert_range to restore after errors
-  fs/ntfs3: Refactoring attr_punch_hole to restore after errors
-  fs/ntfs3: Refactoring attr_set_size to restore after errors
-  fs/ntfs3: New function ntfs_bad_inode
-  fs/ntfs3: Make MFT zone less fragmented
-  fs/ntfs3: Check possible errors in run_pack in advance
-  fs/ntfs3: Added comments to frecord functions
-  fs/ntfs3: Fill duplicate info in ni_add_name
-  fs/ntfs3: Make static function attr_load_runs
-  fs/ntfs3: Add new argument is_mft to ntfs_mark_rec_free
-  fs/ntfs3: Remove unused mi_mark_free
-  fs/ntfs3: Fix very fragmented case in attr_punch_hole
-  fs/ntfs3: Fix work with fragmented xattr
-  fs/ntfs3: Make ntfs_fallocate return -ENOSPC instead of -EFBIG
-  fs/ntfs3: extend ni_insert_nonresident to return inserted ATTR_LIST_ENTRY
-  fs/ntfs3: Check reserved size for maximum allowed
-  fs/ntfs3: Do not change mode if ntfs_set_ea failed
-  fs/ntfs3: Enable FALLOC_FL_INSERT_RANGE
-  fs/ntfs3: Fallocate (FALLOC_FL_INSERT_RANGE) implementation
-  fs/ntfs3: Add missing error check
-  fs/ntfs3: Fix missing i_op in ntfs_read_mft
-  fs/ntfs3: Refactor ni_try_remove_attr_list function
-  fs/ntfs3: Fix double free on remount
-  fs/ntfs3: Refactoring of indx_find function
-
-
-  fs/ntfs3/attrib.c  | 557 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------------
-  fs/ntfs3/bitmap.c  |  12 +---
-  fs/ntfs3/file.c    | 110 +++++++++++++++++------------
-  fs/ntfs3/frecord.c | 128 +++++++++++++++++++++++----------
-  fs/ntfs3/fslog.c   |   4 +-
-  fs/ntfs3/fsntfs.c  |  92 +++++++++++++++---------
-  fs/ntfs3/index.c   |  33 ++++-----
-  fs/ntfs3/inode.c   |  19 ++---
-  fs/ntfs3/namei.c   |   6 +-
-  fs/ntfs3/ntfs_fs.h |  16 +++--
-  fs/ntfs3/record.c  |  27 +------
-  fs/ntfs3/run.c     | 108 +++++++++++++++++++++++-----
-  fs/ntfs3/super.c   |  17 +++--
-  fs/ntfs3/xattr.c   |  35 +++++----
-  14 files changed, 835 insertions(+), 329 deletions(-)
+                Linus
