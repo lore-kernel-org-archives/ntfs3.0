@@ -1,53 +1,142 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC447463
-	for <ntfs3@lists.linux.dev>; Wed, 17 Aug 2022 22:20:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BCC80C433C1;
-	Wed, 17 Aug 2022 22:20:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA7A23CD
+	for <ntfs3@lists.linux.dev>; Thu, 18 Aug 2022 07:47:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69E65C433C1;
+	Thu, 18 Aug 2022 07:47:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1660774812;
-	bh=/A4dxYPAFlRnEYzWPz9DOGV8SQQ7Upm4kVvKZcKotls=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=AOIW6BYbt5qeRw5wonjrQQIAXwgPOOl3RfuhEumLL7VDZTq+0AOwYMkJrKa+GCBFP
-	 52j6oYVkDH33vr5wTnIizCmxglRvtVoFI9N5Lo+NsZgM79MtaiM7VdAoNvScNCaD82
-	 bkaANbOksDitK8rXUvsi07hlGIQLG3Gt7GygsHeiJUpnS49J4v5sE1G5zz2uH6sU37
-	 xBq1Pu55wh3R1wlURucJf5M/V2+X7muxIRhlECp485DaPwznSsJd4Tx7KIA1ly5bDO
-	 nISxxy1twZq9MG+gOia/eXc+EgQm6broWqJ4yWHculEYoKYToV6m6RZGgTxzyTckgD
-	 Gb8Ir6sfLM/MA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9EF2DC43142;
-	Wed, 17 Aug 2022 22:20:12 +0000 (UTC)
-Subject: Re: [GIT PULL] ntfs3: bugfixes for 6.0
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <db8cb5d9-56d6-a00a-9cf0-4deec9056433@paragon-software.com>
-References: <db8cb5d9-56d6-a00a-9cf0-4deec9056433@paragon-software.com>
-X-PR-Tracked-List-Id: <ntfs3.lists.linux.dev>
-X-PR-Tracked-Message-Id: <db8cb5d9-56d6-a00a-9cf0-4deec9056433@paragon-software.com>
-X-PR-Tracked-Remote: https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_6.0
-X-PR-Tracked-Commit-Id: d4073595d0c61463ec3a87411b19e2a90f76d3f8
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 3b06a2755758937add738545ba4a544fc5a1c56d
-Message-Id: <166077481260.1953.14226345009502116708.pr-tracker-bot@kernel.org>
-Date: Wed, 17 Aug 2022 22:20:12 +0000
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: torvalds@linux-foundation.org, ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+	s=k20201202; t=1660808853;
+	bh=WbZnBXHfkCGTNiPqYLLnGPQyGjyaS/GI70iNcYE0Jy8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rKpeIDIpbkmJyPo5zmB3eXJc5xT27EPu+qZebdPjcqp3Y/kjL5nwOuH1wq3C6q0fy
+	 WoX9IKcumx6Xmngszq3SAh3ZHwDkNEVGPeEMJYXGr8KyKVcw59lpoq1H/gShOfqeAN
+	 avIUSBxx4oSegu5Xxj+4/OLggRyj/xknfSF2i/ePJtrRReBPzSnZQvvxAJJzi1/dVm
+	 jUhcStDGoKdrArkhVJlEfDggW7PI5HKwtG4RiFr74WfqxuPSwdopXEGSrQOT8p3VY9
+	 fnrmo26I64q7N8FauVtPx6+FPSNrFgWAh9kxUllobCAscQdKRz9Au9jfzr3MVkLokR
+	 6wCnXdoaxFODg==
+Date: Thu, 18 Aug 2022 09:47:29 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] ntfs: fix acl handling
+Message-ID: <20220818074729.u45tzc3lq7y6zibd@wittgenstein>
+References: <20220720123252.686466-1-brauner@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220720123252.686466-1-brauner@kernel.org>
 
-The pull request you sent on Wed, 17 Aug 2022 19:43:51 +0300:
+On Wed, Jul 20, 2022 at 02:32:52PM +0200, Christian Brauner wrote:
+> While looking at our current POSIX ACL handling in the context of some
+> overlayfs work I went through a range of other filesystems checking how they
+> handle them currently and encountered ntfs3.
+> 
+> The posic_acl_{from,to}_xattr() helpers always need to operate on the
+> filesystem idmapping. Since ntfs3 can only be mounted in the initial user
+> namespace the relevant idmapping is init_user_ns.
+> 
+> The posix_acl_{from,to}_xattr() helpers are concerned with translating between
+> the kernel internal struct posix_acl{_entry} and the uapi struct
+> posix_acl_xattr_{header,entry} and the kernel internal data structure is cached
+> filesystem wide.
+> 
+> Additional idmappings such as the caller's idmapping or the mount's idmapping
+> are handled higher up in the VFS. Individual filesystems usually do not need to
+> concern themselves with these.
+> 
+> The posix_acl_valid() helper is concerned with checking whether the values in
+> the kernel internal struct posix_acl can be represented in the filesystem's
+> idmapping. IOW, if they can be written to disk. So this helper too needs to
+> take the filesystem's idmapping.
+> 
+> Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
+> Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+> Cc: ntfs3@lists.linux.dev
+> Signed-off-by: Christian Brauner (Microsoft) <brauner@kernel.org>
+> ---
 
-> https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_6.0
+Somehow this patch fell through the cracks and this should really be
+fixed. Do you plan on sending a PR for this soon or should I just send
+it through my tree?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/3b06a2755758937add738545ba4a544fc5a1c56d
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+>  fs/ntfs3/xattr.c | 16 +++++++---------
+>  1 file changed, 7 insertions(+), 9 deletions(-)
+> 
+> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+> index 5e0e0280e70d..3e9118705174 100644
+> --- a/fs/ntfs3/xattr.c
+> +++ b/fs/ntfs3/xattr.c
+> @@ -478,8 +478,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+>  }
+>  
+>  #ifdef CONFIG_NTFS3_FS_POSIX_ACL
+> -static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
+> -					 struct inode *inode, int type,
+> +static struct posix_acl *ntfs_get_acl_ex(struct inode *inode, int type,
+>  					 int locked)
+>  {
+>  	struct ntfs_inode *ni = ntfs_i(inode);
+> @@ -514,7 +513,7 @@ static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
+>  
+>  	/* Translate extended attribute to acl. */
+>  	if (err >= 0) {
+> -		acl = posix_acl_from_xattr(mnt_userns, buf, err);
+> +		acl = posix_acl_from_xattr(&init_user_ns, buf, err);
+>  	} else if (err == -ENODATA) {
+>  		acl = NULL;
+>  	} else {
+> @@ -537,8 +536,7 @@ struct posix_acl *ntfs_get_acl(struct inode *inode, int type, bool rcu)
+>  	if (rcu)
+>  		return ERR_PTR(-ECHILD);
+>  
+> -	/* TODO: init_user_ns? */
+> -	return ntfs_get_acl_ex(&init_user_ns, inode, type, 0);
+> +	return ntfs_get_acl_ex(inode, type, 0);
+>  }
+>  
+>  static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
+> @@ -595,7 +593,7 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
+>  		value = kmalloc(size, GFP_NOFS);
+>  		if (!value)
+>  			return -ENOMEM;
+> -		err = posix_acl_to_xattr(mnt_userns, acl, value, size);
+> +		err = posix_acl_to_xattr(&init_user_ns, acl, value, size);
+>  		if (err < 0)
+>  			goto out;
+>  		flags = 0;
+> @@ -641,7 +639,7 @@ static int ntfs_xattr_get_acl(struct user_namespace *mnt_userns,
+>  	if (!acl)
+>  		return -ENODATA;
+>  
+> -	err = posix_acl_to_xattr(mnt_userns, acl, buffer, size);
+> +	err = posix_acl_to_xattr(&init_user_ns, acl, buffer, size);
+>  	posix_acl_release(acl);
+>  
+>  	return err;
+> @@ -665,12 +663,12 @@ static int ntfs_xattr_set_acl(struct user_namespace *mnt_userns,
+>  	if (!value) {
+>  		acl = NULL;
+>  	} else {
+> -		acl = posix_acl_from_xattr(mnt_userns, value, size);
+> +		acl = posix_acl_from_xattr(&init_user_ns, value, size);
+>  		if (IS_ERR(acl))
+>  			return PTR_ERR(acl);
+>  
+>  		if (acl) {
+> -			err = posix_acl_valid(mnt_userns, acl);
+> +			err = posix_acl_valid(&init_user_ns, acl);
+>  			if (err)
+>  				goto release_and_out;
+>  		}
+> 
+> base-commit: ff6992735ade75aae3e35d16b17da1008d753d28
+> -- 
+> 2.34.1
+> 
