@@ -1,176 +1,105 @@
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE817A4D
-	for <ntfs3@lists.linux.dev>; Tue, 23 Aug 2022 06:59:28 +0000 (UTC)
-Received: by mail-io1-f71.google.com with SMTP id i14-20020a5d934e000000b006892db5bcd4so7010584ioo.22
-        for <ntfs3@lists.linux.dev>; Mon, 22 Aug 2022 23:59:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7967F5
+	for <ntfs3@lists.linux.dev>; Tue, 23 Aug 2022 10:32:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1661250772;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/7B7tsXp66/9aCmeuLAxDC7tXxat0QsJzIWKfv9VwQc=;
+	b=AqgcX6kiiI90ZjEHcTxOAsljaLTdb91n8DZA7Cu6UqfSOwnjKHk+78TEOZCUhoegEORq7p
+	h8oGluSti/r9sDbT9NvqL/B1/1AgUeME+GGxU8DuX5RBQQY1nZJhkaRGfzEg+gyDOlB+HD
+	fsqpr9gXKGQ1vx0cfnm1XlSqrRDtprA=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-369-2y2Pqr9SMASezePOEH7B0A-1; Tue, 23 Aug 2022 06:32:51 -0400
+X-MC-Unique: 2y2Pqr9SMASezePOEH7B0A-1
+Received: by mail-pl1-f200.google.com with SMTP id m5-20020a170902f64500b0016d313f3ce7so8972953plg.23
+        for <ntfs3@lists.linux.dev>; Tue, 23 Aug 2022 03:32:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc;
-        bh=29V1kxVUW3EwQRaqzTQ6JyEXfaDjKQkAV8eYjg4pbH0=;
-        b=BYzV7f56bA1XoNRoY1qgkcPvm3ZrgPTXf9WWG5GV3OPfdas6WlkVTS2qXJ5moSNy3i
-         Tm4cLV7GnStFwpEctVt7T4MMQjzqF6GxZOCyuThhAg6src/ZD3pe0yIYrIf78b4yIQC5
-         aBxhmMwp98NrK0mSMQFZkkuKdnIdZ2Qg7LNDdiJh2Xlxf4g7fwSJ9U/2uEaUQe0i2270
-         94wXZJL1GhLDOR25OyUPHJmrFbC0CsyQ0QWNd29K2mNjbdwZXctNTCYq74unrT9gSG+R
-         GQOzJ5vZO5zDPQKw06Z5+OR9TBni9/d+P+P2Um3GHw46EAdNZaSTqeSuQ3CKPcqig/rp
-         a/aw==
-X-Gm-Message-State: ACgBeo3w3NEC/v5e4uzeRoyKFUdi3qtDlOD8KeoDeN0cum9XdO4BmYZK
-	uCN7iRD/wYe2EHglrXOEgw+vtE7Z69Ni6pNOT4kY74e5bIKD
-X-Google-Smtp-Source: AA6agR6SSfDZQSDLeDvPmJDFgTvyl5pTtyWjSq9EkDJMEiQjLoF1JUUQ7BRr0sEjXBEZnsBE+e3LHxxY9lSBYaVLmvsD10vvIdsF
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=/7B7tsXp66/9aCmeuLAxDC7tXxat0QsJzIWKfv9VwQc=;
+        b=pxAZmnK4rsDTSU83jQR2grD9iENEFw2YtBcb6y+zelqh0sR94Yjy+VmQ7epmqCLmc+
+         v++fex+ygqUirUrpHIjRkJVSQiywuLgBm47XnS37K+QkhMgkyvwLpa2tBc68hS2W+Mkj
+         1Y5ZHXWTGdAFY4Nw3Umk5kJ3o5oCN9rwmQ3bClUDRIFgJJJisAm+cpvWg3pNwoSSzb4t
+         bnKjugJju5FAEU8UUINnZTLWb6lBwkFjopbAA+hqs7ZLlsZOByMRldyFm7kLisUEZCww
+         hbFpTpV77x+STMCagDIpgszwdP4CbRG0UVayRCNZ0kylePzqR6FaXWpyUvsTKmY3QLat
+         rL5g==
+X-Gm-Message-State: ACgBeo1YCtfqxqmxtcDCUC++TIF3Ez0T8sYKe3FmruGgerhC74xWPKyQ
+	6+ZYN7r6K0Iy3LZEVFgO8j3+hZsU+7wPS+GQna+pTP+8MHj0raWKPY7JQRfN4L21Lek7PsvM275
+	RUi3fH8fPb3MZkVQ=
+X-Received: by 2002:a17:90b:388e:b0:1fb:62c1:9cb7 with SMTP id mu14-20020a17090b388e00b001fb62c19cb7mr2376268pjb.207.1661250770106;
+        Tue, 23 Aug 2022 03:32:50 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6iUm2WmP1VFW5pKsIifzT1lsCFYmGmekjg+OIP+inBS9uOxw2yUraGZCxAbxxhzTwSWAiNsA==
+X-Received: by 2002:a17:90b:388e:b0:1fb:62c1:9cb7 with SMTP id mu14-20020a17090b388e00b001fb62c19cb7mr2376248pjb.207.1661250769833;
+        Tue, 23 Aug 2022 03:32:49 -0700 (PDT)
+Received: from xps13.. ([240d:1a:c0d:9f00:4f2f:926a:23dd:8588])
+        by smtp.gmail.com with ESMTPSA id u6-20020a170902e5c600b0016d88dc7745sm10128914plf.259.2022.08.23.03.32.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Aug 2022 03:32:49 -0700 (PDT)
+From: Shigeru Yoshida <syoshida@redhat.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Shigeru Yoshida <syoshida@redhat.com>,
+	syzbot+9d67170b20e8f94351c8@syzkaller.appspotmail.com
+Subject: [PATCH] fs/ntfs3: Fix memory leak on ntfs_fill_super() error path
+Date: Tue, 23 Aug 2022 19:32:05 +0900
+Message-Id: <20220823103205.1380235-1-syoshida@redhat.com>
+X-Mailer: git-send-email 2.37.2
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a02:1d09:0:b0:33b:a8cc:17d3 with SMTP id
- 9-20020a021d09000000b0033ba8cc17d3mr10741726jaj.25.1661237967928; Mon, 22 Aug
- 2022 23:59:27 -0700 (PDT)
-Date: Mon, 22 Aug 2022 23:59:27 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f745de05e6e31a3f@google.com>
-Subject: [syzbot] UBSAN: shift-out-of-bounds in __access_remote_vm
-From: syzbot <syzbot+35b87c668935bb55e666@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, 
-	clang-built-linux@googlegroups.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
-	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, trix@redhat.com, viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Hello,
+syzbot reported kmemleak as below:
 
-syzbot found the following issue on:
+BUG: memory leak
+unreferenced object 0xffff8880122f1540 (size 32):
+  comm "a.out", pid 6664, jiffies 4294939771 (age 25.500s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 ed ff ed ff 00 00 00 00  ................
+  backtrace:
+    [<ffffffff81b16052>] ntfs_init_fs_context+0x22/0x1c0
+    [<ffffffff8164aaa7>] alloc_fs_context+0x217/0x430
+    [<ffffffff81626dd4>] path_mount+0x704/0x1080
+    [<ffffffff81627e7c>] __x64_sys_mount+0x18c/0x1d0
+    [<ffffffff84593e14>] do_syscall_64+0x34/0xb0
+    [<ffffffff84600087>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
 
-HEAD commit:    8755ae45a9e8 Add linux-next specific files for 20220819
-git tree:       linux-next
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=144f3023080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ead6107a3bbe3c62
-dashboard link: https://syzkaller.appspot.com/bug?extid=35b87c668935bb55e666
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10a5c1f3080000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16e9ce85080000
+This patch fixes this issue by freeing mount options on error path of
+ntfs_fill_super().
 
-The issue was bisected to:
-
-commit 6e5be40d32fb1907285277c02e74493ed43d77fe
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Fri Aug 13 14:21:30 2021 +0000
-
-    fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=112f1867080000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=132f1867080000
-console output: https://syzkaller.appspot.com/x/log.txt?x=152f1867080000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+35b87c668935bb55e666@syzkaller.appspotmail.com
-Fixes: 6e5be40d32fb ("fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile")
-
-loop0: detected capacity change from 0 to 64
-================================================================================
-UBSAN: shift-out-of-bounds in fs/ntfs3/super.c:675:13
-shift exponent -247 is negative
-CPU: 0 PID: 3617 Comm: syz-executor807 Not tainted 6.0.0-rc1-next-20220819-syzkaller #0
-BUG: sleeping function called from invalid context at kernel/locking/rwsem.c:1521
-in_atomic(): 0, irqs_disabled(): 1, non_block: 0, pid: 3617, name: syz-executor807
-preempt_count: 0, expected: 0
-RCU nest depth: 0, expected: 0
-1 lock held by syz-executor807/3617:
- #0: ffff888022d380e0 (&type->s_umount_key#41/1){+.+.}-{3:3}, at: alloc_super+0x22e/0xb60 fs/super.c:228
-irq event stamp: 4810
-hardirqs last  enabled at (4809): [<ffffffff816199ce>] __up_console_sem+0xae/0xc0 kernel/printk/printk.c:264
-hardirqs last disabled at (4810): [<ffffffff894c1738>] dump_stack_lvl+0x2e/0x134 lib/dump_stack.c:139
-softirqs last  enabled at (4804): [<ffffffff81491a33>] invoke_softirq kernel/softirq.c:445 [inline]
-softirqs last  enabled at (4804): [<ffffffff81491a33>] __irq_exit_rcu+0x123/0x180 kernel/softirq.c:650
-softirqs last disabled at (4789): [<ffffffff81491a33>] invoke_softirq kernel/softirq.c:445 [inline]
-softirqs last disabled at (4789): [<ffffffff81491a33>] __irq_exit_rcu+0x123/0x180 kernel/softirq.c:650
-CPU: 0 PID: 3617 Comm: syz-executor807 Not tainted 6.0.0-rc1-next-20220819-syzkaller #0
-syz-executor807[3617] cmdline: ./syz-executor807082514
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:122 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:140
- __might_resched.cold+0x222/0x26b kernel/sched/core.c:9896
- down_read_killable+0x75/0x490 kernel/locking/rwsem.c:1521
- mmap_read_lock_killable include/linux/mmap_lock.h:126 [inline]
- __access_remote_vm+0xac/0x6f0 mm/memory.c:5461
- get_mm_cmdline.part.0+0x217/0x620 fs/proc/base.c:299
- get_mm_cmdline fs/proc/base.c:367 [inline]
- get_task_cmdline_kernel+0x1d9/0x220 fs/proc/base.c:367
- dump_stack_print_cmdline.part.0+0x82/0x150 lib/dump_stack.c:61
- dump_stack_print_cmdline lib/dump_stack.c:89 [inline]
- dump_stack_print_info+0x185/0x190 lib/dump_stack.c:97
- __dump_stack lib/dump_stack.c:121 [inline]
- dump_stack_lvl+0xc1/0x134 lib/dump_stack.c:140
- ubsan_epilogue+0xb/0x50 lib/ubsan.c:151
- __ubsan_handle_shift_out_of_bounds.cold+0xb1/0x187 lib/ubsan.c:322
- parse_ntfs_boot_sector fs/ntfs/super.c:915 [inline]
- ntfs_fill_super.cold+0x147/0x56c fs/ntfs/super.c:2792
- get_tree_bdev+0x440/0x760 fs/super.c:1323
- vfs_get_tree+0x89/0x2f0 fs/super.c:1530
- do_new_mount fs/namespace.c:3040 [inline]
- path_mount+0x1326/0x1e20 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fcec358610a
-Code: 83 c4 08 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffd5a5afbf8 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007ffd5a5afc50 RCX: 00007fcec358610a
-RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007ffd5a5afc10
-RBP: 00007ffd5a5afc10 R08: 00007ffd5a5afc50 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000286 R12: 0000000020000230
-R13: 0000000000000003 R14: 0000000000000004 R15: 0000000000000002
- </TASK>
-syz-executor807[3617] cmdline: ./syz-executor807082514
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:122 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:140
- ubsan_epilogue+0xb/0x50 lib/ubsan.c:151
- __ubsan_handle_shift_out_of_bounds.cold+0xb1/0x187 lib/ubsan.c:322
- parse_ntfs_boot_sector fs/ntfs/super.c:915 [inline]
- ntfs_fill_super.cold+0x147/0x56c fs/ntfs/super.c:2792
- get_tree_bdev+0x440/0x760 fs/super.c:1323
- vfs_get_tree+0x89/0x2f0 fs/super.c:1530
- do_new_mount fs/namespace.c:3040 [inline]
- path_mount+0x1326/0x1e20 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fcec358610a
-Code: 83 c4 08 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffd5a5afbf8 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007ffd5a5afc50 RCX: 00007fcec358610a
-RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007ffd5a5afc10
-RBP: 00007ffd5a5afc10 R08: 00007ffd5a5afc50 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000286 R12: 0000000020000230
-R13: 0000000000000003 R14: 0000000000000004 R15: 0000000000000002
- </TASK>
-================================================================================
-
-
+Reported-by: syzbot+9d67170b20e8f94351c8@syzkaller.appspotmail.com
+Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/super.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 47012c9bf505..c0e45f170701 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -1281,6 +1281,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	 * Free resources here.
+ 	 * ntfs_fs_free will be called with fc->s_fs_info = NULL
+ 	 */
++	put_mount_options(sbi->options);
+ 	put_ntfs(sbi);
+ 	sb->s_fs_info = NULL;
+ 
+-- 
+2.37.2
+
