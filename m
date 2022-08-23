@@ -1,83 +1,167 @@
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735EBA3D
-	for <ntfs3@lists.linux.dev>; Tue, 23 Aug 2022 06:18:36 +0000 (UTC)
-Received: by mail-io1-f70.google.com with SMTP id a21-20020a5d9815000000b006882e9be20aso6837726iol.17
-        for <ntfs3@lists.linux.dev>; Mon, 22 Aug 2022 23:18:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE817A4D
+	for <ntfs3@lists.linux.dev>; Tue, 23 Aug 2022 06:59:28 +0000 (UTC)
+Received: by mail-io1-f71.google.com with SMTP id i14-20020a5d934e000000b006892db5bcd4so7010584ioo.22
+        for <ntfs3@lists.linux.dev>; Mon, 22 Aug 2022 23:59:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc;
-        bh=w7IBh16YCOLSqhh2JLVcXFQTO2VKalGU5Te6z3qBSMc=;
-        b=dfF8B88kUbzupY50qD/IbApnjPFfUIL8YVlaJhwrCTG1Db6+UYy6SX04szH63kLcaH
-         AtJTu8EwJmBL7jPpqIysBhFq+Qhcl1n6DfZPsGHwJVxKLN5dJIwCwvTn2T9CNuxFcE0i
-         dMa/D/nfl9zCgtBNFDVENTc8i7CXCzJwa+SQLAe5iCrj31TZMYSQZkvz88Y7fkh35UYA
-         7OlHsMhQFcpFMH8f8LUsBn+ex9+m/1N8q4sQAr0A1n/zw8BwJDLwrUQjz5fXE0ZpED2x
-         fOv+MMJyC59WKKuzJ1zr2G8cZNEe/+6T/PZEPSHy3ivhFmsHLvXlzVrS+q10MFBjMGk2
-         40sQ==
-X-Gm-Message-State: ACgBeo0FTa8TqNz5LtOehBD8U7xUSxo87k9odY7nAIleNBvkZz1NqX4W
-	qGOcSthY8qa6Frx8hXGmjUkJIC3hh6jMjvLpaPmiqYbcnG1A
-X-Google-Smtp-Source: AA6agR6ZjVfPnVgmZjl23yXcHlr22t2DH/cVcuWLiCkH385YErK52BwMvN4Ge2U5Gj99sViQbuYqE2WhAZKQzNWxEXweKfeCQkaE
+        bh=29V1kxVUW3EwQRaqzTQ6JyEXfaDjKQkAV8eYjg4pbH0=;
+        b=BYzV7f56bA1XoNRoY1qgkcPvm3ZrgPTXf9WWG5GV3OPfdas6WlkVTS2qXJ5moSNy3i
+         Tm4cLV7GnStFwpEctVt7T4MMQjzqF6GxZOCyuThhAg6src/ZD3pe0yIYrIf78b4yIQC5
+         aBxhmMwp98NrK0mSMQFZkkuKdnIdZ2Qg7LNDdiJh2Xlxf4g7fwSJ9U/2uEaUQe0i2270
+         94wXZJL1GhLDOR25OyUPHJmrFbC0CsyQ0QWNd29K2mNjbdwZXctNTCYq74unrT9gSG+R
+         GQOzJ5vZO5zDPQKw06Z5+OR9TBni9/d+P+P2Um3GHw46EAdNZaSTqeSuQ3CKPcqig/rp
+         a/aw==
+X-Gm-Message-State: ACgBeo3w3NEC/v5e4uzeRoyKFUdi3qtDlOD8KeoDeN0cum9XdO4BmYZK
+	uCN7iRD/wYe2EHglrXOEgw+vtE7Z69Ni6pNOT4kY74e5bIKD
+X-Google-Smtp-Source: AA6agR6SSfDZQSDLeDvPmJDFgTvyl5pTtyWjSq9EkDJMEiQjLoF1JUUQ7BRr0sEjXBEZnsBE+e3LHxxY9lSBYaVLmvsD10vvIdsF
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:f04:b0:2e9:be2a:5fac with SMTP id
- x4-20020a056e020f0400b002e9be2a5facmr4268302ilj.70.1661235515559; Mon, 22 Aug
- 2022 23:18:35 -0700 (PDT)
-Date: Mon, 22 Aug 2022 23:18:35 -0700
+X-Received: by 2002:a02:1d09:0:b0:33b:a8cc:17d3 with SMTP id
+ 9-20020a021d09000000b0033ba8cc17d3mr10741726jaj.25.1661237967928; Mon, 22 Aug
+ 2022 23:59:27 -0700 (PDT)
+Date: Mon, 22 Aug 2022 23:59:27 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000cb172905e6e28808@google.com>
-Subject: [syzbot] memory leak in ntfs_init_fs_context
-From: syzbot <syzbot+9d67170b20e8f94351c8@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
+Message-ID: <000000000000f745de05e6e31a3f@google.com>
+Subject: [syzbot] UBSAN: shift-out-of-bounds in __access_remote_vm
+From: syzbot <syzbot+35b87c668935bb55e666@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, 
+	clang-built-linux@googlegroups.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com, viro@zeniv.linux.org.uk
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    1c23f9e627a7 Linux 6.0-rc2
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=16caa92d080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b1831d905b683446
-dashboard link: https://syzkaller.appspot.com/bug?extid=9d67170b20e8f94351c8
+HEAD commit:    8755ae45a9e8 Add linux-next specific files for 20220819
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=144f3023080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ead6107a3bbe3c62
+dashboard link: https://syzkaller.appspot.com/bug?extid=35b87c668935bb55e666
 compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=161472f3080000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=145f3e2d080000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10a5c1f3080000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16e9ce85080000
+
+The issue was bisected to:
+
+commit 6e5be40d32fb1907285277c02e74493ed43d77fe
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Fri Aug 13 14:21:30 2021 +0000
+
+    fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=112f1867080000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=132f1867080000
+console output: https://syzkaller.appspot.com/x/log.txt?x=152f1867080000
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+9d67170b20e8f94351c8@syzkaller.appspotmail.com
+Reported-by: syzbot+35b87c668935bb55e666@syzkaller.appspotmail.com
+Fixes: 6e5be40d32fb ("fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile")
 
-executing program
-executing program
-BUG: memory leak
-unreferenced object 0xffff8881100918a0 (size 32):
-  comm "syz-executor151", pid 3611, jiffies 4294944949 (age 8.110s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 c0 ff c0 ff 00 00 00 00  ................
-  backtrace:
-    [<ffffffff81b23cb2>] kmalloc include/linux/slab.h:600 [inline]
-    [<ffffffff81b23cb2>] kzalloc include/linux/slab.h:733 [inline]
-    [<ffffffff81b23cb2>] ntfs_init_fs_context+0x22/0x1e0 fs/ntfs3/super.c:1397
-    [<ffffffff81650025>] alloc_fs_context+0x225/0x3b0 fs/fs_context.c:290
-    [<ffffffff8162beb3>] do_new_mount fs/namespace.c:3025 [inline]
-    [<ffffffff8162beb3>] path_mount+0x6f3/0x10d0 fs/namespace.c:3370
-    [<ffffffff8162cfde>] do_mount fs/namespace.c:3383 [inline]
-    [<ffffffff8162cfde>] __do_sys_mount fs/namespace.c:3591 [inline]
-    [<ffffffff8162cfde>] __se_sys_mount fs/namespace.c:3568 [inline]
-    [<ffffffff8162cfde>] __x64_sys_mount+0x18e/0x1d0 fs/namespace.c:3568
-    [<ffffffff845e4855>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-    [<ffffffff845e4855>] do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
-    [<ffffffff84800087>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
+loop0: detected capacity change from 0 to 64
+================================================================================
+UBSAN: shift-out-of-bounds in fs/ntfs3/super.c:675:13
+shift exponent -247 is negative
+CPU: 0 PID: 3617 Comm: syz-executor807 Not tainted 6.0.0-rc1-next-20220819-syzkaller #0
+BUG: sleeping function called from invalid context at kernel/locking/rwsem.c:1521
+in_atomic(): 0, irqs_disabled(): 1, non_block: 0, pid: 3617, name: syz-executor807
+preempt_count: 0, expected: 0
+RCU nest depth: 0, expected: 0
+1 lock held by syz-executor807/3617:
+ #0: ffff888022d380e0 (&type->s_umount_key#41/1){+.+.}-{3:3}, at: alloc_super+0x22e/0xb60 fs/super.c:228
+irq event stamp: 4810
+hardirqs last  enabled at (4809): [<ffffffff816199ce>] __up_console_sem+0xae/0xc0 kernel/printk/printk.c:264
+hardirqs last disabled at (4810): [<ffffffff894c1738>] dump_stack_lvl+0x2e/0x134 lib/dump_stack.c:139
+softirqs last  enabled at (4804): [<ffffffff81491a33>] invoke_softirq kernel/softirq.c:445 [inline]
+softirqs last  enabled at (4804): [<ffffffff81491a33>] __irq_exit_rcu+0x123/0x180 kernel/softirq.c:650
+softirqs last disabled at (4789): [<ffffffff81491a33>] invoke_softirq kernel/softirq.c:445 [inline]
+softirqs last disabled at (4789): [<ffffffff81491a33>] __irq_exit_rcu+0x123/0x180 kernel/softirq.c:650
+CPU: 0 PID: 3617 Comm: syz-executor807 Not tainted 6.0.0-rc1-next-20220819-syzkaller #0
+syz-executor807[3617] cmdline: ./syz-executor807082514
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:122 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:140
+ __might_resched.cold+0x222/0x26b kernel/sched/core.c:9896
+ down_read_killable+0x75/0x490 kernel/locking/rwsem.c:1521
+ mmap_read_lock_killable include/linux/mmap_lock.h:126 [inline]
+ __access_remote_vm+0xac/0x6f0 mm/memory.c:5461
+ get_mm_cmdline.part.0+0x217/0x620 fs/proc/base.c:299
+ get_mm_cmdline fs/proc/base.c:367 [inline]
+ get_task_cmdline_kernel+0x1d9/0x220 fs/proc/base.c:367
+ dump_stack_print_cmdline.part.0+0x82/0x150 lib/dump_stack.c:61
+ dump_stack_print_cmdline lib/dump_stack.c:89 [inline]
+ dump_stack_print_info+0x185/0x190 lib/dump_stack.c:97
+ __dump_stack lib/dump_stack.c:121 [inline]
+ dump_stack_lvl+0xc1/0x134 lib/dump_stack.c:140
+ ubsan_epilogue+0xb/0x50 lib/ubsan.c:151
+ __ubsan_handle_shift_out_of_bounds.cold+0xb1/0x187 lib/ubsan.c:322
+ parse_ntfs_boot_sector fs/ntfs/super.c:915 [inline]
+ ntfs_fill_super.cold+0x147/0x56c fs/ntfs/super.c:2792
+ get_tree_bdev+0x440/0x760 fs/super.c:1323
+ vfs_get_tree+0x89/0x2f0 fs/super.c:1530
+ do_new_mount fs/namespace.c:3040 [inline]
+ path_mount+0x1326/0x1e20 fs/namespace.c:3370
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fcec358610a
+Code: 83 c4 08 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd5a5afbf8 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007ffd5a5afc50 RCX: 00007fcec358610a
+RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007ffd5a5afc10
+RBP: 00007ffd5a5afc10 R08: 00007ffd5a5afc50 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000286 R12: 0000000020000230
+R13: 0000000000000003 R14: 0000000000000004 R15: 0000000000000002
+ </TASK>
+syz-executor807[3617] cmdline: ./syz-executor807082514
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:122 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:140
+ ubsan_epilogue+0xb/0x50 lib/ubsan.c:151
+ __ubsan_handle_shift_out_of_bounds.cold+0xb1/0x187 lib/ubsan.c:322
+ parse_ntfs_boot_sector fs/ntfs/super.c:915 [inline]
+ ntfs_fill_super.cold+0x147/0x56c fs/ntfs/super.c:2792
+ get_tree_bdev+0x440/0x760 fs/super.c:1323
+ vfs_get_tree+0x89/0x2f0 fs/super.c:1530
+ do_new_mount fs/namespace.c:3040 [inline]
+ path_mount+0x1326/0x1e20 fs/namespace.c:3370
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fcec358610a
+Code: 83 c4 08 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd5a5afbf8 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007ffd5a5afc50 RCX: 00007fcec358610a
+RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007ffd5a5afc10
+RBP: 00007ffd5a5afc10 R08: 00007ffd5a5afc50 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000286 R12: 0000000020000230
+R13: 0000000000000003 R14: 0000000000000004 R15: 0000000000000002
+ </TASK>
+================================================================================
 
 
 ---
@@ -87,5 +171,6 @@ syzbot engineers can be reached at syzkaller@googlegroups.com.
 
 syzbot will keep track of this issue. See:
 https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 syzbot can test patches for this issue, for details see:
 https://goo.gl/tpsmEJ#testing-patches
