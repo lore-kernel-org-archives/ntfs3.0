@@ -1,171 +1,91 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B2733EC
-	for <ntfs3@lists.linux.dev>; Mon, 22 Aug 2022 17:40:41 +0000 (UTC)
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 8895A1D17;
-	Mon, 22 Aug 2022 17:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1661189931;
-	bh=XhlKghQJEH4TVDn/vL6j2f9t4RzK5CUez5pQCQZ+l1c=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=hQ6dh5tuuS9MSCs0YT4GMsofD6nDAWX5Rxx1uXij7u4pMuKnY4MknYmJnnVB0BZnp
-	 aK98Zu5Q1vQTLmkRGM2Q8nC2Y360kJnPtLpHHMmkqCRKrEoEF/+yyS46dk2oQqjuUh
-	 a5DBEHy71sFGsAXHuf//mZFC+a/eMOjHQjfxMJWw=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 418C12118;
-	Mon, 22 Aug 2022 17:40:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1661190033;
-	bh=XhlKghQJEH4TVDn/vL6j2f9t4RzK5CUez5pQCQZ+l1c=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=TM4xIMXnui3569S5Kwainud6LvJOPbjAzr6Gr53J69Mz+tTNRpZU6my+1uq4V+out
-	 6ysqLlmtkaE4k238sqTcFsJFwG3H+z15Dp9PYbtFMCMT6OS85PPFOWDn29znq9mHL9
-	 GyadZM6P+uEla6RmtbonRNKj0CBfvOQADJ7YU7Tw=
-Received: from [172.30.8.65] (172.30.8.65) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Mon, 22 Aug 2022 20:40:32 +0300
-Message-ID: <86ac0423-5e71-4768-a8f8-1ec2673cae5c@paragon-software.com>
-Date: Mon, 22 Aug 2022 20:40:32 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735EBA3D
+	for <ntfs3@lists.linux.dev>; Tue, 23 Aug 2022 06:18:36 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id a21-20020a5d9815000000b006882e9be20aso6837726iol.17
+        for <ntfs3@lists.linux.dev>; Mon, 22 Aug 2022 23:18:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc;
+        bh=w7IBh16YCOLSqhh2JLVcXFQTO2VKalGU5Te6z3qBSMc=;
+        b=dfF8B88kUbzupY50qD/IbApnjPFfUIL8YVlaJhwrCTG1Db6+UYy6SX04szH63kLcaH
+         AtJTu8EwJmBL7jPpqIysBhFq+Qhcl1n6DfZPsGHwJVxKLN5dJIwCwvTn2T9CNuxFcE0i
+         dMa/D/nfl9zCgtBNFDVENTc8i7CXCzJwa+SQLAe5iCrj31TZMYSQZkvz88Y7fkh35UYA
+         7OlHsMhQFcpFMH8f8LUsBn+ex9+m/1N8q4sQAr0A1n/zw8BwJDLwrUQjz5fXE0ZpED2x
+         fOv+MMJyC59WKKuzJ1zr2G8cZNEe/+6T/PZEPSHy3ivhFmsHLvXlzVrS+q10MFBjMGk2
+         40sQ==
+X-Gm-Message-State: ACgBeo0FTa8TqNz5LtOehBD8U7xUSxo87k9odY7nAIleNBvkZz1NqX4W
+	qGOcSthY8qa6Frx8hXGmjUkJIC3hh6jMjvLpaPmiqYbcnG1A
+X-Google-Smtp-Source: AA6agR6ZjVfPnVgmZjl23yXcHlr22t2DH/cVcuWLiCkH385YErK52BwMvN4Ge2U5Gj99sViQbuYqE2WhAZKQzNWxEXweKfeCQkaE
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] ntfs: fix acl handling
-Content-Language: en-US
-To: Christian Brauner <brauner@kernel.org>, <ntfs3@lists.linux.dev>
-CC: <linux-fsdevel@vger.kernel.org>
-References: <20220720123252.686466-1-brauner@kernel.org>
- <20220818074729.u45tzc3lq7y6zibd@wittgenstein>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20220818074729.u45tzc3lq7y6zibd@wittgenstein>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.30.8.65]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Received: by 2002:a05:6e02:f04:b0:2e9:be2a:5fac with SMTP id
+ x4-20020a056e020f0400b002e9be2a5facmr4268302ilj.70.1661235515559; Mon, 22 Aug
+ 2022 23:18:35 -0700 (PDT)
+Date: Mon, 22 Aug 2022 23:18:35 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000cb172905e6e28808@google.com>
+Subject: [syzbot] memory leak in ntfs_init_fs_context
+From: syzbot <syzbot+9d67170b20e8f94351c8@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    1c23f9e627a7 Linux 6.0-rc2
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16caa92d080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b1831d905b683446
+dashboard link: https://syzkaller.appspot.com/bug?extid=9d67170b20e8f94351c8
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=161472f3080000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=145f3e2d080000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+9d67170b20e8f94351c8@syzkaller.appspotmail.com
+
+executing program
+executing program
+BUG: memory leak
+unreferenced object 0xffff8881100918a0 (size 32):
+  comm "syz-executor151", pid 3611, jiffies 4294944949 (age 8.110s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 c0 ff c0 ff 00 00 00 00  ................
+  backtrace:
+    [<ffffffff81b23cb2>] kmalloc include/linux/slab.h:600 [inline]
+    [<ffffffff81b23cb2>] kzalloc include/linux/slab.h:733 [inline]
+    [<ffffffff81b23cb2>] ntfs_init_fs_context+0x22/0x1e0 fs/ntfs3/super.c:1397
+    [<ffffffff81650025>] alloc_fs_context+0x225/0x3b0 fs/fs_context.c:290
+    [<ffffffff8162beb3>] do_new_mount fs/namespace.c:3025 [inline]
+    [<ffffffff8162beb3>] path_mount+0x6f3/0x10d0 fs/namespace.c:3370
+    [<ffffffff8162cfde>] do_mount fs/namespace.c:3383 [inline]
+    [<ffffffff8162cfde>] __do_sys_mount fs/namespace.c:3591 [inline]
+    [<ffffffff8162cfde>] __se_sys_mount fs/namespace.c:3568 [inline]
+    [<ffffffff8162cfde>] __x64_sys_mount+0x18e/0x1d0 fs/namespace.c:3568
+    [<ffffffff845e4855>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+    [<ffffffff845e4855>] do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+    [<ffffffff84800087>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
 
 
 
-On 8/18/22 10:47, Christian Brauner wrote:
-> On Wed, Jul 20, 2022 at 02:32:52PM +0200, Christian Brauner wrote:
->> While looking at our current POSIX ACL handling in the context of some
->> overlayfs work I went through a range of other filesystems checking how they
->> handle them currently and encountered ntfs3.
->>
->> The posic_acl_{from,to}_xattr() helpers always need to operate on the
->> filesystem idmapping. Since ntfs3 can only be mounted in the initial user
->> namespace the relevant idmapping is init_user_ns.
->>
->> The posix_acl_{from,to}_xattr() helpers are concerned with translating between
->> the kernel internal struct posix_acl{_entry} and the uapi struct
->> posix_acl_xattr_{header,entry} and the kernel internal data structure is cached
->> filesystem wide.
->>
->> Additional idmappings such as the caller's idmapping or the mount's idmapping
->> are handled higher up in the VFS. Individual filesystems usually do not need to
->> concern themselves with these.
->>
->> The posix_acl_valid() helper is concerned with checking whether the values in
->> the kernel internal struct posix_acl can be represented in the filesystem's
->> idmapping. IOW, if they can be written to disk. So this helper too needs to
->> take the filesystem's idmapping.
->>
->> Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
->> Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
->> Cc: ntfs3@lists.linux.dev
->> Signed-off-by: Christian Brauner (Microsoft) <brauner@kernel.org>
->> ---
-> 
-> Somehow this patch fell through the cracks and this should really be
-> fixed. Do you plan on sending a PR for this soon or should I just send
-> it through my tree?
-> 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Thanks for catching this, I've missed this patch.
-I've run tests - everything seems to be fine.
-I've already sent PR for 6.0 and next PR will probably be sometime in September or later.
-Can you send it through your tree?
-
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-
->>   fs/ntfs3/xattr.c | 16 +++++++---------
->>   1 file changed, 7 insertions(+), 9 deletions(-)
->>
->> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
->> index 5e0e0280e70d..3e9118705174 100644
->> --- a/fs/ntfs3/xattr.c
->> +++ b/fs/ntfs3/xattr.c
->> @@ -478,8 +478,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
->>   }
->>   
->>   #ifdef CONFIG_NTFS3_FS_POSIX_ACL
->> -static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
->> -					 struct inode *inode, int type,
->> +static struct posix_acl *ntfs_get_acl_ex(struct inode *inode, int type,
->>   					 int locked)
->>   {
->>   	struct ntfs_inode *ni = ntfs_i(inode);
->> @@ -514,7 +513,7 @@ static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
->>   
->>   	/* Translate extended attribute to acl. */
->>   	if (err >= 0) {
->> -		acl = posix_acl_from_xattr(mnt_userns, buf, err);
->> +		acl = posix_acl_from_xattr(&init_user_ns, buf, err);
->>   	} else if (err == -ENODATA) {
->>   		acl = NULL;
->>   	} else {
->> @@ -537,8 +536,7 @@ struct posix_acl *ntfs_get_acl(struct inode *inode, int type, bool rcu)
->>   	if (rcu)
->>   		return ERR_PTR(-ECHILD);
->>   
->> -	/* TODO: init_user_ns? */
->> -	return ntfs_get_acl_ex(&init_user_ns, inode, type, 0);
->> +	return ntfs_get_acl_ex(inode, type, 0);
->>   }
->>   
->>   static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
->> @@ -595,7 +593,7 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
->>   		value = kmalloc(size, GFP_NOFS);
->>   		if (!value)
->>   			return -ENOMEM;
->> -		err = posix_acl_to_xattr(mnt_userns, acl, value, size);
->> +		err = posix_acl_to_xattr(&init_user_ns, acl, value, size);
->>   		if (err < 0)
->>   			goto out;
->>   		flags = 0;
->> @@ -641,7 +639,7 @@ static int ntfs_xattr_get_acl(struct user_namespace *mnt_userns,
->>   	if (!acl)
->>   		return -ENODATA;
->>   
->> -	err = posix_acl_to_xattr(mnt_userns, acl, buffer, size);
->> +	err = posix_acl_to_xattr(&init_user_ns, acl, buffer, size);
->>   	posix_acl_release(acl);
->>   
->>   	return err;
->> @@ -665,12 +663,12 @@ static int ntfs_xattr_set_acl(struct user_namespace *mnt_userns,
->>   	if (!value) {
->>   		acl = NULL;
->>   	} else {
->> -		acl = posix_acl_from_xattr(mnt_userns, value, size);
->> +		acl = posix_acl_from_xattr(&init_user_ns, value, size);
->>   		if (IS_ERR(acl))
->>   			return PTR_ERR(acl);
->>   
->>   		if (acl) {
->> -			err = posix_acl_valid(mnt_userns, acl);
->> +			err = posix_acl_valid(&init_user_ns, acl);
->>   			if (err)
->>   				goto release_and_out;
->>   		}
->>
->> base-commit: ff6992735ade75aae3e35d16b17da1008d753d28
->> -- 
->> 2.34.1
->>
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
