@@ -1,99 +1,132 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18E82589
-	for <ntfs3@lists.linux.dev>; Tue, 23 Aug 2022 14:46:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1661265993;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=u6WCJy76wyGRQ/+mlD3iaHvNl3EBMPU7sOD/gN0Mivg=;
-	b=YRh1UlgyvIV2sixt9XzLh02PB7+bxen4MJZqhpfSGvdVDZ3Yc5AipH5Jyl7Cd3abdWNDBe
-	MeOA0EYSSWtpbUA3WV2GAcKKVxNYjaBNTe18IKw2YjS1zfXAgdYiqiysUb2tthRAGyinI8
-	HB0n0oj/7hi3wLkj9lzryB+Wzep4F8o=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-303-EHIiMQTJMJ6ouzqes7D_Xw-1; Tue, 23 Aug 2022 10:46:32 -0400
-X-MC-Unique: EHIiMQTJMJ6ouzqes7D_Xw-1
-Received: by mail-pj1-f72.google.com with SMTP id n30-20020a17090a5aa100b001fb0c492d5eso4124128pji.3
-        for <ntfs3@lists.linux.dev>; Tue, 23 Aug 2022 07:46:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BC010E6
+	for <ntfs3@lists.linux.dev>; Wed, 24 Aug 2022 16:36:33 +0000 (UTC)
+Received: by mail-io1-f72.google.com with SMTP id g13-20020a056602072d00b0068825561753so9490574iox.7
+        for <ntfs3@lists.linux.dev>; Wed, 24 Aug 2022 09:36:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=u6WCJy76wyGRQ/+mlD3iaHvNl3EBMPU7sOD/gN0Mivg=;
-        b=wJSKcwvOpthNsC6Y54Yr/FDti99sUOPpHk40mm5tN9cIlxhPp/MQf/Jp+kw7RccmsT
-         st1JqQN4RoNLAfpo4FfbOCpITvtMgckUYAnVKtWwg6o++euxrG0Ujd3BjVbktYGny5St
-         zY87Rk2wMaRYMZ8RZFOjcHstUX22k6A1/3bub2r2syI5Qfeu8iw2BM9HD7VVDyjauaqT
-         qZPQsEdQSLKde2Le3BpCKacQ0SD2+ql4Hpp6bBSrx7rbdE0Fb7miYw0r8hb3CTdUJoA1
-         BrS3MBxx+/5nhlBpAD2jx0Jzz2CIVtmYeZGPsDf1a8zHaFMCMq20rOFHr4okWHsv3rAz
-         RHWA==
-X-Gm-Message-State: ACgBeo0WxxKDCJhSb8abVE7PRg/83rarLiN8Pv0RpnPMCtVJuZKFJ4ai
-	yDhbRiJYey0ZNU1Fx0TYAv/+149wUsF5Z19pyJZtEpKYED8v3Hnz4oz8irc4SJKDn2E7nHBZRDF
-	SDALL/9/xtsfGLzM=
-X-Received: by 2002:a17:90a:bc47:b0:1fa:e634:739c with SMTP id t7-20020a17090abc4700b001fae634739cmr3595507pjv.120.1661265991320;
-        Tue, 23 Aug 2022 07:46:31 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7EcORGG0DtriXJLrLj+1Vy8+kFi8dMSE0nWfTxuMefbW3Yi+Gt9GSVqnoMs/8V8/1cNZVjPA==
-X-Received: by 2002:a17:90a:bc47:b0:1fa:e634:739c with SMTP id t7-20020a17090abc4700b001fae634739cmr3595488pjv.120.1661265991087;
-        Tue, 23 Aug 2022 07:46:31 -0700 (PDT)
-Received: from xps13.. ([240d:1a:c0d:9f00:4f2f:926a:23dd:8588])
-        by smtp.gmail.com with ESMTPSA id l63-20020a622542000000b00535e49245d6sm10519824pfl.12.2022.08.23.07.46.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 07:46:30 -0700 (PDT)
-From: Shigeru Yoshida <syoshida@redhat.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Shigeru Yoshida <syoshida@redhat.com>,
-	"Author : Randy Dunlap" <rdunlap@infradead.org>,
-	syzbot+35b87c668935bb55e666@syzkaller.appspotmail.com
-Subject: [PATCH] fs/ntfs3: Avoid UBSAN error on true_sectors_per_clst()
-Date: Tue, 23 Aug 2022 23:46:25 +0900
-Message-Id: <20220823144625.1627736-1-syoshida@redhat.com>
-X-Mailer: git-send-email 2.37.2
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc;
+        bh=0e2/BSTLxVDl9t2FnXBs3U/ZaI7RFyb5pQeTdPS3oe0=;
+        b=gl9tHmdu9bclz121FtlG8c0wKNrgqB0xAUiN8fNhz+7MK/fOtx+25g2YAiNBvPZ+I6
+         tO2806r32RbcWpCExebN8YEfLt7SwSoRUvYgPFsHUmt/HSeef/MPBf739MlASfI/njZy
+         P0uQNgEv8iyXMRSGMlPzS1G52M+OxXrSokcZCq1r7IQ3Vh4dEgvy8tksHbBp8tA/6wYk
+         HmOuRRDV4SVj7bMb6E5HVdeUpizBhdOfREQy7Js8KJAPk1VqCKi/YQnYRDPmxKlYnZno
+         gshocCEUmbdGw/Wu2SjZDZYYdOQOA4PD1S8Gfa+BuOSNWpgTLE4opntqAVNbZxxE3jpU
+         OZTg==
+X-Gm-Message-State: ACgBeo2xv67osmlXoA1MRCQ4QFIp3MocKzBH2bLNb8F2meahixwLbjRE
+	dqp9MDfTqyK5wYbNn4NZyvRz98BdtW2AVkzVVppon0Vx7Xej
+X-Google-Smtp-Source: AA6agR50Ms+DOrBZZF6YZxt6t4EkEE6W3wodds7xwFWWZ/FP+H45wm6bVOTAU4IJTMhPU7Q0bgk37aLD6+/6pFOTlILbcHhwBkjB
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+X-Received: by 2002:a05:6e02:152e:b0:2e8:f73f:4e9e with SMTP id
+ i14-20020a056e02152e00b002e8f73f4e9emr2329073ilu.61.1661358992664; Wed, 24
+ Aug 2022 09:36:32 -0700 (PDT)
+Date: Wed, 24 Aug 2022 09:36:32 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000009a318805e6ff48a4@google.com>
+Subject: [syzbot] BUG: unable to handle kernel NULL pointer dereference in ni_find_attr
+From: syzbot <syzbot+69d15cab6309bffae739@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-syzbot reported UBSAN error as below:
+Hello,
 
-[   76.901829][ T6677] ================================================================================
-[   76.903908][ T6677] UBSAN: shift-out-of-bounds in fs/ntfs3/super.c:675:13
-[   76.905363][ T6677] shift exponent -247 is negative
+syzbot found the following issue on:
 
-This patch avoid this error.
+HEAD commit:    1c23f9e627a7 Linux 6.0-rc2
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=152b86a5080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3045c937aad027f7
+dashboard link: https://syzkaller.appspot.com/bug?extid=69d15cab6309bffae739
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1621f485080000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=171012d3080000
 
-Link: https://syzkaller.appspot.com/bug?id=b0299c09a14aababf0f1c862dd4ebc8ab9eb0179
-Fixes: a3b774342fa7 (fs/ntfs3: validate BOOT sectors_per_clusters)
-Cc: Author: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: syzbot+35b87c668935bb55e666@syzkaller.appspotmail.com
-Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+69d15cab6309bffae739@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 75
+ntfs3: loop0: RAW NTFS volume: Filesystem size 0.00 Gb > volume size 0.00 Gb. Mount in read-only
+Unable to handle kernel NULL pointer dereference at virtual address 0000000000000238
+Mem abort info:
+  ESR = 0x0000000096000006
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x06: level 2 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000006
+  CM = 0, WnR = 0
+user pgtable: 4k pages, 48-bit VAs, pgdp=0000000107c58000
+[0000000000000238] pgd=0800000108ac7003, p4d=0800000108ac7003, pud=0800000109389003, pmd=0000000000000000
+Internal error: Oops: 96000006 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 1 PID: 3028 Comm: syz-executor245 Not tainted 6.0.0-rc2-syzkaller-16440-g1c23f9e627a7 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/20/2022
+pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : ni_find_attr+0x54/0x43c fs/ntfs3/frecord.c:194
+lr : ni_find_attr+0x54/0x43c fs/ntfs3/frecord.c:190
+sp : ffff80001200b8f0
+x29: ffff80001200b920 x28: 0000000000000000 x27: 00000000fffffffe
+x26: 0000000000000000 x25: 0000000000000000 x24: ffff80001200b984
+x23: 0000000000000000 x22: 0000000000000080 x21: 0000000000000000
+x20: 0000000000000000 x19: 0000000000000000 x18: 00000000000000c0
+x17: ffff80000dd7a698 x16: 0000000000000000 x15: 0000000000000000
+x14: 0000000000000000 x13: 00000000fffffffe x12: ffff80000d5998c8
+x11: ff80800008be8ec0 x10: 0000000000000000 x9 : ffff800008be8ec0
+x8 : ffff0000c5569a80 x7 : 0000000000000000 x6 : ffff80001200b984
+x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000080
+x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
+Call trace:
+ ni_find_attr+0x54/0x43c fs/ntfs3/frecord.c:190
+ attr_load_runs_vcn+0x6c/0x138 fs/ntfs3/attrib.c:1220
+ mi_read+0x178/0x274 fs/ntfs3/record.c:151
+ ntfs_read_mft fs/ntfs3/inode.c:69 [inline]
+ ntfs_iget5+0x15c/0x138c fs/ntfs3/inode.c:501
+ ntfs_fill_super+0x950/0x14a4 fs/ntfs/super.c:2791
+ get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
+ ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
+ vfs_get_tree+0x40/0x140 fs/super.c:1530
+ do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
+ path_mount+0x358/0x914 fs/namespace.c:3370
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __arm64_sys_mount+0x2f8/0x408 fs/namespace.c:3568
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+ el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x48/0x154 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
+ el0t_64_sync+0x18c/0x190
+Code: aa0103fa aa0003f3 f81f83a8 97daea83 (f9411e7b) 
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	aa0103fa 	mov	x26, x1
+   4:	aa0003f3 	mov	x19, x0
+   8:	f81f83a8 	stur	x8, [x29, #-8]
+   c:	97daea83 	bl	0xffffffffff6baa18
+* 10:	f9411e7b 	ldr	x27, [x19, #568] <-- trapping instruction
+
+
 ---
- fs/ntfs3/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 47012c9bf505..adc4f73722b7 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -672,7 +672,7 @@ static u32 true_sectors_per_clst(const struct NTFS_BOOT *boot)
- 	if (boot->sectors_per_clusters <= 0x80)
- 		return boot->sectors_per_clusters;
- 	if (boot->sectors_per_clusters >= 0xf4) /* limit shift to 2MB max */
--		return 1U << (0 - boot->sectors_per_clusters);
-+		return 1U << -(s8)boot->sectors_per_clusters;
- 	return -EINVAL;
- }
- 
--- 
-2.37.2
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
