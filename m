@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857601363
-	for <ntfs3@lists.linux.dev>; Thu, 25 Aug 2022 01:34:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93160C433C1;
-	Thu, 25 Aug 2022 01:34:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE7D15A1
+	for <ntfs3@lists.linux.dev>; Thu, 25 Aug 2022 01:37:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3C51C433C1;
+	Thu, 25 Aug 2022 01:37:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1661391244;
-	bh=nJQztERCJ6fOtBuXGVaIChdP66y0wPJhC1YXN7Y43yE=;
+	s=k20201202; t=1661391435;
+	bh=gryOjwWDAu/usCl18nIUd96bjcCBzxoffoZ+xdmDChE=;
 	h=From:To:Cc:Subject:Date:From;
-	b=CkdkRV9tHyXuaSwWo18+lnctEyecwmYbcNyvqxOFN1EsswhXRtu7veACj5dF3ta9M
-	 kYHAtwnS345w6TygRa2WDFC5z6W2AfyRE6eWUJ0TczlLUJhl5rQZywBv+HOzwvZDgU
-	 4wo/IiicwwAk0YKTOXD/gXEEeImEz7QITt7S48MRccWM2RFlWc8BKLILeLbxHhLW2w
-	 UvP5Hau566mdFqWvx4H2ZNJ/sYhZv5TXn12LYxpu0tGdhTzIdNFUk4s/+T8EtJjHwX
-	 8hE26dtYDmHgR2OYne/gOiPBTe+TALxPSlMAOSa6Sl0g0ppYOIDFdUOtGCwDYnSzWI
-	 uIcK+N5VrEe1Q==
+	b=hDL0MaqOa1k0otmAPraW0W77RrgQkhvLJcuC6+obGhT/d58JLRZsv94gv0Du3Zz12
+	 cG3dacHQXniAll/1n1WDbKbNodZmI8CRPgHPE3NOYQa/tIiqjwPMK4ePh2e9T/ZVRK
+	 9ZBft8FvZrjxk2KkNydA/11OMWqfy1HT2/VSfq9elEGOzXIt6EOZYX2USj4+YCyYyO
+	 OideMnQ+uVCou5hJZGaA/2pCfNytldEO7rEoIxlw+Cxubi58af3Pa+z+qN+S3De97R
+	 u/BpfSrQVJHf4M62DlNJ78+FpailqmSJQoiTCqNoTL+EMGoeObfDdBZHs9NJSLHLHv
+	 lIuxCJqeHehMw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.19 01/38] fs/ntfs3: Fix work with fragmented xattr
-Date: Wed, 24 Aug 2022 21:33:24 -0400
-Message-Id: <20220825013401.22096-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 01/20] fs/ntfs3: Fix work with fragmented xattr
+Date: Wed, 24 Aug 2022 21:36:53 -0400
+Message-Id: <20220825013713.22656-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -49,7 +49,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 5e0e0280e70d..d2337ee0b7d6 100644
+index 0968565ff2ca..fa9f42e50503 100644
 --- a/fs/ntfs3/xattr.c
 +++ b/fs/ntfs3/xattr.c
 @@ -118,7 +118,7 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
@@ -61,7 +61,7 @@ index 5e0e0280e70d..d2337ee0b7d6 100644
  		if (!err)
  			err = ntfs_read_run_nb(sbi, &run, 0, ea_p, size, NULL);
  		run_close(&run);
-@@ -444,6 +444,11 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+@@ -443,6 +443,11 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
  		/* Delete xattr, ATTR_EA */
  		ni_remove_attr_le(ni, attr, mi, le);
  	} else if (attr->non_res) {
