@@ -1,132 +1,78 @@
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BC010E6
-	for <ntfs3@lists.linux.dev>; Wed, 24 Aug 2022 16:36:33 +0000 (UTC)
-Received: by mail-io1-f72.google.com with SMTP id g13-20020a056602072d00b0068825561753so9490574iox.7
-        for <ntfs3@lists.linux.dev>; Wed, 24 Aug 2022 09:36:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc;
-        bh=0e2/BSTLxVDl9t2FnXBs3U/ZaI7RFyb5pQeTdPS3oe0=;
-        b=gl9tHmdu9bclz121FtlG8c0wKNrgqB0xAUiN8fNhz+7MK/fOtx+25g2YAiNBvPZ+I6
-         tO2806r32RbcWpCExebN8YEfLt7SwSoRUvYgPFsHUmt/HSeef/MPBf739MlASfI/njZy
-         P0uQNgEv8iyXMRSGMlPzS1G52M+OxXrSokcZCq1r7IQ3Vh4dEgvy8tksHbBp8tA/6wYk
-         HmOuRRDV4SVj7bMb6E5HVdeUpizBhdOfREQy7Js8KJAPk1VqCKi/YQnYRDPmxKlYnZno
-         gshocCEUmbdGw/Wu2SjZDZYYdOQOA4PD1S8Gfa+BuOSNWpgTLE4opntqAVNbZxxE3jpU
-         OZTg==
-X-Gm-Message-State: ACgBeo2xv67osmlXoA1MRCQ4QFIp3MocKzBH2bLNb8F2meahixwLbjRE
-	dqp9MDfTqyK5wYbNn4NZyvRz98BdtW2AVkzVVppon0Vx7Xej
-X-Google-Smtp-Source: AA6agR50Ms+DOrBZZF6YZxt6t4EkEE6W3wodds7xwFWWZ/FP+H45wm6bVOTAU4IJTMhPU7Q0bgk37aLD6+/6pFOTlILbcHhwBkjB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857601363
+	for <ntfs3@lists.linux.dev>; Thu, 25 Aug 2022 01:34:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93160C433C1;
+	Thu, 25 Aug 2022 01:34:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1661391244;
+	bh=nJQztERCJ6fOtBuXGVaIChdP66y0wPJhC1YXN7Y43yE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=CkdkRV9tHyXuaSwWo18+lnctEyecwmYbcNyvqxOFN1EsswhXRtu7veACj5dF3ta9M
+	 kYHAtwnS345w6TygRa2WDFC5z6W2AfyRE6eWUJ0TczlLUJhl5rQZywBv+HOzwvZDgU
+	 4wo/IiicwwAk0YKTOXD/gXEEeImEz7QITt7S48MRccWM2RFlWc8BKLILeLbxHhLW2w
+	 UvP5Hau566mdFqWvx4H2ZNJ/sYhZv5TXn12LYxpu0tGdhTzIdNFUk4s/+T8EtJjHwX
+	 8hE26dtYDmHgR2OYne/gOiPBTe+TALxPSlMAOSa6Sl0g0ppYOIDFdUOtGCwDYnSzWI
+	 uIcK+N5VrEe1Q==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Sasha Levin <sashal@kernel.org>,
+	ntfs3@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.19 01/38] fs/ntfs3: Fix work with fragmented xattr
+Date: Wed, 24 Aug 2022 21:33:24 -0400
+Message-Id: <20220825013401.22096-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:152e:b0:2e8:f73f:4e9e with SMTP id
- i14-20020a056e02152e00b002e8f73f4e9emr2329073ilu.61.1661358992664; Wed, 24
- Aug 2022 09:36:32 -0700 (PDT)
-Date: Wed, 24 Aug 2022 09:36:32 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009a318805e6ff48a4@google.com>
-Subject: [syzbot] BUG: unable to handle kernel NULL pointer dereference in ni_find_attr
-From: syzbot <syzbot+69d15cab6309bffae739@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-Hello,
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-syzbot found the following issue on:
+[ Upstream commit 42f86b1226a42bfc79a7125af435432ad4680a32 ]
 
-HEAD commit:    1c23f9e627a7 Linux 6.0-rc2
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=152b86a5080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3045c937aad027f7
-dashboard link: https://syzkaller.appspot.com/bug?extid=69d15cab6309bffae739
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1621f485080000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=171012d3080000
+In some cases xattr is too fragmented,
+so we need to load it before writing.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+69d15cab6309bffae739@syzkaller.appspotmail.com
-
-loop0: detected capacity change from 0 to 75
-ntfs3: loop0: RAW NTFS volume: Filesystem size 0.00 Gb > volume size 0.00 Gb. Mount in read-only
-Unable to handle kernel NULL pointer dereference at virtual address 0000000000000238
-Mem abort info:
-  ESR = 0x0000000096000006
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x06: level 2 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000006
-  CM = 0, WnR = 0
-user pgtable: 4k pages, 48-bit VAs, pgdp=0000000107c58000
-[0000000000000238] pgd=0800000108ac7003, p4d=0800000108ac7003, pud=0800000109389003, pmd=0000000000000000
-Internal error: Oops: 96000006 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 1 PID: 3028 Comm: syz-executor245 Not tainted 6.0.0-rc2-syzkaller-16440-g1c23f9e627a7 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/20/2022
-pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : ni_find_attr+0x54/0x43c fs/ntfs3/frecord.c:194
-lr : ni_find_attr+0x54/0x43c fs/ntfs3/frecord.c:190
-sp : ffff80001200b8f0
-x29: ffff80001200b920 x28: 0000000000000000 x27: 00000000fffffffe
-x26: 0000000000000000 x25: 0000000000000000 x24: ffff80001200b984
-x23: 0000000000000000 x22: 0000000000000080 x21: 0000000000000000
-x20: 0000000000000000 x19: 0000000000000000 x18: 00000000000000c0
-x17: ffff80000dd7a698 x16: 0000000000000000 x15: 0000000000000000
-x14: 0000000000000000 x13: 00000000fffffffe x12: ffff80000d5998c8
-x11: ff80800008be8ec0 x10: 0000000000000000 x9 : ffff800008be8ec0
-x8 : ffff0000c5569a80 x7 : 0000000000000000 x6 : ffff80001200b984
-x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000080
-x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
-Call trace:
- ni_find_attr+0x54/0x43c fs/ntfs3/frecord.c:190
- attr_load_runs_vcn+0x6c/0x138 fs/ntfs3/attrib.c:1220
- mi_read+0x178/0x274 fs/ntfs3/record.c:151
- ntfs_read_mft fs/ntfs3/inode.c:69 [inline]
- ntfs_iget5+0x15c/0x138c fs/ntfs3/inode.c:501
- ntfs_fill_super+0x950/0x14a4 fs/ntfs/super.c:2791
- get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
- ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
- vfs_get_tree+0x40/0x140 fs/super.c:1530
- do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
- path_mount+0x358/0x914 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __arm64_sys_mount+0x2f8/0x408 fs/namespace.c:3568
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x154 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
- el0t_64_sync+0x18c/0x190
-Code: aa0103fa aa0003f3 f81f83a8 97daea83 (f9411e7b) 
----[ end trace 0000000000000000 ]---
-----------------
-Code disassembly (best guess):
-   0:	aa0103fa 	mov	x26, x1
-   4:	aa0003f3 	mov	x19, x0
-   8:	f81f83a8 	stur	x8, [x29, #-8]
-   c:	97daea83 	bl	0xffffffffff6baa18
-* 10:	f9411e7b 	ldr	x27, [x19, #568] <-- trapping instruction
-
-
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/xattr.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index 5e0e0280e70d..d2337ee0b7d6 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -118,7 +118,7 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
+ 
+ 		run_init(&run);
+ 
+-		err = attr_load_runs(attr_ea, ni, &run, NULL);
++		err = attr_load_runs_range(ni, ATTR_EA, NULL, 0, &run, 0, size);
+ 		if (!err)
+ 			err = ntfs_read_run_nb(sbi, &run, 0, ea_p, size, NULL);
+ 		run_close(&run);
+@@ -444,6 +444,11 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+ 		/* Delete xattr, ATTR_EA */
+ 		ni_remove_attr_le(ni, attr, mi, le);
+ 	} else if (attr->non_res) {
++		err = attr_load_runs_range(ni, ATTR_EA, NULL, 0, &ea_run, 0,
++					   size);
++		if (err)
++			goto out;
++
+ 		err = ntfs_sb_write_run(sbi, &ea_run, 0, ea_all, size, 0);
+ 		if (err)
+ 			goto out;
+-- 
+2.35.1
+
