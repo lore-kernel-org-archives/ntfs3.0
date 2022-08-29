@@ -1,17 +1,17 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4124F7C
-	for <ntfs3@lists.linux.dev>; Mon, 29 Aug 2022 11:05:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9310EC433C1;
-	Mon, 29 Aug 2022 11:05:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6A67C
+	for <ntfs3@lists.linux.dev>; Mon, 29 Aug 2022 11:12:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ED38C433C1;
+	Mon, 29 Aug 2022 11:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1661771119;
-	bh=Qe9CtB/eJop4L+BZbhVntplBrPozxKEmknaFXBM9F0o=;
+	s=korg; t=1661771554;
+	bh=EMpyuFnfJZNwh01gEQaqLMq8asSMxYR+wXn4bSwXpk4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aa69G8DHkj6WtLy7IjQpkOQsHQ5FRwEl1UxsEGg2/VAotUKGKw57evy9NxOgqzh2s
-	 azetdA3JhhTYPRWMyrPotpDUqIKzcriGul39k9OgKkpxNgdUcoC4w+/Q/w/46VycNB
-	 qBvCxm39xhhWOvRFoFoAxUl5FRxkJzFv4ZzZAVFU=
+	b=EhtVjwJGGqC8KcK8iP3dRg2RCNJWp005BiQTjW3TdLHVe2qBqFzKx1vN53ssHj6Cr
+	 6Nx7Pdfte7IEACLauDfeliIkADclFFBGcbvgnfbPRtVQPKSJZsHdS8cDMnXaKFe90f
+	 tAMY7ZhheEvJBsZqBqUmtoyEWlhIHjRJhi7NS/dQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -20,12 +20,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	ntfs3@lists.linux.dev,
 	"Christian Brauner (Microsoft)" <brauner@kernel.org>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.15 037/136] ntfs: fix acl handling
-Date: Mon, 29 Aug 2022 12:58:24 +0200
-Message-Id: <20220829105806.116680390@linuxfoundation.org>
+Subject: [PATCH 5.19 022/158] ntfs: fix acl handling
+Date: Mon, 29 Aug 2022 12:57:52 +0200
+Message-Id: <20220829105809.739916483@linuxfoundation.org>
 X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220829105804.609007228@linuxfoundation.org>
-References: <20220829105804.609007228@linuxfoundation.org>
+In-Reply-To: <20220829105808.828227973@linuxfoundation.org>
+References: <20220829105808.828227973@linuxfoundation.org>
 User-Agent: quilt/0.67
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -72,10 +72,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+), 9 deletions(-)
 
 diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 872eb56bb1706..e8bfa709270d1 100644
+index 1b8c89dbf6684..3629049decac1 100644
 --- a/fs/ntfs3/xattr.c
 +++ b/fs/ntfs3/xattr.c
-@@ -476,8 +476,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+@@ -478,8 +478,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
  }
  
  #ifdef CONFIG_NTFS3_FS_POSIX_ACL
@@ -85,7 +85,7 @@ index 872eb56bb1706..e8bfa709270d1 100644
  					 int locked)
  {
  	struct ntfs_inode *ni = ntfs_i(inode);
-@@ -512,7 +511,7 @@ static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
+@@ -514,7 +513,7 @@ static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
  
  	/* Translate extended attribute to acl. */
  	if (err >= 0) {
@@ -94,7 +94,7 @@ index 872eb56bb1706..e8bfa709270d1 100644
  	} else if (err == -ENODATA) {
  		acl = NULL;
  	} else {
-@@ -535,8 +534,7 @@ struct posix_acl *ntfs_get_acl(struct inode *inode, int type, bool rcu)
+@@ -537,8 +536,7 @@ struct posix_acl *ntfs_get_acl(struct inode *inode, int type, bool rcu)
  	if (rcu)
  		return ERR_PTR(-ECHILD);
  
@@ -104,7 +104,7 @@ index 872eb56bb1706..e8bfa709270d1 100644
  }
  
  static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
-@@ -588,7 +586,7 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
+@@ -590,7 +588,7 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
  		value = kmalloc(size, GFP_NOFS);
  		if (!value)
  			return -ENOMEM;
@@ -113,7 +113,7 @@ index 872eb56bb1706..e8bfa709270d1 100644
  		if (err < 0)
  			goto out;
  		flags = 0;
-@@ -639,7 +637,7 @@ static int ntfs_xattr_get_acl(struct user_namespace *mnt_userns,
+@@ -641,7 +639,7 @@ static int ntfs_xattr_get_acl(struct user_namespace *mnt_userns,
  	if (!acl)
  		return -ENODATA;
  
@@ -122,7 +122,7 @@ index 872eb56bb1706..e8bfa709270d1 100644
  	posix_acl_release(acl);
  
  	return err;
-@@ -663,12 +661,12 @@ static int ntfs_xattr_set_acl(struct user_namespace *mnt_userns,
+@@ -665,12 +663,12 @@ static int ntfs_xattr_set_acl(struct user_namespace *mnt_userns,
  	if (!value) {
  		acl = NULL;
  	} else {
