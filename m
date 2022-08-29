@@ -1,128 +1,144 @@
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADBE5384
-	for <ntfs3@lists.linux.dev>; Fri, 26 Aug 2022 22:51:27 +0000 (UTC)
-Received: by mail-io1-f72.google.com with SMTP id z30-20020a05660217de00b00688bd42dc1dso1684643iox.15
-        for <ntfs3@lists.linux.dev>; Fri, 26 Aug 2022 15:51:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc;
-        bh=WAlmKPmwBSHe82ADHwGi4F01afwpPrJl8TMZLAnNCjE=;
-        b=Cv8Aq97bPyjWLOWt7YFB6SBM+zfHaNaAYEj9rIUSZ7oTBLVU2Q57jbemNltzjqMf/Y
-         Nk1HzvMjxjvp8uuVYzSwIbuMxjoPTWhdxPkQnmWla+FdHYfPKupC0dEAgzXDDS5J3dao
-         NREUZ3z7xsy0DqR3jXHU8MF2SmNSuRT1S9LHpxPyKdevllH9DGCvBaIHkbMq10Ryba4J
-         ADQk/iybG8oG2fj0YzehXxCTv0iGdyzftG201GFTrc8ho7yWjBimCigaKzn0YiHsuUZi
-         osXfUVSZfArKb6R6bRvQAJnCff2s2EIEFOIeDIoZvYZslXb2IgKsR7Sn0FfCAdgSXUbV
-         sZtw==
-X-Gm-Message-State: ACgBeo1yprZGAfbUadLRdd2wmZ9KufA76BYae6ae3Udcto1rZJsgggw4
-	x6UuItJqYZ1+CKlplDYBi5F5kVsOP57PEb2SpgfXuEDUGT29
-X-Google-Smtp-Source: AA6agR7gU41h4nNP8i0WnG2uQjguVj0Foa0LIGHbIVShq4fB2hgys5yrqi2HGSm2xspqBFF+AtgXW3Ovdop4vUjyqG5Me+DG5Ndq
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4124F7C
+	for <ntfs3@lists.linux.dev>; Mon, 29 Aug 2022 11:05:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9310EC433C1;
+	Mon, 29 Aug 2022 11:05:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1661771119;
+	bh=Qe9CtB/eJop4L+BZbhVntplBrPozxKEmknaFXBM9F0o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aa69G8DHkj6WtLy7IjQpkOQsHQ5FRwEl1UxsEGg2/VAotUKGKw57evy9NxOgqzh2s
+	 azetdA3JhhTYPRWMyrPotpDUqIKzcriGul39k9OgKkpxNgdUcoC4w+/Q/w/46VycNB
+	 qBvCxm39xhhWOvRFoFoAxUl5FRxkJzFv4ZzZAVFU=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	stable@vger.kernel.org,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev,
+	"Christian Brauner (Microsoft)" <brauner@kernel.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.15 037/136] ntfs: fix acl handling
+Date: Mon, 29 Aug 2022 12:58:24 +0200
+Message-Id: <20220829105806.116680390@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220829105804.609007228@linuxfoundation.org>
+References: <20220829105804.609007228@linuxfoundation.org>
+User-Agent: quilt/0.67
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:1914:b0:346:c2f5:632f with SMTP id
- p20-20020a056638191400b00346c2f5632fmr5180273jal.296.1661554286947; Fri, 26
- Aug 2022 15:51:26 -0700 (PDT)
-Date: Fri, 26 Aug 2022 15:51:26 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000000c73e105e72cc106@google.com>
-Subject: [syzbot] BUG: unable to handle kernel NULL pointer dereference in log_replay
-From: syzbot <syzbot+8379f446e2ac4365e343@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello,
+From: Christian Brauner <brauner@kernel.org>
 
-syzbot found the following issue on:
+[ Upstream commit 0c3bc7899e6dfb52df1c46118a5a670ae619645f ]
 
-HEAD commit:    a41a877bc12d Merge branch 'for-next/fixes' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=15eebce7080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5cea15779c42821c
-dashboard link: https://syzkaller.appspot.com/bug?extid=8379f446e2ac4365e343
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: arm64
+While looking at our current POSIX ACL handling in the context of some
+overlayfs work I went through a range of other filesystems checking how they
+handle them currently and encountered ntfs3.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+The posic_acl_{from,to}_xattr() helpers always need to operate on the
+filesystem idmapping. Since ntfs3 can only be mounted in the initial user
+namespace the relevant idmapping is init_user_ns.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+8379f446e2ac4365e343@syzkaller.appspotmail.com
+The posix_acl_{from,to}_xattr() helpers are concerned with translating between
+the kernel internal struct posix_acl{_entry} and the uapi struct
+posix_acl_xattr_{header,entry} and the kernel internal data structure is cached
+filesystem wide.
 
-ntfs3: loop4: ino=2, "/" ntfs_iget5
-ntfs3: loop4: Mark volume as dirty due to NTFS errors
-Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
-Mem abort info:
-  ESR = 0x0000000096000006
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x06: level 2 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000006
-  CM = 0, WnR = 0
-user pgtable: 4k pages, 48-bit VAs, pgdp=000000013af0c000
-[0000000000000000] pgd=080000013af11003, p4d=080000013af11003, pud=0800000138a68003, pmd=0000000000000000
-Internal error: Oops: 96000006 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 0 PID: 17646 Comm: syz-executor.4 Not tainted 6.0.0-rc2-syzkaller-16455-ga41a877bc12d #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
-pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : log_replay+0x4c/0x3024 fs/ntfs3/fslog.c:3774
-lr : log_replay+0x3c/0x3024 fs/ntfs3/fslog.c:3736
-sp : ffff80002180b970
-x29: ffff80002180ba80 x28: ffff0000f8a8e000 x27: ffff0000dac28000
-x26: 0000000000000018 x25: 0000000000000024 x24: ffff80002180baf4
-x23: 0000000000000030 x22: ffff00010acaff40 x21: ffff0000f8a8c000
-x20: 0000000000000000 x19: ffff0000f8a8e000 x18: 00000000000000c0
-x17: ffff80000dd7a698 x16: ffff80000dbb8658 x15: ffff0000f666cf80
-x14: 0000000000000120 x13: 00000000ffffffff x12: ffff0000f666cf80
-x11: ff80800008bf6e60 x10: 0000000000000000 x9 : ffff800008bf6e60
-x8 : ffff0000f666cf80 x7 : ffff8000085f0604 x6 : 0000000000000000
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-x2 : 0000000000000001 x1 : ffff80002180baf4 x0 : ffff00010acaff40
-Call trace:
- log_replay+0x4c/0x3024 fs/ntfs3/fslog.c:3762
- ntfs_loadlog_and_replay+0x114/0x1ec fs/ntfs3/fsntfs.c:299
- ntfs_fill_super+0xc10/0x14a4 fs/ntfs/super.c:2904
- get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
- ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
- vfs_get_tree+0x40/0x140 fs/super.c:1530
- do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
- path_mount+0x358/0x914 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __arm64_sys_mount+0x2f8/0x408 fs/namespace.c:3568
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x154 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
- el0t_64_sync+0x18c/0x190
-Code: f9400ed4 a93b7fbf f90047ff b942a2d7 (f9400288) 
----[ end trace 0000000000000000 ]---
-----------------
-Code disassembly (best guess):
-   0:	f9400ed4 	ldr	x20, [x22, #24]
-   4:	a93b7fbf 	stp	xzr, xzr, [x29, #-80]
-   8:	f90047ff 	str	xzr, [sp, #136]
-   c:	b942a2d7 	ldr	w23, [x22, #672]
-* 10:	f9400288 	ldr	x8, [x20] <-- trapping instruction
+Additional idmappings such as the caller's idmapping or the mount's idmapping
+are handled higher up in the VFS. Individual filesystems usually do not need to
+concern themselves with these.
 
+The posix_acl_valid() helper is concerned with checking whether the values in
+the kernel internal struct posix_acl can be represented in the filesystem's
+idmapping. IOW, if they can be written to disk. So this helper too needs to
+take the filesystem's idmapping.
 
+Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev
+Signed-off-by: Christian Brauner (Microsoft) <brauner@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/xattr.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index 872eb56bb1706..e8bfa709270d1 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -476,8 +476,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+ }
+ 
+ #ifdef CONFIG_NTFS3_FS_POSIX_ACL
+-static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
+-					 struct inode *inode, int type,
++static struct posix_acl *ntfs_get_acl_ex(struct inode *inode, int type,
+ 					 int locked)
+ {
+ 	struct ntfs_inode *ni = ntfs_i(inode);
+@@ -512,7 +511,7 @@ static struct posix_acl *ntfs_get_acl_ex(struct user_namespace *mnt_userns,
+ 
+ 	/* Translate extended attribute to acl. */
+ 	if (err >= 0) {
+-		acl = posix_acl_from_xattr(mnt_userns, buf, err);
++		acl = posix_acl_from_xattr(&init_user_ns, buf, err);
+ 	} else if (err == -ENODATA) {
+ 		acl = NULL;
+ 	} else {
+@@ -535,8 +534,7 @@ struct posix_acl *ntfs_get_acl(struct inode *inode, int type, bool rcu)
+ 	if (rcu)
+ 		return ERR_PTR(-ECHILD);
+ 
+-	/* TODO: init_user_ns? */
+-	return ntfs_get_acl_ex(&init_user_ns, inode, type, 0);
++	return ntfs_get_acl_ex(inode, type, 0);
+ }
+ 
+ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
+@@ -588,7 +586,7 @@ static noinline int ntfs_set_acl_ex(struct user_namespace *mnt_userns,
+ 		value = kmalloc(size, GFP_NOFS);
+ 		if (!value)
+ 			return -ENOMEM;
+-		err = posix_acl_to_xattr(mnt_userns, acl, value, size);
++		err = posix_acl_to_xattr(&init_user_ns, acl, value, size);
+ 		if (err < 0)
+ 			goto out;
+ 		flags = 0;
+@@ -639,7 +637,7 @@ static int ntfs_xattr_get_acl(struct user_namespace *mnt_userns,
+ 	if (!acl)
+ 		return -ENODATA;
+ 
+-	err = posix_acl_to_xattr(mnt_userns, acl, buffer, size);
++	err = posix_acl_to_xattr(&init_user_ns, acl, buffer, size);
+ 	posix_acl_release(acl);
+ 
+ 	return err;
+@@ -663,12 +661,12 @@ static int ntfs_xattr_set_acl(struct user_namespace *mnt_userns,
+ 	if (!value) {
+ 		acl = NULL;
+ 	} else {
+-		acl = posix_acl_from_xattr(mnt_userns, value, size);
++		acl = posix_acl_from_xattr(&init_user_ns, value, size);
+ 		if (IS_ERR(acl))
+ 			return PTR_ERR(acl);
+ 
+ 		if (acl) {
+-			err = posix_acl_valid(mnt_userns, acl);
++			err = posix_acl_valid(&init_user_ns, acl);
+ 			if (err)
+ 				goto release_and_out;
+ 		}
+-- 
+2.35.1
+
+
+
