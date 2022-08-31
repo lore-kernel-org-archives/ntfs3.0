@@ -1,113 +1,118 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B725804
-	for <ntfs3@lists.linux.dev>; Wed, 31 Aug 2022 11:31:37 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 584321F893;
-	Wed, 31 Aug 2022 11:31:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1661945495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XrNkIM9koqnVx0iIIXA2kZMeNNiavp0FWSmtqMYA0AU=;
-	b=j090jyCm7ljBjfs584BrGreYmQ2T034+Z8td5gv5FfrZdYMc/nlY8I/aSz4C3omfWXI7/r
-	ZEOzi6UQXDB/dteLKZnnp6hc6sOMCOwq5e58CzzpQlUY6ftrhpOKAPFxsdKIx1CgNfMFzA
-	Hj4TA31NoNrPyxjPQrg5GzRWQRMIkIk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1661945495;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XrNkIM9koqnVx0iIIXA2kZMeNNiavp0FWSmtqMYA0AU=;
-	b=tPMWSP1a01IN2kwdj3whXjAztjKIlV4ffC1mOQYyySOtBL6HO9DkoW/WjMWwVHqCAYhxCh
-	O+LRuPOxKQsV1wBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 422571332D;
-	Wed, 31 Aug 2022 11:31:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id JKAjEJdGD2NefwAAMHmgww
-	(envelope-from <jack@suse.cz>); Wed, 31 Aug 2022 11:31:35 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id D7D52A067B; Wed, 31 Aug 2022 13:31:34 +0200 (CEST)
-Date: Wed, 31 Aug 2022 13:31:34 +0200
-From: Jan Kara <jack@suse.cz>
-To: Zhang Yi <yi.zhang@huawei.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, cluster-devel@redhat.com,
-	ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com,
-	reiserfs-devel@vger.kernel.org, jack@suse.cz, tytso@mit.edu,
-	akpm@linux-foundation.org, axboe@kernel.dk, viro@zeniv.linux.org.uk,
-	rpeterso@redhat.com, agruenba@redhat.com,
-	almaz.alexandrovich@paragon-software.com, mark@fasheh.com,
-	dushistov@mail.ru, hch@infradead.org, chengzhihao1@huawei.com,
-	yukuai3@huawei.com
-Subject: Re: [PATCH 08/14] ocfs2: replace ll_rw_block()
-Message-ID: <20220831113134.fdmklqore4uglz7g@quack3>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003AC2580
+	for <ntfs3@lists.linux.dev>; Wed, 31 Aug 2022 13:11:41 +0000 (UTC)
+Received: from canpemm500005.china.huawei.com (unknown [172.30.72.57])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MHkzg3p9pzHnY6;
+	Wed, 31 Aug 2022 21:09:51 +0800 (CST)
+Received: from [10.174.178.134] (10.174.178.134) by
+ canpemm500005.china.huawei.com (7.192.104.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 31 Aug 2022 21:11:38 +0800
+Subject: Re: [PATCH 02/14] fs/buffer: add some new buffer read helpers
+To: Jan Kara <jack@suse.cz>
+CC: <linux-ext4@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <cluster-devel@redhat.com>,
+	<ntfs3@lists.linux.dev>, <ocfs2-devel@oss.oracle.com>,
+	<reiserfs-devel@vger.kernel.org>, <tytso@mit.edu>,
+	<akpm@linux-foundation.org>, <axboe@kernel.dk>, <viro@zeniv.linux.org.uk>,
+	<rpeterso@redhat.com>, <agruenba@redhat.com>,
+	<almaz.alexandrovich@paragon-software.com>, <mark@fasheh.com>,
+	<dushistov@mail.ru>, <hch@infradead.org>, <chengzhihao1@huawei.com>,
+	<yukuai3@huawei.com>
 References: <20220831072111.3569680-1-yi.zhang@huawei.com>
- <20220831072111.3569680-9-yi.zhang@huawei.com>
+ <20220831072111.3569680-3-yi.zhang@huawei.com>
+ <20220831113029.fsywbjzk4qw24qdc@quack3>
+From: Zhang Yi <yi.zhang@huawei.com>
+Message-ID: <df2738e4-493f-0dfd-95c4-b5f763561c63@huawei.com>
+Date: Wed, 31 Aug 2022 21:11:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220831072111.3569680-9-yi.zhang@huawei.com>
+In-Reply-To: <20220831113029.fsywbjzk4qw24qdc@quack3>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.134]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ canpemm500005.china.huawei.com (7.192.104.229)
+X-CFilter-Loop: Reflected
 
-On Wed 31-08-22 15:21:05, Zhang Yi wrote:
-> ll_rw_block() is not safe for the sync read path because it cannot
-> guarantee that submitting read IO if the buffer has been locked. We
-> could get false positive EIO after wait_on_buffer() if the buffer has
-> been locked by others. So stop using ll_rw_block() in ocfs2.
+Thanks for the review and suggestions.
+
+On 2022/8/31 19:30, Jan Kara wrote:
+> On Wed 31-08-22 15:20:59, Zhang Yi wrote:
+>> Current ll_rw_block() helper is fragile because it assumes that locked
+>> buffer means it's under IO which is submitted by some other who hold
+>> the lock, it skip buffer if it failed to get the lock, so it's only
+>> safe on the readahead path. Unfortunately, now that most filesystems
+>> still use this helper mistakenly on the sync metadata read path. There
+>> is no guarantee that the one who hold the buffer lock always submit IO
+>> (e.g. buffer_migrate_folio_norefs() after commit 88dbcbb3a484 ("blkdev:
+>> avoid migration stalls for blkdev pages"), it could lead to false
+>> positive -EIO when submitting reading IO.
+>>
+>> This patch add some friendly buffer read helpers to prepare replace
+>> ll_rw_block() and similar calls. We can only call bh_readahead_[]
+>> helpers for the readahead paths.
+>>
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 > 
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-> ---
->  fs/ocfs2/aops.c  | 2 +-
->  fs/ocfs2/super.c | 5 +----
->  2 files changed, 2 insertions(+), 5 deletions(-)
+> This looks mostly good. Just a few small nits below.
 > 
-> diff --git a/fs/ocfs2/aops.c b/fs/ocfs2/aops.c
-> index af4157f61927..1d65f6ef00ca 100644
-> --- a/fs/ocfs2/aops.c
-> +++ b/fs/ocfs2/aops.c
-> @@ -636,7 +636,7 @@ int ocfs2_map_page_blocks(struct page *page, u64 *p_blkno,
->  			   !buffer_new(bh) &&
->  			   ocfs2_should_read_blk(inode, page, block_start) &&
->  			   (block_start < from || block_end > to)) {
-> -			ll_rw_block(REQ_OP_READ, 1, &bh);
-> +			bh_read_nowait(bh, 0);
->  			*wait_bh++=bh;
->  		}
->  
-> diff --git a/fs/ocfs2/super.c b/fs/ocfs2/super.c
-> index e2cc9eec287c..4050f35bbd0c 100644
-> --- a/fs/ocfs2/super.c
-> +++ b/fs/ocfs2/super.c
-> @@ -1763,10 +1763,7 @@ static int ocfs2_get_sector(struct super_block *sb,
->  	lock_buffer(*bh);
->  	if (!buffer_dirty(*bh))
->  		clear_buffer_uptodate(*bh);
-> -	unlock_buffer(*bh);
-> -	ll_rw_block(REQ_OP_READ, 1, bh);
-> -	wait_on_buffer(*bh);
-> -	if (!buffer_uptodate(*bh)) {
-> +	if (bh_read_locked(*bh, 0)) {
->  		mlog_errno(-EIO);
->  		brelse(*bh);
->  		*bh = NULL;
+[..]
+>> diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+>> index c3863c417b00..8a01c07c0418 100644
+>> --- a/include/linux/buffer_head.h
+>> +++ b/include/linux/buffer_head.h
+[..]
+>> +static inline void bh_read_nowait(struct buffer_head *bh, blk_opf_t op_flags)
+>> +{
+>> +	lock_buffer(bh);
+>> +	__bh_read(bh, op_flags, false);
+>> +}
+>> +
+>> +static inline int bh_read(struct buffer_head *bh, blk_opf_t op_flags)
+>> +{
+>> +	lock_buffer(bh);
+>> +	return __bh_read(bh, op_flags, true);
+>> +}
+> 
+> I would use bh_uptodate_or_lock() helper in the above two functions to
+> avoid locking the buffer in case it is already uptodate.
+> 
+Yes, it's a good point, it seems we could also remove "if (!buffer_uptodate(bh))"
+before above two helpers in the latter patches, like in fs/jbd2/journal.c.
 
-I would just use bh_read() here and drop bh_read_locked() altogether...
+@@ -1893,15 +1893,14 @@ static int journal_get_superblock(journal_t *journal)
+ {
+ 	struct buffer_head *bh;
+ 	journal_superblock_t *sb;
+-	int err = -EIO;
++	int err;
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+ 	bh = journal->j_sb_buffer;
+
+ 	J_ASSERT(bh != NULL);
+- 	if (!buffer_uptodate(bh)) {
+-		ll_rw_block(REQ_OP_READ, 1, &bh);
+-		wait_on_buffer(bh);
+-		if (!buffer_uptodate(bh)) {
++	err = bh_read(bh, 0);
++	if (err) {
+-			printk(KERN_ERR
+-				"JBD2: IO error reading journal superblock\n");
+-			goto out;
++		printk(KERN_ERR
++			"JBD2: IO error reading journal superblock\n");
++		goto out;
+...
+
+Thanks,
+Yi.
