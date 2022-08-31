@@ -1,30 +1,40 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35098635
-	for <ntfs3@lists.linux.dev>; Wed, 31 Aug 2022 03:26:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=I/uQ+5H8aeFHVEMH/164Zt/tTcKAYf/gtgy1PpGIymw=; b=B8sDmd6nK77z5NteQxxUTuZv82
-	kATFK/youe7wLHMsp9sBxYiYiYVYFpEQpXzeOZU77ZXIkh5PvhXujXwVcNfUSwXbvXGkpLMt4yulL
-	YySzBZB7P+6g8Hlm50Rr6/8zBYVFJSuDWv+wxMS21BshRQ0aVFIEnCxbhCigTJ86Jp8IW41OjjWF5
-	ulM+tshuIJIu2d5+BwUn7FJJcGqJqGLaKx1sX8dsqpInJ/ORCQK/yuP1PJmW0GiJbvso7bv9bguQX
-	HlxgmrId+mtbr4IIxpu+iqjTegYWkvWdWdzhLDjCqbEGaFhra9kWWm5/bIbJWof07mA8GIxK6HRU8
-	pQSLstDw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTEMx-004htM-Pt; Wed, 31 Aug 2022 03:26:23 +0000
-Date: Wed, 31 Aug 2022 04:26:23 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: syzbot <syzbot+fc721e2fe15a5aac41d1@syzkaller.appspotmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk,
-	ntfs3@lists.linux.dev,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: Re: [syzbot] WARNING in writeback_single_inode
-Message-ID: <Yw7U39BnHb6iXNMo@casper.infradead.org>
-References: <00000000000050d56805e77c4582@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B16E367;
+	Wed, 31 Aug 2022 04:34:32 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id y127so13339493pfy.5;
+        Tue, 30 Aug 2022 21:34:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc;
+        bh=2wlBh69S5T/T9iHDDZDeIpM5ED2QS1+ze35Ex3GUlR0=;
+        b=5ECHLoyEAUJXjnouGIezSxk7WoWGkcx8ho28HbmRMgwKZNv680ARHHGnsDFDAEj7YE
+         nDKafMEKdbqIzJ7R66aqfaMKyfevERji8DHMaXsgO4Y19hm2FhUnNDkafrbnk4VzfNuG
+         PTtdvDnxgvujya3iu78bGFQztfz/RxGUoJVJ0rAf2qhb3Ilj+Vk8YALEjbyg+Obf7z78
+         +Xbry93oTJAq1n0T5XqelANTSxQ7xuIuTiHGXzOQknrbI9r/KWrPgNXOzGFr25+zD52L
+         hoyyj3l4TlBiHpk45tq0h3RgauVEfDxceky5y4uoxpn3YWnpJF49U679h8F7lUg1EOkN
+         4KLA==
+X-Gm-Message-State: ACgBeo0bFetPaa1Mf429H6+9jgYFYfO20y/3BU5xstpxUMO4rRbVacED
+	IVaLRf/DPn6lfFqUbQmaZww=
+X-Google-Smtp-Source: AA6agR4aRTLQgVsfv0pPYxAQbQfzQbA1lqOd5fp6MfoDJ0xxr78O1KzjwNP50pFkW8SiSA/HlkkMhA==
+X-Received: by 2002:a63:8a44:0:b0:42b:351d:e309 with SMTP id y65-20020a638a44000000b0042b351de309mr20133305pgd.426.1661920471855;
+        Tue, 30 Aug 2022 21:34:31 -0700 (PDT)
+Received: from karthik-strix-linux.karthek.com ([117.241.13.19])
+        by smtp.gmail.com with ESMTPSA id q16-20020a63e950000000b0041d6d37deb5sm107851pgj.81.2022.08.30.21.34.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Aug 2022 21:34:31 -0700 (PDT)
+Date: Wed, 31 Aug 2022 10:04:25 +0530
+From: Karthik Alapati <mail@karthek.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] fs/ntfs3: fix memory leak in put_ntfs()
+Message-ID: <Yw7k0VQm+8l8JKWr@karthik-strix-linux.karthek.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -33,149 +43,77 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <00000000000050d56805e77c4582@google.com>
 
-Looks like an ntfs3 problem.  cc's added.
+free options in put_ntfs() rather than in ntfs_put_super()
 
-On Tue, Aug 30, 2022 at 02:43:28PM -0700, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    a41a877bc12d Merge branch 'for-next/fixes' into for-kernelci
-> git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-> console output: https://syzkaller.appspot.com/x/log.txt?x=178fc957080000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=5cea15779c42821c
-> dashboard link: https://syzkaller.appspot.com/bug?extid=fc721e2fe15a5aac41d1
-> compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-> userspace arch: arm64
-> 
-> Unfortunately, I don't have any reproducer for this issue yet.
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+fc721e2fe15a5aac41d1@syzkaller.appspotmail.com
-> 
-> ntfs3: loop4: RAW NTFS volume: Filesystem size 0.00 Gb > volume size 0.00 Gb. Mount in read-only
-> ------------[ cut here ]------------
-> WARNING: CPU: 0 PID: 24385 at fs/fs-writeback.c:1678 writeback_single_inode+0x374/0x388 fs/fs-writeback.c:1678
-> Modules linked in:
-> CPU: 0 PID: 24385 Comm: syz-executor.4 Not tainted 6.0.0-rc2-syzkaller-16455-ga41a877bc12d #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
-> pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> pc : writeback_single_inode+0x374/0x388 fs/fs-writeback.c:1678
-> lr : writeback_single_inode+0x374/0x388 fs/fs-writeback.c:1678
-> sp : ffff800020d4b9c0
-> x29: ffff800020d4ba10 x28: ffff0000e4bc8000 x27: fffffc0003f22700
-> x26: 0000000000000a00 x25: 0000000000000000 x24: 0000000000000001
-> x23: 0000000000001000 x22: ffff800020d4ba60 x21: 0000000000000000
-> x20: ffff0000fd87f7b7 x19: ffff0000fd87f840 x18: 0000000000000369
-> x17: 0000000000000000 x16: ffff80000dbb8658 x15: ffff0000e1cc0000
-> x14: 0000000000000130 x13: 00000000ffffffff x12: 0000000000040000
-> x11: 000000000003ffff x10: ffff80001d55c000 x9 : ffff80000861f6d4
-> x8 : 0000000000040000 x7 : ffff80000861f3a4 x6 : 0000000000000000
-> x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-> x2 : 0000000000000001 x1 : 0000000000000000 x0 : 0000000000000000
-> Call trace:
->  writeback_single_inode+0x374/0x388 fs/fs-writeback.c:1678
->  write_inode_now+0xb0/0xdc fs/fs-writeback.c:2723
->  iput_final fs/inode.c:1735 [inline]
->  iput+0x1d4/0x314 fs/inode.c:1774
->  ntfs_fill_super+0xc30/0x14a4 fs/ntfs/super.c:2994
->  get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
->  ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
->  vfs_get_tree+0x40/0x140 fs/super.c:1530
->  do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
->  path_mount+0x358/0x914 fs/namespace.c:3370
->  do_mount fs/namespace.c:3383 [inline]
->  __do_sys_mount fs/namespace.c:3591 [inline]
->  __se_sys_mount fs/namespace.c:3568 [inline]
->  __arm64_sys_mount+0x2f8/0x408 fs/namespace.c:3568
->  __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
->  invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
->  el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
->  do_el0_svc+0x48/0x154 arch/arm64/kernel/syscall.c:206
->  el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
->  el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
->  el0t_64_sync+0x18c/0x190
-> irq event stamp: 3030
-> hardirqs last  enabled at (3029): [<ffff800008163d78>] raw_spin_rq_unlock_irq kernel/sched/sched.h:1367 [inline]
-> hardirqs last  enabled at (3029): [<ffff800008163d78>] finish_lock_switch+0x94/0xe8 kernel/sched/core.c:4942
-> hardirqs last disabled at (3030): [<ffff80000bffe9cc>] el1_dbg+0x24/0x5c arch/arm64/kernel/entry-common.c:395
-> softirqs last  enabled at (2780): [<ffff8000080102e4>] _stext+0x2e4/0x37c
-> softirqs last disabled at (1405): [<ffff800008104658>] do_softirq_own_stack include/asm-generic/softirq_stack.h:10 [inline]
-> softirqs last disabled at (1405): [<ffff800008104658>] invoke_softirq+0x70/0xbc kernel/softirq.c:452
-> ---[ end trace 0000000000000000 ]---
-> Unable to handle kernel paging request at virtual address 000000fd87f9e147
-> Mem abort info:
->   ESR = 0x0000000096000004
->   EC = 0x25: DABT (current EL), IL = 32 bits
->   SET = 0, FnV = 0
->   EA = 0, S1PTW = 0
->   FSC = 0x04: level 0 translation fault
-> Data abort info:
->   ISV = 0, ISS = 0x00000004
->   CM = 0, WnR = 0
-> user pgtable: 4k pages, 48-bit VAs, pgdp=0000000128316000
-> [000000fd87f9e147] pgd=0000000000000000, p4d=0000000000000000
-> Internal error: Oops: 96000004 [#1] PREEMPT SMP
-> Modules linked in:
-> CPU: 0 PID: 24385 Comm: syz-executor.4 Tainted: G        W          6.0.0-rc2-syzkaller-16455-ga41a877bc12d #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
-> pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> pc : xa_marked include/linux/xarray.h:420 [inline]
-> pc : mapping_tagged include/linux/fs.h:461 [inline]
-> pc : writeback_single_inode+0x228/0x388 fs/fs-writeback.c:1703
-> lr : writeback_single_inode+0x218/0x388 fs/fs-writeback.c:1702
-> sp : ffff800020d4b9c0
-> x29: ffff800020d4ba10 x28: ffff0000e4bc8000 x27: fffffc0003f22700
-> x26: 0000000000000a00 x25: 0000000000001000 x24: 0000000000000001
-> x23: 0000000000000001 x22: ffff800020d4ba60 x21: ffff0000fd87f88f
-> x20: ffff0000fd87f7b7 x19: ffff0000fd87f840 x18: 0000000000000369
-> x17: 0000000000000000 x16: ffff80000dbb8658 x15: ffff0000e1cc0000
-> x14: 0000000000000130 x13: 00000000ffffffff x12: 0000000000040000
-> x11: ff8080000861f578 x10: 0000000000000002 x9 : ffff0000e1cc0000
-> x8 : ff0000fd87f9e0ff x7 : ffff80000861f3a4 x6 : 0000000000000000
-> x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-> x2 : 0000000000000001 x1 : 0000000000000001 x0 : 0000000000000000
-> Call trace:
->  xa_marked include/linux/xarray.h:420 [inline]
->  mapping_tagged include/linux/fs.h:461 [inline]
->  writeback_single_inode+0x228/0x388 fs/fs-writeback.c:1703
->  write_inode_now+0xb0/0xdc fs/fs-writeback.c:2723
->  iput_final fs/inode.c:1735 [inline]
->  iput+0x1d4/0x314 fs/inode.c:1774
->  ntfs_fill_super+0xc30/0x14a4 fs/ntfs/super.c:2994
->  get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
->  ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
->  vfs_get_tree+0x40/0x140 fs/super.c:1530
->  do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
->  path_mount+0x358/0x914 fs/namespace.c:3370
->  do_mount fs/namespace.c:3383 [inline]
->  __do_sys_mount fs/namespace.c:3591 [inline]
->  __se_sys_mount fs/namespace.c:3568 [inline]
->  __arm64_sys_mount+0x2f8/0x408 fs/namespace.c:3568
->  __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
->  invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
->  el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
->  do_el0_svc+0x48/0x154 arch/arm64/kernel/syscall.c:206
->  el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
->  el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
->  el0t_64_sync+0x18c/0x190
-> Code: 710006ff 54000281 f9401a88 2a1f03e0 (b9404917) 
-> ---[ end trace 0000000000000000 ]---
-> ----------------
-> Code disassembly (best guess):
->    0:	710006ff 	cmp	w23, #0x1
->    4:	54000281 	b.ne	0x54  // b.any
->    8:	f9401a88 	ldr	x8, [x20, #48]
->    c:	2a1f03e0 	mov	w0, wzr
-> * 10:	b9404917 	ldr	w23, [x8, #72] <-- trapping instruction
-> 
-> 
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
-> 
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+BUG: memory leak
+unreferenced object 0xffff8881104f3720 (size 32):
+  comm "syz-executor634", pid 3605, jiffies 4294945517 (age 12.630s)
+  hex dump (first 32 bytes):
+    e0 36 4f 10 81 88 ff ff 80 57 e1 85 ff ff ff ff  .6O......W......
+    00 00 00 00 00 00 00 00 c0 ff c0 ff 00 00 00 00  ................
+  backtrace:
+    [<ffffffff81b23ef2>] kmalloc include/linux/slab.h:600 [inline]
+    [<ffffffff81b23ef2>] kzalloc include/linux/slab.h:733 [inline]
+    [<ffffffff81b23ef2>] ntfs_init_fs_context+0x22/0x1e0 fs/ntfs3/super.c:1397
+    [<ffffffff81650045>] alloc_fs_context+0x225/0x3b0 fs/fs_context.c:290
+    [<ffffffff8162bed3>] do_new_mount fs/namespace.c:3025 [inline]
+    [<ffffffff8162bed3>] path_mount+0x6f3/0x10d0 fs/namespace.c:3370
+    [<ffffffff8162cffe>] do_mount fs/namespace.c:3383 [inline]
+    [<ffffffff8162cffe>] __do_sys_mount fs/namespace.c:3591 [inline]
+    [<ffffffff8162cffe>] __se_sys_mount fs/namespace.c:3568 [inline]
+    [<ffffffff8162cffe>] __x64_sys_mount+0x18e/0x1d0 fs/namespace.c:3568
+    [<ffffffff845e4855>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+    [<ffffffff845e4855>] do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+    [<ffffffff84800087>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+BUG: memory leak
+unreferenced object 0xffff8881104f36e0 (size 32):
+  comm "syz-executor634", pid 3605, jiffies 4294945517 (age 12.630s)
+  hex dump (first 32 bytes):
+    6d 61 63 63 79 72 69 6c 6c 69 63 00 00 00 00 00  maccyrillic.....
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff814c5b1d>] kmemdup_nul+0x2d/0x70 mm/util.c:152
+    [<ffffffff8164f66e>] vfs_parse_fs_string+0x6e/0xd0 fs/fs_context.c:178
+    [<ffffffff8164f7b0>] generic_parse_monolithic+0xe0/0x130 fs/fs_context.c:224
+    [<ffffffff8162c374>] do_new_mount fs/namespace.c:3036 [inline]
+    [<ffffffff8162c374>] path_mount+0xb94/0x10d0 fs/namespace.c:3370
+    [<ffffffff8162cffe>] do_mount fs/namespace.c:3383 [inline]
+    [<ffffffff8162cffe>] __do_sys_mount fs/namespace.c:3591 [inline]
+    [<ffffffff8162cffe>] __se_sys_mount fs/namespace.c:3568 [inline]
+    [<ffffffff8162cffe>] __x64_sys_mount+0x18e/0x1d0 fs/namespace.c:3568
+    [<ffffffff845e4855>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+    [<ffffffff845e4855>] do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+    [<ffffffff84800087>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+Link: https://syzkaller.appspot.com/bug?id=332ba47915d0e39e94b42a622f195f0804ecb67f
+Reported-by: syzbot+9d67170b20e8f94351c8@syzkaller.appspotmail.com
+Signed-off-by: Karthik Alapati <mail@karthek.com>
+---
+ fs/ntfs3/super.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 47012c9bf505..ffb76a5bfd4f 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -439,6 +439,7 @@ static void init_once(void *foo)
+  */
+ static noinline void put_ntfs(struct ntfs_sb_info *sbi)
+ {
++	put_mount_options(sbi->options);
+ 	kfree(sbi->new_rec);
+ 	kvfree(ntfs_put_shared(sbi->upcase));
+ 	kfree(sbi->def_table);
+@@ -482,7 +483,6 @@ static void ntfs_put_super(struct super_block *sb)
+ 	/* Mark rw ntfs as clear, if possible. */
+ 	ntfs_set_state(sbi, NTFS_DIRTY_CLEAR);
+ 
+-	put_mount_options(sbi->options);
+ 	put_ntfs(sbi);
+ 	sb->s_fs_info = NULL;
+ 
+-- 
+2.37.2
+
