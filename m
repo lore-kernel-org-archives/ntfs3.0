@@ -1,138 +1,231 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 738904A26
-	for <ntfs3@lists.linux.dev>; Thu,  1 Sep 2022 13:29:14 +0000 (UTC)
-Received: from canpemm500005.china.huawei.com (unknown [172.30.72.56])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MJM9g5tNTzlWhS;
-	Thu,  1 Sep 2022 21:20:39 +0800 (CST)
-Received: from huawei.com (10.175.127.227) by canpemm500005.china.huawei.com
- (7.192.104.229) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 1 Sep
- 2022 21:24:05 +0800
-From: Zhang Yi <yi.zhang@huawei.com>
-To: <linux-ext4@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <cluster-devel@redhat.com>,
-	<ntfs3@lists.linux.dev>, <ocfs2-devel@oss.oracle.com>,
-	<reiserfs-devel@vger.kernel.org>, <jack@suse.cz>
-CC: <tytso@mit.edu>, <akpm@linux-foundation.org>, <axboe@kernel.dk>,
-	<viro@zeniv.linux.org.uk>, <rpeterso@redhat.com>, <agruenba@redhat.com>,
-	<almaz.alexandrovich@paragon-software.com>, <mark@fasheh.com>,
-	<dushistov@mail.ru>, <hch@infradead.org>, <yi.zhang@huawei.com>,
-	<chengzhihao1@huawei.com>, <yukuai3@huawei.com>
-Subject: [PATCH v2 09/14] reiserfs: replace ll_rw_block()
-Date: Thu, 1 Sep 2022 21:35:00 +0800
-Message-ID: <20220901133505.2510834-10-yi.zhang@huawei.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220901133505.2510834-1-yi.zhang@huawei.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1EE6AA9
+	for <ntfs3@lists.linux.dev>; Thu,  1 Sep 2022 15:44:12 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D38682189E;
+	Thu,  1 Sep 2022 15:44:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1662047050; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TGEgeznG1OoqVsgqPHcmjmzJchioOiRQWcLMKbDIADU=;
+	b=GzQ+klQQDOdWcjHI5r+lAUp2Ag3z01KKum2xL7StbzBok+bSdye/U7ssW9yNFC3aqdTx1m
+	oiQ7Fh+lKd3DjRk9w4CsCVJ8en5rkUeSNrxAXN2HmE3SL7nDTKv4P205h0fOgjvkWOmw8E
+	x5EG13mtEAubS2BecOAbcG3KfvFBL+s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1662047050;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TGEgeznG1OoqVsgqPHcmjmzJchioOiRQWcLMKbDIADU=;
+	b=QU8vQex5JACf7t/hD5Hxjs9xjgVbBQa/3Nu6SioXWo1GISEc1O7xoaa3poqXvqNX/1sA0G
+	m57O89aZVG+xSPBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B93EF13A89;
+	Thu,  1 Sep 2022 15:44:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id wyI0LUrTEGPufwAAMHmgww
+	(envelope-from <jack@suse.cz>); Thu, 01 Sep 2022 15:44:10 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id F4103A067C; Thu,  1 Sep 2022 17:44:09 +0200 (CEST)
+Date: Thu, 1 Sep 2022 17:44:09 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zhang Yi <yi.zhang@huawei.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, cluster-devel@redhat.com,
+	ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com,
+	reiserfs-devel@vger.kernel.org, jack@suse.cz, tytso@mit.edu,
+	akpm@linux-foundation.org, axboe@kernel.dk, viro@zeniv.linux.org.uk,
+	rpeterso@redhat.com, agruenba@redhat.com,
+	almaz.alexandrovich@paragon-software.com, mark@fasheh.com,
+	dushistov@mail.ru, hch@infradead.org, chengzhihao1@huawei.com,
+	yukuai3@huawei.com
+Subject: Re: [PATCH v2 02/14] fs/buffer: add some new buffer read helpers
+Message-ID: <20220901154409.dcyvtknzzdjhuzas@quack3>
 References: <20220901133505.2510834-1-yi.zhang@huawei.com>
+ <20220901133505.2510834-3-yi.zhang@huawei.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.127.227]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- canpemm500005.china.huawei.com (7.192.104.229)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220901133505.2510834-3-yi.zhang@huawei.com>
 
-ll_rw_block() is not safe for the sync read/write path because it cannot
-guarantee that submitting read/write IO if the buffer has been locked.
-We could get false positive EIO after wait_on_buffer() in read path if
-the buffer has been locked by others. So stop using ll_rw_block() in
-reiserfs. We also switch to new bh_readahead_batch() helper for the
-buffer array readahead path.
+On Thu 01-09-22 21:34:53, Zhang Yi wrote:
+> Current ll_rw_block() helper is fragile because it assumes that locked
+> buffer means it's under IO which is submitted by some other who holds
+> the lock, it skip buffer if it failed to get the lock, so it's only
+> safe on the readahead path. Unfortunately, now that most filesystems
+> still use this helper mistakenly on the sync metadata read path. There
+> is no guarantee that the one who holds the buffer lock always submit IO
+> (e.g. buffer_migrate_folio_norefs() after commit 88dbcbb3a484 ("blkdev:
+> avoid migration stalls for blkdev pages"), it could lead to false
+> positive -EIO when submitting reading IO.
+> 
+> This patch add some friendly buffer read helpers to prepare replacing
+> ll_rw_block() and similar calls. We can only call bh_readahead_[]
+> helpers for the readahead paths.
+> 
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
- fs/reiserfs/journal.c | 11 ++++++-----
- fs/reiserfs/stree.c   |  4 ++--
- fs/reiserfs/super.c   |  4 +---
- 3 files changed, 9 insertions(+), 10 deletions(-)
+Looks good to me. Feel free to add:
 
-diff --git a/fs/reiserfs/journal.c b/fs/reiserfs/journal.c
-index 94addfcefede..9f62da7471c9 100644
---- a/fs/reiserfs/journal.c
-+++ b/fs/reiserfs/journal.c
-@@ -868,7 +868,7 @@ static int write_ordered_buffers(spinlock_t * lock,
- 		 */
- 		if (buffer_dirty(bh) && unlikely(bh->b_page->mapping == NULL)) {
- 			spin_unlock(lock);
--			ll_rw_block(REQ_OP_WRITE, 1, &bh);
-+			write_dirty_buffer(bh, 0);
- 			spin_lock(lock);
- 		}
- 		put_bh(bh);
-@@ -1054,7 +1054,7 @@ static int flush_commit_list(struct super_block *s,
- 		if (tbh) {
- 			if (buffer_dirty(tbh)) {
- 		            depth = reiserfs_write_unlock_nested(s);
--			    ll_rw_block(REQ_OP_WRITE, 1, &tbh);
-+			    write_dirty_buffer(tbh, 0);
- 			    reiserfs_write_lock_nested(s, depth);
- 			}
- 			put_bh(tbh) ;
-@@ -2240,7 +2240,7 @@ static int journal_read_transaction(struct super_block *sb,
- 		}
- 	}
- 	/* read in the log blocks, memcpy to the corresponding real block */
--	ll_rw_block(REQ_OP_READ, get_desc_trans_len(desc), log_blocks);
-+	bh_read_batch(get_desc_trans_len(desc), log_blocks);
- 	for (i = 0; i < get_desc_trans_len(desc); i++) {
- 
- 		wait_on_buffer(log_blocks[i]);
-@@ -2342,10 +2342,11 @@ static struct buffer_head *reiserfs_breada(struct block_device *dev,
- 		} else
- 			bhlist[j++] = bh;
- 	}
--	ll_rw_block(REQ_OP_READ, j, bhlist);
-+	bh = bhlist[0];
-+	bh_read_nowait(bh, 0);
-+	bh_readahead_batch(j - 1, &bhlist[1], 0);
- 	for (i = 1; i < j; i++)
- 		brelse(bhlist[i]);
--	bh = bhlist[0];
- 	wait_on_buffer(bh);
- 	if (buffer_uptodate(bh))
- 		return bh;
-diff --git a/fs/reiserfs/stree.c b/fs/reiserfs/stree.c
-index 9a293609a022..84c12a1947b2 100644
---- a/fs/reiserfs/stree.c
-+++ b/fs/reiserfs/stree.c
-@@ -579,7 +579,7 @@ static int search_by_key_reada(struct super_block *s,
- 		if (!buffer_uptodate(bh[j])) {
- 			if (depth == -1)
- 				depth = reiserfs_write_unlock_nested(s);
--			ll_rw_block(REQ_OP_READ | REQ_RAHEAD, 1, bh + j);
-+			bh_readahead(bh[j], REQ_RAHEAD);
- 		}
- 		brelse(bh[j]);
- 	}
-@@ -685,7 +685,7 @@ int search_by_key(struct super_block *sb, const struct cpu_key *key,
- 			if (!buffer_uptodate(bh) && depth == -1)
- 				depth = reiserfs_write_unlock_nested(sb);
- 
--			ll_rw_block(REQ_OP_READ, 1, &bh);
-+			bh_read_nowait(bh, 0);
- 			wait_on_buffer(bh);
- 
- 			if (depth != -1)
-diff --git a/fs/reiserfs/super.c b/fs/reiserfs/super.c
-index c88cd2ce0665..a5ffec0c7517 100644
---- a/fs/reiserfs/super.c
-+++ b/fs/reiserfs/super.c
-@@ -1702,9 +1702,7 @@ static int read_super_block(struct super_block *s, int offset)
- /* after journal replay, reread all bitmap and super blocks */
- static int reread_meta_blocks(struct super_block *s)
- {
--	ll_rw_block(REQ_OP_READ, 1, &SB_BUFFER_WITH_SB(s));
--	wait_on_buffer(SB_BUFFER_WITH_SB(s));
--	if (!buffer_uptodate(SB_BUFFER_WITH_SB(s))) {
-+	if (bh_read(SB_BUFFER_WITH_SB(s), 0) < 0) {
- 		reiserfs_warning(s, "reiserfs-2504", "error reading the super");
- 		return 1;
- 	}
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/buffer.c                 | 65 +++++++++++++++++++++++++++++++++++++
+>  include/linux/buffer_head.h | 38 ++++++++++++++++++++++
+>  2 files changed, 103 insertions(+)
+> 
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index a0b70b3239f3..a6bc769e665d 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -3017,6 +3017,71 @@ int bh_uptodate_or_lock(struct buffer_head *bh)
+>  }
+>  EXPORT_SYMBOL(bh_uptodate_or_lock);
+>  
+> +/**
+> + * __bh_read - Submit read for a locked buffer
+> + * @bh: struct buffer_head
+> + * @op_flags: appending REQ_OP_* flags besides REQ_OP_READ
+> + * @wait: wait until reading finish
+> + *
+> + * Returns zero on success or don't wait, and -EIO on error.
+> + */
+> +int __bh_read(struct buffer_head *bh, blk_opf_t op_flags, bool wait)
+> +{
+> +	int ret = 0;
+> +
+> +	BUG_ON(!buffer_locked(bh));
+> +
+> +	get_bh(bh);
+> +	bh->b_end_io = end_buffer_read_sync;
+> +	submit_bh(REQ_OP_READ | op_flags, bh);
+> +	if (wait) {
+> +		wait_on_buffer(bh);
+> +		if (!buffer_uptodate(bh))
+> +			ret = -EIO;
+> +	}
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(__bh_read);
+> +
+> +/**
+> + * __bh_read_batch - Submit read for a batch of unlocked buffers
+> + * @nr: entry number of the buffer batch
+> + * @bhs: a batch of struct buffer_head
+> + * @op_flags: appending REQ_OP_* flags besides REQ_OP_READ
+> + * @force_lock: force to get a lock on the buffer if set, otherwise drops any
+> + *              buffer that cannot lock.
+> + *
+> + * Returns zero on success or don't wait, and -EIO on error.
+> + */
+> +void __bh_read_batch(int nr, struct buffer_head *bhs[],
+> +		     blk_opf_t op_flags, bool force_lock)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < nr; i++) {
+> +		struct buffer_head *bh = bhs[i];
+> +
+> +		if (buffer_uptodate(bh))
+> +			continue;
+> +
+> +		if (force_lock)
+> +			lock_buffer(bh);
+> +		else
+> +			if (!trylock_buffer(bh))
+> +				continue;
+> +
+> +		if (buffer_uptodate(bh)) {
+> +			unlock_buffer(bh);
+> +			continue;
+> +		}
+> +
+> +		bh->b_end_io = end_buffer_read_sync;
+> +		get_bh(bh);
+> +		submit_bh(REQ_OP_READ | op_flags, bh);
+> +	}
+> +}
+> +EXPORT_SYMBOL(__bh_read_batch);
+> +
+>  /**
+>   * bh_submit_read - Submit a locked buffer for reading
+>   * @bh: struct buffer_head
+> diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+> index c3863c417b00..6d09785bed9f 100644
+> --- a/include/linux/buffer_head.h
+> +++ b/include/linux/buffer_head.h
+> @@ -232,6 +232,9 @@ void write_boundary_block(struct block_device *bdev,
+>  			sector_t bblock, unsigned blocksize);
+>  int bh_uptodate_or_lock(struct buffer_head *bh);
+>  int bh_submit_read(struct buffer_head *bh);
+> +int __bh_read(struct buffer_head *bh, blk_opf_t op_flags, bool wait);
+> +void __bh_read_batch(int nr, struct buffer_head *bhs[],
+> +		     blk_opf_t op_flags, bool force_lock);
+>  
+>  extern int buffer_heads_over_limit;
+>  
+> @@ -399,6 +402,41 @@ static inline struct buffer_head *__getblk(struct block_device *bdev,
+>  	return __getblk_gfp(bdev, block, size, __GFP_MOVABLE);
+>  }
+>  
+> +static inline void bh_readahead(struct buffer_head *bh, blk_opf_t op_flags)
+> +{
+> +	if (!buffer_uptodate(bh) && trylock_buffer(bh)) {
+> +		if (!buffer_uptodate(bh))
+> +			__bh_read(bh, op_flags, false);
+> +		else
+> +			unlock_buffer(bh);
+> +	}
+> +}
+> +
+> +static inline void bh_read_nowait(struct buffer_head *bh, blk_opf_t op_flags)
+> +{
+> +	if (!bh_uptodate_or_lock(bh))
+> +		__bh_read(bh, op_flags, false);
+> +}
+> +
+> +/* Returns 1 if buffer uptodated, 0 on success, and -EIO on error. */
+> +static inline int bh_read(struct buffer_head *bh, blk_opf_t op_flags)
+> +{
+> +	if (bh_uptodate_or_lock(bh))
+> +		return 1;
+> +	return __bh_read(bh, op_flags, true);
+> +}
+> +
+> +static inline void bh_read_batch(int nr, struct buffer_head *bhs[])
+> +{
+> +	__bh_read_batch(nr, bhs, 0, true);
+> +}
+> +
+> +static inline void bh_readahead_batch(int nr, struct buffer_head *bhs[],
+> +				      blk_opf_t op_flags)
+> +{
+> +	__bh_read_batch(nr, bhs, op_flags, false);
+> +}
+> +
+>  /**
+>   *  __bread() - reads a specified block and returns the bh
+>   *  @bdev: the block_device to read from
+> -- 
+> 2.31.1
+> 
 -- 
-2.31.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
