@@ -1,15 +1,13 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A0433D9
-	for <ntfs3@lists.linux.dev>; Thu,  1 Sep 2022 13:24:18 +0000 (UTC)
-Received: from canpemm500005.china.huawei.com (unknown [172.30.72.57])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MJMCd2n4QzHnXc;
-	Thu,  1 Sep 2022 21:22:21 +0800 (CST)
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E93266F7
+	for <ntfs3@lists.linux.dev>; Thu,  1 Sep 2022 13:29:08 +0000 (UTC)
+Received: from canpemm500005.china.huawei.com (unknown [172.30.72.55])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MJM9Z0SyCzlWYC;
+	Thu,  1 Sep 2022 21:20:34 +0800 (CST)
 Received: from huawei.com (10.175.127.227) by canpemm500005.china.huawei.com
  (7.192.104.229) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 1 Sep
- 2022 21:24:09 +0800
+ 2022 21:23:59 +0800
 From: Zhang Yi <yi.zhang@huawei.com>
 To: <linux-ext4@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <cluster-devel@redhat.com>,
@@ -20,9 +18,9 @@ CC: <tytso@mit.edu>, <akpm@linux-foundation.org>, <axboe@kernel.dk>,
 	<almaz.alexandrovich@paragon-software.com>, <mark@fasheh.com>,
 	<dushistov@mail.ru>, <hch@infradead.org>, <yi.zhang@huawei.com>,
 	<chengzhihao1@huawei.com>, <yukuai3@huawei.com>
-Subject: [PATCH v2 13/14] ext2: replace bh_submit_read() helper with bh_read_locked()
-Date: Thu, 1 Sep 2022 21:35:04 +0800
-Message-ID: <20220901133505.2510834-14-yi.zhang@huawei.com>
+Subject: [PATCH v2 03/14] fs/buffer: replace ll_rw_block()
+Date: Thu, 1 Sep 2022 21:34:54 +0800
+Message-ID: <20220901133505.2510834-4-yi.zhang@huawei.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220901133505.2510834-1-yi.zhang@huawei.com>
 References: <20220901133505.2510834-1-yi.zhang@huawei.com>
@@ -39,40 +37,61 @@ X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  canpemm500005.china.huawei.com (7.192.104.229)
 X-CFilter-Loop: Reflected
 
-bh_submit_read() and the uptodate check logic in bh_uptodate_or_lock()
-has been integrated in bh_read() helper, so switch to use it directly.
+ll_rw_block() is not safe for the sync IO path because it skip buffers
+which has been locked by others, it could lead to false positive EIO
+when submitting read IO. So stop using ll_rw_block(), switch to use new
+helpers which could guarantee buffer locked and submit IO if needed.
 
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 ---
- fs/ext2/balloc.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ fs/buffer.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/fs/ext2/balloc.c b/fs/ext2/balloc.c
-index c17ccc19b938..5dc0a31f4a08 100644
---- a/fs/ext2/balloc.c
-+++ b/fs/ext2/balloc.c
-@@ -126,6 +126,7 @@ read_block_bitmap(struct super_block *sb, unsigned int block_group)
- 	struct ext2_group_desc * desc;
- 	struct buffer_head * bh = NULL;
- 	ext2_fsblk_t bitmap_blk;
-+	int ret;
- 
- 	desc = ext2_get_group_desc(sb, block_group, NULL);
- 	if (!desc)
-@@ -139,10 +140,10 @@ read_block_bitmap(struct super_block *sb, unsigned int block_group)
- 			    block_group, le32_to_cpu(desc->bg_block_bitmap));
- 		return NULL;
+diff --git a/fs/buffer.c b/fs/buffer.c
+index a6bc769e665d..aec568b3ae52 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -562,7 +562,7 @@ void write_boundary_block(struct block_device *bdev,
+ 	struct buffer_head *bh = __find_get_block(bdev, bblock + 1, blocksize);
+ 	if (bh) {
+ 		if (buffer_dirty(bh))
+-			ll_rw_block(REQ_OP_WRITE, 1, &bh);
++			write_dirty_buffer(bh, 0);
+ 		put_bh(bh);
  	}
--	if (likely(bh_uptodate_or_lock(bh)))
-+	ret = bh_read(bh, 0);
-+	if (ret > 0)
- 		return bh;
--
--	if (bh_submit_read(bh) < 0) {
-+	if (ret < 0) {
+ }
+@@ -1342,7 +1342,7 @@ void __breadahead(struct block_device *bdev, sector_t block, unsigned size)
+ {
+ 	struct buffer_head *bh = __getblk(bdev, block, size);
+ 	if (likely(bh)) {
+-		ll_rw_block(REQ_OP_READ | REQ_RAHEAD, 1, &bh);
++		bh_readahead(bh, REQ_RAHEAD);
  		brelse(bh);
- 		ext2_error(sb, __func__,
- 			    "Cannot read block bitmap - "
+ 	}
+ }
+@@ -2022,7 +2022,7 @@ int __block_write_begin_int(struct folio *folio, loff_t pos, unsigned len,
+ 		if (!buffer_uptodate(bh) && !buffer_delay(bh) &&
+ 		    !buffer_unwritten(bh) &&
+ 		     (block_start < from || block_end > to)) {
+-			ll_rw_block(REQ_OP_READ, 1, &bh);
++			bh_read_nowait(bh, 0);
+ 			*wait_bh++=bh;
+ 		}
+ 	}
+@@ -2582,11 +2582,9 @@ int block_truncate_page(struct address_space *mapping,
+ 		set_buffer_uptodate(bh);
+ 
+ 	if (!buffer_uptodate(bh) && !buffer_delay(bh) && !buffer_unwritten(bh)) {
+-		err = -EIO;
+-		ll_rw_block(REQ_OP_READ, 1, &bh);
+-		wait_on_buffer(bh);
++		err = bh_read(bh, 0);
+ 		/* Uhhuh. Read error. Complain and punt. */
+-		if (!buffer_uptodate(bh))
++		if (err < 0)
+ 			goto unlock;
+ 	}
+ 
 -- 
 2.31.1
 
