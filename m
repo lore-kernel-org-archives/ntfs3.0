@@ -1,128 +1,117 @@
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E327FEC8
-	for <ntfs3@lists.linux.dev>; Thu,  1 Sep 2022 09:46:31 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id d18-20020a056e020c1200b002eaea8e6081so9368196ile.6
-        for <ntfs3@lists.linux.dev>; Thu, 01 Sep 2022 02:46:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=y6NTaZhC93w7/nr+936Z1uJsicemKlFbzybdjpgrwek=;
-        b=6Au2sRgQF4g53fLCkXnqgh/0UJjDpJ273ytSA4sB4wJsxFfUnLA0iqsbE0X78D4P6X
-         8umJMeezA/kmMYdwogQ7QOaI+gP4jqiJLhKwnbZEYEn9K1fGnX4DrsB35Uv9uosvtB9F
-         lesGkD2EJGg20SvR3UatYINHl0PSL9ymsQ/V/8ho6+GzmR7Tv9rpfSmfBLGX0d7lu0lR
-         lgQWkdd4GHU4Ukj/c9LFUljMOavRZRcErqA2TagJgzzCRyWTsVipGaW/Wb8jn/BucY+N
-         Dd699IckPPKEHaUeqPcZ6CoG/SUuDFEwYJP74hpuyYpowWFudkrZ9d7BvdnQbioxy1Zd
-         Jb+Q==
-X-Gm-Message-State: ACgBeo2VrQ79lZBJv72Bc7Kfz61GQpAAbj9oYaK92QW5s+9eip6a8QK6
-	+ngooRGdYPoMQUfxOpzB8VlDfw9HmKH8JgeFMxcAeUB+lms5
-X-Google-Smtp-Source: AA6agR6N6UoYb9mqjX0NrayBAffCgdnXlaf4s+R8D/0rDSIp85v7PKh6uUXh3TyR12Ku5i7JZ2RFBzWVFvT3NOvQoijUO2AIAdMW
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC9766F7
+	for <ntfs3@lists.linux.dev>; Thu,  1 Sep 2022 13:24:07 +0000 (UTC)
+Received: from canpemm500005.china.huawei.com (unknown [172.30.72.53])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MJMBd4yCxznTkK;
+	Thu,  1 Sep 2022 21:21:29 +0800 (CST)
+Received: from huawei.com (10.175.127.227) by canpemm500005.china.huawei.com
+ (7.192.104.229) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 1 Sep
+ 2022 21:23:56 +0800
+From: Zhang Yi <yi.zhang@huawei.com>
+To: <linux-ext4@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <cluster-devel@redhat.com>,
+	<ntfs3@lists.linux.dev>, <ocfs2-devel@oss.oracle.com>,
+	<reiserfs-devel@vger.kernel.org>, <jack@suse.cz>
+CC: <tytso@mit.edu>, <akpm@linux-foundation.org>, <axboe@kernel.dk>,
+	<viro@zeniv.linux.org.uk>, <rpeterso@redhat.com>, <agruenba@redhat.com>,
+	<almaz.alexandrovich@paragon-software.com>, <mark@fasheh.com>,
+	<dushistov@mail.ru>, <hch@infradead.org>, <yi.zhang@huawei.com>,
+	<chengzhihao1@huawei.com>, <yukuai3@huawei.com>
+Subject: [PATCH v2 00/14] fs/buffer: remove ll_rw_block()
+Date: Thu, 1 Sep 2022 21:34:51 +0800
+Message-ID: <20220901133505.2510834-1-yi.zhang@huawei.com>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a92:b011:0:b0:2ea:ebed:1241 with SMTP id
- x17-20020a92b011000000b002eaebed1241mr10179174ilh.245.1662025591034; Thu, 01
- Sep 2022 02:46:31 -0700 (PDT)
-Date: Thu, 01 Sep 2022 02:46:31 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f61bdf05e79a7c5c@google.com>
-Subject: [syzbot] BUG: unable to handle kernel paging request in mi_enum_attr
-From: syzbot <syzbot+28207acc70bbf3d85b74@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.127.227]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ canpemm500005.china.huawei.com (7.192.104.229)
+X-CFilter-Loop: Reflected
 
-Hello,
+Changes since v1:
+ - Remove redundant uptodate check in __bh_read(), use
+   bh_uptodate_or_lock() in bh_read() and bh_read_nowait().
+ - Improve the lock order in __bh_read_batch().
+ - Add return value 1 to bh_read(), indicate the buffer has been
+   already uptodate and no need to submit read IO, ext2 code in patch
+   13 need to know this case.
+ - Remove bh_read_locked() helper.
+ - Exchange the parameter sequence of bhs[] array and it's number in
+   bh_read[*]_batch() helpers.
 
-syzbot found the following issue on:
+v1: https://lore.kernel.org/linux-fsdevel/20220831072111.3569680-1-yi.zhang@huawei.com/T/#t
 
-HEAD commit:    a41a877bc12d Merge branch 'for-next/fixes' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=11d7f5ad080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5cea15779c42821c
-dashboard link: https://syzkaller.appspot.com/bug?extid=28207acc70bbf3d85b74
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: arm64
+Thanks,
+Yi.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+ll_rw_block() will skip locked buffer before submitting IO, it assumes
+that locked buffer means it is under IO. This assumption is not always
+true because we cannot guarantee every buffer lock path would submit
+IO. After commit 88dbcbb3a484 ("blkdev: avoid migration stalls for
+blkdev pages"), buffer_migrate_folio_norefs() becomes one exceptional
+case, and there may be others. So ll_rw_block() is not safe on the sync
+read path, we could get false positive EIO return value when filesystem
+reading metadata. It seems that it could be only used on the readahead
+path.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+28207acc70bbf3d85b74@syzkaller.appspotmail.com
+Unfortunately, many filesystem misuse the ll_rw_block() on the sync read
+path. This patch set just remove ll_rw_block() and add new friendly
+helpers, which could prevent false positive EIO on the read metadata
+path. Thanks for the suggestion from Jan, the original discussion is at
+[1].
 
-Unable to handle kernel paging request at virtual address ffff000224d7f83a
-Mem abort info:
-  ESR = 0x0000000096000005
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x05: level 1 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000005
-  CM = 0, WnR = 0
-swapper pgtable: 4k pages, 48-bit VAs, pgdp=00000001c5736000
-[ffff000224d7f83a] pgd=180000023fff8003, p4d=180000023fff8003, pud=0000000000000000
-Internal error: Oops: 96000005 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 0 PID: 28529 Comm: syz-executor.3 Not tainted 6.0.0-rc2-syzkaller-16455-ga41a877bc12d #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
-pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : mi_enum_attr+0x10c/0x314 fs/ntfs3/record.c:227
-lr : mi_enum_attr+0xf0/0x314 fs/ntfs3/record.c:223
-sp : ffff8000220f3940
-x29: ffff8000220f3940 x28: ffff000124d7f800 x27: ffff000124d7f838
-x26: 00000000fffffffe x25: 0000000000000048 x24: 0000000000000000
-x23: 0000000000000000 x22: 0000000000000036 x21: 0000000000000198
-x20: 0000000000000038 x19: ffff000224d7f836 x18: 0000000000000002
-x17: ffff80000c04d6bc x16: 0000000000000000 x15: 0000000000000000
-x14: 0000000000000064 x13: 0000000000989680 x12: 0000000000040000
-x11: 00000000000105f8 x10: ffff800019725000 x9 : ffff800008c10880
-x8 : 00000000000105f9 x7 : 0000000000000000 x6 : 0000000000000000
-x5 : ffff000124d7fc00 x4 : ffff00011eb5e400 x3 : 0000000000000000
-x2 : ffff8000220f3a70 x1 : 00000000fffffffe x0 : 0000000000000018
-Call trace:
- mi_enum_attr+0x10c/0x314 fs/ntfs3/record.c:210
- ni_enum_attr_ex+0x174/0x29c fs/ntfs3/frecord.c:259
- ntfs_read_mft fs/ntfs3/inode.c:114 [inline]
- ntfs_iget5+0xf44/0x138c fs/ntfs3/inode.c:501
- ntfs_loadlog_and_replay+0x98/0x1ec fs/ntfs3/fsntfs.c:272
- ntfs_fill_super+0xc10/0x14a4 fs/ntfs/super.c:2904
- get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
- ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
- vfs_get_tree+0x40/0x140 fs/super.c:1530
- do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
- path_mount+0x358/0x914 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __arm64_sys_mount+0x2f8/0x408 fs/namespace.c:3568
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x154 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
- el0t_64_sync+0x18c/0x190
-Code: 97da4c0f 14000039 97da4c0d 8b160293 (b9400674) 
----[ end trace 0000000000000000 ]---
-----------------
-Code disassembly (best guess):
-   0:	97da4c0f 	bl	0xffffffffff69303c
-   4:	14000039 	b	0xe8
-   8:	97da4c0d 	bl	0xffffffffff69303c
-   c:	8b160293 	add	x19, x20, x22
-* 10:	b9400674 	ldr	w20, [x19, #4] <-- trapping instruction
+ patch 1: remove unused helpers in fs/buffer.c
+ patch 2: add new bh_read_[*] helpers
+ patch 3-11: remove all ll_rw_block() calls in filesystems
+ patch 12-14: do some leftover cleanups.
 
+[1]. https://lore.kernel.org/linux-mm/20220825080146.2021641-1-chengzhihao1@huawei.com/
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Zhang Yi (14):
+  fs/buffer: remove __breadahead_gfp()
+  fs/buffer: add some new buffer read helpers
+  fs/buffer: replace ll_rw_block()
+  gfs2: replace ll_rw_block()
+  isofs: replace ll_rw_block()
+  jbd2: replace ll_rw_block()
+  ntfs3: replace ll_rw_block()
+  ocfs2: replace ll_rw_block()
+  reiserfs: replace ll_rw_block()
+  udf: replace ll_rw_block()
+  ufs: replace ll_rw_block()
+  fs/buffer: remove ll_rw_block() helper
+  ext2: replace bh_submit_read() helper with bh_read_locked()
+  fs/buffer: remove bh_submit_read() helper
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+ fs/buffer.c                 | 154 +++++++++++++++---------------------
+ fs/ext2/balloc.c            |   7 +-
+ fs/gfs2/meta_io.c           |   7 +-
+ fs/gfs2/quota.c             |   8 +-
+ fs/isofs/compress.c         |   2 +-
+ fs/jbd2/journal.c           |  15 ++--
+ fs/jbd2/recovery.c          |  16 ++--
+ fs/ntfs3/inode.c            |   7 +-
+ fs/ocfs2/aops.c             |   2 +-
+ fs/ocfs2/super.c            |   4 +-
+ fs/reiserfs/journal.c       |  11 +--
+ fs/reiserfs/stree.c         |   4 +-
+ fs/reiserfs/super.c         |   4 +-
+ fs/udf/dir.c                |   2 +-
+ fs/udf/directory.c          |   2 +-
+ fs/udf/inode.c              |   8 +-
+ fs/ufs/balloc.c             |  12 +--
+ include/linux/buffer_head.h |  48 ++++++++---
+ 18 files changed, 146 insertions(+), 167 deletions(-)
+
+-- 
+2.31.1
+
