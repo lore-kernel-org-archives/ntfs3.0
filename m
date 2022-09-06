@@ -1,131 +1,201 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9DB7E
-	for <ntfs3@lists.linux.dev>; Mon,  5 Sep 2022 14:10:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1662387015;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/aM9Hz/CxTU/5IZIiOb0wSytjLDU1CYz4f/uZlzEYfY=;
-	b=WXhE9tE+lWskXL7dnxRIFOx82M1hrtyWC1zMSjoHGv+JpsLFoAduU4XWYEOByeCoMYIC7/
-	7XBDNz8gfqUeOXwJPLKEcM3HTA63IHoRDKgCWlxianshklmZW4oqlVRJIhc2w4xvaOWG/v
-	scfBuFAyCrPa1mN5TgQrb6ClPeB9J3U=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-322-joczqCbxN6q0RnSnbNgKSg-1; Mon, 05 Sep 2022 10:10:14 -0400
-X-MC-Unique: joczqCbxN6q0RnSnbNgKSg-1
-Received: by mail-pl1-f199.google.com with SMTP id k3-20020a170902c40300b001743aafd6c6so6210788plk.20
-        for <ntfs3@lists.linux.dev>; Mon, 05 Sep 2022 07:10:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C68786C3
+	for <ntfs3@lists.linux.dev>; Tue,  6 Sep 2022 16:55:31 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id s15-20020a056e021a0f00b002f1760d1437so4678324ild.1
+        for <ntfs3@lists.linux.dev>; Tue, 06 Sep 2022 09:55:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=/aM9Hz/CxTU/5IZIiOb0wSytjLDU1CYz4f/uZlzEYfY=;
-        b=lWnkJ/ZdZHU4lUDehUalGPdoydl9XuMedxG+0lr2YOaco227SRIDbxmU9GGpsI8c3q
-         LrxOsLUqCe5/MO2PEp6SUYpfUyic/6ckZBQC6wVYiQGPWHsKig90jcIa4Jde0FBK9lrx
-         0N95615xNlEoIq9Eqvpy5b+Kfvl88WqPw4cybJ8MBBzRXrukpHVRKQy5ajH4wv7q1dQB
-         8qJ6iZQosYvW8AgqneLydTZiPY2DRIMElDfRa/iqs8KRZLbmWcWELZbXpRRUlkXD7K6T
-         r71f3+oTf/vGB8Hb4nPvVnStfP7bjB4n7J/1GjagVbJwR3Rze7IoCnFUPoERrcpjg28j
-         j42Q==
-X-Gm-Message-State: ACgBeo0dXA6U/kavmc2dO4WocC7/qzsILsHzW1POT0uHLekivruvFBM9
-	kArsd/HpjHqjz1q/g77LtM/BE5BvXCLxoHwrZA3DLkrgfAZUlKZ18OilOJR0s2McU49c2ox+hlF
-	3nHCK0Gb/fwl/rvBG7vB8hGodbwxa+ec=
-X-Received: by 2002:a65:6e49:0:b0:429:cae6:aac6 with SMTP id be9-20020a656e49000000b00429cae6aac6mr41418490pgb.268.1662387013101;
-        Mon, 05 Sep 2022 07:10:13 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6Mbj0cnXfyvltZuZyI75OnAiCy5kv581MclsxMj6AKJtQBQIL0bE5MAfuVXEL2TcdEimwBiyT3tt6LHh8ASBA=
-X-Received: by 2002:a65:6e49:0:b0:429:cae6:aac6 with SMTP id
- be9-20020a656e49000000b00429cae6aac6mr41418453pgb.268.1662387012811; Mon, 05
- Sep 2022 07:10:12 -0700 (PDT)
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=r0CYA6h8y7DkAH+00GIM/04OP4+0TB3o7uk98HZnHx8=;
+        b=pTe8oz8luIvMZexR93ef4N30bc86kKkngE8W5eqaSG5//fuEK+FoSUgVMGe02QsfSS
+         jghwVcMr00N51SEY439xa6D4YfYHOJe3Hxmv18LeGKJUF2MSNsl3Ra+2RUmhTTEiRqcu
+         UiWTTgxrggr8p1SgO0gNodtVfY/qTrgsPqO+O0R7zcrFwttj5eeqhfzK+4acGo2PR5ix
+         d7dEF++Yeh7GPDz8PtCwb1knGwKN+e4w4kORG6zLpRls3PxQ5TXsQmcBDB+1Fq+cEfDh
+         q8Xi0RrevqKp8cGTiWPl3XUx+0gtifbTlTA/TLHWgTf01l0ir6otV3RVWsCK91xqLk6D
+         9wMQ==
+X-Gm-Message-State: ACgBeo0mmcD4dtSHu5ramD9A0vwAxcPN3SFTIgp4TEOieR4lGAXI+ESG
+	3ks/jHTiUK8FCi67GBXNs8on4OA04Hlyj4rSa0SyglEx7hHp
+X-Google-Smtp-Source: AA6agR4JhOfkvA7arGJnMykHXQ1ynQBBlJ4cdtTLgM4F+EqHRy9HpOok0nbyt8MTiOZ31aWMXc2b0eYL8Rl3evykAuVplL+PBA3+
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220901133505.2510834-1-yi.zhang@huawei.com> <20220901133505.2510834-5-yi.zhang@huawei.com>
-In-Reply-To: <20220901133505.2510834-5-yi.zhang@huawei.com>
-From: Andreas Gruenbacher <agruenba@redhat.com>
-Date: Mon, 5 Sep 2022 16:10:01 +0200
-Message-ID: <CAHc6FU4XqSxUr3CS8zxu=Fh_kHytJbzezim0ie_cxdioW5R=FA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/14] gfs2: replace ll_rw_block()
-To: Zhang Yi <yi.zhang@huawei.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, cluster-devel@redhat.com, ntfs3@lists.linux.dev, 
-	ocfs2-devel@oss.oracle.com, reiserfs-devel@vger.kernel.org, jack@suse.cz, 
-	tytso@mit.edu, akpm@linux-foundation.org, axboe@kernel.dk, 
-	viro@zeniv.linux.org.uk, rpeterso@redhat.com, 
-	almaz.alexandrovich@paragon-software.com, mark@fasheh.com, dushistov@mail.ru, 
-	hch@infradead.org, chengzhihao1@huawei.com, yukuai3@huawei.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+X-Received: by 2002:a05:6e02:1a6f:b0:2e9:e161:b56d with SMTP id
+ w15-20020a056e021a6f00b002e9e161b56dmr27197744ilv.62.1662483330429; Tue, 06
+ Sep 2022 09:55:30 -0700 (PDT)
+Date: Tue, 06 Sep 2022 09:55:30 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000005af92105e80510f2@google.com>
+Subject: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_get_ea
+From: syzbot <syzbot+c4d950787fd5553287b7@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 1, 2022 at 3:24 PM Zhang Yi <yi.zhang@huawei.com> wrote:
-> ll_rw_block() is not safe for the sync read path because it cannot
-> guarantee that always submitting read IO if the buffer has been locked,
-> so stop using it. We also switch to new bh_readahead() helper for the
-> readahead path.
->
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-> ---
->  fs/gfs2/meta_io.c | 7 ++-----
->  fs/gfs2/quota.c   | 8 ++------
->  2 files changed, 4 insertions(+), 11 deletions(-)
->
-> diff --git a/fs/gfs2/meta_io.c b/fs/gfs2/meta_io.c
-> index 7e70e0ba5a6c..6ed728aae9a5 100644
-> --- a/fs/gfs2/meta_io.c
-> +++ b/fs/gfs2/meta_io.c
-> @@ -525,8 +525,7 @@ struct buffer_head *gfs2_meta_ra(struct gfs2_glock *gl, u64 dblock, u32 extlen)
->
->         if (buffer_uptodate(first_bh))
->                 goto out;
-> -       if (!buffer_locked(first_bh))
-> -               ll_rw_block(REQ_OP_READ | REQ_META | REQ_PRIO, 1, &first_bh);
-> +       bh_read_nowait(first_bh, REQ_META | REQ_PRIO);
->
->         dblock++;
->         extlen--;
-> @@ -534,9 +533,7 @@ struct buffer_head *gfs2_meta_ra(struct gfs2_glock *gl, u64 dblock, u32 extlen)
->         while (extlen) {
->                 bh = gfs2_getbuf(gl, dblock, CREATE);
->
-> -               if (!buffer_uptodate(bh) && !buffer_locked(bh))
-> -                       ll_rw_block(REQ_OP_READ | REQ_RAHEAD | REQ_META |
-> -                                   REQ_PRIO, 1, &bh);
-> +               bh_readahead(bh, REQ_RAHEAD | REQ_META | REQ_PRIO);
->                 brelse(bh);
->                 dblock++;
->                 extlen--;
-> diff --git a/fs/gfs2/quota.c b/fs/gfs2/quota.c
-> index f201eaf59d0d..1ed17226d9ed 100644
-> --- a/fs/gfs2/quota.c
-> +++ b/fs/gfs2/quota.c
-> @@ -745,12 +745,8 @@ static int gfs2_write_buf_to_page(struct gfs2_inode *ip, unsigned long index,
->                 }
->                 if (PageUptodate(page))
->                         set_buffer_uptodate(bh);
-> -               if (!buffer_uptodate(bh)) {
-> -                       ll_rw_block(REQ_OP_READ | REQ_META | REQ_PRIO, 1, &bh);
-> -                       wait_on_buffer(bh);
-> -                       if (!buffer_uptodate(bh))
-> -                               goto unlock_out;
-> -               }
-> +               if (bh_read(bh, REQ_META | REQ_PRIO) < 0)
-> +                       goto unlock_out;
->                 if (gfs2_is_jdata(ip))
->                         gfs2_trans_add_data(ip->i_gl, bh);
->                 else
-> --
-> 2.31.1
->
+Hello,
 
-Thanks for this fix; looking good.
+syzbot found the following issue on:
 
-Reviewed-by: Andreas Gruenbacher <agruenba@redhat.com>
+HEAD commit:    e47eb90a0a9a Add linux-next specific files for 20220901
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=13a9f455080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7933882276523081
+dashboard link: https://syzkaller.appspot.com/bug?extid=c4d950787fd5553287b7
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1550d5e5080000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=173664d7080000
 
-Andreas
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c4d950787fd5553287b7@syzkaller.appspotmail.com
 
+ntfs3: loop0: Different NTFS' sector size (4096) and media sector size (512)
+ntfs3: loop0: Mark volume as dirty due to NTFS errors
+ntfs3: loop0: Failed to load $Extend.
+==================================================================
+BUG: KASAN: slab-out-of-bounds in unpacked_ea_size fs/ntfs3/xattr.c:26 [inline]
+BUG: KASAN: slab-out-of-bounds in unpacked_ea_size fs/ntfs3/xattr.c:23 [inline]
+BUG: KASAN: slab-out-of-bounds in find_ea fs/ntfs3/xattr.c:54 [inline]
+BUG: KASAN: slab-out-of-bounds in find_ea fs/ntfs3/xattr.c:44 [inline]
+BUG: KASAN: slab-out-of-bounds in ntfs_get_ea+0x5ca/0x620 fs/ntfs3/xattr.c:230
+Read of size 1 at addr ffff88801b66abbd by task syz-executor378/3604
+
+CPU: 0 PID: 3604 Comm: syz-executor378 Not tainted 6.0.0-rc3-next-20220901-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+ print_address_description mm/kasan/report.c:317 [inline]
+ print_report.cold+0x2ba/0x719 mm/kasan/report.c:433
+ kasan_report+0xb1/0x1e0 mm/kasan/report.c:495
+ unpacked_ea_size fs/ntfs3/xattr.c:26 [inline]
+ unpacked_ea_size fs/ntfs3/xattr.c:23 [inline]
+ find_ea fs/ntfs3/xattr.c:54 [inline]
+ find_ea fs/ntfs3/xattr.c:44 [inline]
+ ntfs_get_ea+0x5ca/0x620 fs/ntfs3/xattr.c:230
+ ntfs_get_wsl_perm+0x117/0x360 fs/ntfs3/xattr.c:973
+ ntfs_read_mft fs/ntfs3/inode.c:355 [inline]
+ ntfs_iget5+0xe65/0x3280 fs/ntfs3/inode.c:501
+ dir_search_u+0x36a/0x3f0 fs/ntfs3/dir.c:264
+ ntfs_lookup+0x174/0x1e0 fs/ntfs3/namei.c:83
+ __lookup_slow+0x24c/0x460 fs/namei.c:1685
+ lookup_slow fs/namei.c:1702 [inline]
+ walk_component+0x33f/0x5a0 fs/namei.c:1993
+ lookup_last fs/namei.c:2450 [inline]
+ path_lookupat+0x1ba/0x840 fs/namei.c:2474
+ filename_lookup+0x1ce/0x590 fs/namei.c:2503
+ vfs_statx+0x148/0x390 fs/stat.c:228
+ do_statx+0xd9/0x160 fs/stat.c:629
+ __do_sys_statx fs/stat.c:656 [inline]
+ __se_sys_statx fs/stat.c:647 [inline]
+ __x64_sys_statx+0x157/0x1b0 fs/stat.c:647
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f0f3fb82519
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffcc68ced18 EFLAGS: 00000246 ORIG_RAX: 000000000000014c
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f0f3fb82519
+RDX: 0000000000000000 RSI: 0000000020003c40 RDI: 0000000000000005
+RBP: 00007f0f3fb41d10 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000080 R11: 0000000000000246 R12: 00007f0f3fb41da0
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+
+Allocated by task 3604:
+ kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+ kasan_set_track mm/kasan/common.c:45 [inline]
+ set_alloc_info mm/kasan/common.c:437 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:516 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:475 [inline]
+ __kasan_kmalloc+0xa9/0xd0 mm/kasan/common.c:525
+ kasan_kmalloc include/linux/kasan.h:234 [inline]
+ __do_kmalloc_node mm/slab_common.c:930 [inline]
+ __kmalloc+0x54/0xc0 mm/slab_common.c:943
+ kmalloc include/linux/slab.h:564 [inline]
+ ntfs_read_ea+0x3e4/0x850 fs/ntfs3/xattr.c:110
+ ntfs_get_ea+0x1ad/0x620 fs/ntfs3/xattr.c:222
+ ntfs_get_wsl_perm+0x117/0x360 fs/ntfs3/xattr.c:973
+ ntfs_read_mft fs/ntfs3/inode.c:355 [inline]
+ ntfs_iget5+0xe65/0x3280 fs/ntfs3/inode.c:501
+ dir_search_u+0x36a/0x3f0 fs/ntfs3/dir.c:264
+ ntfs_lookup+0x174/0x1e0 fs/ntfs3/namei.c:83
+ __lookup_slow+0x24c/0x460 fs/namei.c:1685
+ lookup_slow fs/namei.c:1702 [inline]
+ walk_component+0x33f/0x5a0 fs/namei.c:1993
+ lookup_last fs/namei.c:2450 [inline]
+ path_lookupat+0x1ba/0x840 fs/namei.c:2474
+ filename_lookup+0x1ce/0x590 fs/namei.c:2503
+ vfs_statx+0x148/0x390 fs/stat.c:228
+ do_statx+0xd9/0x160 fs/stat.c:629
+ __do_sys_statx fs/stat.c:656 [inline]
+ __se_sys_statx fs/stat.c:647 [inline]
+ __x64_sys_statx+0x157/0x1b0 fs/stat.c:647
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+The buggy address belongs to the object at ffff88801b66ab80
+ which belongs to the cache kmalloc-64 of size 64
+The buggy address is located 61 bytes inside of
+ 64-byte region [ffff88801b66ab80, ffff88801b66abc0)
+
+The buggy address belongs to the physical page:
+page:ffffea00006d9a80 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1b66a
+flags: 0xfff00000000200(slab|node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000000200 ffffea0001fc0040 dead000000000002 ffff888011841640
+raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x12cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY), pid 2, tgid 2 (kthreadd), ts 6668566803, free_ts 0
+ prep_new_page mm/page_alloc.c:2534 [inline]
+ get_page_from_freelist+0x109b/0x2ce0 mm/page_alloc.c:4284
+ __alloc_pages+0x1c7/0x510 mm/page_alloc.c:5542
+ alloc_pages+0x1a6/0x270 mm/mempolicy.c:2280
+ alloc_slab_page mm/slub.c:1721 [inline]
+ allocate_slab+0x228/0x370 mm/slub.c:1866
+ new_slab mm/slub.c:1919 [inline]
+ ___slab_alloc+0xad0/0x1440 mm/slub.c:3100
+ __slab_alloc.constprop.0+0x4d/0xa0 mm/slub.c:3198
+ slab_alloc_node mm/slub.c:3283 [inline]
+ __kmem_cache_alloc_node+0x18a/0x3d0 mm/slub.c:3356
+ __do_kmalloc_node mm/slab_common.c:929 [inline]
+ __kmalloc+0x44/0xc0 mm/slab_common.c:943
+ kmalloc include/linux/slab.h:564 [inline]
+ kzalloc include/linux/slab.h:695 [inline]
+ lsm_task_alloc security/security.c:615 [inline]
+ security_task_alloc+0x10b/0x250 security/security.c:1655
+ copy_process+0x23de/0x7120 kernel/fork.c:2240
+ kernel_clone+0xe7/0xab0 kernel/fork.c:2678
+ kernel_thread+0xb5/0xf0 kernel/fork.c:2738
+ create_kthread kernel/kthread.c:399 [inline]
+ kthreadd+0x4ea/0x750 kernel/kthread.c:746
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+page_owner free stack trace missing
+
+Memory state around the buggy address:
+ ffff88801b66aa80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+ ffff88801b66ab00: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+>ffff88801b66ab80: 00 00 00 00 00 00 00 04 fc fc fc fc fc fc fc fc
+                                        ^
+ ffff88801b66ac00: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+ ffff88801b66ac80: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
