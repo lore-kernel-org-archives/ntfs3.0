@@ -1,201 +1,233 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0C9185D;
-	Tue, 13 Sep 2022 14:30:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663079433; x=1694615433;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lkQLdPKYgroJNY6ugwZNa7vjkll0CAr7qnrOFITayhA=;
-  b=C0XjI1e7OCnBIMs2bHAGLfe42hD8QAONzfkrBQKs5Gg4xuy84Ibw/Oyj
-   j2XgPV8UoVzn/MP0cYv00oJ4Xypw9Z9AY/ewW9gXy/9vdFJYzpS7ZfMVs
-   uKjCY41sQxgzVURl46GwVxYS0VBevOnFILVuvzHfsBUeJdmS9sh1yAHBp
-   cgl4AJQjY5xjQO7Udyk4Mj89LBiuyNDRwcT72d+bPVpHq41Cedl9v08GU
-   XmI+SglQCv9QnIyVOnRHXj9t2jzplAkN/iH41SBIeRATgROGrJVc0QuuU
-   SwtJkRoI8Mv1y1jWqHtkUBqHnziMDAR/zkIy4IgXETJogsUHLnvYi8tw/
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="298154019"
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; 
-   d="scan'208";a="298154019"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2022 07:30:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; 
-   d="scan'208";a="684885450"
-Received: from lkp-server02.sh.intel.com (HELO 4011df4f4fd3) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Sep 2022 07:30:30 -0700
-Received: from kbuild by 4011df4f4fd3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1oY6vm-0003eI-01;
-	Tue, 13 Sep 2022 14:30:30 +0000
-Date: Tue, 13 Sep 2022 22:29:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yuan Can <yuancan@huawei.com>, patchwork@huawei.com,
-	almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org, yuancan@huawei.com
-Subject: Re: [PATCH] fs/ntfs3: use strcmp to determin attribute type
-Message-ID: <202209132249.HHQnBWE6-lkp@intel.com>
-References: <20220913064728.79092-1-yuancan@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF0D3C3F
+	for <ntfs3@lists.linux.dev>; Tue, 13 Sep 2022 20:14:49 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id bu5-20020a17090aee4500b00202e9ca2182so2323359pjb.0
+        for <ntfs3@lists.linux.dev>; Tue, 13 Sep 2022 13:14:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dilger-ca.20210112.gappssmtp.com; s=20210112;
+        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
+         :from:from:to:cc:subject:date;
+        bh=tkdXf6hNxI7AIwIk1d1ONUg0Hbrfp0qbRtaSMbEsIJs=;
+        b=D0aQK8EaQdYnpAU0C7f49xeshFOfVoaLmi2sBAOZUp10fXBPMtCJ2OE2Oj+4oOPWNm
+         qWBSCMMe2BxpLfnW1tafgL1fBfI93R0onkmhQ26jtK7P0lzHN7kk4oPYNyBAc4BDrWjQ
+         uM3kFC1VhP8gYWHG5MMyUOr/UVnUF6gMXFM/ud7mEPzPYM06KhgltY09rK0oBqnvhkFz
+         bQS0CDlvyECxpZKq41Us4lLBsPlaUhavX8e3coZt4JWl4M9mwlb4h1JSP3eOE9gthsgD
+         Sdsycatu72RhDvMII6bsNQdZwWKRb3dmdrNTMGF92fbg1h9qLew9ltsgUMaAZ+QxUGK9
+         VDIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
+         :from:x-gm-message-state:from:to:cc:subject:date;
+        bh=tkdXf6hNxI7AIwIk1d1ONUg0Hbrfp0qbRtaSMbEsIJs=;
+        b=8CmhUusy4ps0v38l93SJfVxsjGwdx/TWpFIIfqwalgBdyx9mXEFURvF5IEAQRslqnd
+         mwFvt5pjxMFBfpYrbMx19ZJ4g0htu9Ljr/7EJG/4XvGUIgv1RuGJngJ+9XnF6psvN+s1
+         cQYWjNOOCor9ZZryeuE4WdaFSPUSv8rKLnk7+4/AbMpXHqY9/g2G1HZtM0rnlLN0/PLu
+         w22gloOaHrGH+z3xV2kpu4iNH6H4hlUYv2hRtFg7AVi5Z54Ir+kHzp4HP9a21VhHu8Hg
+         f6Fs/nYi/frcChet336kwJ1YT6UVnEZOPPgQcGNOLMtQjymAwN39pEMPdWomMudCyfkq
+         xy2w==
+X-Gm-Message-State: ACgBeo00Q8t5tF8LZSceo0LWtDprUmHFpdSg2od2l3V9QdjTBpkjQBgP
+	qPaYB0zRDrDfiUMbjdNUFA7Mbg==
+X-Google-Smtp-Source: AA6agR6MIRgCc6rTQBv2PBcKcN1FagcdWs+0J5PbPsRmAc4mnt5zx/PAJeBQudwDydKfAsqmAQyTsw==
+X-Received: by 2002:a17:902:820a:b0:178:456e:138 with SMTP id x10-20020a170902820a00b00178456e0138mr5306590pln.145.1663100089216;
+        Tue, 13 Sep 2022 13:14:49 -0700 (PDT)
+Received: from cabot.adilger.int (S01061cabc081bf83.cg.shawcable.net. [70.77.221.9])
+        by smtp.gmail.com with ESMTPSA id s90-20020a17090a2f6300b001f2ef3c7956sm7614729pjd.25.2022.09.13.13.14.46
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 13 Sep 2022 13:14:47 -0700 (PDT)
+From: Andreas Dilger <adilger@dilger.ca>
+Message-Id: <223BB0AD-2E62-4248-A068-476039D17710@dilger.ca>
+Content-Type: multipart/signed;
+ boundary="Apple-Mail=_34F3978C-CE0A-4698-A464-B2CE63FB36EC";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220913064728.79092-1-yuancan@huawei.com>
-
-Hi Yuan,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.0-rc5 next-20220913]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuan-Can/fs-ntfs3-use-strcmp-to-determin-attribute-type/20220913-145102
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git e839a756012b6cad7a4eeb67b0598ac3f349f863
-config: hexagon-randconfig-r041-20220912 (https://download.01.org/0day-ci/archive/20220913/202209132249.HHQnBWE6-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 1546df49f5a6d09df78f569e4137ddb365a3e827)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a3c3b0ca90ba6141ef6b740a3c1189277e49b0ae
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yuan-Can/fs-ntfs3-use-strcmp-to-determin-attribute-type/20220913-145102
-        git checkout a3c3b0ca90ba6141ef6b740a3c1189277e49b0ae
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/ufs/core/ fs/f2fs/ fs/ntfs3/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> fs/ntfs3/xattr.c:869:33: error: use of undeclared identifier 'name_len'; did you mean 'range_len'?
-           err = ntfs_get_ea(inode, name, name_len, buffer, size, NULL);
-                                          ^~~~~~~~
-                                          range_len
-   include/linux/range.h:11:19: note: 'range_len' declared here
-   static inline u64 range_len(const struct range *range)
-                     ^
-   fs/ntfs3/xattr.c:993:33: error: use of undeclared identifier 'name_len'; did you mean 'range_len'?
-           err = ntfs_set_ea(inode, name, name_len, value, size, flags, 0);
-                                          ^~~~~~~~
-                                          range_len
-   include/linux/range.h:11:19: note: 'range_len' declared here
-   static inline u64 range_len(const struct range *range)
-                     ^
-   2 errors generated.
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Subject: Re: [syzbot] BUG: unable to handle kernel NULL pointer dereference in
+ __d_instantiate
+Date: Tue, 13 Sep 2022 14:14:43 -0600
+In-Reply-To: <0000000000005c2d1f05e8945724@google.com>
+Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ syzkaller-bugs@googlegroups.com,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ ntfs3@lists.linux.dev,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: syzbot <syzbot+29dc75ed37be943c610e@syzkaller.appspotmail.com>
+References: <0000000000005c2d1f05e8945724@google.com>
+X-Mailer: Apple Mail (2.3273)
 
 
-vim +869 fs/ntfs3/xattr.c
+--Apple-Mail=_34F3978C-CE0A-4698-A464-B2CE63FB36EC
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  777  
-be71b5cba2e648 Konstantin Komarov 2021-08-13  778  static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
-be71b5cba2e648 Konstantin Komarov 2021-08-13  779  			 struct inode *inode, const char *name, void *buffer,
-be71b5cba2e648 Konstantin Komarov 2021-08-13  780  			 size_t size)
-be71b5cba2e648 Konstantin Komarov 2021-08-13  781  {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  782  	int err;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  783  	struct ntfs_inode *ni = ntfs_i(inode);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  784  
-e8b8e97f91b80f Kari Argillander   2021-08-03  785  	/* Dispatch request. */
-a3c3b0ca90ba61 Yuan Can           2022-09-13  786  	if (!strcmp(name, SYSTEM_DOS_ATTRIB)) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  787  		/* system.dos_attrib */
-be71b5cba2e648 Konstantin Komarov 2021-08-13  788  		if (!buffer) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  789  			err = sizeof(u8);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  790  		} else if (size < sizeof(u8)) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  791  			err = -ENODATA;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  792  		} else {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  793  			err = sizeof(u8);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  794  			*(u8 *)buffer = le32_to_cpu(ni->std_fa);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  795  		}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  796  		goto out;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  797  	}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  798  
-a3c3b0ca90ba61 Yuan Can           2022-09-13  799  	if (!strcmp(name, SYSTEM_NTFS_ATTRIB)) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  800  		/* system.ntfs_attrib */
-be71b5cba2e648 Konstantin Komarov 2021-08-13  801  		if (!buffer) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  802  			err = sizeof(u32);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  803  		} else if (size < sizeof(u32)) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  804  			err = -ENODATA;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  805  		} else {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  806  			err = sizeof(u32);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  807  			*(u32 *)buffer = le32_to_cpu(ni->std_fa);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  808  		}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  809  		goto out;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  810  	}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  811  
-a3c3b0ca90ba61 Yuan Can           2022-09-13  812  	if (!strcmp(name, SYSTEM_NTFS_SECURITY)) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  813  		/* system.ntfs_security*/
-be71b5cba2e648 Konstantin Komarov 2021-08-13  814  		struct SECURITY_DESCRIPTOR_RELATIVE *sd = NULL;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  815  		size_t sd_size = 0;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  816  
-be71b5cba2e648 Konstantin Komarov 2021-08-13  817  		if (!is_ntfs3(ni->mi.sbi)) {
-e8b8e97f91b80f Kari Argillander   2021-08-03  818  			/* We should get nt4 security. */
-be71b5cba2e648 Konstantin Komarov 2021-08-13  819  			err = -EINVAL;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  820  			goto out;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  821  		} else if (le32_to_cpu(ni->std_security_id) <
-be71b5cba2e648 Konstantin Komarov 2021-08-13  822  			   SECURITY_ID_FIRST) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  823  			err = -ENOENT;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  824  			goto out;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  825  		}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  826  
-be71b5cba2e648 Konstantin Komarov 2021-08-13  827  		err = ntfs_get_security_by_id(ni->mi.sbi, ni->std_security_id,
-be71b5cba2e648 Konstantin Komarov 2021-08-13  828  					      &sd, &sd_size);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  829  		if (err)
-be71b5cba2e648 Konstantin Komarov 2021-08-13  830  			goto out;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  831  
-be71b5cba2e648 Konstantin Komarov 2021-08-13  832  		if (!is_sd_valid(sd, sd_size)) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  833  			ntfs_inode_warn(
-be71b5cba2e648 Konstantin Komarov 2021-08-13  834  				inode,
-be71b5cba2e648 Konstantin Komarov 2021-08-13  835  				"looks like you get incorrect security descriptor id=%u",
-be71b5cba2e648 Konstantin Komarov 2021-08-13  836  				ni->std_security_id);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  837  		}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  838  
-be71b5cba2e648 Konstantin Komarov 2021-08-13  839  		if (!buffer) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  840  			err = sd_size;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  841  		} else if (size < sd_size) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  842  			err = -ENODATA;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  843  		} else {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  844  			err = sd_size;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  845  			memcpy(buffer, sd, sd_size);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  846  		}
-195c52bdd5d5ec Kari Argillander   2021-08-24  847  		kfree(sd);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  848  		goto out;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  849  	}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  850  
-87e21c99bad763 Konstantin Komarov 2021-10-22  851  #ifdef CONFIG_NTFS3_FS_POSIX_ACL
-87e21c99bad763 Konstantin Komarov 2021-10-22  852  	if ((name_len == sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1 &&
-87e21c99bad763 Konstantin Komarov 2021-10-22  853  	     !memcmp(name, XATTR_NAME_POSIX_ACL_ACCESS,
-87e21c99bad763 Konstantin Komarov 2021-10-22  854  		     sizeof(XATTR_NAME_POSIX_ACL_ACCESS))) ||
-87e21c99bad763 Konstantin Komarov 2021-10-22  855  	    (name_len == sizeof(XATTR_NAME_POSIX_ACL_DEFAULT) - 1 &&
-87e21c99bad763 Konstantin Komarov 2021-10-22  856  	     !memcmp(name, XATTR_NAME_POSIX_ACL_DEFAULT,
-87e21c99bad763 Konstantin Komarov 2021-10-22  857  		     sizeof(XATTR_NAME_POSIX_ACL_DEFAULT)))) {
-87e21c99bad763 Konstantin Komarov 2021-10-22  858  		/* TODO: init_user_ns? */
-87e21c99bad763 Konstantin Komarov 2021-10-22  859  		err = ntfs_xattr_get_acl(
-87e21c99bad763 Konstantin Komarov 2021-10-22  860  			&init_user_ns, inode,
-87e21c99bad763 Konstantin Komarov 2021-10-22  861  			name_len == sizeof(XATTR_NAME_POSIX_ACL_ACCESS) - 1
-87e21c99bad763 Konstantin Komarov 2021-10-22  862  				? ACL_TYPE_ACCESS
-87e21c99bad763 Konstantin Komarov 2021-10-22  863  				: ACL_TYPE_DEFAULT,
-87e21c99bad763 Konstantin Komarov 2021-10-22  864  			buffer, size);
-87e21c99bad763 Konstantin Komarov 2021-10-22  865  		goto out;
-87e21c99bad763 Konstantin Komarov 2021-10-22  866  	}
-87e21c99bad763 Konstantin Komarov 2021-10-22  867  #endif
-e8b8e97f91b80f Kari Argillander   2021-08-03  868  	/* Deal with NTFS extended attribute. */
-be71b5cba2e648 Konstantin Komarov 2021-08-13 @869  	err = ntfs_get_ea(inode, name, name_len, buffer, size, NULL);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  870  
-be71b5cba2e648 Konstantin Komarov 2021-08-13  871  out:
-be71b5cba2e648 Konstantin Komarov 2021-08-13  872  	return err;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  873  }
-be71b5cba2e648 Konstantin Komarov 2021-08-13  874  
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> On Sep 13, 2022, at 1:51 PM, syzbot =
+<syzbot+29dc75ed37be943c610e@syzkaller.appspotmail.com> wrote:
+>=20
+> Hello,
+>=20
+> syzbot found the following issue on:
+
+This is almost certainly an NTFS3 error handling bug due to mounting the
+broken filesystem image, but the NTFS3 maintainer and list were not =
+CC'd.
+
+Cheers, Andreas
+
+>=20
+> HEAD commit:    a6b443748715 Merge branch 'for-next/core', =
+remote-tracking..
+> git tree:       =
+git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git =
+for-kernelci
+> console output: =
+https://syzkaller.appspot.com/x/log.txt?x=3D16271d4f080000
+> kernel config:  =
+https://syzkaller.appspot.com/x/.config?x=3De79d82586727c5df
+> dashboard link: =
+https://syzkaller.appspot.com/bug?extid=3D29dc75ed37be943c610e
+> compiler:       Debian clang version =
+13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld =
+(GNU Binutils for Debian) 2.35.2
+> userspace arch: arm64
+> syz repro:      =
+https://syzkaller.appspot.com/x/repro.syz?x=3D162474a7080000
+> C reproducer:   =
+https://syzkaller.appspot.com/x/repro.c?x=3D119b6b78880000
+>=20
+> Downloadable assets:
+> disk image: =
+https://storage.googleapis.com/1436897f0dc0/disk-a6b44374.raw.xz
+> vmlinux: =
+https://storage.googleapis.com/68c4de151fbb/vmlinux-a6b44374.xz
+>=20
+> IMPORTANT: if you fix the issue, please add the following tag to the =
+commit:
+> Reported-by: syzbot+29dc75ed37be943c610e@syzkaller.appspotmail.com
+>=20
+> ntfs3: loop0: Different NTFS' sector size (1024) and media sector size =
+(512)
+> ntfs3: loop0: RAW NTFS volume: Filesystem size 0.00 Gb > volume size =
+0.00 Gb. Mount in read-only
+> ntfs3: loop0: Failed to load $Extend.
+> Unable to handle kernel NULL pointer dereference at virtual address =
+0000000000000008
+> Mem abort info:
+>  ESR =3D 0x0000000096000006
+>  EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+>  SET =3D 0, FnV =3D 0
+>  EA =3D 0, S1PTW =3D 0
+>  FSC =3D 0x06: level 2 translation fault
+> Data abort info:
+>  ISV =3D 0, ISS =3D 0x00000006
+>  CM =3D 0, WnR =3D 0
+> user pgtable: 4k pages, 48-bit VAs, pgdp=3D0000000109094000
+> [0000000000000008] pgd=3D080000010aed9003, p4d=3D080000010aed9003, =
+pud=3D080000010738d003, pmd=3D0000000000000000
+> Internal error: Oops: 96000006 [#1] PREEMPT SMP
+> Modules linked in:
+> CPU: 0 PID: 3027 Comm: syz-executor119 Not tainted =
+6.0.0-rc4-syzkaller-17255-ga6b443748715 #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, =
+BIOS Google 08/26/2022
+> pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
+> pc : d_flags_for_inode fs/dcache.c:1980 [inline]
+> pc : __d_instantiate+0x2a0/0x2e4 fs/dcache.c:1998
+> lr : d_flags_for_inode fs/dcache.c:1979 [inline]
+> lr : __d_instantiate+0x80/0x2e4 fs/dcache.c:1998
+> sp : ffff8000126f3ac0
+> x29: ffff8000126f3ac0 x28: 0000000040000000 x27: ffff0000cd3a0000
+> x26: ffff80000cf0e000 x25: fffffc0000000000 x24: 000000000001f000
+> x23: ffff0000cd3a0000 x22: 0000000000000008 x21: 0000000000000000
+> x20: ffff0000ca50ce48 x19: ffff0000c7732750 x18: 00000000000000c0
+> x17: ffff80000dd3a698 x16: ffff80000db78658 x15: ffff0000c4f13500
+> x14: 00000000000000b8 x13: 00000000ffffffff x12: ffff0000c4f13500
+> x11: ff808000085e2a88 x10: 0000000000000000 x9 : ffff0000c4f13500
+> x8 : 0000000000000000 x7 : ffff8000085e2e0c x6 : 0000000000000000
+> x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+> x2 : 0000000000000001 x1 : 0000000000000000 x0 : 0000000000000000
+> Call trace:
+> d_flags_for_inode fs/dcache.c:1980 [inline]
+> __d_instantiate+0x2a0/0x2e4 fs/dcache.c:1998
+> d_instantiate fs/dcache.c:2036 [inline]
+> d_make_root+0x64/0xa8 fs/dcache.c:2071
+> ntfs_fill_super+0x1420/0x14a4 fs/ntfs/super.c:180
+> get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
+> ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
+> vfs_get_tree+0x40/0x140 fs/super.c:1530
+> do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
+> path_mount+0x358/0x914 fs/namespace.c:3370
+> do_mount fs/namespace.c:3383 [inline]
+> __do_sys_mount fs/namespace.c:3591 [inline]
+> __se_sys_mount fs/namespace.c:3568 [inline]
+> __arm64_sys_mount+0x2f8/0x408 fs/namespace.c:3568
+> __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+> invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+> el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+> do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
+> el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
+> el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
+> el0t_64_sync+0x18c/0x190
+> Code: 79000688 52a00417 17ffff83 f9401288 (f9400508)
+> ---[ end trace 0000000000000000 ]---
+> ----------------
+> Code disassembly (best guess):
+>   0:	79000688 	strh	w8, [x20, #2]
+>   4:	52a00417 	mov	w23, #0x200000              	// =
+#2097152
+>   8:	17ffff83 	b	0xfffffffffffffe14
+>   c:	f9401288 	ldr	x8, [x20, #32]
+> * 10:	f9400508 	ldr	x8, [x8, #8] <-- trapping instruction
+>=20
+>=20
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>=20
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> syzbot can test patches for this issue, for details see:
+> https://goo.gl/tpsmEJ#testing-patches
+
+
+Cheers, Andreas
+
+
+
+
+
+
+--Apple-Mail=_34F3978C-CE0A-4698-A464-B2CE63FB36EC
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - http://gpgtools.org
+
+iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAmMg5LQACgkQcqXauRfM
+H+C0Bg//buvSmpgOXoJBcsaEogkwWgkPxzOZgBjega4AOj9c3xy888bfof7b6xeK
+QgM5rD8Q0uj4EzFq63txILA811SOtMKnHZkEBaHnQRa3cI7HVcO5ti2oeCcI9NuF
+9SH4aeCvuvZE+9WIbbqJWckRr1DUl3TmXe/spboUOpe3f/KYRn9UhZFGfH3RCMIl
+Mta7HFZ95qXaP2rSCv+hpQfmeofTr3q8yHPTJ5QN7GEQwrfb1rW45SwYR/Afpb7M
+yLXx2mrwEcTa83Iod6F6pdrrUcM0gO8kdSVd3PGwj3/X3l+KVo8Rnm5AbVd6xVcS
+1uJZTfwIsJnworn6NCQsWkwOb1hDvcoZMolkOJ00OzHV9VVsIzdyvoIlEZ2ZYOPo
+tKdLxqe4fNx+h+yrsXxc0oqwDs3l3AvAzHCBzkoXX/aQY9piYh8YuOa1xyanHcgC
+dsR0/PEd1qeoyUn1nF/yZQFuz8C1PTdRknjEBh7OUsrfNzNL//0tujEM9G13FCz2
+KGt+Gol4WRzc8hM7W16yO3f7npii9tZhFrPEORDFVXuLL8Ff/WJPbiSe5iGNGTvd
+04aRUxvDbF9CU+dS57ggKXn9v4+h/zzFFMBc3vDpj0XYdwifxFqvw7SeK55KqyV9
+x+idKrtazoILjw176ws4AFY4ad5G6o9n7HVWrs9aHYwUSjLcNvs=
+=KLw2
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_34F3978C-CE0A-4698-A464-B2CE63FB36EC--
