@@ -1,58 +1,114 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D90B3211
-	for <ntfs3@lists.linux.dev>; Mon, 12 Sep 2022 16:43:37 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id CA7951D28;
-	Mon, 12 Sep 2022 16:35:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1663000531;
-	bh=Ui8pdc+SYrf0NKbT80RGG/JWRJM3TTpCzms4S0GlvCY=;
-	h=Date:To:CC:From:Subject;
-	b=VydmfSURxkuljDKiJ5j/+eDuwBM25EAwZiPVZj3VnuM40xZ8UEnSwt9dzMzg+WX5a
-	 dLzfJpobDSXIYmjFdJgkQwdBaX2JBdbrjhazL9eSz5UAh76OMxgp+SIJPXWDsazoIO
-	 Mz7zQz8Z5xB2DdHc6Ti1pxnElqOlRLCN8VZQMsjM=
-Received: from [172.30.8.65] (172.30.8.65) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Mon, 12 Sep 2022 19:37:31 +0300
-Message-ID: <59960918-0adb-6d53-2d77-8172e666bf40@paragon-software.com>
-Date: Mon, 12 Sep 2022 19:37:30 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769C67B
+	for <ntfs3@lists.linux.dev>; Tue, 13 Sep 2022 06:49:45 +0000 (UTC)
+Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.57])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MRYtg1np4zHnVL;
+	Tue, 13 Sep 2022 14:47:39 +0800 (CST)
+Received: from huawei.com (10.175.112.208) by dggpeml500024.china.huawei.com
+ (7.185.36.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 13 Sep
+ 2022 14:49:39 +0800
+From: Yuan Can <yuancan@huawei.com>
+To: <patchwork@huawei.com>, <almaz.alexandrovich@paragon-software.com>,
+	<ntfs3@lists.linux.dev>
+CC: <yuancan@huawei.com>
+Subject: [PATCH] fs/ntfs3: use strcmp to determin attribute type
+Date: Tue, 13 Sep 2022 06:47:28 +0000
+Message-ID: <20220913064728.79092-1-yuancan@huawei.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Content-Language: en-US
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH 0/3] fs/ntfs3: Refactoring and hidedotfiles option
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.30.8.65]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.208]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpeml500024.china.huawei.com (7.185.36.10)
+X-CFilter-Loop: Reflected
 
-Added some info about CONFIG_NTFS3_64BIT_CLUSTER and
-hidedotfiles option
+The way of determin attribute type is just matching
+name with the predefined string, do this with strcmp
+to simplify the code.
 
-Konstantin Komarov (3):
-   fs/ntfs3: Add comments about cluster size
-   fs/ntfs3: Add hidedotfiles option
-   fs/ntfs3: Change destroy_inode to free_inode
+Signed-off-by: Yuan Can <yuancan@huawei.com>
+---
+ fs/ntfs3/xattr.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
-  fs/ntfs3/frecord.c |  2 +-
-  fs/ntfs3/inode.c   |  4 ++++
-  fs/ntfs3/ntfs_fs.h |  1 +
-  fs/ntfs3/record.c  |  4 ++++
-  fs/ntfs3/super.c   | 52 ++++++++++++++++++++++++++++++++--------------
-  5 files changed, 46 insertions(+), 17 deletions(-)
-
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index 7de8718c68a9..1776f0e783ea 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -720,11 +720,9 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
+ {
+ 	int err;
+ 	struct ntfs_inode *ni = ntfs_i(inode);
+-	size_t name_len = strlen(name);
+ 
+ 	/* Dispatch request. */
+-	if (name_len == sizeof(SYSTEM_DOS_ATTRIB) - 1 &&
+-	    !memcmp(name, SYSTEM_DOS_ATTRIB, sizeof(SYSTEM_DOS_ATTRIB))) {
++	if (!strcmp(name, SYSTEM_DOS_ATTRIB)) {
+ 		/* system.dos_attrib */
+ 		if (!buffer) {
+ 			err = sizeof(u8);
+@@ -737,8 +735,7 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
+ 		goto out;
+ 	}
+ 
+-	if (name_len == sizeof(SYSTEM_NTFS_ATTRIB) - 1 &&
+-	    !memcmp(name, SYSTEM_NTFS_ATTRIB, sizeof(SYSTEM_NTFS_ATTRIB))) {
++	if (!strcmp(name, SYSTEM_NTFS_ATTRIB)) {
+ 		/* system.ntfs_attrib */
+ 		if (!buffer) {
+ 			err = sizeof(u32);
+@@ -751,8 +748,7 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
+ 		goto out;
+ 	}
+ 
+-	if (name_len == sizeof(SYSTEM_NTFS_SECURITY) - 1 &&
+-	    !memcmp(name, SYSTEM_NTFS_SECURITY, sizeof(SYSTEM_NTFS_SECURITY))) {
++	if (!strcmp(name, SYSTEM_NTFS_SECURITY)) {
+ 		/* system.ntfs_security*/
+ 		struct SECURITY_DESCRIPTOR_RELATIVE *sd = NULL;
+ 		size_t sd_size = 0;
+@@ -809,20 +805,17 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
+ {
+ 	int err = -EINVAL;
+ 	struct ntfs_inode *ni = ntfs_i(inode);
+-	size_t name_len = strlen(name);
+ 	enum FILE_ATTRIBUTE new_fa;
+ 
+ 	/* Dispatch request. */
+-	if (name_len == sizeof(SYSTEM_DOS_ATTRIB) - 1 &&
+-	    !memcmp(name, SYSTEM_DOS_ATTRIB, sizeof(SYSTEM_DOS_ATTRIB))) {
++	if (!strcmp(name, SYSTEM_DOS_ATTRIB)) {
+ 		if (sizeof(u8) != size)
+ 			goto out;
+ 		new_fa = cpu_to_le32(*(u8 *)value);
+ 		goto set_new_fa;
+ 	}
+ 
+-	if (name_len == sizeof(SYSTEM_NTFS_ATTRIB) - 1 &&
+-	    !memcmp(name, SYSTEM_NTFS_ATTRIB, sizeof(SYSTEM_NTFS_ATTRIB))) {
++	if (!strcmp(name, SYSTEM_NTFS_ATTRIB)) {
+ 		if (size != sizeof(u32))
+ 			goto out;
+ 		new_fa = cpu_to_le32(*(u32 *)value);
+@@ -860,8 +853,7 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
+ 		goto out;
+ 	}
+ 
+-	if (name_len == sizeof(SYSTEM_NTFS_SECURITY) - 1 &&
+-	    !memcmp(name, SYSTEM_NTFS_SECURITY, sizeof(SYSTEM_NTFS_SECURITY))) {
++	if (!strcmp(name, SYSTEM_NTFS_SECURITY)) {
+ 		/* system.ntfs_security*/
+ 		__le32 security_id;
+ 		bool inserted;
 -- 
-2.37.0
+2.17.1
 
