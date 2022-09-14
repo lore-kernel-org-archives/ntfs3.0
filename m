@@ -1,233 +1,77 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF0D3C3F
-	for <ntfs3@lists.linux.dev>; Tue, 13 Sep 2022 20:14:49 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id bu5-20020a17090aee4500b00202e9ca2182so2323359pjb.0
-        for <ntfs3@lists.linux.dev>; Tue, 13 Sep 2022 13:14:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20210112.gappssmtp.com; s=20210112;
-        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
-         :from:from:to:cc:subject:date;
-        bh=tkdXf6hNxI7AIwIk1d1ONUg0Hbrfp0qbRtaSMbEsIJs=;
-        b=D0aQK8EaQdYnpAU0C7f49xeshFOfVoaLmi2sBAOZUp10fXBPMtCJ2OE2Oj+4oOPWNm
-         qWBSCMMe2BxpLfnW1tafgL1fBfI93R0onkmhQ26jtK7P0lzHN7kk4oPYNyBAc4BDrWjQ
-         uM3kFC1VhP8gYWHG5MMyUOr/UVnUF6gMXFM/ud7mEPzPYM06KhgltY09rK0oBqnvhkFz
-         bQS0CDlvyECxpZKq41Us4lLBsPlaUhavX8e3coZt4JWl4M9mwlb4h1JSP3eOE9gthsgD
-         Sdsycatu72RhDvMII6bsNQdZwWKRb3dmdrNTMGF92fbg1h9qLew9ltsgUMaAZ+QxUGK9
-         VDIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=tkdXf6hNxI7AIwIk1d1ONUg0Hbrfp0qbRtaSMbEsIJs=;
-        b=8CmhUusy4ps0v38l93SJfVxsjGwdx/TWpFIIfqwalgBdyx9mXEFURvF5IEAQRslqnd
-         mwFvt5pjxMFBfpYrbMx19ZJ4g0htu9Ljr/7EJG/4XvGUIgv1RuGJngJ+9XnF6psvN+s1
-         cQYWjNOOCor9ZZryeuE4WdaFSPUSv8rKLnk7+4/AbMpXHqY9/g2G1HZtM0rnlLN0/PLu
-         w22gloOaHrGH+z3xV2kpu4iNH6H4hlUYv2hRtFg7AVi5Z54Ir+kHzp4HP9a21VhHu8Hg
-         f6Fs/nYi/frcChet336kwJ1YT6UVnEZOPPgQcGNOLMtQjymAwN39pEMPdWomMudCyfkq
-         xy2w==
-X-Gm-Message-State: ACgBeo00Q8t5tF8LZSceo0LWtDprUmHFpdSg2od2l3V9QdjTBpkjQBgP
-	qPaYB0zRDrDfiUMbjdNUFA7Mbg==
-X-Google-Smtp-Source: AA6agR6MIRgCc6rTQBv2PBcKcN1FagcdWs+0J5PbPsRmAc4mnt5zx/PAJeBQudwDydKfAsqmAQyTsw==
-X-Received: by 2002:a17:902:820a:b0:178:456e:138 with SMTP id x10-20020a170902820a00b00178456e0138mr5306590pln.145.1663100089216;
-        Tue, 13 Sep 2022 13:14:49 -0700 (PDT)
-Received: from cabot.adilger.int (S01061cabc081bf83.cg.shawcable.net. [70.77.221.9])
-        by smtp.gmail.com with ESMTPSA id s90-20020a17090a2f6300b001f2ef3c7956sm7614729pjd.25.2022.09.13.13.14.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 13 Sep 2022 13:14:47 -0700 (PDT)
-From: Andreas Dilger <adilger@dilger.ca>
-Message-Id: <223BB0AD-2E62-4248-A068-476039D17710@dilger.ca>
-Content-Type: multipart/signed;
- boundary="Apple-Mail=_34F3978C-CE0A-4698-A464-B2CE63FB36EC";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E908F3D61
+	for <ntfs3@lists.linux.dev>; Wed, 14 Sep 2022 11:17:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1663154217; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=BJwEfHEXjRmXkFkHW+Om2xekj3PQzcIMUuwislfMvWQu9fzA4tgFJWYEmJMVbDniPhluuUjCcScGBZrJ89VHk1mhYtxa36Y2OcYuNgp/9f2LHgNtYGLXxQAS3/BFSINlssSO3SZto7acP1XcN/RkFX6i26yuDFUeSOK5SGqMGDw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1663154217; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+	bh=+llC5L3toh5m6/IGcaq3njngvo8xvm7Ec+Uc9KcqTeM=; 
+	b=XOopyJWXFsVIZu9yxu905UBMM2nvyHpnl4CDtGH/h0lJV3VZQ5gLxwtkNdE0jjLUg/JT8VZBakNXYSJAE2zG90N0GFxy2TJmX8ZPmHygMYwWH9itWyv2qC53RxnQVXZksbX+NSfcSCEaPIjCI2RxOdJyknCnu4GYiPj86Tsjl74=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=siddh.me;
+	spf=pass  smtp.mailfrom=code@siddh.me;
+	dmarc=pass header.from=<code@siddh.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1663154217;
+	s=zmail; d=siddh.me; i=code@siddh.me;
+	h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=+llC5L3toh5m6/IGcaq3njngvo8xvm7Ec+Uc9KcqTeM=;
+	b=bRobQpH2xTOa2z5qKvwtR1SAvxlVlVypTbSu8XuKnhGq+8S8hA64iIm2+7nCF+4j
+	eNRBQLVEMlivAIu7j/UXzR3NNbJJrWl+NlFVoagjt3ewUfNi5jCh18sgW3aQPJYN+o6
+	V6Ux/LjmYINQMhMRNFN1I5xrHaLlJ4ybU4gqXkrA=
+Received: from localhost.localdomain (43.241.144.117 [43.241.144.117]) by mx.zoho.in
+	with SMTPS id 1663154216126366.814546035366; Wed, 14 Sep 2022 16:46:56 +0530 (IST)
+From: Siddh Raman Pant <code@siddh.me>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3 <ntfs3@lists.linux.dev>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	syzbot+9d67170b20e8f94351c8@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Message-ID: <20220914111643.14411-1-code@siddh.me>
+Subject: [PATCH] ntfs3: Fix memory leak in ntfs_fill_super()
+Date: Wed, 14 Sep 2022 16:46:43 +0530
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [syzbot] BUG: unable to handle kernel NULL pointer dereference in
- __d_instantiate
-Date: Tue, 13 Sep 2022 14:14:43 -0600
-In-Reply-To: <0000000000005c2d1f05e8945724@google.com>
-Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- syzkaller-bugs@googlegroups.com,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- ntfs3@lists.linux.dev,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: syzbot <syzbot+29dc75ed37be943c610e@syzkaller.appspotmail.com>
-References: <0000000000005c2d1f05e8945724@google.com>
-X-Mailer: Apple Mail (2.3273)
-
-
---Apple-Mail=_34F3978C-CE0A-4698-A464-B2CE63FB36EC
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf8
+
+Mount options ptr wasn't freed before putting the superblock in
+ntfs_fill_super(), which resulted in a memory leak.
+
+Bug report: https://syzkaller.appspot.com/bug?id=3D332ba47915d0e39e94b42a62=
+2f195f0804ecb67f
+
+Fixes: 9b75450d6c58 ("fs/ntfs3: Fix memory leak if fill_super failed")
+Reported-and-tested-by: syzbot+9d67170b20e8f94351c8@syzkaller.appspotmail.c=
+om
+Cc: stable@vger.kernel.org # 5.15
+Signed-off-by: Siddh Raman Pant <code@siddh.me>
+---
+ fs/ntfs3/super.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 47012c9bf505..c0e45f170701 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -1281,6 +1281,7 @@ static int ntfs_fill_super(struct super_block *sb, st=
+ruct fs_context *fc)
+ =09 * Free resources here.
+ =09 * ntfs_fs_free will be called with fc->s_fs_info =3D NULL
+ =09 */
++=09put_mount_options(sbi->options);
+ =09put_ntfs(sbi);
+ =09sb->s_fs_info =3D NULL;
+=20
+--=20
+2.35.1
 
 
-> On Sep 13, 2022, at 1:51 PM, syzbot =
-<syzbot+29dc75ed37be943c610e@syzkaller.appspotmail.com> wrote:
->=20
-> Hello,
->=20
-> syzbot found the following issue on:
-
-This is almost certainly an NTFS3 error handling bug due to mounting the
-broken filesystem image, but the NTFS3 maintainer and list were not =
-CC'd.
-
-Cheers, Andreas
-
->=20
-> HEAD commit:    a6b443748715 Merge branch 'for-next/core', =
-remote-tracking..
-> git tree:       =
-git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git =
-for-kernelci
-> console output: =
-https://syzkaller.appspot.com/x/log.txt?x=3D16271d4f080000
-> kernel config:  =
-https://syzkaller.appspot.com/x/.config?x=3De79d82586727c5df
-> dashboard link: =
-https://syzkaller.appspot.com/bug?extid=3D29dc75ed37be943c610e
-> compiler:       Debian clang version =
-13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld =
-(GNU Binutils for Debian) 2.35.2
-> userspace arch: arm64
-> syz repro:      =
-https://syzkaller.appspot.com/x/repro.syz?x=3D162474a7080000
-> C reproducer:   =
-https://syzkaller.appspot.com/x/repro.c?x=3D119b6b78880000
->=20
-> Downloadable assets:
-> disk image: =
-https://storage.googleapis.com/1436897f0dc0/disk-a6b44374.raw.xz
-> vmlinux: =
-https://storage.googleapis.com/68c4de151fbb/vmlinux-a6b44374.xz
->=20
-> IMPORTANT: if you fix the issue, please add the following tag to the =
-commit:
-> Reported-by: syzbot+29dc75ed37be943c610e@syzkaller.appspotmail.com
->=20
-> ntfs3: loop0: Different NTFS' sector size (1024) and media sector size =
-(512)
-> ntfs3: loop0: RAW NTFS volume: Filesystem size 0.00 Gb > volume size =
-0.00 Gb. Mount in read-only
-> ntfs3: loop0: Failed to load $Extend.
-> Unable to handle kernel NULL pointer dereference at virtual address =
-0000000000000008
-> Mem abort info:
->  ESR =3D 0x0000000096000006
->  EC =3D 0x25: DABT (current EL), IL =3D 32 bits
->  SET =3D 0, FnV =3D 0
->  EA =3D 0, S1PTW =3D 0
->  FSC =3D 0x06: level 2 translation fault
-> Data abort info:
->  ISV =3D 0, ISS =3D 0x00000006
->  CM =3D 0, WnR =3D 0
-> user pgtable: 4k pages, 48-bit VAs, pgdp=3D0000000109094000
-> [0000000000000008] pgd=3D080000010aed9003, p4d=3D080000010aed9003, =
-pud=3D080000010738d003, pmd=3D0000000000000000
-> Internal error: Oops: 96000006 [#1] PREEMPT SMP
-> Modules linked in:
-> CPU: 0 PID: 3027 Comm: syz-executor119 Not tainted =
-6.0.0-rc4-syzkaller-17255-ga6b443748715 #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, =
-BIOS Google 08/26/2022
-> pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
-> pc : d_flags_for_inode fs/dcache.c:1980 [inline]
-> pc : __d_instantiate+0x2a0/0x2e4 fs/dcache.c:1998
-> lr : d_flags_for_inode fs/dcache.c:1979 [inline]
-> lr : __d_instantiate+0x80/0x2e4 fs/dcache.c:1998
-> sp : ffff8000126f3ac0
-> x29: ffff8000126f3ac0 x28: 0000000040000000 x27: ffff0000cd3a0000
-> x26: ffff80000cf0e000 x25: fffffc0000000000 x24: 000000000001f000
-> x23: ffff0000cd3a0000 x22: 0000000000000008 x21: 0000000000000000
-> x20: ffff0000ca50ce48 x19: ffff0000c7732750 x18: 00000000000000c0
-> x17: ffff80000dd3a698 x16: ffff80000db78658 x15: ffff0000c4f13500
-> x14: 00000000000000b8 x13: 00000000ffffffff x12: ffff0000c4f13500
-> x11: ff808000085e2a88 x10: 0000000000000000 x9 : ffff0000c4f13500
-> x8 : 0000000000000000 x7 : ffff8000085e2e0c x6 : 0000000000000000
-> x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-> x2 : 0000000000000001 x1 : 0000000000000000 x0 : 0000000000000000
-> Call trace:
-> d_flags_for_inode fs/dcache.c:1980 [inline]
-> __d_instantiate+0x2a0/0x2e4 fs/dcache.c:1998
-> d_instantiate fs/dcache.c:2036 [inline]
-> d_make_root+0x64/0xa8 fs/dcache.c:2071
-> ntfs_fill_super+0x1420/0x14a4 fs/ntfs/super.c:180
-> get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
-> ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
-> vfs_get_tree+0x40/0x140 fs/super.c:1530
-> do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
-> path_mount+0x358/0x914 fs/namespace.c:3370
-> do_mount fs/namespace.c:3383 [inline]
-> __do_sys_mount fs/namespace.c:3591 [inline]
-> __se_sys_mount fs/namespace.c:3568 [inline]
-> __arm64_sys_mount+0x2f8/0x408 fs/namespace.c:3568
-> __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
-> invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
-> el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
-> do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
-> el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
-> el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
-> el0t_64_sync+0x18c/0x190
-> Code: 79000688 52a00417 17ffff83 f9401288 (f9400508)
-> ---[ end trace 0000000000000000 ]---
-> ----------------
-> Code disassembly (best guess):
->   0:	79000688 	strh	w8, [x20, #2]
->   4:	52a00417 	mov	w23, #0x200000              	// =
-#2097152
->   8:	17ffff83 	b	0xfffffffffffffe14
->   c:	f9401288 	ldr	x8, [x20, #32]
-> * 10:	f9400508 	ldr	x8, [x8, #8] <-- trapping instruction
->=20
->=20
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->=20
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> syzbot can test patches for this issue, for details see:
-> https://goo.gl/tpsmEJ#testing-patches
-
-
-Cheers, Andreas
-
-
-
-
-
-
---Apple-Mail=_34F3978C-CE0A-4698-A464-B2CE63FB36EC
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - http://gpgtools.org
-
-iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAmMg5LQACgkQcqXauRfM
-H+C0Bg//buvSmpgOXoJBcsaEogkwWgkPxzOZgBjega4AOj9c3xy888bfof7b6xeK
-QgM5rD8Q0uj4EzFq63txILA811SOtMKnHZkEBaHnQRa3cI7HVcO5ti2oeCcI9NuF
-9SH4aeCvuvZE+9WIbbqJWckRr1DUl3TmXe/spboUOpe3f/KYRn9UhZFGfH3RCMIl
-Mta7HFZ95qXaP2rSCv+hpQfmeofTr3q8yHPTJ5QN7GEQwrfb1rW45SwYR/Afpb7M
-yLXx2mrwEcTa83Iod6F6pdrrUcM0gO8kdSVd3PGwj3/X3l+KVo8Rnm5AbVd6xVcS
-1uJZTfwIsJnworn6NCQsWkwOb1hDvcoZMolkOJ00OzHV9VVsIzdyvoIlEZ2ZYOPo
-tKdLxqe4fNx+h+yrsXxc0oqwDs3l3AvAzHCBzkoXX/aQY9piYh8YuOa1xyanHcgC
-dsR0/PEd1qeoyUn1nF/yZQFuz8C1PTdRknjEBh7OUsrfNzNL//0tujEM9G13FCz2
-KGt+Gol4WRzc8hM7W16yO3f7npii9tZhFrPEORDFVXuLL8Ff/WJPbiSe5iGNGTvd
-04aRUxvDbF9CU+dS57ggKXn9v4+h/zzFFMBc3vDpj0XYdwifxFqvw7SeK55KqyV9
-x+idKrtazoILjw176ws4AFY4ad5G6o9n7HVWrs9aHYwUSjLcNvs=
-=KLw2
------END PGP SIGNATURE-----
-
---Apple-Mail=_34F3978C-CE0A-4698-A464-B2CE63FB36EC--
