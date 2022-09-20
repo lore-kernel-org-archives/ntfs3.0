@@ -1,175 +1,201 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0157746D
-	for <ntfs3@lists.linux.dev>; Mon, 19 Sep 2022 21:04:41 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id u9-20020a5edd49000000b006a0f03934e9so377289iop.4
-        for <ntfs3@lists.linux.dev>; Mon, 19 Sep 2022 14:04:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF435A9B
+	for <ntfs3@lists.linux.dev>; Tue, 20 Sep 2022 11:30:27 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id o5so1707332wms.1
+        for <ntfs3@lists.linux.dev>; Tue, 20 Sep 2022 04:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=o9hE1BNCmjBDCF+asQGhQMAsg1lCGE0wWqe3SaOeTOw=;
+        b=sAPF5zTrteKT6FBbzaVraQ03sbAUS/fLZsiBsRXInIn2YoiVnQHFrqRgDwevJe+7Rd
+         zhA+lvvMmm1MRYd6Y6qp7K9vKsXaRc9az/dFlJ+Az1y2qaPOmZ3dngjLcnA69d7Ww1PK
+         dFHU+svIy1hO789b8ph31GrjDCCceIp4Up9UFsD2JPt6N/SyZKF+1xqoG5TLYKkHuAa4
+         ZdZ2M4bwVRz5RJ+fiF4KJYwBiiJ/E/5u5xAQfrk4YcHinRFO7t7ParZl/U7ltHuLxT2h
+         AHXwDYRedMmLmd36DLnQhGja2IDLBaHDlKxhdP0LAdhde7IQJMjzeqQynGs2gowYklko
+         j07g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=xtCSZDzBZ7VocIYU5Oxk/KyGf3p9mg8GSqEMcMiDCb4=;
-        b=i7MEcV5Xv7D9D29tQy/ZeRHnQ8k9srOv1Rkv4LfZqcntfOrOuWc2IgjbqeUcVbNWdP
-         y/fMbIE412L3545R/zynMhrJwOfWW9aXrRiQNrvE74Y3ly024+AqpKxHcrIwysYsPbET
-         vDQVL4Qp++8k4KFwDRMZHb4iSpbbR2P6kAAcDnU8jJB0yLGapnkWWpqPlieHEiz3o1NW
-         fINDuY9lU+59X6rUYoLDg3FC1Jcylkvn49EmGakdeiYlDysgFnpgoQg3Yqse9+VCwoWl
-         Y9VE8O+jGTMYchC+B/W4cDXYfRc5PQpUCgAJ+WjdRF9AcIbVAfl5pPohQgFdW7WoZWhp
-         EcLg==
-X-Gm-Message-State: ACrzQf03f9M7Gf1OWCUEjhwrGKXBXfadwkCMoqLmjxNwcud0uLxweN8n
-	dyovrSC5m2qvQQXFjq9kxPuUCAqZ63d2l6KVdpWUX0e/hlVh
-X-Google-Smtp-Source: AMsMyM7YRd13bf01gEl7pkehFtMeX4xg1J+dGlw8Lgh7catIVUGB/fR8gtNaFwknAAkGpzvhVg1YKjgvtQXz1l/5AuZNfrjcN/U6
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=o9hE1BNCmjBDCF+asQGhQMAsg1lCGE0wWqe3SaOeTOw=;
+        b=GIUWKNuInzQ9PRGvauaa3A0xYKnx1sg7QDemFUqiLN4ZCtd4wm7dEvRB7eXe8aTzOq
+         Ff9vOlfuRuDtx+EOR9zLvYj0BRbg+cUqb1VjiUAUa+nrerYzs+QNM+bEzHg4Sdet1VWk
+         2b667+0lScNsy+jkICWS+oMiNXqRAohXlyvl/4zlaXlwt6AAa+0DkF1hYoE1rHiaLHG2
+         aInVthfrsFAlNSRXkdg8eiIBD+ay34nZ9IScKUzsBZS47bzQXOwmQ3az8DWFq2BjUhWa
+         6nlf0/v7NAL23POR1DCNr9xwamxVx4E+yWKmKlXU4ytxdubG6PbleDroh+NPhMxohmGP
+         ukMA==
+X-Gm-Message-State: ACrzQf3f9vj3nLICKkDHeS8YNqf+YGM7abrWrr4i13oH2SWu2UuugWiC
+	o4WAalVLQAwyE6SHJjKdcX42vw==
+X-Google-Smtp-Source: AMsMyM6kEE3MoZnMZvhsy1AUviwFYEx+2diKESRaioa81H9QANvazmkz3wbVk+wYyGycRpWKMb16sQ==
+X-Received: by 2002:a05:600c:1d28:b0:3b4:91f4:897d with SMTP id l40-20020a05600c1d2800b003b491f4897dmr2002271wms.137.1663673426085;
+        Tue, 20 Sep 2022 04:30:26 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:9c:201:5387:5e8a:9e5b:404c])
+        by smtp.gmail.com with ESMTPSA id u7-20020adff887000000b00228d6bc8450sm1598857wrp.108.2022.09.20.04.30.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Sep 2022 04:30:25 -0700 (PDT)
+Date: Tue, 20 Sep 2022 13:30:18 +0200
+From: Marco Elver <elver@google.com>
+To: syzbot <syzbot+870ae3a4c7a251c996bd@syzkaller.appspotmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Subject: Re: [syzbot] KASAN: stack-out-of-bounds Read in iput
+Message-ID: <YymkSpsiv/JZ73s1@elver.google.com>
+References: <000000000000885d8605e91963fd@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:3421:b0:6a1:6b14:895b with SMTP id
- n33-20020a056602342100b006a16b14895bmr7618689ioz.24.1663621480995; Mon, 19
- Sep 2022 14:04:40 -0700 (PDT)
-Date: Mon, 19 Sep 2022 14:04:40 -0700
-In-Reply-To: <00000000000050d56805e77c4582@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000006a612305e90e0f79@google.com>
-Subject: Re: [syzbot] WARNING in writeback_single_inode
-From: syzbot <syzbot+fc721e2fe15a5aac41d1@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk, willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <000000000000885d8605e91963fd@google.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
 
-syzbot has found a reproducer for the following issue on:
++Cc ntfs3 maintainers
 
-HEAD commit:    a6b443748715 Merge branch 'for-next/core', remote-tracking..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=144f0654880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=14bf9ec0df433b27
-dashboard link: https://syzkaller.appspot.com/bug?extid=fc721e2fe15a5aac41d1
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17cb3628880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1778ecb0880000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/81b491dd5861/disk-a6b44374.raw.xz
-vmlinux: https://storage.googleapis.com/69c979cdc99a/vmlinux-a6b44374.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+fc721e2fe15a5aac41d1@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 7715 at fs/fs-writeback.c:1678 writeback_single_inode+0x374/0x388 fs/fs-writeback.c:1678
-Modules linked in:
-CPU: 0 PID: 7715 Comm: syz-executor169 Not tainted 6.0.0-rc4-syzkaller-17255-ga6b443748715 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
-pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : writeback_single_inode+0x374/0x388 fs/fs-writeback.c:1678
-lr : writeback_single_inode+0x374/0x388 fs/fs-writeback.c:1678
-sp : ffff800015f0b9c0
-x29: ffff800015f0ba10 x28: ffff0000cf476000 x27: fffffc0003488dc0
-x26: 0000000000000a00 x25: 0000000000000000 x24: 0000000000000001
-x23: 0000000000001000 x22: ffff800015f0ba60 x21: 0000000000000000
-x20: ffff0000ce87824f x19: ffff0000ce8782d8 x18: 0000000000000379
-x17: ffff80000c00d6bc x16: ffff80000db78658 x15: ffff0000cf4c8000
-x14: 00000000000000f0 x13: 00000000ffffffff x12: ffff0000cf4c8000
-x11: ff80800008619b78 x10: 0000000000000000 x9 : ffff800008619b78
-x8 : ffff0000cf4c8000 x7 : ffff800008619848 x6 : 0000000000000000
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-x2 : 0000000000000001 x1 : 0000000000000000 x0 : 0000000000000000
-Call trace:
- writeback_single_inode+0x374/0x388 fs/fs-writeback.c:1678
- write_inode_now+0xb0/0xdc fs/fs-writeback.c:2723
- iput_final fs/inode.c:1735 [inline]
- iput+0x1e4/0x324 fs/inode.c:1774
- ntfs_fill_super+0xc30/0x14a4 fs/ntfs/super.c:2994
- get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
- ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
- vfs_get_tree+0x40/0x140 fs/super.c:1530
- do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
- path_mount+0x358/0x914 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __arm64_sys_mount+0x2f8/0x408 fs/namespace.c:3568
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
- el0t_64_sync+0x18c/0x190
-irq event stamp: 1754
-hardirqs last  enabled at (1753): [<ffff800008162eec>] raw_spin_rq_unlock_irq kernel/sched/sched.h:1367 [inline]
-hardirqs last  enabled at (1753): [<ffff800008162eec>] finish_lock_switch+0x94/0xe8 kernel/sched/core.c:4942
-hardirqs last disabled at (1754): [<ffff80000bfc5c8c>] el1_dbg+0x24/0x5c arch/arm64/kernel/entry-common.c:395
-softirqs last  enabled at (546): [<ffff8000080102e4>] _stext+0x2e4/0x37c
-softirqs last disabled at (541): [<ffff800008017c48>] ____do_softirq+0x14/0x20 arch/arm64/kernel/irq.c:79
----[ end trace 0000000000000000 ]---
-Unable to handle kernel paging request at virtual address 000000ce87847947
-Mem abort info:
-  ESR = 0x0000000096000004
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x04: level 0 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000004
-  CM = 0, WnR = 0
-user pgtable: 4k pages, 48-bit VAs, pgdp=00000001135a3000
-[000000ce87847947] pgd=0000000000000000, p4d=0000000000000000
-Internal error: Oops: 96000004 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 0 PID: 7715 Comm: syz-executor169 Tainted: G        W          6.0.0-rc4-syzkaller-17255-ga6b443748715 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
-pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : xa_marked include/linux/xarray.h:420 [inline]
-pc : mapping_tagged include/linux/fs.h:461 [inline]
-pc : writeback_single_inode+0x228/0x388 fs/fs-writeback.c:1703
-lr : writeback_single_inode+0x218/0x388 fs/fs-writeback.c:1702
-sp : ffff800015f0b9c0
-x29: ffff800015f0ba10 x28: ffff0000cf476000 x27: fffffc0003488dc0
-x26: 0000000000000a00 x25: 0000000000001000 x24: 0000000000000001
-x23: 0000000000000001 x22: ffff800015f0ba60 x21: ffff0000ce878327
-x20: ffff0000ce87824f x19: ffff0000ce8782d8 x18: 0000000000000379
-x17: ffff80000c00d6bc x16: ffff80000db78658 x15: ffff0000cf4c8000
-x14: 00000000000000f0 x13: 00000000ffffffff x12: ffff0000cf4c8000
-x11: ff80800008619a1c x10: 0000000000000000 x9 : ffff0000cf4c8000
-x8 : ff0000ce878478ff x7 : ffff800008619848 x6 : 0000000000000000
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-x2 : 0000000000000001 x1 : 0000000000000001 x0 : 0000000000000000
-Call trace:
- xa_marked include/linux/xarray.h:420 [inline]
- mapping_tagged include/linux/fs.h:461 [inline]
- writeback_single_inode+0x228/0x388 fs/fs-writeback.c:1703
- write_inode_now+0xb0/0xdc fs/fs-writeback.c:2723
- iput_final fs/inode.c:1735 [inline]
- iput+0x1e4/0x324 fs/inode.c:1774
- ntfs_fill_super+0xc30/0x14a4 fs/ntfs/super.c:2994
- get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
- ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
- vfs_get_tree+0x40/0x140 fs/super.c:1530
- do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
- path_mount+0x358/0x914 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __arm64_sys_mount+0x2f8/0x408 fs/namespace.c:3568
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
- el0t_64_sync+0x18c/0x190
-Code: 710006ff 54000281 f9401a88 2a1f03e0 (b9404917) 
----[ end trace 0000000000000000 ]---
-----------------
-Code disassembly (best guess):
-   0:	710006ff 	cmp	w23, #0x1
-   4:	54000281 	b.ne	0x54  // b.any
-   8:	f9401a88 	ldr	x8, [x20, #48]
-   c:	2a1f03e0 	mov	w0, wzr
-* 10:	b9404917 	ldr	w23, [x8, #72] <-- trapping instruction
-
+On Tue, Sep 20, 2022 at 03:35AM -0700, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    521a547ced64 Linux 6.0-rc6
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=12c41580880000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=c221af36f6d1d811
+> dashboard link: https://syzkaller.appspot.com/bug?extid=870ae3a4c7a251c996bd
+> compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=110f0654880000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1625e737080000
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/7daadf43221d/disk-521a547c.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/7e776edd0f78/vmlinux-521a547c.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+870ae3a4c7a251c996bd@syzkaller.appspotmail.com
+> 
+> ntfs3: loop2: RAW NTFS volume: Filesystem size 0.00 Gb > volume size 0.00 Gb. Mount in read-only
+> ==================================================================
+> BUG: KASAN: stack-out-of-bounds in native_save_fl arch/x86/include/asm/irqflags.h:35 [inline]
+> BUG: KASAN: stack-out-of-bounds in arch_local_save_flags arch/x86/include/asm/irqflags.h:70 [inline]
+> BUG: KASAN: stack-out-of-bounds in arch_irqs_disabled arch/x86/include/asm/irqflags.h:130 [inline]
+> BUG: KASAN: stack-out-of-bounds in lock_acquire+0x1c3/0x3c0 kernel/locking/lockdep.c:5669
+> Read of size 8 at addr ffffc9000b7df95f by task syz-executor383/13922
+> 
+> CPU: 0 PID: 13922 Comm: syz-executor383 Not tainted 6.0.0-rc6-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
+> Call Trace:
+>  <TASK>
+>  __dump_stack lib/dump_stack.c:88 [inline]
+>  dump_stack_lvl+0x1b1/0x28e lib/dump_stack.c:106
+>  print_address_description+0x65/0x4b0 mm/kasan/report.c:317
+>  print_report+0x108/0x1f0 mm/kasan/report.c:433
+>  kasan_report+0xc3/0xf0 mm/kasan/report.c:495
+>  native_save_fl arch/x86/include/asm/irqflags.h:35 [inline]
+>  arch_local_save_flags arch/x86/include/asm/irqflags.h:70 [inline]
+>  arch_irqs_disabled arch/x86/include/asm/irqflags.h:130 [inline]
+>  lock_acquire+0x1c3/0x3c0 kernel/locking/lockdep.c:5669
+>  __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+>  _raw_spin_lock+0x2a/0x40 kernel/locking/spinlock.c:154
+>  spin_lock include/linux/spinlock.h:349 [inline]
+>  iput_final fs/inode.c:1737 [inline]
+>  iput+0x3ee/0x760 fs/inode.c:1774
+>  ntfs_fill_super+0x2352/0x42a0 fs/ntfs3/super.c:1278
+>  get_tree_bdev+0x400/0x620 fs/super.c:1323
+>  vfs_get_tree+0x88/0x270 fs/super.c:1530
+>  do_new_mount+0x289/0xad0 fs/namespace.c:3040
+>  do_mount fs/namespace.c:3383 [inline]
+>  __do_sys_mount fs/namespace.c:3591 [inline]
+>  __se_sys_mount+0x2d3/0x3c0 fs/namespace.c:3568
+>  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>  do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+>  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> RIP: 0033:0x7f203d446d7a
+> Code: 48 c7 c2 b8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 d8 00 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007f203d3f1078 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
+> RAX: ffffffffffffffda RBX: 00007f203d3f10d0 RCX: 00007f203d446d7a
+> RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007f203d3f1090
+> RBP: 000000000000000e R08: 00007f203d3f10d0 R09: 00007f203d3f16b8
+> R10: 0000000000000000 R11: 0000000000000286 R12: 00007f203d3f1090
+> R13: 0000000020000350 R14: 0000000000000003 R15: 0000000000000004
+>  </TASK>
+> 
+> The buggy address belongs to stack of task syz-executor383/13922
+>  and is located at offset 31 in frame:
+>  lock_acquire+0x0/0x3c0 kernel/locking/lockdep.c:5621
+> 
+> This frame has 3 objects:
+>  [32, 40) 'flags.i.i.i87'
+>  [64, 72) 'flags.i.i.i'
+>  [96, 136) 'hlock'
+> 
+> The buggy address belongs to the virtual mapping at
+>  [ffffc9000b7d8000, ffffc9000b7e1000) created by:
+>  dup_task_struct+0x8b/0x490 kernel/fork.c:977
+> 
+> The buggy address belongs to the physical page:
+> page:ffffea0001bcb8c0 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x6f2e3
+> flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
+> raw: 00fff00000000000 0000000000000000 dead000000000122 0000000000000000
+> raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+> page dumped because: kasan: bad access detected
+> page_owner tracks the page as allocated
+> page last allocated via order 0, migratetype Unmovable, gfp_mask 0x2dc2(GFP_KERNEL|__GFP_HIGHMEM|__GFP_NOWARN|__GFP_ZERO), pid 3629, tgid 3629 (syz-executor383), ts 473162860658, free_ts 11190855215
+>  prep_new_page mm/page_alloc.c:2532 [inline]
+>  get_page_from_freelist+0x742/0x7c0 mm/page_alloc.c:4283
+>  __alloc_pages+0x259/0x560 mm/page_alloc.c:5515
+>  vm_area_alloc_pages mm/vmalloc.c:2958 [inline]
+>  __vmalloc_area_node mm/vmalloc.c:3026 [inline]
+>  __vmalloc_node_range+0x8f4/0x1290 mm/vmalloc.c:3196
+>  alloc_thread_stack_node+0x307/0x500 kernel/fork.c:312
+>  dup_task_struct+0x8b/0x490 kernel/fork.c:977
+>  copy_process+0x65b/0x3fd0 kernel/fork.c:2088
+>  kernel_clone+0x21f/0x790 kernel/fork.c:2674
+>  __do_sys_clone kernel/fork.c:2808 [inline]
+>  __se_sys_clone kernel/fork.c:2792 [inline]
+>  __x64_sys_clone+0x228/0x290 kernel/fork.c:2792
+>  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>  do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+>  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> page last free stack trace:
+>  reset_page_owner include/linux/page_owner.h:24 [inline]
+>  free_pages_prepare mm/page_alloc.c:1449 [inline]
+>  free_pcp_prepare+0x812/0x900 mm/page_alloc.c:1499
+>  free_unref_page_prepare mm/page_alloc.c:3380 [inline]
+>  free_unref_page+0x7d/0x5f0 mm/page_alloc.c:3476
+>  free_contig_range+0xa3/0x160 mm/page_alloc.c:9408
+>  destroy_args+0xfe/0x91d mm/debug_vm_pgtable.c:1031
+>  debug_vm_pgtable+0x43e/0x497 mm/debug_vm_pgtable.c:1354
+>  do_one_initcall+0x1b9/0x3e0 init/main.c:1296
+>  do_initcall_level+0x168/0x218 init/main.c:1369
+>  do_initcalls+0x4b/0x8c init/main.c:1385
+>  kernel_init_freeable+0x3f1/0x57b init/main.c:1623
+>  kernel_init+0x19/0x2b0 init/main.c:1512
+>  ret_from_fork+0x1f/0x30
+> 
+> Memory state around the buggy address:
+>  ffffc9000b7df800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>  ffffc9000b7df880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >ffffc9000b7df900: 00 00 00 00 00 00 00 00 f1 f1 f1 f1 00 f2 f2 f2
+>                                                     ^
+>  ffffc9000b7df980: 00 f2 f2 f2 00 00 00 00 00 f3 f3 f3 f3 f3 f3 f3
+>  ffffc9000b7dfa00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> ==================================================================
+> 
+> 
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+> 
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> syzbot can test patches for this issue, for details see:
+> https://goo.gl/tpsmEJ#testing-patches
