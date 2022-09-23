@@ -1,68 +1,72 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5AE15B0
-	for <ntfs3@lists.linux.dev>; Fri, 23 Sep 2022 01:15:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=rsTGS41jSRpa3ny7/TEXpba94yI95UsUdciPuDQ763I=; b=RIGqpEPBKNh+D/oBqszjqJgKNh
-	uWz1lSnZzfgwj1bKzGe8vjLIpWCt9Pwq5TAmhrnia71uNx9PXHm9kzK9wG6PXZcjmiNbvkSihOIj9
-	BwAH7pr9BUEI50ZqHSoAxsgQ7d5B/mUkQe4OlRJvw6nYFKxVHkaebAuHOQFdUTDZQhM3LH+/t8hAl
-	N0iWwNXqwTM8XsnHJKy/p3jzAsyCU/geQbsqi5vjEl8LKHB8Uzt4XY2gWTOGfTj0NggqFzzbbtXzZ
-	nW8SzS4kpqndLEWhhEhN5BvtCfzaBViq3SaHFnTZsxMdAyk10TId+tVeDqO6ypqcj7XE7Lwe337ct
-	OeoODnTw==;
-Received: from [2601:1c2:d80:3110::a2e7]
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obXHD-000wCR-2w; Fri, 23 Sep 2022 01:14:47 +0000
-Message-ID: <d61b11b9-620e-698a-b826-22b2604a9234@infradead.org>
-Date: Thu, 22 Sep 2022 18:14:45 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425B315B0
+	for <ntfs3@lists.linux.dev>; Fri, 23 Sep 2022 01:26:24 +0000 (UTC)
+Received: from fsav414.sakura.ne.jp (fsav414.sakura.ne.jp [133.242.250.113])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 28N1PoNm064633;
+	Fri, 23 Sep 2022 10:25:50 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav414.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav414.sakura.ne.jp);
+ Fri, 23 Sep 2022 10:25:50 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav414.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 28N1PoHS064629
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 23 Sep 2022 10:25:50 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <423b1fa6-10fa-3ff9-52bc-1262643c62d9@I-love.SAKURA.ne.jp>
+Date: Fri, 23 Sep 2022 10:25:50 +0900
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
 Subject: Re: [PATCH] fs/ntfs3: fix negative shift size in
  true_sectors_per_clst()
 Content-Language: en-US
-To: Joe Perches <joe@perches.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Namjae Jeon <linkinjeon@kernel.org>, Shigeru Yoshida <syoshida@redhat.com>
+To: Randy Dunlap <rdunlap@infradead.org>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Namjae Jeon <linkinjeon@kernel.org>,
+        Shigeru Yoshida <syoshida@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>
 Cc: syzbot <syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com>,
- syzkaller-bugs@googlegroups.com, ntfs3@lists.linux.dev,
- LKML <linux-kernel@vger.kernel.org>
+        syzkaller-bugs@googlegroups.com, ntfs3@lists.linux.dev,
+        LKML <linux-kernel@vger.kernel.org>
 References: <000000000000f8b5ef05dd25b963@google.com>
  <4b37f037-3b10-b4e4-0644-73441c8fa0af@I-love.SAKURA.ne.jp>
  <e0173c17-3837-a619-4bcc-7a0ba4843cc4@infradead.org>
- <34b60d0ed48e4384e82a29020702ee2471092fb1.camel@perches.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <34b60d0ed48e4384e82a29020702ee2471092fb1.camel@perches.com>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <e0173c17-3837-a619-4bcc-7a0ba4843cc4@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 9/22/22 17:47, Joe Perches wrote:
-> On Thu, 2022-09-22 at 17:38 -0700, Randy Dunlap wrote:
->> it appears that the NTFS3 maintainer is MIA again. :(
+On 2022/09/23 9:38, Randy Dunlap wrote:
+> I slightly prefer the earlier patch:
 > 
-> (I've no affiliation with the NTFS3 maintainer or paragon)
+> https://lore.kernel.org/all/20220823144625.1627736-1-syoshida@redhat.com/
 > 
-> Perhaps the expectation of prioritized immediate turnaround is unrealistic.
-> 
-> It's free.  Be patient.
+> but it appears that the NTFS3 maintainer is MIA again. :(
 > 
 
-Yes Joe, I get that.
+Shigeru Yoshida posted a patch against https://syzkaller.appspot.com/bug?extid=35b87c668935bb55e666
+and I posted a patch against https://syzkaller.appspot.com/bug?extid=1631f09646bc214d2e76 .
+We didn't realize that these are the same problem.
 
-https://lore.kernel.org/all/da20d32b-5185-f40b-48b8-2986922d8b25@stargateuniverse.net/
+It seems that sending to not only syzbot+XXXXXXXXXXXXXXXXXXXX@syzkaller.appspotmail.com
+but also syzkaller-bugs@googlegroups.com is required for proposed patches to be recorded
+(in order to avoid duplicated works) into a page linked from "Status:" in each bug page.
 
+Since https://syzkaller.appspot.com/upstream does not have a column for tracking intermediate
+status between "Open" and "Fixed" (e.g. cause identified, patch proposed) because it can take
+long time until patches are accepted into one of git trees syzbot is tracking, we need to
+utilize "Last activity" in the list page and a page linked from "Status:" in each bug page.
+Time to boost priority for implementing user-supplied comment column (e.g. "#syz memo:" command)
+to each bug?
 
--- 
-~Randy
