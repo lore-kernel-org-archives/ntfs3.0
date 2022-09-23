@@ -1,120 +1,85 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9243C05
-	for <ntfs3@lists.linux.dev>; Fri, 23 Sep 2022 12:04:14 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 24D1D2173;
-	Fri, 23 Sep 2022 12:02:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1663934523;
-	bh=HQaCzeBKpccvY70lsjed2nvSDJHxgVGfg13R2geTI/w=;
-	h=Date:Subject:From:To:CC:References:In-Reply-To;
-	b=LntRzvxz7J1PUnPuEb4bLzDGOGTK/Gi1LahXwe3mc+/cnAh1OW+LNWtWlEYLvozMI
-	 AfQ6FN8qBuwQoABxow96QWGjGXVeUTXVYVQBmCtc9KWHjpUaobwUb3ntHQK4/u5LnN
-	 AHauGE6uDnP7HwhmKAqgPWAkS7PZhnoYxu9u/8Sc=
-Received: from [172.30.8.65] (172.30.8.65) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 23 Sep 2022 15:04:11 +0300
-Message-ID: <69396296-95d3-9c85-35ff-530e2a84066a@paragon-software.com>
-Date: Fri, 23 Sep 2022 15:04:11 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB81E15CA
+	for <ntfs3@lists.linux.dev>; Fri, 23 Sep 2022 14:36:07 +0000 (UTC)
+Received: from fsav115.sakura.ne.jp (fsav115.sakura.ne.jp [27.133.134.242])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 28NEZgEL063409;
+	Fri, 23 Sep 2022 23:35:42 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav115.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav115.sakura.ne.jp);
+ Fri, 23 Sep 2022 23:35:42 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav115.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 28NEZgBr063406
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 23 Sep 2022 23:35:42 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <ea7c00c1-07d7-c23e-80f0-0693016e9731@I-love.SAKURA.ne.jp>
+Date: Fri, 23 Sep 2022 23:35:43 +0900
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: [PATCH 2/2] fs/ntfs3: Rename variables and add comment
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH] fs/ntfs3: fix negative shift size in
+ true_sectors_per_clst()
 Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: LKML <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-References: <91c21f32-cc6f-2c2e-ebf7-d1d738090aef@paragon-software.com>
-In-Reply-To: <91c21f32-cc6f-2c2e-ebf7-d1d738090aef@paragon-software.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Aleksandr Nogikh <nogikh@google.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Namjae Jeon <linkinjeon@kernel.org>,
+        Shigeru Yoshida <syoshida@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        syzbot <syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com>,
+        "'Aleksandr Nogikh' via syzkaller-bugs" <syzkaller-bugs@googlegroups.com>,
+        ntfs3@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
+References: <000000000000f8b5ef05dd25b963@google.com>
+ <4b37f037-3b10-b4e4-0644-73441c8fa0af@I-love.SAKURA.ne.jp>
+ <e0173c17-3837-a619-4bcc-7a0ba4843cc4@infradead.org>
+ <423b1fa6-10fa-3ff9-52bc-1262643c62d9@I-love.SAKURA.ne.jp>
+ <CANp29Y7fSsjqKbFiMZDG_w-ERigQOk_6Zw3L9rw5erpP3rRU0g@mail.gmail.com>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <CANp29Y7fSsjqKbFiMZDG_w-ERigQOk_6Zw3L9rw5erpP3rRU0g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.30.8.65]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-After renaming we don't need to split code in two lines.
+On 2022/09/23 20:58, Aleksandr Nogikh wrote:
+> We do have plans to start inspecting LKML messages for the patches
+> that mention syzbot-reported bugs. It will be possible then to display
+> them all on the bug page and somehow mark bugs with a PATCH sent on
+> the list.
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
----
-  fs/ntfs3/frecord.c |  1 +
-  fs/ntfs3/fslog.c   | 24 +++++++++++-------------
-  2 files changed, 12 insertions(+), 13 deletions(-)
+I interpret it as an attempt to automatically show "Patch proposed" state.
+But since not all patches have Reported-by: tag, and/or a proposed patch
+with Reported-by: tag might be withdrawn via review, that state should be
+also manually changeable.
 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index b752d83cf460..179b06762bdb 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -3265,6 +3265,7 @@ int ni_write_inode(struct inode *inode, int sync, const char *hint)
-  			modified = true;
-  		}
-  
-+		/* std attribute is always in primary MFT record. */
-  		if (modified)
-  			ni->mi.dirty = true;
-  
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index e7c494005122..200e22b7871d 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -3048,7 +3048,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
-  	struct NEW_ATTRIBUTE_SIZES *new_sz;
-  	struct ATTR_FILE_NAME *fname;
-  	struct OpenAttr *oa, *oa2;
--	u32 nsize, t32, asize, used, esize, bmp_off, bmp_bits;
-+	u32 nsize, t32, asize, used, esize, off, bits;
-  	u16 id, id2;
-  	u32 record_size = sbi->record_size;
-  	u64 t64;
-@@ -3635,30 +3635,28 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
-  		break;
-  
-  	case SetBitsInNonresidentBitMap:
--		bmp_off =
--			le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
--		bmp_bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
-+		off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
-+		bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
-  
--		if (cbo + (bmp_off + 7) / 8 > lco ||
--		    cbo + ((bmp_off + bmp_bits + 7) / 8) > lco) {
-+		if (cbo + (off + 7) / 8 > lco ||
-+		    cbo + ((off + bits + 7) / 8) > lco) {
-  			goto dirty_vol;
-  		}
-  
--		__bitmap_set(Add2Ptr(buffer_le, roff), bmp_off, bmp_bits);
-+		__bitmap_set(Add2Ptr(buffer_le, roff), off, bits);
-  		a_dirty = true;
-  		break;
-  
-  	case ClearBitsInNonresidentBitMap:
--		bmp_off =
--			le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
--		bmp_bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
-+		off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
-+		bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
-  
--		if (cbo + (bmp_off + 7) / 8 > lco ||
--		    cbo + ((bmp_off + bmp_bits + 7) / 8) > lco) {
-+		if (cbo + (off + 7) / 8 > lco ||
-+		    cbo + ((off + bits + 7) / 8) > lco) {
-  			goto dirty_vol;
-  		}
-  
--		__bitmap_clear(Add2Ptr(buffer_le, roff), bmp_off, bmp_bits);
-+		__bitmap_clear(Add2Ptr(buffer_le, roff), off, bits);
-  		a_dirty = true;
-  		break;
-  
--- 
-2.37.0
+> And then syzbot should just display all such received comments on the
+> bug's web page, right?
 
+Whether "all comments" or "last comment" needs some decision. It might be a few words
+indicating culprit subsystem (probably "last" should overwrite), it might be memo
+describing how far debugging went (probably "all" is helpful), it might be some
+URL where discussions/patches are (probably "all" is helpful), it might be trying to
+show or hide "Patch proposed" state (probably "last" should overwrite).
+
+
+
+By the way, a possible improvement on "Patch testing requests:" table.
+Although the "Patch" link showing diff output after applying proposed patch is OK,
+I'd like to also see a link to original "#syz test:" mail, for the intent of diff
+(which would be in patch description part if it was a formal patch) is dropped from
+diff output in the "Patch" link.
+
+For example, https://syzkaller.appspot.com/bug?extid=9ca7a12fd736d93e0232 was forgotten
+for 1000 days after 7 patch testing requests. I can't easily find the intent of each diff
+(e.g. just debug printk() or proper fix). It seems the last one was about to formal submit,
+but I can't find why it is not yet applied.
 
