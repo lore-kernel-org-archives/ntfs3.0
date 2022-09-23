@@ -1,162 +1,173 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD30F2F25
-	for <ntfs3@lists.linux.dev>; Fri, 23 Sep 2022 10:00:44 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28N9BPLJ031581;
-	Fri, 23 Sep 2022 10:00:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2022-7-12;
- bh=5TQ8Qa6Ze1kbDSFA1TbTwDVC2dgt5lvPxnmJ5spCj/Q=;
- b=gQKZ3azefKDH6nifuj5Yg7I1pfVjxr+2kL/GHdTbAEnynmBNHkCruvM8h4m/smXNAxtv
- ltI/8oLXDKrQEypGq0q/e08y4RAY3kvhtiyy04sGc6jcVHH8M32iCluCqBaLsIyVICs8
- iujCzs0g8wnrq0m/eIEyVmvAcmPG4CIBxXl630gmfOjaX3Dl6GQzNUINyNJ9zsMjsspf
- LuXsQ+sgcf6I0Ddlvjj7/5D74/elNFLw1h0kveqRFowO9UBsjilBtVB9YAg2r29rAnzI
- Hves1tgdMxuWbHGVJY0aC1X9gTr6XoBIrKNjaZcL3teZPHjExU0Ud2TQfo8ogJh+gy93 sg== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jn68rr1ve-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 23 Sep 2022 10:00:28 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 28NA0EPp031277;
-	Fri, 23 Sep 2022 10:00:26 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3jp39pkwca-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 23 Sep 2022 10:00:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MRTkEwVtnbBIMM1iFTU+lFN4WbNEHVJU7RRBpp/EnQPWjZUP600Nxz5B5z4KLRBUFnnJGWJ+FCzWVfXOrT1w90aoA0xBu58S/lOZCdzAmrY7OZsHRRgsYhi5upHh9Y2FOJnQ+0pjZUw04QbdnRzHhaRCnohV+Wf7Mwo4E7joiXEHvxDuKXEmHC3d+Cm9/mBuQdVcFacq1ZKDT842qwXeYPCs5dLajHZ9P3cGCdvFqke6UUhpUJ1RwjDKI7LVIPUNFVo2DwsccqJVNHjTsdQXwhT9vt7OCiC2QnPbUH2rgsmMKdk1+hbRtPN88datA2AzZjrOQ4huDJa+M5LRbvZHVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5TQ8Qa6Ze1kbDSFA1TbTwDVC2dgt5lvPxnmJ5spCj/Q=;
- b=JI6O+XmGPcjOezA0HfUXfFVM6Vj+fyeAOFkMARWsYRuyWF2oOiz3UhLX9aqMkhlA2Yb4RH73MvA4/74ZrsSYCoBHJc90u03VNka9d1kKMOzhTXDeXubuGoSGCAdHbN67WfSRv7B2/q98AkUr5ALLeQQy68ooH/aXDYW7CrRZYjyJ1fKmDMcMIrJSvPGPUg0ROQ0J2Z83KkV6MxJke8pckNurIuTrQaumAj1ROh/V1Ss/Y/NVQS1UwTp85/7Wj2yhYytZBLGY2Q8frEk/Fv+IiENocsScC1hytUen9Dyoksq4Xvx8rW6caivVdroCbITSoAgj+16wmNlIMMLX499amw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AAB3239
+	for <ntfs3@lists.linux.dev>; Fri, 23 Sep 2022 10:27:30 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id s26so389477pgv.7
+        for <ntfs3@lists.linux.dev>; Fri, 23 Sep 2022 03:27:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5TQ8Qa6Ze1kbDSFA1TbTwDVC2dgt5lvPxnmJ5spCj/Q=;
- b=0L8x4sYHhWcm23fcYas08CiLmg42HVqGDddJKdWGSDK6Ett/B+1T9uPynMq90E2hWoyQIj2mzC2nL9NhNZtdsq3uSF32Y4YRtFY5rJ5/x1Pp/7qOTrRnX32xd07YESJWsnG9+aOBNCuu6oRoiL9IQLxvZDGkDPBoiHPSp0LoGwY=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by DM6PR10MB4187.namprd10.prod.outlook.com
- (2603:10b6:5:210::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.20; Fri, 23 Sep
- 2022 10:00:24 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::a493:38d9:86ee:73d6]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::a493:38d9:86ee:73d6%6]) with mapi id 15.20.5654.019; Fri, 23 Sep 2022
- 10:00:22 +0000
-Date: Fri, 23 Sep 2022 12:59:58 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Joe Perches <joe@perches.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Namjae Jeon <linkinjeon@kernel.org>,
-        Shigeru Yoshida <syoshida@redhat.com>,
-        syzbot <syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com, ntfs3@lists.linux.dev,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] fs/ntfs3: fix negative shift size in
- true_sectors_per_clst()
-Message-ID: <Yy2DniTKbL0hxWeO@kadam>
-References: <000000000000f8b5ef05dd25b963@google.com>
- <4b37f037-3b10-b4e4-0644-73441c8fa0af@I-love.SAKURA.ne.jp>
- <e0173c17-3837-a619-4bcc-7a0ba4843cc4@infradead.org>
- <34b60d0ed48e4384e82a29020702ee2471092fb1.camel@perches.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <34b60d0ed48e4384e82a29020702ee2471092fb1.camel@perches.com>
-X-ClientProxiedBy: JN2P275CA0015.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::27)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=/w7UwzbnmRu6xEONdwmcsNTVMZbCIcvKyFDV77tAiGg=;
+        b=mehSYMeQH8vOgqAOnwXfGbYx+IpqCu5xdiL89kkg46DrWR8EVIhDqlVLrMK84WfLBB
+         EHRTcIyurlarGnPmFcwDx8g577B7xFhNLIciS6F3ctrEJNt5dnDTSB7nX47utcyLCLGb
+         H5+diuZ6d+2QxalKWw8jC8ohSt5uMVqaJMdRtv3q//TFHgVub4QkReED8S1/BQcmjRdk
+         9/WclkM2Nft0LF2S4C5Kal3Rx2P8kXhTJYCEUHrYmfTm9NgMzD0/cnJ+tYTAcmOedKmS
+         aco1p239ISkaZXkLq5qNtemNoaM6VjC6WJ5PQUQi10Kd+BEtqsHjhcckZkAyem8aFq8Y
+         3mJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=/w7UwzbnmRu6xEONdwmcsNTVMZbCIcvKyFDV77tAiGg=;
+        b=221Gj5Qv33QnkNOtN2/hOII/tjb7z8g7opi8Ygp9Rde8w/+aotJ6N8LHya3SMzQCc8
+         +9ZABJNztWKqgnXHj0k/zM+wsatkFacN4QYXwha2AmH5DCVbS2k6eju0IlVGUQ03GWBn
+         h6CnvZ1usjE788ph76SQtT/wDpJqvBcchr9/r0xAUO+qBp7XnZxz+K2C4DyJ2alEHad6
+         ojnLnCB05mcTzjmN/WHKnQ6R+zCZVrOHbUgHwZTG3+W0ENYWK5m3xH3dNbAU49yWncvZ
+         3PJ1q1w+kopNnMsjEmgSB9wXBF74mNG8hb0yWycUqLqJRScYR2YwR++2sqzRnQlNU52c
+         RFJw==
+X-Gm-Message-State: ACrzQf1oC5qR6yKvqXCODDHnWOH7d2WYnGkMpuTs8MXGHYPZt5QzYZ4U
+	OiKEWv5h5VvkFPtVAVhvX8NUHA/Ny5mqykm9
+X-Google-Smtp-Source: AMsMyM56YedmD5V4tFh9GW+U5G0/uzoj2JAE4AJoZh+GDlKD73vrBZx+LRvm/XOrqzuRLehduaT9KQ==
+X-Received: by 2002:a63:cc4a:0:b0:439:1c48:2fed with SMTP id q10-20020a63cc4a000000b004391c482fedmr7158359pgi.618.1663928849810;
+        Fri, 23 Sep 2022 03:27:29 -0700 (PDT)
+Received: from localhost ([223.104.44.30])
+        by smtp.gmail.com with ESMTPSA id ij29-20020a170902ab5d00b00172e19c5f8bsm5669042plb.168.2022.09.23.03.27.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Sep 2022 03:27:29 -0700 (PDT)
+From: Hawkins Jiawei <yin31149@gmail.com>
+To: yin31149@gmail.com
+Cc: 18801353760@163.com,
+	almaz.alexandrovich@paragon-software.com,
+	linux-kernel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	syzbot+8d6fbb27a6aded64b25b@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] fs/ntfs3: fix slab-out-of-bounds Read in run_unpack
+Date: Fri, 23 Sep 2022 18:27:21 +0800
+Message-Id: <20220923102721.32425-1-yin31149@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220923084917.17666-1-yin31149@gmail.com>
+References: <20220923084917.17666-1-yin31149@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR1001MB2365:EE_|DM6PR10MB4187:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f1560f3-5445-4d6a-a73d-08da9d4a6cea
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	f9UnvgIec+GBNqhforOwQ/ik00byVLE+KIiMBWC5XOYTqxdmpG7znnIlpL17dZ2m3FfkHPvFcooLXDyRIRmdcREP/KHoEUlfP+dPnuPNEl25LUstaSNBU8m+2wymbvHD1IDILphf/t177SRGdvvtApityIOGcuCqWhlDht699WYy8Njk3pbGow5tt/6tPd55tBcc96huSogy/jMwQTeaD4fK5bUPpL/x8EG1E3a5/giGQwORjfc9ZJ33qwChUoeMi2BnCA8OcWDfdXDiCbqtWzxr4VX06cscBOaO/rCHvbEYDtZkUA7zaYLDV6snlcX29jBR3Sa5PYs24ORt0wvFDwU6A9sss8TqLMeKpATpIa467oqu2JCxYG2Byy0xDbWi2YQec4cG+2qFi4U4xYMMjD++tPrvwmwNdvWAOI1V0pmJjm6JmjFuYwkWOPeY5bIuyLVCucdBtDybpgms0/nJ/04UsnK2vE8j1o0yT+PWE0B5+fu4ctAHabNO0japt06B3xdYsyH0eetSL+6prguca2flzZdZq5ubiqjXqEaBPZincdvAVOejxgw7a1GIsOwJG/kwnAwNtqdwIxxtZJOP2PHVg/iYULa4MqtuKej83T1NBWof1OtQfAjRzVGWZ7CedgCYON7I/M0X6bzalBWn5ZfL2eiXHV3Np6x6sqvyngsIKmj+HRQpCtQ+oGF98PxMbesW/6abjuubuPlcqpSryQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(136003)(396003)(366004)(346002)(376002)(39860400002)(451199015)(38100700002)(4744005)(44832011)(478600001)(6486002)(86362001)(4326008)(66476007)(66556008)(66946007)(186003)(2906002)(6916009)(26005)(54906003)(9686003)(6512007)(6666004)(6506007)(5660300002)(8936002)(8676002)(7416002)(316002)(41300700001)(33716001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?mNEsl6wL6J527f3DhJ7Wy83eELc5wucYh416lhLB9ucZAdFPbqf+lm/Ebhkf?=
- =?us-ascii?Q?V7yX5/faSxJd2HjDvjQ6aeKB1DsqPpIBGJJ/999SCRU/bwjbpb52ppCb8xyy?=
- =?us-ascii?Q?i6s6jnkoT+W7anxhHOdyfMtvXqa4qdekpX/x/gf79BnJdZ5zIUNghh++5OxM?=
- =?us-ascii?Q?A0o/jGyA1PVjOb2wcfNcreqL9XM2rZXiPqIwjqyCV2uptD2xVStAnAXAZ5FX?=
- =?us-ascii?Q?1vDziffZTykVpkqEUWmXUrpVnkNVlf/GN5+1sLzcYegpl3AAltd5LjrgFDdq?=
- =?us-ascii?Q?ZDfaL47c6b3to6Y5VPJ61nFM+12SW6i1MVtfuEwQ9Ur2YLoMBf6PAuNZIg/i?=
- =?us-ascii?Q?Qha58kU7u8ykvg8cDJyPNGarY/gAFz4L9sVXFQmN/yrAyZE0qW4jiMqhkZGl?=
- =?us-ascii?Q?TPHfqEmG1Q4mjUENJ2LBStJvRXJPF+Rkt2hj94hsE8ex3gVwOl9AVko3Fygq?=
- =?us-ascii?Q?RuM6FCHd7rRAuLfdFD+8X9VOuMye/W7ZOFZwsiNTqTlsQ1MtmqTaFJUNWUm6?=
- =?us-ascii?Q?MUBefkfH+PR/1/X1Q75zyxgskflQaJV6co8uo6T+svh53IAIdyFor1hJWCTD?=
- =?us-ascii?Q?0DhoIy7Uki6hDoepRuAsCcdLQUBMtKuzqJTA3bih5Aw++8hy7YqZQ/zFIkzM?=
- =?us-ascii?Q?dq6/+ImPaA1S39jBj8O83BFrhVs2sKp+v4PDgDt8NPGU39/EBhR0nnuMfE0h?=
- =?us-ascii?Q?Ptb0OVmi4Alr8p/ByrDEfdfabTLEnY9WEzzOdAlQ0hScRnXD5NVsZZoe6zGK?=
- =?us-ascii?Q?UjZWxLPJh6ueC6mHXThrmFIqA5P2t86o4DcsvIJIpT/OJQccK3a7khoINnwI?=
- =?us-ascii?Q?Dx7X01HhbS4MXmUlrZGm+FZmCeckVC6KiVjdf72qPMMy5Nb5pEycB8pMtz75?=
- =?us-ascii?Q?dYGMpETcZXd/+WW4KEguPNoxvfE6v7qupJfg3QeClF22r6aXAQJVDQxA0Sr/?=
- =?us-ascii?Q?bcfHlfa2v5Gmy6+D/lBJ9V8XAHLdiiRraDT0hduMtOT7ME7kAT1G4RTvHCAw?=
- =?us-ascii?Q?wHTTE/jnraqRoGpcxVrZd5akpzfWgQVpx8SkMUa6/VlugioaB/pCETPu5yq6?=
- =?us-ascii?Q?gj5v5cMsxK0HTQr7sXWfgrx3JqAJ1OOSrH82fWXLdE36TjZoOYNLwEPOk6XM?=
- =?us-ascii?Q?9FawUUbb0Jq4t7MQ1bdFHKRny2fyxEuz16P0jcy41jx1NrxaqraYCxOXQe3E?=
- =?us-ascii?Q?UPEOzfshajAj11gnGS8EDmBdjvYJA0oY8ClpbVwtvpxa8jQFc+1h/6oYvhGa?=
- =?us-ascii?Q?UeLdQX3szG52wAIRCoz0BxgLnuOzqB9h0ZMG8BOkN4ugJIxUqJVsTyhgRXdL?=
- =?us-ascii?Q?SYPWiyoD+Si/oQ7cuNxxWFtTkT53YvCRdEi4lzfsAVCP5t7xdVNOeO14j7j/?=
- =?us-ascii?Q?Kcf8uNtkBDlnB6ynSZgqX7l15xT8m7BQhQ8YoDqrXx/GN91GjyNwdgRgCu+c?=
- =?us-ascii?Q?J/artSLZ0YlRNkmlkOJVxVRK0IBHY3Na6H5wxpRzXdwRz0m6GpbCINuVnNe8?=
- =?us-ascii?Q?xD+jKorLOgD/CQ7LrjlVHSdj2IJ8w8PAeJomazHc2vSqN/BFl56K/qcL9NVb?=
- =?us-ascii?Q?xM7bHrvt2xO0TWhVhpV3nJ7NFLkdhOO7V7nPZH/Vrke0ZN1rrpQm1onfMTrG?=
- =?us-ascii?Q?lw=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f1560f3-5445-4d6a-a73d-08da9d4a6cea
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2022 10:00:22.4303
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ze8p8LE4RIrW7hqZtTnSDoQv7jxhggDvj+6KlmB3pHXbdg7pwamQiW6Hx5f/U5JuIENhP3k0cHIRdSUFtXr0z+JgoYJ+K8Edp8i/ld7Qs28=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4187
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-23_02,2022-09-22_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
- spamscore=0 mlxscore=0 adultscore=0 mlxlogscore=609 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2209230065
-X-Proofpoint-GUID: x1EbsaaCAG3ncoRMTqBmmhl6fktA6eRU
-X-Proofpoint-ORIG-GUID: x1EbsaaCAG3ncoRMTqBmmhl6fktA6eRU
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 22, 2022 at 05:47:51PM -0700, Joe Perches wrote:
-> On Thu, 2022-09-22 at 17:38 -0700, Randy Dunlap wrote:
-> > it appears that the NTFS3 maintainer is MIA again. :(
-> 
-> (I've no affiliation with the NTFS3 maintainer or paragon)
-> 
-> Perhaps the expectation of prioritized immediate turnaround is unrealistic.
-> 
-> It's free.  Be patient.
+On Fri, 23 Sept 2022 at 16:51, Hawkins Jiawei <yin31149@gmail.com> wrote:
+>
+> Syzkaller reports slab-out-of-bounds bug as follows:
+> ==================================================================
+> BUG: KASAN: slab-out-of-bounds in run_unpack+0x8b7/0x970 fs/ntfs3/run.c:944
+> Read of size 1 at addr ffff88801bbdff02 by task syz-executor131/3611
+>
+> [...]
+> Call Trace:
+>  <TASK>
+>  __dump_stack lib/dump_stack.c:88 [inline]
+>  dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+>  print_address_description mm/kasan/report.c:317 [inline]
+>  print_report.cold+0x2ba/0x719 mm/kasan/report.c:433
+>  kasan_report+0xb1/0x1e0 mm/kasan/report.c:495
+>  run_unpack+0x8b7/0x970 fs/ntfs3/run.c:944
+>  run_unpack_ex+0xb0/0x7c0 fs/ntfs3/run.c:1057
+>  ntfs_read_mft fs/ntfs3/inode.c:368 [inline]
+>  ntfs_iget5+0xc20/0x3280 fs/ntfs3/inode.c:501
+>  ntfs_loadlog_and_replay+0x124/0x5d0 fs/ntfs3/fsntfs.c:272
+>  ntfs_fill_super+0x1eff/0x37f0 fs/ntfs3/super.c:1018
+>  get_tree_bdev+0x440/0x760 fs/super.c:1323
+>  vfs_get_tree+0x89/0x2f0 fs/super.c:1530
+>  do_new_mount fs/namespace.c:3040 [inline]
+>  path_mount+0x1326/0x1e20 fs/namespace.c:3370
+>  do_mount fs/namespace.c:3383 [inline]
+>  __do_sys_mount fs/namespace.c:3591 [inline]
+>  __se_sys_mount fs/namespace.c:3568 [inline]
+>  __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
+>  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+>  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+>  [...]
+>  </TASK>
+>
+> The buggy address belongs to the physical page:
+> page:ffffea00006ef600 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1bbd8
+> head:ffffea00006ef600 order:3 compound_mapcount:0 compound_pincount:0
+> flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
+> page dumped because: kasan: bad access detected
+>
+> Memory state around the buggy address:
+>  ffff88801bbdfe00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>  ffff88801bbdfe80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> >ffff88801bbdff00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>                    ^
+>  ffff88801bbdff80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>  ffff88801bbe0000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ==================================================================
+>
+> Kernel will tries to read record and parse MFT from disk in
+> ntfs_read_mft().
+>
+> Yet the problem is that during enumerating attributes in record,
+> kernel doesn't check whether run_off field loading from the disk
+> is a valid value.
+>
+> To be more specific, if attr->nres.run_off is larger than attr->size,
+> kernel will passes an invalid argument run_buf_size in
+> run_unpack_ex(), which having an integer overflow. Then this invalid
+> argument will triggers the slab-out-of-bounds Read bug as above.
+>
+> This patch solves it by adding the sanity check between
+> the offset to packed runs and attribute size.
+>
+> Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
+> ---
+>  fs/ntfs3/inode.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index 51363d4e8636..443a32f789ff 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -365,6 +365,11 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+>         roff = le16_to_cpu(attr->nres.run_off);
+>
+>         t64 = le64_to_cpu(attr->nres.svcn);
+> +
+> +       /* offset to packed runs is out-of-bounds */
+> +       if (roff > asize)
+> +               goto out;
+> +
+>         err = run_unpack_ex(run, sbi, ino, t64, le64_to_cpu(attr->nres.evcn),
+>                             t64, Add2Ptr(attr, roff), asize - roff);
+>         if (err < 0)
+> --
+> 2.25.1
+>
+return -EINVAL when roff is out-of-bounds
 
-It's not just Randy.  There are a bunch of fixes which are waiting to be
-merged...
+#syz test https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+master
 
-I sometimes look at syzkaller patches but it's like with ntfs3 why even
-bother because the maintainer is gone?  It's not going in anyway.
-
-regards,
-dan carpenter
-
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 51363d4e8636..10723231e482 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -365,6 +365,13 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+ 	roff = le16_to_cpu(attr->nres.run_off);
+ 
+ 	t64 = le64_to_cpu(attr->nres.svcn);
++
++	/* offset to packed runs is out-of-bounds */
++	if (roff > asize) {
++		err = -EINVAL;
++		goto out;
++	}
++
+ 	err = run_unpack_ex(run, sbi, ino, t64, le64_to_cpu(attr->nres.evcn),
+ 			    t64, Add2Ptr(attr, roff), asize - roff);
+ 	if (err < 0)
