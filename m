@@ -1,23 +1,23 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC4415B0
-	for <ntfs3@lists.linux.dev>; Fri, 23 Sep 2022 00:39:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5AE15B0
+	for <ntfs3@lists.linux.dev>; Fri, 23 Sep 2022 01:15:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=a+pKMA5Wmt6suYkpR/CdbHZ8VbOsd6L4w35GQNhatsc=; b=z6jeQf6N+NJ+psvRThEfZWD+Cp
-	4sYtusGWVcZ78K75gv/rItChvNs18J0nB7j3Y4ZBMt+9MPcmDLDmKwgmFU3mahL/6DlH5fsQ2Wlcu
-	XZ2yhZb/qh+LDNurAtKB7ZahqRms7I68A2bcYpvhkuIfoy7oO5RhNiCFfx8IEtPnPtwCWRD3ixocw
-	5dOBt9cOJyn6cyMiNI4loqZZd1LvfXLFF60fTavOkH6fozcUWnQ2lHjOygat63xYWHfIlxe811E46
-	q22iad/smddIVH8nQzmWL2zhCwyopEo4P0WOS1w4BzM8SN3gWb3HgoFBrXLtfYbcFBjvWWhFSIfkf
-	aywsadlg==;
+	bh=rsTGS41jSRpa3ny7/TEXpba94yI95UsUdciPuDQ763I=; b=RIGqpEPBKNh+D/oBqszjqJgKNh
+	uWz1lSnZzfgwj1bKzGe8vjLIpWCt9Pwq5TAmhrnia71uNx9PXHm9kzK9wG6PXZcjmiNbvkSihOIj9
+	BwAH7pr9BUEI50ZqHSoAxsgQ7d5B/mUkQe4OlRJvw6nYFKxVHkaebAuHOQFdUTDZQhM3LH+/t8hAl
+	N0iWwNXqwTM8XsnHJKy/p3jzAsyCU/geQbsqi5vjEl8LKHB8Uzt4XY2gWTOGfTj0NggqFzzbbtXzZ
+	nW8SzS4kpqndLEWhhEhN5BvtCfzaBViq3SaHFnTZsxMdAyk10TId+tVeDqO6ypqcj7XE7Lwe337ct
+	OeoODnTw==;
 Received: from [2601:1c2:d80:3110::a2e7]
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obWiV-000nzm-Mr; Fri, 23 Sep 2022 00:38:55 +0000
-Message-ID: <e0173c17-3837-a619-4bcc-7a0ba4843cc4@infradead.org>
-Date: Thu, 22 Sep 2022 17:38:53 -0700
+	id 1obXHD-000wCR-2w; Fri, 23 Sep 2022 01:14:47 +0000
+Message-ID: <d61b11b9-620e-698a-b826-22b2604a9234@infradead.org>
+Date: Thu, 22 Sep 2022 18:14:45 -0700
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -28,7 +28,9 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
 Subject: Re: [PATCH] fs/ntfs3: fix negative shift size in
  true_sectors_per_clst()
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+Content-Language: en-US
+To: Joe Perches <joe@perches.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
  Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Namjae Jeon <linkinjeon@kernel.org>, Shigeru Yoshida <syoshida@redhat.com>
@@ -37,47 +39,30 @@ Cc: syzbot <syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com>,
  LKML <linux-kernel@vger.kernel.org>
 References: <000000000000f8b5ef05dd25b963@google.com>
  <4b37f037-3b10-b4e4-0644-73441c8fa0af@I-love.SAKURA.ne.jp>
-Content-Language: en-US
+ <e0173c17-3837-a619-4bcc-7a0ba4843cc4@infradead.org>
+ <34b60d0ed48e4384e82a29020702ee2471092fb1.camel@perches.com>
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <4b37f037-3b10-b4e4-0644-73441c8fa0af@I-love.SAKURA.ne.jp>
+In-Reply-To: <34b60d0ed48e4384e82a29020702ee2471092fb1.camel@perches.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 9/20/22 08:59, Tetsuo Handa wrote:
-> syzbot is reporting shift-out-of-bounds in true_sectors_per_clst() [1], for
-> commit a3b774342fa752a5 ("fs/ntfs3: validate BOOT sectors_per_clusters")
-> did not address that (0 - boot->sectors_per_clusters) < 0 because "u8" was
-> chosen for type of boot->sectors_per_clusters because 0x80 needs to be
-> positive in order to support 64K clusters. Use "s8" cast in order to make
-> sure that (0 - (s8) boot->sectors_per_clusters) > 0.
+
+On 9/22/22 17:47, Joe Perches wrote:
+> On Thu, 2022-09-22 at 17:38 -0700, Randy Dunlap wrote:
+>> it appears that the NTFS3 maintainer is MIA again. :(
 > 
-> Link: https://syzkaller.appspot.com/bug?extid=1631f09646bc214d2e76 [1]
-> Reported-by: syzbot <syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com>
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> Tested-by: syzbot <syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com>
-> Fixes: a3b774342fa752a5 ("fs/ntfs3: validate BOOT sectors_per_clusters")
+> (I've no affiliation with the NTFS3 maintainer or paragon)
 > 
-> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-> index 47012c9bf505..c7ffd21fb255 100644
-> --- a/fs/ntfs3/super.c
-> +++ b/fs/ntfs3/super.c
-> @@ -672,7 +672,7 @@ static u32 true_sectors_per_clst(const struct NTFS_BOOT *boot)
->  	if (boot->sectors_per_clusters <= 0x80)
->  		return boot->sectors_per_clusters;
->  	if (boot->sectors_per_clusters >= 0xf4) /* limit shift to 2MB max */
-> -		return 1U << (0 - boot->sectors_per_clusters);
-> +		return 1U << (0 - (s8) boot->sectors_per_clusters);
->  	return -EINVAL;
->  }
->  
+> Perhaps the expectation of prioritized immediate turnaround is unrealistic.
+> 
+> It's free.  Be patient.
+> 
 
-I slightly prefer the earlier patch:
+Yes Joe, I get that.
 
-https://lore.kernel.org/all/20220823144625.1627736-1-syoshida@redhat.com/
+https://lore.kernel.org/all/da20d32b-5185-f40b-48b8-2986922d8b25@stargateuniverse.net/
 
-but it appears that the NTFS3 maintainer is MIA again. :(
 
 -- 
 ~Randy
