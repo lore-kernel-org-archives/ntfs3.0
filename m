@@ -1,38 +1,38 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C4E17D0
-	for <ntfs3@lists.linux.dev>; Sat, 24 Sep 2022 11:58:32 +0000 (UTC)
-Received: by mail-vk1-f173.google.com with SMTP id s12so1341028vkn.11
-        for <ntfs3@lists.linux.dev>; Sat, 24 Sep 2022 04:58:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1319617D0
+	for <ntfs3@lists.linux.dev>; Sat, 24 Sep 2022 12:03:17 +0000 (UTC)
+Received: by mail-vs1-f44.google.com with SMTP id h1so2322364vsr.11
+        for <ntfs3@lists.linux.dev>; Sat, 24 Sep 2022 05:03:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=Ulv52h01BeD+LbKgL2nyw8oj8QW0rWAKMvPugrpWKDY=;
-        b=XkZi9+/FLg58USiQ1yiS/W1E1fh3yJs3M11SkCDaZ2Za9huah3cl4yDlawj/frnQ8D
-         dqa7ISCyQFi+n+HieOUtfB07o27oqJaY1Q4TnXE4/dFUPXiGR55JtWC6dRnKec/peFET
-         UbCFZQm2shpV8d3OAhbfhTCnP6pxswaYXK31lD0qDfwbMo6J+kKnT6ow0CpyrJu5Tquh
-         L3iXNSAeLgRXF97p5jbSLuXFc/ee3lND+ryCr6VPJOKKm07/MUHvpXQK7G0NlL6tVc/T
-         NOBu1q1f3NZyTmEyXCaiX5MlOxmTqEyFswAcEa+sKbHoz8hlCPJEWO9Rveb9EhWxHXIz
-         XH4g==
+        bh=7h3ia+vTGNs24al3PYoERBRlCHGoJd5FZ5bvI2kc6oc=;
+        b=I+R+WNpo3kJ8BLJ3dquygRsm1UyjrNBaW51UzxN9clRO5nM5BXqlp/i9N+kBcz5gZ3
+         Tx2DI3TQLQMO/1rThIA35GQJAtJnYGhdf2iOwqVg+yXs7ylLZ5356MHIMwebJvxhzGz2
+         VKxIMCGCTb/sjPU1sLYofI3i8kK8re1qAlGZpTlTzvWQY2R50YCyHd+QrwBOgvRz2XVx
+         9ITMbMacXmEh2FT6rx6vgYeK0s40zN914KLyb4Sho8TzzvH1b18BtI+TQsA+ZemaZdXk
+         KIez+stMQ0alsNBn/gLl98puj7sj5hLivIYPoKFNWPq+SaTf9bFpnLT8/c0Gxq5Q7KN9
+         MTFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=Ulv52h01BeD+LbKgL2nyw8oj8QW0rWAKMvPugrpWKDY=;
-        b=vkt9ORjLGHVvlM00kdpojhQXK1fD0xw0QHglkeFYoIT2OCRBC0kVRP1X0+uqjvApjC
-         wUKgAUowsDtIRxMv2N3b0P6by+PFWE/19OHyxxhQrdlCqAATkkZp2Qkw0l9nY4/+ykd4
-         LPMxHCDEsEsHIZ6IZ9PobRvOiCnKQiXmJtugFBaJj6ORh92qr37X4QE6ddYt9CEiUl8e
-         jkQj4Lbh9ZhcrbNDAopL/cscvQgc7exJTBsCbOYj6LJz2GtYLCiHjsoTYKtBL4Xwntyl
-         JgFAaoVpOgOp2a4cxPKE+kv01/DowdMwC+hkgppc+upLL1/ciEgn4BhSSv2Ip9MMeTsO
-         PQHg==
-X-Gm-Message-State: ACrzQf3xE2LiX55TEDKAW4HNuU0tZBujCZKCbab/md93s5QAD1fTYaSa
-	0Jcet5lJgitrRRPJDedkr0w5mAZNPtCoHHf/GGskYA==
-X-Google-Smtp-Source: AMsMyM7Hn/CLa0VUKl79qdj67WGG17aQ0MlY6VrADLa0oC+Gmo5y38rsJw50HPrvBn8rtQD9xZCNdSsqQ8bBf1oMIiI=
-X-Received: by 2002:a05:6122:b51:b0:3a1:f70e:d48 with SMTP id
- 17-20020a0561220b5100b003a1f70e0d48mr5270846vko.29.1664020711684; Sat, 24 Sep
- 2022 04:58:31 -0700 (PDT)
+        bh=7h3ia+vTGNs24al3PYoERBRlCHGoJd5FZ5bvI2kc6oc=;
+        b=Mt4zUV+Po9TRlmo5udhMi2ZrkSU7W0K9MRgBcRCmGpNlxOwCHATXvWf4bZR35HUjj3
+         ukmCtyLJ/cyDlfAmyFW723PsE0U91Hkow3MDo6LnWEj5gCSs766ItHwlwE93E3gvNSu+
+         KZYdKUqTJQrFD7awHRr4ex3rGxm49RU+ZxX/+1cDxq9WhiM6wLkuOyrd8sXHTyS7YdVm
+         fOaaHKzEd0kPkqFKOSHS77diVrvTYvnUeTa1+nrrAzwQvr1cO4yCIp1mH5gTCCnDO/g9
+         cDn2OlsRH+ygmdJPSYZWaenXzj8jwm9HnOq285j8WoSOTekbQjnSkBy6kkmKO//MQnn9
+         7JuQ==
+X-Gm-Message-State: ACrzQf2ixyD90cTTAtsCeqprx5f3o4T1gjhNv7n6qvF+bShtMl2LlvbD
+	68Bw4zTVmXvNGb9SVYykfEeSAI7ajofSfZ/XsL+r3g==
+X-Google-Smtp-Source: AMsMyM6GrzCLMZtBHLSdQTz+cHrM0/jgq25M9vk/gQym7rXDY3T/1JRV7KAfmEdIak2yIHXzbU0a8m7sD5Rdy4IVldQ=
+X-Received: by 2002:a67:a202:0:b0:39b:181d:bd20 with SMTP id
+ l2-20020a67a202000000b0039b181dbd20mr5000194vse.51.1664020996807; Sat, 24 Sep
+ 2022 05:03:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -41,11 +41,12 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <000000000000f8b5ef05dd25b963@google.com> <4b37f037-3b10-b4e4-0644-73441c8fa0af@I-love.SAKURA.ne.jp>
  <e0173c17-3837-a619-4bcc-7a0ba4843cc4@infradead.org> <423b1fa6-10fa-3ff9-52bc-1262643c62d9@I-love.SAKURA.ne.jp>
- <CANp29Y7fSsjqKbFiMZDG_w-ERigQOk_6Zw3L9rw5erpP3rRU0g@mail.gmail.com> <ea7c00c1-07d7-c23e-80f0-0693016e9731@I-love.SAKURA.ne.jp>
-In-Reply-To: <ea7c00c1-07d7-c23e-80f0-0693016e9731@I-love.SAKURA.ne.jp>
+ <CANp29Y7fSsjqKbFiMZDG_w-ERigQOk_6Zw3L9rw5erpP3rRU0g@mail.gmail.com>
+ <ea7c00c1-07d7-c23e-80f0-0693016e9731@I-love.SAKURA.ne.jp> <CANp29Y4xHHKXAYFiORACqLHDCmF8XkqQSMy5QfjFSag6UFVojQ@mail.gmail.com>
+In-Reply-To: <CANp29Y4xHHKXAYFiORACqLHDCmF8XkqQSMy5QfjFSag6UFVojQ@mail.gmail.com>
 From: Aleksandr Nogikh <nogikh@google.com>
-Date: Sat, 24 Sep 2022 13:58:20 +0200
-Message-ID: <CANp29Y4xHHKXAYFiORACqLHDCmF8XkqQSMy5QfjFSag6UFVojQ@mail.gmail.com>
+Date: Sat, 24 Sep 2022 14:03:05 +0200
+Message-ID: <CANp29Y7cBbk8AbLq1z7w_PjQ-2fzG9FNyWyH+aH4oG9hfEm6nw@mail.gmail.com>
 Subject: Re: [PATCH] fs/ntfs3: fix negative shift size in true_sectors_per_clst()
 To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 Cc: Randy Dunlap <rdunlap@infradead.org>, 
@@ -57,77 +58,20 @@ Cc: Randy Dunlap <rdunlap@infradead.org>,
 	LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 23, 2022 at 4:35 PM Tetsuo Handa
-<penguin-kernel@i-love.sakura.ne.jp> wrote:
+> > By the way, a possible improvement on "Patch testing requests:" table.
+> > Although the "Patch" link showing diff output after applying proposed patch is OK,
+> > I'd like to also see a link to original "#syz test:" mail, for the intent of diff
+> > (which would be in patch description part if it was a formal patch) is dropped from
+> > diff output in the "Patch" link.
 >
-> On 2022/09/23 20:58, Aleksandr Nogikh wrote:
-> > We do have plans to start inspecting LKML messages for the patches
-> > that mention syzbot-reported bugs. It will be possible then to display
-> > them all on the bug page and somehow mark bugs with a PATCH sent on
-> > the list.
->
-> I interpret it as an attempt to automatically show "Patch proposed" state.
-> But since not all patches have Reported-by: tag, and/or a proposed patch
-> with Reported-by: tag might be withdrawn via review, that state should be
-> also manually changeable.
+> Interesting!
+> I created an issue to keep track of this:
+> https://github.com/google/syzkaller/issues/3392
+> The presence of the link will, though, depend on whether the user did
+> Cc some public mailing lists while making the patch testing request.
 
-Yes, it is meant to be manually changeable.
+Upd from Dmitry:
+https://github.com/google/syzkaller/issues/3392#issuecomment-1256952263
 
-To be honest, I'm a little bit worried about making the syzbot
-communication protocol more and more complex - e.g. how will other
-developers figure out that such a feature exists at all.. Though,
-there are anyway no other options than to extend the protocol.
-
->
-> > And then syzbot should just display all such received comments on the
-> > bug's web page, right?
->
-> Whether "all comments" or "last comment" needs some decision. It might be a few words
-> indicating culprit subsystem (probably "last" should overwrite), it might be memo
-> describing how far debugging went (probably "all" is helpful), it might be some
-> URL where discussions/patches are (probably "all" is helpful), it might be trying to
-> show or hide "Patch proposed" state (probably "last" should overwrite).
->
-
-It seems that even displaying all patch sending attempts (regardless
-of their status) should be already very helpful in preventing the
-situations like you described earlier. E.g. it's very likely that
-syzbot won't be promptly notified about withdrawn patches, so it's
-anyway necessary to look at all previous attempts.
-
->
->
-> By the way, a possible improvement on "Patch testing requests:" table.
-> Although the "Patch" link showing diff output after applying proposed patch is OK,
-> I'd like to also see a link to original "#syz test:" mail, for the intent of diff
-> (which would be in patch description part if it was a formal patch) is dropped from
-> diff output in the "Patch" link.
-
-Interesting!
-I created an issue to keep track of this:
-https://github.com/google/syzkaller/issues/3392
-The presence of the link will, though, depend on whether the user did
-Cc some public mailing lists while making the patch testing request.
-
->
-> For example, https://syzkaller.appspot.com/bug?extid=9ca7a12fd736d93e0232 was forgotten
-> for 1000 days after 7 patch testing requests. I can't easily find the intent of each diff
-> (e.g. just debug printk() or proper fix). It seems the last one was about to formal submit,
-> but I can't find why it is not yet applied.
-
-Btw there was recently deployed an old repro retesting feature that
-retests old reproducers and obsoletes bugs if all of them are no
-longer working. It has already closed > 150 bugs this way (more to
-come) and in quite a lot of such closed bugs I see a patch testing
-request from some developer that was done several months or even
-several years ago. And syzbot was not notified about these fixes.
-
-So yes, the presence of a patch testing request can be a strong
-indicator that the bug is already fixed and syzbot just doesn't know
-about that.
-
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/ea7c00c1-07d7-c23e-80f0-0693016e9731%40I-love.SAKURA.ne.jp.
+We actually do provide these links, but they're rarely present for the
+reason I mentioned above.
