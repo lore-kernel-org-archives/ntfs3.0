@@ -1,276 +1,161 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEF93C2B
-	for <ntfs3@lists.linux.dev>; Sun, 25 Sep 2022 19:13:36 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id e14-20020a6b500e000000b006a13488a320so2671990iob.12
-        for <ntfs3@lists.linux.dev>; Sun, 25 Sep 2022 12:13:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=P4/sNA6nYhk5IsZ3ISC86e5wYArV5qMDjQZ7sDlwQ7w=;
-        b=CYxZVDrQq+dZgseK5+E18IKjxAclhZGStk/Bo6nCI+wxixvQMn01eiEnFFArdq4SlM
-         K5F/DNdL3bpWOl9qv8xXUgMeCH0BItjpSwWkrwCcamLqySzgDT5Hx9IOM6LDBorc9R3M
-         W+ag+2XaSTgHTLBlFqWEUp/Mektzt0/18R3D9nReJm4dgH6CwXsz9MhnD6BT5pG3XUJR
-         Ji1nEcodDhYZNY5oxhccSgKinmw7nx3zto2Pz6NriYpcf7W/g4AlN6NUGaIGNpA4yD9j
-         65qg/yFhgfIZTrqLdHu3gPQIVoWhQsQZ7InWzxlolbzAw1bAd8guoL23h8pV2VYg8zX/
-         p94g==
-X-Gm-Message-State: ACrzQf1IttVNNycL0PB9xci/1lbPeJZjRcXmYqrf5MuMvpa4euuNsFYJ
-	wgM7wxJqtIe8HK+0OHJm9qIgphOHxexzIqo35dktUlE/koVe
-X-Google-Smtp-Source: AMsMyM5th4cc9AG9G68v+YbwJTIE3NkAA5BcCiChvZ4GBqld2AUF+wIRgEym6niLoElMu4JNLjkYWn0mXHBRczexkpgIl/nGVWst
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FAA7F
+	for <ntfs3@lists.linux.dev>; Mon, 26 Sep 2022 02:09:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=PMYkB962xIaqYzMSlUu0SD2GVm2eFHye9cJDcjs0Bvc=; b=tJoRxFAlIM2cricHQfYvPsUlw/
+	51GjAzZ2cQQdidiK2sxhDakq6VNg6kjvXecHrf2Ch7v7cprHk5zxn3XtXd/6sQV1fkgGm8rjlJlth
+	VsQb8yzGZMwmY7dxnYBniWngQJtdItw9PK3Q8gl8tZL8LtW+lhmFlMZ77IV7c9i37TSpTNTlB9EtL
+	Rp7AfbFI3WnBxtHADRSdOt/7jGDx8U1u+HkJ6GSibbrrTQlbz+zie3xJLqA720mui5pAAUSjXqIC5
+	r3+l5d3SNKs4wff3ktyrq54vMwoN4U1X7ZxM+AS9vwdtYozzxpsZlhRWUUXwHwbifq7s+TkSmsii+
+	ZyGQUp+w==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1ocdYm-003nTO-2M;
+	Mon, 26 Sep 2022 02:09:28 +0000
+Date: Mon, 26 Sep 2022 03:09:28 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: syzbot <syzbot+7475732e7177a19317a1@syzkaller.appspotmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com, ntfs3@lists.linux.dev
+Subject: Re: [syzbot] WARNING: Nested lock was not taken
+Message-ID: <YzEJ2D8kga+ZRDZx@ZenIV>
+References: <00000000000046d33405e98a9daa@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:4907:b0:35a:88c3:594d with SMTP id
- cx7-20020a056638490700b0035a88c3594dmr10028648jab.194.1664133215806; Sun, 25
- Sep 2022 12:13:35 -0700 (PDT)
-Date: Sun, 25 Sep 2022 12:13:35 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002fea3f05e98535e9@google.com>
-Subject: [syzbot] KASAN: invalid-free in ni_clear
-From: syzbot <syzbot+8087f82b01f173e64ea9@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00000000000046d33405e98a9daa@google.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Hello,
+On Sun, Sep 25, 2022 at 06:40:36PM -0700, syzbot wrote:
 
-syzbot found the following issue on:
+YANTFSBUG; please Cc ntfs maintainers to that.  Folks, seriously -
+you are fuzzing a specific filesystem, you bloody well ought to Cc
+its maintainers.  Especially since your subject lines are completely
+useless for triage - "[syzbot] WARNING: Nested lock was not taken"
+says nothing whatsoever about the report in question.
 
-HEAD commit:    06f7db949993 Merge tag 'iommu-fixes-v6.0-rc6' of git://git..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=16a70260880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=122d7bd4fc8e0ecb
-dashboard link: https://syzkaller.appspot.com/bug?extid=8087f82b01f173e64ea9
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: i386
+Ideally - fix the subject lines as well.  You want to convince
+recepients to open the mail rather than do the default "delete
+unopened", after all...
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+8087f82b01f173e64ea9@syzkaller.appspotmail.com
-
-loop3: detected capacity change from 0 to 8189
-ntfs3: loop3: Different NTFS' sector size (1024) and media sector size (512)
-==================================================================
-BUG: KASAN: invalid-free in slab_free mm/slub.c:3534 [inline]
-BUG: KASAN: invalid-free in kfree+0xe2/0x580 mm/slub.c:4562
-
-CPU: 0 PID: 16454 Comm: syz-executor.3 Not tainted 6.0.0-rc6-syzkaller-00030-g06f7db949993 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- print_address_description mm/kasan/report.c:317 [inline]
- print_report.cold+0x2ba/0x719 mm/kasan/report.c:433
- kasan_report_invalid_free+0x81/0x190 mm/kasan/report.c:462
- ____kasan_slab_free+0x1ab/0x1c0 mm/kasan/common.c:347
- kasan_slab_free include/linux/kasan.h:200 [inline]
- slab_free_hook mm/slub.c:1754 [inline]
- slab_free_freelist_hook+0x8b/0x1c0 mm/slub.c:1780
- slab_free mm/slub.c:3534 [inline]
- kfree+0xe2/0x580 mm/slub.c:4562
- kvfree+0x42/0x50 mm/util.c:655
- run_close fs/ntfs3/ntfs_fs.h:930 [inline]
- ni_clear+0x2f7/0x690 fs/ntfs3/frecord.c:123
- evict+0x2ed/0x6b0 fs/inode.c:665
- iput_final fs/inode.c:1748 [inline]
- iput.part.0+0x55d/0x810 fs/inode.c:1774
- iput+0x58/0x70 fs/inode.c:1764
- ntfs_fill_super+0x2e89/0x37f0 fs/ntfs3/super.c:1190
- get_tree_bdev+0x440/0x760 fs/super.c:1323
- vfs_get_tree+0x89/0x2f0 fs/super.c:1530
- do_new_mount fs/namespace.c:3040 [inline]
- path_mount+0x1326/0x1e20 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __ia32_sys_mount+0x27e/0x300 fs/namespace.c:3568
- do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
- __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
- do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
- entry_SYSENTER_compat_after_hwframe+0x70/0x82
-RIP: 0023:0xf7f82549
-Code: 03 74 c0 01 10 05 03 74 b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
-RSP: 002b:00000000f7f7d410 EFLAGS: 00000296 ORIG_RAX: 0000000000000015
-RAX: ffffffffffffffda RBX: 00000000f7f7d480 RCX: 0000000020000100
-RDX: 0000000020000000 RSI: 0000000000000000 RDI: 00000000f7f7d4c0
-RBP: 00000000f7f7d4c0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000292 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-
-Allocated by task 16454:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
- kasan_set_track mm/kasan/common.c:45 [inline]
- set_alloc_info mm/kasan/common.c:437 [inline]
- ____kasan_kmalloc mm/kasan/common.c:516 [inline]
- ____kasan_kmalloc mm/kasan/common.c:475 [inline]
- __kasan_kmalloc+0xa9/0xd0 mm/kasan/common.c:525
- kmalloc_node include/linux/slab.h:623 [inline]
- kvmalloc_node+0x3e/0x190 mm/util.c:613
- kvmalloc include/linux/slab.h:750 [inline]
- run_add_entry+0x1a4/0xb30 fs/ntfs3/run.c:389
- run_unpack+0x78c/0x970 fs/ntfs3/run.c:1018
- run_unpack_ex+0xb0/0x7c0 fs/ntfs3/run.c:1057
- ntfs_read_mft fs/ntfs3/inode.c:368 [inline]
- ntfs_iget5+0xc20/0x3280 fs/ntfs3/inode.c:501
- ntfs_fill_super+0x258b/0x37f0 fs/ntfs3/super.c:1095
- get_tree_bdev+0x440/0x760 fs/super.c:1323
- vfs_get_tree+0x89/0x2f0 fs/super.c:1530
- do_new_mount fs/namespace.c:3040 [inline]
- path_mount+0x1326/0x1e20 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __ia32_sys_mount+0x27e/0x300 fs/namespace.c:3568
- do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
- __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
- do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
- entry_SYSENTER_compat_after_hwframe+0x70/0x82
-
-Last potentially related work creation:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
- __kasan_record_aux_stack+0xbe/0xd0 mm/kasan/generic.c:348
- call_rcu+0x99/0x790 kernel/rcu/tree.c:2793
- mpls_dev_notify+0x617/0x9b0 net/mpls/af_mpls.c:1655
- notifier_call_chain+0xb5/0x200 kernel/notifier.c:87
- call_netdevice_notifiers_info+0xb5/0x130 net/core/dev.c:1945
- call_netdevice_notifiers_extack net/core/dev.c:1983 [inline]
- call_netdevice_notifiers net/core/dev.c:1997 [inline]
- unregister_netdevice_many+0xa62/0x1980 net/core/dev.c:10862
- unregister_netdevice_queue+0x2dd/0x3c0 net/core/dev.c:10793
- unregister_netdevice include/linux/netdevice.h:3032 [inline]
- nsim_destroy+0x3f/0x190 drivers/net/netdevsim/netdev.c:382
- __nsim_dev_port_del+0x191/0x250 drivers/net/netdevsim/dev.c:1416
- nsim_dev_port_del_all drivers/net/netdevsim/dev.c:1428 [inline]
- nsim_dev_reload_destroy+0x171/0x510 drivers/net/netdevsim/dev.c:1645
- nsim_drv_remove+0x56/0x190 drivers/net/netdevsim/dev.c:1661
- device_remove+0xc8/0x170 drivers/base/dd.c:548
- __device_release_driver drivers/base/dd.c:1249 [inline]
- device_release_driver_internal+0x4a1/0x700 drivers/base/dd.c:1275
- bus_remove_device+0x2e3/0x590 drivers/base/bus.c:529
- device_del+0x4f3/0xc80 drivers/base/core.c:3704
- device_unregister+0x1a/0xc0 drivers/base/core.c:3736
- nsim_bus_dev_del drivers/net/netdevsim/bus.c:303 [inline]
- del_device_store+0x317/0x470 drivers/net/netdevsim/bus.c:215
- bus_attr_store+0x72/0xa0 drivers/base/bus.c:122
- sysfs_kf_write+0x110/0x160 fs/sysfs/file.c:136
- kernfs_fop_write_iter+0x3f8/0x610 fs/kernfs/file.c:354
- call_write_iter include/linux/fs.h:2187 [inline]
- new_sync_write fs/read_write.c:491 [inline]
- vfs_write+0x9e9/0xdd0 fs/read_write.c:578
- ksys_write+0x127/0x250 fs/read_write.c:631
- do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
- __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
- do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
- entry_SYSENTER_compat_after_hwframe+0x70/0x82
-
-The buggy address belongs to the object at ffff88801bd56680
- which belongs to the cache kmalloc-64 of size 64
-The buggy address is located 63 bytes to the right of
- 64-byte region [ffff88801bd56680, ffff88801bd566c0)
-
-The buggy address belongs to the physical page:
-page:ffffea00006f5580 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1bd56
-flags: 0xfff00000000200(slab|node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000000200 ffffea0000768280 dead000000000004 ffff888011842640
-raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0x12cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY), pid 3713, tgid 3713 (syz-executor.2), ts 162757960446, free_ts 59215741058
- prep_new_page mm/page_alloc.c:2532 [inline]
- get_page_from_freelist+0x109b/0x2ce0 mm/page_alloc.c:4283
- __alloc_pages+0x1c7/0x510 mm/page_alloc.c:5515
- alloc_pages+0x1a6/0x270 mm/mempolicy.c:2270
- alloc_slab_page mm/slub.c:1824 [inline]
- allocate_slab+0x27e/0x3d0 mm/slub.c:1969
- new_slab mm/slub.c:2029 [inline]
- ___slab_alloc+0x7f1/0xe10 mm/slub.c:3031
- __slab_alloc.constprop.0+0x4d/0xa0 mm/slub.c:3118
- slab_alloc_node mm/slub.c:3209 [inline]
- slab_alloc mm/slub.c:3251 [inline]
- kmem_cache_alloc_trace+0x323/0x3e0 mm/slub.c:3282
- kmalloc include/linux/slab.h:600 [inline]
- kzalloc include/linux/slab.h:733 [inline]
- mpls_add_dev net/mpls/af_mpls.c:1455 [inline]
- mpls_dev_notify+0x253/0x9b0 net/mpls/af_mpls.c:1612
- notifier_call_chain+0xb5/0x200 kernel/notifier.c:87
- call_netdevice_notifiers_info+0xb5/0x130 net/core/dev.c:1945
- call_netdevice_notifiers_extack net/core/dev.c:1983 [inline]
- call_netdevice_notifiers net/core/dev.c:1997 [inline]
- register_netdevice+0x1127/0x1680 net/core/dev.c:10103
- veth_newlink+0x33f/0x9a0 drivers/net/veth.c:1764
- rtnl_newlink_create net/core/rtnetlink.c:3363 [inline]
- __rtnl_newlink+0x1087/0x17e0 net/core/rtnetlink.c:3580
- rtnl_newlink+0x64/0xa0 net/core/rtnetlink.c:3593
- rtnetlink_rcv_msg+0x43a/0xca0 net/core/rtnetlink.c:6090
- netlink_rcv_skb+0x153/0x420 net/netlink/af_netlink.c:2501
-page last free stack trace:
- reset_page_owner include/linux/page_owner.h:24 [inline]
- free_pages_prepare mm/page_alloc.c:1449 [inline]
- free_pcp_prepare+0x5e4/0xd20 mm/page_alloc.c:1499
- free_unref_page_prepare mm/page_alloc.c:3380 [inline]
- free_unref_page+0x19/0x4d0 mm/page_alloc.c:3476
- __folio_put_small mm/swap.c:105 [inline]
- __folio_put+0xc1/0x130 mm/swap.c:128
- folio_put include/linux/mm.h:1125 [inline]
- put_page include/linux/mm.h:1177 [inline]
- free_page_and_swap_cache+0x253/0x2c0 mm/swap_state.c:296
- __tlb_remove_table arch/x86/include/asm/tlb.h:34 [inline]
- __tlb_remove_table_free mm/mmu_gather.c:114 [inline]
- tlb_remove_table_rcu+0x85/0xe0 mm/mmu_gather.c:169
- rcu_do_batch kernel/rcu/tree.c:2245 [inline]
- rcu_core+0x7b5/0x1890 kernel/rcu/tree.c:2505
- __do_softirq+0x1d3/0x9c6 kernel/softirq.c:571
-
-Memory state around the buggy address:
- ffff88801bd56580: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
- ffff88801bd56600: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
->ffff88801bd56680: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
-                                                                ^
- ffff88801bd56700: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
- ffff88801bd56780: 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc fc
-==================================================================
-----------------
-Code disassembly (best guess):
-   0:	03 74 c0 01          	add    0x1(%rax,%rax,8),%esi
-   4:	10 05 03 74 b8 01    	adc    %al,0x1b87403(%rip)        # 0x1b8740d
-   a:	10 06                	adc    %al,(%rsi)
-   c:	03 74 b4 01          	add    0x1(%rsp,%rsi,4),%esi
-  10:	10 07                	adc    %al,(%rdi)
-  12:	03 74 b0 01          	add    0x1(%rax,%rsi,4),%esi
-  16:	10 08                	adc    %cl,(%rax)
-  18:	03 74 d8 01          	add    0x1(%rax,%rbx,8),%esi
-  1c:	00 00                	add    %al,(%rax)
-  1e:	00 00                	add    %al,(%rax)
-  20:	00 51 52             	add    %dl,0x52(%rcx)
-  23:	55                   	push   %rbp
-  24:	89 e5                	mov    %esp,%ebp
-  26:	0f 34                	sysenter
-  28:	cd 80                	int    $0x80
-* 2a:	5d                   	pop    %rbp <-- trapping instruction
-  2b:	5a                   	pop    %rdx
-  2c:	59                   	pop    %rcx
-  2d:	c3                   	retq
-  2e:	90                   	nop
-  2f:	90                   	nop
-  30:	90                   	nop
-  31:	90                   	nop
-  32:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
-  39:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    c194837ebb57 Merge branch 'for-next/core', remote-tracking..
+> git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+> console output: https://syzkaller.appspot.com/x/log.txt?x=16bb8574880000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=15a770deac0c935a
+> dashboard link: https://syzkaller.appspot.com/bug?extid=7475732e7177a19317a1
+> compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+> userspace arch: arm64
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16a45edf080000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12e66470880000
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/8d8ae425e7fa/disk-c194837e.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/c540d501ebe7/vmlinux-c194837e.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+7475732e7177a19317a1@syzkaller.appspotmail.com
+> 
+> loop4: detected capacity change from 0 to 264192
+> ==================================
+> WARNING: Nested lock was not taken
+> 6.0.0-rc6-syzkaller-17742-gc194837ebb57 #0 Not tainted
+> ----------------------------------
+> syz-executor253/3315 is trying to lock:
+> ffff0000c495a9d8 (&s->s_inode_list_lock){+.+.}-{2:2}, at: spin_lock include/linux/spinlock.h:349 [inline]
+> ffff0000c495a9d8 (&s->s_inode_list_lock){+.+.}-{2:2}, at: inode_sb_list_del fs/inode.c:503 [inline]
+> ffff0000c495a9d8 (&s->s_inode_list_lock){+.+.}-{2:2}, at: evict+0x90/0x334 fs/inode.c:654
+> 
+> but this task is not holding:
+> Unable to handle kernel paging request at virtual address 0000000100000017
+> Mem abort info:
+>   ESR = 0x0000000096000005
+>   EC = 0x25: DABT (current EL), IL = 32 bits
+>   SET = 0, FnV = 0
+>   EA = 0, S1PTW = 0
+>   FSC = 0x05: level 1 translation fault
+> Data abort info:
+>   ISV = 0, ISS = 0x00000005
+>   CM = 0, WnR = 0
+> user pgtable: 4k pages, 48-bit VAs, pgdp=000000010a8da000
+> [0000000100000017] pgd=0800000107ed2003, p4d=0800000107ed2003, pud=0000000000000000
+> Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
+> Modules linked in:
+> CPU: 0 PID: 3315 Comm: syz-executor253 Not tainted 6.0.0-rc6-syzkaller-17742-gc194837ebb57 #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
+> pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> pc : print_lock_nested_lock_not_held kernel/locking/lockdep.c:4885 [inline]
+> pc : __lock_acquire+0x7cc/0x30a4 kernel/locking/lockdep.c:5044
+> lr : print_lock_nested_lock_not_held kernel/locking/lockdep.c:4884 [inline]
+> lr : __lock_acquire+0x7c0/0x30a4 kernel/locking/lockdep.c:5044
+> sp : ffff80001289b8b0
+> x29: ffff80001289b990 x28: 0000000000000001 x27: ffff80000d30c000
+> x26: ffff0000c68d24b8 x25: ffff0000c68d24d8 x24: 0000000000000002
+> x23: ffff0000c68d24d0 x22: ffff80000d32a753 x21: ffff80000d32a712
+> x20: 0000000000040067 x19: ffff0000c68d1a80 x18: 0000000000000156
+> x17: 2b7463697665203a x16: 0000000000000002 x15: 0000000000000000
+> x14: 0000000000000000 x13: 205d353133335420 x12: 5b5d303434313530
+> x11: ff808000081c1630 x10: 0000000000000000 x9 : 30785d1575e13b00
+> x8 : 00000000ffffffff x7 : 205b5d3034343135 x6 : ffff800008195d30
+> x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+> x2 : 0000000000000000 x1 : 0000000100000001 x0 : ffff80000cb555a1
+> Call trace:
+>  print_lock_nested_lock_not_held kernel/locking/lockdep.c:4885 [inline]
+>  __lock_acquire+0x7cc/0x30a4 kernel/locking/lockdep.c:5044
+>  lock_acquire+0x100/0x1f8 kernel/locking/lockdep.c:5666
+>  __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+>  _raw_spin_lock+0x54/0x6c kernel/locking/spinlock.c:154
+>  spin_lock include/linux/spinlock.h:349 [inline]
+>  inode_sb_list_del fs/inode.c:503 [inline]
+>  evict+0x90/0x334 fs/inode.c:654
+>  iput_final fs/inode.c:1748 [inline]
+>  iput+0x2c4/0x324 fs/inode.c:1774
+>  ntfs_fill_super+0x1254/0x14a4 fs/ntfs/super.c:188
+>  get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
+>  ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
+>  vfs_get_tree+0x40/0x140 fs/super.c:1530
+>  do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
+>  path_mount+0x358/0x914 fs/namespace.c:3370
+>  do_mount fs/namespace.c:3383 [inline]
+>  __do_sys_mount fs/namespace.c:3591 [inline]
+>  __se_sys_mount fs/namespace.c:3568 [inline]
+>  __arm64_sys_mount+0x2c4/0x3c4 fs/namespace.c:3568
+>  __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+>  invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+>  el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+>  do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
+>  el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
+>  el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
+>  el0t_64_sync+0x18c/0x190
+> Code: 94f84769 f94002e8 d0024dc0 91168400 (f9400d01) 
+> ---[ end trace 0000000000000000 ]---
+> ----------------
+> Code disassembly (best guess):
+>    0:	94f84769 	bl	0x3e11da4
+>    4:	f94002e8 	ldr	x8, [x23]
+>    8:	d0024dc0 	adrp	x0, 0x49ba000
+>    c:	91168400 	add	x0, x0, #0x5a1
+> * 10:	f9400d01 	ldr	x1, [x8, #24] <-- trapping instruction
+> 
+> 
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+> 
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> syzbot can test patches for this issue, for details see:
+> https://goo.gl/tpsmEJ#testing-patches
