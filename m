@@ -1,200 +1,190 @@
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18DD2117
-	for <ntfs3@lists.linux.dev>; Mon, 26 Sep 2022 12:44:39 +0000 (UTC)
-Received: by mail-vs1-f50.google.com with SMTP id u189so6415140vsb.4
-        for <ntfs3@lists.linux.dev>; Mon, 26 Sep 2022 05:44:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=Qhszc+YoCUEZ4Tep8FDXKzzRTWZEsGztKOKRqjZ/8Ug=;
-        b=WoFsjyv4q6Tfm2ocW7Dv5yo54TozO1tQujMcioOnsG0kAvFQKILgAbgo0J9/wSHyLv
-         Wb6k5lH1dl+7kiRDULVvxe7hsFyp7AEEr4neiBE7UgbZhLQzDa6BlFWqEi8GpMeWgeOh
-         blQy+ISAJXOJJhElDZBVInLMpHJihjvKemFgKvm3+8FkGLpG9FPLJIvZ/wgxsZiQPyAX
-         uNkC/ktURkX3orlq9VetPiYHKJ7MirxRJNX4tlycNyiI5XLVFdRjKhMwWJNDzIYB8UyQ
-         wj7VbileHVxqnq38/ERiwZDJd1YwcQt37X1J9NSJxYypheu0+hCCNjWpABxlvMmyq/LD
-         EQHg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E80F7F4
+	for <ntfs3@lists.linux.dev>; Tue, 27 Sep 2022 11:45:57 +0000 (UTC)
+Received: by mail-io1-f71.google.com with SMTP id n23-20020a056602341700b00689fc6dbfd6so5602148ioz.8
+        for <ntfs3@lists.linux.dev>; Tue, 27 Sep 2022 04:45:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=Qhszc+YoCUEZ4Tep8FDXKzzRTWZEsGztKOKRqjZ/8Ug=;
-        b=4G5J0cBEqCsawFLS7MTnedcbZ82tugXwAxqmMnS+J3JtdubuSG4F/CUdM3RZuBkfd0
-         zc/vUDhnbi9DZ0PvfJ1H2n/B7LpyCth08psLnHZTDhszNb0uQ8qsaBz80vONY3uFFx9h
-         yWmbVk0BIltYQ+/0/9cEO7yfdnTenmYCEi2gEcVCEGE80rOPTGCF5yzdOn1bTtQWNoC+
-         iOHTrlEGPoTYR+dAtfEOMLx3RYOh9nngmnMVqv4dj+HoOCE3GhajsViNj1xc4Ey7XkBM
-         KtMxJFlj4mOmsJFsolU5/rJSjt1dw5wdbhbzF2W1NKWwzNI/pFtwDJTEKIyw9ccb6Xjh
-         gtVA==
-X-Gm-Message-State: ACrzQf1S0JXmJ9YEP/FkofRkR/XV6b9+8mWrPrNymr7qObeS80sZe5zR
-	lBrK2IjHFv7iGhEH7dZdo8XZ+OnYKZCtnnyuKTGaRQ==
-X-Google-Smtp-Source: AMsMyM6wLECHvniGCf/uKWif8vMvnnAB59gMJTwGi+Kun69PCV6IyGfySMKxlj8to8RaGpVkRWq9HD+29ct98pLjat8=
-X-Received: by 2002:a05:6102:453:b0:398:c15c:aae6 with SMTP id
- e19-20020a056102045300b00398c15caae6mr9142240vsq.80.1664196278702; Mon, 26
- Sep 2022 05:44:38 -0700 (PDT)
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=vhfRj5cfImAqnaaVb4toEoogu+WJpKJkl9q0t+Jwvo0=;
+        b=HZdu/Rmgpabl9gEhUJbHrTxQn2ZorvEG5Y0dOomzDECaoJBD6Ix7gIrYKcp8El3Squ
+         hIc/x3neUjzgDu4sAy5EqN1GmiCb2am4jeZ+NUIQumVOjlqilRuIDbYPoVvdHd7bM1eC
+         xXeA01wT8ZtZOrVqa38/t/2J67hug6lu0U11BfDbxq9DKdRSBaGZ9cZeO3nggHHUYGGI
+         YL0Pf/oaJrKbBZEzXaWjcb3rNGtabCryOPoLay4lAKIouEEviupc59JCBru8B449XQuI
+         8FmrSi7p4pisQQmMKRhiMZV6pjq0IeKAS3MRf7LlsjJn0tlhwH1JaniDZfvivKt5naEj
+         nBUg==
+X-Gm-Message-State: ACrzQf1mLVj9yPd62RSPrVTzkhVOa4T/4Ek30+zBSnOYrikQrwIjQjxE
+	2h5H2NjOwB0Xf6clUZyHqLVRCGUpW8/Q/2Hkpj/gHoegGOvq
+X-Google-Smtp-Source: AMsMyM7AJXfTxn91qt6n6CvLO1vhK95u+enG8LaC90ANcKcvZO2KpOOtp+iP3sZ0DFkbPTgu1F++w8t1Fptybhy14v6wY6GxbaC7
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <00000000000046d33405e98a9daa@google.com> <YzEJ2D8kga+ZRDZx@ZenIV>
-In-Reply-To: <YzEJ2D8kga+ZRDZx@ZenIV>
-From: Aleksandr Nogikh <nogikh@google.com>
-Date: Mon, 26 Sep 2022 14:44:27 +0200
-Message-ID: <CANp29Y4B5x5aBSfXAqmvF80BEk-_4Bzeuw1fFgMvXKvjD71-Gw@mail.gmail.com>
-Subject: Re: [syzbot] WARNING: Nested lock was not taken
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: syzbot <syzbot+7475732e7177a19317a1@syzkaller.appspotmail.com>, 
-	linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	"'Aleksandr Nogikh' via syzkaller-bugs" <syzkaller-bugs@googlegroups.com>, ntfs3@lists.linux.dev
+X-Received: by 2002:a05:6e02:2189:b0:2f1:92d4:6b22 with SMTP id
+ j9-20020a056e02218900b002f192d46b22mr11305086ila.210.1664279156400; Tue, 27
+ Sep 2022 04:45:56 -0700 (PDT)
+Date: Tue, 27 Sep 2022 04:45:56 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000eca83705e9a72fb9@google.com>
+Subject: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_trim_fs
+From: syzbot <syzbot+b892240eac461e488d51@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hello,
 
-Thank you for the feedback!
+syzbot found the following issue on:
 
-On Mon, Sep 26, 2022 at 4:09 AM Al Viro <viro@zeniv.linux.org.uk> wrote:
->
-> On Sun, Sep 25, 2022 at 06:40:36PM -0700, syzbot wrote:
->
-> YANTFSBUG; please Cc ntfs maintainers to that.  Folks, seriously -
-> you are fuzzing a specific filesystem, you bloody well ought to Cc
-> its maintainers.  Especially since your subject lines are completely
-> useless for triage - "[syzbot] WARNING: Nested lock was not taken"
-> says nothing whatsoever about the report in question.
+HEAD commit:    f76349cf4145 Linux 6.0-rc7
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1603d3ef080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ba0d23aa7e1ffaf5
+dashboard link: https://syzkaller.appspot.com/bug?extid=b892240eac461e488d51
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=133c8540880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11b74870880000
 
-We currently determine the mailing lists / people to Cc depending on
-the report parsing results, in this case the bug was attributed to the
-generic fs code, so it was only fs-devel that was included.
-I filed an issue with a fallback mechanism in case when the reproducer
-is present: https://github.com/google/syzkaller/issues/3393
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b892240eac461e488d51@syzkaller.appspotmail.com
 
->
-> Ideally - fix the subject lines as well.  You want to convince
-> recepients to open the mail rather than do the default "delete
-> unopened", after all...
+loop0: detected capacity change from 0 to 8189
+ntfs3: loop0: Different NTFS' sector size (1024) and media sector size (512)
+ntfs3: loop0: Mark volume as dirty due to NTFS errors
+==================================================================
+BUG: KASAN: slab-out-of-bounds in ntfs_trim_fs+0x710/0x9e0 fs/ntfs3/bitmap.c:1434
+Read of size 2 at addr ffff888017dbf34a by task syz-executor214/3606
 
-I've adjusted the report parsing rules for the "Nested lock was not
-taken" case (https://github.com/google/syzkaller/pull/3394), which
-should come into effect in the coming days.
+CPU: 1 PID: 3606 Comm: syz-executor214 Not tainted 6.0.0-rc7-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x1b1/0x28e lib/dump_stack.c:106
+ print_address_description+0x65/0x4b0 mm/kasan/report.c:317
+ print_report+0x108/0x1f0 mm/kasan/report.c:433
+ kasan_report+0xc3/0xf0 mm/kasan/report.c:495
+ ntfs_trim_fs+0x710/0x9e0 fs/ntfs3/bitmap.c:1434
+ ntfs_ioctl_fitrim fs/ntfs3/file.c:40 [inline]
+ ntfs_ioctl+0x2d4/0x3a0 fs/ntfs3/file.c:57
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:870 [inline]
+ __se_sys_ioctl+0xfb/0x170 fs/ioctl.c:856
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f3be74131b9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffce9b80db8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f3be7458f70 RCX: 00007f3be74131b9
+RDX: 0000000020000000 RSI: 00000000c0185879 RDI: 0000000000000003
+RBP: 00007f3be7458ca8 R08: 0000000000000000 R09: 0000000000000000
+R10: 00007f3be73d29f4 R11: 0000000000000246 R12: 00007f3be7458a80
+R13: 00007f3be7458798 R14: 00030030454c4946 R15: 0000000000000000
+ </TASK>
 
->
-> > Hello,
-> >
-> > syzbot found the following issue on:
-> >
-> > HEAD commit:    c194837ebb57 Merge branch 'for-next/core', remote-tracking..
-> > git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=16bb8574880000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=15a770deac0c935a
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=7475732e7177a19317a1
-> > compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-> > userspace arch: arm64
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16a45edf080000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12e66470880000
-> >
-> > Downloadable assets:
-> > disk image: https://storage.googleapis.com/syzbot-assets/8d8ae425e7fa/disk-c194837e.raw.xz
-> > vmlinux: https://storage.googleapis.com/syzbot-assets/c540d501ebe7/vmlinux-c194837e.xz
-> >
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+7475732e7177a19317a1@syzkaller.appspotmail.com
-> >
-> > loop4: detected capacity change from 0 to 264192
-> > ==================================
-> > WARNING: Nested lock was not taken
-> > 6.0.0-rc6-syzkaller-17742-gc194837ebb57 #0 Not tainted
-> > ----------------------------------
-> > syz-executor253/3315 is trying to lock:
-> > ffff0000c495a9d8 (&s->s_inode_list_lock){+.+.}-{2:2}, at: spin_lock include/linux/spinlock.h:349 [inline]
-> > ffff0000c495a9d8 (&s->s_inode_list_lock){+.+.}-{2:2}, at: inode_sb_list_del fs/inode.c:503 [inline]
-> > ffff0000c495a9d8 (&s->s_inode_list_lock){+.+.}-{2:2}, at: evict+0x90/0x334 fs/inode.c:654
-> >
-> > but this task is not holding:
-> > Unable to handle kernel paging request at virtual address 0000000100000017
-> > Mem abort info:
-> >   ESR = 0x0000000096000005
-> >   EC = 0x25: DABT (current EL), IL = 32 bits
-> >   SET = 0, FnV = 0
-> >   EA = 0, S1PTW = 0
-> >   FSC = 0x05: level 1 translation fault
-> > Data abort info:
-> >   ISV = 0, ISS = 0x00000005
-> >   CM = 0, WnR = 0
-> > user pgtable: 4k pages, 48-bit VAs, pgdp=000000010a8da000
-> > [0000000100000017] pgd=0800000107ed2003, p4d=0800000107ed2003, pud=0000000000000000
-> > Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
-> > Modules linked in:
-> > CPU: 0 PID: 3315 Comm: syz-executor253 Not tainted 6.0.0-rc6-syzkaller-17742-gc194837ebb57 #0
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
-> > pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> > pc : print_lock_nested_lock_not_held kernel/locking/lockdep.c:4885 [inline]
-> > pc : __lock_acquire+0x7cc/0x30a4 kernel/locking/lockdep.c:5044
-> > lr : print_lock_nested_lock_not_held kernel/locking/lockdep.c:4884 [inline]
-> > lr : __lock_acquire+0x7c0/0x30a4 kernel/locking/lockdep.c:5044
-> > sp : ffff80001289b8b0
-> > x29: ffff80001289b990 x28: 0000000000000001 x27: ffff80000d30c000
-> > x26: ffff0000c68d24b8 x25: ffff0000c68d24d8 x24: 0000000000000002
-> > x23: ffff0000c68d24d0 x22: ffff80000d32a753 x21: ffff80000d32a712
-> > x20: 0000000000040067 x19: ffff0000c68d1a80 x18: 0000000000000156
-> > x17: 2b7463697665203a x16: 0000000000000002 x15: 0000000000000000
-> > x14: 0000000000000000 x13: 205d353133335420 x12: 5b5d303434313530
-> > x11: ff808000081c1630 x10: 0000000000000000 x9 : 30785d1575e13b00
-> > x8 : 00000000ffffffff x7 : 205b5d3034343135 x6 : ffff800008195d30
-> > x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-> > x2 : 0000000000000000 x1 : 0000000100000001 x0 : ffff80000cb555a1
-> > Call trace:
-> >  print_lock_nested_lock_not_held kernel/locking/lockdep.c:4885 [inline]
-> >  __lock_acquire+0x7cc/0x30a4 kernel/locking/lockdep.c:5044
-> >  lock_acquire+0x100/0x1f8 kernel/locking/lockdep.c:5666
-> >  __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
-> >  _raw_spin_lock+0x54/0x6c kernel/locking/spinlock.c:154
-> >  spin_lock include/linux/spinlock.h:349 [inline]
-> >  inode_sb_list_del fs/inode.c:503 [inline]
-> >  evict+0x90/0x334 fs/inode.c:654
-> >  iput_final fs/inode.c:1748 [inline]
-> >  iput+0x2c4/0x324 fs/inode.c:1774
-> >  ntfs_fill_super+0x1254/0x14a4 fs/ntfs/super.c:188
-> >  get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
-> >  ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
-> >  vfs_get_tree+0x40/0x140 fs/super.c:1530
-> >  do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
-> >  path_mount+0x358/0x914 fs/namespace.c:3370
-> >  do_mount fs/namespace.c:3383 [inline]
-> >  __do_sys_mount fs/namespace.c:3591 [inline]
-> >  __se_sys_mount fs/namespace.c:3568 [inline]
-> >  __arm64_sys_mount+0x2c4/0x3c4 fs/namespace.c:3568
-> >  __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
-> >  invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
-> >  el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
-> >  do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
-> >  el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
-> >  el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
-> >  el0t_64_sync+0x18c/0x190
-> > Code: 94f84769 f94002e8 d0024dc0 91168400 (f9400d01)
-> > ---[ end trace 0000000000000000 ]---
-> > ----------------
-> > Code disassembly (best guess):
-> >    0: 94f84769        bl      0x3e11da4
-> >    4: f94002e8        ldr     x8, [x23]
-> >    8: d0024dc0        adrp    x0, 0x49ba000
-> >    c: 91168400        add     x0, x0, #0x5a1
-> > * 10: f9400d01        ldr     x1, [x8, #24] <-- trapping instruction
-> >
-> >
-> > ---
-> > This report is generated by a bot. It may contain errors.
-> > See https://goo.gl/tpsmEJ for more information about syzbot.
-> > syzbot engineers can be reached at syzkaller@googlegroups.com.
-> >
-> > syzbot will keep track of this issue. See:
-> > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> > syzbot can test patches for this issue, for details see:
-> > https://goo.gl/tpsmEJ#testing-patches
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/YzEJ2D8kga%2BZRDZx%40ZenIV.
+Allocated by task 3606:
+ kasan_save_stack mm/kasan/common.c:38 [inline]
+ kasan_set_track mm/kasan/common.c:45 [inline]
+ set_alloc_info mm/kasan/common.c:437 [inline]
+ ____kasan_kmalloc+0xcd/0x100 mm/kasan/common.c:516
+ kasan_kmalloc include/linux/kasan.h:234 [inline]
+ __kmalloc+0x226/0x370 mm/slub.c:4429
+ kmalloc_array include/linux/slab.h:640 [inline]
+ kcalloc include/linux/slab.h:671 [inline]
+ wnd_init+0x1db/0x310 fs/ntfs3/bitmap.c:664
+ ntfs_fill_super+0x310a/0x42a0 fs/ntfs3/super.c:1118
+ get_tree_bdev+0x400/0x620 fs/super.c:1323
+ vfs_get_tree+0x88/0x270 fs/super.c:1530
+ do_new_mount+0x289/0xad0 fs/namespace.c:3040
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount+0x2d3/0x3c0 fs/namespace.c:3568
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+The buggy address belongs to the object at ffff888017dbf348
+ which belongs to the cache kmalloc-8 of size 8
+The buggy address is located 2 bytes inside of
+ 8-byte region [ffff888017dbf348, ffff888017dbf350)
+
+The buggy address belongs to the physical page:
+page:ffffea00005f6fc0 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x17dbf
+flags: 0xfff00000000200(slab|node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000000200 0000000000000000 dead000000000001 ffff888012041280
+raw: 0000000000000000 0000000080660066 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x12cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY), pid 1, tgid 1 (swapper/0), ts 2553057939, free_ts 2469761197
+ prep_new_page mm/page_alloc.c:2532 [inline]
+ get_page_from_freelist+0x742/0x7c0 mm/page_alloc.c:4283
+ __alloc_pages+0x259/0x560 mm/page_alloc.c:5515
+ alloc_page_interleave+0x22/0x1c0 mm/mempolicy.c:2103
+ alloc_slab_page+0x70/0xf0 mm/slub.c:1829
+ allocate_slab+0x5e/0x520 mm/slub.c:1974
+ new_slab mm/slub.c:2034 [inline]
+ ___slab_alloc+0x3ee/0xc40 mm/slub.c:3036
+ __slab_alloc mm/slub.c:3123 [inline]
+ slab_alloc_node mm/slub.c:3214 [inline]
+ slab_alloc mm/slub.c:3256 [inline]
+ __kmalloc+0x2bd/0x370 mm/slub.c:4425
+ kmalloc include/linux/slab.h:605 [inline]
+ kzalloc include/linux/slab.h:733 [inline]
+ acpi_os_allocate_zeroed include/acpi/platform/aclinuxex.h:57 [inline]
+ acpi_ns_internalize_name+0x14f/0x26c drivers/acpi/acpica/nsutils.c:331
+ acpi_ns_get_node_unlocked+0x13b/0x2ed drivers/acpi/acpica/nsutils.c:666
+ acpi_ns_get_node+0x4f/0x66 drivers/acpi/acpica/nsutils.c:726
+ acpi_get_handle+0x1c3/0x284 drivers/acpi/acpica/nsxfname.c:98
+ acpi_has_method+0x7a/0xc0 drivers/acpi/utils.c:591
+ acpi_bay_match+0x71/0x1e0 drivers/acpi/scan.c:1168
+ acpi_set_pnp_ids drivers/acpi/scan.c:1377 [inline]
+ acpi_init_device_object+0x1ba7/0x2fb0 drivers/acpi/scan.c:1774
+ acpi_add_single_object+0xea/0x1280 drivers/acpi/scan.c:1824
+ acpi_bus_check_add+0x2c8/0x980 drivers/acpi/scan.c:2084
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1449 [inline]
+ free_pcp_prepare+0x812/0x900 mm/page_alloc.c:1499
+ free_unref_page_prepare mm/page_alloc.c:3380 [inline]
+ free_unref_page+0x7d/0x5f0 mm/page_alloc.c:3476
+ qlist_free_all mm/kasan/quarantine.c:187 [inline]
+ kasan_quarantine_remove_cache+0x1ab/0x1d0 mm/kasan/quarantine.c:402
+ kmem_cache_shrink+0x9/0x20 mm/slab_common.c:517
+ acpi_os_purge_cache+0x11/0x20 drivers/acpi/osl.c:1580
+ acpi_purge_cached_objects+0x8b/0xb8 drivers/acpi/acpica/utxface.c:239
+ acpi_initialize_objects+0x2a/0x96 drivers/acpi/acpica/utxfinit.c:250
+ acpi_bus_init+0xd3/0xa67 drivers/acpi/bus.c:1320
+ acpi_init+0xd2/0x222 drivers/acpi/bus.c:1408
+ do_one_initcall+0x1b9/0x3e0 init/main.c:1296
+ do_initcall_level+0x168/0x218 init/main.c:1369
+ do_initcalls+0x4b/0x8c init/main.c:1385
+ kernel_init_freeable+0x3f1/0x57b init/main.c:1623
+ kernel_init+0x19/0x2b0 init/main.c:1512
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+
+Memory state around the buggy address:
+ ffff888017dbf200: fc fa fc fc fc fc fa fc fc fc fc fa fc fc fc fc
+ ffff888017dbf280: 00 fc fc fc fc fa fc fc fc fc fa fc fc fc fc 00
+>ffff888017dbf300: fc fc fc fc 02 fc fc fc fc 02 fc fc fc fc fa fc
+                                              ^
+ ffff888017dbf380: fc fc fc 00 fc fc fc fc 00 fc fc fc fc 05 fc fc
+ ffff888017dbf400: fc fc fb fc fc fc fc 00 fc fc fc fc 00 fc fc fc
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
