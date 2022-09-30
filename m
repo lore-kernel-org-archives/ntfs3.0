@@ -1,24 +1,34 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36FA53B5
-	for <ntfs3@lists.linux.dev>; Fri, 30 Sep 2022 15:48:54 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id D8C2F1D0C;
-	Fri, 30 Sep 2022 15:39:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBA35A66
+	for <ntfs3@lists.linux.dev>; Fri, 30 Sep 2022 15:51:26 +0000 (UTC)
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id C66A21D0C;
+	Fri, 30 Sep 2022 15:49:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1664552379;
-	bh=nmkTwmXqesIfJ/1aB2wEXqGWGGTPZopYvCvssO9Ukfs=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=S7gnv7wfXaJFNEyt69daODhWpnwW68UheFTmx9ma12s3VLI3GV/dcoQRkGZa4aFh3
-	 V2pCf7js1NxFbQb4TU0inKAaV2tcfP3+iz3Ut1GcTtsPX/dOp6lomK6VKJoGRXWY0t
-	 OAoXsLER+0DygScmmo2K7vliLGa+bx5rDYXXY+vg=
+	d=paragon-software.com; s=mail; t=1664552949;
+	bh=co0dMmEoGmARvBRIH+x8b0r6owgzijM7+V2oU2F9A5g=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=N7T0AdNtfVWvxuSkyTrLWo6pcs5QIg6ztWIiUuQRx/u26EWZhGX37dJz74425UYLk
+	 mEp1PliufVaThcXsiS2PyHTuToXdtR1aD0hHT/NAgZRjlr9M6NfZOqxalRl95q+weX
+	 iCojCSensY1OrQEUxGneTPrjCABIuQMMKug2uQXU=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id D64D51E81;
+	Fri, 30 Sep 2022 15:51:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1664553084;
+	bh=co0dMmEoGmARvBRIH+x8b0r6owgzijM7+V2oU2F9A5g=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=jPbWnV0dg8J1idpqbeZtO2Kh0Ok1qw7Ql+TXjS2smAXYd862H4qzydX1ady6/4b25
+	 7jmf5//4xpA3Y9MSMCoTU8HYHtX7yV5F2RRh8dZLttx+LO95UXtZBpFv15Zwc9bSs5
+	 f4wJ+KmKCWtMAM21LZoqlLOWD6UjvNxgo3xG1aoI=
 Received: from [172.30.8.65] (172.30.8.65) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 30 Sep 2022 18:41:54 +0300
-Message-ID: <b3d04e78-c6d0-17ec-620f-5125e645dd00@paragon-software.com>
-Date: Fri, 30 Sep 2022 18:41:53 +0300
+ 15.1.2375.7; Fri, 30 Sep 2022 18:51:24 +0300
+Message-ID: <b37f7ee0-a141-3333-cdaf-47ac355c4161@paragon-software.com>
+Date: Fri, 30 Sep 2022 18:51:23 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,50 +37,59 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH} ntfs3: fix [df]mask display in /proc/mounts
+Subject: Re: [PATCH] fs/ntfs3: Fix memory leak on ntfs_fill_super() error path
 Content-Language: en-US
-To: =?UTF-8?Q?Marc_Aur=c3=a8le_La_France?= <tsi@tuyoix.net>,
-	<ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-References: <d3337d95-201c-43bd-3b37-4fd9e654d821@tuyoix.net>
+To: Shigeru Yoshida <syoshida@redhat.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<syzbot+9d67170b20e8f94351c8@syzkaller.appspotmail.com>
+References: <20220823103205.1380235-1-syoshida@redhat.com>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <d3337d95-201c-43bd-3b37-4fd9e654d821@tuyoix.net>
+In-Reply-To: <20220823103205.1380235-1-syoshida@redhat.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [172.30.8.65]
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
 
 
-On 8/10/22 23:28, Marc Aurèle La France wrote:
-> ntfs3's dmask and fmask mount options are 16-bit quantities but are displayed
-> as 1-extended 32-bit values in /proc/mounts.  Fix this by circumventing
-> integer promotion.
+On 8/23/22 13:32, Shigeru Yoshida wrote:
+> syzbot reported kmemleak as below:
 > 
-> This change is not eligible for stable@.
+> BUG: memory leak
+> unreferenced object 0xffff8880122f1540 (size 32):
+>    comm "a.out", pid 6664, jiffies 4294939771 (age 25.500s)
+>    hex dump (first 32 bytes):
+>      00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>      00 00 00 00 00 00 00 00 ed ff ed ff 00 00 00 00  ................
+>    backtrace:
+>      [<ffffffff81b16052>] ntfs_init_fs_context+0x22/0x1c0
+>      [<ffffffff8164aaa7>] alloc_fs_context+0x217/0x430
+>      [<ffffffff81626dd4>] path_mount+0x704/0x1080
+>      [<ffffffff81627e7c>] __x64_sys_mount+0x18c/0x1d0
+>      [<ffffffff84593e14>] do_syscall_64+0x34/0xb0
+>      [<ffffffff84600087>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
 > 
-> Please Reply-To-All.
+> This patch fixes this issue by freeing mount options on error path of
+> ntfs_fill_super().
 > 
-> Thanks and have a great day.
+> Reported-by: syzbot+9d67170b20e8f94351c8@syzkaller.appspotmail.com
+> Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
+> ---
+>   fs/ntfs3/super.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> Marc.
-> 
-> Signed-off-by: Marc Aurèle La France <tsi@tuyoix.net>
-> 
-> diff -aNpRruz -X /etc/diff.excludes linux-5.17.1/fs/ntfs3/super.c devel-5.17.1/fs/ntfs3/super.c
-> --- linux-5.17.1/fs/ntfs3/super.c	2022-03-28 02:03:22.000000000 -0600
-> +++ devel-5.17.1/fs/ntfs3/super.c	2022-03-28 07:14:10.799008309 -0600
-> @@ -518,9 +518,9 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
->   	seq_printf(m, ",gid=%u",
->   		  from_kgid_munged(user_ns, opts->fs_gid));
->   	if (opts->fmask)
-> -		seq_printf(m, ",fmask=%04o", ~opts->fs_fmask_inv);
-> +		seq_printf(m, ",fmask=%04o", opts->fs_fmask_inv ^ 0xffff);
->   	if (opts->dmask)
-> -		seq_printf(m, ",dmask=%04o", ~opts->fs_dmask_inv);
-> +		seq_printf(m, ",dmask=%04o", opts->fs_dmask_inv ^ 0xffff);
->   	if (opts->nls)
->   		seq_printf(m, ",iocharset=%s", opts->nls->charset);
->   	else
+> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+> index 47012c9bf505..c0e45f170701 100644
+> --- a/fs/ntfs3/super.c
+> +++ b/fs/ntfs3/super.c
+> @@ -1281,6 +1281,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>   	 * Free resources here.
+>   	 * ntfs_fs_free will be called with fc->s_fs_info = NULL
+>   	 */
+> +	put_mount_options(sbi->options);
+>   	put_ntfs(sbi);
+>   	sb->s_fs_info = NULL;
+>   
 
 Thanks for patch, applied!
