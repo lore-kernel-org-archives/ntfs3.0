@@ -1,34 +1,24 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F005A66;
-	Fri, 30 Sep 2022 16:21:53 +0000 (UTC)
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 339611D0C;
-	Fri, 30 Sep 2022 16:19:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1664554776;
-	bh=J+wfgllXwhLlahIGgqIBX6suMZ9PoYV9QymXeIuNwCc=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=bNdPIHuapMl8Koo/PjBaYPQsAzsMr6saaO3CGJ5rIunkK1GpDENWC7JMMnJKngm7u
-	 mKcbVIu/Ky7WWweEWCpDT0ziFVXpTTYveDw3qlfW09CDp2PbGsslDqYIlwB1jDeL/D
-	 mAIg0kgRsB7rS7+dVSZ6fwtD8q68rQmcZluRFurc=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6138B5A7C
+	for <ntfs3@lists.linux.dev>; Fri, 30 Sep 2022 16:34:37 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 43A161E81;
-	Fri, 30 Sep 2022 16:21:51 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 16DF41D0C;
+	Fri, 30 Sep 2022 16:32:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1664554911;
-	bh=J+wfgllXwhLlahIGgqIBX6suMZ9PoYV9QymXeIuNwCc=;
+	d=paragon-software.com; s=mail; t=1664555540;
+	bh=BfVyerR9nFKtgCb57f6dp6x16N8R+pt5FEJjtWJ7zOM=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=Ux6Q0Z9Px7xpCRJV5iyUCUxcTIEmVXbWJLM9Tr+SN5unkJbSR+5khsfttRre6sTYQ
-	 dQkBD+3fEVkwYWWfl/55qxa+cM3HXyz4vqDT0GR9mI7mRmSvAUsJK+1DSXuc8ZkmNe
-	 0DKnKFcBvDBe0zAy9SJ1LZ7M5j2bNU7Ja9L5lOLo=
+	b=FY90ajQTFrWtfufXwrzal59mCVc1Hk4VlDv8dY2/uo058Xq927W88OgSU+sJ99kOV
+	 2KgnZ1ubpVxL7uGyfjjeK3aBElkhaHg790RnjXcT8aUiR6Z+KaDtS7DxUbAxvpD/4B
+	 tIrhNsBKnaKtNVgXr2UEKLGO2rsL81fgKVnhm4xs=
 Received: from [172.30.8.65] (172.30.8.65) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 30 Sep 2022 19:21:50 +0300
-Message-ID: <6bb11497-c6bd-41ea-409a-fbddcf75ea97@paragon-software.com>
-Date: Fri, 30 Sep 2022 19:21:49 +0300
+ 15.1.2375.7; Fri, 30 Sep 2022 19:34:34 +0300
+Message-ID: <f901daa9-c6aa-a13f-1e33-2e30d0792029@paragon-software.com>
+Date: Fri, 30 Sep 2022 19:34:34 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -37,15 +27,19 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] fs/ntfs3: fix memory leak in put_ntfs()
+Subject: Re: [PATCH] fs/ntfs3: fix negative shift size in
+ true_sectors_per_clst()
 Content-Language: en-US
-To: Karthik Alapati <mail@karthek.com>, Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<llvm@lists.linux.dev>
-References: <Yw7k0VQm+8l8JKWr@karthik-strix-linux.karthek.com>
+To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, Andrew Morton
+	<akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, Randy
+ Dunlap <rdunlap@infradead.org>
+CC: syzbot <syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com>,
+	<syzkaller-bugs@googlegroups.com>, <ntfs3@lists.linux.dev>, LKML
+	<linux-kernel@vger.kernel.org>
+References: <000000000000f8b5ef05dd25b963@google.com>
+ <4b37f037-3b10-b4e4-0644-73441c8fa0af@I-love.SAKURA.ne.jp>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <Yw7k0VQm+8l8JKWr@karthik-strix-linux.karthek.com>
+In-Reply-To: <4b37f037-3b10-b4e4-0644-73441c8fa0af@I-love.SAKURA.ne.jp>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [172.30.8.65]
@@ -54,79 +48,35 @@ X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
 
 
 
-On 8/31/22 07:34, Karthik Alapati wrote:
-> free options in put_ntfs() rather than in ntfs_put_super()
+On 9/20/22 18:59, Tetsuo Handa wrote:
+> syzbot is reporting shift-out-of-bounds in true_sectors_per_clst() [1], for
+> commit a3b774342fa752a5 ("fs/ntfs3: validate BOOT sectors_per_clusters")
+> did not address that (0 - boot->sectors_per_clusters) < 0 because "u8" was
+> chosen for type of boot->sectors_per_clusters because 0x80 needs to be
+> positive in order to support 64K clusters. Use "s8" cast in order to make
+> sure that (0 - (s8) boot->sectors_per_clusters) > 0.
 > 
-> BUG: memory leak
-> unreferenced object 0xffff8881104f3720 (size 32):
->    comm "syz-executor634", pid 3605, jiffies 4294945517 (age 12.630s)
->    hex dump (first 32 bytes):
->      e0 36 4f 10 81 88 ff ff 80 57 e1 85 ff ff ff ff  .6O......W......
->      00 00 00 00 00 00 00 00 c0 ff c0 ff 00 00 00 00  ................
->    backtrace:
->      [<ffffffff81b23ef2>] kmalloc include/linux/slab.h:600 [inline]
->      [<ffffffff81b23ef2>] kzalloc include/linux/slab.h:733 [inline]
->      [<ffffffff81b23ef2>] ntfs_init_fs_context+0x22/0x1e0 fs/ntfs3/super.c:1397
->      [<ffffffff81650045>] alloc_fs_context+0x225/0x3b0 fs/fs_context.c:290
->      [<ffffffff8162bed3>] do_new_mount fs/namespace.c:3025 [inline]
->      [<ffffffff8162bed3>] path_mount+0x6f3/0x10d0 fs/namespace.c:3370
->      [<ffffffff8162cffe>] do_mount fs/namespace.c:3383 [inline]
->      [<ffffffff8162cffe>] __do_sys_mount fs/namespace.c:3591 [inline]
->      [<ffffffff8162cffe>] __se_sys_mount fs/namespace.c:3568 [inline]
->      [<ffffffff8162cffe>] __x64_sys_mount+0x18e/0x1d0 fs/namespace.c:3568
->      [<ffffffff845e4855>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
->      [<ffffffff845e4855>] do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
->      [<ffffffff84800087>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
-> 
-> BUG: memory leak
-> unreferenced object 0xffff8881104f36e0 (size 32):
->    comm "syz-executor634", pid 3605, jiffies 4294945517 (age 12.630s)
->    hex dump (first 32 bytes):
->      6d 61 63 63 79 72 69 6c 6c 69 63 00 00 00 00 00  maccyrillic.....
->      00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->    backtrace:
->      [<ffffffff814c5b1d>] kmemdup_nul+0x2d/0x70 mm/util.c:152
->      [<ffffffff8164f66e>] vfs_parse_fs_string+0x6e/0xd0 fs/fs_context.c:178
->      [<ffffffff8164f7b0>] generic_parse_monolithic+0xe0/0x130 fs/fs_context.c:224
->      [<ffffffff8162c374>] do_new_mount fs/namespace.c:3036 [inline]
->      [<ffffffff8162c374>] path_mount+0xb94/0x10d0 fs/namespace.c:3370
->      [<ffffffff8162cffe>] do_mount fs/namespace.c:3383 [inline]
->      [<ffffffff8162cffe>] __do_sys_mount fs/namespace.c:3591 [inline]
->      [<ffffffff8162cffe>] __se_sys_mount fs/namespace.c:3568 [inline]
->      [<ffffffff8162cffe>] __x64_sys_mount+0x18e/0x1d0 fs/namespace.c:3568
->      [<ffffffff845e4855>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
->      [<ffffffff845e4855>] do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
->      [<ffffffff84800087>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
-> 
-> Link: https://syzkaller.appspot.com/bug?id=332ba47915d0e39e94b42a622f195f0804ecb67f
-> Reported-by: syzbot+9d67170b20e8f94351c8@syzkaller.appspotmail.com
-> Signed-off-by: Karthik Alapati <mail@karthek.com>
-> ---
->   fs/ntfs3/super.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Link: https://syzkaller.appspot.com/bug?extid=1631f09646bc214d2e76 [1]
+> Reported-by: syzbot <syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com>
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Tested-by: syzbot <syzbot+1631f09646bc214d2e76@syzkaller.appspotmail.com>
+> Fixes: a3b774342fa752a5 ("fs/ntfs3: validate BOOT sectors_per_clusters")
 > 
 > diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-> index 47012c9bf505..ffb76a5bfd4f 100644
+> index 47012c9bf505..c7ffd21fb255 100644
 > --- a/fs/ntfs3/super.c
 > +++ b/fs/ntfs3/super.c
-> @@ -439,6 +439,7 @@ static void init_once(void *foo)
->    */
->   static noinline void put_ntfs(struct ntfs_sb_info *sbi)
->   {
-> +	put_mount_options(sbi->options);
->   	kfree(sbi->new_rec);
->   	kvfree(ntfs_put_shared(sbi->upcase));
->   	kfree(sbi->def_table);
-> @@ -482,7 +483,6 @@ static void ntfs_put_super(struct super_block *sb)
->   	/* Mark rw ntfs as clear, if possible. */
->   	ntfs_set_state(sbi, NTFS_DIRTY_CLEAR);
->   
-> -	put_mount_options(sbi->options);
->   	put_ntfs(sbi);
->   	sb->s_fs_info = NULL;
+> @@ -672,7 +672,7 @@ static u32 true_sectors_per_clst(const struct NTFS_BOOT *boot)
+>   	if (boot->sectors_per_clusters <= 0x80)
+>   		return boot->sectors_per_clusters;
+>   	if (boot->sectors_per_clusters >= 0xf4) /* limit shift to 2MB max */
+> -		return 1U << (0 - boot->sectors_per_clusters);
+> +		return 1U << (0 - (s8) boot->sectors_per_clusters);
+>   	return -EINVAL;
+>   }
 >   
 
 Hello
-This patch failed our tests and caused email from kernel test robot,
-so I can't accept it.
-But the memory leak is a concern, thanks for the report.
+Thanks for patch, but there was already a similar patch by Shigeru Yoshida,
+so I chose it.
+Sorry about that, thanks again for your work.
