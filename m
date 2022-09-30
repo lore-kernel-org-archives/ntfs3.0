@@ -1,24 +1,34 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F065A66
-	for <ntfs3@lists.linux.dev>; Fri, 30 Sep 2022 16:09:45 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 6C0281D0C;
-	Fri, 30 Sep 2022 16:07:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899305A7A
+	for <ntfs3@lists.linux.dev>; Fri, 30 Sep 2022 16:12:04 +0000 (UTC)
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 3A10B1D0C;
+	Fri, 30 Sep 2022 16:09:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1664554048;
-	bh=Cpjqbr3oteMa6FuwE7+YFQQstOqKDnvrWssgILEQknM=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=kCm1sS14B9M5zn5FUxghhrZB5lZHZkWXs/bFXgZphaBi0Z9qv+YjJd1AIoSY547mR
-	 HGBFPinxHju+AXlnc0bnIQwwltWBzUNI5m25E6Wu5EOx69t17yjzPG6rlBkxsZ/8af
-	 cRxlzuzxsOLmCR6MTmppnzJ+ol5bf/oQqU4qQkfY=
+	d=paragon-software.com; s=mail; t=1664554187;
+	bh=rzp0hFHJxLvfZaW2A6a/3ZW1NniTpaQ2dsMxkBc9TL8=;
+	h=Date:Subject:To:References:From:In-Reply-To;
+	b=bFeUAGxmBefmRire7MFjbcmAGBjeCoI/on5Oq5ufcRSjrO2chiao8Ipsaz3BxJdc4
+	 VNxE4LJCUdnG0/luxqecL9SbZSrIn7MLbgVEoT/J184K756kTOQDXWfb7ETgG2lrz1
+	 vVlXoazUFOVaOe88M8oZsslOqn2Dm4H43KfGShAY=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 3139C1E81;
+	Fri, 30 Sep 2022 16:12:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1664554322;
+	bh=rzp0hFHJxLvfZaW2A6a/3ZW1NniTpaQ2dsMxkBc9TL8=;
+	h=Date:Subject:To:References:From:In-Reply-To;
+	b=ar30OVR5Plxp+Xx3kLUSqNTl1Z8PfQSo3bC0Xk/rNU8K2zjmeBoO3XUgPhj7pzqYt
+	 bpkxE+45+BWUcXCbiE9RlSQB9HfkUe5Mt2xZCvUUXxyZ8OdoC3Anv2yq+hooylgsFL
+	 88mh/4R7no5eflLiT6IyGxGEP2CvNeG08K1dbqKQ=
 Received: from [172.30.8.65] (172.30.8.65) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 30 Sep 2022 19:09:43 +0300
-Message-ID: <a6ea95dc-0f44-8ee0-c030-6c87a0eca1b7@paragon-software.com>
-Date: Fri, 30 Sep 2022 19:09:42 +0300
+ 15.1.2375.7; Fri, 30 Sep 2022 19:12:01 +0300
+Message-ID: <1e05faee-c84c-9aa1-f125-a6d8d082676c@paragon-software.com>
+Date: Fri, 30 Sep 2022 19:12:00 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,16 +37,12 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2] fs/ntfs3: fix slab-out-of-bounds Read in run_unpack
+Subject: Re: [PATCH v2] fs/ntfs3: use strcmp to determin attribute type
 Content-Language: en-US
-To: Hawkins Jiawei <yin31149@gmail.com>,
-	<syzbot+8d6fbb27a6aded64b25b@syzkaller.appspotmail.com>
-CC: <linux-kernel@vger.kernel.org>, <ntfs3@lists.linux.dev>,
-	<syzkaller-bugs@googlegroups.com>, <18801353760@163.com>
-References: <0000000000009145fc05e94bd5c3@google.com>
- <20220923110905.33588-1-yin31149@gmail.com>
+To: Yuan Can <yuancan@huawei.com>, <ntfs3@lists.linux.dev>
+References: <20220924063204.22530-1-yuancan@huawei.com>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20220923110905.33588-1-yin31149@gmail.com>
+In-Reply-To: <20220924063204.22530-1-yuancan@huawei.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [172.30.8.65]
@@ -45,97 +51,104 @@ X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
 
 
 
-On 9/23/22 14:09, Hawkins Jiawei wrote:
-> Syzkaller reports slab-out-of-bounds bug as follows:
-> ==================================================================
-> BUG: KASAN: slab-out-of-bounds in run_unpack+0x8b7/0x970 fs/ntfs3/run.c:944
-> Read of size 1 at addr ffff88801bbdff02 by task syz-executor131/3611
+On 9/24/22 09:32, Yuan Can wrote:
+> The way of determin attribute type is just matching
+> name with the predefined string, do this with strcmp
+> to simplify the code.
 > 
-> [...]
-> Call Trace:
->   <TASK>
->   __dump_stack lib/dump_stack.c:88 [inline]
->   dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
->   print_address_description mm/kasan/report.c:317 [inline]
->   print_report.cold+0x2ba/0x719 mm/kasan/report.c:433
->   kasan_report+0xb1/0x1e0 mm/kasan/report.c:495
->   run_unpack+0x8b7/0x970 fs/ntfs3/run.c:944
->   run_unpack_ex+0xb0/0x7c0 fs/ntfs3/run.c:1057
->   ntfs_read_mft fs/ntfs3/inode.c:368 [inline]
->   ntfs_iget5+0xc20/0x3280 fs/ntfs3/inode.c:501
->   ntfs_loadlog_and_replay+0x124/0x5d0 fs/ntfs3/fsntfs.c:272
->   ntfs_fill_super+0x1eff/0x37f0 fs/ntfs3/super.c:1018
->   get_tree_bdev+0x440/0x760 fs/super.c:1323
->   vfs_get_tree+0x89/0x2f0 fs/super.c:1530
->   do_new_mount fs/namespace.c:3040 [inline]
->   path_mount+0x1326/0x1e20 fs/namespace.c:3370
->   do_mount fs/namespace.c:3383 [inline]
->   __do_sys_mount fs/namespace.c:3591 [inline]
->   __se_sys_mount fs/namespace.c:3568 [inline]
->   __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
->   do_syscall_x64 arch/x86/entry/common.c:50 [inline]
->   do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
->   entry_SYSCALL_64_after_hwframe+0x63/0xcd
->   [...]
->   </TASK>
-> 
-> The buggy address belongs to the physical page:
-> page:ffffea00006ef600 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1bbd8
-> head:ffffea00006ef600 order:3 compound_mapcount:0 compound_pincount:0
-> flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
-> page dumped because: kasan: bad access detected
-> 
-> Memory state around the buggy address:
->   ffff88801bbdfe00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->   ffff88801bbdfe80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->> ffff88801bbdff00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->                     ^
->   ffff88801bbdff80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->   ffff88801bbe0000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ==================================================================
-> 
-> Kernel will tries to read record and parse MFT from disk in
-> ntfs_read_mft().
-> 
-> Yet the problem is that during enumerating attributes in record,
-> kernel doesn't check whether run_off field loading from the disk
-> is a valid value.
-> 
-> To be more specific, if attr->nres.run_off is larger than attr->size,
-> kernel will passes an invalid argument run_buf_size in
-> run_unpack_ex(), which having an integer overflow. Then this invalid
-> argument will triggers the slab-out-of-bounds Read bug as above.
-> 
-> This patch solves it by adding the sanity check between
-> the offset to packed runs and attribute size.
-> 
-> link: https://lore.kernel.org/all/0000000000009145fc05e94bd5c3@google.com/#t
-> Reported-and-tested-by: syzbot+8d6fbb27a6aded64b25b@syzkaller.appspotmail.com
-> Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
+> Signed-off-by: Yuan Can <yuancan@huawei.com>
 > ---
-> v1 -> v2:
->    return -EINVAL when roff is out-of-bounds
+>   fs/ntfs3/xattr.c | 24 ++++++++----------------
+>   1 file changed, 8 insertions(+), 16 deletions(-)
 > 
->   fs/ntfs3/inode.c | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index 51363d4e8636..10723231e482 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -365,6 +365,13 @@ static struct inode *ntfs_read_mft(struct inode *inode,
->   	roff = le16_to_cpu(attr->nres.run_off);
+> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+> index 7de8718c68a9..7fa5304a969b 100644
+> --- a/fs/ntfs3/xattr.c
+> +++ b/fs/ntfs3/xattr.c
+> @@ -720,11 +720,9 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
+>   {
+>   	int err;
+>   	struct ntfs_inode *ni = ntfs_i(inode);
+> -	size_t name_len = strlen(name);
 >   
->   	t64 = le64_to_cpu(attr->nres.svcn);
-> +
-> +	/* offset to packed runs is out-of-bounds */
-> +	if (roff > asize) {
-> +		err = -EINVAL;
-> +		goto out;
-> +	}
-> +
->   	err = run_unpack_ex(run, sbi, ino, t64, le64_to_cpu(attr->nres.evcn),
->   			    t64, Add2Ptr(attr, roff), asize - roff);
->   	if (err < 0)
+>   	/* Dispatch request. */
+> -	if (name_len == sizeof(SYSTEM_DOS_ATTRIB) - 1 &&
+> -	    !memcmp(name, SYSTEM_DOS_ATTRIB, sizeof(SYSTEM_DOS_ATTRIB))) {
+> +	if (!strcmp(name, SYSTEM_DOS_ATTRIB)) {
+>   		/* system.dos_attrib */
+>   		if (!buffer) {
+>   			err = sizeof(u8);
+> @@ -737,8 +735,7 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
+>   		goto out;
+>   	}
+>   
+> -	if (name_len == sizeof(SYSTEM_NTFS_ATTRIB) - 1 &&
+> -	    !memcmp(name, SYSTEM_NTFS_ATTRIB, sizeof(SYSTEM_NTFS_ATTRIB))) {
+> +	if (!strcmp(name, SYSTEM_NTFS_ATTRIB)) {
+>   		/* system.ntfs_attrib */
+>   		if (!buffer) {
+>   			err = sizeof(u32);
+> @@ -751,8 +748,7 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
+>   		goto out;
+>   	}
+>   
+> -	if (name_len == sizeof(SYSTEM_NTFS_SECURITY) - 1 &&
+> -	    !memcmp(name, SYSTEM_NTFS_SECURITY, sizeof(SYSTEM_NTFS_SECURITY))) {
+> +	if (!strcmp(name, SYSTEM_NTFS_SECURITY)) {
+>   		/* system.ntfs_security*/
+>   		struct SECURITY_DESCRIPTOR_RELATIVE *sd = NULL;
+>   		size_t sd_size = 0;
+> @@ -792,7 +788,7 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
+>   	}
+>   
+>   	/* Deal with NTFS extended attribute. */
+> -	err = ntfs_get_ea(inode, name, name_len, buffer, size, NULL);
+> +	err = ntfs_get_ea(inode, name, strlen(name), buffer, size, NULL);
+>   
+>   out:
+>   	return err;
+> @@ -809,20 +805,17 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
+>   {
+>   	int err = -EINVAL;
+>   	struct ntfs_inode *ni = ntfs_i(inode);
+> -	size_t name_len = strlen(name);
+>   	enum FILE_ATTRIBUTE new_fa;
+>   
+>   	/* Dispatch request. */
+> -	if (name_len == sizeof(SYSTEM_DOS_ATTRIB) - 1 &&
+> -	    !memcmp(name, SYSTEM_DOS_ATTRIB, sizeof(SYSTEM_DOS_ATTRIB))) {
+> +	if (!strcmp(name, SYSTEM_DOS_ATTRIB)) {
+>   		if (sizeof(u8) != size)
+>   			goto out;
+>   		new_fa = cpu_to_le32(*(u8 *)value);
+>   		goto set_new_fa;
+>   	}
+>   
+> -	if (name_len == sizeof(SYSTEM_NTFS_ATTRIB) - 1 &&
+> -	    !memcmp(name, SYSTEM_NTFS_ATTRIB, sizeof(SYSTEM_NTFS_ATTRIB))) {
+> +	if (!strcmp(name, SYSTEM_NTFS_ATTRIB)) {
+>   		if (size != sizeof(u32))
+>   			goto out;
+>   		new_fa = cpu_to_le32(*(u32 *)value);
+> @@ -860,8 +853,7 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
+>   		goto out;
+>   	}
+>   
+> -	if (name_len == sizeof(SYSTEM_NTFS_SECURITY) - 1 &&
+> -	    !memcmp(name, SYSTEM_NTFS_SECURITY, sizeof(SYSTEM_NTFS_SECURITY))) {
+> +	if (!strcmp(name, SYSTEM_NTFS_SECURITY)) {
+>   		/* system.ntfs_security*/
+>   		__le32 security_id;
+>   		bool inserted;
+> @@ -904,7 +896,7 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
+>   	}
+>   
+>   	/* Deal with NTFS extended attribute. */
+> -	err = ntfs_set_ea(inode, name, name_len, value, size, flags, 0);
+> +	err = ntfs_set_ea(inode, name, strlen(name), value, size, flags, 0);
+>   
+>   out:
+>   	inode->i_ctime = current_time(inode);
 
-Thanks for patch, applied!
+Thank you for your work!
+I've fixed code under CONFIG_NTFS3_FS_POSIX_ACL and applied.
