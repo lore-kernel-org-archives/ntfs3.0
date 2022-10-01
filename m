@@ -1,185 +1,140 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7430628EB
-	for <ntfs3@lists.linux.dev>; Sat,  1 Oct 2022 13:45:00 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id a8so10697096lff.13
-        for <ntfs3@lists.linux.dev>; Sat, 01 Oct 2022 06:45:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=T4OP1j9wcja6lq/COS9Xv+s0rRBrfr8zJ8F9tHwXwao=;
-        b=so2n+0STaHGutoWUuWhJ1J3mEuzg4Zn2lHHognoLgshviQ2PoyelT0K3yVJESP2hUR
-         oE5fieJejK/aOqWTuMreE12e7z1wxhdiBVBXCaIY7OY84vP5eUUiMSeMhFdnrVl2Uh7x
-         EknFYMVkjGyV909IqouHfQWpKm4S+oPbmG1CdP1sYeM2ZfyYJZWpbCyG8cLwT+PN7yvR
-         RCkUJzlgkt/R4UnKfOYrI50fzr7zIug4R60ePYZgLHXHUIgMBvOmRK03yo/rJLZES+ly
-         3p991YOK89uT7gPc6UB4OVKSEjZ8Pt+wC333vewlV3I4ZNvqfTY8NefT6LhdiekGhPQt
-         cUwg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8046128EB
+	for <ntfs3@lists.linux.dev>; Sat,  1 Oct 2022 13:47:42 +0000 (UTC)
+Received: by mail-io1-f71.google.com with SMTP id b9-20020a6be709000000b006a469cf388eso4409322ioh.19
+        for <ntfs3@lists.linux.dev>; Sat, 01 Oct 2022 06:47:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=T4OP1j9wcja6lq/COS9Xv+s0rRBrfr8zJ8F9tHwXwao=;
-        b=SUjfsnAeO1AgDylw2EBhxYIYAfcMR5uMif3kbVkTzsEDzNYQH6o4qjmlYmJ8b2S47Z
-         8NTVXDOya1Cjw7tAASv36R00G3WNL8occJvJcNrUmejoKyXbhIEoLm5VFnHqvmSXqnsi
-         Iyk0QFJrBOjRV8TGlpvrKEaqZXDJYwn+2kcdnqN9pgHbHFvAF7i6wPCAZvAdQKZ8tpyD
-         hAricwfg/l/lXlkN18WNwKODcfyG1nzpzbHfScyXTwSczBb0WiBGXcOgO91LrlZ55qIl
-         fFu7gcjNiT6ttovBP1SuEDwGDdBm/1HZzq8uSzBIhPUz2GZnVn+ypgZCO9IZY6cZ49jr
-         xtMg==
-X-Gm-Message-State: ACrzQf2PmcDzoroH48MRUUkeFa70yGI2PXi1EGCjK2wSvA1pUf0VmIjY
-	0KUWUpdDhUhEE/ACyIp2j54p+0GhSxY+rYNShlPuoNsFWO8=
-X-Google-Smtp-Source: AMsMyM5AvBsIAlE5uQT6Qt+CqtbWhoB5F4KeQ5u9t2yA3NzzN83z4dFMCaj+3xJpZ+tMw+QKlVHxX04bgkDKfSYrJns=
-X-Received: by 2002:a05:6512:4016:b0:49a:81b3:808f with SMTP id
- br22-20020a056512401600b0049a81b3808fmr5114027lfb.137.1664631898210; Sat, 01
- Oct 2022 06:44:58 -0700 (PDT)
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=oInPToETubw9qbmsXHkOW3CaEdCf6DsdV1dMZyMcoKg=;
+        b=KGuwr1Vt/Lenvrfk1/3TyPuLFQotg0RjwrCTCTEaYiqjhbgq1Sp+g4CoeyDSUBHdSl
+         vj5/V2R2lGyQtM9b7fJx+oKEX2CbmnU8ooE6w82TE5/idO27S9AWCgT2Y80oel6VHD7Q
+         1cOvjGNB1gcNUTyuJsCc/C26dA1hG6mtJEq+K89kXzFYd5BxjOux7jdns6dGORrc/fPc
+         FD+XvG2nHaCFoV0aeykGckDDg1XRuskm1Ly3iUuovVNLcVL+Ni5ZE7AZKYut2Wgsgjds
+         F57NQfpEBwC6Cjv2+RBf+eZOBBqAqgkgqqTMuyandssdaHvqT9V6uAuzscJf6AwMnA8j
+         GBYQ==
+X-Gm-Message-State: ACrzQf3J+Vepy+Ea1u55MlFL+PbXWgcZyuVELhY6Q488A+itFVRDjzkz
+	e8y3X75fYz3NstEKHE1JUb7UI7vN5i5wI0vbNVagtrvPJ90C
+X-Google-Smtp-Source: AMsMyM6dEEMT24PJiUpYG6t0WOlEY3BpzI9WR6Ch0ZXhaOWHVQv7CFkbnnClHn4UPNbdJdfJoOg99D0cok3Roh8J6z54jGSmTbx1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <000000000000c0e5c005e9f94888@google.com>
-In-Reply-To: <000000000000c0e5c005e9f94888@google.com>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Sat, 1 Oct 2022 15:44:46 +0200
-Message-ID: <CACT4Y+avoUKsjES_MAjbyAJVNeAWmTf87sw_awvxVN430qFbPQ@mail.gmail.com>
-Subject: Re: [syzbot] BUG: unable to handle kernel NULL pointer dereference in truncate_inode_pages_final
-To: syzbot <syzbot+3209de1c96568282edc6@syzkaller.appspotmail.com>, 
-	ntfs3@lists.linux.dev, almaz.alexandrovich@paragon-software.com
-Cc: akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	syzkaller-bugs@googlegroups.com, willy@infradead.org
+X-Received: by 2002:a05:6e02:1b8a:b0:2f9:7d5d:e476 with SMTP id
+ h10-20020a056e021b8a00b002f97d5de476mr1718699ili.183.1664632061619; Sat, 01
+ Oct 2022 06:47:41 -0700 (PDT)
+Date: Sat, 01 Oct 2022 06:47:41 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000b6f58d05e9f95a0c@google.com>
+Subject: [syzbot] possible deadlock in mi_read
+From: syzbot <syzbot+bc7ca0ae4591cb2550f9@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 1 Oct 2022 at 15:42, syzbot
-<syzbot+3209de1c96568282edc6@syzkaller.appspotmail.com> wrote:
->
-> Hello,
->
-> syzbot found the following issue on:
->
-> HEAD commit:    3800a713b607 Merge tag 'mm-hotfixes-stable-2022-09-26' of ..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=119b63ef080000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=a1992c90769e07
-> dashboard link: https://syzkaller.appspot.com/bug?extid=3209de1c96568282edc6
-> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
->
-> Unfortunately, I don't have any reproducer for this issue yet.
->
-> Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/0012f6c5db09/disk-3800a713.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/6c2ba89f2218/vmlinux-3800a713.xz
->
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+3209de1c96568282edc6@syzkaller.appspotmail.com
+Hello,
 
-+ntfs3 maintainers
+syzbot found the following issue on:
 
-> ntfs3: loop5: Different NTFS' sector size (1024) and media sector size (512)
-> ntfs3: loop5: RAW NTFS volume: Filesystem size 0.00 Gb > volume size 0.00 Gb. Mount in read-only
-> BUG: kernel NULL pointer dereference, address: 000000000000002b
-> #PF: supervisor read access in kernel mode
-> #PF: error_code(0x0000) - not-present page
-> PGD 7b94f067 P4D 7b94f067 PUD 21ad8067 PMD 0
-> Oops: 0000 [#1] PREEMPT SMP KASAN
-> CPU: 1 PID: 15950 Comm: syz-executor.5 Not tainted 6.0.0-rc7-syzkaller-00029-g3800a713b607 #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
-> RIP: 0010:__lock_release kernel/locking/lockdep.c:5350 [inline]
-> RIP: 0010:lock_release+0x22c/0x780 kernel/locking/lockdep.c:5686
-> Code: 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 0f b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 a7 04 00 00 <8b> 73 24 85 f6 0f 85 66 04 00 00 48 8d 7b 22 48 b8 00 00 00 00 00
-> RSP: 0018:ffffc90014787a10 EFLAGS: 00010046
-> RAX: 0000000000000007 RBX: 0000000000000007 RCX: ffffc90014787a60
-> RDX: 0000000000000000 RSI: ffff888072fb0518 RDI: ffff888039842ac4
-> RBP: 1ffff920028f0f44 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000001 R11: 0000000000000000 R12: ffff888072fb0518
-> R13: 0000000000000002 R14: ffff888039842a70 R15: ffff888039842000
-> FS:  00007f7638dfe700(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 000000000000002b CR3: 00000000281a9000 CR4: 00000000003506e0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> Call Trace:
->  <TASK>
->  __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:157 [inline]
->  _raw_spin_unlock_irq+0x12/0x40 kernel/locking/spinlock.c:202
->  spin_unlock_irq include/linux/spinlock.h:399 [inline]
->  truncate_inode_pages_final+0x5f/0x80 mm/truncate.c:484
->  ntfs_evict_inode+0x16/0xa0 fs/ntfs3/inode.c:1741
->  evict+0x2ed/0x6b0 fs/inode.c:665
->  iput_final fs/inode.c:1748 [inline]
->  iput.part.0+0x55d/0x810 fs/inode.c:1774
->  iput+0x58/0x70 fs/inode.c:1764
->  ntfs_fill_super+0x2e89/0x37f0 fs/ntfs3/super.c:1190
->  get_tree_bdev+0x440/0x760 fs/super.c:1323
->  vfs_get_tree+0x89/0x2f0 fs/super.c:1530
->  do_new_mount fs/namespace.c:3040 [inline]
->  path_mount+0x1326/0x1e20 fs/namespace.c:3370
->  do_mount fs/namespace.c:3383 [inline]
->  __do_sys_mount fs/namespace.c:3591 [inline]
->  __se_sys_mount fs/namespace.c:3568 [inline]
->  __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
->  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
->  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
->  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-> RIP: 0033:0x7f7639e8bb9a
-> Code: 48 c7 c2 b8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 b8 04 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007f7638dfdf88 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
-> RAX: ffffffffffffffda RBX: 0000000020000580 RCX: 00007f7639e8bb9a
-> RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007f7638dfdfe0
-> RBP: 00007f7638dfe020 R08: 00007f7638dfe020 R09: 0000000020000000
-> R10: 0000000000000000 R11: 0000000000000202 R12: 0000000020000000
-> R13: 0000000020000100 R14: 00007f7638dfdfe0 R15: 0000000020000040
->  </TASK>
-> Modules linked in:
-> CR2: 000000000000002b
-> ---[ end trace 0000000000000000 ]---
-> RIP: 0010:__lock_release kernel/locking/lockdep.c:5350 [inline]
-> RIP: 0010:lock_release+0x22c/0x780 kernel/locking/lockdep.c:5686
-> Code: 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 0f b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 a7 04 00 00 <8b> 73 24 85 f6 0f 85 66 04 00 00 48 8d 7b 22 48 b8 00 00 00 00 00
-> RSP: 0018:ffffc90014787a10 EFLAGS: 00010046
-> RAX: 0000000000000007 RBX: 0000000000000007 RCX: ffffc90014787a60
-> RDX: 0000000000000000 RSI: ffff888072fb0518 RDI: ffff888039842ac4
-> RBP: 1ffff920028f0f44 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000001 R11: 0000000000000000 R12: ffff888072fb0518
-> R13: 0000000000000002 R14: ffff888039842a70 R15: ffff888039842000
-> FS:  00007f7638dfe700(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 000000000000002b CR3: 00000000281a9000 CR4: 00000000003506e0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> ----------------
-> Code disassembly (best guess):
->    0:   48 b8 00 00 00 00 00    movabs $0xdffffc0000000000,%rax
->    7:   fc ff df
->    a:   48 89 fa                mov    %rdi,%rdx
->    d:   48 c1 ea 03             shr    $0x3,%rdx
->   11:   0f b6 14 02             movzbl (%rdx,%rax,1),%edx
->   15:   48 89 f8                mov    %rdi,%rax
->   18:   83 e0 07                and    $0x7,%eax
->   1b:   83 c0 03                add    $0x3,%eax
->   1e:   38 d0                   cmp    %dl,%al
->   20:   7c 08                   jl     0x2a
->   22:   84 d2                   test   %dl,%dl
->   24:   0f 85 a7 04 00 00       jne    0x4d1
-> * 2a:   8b 73 24                mov    0x24(%rbx),%esi <-- trapping instruction
->   2d:   85 f6                   test   %esi,%esi
->   2f:   0f 85 66 04 00 00       jne    0x49b
->   35:   48 8d 7b 22             lea    0x22(%rbx),%rdi
->   39:   48                      rex.W
->   3a:   b8 00 00 00 00          mov    $0x0,%eax
->
->
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/000000000000c0e5c005e9f94888%40google.com.
+HEAD commit:    bbed346d5a96 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=111f3904880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=aae2d21e7dd80684
+dashboard link: https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13a49000880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14ace23f080000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/11078f50b80b/disk-bbed346d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/398e5f1e6c84/vmlinux-bbed346d.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+bc7ca0ae4591cb2550f9@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 4096
+ntfs3: loop0: Different NTFS' sector size (1024) and media sector size (512)
+============================================
+WARNING: possible recursive locking detected
+6.0.0-rc7-syzkaller-18095-gbbed346d5a96 #0 Not tainted
+--------------------------------------------
+syz-executor243/3030 is trying to acquire lock:
+ffff0000caa09ca0 (&ni->ni_lock/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1108 [inline]
+ffff0000caa09ca0 (&ni->ni_lock/4){+.+.}-{3:3}, at: mi_read+0x140/0x274 fs/ntfs3/record.c:148
+
+but task is already holding lock:
+ffff0000caa0d3e0 (&ni->ni_lock/4){+.+.}-{3:3}, at: ntfs_lookup+0x84/0xe8 fs/ntfs/namei.c:111
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(&ni->ni_lock/4);
+  lock(&ni->ni_lock/4);
+
+ *** DEADLOCK ***
+
+ May be due to missing lock nesting notation
+
+2 locks held by syz-executor243/3030:
+ #0: ffff0000caa0d680 (&type->i_mutex_dir_key#6){++++}-{3:3}, at: inode_lock_shared include/linux/fs.h:766 [inline]
+ #0: ffff0000caa0d680 (&type->i_mutex_dir_key#6){++++}-{3:3}, at: lookup_slow+0x34/0x68 fs/namei.c:1701
+ #1: ffff0000caa0d3e0 (&ni->ni_lock/4){+.+.}-{3:3}, at: ntfs_lookup+0x84/0xe8 fs/ntfs/namei.c:111
+
+stack backtrace:
+CPU: 1 PID: 3030 Comm: syz-executor243 Not tainted 6.0.0-rc7-syzkaller-18095-gbbed346d5a96 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
+Call trace:
+ dump_backtrace+0x1c4/0x1f0 arch/arm64/kernel/stacktrace.c:156
+ show_stack+0x2c/0x54 arch/arm64/kernel/stacktrace.c:163
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x104/0x16c lib/dump_stack.c:106
+ dump_stack+0x1c/0x58 lib/dump_stack.c:113
+ __lock_acquire+0x808/0x30a4
+ lock_acquire+0x100/0x1f8 kernel/locking/lockdep.c:5666
+ __mutex_lock_common+0xd4/0xca8 kernel/locking/mutex.c:603
+ __mutex_lock kernel/locking/mutex.c:747 [inline]
+ mutex_lock_nested+0x38/0x44 kernel/locking/mutex.c:799
+ ni_lock fs/ntfs3/ntfs_fs.h:1108 [inline]
+ mi_read+0x140/0x274 fs/ntfs3/record.c:148
+ ntfs_read_mft fs/ntfs3/inode.c:69 [inline]
+ ntfs_iget5+0x15c/0x138c fs/ntfs3/inode.c:501
+ dir_search_u+0x18c/0x1e0 fs/ntfs3/dir.c:264
+ ntfs_lookup+0x94/0xe8 fs/ntfs/namei.c:111
+ __lookup_slow+0x14c/0x204 fs/namei.c:1685
+ lookup_slow+0x44/0x68 fs/namei.c:1702
+ walk_component+0x178/0x1b0 fs/namei.c:1993
+ lookup_last fs/namei.c:2450 [inline]
+ path_lookupat+0xc4/0x208 fs/namei.c:2474
+ filename_lookup+0xf8/0x264 fs/namei.c:2503
+ user_path_at_empty+0x5c/0x114 fs/namei.c:2876
+ user_path_at include/linux/namei.h:57 [inline]
+ __do_sys_open_tree fs/namespace.c:2537 [inline]
+ __se_sys_open_tree fs/namespace.c:2504 [inline]
+ __arm64_sys_open_tree+0x130/0x4a4 fs/namespace.c:2504
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+ el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
+ el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:581
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
