@@ -1,59 +1,61 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EDB710F5
-	for <ntfs3@lists.linux.dev>; Fri, 30 Sep 2022 22:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31261C17
+	for <ntfs3@lists.linux.dev>; Sat,  1 Oct 2022 00:47:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664577733; x=1696113733;
+  t=1664585229; x=1696121229;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bJLYfSnuch1MVaDLC7mVyWosBMHr+BPj1XdUC4Wt0Rs=;
-  b=L6k0ufoCKmCfX4lQumaecq830rf2Svd7w1tCobx12ZK+OAXmqm0EkKYb
-   t5Vj6Yfo2E0eVonCecrRIwXC0Op8Qc1d9O2saLp4/Ekmmtz+tx1w5oLqT
-   Mhc+qxNIyUkWGg26ibD//jPCNguigVo+YSyUZz61CLUij5rhkEjKgrd5r
-   cHV53b0hha7ise0YV5R0u9TT3ynGuw6fjc2/jBBVIhRgw3l4dJ4ngPr43
-   o6O26UQNv/MiCeK4yj5g976KTl5oBz0CZsR2vYRQFyS7PqmIbV8GuPFIL
-   sdAxrtiEIbbcBhrVz/f5XztHVSojWkdDUed2o6dfonwLHvNb9Ot1v/yWZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="303792026"
+  bh=WaWpByszr4Hr9xOuogOHJ+hmMySJk2A9j5BzJU/zh1o=;
+  b=WVpIPXEE4109/WcsPNeMD3RXcHib8ay5ocxwXah5QOxh6PZf/PwLGpwh
+   docWGJm/R4XHprJo2WH0h7LxDLoVtEmcAZBuOzBtESp5XNo9qv7pswNSp
+   tG7YjToqOiQj8JSMQ2hzWK3ZPb6l7pnOD+WhjZi8uUASo/wKG/ITOgny4
+   YxBy5R97JK6XVcDrm8TCNOI4MwH9ngJRrUUQ1IevdzGbYWPttImyUKI+8
+   FCveqf8LCQOG/w2+I8196pAw4kb198hxKFqrl0m3NWNzIs+yGw8uhHAiS
+   czcWMbfnNU/OnO/8rBF+bEs6bfx1Ox/z3T2GsiY5f/EjWGvRxhtonP/WN
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="285456004"
 X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; 
-   d="scan'208";a="303792026"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 15:42:04 -0700
+   d="scan'208";a="285456004"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 17:47:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="951719092"
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="600604284"
 X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; 
-   d="scan'208";a="951719092"
+   d="scan'208";a="600604284"
 Received: from lkp-server01.sh.intel.com (HELO 14cc182da2d0) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 30 Sep 2022 15:42:01 -0700
+  by orsmga006.jf.intel.com with ESMTP; 30 Sep 2022 17:47:06 -0700
 Received: from kbuild by 14cc182da2d0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1oeOhl-0001cC-15;
-	Fri, 30 Sep 2022 22:42:01 +0000
-Date: Sat, 1 Oct 2022 06:41:54 +0800
+	id 1oeQen-0001gt-2t;
+	Sat, 01 Oct 2022 00:47:05 +0000
+Date: Sat, 1 Oct 2022 08:46:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: kbuild-all@lists.01.org, ntfs3@lists.linux.dev
-Subject: [paragon-software-group-ntfs3:master 4/22] fs/ntfs3/namei.c:481:31:
- sparse: sparse: incorrect type in argument 1 (different base types)
-Message-ID: <202210010648.gzjLDsd9-lkp@intel.com>
+To: Edward Lo <edward.lo@ambergroup.io>
+Cc: kbuild-all@lists.01.org, ntfs3@lists.linux.dev,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [paragon-software-group-ntfs3:master 19/22]
+ fs/ntfs3/index.c:1021:59: sparse: sparse: restricted __le32 degrades to
+ integer
+Message-ID: <202210010844.Mqa6Muad-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="2RdbQ2+DUZb4DR7Y"
+Content-Type: multipart/mixed; boundary="aT1athzr7c5qkjNU"
 Content-Disposition: inline
 
 
---2RdbQ2+DUZb4DR7Y
+--aT1athzr7c5qkjNU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git master
 head:   d45da67caedacd500879de5e649360cc70777af7
-commit: a3a956c78efaa202b1d75190136671cf6e87bfbe [4/22] fs/ntfs3: Add option "nocase"
+commit: 4d42ecda239cc13738d6fd84d098a32e67b368b9 [19/22] fs/ntfs3: Validate buffer length while parsing index
 config: alpha-randconfig-s032-20220925
 compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce:
@@ -61,10 +63,10 @@ reproduce:
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/Paragon-Software-Group/linux-ntfs3/commit/a3a956c78efaa202b1d75190136671cf6e87bfbe
+        # https://github.com/Paragon-Software-Group/linux-ntfs3/commit/4d42ecda239cc13738d6fd84d098a32e67b368b9
         git remote add paragon-software-group-ntfs3 https://github.com/Paragon-Software-Group/linux-ntfs3.git
         git fetch --no-tags paragon-software-group-ntfs3 master
-        git checkout a3a956c78efaa202b1d75190136671cf6e87bfbe
+        git checkout 4d42ecda239cc13738d6fd84d098a32e67b368b9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash fs/ntfs3/
@@ -73,96 +75,109 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 sparse warnings: (new ones prefixed by >>)
->> fs/ntfs3/namei.c:481:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le16 const [usertype] *s1 @@     got unsigned short * @@
-   fs/ntfs3/namei.c:481:31: sparse:     expected restricted __le16 const [usertype] *s1
-   fs/ntfs3/namei.c:481:31: sparse:     got unsigned short *
->> fs/ntfs3/namei.c:481:54: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __le16 const [usertype] *s2 @@     got unsigned short * @@
-   fs/ntfs3/namei.c:481:54: sparse:     expected restricted __le16 const [usertype] *s2
-   fs/ntfs3/namei.c:481:54: sparse:     got unsigned short *
+>> fs/ntfs3/index.c:1021:59: sparse: sparse: restricted __le32 degrades to integer
 
-vim +481 fs/ntfs3/namei.c
+vim +1021 fs/ntfs3/index.c
 
-   416	
-   417	/*
-   418	 * dentry_operations::d_compare
-   419	 */
-   420	static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
-   421				  const char *str, const struct qstr *name)
-   422	{
-   423		struct ntfs_sb_info *sbi;
-   424		int ret;
-   425		const char *n1 = str;
-   426		const char *n2 = name->name;
-   427		unsigned int len2 = name->len;
-   428		unsigned int lm = min(len1, len2);
-   429		unsigned char c1, c2;
-   430		struct cpu_str *uni1, *uni2;
-   431	
-   432		/* First try fast implementation. */
-   433		for (;;) {
-   434			if (!lm--) {
-   435				ret = len1 == len2 ? 0 : 1;
-   436				goto out;
-   437			}
-   438	
-   439			if ((c1 = *n1++) == (c2 = *n2++))
-   440				continue;
-   441	
-   442			if (c1 >= 0x80 || c2 >= 0x80)
-   443				break;
-   444	
-   445			if (toupper(c1) != toupper(c2)) {
-   446				ret = 1;
-   447				goto out;
-   448			}
-   449		}
-   450	
-   451		/*
-   452		 * Try slow way with current upcase table
-   453		 */
-   454		sbi = dentry->d_sb->s_fs_info;
-   455		uni1 = __getname();
-   456		if (!uni1)
-   457			return -ENOMEM;
-   458	
-   459		ret = ntfs_nls_to_utf16(sbi, str, len1, uni1, NTFS_NAME_LEN,
-   460					UTF16_HOST_ENDIAN);
-   461		if (ret < 0)
-   462			goto out;
-   463	
-   464		if (!ret) {
-   465			ret = -EINVAL;
-   466			goto out;
-   467		}
-   468	
-   469		uni2 = Add2Ptr(uni1, 2048);
-   470	
-   471		ret = ntfs_nls_to_utf16(sbi, name->name, name->len, uni2, NTFS_NAME_LEN,
-   472					UTF16_HOST_ENDIAN);
-   473		if (ret < 0)
-   474			goto out;
-   475	
-   476		if (!ret) {
-   477			ret = -EINVAL;
-   478			goto out;
-   479		}
-   480	
- > 481		ret = !ntfs_cmp_names(uni1->name, uni1->len, uni2->name, uni2->len,
-   482				      sbi->upcase, false)
-   483			      ? 0
-   484			      : 1;
-   485	
-   486	out:
-   487		__putname(uni1);
-   488		return ret;
-   489	}
-   490	
+   948	
+   949	/*
+   950	 * indx_read
+   951	 *
+   952	 * If ntfs_readdir calls this function
+   953	 * inode is shared locked and no ni_lock.
+   954	 * Use rw_semaphore for read/write access to alloc_run.
+   955	 */
+   956	int indx_read(struct ntfs_index *indx, struct ntfs_inode *ni, CLST vbn,
+   957		      struct indx_node **node)
+   958	{
+   959		int err;
+   960		struct INDEX_BUFFER *ib;
+   961		struct runs_tree *run = &indx->alloc_run;
+   962		struct rw_semaphore *lock = &indx->run_lock;
+   963		u64 vbo = (u64)vbn << indx->vbn2vbo_bits;
+   964		u32 bytes = 1u << indx->index_bits;
+   965		struct indx_node *in = *node;
+   966		const struct INDEX_NAMES *name;
+   967	
+   968		if (!in) {
+   969			in = kzalloc(sizeof(struct indx_node), GFP_NOFS);
+   970			if (!in)
+   971				return -ENOMEM;
+   972		} else {
+   973			nb_put(&in->nb);
+   974		}
+   975	
+   976		ib = in->index;
+   977		if (!ib) {
+   978			ib = kmalloc(bytes, GFP_NOFS);
+   979			if (!ib) {
+   980				err = -ENOMEM;
+   981				goto out;
+   982			}
+   983		}
+   984	
+   985		down_read(lock);
+   986		err = ntfs_read_bh(ni->mi.sbi, run, vbo, &ib->rhdr, bytes, &in->nb);
+   987		up_read(lock);
+   988		if (!err)
+   989			goto ok;
+   990	
+   991		if (err == -E_NTFS_FIXUP)
+   992			goto ok;
+   993	
+   994		if (err != -ENOENT)
+   995			goto out;
+   996	
+   997		name = &s_index_names[indx->type];
+   998		down_write(lock);
+   999		err = attr_load_runs_range(ni, ATTR_ALLOC, name->name, name->name_len,
+  1000					   run, vbo, vbo + bytes);
+  1001		up_write(lock);
+  1002		if (err)
+  1003			goto out;
+  1004	
+  1005		down_read(lock);
+  1006		err = ntfs_read_bh(ni->mi.sbi, run, vbo, &ib->rhdr, bytes, &in->nb);
+  1007		up_read(lock);
+  1008		if (err == -E_NTFS_FIXUP)
+  1009			goto ok;
+  1010	
+  1011		if (err)
+  1012			goto out;
+  1013	
+  1014	ok:
+  1015		if (err == -E_NTFS_FIXUP) {
+  1016			ntfs_write_bh(ni->mi.sbi, &ib->rhdr, &in->nb, 0);
+  1017			err = 0;
+  1018		}
+  1019	
+  1020		/* check for index header length */
+> 1021		if (offsetof(struct INDEX_BUFFER, ihdr) + ib->ihdr.used > bytes) {
+  1022			err = -EINVAL;
+  1023			goto out;
+  1024		}
+  1025	
+  1026		in->index = ib;
+  1027		*node = in;
+  1028	
+  1029	out:
+  1030		if (ib != in->index)
+  1031			kfree(ib);
+  1032	
+  1033		if (*node != in) {
+  1034			nb_put(&in->nb);
+  1035			kfree(in);
+  1036		}
+  1037	
+  1038		return err;
+  1039	}
+  1040	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---2RdbQ2+DUZb4DR7Y
+--aT1athzr7c5qkjNU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -8046,4 +8061,4 @@ CONFIG_TEST_FREE_PAGES=m
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---2RdbQ2+DUZb4DR7Y--
+--aT1athzr7c5qkjNU--
