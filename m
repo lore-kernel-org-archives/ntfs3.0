@@ -1,119 +1,66 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933593C3B
-	for <ntfs3@lists.linux.dev>; Sun,  2 Oct 2022 18:22:36 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id w16-20020a6b4a10000000b006a5454c789eso5724603iob.20
-        for <ntfs3@lists.linux.dev>; Sun, 02 Oct 2022 11:22:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A71E7C
+	for <ntfs3@lists.linux.dev>; Sun,  2 Oct 2022 20:04:20 +0000 (UTC)
+Received: by mail-il1-f198.google.com with SMTP id g1-20020a92cda1000000b002f612391d5bso7051709ild.2
+        for <ntfs3@lists.linux.dev>; Sun, 02 Oct 2022 13:04:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=to:from:subject:message-id:in-reply-to:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=Ysbt52RDhC32GaywqJTj5pl+RLMux0Ugbzul04vFNqg=;
-        b=fag3Z1xd/FK+qTTlWK88Eyz5QSbNo4PhYWzAev7XNVPvsj/iPHxR/GSJq2KAP0s1m3
-         AMYXVhPnmN6BC3XH9sUYOatmzncg+VZ0HR+7rD5HVhgGStHYgRszYz03U0lm2zzITnm1
-         B8f1Gq4j+yLWXqMGe3/4dcLtU3ZSGX0yb5nLShxQsGSj1ZYfZBSaAqqcES6EWiBqLEfj
-         xVsmsqXAzMEhy/pgEBFsYsa50ATXulp0x82TrodV/t+g18UcNa5cOg8BbdkMQGT7esr1
-         B/HJSs+ob2A4pJgB/yR6uTZ1/9KswugCGzZSX25LLtwSgoUZug2sDWUaNiflmi2huMuF
-         lECw==
-X-Gm-Message-State: ACrzQf3CMm5dENo/5UF/TBQ9hAeZegJiuX4Flignusc03LYA0Sx9wuce
-	a3Ct6IsIiO0nvoCXD9k8t7czCTCs8y4aQ0ZmtJb66eLfawaa
-X-Google-Smtp-Source: AMsMyM6ws1IS7+jg3/ZPjZaHTnxNHqqnK81R2npG3gNhQlE/icO4LfWZnrVtGbOklfkoSnT6cdq9ro427JatwlVikxFLiIQIuAj7
+        bh=alt+Pnmjzew3cSMHF8D4f4jTWwNd/We9mTfqo5aLOos=;
+        b=dvS7UGKOuJi6pa27kAj1URMwSXtd3d9j3zbdCMGqogNE2g1WSS9IRFmyvU3U2d7F1P
+         XMNn/xA58EgXbTooDRjxzcnOjyPCvLQRQEtIKCei2sSMeMyRpVeN20r0Bnh1DJYooSha
+         PKo4MP+WUcHvVzmo1stPruxZoEZmF2pr32eRsKlJBG36Ns0HfgoXxpOLOHIe1OmcLyQ8
+         mIPudYiBcp5zrnBMBq1de/1+QP2ad3wCJY4IVyHJizodiTThqUOxoSLQ/JM3bCrCbv3x
+         uPZjx3GRW1hhosUaJFzrHjIdPyW7LeLTlP4R20xuMs7SYM2baxuKvblTrzYmp1BBjUOu
+         GcCQ==
+X-Gm-Message-State: ACrzQf2Q3ccs1e1Wp2nOjSPt449GZEM+u31p0doCyQla5xGAOEitmomg
+	uY/PQpGCc6r6VS/PF6vbvdfwcewYTSmiNFj91d8q1895QYVB
+X-Google-Smtp-Source: AMsMyM6VLcxZo3tjaJFXzbN/lsdTicHGhkOT9Fp7uoyQ4GhRHFgxHmgHscdmxDLKobMFvIgDK8W1sDcVNrnUqYDMsKocGpjcH2gM
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1a2b:b0:2f6:558d:880b with SMTP id
- g11-20020a056e021a2b00b002f6558d880bmr8315363ile.105.1664734955692; Sun, 02
- Oct 2022 11:22:35 -0700 (PDT)
-Date: Sun, 02 Oct 2022 11:22:35 -0700
-In-Reply-To: <00000000000042a5d005e967cd34@google.com>
+X-Received: by 2002:a05:6638:150c:b0:35a:f7a9:c3d8 with SMTP id
+ b12-20020a056638150c00b0035af7a9c3d8mr9235231jat.38.1664741059255; Sun, 02
+ Oct 2022 13:04:19 -0700 (PDT)
+Date: Sun, 02 Oct 2022 13:04:19 -0700
+In-Reply-To: <000000000000eca83705e9a72fb9@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000adeda005ea114fea@google.com>
-Subject: Re: [syzbot] invalid opcode in writeback_single_inode
-From: syzbot <syzbot+15cb24a539075fc4c472@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
-	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, trix@redhat.com, viro@zeniv.linux.org.uk
+Message-ID: <0000000000007ae43605ea12bb12@google.com>
+Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_trim_fs
+From: syzbot <syzbot+b892240eac461e488d51@syzkaller.appspotmail.com>
+To: abdun.nihaal@gmail.com, almaz.alexandrovich@paragon-software.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
 Content-Type: text/plain; charset="UTF-8"
 
-syzbot has found a reproducer for the following issue on:
+syzbot has bisected this issue to:
 
-HEAD commit:    b357fd1c2afc Merge tag 'usb-6.0-final' of git://git.kernel..
+commit 6e5be40d32fb1907285277c02e74493ed43d77fe
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Fri Aug 13 14:21:30 2021 +0000
+
+    fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17b6daf4880000
+start commit:   f76349cf4145 Linux 6.0-rc7
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1563ce14880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=755695d26ad09807
-dashboard link: https://syzkaller.appspot.com/bug?extid=15cb24a539075fc4c472
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=155d3a82880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11106dec880000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=1476daf4880000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1076daf4880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ba0d23aa7e1ffaf5
+dashboard link: https://syzkaller.appspot.com/bug?extid=b892240eac461e488d51
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=133c8540880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11b74870880000
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/9c8cf859a872/disk-b357fd1c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/c1d370ace8a8/vmlinux-b357fd1c.xz
+Reported-by: syzbot+b892240eac461e488d51@syzkaller.appspotmail.com
+Fixes: 6e5be40d32fb ("fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile")
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+15cb24a539075fc4c472@syzkaller.appspotmail.com
-
-loop0: detected capacity change from 0 to 8226
-invalid opcode: 0000 [#1] PREEMPT SMP KASAN
-CPU: 1 PID: 3881 Comm: syz-executor338 Not tainted 6.0.0-rc7-syzkaller-00239-gb357fd1c2afc #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
-RIP: 0010:spin_unlock include/linux/spinlock.h:389 [inline]
-RIP: 0010:writeback_single_inode+0x137/0x4c0 fs/fs-writeback.c:1728
-Code: 8e 66 03 00 00 41 8b 5c 24 20 bf 01 00 00 00 89 de e8 ed 49 98 ff 83 fb 01 74 22 45 31 ff e8 20 4d 98 ff 4c 89 f7 e8 18 a8 9f <07> 44 89 f8 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 e8 01 4d
-RSP: 0018:ffffc90003c7fa10 EFLAGS: 00010286
-RAX: 0000000080000000 RBX: 0000000000000010 RCX: 0000000000000000
-RDX: 0000000000000001 RSI: 0000000000000004 RDI: 0000000000000001
-RBP: ffff888071de4c10 R08: 0000000000000000 R09: ffff888071de4c9b
-R10: ffffed100e3bc993 R11: 0000000000000000 R12: ffffc90003c7fa88
-R13: ffff888071de4ce8 R14: ffff888071de4c98 R15: 0000000000000000
-FS:  0000555556bc6300(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000020003580 CR3: 0000000074274000 CR4: 0000000000350ee0
-Call Trace:
- <TASK>
- write_inode_now+0x16a/0x1e0 fs/fs-writeback.c:2723
- iput_final fs/inode.c:1735 [inline]
- iput.part.0+0x45b/0x810 fs/inode.c:1774
- iput+0x58/0x70 fs/inode.c:1764
- ntfs_fill_super+0x2e89/0x37f0 fs/ntfs3/super.c:1190
- get_tree_bdev+0x440/0x760 fs/super.c:1323
- vfs_get_tree+0x89/0x2f0 fs/super.c:1530
- do_new_mount fs/namespace.c:3040 [inline]
- path_mount+0x1326/0x1e20 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fb0e371181a
-Code: 48 c7 c2 c0 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 a8 00 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffc5d57af98 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007fb0e371181a
-RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007ffc5d57afb0
-RBP: 00007ffc5d57afb0 R08: 00007ffc5d57aff0 R09: 0000555556bc62c0
-R10: 0000000000000000 R11: 0000000000000286 R12: 0000000000000004
-R13: 00007ffc5d57aff0 R14: 0000000000000015 R15: 0000000020000db8
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:spin_unlock include/linux/spinlock.h:389 [inline]
-RIP: 0010:writeback_single_inode+0x137/0x4c0 fs/fs-writeback.c:1728
-Code: 8e 66 03 00 00 41 8b 5c 24 20 bf 01 00 00 00 89 de e8 ed 49 98 ff 83 fb 01 74 22 45 31 ff e8 20 4d 98 ff 4c 89 f7 e8 18 a8 9f <07> 44 89 f8 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 e8 01 4d
-RSP: 0018:ffffc90003c7fa10 EFLAGS: 00010286
-RAX: 0000000080000000 RBX: 0000000000000010 RCX: 0000000000000000
-RDX: 0000000000000001 RSI: 0000000000000004 RDI: 0000000000000001
-RBP: ffff888071de4c10 R08: 0000000000000000 R09: ffff888071de4c9b
-R10: ffffed100e3bc993 R11: 0000000000000000 R12: ffffc90003c7fa88
-R13: ffff888071de4ce8 R14: ffff888071de4c98 R15: 0000000000000000
-FS:  0000555556bc6300(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fb0e3740230 CR3: 0000000074274000 CR4: 0000000000350ef0
-
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
