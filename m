@@ -1,66 +1,102 @@
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A71E7C
-	for <ntfs3@lists.linux.dev>; Sun,  2 Oct 2022 20:04:20 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id g1-20020a92cda1000000b002f612391d5bso7051709ild.2
-        for <ntfs3@lists.linux.dev>; Sun, 02 Oct 2022 13:04:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3223D6A
+	for <ntfs3@lists.linux.dev>; Sun,  2 Oct 2022 21:53:03 +0000 (UTC)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1322d768ba7so3955437fac.5
+        for <ntfs3@lists.linux.dev>; Sun, 02 Oct 2022 14:53:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=uCRA476ZAmoARGY528Dr8G2lwbqlxMrHrdrYd8As2cY=;
+        b=Vu8AMmr1rXWDuTzUFCxWM4PFvHSj7lqRHf3bdDHtGLs3oB1efx+kq+eZCQuUwmclP3
+         4jUEhDv6NQ5zCSpozuwKHt+tbEwUJWjgZy+zoIWk+FrYEQS7tW0fbpAqEEf/uIs/nbnS
+         FytV8O0ZL4Ji7bp1rpzXz7p1JU+DI2guvhxWhuBM86QCeN4cyZFF9QtgeTCBanpXAwDR
+         FzvqemuiJ1I+ZiYnFUfOLi3VI31bPglQE4BQ5Sr5r1OwL6Albr5YyTGfYQFf52Iqfw17
+         g42eLFpM0MiSF01Qdd44kxh57F9fgQoBGJm+7AfmQo0grqYe2UzGAHmyMiQppv9lVkWh
+         LD0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=alt+Pnmjzew3cSMHF8D4f4jTWwNd/We9mTfqo5aLOos=;
-        b=dvS7UGKOuJi6pa27kAj1URMwSXtd3d9j3zbdCMGqogNE2g1WSS9IRFmyvU3U2d7F1P
-         XMNn/xA58EgXbTooDRjxzcnOjyPCvLQRQEtIKCei2sSMeMyRpVeN20r0Bnh1DJYooSha
-         PKo4MP+WUcHvVzmo1stPruxZoEZmF2pr32eRsKlJBG36Ns0HfgoXxpOLOHIe1OmcLyQ8
-         mIPudYiBcp5zrnBMBq1de/1+QP2ad3wCJY4IVyHJizodiTThqUOxoSLQ/JM3bCrCbv3x
-         uPZjx3GRW1hhosUaJFzrHjIdPyW7LeLTlP4R20xuMs7SYM2baxuKvblTrzYmp1BBjUOu
-         GcCQ==
-X-Gm-Message-State: ACrzQf2Q3ccs1e1Wp2nOjSPt449GZEM+u31p0doCyQla5xGAOEitmomg
-	uY/PQpGCc6r6VS/PF6vbvdfwcewYTSmiNFj91d8q1895QYVB
-X-Google-Smtp-Source: AMsMyM6VLcxZo3tjaJFXzbN/lsdTicHGhkOT9Fp7uoyQ4GhRHFgxHmgHscdmxDLKobMFvIgDK8W1sDcVNrnUqYDMsKocGpjcH2gM
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=uCRA476ZAmoARGY528Dr8G2lwbqlxMrHrdrYd8As2cY=;
+        b=sPLAU7N+YcfNm8xSTmkI7LESmehkXz7djPDVA0nJYaA11ocGJgLO4xyrwjBi3BCyYi
+         0hV7rPynzV6VXWm7KTsjjPUD+Udv4RH7vWi2/1IyEuFJ5IJv21ewVnsXaUViX0mgRsWV
+         kr9G8azb/SOBWKWVEBhl8YI6/byQa9OtaFUS3hqnp4hsGnv4xCCJ06lrRJEWgMK6bfU+
+         DE+EJICK+VCGG6HGgoL58y4RKJpBtaO2Fl/SG/+rDHxhPRBKduE4k+cDKM40Y3wLS44W
+         RqvLAndOrW/x3xOCwa6odKaMnC+mVfZteO10SuK9NufKUOguXgY3VrYR1EJAcN8heJyc
+         zZEQ==
+X-Gm-Message-State: ACrzQf28Yw1tB4qCtGa9QOUOv+Lilg6Oaaj7ufqsHxZFs2snY3RrWAA0
+	S1Hy08IwOdKp75otaxEdLmxk/3xBR43ryFvvBlg=
+X-Google-Smtp-Source: AMsMyM51ol9aCd1biy/P9mhuy4xTHsDitUqvKFHWQlKYgMTU/4iro6nWQPmY2SJBXmjY1UK/8//QaeGLTYMcdU6neB4=
+X-Received: by 2002:a05:6870:d147:b0:126:d4a4:e99d with SMTP id
+ f7-20020a056870d14700b00126d4a4e99dmr3698892oac.149.1664747582994; Sun, 02
+ Oct 2022 14:53:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:150c:b0:35a:f7a9:c3d8 with SMTP id
- b12-20020a056638150c00b0035af7a9c3d8mr9235231jat.38.1664741059255; Sun, 02
- Oct 2022 13:04:19 -0700 (PDT)
-Date: Sun, 02 Oct 2022 13:04:19 -0700
-In-Reply-To: <000000000000eca83705e9a72fb9@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000007ae43605ea12bb12@google.com>
-Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_trim_fs
-From: syzbot <syzbot+b892240eac461e488d51@syzkaller.appspotmail.com>
-To: abdun.nihaal@gmail.com, almaz.alexandrovich@paragon-software.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com, 
-	viro@zeniv.linux.org.uk
+References: <000000000000c2333105e9cc7b1c@google.com> <0000000000001f464d05ea07e1ec@google.com>
+In-Reply-To: <0000000000001f464d05ea07e1ec@google.com>
+From: Kari Argillander <kari.argillander@gmail.com>
+Date: Mon, 3 Oct 2022 00:52:43 +0300
+Message-ID: <CAC=eVgQSpoQq8qs=oioN0Rcdy=n0_YRoJ-R4=b0GJ2BdRpZLaA@mail.gmail.com>
+Subject: Re: [syzbot] WARNING in wnd_init
+To: syzbot <syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com>
+Cc: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, pjwatson999@gmail.com, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-syzbot has bisected this issue to:
+2.10.2022 syzbot (syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com) wrote:
+>
+> syzbot has bisected this issue to:
+>
+> commit fa3cacf544636b2dc48cfb2f277a2071f14d66a2
+> Author: Kari Argillander <kari.argillander@gmail.com>
+> Date:   Thu Aug 26 08:56:29 2021 +0000
+>
+>     fs/ntfs3: Use kernel ALIGN macros over driver specific
+>
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11e776f4880000
+> start commit:   49c13ed0316d Merge tag 'soc-fixes-6.0-rc7' of git://git.ke..
+> git tree:       upstream
+> final oops:     https://syzkaller.appspot.com/x/report.txt?x=13e776f4880000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=15e776f4880000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=ba0d23aa7e1ffaf5
+> dashboard link: https://syzkaller.appspot.com/bug?extid=fa4648a5446460b7b963
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11cad4e0880000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1303781f080000
+>
+> Reported-by: syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com
+> Fixes: fa3cacf54463 ("fs/ntfs3: Use kernel ALIGN macros over driver specific")
+>
+> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
-commit 6e5be40d32fb1907285277c02e74493ed43d77fe
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Fri Aug 13 14:21:30 2021 +0000
+I check what my patch actually changed. In my original patch I did
 
-    fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index b5da2f06f7cbd..d4dd19b822bc2 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -900,7 +900,7 @@ static inline bool run_is_empty(struct runs_tree *run)
+/* NTFS uses quad aligned bitmaps */
+static inline size_t bitmap_size(size_t bits)
+{
+- return QuadAlign((bits + 7) >> 3);
++ return ALIGN((bits + 7) >> 3, 8);
+}
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17b6daf4880000
-start commit:   f76349cf4145 Linux 6.0-rc7
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=1476daf4880000
-console output: https://syzkaller.appspot.com/x/log.txt?x=1076daf4880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ba0d23aa7e1ffaf5
-dashboard link: https://syzkaller.appspot.com/bug?extid=b892240eac461e488d51
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=133c8540880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11b74870880000
+QuadAlign was "buggy" so that it did always give a 32 bit result back. ALIGN
+macro will give a 64 bit. So bitmap_size now gives different result. To me it
+looks like my patch actually fix this behavior. I just didn't notice
+this behavior
+when I did the patch.
 
-Reported-by: syzbot+b892240eac461e488d51@syzkaller.appspotmail.com
-Fixes: 6e5be40d32fb ("fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile")
+I have tested that if bitmap_size return u32 syzbot will not trigger the issue
+anymore. You can see my test patch in the Syzbot dashboard [1]. That is not
+prober fix imo, but just wanted to help anyone looking at this problem.
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+[1]: https://syzkaller.appspot.com/bug?extid=fa4648a5446460b7b963
