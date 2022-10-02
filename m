@@ -1,106 +1,119 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30627B
-	for <ntfs3@lists.linux.dev>; Sun,  2 Oct 2022 16:04:48 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id f11so10951569wrm.6
-        for <ntfs3@lists.linux.dev>; Sun, 02 Oct 2022 09:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date;
-        bh=UMAeiMssM3GbzixmstMNowGdBxo669SztuRbBSKh5Tw=;
-        b=Lj2eZZ5IoNa9y3cEVaASZks5+6qlHFu+GuVER2W0sSmxlza7+iOXfPbvYMLb+sFTEm
-         MqeWU4KM0KsZ1waah43G/Wwi/94s/4TN0Pq6YDhXyOL8RY/XXmRXA5XFX54sbd9bHgRb
-         SE7K9NqehtP9+gyRgH+5kkgVQsf5Kl13xFkkUYw0wiqvRxlIBiTOYVXT6q/XSB39Ivkm
-         ryALJPTy1X+9o+fQeoa/ANW1fvulvgewK+3ZFren4vnj2Env6rRvLZm5ZncegcIuZitN
-         FEWDnTc4BWKjYA4KkNveBlptudLsLFrjVxQCA9v/m/jZO5YW3xa/78R+9z7JGQkK0DLh
-         64Dw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933593C3B
+	for <ntfs3@lists.linux.dev>; Sun,  2 Oct 2022 18:22:36 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id w16-20020a6b4a10000000b006a5454c789eso5724603iob.20
+        for <ntfs3@lists.linux.dev>; Sun, 02 Oct 2022 11:22:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date;
-        bh=UMAeiMssM3GbzixmstMNowGdBxo669SztuRbBSKh5Tw=;
-        b=d6WjkfBkDlOLee4uHZRQwrsqFpkdZbvyYIhpqE5KruXHmFZFF1A05Is9qRy+tG67Lm
-         y4pddviqh5DOrbakjI0y/g7ToBcIQrvfpghi01vuuv4wLIyOOEo3O/PnQIXe+MVjp7Kp
-         jyUKta4NaIiTXgTeaIBdBh90dfb1NjfGN/crQnKTIEwQfVfKA8xuGipWFOPCspMRjeVL
-         42BTBF8ug0F8g+6GGAaH1pHDhp055Xi8JQF5NB7WwrRzkrAd5K9uzk37V1EvWl42wW7l
-         32PlUqMWx7yFiU3xGwqV4Zcq+GWUKmphLZNtNcktFV/yRdriR1iZ/X+5m52UHUooyLuP
-         o/eQ==
-X-Gm-Message-State: ACrzQf09H4HeYjRiA4H/L5vPKsUG2N6ffOcAJ8I7qtd0NgPis6eDe9jT
-	oLCAB+Ae6+EnYzqZ9bpOl+U=
-X-Google-Smtp-Source: AMsMyM5Im6CBn9ufas8OM4F4thQer2205r92njMFuCftFVHIqg8gWtTMQaUxwDUlAp1+OnIZbw9Y/g==
-X-Received: by 2002:a5d:65c2:0:b0:228:68b7:e7b2 with SMTP id e2-20020a5d65c2000000b0022868b7e7b2mr10675117wrw.440.1664726686872;
-        Sun, 02 Oct 2022 09:04:46 -0700 (PDT)
-Received: from rivendell (static.167.156.21.65.clients.your-server.de. [65.21.156.167])
-        by smtp.gmail.com with ESMTPSA id n31-20020a05600c501f00b003a844885f88sm9048114wmr.22.2022.10.02.09.04.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Oct 2022 09:04:46 -0700 (PDT)
-Date: Sun, 2 Oct 2022 18:04:45 +0200 (CEST)
-From: Enrico Mioso <mrkiko.rs@gmail.com>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-    syzbot <syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com>, 
-    syzkaller-bugs@googlegroups.com, ntfs3@lists.linux.dev, 
-    Kari Argillander <kari.argillander@gmail.com>
-Subject: Re: [syzbot] WARNING in wnd_init
-In-Reply-To: <771ac308-6a55-77b4-8335-b68cde369aae@I-love.SAKURA.ne.jp>
-Message-ID: <d4dd5bd0-9f9c-a132-342f-c5a3b000c19f@gmail.com>
-References: <000000000000c2333105e9cc7b1c@google.com> <771ac308-6a55-77b4-8335-b68cde369aae@I-love.SAKURA.ne.jp>
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=Ysbt52RDhC32GaywqJTj5pl+RLMux0Ugbzul04vFNqg=;
+        b=fag3Z1xd/FK+qTTlWK88Eyz5QSbNo4PhYWzAev7XNVPvsj/iPHxR/GSJq2KAP0s1m3
+         AMYXVhPnmN6BC3XH9sUYOatmzncg+VZ0HR+7rD5HVhgGStHYgRszYz03U0lm2zzITnm1
+         B8f1Gq4j+yLWXqMGe3/4dcLtU3ZSGX0yb5nLShxQsGSj1ZYfZBSaAqqcES6EWiBqLEfj
+         xVsmsqXAzMEhy/pgEBFsYsa50ATXulp0x82TrodV/t+g18UcNa5cOg8BbdkMQGT7esr1
+         B/HJSs+ob2A4pJgB/yR6uTZ1/9KswugCGzZSX25LLtwSgoUZug2sDWUaNiflmi2huMuF
+         lECw==
+X-Gm-Message-State: ACrzQf3CMm5dENo/5UF/TBQ9hAeZegJiuX4Flignusc03LYA0Sx9wuce
+	a3Ct6IsIiO0nvoCXD9k8t7czCTCs8y4aQ0ZmtJb66eLfawaa
+X-Google-Smtp-Source: AMsMyM6ws1IS7+jg3/ZPjZaHTnxNHqqnK81R2npG3gNhQlE/icO4LfWZnrVtGbOklfkoSnT6cdq9ro427JatwlVikxFLiIQIuAj7
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Received: by 2002:a05:6e02:1a2b:b0:2f6:558d:880b with SMTP id
+ g11-20020a056e021a2b00b002f6558d880bmr8315363ile.105.1664734955692; Sun, 02
+ Oct 2022 11:22:35 -0700 (PDT)
+Date: Sun, 02 Oct 2022 11:22:35 -0700
+In-Reply-To: <00000000000042a5d005e967cd34@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000adeda005ea114fea@google.com>
+Subject: Re: [syzbot] invalid opcode in writeback_single_inode
+From: syzbot <syzbot+15cb24a539075fc4c472@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com, viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-Hello all!
+syzbot has found a reproducer for the following issue on:
 
-Is this the expected fix for the issue?
-Shouldn't the value be sanitized somehow?
-This is intended to be an "honest" question - I am not an experienced kernel nor filesystem programmer, just wondering...
+HEAD commit:    b357fd1c2afc Merge tag 'usb-6.0-final' of git://git.kernel..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1563ce14880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=755695d26ad09807
+dashboard link: https://syzkaller.appspot.com/bug?extid=15cb24a539075fc4c472
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=155d3a82880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11106dec880000
 
-Enrico
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/9c8cf859a872/disk-b357fd1c.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c1d370ace8a8/vmlinux-b357fd1c.xz
 
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+15cb24a539075fc4c472@syzkaller.appspotmail.com
 
-On Sun, 2 Oct 2022, Tetsuo Handa wrote:
+loop0: detected capacity change from 0 to 8226
+invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+CPU: 1 PID: 3881 Comm: syz-executor338 Not tainted 6.0.0-rc7-syzkaller-00239-gb357fd1c2afc #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
+RIP: 0010:spin_unlock include/linux/spinlock.h:389 [inline]
+RIP: 0010:writeback_single_inode+0x137/0x4c0 fs/fs-writeback.c:1728
+Code: 8e 66 03 00 00 41 8b 5c 24 20 bf 01 00 00 00 89 de e8 ed 49 98 ff 83 fb 01 74 22 45 31 ff e8 20 4d 98 ff 4c 89 f7 e8 18 a8 9f <07> 44 89 f8 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 e8 01 4d
+RSP: 0018:ffffc90003c7fa10 EFLAGS: 00010286
+RAX: 0000000080000000 RBX: 0000000000000010 RCX: 0000000000000000
+RDX: 0000000000000001 RSI: 0000000000000004 RDI: 0000000000000001
+RBP: ffff888071de4c10 R08: 0000000000000000 R09: ffff888071de4c9b
+R10: ffffed100e3bc993 R11: 0000000000000000 R12: ffffc90003c7fa88
+R13: ffff888071de4ce8 R14: ffff888071de4c98 R15: 0000000000000000
+FS:  0000555556bc6300(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020003580 CR3: 0000000074274000 CR4: 0000000000350ee0
+Call Trace:
+ <TASK>
+ write_inode_now+0x16a/0x1e0 fs/fs-writeback.c:2723
+ iput_final fs/inode.c:1735 [inline]
+ iput.part.0+0x45b/0x810 fs/inode.c:1774
+ iput+0x58/0x70 fs/inode.c:1764
+ ntfs_fill_super+0x2e89/0x37f0 fs/ntfs3/super.c:1190
+ get_tree_bdev+0x440/0x760 fs/super.c:1323
+ vfs_get_tree+0x89/0x2f0 fs/super.c:1530
+ do_new_mount fs/namespace.c:3040 [inline]
+ path_mount+0x1326/0x1e20 fs/namespace.c:3370
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fb0e371181a
+Code: 48 c7 c2 c0 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 a8 00 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc5d57af98 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007fb0e371181a
+RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007ffc5d57afb0
+RBP: 00007ffc5d57afb0 R08: 00007ffc5d57aff0 R09: 0000555556bc62c0
+R10: 0000000000000000 R11: 0000000000000286 R12: 0000000000000004
+R13: 00007ffc5d57aff0 R14: 0000000000000015 R15: 0000000020000db8
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:spin_unlock include/linux/spinlock.h:389 [inline]
+RIP: 0010:writeback_single_inode+0x137/0x4c0 fs/fs-writeback.c:1728
+Code: 8e 66 03 00 00 41 8b 5c 24 20 bf 01 00 00 00 89 de e8 ed 49 98 ff 83 fb 01 74 22 45 31 ff e8 20 4d 98 ff 4c 89 f7 e8 18 a8 9f <07> 44 89 f8 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 e8 01 4d
+RSP: 0018:ffffc90003c7fa10 EFLAGS: 00010286
+RAX: 0000000080000000 RBX: 0000000000000010 RCX: 0000000000000000
+RDX: 0000000000000001 RSI: 0000000000000004 RDI: 0000000000000001
+RBP: ffff888071de4c10 R08: 0000000000000000 R09: ffff888071de4c9b
+R10: ffffed100e3bc993 R11: 0000000000000000 R12: ffffc90003c7fa88
+R13: ffff888071de4ce8 R14: ffff888071de4c98 R15: 0000000000000000
+FS:  0000555556bc6300(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb0e3740230 CR3: 0000000074274000 CR4: 0000000000350ef0
 
-> Date: Sun, 2 Oct 2022 16:37:34
-> From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-> To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-> Cc: syzbot <syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com>,
->     syzkaller-bugs@googlegroups.com, ntfs3@lists.linux.dev,
->     Kari Argillander <kari.argillander@gmail.com>
-> Subject: Re: [syzbot] WARNING in wnd_init
-> 
-> syzbot is reporting too large allocation at wnd_init() [1], for a crafted
-> filesystem can become wnd->nwnd close to UINT_MAX. Add __GFP_NOWARN in
-> order to avoid too large allocation warning, than exhausting memory by
-> using kvcalloc().
->
-> Link: https://syzkaller.appspot.com/bug?extid=fa4648a5446460b7b963 [1]
-> Reported-by: syzot <syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com>
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> ---
-> fs/ntfs3/bitmap.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
-> index 5d44ceac855b..90f3c4e84856 100644
-> --- a/fs/ntfs3/bitmap.c
-> +++ b/fs/ntfs3/bitmap.c
-> @@ -661,7 +661,7 @@ int wnd_init(struct wnd_bitmap *wnd, struct super_block *sb, size_t nbits)
-> 	if (!wnd->bits_last)
-> 		wnd->bits_last = wbits;
->
-> -	wnd->free_bits = kcalloc(wnd->nwnd, sizeof(u16), GFP_NOFS);
-> +	wnd->free_bits = kcalloc(wnd->nwnd, sizeof(u16), GFP_NOFS | __GFP_NOWARN);
-> 	if (!wnd->free_bits)
-> 		return -ENOMEM;
->
-> -- 
-> 2.34.1
->
->
->
