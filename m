@@ -1,64 +1,113 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103E017C8
-	for <ntfs3@lists.linux.dev>; Sun,  2 Oct 2022 07:07:26 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id i8-20020a056e0212c800b002f9a4c75658so1276972ilm.3
-        for <ntfs3@lists.linux.dev>; Sun, 02 Oct 2022 00:07:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20432907
+	for <ntfs3@lists.linux.dev>; Sun,  2 Oct 2022 11:18:37 +0000 (UTC)
+Received: by mail-io1-f72.google.com with SMTP id x22-20020a6bda16000000b006a123cb02beso5298381iob.18
+        for <ntfs3@lists.linux.dev>; Sun, 02 Oct 2022 04:18:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=Qi6nBTR+UnFwIOgi+5za5E54nvZ3NxHLQWk2qFGen7o=;
-        b=P0hbl8wtYo5mw+g13yiGLOTNcirrpkg84kZ73i42UZKS4P25Dpp/u1gmwpJTMeoXfI
-         zDjj7qEeDeM2O4vNu8oMkuCM2EqfwSJR5qt7eySOksd6otmTpKxobRNfnaIzx92SQU+J
-         tQiDM8EkuvOk0qU4cmtz3eJs/woo4jlagmcYwRdKbesqKTXcqhIhYBmBIji89x4TU6ve
-         McwXj4OQamC1WSzfeEZhYbZhMPMC+17d2B80YItujkJLEFvSzPQITFXaJyW91D8435n9
-         O4eMdTWv3LyyGC099n76LyoJ6rLfoj1EWouB+4aid/Zl090tRftu4Yy1asE39CCO6uJl
-         hApw==
-X-Gm-Message-State: ACrzQf21LeH1/vd2KhB1+hKIveZTVNnALts8jgpvyRucJwn+N5g/8YTd
-	6CzzXW0sM3K5fx8InHpnIt7QLTAFhtVFR+yoK90vFUWeamog
-X-Google-Smtp-Source: AMsMyM6cwMuncRrmt79Mj/WXcS4r8FkcadYGjogneb5rOnAxTbtsoztfCGT+QgEWfG27XV9v4TrPFfCnEMjjdH+b+i0t+wg4+sQ6
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=+oGO/iqK0zkJ3WDUp/YwhQsBg1pSztpolfX7crd2mvo=;
+        b=DbGg413K3AnhTeiyZSBUXJZu0Th6O8n8lpvRBgW17QhDeWDkUNu/5BoOaxKnJn/xUl
+         n7mikh+yRnvRRW1o+9XFgnTebgPPv0LRTWPsK8J51VAzbgtAkiUc8KWl8Jff+yOPG3op
+         HtWt1H3uNfUrnaHheSz2pwn+OG2ZWyHKNlnoXKJiB9Mc28jRFrJG8BqIy3j7nehT6Cxv
+         v+0qfzxE3W5mK4b8ROQdcKXqGX/crW/StE8oU/Qw6Cdj2y+J0G3u2Bu93hPmDo/KMWOl
+         nC4YIh/1SGjQJ/QMurXeq6hIsWgCkYEE1QTuxfFNgxJeHDNvX46L58UTMNIR9qgAJYnF
+         W9IQ==
+X-Gm-Message-State: ACrzQf3MKmISfDepK1UdegQlHfCKIx17H7EbbP7r0GXjtiSbx2TyV9Nc
+	sTSilcGfgnL+Rgf+l8X6UdzhV7zULPMvYvAPZp6zdC1TC+yW
+X-Google-Smtp-Source: AMsMyM4dzSHR1szkx9PpgM/GLZaCMRKtmqavFNlawJBZT/BPb4FYv4NhF/mhXqc7U34aXsvHK5NEokod9XADSrk1p1RczSIln1tI
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1e0c:b0:2f9:c089:eb27 with SMTP id
- g12-20020a056e021e0c00b002f9c089eb27mr447588ila.172.1664694446144; Sun, 02
- Oct 2022 00:07:26 -0700 (PDT)
-Date: Sun, 02 Oct 2022 00:07:26 -0700
-In-Reply-To: <000000000000c2333105e9cc7b1c@google.com>
+X-Received: by 2002:a05:6638:270d:b0:35a:6246:ba76 with SMTP id
+ m13-20020a056638270d00b0035a6246ba76mr8372607jav.263.1664709516827; Sun, 02
+ Oct 2022 04:18:36 -0700 (PDT)
+Date: Sun, 02 Oct 2022 04:18:36 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001f464d05ea07e1ec@google.com>
-Subject: Re: [syzbot] WARNING in wnd_init
-From: syzbot <syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, kari.argillander@gmail.com, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, pjwatson999@gmail.com, 
-	syzkaller-bugs@googlegroups.com
+Message-ID: <00000000000067a9d105ea0b6304@google.com>
+Subject: [syzbot] WARNING in ntfs_fill_super
+From: syzbot <syzbot+33f3faaa0c08744f7d40@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 
-syzbot has bisected this issue to:
+Hello,
 
-commit fa3cacf544636b2dc48cfb2f277a2071f14d66a2
-Author: Kari Argillander <kari.argillander@gmail.com>
-Date:   Thu Aug 26 08:56:29 2021 +0000
+syzbot found the following issue on:
 
-    fs/ntfs3: Use kernel ALIGN macros over driver specific
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11e776f4880000
-start commit:   49c13ed0316d Merge tag 'soc-fixes-6.0-rc7' of git://git.ke..
+HEAD commit:    ffb4d94b4314 Merge tag 'drm-fixes-2022-10-01' of git://ano..
 git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=13e776f4880000
-console output: https://syzkaller.appspot.com/x/log.txt?x=15e776f4880000
+console output: https://syzkaller.appspot.com/x/log.txt?x=133007c4880000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=ba0d23aa7e1ffaf5
-dashboard link: https://syzkaller.appspot.com/bug?extid=fa4648a5446460b7b963
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11cad4e0880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1303781f080000
+dashboard link: https://syzkaller.appspot.com/bug?extid=33f3faaa0c08744f7d40
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
 
-Reported-by: syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com
-Fixes: fa3cacf54463 ("fs/ntfs3: Use kernel ALIGN macros over driver specific")
+Unfortunately, I don't have any reproducer for this issue yet.
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/b74f52232e47/disk-ffb4d94b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/b09212ee600a/vmlinux-ffb4d94b.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+33f3faaa0c08744f7d40@syzkaller.appspotmail.com
+
+WARNING: CPU: 1 PID: 19148 at mm/page_alloc.c:5525 __alloc_pages+0x30a/0x560 mm/page_alloc.c:5525
+Modules linked in:
+CPU: 1 PID: 19148 Comm: syz-executor.1 Not tainted 6.0.0-rc7-syzkaller-00220-gffb4d94b4314 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
+RIP: 0010:__alloc_pages+0x30a/0x560 mm/page_alloc.c:5525
+Code: 5c 24 04 0f 85 f3 00 00 00 44 89 e1 81 e1 7f ff ff ff a9 00 00 04 00 41 0f 44 cc 41 89 cc e9 e3 00 00 00 c6 05 d3 16 29 0c 01 <0f> 0b 83 fb 0a 0f 86 c8 fd ff ff 31 db 48 c7 44 24 20 0e 36 e0 45
+RSP: 0000:ffffc900132a78e0 EFLAGS: 00010246
+RAX: ffffc900132a7940 RBX: 0000000000000014 RCX: 0000000000000000
+RDX: 0000000000000028 RSI: 0000000000000000 RDI: ffffc900132a7968
+RBP: ffffc900132a79f0 R08: dffffc0000000000 R09: ffffc900132a7940
+R10: fffff52002654f2d R11: 1ffff92002654f28 R12: 0000000000040c40
+R13: 1ffff92002654f24 R14: dffffc0000000000 R15: 1ffff92002654f20
+FS:  00007f7b48ffe700(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005557f22db668 CR3: 0000000048e99000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ kmalloc_order+0x41/0x140 mm/slab_common.c:933
+ kmalloc_order_trace+0x15/0x70 mm/slab_common.c:949
+ kmalloc_large include/linux/slab.h:529 [inline]
+ __kmalloc+0x26e/0x370 mm/slub.c:4418
+ kmalloc include/linux/slab.h:605 [inline]
+ ntfs_fill_super+0x351b/0x42a0 fs/ntfs3/super.c:1144
+ get_tree_bdev+0x400/0x620 fs/super.c:1323
+ vfs_get_tree+0x88/0x270 fs/super.c:1530
+ do_new_mount+0x289/0xad0 fs/namespace.c:3040
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount+0x2d3/0x3c0 fs/namespace.c:3568
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f7b4a08bada
+Code: 48 c7 c2 b8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 b8 04 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f7b48ffdf88 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000020000200 RCX: 00007f7b4a08bada
+RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007f7b48ffdfe0
+RBP: 00007f7b48ffe020 R08: 00007f7b48ffe020 R09: 0000000020000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000020000000
+R13: 0000000020000100 R14: 00007f7b48ffdfe0 R15: 0000000020002580
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
