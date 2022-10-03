@@ -1,102 +1,118 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3223D6A
-	for <ntfs3@lists.linux.dev>; Sun,  2 Oct 2022 21:53:03 +0000 (UTC)
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1322d768ba7so3955437fac.5
-        for <ntfs3@lists.linux.dev>; Sun, 02 Oct 2022 14:53:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=uCRA476ZAmoARGY528Dr8G2lwbqlxMrHrdrYd8As2cY=;
-        b=Vu8AMmr1rXWDuTzUFCxWM4PFvHSj7lqRHf3bdDHtGLs3oB1efx+kq+eZCQuUwmclP3
-         4jUEhDv6NQ5zCSpozuwKHt+tbEwUJWjgZy+zoIWk+FrYEQS7tW0fbpAqEEf/uIs/nbnS
-         FytV8O0ZL4Ji7bp1rpzXz7p1JU+DI2guvhxWhuBM86QCeN4cyZFF9QtgeTCBanpXAwDR
-         FzvqemuiJ1I+ZiYnFUfOLi3VI31bPglQE4BQ5Sr5r1OwL6Albr5YyTGfYQFf52Iqfw17
-         g42eLFpM0MiSF01Qdd44kxh57F9fgQoBGJm+7AfmQo0grqYe2UzGAHmyMiQppv9lVkWh
-         LD0w==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF1C15BC
+	for <ntfs3@lists.linux.dev>; Mon,  3 Oct 2022 03:53:32 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id n16-20020a6b5910000000b006a3570db9a5so6220130iob.23
+        for <ntfs3@lists.linux.dev>; Sun, 02 Oct 2022 20:53:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=uCRA476ZAmoARGY528Dr8G2lwbqlxMrHrdrYd8As2cY=;
-        b=sPLAU7N+YcfNm8xSTmkI7LESmehkXz7djPDVA0nJYaA11ocGJgLO4xyrwjBi3BCyYi
-         0hV7rPynzV6VXWm7KTsjjPUD+Udv4RH7vWi2/1IyEuFJ5IJv21ewVnsXaUViX0mgRsWV
-         kr9G8azb/SOBWKWVEBhl8YI6/byQa9OtaFUS3hqnp4hsGnv4xCCJ06lrRJEWgMK6bfU+
-         DE+EJICK+VCGG6HGgoL58y4RKJpBtaO2Fl/SG/+rDHxhPRBKduE4k+cDKM40Y3wLS44W
-         RqvLAndOrW/x3xOCwa6odKaMnC+mVfZteO10SuK9NufKUOguXgY3VrYR1EJAcN8heJyc
-         zZEQ==
-X-Gm-Message-State: ACrzQf28Yw1tB4qCtGa9QOUOv+Lilg6Oaaj7ufqsHxZFs2snY3RrWAA0
-	S1Hy08IwOdKp75otaxEdLmxk/3xBR43ryFvvBlg=
-X-Google-Smtp-Source: AMsMyM51ol9aCd1biy/P9mhuy4xTHsDitUqvKFHWQlKYgMTU/4iro6nWQPmY2SJBXmjY1UK/8//QaeGLTYMcdU6neB4=
-X-Received: by 2002:a05:6870:d147:b0:126:d4a4:e99d with SMTP id
- f7-20020a056870d14700b00126d4a4e99dmr3698892oac.149.1664747582994; Sun, 02
- Oct 2022 14:53:02 -0700 (PDT)
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=5UX8UvFELFPf+hJe9Pw+hJuyDg2PnF+1lGkZkcSAJUE=;
+        b=i/zBG4HSj+H1xz1QatQjDdf8DY/S6NC+CO8HRm9l6DhEfkPC4zpImh1qDGhNEDp8pr
+         Etvf4+4+xeBUKRr5ExJw8buQN82VcF9JEvjytby9UCmG7l19Tw39wW9dlYHQ3M5tIdK2
+         h9AvmaWsMurj5ZmwzdLYfk8ZXxqUsvpMteFVWBDR1gCujy+zHc47ytnr097stiRPpYBI
+         gswRZodbTdSWsLJbm8GAIOmLuOlLwROqLTl8m226VNIe0oDzH5VFIbpDxGcD5mIAqzIQ
+         ubOiD8vcl6leC4ylh8NhP3nsY8IoowZpHH8zuRujW1V7Q/dYNm+2mtlgVv88h3LKY9KM
+         skxg==
+X-Gm-Message-State: ACrzQf0OoBvylc3G/eKN5lF3eaMwGCb+gnBQnog0bjTco6IvVkU8cO/D
+	bUIlPuBG4VPME8fM1dqUsePfrs83xef3K6sKEzKDqcbY5ou9
+X-Google-Smtp-Source: AMsMyM4tIse+vTF2vTGYf88YS+ZbvTLfYLud4mHfj6888dXkC8/x211A1QvMeXbgJeV5vxTyx6A1rFozzZLDb7cJk/Pxi6ZdLL+I
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <000000000000c2333105e9cc7b1c@google.com> <0000000000001f464d05ea07e1ec@google.com>
-In-Reply-To: <0000000000001f464d05ea07e1ec@google.com>
-From: Kari Argillander <kari.argillander@gmail.com>
-Date: Mon, 3 Oct 2022 00:52:43 +0300
-Message-ID: <CAC=eVgQSpoQq8qs=oioN0Rcdy=n0_YRoJ-R4=b0GJ2BdRpZLaA@mail.gmail.com>
-Subject: Re: [syzbot] WARNING in wnd_init
-To: syzbot <syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com>
-Cc: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, pjwatson999@gmail.com, syzkaller-bugs@googlegroups.com
+X-Received: by 2002:a6b:e714:0:b0:6a1:35af:82dc with SMTP id
+ b20-20020a6be714000000b006a135af82dcmr7585539ioh.205.1664769211197; Sun, 02
+ Oct 2022 20:53:31 -0700 (PDT)
+Date: Sun, 02 Oct 2022 20:53:31 -0700
+In-Reply-To: <00000000000068e76205e2ec0e6b@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000776f5005ea1949d8@google.com>
+Subject: Re: [syzbot] WARNING in match_held_lock
+From: syzbot <syzbot+6c67d4224af196c99976@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, boqun.feng@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, llvm@lists.linux.dev, 
+	longman@redhat.com, mingo@redhat.com, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, peterz@infradead.org, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com, will@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-2.10.2022 syzbot (syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com) wrote:
->
-> syzbot has bisected this issue to:
->
-> commit fa3cacf544636b2dc48cfb2f277a2071f14d66a2
-> Author: Kari Argillander <kari.argillander@gmail.com>
-> Date:   Thu Aug 26 08:56:29 2021 +0000
->
->     fs/ntfs3: Use kernel ALIGN macros over driver specific
->
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11e776f4880000
-> start commit:   49c13ed0316d Merge tag 'soc-fixes-6.0-rc7' of git://git.ke..
-> git tree:       upstream
-> final oops:     https://syzkaller.appspot.com/x/report.txt?x=13e776f4880000
-> console output: https://syzkaller.appspot.com/x/log.txt?x=15e776f4880000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=ba0d23aa7e1ffaf5
-> dashboard link: https://syzkaller.appspot.com/bug?extid=fa4648a5446460b7b963
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11cad4e0880000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1303781f080000
->
-> Reported-by: syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com
-> Fixes: fa3cacf54463 ("fs/ntfs3: Use kernel ALIGN macros over driver specific")
->
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+syzbot has found a reproducer for the following issue on:
 
-I check what my patch actually changed. In my original patch I did
+HEAD commit:    a962b54e162c Merge tag 'i2c-for-6.0-rc8' of git://git.kern..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11833a82880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=755695d26ad09807
+dashboard link: https://syzkaller.appspot.com/bug?extid=6c67d4224af196c99976
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13b51e14880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10b33c68880000
 
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index b5da2f06f7cbd..d4dd19b822bc2 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -900,7 +900,7 @@ static inline bool run_is_empty(struct runs_tree *run)
-/* NTFS uses quad aligned bitmaps */
-static inline size_t bitmap_size(size_t bits)
-{
-- return QuadAlign((bits + 7) >> 3);
-+ return ALIGN((bits + 7) >> 3, 8);
-}
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/c0d6002d7b4b/disk-a962b54e.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/cf0a29408406/vmlinux-a962b54e.xz
 
-QuadAlign was "buggy" so that it did always give a 32 bit result back. ALIGN
-macro will give a 64 bit. So bitmap_size now gives different result. To me it
-looks like my patch actually fix this behavior. I just didn't notice
-this behavior
-when I did the patch.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+6c67d4224af196c99976@syzkaller.appspotmail.com
 
-I have tested that if bitmap_size return u32 syzbot will not trigger the issue
-anymore. You can see my test patch in the Syzbot dashboard [1]. That is not
-prober fix imo, but just wanted to help anyone looking at this problem.
+ntfs3: loop3: Different NTFS' sector size (1024) and media sector size (512)
+------------[ cut here ]------------
+DEBUG_LOCKS_WARN_ON(!hlock->nest_lock)
+WARNING: CPU: 0 PID: 5565 at kernel/locking/lockdep.c:5135 match_held_lock+0xad/0xc0 kernel/locking/lockdep.c:5135
+Modules linked in:
+CPU: 0 PID: 5565 Comm: syz-executor151 Not tainted 6.0.0-rc7-syzkaller-00250-ga962b54e162c #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
+RIP: 0010:match_held_lock+0xad/0xc0 kernel/locking/lockdep.c:5135
+Code: e8 b8 c4 7a fa 85 c0 74 e4 8b 05 26 e5 5e 04 85 c0 75 da 48 c7 c6 60 ac ec 89 48 c7 c7 e0 a8 ec 89 89 44 24 04 e8 45 e7 ba ff <0f> 0b 8b 44 24 04 eb bd 66 66 2e 0f 1f 84 00 00 00 00 00 41 57 41
+RSP: 0018:ffffc900058c79d8 EFLAGS: 00010086
+RAX: 0000000000000000 RBX: ffff88807e390aa0 RCX: 0000000000000000
+RDX: ffff88807e390000 RSI: ffffffff8161f2a8 RDI: fffff52000b18f2d
+RBP: ffffffff8bf89640 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000080000002 R11: 0000000000000001 R12: ffff88807e390000
+R13: ffff88807e390a78 R14: 00000000ffffffff R15: ffff88807e390aa0
+FS:  0000555556d9c300(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fbbd6497056 CR3: 0000000016c2f000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ __lock_is_held kernel/locking/lockdep.c:5407 [inline]
+ lock_is_held_type+0xa7/0x140 kernel/locking/lockdep.c:5709
+ lock_is_held include/linux/lockdep.h:283 [inline]
+ rcu_read_lock_sched_held+0x3a/0x70 kernel/rcu/update.c:125
+ trace_lock_release include/trace/events/lock.h:69 [inline]
+ lock_release+0x560/0x780 kernel/locking/lockdep.c:5677
+ __raw_spin_unlock include/linux/spinlock_api_smp.h:141 [inline]
+ _raw_spin_unlock+0x12/0x40 kernel/locking/spinlock.c:186
+ spin_unlock include/linux/spinlock.h:389 [inline]
+ inode_sb_list_del fs/inode.c:505 [inline]
+ evict+0x2aa/0x6b0 fs/inode.c:654
+ iput_final fs/inode.c:1748 [inline]
+ iput.part.0+0x55d/0x810 fs/inode.c:1774
+ iput+0x58/0x70 fs/inode.c:1764
+ ntfs_fill_super+0x2e89/0x37f0 fs/ntfs3/super.c:1190
+ get_tree_bdev+0x440/0x760 fs/super.c:1323
+ vfs_get_tree+0x89/0x2f0 fs/super.c:1530
+ do_new_mount fs/namespace.c:3040 [inline]
+ path_mount+0x1326/0x1e20 fs/namespace.c:3370
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fbbd6459e7a
+Code: 48 c7 c2 c0 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 c8 03 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd6a35b568 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007fbbd6459e7a
+RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007ffd6a35b580
+RBP: 00007ffd6a35b580 R08: 00007ffd6a35b5c0 R09: 00007ffd6a35b5c0
+R10: 0000000000000000 R11: 0000000000000286 R12: 0000000000000004
+R13: 00007ffd6a35b5c0 R14: 000000000000010e R15: 0000000020001b50
+ </TASK>
 
-[1]: https://syzkaller.appspot.com/bug?extid=fa4648a5446460b7b963
