@@ -1,124 +1,119 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537A6360
-	for <ntfs3@lists.linux.dev>; Tue,  4 Oct 2022 04:34:11 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id bk15so19452216wrb.13
-        for <ntfs3@lists.linux.dev>; Mon, 03 Oct 2022 21:34:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date;
-        bh=sXX5hX07BGx/rUvDQD47pclnXvdWt2TdZfsk0DmyS1o=;
-        b=Ag6joGOw0nFt/ikjUoadX/LWmbO2Y4s+CvAVFJ+GKUhejJhijT2cjlnHDRqmuLfqe8
-         lylGx4AYVDkLY3g2NGoRZCBD7j5YwLvfkJIIUc7xX2fcCXzriqcU8hx+fjp1AnRTI30V
-         EYLnz8tZf1F+B+ESApinPKhqKRg7tl4tQHfoSUupHAL1g9RDGSDsBUhWX18KJpgoyjDo
-         L7+np3fGiiixl2kxymfMTMI/Q+kjetK3H1QRt8UX2D8P7vjVPdQnZFH5AvN/bVAbEFSa
-         hJUBU7UgrwStNERmSCKyAPj3c/stlY1hZvSAhqjQjcxdFCwXoTZSHSuVUgnBO4TTO4w9
-         uNIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date;
-        bh=sXX5hX07BGx/rUvDQD47pclnXvdWt2TdZfsk0DmyS1o=;
-        b=YIgglj1nDRclrpXYzxId1f4V63BtYM5jL+bDetr4fpwFZHN9rFfpdL+tEvK5uwF6HR
-         T3KSo1BrcBb57UUgN5hw4LKjvU4fobPuLO7RAKJrhGBQ+t7toSfD0hbCYVJPOpoAbBi5
-         pKQ22JwjLLlatjIgfpLwxQRH/cDq2K9BnZQGG5ktPlaZ9v0zrjj8Ebu6ZQYn7LlAAQ3L
-         cfynLXyz4P6a0achqM+PrjNdk8C7/6hVgfea9+L67AV06kXEUgOmoCjnJz9eH8cGISg7
-         Gsoj0MZNg42xOkM7IHMfxE2Oia0lMxt0c5F28TgGgUrjWx/o1Ojj2Bvs5KuW3YCYWMqQ
-         ATZQ==
-X-Gm-Message-State: ACrzQf2Ix1KC6baqUH8R14SEeCJidHD/WK0UCLgd2pDHMSgjsGfvBvUd
-	OZUArMvaADtso2KKL8PvmbQ=
-X-Google-Smtp-Source: AMsMyM7/ZkC7rTcZwmP8+Aw/TsKUwPG9cD4Kuvg4bXZi43PX7RBEHVGW3WErXO4pDtfiSCfHrNqj3g==
-X-Received: by 2002:a5d:5849:0:b0:22b:a0e:11e0 with SMTP id i9-20020a5d5849000000b0022b0a0e11e0mr15606160wrf.72.1664858049476;
-        Mon, 03 Oct 2022 21:34:09 -0700 (PDT)
-Received: from [192.168.42.102] (mo-217-129-3-75.netvisao.pt. [217.129.3.75])
-        by smtp.gmail.com with ESMTPSA id x6-20020adfdcc6000000b0022add371ed2sm11415547wrm.55.2022.10.03.21.34.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Oct 2022 21:34:09 -0700 (PDT)
-Message-ID: <9f8c3c0e-189b-87d0-965f-fbe68ff9b883@gmail.com>
-Date: Tue, 4 Oct 2022 05:34:07 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE853C37;
+	Tue,  4 Oct 2022 14:42:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08BDCC433D6;
+	Tue,  4 Oct 2022 14:42:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1664894523;
+	bh=29LvEzDal7lMcf+KcEq8WBvv30fyBigvxIzqI3Lkl60=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZEm2Z6obrk5OW5mYmqkV/bW7P0jbV6JTaq/qP01eAHmzph4t0eLPXMZHdVt7KRtv1
+	 saGsEGonUQGcgB4u0H3uiskgJ63dZzT0NPqfglHfuKQiZbo3JlkBNqiQX11YPaaEcx
+	 TLJXg1vCY97+A8BbbqhcbAa3K0XFD0xEeqHvuwOkk9efJXwtS08KK/30hJ4NUsPaHP
+	 KCo+Lf+SiXP6WhMvHQkRM2nQyxe9KEivOv+5w4+j/bU3GNytNLWQbrY1taRjj2QSkP
+	 P3QUltcPErh5LnkmUGQZgGvv4ARZkG9zL0Wtjz8HdoFi223JkHfQSpY8GEjyBFOH96
+	 kyaw89syy2uNA==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>,
+	ntfs3@lists.linux.dev,
+	llvm@lists.linux.dev,
+	patches@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH -next] fs/ntfs3: Don't use uni1 uninitialized in ntfs_d_compare()
+Date: Tue,  4 Oct 2022 07:41:45 -0700
+Message-Id: <20221004144145.1345772-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-From: Daniel Pinto <danielpinto52@gmail.com>
-Subject: [PATCH] fs/ntfs3: add system.ntfs_attrib_be extended attribute
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-NTFS-3G provides the system.ntfs_attrib_be extended attribute, which
-has the same value as system.ntfs_attrib but represented in big-endian.
-Some utilities rely on the existence of this extended attribute.
+Clang warns:
 
-Improves compatibility with NTFS-3G by adding the system.ntfs_attrib_be
-extended attribute.
+  fs/ntfs3/namei.c:445:7: error: variable 'uni1' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
+                  if (toupper(c1) != toupper(c2)) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+  ./include/linux/ctype.h:64:20: note: expanded from macro 'toupper'
+  #define toupper(c) __toupper(c)
+                    ^
+  fs/ntfs3/namei.c:487:12: note: uninitialized use occurs here
+          __putname(uni1);
+                    ^~~~
+  ./include/linux/fs.h:2789:65: note: expanded from macro '__putname'
+  #define __putname(name)         kmem_cache_free(names_cachep, (void *)(name))
+                                                                        ^~~~
+  fs/ntfs3/namei.c:445:3: note: remove the 'if' if its condition is always false
+                  if (toupper(c1) != toupper(c2)) {
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  fs/ntfs3/namei.c:434:7: error: variable 'uni1' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
+                  if (!lm--) {
+                      ^~~~~
+  fs/ntfs3/namei.c:487:12: note: uninitialized use occurs here
+          __putname(uni1);
+                    ^~~~
+  ./include/linux/fs.h:2789:65: note: expanded from macro '__putname'
+  #define __putname(name)         kmem_cache_free(names_cachep, (void *)(name))
+                                                                        ^~~~
+  fs/ntfs3/namei.c:434:3: note: remove the 'if' if its condition is always false
+                  if (!lm--) {
+                  ^~~~~~~~~~~~
+  fs/ntfs3/namei.c:430:22: note: initialize the variable 'uni1' to silence this warning
+          struct cpu_str *uni1, *uni2;
+                              ^
+                              = NULL
+  2 errors generated.
 
-Signed-off-by: Daniel Pinto <danielpinto52@gmail.com>
+There is no point in calling __putname() in these particular error
+paths, as there has been no corresponding __getname() call yet. Just
+return directly in these blocks to clear up the warning.
+
+Fixes: a3a956c78efa ("fs/ntfs3: Add option "nocase"")
+Link: https://github.com/ClangBuiltLinux/linux/issues/1729
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- fs/ntfs3/xattr.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ fs/ntfs3/namei.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index aeee5fb12092..8620a7b4b3e6 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -15,9 +15,10 @@
- #include "ntfs_fs.h"
+diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
+index 315763eb05ff..5d3a6ce3f05f 100644
+--- a/fs/ntfs3/namei.c
++++ b/fs/ntfs3/namei.c
+@@ -431,10 +431,8 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
  
- // clang-format off
--#define SYSTEM_DOS_ATTRIB    "system.dos_attrib"
--#define SYSTEM_NTFS_ATTRIB   "system.ntfs_attrib"
--#define SYSTEM_NTFS_SECURITY "system.ntfs_security"
-+#define SYSTEM_DOS_ATTRIB     "system.dos_attrib"
-+#define SYSTEM_NTFS_ATTRIB    "system.ntfs_attrib"
-+#define SYSTEM_NTFS_ATTRIB_BE "system.ntfs_attrib_be"
-+#define SYSTEM_NTFS_SECURITY  "system.ntfs_security"
- // clang-format on
+ 	/* First try fast implementation. */
+ 	for (;;) {
+-		if (!lm--) {
+-			ret = len1 == len2 ? 0 : 1;
+-			goto out;
+-		}
++		if (!lm--)
++			return len1 == len2 ? 0 : 1;
  
- static inline size_t unpacked_ea_size(const struct EA_FULL *ea)
-@@ -796,7 +797,8 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
- 		goto out;
+ 		if ((c1 = *n1++) == (c2 = *n2++))
+ 			continue;
+@@ -442,10 +440,8 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
+ 		if (c1 >= 0x80 || c2 >= 0x80)
+ 			break;
+ 
+-		if (toupper(c1) != toupper(c2)) {
+-			ret = 1;
+-			goto out;
+-		}
++		if (toupper(c1) != toupper(c2))
++			return 1;
  	}
  
--	if (!strcmp(name, SYSTEM_NTFS_ATTRIB)) {
-+	if (!strcmp(name, SYSTEM_NTFS_ATTRIB) ||
-+	    !strcmp(name, SYSTEM_NTFS_ATTRIB_BE)) {
- 		/* system.ntfs_attrib */
- 		if (!buffer) {
- 			err = sizeof(u32);
-@@ -805,6 +807,8 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
- 		} else {
- 			err = sizeof(u32);
- 			*(u32 *)buffer = le32_to_cpu(ni->std_fa);
-+			if (!strcmp(name, SYSTEM_NTFS_ATTRIB_BE))
-+				*(u32 *)buffer = cpu_to_be32(*(u32 *)buffer);
- 		}
- 		goto out;
- 	}
-@@ -889,10 +893,14 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
- 		goto set_new_fa;
- 	}
- 
--	if (!strcmp(name, SYSTEM_NTFS_ATTRIB)) {
-+	if (!strcmp(name, SYSTEM_NTFS_ATTRIB) ||
-+	    !strcmp(name, SYSTEM_NTFS_ATTRIB_BE)) {
- 		if (size != sizeof(u32))
- 			goto out;
--		new_fa = cpu_to_le32(*(u32 *)value);
-+		if (!strcmp(name, SYSTEM_NTFS_ATTRIB_BE))
-+			new_fa = cpu_to_le32(be32_to_cpu(*(u32 *)value));
-+		else
-+			new_fa = cpu_to_le32(*(u32 *)value);
- 
- 		if (S_ISREG(inode->i_mode)) {
- 			/* Process compressed/sparsed in special way. */
+ 	/*
+
+base-commit: d45da67caedacd500879de5e649360cc70777af7
+-- 
+2.37.3
+
