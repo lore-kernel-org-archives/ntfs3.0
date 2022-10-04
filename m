@@ -1,119 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE853C37;
-	Tue,  4 Oct 2022 14:42:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08BDCC433D6;
-	Tue,  4 Oct 2022 14:42:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1664894523;
-	bh=29LvEzDal7lMcf+KcEq8WBvv30fyBigvxIzqI3Lkl60=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZEm2Z6obrk5OW5mYmqkV/bW7P0jbV6JTaq/qP01eAHmzph4t0eLPXMZHdVt7KRtv1
-	 saGsEGonUQGcgB4u0H3uiskgJ63dZzT0NPqfglHfuKQiZbo3JlkBNqiQX11YPaaEcx
-	 TLJXg1vCY97+A8BbbqhcbAa3K0XFD0xEeqHvuwOkk9efJXwtS08KK/30hJ4NUsPaHP
-	 KCo+Lf+SiXP6WhMvHQkRM2nQyxe9KEivOv+5w4+j/bU3GNytNLWQbrY1taRjj2QSkP
-	 P3QUltcPErh5LnkmUGQZgGvv4ARZkG9zL0Wtjz8HdoFi223JkHfQSpY8GEjyBFOH96
-	 kyaw89syy2uNA==
-From: Nathan Chancellor <nathan@kernel.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: Nick Desaulniers <ndesaulniers@google.com>,
-	Tom Rix <trix@redhat.com>,
-	ntfs3@lists.linux.dev,
-	llvm@lists.linux.dev,
-	patches@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: [PATCH -next] fs/ntfs3: Don't use uni1 uninitialized in ntfs_d_compare()
-Date: Tue,  4 Oct 2022 07:41:45 -0700
-Message-Id: <20221004144145.1345772-1-nathan@kernel.org>
-X-Mailer: git-send-email 2.37.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2128E442A
+	for <ntfs3@lists.linux.dev>; Tue,  4 Oct 2022 21:22:38 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id o5so9710157wms.1
+        for <ntfs3@lists.linux.dev>; Tue, 04 Oct 2022 14:22:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date;
+        bh=MBeztxG+T/+sAKzXrApPY5wTqy2P03wfdxdSIiSCo6s=;
+        b=gUoVGj4t2QziOa7am2zum1d+q/o6w56i6RIUOdKZOFcWYEYFYGtZoT4ney6oh7RFa7
+         HadQ7shyyVEYW4peoJSatplGdR/jPdlwnbIpOnrpnVdUwb5Vb4w8NKmujuac8Z0pKdZC
+         6LBUu6pYTZlQa9LXF42bCFfp/zWW9oyhXDZ0DR8wLyA11aVJcgtwybK9uN75Pyk+Cr2m
+         YstJ0lsz07uYbQK5J5qXx+q1xNYa4GFz7JVs8tJL9/aMx5dXo+ujNJ610qSbF5VNgWWu
+         5y5gJbzI2a4wwm+IwiS/uY4u8jzhSIejlJTOrE9y5mFgNlpww8vFq59hTbEgCHZFVkZ2
+         J/tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date;
+        bh=MBeztxG+T/+sAKzXrApPY5wTqy2P03wfdxdSIiSCo6s=;
+        b=04PR5FX0rsa1AqgJWFuhXdJEfJxe1FJq+1vp9qPOosYEZCV8rkr6bKjoW5/lETmhlc
+         SpmpCD5LkUm06N8AyzWshCaqqEzjWEiTtoGcwhQaIM0Ks+yF4EgTikp5byeFaPjLZoMa
+         dZAipkVMj+a/V15T3IR2Fto/vh0LE00l6rVy+olMjCUSey0O3/owfgV6Y1UEuX0CZaUG
+         h4gkrbpRvePZpwhBsU5EV1Fg3GCo7ohqbzOeD46epAKVmDL1SVdMM27sWR3sjX8LdiGO
+         goMZLFz/FX57+yKCmlHI2ODcArmh3ujxiattLyjlQ2yOslPksy0xUmGPKg/yrT2W90U0
+         2GbA==
+X-Gm-Message-State: ACrzQf0dJXvrq/wU49j5Yql4EaK7A6rgOgewotdmMNdW3bbj3YYhzCLB
+	UZhrVCaiiJmxw9+i4aF7BLmAtErk5TA4BxH/
+X-Google-Smtp-Source: AMsMyM5P+HUH+oZADCDQokwKaZT14vAK7fJPP+tWkbvXiLAH3BnGR+omUTm/5JgfKxek5Lrtj2l49A==
+X-Received: by 2002:a05:600c:5022:b0:3be:ed8:9a25 with SMTP id n34-20020a05600c502200b003be0ed89a25mr1053128wmr.194.1664918556279;
+        Tue, 04 Oct 2022 14:22:36 -0700 (PDT)
+Received: from [192.168.0.210] (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.googlemail.com with ESMTPSA id q18-20020a056000137200b0022cc7c32309sm13485044wrz.115.2022.10.04.14.22.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Oct 2022 14:22:35 -0700 (PDT)
+Message-ID: <5799ca65-df15-274b-3319-984f5e1f0fd3@gmail.com>
+Date: Tue, 4 Oct 2022 22:22:34 +0100
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: "Colin King (gmail)" <colin.i.king@gmail.com>
+Subject: re: fs/ntfs3: Add option "nocase"
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Clang warns:
+Hi,
 
-  fs/ntfs3/namei.c:445:7: error: variable 'uni1' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
-                  if (toupper(c1) != toupper(c2)) {
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-  ./include/linux/ctype.h:64:20: note: expanded from macro 'toupper'
-  #define toupper(c) __toupper(c)
-                    ^
-  fs/ntfs3/namei.c:487:12: note: uninitialized use occurs here
-          __putname(uni1);
-                    ^~~~
-  ./include/linux/fs.h:2789:65: note: expanded from macro '__putname'
-  #define __putname(name)         kmem_cache_free(names_cachep, (void *)(name))
-                                                                        ^~~~
-  fs/ntfs3/namei.c:445:3: note: remove the 'if' if its condition is always false
-                  if (toupper(c1) != toupper(c2)) {
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  fs/ntfs3/namei.c:434:7: error: variable 'uni1' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
-                  if (!lm--) {
-                      ^~~~~
-  fs/ntfs3/namei.c:487:12: note: uninitialized use occurs here
-          __putname(uni1);
-                    ^~~~
-  ./include/linux/fs.h:2789:65: note: expanded from macro '__putname'
-  #define __putname(name)         kmem_cache_free(names_cachep, (void *)(name))
-                                                                        ^~~~
-  fs/ntfs3/namei.c:434:3: note: remove the 'if' if its condition is always false
-                  if (!lm--) {
-                  ^~~~~~~~~~~~
-  fs/ntfs3/namei.c:430:22: note: initialize the variable 'uni1' to silence this warning
-          struct cpu_str *uni1, *uni2;
-                              ^
-                              = NULL
-  2 errors generated.
+Static analysis with clang scan build has detected an issue in the 
+following commit:
 
-There is no point in calling __putname() in these particular error
-paths, as there has been no corresponding __getname() call yet. Just
-return directly in these blocks to clear up the warning.
+commit a3a956c78efaa202b1d75190136671cf6e87bfbe
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Fri Sep 23 12:42:18 2022 +0300
 
-Fixes: a3a956c78efa ("fs/ntfs3: Add option "nocase"")
-Link: https://github.com/ClangBuiltLinux/linux/issues/1729
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- fs/ntfs3/namei.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+     fs/ntfs3: Add option "nocase"
 
-diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
-index 315763eb05ff..5d3a6ce3f05f 100644
---- a/fs/ntfs3/namei.c
-+++ b/fs/ntfs3/namei.c
-@@ -431,10 +431,8 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
- 
- 	/* First try fast implementation. */
- 	for (;;) {
--		if (!lm--) {
--			ret = len1 == len2 ? 0 : 1;
--			goto out;
--		}
-+		if (!lm--)
-+			return len1 == len2 ? 0 : 1;
- 
- 		if ((c1 = *n1++) == (c2 = *n2++))
- 			continue;
-@@ -442,10 +440,8 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
- 		if (c1 >= 0x80 || c2 >= 0x80)
- 			break;
- 
--		if (toupper(c1) != toupper(c2)) {
--			ret = 1;
--			goto out;
--		}
-+		if (toupper(c1) != toupper(c2))
-+			return 1;
- 	}
- 
- 	/*
 
-base-commit: d45da67caedacd500879de5e649360cc70777af7
--- 
-2.37.3
+The issue is as follows in fs/ntfs3/index.c in function ntfs_d_compare:
+
+         /* First try fast implementation. */
+         for (;;) {
+                 if (!lm--) {
+                         ret = len1 == len2 ? 0 : 1;
+                         goto out;
+                 }
+
+                 if ((c1 = *n1++) == (c2 = *n2++))
+                         continue;
+
+                 if (c1 >= 0x80 || c2 >= 0x80)
+                         break;
+
+                 if (toupper(c1) != toupper(c2)) {
+                         ret = 1;
+                         goto out;
+                 }
+         }
+
+...
+...
+
+out:
+         __putname(uni1);
+         return ret;
+}
+
+The exits in the for-loop via label out are ending up with __putname() 
+being called on an uninitialized uni1 pointer.
+
+Colin
 
