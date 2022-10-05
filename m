@@ -1,92 +1,130 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4498E4683
-	for <ntfs3@lists.linux.dev>; Tue,  4 Oct 2022 23:26:18 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id fw14so7118241pjb.3
-        for <ntfs3@lists.linux.dev>; Tue, 04 Oct 2022 16:26:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=7/Ozj3mcJHGAbiaTjJPeg1Cq0BOU1VOEYEwFpmEWKCM=;
-        b=llPMwaCiE9svemlfZqli62QUjvnug0AjUfYmUGejcxHbeFLQzrs63Wval4R32RWsHg
-         +Az6jF6ioPj+7Fo1t2L69xg0tVVHdFxCe0D/voKanm4stAdZgmX5t5qodEVHpZDgd0+9
-         56jlkNiFTjn62io5dQDAzOfNUjkhCdtYYRpGoxxDGgQQznSmN7+9ms/r3VLqSw27je47
-         J8PhqljQ1VWp5tNzLNZXgCU7ZqRYvwMf3ZKhF0Y8kcOXuUcx77j8vwD+/0La/xJ5oZFv
-         15F+xfb1NOIy87TBxyHwpuO9j8I9PYX0kQ4b/HgxO2hq2bePBhWZV31DjFCmOn90fDQh
-         b4rA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C20377
+	for <ntfs3@lists.linux.dev>; Wed,  5 Oct 2022 00:58:41 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id z4-20020a921a44000000b002f8da436b83so12122954ill.19
+        for <ntfs3@lists.linux.dev>; Tue, 04 Oct 2022 17:58:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=7/Ozj3mcJHGAbiaTjJPeg1Cq0BOU1VOEYEwFpmEWKCM=;
-        b=XFl+meuST923ITjznxWMshbx/UkKwfubCiJ9Zd7e7ycJXD/x/S07hwdwb6GmXLaT03
-         itqcM+khzjoQwOUyX05f4HBWlzLoR/l8mokCFP6MOGP0waWpSaUBJj/PE/sxzn2Qefzs
-         +49f9fTsOlN/mJLGkuM4oCUS46C9ljAAA9ohxbG0ezBLgitdd2U9GNAYiuXwyS9C4Upz
-         xB4x1ou2Xxum4cFnVMVd+3WFUqn6q2NEmXjX6B4bisu56bcpOamU/bHXKSee6fQYPyJw
-         FP15EMzU0oNj/ixVHWP8fyP5TFdpaZScDZ1YIsT6TEhjajWjFA9Ts3hq0q3GAVKcFySt
-         vc5g==
-X-Gm-Message-State: ACrzQf0NjckWGdMpsNfTu4qvNuJMaYWC+QwcXIyKuFGK2cLVCh7d3y1p
-	Jp34nmPvTL0AbIVGn10qJE5YsxWf91/Ie4oYTngqCw==
-X-Google-Smtp-Source: AMsMyM5rQkHFdryWEFHJkT4DR3oJz6pJFO4t4FvddE/j05hxDwSkHKNVetdFAEuansIfTVvwPxLVRBpyv/iUCPONt+8=
-X-Received: by 2002:a17:90b:33c3:b0:20a:ebc3:6514 with SMTP id
- lk3-20020a17090b33c300b0020aebc36514mr641575pjb.147.1664925977583; Tue, 04
- Oct 2022 16:26:17 -0700 (PDT)
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=vckY3SR+Ei6YWKNbidFMpxUix3Jhbeta9t2Q8xWbWgM=;
+        b=i3+9782PcdM58ydLeWHHrhoVLKjBPhxMrGMIE2WEg6WbSV7RnpNxjx7V6b1+Vji+CJ
+         rCqLFUPjfuwtni/tr+6T9nzS2R8pgq4IrHIwxFqS1v9LiJ8aMQSK6OmyLHso2Jm6X3FL
+         /vc9+CMz51rmBksVAHeyM42a6jnKQfTytmjmTpLIGe3K74HnTC4dEG+BD1ycSXFtrpur
+         4F8oq0z3f0ZY8tpdsHM5T76AtvUsniyiH/UlTo2SnuLimc40c2AQdaGMSuVoLW+pBxg6
+         fE5h+r5FJGhXGw7YCgo4+2Q3s6Q+/qNswKrntyellyvQLe5aLTmt6nwGQvffPSgMPNqV
+         zyGw==
+X-Gm-Message-State: ACrzQf09/FdIa80VkxLvElpYeIEOizTyr3NWl/h9d7ljkqOrhnrQyb4D
+	rCZ76Ctd9V/PT2fIDxk3Hw4T1VrqDEh2ycXoJlQko5Ta6PB/
+X-Google-Smtp-Source: AMsMyM5k4nCHDAPCWgLwVGS5st0KF3bs8lU56M/FqM8t3gC9hwEU5F46jlR2boLYsRqIibTq95yQXd/xqBLJKePDdIgo1FjFVC7H
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221004232359.285685-1-nathan@kernel.org> <20221004232359.285685-2-nathan@kernel.org>
-In-Reply-To: <20221004232359.285685-2-nathan@kernel.org>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 4 Oct 2022 16:26:05 -0700
-Message-ID: <CAKwvOdkrmMQVaQ6vD9f2BN_tYyxcjhwH28pGxkstmr-Pop-z6A@mail.gmail.com>
-Subject: Re: [PATCH -next v2 2/2] fs/ntfs3: Eliminate unnecessary ternary
- operator in ntfs_d_compare()
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Tom Rix <trix@redhat.com>, 
-	ntfs3@lists.linux.dev, llvm@lists.linux.dev, patches@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+X-Received: by 2002:a05:6638:370d:b0:35a:91f0:e358 with SMTP id
+ k13-20020a056638370d00b0035a91f0e358mr14180829jav.84.1664931520836; Tue, 04
+ Oct 2022 17:58:40 -0700 (PDT)
+Date: Tue, 04 Oct 2022 17:58:40 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000dffe3105ea3f1362@google.com>
+Subject: [syzbot] general protection fault in ntfs_set_inode
+From: syzbot <syzbot+f553b35c5f71737636f7@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 4, 2022 at 4:24 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> 'a == b ? 0 : 1' is logically equivalent to 'a != b'.
->
-> Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Hello,
 
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+syzbot found the following issue on:
 
-> ---
->
-> v2: New patch.
->
->  fs/ntfs3/namei.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
-> index 5d3a6ce3f05f..6b0d2c01d6ff 100644
-> --- a/fs/ntfs3/namei.c
-> +++ b/fs/ntfs3/namei.c
-> @@ -432,7 +432,7 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
->         /* First try fast implementation. */
->         for (;;) {
->                 if (!lm--)
-> -                       return len1 == len2 ? 0 : 1;
-> +                       return len1 != len2;
->
->                 if ((c1 = *n1++) == (c2 = *n2++))
->                         continue;
-> --
-> 2.37.3
->
+HEAD commit:    0326074ff465 Merge tag 'net-next-6.1' of git://git.kernel...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16880492880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e1de7ca9efcc028c
+dashboard link: https://syzkaller.appspot.com/bug?extid=f553b35c5f71737636f7
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: i386
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+f553b35c5f71737636f7@syzkaller.appspotmail.com
+
+general protection fault, probably for non-canonical address 0xdffffc0004e2d052: 0000 [#1] PREEMPT SMP KASAN
+KASAN: probably user-memory-access in range [0x0000000027168290-0x0000000027168297]
+CPU: 1 PID: 4671 Comm: syz-executor.1 Not tainted 6.0.0-syzkaller-02734-g0326074ff465 #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+RIP: 0010:ntfs_set_inode+0x4a/0x70 fs/ntfs3/inode.c:485
+Code: 14 02 48 89 d8 83 e0 07 83 c0 03 38 d0 7c 04 84 d2 75 26 48 8d 7d 40 8b 1b 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 75 13 48 89 5d 40 31 c0 5b 5d c3 48 89 df e8 bf 73 1f
+RSP: 0018:ffffc90022fe7968 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: 000000000000000a RCX: ffffc90003851000
+RDX: 0000000004e2d052 RSI: ffffffff82a8af0d RDI: 0000000027168290
+RBP: 0000000027168250 R08: 0000000000000001 R09: 0000000000000003
+R10: fffff520045fcf21 R11: 0000000000000000 R12: ffffc90022fe7cb0
+R13: ffffffff82a8aeff R14: 0000000000000000 R15: ffff888027168278
+FS:  0000000000000000(0000) GS:ffff88802c900000(0063) knlGS:00000000f7fc9b40
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 00007f7612c78eb0 CR3: 0000000042c19000 CR4: 0000000000150ee0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ log_replay+0xf7f0/0xf7f0
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:ntfs_set_inode+0x4a/0x70 fs/ntfs3/inode.c:485
+Code: 14 02 48 89 d8 83 e0 07 83 c0 03 38 d0 7c 04 84 d2 75 26 48 8d 7d 40 8b 1b 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 75 13 48 89 5d 40 31 c0 5b 5d c3 48 89 df e8 bf 73 1f
+RSP: 0018:ffffc90022fe7968 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: 000000000000000a RCX: ffffc90003851000
+RDX: 0000000004e2d052 RSI: ffffffff82a8af0d RDI: 0000000027168290
+RBP: 0000000027168250 R08: 0000000000000001 R09: 0000000000000003
+R10: fffff520045fcf21 R11: 0000000000000000 R12: ffffc90022fe7cb0
+R13: ffffffff82a8aeff R14: 0000000000000000 R15: ffff888027168278
+FS:  0000000000000000(0000) GS:ffff88802c900000(0063) knlGS:00000000f7fc9b40
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 00007f7612c78eb0 CR3: 0000000042c19000 CR4: 0000000000150ee0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	14 02                	adc    $0x2,%al
+   2:	48 89 d8             	mov    %rbx,%rax
+   5:	83 e0 07             	and    $0x7,%eax
+   8:	83 c0 03             	add    $0x3,%eax
+   b:	38 d0                	cmp    %dl,%al
+   d:	7c 04                	jl     0x13
+   f:	84 d2                	test   %dl,%dl
+  11:	75 26                	jne    0x39
+  13:	48 8d 7d 40          	lea    0x40(%rbp),%rdi
+  17:	8b 1b                	mov    (%rbx),%ebx
+  19:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  20:	fc ff df
+  23:	48 89 fa             	mov    %rdi,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2e:	75 13                	jne    0x43
+  30:	48 89 5d 40          	mov    %rbx,0x40(%rbp)
+  34:	31 c0                	xor    %eax,%eax
+  36:	5b                   	pop    %rbx
+  37:	5d                   	pop    %rbp
+  38:	c3                   	retq
+  39:	48 89 df             	mov    %rbx,%rdi
+  3c:	e8                   	.byte 0xe8
+  3d:	bf                   	.byte 0xbf
+  3e:	73 1f                	jae    0x5f
 
 
--- 
-Thanks,
-~Nick Desaulniers
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
