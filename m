@@ -1,118 +1,300 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07EF82F2C
-	for <ntfs3@lists.linux.dev>; Wed,  5 Oct 2022 16:38:50 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id c7so15688461pgt.11
-        for <ntfs3@lists.linux.dev>; Wed, 05 Oct 2022 09:38:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E85EBD
+	for <ntfs3@lists.linux.dev>; Fri,  7 Oct 2022 11:55:43 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id u10so6954273wrq.2
+        for <ntfs3@lists.linux.dev>; Fri, 07 Oct 2022 04:55:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=oQbM0nVWmaDXyk82cl6r367zDWVYGaPQODZVcdO+QZM=;
-        b=Hvcb5sHqdru0SR4QpRIz/cd5ZjallOVpwA/Xe1rPLCdPvyRIAk3u2ZzmOM+RCSI4jO
-         xwGVJxU60hIgDlibk/ghL6C0nR+WwOg3rwgU9dZ+xS3HmhEdtDucFiWz6Jh47/7Yarn8
-         mYpnPD5igo+2paasd/TO+B/9xkXR9uEHlwTrhKvIrvCTAOf2BXnATMSDQHxI7lKESOQd
-         77fdwtyclHf4iHYpXv1jqvj5lFtaIlvlg6qZrtUyopdTpppjkDJCMdC/xBgcTgbkQwFb
-         /4mq3kG7xMSbvqgwG7o5F4vcnrLKamlu5jbzAh2W1lzrlQTZJ1Kwn8XUra5gHp91EhHi
-         SSsQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1aFea0r2fAo46iHuuD/8q5QBNTkdkO/FbrfoD+Dc6iI=;
+        b=HCKnImP9tEb00wIe5Ke0GA0rbK8jB60XbKmTckTIQWcpeZ2Vri1WDA5jMQY/vV3gD3
+         a+xizNlkAQLfAvI8VEtuj3PoD/a+wH5DsdYEGJwacISicWTtk6zN0xC4ZdHUN4mAs1jE
+         fGzaW3af2kq9WtJdDqanA2nxIvq6dJbYnYIR9fXyoOTMosEXcioxL3kzdbsRoCOY6rOL
+         SeMOXbD8j5YLeveanmE4Cg0G0g+Akh6IpqhtM1VvYO1bNNtMxrIa3qMpWEyLG9Z8eHrv
+         /FEYzX+CpmwzORksXPqs4juxABLnzl4bfi2JpID9nacDP6lMy+ZedhLeFtcT2aY+HZrz
+         Idrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=oQbM0nVWmaDXyk82cl6r367zDWVYGaPQODZVcdO+QZM=;
-        b=WLzPMqE6OsPb4iVuUhwa7CYrb14xU+hm5Vi9Ggwd/faFwSS4VuV5fibgAbL4PJXr4x
-         ahIUQpuOFUZwqqwFFp2wfMD24g+VM8zLas2xPafjkHUMtCuPygb3MZdHp6f81TBzOPMh
-         2yVV72izH7cGw1tRb6ju0pePPCUOnoyBSYMKvlll+vL8VDBzX2IgcaFtEynRo7UUglY7
-         L7oM+R+xp7UOTK3jQxrKBxKycxUcbqOcZxj+GN7K4exG31vwTogs5q8aoac9l+9pR6Y0
-         AGRgv3HldnDkPZej1iGVOyiv/dvxkW/KM4yGKT3S5jC6/S3j1CS1vRfdeUheYNBKllvK
-         RIAQ==
-X-Gm-Message-State: ACrzQf3/hjHMADkV2B2YZUFyTy19bRlMqF3V4HrENB9pr/v2JE/cNXMA
-	wBUbEXtIoZtE905ncnBaknt2vCi6r+O48Dj4f3eHXg==
-X-Google-Smtp-Source: AMsMyM71N9pjV+owSSTwxxr2FguNkvc47wBKX2/glG8mXnLd5jbKpLUAq5gPGDnyOa8pNUB/CiA5HYCdi64kN1H1Gmw=
-X-Received: by 2002:a63:e709:0:b0:438:98e8:d1c with SMTP id
- b9-20020a63e709000000b0043898e80d1cmr555835pgi.403.1664987930207; Wed, 05 Oct
- 2022 09:38:50 -0700 (PDT)
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1aFea0r2fAo46iHuuD/8q5QBNTkdkO/FbrfoD+Dc6iI=;
+        b=1oLj/Dcyn8OXQBtfRJzJBWmR+fhiIW4FGGzQwuSOVxC1mEBJi+EShRNJJbNec1xA/w
+         bhW/egSPdlk3vb6mjoGZc0kg9IyxOKO8BNt2xGVoCLPSqabIY1ghUG7FaF6TAyKx1SIG
+         jshYuDpHs5y8iZlQ0QVKeGnQUIvuQGsFfY5KgU/u0kDXxqMmuFsn7YnCAB5kUhnakStK
+         UcKgiP5af8ELYIUYFomphkRlFfjcu7FOxHR4AeCRX7cIHsROuV5S8kZ6zjBhoFbvqsAT
+         ploFJP/PkYqyDmR1HOhTeE0hm2JRpsN/2uR3TqdUOjsKiArTL4c2WCsp7HMk2qZYcZIf
+         oOJQ==
+X-Gm-Message-State: ACrzQf3sv+MjWxQy5ZbGVE3T3qinq/ZBXSUsvn4xSF5CCbq6eypiop5f
+	rMvZCMfE1qc8E1Xj2LS8fu8DAqqtrw0=
+X-Google-Smtp-Source: AMsMyM73AuF2+zaFLwxsJuiWZF1QmbOQkFF/DyU978CnC3NkiPnwzgGlsTBfeBo316oPkJOQ8GAsyw==
+X-Received: by 2002:a5d:4f12:0:b0:22e:3920:a09c with SMTP id c18-20020a5d4f12000000b0022e3920a09cmr2875359wru.95.1665143742043;
+        Fri, 07 Oct 2022 04:55:42 -0700 (PDT)
+Received: from [192.168.42.102] (mo-217-129-7-245.netvisao.pt. [217.129.7.245])
+        by smtp.gmail.com with ESMTPSA id c8-20020a05600c0a4800b003b4fdbb6319sm8722340wmq.21.2022.10.07.04.55.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Oct 2022 04:55:41 -0700 (PDT)
+Message-ID: <c7a64cb8-5b67-bb9f-01ef-65b655cb2a92@gmail.com>
+Date: Fri, 7 Oct 2022 12:55:40 +0100
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Yz1oTvzDpCkOE+fr@debian>
-In-Reply-To: <Yz1oTvzDpCkOE+fr@debian>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Wed, 5 Oct 2022 09:38:38 -0700
-Message-ID: <CAKwvOdkRQk+x7CP6p_TsZvoM0pnL1mjEBgyKp+NC-K_cVnDUGA@mail.gmail.com>
-Subject: Re: build failure of next-20221005 due to a3a956c78efa ("fs/ntfs3:
- Add option "nocase"")
-To: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>, ntfs3@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-next@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+From: Daniel Pinto <danielpinto52@gmail.com>
+Subject: [PATCH] fs/ntfs3: Add windows_names mount option
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 5, 2022 at 4:19 AM Sudip Mukherjee (Codethink)
-<sudipm.mukherjee@gmail.com> wrote:
->
-> Hi All,
->
-> The builds of x86_84 allmodconfig with clang have failed to build
-> next-20221005 with the error:
->
-> fs/ntfs3/namei.c:445:7: error: variable 'uni1' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
->                 if (toupper(c1) != toupper(c2)) {
->                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-> ./include/linux/ctype.h:64:20: note: expanded from macro 'toupper'
-> #define toupper(c) __toupper(c)
->                    ^
-> fs/ntfs3/namei.c:487:12: note: uninitialized use occurs here
->         __putname(uni1);
->                   ^~~~
-> ./include/linux/fs.h:2803:65: note: expanded from macro '__putname'
-> #define __putname(name)         kmem_cache_free(names_cachep, (void *)(name))
->                                                                        ^~~~
-> fs/ntfs3/namei.c:445:3: note: remove the 'if' if its condition is always false
->                 if (toupper(c1) != toupper(c2)) {
->                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> fs/ntfs3/namei.c:434:7: error: variable 'uni1' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
->                 if (!lm--) {
->                     ^~~~~
-> fs/ntfs3/namei.c:487:12: note: uninitialized use occurs here
->         __putname(uni1);
->                   ^~~~
-> ./include/linux/fs.h:2803:65: note: expanded from macro '__putname'
-> #define __putname(name)         kmem_cache_free(names_cachep, (void *)(name))
->                                                                        ^~~~
-> fs/ntfs3/namei.c:434:3: note: remove the 'if' if its condition is always false
->                 if (!lm--) {
->                 ^~~~~~~~~~~~
-> fs/ntfs3/namei.c:430:22: note: initialize the variable 'uni1' to silence this warning
->         struct cpu_str *uni1, *uni2;
->                             ^
->                              = NULL
-> 2 errors generated.
->
-> git bisect pointed to a3a956c78efa ("fs/ntfs3: Add option "nocase"").
->
-> I will be happy to test any patch or provide any extra log if needed.
+When enabled, the windows_names mount option prevents the creation
+of files or directories with names not allowed by Windows. Use
+the same option name as NTFS-3G for compatibility.
 
-Hi Sudip,
-Thanks for the report.  Please help review+test:
-https://lore.kernel.org/llvm/20221004232359.285685-1-nathan@kernel.org/.
+Signed-off-by: Daniel Pinto <danielpinto52@gmail.com>
+---
+ fs/ntfs3/frecord.c |   7 ++-
+ fs/ntfs3/fsntfs.c  | 104 +++++++++++++++++++++++++++++++++++++++++++++
+ fs/ntfs3/inode.c   |   7 +++
+ fs/ntfs3/ntfs_fs.h |   2 +
+ fs/ntfs3/super.c   |   7 +++
+ 5 files changed, 126 insertions(+), 1 deletion(-)
 
-For future reports, please take the time to review:
-1. Our issue tracker. Nathan had a bug filed about this yesterday.
-https://github.com/ClangBuiltLinux/linux/issues/1729
-2. The mailing list archives on lore: https://lore.kernel.org/llvm/ If
-you search for -Wsometimes-uninitialized you'll see Nathan's
-report/patch as well as reports from KernelCI.
-
-I'll take more reports over no reports, but if we already have an open
-report, please take the time to participate in the existing threads
-rather than create new ones.  That way, if an issue needs a discussion
-to resolve, it happens in one thread and not across multiple.
--- 
-Thanks,
-~Nick Desaulniers
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 70a80f9412f7..ce5e8f3b1aca 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -3011,6 +3011,7 @@ int ni_add_name(struct ntfs_inode *dir_ni, struct ntfs_inode *ni,
+ 		struct NTFS_DE *de)
+ {
+ 	int err;
++	struct ntfs_sb_info *sbi = ni->mi.sbi;
+ 	struct ATTRIB *attr;
+ 	struct ATTR_LIST_ENTRY *le;
+ 	struct mft_inode *mi;
+@@ -3018,6 +3019,10 @@ int ni_add_name(struct ntfs_inode *dir_ni, struct ntfs_inode *ni,
+ 	struct ATTR_FILE_NAME *de_name = (struct ATTR_FILE_NAME *)(de + 1);
+ 	u16 de_key_size = le16_to_cpu(de->key_size);
+ 
++	if (sbi->options->windows_names &&
++	    !valid_windows_name(sbi, (struct le_str *)&de_name->name_len))
++		return -EINVAL;
++
+ 	mi_get_ref(&ni->mi, &de->ref);
+ 	mi_get_ref(&dir_ni->mi, &de_name->home);
+ 
+@@ -3036,7 +3041,7 @@ int ni_add_name(struct ntfs_inode *dir_ni, struct ntfs_inode *ni,
+ 	memcpy(Add2Ptr(attr, SIZEOF_RESIDENT), de_name, de_key_size);
+ 
+ 	/* Insert new name into directory. */
+-	err = indx_insert_entry(&dir_ni->dir, dir_ni, de, ni->mi.sbi, NULL, 0);
++	err = indx_insert_entry(&dir_ni->dir, dir_ni, de, sbi, NULL, 0);
+ 	if (err)
+ 		ni_remove_attr_le(ni, attr, mi, le);
+ 
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index 4ed15f64b17f..674b644e1070 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -98,6 +98,30 @@ const __le16 WOF_NAME[17] = {
+ };
+ #endif
+ 
++static const __le16 CON_NAME[3] = {
++	cpu_to_le16('C'), cpu_to_le16('O'), cpu_to_le16('N'),
++};
++
++static const __le16 NUL_NAME[3] = {
++	cpu_to_le16('N'), cpu_to_le16('U'), cpu_to_le16('L'),
++};
++
++static const __le16 AUX_NAME[3] = {
++	cpu_to_le16('A'), cpu_to_le16('U'), cpu_to_le16('X'),
++};
++
++static const __le16 PRN_NAME[3] = {
++	cpu_to_le16('P'), cpu_to_le16('R'), cpu_to_le16('N'),
++};
++
++static const __le16 COM_NAME[3] = {
++	cpu_to_le16('C'), cpu_to_le16('O'), cpu_to_le16('M'),
++};
++
++static const __le16 LPT_NAME[3] = {
++	cpu_to_le16('L'), cpu_to_le16('P'), cpu_to_le16('T'),
++};
++
+ // clang-format on
+ 
+ /*
+@@ -2502,3 +2526,83 @@ int run_deallocate(struct ntfs_sb_info *sbi, struct runs_tree *run, bool trim)
+ 
+ 	return 0;
+ }
++
++static inline bool name_has_forbidden_chars(const struct le_str *fname)
++{
++	int i, ch;
++
++	/* check for forbidden chars */
++	for (i = 0; i < fname->len; ++i) {
++		ch = le16_to_cpu(fname->name[i]);
++
++		/* control chars */
++		if (ch < 0x20)
++			return true;
++
++		switch (ch) {
++		/* disallowed by Windows */
++		case '\\':
++		case '/':
++		case ':':
++		case '*':
++		case '?':
++		case '<':
++		case '>':
++		case '|':
++		case '\"':
++			return true;
++
++		default:
++			/* allowed char */
++			break;
++		}
++	}
++
++	/* file names cannot end with space or . */
++	if (fname->len > 0) {
++		ch = le16_to_cpu(fname->name[fname->len - 1]);
++		if (ch == ' ' || ch == '.')
++			return true;
++	}
++
++	return false;
++}
++
++static inline bool is_reserved_name(struct ntfs_sb_info *sbi,
++				    const struct le_str *fname)
++{
++	int port_digit;
++	const __le16 *name = fname->name;
++	int len = fname->len;
++	u16 *upcase = sbi->upcase;
++
++	/* check for 3 chars reserved names (device names) */
++	/* name by itself or with any extension is forbidden */
++	if (len == 3 || (len > 3 && le16_to_cpu(name[3]) == '.'))
++		if (!ntfs_cmp_names(name, 3, CON_NAME, 3, upcase, false) ||
++		    !ntfs_cmp_names(name, 3, NUL_NAME, 3, upcase, false) ||
++		    !ntfs_cmp_names(name, 3, AUX_NAME, 3, upcase, false) ||
++		    !ntfs_cmp_names(name, 3, PRN_NAME, 3, upcase, false))
++			return true;
++
++	/* check for 4 chars reserved names (port name followed by 1..9) */
++	/* name by itself or with any extension is forbidden */
++	if (len == 4 || (len > 4 && le16_to_cpu(name[4]) == '.')) {
++		port_digit = le16_to_cpu(name[3]);
++		if (port_digit >= '1' && port_digit <= '9')
++			if (!ntfs_cmp_names(name, 3, COM_NAME, 3, upcase, false) ||
++			    !ntfs_cmp_names(name, 3, LPT_NAME, 3, upcase, false))
++				return true;
++	}
++
++	return false;
++}
++
++/*
++ * valid_windows_name - Check if a file name is valid in Windows.
++ */
++bool valid_windows_name(struct ntfs_sb_info *sbi, const struct le_str *fname)
++{
++	return !name_has_forbidden_chars(fname) &&
++	       !is_reserved_name(sbi, fname);
++}
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index e9cf00d14733..4eb298e2ee98 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -1361,6 +1361,13 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+ 	mi_get_ref(&ni->mi, &new_de->ref);
+ 
+ 	fname = (struct ATTR_FILE_NAME *)(new_de + 1);
++
++	if (sbi->options->windows_names &&
++	    !valid_windows_name(sbi, (struct le_str *)&fname->name_len)) {
++		err = -EINVAL;
++		goto out4;
++	}
++
+ 	mi_get_ref(&dir_ni->mi, &fname->home);
+ 	fname->dup.cr_time = fname->dup.m_time = fname->dup.c_time =
+ 		fname->dup.a_time = std5->cr_time;
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 6c1c7ef3b2d6..ebfb720fc4fd 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -98,6 +98,7 @@ struct ntfs_mount_options {
+ 	unsigned showmeta : 1; /* Show meta files. */
+ 	unsigned nohidden : 1; /* Do not show hidden files. */
+ 	unsigned hide_dot_files : 1; /* Set hidden flag on dot files. */
++	unsigned windows_names : 1; /* Disallow names forbidden by Windows. */
+ 	unsigned force : 1; /* RW mount dirty volume. */
+ 	unsigned noacsrules : 1; /* Exclude acs rules. */
+ 	unsigned prealloc : 1; /* Preallocate space when file is growing. */
+@@ -645,6 +646,7 @@ int ntfs_remove_reparse(struct ntfs_sb_info *sbi, __le32 rtag,
+ 			const struct MFT_REF *ref);
+ void mark_as_free_ex(struct ntfs_sb_info *sbi, CLST lcn, CLST len, bool trim);
+ int run_deallocate(struct ntfs_sb_info *sbi, struct runs_tree *run, bool trim);
++bool valid_windows_name(struct ntfs_sb_info *sbi, const struct le_str *name);
+ 
+ /* Globals from index.c */
+ int indx_used_bit(struct ntfs_index *indx, struct ntfs_inode *ni, size_t *bit);
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 1e2c04e48f98..6f3485fad417 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -248,6 +248,7 @@ enum Opt {
+ 	Opt_sparse,
+ 	Opt_nohidden,
+ 	Opt_hide_dot_files,
++	Opt_windows_names,
+ 	Opt_showmeta,
+ 	Opt_acl,
+ 	Opt_iocharset,
+@@ -269,6 +270,7 @@ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
+ 	fsparam_flag_no("sparse",		Opt_sparse),
+ 	fsparam_flag_no("hidden",		Opt_nohidden),
+ 	fsparam_flag_no("hidedotfiles",		Opt_hide_dot_files),
++	fsparam_flag_no("windows_names",	Opt_windows_names),
+ 	fsparam_flag_no("acl",			Opt_acl),
+ 	fsparam_flag_no("showmeta",		Opt_showmeta),
+ 	fsparam_flag_no("prealloc",		Opt_prealloc),
+@@ -361,6 +363,9 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
+ 	case Opt_hide_dot_files:
+ 		opts->hide_dot_files = result.negated ? 1 : 0;
+ 		break;
++	case Opt_windows_names:
++		opts->windows_names = result.negated ? 0 : 1;
++		break;
+ 	case Opt_acl:
+ 		if (!result.negated)
+ #ifdef CONFIG_NTFS3_FS_POSIX_ACL
+@@ -561,6 +566,8 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
+ 		seq_puts(m, ",showmeta");
+ 	if (opts->nohidden)
+ 		seq_puts(m, ",nohidden");
++	if (opts->windows_names)
++		seq_puts(m, ",windows_names");
+ 	if (opts->force)
+ 		seq_puts(m, ",force");
+ 	if (opts->noacsrules)
