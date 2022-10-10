@@ -1,130 +1,137 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF5F7E
-	for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 11:53:38 +0000 (UTC)
-Received: by mail-il1-f197.google.com with SMTP id h10-20020a056e021d8a00b002f99580de6cso8461372ila.5
-        for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 04:53:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CCEE33CE
+	for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 17:12:41 +0000 (UTC)
+Received: by mail-io1-f71.google.com with SMTP id r18-20020a6bd912000000b006bb683375efso7581215ioc.16
+        for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 10:12:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oJa6JFnGidCwwDiUXszZ9mnPVPTzom4JRT9+MTxKoQg=;
-        b=lxCpv4+Dxfly/tTcSNg+XdKyRyAN2DrrNmsaxq0C3YZtFJqEQDw2KvBL5o0Oi6Irwq
-         bjRmHbaa3wXiUiylSoYovOc5uoa+bxnoiQUzhfBvwYnZOqpPcgd9JaB18bq4vgx6i28N
-         o6IWh/7t23Wy8C4o3rfW+prME6cNjfDl7om5nqhQ3RxVdGeP07RtAb3zEmvE9HKcPjk/
-         JZXwyYf6GB90crE/pEYRieVMz4fPKdqsXYvhlQQRnGA70A2WGc7i8g4m3+fAYwll0HYY
-         wb8l4iQHuomjhPbLp0vgQ4RHSaojmnIy+YnwQSefCPqlYucrEUE+GtBZjv5ciHddayr5
-         DEPg==
-X-Gm-Message-State: ACrzQf2OArH5Hb9NKWhfVtEp2srS6i/IMbjcEb5VmWAleeM6AuUXSO0T
-	BGKVjZvej8rRSXbbJlNlR6m9uPAseVP8cDsg1K2SD//O873g
-X-Google-Smtp-Source: AMsMyM5iE+XVrwBzJpqEmg8DF3sCGm1fSlvuY6yZWXlhjlPu1wRzumGLSa68oTlegjgcONkYaSfUir2cFSXE5qTeX9osoH1XAfoL
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u+cVvgKTc0S6iXvwi5+JFXP/G/CcmcMrkHxnoV/ojow=;
+        b=xU489ycmSHAHHoZk0uz/MP9DXHkGe2U9k2/L+VuntW2d1tmADiY78xgk7rNYts4/5t
+         Po16vRlSHX67tP2vCyCDUDJ7aofOApKnyOUFKqPBHq0BjaMDXM/Nyvj2jGfU4SRDyt09
+         uKDPUxA5/TdJrRLRWXizVnsz9ktZHx7XXFneOnuJA2r+14ZH9ycl+SPhjuvoy3dwzy5/
+         S0sT4E7j3HHqc8ONz1Eqzy/Yo+pmLUEiZJ4VdzegNc21lkHBDhdT2SMp4uq9ue2Zh3fZ
+         o0Mg4ysASzGTKPH2Y5qGX1Nvej9k1QWa3pN5tlh7ulycsL9p6v4X47V62dJn7KQGNThj
+         c+CQ==
+X-Gm-Message-State: ACrzQf1UvU+Rw83H+PHOKnC2xGaRVP8YqTP2CN2QuM7ylX4N43JziXAu
+	Auc5vHEPF3DDS6Agr+togWThxzv8EznvqreTrpJ4+HlLKUpz
+X-Google-Smtp-Source: AMsMyM7y1XTVH+Xi0Uvy2FDpSLyOA7/Ca5WD5EW/eO2GaK1Jsxg1d2LVwcQZe6L/9dnCMXa5Z12NPae5iCKScs9rJl8RCBJJFxDZ
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:e43:b0:2f5:739f:7d4d with SMTP id
- l3-20020a056e020e4300b002f5739f7d4dmr9023387ilk.100.1665402817455; Mon, 10
- Oct 2022 04:53:37 -0700 (PDT)
-Date: Mon, 10 Oct 2022 04:53:37 -0700
+X-Received: by 2002:a05:6602:2dd5:b0:6a2:38e6:eaad with SMTP id
+ l21-20020a0566022dd500b006a238e6eaadmr9154762iow.144.1665421960781; Mon, 10
+ Oct 2022 10:12:40 -0700 (PDT)
+Date: Mon, 10 Oct 2022 10:12:40 -0700
+In-Reply-To: <000000000000af0c0105e9f9e966@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000057abae05eaaccf58@google.com>
-Subject: [syzbot] WARNING: locking bug in evict
-From: syzbot <syzbot+0cebf0474baedad38dc5@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+Message-ID: <0000000000005fa91605eab14476@google.com>
+Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_fill_super
+From: syzbot <syzbot+bd6d0c83fe8442ad6ef5@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, anton@tuxera.com, 
+	linux-kernel@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net, 
 	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
 	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+syzbot has found a reproducer for the following issue on:
 
-syzbot found the following issue on:
-
-HEAD commit:    bbed346d5a96 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=14109b24880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3a4a45d2d827c1e
-dashboard link: https://syzkaller.appspot.com/bug?extid=0cebf0474baedad38dc5
+HEAD commit:    493ffd6605b2 Merge tag 'ucount-rlimits-cleanups-for-v5.19'..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=126d971c880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d19f5d16783f901
+dashboard link: https://syzkaller.appspot.com/bug?extid=bd6d0c83fe8442ad6ef5
 compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: arm64
-
-Unfortunately, I don't have any reproducer for this issue yet.
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17be583a880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1506f83a880000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/e8e91bc79312/disk-bbed346d.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/c1cb3fb3b77e/vmlinux-bbed346d.xz
+disk image: https://storage.googleapis.com/syzbot-assets/f1ff6481e26f/disk-493ffd66.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/101bd3c7ae47/vmlinux-493ffd66.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/8a813f4e8f0b/mount_3.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0cebf0474baedad38dc5@syzkaller.appspotmail.com
+Reported-by: syzbot+bd6d0c83fe8442ad6ef5@syzkaller.appspotmail.com
 
-loop5: detected capacity change from 0 to 4096
-ntfs3: loop5: Different NTFS' sector size (1024) and media sector size (512)
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 3553 at kernel/locking/lockdep.c:466 lockdep_recursion_finish kernel/locking/lockdep.c:467 [inline]
-WARNING: CPU: 1 PID: 3553 at kernel/locking/lockdep.c:466 lock_acquire+0x1cc/0x1f8 kernel/locking/lockdep.c:5668
-Modules linked in:
-CPU: 1 PID: 3553 Comm: syz-executor.5 Not tainted 6.0.0-rc7-syzkaller-18095-gbbed346d5a96 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
-pstate: 204000c5 (nzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : lockdep_recursion_finish kernel/locking/lockdep.c:467 [inline]
-pc : lock_acquire+0x1cc/0x1f8 kernel/locking/lockdep.c:5668
-lr : lockdep_recursion_finish kernel/locking/lockdep.c:466 [inline]
-lr : lock_acquire+0x10c/0x1f8 kernel/locking/lockdep.c:5668
-sp : ffff80001398b9f0
-x29: ffff80001398ba30 x28: 0000000000000000 x27: 0000000000000000
-x26: ffff80000d260cbf x25: 0000000000000000 x24: 0000000000000001
-x23: 0000000000000000 x22: ffff0000fee439d8 x21: ffff8000085ed654
-x20: 0000000000000000 x19: 0000000000000000 x18: 00000000000003b7
-x17: ffff80000bffd6bc x16: ffff80000db49158 x15: ffff0000c5d1cf80
-x14: 0000000000000008 x13: 00000000ffffffff x12: 0000000000040000
-x11: 000000000002557f x10: ffff800012a4d000 x9 : 00000000000000ff
-x8 : ffff8001f1d7d000 x7 : ffff8000085ed654 x6 : 0000000000000000
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-x2 : 0000000000000008 x1 : ffff80000cb431b1 x0 : ffff80000ce4fec5
-Call trace:
- lockdep_recursion_finish kernel/locking/lockdep.c:467 [inline]
- lock_acquire+0x1cc/0x1f8 kernel/locking/lockdep.c:5668
- __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
- _raw_spin_lock+0x54/0x6c kernel/locking/spinlock.c:154
- spin_lock include/linux/spinlock.h:349 [inline]
- inode_sb_list_del fs/inode.c:503 [inline]
- evict+0x90/0x334 fs/inode.c:654
- iput_final fs/inode.c:1748 [inline]
- iput+0x2c4/0x324 fs/inode.c:1774
- ntfs_fill_super+0x1254/0x14a4 fs/ntfs3/super.c:1190
- get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
- ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
- vfs_get_tree+0x40/0x140 fs/super.c:1530
- do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
- path_mount+0x358/0x914 fs/namespace.c:3370
+ntfs3: loop3: RAW NTFS volume: Filesystem size 0.00 Gb > volume size 0.00 Gb. Mount in read-only
+general protection fault, probably for non-canonical address 0xdffffc0000000002: 0000 [#1] PREEMPT SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000010-0x0000000000000017]
+CPU: 1 PID: 3641 Comm: syz-executor420 Not tainted 6.0.0-syzkaller-09423-g493ffd6605b2 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
+RIP: 0010:ntfs_init_from_boot fs/ntfs3/super.c:844 [inline]
+RIP: 0010:ntfs_fill_super+0x15b5/0x42a0 fs/ntfs3/super.c:935
+Code: 00 00 00 00 00 fc ff df 80 3c 08 00 74 08 48 89 df e8 ff 14 11 ff 4c 89 2b 4c 89 e8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <8a> 04 08 84 c0 0f 85 96 16 00 00 41 c7 45 00 46 49 4c 45 4d 8d 7d
+RSP: 0018:ffffc90003fcfae0 EFLAGS: 00010202
+RAX: 0000000000000002 RBX: ffff888075460080 RCX: dffffc0000000000
+RDX: ffff8880203dd880 RSI: 0000000000000d40 RDI: 0000000000000000
+RBP: ffffc90003fcfcb0 R08: ffffffff82c8d6e5 R09: fffffbfff1c19fde
+R10: fffffbfff1c19fde R11: 1ffffffff1c19fdd R12: 00000000000001ff
+R13: 0000000000000010 R14: ffff888075460320 R15: 0000000000000000
+FS:  0000555555f93300(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000555555f932c0 CR3: 0000000075ed4000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ get_tree_bdev+0x400/0x620 fs/super.c:1323
+ vfs_get_tree+0x88/0x270 fs/super.c:1530
+ do_new_mount+0x289/0xad0 fs/namespace.c:3040
  do_mount fs/namespace.c:3383 [inline]
  __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __arm64_sys_mount+0x2c4/0x3c4 fs/namespace.c:3568
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
- el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:581
-irq event stamp: 4746
-hardirqs last  enabled at (4745): [<ffff800008161dac>] raw_spin_rq_unlock_irq kernel/sched/sched.h:1367 [inline]
-hardirqs last  enabled at (4745): [<ffff800008161dac>] finish_lock_switch+0x94/0xe8 kernel/sched/core.c:4942
-hardirqs last disabled at (4746): [<ffff80000bfb5fbc>] el1_dbg+0x24/0x5c arch/arm64/kernel/entry-common.c:404
-softirqs last  enabled at (3572): [<ffff80000801c33c>] local_bh_enable+0x10/0x34 include/linux/bottom_half.h:32
-softirqs last disabled at (3570): [<ffff80000801c308>] local_bh_disable+0x10/0x34 include/linux/bottom_half.h:19
+ __se_sys_mount+0x2d3/0x3c0 fs/namespace.c:3568
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7efc95f6311a
+Code: 48 c7 c2 c0 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 a8 00 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffde97f1518 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 00007efc95f6311a
+RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007ffde97f1530
+RBP: 00007ffde97f1530 R08: 00007ffde97f1570 R09: 0000555555f932c0
+R10: 0000000000000000 R11: 0000000000000286 R12: 0000000000000005
+R13: 00007ffde97f1570 R14: 0000000000000037 R15: 0000000020000728
+ </TASK>
+Modules linked in:
 ---[ end trace 0000000000000000 ]---
-ntfs3: loop5: Mark volume as dirty due to NTFS errors
+RIP: 0010:ntfs_init_from_boot fs/ntfs3/super.c:844 [inline]
+RIP: 0010:ntfs_fill_super+0x15b5/0x42a0 fs/ntfs3/super.c:935
+Code: 00 00 00 00 00 fc ff df 80 3c 08 00 74 08 48 89 df e8 ff 14 11 ff 4c 89 2b 4c 89 e8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <8a> 04 08 84 c0 0f 85 96 16 00 00 41 c7 45 00 46 49 4c 45 4d 8d 7d
+RSP: 0018:ffffc90003fcfae0 EFLAGS: 00010202
+RAX: 0000000000000002 RBX: ffff888075460080 RCX: dffffc0000000000
+RDX: ffff8880203dd880 RSI: 0000000000000d40 RDI: 0000000000000000
+RBP: ffffc90003fcfcb0 R08: ffffffff82c8d6e5 R09: fffffbfff1c19fde
+R10: fffffbfff1c19fde R11: 1ffffffff1c19fdd R12: 00000000000001ff
+R13: 0000000000000010 R14: ffff888075460320 R15: 0000000000000000
+FS:  0000555555f93300(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007efc95f1e668 CR3: 0000000075ed4000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess), 7 bytes skipped:
+   0:	df 80 3c 08 00 74    	filds  0x7400083c(%rax)
+   6:	08 48 89             	or     %cl,-0x77(%rax)
+   9:	df e8                	fucomip %st(0),%st
+   b:	ff 14 11             	callq  *(%rcx,%rdx,1)
+   e:	ff 4c 89 2b          	decl   0x2b(%rcx,%rcx,4)
+  12:	4c 89 e8             	mov    %r13,%rax
+  15:	48 c1 e8 03          	shr    $0x3,%rax
+  19:	48 b9 00 00 00 00 00 	movabs $0xdffffc0000000000,%rcx
+  20:	fc ff df
+* 23:	8a 04 08             	mov    (%rax,%rcx,1),%al <-- trapping instruction
+  26:	84 c0                	test   %al,%al
+  28:	0f 85 96 16 00 00    	jne    0x16c4
+  2e:	41 c7 45 00 46 49 4c 	movl   $0x454c4946,0x0(%r13)
+  35:	45
+  36:	4d                   	rex.WRB
+  37:	8d                   	.byte 0x8d
+  38:	7d                   	.byte 0x7d
 
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
