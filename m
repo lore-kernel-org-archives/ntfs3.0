@@ -1,45 +1,45 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8502597
-	for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 11:41:34 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id bp11so3854569wrb.9
-        for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 04:41:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1944B7E
+	for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 11:44:29 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id n12so16593350wrp.10
+        for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 04:44:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iLGq1+RUh3PrwecWDEEn4QoJ194t8Cm1swty2LFq2C0=;
-        b=JHS1k+yRHEfegsCk2bQWqkr0ojnsmKytgZC8U/sabwKebvTBzbN6Cm3f9PcQGcBFhk
-         jBvLVYtkTRr5qN+mirsCx9Xor2iap608amHqsGICh6ZfvwOZTSbl62w/OiJ5mAhqPLvV
-         dynrMl1X+LXDW/kAaq+QvqkCiHds9G5kRpLJYr4hSzEhuigX280E0qtEEZQILa1weysp
-         KWqcdSxKG0+UBORmRS+V2GV3zGWSI2I3vc5jloGIV9D1rfFZk+3Y5lN7H1WtZqIsf/14
-         pI1ypXwfqMua7IH8NlVXYP2f1Bo00LROwoHrPEvD8jyFchi9EFNmB+vzcW6cduuOC67O
-         /zFA==
+        h=content-transfer-encoding:in-reply-to:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sXX5hX07BGx/rUvDQD47pclnXvdWt2TdZfsk0DmyS1o=;
+        b=QexsQ6NvWngVUCHCUdnqWXuh8RZErinzEE4b3IjlzZ03MmM1SmxA4a84dqAhvaBgzQ
+         eKM9/cPYLiS1VWKZ0UsZ1zIIzjOLuD4izjOLHh8mZ8uO9q8ExiSM7Ef+AYKefqt8Qs2e
+         M1hNR+FcptTA1OUk0gJNi6M+MjHlQKgTy6BEAqHS5F8com8gJGUuN/00wRoIjYviBBBK
+         tozKSitImOhpjJjHnobV4hxFWD9G5bjVLFqzfP/rGDatO2kL+4k28zPr/v5G3u3bCNRg
+         lJeuauoIq+M8ZFyzjqSbjU5sNI0Nh3PmosNakz4WhtzCBv30A6l8uzs8WpykRHMQf3Y2
+         HRaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=iLGq1+RUh3PrwecWDEEn4QoJ194t8Cm1swty2LFq2C0=;
-        b=J1ONgiOJUbhZFPRk+Y2VRxDF+rumJdZbQ2M5e6nue4CTX3QgpIc3ybh0mvNOmSKu2p
-         p7UnwDPgFk9JX+OTGOwV4HjUtYXcmK4+5wndGcohFKRzzm+dujuorECndTQz9EAM6BHM
-         +sSgis0jf7oPbLptrCuswDRA8rO4SK6xMxV7hvRuxxhuE8Dxa05AJOR7QdeIb6eUYsnM
-         ZO9fDzKNnp9FnkocMkdpO4XOSsUpa4SchHnEVx8qswjfXM1FWITQLYUI4kM2UELKJSgJ
-         MSvIuJ5QXVmfERSuOZKp/+M2TQP7jVnafti4QvDnOISJK0Ze4iytGq98y5bg8MvBiWQr
-         u5kQ==
-X-Gm-Message-State: ACrzQf3daEFLDU5HeOnKnkY2sTfcmtJOty4sJQCL+eU/7JhpKtSIBVqR
-	afElxtHEa1l4y/JpnOxPuH8=
-X-Google-Smtp-Source: AMsMyM5K65zbs1EdcjECCJ/+eItaJRr8U3ut88gE6prPBUkeB04tcwlWuTZOJqrthm3uKRj3hZyt0w==
-X-Received: by 2002:adf:ec83:0:b0:22e:51e2:7fc7 with SMTP id z3-20020adfec83000000b0022e51e27fc7mr10832677wrn.229.1665402093059;
-        Mon, 10 Oct 2022 04:41:33 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sXX5hX07BGx/rUvDQD47pclnXvdWt2TdZfsk0DmyS1o=;
+        b=tyPJ0FShGrhXzJCitIQ248eZ+ZQbo9nSyM0DsspXAfhP8zq0klkxZr39PjNV7xFEZw
+         jiklQK8FRJ4YkjP0DJHC1ItVRGXhXKjrHlRHbPidF4mCUCN2MYyUUifEgmNYkBXBk8zY
+         B40hBj+xlmgmhh9b8ssdFmlAUdkd8JhV16a9QivpHDMvZH/0qC8xiMsDtdqUh+YARc1y
+         C7O11Ax+HGFJlBiGBsvydQrV8Y0w4ydqE2OHi2BY6ddKeMP3n5nTYczB3wJImbpBQQ2S
+         tyhFb9QLPiGaozwGjp3OUcKoD9G2xcaGK4ITZER3NmblEi8aNpQ7oWrwr6ao9s3sKnzv
+         G3pQ==
+X-Gm-Message-State: ACrzQf0aT/LAvN+KBmoEX1nx1t6d3EJ1eSeuZZJQyW/vMRl9gGTSxu81
+	FEEv+gY+NRXn/UUlqQYFFOc=
+X-Google-Smtp-Source: AMsMyM4sebHFxp5Jj63tGNP0OMsIxa0DrvD6ZYUsc5f/20a2jtYEL8Ih5nU0TwPAkZujH9oIODxA6g==
+X-Received: by 2002:a05:6000:1688:b0:22e:58cd:5a2b with SMTP id y8-20020a056000168800b0022e58cd5a2bmr11111660wrd.365.1665402268389;
+        Mon, 10 Oct 2022 04:44:28 -0700 (PDT)
 Received: from [192.168.42.102] (sm4-84-91-228-85.netvisao.pt. [84.91.228.85])
-        by smtp.gmail.com with ESMTPSA id j39-20020a05600c48a700b003a5537bb2besm9647924wmp.25.2022.10.10.04.41.32
+        by smtp.gmail.com with ESMTPSA id l15-20020adfe58f000000b0022ac119fcc5sm8451711wrm.60.2022.10.10.04.44.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Oct 2022 04:41:32 -0700 (PDT)
-Message-ID: <c9b467dd-9294-232b-b808-48f62c3c2186@gmail.com>
-Date: Mon, 10 Oct 2022 12:41:31 +0100
+        Mon, 10 Oct 2022 04:44:28 -0700 (PDT)
+Message-ID: <75c2aaa4-1e4d-ae30-3207-f6d88f8e55a0@gmail.com>
+Date: Mon, 10 Oct 2022 12:44:27 +0100
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -48,25 +48,80 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
+Subject: [PATCH v2 1/2] fs/ntfs3: add system.ntfs_attrib_be extended attribute
 Content-Language: pt-PT
+From: Daniel Pinto <danielpinto52@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
  ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
  linux-kernel@vger.kernel.org
-From: Daniel Pinto <danielpinto52@gmail.com>
-Subject: [PATCH v2 0/2] fs/ntfs3: Add system.ntfs_attrib_be extended attribute
+References: <c9b467dd-9294-232b-b808-48f62c3c2186@gmail.com>
+In-Reply-To: <c9b467dd-9294-232b-b808-48f62c3c2186@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Changes v1->v2:
-- Add documentation for the system.ntfs_attrib_be extended attribute
+NTFS-3G provides the system.ntfs_attrib_be extended attribute, which
+has the same value as system.ntfs_attrib but represented in big-endian.
+Some utilities rely on the existence of this extended attribute.
 
 Improves compatibility with NTFS-3G by adding the system.ntfs_attrib_be
 extended attribute.
 
-Daniel Pinto (2):
-  fs/ntfs3: add system.ntfs_attrib_be extended attribute
-  fs/ntfs3: document system.ntfs_attrib_be extended attribute
+Signed-off-by: Daniel Pinto <danielpinto52@gmail.com>
+---
+ fs/ntfs3/xattr.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
- Documentation/filesystems/ntfs3.rst |  5 +++++
- fs/ntfs3/xattr.c                    | 20 ++++++++++++++------
- 2 files changed, 19 insertions(+), 6 deletions(-)
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index aeee5fb12092..8620a7b4b3e6 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -15,9 +15,10 @@
+ #include "ntfs_fs.h"
+ 
+ // clang-format off
+-#define SYSTEM_DOS_ATTRIB    "system.dos_attrib"
+-#define SYSTEM_NTFS_ATTRIB   "system.ntfs_attrib"
+-#define SYSTEM_NTFS_SECURITY "system.ntfs_security"
++#define SYSTEM_DOS_ATTRIB     "system.dos_attrib"
++#define SYSTEM_NTFS_ATTRIB    "system.ntfs_attrib"
++#define SYSTEM_NTFS_ATTRIB_BE "system.ntfs_attrib_be"
++#define SYSTEM_NTFS_SECURITY  "system.ntfs_security"
+ // clang-format on
+ 
+ static inline size_t unpacked_ea_size(const struct EA_FULL *ea)
+@@ -796,7 +797,8 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
+ 		goto out;
+ 	}
+ 
+-	if (!strcmp(name, SYSTEM_NTFS_ATTRIB)) {
++	if (!strcmp(name, SYSTEM_NTFS_ATTRIB) ||
++	    !strcmp(name, SYSTEM_NTFS_ATTRIB_BE)) {
+ 		/* system.ntfs_attrib */
+ 		if (!buffer) {
+ 			err = sizeof(u32);
+@@ -805,6 +807,8 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
+ 		} else {
+ 			err = sizeof(u32);
+ 			*(u32 *)buffer = le32_to_cpu(ni->std_fa);
++			if (!strcmp(name, SYSTEM_NTFS_ATTRIB_BE))
++				*(u32 *)buffer = cpu_to_be32(*(u32 *)buffer);
+ 		}
+ 		goto out;
+ 	}
+@@ -889,10 +893,14 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
+ 		goto set_new_fa;
+ 	}
+ 
+-	if (!strcmp(name, SYSTEM_NTFS_ATTRIB)) {
++	if (!strcmp(name, SYSTEM_NTFS_ATTRIB) ||
++	    !strcmp(name, SYSTEM_NTFS_ATTRIB_BE)) {
+ 		if (size != sizeof(u32))
+ 			goto out;
+-		new_fa = cpu_to_le32(*(u32 *)value);
++		if (!strcmp(name, SYSTEM_NTFS_ATTRIB_BE))
++			new_fa = cpu_to_le32(be32_to_cpu(*(u32 *)value));
++		else
++			new_fa = cpu_to_le32(*(u32 *)value);
+ 
+ 		if (S_ISREG(inode->i_mode)) {
+ 			/* Process compressed/sparsed in special way. */
