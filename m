@@ -1,159 +1,77 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4479223A4
-	for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 07:43:13 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id b2so15389965lfp.6
-        for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 00:43:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F8E7E
+	for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 11:11:22 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id c3-20020a1c3503000000b003bd21e3dd7aso8327688wma.1
+        for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 04:11:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xk6vHR1LI1eBj6DUWp7wzEFnP8VWTIx1ZpZ6qe8r24U=;
-        b=OTCgiikGDaJa+LL4cBwi9RR62oSfZKKlVQTNvaFrxUnFKqle9gEiQ7xqzLoEjBhRLh
-         MraVhl+/OuLcxwKGD2hIuiEaC80/vEnObP47jjx+WcBoapiBC/kZW4bsrKwdATRVDVO5
-         qihkkspRkCoCMpMRgftxdmO5jFNE1sy8uVPSpg6pQkNfAOM2o5PlO4jLQoG/19aJyOQq
-         TkZ/p3+Wvc0YALqvFtmBTkvfSMI5Ci5ElV0hy0qrBi0izzrkKZu6DVclBfRIrNfL5gP5
-         g8DwiYKb5grgtuUhmg6vfxeUE2QMXuSL3Z9RAg+ZA6OuuZ9iVjUDGtevypO04d7jYem3
-         QkCQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g284Hwqas55uYSjGq3vvwN/bg9BNQaBmJr08O4Ly1GQ=;
+        b=JMrM3DbAJpoWMS1inM2jvCxgnU7FfTrVT/1e7BBsGNQQamCIHKRvYy4dHvGNktfU7O
+         +UhmiCq3mmKc15EGXxTZqQlhYtBO9+Ye1INyeUKOmZD0j0OdAXG61kon9s/MUSADeQOj
+         2aoMHLlmXVMPi5ArvgJLNmctSUy0eCqaOsmC8Jdz/NndeaBL7dqPT7ikydXC3uLkS1Fd
+         Zhu4l+qabqSRl/jVbUx6KuiHLmIHqmTJ0hy//hFb1dvm7pRjXrap+Q0WKDOn29ZyV//W
+         26sOHMQdwEFJ2f79fKddOx0xtZ564VoT4jwnaDRNnSw7Qj9V6cD6ge1mJFyCDfFZXEkh
+         +gJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Xk6vHR1LI1eBj6DUWp7wzEFnP8VWTIx1ZpZ6qe8r24U=;
-        b=eJiq/JFtcXXyw7j3NEw+jbhQhF8HoubEFAO0gBrzOvwNShqV2DoLhpE9YsA83bmtkY
-         +JVXSdMW4Y0LdYx6oFaAW8ja3QPj7exkY1sZNzQfSWT36IEvJTCzyYOcbV0RSJBbNPGS
-         loud3FEnD8Ols+MFqET1ST5NvHJylp5dpjPZJBg3woEY8CpdX7F3pD8TuLMw+H1+LyWd
-         x2xVi2+/fxy8rZal2oOZiedMJeVCzQccLXyrtSWN7o+0OeTyKLNOd6jy4I2hhxHiF8rt
-         x09rm/JW5i/YYTqxywg5bZ0yCLgOhl728539qUY28ikNpeddi7b0UjIG5OXmSYLjdlen
-         d5+g==
-X-Gm-Message-State: ACrzQf1TWFgxYdfhlxYIQsEuAEh5NDatm/n/gi/k9Gl7heDtoJmuyWSp
-	30NbGa+5eVgGDb6cfSN5j5eCUDyC80ZKcrB1H7Uk3w==
-X-Google-Smtp-Source: AMsMyM6yQe3JL7eIg0+1+T0z/6A4TzNeWUxn5FI60EXivVQz2i8fW0sshTXhRwtfFAgPFGVJ5uJDH0jQRLdowbrXuVA=
-X-Received: by 2002:a05:6512:3297:b0:4a2:3f76:486a with SMTP id
- p23-20020a056512329700b004a23f76486amr6490712lfe.137.1665387791145; Mon, 10
- Oct 2022 00:43:11 -0700 (PDT)
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=g284Hwqas55uYSjGq3vvwN/bg9BNQaBmJr08O4Ly1GQ=;
+        b=hz36DTKU8Wm2mVp3/cyEtXzVuI1jpOu3Q752/twrmDKBklzVuNqqlaitT3mWR6P775
+         EYCCBkkCqNUIPouVBQ+onjx1KFJH0jQ1byKnSAgkOgzdp510YDTL09CVjAK6qwXW+7pA
+         wVNDOqG9Zx1CbmXNrxdaBEsZ+Q1SdgQVEhcacsqPZCKo8AySnxi+cLYhPDMyV6IUHK5M
+         yOZBL4Ylo20S9BvGEQvdtjyHQaLfkjJjRgP6boIpmpCGvVevPdSN0RpSBxp6ZTB94qMt
+         fh+cb9bQKG/UguLf0Z9IxqnWumXAk0aPsUt0+zKe28Thhi/YiY7isb2z8Qz3pzOcpQLT
+         RNpA==
+X-Gm-Message-State: ACrzQf1TgrgrNLKtbbne+6Toz8a/VXcO52rlJa/K5ClwNDrjWVEfwx84
+	B6viqO2+SMOGieGmbYvY7NI=
+X-Google-Smtp-Source: AMsMyM5+1N6+K6LeM5JpapeQokf1CUGnZeD/IoxuHXa6dPo4LFuuBYzY3FuRusstacq5MYD+DWLEWw==
+X-Received: by 2002:a05:600c:3c84:b0:3b4:eff4:ab69 with SMTP id bg4-20020a05600c3c8400b003b4eff4ab69mr19158807wmb.104.1665400281061;
+        Mon, 10 Oct 2022 04:11:21 -0700 (PDT)
+Received: from [192.168.42.102] (sm4-84-91-228-85.netvisao.pt. [84.91.228.85])
+        by smtp.gmail.com with ESMTPSA id g20-20020a05600c4ed400b003b4ac05a8a4sm22532297wmq.27.2022.10.10.04.11.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Oct 2022 04:11:20 -0700 (PDT)
+Message-ID: <1b23684d-2cac-830e-88e3-1dc1c1567441@gmail.com>
+Date: Mon, 10 Oct 2022 12:11:19 +0100
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <000000000000baa88c05eaa934bb@google.com>
-In-Reply-To: <000000000000baa88c05eaa934bb@google.com>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Mon, 10 Oct 2022 09:42:59 +0200
-Message-ID: <CACT4Y+bVtOb+CxiAKHaSsrym-4JKn-E8exY7aypfp_yGzkUGDQ@mail.gmail.com>
-Subject: Re: [syzbot] stack segment fault in truncate_inode_pages_final
-To: syzbot <syzbot+0f7dd5852be940800ca4@syzkaller.appspotmail.com>, 
-	almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev
-Cc: akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	syzkaller-bugs@googlegroups.com, willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Content-Language: pt-PT
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+From: Daniel Pinto <danielpinto52@gmail.com>
+Subject: [PATCH v2 0/2] fs/ntfs3: Add windows_names mount option
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 10 Oct 2022 at 09:35, syzbot
-<syzbot+0f7dd5852be940800ca4@syzkaller.appspotmail.com> wrote:
->
-> Hello,
->
-> syzbot found the following issue on:
->
-> HEAD commit:    833477fce7a1 Merge tag 'sound-6.1-rc1' of git://git.kernel..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=17cae158880000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=676645938ad4c02f
-> dashboard link: https://syzkaller.appspot.com/bug?extid=0f7dd5852be940800ca4
-> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
->
-> Unfortunately, I don't have any reproducer for this issue yet.
->
-> Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/f66757bbae28/disk-833477fc.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/50ec5a2788dd/vmlinux-833477fc.xz
->
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+0f7dd5852be940800ca4@syzkaller.appspotmail.com
+Changes v1->v2:
+- Add documentation for windows_names mount option.
 
-+ntfs3 maintainers
+When enabled, the windows_names mount option prevents the creation
+of files or directories with names not allowed by Windows. Use
+the same option name as NTFS-3G for compatibility.
 
-> stack segment: 0000 [#1] PREEMPT SMP KASAN
-> CPU: 1 PID: 22407 Comm: syz-executor.5 Not tainted 6.0.0-syzkaller-05118-g833477fce7a1 #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
-> RIP: 0010:trace_lock_release include/trace/events/lock.h:69 [inline]
-> RIP: 0010:lock_release+0x55f/0x780 kernel/locking/lockdep.c:5677
-> Code: 48 c7 c0 40 e8 ca 8d 48 ba 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 0f 85 e0 01 00 00 48 8b 05 65 42 6d 0c e8 80 2e 06 <00> 85 c0 74 17 65 ff 0d 55 c9 a4 7e 0f 85 3e fb ff ff e8 ec ce a2
-> RSP: 0018:ffffc90005367a10 EFLAGS: 00010002
-> RAX: 0000000000000001 RBX: 0000000000000001 RCX: 0000000000000001
-> RDX: 0000000000000000 RSI: 0000000000000002 RDI: 0000000000000000
-> RBP: 1ffff92000a6cf44 R08: 0000000000000000 R09: ffffffff8ddf9957
-> R10: fffffbfff1bbf32a R11: 0000000000000000 R12: ffff888093973498
-> R13: ffff888093973278 R14: ffffffff8a22b140 R15: ffff8880478d8a00
-> FS:  00007f9ae3bb2700(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000001b2e927000 CR3: 000000003f6b9000 CR4: 00000000003506e0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> Call Trace:
->  <TASK>
->  __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:157 [inline]
->  _raw_spin_unlock_irq+0x12/0x40 kernel/locking/spinlock.c:202
->  spin_unlock_irq include/linux/spinlock.h:399 [inline]
->  truncate_inode_pages_final+0x5f/0x80 mm/truncate.c:484
->  ntfs_evict_inode+0x16/0xa0 fs/ntfs3/inode.c:1741
->  evict+0x2ed/0x6b0 fs/inode.c:665
->  iput_final fs/inode.c:1748 [inline]
->  iput.part.0+0x55d/0x810 fs/inode.c:1774
->  iput+0x58/0x70 fs/inode.c:1764
->  ntfs_fill_super+0x2e89/0x37f0 fs/ntfs3/super.c:1190
->  get_tree_bdev+0x440/0x760 fs/super.c:1323
->  vfs_get_tree+0x89/0x2f0 fs/super.c:1530
->  do_new_mount fs/namespace.c:3040 [inline]
->  path_mount+0x1326/0x1e20 fs/namespace.c:3370
->  do_mount fs/namespace.c:3383 [inline]
->  __do_sys_mount fs/namespace.c:3591 [inline]
->  __se_sys_mount fs/namespace.c:3568 [inline]
->  __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
->  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
->  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
->  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-> RIP: 0033:0x7f9ae2a8bada
-> Code: 48 c7 c2 b8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 b8 04 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007f9ae3bb1f88 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
-> RAX: ffffffffffffffda RBX: 0000000020000200 RCX: 00007f9ae2a8bada
-> RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007f9ae3bb1fe0
-> RBP: 00007f9ae3bb2020 R08: 00007f9ae3bb2020 R09: 0000000020000000
-> R10: 0000000000000000 R11: 0000000000000202 R12: 0000000020000000
-> R13: 0000000020000100 R14: 00007f9ae3bb1fe0 R15: 0000000020000140
->  </TASK>
-> Modules linked in:
-> ---[ end trace 0000000000000000 ]---
-> RIP: 0010:trace_lock_release include/trace/events/lock.h:69 [inline]
-> RIP: 0010:lock_release+0x55f/0x780 kernel/locking/lockdep.c:5677
-> Code: 48 c7 c0 40 e8 ca 8d 48 ba 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 0f 85 e0 01 00 00 48 8b 05 65 42 6d 0c e8 80 2e 06 <00> 85 c0 74 17 65 ff 0d 55 c9 a4 7e 0f 85 3e fb ff ff e8 ec ce a2
-> RSP: 0018:ffffc90005367a10 EFLAGS: 00010002
-> RAX: 0000000000000001 RBX: 0000000000000001 RCX: 0000000000000001
-> RDX: 0000000000000000 RSI: 0000000000000002 RDI: 0000000000000000
-> RBP: 1ffff92000a6cf44 R08: 0000000000000000 R09: ffffffff8ddf9957
-> R10: fffffbfff1bbf32a R11: 0000000000000000 R12: ffff888093973498
-> R13: ffff888093973278 R14: ffffffff8a22b140 R15: ffff8880478d8a00
-> FS:  00007f9ae3bb2700(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000001b2e927000 CR3: 000000003f6b9000 CR4: 00000000003506e0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
->
->
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/000000000000baa88c05eaa934bb%40google.com.
+Daniel Pinto (2):
+  fs/ntfs3: add windows_names mount option
+  fs/ntfs3: document windows_names mount option
+
+ Documentation/filesystems/ntfs3.rst |   8 +++
+ fs/ntfs3/frecord.c                  |   7 +-
+ fs/ntfs3/fsntfs.c                   | 104 ++++++++++++++++++++++++++++
+ fs/ntfs3/inode.c                    |   7 ++
+ fs/ntfs3/ntfs_fs.h                  |   2 +
+ fs/ntfs3/super.c                    |   7 ++
+ 6 files changed, 134 insertions(+), 1 deletion(-)
