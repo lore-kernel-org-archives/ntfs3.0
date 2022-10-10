@@ -1,60 +1,60 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1947F23A4
-	for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 07:32:35 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id by36so12272013ljb.4
-        for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 00:32:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4479223A4
+	for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 07:43:13 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id b2so15389965lfp.6
+        for <ntfs3@lists.linux.dev>; Mon, 10 Oct 2022 00:43:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HoevG8guEuIveklFwyIJN94Jfdt5yBCCAsgVY0m6qQ4=;
-        b=jzh5s2LfQMufug0HVpzThDeJGoSoVOsGCL3NDWkJaxm6ycsm7KJ/hVwQxM97a+C2oM
-         ugLTj1Uo2gHcsU8MDuKWw6FCTbBEP/kWWrmiu4zZJM6KhwlV4L7/n6qgkdtyBc7juYDj
-         ONIusGbhF6v2mMCzHuIhWe962/nfy5nk/pp7APbdSD29J+/qYSaP6NI0mAf1m4IEBjew
-         YZzwKyNLQ0y0jtzkED6U++TPWUjWQ3A0Axn/lq0EtmLiHqkAUz4Wm3EbE6zV/mBlBe0I
-         OfxtJEuqdLYUJmEciqb0sE6Hdy9d1S2+k6Pu/Oz3EKR/jvN10cfJES3V8+VVJFm01sKi
-         Xilw==
+        bh=Xk6vHR1LI1eBj6DUWp7wzEFnP8VWTIx1ZpZ6qe8r24U=;
+        b=OTCgiikGDaJa+LL4cBwi9RR62oSfZKKlVQTNvaFrxUnFKqle9gEiQ7xqzLoEjBhRLh
+         MraVhl+/OuLcxwKGD2hIuiEaC80/vEnObP47jjx+WcBoapiBC/kZW4bsrKwdATRVDVO5
+         qihkkspRkCoCMpMRgftxdmO5jFNE1sy8uVPSpg6pQkNfAOM2o5PlO4jLQoG/19aJyOQq
+         TkZ/p3+Wvc0YALqvFtmBTkvfSMI5Ci5ElV0hy0qrBi0izzrkKZu6DVclBfRIrNfL5gP5
+         g8DwiYKb5grgtuUhmg6vfxeUE2QMXuSL3Z9RAg+ZA6OuuZ9iVjUDGtevypO04d7jYem3
+         QkCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HoevG8guEuIveklFwyIJN94Jfdt5yBCCAsgVY0m6qQ4=;
-        b=L7AhEQBw0ecOkAbgwSC4g6Aj9H8uAjGGHI0a9Az8c9r0PJ31PjPaLGADiOhq8lVbEE
-         ON3sCCiqw0TZIs6lcBtxojfiNEc7tfe9h/App7DXwG0KWmyMaTH9RDN4wiKJAgbsXlB6
-         ks1GtiDISOtsOXuvhL8+JinhrRQZJKo+d4ZrYAFabeqQwoPiYL2z2Q4N8vluOH3hj+6t
-         ZZpxPWL7PemwndDnaqcmMvUtuPTKfdwJT7FVOAU9pr94dMIFVAaL0bVABEXWKtnao0X7
-         VFbRLR6//rou5eELKnEh6SlnMfrpHJt4mLhagZHPx3PWOMYE4IiDXetO0v+HCQq1XA8l
-         d5PQ==
-X-Gm-Message-State: ACrzQf3Qb0hlQiCRzRXS7FzqR/p+YbFTKKxJ3Yz6qtxZrxz6Mxm6d/aa
-	DjcuL5ZQr2bilMNynTiBY3Twpq+ebEQW+RhCZh+1SQ==
-X-Google-Smtp-Source: AMsMyM46E9UQ/49MwtRP69MMnMKBAyJKimFv1t84zIgncflJc3pR7IOczDt8F4M8QiHq09sg0dEP+93xM6UrYynWHvs=
-X-Received: by 2002:a2e:978e:0:b0:26e:8ad6:6d5b with SMTP id
- y14-20020a2e978e000000b0026e8ad66d5bmr4352859lji.363.1665387153867; Mon, 10
- Oct 2022 00:32:33 -0700 (PDT)
+        bh=Xk6vHR1LI1eBj6DUWp7wzEFnP8VWTIx1ZpZ6qe8r24U=;
+        b=eJiq/JFtcXXyw7j3NEw+jbhQhF8HoubEFAO0gBrzOvwNShqV2DoLhpE9YsA83bmtkY
+         +JVXSdMW4Y0LdYx6oFaAW8ja3QPj7exkY1sZNzQfSWT36IEvJTCzyYOcbV0RSJBbNPGS
+         loud3FEnD8Ols+MFqET1ST5NvHJylp5dpjPZJBg3woEY8CpdX7F3pD8TuLMw+H1+LyWd
+         x2xVi2+/fxy8rZal2oOZiedMJeVCzQccLXyrtSWN7o+0OeTyKLNOd6jy4I2hhxHiF8rt
+         x09rm/JW5i/YYTqxywg5bZ0yCLgOhl728539qUY28ikNpeddi7b0UjIG5OXmSYLjdlen
+         d5+g==
+X-Gm-Message-State: ACrzQf1TWFgxYdfhlxYIQsEuAEh5NDatm/n/gi/k9Gl7heDtoJmuyWSp
+	30NbGa+5eVgGDb6cfSN5j5eCUDyC80ZKcrB1H7Uk3w==
+X-Google-Smtp-Source: AMsMyM6yQe3JL7eIg0+1+T0z/6A4TzNeWUxn5FI60EXivVQz2i8fW0sshTXhRwtfFAgPFGVJ5uJDH0jQRLdowbrXuVA=
+X-Received: by 2002:a05:6512:3297:b0:4a2:3f76:486a with SMTP id
+ p23-20020a056512329700b004a23f76486amr6490712lfe.137.1665387791145; Mon, 10
+ Oct 2022 00:43:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <000000000000a418e405eaa8ed24@google.com>
-In-Reply-To: <000000000000a418e405eaa8ed24@google.com>
+References: <000000000000baa88c05eaa934bb@google.com>
+In-Reply-To: <000000000000baa88c05eaa934bb@google.com>
 From: Dmitry Vyukov <dvyukov@google.com>
-Date: Mon, 10 Oct 2022 09:32:22 +0200
-Message-ID: <CACT4Y+ZACxCR_uUfJX5kTrLsjtREvPcs7HsQo287PN2wSqnHRg@mail.gmail.com>
-Subject: Re: [syzbot] WARNING: locking bug in find_lock_entries
-To: syzbot <syzbot+17eb1d8cd53dbad65d63@syzkaller.appspotmail.com>, 
+Date: Mon, 10 Oct 2022 09:42:59 +0200
+Message-ID: <CACT4Y+bVtOb+CxiAKHaSsrym-4JKn-E8exY7aypfp_yGzkUGDQ@mail.gmail.com>
+Subject: Re: [syzbot] stack segment fault in truncate_inode_pages_final
+To: syzbot <syzbot+0f7dd5852be940800ca4@syzkaller.appspotmail.com>, 
 	almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev
 Cc: akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
 	syzkaller-bugs@googlegroups.com, willy@infradead.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 10 Oct 2022 at 09:15, syzbot
-<syzbot+17eb1d8cd53dbad65d63@syzkaller.appspotmail.com> wrote:
+On Mon, 10 Oct 2022 at 09:35, syzbot
+<syzbot+0f7dd5852be940800ca4@syzkaller.appspotmail.com> wrote:
 >
 > Hello,
 >
@@ -62,71 +62,87 @@ On Mon, 10 Oct 2022 at 09:15, syzbot
 >
 > HEAD commit:    833477fce7a1 Merge tag 'sound-6.1-rc1' of git://git.kernel..
 > git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1268e884880000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=dd3623e135f4c106
-> dashboard link: https://syzkaller.appspot.com/bug?extid=17eb1d8cd53dbad65d63
-> compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=171bc9a2880000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=152e2e1c880000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=17cae158880000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=676645938ad4c02f
+> dashboard link: https://syzkaller.appspot.com/bug?extid=0f7dd5852be940800ca4
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+>
+> Unfortunately, I don't have any reproducer for this issue yet.
 >
 > Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/7c58f480421f/disk-833477fc.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/8a50ac7bd40b/vmlinux-833477fc.xz
-> mounted in repro: https://storage.googleapis.com/syzbot-assets/763012bec257/mount_0.gz
-
-+ntfs3 maintainers (ntfs3 is mounted in the repro)
-btw, there is the mounted image in the "mounted in repro" link above
-
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+17eb1d8cd53dbad65d63@syzkaller.appspotmail.com
+> disk image: https://storage.googleapis.com/syzbot-assets/f66757bbae28/disk-833477fc.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/50ec5a2788dd/vmlinux-833477fc.xz
 >
-> ------------[ cut here ]------------
-> DEBUG_LOCKS_WARN_ON(chain_key != INITIAL_CHAIN_KEY)
-> WARNING: CPU: 1 PID: 7921 at kernel/locking/lockdep.c:5031 __lock_acquire+0x16a2/0x1f60 kernel/locking/lockdep.c:5031
-> Modules linked in:
-> CPU: 1 PID: 7921 Comm: syz-executor252 Not tainted 6.0.0-syzkaller-05118-g833477fce7a1 #0
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+0f7dd5852be940800ca4@syzkaller.appspotmail.com
+
++ntfs3 maintainers
+
+> stack segment: 0000 [#1] PREEMPT SMP KASAN
+> CPU: 1 PID: 22407 Comm: syz-executor.5 Not tainted 6.0.0-syzkaller-05118-g833477fce7a1 #0
 > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
-> RIP: 0010:__lock_acquire+0x16a2/0x1f60 kernel/locking/lockdep.c:5031
-> Code: 85 bb 08 00 00 83 3d c4 a6 a5 0c 00 0f 85 e7 fe ff ff 45 31 f6 48 c7 c7 80 7d 8d 8a 48 c7 c6 00 a6 8d 8a 31 c0 e8 4e 45 e8 ff <0f> 0b e9 c8 fe ff ff 0f 0b e9 24 fb ff ff 48 c7 c1 94 96 0c 8e 80
-> RSP: 0018:ffffc9000b927448 EFLAGS: 00010046
-> RAX: 89f46c2ecaded100 RBX: 0000000000000028 RCX: ffff88807e309d80
-> RDX: 0000000000000000 RSI: 0000000080000000 RDI: 0000000000000000
-> RBP: 0000000000000001 R08: ffffffff816af64d R09: ffffed1017364f13
-> R10: ffffed1017364f13 R11: 1ffff11017364f12 R12: 1ffff1100fc614fd
-> R13: d9e18f2b6560b4e9 R14: 0000000000000000 R15: ffff88807e30a818
-> FS:  0000555555677300(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
+> RIP: 0010:trace_lock_release include/trace/events/lock.h:69 [inline]
+> RIP: 0010:lock_release+0x55f/0x780 kernel/locking/lockdep.c:5677
+> Code: 48 c7 c0 40 e8 ca 8d 48 ba 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 0f 85 e0 01 00 00 48 8b 05 65 42 6d 0c e8 80 2e 06 <00> 85 c0 74 17 65 ff 0d 55 c9 a4 7e 0f 85 3e fb ff ff e8 ec ce a2
+> RSP: 0018:ffffc90005367a10 EFLAGS: 00010002
+> RAX: 0000000000000001 RBX: 0000000000000001 RCX: 0000000000000001
+> RDX: 0000000000000000 RSI: 0000000000000002 RDI: 0000000000000000
+> RBP: 1ffff92000a6cf44 R08: 0000000000000000 R09: ffffffff8ddf9957
+> R10: fffffbfff1bbf32a R11: 0000000000000000 R12: ffff888093973498
+> R13: ffff888093973278 R14: ffffffff8a22b140 R15: ffff8880478d8a00
+> FS:  00007f9ae3bb2700(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
 > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007f4123ae45b0 CR3: 000000007a13c000 CR4: 00000000003506e0
+> CR2: 0000001b2e927000 CR3: 000000003f6b9000 CR4: 00000000003506e0
 > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 > Call Trace:
 >  <TASK>
->  lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5666
->  rcu_lock_acquire+0x2a/0x30 include/linux/rcupdate.h:304
->  rcu_read_lock include/linux/rcupdate.h:738 [inline]
->  find_lock_entries+0x173/0x1040 mm/filemap.c:2099
->  truncate_inode_pages_range+0x1a2/0x1780 mm/truncate.c:364
->  ntfs_evict_inode+0x18/0xb0 fs/ntfs3/inode.c:1741
->  evict+0x2a4/0x620 fs/inode.c:665
->  ntfs_fill_super+0x3af3/0x42a0 fs/ntfs3/super.c:1190
->  get_tree_bdev+0x400/0x620 fs/super.c:1323
->  vfs_get_tree+0x88/0x270 fs/super.c:1530
->  do_new_mount+0x289/0xad0 fs/namespace.c:3040
+>  __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:157 [inline]
+>  _raw_spin_unlock_irq+0x12/0x40 kernel/locking/spinlock.c:202
+>  spin_unlock_irq include/linux/spinlock.h:399 [inline]
+>  truncate_inode_pages_final+0x5f/0x80 mm/truncate.c:484
+>  ntfs_evict_inode+0x16/0xa0 fs/ntfs3/inode.c:1741
+>  evict+0x2ed/0x6b0 fs/inode.c:665
+>  iput_final fs/inode.c:1748 [inline]
+>  iput.part.0+0x55d/0x810 fs/inode.c:1774
+>  iput+0x58/0x70 fs/inode.c:1764
+>  ntfs_fill_super+0x2e89/0x37f0 fs/ntfs3/super.c:1190
+>  get_tree_bdev+0x440/0x760 fs/super.c:1323
+>  vfs_get_tree+0x89/0x2f0 fs/super.c:1530
+>  do_new_mount fs/namespace.c:3040 [inline]
+>  path_mount+0x1326/0x1e20 fs/namespace.c:3370
 >  do_mount fs/namespace.c:3383 [inline]
 >  __do_sys_mount fs/namespace.c:3591 [inline]
->  __se_sys_mount+0x2d3/0x3c0 fs/namespace.c:3568
+>  __se_sys_mount fs/namespace.c:3568 [inline]
+>  __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
 >  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
->  do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+>  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
 >  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-> RIP: 0033:0x7f4123ab5b3a
-> Code: 48 c7 c2 c0 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 a8 00 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007ffe8fd49088 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
-> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f4123ab5b3a
-> RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007ffe8fd490a0
-> RBP: 00007ffe8fd490a0 R08: 00007ffe8fd490e0 R09: 00007ffe8fd490e0
-> R10: 0000000000000000 R11: 0000000000000286 R12: 0000000000000004
-> R13: 00007ffe8fd490e0 R14: 000000000000010e R15: 0000000020001b50
+> RIP: 0033:0x7f9ae2a8bada
+> Code: 48 c7 c2 b8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 b8 04 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007f9ae3bb1f88 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+> RAX: ffffffffffffffda RBX: 0000000020000200 RCX: 00007f9ae2a8bada
+> RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007f9ae3bb1fe0
+> RBP: 00007f9ae3bb2020 R08: 00007f9ae3bb2020 R09: 0000000020000000
+> R10: 0000000000000000 R11: 0000000000000202 R12: 0000000020000000
+> R13: 0000000020000100 R14: 00007f9ae3bb1fe0 R15: 0000000020000140
 >  </TASK>
+> Modules linked in:
+> ---[ end trace 0000000000000000 ]---
+> RIP: 0010:trace_lock_release include/trace/events/lock.h:69 [inline]
+> RIP: 0010:lock_release+0x55f/0x780 kernel/locking/lockdep.c:5677
+> Code: 48 c7 c0 40 e8 ca 8d 48 ba 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 0f 85 e0 01 00 00 48 8b 05 65 42 6d 0c e8 80 2e 06 <00> 85 c0 74 17 65 ff 0d 55 c9 a4 7e 0f 85 3e fb ff ff e8 ec ce a2
+> RSP: 0018:ffffc90005367a10 EFLAGS: 00010002
+> RAX: 0000000000000001 RBX: 0000000000000001 RCX: 0000000000000001
+> RDX: 0000000000000000 RSI: 0000000000000002 RDI: 0000000000000000
+> RBP: 1ffff92000a6cf44 R08: 0000000000000000 R09: ffffffff8ddf9957
+> R10: fffffbfff1bbf32a R11: 0000000000000000 R12: ffff888093973498
+> R13: ffff888093973278 R14: ffffffff8a22b140 R15: ffff8880478d8a00
+> FS:  00007f9ae3bb2700(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000001b2e927000 CR3: 000000003f6b9000 CR4: 00000000003506e0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 >
 >
 > ---
@@ -136,10 +152,8 @@ btw, there is the mounted image in the "mounted in repro" link above
 >
 > syzbot will keep track of this issue. See:
 > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> syzbot can test patches for this issue, for details see:
-> https://goo.gl/tpsmEJ#testing-patches
 >
 > --
 > You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
 > To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/000000000000a418e405eaa8ed24%40google.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/000000000000baa88c05eaa934bb%40google.com.
