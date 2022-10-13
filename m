@@ -1,174 +1,275 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0AE2F5E
-	for <ntfs3@lists.linux.dev>; Thu, 13 Oct 2022 13:41:14 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id bp11so2875411wrb.9
-        for <ntfs3@lists.linux.dev>; Thu, 13 Oct 2022 06:41:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3c07vJu9MleTx0FO2FYKdcJ7U0JEh0AX+F17VGxRSZ0=;
-        b=nFSahUpINIlv8N7joE+sCuWGp8l94HE86NAtPyhjz3HrpgqD6m/OMXC2Ri1dIczVuF
-         j0RoXq5MLGGUdox5L7ekW2VmIFIBu+poV2PCrObT24Rubln9mnznIoBkkpuJevfCvPdq
-         gsO3bHoa29N//4Kzb6XATHyli3MQ68/yhvJGsorWe8VQx3xb2Nyy+ks+Iob084fd0UZU
-         Zfyy2+Idjsl22o9DYiRA2YfX0E6mKLx5rdFpE9aJZeN8HP22C5wMEZsuPJ5XCadJyA+6
-         9Q3B1spgMESrtXC8vqWAQkK16PQAl+T7LIFQV5KlfiGuhIZc49l+tMDgCjQxfR0EsR8C
-         /nEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3c07vJu9MleTx0FO2FYKdcJ7U0JEh0AX+F17VGxRSZ0=;
-        b=5WsRHc6gqzK5T5wxDavB53ui3v2aZMso6/6BOc2IZ8Zhi3CRz3IrO8gZb4qgFo7b2J
-         PH31bprmOahhnlK+gbtxHpogcQtJxFaEBiZIL9kLYneUY79JxPXf4Ta0xgW0pEIKA7iU
-         N8+cU+dvDvlWjVs+57ZRKOJjJtQSLJmXPwnSPKnQAS9X3SvKko68fhPd8XUrmkEFYkS/
-         dFOMtkVh/dcXIwzGYZR4JHG8eYbM1NNoE8y+yd3qn//oSeOOYPIil3CSzJN6oUuMKX9K
-         O6NBxriRhtWGeIsTGJW+bpkXrjMWYpbzPIHuaHrXGH0z7NGlv39SNMFFKmDl7Q4ONxWK
-         dSnA==
-X-Gm-Message-State: ACrzQf32aJlEuez/f+PPrk0VFQ1STGr7s8fQ5H0GsWpgFuVImmUq+5Op
-	oPW2THxkJQ4dT9pmlbNRn4E=
-X-Google-Smtp-Source: AMsMyM5AZ7lMxC2zPbhB2ubvYxLN6ZftzCHi1rbiBbuIl6BEMwdMytZGQ/RCkdPHn6yFMy+03CmYXw==
-X-Received: by 2002:adf:e305:0:b0:22e:6b55:3ed9 with SMTP id b5-20020adfe305000000b0022e6b553ed9mr22300wrj.684.1665668473154;
-        Thu, 13 Oct 2022 06:41:13 -0700 (PDT)
-Received: from rivendell (static.167.156.21.65.clients.your-server.de. [65.21.156.167])
-        by smtp.gmail.com with ESMTPSA id r5-20020a5d6945000000b0022cc0a2cbecsm2054921wrw.15.2022.10.13.06.41.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Oct 2022 06:41:12 -0700 (PDT)
-Date: Thu, 13 Oct 2022 15:41:10 +0200 (CEST)
-From: Enrico Mioso <mrkiko.rs@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-cc: Matthew Wilcox <willy@infradead.org>, 
-    syzbot <syzbot+cceb1394467dba9c62d9@syzkaller.appspotmail.com>, 
-    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk, 
-    ntfs3@lists.linux.dev
-Subject: Re: [syzbot] BUG: scheduling while atomic in
- exit_to_user_mode_loop
-In-Reply-To: <b1f87233-58ae-0a41-8b0e-2e61cb9b70e1@paragon-software.com>
-Message-ID: <733c69dc-835b-d6ac-e459-d063bf59a21f@gmail.com>
-References: <00000000000006aa2405ea93b166@google.com> <Y0OWBChTBr86DdNv@casper.infradead.org> <b1f87233-58ae-0a41-8b0e-2e61cb9b70e1@paragon-software.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DE93C29
+	for <ntfs3@lists.linux.dev>; Thu, 13 Oct 2022 16:20:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665678040; x=1697214040;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=JdM6fRjtfQFPJ08asGi0OyQ7Kn3mWk6zXePhD5kQRm0=;
+  b=Hs4cGUKLWg3P7EZxDJO7OE8JArVzSpIec8Jv20aMYnKmrCrtofjzfaDR
+   Z+BO4TCn1ejxq7ag1Jki7yssiraHYGR43VgfDfzkdJIFPL4ynLFvEBBSL
+   v6o5BPK6S2HU4yaGOC/bNQksMurAvOBga57ZuMJQ9MxS1Hpcw2PWnDMoP
+   HZXWe5I84O4wtP6Ba9WRT3Xxv7MKMef7QJoQbywDq9Nd35O1i1mHitvJh
+   JBgfJ8tTOpu3EZRg/EGTrm5mLWbj5Yj14HbhjBZiDKp/QhgUjbPmxO+eE
+   Tigbgz/nrfmb7RMcJv+SojZalRlj51JtRSzb5/j9T/+SX7DlNjPG/1hec
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="284855074"
+X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; 
+   d="scan'208";a="284855074"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2022 09:16:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="752581669"
+X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; 
+   d="scan'208";a="752581669"
+Received: from lkp-server01.sh.intel.com (HELO 2af0a69ca4e0) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 13 Oct 2022 09:16:34 -0700
+Received: from kbuild by 2af0a69ca4e0 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1oj0sr-0005L8-14;
+	Thu, 13 Oct 2022 16:16:33 +0000
+Date: Fri, 14 Oct 2022 00:16:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: ntfs3@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+ linux-mm@kvack.org, linux-mediatek@lists.infradead.org,
+ linux-ext4@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 56e8142dda103af35e1a47e560517dce355ac001
+Message-ID: <634839db.CE/+5MHDyt/TjFSC%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-Will these tests be resumed after the fixes are merged?
-I think they are really great in point out problems - and to this end I would like to say thank you to the syzkaller project developers.
-And all involved parties for the work, the patience and continued effort in developing the VSF and all the filesystems.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 56e8142dda103af35e1a47e560517dce355ac001  Add linux-next specific files for 20221013
 
-Enrico
+Error/Warning reports:
 
+https://lore.kernel.org/linux-mm/202210090954.pTR6m6rj-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210110857.9s0tXVNn-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210111318.mbUfyhps-lkp@intel.com
 
-On Wed, 12 Oct 2022, Konstantin Komarov wrote:
+Error/Warning: (recently discovered and may have been fixed)
 
-> Date: Wed, 12 Oct 2022 19:24:08
-> From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-> To: Matthew Wilcox <willy@infradead.org>,
->     syzbot <syzbot+cceb1394467dba9c62d9@syzkaller.appspotmail.com>
-> Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
->     syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk,
->     ntfs3@lists.linux.dev
-> Subject: Re: [syzbot] BUG: scheduling while atomic in exit_to_user_mode_loop
-> 
->
->
-> On 10/10/22 06:48, Matthew Wilcox wrote:
->> 
->> Yet another ntfs bug.  It's getting really noisy.  Maybe stop testing
->> ntfs until some more bugs get fixed?
->> 
->
-> Hello
-> I think, that we can stop testing ntfs3 because there are several fixes in
-> development. Until they are pulled in kernel I think it is not necessary
-> to run these tests.
->
->> On Sat, Oct 08, 2022 at 10:55:34PM -0700, syzbot wrote:
->>> Hello,
->>> 
->>> syzbot found the following issue on:
->>> 
->>> HEAD commit:    0326074ff465 Merge tag 'net-next-6.1' of 
->>> git://git.kernel...
->>> git tree:       upstream
->>> console output: https://syzkaller.appspot.com/x/log.txt?x=15b1382a880000
->>> kernel config:  https://syzkaller.appspot.com/x/.config?x=d323d85b1f8a4ed7
->>> dashboard link: 
->>> https://syzkaller.appspot.com/bug?extid=cceb1394467dba9c62d9
->>> compiler:       Debian clang version 
->>> 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU 
->>> Binutils for Debian) 2.35.2
->>> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1755e8b2880000
->>> 
->>> Downloadable assets:
->>> disk image: 
->>> https://storage.googleapis.com/syzbot-assets/c40d70ae7512/disk-0326074f.raw.xz
->>> vmlinux: 
->>> https://storage.googleapis.com/syzbot-assets/3603ce065271/vmlinux-0326074f.xz
->>> mounted in repro: 
->>> https://storage.googleapis.com/syzbot-assets/738016e3c6ba/mount_1.gz
->>> 
->>> IMPORTANT: if you fix the issue, please add the following tag to the 
->>> commit:
->>> Reported-by: syzbot+cceb1394467dba9c62d9@syzkaller.appspotmail.com
->>> 
->>> ntfs3: loop2: Different NTFS' sector size (1024) and media sector size 
->>> (512)
->>> BUG: scheduling while atomic: syz-executor.2/9901/0x00000002
->>> 2 locks held by syz-executor.2/9901:
->>>   #0: ffff888075f880e0 (&type->s_umount_key#47/1){+.+.}-{3:3}, at: 
->>> alloc_super+0x212/0x920 fs/super.c:228
->>>   #1: ffff8880678e78f0 (&sb->s_type->i_lock_key#33){+.+.}-{2:2}, at: 
->>> spin_lock include/linux/spinlock.h:349 [inline]
->>>   #1: ffff8880678e78f0 (&sb->s_type->i_lock_key#33){+.+.}-{2:2}, at: 
->>> _atomic_dec_and_lock+0x9d/0x110 lib/dec_and_lock.c:28
->>> Modules linked in:
->>> Preemption disabled at:
->>> [<0000000000000000>] 0x0
->>> Kernel panic - not syncing: scheduling while atomic
->>> CPU: 1 PID: 9901 Comm: syz-executor.2 Not tainted 
->>> 6.0.0-syzkaller-02734-g0326074ff465 #0
->>> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS 
->>> Google 09/22/2022
->>> Call Trace:
->>>   <TASK>
->>>   __dump_stack lib/dump_stack.c:88 [inline]
->>>   dump_stack_lvl+0x1b1/0x28e lib/dump_stack.c:106
->>>   panic+0x2d6/0x715 kernel/panic.c:274
->>>   __schedule_bug+0x1ff/0x250 kernel/sched/core.c:5725
->>>   schedule_debug+0x1d3/0x3c0 kernel/sched/core.c:5754
->>>   __schedule+0xfb/0xdf0 kernel/sched/core.c:6389
->>>   schedule+0xcb/0x190 kernel/sched/core.c:6571
->>>   exit_to_user_mode_loop+0xe5/0x150 kernel/entry/common.c:157
->>>   exit_to_user_mode_prepare+0xb2/0x140 kernel/entry/common.c:201
->>>   irqentry_exit_to_user_mode+0x5/0x30 kernel/entry/common.c:307
->>>   asm_sysvec_apic_timer_interrupt+0x16/0x20 
->>> arch/x86/include/asm/idtentry.h:649
->>> RIP: 000f:lock_acquire+0x1e1/0x3c0
->>> RSP: 0018:ffffc9000563f900 EFLAGS: 00000206
->>> RAX: 1ffff92000ac7f28 RBX: 0000000000000001 RCX: ffff8880753be2f0
->>> RDX: dffffc0000000000 RSI: ffffffff8a8d9060 RDI: ffffffff8aecb5e0
->>> RBP: ffffc9000563fa28 R08: dffffc0000000000 R09: fffffbfff1fc4229
->>> R10: fffffbfff1fc4229 R11: 1ffffffff1fc4228 R12: dffffc0000000000
->>> R13: 1ffff92000ac7f24 R14: ffffc9000563f940 R15: 0000000000000246
->>>   </TASK>
->>> Kernel Offset: disabled
->>> Rebooting in 86400 seconds..
->>> 
->>> 
->>> ---
->>> This report is generated by a bot. It may contain errors.
->>> See https://goo.gl/tpsmEJ for more information about syzbot.
->>> syzbot engineers can be reached at syzkaller@googlegroups.com.
->>> 
->>> syzbot will keep track of this issue. See:
->>> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
->>> syzbot can test patches for this issue, for details see:
->>> https://goo.gl/tpsmEJ#testing-patches
->
->
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/idma64.ko] undefined!
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
+ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
+ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
+ERROR: modpost: "ioremap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
+ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
+ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+arch/arm64/kernel/alternative.c:199:6: warning: no previous prototype for 'apply_alternatives_vdso' [-Wmissing-prototypes]
+arch/arm64/kernel/alternative.c:295:14: warning: no previous prototype for 'alt_cb_patch_nops' [-Wmissing-prototypes]
+fs/ext4/super.c:1744:19: warning: 'deprecated_msg' defined but not used [-Wunused-const-variable=]
+mm/mmap.c:802 __vma_adjust() error: uninitialized symbol 'next_next'.
+vcpu.c:(.text+0xc56): undefined reference to `riscv_cbom_block_size'
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- arc-randconfig-s051-20221012
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-priv1-got-restricted-__le16-addressable-usertype-fc_len
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-tag-got-restricted-__le16-addressable-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-short-usertype-tag-got-restricted-__le16-addressable-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_len-got-unsigned-short-usertype
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_tag-got-unsigned-short-usertype
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-int-tag-got-restricted-__le16-usertype-fc_tag
+|   `-- fs-ext4-fast_commit.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- arm64-alldefconfig
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
+|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
+|-- arm64-allyesconfig
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
+|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
+|-- i386-allyesconfig
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-defconfig
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a003
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a005
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a012
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a014
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a016
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-c021
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-m021
+|   `-- mm-mmap.c-__vma_adjust()-error:uninitialized-symbol-next_next-.
+|-- microblaze-randconfig-s033-20221012
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-priv1-got-restricted-__le16-addressable-usertype-fc_len
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-tag-got-restricted-__le16-addressable-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-short-usertype-tag-got-restricted-__le16-addressable-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_len-got-unsigned-short-usertype
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_tag-got-unsigned-short-usertype
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-int-tag-got-restricted-__le16-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|   |-- fs-ntfs3-index.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- fs-ntfs3-namei.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__le16-const-usertype-s1-got-unsigned-short
+|   `-- fs-ntfs3-namei.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__le16-const-usertype-s2-got-unsigned-short
+|-- riscv-randconfig-r016-20221012
+|   `-- vcpu.c:(.text):undefined-reference-to-riscv_cbom_block_size
+|-- s390-allmodconfig
+|   |-- ERROR:devm_ioremap_resource-drivers-dma-fsl-edma.ko-undefined
+|   |-- ERROR:devm_ioremap_resource-drivers-dma-idma64.ko-undefined
+|   |-- ERROR:devm_ioremap_resource-drivers-dma-qcom-hdma.ko-undefined
+|   |-- ERROR:devm_memremap-drivers-misc-open-dice.ko-undefined
+clang_recent_errors
+|-- arm64-buildonly-randconfig-r002-20221012
+|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-function-apply_alternatives_vdso
+|-- hexagon-randconfig-r032-20221012
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- hexagon-randconfig-r041-20221012
+|   |-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- hexagon-randconfig-r045-20221012
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- i386-randconfig-a002
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a004
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a011
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a013
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- i386-randconfig-a015
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- powerpc-mpc832x_rdb_defconfig
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-A_c-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-B_c-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fctiw.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fctiwz.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fsel.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- riscv-randconfig-r001-20221012
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- x86_64-randconfig-a005
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- x86_64-randconfig-a012
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- x86_64-randconfig-a014
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+`-- x86_64-rhel-8.3-rust
+    `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+
+elapsed time: 725m
+
+configs tested: 83
+configs skipped: 3
+
+gcc tested configs:
+riscv                randconfig-r042-20221012
+arc                  randconfig-r043-20221012
+s390                 randconfig-r044-20221012
+arc                                 defconfig
+alpha                               defconfig
+x86_64                        randconfig-a004
+i386                                defconfig
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+x86_64                           rhel-8.3-syz
+s390                             allmodconfig
+x86_64                         rhel-8.3-kunit
+x86_64                              defconfig
+alpha                             allnoconfig
+x86_64                        randconfig-a013
+x86_64                           rhel-8.3-kvm
+x86_64                        randconfig-a011
+arm                                 defconfig
+riscv                             allnoconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+s390                                defconfig
+csky                              allnoconfig
+i386                          randconfig-a014
+i386                          randconfig-a001
+powerpc                           allnoconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+m68k                             allmodconfig
+i386                          randconfig-a003
+x86_64                        randconfig-a015
+arc                               allnoconfig
+s390                             allyesconfig
+powerpc                          allmodconfig
+i386                          randconfig-a012
+i386                          randconfig-a005
+i386                             allyesconfig
+i386                          randconfig-a016
+arc                              allyesconfig
+mips                             allyesconfig
+alpha                            allyesconfig
+ia64                             allmodconfig
+m68k                             allyesconfig
+sh                               allmodconfig
+powerpc                      cm5200_defconfig
+arm                              allyesconfig
+arc                        nsimosci_defconfig
+arm64                            allyesconfig
+sh                            hp6xx_defconfig
+m68k                          amiga_defconfig
+powerpc                   currituck_defconfig
+m68k                       bvme6000_defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+arm                        cerfcube_defconfig
+powerpc                 mpc837x_mds_defconfig
+ia64                        generic_defconfig
+arc                 nsimosci_hs_smp_defconfig
+arm64                            alldefconfig
+powerpc                     tqm8541_defconfig
+xtensa                    smp_lx200_defconfig
+sh                        edosk7705_defconfig
+
+clang tested configs:
+hexagon              randconfig-r045-20221012
+hexagon              randconfig-r041-20221012
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+i386                          randconfig-a013
+x86_64                        randconfig-a005
+x86_64                        randconfig-a016
+x86_64                        randconfig-a012
+i386                          randconfig-a011
+i386                          randconfig-a002
+x86_64                        randconfig-a014
+i386                          randconfig-a006
+i386                          randconfig-a004
+i386                          randconfig-a015
+mips                   sb1250_swarm_defconfig
+powerpc                 mpc832x_rdb_defconfig
+x86_64                          rhel-8.3-rust
+powerpc                      walnut_defconfig
+arm                         hackkit_defconfig
+arm                         lpc32xx_defconfig
+arm                      pxa255-idp_defconfig
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
