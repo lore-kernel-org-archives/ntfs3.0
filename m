@@ -1,275 +1,173 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DE93C29
-	for <ntfs3@lists.linux.dev>; Thu, 13 Oct 2022 16:20:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665678040; x=1697214040;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=JdM6fRjtfQFPJ08asGi0OyQ7Kn3mWk6zXePhD5kQRm0=;
-  b=Hs4cGUKLWg3P7EZxDJO7OE8JArVzSpIec8Jv20aMYnKmrCrtofjzfaDR
-   Z+BO4TCn1ejxq7ag1Jki7yssiraHYGR43VgfDfzkdJIFPL4ynLFvEBBSL
-   v6o5BPK6S2HU4yaGOC/bNQksMurAvOBga57ZuMJQ9MxS1Hpcw2PWnDMoP
-   HZXWe5I84O4wtP6Ba9WRT3Xxv7MKMef7QJoQbywDq9Nd35O1i1mHitvJh
-   JBgfJ8tTOpu3EZRg/EGTrm5mLWbj5Yj14HbhjBZiDKp/QhgUjbPmxO+eE
-   Tigbgz/nrfmb7RMcJv+SojZalRlj51JtRSzb5/j9T/+SX7DlNjPG/1hec
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="284855074"
-X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; 
-   d="scan'208";a="284855074"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2022 09:16:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="752581669"
-X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; 
-   d="scan'208";a="752581669"
-Received: from lkp-server01.sh.intel.com (HELO 2af0a69ca4e0) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 13 Oct 2022 09:16:34 -0700
-Received: from kbuild by 2af0a69ca4e0 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1oj0sr-0005L8-14;
-	Thu, 13 Oct 2022 16:16:33 +0000
-Date: Fri, 14 Oct 2022 00:16:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: ntfs3@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
- linux-mm@kvack.org, linux-mediatek@lists.infradead.org,
- linux-ext4@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 56e8142dda103af35e1a47e560517dce355ac001
-Message-ID: <634839db.CE/+5MHDyt/TjFSC%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00FB963A
+	for <ntfs3@lists.linux.dev>; Fri, 14 Oct 2022 09:40:38 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29E9c2wW010557;
+	Fri, 14 Oct 2022 09:40:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2022-7-12;
+ bh=85K3+PxoOjvNlRiqv2FeBnm1yAFwoMEnlWGtG061+so=;
+ b=ECYTBLH2mmmYlEAuZE1p1B45H7ZJofsSNHTs6xX6gbybfNo8fkogFRPcfYzppqQQQCrq
+ qiu7SeIEI8smuLCpkaagdNCMvbPX9/zHsSOTldnVgNUHMQAyoizvB0EOdhviofsBIgJ0
+ eVchd/qc+IfWxB08DL7cDQQJu3OrV0UslAVNtuUD/pxiBG92cLz8MtaZ/fCFj8yzhRwH
+ U5VKmacqDiSPib9NzBuMsRxiH/fPqWb+U+/y9isK7kD8+DybEtKqCqXfGdwOMlgFp3VQ
+ 1ziX9W8C9Lm2mXGyOYjvQFMY036VpVEN49YgIwCwuYOfqI5xMzeA7/qgODpb5f7sFf9e JQ== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3k75aa805f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 14 Oct 2022 09:40:31 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 29E6qm1g003798;
+	Fri, 14 Oct 2022 09:40:29 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2048.outbound.protection.outlook.com [104.47.57.48])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3k2ynddtv7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 14 Oct 2022 09:40:29 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y8A0V/4dUkXDvpa1IRLKPcI9owPA67UyjfVVLcTsGCdB7bsXcgqC7nv4ztgUlv5vrK/H55QifxMby8TLyhb5kml2z6RWS9l5zfo41g2mBzqV/hax+KxUtReYTV9iVAZTrXqlU7IrxOLU8SJ+wTvpFWEXwK2t6kiNdes/aQUwTpfqiE4bRaB/HWHPBErADCb5rwuhxId9GwEGqJyupcpZsAhgowW/jOgi6Frq1O/7Mb0+ZXV2M+gITvDDMUan3dLgblEZIDrZIfJ/EbIO4wxmKr7D9CZhz+jMp/oxlfuqgj60QysilGRDUHNosn0TpjdLE3XvUiLkbj4FkAY8Fc4+CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=85K3+PxoOjvNlRiqv2FeBnm1yAFwoMEnlWGtG061+so=;
+ b=XQrMKfPNe0ugc4hufXptbbZ496VhCJmsQNZK2zHQ9LZxl7E1Wiv7Rf4Tyq0XDhdHvbtkDcmMnQ020lPw/w1jNizKvewJ3G4992Npc3Exz6Qa5DBwyH1XA4K9ffGiUCzCQZvKC1Izt+M1POA7M0hgf9AwA7DAhFGZI2RtwKRfijq/keXXBLc88gy1/nGHGeA4qMQNtoJv6wE9HUIznOND1LWMHm0a8suS9K+AEErbLEWdUkoDAtj+r8N+LCE6iPBYriOU4d3gJZp+9Zcs+Fy9j/Un/hc8Qt4fYcBrWMjsPs5GJ3BnHFPGKH6bffDa0RlL4YJfq8UjDV3VOOkXs5uqeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=85K3+PxoOjvNlRiqv2FeBnm1yAFwoMEnlWGtG061+so=;
+ b=iWiE5Oa8qrd+IEk+ZnckgMCsfB8JsNdWmbOVYeDjmLtflFIz1p54nGMIpOolGJMK2nx+UhV9AhQln9YVBAVdB37ShAW+iar52AvxgUKET1TfM3mSobdeBEwliz4mvw2S4J6p6UBqDM2qYrXf9CPrCkCMxMfEciO8QiQvaiKR4n0=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO1PR10MB4531.namprd10.prod.outlook.com
+ (2603:10b6:303:6c::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.21; Fri, 14 Oct
+ 2022 09:40:27 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::1b8e:540e:10f0:9aec]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::1b8e:540e:10f0:9aec%4]) with mapi id 15.20.5676.031; Fri, 14 Oct 2022
+ 09:40:27 +0000
+Date: Fri, 14 Oct 2022 12:40:19 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, kernel-janitors@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: Uninitialized variable bug in ntfs_d_compare()
+Message-ID: <Y0kug+IlQhJyyg25@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-ClientProxiedBy: ZR0P278CA0115.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:20::12) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2365:EE_|CO1PR10MB4531:EE_
+X-MS-Office365-Filtering-Correlation-Id: 703621f4-84a7-4749-63c1-08daadc82030
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	O5DL5S4zKdpDhJNYHOgeiGkvkLVoUrf4x5PCpe504QWtXRK1+GWJy3IV/vXHDP066Hjmqr9bk5TEkuTkDQba79m5qJlT4IF+46RxsSK3+JYEMBZe7Gm7cnlnyn1moU9LHrB5OI1LwWFmzVRMWZ/QH73r/YR2tDspFWUC+1KYgxPCStJNTV525yyTOXX+JIvr9uMNgNqZtjbbDmDGmtO/g5+uuXIfqY/F+sCei/b4nXSGPO4GjGbjtfYjvpJuTnRnzS5u+u/lU8V8RzNypJwlr36/+vLcYWcQ1D5ak+ABANFhi3KNzfbhwC2/WsJP/mLPwpL/QydtpGBxONA+/r2ghFtV3cyQQRSsRMFbLWZDZn1VV6dmpUkIj7cpWMPu8vx5kKOJCfSjnki/88Aqpf3pNauMxsQh1pb4ZR9M8FaQed4a2XMJ87LGnQFjOI3xMGqpm/DH9bNVBl7jCljuBMy4pofYHSrrOBNdti18hmHkc1dVcTdZIgXdhOaw+4+zj076RtYury4QvcRci30rdMNQ7gxmnNxy59aftJl+l5OBxz5xTX34QBLhbvBlXmRitd5CCzqa77E5ywOWC9IJ88X60SYUZ/btHwxkg4DtYPKE74s3NtE71ffn2JlFuq9TIka0umld445DBRYtJGiye0kJ9+K94LI0bPBzVnqoW7NHuwt+XYg65YAMqEHDm+jemaRYEvMa/fw8hu6yqCaZU4Hvme3ADCtuCOvPiPg/afZPa2e1uGtIgfp9EneruK4TQXmC
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(39860400002)(136003)(366004)(346002)(376002)(396003)(451199015)(86362001)(2906002)(4744005)(38100700002)(5660300002)(186003)(9686003)(478600001)(66476007)(66946007)(33716001)(66556008)(316002)(26005)(6666004)(8676002)(8936002)(44832011)(6916009)(6512007)(41300700001)(4326008)(6486002)(6506007)(83380400001)(67856001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?UEgsB4CFQvTysCJCkZLEZhOFpsnIsp1n170EQgvqiwMhzwV2dlXs4HoZKdyl?=
+ =?us-ascii?Q?xVIzIkeeU5nV2nT/k26uYyACdN56zwRGNU61aLehb9LkJ8nfE1UEjvT00BLJ?=
+ =?us-ascii?Q?xvzIQpq8m3Fi2Y1PpdRiSR8qzzeOwvqXy/PWKiWxdJDTv3uiGikDVhD7UPBt?=
+ =?us-ascii?Q?ieySY8777MqcDndwnDGPtHhuSz9wjJzhd3PTg7aNYWAQ9LUDBVj+8iUj+TYe?=
+ =?us-ascii?Q?j9Ptn0i8O0YF35l/VVRgyOhgFpvHruJKKm0XDYg7h9zW66pYHaQPBlq93F2F?=
+ =?us-ascii?Q?UgBkQZQzXPR2tRCVTB+A3ra7nw95XkZztmoDKYTz96P/U49cl7PRKv8aMrT1?=
+ =?us-ascii?Q?5X55sWs9ll8HY1F7FVRqcrdKmM5hta7WWbvVFjX4eok9yBnLe2TDd7avqAkR?=
+ =?us-ascii?Q?AGJJtHf/fj+WUpT+ussa8QoBy3cDHNB7UhT0OR9R5uQCJu4Ev0EmiOgHe/qQ?=
+ =?us-ascii?Q?Eu8bH0QXLYNh39tYvpF/vaGkpqQSvfAyQuVwoujmXIx31skBrHxUwyhr5qXM?=
+ =?us-ascii?Q?iZLwgTeKbPJyhXtq8RhhMJF/0Xbt7hctqpdB6Oz3Q3lyqRKNCzanMQNwLlOw?=
+ =?us-ascii?Q?DdAnRzwBQwObxCix2CpDgTbAw++Ati4/eXzY9KaONFMYHkhrB8nHNvc6dbMZ?=
+ =?us-ascii?Q?6N/zt4CEkca2GH+8VHM4mwSumVY2a5yk6ZI8wGRKe0DpsaDMyXkO417Solvu?=
+ =?us-ascii?Q?UU/4VDs3MpNsCsDZ0BPRzbNmAqmSxZzNfW80FOhLmWblDg+vqfsxEXBzqpHQ?=
+ =?us-ascii?Q?bbbmVdc8dAQjeC6jsQAXfWT30H1JFYHV83xQDE4vqrfH03j/PCv1rx5VeTHe?=
+ =?us-ascii?Q?Tshyh/KrQHMjScGyTDTjKgKM96J7C17z6N8T7psaKKSQLBas22oU3BI/9cp0?=
+ =?us-ascii?Q?LajSc2UtrCdilSxa+W0rHqp6JwnJCPTfH80fJctiyc2OqKaycRW5/5F6az0l?=
+ =?us-ascii?Q?gm9kUJUqj5147L234DobewbxRuheCZTbvrvWq6BwzdF8rCo2SxVQ0LVJv6eg?=
+ =?us-ascii?Q?R/ORLFIP//6HP3T7QJWKXgKhbIQ7IYjN+MTu+U+gOORVjsiae8Na0gNL5UaE?=
+ =?us-ascii?Q?WCkb77Mp58EVKMiy/h725ly+oFcYVnYtKolMH7ptnIakIKjyi/E926pQeCP5?=
+ =?us-ascii?Q?+3fshgrkGzshX2VgKWfjEepOcFoIrVOw/91VPG9qdaFk/JL1e41e1WwQb6L+?=
+ =?us-ascii?Q?Is49YHWAsRHRu0SGYatp6XgUWofx2KIVkYHzwNov3OptR+tbJN4uM4UjXuRz?=
+ =?us-ascii?Q?IGbx9xmAqkplaAoE7jetPaSaZEoCbuTH0zNgzzFf29zXszecT9tLAp1YbwnJ?=
+ =?us-ascii?Q?8LotJJlqx6aR2nlQbmxnddaeuM4BaqX/1vaKBDflfv0I7hJW/mI0Z2oPI/qv?=
+ =?us-ascii?Q?xkM62jhX/F85JcyzGMVtDad8zSHmdnz7FGDnrsPUhA8KHEMNdHSNqCwUJToY?=
+ =?us-ascii?Q?XLB83ZXs4ZE2zuyfz5CYAdRCNoqYoGYb3XpEkMlgcVtHWqL9aXNkV8xEgoA0?=
+ =?us-ascii?Q?0sEzuk95MvGYSTQU8Mfh+dHS2N6sX3xmJKf0fd+rVr/uP0D1e1EpJnL+PF9r?=
+ =?us-ascii?Q?IEfSP8ELGlbKuqfws4UdgSfr9/UjLONUtaZlqDnNFZ62HGzwv1+pkHubeRNf?=
+ =?us-ascii?Q?sQ=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 703621f4-84a7-4749-63c1-08daadc82030
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2022 09:40:27.5515
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pr/RSUkWK64DPOK/k+vgVpC5N/yDRm/f/ZISoCOuuxNcGYA0+Ge3etYGLlAinjixUP8B0B//0RRNelbooXbt/1OkYLytaa9lPvmC0PXLbTY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4531
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-14_05,2022-10-13_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
+ adultscore=0 mlxscore=0 bulkscore=0 malwarescore=0 phishscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210140055
+X-Proofpoint-ORIG-GUID: ipVEgfcALjj4QAADzRLuICoBOPI-lPE6
+X-Proofpoint-GUID: ipVEgfcALjj4QAADzRLuICoBOPI-lPE6
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 56e8142dda103af35e1a47e560517dce355ac001  Add linux-next specific files for 20221013
+Smatch detected an uninitialized variable bug:
 
-Error/Warning reports:
+    fs/ntfs3/namei.c:487 ntfs_d_compare() error: uninitialized symbol 'uni1'
 
-https://lore.kernel.org/linux-mm/202210090954.pTR6m6rj-lkp@intel.com
-https://lore.kernel.org/linux-mm/202210110857.9s0tXVNn-lkp@intel.com
-https://lore.kernel.org/linux-mm/202210111318.mbUfyhps-lkp@intel.com
+Fixes: a3a956c78efa ("fs/ntfs3: Add option "nocase"")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ fs/ntfs3/namei.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-Error/Warning: (recently discovered and may have been fixed)
-
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
-ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-arch/arm64/kernel/alternative.c:199:6: warning: no previous prototype for 'apply_alternatives_vdso' [-Wmissing-prototypes]
-arch/arm64/kernel/alternative.c:295:14: warning: no previous prototype for 'alt_cb_patch_nops' [-Wmissing-prototypes]
-fs/ext4/super.c:1744:19: warning: 'deprecated_msg' defined but not used [-Wunused-const-variable=]
-mm/mmap.c:802 __vma_adjust() error: uninitialized symbol 'next_next'.
-vcpu.c:(.text+0xc56): undefined reference to `riscv_cbom_block_size'
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- arc-randconfig-s051-20221012
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-priv1-got-restricted-__le16-addressable-usertype-fc_len
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-tag-got-restricted-__le16-addressable-usertype-fc_tag
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-short-usertype-tag-got-restricted-__le16-addressable-usertype-fc_tag
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_len-got-unsigned-short-usertype
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_tag-got-unsigned-short-usertype
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-int-tag-got-restricted-__le16-usertype-fc_tag
-|   `-- fs-ext4-fast_commit.c:sparse:sparse:restricted-__le16-degrades-to-integer
-|-- arm64-alldefconfig
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|-- arm64-allyesconfig
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|-- i386-allyesconfig
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-defconfig
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-a003
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-a005
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-a012
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-a014
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-a016
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-c021
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-m021
-|   `-- mm-mmap.c-__vma_adjust()-error:uninitialized-symbol-next_next-.
-|-- microblaze-randconfig-s033-20221012
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-priv1-got-restricted-__le16-addressable-usertype-fc_len
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-tag-got-restricted-__le16-addressable-usertype-fc_tag
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-short-usertype-tag-got-restricted-__le16-addressable-usertype-fc_tag
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_len-got-unsigned-short-usertype
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_tag-got-unsigned-short-usertype
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-int-tag-got-restricted-__le16-usertype-fc_tag
-|   |-- fs-ext4-fast_commit.c:sparse:sparse:restricted-__le16-degrades-to-integer
-|   |-- fs-ntfs3-index.c:sparse:sparse:restricted-__le32-degrades-to-integer
-|   |-- fs-ntfs3-namei.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__le16-const-usertype-s1-got-unsigned-short
-|   `-- fs-ntfs3-namei.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__le16-const-usertype-s2-got-unsigned-short
-|-- riscv-randconfig-r016-20221012
-|   `-- vcpu.c:(.text):undefined-reference-to-riscv_cbom_block_size
-|-- s390-allmodconfig
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-fsl-edma.ko-undefined
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-idma64.ko-undefined
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-qcom-hdma.ko-undefined
-|   |-- ERROR:devm_memremap-drivers-misc-open-dice.ko-undefined
-clang_recent_errors
-|-- arm64-buildonly-randconfig-r002-20221012
-|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-function-apply_alternatives_vdso
-|-- hexagon-randconfig-r032-20221012
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|-- hexagon-randconfig-r041-20221012
-|   |-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
-|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|-- hexagon-randconfig-r045-20221012
-|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|-- i386-randconfig-a002
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|-- i386-randconfig-a004
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|-- i386-randconfig-a011
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|-- i386-randconfig-a013
-|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|-- i386-randconfig-a015
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|-- powerpc-mpc832x_rdb_defconfig
-|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-A_c-set-but-not-used-Werror-Wunused-but-set-variable
-|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-B_c-set-but-not-used-Werror-Wunused-but-set-variable
-|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
-|   |-- arch-powerpc-math-emu-fctiw.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
-|   |-- arch-powerpc-math-emu-fctiwz.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
-|   |-- arch-powerpc-math-emu-fsel.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
-|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|-- riscv-randconfig-r001-20221012
-|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|-- x86_64-randconfig-a005
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|-- x86_64-randconfig-a012
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|-- x86_64-randconfig-a014
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-`-- x86_64-rhel-8.3-rust
-    `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-
-elapsed time: 725m
-
-configs tested: 83
-configs skipped: 3
-
-gcc tested configs:
-riscv                randconfig-r042-20221012
-arc                  randconfig-r043-20221012
-s390                 randconfig-r044-20221012
-arc                                 defconfig
-alpha                               defconfig
-x86_64                        randconfig-a004
-i386                                defconfig
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-x86_64                           rhel-8.3-syz
-s390                             allmodconfig
-x86_64                         rhel-8.3-kunit
-x86_64                              defconfig
-alpha                             allnoconfig
-x86_64                        randconfig-a013
-x86_64                           rhel-8.3-kvm
-x86_64                        randconfig-a011
-arm                                 defconfig
-riscv                             allnoconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-s390                                defconfig
-csky                              allnoconfig
-i386                          randconfig-a014
-i386                          randconfig-a001
-powerpc                           allnoconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-m68k                             allmodconfig
-i386                          randconfig-a003
-x86_64                        randconfig-a015
-arc                               allnoconfig
-s390                             allyesconfig
-powerpc                          allmodconfig
-i386                          randconfig-a012
-i386                          randconfig-a005
-i386                             allyesconfig
-i386                          randconfig-a016
-arc                              allyesconfig
-mips                             allyesconfig
-alpha                            allyesconfig
-ia64                             allmodconfig
-m68k                             allyesconfig
-sh                               allmodconfig
-powerpc                      cm5200_defconfig
-arm                              allyesconfig
-arc                        nsimosci_defconfig
-arm64                            allyesconfig
-sh                            hp6xx_defconfig
-m68k                          amiga_defconfig
-powerpc                   currituck_defconfig
-m68k                       bvme6000_defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-arm                        cerfcube_defconfig
-powerpc                 mpc837x_mds_defconfig
-ia64                        generic_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm64                            alldefconfig
-powerpc                     tqm8541_defconfig
-xtensa                    smp_lx200_defconfig
-sh                        edosk7705_defconfig
-
-clang tested configs:
-hexagon              randconfig-r045-20221012
-hexagon              randconfig-r041-20221012
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-i386                          randconfig-a013
-x86_64                        randconfig-a005
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-i386                          randconfig-a011
-i386                          randconfig-a002
-x86_64                        randconfig-a014
-i386                          randconfig-a006
-i386                          randconfig-a004
-i386                          randconfig-a015
-mips                   sb1250_swarm_defconfig
-powerpc                 mpc832x_rdb_defconfig
-x86_64                          rhel-8.3-rust
-powerpc                      walnut_defconfig
-arm                         hackkit_defconfig
-arm                         lpc32xx_defconfig
-arm                      pxa255-idp_defconfig
-
+diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
+index 315763eb05ff..5d3a6ce3f05f 100644
+--- a/fs/ntfs3/namei.c
++++ b/fs/ntfs3/namei.c
+@@ -431,10 +431,8 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
+ 
+ 	/* First try fast implementation. */
+ 	for (;;) {
+-		if (!lm--) {
+-			ret = len1 == len2 ? 0 : 1;
+-			goto out;
+-		}
++		if (!lm--)
++			return len1 == len2 ? 0 : 1;
+ 
+ 		if ((c1 = *n1++) == (c2 = *n2++))
+ 			continue;
+@@ -442,10 +440,8 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
+ 		if (c1 >= 0x80 || c2 >= 0x80)
+ 			break;
+ 
+-		if (toupper(c1) != toupper(c2)) {
+-			ret = 1;
+-			goto out;
+-		}
++		if (toupper(c1) != toupper(c2))
++			return 1;
+ 	}
+ 
+ 	/*
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1
+
