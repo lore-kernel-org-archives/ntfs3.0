@@ -1,71 +1,246 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB562F28
-	for <ntfs3@lists.linux.dev>; Sun, 16 Oct 2022 19:24:33 +0000 (UTC)
-Received: by mail-ua1-f52.google.com with SMTP id e22so3661900uar.5
-        for <ntfs3@lists.linux.dev>; Sun, 16 Oct 2022 12:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YvvSZ8hsOA/vFzPRXp8Ur1kFSiGHX0IPD62X46Ug/W0=;
-        b=FMxYv+0mkVafL9t5eVpd+lG07WVADfCFQycld1sA3E+XYdwPOR4UToL/KnYyMYHjhX
-         QMO+FhEwDgsRcTxQwZe7bZ+hzbNDhf4y0VZYVgSBV7omOyVcOXnc7MJBcxEWCS/70jdt
-         KL7vAkaUIokzMusLfclgl04f9AckpHbdQFoa2EEjIY/tAf5V67efv3mjrCtQH/HE50gt
-         lO+ERVraCjc9JUqFufilzYvzi7oKQre3NOOmRZ0vhWP+zBFLI8L+O81znqjkHYzl5fEC
-         RTFOGYZt0AwGE6GKUd80UcSAv454oTooEUF6jp8BVtwlZZpFhGpzMNkWUPf+OOMZAKU6
-         FjFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YvvSZ8hsOA/vFzPRXp8Ur1kFSiGHX0IPD62X46Ug/W0=;
-        b=lJ8RzhX4NNt5JTZtsaBboiBW5DEgmplfjQOjAgwYnDnBEoKJsXTtixrq0PAaxbe9nL
-         LJXhS+YMyC4PT2qD24TtM6wRp94681tT5UGunRq++sIMu8YKiXV1bC/JetKyubfl/bbx
-         zHVg2k6kbXjfMgEnkdfuxChNUc5LyRrmx8TRGdwyUj9WF4y6iDhtiAPuMfS0OjgFZElG
-         gEfOC3Eif1e4/nsJ8rImavwtDM7zO/WZuZ3Kx28TjICaV+d0impegdhrMfmaPR3Zwu1b
-         S0hxVHrCeuR1vVgSqWYd0fXigdS2fOmpKSrPXH/mnb0RwStmcYDJlFVt3gmyivkshfBj
-         YShA==
-X-Gm-Message-State: ACrzQf2Bz75+TF398WmFpBdtRiSlxcthgyes/cu9AKyi98jxm2ifRN5V
-	iBqBMU9Q6C3g94mPTU4pFG74hHAWBbLJL4Rw7PnQNW5tnydUxg==
-X-Google-Smtp-Source: AMsMyM7V+QzMwbzxDuY5KGxZhiaSCJuOrdQe5y1cADXc7+27BtpgZw0e+2iOhHgvpGzG4WSOgkBsvuSyulWi3RmKp7A=
-X-Received: by 2002:ab0:59a8:0:b0:3cd:aa28:aacd with SMTP id
- g37-20020ab059a8000000b003cdaa28aacdmr3104811uad.123.1665948272252; Sun, 16
- Oct 2022 12:24:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2DFEA2
+	for <ntfs3@lists.linux.dev>; Mon, 17 Oct 2022 02:23:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665973402; x=1697509402;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=w/9wgLLkQxOK8Tg28c8PqY358W9RRELtu/wARxQvJ/I=;
+  b=DiEx7XTCtqwYtzAV+SSFPLl1FOdVTUyltWC456WMX7uoFxqmY1en89sD
+   k0jUUaOW73YCt/zG6OXnpxFm2J4Gs2W15BOM7w7i3Qn2a948eBgFKmEJu
+   MdCTuWnY2n0LZv5I7xcuI2j0bxwO7NuSKnrHjMrsnVVWuC10GfnTHPnui
+   YzG3/PTXS8jbMkK+hlfvnDbBjoId2ubkpvpfQhK9p6zPAswBNcnVJ8+/P
+   3KsdYAdPrth6xcoiD9px3h/UYJPRknnYfxFjPoS2kXKbgE8tYAIZNthrw
+   zid5ugYfUJt1EXKhgJFXuypN9VBIvL5cG1u2+sNBTimOFKJvzf2j1eBL2
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="332215373"
+X-IronPort-AV: E=Sophos;i="5.95,190,1661842800"; 
+   d="scan'208";a="332215373"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2022 19:23:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="661325783"
+X-IronPort-AV: E=Sophos;i="5.95,190,1661842800"; 
+   d="scan'208";a="661325783"
+Received: from lkp-server02.sh.intel.com (HELO 8556ec0e0fdc) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 16 Oct 2022 19:23:19 -0700
+Received: from kbuild by 8556ec0e0fdc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1okFmh-00004g-0g;
+	Mon, 17 Oct 2022 02:23:19 +0000
+Date: Mon, 17 Oct 2022 10:23:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: ntfs3@lists.linux.dev, linux-mediatek@lists.infradead.org,
+ linux-ext4@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ dca0a0385a4963145593ba417e1417af88a7c18d
+Message-ID: <634cbc8f.WxvxsYX7nHpBItJN%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAFFnA6tgOSsG8EQaHXY_bX_CFuEWw5yEOO387FWPeGYzSv9JQg@mail.gmail.com>
-In-Reply-To: <CAFFnA6tgOSsG8EQaHXY_bX_CFuEWw5yEOO387FWPeGYzSv9JQg@mail.gmail.com>
-From: Yanfeng Lee <liyafe1997@gmail.com>
-Date: Sun, 16 Oct 2022 21:24:22 +0200
-Message-ID: <CAFFnA6u7L6MPbH3db2C3uBdJZAX+w6vGucpKteRcYhBwk-j2eA@mail.gmail.com>
-Subject: Re: About ntfs3 with mmap rw
-To: ntfs3@lists.linux.dev
-Cc: Yanfeng Lee <liyafe1997@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-On Sun, Oct 16, 2022 at 7:54 PM Yanfeng Lee <liyafe1997@gmail.com> wrote:
->
-> Hi All,
->
-> I found that at this moment, NTFS3 doesn't support mmap write, even
-> NTFS-3G supports that.
->
-> I am considering trying to implement that, but I wonder is any
-> technical problem here with the write operation of mmap? Because seems
-> it's not a big deal, if no, I am curious about why is haven't been
-> supported yet for a long time...
->
-> Thanks for all.
->
-> Best,
-> Yanfeng
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: dca0a0385a4963145593ba417e1417af88a7c18d  Add linux-next specific files for 20221014
 
+Error/Warning reports:
 
-I mean NTFS compressed files, I missed this in the original message, sorry.
+https://lore.kernel.org/linux-doc/202210070057.NpbaMyxB-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210110857.9s0tXVNn-lkp@intel.com
+
+Error/Warning: (recently discovered and may have been fixed)
+
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/idma64.ko] undefined!
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
+ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
+ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
+ERROR: modpost: "ioremap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
+ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
+ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mtd/amlogic,meson-nand.txt
+arch/arm64/kernel/alternative.c:199:6: warning: no previous prototype for 'apply_alternatives_vdso' [-Wmissing-prototypes]
+arch/arm64/kernel/alternative.c:295:14: warning: no previous prototype for 'alt_cb_patch_nops' [-Wmissing-prototypes]
+fs/ext4/super.c:1744:19: warning: 'deprecated_msg' defined but not used [-Wunused-const-variable=]
+pahole: .tmp_vmlinux.btf: No such file or directory
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- arm64-allyesconfig
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
+|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
+|-- csky-randconfig-r034-20221012
+|   `-- pahole:.tmp_vmlinux.btf:No-such-file-or-directory
+|-- i386-allyesconfig
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-defconfig
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a003
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a005
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a012
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a014
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a016
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- s390-allmodconfig
+|   |-- ERROR:devm_ioremap_resource-drivers-dma-fsl-edma.ko-undefined
+|   |-- ERROR:devm_ioremap_resource-drivers-dma-idma64.ko-undefined
+|   |-- ERROR:devm_ioremap_resource-drivers-dma-qcom-hdma.ko-undefined
+|   |-- ERROR:devm_memremap-drivers-misc-open-dice.ko-undefined
+|   |-- ERROR:devm_memunmap-drivers-misc-open-dice.ko-undefined
+|   |-- ERROR:devm_platform_ioremap_resource-drivers-char-xillybus-xillybus_of.ko-undefined
+|   |-- ERROR:ioremap-drivers-net-ethernet-pcnet_cs.ko-undefined
+|   |-- ERROR:ioremap-drivers-tty-ipwireless-ipwireless.ko-undefined
+|   |-- ERROR:iounmap-drivers-net-ethernet-pcnet_cs.ko-undefined
+|   `-- ERROR:iounmap-drivers-tty-ipwireless-ipwireless.ko-undefined
+|-- x86_64-allnoconfig
+|   `-- Warning:MAINTAINERS-references-a-file-that-doesn-t-exist:Documentation-devicetree-bindings-mtd-amlogic-meson-nand.txt
+|-- x86_64-allyesconfig
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-defconfig
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-randconfig-a002
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-randconfig-a006
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-randconfig-a011
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-randconfig-a015
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-rhel-8.3
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-rhel-8.3-func
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-rhel-8.3-kselftests
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+clang_recent_errors
+|-- arm-randconfig-r012-20221014
+|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8183.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|   |-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- hexagon-randconfig-r004-20221012
+|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8183.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|   |-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- hexagon-randconfig-r041-20221012
+|   |-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- hexagon-randconfig-r045-20221012
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- i386-randconfig-a002
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a004
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a011
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a013
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- i386-randconfig-a015
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- x86_64-randconfig-a005
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- x86_64-randconfig-a012
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+`-- x86_64-randconfig-a014
+    |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+    `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+
+elapsed time: 4290m
+
+configs tested: 62
+configs skipped: 2
+
+gcc tested configs:
+arc                                 defconfig
+alpha                               defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+csky                              allnoconfig
+arc                               allnoconfig
+s390                                defconfig
+alpha                             allnoconfig
+s390                             allmodconfig
+riscv                             allnoconfig
+x86_64                        randconfig-a002
+x86_64                           rhel-8.3-kvm
+i386                          randconfig-a001
+x86_64                         rhel-8.3-kunit
+i386                          randconfig-a003
+powerpc                           allnoconfig
+x86_64                        randconfig-a004
+i386                          randconfig-a005
+x86_64                           rhel-8.3-syz
+mips                             allyesconfig
+m68k                             allmodconfig
+x86_64                          rhel-8.3-func
+riscv                randconfig-r042-20221012
+s390                             allyesconfig
+i386                                defconfig
+x86_64                              defconfig
+powerpc                          allmodconfig
+x86_64                    rhel-8.3-kselftests
+arc                  randconfig-r043-20221012
+x86_64                        randconfig-a006
+arc                              allyesconfig
+x86_64                               rhel-8.3
+sh                               allmodconfig
+alpha                            allyesconfig
+arm                                 defconfig
+m68k                             allyesconfig
+x86_64                           allyesconfig
+s390                 randconfig-r044-20221012
+x86_64                        randconfig-a015
+i386                             allyesconfig
+x86_64                        randconfig-a013
+ia64                             allmodconfig
+x86_64                        randconfig-a011
+i386                          randconfig-a014
+arm64                            allyesconfig
+arm                              allyesconfig
+i386                          randconfig-a012
+i386                          randconfig-a016
+
+clang tested configs:
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+i386                          randconfig-a002
+x86_64                        randconfig-a005
+i386                          randconfig-a004
+i386                          randconfig-a006
+hexagon              randconfig-r045-20221012
+hexagon              randconfig-r041-20221012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+x86_64                        randconfig-a012
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
