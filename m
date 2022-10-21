@@ -1,30 +1,47 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA58A3FF9;
-	Fri, 21 Oct 2022 17:10:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AAC7C433D7;
-	Fri, 21 Oct 2022 17:10:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666372257;
-	bh=3jrWFUza5Ko9/eK84tOxAqMi3QxIuNBr6p0dVpub4ck=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NZ5Yc3TzFvRzrPTyIXu4Z5rXLPbrGJP5Hfm22ZQF7mw82htk6z0wYIxhns5/9ExP6
-	 0wOOe1Uu8/5gh8STY6ZC6RUM6pVA96MsDkL6xXoVq42OvQ8ubLze2DjMkTX4tvFyrb
-	 CRiA6x/JYykh8Fb3DGg9Uv7bO/0Il+Hz7FKuqRkovn92avh7kwlgum+U2c+KMKp1JP
-	 ANa3iT3CXu3XtglBs5KYcTsg51BsdPluFqvrlL2gCAW48ER2/L4FX1nUIhhmvKz864
-	 7G5a2PtWtmecd6/uWPsBCtTUSCM5In8dykhphu/sOWPG8KS9N8IXoQA0YpAyicx0zy
-	 XxNkGm04x4UXw==
-Date: Fri, 21 Oct 2022 10:10:55 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>,
-	ntfs3@lists.linux.dev, llvm@lists.linux.dev,
-	patches@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next v2 1/2] fs/ntfs3: Don't use uni1 uninitialized in
- ntfs_d_compare()
-Message-ID: <Y1LSn+O44lCRR3qE@dev-arch.thelio-3990X>
-References: <20221004232359.285685-1-nathan@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A673FFB
+	for <ntfs3@lists.linux.dev>; Fri, 21 Oct 2022 17:28:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666373328; x=1697909328;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=T59+PZTDZVjX23bCRMZbnZTbnIa553TW4Fq8YgsjUbw=;
+  b=Lk/TYoyPeYNz2+Hwo5ZWCuOyBcZltXfqLOm1P9IX0SvqU+OK/VQmW1Ba
+   LgbokXJ3f16suM1spCvhz9sSjQby87Dijtwccznneu5qpoO9ZlwnWKeZa
+   mPOKHQmL2cISVa5VsDK+HHc7OMHuB2xbExKcjfnQBZXSUk2Gu4n0s9GS6
+   zIyYe3aA8QNPn+vFIvyW1Eu073n0WLzwOnDilkWQHXiBZTqbUlGpgmTr4
+   WFfD7+paIoOnl1hCQm6ke2IcS4WgLm2eQyCL739Q7alnYm7Z7C7y/1leK
+   dU6XK+um97xMdpBWZFh/XzaPd8RFtEnlpHTnSDx0fqZcEWzA7Y5qoN6J1
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="294457894"
+X-IronPort-AV: E=Sophos;i="5.95,202,1661842800"; 
+   d="scan'208";a="294457894"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 10:28:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="630582750"
+X-IronPort-AV: E=Sophos;i="5.95,202,1661842800"; 
+   d="scan'208";a="630582750"
+Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 21 Oct 2022 10:28:44 -0700
+Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1olvp6-0002om-0R;
+	Fri, 21 Oct 2022 17:28:44 +0000
+Date: Sat, 22 Oct 2022 01:28:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: ntfs3@lists.linux.dev, linux-wireless@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-ext4@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 4d48f589d294ddc5e01d3b0dc7cecc55324c05ca
+Message-ID: <6352d6b9.grpYcP/v5reTKJou%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -32,97 +49,186 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221004232359.285685-1-nathan@kernel.org>
+Content-Transfer-Encoding: 7bit
 
-Ping? This is still breaking our builds in -next...
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 4d48f589d294ddc5e01d3b0dc7cecc55324c05ca  Add linux-next specific files for 20221021
 
-On Tue, Oct 04, 2022 at 04:23:58PM -0700, Nathan Chancellor wrote:
-> Clang warns:
-> 
->   fs/ntfs3/namei.c:445:7: error: variable 'uni1' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
->                   if (toupper(c1) != toupper(c2)) {
->                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
->   ./include/linux/ctype.h:64:20: note: expanded from macro 'toupper'
->   #define toupper(c) __toupper(c)
->                     ^
->   fs/ntfs3/namei.c:487:12: note: uninitialized use occurs here
->           __putname(uni1);
->                     ^~~~
->   ./include/linux/fs.h:2789:65: note: expanded from macro '__putname'
->   #define __putname(name)         kmem_cache_free(names_cachep, (void *)(name))
->                                                                         ^~~~
->   fs/ntfs3/namei.c:445:3: note: remove the 'if' if its condition is always false
->                   if (toupper(c1) != toupper(c2)) {
->                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   fs/ntfs3/namei.c:434:7: error: variable 'uni1' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
->                   if (!lm--) {
->                       ^~~~~
->   fs/ntfs3/namei.c:487:12: note: uninitialized use occurs here
->           __putname(uni1);
->                     ^~~~
->   ./include/linux/fs.h:2789:65: note: expanded from macro '__putname'
->   #define __putname(name)         kmem_cache_free(names_cachep, (void *)(name))
->                                                                         ^~~~
->   fs/ntfs3/namei.c:434:3: note: remove the 'if' if its condition is always false
->                   if (!lm--) {
->                   ^~~~~~~~~~~~
->   fs/ntfs3/namei.c:430:22: note: initialize the variable 'uni1' to silence this warning
->           struct cpu_str *uni1, *uni2;
->                               ^
->                               = NULL
->   2 errors generated.
-> 
-> There is no point in calling __putname() in these particular error
-> paths, as there has been no corresponding __getname() call yet. Just
-> return directly in these blocks to clear up the warning.
-> 
-> Fixes: a3a956c78efa ("fs/ntfs3: Add option "nocase"")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1729
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
-> 
-> v2:
->     * Pick up Nick's reviewed-by tag.
-> v1: https://lore.kernel.org/20221004144145.1345772-1-nathan@kernel.org/
-> 
->  fs/ntfs3/namei.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
-> 
-> diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
-> index 315763eb05ff..5d3a6ce3f05f 100644
-> --- a/fs/ntfs3/namei.c
-> +++ b/fs/ntfs3/namei.c
-> @@ -431,10 +431,8 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
->  
->  	/* First try fast implementation. */
->  	for (;;) {
-> -		if (!lm--) {
-> -			ret = len1 == len2 ? 0 : 1;
-> -			goto out;
-> -		}
-> +		if (!lm--)
-> +			return len1 == len2 ? 0 : 1;
->  
->  		if ((c1 = *n1++) == (c2 = *n2++))
->  			continue;
-> @@ -442,10 +440,8 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
->  		if (c1 >= 0x80 || c2 >= 0x80)
->  			break;
->  
-> -		if (toupper(c1) != toupper(c2)) {
-> -			ret = 1;
-> -			goto out;
-> -		}
-> +		if (toupper(c1) != toupper(c2))
-> +			return 1;
->  	}
->  
->  	/*
-> 
-> base-commit: d45da67caedacd500879de5e649360cc70777af7
-> -- 
-> 2.37.3
-> 
-> 
+Error/Warning reports:
+
+https://lore.kernel.org/linux-mm/202210090954.pTR6m6rj-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210110857.9s0tXVNn-lkp@intel.com
+https://lore.kernel.org/llvm/202210211531.zEaM6hBM-lkp@intel.com
+
+Error/Warning: (recently discovered and may have been fixed)
+
+drivers/nvme/target/loop.c:578 nvme_loop_create_ctrl() warn: 'opts->queue_size - 1' 18446744073709551615 can't fit into 65535 'ctrl->ctrl.sqsize'
+fs/ext4/super.c:1744:19: warning: 'deprecated_msg' defined but not used [-Wunused-const-variable=]
+fs/ntfs3/namei.c:487 ntfs_d_compare() error: uninitialized symbol 'uni1'.
+vcpu.c:(.text+0xa3c): undefined reference to `riscv_cbom_block_size'
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- i386-allyesconfig
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-defconfig
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a003
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a005
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a012
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a014
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- i386-randconfig-a016
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- riscv-randconfig-m031-20221019
+|   |-- drivers-nvme-target-loop.c-nvme_loop_create_ctrl()-warn:opts-queue_size-can-t-fit-into-ctrl-ctrl.sqsize
+|   |-- fs-ntfs3-namei.c-ntfs_d_compare()-error:uninitialized-symbol-uni1-.
+|   `-- vcpu.c:(.text):undefined-reference-to-riscv_cbom_block_size
+|-- x86_64-allyesconfig
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-defconfig
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-randconfig-a002
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-randconfig-a006
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-randconfig-a011
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-randconfig-a015
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-randconfig-m001
+|   `-- arch-x86-kernel-apic-apic.c-generic_processor_info()-warn:always-true-condition-(num_processors-()-)-(-u32max-)
+|-- x86_64-rhel-8.3
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-rhel-8.3-func
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-rhel-8.3-kselftests
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-rhel-8.3-kunit
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+|-- x86_64-rhel-8.3-kvm
+|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+`-- x86_64-rhel-8.3-syz
+    `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
+clang_recent_errors
+|-- arm-colibri_pxa300_defconfig
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- hexagon-randconfig-r041-20221019
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- hexagon-randconfig-r045-20221019
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt2701.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   `-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
+|-- i386-allyesconfig
+|   `-- drivers-net-wireless-realtek-rtl8xxxu-rtl8xxxu_8188f.c:warning:variable-hw_ctrl_s1-is-used-uninitialized-whenever-if-condition-is-false
+|-- i386-randconfig-a002
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a004
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a011
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a013
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- i386-randconfig-a015
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- s390-buildonly-randconfig-r006-20221019
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- s390-randconfig-r044-20221019
+|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|-- x86_64-randconfig-a005
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- x86_64-randconfig-a012
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- x86_64-randconfig-a014
+|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+`-- x86_64-rhel-8.3-rust
+    `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
+
+elapsed time: 727m
+
+configs tested: 63
+configs skipped: 2
+
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+x86_64                              defconfig
+i386                                defconfig
+mips                             allyesconfig
+sh                               allmodconfig
+arc                                 defconfig
+arc                  randconfig-r043-20221019
+x86_64                               rhel-8.3
+x86_64                        randconfig-a013
+alpha                               defconfig
+x86_64                        randconfig-a011
+i386                          randconfig-a001
+s390                             allmodconfig
+i386                          randconfig-a003
+alpha                            allyesconfig
+x86_64                           allyesconfig
+m68k                             allyesconfig
+x86_64                        randconfig-a002
+m68k                             allmodconfig
+arm                                 defconfig
+s390                                defconfig
+i386                          randconfig-a005
+i386                             allyesconfig
+s390                             allyesconfig
+arc                              allyesconfig
+x86_64                           rhel-8.3-syz
+x86_64                        randconfig-a004
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+x86_64                         rhel-8.3-kunit
+x86_64                        randconfig-a006
+i386                          randconfig-a012
+x86_64                           rhel-8.3-kvm
+i386                          randconfig-a016
+arm64                            allyesconfig
+arm                              allyesconfig
+openrisc                         alldefconfig
+powerpc                       holly_defconfig
+ia64                             allmodconfig
+
+clang tested configs:
+riscv                randconfig-r042-20221019
+hexagon              randconfig-r045-20221019
+hexagon              randconfig-r041-20221019
+x86_64                        randconfig-a016
+i386                          randconfig-a002
+s390                 randconfig-r044-20221019
+x86_64                        randconfig-a001
+x86_64                        randconfig-a012
+x86_64                        randconfig-a003
+i386                          randconfig-a006
+i386                          randconfig-a013
+i386                          randconfig-a004
+x86_64                        randconfig-a014
+i386                          randconfig-a011
+x86_64                        randconfig-a005
+i386                          randconfig-a015
+x86_64                          rhel-8.3-rust
+arm                       mainstone_defconfig
+arm                  colibri_pxa300_defconfig
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
