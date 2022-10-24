@@ -1,117 +1,215 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CD77B
-	for <ntfs3@lists.linux.dev>; Sat, 22 Oct 2022 11:43:44 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id b7-20020a92c567000000b002fb9207838bso5530948ilj.23
-        for <ntfs3@lists.linux.dev>; Sat, 22 Oct 2022 04:43:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xzPY5+dygQG7DwfaQGmzfbg3WM+EsIeaCR6GugnyQeo=;
-        b=rlLub0RZxvQ62Fh8yrOiTohP6juZ8MIUOY7bMepXFqXgdq6eDCgKUPqIWW1NoyTOM7
-         E14KgvRW4e0eDGDfmDYIy5Qd0a75tyLvb8wc6XDWRCWV5C/r5x65HqzHDu10CdtdGNV2
-         LuN5Z8Xpf/ehWm3r/vUpaEWT75qDRwT3eb7Obs7Z9IZazxkCqXbaszv1mS8P3y65+OT9
-         WK6QHMiDaWlYNnmKlAhzEU4Z09h4sW4QwaUsYNoQY8XtobIoakULwDqvvPGprpS8K/p6
-         86GgcQjGZ/YaZHRVUYRTJwR80y/RjkBph3coaaotZy2+iYuG+P90NhCfefPioCRn5YDq
-         DU/g==
-X-Gm-Message-State: ACrzQf1E5vjlCurAc++CCHR6FSsJeMWUBIhqbiEfj9BaLPBhMj8m56QC
-	LA3hRuA5tXSvmZiCLyR0IaAoPam4BlIoWQBQW/c9jB4SiH9s
-X-Google-Smtp-Source: AMsMyM6MMYXdpGO/DgS2rt8Ois43Oqy8lkkCzznGw9m9nKwTs9ZEcB/M8qvqUpemsc1QkqQHm8cVWjTcuQoZDOWeNwdDiMxmSDmj
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45224441F
+	for <ntfs3@lists.linux.dev>; Mon, 24 Oct 2022 16:59:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666630789; x=1698166789;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9hFNN8FocKL1s+t62fqYOxCC2IjJmS0OeL8/lk60yi4=;
+  b=hjf1T/H89YP93IB5xeeim5wAOGZ3nTFGoyDW/PLdIjfcbJnBV/P+pxF3
+   WVNA+Xtube5et/Y5SGX0jQQVGJft4ljIe59olpGsq3A5EtGX0oOFxs5tA
+   N8KmuYjTiEsGKSG02kOBi4MzDG93+c3OtJgPWfTkrXpRJ1m7SwW+VlPpi
+   UqbYJ+OBMkmDEd2ue9HDYhd1RpP6+AbLQdZbYYZJPhx2a5CYPpkIyk4sp
+   izVL/AcVTh9X2x7JXrT7K7+dcQPIsL+nORxO20ncrLVQ/HcY4X0quTIEl
+   0ZN4Yyx8MTEXygiHTfifjyApHrpTQeljyB+Nh3W1XRAazjgeiX8Le/7UM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="308565313"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
+   d="scan'208";a="308565313"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 09:59:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="662496666"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
+   d="scan'208";a="662496666"
+Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 24 Oct 2022 09:59:46 -0700
+Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1on0nh-0005Wl-1e;
+	Mon, 24 Oct 2022 16:59:45 +0000
+Date: Tue, 25 Oct 2022 00:58:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: ntfs3@lists.linux.dev, netdev@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD SUCCESS WITH WARNING
+ 76cf65d1377f733af1e2a55233e3353ffa577f54
+Message-ID: <6356c451.pwLIF+9EvDUrDjTY%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:134f:b0:6a4:cd04:7842 with SMTP id
- i15-20020a056602134f00b006a4cd047842mr16442958iov.172.1666439023961; Sat, 22
- Oct 2022 04:43:43 -0700 (PDT)
-Date: Sat, 22 Oct 2022 04:43:43 -0700
-In-Reply-To: <000000000000f61bdf05e79a7c5c@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000102c9e05eb9e12c3@google.com>
-Subject: Re: [syzbot] BUG: unable to handle kernel paging request in mi_enum_attr
-From: syzbot <syzbot+28207acc70bbf3d85b74@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-syzbot has found a reproducer for the following issue on:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 76cf65d1377f733af1e2a55233e3353ffa577f54  Add linux-next specific files for 20221024
 
-HEAD commit:    440b7895c990 Merge tag 'mm-hotfixes-stable-2022-10-20' of ..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=12f15216880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=afc317c0f52ce670
-dashboard link: https://syzkaller.appspot.com/bug?extid=28207acc70bbf3d85b74
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16d6496a880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13d32fc2880000
+Warning reports:
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/105038975fc9/disk-440b7895.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/edd7302c8fc8/vmlinux-440b7895.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/7e29515d4690/mount_0.gz
+https://lore.kernel.org/linux-mm/202210090954.pTR6m6rj-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210110857.9s0tXVNn-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210111318.mbUfyhps-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210240729.zs46Cfzo-lkp@intel.com
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+28207acc70bbf3d85b74@syzkaller.appspotmail.com
+Warning: (recently discovered and may have been fixed)
 
-loop0: detected capacity change from 0 to 4096
-ntfs3: loop0: Different NTFS' sector size (1024) and media sector size (512)
-ntfs3: loop0: Mark volume as dirty due to NTFS errors
-==================================================================
-BUG: KASAN: use-after-free in mi_enum_attr+0x583/0x6a0 fs/ntfs3/record.c:227
-Read of size 4 at addr ffff888177de6993 by task syz-executor131/3605
+arch/parisc/kernel/setup.c:78 setup_cmdline() warn: curly braces intended?
+drivers/net/phy/phylink.c:588 phylink_validate_mask_caps() warn: variable dereferenced before check 'state' (see line 583)
 
-CPU: 0 PID: 3605 Comm: syz-executor131 Not tainted 6.1.0-rc1-syzkaller-00158-g440b7895c990 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/11/2022
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1b1/0x28e lib/dump_stack.c:106
- print_address_description+0x74/0x340 mm/kasan/report.c:284
- print_report+0x107/0x1f0 mm/kasan/report.c:395
- kasan_report+0xcd/0x100 mm/kasan/report.c:495
- mi_enum_attr+0x583/0x6a0 fs/ntfs3/record.c:227
- ni_enum_attr_ex+0x2f6/0x6d0 fs/ntfs3/frecord.c:259
- ntfs_read_mft fs/ntfs3/inode.c:114 [inline]
- ntfs_iget5+0x1d3e/0x36f0 fs/ntfs3/inode.c:501
- ntfs_fill_super+0x3b55/0x42a0 fs/ntfs3/super.c:1195
- get_tree_bdev+0x400/0x620 fs/super.c:1323
- vfs_get_tree+0x88/0x270 fs/super.c:1530
- do_new_mount+0x289/0xad0 fs/namespace.c:3040
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount+0x2d3/0x3c0 fs/namespace.c:3568
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f43fe5afaca
-Code: 48 c7 c2 c0 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 f8 03 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffd57724258 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f43fe5afaca
-RDX: 0000000020000000 RSI: 0000000020000100 RDI: 00007ffd57724270
-RBP: 00007ffd57724270 R08: 00007ffd577242b0 R09: 00007ffd577242e0
-R10: 0000000000000000 R11: 0000000000000286 R12: 0000000000000004
-R13: 00007ffd577242b0 R14: 0000000000000109 R15: 0000000020001ad8
- </TASK>
+Warning ids grouped by kconfigs:
 
-The buggy address belongs to the physical page:
-page:ffffea0005df7980 refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x177de6
-flags: 0x57ff00000000000(node=1|zone=2|lastcpupid=0x7ff)
-raw: 057ff00000000000 ffffea0005df7988 ffffea0005df7988 0000000000000000
-raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner info is not present (never set?)
+gcc_recent_errors
+|-- i386-randconfig-s041-20221024
+|   |-- fs-ntfs3-index.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- fs-ntfs3-namei.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__le16-const-usertype-s1-got-unsigned-short
+|   `-- fs-ntfs3-namei.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__le16-const-usertype-s2-got-unsigned-short
+|-- microblaze-randconfig-m031-20221023
+|   `-- drivers-net-phy-phylink.c-phylink_validate_mask_caps()-warn:variable-dereferenced-before-check-state-(see-line-)
+|-- parisc-randconfig-m031-20221023
+|   `-- arch-parisc-kernel-setup.c-setup_cmdline()-warn:curly-braces-intended
+`-- x86_64-randconfig-m001
+    `-- arch-x86-kernel-apic-apic.c-generic_processor_info()-warn:always-true-condition-(num_processors-()-)-(-u32max-)
+clang_recent_errors
+|-- hexagon-randconfig-r045-20221023
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt2701.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8183.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|   |-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a001-20221024
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a011
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a015
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- powerpc-randconfig-r015-20221023
+|   |-- drivers-gpu-drm-amd-amdgpu-mmhub_v2_0.c:warning:variable-data-is-uninitialized-when-used-here
+|   |-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- riscv-randconfig-r042-20221023
+|   `-- ld.lld:error:undefined-symbol:dax_holder_notify_failure
+|-- s390-randconfig-r022-20221023
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- s390-randconfig-r044-20221023
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- x86_64-randconfig-a002-20221024
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- x86_64-randconfig-a004-20221024
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+`-- x86_64-randconfig-a005-20221024
+    `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
 
-Memory state around the buggy address:
- ffff888177de6880: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
- ffff888177de6900: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
->ffff888177de6980: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-                         ^
- ffff888177de6a00: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
- ffff888177de6a80: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-==================================================================
+elapsed time: 726m
 
+configs tested: 91
+configs skipped: 3
+
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                          rhel-8.3-func
+i386                                defconfig
+x86_64               randconfig-a013-20221024
+x86_64                               rhel-8.3
+x86_64               randconfig-a012-20221024
+x86_64                           allyesconfig
+x86_64                           rhel-8.3-syz
+x86_64                           rhel-8.3-kvm
+m68k                        m5272c3_defconfig
+x86_64               randconfig-a016-20221024
+powerpc                           allnoconfig
+arm                                 defconfig
+mips                             allyesconfig
+x86_64               randconfig-a011-20221024
+i386                          randconfig-a014
+powerpc                          allmodconfig
+x86_64               randconfig-a015-20221024
+csky                              allnoconfig
+i386                             allyesconfig
+sh                          kfr2r09_defconfig
+sh                               allmodconfig
+x86_64               randconfig-a014-20221024
+i386                          randconfig-a012
+i386                          randconfig-a016
+arc                                 defconfig
+alpha                            allyesconfig
+powerpc                      makalu_defconfig
+arm                              allyesconfig
+arm                            xcep_defconfig
+m68k                             allmodconfig
+powerpc                    amigaone_defconfig
+sh                           sh2007_defconfig
+arm64                            allyesconfig
+arc                              allyesconfig
+arc                  randconfig-r043-20221024
+m68k                             allyesconfig
+arc                         haps_hs_defconfig
+alpha                               defconfig
+sh                            migor_defconfig
+mips                     loongson1b_defconfig
+riscv                randconfig-r042-20221024
+s390                                defconfig
+parisc                generic-64bit_defconfig
+arc                  randconfig-r043-20221023
+s390                             allmodconfig
+xtensa                          iss_defconfig
+s390                 randconfig-r044-20221024
+powerpc                      bamboo_defconfig
+ia64                             allmodconfig
+s390                             allyesconfig
+arm                        shmobile_defconfig
+arm                            hisi_defconfig
+arc                          axs103_defconfig
+powerpc                        cell_defconfig
+mips                        bcm47xx_defconfig
+sparc                       sparc64_defconfig
+x86_64                         rhel-8.3-kunit
+
+clang tested configs:
+i386                 randconfig-a001-20221024
+i386                 randconfig-a002-20221024
+i386                 randconfig-a003-20221024
+i386                 randconfig-a004-20221024
+i386                 randconfig-a005-20221024
+i386                 randconfig-a006-20221024
+hexagon              randconfig-r045-20221023
+i386                          randconfig-a013
+hexagon              randconfig-r041-20221024
+i386                          randconfig-a011
+riscv                randconfig-r042-20221023
+x86_64               randconfig-a001-20221024
+arm                          moxart_defconfig
+powerpc                      obs600_defconfig
+x86_64               randconfig-a005-20221024
+x86_64               randconfig-a003-20221024
+powerpc                       ebony_defconfig
+x86_64               randconfig-a006-20221024
+i386                          randconfig-a015
+hexagon              randconfig-r045-20221024
+x86_64               randconfig-a004-20221024
+arm                             mxs_defconfig
+s390                 randconfig-r044-20221023
+mips                       rbtx49xx_defconfig
+x86_64               randconfig-a002-20221024
+arm                          pxa168_defconfig
+powerpc                     tqm8540_defconfig
+powerpc                      ppc44x_defconfig
+hexagon              randconfig-r041-20221023
+arm                            dove_defconfig
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
