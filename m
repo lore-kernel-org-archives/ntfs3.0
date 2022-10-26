@@ -1,143 +1,299 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616961C11;
-	Wed, 26 Oct 2022 16:56:50 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id DC9B51D17;
-	Wed, 26 Oct 2022 16:54:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1666803244;
-	bh=bUaFzx51Y3McLSXkoVjYqSdbgP//EcB99FWcLekE2kI=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=e8jkaWH/O9ByNEKPkrf+Kvw/NxgehNdUaaB06GQ7qIq7z0sYfGKSpHFr+QP9XsFn0
-	 Y82eMxDV5AVR0AZwKv1e5bP6fYwaNai5V8vKOU7zyjMv8xrVQgGLFtig0l7PMAxhXY
-	 xdrcnFjgme1dR9NO7+SnsW2Qfk21J/c17ViRl3NI=
-Received: from [172.30.8.65] (172.30.8.65) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 26 Oct 2022 19:56:41 +0300
-Message-ID: <f5c18c15-6fdf-d7fe-627b-080dd7af93cc@paragon-software.com>
-Date: Wed, 26 Oct 2022 19:56:41 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DE98489
+	for <ntfs3@lists.linux.dev>; Wed, 26 Oct 2022 17:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666803612; x=1698339612;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5Z+ixCtjM9zP5Cjx5S+C528BMvr3OqmySU4CCYG0r0g=;
+  b=VTyPbDsGfZHwN70wBE03IbRZWds+jIJvDyI3+UthDfqq7Trs2B4ZDqaK
+   EiHqCbLJ896/EKzq/qtsxxpDFduulZv7CRJNLs5AMUAK/LtorcKQdeSIn
+   QmbasKSq33F0umuqUvC+Mp/WpTipCnST1zZxpVlffLixRtECEBDyMUHAg
+   HTfyfb4IGt8L/F6j6njv11kf2wjSpI657arW4mDpkRV0sx6YsMOQUkDeB
+   LYFTAg4qpwp53mKKLOmYNug2gbEtIY9ZU3E8OyWEwqLZQW8BltItrKGyS
+   aCmdxaR3w4epmY93ScSzK6OP/Lvfg6Bkta1VghIL1WshxkCim+lo1aEWc
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="295411659"
+X-IronPort-AV: E=Sophos;i="5.95,215,1661842800"; 
+   d="scan'208";a="295411659"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2022 10:00:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="665361572"
+X-IronPort-AV: E=Sophos;i="5.95,215,1661842800"; 
+   d="scan'208";a="665361572"
+Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 26 Oct 2022 10:00:01 -0700
+Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1onjl2-0007dp-25;
+	Wed, 26 Oct 2022 17:00:00 +0000
+Date: Thu, 27 Oct 2022 00:59:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: ntfs3@lists.linux.dev, netdev@vger.kernel.org, linux-mm@kvack.org,
+ linux-mediatek@lists.infradead.org, linux-ext4@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, apparmor@lists.ubuntu.com,
+ amd-gfx@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD SUCCESS WITH WARNING
+ 60eac8672b5b6061ec07499c0f1b79f6d94311ce
+Message-ID: <63596772.FFBtfld6wjE45SXv%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH -next v2 1/2] fs/ntfs3: Don't use uni1 uninitialized in
- ntfs_d_compare()
-Content-Language: en-US
-To: Nathan Chancellor <nathan@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>,
-	<ntfs3@lists.linux.dev>, <llvm@lists.linux.dev>, <patches@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-References: <20221004232359.285685-1-nathan@kernel.org>
- <Y1LSn+O44lCRR3qE@dev-arch.thelio-3990X>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <Y1LSn+O44lCRR3qE@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.30.8.65]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 60eac8672b5b6061ec07499c0f1b79f6d94311ce  Add linux-next specific files for 20221026
 
+Warning reports:
 
-On 10/21/22 20:10, Nathan Chancellor wrote:
-> Ping? This is still breaking our builds in -next...
-> 
+https://lore.kernel.org/linux-mm/202210090954.pTR6m6rj-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210110857.9s0tXVNn-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210111318.mbUfyhps-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210240729.zs46Cfzo-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210251946.eT92YAhG-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210261404.b6UlzG7H-lkp@intel.com
+https://lore.kernel.org/llvm/202210060148.UXBijOcS-lkp@intel.com
+https://lore.kernel.org/llvm/202210261759.MQ8VLHNW-lkp@intel.com
 
-Thanks for patch, applied!
+Warning: (recently discovered and may have been fixed)
 
-> On Tue, Oct 04, 2022 at 04:23:58PM -0700, Nathan Chancellor wrote:
->> Clang warns:
->>
->>    fs/ntfs3/namei.c:445:7: error: variable 'uni1' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
->>                    if (toupper(c1) != toupper(c2)) {
->>                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
->>    ./include/linux/ctype.h:64:20: note: expanded from macro 'toupper'
->>    #define toupper(c) __toupper(c)
->>                      ^
->>    fs/ntfs3/namei.c:487:12: note: uninitialized use occurs here
->>            __putname(uni1);
->>                      ^~~~
->>    ./include/linux/fs.h:2789:65: note: expanded from macro '__putname'
->>    #define __putname(name)         kmem_cache_free(names_cachep, (void *)(name))
->>                                                                          ^~~~
->>    fs/ntfs3/namei.c:445:3: note: remove the 'if' if its condition is always false
->>                    if (toupper(c1) != toupper(c2)) {
->>                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>    fs/ntfs3/namei.c:434:7: error: variable 'uni1' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
->>                    if (!lm--) {
->>                        ^~~~~
->>    fs/ntfs3/namei.c:487:12: note: uninitialized use occurs here
->>            __putname(uni1);
->>                      ^~~~
->>    ./include/linux/fs.h:2789:65: note: expanded from macro '__putname'
->>    #define __putname(name)         kmem_cache_free(names_cachep, (void *)(name))
->>                                                                          ^~~~
->>    fs/ntfs3/namei.c:434:3: note: remove the 'if' if its condition is always false
->>                    if (!lm--) {
->>                    ^~~~~~~~~~~~
->>    fs/ntfs3/namei.c:430:22: note: initialize the variable 'uni1' to silence this warning
->>            struct cpu_str *uni1, *uni2;
->>                                ^
->>                                = NULL
->>    2 errors generated.
->>
->> There is no point in calling __putname() in these particular error
->> paths, as there has been no corresponding __getname() call yet. Just
->> return directly in these blocks to clear up the warning.
->>
->> Fixes: a3a956c78efa ("fs/ntfs3: Add option "nocase"")
->> Link: https://github.com/ClangBuiltLinux/linux/issues/1729
->> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
->> ---
->>
->> v2:
->>      * Pick up Nick's reviewed-by tag.
->> v1: https://lore.kernel.org/20221004144145.1345772-1-nathan@kernel.org/
->>
->>   fs/ntfs3/namei.c | 12 ++++--------
->>   1 file changed, 4 insertions(+), 8 deletions(-)
->>
->> diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
->> index 315763eb05ff..5d3a6ce3f05f 100644
->> --- a/fs/ntfs3/namei.c
->> +++ b/fs/ntfs3/namei.c
->> @@ -431,10 +431,8 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
->>   
->>   	/* First try fast implementation. */
->>   	for (;;) {
->> -		if (!lm--) {
->> -			ret = len1 == len2 ? 0 : 1;
->> -			goto out;
->> -		}
->> +		if (!lm--)
->> +			return len1 == len2 ? 0 : 1;
->>   
->>   		if ((c1 = *n1++) == (c2 = *n2++))
->>   			continue;
->> @@ -442,10 +440,8 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
->>   		if (c1 >= 0x80 || c2 >= 0x80)
->>   			break;
->>   
->> -		if (toupper(c1) != toupper(c2)) {
->> -			ret = 1;
->> -			goto out;
->> -		}
->> +		if (toupper(c1) != toupper(c2))
->> +			return 1;
->>   	}
->>   
->>   	/*
->>
->> base-commit: d45da67caedacd500879de5e649360cc70777af7
->> -- 
->> 2.37.3
->>
->>
+lib/zstd/compress/huf_compress.c:460 HUF_getIndex() warn: the 'RANK_POSITION_LOG_BUCKETS_BEGIN' macro might need parens
+security/apparmor/policy_unpack_test.c:149 policy_unpack_test_unpack_array_with_null_name() error: uninitialized symbol 'array_size'.
+security/apparmor/policy_unpack_test.c:164 policy_unpack_test_unpack_array_with_name() error: uninitialized symbol 'array_size'.
+
+Unverified Warning (likely false positive, please contact us if interested):
+
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:5230:16: warning: no previous prototype for function 'wake_up_aux_channel' [-Wmissing-prototypes]
+drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c:207:24: sparse: sparse: symbol 'test_callbacks' was not declared. Should it be static?
+drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c:219:21: sparse: sparse: symbol 'test_vctrl' was not declared. Should it be static?
+drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c:245:23: sparse: sparse: Using plain integer as NULL pointer
+lib/zstd/decompress/zstd_decompress_block.c:1009 ZSTD_execSequence() warn: inconsistent indenting
+lib/zstd/decompress/zstd_decompress_block.c:894 ZSTD_execSequenceEnd() warn: inconsistent indenting
+lib/zstd/decompress/zstd_decompress_block.c:942 ZSTD_execSequenceEndSplitLitBuffer() warn: inconsistent indenting
+lib/zstd/decompress/zstd_decompress_internal.h:206 ZSTD_DCtx_get_bmi2() warn: inconsistent indenting
+mm/khugepaged.c:1729:3: warning: variable 'index' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+mm/khugepaged.c:1729:3: warning: variable 'nr' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+mm/khugepaged.c:1729:7: warning: variable 'index' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+mm/khugepaged.c:1729:7: warning: variable 'nr' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+
+Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- arc-randconfig-s051-20221023
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-priv1-got-restricted-__le16-addressable-usertype-fc_len
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-tag-got-restricted-__le16-addressable-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-short-usertype-tag-got-restricted-__le16-addressable-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_len-got-unsigned-short-usertype
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_tag-got-unsigned-short-usertype
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-int-tag-got-restricted-__le16-usertype-fc_tag
+|   `-- fs-ext4-fast_commit.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- i386-randconfig-m021
+|   |-- arch-x86-boot-compressed-..-..-..-..-lib-zstd-decompress-zstd_decompress_block.c-ZSTD_execSequence()-warn:inconsistent-indenting
+|   |-- arch-x86-boot-compressed-..-..-..-..-lib-zstd-decompress-zstd_decompress_block.c-ZSTD_execSequenceEnd()-warn:inconsistent-indenting
+|   |-- arch-x86-boot-compressed-..-..-..-..-lib-zstd-decompress-zstd_decompress_block.c-ZSTD_execSequenceEndSplitLitBuffer()-warn:inconsistent-indenting
+|   |-- arch-x86-boot-compressed-..-..-..-..-lib-zstd-decompress-zstd_decompress_internal.h-ZSTD_DCtx_get_bmi2()-warn:inconsistent-indenting
+|   |-- lib-zstd-compress-huf_compress.c-HUF_getIndex()-warn:the-RANK_POSITION_LOG_BUCKETS_BEGIN-macro-might-need-parens
+|   |-- lib-zstd-decompress-zstd_decompress_block.c-ZSTD_execSequence()-warn:inconsistent-indenting
+|   |-- lib-zstd-decompress-zstd_decompress_block.c-ZSTD_execSequenceEnd()-warn:inconsistent-indenting
+|   |-- lib-zstd-decompress-zstd_decompress_block.c-ZSTD_execSequenceEndSplitLitBuffer()-warn:inconsistent-indenting
+|   `-- lib-zstd-decompress-zstd_decompress_internal.h-ZSTD_DCtx_get_bmi2()-warn:inconsistent-indenting
+|-- loongarch-randconfig-s043-20221024
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-priv1-got-restricted-__le16-addressable-usertype-fc_len
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-tag-got-restricted-__le16-addressable-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-short-usertype-tag-got-restricted-__le16-addressable-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_len-got-unsigned-short-usertype
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_tag-got-unsigned-short-usertype
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-int-tag-got-restricted-__le16-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|   |-- fs-ntfs3-index.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- fs-ntfs3-namei.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__le16-const-usertype-s1-got-unsigned-short
+|   `-- fs-ntfs3-namei.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__le16-const-usertype-s2-got-unsigned-short
+|-- parisc-randconfig-m031-20221024
+|   |-- security-apparmor-policy_unpack_test.c-policy_unpack_test_unpack_array_with_name()-error:uninitialized-symbol-array_size-.
+|   `-- security-apparmor-policy_unpack_test.c-policy_unpack_test_unpack_array_with_null_name()-error:uninitialized-symbol-array_size-.
+|-- powerpc-randconfig-s053-20221023
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-priv1-got-restricted-__le16-addressable-usertype-fc_len
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-int-tag-got-restricted-__le16-addressable-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-short-usertype-tag-got-restricted-__le16-addressable-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_len-got-unsigned-short-usertype
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-fc_tag-got-unsigned-short-usertype
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-int-tag-got-restricted-__le16-usertype-fc_tag
+|   |-- fs-ext4-fast_commit.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|   |-- fs-ntfs3-index.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- fs-ntfs3-namei.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__le16-const-usertype-s1-got-unsigned-short
+|   `-- fs-ntfs3-namei.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__le16-const-usertype-s2-got-unsigned-short
+|-- riscv-randconfig-s051-20221026
+|   |-- drivers-net-ethernet-microchip-vcap-vcap_api_kunit.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|   |-- drivers-net-ethernet-microchip-vcap-vcap_api_kunit.c:sparse:sparse:symbol-test_callbacks-was-not-declared.-Should-it-be-static
+|   `-- drivers-net-ethernet-microchip-vcap-vcap_api_kunit.c:sparse:sparse:symbol-test_vctrl-was-not-declared.-Should-it-be-static
+`-- x86_64-randconfig-m001
+    |-- arch-x86-boot-compressed-..-..-..-..-lib-zstd-decompress-zstd_decompress_block.c-ZSTD_execSequence()-warn:inconsistent-indenting
+    |-- arch-x86-boot-compressed-..-..-..-..-lib-zstd-decompress-zstd_decompress_block.c-ZSTD_execSequenceEnd()-warn:inconsistent-indenting
+clang_recent_errors
+|-- arm-buildonly-randconfig-r002-20221026
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- arm-buildonly-randconfig-r006-20221024
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt2701.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|   `-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8183.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|-- arm64-randconfig-r026-20221023
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-function-wake_up_aux_channel
+|-- arm64-randconfig-r026-20221025
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- hexagon-randconfig-r014-20221024
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- hexagon-randconfig-r015-20221023
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt2701.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   `-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
+|-- hexagon-randconfig-r045-20221023
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt2701.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8183.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|   |-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-buildonly-randconfig-r002-20221024
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt2701.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   `-- drivers-phy-mediatek-phy-mtk-hdmi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|-- i386-randconfig-a001-20221024
+|   |-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|   |-- mm-khugepaged.c:warning:variable-index-is-used-uninitialized-whenever-if-condition-is-true
+|   `-- mm-khugepaged.c:warning:variable-nr-is-used-uninitialized-whenever-if-condition-is-true
+|-- i386-randconfig-a006-20221024
+|   |-- mm-khugepaged.c:warning:variable-index-is-used-uninitialized-whenever-if-condition-is-true
+|   `-- mm-khugepaged.c:warning:variable-nr-is-used-uninitialized-whenever-if-condition-is-true
+|-- mips-randconfig-r016-20221024
+|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
+|-- mips-randconfig-r034-20221023
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt2701.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8183.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|   `-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
+|-- riscv-randconfig-r001-20221026
+|   |-- ld.lld:error:vmlinux.a(kernel-kallsyms.o):(function-get_symbol_pos:.text):relocation-R_RISCV_PCREL_HI20-out-of-range:is-not-in-references-kallsyms_num_syms
+|   |-- ld.lld:error:vmlinux.a(kernel-kallsyms.o):(function-get_symbol_pos:.text):relocation-R_RISCV_PCREL_HI20-out-of-range:is-not-in-references-kallsyms_offsets
+|   |-- ld.lld:error:vmlinux.a(kernel-kallsyms.o):(function-kallsyms_lookup_name:.text):relocation-R_RISCV_PCREL_HI20-out-of-range:is-not-in-references-kallsyms_num_syms
+|   |-- ld.lld:error:vmlinux.a(kernel-kallsyms.o):(function-kallsyms_lookup_name:.text):relocation-R_RISCV_PCREL_HI20-out-of-range:is-not-in-references-kallsyms_offsets
+|   |-- ld.lld:error:vmlinux.a(kernel-kallsyms.o):(function-kallsyms_lookup_name:.text):relocation-R_RISCV_PCREL_HI20-out-of-range:is-not-in-references-kallsyms_relative_base
+|   |-- ld.lld:error:vmlinux.a(kernel-kallsyms.o):(function-kallsyms_on_each_symbol:.text):relocation-R_RISCV_PCREL_HI20-out-of-range:is-not-in-references-kallsyms_num_syms
+|   |-- ld.lld:error:vmlinux.a(kernel-kallsyms.o):(function-kallsyms_on_each_symbol:.text):relocation-R_RISCV_PCREL_HI20-out-of-range:is-not-in-references-kallsyms_offsets
+
+elapsed time: 724m
+
+configs tested: 93
+configs skipped: 2
+
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+i386                                defconfig
+arm                                 defconfig
+x86_64                              defconfig
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                               rhel-8.3
+arc                  randconfig-r043-20221024
+x86_64                        randconfig-a015
+x86_64                           rhel-8.3-syz
+arm                              allyesconfig
+x86_64                           allyesconfig
+x86_64                         rhel-8.3-kunit
+arm64                            allyesconfig
+x86_64                          rhel-8.3-func
+ia64                             allmodconfig
+x86_64                           rhel-8.3-kvm
+arc                                 defconfig
+powerpc                   motionpro_defconfig
+s390                             allmodconfig
+i386                             allyesconfig
+riscv                randconfig-r042-20221024
+x86_64                    rhel-8.3-kselftests
+alpha                               defconfig
+s390                 randconfig-r044-20221024
+s390                                defconfig
+powerpc                           allnoconfig
+sh                        sh7785lcr_defconfig
+i386                 randconfig-a011-20221024
+sh                         ecovec24_defconfig
+m68k                        stmark2_defconfig
+i386                 randconfig-a015-20221024
+i386                 randconfig-a014-20221024
+powerpc                          allmodconfig
+ia64                          tiger_defconfig
+s390                             allyesconfig
+sh                               allmodconfig
+i386                 randconfig-a013-20221024
+mips                             allyesconfig
+arc                         haps_hs_defconfig
+i386                 randconfig-a012-20221024
+sparc                            alldefconfig
+i386                 randconfig-a016-20221024
+csky                                defconfig
+m68k                          hp300_defconfig
+arm                      footbridge_defconfig
+s390                       zfcpdump_defconfig
+loongarch                           defconfig
+mips                     loongson1b_defconfig
+arm                         axm55xx_defconfig
+m68k                          amiga_defconfig
+arm                          gemini_defconfig
+parisc                              defconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+sh                        apsh4ad0a_defconfig
+alpha                            allyesconfig
+i386                          randconfig-c001
+m68k                             allyesconfig
+arc                  randconfig-r043-20221023
+x86_64               randconfig-a013-20221024
+x86_64               randconfig-a012-20221024
+riscv                            allmodconfig
+
+clang tested configs:
+i386                 randconfig-a004-20221024
+i386                 randconfig-a001-20221024
+hexagon              randconfig-r041-20221024
+x86_64                        randconfig-a012
+i386                 randconfig-a002-20221024
+x86_64               randconfig-a001-20221024
+hexagon              randconfig-r045-20221024
+x86_64               randconfig-a003-20221024
+i386                 randconfig-a005-20221024
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+x86_64               randconfig-a004-20221024
+x86_64               randconfig-a002-20221024
+i386                 randconfig-a003-20221024
+x86_64               randconfig-a005-20221024
+x86_64               randconfig-a006-20221024
+i386                 randconfig-a006-20221024
+arm                       spear13xx_defconfig
+arm                      tct_hammer_defconfig
+mips                          rm200_defconfig
+riscv                          rv32_defconfig
+arm                         lpc32xx_defconfig
+powerpc                    socrates_defconfig
+arm                          pxa168_defconfig
+mips                      malta_kvm_defconfig
+riscv                randconfig-r042-20221023
+hexagon              randconfig-r041-20221023
+hexagon              randconfig-r045-20221023
+s390                 randconfig-r044-20221023
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
