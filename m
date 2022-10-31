@@ -1,91 +1,107 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D5E191
-	for <ntfs3@lists.linux.dev>; Sun, 30 Oct 2022 07:03:13 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id f140so8201777pfa.1
-        for <ntfs3@lists.linux.dev>; Sun, 30 Oct 2022 00:03:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DyF/R/2WTrLneukk7kSdKd5EhCLxrsOWmVW7ecTbbfM=;
-        b=YHomcf2498kp/tmkp72Pt2Iup6sbFL7DvV7NfXwhPbU6ZLv/+4FHQvJrfvw1OnVN74
-         hS0HUxVXnb9p4cnMisRtzLiXm7MwNcW2wohkuUgHYw6lmkjcwhc6n8MOmAhQ3ukz8gHk
-         5WdR9Hp4Yb+eG22ZhGGT2A9rDn4cCLywl1cmQgCTMzQVlgle2lgtBNWz7cbtzv1SRy3A
-         lN5O6HJnVkX4/MaHOiz62yHDtveVvJtvjsGJ08UBgyDx+QbKocB5xiKulJnZO/7XNWJT
-         FHpQKOglixHOlQsUBejX/uy/50/kRwU19TwwORbqXZc70aziIfoNVnMYtCdFvlVnL0Rh
-         Ls6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DyF/R/2WTrLneukk7kSdKd5EhCLxrsOWmVW7ecTbbfM=;
-        b=3+5REygEL9Il5yi6slsYTMKknV4YvRsvht5/fA4/WM4t7sWTtn7bVLhdx3zTZ/B83/
-         akHmPQCz/vMYYECBj0nYOCaaEW32xq4XT4Z7ohcu24zpyQUs8dqQxWols8VH0RKZXIXb
-         BcIJqChysWRn0xtgLTV00qY5vdNQxdBKTROArbhAMBEizxqKDNteahBpoA1nG38jfBRq
-         VQ7PCwqlwEfoBxswmI1zeNYr4kZbdSR+cCioz7mlJdugdRQxMD30YbmqhH8/Z52c100s
-         as6wew+PKCqXu/y0gtL0CIqz2RXWFpyGF8W6Eh5Rry/CBuuUIQnNw72BH1cFjGOLNMrj
-         wQKg==
-X-Gm-Message-State: ACrzQf1uJ8ABMOjr2MXWfiTipAaoWfEGSAqc/hRHnB9C5JBT4sZjFtP9
-	qOinKxopALEXDlkG21RqOtM=
-X-Google-Smtp-Source: AMsMyM7mtvGzeJGvFc/LlsYuZ38YYkGPpeb2EP7dJoxa51Wm848cYTSCAQcJ+BsuVUZojhzc9k+g3g==
-X-Received: by 2002:a05:6a00:1582:b0:56d:4bc6:68c7 with SMTP id u2-20020a056a00158200b0056d4bc668c7mr1629218pfk.31.1667113393458;
-        Sun, 30 Oct 2022 00:03:13 -0700 (PDT)
-Received: from localhost.localdomain ([106.201.172.104])
-        by smtp.googlemail.com with ESMTPSA id p1-20020a170902e74100b0017a032d7ae4sm2234195plf.104.2022.10.30.00.03.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Oct 2022 00:03:13 -0700 (PDT)
-From: Abdun Nihaal <abdun.nihaal@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Abdun Nihaal <abdun.nihaal@gmail.com>,
-	syzbot+f45957555ed4a808cc7a@syzkaller.appspotmail.com
-Subject: [PATCH] fs/ntfs3: Fix NULL dereference in ni_write_inode
-Date: Sun, 30 Oct 2022 12:32:51 +0530
-Message-Id: <20221030070251.614970-1-abdun.nihaal@gmail.com>
-X-Mailer: git-send-email 2.37.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C323C00
+	for <ntfs3@lists.linux.dev>; Mon, 31 Oct 2022 17:50:53 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9E2C81F45B;
+	Mon, 31 Oct 2022 17:50:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1667238651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fGaXAxz7CkwLQu/39IaO5T1EcfCXLRmGolaSbwQbtTI=;
+	b=NvwlYs4xa/YUsKy+ffJtq9E/5zltj04v6GSbXqmET3FPakxT1u/YkIHNJ9pa0IEG2Rc+sg
+	jAJoT4GIRFHHyKOu8JVIOM/TeQwfFmjx0Lw9DGw5d/BPUC8wTycfzwA3HdfknxqAWzfnGR
+	2NuZXXs6wY/xrvZHKD0v52UXrhT7do8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1667238651;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fGaXAxz7CkwLQu/39IaO5T1EcfCXLRmGolaSbwQbtTI=;
+	b=SI+64C3q91ppKQfwnJXTA5Dp4vET8w57dZyf5ybaOzTLV7u4xm4f9cVvuz2CW+G9KvHUnu
+	ZzXT4uZ9AGCfxhBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8F61E13AAD;
+	Mon, 31 Oct 2022 17:50:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id EOr2IvsKYGN0YgAAMHmgww
+	(envelope-from <jack@suse.cz>); Mon, 31 Oct 2022 17:50:51 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id CCC68A070B; Mon, 31 Oct 2022 18:50:50 +0100 (CET)
+Date: Mon, 31 Oct 2022 18:50:50 +0100
+From: Jan Kara <jack@suse.cz>
+To: syzbot <syzbot+06cc05ddc896f12b7ec5@syzkaller.appspotmail.com>
+Cc: amir73il@gmail.com, jack@suse.cz, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+	ntfs3@lists.linux.dev,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Al Viro <viro@ZenIV.linux.org.uk>,
+	Christian Brauner <christian@brauner.io>
+Subject: Re: [syzbot] kernel BUG in dnotify_free_mark
+Message-ID: <20221031175050.xmhub66b6d4dvpcb@quack3>
+References: <0000000000008b529305ec20dacc@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0000000000008b529305ec20dacc@google.com>
 
-Syzbot reports a NULL dereference in ni_write_inode.
-When creating a new inode, if allocation fails in mi_init function
-(called in mi_format_new function), mi->mrec is set to NULL.
-In the error path of this inode creation, mi->mrec is later
-dereferenced in ni_write_inode.
+Hello!
 
-Add a NULL check to prevent NULL dereference.
+[added some CCs to gather more ideas]
 
-Link: https://syzkaller.appspot.com/bug?extid=f45957555ed4a808cc7a
-Reported-and-tested-by: syzbot+f45957555ed4a808cc7a@syzkaller.appspotmail.com
-Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
----
- fs/ntfs3/frecord.c | 3 +++
- 1 file changed, 3 insertions(+)
+On Fri 28-10-22 16:45:33, syzbot wrote:
+> syzbot found the following issue on:
+> 
+> HEAD commit:    247f34f7b803 Linux 6.1-rc2
+> git tree:       upstream
+> console+strace: https://syzkaller.appspot.com/x/log.txt?x=157f594a880000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=1d3548a4365ba17d
+> dashboard link: https://syzkaller.appspot.com/bug?extid=06cc05ddc896f12b7ec5
+> compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15585936880000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14ec85ba880000
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/a5f39164dea4/disk-247f34f7.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/8d1b92f5a01f/vmlinux-247f34f7.xz
+> mounted in repro: https://storage.googleapis.com/syzbot-assets/1a4d2943796c/mount_0.gz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+06cc05ddc896f12b7ec5@syzkaller.appspotmail.com
+> 
+> ------------[ cut here ]------------
+> kernel BUG at fs/notify/dnotify/dnotify.c:136!
 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 70a80f9412f7..e55bbd209ef8 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -3243,6 +3243,9 @@ int ni_write_inode(struct inode *inode, int sync, const char *hint)
- 		return 0;
- 	}
- 
-+	if (!ni->mi.mrec)
-+		goto out;
-+
- 	if (is_rec_inuse(ni->mi.mrec) &&
- 	    !(sbi->flags & NTFS_FLAGS_LOG_REPLAYING) && inode->i_nlink) {
- 		bool modified = false;
+OK, I've tracked this down to the problem in ntfs3 driver or maybe more
+exactly in bad inode handling. What the reproducer does is that it mounts
+ntfs3 image, places dnotify mark on filesystem's /, then accesses something
+which finds that / is corrupted.  This calls ntfs_bad_inode() which calls
+make_bad_inode() which sets inode->i_mode to S_IFREG. So when the file
+descriptor is closed, dnotify doesn't get properly shutdown because it
+works only on directories. Now calling make_bad_inode() on live inode is
+problematic because it can change inode type (e.g. from directory to
+regular file) and that tends to confuse things - dnotify in this case.
+
+Now it is easy to blame filesystem driver for calling make_bad_inode() on
+live inode but given it seems to be relatively widespread maybe
+make_bad_inode() should be more careful not to screw VFS? What do other
+people think?
+
+								Honza
 -- 
-2.37.3
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
