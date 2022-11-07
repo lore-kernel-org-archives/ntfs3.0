@@ -1,309 +1,118 @@
-Received: from frv150.fwdcdn.com (frv150.fwdcdn.com [212.42.77.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6830C2F4D
-	for <ntfs3@lists.linux.dev>; Sun,  6 Nov 2022 19:04:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ukr.net;
-	s=fsm; h=To:Date:Message-Id:Subject:Mime-Version:Content-Transfer-Encoding:
-	Content-Type:From:Sender:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=RVTHr4qdHko4UbdSO+WtV60uPPYBPTtauNssLrPD3+0=; b=Iz7RyJt1oGVpYkxq3ty4zyuQqL
-	57WtnKwQdnTOponudANkZ27+VepOZ+jdPDBDptkVdIGhqm1bDKSBypkTqog3QBbzM2f9AXH+IXZNy
-	oHo4KSDJJaAjoZY6s9BA21Z0U4PUpmIykxVw1tA+DRuZTCyJj0WWpvwTMLspWbqyPczE=;
-Received: from host-2-100-172-224.as13285.net ([2.100.172.224] helo=smtpclient.apple)
-	by frv150.fwdcdn.com with esmtpsa ID 1orkwJ-000Bk0-7l
-	for ntfs3@lists.linux.dev; Sun, 06 Nov 2022 21:04:15 +0200
-From: Andriy Tkachuk <andrit@ukr.net>
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AB515B2
+	for <ntfs3@lists.linux.dev>; Mon,  7 Nov 2022 08:34:43 +0000 (UTC)
+Received: by mail-il1-f198.google.com with SMTP id d19-20020a056e020c1300b00300b5a12c44so8237691ile.15
+        for <ntfs3@lists.linux.dev>; Mon, 07 Nov 2022 00:34:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s4dhM167qDUDFvkC7KReo/7Zl6ufN9cwSkSj/ZA1YBw=;
+        b=wv2V47wv6cL1bPUBcflWeAKTIG6sN0mq5Xc8JcvmRH95CFG1KuPj6ObGhx/gw7Au9B
+         JKhPBU7cb47X4nxM7ddj4ybS7JTcMSTzyasvfbHr0kAGWUXdkQOkDq4l/088011f2F4+
+         7gELpVu+o76VkqyQrw9UwpLcbJygdRwo/fnACTv7WLFASSb6T+LWfXBzr9JfdxRncdTX
+         FKkr5uIbwlJ+GUlwDjEBhQg0ORLB3YJ8JFci0hviTiSDPyY9isvjW3ZHk3AoNgEoH8Wm
+         z2Yxo5o+bVLqYudR3EszASebIjH6xlo+byIEK/zj9dbere7UkHpYzZ6sNPlQ3LipNHZH
+         HSIQ==
+X-Gm-Message-State: ACrzQf3QU8FNFeKjJQn55RH4l21hQCHpL1TsfOM6FxKYQZ61ko0IJKap
+	YmzDVDponHrNm8wP/kd1Eziy49t8hsmM0mgBBfJuz1/xWVEa
+X-Google-Smtp-Source: AMsMyM7rpWrlEzjb5uKwbac5QnvRv6DRftQmuDOBzLsBrTamz68xqWTKBpsqW56qwGBRN62zXiPzwDQd6IhuaOB+bSvi70NtOuWs
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Deadlock at kswapd0 on ntfs_iget5
-Message-Id: <F91A8ABF-6422-4ED8-AA5B-A41FC6AC67A8@ukr.net>
-Date: Sun, 6 Nov 2022 19:04:14 +0000
-To: ntfs3@lists.linux.dev
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
-Authentication-Result: IP=2.100.172.224; mail.from=andrit@ukr.net; dkim=pass; header.d=ukr.net
+MIME-Version: 1.0
+X-Received: by 2002:a05:6602:26d2:b0:6a3:f044:a942 with SMTP id
+ g18-20020a05660226d200b006a3f044a942mr29373909ioo.50.1667810082893; Mon, 07
+ Nov 2022 00:34:42 -0800 (PST)
+Date: Mon, 07 Nov 2022 00:34:42 -0800
+In-Reply-To: <00000000000057abae05eaaccf58@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000008b356505ecdd4b93@google.com>
+Subject: Re: [syzbot] WARNING: locking bug in evict
+From: syzbot <syzbot+0cebf0474baedad38dc5@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi, here is the stack:
+syzbot has found a reproducer for the following issue on:
 
-Nov 06 16:25:11 nas kernel: sysrq: Show Blocked State
-Nov 06 16:25:11 nas kernel: task:kswapd0         state:D stack:    0 =
-pid:   45 ppid:     2 flags:0x00000000
-Nov 06 16:25:11 nas kernel: Backtrace:=20
-Nov 06 16:25:11 nas kernel: [<c08d1f60>] (__schedule) from [<c08d2944>] =
-(schedule+0x78/0x138)
-Nov 06 16:25:11 nas kernel:  r10:00000000 r9:c08d32a4 r8:dbf68b40 =
-r7:bf7ff8f0 r6:c873c400 r5:c12eabe0
-Nov 06 16:25:11 nas kernel:  r4:ffffe000
-Nov 06 16:25:11 nas kernel: [<c08d28cc>] (schedule) from [<c022b258>] =
-(__wait_on_freeing_inode+0x88/0xb8)
-Nov 06 16:25:11 nas kernel:  r5:c0c2c758 r4:c0c2d028
-Nov 06 16:25:11 nas kernel: [<c022b1d0>] (__wait_on_freeing_inode) from =
-[<c022b30c>] (find_inode+0x84/0xc8)
-Nov 06 16:25:11 nas kernel:  r5:c77570b0 r4:c8f46c30
-Nov 06 16:25:11 nas kernel: [<c022b288>] (find_inode) from [<c022b398>] =
-(ilookup5_nowait+0x48/0x5c)
-Nov 06 16:25:11 nas kernel:  r9:c08d32a4 r8:c873c400 r7:0000acf7 =
-r6:bf7ff8f0 r5:00007fff r4:c0c2d970
-Nov 06 16:25:11 nas kernel: [<c022b350>] (ilookup5_nowait) from =
-[<c022caa8>] (ilookup5.part.9+0x3c/0x90)
-Nov 06 16:25:11 nas kernel:  r5:c77570b0 r4:c77570b0
-Nov 06 16:25:11 nas kernel: [<c022ca6c>] (ilookup5.part.9) from =
-[<c022cee8>] (iget5_locked+0x30/0x88)
-Nov 06 16:25:11 nas kernel:  r9:00000000 r8:bf7ff91c r7:bf7ff8f0 =
-r6:0000acf7 r5:c873c400 r4:c77570b0
-Nov 06 16:25:11 nas kernel: [<c022ceb8>] (iget5_locked) from =
-[<bf800ec0>] (ntfs_iget5+0x40/0xf44 [ntfs3])
-Nov 06 16:25:11 nas kernel:  r8:c7757098 r7:c77570b0 r6:c873c400 =
-r5:c0c2d028 r4:c77570b0
-Nov 06 16:25:11 nas kernel: [<bf800e80>] (ntfs_iget5 [ntfs3]) from =
-[<bf7f413c>] (ni_write_inode+0x8f8/0xe08 [ntfs3])
-Nov 06 16:25:11 nas kernel:  r10:00000000 r9:00000000 r8:c7757098 =
-r7:c77570b0 r6:c873c400 r5:c0c2d028
-Nov 06 16:25:11 nas kernel:  r4:d1a34c30
-Nov 06 16:25:11 nas kernel: [<bf7f3844>] (ni_write_inode [ntfs3]) from =
-[<bf8034c4>] (ntfs_evict_inode+0x60/0x68 [ntfs3])
-Nov 06 16:25:11 nas kernel:  r10:c873c660 r9:c873c400 r8:0000012d =
-r7:000002d4 r6:000002d3 r5:bf810804
-Nov 06 16:25:11 nas kernel:  r4:d1a34c30
-Nov 06 16:25:11 nas kernel: [<bf803464>] (ntfs_evict_inode [ntfs3]) from =
-[<c022c304>] (evict+0x94/0x13c)
-Nov 06 16:25:11 nas kernel:  r5:bf810804 r4:d1a34c30
-Nov 06 16:25:11 nas kernel: [<c022c270>] (evict) from [<c022c3f0>] =
-(dispose_list+0x44/0x58)
-Nov 06 16:25:11 nas kernel:  r5:c0c2d028 r4:c12d1d64
-Nov 06 16:25:11 nas kernel: [<c022c3ac>] (dispose_list) from =
-[<c022d234>] (prune_icache_sb+0x5c/0x84)
-Nov 06 16:25:11 nas kernel:  r5:c0c2d028 r4:c12d1d64
-Nov 06 16:25:11 nas kernel: [<c022d1d8>] (prune_icache_sb) from =
-[<c021074c>] (super_cache_scan+0x120/0x170)
-Nov 06 16:25:11 nas kernel:  r6:000005bd r5:00000000 r4:c12d1e48
-Nov 06 16:25:11 nas kernel: [<c021062c>] (super_cache_scan) from =
-[<c019c230>] (do_shrink_slab+0x1d0/0x3ac)
-Nov 06 16:25:11 nas kernel:  r10:00000000 r9:00000000 r8:c0cb57ec =
-r7:00000400 r6:c12d1e48 r5:c873c660
-Nov 06 16:25:11 nas kernel:  r4:0000040d
-Nov 06 16:25:11 nas kernel: [<c019c060>] (do_shrink_slab) from =
-[<c019f0a4>] (shrink_slab+0xb8/0x2bc)
-Nov 06 16:25:11 nas kernel:  r10:00000000 r9:c0cb1240 r8:c0cb1220 =
-r7:00000000 r6:00000752 r5:c12d1e50
-Nov 06 16:25:11 nas kernel:  r4:c873c660
-Nov 06 16:25:11 nas kernel: [<c019efec>] (shrink_slab) from [<c01a139c>] =
-(shrink_node+0x278/0x74c)
-Nov 06 16:25:11 nas kernel:  r10:00009023 r9:00000000 r8:c0d5caa8 =
-r7:c0d5c46c r6:c12d1efc r5:c12d1f24
-Nov 06 16:25:11 nas kernel:  r4:00000000
-Nov 06 16:25:11 nas kernel: [<c01a1124>] (shrink_node) from [<c01a20a4>] =
-(kswapd+0x424/0x9d0)
-Nov 06 16:25:11 nas kernel:  r10:00000001 r9:c0d5c46c r8:00000000 =
-r7:00000001 r6:00000001 r5:00000000
-Nov 06 16:25:11 nas kernel:  r4:00009023
-Nov 06 16:25:11 nas kernel: [<c01a1c80>] (kswapd) from [<c0046da8>] =
-(kthread+0x144/0x16c)
-Nov 06 16:25:11 nas kernel:  r10:c129a2dc r9:c112be28 r8:c12d0000 =
-r7:c0d5c46c r6:c01a1c80 r5:c128adc0
-Nov 06 16:25:11 nas kernel:  r4:c129a2c0
-Nov 06 16:25:11 nas kernel: [<c0046c64>] (kthread) from [<c00082f4>] =
-(ret_from_fork+0x14/0x20)
-Nov 06 16:25:11 nas kernel: Exception stack(0xc12d1fb0 to 0xc12d1ff8)
-Nov 06 16:25:11 nas kernel: 1fa0:                                     =
-00000000 00000000 00000000 00000000
-Nov 06 16:25:11 nas kernel: 1fc0: 00000000 00000000 00000000 00000000 =
-00000000 00000000 00000000 00000000
-Nov 06 16:25:11 nas kernel: 1fe0: 00000000 00000000 00000000 00000000 =
-00000013 00000000
-Nov 06 16:25:11 nas kernel:  r10:00000000 r9:00000000 r8:00000000 =
-r7:00000000 r6:00000000 r5:c0046c64
-Nov 06 16:25:11 nas kernel:  r4:c128adc0 r3:60000093
-Nov 06 16:25:11 nas kernel: task:smbd            state:D stack:    0 =
-pid: 7705 ppid:  6239 flags:0x00000000
-Nov 06 16:25:11 nas kernel: Backtrace:=20
-Nov 06 16:25:11 nas kernel: [<c08d1f60>] (__schedule) from [<c08d2944>] =
-(schedule+0x78/0x138)
-Nov 06 16:25:11 nas kernel:  r10:c0c2d77c r9:00000000 r8:00000102 =
-r7:c0d5c46c r6:c0c2d028 r5:c234abe0
-Nov 06 16:25:11 nas kernel:  r4:ffffe000
-Nov 06 16:25:11 nas kernel: [<c08d28cc>] (schedule) from [<c019c8e4>] =
-(throttle_direct_reclaim+0x2e0/0x2f4)
-Nov 06 16:25:11 nas kernel:  r5:c0d5c46c r4:c0f17b30
-Nov 06 16:25:11 nas kernel: [<c019c604>] (throttle_direct_reclaim) from =
-[<c01a2b34>] (try_to_free_pages+0xbc/0x1cc)
-Nov 06 16:25:11 nas kernel:  r9:00000000 r8:00000000 r7:c0d5ca3c =
-r6:00000000 r5:c0c2d028 r4:00000cc0
-Nov 06 16:25:11 nas kernel: [<c01a2a78>] (try_to_free_pages) from =
-[<c01dd81c>] (__alloc_pages+0x4f0/0xf2c)
-Nov 06 16:25:11 nas kernel:  r8:00000000 r7:00008000 r6:00000000 =
-r5:00400140 r4:00000000
-Nov 06 16:25:11 nas kernel: [<c01dd32c>] (__alloc_pages) from =
-[<c0734c68>] (skb_page_frag_refill+0xdc/0x104)
-Nov 06 16:25:11 nas kernel:  r10:00008000 r9:00007e88 r8:c37e0dc0 =
-r7:00008000 r6:c37e0ebc r5:00000cc0
-Nov 06 16:25:11 nas kernel:  r4:c234b1d0
-Nov 06 16:25:11 nas kernel: [<c0734b8c>] (skb_page_frag_refill) from =
-[<c0734cd0>] (sk_page_frag_refill+0x24/0x78)
-Nov 06 16:25:11 nas kernel:  r5:c0f17f38 r4:c37e0dc0
-Nov 06 16:25:11 nas kernel: [<c0734cac>] (sk_page_frag_refill) from =
-[<c07f2590>] (tcp_sendmsg_locked+0x344/0xe8c)
-Nov 06 16:25:11 nas kernel:  r5:c0f17f38 r4:c6395300
-Nov 06 16:25:11 nas kernel: [<c07f224c>] (tcp_sendmsg_locked) from =
-[<c07f3110>] (tcp_sendmsg+0x38/0x4c)
-Nov 06 16:25:11 nas kernel:  r10:c0f17ddc r9:c0c2d028 r8:00000000 =
-r7:cfb79380 r6:00020054 r5:c0f17f38
-Nov 06 16:25:11 nas kernel:  r4:c37e0dc0
-Nov 06 16:25:11 nas kernel: [<c07f30d8>] (tcp_sendmsg) from [<c082cae8>] =
-(inet_sendmsg+0x44/0x78)
-Nov 06 16:25:11 nas kernel:  r7:cfb79380 r6:00000000 r5:cfb79380 =
-r4:c37e0dc0
-Nov 06 16:25:11 nas kernel: [<c082caa4>] (inet_sendmsg) from =
-[<c0730b08>] (sock_sendmsg+0x44/0x54)
-Nov 06 16:25:11 nas kernel:  r4:c0f17f38
-Nov 06 16:25:11 nas kernel: [<c0730ac4>] (sock_sendmsg) from =
-[<c0730ec4>] (____sys_sendmsg+0x1e8/0x21c)
-Nov 06 16:25:11 nas kernel:  r5:00000040 r4:c0f17f38
-Nov 06 16:25:11 nas kernel: [<c0730cdc>] (____sys_sendmsg) from =
-[<c0732a24>] (___sys_sendmsg+0x78/0xa8)
-Nov 06 16:25:11 nas kernel:  r10:00000000 r9:00000000 r8:00000000 =
-r7:cfb79380 r6:00000000 r5:c0c2d028
-Nov 06 16:25:11 nas kernel:  r4:c0f17f38
-Nov 06 16:25:11 nas kernel: [<c07329ac>] (___sys_sendmsg) from =
-[<c0732e18>] (__sys_sendmsg+0x5c/0x9c)
-Nov 06 16:25:11 nas kernel:  r9:c0f16000 r8:c00083e4 r7:cfb79380 =
-r6:00000000 r5:be911558 r4:c0c2d028
-Nov 06 16:25:11 nas kernel: [<c0732dbc>] (__sys_sendmsg) from =
-[<c0732e74>] (sys_sendmsg+0x1c/0x20)
-Nov 06 16:25:11 nas kernel:  r7:00000128 r6:00000000 r5:b247e080 =
-r4:00000035
-Nov 06 16:25:11 nas kernel: [<c0732e58>] (sys_sendmsg) from [<c0008260>] =
-(ret_fast_syscall+0x0/0x1c)
-Nov 06 16:25:11 nas kernel: Exception stack(0xc0f17fa8 to 0xc0f17ff0)
-Nov 06 16:25:11 nas kernel: 7fa0:                   00000035 b247e080 =
-00000035 be911558 00000000 00000000
-Nov 06 16:25:11 nas kernel: 7fc0: 00000035 b247e080 00000000 00000128 =
-b6e33798 b6e337c0 0127a8b0 00000005
-Nov 06 16:25:11 nas kernel: 7fe0: 00000000 be911538 00000000 b6723254
-Nov 06 16:25:11 nas kernel: task:smbd            state:D stack:    0 =
-pid: 8839 ppid:  6239 flags:0x00000000
-Nov 06 16:25:11 nas kernel: Backtrace:=20
-Nov 06 16:25:11 nas kernel: [<c08d1f60>] (__schedule) from [<c08d2944>] =
-(schedule+0x78/0x138)
-Nov 06 16:25:11 nas kernel:  r10:c0c2d77c r9:00000000 r8:00000102 =
-r7:c0d5c46c r6:c0c2d028 r5:c1930ea0
-Nov 06 16:25:11 nas kernel:  r4:ffffe000
-Nov 06 16:25:11 nas kernel: [<c08d28cc>] (schedule) from [<c019c8e4>] =
-(throttle_direct_reclaim+0x2e0/0x2f4)
-Nov 06 16:25:11 nas kernel:  r5:c0d5c46c r4:d46cfc10
-Nov 06 16:25:11 nas kernel: [<c019c604>] (throttle_direct_reclaim) from =
-[<c01a2b34>] (try_to_free_pages+0xbc/0x1cc)
-Nov 06 16:25:11 nas kernel:  r9:00000000 r8:00000000 r7:c0d5ca3c =
-r6:00000000 r5:c0c2d028 r4:01100cca
-Nov 06 16:25:11 nas kernel: [<c01a2a78>] (try_to_free_pages) from =
-[<c01dd81c>] (__alloc_pages+0x4f0/0xf2c)
-Nov 06 16:25:11 nas kernel:  r8:00000000 r7:00001f6c r6:00000000 =
-r5:00400040 r4:00000000
-Nov 06 16:25:11 nas kernel: [<c01dd32c>] (__alloc_pages) from =
-[<c0189834>] (filemap_read+0x218/0x9c8)
-Nov 06 16:25:11 nas kernel:  r10:d46cff08 r9:d46cfef0 r8:00001f6c =
-r7:00001f6c r6:00001000 r5:c3e9a1c8
-Nov 06 16:25:11 nas kernel:  r4:00001f6d
-Nov 06 16:25:11 nas kernel: [<c018961c>] (filemap_read) from =
-[<c018a104>] (generic_file_read_iter+0x120/0x198)
-Nov 06 16:25:11 nas kernel:  r10:00000000 r9:d46cff88 r8:c0c2d028 =
-r7:d46cfef0 r6:00001000 r5:00000000
-Nov 06 16:25:11 nas kernel:  r4:d46cff08
-Nov 06 16:25:11 nas kernel: [<c0189fe4>] (generic_file_read_iter) from =
-[<bf7f492c>] (ntfs_file_read_iter+0x58/0xd4 [ntfs3>
-Nov 06 16:25:11 nas kernel:  r10:00000000 r9:d46cff88 r8:c0c2d028 =
-r7:00000000 r6:01f6c000 r5:00001000
-Nov 06 16:25:11 nas kernel:  r4:c6399f00
-Nov 06 16:25:11 nas kernel: [<bf7f48d4>] (ntfs_file_read_iter [ntfs3]) =
-from [<c020ca38>] (vfs_read+0x1fc/0x33c)
-Nov 06 16:25:11 nas kernel: [<c020c83c>] (vfs_read) from [<c020d228>] =
-(ksys_pread64+0x70/0x9c)
-Nov 06 16:25:11 nas kernel:  r10:00000000 r9:d46ce000 r8:c00083e4 =
-r7:00001000 r6:01637098 r5:c6399f00
-Nov 06 16:25:11 nas kernel:  r4:c6399f01
-Nov 06 16:25:11 nas kernel: [<c020d1b8>] (ksys_pread64) from =
-[<c020d278>] (sys_pread64+0x24/0x2c)
-Nov 06 16:25:11 nas kernel:  r7:000000b4 r6:b09ff600 r5:00000000 =
-r4:01f6c000
-Nov 06 16:25:11 nas kernel: [<c020d254>] (sys_pread64) from [<c0008260>] =
-(ret_fast_syscall+0x0/0x1c)
-Nov 06 16:25:11 nas kernel: Exception stack(0xd46cffa8 to 0xd46cfff0)
-Nov 06 16:25:11 nas kernel: ffa0:                   01f6c000 00000000 =
-00000052 01637098 00001000 00000000
-Nov 06 16:25:11 nas kernel: ffc0: 01f6c000 00000000 b09ff600 000000b4 =
-00001000 01637098 00000000 0150ab58
-Nov 06 16:25:11 nas kernel: ffe0: 00000000 b09fea70 00000000 b6722bf8
-Nov 06 16:25:11 nas kernel:  r5:00000000 r4:01f6c000
-Nov 06 16:25:11 nas kernel: task:systemd-user-ru state:D stack:    0 =
-pid: 9121 ppid:     1 flags:0x00000000
-Nov 06 16:25:11 nas kernel: Backtrace:=20
-Nov 06 16:25:11 nas kernel: [<c08d1f60>] (__schedule) from [<c08d2944>] =
-(schedule+0x78/0x138)
-Nov 06 16:25:11 nas kernel:  r10:00000002 r9:00000001 r8:00000000 =
-r7:c0cb1238 r6:ffffe000 r5:c613e660
-Nov 06 16:25:11 nas kernel:  r4:ffffe000
-Nov 06 16:25:11 nas kernel: [<c08d28cc>] (schedule) from [<c0068470>] =
-(rwsem_down_write_slowpath+0x2c8/0x3bc)
-Nov 06 16:25:11 nas kernel:  r5:c0c27db4 r4:c0cb1230
-Nov 06 16:25:11 nas kernel: [<c00681a8>] (rwsem_down_write_slowpath) =
-from [<c08d57f0>] (down_write+0x50/0x6c)
-Nov 06 16:25:11 nas kernel:  r10:c19bea80 r9:c020f958 r8:c0c35a08 =
-r7:c6171800 r6:c0cb1230 r5:c0cb1220
-Nov 06 16:25:11 nas kernel:  r4:c0cb1230
-Nov 06 16:25:11 nas kernel: [<c08d57a0>] (down_write) from [<c019f694>] =
-(register_shrinker_prepared+0x28/0x60)
-Nov 06 16:25:11 nas kernel:  r5:c0cb1220 r4:c6171a60
-Nov 06 16:25:11 nas kernel: [<c019f66c>] (register_shrinker_prepared) =
-from [<c020fe3c>] (sget_fc+0x16c/0x1b4)
-Nov 06 16:25:11 nas kernel:  r7:c6171800 r6:00000000 r5:c627e1e0 =
-r4:00000000
-Nov 06 16:25:11 nas kernel: [<c020fcd0>] (sget_fc) from [<c0210d98>] =
-(vfs_get_super+0x3c/0xf8)
-Nov 06 16:25:11 nas kernel:  r9:c19be4e0 r8:c01a4438 r7:c627e1e0 =
-r6:c2874000 r5:00000003 r4:c627e1e0
-Nov 06 16:25:11 nas kernel: [<c0210d5c>] (vfs_get_super) from =
-[<c0210e74>] (get_tree_nodev+0x20/0x24)
-Nov 06 16:25:11 nas kernel:  r9:c19be4e0 r8:c0c27f34 r7:c0c2d028 =
-r6:c2874000 r5:00000023 r4:c627e1e0
-Nov 06 16:25:11 nas kernel: [<c0210e54>] (get_tree_nodev) from =
-[<c01a3678>] (shmem_get_tree+0x1c/0x24)
-Nov 06 16:25:11 nas kernel: [<c01a365c>] (shmem_get_tree) from =
-[<c020ef98>] (vfs_get_tree+0x34/0x110)
-Nov 06 16:25:11 nas kernel: [<c020ef64>] (vfs_get_tree) from =
-[<c0235520>] (path_mount+0x3cc/0x984)
-Nov 06 16:25:11 nas kernel:  r6:c2874000 r5:00000023 r4:c627e1e0
-Nov 06 16:25:11 nas kernel: [<c0235154>] (path_mount) from [<c0235b44>] =
-(do_mount+0x6c/0x9c)
-Nov 06 16:25:11 nas kernel:  r10:00000000 r9:c2874000 r8:00000006 =
-r7:c19bea80 r6:c19be4e0 r5:00000000
-Nov 06 16:25:11 nas kernel:  r4:c0c2d028
-Nov 06 16:25:11 nas kernel: [<c0235ad8>] (do_mount) from [<c0235fdc>] =
-(sys_mount+0x100/0x1a8)
-Nov 06 16:25:11 nas kernel:  r9:c0c26000 r8:00000006 r7:bebe9a90 =
-r6:c2874000 r5:c19be4e0 r4:c19bea80
-Nov 06 16:25:11 nas kernel: [<c0235edc>] (sys_mount) from [<c0008260>] =
-(ret_fast_syscall+0x0/0x1c)
-Nov 06 16:25:11 nas kernel: Exception stack(0xc0c27fa8 to 0xc0c27ff0)
-Nov 06 16:25:11 nas kernel: 7fa0:                   016b1848 004d2218 =
-004d2218 bebe9a90 004d2218 00000006
-Nov 06 16:25:11 nas kernel: 7fc0: 016b1848 004d2218 004d2218 00000015 =
-016b1848 016b1398 004d2218 00000000
-Nov 06 16:25:11 nas kernel: 7fe0: b6f5006c bebe9a80 b6d9efb4 b6c6a9b0
-Nov 06 16:25:11 nas kernel:  r10:00000000 r9:c0c26000 r8:c00083e4 =
-r7:00000015 r6:004d2218 r5:004d2218
-Nov 06 16:25:11 nas kernel:  r4:016b1848
+HEAD commit:    bbed346d5a96 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=16044c99880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3a4a45d2d827c1e
+dashboard link: https://syzkaller.appspot.com/bug?extid=0cebf0474baedad38dc5
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11ce4505880000
 
-Looks like a deadlock, isn't it?
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e8e91bc79312/disk-bbed346d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c1cb3fb3b77e/vmlinux-bbed346d.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/af5e4ec0c8db/mount_0.gz
 
-Kernel version - 5.15.74.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0cebf0474baedad38dc5@syzkaller.appspotmail.com
 
-Andriy=
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 24392 at kernel/locking/lockdep.c:466 lockdep_recursion_finish kernel/locking/lockdep.c:467 [inline]
+WARNING: CPU: 0 PID: 24392 at kernel/locking/lockdep.c:466 lock_acquire+0x1cc/0x1f8 kernel/locking/lockdep.c:5668
+Modules linked in:
+CPU: 0 PID: 24392 Comm: syz-executor.0 Not tainted 6.0.0-rc7-syzkaller-18095-gbbed346d5a96 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
+pstate: 204000c5 (nzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : lockdep_recursion_finish kernel/locking/lockdep.c:467 [inline]
+pc : lock_acquire+0x1cc/0x1f8 kernel/locking/lockdep.c:5668
+lr : lockdep_recursion_finish kernel/locking/lockdep.c:466 [inline]
+lr : lock_acquire+0x10c/0x1f8 kernel/locking/lockdep.c:5668
+sp : ffff8000136639f0
+x29: ffff800013663a30 x28: 0000000000000000 x27: 0000000000000000
+x26: ffff80000d260cbf x25: 0000000000000000 x24: 0000000000000001
+x23: 0000000000000000 x22: ffff0000d13369d8 x21: ffff8000085ed654
+x20: 0000000000000000 x19: 0000000000000000 x18: 00000000000000f3
+x17: 0000000000000000 x16: ffff80000db49158 x15: ffff0000d1951a80
+x14: 0000000000000008 x13: 00000000ffffffff x12: ffff0000d1951a80
+x11: ff808000095d19c0 x10: 0000000000000000 x9 : 00000000000000ff
+x8 : ffff8001f1d5e000 x7 : ffff8000085ed654 x6 : 0000000000000000
+x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+x2 : 0000000000000008 x1 : ffff80000cb431b1 x0 : ffff80000ce4fec5
+Call trace:
+ lockdep_recursion_finish kernel/locking/lockdep.c:467 [inline]
+ lock_acquire+0x1cc/0x1f8 kernel/locking/lockdep.c:5668
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x54/0x6c kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:349 [inline]
+ inode_sb_list_del fs/inode.c:503 [inline]
+ evict+0x90/0x334 fs/inode.c:654
+ iput_final fs/inode.c:1748 [inline]
+ iput+0x2c4/0x324 fs/inode.c:1774
+ ntfs_fill_super+0x1254/0x14a4 fs/ntfs3/super.c:1190
+ get_tree_bdev+0x1e8/0x2a0 fs/super.c:1323
+ ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
+ vfs_get_tree+0x40/0x140 fs/super.c:1530
+ do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
+ path_mount+0x358/0x914 fs/namespace.c:3370
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __arm64_sys_mount+0x2c4/0x3c4 fs/namespace.c:3568
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+ el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
+ el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:581
+irq event stamp: 4160
+hardirqs last  enabled at (4159): [<ffff80000bfb8138>] __exit_to_kernel_mode arch/arm64/kernel/entry-common.c:84 [inline]
+hardirqs last  enabled at (4159): [<ffff80000bfb8138>] exit_to_kernel_mode+0xe8/0x118 arch/arm64/kernel/entry-common.c:94
+hardirqs last disabled at (4160): [<ffff80000bfb5fbc>] el1_dbg+0x24/0x5c arch/arm64/kernel/entry-common.c:404
+softirqs last  enabled at (3076): [<ffff8000080102e4>] _stext+0x2e4/0x37c
+softirqs last disabled at (2999): [<ffff800008017c14>] ____do_softirq+0x14/0x20 arch/arm64/kernel/irq.c:79
+---[ end trace 0000000000000000 ]---
+
