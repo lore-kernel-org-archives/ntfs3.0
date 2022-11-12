@@ -1,34 +1,24 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6702363C4
-	for <ntfs3@lists.linux.dev>; Sat, 12 Nov 2022 18:19:30 +0000 (UTC)
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 88BF21FA3;
-	Sat, 12 Nov 2022 18:16:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1668276996;
-	bh=UENfRwnMTqqFxvN03L67bz06uG47M90a2UjcISC+Zik=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=TDCwClYr6BUhAecZK7pV0dxjpkNoJGKAq9xCdG/AiycvA54iEz0WQ3lPc9lt1NnSO
-	 72n43LP+gLTQI9JLqKPfOopPxIADOKx8oPCkv4+SvTJWv5EGBNLDgSGVqnt2dHL4Li
-	 QbQgTuT5Gtv5KRU5UHUhPh41SWDLu+FqdMmZPlYY=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B2F63C4
+	for <ntfs3@lists.linux.dev>; Sat, 12 Nov 2022 18:24:14 +0000 (UTC)
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 53F8026;
-	Sat, 12 Nov 2022 18:19:28 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 789341FA3;
+	Sat, 12 Nov 2022 18:21:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1668277168;
-	bh=UENfRwnMTqqFxvN03L67bz06uG47M90a2UjcISC+Zik=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=hwKDy7XmSHJ0oV+N6Hk57OLAEMhiLJEORll2x/aVNywF7F1xkHGfBwpRMwvZXn/TG
-	 2AsWnpkwXeGDYi7judz6m/8wowpghGL8+Mop/6BTrmudl9kdd2lsPaqogHkGKIWBCr
-	 RluTQMpkSplB/82HZrgBXgBHidvK7q/n9qwHtJl8=
+	d=paragon-software.com; s=mail; t=1668277280;
+	bh=YDMmiy8TKjg1hrDs5YhNJ+iYuddd49hGLx1IrU5mUX8=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=RUuTsr5YVA0K0RMvUjjFoUkuRtn9D/0BJ49z0UYVxgQt7kucFmycISGQ/POzkESA8
+	 AbC+21TFbEgqmhLFBTsT/ms9dAxnl9DObLucH3E/dsAL3Dmw/BlG2C6wBDkFOOdusu
+	 +I5BKSsX3TbM3MPFG9aaSs0myUgeRWSZAPzldPXQ=
 Received: from [172.30.8.65] (172.30.8.65) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Sat, 12 Nov 2022 21:19:27 +0300
-Message-ID: <2f53a723-be3a-be02-72d5-91d83d7b1210@paragon-software.com>
-Date: Sat, 12 Nov 2022 21:19:27 +0300
+ 15.1.2375.7; Sat, 12 Nov 2022 21:24:12 +0300
+Message-ID: <72a41efe-a196-451f-6b85-6dd944a58c5d@paragon-software.com>
+Date: Sat, 12 Nov 2022 21:24:11 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -37,14 +27,14 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 0/2] fs/ntfs3: Add system.ntfs_attrib_be extended
- attribute
+Subject: Re: [PATCH] fs/ntfs3: delete duplicate condition in ntfs_read_mft()
 Content-Language: en-US
-To: Daniel Pinto <danielpinto52@gmail.com>, <ntfs3@lists.linux.dev>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <c9b467dd-9294-232b-b808-48f62c3c2186@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+CC: <ntfs3@lists.linux.dev>, Edward Lo <edward.lo@ambergroup.io>, Hawkins
+ Jiawei <yin31149@gmail.com>, <kernel-janitors@vger.kernel.org>
+References: <Y0pvRzgu5FiGhghL@kili>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <c9b467dd-9294-232b-b808-48f62c3c2186@gmail.com>
+In-Reply-To: <Y0pvRzgu5FiGhghL@kili>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [172.30.8.65]
@@ -53,19 +43,40 @@ X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
 
 
 
-On 10/10/22 14:41, Daniel Pinto wrote:
-> Changes v1->v2:
-> - Add documentation for the system.ntfs_attrib_be extended attribute
+On 10/15/22 11:28, Dan Carpenter wrote:
+> There were two patches which addressed the same bug and added the same
+> condition:
 > 
-> Improves compatibility with NTFS-3G by adding the system.ntfs_attrib_be
-> extended attribute.
+> commit 6db620863f85 ("fs/ntfs3: Validate data run offset")
+> commit 887bfc546097 ("fs/ntfs3: Fix slab-out-of-bounds read in run_unpack")
 > 
-> Daniel Pinto (2):
->    fs/ntfs3: add system.ntfs_attrib_be extended attribute
->    fs/ntfs3: document system.ntfs_attrib_be extended attribute
+> Delete one condition.
 > 
->   Documentation/filesystems/ntfs3.rst |  5 +++++
->   fs/ntfs3/xattr.c                    | 20 ++++++++++++++------
->   2 files changed, 19 insertions(+), 6 deletions(-)
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> I deleted this one because it was further away from the "roff = "
+> assignement.
+> 
+>   fs/ntfs3/inode.c | 6 ------
+>   1 file changed, 6 deletions(-)
+> 
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index a31474d697e0..e6143da5b4d6 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -374,12 +374,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+>   
+>   	t64 = le64_to_cpu(attr->nres.svcn);
+>   
+> -	/* offset to packed runs is out-of-bounds */
+> -	if (roff > asize) {
+> -		err = -EINVAL;
+> -		goto out;
+> -	}
+> -
+>   	err = run_unpack_ex(run, sbi, ino, t64, le64_to_cpu(attr->nres.evcn),
+>   			    t64, Add2Ptr(attr, roff), asize - roff);
+>   	if (err < 0)
 
-Thank you for your work, applied!
+I missed this situation when applying patches.
+Thanks for catching this.
