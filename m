@@ -1,82 +1,108 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from r3-17.sinamail.sina.com.cn (r3-17.sinamail.sina.com.cn [202.108.3.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B2F63C4
-	for <ntfs3@lists.linux.dev>; Sat, 12 Nov 2022 18:24:14 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 789341FA3;
-	Sat, 12 Nov 2022 18:21:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1668277280;
-	bh=YDMmiy8TKjg1hrDs5YhNJ+iYuddd49hGLx1IrU5mUX8=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=RUuTsr5YVA0K0RMvUjjFoUkuRtn9D/0BJ49z0UYVxgQt7kucFmycISGQ/POzkESA8
-	 AbC+21TFbEgqmhLFBTsT/ms9dAxnl9DObLucH3E/dsAL3Dmw/BlG2C6wBDkFOOdusu
-	 +I5BKSsX3TbM3MPFG9aaSs0myUgeRWSZAPzldPXQ=
-Received: from [172.30.8.65] (172.30.8.65) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Sat, 12 Nov 2022 21:24:12 +0300
-Message-ID: <72a41efe-a196-451f-6b85-6dd944a58c5d@paragon-software.com>
-Date: Sat, 12 Nov 2022 21:24:11 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67351ED1
+	for <ntfs3@lists.linux.dev>; Sun, 13 Nov 2022 05:08:36 +0000 (UTC)
+Received: from unknown (HELO pek-lxu-l1.corp.ad.wrs.com)([111.198.231.232])
+	by sina.com (172.16.97.27) with ESMTP
+	id 63707B680001F634; Sun, 13 Nov 2022 13:06:49 +0800 (CST)
+X-Sender: eadavis@sina.com
+X-Auth-ID: eadavis@sina.com
+X-SMAIL-MID: 42848049286471
+From: eadavis@sina.com
+To: eadavis@sina.com
+Cc: almaz.alexandrovich@paragon-software.com,
+	dan.carpenter@oracle.com,
+	kbuild-all@lists.01.org,
+	linux-kernel@vger.kernel.org,
+	lkp@intel.com,
+	llvm@lists.linux.dev,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	ntfs3@lists.linux.dev,
+	syzbot+c4d950787fd5553287b7@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com,
+	trix@redhat.com,
+	eadaivs <eadaivs@sina.com>
+Subject: [PATCH v5] fs/ntfs3: Validate parameter bytes and valid size
+Date: Sun, 13 Nov 2022 13:07:53 +0800
+Message-Id: <20221113050753.270164-1-eadavis@sina.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220919133202.308766-1-eadavis@sina.com>
+References: <20220919133202.308766-1-eadavis@sina.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] fs/ntfs3: delete duplicate condition in ntfs_read_mft()
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@oracle.com>
-CC: <ntfs3@lists.linux.dev>, Edward Lo <edward.lo@ambergroup.io>, Hawkins
- Jiawei <yin31149@gmail.com>, <kernel-janitors@vger.kernel.org>
-References: <Y0pvRzgu5FiGhghL@kili>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <Y0pvRzgu5FiGhghL@kili>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.30.8.65]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Transfer-Encoding: 8bit
 
+From: eadaivs <eadaivs@sina.com>
 
+Syzbot reports a slab out of bounds read in ntfs_get_ea,
+According to splat, the final problem is in the function find_ea,
 
-On 10/15/22 11:28, Dan Carpenter wrote:
-> There were two patches which addressed the same bug and added the same
-> condition:
-> 
-> commit 6db620863f85 ("fs/ntfs3: Validate data run offset")
-> commit 887bfc546097 ("fs/ntfs3: Fix slab-out-of-bounds read in run_unpack")
-> 
-> Delete one condition.
-> 
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
-> I deleted this one because it was further away from the "roff = "
-> assignement.
-> 
->   fs/ntfs3/inode.c | 6 ------
->   1 file changed, 6 deletions(-)
-> 
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index a31474d697e0..e6143da5b4d6 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -374,12 +374,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
->   
->   	t64 = le64_to_cpu(attr->nres.svcn);
->   
-> -	/* offset to packed runs is out-of-bounds */
-> -	if (roff > asize) {
-> -		err = -EINVAL;
-> -		goto out;
-> -	}
-> -
->   	err = run_unpack_ex(run, sbi, ino, t64, le64_to_cpu(attr->nres.evcn),
->   			    t64, Add2Ptr(attr, roff), asize - roff);
->   	if (err < 0)
+1) If parameter "bytes" less than the structure EA_ FULL Pointer Object Size,
+then the unpacked_ea_size() is an out of bounds read.
 
-I missed this situation when applying patches.
-Thanks for catching this.
+2) The *off + unpacked_ea_size() can have an integer overflow.
+
+Change the type of the parameter bytes to size_t,
+add sanity check for ensuring that the parameter bytes within reason.
+And instead of calculating the offset, use the function size add.
+
+Link: https://syzkaller.appspot.com/bug?extid=c4d950787fd5553287b7
+Reported-and-tested-by: syzbot+c4d950787fd5553287b7@syzkaller.appspotmail.com
+Fixes: (be71b5cba2e6) fs/ntfs3: Add attrib operations
+Signed-off-by: eadaivs <eadaivs@sina.com>
+---
+Changes in v5:
+  Refactor the code and pass syzbot test.
+
+ fs/ntfs3/xattr.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index afd0ddad826f..188a76c28233 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -41,17 +41,23 @@ static inline size_t packed_ea_size(const struct EA_FULL *ea)
+  *
+  * Assume there is at least one xattr in the list.
+  */
+-static inline bool find_ea(const struct EA_FULL *ea_all, u32 bytes,
++static inline bool find_ea(const struct EA_FULL *ea_all, size_t bytes,
+ 			   const char *name, u8 name_len, u32 *off)
+ {
++	const struct EA_FULL *eb;
++	u32 next_off;
+ 	*off = 0;
+ 
+-	if (!ea_all || !bytes)
++	if (!ea_all || bytes < sizeof(*eb))
+ 		return false;
+ 
+ 	for (;;) {
+ 		const struct EA_FULL *ea = Add2Ptr(ea_all, *off);
+-		u32 next_off = *off + unpacked_ea_size(ea);
++
++		if (sizeof(*ea) + *off > bytes)
++			return false;
++
++		next_off = size_add(*off, unpacked_ea_size(ea));
+ 
+ 		if (next_off > bytes)
+ 			return false;
+@@ -61,8 +67,6 @@ static inline bool find_ea(const struct EA_FULL *ea_all, u32 bytes,
+ 			return true;
+ 
+ 		*off = next_off;
+-		if (next_off >= bytes)
+-			return false;
+ 	}
+ }
+ 
+-- 
+2.37.2
+
