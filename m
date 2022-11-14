@@ -1,146 +1,105 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2461E256D
-	for <ntfs3@lists.linux.dev>; Mon, 14 Nov 2022 09:56:44 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id z139-20020a6bc991000000b006dac0d359edso5476625iof.2
-        for <ntfs3@lists.linux.dev>; Mon, 14 Nov 2022 01:56:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219C64A3E
+	for <ntfs3@lists.linux.dev>; Mon, 14 Nov 2022 11:53:35 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id y4so9856451plb.2
+        for <ntfs3@lists.linux.dev>; Mon, 14 Nov 2022 03:53:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hk+Ng6HzdEIcxEdrVoC5xdXSCCrpPQX/sVOx2Fc1RIU=;
+        b=XSsHqQQFR8a+jzglZGxrXAFL9CywFjxS/ReTLiwH6YBiTS4TZcDe60UCsGDeSSmFoz
+         /WGYg9BAcVn9Ndl0EcjAiPgjot0FOIB/o/4N8SJEjNA1mQddh93SbRNfGxsOQgOozsFD
+         E18Ch1DrCYA92fARFXicfyxie5L6+hsQ/F2p6uDe9R1bpEPDBoo6UtVCgZzs3juahDPa
+         OkCGZCRdUUQ8rQAypKWsERASJNPyKtM5X9BohXZ2E3XYIHfuzJwmDJCiCHrJE5cNx3Ra
+         nE98MaN7VB55HtQBLUSQqEpilE0hKSY5MfbPDIdklhLd8q+c8rkDlP60Qyi/3bQTHIni
+         Di9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QhmCtMXD13ueqkEPZREgdJx37AC/Qnw0CsLe+089Zis=;
-        b=C2DUr85tZDqifGlf/DCA7GkfX/GmLtGT7h53eWU7827OZVaBYE6DU+/kQcT1iaK/fu
-         33eqMZKTKCj/2E38C7xO1GPpUl6Ts63+mc18RBZrnsBBeCa2m/75l/I3W7L9y7w7zbQZ
-         hwnuHZXTr9Rtz4in9yyG0dN4h0VqrQ1Eb0dFy/P5IRVSJSq2v5uHM1UMu0PLn6AbI42Q
-         VLGg4PxpJumVs7a69HeJ4Yvd3FANmdhqfUoDjNxE4rrbfPjrM3bP1AE2Q8a0b2RDCqlU
-         7E0UvvbKHV6D8kGANO8e/d0ppvLpIkTaKlbvO8IyDdbEDngP431yKi6i8pnL8U+T59Yr
-         wL5w==
-X-Gm-Message-State: ANoB5pkzqNv7YHVzFOeBexNpz/Yl+AoP/Bx81iRayQ9M7cof1xiaHw1H
-	DnHEd6pYcCA9UU/2KEZDMBgkl0PX+ox3mBNo7jPpOXr7QBnD
-X-Google-Smtp-Source: AA0mqf7L+JTal+ITZw6aDxmWMgHo8rXeseo7JGoiFTBUi14IZ00prgBvc40QzRHCQc4WSwwZZj1SPZs8+/si6JrSSNmAEcS6r0yc
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hk+Ng6HzdEIcxEdrVoC5xdXSCCrpPQX/sVOx2Fc1RIU=;
+        b=KQQf+Akczp/Vj+HoMalwX72epwMmpmJSwOLXFWdlcRAV+KRg/14vd4hau1f0zbFbIr
+         B/nCbSZA/p9v8OTXikVWEsOLSiblbh4VOpNqqIY/FS9cb0lItjeL+MB6dLnIait4qLUf
+         PYOAH3c4qwpgbKze4GoL77i2l5bOesPYyhy7h+c/DuSpJuKDaAismjD7RUovgbKRE6Uh
+         PzWEmB+u61NMSPnv4n/K/Ztrx5FY7wjaaEF7YB66WUGspeGbF+1Qg9bjMKCWeDTsFmR7
+         64FU/W2s/d4qOjyTXGCWiEwUdtnoRy08iM/UI8aeUsNAmGfyvdmPZ1PZU1sK1I23jEvv
+         bfEQ==
+X-Gm-Message-State: ANoB5pngcQ10RuI1XhMKirJ0ugnq5QZAu5E8+xpfWizT+kBBG7SD+Q4O
+	mACrcWl7/lWDNiSXb6Le4bI=
+X-Google-Smtp-Source: AA0mqf59B2DO9ZPDLarWALVCW0QEKktkW/UTpAJO53Bv+6cCEY7rNVHY9Wxfvns5lFF5/ZGBg8dXtg==
+X-Received: by 2002:a17:90a:a391:b0:212:fe4a:c378 with SMTP id x17-20020a17090aa39100b00212fe4ac378mr13592444pjp.82.1668426814474;
+        Mon, 14 Nov 2022 03:53:34 -0800 (PST)
+Received: from localhost.localdomain ([103.158.43.16])
+        by smtp.googlemail.com with ESMTPSA id d4-20020a170902654400b00188a23098aasm7248907pln.69.2022.11.14.03.53.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Nov 2022 03:53:33 -0800 (PST)
+From: Abdun Nihaal <abdun.nihaal@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Abdun Nihaal <abdun.nihaal@gmail.com>,
+	syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com
+Subject: [PATCH v2] fs/ntfs3: Validate attribute data and valid sizes
+Date: Mon, 14 Nov 2022 17:23:14 +0530
+Message-Id: <20221114115314.183818-1-abdun.nihaal@gmail.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a02:2121:0:b0:363:b82d:d510 with SMTP id
- e33-20020a022121000000b00363b82dd510mr5198968jaa.112.1668419803302; Mon, 14
- Nov 2022 01:56:43 -0800 (PST)
-Date: Mon, 14 Nov 2022 01:56:43 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b64f3d05ed6b41fe@google.com>
-Subject: [syzbot] BUG: spinlock bad magic in writeback_single_inode
-From: syzbot <syzbot+7b2e428bac8cb2ca2f49@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+The data_size and valid_size fields of non resident attributes should be
+less than the its alloc_size field, but this is not checked in
+ntfs_read_mft function.
 
-syzbot found the following issue on:
+Syzbot reports a allocation order warning due to a large unchecked value
+of data_size getting assigned to inode->i_size which is then passed to
+kcalloc.
 
-HEAD commit:    1621b6eaebf7 Merge branch 'for-next/fixes' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=155d51fe880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=606e57fd25c5c6cc
-dashboard link: https://syzkaller.appspot.com/bug?extid=7b2e428bac8cb2ca2f49
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13289456880000
+Add sanity check for ensuring that the data_size and valid_size fields
+are not larger than alloc_size field.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/82aa7741098d/disk-1621b6ea.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f6be08c4e4c2/vmlinux-1621b6ea.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/296b6946258a/Image-1621b6ea.gz.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/3d4302e293b8/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7b2e428bac8cb2ca2f49@syzkaller.appspotmail.com
-
-ntfs3: loop5: Different NTFS' sector size (1024) and media sector size (512)
-BUG: spinlock bad magic on CPU#0, syz-executor.5/5077
-Unable to handle kernel NULL pointer dereference at virtual address 0000000000000470
-Mem abort info:
-  ESR = 0x0000000096000006
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x06: level 2 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000006
-  CM = 0, WnR = 0
-user pgtable: 4k pages, 48-bit VAs, pgdp=000000011343b000
-[0000000000000470] pgd=0800000112346003, p4d=0800000112346003, pud=08000001135b3003, pmd=0000000000000000
-Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 0 PID: 5077 Comm: syz-executor.5 Not tainted 6.1.0-rc4-syzkaller-31872-g1621b6eaebf7 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
-pstate: a0400005 (NzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : task_pid_nr include/linux/sched.h:1568 [inline]
-pc : spin_dump kernel/locking/spinlock_debug.c:63 [inline]
-pc : spin_bug+0x88/0xec kernel/locking/spinlock_debug.c:77
-lr : spin_dump kernel/locking/spinlock_debug.c:60 [inline]
-lr : spin_bug+0x68/0xec kernel/locking/spinlock_debug.c:77
-sp : ffff800016e73940
-x29: ffff800016e73940 x28: ffffffffffffffff x27: 0000000000000140
-x26: 0000000000000002 x25: 0000000000000000 x24: 0000000000000001
-x23: ffff800016e73a60 x22: 0000000000000000 x21: ffffffffffffff00
-x20: ffff80000cb4a08d x19: ffff0000d12af157 x18: 00000000000000c0
-x17: ffff80000dcdc198 x16: 0000000000000002 x15: 0000000000000000
-x14: 0000000000000000 x13: 205d373730355420 x12: 5b5d343333323131
-x11: ff808000081c06c8 x10: 0000000000000000 x9 : 824be9ae2b942600
-x8 : ffffffffffffff01 x7 : 205b5d3433333231 x6 : ffff80000c01775c
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-x2 : 00000000ad4ead00 x1 : 0000000000000001 x0 : 0000000000000035
-Call trace:
- spin_bug+0x88/0xec kernel/locking/spinlock_debug.c:77
- debug_spin_lock_before kernel/locking/spinlock_debug.c:85 [inline]
- do_raw_spin_lock+0xb0/0x110 kernel/locking/spinlock_debug.c:114
- __raw_spin_lock include/linux/spinlock_api_smp.h:134 [inline]
- _raw_spin_lock+0x5c/0x6c kernel/locking/spinlock.c:154
- spin_lock include/linux/spinlock.h:350 [inline]
- writeback_single_inode+0x44/0x54c fs/fs-writeback.c:1676
- write_inode_now+0xb0/0xdc fs/fs-writeback.c:2736
- iput_final fs/inode.c:1734 [inline]
- iput+0x1e4/0x324 fs/inode.c:1773
- ntfs_fill_super+0x1254/0x14a4 fs/ntfs3/super.c:1190
- get_tree_bdev+0x1e8/0x2a0 fs/super.c:1324
- ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
- vfs_get_tree+0x40/0x140 fs/super.c:1531
- do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
- path_mount+0x358/0x890 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __arm64_sys_mount+0x2c4/0x3c4 fs/namespace.c:3568
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:637
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:584
-Code: b0025463 12800004 91238c63 14000003 (b94572a4) 
----[ end trace 0000000000000000 ]---
-----------------
-Code disassembly (best guess):
-   0:	b0025463 	adrp	x3, 0x4a8d000
-   4:	12800004 	mov	w4, #0xffffffff            	// #-1
-   8:	91238c63 	add	x3, x3, #0x8e3
-   c:	14000003 	b	0x18
-* 10:	b94572a4 	ldr	w4, [x21, #1392] <-- trapping instruction
-
-
+Link: https://syzkaller.appspot.com/bug?extid=fa4648a5446460b7b963
+Reported-and-tested-by: syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Please apply this instead of my previous patch.
+
+Changes in v2:
+ Correct the format used for the Fixes tag.
+
+ fs/ntfs3/inode.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 970bb7c357c7..763dd982a43a 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -132,6 +132,13 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+ 	if (le16_to_cpu(attr->name_off) + attr->name_len > asize)
+ 		goto out;
+ 
++	if (attr->non_res) {
++		t64 = le64_to_cpu(attr->nres.alloc_size);
++		if (le64_to_cpu(attr->nres.data_size) > t64 ||
++		    le64_to_cpu(attr->nres.valid_size) > t64)
++			goto out;
++	}
++
+ 	switch (attr->type) {
+ 	case ATTR_STD:
+ 		if (attr->non_res ||
+-- 
+2.37.3
+
