@@ -1,105 +1,264 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219C64A3E
-	for <ntfs3@lists.linux.dev>; Mon, 14 Nov 2022 11:53:35 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id y4so9856451plb.2
-        for <ntfs3@lists.linux.dev>; Mon, 14 Nov 2022 03:53:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hk+Ng6HzdEIcxEdrVoC5xdXSCCrpPQX/sVOx2Fc1RIU=;
-        b=XSsHqQQFR8a+jzglZGxrXAFL9CywFjxS/ReTLiwH6YBiTS4TZcDe60UCsGDeSSmFoz
-         /WGYg9BAcVn9Ndl0EcjAiPgjot0FOIB/o/4N8SJEjNA1mQddh93SbRNfGxsOQgOozsFD
-         E18Ch1DrCYA92fARFXicfyxie5L6+hsQ/F2p6uDe9R1bpEPDBoo6UtVCgZzs3juahDPa
-         OkCGZCRdUUQ8rQAypKWsERASJNPyKtM5X9BohXZ2E3XYIHfuzJwmDJCiCHrJE5cNx3Ra
-         nE98MaN7VB55HtQBLUSQqEpilE0hKSY5MfbPDIdklhLd8q+c8rkDlP60Qyi/3bQTHIni
-         Di9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hk+Ng6HzdEIcxEdrVoC5xdXSCCrpPQX/sVOx2Fc1RIU=;
-        b=KQQf+Akczp/Vj+HoMalwX72epwMmpmJSwOLXFWdlcRAV+KRg/14vd4hau1f0zbFbIr
-         B/nCbSZA/p9v8OTXikVWEsOLSiblbh4VOpNqqIY/FS9cb0lItjeL+MB6dLnIait4qLUf
-         PYOAH3c4qwpgbKze4GoL77i2l5bOesPYyhy7h+c/DuSpJuKDaAismjD7RUovgbKRE6Uh
-         PzWEmB+u61NMSPnv4n/K/Ztrx5FY7wjaaEF7YB66WUGspeGbF+1Qg9bjMKCWeDTsFmR7
-         64FU/W2s/d4qOjyTXGCWiEwUdtnoRy08iM/UI8aeUsNAmGfyvdmPZ1PZU1sK1I23jEvv
-         bfEQ==
-X-Gm-Message-State: ANoB5pngcQ10RuI1XhMKirJ0ugnq5QZAu5E8+xpfWizT+kBBG7SD+Q4O
-	mACrcWl7/lWDNiSXb6Le4bI=
-X-Google-Smtp-Source: AA0mqf59B2DO9ZPDLarWALVCW0QEKktkW/UTpAJO53Bv+6cCEY7rNVHY9Wxfvns5lFF5/ZGBg8dXtg==
-X-Received: by 2002:a17:90a:a391:b0:212:fe4a:c378 with SMTP id x17-20020a17090aa39100b00212fe4ac378mr13592444pjp.82.1668426814474;
-        Mon, 14 Nov 2022 03:53:34 -0800 (PST)
-Received: from localhost.localdomain ([103.158.43.16])
-        by smtp.googlemail.com with ESMTPSA id d4-20020a170902654400b00188a23098aasm7248907pln.69.2022.11.14.03.53.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Nov 2022 03:53:33 -0800 (PST)
-From: Abdun Nihaal <abdun.nihaal@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Abdun Nihaal <abdun.nihaal@gmail.com>,
-	syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com
-Subject: [PATCH v2] fs/ntfs3: Validate attribute data and valid sizes
-Date: Mon, 14 Nov 2022 17:23:14 +0530
-Message-Id: <20221114115314.183818-1-abdun.nihaal@gmail.com>
-X-Mailer: git-send-email 2.37.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4821C79F3
+	for <ntfs3@lists.linux.dev>; Mon, 14 Nov 2022 21:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668462829; x=1699998829;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yPXbgLKjXYDcCWin9eEJ/CpOeATRU45Lm0Im9KdfJzo=;
+  b=UfL39G2AE5g/i5y23EvyAM+gehqIspbL/Al1BVXbb/7CTaPnyJJ/E5Y3
+   u7Uxl/WT98YedQrZp3TO29K4PuEM61LEE6QrirxQmB3/NB9JZFWFPnjG/
+   //00Ddn/L9e525fcUH+mCu11Knaxb0G+MJrcfjEdV+cK87jel4XK12laW
+   IWwrPoj4tTt+kzUJ4PTkbc7UuZiXP7L0Gke44+qa9VknhjNueXMIeKktC
+   vg2Ap+24HNm7yDUpdVlvN/nksqPHBAsjwGFDaEloGa5Pl+9q4w+kfF4/I
+   Bx0J1/RDEektrEe65Oar4N6SJ/iHc5wWHqB0v3W0GiaQGl0WKZcqQbhMM
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="295453864"
+X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
+   d="scan'208";a="295453864"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 13:53:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="763651529"
+X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
+   d="scan'208";a="763651529"
+Received: from lkp-server01.sh.intel.com (HELO ebd99836cbe0) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 14 Nov 2022 13:53:45 -0800
+Received: from kbuild by ebd99836cbe0 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ouhOi-0000mF-2g;
+	Mon, 14 Nov 2022 21:53:44 +0000
+Date: Tue, 15 Nov 2022 05:52:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: ntfs3@lists.linux.dev, nouveau@lists.freedesktop.org,
+ linux-pm@vger.kernel.org, linux-mm@kvack.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-afs@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 5c92ddca1053df02387e8006d06094e18cc8538a
+Message-ID: <6372b8ae.03wKgLWGIY41bdTG%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-The data_size and valid_size fields of non resident attributes should be
-less than the its alloc_size field, but this is not checked in
-ntfs_read_mft function.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 5c92ddca1053df02387e8006d06094e18cc8538a  Add linux-next specific files for 20221114
 
-Syzbot reports a allocation order warning due to a large unchecked value
-of data_size getting assigned to inode->i_size which is then passed to
-kcalloc.
+Error/Warning reports:
 
-Add sanity check for ensuring that the data_size and valid_size fields
-are not larger than alloc_size field.
+https://lore.kernel.org/oe-kbuild-all/202211041320.coq8EELJ-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211130053.Np70VIdn-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211130943.2q8U5Ndp-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211142244.sGkXbWO2-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211150003.LkfYS4HE-lkp@intel.com
 
-Link: https://syzkaller.appspot.com/bug?extid=fa4648a5446460b7b963
-Reported-and-tested-by: syzbot+fa4648a5446460b7b963@syzkaller.appspotmail.com
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
----
+Error/Warning: (recently discovered and may have been fixed)
 
-Please apply this instead of my previous patch.
+ERROR: modpost: "ipv6_icmp_error" [net/rxrpc/rxrpc.ko] undefined!
+arch/arm/mach-s3c/devs.c:32:10: fatal error: 'linux/platform_data/dma-s3c24xx.h' file not found
+arch/arm/mach-s3c/devs.c:32:10: fatal error: linux/platform_data/dma-s3c24xx.h: No such file or directory
+arch/arm/mach-s3c/s3c24xx.c:21:10: fatal error: 'linux/platform_data/dma-s3c24xx.h' file not found
+drivers/clk/clk.c:1022:5: error: redefinition of 'clk_prepare'
+drivers/clk/clk.c:1268:6: error: redefinition of 'clk_is_enabled_when_prepared'
+drivers/clk/clk.c:941:6: error: redefinition of 'clk_unprepare'
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:4887: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:5073:24: warning: implicit conversion from 'enum <anonymous>' to 'enum dc_status' [-Wenum-conversion]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for 'tu102_gr_load' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for 'wpr_generic_header_dump' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
+ld.lld: error: .btf.vmlinux.bin.o: unknown file type
+net/rxrpc/local_object.c:36: undefined reference to `ipv6_icmp_error'
+vmlinux.o: warning: objtool: apply_dir_move+0xb1: unreachable instruction
 
-Changes in v2:
- Correct the format used for the Fixes tag.
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
- fs/ntfs3/inode.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+drivers/cpufreq/acpi-cpufreq.c:970 acpi_cpufreq_boost_init() error: uninitialized symbol 'ret'.
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: sparse: sparse: symbol 'gf100_fifo_nonstall_block' was not declared. Should it be static?
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:33:18: sparse: sparse: symbol 'nvkm_engn_cgrp_get' was not declared. Should it be static?
+drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: sparse: sparse: symbol 'tu102_gr_load' was not declared. Should it be static?
+drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: sparse: sparse: symbol 'wpr_generic_header_dump' was not declared. Should it be static?
+drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ga102.c:49:1: sparse: sparse: symbol 'ga102_gsps' was not declared. Should it be static?
+drivers/gpu/drm/nouveau/nvkm/subdev/mc/ga100.c:51:1: sparse: sparse: symbol 'ga100_mc_device' was not declared. Should it be static?
+fotg210-udc.c:(.text+0x11b8): undefined reference to `usb_del_gadget_udc'
+fotg210-udc.c:(.text+0x3ba): undefined reference to `usb_gadget_giveback_request'
+fotg210-udc.c:(.text+0xb9e): undefined reference to `usb_gadget_udc_reset'
+lib/test_objpool.c:1007:16: sparse: sparse: symbol 'g_ot_async' was not declared. Should it be static?
+lib/test_objpool.c:516:3: sparse: sparse: symbol 'g_ot_sync_ops' was not declared. Should it be static?
+lib/test_objpool.c:76:3: sparse: sparse: symbol 'g_ot_data' was not declared. Should it be static?
+lib/test_objpool.c:824:3: sparse: sparse: symbol 'g_ot_async_ops' was not declared. Should it be static?
+lib/test_objpool.c:989:16: sparse: sparse: symbol 'g_ot_sync' was not declared. Should it be static?
+lib/test_objpool.c:998:16: sparse: sparse: symbol 'g_ot_miss' was not declared. Should it be static?
+lib/zstd/compress/huf_compress.c:460 HUF_getIndex() warn: the 'RANK_POSITION_LOG_BUCKETS_BEGIN' macro might need parens
+lib/zstd/decompress/zstd_decompress_block.c:1009 ZSTD_execSequence() warn: inconsistent indenting
+lib/zstd/decompress/zstd_decompress_block.c:894 ZSTD_execSequenceEnd() warn: inconsistent indenting
+lib/zstd/decompress/zstd_decompress_block.c:942 ZSTD_execSequenceEndSplitLitBuffer() warn: inconsistent indenting
+lib/zstd/decompress/zstd_decompress_internal.h:206 ZSTD_DCtx_get_bmi2() warn: inconsistent indenting
+mm/khugepaged.c:2038 collapse_file() warn: iterator used outside loop: 'page'
+riscv32-linux-ld: fotg210-udc.c:(.text+0x13b6): undefined reference to `usb_ep_set_maxpacket_limit'
+riscv32-linux-ld: fotg210-udc.c:(.text+0x14a4): undefined reference to `usb_add_gadget_udc'
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 970bb7c357c7..763dd982a43a 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -132,6 +132,13 @@ static struct inode *ntfs_read_mft(struct inode *inode,
- 	if (le16_to_cpu(attr->name_off) + attr->name_len > asize)
- 		goto out;
- 
-+	if (attr->non_res) {
-+		t64 = le64_to_cpu(attr->nres.alloc_size);
-+		if (le64_to_cpu(attr->nres.data_size) > t64 ||
-+		    le64_to_cpu(attr->nres.valid_size) > t64)
-+			goto out;
-+	}
-+
- 	switch (attr->type) {
- 	case ATTR_STD:
- 		if (attr->non_res ||
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- alpha-randconfig-c034-20221114
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- alpha-randconfig-s041-20221114
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:sparse:sparse:symbol-gf100_fifo_nonstall_block-was-not-declared.-Should-it-be-static
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:sparse:sparse:symbol-nvkm_engn_cgrp_get-was-not-declared.-Should-it-be-static
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:sparse:sparse:symbol-tu102_gr_load-was-not-declared.-Should-it-be-static
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:sparse:sparse:symbol-wpr_generic_header_dump-was-not-declared.-Should-it-be-static
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-ga102.c:sparse:sparse:symbol-ga102_gsps-was-not-declared.-Should-it-be-static
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-mc-ga100.c:sparse:sparse:symbol-ga100_mc_device-was-not-declared.-Should-it-be-static
+|   |-- lib-test_objpool.c:sparse:sparse:symbol-g_ot_async-was-not-declared.-Should-it-be-static
+|   |-- lib-test_objpool.c:sparse:sparse:symbol-g_ot_async_ops-was-not-declared.-Should-it-be-static
+|   |-- lib-test_objpool.c:sparse:sparse:symbol-g_ot_data-was-not-declared.-Should-it-be-static
+|   |-- lib-test_objpool.c:sparse:sparse:symbol-g_ot_miss-was-not-declared.-Should-it-be-static
+|   |-- lib-test_objpool.c:sparse:sparse:symbol-g_ot_sync-was-not-declared.-Should-it-be-static
+|   `-- lib-test_objpool.c:sparse:sparse:symbol-g_ot_sync_ops-was-not-declared.-Should-it-be-static
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arc-randconfig-c003-20221114
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arc-randconfig-r036-20221114
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+clang_recent_errors
+|-- arm-s3c2410_defconfig
+|   |-- arch-arm-mach-s3c-devs.c:fatal-error:linux-platform_data-dma-s3c24xx.h-file-not-found
+|   `-- arch-arm-mach-s3c-s3c24xx.c:fatal-error:linux-platform_data-dma-s3c24xx.h-file-not-found
+|-- x86_64-randconfig-a012-20221114
+|   `-- vmlinux.o:warning:objtool:handle_bug:call-to-kmsan_unpoison_entry_regs()-leaves-.noinstr.text-section
+`-- x86_64-randconfig-r023-20221114
+    `-- ld.lld:error:.btf.vmlinux.bin.o:unknown-file-type
+
+elapsed time: 764m
+
+configs tested: 77
+configs skipped: 2
+
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+arc                                 defconfig
+alpha                               defconfig
+i386                                defconfig
+arc                  randconfig-r043-20221114
+x86_64                              defconfig
+arm                                 defconfig
+x86_64                          rhel-8.3-func
+powerpc                           allnoconfig
+i386                 randconfig-a001-20221114
+x86_64                    rhel-8.3-kselftests
+s390                                defconfig
+i386                 randconfig-a002-20221114
+s390                             allmodconfig
+i386                 randconfig-a005-20221114
+s390                             allyesconfig
+i386                 randconfig-a006-20221114
+i386                 randconfig-a003-20221114
+i386                 randconfig-a004-20221114
+x86_64               randconfig-a005-20221114
+x86_64               randconfig-a006-20221114
+m68k                        stmark2_defconfig
+arm                          simpad_defconfig
+i386                 randconfig-c001-20221114
+powerpc                    klondike_defconfig
+csky                                defconfig
+sh                           se7343_defconfig
+sh                        edosk7760_defconfig
+mips                      fuloong2e_defconfig
+mips                     decstation_defconfig
+powerpc                      ppc6xx_defconfig
+arm                         axm55xx_defconfig
+mips                      loongson3_defconfig
+xtensa                  audio_kc705_defconfig
+xtensa                    smp_lx200_defconfig
+arm                         cm_x300_defconfig
+sh                           se7619_defconfig
+powerpc                    adder875_defconfig
+x86_64                           rhel-8.3-kvm
+x86_64                         rhel-8.3-kunit
+sh                               allmodconfig
+x86_64                           rhel-8.3-syz
+m68k                             allyesconfig
+x86_64                               rhel-8.3
+m68k                             allmodconfig
+mips                             allyesconfig
+arc                              allyesconfig
+x86_64                           allyesconfig
+alpha                            allyesconfig
+powerpc                          allmodconfig
+i386                             allyesconfig
+arm                              allyesconfig
+arm64                            allyesconfig
+
+clang tested configs:
+hexagon              randconfig-r045-20221114
+hexagon              randconfig-r041-20221114
+riscv                randconfig-r042-20221114
+s390                 randconfig-r044-20221114
+i386                 randconfig-a011-20221114
+i386                 randconfig-a014-20221114
+x86_64               randconfig-a014-20221114
+x86_64               randconfig-a012-20221114
+i386                 randconfig-a016-20221114
+x86_64               randconfig-a013-20221114
+i386                 randconfig-a013-20221114
+x86_64               randconfig-a011-20221114
+i386                 randconfig-a012-20221114
+x86_64               randconfig-a015-20221114
+i386                 randconfig-a015-20221114
+x86_64               randconfig-a016-20221114
+x86_64                          rhel-8.3-rust
+powerpc                    ge_imp3a_defconfig
+powerpc                  mpc866_ads_defconfig
+arm                       spear13xx_defconfig
+arm                        neponset_defconfig
+mips                   sb1250_swarm_defconfig
+arm                             mxs_defconfig
+
 -- 
-2.37.3
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
