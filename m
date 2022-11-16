@@ -1,116 +1,44 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797657C
-	for <ntfs3@lists.linux.dev>; Wed, 16 Nov 2022 11:00:42 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id p10-20020a9d76ca000000b0066d6c6bce58so7129959otl.7
-        for <ntfs3@lists.linux.dev>; Wed, 16 Nov 2022 03:00:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zsp+X9ABCT76iWTtEoaqjGL5gM3NfV4g/EtTOwznlHw=;
-        b=Pyw7jK2Fwj/Xdz5fz8l3gCxHpg2DdViqnALVdHU2CNbPpfM6KStqpIW2X8MMuHt2BT
-         IEVClOXAU6oEMT521wEnVOlAcxzc+nceb6pYFy0zBhyAtvoBxb/P73iyaW/rcZ2KgSDe
-         4Rj1ycw7HjR6qakoBzT5cCJwZmkck9/xQk6iNYupiK0F1C1CwP1pFi/C3qk6I4t6G4Eh
-         hPNG9AjOJa7yiKEsaCfRXMFe6uz3qvXdJx1nEVMZQ/KXehdZ5EeRkp0dDS2OjUsRSZzf
-         9sGywpw6r3YZAzp9Va+NS0+DbARzqYp7ybDwzQpLIHRV/J5S5fIVTdy9RHCerLF7MZ4g
-         qt0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zsp+X9ABCT76iWTtEoaqjGL5gM3NfV4g/EtTOwznlHw=;
-        b=dKT+hebwvIUJ14rObn4l0PgXEah3zQOtUb845QL0aDkhWu1J/ktbd+7RuqEHr2vGq8
-         +1/GCVZxGO2MPn3AykoxKbwT5HzeTZWstkoQdXfvAlfloLg5aG2ZS8GOVFak/iKb6j2O
-         h4II4nWaVwJjH4MCj2QEi3Wf/fhLVQxtFtatZ8vlcrSUvTMXR/92RYjruxETX5WRL/CZ
-         +ZlUJEYuijtf+4J0y8+qyuBhlinOaM62HGmM3ad2dkeutQCXfEGgrr7+C0sKIUObwkjf
-         GZMi1N2qUETr/Bk3wWtnU6G6pDnMCuG9cXJFcOj9oLmz1rJZ+w+IynzdFsFjQOZXZgbZ
-         EGTw==
-X-Gm-Message-State: ANoB5pmSiij7cHhzBZZ6FzXFz/AQfD28wi8W4JQRKYU3RvNH6AiwStAL
-	fAqYWBATHpYc8ljYLsWU1yKZWYl2I5QiNRQVZUfzow==
-X-Google-Smtp-Source: AA0mqf4+qoddsm79YTI4zfeBzrqjC8J7p9p5874YQUcbd9RHp44PFX9ZNhfh35vT1eXYFMOkcHErIKZ7XhkdM4f9S/g=
-X-Received: by 2002:a05:6830:43:b0:66c:9e9a:1f82 with SMTP id
- d3-20020a056830004300b0066c9e9a1f82mr10145905otp.269.1668596441235; Wed, 16
- Nov 2022 03:00:41 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E705CB7
+	for <ntfs3@lists.linux.dev>; Wed, 16 Nov 2022 13:34:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=Q6luM+SmNEKniKa8/GmDPUoIwT2baxJOIJc5WvVRxyI=; b=KMx8CjHYGIQh1huF+Owr2OKfru
+	EvXR6wccl8GwfPPvBesaNZgfDMtPkHWMcVafBxewvw5PSR1wrhnaE2YKEoONfchTzebVuDb+6TsVQ
+	GV24OrKciQmXyLeccLZILVQwrWacWEdfI+z3CTR4CjEvytBaGGUtwD3T9tznHx8rwpTvB3IBoJT07
+	Iil5bKhO2z8i68xG8nreSWD+wHiMEx0PWbVfaE+gUuzgJFbJnA5YJe/uG6hu+k+hbWuYkYLwMEfis
+	qvKQEshBbth6FZ5rdQbZ7L970iVweCyVVXCZxWpFMfWY9Jjyt10OytY+BDOo/PT13Gq1RwF80wVoB
+	9afXdl9Q==;
+Received: from [2001:4bb8:191:2606:427:bb47:a3d:e0b8] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1ovIZ5-003zcZ-Dh; Wed, 16 Nov 2022 13:34:55 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: remove ->writepage in ntfs3
+Date: Wed, 16 Nov 2022 14:34:50 +0100
+Message-Id: <20221116133452.2196640-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <00000000000095e1b405ed8a284a@google.com>
-In-Reply-To: <00000000000095e1b405ed8a284a@google.com>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Wed, 16 Nov 2022 12:00:29 +0100
-Message-ID: <CACT4Y+beM9sKkcxA03hPHo-ob0xuRtDXrs_yW+iBdjGY+f64gA@mail.gmail.com>
-Subject: Re: [syzbot] kernel panic: stack is corrupted in __blk_flush_plug
-To: syzbot <syzbot+fade8a8e2bdc29b3a90b@syzkaller.appspotmail.com>, 
-	almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev
-Cc: broonie@kernel.org, catalin.marinas@arm.com, kaleshsingh@google.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	madvenka@linux.microsoft.com, mark.rutland@arm.com, maz@kernel.org, 
-	syzkaller-bugs@googlegroups.com, will@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Tue, 15 Nov 2022 at 23:48, syzbot
-<syzbot+fade8a8e2bdc29b3a90b@syzkaller.appspotmail.com> wrote:
->
-> Hello,
->
-> syzbot found the following issue on:
->
-> HEAD commit:    9e4ce762f0e7 Merge branches 'for-next/acpi', 'for-next/asm..
-> git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1502ad35880000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=20ffacc1ce1c99b5
-> dashboard link: https://syzkaller.appspot.com/bug?extid=fade8a8e2bdc29b3a90b
-> compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-> userspace arch: arm64
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14f33159880000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13e33ef1880000
->
-> Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/a70eb29add74/disk-9e4ce762.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/769d096516a8/vmlinux-9e4ce762.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/9309615f51d5/Image-9e4ce762.gz.xz
-> mounted in repro: https://storage.googleapis.com/syzbot-assets/0332fee8ec34/mount_0.gz
+Hi Konstantin,
 
-The reproducer mounts ntfs3, so I think it's related to ntfs3. +maintainers.
+this small series removes the deprecated ->writepage method from ntfs3.
+I don't have a ntfs test setup so this is untested and should be handled
+with care.
 
-
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+fade8a8e2bdc29b3a90b@syzkaller.appspotmail.com
->
-> loop0: detected capacity change from 0 to 8226
-> ntfs3: loop0: Mark volume as dirty due to NTFS errors
-> ntfs3: loop0: Failed to load $Extend.
-> Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: __blk_flush_plug+0x1a4/0x1a4
-> CPU: 0 PID: 4370 Comm: syz-executor220 Not tainted 6.1.0-rc5-syzkaller-32254-g9e4ce762f0e7 #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
-> Call trace:
->  dump_backtrace+0x1c4/0x1f0 arch/arm64/kernel/stacktrace.c:156
->  show_stack+0x2c/0x54 arch/arm64/kernel/stacktrace.c:163
->  __dump_stack lib/dump_stack.c:88 [inline]
->  dump_stack_lvl+0x104/0x16c lib/dump_stack.c:106
->  dump_stack+0x1c/0x58 lib/dump_stack.c:113
->  panic+0x218/0x508 kernel/panic.c:274
->  warn_bogus_irq_restore+0x0/0x40 kernel/panic.c:703
->  blk_finish_plug+0x0/0x54
-> SMP: stopping secondary CPUs
-> Kernel Offset: disabled
-> CPU features: 0x00000,040e0108,4c017203
-> Memory Limit: none
-> Rebooting in 86400 seconds..
->
->
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> syzbot can test patches for this issue, for details see:
-> https://goo.gl/tpsmEJ#testing-patches
+Diffstat:
+ inode.c |   33 +++++++++++++++------------------
+ 1 file changed, 15 insertions(+), 18 deletions(-)
