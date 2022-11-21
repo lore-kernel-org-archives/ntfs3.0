@@ -1,58 +1,128 @@
-Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827D47C;
-	Thu, 17 Nov 2022 09:16:27 +0000 (UTC)
-Received: from mail02.huawei.com (unknown [172.30.67.153])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4NCYhq4JGnz4f3jHx;
-	Thu, 17 Nov 2022 16:57:47 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.175.127.227])
-	by APP1 (Coremail) with SMTP id cCh0CgBHPayN93VjOieKAg--.30052S4;
-	Thu, 17 Nov 2022 16:57:50 +0800 (CST)
-From: Ye Bin <yebin@huaweicloud.com>
-To: almaz.alexandrovich@paragon-software.com,
-	nathan@kernel.org,
-	ndesaulniers@google.com,
-	trix@redhat.com,
-	ntfs3@lists.linux.dev
-Cc: yebin10@huawei.com,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	syzbot+f45957555ed4a808cc7a@syzkaller.appspotmail.com
-Subject: [PATCH] ntfs3: fix NULL pointer dereference in 'ni_write_inode'
-Date: Thu, 17 Nov 2022 17:19:12 +0800
-Message-Id: <20221117091912.3436127-1-yebin@huaweicloud.com>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02D8EC1
+	for <ntfs3@lists.linux.dev>; Mon, 21 Nov 2022 10:51:47 +0000 (UTC)
+Received: by mail-io1-f72.google.com with SMTP id a14-20020a6b660e000000b006bd37975cdfso5279365ioc.10
+        for <ntfs3@lists.linux.dev>; Mon, 21 Nov 2022 02:51:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VlR91O3sKtfJHpoCCZxI4C6b8jSkUV7GoF1cYAWIbwo=;
+        b=u9nihNLHyxe4LxagcjaoiGxDDWmQRqHdCUeGtndNp0yvmKHve0lwBO0UkMLBbM26Zf
+         Ceiwpuv8p/EifN4EwGdBK1oZy9/m6tu1BymDef9h2GFn3mmnwExJyhXS+vI1REEfTMG+
+         1PLNWN4LoBJvSjDMsbm+nlsKEHoSP6Fwlbf8BEOZ8YO9S6daAMxXNA9+IEAaCXnIMbay
+         Fi9WMzyOQpzPDM8aODlIBfyiTSB0l/cHuZMeOCyYOdLxj0ZIpu+Hy9jOERAQXtlohA/y
+         yy1A3CXe7ALpeaTvGeN820ySQYy+hZJEKDREK1gmkyW2Ja9Yxvr5+otgFrVBSTswhrtT
+         yp5g==
+X-Gm-Message-State: ANoB5pk/8HCvb42q4q1rt9Yp+5eWriAh3FL7LWqqBRXyls2h8onOBWHN
+	UK6C2uYWQM+yrKl1V6ULW8LgrH7/sVJUNxu7VR2/yWCzBYGu
+X-Google-Smtp-Source: AA0mqf4KmVpqm5fP/UBwUNslxcIGj8Mu1KHRzAz+fhMEpZTVwfT5KpWhUV4VfpC8xDjvT+WdMxulvLVv5YiVXD7uqOZNlK+y2K/t
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cCh0CgBHPayN93VjOieKAg--.30052S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxGrW7Cr45Jr4Dtw1UKw4Uurg_yoWrArykpF
-	sxGr4UGr4ktF12kws2qF1qqry5Jay7CF4UGr4xGry7KF1jqr1UtF18tFW3XryxtrWrJryI
-	qr1DZ3y8try8JaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI
-	7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
-	Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY
-	6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6x
-	AIw20EY4v20xvaj40_Zr0_Wr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
-	c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UQ6p9UUUUU=
-X-CM-SenderInfo: p1hex046kxt4xhlfz01xgou0bp/
-X-CFilter-Loop: Reflected
+X-Received: by 2002:a05:6638:345:b0:363:a7e9:194b with SMTP id
+ x5-20020a056638034500b00363a7e9194bmr8213654jap.122.1669027906702; Mon, 21
+ Nov 2022 02:51:46 -0800 (PST)
+Date: Mon, 21 Nov 2022 02:51:46 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000007fd4eb05edf8d74d@google.com>
+Subject: [syzbot] WARNING: locking bug in writeback_single_inode
+From: syzbot <syzbot+3ac57409fb0bec311927@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ye Bin <yebin10@huawei.com>
+Hello,
 
-Syzbot found the following issue:
-Unable to handle kernel NULL pointer dereference at virtual address 0000000000000016
+syzbot found the following issue on:
+
+HEAD commit:    9500fc6e9e60 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=1143d819880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b25c9f218686dd5e
+dashboard link: https://syzkaller.appspot.com/bug?extid=3ac57409fb0bec311927
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17437209880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12c6d64e880000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/1363e60652f7/disk-9500fc6e.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/fcc4da811bb6/vmlinux-9500fc6e.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/0b554298f1fa/Image-9500fc6e.gz.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/b7cda1fc67db/mount_0.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+3ac57409fb0bec311927@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 8226
+------------[ cut here ]------------
+DEBUG_LOCKS_WARN_ON(1)
+WARNING: CPU: 1 PID: 30056 at kernel/locking/lockdep.c:231 check_wait_context kernel/locking/lockdep.c:4729 [inline]
+WARNING: CPU: 1 PID: 30056 at kernel/locking/lockdep.c:231 __lock_acquire+0x2b0/0x3084 kernel/locking/lockdep.c:5005
+Modules linked in:
+CPU: 1 PID: 30056 Comm: syz-executor132 Not tainted 6.1.0-rc5-syzkaller-32269-g9500fc6e9e60 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
+pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : check_wait_context kernel/locking/lockdep.c:4729 [inline]
+pc : __lock_acquire+0x2b0/0x3084 kernel/locking/lockdep.c:5005
+lr : hlock_class kernel/locking/lockdep.c:231 [inline]
+lr : check_wait_context kernel/locking/lockdep.c:4729 [inline]
+lr : __lock_acquire+0x298/0x3084 kernel/locking/lockdep.c:5005
+sp : ffff8000141c37c0
+x29: ffff8000141c38a0 x28: 0000000000000001 x27: ffff0000cd731a68
+x26: ffff0000cabb3a2f x25: ffff0000cd732470 x24: 0000000000000000
+x23: 0000000000000000 x22: 0000000000000001 x21: 0000000000000000
+x20: 0000000000000000 x19: ffff5600124b28ca x18: 0000000000000202
+x17: ffff8001f1cdd000 x16: ffff80000dc18158 x15: ffff0000cd731a40
+x14: 0000000000000000 x13: 0000000000000012 x12: ffff80000d96cfd0
+x11: ff808000081c6510 x10: ffff80000ddda198 x9 : 24fb2561f6434100
+x8 : 0000000000000000 x7 : 4e5241575f534b43 x6 : ffff80000c0b2b74
+x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+x2 : 0000000000000000 x1 : 0000000100000001 x0 : 0000000000000016
+Call trace:
+ check_wait_context kernel/locking/lockdep.c:4729 [inline]
+ __lock_acquire+0x2b0/0x3084 kernel/locking/lockdep.c:5005
+ lock_acquire+0x100/0x1f8 kernel/locking/lockdep.c:5668
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x54/0x6c kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:350 [inline]
+ writeback_single_inode+0x44/0x54c fs/fs-writeback.c:1676
+ write_inode_now+0xb0/0xdc fs/fs-writeback.c:2736
+ iput_final fs/inode.c:1734 [inline]
+ iput+0x1e4/0x324 fs/inode.c:1773
+ ntfs_fill_super+0xc30/0x14a4 fs/ntfs3/super.c:1278
+ get_tree_bdev+0x1e8/0x2a0 fs/super.c:1324
+ ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
+ vfs_get_tree+0x40/0x140 fs/super.c:1531
+ do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
+ path_mount+0x358/0x890 fs/namespace.c:3370
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __arm64_sys_mount+0x2c4/0x3c4 fs/namespace.c:3568
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+ el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:637
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:584
+irq event stamp: 2649
+hardirqs last  enabled at (2649): [<ffff800008165fe4>] raw_spin_rq_unlock_irq kernel/sched/sched.h:1366 [inline]
+hardirqs last  enabled at (2649): [<ffff800008165fe4>] finish_lock_switch+0x94/0xe8 kernel/sched/core.c:4950
+hardirqs last disabled at (2648): [<ffff80000c0afb1c>] __schedule+0x84/0x594 kernel/sched/core.c:6402
+softirqs last  enabled at (1848): [<ffff8000080102e4>] _stext+0x2e4/0x37c
+softirqs last disabled at (1821): [<ffff800008017c88>] ____do_softirq+0x14/0x20 arch/arm64/kernel/irq.c:79
+---[ end trace 0000000000000000 ]---
+Unable to handle kernel NULL pointer dereference at virtual address 00000000000000b8
 Mem abort info:
   ESR = 0x0000000096000006
   EC = 0x25: DABT (current EL), IL = 32 bits
@@ -62,90 +132,75 @@ Mem abort info:
 Data abort info:
   ISV = 0, ISS = 0x00000006
   CM = 0, WnR = 0
-user pgtable: 4k pages, 48-bit VAs, pgdp=000000010af56000
-[0000000000000016] pgd=08000001090da003, p4d=08000001090da003, pud=08000001090ce003, pmd=0000000000000000
+user pgtable: 4k pages, 48-bit VAs, pgdp=00000001101ea000
+[00000000000000b8] pgd=0800000112a3a003, p4d=0800000112a3a003, pud=0800000111e89003, pmd=0000000000000000
 Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
 Modules linked in:
-CPU: 1 PID: 3036 Comm: syz-executor206 Not tainted 6.0.0-rc6-syzkaller-17739-g16c9f284e746 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
-pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : is_rec_inuse fs/ntfs3/ntfs.h:313 [inline]
-pc : ni_write_inode+0xac/0x798 fs/ntfs3/frecord.c:3232
-lr : ni_write_inode+0xa0/0x798 fs/ntfs3/frecord.c:3226
-sp : ffff8000126c3800
-x29: ffff8000126c3860 x28: 0000000000000000 x27: ffff0000c8b02000
-x26: ffff0000c7502320 x25: ffff0000c7502288 x24: 0000000000000000
-x23: ffff80000cbec91c x22: ffff0000c8b03000 x21: ffff0000c8b02000
-x20: 0000000000000001 x19: ffff0000c75024d8 x18: 00000000000000c0
-x17: ffff80000dd1b198 x16: ffff80000db59158 x15: ffff0000c4b6b500
-x14: 00000000000000b8 x13: 0000000000000000 x12: ffff0000c4b6b500
-x11: ff80800008be1b60 x10: 0000000000000000 x9 : ffff0000c4b6b500
-x8 : 0000000000000000 x7 : ffff800008be1b50 x6 : 0000000000000000
+CPU: 1 PID: 30056 Comm: syz-executor132 Tainted: G        W          6.1.0-rc5-syzkaller-32269-g9500fc6e9e60 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
+pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : check_wait_context kernel/locking/lockdep.c:4729 [inline]
+pc : __lock_acquire+0x2d0/0x3084 kernel/locking/lockdep.c:5005
+lr : hlock_class kernel/locking/lockdep.c:231 [inline]
+lr : check_wait_context kernel/locking/lockdep.c:4729 [inline]
+lr : __lock_acquire+0x298/0x3084 kernel/locking/lockdep.c:5005
+sp : ffff8000141c37c0
+x29: ffff8000141c38a0 x28: 0000000000000001 x27: ffff0000cd731a68
+x26: ffff0000cabb3a2f x25: ffff0000cd732470 x24: 0000000000000000
+x23: 0000000000000000 x22: 0000000000000001 x21: 0000000000000000
+x20: 0000000000000000 x19: ffff5600124b28ca x18: 0000000000000202
+x17: ffff8001f1cdd000 x16: ffff80000dc18158 x15: ffff0000cd731a40
+x14: 0000000000000000 x13: 0000000000000012 x12: ffff80000d96cfd0
+x11: ff808000081c6510 x10: ffff80000ddda198 x9 : 00000000000408ca
+x8 : 0000000000000000 x7 : 4e5241575f534b43 x6 : ffff80000c0b2b74
 x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-x2 : 0000000000000008 x1 : 0000000000000001 x0 : 0000000000000000
+x2 : 0000000000000000 x1 : 0000000100000001 x0 : 0000000000000016
 Call trace:
- is_rec_inuse fs/ntfs3/ntfs.h:313 [inline]
- ni_write_inode+0xac/0x798 fs/ntfs3/frecord.c:3232
- ntfs_evict_inode+0x54/0x84 fs/ntfs3/inode.c:1744
- evict+0xec/0x334 fs/inode.c:665
- iput_final fs/inode.c:1748 [inline]
- iput+0x2c4/0x324 fs/inode.c:1774
- ntfs_new_inode+0x7c/0xe0 fs/ntfs3/fsntfs.c:1660
- ntfs_create_inode+0x20c/0xe78 fs/ntfs3/inode.c:1278
- ntfs_create+0x54/0x74 fs/ntfs3/namei.c:100
- lookup_open fs/namei.c:3413 [inline]
- open_last_lookups fs/namei.c:3481 [inline]
- path_openat+0x804/0x11c4 fs/namei.c:3688
- do_filp_open+0xdc/0x1b8 fs/namei.c:3718
- do_sys_openat2+0xb8/0x22c fs/open.c:1311
- do_sys_open fs/open.c:1327 [inline]
- __do_sys_openat fs/open.c:1343 [inline]
- __se_sys_openat fs/open.c:1338 [inline]
- __arm64_sys_openat+0xb0/0xe0 fs/open.c:1338
+ hlock_class kernel/locking/lockdep.c:222 [inline]
+ check_wait_context kernel/locking/lockdep.c:4730 [inline]
+ __lock_acquire+0x2d0/0x3084 kernel/locking/lockdep.c:5005
+ lock_acquire+0x100/0x1f8 kernel/locking/lockdep.c:5668
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x54/0x6c kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:350 [inline]
+ writeback_single_inode+0x44/0x54c fs/fs-writeback.c:1676
+ write_inode_now+0xb0/0xdc fs/fs-writeback.c:2736
+ iput_final fs/inode.c:1734 [inline]
+ iput+0x1e4/0x324 fs/inode.c:1773
+ ntfs_fill_super+0xc30/0x14a4 fs/ntfs3/super.c:1278
+ get_tree_bdev+0x1e8/0x2a0 fs/super.c:1324
+ ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
+ vfs_get_tree+0x40/0x140 fs/super.c:1531
+ do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
+ path_mount+0x358/0x890 fs/namespace.c:3370
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __arm64_sys_mount+0x2c4/0x3c4 fs/namespace.c:3568
  __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
  invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
  el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
  do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
- el0t_64_sync+0x18c/0x190
-Code: 97dafee4 340001b4 f9401328 2a1f03e0 (79402d14)
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:637
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:584
+Code: d002e1ca 91056210 9106614a b9400329 (3942e114) 
 ---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	d002e1ca 	adrp	x10, 0x5c3a000
+   4:	91056210 	add	x16, x16, #0x158
+   8:	9106614a 	add	x10, x10, #0x198
+   c:	b9400329 	ldr	w9, [x25]
+* 10:	3942e114 	ldrb	w20, [x8, #184] <-- trapping instruction
 
-Above issue may happens as follows:
-ntfs_new_inode
-  mi_init
-    mi->mrec = kmalloc(sbi->record_size, GFP_NOFS); -->failed to allocate memory
-      if (!mi->mrec)
-        return -ENOMEM;
-iput
-  iput_final
-    evict
-      ntfs_evict_inode
-        ni_write_inode
-	  is_rec_inuse(ni->mi.mrec)-> As 'ni->mi.mrec' is NULL trigger NULL-ptr-deref
 
-To solve above issue if new inode failed make inode bad before call 'iput()' in
-'ntfs_new_inode()'.
-
-Reported-by: syzbot+f45957555ed4a808cc7a@syzkaller.appspotmail.com
-Signed-off-by: Ye Bin <yebin10@huawei.com>
 ---
- fs/ntfs3/fsntfs.c | 1 +
- 1 file changed, 1 insertion(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-index 567563771bf8..8de861ddec60 100644
---- a/fs/ntfs3/fsntfs.c
-+++ b/fs/ntfs3/fsntfs.c
-@@ -1683,6 +1683,7 @@ struct ntfs_inode *ntfs_new_inode(struct ntfs_sb_info *sbi, CLST rno, bool dir)
- 
- out:
- 	if (err) {
-+		make_bad_inode(inode);
- 		iput(inode);
- 		ni = ERR_PTR(err);
- 	}
--- 
-2.31.1
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
