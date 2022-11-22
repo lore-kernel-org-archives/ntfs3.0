@@ -1,25 +1,26 @@
 Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57F710FC
-	for <ntfs3@lists.linux.dev>; Tue, 22 Nov 2022 09:27:21 +0000 (UTC)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.56])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NGf244WNfzqSbt;
-	Tue, 22 Nov 2022 17:23:24 +0800 (CST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7DC10FC
+	for <ntfs3@lists.linux.dev>; Tue, 22 Nov 2022 09:28:26 +0000 (UTC)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NGf3K2pZLzqSQ0;
+	Tue, 22 Nov 2022 17:24:29 +0800 (CST)
 Received: from dggpemm500013.china.huawei.com (7.185.36.172) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 22 Nov 2022 17:27:18 +0800
+ 15.1.2375.31; Tue, 22 Nov 2022 17:28:23 +0800
 Received: from ubuntu1804.huawei.com (10.67.175.36) by
  dggpemm500013.china.huawei.com (7.185.36.172) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 22 Nov 2022 17:27:18 +0800
+ 15.1.2375.31; Tue, 22 Nov 2022 17:28:23 +0800
 From: Chen Zhongjin <chenzhongjin@huawei.com>
 To: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: <chenzhongjin@huawei.com>, <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH] fs/ntfs3: Fix memory leak if ntfs_read_mft failed
-Date: Tue, 22 Nov 2022 17:24:14 +0800
-Message-ID: <20221122092414.231084-1-chenzhongjin@huawei.com>
+CC: <chenzhongjin@huawei.com>, <kari.argillander@gmail.com>,
+	<almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH] fs/ntfs3: Fix leaked mount_options if fill_super failed
+Date: Tue, 22 Nov 2022 17:25:18 +0800
+Message-ID: <20221122092518.231347-1-chenzhongjin@huawei.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -29,67 +30,50 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.67.175.36]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  dggpemm500013.china.huawei.com (7.185.36.172)
 X-CFilter-Loop: Reflected
 
-Label ATTR_ROOT in ntfs_read_mft() sets is_root = true and
-ni->ni_flags |= NI_FLAG_DIR, then next attr will goto label ATTR_ALLOC
-and alloc ni->dir.alloc_run. However two states are not always
-consistent and can make memory leak.
+'9b75450d6c58 ("fs/ntfs3: Fix memory leak if fill_super failed")'
+Previous patch fixed leaked sbi when fill_super failed but forgot to put
+mount_options and left it leaked as kmemleak reported:
 
- 1) attr_name in ATTR_ROOT does not fit the condition it will set
- is_root = true but NI_FLAG_DIR is not set.
- 2) next attr_name in ATTR_ALLOC fits the condition and alloc
- ni->dir.alloc_run
- 3) in cleanup function ni_clear(), when NI_FLAG_DIR is set, it frees
- ni->dir.alloc_run, otherwise it frees ni->file.run
- 4) because NI_FLAG_DIR is not set in this case, ni->dir.alloc_run is
- leaked as kmemleak reported:
-
-unreferenced object 0xffff888003bc5480 (size 64):
+unreferenced object 0xffff888107c353c0 (size 32):
   backtrace:
-    [<000000003d42e6b0>] __kmalloc_node+0x4e/0x1c0
-    [<00000000d8e19b8a>] kvmalloc_node+0x39/0x1f0
-    [<00000000fc3eb5b8>] run_add_entry+0x18a/0xa40 [ntfs3]
-    [<0000000011c9f978>] run_unpack+0x75d/0x8e0 [ntfs3]
-    [<00000000e7cf1819>] run_unpack_ex+0xbc/0x500 [ntfs3]
-    [<00000000bbf0a43d>] ntfs_iget5+0xb25/0x2dd0 [ntfs3]
-    [<00000000a6e50693>] ntfs_fill_super+0x218d/0x3580 [ntfs3]
-    [<00000000b9170608>] get_tree_bdev+0x3fb/0x710
-    [<000000004833798a>] vfs_get_tree+0x8e/0x280
-    [<000000006e20b8e6>] path_mount+0xf3c/0x1930
+    [<00000000cf2c8c32>] kmalloc_trace+0x27/0x110
+    [<000000000184a864>] ntfs_init_fs_context+0x4c/0x540 [ntfs3]
+    [<000000008ded85aa>] alloc_fs_context+0x50e/0x940
+    [<00000000c225e601>] path_mount+0x747/0x1930
+    [<000000007bf15a5f>] do_mount+0xf3/0x110
+    ...
+unreferenced object 0xffff888101fdc2d0 (size 8):
+  backtrace:
+    [<00000000d0cba437>] __kmalloc_node_track_caller+0x4c/0x1c0
+    [<00000000923513f8>] kmemdup_nul+0x37/0xb0
+    [<000000007a9b98ed>] vfs_parse_fs_string+0xc5/0x150
+    [<00000000afbd0594>] generic_parse_monolithic+0x140/0x1c0
+    [<00000000e97e814e>] path_mount+0xf09/0x1930
     [<000000007bf15a5f>] do_mount+0xf3/0x110
     ...
 
-Fix this by always setting is_root and NI_FLAG_DIR together.
-
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Fixes: 610f8f5a7baf ("fs/ntfs3: Use new api for mounting")
 Signed-off-by: Chen Zhongjin <chenzhongjin@huawei.com>
 ---
- fs/ntfs3/inode.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/ntfs3/super.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index d5a3afbbbfd8..b7f60624b044 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -247,7 +247,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
- 			goto out;
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 47012c9bf505..c0e45f170701 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -1281,6 +1281,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	 * Free resources here.
+ 	 * ntfs_fs_free will be called with fc->s_fs_info = NULL
+ 	 */
++	put_mount_options(sbi->options);
+ 	put_ntfs(sbi);
+ 	sb->s_fs_info = NULL;
  
- 		root = Add2Ptr(attr, roff);
--		is_root = true;
- 
- 		if (attr->name_len != ARRAY_SIZE(I30_NAME) ||
- 		    memcmp(attr_name(attr), I30_NAME, sizeof(I30_NAME)))
-@@ -260,6 +259,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
- 		if (!is_dir)
- 			goto next_attr;
- 
-+		is_root = true;
- 		ni->ni_flags |= NI_FLAG_DIR;
- 
- 		err = indx_init(&ni->dir, sbi, attr, INDEX_MUTEX_I30);
 -- 
 2.17.1
 
