@@ -1,142 +1,127 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3533CEB23;
-	Sat, 26 Nov 2022 09:37:04 +0000 (UTC)
-Received: from canpemm500010.china.huawei.com (unknown [172.30.72.57])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NK67329sNzmV6p;
-	Sat, 26 Nov 2022 17:36:15 +0800 (CST)
-Received: from [10.174.178.185] (10.174.178.185) by
- canpemm500010.china.huawei.com (7.192.105.118) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sat, 26 Nov 2022 17:36:50 +0800
-Subject: Re: [PATCH] ntfs3: fix NULL pointer dereference in 'ni_write_inode'
-To: Ye Bin <yebin@huaweicloud.com>,
-	<almaz.alexandrovich@paragon-software.com>, <nathan@kernel.org>,
-	<ndesaulniers@google.com>, <trix@redhat.com>, <ntfs3@lists.linux.dev>, Andrew
- Morton <akpm@linux-foundation.org>
-References: <20221117091912.3436127-1-yebin@huaweicloud.com>
-CC: <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
-	<syzbot+f45957555ed4a808cc7a@syzkaller.appspotmail.com>
-From: "yebin (H)" <yebin10@huawei.com>
-Message-ID: <6381DE31.2060304@huawei.com>
-Date: Sat, 26 Nov 2022 17:36:49 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:38.0) Gecko/20100101
- Thunderbird/38.1.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19F223D2
+	for <ntfs3@lists.linux.dev>; Mon, 28 Nov 2022 10:02:35 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id k3-20020a92c243000000b0030201475a6bso8422781ilo.9
+        for <ntfs3@lists.linux.dev>; Mon, 28 Nov 2022 02:02:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gf4bPdmIKB8ohnUy2fgXAHp/zZUcQ9WjKxhNasqNEb8=;
+        b=sEuoACTf0+y2H70eYfeRiOPv2TOuQohEC1YF3k/vU0RfwUmyi5TaMJoswOyQAfQVcd
+         rmEWLAWtV4YbzW9PkdzCLWdbqoB/UdsJboYn9N4sduqiPjRvm3DSRg4TkABT0lsBiirE
+         q24sSVY6Xx+RLy+hWavy2dEYlLxS2P5rYfZHOmT6PjYqrlFtfq965LrPgQ0f07u+jDcq
+         WP+vl7jNjuespMGw9G08kTbsWwGtpHakLKN9co6Tk9+fprX3+K9L4YymOUFWqRmZ657W
+         qDYM3eu6Fb8enY7GNip0NVeqa4ivtKciETADco+3I0Zkb3zf7jTQ/1uKVoaQG/evJrMR
+         zNeA==
+X-Gm-Message-State: ANoB5pkqx0yQGigab65xP5rbiUglWaGGiYhJ/2oKcGjdLyXT+pSmgMbn
+	JzM30anvR6TvIGkO4fnUTQ1rBtUfOe2aEimFG+Mq56ZfYAUB
+X-Google-Smtp-Source: AA0mqf4VmdC6HsM9vY/52f6VtCrGaS8ujQGpeZI6oJIo+lIjsCsnwVDd/HOkK3FNlInaoFn1ZAUEAFMRtvpiNXHz5WRmd6zcwS/C
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20221117091912.3436127-1-yebin@huaweicloud.com>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.185]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- canpemm500010.china.huawei.com (7.192.105.118)
-X-CFilter-Loop: Reflected
+X-Received: by 2002:a02:9666:0:b0:363:b82d:d51e with SMTP id
+ c93-20020a029666000000b00363b82dd51emr23485967jai.15.1669629755030; Mon, 28
+ Nov 2022 02:02:35 -0800 (PST)
+Date: Mon, 28 Nov 2022 02:02:35 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000007482d505ee84f8dc@google.com>
+Subject: [syzbot] BUG: unable to handle kernel NULL pointer dereference in dir_search_u
+From: syzbot <syzbot+decdb33311f46369f416@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    6d464646530f Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=17244a4b880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=23eec5c79c22aaf8
+dashboard link: https://syzkaller.appspot.com/bug?extid=decdb33311f46369f416
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1430138d880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=108c8fed880000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/f22d29413625/disk-6d464646.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/389f0a5f1a4a/vmlinux-6d464646.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/48ddb02d82da/Image-6d464646.gz.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/3f65b6de0e07/mount_0.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+decdb33311f46369f416@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 8192
+ntfs3: loop0: Different NTFS' sector size (4096) and media sector size (512)
+Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+Mem abort info:
+  ESR = 0x0000000086000006
+  EC = 0x21: IABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x06: level 2 translation fault
+user pgtable: 4k pages, 48-bit VAs, pgdp=000000010d1aa000
+[0000000000000000] pgd=080000010d1ce003, p4d=080000010d1ce003, pud=080000010d251003, pmd=0000000000000000
+Internal error: Oops: 0000000086000006 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 0 PID: 3109 Comm: syz-executor169 Not tainted 6.1.0-rc6-syzkaller-32662-g6d464646530f #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
+pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : 0x0
+lr : hdr_find_e fs/ntfs3/index.c:708 [inline]
+lr : indx_find+0x3b0/0x954 fs/ntfs3/index.c:1068
+sp : ffff80000ff6b8c0
+x29: ffff80000ff6ba40 x28: 0000000000000000 x27: 0000000000000148
+x26: ffff0000c9257000 x25: ffff0000c93d8278 x24: 0000000000000000
+x23: 0000000000000000 x22: 0000000000000000 x21: 0000000000000003
+x20: 0000000000000138 x19: 0000000000000002 x18: 0000000000000098
+x17: ffff80000c0cd83c x16: ffff80000dbe6158 x15: ffff0000ce01cec0
+x14: 0000000000000010 x13: 0000000000000000 x12: ffff0000ce01cec0
+x11: ff80800008c11e14 x10: 0000000000000000 x9 : ffff800008c11e14
+x8 : ffff0000ce01cec0 x7 : 0000000000000000 x6 : 0000000000000000
+x5 : 2400490033003000 x4 : ffff0000c9257000 x3 : 0000000000000000
+x2 : ffff0000c93d8288 x1 : 0000000000000000 x0 : ffff80000c1f232e
+Call trace:
+ 0x0
+ dir_search_u+0xa4/0x1e0 fs/ntfs3/dir.c:254
+ ntfs_extend_init+0xe4/0x238 fs/ntfs3/fsntfs.c:214
+ ntfs_fill_super+0x143c/0x14a4 fs/ntfs3/super.c:1243
+ get_tree_bdev+0x1e8/0x2a0 fs/super.c:1324
+ ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
+ vfs_get_tree+0x40/0x140 fs/super.c:1531
+ do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
+ path_mount+0x358/0x890 fs/namespace.c:3370
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __arm64_sys_mount+0x2c4/0x3c4 fs/namespace.c:3568
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+ el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:637
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:584
+Code: bad PC value
+---[ end trace 0000000000000000 ]---
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-On 2022/11/17 17:19, Ye Bin wrote:
-> From: Ye Bin <yebin10@huawei.com>
->
-> Syzbot found the following issue:
-> Unable to handle kernel NULL pointer dereference at virtual address 0000000000000016
-> Mem abort info:
->    ESR = 0x0000000096000006
->    EC = 0x25: DABT (current EL), IL = 32 bits
->    SET = 0, FnV = 0
->    EA = 0, S1PTW = 0
->    FSC = 0x06: level 2 translation fault
-> Data abort info:
->    ISV = 0, ISS = 0x00000006
->    CM = 0, WnR = 0
-> user pgtable: 4k pages, 48-bit VAs, pgdp=000000010af56000
-> [0000000000000016] pgd=08000001090da003, p4d=08000001090da003, pud=08000001090ce003, pmd=0000000000000000
-> Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
-> Modules linked in:
-> CPU: 1 PID: 3036 Comm: syz-executor206 Not tainted 6.0.0-rc6-syzkaller-17739-g16c9f284e746 #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
-> pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> pc : is_rec_inuse fs/ntfs3/ntfs.h:313 [inline]
-> pc : ni_write_inode+0xac/0x798 fs/ntfs3/frecord.c:3232
-> lr : ni_write_inode+0xa0/0x798 fs/ntfs3/frecord.c:3226
-> sp : ffff8000126c3800
-> x29: ffff8000126c3860 x28: 0000000000000000 x27: ffff0000c8b02000
-> x26: ffff0000c7502320 x25: ffff0000c7502288 x24: 0000000000000000
-> x23: ffff80000cbec91c x22: ffff0000c8b03000 x21: ffff0000c8b02000
-> x20: 0000000000000001 x19: ffff0000c75024d8 x18: 00000000000000c0
-> x17: ffff80000dd1b198 x16: ffff80000db59158 x15: ffff0000c4b6b500
-> x14: 00000000000000b8 x13: 0000000000000000 x12: ffff0000c4b6b500
-> x11: ff80800008be1b60 x10: 0000000000000000 x9 : ffff0000c4b6b500
-> x8 : 0000000000000000 x7 : ffff800008be1b50 x6 : 0000000000000000
-> x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-> x2 : 0000000000000008 x1 : 0000000000000001 x0 : 0000000000000000
-> Call trace:
->   is_rec_inuse fs/ntfs3/ntfs.h:313 [inline]
->   ni_write_inode+0xac/0x798 fs/ntfs3/frecord.c:3232
->   ntfs_evict_inode+0x54/0x84 fs/ntfs3/inode.c:1744
->   evict+0xec/0x334 fs/inode.c:665
->   iput_final fs/inode.c:1748 [inline]
->   iput+0x2c4/0x324 fs/inode.c:1774
->   ntfs_new_inode+0x7c/0xe0 fs/ntfs3/fsntfs.c:1660
->   ntfs_create_inode+0x20c/0xe78 fs/ntfs3/inode.c:1278
->   ntfs_create+0x54/0x74 fs/ntfs3/namei.c:100
->   lookup_open fs/namei.c:3413 [inline]
->   open_last_lookups fs/namei.c:3481 [inline]
->   path_openat+0x804/0x11c4 fs/namei.c:3688
->   do_filp_open+0xdc/0x1b8 fs/namei.c:3718
->   do_sys_openat2+0xb8/0x22c fs/open.c:1311
->   do_sys_open fs/open.c:1327 [inline]
->   __do_sys_openat fs/open.c:1343 [inline]
->   __se_sys_openat fs/open.c:1338 [inline]
->   __arm64_sys_openat+0xb0/0xe0 fs/open.c:1338
->   __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
->   invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
->   el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
->   do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
->   el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
->   el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
->   el0t_64_sync+0x18c/0x190
-> Code: 97dafee4 340001b4 f9401328 2a1f03e0 (79402d14)
-> ---[ end trace 0000000000000000 ]---
->
-> Above issue may happens as follows:
-> ntfs_new_inode
->    mi_init
->      mi->mrec = kmalloc(sbi->record_size, GFP_NOFS); -->failed to allocate memory
->        if (!mi->mrec)
->          return -ENOMEM;
-> iput
->    iput_final
->      evict
->        ntfs_evict_inode
->          ni_write_inode
-> 	  is_rec_inuse(ni->mi.mrec)-> As 'ni->mi.mrec' is NULL trigger NULL-ptr-deref
->
-> To solve above issue if new inode failed make inode bad before call 'iput()' in
-> 'ntfs_new_inode()'.
->
-> Reported-by: syzbot+f45957555ed4a808cc7a@syzkaller.appspotmail.com
-> Signed-off-by: Ye Bin <yebin10@huawei.com>
-> ---
->   fs/ntfs3/fsntfs.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-> index 567563771bf8..8de861ddec60 100644
-> --- a/fs/ntfs3/fsntfs.c
-> +++ b/fs/ntfs3/fsntfs.c
-> @@ -1683,6 +1683,7 @@ struct ntfs_inode *ntfs_new_inode(struct ntfs_sb_info *sbi, CLST rno, bool dir)
->   
->   out:
->   	if (err) {
-> +		make_bad_inode(inode);
->   		iput(inode);
->   		ni = ERR_PTR(err);
->   	}
-
-Any thoughts on this patch?
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
