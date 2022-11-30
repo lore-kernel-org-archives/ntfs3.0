@@ -1,181 +1,113 @@
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945D728FA
-	for <ntfs3@lists.linux.dev>; Wed, 30 Nov 2022 12:51:58 +0000 (UTC)
-Received: by mail-io1-f72.google.com with SMTP id x5-20020a6bda05000000b006db3112c1deso10997209iob.0
-        for <ntfs3@lists.linux.dev>; Wed, 30 Nov 2022 04:51:58 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9910963B3
+	for <ntfs3@lists.linux.dev>; Wed, 30 Nov 2022 14:57:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1669820242;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=N6u+3XG/IMxarSx5aTpA9vTKE6ky1leeXmNmLaEP+NA=;
+	b=LXob3EseICAXvxo6XNqZjA+jCBxLY4cS9ez5dSZjniPwDluw5/2poKQ7vqYtZoYbaL/RDd
+	HQQY5Jl8effDrPhMlUhcPVeDLAXTotsyuEHD3uLl7YuEqUqsBKWoIwC7gxiAsmNcl7jiz2
+	UNjhqBjHhf14BXJlIka/rOsl7Dyq4Dw=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-480-cwHgk1HlOiO3gY_LADK0bQ-1; Wed, 30 Nov 2022 09:57:15 -0500
+X-MC-Unique: cwHgk1HlOiO3gY_LADK0bQ-1
+Received: by mail-pf1-f198.google.com with SMTP id j19-20020a056a00175300b00574ceff570bso11665854pfc.9
+        for <ntfs3@lists.linux.dev>; Wed, 30 Nov 2022 06:57:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rpaBHYH7J8llwWmefngwCVsX68GsX6D7qLzzZqpW4EI=;
-        b=U/pnoj9bQwzIdmddqIdzmHWjQ8gM9JDFJxjunVae/gz1pzOFPEf9fC5+Y9kH4Aby9l
-         UxCfxly9xE9tUu8iYx7oW8ymgyUFTJi55CPBneWTMIDKhaHIRzESRLhAAhT44AquW3mU
-         jg6rjk70f3OlXpqoRj+PrCdqkYF2VrvfhgkqONzhIaCKpGSEvrC7Rm0IkYZJE5yiuxqw
-         oWxTfz58HskVbuauTr6eZE6Rr0GS7yHQAB0FwIO9UngBIfAa/er0Kwg2Tpc+HjX71a2o
-         brNTdW3MufM37VK1ysvMsU+B3OdEHNmiHAETqazvZiXsFCkhtVfV3ypIeCPafs3kP1Pd
-         hv1g==
-X-Gm-Message-State: ANoB5pkHodDVUYf9WtATs7IGeRuG4pGuCNQwBVeiUCt3W5yyVspuKAkx
-	NMN9mBM13+GJpPoKEWae+ExyPzJPjwpZMXnhh9EaCtJyh5BP
-X-Google-Smtp-Source: AA0mqf5O5/1WKIkzk8bnWi31vjGDIeYnnbCPA1orrc+QWsVehZlofpypWQ5CesFY2nNBOMFkHfgVQLEP/DAUmbEtEGf712YrF/yf
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N6u+3XG/IMxarSx5aTpA9vTKE6ky1leeXmNmLaEP+NA=;
+        b=0jnvXWKI9/aeAMztbn6T9Jablg0FqXtvTxr8RhbnUlStHg+YJVn2SWQ0lgdCQe5+RC
+         ymdwROfXal8mvxmo/ZPj2ev4Y0RNQlH5lme1gFsuDQ57Kl5TE1dAJtIe+/Cmeigte0ZV
+         WLwSM5eB6d32yP2ByD01Gxb3dy53YNV0GhfR1w6zJgAoc8rNVsddzBBgs0G621ldpn0Q
+         kc3Hyrr9ctUwHQJtuPQL8gbtGfCgSZiIOFkhirLUWzLHzSaqhTPzJsqKxTW2EkYJwh6A
+         mEseaZAEnH6KIXR4HaHQQHYRewjSofCaui29EHTvfaeMljSf5XAoQUTpj3zVz2THcQpY
+         8CqA==
+X-Gm-Message-State: ANoB5pk2GmnoULsOVDZ8iLndQbOCZcfR8Fa0+Bk8LqDsNEykpgCXWlRt
+	/HKVUaNiJKaTCS1zpkcQ8wAsfGO05e0r7tsMS2I/fNtMh7gHzYyaQXZyX2LqfkKKuBcWNglkrY1
+	3HdVmpQ5MZ/Ct7U0=
+X-Received: by 2002:a63:165d:0:b0:473:f7cd:6603 with SMTP id 29-20020a63165d000000b00473f7cd6603mr37042537pgw.336.1669820234247;
+        Wed, 30 Nov 2022 06:57:14 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7V5/uVZ6WdKV+gGJoNyoymh+C7/c+wVew1dN51CbEENsyVhB08Hf+fc9wbP23e81z/ykc0ng==
+X-Received: by 2002:a63:165d:0:b0:473:f7cd:6603 with SMTP id 29-20020a63165d000000b00473f7cd6603mr37042464pgw.336.1669820233305;
+        Wed, 30 Nov 2022 06:57:13 -0800 (PST)
+Received: from ryzen.. ([240d:1a:c0d:9f00:fc9c:8ee9:e32c:2d9])
+        by smtp.gmail.com with ESMTPSA id v124-20020a626182000000b00574e4fe6118sm1488600pfb.162.2022.11.30.06.57.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Nov 2022 06:57:12 -0800 (PST)
+From: Shigeru Yoshida <syoshida@redhat.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Shigeru Yoshida <syoshida@redhat.com>
+Subject: [PATCH] fs/ntfs3: Fix slab-out-of-bounds in ntfs_trim_fs()
+Date: Wed, 30 Nov 2022 23:57:05 +0900
+Message-Id: <20221130145705.488351-1-syoshida@redhat.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a02:3847:0:b0:364:e67:8d26 with SMTP id
- v7-20020a023847000000b003640e678d26mr21188028jae.117.1669812717750; Wed, 30
- Nov 2022 04:51:57 -0800 (PST)
-Date: Wed, 30 Nov 2022 04:51:57 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e2102c05eeaf9113@google.com>
-Subject: [syzbot] possible deadlock in ntfs_fiemap
-From: syzbot <syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Hello,
+ntfs_trim_fs() should loop with wnd->nwnd, not wnd->nbits.  KASAN
+detects this as an out-of-bounds access like below:
 
-syzbot found the following issue on:
+==================================================================
+BUG: KASAN: slab-out-of-bounds in ntfs_trim_fs (fs/ntfs3/bitmap.c:1434)
+Read of size 2 at addr ffff8881745b4f02 by task repro/19678
 
-HEAD commit:    01f856ae6d0c Merge tag 'net-6.1-rc8-2' of git://git.kernel..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15bc5fc3880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2325e409a9a893e1
-dashboard link: https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/5428d604f56a/disk-01f856ae.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/e953d290d254/vmlinux-01f856ae.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/3f71610a4904/bzImage-01f856ae.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com
-
-loop5: detected capacity change from 0 to 4096
-ntfs3: loop5: Different NTFS' sector size (2048) and media sector size (512)
-======================================================
-WARNING: possible circular locking dependency detected
-6.1.0-rc7-syzkaller-00101-g01f856ae6d0c #0 Not tainted
-------------------------------------------------------
-syz-executor.5/25213 is trying to acquire lock:
-ffff88801d328fd8 (&mm->mmap_lock#2){++++}-{3:3}, at: __might_fault+0x8f/0x110 mm/memory.c:5645
-
-but task is already holding lock:
-ffff88801ebd34a0 (&ni->ni_lock/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1108 [inline]
-ffff88801ebd34a0 (&ni->ni_lock/4){+.+.}-{3:3}, at: ntfs_fiemap+0x101/0x180 fs/ntfs3/file.c:1243
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #1 (&ni->ni_lock/4){+.+.}-{3:3}
-:
-       lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
-       __mutex_lock_common+0x1bd/0x26e0 kernel/locking/mutex.c:603
-       __mutex_lock kernel/locking/mutex.c:747 [inline]
-       mutex_lock_nested+0x17/0x20 kernel/locking/mutex.c:799
-       ni_lock fs/ntfs3/ntfs_fs.h:1108 [inline]
-       attr_data_get_block+0x301/0x2370 fs/ntfs3/attrib.c:917
-       ntfs_file_mmap+0x48c/0x730 fs/ntfs3/file.c:387
-       call_mmap include/linux/fs.h:2204 [inline]
-       mmap_region+0xfe6/0x1e20 mm/mmap.c:2625
-       do_mmap+0x8d9/0xf30 mm/mmap.c:1412
-       vm_mmap_pgoff+0x19e/0x2b0 mm/util.c:520
-       ksys_mmap_pgoff+0x48c/0x6d0 mm/mmap.c:1458
-       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-       do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
-       entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
--> #0 (&mm->mmap_lock#2){++++}-{3:3}:
-       check_prev_add kernel/locking/lockdep.c:3097 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3216 [inline]
-       validate_chain+0x1898/0x6ae0 kernel/locking/lockdep.c:3831
-       __lock_acquire+0x1292/0x1f60 kernel/locking/lockdep.c:5055
-       lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
-       __might_fault+0xb2/0x110 mm/memory.c:5646
-       _copy_to_user+0x26/0x130 lib/usercopy.c:29
-       copy_to_user include/linux/uaccess.h:169 [inline]
-       fiemap_fill_next_extent+0x22e/0x410 fs/ioctl.c:144
-       ni_fiemap+0xf57/0x1130 fs/ntfs3/frecord.c:1934
-       ntfs_fiemap+0x134/0x180 fs/ntfs3/file.c:1245
-       ioctl_fiemap fs/ioctl.c:219 [inline]
-       do_vfs_ioctl+0x187f/0x29a0 fs/ioctl.c:810
-       __do_sys_ioctl fs/ioctl.c:868 [inline]
-       __se_sys_ioctl+0x83/0x170 fs/ioctl.c:856
-       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-       do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
-       entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-other info that might help us debug this:
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&ni->ni_lock/4);
-                               lock(&mm->mmap_lock#2);
-                               lock(&ni->ni_lock/4);
-  lock(&mm->mmap_lock#2
-);
-
- *** DEADLOCK ***
-
-1 lock held by syz-executor.5/25213:
- #0: ffff88801ebd34a0 (&ni->ni_lock
-/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1108 [inline]
-/4){+.+.}-{3:3}, at: ntfs_fiemap+0x101/0x180 fs/ntfs3/file.c:1243
-
-stack backtrace:
-CPU: 0 PID: 25213 Comm: syz-executor.5 Not tainted 6.1.0-rc7-syzkaller-00101-g01f856ae6d0c #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.0-2.fc37 04/01/2014
 Call Trace:
  <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1b1/0x28e lib/dump_stack.c:106
- check_noncircular+0x2cc/0x390 kernel/locking/lockdep.c:2177
- check_prev_add kernel/locking/lockdep.c:3097 [inline]
- check_prevs_add kernel/locking/lockdep.c:3216 [inline]
- validate_chain+0x1898/0x6ae0 kernel/locking/lockdep.c:3831
- __lock_acquire+0x1292/0x1f60 kernel/locking/lockdep.c:5055
- lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
- __might_fault+0xb2/0x110 mm/memory.c:5646
- _copy_to_user+0x26/0x130 lib/usercopy.c:29
- copy_to_user include/linux/uaccess.h:169 [inline]
- fiemap_fill_next_extent+0x22e/0x410 fs/ioctl.c:144
- ni_fiemap+0xf57/0x1130 fs/ntfs3/frecord.c:1934
- ntfs_fiemap+0x134/0x180 fs/ntfs3/file.c:1245
- ioctl_fiemap fs/ioctl.c:219 [inline]
- do_vfs_ioctl+0x187f/0x29a0 fs/ioctl.c:810
- __do_sys_ioctl fs/ioctl.c:868 [inline]
- __se_sys_ioctl+0x83/0x170 fs/ioctl.c:856
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f692648c0d9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f6927202168 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007f69265abf80 RCX: 00007f692648c0d9
-RDX: 0000000020000240 RSI: 00000000c020660b RDI: 0000000000000004
-RBP: 00007f69264e7ae9 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007ffe980edc3f R14: 00007f6927202300 R15: 0000000000022000
- </TASK>
+dump_stack_lvl (lib/dump_stack.c:107 (discriminator 4))
+print_report (mm/kasan/report.c:285 mm/kasan/report.c:395)
+? __virt_addr_valid (arch/x86/mm/physaddr.c:66)
+? __phys_addr (arch/x86/mm/physaddr.c:32 (discriminator 4))
+? ntfs_trim_fs (fs/ntfs3/bitmap.c:1434)
+? ntfs_trim_fs (fs/ntfs3/bitmap.c:1434)
+kasan_report (mm/kasan/report.c:162 mm/kasan/report.c:497)
+? ntfs_trim_fs (fs/ntfs3/bitmap.c:1434)
+ntfs_trim_fs (fs/ntfs3/bitmap.c:1434)
+ntfs_ioctl (fs/ntfs3/file.c:41 fs/ntfs3/file.c:57)
+? ntfs_fiemap (fs/ntfs3/file.c:51)
+? bpf_lsm_file_ioctl (./include/linux/lsm_hook_defs.h:165)
+? ntfs_fiemap (fs/ntfs3/file.c:51)
+__x64_sys_ioctl (fs/ioctl.c:52 fs/ioctl.c:870 fs/ioctl.c:856 fs/ioctl.c:856)
+do_syscall_64 (arch/x86/entry/common.c:50 arch/x86/entry/common.c:80)
+entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:120)
 
-
+Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/bitmap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
+index e92bbd754365..1930640be31a 100644
+--- a/fs/ntfs3/bitmap.c
++++ b/fs/ntfs3/bitmap.c
+@@ -1424,7 +1424,7 @@ int ntfs_trim_fs(struct ntfs_sb_info *sbi, struct fstrim_range *range)
+ 
+ 	down_read_nested(&wnd->rw_lock, BITMAP_MUTEX_CLUSTERS);
+ 
+-	for (; iw < wnd->nbits; iw++, wbit = 0) {
++	for (; iw < wnd->nwnd; iw++, wbit = 0) {
+ 		CLST lcn_wnd = iw * wbits;
+ 		struct buffer_head *bh;
+ 
+-- 
+2.38.1
+
