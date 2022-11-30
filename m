@@ -1,119 +1,175 @@
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19F223D2
-	for <ntfs3@lists.linux.dev>; Mon, 28 Nov 2022 10:02:35 +0000 (UTC)
-Received: by mail-il1-f200.google.com with SMTP id k3-20020a92c243000000b0030201475a6bso8422781ilo.9
-        for <ntfs3@lists.linux.dev>; Mon, 28 Nov 2022 02:02:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945D728FA
+	for <ntfs3@lists.linux.dev>; Wed, 30 Nov 2022 12:51:58 +0000 (UTC)
+Received: by mail-io1-f72.google.com with SMTP id x5-20020a6bda05000000b006db3112c1deso10997209iob.0
+        for <ntfs3@lists.linux.dev>; Wed, 30 Nov 2022 04:51:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gf4bPdmIKB8ohnUy2fgXAHp/zZUcQ9WjKxhNasqNEb8=;
-        b=sEuoACTf0+y2H70eYfeRiOPv2TOuQohEC1YF3k/vU0RfwUmyi5TaMJoswOyQAfQVcd
-         rmEWLAWtV4YbzW9PkdzCLWdbqoB/UdsJboYn9N4sduqiPjRvm3DSRg4TkABT0lsBiirE
-         q24sSVY6Xx+RLy+hWavy2dEYlLxS2P5rYfZHOmT6PjYqrlFtfq965LrPgQ0f07u+jDcq
-         WP+vl7jNjuespMGw9G08kTbsWwGtpHakLKN9co6Tk9+fprX3+K9L4YymOUFWqRmZ657W
-         qDYM3eu6Fb8enY7GNip0NVeqa4ivtKciETADco+3I0Zkb3zf7jTQ/1uKVoaQG/evJrMR
-         zNeA==
-X-Gm-Message-State: ANoB5pkqx0yQGigab65xP5rbiUglWaGGiYhJ/2oKcGjdLyXT+pSmgMbn
-	JzM30anvR6TvIGkO4fnUTQ1rBtUfOe2aEimFG+Mq56ZfYAUB
-X-Google-Smtp-Source: AA0mqf4VmdC6HsM9vY/52f6VtCrGaS8ujQGpeZI6oJIo+lIjsCsnwVDd/HOkK3FNlInaoFn1ZAUEAFMRtvpiNXHz5WRmd6zcwS/C
+        bh=rpaBHYH7J8llwWmefngwCVsX68GsX6D7qLzzZqpW4EI=;
+        b=U/pnoj9bQwzIdmddqIdzmHWjQ8gM9JDFJxjunVae/gz1pzOFPEf9fC5+Y9kH4Aby9l
+         UxCfxly9xE9tUu8iYx7oW8ymgyUFTJi55CPBneWTMIDKhaHIRzESRLhAAhT44AquW3mU
+         jg6rjk70f3OlXpqoRj+PrCdqkYF2VrvfhgkqONzhIaCKpGSEvrC7Rm0IkYZJE5yiuxqw
+         oWxTfz58HskVbuauTr6eZE6Rr0GS7yHQAB0FwIO9UngBIfAa/er0Kwg2Tpc+HjX71a2o
+         brNTdW3MufM37VK1ysvMsU+B3OdEHNmiHAETqazvZiXsFCkhtVfV3ypIeCPafs3kP1Pd
+         hv1g==
+X-Gm-Message-State: ANoB5pkHodDVUYf9WtATs7IGeRuG4pGuCNQwBVeiUCt3W5yyVspuKAkx
+	NMN9mBM13+GJpPoKEWae+ExyPzJPjwpZMXnhh9EaCtJyh5BP
+X-Google-Smtp-Source: AA0mqf5O5/1WKIkzk8bnWi31vjGDIeYnnbCPA1orrc+QWsVehZlofpypWQ5CesFY2nNBOMFkHfgVQLEP/DAUmbEtEGf712YrF/yf
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a02:9666:0:b0:363:b82d:d51e with SMTP id
- c93-20020a029666000000b00363b82dd51emr23485967jai.15.1669629755030; Mon, 28
- Nov 2022 02:02:35 -0800 (PST)
-Date: Mon, 28 Nov 2022 02:02:35 -0800
+X-Received: by 2002:a02:3847:0:b0:364:e67:8d26 with SMTP id
+ v7-20020a023847000000b003640e678d26mr21188028jae.117.1669812717750; Wed, 30
+ Nov 2022 04:51:57 -0800 (PST)
+Date: Wed, 30 Nov 2022 04:51:57 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000007482d505ee84f8dc@google.com>
-Subject: [syzbot] BUG: unable to handle kernel NULL pointer dereference in dir_search_u
-From: syzbot <syzbot+decdb33311f46369f416@syzkaller.appspotmail.com>
+Message-ID: <000000000000e2102c05eeaf9113@google.com>
+Subject: [syzbot] possible deadlock in ntfs_fiemap
+From: syzbot <syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    6d464646530f Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=17244a4b880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=23eec5c79c22aaf8
-dashboard link: https://syzkaller.appspot.com/bug?extid=decdb33311f46369f416
+HEAD commit:    01f856ae6d0c Merge tag 'net-6.1-rc8-2' of git://git.kernel..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15bc5fc3880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2325e409a9a893e1
+dashboard link: https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
 compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1430138d880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=108c8fed880000
+
+Unfortunately, I don't have any reproducer for this issue yet.
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/f22d29413625/disk-6d464646.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/389f0a5f1a4a/vmlinux-6d464646.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/48ddb02d82da/Image-6d464646.gz.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/3f65b6de0e07/mount_0.gz
+disk image: https://storage.googleapis.com/syzbot-assets/5428d604f56a/disk-01f856ae.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/e953d290d254/vmlinux-01f856ae.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/3f71610a4904/bzImage-01f856ae.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+decdb33311f46369f416@syzkaller.appspotmail.com
+Reported-by: syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com
 
-loop0: detected capacity change from 0 to 8192
-ntfs3: loop0: Different NTFS' sector size (4096) and media sector size (512)
-Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
-Mem abort info:
-  ESR = 0x0000000086000006
-  EC = 0x21: IABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x06: level 2 translation fault
-user pgtable: 4k pages, 48-bit VAs, pgdp=000000010d1aa000
-[0000000000000000] pgd=080000010d1ce003, p4d=080000010d1ce003, pud=080000010d251003, pmd=0000000000000000
-Internal error: Oops: 0000000086000006 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 0 PID: 3109 Comm: syz-executor169 Not tainted 6.1.0-rc6-syzkaller-32662-g6d464646530f #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
-pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : 0x0
-lr : hdr_find_e fs/ntfs3/index.c:708 [inline]
-lr : indx_find+0x3b0/0x954 fs/ntfs3/index.c:1068
-sp : ffff80000ff6b8c0
-x29: ffff80000ff6ba40 x28: 0000000000000000 x27: 0000000000000148
-x26: ffff0000c9257000 x25: ffff0000c93d8278 x24: 0000000000000000
-x23: 0000000000000000 x22: 0000000000000000 x21: 0000000000000003
-x20: 0000000000000138 x19: 0000000000000002 x18: 0000000000000098
-x17: ffff80000c0cd83c x16: ffff80000dbe6158 x15: ffff0000ce01cec0
-x14: 0000000000000010 x13: 0000000000000000 x12: ffff0000ce01cec0
-x11: ff80800008c11e14 x10: 0000000000000000 x9 : ffff800008c11e14
-x8 : ffff0000ce01cec0 x7 : 0000000000000000 x6 : 0000000000000000
-x5 : 2400490033003000 x4 : ffff0000c9257000 x3 : 0000000000000000
-x2 : ffff0000c93d8288 x1 : 0000000000000000 x0 : ffff80000c1f232e
-Call trace:
- 0x0
- dir_search_u+0xa4/0x1e0 fs/ntfs3/dir.c:254
- ntfs_extend_init+0xe4/0x238 fs/ntfs3/fsntfs.c:214
- ntfs_fill_super+0x143c/0x14a4 fs/ntfs3/super.c:1243
- get_tree_bdev+0x1e8/0x2a0 fs/super.c:1324
- ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
- vfs_get_tree+0x40/0x140 fs/super.c:1531
- do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
- path_mount+0x358/0x890 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __arm64_sys_mount+0x2c4/0x3c4 fs/namespace.c:3568
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:637
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:584
-Code: bad PC value
----[ end trace 0000000000000000 ]---
+loop5: detected capacity change from 0 to 4096
+ntfs3: loop5: Different NTFS' sector size (2048) and media sector size (512)
+======================================================
+WARNING: possible circular locking dependency detected
+6.1.0-rc7-syzkaller-00101-g01f856ae6d0c #0 Not tainted
+------------------------------------------------------
+syz-executor.5/25213 is trying to acquire lock:
+ffff88801d328fd8 (&mm->mmap_lock#2){++++}-{3:3}, at: __might_fault+0x8f/0x110 mm/memory.c:5645
+
+but task is already holding lock:
+ffff88801ebd34a0 (&ni->ni_lock/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1108 [inline]
+ffff88801ebd34a0 (&ni->ni_lock/4){+.+.}-{3:3}, at: ntfs_fiemap+0x101/0x180 fs/ntfs3/file.c:1243
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #1 (&ni->ni_lock/4){+.+.}-{3:3}
+:
+       lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
+       __mutex_lock_common+0x1bd/0x26e0 kernel/locking/mutex.c:603
+       __mutex_lock kernel/locking/mutex.c:747 [inline]
+       mutex_lock_nested+0x17/0x20 kernel/locking/mutex.c:799
+       ni_lock fs/ntfs3/ntfs_fs.h:1108 [inline]
+       attr_data_get_block+0x301/0x2370 fs/ntfs3/attrib.c:917
+       ntfs_file_mmap+0x48c/0x730 fs/ntfs3/file.c:387
+       call_mmap include/linux/fs.h:2204 [inline]
+       mmap_region+0xfe6/0x1e20 mm/mmap.c:2625
+       do_mmap+0x8d9/0xf30 mm/mmap.c:1412
+       vm_mmap_pgoff+0x19e/0x2b0 mm/util.c:520
+       ksys_mmap_pgoff+0x48c/0x6d0 mm/mmap.c:1458
+       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+       do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+       entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+-> #0 (&mm->mmap_lock#2){++++}-{3:3}:
+       check_prev_add kernel/locking/lockdep.c:3097 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3216 [inline]
+       validate_chain+0x1898/0x6ae0 kernel/locking/lockdep.c:3831
+       __lock_acquire+0x1292/0x1f60 kernel/locking/lockdep.c:5055
+       lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
+       __might_fault+0xb2/0x110 mm/memory.c:5646
+       _copy_to_user+0x26/0x130 lib/usercopy.c:29
+       copy_to_user include/linux/uaccess.h:169 [inline]
+       fiemap_fill_next_extent+0x22e/0x410 fs/ioctl.c:144
+       ni_fiemap+0xf57/0x1130 fs/ntfs3/frecord.c:1934
+       ntfs_fiemap+0x134/0x180 fs/ntfs3/file.c:1245
+       ioctl_fiemap fs/ioctl.c:219 [inline]
+       do_vfs_ioctl+0x187f/0x29a0 fs/ioctl.c:810
+       __do_sys_ioctl fs/ioctl.c:868 [inline]
+       __se_sys_ioctl+0x83/0x170 fs/ioctl.c:856
+       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+       do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+       entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+other info that might help us debug this:
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&ni->ni_lock/4);
+                               lock(&mm->mmap_lock#2);
+                               lock(&ni->ni_lock/4);
+  lock(&mm->mmap_lock#2
+);
+
+ *** DEADLOCK ***
+
+1 lock held by syz-executor.5/25213:
+ #0: ffff88801ebd34a0 (&ni->ni_lock
+/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1108 [inline]
+/4){+.+.}-{3:3}, at: ntfs_fiemap+0x101/0x180 fs/ntfs3/file.c:1243
+
+stack backtrace:
+CPU: 0 PID: 25213 Comm: syz-executor.5 Not tainted 6.1.0-rc7-syzkaller-00101-g01f856ae6d0c #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x1b1/0x28e lib/dump_stack.c:106
+ check_noncircular+0x2cc/0x390 kernel/locking/lockdep.c:2177
+ check_prev_add kernel/locking/lockdep.c:3097 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3216 [inline]
+ validate_chain+0x1898/0x6ae0 kernel/locking/lockdep.c:3831
+ __lock_acquire+0x1292/0x1f60 kernel/locking/lockdep.c:5055
+ lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
+ __might_fault+0xb2/0x110 mm/memory.c:5646
+ _copy_to_user+0x26/0x130 lib/usercopy.c:29
+ copy_to_user include/linux/uaccess.h:169 [inline]
+ fiemap_fill_next_extent+0x22e/0x410 fs/ioctl.c:144
+ ni_fiemap+0xf57/0x1130 fs/ntfs3/frecord.c:1934
+ ntfs_fiemap+0x134/0x180 fs/ntfs3/file.c:1245
+ ioctl_fiemap fs/ioctl.c:219 [inline]
+ do_vfs_ioctl+0x187f/0x29a0 fs/ioctl.c:810
+ __do_sys_ioctl fs/ioctl.c:868 [inline]
+ __se_sys_ioctl+0x83/0x170 fs/ioctl.c:856
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f692648c0d9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f6927202168 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f69265abf80 RCX: 00007f692648c0d9
+RDX: 0000000020000240 RSI: 00000000c020660b RDI: 0000000000000004
+RBP: 00007f69264e7ae9 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffe980edc3f R14: 00007f6927202300 R15: 0000000000022000
+ </TASK>
 
 
 ---
@@ -123,5 +179,3 @@ syzbot engineers can be reached at syzkaller@googlegroups.com.
 
 syzbot will keep track of this issue. See:
 https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
