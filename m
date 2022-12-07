@@ -1,88 +1,138 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6F9138C
-	for <ntfs3@lists.linux.dev>; Wed,  7 Dec 2022 09:46:35 +0000 (UTC)
-Received: from kwepemm600020.china.huawei.com (unknown [172.30.72.54])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NRskx00gYzqSdy;
-	Wed,  7 Dec 2022 17:42:16 +0800 (CST)
-Received: from localhost.localdomain (10.175.112.125) by
- kwepemm600020.china.huawei.com (7.193.23.147) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 7 Dec 2022 17:46:26 +0800
-From: Peng Zhang <zhangpeng362@huawei.com>
-To: <almaz.alexandrovich@paragon-software.com>, <kari.argillander@gmail.com>,
-	<paskripkin@gmail.com>, <jack@suse.cz>, <yi.zhang@huawei.com>, <hch@lst.de>,
-	<akpm@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<sunnanyong@huawei.com>, <wangkefeng.wang@huawei.com>, ZhangPeng
-	<zhangpeng362@huawei.com>,
-	<syzbot+d882d57193079e379309@syzkaller.appspotmail.com>
-Subject: [PATCH] fs/ntfs3: Fix OOB read in indx_insert_into_buffer
-Date: Wed, 7 Dec 2022 09:46:10 +0000
-Message-ID: <20221207094610.998485-1-zhangpeng362@huawei.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E9A366
+	for <ntfs3@lists.linux.dev>; Wed,  7 Dec 2022 12:38:39 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id p3-20020a6bfa03000000b006df8582e11cso13639949ioh.22
+        for <ntfs3@lists.linux.dev>; Wed, 07 Dec 2022 04:38:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=23kvg108WdUEBi1jkJtOMn1GxLSK0QOeDhClLWQhrDc=;
+        b=Aof8sInpZI9zCWO4ep54Ccdlkd/lYfUGq1DXpwyp9U3ZgTnuNSdvRQbe+XqCs/Lh5f
+         a0wu2VlvJ09YxlNgPHCy6iA12yCTVaovMtF+EGIWFMVCOT6xkRsPPj/I3E/lMiUaN64P
+         5HQUcW+NmNjBfvla8qg2Y9Xa33aKeS3cD41gbTcaEZ3Zs3C9maDh+4HJIIMzkP6Igas7
+         bZ9u4IKKW6A6uatA7YtC+yMDmZF+lSIOlZMKmluBQPJDEIq1SA1Q2gnj+6LUBZdpdKr+
+         DsRMLjpHMraEbTrvJ+LYa1MIBy5RMKte6WgiV7ueToWV5IlDy3lrBysKqgB+OiTyXe1i
+         5YSw==
+X-Gm-Message-State: ANoB5pndAd42THM/aX/zyh00vXJ0i9NERBBvPqyyoeYcQBnQcGPUcaqS
+	CVNzz9+DC+LNWFYzeHafZNzLvlvfFdrluNkKURiP3ZcxSuhw
+X-Google-Smtp-Source: AA0mqf41twhg48KpsMAE0NQ4QHItC5y/QQlwIycOwvpXenOsmWbuSWofdvvtXuWAuXDJOnwyI3X032Yybwe6ZHXo5+ktpXptJYyS
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemm600020.china.huawei.com (7.193.23.147)
-X-CFilter-Loop: Reflected
+X-Received: by 2002:a92:8e08:0:b0:302:c028:895b with SMTP id
+ c8-20020a928e08000000b00302c028895bmr32291956ild.154.1670416718765; Wed, 07
+ Dec 2022 04:38:38 -0800 (PST)
+Date: Wed, 07 Dec 2022 04:38:38 -0800
+In-Reply-To: <000000000000b64f3d05ed6b41fe@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000026278605ef3c33a8@google.com>
+Subject: Re: [syzbot] BUG: spinlock bad magic in writeback_single_inode
+From: syzbot <syzbot+7b2e428bac8cb2ca2f49@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: ZhangPeng <zhangpeng362@huawei.com>
+syzbot has found a reproducer for the following issue on:
 
-Syzbot reported a OOB read bug:
+HEAD commit:    a5541c0811a0 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=13612929880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cbd4e584773e9397
+dashboard link: https://syzkaller.appspot.com/bug?extid=7b2e428bac8cb2ca2f49
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=152b4c7d880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10609433880000
 
-BUG: KASAN: slab-out-of-bounds in indx_insert_into_buffer+0xaa3/0x13b0
-fs/ntfs3/index.c:1755
-Read of size 17168 at addr ffff8880255e06c0 by task syz-executor308/3630
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/4b7702208fb9/disk-a5541c08.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9ec0153ec051/vmlinux-a5541c08.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/6f8725ad290a/Image-a5541c08.gz.xz
+mounted in repro #1: https://storage.googleapis.com/syzbot-assets/5b5a3739150f/mount_0.gz
+mounted in repro #2: https://storage.googleapis.com/syzbot-assets/9c0098779f8d/mount_13.gz
 
-Call Trace:
- <TASK>
- memmove+0x25/0x60 mm/kasan/shadow.c:54
- indx_insert_into_buffer+0xaa3/0x13b0 fs/ntfs3/index.c:1755
- indx_insert_entry+0x446/0x6b0 fs/ntfs3/index.c:1863
- ntfs_create_inode+0x1d3f/0x35c0 fs/ntfs3/inode.c:1548
- ntfs_create+0x3e/0x60 fs/ntfs3/namei.c:100
- lookup_open fs/namei.c:3413 [inline]
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7b2e428bac8cb2ca2f49@syzkaller.appspotmail.com
 
-If the member struct INDEX_BUFFER *index of struct indx_node is
-incorrect, that is, the value of __le32 used is greater than the value
-of __le32 total in struct INDEX_HDR. Therefore, OOB read occurs when
-memmove is called in indx_insert_into_buffer().
-Fix this by adding a check in hdr_find_e().
-
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Reported-by: syzbot+d882d57193079e379309@syzkaller.appspotmail.com
-Signed-off-by: ZhangPeng <zhangpeng362@huawei.com>
----
- fs/ntfs3/index.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index 440328147e7e..28af0a5afbf2 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -679,9 +679,13 @@ static struct NTFS_DE *hdr_find_e(const struct ntfs_index *indx,
- 	u32 e_size, e_key_len;
- 	u32 end = le32_to_cpu(hdr->used);
- 	u32 off = le32_to_cpu(hdr->de_off);
-+	u32 total = le32_to_cpu(hdr->total);
- 	u16 offs[128];
- 
- fill_table:
-+	if (end > total)
-+		return NULL;
-+
- 	if (off + sizeof(struct NTFS_DE) > end)
- 		return NULL;
- 
--- 
-2.25.1
+loop3: detected capacity change from 0 to 4096
+ntfs3: loop3: Different NTFS' sector size (1024) and media sector size (512)
+BUG: spinlock bad magic on CPU#1, syz-executor406/12278
+Unable to handle kernel NULL pointer dereference at virtual address 0000000000000470
+Mem abort info:
+  ESR = 0x0000000096000006
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x06: level 2 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000006
+  CM = 0, WnR = 0
+user pgtable: 4k pages, 48-bit VAs, pgdp=0000000111fd4000
+[0000000000000470] pgd=0800000112c3a003, p4d=0800000112c3a003, pud=0800000111fb7003, pmd=0000000000000000
+Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 1 PID: 12278 Comm: syz-executor406 Not tainted 6.1.0-rc8-syzkaller-33330-ga5541c0811a0 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
+pstate: a0400005 (NzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : task_pid_nr include/linux/sched.h:1568 [inline]
+pc : spin_dump kernel/locking/spinlock_debug.c:63 [inline]
+pc : spin_bug+0x88/0xec kernel/locking/spinlock_debug.c:77
+lr : spin_dump kernel/locking/spinlock_debug.c:60 [inline]
+lr : spin_bug+0x68/0xec kernel/locking/spinlock_debug.c:77
+sp : ffff800016053940
+x29: ffff800016053940 x28: 0000000000000000 x27: 0000000000000a00
+x26: 0000000000000010 x25: 0000000000000000 x24: 0000000000000001
+x23: 0000000000000001 x22: ffff800016053a60 x21: ffffffffffffff00
+x20: ffff80000cc04981 x19: ffff0000cff0ea6f x18: 0000000000000387
+x17: ffff80000c0cd83c x16: 0000000000000002 x15: 0000000000000000
+x14: 0000000000000000 x13: 205d383732323154 x12: 5b5d303535323234
+x11: ff808000081c4d64 x10: 0000000000000000 x9 : 35577adde7ee3200
+x8 : ffffffffffffff01 x7 : 545b5d3035353232 x6 : ffff80000c091ebc
+x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+x2 : 00000000ad4ead00 x1 : 0000000000000001 x0 : 0000000000000037
+Call trace:
+ spin_bug+0x88/0xec kernel/locking/spinlock_debug.c:77
+ debug_spin_lock_before kernel/locking/spinlock_debug.c:85 [inline]
+ do_raw_spin_lock+0xb0/0x110 kernel/locking/spinlock_debug.c:114
+ __raw_spin_lock include/linux/spinlock_api_smp.h:134 [inline]
+ _raw_spin_lock+0x5c/0x6c kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:350 [inline]
+ writeback_single_inode+0x44/0x3dc fs/fs-writeback.c:1676
+ write_inode_now+0xb0/0xdc fs/fs-writeback.c:2744
+ iput_final fs/inode.c:1734 [inline]
+ iput+0x1e4/0x324 fs/inode.c:1773
+ ntfs_fill_super+0x1254/0x14a4 fs/ntfs3/super.c:1190
+ get_tree_bdev+0x1e8/0x2a0 fs/super.c:1324
+ ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1358
+ vfs_get_tree+0x40/0x140 fs/super.c:1531
+ do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
+ path_mount+0x358/0x890 fs/namespace.c:3370
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __arm64_sys_mount+0x2c4/0x3c4 fs/namespace.c:3568
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+ el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x48/0x140 arch/arm64/kernel/syscall.c:197
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:637
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:584
+Code: 900259c3 12800004 9120cc63 14000003 (b94572a4) 
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	900259c3 	adrp	x3, 0x4b38000
+   4:	12800004 	mov	w4, #0xffffffff            	// #-1
+   8:	9120cc63 	add	x3, x3, #0x833
+   c:	14000003 	b	0x18
+* 10:	b94572a4 	ldr	w4, [x21, #1392] <-- trapping instruction
 
