@@ -1,236 +1,103 @@
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB3AA3F
-	for <ntfs3@lists.linux.dev>; Fri,  9 Dec 2022 08:57:45 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id i14-20020a056e020d8e00b003034b93bd07so3409026ilj.14
-        for <ntfs3@lists.linux.dev>; Fri, 09 Dec 2022 00:57:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8N5uA/S0DpG25/Y8QsbGP2w+sYQpSLnGRWahlvUerdw=;
-        b=TCcWiDiJegWYa9fBoQTbjnpZrrkXzddDWcAoOFGjBl0q4AHnm/dq/ROhDHyJ3hoAvH
-         kz5Z0vMW3KAibSXDy0k6UWRTe8vwf8EXNabPpz760/ceb3Nwt3ixioWlouI1dvdHi30X
-         FBlbiEu0/C3jOjaoDSxDxtbeVLvFCmOAgiQN7VK4+0/2L18OMttzGfewAfiFaGO40Xee
-         629dLnUeNnFYty3nxh3DIRk1xso07setTeM3+ln6pTTP+x3aEhhuUkDPjJF2KcEDMVZ1
-         nFXIDr/Zlb9LkCLyIDKojkkPk25rB/t3MSSnHCYPJWm1FqL9/K/QPI7AylFJPzCACn/K
-         3Fjw==
-X-Gm-Message-State: ANoB5pnUnO7PVeEV7qDkv1YVMNjrpgiNtrcXWrTYy9MDXzqnkpo2jiIL
-	7bceyyD8ItaHjTHZvlBFPP1Ar8AqfMfIoBpP6U0lfGpYrQqc
-X-Google-Smtp-Source: AA0mqf5cNz/uScMtPhZKIfmabh7C5f/fPWhTo2csXvp0tF2fdgji3oP+/VN+auo/xJE0g4PYFT+IRNFsGtwagRzu/iW1YqiVzomt
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D721854
+	for <ntfs3@lists.linux.dev>; Mon, 12 Dec 2022 01:34:19 +0000 (UTC)
+Received: from kwepemi500024.china.huawei.com (unknown [172.30.72.57])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NVkfJ2Bq8zRpx0;
+	Mon, 12 Dec 2022 09:33:12 +0800 (CST)
+Received: from huawei.com (10.175.103.91) by kwepemi500024.china.huawei.com
+ (7.221.188.100) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 12 Dec
+ 2022 09:34:09 +0800
+From: Zeng Heng <zengheng4@huawei.com>
+To: <almaz.alexandrovich@paragon-software.com>
+CC: <linux-kernel@vger.kernel.org>, <ntfs3@lists.linux.dev>,
+	<xiexiuqi@huawei.com>, <liwei391@huawei.com>
+Subject: [PATCH] fs/ntfs3: Fix slab-out-of-bounds read in hdr_delete_de()
+Date: Mon, 12 Dec 2022 09:31:34 +0800
+Message-ID: <20221212013134.2133231-1-zengheng4@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a02:c80c:0:b0:38a:159d:d7de with SMTP id
- p12-20020a02c80c000000b0038a159dd7demr14837492jao.290.1670576264120; Fri, 09
- Dec 2022 00:57:44 -0800 (PST)
-Date: Fri, 09 Dec 2022 00:57:44 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000cb121205ef615844@google.com>
-Subject: [syzbot] possible deadlock in ntfs_fallocate
-From: syzbot <syzbot+adacb2b0c896bc427962@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemi500024.china.huawei.com (7.221.188.100)
+X-CFilter-Loop: Reflected
 
-Hello,
+Here is a BUG report from syzbot:
 
-syzbot found the following issue on:
+BUG: KASAN: slab-out-of-bounds in hdr_delete_de+0xe0/0x150 fs/ntfs3/index.c:806
+Read of size 16842960 at addr ffff888079cc0600 by task syz-executor934/3631
 
-HEAD commit:    f3e8416619ce Merge tag 'soc-fixes-6.1-5' of git://git.kern..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=10ab680b880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d58e7fe7f9cf5e24
-dashboard link: https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/628abc27cbe7/disk-f3e84166.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/2f19ea836174/vmlinux-f3e84166.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/f2e1347e85a5/bzImage-f3e84166.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+adacb2b0c896bc427962@syzkaller.appspotmail.com
-
-======================================================
-WARNING: possible circular locking dependency detected
-6.1.0-rc8-syzkaller-00035-gf3e8416619ce #0 Not tainted
-------------------------------------------------------
-syz-executor.2/8526 is trying to acquire lock:
-ffff88803100bc00 (&ni->ni_lock/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1108 [inline]
-ffff88803100bc00 (&ni->ni_lock/4){+.+.}-{3:3}, at: ntfs_fallocate+0x83f/0xfb0 fs/ntfs3/file.c:666
-
-but task is already holding lock:
-ffff88803100c040 (mapping.invalidate_lock#4){++++}-{3:3}, at: filemap_invalidate_lock include/linux/fs.h:801 [inline]
-ffff88803100c040 (mapping.invalidate_lock#4){++++}-{3:3}, at: ntfs_fallocate+0x38a/0xfb0 fs/ntfs3/file.c:583
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #3 (mapping.invalidate_lock#4){++++}-{3:3}:
-       lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
-       down_read+0x39/0x50 kernel/locking/rwsem.c:1509
-       filemap_invalidate_lock_shared include/linux/fs.h:811 [inline]
-       filemap_fault+0x2fb/0x1060 mm/filemap.c:3127
-       __do_fault+0x136/0x4f0 mm/memory.c:4202
-       do_shared_fault mm/memory.c:4608 [inline]
-       do_fault mm/memory.c:4686 [inline]
-       handle_pte_fault mm/memory.c:4954 [inline]
-       __handle_mm_fault mm/memory.c:5096 [inline]
-       handle_mm_fault+0x1bca/0x3630 mm/memory.c:5217
-       faultin_page mm/gup.c:1009 [inline]
-       __get_user_pages+0x4db/0x1200 mm/gup.c:1230
-       __get_user_pages_locked mm/gup.c:1434 [inline]
-       get_user_pages_unlocked+0x568/0x890 mm/gup.c:2343
-       __gup_longterm_unlocked+0x48/0x140 mm/gup.c:2954
-       internal_get_user_pages_fast+0xcf4/0xee0 mm/gup.c:3044
-       __iov_iter_get_pages_alloc+0x3b4/0xa90 lib/iov_iter.c:1460
-       iov_iter_get_pages2+0xcb/0x120 lib/iov_iter.c:1503
-       dio_refill_pages+0x8d/0x580 fs/direct-io.c:172
-       dio_get_page fs/direct-io.c:215 [inline]
-       do_direct_IO fs/direct-io.c:932 [inline]
-       __blockdev_direct_IO+0x1230/0x3c90 fs/direct-io.c:1266
-       blockdev_direct_IO include/linux/fs.h:3222 [inline]
-       ntfs_direct_IO+0x1a6/0x360 fs/ntfs3/inode.c:769
-       generic_file_read_iter+0x330/0x540 mm/filemap.c:2798
-       do_iter_read+0x6e3/0xc10 fs/read_write.c:796
-       vfs_readv fs/read_write.c:916 [inline]
-       do_preadv+0x1f4/0x330 fs/read_write.c:1008
-       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-       do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
-       entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
--> #2 (&mm->mmap_lock#2){++++}-{3:3}:
-       lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
-       __might_fault+0xb2/0x110 mm/memory.c:5645
-       _copy_to_user+0x26/0x130 lib/usercopy.c:29
-       copy_to_user include/linux/uaccess.h:169 [inline]
-       fiemap_fill_next_extent+0x22e/0x410 fs/ioctl.c:144
-       ni_fiemap+0x950/0x1130 fs/ntfs3/frecord.c:2030
-       ntfs_fiemap+0x134/0x180 fs/ntfs3/file.c:1245
-       ioctl_fiemap fs/ioctl.c:219 [inline]
-       do_vfs_ioctl+0x187f/0x29a0 fs/ioctl.c:810
-       __do_sys_ioctl fs/ioctl.c:868 [inline]
-       __se_sys_ioctl+0x83/0x170 fs/ioctl.c:856
-       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-       do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
-       entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
--> #1 (&ni->file.run_lock#3){++++}-{3:3}:
-       lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
-       down_write+0x9c/0x270 kernel/locking/rwsem.c:1562
-       ntfs_truncate fs/ntfs3/file.c:493 [inline]
-       ntfs3_setattr+0x504/0xb00 fs/ntfs3/file.c:792
-       notify_change+0xe38/0x10f0 fs/attr.c:420
-       do_truncate+0x1fb/0x2e0 fs/open.c:65
-       handle_truncate fs/namei.c:3216 [inline]
-       do_open fs/namei.c:3561 [inline]
-       path_openat+0x2770/0x2df0 fs/namei.c:3714
-       do_filp_open+0x264/0x4f0 fs/namei.c:3741
-       do_sys_openat2+0x124/0x4e0 fs/open.c:1310
-       do_sys_open fs/open.c:1326 [inline]
-       __do_sys_creat fs/open.c:1402 [inline]
-       __se_sys_creat fs/open.c:1396 [inline]
-       __x64_sys_creat+0x11f/0x160 fs/open.c:1396
-       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-       do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
-       entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
--> #0 (&ni->ni_lock/4){+.+.}-{3:3}:
-       check_prev_add kernel/locking/lockdep.c:3097 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3216 [inline]
-       validate_chain+0x1898/0x6ae0 kernel/locking/lockdep.c:3831
-       __lock_acquire+0x1292/0x1f60 kernel/locking/lockdep.c:5055
-       lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
-       __mutex_lock_common+0x1bd/0x26e0 kernel/locking/mutex.c:603
-       __mutex_lock kernel/locking/mutex.c:747 [inline]
-       mutex_lock_nested+0x17/0x20 kernel/locking/mutex.c:799
-       ni_lock fs/ntfs3/ntfs_fs.h:1108 [inline]
-       ntfs_fallocate+0x83f/0xfb0 fs/ntfs3/file.c:666
-       vfs_fallocate+0x515/0x670 fs/open.c:323
-       ksys_fallocate fs/open.c:346 [inline]
-       __do_sys_fallocate fs/open.c:354 [inline]
-       __se_sys_fallocate fs/open.c:352 [inline]
-       __x64_sys_fallocate+0xb9/0x100 fs/open.c:352
-       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-       do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
-       entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-other info that might help us debug this:
-
-Chain exists of:
-  &ni->ni_lock/4 --> &mm->mmap_lock#2 --> mapping.invalidate_lock#4
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(mapping.invalidate_lock#4);
-                               lock(&mm->mmap_lock#2);
-                               lock(mapping.invalidate_lock#4);
-  lock(&ni->ni_lock/4);
-
- *** DEADLOCK ***
-
-3 locks held by syz-executor.2/8526:
- #0: ffff888022762460 (sb_writers#13){.+.+}-{0:0}, at: file_start_write include/linux/fs.h:2944 [inline]
- #0: ffff888022762460 (sb_writers#13){.+.+}-{0:0}, at: vfs_fallocate+0x489/0x670 fs/open.c:322
- #1: ffff88803100bea0 (&sb->s_type->i_mutex_key#21){+.+.}-{3:3}, at: inode_lock include/linux/fs.h:756 [inline]
- #1: ffff88803100bea0 (&sb->s_type->i_mutex_key#21){+.+.}-{3:3}, at: ntfs_fallocate+0x2d4/0xfb0 fs/ntfs3/file.c:569
- #2: ffff88803100c040 (mapping.invalidate_lock#4){++++}-{3:3}, at: filemap_invalidate_lock include/linux/fs.h:801 [inline]
- #2: ffff88803100c040 (mapping.invalidate_lock#4){++++}-{3:3}, at: ntfs_fallocate+0x38a/0xfb0 fs/ntfs3/file.c:583
-
-stack backtrace:
-CPU: 1 PID: 8526 Comm: syz-executor.2 Not tainted 6.1.0-rc8-syzkaller-00035-gf3e8416619ce #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
 Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1b1/0x28e lib/dump_stack.c:106
- check_noncircular+0x2cc/0x390 kernel/locking/lockdep.c:2177
- check_prev_add kernel/locking/lockdep.c:3097 [inline]
- check_prevs_add kernel/locking/lockdep.c:3216 [inline]
- validate_chain+0x1898/0x6ae0 kernel/locking/lockdep.c:3831
- __lock_acquire+0x1292/0x1f60 kernel/locking/lockdep.c:5055
- lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
- __mutex_lock_common+0x1bd/0x26e0 kernel/locking/mutex.c:603
- __mutex_lock kernel/locking/mutex.c:747 [inline]
- mutex_lock_nested+0x17/0x20 kernel/locking/mutex.c:799
- ni_lock fs/ntfs3/ntfs_fs.h:1108 [inline]
- ntfs_fallocate+0x83f/0xfb0 fs/ntfs3/file.c:666
- vfs_fallocate+0x515/0x670 fs/open.c:323
- ksys_fallocate fs/open.c:346 [inline]
- __do_sys_fallocate fs/open.c:354 [inline]
- __se_sys_fallocate fs/open.c:352 [inline]
- __x64_sys_fallocate+0xb9/0x100 fs/open.c:352
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f3b4288c0d9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f3b435fd168 EFLAGS: 00000246 ORIG_RAX: 000000000000011d
-RAX: ffffffffffffffda RBX: 00007f3b429ac050 RCX: 00007f3b4288c0d9
-RDX: 0000000000000000 RSI: 0000000000000020 RDI: 0000000000000004
-RBP: 00007f3b428e7ae9 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000020000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007ffe40f08bef R14: 00007f3b435fd300 R15: 0000000000022000
- </TASK>
+ memmove+0x25/0x60 mm/kasan/shadow.c:54
+ hdr_delete_de+0xe0/0x150 fs/ntfs3/index.c:806
+ indx_delete_entry+0x74f/0x3670 fs/ntfs3/index.c:2193
+ ni_remove_name+0x27a/0x980 fs/ntfs3/frecord.c:2910
+ ntfs_unlink_inode+0x3d4/0x720 fs/ntfs3/inode.c:1712
+ ntfs_rename+0x41a/0xcb0 fs/ntfs3/namei.c:276
 
+Before using the meta-data in struct INDEX_HDR, we need to
+check index header valid or not. Otherwise, the corruptedi
+(or malicious) fs image can cause out-of-bounds access which
+could make kernel panic.
 
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Reported-by: syzbot+9c2811fd56591639ff5f@syzkaller.appspotmail.com
+Signed-off-by: Zeng Heng <zengheng4@huawei.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/fslog.c   | 2 +-
+ fs/ntfs3/index.c   | 4 ++++
+ fs/ntfs3/ntfs_fs.h | 1 +
+ 3 files changed, 6 insertions(+), 1 deletion(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index 0d611a6c5511..0de2bbb42721 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -2597,7 +2597,7 @@ static int read_next_log_rec(struct ntfs_log *log, struct lcb *lcb, u64 *lsn)
+ 	return find_log_rec(log, *lsn, lcb);
+ }
+ 
+-static inline bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
++bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
+ {
+ 	__le16 mask;
+ 	u32 min_de, de_off, used, total;
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 440328147e7e..6f5d8dd6659d 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -798,6 +798,10 @@ static inline struct NTFS_DE *hdr_delete_de(struct INDEX_HDR *hdr,
+ 	u32 off = PtrOffset(hdr, re);
+ 	int bytes = used - (off + esize);
+ 
++	/* check INDEX_HDR valid before using INDEX_HDR */
++	if (!check_index_header(hdr, le32_to_cpu(hdr->total)))
++		return NULL;
++
+ 	if (off >= used || esize < sizeof(struct NTFS_DE) ||
+ 	    bytes < sizeof(struct NTFS_DE))
+ 		return NULL;
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 2c791222c4e2..c5c022fef4e0 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -574,6 +574,7 @@ int ni_rename(struct ntfs_inode *dir_ni, struct ntfs_inode *new_dir_ni,
+ bool ni_is_dirty(struct inode *inode);
+ 
+ /* Globals from fslog.c */
++bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes);
+ int log_replay(struct ntfs_inode *ni, bool *initialized);
+ 
+ /* Globals from fsntfs.c */
+-- 
+2.25.1
+
