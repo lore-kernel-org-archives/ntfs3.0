@@ -1,178 +1,110 @@
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21152CAB
-	for <ntfs3@lists.linux.dev>; Sun, 18 Dec 2022 20:00:51 +0000 (UTC)
-Received: by mail-io1-f72.google.com with SMTP id n8-20020a6b4108000000b006de520dc5c9so3179414ioa.19
-        for <ntfs3@lists.linux.dev>; Sun, 18 Dec 2022 12:00:51 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B991103
+	for <ntfs3@lists.linux.dev>; Mon, 19 Dec 2022 10:37:50 +0000 (UTC)
+Received: by mail-il1-f198.google.com with SMTP id h9-20020a92c269000000b00303494c4f3eso6328722ild.15
+        for <ntfs3@lists.linux.dev>; Mon, 19 Dec 2022 02:37:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=xeus3T5epXv9Mt6EHJymunfHd7TSRPvJPIgdBM+soXc=;
-        b=pGdOwRBzrf9Wz+Z3jfWz90hFbXUGAD/W0RA++KCW7m2UnP4i3IlMu3yNwmgUN6l6RW
-         9nIExQDd/HLcCRGIXY0G2CyRCOUr4G/e0YKuiFPNjXXZBauXgdtLUnvFcIMfeXxc8Vmj
-         4bl7yr1lJO/DPnADGliDXw1Gm8eEUMlEiz8wjHEPdjXHT/szrVr4Jo49sFkYt7AoyT2C
-         F+RyAfh4xMP1JCtsIhUUUPxlCV+6vV2A2uie26+OgrkZawsio2P64TUKcrfBMLBqk+r4
-         qAJWvP0DC7AgC29eua9n7//fK5hJAiTHj4qpxGTPKGzsBx/mdIgFai6RJBd8QDlEZUb8
-         VblA==
-X-Gm-Message-State: ANoB5pkDoq4vOzHtpGgik8kJgoKOuADD3YLNLHWYc2YhkPuW5kSZ7JuV
-	b6IxgazvqUDZC81VcdI1kbSGAQLz5Nknt2kgEKg3tpJ/4HHz
-X-Google-Smtp-Source: AA0mqf423iFsZL6kEJMKqSWufteXl5gZZEFwChmqwo2UExHkBz4kJhcSDAZt2NE7hQBKLA95LAPaOxI1UUyulML+18DKWV5cFsk0
+        bh=G7IYf1zi9tm0bYK2kwBxy3ppebnwUTizEeFdotIhA24=;
+        b=xLnGOSp5cXomtGqtuu1tB83j/31rDMuRNFoD6nKrb9qfFNYFt4+9VAv023w8LPfMHu
+         OPKAH8rVa7mGrSRIbUh6CWrEp/dpaRX/q0U0Ky56J8cH6mAd4pQP/NzavjSdKqXfqZJa
+         2fJLtKwmiEFWPnIYQCtG3SpHH3+8sYLUEC1zWMtBHu6PL1yz1E6ZATspDzSiPboxZnFh
+         MMx+WDsn48zHGa+phJJQqslek9ylxsBMhmu7iroQS2b6T8DjVn8skzuoEwikywo8BJ+m
+         PxpgLC6Z0qlR+UCzcpzaKWFY3TtKV7pOXqVMQ0gLIjoy+vqIG8yq9ZYx0qImORgDD5LD
+         NwxQ==
+X-Gm-Message-State: ANoB5pktPqOGdf3RwDN9EJEA22sxeGPvCBfCc359UuD7HqTjFRWgUQTm
+	EgRvK2SSfOvxYJZh9TjAEPM6Kjo7cAZPBDr4edngUTQpMvzj
+X-Google-Smtp-Source: AA0mqf79rNmBtbvfBW42V1ex82HBx/H24BMlFL1IAvEW1/59sVEIgOrtaD2HZHhwLajzWGOeke1Ovz1jEsFGioSCxX4XAv0RBUbN
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:1446:b0:38a:89cc:20bc with SMTP id
- l6-20020a056638144600b0038a89cc20bcmr3519935jad.249.1671393650927; Sun, 18
- Dec 2022 12:00:50 -0800 (PST)
-Date: Sun, 18 Dec 2022 12:00:50 -0800
+X-Received: by 2002:a5d:8046:0:b0:6de:754e:4427 with SMTP id
+ b6-20020a5d8046000000b006de754e4427mr38342932ior.17.1671446269629; Mon, 19
+ Dec 2022 02:37:49 -0800 (PST)
+Date: Mon, 19 Dec 2022 02:37:49 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000d7eced05f01fa8d0@google.com>
-Subject: [syzbot] KASAN: slab-out-of-bounds Read in mi_find_attr
-From: syzbot <syzbot+8ebb469b64740648f1c3@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Message-ID: <000000000000299cf505f02be9ef@google.com>
+Subject: [syzbot] [vfs?] [ntfs3?] [tmpfs?] WARNING in lookup_slow
+From: syzbot <syzbot+7923cf13ed6110fc744d@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, almaz.alexandrovich@paragon-software.com, 
+	hughd@google.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    e2ca6ba6ba01 Merge tag 'mm-stable-2022-12-13' of git://git..
+HEAD commit:    84e57d292203 Merge tag 'exfat-for-6.2-rc1' of git://git.ke..
 git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=166d20b3880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=a6133b41a9a0f500
-dashboard link: https://syzkaller.appspot.com/bug?extid=8ebb469b64740648f1c3
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16fb2ad0480000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=164513e0480000
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1400b79d880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=35448eec2d733f7a
+dashboard link: https://syzkaller.appspot.com/bug?extid=7923cf13ed6110fc744d
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1526a8f7880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13005d9f880000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/be256841c209/disk-e2ca6ba6.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/76c90a4cdade/vmlinux-e2ca6ba6.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/a44766da5515/bzImage-e2ca6ba6.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/cee764636128/mount_0.gz
+disk image: https://storage.googleapis.com/syzbot-assets/e387d46e5fde/disk-84e57d29.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/edcdbee22654/vmlinux-84e57d29.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f906e9373d31/bzImage-84e57d29.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/7e801c3092a5/mount_0.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+8ebb469b64740648f1c3@syzkaller.appspotmail.com
+Reported-by: syzbot+7923cf13ed6110fc744d@syzkaller.appspotmail.com
 
-loop0: detected capacity change from 0 to 4096
-ntfs3: loop0: Different NTFS' sector size (2048) and media sector size (512)
-==================================================================
-BUG: KASAN: slab-out-of-bounds in memcmp+0x1a4/0x1c0 lib/string.c:776
-Read of size 1 at addr ffff888017c71e20 by task syz-executor165/5298
-
-CPU: 1 PID: 5298 Comm: syz-executor165 Not tainted 6.1.0-syzkaller-09941-ge2ca6ba6ba01 #0
+------------[ cut here ]------------
+DEBUG_RWSEMS_WARN_ON(!is_rwsem_reader_owned(sem)): count = 0x0, magic = 0xffff8880725a36d0, owner = 0x0, curr 0xffff888028060000, list empty
+WARNING: CPU: 1 PID: 5283 at kernel/locking/rwsem.c:1336 __up_read+0x5ff/0x690 kernel/locking/rwsem.c:1336
+Modules linked in:
+CPU: 0 PID: 5283 Comm: syz-executor217 Not tainted 6.1.0-syzkaller-11674-g84e57d292203 #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
+RIP: 0010:__up_read+0x5ff/0x690 kernel/locking/rwsem.c:1336
+Code: 44 d8 48 c7 c7 a0 ab ed 8a 48 c7 c6 40 ac ed 8a 48 8b 54 24 20 4c 89 f1 4d 89 f8 4d 89 e9 31 c0 53 e8 85 61 e8 ff 48 83 c4 08 <0f> 0b 48 bb 00 00 00 00 00 fc ff df 4c 8b 6c 24 18 e9 53 fb ff ff
+RSP: 0018:ffffc90003fffa60 EFLAGS: 00010296
+RAX: 9113eee468a99100 RBX: ffffffff8aedac80 RCX: ffff888028060000
+RDX: 0000000000000000 RSI: 0000000080000000 RDI: 0000000000000000
+RBP: ffffc90003fffb38 R08: ffffffff816f274d R09: fffff520007fff05
+R10: fffff520007fff05 R11: 1ffff920007fff04 R12: ffff8880725a3728
+R13: ffff888028060000 R14: ffff8880725a36d0 R15: 0000000000000000
+FS:  00007f6f26a5d700(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f6f26a5d718 CR3: 000000001d340000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
  <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd1/0x138 lib/dump_stack.c:106
- print_address_description mm/kasan/report.c:306 [inline]
- print_report+0x15e/0x45d mm/kasan/report.c:417
- kasan_report+0xbf/0x1f0 mm/kasan/report.c:517
- memcmp+0x1a4/0x1c0 lib/string.c:776
- memcmp include/linux/fortify-string.h:549 [inline]
- mi_find_attr+0x153/0x240 fs/ntfs3/record.c:310
- ni_find_attr+0x309/0x630 fs/ntfs3/frecord.c:202
- ntfs_objid_init+0xc3/0x220 fs/ntfs3/fsntfs.c:2281
- ntfs_fill_super+0x31fd/0x3860 fs/ntfs3/super.c:1253
- get_tree_bdev+0x444/0x760 fs/super.c:1282
- vfs_get_tree+0x8d/0x2f0 fs/super.c:1489
- do_new_mount fs/namespace.c:3145 [inline]
- path_mount+0x132a/0x1e20 fs/namespace.c:3475
- do_mount fs/namespace.c:3488 [inline]
- __do_sys_mount fs/namespace.c:3697 [inline]
- __se_sys_mount fs/namespace.c:3674 [inline]
- __x64_sys_mount+0x283/0x300 fs/namespace.c:3674
+ inode_unlock_shared include/linux/fs.h:771 [inline]
+ lookup_slow+0x5e/0x70 fs/namei.c:1703
+ walk_component+0x2e1/0x410 fs/namei.c:1993
+ lookup_last fs/namei.c:2450 [inline]
+ path_lookupat+0x17d/0x450 fs/namei.c:2474
+ filename_lookup+0x274/0x650 fs/namei.c:2503
+ user_path_at_empty+0x40/0x1a0 fs/namei.c:2876
+ user_path_at include/linux/namei.h:57 [inline]
+ __do_sys_chdir fs/open.c:514 [inline]
+ __se_sys_chdir+0xb8/0x210 fs/open.c:508
  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fbeed785bba
-Code: 83 c4 08 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffcfc3614c8 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007fbeed785bba
-RDX: 000000002001f340 RSI: 000000002001f380 RDI: 00007ffcfc3614e0
-RBP: 00007ffcfc3614e0 R08: 00007ffcfc361520 R09: 000000000001f365
-R10: 0000000000000000 R11: 0000000000000286 R12: 0000000000000004
-R13: 00005555561362c0 R14: 0000000000000000 R15: 00007ffcfc361520
+RIP: 0033:0x7f6f2ecd2659
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 71 15 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f6f26a5d2f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000050
+RAX: ffffffffffffffda RBX: 0000000000000032 RCX: 00007f6f2ecd2659
+RDX: 00007f6f2ecd2659 RSI: ffffffffffffffb8 RDI: 0000000020000380
+RBP: 00007f6f2ed76798 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6f2ed76790
+R13: 00007f6f2ed7679c R14: 6174656d776f6873 R15: 0030656c69662f2e
  </TASK>
-
-Allocated by task 4878:
- kasan_save_stack+0x22/0x40 mm/kasan/common.c:45
- kasan_set_track+0x25/0x30 mm/kasan/common.c:52
- ____kasan_kmalloc mm/kasan/common.c:371 [inline]
- ____kasan_kmalloc mm/kasan/common.c:330 [inline]
- __kasan_kmalloc+0xa5/0xb0 mm/kasan/common.c:380
- kmalloc include/linux/slab.h:580 [inline]
- rtnl_newlink+0x4a/0xa0 net/core/rtnetlink.c:3633
- rtnetlink_rcv_msg+0x43e/0xca0 net/core/rtnetlink.c:6141
- netlink_rcv_skb+0x165/0x440 net/netlink/af_netlink.c:2564
- netlink_unicast_kernel net/netlink/af_netlink.c:1330 [inline]
- netlink_unicast+0x547/0x7f0 net/netlink/af_netlink.c:1356
- netlink_sendmsg+0x91b/0xe10 net/netlink/af_netlink.c:1932
- sock_sendmsg_nosec net/socket.c:714 [inline]
- sock_sendmsg+0xd3/0x120 net/socket.c:734
- ____sys_sendmsg+0x712/0x8c0 net/socket.c:2476
- ___sys_sendmsg+0x110/0x1b0 net/socket.c:2530
- __sys_sendmsg+0xf7/0x1c0 net/socket.c:2559
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-The buggy address belongs to the object at ffff888017c71000
- which belongs to the cache kmalloc-2k of size 2048
-The buggy address is located 1568 bytes to the right of
- 2048-byte region [ffff888017c71000, ffff888017c71800)
-
-The buggy address belongs to the physical page:
-page:ffffea00005f1c00 refcount:1 mapcount:0 mapping:0000000000000000 index:0xffff888017c76000 pfn:0x17c70
-head:ffffea00005f1c00 order:3 compound_mapcount:0 subpages_mapcount:0 compound_pincount:0
-flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000010200 ffff888012442000 ffffea00005e9600 dead000000000002
-raw: ffff888017c76000 0000000080080004 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 2110375920, free_ts 0
- prep_new_page mm/page_alloc.c:2531 [inline]
- get_page_from_freelist+0x119c/0x2ce0 mm/page_alloc.c:4283
- __alloc_pages+0x1cb/0x5b0 mm/page_alloc.c:5549
- alloc_page_interleave+0x1e/0x200 mm/mempolicy.c:2118
- alloc_pages+0x233/0x270 mm/mempolicy.c:2280
- alloc_slab_page mm/slub.c:1851 [inline]
- allocate_slab+0x25f/0x350 mm/slub.c:1998
- new_slab mm/slub.c:2051 [inline]
- ___slab_alloc+0xa91/0x1400 mm/slub.c:3193
- __slab_alloc.constprop.0+0x56/0xa0 mm/slub.c:3292
- __slab_alloc_node mm/slub.c:3345 [inline]
- slab_alloc_node mm/slub.c:3442 [inline]
- __kmem_cache_alloc_node+0x1a4/0x430 mm/slub.c:3491
- kmalloc_trace+0x26/0x60 mm/slab_common.c:1062
- kmalloc include/linux/slab.h:580 [inline]
- kzalloc include/linux/slab.h:720 [inline]
- acpi_os_allocate_zeroed include/acpi/platform/aclinuxex.h:57 [inline]
- acpi_ds_create_walk_state+0x8c/0x203 drivers/acpi/acpica/dswstate.c:518
- acpi_ps_execute_method+0x1a1/0x620 drivers/acpi/acpica/psxface.c:134
- acpi_ns_evaluate+0x6d4/0x973 drivers/acpi/acpica/nseval.c:205
- acpi_ut_evaluate_object+0xf5/0x3fa drivers/acpi/acpica/uteval.c:60
- acpi_ut_execute_STA+0x86/0x17f drivers/acpi/acpica/uteval.c:223
- acpi_ns_get_device_callback drivers/acpi/acpica/nsxfeval.c:723 [inline]
- acpi_ns_get_device_callback+0x123/0x415 drivers/acpi/acpica/nsxfeval.c:635
- acpi_ns_walk_namespace+0x250/0x432 drivers/acpi/acpica/nswalk.c:240
-page_owner free stack trace missing
-
-Memory state around the buggy address:
- ffff888017c71d00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888017c71d80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->ffff888017c71e00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-                               ^
- ffff888017c71e80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888017c71f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-==================================================================
 
 
 ---
