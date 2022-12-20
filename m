@@ -1,118 +1,72 @@
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B991103
-	for <ntfs3@lists.linux.dev>; Mon, 19 Dec 2022 10:37:50 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id h9-20020a92c269000000b00303494c4f3eso6328722ild.15
-        for <ntfs3@lists.linux.dev>; Mon, 19 Dec 2022 02:37:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G7IYf1zi9tm0bYK2kwBxy3ppebnwUTizEeFdotIhA24=;
-        b=xLnGOSp5cXomtGqtuu1tB83j/31rDMuRNFoD6nKrb9qfFNYFt4+9VAv023w8LPfMHu
-         OPKAH8rVa7mGrSRIbUh6CWrEp/dpaRX/q0U0Ky56J8cH6mAd4pQP/NzavjSdKqXfqZJa
-         2fJLtKwmiEFWPnIYQCtG3SpHH3+8sYLUEC1zWMtBHu6PL1yz1E6ZATspDzSiPboxZnFh
-         MMx+WDsn48zHGa+phJJQqslek9ylxsBMhmu7iroQS2b6T8DjVn8skzuoEwikywo8BJ+m
-         PxpgLC6Z0qlR+UCzcpzaKWFY3TtKV7pOXqVMQ0gLIjoy+vqIG8yq9ZYx0qImORgDD5LD
-         NwxQ==
-X-Gm-Message-State: ANoB5pktPqOGdf3RwDN9EJEA22sxeGPvCBfCc359UuD7HqTjFRWgUQTm
-	EgRvK2SSfOvxYJZh9TjAEPM6Kjo7cAZPBDr4edngUTQpMvzj
-X-Google-Smtp-Source: AA0mqf79rNmBtbvfBW42V1ex82HBx/H24BMlFL1IAvEW1/59sVEIgOrtaD2HZHhwLajzWGOeke1Ovz1jEsFGioSCxX4XAv0RBUbN
+Received: from cstnet.cn (smtp80.cstnet.cn [159.226.251.80])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB1D6184C;
+	Tue, 20 Dec 2022 07:50:12 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.125])
+	by APP-01 (Coremail) with SMTP id qwCowACXwO6qZ6FjaKwRCA--.1506S2;
+	Tue, 20 Dec 2022 15:43:38 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: almaz.alexandrovich@paragon-software.com,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	trix@redhat.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH] fs/ntfs3: Add missing check for kmemdup
+Date: Tue, 20 Dec 2022 15:43:36 +0800
+Message-Id: <20221220074336.24258-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a5d:8046:0:b0:6de:754e:4427 with SMTP id
- b6-20020a5d8046000000b006de754e4427mr38342932ior.17.1671446269629; Mon, 19
- Dec 2022 02:37:49 -0800 (PST)
-Date: Mon, 19 Dec 2022 02:37:49 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000299cf505f02be9ef@google.com>
-Subject: [syzbot] [vfs?] [ntfs3?] [tmpfs?] WARNING in lookup_slow
-From: syzbot <syzbot+7923cf13ed6110fc744d@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, almaz.alexandrovich@paragon-software.com, 
-	hughd@google.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
-	viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowACXwO6qZ6FjaKwRCA--.1506S2
+X-Coremail-Antispam: 1UD129KBjvdXoWruFWrJF1rCFyUtr1UWFWruFg_yoWxZrb_tF
+	ZrC3WrXw17tr1vk3WDt3yrtws3uws3Jrn5WrZ7KF13JF98Ja1Y9rWktrs8Jw4xW34FgF48
+	G3s0kFy5ZrnI9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbcxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r4x
+	MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
+	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
+	W8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
+	cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjE1v3UUUUU==
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 
-Hello,
+Add check for the return value of the kmemdup since
+it may return NULL pointer if allocation fails.
 
-syzbot found the following issue on:
-
-HEAD commit:    84e57d292203 Merge tag 'exfat-for-6.2-rc1' of git://git.ke..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1400b79d880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=35448eec2d733f7a
-dashboard link: https://syzkaller.appspot.com/bug?extid=7923cf13ed6110fc744d
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1526a8f7880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13005d9f880000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/e387d46e5fde/disk-84e57d29.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/edcdbee22654/vmlinux-84e57d29.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/f906e9373d31/bzImage-84e57d29.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/7e801c3092a5/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7923cf13ed6110fc744d@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-DEBUG_RWSEMS_WARN_ON(!is_rwsem_reader_owned(sem)): count = 0x0, magic = 0xffff8880725a36d0, owner = 0x0, curr 0xffff888028060000, list empty
-WARNING: CPU: 1 PID: 5283 at kernel/locking/rwsem.c:1336 __up_read+0x5ff/0x690 kernel/locking/rwsem.c:1336
-Modules linked in:
-CPU: 0 PID: 5283 Comm: syz-executor217 Not tainted 6.1.0-syzkaller-11674-g84e57d292203 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
-RIP: 0010:__up_read+0x5ff/0x690 kernel/locking/rwsem.c:1336
-Code: 44 d8 48 c7 c7 a0 ab ed 8a 48 c7 c6 40 ac ed 8a 48 8b 54 24 20 4c 89 f1 4d 89 f8 4d 89 e9 31 c0 53 e8 85 61 e8 ff 48 83 c4 08 <0f> 0b 48 bb 00 00 00 00 00 fc ff df 4c 8b 6c 24 18 e9 53 fb ff ff
-RSP: 0018:ffffc90003fffa60 EFLAGS: 00010296
-RAX: 9113eee468a99100 RBX: ffffffff8aedac80 RCX: ffff888028060000
-RDX: 0000000000000000 RSI: 0000000080000000 RDI: 0000000000000000
-RBP: ffffc90003fffb38 R08: ffffffff816f274d R09: fffff520007fff05
-R10: fffff520007fff05 R11: 1ffff920007fff04 R12: ffff8880725a3728
-R13: ffff888028060000 R14: ffff8880725a36d0 R15: 0000000000000000
-FS:  00007f6f26a5d700(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f6f26a5d718 CR3: 000000001d340000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- inode_unlock_shared include/linux/fs.h:771 [inline]
- lookup_slow+0x5e/0x70 fs/namei.c:1703
- walk_component+0x2e1/0x410 fs/namei.c:1993
- lookup_last fs/namei.c:2450 [inline]
- path_lookupat+0x17d/0x450 fs/namei.c:2474
- filename_lookup+0x274/0x650 fs/namei.c:2503
- user_path_at_empty+0x40/0x1a0 fs/namei.c:2876
- user_path_at include/linux/namei.h:57 [inline]
- __do_sys_chdir fs/open.c:514 [inline]
- __se_sys_chdir+0xb8/0x210 fs/open.c:508
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f6f2ecd2659
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 71 15 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f6f26a5d2f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000050
-RAX: ffffffffffffffda RBX: 0000000000000032 RCX: 00007f6f2ecd2659
-RDX: 00007f6f2ecd2659 RSI: ffffffffffffffb8 RDI: 0000000020000380
-RBP: 00007f6f2ed76798 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6f2ed76790
-R13: 00007f6f2ed7679c R14: 6174656d776f6873 R15: 0030656c69662f2e
- </TASK>
-
-
+Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/fslog.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index 0d611a6c5511..eb7cf8a69607 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -4277,6 +4277,10 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+ 	rec_len -= t32;
+ 
+ 	attr_names = kmemdup(Add2Ptr(lrh, t32), rec_len, GFP_NOFS);
++	if (!attr_names) {
++		err = -ENOMEM;
++		goto out;
++	}
+ 
+ 	lcb_put(lcb);
+ 	lcb = NULL;
+-- 
+2.25.1
+
