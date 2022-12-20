@@ -1,72 +1,213 @@
-Received: from cstnet.cn (smtp80.cstnet.cn [159.226.251.80])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB1D6184C;
-	Tue, 20 Dec 2022 07:50:12 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.125])
-	by APP-01 (Coremail) with SMTP id qwCowACXwO6qZ6FjaKwRCA--.1506S2;
-	Tue, 20 Dec 2022 15:43:38 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: almaz.alexandrovich@paragon-software.com,
-	nathan@kernel.org,
-	ndesaulniers@google.com,
-	trix@redhat.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH] fs/ntfs3: Add missing check for kmemdup
-Date: Tue, 20 Dec 2022 15:43:36 +0800
-Message-Id: <20221220074336.24258-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9532CEC4
+	for <ntfs3@lists.linux.dev>; Tue, 20 Dec 2022 12:30:16 +0000 (UTC)
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 14CAE1D1D;
+	Tue, 20 Dec 2022 12:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1671538825;
+	bh=HBbrQVVAfFXTWMS850ixZnZhRFgDb7JtS4RSHs5t/uk=;
+	h=Date:To:CC:From:Subject;
+	b=WfY2QzBw+iwCkzZKs3w5iRenvHkbASXNW24KA5EM0BYran43QcbfcMnqHZAL637LC
+	 5/F2m6jgffq5xs0DN/Rae5jRXD4kGcFuMxa2t0SOWAKMzI43YmLpAcd++kobbi1kiG
+	 sH780K2R9fDV1hss9k6x5ltKHoSPOXIgwJ1v7f9Q=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 19DE11F9D;
+	Tue, 20 Dec 2022 12:23:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1671539029;
+	bh=HBbrQVVAfFXTWMS850ixZnZhRFgDb7JtS4RSHs5t/uk=;
+	h=Date:To:CC:From:Subject;
+	b=qzEuUj5NAaEkDmOBTs2t4/QIowQryCiU/4AlgmfDOTbceyGVxMykVET7dKqIoUZxs
+	 zH0pmRQsuQw55kilUg8rCdhob9ZsxFFx5/aMP+SZEDfFqqVkbnFLNEF7xb19MjRG9f
+	 MUmfVrlXyoQUUXGzyWE3DKsyPXlUrcXf1RMBioaw=
+Received: from [192.168.211.163] (192.168.211.163) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 20 Dec 2022 15:23:48 +0300
+Message-ID: <3826a578-c371-bace-96a5-4e5dc83b5602@paragon-software.com>
+Date: Tue, 20 Dec 2022 16:23:47 +0400
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Content-Language: en-US
+To: <torvalds@linux-foundation.org>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [GIT PULL] ntfs3: bugfixes for 6.2
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowACXwO6qZ6FjaKwRCA--.1506S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruFWrJF1rCFyUtr1UWFWruFg_yoWxZrb_tF
-	ZrC3WrXw17tr1vk3WDt3yrtws3uws3Jrn5WrZ7KF13JF98Ja1Y9rWktrs8Jw4xW34FgF48
-	G3s0kFy5ZrnI9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbcxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r4x
-	MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
-	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
-	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
-	W8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
-	cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjE1v3UUUUU==
-X-Originating-IP: [124.16.138.125]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+X-Originating-IP: [192.168.211.163]
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Add check for the return value of the kmemdup since
-it may return NULL pointer if allocation fails.
+Hi Linus,
 
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
- fs/ntfs3/fslog.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Please pull this branch containing ntfs3 code for 6.2.
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 0d611a6c5511..eb7cf8a69607 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -4277,6 +4277,10 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 	rec_len -= t32;
- 
- 	attr_names = kmemdup(Add2Ptr(lrh, t32), rec_len, GFP_NOFS);
-+	if (!attr_names) {
-+		err = -ENOMEM;
-+		goto out;
-+	}
- 
- 	lcb_put(lcb);
- 	lcb = NULL;
--- 
-2.25.1
+Added:
+- add hidedotfiles option;
+- add option "nocase";
+- add windows_names mount option.
 
+Fixed:
+- fixed xfstests (tested on x86_64):
+generic/083 generic/263 generic/307 generic/465;
+- some logic errors;
+- some dead code was removed or refactored.
+
+The code was in linux-next branch since November.
+
+There is merge conflict in linux-next [1].
+
+Regards,
+
+Konstantin
+
+[1]: https://lore.kernel.org/lkml/20221115101756.5d311f25@canb.auug.org.au
+
+----------------------------------------------------------------
+
+The following changes since commit f76349cf41451c5c42a99f18a9163377e4b364ff:
+
+    Linux 6.0-rc7 (Sun Sep 25 14:01:02 2022 -0700)
+
+are available in the Git repository at:
+
+    https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_6.2
+
+for you to fetch changes up to 36963cf225f890f97fd84af0a82d323043edd0f1:
+
+    fs/ntfs3: Make if more readable (Tue Oct 11 20:21:03 2022 +0300)
+
+----------------------------------------------------------------
+
+Abdun Nihaal (2):
+       fs/ntfs3: Fix slab-out-of-bounds read in ntfs_trim_fs
+       fs/ntfs3: Validate attribute data and valid sizes
+
+Alon Zahavi (1):
+       fs/ntfs3: Fix attr_punch_hole() null pointer derenference
+
+Dan Carpenter (2):
+       fs/ntfs3: Harden against integer overflows
+       fs/ntfs3: Delete duplicate condition in ntfs_read_mft()
+
+Daniel Pinto (10):
+       fs/ntfs3: Fix junction point resolution
+       fs/ntfs3: Add windows_names mount option
+       fs/ntfs3: Document windows_names mount option
+       fs/ntfs3: Fix hidedotfiles mount option by reversing behaviour
+       fs/ntfs3: Make hidedotfiles mount option work when renaming files
+       fs/ntfs3: Add hidedotfiles to the list of enabled mount options
+       fs/ntfs3: Document the hidedotfiles mount option
+       fs/ntfs3: Rename hidedotfiles mount option to hide_dot_files
+       fs/ntfs3: Add system.ntfs_attrib_be extended attribute
+       fs/ntfs3: Document system.ntfs_attrib_be extended attribute
+
+Edward Lo (9):
+       fs/ntfs3: Validate data run offset
+       fs/ntfs3: Add null pointer check to attr_load_runs_vcn
+       fs/ntfs3: Add null pointer check for inode operations
+       fs/ntfs3: Validate attribute name offset
+       fs/ntfs3: Validate buffer length while parsing index
+       fs/ntfs3: Validate resident attribute name
+       fs/ntfs3: Validate index root when initialize NTFS security
+       fs/ntfs3: Validate BOOT record_size
+       fs/ntfs3: Add overflow check for attribute size
+
+Hawkins Jiawei (1):
+       fs/ntfs3: Fix slab-out-of-bounds read in run_unpack
+
+Kenneth Lee (1):
+       fs/ntfs3: Use kmalloc_array for allocating multiple elements
+
+Konstantin Komarov (23):
+       fs/ntfs3: Add comments about cluster size
+       fs/ntfs3: Add hidedotfiles option
+       fs/ntfs3: Change destroy_inode to free_inode
+       fs/ntfs3: Add option "nocase"
+       fs/ntfs3: Rename variables and add comment
+       fs/ntfs3: Add ntfs_bitmap_weight_le function and refactoring
+       fs/ntfs3: Fix sparse problems
+       fs/ntfs3: Remove unused functions
+       fs/ntfs3: Simplify ntfs_update_mftmirr function
+       fs/ntfs3: Fixing work with sparse clusters
+       fs/ntfs3: Change new sparse cluster processing
+       fs/ntfs3: Fix wrong indentations
+       fs/ntfs3: atomic_open implementation
+       fs/ntfs3: Fixing wrong logic in attr_set_size and ntfs_fallocate
+       fs/ntfs3: Changing locking in ntfs_rename
+       fs/ntfs3: Restore correct state after ENOSPC in attr_data_get_block
+       fs/ntfs3: Correct ntfs_check_for_free_space
+       fs/ntfs3: Check fields while reading
+       fs/ntfs3: Fix incorrect if in ntfs_set_acl_ex
+       fs/ntfs3: Use ALIGN kernel macro
+       fs/ntfs3: Fix wrong if in hdr_first_de
+       fs/ntfs3: Improve checking of bad clusters
+       fs/ntfs3: Make if more readable
+
+Marc Aurèle La France (1):
+       fs/ntfs3: Fix [df]mask display in /proc/mounts
+
+Nathan Chancellor (2):
+       fs/ntfs3: Don't use uni1 uninitialized in ntfs_d_compare()
+       fs/ntfs3: Eliminate unnecessary ternary operator in ntfs_d_compare()
+
+Shigeru Yoshida (2):
+       fs/ntfs3: Fix memory leak on ntfs_fill_super() error path
+       fs/ntfs3: Avoid UBSAN error on true_sectors_per_clst()
+
+Tetsuo Handa (2):
+       fs/ntfs3: Use __GFP_NOWARN allocation at wnd_init()
+       fs/ntfs3: Use __GFP_NOWARN allocation at ntfs_fill_super()
+
+Thomas Kühnel (3):
+       fs/ntfs3: Fix endian conversion in ni_fname_name
+       fs/ntfs3: Add functions to modify LE bitmaps
+       fs/ntfs3: Use _le variants of bitops functions
+
+Yin Xiujiang (1):
+       fs/ntfs3: Fix slab-out-of-bounds in r_page
+
+Yuan Can (1):
+       fs/ntfs3: Use strcmp to determine attribute type
+
+  Documentation/filesystems/ntfs3.rst |  19 +++++++
+  fs/ntfs3/attrib.c                   | 392 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------------------------------------------
+  fs/ntfs3/attrlist.c                 |   5 ++
+  fs/ntfs3/bitfunc.c                  |   4 +-
+  fs/ntfs3/bitmap.c                   | 168 
++++++++++++++++++++++++++++++++++++++++++++++--------------
+  fs/ntfs3/dir.c                      |   4 +-
+  fs/ntfs3/file.c                     | 203 
++++++++++++++++++++----------------------------------------------------
+  fs/ntfs3/frecord.c                  |  38 ++++++++++++--
+  fs/ntfs3/fslog.c                    |  62 +++++++++-------------
+  fs/ntfs3/fsntfs.c                   | 190 
+++++++++++++++++++++++++++++++++++++++++++++++++++++---------------
+  fs/ntfs3/index.c                    | 127 
++++++++++++++++++++++++++++++++++++++--------
+  fs/ntfs3/inode.c                    | 210 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------
+  fs/ntfs3/namei.c                    | 238 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  fs/ntfs3/ntfs.h                     |   6 +--
+  fs/ntfs3/ntfs_fs.h                  |  41 +++++++++++----
+  fs/ntfs3/record.c                   |   9 ++++
+  fs/ntfs3/run.c                      |  28 +++-------
+  fs/ntfs3/super.c                    | 119 
++++++++++++++++++++++++++-----------------
+  fs/ntfs3/upcase.c                   |  12 +++++
+  fs/ntfs3/xattr.c                    | 178 
+++++++++++++++++++++++++++++++++++++---------------------------
+  20 files changed, 1413 insertions(+), 640 deletions(-)
