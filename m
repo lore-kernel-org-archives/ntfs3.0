@@ -1,213 +1,150 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9532CEC4
-	for <ntfs3@lists.linux.dev>; Tue, 20 Dec 2022 12:30:16 +0000 (UTC)
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 14CAE1D1D;
-	Tue, 20 Dec 2022 12:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1671538825;
-	bh=HBbrQVVAfFXTWMS850ixZnZhRFgDb7JtS4RSHs5t/uk=;
-	h=Date:To:CC:From:Subject;
-	b=WfY2QzBw+iwCkzZKs3w5iRenvHkbASXNW24KA5EM0BYran43QcbfcMnqHZAL637LC
-	 5/F2m6jgffq5xs0DN/Rae5jRXD4kGcFuMxa2t0SOWAKMzI43YmLpAcd++kobbi1kiG
-	 sH780K2R9fDV1hss9k6x5ltKHoSPOXIgwJ1v7f9Q=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 19DE11F9D;
-	Tue, 20 Dec 2022 12:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1671539029;
-	bh=HBbrQVVAfFXTWMS850ixZnZhRFgDb7JtS4RSHs5t/uk=;
-	h=Date:To:CC:From:Subject;
-	b=qzEuUj5NAaEkDmOBTs2t4/QIowQryCiU/4AlgmfDOTbceyGVxMykVET7dKqIoUZxs
-	 zH0pmRQsuQw55kilUg8rCdhob9ZsxFFx5/aMP+SZEDfFqqVkbnFLNEF7xb19MjRG9f
-	 MUmfVrlXyoQUUXGzyWE3DKsyPXlUrcXf1RMBioaw=
-Received: from [192.168.211.163] (192.168.211.163) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 20 Dec 2022 15:23:48 +0300
-Message-ID: <3826a578-c371-bace-96a5-4e5dc83b5602@paragon-software.com>
-Date: Tue, 20 Dec 2022 16:23:47 +0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DF11FC8
+	for <ntfs3@lists.linux.dev>; Wed, 21 Dec 2022 08:14:41 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id x10-20020a056e021bca00b00302b6c0a683so9853088ilv.23
+        for <ntfs3@lists.linux.dev>; Wed, 21 Dec 2022 00:14:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A7+8fuqPbIIauDX75GlkNV66FuhTqueE+eYRZ4kmpgo=;
+        b=D/R34ccFnHoBhfj2FDhGWzJQlLlO5YWTLiqAp3sSSozWXq/3YmO/o727FcpmbZvWgl
+         N7T4Y5/L+5dxf9tdndaVdNArYsOGZGyocIOQnWNX/xvpuFxZL6gGxuI2GENsb77kH5Uo
+         bBRngJWUGTTCQvdSmOqUD1gP75RpCLkq8JOS1Z4vQiIJuT29SS64qDj6eNB+s6/H84zm
+         cNw4071q4uqAnn0dApvl3VI5RVggOu2EdrthN/lKE4CuwrmGWXgRLCloO6EjS6fObrdS
+         WML+jYsuRFqFc9XupVqgyBMoAUkuc+Eohc9KkP+yufcj5Ffl5xwrjUTtbJWPH6ianw0a
+         Riow==
+X-Gm-Message-State: AFqh2krrgC1XYnrwtwd2+uOABhSNHwjaoXSulQH2pQ31h9oIT9ULvMwn
+	Z0x7zKBpmpWXUf201YE3APOW/bh3oosaGLL4PrT8IBYyLRhw
+X-Google-Smtp-Source: AMrXdXupwWn7ThN+0DC+oN0Jgz8FQ2+SYhQnb2YaIdKCjtpr7VtKkMb0ZcHkelzjW9Gypy+7024Cj0HmUL/p40wDZcBnzKwGnaE1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [GIT PULL] ntfs3: bugfixes for 6.2
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.211.163]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Received: by 2002:a92:4442:0:b0:303:c52:274a with SMTP id
+ a2-20020a924442000000b003030c52274amr90595ilm.171.1671610481055; Wed, 21 Dec
+ 2022 00:14:41 -0800 (PST)
+Date: Wed, 21 Dec 2022 00:14:41 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ed1df405f05224aa@google.com>
+Subject: [syzbot] [ntfs3?] possible deadlock in ntfs_set_state
+From: syzbot <syzbot+f91c29a5d5a01ada051a@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, bvanassche@acm.org, hch@lst.de, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, martin.petersen@oracle.com, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com, viro@zeniv.linux.org.uk, 
+	yanaijie@huawei.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Linus,
+Hello,
 
-Please pull this branch containing ntfs3 code for 6.2.
+syzbot found the following issue on:
 
-Added:
-- add hidedotfiles option;
-- add option "nocase";
-- add windows_names mount option.
+HEAD commit:    aeba12b26c79 Merge tag 'nfsd-6.2-1' of git://git.kernel.or..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1655e690480000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4d348fc1e0f483c9
+dashboard link: https://syzkaller.appspot.com/bug?extid=f91c29a5d5a01ada051a
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15332c9b880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16647dc8480000
 
-Fixed:
-- fixed xfstests (tested on x86_64):
-generic/083 generic/263 generic/307 generic/465;
-- some logic errors;
-- some dead code was removed or refactored.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/661fe33f851b/disk-aeba12b2.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c938bdcf3ad0/vmlinux-aeba12b2.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/e7f738de30b7/bzImage-aeba12b2.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/b4ed1012076c/mount_0.gz
 
-The code was in linux-next branch since November.
+The issue was bisected to:
 
-There is merge conflict in linux-next [1].
+commit d9a434fa0c12ed5f7afe1e9dd30003ab5d059b85
+Author: Jason Yan <yanaijie@huawei.com>
+Date:   Wed Jul 20 02:51:20 2022 +0000
 
-Regards,
+    scsi: core: Fix warning in scsi_alloc_sgtables()
 
-Konstantin
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14a1c453880000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=16a1c453880000
+console output: https://syzkaller.appspot.com/x/log.txt?x=12a1c453880000
 
-[1]: https://lore.kernel.org/lkml/20221115101756.5d311f25@canb.auug.org.au
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+f91c29a5d5a01ada051a@syzkaller.appspotmail.com
+Fixes: d9a434fa0c12 ("scsi: core: Fix warning in scsi_alloc_sgtables()")
 
-----------------------------------------------------------------
+ntfs3: loop0: ino=5, ntfs_iget5
+============================================
+WARNING: possible recursive locking detected
+6.1.0-syzkaller-13781-gaeba12b26c79 #0 Not tainted
+--------------------------------------------
+kworker/u4:6/3799 is trying to acquire lock:
+ffff888076a40100 (&ni->ni_lock){+.+.}-{3:3}, at: ntfs_set_state+0x1da/0x680 fs/ntfs3/fsntfs.c:920
 
-The following changes since commit f76349cf41451c5c42a99f18a9163377e4b364ff:
+but task is already holding lock:
+ffff888076a46fa0 (&ni->ni_lock){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1123 [inline]
+ffff888076a46fa0 (&ni->ni_lock){+.+.}-{3:3}, at: ni_write_inode+0x14d/0x11e0 fs/ntfs3/frecord.c:3226
 
-    Linux 6.0-rc7 (Sun Sep 25 14:01:02 2022 -0700)
+other info that might help us debug this:
+ Possible unsafe locking scenario:
 
-are available in the Git repository at:
+       CPU0
+       ----
+  lock(&ni->ni_lock);
+  lock(&ni->ni_lock);
 
-    https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_6.2
+ *** DEADLOCK ***
 
-for you to fetch changes up to 36963cf225f890f97fd84af0a82d323043edd0f1:
+ May be due to missing lock nesting notation
 
-    fs/ntfs3: Make if more readable (Tue Oct 11 20:21:03 2022 +0300)
+3 locks held by kworker/u4:6/3799:
+ #0: ffff88814514c138 ((wq_completion)writeback){+.+.}-{0:0}, at: process_one_work+0x7f2/0xdb0
+ #1: ffffc9000ecc7d00 ((work_completion)(&(&wb->dwork)->work)){+.+.}-{0:0}, at: process_one_work+0x831/0xdb0 kernel/workqueue.c:2264
+ #2: ffff888076a46fa0 (&ni->ni_lock){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1123 [inline]
+ #2: ffff888076a46fa0 (&ni->ni_lock){+.+.}-{3:3}, at: ni_write_inode+0x14d/0x11e0 fs/ntfs3/frecord.c:3226
 
-----------------------------------------------------------------
+stack backtrace:
+CPU: 0 PID: 3799 Comm: kworker/u4:6 Not tainted 6.1.0-syzkaller-13781-gaeba12b26c79 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
+Workqueue: writeback wb_workfn (flush-7:0)
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x1b1/0x290 lib/dump_stack.c:106
+ print_deadlock_bug kernel/locking/lockdep.c:2990 [inline]
+ check_deadlock kernel/locking/lockdep.c:3033 [inline]
+ validate_chain+0x4843/0x6ae0 kernel/locking/lockdep.c:3818
+ __lock_acquire+0x1292/0x1f60 kernel/locking/lockdep.c:5055
+ lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
+ __mutex_lock_common+0x1bd/0x26e0 kernel/locking/mutex.c:603
+ __mutex_lock kernel/locking/mutex.c:747 [inline]
+ mutex_lock_nested+0x17/0x20 kernel/locking/mutex.c:799
+ ntfs_set_state+0x1da/0x680 fs/ntfs3/fsntfs.c:920
+ ntfs_iget5+0x34c/0x36f0 fs/ntfs3/inode.c:504
+ ni_update_parent+0x7ea/0xc60 fs/ntfs3/frecord.c:3182
+ ni_write_inode+0xe30/0x11e0 fs/ntfs3/frecord.c:3277
+ write_inode fs/fs-writeback.c:1451 [inline]
+ __writeback_single_inode+0x4d6/0x670 fs/fs-writeback.c:1663
+ writeback_sb_inodes+0x812/0x1050 fs/fs-writeback.c:1889
+ wb_writeback+0x41f/0x7b0 fs/fs-writeback.c:2063
+ wb_do_writeback fs/fs-writeback.c:2206 [inline]
+ wb_workfn+0x3cb/0xef0 fs/fs-writeback.c:2246
+ process_one_work+0x877/0xdb0 kernel/workqueue.c:2289
+ worker_thread+0xb14/0x1330 kernel/workqueue.c:2436
+ kthread+0x266/0x300 kernel/kthread.c:376
 
-Abdun Nihaal (2):
-       fs/ntfs3: Fix slab-out-of-bounds read in ntfs_trim_fs
-       fs/ntfs3: Validate attribute data and valid sizes
 
-Alon Zahavi (1):
-       fs/ntfs3: Fix attr_punch_hole() null pointer derenference
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Dan Carpenter (2):
-       fs/ntfs3: Harden against integer overflows
-       fs/ntfs3: Delete duplicate condition in ntfs_read_mft()
-
-Daniel Pinto (10):
-       fs/ntfs3: Fix junction point resolution
-       fs/ntfs3: Add windows_names mount option
-       fs/ntfs3: Document windows_names mount option
-       fs/ntfs3: Fix hidedotfiles mount option by reversing behaviour
-       fs/ntfs3: Make hidedotfiles mount option work when renaming files
-       fs/ntfs3: Add hidedotfiles to the list of enabled mount options
-       fs/ntfs3: Document the hidedotfiles mount option
-       fs/ntfs3: Rename hidedotfiles mount option to hide_dot_files
-       fs/ntfs3: Add system.ntfs_attrib_be extended attribute
-       fs/ntfs3: Document system.ntfs_attrib_be extended attribute
-
-Edward Lo (9):
-       fs/ntfs3: Validate data run offset
-       fs/ntfs3: Add null pointer check to attr_load_runs_vcn
-       fs/ntfs3: Add null pointer check for inode operations
-       fs/ntfs3: Validate attribute name offset
-       fs/ntfs3: Validate buffer length while parsing index
-       fs/ntfs3: Validate resident attribute name
-       fs/ntfs3: Validate index root when initialize NTFS security
-       fs/ntfs3: Validate BOOT record_size
-       fs/ntfs3: Add overflow check for attribute size
-
-Hawkins Jiawei (1):
-       fs/ntfs3: Fix slab-out-of-bounds read in run_unpack
-
-Kenneth Lee (1):
-       fs/ntfs3: Use kmalloc_array for allocating multiple elements
-
-Konstantin Komarov (23):
-       fs/ntfs3: Add comments about cluster size
-       fs/ntfs3: Add hidedotfiles option
-       fs/ntfs3: Change destroy_inode to free_inode
-       fs/ntfs3: Add option "nocase"
-       fs/ntfs3: Rename variables and add comment
-       fs/ntfs3: Add ntfs_bitmap_weight_le function and refactoring
-       fs/ntfs3: Fix sparse problems
-       fs/ntfs3: Remove unused functions
-       fs/ntfs3: Simplify ntfs_update_mftmirr function
-       fs/ntfs3: Fixing work with sparse clusters
-       fs/ntfs3: Change new sparse cluster processing
-       fs/ntfs3: Fix wrong indentations
-       fs/ntfs3: atomic_open implementation
-       fs/ntfs3: Fixing wrong logic in attr_set_size and ntfs_fallocate
-       fs/ntfs3: Changing locking in ntfs_rename
-       fs/ntfs3: Restore correct state after ENOSPC in attr_data_get_block
-       fs/ntfs3: Correct ntfs_check_for_free_space
-       fs/ntfs3: Check fields while reading
-       fs/ntfs3: Fix incorrect if in ntfs_set_acl_ex
-       fs/ntfs3: Use ALIGN kernel macro
-       fs/ntfs3: Fix wrong if in hdr_first_de
-       fs/ntfs3: Improve checking of bad clusters
-       fs/ntfs3: Make if more readable
-
-Marc Aurèle La France (1):
-       fs/ntfs3: Fix [df]mask display in /proc/mounts
-
-Nathan Chancellor (2):
-       fs/ntfs3: Don't use uni1 uninitialized in ntfs_d_compare()
-       fs/ntfs3: Eliminate unnecessary ternary operator in ntfs_d_compare()
-
-Shigeru Yoshida (2):
-       fs/ntfs3: Fix memory leak on ntfs_fill_super() error path
-       fs/ntfs3: Avoid UBSAN error on true_sectors_per_clst()
-
-Tetsuo Handa (2):
-       fs/ntfs3: Use __GFP_NOWARN allocation at wnd_init()
-       fs/ntfs3: Use __GFP_NOWARN allocation at ntfs_fill_super()
-
-Thomas Kühnel (3):
-       fs/ntfs3: Fix endian conversion in ni_fname_name
-       fs/ntfs3: Add functions to modify LE bitmaps
-       fs/ntfs3: Use _le variants of bitops functions
-
-Yin Xiujiang (1):
-       fs/ntfs3: Fix slab-out-of-bounds in r_page
-
-Yuan Can (1):
-       fs/ntfs3: Use strcmp to determine attribute type
-
-  Documentation/filesystems/ntfs3.rst |  19 +++++++
-  fs/ntfs3/attrib.c                   | 392 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------------------------------------------
-  fs/ntfs3/attrlist.c                 |   5 ++
-  fs/ntfs3/bitfunc.c                  |   4 +-
-  fs/ntfs3/bitmap.c                   | 168 
-+++++++++++++++++++++++++++++++++++++++++++++--------------
-  fs/ntfs3/dir.c                      |   4 +-
-  fs/ntfs3/file.c                     | 203 
-+++++++++++++++++++----------------------------------------------------
-  fs/ntfs3/frecord.c                  |  38 ++++++++++++--
-  fs/ntfs3/fslog.c                    |  62 +++++++++-------------
-  fs/ntfs3/fsntfs.c                   | 190 
-++++++++++++++++++++++++++++++++++++++++++++++++++++---------------
-  fs/ntfs3/index.c                    | 127 
-+++++++++++++++++++++++++++++++++++++--------
-  fs/ntfs3/inode.c                    | 210 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------
-  fs/ntfs3/namei.c                    | 238 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  fs/ntfs3/ntfs.h                     |   6 +--
-  fs/ntfs3/ntfs_fs.h                  |  41 +++++++++++----
-  fs/ntfs3/record.c                   |   9 ++++
-  fs/ntfs3/run.c                      |  28 +++-------
-  fs/ntfs3/super.c                    | 119 
-+++++++++++++++++++++++++-----------------
-  fs/ntfs3/upcase.c                   |  12 +++++
-  fs/ntfs3/xattr.c                    | 178 
-++++++++++++++++++++++++++++++++++++---------------------------
-  20 files changed, 1413 insertions(+), 640 deletions(-)
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
