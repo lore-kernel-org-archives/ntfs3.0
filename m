@@ -1,33 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976148495
-	for <ntfs3@lists.linux.dev>; Tue, 27 Dec 2022 20:34:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B969AC433D2;
-	Tue, 27 Dec 2022 20:34:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85136ADB
+	for <ntfs3@lists.linux.dev>; Tue, 27 Dec 2022 20:34:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 120B7C433EF;
+	Tue, 27 Dec 2022 20:34:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672173249;
-	bh=c3iKx+RfcNp6qCbZVsPpJZuhKsmkzbIh4o6nBe6FbgE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XP+eq90kKTYe0xNUQZ132DYxf0tSkGVxgRqaxdYq8oGPZuu8kSYr5My3+8Ubk8w4M
-	 QDC7mdjY6mdRqdn7nr0S1+/KcH8v18ehdnr8YjjlW2rQtpItuMWbsT4hx4vjg5RUoJ
-	 B5oR7Ibpr6iN+fqSeAzfyTkerjtG6HdGrH/uI9iKT0NF/7oMj6NQNkskgeMtXYlXFE
-	 TcypbBhoTfYCZXvSptav13yjrUTnSfc8tAr12ROv3vaWI+ViYJgRyJiLsVMoePGPhQ
-	 kmEx5r4dhQgnR1OocXTfORhBIA2Un7ld2ZJNdj/EhJSQybrq/iaR4fHFIw9fPk6jSp
-	 hnxozn5yuphgQ==
+	s=k20201202; t=1672173275;
+	bh=IU1IBLYkw9FIWcyQBYlJd7P5pQWexGWOzVqUnry4tLY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SXR3Gh/KpENM0W+ROJTyrRZ33yfIWX2f9wtMZxtnRrysgMNFJK74pD8+V3eyikPxR
+	 Qpgq37LmzW1oeOK35jeAEv2moN4DTG98YOfN8kvQNSLsB4go7TxasC73qGDGh6AqJr
+	 MsZoLL7G4XrXZQG00E7J8YrKFZOd/dxQOkDhBTROS7l4ItEpsyADfF78yExkkKBJmF
+	 OF8xWf8L5v+k5EHjsnIxJo3Ks6a2m4jneNZwh2uR7hRwlYGm5xs3NKvjHm3CqX0QhQ
+	 8peAMFYLpyjUWrnfTP4qmItnR0aVDRHd3HODmn7DPPYACKKgRAvKc/F2skRE0Ub/Ot
+	 EZxuHL9ok196Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Yin Xiujiang <yinxiujiang@kylinos.cn>,
+Cc: edward lo <edward.lo@ambergroup.io>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.0 18/27] fs/ntfs3: Fix slab-out-of-bounds in r_page
-Date: Tue, 27 Dec 2022 15:33:33 -0500
-Message-Id: <20221227203342.1213918-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 01/22] fs/ntfs3: Validate BOOT record_size
+Date: Tue, 27 Dec 2022 15:34:11 -0500
+Message-Id: <20221227203433.1214255-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221227203342.1213918-1-sashal@kernel.org>
-References: <20221227203342.1213918-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -38,97 +36,98 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Yin Xiujiang <yinxiujiang@kylinos.cn>
+From: edward lo <edward.lo@ambergroup.io>
 
-[ Upstream commit ecfbd57cf9c5ca225184ae266ce44ae473792132 ]
+[ Upstream commit 0b66046266690454dc04e6307bcff4a5605b42a1 ]
 
-When PAGE_SIZE is 64K, if read_log_page is called by log_read_rst for
-the first time, the size of *buffer would be equal to
-DefaultLogPageSize(4K).But for *buffer operations like memcpy,
-if the memory area size(n) which being assigned to buffer is larger
-than 4K (log->page_size(64K) or bytes(64K-page_off)), it will cause
-an out of boundary error.
- Call trace:
-  [...]
-  kasan_report+0x44/0x130
-  check_memory_region+0xf8/0x1a0
-  memcpy+0xc8/0x100
-  ntfs_read_run_nb+0x20c/0x460
-  read_log_page+0xd0/0x1f4
-  log_read_rst+0x110/0x75c
-  log_replay+0x1e8/0x4aa0
-  ntfs_loadlog_and_replay+0x290/0x2d0
-  ntfs_fill_super+0x508/0xec0
-  get_tree_bdev+0x1fc/0x34c
-  [...]
+When the NTFS BOOT record_size field < 0, it represents a
+shift value. However, there is no sanity check on the shift result
+and the sbi->record_bits calculation through blksize_bits() assumes
+the size always > 256, which could lead to NPD while mounting a
+malformed NTFS image.
 
-Fix this by setting variable r_page to NULL in log_read_rst.
+[  318.675159] BUG: kernel NULL pointer dereference, address: 0000000000000158
+[  318.675682] #PF: supervisor read access in kernel mode
+[  318.675869] #PF: error_code(0x0000) - not-present page
+[  318.676246] PGD 0 P4D 0
+[  318.676502] Oops: 0000 [#1] PREEMPT SMP NOPTI
+[  318.676934] CPU: 0 PID: 259 Comm: mount Not tainted 5.19.0 #5
+[  318.677289] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
+[  318.678136] RIP: 0010:ni_find_attr+0x2d/0x1c0
+[  318.678656] Code: 89 ca 4d 89 c7 41 56 41 55 41 54 41 89 cc 55 48 89 fd 53 48 89 d3 48 83 ec 20 65 48 8b 04 25 28 00 00 00 48 89 44 24 180
+[  318.679848] RSP: 0018:ffffa6c8c0297bd8 EFLAGS: 00000246
+[  318.680104] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000080
+[  318.680790] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+[  318.681679] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+[  318.682577] R10: 0000000000000000 R11: 0000000000000005 R12: 0000000000000080
+[  318.683015] R13: ffff8d5582e68400 R14: 0000000000000100 R15: 0000000000000000
+[  318.683618] FS:  00007fd9e1c81e40(0000) GS:ffff8d55fdc00000(0000) knlGS:0000000000000000
+[  318.684280] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  318.684651] CR2: 0000000000000158 CR3: 0000000002e1a000 CR4: 00000000000006f0
+[  318.685623] Call Trace:
+[  318.686607]  <TASK>
+[  318.686872]  ? ntfs_alloc_inode+0x1a/0x60
+[  318.687235]  attr_load_runs_vcn+0x2b/0xa0
+[  318.687468]  mi_read+0xbb/0x250
+[  318.687576]  ntfs_iget5+0x114/0xd90
+[  318.687750]  ntfs_fill_super+0x588/0x11b0
+[  318.687953]  ? put_ntfs+0x130/0x130
+[  318.688065]  ? snprintf+0x49/0x70
+[  318.688164]  ? put_ntfs+0x130/0x130
+[  318.688256]  get_tree_bdev+0x16a/0x260
+[  318.688407]  vfs_get_tree+0x20/0xb0
+[  318.688519]  path_mount+0x2dc/0x9b0
+[  318.688877]  do_mount+0x74/0x90
+[  318.689142]  __x64_sys_mount+0x89/0xd0
+[  318.689636]  do_syscall_64+0x3b/0x90
+[  318.689998]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+[  318.690318] RIP: 0033:0x7fd9e133c48a
+[  318.690687] Code: 48 8b 0d 11 fa 2a 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 49 89 ca b8 a5 00 00 008
+[  318.691357] RSP: 002b:00007ffd374406c8 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+[  318.691632] RAX: ffffffffffffffda RBX: 0000564d0b051080 RCX: 00007fd9e133c48a
+[  318.691920] RDX: 0000564d0b051280 RSI: 0000564d0b051300 RDI: 0000564d0b0596a0
+[  318.692123] RBP: 0000000000000000 R08: 0000564d0b0512a0 R09: 0000000000000020
+[  318.692349] R10: 00000000c0ed0000 R11: 0000000000000202 R12: 0000564d0b0596a0
+[  318.692673] R13: 0000564d0b051280 R14: 0000000000000000 R15: 00000000ffffffff
+[  318.693007]  </TASK>
+[  318.693271] Modules linked in:
+[  318.693614] CR2: 0000000000000158
+[  318.694446] ---[ end trace 0000000000000000 ]---
+[  318.694779] RIP: 0010:ni_find_attr+0x2d/0x1c0
+[  318.694952] Code: 89 ca 4d 89 c7 41 56 41 55 41 54 41 89 cc 55 48 89 fd 53 48 89 d3 48 83 ec 20 65 48 8b 04 25 28 00 00 00 48 89 44 24 180
+[  318.696042] RSP: 0018:ffffa6c8c0297bd8 EFLAGS: 00000246
+[  318.696531] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000080
+[  318.698114] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+[  318.699286] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+[  318.699795] R10: 0000000000000000 R11: 0000000000000005 R12: 0000000000000080
+[  318.700236] R13: ffff8d5582e68400 R14: 0000000000000100 R15: 0000000000000000
+[  318.700973] FS:  00007fd9e1c81e40(0000) GS:ffff8d55fdc00000(0000) knlGS:0000000000000000
+[  318.701688] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  318.702190] CR2: 0000000000000158 CR3: 0000000002e1a000 CR4: 00000000000006f0
+[  318.726510] mount (259) used greatest stack depth: 13320 bytes left
 
-Signed-off-by: Yin Xiujiang <yinxiujiang@kylinos.cn>
+This patch adds a sanity check.
+
+Signed-off-by: edward lo <edward.lo@ambergroup.io>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/ntfs3/fslog.c | 26 ++------------------------
- 1 file changed, 2 insertions(+), 24 deletions(-)
+ fs/ntfs3/super.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 138050b1aa93..4236194af35e 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -1132,7 +1132,7 @@ static int read_log_page(struct ntfs_log *log, u32 vbo,
- 		return -EINVAL;
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index f3b88c7e35f7..4b8fa5299e26 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -789,7 +789,7 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+ 						 : (u32)boot->record_size
+ 							   << sbi->cluster_bits;
  
- 	if (!*buffer) {
--		to_free = kmalloc(bytes, GFP_NOFS);
-+		to_free = kmalloc(log->page_size, GFP_NOFS);
- 		if (!to_free)
- 			return -ENOMEM;
- 		*buffer = to_free;
-@@ -1180,10 +1180,7 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
- 			struct restart_info *info)
- {
- 	u32 skip, vbo;
--	struct RESTART_HDR *r_page = kmalloc(DefaultLogPageSize, GFP_NOFS);
--
--	if (!r_page)
--		return -ENOMEM;
-+	struct RESTART_HDR *r_page = NULL;
+-	if (record_size > MAXIMUM_BYTES_PER_MFT)
++	if (record_size > MAXIMUM_BYTES_PER_MFT || record_size < SECTOR_SIZE)
+ 		goto out;
  
- 	/* Determine which restart area we are looking for. */
- 	if (first) {
-@@ -1197,7 +1194,6 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
- 	/* Loop continuously until we succeed. */
- 	for (; vbo < l_size; vbo = 2 * vbo + skip, skip = 0) {
- 		bool usa_error;
--		u32 sys_page_size;
- 		bool brst, bchk;
- 		struct RESTART_AREA *ra;
- 
-@@ -1251,24 +1247,6 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
- 			goto check_result;
- 		}
- 
--		/* Read the entire restart area. */
--		sys_page_size = le32_to_cpu(r_page->sys_page_size);
--		if (DefaultLogPageSize != sys_page_size) {
--			kfree(r_page);
--			r_page = kzalloc(sys_page_size, GFP_NOFS);
--			if (!r_page)
--				return -ENOMEM;
--
--			if (read_log_page(log, vbo,
--					  (struct RECORD_PAGE_HDR **)&r_page,
--					  &usa_error)) {
--				/* Ignore any errors. */
--				kfree(r_page);
--				r_page = NULL;
--				continue;
--			}
--		}
--
- 		if (is_client_area_valid(r_page, usa_error)) {
- 			info->valid_page = true;
- 			ra = Add2Ptr(r_page, le16_to_cpu(r_page->ra_off));
+ 	sbi->record_bits = blksize_bits(record_size);
 -- 
 2.35.1
 
