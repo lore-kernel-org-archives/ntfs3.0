@@ -1,134 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F8F8495
-	for <ntfs3@lists.linux.dev>; Tue, 27 Dec 2022 20:34:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 068C8C433F1;
-	Tue, 27 Dec 2022 20:34:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672173293;
-	bh=j/GJoeh3azymH7rsE0wjj/i3xTs/uED4XVR0G2MtxE8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NBwl1TiefgNPA80AXfTDn55Zvqe3Ukwiz775NCBOLezoxw2x0rgngH+2oYHx+5L6C
-	 RViCSOSbZ1J0RM5ozihj/EbohK+x5hEZOZDMxYxPCCQUp6/eg618K12+CWmQNsffj5
-	 6zb6JTy+LDBvGNBol7DkkFLxCIAA7aZ+9fc/P4/PQyj7YOYn+urXXtHlvucIOqJS5a
-	 bcCuoqi8EaWd7oBMMB0qizKBP4k5YPaHGjGybv/OBbIEOI1dho0vDNZ7o8Gj1/rqCk
-	 9fQEMiK81rHTSUxPiG0swk2Qj2ewnuNRqtyM1vLck6dj8H8Dt7sZ4TrQVJ84KxsqzD
-	 Ddgl+6MbeH+Fw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Yin Xiujiang <yinxiujiang@kylinos.cn>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Sasha Levin <sashal@kernel.org>,
-	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.15 16/22] fs/ntfs3: Fix slab-out-of-bounds in r_page
-Date: Tue, 27 Dec 2022 15:34:26 -0500
-Message-Id: <20221227203433.1214255-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221227203433.1214255-1-sashal@kernel.org>
-References: <20221227203433.1214255-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851D41C10
+	for <ntfs3@lists.linux.dev>; Wed, 28 Dec 2022 18:37:39 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id l14-20020a056e02066e00b0030bff7a1841so6218830ilt.23
+        for <ntfs3@lists.linux.dev>; Wed, 28 Dec 2022 10:37:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XSRc+nF+AEhFC85YkjgHL3uFPFrPyO+OC1LO63fk0ME=;
+        b=eWdticdlAlbLWzptvyu2xhxMJ/1iBhqswKZvqelYT+ZztzJiTxgOV1bUlju2LDxK/T
+         OGabu2vKEALumQLCnRT+1dx3kziZdxPg+A1szMlq4jDYuj1XPWe2Z8/p9H1YKv4rFY24
+         vCctak4c2daCwvQlBI2FXI/+tuhfTQIufDTvEHXAssfKCOWAZGbnSVJKPDHNeCbgO/Bk
+         u4sg3i/Ul7r+gg7qKvTkfC7VwiwSyMsoibWjC/tLcGdMPQPKov+S+6+oWPJVAZPd8nI7
+         ttKDx2Su1TdcObNb+aLPYDntO9KS2Z/DmSY+lBctL6RLo2zeKH/HyUoUZWhadJRAR14t
+         rIDQ==
+X-Gm-Message-State: AFqh2kpsDvAusx7M1fWelZu96Oza3sR97xhOXY4l+IGDxBeU9A4dSLXI
+	ImAboSABzMcLLbEYx5NxwO+NM2feF4KUgR72nBBlgnszICLV
+X-Google-Smtp-Source: AMrXdXuQpR7FAqb+v30kBh6Aavs6rN6pVdxeO+UmTzmvhFgTcm1zMILrNVx0F84y+1ZFTHyT5vo71QpyWah2RH9NGKiXEPQ352cM
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a02:8586:0:b0:38a:979e:f584 with SMTP id
+ d6-20020a028586000000b0038a979ef584mr2093302jai.261.1672252658507; Wed, 28
+ Dec 2022 10:37:38 -0800 (PST)
+Date: Wed, 28 Dec 2022 10:37:38 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000af650105f0e7a9e5@google.com>
+Subject: [syzbot] [ntfs3?] INFO: trying to register non-static key in do_mpage_readpage
+From: syzbot <syzbot+0ede990fe8e46cb5711d@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Yin Xiujiang <yinxiujiang@kylinos.cn>
+Hello,
 
-[ Upstream commit ecfbd57cf9c5ca225184ae266ce44ae473792132 ]
+syzbot found the following issue on:
 
-When PAGE_SIZE is 64K, if read_log_page is called by log_read_rst for
-the first time, the size of *buffer would be equal to
-DefaultLogPageSize(4K).But for *buffer operations like memcpy,
-if the memory area size(n) which being assigned to buffer is larger
-than 4K (log->page_size(64K) or bytes(64K-page_off)), it will cause
-an out of boundary error.
- Call trace:
-  [...]
-  kasan_report+0x44/0x130
-  check_memory_region+0xf8/0x1a0
-  memcpy+0xc8/0x100
-  ntfs_read_run_nb+0x20c/0x460
-  read_log_page+0xd0/0x1f4
-  log_read_rst+0x110/0x75c
-  log_replay+0x1e8/0x4aa0
-  ntfs_loadlog_and_replay+0x290/0x2d0
-  ntfs_fill_super+0x508/0xec0
-  get_tree_bdev+0x1fc/0x34c
-  [...]
+HEAD commit:    72a85e2b0a1e Merge tag 'spi-fix-v6.2-rc1' of git://git.ker..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=10be5ea8480000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4e2d7bfa2d6d5a76
+dashboard link: https://syzkaller.appspot.com/bug?extid=0ede990fe8e46cb5711d
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=170127f8480000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10eadd74480000
 
-Fix this by setting variable r_page to NULL in log_read_rst.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/510d16df06c8/disk-72a85e2b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/50ef5477a1d4/vmlinux-72a85e2b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f2acd6f1189a/bzImage-72a85e2b.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/ec3614d3a811/mount_0.gz
 
-Signed-off-by: Yin Xiujiang <yinxiujiang@kylinos.cn>
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0ede990fe8e46cb5711d@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 4096
+ntfs3: loop0: Different NTFS' sector size (4096) and media sector size (512)
+ntfs3: loop0: ino=0, ntfs_iget5
+ntfs3: loop0: Mark volume as dirty due to NTFS errors
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+CPU: 0 PID: 5067 Comm: syz-executor292 Not tainted 6.1.0-syzkaller-14594-g72a85e2b0a1e #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x1b1/0x290 lib/dump_stack.c:106
+ assign_lock_key+0x212/0x220 kernel/locking/lockdep.c:981
+ register_lock_class+0x18d/0x930 kernel/locking/lockdep.c:1294
+ __lock_acquire+0xe4/0x1f60 kernel/locking/lockdep.c:4934
+ lock_acquire+0x182/0x3c0 kernel/locking/lockdep.c:5668
+ down_read+0x39/0x50 kernel/locking/rwsem.c:1509
+ attr_data_get_block+0x165/0x2d70 fs/ntfs3/attrib.c:903
+ ntfs_get_block_vbo+0x31f/0xc40 fs/ntfs3/inode.c:573
+ do_mpage_readpage+0x970/0x1c50 fs/mpage.c:208
+ mpage_readahead+0x210/0x380 fs/mpage.c:361
+ read_pages+0x169/0x9c0 mm/readahead.c:161
+ page_cache_ra_unbounded+0x703/0x820 mm/readahead.c:270
+ page_cache_sync_readahead include/linux/pagemap.h:1210 [inline]
+ filemap_get_pages+0x465/0x10d0 mm/filemap.c:2600
+ filemap_read+0x3cf/0xea0 mm/filemap.c:2694
+ __kernel_read+0x3fc/0x830 fs/read_write.c:428
+ integrity_kernel_read+0xac/0xf0 security/integrity/iint.c:199
+ ima_calc_file_hash_tfm security/integrity/ima/ima_crypto.c:485 [inline]
+ ima_calc_file_shash security/integrity/ima/ima_crypto.c:516 [inline]
+ ima_calc_file_hash+0x178f/0x1ca0 security/integrity/ima/ima_crypto.c:573
+ ima_collect_measurement+0x444/0x8c0 security/integrity/ima/ima_api.c:292
+ process_measurement+0xf41/0x1bc0 security/integrity/ima/ima_main.c:339
+ ima_file_check+0xd8/0x130 security/integrity/ima/ima_main.c:519
+ do_open fs/namei.c:3559 [inline]
+ path_openat+0x2600/0x2dd0 fs/namei.c:3714
+ do_file_open_root+0x339/0x790 fs/namei.c:3766
+ file_open_root+0x234/0x290 fs/open.c:1290
+ do_handle_open+0x565/0x950 fs/fhandle.c:232
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f063f1ed849
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 51 14 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffdae758908 EFLAGS: 00000246 ORIG_RAX: 0000000000000130
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f063f1ed849
+RDX: 0000000000000000 RSI: 0000000020000100 RDI: 0000000000000004
+RBP: 00007f063f1ad0e0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f063f1ad170
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+------------[ cut here ]------------
+DEBUG_RWSEMS_WARN_ON(sem->magic != sem): count = 0x100, magic = 0x0, owner = 0xffff8880285d57c1, curr 0xffff8880285d57c0, list not empty
+WARNING: CPU: 0 PID: 5067 at kernel/locking/rwsem.c:1335 __up_read+0x4f5/0x690 kernel/locking/rwsem.c:1335
+Modules linked in:
+CPU: 1 PID: 5067 Comm: syz-executor292 Not tainted 6.1.0-syzkaller-14594-g72a85e2b0a1e #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
+RIP: 0010:__up_read+0x4f5/0x690 kernel/locking/rwsem.c:1335
+Code: c7 00 ac ed 8a 48 c7 c6 00 ae ed 8a 48 8b 54 24 20 48 8b 4c 24 28 4d 89 f8 4c 8b 4c 24 30 31 c0 53 e8 2f 60 e8 ff 48 83 c4 08 <0f> 0b 48 bb 00 00 00 00 00 fc ff df 4c 8b 6c 24 18 e9 ba fb ff ff
+RSP: 0018:ffffc90003c9de80 EFLAGS: 00010292
+RAX: f88922fb16b92700 RBX: ffffffff8aedad00 RCX: ffff8880285d57c0
+RDX: 0000000000000000 RSI: 0000000080000000 RDI: 0000000000000000
+RBP: ffffc90003c9df50 R08: ffffffff816f2c9d R09: fffff52000793b89
+R10: fffff52000793b89 R11: 1ffff92000793b88 R12: ffff888073897048
+R13: ffff888073897038 R14: 1ffff1100e712e09 R15: ffff8880285d57c1
+FS:  00005555565b6300(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000056023bc34d28 CR3: 000000007da67000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ attr_data_get_block+0x1c8/0x2d70 fs/ntfs3/attrib.c:906
+ ntfs_get_block_vbo+0x31f/0xc40 fs/ntfs3/inode.c:573
+ do_mpage_readpage+0x970/0x1c50 fs/mpage.c:208
+ mpage_readahead+0x210/0x380 fs/mpage.c:361
+ read_pages+0x169/0x9c0 mm/readahead.c:161
+ page_cache_ra_unbounded+0x703/0x820 mm/readahead.c:270
+ page_cache_sync_readahead include/linux/pagemap.h:1210 [inline]
+ filemap_get_pages+0x465/0x10d0 mm/filemap.c:2600
+ filemap_read+0x3cf/0xea0 mm/filemap.c:2694
+ __kernel_read+0x3fc/0x830 fs/read_write.c:428
+ integrity_kernel_read+0xac/0xf0 security/integrity/iint.c:199
+ ima_calc_file_hash_tfm security/integrity/ima/ima_crypto.c:485 [inline]
+ ima_calc_file_shash security/integrity/ima/ima_crypto.c:516 [inline]
+ ima_calc_file_hash+0x178f/0x1ca0 security/integrity/ima/ima_crypto.c:573
+ ima_collect_measurement+0x444/0x8c0 security/integrity/ima/ima_api.c:292
+ process_measurement+0xf41/0x1bc0 security/integrity/ima/ima_main.c:339
+ ima_file_check+0xd8/0x130 security/integrity/ima/ima_main.c:519
+ do_open fs/namei.c:3559 [inline]
+ path_openat+0x2600/0x2dd0 fs/namei.c:3714
+ do_file_open_root+0x339/0x790 fs/namei.c:3766
+ file_open_root+0x234/0x290 fs/open.c:1290
+ do_handle_open+0x565/0x950 fs/fhandle.c:232
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f063f1ed849
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 51 14 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffdae758908 EFLAGS: 00000246 ORIG_RAX: 0000000000000130
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f063f1ed849
+RDX: 0000000000000000 RSI: 0000000020000100 RDI: 0000000000000004
+RBP: 00007f063f1ad0e0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f063f1ad170
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+
+
 ---
- fs/ntfs3/fslog.c | 26 ++------------------------
- 1 file changed, 2 insertions(+), 24 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index bcdddcd7bc79..20abdb268286 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -1132,7 +1132,7 @@ static int read_log_page(struct ntfs_log *log, u32 vbo,
- 		return -EINVAL;
- 
- 	if (!*buffer) {
--		to_free = kmalloc(bytes, GFP_NOFS);
-+		to_free = kmalloc(log->page_size, GFP_NOFS);
- 		if (!to_free)
- 			return -ENOMEM;
- 		*buffer = to_free;
-@@ -1180,10 +1180,7 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
- 			struct restart_info *info)
- {
- 	u32 skip, vbo;
--	struct RESTART_HDR *r_page = kmalloc(DefaultLogPageSize, GFP_NOFS);
--
--	if (!r_page)
--		return -ENOMEM;
-+	struct RESTART_HDR *r_page = NULL;
- 
- 	/* Determine which restart area we are looking for. */
- 	if (first) {
-@@ -1197,7 +1194,6 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
- 	/* Loop continuously until we succeed. */
- 	for (; vbo < l_size; vbo = 2 * vbo + skip, skip = 0) {
- 		bool usa_error;
--		u32 sys_page_size;
- 		bool brst, bchk;
- 		struct RESTART_AREA *ra;
- 
-@@ -1251,24 +1247,6 @@ static int log_read_rst(struct ntfs_log *log, u32 l_size, bool first,
- 			goto check_result;
- 		}
- 
--		/* Read the entire restart area. */
--		sys_page_size = le32_to_cpu(r_page->sys_page_size);
--		if (DefaultLogPageSize != sys_page_size) {
--			kfree(r_page);
--			r_page = kzalloc(sys_page_size, GFP_NOFS);
--			if (!r_page)
--				return -ENOMEM;
--
--			if (read_log_page(log, vbo,
--					  (struct RECORD_PAGE_HDR **)&r_page,
--					  &usa_error)) {
--				/* Ignore any errors. */
--				kfree(r_page);
--				r_page = NULL;
--				continue;
--			}
--		}
--
- 		if (is_client_area_valid(r_page, usa_error)) {
- 			info->valid_page = true;
- 			ra = Add2Ptr(r_page, le16_to_cpu(r_page->ra_off));
--- 
-2.35.1
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
