@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFA479C4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF876FC7
 	for <ntfs3@lists.linux.dev>; Thu, 29 Dec 2022 16:10:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=JERcZZTMhkivNxo9SqHrHtIaAsMqudDjGhUiCLjWNr4=; b=uEGqoJWMD+5m6rJC3ueg05BpdS
-	yvzRe5kSxtpJEljm6rFhRT1KRo1MlimyyptGn9oxiqWwdzZsevEiRJQrIRs1dUZqZsBMxlA9BWQsg
-	M60+EvxQ4N/NiSFx77YOHKWe18eT6imHat7MQ+wu+cwl1ZsHZTSOBC43DUrAKHZSnlSSZSqwN25fl
-	2xfzM4yW8GRHjwfPnIoPzDtp0qJrNfdyY8+uGVOXTBVIWPnbEUn981Z7rFSjcIz4HWuKxyiJ9WbEn
-	sknQxfWX4y/0QjsHbAy7+s80zQxbjy4SGIct67u+X9EVRQv401lmk0efcwt/0lXTE79gy1wgzifMT
-	RD2bgzOQ==;
+	bh=x4y/4KuqfNuPAflIAi82X++2iXzPIgIv4Sol4IXfpIE=; b=hCkiJn6NwipyF95xZ/GfQjLDmb
+	Si4sdlVrqYhOzIyOHDvE4X1IaWOLKGwwB/WyfjcmVjqFBn391Tx3NsE4ImwHez5KUQC/YOtFnd3mB
+	r0I/7KTgno8i5rUd8vWxs5M/4cUs5R7OBibrzqx9/lV/aVXxlt4uKk9q1q5ScZ1TEx6FqrKHPk9Ow
+	3MypnruGXVZJgQEhTyB8WJmJjakTwGYd+3QT1gdqttF5scQ2eSbdXz50yJDorlrrXTwZmCZInLwjR
+	YllxS++9Um0yVvQk5aqOUb7TRQl9yf2UWXnv73HmIV5RLJGI6TFAVilzX/ndLItpgvO2wMHJZDKsO
+	xGCE/zIA==;
 Received: from rrcs-67-53-201-206.west.biz.rr.com ([67.53.201.206] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pAvUL-00HKLm-6s; Thu, 29 Dec 2022 16:10:37 +0000
+	id 1pAvUQ-00HKPY-BW; Thu, 29 Dec 2022 16:10:42 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	"Theodore Ts'o" <tytso@mit.edu>,
@@ -30,9 +30,9 @@ Cc: linux-ext4@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	ocfs2-devel@oss.oracle.com,
 	linux-mm@kvack.org
-Subject: [PATCH 2/6] ntfs3: stop using generic_writepages
-Date: Thu, 29 Dec 2022 06:10:27 -1000
-Message-Id: <20221229161031.391878-3-hch@lst.de>
+Subject: [PATCH 6/6] mm: remove generic_writepages
+Date: Thu, 29 Dec 2022 06:10:31 -1000
+Message-Id: <20221229161031.391878-7-hch@lst.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221229161031.391878-1-hch@lst.de>
 References: <20221229161031.391878-1-hch@lst.de>
@@ -45,51 +45,106 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Open code the resident inode handling in ntfs_writepages by directly
-using write_cache_pages to prepare removing the ->writepage handler
-in ntfs3.
+Now that all external callers are gone, just fold it into do_writepages.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/ntfs3/inode.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ include/linux/writeback.h |  2 --
+ mm/page-writeback.c       | 53 +++++++++++----------------------------
+ 2 files changed, 15 insertions(+), 40 deletions(-)
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 20b953871574b8..b6dad2da59501b 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -852,12 +852,29 @@ static int ntfs_writepage(struct page *page, struct writeback_control *wbc)
- 	return block_write_full_page(page, ntfs_get_block, wbc);
- }
+diff --git a/include/linux/writeback.h b/include/linux/writeback.h
+index 06f9291b6fd512..2554b71765e9d0 100644
+--- a/include/linux/writeback.h
++++ b/include/linux/writeback.h
+@@ -369,8 +369,6 @@ bool wb_over_bg_thresh(struct bdi_writeback *wb);
+ typedef int (*writepage_t)(struct page *page, struct writeback_control *wbc,
+ 				void *data);
  
-+static int ntfs_resident_writepage(struct page *page,
-+		struct writeback_control *wbc, void *data)
-+{
-+	struct address_space *mapping = data;
-+	struct ntfs_inode *ni = ntfs_i(mapping->host);
-+	int ret;
-+
-+	ni_lock(ni);
-+	ret = attr_data_write_resident(ni, page);
-+	ni_unlock(ni);
-+
-+	if (ret != E_NTFS_NONRESIDENT)
-+		unlock_page(page);
-+	mapping_set_error(mapping, ret);
-+	return ret;
-+}
-+
- static int ntfs_writepages(struct address_space *mapping,
- 			   struct writeback_control *wbc)
+-int generic_writepages(struct address_space *mapping,
+-		       struct writeback_control *wbc);
+ void tag_pages_for_writeback(struct address_space *mapping,
+ 			     pgoff_t start, pgoff_t end);
+ int write_cache_pages(struct address_space *mapping,
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index ad608ef2a24365..dfeeceebba0ae0 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -2526,12 +2526,8 @@ int write_cache_pages(struct address_space *mapping,
+ }
+ EXPORT_SYMBOL(write_cache_pages);
+ 
+-/*
+- * Function used by generic_writepages to call the real writepage
+- * function and set the mapping flags on error
+- */
+-static int __writepage(struct page *page, struct writeback_control *wbc,
+-		       void *data)
++static int writepage_cb(struct page *page, struct writeback_control *wbc,
++		void *data)
  {
--	/* Redirect call to 'ntfs_writepage' for resident files. */
- 	if (is_resident(ntfs_i(mapping->host)))
--		return generic_writepages(mapping, wbc);
-+		return write_cache_pages(mapping, wbc, ntfs_resident_writepage,
-+					 mapping);
- 	return mpage_writepages(mapping, wbc, ntfs_get_block);
+ 	struct address_space *mapping = data;
+ 	int ret = mapping->a_ops->writepage(page, wbc);
+@@ -2539,34 +2535,6 @@ static int __writepage(struct page *page, struct writeback_control *wbc,
+ 	return ret;
  }
  
+-/**
+- * generic_writepages - walk the list of dirty pages of the given address space and writepage() all of them.
+- * @mapping: address space structure to write
+- * @wbc: subtract the number of written pages from *@wbc->nr_to_write
+- *
+- * This is a library function, which implements the writepages()
+- * address_space_operation.
+- *
+- * Return: %0 on success, negative error code otherwise
+- */
+-int generic_writepages(struct address_space *mapping,
+-		       struct writeback_control *wbc)
+-{
+-	struct blk_plug plug;
+-	int ret;
+-
+-	/* deal with chardevs and other special file */
+-	if (!mapping->a_ops->writepage)
+-		return 0;
+-
+-	blk_start_plug(&plug);
+-	ret = write_cache_pages(mapping, wbc, __writepage, mapping);
+-	blk_finish_plug(&plug);
+-	return ret;
+-}
+-
+-EXPORT_SYMBOL(generic_writepages);
+-
+ int do_writepages(struct address_space *mapping, struct writeback_control *wbc)
+ {
+ 	int ret;
+@@ -2577,11 +2545,20 @@ int do_writepages(struct address_space *mapping, struct writeback_control *wbc)
+ 	wb = inode_to_wb_wbc(mapping->host, wbc);
+ 	wb_bandwidth_estimate_start(wb);
+ 	while (1) {
+-		if (mapping->a_ops->writepages)
++		if (mapping->a_ops->writepages) {
+ 			ret = mapping->a_ops->writepages(mapping, wbc);
+-		else
+-			ret = generic_writepages(mapping, wbc);
+-		if ((ret != -ENOMEM) || (wbc->sync_mode != WB_SYNC_ALL))
++		} else if (mapping->a_ops->writepage) {
++			struct blk_plug plug;
++
++			blk_start_plug(&plug);
++			ret = write_cache_pages(mapping, wbc, writepage_cb,
++						mapping);
++			blk_finish_plug(&plug);
++		} else {
++			/* deal with chardevs and other special files */
++			ret = 0;
++		}
++		if (ret != -ENOMEM || wbc->sync_mode != WB_SYNC_ALL)
+ 			break;
+ 
+ 		/*
 -- 
 2.35.1
 
