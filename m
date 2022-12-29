@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBD079C3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B543879C8
 	for <ntfs3@lists.linux.dev>; Thu, 29 Dec 2022 16:10:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=eT+sezI7d2puBXhZ4YXeV63r+1dsBpxvT2Biv2ttQVQ=; b=CjvMuzxosYlfRlZyUreZne6XPB
-	dsdBq4zBXheihbIMeS2ElpPTfep1aHkMTppG3M9VXX4j+hrA3xvtALTE1dKDVbJgRn/XvkK/3Msrn
-	eRjanXTfUV2tQLntyRky0Y45cs55uEBTGho1aZPsQTGJpBqr2gp8OczZvzIPd7cAKsgsAgklZY9FQ
-	FEEuCyiJxEnEmUr/V2rgzMmvgzew8LKBMJNo7Oyt/vdAD0gMTeR9itSequwor3zkWmBFvviZhw2/L
-	3RcxZFmAbPj3p5oC0BZZeevS6/3SpWkUk7D8U9SkyP0scecn/DuasxSAYYvxJaL3SKNKWGwJwUZD5
-	VE++S3Bg==;
+	bh=/OSTms68IPUXcD9mOyJwWhvTFEvxpirJZnFVgrc7HRI=; b=mG3Xd47oTUQecGZV2lFfDakfTy
+	v9T6b0WubaweFmczUE/fgvx9Ej4TE34uR+iCTgXqcWAZEtr4nOwjmIu7RgbAexm9fF0FQQClyljLk
+	26JoH5gI1K+5QiVdrRypcrfvoceq4NJW/JTha943AxPSp195deUacqWMuM6Hw4hLbyFsR5+6RgEUA
+	Fn1sHTGv69ttZMtXYF7gIJkwL61CE3QVKLKPdS29QXQgMpfIwoP5p45q41XYs+lhHGRJDhPj5r0sc
+	mLVdGFgskkvDGn9spGCbLcJnva/V2khDSMNj+mzAJRxEDup9kUduZRBnmm9ZYAUWooRXugVtUAP2G
+	kI54fxzg==;
 Received: from rrcs-67-53-201-206.west.biz.rr.com ([67.53.201.206] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pAvUM-00HKMX-JM; Thu, 29 Dec 2022 16:10:38 +0000
+	id 1pAvUO-00HKOB-Uf; Thu, 29 Dec 2022 16:10:41 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	"Theodore Ts'o" <tytso@mit.edu>,
@@ -30,9 +30,9 @@ Cc: linux-ext4@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	ocfs2-devel@oss.oracle.com,
 	linux-mm@kvack.org
-Subject: [PATCH 3/6] ntfs3: remove ->writepage
-Date: Thu, 29 Dec 2022 06:10:28 -1000
-Message-Id: <20221229161031.391878-4-hch@lst.de>
+Subject: [PATCH 5/6] ocfs2: use filemap_fdatawrite_wbc instead of generic_writepages
+Date: Thu, 29 Dec 2022 06:10:30 -1000
+Message-Id: <20221229161031.391878-6-hch@lst.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221229161031.391878-1-hch@lst.de>
 References: <20221229161031.391878-1-hch@lst.de>
@@ -45,64 +45,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-->writepage is a very inefficient method to write back data, and only
- used through write_cache_pages or a a fallback when no ->migrate_folio
-method is present.
-
-Set ->migrate_folio to the generic buffer_head based helper, and remove
-the ->writepage implementation.
+filemap_fdatawrite_wbc is a fairly thing wrapper around do_writepages,
+and the big difference there is support for cgroup writeback, which
+is not supported by ocfs2, and the potential to use ->writepages instead
+of ->writepage, which ocfs2 does not currently implement but eventually
+should.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/ntfs3/inode.c | 22 +---------------------
- 1 file changed, 1 insertion(+), 21 deletions(-)
+ fs/ocfs2/journal.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index b6dad2da59501b..6b50b6e3237876 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -832,26 +832,6 @@ int ntfs_set_size(struct inode *inode, u64 new_size)
- 	return err;
+diff --git a/fs/ocfs2/journal.c b/fs/ocfs2/journal.c
+index 59f612684c5178..25d8072ccfce46 100644
+--- a/fs/ocfs2/journal.c
++++ b/fs/ocfs2/journal.c
+@@ -852,7 +852,7 @@ static int ocfs2_journal_submit_inode_data_buffers(struct jbd2_inode *jinode)
+ 		.range_end = jinode->i_dirty_end,
+ 	};
+ 
+-	return generic_writepages(mapping, &wbc);
++	return filemap_fdatawrite_wbc(mapping, &wbc);
  }
  
--static int ntfs_writepage(struct page *page, struct writeback_control *wbc)
--{
--	struct address_space *mapping = page->mapping;
--	struct inode *inode = mapping->host;
--	struct ntfs_inode *ni = ntfs_i(inode);
--	int err;
--
--	if (is_resident(ni)) {
--		ni_lock(ni);
--		err = attr_data_write_resident(ni, page);
--		ni_unlock(ni);
--		if (err != E_NTFS_NONRESIDENT) {
--			unlock_page(page);
--			return err;
--		}
--	}
--
--	return block_write_full_page(page, ntfs_get_block, wbc);
--}
--
- static int ntfs_resident_writepage(struct page *page,
- 		struct writeback_control *wbc, void *data)
- {
-@@ -2083,13 +2063,13 @@ const struct inode_operations ntfs_link_inode_operations = {
- const struct address_space_operations ntfs_aops = {
- 	.read_folio	= ntfs_read_folio,
- 	.readahead	= ntfs_readahead,
--	.writepage	= ntfs_writepage,
- 	.writepages	= ntfs_writepages,
- 	.write_begin	= ntfs_write_begin,
- 	.write_end	= ntfs_write_end,
- 	.direct_IO	= ntfs_direct_IO,
- 	.bmap		= ntfs_bmap,
- 	.dirty_folio	= block_dirty_folio,
-+	.migrate_folio	= buffer_migrate_folio,
- 	.invalidate_folio = block_invalidate_folio,
- };
- 
+ int ocfs2_journal_init(struct ocfs2_super *osb, int *dirty)
 -- 
 2.35.1
 
