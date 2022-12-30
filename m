@@ -1,24 +1,34 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A277723B7
-	for <ntfs3@lists.linux.dev>; Fri, 30 Dec 2022 12:03:48 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id A2BE82139;
-	Fri, 30 Dec 2022 12:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D2E23B7
+	for <ntfs3@lists.linux.dev>; Fri, 30 Dec 2022 12:07:16 +0000 (UTC)
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 863E92139;
+	Fri, 30 Dec 2022 12:03:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1672401613;
-	bh=MLrryah8PcAIEgqMp1+hU+ya9+8F75oeNu3M5zQRMAA=;
+	d=paragon-software.com; s=mail; t=1672401821;
+	bh=5FN+7mfpnB/2TIwOgNn2tZ0icLdMQdRE+Ak22nDc6To=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=rTRPIDsMtRf+wV3YavbAqZEbgm134rKbtewer5a3BJmhWQdv3zlcsir9Kz4s9q/6Y
-	 DeI+cj2gbywO9t0FSdddkb80mH12ZkPY+r4+OnoO3sZoAo8Aqw0+BfgRmu8ubTJMf5
-	 RCS3lHOu3xXMbXPteI8/HkiyRPl5TlYpZQDq+FL0=
+	b=q+HHtyGd6BVpAczELuQiXx4SyyWJ39HsOoNtr3NgVpldvAvnJrv7tVIelSicmuUtz
+	 YDZO69urit90BA4qA4nJ/yd4AUK2ch2a1jyp3S+GqTAT99ew/KFydo47iNFuf4ys1i
+	 rWo9PMiJXM0Ibcxlt2MC57PUmyStskMYPF1mF+xE=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 1FE6D2137;
+	Fri, 30 Dec 2022 12:07:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1672402034;
+	bh=5FN+7mfpnB/2TIwOgNn2tZ0icLdMQdRE+Ak22nDc6To=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=eSL0d30fVdKbLDZJhssXtr51sw+REIR6hFDQ5t/BDwygEEhrPk78/a4iQAB5g2pIc
+	 qnxSsZ+jXSCkxcCMWogx7G3gHOW72sjnKfTkM3/oRPoS+5yjrJRAsK+e7Cxgbd19Pt
+	 zQW/HtMWBkweIP+XM7qgfW/5vRtwkSPtjaazV3G8=
 Received: from [192.168.211.146] (192.168.211.146) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 30 Dec 2022 15:03:45 +0300
-Message-ID: <ff9118fe-9a6e-d178-dc0f-52230f369d53@paragon-software.com>
-Date: Fri, 30 Dec 2022 16:03:45 +0400
+ 15.1.2375.7; Fri, 30 Dec 2022 15:07:13 +0300
+Message-ID: <1c45a3aa-275a-2815-79bf-ef72df30db97@paragon-software.com>
+Date: Fri, 30 Dec 2022 16:07:12 +0400
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -27,31 +37,52 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: remove ->writepage in ntfs3
+Subject: Re: [PATCH 0/3] fs/ntfs3: Fixes for big endian systems
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>
-References: <20221116133452.2196640-1-hch@lst.de>
+To: =?UTF-8?Q?Thomas_K=c3=bchnel?= <thomas.kuehnel@avm.de>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20211207102454.576906-1-thomas.kuehnel@avm.de>
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20221116133452.2196640-1-hch@lst.de>
+In-Reply-To: <20211207102454.576906-1-thomas.kuehnel@avm.de>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [192.168.211.146]
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 16.11.2022 17:34, Christoph Hellwig wrote:
-> Hi Konstantin,
+On 07.12.2021 14:24, Thomas Kühnel wrote:
+> I tried running the NTFS3 driver on a MIPS big endian system and
+> noticed various errors when it tried to access bitmaps structures
+> that are stored as little endian on disk.
 >
-> this small series removes the deprecated ->writepage method from ntfs3.
-> I don't have a ntfs test setup so this is untested and should be handled
-> with care.
+> These patches were mainly tested in a qemu mips environment.
 >
-> Diffstat:
->   inode.c |   33 +++++++++++++++------------------
->   1 file changed, 15 insertions(+), 18 deletions(-)
-Hello Christoph,
+> I'm open for suggestions how to better implement the second patch
+> "add functions to modify LE bitmaps". It adds copies of two functions
+> from lib/bitmap.c but modified to work with little endian bitmaps.
+> Other filesystems seem to have similar functions defined locally like
+> le_bitmap_set in btrfs or ext4_set_bits in ext4 but no global
+> implementation exists.
+>
+> Thomas Kühnel (3):
+>    fs/ntfs3: fix endian conversion in ni_fname_name
+>    fs/ntfs3: add functions to modify LE bitmaps
+>    fs/ntfs3: use _le variants of bitops functions
+>
+>   fs/ntfs3/bitmap.c  | 56 +++++++++++++++++++++++++++++++++++++++-------
+>   fs/ntfs3/frecord.c |  4 +++-
+>   fs/ntfs3/fslog.c   |  4 ++--
+>   fs/ntfs3/fsntfs.c  |  8 +++----
+>   fs/ntfs3/index.c   | 14 ++++++------
+>   fs/ntfs3/ntfs_fs.h |  3 +++
+>   6 files changed, 67 insertions(+), 22 deletions(-)
+>
+>
+> base-commit: 0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1
 
-Sorry for the delay. We have taken your patches for testing.
+Hello Thomas,
 
-We will be back with an answer as soon as possible.
+Thanks for patches, they have been applied long ago.
+
+Sorry for not responding immediately.
+
