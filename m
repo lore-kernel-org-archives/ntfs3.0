@@ -1,83 +1,100 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282B628EA
-	for <ntfs3@lists.linux.dev>; Mon,  2 Jan 2023 19:19:23 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id i20so23018333qtw.9
-        for <ntfs3@lists.linux.dev>; Mon, 02 Jan 2023 11:19:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=R6k/fEMZCmOmEt57raJGiBHMAXA3er6KmGSBfbjnP48=;
-        b=FPswAxOycqwgPTarBphiKECLSd+ITnxOCNopN9RimTNXCA9iNG4HCZjTaDHpYaEP/b
-         U3OtKirwHYHjcn8LezDQ4NQLusrJPE7EVbf3mIyUcbySaST3sVyC85UEoex45+I/naxk
-         FDK3IdBgY/NFBPCm2X4oRJQ45wrywkXZ4Z5Sc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=R6k/fEMZCmOmEt57raJGiBHMAXA3er6KmGSBfbjnP48=;
-        b=aUEqXRfaLIFqFa0szSKazxrPqeBYGubj8ZPXh2eyU9oKvV6i+lIOsv/NuV6sKbI3Mg
-         761JGnkakoXuq+2oW5PKj/NFlmKQmSIF9cy24GZBTfXxAaPf7tjpK6YeM0u3WB4/lCvC
-         HbWedE8DrV6NjKFjHb2Se1LQxPNSoohqiy/noJXJYQ7+Q61MiqInaE8AfvbmthzS4sBc
-         quY2LZNR9+/Egp1Sp+Lt+sOUT/3m1tr+YyhPeaSucs5T4UO9OHhRhtRb/hvqFTnSVfi/
-         m61IgWWUUsO2RtA0DUcd9AFyT8eEP7VolrJyhdfVo2hG5T9bvBqogP5/7qF/ST73zy+h
-         FhOw==
-X-Gm-Message-State: AFqh2kphuzoey9NdkwipSyKypp7VvxJVzBzJf+atPfZ/yNw1XtPe80TL
-	BJUZ27t6y88UwcATkEGwoI4HzFLyuA254nYS
-X-Google-Smtp-Source: AMrXdXuNIWqX/Q29eJV84kF1gWWCkVNHUGJ3IGvbhTcYZzfJON6lYjMbzVUeWfbIwG5xzyKpo90Vyg==
-X-Received: by 2002:ac8:445a:0:b0:3a8:e35:258f with SMTP id m26-20020ac8445a000000b003a80e35258fmr59760492qtn.31.1672687161664;
-        Mon, 02 Jan 2023 11:19:21 -0800 (PST)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com. [209.85.219.54])
-        by smtp.gmail.com with ESMTPSA id x10-20020a05620a448a00b006ea7f9d8644sm21322488qkp.96.2023.01.02.11.19.20
-        for <ntfs3@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jan 2023 11:19:20 -0800 (PST)
-Received: by mail-qv1-f54.google.com with SMTP id m12so13700647qvq.13
-        for <ntfs3@lists.linux.dev>; Mon, 02 Jan 2023 11:19:20 -0800 (PST)
-X-Received: by 2002:a05:6214:568c:b0:531:7593:f551 with SMTP id
- lm12-20020a056214568c00b005317593f551mr1533599qvb.89.1672687160612; Mon, 02
- Jan 2023 11:19:20 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C50568A
+	for <ntfs3@lists.linux.dev>; Mon,  2 Jan 2023 20:20:02 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DCFB05CC9A;
+	Mon,  2 Jan 2023 20:20:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1672690800; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R4FqZ1Q4Ru2AyNRV8iY0v3yjwFpv2y8dFmszlgUtDZ4=;
+	b=bEdZ3GhLyjQqwC18tIto8NcLYK9M55+iOCmPUJDD3VSHdDZUZhlD1v8z0I8EOtK+Ml/ghy
+	tNRiEWWXSvW+USZNrRnkYgxyu0RaWeqdGPPWSL19HuBCC7yJ82nCBnWvJvwm3wELCr/LuK
+	h9OibmJFiAoHuzBeCpGpuGbYZRSiwC4=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B829C13427;
+	Mon,  2 Jan 2023 20:20:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id G2OkKnA8s2PbawAAMHmgww
+	(envelope-from <mhocko@suse.com>); Mon, 02 Jan 2023 20:20:00 +0000
+Date: Mon, 2 Jan 2023 21:19:59 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
+	syzbot <syzbot+89dbb3a789a5b9711793@syzkaller.appspotmail.com>,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] fs/ntfs3: Use __GFP_NOWARN allocation at
+ ntfs_load_attr_list()
+Message-ID: <Y7M8bwYAzyuYbmP3@dhcp22.suse.cz>
+References: <00000000000027524405f1452ea8@google.com>
+ <7b10c1aa-0b3a-da0d-ea0e-b135cffc3491@I-love.SAKURA.ne.jp>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <00000000000060d41f05f139aa44@google.com> <20230102005409.3474-1-hdanton@sina.com>
- <CAHk-=wim+_xutuWdeykqM34EQxbE3As7+91L5uEVLUCXbUL1CA@mail.gmail.com>
- <20230102094125.3552-1-hdanton@sina.com> <305e5da3-bf57-0fc0-cf5e-4c620a76fb8d@I-love.SAKURA.ne.jp>
-In-Reply-To: <305e5da3-bf57-0fc0-cf5e-4c620a76fb8d@I-love.SAKURA.ne.jp>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 2 Jan 2023 11:19:04 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wioYYi=A8r2bXRE9Nvg1FBe-9UV+HB51cGPGwi5d7N_ug@mail.gmail.com>
-Message-ID: <CAHk-=wioYYi=A8r2bXRE9Nvg1FBe-9UV+HB51cGPGwi5d7N_ug@mail.gmail.com>
-Subject: Re: [PATCH] fs/ntfs3: don't hold ni_lock when calling truncate_setsize()
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev, 
-	syzbot <syzbot+bed15dbf10294aa4f2ae@syzkaller.appspotmail.com>, 
-	syzkaller-bugs@googlegroups.com, Hillf Danton <hdanton@sina.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7b10c1aa-0b3a-da0d-ea0e-b135cffc3491@I-love.SAKURA.ne.jp>
 
-On Mon, Jan 2, 2023 at 6:05 AM Tetsuo Handa
-<penguin-kernel@i-love.sakura.ne.jp> wrote:
->
-> Since filemap_update_page() calls filemap_read_folio() after calling
-> folio_trylock() which will set PG_locked bit, ntfs_truncate() must not
-> call truncate_setsize() which will wait for PG_locked bit to be
-> cleared when holding ni_lock lock.
+[this has just hit my filters, I am not really familiar with the code
+ itself]
 
-I've applied this patch directly.
+On Mon 02-01-23 23:53:40, Tetsuo Handa wrote:
+> syzbot is reporting too large allocation at ntfs_load_attr_list() [1], for
+> a crafted filesystem can have huge data_size.
+> 
+> Link: https://syzkaller.appspot.com/bug?extid=89dbb3a789a5b9711793 [1]
+> Reported-by: syzbot <syzbot+89dbb3a789a5b9711793@syzkaller.appspotmail.com>
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> ---
+>  fs/ntfs3/attrlist.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
+> index c0c6bcbc8c05..81c22df27c72 100644
+> --- a/fs/ntfs3/attrlist.c
+> +++ b/fs/ntfs3/attrlist.c
+> @@ -52,7 +52,7 @@ int ntfs_load_attr_list(struct ntfs_inode *ni, struct ATTRIB *attr)
+>  
+>  	if (!attr->non_res) {
+>  		lsize = le32_to_cpu(attr->res.data_size);
+> -		le = kmalloc(al_aligned(lsize), GFP_NOFS);
+> +		le = kmalloc(al_aligned(lsize), GFP_NOFS | __GFP_NOWARN);
 
-I'm not thrilled about changing the locking like this, but I don't
-think truncate_setsize() can possibly rely on the ni_lock in any
-productive ways (ie it only touches generic vfs data, not anything
-that ni_lock protects), and it clearly is a source of deadlocks.
+This looks like a bad idea in general. The allocator merely says that
+something is wrong and you are silencing that. The calling code should
+check the size for reasonable range and if larger size. Moreover, if
+lsize can be really more than PAGE_SIZE this should be kvmalloc instead.
+Ditto for the the other case.
 
-So I think some ntfs3 person needs to think hard about the locking
-here, and maybe there are future patches in this area, but this seems
-to be the RightThing(tm) for now, at least.
+>  		if (!le) {
+>  			err = -ENOMEM;
+>  			goto out;
+> @@ -80,7 +80,7 @@ int ntfs_load_attr_list(struct ntfs_inode *ni, struct ATTRIB *attr)
+>  		if (err < 0)
+>  			goto out;
+>  
+> -		le = kmalloc(al_aligned(lsize), GFP_NOFS);
+> +		le = kmalloc(al_aligned(lsize), GFP_NOFS | __GFP_NOWARN);
+>  		if (!le) {
+>  			err = -ENOMEM;
+>  			goto out;
+> -- 
+> 2.34.1
+> 
 
-                Linus
+-- 
+Michal Hocko
+SUSE Labs
