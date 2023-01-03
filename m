@@ -1,106 +1,205 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBBA138D
-	for <ntfs3@lists.linux.dev>; Tue,  3 Jan 2023 08:13:06 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0B41F60B03;
-	Tue,  3 Jan 2023 08:13:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1672733585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rMHQUOAHmTg3wO8jl3EtVLVU5btU1+IUye1p3QH4BgY=;
-	b=VZI6wB8m0hSplwKxNnwO4QnNP833alU3sEYqyVwgzpugy2N5daS5PT2JCwi4ydw3JOMC/L
-	50aQGmjI7pAbvUm9gxjQEz9g4aTnp0RhR7L6tT5JJyM/h1tilicFecw1GWQbik+VQA3aeb
-	BgmLpiqWvxnUhYUX/n78pz+U/oUz9fA=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DDE82139F1;
-	Tue,  3 Jan 2023 08:13:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id OGFQM5Djs2NwfgAAMHmgww
-	(envelope-from <mhocko@suse.com>); Tue, 03 Jan 2023 08:13:04 +0000
-Date: Tue, 3 Jan 2023 09:13:04 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
-	syzbot <syzbot+89dbb3a789a5b9711793@syzkaller.appspotmail.com>,
-	syzkaller-bugs@googlegroups.com, linux-mm <linux-mm@kvack.org>
-Subject: Re: [PATCH] fs/ntfs3: Use __GFP_NOWARN allocation at
- ntfs_load_attr_list()
-Message-ID: <Y7PjkN+2lhlO8/kK@dhcp22.suse.cz>
-References: <00000000000027524405f1452ea8@google.com>
- <7b10c1aa-0b3a-da0d-ea0e-b135cffc3491@I-love.SAKURA.ne.jp>
- <Y7M8bwYAzyuYbmP3@dhcp22.suse.cz>
- <38352801-b4ae-0cdc-17ba-06b363da3aa6@I-love.SAKURA.ne.jp>
- <Y7Pg3RtxjA8uTcfu@dhcp22.suse.cz>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4AF79C5
+	for <ntfs3@lists.linux.dev>; Tue,  3 Jan 2023 12:45:51 +0000 (UTC)
+Received: by mail-io1-f72.google.com with SMTP id g11-20020a6be60b000000b006e2c707e565so8302998ioh.14
+        for <ntfs3@lists.linux.dev>; Tue, 03 Jan 2023 04:45:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8MynO4leFA2w1GPk1xqqPyeqjfOjx4gAYINSVbjhYAM=;
+        b=ZUKliuIHFn3OaHURMm01wQAkv2LiLNSrqcUfDCFzmpTaXaMaaSjVrnQZohdBZE3T2i
+         5MaFSb+JqCQoboYATIA75RtiFUwhFwuwDeUwt86YrA8ryaoyuEqi4CR7aPCuUkxytv/Y
+         ZipBS0DDyzQ9p/kQ/afYU9IcafQHZMRGglrt2FmPwtzhnU+VWmDiWX3FLlPdm2jLzJPu
+         aJ3wJwhCc3IzhkfITeljm57jv9XDkV8QABGwrV6G+mmADFAcOfUlY5zdwMhUBNyg/030
+         fv56KZueATN/ynY+NNENqAuWbkFgoFVAeBkEYUVzXFfwp1vvw6XuElbgvreMvUm/Noht
+         WYBw==
+X-Gm-Message-State: AFqh2kpJBD4inc4nX6VbwX0w6W1ZXw9U/YtqmEUuWtfvEkCsSHLHpjPF
+	BLLZqw6MA9PtbY80tAegXU5VGnYfdVKOwBEp0fAZUQtv3D5+
+X-Google-Smtp-Source: AMrXdXvv8lzplegQVVEUG26Ou9yTdSFrFpt8PznM38pG9PwEleavOKPYN1GQaOukHlroxx3nfxqj+NaMePr3+iUsxTVG2h5z8K94
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7Pg3RtxjA8uTcfu@dhcp22.suse.cz>
+X-Received: by 2002:a92:d0c:0:b0:30b:f63e:306e with SMTP id
+ 12-20020a920d0c000000b0030bf63e306emr3429955iln.137.1672749950813; Tue, 03
+ Jan 2023 04:45:50 -0800 (PST)
+Date: Tue, 03 Jan 2023 04:45:50 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000009dceeb05f15b726e@google.com>
+Subject: [syzbot] [ntfs3?] possible deadlock in ntfs_mark_rec_free
+From: syzbot <syzbot+f83f0dbef763c426e3cf@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue 03-01-23 09:01:34, Michal Hocko wrote:
-> On Tue 03-01-23 09:49:22, Tetsuo Handa wrote:
-> > On 2023/01/03 5:19, Michal Hocko wrote:
-> > >> @@ -52,7 +52,7 @@ int ntfs_load_attr_list(struct ntfs_inode *ni, struct ATTRIB *attr)
-> > >>  
-> > >>  	if (!attr->non_res) {
-> > >>  		lsize = le32_to_cpu(attr->res.data_size);
-> > >> -		le = kmalloc(al_aligned(lsize), GFP_NOFS);
-> > >> +		le = kmalloc(al_aligned(lsize), GFP_NOFS | __GFP_NOWARN);
-> > > 
-> > > This looks like a bad idea in general. The allocator merely says that
-> > > something is wrong and you are silencing that. The calling code should
-> > > check the size for reasonable range and if larger size. Moreover, if
-> > > lsize can be really more than PAGE_SIZE this should be kvmalloc instead.
-> > 
-> > There are already similar commits.
-> > 
-> >   commit 0d0f659bf713 ("fs/ntfs3: Use __GFP_NOWARN allocation at wnd_init()")
-> >   commit 59bfd7a483da ("fs/ntfs3: Use __GFP_NOWARN allocation at ntfs_fill_super()")
-> 
-> Bad examples to follow.
-> 
-> > Is KMALLOC_MAX_SIZE intended to be used by callers like
-> > 
-> >   https://linux.googlesource.com/linux/kernel/git/torvalds/linux/+/a5a1e1f249db4e0a35d3deca0b9916b11cc1f02b%5E!
-> > 
-> > ?
-> 
-> Nope, this doesn't look right either. This all is about inhibiting the
-> warning much more than actually fixing the underlying problem which
-> would be either check against a _specification_ based or _reasonable_
-> expectation based range or using kvmalloc instead if the range is not
-> well defined.
+Hello,
 
-Let me clarify some more because there are two things happening here.
+syzbot found the following issue on:
 
-kvmalloc (or its variants) should be used whenever there is a risk the
-allocation request size is large (>>PAGE_SIZE) sounds like reasonable
-rule of thumb because those allocations shouldn't put an additional
-pressure on a fragmented system.
+HEAD commit:    69b41ac87e4a Merge tag 'for-6.2-rc2-tag' of git://git.kern..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14d88034480000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=affadc28955d87c3
+dashboard link: https://syzkaller.appspot.com/bug?extid=f83f0dbef763c426e3cf
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
-Any user input, and that applies to potentially crafted fs images,
-should be checked for runaway values. If there is specification in
-place then this is no brainer. If the value is not well specified then
-there should be reasonable defensive checking done. KMALLOC_MAX_SIZE
-doesn't sound like a good fit for the check as that is an internal
-implementation specific constant for a particular memory allocator.
-vmalloc allows much larger allocations and sometime that is a reasonable
-thing to allow. So those checks should be domain specific.
+Unfortunately, I don't have any reproducer for this issue yet.
 
--- 
-Michal Hocko
-SUSE Labs
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+f83f0dbef763c426e3cf@syzkaller.appspotmail.com
+
+======================================================
+WARNING: possible circular locking dependency detected
+6.2.0-rc2-syzkaller-00010-g69b41ac87e4a #0 Not tainted
+------------------------------------------------------
+kworker/u17:4/9698 is trying to acquire lock:
+ffff888073da4120 (&wnd->rw_lock/1){+.+.}-{3:3}, at: ntfs_mark_rec_free+0x229/0x310 fs/ntfs3/fsntfs.c:741
+
+but task is already holding lock:
+ffff8880765ba920 (&ni->ni_lock){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1142 [inline]
+ffff8880765ba920 (&ni->ni_lock){+.+.}-{3:3}, at: ni_write_inode+0x1c2/0x3120 fs/ntfs3/frecord.c:3255
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #2 (&ni->ni_lock){+.+.}-{3:3}:
+       __mutex_lock_common kernel/locking/mutex.c:603 [inline]
+       __mutex_lock+0x12f/0x1360 kernel/locking/mutex.c:747
+       ntfs_set_state fs/ntfs3/fsntfs.c:946 [inline]
+       ntfs_set_state+0x1d5/0x6b0 fs/ntfs3/fsntfs.c:921
+       attr_set_size+0x134e/0x2ac0 fs/ntfs3/attrib.c:867
+       ntfs_extend_mft+0x296/0x430 fs/ntfs3/fsntfs.c:526
+       ntfs_look_free_mft+0x548/0xe60 fs/ntfs3/fsntfs.c:589
+       ni_create_attr_list+0xbce/0x12b0 fs/ntfs3/frecord.c:873
+       ni_ins_attr_ext+0x3ca/0xba0 fs/ntfs3/frecord.c:968
+       ni_insert_attr+0x3ee/0x850 fs/ntfs3/frecord.c:1135
+       ni_insert_resident+0xd9/0x3a0 fs/ntfs3/frecord.c:1519
+       ntfs_set_ea+0xa28/0x1310 fs/ntfs3/xattr.c:432
+       ntfs_save_wsl_perm+0x123/0x3b0 fs/ntfs3/xattr.c:962
+       ntfs3_setattr+0xb07/0xd30 fs/ntfs3/file.c:722
+       notify_change+0xca7/0x1420 fs/attr.c:482
+       chown_common+0x60a/0x6f0 fs/open.c:736
+       do_fchownat+0x12a/0x1e0 fs/open.c:767
+       __do_sys_fchownat fs/open.c:782 [inline]
+       __se_sys_fchownat fs/open.c:779 [inline]
+       __x64_sys_fchownat+0xbe/0x160 fs/open.c:779
+       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+       do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+       entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+-> #1 (&ni->file.run_lock#2){++++}-{3:3}:
+       down_write+0x94/0x220 kernel/locking/rwsem.c:1562
+       ntfs_extend_mft+0x127/0x430 fs/ntfs3/fsntfs.c:510
+       ntfs_look_free_mft+0x548/0xe60 fs/ntfs3/fsntfs.c:589
+       ni_create_attr_list+0xbce/0x12b0 fs/ntfs3/frecord.c:873
+       ni_ins_attr_ext+0x3ca/0xba0 fs/ntfs3/frecord.c:968
+       ni_insert_attr+0x3ee/0x850 fs/ntfs3/frecord.c:1135
+       ni_insert_resident+0xd9/0x3a0 fs/ntfs3/frecord.c:1519
+       ntfs_set_ea+0xa28/0x1310 fs/ntfs3/xattr.c:432
+       ntfs_save_wsl_perm+0x123/0x3b0 fs/ntfs3/xattr.c:962
+       ntfs3_setattr+0xb07/0xd30 fs/ntfs3/file.c:722
+       notify_change+0xca7/0x1420 fs/attr.c:482
+       chown_common+0x60a/0x6f0 fs/open.c:736
+       do_fchownat+0x12a/0x1e0 fs/open.c:767
+       __do_sys_fchownat fs/open.c:782 [inline]
+       __se_sys_fchownat fs/open.c:779 [inline]
+       __x64_sys_fchownat+0xbe/0x160 fs/open.c:779
+       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+       do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+       entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+-> #0 (&wnd->rw_lock/1){+.+.}-{3:3}:
+       check_prev_add kernel/locking/lockdep.c:3097 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3216 [inline]
+       validate_chain kernel/locking/lockdep.c:3831 [inline]
+       __lock_acquire+0x2a43/0x56d0 kernel/locking/lockdep.c:5055
+       lock_acquire kernel/locking/lockdep.c:5668 [inline]
+       lock_acquire+0x1e3/0x630 kernel/locking/lockdep.c:5633
+       down_write_nested+0x98/0x220 kernel/locking/rwsem.c:1672
+       ntfs_mark_rec_free+0x229/0x310 fs/ntfs3/fsntfs.c:741
+       ni_write_inode+0x10a8/0x3120 fs/ntfs3/frecord.c:3348
+       write_inode fs/fs-writeback.c:1451 [inline]
+       __writeback_single_inode+0xcfc/0x1440 fs/fs-writeback.c:1663
+       writeback_sb_inodes+0x54d/0xf90 fs/fs-writeback.c:1889
+       wb_writeback+0x2c5/0xd70 fs/fs-writeback.c:2063
+       wb_do_writeback fs/fs-writeback.c:2206 [inline]
+       wb_workfn+0x2e0/0x12f0 fs/fs-writeback.c:2246
+       process_one_work+0x9bf/0x1710 kernel/workqueue.c:2289
+       worker_thread+0x669/0x1090 kernel/workqueue.c:2436
+       kthread+0x2e8/0x3a0 kernel/kthread.c:376
+       ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+
+other info that might help us debug this:
+
+Chain exists of:
+  &wnd->rw_lock/1 --> &ni->file.run_lock#2 --> &ni->ni_lock
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&ni->ni_lock);
+                               lock(&ni->file.run_lock#2);
+                               lock(&ni->ni_lock);
+  lock(&wnd->rw_lock/1);
+
+ *** DEADLOCK ***
+
+3 locks held by kworker/u17:4/9698:
+ #0: ffff888042906938 ((wq_completion)writeback){+.+.}-{0:0}, at: arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
+ #0: ffff888042906938 ((wq_completion)writeback){+.+.}-{0:0}, at: arch_atomic_long_set include/linux/atomic/atomic-long.h:41 [inline]
+ #0: ffff888042906938 ((wq_completion)writeback){+.+.}-{0:0}, at: atomic_long_set include/linux/atomic/atomic-instrumented.h:1280 [inline]
+ #0: ffff888042906938 ((wq_completion)writeback){+.+.}-{0:0}, at: set_work_data kernel/workqueue.c:636 [inline]
+ #0: ffff888042906938 ((wq_completion)writeback){+.+.}-{0:0}, at: set_work_pool_and_clear_pending kernel/workqueue.c:663 [inline]
+ #0: ffff888042906938 ((wq_completion)writeback){+.+.}-{0:0}, at: process_one_work+0x86d/0x1710 kernel/workqueue.c:2260
+ #1: ffffc90003917da8 ((work_completion)(&(&wb->dwork)->work)){+.+.}-{0:0}, at: process_one_work+0x8a1/0x1710 kernel/workqueue.c:2264
+ #2: ffff8880765ba920 (&ni->ni_lock){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1142 [inline]
+ #2: ffff8880765ba920 (&ni->ni_lock){+.+.}-{3:3}, at: ni_write_inode+0x1c2/0x3120 fs/ntfs3/frecord.c:3255
+
+stack backtrace:
+CPU: 2 PID: 9698 Comm: kworker/u17:4 Not tainted 6.2.0-rc2-syzkaller-00010-g69b41ac87e4a #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+Workqueue: writeback wb_workfn (flush-7:2)
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xd1/0x138 lib/dump_stack.c:106
+ check_noncircular+0x25f/0x2e0 kernel/locking/lockdep.c:2177
+ check_prev_add kernel/locking/lockdep.c:3097 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3216 [inline]
+ validate_chain kernel/locking/lockdep.c:3831 [inline]
+ __lock_acquire+0x2a43/0x56d0 kernel/locking/lockdep.c:5055
+ lock_acquire kernel/locking/lockdep.c:5668 [inline]
+ lock_acquire+0x1e3/0x630 kernel/locking/lockdep.c:5633
+ down_write_nested+0x98/0x220 kernel/locking/rwsem.c:1672
+ ntfs_mark_rec_free+0x229/0x310 fs/ntfs3/fsntfs.c:741
+ ni_write_inode+0x10a8/0x3120 fs/ntfs3/frecord.c:3348
+ write_inode fs/fs-writeback.c:1451 [inline]
+ __writeback_single_inode+0xcfc/0x1440 fs/fs-writeback.c:1663
+ writeback_sb_inodes+0x54d/0xf90 fs/fs-writeback.c:1889
+ wb_writeback+0x2c5/0xd70 fs/fs-writeback.c:2063
+ wb_do_writeback fs/fs-writeback.c:2206 [inline]
+ wb_workfn+0x2e0/0x12f0 fs/fs-writeback.c:2246
+ process_one_work+0x9bf/0x1710 kernel/workqueue.c:2289
+ worker_thread+0x669/0x1090 kernel/workqueue.c:2436
+ kthread+0x2e8/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
