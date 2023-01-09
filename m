@@ -1,118 +1,142 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A2295D8
-	for <ntfs3@lists.linux.dev>; Sat,  7 Jan 2023 08:04:47 +0000 (UTC)
-Received: by mail-il1-f197.google.com with SMTP id o10-20020a056e02102a00b003006328df7bso2454973ilj.17
-        for <ntfs3@lists.linux.dev>; Sat, 07 Jan 2023 00:04:47 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7FC23D0
+	for <ntfs3@lists.linux.dev>; Mon,  9 Jan 2023 06:48:40 +0000 (UTC)
+Received: by mail-il1-f198.google.com with SMTP id i7-20020a056e021b0700b003033a763270so5505070ilv.19
+        for <ntfs3@lists.linux.dev>; Sun, 08 Jan 2023 22:48:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ORK3h6FSW+2B+RhDOw+LxFiKc6vxzMBG6vWzfQ9cyq0=;
-        b=CnEoWQbx84VWibiEzKfNKEMSSfe8cx1ycu1zRr4XJL9wmgFj8UCQCyDsiQI1hPr+BI
-         tp36t+nKeNRiANJ3jfJNxiw7PvikQHALvW7p/YiKW8cPQeUnfVfDuYSKY/LjRmTVh3Wc
-         akhwEE3pzMQtg+SoCymtT5LNReTiEpjbNwOXuu98tpHWxwUZzQS7tKENQUAa6vm7uOBA
-         meLwLV444Xn35V24MM53sLYsDUTV/DORviqHFl8Dcno69gDdwYa5EeYV85F3yADic5+F
-         xVQux2SQ8kYNRq1dgKs9LD7pkO9w6ZTGX7C2gsF9j+OFY6fCaHZPfT47JX4EXixL4kfW
-         E+5Q==
-X-Gm-Message-State: AFqh2krHV/wqKFRK6Bo9cFH8eVqYvJBTDDL5Nl8Bg2ZaXhE9f79xAd3R
-	5auzUHaCYnxLEdm51a9VmU7RREXnk8xR21tnuHZrNg6/2ybS
-X-Google-Smtp-Source: AMrXdXuhpT4sEifvTQf63Kq6VsZHZhzDxGON4d1gA2aXKigyepDf7s1mx2zlNq3FRZpFeXMlcNLZZLBCDi5ul0st00ACCx5Xnj9U
+        bh=FZxoDGIUXPGrupbgdSJfUdBAOmhNQ8UvSXrona3AoYg=;
+        b=CUd7LyYoBM58vC/nBrF50u74FN3j38A5C9WDiWUixdGPBm0R1ExSJxUFVLsLqBcMyT
+         qEGsCI7ZjvmlT/C31Tuo4GG/6b9c0MCHDp8uapDmyUNkyIVLijGSsTmPza1rJ5jhpdho
+         Q9pIiuuCZ9oy1aRM+LxSTMwF96h/GPz3dvXSzZ1Yw8Z04BcD77KAtiyxbHX5eT2c2vKw
+         0JjpFH9tTag2+DyZ73hgXtNWbuSwztn/Xp4rlmeJPY5wb0CehOf2fg/9swgjuwI20mWQ
+         X2NZO1RiFMt8YN5nouvge1Kq777cgO30VDtHKM8B+IbYitj+eShrsvxGeXHOz0PGporq
+         tTVQ==
+X-Gm-Message-State: AFqh2kphD8BeVaxbWYlEjVjfeHqOp2nB2NNBX068V9M6Q66Yz+A8R0dQ
+	p7fXpLUHqcydVg8jAQ06cKY9uOY+1ZfYKy5SGkquQRz6DjcP
+X-Google-Smtp-Source: AMrXdXs2JylWKdp//knDSg/T1GQHokJNbtsjPWaWLdmeHXl8FgrZkQ+I6CLv9g/2T/LBlKzAwLvTC71dLUpVc/Xx96z7hwXapZV3
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:41a3:b0:38a:7676:20ce with SMTP id
- az35-20020a05663841a300b0038a767620cemr5993354jab.34.1673078685691; Sat, 07
- Jan 2023 00:04:45 -0800 (PST)
-Date: Sat, 07 Jan 2023 00:04:45 -0800
+X-Received: by 2002:a02:cc4b:0:b0:375:c16b:7776 with SMTP id
+ i11-20020a02cc4b000000b00375c16b7776mr5636701jaq.54.1673246919742; Sun, 08
+ Jan 2023 22:48:39 -0800 (PST)
+Date: Sun, 08 Jan 2023 22:48:39 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000bdf37505f1a7fc09@google.com>
-Subject: [syzbot] [ntfs3?] kernel panic: stack is corrupted in run_unpack_ex
-From: syzbot <syzbot+ba698041fcdf4d0214bb@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+Message-ID: <00000000000045dcd205f1cf28f2@google.com>
+Subject: [syzbot] [ntfs3?] general protection fault in ntfs_lookup
+From: syzbot <syzbot+3e567493c9db9df18d8f@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    41c03ba9beea Merge tag 'for_linus' of git://git.kernel.org..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=10ff69e6480000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8cdb1e7bec4b955a
-dashboard link: https://syzkaller.appspot.com/bug?extid=ba698041fcdf4d0214bb
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11e43f56480000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13fbabea480000
+HEAD commit:    cc3c08b41a9c Add linux-next specific files for 20230105
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=13c4ded6480000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4ac9ebd4cb9742f3
+dashboard link: https://syzkaller.appspot.com/bug?extid=3e567493c9db9df18d8f
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+
+Unfortunately, I don't have any reproducer for this issue yet.
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/0785c850df02/disk-41c03ba9.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/39c091ba7dd7/vmlinux-41c03ba9.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/7f0500283e44/bzImage-41c03ba9.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/3c177fdde72f/mount_0.gz
-
-The issue was bisected to:
-
-commit ad26a9c84510af7252e582e811de970433a9758f
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Fri Oct 7 17:08:06 2022 +0000
-
-    fs/ntfs3: Fixing wrong logic in attr_set_size and ntfs_fallocate
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1631559a480000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=1531559a480000
-console output: https://syzkaller.appspot.com/x/log.txt?x=1131559a480000
+disk image: https://storage.googleapis.com/syzbot-assets/6def59e24625/disk-cc3c08b4.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ef1bd308bc05/vmlinux-cc3c08b4.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/09339fbdbfe9/bzImage-cc3c08b4.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ba698041fcdf4d0214bb@syzkaller.appspotmail.com
-Fixes: ad26a9c84510 ("fs/ntfs3: Fixing wrong logic in attr_set_size and ntfs_fallocate")
+Reported-by: syzbot+3e567493c9db9df18d8f@syzkaller.appspotmail.com
 
-ntfs3: loop0: Different NTFS' sector size (4096) and media sector size (512)
-Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: run_unpack_ex+0x803/0x810
-CPU: 1 PID: 5145 Comm: syz-executor322 Not tainted 6.2.0-rc2-syzkaller-00057-g41c03ba9beea #0
+ntfs3: loop5: Mark volume as dirty due to NTFS errors
+general protection fault, probably for non-canonical address 0xdffffc0000000004: 0000 [#1] PREEMPT SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000020-0x0000000000000027]
+CPU: 0 PID: 13888 Comm: syz-executor.5 Not tainted 6.2.0-rc2-next-20230105-syzkaller #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
+RIP: 0010:ntfs_lookup+0x16b/0x260 fs/ntfs3/namei.c:96
+Code: ff ff e8 e8 24 cd fe 48 81 fd 00 f0 ff ff 77 2b e8 0a 28 cd fe 48 8d 7d 20 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 d3 00 00 00 48 83 7d 20 00 74 54 e8 df 27 cd fe
+RSP: 0018:ffffc900039877c8 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: 1ffffffff1ce77e6 RCX: ffffc9000bb11000
+RDX: 0000000000000004 RSI: ffffffff82b48776 RDI: 0000000000000020
+RBP: 0000000000000000 R08: 0000000000000007 R09: fffffffffffff000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff8880919dfbe8
+R13: ffff88807d6a0000 R14: ffff888091a24c10 R15: ffff888091a24a58
+FS:  00007fe7387b9700(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b3342a000 CR3: 000000001dec0000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
  <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1e3/0x2d0 lib/dump_stack.c:106
- panic+0x316/0x770 kernel/panic.c:318
- __stack_chk_fail+0x12/0x20 kernel/panic.c:746
- run_unpack_ex+0x803/0x810
- attr_load_runs fs/ntfs3/attrib.c:81 [inline]
- attr_set_size+0x1022/0x4110 fs/ntfs3/attrib.c:500
- ntfs_set_size+0x17d/0x210 fs/ntfs3/inode.c:823
- ntfs_extend+0x169/0x4b0 fs/ntfs3/file.c:337
- ntfs_file_write_iter+0x301/0x6c0 fs/ntfs3/file.c:1064
- do_iter_write+0x6f0/0xc50 fs/read_write.c:861
- iter_file_splice_write+0x830/0xff0 fs/splice.c:686
- do_splice_from fs/splice.c:764 [inline]
- direct_splice_actor+0xe6/0x1c0 fs/splice.c:931
- splice_direct_to_actor+0x4e4/0xc00 fs/splice.c:886
- do_splice_direct+0x2a0/0x3f0 fs/splice.c:974
- do_sendfile+0x641/0xfd0 fs/read_write.c:1255
- __do_sys_sendfile64 fs/read_write.c:1323 [inline]
- __se_sys_sendfile64+0x178/0x1e0 fs/read_write.c:1309
+ __lookup_slow+0x24c/0x460 fs/namei.c:1685
+ lookup_slow fs/namei.c:1702 [inline]
+ walk_component+0x33f/0x5a0 fs/namei.c:1993
+ link_path_walk.part.0+0x730/0xdf0 fs/namei.c:2320
+ link_path_walk fs/namei.c:2244 [inline]
+ path_lookupat+0xb7/0x840 fs/namei.c:2473
+ do_o_path fs/namei.c:3685 [inline]
+ path_openat+0x1766/0x2b40 fs/namei.c:3707
+ do_filp_open+0x1ba/0x410 fs/namei.c:3741
+ do_sys_openat2+0x16d/0x4c0 fs/open.c:1310
+ do_sys_open fs/open.c:1326 [inline]
+ __do_sys_openat fs/open.c:1342 [inline]
+ __se_sys_openat fs/open.c:1337 [inline]
+ __x64_sys_openat+0x143/0x1f0 fs/open.c:1337
  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x2b/0x70 arch/x86/entry/common.c:80
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f2d28b0b249
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 01 18 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff179130d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
-RAX: ffffffffffffffda RBX: 000000000001a41e RCX: 00007f2d28b0b249
-RDX: 0000000000000000 RSI: 0000000000000005 RDI: 0000000000000004
-RBP: 0000000000000000 R08: 00007fff17913140 R09: 00007fff17913140
-R10: 00008400fffffffa R11: 0000000000000246 R12: 00007fff1791310c
-R13: 00007fff17913140 R14: 00007fff17913120 R15: 000000000000004e
+RIP: 0033:0x7fe737a8c0c9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fe7387b9168 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007fe737babf80 RCX: 00007fe737a8c0c9
+RDX: 0000000000200002 RSI: 0000000020000180 RDI: ffffffffffffff9c
+RBP: 00007fe737ae7ae9 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fff9572fccf R14: 00007fe7387b9300 R15: 0000000000022000
  </TASK>
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:ntfs_lookup+0x16b/0x260 fs/ntfs3/namei.c:96
+Code: ff ff e8 e8 24 cd fe 48 81 fd 00 f0 ff ff 77 2b e8 0a 28 cd fe 48 8d 7d 20 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 d3 00 00 00 48 83 7d 20 00 74 54 e8 df 27 cd fe
+RSP: 0018:ffffc900039877c8 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: 1ffffffff1ce77e6 RCX: ffffc9000bb11000
+RDX: 0000000000000004 RSI: ffffffff82b48776 RDI: 0000000000000020
+RBP: 0000000000000000 R08: 0000000000000007 R09: fffffffffffff000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff8880919dfbe8
+R13: ffff88807d6a0000 R14: ffff888091a24c10 R15: ffff888091a24a58
+FS:  00007fe7387b9700(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f6fa9185058 CR3: 000000001dec0000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess), 2 bytes skipped:
+   0:	e8 e8 24 cd fe       	callq  0xfecd24ed
+   5:	48 81 fd 00 f0 ff ff 	cmp    $0xfffffffffffff000,%rbp
+   c:	77 2b                	ja     0x39
+   e:	e8 0a 28 cd fe       	callq  0xfecd281d
+  13:	48 8d 7d 20          	lea    0x20(%rbp),%rdi
+  17:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  1e:	fc ff df
+  21:	48 89 fa             	mov    %rdi,%rdx
+  24:	48 c1 ea 03          	shr    $0x3,%rdx
+* 28:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2c:	0f 85 d3 00 00 00    	jne    0x105
+  32:	48 83 7d 20 00       	cmpq   $0x0,0x20(%rbp)
+  37:	74 54                	je     0x8d
+  39:	e8 df 27 cd fe       	callq  0xfecd281d
 
 
 ---
@@ -122,6 +146,3 @@ syzbot engineers can be reached at syzkaller@googlegroups.com.
 
 syzbot will keep track of this issue. See:
 https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
