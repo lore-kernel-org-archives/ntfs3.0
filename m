@@ -1,162 +1,83 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7EE2109
-	for <ntfs3@lists.linux.dev>; Thu, 12 Jan 2023 10:14:41 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id q21-20020a6bf215000000b006f305924242so10865527ioh.9
-        for <ntfs3@lists.linux.dev>; Thu, 12 Jan 2023 02:14:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z/ffKwcw5ZgbeDcmL5RENp/3vP2DgASRiUsaB0SqWDY=;
-        b=m/+8trQDFu8DtLK0/r1O7wfy/yZrwjo4UYEex9ZBged5WdjB8xFepzYEVvPAk0D2IR
-         IVAHimSundNudtiXnB18A1bc8FNaClLa/1o9slUSEXNDRuCXIyOYUnuAAzpDQf6qlUI5
-         Zt7CePABPFhE+akKwkljMF5nZe8B90X/W6NI6Uxe3w1DrXS50JoQ7V2SlDf138FdO5d3
-         +7bneLzEiy2YtTZ9aMmJvv6Xxsnz71Q3RN/ldH8CMqYolUJDCiOBVYvR2paAssFF85dy
-         pJG9jH4HXGAlSlhO72zMiNKzUQC7eGpcxaCxdYWkWPF5YPoXKN9IfHnMogSY53t4BobE
-         9X4w==
-X-Gm-Message-State: AFqh2koWAwsRUGyCk40lorKCdRtdVfiuvkSyeZBRy4IRnEvQVzaTQonQ
-	1fPPdRVLauoUUu5LV1dvS7BUWHrMND3hrdudavcFxb46VZHR
-X-Google-Smtp-Source: AMrXdXvYJAHCDzdQTjTsg1piUN6z3YhSErfrovP09SrrZAHPhIMTSS98eLmtpr9VTgOyRwQGFCCdKjAdbr7p5QneR9KtuiqTZfeT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364C31FBD
+	for <ntfs3@lists.linux.dev>; Fri, 13 Jan 2023 09:50:42 +0000 (UTC)
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 957BA1D37;
+	Fri, 13 Jan 2023 09:41:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1673602864;
+	bh=hkS2VR9GGBUmCFjS1zTFPOZAx3NuHCndXgPxoK8gzuM=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=A0o1lj4FHUKimBODbEWE63pnGGlfogAKtMclPQ361LC3NrVG56WEScgt/umNwpwQ/
+	 m21pn3bCGtCNcewJCyhSTLAei2dnV8oQS3X6EreAA1fQa5Goilnv4foHBXdjzLalf5
+	 XehEiv7tEbl9IVMoF2FPuFxjebIYismfIyw/QT3I=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 239C52181;
+	Fri, 13 Jan 2023 09:44:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1673603089;
+	bh=hkS2VR9GGBUmCFjS1zTFPOZAx3NuHCndXgPxoK8gzuM=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=n8+8xItrHdhUuoWTPLkgT1eonBcBf6Ms+zilmhFcJRjOLRFfNLu68ZZzWkiRj42lE
+	 5KhE2aSByu6WiWb8TdTYn7gceB7xhE4qQs+oe0t5BRZjOmCKoZaO1FuukS/qGeMKsJ
+	 pO2Lesc9lHTeLbjJaPbHObvfgpTjhATFdWJj17TY=
+Received: from [192.168.211.54] (192.168.211.54) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Fri, 13 Jan 2023 12:44:48 +0300
+Message-ID: <2f653f1c-161c-57d2-b3c7-f21ded261938@paragon-software.com>
+Date: Fri, 13 Jan 2023 13:44:48 +0400
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a02:9f08:0:b0:39e:7e02:3df8 with SMTP id
- z8-20020a029f08000000b0039e7e023df8mr2528007jal.229.1673518480933; Thu, 12
- Jan 2023 02:14:40 -0800 (PST)
-Date: Thu, 12 Jan 2023 02:14:40 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000094c91b05f20e62c7@google.com>
-Subject: [syzbot] [ntfs3?] WARNING: nested lock was not taken in ntfs_set_size
-From: syzbot <syzbot+0202624e9a537f906f92@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] fs/ntfs3: Fix error handling in ntfs_new_inode()
+Content-Language: en-US
+To: Shigeru Yoshida <syoshida@redhat.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20230104123902.978084-1-syoshida@redhat.com>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20230104123902.978084-1-syoshida@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.211.54]
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hello,
+On 04.01.2023 16:39, Shigeru Yoshida wrote:
+> When memory allocation for mi->mrec fails, ntfs_new_inode() calls
+> iput().  iput() calls ni_write_inode() indirectly, it references
+> uninitialized mi->mrec, and this causes the kernel crash.  This patch
+> fixes the issue by making the inode bad before calling iput().
+>
+> Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
+> ---
+>   fs/ntfs3/fsntfs.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+> index 567563771bf8..7b93f2aeb6f6 100644
+> --- a/fs/ntfs3/fsntfs.c
+> +++ b/fs/ntfs3/fsntfs.c
+> @@ -1683,6 +1683,7 @@ struct ntfs_inode *ntfs_new_inode(struct ntfs_sb_info *sbi, CLST rno, bool dir)
+>   
+>   out:
+>   	if (err) {
+> +		_ntfs_bad_inode(inode);
+>   		iput(inode);
+>   		ni = ERR_PTR(err);
+>   	}
 
-syzbot found the following issue on:
+Hello.
 
-HEAD commit:    72a85e2b0a1e Merge tag 'spi-fix-v6.2-rc1' of git://git.ker..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=177989f8480000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=85327a149d5f50f
-dashboard link: https://syzkaller.appspot.com/bug?extid=0202624e9a537f906f92
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+This bug have been already fixed by Ye Bin 
+(https://lore.kernel.org/lkml/20221117091912.3436127-1-yebin@huaweicloud.com/).
 
-Unfortunately, I don't have any reproducer for this issue yet.
+  * Thanks for your work.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/dd8c11f35e8b/disk-72a85e2b.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/0c0edcae076b/vmlinux-72a85e2b.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/99b7e1cca0d9/bzImage-72a85e2b.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0202624e9a537f906f92@syzkaller.appspotmail.com
-
-==================================
-WARNING: Nested lock was not taken
-6.1.0-syzkaller-14594-g72a85e2b0a1e #0 Not tainted
-----------------------------------
-syz-executor.1/17928 is trying to lock:
-ffff8880734df700 (&ni->ni_lock/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1122 [inline]
-ffff8880734df700 (&ni->ni_lock/4){+.+.}-{3:3}, at: ntfs_set_size+0x113/0x220 fs/ntfs3/inode.c:820
-
-but this task is not holding:
-general protection fault, probably for non-canonical address 0xdffffc0000000003: 0000 [#1] PREEMPT SMP KASAN
-KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
-CPU: 1 PID: 17928 Comm: syz-executor.1 Not tainted 6.1.0-syzkaller-14594-g72a85e2b0a1e #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
-RIP: 0010:print_lock_nested_lock_not_held kernel/locking/lockdep.c:4887 [inline]
-RIP: 0010:__lock_acquire.cold+0xc5/0x3a7 kernel/locking/lockdep.c:5046
-Code: 03 80 3c 02 00 74 0a 48 8b 7c 24 48 e8 86 ad 0f f8 49 8b 5c 24 18 b8 ff ff 37 00 48 c1 e0 2a 48 8d 7b 18 48 89 fa 48 c1 ea 03 <80> 3c 02 00 74 05 e8 62 ad 0f f8 48 8b 73 18 48 c7 c7 c0 7b 4c 8a
-RSP: 0018:ffffc9000a9e7230 EFLAGS: 00010016
-RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: 0000000000000003 RSI: ffffffff8166721c RDI: 0000000000000018
-RBP: ffff88802bfbd7c0 R08: 000000000000001e R09: 0000000000000000
-R10: 0000000080000001 R11: 7369687420747562 R12: ffff88802bfbe248
-R13: ffff88802bfbd7c0 R14: ffffed10057f7c3e R15: 0000000000000000
-FS:  00007fcabe825700(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f3d1d4cc000 CR3: 0000000078dbf000 CR4: 0000000000350ee0
-Call Trace:
- <TASK>
- lock_acquire kernel/locking/lockdep.c:5668 [inline]
- lock_acquire+0x1e3/0x630 kernel/locking/lockdep.c:5633
- __mutex_lock_common kernel/locking/mutex.c:603 [inline]
- __mutex_lock+0x12f/0x1360 kernel/locking/mutex.c:747
- ni_lock fs/ntfs3/ntfs_fs.h:1122 [inline]
- ntfs_set_size+0x113/0x220 fs/ntfs3/inode.c:820
- ntfs_extend+0x4ac/0x5c0 fs/ntfs3/file.c:337
- ntfs_file_write_iter+0x34b/0x1d70 fs/ntfs3/file.c:1064
- call_write_iter include/linux/fs.h:2186 [inline]
- do_iter_readv_writev+0x20b/0x3b0 fs/read_write.c:735
- do_iter_write+0x182/0x700 fs/read_write.c:861
- vfs_iter_write+0x74/0xa0 fs/read_write.c:902
- iter_file_splice_write+0x745/0xc90 fs/splice.c:686
- do_splice_from fs/splice.c:764 [inline]
- direct_splice_actor+0x114/0x180 fs/splice.c:931
- splice_direct_to_actor+0x335/0x8a0 fs/splice.c:886
- do_splice_direct+0x1ab/0x280 fs/splice.c:974
- do_sendfile+0xb19/0x1270 fs/read_write.c:1255
- __do_sys_sendfile64 fs/read_write.c:1323 [inline]
- __se_sys_sendfile64 fs/read_write.c:1309 [inline]
- __x64_sys_sendfile64+0x1d0/0x210 fs/read_write.c:1309
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fcabda8c0a9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fcabe825168 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
-RAX: ffffffffffffffda RBX: 00007fcabdbac050 RCX: 00007fcabda8c0a9
-RDX: 0000000000000000 RSI: 000000000000000a RDI: 0000000000000009
-RBP: 00007fcabdae7ae9 R08: 0000000000000000 R09: 0000000000000000
-R10: 000080001d00c0d0 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fffe41ceeef R14: 00007fcabe825300 R15: 0000000000022000
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:print_lock_nested_lock_not_held kernel/locking/lockdep.c:4887 [inline]
-RIP: 0010:__lock_acquire.cold+0xc5/0x3a7 kernel/locking/lockdep.c:5046
-Code: 03 80 3c 02 00 74 0a 48 8b 7c 24 48 e8 86 ad 0f f8 49 8b 5c 24 18 b8 ff ff 37 00 48 c1 e0 2a 48 8d 7b 18 48 89 fa 48 c1 ea 03 <80> 3c 02 00 74 05 e8 62 ad 0f f8 48 8b 73 18 48 c7 c7 c0 7b 4c 8a
-RSP: 0018:ffffc9000a9e7230 EFLAGS: 00010016
-RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: 0000000000000003 RSI: ffffffff8166721c RDI: 0000000000000018
-RBP: ffff88802bfbd7c0 R08: 000000000000001e R09: 0000000000000000
-R10: 0000000080000001 R11: 7369687420747562 R12: ffff88802bfbe248
-R13: ffff88802bfbd7c0 R14: ffffed10057f7c3e R15: 0000000000000000
-FS:  00007fcabe825700(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f3d1d4cc000 CR3: 0000000078dbf000 CR4: 0000000000350ee0
-----------------
-Code disassembly (best guess):
-   0:	03 80 3c 02 00 74    	add    0x7400023c(%rax),%eax
-   6:	0a 48 8b             	or     -0x75(%rax),%cl
-   9:	7c 24                	jl     0x2f
-   b:	48 e8 86 ad 0f f8    	callq  0xf80fad97
-  11:	49 8b 5c 24 18       	mov    0x18(%r12),%rbx
-  16:	b8 ff ff 37 00       	mov    $0x37ffff,%eax
-  1b:	48 c1 e0 2a          	shl    $0x2a,%rax
-  1f:	48 8d 7b 18          	lea    0x18(%rbx),%rdi
-  23:	48 89 fa             	mov    %rdi,%rdx
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
-  2e:	74 05                	je     0x35
-  30:	e8 62 ad 0f f8       	callq  0xf80fad97
-  35:	48 8b 73 18          	mov    0x18(%rbx),%rsi
-  39:	48 c7 c7 c0 7b 4c 8a 	mov    $0xffffffff8a4c7bc0,%rdi
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
