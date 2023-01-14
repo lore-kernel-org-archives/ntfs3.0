@@ -1,51 +1,52 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925E36ADE
-	for <ntfs3@lists.linux.dev>; Fri, 13 Jan 2023 13:13:08 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id jl4so23388963plb.8
-        for <ntfs3@lists.linux.dev>; Fri, 13 Jan 2023 05:13:08 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DDE62A
+	for <ntfs3@lists.linux.dev>; Sat, 14 Jan 2023 01:54:46 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id o7-20020a17090a0a0700b00226c9b82c3aso26102286pjo.3
+        for <ntfs3@lists.linux.dev>; Fri, 13 Jan 2023 17:54:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=4KUc5JrrEgEAQMR+uacJMHg3Y0KdkEVSfddBY4EelSU=;
-        b=QcMnMEk3LEKnssiIzikEyB6Auz31cin5hOdWestRkhiTFyN1RqlvNMhymUOl7NgSgx
-         yHes8XO5JE/NQa9WKpQnJ5kIB86000Lk2sZNf02tjXEg1d4hF74ZbJMS1MxQyp8VXyaP
-         oMSfg0KTOTLTAwrdj3bqZS51euz2LLb7pf+qFHrHrOVqgGkLVaQtHrwJYSvP1RA01Gbq
-         aMEnFmMUq4goj4o+iu1yJwcwjy/ob8Dq7WwimCxlEc4eV9srx1Eq2DAwYgZkvbXHngkD
-         bwqROmENaeH4+SXna1fmDHnd0AV4S9YJejLh1BuITRPVe1EiZgN/njLSwKUxYFaXmPBN
-         QOFg==
+        b=pYh5aapWlNYGi2AIwHdCGiQBs+8o/UIxz4QRV9NCxbXcX159Mpi9iMC9hnCYDkvoTy
+         DXtxwWyzgJwbxuAXgsQ81AHj89saiLU95mUNQ1mIs/Pn5U7jcxkJJGVkjgb8CJAcuupy
+         JXl+H5BgWTPvJ68NmjLv7tCpMmQis6ISkSxe+wm308fv4bfoOqgUHikogG3wHbBnIouN
+         Ku2FiHRrwiq+nkwh283+ApmG5niZ9VS3sS6t60fbIuXXMFoFQ8lNEfFch/pPnXzHY9IB
+         xioAi/DfW9RzdZXVFFxV+HLnzz1w6KZZD42sM8q4KCxAqVmsbMN3MipqUf1MCx3LdpFa
+         W92g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=4KUc5JrrEgEAQMR+uacJMHg3Y0KdkEVSfddBY4EelSU=;
-        b=y65ZMqKHqH4WXoX9+/lMDK/h+AZ1gNrJD8OL5mkMRrLCrUgIkSWYT7q47AOXcFAI8r
-         qIRHTLgO7A/jwc7rz3H0TbcJ4VdCaAfI3+aPidRdy47cCzHWWe2IVbDmfi3nkRGjdeWl
-         3MB9HFfKPMhuw4fM6NcfVjRHafb6Yrll+WpyXGfJvI0dS0sPkF7TjjUnDito1xDVRfXD
-         AqBREwcNgTpWeww0KtSZYZ40OQXe9UriS2mBhAaWcwfMLL8us95JwS7fuMsvKKnngs4c
-         xOWUBxWtCwobK1Phy0PXQtZFoCfUsxFLUgGNA9PiDwT2DZKJFETNeLzzjUbBYCmrwzyC
-         ldhw==
-X-Gm-Message-State: AFqh2kpuhsT7Y8MTDaap2Gt6XVIiVS3OmYaEqmUEwc02lRXZVKe8WX+a
-	PKhNBMz4g77GcqTvbAzbwK8=
-X-Google-Smtp-Source: AMrXdXuiiip+ouWeSYMH7cgxi+SoCGgf2LIXdaZG/nd2fyGQeTyfKrXV2Y7KLkkwQ7eDcbHrAKfrDg==
-X-Received: by 2002:a05:6a20:c193:b0:9d:efbf:8175 with SMTP id bg19-20020a056a20c19300b0009defbf8175mr12625364pzb.62.1673615587935;
-        Fri, 13 Jan 2023 05:13:07 -0800 (PST)
+        b=rTBSJegu1gl6LgS4N3R+whsYzP/lRa6st3EP6eyj9oERt/WWQTcMAt9r2nf18NLV86
+         EoW3MnfaBSpvuM0QPYd+HiCE68E4gSUrKW0mFerkO+oZ9L9mUPQseNV1pEAeIFzxelQY
+         igtT9fMZyBTce8JEWPyh8+07ivoIXtoDseik3RNY3/O/ZVkV43T4FjlZlKVqtmQCF9IB
+         uYWp/ejiqcFQATk4bKH5Bc3TIog7Fkt1XCBs1n1I2txlxQASETgWA/GBJE/zA2No/yT+
+         4Cuq9DKuJFM/Tr+zfzcB74jTMiwIBstOZqHIUsMyCIi7fkYlWZCZ0uKCSA9NRuq2PSM5
+         4Rwg==
+X-Gm-Message-State: AFqh2koZnD+fKJgEk9e+ZuMlbFr45dkD6qB4RMH83MONpigdVSbdKnC2
+	B3y+PSweyLbiPgG1jitZzPk=
+X-Google-Smtp-Source: AMrXdXufjNASMfWxEUn8LZafdceOW19Mo9MoJdDhfu1pintXKLojiA5d/ydsUQxFmCJidyi3TAeUaA==
+X-Received: by 2002:a17:902:db05:b0:194:751f:3e89 with SMTP id m5-20020a170902db0500b00194751f3e89mr3483782plx.63.1673661286141;
+        Fri, 13 Jan 2023 17:54:46 -0800 (PST)
 Received: from oslab.tsinghua.edu.cn ([166.111.139.142])
-        by smtp.gmail.com with ESMTPSA id o189-20020a62cdc6000000b0058baa6586f3sm2673696pfg.135.2023.01.13.05.13.06
+        by smtp.gmail.com with ESMTPSA id u6-20020a170902e80600b0019251e959b1sm14781028plg.262.2023.01.13.17.54.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 05:13:07 -0800 (PST)
+        Fri, 13 Jan 2023 17:54:45 -0800 (PST)
 From: Jia-Ju Bai <baijiaju1990@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
+To: almaz.alexandrovich@paragon-software.com,
+	edward.lo@ambergroup.io
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jia-Ju Bai <baijiaju1990@gmail.com>,
 	TOTE Robot <oslab@tsinghua.edu.cn>
-Subject: [PATCH] fs: ntfs3: Add check for mft_ni in mi_read()
-Date: Fri, 13 Jan 2023 21:13:03 +0800
-Message-Id: <20230113131303.761464-1-baijiaju1990@gmail.com>
+Subject: [PATCH resend] fs: ntfs3: Add check for mft_ni in mi_read()
+Date: Sat, 14 Jan 2023 09:54:41 +0800
+Message-Id: <20230114015441.777119-1-baijiaju1990@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
