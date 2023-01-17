@@ -1,102 +1,88 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C9F23A8
-	for <ntfs3@lists.linux.dev>; Tue, 17 Jan 2023 12:05:46 +0000 (UTC)
-Received: from fsav118.sakura.ne.jp (fsav118.sakura.ne.jp [27.133.134.245])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 30HBBeeB053962;
-	Tue, 17 Jan 2023 20:11:40 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav118.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav118.sakura.ne.jp);
- Tue, 17 Jan 2023 20:11:40 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav118.sakura.ne.jp)
-Received: from [192.168.1.20] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 30HBBe92053959
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 17 Jan 2023 20:11:40 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <518d5b42-be63-28ad-f28e-0f1d5d992230@I-love.SAKURA.ne.jp>
-Date: Tue, 17 Jan 2023 20:11:38 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48691D53F
+	for <ntfs3@lists.linux.dev>; Tue, 17 Jan 2023 20:21:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75B80C433EF;
+	Tue, 17 Jan 2023 20:21:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673986899;
+	bh=Ahz305irfJEYEaciGSCUAan8ZvfkPNYtPrVTtLvOXos=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=TqYdeTp6e10o5DYlnE8KI3d6byA6xxpoDBDurmwtb3JYU2l9nXVwc2aTyocueSPjc
+	 wi94QKnu2rHO/Pwf4OVcW3h/d8BaxIIRnk9EGHZdjedfKFJMRG1RhuVRKKvMLKXcGX
+	 3vbWodHDylNutfHma9Jhfgep4OtNZKQPcKFqjYpTpkUOf5OaHZ19/NJlBQRmcIBmZT
+	 l9kfbs17hJPftaKRIyEJIQ3eps5bFoV6IIM0xTJYeA14YrJFhU6Mk9A5RSP7s+6KGy
+	 nsVRXRrwUKHN6oLpm5fc+REKYJUllN6sNGbdLKxPY+yXGm52hRSf9ZQiwSIgoTwEYq
+	 CZGEcxKl6/ojw==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: Alon Zahavi <zahavi.alon@gmail.com>,
+	almaz.alexandrovich@paragon-software.com,
+	ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tal Lossos <tallossos@gmail.com>,
+	stable@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Subject: Re: [PATCH] ntfs3: Fix attr_punch_hole() null pointer derenference
+Date: Tue, 17 Jan 2023 20:21:36 +0000
+Message-Id: <20230117202136.116810-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220815110712.36982-1-zahavi.alon@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] fs/ntfs3: Use __GFP_NOWARN allocation at
- ntfs_load_attr_list()
-Content-Language: en-US
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
-        syzbot <syzbot+89dbb3a789a5b9711793@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com, linux-mm <linux-mm@kvack.org>,
-        Michal Hocko <mhocko@suse.com>
-References: <00000000000027524405f1452ea8@google.com>
- <7b10c1aa-0b3a-da0d-ea0e-b135cffc3491@I-love.SAKURA.ne.jp>
- <Y7M8bwYAzyuYbmP3@dhcp22.suse.cz>
- <38352801-b4ae-0cdc-17ba-06b363da3aa6@I-love.SAKURA.ne.jp>
- <Y7Pg3RtxjA8uTcfu@dhcp22.suse.cz> <Y7PjkN+2lhlO8/kK@dhcp22.suse.cz>
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <Y7PjkN+2lhlO8/kK@dhcp22.suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Konstantin, what is the expected max size?
-Can this allocation for legitimate filesystem become large enough to try vmalloc() ?
+Hello,
 
-On 2023/01/03 17:13, Michal Hocko wrote:
-> On Tue 03-01-23 09:01:34, Michal Hocko wrote:
->> On Tue 03-01-23 09:49:22, Tetsuo Handa wrote:
->>> On 2023/01/03 5:19, Michal Hocko wrote:
->>>>> @@ -52,7 +52,7 @@ int ntfs_load_attr_list(struct ntfs_inode *ni, struct ATTRIB *attr)
->>>>>  
->>>>>  	if (!attr->non_res) {
->>>>>  		lsize = le32_to_cpu(attr->res.data_size);
->>>>> -		le = kmalloc(al_aligned(lsize), GFP_NOFS);
->>>>> +		le = kmalloc(al_aligned(lsize), GFP_NOFS | __GFP_NOWARN);
->>>>
->>>> This looks like a bad idea in general. The allocator merely says that
->>>> something is wrong and you are silencing that. The calling code should
->>>> check the size for reasonable range and if larger size. Moreover, if
->>>> lsize can be really more than PAGE_SIZE this should be kvmalloc instead.
->>>
->>> There are already similar commits.
->>>
->>>   commit 0d0f659bf713 ("fs/ntfs3: Use __GFP_NOWARN allocation at wnd_init()")
->>>   commit 59bfd7a483da ("fs/ntfs3: Use __GFP_NOWARN allocation at ntfs_fill_super()")
->>
->> Bad examples to follow.
->>
->>> Is KMALLOC_MAX_SIZE intended to be used by callers like
->>>
->>>   https://linux.googlesource.com/linux/kernel/git/torvalds/linux/+/a5a1e1f249db4e0a35d3deca0b9916b11cc1f02b%5E!
->>>
->>> ?
->>
->> Nope, this doesn't look right either. This all is about inhibiting the
->> warning much more than actually fixing the underlying problem which
->> would be either check against a _specification_ based or _reasonable_
->> expectation based range or using kvmalloc instead if the range is not
->> well defined.
-> 
-> Let me clarify some more because there are two things happening here.
-> 
-> kvmalloc (or its variants) should be used whenever there is a risk the
-> allocation request size is large (>>PAGE_SIZE) sounds like reasonable
-> rule of thumb because those allocations shouldn't put an additional
-> pressure on a fragmented system.
-> 
-> Any user input, and that applies to potentially crafted fs images,
-> should be checked for runaway values. If there is specification in
-> place then this is no brainer. If the value is not well specified then
-> there should be reasonable defensive checking done. KMALLOC_MAX_SIZE
-> doesn't sound like a good fit for the check as that is an internal
-> implementation specific constant for a particular memory allocator.
-> vmalloc allows much larger allocations and sometime that is a reasonable
-> thing to allow. So those checks should be domain specific.
-> 
+On Mon, 15 Aug 2022 14:07:12 +0300 Alon Zahavi <zahavi.alon@gmail.com> wrote:
 
+> From: Alon Zahavi <zahavi.alon@gmail.com>
+> 
+> The bug occours due to a misuse of `attr` variable instead of `attr_b`.
+> `attr` is being initialized as NULL, then being derenfernced
+> as `attr->res.data_size`.
+> 
+> This bug causes a crash of the ntfs3 driver itself,
+> If compiled directly to the kernel, it crashes the whole system.
+> 
+> Signed-off-by: Alon Zahavi <zahavi.alon@gmail.com>
+> Co-developed-by: Tal Lossos <tallossos@gmail.com>
+> Signed-off-by: Tal Lossos <tallossos@gmail.com>
+
+This patch has now merged in mainline as
+6d5c9e79b726cc473d40e9cb60976dbe8e669624.  stable@, could you please merge this
+in stable kernels?
+
+Fixes: be71b5cba2e64 ("fs/ntfs3: Add attrib operations") # 5.14
+
+
+Thanks,
+SJ
+
+> ---
+>  fs/ntfs3/attrib.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+> index e8c00dda42ad..4e74bc8f01ed 100644
+> --- a/fs/ntfs3/attrib.c
+> +++ b/fs/ntfs3/attrib.c
+> @@ -1949,7 +1949,7 @@ int attr_punch_hole(struct ntfs_inode *ni, u64 vbo, u64 bytes, u32 *frame_size)
+>  		return -ENOENT;
+>  
+>  	if (!attr_b->non_res) {
+> -		u32 data_size = le32_to_cpu(attr->res.data_size);
+> +		u32 data_size = le32_to_cpu(attr_b->res.data_size);
+>  		u32 from, to;
+>  
+>  		if (vbo > data_size)
+> -- 
+> 2.25.1
+> 
+> 
