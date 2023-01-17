@@ -1,45 +1,62 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF717B
-	for <ntfs3@lists.linux.dev>; Mon, 16 Jan 2023 20:55:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=NC9LhxlmAcfoz2BLlV8ZmsTc89YKJONOkmmDX2k8BvU=; b=qsXBwAWMEdMcf9PIGQgdhJ1hvN
-	x/N7SHzvR7Z2eZqR7Lb+h0Y3KPH/n4LdHH1Gh8/WEnERsmyR34w4u71u2wOLLaE0zb+edHeA0O3AK
-	pbtMYmtO756D1k6lNZRj0N9fMF34TwVS0gHIUBbeFvVHSex/cNQsUkrZWwDRgUBo/ddeOB0Sz3Fpv
-	0iQfQwikv9C3TVamhj516w65HyfQjyCm3oWOrOUYGdny4TsMrgC7s4fhICS4udy0yiOKzde06Ilrf
-	IY9Yco9cKhl3ckA7gmVNgXtKGxcf/SGfOw0CjrU7TZSAGoF9MithHprGxZuqGw9VB+05DC6s0T7qS
-	S7ORRLIA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHWVa-0093p1-Vb; Mon, 16 Jan 2023 20:55:11 +0000
-Date: Mon, 16 Jan 2023 20:55:10 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Jann Horn <jannh@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	syzbot <syzbot+0f7dd5852be940800ca4@syzkaller.appspotmail.com>,
-	almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
-	akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] stack segment fault in truncate_inode_pages_final
-Message-ID: <Y8W5rjKdZ9erIF14@casper.infradead.org>
-References: <000000000000baa88c05eaa934bb@google.com>
- <CACT4Y+bVtOb+CxiAKHaSsrym-4JKn-E8exY7aypfp_yGzkUGDQ@mail.gmail.com>
- <CAG48ez0fZm4CHoG2-Zup8z9XGk-+hfdet=YpnY003iJpQOaBHg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C041FA0
+	for <ntfs3@lists.linux.dev>; Tue, 17 Jan 2023 06:07:15 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id c3so2230836ljh.1
+        for <ntfs3@lists.linux.dev>; Mon, 16 Jan 2023 22:07:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lB+N5hDJu7j1hmIQtvxGWBe1fqIaRUGQGcJBc+PwjY0=;
+        b=I4bEeBAYRAfXZoab00XgXsczCOGBTC0QHQIXU3lb7S7KVibpH6j4u2n1s4Lkx0dnF7
+         XLjvlmo0XmMPGSzfAYBVtU4EY8ymhnFKZCkEToeY9FE8ZJz87IKsop+5f88XBCD9dUoX
+         GQDMwXvEfi+nZ4vMNvZfm+xsQ9Hho3yH1a+MLNdMQKQqcAdpjz+JmTWO2JdEiKLbVIiT
+         hKp1MYCNXRaiYizamc7oHtY/V0zwPEFXk72qVg5yErKeK35txJu/ArWzZJK1z7AZbb0W
+         y/ZZI3bFeK7KJM3FX12TdmAPRxrJP23T9vFhbO0NFP+sAENxlVnjPug6qb10D3Y/R3y0
+         5G3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lB+N5hDJu7j1hmIQtvxGWBe1fqIaRUGQGcJBc+PwjY0=;
+        b=gjOYjKqtr6HOjkCc1b2IWkuIWz1KXeF4PltUTkoZdHVkHIUH26AAoYYqLmq68yDyqB
+         Kn0uCrPDHBDRzgJ3e5RWIxsLV+fEvIxT1br6GZf2040kixvyhEP5Vm1t70qkDKT/AiDY
+         YCZCTndTVx9n+OMBQPNsISRmWwCvGI57BQdLVg2Ud4Hbk910OOX/mELIDUPNadINhzUT
+         r7USojsrpgamkt4rFkwhq+3lXwyCli6oDSMj0L1tk1b9rHzk4uzyVbSzm31b4K54OU63
+         cZbvrnkPGvMtUkbSJNdyt+HA+G69JoJSs0W7VH5v/Hk1S7TNBuihqx63NMw2Blc/PVK+
+         wDrQ==
+X-Gm-Message-State: AFqh2kqmJNvfMp2jq9rSzxz+syETsAJKCNAWpNdrh8Jm7uU4h/F873p2
+	IBhyie/IrpBzSLic8+YqJMbsreVSBzAq6LNxUI1xlQ==
+X-Google-Smtp-Source: AMrXdXvmqA7rduDtf5Al4c0Iccf2xerVDa9obCy7StxCB2kQyMhf0s0mhEy6O9ZyUeNORadahyVYCeGY64bU5+XLrvY=
+X-Received: by 2002:a2e:a1cb:0:b0:285:7172:61ff with SMTP id
+ c11-20020a2ea1cb000000b00285717261ffmr183106ljm.79.1673935633433; Mon, 16 Jan
+ 2023 22:07:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <000000000000baa88c05eaa934bb@google.com> <CACT4Y+bVtOb+CxiAKHaSsrym-4JKn-E8exY7aypfp_yGzkUGDQ@mail.gmail.com>
+ <CAG48ez0fZm4CHoG2-Zup8z9XGk-+hfdet=YpnY003iJpQOaBHg@mail.gmail.com>
 In-Reply-To: <CAG48ez0fZm4CHoG2-Zup8z9XGk-+hfdet=YpnY003iJpQOaBHg@mail.gmail.com>
+From: Dmitry Vyukov <dvyukov@google.com>
+Date: Tue, 17 Jan 2023 07:07:00 +0100
+Message-ID: <CACT4Y+bd9-NrnvGUcnJ+tq+VN+TCKHqmPavxvj2Y3Br-GhKLvw@mail.gmail.com>
+Subject: Re: [syzbot] stack segment fault in truncate_inode_pages_final
+To: Jann Horn <jannh@google.com>
+Cc: syzbot <syzbot+0f7dd5852be940800ca4@syzkaller.appspotmail.com>, 
+	almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev, 
+	akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	syzkaller-bugs@googlegroups.com, willy@infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jan 16, 2023 at 09:46:37PM +0100, Jann Horn wrote:
+On Mon, 16 Jan 2023 at 21:47, Jann Horn <jannh@google.com> wrote:
+>
 > On Mon, Oct 10, 2022 at 9:42 AM Dmitry Vyukov <dvyukov@google.com> wrote:
 > > On Mon, 10 Oct 2022 at 09:35, syzbot
 > > <syzbot+0f7dd5852be940800ca4@syzkaller.appspotmail.com> wrote:
@@ -65,21 +82,26 @@ On Mon, Jan 16, 2023 at 09:46:37PM +0100, Jann Horn wrote:
 > > > Reported-by: syzbot+0f7dd5852be940800ca4@syzkaller.appspotmail.com
 > >
 > > +ntfs3 maintainers
-> 
+>
 > There's something deeply wrong with this one; it looks like we're
-
-There's often something deeply wrong with NTFS-related reports.  I've seen
-lockdep reports which are clearly corrupt lockdep state, for example.
-I suspect inadvertent stack smashing, but have done nothing to prove
-that assumption.  I just ignore reports tagged as ntfs now.
-
 > trying to execute from an RIP that is not aligned to a full
 > instruction. RIP points to the last byte of a CALL instruction. It
 > looks like, somehow, while we were somewhere inside
 > _raw_spin_unlock_irq, something stomped over RIP. Note how the "Code
 > starting with the faulting instruction" section shows an instruction
 > that's not visible in the "All code" dump above.
-> 
+
+
+There is a number of stack corruptions reported for ntfs3:
+
+https://lore.kernel.org/all/000000000000bdf37505f1a7fc09@google.com/
+https://lore.kernel.org/all/0000000000004b7b3a05f0bc25f8@google.com/
+https://lore.kernel.org/all/000000000000b7bd0405f059129a@google.com/
+
+It seems that it somehow very badly corrupts memory and that's not
+caught by KASAN.
+
+
 > Code: 48 c7 c0 40 e8 ca 8d 48 ba 00 00 00 00 00 fc ff df 48 c1 e8 03
 > 80 3c 10 00 0f 85 e0 01 00 00 48 8b 05 65 42 6d 0c e8 80 2e 06 <00> 85
 > c0 74 17 65 ff 0d 55 c9 a4 7e 0f 85 3e fb ff ff e8 ec ce a2
@@ -101,7 +123,7 @@ that assumption.  I just ignore reports tagged as ntfs now.
 >   3d: ec                    in     (%dx),%al
 >   3e: ce                    (bad)
 >   3f: a2                    .byte 0xa2
-> 
+>
 > Code starting with the faulting instruction
 > ===========================================
 >    0: 00 85 c0 74 17 65    add    %al,0x651774c0(%rbp)
@@ -111,14 +133,14 @@ that assumption.  I just ignore reports tagged as ntfs now.
 >   13: ec                    in     (%dx),%al
 >   14: ce                    (bad)
 >   15: a2                    .byte 0xa2
-> 
+>
 > We're interpreting unaligned instruction bytes as "add
 > %al,0x651774c0(%rbp)", and RBP is non-canonical (1ffff92000a6cf44), so
 > we get a Stack Segment fault.
-> 
+>
 > Unless this is some kind of asynchronous stack UAF decrement, I think
 > this might not be NTFS's fault.
-> 
+>
 > > > stack segment: 0000 [#1] PREEMPT SMP KASAN
 > > > CPU: 1 PID: 22407 Comm: syz-executor.5 Not tainted 6.0.0-syzkaller-05118-g833477fce7a1 #0
 > > > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
