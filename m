@@ -1,63 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E823A15AB
-	for <ntfs3@lists.linux.dev>; Sun, 22 Jan 2023 13:46:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26E05C433D2;
-	Sun, 22 Jan 2023 13:46:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1674395187;
-	bh=mAScaMaqk3Vdx2xdKRJnI9bSd8fwGAJj6T7KUJE2A/c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ftz29efdjZZVziwJ2eIMIHv3Szst+fjhOUQ3Yqyi0EPpHcNaqS2H2kVwtA2Qaz5iX
-	 DusqQMByCiG5kbZ29aU0Ftw5f6mTNBlrQRLuneFynpZJRb1tNTJ2zg//RDa6626o1j
-	 EaOUSI69c2f0sYZg4Y7sXvkNctl7E0OQ+u4c+His=
-Date: Sun, 22 Jan 2023 14:46:25 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: Alon Zahavi <zahavi.alon@gmail.com>,
-	almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Tal Lossos <tallossos@gmail.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ntfs3: Fix attr_punch_hole() null pointer derenference
-Message-ID: <Y80+MZLA2sXyYf2J@kroah.com>
-References: <20220815110712.36982-1-zahavi.alon@gmail.com>
- <20230117202136.116810-1-sj@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DECD1FA7
+	for <ntfs3@lists.linux.dev>; Thu, 26 Jan 2023 08:13:17 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id n18-20020a056e02101200b0030f2b79c2ffso782445ilj.20
+        for <ntfs3@lists.linux.dev>; Thu, 26 Jan 2023 00:13:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MEfpfP62XIqchPRHLndjuTCyLWg79Hv36f/NXAdlpAs=;
+        b=ghHce5rc1YwAZ46ubHe8PGCoCIKL2I7bydTtbNFbLATEbKkTfN0HHRXVgFZRWAxus/
+         qtiTzIX4p4EulR+ZbxJXKCbz2iZXogJUXYaA1bdR8az/xbserzUPY9OJygBAENrL25dW
+         DV4XeBrd4pWctjFZ7aVjYYP/4x9Sr0WVDY3ef8Nyz0rAgunu8a0rOevITp4he5VfOjSN
+         /+hn+uHkPlVsrZ2kHhTidE+c1TgbmWmlzTyvBOz+iLaTX0l44nIhcjA9c1ixIj0S/EZ3
+         SbSBX3CVRYtgSIiV5jDIm7zDCRfRCYwBvAHAFYNU+/yjIXLCAEl2Em1nzYMh5mUteS9e
+         YZsw==
+X-Gm-Message-State: AFqh2koEY2V476g/JdxY/nE8fy0q9C1r9x+vpeAQmexLYmNLaZ06QemC
+	+ojeZFOOtiVUeRC/3aus/+QhkkJ/5OpwIYMkEXfMMoOusaJg
+X-Google-Smtp-Source: AMrXdXsQG5JQdoaLSZYANWYd/5p96G8xroKqzn7EOH/B///qz3B0WtGEa/YaV/oAUEqZ9dapP40iNAIaLjwH/eN2pWh/x7CIJWVN
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117202136.116810-1-sj@kernel.org>
+X-Received: by 2002:a6b:e019:0:b0:6df:5aa3:393c with SMTP id
+ z25-20020a6be019000000b006df5aa3393cmr3225578iog.81.1674720796499; Thu, 26
+ Jan 2023 00:13:16 -0800 (PST)
+Date: Thu, 26 Jan 2023 00:13:16 -0800
+In-Reply-To: <0000000000005af92105e80510f2@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000002c692505f3265254@google.com>
+Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_get_ea
+From: syzbot <syzbot+c4d950787fd5553287b7@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, dan.carpenter@oracle.com, 
+	eadaivs@sina.com, eadavis@sina.com, eadvis@sina.com, kbuild-all@lists.01.org, 
+	linux-kernel@vger.kernel.org, lkp@intel.com, llvm@lists.linux.dev, 
+	nathan@kernel.org, ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	pjwatson999@gmail.com, syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jan 17, 2023 at 08:21:36PM +0000, SeongJae Park wrote:
-> Hello,
-> 
-> On Mon, 15 Aug 2022 14:07:12 +0300 Alon Zahavi <zahavi.alon@gmail.com> wrote:
-> 
-> > From: Alon Zahavi <zahavi.alon@gmail.com>
-> > 
-> > The bug occours due to a misuse of `attr` variable instead of `attr_b`.
-> > `attr` is being initialized as NULL, then being derenfernced
-> > as `attr->res.data_size`.
-> > 
-> > This bug causes a crash of the ntfs3 driver itself,
-> > If compiled directly to the kernel, it crashes the whole system.
-> > 
-> > Signed-off-by: Alon Zahavi <zahavi.alon@gmail.com>
-> > Co-developed-by: Tal Lossos <tallossos@gmail.com>
-> > Signed-off-by: Tal Lossos <tallossos@gmail.com>
-> 
-> This patch has now merged in mainline as
-> 6d5c9e79b726cc473d40e9cb60976dbe8e669624.  stable@, could you please merge this
-> in stable kernels?
-> 
-> Fixes: be71b5cba2e64 ("fs/ntfs3: Add attrib operations") # 5.14
-> 
+syzbot suspects this issue was fixed by commit:
 
-Now queued up, thanks.
+commit 0e8235d28f3a0e9eda9f02ff67ee566d5f42b66b
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Mon Oct 10 10:15:33 2022 +0000
 
-greg k-h
+    fs/ntfs3: Check fields while reading
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=15cc6199480000
+start commit:   fef7fd48922d Merge tag 'scsi-fixes' of git://git.kernel.or..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7341d0f941b3356
+dashboard link: https://syzkaller.appspot.com/bug?extid=c4d950787fd5553287b7
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=133d4479880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13f05e71880000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: fs/ntfs3: Check fields while reading
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
