@@ -1,77 +1,63 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2F98C04
-	for <ntfs3@lists.linux.dev>; Tue, 31 Jan 2023 15:06:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=6Prqc74eAinoD4zprfpPJbe6K3qBobg/zze6cxcfp8s=; b=gZsdQl0wB6R57mjc3cqTuc6LGj
-	zt2iEhUI4JQFk0mtu93a6KIbMq4FiEd9yO8qR2m6/Mfo8Wofqs0NGoa9u983bzRKXcnBRrUQaXTL1
-	p1dE8WlhYlXpabpq8+Zx2iyDYZydvXJ7jsjc+ksoiQzo/wyyfs7xa0M94gbQ9z7EtWUCYmjjIaDEN
-	CnK0Pa7In0p7/0xzqMLQNrb54Z/8ln6J9s1nS/VhF8X9QMxfOqfmUM7wnvuVkoXCdFQBtuqUm2KZK
-	vxLfY9Eno1dX8D3ntbsAD0gTRSifWm4xlMy7O5h8FOHQGR3CsmXRJWK/EE9aPk4zqr4JFoKDovU5A
-	K8sA6ICw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMsDA-00BOSx-Iz; Tue, 31 Jan 2023 15:06:16 +0000
-Date: Tue, 31 Jan 2023 15:06:16 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>
-Cc: syzbot <syzbot+707bba7f823c7b02fa43@syzkaller.appspotmail.com>,
-	almaz.alexandrovich@paragon-software.com, brauner@kernel.org,
-	dchinner@redhat.com, hirofumi@mail.parknet.co.jp, jack@suse.com,
-	jfs-discussion@lists.sourceforge.net, linkinjeon@kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev, shaggy@kernel.org, sj1557.seo@samsung.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [hfsplus?] [udf?] [fat?] [jfs?] [vfs?] [hfs?] [exfat?]
- [ntfs3?] WARNING in __mpage_writepage
-Message-ID: <Y9kuaBgXf9lKJ8b0@casper.infradead.org>
-References: <0000000000006b2ca005f38c7aeb@google.com>
- <20230131121423.pqfogvntzouymzmv@quack3>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6848C15
+	for <ntfs3@lists.linux.dev>; Tue, 31 Jan 2023 16:17:18 +0000 (UTC)
+Received: by mail-io1-f72.google.com with SMTP id i8-20020a6b7908000000b007132e024fb5so6279607iop.0
+        for <ntfs3@lists.linux.dev>; Tue, 31 Jan 2023 08:17:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iiAqoUAhSbXRWu7WwqUljNKrMQeqVBW7GAniuAjL2v8=;
+        b=vD7VUm/C9MkAIlwPyH3UkgRnVYPKOzLTKXqeoJz1Xh0btz0FXth5O4/Ym7cgCV1N70
+         cT1ihxBLiwjJ8MTQtBTEQbH6Ym1lzua4b6bLIfJfmb6J33pQPVMJ6MYN++TO1EBbRpp2
+         prO/kzWLlRwGN3s3Vdt/9aotuCzn7A0h/aD0jnlZ3OcS6C5D1YIM1CkifJDB65aOj88z
+         6i08X35z7ZIv/9Hj1wDdcjvkoIzlzjQ57L97mJ3ExTQGJxbm/0nKzXfIQJBrrSUnvpp4
+         wt9JA1TwiXvC0NJSqOaL73aGe3SmTjp43/+eWsn2wFbkJzVYQXNb6e/w8MCJbSn5wtlP
+         Bv5w==
+X-Gm-Message-State: AO0yUKUdfaDSUqhcOHj8A4Es7NV8SyW+s7JZRGB4C+RV0orddUeCTIxx
+	nchk/Q2X/nZELEPhCO0HMr2NhXzRuKYsHKWJQ7tTHz0eyUip
+X-Google-Smtp-Source: AK7set/OHuRu/Wj6tf33O1Z3bSTQrgB1o8gZPL+3utcc+aaXpdr8cyGKqn5K0ftPFAMPNtpPy5ckI+3V6HgyfU38NTkTGcFgjtrJ
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230131121423.pqfogvntzouymzmv@quack3>
+X-Received: by 2002:a02:a418:0:b0:3a9:67b6:18bd with SMTP id
+ c24-20020a02a418000000b003a967b618bdmr3800070jal.46.1675181837697; Tue, 31
+ Jan 2023 08:17:17 -0800 (PST)
+Date: Tue, 31 Jan 2023 08:17:17 -0800
+In-Reply-To: <0000000000008be6b405f01164f8@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000005eca3205f391aade@google.com>
+Subject: Re: [syzbot] [ntfs3?] KASAN: out-of-bounds Read in ntfs_set_ea
+From: syzbot <syzbot+8778f030156c6cd16d72@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jan 31, 2023 at 01:14:23PM +0100, Jan Kara wrote:
-> This is the warning Willy has added as part of "mpage: convert
-> __mpage_writepage() to use a folio more fully" and that warning can indeed
-> easily trigger. There's nothing that serializes writeback against racing
-> truncate setting new i_size so it is perfectly normal to see pages beyond
-> EOF in this place. And the traditional response to such pages is "silently
-> do nothing" since they will be soon discarded by truncate_inode_pages().
+syzbot suspects this issue was fixed by commit:
 
-Absolutely right.  Not sure what I was thinking; I may have been
-confused by the label being called "confused".  How about this for
-Andrew to squash into that commit?
+commit 0e8235d28f3a0e9eda9f02ff67ee566d5f42b66b
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Mon Oct 10 10:15:33 2022 +0000
 
-diff --git a/fs/mpage.c b/fs/mpage.c
-index 2efa393f0db7..89bcefb4553a 100644
---- a/fs/mpage.c
-+++ b/fs/mpage.c
-@@ -559,6 +559,9 @@ static int __mpage_writepage(struct folio *folio, struct writeback_control *wbc,
- 	first_unmapped = page_block;
- 
- page_is_mapped:
-+	/* Don't bother writing beyond EOF, truncate will discard the folio */
-+	if (folio_pos(folio) >= i_size)
-+		goto confused;
- 	length = folio_size(folio);
- 	if (folio_pos(folio) + length > i_size) {
- 		/*
-@@ -570,8 +573,6 @@ static int __mpage_writepage(struct folio *folio, struct writeback_control *wbc,
- 		 * written out to the file."
- 		 */
- 		length = i_size - folio_pos(folio);
--		if (WARN_ON_ONCE(folio_pos(folio) >= i_size))
--			goto confused;
- 		folio_zero_segment(folio, length, folio_size(folio));
- 	}
- 
+    fs/ntfs3: Check fields while reading
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11d9c385480000
+start commit:   02bf43c7b7f7 Merge tag 'fs.xattr.simple.rework.rbtree.rwlo..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8c59170b68d26a55
+dashboard link: https://syzkaller.appspot.com/bug?extid=8778f030156c6cd16d72
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=136b8f57880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=175ca3a3880000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: fs/ntfs3: Check fields while reading
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
