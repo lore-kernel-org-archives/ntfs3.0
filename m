@@ -1,74 +1,138 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2094.outbound.protection.outlook.com [40.107.117.94])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845B97B
-	for <ntfs3@lists.linux.dev>; Wed,  8 Mar 2023 08:11:40 +0000 (UTC)
-Received: by mail-il1-f197.google.com with SMTP id k13-20020a056e021a8d00b0031bae68b383so7216215ilv.18
-        for <ntfs3@lists.linux.dev>; Wed, 08 Mar 2023 00:11:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678263099;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7RRpr/2enZpSN+Pqs5p0qwijporxRiSMR0agGaaar/U=;
-        b=yasGr2UIUHv954DTSsSn0GjzJli6bYrjP8z3zDVKtSoi8+A7WvomhV+LdF7SZY3fOp
-         ee8z/mr49OzxagXTP77Gm3zUkX65jG2FWuRDrMcwClHr7OdBeWArKGGQ21S4pe+P5vXB
-         sYLIb9h6JxWeUa/KxMB6Tg6fc9DFxAeNS34aZI4z9U7ZbVqSyhTjk2JJsKkZYm78UW0U
-         B0d9msNtByJP8S9a+n4dXb7npu3QHGsut/IPgdIbMPYA6pxux2F4FfEWZK28DXx5sG5w
-         TLqowdvbM+xIpgjAcAgMX8z8hh9eEoTPoYKi60FoEYu2mL1P75CoeuK5L3c1MpmeylYX
-         fuPQ==
-X-Gm-Message-State: AO0yUKW5SQTM/N7nvnlOikGP1Vru5HqYglMo56LjxI+PiZ4y8JghlpIX
-	udjb/NSbdyyBnTF9FVg23PJmR/yD23qgJUNb2KE9T0iBwBFq
-X-Google-Smtp-Source: AK7set8ohvqpuNRL/JIS3vEqOiqVUfpwiOin574uHv80eNG3CnFwykdH8snjl4FxakBYbcLg+wDx8C0yoczKJ+W5O7OoK+osDiqq
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65337B
+	for <ntfs3@lists.linux.dev>; Fri, 10 Mar 2023 03:08:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q9z3wkIElx3wFrXWvGhIDIUYvSdX+GCpOb+gLhKAtqpuM5igNKGTzf99gUiNh8HC+KsuY2xA0U/NKLbS1nAt3P+ifc5tUBg8DD/x93pjKAOI52xNM3f3CV3hh4USrVn9LdHjHuhB/THW4S7mlMGMmWXAgBb9ga77vdAA2NrtNtZXln5+EGPp6Qwhvqx4dUFSVOuiT9Xt9ZKIdR380oc9z6dcgA9/qAg++PAAmMEHOrs6V8D1xOyD4oqI4bnq4VP8KiFNNyQQpPMQTEMeiOihYXHmTPtCqAaAtIb8Q5aa/F46fLAI3ZW/JOx0cnNm0etuQci1fHVA3L4b5Y3AOG0PeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mpuXT1ik5hM+N9WXxYwTeK78MnjS/swJvr170u+j+pw=;
+ b=D4Git9QLJCaq9snWpOw+eejGNWRshxPIqSxvPh84ZIITz/g5CRSvCEyZ1aBXYmr2OqJDWVnlq11jPDd/12dXbYtwa/PRlyyFB4ykmx8YUzACJVYLeFCquHahb7mGYKwuDmxmB0lcmbj4cDRw/urfuHoMU0cGVzHlFpCAEFusLDeSonX2k/d/dtuyYvxUwJdsoZa4X+HbTyAwhxCHemZAs96tRwThtaLn7jvPqxvMIHzf4J81Q8dSsgt1q6E4F6diEjsdATf+zg9gJhaPlyAppNLC0dagslVIMQcS9QCuTneu7sz5KAHq8ib5xKS+vdHUyeH96usVG1YtQGhXIkyXBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mpuXT1ik5hM+N9WXxYwTeK78MnjS/swJvr170u+j+pw=;
+ b=UIJk9LKL9zMm2AhTMTUa/bc2l/ooSAQ5uTfsd8SstjPgWhWuHft4CHDKCJXWMtHkitfvlE4bBI0iI42IWWI/H7ZNnM6Ruf+wSZklx4lpwswNtdzIhPwOGgeZssle6pG2GZDWVbFooqD2hqlYo+X0pslnQTYPZ8mz1/JfJMVQWxkQgrdyPupVUzZvvEKr3bUBXdpnQpOGaw8VAT8w4uQlNBK6cxUUAtRPAupKR2LA4olguLxjDdZ33e1jKxqWawhVQmtQG0uJ7+xTDRh8fKD7bQ8rVAgvVT/69LsNHwnvq8ccWVc/xRfL5KlGHdAmhxohuVEtr1+Q1LAuOORc3mzgvA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
+ by KL1PR0601MB4275.apcprd06.prod.outlook.com (2603:1096:820:73::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.19; Fri, 10 Mar
+ 2023 03:08:36 +0000
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::daf6:5ebb:a93f:1869]) by SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::daf6:5ebb:a93f:1869%9]) with mapi id 15.20.6178.019; Fri, 10 Mar 2023
+ 03:08:36 +0000
+From: Yangtao Li <frank.li@vivo.com>
+To: almaz.alexandrovich@paragon-software.com,
+	jack@suse.com,
+	dushistov@mail.ru,
+	brauner@kernel.org,
+	ntfs3@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Yangtao Li <frank.li@vivo.com>
+Subject: [PATCH 2/3] udf: use wrapper i_blocksize() in udf_discard_prealloc()
+Date: Fri, 10 Mar 2023 11:08:20 +0800
+Message-Id: <20230310030821.66090-2-frank.li@vivo.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20230310030821.66090-1-frank.li@vivo.com>
+References: <20230310030821.66090-1-frank.li@vivo.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0026.apcprd02.prod.outlook.com
+ (2603:1096:4:195::19) To SEZPR06MB5269.apcprd06.prod.outlook.com
+ (2603:1096:101:78::6)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:13f4:b0:313:fa72:d9aa with SMTP id
- w20-20020a056e0213f400b00313fa72d9aamr8342532ilj.0.1678263099703; Wed, 08 Mar
- 2023 00:11:39 -0800 (PST)
-Date: Wed, 08 Mar 2023 00:11:39 -0800
-In-Reply-To: <000000000000ea3c3105ef377a12@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e5c94a05f65f130d@google.com>
-Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_listxattr
-From: syzbot <syzbot+9fcea5ef6dc4dc72d334@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, dvyukov@google.com, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
-	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, trix@redhat.com, zengheng4@huawei.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|KL1PR0601MB4275:EE_
+X-MS-Office365-Filtering-Correlation-Id: 37d3bb09-82d6-4e5d-42f9-08db2114bd1a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	wKbXx5Zcr7mJN27dtamiZ1keGus/fHvD5q3Q1Cei9YEEd627AsU9HlYyfnAmoPkFuswoRHKD7cDXnXT/HYNDmExb59V/C/ajgprCJg3ckJxFiZrvoWJehymOcjPeHvRZPSMxxbnm+EEB6ZpXRMLs7MS21TUtWuM5msG55C0WUsT6IY5xABcAU5GIxMoggyIK6ZOaZtB8Sg1vHJFAOVjhDBntQnGn5185WhCJtzFCORvxpe5Uw5JHfGOc/Pod4QTqBPyhLMuz40p1+4D6kyO8JgVd4vexkh2rf4cNnEV3edaN1np0AJI/DRykhlOVezyEpWNB9GQ9b+T+djwyapOmeNgHoEF999Gm0B+oCiKaQUx25atRZ3Db3/WmO1KiiBTxlgnqkJYnmjLGVYoL9GQ6Cu0OJAi0Rd8Rk9CSbw3YmfqyhdbBiC7bAJtK4OVqtzMqcnosSUY7m0i29QaY8Ercp06xKnhZO5jK/FyV02BSjB87ATdsiYQyp0jJ0bDKUTk420oAM5cGx2WVrSSAwwzbj4fLdrsi08JtMLSnp2gjrv+vu/vP8DBDQBcohqEghzKHyhM8DX3uuYbi6GQUjC8ALPLp7tF4WN3LAhxDtQRawv2+5AybMIuHSIFdR+o1ijcxsxtix8CtyshmxFx1yw/XLm7Ca16hsb9fRHLAOPK2+9rK3Wmj/RpZbyTbf0jbGGU/MWBKOakOJolkTa/LBZxGSg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(136003)(346002)(39860400002)(366004)(396003)(451199018)(4744005)(36756003)(5660300002)(83380400001)(107886003)(6666004)(26005)(6486002)(1076003)(2616005)(52116002)(6506007)(6512007)(478600001)(316002)(4326008)(66946007)(66476007)(8676002)(8936002)(41300700001)(66556008)(86362001)(186003)(38350700002)(38100700002)(2906002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?8FPwq2CiB/Z9gdRKl+DlbHRyOYW6EWQwjvvm4AwxE/qk7yJivjINAQIr9mmL?=
+ =?us-ascii?Q?jYTDbfRnQWfAuYS2VvP/R1iTtG4bi1/R+a/O2Q3PNeed7LJENtX7JUzH0WH7?=
+ =?us-ascii?Q?bGzTHOvs34qbWmLfBUbBihmXIcicSLMl0Bm3JrTT5InTWywHX8p8zgC8hnll?=
+ =?us-ascii?Q?TEsTPqJ3su5kXlLfnseN0BpVwkapx6UX2mqy9/C5NUgvnZowZ+bKYdGJN+91?=
+ =?us-ascii?Q?NrJhuALwg1aM2knhmUQHftgMIGynGBX10nJt9NfdWbLYj4TS6EqWAn7HYsYH?=
+ =?us-ascii?Q?q/YF/YNqll63FCeRl7nIuXsyCAxC6D/yc4DQ1HmgqIFVU0Lr6C8fpN6/hAMX?=
+ =?us-ascii?Q?Pkm1+9ZU0exvTzbGNJQ6ovSmLGa9eFOMtVJ2mSqsnFYpi6npB5hzd6amC4jf?=
+ =?us-ascii?Q?54NqtjSWW/ymhEMa3/t3zox00Rna6EKz+wXObyAvI0XTPOA1rDhhg4e4AXmG?=
+ =?us-ascii?Q?osnSeZNjph7KEypky6gfOzo86c6uw96GfGon8VUERy5+M0HEb+XaOEHAg46n?=
+ =?us-ascii?Q?hJwMOs24ykJHO7gRDobcGnknjbyrzYzzyp1dcl70vZr7VRFrZzZ7OsXtP7dQ?=
+ =?us-ascii?Q?ty1UPsBPebeGGk8rHU3DvOZfW30h24C4ZrJDvkoluDljVT1OqGLJnxQhCtEB?=
+ =?us-ascii?Q?WWzco3+QWcyVhaKqUr6jbnpLsGt3nAL2liwMOWNWT2psAUGk0RzzPLT/MGV3?=
+ =?us-ascii?Q?Z2Y08WyJGELNvIqSxR4WTgFsKiBnXhh64HErnVi06bMtv0a9qlkuvXa5s1DK?=
+ =?us-ascii?Q?5Vibylt2WbAok4qmbQIDr2wGdi3oYJ6hgwSxrg3OW1aakJCmTee/2wiRNoit?=
+ =?us-ascii?Q?IoAMPMJ2QaD1t0rr9L6sRytTUDLKaYNuFYNavdEaFXB6016iaaWdadioqxtU?=
+ =?us-ascii?Q?PvQo6gopyf68DuHoFOWqOhX8SRDaY6d3aeQQZJvwmmL9QA42RT3rhfSF7MlE?=
+ =?us-ascii?Q?lwGax+GgOfushGuWgKR+Ht8FFkIxCSzw78WrSM2oZNk2zIPueIuv9q5UuPVp?=
+ =?us-ascii?Q?Gt9QXZd47v70w9xhdnDs3tXQUBE1A0k41abjQBUo5fpuq0t95lKuZpz/yeYD?=
+ =?us-ascii?Q?8Y7cN6VqcK2qcrgmqmvbUwsE32BbMyNqYdRBDq46pFSR0wSNRHc4MfMsHTHM?=
+ =?us-ascii?Q?dmuvr6qayHbdtPNnA+YPUVCHhhKeHOyDVzNcBaZB5M7SKnsDP1HMVaVlw58W?=
+ =?us-ascii?Q?2OV+7g5f3kxeaOjo6+yy0Eol8yGxpJK2jZ4/JNbIx44xCw6+w2k4GxzL+r/o?=
+ =?us-ascii?Q?fBSsQb1AMYUIoWibfW/QpeJrP5x02XlXaKACUefuFem1QZ2dmRiA2tH4e8RP?=
+ =?us-ascii?Q?33yzboTcgblzI/dcCooGQkxVXdhxqlxUrUVF4g1bsDxydenYe+daukUmlOdT?=
+ =?us-ascii?Q?tD96gOMjZ0i06coKXk5m8ifiVigvFuv2Rg0IyUHmTHC7jeGeI+xNK+gpgENs?=
+ =?us-ascii?Q?pa84Icz2VXtU3x2eiGQqNlSmFlwUmJC40pSLyg8/qWbNxU5bvkFQEOQHgdoV?=
+ =?us-ascii?Q?rL7sCV5PRe9lOhLbAhGk21yeHtOgoafio99b7XnuGdAzA77Bz1BtVc4FEbK/?=
+ =?us-ascii?Q?80kTjRn2YCvzDbcrFM6an1kNkTj0qLMR5LQDG1LD?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37d3bb09-82d6-4e5d-42f9-08db2114bd1a
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2023 03:08:36.1390
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Xx6N4k19eqFGLs5EP2n8fIbjOAs6cSlmzxFV/31OLsW+zLxaJuYJPpFW7xHMRdoRq8+QvkCJTbolzPtbSzK3og==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB4275
 
-This bug is marked as fixed by commit:
-ntfs: fix panic about slab-out-of-bounds caused by ntfs_listxattr()
+Convert to use i_blocksize() for readability.
 
-But I can't find it in the tested trees[1] for more than 90 days.
-Is it a correct commit? Please update it by replying:
-
-#syz fix: exact-commit-title
-
-Until then the bug is still considered open and new crashes with
-the same signature are ignored.
-
-Kernel: Linux
-Dashboard link: https://syzkaller.appspot.com/bug?extid=9fcea5ef6dc4dc72d334
-
+Signed-off-by: Yangtao Li <frank.li@vivo.com>
 ---
-[1] I expect the commit to be present in:
+ fs/udf/truncate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-1. for-kernelci branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+diff --git a/fs/udf/truncate.c b/fs/udf/truncate.c
+index 871856c69df5..2e7ba234bab8 100644
+--- a/fs/udf/truncate.c
++++ b/fs/udf/truncate.c
+@@ -127,7 +127,7 @@ void udf_discard_prealloc(struct inode *inode)
+ 	uint64_t lbcount = 0;
+ 	int8_t etype = -1;
+ 	struct udf_inode_info *iinfo = UDF_I(inode);
+-	int bsize = 1 << inode->i_blkbits;
++	int bsize = i_blocksize(inode);
+ 
+ 	if (iinfo->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB ||
+ 	    ALIGN(inode->i_size, bsize) == ALIGN(iinfo->i_lenExtents, bsize))
+@@ -149,7 +149,7 @@ void udf_discard_prealloc(struct inode *inode)
+ 		lbcount -= elen;
+ 		udf_delete_aext(inode, prev_epos);
+ 		udf_free_blocks(inode->i_sb, inode, &eloc, 0,
+-				DIV_ROUND_UP(elen, 1 << inode->i_blkbits));
++				DIV_ROUND_UP(elen, bsize));
+ 	}
+ 	/* This inode entry is in-memory only and thus we don't have to mark
+ 	 * the inode dirty */
+-- 
+2.25.1
 
-2. master branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
-
-3. master branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git
-
-4. main branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
-
-The full list of 10 trees can be found at
-https://syzkaller.appspot.com/upstream/repos
