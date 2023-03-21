@@ -1,58 +1,24 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1683214;
-	Fri, 17 Mar 2023 14:30:32 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id x13so21184220edd.1;
-        Fri, 17 Mar 2023 07:30:32 -0700 (PDT)
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53A4D10E9
+	for <ntfs3@lists.linux.dev>; Tue, 21 Mar 2023 13:32:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679063431;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xytjjE5myxOfjkZ4GExR989+SsHyYu7LM3zVntLwGFc=;
-        b=p23Nr9BCXPxuZwi4crQ4QYUt1eIhvqbs080JAnzA6zEFZaAPSMrivXlX3IGlxVgXIu
-         TYJgNY9AIqlgNwXW8GL85JJVYl10mb1UOwLDuF0jaXGgyIJ4aNGNWEWQUFnCfIlF39Bu
-         wfIn85VcKyU99mu6GfanUYwK/ULrDxTsBSvLk+lahM5gkvDSTADkeONSe7b/P4lABQeM
-         oBZ6F9a93uLPgs8hvkIhpHWqLPFZpQznImfYGqMH7rdVDL13qDPr5+3zSxhLJS9DEf4l
-         Nb12bmlZlZYiKQIRa6u5gxc4kRBJLmnc0LnMCHK3VFYRaxAcQxTk0ehhO6qanJhYEeC8
-         /Ddw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679063431;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xytjjE5myxOfjkZ4GExR989+SsHyYu7LM3zVntLwGFc=;
-        b=dACFEQtBWz1fB4ueuT/qwnFOYy2ob63ACsPCuyTzayFFtG4MUAcA6bVyN33toMJwP7
-         nOXzDm3CgehMUUWGKjT5c1aQJvwqy6VRwbGSCjFpeIWWC3+a7qDMFSPuqLLThrMObbap
-         Ejk9Jl9vw1XwegIV1NGIORUDZid2gfEVITYcC9CTX+YxnGu5eCpW8mbYz+4OR46gRyEw
-         NZPiMcyZrr+DSsCNIfOR+dG1tD+5JjXI73hmcci0ddK92a1Z7YoCwzmUx+BHbzeJzn6X
-         /VKdnkEFP1budQRBRev+Go1PmAsA5ompJ8AELphHaq1I3dtKCd1UYp1TRZls7fBqcJr3
-         37wA==
-X-Gm-Message-State: AO0yUKU3R6+v62FQNbu9/mZeW26Eqe28F3j1RMH3ki4dLA27c4oHRP5s
-	plWfYRXy6XzdIhPyIs0ANTI=
-X-Google-Smtp-Source: AK7set8R1vLe16PzktpZ3wXVITKGYxosfQOkPCFOvvd5FS/kxiRdi6Qi1M4i1AUbzSL854Bj3JNNSg==
-X-Received: by 2002:a05:6402:524e:b0:4fd:298d:4f26 with SMTP id t14-20020a056402524e00b004fd298d4f26mr7631606edd.3.1679063430629;
-        Fri, 17 Mar 2023 07:30:30 -0700 (PDT)
-Received: from ivan-HLYL-WXX9.. ([37.252.81.68])
-        by smtp.gmail.com with ESMTPSA id e25-20020a50d4d9000000b004c10b4f9ebesm1155058edj.15.2023.03.17.07.30.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 07:30:30 -0700 (PDT)
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-To: almaz.alexandrovich@paragon-software.com,
-	nathan@kernel.org,
-	ndesaulniers@google.com,
-	trix@redhat.com
-Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
-	ntfs3@lists.linux.dev,
+	d=buaa.edu.cn; s=buaa; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=or4bwdEEFq
+	5tquBa1l4fSIdUzkZVkX4cQXb7BS3cWR4=; b=1YEJ9wH1CeElhowTrfzdCHYNvt
+	P9/1Wu9AS0oCbVkLPE/d9W02BliSXBx7wZs4Ni0kDAFrvcGzli/3Ktzsy8NnrRw4
+	sM6uDZiTT6jD8mVaTJYcO3+giJ4Cu2/DPH/iKhKF+7ughkL35vAbChEQhs2KBvDE
+	u431KRZTMfl2Ok9gg=
+Received: from oslab.. (unknown [10.130.159.144])
+	by coremail-app1 (Coremail) with SMTP id OCz+CgB3WJWGrxlkHvm5Ag--.13004S4;
+	Tue, 21 Mar 2023 21:22:14 +0800 (CST)
+From: Jia-Ju Bai <baijiaju@buaa.edu.cn>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	himadrispandya@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	syzbot+478c1bf0e6bf4a8f3a04@syzkaller.appspotmail.com
-Subject: [PATCH] FS: NTFS3: Fix UBSAN shift-out-of-bounds in ntfs_fill_super
-Date: Fri, 17 Mar 2023 18:29:58 +0400
-Message-Id: <20230317142958.5566-1-ivan.orlov0322@gmail.com>
+	Jia-Ju Bai <baijiaju@buaa.edu.cn>
+Subject: [PATCH] fs: ntfs3: Fix possible null-pointer dereferences in mi_read()
+Date: Tue, 21 Mar 2023 21:22:11 +0800
+Message-Id: <20230321132211.3103922-1-baijiaju@buaa.edu.cn>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -61,98 +27,73 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:OCz+CgB3WJWGrxlkHvm5Ag--.13004S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFW5Xr43KF48CF1rCr48JFb_yoW8Ww45pr
+	9IkFyUArsFq3sF9FsFkryUur9Fq34kGFsFvrWDua4Syr15Ww12vryUtF1fWr1jkryrXrWf
+	tF1q9r4xXFWq93JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkK1xkIjI8I6I8E6xAIw20EY4v20xvaj40_JFC_Wr1l1IIY67AE
+	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+	IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
+	87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+	8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+	Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+	xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAI
+	w28IcVCjz48v1sIEY20_Aw1UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
+	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+	AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
+	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbU
+	UUUUU==
+X-CM-SenderInfo: yrruji46exttoohg3hdfq/
 
-Syzkaller reported the following issue:
+In a previous commit 2681631c2973 ("fs/ntfs3: Add null pointer check to
+attr_load_runs_vcn"), ni can be NULL in attr_load_runs_vcn(), and thus it
+should be checked before being used.
 
-UBSAN: shift-out-of-bounds in fs/ntfs3/super.c:777:25
-shift exponent 128 is too large for 32-bit type 'unsigned int'
-CPU: 0 PID: 5928 Comm: syz-executor258 Not tainted 6.2.0-syzkaller-18300-g2ebd1fbb946d #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/21/2023
-Call trace:
- dump_backtrace+0x1c8/0x1f4 arch/arm64/kernel/stacktrace.c:158
- show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:165
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd0/0x124 lib/dump_stack.c:106
- dump_stack+0x1c/0x28 lib/dump_stack.c:113
- ubsan_epilogue lib/ubsan.c:151 [inline]
- __ubsan_handle_shift_out_of_bounds+0x2f4/0x36c lib/ubsan.c:321
- ntfs_init_from_boot fs/ntfs3/super.c:777 [inline]
- ntfs_fill_super+0x2544/0x3b9c fs/ntfs3/super.c:970
- get_tree_bdev+0x360/0x54c fs/super.c:1282
- ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1408
- vfs_get_tree+0x90/0x274 fs/super.c:1489
- do_new_mount+0x25c/0x8c8 fs/namespace.c:3145
- path_mount+0x590/0xe58 fs/namespace.c:3475
- do_mount fs/namespace.c:3488 [inline]
- __do_sys_mount fs/namespace.c:3697 [inline]
- __se_sys_mount fs/namespace.c:3674 [inline]
- __arm64_sys_mount+0x45c/0x594 fs/namespace.c:3674
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall+0x98/0x2c0 arch/arm64/kernel/syscall.c:52
- el0_svc_common+0x138/0x258 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x64/0x198 arch/arm64/kernel/syscall.c:193
- el0_svc+0x58/0x168 arch/arm64/kernel/entry-common.c:637
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:591
+However, in the call stack of this commit, mft_ni in mi_read() is
+aliased with ni in attr_load_runs_vcn(), and it is also used in
+mi_read() at two places:
 
-This issue is caused by the left shift in 'ntfs_init_from_boot'
-function, which uses the absolute value of 'index_size' field as
-an exponent in case it is negative. If 'index_size' absolute value
-is larger than 30, the issue occurs.
+mi_read()
+  rw_lock = &mft_ni->file.run_lock -> No check
+  attr_load_runs_vcn(mft_ni, ...)
+    ni (namely mft_ni) is checked in the previous commit
+  attr_load_runs_vcn(..., &mft_ni->file.run) -> No check
 
-Absolute value of 'index_size' can't be larger than 31, because in case
-it is negative it is used as a shift exponent to compute the superblock
-index_size (which is a 32-bit unsigned integer). So we need to check this.
-If it is larger than 31, the superblock index_size will be zero (because it
-will be equal to 1u << (>31))
+Thus, to avoid possible null-pointer dereferences, the related checks
+should be added.
 
-Additionally, if the absolute value of index_size is equal to 31 it is
-correct, and we need to process it correctly. The result of 2U << 31
-calculation will be 0, which will cause the ntfs_init_from_boot to
-return an error. So let's shift the 2UL instead of 2U to avoid this issue.
+These bugs are reported by a static analysis tool implemented by myself,
+and they are found by extending a known bug fixed in the previous commit.
+Thus, they could be theoretical bugs.
 
-We need to do the same with boot record_size as well, because it works in
-the similar way.
-
-Tested via syzbot.
-
-Reported-by: syzbot+478c1bf0e6bf4a8f3a04@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?id=00a7d35a2790926d5b91a5279462e0cb958cc689
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+Signed-off-by: Jia-Ju Bai <baijiaju@buaa.edu.cn>
 ---
- fs/ntfs3/super.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ fs/ntfs3/record.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index ef4ea3f21905..9097cf2081df 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -766,15 +766,23 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
- 		goto out;
+diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
+index defce6a5c8e1..dfa1fed9c0d9 100644
+--- a/fs/ntfs3/record.c
++++ b/fs/ntfs3/record.c
+@@ -124,7 +124,7 @@ int mi_read(struct mft_inode *mi, bool is_mft)
+ 	struct rw_semaphore *rw_lock = NULL;
  
- 	/* Check MFT record size. */
-+	if (boot->record_size < 0 &&
-+		-boot->record_size > 31)
-+		goto out;
-+
- 	if ((boot->record_size < 0 &&
--	     SECTOR_SIZE > (2U << (-boot->record_size))) ||
-+	     SECTOR_SIZE > (2UL << (-boot->record_size))) ||
- 	    (boot->record_size >= 0 && !is_power_of_2(boot->record_size))) {
- 		goto out;
+ 	if (is_mounted(sbi)) {
+-		if (!is_mft) {
++		if (!is_mft && mft_ni) {
+ 			rw_lock = &mft_ni->file.run_lock;
+ 			down_read(rw_lock);
+ 		}
+@@ -148,7 +148,7 @@ int mi_read(struct mft_inode *mi, bool is_mft)
+ 		ni_lock(mft_ni);
+ 		down_write(rw_lock);
  	}
- 
- 	/* Check index record size. */
-+	if (boot->index_size < 0 &&
-+		-boot->index_size > 31)
-+		goto out;
-+
- 	if ((boot->index_size < 0 &&
--	     SECTOR_SIZE > (2U << (-boot->index_size))) ||
-+	     SECTOR_SIZE > (2UL << (-boot->index_size))) ||
- 	    (boot->index_size >= 0 && !is_power_of_2(boot->index_size))) {
- 		goto out;
- 	}
+-	err = attr_load_runs_vcn(mft_ni, ATTR_DATA, NULL, 0, &mft_ni->file.run,
++	err = attr_load_runs_vcn(mft_ni, ATTR_DATA, NULL, 0, run,
+ 				 vbo >> sbi->cluster_bits);
+ 	if (rw_lock) {
+ 		up_write(rw_lock);
 -- 
 2.34.1
 
