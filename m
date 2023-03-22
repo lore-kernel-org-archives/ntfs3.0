@@ -1,99 +1,74 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53A4D10E9
-	for <ntfs3@lists.linux.dev>; Tue, 21 Mar 2023 13:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=buaa.edu.cn; s=buaa; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=or4bwdEEFq
-	5tquBa1l4fSIdUzkZVkX4cQXb7BS3cWR4=; b=1YEJ9wH1CeElhowTrfzdCHYNvt
-	P9/1Wu9AS0oCbVkLPE/d9W02BliSXBx7wZs4Ni0kDAFrvcGzli/3Ktzsy8NnrRw4
-	sM6uDZiTT6jD8mVaTJYcO3+giJ4Cu2/DPH/iKhKF+7ughkL35vAbChEQhs2KBvDE
-	u431KRZTMfl2Ok9gg=
-Received: from oslab.. (unknown [10.130.159.144])
-	by coremail-app1 (Coremail) with SMTP id OCz+CgB3WJWGrxlkHvm5Ag--.13004S4;
-	Tue, 21 Mar 2023 21:22:14 +0800 (CST)
-From: Jia-Ju Bai <baijiaju@buaa.edu.cn>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jia-Ju Bai <baijiaju@buaa.edu.cn>
-Subject: [PATCH] fs: ntfs3: Fix possible null-pointer dereferences in mi_read()
-Date: Tue, 21 Mar 2023 21:22:11 +0800
-Message-Id: <20230321132211.3103922-1-baijiaju@buaa.edu.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAF31FB1
+	for <ntfs3@lists.linux.dev>; Wed, 22 Mar 2023 08:12:38 +0000 (UTC)
+Received: by mail-il1-f197.google.com with SMTP id q17-20020a056e020c3100b003245df8be9fso7919616ilg.14
+        for <ntfs3@lists.linux.dev>; Wed, 22 Mar 2023 01:12:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679472758;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7RRpr/2enZpSN+Pqs5p0qwijporxRiSMR0agGaaar/U=;
+        b=o1lEWlmZB4xr9woTW6wnsVKnRT8QH6HVF6W4l+jX6PPICi/KV6hylc5yNN64i84GdE
+         PVaSPKAPVBHdihvIP6RuKQkTb0rSBIW0ImEDYRirAQs3PsQz5l2w3PlTWo5eqeZgKSwz
+         //y6U+7fJEEGUZAtsBUU9ru6RHXZuTd7GxUZsTYT1GsYhbMGqx2wiusBpdkzTriH8cQQ
+         9NLroCE4HLjnBisvkYyRnxl2Wg5I2zttLLSS3msKiI9xaX4vPipkTW9l4TfDzUpItt/T
+         wGvN2WQe/tAtgd1peqxj/2elyS9E/C7pasYHaSE5csMsulkaR8VLlaMUncIJnkoa+W7x
+         59eg==
+X-Gm-Message-State: AO0yUKVDGa8pYMXZQV+LGWnDZnpxQ1tXT6lIKcX2xw7Ew8zQ4GXyfGV+
+	d8tsRwWuvhyE+22YXQ80y7rsz7HaZzT65MBZ1TH6a9ZVnv1V
+X-Google-Smtp-Source: AK7set+OeAVbohPc7fpUZXumhTbjxoLQEP7JyCfjRAlXeHVD1nz99SDwJbphcHiy2E96tJ+2fMwLwaeYs8l51/MGknUjMu6mQ3lk
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:OCz+CgB3WJWGrxlkHvm5Ag--.13004S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7CFW5Xr43KF48CF1rCr48JFb_yoW8Ww45pr
-	9IkFyUArsFq3sF9FsFkryUur9Fq34kGFsFvrWDua4Syr15Ww12vryUtF1fWr1jkryrXrWf
-	tF1q9r4xXFWq93JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkK1xkIjI8I6I8E6xAIw20EY4v20xvaj40_JFC_Wr1l1IIY67AE
-	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-	IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
-	87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-	8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
-	Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-	xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAI
-	w28IcVCjz48v1sIEY20_Aw1UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
-	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbU
-	UUUUU==
-X-CM-SenderInfo: yrruji46exttoohg3hdfq/
+X-Received: by 2002:a05:6e02:128f:b0:313:fa72:d9aa with SMTP id
+ y15-20020a056e02128f00b00313fa72d9aamr2273525ilq.0.1679472758036; Wed, 22 Mar
+ 2023 01:12:38 -0700 (PDT)
+Date: Wed, 22 Mar 2023 01:12:38 -0700
+In-Reply-To: <000000000000ea3c3105ef377a12@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000027262305f778b938@google.com>
+Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_listxattr
+From: syzbot <syzbot+9fcea5ef6dc4dc72d334@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, dvyukov@google.com, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com, zengheng4@huawei.com
+Content-Type: text/plain; charset="UTF-8"
 
-In a previous commit 2681631c2973 ("fs/ntfs3: Add null pointer check to
-attr_load_runs_vcn"), ni can be NULL in attr_load_runs_vcn(), and thus it
-should be checked before being used.
+This bug is marked as fixed by commit:
+ntfs: fix panic about slab-out-of-bounds caused by ntfs_listxattr()
 
-However, in the call stack of this commit, mft_ni in mi_read() is
-aliased with ni in attr_load_runs_vcn(), and it is also used in
-mi_read() at two places:
+But I can't find it in the tested trees[1] for more than 90 days.
+Is it a correct commit? Please update it by replying:
 
-mi_read()
-  rw_lock = &mft_ni->file.run_lock -> No check
-  attr_load_runs_vcn(mft_ni, ...)
-    ni (namely mft_ni) is checked in the previous commit
-  attr_load_runs_vcn(..., &mft_ni->file.run) -> No check
+#syz fix: exact-commit-title
 
-Thus, to avoid possible null-pointer dereferences, the related checks
-should be added.
+Until then the bug is still considered open and new crashes with
+the same signature are ignored.
 
-These bugs are reported by a static analysis tool implemented by myself,
-and they are found by extending a known bug fixed in the previous commit.
-Thus, they could be theoretical bugs.
+Kernel: Linux
+Dashboard link: https://syzkaller.appspot.com/bug?extid=9fcea5ef6dc4dc72d334
 
-Signed-off-by: Jia-Ju Bai <baijiaju@buaa.edu.cn>
 ---
- fs/ntfs3/record.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+[1] I expect the commit to be present in:
 
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index defce6a5c8e1..dfa1fed9c0d9 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -124,7 +124,7 @@ int mi_read(struct mft_inode *mi, bool is_mft)
- 	struct rw_semaphore *rw_lock = NULL;
- 
- 	if (is_mounted(sbi)) {
--		if (!is_mft) {
-+		if (!is_mft && mft_ni) {
- 			rw_lock = &mft_ni->file.run_lock;
- 			down_read(rw_lock);
- 		}
-@@ -148,7 +148,7 @@ int mi_read(struct mft_inode *mi, bool is_mft)
- 		ni_lock(mft_ni);
- 		down_write(rw_lock);
- 	}
--	err = attr_load_runs_vcn(mft_ni, ATTR_DATA, NULL, 0, &mft_ni->file.run,
-+	err = attr_load_runs_vcn(mft_ni, ATTR_DATA, NULL, 0, run,
- 				 vbo >> sbi->cluster_bits);
- 	if (rw_lock) {
- 		up_write(rw_lock);
--- 
-2.34.1
+1. for-kernelci branch of
+git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
 
+2. master branch of
+git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+
+3. master branch of
+git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git
+
+4. main branch of
+git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
+
+The full list of 10 trees can be found at
+https://syzkaller.appspot.com/upstream/repos
