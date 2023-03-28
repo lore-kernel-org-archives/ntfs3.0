@@ -1,78 +1,76 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACA063B6
-	for <ntfs3@lists.linux.dev>; Mon, 27 Mar 2023 17:38:50 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id d6-20020a92d786000000b00316f1737173so6461016iln.16
-        for <ntfs3@lists.linux.dev>; Mon, 27 Mar 2023 10:38:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679938729;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=86xtUdlUoaFaW4jF9AAQbjpLasDppMrDiecKJxkCSqk=;
-        b=3b4zo/+WEp8K7OPWnTwKz8YCyw5WiRli32eG3C+3c1pSdX7aJPtpdXdvY+rZCx9ap9
-         M6z6c8zhxgCEoTHXtqb8ZB0j1cuDZfytQKWkoqpdJgBLJa3O9vF6WsJlDjnfUNvP085E
-         LlcVv4wujjzIlv6MS07PRmLj+RRUn06xVeTEcQN+nhUuTXe/yvOrJq639W2tipWr1hnD
-         SeZOxhsCF9iXINbHYJtyRzEyJ4+4qThSDZ5uhh0yYgFXFihnC0od+vO/W7NlztMDPAfi
-         PgnHAsLcfVV2QxcDttb/nrjc86tOXvrUbmWFakSv5hDWmIEMz5NwPvrVQPTMdT0gJrYc
-         StFQ==
-X-Gm-Message-State: AO0yUKWMy4Ih0OANKE/BolC35u4clQD/jr3Pn0yc9z4Vcz9r/c5nkRXr
-	weSGaO0lCIksQT3Lzmblu6DochwWDxmx8tSR9CVuCK42V2nq
-X-Google-Smtp-Source: AK7set8PWIAiENHl4ch+8KDhGfPfcKelKlwfLIIESpa9o1Z4COxo6QpBPC3CTaW2/+ol7A39UEFF/ZFpYC8MrnvUIAbOn6uFpWrt
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325AEE4DD
+	for <ntfs3@lists.linux.dev>; Tue, 28 Mar 2023 11:36:07 +0000 (UTC)
+Received: from fsav412.sakura.ne.jp (fsav412.sakura.ne.jp [133.242.250.111])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 32SB5GtG062306;
+	Tue, 28 Mar 2023 20:05:16 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav412.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav412.sakura.ne.jp);
+ Tue, 28 Mar 2023 20:05:16 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav412.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 32SB5GSc062303
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 28 Mar 2023 20:05:16 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <e094ae6b-e741-c1e9-46b1-6bdbbdd971f6@I-love.SAKURA.ne.jp>
+Date: Tue, 28 Mar 2023 20:05:16 +0900
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a02:3313:0:b0:3c5:df3:a58b with SMTP id
- c19-20020a023313000000b003c50df3a58bmr4951042jae.2.1679938729792; Mon, 27 Mar
- 2023 10:38:49 -0700 (PDT)
-Date: Mon, 27 Mar 2023 10:38:49 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000003bfb4a05f7e537a7@google.com>
-Subject: [syzbot] Monthly ntfs3 report
-From: syzbot <syzbot+list1f86ee42427f86558b42@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Content-Language: en-US
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Subject: [PATCH (repost)] fs/ntfs3: Use __GFP_NOWARN allocation at
+ ntfs_load_attr_list()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello ntfs3 maintainers/developers,
+syzbot is reporting too large allocation at ntfs_load_attr_list(), for
+a crafted filesystem can have huge data_size.
 
-This is a 30-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
-
-During the period, 2 new issues were detected and 0 were fixed.
-In total, 61 issues are still open and 20 have been fixed so far.
-
-Some of the still happening issues:
-
-Crashes Repro Title
-3452    Yes   KASAN: slab-out-of-bounds Read in ntfs_iget5
-              https://syzkaller.appspot.com/bug?extid=b4084c18420f9fad0b4f
-897     Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
-              https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
-840     Yes   possible deadlock in ni_fiemap
-              https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
-658     Yes   UBSAN: shift-out-of-bounds in ntfs_fill_super (2)
-              https://syzkaller.appspot.com/bug?extid=478c1bf0e6bf4a8f3a04
-606     Yes   possible deadlock in attr_data_get_block
-              https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
-243     Yes   possible deadlock in mi_read
-              https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
-182     Yes   possible deadlock in ntfs_set_state
-              https://syzkaller.appspot.com/bug?extid=f91c29a5d5a01ada051a
-178     Yes   possible deadlock in ntfs_fiemap
-              https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
-128     No    possible deadlock in ntfs_mark_rec_free
-              https://syzkaller.appspot.com/bug?extid=f83f0dbef763c426e3cf
-56      Yes   WARNING in do_symlinkat
-              https://syzkaller.appspot.com/bug?extid=e78eab0c1cf4649256ed
-
+Reported-by: syzbot <syzbot+89dbb3a789a5b9711793@syzkaller.appspotmail.com>
+Link: https://syzkaller.appspot.com/bug?extid=89dbb3a789a5b9711793
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Michal Hocko does not like blind __GFP_NOWARN usage. But since it seems that
+nobody can answer the max size to accept, reposting as-is.
+https://lkml.kernel.org/r/518d5b42-be63-28ad-f28e-0f1d5d992230@I-love.SAKURA.ne.jp
+
+ fs/ntfs3/attrlist.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
+index c0c6bcbc8c05..81c22df27c72 100644
+--- a/fs/ntfs3/attrlist.c
++++ b/fs/ntfs3/attrlist.c
+@@ -52,7 +52,7 @@ int ntfs_load_attr_list(struct ntfs_inode *ni, struct ATTRIB *attr)
+ 
+ 	if (!attr->non_res) {
+ 		lsize = le32_to_cpu(attr->res.data_size);
+-		le = kmalloc(al_aligned(lsize), GFP_NOFS);
++		le = kmalloc(al_aligned(lsize), GFP_NOFS | __GFP_NOWARN);
+ 		if (!le) {
+ 			err = -ENOMEM;
+ 			goto out;
+@@ -80,7 +80,7 @@ int ntfs_load_attr_list(struct ntfs_inode *ni, struct ATTRIB *attr)
+ 		if (err < 0)
+ 			goto out;
+ 
+-		le = kmalloc(al_aligned(lsize), GFP_NOFS);
++		le = kmalloc(al_aligned(lsize), GFP_NOFS | __GFP_NOWARN);
+ 		if (!le) {
+ 			err = -ENOMEM;
+ 			goto out;
+-- 
+2.18.4
