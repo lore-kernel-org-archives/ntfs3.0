@@ -1,110 +1,107 @@
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5302B5683
-	for <ntfs3@lists.linux.dev>; Mon,  3 Apr 2023 13:03:47 +0000 (UTC)
-Received: by mail-il1-f208.google.com with SMTP id i17-20020a056e020d9100b00325a80f683cso19670834ilj.22
-        for <ntfs3@lists.linux.dev>; Mon, 03 Apr 2023 06:03:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680527026; x=1683119026;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UeW8ljnyP6swcMnfaUC9awkjoZoVFaQ6LdG1DUitAXs=;
-        b=N4MKfc2kjhUzV5TBXdApazEGw9Y1zVhWQT9D3e7nIvGUkBGZHkVXfY1bVEx2KpwTM8
-         mPHVvFT8E968m8hyYCjfjRKzfzypJ5soFCVLh7XCRx4TsXpHuAID/1s9lAtwsTYNQvnH
-         +TeNk6WrSM2zTQT0YyiyU7UsHmQstphFRv5h64tb7/s8PQd5OzC4xW9XlRkqFJA8Yp56
-         nrKAWQiQeeiXxDYo5bOo4hvc28axgh5En+AFajIqbCPYATMDA8KDLNSIztQnh+fEjqQQ
-         XPfTB9pLq50Yo6K2Jezpw1xlU+mbnPFbCWxe0DBqtngpZUdmmcKpWP3xJC/QfwRbtJkz
-         XwjA==
-X-Gm-Message-State: AAQBX9cVxtKqP62kB6E32yQbLYFxWm1PQecKpour7gmiHGk8dPy+4AWy
-	N83I9XaAOUf9dQmKbG9yF+y4IZKcLTDEdrepWwahIQ9PzfHu
-X-Google-Smtp-Source: AKy350ZwMHK9GlM9NB+l45StTEeFEY2I9o7NtOhRqFo/jS2Mo2/nF7emiLmnqIYqLlap8/XeB+AaSP8IC5hwqZ064lvA1k92ZIWw
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529F2612E
+	for <ntfs3@lists.linux.dev>; Mon,  3 Apr 2023 14:22:43 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 86BEC21DCA;
+	Mon,  3 Apr 2023 14:22:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1680531761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R46s3dzmAWjax7iXZKikFYCLr1xSbo6uFhX0zzjg4pU=;
+	b=XViU3+ETjmX+Zv1i3Q4VVTn7Ny+KHI+pcGRnoPPT3r61aXIzJBxPYzNkNl9++TJ9aBjV6M
+	pj5xzmCEcljzJ3VrWr7zg8WDaJErfGUilAp+755lKhp6uAWpsjuSCcyiyy9snmSveJO8Pa
+	dYp4hCNxKq+rm1Sy8iI/zHvhEXqBk/Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1680531761;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R46s3dzmAWjax7iXZKikFYCLr1xSbo6uFhX0zzjg4pU=;
+	b=U1FjLpLfehFJEz9putWhis2w9XqHu0U3h3oaiL98jCSHliu31HtoSv01Qgpvds/nc1S0hp
+	frS9z8ZPoJjwAoCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 773A813416;
+	Mon,  3 Apr 2023 14:22:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id nFUjHTHhKmRzFQAAMHmgww
+	(envelope-from <jack@suse.cz>); Mon, 03 Apr 2023 14:22:41 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id EF44AA0723; Mon,  3 Apr 2023 16:22:40 +0200 (CEST)
+Date: Mon, 3 Apr 2023 16:22:40 +0200
+From: Jan Kara <jack@suse.cz>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+	ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com,
+	devel@lists.orangefs.org, reiserfs-devel@vger.kernel.org,
+	Evgeniy Dushistov <dushistov@mail.ru>
+Subject: Re: RFC: Filesystem metadata in HIGHMEM
+Message-ID: <20230403142240.ftkywr3vn3r73yva@quack3>
+References: <ZBCJ11qT8AWGA9y8@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a92:7b06:0:b0:326:61cb:5f3b with SMTP id
- w6-20020a927b06000000b0032661cb5f3bmr3181458ilc.3.1680527026483; Mon, 03 Apr
- 2023 06:03:46 -0700 (PDT)
-Date: Mon, 03 Apr 2023 06:03:46 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000007301c505f86e3072@google.com>
-Subject: [syzbot] [ntfs3?] UBSAN: shift-out-of-bounds in attr_set_size
-From: syzbot <syzbot+14a2433710a3affee84e@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZBCJ11qT8AWGA9y8@casper.infradead.org>
 
-Hello,
+On Tue 14-03-23 14:51:03, Matthew Wilcox wrote:
+> TLDR: I think we should rip out support for fs metadata in highmem
+> 
+> We want to support filesystems on devices with LBA size > PAGE_SIZE.
+> That's subtly different and slightly harder than fsblk size > PAGE_SIZE.
+> We can use large folios to read the blocks into, but reading/writing
+> the data in those folios is harder if it's in highmem.  The kmap family
+> of functions can only map a single page at a time (and changing that
+> is hard).  We could vmap, but that's slow and can't be used from atomic
+> context.  Working a single page at a time can be tricky (eg consider an
+> ext2 directory entry that spans a page boundary).
+> 
+> Many filesystems do not support having their metadata in highmem.
+> ext4 doesn't.  xfs doesn't.  f2fs doesn't.  afs, ceph, ext2, hfs,
+> minix, nfs, nilfs2, ntfs, ntfs3, ocfs2, orangefs, qnx6, reiserfs, sysv
+> and ufs do.
+> 
+> Originally, ext2 directories in the page cache were done by Al Viro
+> in 2001.  At that time, the important use-case was machines with tens of
+> gigabytes of highmem and ~800MB of lowmem.  Since then, the x86 systems
+> have gone to 64-bit and the only real uses for highmem are cheap systems
+> with ~8GB of memory total and 2-4GB of lowmem.  These systems really
+> don't need to keep directories in highmem; using highmem for file &
+> anon memory is enough to keep the system in balance.
+> 
+> So let's just rip out the ability to keep directories (and other fs
+> metadata) in highmem.  Many filesystems already don't support this,
+> and it makes supporting LBA size > PAGE_SIZE hard.
+> 
+> I'll turn this into an LSFMM topic if we don't reach resolution on the
+> mailing list, but I'm optimistic that everybody will just agree with
+> me ;-)
 
-syzbot found the following issue on:
+FWIW I won't object for the local filesystems I know about ;). But you
+mention some networking filesystems above like NFS, AFS, orangefs - how are
+they related to the LBA size problem you mention and what exactly you want
+to get rid of there? FWIW I can imagine some 32-bit system (possibly
+diskless) that uses NFS and that would benefit in caching stuff in
+highmem...
 
-HEAD commit:    7e364e56293b Linux 6.3-rc5
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13a94395c80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d9a438ce47536f0c
-dashboard link: https://syzkaller.appspot.com/bug?extid=14a2433710a3affee84e
-compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
+								Honza
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/54c56bddacf4/disk-7e364e56.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/447e5d1af596/vmlinux-7e364e56.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/3e2d1545e7be/bzImage-7e364e56.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+14a2433710a3affee84e@syzkaller.appspotmail.com
-
-================================================================================
-UBSAN: shift-out-of-bounds in fs/ntfs3/attrib.c:450:9
-shift exponent 64 is too large for 32-bit type 'u32' (aka 'unsigned int')
-CPU: 1 PID: 1832 Comm: syz-executor.1 Not tainted 6.3.0-rc5-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/02/2023
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1e7/0x2d0 lib/dump_stack.c:106
- ubsan_epilogue lib/ubsan.c:217 [inline]
- __ubsan_handle_shift_out_of_bounds+0x3c3/0x420 lib/ubsan.c:387
- attr_set_size+0x32c2/0x4290 fs/ntfs3/attrib.c:450
- ntfs_extend_mft+0x188/0x4b0 fs/ntfs3/fsntfs.c:511
- ntfs_look_free_mft+0x43d/0x10b0 fs/ntfs3/fsntfs.c:589
- ntfs_create_inode+0x4d7/0x3830 fs/ntfs3/inode.c:1296
- ntfs_atomic_open+0x3db/0x530 fs/ntfs3/namei.c:424
- atomic_open fs/namei.c:3279 [inline]
- lookup_open fs/namei.c:3387 [inline]
- open_last_lookups fs/namei.c:3484 [inline]
- path_openat+0x103c/0x3170 fs/namei.c:3712
- do_filp_open+0x234/0x490 fs/namei.c:3742
- do_sys_openat2+0x13f/0x500 fs/open.c:1348
- do_sys_open fs/open.c:1364 [inline]
- __do_sys_open fs/open.c:1372 [inline]
- __se_sys_open fs/open.c:1368 [inline]
- __x64_sys_open+0x225/0x270 fs/open.c:1368
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f99f548c0f9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f99f622e168 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
-RAX: ffffffffffffffda RBX: 00007f99f55abf80 RCX: 00007f99f548c0f9
-RDX: 0000000000000000 RSI: 0000000000060142 RDI: 0000000020000000
-RBP: 00007f99f54e7b39 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007ffd74d2bccf R14: 00007f99f622e300 R15: 0000000000022000
- </TASK>
-================================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
