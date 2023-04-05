@@ -1,107 +1,74 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529F2612E
-	for <ntfs3@lists.linux.dev>; Mon,  3 Apr 2023 14:22:43 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 86BEC21DCA;
-	Mon,  3 Apr 2023 14:22:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1680531761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R46s3dzmAWjax7iXZKikFYCLr1xSbo6uFhX0zzjg4pU=;
-	b=XViU3+ETjmX+Zv1i3Q4VVTn7Ny+KHI+pcGRnoPPT3r61aXIzJBxPYzNkNl9++TJ9aBjV6M
-	pj5xzmCEcljzJ3VrWr7zg8WDaJErfGUilAp+755lKhp6uAWpsjuSCcyiyy9snmSveJO8Pa
-	dYp4hCNxKq+rm1Sy8iI/zHvhEXqBk/Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1680531761;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R46s3dzmAWjax7iXZKikFYCLr1xSbo6uFhX0zzjg4pU=;
-	b=U1FjLpLfehFJEz9putWhis2w9XqHu0U3h3oaiL98jCSHliu31HtoSv01Qgpvds/nc1S0hp
-	frS9z8ZPoJjwAoCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 773A813416;
-	Mon,  3 Apr 2023 14:22:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id nFUjHTHhKmRzFQAAMHmgww
-	(envelope-from <jack@suse.cz>); Mon, 03 Apr 2023 14:22:41 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id EF44AA0723; Mon,  3 Apr 2023 16:22:40 +0200 (CEST)
-Date: Mon, 3 Apr 2023 16:22:40 +0200
-From: Jan Kara <jack@suse.cz>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
-	ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com,
-	devel@lists.orangefs.org, reiserfs-devel@vger.kernel.org,
-	Evgeniy Dushistov <dushistov@mail.ru>
-Subject: Re: RFC: Filesystem metadata in HIGHMEM
-Message-ID: <20230403142240.ftkywr3vn3r73yva@quack3>
-References: <ZBCJ11qT8AWGA9y8@casper.infradead.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F8E815
+	for <ntfs3@lists.linux.dev>; Wed,  5 Apr 2023 08:12:44 +0000 (UTC)
+Received: by mail-io1-f72.google.com with SMTP id d204-20020a6bb4d5000000b00758cfdd36c3so21561804iof.0
+        for <ntfs3@lists.linux.dev>; Wed, 05 Apr 2023 01:12:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680682363; x=1683274363;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7RRpr/2enZpSN+Pqs5p0qwijporxRiSMR0agGaaar/U=;
+        b=CXM/b6IsT6VpbiYpctsykqhTj5kCZworj259d1YjcPLFHNeap01XJ846JwAHW3JOmP
+         VnP0vR/hTlDV1DkHNSCn63SwW9UBfB4vTqvXU0EYf9Y1i1IiN+6bl+4P+nCNvvZMYhkp
+         A9wl/r5Z/+2HGlzS5ltVDMtry0Abyx8+NECnJL/KI+w8Z34atx5YBXNs9CqZnr0/3D3m
+         wV7Hzh1KHXaNEYurV4tL7mtQj+G9hYwHkaYFxSbfm/zgd/XDe8dgUZxfCMnrTf+EHIdY
+         p3TJ5D+INpzfjK4kykIhAjdELO5Q2sfGUpZIhISTsyymDtXMP7Zk3NEoMMGm408pbWCy
+         yYHg==
+X-Gm-Message-State: AAQBX9clZPatAHgDZcpWugzTT8n+Bbs5BKZaUTuLtv+pbIA1lG9+HoK/
+	6pbQVmrVog8TgtJFZJdUaCdS7u56lzngmWmP2n0WLDeIsmNf
+X-Google-Smtp-Source: AKy350ZyVVhmfk37CIGtaHVEI8ebtCHBWRXU7IGTuYY1ef3zGWS13ZFf/61/y86g7vr0rwkMISqHAld/pmURWrbxbO0dO3eRblY8
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZBCJ11qT8AWGA9y8@casper.infradead.org>
+X-Received: by 2002:a5d:8881:0:b0:753:2ab8:aff7 with SMTP id
+ d1-20020a5d8881000000b007532ab8aff7mr3011620ioo.1.1680682363776; Wed, 05 Apr
+ 2023 01:12:43 -0700 (PDT)
+Date: Wed, 05 Apr 2023 01:12:43 -0700
+In-Reply-To: <000000000000ea3c3105ef377a12@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000045f34305f8925bd3@google.com>
+Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_listxattr
+From: syzbot <syzbot+9fcea5ef6dc4dc72d334@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, dvyukov@google.com, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com, zengheng4@huawei.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue 14-03-23 14:51:03, Matthew Wilcox wrote:
-> TLDR: I think we should rip out support for fs metadata in highmem
-> 
-> We want to support filesystems on devices with LBA size > PAGE_SIZE.
-> That's subtly different and slightly harder than fsblk size > PAGE_SIZE.
-> We can use large folios to read the blocks into, but reading/writing
-> the data in those folios is harder if it's in highmem.  The kmap family
-> of functions can only map a single page at a time (and changing that
-> is hard).  We could vmap, but that's slow and can't be used from atomic
-> context.  Working a single page at a time can be tricky (eg consider an
-> ext2 directory entry that spans a page boundary).
-> 
-> Many filesystems do not support having their metadata in highmem.
-> ext4 doesn't.  xfs doesn't.  f2fs doesn't.  afs, ceph, ext2, hfs,
-> minix, nfs, nilfs2, ntfs, ntfs3, ocfs2, orangefs, qnx6, reiserfs, sysv
-> and ufs do.
-> 
-> Originally, ext2 directories in the page cache were done by Al Viro
-> in 2001.  At that time, the important use-case was machines with tens of
-> gigabytes of highmem and ~800MB of lowmem.  Since then, the x86 systems
-> have gone to 64-bit and the only real uses for highmem are cheap systems
-> with ~8GB of memory total and 2-4GB of lowmem.  These systems really
-> don't need to keep directories in highmem; using highmem for file &
-> anon memory is enough to keep the system in balance.
-> 
-> So let's just rip out the ability to keep directories (and other fs
-> metadata) in highmem.  Many filesystems already don't support this,
-> and it makes supporting LBA size > PAGE_SIZE hard.
-> 
-> I'll turn this into an LSFMM topic if we don't reach resolution on the
-> mailing list, but I'm optimistic that everybody will just agree with
-> me ;-)
+This bug is marked as fixed by commit:
+ntfs: fix panic about slab-out-of-bounds caused by ntfs_listxattr()
 
-FWIW I won't object for the local filesystems I know about ;). But you
-mention some networking filesystems above like NFS, AFS, orangefs - how are
-they related to the LBA size problem you mention and what exactly you want
-to get rid of there? FWIW I can imagine some 32-bit system (possibly
-diskless) that uses NFS and that would benefit in caching stuff in
-highmem...
+But I can't find it in the tested trees[1] for more than 90 days.
+Is it a correct commit? Please update it by replying:
 
-								Honza
+#syz fix: exact-commit-title
 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Until then the bug is still considered open and new crashes with
+the same signature are ignored.
+
+Kernel: Linux
+Dashboard link: https://syzkaller.appspot.com/bug?extid=9fcea5ef6dc4dc72d334
+
+---
+[1] I expect the commit to be present in:
+
+1. for-kernelci branch of
+git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+
+2. master branch of
+git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+
+3. master branch of
+git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git
+
+4. main branch of
+git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
+
+The full list of 10 trees can be found at
+https://syzkaller.appspot.com/upstream/repos
