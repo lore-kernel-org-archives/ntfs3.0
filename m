@@ -1,74 +1,127 @@
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12olkn2068.outbound.protection.outlook.com [40.92.22.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F8E815
-	for <ntfs3@lists.linux.dev>; Wed,  5 Apr 2023 08:12:44 +0000 (UTC)
-Received: by mail-io1-f72.google.com with SMTP id d204-20020a6bb4d5000000b00758cfdd36c3so21561804iof.0
-        for <ntfs3@lists.linux.dev>; Wed, 05 Apr 2023 01:12:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680682363; x=1683274363;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7RRpr/2enZpSN+Pqs5p0qwijporxRiSMR0agGaaar/U=;
-        b=CXM/b6IsT6VpbiYpctsykqhTj5kCZworj259d1YjcPLFHNeap01XJ846JwAHW3JOmP
-         VnP0vR/hTlDV1DkHNSCn63SwW9UBfB4vTqvXU0EYf9Y1i1IiN+6bl+4P+nCNvvZMYhkp
-         A9wl/r5Z/+2HGlzS5ltVDMtry0Abyx8+NECnJL/KI+w8Z34atx5YBXNs9CqZnr0/3D3m
-         wV7Hzh1KHXaNEYurV4tL7mtQj+G9hYwHkaYFxSbfm/zgd/XDe8dgUZxfCMnrTf+EHIdY
-         p3TJ5D+INpzfjK4kykIhAjdELO5Q2sfGUpZIhISTsyymDtXMP7Zk3NEoMMGm408pbWCy
-         yYHg==
-X-Gm-Message-State: AAQBX9clZPatAHgDZcpWugzTT8n+Bbs5BKZaUTuLtv+pbIA1lG9+HoK/
-	6pbQVmrVog8TgtJFZJdUaCdS7u56lzngmWmP2n0WLDeIsmNf
-X-Google-Smtp-Source: AKy350ZyVVhmfk37CIGtaHVEI8ebtCHBWRXU7IGTuYY1ef3zGWS13ZFf/61/y86g7vr0rwkMISqHAld/pmURWrbxbO0dO3eRblY8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772111FB8
+	for <ntfs3@lists.linux.dev>; Sat,  8 Apr 2023 17:22:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P0GLCbW9EXsXAtQfYEcDikb4IGVBx2TEoTj/YLvfBbZjNkyB/NHj2dK5ekGqGU474Wk6KUa1KdX3L4bPuYAyx6BaydVsVWALBaz3yogUHtI5CEmK9nbQWk9zlDHdjcnk/nNcycCC0DoiMFodKlFdJvzxXkjLvHgUjmOWD8ofekkWkXst+t2dcRxDzf0WZJHxw+6iqlO8UE51796pRwgfHFZFSKVlzsDYlGlzlppsptraxbxTxmxm8wIXRqOwCqbHB9v+M5lnz9ACGk9ChiHi3aQ5teXVdJTTAnfenYfj3De3a7B1MNNriulEUnsbjJVG6WKt4VhidvFfUAo/5/RfcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DP4Fg2jkIfFg6NiNE0cT4+9MIQM5T93t14HLRawuFag=;
+ b=m401aF9Y/wUDsRLGFGa0fMztXzZ7jaoQamPR9yWPK8d650REqolp/GxmNcITUb0nvYhx8Bk0my2J93oOgrv4GtRU+h4/8p4t19WEo35tiNuG7bGIUCnwtvLEHxte5KMaY1pgeEU6yEI45Lzhi5/sv4/2ltJcPrksEMDlTTmjtMoPxyZu39Y7bq8w22oWdi5Y2qCm/5bruSSnApovnR0ZDB4L9e5Z0PEnLhowkbaaV9+55aV3OdXnHNpRVDf+XDtmheVQcZv0nXqGhmXIuUArRJ4++B6N8lGh0eFDPlDGX+yYC1DO23ubUQRFD2udMP3+C+CeboBosGBqZ47jFoDgYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DP4Fg2jkIfFg6NiNE0cT4+9MIQM5T93t14HLRawuFag=;
+ b=fjrh9U7PbmBwDqf3adBJzodmXAcbiWAZGVK7xPMOQbSEHtrl506mGbtyC4zzoi8wF5Y3kHd2pCbxx5wjlPSLI+lWraQt+GawEezASWp8rgy3u4ohxVvfX68JOzz91fk01FxAbbOmljJ/6nfmaiq21rmwKMsyxUvWvwR3DHsHCeSrOWKEmc0UZU8SQlhmtV8p8h24zTEwsZRP1G0hgI5FWBd5Tah3IvcfCuceczuYKbkb6Xc3IifMRehB5dpO92b8cE+6Vcyv4a4qS4/S3ExQslwrV9EJd34XoHQW5Q6E7Mc2R+EeCYuNZZKKg2g3OY01OA052jcCLB69tESYajQsmg==
+Received: from CY5PR12MB6455.namprd12.prod.outlook.com (2603:10b6:930:35::10)
+ by DM4PR12MB5295.namprd12.prod.outlook.com (2603:10b6:5:39f::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Sat, 8 Apr
+ 2023 17:22:49 +0000
+Received: from CY5PR12MB6455.namprd12.prod.outlook.com
+ ([fe80::a7e6:2d7e:5efe:229c]) by CY5PR12MB6455.namprd12.prod.outlook.com
+ ([fe80::a7e6:2d7e:5efe:229c%6]) with mapi id 15.20.6156.023; Sat, 8 Apr 2023
+ 17:22:49 +0000
+From: mirimmad@outlook.com
+To:
+Cc: skhan@linuxfoundation.org,
+	Immad Mir <mirimmad17@gmail.com>,
+	syzbot+14a2433710a3affee84e@syzkaller.appspotmail.com,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev (open list:NTFS3 FILESYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] FS NTFS3: Fix shift-out-of-bounds in attr_set_size
+Date: Sat,  8 Apr 2023 22:52:26 +0530
+Message-ID:
+ <CY5PR12MB645583E34E10D7FD71B3D548C6979@CY5PR12MB6455.namprd12.prod.outlook.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <0000000000007301c505f86e3072@google.com>
+References: <0000000000007301c505f86e3072@google.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [X6NHLy95vUN60DEYctdTmywj3QIZR8rM9o/CgBl/6npP8OsxVo9bcW71Q43p/g32]
+X-ClientProxiedBy: BM1P287CA0024.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:40::25) To CY5PR12MB6455.namprd12.prod.outlook.com
+ (2603:10b6:930:35::10)
+X-Microsoft-Original-Message-ID: <20230408172226.9599-1-mirimmad@outlook.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a5d:8881:0:b0:753:2ab8:aff7 with SMTP id
- d1-20020a5d8881000000b007532ab8aff7mr3011620ioo.1.1680682363776; Wed, 05 Apr
- 2023 01:12:43 -0700 (PDT)
-Date: Wed, 05 Apr 2023 01:12:43 -0700
-In-Reply-To: <000000000000ea3c3105ef377a12@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000045f34305f8925bd3@google.com>
-Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_listxattr
-From: syzbot <syzbot+9fcea5ef6dc4dc72d334@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, dvyukov@google.com, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
-	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, trix@redhat.com, zengheng4@huawei.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR12MB6455:EE_|DM4PR12MB5295:EE_
+X-MS-Office365-Filtering-Correlation-Id: beb4a7dc-d4d6-455e-ae4b-08db3855e08b
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	45NJiiyjlSOa06YLpmV+IH8tEh5u/d8J1DGw8xM3OcdAk50nRPB2OlxAZu76rjXndw150k2yxYT1tIosu/zQd4FkmElZFWBaYKqyg142X3WMtaH3zs0aJgR2deEPLUX9SY8jyeFputpNQRZap6xoCRLr6Z/UTYGV7oHakA+cj9EBCRR+D0eDqupQ2V2KxhqnQNH5uZiFJoUqhgve8mk4WClbYozJ+HpGXijeuy3Yo8puo8lpenl0osU9D+pmuKBK5fjBhkKB3i63FSyIKTzsuavy337XcXG1kZexRMq/bwar1WOGCP4FGtFw3F1Q0tJmOmjgFDqsMTKbY+VfFcQvQ4OkXpAJbHHWt5+xYWlcXam4VxmuGzR4O1RHwtUskR5sspRqL/SV6/dAKr7bY1ralP+a2+oBc5+ALqIH+yqLlA7z892Nav5YJI1Mv4JcQF+wBnmLCpbX3yhgiQ5LvrWK57R9BgzlAeQ1J7YgDUfS1G2He9inHMBPpLWdnnP67iKrdEW7x8+Y+rrB1oeDpHIOxAEu1Jwi9s+RCX2kIO+OjIw=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?J6qU7UkzPW90brS1xdDXexMlYV3dxz+DSdXd6rzUdLza/gh0pLHxnM0KIqmy?=
+ =?us-ascii?Q?kLfQWxlNnogoTrDCPix6iUCvcpKhKKPPNQwgloWC/IGX5l9rhqSWoeP+hj8Q?=
+ =?us-ascii?Q?7Mz3FQQW0zeoSqyKLEJ5nArF3FO14BSVavPRNR0PvWsn0xky87h1GyHHAHXG?=
+ =?us-ascii?Q?Zpd1bqPdCwfrwLaKmKvR6K6xTuWYAM3U/JrTlo9mcbQvOgSdUJr0+qpoD3bC?=
+ =?us-ascii?Q?XWLhemBMlviWvD6rElwnSxRrxxkjyMQm9PxGiSOVw2+XG1eLh8FrHSAGZ7mr?=
+ =?us-ascii?Q?OiclOPlwei6E8Mq8mkEu9BvQD9MpfE2YWwHaoHG3rjaeABtNaeF/lGW7JtvP?=
+ =?us-ascii?Q?GFXOpng8bwBIyoArQQvBeSAizGlpaWyRYvvyOiVGmnlCOwkklsuo9jo+SmSY?=
+ =?us-ascii?Q?hb3QkpYzvUo34Ad+rXj/p5uygcyzYoEqxxxZe8TK5kKza80f2HbH+Viz7nW7?=
+ =?us-ascii?Q?M5nrd3VmgJw5/ck6szc8esfOTOHDO656nfUIW0iX59dHnP+gR0j/ywmzw2re?=
+ =?us-ascii?Q?a/qtTlgtSdW+OvSwURyxdtjWXdaIdUFDMLaQCW+f54GpbooPuH3Yne8B/QJf?=
+ =?us-ascii?Q?RsVAzMAkZlNbkHkr8an7ilHeonV7ckviMvO5JAkeAOv8pYpYaczQwPNaC4ti?=
+ =?us-ascii?Q?v6INogpvKoyKvibLmxugHqYe74T9u+Imb1ZqW7lGLKnMh9Mdm7fAo3yhFNgi?=
+ =?us-ascii?Q?xcIkKf+vHKjSMG88Z0OTdiqJtp/srZ+IRQBRmnqy5VEtnou6c4EDQYAbhG9P?=
+ =?us-ascii?Q?LK9nOKi8D8D4Al9+pEoTayDEYyVsT6nq0lQBYKfYdyjcI+zbTr3ipQfw9gFq?=
+ =?us-ascii?Q?nvrF+hkZsiVEiz37W2MdgIOrGJdot09/jKSWNlB5e96OUioseiQlQVeXEX7C?=
+ =?us-ascii?Q?xUsqoCRLJ+T/VLvLPptf7gpNVuWexNOqMmXtgqnS/DgHEqGVOjcua6WZ16YA?=
+ =?us-ascii?Q?HNQCx0uzUsUsR8PJRWJEmY7LBm5xIyV4AO3T+E3uknoVOJLX7yaLIJc07kZv?=
+ =?us-ascii?Q?eTpw8uWpmXi6sGPpE9UOf0nc6SSJzhehmm4XwcQxL/4gagjxj0HiUhBsB2ts?=
+ =?us-ascii?Q?eNMfaMdVyB6VKP5SIqAAB6A8zVGbvksPD8uyMmQY2bTuzwV+BZ/Tko2lzszg?=
+ =?us-ascii?Q?pqyQSHhD1XHIFdKu6Hj3UL2clQr6cB6lTlxa1856cV/HgamWwuGOAbvNXoZ/?=
+ =?us-ascii?Q?4+2llI6Ed+4RU9DheJatNHPyuaxchnuG+AVFUHI3GBRrW0T0MDNQzMcu7/w0?=
+ =?us-ascii?Q?RmPqI/dsmmfSHz3yebdzeGxFG7yUKWy6PEYStGX1/A=3D=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: beb4a7dc-d4d6-455e-ae4b-08db3855e08b
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6455.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2023 17:22:49.8838
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5295
 
-This bug is marked as fixed by commit:
-ntfs: fix panic about slab-out-of-bounds caused by ntfs_listxattr()
+From: Immad Mir <mirimmad17@gmail.com>
 
-But I can't find it in the tested trees[1] for more than 90 days.
-Is it a correct commit? Please update it by replying:
+The bug can be fixed by changing type of 'align'
+from u32 to u64
 
-#syz fix: exact-commit-title
-
-Until then the bug is still considered open and new crashes with
-the same signature are ignored.
-
-Kernel: Linux
-Dashboard link: https://syzkaller.appspot.com/bug?extid=9fcea5ef6dc4dc72d334
-
+Reported-by: syzbot+14a2433710a3affee84e@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=14a2433710a3affee84e
+Signed-off-by: Immad Mir <mirimmad17@gmail.com>
 ---
-[1] I expect the commit to be present in:
+ fs/ntfs3/attrib.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-1. for-kernelci branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index 5e6bafb10..c306aa087 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -415,7 +415,7 @@ int attr_set_size(struct ntfs_inode *ni, enum ATTR_TYPE type,
+ 	CLST next_svcn, pre_alloc = -1, done = 0;
+ 	bool is_ext, is_bad = false;
+ 	bool dirty = false;
+-	u32 align;
++	u64 align;
+ 	struct MFT_REC *rec;
 
-2. master branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+ again:
+--
+2.40.0
 
-3. master branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git
-
-4. main branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
-
-The full list of 10 trees can be found at
-https://syzkaller.appspot.com/upstream/repos
