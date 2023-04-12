@@ -1,94 +1,71 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851F4568B
-	for <ntfs3@lists.linux.dev>; Wed, 12 Apr 2023 14:06:12 +0000 (UTC)
-Received: from fsav111.sakura.ne.jp (fsav111.sakura.ne.jp [27.133.134.238])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 33CDB8lO071949;
-	Wed, 12 Apr 2023 22:11:08 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav111.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav111.sakura.ne.jp);
- Wed, 12 Apr 2023 22:11:08 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav111.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 33CDB8sg071944
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 12 Apr 2023 22:11:08 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <f649c9c0-6c0c-dd0d-e3c9-f0c580a11cd9@I-love.SAKURA.ne.jp>
-Date: Wed, 12 Apr 2023 22:11:08 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27C45698
+	for <ntfs3@lists.linux.dev>; Wed, 12 Apr 2023 14:24:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=YPL5BBTcasYPLyMcAw8sBNleYmI9kHBYcWCLDriGfOA=; b=MsX2N+ExLwZ/qPROWUdCDVge61
+	vRXyMh9YoXcvIvjZTGiKYMrxKueZuGp7TGiGPT4WV2L+/EneY+bKu5t9Oj0NeDe0swUWRqv9FvRVl
+	IN4/UqBDEYTb/Ed7jKVsaeMpHVtfsGeo/rytVooKCEvGWQrcLwxTAy3x97MwtwEnE+l3SNH+qBDbT
+	NbnUUWa1jDIIyPVbF6flX/Bb8PVX4DAuRd+MhhjUd2YPzHxElxRni7cB3cm0/DWyY+R1PBbAfgux4
+	bupMueJPqKAQrn2exXnCL1TXtbYCfTVObqxkUPFgOqHdzVGB7jcaWKEh6AklMIcc6UEn1xbdtHUbr
+	O0J/KkhA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pmbOO-006w6x-Bc; Wed, 12 Apr 2023 14:24:12 +0000
+Date: Wed, 12 Apr 2023 15:24:12 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: syzbot <syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com>,
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Hillf Danton <hdanton@sina.com>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	linux-mm <linux-mm@kvack.org>, trix@redhat.com,
+	ndesaulniers@google.com, nathan@kernel.org
+Subject: Re: [PATCH] fs/ntfs3: disable page fault during ntfs_fiemap()
+Message-ID: <ZDa/DDWtr0dTgoti@casper.infradead.org>
+References: <000000000000e2102c05eeaf9113@google.com>
+ <00000000000031b80705ef5d33d1@google.com>
+ <f649c9c0-6c0c-dd0d-e3c9-f0c580a11cd9@I-love.SAKURA.ne.jp>
+ <ZDaujCO3Azv92JxX@casper.infradead.org>
+ <60f6bb85-825c-95e2-79b8-25a2d0e9979e@I-love.SAKURA.ne.jp>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: [PATCH] fs/ntfs3: disable page fault during ntfs_fiemap()
-Content-Language: en-US
-To: syzbot <syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com>,
-        ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-References: <000000000000e2102c05eeaf9113@google.com>
- <00000000000031b80705ef5d33d1@google.com>
-Cc: Hillf Danton <hdanton@sina.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm
- <linux-mm@kvack.org>, trix@redhat.com,
-        ndesaulniers@google.com, nathan@kernel.org
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <00000000000031b80705ef5d33d1@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <60f6bb85-825c-95e2-79b8-25a2d0e9979e@I-love.SAKURA.ne.jp>
 
-syzbot is reporting circular locking dependency between ntfs_file_mmap()
-(which has mm->mmap_lock => ni->ni_lock dependency) and ntfs_fiemap()
-(which has ni->ni_lock => mm->mmap_lock dependency).
+On Wed, Apr 12, 2023 at 10:29:37PM +0900, Tetsuo Handa wrote:
+> On 2023/04/12 22:13, Matthew Wilcox wrote:
+> >> Also, since Documentation/filesystems/fiemap.rst says that "If an error
+> >> is encountered while copying the extent to user memory, -EFAULT will be
+> >> returned.", I assume that ioctl(FS_IOC_FIEMAP) users can handle -EFAULT
+> >> error.
+> > 
+> > What?  No, that doesn't mean "You can return -EFAULT because random luck".
+> > That means "If you pass it an invalid address, you'll get -EFAULT back".
+> > 
+> > NACK.
+> 
+> Then, why does fiemap.rst say "If an error is encountered" rather than
+> "If an invalid address is passed" ?
 
-Since ni_fiemap() is called by ioctl(FS_IOC_FIEMAP) via optional
-"struct inode_operations"->fiemap callback, I assume that importance of
-ni_fiemap() is lower than ntfs_file_mmap().
+Because people are bad at writing.
 
-Also, since Documentation/filesystems/fiemap.rst says that "If an error
-is encountered while copying the extent to user memory, -EFAULT will be
-returned.", I assume that ioctl(FS_IOC_FIEMAP) users can handle -EFAULT
-error.
+> Does the definition of -EFAULT limited to "the caller does not have permission
+> to access this address" ?
 
-Therefore, in order to eliminate possibility of deadlock, until
+Or the address isn't mapped.
 
-  Assumed ni_lock.
-  TODO: Less aggressive locks.
+> If copy_to_user() must not fail other than "the caller does not have
+> permission to access this address", what should we do for now?
+> Just remove ntfs_fiemap() and return -EOPNOTSUPP ?
 
-comment in ni_fiemap() is removed, use ni_fiemap() with best-effort basis
-(i.e. fail with -EFAULT when a page fault is inevitable).
-
-Reported-by: syzbot <syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com>
-Link: https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
-Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
----
- fs/ntfs3/file.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index e9bdc1ff08c9..a9e7204e1579 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -1146,9 +1146,11 @@ int ntfs_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
- 		return err;
- 
- 	ni_lock(ni);
-+	pagefault_disable();
- 
- 	err = ni_fiemap(ni, fieinfo, start, len);
- 
-+	pagefault_enable();
- 	ni_unlock(ni);
- 
- 	return err;
--- 
-2.34.1
-
+No, fix it properly.  Or don't fix it at all and let somebody else fix it.
