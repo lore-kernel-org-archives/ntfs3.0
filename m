@@ -1,100 +1,60 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305F05660
-	for <ntfs3@lists.linux.dev>; Wed, 12 Apr 2023 13:11:17 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f08b6a9f8aso59465e9.0
-        for <ntfs3@lists.linux.dev>; Wed, 12 Apr 2023 06:11:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681305075; x=1683897075;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sYNrGQC5b/NBqc1yQ3cYIsZNkqhxiUfUPkUBeBGXBMI=;
-        b=1CZnjtbR216USXkVhbERFHDy8P7c+AU2osjSac6rHPbdfZ1vFvFhpC8NSnsnBms5yM
-         ve/WfWhOsaTBOMut5gQKDeHynouskhigYhz64Uh/jmvu7HqO0dQe8SQoPknBPtZozit5
-         +m0QCFmYDoIWUSceZWqW2EdwpZ8RhSffbp1dST0cR8Q4g4o3pKr6l3PMhjVc561EUbq/
-         HH6huU0rL1RFwJFtwRCbNvrYq2y8pY5k5TLhOYU0gv4QMzCP7fr69CaKpq+U6jaONVkB
-         qLHdWz7mNBPIAxaNX6thZHHVqNyUN70hDnR9dxnWTtJAdEHNDRboANdIZIAejOdlbmr/
-         Hg8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681305075; x=1683897075;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sYNrGQC5b/NBqc1yQ3cYIsZNkqhxiUfUPkUBeBGXBMI=;
-        b=5NMcxtjuNQdzysNu0Dcb+cskOGT3q3hnJ4sjtFs5/NDVCm9hs26hBniyKqkoCQ9mAn
-         IKqDSL5reg9Jpe7oz+As5w0rHCzT8DpPhu5Ir6EIwfx1AaA9XIHWuD6OmSHOCk/oFrk5
-         MG9gzjNjtpdCIb+6T0zlZIaV/OM0GQxtxHil7UhIW9ZE/5d0dYWXistP3miGOiSlyoYL
-         /wC0JLZQkKEdcz8CoBYr/K50H7RAIX/qqgKlXzYgxmGKN9KqxYc+Oi6W4U1bnJiaKcV2
-         /TfjsNKA5wo5J306eYo2/KdRnOTfvel0sBqoUaKrkgPUo+g0MR+EEo1qS9Kugj9u3XlP
-         BREA==
-X-Gm-Message-State: AAQBX9fFvDoojXHP3GVHRxYIELyvTqxzRhEJaS99J5s9+odG+60LcNEJ
-	XRYRc4u+6DuyyOEpxoG/1ZN7Kxm5xvEBDvtNksu2JQ==
-X-Google-Smtp-Source: AKy350YtLCDH4ydbVdrabxsvBBFQW00tuyHb9t9bfLeg/Wd8PxHaRAFugQin3ixuS561igGxpjSQp0SgAkwMWeu5Lh8=
-X-Received: by 2002:a05:600c:5125:b0:3f0:a122:93d9 with SMTP id
- o37-20020a05600c512500b003f0a12293d9mr24457wms.6.1681305075095; Wed, 12 Apr
- 2023 06:11:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A455660
+	for <ntfs3@lists.linux.dev>; Wed, 12 Apr 2023 13:14:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=jhnbfZZJmRmZ+IEFhR2VhfrX2b5999A1n8AJ1gD5lxM=; b=fuJmWaypLyPsm8wmSwakd4AtLJ
+	0ylp0YlkyNAIfNlutNxX3yTN8vLYyE9fuyJQsWNtD649gEuZSj8PWaRVUgM/dcyOmzhffiS93i4Cy
+	vEUBETP/sVTGRA1NtfVaZgQeV4neTcIsIdyH32yDMXTvdM6uYnP9eNxRJQPL/T5sIBeDDzFJNZB8+
+	B3GRn7z9e+1vk7uY4FD8kgdb/uYhD8E5nhDhX13W+Fkpqxesk9GfStsGntLvXnung9qudYGGCSleI
+	T3ViyMdxrfjVpVzzsMViUXD4QDeqZe9IGmpYpREkkq8kzO4YGpWVNxNBRoXkv0mOo06eFwJRz5sQ7
+	sypV+wow==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pmaIG-006tKO-VN; Wed, 12 Apr 2023 13:13:49 +0000
+Date: Wed, 12 Apr 2023 14:13:48 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: syzbot <syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com>,
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Hillf Danton <hdanton@sina.com>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	linux-mm <linux-mm@kvack.org>, trix@redhat.com,
+	ndesaulniers@google.com, nathan@kernel.org
+Subject: Re: [PATCH] fs/ntfs3: disable page fault during ntfs_fiemap()
+Message-ID: <ZDaujCO3Azv92JxX@casper.infradead.org>
+References: <000000000000e2102c05eeaf9113@google.com>
+ <00000000000031b80705ef5d33d1@google.com>
+ <f649c9c0-6c0c-dd0d-e3c9-f0c580a11cd9@I-love.SAKURA.ne.jp>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <0000000000005af92105e80510f2@google.com> <0000000000002c692505f3265254@google.com>
-In-Reply-To: <0000000000002c692505f3265254@google.com>
-From: Aleksandr Nogikh <nogikh@google.com>
-Date: Wed, 12 Apr 2023 15:11:03 +0200
-Message-ID: <CANp29Y6-1HThnB6C+p1D77n3hH1RKyD5WR+xjQomdqrc_pjUcw@mail.gmail.com>
-Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_get_ea
-To: syzbot <syzbot+c4d950787fd5553287b7@syzkaller.appspotmail.com>
-Cc: almaz.alexandrovich@paragon-software.com, dan.carpenter@oracle.com, 
-	eadaivs@sina.com, eadavis@sina.com, eadvis@sina.com, kbuild-all@lists.01.org, 
-	linux-kernel@vger.kernel.org, lkp@intel.com, llvm@lists.linux.dev, 
-	nathan@kernel.org, ndesaulniers@google.com, ntfs3@lists.linux.dev, 
-	pjwatson999@gmail.com, syzkaller-bugs@googlegroups.com, trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f649c9c0-6c0c-dd0d-e3c9-f0c580a11cd9@I-love.SAKURA.ne.jp>
 
-#syz fix: fs/ntfs3: Check fields while reading
+On Wed, Apr 12, 2023 at 10:11:08PM +0900, Tetsuo Handa wrote:
+> syzbot is reporting circular locking dependency between ntfs_file_mmap()
+> (which has mm->mmap_lock => ni->ni_lock dependency) and ntfs_fiemap()
+> (which has ni->ni_lock => mm->mmap_lock dependency).
+> 
+> Since ni_fiemap() is called by ioctl(FS_IOC_FIEMAP) via optional
+> "struct inode_operations"->fiemap callback, I assume that importance of
+> ni_fiemap() is lower than ntfs_file_mmap().
+> 
+> Also, since Documentation/filesystems/fiemap.rst says that "If an error
+> is encountered while copying the extent to user memory, -EFAULT will be
+> returned.", I assume that ioctl(FS_IOC_FIEMAP) users can handle -EFAULT
+> error.
 
-On Thu, Jan 26, 2023 at 9:13=E2=80=AFAM syzbot
-<syzbot+c4d950787fd5553287b7@syzkaller.appspotmail.com> wrote:
->
-> syzbot suspects this issue was fixed by commit:
->
-> commit 0e8235d28f3a0e9eda9f02ff67ee566d5f42b66b
-> Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-> Date:   Mon Oct 10 10:15:33 2022 +0000
->
->     fs/ntfs3: Check fields while reading
->
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D15cc619948=
-0000
-> start commit:   fef7fd48922d Merge tag 'scsi-fixes' of git://git.kernel.o=
-r..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D7341d0f941b33=
-56
-> dashboard link: https://syzkaller.appspot.com/bug?extid=3Dc4d950787fd5553=
-287b7
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D133d4479880=
-000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D13f05e7188000=
-0
->
-> If the result looks correct, please mark the issue as fixed by replying w=
-ith:
->
-> #syz fix: fs/ntfs3: Check fields while reading
->
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisect=
-ion
->
-> --
-> You received this message because you are subscribed to the Google Groups=
- "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgi=
-d/syzkaller-bugs/0000000000002c692505f3265254%40google.com.
+What?  No, that doesn't mean "You can return -EFAULT because random luck".
+That means "If you pass it an invalid address, you'll get -EFAULT back".
+
+NACK.
