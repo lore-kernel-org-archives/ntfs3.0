@@ -1,155 +1,259 @@
-Received: from mail-il1-f206.google.com (mail-il1-f206.google.com [209.85.166.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B4C62F
-	for <ntfs3@lists.linux.dev>; Thu, 13 Apr 2023 04:24:42 +0000 (UTC)
-Received: by mail-il1-f206.google.com with SMTP id q17-20020a056e020c3100b003245df8be9fso8950577ilg.14
-        for <ntfs3@lists.linux.dev>; Wed, 12 Apr 2023 21:24:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681359881; x=1683951881;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lPLBYJZCaSbvGJr6SFGCV+03ZFiIAG6k72Q9uMQoEvI=;
-        b=iwZMmFeV/9Q97k/1xM9mHovRivrc2R70QF9qOPM8TwjzhG8ekpL/V0QHaZ/AZf5mDB
-         MvJ8J8RQlvdZUz6hsDljQowgEoGhZ8QcQ/jaJxoZcZvVnApx0TxUlvSpvQdNIbg8rEoe
-         ZQ7cUOQcVZTScxFkGPuaMe8kRIzyc7CeP85g/34RC8X1A/dmfzCfmFAxaG9/nFvdFiHx
-         SvFonpHCbKFrAkTWvMhTqi02jOsn0TiiUh+QTwBMKETEvvOHKwkzO+ZQ7ZqbH6gm91Cu
-         RtwSEMMTjtIugDpbJLMqN4BUWGGsD1gsX50ywSUSlTWHPGzNf4aRVMgd/SiYZ9ezfQIq
-         6iZQ==
-X-Gm-Message-State: AAQBX9dIFgAAjdAQISFRQLsgZyWkav3iNtfRReyifNlpeAPbaVNOCXYN
-	vjVbRepEFJNoCpHgCZ8HDLRt8F4sEayl67476D0qNG76V+kt
-X-Google-Smtp-Source: AKy350an4a6gao3vrP+GzViBgy1z7wGEjpvaG+UrUfB4G/F3m36OvoxO1OC5JXju3jdtNaCO1LVB8BtRLGRL6zZVePhENaCxKMq+
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568736FCB
+	for <ntfs3@lists.linux.dev>; Mon, 17 Apr 2023 14:04:16 +0000 (UTC)
+Received: from fsav112.sakura.ne.jp (fsav112.sakura.ne.jp [27.133.134.239])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 33HE3Toj003234;
+	Mon, 17 Apr 2023 23:03:29 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav112.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav112.sakura.ne.jp);
+ Mon, 17 Apr 2023 23:03:29 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav112.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 33HE3T8F003231
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 17 Apr 2023 23:03:29 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <bc30483b-7f9b-df4e-7143-8646aeb4b5a2@I-love.SAKURA.ne.jp>
+Date: Mon, 17 Apr 2023 23:03:26 +0900
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a02:7314:0:b0:3f6:657a:e922 with SMTP id
- y20-20020a027314000000b003f6657ae922mr138404jab.5.1681359881464; Wed, 12 Apr
- 2023 21:24:41 -0700 (PDT)
-Date: Wed, 12 Apr 2023 21:24:41 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000079737805f9301a86@google.com>
-Subject: [syzbot] [ntfs3?] INFO: trying to register non-static key in ntfs3_setattr
-From: syzbot <syzbot+2bc11770a01ccf77388f@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
-	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: [PATCH] vfs: allow using kernel buffer during fiemap operation
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To: syzbot <syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com>,
+        ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com,
+        Mark Fasheh <mark@fasheh.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Cc: Hillf Danton <hdanton@sina.com>, linux-mm <linux-mm@kvack.org>,
+        trix@redhat.com, ndesaulniers@google.com, nathan@kernel.org
+References: <000000000000e2102c05eeaf9113@google.com>
+ <00000000000031b80705ef5d33d1@google.com>
+ <f649c9c0-6c0c-dd0d-e3c9-f0c580a11cd9@I-love.SAKURA.ne.jp>
+In-Reply-To: <f649c9c0-6c0c-dd0d-e3c9-f0c580a11cd9@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
+syzbot is reporting circular locking dependency between ntfs_file_mmap()
+(which has mm->mmap_lock => ni->ni_lock => ni->file.run_lock dependency)
+and ntfs_fiemap() (which has ni->ni_lock => ni->file.run_lock =>
+mm->mmap_lock dependency), for commit c4b929b85bdb ("vfs: vfs-level fiemap
+interface") implemented fiemap_fill_next_extent() using copy_to_user()
+where direct mm->mmap_lock dependency is inevitable.
 
-syzbot found the following issue on:
+Since ntfs3 does not want to release ni->ni_lock and/or ni->file.run_lock
+in order to make sure that "struct ATTRIB" does not change during
+ioctl(FS_IOC_FIEMAP) request, let's make it possible to call
+fiemap_fill_next_extent() with filesystem locks held.
 
-HEAD commit:    a79d5c76f705 Merge tag 'scsi-fixes' of git://git.kernel.or..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1646f4adc80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5666fa6aca264e42
-dashboard link: https://syzkaller.appspot.com/bug?extid=2bc11770a01ccf77388f
-compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
+This patch adds fiemap_fill_next_kernel_extent() which spools
+"struct fiemap_extent" to dynamically allocated kernel buffer, and
+fiemap_copy_kernel_extent() which copies spooled "struct fiemap_extent"
+to userspace buffer after filesystem locks are released.
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/adf61ecd5810/disk-a79d5c76.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/8192876ea15a/vmlinux-a79d5c76.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/80c6e54ddbe7/bzImage-a79d5c76.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+2bc11770a01ccf77388f@syzkaller.appspotmail.com
-
-ntfs3: loop3: ino=0, ntfs_iget5
-INFO: trying to register non-static key.
-The code is fine but needs lockdep annotation, or maybe
-you didn't initialize this object before use?
-turning off the locking correctness validator.
-CPU: 1 PID: 18325 Comm: syz-executor.3 Not tainted 6.3.0-rc5-syzkaller-00202-ga79d5c76f705 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/30/2023
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1e7/0x2d0 lib/dump_stack.c:106
- assign_lock_key+0x222/0x230 kernel/locking/lockdep.c:982
- register_lock_class+0x28e/0x990 kernel/locking/lockdep.c:1295
- __lock_acquire+0xd3/0x1f80 kernel/locking/lockdep.c:4935
- lock_acquire+0x1e1/0x520 kernel/locking/lockdep.c:5669
- down_write+0x3a/0x50 kernel/locking/rwsem.c:1573
- ntfs_truncate fs/ntfs3/file.c:397 [inline]
- ntfs3_setattr+0x53a/0xb80 fs/ntfs3/file.c:696
- notify_change+0xc8b/0xf40 fs/attr.c:482
- do_truncate+0x220/0x300 fs/open.c:66
- handle_truncate fs/namei.c:3219 [inline]
- do_open fs/namei.c:3564 [inline]
- path_openat+0x294e/0x3170 fs/namei.c:3715
- do_file_open_root+0x376/0x7c0 fs/namei.c:3767
- file_open_root+0x247/0x2a0 fs/open.c:1328
- do_handle_open+0x582/0x960 fs/fhandle.c:232
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7ff798c8c169
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ff799a61168 EFLAGS: 00000246 ORIG_RAX: 0000000000000130
-RAX: ffffffffffffffda RBX: 00007ff798dabf80 RCX: 00007ff798c8c169
-RDX: 0000000000000300 RSI: 0000000020000040 RDI: 0000000000000004
-RBP: 00007ff798ce7ca1 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007ffe1d3f0f7f R14: 00007ff799a61300 R15: 0000000000022000
- </TASK>
-------------[ cut here ]------------
-DEBUG_RWSEMS_WARN_ON(sem->magic != sem): count = 0x1, magic = 0x0, owner = 0xffff88801c879d40, curr 0xffff88801c879d40, list not empty
-WARNING: CPU: 0 PID: 18325 at kernel/locking/rwsem.c:1364 __up_write kernel/locking/rwsem.c:1364 [inline]
-WARNING: CPU: 0 PID: 18325 at kernel/locking/rwsem.c:1364 up_write+0x40a/0x580 kernel/locking/rwsem.c:1626
-Modules linked in:
-CPU: 0 PID: 18325 Comm: syz-executor.3 Not tainted 6.3.0-rc5-syzkaller-00202-ga79d5c76f705 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/30/2023
-RIP: 0010:__up_write kernel/locking/rwsem.c:1364 [inline]
-RIP: 0010:up_write+0x40a/0x580 kernel/locking/rwsem.c:1626
-Code: 48 c7 c7 e0 71 ea 8a 48 c7 c6 80 73 ea 8a 48 89 da 48 8b 4c 24 20 4c 8b 44 24 30 4c 8b 4c 24 28 50 e8 5a f9 e8 ff 48 83 c4 08 <0f> 0b e9 c0 fc ff ff 0f 0b e9 36 fd ff ff 48 89 5c 24 30 c6 05 0c
-RSP: 0018:ffffc900163874c0 EFLAGS: 00010296
-RAX: 2c2e1a283ac27d00 RBX: 0000000000000001 RCX: 0000000000040000
-RDX: ffffc90003d71000 RSI: 000000000003ffff RDI: 0000000000040000
-RBP: ffffc90016387590 R08: ffffffff81528012 R09: fffff52002c70e51
-R10: 0000000000000000 R11: dffffc0000000001 R12: ffff8880739717b8
-R13: ffff888073971760 R14: 1ffff92002c70ea0 R15: dffffc0000000000
-FS:  00007ff799a61700(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000555556344708 CR3: 000000002ac7c000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- ntfs_truncate fs/ntfs3/file.c:400 [inline]
- ntfs3_setattr+0x5e9/0xb80 fs/ntfs3/file.c:696
- notify_change+0xc8b/0xf40 fs/attr.c:482
- do_truncate+0x220/0x300 fs/open.c:66
- handle_truncate fs/namei.c:3219 [inline]
- do_open fs/namei.c:3564 [inline]
- path_openat+0x294e/0x3170 fs/namei.c:3715
- do_file_open_root+0x376/0x7c0 fs/namei.c:3767
- file_open_root+0x247/0x2a0 fs/open.c:1328
- do_handle_open+0x582/0x960 fs/fhandle.c:232
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7ff798c8c169
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ff799a61168 EFLAGS: 00000246 ORIG_RAX: 0000000000000130
-RAX: ffffffffffffffda RBX: 00007ff798dabf80 RCX: 00007ff798c8c169
-RDX: 0000000000000300 RSI: 0000000020000040 RDI: 0000000000000004
-RBP: 00007ff798ce7ca1 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007ffe1d3f0f7f R14: 00007ff799a61300 R15: 0000000000022000
- </TASK>
-
-
+Reported-by: syzbot <syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com>
+Link: https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+Reported-by: syzbot <syzbot+c300ab283ba3bc072439@syzkaller.appspotmail.com>
+Link: https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
+Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ioctl.c             | 52 ++++++++++++++++++++++++++++++++++++------
+ fs/ntfs3/file.c        |  4 ++++
+ fs/ntfs3/frecord.c     | 10 ++++----
+ include/linux/fiemap.h | 24 +++++++++++++++++--
+ 4 files changed, 76 insertions(+), 14 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ioctl.c b/fs/ioctl.c
+index 5b2481cd4750..60ddc2760932 100644
+--- a/fs/ioctl.c
++++ b/fs/ioctl.c
+@@ -112,11 +112,10 @@ static int ioctl_fibmap(struct file *filp, int __user *p)
+ #define SET_UNKNOWN_FLAGS	(FIEMAP_EXTENT_DELALLOC)
+ #define SET_NO_UNMOUNTED_IO_FLAGS	(FIEMAP_EXTENT_DATA_ENCRYPTED)
+ #define SET_NOT_ALIGNED_FLAGS	(FIEMAP_EXTENT_DATA_TAIL|FIEMAP_EXTENT_DATA_INLINE)
+-int fiemap_fill_next_extent(struct fiemap_extent_info *fieinfo, u64 logical,
+-			    u64 phys, u64 len, u32 flags)
++int do_fiemap_fill_next_extent(struct fiemap_extent_info *fieinfo, u64 logical,
++			       u64 phys, u64 len, u32 flags, bool is_kernel)
+ {
+ 	struct fiemap_extent extent;
+-	struct fiemap_extent __user *dest = fieinfo->fi_extents_start;
+ 
+ 	/* only count the extents */
+ 	if (fieinfo->fi_extents_max == 0) {
+@@ -140,16 +139,55 @@ int fiemap_fill_next_extent(struct fiemap_extent_info *fieinfo, u64 logical,
+ 	extent.fe_length = len;
+ 	extent.fe_flags = flags;
+ 
+-	dest += fieinfo->fi_extents_mapped;
+-	if (copy_to_user(dest, &extent, sizeof(extent)))
+-		return -EFAULT;
++	if (!is_kernel) {
++		struct fiemap_extent __user *dest = fieinfo->fi_extents_start;
++
++		dest += fieinfo->fi_extents_mapped;
++		if (copy_to_user(dest, &extent, sizeof(extent)))
++			return -EFAULT;
++	} else {
++		struct fiemap_extent_list *entry = kmalloc(sizeof(*entry), GFP_NOFS);
++
++		if (!entry)
++			return -ENOMEM;
++		memmove(&entry->extent, &extent, sizeof(extent));
++		list_add_tail(&entry->list, &fieinfo->fi_extents_list);
++	}
+ 
+ 	fieinfo->fi_extents_mapped++;
+ 	if (fieinfo->fi_extents_mapped == fieinfo->fi_extents_max)
+ 		return 1;
+ 	return (flags & FIEMAP_EXTENT_LAST) ? 1 : 0;
+ }
+-EXPORT_SYMBOL(fiemap_fill_next_extent);
++EXPORT_SYMBOL(do_fiemap_fill_next_extent);
++
++int fiemap_copy_kernel_extent(struct fiemap_extent_info *fieinfo, int err)
++{
++	struct fiemap_extent __user *dest;
++	struct fiemap_extent_list *entry, *tmp;
++	unsigned int len = 0;
++
++	list_for_each_entry(entry, &fieinfo->fi_extents_list, list)
++		len++;
++	if (!len)
++		return err;
++	fieinfo->fi_extents_mapped -= len;
++	dest = fieinfo->fi_extents_start + fieinfo->fi_extents_mapped;
++	list_for_each_entry(entry, &fieinfo->fi_extents_list, list) {
++		if (copy_to_user(dest, &entry->extent, sizeof(entry->extent))) {
++			err = -EFAULT;
++			break;
++		}
++		dest++;
++		fieinfo->fi_extents_mapped++;
++	}
++	list_for_each_entry_safe(entry, tmp, &fieinfo->fi_extents_list, list) {
++		list_del(&entry->list);
++		kfree(entry);
++	}
++	return err;
++}
++EXPORT_SYMBOL(fiemap_copy_kernel_extent);
+ 
+ /**
+  * fiemap_prep - check validity of requested flags for fiemap
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index e9bdc1ff08c9..1a3e28f71599 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -1145,12 +1145,16 @@ int ntfs_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
+ 	if (err)
+ 		return err;
+ 
++	INIT_LIST_HEAD(&fieinfo->fi_extents_list);
++
+ 	ni_lock(ni);
+ 
+ 	err = ni_fiemap(ni, fieinfo, start, len);
+ 
+ 	ni_unlock(ni);
+ 
++	err = fiemap_copy_kernel_extent(fieinfo, err);
++
+ 	return err;
+ }
+ 
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index f1df52dfab74..b70f9dfb71ab 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -1941,8 +1941,7 @@ int ni_fiemap(struct ntfs_inode *ni, struct fiemap_extent_info *fieinfo,
+ 	}
+ 
+ 	if (!attr || !attr->non_res) {
+-		err = fiemap_fill_next_extent(
+-			fieinfo, 0, 0,
++		err = fiemap_fill_next_kernel_extent(fieinfo, 0, 0,
+ 			attr ? le32_to_cpu(attr->res.data_size) : 0,
+ 			FIEMAP_EXTENT_DATA_INLINE | FIEMAP_EXTENT_LAST |
+ 				FIEMAP_EXTENT_MERGED);
+@@ -2037,8 +2036,8 @@ int ni_fiemap(struct ntfs_inode *ni, struct fiemap_extent_info *fieinfo,
+ 			if (vbo + dlen >= end)
+ 				flags |= FIEMAP_EXTENT_LAST;
+ 
+-			err = fiemap_fill_next_extent(fieinfo, vbo, lbo, dlen,
+-						      flags);
++			err = fiemap_fill_next_kernel_extent(fieinfo, vbo, lbo,
++							     dlen, flags);
+ 			if (err < 0)
+ 				break;
+ 			if (err == 1) {
+@@ -2058,7 +2057,8 @@ int ni_fiemap(struct ntfs_inode *ni, struct fiemap_extent_info *fieinfo,
+ 		if (vbo + bytes >= end)
+ 			flags |= FIEMAP_EXTENT_LAST;
+ 
+-		err = fiemap_fill_next_extent(fieinfo, vbo, lbo, bytes, flags);
++		err = fiemap_fill_next_kernel_extent(fieinfo, vbo, lbo, bytes,
++						     flags);
+ 		if (err < 0)
+ 			break;
+ 		if (err == 1) {
+diff --git a/include/linux/fiemap.h b/include/linux/fiemap.h
+index c50882f19235..10cb33ed80a9 100644
+--- a/include/linux/fiemap.h
++++ b/include/linux/fiemap.h
+@@ -5,17 +5,37 @@
+ #include <uapi/linux/fiemap.h>
+ #include <linux/fs.h>
+ 
++struct fiemap_extent_list {
++	struct list_head list;
++	struct fiemap_extent extent;
++};
++
+ struct fiemap_extent_info {
+ 	unsigned int fi_flags;		/* Flags as passed from user */
+ 	unsigned int fi_extents_mapped;	/* Number of mapped extents */
+ 	unsigned int fi_extents_max;	/* Size of fiemap_extent array */
+ 	struct fiemap_extent __user *fi_extents_start; /* Start of
+ 							fiemap_extent array */
++	struct list_head fi_extents_list; /* List of fiemap_extent_list */
+ };
+ 
+ int fiemap_prep(struct inode *inode, struct fiemap_extent_info *fieinfo,
+ 		u64 start, u64 *len, u32 supported_flags);
+-int fiemap_fill_next_extent(struct fiemap_extent_info *info, u64 logical,
+-			    u64 phys, u64 len, u32 flags);
++int do_fiemap_fill_next_extent(struct fiemap_extent_info *fieinfo, u64 logical,
++			       u64 phys, u64 len, u32 flags, bool is_kernel);
++
++static inline int fiemap_fill_next_extent(struct fiemap_extent_info *info,
++					  u64 logical, u64 phys, u64 len, u32 flags)
++{
++	return do_fiemap_fill_next_extent(info, logical, phys, len, flags, false);
++}
++
++static inline int fiemap_fill_next_kernel_extent(struct fiemap_extent_info *info,
++						 u64 logical, u64 phys, u64 len, u32 flags)
++{
++	return do_fiemap_fill_next_extent(info, logical, phys, len, flags, true);
++}
++
++int fiemap_copy_kernel_extent(struct fiemap_extent_info *info, int err);
+ 
+ #endif /* _LINUX_FIEMAP_H 1 */
+-- 
+2.34.1
+
