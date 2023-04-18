@@ -1,259 +1,181 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568736FCB
-	for <ntfs3@lists.linux.dev>; Mon, 17 Apr 2023 14:04:16 +0000 (UTC)
-Received: from fsav112.sakura.ne.jp (fsav112.sakura.ne.jp [27.133.134.239])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 33HE3Toj003234;
-	Mon, 17 Apr 2023 23:03:29 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav112.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav112.sakura.ne.jp);
- Mon, 17 Apr 2023 23:03:29 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav112.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 33HE3T8F003231
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 17 Apr 2023 23:03:29 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <bc30483b-7f9b-df4e-7143-8646aeb4b5a2@I-love.SAKURA.ne.jp>
-Date: Mon, 17 Apr 2023 23:03:26 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCA1AFED
+	for <ntfs3@lists.linux.dev>; Tue, 18 Apr 2023 20:27:43 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-7606df31d59so242343139f.3
+        for <ntfs3@lists.linux.dev>; Tue, 18 Apr 2023 13:27:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681849662; x=1684441662;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Gxn0DnPfADuaP40AJhy/UnpcsyfQMhcLyuDsCayXAKg=;
+        b=HMO9WDelx3nSLxYIYwZtgiFJzaBf3mdwnsAQTeEsn0BaseaiGuXjOIctWiIkMP/eN9
+         YhudK7njEVm3rVBoVas6Tk6yvYBlPh48nHZY/fXDPR7dFD4GRMYMZn1s62rKl16G5b2y
+         RSFAYljeggvvlPNudtjinWYyHmuDYi4G4sx7X4Y7QlHjyRDeFuYhv9KpBQ+zp/uTrOLC
+         9n5o07G8jmGugGU73XBgiZRzw0qx2zkiVjjsqSveB05wsmKQuwCl/xtZVeuzXIIyFwZZ
+         3bWTB1sRz7ThM9mtB8N4Pg6kwVaa0E+O6fOq7rPOaCaBnPBUHHg+xZzHA7Nw02ryfwCq
+         /hCA==
+X-Gm-Message-State: AAQBX9c7T6o+/eUiicfbyaI+uw/XbkIuMNHfCahDuLexA3f2BqKk5s3d
+	EXoheup8T+7/pn8/np4esO3x1WZB1/MVKQ8jj+zoH6Xq0edv
+X-Google-Smtp-Source: AKy350aiI9jjpH7dR8M/oD5GiD956rOdBfdXRVDecdKwxd7Hr8DLFVejFlXqA/AW0Y1xM1w1QawQEaasmWiQuuVIXNhxdM0S/XBX
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: [PATCH] vfs: allow using kernel buffer during fiemap operation
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To: syzbot <syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com>,
-        ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com,
-        Mark Fasheh <mark@fasheh.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Cc: Hillf Danton <hdanton@sina.com>, linux-mm <linux-mm@kvack.org>,
-        trix@redhat.com, ndesaulniers@google.com, nathan@kernel.org
-References: <000000000000e2102c05eeaf9113@google.com>
- <00000000000031b80705ef5d33d1@google.com>
- <f649c9c0-6c0c-dd0d-e3c9-f0c580a11cd9@I-love.SAKURA.ne.jp>
-In-Reply-To: <f649c9c0-6c0c-dd0d-e3c9-f0c580a11cd9@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a6b:6519:0:b0:760:e308:1070 with SMTP id
+ z25-20020a6b6519000000b00760e3081070mr2470616iob.0.1681849662669; Tue, 18 Apr
+ 2023 13:27:42 -0700 (PDT)
+Date: Tue, 18 Apr 2023 13:27:42 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000b5973405f9a22358@google.com>
+Subject: [syzbot] [ntfs3?] KASAN: stack-out-of-bounds Read in ntfs_set_inode
+From: syzbot <syzbot+cbdd49fbb39696c71041@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-syzbot is reporting circular locking dependency between ntfs_file_mmap()
-(which has mm->mmap_lock => ni->ni_lock => ni->file.run_lock dependency)
-and ntfs_fiemap() (which has ni->ni_lock => ni->file.run_lock =>
-mm->mmap_lock dependency), for commit c4b929b85bdb ("vfs: vfs-level fiemap
-interface") implemented fiemap_fill_next_extent() using copy_to_user()
-where direct mm->mmap_lock dependency is inevitable.
+Hello,
 
-Since ntfs3 does not want to release ni->ni_lock and/or ni->file.run_lock
-in order to make sure that "struct ATTRIB" does not change during
-ioctl(FS_IOC_FIEMAP) request, let's make it possible to call
-fiemap_fill_next_extent() with filesystem locks held.
+syzbot found the following issue on:
 
-This patch adds fiemap_fill_next_kernel_extent() which spools
-"struct fiemap_extent" to dynamically allocated kernel buffer, and
-fiemap_copy_kernel_extent() which copies spooled "struct fiemap_extent"
-to userspace buffer after filesystem locks are released.
+HEAD commit:    de4664485abb Merge tag 'for-linus-2023041201' of git://git..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13a065e3c80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=90aa79dcf599c3f1
+dashboard link: https://syzkaller.appspot.com/bug?extid=cbdd49fbb39696c71041
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
-Reported-by: syzbot <syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com>
-Link: https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
-Reported-by: syzbot <syzbot+c300ab283ba3bc072439@syzkaller.appspotmail.com>
-Link: https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
-Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+cbdd49fbb39696c71041@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: stack-out-of-bounds in ino_get fs/ntfs3/ntfs.h:193 [inline]
+BUG: KASAN: stack-out-of-bounds in ntfs_set_inode+0x65/0x70 fs/ntfs3/inode.c:502
+Read of size 4 at addr ffffc9000ceafccf by task syz-executor.2/7192
+
+CPU: 3 PID: 7192 Comm: syz-executor.2 Not tainted 6.3.0-rc6-syzkaller-00046-gde4664485abb #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xd9/0x150 lib/dump_stack.c:106
+ print_address_description.constprop.0+0x2c/0x3c0 mm/kasan/report.c:319
+ print_report mm/kasan/report.c:430 [inline]
+ kasan_report+0x11c/0x130 mm/kasan/report.c:536
+ ino_get fs/ntfs3/ntfs.h:193 [inline]
+ ntfs_set_inode+0x65/0x70 fs/ntfs3/inode.c:502
+ inode_insert5+0x125/0x660 fs/inode.c:1188
+ iget5_locked fs/inode.c:1246 [inline]
+ iget5_locked+0x225/0x2c0 fs/inode.c:1235
+ ntfs_iget5+0xd2/0x3310 fs/ntfs3/inode.c:511
+ ntfs_fill_super+0x3138/0x3ab0 fs/ntfs3/super.c:1244
+ get_tree_bdev+0x444/0x760 fs/super.c:1303
+ vfs_get_tree+0x8d/0x350 fs/super.c:1510
+ do_new_mount fs/namespace.c:3042 [inline]
+ path_mount+0x1342/0x1e40 fs/namespace.c:3372
+ do_mount fs/namespace.c:3385 [inline]
+ __do_sys_mount fs/namespace.c:3594 [inline]
+ __se_sys_mount fs/namespace.c:3571 [inline]
+ __x64_sys_mount+0x283/0x300 fs/namespace.c:3571
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f0de348d69a
+Code: 48 c7 c2 b8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 b8 04 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f0de425af88 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 000000000001f6bf RCX: 00007f0de348d69a
+RDX: 000000002001f6c0 RSI: 000000002001f700 RDI: 00007f0de425afe0
+RBP: 00007f0de425b020 R08: 00007f0de425b020 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 000000002001f6c0
+R13: 000000002001f700 R14: 00007f0de425afe0 R15: 000000002001f740
+ </TASK>
+
+The buggy address belongs to stack of task syz-executor.2/7192
+ and is located at offset 127 in frame:
+ ntfs_fill_super+0x0/0x3ab0 fs/ntfs3/super.c:473
+
+This frame has 5 objects:
+ [48, 52) 'vcn'
+ [64, 68) 'lcn'
+ [80, 84) 'len'
+ [96, 104) 'tt'
+ [128, 136) 'ref'
+
+The buggy address belongs to the virtual mapping at
+ [ffffc9000cea8000, ffffc9000ceb1000) created by:
+ kernel_clone+0xeb/0x890 kernel/fork.c:2682
+
+The buggy address belongs to the physical page:
+page:ffffea0001be4580 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x6f916
+memcg:ffff888022837602
+flags: 0x4fff00000000000(node=1|zone=1|lastcpupid=0x7ff)
+raw: 04fff00000000000 0000000000000000 dead000000000122 0000000000000000
+raw: 0000000000000000 0000000000000000 00000001ffffffff ffff888022837602
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x102dc2(GFP_HIGHUSER|__GFP_NOWARN|__GFP_ZERO), pid 6955, tgid 6955 (syz-executor.3), ts 238333166289, free_ts 232134443559
+ prep_new_page mm/page_alloc.c:2553 [inline]
+ get_page_from_freelist+0x1190/0x2e20 mm/page_alloc.c:4326
+ __alloc_pages+0x1cb/0x4a0 mm/page_alloc.c:5592
+ alloc_pages+0x1aa/0x270 mm/mempolicy.c:2283
+ vm_area_alloc_pages mm/vmalloc.c:2953 [inline]
+ __vmalloc_area_node mm/vmalloc.c:3029 [inline]
+ __vmalloc_node_range+0xb1c/0x14a0 mm/vmalloc.c:3201
+ alloc_thread_stack_node kernel/fork.c:311 [inline]
+ dup_task_struct kernel/fork.c:982 [inline]
+ copy_process+0x1320/0x7590 kernel/fork.c:2098
+ kernel_clone+0xeb/0x890 kernel/fork.c:2682
+ __do_sys_clone+0xba/0x100 kernel/fork.c:2823
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1454 [inline]
+ free_pcp_prepare+0x5d5/0xa50 mm/page_alloc.c:1504
+ free_unref_page_prepare mm/page_alloc.c:3388 [inline]
+ free_unref_page+0x1d/0x490 mm/page_alloc.c:3483
+ __folio_put_small mm/swap.c:106 [inline]
+ __folio_put+0xc5/0x140 mm/swap.c:129
+ folio_put include/linux/mm.h:1309 [inline]
+ put_page include/linux/mm.h:1378 [inline]
+ generic_pipe_buf_release+0x23d/0x2b0 fs/pipe.c:210
+ pipe_buf_release include/linux/pipe_fs_i.h:203 [inline]
+ iter_file_splice_write+0x8a3/0xc80 fs/splice.c:793
+ do_splice_from fs/splice.c:856 [inline]
+ direct_splice_actor+0x114/0x180 fs/splice.c:1022
+ splice_direct_to_actor+0x335/0x8a0 fs/splice.c:977
+ do_splice_direct+0x1ab/0x280 fs/splice.c:1065
+ do_sendfile+0xb19/0x12c0 fs/read_write.c:1255
+ __do_sys_sendfile64 fs/read_write.c:1323 [inline]
+ __se_sys_sendfile64 fs/read_write.c:1309 [inline]
+ __x64_sys_sendfile64+0x1d0/0x210 fs/read_write.c:1309
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+Memory state around the buggy address:
+ ffffc9000ceafb80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffffc9000ceafc00: 00 00 00 00 00 00 00 00 00 00 f1 f1 f1 f1 f1 f1
+>ffffc9000ceafc80: 04 f2 04 f2 04 f2 00 f2 f2 f2 00 f3 f3 f3 00 00
+                                              ^
+ ffffc9000ceafd00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffffc9000ceafd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 f1 f1 f1
+==================================================================
+
+
 ---
- fs/ioctl.c             | 52 ++++++++++++++++++++++++++++++++++++------
- fs/ntfs3/file.c        |  4 ++++
- fs/ntfs3/frecord.c     | 10 ++++----
- include/linux/fiemap.h | 24 +++++++++++++++++--
- 4 files changed, 76 insertions(+), 14 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ioctl.c b/fs/ioctl.c
-index 5b2481cd4750..60ddc2760932 100644
---- a/fs/ioctl.c
-+++ b/fs/ioctl.c
-@@ -112,11 +112,10 @@ static int ioctl_fibmap(struct file *filp, int __user *p)
- #define SET_UNKNOWN_FLAGS	(FIEMAP_EXTENT_DELALLOC)
- #define SET_NO_UNMOUNTED_IO_FLAGS	(FIEMAP_EXTENT_DATA_ENCRYPTED)
- #define SET_NOT_ALIGNED_FLAGS	(FIEMAP_EXTENT_DATA_TAIL|FIEMAP_EXTENT_DATA_INLINE)
--int fiemap_fill_next_extent(struct fiemap_extent_info *fieinfo, u64 logical,
--			    u64 phys, u64 len, u32 flags)
-+int do_fiemap_fill_next_extent(struct fiemap_extent_info *fieinfo, u64 logical,
-+			       u64 phys, u64 len, u32 flags, bool is_kernel)
- {
- 	struct fiemap_extent extent;
--	struct fiemap_extent __user *dest = fieinfo->fi_extents_start;
- 
- 	/* only count the extents */
- 	if (fieinfo->fi_extents_max == 0) {
-@@ -140,16 +139,55 @@ int fiemap_fill_next_extent(struct fiemap_extent_info *fieinfo, u64 logical,
- 	extent.fe_length = len;
- 	extent.fe_flags = flags;
- 
--	dest += fieinfo->fi_extents_mapped;
--	if (copy_to_user(dest, &extent, sizeof(extent)))
--		return -EFAULT;
-+	if (!is_kernel) {
-+		struct fiemap_extent __user *dest = fieinfo->fi_extents_start;
-+
-+		dest += fieinfo->fi_extents_mapped;
-+		if (copy_to_user(dest, &extent, sizeof(extent)))
-+			return -EFAULT;
-+	} else {
-+		struct fiemap_extent_list *entry = kmalloc(sizeof(*entry), GFP_NOFS);
-+
-+		if (!entry)
-+			return -ENOMEM;
-+		memmove(&entry->extent, &extent, sizeof(extent));
-+		list_add_tail(&entry->list, &fieinfo->fi_extents_list);
-+	}
- 
- 	fieinfo->fi_extents_mapped++;
- 	if (fieinfo->fi_extents_mapped == fieinfo->fi_extents_max)
- 		return 1;
- 	return (flags & FIEMAP_EXTENT_LAST) ? 1 : 0;
- }
--EXPORT_SYMBOL(fiemap_fill_next_extent);
-+EXPORT_SYMBOL(do_fiemap_fill_next_extent);
-+
-+int fiemap_copy_kernel_extent(struct fiemap_extent_info *fieinfo, int err)
-+{
-+	struct fiemap_extent __user *dest;
-+	struct fiemap_extent_list *entry, *tmp;
-+	unsigned int len = 0;
-+
-+	list_for_each_entry(entry, &fieinfo->fi_extents_list, list)
-+		len++;
-+	if (!len)
-+		return err;
-+	fieinfo->fi_extents_mapped -= len;
-+	dest = fieinfo->fi_extents_start + fieinfo->fi_extents_mapped;
-+	list_for_each_entry(entry, &fieinfo->fi_extents_list, list) {
-+		if (copy_to_user(dest, &entry->extent, sizeof(entry->extent))) {
-+			err = -EFAULT;
-+			break;
-+		}
-+		dest++;
-+		fieinfo->fi_extents_mapped++;
-+	}
-+	list_for_each_entry_safe(entry, tmp, &fieinfo->fi_extents_list, list) {
-+		list_del(&entry->list);
-+		kfree(entry);
-+	}
-+	return err;
-+}
-+EXPORT_SYMBOL(fiemap_copy_kernel_extent);
- 
- /**
-  * fiemap_prep - check validity of requested flags for fiemap
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index e9bdc1ff08c9..1a3e28f71599 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -1145,12 +1145,16 @@ int ntfs_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
- 	if (err)
- 		return err;
- 
-+	INIT_LIST_HEAD(&fieinfo->fi_extents_list);
-+
- 	ni_lock(ni);
- 
- 	err = ni_fiemap(ni, fieinfo, start, len);
- 
- 	ni_unlock(ni);
- 
-+	err = fiemap_copy_kernel_extent(fieinfo, err);
-+
- 	return err;
- }
- 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index f1df52dfab74..b70f9dfb71ab 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -1941,8 +1941,7 @@ int ni_fiemap(struct ntfs_inode *ni, struct fiemap_extent_info *fieinfo,
- 	}
- 
- 	if (!attr || !attr->non_res) {
--		err = fiemap_fill_next_extent(
--			fieinfo, 0, 0,
-+		err = fiemap_fill_next_kernel_extent(fieinfo, 0, 0,
- 			attr ? le32_to_cpu(attr->res.data_size) : 0,
- 			FIEMAP_EXTENT_DATA_INLINE | FIEMAP_EXTENT_LAST |
- 				FIEMAP_EXTENT_MERGED);
-@@ -2037,8 +2036,8 @@ int ni_fiemap(struct ntfs_inode *ni, struct fiemap_extent_info *fieinfo,
- 			if (vbo + dlen >= end)
- 				flags |= FIEMAP_EXTENT_LAST;
- 
--			err = fiemap_fill_next_extent(fieinfo, vbo, lbo, dlen,
--						      flags);
-+			err = fiemap_fill_next_kernel_extent(fieinfo, vbo, lbo,
-+							     dlen, flags);
- 			if (err < 0)
- 				break;
- 			if (err == 1) {
-@@ -2058,7 +2057,8 @@ int ni_fiemap(struct ntfs_inode *ni, struct fiemap_extent_info *fieinfo,
- 		if (vbo + bytes >= end)
- 			flags |= FIEMAP_EXTENT_LAST;
- 
--		err = fiemap_fill_next_extent(fieinfo, vbo, lbo, bytes, flags);
-+		err = fiemap_fill_next_kernel_extent(fieinfo, vbo, lbo, bytes,
-+						     flags);
- 		if (err < 0)
- 			break;
- 		if (err == 1) {
-diff --git a/include/linux/fiemap.h b/include/linux/fiemap.h
-index c50882f19235..10cb33ed80a9 100644
---- a/include/linux/fiemap.h
-+++ b/include/linux/fiemap.h
-@@ -5,17 +5,37 @@
- #include <uapi/linux/fiemap.h>
- #include <linux/fs.h>
- 
-+struct fiemap_extent_list {
-+	struct list_head list;
-+	struct fiemap_extent extent;
-+};
-+
- struct fiemap_extent_info {
- 	unsigned int fi_flags;		/* Flags as passed from user */
- 	unsigned int fi_extents_mapped;	/* Number of mapped extents */
- 	unsigned int fi_extents_max;	/* Size of fiemap_extent array */
- 	struct fiemap_extent __user *fi_extents_start; /* Start of
- 							fiemap_extent array */
-+	struct list_head fi_extents_list; /* List of fiemap_extent_list */
- };
- 
- int fiemap_prep(struct inode *inode, struct fiemap_extent_info *fieinfo,
- 		u64 start, u64 *len, u32 supported_flags);
--int fiemap_fill_next_extent(struct fiemap_extent_info *info, u64 logical,
--			    u64 phys, u64 len, u32 flags);
-+int do_fiemap_fill_next_extent(struct fiemap_extent_info *fieinfo, u64 logical,
-+			       u64 phys, u64 len, u32 flags, bool is_kernel);
-+
-+static inline int fiemap_fill_next_extent(struct fiemap_extent_info *info,
-+					  u64 logical, u64 phys, u64 len, u32 flags)
-+{
-+	return do_fiemap_fill_next_extent(info, logical, phys, len, flags, false);
-+}
-+
-+static inline int fiemap_fill_next_kernel_extent(struct fiemap_extent_info *info,
-+						 u64 logical, u64 phys, u64 len, u32 flags)
-+{
-+	return do_fiemap_fill_next_extent(info, logical, phys, len, flags, true);
-+}
-+
-+int fiemap_copy_kernel_extent(struct fiemap_extent_info *info, int err);
- 
- #endif /* _LINUX_FIEMAP_H 1 */
--- 
-2.34.1
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
