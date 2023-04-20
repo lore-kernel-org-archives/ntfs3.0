@@ -1,91 +1,86 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6BF33C4
-	for <ntfs3@lists.linux.dev>; Wed, 19 Apr 2023 11:19:56 +0000 (UTC)
-Received: from fsav311.sakura.ne.jp (fsav311.sakura.ne.jp [153.120.85.142])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 33JBJmgA013677;
-	Wed, 19 Apr 2023 20:19:48 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav311.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav311.sakura.ne.jp);
- Wed, 19 Apr 2023 20:19:48 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav311.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 33JBJmXb013674
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 19 Apr 2023 20:19:48 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <3451e9a6-8c59-7878-83ee-4d42273260be@I-love.SAKURA.ne.jp>
-Date: Wed, 19 Apr 2023 20:19:46 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A33257F
+	for <ntfs3@lists.linux.dev>; Thu, 20 Apr 2023 07:15:40 +0000 (UTC)
+Received: from kwepemi500024.china.huawei.com (unknown [172.30.72.57])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Q28656ZlHzsRPb;
+	Thu, 20 Apr 2023 15:14:05 +0800 (CST)
+Received: from huawei.com (10.175.124.27) by kwepemi500024.china.huawei.com
+ (7.221.188.100) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 20 Apr
+ 2023 15:15:36 +0800
+From: Zeng Heng <zengheng4@huawei.com>
+To: <almaz.alexandrovich@paragon-software.com>
+CC: <weiyongjun1@huawei.com>, <xiexiuqi@huawei.com>, <ntfs3@lists.linux.dev>,
+	<liwei391@huawei.com>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] fs/ntfs3: fix panic about slab-out-of-bounds caused by ntfs_list_ea()
+Date: Thu, 20 Apr 2023 15:46:22 +0800
+Message-ID: <20230420074622.210011-1-zengheng4@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: [PATCH v2] fs/ntfs3: validate data_size at ntfs_load_attr_list()
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev
-References: <e094ae6b-e741-c1e9-46b1-6bdbbdd971f6@I-love.SAKURA.ne.jp>
-In-Reply-To: <e094ae6b-e741-c1e9-46b1-6bdbbdd971f6@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemi500024.china.huawei.com (7.221.188.100)
+X-CFilter-Loop: Reflected
 
-syzbot is reporting too large allocation at ntfs_load_attr_list(), for
-a crafted filesystem can have huge data_size.
+Here is a BUG report about linux-6.1 from syzbot, but it still remains
+within upstream:
 
-If -1023 <= (ssize_t) lsize <= 0 range, kmalloc(al_aligned(lsize)) allows
-writing lsize bytes at ZERO_SIZE_PTR. But since nobody knows the valid
-range, let's try limiting to 0 < lsize <= 1048576 range (and also add
-__GFP_NOWARN in case costly memory allocation failed).
+BUG: KASAN: slab-out-of-bounds in ntfs_list_ea fs/ntfs3/xattr.c:191 [inline]
+BUG: KASAN: slab-out-of-bounds in ntfs_listxattr+0x401/0x570 fs/ntfs3/xattr.c:710
+Read of size 1 at addr ffff888021acaf3d by task syz-executor128/3632
 
-Reported-by: syzbot <syzbot+89dbb3a789a5b9711793@syzkaller.appspotmail.com>
-Link: https://syzkaller.appspot.com/bug?extid=89dbb3a789a5b9711793
+Call Trace:
+ kasan_report+0x139/0x170 mm/kasan/report.c:495
+ ntfs_list_ea fs/ntfs3/xattr.c:191 [inline]
+ ntfs_listxattr+0x401/0x570 fs/ntfs3/xattr.c:710
+ vfs_listxattr fs/xattr.c:457 [inline]
+ listxattr+0x293/0x2d0 fs/xattr.c:804
+ path_listxattr fs/xattr.c:828 [inline]
+ __do_sys_llistxattr fs/xattr.c:846 [inline]
+
+Before derefering field members of `ea` in unpacked_ea_size(), we need to
+check whether the EA_FULL struct is located in access validate range.
+
+Similarly, when derefering `ea->name` field member, we need to check
+whethe the ea->name is located in access validate range, too.
+
 Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Reported-by: syzbot+9fcea5ef6dc4dc72d334@syzkaller.appspotmail.com
+Signed-off-by: Zeng Heng <zengheng4@huawei.com>
 ---
- fs/ntfs3/attrlist.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ fs/ntfs3/xattr.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
-index c0c6bcbc8c05..46d52f66aca4 100644
---- a/fs/ntfs3/attrlist.c
-+++ b/fs/ntfs3/attrlist.c
-@@ -52,7 +52,12 @@ int ntfs_load_attr_list(struct ntfs_inode *ni, struct ATTRIB *attr)
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index ff64302e87e5..27eb30453b9f 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -210,11 +210,15 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, char *buffer,
+ 	size = le32_to_cpu(info->size);
  
- 	if (!attr->non_res) {
- 		lsize = le32_to_cpu(attr->res.data_size);
--		le = kmalloc(al_aligned(lsize), GFP_NOFS);
-+		/* Arbitrary limit for avoid accessing ZERO_SIZE_PTR. */
-+		if (!lsize || lsize > 1048576) {
-+			err = -ENOMEM;
-+			goto out;
-+		}
-+		le = kmalloc(al_aligned(lsize), GFP_NOFS | __GFP_NOWARN);
- 		if (!le) {
- 			err = -ENOMEM;
- 			goto out;
-@@ -80,7 +85,12 @@ int ntfs_load_attr_list(struct ntfs_inode *ni, struct ATTRIB *attr)
- 		if (err < 0)
- 			goto out;
+ 	/* Enumerate all xattrs. */
+-	for (ret = 0, off = 0; off < size; off += ea_size) {
++	for (ret = 0, off = 0; off + sizeof(struct EA_FULL) < size; off += ea_size) {
+ 		ea = Add2Ptr(ea_all, off);
+ 		ea_size = unpacked_ea_size(ea);
  
--		le = kmalloc(al_aligned(lsize), GFP_NOFS);
-+		/* Arbitrary limit for avoid accessing ZERO_SIZE_PTR. */
-+		if (!lsize || lsize > 1048576) {
-+			err = -ENOMEM;
-+			goto out;
-+		}
-+		le = kmalloc(al_aligned(lsize), GFP_NOFS | __GFP_NOWARN);
- 		if (!le) {
- 			err = -ENOMEM;
- 			goto out;
+ 		if (buffer) {
++			/* Check if we can use field ea->name */
++			if (off + ea_size > size)
++				break;
++
+ 			if (ret + ea->name_len + 1 > bytes_per_buffer) {
+ 				err = -ERANGE;
+ 				goto out;
 -- 
-2.34.1
-
+2.25.1
 
