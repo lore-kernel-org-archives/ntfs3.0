@@ -1,86 +1,96 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A33257F
-	for <ntfs3@lists.linux.dev>; Thu, 20 Apr 2023 07:15:40 +0000 (UTC)
-Received: from kwepemi500024.china.huawei.com (unknown [172.30.72.57])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Q28656ZlHzsRPb;
-	Thu, 20 Apr 2023 15:14:05 +0800 (CST)
-Received: from huawei.com (10.175.124.27) by kwepemi500024.china.huawei.com
- (7.221.188.100) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 20 Apr
- 2023 15:15:36 +0800
-From: Zeng Heng <zengheng4@huawei.com>
-To: <almaz.alexandrovich@paragon-software.com>
-CC: <weiyongjun1@huawei.com>, <xiexiuqi@huawei.com>, <ntfs3@lists.linux.dev>,
-	<liwei391@huawei.com>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] fs/ntfs3: fix panic about slab-out-of-bounds caused by ntfs_list_ea()
-Date: Thu, 20 Apr 2023 15:46:22 +0800
-Message-ID: <20230420074622.210011-1-zengheng4@huawei.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E63320A
+	for <ntfs3@lists.linux.dev>; Thu, 20 Apr 2023 21:11:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Q7x5kZ5TxiQIaPfXzJFB7ZtvsGLdF/4XT+qLIfeZvEs=; b=vnEtrnm74d1qMarGhJIXeyAVZo
+	ha0LcHx6YBNRJx0MyW0aNoe04AR89Kt3V0rRdi3wFRTbhM8Z34te8+7glVcfP5Mn4vNlybMnPjj5b
+	6w93HXlvAzp/7DCN8417gYM+pqvXI6VsWB3sC9TwH+mIalVIu/2KMVNaKxbF2PKnlM/LneXrjbxC5
+	cbJbCu4jyuG52xi8Rj3ctLn4sULUtsIeeYudq/zY7oPkaZIHOGlqG5YHnpiFBb7BUC01rzWzK+e5L
+	lMN9T5ywTZ103LfptXfMQ6N/4/UT7yvhe3Ut/FIEF4SU9Noxm62zcaww7d4eywkSoPRmJ5lD+7fdj
+	q5r4SJNw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1ppbYV-00Axbx-0F;
+	Thu, 20 Apr 2023 21:11:03 +0000
+Date: Thu, 20 Apr 2023 22:11:03 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: syzbot <syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com>,
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com,
+	Mark Fasheh <mark@fasheh.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Hillf Danton <hdanton@sina.com>, linux-mm <linux-mm@kvack.org>,
+	trix@redhat.com, ndesaulniers@google.com, nathan@kernel.org
+Subject: Re: [PATCH] vfs: allow using kernel buffer during fiemap operation
+Message-ID: <20230420211103.GQ3390869@ZenIV>
+References: <000000000000e2102c05eeaf9113@google.com>
+ <00000000000031b80705ef5d33d1@google.com>
+ <f649c9c0-6c0c-dd0d-e3c9-f0c580a11cd9@I-love.SAKURA.ne.jp>
+ <bc30483b-7f9b-df4e-7143-8646aeb4b5a2@I-love.SAKURA.ne.jp>
+ <20230420210045.GP3390869@ZenIV>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.124.27]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi500024.china.huawei.com (7.221.188.100)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230420210045.GP3390869@ZenIV>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Here is a BUG report about linux-6.1 from syzbot, but it still remains
-within upstream:
+On Thu, Apr 20, 2023 at 10:00:45PM +0100, Al Viro wrote:
+> On Mon, Apr 17, 2023 at 11:03:26PM +0900, Tetsuo Handa wrote:
+> > syzbot is reporting circular locking dependency between ntfs_file_mmap()
+> > (which has mm->mmap_lock => ni->ni_lock => ni->file.run_lock dependency)
+> > and ntfs_fiemap() (which has ni->ni_lock => ni->file.run_lock =>
+> > mm->mmap_lock dependency), for commit c4b929b85bdb ("vfs: vfs-level fiemap
+> > interface") implemented fiemap_fill_next_extent() using copy_to_user()
+> > where direct mm->mmap_lock dependency is inevitable.
+> > 
+> > Since ntfs3 does not want to release ni->ni_lock and/or ni->file.run_lock
+> > in order to make sure that "struct ATTRIB" does not change during
+> > ioctl(FS_IOC_FIEMAP) request, let's make it possible to call
+> > fiemap_fill_next_extent() with filesystem locks held.
+> > 
+> > This patch adds fiemap_fill_next_kernel_extent() which spools
+> > "struct fiemap_extent" to dynamically allocated kernel buffer, and
+> > fiemap_copy_kernel_extent() which copies spooled "struct fiemap_extent"
+> > to userspace buffer after filesystem locks are released.
+> 
+> Ugh...  I'm pretty certain that this is a wrong approach.  What is going
+> on in ntfs_file_mmap() that requires that kind of locking?
+> 
+> AFAICS, that's the part that looks odd...  Details, please.
 
-BUG: KASAN: slab-out-of-bounds in ntfs_list_ea fs/ntfs3/xattr.c:191 [inline]
-BUG: KASAN: slab-out-of-bounds in ntfs_listxattr+0x401/0x570 fs/ntfs3/xattr.c:710
-Read of size 1 at addr ffff888021acaf3d by task syz-executor128/3632
+                if (ni->i_valid < to) {
+                        if (!inode_trylock(inode)) {
+                                err = -EAGAIN;
+                                goto out;
+                        }
+                        err = ntfs_extend_initialized_size(file, ni,
+                                                           ni->i_valid, to);
+                        inode_unlock(inode);
+                        if (err)
+                                goto out;
+                }
 
-Call Trace:
- kasan_report+0x139/0x170 mm/kasan/report.c:495
- ntfs_list_ea fs/ntfs3/xattr.c:191 [inline]
- ntfs_listxattr+0x401/0x570 fs/ntfs3/xattr.c:710
- vfs_listxattr fs/xattr.c:457 [inline]
- listxattr+0x293/0x2d0 fs/xattr.c:804
- path_listxattr fs/xattr.c:828 [inline]
- __do_sys_llistxattr fs/xattr.c:846 [inline]
+See that inode_trylock() there?  That's another sign of the same
+problem; it's just that their internal locks (taken by
+ntfs_extend_initialized_size()) are taken without the same
+kind of papering over the problem.
 
-Before derefering field members of `ea` in unpacked_ea_size(), we need to
-check whether the EA_FULL struct is located in access validate range.
+'to' here is guaranteed to be under the i_size_read(inode); is
+that some kind of delayed allocation?  Or lazy extending
+truncate(), perhaps?  I'm not familiar with ntfs codebase (or
+ntfs layout, for that matter), so could somebody describe what
+exactly is going on in that code?
 
-Similarly, when derefering `ea->name` field member, we need to check
-whethe the ea->name is located in access validate range, too.
-
-Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
-Reported-by: syzbot+9fcea5ef6dc4dc72d334@syzkaller.appspotmail.com
-Signed-off-by: Zeng Heng <zengheng4@huawei.com>
----
- fs/ntfs3/xattr.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index ff64302e87e5..27eb30453b9f 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -210,11 +210,15 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, char *buffer,
- 	size = le32_to_cpu(info->size);
- 
- 	/* Enumerate all xattrs. */
--	for (ret = 0, off = 0; off < size; off += ea_size) {
-+	for (ret = 0, off = 0; off + sizeof(struct EA_FULL) < size; off += ea_size) {
- 		ea = Add2Ptr(ea_all, off);
- 		ea_size = unpacked_ea_size(ea);
- 
- 		if (buffer) {
-+			/* Check if we can use field ea->name */
-+			if (off + ea_size > size)
-+				break;
-+
- 			if (ret + ea->name_len + 1 > bytes_per_buffer) {
- 				err = -ERANGE;
- 				goto out;
--- 
-2.25.1
-
+Frankly, my impression is that this stuff is done in the wrong
+place...
