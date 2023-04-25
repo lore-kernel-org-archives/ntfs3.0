@@ -1,68 +1,123 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f79.google.com (mail-io1-f79.google.com [209.85.166.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFDA6944E
-	for <ntfs3@lists.linux.dev>; Thu, 20 Apr 2023 21:14:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=pcN/Tje2VmvMcbOA3u2ULY9TMWv0DmyhFS+rCdsBMdY=; b=C3rLQWwm26lG8focs02Dr77541
-	qKa9auoTft3gRjxu+e9uf7gRiWZFKcaqe/0g8MKCXsHnlMDBf1TvZ73gSeHHz6sKmmak5tTkWx7hA
-	CVc2UKefk9fJHmyg16d7nMt4KGA+wv8HevPa3nArFGUlrXJouUl/oc/bNH5nBEPFWRhEQQQCGnDNE
-	klDC8/Fu5CWhHE9xy/AUgRCd7Z9/a5yKtZn55cXzxQcGZt2vAE/Jfgw7BGfsDBC+SeWyI+aqFb7+L
-	POiherrsI6JelMF+eZunNtT/vTtewnsYlvugxRd76Y+UDTKr9it/EYAGO7bxjIVsue/Lhr1imAeYg
-	hHgaLVBw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppbOX-00AxUn-0l;
-	Thu, 20 Apr 2023 21:00:45 +0000
-Date: Thu, 20 Apr 2023 22:00:45 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: syzbot <syzbot+96cee7d33ca3f87eee86@syzkaller.appspotmail.com>,
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com,
-	Mark Fasheh <mark@fasheh.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	Hillf Danton <hdanton@sina.com>, linux-mm <linux-mm@kvack.org>,
-	trix@redhat.com, ndesaulniers@google.com, nathan@kernel.org
-Subject: Re: [PATCH] vfs: allow using kernel buffer during fiemap operation
-Message-ID: <20230420210045.GP3390869@ZenIV>
-References: <000000000000e2102c05eeaf9113@google.com>
- <00000000000031b80705ef5d33d1@google.com>
- <f649c9c0-6c0c-dd0d-e3c9-f0c580a11cd9@I-love.SAKURA.ne.jp>
- <bc30483b-7f9b-df4e-7143-8646aeb4b5a2@I-love.SAKURA.ne.jp>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C549779D6
+	for <ntfs3@lists.linux.dev>; Tue, 25 Apr 2023 16:49:02 +0000 (UTC)
+Received: by mail-io1-f79.google.com with SMTP id ca18e2360f4ac-760d7046e89so955800939f.3
+        for <ntfs3@lists.linux.dev>; Tue, 25 Apr 2023 09:49:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682441342; x=1685033342;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mvlu2S6IOj0P66TUGmZILlb9E1nqtEeM3M9ymLjgqa0=;
+        b=iSZRDyVEnKAcQ03j6gBeet28tabRAPF/QxizDirGS/J1s50P5q2rYQdFtzTG37bZiI
+         ZfBijO3SQn7lE8ROA0Kx0QgRJwM+HXpgaCknZ9nfG3S4UEfVCW9jOfxOtzLIAA9qxRpK
+         i/c0ssy7K5kkXDLBFISHNIIhb8IrRwGB6SipHvaitT9gyZ6AuN2JfZ0LnhSeUst7MRd3
+         RtzCgiyuO59jLLxlne5/g/TZNsDkEc4ECmUmfe+2lwLvoGVLVuBHGjgpwK8OnJ3WcSO8
+         LW6ih4WuJV3wrzoFe9qAAHKh2q2WipsojpLUiayjtcygIPDh+z8ggXzspmQSIyLfEkqO
+         y46w==
+X-Gm-Message-State: AAQBX9dCTk4A5g5gP6BTzjv4Dbmya8Ly+guzEmwsIuSt+F+3MGAdSoNa
+	wjctIXciwTHd1/08s+8C9AC2I3+5JpQq9mG5wzSisujC3DoR
+X-Google-Smtp-Source: AKy350b+GZPyDeJcZB0TQ5O5WE7vay9NPoF6gobFS/+212QAsO0QFx6Pr3opvz59pXBSW+RUWoYoLJf2arXpwRJmoAtf75RDaf/I
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bc30483b-7f9b-df4e-7143-8646aeb4b5a2@I-love.SAKURA.ne.jp>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+X-Received: by 2002:a05:6602:3285:b0:761:22af:1e3f with SMTP id
+ d5-20020a056602328500b0076122af1e3fmr7113021ioz.3.1682441341846; Tue, 25 Apr
+ 2023 09:49:01 -0700 (PDT)
+Date: Tue, 25 Apr 2023 09:49:01 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000894c7e05fa2be628@google.com>
+Subject: [syzbot] [ntfs3?] WARNING in evict
+From: syzbot <syzbot+6310a7df6baca255f9cc@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Apr 17, 2023 at 11:03:26PM +0900, Tetsuo Handa wrote:
-> syzbot is reporting circular locking dependency between ntfs_file_mmap()
-> (which has mm->mmap_lock => ni->ni_lock => ni->file.run_lock dependency)
-> and ntfs_fiemap() (which has ni->ni_lock => ni->file.run_lock =>
-> mm->mmap_lock dependency), for commit c4b929b85bdb ("vfs: vfs-level fiemap
-> interface") implemented fiemap_fill_next_extent() using copy_to_user()
-> where direct mm->mmap_lock dependency is inevitable.
-> 
-> Since ntfs3 does not want to release ni->ni_lock and/or ni->file.run_lock
-> in order to make sure that "struct ATTRIB" does not change during
-> ioctl(FS_IOC_FIEMAP) request, let's make it possible to call
-> fiemap_fill_next_extent() with filesystem locks held.
-> 
-> This patch adds fiemap_fill_next_kernel_extent() which spools
-> "struct fiemap_extent" to dynamically allocated kernel buffer, and
-> fiemap_copy_kernel_extent() which copies spooled "struct fiemap_extent"
-> to userspace buffer after filesystem locks are released.
+Hello,
 
-Ugh...  I'm pretty certain that this is a wrong approach.  What is going
-on in ntfs_file_mmap() that requires that kind of locking?
+syzbot found the following issue on:
 
-AFAICS, that's the part that looks odd...  Details, please.
+HEAD commit:    2af3e53a4dc0 Merge tag 'drm-fixes-2023-04-21' of git://ano..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12f3bf57c80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4afb87f3ec27b7fd
+dashboard link: https://syzkaller.appspot.com/bug?extid=6310a7df6baca255f9cc
+compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/845f21360f64/disk-2af3e53a.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/3b9925dc3504/vmlinux-2af3e53a.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/021758261c12/bzImage-2af3e53a.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+6310a7df6baca255f9cc@syzkaller.appspotmail.com
+
+loop5: detected capacity change from 0 to 4096
+------------[ cut here ]------------
+DEBUG_LOCKS_WARN_ON(1)
+WARNING: CPU: 0 PID: 4955 at kernel/locking/lockdep.c:232 hlock_class kernel/locking/lockdep.c:232 [inline]
+WARNING: CPU: 0 PID: 4955 at kernel/locking/lockdep.c:232 mark_lock+0x14c/0x340 kernel/locking/lockdep.c:4613
+Modules linked in:
+CPU: 0 PID: 4955 Comm: syz-executor.5 Not tainted 6.3.0-rc7-syzkaller-00152-g2af3e53a4dc0 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/30/2023
+RIP: 0010:hlock_class kernel/locking/lockdep.c:232 [inline]
+RIP: 0010:mark_lock+0x14c/0x340 kernel/locking/lockdep.c:4613
+Code: 03 42 0f b6 04 28 84 c0 0f 85 d2 01 00 00 83 3d 01 fd e8 0c 00 75 9d 48 c7 c7 40 7c ea 8a 48 c7 c6 e0 7e ea 8a e8 14 fb e7 ff <0f> 0b eb 86 e8 7b 47 ff ff 85 c0 0f 84 33 01 00 00 45 89 f6 4c 89
+RSP: 0000:ffffc90005487778 EFLAGS: 00010046
+RAX: 15fb29a09693de00 RBX: 0000000000001b00 RCX: 0000000000040000
+RDX: ffffc9000e3ef000 RSI: 0000000000007ab5 RDI: 0000000000007ab6
+RBP: 0000000000000002 R08: ffffffff81528022 R09: ffffed101730515b
+R10: 0000000000000000 R11: dffffc0000000001 R12: ffff888046b9c4b0
+R13: dffffc0000000000 R14: 0000000000000004 R15: ffff888046b9c4df
+FS:  00007f42a5e55700(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f7ddc767000 CR3: 0000000053d39000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ mark_usage kernel/locking/lockdep.c:4544 [inline]
+ __lock_acquire+0xc0d/0x1f80 kernel/locking/lockdep.c:5010
+ lock_acquire+0x1e1/0x520 kernel/locking/lockdep.c:5669
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:350 [inline]
+ inode_sb_list_del fs/inode.c:503 [inline]
+ evict+0x161/0x620 fs/inode.c:654
+ ntfs_fill_super+0x3ffc/0x47f0 fs/ntfs3/super.c:1239
+ get_tree_bdev+0x402/0x620 fs/super.c:1303
+ vfs_get_tree+0x8c/0x270 fs/super.c:1510
+ do_new_mount+0x28f/0xae0 fs/namespace.c:3042
+ do_mount fs/namespace.c:3385 [inline]
+ __do_sys_mount fs/namespace.c:3594 [inline]
+ __se_sys_mount+0x2d9/0x3c0 fs/namespace.c:3571
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f42a508d69a
+Code: 48 c7 c2 b8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 b8 04 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f42a5e54f88 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 000000000001f6cc RCX: 00007f42a508d69a
+RDX: 000000002001f700 RSI: 000000002001f740 RDI: 00007f42a5e54fe0
+RBP: 00007f42a5e55020 R08: 00007f42a5e55020 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 000000002001f700
+R13: 000000002001f740 R14: 00007f42a5e54fe0 R15: 000000002001f780
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
