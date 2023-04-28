@@ -1,153 +1,86 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC77823A4
-	for <ntfs3@lists.linux.dev>; Fri, 28 Apr 2023 07:36:59 +0000 (UTC)
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 5EA9B2181;
-	Fri, 28 Apr 2023 07:25:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1682666720;
-	bh=KDYaVo5PyVLtkC6s1yjYte0w6cjpa9PrJoFAS7zuJbA=;
-	h=Date:From:Subject:To:CC;
-	b=fzeccGUfIw4aI/FHAMCPI6PUHbs0tFSv4oyZ788jZu1KeSTToBTmDF2Kpv2gKNOJm
-	 9AUAna3Eq1OTWsplnkyU1S+2xfP46C6cdwEIHkZk0a5CVbgkIqECHFmCXCgFSMhpqP
-	 yP7lgCuVrfASElnhDfRN2P0TcQaTTgk0rVDYtT3Q=
-Received: from [192.168.211.149] (192.168.211.149) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 28 Apr 2023 10:30:02 +0300
-Message-ID: <f949c754-6d38-af12-fa83-176e9971132e@paragon-software.com>
-Date: Fri, 28 Apr 2023 11:30:01 +0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BD223D3
+	for <ntfs3@lists.linux.dev>; Fri, 28 Apr 2023 08:47:47 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7664be0e9c4so226542739f.3
+        for <ntfs3@lists.linux.dev>; Fri, 28 Apr 2023 01:47:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682671667; x=1685263667;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QeuIWsyfE8QRzGIA3wUsHQCHj888JIoXAHIN3OdB9K0=;
+        b=Cp7DNp5wx/6XIJf08rkeo3eszYNw3gGsTnPf/WmoOHuDBIO+D1yj4uN57znMXYZ70K
+         eshsuKB8v2kGLKvCgK8IzdGfwkgn/7uj9Chog9TUHVUAXZP4JBqYw7uLv98WirTrBgCd
+         0uJdgcxQd8cP0nmWzY4mVP7bSqrZPAyF9nS6due0ekwU2Qne3QJ9qqaveC2qtWyQlxHI
+         qtzLYUwJEQLjFt45Z6OcRxbh8hKpeuddP+fpAlkyJSjgjrJY1Di8jUCcjt+MC54/ZnG4
+         JFXIAmz1MSUsdhassXv+H2SStxHKuOd88mLKDeWSe7VPZjvQVOxfkdv9kIMjUfhwn1v1
+         bN7w==
+X-Gm-Message-State: AC+VfDzbIK2iUAgBejLvHunvut+t6VPO+PgRbl7CgeG13SX1t4TxXJ3z
+	2hC132G53Feoj+9OH9sdog9FtIBXuwhGdOqItjmiZPclcdq5
+X-Google-Smtp-Source: ACHHUZ7s6abN+81ptcOqufkCU1xVEq3ObpiyN0LRdnzVgEL2H0zSA9O8g1YLLv6Cedw91IRSkN+kBZoArcjC7p3MXSArJEzW8smo
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [GIT PULL] ntfs3: bugfixes for 6.4
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Content-Language: en-US
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.211.149]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Received: by 2002:a02:a14a:0:b0:3c5:1971:1b7f with SMTP id
+ m10-20020a02a14a000000b003c519711b7fmr2433851jah.6.1682671666917; Fri, 28 Apr
+ 2023 01:47:46 -0700 (PDT)
+Date: Fri, 28 Apr 2023 01:47:46 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000faf54f05fa6186db@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Apr 2023)
+From: syzbot <syzbot+list1d8e27291d051da3b6be@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Linus,
+Hello ntfs3 maintainers/developers,
 
-Please pull this branch containing ntfs3 code for 6.4.
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-Added:
-- add missed "nocase" in ntfs_show_options;
-- extend information on fails\errors;
-- small optimizations.
+During the period, 8 new issues were detected and 0 were fixed.
+In total, 62 issues are still open and 21 have been fixed so far.
 
-Fixed:
-- some logic errors;
-- some dead code was removed;
-- code is refactored and
-   reformatted according to the new version of clang-format.
+Some of the still happening issues:
 
-Removed:
-- noacsrules option. Currently, this option does not work properly.
-   Its use leads to unstable results. If we figure out how to implement it
-   without errors, we will add it later;
-- writepage.
+Ref  Crashes Repro Title
+<1>  3546    Yes   KASAN: slab-out-of-bounds Read in ntfs_iget5
+                   https://syzkaller.appspot.com/bug?extid=b4084c18420f9fad0b4f
+<2>  1835    Yes   UBSAN: shift-out-of-bounds in ntfs_fill_super (2)
+                   https://syzkaller.appspot.com/bug?extid=478c1bf0e6bf4a8f3a04
+<3>  1013    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<4>  843     Yes   possible deadlock in attr_data_get_block
+                   https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
+<5>  388     Yes   possible deadlock in ntfs_set_state
+                   https://syzkaller.appspot.com/bug?extid=f91c29a5d5a01ada051a
+<6>  352     Yes   possible deadlock in mi_read
+                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
+<7>  242     No    possible deadlock in ntfs_mark_rec_free
+                   https://syzkaller.appspot.com/bug?extid=f83f0dbef763c426e3cf
+<8>  65      Yes   WARNING in do_symlinkat
+                   https://syzkaller.appspot.com/bug?extid=e78eab0c1cf4649256ed
+<9>  58      Yes   KASAN: vmalloc-out-of-bounds Write in find_lock_entries
+                   https://syzkaller.appspot.com/bug?extid=e498ebacfd2fd78cf7b2
+<10> 51      Yes   WARNING in do_mkdirat
+                   https://syzkaller.appspot.com/bug?extid=919c5a9be8433b8bf201
 
-Regards,
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Konstantin
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-----------------------------------------------------------------
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
-The following changes since commit 197b6b60ae7bc51dd0814953c562833143b292aa:
-
-    Linux 6.3-rc4 (Sun Mar 26 14:40:20 2023 -0700)
-
-are available in the Git repository at:
-
-https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_6.4
-
-for you to fetch changes up to 788ee1605c2e9feed39c3a749fb3e47c6e15c1b9:
-
-    fs/ntfs3: Fix root inode checking (Mon Feb 20 09:39:35 2023 +0400)
-
-----------------------------------------------------------------
-
-Abdun Nihaal (1):
-   fs/ntfs3: Fix NULL dereference in ni_write_inode
-
-Chen Zhongjin (1):
-   fs/ntfs3: Fix memory leak if ntfs_read_mft failed
-
-Daniel Pinto (1):
-   fs/ntfs3: Fix wrong cast in xattr.c
-
-Edward Lo (3):
-   fs/ntfs3: Enhance the attribute size check
-   fs/ntfs3: Validate MFT flags before replaying logs
-   fs/ntfs3: Add length check in indx_get_root
-
-Jia-Ju Bai (1):
-   fs/ntfs3: Fix a possible null-pointer dereference in ni_clear()
-
-Jiasheng Jiang (1):
-   fs/ntfs3: Add check for kmemdup
-
-Konstantin Komarov (17):
-   fs/ntfs3: Add null pointer checks
-   fs/ntfs3: Improved checking of attribute's name length
-   fs/ntfs3: Check for extremely large size of $AttrDef
-   fs/ntfs3: Restore overflow checking for attr size in mi_enum_attr
-   fs/ntfs3: Refactoring of various minor issues
-   fs/ntfs3: Use bh_read to simplify code
-   fs/ntfs3: Remove noacsrules
-   fs/ntfs3: Fix ntfs_create_inode()
-   fs/ntfs3: Optimization in ntfs_set_state()
-   fs/ntfs3: Undo endian changes
-   fs/ntfs3: Undo critial modificatins to keep directory consistency
-   fs/ntfs3: Remove field sbi->used.bitmap.set_tail
-   fs/ntfs3: Changed ntfs_get_acl() to use dentry
-   fs/ntfs3: Code formatting and refactoring
-   fs/ntfs3: Add missed "nocase" in ntfs_show_options
-   fs/ntfs3: Print details about mount fails
-   fs/ntfs3: Fix root inode checking
-
-Ye Bin (1):
-   fs/ntfs3: Fix NULL pointer dereference in 'ni_write_inode'
-
-Yu Zhe (1):
-   fs/ntfs3: fix spelling mistake "attibute" -> "attribute"
-
-Zeng Heng (1):
-   fs/ntfs3: Fix slab-out-of-bounds read in hdr_delete_de()
-
-ZhangPeng (2):
-   fs/ntfs3: Fix null-ptr-deref on inode->i_op in ntfs_lookup()
-   fs/ntfs3: Fix OOB read in indx_insert_into_buffer
-
-  Documentation/filesystems/ntfs3.rst |  11 -
-  fs/ntfs3/attrib.c                   |  17 +-
-  fs/ntfs3/bitmap.c                   |  25 +--
-  fs/ntfs3/file.c                     |  50 ++---
-  fs/ntfs3/frecord.c                  |  46 ++--
-  fs/ntfs3/fslog.c                    |  83 ++++----
-  fs/ntfs3/fsntfs.c                   |  84 ++++----
-  fs/ntfs3/index.c                    |  81 +++++---
-  fs/ntfs3/inode.c                    | 134 ++++++------
-  fs/ntfs3/lznt.c                     |  10 +-
-  fs/ntfs3/namei.c                    |  19 +-
-  fs/ntfs3/ntfs.h                     |   3 -
-  fs/ntfs3/ntfs_fs.h                  |  19 +-
-  fs/ntfs3/record.c                   |  15 +-
-  fs/ntfs3/run.c                      |   6 +-
-  fs/ntfs3/super.c                    | 312 ++++++++++++++++------------
-  fs/ntfs3/xattr.c                    |  70 +++----
-  17 files changed, 528 insertions(+), 457 deletions(-)
-
+You may send multiple commands in a single email message.
