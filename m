@@ -1,86 +1,53 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BD223D3
-	for <ntfs3@lists.linux.dev>; Fri, 28 Apr 2023 08:47:47 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7664be0e9c4so226542739f.3
-        for <ntfs3@lists.linux.dev>; Fri, 28 Apr 2023 01:47:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682671667; x=1685263667;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QeuIWsyfE8QRzGIA3wUsHQCHj888JIoXAHIN3OdB9K0=;
-        b=Cp7DNp5wx/6XIJf08rkeo3eszYNw3gGsTnPf/WmoOHuDBIO+D1yj4uN57znMXYZ70K
-         eshsuKB8v2kGLKvCgK8IzdGfwkgn/7uj9Chog9TUHVUAXZP4JBqYw7uLv98WirTrBgCd
-         0uJdgcxQd8cP0nmWzY4mVP7bSqrZPAyF9nS6due0ekwU2Qne3QJ9qqaveC2qtWyQlxHI
-         qtzLYUwJEQLjFt45Z6OcRxbh8hKpeuddP+fpAlkyJSjgjrJY1Di8jUCcjt+MC54/ZnG4
-         JFXIAmz1MSUsdhassXv+H2SStxHKuOd88mLKDeWSe7VPZjvQVOxfkdv9kIMjUfhwn1v1
-         bN7w==
-X-Gm-Message-State: AC+VfDzbIK2iUAgBejLvHunvut+t6VPO+PgRbl7CgeG13SX1t4TxXJ3z
-	2hC132G53Feoj+9OH9sdog9FtIBXuwhGdOqItjmiZPclcdq5
-X-Google-Smtp-Source: ACHHUZ7s6abN+81ptcOqufkCU1xVEq3ObpiyN0LRdnzVgEL2H0zSA9O8g1YLLv6Cedw91IRSkN+kBZoArcjC7p3MXSArJEzW8smo
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D2B53A1
+	for <ntfs3@lists.linux.dev>; Sat, 29 Apr 2023 18:19:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8588DC4339C;
+	Sat, 29 Apr 2023 18:19:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1682792392;
+	bh=kHgDemyxd+ETTICl0RvyynE82gBsklNHTWkUhPlY8rE=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=eOEx+zFyMgScU5K9qYWdsVGKyrM61GZSFNPe4mT1+NVH0W1OSdxi6GQOrEAwY3CHV
+	 ZFnBW42yEBDDF21d66tzoH/qlQoCLGkaAsG40LDTG6fVY72V95gaAz+La5qAHngrjT
+	 FzN+3VU2ZHh5r0Ss3sXndkaFXC0T4VZpfeYzEkyNW2qhYaU79POLwhq95wLX1cDZmT
+	 /cFIzLt3vT3QhtAAgnj5eDL1h4zN4H1NopHMXg+y3Yda97qxxzmSYiFuEINDsa9qw9
+	 dWNG1COIeXrNZoa8vXfGCiwn7T0fRTkuT+guxI5QIhHt+UcFX3vQ6xziGeWvUyWMPH
+	 1+NfuB0kBUukQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 71F88C43158;
+	Sat, 29 Apr 2023 18:19:52 +0000 (UTC)
+Subject: Re: [GIT PULL] ntfs3: bugfixes for 6.4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <f949c754-6d38-af12-fa83-176e9971132e@paragon-software.com>
+References: <f949c754-6d38-af12-fa83-176e9971132e@paragon-software.com>
+X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <f949c754-6d38-af12-fa83-176e9971132e@paragon-software.com>
+X-PR-Tracked-Remote: https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_6.4
+X-PR-Tracked-Commit-Id: 788ee1605c2e9feed39c3a749fb3e47c6e15c1b9
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 1e098dec61ba342c8cebbfdf0fcdcd9ce54f7fa1
+Message-Id: <168279239246.22076.4593087405631164929.pr-tracker-bot@kernel.org>
+Date: Sat, 29 Apr 2023 18:19:52 +0000
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: torvalds@linux-foundation.org, ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-Received: by 2002:a02:a14a:0:b0:3c5:1971:1b7f with SMTP id
- m10-20020a02a14a000000b003c519711b7fmr2433851jah.6.1682671666917; Fri, 28 Apr
- 2023 01:47:46 -0700 (PDT)
-Date: Fri, 28 Apr 2023 01:47:46 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000faf54f05fa6186db@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Apr 2023)
-From: syzbot <syzbot+list1d8e27291d051da3b6be@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello ntfs3 maintainers/developers,
+The pull request you sent on Fri, 28 Apr 2023 11:30:01 +0400:
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+> https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_6.4
 
-During the period, 8 new issues were detected and 0 were fixed.
-In total, 62 issues are still open and 21 have been fixed so far.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/1e098dec61ba342c8cebbfdf0fcdcd9ce54f7fa1
 
-Some of the still happening issues:
+Thank you!
 
-Ref  Crashes Repro Title
-<1>  3546    Yes   KASAN: slab-out-of-bounds Read in ntfs_iget5
-                   https://syzkaller.appspot.com/bug?extid=b4084c18420f9fad0b4f
-<2>  1835    Yes   UBSAN: shift-out-of-bounds in ntfs_fill_super (2)
-                   https://syzkaller.appspot.com/bug?extid=478c1bf0e6bf4a8f3a04
-<3>  1013    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
-                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
-<4>  843     Yes   possible deadlock in attr_data_get_block
-                   https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
-<5>  388     Yes   possible deadlock in ntfs_set_state
-                   https://syzkaller.appspot.com/bug?extid=f91c29a5d5a01ada051a
-<6>  352     Yes   possible deadlock in mi_read
-                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
-<7>  242     No    possible deadlock in ntfs_mark_rec_free
-                   https://syzkaller.appspot.com/bug?extid=f83f0dbef763c426e3cf
-<8>  65      Yes   WARNING in do_symlinkat
-                   https://syzkaller.appspot.com/bug?extid=e78eab0c1cf4649256ed
-<9>  58      Yes   KASAN: vmalloc-out-of-bounds Write in find_lock_entries
-                   https://syzkaller.appspot.com/bug?extid=e498ebacfd2fd78cf7b2
-<10> 51      Yes   WARNING in do_mkdirat
-                   https://syzkaller.appspot.com/bug?extid=919c5a9be8433b8bf201
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
