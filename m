@@ -1,139 +1,143 @@
-Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
+Received: from mail-io1-f80.google.com (mail-io1-f80.google.com [209.85.166.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7016417D8
-	for <ntfs3@lists.linux.dev>; Sun,  7 May 2023 05:17:39 +0000 (UTC)
-Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-334d63a10e9so7072385ab.0
-        for <ntfs3@lists.linux.dev>; Sat, 06 May 2023 22:17:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FC67E
+	for <ntfs3@lists.linux.dev>; Sun,  7 May 2023 10:30:45 +0000 (UTC)
+Received: by mail-io1-f80.google.com with SMTP id ca18e2360f4ac-763c341d627so216062339f.1
+        for <ntfs3@lists.linux.dev>; Sun, 07 May 2023 03:30:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683436658; x=1686028658;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nQEIoXH7rI2rkjwK+Q3rGkXe8qUJqhRvHYWEBWQWkwQ=;
-        b=Qc7Jf7IJCFgZnqYSqpCcj3pSpPdDpkStmnowsAgEbM4WLVZgtomnMIRYV9yBez5wl0
-         nMljod/pTg62yiH6uNnNP0sTAaj01Z7x1MU4z7kDqRnvpmiZGQBTDmtKczWqwyfk+XxT
-         I6Ksk5ccJrsn8zubPWXGPF9GuvZa6Hc/+iKhB2PdSS5TVSjSTusQtjMHfzIn1wm0Z/E3
-         1I4srS1Kkp2r/stAdVAasuseMClk/JWX2JfweQk+3L27T8hwXZxKHICwapHf5JCFZ5I3
-         QmG2IUk8e4YbCNUXZESJ/cE6ESPSo5QxuLLXoqpgeHr7fY/ZbpP8kljhapDj79IDLNUc
-         SiVw==
-X-Gm-Message-State: AC+VfDzgRRfRJ54Zw++vHaqjzf95l/qm84Ot+DCZsNC1u65aboe647dP
-	/KZZffuJBl4t9mM/wdkQid5ZcLjAIHgzhICsfUr0EKXLxjT7
-X-Google-Smtp-Source: ACHHUZ6q0fO6ZGps2gW9lc74ojab2R1y51uBFIbGNd0dwIWcAhHZZNiEPiixMxE4UQxQ5JZv4TxmdO/W5HdhDIibMNHfJDx+nfvQ
+        d=1e100.net; s=20221208; t=1683455445; x=1686047445;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R3i9BTrrWyZRXgDeCeh8X6ei2ZhGQwyd2lT0wG6mo5w=;
+        b=hR6zv64zIQ445E5HWtxu6MQ1BJ1VPLcMQ+V1MmHgFbEQ9hHmMk7D+nbjgwipiptcza
+         CDBU8vIdCv6BhC+XY4Ah2RpSRZGH2QJp4OiUzqNmgX4EZA1RQnZD0FsHunTm4CiFwikw
+         TOWceVsThbKNy6LHOFW7AJ5eI4vI0Ni7d+9OicUcUcNd694m9OGrGR8QBNYfy9ofKgQw
+         rHDUm/1B9JJIS3684pK2EVv/Fe6RgFNttVyqUXKf6Ur4FPqT/8aqRxPGC9jgoAoFwdpg
+         tpZeCntIWn1lAKraM2r2FLTlMg37qifmIvBc3j0o7QFUnW3Xn3y0lX2Bsvbho0BKXi9B
+         /EfA==
+X-Gm-Message-State: AC+VfDwS9w6krX3okXSmVCZGkFjFUo4WILOdD29XxdXFnio3Lm/rofBq
+	sVcSlkHa6P/lK828GjhYtGpZVRB+RTejqDpMUQOZ9lHaSqEH
+X-Google-Smtp-Source: ACHHUZ5Rd77fpRngyXkiOdx+onEX7USaI4BFCY474UTVlAA9W9+UqdhbdJjiaq2c97eFhsMb9/oJippPnBdxq5iRihDWpe/X6G6Y
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a02:2a89:0:b0:40b:c2f7:1ef9 with SMTP id
- w131-20020a022a89000000b0040bc2f71ef9mr2863548jaw.0.1683436658534; Sat, 06
- May 2023 22:17:38 -0700 (PDT)
-Date: Sat, 06 May 2023 22:17:38 -0700
+X-Received: by 2002:a6b:d915:0:b0:760:d92a:2f4a with SMTP id
+ r21-20020a6bd915000000b00760d92a2f4amr3121680ioc.2.1683455445150; Sun, 07 May
+ 2023 03:30:45 -0700 (PDT)
+Date: Sun, 07 May 2023 03:30:45 -0700
+In-Reply-To: <000000000000b0cabf05f90bcb15@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000008aee505fb13a425@google.com>
-Subject: [syzbot] [mm?] [ntfs3?] kernel panic: stack is corrupted in save_stack
-From: syzbot <syzbot+b58594b2f7f31155af24@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, almaz.alexandrovich@paragon-software.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Message-ID: <000000000000cdb0e805fb180316@google.com>
+Subject: Re: [syzbot] [ntfs3?] general protection fault in ni_readpage_cmpr
+From: syzbot <syzbot+af224b63e76b2d869bc3@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+syzbot has found a reproducer for the following issue on:
 
-syzbot found the following issue on:
-
-HEAD commit:    92e815cf07ed Add linux-next specific files for 20230428
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=1732ed8c280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c8c8ae4d47d23592
-dashboard link: https://syzkaller.appspot.com/bug?extid=b58594b2f7f31155af24
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=122a8fdbc80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16ed8e2c280000
+HEAD commit:    14f8db1c0f9a Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=14ecc3b0280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a837a8ba7e88bb45
+dashboard link: https://syzkaller.appspot.com/bug?extid=af224b63e76b2d869bc3
+compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=168ce182280000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1308c522280000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/c9e94856e6c9/disk-92e815cf.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/4c1c05a548a7/vmlinux-92e815cf.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/2a1bff6a133b/bzImage-92e815cf.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/91d376f7ef76/mount_0.gz
+disk image: https://storage.googleapis.com/syzbot-assets/ad6ce516eed3/disk-14f8db1c.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/1f38c2cc7667/vmlinux-14f8db1c.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d795115eee39/Image-14f8db1c.gz.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/8a3eac658458/mount_0.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b58594b2f7f31155af24@syzkaller.appspotmail.com
+Reported-by: syzbot+af224b63e76b2d869bc3@syzkaller.appspotmail.com
 
-Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: save_stack+0x1c8/0x1e0 mm/page_owner.c:135
-CPU: 1 PID: 5038 Comm: syz-executor216 Not tainted 6.3.0-next-20230428-syzkaller #0
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall+0x98/0x2c0 arch/arm64/kernel/syscall.c:52
+ el0_svc_common+0x138/0x258 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x64/0x198 arch/arm64/kernel/syscall.c:193
+ el0_svc+0x4c/0x15c arch/arm64/kernel/entry-common.c:637
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:591
+Unable to handle kernel paging request at virtual address dfff800000000001
+KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+Mem abort info:
+  ESR = 0x0000000096000006
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x06: level 2 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000006
+  CM = 0, WnR = 0
+[dfff800000000001] address between user and kernel address ranges
+Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 0 PID: 5930 Comm: syz-executor385 Not tainted 6.3.0-rc7-syzkaller-g14f8db1c0f9a #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/14/2023
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd9/0x150 lib/dump_stack.c:106
- panic+0x686/0x730 kernel/panic.c:340
- __stack_chk_fail+0x19/0x20 kernel/panic.c:759
- save_stack+0x1c8/0x1e0 mm/page_owner.c:135
- __set_page_owner+0x1f/0x60 mm/page_owner.c:192
- set_page_owner include/linux/page_owner.h:31 [inline]
- post_alloc_hook+0x2db/0x350 mm/page_alloc.c:1731
- prep_new_page mm/page_alloc.c:1738 [inline]
- get_page_from_freelist+0xf7c/0x2aa0 mm/page_alloc.c:3502
- __alloc_pages+0x1cb/0x4a0 mm/page_alloc.c:4768
- alloc_pages+0x1aa/0x270 mm/mempolicy.c:2277
- push_anon lib/iov_iter.c:245 [inline]
- append_pipe+0x19a/0x660 lib/iov_iter.c:302
- copy_pipe_to_iter lib/iov_iter.c:479 [inline]
- _copy_to_iter+0x463/0x1370 lib/iov_iter.c:533
- copy_page_to_iter lib/iov_iter.c:740 [inline]
- copy_page_to_iter+0xe8/0x170 lib/iov_iter.c:727
- copy_folio_to_iter include/linux/uio.h:197 [inline]
- filemap_read+0x682/0xc70 mm/filemap.c:2742
- generic_file_read_iter+0x3ad/0x5b0 mm/filemap.c:2837
- ntfs_file_read_iter+0x1b8/0x270 fs/ntfs3/file.c:744
- call_read_iter include/linux/fs.h:1862 [inline]
- generic_file_splice_read+0x182/0x4b0 fs/splice.c:422
- do_splice_to+0x1b9/0x240 fs/splice.c:905
- splice_direct_to_actor+0x2ab/0x8a0 fs/splice.c:976
- do_splice_direct+0x1ab/0x280 fs/splice.c:1085
- do_sendfile+0xb19/0x12c0 fs/read_write.c:1254
- __do_sys_sendfile64 fs/read_write.c:1322 [inline]
- __se_sys_sendfile64 fs/read_write.c:1308 [inline]
- __x64_sys_sendfile64+0x1d0/0x210 fs/read_write.c:1308
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f5c56defc49
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 11 15 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff58272038 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
-RAX: ffffffffffffffda RBX: 000000000001419a RCX: 00007f5c56defc49
-RDX: 0000000000000000 RSI: 0000000000000005 RDI: 0000000000000004
-RBP: 0000000000000000 R08: 00007fff58272060 R09: 00007fff58272060
-R10: 00008400fffffffa R11: 0000000000000246 R12: 00007fff5827205c
-R13: 00007fff58272090 R14: 00007fff58272070 R15: 0000000000000004
- </TASK>
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
+pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : _compound_head include/linux/page-flags.h:251 [inline]
+pc : unlock_page+0x28/0x74 mm/folio-compat.c:21
+lr : unlock_page+0x18/0x74 mm/folio-compat.c:20
+sp : ffff80001e4d6fa0
+x29: ffff80001e4d6fa0 x28: 0000000000000007 x27: 00000000fffffff4
+x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
+x23: ffff0000d9371208 x22: 0000000000000001 x21: dfff800000000000
+x20: 0000000000000008 x19: 0000000000000000 x18: 1fffe0003684a5b6
+x17: 0000000000000000 x16: ffff8000084fa124 x15: 0000000000000001
+x14: 0000000000000000 x13: 0000000000000001 x12: 0000000000000001
+x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000001
+x8 : dfff800000000000 x7 : 0000000000000001 x6 : 0000000000000001
+x5 : ffff80001e4d61d8 x4 : ffff800015e4ccc0 x3 : ffff80000968c944
+x2 : 0000000000000001 x1 : 0000000000000000 x0 : 0000000000000000
+Call trace:
+ _compound_head include/linux/page-flags.h:251 [inline]
+ unlock_page+0x28/0x74 mm/folio-compat.c:21
+ ni_readpage_cmpr+0x474/0x798 fs/ntfs3/frecord.c:2149
+ ntfs_read_folio+0x14c/0x1c0 fs/ntfs3/inode.c:703
+ filemap_read_folio+0x14c/0x39c mm/filemap.c:2424
+ filemap_create_folio mm/filemap.c:2552 [inline]
+ filemap_get_pages+0xb3c/0x1640 mm/filemap.c:2605
+ filemap_read+0x354/0xc98 mm/filemap.c:2693
+ generic_file_read_iter+0xa0/0x450 mm/filemap.c:2840
+ ntfs_file_read_iter+0x184/0x1e0 fs/ntfs3/file.c:758
+ call_read_iter include/linux/fs.h:1845 [inline]
+ generic_file_splice_read+0x1e0/0x508 fs/splice.c:402
+ do_splice_to fs/splice.c:885 [inline]
+ splice_direct_to_actor+0x30c/0x944 fs/splice.c:956
+ do_splice_direct+0x1f4/0x334 fs/splice.c:1065
+ do_sendfile+0x4bc/0xc70 fs/read_write.c:1255
+ __do_sys_sendfile64 fs/read_write.c:1323 [inline]
+ __se_sys_sendfile64 fs/read_write.c:1309 [inline]
+ __arm64_sys_sendfile64+0x160/0x3b4 fs/read_write.c:1309
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall+0x98/0x2c0 arch/arm64/kernel/syscall.c:52
+ el0_svc_common+0x138/0x258 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x64/0x198 arch/arm64/kernel/syscall.c:193
+ el0_svc+0x4c/0x15c arch/arm64/kernel/entry-common.c:637
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:591
+Code: d2d00008 91002274 f2fbffe8 d343fe89 (38686928) 
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	d2d00008 	mov	x8, #0x800000000000        	// #140737488355328
+   4:	91002274 	add	x20, x19, #0x8
+   8:	f2fbffe8 	movk	x8, #0xdfff, lsl #48
+   c:	d343fe89 	lsr	x9, x20, #3
+* 10:	38686928 	ldrb	w8, [x9, x8] <-- trapping instruction
 
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
 If you want syzbot to run the reproducer, reply with:
 #syz test: git://repo/address.git branch-or-commit-hash
 If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
