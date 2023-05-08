@@ -1,143 +1,140 @@
-Received: from mail-io1-f80.google.com (mail-io1-f80.google.com [209.85.166.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FC67E
-	for <ntfs3@lists.linux.dev>; Sun,  7 May 2023 10:30:45 +0000 (UTC)
-Received: by mail-io1-f80.google.com with SMTP id ca18e2360f4ac-763c341d627so216062339f.1
-        for <ntfs3@lists.linux.dev>; Sun, 07 May 2023 03:30:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683455445; x=1686047445;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R3i9BTrrWyZRXgDeCeh8X6ei2ZhGQwyd2lT0wG6mo5w=;
-        b=hR6zv64zIQ445E5HWtxu6MQ1BJ1VPLcMQ+V1MmHgFbEQ9hHmMk7D+nbjgwipiptcza
-         CDBU8vIdCv6BhC+XY4Ah2RpSRZGH2QJp4OiUzqNmgX4EZA1RQnZD0FsHunTm4CiFwikw
-         TOWceVsThbKNy6LHOFW7AJ5eI4vI0Ni7d+9OicUcUcNd694m9OGrGR8QBNYfy9ofKgQw
-         rHDUm/1B9JJIS3684pK2EVv/Fe6RgFNttVyqUXKf6Ur4FPqT/8aqRxPGC9jgoAoFwdpg
-         tpZeCntIWn1lAKraM2r2FLTlMg37qifmIvBc3j0o7QFUnW3Xn3y0lX2Bsvbho0BKXi9B
-         /EfA==
-X-Gm-Message-State: AC+VfDwS9w6krX3okXSmVCZGkFjFUo4WILOdD29XxdXFnio3Lm/rofBq
-	sVcSlkHa6P/lK828GjhYtGpZVRB+RTejqDpMUQOZ9lHaSqEH
-X-Google-Smtp-Source: ACHHUZ5Rd77fpRngyXkiOdx+onEX7USaI4BFCY474UTVlAA9W9+UqdhbdJjiaq2c97eFhsMb9/oJippPnBdxq5iRihDWpe/X6G6Y
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DBD193
+	for <ntfs3@lists.linux.dev>; Mon,  8 May 2023 12:36:06 +0000 (UTC)
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id B025E21C2;
+	Mon,  8 May 2023 12:31:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1683549077;
+	bh=8YnqHs6viNhkNZ9+6wZf88ELrlrGUvvnL2bs2/5eVko=;
+	h=Date:Subject:From:To:CC:References:In-Reply-To;
+	b=HCrARVnRdX+b90e0/I9bBzR4l5wjGoEeWjE4hBXgbuvurr62vl2f/r6LIYWMZ9AM5
+	 QhFavzGfh8C8JjEFbZcixiMiI+gpMEkj1fvRdg0N7YknMtwK9/HnLZ8f+Ov7Y4/SFG
+	 MacEJQfAmzJeUxlGld1jYnzRwsoWN56Sa4oduakI=
+Received: from [192.168.211.146] (192.168.211.146) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Mon, 8 May 2023 15:36:03 +0300
+Message-ID: <ba9a25e5-89b1-cc25-6d2c-af86ca33e25b@paragon-software.com>
+Date: Mon, 8 May 2023 16:36:03 +0400
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a6b:d915:0:b0:760:d92a:2f4a with SMTP id
- r21-20020a6bd915000000b00760d92a2f4amr3121680ioc.2.1683455445150; Sun, 07 May
- 2023 03:30:45 -0700 (PDT)
-Date: Sun, 07 May 2023 03:30:45 -0700
-In-Reply-To: <000000000000b0cabf05f90bcb15@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000cdb0e805fb180316@google.com>
-Subject: Re: [syzbot] [ntfs3?] general protection fault in ni_readpage_cmpr
-From: syzbot <syzbot+af224b63e76b2d869bc3@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: [PATCH 01/10] fs/ntfs3: Correct checking while generating attr_list
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+References: <b21a4bc9-166d-2631-d73b-cb4e802ff69e@paragon-software.com>
+In-Reply-To: <b21a4bc9-166d-2631-d73b-cb4e802ff69e@paragon-software.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.211.146]
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-syzbot has found a reproducer for the following issue on:
+Correct slightly previous commit:
+Enhance sanity check while generating attr_list
 
-HEAD commit:    14f8db1c0f9a Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=14ecc3b0280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=a837a8ba7e88bb45
-dashboard link: https://syzkaller.appspot.com/bug?extid=af224b63e76b2d869bc3
-compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=168ce182280000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1308c522280000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/ad6ce516eed3/disk-14f8db1c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/1f38c2cc7667/vmlinux-14f8db1c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d795115eee39/Image-14f8db1c.gz.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/8a3eac658458/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+af224b63e76b2d869bc3@syzkaller.appspotmail.com
-
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall+0x98/0x2c0 arch/arm64/kernel/syscall.c:52
- el0_svc_common+0x138/0x258 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x64/0x198 arch/arm64/kernel/syscall.c:193
- el0_svc+0x4c/0x15c arch/arm64/kernel/entry-common.c:637
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:591
-Unable to handle kernel paging request at virtual address dfff800000000001
-KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-Mem abort info:
-  ESR = 0x0000000096000006
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x06: level 2 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000006
-  CM = 0, WnR = 0
-[dfff800000000001] address between user and kernel address ranges
-Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 0 PID: 5930 Comm: syz-executor385 Not tainted 6.3.0-rc7-syzkaller-g14f8db1c0f9a #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/14/2023
-pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : _compound_head include/linux/page-flags.h:251 [inline]
-pc : unlock_page+0x28/0x74 mm/folio-compat.c:21
-lr : unlock_page+0x18/0x74 mm/folio-compat.c:20
-sp : ffff80001e4d6fa0
-x29: ffff80001e4d6fa0 x28: 0000000000000007 x27: 00000000fffffff4
-x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
-x23: ffff0000d9371208 x22: 0000000000000001 x21: dfff800000000000
-x20: 0000000000000008 x19: 0000000000000000 x18: 1fffe0003684a5b6
-x17: 0000000000000000 x16: ffff8000084fa124 x15: 0000000000000001
-x14: 0000000000000000 x13: 0000000000000001 x12: 0000000000000001
-x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000001
-x8 : dfff800000000000 x7 : 0000000000000001 x6 : 0000000000000001
-x5 : ffff80001e4d61d8 x4 : ffff800015e4ccc0 x3 : ffff80000968c944
-x2 : 0000000000000001 x1 : 0000000000000000 x0 : 0000000000000000
-Call trace:
- _compound_head include/linux/page-flags.h:251 [inline]
- unlock_page+0x28/0x74 mm/folio-compat.c:21
- ni_readpage_cmpr+0x474/0x798 fs/ntfs3/frecord.c:2149
- ntfs_read_folio+0x14c/0x1c0 fs/ntfs3/inode.c:703
- filemap_read_folio+0x14c/0x39c mm/filemap.c:2424
- filemap_create_folio mm/filemap.c:2552 [inline]
- filemap_get_pages+0xb3c/0x1640 mm/filemap.c:2605
- filemap_read+0x354/0xc98 mm/filemap.c:2693
- generic_file_read_iter+0xa0/0x450 mm/filemap.c:2840
- ntfs_file_read_iter+0x184/0x1e0 fs/ntfs3/file.c:758
- call_read_iter include/linux/fs.h:1845 [inline]
- generic_file_splice_read+0x1e0/0x508 fs/splice.c:402
- do_splice_to fs/splice.c:885 [inline]
- splice_direct_to_actor+0x30c/0x944 fs/splice.c:956
- do_splice_direct+0x1f4/0x334 fs/splice.c:1065
- do_sendfile+0x4bc/0xc70 fs/read_write.c:1255
- __do_sys_sendfile64 fs/read_write.c:1323 [inline]
- __se_sys_sendfile64 fs/read_write.c:1309 [inline]
- __arm64_sys_sendfile64+0x160/0x3b4 fs/read_write.c:1309
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall+0x98/0x2c0 arch/arm64/kernel/syscall.c:52
- el0_svc_common+0x138/0x258 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x64/0x198 arch/arm64/kernel/syscall.c:193
- el0_svc+0x4c/0x15c arch/arm64/kernel/entry-common.c:637
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:591
-Code: d2d00008 91002274 f2fbffe8 d343fe89 (38686928) 
----[ end trace 0000000000000000 ]---
-----------------
-Code disassembly (best guess):
-   0:	d2d00008 	mov	x8, #0x800000000000        	// #140737488355328
-   4:	91002274 	add	x20, x19, #0x8
-   8:	f2fbffe8 	movk	x8, #0xdfff, lsl #48
-   c:	d343fe89 	lsr	x9, x20, #3
-* 10:	38686928 	ldrb	w8, [x9, x8] <-- trapping instruction
-
-
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+  fs/ntfs3/frecord.c | 25 ++++++++++---------------
+  1 file changed, 10 insertions(+), 15 deletions(-)
+
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 50214b77c6a3..66f3341c65ec 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -813,10 +813,8 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+       * Looks like one record_size is always enough.
+       */
+      le = kmalloc(al_aligned(rs), GFP_NOFS);
+-    if (!le) {
+-        err = -ENOMEM;
+-        goto out;
+-    }
++    if (!le)
++        return -ENOMEM;
+
+      mi_get_ref(&ni->mi, &le->ref);
+      ni->attr_list.le = le;
+@@ -865,14 +863,14 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+
+          if (to_free > free_b) {
+              err = -EINVAL;
+-            goto out1;
++            goto out;
+          }
+      }
+
+      /* Allocate child MFT. */
+      err = ntfs_look_free_mft(sbi, &rno, is_mft, ni, &mi);
+      if (err)
+-        goto out1;
++        goto out;
+
+      err = -EINVAL;
+      /* Call mi_remove_attr() in reverse order to keep pointers 
+'arr_move' valid. */
+@@ -884,7 +882,7 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+          attr = mi_insert_attr(mi, b->type, Add2Ptr(b, name_off),
+                        b->name_len, asize, name_off);
+          if (!attr)
+-            goto out1;
++            goto out;
+
+          mi_get_ref(mi, &le_b[nb]->ref);
+          le_b[nb]->id = attr->id;
+@@ -895,19 +893,19 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+
+          /* Remove from primary record. */
+          if (!mi_remove_attr(NULL, &ni->mi, b))
+-            goto out1;
++            goto out;
+
+          if (to_free <= asize)
+              break;
+          to_free -= asize;
+          if (!nb)
+-            goto out1;
++            goto out;
+      }
+
+      attr = mi_insert_attr(&ni->mi, ATTR_LIST, NULL, 0,
+                    lsize + SIZEOF_RESIDENT, SIZEOF_RESIDENT);
+      if (!attr)
+-        goto out1;
++        goto out;
+
+      attr->non_res = 0;
+      attr->flags = 0;
+@@ -921,16 +919,13 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+      ni->attr_list.dirty = false;
+
+      mark_inode_dirty(&ni->vfs_inode);
+-    goto out;
++    return 0;
+
+-out1:
++out:
+      kfree(ni->attr_list.le);
+      ni->attr_list.le = NULL;
+      ni->attr_list.size = 0;
+      return err;
+-
+-out:
+-    return 0;
+  }
+
+  /*
+-- 
+2.34.1
+
