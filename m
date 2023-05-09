@@ -1,87 +1,145 @@
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E54174FE
-	for <ntfs3@lists.linux.dev>; Tue,  9 May 2023 19:30:42 +0000 (UTC)
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-77106047c7dso1649690241.1
-        for <ntfs3@lists.linux.dev>; Tue, 09 May 2023 12:30:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683660642; x=1686252642;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yDoEr8WUcosWAB75TDES0XOSAOF70d3PYdw53BsU/vk=;
-        b=ZsEvVKJUooBL3kBWnwS/yGvHSKL06QhfHH8U9mp8k1NQa6oiAay5POTOjtD2MEkkVs
-         CnY0SjzBIiU/I4j4tZ3I0LBw6QO1tMsqnHUOAcyZ4UpLVVocmb7dNXei4KLphxWOZfyN
-         0/+wPgLft0o3PZ6+7cNysdw4C1gsZe+uOtpauquOYh8F3ZOkJ5pynm6mmpahCAi5Flx8
-         AUFhcDQVyFpT2keS7OPJmXQT1OMFd9KjWj8c3gxRRx5vf44Yu8/a+uQ70AL106SKBDF7
-         2b2yluloOXQtUrtfdj/c9MFYTmaD/jfG+r749/E/ik5Ic5bWMCpGxX1znI02jwSPTz/g
-         RXZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683660642; x=1686252642;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yDoEr8WUcosWAB75TDES0XOSAOF70d3PYdw53BsU/vk=;
-        b=JDrGKLO0yPXRDpPvXtxk67/jzb9D7VgFeU+WrnE6BE1iccxwy1w/ZsHoSmOWt3d6OL
-         Q9rqQzzCo1begmN9NbBtsUoyrpKlXiaEvU/MVLRLUc/TTfL644aCQDaeJVZzfO2s94NT
-         Qx7AENkbOPO57NyNv2N1m9QXcrVJza5oHIOA3FlauyRtjlVIF87SoBAfmcjmlw+ZO4Wd
-         5A8NH7FoPHdL1hvD1a3YjU834nwTXr0Elw9aI9phh7nxO1KSiNkD6NYofvxLhzS+8sKW
-         JX2B3AUmJ6H1nis3DnOT6FHl2AJoqsJkaWJnKQY5ekNGw2DRJOOw5dQwwun+GRTS9O59
-         2WwQ==
-X-Gm-Message-State: AC+VfDwRCQ0FAAq150GjXQS4V5rVuk0Fpvy4KvC1UEgfbU3AdR9OGHeT
-	v1qWWbvKhXYNeKXYj/JcG1ImDjtXuMD6ftg+7Lt44w==
-X-Google-Smtp-Source: ACHHUZ5fYrN1bZ1MeR0WEVPl0NR6Kbq8GyLkmS3HqomWcgnKMgebrUFYqSL+BI/lDoWX3+QFhnJCEqwg1ULmh/7Lxls=
-X-Received: by 2002:a67:fd98:0:b0:430:e0:ac2e with SMTP id k24-20020a67fd98000000b0043000e0ac2emr4792589vsq.15.1683660641705;
- Tue, 09 May 2023 12:30:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1F81991C
+	for <ntfs3@lists.linux.dev>; Tue,  9 May 2023 21:19:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51BE6C433A4;
+	Tue,  9 May 2023 21:19:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683667180;
+	bh=4gd0VHHIGVTyCdsboHL+9KS/vnbU3v/+7hsVfKv+l/c=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=HZaKWQDx0iwCXI9MxabPu62QMBFJ4KMT0fnq2BacEUH7qsZ0dErCUOjtxI5w3NXb7
+	 /NmqOdLyN26JbfkrWclmdiGPqk01aYYsmpmtaZuhzMczmnzzvs7db47BLEWB/Q2akc
+	 C+XvPOJ/R2D6EkNfzkuXkwn8ZxvylYEThAl5VnJcEn29V2yBivcY45Tg2Q7Ix3pJMz
+	 gPKsFzZQJ7YoZDhLTbYgwBpVfmWIfUjn1GxfDYpvCSu1oiZlOYyUEZbshy8ZOhIGUj
+	 6mLvpxJFO3ITUcMmN+vds98ds0xrA9NFMYqlkrseh3ka8EBji1OyMQURs8M4Pujqqt
+	 2iGJHnjMFyIlg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Ye Bin <yebin10@huawei.com>,
+	syzbot+f45957555ed4a808cc7a@syzkaller.appspotmail.com,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Sasha Levin <sashal@kernel.org>,
+	ntfs3@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.3 04/18] fs/ntfs3: Fix NULL pointer dereference in 'ni_write_inode'
+Date: Tue,  9 May 2023 17:19:12 -0400
+Message-Id: <20230509211928.21010-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230509211928.21010-1-sashal@kernel.org>
+References: <20230509211928.21010-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230509030705.399628514@linuxfoundation.org> <20230509080658.GA152864@d6921c044a31>
- <20230509131032.GA8@9ed91d9f7b3c> <2023050913-spearhead-angrily-fc58@gregkh> <20230509145806.GA8@df3c0d7ae0b0>
-In-Reply-To: <20230509145806.GA8@df3c0d7ae0b0>
-From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Wed, 10 May 2023 01:00:30 +0530
-Message-ID: <CA+G9fYuCLSuPchYoSfqnu6y+CUV+Km3TVFr1NhGj0dik-ScEdQ@mail.gmail.com>
-Subject: Re: [PATCH 6.3 000/694] 6.3.2-rc2 review
-To: Rudi Heitbaum <rudi@heitbaum.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, 
-	patches@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	torvalds@linux-foundation.org, akpm@linux-foundation.org, linux@roeck-us.net, 
-	shuah@kernel.org, patches@kernelci.org, lkft-triage@lists.linaro.org, 
-	pavel@denx.de, jonathanh@nvidia.com, f.fainelli@gmail.com, 
-	sudipm.mukherjee@gmail.com, srw@sladewatkins.net, rwarsow@gmx.de, 
-	ntfs3@lists.linux.dev, almaz.alexandrovich@paragon-software.com
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-On Tue, 9 May 2023 at 20:28, Rudi Heitbaum <rudi@heitbaum.com> wrote:
->
-> On Tue, May 09, 2023 at 03:56:42PM +0200, Greg Kroah-Hartman wrote:
-> > On Tue, May 09, 2023 at 01:10:32PM +0000, Rudi Heitbaum wrote:
-> > > On Tue, May 09, 2023 at 08:06:58AM +0000, Rudi Heitbaum wrote:
-> > > > On Tue, May 09, 2023 at 05:26:44AM +0200, Greg Kroah-Hartman wrote:
-> > > > > This is the start of the stable review cycle for the 6.3.2 release.
-> > > > > There are 694 patches in this series, all will be posted as a response
-> > > > > to this one.  If anyone has any issues with these being applied, please
-> > > > > let me know.
-> > > > >
-> > > > > Responses should be made by Thu, 11 May 2023 03:05:05 +0000.
-> > > > > Anything received after that time might be too late.
-> > > >
-> > > > Hi Greg,
-> > > >
-> > > > 6.3.2-rc2 tested.
-> > >
-> > > Hi Greg,
-> > >
-> > > Further testing and have seen ntfs3: NULL pointer dereference with ntfs_lookup errors
-> > > with 6.3.2-rc2 (I have not seen this error before.) No other errors in the logs.
-> >
-> > Can you reproduce this without the extern, gpl-violation module loaded?
+From: Ye Bin <yebin10@huawei.com>
 
-Please share the steps to reproduce
- test case / Kconfigs / device under test environment / firmware / boot loaders.
+[ Upstream commit db2a3cc6a3481076da6344cc62a80a4e2525f36f ]
 
-- Naresh
+Syzbot found the following issue:
+Unable to handle kernel NULL pointer dereference at virtual address 0000000000000016
+Mem abort info:
+  ESR = 0x0000000096000006
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x06: level 2 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000006
+  CM = 0, WnR = 0
+user pgtable: 4k pages, 48-bit VAs, pgdp=000000010af56000
+[0000000000000016] pgd=08000001090da003, p4d=08000001090da003, pud=08000001090ce003, pmd=0000000000000000
+Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 1 PID: 3036 Comm: syz-executor206 Not tainted 6.0.0-rc6-syzkaller-17739-g16c9f284e746 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
+pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : is_rec_inuse fs/ntfs3/ntfs.h:313 [inline]
+pc : ni_write_inode+0xac/0x798 fs/ntfs3/frecord.c:3232
+lr : ni_write_inode+0xa0/0x798 fs/ntfs3/frecord.c:3226
+sp : ffff8000126c3800
+x29: ffff8000126c3860 x28: 0000000000000000 x27: ffff0000c8b02000
+x26: ffff0000c7502320 x25: ffff0000c7502288 x24: 0000000000000000
+x23: ffff80000cbec91c x22: ffff0000c8b03000 x21: ffff0000c8b02000
+x20: 0000000000000001 x19: ffff0000c75024d8 x18: 00000000000000c0
+x17: ffff80000dd1b198 x16: ffff80000db59158 x15: ffff0000c4b6b500
+x14: 00000000000000b8 x13: 0000000000000000 x12: ffff0000c4b6b500
+x11: ff80800008be1b60 x10: 0000000000000000 x9 : ffff0000c4b6b500
+x8 : 0000000000000000 x7 : ffff800008be1b50 x6 : 0000000000000000
+x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+x2 : 0000000000000008 x1 : 0000000000000001 x0 : 0000000000000000
+Call trace:
+ is_rec_inuse fs/ntfs3/ntfs.h:313 [inline]
+ ni_write_inode+0xac/0x798 fs/ntfs3/frecord.c:3232
+ ntfs_evict_inode+0x54/0x84 fs/ntfs3/inode.c:1744
+ evict+0xec/0x334 fs/inode.c:665
+ iput_final fs/inode.c:1748 [inline]
+ iput+0x2c4/0x324 fs/inode.c:1774
+ ntfs_new_inode+0x7c/0xe0 fs/ntfs3/fsntfs.c:1660
+ ntfs_create_inode+0x20c/0xe78 fs/ntfs3/inode.c:1278
+ ntfs_create+0x54/0x74 fs/ntfs3/namei.c:100
+ lookup_open fs/namei.c:3413 [inline]
+ open_last_lookups fs/namei.c:3481 [inline]
+ path_openat+0x804/0x11c4 fs/namei.c:3688
+ do_filp_open+0xdc/0x1b8 fs/namei.c:3718
+ do_sys_openat2+0xb8/0x22c fs/open.c:1311
+ do_sys_open fs/open.c:1327 [inline]
+ __do_sys_openat fs/open.c:1343 [inline]
+ __se_sys_openat fs/open.c:1338 [inline]
+ __arm64_sys_openat+0xb0/0xe0 fs/open.c:1338
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+ el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
+ el0t_64_sync+0x18c/0x190
+Code: 97dafee4 340001b4 f9401328 2a1f03e0 (79402d14)
+---[ end trace 0000000000000000 ]---
+
+Above issue may happens as follows:
+ntfs_new_inode
+  mi_init
+    mi->mrec = kmalloc(sbi->record_size, GFP_NOFS); -->failed to allocate memory
+      if (!mi->mrec)
+        return -ENOMEM;
+iput
+  iput_final
+    evict
+      ntfs_evict_inode
+        ni_write_inode
+	  is_rec_inuse(ni->mi.mrec)-> As 'ni->mi.mrec' is NULL trigger NULL-ptr-deref
+
+To solve above issue if new inode failed make inode bad before call 'iput()' in
+'ntfs_new_inode()'.
+
+Reported-by: syzbot+f45957555ed4a808cc7a@syzkaller.appspotmail.com
+Signed-off-by: Ye Bin <yebin10@huawei.com>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/ntfs3/fsntfs.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index 567563771bf89..8de861ddec600 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -1683,6 +1683,7 @@ struct ntfs_inode *ntfs_new_inode(struct ntfs_sb_info *sbi, CLST rno, bool dir)
+ 
+ out:
+ 	if (err) {
++		make_bad_inode(inode);
+ 		iput(inode);
+ 		ni = ERR_PTR(err);
+ 	}
+-- 
+2.39.2
+
