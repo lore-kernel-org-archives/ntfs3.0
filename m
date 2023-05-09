@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF2F12B9F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0598919904
 	for <ntfs3@lists.linux.dev>; Tue,  9 May 2023 21:19:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8F49C4339B;
-	Tue,  9 May 2023 21:19:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DCE3C433A0;
+	Tue,  9 May 2023 21:19:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683667180;
-	bh=7y9NwjrTWdltFZ82xwZxKSxXc6t6dVR7aMslbcuAWJ8=;
+	s=k20201202; t=1683667181;
+	bh=SxjHf4DSEpAqjaz/qluCyZRpBWpX+/PfAyPLEFhMO90=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QHAbMXS9CXuWAUj2pXvkUHPSS/fSmZEL9XGVylHHXKnr2AgLKwWjU1BOLdAQEVa0o
-	 AktvQgMyxqXVMepB/tbhuNuUAqymW4QHl+F0c9SWD8rWWz94n2j/+R0eeFeFR0xEa8
-	 LZC5xxAwGyhA8cMTfSPorhfInUqS9usHIH6pDgPLSgIRFqP7xgtfZnOdHh5vY1mHq0
-	 LqAgmBxS2Jv9dL9EU4sDXn62ENY2tmGkkVAUMrcQxy5Y0Oa4tAWoxkI/kqHPbZD7ku
-	 Os/4ZMfyuUHdfEvQcM/iMm98v7PYfblgQEDAVqwoQ0z69HMn0wQGsUfRZAXoz6RO3a
-	 VBNT5ICVTEv4Q==
+	b=swjET57vAgq5WdHtj4AkhN32o5WdiJZPS3h6nK5ODG5Xk+7ZaEoIlz8xyQNh36tWa
+	 TT0LhACiBoGGTILFSay0utmXVWySP/hqTeD/NrbXDZGAkolkc/T8n3FXJhHqKcZpas
+	 DKdYFLU1XgTa4jhBqmgsaB5xzXu1pFglUWTV1Qx7uAp1fzGMwGdXKR1se/mg+EHJX5
+	 +ypNvKr3iPR5Slh3dzhdThZlJnmlZKmvcSPUJ+9gRW+YwrocfxdnjGfqXIkoLuV6m1
+	 /x9zHi2EwNZovCyfCUbp13N7lf50sq0Dn8omvP7v2GRca50i3S6CPT47wxNNfElCFX
+	 tdB8XX34yP9PA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -22,9 +22,9 @@ Cc: Edward Lo <edward.lo@ambergroup.io>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.3 05/18] fs/ntfs3: Enhance the attribute size check
-Date: Tue,  9 May 2023 17:19:13 -0400
-Message-Id: <20230509211928.21010-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.3 07/18] fs/ntfs3: Validate MFT flags before replaying logs
+Date: Tue,  9 May 2023 17:19:15 -0400
+Message-Id: <20230509211928.21010-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230509211928.21010-1-sashal@kernel.org>
 References: <20230509211928.21010-1-sashal@kernel.org>
@@ -40,131 +40,137 @@ Content-Transfer-Encoding: 8bit
 
 From: Edward Lo <edward.lo@ambergroup.io>
 
-[ Upstream commit 4f082a7531223a438c757bb20e304f4c941c67a8 ]
+[ Upstream commit 98bea253aa28ad8be2ce565a9ca21beb4a9419e5 ]
 
-This combines the overflow and boundary check so that all attribute size
-will be properly examined while enumerating them.
+Log load and replay is part of the metadata handle flow during mount
+operation. The $MFT record will be loaded and used while replaying logs.
+However, a malformed $MFT record, say, has RECORD_FLAG_DIR flag set and
+contains an ATTR_ROOT attribute will misguide kernel to treat it as a
+directory, and try to free the allocated resources when the
+corresponding inode is freed, which will cause an invalid kfree because
+the memory hasn't actually been allocated.
 
-[  169.181521] BUG: KASAN: slab-out-of-bounds in run_unpack+0x2e3/0x570
-[  169.183161] Read of size 1 at addr ffff8880094b6240 by task mount/247
-[  169.184046]
-[  169.184925] CPU: 0 PID: 247 Comm: mount Not tainted 6.0.0-rc7+ #3
-[  169.185908] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
-[  169.187066] Call Trace:
-[  169.187492]  <TASK>
-[  169.188049]  dump_stack_lvl+0x49/0x63
-[  169.188495]  print_report.cold+0xf5/0x689
-[  169.188964]  ? run_unpack+0x2e3/0x570
-[  169.189331]  kasan_report+0xa7/0x130
-[  169.189714]  ? run_unpack+0x2e3/0x570
-[  169.190079]  __asan_load1+0x51/0x60
-[  169.190634]  run_unpack+0x2e3/0x570
-[  169.191290]  ? run_pack+0x840/0x840
-[  169.191569]  ? run_lookup_entry+0xb3/0x1f0
-[  169.192443]  ? mi_enum_attr+0x20a/0x230
-[  169.192886]  run_unpack_ex+0xad/0x3e0
-[  169.193276]  ? run_unpack+0x570/0x570
-[  169.193557]  ? ni_load_mi+0x80/0x80
-[  169.193889]  ? debug_smp_processor_id+0x17/0x20
-[  169.194236]  ? mi_init+0x4a/0x70
-[  169.194496]  attr_load_runs_vcn+0x166/0x1c0
-[  169.194851]  ? attr_data_write_resident+0x250/0x250
-[  169.195188]  mi_read+0x133/0x2c0
-[  169.195481]  ntfs_iget5+0x277/0x1780
-[  169.196017]  ? call_rcu+0x1c7/0x330
-[  169.196392]  ? ntfs_get_block_bmap+0x70/0x70
-[  169.196708]  ? evict+0x223/0x280
-[  169.197014]  ? __kmalloc+0x33/0x540
-[  169.197305]  ? wnd_init+0x15b/0x1b0
-[  169.197599]  ntfs_fill_super+0x1026/0x1ba0
-[  169.197994]  ? put_ntfs+0x1d0/0x1d0
-[  169.198299]  ? vsprintf+0x20/0x20
-[  169.198583]  ? mutex_unlock+0x81/0xd0
-[  169.198930]  ? set_blocksize+0x95/0x150
-[  169.199269]  get_tree_bdev+0x232/0x370
-[  169.199750]  ? put_ntfs+0x1d0/0x1d0
-[  169.200094]  ntfs_fs_get_tree+0x15/0x20
-[  169.200431]  vfs_get_tree+0x4c/0x130
-[  169.200714]  path_mount+0x654/0xfe0
-[  169.201067]  ? putname+0x80/0xa0
-[  169.201358]  ? finish_automount+0x2e0/0x2e0
-[  169.201965]  ? putname+0x80/0xa0
-[  169.202445]  ? kmem_cache_free+0x1c4/0x440
-[  169.203075]  ? putname+0x80/0xa0
-[  169.203414]  do_mount+0xd6/0xf0
-[  169.203719]  ? path_mount+0xfe0/0xfe0
-[  169.203977]  ? __kasan_check_write+0x14/0x20
-[  169.204382]  __x64_sys_mount+0xca/0x110
-[  169.204711]  do_syscall_64+0x3b/0x90
-[  169.205059]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-[  169.205571] RIP: 0033:0x7f67a80e948a
-[  169.206327] Code: 48 8b 0d 11 fa 2a 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 49 89 ca b8 a5 00 00 008
-[  169.208296] RSP: 002b:00007ffddf020f58 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
-[  169.209253] RAX: ffffffffffffffda RBX: 000055e2547a6060 RCX: 00007f67a80e948a
-[  169.209777] RDX: 000055e2547a6260 RSI: 000055e2547a62e0 RDI: 000055e2547aeaf0
-[  169.210342] RBP: 0000000000000000 R08: 000055e2547a6280 R09: 0000000000000020
-[  169.210843] R10: 00000000c0ed0000 R11: 0000000000000202 R12: 000055e2547aeaf0
-[  169.211307] R13: 000055e2547a6260 R14: 0000000000000000 R15: 00000000ffffffff
-[  169.211913]  </TASK>
-[  169.212304]
-[  169.212680] Allocated by task 0:
-[  169.212963] (stack is not available)
-[  169.213200]
-[  169.213472] The buggy address belongs to the object at ffff8880094b5e00
-[  169.213472]  which belongs to the cache UDP of size 1152
-[  169.214095] The buggy address is located 1088 bytes inside of
-[  169.214095]  1152-byte region [ffff8880094b5e00, ffff8880094b6280)
-[  169.214639]
-[  169.215004] The buggy address belongs to the physical page:
-[  169.215766] page:000000002e324c8c refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x94b4
-[  169.218412] head:000000002e324c8c order:2 compound_mapcount:0 compound_pincount:0
-[  169.219078] flags: 0xfffffc0010200(slab|head|node=0|zone=1|lastcpupid=0x1fffff)
-[  169.220272] raw: 000fffffc0010200 0000000000000000 dead000000000122 ffff888002409b40
-[  169.221006] raw: 0000000000000000 00000000800c000c 00000001ffffffff 0000000000000000
-[  169.222320] page dumped because: kasan: bad access detected
-[  169.222922]
-[  169.223119] Memory state around the buggy address:
-[  169.224056]  ffff8880094b6100: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[  169.224908]  ffff8880094b6180: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[  169.225677] >ffff8880094b6200: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[  169.226445]                                            ^
-[  169.227055]  ffff8880094b6280: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[  169.227638]  ffff8880094b6300: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[  101.368647] BUG: KASAN: invalid-free in kvfree+0x2c/0x40
+[  101.369457]
+[  101.369986] CPU: 0 PID: 198 Comm: mount Not tainted 6.0.0-rc7+ #5
+[  101.370529] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
+[  101.371362] Call Trace:
+[  101.371795]  <TASK>
+[  101.372157]  dump_stack_lvl+0x49/0x63
+[  101.372658]  print_report.cold+0xf5/0x689
+[  101.373022]  ? ni_write_inode+0x754/0xd90
+[  101.373378]  ? kvfree+0x2c/0x40
+[  101.373698]  kasan_report_invalid_free+0x77/0xf0
+[  101.374058]  ? kvfree+0x2c/0x40
+[  101.374352]  ? kvfree+0x2c/0x40
+[  101.374668]  __kasan_slab_free+0x189/0x1b0
+[  101.374992]  ? kvfree+0x2c/0x40
+[  101.375271]  kfree+0x168/0x3b0
+[  101.375717]  kvfree+0x2c/0x40
+[  101.376002]  indx_clear+0x26/0x60
+[  101.376316]  ni_clear+0xc5/0x290
+[  101.376661]  ntfs_evict_inode+0x45/0x70
+[  101.377001]  evict+0x199/0x280
+[  101.377432]  iput.part.0+0x286/0x320
+[  101.377819]  iput+0x32/0x50
+[  101.378166]  ntfs_loadlog_and_replay+0x143/0x320
+[  101.378656]  ? ntfs_bio_fill_1+0x510/0x510
+[  101.378968]  ? iput.part.0+0x286/0x320
+[  101.379367]  ntfs_fill_super+0xecb/0x1ba0
+[  101.379729]  ? put_ntfs+0x1d0/0x1d0
+[  101.380046]  ? vsprintf+0x20/0x20
+[  101.380542]  ? mutex_unlock+0x81/0xd0
+[  101.380914]  ? set_blocksize+0x95/0x150
+[  101.381597]  get_tree_bdev+0x232/0x370
+[  101.382254]  ? put_ntfs+0x1d0/0x1d0
+[  101.382699]  ntfs_fs_get_tree+0x15/0x20
+[  101.383094]  vfs_get_tree+0x4c/0x130
+[  101.383675]  path_mount+0x654/0xfe0
+[  101.384203]  ? putname+0x80/0xa0
+[  101.384540]  ? finish_automount+0x2e0/0x2e0
+[  101.384943]  ? putname+0x80/0xa0
+[  101.385362]  ? kmem_cache_free+0x1c4/0x440
+[  101.385968]  ? putname+0x80/0xa0
+[  101.386666]  do_mount+0xd6/0xf0
+[  101.387228]  ? path_mount+0xfe0/0xfe0
+[  101.387585]  ? __kasan_check_write+0x14/0x20
+[  101.387979]  __x64_sys_mount+0xca/0x110
+[  101.388436]  do_syscall_64+0x3b/0x90
+[  101.388757]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+[  101.389289] RIP: 0033:0x7fa0f70e948a
+[  101.390048] Code: 48 8b 0d 11 fa 2a 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 49 89 ca b8 a5 00 00 008
+[  101.391297] RSP: 002b:00007ffc24fdecc8 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+[  101.391988] RAX: ffffffffffffffda RBX: 000055932c183060 RCX: 00007fa0f70e948a
+[  101.392494] RDX: 000055932c183260 RSI: 000055932c1832e0 RDI: 000055932c18bce0
+[  101.393053] RBP: 0000000000000000 R08: 000055932c183280 R09: 0000000000000020
+[  101.393577] R10: 00000000c0ed0000 R11: 0000000000000202 R12: 000055932c18bce0
+[  101.394044] R13: 000055932c183260 R14: 0000000000000000 R15: 00000000ffffffff
+[  101.394747]  </TASK>
+[  101.395402]
+[  101.396047] Allocated by task 198:
+[  101.396724]  kasan_save_stack+0x26/0x50
+[  101.397400]  __kasan_slab_alloc+0x6d/0x90
+[  101.397974]  kmem_cache_alloc_lru+0x192/0x5a0
+[  101.398524]  ntfs_alloc_inode+0x23/0x70
+[  101.399137]  alloc_inode+0x3b/0xf0
+[  101.399534]  iget5_locked+0x54/0xa0
+[  101.400026]  ntfs_iget5+0xaf/0x1780
+[  101.400414]  ntfs_loadlog_and_replay+0xe5/0x320
+[  101.400883]  ntfs_fill_super+0xecb/0x1ba0
+[  101.401313]  get_tree_bdev+0x232/0x370
+[  101.401774]  ntfs_fs_get_tree+0x15/0x20
+[  101.402224]  vfs_get_tree+0x4c/0x130
+[  101.402673]  path_mount+0x654/0xfe0
+[  101.403160]  do_mount+0xd6/0xf0
+[  101.403537]  __x64_sys_mount+0xca/0x110
+[  101.404058]  do_syscall_64+0x3b/0x90
+[  101.404333]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+[  101.404816]
+[  101.405067] The buggy address belongs to the object at ffff888008cc9ea0
+[  101.405067]  which belongs to the cache ntfs_inode_cache of size 992
+[  101.406171] The buggy address is located 232 bytes inside of
+[  101.406171]  992-byte region [ffff888008cc9ea0, ffff888008cca280)
+[  101.406995]
+[  101.408559] The buggy address belongs to the physical page:
+[  101.409320] page:00000000dccf19dd refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x8cc8
+[  101.410654] head:00000000dccf19dd order:2 compound_mapcount:0 compound_pincount:0
+[  101.411533] flags: 0xfffffc0010200(slab|head|node=0|zone=1|lastcpupid=0x1fffff)
+[  101.412665] raw: 000fffffc0010200 0000000000000000 dead000000000122 ffff888003695140
+[  101.413209] raw: 0000000000000000 00000000800e000e 00000001ffffffff 0000000000000000
+[  101.413799] page dumped because: kasan: bad access detected
+[  101.414213]
+[  101.414427] Memory state around the buggy address:
+[  101.414991]  ffff888008cc9e80: fc fc fc fc 00 00 00 00 00 00 00 00 00 00 00 00
+[  101.415785]  ffff888008cc9f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[  101.416933] >ffff888008cc9f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[  101.417857]                       ^
+[  101.418566]  ffff888008cca000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[  101.419704]  ffff888008cca080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
 Signed-off-by: Edward Lo <edward.lo@ambergroup.io>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/ntfs3/record.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ fs/ntfs3/inode.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index defce6a5c8e1b..abfe004774c03 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -220,11 +220,6 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 			return NULL;
- 		}
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 309d9b46b5d5c..4a852c0ad2bb0 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -100,6 +100,12 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+ 	/* Record should contain $I30 root. */
+ 	is_dir = rec->flags & RECORD_FLAG_DIR;
  
--		if (off + asize < off) {
--			/* overflow check */
--			return NULL;
--		}
--
- 		attr = Add2Ptr(attr, asize);
- 		off += asize;
- 	}
-@@ -247,8 +242,8 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 	if ((t32 & 0xf) || (t32 > 0x100))
- 		return NULL;
++	/* MFT_REC_MFT is not a dir */
++	if (is_dir && ino == MFT_REC_MFT) {
++		err = -EINVAL;
++		goto out;
++	}
++
+ 	inode->i_generation = le16_to_cpu(rec->seq);
  
--	/* Check boundary. */
--	if (off + asize > used)
-+	/* Check overflow and boundary. */
-+	if (off + asize < off || off + asize > used)
- 		return NULL;
- 
- 	/* Check size of attribute. */
+ 	/* Enumerate all struct Attributes MFT. */
 -- 
 2.39.2
 
