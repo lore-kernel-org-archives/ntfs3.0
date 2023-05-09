@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2983D14A8B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFAB14AB9
 	for <ntfs3@lists.linux.dev>; Tue,  9 May 2023 21:20:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4328C433A4;
-	Tue,  9 May 2023 21:20:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FE19C4331F;
+	Tue,  9 May 2023 21:20:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1683667205;
-	bh=4gd0VHHIGVTyCdsboHL+9KS/vnbU3v/+7hsVfKv+l/c=;
+	bh=BP3OLBE5mP9F2Tv3wjhBdu4qIMZy7h6rrkt2NWbrCL8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Pe6peqDVoTy6gftJUVKdWx1iXwXVy1CdXzhaVQRucUoz5nFW6JDA6WgfqtNyDkqEw
-	 s6gFN+Z0k6Op37yGTY2RNpryDh4MHBoXof5pmFXBHmkkEVnfsC2zFsMCjGzRI8twwP
-	 5UjUuYWjWiJVQzbF6oIKvblcLrPtBG8d3vu1AfCbe/3P7FuBjprCPSECK+KeS9mfBR
-	 w1kaTFioQnzDY6iPTdE159kfjTHobeDegRF5QYoQq8WGovniiIotNk7nG7sMGEJvlr
-	 w9P5Q9jAUUFwBlLR6TDOAmA+CxFz2xN/X77PD13CwFwsns+rdP+7c1NeNLgPbqanT1
-	 A6Y8Fqcgs82gQ==
+	b=OTseNe27LXGzo8VaRKEIxfL/Ujc8lG6+vWNFB4g1k1IP23J1IM7HpF1MTKRuxkkyA
+	 r3PgbFsbH5XI/2hxIFt7H567A2IxGsoZtIDVv3Hvv+2HKJj1pqtwyfs3VIhmoQKfGT
+	 ofNiO5NcLmzjJwVGvidBgOE4xI3IN564jylOSAaQoVaDwyrriu0/ClBXp+ClrQUCLg
+	 4RtFVjKZsYOQJ63+1C6rpr1krRLhsdO0AY3nydJT5ZHk1GjHwPoQ6oFzTL/8hXbw7w
+	 KkvDtb5JniXRaeh3vuZ6CYrwrNMDngah5yxoIL4qXWtGPm/mVLZWg3LTy3gnOucYla
+	 gAR1reonqWpGw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ye Bin <yebin10@huawei.com>,
+Cc: Abdun Nihaal <abdun.nihaal@gmail.com>,
 	syzbot+f45957555ed4a808cc7a@syzkaller.appspotmail.com,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.2 04/18] fs/ntfs3: Fix NULL pointer dereference in 'ni_write_inode'
-Date: Tue,  9 May 2023 17:19:42 -0400
-Message-Id: <20230509211958.21596-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 06/18] fs/ntfs3: Fix NULL dereference in ni_write_inode
+Date: Tue,  9 May 2023 17:19:44 -0400
+Message-Id: <20230509211958.21596-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230509211958.21596-1-sashal@kernel.org>
 References: <20230509211958.21596-1-sashal@kernel.org>
@@ -39,107 +39,41 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Ye Bin <yebin10@huawei.com>
+From: Abdun Nihaal <abdun.nihaal@gmail.com>
 
-[ Upstream commit db2a3cc6a3481076da6344cc62a80a4e2525f36f ]
+[ Upstream commit 8dae4f6341e335a09575be60b4fdf697c732a470 ]
 
-Syzbot found the following issue:
-Unable to handle kernel NULL pointer dereference at virtual address 0000000000000016
-Mem abort info:
-  ESR = 0x0000000096000006
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x06: level 2 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000006
-  CM = 0, WnR = 0
-user pgtable: 4k pages, 48-bit VAs, pgdp=000000010af56000
-[0000000000000016] pgd=08000001090da003, p4d=08000001090da003, pud=08000001090ce003, pmd=0000000000000000
-Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 1 PID: 3036 Comm: syz-executor206 Not tainted 6.0.0-rc6-syzkaller-17739-g16c9f284e746 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
-pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : is_rec_inuse fs/ntfs3/ntfs.h:313 [inline]
-pc : ni_write_inode+0xac/0x798 fs/ntfs3/frecord.c:3232
-lr : ni_write_inode+0xa0/0x798 fs/ntfs3/frecord.c:3226
-sp : ffff8000126c3800
-x29: ffff8000126c3860 x28: 0000000000000000 x27: ffff0000c8b02000
-x26: ffff0000c7502320 x25: ffff0000c7502288 x24: 0000000000000000
-x23: ffff80000cbec91c x22: ffff0000c8b03000 x21: ffff0000c8b02000
-x20: 0000000000000001 x19: ffff0000c75024d8 x18: 00000000000000c0
-x17: ffff80000dd1b198 x16: ffff80000db59158 x15: ffff0000c4b6b500
-x14: 00000000000000b8 x13: 0000000000000000 x12: ffff0000c4b6b500
-x11: ff80800008be1b60 x10: 0000000000000000 x9 : ffff0000c4b6b500
-x8 : 0000000000000000 x7 : ffff800008be1b50 x6 : 0000000000000000
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-x2 : 0000000000000008 x1 : 0000000000000001 x0 : 0000000000000000
-Call trace:
- is_rec_inuse fs/ntfs3/ntfs.h:313 [inline]
- ni_write_inode+0xac/0x798 fs/ntfs3/frecord.c:3232
- ntfs_evict_inode+0x54/0x84 fs/ntfs3/inode.c:1744
- evict+0xec/0x334 fs/inode.c:665
- iput_final fs/inode.c:1748 [inline]
- iput+0x2c4/0x324 fs/inode.c:1774
- ntfs_new_inode+0x7c/0xe0 fs/ntfs3/fsntfs.c:1660
- ntfs_create_inode+0x20c/0xe78 fs/ntfs3/inode.c:1278
- ntfs_create+0x54/0x74 fs/ntfs3/namei.c:100
- lookup_open fs/namei.c:3413 [inline]
- open_last_lookups fs/namei.c:3481 [inline]
- path_openat+0x804/0x11c4 fs/namei.c:3688
- do_filp_open+0xdc/0x1b8 fs/namei.c:3718
- do_sys_openat2+0xb8/0x22c fs/open.c:1311
- do_sys_open fs/open.c:1327 [inline]
- __do_sys_openat fs/open.c:1343 [inline]
- __se_sys_openat fs/open.c:1338 [inline]
- __arm64_sys_openat+0xb0/0xe0 fs/open.c:1338
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
- el0t_64_sync+0x18c/0x190
-Code: 97dafee4 340001b4 f9401328 2a1f03e0 (79402d14)
----[ end trace 0000000000000000 ]---
+Syzbot reports a NULL dereference in ni_write_inode.
+When creating a new inode, if allocation fails in mi_init function
+(called in mi_format_new function), mi->mrec is set to NULL.
+In the error path of this inode creation, mi->mrec is later
+dereferenced in ni_write_inode.
 
-Above issue may happens as follows:
-ntfs_new_inode
-  mi_init
-    mi->mrec = kmalloc(sbi->record_size, GFP_NOFS); -->failed to allocate memory
-      if (!mi->mrec)
-        return -ENOMEM;
-iput
-  iput_final
-    evict
-      ntfs_evict_inode
-        ni_write_inode
-	  is_rec_inuse(ni->mi.mrec)-> As 'ni->mi.mrec' is NULL trigger NULL-ptr-deref
+Add a NULL check to prevent NULL dereference.
 
-To solve above issue if new inode failed make inode bad before call 'iput()' in
-'ntfs_new_inode()'.
-
-Reported-by: syzbot+f45957555ed4a808cc7a@syzkaller.appspotmail.com
-Signed-off-by: Ye Bin <yebin10@huawei.com>
+Link: https://syzkaller.appspot.com/bug?extid=f45957555ed4a808cc7a
+Reported-and-tested-by: syzbot+f45957555ed4a808cc7a@syzkaller.appspotmail.com
+Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/ntfs3/fsntfs.c | 1 +
- 1 file changed, 1 insertion(+)
+ fs/ntfs3/frecord.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-index 567563771bf89..8de861ddec600 100644
---- a/fs/ntfs3/fsntfs.c
-+++ b/fs/ntfs3/fsntfs.c
-@@ -1683,6 +1683,7 @@ struct ntfs_inode *ntfs_new_inode(struct ntfs_sb_info *sbi, CLST rno, bool dir)
- 
- out:
- 	if (err) {
-+		make_bad_inode(inode);
- 		iput(inode);
- 		ni = ERR_PTR(err);
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index f1df52dfab74b..912eeb3d34717 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -3258,6 +3258,9 @@ int ni_write_inode(struct inode *inode, int sync, const char *hint)
+ 		return 0;
  	}
+ 
++	if (!ni->mi.mrec)
++		goto out;
++
+ 	if (is_rec_inuse(ni->mi.mrec) &&
+ 	    !(sbi->flags & NTFS_FLAGS_LOG_REPLAYING) && inode->i_nlink) {
+ 		bool modified = false;
 -- 
 2.39.2
 
