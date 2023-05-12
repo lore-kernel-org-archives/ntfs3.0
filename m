@@ -1,102 +1,67 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83EABE6F
-	for <ntfs3@lists.linux.dev>; Fri, 12 May 2023 09:59:37 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1ab05018381so90123155ad.2
-        for <ntfs3@lists.linux.dev>; Fri, 12 May 2023 02:59:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=heitbaum.com; s=google; t=1683885577; x=1686477577;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9J2ZJnDmboCKN65asMulJKTQ7oAGkyMypOi8N9qUDaM=;
-        b=iV15/4Gc4dM5nXgibYo8jehJqP7rFQJLD4K+sKQke8vu5fqJMEVRnY1bsWBtX8OqEx
-         XjaC9mmxWFOPg76FeqUyxgZgK7lVA0cFiYgIGm57F3mn9rCGa69fdjrcdEJJKbiZJcJ1
-         PcA2cvzX/4eCHiZikCkVy3vfGSRto7clNkVrU=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADA11DDF4
+	for <ntfs3@lists.linux.dev>; Fri, 12 May 2023 14:07:20 +0000 (UTC)
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-33142b54417so147629095ab.3
+        for <ntfs3@lists.linux.dev>; Fri, 12 May 2023 07:07:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683885577; x=1686477577;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9J2ZJnDmboCKN65asMulJKTQ7oAGkyMypOi8N9qUDaM=;
-        b=Ca20ayFWeSleCAImT9l/kb7xMFGi9NlmEIPZh7+CqaypvVhbcWGE1gpM+xdy4A64XX
-         C+gTnGySsWQpR5k/abnAO7f9O0gvZWiE/9qB7vfzQrlNNtmgFWX3DqpnxaJjUJuWOo7d
-         j5By6fxLXtWl5YKY/ieI49sJ8CO6+U104LgG5YnDZuZ+w4p9BCzjkSDCi5KkbYeIMDQo
-         3jGVsSSEs/Ndo3MjM5Gt/gpGuG3t4+277x2/JP447THZrsIfDh3kivAwLNdF884ZBIQ4
-         VDrGVIG2tw2B8Xb6dt43W3eQAB6SM0w515PGQZZWZW7MDTwYQrjQXckkow3O5jsSRk0m
-         K2sA==
-X-Gm-Message-State: AC+VfDyrOa+4YTyD1yJcUVTcqI9gvVaNTAcQ5OF33JtBSQyv4T8VJyyq
-	5WkeHLQIX7J2f10B/71USMefsmmRkp0KatMc47WdIA==
-X-Google-Smtp-Source: ACHHUZ4/ym6NDbByzCpXM236x7lUbxxOc0SnMwWRJXQor6i+H/EpLBaD/hjINvnPin0xJu7QH92ra92GuqfmxTkj7mI=
-X-Received: by 2002:a17:902:ce91:b0:1ad:c1c2:7d1a with SMTP id
- f17-20020a170902ce9100b001adc1c27d1amr7752806plg.63.1683885577124; Fri, 12
- May 2023 02:59:37 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683900439; x=1686492439;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jMsA1OvUqk2tsx55m7tIfaPeJf529B0QdbQS7E31h+k=;
+        b=DX6VBmd0M6W5rnXOGy0Kky/SUWWZFUv7gO1fZkmN6GbiAjvjlpvDTaB1Fru9v8k7n+
+         cETvFvn6s6/O9P7RSXCeWdKcOjTvBH9LD/ckvrlv0L2Ajp9BQq020eeK2QyxbajvZven
+         sW3eBwpahj96km80hQJXP7B+rQ+VPO004GIT2hcYSg5Q2wg8a+SQGdS0xXz/AWAy7cNe
+         OUDVgFcwTIq3O3KnD5f4QETpSx5fvQ+gV9TVjcrS17C7avzJ/3pKJm/309vebMgnhn4N
+         PIPojDKHsxc7tSivkJqybjLBrPUUF9yiQHZp5I3LLN/ShYsc4wQn+0HJx6CtDt60HT3N
+         JT9g==
+X-Gm-Message-State: AC+VfDzsaIsd1ORtUyZRMJ0q/w0js0gLRuDvB/YPNGXSVu2SvtVoAZ89
+	gWBGu3XcKP3Qwa3aER7OwYDsZ1x0n+VcpRZueLRYbxwmWOa2
+X-Google-Smtp-Source: ACHHUZ78MXlEJPSlarcif/f+n4E+wXrSeNZwdz4IonDEPpF9krYy99Fg2BkvtT1Pz45rvxB1dwiGb1hHl8Vm/hIK24b49hIDwO07
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230509030705.399628514@linuxfoundation.org> <20230509080658.GA152864@d6921c044a31>
- <20230509131032.GA8@9ed91d9f7b3c> <2023050913-spearhead-angrily-fc58@gregkh>
- <20230509145806.GA8@df3c0d7ae0b0> <2023051025-plug-willow-e278@gregkh>
- <CAG9oJsnr55Atybm4nOQAFjXQ_TeqVG+Nz_8zqMT3ansdnEpGBQ@mail.gmail.com>
- <2023051048-plus-mountable-6280@gregkh> <CAG9oJskrJotpyqwi6AHVMmhnFmL+Ym=xAFmL51RiZFaU78wv-A@mail.gmail.com>
- <2023051132-dweller-upturned-b446@gregkh> <CAG9oJskf0fE7LiumdzD4QW8dTmGpmVyXBSyiKu_xP+s72Rw44A@mail.gmail.com>
- <CAHk-=wjJNHjwfrT0X5DvSP3fZzUF0SAbErkc30qAWDW=U9uKtQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wjJNHjwfrT0X5DvSP3fZzUF0SAbErkc30qAWDW=U9uKtQ@mail.gmail.com>
-From: Rudi Heitbaum <rudi@heitbaum.com>
-Date: Fri, 12 May 2023 19:59:25 +1000
-Message-ID: <CAG9oJsm7GA3A9MHcMiMqxzz5a9sV+S6BCzuYRbAVawweswSOAA@mail.gmail.com>
-Subject: Re: [PATCH 6.3 000/694] 6.3.2-rc2 review
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, 
-	patches@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org, 
-	patches@kernelci.org, lkft-triage@lists.linaro.org, pavel@denx.de, 
-	jonathanh@nvidia.com, f.fainelli@gmail.com, sudipm.mukherjee@gmail.com, 
-	srw@sladewatkins.net, rwarsow@gmx.de, ntfs3@lists.linux.dev, 
-	almaz.alexandrovich@paragon-software.com
+X-Received: by 2002:a02:860e:0:b0:40f:7382:e4aa with SMTP id
+ e14-20020a02860e000000b0040f7382e4aamr6776856jai.2.1683900439423; Fri, 12 May
+ 2023 07:07:19 -0700 (PDT)
+Date: Fri, 12 May 2023 07:07:19 -0700
+In-Reply-To: <000000000000ea3c3105ef377a12@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000877b2c05fb7f9fd4@google.com>
+Subject: Re: [syzbot] [ntfs3?] KASAN: slab-out-of-bounds Read in ntfs_listxattr
+From: syzbot <syzbot+9fcea5ef6dc4dc72d334@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, 
+	clang-built-linux@googlegroups.com, dvyukov@google.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com, 
+	zengheng4@huawei.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, 12 May 2023 at 00:24, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Thu, May 11, 2023 at 3:30=E2=80=AFAM Rudi Heitbaum <rudi@heitbaum.com>=
- wrote:
-> >
-> > I have run 6.1.28-rc2 today, and was able to trigger the error. So
-> > definitely bad in both 6.3 and 6.1.
-> >
-> > [13812.020209] BUG: kernel NULL pointer dereference, address: 000000000=
-0000020
-> > [13812.021322] #PF: supervisor read access in kernel mode
-> > [13812.022346] #PF: error_code(0x0000) - not-present page
-> > [13812.023591] PGD 0 P4D 0
-> > [13812.024876] Oops: 0000 [#1] SMP NOPTI
-> > [13812.026088] CPU: 5 PID: 20386 Comm: .NET ThreadPool Not tainted 6.1.=
-28-rc2 #1
-> > [13812.027336] Hardware name: Intel(R) Client Systems
-> > NUC12WSKi7/NUC12WSBi7, BIOS WSADL357.0085.2022.0718.1739 07/18/2022
-> > [13812.028593] RIP: 0010:ntfs_lookup+0x76/0xe0 [ntfs3]
->
-> I suspect this is fixed in mainline by commit 6827d50b2c43 ("fs/ntfs3:
-> Refactoring of various minor issues") which changed the IS_ERR() check
-> into a IS_ERR_OR_NULL().
+syzbot has bisected this issue to:
 
-Hi Linus,
+commit 6e5be40d32fb1907285277c02e74493ed43d77fe
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Fri Aug 13 14:21:30 2021 +0000
 
-Thanks for the direction to the commit. I can confirm that once adding
-commit 6827d50b2c43 to both 6.1.28-rc2 and 6.3.2-rc2 and testing for
-today - that the error is not reproducible with the below lines.
+    fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
 
-- if (!IS_ERR(inode) && inode->i_op =3D=3D NULL) {
-+ if (!IS_ERR_OR_NULL(inode) && !inode->i_op) {
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1587a32a280000
+start commit:   8ed710da2873 Merge tag 'arm64-fixes' of git://git.kernel.o..
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=1787a32a280000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1387a32a280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b83f3e90d74765ea
+dashboard link: https://syzkaller.appspot.com/bug?extid=9fcea5ef6dc4dc72d334
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17e7ec29880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11829e23880000
 
-Rudi
+Reported-by: syzbot+9fcea5ef6dc4dc72d334@syzkaller.appspotmail.com
+Fixes: 6e5be40d32fb ("fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile")
 
-> But dropping the original fix from stable might be the right thing to do.
->
->                  Linus
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
