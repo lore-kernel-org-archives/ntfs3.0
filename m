@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEF317F8
-	for <ntfs3@lists.linux.dev>; Fri, 19 May 2023 07:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71D7363
+	for <ntfs3@lists.linux.dev>; Sat, 20 May 2023 00:02:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1684482130;
+	s=mimecast20190719; t=1684540923;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MIKgygGFPP04jCWudTIx6Exr1BpE2idki489iWC06JA=;
-	b=b5p3EgyaoBdcAW+MZ8niqVl8BOWkVSrN3tj4rrtmwYJgjNIwB8BHoH4XIZ8znDvVZp5qfn
-	hiOdvXS2ezSRQDYUmi6hIzswuzg1/ePfo3zjPHKryT/DKm/GTSegn5ozO1v2s3JHaKe7R7
-	XViaLEareFGiLerWhC62itqCYgCIttE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=6eCSJNH8vHFST21uMhvhB9UZGjvTsMZCtNRoglPFw+I=;
+	b=XsZpY2s+bYCk7gTkC0L1myawAtQ9tysgTggM3ayY18SwlMAc2t/Tyk3li6obc7Byu/0MGH
+	K3mKslobLEy+9B+YUERW+LBwL3XK+MaKP+G8A7tBFKyIkAbBv/ejInEONNRscpEyHyDdu5
+	EynGHrGsUxg21o23l/o7l0i9wN5bYK4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-BiSEfFWJO5ihxPcX24ACRw-1; Fri, 19 May 2023 03:42:03 -0400
-X-MC-Unique: BiSEfFWJO5ihxPcX24ACRw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+ us-mta-518-Vi3VpzDTNn22brcNxkPP8Q-1; Fri, 19 May 2023 20:02:00 -0400
+X-MC-Unique: Vi3VpzDTNn22brcNxkPP8Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ADED48027F5;
-	Fri, 19 May 2023 07:42:02 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A4411C05AEB;
+	Sat, 20 May 2023 00:01:59 +0000 (UTC)
 Received: from warthog.procyon.org.uk (unknown [10.42.28.221])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9BEDF40CFD45;
-	Fri, 19 May 2023 07:41:59 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0C7A94F2DE2;
+	Sat, 20 May 2023 00:01:56 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Al Viro <viro@zeniv.linux.org.uk>,
@@ -47,11 +47,11 @@ Cc: David Howells <dhowells@redhat.com>,
 	Christoph Hellwig <hch@lst.de>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH v20 18/32] ntfs3: Provide a splice-read stub
-Date: Fri, 19 May 2023 08:40:33 +0100
-Message-Id: <20230519074047.1739879-19-dhowells@redhat.com>
-In-Reply-To: <20230519074047.1739879-1-dhowells@redhat.com>
-References: <20230519074047.1739879-1-dhowells@redhat.com>
+Subject: [PATCH v21 21/30] ntfs3: Provide a splice-read stub
+Date: Sat, 20 May 2023 01:00:40 +0100
+Message-Id: <20230520000049.2226926-22-dhowells@redhat.com>
+In-Reply-To: <20230520000049.2226926-1-dhowells@redhat.com>
+References: <20230520000049.2226926-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -59,7 +59,7 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 
 Provide a splice_read stub for NTFS3 to perform various checks before
 allowing the operation to proceed.
@@ -74,14 +74,14 @@ cc: linux-fsdevel@vger.kernel.org
 cc: linux-block@vger.kernel.org
 cc: linux-mm@kvack.org
 ---
- fs/ntfs3/file.c | 36 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
+ fs/ntfs3/file.c | 31 ++++++++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
 
 diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 9a3d55c367d9..c27814946aa3 100644
+index 9a3d55c367d9..667c9dc68b58 100644
 --- a/fs/ntfs3/file.c
 +++ b/fs/ntfs3/file.c
-@@ -744,6 +744,40 @@ static ssize_t ntfs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
+@@ -744,6 +744,35 @@ static ssize_t ntfs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
  	return generic_file_read_iter(iocb, iter);
  }
  
@@ -94,11 +94,6 @@ index 9a3d55c367d9..c27814946aa3 100644
 +
 +	if (is_encrypted(ni)) {
 +		ntfs_inode_warn(inode, "encrypted i/o not supported");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	if (is_compressed(ni) && (in->f_flags & O_DIRECT)) {
-+		ntfs_inode_warn(inode, "direct i/o + compressed not supported");
 +		return -EOPNOTSUPP;
 +	}
 +
@@ -122,7 +117,7 @@ index 9a3d55c367d9..c27814946aa3 100644
  /*
   * ntfs_get_frame_pages
   *
-@@ -1159,7 +1193,7 @@ const struct file_operations ntfs_file_operations = {
+@@ -1159,7 +1188,7 @@ const struct file_operations ntfs_file_operations = {
  #ifdef CONFIG_COMPAT
  	.compat_ioctl	= ntfs_compat_ioctl,
  #endif
