@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71D7363
-	for <ntfs3@lists.linux.dev>; Sat, 20 May 2023 00:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0863613AE3
+	for <ntfs3@lists.linux.dev>; Mon, 22 May 2023 13:51:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1684540923;
+	s=mimecast20190719; t=1684763515;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6eCSJNH8vHFST21uMhvhB9UZGjvTsMZCtNRoglPFw+I=;
-	b=XsZpY2s+bYCk7gTkC0L1myawAtQ9tysgTggM3ayY18SwlMAc2t/Tyk3li6obc7Byu/0MGH
-	K3mKslobLEy+9B+YUERW+LBwL3XK+MaKP+G8A7tBFKyIkAbBv/ejInEONNRscpEyHyDdu5
-	EynGHrGsUxg21o23l/o7l0i9wN5bYK4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=vTrARcFdbC/vmS0maUQ9q741hTl6uEjvIQp7xTnb7lA=;
+	b=aPfgCeBP0xo6ym3dEl091aaNTtT3pYyyo/lXfYEC8b9hjrYj+EYKSxCN2KshX7OXJQFW/W
+	DpODYKDLdSTvibDzqfWD7qW60QFj6aw5Vi5fiTU2VAO7pWs/Rnaa3E0Kb4zh/UXRy/RnBD
+	tJchsF90wjJhT2UHrMImw+L16XJVDZ0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-Vi3VpzDTNn22brcNxkPP8Q-1; Fri, 19 May 2023 20:02:00 -0400
-X-MC-Unique: Vi3VpzDTNn22brcNxkPP8Q-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+ us-mta-136-Wk6gk4jOMPyGatQd-7Opfg-1; Mon, 22 May 2023 09:51:49 -0400
+X-MC-Unique: Wk6gk4jOMPyGatQd-7Opfg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A4411C05AEB;
-	Sat, 20 May 2023 00:01:59 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.221])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0C7A94F2DE2;
-	Sat, 20 May 2023 00:01:56 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38C00802E58;
+	Mon, 22 May 2023 13:51:48 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.39.192.68])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1A9E4200AE6F;
+	Mon, 22 May 2023 13:51:44 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Al Viro <viro@zeniv.linux.org.uk>,
@@ -47,11 +47,11 @@ Cc: David Howells <dhowells@redhat.com>,
 	Christoph Hellwig <hch@lst.de>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH v21 21/30] ntfs3: Provide a splice-read stub
-Date: Sat, 20 May 2023 01:00:40 +0100
-Message-Id: <20230520000049.2226926-22-dhowells@redhat.com>
-In-Reply-To: <20230520000049.2226926-1-dhowells@redhat.com>
-References: <20230520000049.2226926-1-dhowells@redhat.com>
+Subject: [PATCH v22 21/31] ntfs3: Provide a splice-read wrapper
+Date: Mon, 22 May 2023 14:50:08 +0100
+Message-Id: <20230522135018.2742245-22-dhowells@redhat.com>
+In-Reply-To: <20230522135018.2742245-1-dhowells@redhat.com>
+References: <20230522135018.2742245-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -59,9 +59,9 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 
-Provide a splice_read stub for NTFS3 to perform various checks before
+Provide a splice_read wrapper for NTFS3 to perform various checks before
 allowing the operation to proceed.
 
 Signed-off-by: David Howells <dhowells@redhat.com>
