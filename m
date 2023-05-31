@@ -1,87 +1,199 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-io1-f78.google.com (mail-io1-f78.google.com [209.85.166.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3517A805
-	for <ntfs3@lists.linux.dev>; Wed, 31 May 2023 18:48:34 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-9700219be87so1067137766b.1
-        for <ntfs3@lists.linux.dev>; Wed, 31 May 2023 11:48:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1685558912; x=1688150912;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G4X30oNDcGuw9SVg09/maVlh6cvqQ6J+4aW32/Zd99o=;
-        b=JN5NwAwy6tGgJI9UABktNapr3ikCOFG8l39Yt9iJMRFeGTh9xfZHTa+SrVVUVGmtpe
-         qunDYxEB8PuYFguPDk2mmJm0oP3X1+REOBX1c4U1S4cRCGm+B9QrhPFofyPt35QFTQh5
-         SLvOUNXj+M7PZaAKVTXTZ9QrBrk1ZNUtIlO60=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1C5200AD
+	for <ntfs3@lists.linux.dev>; Wed, 31 May 2023 19:32:56 +0000 (UTC)
+Received: by mail-io1-f78.google.com with SMTP id ca18e2360f4ac-777097126abso24388939f.0
+        for <ntfs3@lists.linux.dev>; Wed, 31 May 2023 12:32:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685558912; x=1688150912;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G4X30oNDcGuw9SVg09/maVlh6cvqQ6J+4aW32/Zd99o=;
-        b=i5S9nQ4XDcJRZ5KCCHmAZyt52bDXVEnJ7HWT+nSKj/NeWUx00Mjj6ECRlyVX3uHN4I
-         2Ugh0n/ju6L5MGjyYhurXNb89Tj7NOgDfAdjfmG19XjOfwKTdSzm+NyIINDmfuJiMwZ6
-         18u9xDSIHNOlmsfiOkne4bqBSUbD6J3iMb6KQKXMEMPh5sZSLpn8YPblNP2XB65Tye+u
-         cgE9mrS+vz9x4ckfg7duA6C5rn9uwLx2IVpRPYUnHdy881vceZzNQcH3ux1954q4t10P
-         O1qh2IbOBm65RK6NNUxu+VLRw8QVHUp5JQkTgGOUMjQJq0xhYy8cAvNCYmT0dtBzWlL/
-         j0PA==
-X-Gm-Message-State: AC+VfDwEOtluiD3gOTtAht9upmDyKFuOLYc889+nqceSRODAVEJd3qbz
-	X0uthk33KAnXz7A5nemoCamBh8OoVmVFkFJSMcoPsVjM
-X-Google-Smtp-Source: ACHHUZ7tAvz9P1FKWhukHdh0h5GwZiDfYGx7y2wTexNZANqbsCzMwguxgaNWFaCnJ+kXU9wtSsddlQ==
-X-Received: by 2002:a17:907:6da5:b0:959:919:963d with SMTP id sb37-20020a1709076da500b009590919963dmr5570628ejc.50.1685558912319;
-        Wed, 31 May 2023 11:48:32 -0700 (PDT)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
-        by smtp.gmail.com with ESMTPSA id r10-20020a1709063d6a00b009737b8d47b6sm9265834ejf.203.2023.05.31.11.48.31
-        for <ntfs3@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 May 2023 11:48:31 -0700 (PDT)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5147e8972a1so147931a12.0
-        for <ntfs3@lists.linux.dev>; Wed, 31 May 2023 11:48:31 -0700 (PDT)
-X-Received: by 2002:a17:907:9609:b0:947:335f:5a0d with SMTP id
- gb9-20020a170907960900b00947335f5a0dmr6616481ejc.62.1685558911012; Wed, 31
- May 2023 11:48:31 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685561576; x=1688153576;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5LyvodTfh7mDgMBZGR3/haPvA2HxKEHZOZ0+VgxD6Y4=;
+        b=ZihdxWFutaCqNQQh0wJgGhCLOgY+LSbfhrxQv5lDMvXpJOwudMsdLjdhX5YMhprBKY
+         AU8A/dDEA8HMIODtXcz1O+4H33IOFegL79DDILsDjBFqJwuMJX1LMSBrniwaqGwpfVVz
+         p6Xafile+kgNXobr/+KNsEpMWnvYzOXTlM4MoXMslkWC5sIbr4K89x28BMeDQHZvfUSn
+         TwzrgnsCb/1urclduW83XLRE6TBqiFQ9uEm7UXbeVdECUG72ba+GtJ+CIjeitm/oOtIr
+         zpKyCgAMtUTBi1KQI0plorun41r1TTBjSjY7YHYWzSLVPrhIdEcbm0FJmFcJuDrH3p9L
+         abDA==
+X-Gm-Message-State: AC+VfDzpXkpLrbRjbgXfSb90PYNiyTbdGvyN6s3GaOfXbARhmKzgV4Wc
+	gUAJ2yraZOItpOcanxLr9GqzLuXGSAYS4MkGyEpCV4t7ZNwF
+X-Google-Smtp-Source: ACHHUZ5jv021XOgfOmq2aWrpQjH44Z2mlMPVF3tsbqSe9rSHM0VGb8lHM0mbMioaRhKeGdvtvtiOAGCEyC7PcAbh+r+qAtks5PTd
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <000000000000030b7e05f7b9ac32@google.com> <00000000000040020d05fcf58ebf@google.com>
-In-Reply-To: <00000000000040020d05fcf58ebf@google.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 31 May 2023 14:48:14 -0400
-X-Gmail-Original-Message-ID: <CAHk-=wjqv_dAd55m31fJk=6FAy1+=556L9y8eAOB92RstWy6_Q@mail.gmail.com>
-Message-ID: <CAHk-=wjqv_dAd55m31fJk=6FAy1+=556L9y8eAOB92RstWy6_Q@mail.gmail.com>
-Subject: Re: [syzbot] [ntfs3?] WARNING in attr_data_get_block (2)
-To: syzbot <syzbot+a98f21ebda0a437b04d7@syzkaller.appspotmail.com>
-Cc: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
+X-Received: by 2002:a05:6602:3713:b0:774:8680:b95b with SMTP id
+ bh19-20020a056602371300b007748680b95bmr8079663iob.1.1685561575975; Wed, 31
+ May 2023 12:32:55 -0700 (PDT)
+Date: Wed, 31 May 2023 12:32:55 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000fbaee205fd026244@google.com>
+Subject: [syzbot] [ntfs3?] possible deadlock in mark_as_free_ex
+From: syzbot <syzbot+e94d98936a0ed08bde43@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 31, 2023 at 12:14=E2=80=AFAM syzbot
-<syzbot+a98f21ebda0a437b04d7@syzkaller.appspotmail.com> wrote:
->
-> syzbot suspects this issue was fixed by commit:
->
-> commit 68674f94ffc9dddc45e7733963ecc35c5eda9efd
->     x86: don't use REP_GOOD or ERMS for small memory copies
+Hello,
 
-That sounds very unlikely.
+syzbot found the following issue on:
 
-While we had another similar issue where not using REP_GOOD or ERMS
-for user space clearing fixes a bug, that one failed by having
-clear_user() oops instead of handling the right exception.
+HEAD commit:    48b1320a674e Merge tag 'for-6.4-rc4-tag' of git://git.kern..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=10ccb25d280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=162cf2103e4a7453
+dashboard link: https://syzkaller.appspot.com/bug?extid=e94d98936a0ed08bde43
+compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
 
-In that case the commit really did fix things, even if it was just by
-pure luck, and removing buggy code.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-But this one seems to have a failure case that has nothing to do with
-exception handling, and I don't think that commit actually fixes any
-semantic bug. I suspect the bisection was not entirely repeatable,
-and/or might have been timing-dependent, and that the bisection thus
-ended up on a random unrelated commit.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/1bdd53056bc4/disk-48b1320a.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/82950e95464f/vmlinux-48b1320a.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/8a58eb21a7a7/bzImage-48b1320a.xz
 
-               Linus
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e94d98936a0ed08bde43@syzkaller.appspotmail.com
+
+======================================================
+WARNING: possible circular locking dependency detected
+6.4.0-rc4-syzkaller-00051-g48b1320a674e #0 Not tainted
+------------------------------------------------------
+kworker/u4:0/15666 is trying to acquire lock:
+ffff88802d146268 (&wnd->rw_lock){++++}-{3:3}, at: mark_as_free_ex+0x3d/0x330 fs/ntfs3/fsntfs.c:2464
+
+but task is already holding lock:
+ffff88804bad60e0 (&ni->ni_lock){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1141 [inline]
+ffff88804bad60e0 (&ni->ni_lock){+.+.}-{3:3}, at: ni_write_inode+0x167/0x10c0 fs/ntfs3/frecord.c:3252
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #1 (&ni->ni_lock){+.+.}-{3:3}:
+       lock_acquire+0x1e3/0x520 kernel/locking/lockdep.c:5705
+       __mutex_lock_common+0x1d8/0x2530 kernel/locking/mutex.c:603
+       __mutex_lock kernel/locking/mutex.c:747 [inline]
+       mutex_lock_nested+0x1b/0x20 kernel/locking/mutex.c:799
+       ntfs_set_state+0x212/0x730 fs/ntfs3/fsntfs.c:945
+       mark_as_free_ex+0x6e/0x330 fs/ntfs3/fsntfs.c:2466
+       run_deallocate_ex+0x244/0x5f0 fs/ntfs3/attrib.c:122
+       attr_set_size+0x1684/0x4290 fs/ntfs3/attrib.c:750
+       ntfs_truncate fs/ntfs3/file.c:393 [inline]
+       ntfs3_setattr+0x556/0xb00 fs/ntfs3/file.c:682
+       notify_change+0xc8b/0xf40 fs/attr.c:483
+       do_truncate+0x220/0x300 fs/open.c:66
+       handle_truncate fs/namei.c:3295 [inline]
+       do_open fs/namei.c:3640 [inline]
+       path_openat+0x294e/0x3170 fs/namei.c:3791
+       do_filp_open+0x234/0x490 fs/namei.c:3818
+       do_sys_openat2+0x13f/0x500 fs/open.c:1356
+       do_sys_open fs/open.c:1372 [inline]
+       __do_sys_creat fs/open.c:1448 [inline]
+       __se_sys_creat fs/open.c:1442 [inline]
+       __x64_sys_creat+0x123/0x160 fs/open.c:1442
+       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+       do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
+       entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+-> #0 (&wnd->rw_lock){++++}-{3:3}:
+       check_prev_add kernel/locking/lockdep.c:3113 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3232 [inline]
+       validate_chain+0x166b/0x58f0 kernel/locking/lockdep.c:3847
+       __lock_acquire+0x1316/0x2070 kernel/locking/lockdep.c:5088
+       lock_acquire+0x1e3/0x520 kernel/locking/lockdep.c:5705
+       down_write_nested+0x3d/0x50 kernel/locking/rwsem.c:1689
+       mark_as_free_ex+0x3d/0x330 fs/ntfs3/fsntfs.c:2464
+       run_deallocate+0x13b/0x230 fs/ntfs3/fsntfs.c:2534
+       ni_try_remove_attr_list+0x1558/0x1930 fs/ntfs3/frecord.c:773
+       ni_write_inode+0xd14/0x10c0 fs/ntfs3/frecord.c:3318
+       write_inode fs/fs-writeback.c:1456 [inline]
+       __writeback_single_inode+0x69b/0xfa0 fs/fs-writeback.c:1668
+       writeback_sb_inodes+0x8e3/0x11d0 fs/fs-writeback.c:1894
+       wb_writeback+0x458/0xc70 fs/fs-writeback.c:2068
+       wb_do_writeback fs/fs-writeback.c:2211 [inline]
+       wb_workfn+0x400/0xff0 fs/fs-writeback.c:2251
+       process_one_work+0x8a0/0x10e0 kernel/workqueue.c:2405
+       worker_thread+0xa63/0x1210 kernel/workqueue.c:2552
+       kthread+0x2b8/0x350 kernel/kthread.c:379
+       ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+
+other info that might help us debug this:
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&ni->ni_lock);
+                               lock(&wnd->rw_lock);
+                               lock(&ni->ni_lock);
+  lock(&wnd->rw_lock);
+
+ *** DEADLOCK ***
+
+3 locks held by kworker/u4:0/15666:
+ #0: ffff888019e63938 ((wq_completion)writeback){+.+.}-{0:0}, at: process_one_work+0x77e/0x10e0 kernel/workqueue.c:2378
+ #1: ffffc9000ae5fd20 ((work_completion)(&(&wb->dwork)->work)){+.+.}-{0:0}, at: process_one_work+0x7c8/0x10e0 kernel/workqueue.c:2380
+ #2: ffff88804bad60e0 (&ni->ni_lock){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1141 [inline]
+ #2: ffff88804bad60e0 (&ni->ni_lock){+.+.}-{3:3}, at: ni_write_inode+0x167/0x10c0 fs/ntfs3/frecord.c:3252
+
+stack backtrace:
+CPU: 1 PID: 15666 Comm: kworker/u4:0 Not tainted 6.4.0-rc4-syzkaller-00051-g48b1320a674e #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/25/2023
+Workqueue: writeback wb_workfn (flush-7:2)
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x1e7/0x2d0 lib/dump_stack.c:106
+ check_noncircular+0x2fe/0x3b0 kernel/locking/lockdep.c:2188
+ check_prev_add kernel/locking/lockdep.c:3113 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3232 [inline]
+ validate_chain+0x166b/0x58f0 kernel/locking/lockdep.c:3847
+ __lock_acquire+0x1316/0x2070 kernel/locking/lockdep.c:5088
+ lock_acquire+0x1e3/0x520 kernel/locking/lockdep.c:5705
+ down_write_nested+0x3d/0x50 kernel/locking/rwsem.c:1689
+ mark_as_free_ex+0x3d/0x330 fs/ntfs3/fsntfs.c:2464
+ run_deallocate+0x13b/0x230 fs/ntfs3/fsntfs.c:2534
+ ni_try_remove_attr_list+0x1558/0x1930 fs/ntfs3/frecord.c:773
+ ni_write_inode+0xd14/0x10c0 fs/ntfs3/frecord.c:3318
+ write_inode fs/fs-writeback.c:1456 [inline]
+ __writeback_single_inode+0x69b/0xfa0 fs/fs-writeback.c:1668
+ writeback_sb_inodes+0x8e3/0x11d0 fs/fs-writeback.c:1894
+ wb_writeback+0x458/0xc70 fs/fs-writeback.c:2068
+ wb_do_writeback fs/fs-writeback.c:2211 [inline]
+ wb_workfn+0x400/0xff0 fs/fs-writeback.c:2251
+ process_one_work+0x8a0/0x10e0 kernel/workqueue.c:2405
+ worker_thread+0xa63/0x1210 kernel/workqueue.c:2552
+ kthread+0x2b8/0x350 kernel/kthread.c:379
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+ </TASK>
+BTRFS info (device loop3): qgroup scan completed (inconsistency flag cleared)
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
