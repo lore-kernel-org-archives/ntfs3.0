@@ -1,341 +1,501 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E0019E69
-	for <ntfs3@lists.linux.dev>; Fri, 16 Jun 2023 17:56:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686938213; x=1718474213;
-  h=date:from:to:cc:subject:message-id;
-  bh=dHryKIkk8/2CTQfcM0R17XhQOqNhailCRjnxMpU/Z2k=;
-  b=YaHWEbWCKTZb3UMT+pPtdGu6caNa4uYmj4M5yCCmQvOiDNglrbnpZS3T
-   ixnNZJSVb/qX/4UEUhUVteQPfKbwarQwQL+LLrcqD6Rcad5kvHav2K7/N
-   gVXgqxPQwqJTLw3TfJGGMWxqWI6iuIG9EY6BYi7pZV+Pjp7fmEb3Id3cH
-   ODy9UBQnVEfungnRjXMvhTblTO5RLQMEv0p7mG8+EKnysDVz6M6KQvzaJ
-   FaEf1KNpfwqgDL0IWoKB2gLAaWk1+OdIZU0wgjIAR/nHHScHkGBuDAiJH
-   B1BKYl2D6x6MQZeE9vNOd42SNDfZGn57+qsda9gl6H+VZriJfEMjgihSZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="425213642"
-X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
-   d="scan'208";a="425213642"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 10:56:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="742744959"
-X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
-   d="scan'208";a="742744959"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 16 Jun 2023 10:56:47 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qADgk-0001f2-1u;
-	Fri, 16 Jun 2023 17:56:46 +0000
-Date: Sat, 17 Jun 2023 01:56:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Linux Memory Management List <linux-mm@kvack.org>,
- apparmor@lists.ubuntu.com, intel-gfx@lists.freedesktop.org,
- kunit-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
- linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-cifs@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
- lvs-devel@vger.kernel.org, netdev@vger.kernel.org,
- ntfs3@lists.linux.dev, samba-technical@lists.samba.org
-Subject: [linux-next:master] BUILD REGRESSION
- f7efed9f38f886edb450041b82a6f15d663c98f8
-Message-ID: <202306170124.CtQqzf0I-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00A1BE6C
+	for <ntfs3@lists.linux.dev>; Mon, 19 Jun 2023 09:41:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B8CC433C0;
+	Mon, 19 Jun 2023 09:41:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687167697;
+	bh=JPP0ry2uSWQZJydpPH9yezDhLuZp/NJUKm1C2dIlEUc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JKMi9pwvVX+EnBt6hmSZBq8q420kMIUNgTTIIWzsE8zO14/gOj763qbheI2ctRM9l
+	 IT7kY0wB7l5ilE6+u8nzeSu2m1BLwsKt6mziqtXyqVd07zoHvjlrfjrJsrHqJjShZC
+	 kyBngEpFEyUsTVfUgrZTYp3Ji39ZY0JEpTlpc6eMEnfbWlrvj36Zm8NjbKxL5lN5xy
+	 jY+WLe9GMxuQwuXaF9utiLkOJWsd97FK1sLdRFcTaOPB3RMJvO6MwAKfTRAaKWCmAe
+	 1dL5fjf4rAAZJbFFucDWUcZgEYhTotT6FSkDXC85CYPO8Q0qNzlkRyF2fmVC0aJ5fN
+	 Jv/CH1qrGvvXg==
+Date: Mon, 19 Jun 2023 10:41:33 +0100
+From: Lee Jones <lee@kernel.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 09/14] fs/ntfs3: Check fields while reading
+Message-ID: <20230619094133.GA1500182@google.com>
+References: <fc5957cc-a71b-cfa3-f291-cb63b23800d1@paragon-software.com>
+ <0ec81044-062c-29e0-c081-dff9484f0368@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0ec81044-062c-29e0-c081-dff9484f0368@paragon-software.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: f7efed9f38f886edb450041b82a6f15d663c98f8  Add linux-next specific files for 20230616
+On Fri, 28 Oct 2022, Konstantin Komarov wrote:
 
-Error/Warning reports:
+> Added new functions index_hdr_check and index_buf_check.
+> Now we check all stuff for correctness while reading from disk.
+> Also fixed bug with stale nfs data.
+> 
+> Reported-by: van fantasy <g1042620637@gmail.com>
+> Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+> ---
+>  fs/ntfs3/index.c   |  84 ++++++++++++++++++++++++++++++----
+>  fs/ntfs3/inode.c   |  18 ++++----
+>  fs/ntfs3/ntfs_fs.h |   4 +-
+>  fs/ntfs3/run.c     |   7 ++-
+>  fs/ntfs3/xattr.c   | 109 +++++++++++++++++++++++++++++----------------
+>  5 files changed, 164 insertions(+), 58 deletions(-)
 
-https://lore.kernel.org/oe-kbuild-all/202306100035.VTusNhm4-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306122223.HHER4zOo-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306141719.MJHClSrC-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306141934.UKmM9bFX-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306142017.23VmBLmG-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306151506.goHEegOd-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306160203.DB48f7wR-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306160811.nV1bMsK4-lkp@intel.com
+It's not clear to me what route this patch took into Mainline [0].  My
+guess it was authored by and then merged by the maintainer after no one
+raised any review comments.
 
-Error/Warning: (recently discovered and may have been fixed)
+It does appear that this particular patch was identified as the fix for
+a published CVE however [1], and with no Fixes: tag I'm concerned that
+the Stable AUTOSEL bot may miss this.  With that in mind, would you mind
+submitting to the relevant Stable branches please?  [2] contains all of
+the relevant information if you're not 100% certain of the process.
 
-arch/parisc/kernel/pdt.c:65:6: warning: no previous prototype for 'arch_report_meminfo' [-Wmissing-prototypes]
-drivers/block/pktcdvd.c:1371:13: warning: stack frame size (2496) exceeds limit (2048) in 'pkt_handle_packets' [-Wframe-larger-than]
-drivers/char/mem.c:164:25: error: implicit declaration of function 'unxlate_dev_mem_ptr'; did you mean 'xlate_dev_mem_ptr'? [-Werror=implicit-function-declaration]
-drivers/gpu/drm/i915/display/intel_display_power.h:255:70: error: declaration of 'struct seq_file' will not be visible outside of this function [-Werror,-Wvisibility]
-drivers/leds/leds-cht-wcove.c:144:21: warning: no previous prototype for 'cht_wc_leds_brightness_get' [-Wmissing-prototypes]
-drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1036:1: warning: the frame size of 1112 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-drivers/scsi/FlashPoint.c:1712:12: warning: stack frame size (4208) exceeds limit (2048) in 'FlashPoint_HandleInterrupt' [-Wframe-larger-than]
-fs/ntfs3/super.c:1094:12: warning: stack frame size (2384) exceeds limit (2048) in 'ntfs_fill_super' [-Wframe-larger-than]
-lib/kunit/executor_test.c:138:4: warning: cast from 'void (*)(const void *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-lib/kunit/test.c:775:38: warning: cast from 'void (*)(const void *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-security/apparmor/policy_unpack.c:1173: warning: expecting prototype for verify_dfa_accept_xindex(). Prototype was for verify_dfa_accept_index() instead
+Thank you.
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+[0] 0e8235d28f3a0 fs/ntfs3: Check fields while reading
+[1] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-48502
+[2] Documentation/process/stable-kernel-rules.rst
 
-drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:98 mlx5_devcom_register_device() error: uninitialized symbol 'tmp_dev'.
-drivers/opp/core.c:2710 dev_pm_opp_xlate_performance_state() warn: variable dereferenced before check 'src_table' (see line 2698)
-drivers/usb/cdns3/cdns3-starfive.c:23: warning: expecting prototype for cdns3(). Prototype was for USB_STRAP_HOST() instead
-fs/btrfs/volumes.c:6404 btrfs_map_block() error: we previously assumed 'mirror_num_ret' could be null (see line 6242)
-fs/smb/client/cifsfs.c:982 cifs_smb3_do_mount() warn: possible memory leak of 'cifs_sb'
-fs/smb/client/cifssmb.c:4089 CIFSFindFirst() warn: missing error code? 'rc'
-fs/smb/client/cifssmb.c:4216 CIFSFindNext() warn: missing error code? 'rc'
-fs/smb/client/connect.c:2775 cifs_match_super() error: 'tlink' dereferencing possible ERR_PTR()
-fs/smb/client/connect.c:2974 generic_ip_connect() error: we previously assumed 'socket' could be null (see line 2962)
-lib/kunit/test.c:336 __kunit_abort() warn: ignoring unreachable code.
-make[2]: *** No rule to make target 'rustdoc'.
-{standard input}: Error: local label `"2" (instance number 9 of a fb label)' is not defined
-{standard input}:1097: Error: pcrel too far
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- arm-randconfig-r046-20230615
-|   `-- drivers-media-platform-verisilicon-rockchip_vpu981_hw_av1_dec.c:warning:the-frame-size-of-bytes-is-larger-than-bytes
-|-- i386-allyesconfig
-|   `-- drivers-leds-leds-cht-wcove.c:warning:no-previous-prototype-for-cht_wc_leds_brightness_get
-|-- i386-randconfig-m021-20230614
-|   |-- drivers-opp-core.c-dev_pm_opp_xlate_performance_state()-warn:variable-dereferenced-before-check-src_table-(see-line-)
-|   |-- fs-smb-client-cifsfs.c-cifs_smb3_do_mount()-warn:possible-memory-leak-of-cifs_sb
-|   |-- fs-smb-client-cifssmb.c-CIFSFindFirst()-warn:missing-error-code-rc
-|   |-- fs-smb-client-cifssmb.c-CIFSFindNext()-warn:missing-error-code-rc
-|   |-- fs-smb-client-connect.c-cifs_match_super()-error:tlink-dereferencing-possible-ERR_PTR()
-|   `-- fs-smb-client-connect.c-generic_ip_connect()-error:we-previously-assumed-socket-could-be-null-(see-line-)
-|-- microblaze-randconfig-m031-20230614
-|   `-- drivers-opp-core.c-dev_pm_opp_xlate_performance_state()-warn:variable-dereferenced-before-check-src_table-(see-line-)
-|-- mips-randconfig-m041-20230615
-|   |-- drivers-opp-core.c-dev_pm_opp_xlate_performance_state()-warn:variable-dereferenced-before-check-src_table-(see-line-)
-|   |-- fs-btrfs-volumes.c-btrfs_map_block()-error:we-previously-assumed-mirror_num_ret-could-be-null-(see-line-)
-|   `-- lib-kunit-test.c-__kunit_abort()-warn:ignoring-unreachable-code.
-|-- parisc-allyesconfig
-|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
-|-- parisc-defconfig
-|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
-|-- parisc-randconfig-c004-20230614
-|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
-|-- parisc-randconfig-r001-20230616
-|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
-|-- parisc-randconfig-r011-20230615
-|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
-|-- parisc-randconfig-r021-20230615
-|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
-|-- parisc-randconfig-r036-20230615
-|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
-|-- parisc-randconfig-s042-20230614
-|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
-|-- parisc64-defconfig
-|   `-- arch-parisc-kernel-pdt.c:warning:no-previous-prototype-for-arch_report_meminfo
-|-- riscv-allmodconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- riscv-allyesconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- riscv-randconfig-s031-20230612
-|   |-- arch-riscv-kernel-signal.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-void-noderef-__user-datap-got-void
-|   `-- arch-riscv-kernel-signal.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-void-__x-got-void-noderef-__user-assigned-datap
-|-- sh-allmodconfig
-|   |-- drivers-char-mem.c:error:implicit-declaration-of-function-unxlate_dev_mem_ptr
-|   |-- standard-input:Error:local-label-(instance-number-of-a-fb-label)-is-not-defined
-|   `-- standard-input:Error:pcrel-too-far
-|-- sh-j2_defconfig
-|   `-- drivers-char-mem.c:error:implicit-declaration-of-function-unxlate_dev_mem_ptr
-|-- x86_64-allyesconfig
-|   `-- drivers-leds-leds-cht-wcove.c:warning:no-previous-prototype-for-cht_wc_leds_brightness_get
-`-- x86_64-randconfig-m001-20230612
-    |-- drivers-net-ethernet-mellanox-mlx5-core-lib-devcom.c-mlx5_devcom_register_device()-error:uninitialized-symbol-tmp_dev-.
-    |-- fs-smb-client-cifsfs.c-cifs_smb3_do_mount()-warn:possible-memory-leak-of-cifs_sb
-    |-- fs-smb-client-cifssmb.c-CIFSFindFirst()-warn:missing-error-code-rc
-    |-- fs-smb-client-cifssmb.c-CIFSFindNext()-warn:missing-error-code-rc
-    |-- fs-smb-client-connect.c-cifs_match_super()-error:tlink-dereferencing-possible-ERR_PTR()
-    `-- fs-smb-client-connect.c-generic_ip_connect()-error:we-previously-assumed-socket-could-be-null-(see-line-)
-clang_recent_errors
-|-- hexagon-buildonly-randconfig-r002-20230615
-|   |-- lib-kunit-executor_test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
-|   `-- lib-kunit-test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
-|-- hexagon-randconfig-r025-20230615
-|   |-- lib-kunit-executor_test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
-|   `-- lib-kunit-test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
-|-- hexagon-randconfig-r041-20230615
-|   |-- lib-kunit-executor_test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
-|   `-- lib-kunit-test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
-|-- i386-randconfig-i001-20230614
-|   `-- security-apparmor-policy_unpack.c:warning:expecting-prototype-for-verify_dfa_accept_xindex().-Prototype-was-for-verify_dfa_accept_index()-instead
-|-- i386-randconfig-i012-20230615
-|   `-- security-apparmor-policy_unpack.c:warning:expecting-prototype-for-verify_dfa_accept_xindex().-Prototype-was-for-verify_dfa_accept_index()-instead
-|-- i386-randconfig-i013-20230615
-|   `-- drivers-gpu-drm-i915-display-intel_display_power.h:error:declaration-of-struct-seq_file-will-not-be-visible-outside-of-this-function-Werror-Wvisibility
-|-- riscv-buildonly-randconfig-r001-20230615
-|   |-- drivers-block-pktcdvd.c:warning:stack-frame-size-()-exceeds-limit-()-in-pkt_handle_packets
-|   |-- drivers-scsi-FlashPoint.c:warning:stack-frame-size-()-exceeds-limit-()-in-FlashPoint_HandleInterrupt
-|   `-- fs-ntfs3-super.c:warning:stack-frame-size-()-exceeds-limit-()-in-ntfs_fill_super
-|-- riscv-randconfig-r042-20230615
-|   `-- lib-kunit-test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
-|-- s390-randconfig-r026-20230615
-|   |-- lib-kunit-executor_test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
-|   `-- lib-kunit-test.c:warning:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type
-|-- x86_64-randconfig-a005-20230614
-|   |-- net-netfilter-ipvs-ip_vs_proto.o:warning:objtool:.init.text:unexpected-end-of-section
-|   `-- security-apparmor-policy_unpack.c:warning:expecting-prototype-for-verify_dfa_accept_xindex().-Prototype-was-for-verify_dfa_accept_index()-instead
-|-- x86_64-randconfig-a015-20230615
-|   `-- drivers-net-ethernet-jme.o:warning:objtool:.text.jme_check_link:unexpected-end-of-section
-|-- x86_64-randconfig-r003-20230616
-|   `-- security-apparmor-policy_unpack.c:warning:expecting-prototype-for-verify_dfa_accept_xindex().-Prototype-was-for-verify_dfa_accept_index()-instead
-`-- x86_64-rhel-8.3-rust
-    |-- make:No-rule-to-make-target-rustdoc-.
-    `-- security-apparmor-policy_unpack.c:warning:expecting-prototype-for-verify_dfa_accept_xindex().-Prototype-was-for-verify_dfa_accept_index()-instead
-
-elapsed time: 733m
-
-configs tested: 135
-configs skipped: 5
-
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                        nsimosci_defconfig   gcc  
-arc                  randconfig-r043-20230615   gcc  
-arc                           tb10x_defconfig   gcc  
-arm                              alldefconfig   clang
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                         axm55xx_defconfig   gcc  
-arm                        clps711x_defconfig   gcc  
-arm                                 defconfig   gcc  
-arm                          gemini_defconfig   gcc  
-arm                           imxrt_defconfig   gcc  
-arm                      integrator_defconfig   gcc  
-arm                             mxs_defconfig   clang
-arm                         nhk8815_defconfig   gcc  
-arm                  randconfig-r046-20230615   gcc  
-arm                         s5pv210_defconfig   clang
-arm                        spear6xx_defconfig   gcc  
-arm                           sunxi_defconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                                defconfig   gcc  
-hexagon      buildonly-randconfig-r002-20230615   clang
-hexagon              randconfig-r024-20230615   clang
-hexagon              randconfig-r025-20230615   clang
-hexagon              randconfig-r035-20230615   clang
-hexagon              randconfig-r041-20230615   clang
-hexagon              randconfig-r045-20230615   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230614   clang
-i386                 randconfig-i002-20230614   clang
-i386                 randconfig-i003-20230614   clang
-i386                 randconfig-i004-20230614   clang
-i386                 randconfig-i005-20230614   clang
-i386                 randconfig-i006-20230614   clang
-i386                 randconfig-i011-20230615   clang
-i386                 randconfig-i012-20230615   clang
-i386                 randconfig-i013-20230615   clang
-i386                 randconfig-i014-20230615   clang
-i386                 randconfig-i015-20230615   clang
-i386                 randconfig-i016-20230615   clang
-i386                 randconfig-r015-20230615   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r013-20230615   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r012-20230615   gcc  
-m68k                 randconfig-r016-20230615   gcc  
-m68k                 randconfig-r033-20230615   gcc  
-m68k                        stmark2_defconfig   gcc  
-m68k                           virt_defconfig   gcc  
-microblaze   buildonly-randconfig-r005-20230615   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                  cavium_octeon_defconfig   clang
-mips                     decstation_defconfig   gcc  
-mips                    maltaup_xpa_defconfig   gcc  
-mips                        omega2p_defconfig   clang
-mips                 randconfig-r023-20230615   gcc  
-mips                   sb1250_swarm_defconfig   clang
-nios2                               defconfig   gcc  
-nios2                randconfig-r005-20230616   gcc  
-nios2                randconfig-r014-20230615   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r001-20230616   gcc  
-parisc               randconfig-r011-20230615   gcc  
-parisc               randconfig-r021-20230615   gcc  
-parisc               randconfig-r036-20230615   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                        cell_defconfig   gcc  
-powerpc                     kilauea_defconfig   clang
-powerpc                      makalu_defconfig   gcc  
-powerpc                     ppa8548_defconfig   clang
-powerpc                      walnut_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv        buildonly-randconfig-r001-20230615   clang
-riscv                               defconfig   gcc  
-riscv                randconfig-r042-20230615   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r026-20230615   clang
-s390                 randconfig-r044-20230615   clang
-sh                               allmodconfig   gcc  
-sh                                  defconfig   gcc  
-sh                         ecovec24_defconfig   gcc  
-sh                               j2_defconfig   gcc  
-sh                          kfr2r09_defconfig   gcc  
-sh                          landisk_defconfig   gcc  
-sh                   randconfig-r031-20230615   gcc  
-sparc                            allyesconfig   gcc  
-sparc        buildonly-randconfig-r003-20230615   gcc  
-sparc        buildonly-randconfig-r004-20230615   gcc  
-sparc                               defconfig   gcc  
-sparc                       sparc32_defconfig   gcc  
-sparc64              randconfig-r004-20230616   gcc  
-sparc64              randconfig-r006-20230616   gcc  
-sparc64              randconfig-r022-20230615   gcc  
-sparc64              randconfig-r032-20230615   gcc  
-um                               alldefconfig   gcc  
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230614   clang
-x86_64               randconfig-a002-20230614   clang
-x86_64               randconfig-a003-20230614   clang
-x86_64               randconfig-a004-20230614   clang
-x86_64               randconfig-a005-20230614   clang
-x86_64               randconfig-a006-20230614   clang
-x86_64               randconfig-a011-20230615   clang
-x86_64               randconfig-a012-20230615   clang
-x86_64               randconfig-a013-20230615   clang
-x86_64               randconfig-a014-20230615   clang
-x86_64               randconfig-a015-20230615   clang
-x86_64               randconfig-a016-20230615   clang
-x86_64               randconfig-r003-20230616   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
+> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+> index 35369ae5c438..51ab75954640 100644
+> --- a/fs/ntfs3/index.c
+> +++ b/fs/ntfs3/index.c
+> @@ -605,11 +605,58 @@ static const struct NTFS_DE *hdr_insert_head(struct INDEX_HDR *hdr,
+>  	return e;
+>  }
+> +/*
+> + * index_hdr_check
+> + *
+> + * return true if INDEX_HDR is valid
+> + */
+> +static bool index_hdr_check(const struct INDEX_HDR *hdr, u32 bytes)
+> +{
+> +	u32 end = le32_to_cpu(hdr->used);
+> +	u32 tot = le32_to_cpu(hdr->total);
+> +	u32 off = le32_to_cpu(hdr->de_off);
+> +
+> +	if (!IS_ALIGNED(off, 8) || tot > bytes || end > tot ||
+> +	    off + sizeof(struct NTFS_DE) > end) {
+> +		/* incorrect index buffer. */
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+> +/*
+> + * index_buf_check
+> + *
+> + * return true if INDEX_BUFFER seems is valid
+> + */
+> +static bool index_buf_check(const struct INDEX_BUFFER *ib, u32 bytes,
+> +			    const CLST *vbn)
+> +{
+> +	const struct NTFS_RECORD_HEADER *rhdr = &ib->rhdr;
+> +	u16 fo = le16_to_cpu(rhdr->fix_off);
+> +	u16 fn = le16_to_cpu(rhdr->fix_num);
+> +
+> +	if (bytes <= offsetof(struct INDEX_BUFFER, ihdr) ||
+> +	    rhdr->sign != NTFS_INDX_SIGNATURE ||
+> +	    fo < sizeof(struct INDEX_BUFFER)
+> +	    /* Check index buffer vbn. */
+> +	    || (vbn && *vbn != le64_to_cpu(ib->vbn)) || (fo % sizeof(short)) ||
+> +	    fo + fn * sizeof(short) >= bytes ||
+> +	    fn != ((bytes >> SECTOR_SHIFT) + 1)) {
+> +		/* incorrect index buffer. */
+> +		return false;
+> +	}
+> +
+> +	return index_hdr_check(&ib->ihdr,
+> +			       bytes - offsetof(struct INDEX_BUFFER, ihdr));
+> +}
+> +
+>  void fnd_clear(struct ntfs_fnd *fnd)
+>  {
+>  	int i;
+> -	for (i = 0; i < fnd->level; i++) {
+> +	for (i = fnd->level - 1; i >= 0; i--) {
+>  		struct indx_node *n = fnd->nodes[i];
+>  		if (!n)
+> @@ -819,9 +866,16 @@ int indx_init(struct ntfs_index *indx, struct ntfs_sb_info *sbi,
+>  	u32 t32;
+>  	const struct INDEX_ROOT *root = resident_data(attr);
+> +	t32 = le32_to_cpu(attr->res.data_size);
+> +	if (t32 <= offsetof(struct INDEX_ROOT, ihdr) ||
+> +	    !index_hdr_check(&root->ihdr,
+> +			     t32 - offsetof(struct INDEX_ROOT, ihdr))) {
+> +		goto out;
+> +	}
+> +
+>  	/* Check root fields. */
+>  	if (!root->index_block_clst)
+> -		return -EINVAL;
+> +		goto out;
+>  	indx->type = type;
+>  	indx->idx2vbn_bits = __ffs(root->index_block_clst);
+> @@ -833,19 +887,19 @@ int indx_init(struct ntfs_index *indx, struct ntfs_sb_info *sbi,
+>  	if (t32 < sbi->cluster_size) {
+>  		/* Index record is smaller than a cluster, use 512 blocks. */
+>  		if (t32 != root->index_block_clst * SECTOR_SIZE)
+> -			return -EINVAL;
+> +			goto out;
+>  		/* Check alignment to a cluster. */
+>  		if ((sbi->cluster_size >> SECTOR_SHIFT) &
+>  		    (root->index_block_clst - 1)) {
+> -			return -EINVAL;
+> +			goto out;
+>  		}
+>  		indx->vbn2vbo_bits = SECTOR_SHIFT;
+>  	} else {
+>  		/* Index record must be a multiple of cluster size. */
+>  		if (t32 != root->index_block_clst << sbi->cluster_bits)
+> -			return -EINVAL;
+> +			goto out;
+>  		indx->vbn2vbo_bits = sbi->cluster_bits;
+>  	}
+> @@ -853,7 +907,14 @@ int indx_init(struct ntfs_index *indx, struct ntfs_sb_info *sbi,
+>  	init_rwsem(&indx->run_lock);
+>  	indx->cmp = get_cmp_func(root);
+> -	return indx->cmp ? 0 : -EINVAL;
+> +	if (!indx->cmp)
+> +		goto out;
+> +
+> +	return 0;
+> +
+> +out:
+> +	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
+> +	return -EINVAL;
+>  }
+>  static struct indx_node *indx_new(struct ntfs_index *indx,
+> @@ -1011,6 +1072,13 @@ int indx_read(struct ntfs_index *indx, struct ntfs_inode *ni, CLST vbn,
+>  		goto out;
+>  ok:
+> +	if (!index_buf_check(ib, bytes, &vbn)) {
+> +		ntfs_inode_err(&ni->vfs_inode, "directory corrupted");
+> +		ntfs_set_state(ni->mi.sbi, NTFS_DIRTY_ERROR);
+> +		err = -EINVAL;
+> +		goto out;
+> +	}
+> +
+>  	if (err == -E_NTFS_FIXUP) {
+>  		ntfs_write_bh(ni->mi.sbi, &ib->rhdr, &in->nb, 0);
+>  		err = 0;
+> @@ -1601,9 +1669,9 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
+>  	if (err) {
+>  		/* Restore root. */
+> -		if (mi_resize_attr(mi, attr, -ds_root))
+> +		if (mi_resize_attr(mi, attr, -ds_root)) {
+>  			memcpy(attr, a_root, asize);
+> -		else {
+> +		} else {
+>  			/* Bug? */
+>  			ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
+>  		}
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index 78ec3e6bbf67..719cf6fbb5ed 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -81,7 +81,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+>  			 le16_to_cpu(ref->seq), le16_to_cpu(rec->seq));
+>  		goto out;
+>  	} else if (!is_rec_inuse(rec)) {
+> -		err = -EINVAL;
+> +		err = -ESTALE;
+>  		ntfs_err(sb, "Inode r=%x is not in use!", (u32)ino);
+>  		goto out;
+>  	}
+> @@ -92,8 +92,10 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+>  		goto out;
+>  	}
+> -	if (!is_rec_base(rec))
+> -		goto Ok;
+> +	if (!is_rec_base(rec)) {
+> +		err = -EINVAL;
+> +		goto out;
+> +	}
+>  	/* Record should contain $I30 root. */
+>  	is_dir = rec->flags & RECORD_FLAG_DIR;
+> @@ -465,7 +467,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+>  		inode->i_flags |= S_NOSEC;
+>  	}
+> -Ok:
+>  	if (ino == MFT_REC_MFT && !sb->s_root)
+>  		sbi->mft.ni = NULL;
+> @@ -519,6 +520,9 @@ struct inode *ntfs_iget5(struct super_block *sb, const struct MFT_REF *ref,
+>  		_ntfs_bad_inode(inode);
+>  	}
+> +	if (IS_ERR(inode) && name)
+> +		ntfs_set_state(sb->s_fs_info, NTFS_DIRTY_ERROR);
+> +
+>  	return inode;
+>  }
+> @@ -1652,10 +1656,8 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+>  		ntfs_remove_reparse(sbi, IO_REPARSE_TAG_SYMLINK, &new_de->ref);
+>  out5:
+> -	if (S_ISDIR(mode) || run_is_empty(&ni->file.run))
+> -		goto out4;
+> -
+> -	run_deallocate(sbi, &ni->file.run, false);
+> +	if (!S_ISDIR(mode))
+> +		run_deallocate(sbi, &ni->file.run, false);
+>  out4:
+>  	clear_rec_inuse(rec);
+> diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+> index d73d1c837ba7..c9b8a6f1ba0b 100644
+> --- a/fs/ntfs3/ntfs_fs.h
+> +++ b/fs/ntfs3/ntfs_fs.h
+> @@ -795,12 +795,12 @@ int run_pack(const struct runs_tree *run, CLST svcn, CLST len, u8 *run_buf,
+>  	     u32 run_buf_size, CLST *packed_vcns);
+>  int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+>  	       CLST svcn, CLST evcn, CLST vcn, const u8 *run_buf,
+> -	       u32 run_buf_size);
+> +	       int run_buf_size);
+>  #ifdef NTFS3_CHECK_FREE_CLST
+>  int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+>  		  CLST svcn, CLST evcn, CLST vcn, const u8 *run_buf,
+> -		  u32 run_buf_size);
+> +		  int run_buf_size);
+>  #else
+>  #define run_unpack_ex run_unpack
+>  #endif
+> diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
+> index aaaa0d3d35a2..12d8682f33b5 100644
+> --- a/fs/ntfs3/run.c
+> +++ b/fs/ntfs3/run.c
+> @@ -919,12 +919,15 @@ int run_pack(const struct runs_tree *run, CLST svcn, CLST len, u8 *run_buf,
+>   */
+>  int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+>  	       CLST svcn, CLST evcn, CLST vcn, const u8 *run_buf,
+> -	       u32 run_buf_size)
+> +	       int run_buf_size)
+>  {
+>  	u64 prev_lcn, vcn64, lcn, next_vcn;
+>  	const u8 *run_last, *run_0;
+>  	bool is_mft = ino == MFT_REC_MFT;
+> +	if (run_buf_size < 0)
+> +		return -EINVAL;
+> +
+>  	/* Check for empty. */
+>  	if (evcn + 1 == svcn)
+>  		return 0;
+> @@ -1046,7 +1049,7 @@ int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+>   */
+>  int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+>  		  CLST svcn, CLST evcn, CLST vcn, const u8 *run_buf,
+> -		  u32 run_buf_size)
+> +		  int run_buf_size)
+>  {
+>  	int ret, err;
+>  	CLST next_vcn, lcn, len;
+> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+> index aeee5fb12092..385c50831a8d 100644
+> --- a/fs/ntfs3/xattr.c
+> +++ b/fs/ntfs3/xattr.c
+> @@ -42,28 +42,26 @@ static inline size_t packed_ea_size(const struct EA_FULL *ea)
+>   * Assume there is at least one xattr in the list.
+>   */
+>  static inline bool find_ea(const struct EA_FULL *ea_all, u32 bytes,
+> -			   const char *name, u8 name_len, u32 *off)
+> +			   const char *name, u8 name_len, u32 *off, u32 *ea_sz)
+>  {
+> -	*off = 0;
+> +	u32 ea_size;
+> -	if (!ea_all || !bytes)
+> +	*off = 0;
+> +	if (!ea_all)
+>  		return false;
+> -	for (;;) {
+> +	for (; *off < bytes; *off += ea_size) {
+>  		const struct EA_FULL *ea = Add2Ptr(ea_all, *off);
+> -		u32 next_off = *off + unpacked_ea_size(ea);
+> -
+> -		if (next_off > bytes)
+> -			return false;
+> -
+> +		ea_size = unpacked_ea_size(ea);
+>  		if (ea->name_len == name_len &&
+> -		    !memcmp(ea->name, name, name_len))
+> +		    !memcmp(ea->name, name, name_len)) {
+> +			if (ea_sz)
+> +				*ea_sz = ea_size;
+>  			return true;
+> -
+> -		*off = next_off;
+> -		if (next_off >= bytes)
+> -			return false;
+> +		}
+>  	}
+> +
+> +	return false;
+>  }
+>  /*
+> @@ -74,12 +72,12 @@ static inline bool find_ea(const struct EA_FULL *ea_all, u32 bytes,
+>  static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
+>  			size_t add_bytes, const struct EA_INFO **info)
+>  {
+> -	int err;
+> +	int err = -EINVAL;
+>  	struct ntfs_sb_info *sbi = ni->mi.sbi;
+>  	struct ATTR_LIST_ENTRY *le = NULL;
+>  	struct ATTRIB *attr_info, *attr_ea;
+>  	void *ea_p;
+> -	u32 size;
+> +	u32 size, off, ea_size;
+>  	static_assert(le32_to_cpu(ATTR_EA_INFO) < le32_to_cpu(ATTR_EA));
+> @@ -96,24 +94,31 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
+>  	*info = resident_data_ex(attr_info, sizeof(struct EA_INFO));
+>  	if (!*info)
+> -		return -EINVAL;
+> +		goto out;
+>  	/* Check Ea limit. */
+>  	size = le32_to_cpu((*info)->size);
+> -	if (size > sbi->ea_max_size)
+> -		return -EFBIG;
+> +	if (size > sbi->ea_max_size) {
+> +		err = -EFBIG;
+> +		goto out;
+> +	}
+> +
+> +	if (attr_size(attr_ea) > sbi->ea_max_size) {
+> +		err = -EFBIG;
+> +		goto out;
+> +	}
+> -	if (attr_size(attr_ea) > sbi->ea_max_size)
+> -		return -EFBIG;
+> +	if (!size) {
+> +		/* EA info persists, but xattr is empty. Looks like EA problem. */
+> +		goto out;
+> +	}
+>  	/* Allocate memory for packed Ea. */
+>  	ea_p = kmalloc(size_add(size, add_bytes), GFP_NOFS);
+>  	if (!ea_p)
+>  		return -ENOMEM;
+> -	if (!size) {
+> -		/* EA info persists, but xattr is empty. Looks like EA problem. */
+> -	} else if (attr_ea->non_res) {
+> +	if (attr_ea->non_res) {
+>  		struct runs_tree run;
+>  		run_init(&run);
+> @@ -124,24 +129,52 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
+>  		run_close(&run);
+>  		if (err)
+> -			goto out;
+> +			goto out1;
+>  	} else {
+>  		void *p = resident_data_ex(attr_ea, size);
+> -		if (!p) {
+> -			err = -EINVAL;
+> -			goto out;
+> -		}
+> +		if (!p)
+> +			goto out1;
+>  		memcpy(ea_p, p, size);
+>  	}
+>  	memset(Add2Ptr(ea_p, size), 0, add_bytes);
+> +
+> +	/* Check all attributes for consistency. */
+> +	for (off = 0; off < size; off += ea_size) {
+> +		const struct EA_FULL *ef = Add2Ptr(ea_p, off);
+> +		u32 bytes = size - off;
+> +
+> +		/* Check if we can use field ea->size. */
+> +		if (bytes < sizeof(ef->size))
+> +			goto out1;
+> +
+> +		if (ef->size) {
+> +			ea_size = le32_to_cpu(ef->size);
+> +			if (ea_size > bytes)
+> +				goto out1;
+> +			continue;
+> +		}
+> +
+> +		/* Check if we can use fields ef->name_len and ef->elength. */
+> +		if (bytes < offsetof(struct EA_FULL, name))
+> +			goto out1;
+> +
+> +		ea_size = ALIGN(struct_size(ef, name,
+> +					    1 + ef->name_len +
+> +						    le16_to_cpu(ef->elength)),
+> +				4);
+> +		if (ea_size > bytes)
+> +			goto out1;
+> +	}
+> +
+>  	*ea = ea_p;
+>  	return 0;
+> -out:
+> +out1:
+>  	kfree(ea_p);
+> -	*ea = NULL;
+> +out:
+> +	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
+>  	return err;
+>  }
+> @@ -163,6 +196,7 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, char *buffer,
+>  	const struct EA_FULL *ea;
+>  	u32 off, size;
+>  	int err;
+> +	int ea_size;
+>  	size_t ret;
+>  	err = ntfs_read_ea(ni, &ea_all, 0, &info);
+> @@ -175,8 +209,9 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, char *buffer,
+>  	size = le32_to_cpu(info->size);
+>  	/* Enumerate all xattrs. */
+> -	for (ret = 0, off = 0; off < size; off += unpacked_ea_size(ea)) {
+> +	for (ret = 0, off = 0; off < size; off += ea_size) {
+>  		ea = Add2Ptr(ea_all, off);
+> +		ea_size = unpacked_ea_size(ea);
+>  		if (buffer) {
+>  			if (ret + ea->name_len + 1 > bytes_per_buffer) {
+> @@ -227,7 +262,8 @@ static int ntfs_get_ea(struct inode *inode, const char *name, size_t name_len,
+>  		goto out;
+>  	/* Enumerate all xattrs. */
+> -	if (!find_ea(ea_all, le32_to_cpu(info->size), name, name_len, &off)) {
+> +	if (!find_ea(ea_all, le32_to_cpu(info->size), name, name_len, &off,
+> +		     NULL)) {
+>  		err = -ENODATA;
+>  		goto out;
+>  	}
+> @@ -269,7 +305,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+>  	struct EA_FULL *new_ea;
+>  	struct EA_FULL *ea_all = NULL;
+>  	size_t add, new_pack;
+> -	u32 off, size;
+> +	u32 off, size, ea_sz;
+>  	__le16 size_pack;
+>  	struct ATTRIB *attr;
+>  	struct ATTR_LIST_ENTRY *le;
+> @@ -304,9 +340,8 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+>  		size_pack = ea_info.size_pack;
+>  	}
+> -	if (info && find_ea(ea_all, size, name, name_len, &off)) {
+> +	if (info && find_ea(ea_all, size, name, name_len, &off, &ea_sz)) {
+>  		struct EA_FULL *ea;
+> -		size_t ea_sz;
+>  		if (flags & XATTR_CREATE) {
+>  			err = -EEXIST;
+> @@ -329,8 +364,6 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+>  		if (ea->flags & FILE_NEED_EA)
+>  			le16_add_cpu(&ea_info.count, -1);
+> -		ea_sz = unpacked_ea_size(ea);
+> -
+>  		le16_add_cpu(&ea_info.size_pack, 0 - packed_ea_size(ea));
+>  		memmove(ea, Add2Ptr(ea, ea_sz), size - off - ea_sz);
+> -- 
+> 2.37.0
+> 
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Lee Jones [李琼斯]
