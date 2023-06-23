@@ -1,153 +1,225 @@
-Received: from mail-io1-f80.google.com (mail-io1-f80.google.com [209.85.166.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11533AA87
-	for <ntfs3@lists.linux.dev>; Thu, 22 Jun 2023 22:40:00 +0000 (UTC)
-Received: by mail-io1-f80.google.com with SMTP id ca18e2360f4ac-7778eb7966eso701727939f.1
-        for <ntfs3@lists.linux.dev>; Thu, 22 Jun 2023 15:40:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687473600; x=1690065600;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dbXwbc/DNJv21gmJh+eUzAbfweRF/Sji7X39qvzlZMg=;
-        b=Jtz8PUH6t9HzB7J096pFWE6iKAbvqAxlUwfWPI9BJkV16tfr7CyEKVHv+tlKIsGhT8
-         7rl/Amnlp/xBnxCZnaJ5KiW46wUOzK3YAEDZVheFoUrI/ZIeEbyJP6Xt6BFHJKpt95qz
-         NVgYVMf9m6WTFTRcAy/9aLjIW792YuE3wVYoApBa9J0thjYHJY/Iugq3V4xEGtqQszCF
-         Tc+bcIC9PDC4KvijnhDsKOOCeYtTOUOddqSRw7FsnwxTHiIwa2vg4DeE2podsHlYudtN
-         Uy2n+qZI1UzUIoz/aXyndvtSrFZnUzQ5vsW1oQT3Ts1QrIM2aVQ4bPjUCSyT8SIAnbMA
-         HkSA==
-X-Gm-Message-State: AC+VfDxRbnaRId6RYsl2VJeI76LGgF4WNSj51t/T+zHidI9XGHNT73l6
-	1IFn3cBhwVJ8ycTkEs2gWR1ED6757yKuSM0Xd2fUJ5cWJipZ
-X-Google-Smtp-Source: ACHHUZ56rTEe1PI+50YECuv9tI3ImZ3C+TTBU+xkC6Jqb6YaaTQfSHb0TpkMowdi6POddJiJDwYDE2/yCPB4AM3Da+zfyDeW9Ucs
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718198F46;
+	Fri, 23 Jun 2023 12:42:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB4BC433C8;
+	Fri, 23 Jun 2023 12:41:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687524146;
+	bh=ljQRDIRYG4TydFhjD0LuSn8BREerPmb4Ipkpa2QAq6Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=apfm6xvoeO6UvUfxPwNSOl0FaLWJ7ShkzzPeuSOb0bank70626+jFCCnlqxUCd2NX
+	 mV+Eb3SlbyeKtShM0cPnGoccCVrProiQPYgaM4HyeW5epsbNbu8US+O9nrIP4r+ghW
+	 Y8FmG2CVOdPNZ1eNovI71PsOzsGS/p5EOkEcjtA4zTWfFdhpQkNKBq1hEMuzxsWytK
+	 w9zTBeB4xmhiyjllhLtRaoNC8lgBTTH19xNIsLsgb+18yFVUlxxLoSku7XQ5A1i1lR
+	 WF4IRekFC21BVGIj1AxyqNGVCxMph3jwY74VjiaGchsSc5v31PlBNGYvRkbk2aFmu+
+	 9KQZIm3JpdS0g==
+Date: Fri, 23 Jun 2023 14:41:42 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Jeremy Kerr <jk@ozlabs.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>,
+	Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Carlos Llamas <cmllamas@google.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	Brad Warrum <bwarrum@linux.ibm.com>,
+	Ritu Agarwal <rituagar@linux.ibm.com>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	David Sterba <dsterba@suse.com>,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Ian Kent <raven@themaw.net>,
+	Luis de Bethencourt <luisbg@kernel.org>,
+	Salah Triki <salah.triki@gmail.com>,
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Kees Cook <keescook@chromium.org>, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, Xiubo Li <xiubli@redhat.com>,
+	Ilya Dryomov <idryomov@gmail.com>, Jan Harkes <jaharkes@cs.cmu.edu>,
+	coda@cs.cmu.edu, Joel Becker <jlbec@evilplan.org>,
+	Christoph Hellwig <hch@lst.de>, Nicolas Pitre <nico@fluxnic.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Tyler Hicks <code@tyhicks.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
+	Yue Hu <huyue2@coolpad.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>, Jan Kara <jack@suse.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Bob Peterson <rpeterso@redhat.com>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+	Mike Kravetz <mike.kravetz@oracle.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Dave Kleikamp <shaggy@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Anton Altaparmakov <anton@tuxera.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Mark Fasheh <mark@fasheh.com>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Bob Copeland <me@bobcopeland.com>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Iurii Zaikin <yzaikin@google.com>, Tony Luck <tony.luck@intel.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Anders Larsen <al@alarsen.net>, Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.com>,
+	Ronnie Sahlberg <lsahlber@redhat.com>,
+	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Phillip Lougher <phillip@squashfs.org.uk>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Evgeniy Dushistov <dushistov@mail.ru>,
+	Hans de Goede <hdegoede@redhat.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Naohiro Aota <naohiro.aota@wdc.com>,
+	Johannes Thumshirn <jth@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Hugh Dickins <hughd@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	John Johansen <john.johansen@canonical.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Eric Paris <eparis@parisplace.org>, Juergen Gross <jgross@suse.com>,
+	Ruihan Li <lrh2000@pku.edu.cn>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Udipto Goswami <quic_ugoswami@quicinc.com>,
+	Linyu Yuan <quic_linyyuan@quicinc.com>,
+	John Keeping <john@keeping.me.uk>,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	Dan Carpenter <error27@gmail.com>, Yuta Hayama <hayama@lineo.co.jp>,
+	Jozef Martiniak <jomajm@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Sandeep Dhavale <dhavale@google.com>,
+	Dave Chinner <dchinner@redhat.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	ZhangPeng <zhangpeng362@huawei.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+	Aditya Garg <gargaditya08@live.com>,
+	Erez Zadok <ezk@cs.stonybrook.edu>,
+	Yifei Liu <yifeliu@cs.stonybrook.edu>, Yu Zhe <yuzhe@nfschina.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Oleg Kanatov <okanatov@gmail.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Jiangshan Yi <yijiangshan@kylinos.cn>, xu xin <cgel.zte@gmail.com>,
+	Stefan Roesch <shr@devkernel.io>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	"Liam R. Howlett" <Liam.Howlett@Oracle.com>,
+	Alexey Dobriyan <adobriyan@gmail.com>,
+	Minghao Chi <chi.minghao@zte.com.cn>,
+	Seth Forshee <sforshee@digitalocean.com>,
+	Zeng Jingxiang <linuszeng@tencent.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Zhang Yi <yi.zhang@huawei.com>, Tom Rix <trix@redhat.com>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Chen Zhongjin <chenzhongjin@huawei.com>,
+	Zhengchao Shao <shaozhengchao@huawei.com>,
+	Rik van Riel <riel@surriel.com>,
+	Jingyu Wang <jingyuwang_vip@163.com>, Hangyu Hua <hbh25y@gmail.com>,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	linux-s390@vger.kernel.org, linux-rdma@vger.kernel.org,
+	linux-usb@vger.kernel.org, v9fs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org,
+	autofs@vger.kernel.org, linux-mm@kvack.org,
+	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+	codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	cluster-devel@redhat.com, linux-um@lists.infradead.org,
+	linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
+	linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
+	linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
+	ocfs2-devel@oss.oracle.com, linux-karma-devel@lists.sourceforge.net,
+	devel@lists.orangefs.org, linux-unionfs@vger.kernel.org,
+	linux-hardening@vger.kernel.org, reiserfs-devel@vger.kernel.org,
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+	linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	bpf@vger.kernel.org, netdev@vger.kernel.org,
+	apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
+	selinux@vger.kernel.org
+Subject: Re: [PATCH 00/79] fs: new accessors for inode->i_ctime
+Message-ID: <20230623-wegelagerei-kanzlei-45cdcf5da157@brauner>
+References: <20230621144507.55591-1-jlayton@kernel.org>
+ <20230621152141.5961cf5f@gandalf.local.home>
+ <2a5a069572b46b59dd16fe8d54e549a9b5bbb6eb.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a5d:949a:0:b0:780:bfc8:ad12 with SMTP id
- v26-20020a5d949a000000b00780bfc8ad12mr1634392ioj.1.1687473599868; Thu, 22 Jun
- 2023 15:39:59 -0700 (PDT)
-Date: Thu, 22 Jun 2023 15:39:59 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000007cfb2405febf9023@google.com>
-Subject: [syzbot] [ntfs3?] BUG: unable to handle kernel paging request in attr_data_read_resident
-From: syzbot <syzbot+33a67f9990381cc8951c@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2a5a069572b46b59dd16fe8d54e549a9b5bbb6eb.camel@kernel.org>
 
-Hello,
+On Wed, Jun 21, 2023 at 03:52:27PM -0400, Jeff Layton wrote:
+> On Wed, 2023-06-21 at 15:21 -0400, Steven Rostedt wrote:
+> > On Wed, 21 Jun 2023 10:45:05 -0400
+> > Jeff Layton <jlayton@kernel.org> wrote:
+> > 
+> > > Most of this conversion was done via coccinelle, with a few of the more
+> > > non-standard accesses done by hand. There should be no behavioral
+> > > changes with this set. That will come later, as we convert individual
+> > > filesystems to use multigrain timestamps.
+> > 
+> > BTW, Linus has suggested to me that whenever a conccinelle script is used,
+> > it should be included in the change log.
+> > 
+> 
+> Ok, here's what I have. I note again that my usage of coccinelle is
+> pretty primitive, so I ended up doing a fair bit of by-hand fixing after
+> applying these.
+> 
+> Given the way that this change is broken up into 77 patches by
+> subsystem, to which changelogs should I add it? I could add it to the
+> "infrastructure" patch, but that's the one where I _didn't_ use it. 
+> 
+> Maybe to patch #79 (the one that renames i_ctime)?
 
-syzbot found the following issue on:
-
-HEAD commit:    177239177378 Merge branch 'for-next/core', remote-tracking..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=10bfc2df280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8776b67768a3c9af
-dashboard link: https://syzkaller.appspot.com/bug?extid=33a67f9990381cc8951c
-compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=139cebf7280000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11cc2187280000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/0c47a40dd633/disk-17723917.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/0ff319b6fb50/vmlinux-17723917.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/3ce1ea9e3b7e/Image-17723917.gz.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/795c34a0a0d9/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+33a67f9990381cc8951c@syzkaller.appspotmail.com
-
-memfd_create() without MFD_EXEC nor MFD_NOEXEC_SEAL, pid=5970 'syz-executor312'
-loop0: detected capacity change from 0 to 4096
-ntfs3: loop0: Different NTFS sector size (4096) and media sector size (512).
-Unable to handle kernel paging request at virtual address dfff800000000004
-KASAN: null-ptr-deref in range [0x0000000000000020-0x0000000000000027]
-Mem abort info:
-  ESR = 0x0000000096000005
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x05: level 1 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
-  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-  GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-[dfff800000000004] address between user and kernel address ranges
-Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 1 PID: 5970 Comm: syz-executor312 Not tainted 6.4.0-rc5-syzkaller-g177239177378 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/25/2023
-pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : attr_data_read_resident+0xb0/0x6c8 fs/ntfs3/attrib.c:1232
-lr : attr_data_read_resident+0x8c/0x6c8 fs/ntfs3/attrib.c:1229
-sp : ffff800096ba7620
-x29: ffff800096ba7620 x28: 1ffff00012d74ee8 x27: ffff800096ba7740
-x26: dfff800000000000 x25: ffff800096ba7730 x24: dfff800000000000
-x23: ffff0000e05c7600 x22: 1ffff00012d74ee6 x21: 0000000000000020
-x20: ffff0000c7576108 x19: 0000000000000000 x18: ffff800096ba7160
-x17: 0000000000000001 x16: ffff80008026c4e4 x15: 000000000000be43
-x14: 00000000ffffffff x13: dfff800000000000 x12: 0000000000000001
-x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
-x8 : 0000000000000004 x7 : 0000000000000000 x6 : 0000000000000000
-x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
-x2 : 0000000000000080 x1 : 0000000000000000 x0 : 0000000000000000
-Call trace:
- attr_data_read_resident+0xb0/0x6c8 fs/ntfs3/attrib.c:1232
- ntfs_get_block_vbo+0x2b0/0xc14 fs/ntfs3/inode.c:572
- ntfs_get_block_bmap+0xa0/0xe0 fs/ntfs3/inode.c:686
- generic_block_bmap+0x11c/0x1bc fs/buffer.c:2718
- ntfs_bmap+0x30/0x40 fs/ntfs3/inode.c:693
- bmap+0xa8/0xe8 fs/inode.c:1798
- ioctl_fibmap fs/ioctl.c:77 [inline]
- file_ioctl fs/ioctl.c:327 [inline]
- do_vfs_ioctl+0x1eb0/0x26f8 fs/ioctl.c:849
- __do_sys_ioctl fs/ioctl.c:868 [inline]
- __se_sys_ioctl fs/ioctl.c:856 [inline]
- __arm64_sys_ioctl+0xe4/0x1c8 fs/ioctl.c:856
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall+0x98/0x2c0 arch/arm64/kernel/syscall.c:52
- el0_svc_common+0x138/0x244 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x64/0x198 arch/arm64/kernel/syscall.c:191
- el0_svc+0x4c/0x160 arch/arm64/kernel/entry-common.c:647
- el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:665
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:591
-Code: 128002a0 1400011a 91008275 d343fea8 (38786908) 
----[ end trace 0000000000000000 ]---
-----------------
-Code disassembly (best guess):
-   0:	128002a0 	mov	w0, #0xffffffea            	// #-22
-   4:	1400011a 	b	0x46c
-   8:	91008275 	add	x21, x19, #0x20
-   c:	d343fea8 	lsr	x8, x21, #3
-* 10:	38786908 	ldrb	w8, [x8, x24] <-- trapping instruction
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+That works. I can also put this into a merge commit or pr message.
