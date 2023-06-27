@@ -1,192 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718198F46;
-	Fri, 23 Jun 2023 12:42:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB4BC433C8;
-	Fri, 23 Jun 2023 12:41:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972B318AE6
+	for <ntfs3@lists.linux.dev>; Tue, 27 Jun 2023 13:49:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19F94C433C8;
+	Tue, 27 Jun 2023 13:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1687524146;
-	bh=ljQRDIRYG4TydFhjD0LuSn8BREerPmb4Ipkpa2QAq6Q=;
+	s=k20201202; t=1687873797;
+	bh=FLzjYH2nIq3K9ay6ucJm5gsWrYjxqT6eJrhYhGYyEFI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=apfm6xvoeO6UvUfxPwNSOl0FaLWJ7ShkzzPeuSOb0bank70626+jFCCnlqxUCd2NX
-	 mV+Eb3SlbyeKtShM0cPnGoccCVrProiQPYgaM4HyeW5epsbNbu8US+O9nrIP4r+ghW
-	 Y8FmG2CVOdPNZ1eNovI71PsOzsGS/p5EOkEcjtA4zTWfFdhpQkNKBq1hEMuzxsWytK
-	 w9zTBeB4xmhiyjllhLtRaoNC8lgBTTH19xNIsLsgb+18yFVUlxxLoSku7XQ5A1i1lR
-	 WF4IRekFC21BVGIj1AxyqNGVCxMph3jwY74VjiaGchsSc5v31PlBNGYvRkbk2aFmu+
-	 9KQZIm3JpdS0g==
-Date: Fri, 23 Jun 2023 14:41:42 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Jeremy Kerr <jk@ozlabs.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>,
-	Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Carlos Llamas <cmllamas@google.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
-	Brad Warrum <bwarrum@linux.ibm.com>,
-	Ritu Agarwal <rituagar@linux.ibm.com>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	David Sterba <dsterba@suse.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Ian Kent <raven@themaw.net>,
-	Luis de Bethencourt <luisbg@kernel.org>,
-	Salah Triki <salah.triki@gmail.com>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Kees Cook <keescook@chromium.org>, Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>, Xiubo Li <xiubli@redhat.com>,
-	Ilya Dryomov <idryomov@gmail.com>, Jan Harkes <jaharkes@cs.cmu.edu>,
-	coda@cs.cmu.edu, Joel Becker <jlbec@evilplan.org>,
-	Christoph Hellwig <hch@lst.de>, Nicolas Pitre <nico@fluxnic.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Tyler Hicks <code@tyhicks.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
-	Yue Hu <huyue2@coolpad.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>, Jan Kara <jack@suse.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bob Peterson <rpeterso@redhat.com>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-	Mike Kravetz <mike.kravetz@oracle.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Dave Kleikamp <shaggy@kernel.org>, Tejun Heo <tj@kernel.org>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Anna Schumaker <anna@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Anton Altaparmakov <anton@tuxera.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Bob Copeland <me@bobcopeland.com>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Iurii Zaikin <yzaikin@google.com>, Tony Luck <tony.luck@intel.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Anders Larsen <al@alarsen.net>, Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.com>,
-	Ronnie Sahlberg <lsahlber@redhat.com>,
-	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Phillip Lougher <phillip@squashfs.org.uk>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Evgeniy Dushistov <dushistov@mail.ru>,
-	Hans de Goede <hdegoede@redhat.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Naohiro Aota <naohiro.aota@wdc.com>,
-	Johannes Thumshirn <jth@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Hugh Dickins <hughd@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	John Johansen <john.johansen@canonical.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Eric Paris <eparis@parisplace.org>, Juergen Gross <jgross@suse.com>,
-	Ruihan Li <lrh2000@pku.edu.cn>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Udipto Goswami <quic_ugoswami@quicinc.com>,
-	Linyu Yuan <quic_linyyuan@quicinc.com>,
-	John Keeping <john@keeping.me.uk>,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	Dan Carpenter <error27@gmail.com>, Yuta Hayama <hayama@lineo.co.jp>,
-	Jozef Martiniak <jomajm@gmail.com>, Jens Axboe <axboe@kernel.dk>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Sandeep Dhavale <dhavale@google.com>,
-	Dave Chinner <dchinner@redhat.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	ZhangPeng <zhangpeng362@huawei.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-	Aditya Garg <gargaditya08@live.com>,
-	Erez Zadok <ezk@cs.stonybrook.edu>,
-	Yifei Liu <yifeliu@cs.stonybrook.edu>, Yu Zhe <yuzhe@nfschina.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Oleg Kanatov <okanatov@gmail.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Jiangshan Yi <yijiangshan@kylinos.cn>, xu xin <cgel.zte@gmail.com>,
-	Stefan Roesch <shr@devkernel.io>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	"Liam R. Howlett" <Liam.Howlett@Oracle.com>,
-	Alexey Dobriyan <adobriyan@gmail.com>,
-	Minghao Chi <chi.minghao@zte.com.cn>,
-	Seth Forshee <sforshee@digitalocean.com>,
-	Zeng Jingxiang <linuszeng@tencent.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Zhang Yi <yi.zhang@huawei.com>, Tom Rix <trix@redhat.com>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Chen Zhongjin <chenzhongjin@huawei.com>,
-	Zhengchao Shao <shaozhengchao@huawei.com>,
-	Rik van Riel <riel@surriel.com>,
-	Jingyu Wang <jingyuwang_vip@163.com>, Hangyu Hua <hbh25y@gmail.com>,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-usb@vger.kernel.org, v9fs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org,
-	autofs@vger.kernel.org, linux-mm@kvack.org,
-	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-	codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	cluster-devel@redhat.com, linux-um@lists.infradead.org,
-	linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
-	linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
-	linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
-	ocfs2-devel@oss.oracle.com, linux-karma-devel@lists.sourceforge.net,
-	devel@lists.orangefs.org, linux-unionfs@vger.kernel.org,
-	linux-hardening@vger.kernel.org, reiserfs-devel@vger.kernel.org,
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-	linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	bpf@vger.kernel.org, netdev@vger.kernel.org,
-	apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
-	selinux@vger.kernel.org
-Subject: Re: [PATCH 00/79] fs: new accessors for inode->i_ctime
-Message-ID: <20230623-wegelagerei-kanzlei-45cdcf5da157@brauner>
-References: <20230621144507.55591-1-jlayton@kernel.org>
- <20230621152141.5961cf5f@gandalf.local.home>
- <2a5a069572b46b59dd16fe8d54e549a9b5bbb6eb.camel@kernel.org>
+	b=TubQSAGgcI5NBdEdWvDJvO1AY6Rlt/CKk9LxXqSUS3KZMO5ryGFDVfVAeniaH5xps
+	 /7DdJFej9HuWUaEAf6V5d2pdWSyCO1HD5bfHrKybUB6h0OKBUXltLBdxDmy/alalra
+	 +rZhpBviMAUBcbihmxVeJKZuFNL5yhKPPubk2TRCmWAL7/jjlTrGP33ocM2PLu4ktc
+	 PWcFTAsNrZkfGXugcANGbSVoIbhTWtQfCeQxXg/1G/pb9zzVZA57SVt16v1IJS+FgJ
+	 YFwiRRY9/AJ8K6tsjo1xGlFO9CSWmECCBGzHNeiSG8jdFR1l2OyLMLmdWFld5dpa5B
+	 Q3h95Rkf94lCA==
+Date: Tue, 27 Jun 2023 14:49:52 +0100
+From: Lee Jones <lee@kernel.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 09/14] fs/ntfs3: Check fields while reading
+Message-ID: <20230627134952.GA1811280@google.com>
+References: <fc5957cc-a71b-cfa3-f291-cb63b23800d1@paragon-software.com>
+ <0ec81044-062c-29e0-c081-dff9484f0368@paragon-software.com>
+ <20230619094133.GA1500182@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -196,30 +34,479 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2a5a069572b46b59dd16fe8d54e549a9b5bbb6eb.camel@kernel.org>
+In-Reply-To: <20230619094133.GA1500182@google.com>
 
-On Wed, Jun 21, 2023 at 03:52:27PM -0400, Jeff Layton wrote:
-> On Wed, 2023-06-21 at 15:21 -0400, Steven Rostedt wrote:
-> > On Wed, 21 Jun 2023 10:45:05 -0400
-> > Jeff Layton <jlayton@kernel.org> wrote:
-> > 
-> > > Most of this conversion was done via coccinelle, with a few of the more
-> > > non-standard accesses done by hand. There should be no behavioral
-> > > changes with this set. That will come later, as we convert individual
-> > > filesystems to use multigrain timestamps.
-> > 
-> > BTW, Linus has suggested to me that whenever a conccinelle script is used,
-> > it should be included in the change log.
-> > 
-> 
-> Ok, here's what I have. I note again that my usage of coccinelle is
-> pretty primitive, so I ended up doing a fair bit of by-hand fixing after
-> applying these.
-> 
-> Given the way that this change is broken up into 77 patches by
-> subsystem, to which changelogs should I add it? I could add it to the
-> "infrastructure" patch, but that's the one where I _didn't_ use it. 
-> 
-> Maybe to patch #79 (the one that renames i_ctime)?
+Konstantin,
 
-That works. I can also put this into a merge commit or pr message.
+On Mon, 19 Jun 2023, Lee Jones wrote:
+> On Fri, 28 Oct 2022, Konstantin Komarov wrote:
+> 
+> > Added new functions index_hdr_check and index_buf_check.
+> > Now we check all stuff for correctness while reading from disk.
+> > Also fixed bug with stale nfs data.
+> > 
+> > Reported-by: van fantasy <g1042620637@gmail.com>
+> > Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+> > ---
+> >  fs/ntfs3/index.c   |  84 ++++++++++++++++++++++++++++++----
+> >  fs/ntfs3/inode.c   |  18 ++++----
+> >  fs/ntfs3/ntfs_fs.h |   4 +-
+> >  fs/ntfs3/run.c     |   7 ++-
+> >  fs/ntfs3/xattr.c   | 109 +++++++++++++++++++++++++++++----------------
+> >  5 files changed, 164 insertions(+), 58 deletions(-)
+> 
+> It's not clear to me what route this patch took into Mainline [0].  My
+> guess it was authored by and then merged by the maintainer after no one
+> raised any review comments.
+> 
+> It does appear that this particular patch was identified as the fix for
+> a published CVE however [1], and with no Fixes: tag I'm concerned that
+> the Stable AUTOSEL bot may miss this.  With that in mind, would you mind
+> submitting to the relevant Stable branches please?  [2] contains all of
+> the relevant information if you're not 100% certain of the process.
+> 
+> Thank you.
+> 
+> [0] 0e8235d28f3a0 fs/ntfs3: Check fields while reading
+> [1] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-48502
+> [2] Documentation/process/stable-kernel-rules.rst
+
+Can you confirm receipt of this mail please?
+
+Would you be kind enough to submit your patch to Stable please?
+
+> > diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+> > index 35369ae5c438..51ab75954640 100644
+> > --- a/fs/ntfs3/index.c
+> > +++ b/fs/ntfs3/index.c
+> > @@ -605,11 +605,58 @@ static const struct NTFS_DE *hdr_insert_head(struct INDEX_HDR *hdr,
+> >  	return e;
+> >  }
+> > +/*
+> > + * index_hdr_check
+> > + *
+> > + * return true if INDEX_HDR is valid
+> > + */
+> > +static bool index_hdr_check(const struct INDEX_HDR *hdr, u32 bytes)
+> > +{
+> > +	u32 end = le32_to_cpu(hdr->used);
+> > +	u32 tot = le32_to_cpu(hdr->total);
+> > +	u32 off = le32_to_cpu(hdr->de_off);
+> > +
+> > +	if (!IS_ALIGNED(off, 8) || tot > bytes || end > tot ||
+> > +	    off + sizeof(struct NTFS_DE) > end) {
+> > +		/* incorrect index buffer. */
+> > +		return false;
+> > +	}
+> > +
+> > +	return true;
+> > +}
+> > +
+> > +/*
+> > + * index_buf_check
+> > + *
+> > + * return true if INDEX_BUFFER seems is valid
+> > + */
+> > +static bool index_buf_check(const struct INDEX_BUFFER *ib, u32 bytes,
+> > +			    const CLST *vbn)
+> > +{
+> > +	const struct NTFS_RECORD_HEADER *rhdr = &ib->rhdr;
+> > +	u16 fo = le16_to_cpu(rhdr->fix_off);
+> > +	u16 fn = le16_to_cpu(rhdr->fix_num);
+> > +
+> > +	if (bytes <= offsetof(struct INDEX_BUFFER, ihdr) ||
+> > +	    rhdr->sign != NTFS_INDX_SIGNATURE ||
+> > +	    fo < sizeof(struct INDEX_BUFFER)
+> > +	    /* Check index buffer vbn. */
+> > +	    || (vbn && *vbn != le64_to_cpu(ib->vbn)) || (fo % sizeof(short)) ||
+> > +	    fo + fn * sizeof(short) >= bytes ||
+> > +	    fn != ((bytes >> SECTOR_SHIFT) + 1)) {
+> > +		/* incorrect index buffer. */
+> > +		return false;
+> > +	}
+> > +
+> > +	return index_hdr_check(&ib->ihdr,
+> > +			       bytes - offsetof(struct INDEX_BUFFER, ihdr));
+> > +}
+> > +
+> >  void fnd_clear(struct ntfs_fnd *fnd)
+> >  {
+> >  	int i;
+> > -	for (i = 0; i < fnd->level; i++) {
+> > +	for (i = fnd->level - 1; i >= 0; i--) {
+> >  		struct indx_node *n = fnd->nodes[i];
+> >  		if (!n)
+> > @@ -819,9 +866,16 @@ int indx_init(struct ntfs_index *indx, struct ntfs_sb_info *sbi,
+> >  	u32 t32;
+> >  	const struct INDEX_ROOT *root = resident_data(attr);
+> > +	t32 = le32_to_cpu(attr->res.data_size);
+> > +	if (t32 <= offsetof(struct INDEX_ROOT, ihdr) ||
+> > +	    !index_hdr_check(&root->ihdr,
+> > +			     t32 - offsetof(struct INDEX_ROOT, ihdr))) {
+> > +		goto out;
+> > +	}
+> > +
+> >  	/* Check root fields. */
+> >  	if (!root->index_block_clst)
+> > -		return -EINVAL;
+> > +		goto out;
+> >  	indx->type = type;
+> >  	indx->idx2vbn_bits = __ffs(root->index_block_clst);
+> > @@ -833,19 +887,19 @@ int indx_init(struct ntfs_index *indx, struct ntfs_sb_info *sbi,
+> >  	if (t32 < sbi->cluster_size) {
+> >  		/* Index record is smaller than a cluster, use 512 blocks. */
+> >  		if (t32 != root->index_block_clst * SECTOR_SIZE)
+> > -			return -EINVAL;
+> > +			goto out;
+> >  		/* Check alignment to a cluster. */
+> >  		if ((sbi->cluster_size >> SECTOR_SHIFT) &
+> >  		    (root->index_block_clst - 1)) {
+> > -			return -EINVAL;
+> > +			goto out;
+> >  		}
+> >  		indx->vbn2vbo_bits = SECTOR_SHIFT;
+> >  	} else {
+> >  		/* Index record must be a multiple of cluster size. */
+> >  		if (t32 != root->index_block_clst << sbi->cluster_bits)
+> > -			return -EINVAL;
+> > +			goto out;
+> >  		indx->vbn2vbo_bits = sbi->cluster_bits;
+> >  	}
+> > @@ -853,7 +907,14 @@ int indx_init(struct ntfs_index *indx, struct ntfs_sb_info *sbi,
+> >  	init_rwsem(&indx->run_lock);
+> >  	indx->cmp = get_cmp_func(root);
+> > -	return indx->cmp ? 0 : -EINVAL;
+> > +	if (!indx->cmp)
+> > +		goto out;
+> > +
+> > +	return 0;
+> > +
+> > +out:
+> > +	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
+> > +	return -EINVAL;
+> >  }
+> >  static struct indx_node *indx_new(struct ntfs_index *indx,
+> > @@ -1011,6 +1072,13 @@ int indx_read(struct ntfs_index *indx, struct ntfs_inode *ni, CLST vbn,
+> >  		goto out;
+> >  ok:
+> > +	if (!index_buf_check(ib, bytes, &vbn)) {
+> > +		ntfs_inode_err(&ni->vfs_inode, "directory corrupted");
+> > +		ntfs_set_state(ni->mi.sbi, NTFS_DIRTY_ERROR);
+> > +		err = -EINVAL;
+> > +		goto out;
+> > +	}
+> > +
+> >  	if (err == -E_NTFS_FIXUP) {
+> >  		ntfs_write_bh(ni->mi.sbi, &ib->rhdr, &in->nb, 0);
+> >  		err = 0;
+> > @@ -1601,9 +1669,9 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
+> >  	if (err) {
+> >  		/* Restore root. */
+> > -		if (mi_resize_attr(mi, attr, -ds_root))
+> > +		if (mi_resize_attr(mi, attr, -ds_root)) {
+> >  			memcpy(attr, a_root, asize);
+> > -		else {
+> > +		} else {
+> >  			/* Bug? */
+> >  			ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
+> >  		}
+> > diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> > index 78ec3e6bbf67..719cf6fbb5ed 100644
+> > --- a/fs/ntfs3/inode.c
+> > +++ b/fs/ntfs3/inode.c
+> > @@ -81,7 +81,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+> >  			 le16_to_cpu(ref->seq), le16_to_cpu(rec->seq));
+> >  		goto out;
+> >  	} else if (!is_rec_inuse(rec)) {
+> > -		err = -EINVAL;
+> > +		err = -ESTALE;
+> >  		ntfs_err(sb, "Inode r=%x is not in use!", (u32)ino);
+> >  		goto out;
+> >  	}
+> > @@ -92,8 +92,10 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+> >  		goto out;
+> >  	}
+> > -	if (!is_rec_base(rec))
+> > -		goto Ok;
+> > +	if (!is_rec_base(rec)) {
+> > +		err = -EINVAL;
+> > +		goto out;
+> > +	}
+> >  	/* Record should contain $I30 root. */
+> >  	is_dir = rec->flags & RECORD_FLAG_DIR;
+> > @@ -465,7 +467,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+> >  		inode->i_flags |= S_NOSEC;
+> >  	}
+> > -Ok:
+> >  	if (ino == MFT_REC_MFT && !sb->s_root)
+> >  		sbi->mft.ni = NULL;
+> > @@ -519,6 +520,9 @@ struct inode *ntfs_iget5(struct super_block *sb, const struct MFT_REF *ref,
+> >  		_ntfs_bad_inode(inode);
+> >  	}
+> > +	if (IS_ERR(inode) && name)
+> > +		ntfs_set_state(sb->s_fs_info, NTFS_DIRTY_ERROR);
+> > +
+> >  	return inode;
+> >  }
+> > @@ -1652,10 +1656,8 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+> >  		ntfs_remove_reparse(sbi, IO_REPARSE_TAG_SYMLINK, &new_de->ref);
+> >  out5:
+> > -	if (S_ISDIR(mode) || run_is_empty(&ni->file.run))
+> > -		goto out4;
+> > -
+> > -	run_deallocate(sbi, &ni->file.run, false);
+> > +	if (!S_ISDIR(mode))
+> > +		run_deallocate(sbi, &ni->file.run, false);
+> >  out4:
+> >  	clear_rec_inuse(rec);
+> > diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+> > index d73d1c837ba7..c9b8a6f1ba0b 100644
+> > --- a/fs/ntfs3/ntfs_fs.h
+> > +++ b/fs/ntfs3/ntfs_fs.h
+> > @@ -795,12 +795,12 @@ int run_pack(const struct runs_tree *run, CLST svcn, CLST len, u8 *run_buf,
+> >  	     u32 run_buf_size, CLST *packed_vcns);
+> >  int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+> >  	       CLST svcn, CLST evcn, CLST vcn, const u8 *run_buf,
+> > -	       u32 run_buf_size);
+> > +	       int run_buf_size);
+> >  #ifdef NTFS3_CHECK_FREE_CLST
+> >  int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+> >  		  CLST svcn, CLST evcn, CLST vcn, const u8 *run_buf,
+> > -		  u32 run_buf_size);
+> > +		  int run_buf_size);
+> >  #else
+> >  #define run_unpack_ex run_unpack
+> >  #endif
+> > diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
+> > index aaaa0d3d35a2..12d8682f33b5 100644
+> > --- a/fs/ntfs3/run.c
+> > +++ b/fs/ntfs3/run.c
+> > @@ -919,12 +919,15 @@ int run_pack(const struct runs_tree *run, CLST svcn, CLST len, u8 *run_buf,
+> >   */
+> >  int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+> >  	       CLST svcn, CLST evcn, CLST vcn, const u8 *run_buf,
+> > -	       u32 run_buf_size)
+> > +	       int run_buf_size)
+> >  {
+> >  	u64 prev_lcn, vcn64, lcn, next_vcn;
+> >  	const u8 *run_last, *run_0;
+> >  	bool is_mft = ino == MFT_REC_MFT;
+> > +	if (run_buf_size < 0)
+> > +		return -EINVAL;
+> > +
+> >  	/* Check for empty. */
+> >  	if (evcn + 1 == svcn)
+> >  		return 0;
+> > @@ -1046,7 +1049,7 @@ int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+> >   */
+> >  int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+> >  		  CLST svcn, CLST evcn, CLST vcn, const u8 *run_buf,
+> > -		  u32 run_buf_size)
+> > +		  int run_buf_size)
+> >  {
+> >  	int ret, err;
+> >  	CLST next_vcn, lcn, len;
+> > diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+> > index aeee5fb12092..385c50831a8d 100644
+> > --- a/fs/ntfs3/xattr.c
+> > +++ b/fs/ntfs3/xattr.c
+> > @@ -42,28 +42,26 @@ static inline size_t packed_ea_size(const struct EA_FULL *ea)
+> >   * Assume there is at least one xattr in the list.
+> >   */
+> >  static inline bool find_ea(const struct EA_FULL *ea_all, u32 bytes,
+> > -			   const char *name, u8 name_len, u32 *off)
+> > +			   const char *name, u8 name_len, u32 *off, u32 *ea_sz)
+> >  {
+> > -	*off = 0;
+> > +	u32 ea_size;
+> > -	if (!ea_all || !bytes)
+> > +	*off = 0;
+> > +	if (!ea_all)
+> >  		return false;
+> > -	for (;;) {
+> > +	for (; *off < bytes; *off += ea_size) {
+> >  		const struct EA_FULL *ea = Add2Ptr(ea_all, *off);
+> > -		u32 next_off = *off + unpacked_ea_size(ea);
+> > -
+> > -		if (next_off > bytes)
+> > -			return false;
+> > -
+> > +		ea_size = unpacked_ea_size(ea);
+> >  		if (ea->name_len == name_len &&
+> > -		    !memcmp(ea->name, name, name_len))
+> > +		    !memcmp(ea->name, name, name_len)) {
+> > +			if (ea_sz)
+> > +				*ea_sz = ea_size;
+> >  			return true;
+> > -
+> > -		*off = next_off;
+> > -		if (next_off >= bytes)
+> > -			return false;
+> > +		}
+> >  	}
+> > +
+> > +	return false;
+> >  }
+> >  /*
+> > @@ -74,12 +72,12 @@ static inline bool find_ea(const struct EA_FULL *ea_all, u32 bytes,
+> >  static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
+> >  			size_t add_bytes, const struct EA_INFO **info)
+> >  {
+> > -	int err;
+> > +	int err = -EINVAL;
+> >  	struct ntfs_sb_info *sbi = ni->mi.sbi;
+> >  	struct ATTR_LIST_ENTRY *le = NULL;
+> >  	struct ATTRIB *attr_info, *attr_ea;
+> >  	void *ea_p;
+> > -	u32 size;
+> > +	u32 size, off, ea_size;
+> >  	static_assert(le32_to_cpu(ATTR_EA_INFO) < le32_to_cpu(ATTR_EA));
+> > @@ -96,24 +94,31 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
+> >  	*info = resident_data_ex(attr_info, sizeof(struct EA_INFO));
+> >  	if (!*info)
+> > -		return -EINVAL;
+> > +		goto out;
+> >  	/* Check Ea limit. */
+> >  	size = le32_to_cpu((*info)->size);
+> > -	if (size > sbi->ea_max_size)
+> > -		return -EFBIG;
+> > +	if (size > sbi->ea_max_size) {
+> > +		err = -EFBIG;
+> > +		goto out;
+> > +	}
+> > +
+> > +	if (attr_size(attr_ea) > sbi->ea_max_size) {
+> > +		err = -EFBIG;
+> > +		goto out;
+> > +	}
+> > -	if (attr_size(attr_ea) > sbi->ea_max_size)
+> > -		return -EFBIG;
+> > +	if (!size) {
+> > +		/* EA info persists, but xattr is empty. Looks like EA problem. */
+> > +		goto out;
+> > +	}
+> >  	/* Allocate memory for packed Ea. */
+> >  	ea_p = kmalloc(size_add(size, add_bytes), GFP_NOFS);
+> >  	if (!ea_p)
+> >  		return -ENOMEM;
+> > -	if (!size) {
+> > -		/* EA info persists, but xattr is empty. Looks like EA problem. */
+> > -	} else if (attr_ea->non_res) {
+> > +	if (attr_ea->non_res) {
+> >  		struct runs_tree run;
+> >  		run_init(&run);
+> > @@ -124,24 +129,52 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
+> >  		run_close(&run);
+> >  		if (err)
+> > -			goto out;
+> > +			goto out1;
+> >  	} else {
+> >  		void *p = resident_data_ex(attr_ea, size);
+> > -		if (!p) {
+> > -			err = -EINVAL;
+> > -			goto out;
+> > -		}
+> > +		if (!p)
+> > +			goto out1;
+> >  		memcpy(ea_p, p, size);
+> >  	}
+> >  	memset(Add2Ptr(ea_p, size), 0, add_bytes);
+> > +
+> > +	/* Check all attributes for consistency. */
+> > +	for (off = 0; off < size; off += ea_size) {
+> > +		const struct EA_FULL *ef = Add2Ptr(ea_p, off);
+> > +		u32 bytes = size - off;
+> > +
+> > +		/* Check if we can use field ea->size. */
+> > +		if (bytes < sizeof(ef->size))
+> > +			goto out1;
+> > +
+> > +		if (ef->size) {
+> > +			ea_size = le32_to_cpu(ef->size);
+> > +			if (ea_size > bytes)
+> > +				goto out1;
+> > +			continue;
+> > +		}
+> > +
+> > +		/* Check if we can use fields ef->name_len and ef->elength. */
+> > +		if (bytes < offsetof(struct EA_FULL, name))
+> > +			goto out1;
+> > +
+> > +		ea_size = ALIGN(struct_size(ef, name,
+> > +					    1 + ef->name_len +
+> > +						    le16_to_cpu(ef->elength)),
+> > +				4);
+> > +		if (ea_size > bytes)
+> > +			goto out1;
+> > +	}
+> > +
+> >  	*ea = ea_p;
+> >  	return 0;
+> > -out:
+> > +out1:
+> >  	kfree(ea_p);
+> > -	*ea = NULL;
+> > +out:
+> > +	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
+> >  	return err;
+> >  }
+> > @@ -163,6 +196,7 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, char *buffer,
+> >  	const struct EA_FULL *ea;
+> >  	u32 off, size;
+> >  	int err;
+> > +	int ea_size;
+> >  	size_t ret;
+> >  	err = ntfs_read_ea(ni, &ea_all, 0, &info);
+> > @@ -175,8 +209,9 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, char *buffer,
+> >  	size = le32_to_cpu(info->size);
+> >  	/* Enumerate all xattrs. */
+> > -	for (ret = 0, off = 0; off < size; off += unpacked_ea_size(ea)) {
+> > +	for (ret = 0, off = 0; off < size; off += ea_size) {
+> >  		ea = Add2Ptr(ea_all, off);
+> > +		ea_size = unpacked_ea_size(ea);
+> >  		if (buffer) {
+> >  			if (ret + ea->name_len + 1 > bytes_per_buffer) {
+> > @@ -227,7 +262,8 @@ static int ntfs_get_ea(struct inode *inode, const char *name, size_t name_len,
+> >  		goto out;
+> >  	/* Enumerate all xattrs. */
+> > -	if (!find_ea(ea_all, le32_to_cpu(info->size), name, name_len, &off)) {
+> > +	if (!find_ea(ea_all, le32_to_cpu(info->size), name, name_len, &off,
+> > +		     NULL)) {
+> >  		err = -ENODATA;
+> >  		goto out;
+> >  	}
+> > @@ -269,7 +305,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+> >  	struct EA_FULL *new_ea;
+> >  	struct EA_FULL *ea_all = NULL;
+> >  	size_t add, new_pack;
+> > -	u32 off, size;
+> > +	u32 off, size, ea_sz;
+> >  	__le16 size_pack;
+> >  	struct ATTRIB *attr;
+> >  	struct ATTR_LIST_ENTRY *le;
+> > @@ -304,9 +340,8 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+> >  		size_pack = ea_info.size_pack;
+> >  	}
+> > -	if (info && find_ea(ea_all, size, name, name_len, &off)) {
+> > +	if (info && find_ea(ea_all, size, name, name_len, &off, &ea_sz)) {
+> >  		struct EA_FULL *ea;
+> > -		size_t ea_sz;
+> >  		if (flags & XATTR_CREATE) {
+> >  			err = -EEXIST;
+> > @@ -329,8 +364,6 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+> >  		if (ea->flags & FILE_NEED_EA)
+> >  			le16_add_cpu(&ea_info.count, -1);
+> > -		ea_sz = unpacked_ea_size(ea);
+> > -
+> >  		le16_add_cpu(&ea_info.size_pack, 0 - packed_ea_size(ea));
+> >  		memmove(ea, Add2Ptr(ea, ea_sz), size - off - ea_sz);
+> > -- 
+> > 2.37.0
+> > 
+> > 
+> 
+> -- 
+> Lee Jones [李琼斯]
+
+-- 
+Lee Jones [李琼斯]
