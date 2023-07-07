@@ -1,136 +1,192 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f207.google.com (mail-pl1-f207.google.com [209.85.214.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A500D523
-	for <ntfs3@lists.linux.dev>; Fri,  7 Jul 2023 14:14:44 +0000 (UTC)
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 73D7B21B5;
-	Fri,  7 Jul 2023 14:09:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1688738962;
-	bh=r515y2vXpvOHrZg95ZCLv5OC11gqtBQ6XJAJt+SxN1U=;
-	h=Date:To:CC:From:Subject;
-	b=fk7vHzrFfxs7suZ6STIL1eGmz9SNrq5JQKz2HH49nDU6M3iOffTxA7+sBHEMa4ylD
-	 Lzc/F69rVO/lhc4Luku/e0PoJKQxTke52713RqJ+8wb8RrHaZNxbvwm4a4j5urJ/LX
-	 eTgcbeUeFNjq98I+WcEvrm3h/k9M2x33OLjWgLc4=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id D63731E47;
-	Fri,  7 Jul 2023 14:14:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1688739275;
-	bh=r515y2vXpvOHrZg95ZCLv5OC11gqtBQ6XJAJt+SxN1U=;
-	h=Date:To:CC:From:Subject;
-	b=H1sL5WAMNOV3d5r+wAZYzIrysjR0VEDap4gPGwjg4oVv2FssWA9NrZOSHwtUhUaEg
-	 QUvOv6qrBqSm8FiKKQoMaoHWcSPIO6G2+cg6/QHruhkSR6osm8VsrtKrNQSDwBvi2v
-	 ofEBeM6I+2q1iqqMYJWkZTi0KvM2R8dgW4UEcSs8=
-Received: from [192.168.211.150] (192.168.211.150) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 7 Jul 2023 17:14:35 +0300
-Message-ID: <c9649ce0-98c7-71cb-73c3-8a172d6689ff@paragon-software.com>
-Date: Fri, 7 Jul 2023 18:14:34 +0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED117171C7
+	for <ntfs3@lists.linux.dev>; Fri,  7 Jul 2023 21:47:01 +0000 (UTC)
+Received: by mail-pl1-f207.google.com with SMTP id d9443c01a7336-1b801e6cebaso32080185ad.0
+        for <ntfs3@lists.linux.dev>; Fri, 07 Jul 2023 14:47:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688766421; x=1691358421;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=U5l8sD761owscSi/Bc1OJgHj5NLATqZufjKdLX7iyFw=;
+        b=PQjWRzza5cl7/D9hXEQCNepvqRwVludpXG23icaXbgdrs/KJ+jrRXnoUPzaA0OjWoB
+         LtPV7wwwfBums6DJk50t7SrCcXypPNK9fdyE7mL8aMiAZRz6fcpH/xG4N0btVg08lW+w
+         vrnkm7y2fcBH4dtjJM+1N6Mt9i1xJQpTm+zGCxqCjSm7FnbWh30HymFZmStFqFS2Kx1r
+         ahDJNt2UsOKD9HhqV1YAcEG2kbSXjl09KC9tUV+ZEIKfyKxkVKb1PEw/0JbQEQ7+VHKa
+         ssuoorAhxtqZ3w+XFu9gPsDHnY9fgV+0Why8xeKZiOcOIDUAfBfVwH1zxEhuBY1uQ7dy
+         eG0A==
+X-Gm-Message-State: ABy/qLbZvza6Z9NnQPJCTTDk8dzcW0moIOdzuNjn1kGohwNBP569+9IW
+	0ioViB3qj5uonXUC86iXVAssUnHTMG13b19d5cmOwqQD9QS8
+X-Google-Smtp-Source: APBJJlFHpMi5JJGTDn5KTaXhUUCHaWrHJzRRT4meeyTEiSNBofnC6BrKdR71zEvtrg60IVNSjQMoYBu/nLDWtS0fkyWFVK1Sq/1f
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Content-Language: en-US
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [GIT PULL] ntfs3: changes for 6.5
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.211.150]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Received: by 2002:a17:902:da92:b0:1b8:184d:1379 with SMTP id
+ j18-20020a170902da9200b001b8184d1379mr5930452plx.9.1688766421356; Fri, 07 Jul
+ 2023 14:47:01 -0700 (PDT)
+Date: Fri, 07 Jul 2023 14:47:01 -0700
+In-Reply-To: <000000000000b5973405f9a22358@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000a75ae805ffec923e@google.com>
+Subject: Re: [syzbot] [ntfs3?] KASAN: stack-out-of-bounds Read in ntfs_set_inode
+From: syzbot <syzbot+cbdd49fbb39696c71041@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Linus,
+syzbot has found a reproducer for the following issue on:
 
-Please pull this branch containing ntfs3 code for 6.5.
+HEAD commit:    5133c9e51de4 Merge tag 'drm-next-2023-07-07' of git://anon..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=168c1ed2a80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9831e2c2660aae77
+dashboard link: https://syzkaller.appspot.com/bug?extid=cbdd49fbb39696c71041
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1729cb02a80000
 
-Added:
-- support /proc/fs/ntfs3/<dev>/volinfo and label;
-- alternative boot if primary boot is corrupted;
-- small optimizations.
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7bc7510fe41f/non_bootable_disk-5133c9e5.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/1be5268e0eae/vmlinux-5133c9e5.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/bd7819821e7b/bzImage-5133c9e5.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/4e33ac0ed058/mount_0.gz
 
-Fixed:
-- some endian problem;
-- some logic errors;
-- code is refactored and reformatted.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+cbdd49fbb39696c71041@syzkaller.appspotmail.com
 
-Regards,
+loop0: detected capacity change from 0 to 4096
+ntfs3: loop0: Different NTFS sector size (1024) and media sector size (512).
+==================================================================
+BUG: KASAN: stack-out-of-bounds in ino_get fs/ntfs3/ntfs.h:193 [inline]
+BUG: KASAN: stack-out-of-bounds in ntfs_set_inode+0x65/0x70 fs/ntfs3/inode.c:514
+Read of size 4 at addr ffffc9000bccfcc7 by task syz-executor.0/6246
 
-Konstantin
+CPU: 0 PID: 6246 Comm: syz-executor.0 Not tainted 6.4.0-syzkaller-12274-g5133c9e51de4 #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xd9/0x150 lib/dump_stack.c:106
+ print_address_description.constprop.0+0x2c/0x3c0 mm/kasan/report.c:364
+ print_report mm/kasan/report.c:475 [inline]
+ kasan_report+0x11d/0x130 mm/kasan/report.c:588
+ ino_get fs/ntfs3/ntfs.h:193 [inline]
+ ntfs_set_inode+0x65/0x70 fs/ntfs3/inode.c:514
+ inode_insert5+0x125/0x660 fs/inode.c:1231
+ iget5_locked fs/inode.c:1289 [inline]
+ iget5_locked+0x225/0x2c0 fs/inode.c:1278
+ ntfs_iget5+0xd2/0x3670 fs/ntfs3/inode.c:523
+ ntfs_fill_super+0x3196/0x3c20 fs/ntfs3/super.c:1272
+ get_tree_bdev+0x43e/0x7d0 fs/super.c:1318
+ vfs_get_tree+0x8d/0x350 fs/super.c:1519
+ do_new_mount fs/namespace.c:3335 [inline]
+ path_mount+0x136e/0x1e70 fs/namespace.c:3662
+ do_mount fs/namespace.c:3675 [inline]
+ __do_sys_mount fs/namespace.c:3884 [inline]
+ __se_sys_mount fs/namespace.c:3861 [inline]
+ __x64_sys_mount+0x283/0x300 fs/namespace.c:3861
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f251e48d8ba
+Code: 48 c7 c2 b8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 b8 04 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f251f242f88 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 000000000001f73b RCX: 00007f251e48d8ba
+RDX: 0000000020000000 RSI: 000000002001f740 RDI: 00007f251f242fe0
+RBP: 00007f251f243020 R08: 00007f251f243020 R09: 0000000001000000
+R10: 0000000001000000 R11: 0000000000000246 R12: 0000000020000000
+R13: 000000002001f740 R14: 00007f251f242fe0 R15: 0000000020000040
+ </TASK>
 
-----------------------------------------------------------------
+The buggy address belongs to stack of task syz-executor.0/6246
+ and is located at offset 127 in frame:
+ ntfs_fill_super+0x0/0x3c20 fs/ntfs3/super.c:474
 
-The following changes since commit 6995e2de6891c724bfeb2db33d7b87775f913ad1:
+This frame has 5 objects:
+ [48, 52) 'vcn'
+ [64, 68) 'lcn'
+ [80, 84) 'len'
+ [96, 104) 'tt'
+ [128, 136) 'ref'
 
-    Linux 6.4 (Sun Jun 25 16:29:58 2023 -0700)
+The buggy address belongs to the virtual mapping at
+ [ffffc9000bcc8000, ffffc9000bcd1000) created by:
+ kernel_clone+0xeb/0x890 kernel/fork.c:2911
 
-are available in the Git repository at:
+The buggy address belongs to the physical page:
+page:ffffea00009e2080 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x27882
+memcg:ffff888020cd9a82
+flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
+page_type: 0xffffffff()
+raw: 00fff00000000000 0000000000000000 dead000000000122 0000000000000000
+raw: 0000000000000000 0000000000000000 00000001ffffffff ffff888020cd9a82
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x102dc2(GFP_HIGHUSER|__GFP_NOWARN|__GFP_ZERO), pid 6245, tgid 6245 (syz-executor.0), ts 379453839813, free_ts 308972643812
+ set_page_owner include/linux/page_owner.h:31 [inline]
+ post_alloc_hook+0x2db/0x350 mm/page_alloc.c:1570
+ prep_new_page mm/page_alloc.c:1577 [inline]
+ get_page_from_freelist+0xfed/0x2d30 mm/page_alloc.c:3221
+ __alloc_pages+0x1cb/0x4a0 mm/page_alloc.c:4477
+ alloc_pages+0x1aa/0x270 mm/mempolicy.c:2279
+ vm_area_alloc_pages mm/vmalloc.c:3059 [inline]
+ __vmalloc_area_node mm/vmalloc.c:3135 [inline]
+ __vmalloc_node_range+0xb1c/0x14c0 mm/vmalloc.c:3316
+ alloc_thread_stack_node kernel/fork.c:309 [inline]
+ dup_task_struct kernel/fork.c:1112 [inline]
+ copy_process+0x13bb/0x75c0 kernel/fork.c:2329
+ kernel_clone+0xeb/0x890 kernel/fork.c:2911
+ __do_sys_clone+0xba/0x100 kernel/fork.c:3054
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1161 [inline]
+ free_unref_page_prepare+0x62e/0xcb0 mm/page_alloc.c:2348
+ free_unref_page+0x33/0x370 mm/page_alloc.c:2443
+ slab_destroy mm/slab.c:1608 [inline]
+ slabs_destroy+0x85/0xc0 mm/slab.c:1628
+ cache_flusharray mm/slab.c:3341 [inline]
+ ___cache_free+0x2c5/0x410 mm/slab.c:3404
+ qlink_free mm/kasan/quarantine.c:166 [inline]
+ qlist_free_all+0x4f/0x1a0 mm/kasan/quarantine.c:185
+ kasan_quarantine_reduce+0x195/0x220 mm/kasan/quarantine.c:292
+ __kasan_slab_alloc+0x63/0x90 mm/kasan/common.c:305
+ kasan_slab_alloc include/linux/kasan.h:186 [inline]
+ slab_post_alloc_hook mm/slab.h:750 [inline]
+ slab_alloc_node mm/slab.c:3237 [inline]
+ __kmem_cache_alloc_node+0x206/0x410 mm/slab.c:3521
+ __do_kmalloc_node mm/slab_common.c:984 [inline]
+ __kmalloc+0x4e/0x190 mm/slab_common.c:998
+ kmalloc include/linux/slab.h:586 [inline]
+ inotify_handle_inode_event+0x1c2/0x5f0 fs/notify/inotify/inotify_fsnotify.c:96
+ inotify_ignored_and_remove_idr+0x28/0x70 fs/notify/inotify/inotify_user.c:527
+ fsnotify_free_mark+0xe9/0x140 fs/notify/mark.c:490
+ __do_sys_inotify_rm_watch fs/notify/inotify/inotify_user.c:817 [inline]
+ __se_sys_inotify_rm_watch fs/notify/inotify/inotify_user.c:794 [inline]
+ __x64_sys_inotify_rm_watch+0x11c/0x1a0 fs/notify/inotify/inotify_user.c:794
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
 
-    https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_6.5
+Memory state around the buggy address:
+ ffffc9000bccfb80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffffc9000bccfc00: 00 00 00 00 00 00 00 00 00 f1 f1 f1 f1 f1 f1 04
+>ffffc9000bccfc80: f2 04 f2 04 f2 00 f2 f2 f2 00 f3 f3 f3 00 00 00
+                                           ^
+ ffffc9000bccfd00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffffc9000bccfd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 f1 f1 f1
+==================================================================
 
-for you to fetch changes up to 44b4494d5c5971dc8f531c8783d90a637e862880:
 
-    fs/ntfs3: Correct mode for label entry inside /proc/fs/ntfs3/ (Fri 
-Jun 30 15:23:07 2023 +0400)
-
-----------------------------------------------------------------
-
-Edward Lo (2):
-   fs/ntfs3: Enhance sanity check while generating attr_list
-   fs/ntfs3: Return error for inconsistent extended attributes
-
-Jia-Ju Bai (1):
-   fs: ntfs3: Fix possible null-pointer dereferences in mi_read()
-
-Konstantin Komarov (11):
-   fs/ntfs3: Correct checking while generating attr_list
-   fs/ntfs3: Fix ntfs_atomic_open
-   fs/ntfs3: Mark ntfs dirty when on-disk struct is corrupted
-   fs/ntfs3: Alternative boot if primary boot is corrupted
-   fs/ntfs3: Do not update primary boot in ntfs_init_from_boot()
-   fs/ntfs3: Code formatting
-   fs/ntfs3: Code refactoring
-   fs/ntfs3: Add ability to format new mft records with bigger/smaller
-     header
-   fs/ntfs3: Fix endian problem
-   fs/ntfs3: Add support /proc/fs/ntfs3/<dev>/volinfo and
-     /proc/fs/ntfs3/<dev>/label
-   fs/ntfs3: Correct mode for label entry inside /proc/fs/ntfs3/
-
-Tetsuo Handa (1):
-   fs/ntfs3: Use __GFP_NOWARN allocation at ntfs_load_attr_list()
-
-Yangtao Li (1):
-   fs/ntfs3: Use wrapper i_blocksize() in ntfs_zero_range()
-
-Zeng Heng (1):
-   ntfs: Fix panic about slab-out-of-bounds caused by ntfs_listxattr()
-
-  fs/ntfs3/attrib.c   |   2 +-
-  fs/ntfs3/attrlist.c |   7 +-
-  fs/ntfs3/bitmap.c   |  10 +-
-  fs/ntfs3/file.c     |   6 +-
-  fs/ntfs3/frecord.c  |  58 ++++-----
-  fs/ntfs3/fslog.c    |  40 +++----
-  fs/ntfs3/fsntfs.c   |  99 ++++++++++++----
-  fs/ntfs3/index.c    |  20 ++--
-  fs/ntfs3/inode.c    |  23 ++--
-  fs/ntfs3/lznt.c     |   6 +-
-  fs/ntfs3/namei.c    |  31 ++---
-  fs/ntfs3/ntfs.h     | 117 ++++++++++--------
-  fs/ntfs3/ntfs_fs.h  |  31 ++---
-  fs/ntfs3/record.c   |  14 ++-
-  fs/ntfs3/run.c      |   4 +-
-  fs/ntfs3/super.c    | 280 ++++++++++++++++++++++++++++++++++++++------
-  fs/ntfs3/xattr.c    |  20 ++--
-  17 files changed, 531 insertions(+), 237 deletions(-)
-
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
