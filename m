@@ -1,192 +1,131 @@
-Received: from mail-pl1-f207.google.com (mail-pl1-f207.google.com [209.85.214.207])
+Received: from mail-pj1-f77.google.com (mail-pj1-f77.google.com [209.85.216.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED117171C7
-	for <ntfs3@lists.linux.dev>; Fri,  7 Jul 2023 21:47:01 +0000 (UTC)
-Received: by mail-pl1-f207.google.com with SMTP id d9443c01a7336-1b801e6cebaso32080185ad.0
-        for <ntfs3@lists.linux.dev>; Fri, 07 Jul 2023 14:47:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385973D63
+	for <ntfs3@lists.linux.dev>; Sun,  9 Jul 2023 12:32:50 +0000 (UTC)
+Received: by mail-pj1-f77.google.com with SMTP id 98e67ed59e1d1-262e0b15ad3so5989955a91.2
+        for <ntfs3@lists.linux.dev>; Sun, 09 Jul 2023 05:32:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688766421; x=1691358421;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U5l8sD761owscSi/Bc1OJgHj5NLATqZufjKdLX7iyFw=;
-        b=PQjWRzza5cl7/D9hXEQCNepvqRwVludpXG23icaXbgdrs/KJ+jrRXnoUPzaA0OjWoB
-         LtPV7wwwfBums6DJk50t7SrCcXypPNK9fdyE7mL8aMiAZRz6fcpH/xG4N0btVg08lW+w
-         vrnkm7y2fcBH4dtjJM+1N6Mt9i1xJQpTm+zGCxqCjSm7FnbWh30HymFZmStFqFS2Kx1r
-         ahDJNt2UsOKD9HhqV1YAcEG2kbSXjl09KC9tUV+ZEIKfyKxkVKb1PEw/0JbQEQ7+VHKa
-         ssuoorAhxtqZ3w+XFu9gPsDHnY9fgV+0Why8xeKZiOcOIDUAfBfVwH1zxEhuBY1uQ7dy
-         eG0A==
-X-Gm-Message-State: ABy/qLbZvza6Z9NnQPJCTTDk8dzcW0moIOdzuNjn1kGohwNBP569+9IW
-	0ioViB3qj5uonXUC86iXVAssUnHTMG13b19d5cmOwqQD9QS8
-X-Google-Smtp-Source: APBJJlFHpMi5JJGTDn5KTaXhUUCHaWrHJzRRT4meeyTEiSNBofnC6BrKdR71zEvtrg60IVNSjQMoYBu/nLDWtS0fkyWFVK1Sq/1f
+        d=1e100.net; s=20221208; t=1688905970; x=1691497970;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=R6EniVOaw9gyk03or5BKg9EbqyWrmMeOPg9KKXf8+m8=;
+        b=JzXao6HfmSesmTD3o1DYgDH0Vbni5THnREcup2atYUJGg2P9RqwFQ4gB0XBrGOOmkw
+         4ERHiGEPcRJMYhzlJ9KMzsg7xOCb1Alakoq7jl+AkjulMAsQ17GpGKZ7iIBbzT75AcGJ
+         S8oy/1jPI7d3cObx5ee274x8qdaqd1n4QvUKo5jbixHHrXKOIclTRLTV78BRoDeRdrg2
+         oA79E6AIczK5KwgDfR62IdR1+tDMuvIBMWhCRtGcJlbdP5vTC6DEYt4UC10ylks1Oh+O
+         ObhEF12QGaBOR8hTF1Gt6P8X2OVFJnU6sL1oIoKZZ/AQ3uYvSvBNTwGEPp0ES5iFnCXp
+         IulA==
+X-Gm-Message-State: ABy/qLZQr1yckG/rVoGA8poFR2d4wWtZcqll3sLkTajs8GsywJlC7/oa
+	hQhxVKj75UMRl9r6F9FH4croqew/irNxTuSPWB97vEhMSLAc
+X-Google-Smtp-Source: APBJJlE8NgIH1meEwWoDFpQ4FcvLOM9oqrIwO1KMptPMiwh3AXaM5TRaOFE/yHli6GD5tPlyAj4XzHsTNoKhBMJy1ISwiVD5YJCl
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a17:902:da92:b0:1b8:184d:1379 with SMTP id
- j18-20020a170902da9200b001b8184d1379mr5930452plx.9.1688766421356; Fri, 07 Jul
- 2023 14:47:01 -0700 (PDT)
-Date: Fri, 07 Jul 2023 14:47:01 -0700
-In-Reply-To: <000000000000b5973405f9a22358@google.com>
+X-Received: by 2002:a17:90a:dc86:b0:262:d8e7:abff with SMTP id
+ j6-20020a17090adc8600b00262d8e7abffmr9006179pjv.2.1688905970549; Sun, 09 Jul
+ 2023 05:32:50 -0700 (PDT)
+Date: Sun, 09 Jul 2023 05:32:50 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000a75ae805ffec923e@google.com>
-Subject: Re: [syzbot] [ntfs3?] KASAN: stack-out-of-bounds Read in ntfs_set_inode
-From: syzbot <syzbot+cbdd49fbb39696c71041@syzkaller.appspotmail.com>
+Message-ID: <0000000000006f098a06000d10a5@google.com>
+Subject: [syzbot] [ntfs3?] UBSAN: array-index-out-of-bounds in truncate_inode_pages_final
+From: syzbot <syzbot+e295147e14b474e4ad70@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
 	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
 	syzkaller-bugs@googlegroups.com, trix@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 
-syzbot has found a reproducer for the following issue on:
+Hello,
 
-HEAD commit:    5133c9e51de4 Merge tag 'drm-next-2023-07-07' of git://anon..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=168c1ed2a80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9831e2c2660aae77
-dashboard link: https://syzkaller.appspot.com/bug?extid=cbdd49fbb39696c71041
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1729cb02a80000
+syzbot found the following issue on:
+
+HEAD commit:    e40939bbfc68 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=15866358a80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c84f463eb74eab24
+dashboard link: https://syzkaller.appspot.com/bug?extid=e295147e14b474e4ad70
+compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=101c2da4a80000
 
 Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7bc7510fe41f/non_bootable_disk-5133c9e5.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/1be5268e0eae/vmlinux-5133c9e5.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/bd7819821e7b/bzImage-5133c9e5.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/4e33ac0ed058/mount_0.gz
+disk image: https://storage.googleapis.com/syzbot-assets/257596b75aaf/disk-e40939bb.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9c75b8d61081/vmlinux-e40939bb.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/8f0233129f4f/Image-e40939bb.gz.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/5b0c90b3f3a1/mount_0.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+cbdd49fbb39696c71041@syzkaller.appspotmail.com
+Reported-by: syzbot+e295147e14b474e4ad70@syzkaller.appspotmail.com
 
-loop0: detected capacity change from 0 to 4096
 ntfs3: loop0: Different NTFS sector size (1024) and media sector size (512).
-==================================================================
-BUG: KASAN: stack-out-of-bounds in ino_get fs/ntfs3/ntfs.h:193 [inline]
-BUG: KASAN: stack-out-of-bounds in ntfs_set_inode+0x65/0x70 fs/ntfs3/inode.c:514
-Read of size 4 at addr ffffc9000bccfcc7 by task syz-executor.0/6246
-
-CPU: 0 PID: 6246 Comm: syz-executor.0 Not tainted 6.4.0-syzkaller-12274-g5133c9e51de4 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
-Call Trace:
- <TASK>
+================================================================================
+UBSAN: array-index-out-of-bounds in ./include/linux/pagevec.h:126:2
+index 255 is out of range for type 'struct folio *[15]'
+CPU: 1 PID: 8246 Comm: syz-executor.0 Not tainted 6.4.0-rc7-syzkaller-ge40939bbfc68 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/27/2023
+Call trace:
+ dump_backtrace+0x1b8/0x1e4 arch/arm64/kernel/stacktrace.c:233
+ show_stack+0x2c/0x44 arch/arm64/kernel/stacktrace.c:240
  __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd9/0x150 lib/dump_stack.c:106
- print_address_description.constprop.0+0x2c/0x3c0 mm/kasan/report.c:364
- print_report mm/kasan/report.c:475 [inline]
- kasan_report+0x11d/0x130 mm/kasan/report.c:588
- ino_get fs/ntfs3/ntfs.h:193 [inline]
- ntfs_set_inode+0x65/0x70 fs/ntfs3/inode.c:514
- inode_insert5+0x125/0x660 fs/inode.c:1231
- iget5_locked fs/inode.c:1289 [inline]
- iget5_locked+0x225/0x2c0 fs/inode.c:1278
- ntfs_iget5+0xd2/0x3670 fs/ntfs3/inode.c:523
- ntfs_fill_super+0x3196/0x3c20 fs/ntfs3/super.c:1272
- get_tree_bdev+0x43e/0x7d0 fs/super.c:1318
- vfs_get_tree+0x8d/0x350 fs/super.c:1519
- do_new_mount fs/namespace.c:3335 [inline]
- path_mount+0x136e/0x1e70 fs/namespace.c:3662
- do_mount fs/namespace.c:3675 [inline]
- __do_sys_mount fs/namespace.c:3884 [inline]
- __se_sys_mount fs/namespace.c:3861 [inline]
- __x64_sys_mount+0x283/0x300 fs/namespace.c:3861
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f251e48d8ba
-Code: 48 c7 c2 b8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff eb d2 e8 b8 04 00 00 0f 1f 84 00 00 00 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f251f242f88 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 000000000001f73b RCX: 00007f251e48d8ba
-RDX: 0000000020000000 RSI: 000000002001f740 RDI: 00007f251f242fe0
-RBP: 00007f251f243020 R08: 00007f251f243020 R09: 0000000001000000
-R10: 0000000001000000 R11: 0000000000000246 R12: 0000000020000000
-R13: 000000002001f740 R14: 00007f251f242fe0 R15: 0000000020000040
- </TASK>
-
-The buggy address belongs to stack of task syz-executor.0/6246
- and is located at offset 127 in frame:
- ntfs_fill_super+0x0/0x3c20 fs/ntfs3/super.c:474
-
-This frame has 5 objects:
- [48, 52) 'vcn'
- [64, 68) 'lcn'
- [80, 84) 'len'
- [96, 104) 'tt'
- [128, 136) 'ref'
-
-The buggy address belongs to the virtual mapping at
- [ffffc9000bcc8000, ffffc9000bcd1000) created by:
- kernel_clone+0xeb/0x890 kernel/fork.c:2911
-
-The buggy address belongs to the physical page:
-page:ffffea00009e2080 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x27882
-memcg:ffff888020cd9a82
-flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
-page_type: 0xffffffff()
-raw: 00fff00000000000 0000000000000000 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000000000000 00000001ffffffff ffff888020cd9a82
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0x102dc2(GFP_HIGHUSER|__GFP_NOWARN|__GFP_ZERO), pid 6245, tgid 6245 (syz-executor.0), ts 379453839813, free_ts 308972643812
- set_page_owner include/linux/page_owner.h:31 [inline]
- post_alloc_hook+0x2db/0x350 mm/page_alloc.c:1570
- prep_new_page mm/page_alloc.c:1577 [inline]
- get_page_from_freelist+0xfed/0x2d30 mm/page_alloc.c:3221
- __alloc_pages+0x1cb/0x4a0 mm/page_alloc.c:4477
- alloc_pages+0x1aa/0x270 mm/mempolicy.c:2279
- vm_area_alloc_pages mm/vmalloc.c:3059 [inline]
- __vmalloc_area_node mm/vmalloc.c:3135 [inline]
- __vmalloc_node_range+0xb1c/0x14c0 mm/vmalloc.c:3316
- alloc_thread_stack_node kernel/fork.c:309 [inline]
- dup_task_struct kernel/fork.c:1112 [inline]
- copy_process+0x13bb/0x75c0 kernel/fork.c:2329
- kernel_clone+0xeb/0x890 kernel/fork.c:2911
- __do_sys_clone+0xba/0x100 kernel/fork.c:3054
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-page last free stack trace:
- reset_page_owner include/linux/page_owner.h:24 [inline]
- free_pages_prepare mm/page_alloc.c:1161 [inline]
- free_unref_page_prepare+0x62e/0xcb0 mm/page_alloc.c:2348
- free_unref_page+0x33/0x370 mm/page_alloc.c:2443
- slab_destroy mm/slab.c:1608 [inline]
- slabs_destroy+0x85/0xc0 mm/slab.c:1628
- cache_flusharray mm/slab.c:3341 [inline]
- ___cache_free+0x2c5/0x410 mm/slab.c:3404
- qlink_free mm/kasan/quarantine.c:166 [inline]
- qlist_free_all+0x4f/0x1a0 mm/kasan/quarantine.c:185
- kasan_quarantine_reduce+0x195/0x220 mm/kasan/quarantine.c:292
- __kasan_slab_alloc+0x63/0x90 mm/kasan/common.c:305
- kasan_slab_alloc include/linux/kasan.h:186 [inline]
- slab_post_alloc_hook mm/slab.h:750 [inline]
- slab_alloc_node mm/slab.c:3237 [inline]
- __kmem_cache_alloc_node+0x206/0x410 mm/slab.c:3521
- __do_kmalloc_node mm/slab_common.c:984 [inline]
- __kmalloc+0x4e/0x190 mm/slab_common.c:998
- kmalloc include/linux/slab.h:586 [inline]
- inotify_handle_inode_event+0x1c2/0x5f0 fs/notify/inotify/inotify_fsnotify.c:96
- inotify_ignored_and_remove_idr+0x28/0x70 fs/notify/inotify/inotify_user.c:527
- fsnotify_free_mark+0xe9/0x140 fs/notify/mark.c:490
- __do_sys_inotify_rm_watch fs/notify/inotify/inotify_user.c:817 [inline]
- __se_sys_inotify_rm_watch fs/notify/inotify/inotify_user.c:794 [inline]
- __x64_sys_inotify_rm_watch+0x11c/0x1a0 fs/notify/inotify/inotify_user.c:794
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-Memory state around the buggy address:
- ffffc9000bccfb80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffffc9000bccfc00: 00 00 00 00 00 00 00 00 00 f1 f1 f1 f1 f1 f1 04
->ffffc9000bccfc80: f2 04 f2 04 f2 00 f2 f2 f2 00 f3 f3 f3 00 00 00
-                                           ^
- ffffc9000bccfd00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffffc9000bccfd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 f1 f1 f1
-==================================================================
+ dump_stack_lvl+0xd0/0x124 lib/dump_stack.c:106
+ dump_stack+0x1c/0x28 lib/dump_stack.c:113
+ ubsan_epilogue lib/ubsan.c:217 [inline]
+ __ubsan_handle_out_of_bounds+0xfc/0x148 lib/ubsan.c:348
+ folio_batch_add include/linux/pagevec.h:126 [inline]
+ find_lock_entries+0x8fc/0xd84 mm/filemap.c:2127
+ truncate_inode_pages_range+0x1b0/0xf74 mm/truncate.c:364
+ truncate_inode_pages mm/truncate.c:449 [inline]
+ truncate_inode_pages_final+0x90/0xc0 mm/truncate.c:484
+ ntfs_evict_inode+0x20/0x48 fs/ntfs3/inode.c:1791
+ evict+0x260/0x68c fs/inode.c:665
+ iput_final fs/inode.c:1747 [inline]
+ iput+0x734/0x818 fs/inode.c:1773
+ ntfs_fill_super+0x327c/0x3990 fs/ntfs3/super.c:1267
+ get_tree_bdev+0x360/0x54c fs/super.c:1303
+ ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1455
+ vfs_get_tree+0x90/0x274 fs/super.c:1510
+ do_new_mount+0x25c/0x8c4 fs/namespace.c:3039
+ path_mount+0x590/0xe04 fs/namespace.c:3369
+ do_mount fs/namespace.c:3382 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __arm64_sys_mount+0x45c/0x594 fs/namespace.c:3568
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall+0x98/0x2c0 arch/arm64/kernel/syscall.c:52
+ el0_svc_common+0x138/0x244 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x64/0x198 arch/arm64/kernel/syscall.c:191
+ el0_svc+0x4c/0x160 arch/arm64/kernel/entry-common.c:647
+ el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:665
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:591
+================================================================================
 
 
 ---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
 If you want syzbot to run the reproducer, reply with:
 #syz test: git://repo/address.git branch-or-commit-hash
 If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
