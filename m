@@ -1,180 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646C411C93;
-	Mon, 10 Jul 2023 13:32:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7E3BC433C9;
-	Mon, 10 Jul 2023 13:32:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688995962;
-	bh=ypo6EEC/a10vTp0LME1omXwBE1UiKK/mReyAl6l5UHQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=J7Z7W1QfjLNRfgVQcSdKnYFRxtD+3fk+fVeHY9xuci1TKV61DCMVSYVvDG9kwuCBX
-	 g+QpzC0XDkSjeL9nV9+lGdPbp68Q96EXBiPlDNXBynN9HrAz4Y+E89ZYAnFm4gMFob
-	 SGwQAd+JWX6wsLqjr9V4UXCKsBkrO6/s1MT1FJcjDjR0RhV1HnH8M/padgIYfYI3iT
-	 50AKfuQ1Ba3eH+A3TeCdkft2SWR53hIVATzxttJnSld1dtaOLY6XNcMPkiIrdtp3w+
-	 UMgZy7XJf81pa8iQgs3v7vGfymFo80jGgmK2T6kIjmEHcqRaAvCUmLi8QnIHmVmDpT
-	 pZFJemBst7t+w==
-Message-ID: <c4eaff9389fe63ec4e29404ec0d1181b74935426.camel@kernel.org>
-Subject: Re: [PATCH v2 00/89] fs: new accessors for inode->i_ctime
-From: Jeff Layton <jlayton@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: jk@ozlabs.org, arnd@arndb.de, mpe@ellerman.id.au, npiggin@gmail.com, 
- christophe.leroy@csgroup.eu, hca@linux.ibm.com, gor@linux.ibm.com, 
- agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com, 
- gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
- maco@android.com,  joel@joelfernandes.org, cmllamas@google.com,
- surenb@google.com,  dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca,
- leon@kernel.org,  bwarrum@linux.ibm.com, rituagar@linux.ibm.com,
- ericvh@kernel.org, lucho@ionkov.net,  asmadeus@codewreck.org,
- linux_oss@crudebyte.com, dsterba@suse.com,  dhowells@redhat.com,
- marc.dionne@auristor.com, viro@zeniv.linux.org.uk,  raven@themaw.net,
- luisbg@kernel.org, salah.triki@gmail.com,  aivazian.tigran@gmail.com,
- ebiederm@xmission.com, keescook@chromium.org,  clm@fb.com,
- josef@toxicpanda.com, xiubli@redhat.com, idryomov@gmail.com, 
- jaharkes@cs.cmu.edu, coda@cs.cmu.edu, jlbec@evilplan.org, hch@lst.de, 
- nico@fluxnic.net, rafael@kernel.org, code@tyhicks.com, ardb@kernel.org, 
- xiang@kernel.org, chao@kernel.org, huyue2@coolpad.com,
- jefflexu@linux.alibaba.com,  linkinjeon@kernel.org, sj1557.seo@samsung.com,
- jack@suse.com, tytso@mit.edu,  adilger.kernel@dilger.ca,
- jaegeuk@kernel.org, hirofumi@mail.parknet.co.jp,  miklos@szeredi.hu,
- rpeterso@redhat.com, agruenba@redhat.com, richard@nod.at, 
- anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net, 
- mikulas@artax.karlin.mff.cuni.cz, mike.kravetz@oracle.com,
- muchun.song@linux.dev,  dwmw2@infradead.org, shaggy@kernel.org,
- tj@kernel.org,  trond.myklebust@hammerspace.com, anna@kernel.org,
- chuck.lever@oracle.com,  neilb@suse.de, kolga@netapp.com,
- Dai.Ngo@oracle.com, tom@talpey.com,  konishi.ryusuke@gmail.com,
- anton@tuxera.com,  almaz.alexandrovich@paragon-software.com,
- mark@fasheh.com,  joseph.qi@linux.alibaba.com, me@bobcopeland.com,
- hubcap@omnibond.com,  martin@omnibond.com, amir73il@gmail.com,
- mcgrof@kernel.org, yzaikin@google.com,  tony.luck@intel.com,
- gpiccoli@igalia.com, al@alarsen.net, sfrench@samba.org,  pc@manguebit.com,
- lsahlber@redhat.com, sprasad@microsoft.com,  senozhatsky@chromium.org,
- phillip@squashfs.org.uk, rostedt@goodmis.org,  mhiramat@kernel.org,
- dushistov@mail.ru, hdegoede@redhat.com, djwong@kernel.org, 
- dlemoal@kernel.org, naohiro.aota@wdc.com, jth@kernel.org, ast@kernel.org, 
- daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
- song@kernel.org,  yhs@fb.com, john.fastabend@gmail.com, kpsingh@kernel.org,
- sdf@google.com,  haoluo@google.com, jolsa@kernel.org, hughd@google.com,
- akpm@linux-foundation.org,  davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com,  john.johansen@canonical.com,
- paul@paul-moore.com, jmorris@namei.org,  serge@hallyn.com,
- stephen.smalley.work@gmail.com, eparis@parisplace.org,  jgross@suse.com,
- stern@rowland.harvard.edu, lrh2000@pku.edu.cn, 
- sebastian.reichel@collabora.com, wsa+renesas@sang-engineering.com, 
- quic_ugoswami@quicinc.com, quic_linyyuan@quicinc.com, john@keeping.me.uk, 
- error27@gmail.com, quic_uaggarwa@quicinc.com, hayama@lineo.co.jp,
- jomajm@gmail.com,  axboe@kernel.dk, dhavale@google.com,
- dchinner@redhat.com, hannes@cmpxchg.org,  zhangpeng362@huawei.com,
- slava@dubeyko.com, gargaditya08@live.com, 
- penguin-kernel@I-love.SAKURA.ne.jp, yifeliu@cs.stonybrook.edu, 
- madkar@cs.stonybrook.edu, ezk@cs.stonybrook.edu, yuzhe@nfschina.com, 
- willy@infradead.org, okanatov@gmail.com, jeffxu@chromium.org,
- linux@treblig.org,  mirimmad17@gmail.com, yijiangshan@kylinos.cn,
- yang.yang29@zte.com.cn,  xu.xin16@zte.com.cn, chengzhihao1@huawei.com,
- shr@devkernel.io,  Liam.Howlett@Oracle.com, adobriyan@gmail.com,
- chi.minghao@zte.com.cn,  roberto.sassu@huawei.com, linuszeng@tencent.com,
- bvanassche@acm.org,  zohar@linux.ibm.com, yi.zhang@huawei.com,
- trix@redhat.com, fmdefrancesco@gmail.com,  ebiggers@google.com,
- princekumarmaurya06@gmail.com, chenzhongjin@huawei.com,  riel@surriel.com,
- shaozhengchao@huawei.com, jingyuwang_vip@163.com, 
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- linux-s390@vger.kernel.org, linux-rdma@vger.kernel.org, 
- linux-usb@vger.kernel.org, v9fs@lists.linux.dev,
- linux-fsdevel@vger.kernel.org,  linux-afs@lists.infradead.org,
- autofs@vger.kernel.org, linux-mm@kvack.org,  linux-btrfs@vger.kernel.org,
- ceph-devel@vger.kernel.org,  codalist@coda.cs.cmu.edu,
- ecryptfs@vger.kernel.org, linux-efi@vger.kernel.org, 
- linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
- linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com, 
- linux-um@lists.infradead.org, linux-mtd@lists.infradead.org, 
- jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org, 
- linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net, 
- ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev, 
- linux-karma-devel@lists.sourceforge.net, devel@lists.orangefs.org, 
- linux-unionfs@vger.kernel.org, linux-hardening@vger.kernel.org, 
- reiserfs-devel@vger.kernel.org, linux-cifs@vger.kernel.org, 
- samba-technical@lists.samba.org, linux-trace-kernel@vger.kernel.org, 
- linux-xfs@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
- apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org, 
- selinux@vger.kernel.org
-Date: Mon, 10 Jul 2023 09:32:23 -0400
-In-Reply-To: <20230710-zudem-entkam-bb508cbd8c78@brauner>
-References: <20230705185812.579118-1-jlayton@kernel.org>
-	 <5e40891f6423feb5b68f025e31f26e9a50ae9390.camel@kernel.org>
-	 <20230710-zudem-entkam-bb508cbd8c78@brauner>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30073174CC
+	for <ntfs3@lists.linux.dev>; Tue, 11 Jul 2023 08:04:42 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fbc5d5742eso59125185e9.3
+        for <ntfs3@lists.linux.dev>; Tue, 11 Jul 2023 01:04:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689062681; x=1691654681;
+        h=content-transfer-encoding:subject:from:content-language:to
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4MyXTu0GFMpAK+j+CMbl53ijk/xN7GIcHsoEJorLBJ8=;
+        b=o7pmjZnd/Dt67RgxkOnp+KxzT4qI9J27s5rOJ4a2WQARwfARaD8JvTtutaS/OdFVc5
+         7wPJXJov6KTaKT9HOsyrkIlsRIm3DfxuvhgvCvlbbGpVK+ODsdpE5Pfua+nbJ/8pUz6r
+         Ebot5mJmAFo2/hz7ouNzrsmb50u+fuHIWznSZW5/7okMFspxBtEcKhXg3Z/AhBtNvF7C
+         UOb8uvn/wHGyMY4uchNDpnmNBg+mtz5fvnbUIGu1F+lP8FYwoiXEwXd8ZN7qJ3Xj3MTC
+         zZ+ZhEPehgkEVQM8fYEn8SiNfwpRO9tVkX1VZlaWhuaz0DYGA9wEHjXYi7f3zPcLS/MN
+         ZKfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689062681; x=1691654681;
+        h=content-transfer-encoding:subject:from:content-language:to
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4MyXTu0GFMpAK+j+CMbl53ijk/xN7GIcHsoEJorLBJ8=;
+        b=WaEtN+N6SaN2Z3vnU7gZ8EIJusN6I2RB/GInntltiE2SVSDmTOn1hxyvnSS7jbAO8w
+         N0arzsY3HkDwXO8+6kNROhdMIKMhJYg2LBS+k1CQXdjfl+FBcKlPeY8+tuAZ4/7P7VwT
+         bujIYl7zsfehMZWIPU8hzMJVG4tjQuMupCr4NcXSjFmhHJ3jSX/AMaK/v27qBepy24dV
+         BnkvwXP0BdzVxS3ywGw/3y69FAv2FYuC7FzeVHogSy5AlNI2EB00mxFY6jAOtu9g7k7F
+         HFJKJ0q0jp9o9ReeH8NA0gzpnzTW7L3inbvg6yMkcZWQ4jU66ShvTz14ItZK7NWrCn8V
+         WFeQ==
+X-Gm-Message-State: ABy/qLZV1TxhEoYjbpnviemIYFd9mSthnda6cGl8uBnXrPSwPU6OOBgm
+	qHpenllWTQ0MONGv3mqbTVm2fnitbPY=
+X-Google-Smtp-Source: APBJJlGdJzRrt7RgvK2atTlBn9QexHXhwEo9puL3O1BUtvSypIu/ZBKCfkCGWc73iO1wzTMEHU72wA==
+X-Received: by 2002:a7b:c409:0:b0:3fb:e206:ca5f with SMTP id k9-20020a7bc409000000b003fbe206ca5fmr14025999wmi.31.1689062680473;
+        Tue, 11 Jul 2023 01:04:40 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1983:ea0::ab3? ([2a02:908:1983:ea0::ab3])
+        by smtp.gmail.com with ESMTPSA id m20-20020a7bcb94000000b003fbfea1afffsm1784091wmi.27.2023.07.11.01.04.39
+        for <ntfs3@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jul 2023 01:04:39 -0700 (PDT)
+Message-ID: <edcd6eb8-8682-6552-a5f6-584ac103d0e9@gmail.com>
+Date: Tue, 11 Jul 2023 10:04:39 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+To: ntfs3@lists.linux.dev
+Content-Language: en-US
+From: Julian Sikorski <belegdol@gmail.com>
+Subject: ntfs3: Folders mounted with 555 permissions?
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2023-07-10 at 14:35 +0200, Christian Brauner wrote:
-> On Fri, Jul 07, 2023 at 08:42:31AM -0400, Jeff Layton wrote:
-> > On Wed, 2023-07-05 at 14:58 -0400, Jeff Layton wrote:
-> > > v2:
-> > > - prepend patches to add missing ctime updates
-> > > - add simple_rename_timestamp helper function
-> > > - rename ctime accessor functions as inode_get_ctime/inode_set_ctime_=
-*
-> > > - drop individual inode_ctime_set_{sec,nsec} helpers
-> > >=20
-> >=20
-> > After review by Jan and others, and Jan's ext4 rework, the diff on top
-> > of the series I posted a couple of days ago is below. I don't really
-> > want to spam everyone with another ~100 patch v3 series, but I can if
-> > you think that's best.
-> >=20
-> > Christian, what would you like me to do here?
->=20
-> I picked up the series from the list and folded the fixups you posted
-> here into the respective fs conversion patches. I hope that helps you
-> avoid a resend. You should have received a separate "thank you" mail for
-> all of this.
->=20
-> To each patch that I folded one of the fixlets from below into I added a
-> git note that records a link to your mail here and the respective patch
-> hunk from this mail that I folded into the patch. git.kernel.org will
-> show notes by default. For example,
-> https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/commit/?h=3Dv=
-fs.ctime&id=3D8b0e3c2e99004609a16ba145bcbdfdddb78e220e
-> should show you the note I added. You can also fetch them via
-> git fetch $remote refs/notes/*:refs/notes/*
-> (You probably know that ofc but jic.) if you're interested.
->=20
-> Based on v6.5-rc1 as of today.
->=20
+Hello,
 
-Many thanks!!! I'll get to work rebasing the multigrain timestamp series
-on top of that.
+with linux-6.4, now that noacsrules option is gone, an old issue has 
+become problematic. When I mount my windows drive, some of the folders 
+in Users are mounted with 555 permissions, including the ones I would 
+like to edit:
 
-> Btw, both b4 and patchwork somehow treat the series in weird was.
-> IOW, based on the message id of the cover letter I was able to pull most
-> messages except for:
->=20
-> [07/92] fs: add ctime accessors infrastructure
-> [08/92] fs: new helper: simple_rename_timestamp
-> [92/92] fs: rename i_ctime field to __i_ctime
->=20
-> which I pulled in separately. Not sure what the cause of=A0
->=20
-> this is.
+$ ls -l /mnt/windows/ | grep Users
+lrwxrwxrwx. 1 julas julas          8  1. Dez 2018  Documents and 
+Settings -> ./Users
+lrwxrwxrwx. 1 julas julas          8  9. Okt 2022  Dokumente und 
+Einstellungen -> ./Users
+dr-xr-xr-x. 1 julas julas       4096  9. Okt 2022  Users
 
-Good to know.
+$ ls -l /mnt/windows/Users/beleg/ | grep Documents
+dr-xr-xr-x. 1 julas julas    8192  7. Jul 15:28 Documents
+lrwxrwxrwx. 1 julas julas      24  9. Okt 2022  Eigene Dateien -> 
+./../../Users/beleg/Documents
+lrwxrwxrwx. 1 julas julas      24  1. Nov 2021  Moje dokumenty -> 
+./../../Users/beleg/Documents
 
-I ended up doing the send in two phases: one for the cover letter and
-infrastructure patches that went to everyone, and one for the per-
-subsystem patches that went do individual maintainers and lists.
+Is this intended behaviour? It appears to be quite an old issue [1]. If 
+so, is there any other fix than running a recursive chmod?
 
-I suspect that screwed up the message IDs somehow. Hopefully I won't
-need to do a posting like that again soon, but I'll pay closer attention
-to the message id handling next time.
+Best regards,
+Julian
 
-Thanks again!
---=20
-Jeff Layton <jlayton@kernel.org>
+[1] 
+https://www.reddit.com/r/archlinux/comments/r325t3/permissions_problems_with_the_new_ntfs3_driver/
