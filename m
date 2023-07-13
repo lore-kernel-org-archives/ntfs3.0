@@ -1,20 +1,20 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6884688
-	for <ntfs3@lists.linux.dev>; Thu, 13 Jul 2023 03:55:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879944693
+	for <ntfs3@lists.linux.dev>; Thu, 13 Jul 2023 03:55:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=KarKDnAdc5ICiKgriHUs+5HIqBDCfuIyL8uoPMfdtgg=; b=ur4gJ0F4o1/TWO3SHQnYnth3Yi
-	zibcyPEy9vabUq9Bi7uSwmrb5LEhyXMLqQBHOPcEhnMdb1df+8ue1EV1/S0LivBGHEzvrjh1bmQfO
-	WY7Hx6D0GILcyJWTHNMC6Bwp1i2zJUCwtEGYIVbbA777fGlsZyuRqFw96x9koSqlMmPXtL/zUzXUE
-	OSJITXRpnTgZv19m7/9aigyvZamxYnHeKARFvjV+mQsBai0Gr2YtlZok1NtsZO95bx/GjzYD5k1KK
-	mN1DID+3DD8SxcRU2pyiiFnLN7PoZfz0wY5Y4u8aaw4GxdHc7Mk5dqsQwUCi2Th4SnqlPYHkReDIZ
-	2SlqcDLw==;
+	bh=DeCWJbZIEI3UvuMa+3l4cfkxIkNgFoQ48F8WN4E7png=; b=TxD9GhB08ZWtw0Hr2RVcx4E3AB
+	4qqUDV+cZV4jTdL4GhPuXmr64YTgId79iybVm/wVJ0Lm+UcP0MtU4k94GzKxwPbyO9fZfQngssVtE
+	iGigyXH7jujGSPlLxHLEX26PVTAO6TcnAecExKnOKkFP/9N/OolPoSTxeZ+tUJY05W9yOtli5AxRt
+	WJhPzopW8L5Ri/0KkZnC6XS8ZaXTAr969hhvQUuq7vSFAlqXkxFbQqoEGlcxvXxYajIByimQ1NDCw
+	1D+z1Pd7Bv0R15YA0rfAVbG6U9whoTVPapm1cohGD1Sglp37efyaZFugge/1m43woXEkaHCTZLw46
+	UiGBlq5w==;
 Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qJnQA-00HMre-81; Thu, 13 Jul 2023 03:55:14 +0000
+	id 1qJnQA-00HMri-Dh; Thu, 13 Jul 2023 03:55:14 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
@@ -26,9 +26,9 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	"Theodore Tso" <tytso@mit.edu>,
 	Jan Kara <jack@suse.com>,
 	linux-ext4@vger.kernel.org
-Subject: [PATCH 1/7] highmem: Add memcpy_to_folio() and memcpy_from_folio()
-Date: Thu, 13 Jul 2023 04:55:06 +0100
-Message-Id: <20230713035512.4139457-2-willy@infradead.org>
+Subject: [PATCH 3/7] affs: Convert data read and write to use folios
+Date: Thu, 13 Jul 2023 04:55:08 +0100
+Message-Id: <20230713035512.4139457-4-willy@infradead.org>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20230713035512.4139457-1-willy@infradead.org>
 References: <20230713035512.4139457-1-willy@infradead.org>
@@ -40,68 +40,188 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These are the folio equivalent of memcpy_to_page() and memcpy_from_page().
+We still need to convert to/from folios in write_begin & write_end
+to fit the API, but this removes a lot of calls to old page-based
+functions, removing many hidden calls to compound_head().
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- include/linux/highmem.h | 44 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ fs/affs/file.c | 77 +++++++++++++++++++++++++-------------------------
+ 1 file changed, 38 insertions(+), 39 deletions(-)
 
-diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-index 68da30625a6c..0280f57d4744 100644
---- a/include/linux/highmem.h
-+++ b/include/linux/highmem.h
-@@ -439,6 +439,50 @@ static inline void memzero_page(struct page *page, size_t offset, size_t len)
- 	kunmap_local(addr);
+diff --git a/fs/affs/file.c b/fs/affs/file.c
+index e43f2f007ac1..705e227ff63d 100644
+--- a/fs/affs/file.c
++++ b/fs/affs/file.c
+@@ -520,21 +520,20 @@ affs_getemptyblk_ino(struct inode *inode, int block)
+ 	return ERR_PTR(err);
  }
  
-+static inline void memcpy_from_folio(char *to, struct folio *folio,
-+		size_t offset, size_t len)
-+{
-+	VM_BUG_ON(offset + len > folio_size(folio));
-+
-+	do {
-+		char *from = kmap_local_folio(folio, offset);
-+		size_t chunk = len;
-+
-+		if (folio_test_highmem(folio) &&
-+		    (chunk > (PAGE_SIZE - offset_in_page(offset))))
-+			chunk = PAGE_SIZE - offset_in_page(offset);
-+		memcpy(to, from, len);
-+		kunmap_local(from);
-+
-+		from += chunk;
-+		offset += chunk;
-+		len -= chunk;
-+	} while (len > 0);
-+}
-+
-+static inline void memcpy_to_folio(struct folio *folio, size_t offset,
-+		const char *from, size_t len)
-+{
-+	VM_BUG_ON(offset + len > folio_size(folio));
-+
-+	do {
-+		char *to = kmap_local_folio(folio, offset);
-+		size_t chunk = len;
-+
-+		if (folio_test_highmem(folio) &&
-+		    (chunk > (PAGE_SIZE - offset_in_page(offset))))
-+			chunk = PAGE_SIZE - offset_in_page(offset);
-+		memcpy(to, from, len);
-+		kunmap_local(to);
-+
-+		from += chunk;
-+		offset += chunk;
-+		len -= chunk;
-+	} while (len > 0);
-+
-+	flush_dcache_folio(folio);
-+}
-+
- /**
-  * memcpy_from_file_folio - Copy some bytes from a file folio.
-  * @to: The destination buffer.
+-static int
+-affs_do_readpage_ofs(struct page *page, unsigned to, int create)
++static int affs_do_read_folio_ofs(struct folio *folio, size_t to, int create)
+ {
+-	struct inode *inode = page->mapping->host;
++	struct inode *inode = folio->mapping->host;
+ 	struct super_block *sb = inode->i_sb;
+ 	struct buffer_head *bh;
+-	unsigned pos = 0;
+-	u32 bidx, boff, bsize;
++	size_t pos = 0;
++	size_t bidx, boff, bsize;
+ 	u32 tmp;
+ 
+-	pr_debug("%s(%lu, %ld, 0, %d)\n", __func__, inode->i_ino,
+-		 page->index, to);
+-	BUG_ON(to > PAGE_SIZE);
++	pr_debug("%s(%lu, %ld, 0, %zu)\n", __func__, inode->i_ino,
++		 folio->index, to);
++	BUG_ON(to > folio_size(folio));
+ 	bsize = AFFS_SB(sb)->s_data_blksize;
+-	tmp = page->index << PAGE_SHIFT;
++	tmp = folio_pos(folio);
+ 	bidx = tmp / bsize;
+ 	boff = tmp % bsize;
+ 
+@@ -544,7 +543,7 @@ affs_do_readpage_ofs(struct page *page, unsigned to, int create)
+ 			return PTR_ERR(bh);
+ 		tmp = min(bsize - boff, to - pos);
+ 		BUG_ON(pos + tmp > to || tmp > bsize);
+-		memcpy_to_page(page, pos, AFFS_DATA(bh) + boff, tmp);
++		memcpy_to_folio(folio, pos, AFFS_DATA(bh) + boff, tmp);
+ 		affs_brelse(bh);
+ 		bidx++;
+ 		pos += tmp;
+@@ -624,25 +623,23 @@ affs_extent_file_ofs(struct inode *inode, u32 newsize)
+ 	return PTR_ERR(bh);
+ }
+ 
+-static int
+-affs_read_folio_ofs(struct file *file, struct folio *folio)
++static int affs_read_folio_ofs(struct file *file, struct folio *folio)
+ {
+-	struct page *page = &folio->page;
+-	struct inode *inode = page->mapping->host;
+-	u32 to;
++	struct inode *inode = folio->mapping->host;
++	size_t to;
+ 	int err;
+ 
+-	pr_debug("%s(%lu, %ld)\n", __func__, inode->i_ino, page->index);
+-	to = PAGE_SIZE;
+-	if (((page->index + 1) << PAGE_SHIFT) > inode->i_size) {
+-		to = inode->i_size & ~PAGE_MASK;
+-		memset(page_address(page) + to, 0, PAGE_SIZE - to);
++	pr_debug("%s(%lu, %ld)\n", __func__, inode->i_ino, folio->index);
++	to = folio_size(folio);
++	if (folio_pos(folio) + to > inode->i_size) {
++		to = inode->i_size - folio_pos(folio);
++		folio_zero_segment(folio, to, folio_size(folio));
+ 	}
+ 
+-	err = affs_do_readpage_ofs(page, to, 0);
++	err = affs_do_read_folio_ofs(folio, to, 0);
+ 	if (!err)
+-		SetPageUptodate(page);
+-	unlock_page(page);
++		folio_mark_uptodate(folio);
++	folio_unlock(folio);
+ 	return err;
+ }
+ 
+@@ -651,7 +648,7 @@ static int affs_write_begin_ofs(struct file *file, struct address_space *mapping
+ 				struct page **pagep, void **fsdata)
+ {
+ 	struct inode *inode = mapping->host;
+-	struct page *page;
++	struct folio *folio;
+ 	pgoff_t index;
+ 	int err = 0;
+ 
+@@ -667,19 +664,20 @@ static int affs_write_begin_ofs(struct file *file, struct address_space *mapping
+ 	}
+ 
+ 	index = pos >> PAGE_SHIFT;
+-	page = grab_cache_page_write_begin(mapping, index);
+-	if (!page)
+-		return -ENOMEM;
+-	*pagep = page;
++	folio = __filemap_get_folio(mapping, index, FGP_WRITEBEGIN,
++			mapping_gfp_mask(mapping));
++	if (IS_ERR(folio))
++		return PTR_ERR(folio);
++	*pagep = &folio->page;
+ 
+-	if (PageUptodate(page))
++	if (folio_test_uptodate(folio))
+ 		return 0;
+ 
+ 	/* XXX: inefficient but safe in the face of short writes */
+-	err = affs_do_readpage_ofs(page, PAGE_SIZE, 1);
++	err = affs_do_read_folio_ofs(folio, folio_size(folio), 1);
+ 	if (err) {
+-		unlock_page(page);
+-		put_page(page);
++		folio_unlock(folio);
++		folio_put(folio);
+ 	}
+ 	return err;
+ }
+@@ -688,6 +686,7 @@ static int affs_write_end_ofs(struct file *file, struct address_space *mapping,
+ 				loff_t pos, unsigned len, unsigned copied,
+ 				struct page *page, void *fsdata)
+ {
++	struct folio *folio = page_folio(page);
+ 	struct inode *inode = mapping->host;
+ 	struct super_block *sb = inode->i_sb;
+ 	struct buffer_head *bh, *prev_bh;
+@@ -701,18 +700,18 @@ static int affs_write_end_ofs(struct file *file, struct address_space *mapping,
+ 	to = from + len;
+ 	/*
+ 	 * XXX: not sure if this can handle short copies (len < copied), but
+-	 * we don't have to, because the page should always be uptodate here,
++	 * we don't have to, because the folio should always be uptodate here,
+ 	 * due to write_begin.
+ 	 */
+ 
+ 	pr_debug("%s(%lu, %llu, %llu)\n", __func__, inode->i_ino, pos,
+ 		 pos + len);
+ 	bsize = AFFS_SB(sb)->s_data_blksize;
+-	data = page_address(page);
++	data = folio_address(folio);
+ 
+ 	bh = NULL;
+ 	written = 0;
+-	tmp = (page->index << PAGE_SHIFT) + from;
++	tmp = (folio->index << PAGE_SHIFT) + from;
+ 	bidx = tmp / bsize;
+ 	boff = tmp % bsize;
+ 	if (boff) {
+@@ -804,11 +803,11 @@ static int affs_write_end_ofs(struct file *file, struct address_space *mapping,
+ 		from += tmp;
+ 		bidx++;
+ 	}
+-	SetPageUptodate(page);
++	folio_mark_uptodate(folio);
+ 
+ done:
+ 	affs_brelse(bh);
+-	tmp = (page->index << PAGE_SHIFT) + from;
++	tmp = (folio->index << PAGE_SHIFT) + from;
+ 	if (tmp > inode->i_size)
+ 		inode->i_size = AFFS_I(inode)->mmu_private = tmp;
+ 
+@@ -819,8 +818,8 @@ static int affs_write_end_ofs(struct file *file, struct address_space *mapping,
+ 	}
+ 
+ err_first_bh:
+-	unlock_page(page);
+-	put_page(page);
++	folio_unlock(folio);
++	folio_put(folio);
+ 
+ 	return written;
+ 
 -- 
 2.39.2
 
