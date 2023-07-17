@@ -1,177 +1,528 @@
-Received: from mail-ot1-f78.google.com (mail-ot1-f78.google.com [209.85.210.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8930A927
-	for <ntfs3@lists.linux.dev>; Mon, 17 Jul 2023 09:40:57 +0000 (UTC)
-Received: by mail-ot1-f78.google.com with SMTP id 46e09a7af769-6b74f3faad0so4553133a34.0
-        for <ntfs3@lists.linux.dev>; Mon, 17 Jul 2023 02:40:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689586857; x=1692178857;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kttQmn0dCMzZYamjOcfSUDdkP6auWy1EciSKLJvr7c0=;
-        b=PtULkf2pgr26rk4Iq7o/Fp8iTLTO23GlYL9TyyV6Jv8dXpke421ttd9d6RCcgEXZA1
-         HUyDJxN0PNpkz8SekG8gHvpqyRojzvFnyRsbGaVC6XnzdNfZyRChJPVQ5n2iFjn9c/oO
-         zzfZzFXC9cex9cn93OnP72oZVzmOPdSO4rjJ+jWRI6z5kTxjhRetr+NGS5SJx1vVa+m7
-         V00FESHLLuabyaZx8DpjJwEbDxBIXLnwrd5d6/N7wFQWEUOr30ArqiOJH8B5anYCd3o7
-         /6vUETnWibQtKu211BwHH3E4Nk6Oimrksun5yY11d42GJDvwZi0xzsY6ySDZG5peogC+
-         cd+A==
-X-Gm-Message-State: ABy/qLbnj+1a0O9vWlQgMNg0MUDn9VTDl405pTPATJ2xG0DB0B2/4BAU
-	g5JRk1VUm0ci2BB39wS+eKLyeNcm5IdMnYd/sISVIy22/+3b
-X-Google-Smtp-Source: APBJJlGfknKsGBEab8tJk51M6WW018qwq7nlE3o6sm9CnyNVkuA8WdBm6l3xv9melqtC+eiuw+PMeAF/+LsxTg0qfD3cvXkhHlA4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE20BAD28
+	for <ntfs3@lists.linux.dev>; Mon, 17 Jul 2023 12:50:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1112CC433C8;
+	Mon, 17 Jul 2023 12:50:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689598228;
+	bh=0rbwR/+3w1Vx9GqTXodsuWBe5HX82eFcYcQb5mG/v2E=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rF+2Haa/Xzk77bfjHHzdA+dH1qV1Vuja3sHRAgAebULBYSIJKGuPaqMuMt7HiVZ9h
+	 Kpr8X98vnIZvPBdP3zge0en1DEmR/Gi/8Mp5psLuUPCq7c27ceQeiXg1mgmWPgAiSz
+	 /K1t5NYrexmlXZxc7X9sEG7b0fxN8BL5L5DighWOdjsUujXbmnJ9AqwSdHS9gh6JaD
+	 xHXm1d38YAmQ/nCr9UX5c1pa2S+KcC+HA6Wwas578FKLtPAfDU6OEjoaxn/kTZEWEw
+	 RbcMLWdSYwvkou2+t9EmM0IO8bp6cn7PLiAWZ0guRvWKjzofGGfnfeD+BwvL6qlh6g
+	 aQzJlmzgzLZxw==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org,
+	almaz.alexandrovich@paragon-software.com
+Cc: stable@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	van fantasy <g1042620637@gmail.com>
+Subject: [PATCH 1/1] fs/ntfs3: Check fields while reading
+Date: Mon, 17 Jul 2023 13:50:13 +0100
+Message-ID: <20230717125013.1246975-1-lee@kernel.org>
+X-Mailer: git-send-email 2.41.0.455.g037347b96a-goog
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6870:772f:b0:1b0:60ff:b750 with SMTP id
- dw47-20020a056870772f00b001b060ffb750mr10350933oab.3.1689586856738; Mon, 17
- Jul 2023 02:40:56 -0700 (PDT)
-Date: Mon, 17 Jul 2023 02:40:56 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000069c5b30600ab98f3@google.com>
-Subject: [syzbot] [ntfs3?] kernel BUG in __blockdev_direct_IO
-From: syzbot <syzbot+c73388acf8b6a00343a4@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
-	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+commit 0e8235d28f3a0e9eda9f02ff67ee566d5f42b66b upstream.
 
-syzbot found the following issue on:
+Added new functions index_hdr_check and index_buf_check.
+Now we check all stuff for correctness while reading from disk.
+Also fixed bug with stale nfs data.
 
-HEAD commit:    eb26cbb1a754 Merge tag 'platform-drivers-x86-v6.5-2' of gi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14b3886ca80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=87ef4ae61b35aae1
-dashboard link: https://syzkaller.appspot.com/bug?extid=c73388acf8b6a00343a4
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-userspace arch: i386
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7bc7510fe41f/non_bootable_disk-eb26cbb1.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/64d2eea7ee5e/vmlinux-eb26cbb1.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/2dbe6b1755b5/bzImage-eb26cbb1.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c73388acf8b6a00343a4@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-kernel BUG at fs/direct-io.c:1025!
-invalid opcode: 0000 [#1] PREEMPT SMP KASAN
-CPU: 3 PID: 18918 Comm: syz-executor.2 Not tainted 6.5.0-rc1-syzkaller-00033-geb26cbb1a754 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:do_direct_IO fs/direct-io.c:1025 [inline]
-RIP: 0010:__blockdev_direct_IO+0x2dc3/0x3cf0 fs/direct-io.c:1248
-Code: f3 ed 8a ff 41 83 ff 1f 0f 87 2b bb 21 08 e8 74 f2 8a ff b8 01 00 00 00 44 89 f9 d3 e0 8d 68 ff e9 26 d7 ff ff e8 5d f2 8a ff <0f> 0b e8 56 f2 8a ff 8b 9c 24 a8 01 00 00 31 ff 89 de e8 b6 ed 8a
-RSP: 0018:ffffc900291cf1c0 EFLAGS: 00010246
-RAX: 0000000000040000 RBX: 0000000000000000 RCX: ffffc9000656a000
-RDX: 0000000000040000 RSI: ffffffff81fac443 RDI: 0000000000000005
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000000 R11: 000000000009401a R12: 0000000000000000
-R13: ffffea0001705040 R14: 0000000000000009 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff88802c900000(0063) knlGS:00000000f7f8fb40
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: 0000000056d1e04c CR3: 000000004efc7000 CR4: 0000000000350ee0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- blockdev_direct_IO include/linux/fs.h:2830 [inline]
- ntfs_direct_IO+0x271/0x470 fs/ntfs3/inode.c:788
- generic_file_direct_write+0x132/0x360 mm/filemap.c:3848
- __generic_file_write_iter+0x11d/0x240 mm/filemap.c:4004
- ntfs_file_write_iter+0xd20/0x1bf0 fs/ntfs3/file.c:1081
- call_write_iter include/linux/fs.h:1871 [inline]
- do_iter_readv_writev+0x208/0x3b0 fs/read_write.c:735
- do_iter_write+0x17f/0x830 fs/read_write.c:860
- vfs_iter_write+0x7a/0xb0 fs/read_write.c:901
- iter_file_splice_write+0x666/0xba0 fs/splice.c:739
- do_splice_from fs/splice.c:934 [inline]
- direct_splice_actor+0x118/0x180 fs/splice.c:1143
- splice_direct_to_actor+0x347/0xa30 fs/splice.c:1089
- do_splice_direct+0x1af/0x280 fs/splice.c:1195
- do_sendfile+0xb70/0x1370 fs/read_write.c:1254
- __do_compat_sys_sendfile fs/read_write.c:1343 [inline]
- __se_compat_sys_sendfile fs/read_write.c:1326 [inline]
- __ia32_compat_sys_sendfile+0x1da/0x220 fs/read_write.c:1326
- do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
- __do_fast_syscall_32+0x61/0xe0 arch/x86/entry/common.c:178
- do_fast_syscall_32+0x33/0x70 arch/x86/entry/common.c:203
- entry_SYSENTER_compat_after_hwframe+0x70/0x82
-RIP: 0023:0xf7f94579
-Code: b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
-RSP: 002b:00000000f7f8f5ac EFLAGS: 00000292 ORIG_RAX: 00000000000000bb
-RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 0000000000000005
-RDX: 0000000000000000 RSI: 000000007fffffff RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:do_direct_IO fs/direct-io.c:1025 [inline]
-RIP: 0010:__blockdev_direct_IO+0x2dc3/0x3cf0 fs/direct-io.c:1248
-Code: f3 ed 8a ff 41 83 ff 1f 0f 87 2b bb 21 08 e8 74 f2 8a ff b8 01 00 00 00 44 89 f9 d3 e0 8d 68 ff e9 26 d7 ff ff e8 5d f2 8a ff <0f> 0b e8 56 f2 8a ff 8b 9c 24 a8 01 00 00 31 ff 89 de e8 b6 ed 8a
-RSP: 0018:ffffc900291cf1c0 EFLAGS: 00010246
-RAX: 0000000000040000 RBX: 0000000000000000 RCX: ffffc9000656a000
-RDX: 0000000000040000 RSI: ffffffff81fac443 RDI: 0000000000000005
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000000 R11: 000000000009401a R12: 0000000000000000
-R13: ffffea0001705040 R14: 0000000000000009 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff88802c900000(0063) knlGS:00000000f7f8fb40
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: 0000000056d1e04c CR3: 000000004efc7000 CR4: 0000000000350ee0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess), 2 bytes skipped:
-   0:	10 06                	adc    %al,(%rsi)
-   2:	03 74 b4 01          	add    0x1(%rsp,%rsi,4),%esi
-   6:	10 07                	adc    %al,(%rdi)
-   8:	03 74 b0 01          	add    0x1(%rax,%rsi,4),%esi
-   c:	10 08                	adc    %cl,(%rax)
-   e:	03 74 d8 01          	add    0x1(%rax,%rbx,8),%esi
-  1e:	00 51 52             	add    %dl,0x52(%rcx)
-  21:	55                   	push   %rbp
-  22:	89 e5                	mov    %esp,%ebp
-  24:	0f 34                	sysenter
-  26:	cd 80                	int    $0x80
-* 28:	5d                   	pop    %rbp <-- trapping instruction
-  29:	5a                   	pop    %rdx
-  2a:	59                   	pop    %rcx
-  2b:	c3                   	ret
-  2c:	90                   	nop
-  2d:	90                   	nop
-  2e:	90                   	nop
-  2f:	90                   	nop
-  30:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
-  37:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
-
-
+Reported-by: van fantasy <g1042620637@gmail.com>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Fixes: 82cae269cfa95 ("fs/ntfs3: Add initialization of super block")
+Signed-off-by: Lee Jones <lee@kernel.org>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/index.c   |  84 ++++++++++++++++++++++++++++++----
+ fs/ntfs3/inode.c   |  18 ++++----
+ fs/ntfs3/ntfs_fs.h |   4 +-
+ fs/ntfs3/run.c     |   7 ++-
+ fs/ntfs3/xattr.c   | 109 +++++++++++++++++++++++++++++----------------
+ 5 files changed, 164 insertions(+), 58 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 98491abf95b9d..9e9a9ffd92958 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -605,11 +605,58 @@ static const struct NTFS_DE *hdr_insert_head(struct INDEX_HDR *hdr,
+ 	return e;
+ }
+ 
++/*
++ * index_hdr_check
++ *
++ * return true if INDEX_HDR is valid
++ */
++static bool index_hdr_check(const struct INDEX_HDR *hdr, u32 bytes)
++{
++	u32 end = le32_to_cpu(hdr->used);
++	u32 tot = le32_to_cpu(hdr->total);
++	u32 off = le32_to_cpu(hdr->de_off);
++
++	if (!IS_ALIGNED(off, 8) || tot > bytes || end > tot ||
++	    off + sizeof(struct NTFS_DE) > end) {
++		/* incorrect index buffer. */
++		return false;
++	}
++
++	return true;
++}
++
++/*
++ * index_buf_check
++ *
++ * return true if INDEX_BUFFER seems is valid
++ */
++static bool index_buf_check(const struct INDEX_BUFFER *ib, u32 bytes,
++			    const CLST *vbn)
++{
++	const struct NTFS_RECORD_HEADER *rhdr = &ib->rhdr;
++	u16 fo = le16_to_cpu(rhdr->fix_off);
++	u16 fn = le16_to_cpu(rhdr->fix_num);
++
++	if (bytes <= offsetof(struct INDEX_BUFFER, ihdr) ||
++	    rhdr->sign != NTFS_INDX_SIGNATURE ||
++	    fo < sizeof(struct INDEX_BUFFER)
++	    /* Check index buffer vbn. */
++	    || (vbn && *vbn != le64_to_cpu(ib->vbn)) || (fo % sizeof(short)) ||
++	    fo + fn * sizeof(short) >= bytes ||
++	    fn != ((bytes >> SECTOR_SHIFT) + 1)) {
++		/* incorrect index buffer. */
++		return false;
++	}
++
++	return index_hdr_check(&ib->ihdr,
++			       bytes - offsetof(struct INDEX_BUFFER, ihdr));
++}
++
+ void fnd_clear(struct ntfs_fnd *fnd)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < fnd->level; i++) {
++	for (i = fnd->level - 1; i >= 0; i--) {
+ 		struct indx_node *n = fnd->nodes[i];
+ 
+ 		if (!n)
+@@ -828,9 +875,16 @@ int indx_init(struct ntfs_index *indx, struct ntfs_sb_info *sbi,
+ 	u32 t32;
+ 	const struct INDEX_ROOT *root = resident_data(attr);
+ 
++	t32 = le32_to_cpu(attr->res.data_size);
++	if (t32 <= offsetof(struct INDEX_ROOT, ihdr) ||
++	    !index_hdr_check(&root->ihdr,
++			     t32 - offsetof(struct INDEX_ROOT, ihdr))) {
++		goto out;
++	}
++
+ 	/* Check root fields. */
+ 	if (!root->index_block_clst)
+-		return -EINVAL;
++		goto out;
+ 
+ 	indx->type = type;
+ 	indx->idx2vbn_bits = __ffs(root->index_block_clst);
+@@ -842,19 +896,19 @@ int indx_init(struct ntfs_index *indx, struct ntfs_sb_info *sbi,
+ 	if (t32 < sbi->cluster_size) {
+ 		/* Index record is smaller than a cluster, use 512 blocks. */
+ 		if (t32 != root->index_block_clst * SECTOR_SIZE)
+-			return -EINVAL;
++			goto out;
+ 
+ 		/* Check alignment to a cluster. */
+ 		if ((sbi->cluster_size >> SECTOR_SHIFT) &
+ 		    (root->index_block_clst - 1)) {
+-			return -EINVAL;
++			goto out;
+ 		}
+ 
+ 		indx->vbn2vbo_bits = SECTOR_SHIFT;
+ 	} else {
+ 		/* Index record must be a multiple of cluster size. */
+ 		if (t32 != root->index_block_clst << sbi->cluster_bits)
+-			return -EINVAL;
++			goto out;
+ 
+ 		indx->vbn2vbo_bits = sbi->cluster_bits;
+ 	}
+@@ -862,7 +916,14 @@ int indx_init(struct ntfs_index *indx, struct ntfs_sb_info *sbi,
+ 	init_rwsem(&indx->run_lock);
+ 
+ 	indx->cmp = get_cmp_func(root);
+-	return indx->cmp ? 0 : -EINVAL;
++	if (!indx->cmp)
++		goto out;
++
++	return 0;
++
++out:
++	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
++	return -EINVAL;
+ }
+ 
+ static struct indx_node *indx_new(struct ntfs_index *indx,
+@@ -1020,6 +1081,13 @@ int indx_read(struct ntfs_index *indx, struct ntfs_inode *ni, CLST vbn,
+ 		goto out;
+ 
+ ok:
++	if (!index_buf_check(ib, bytes, &vbn)) {
++		ntfs_inode_err(&ni->vfs_inode, "directory corrupted");
++		ntfs_set_state(ni->mi.sbi, NTFS_DIRTY_ERROR);
++		err = -EINVAL;
++		goto out;
++	}
++
+ 	if (err == -E_NTFS_FIXUP) {
+ 		ntfs_write_bh(ni->mi.sbi, &ib->rhdr, &in->nb, 0);
+ 		err = 0;
+@@ -1607,9 +1675,9 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 
+ 	if (err) {
+ 		/* Restore root. */
+-		if (mi_resize_attr(mi, attr, -ds_root))
++		if (mi_resize_attr(mi, attr, -ds_root)) {
+ 			memcpy(attr, a_root, asize);
+-		else {
++		} else {
+ 			/* Bug? */
+ 			ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
+ 		}
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index e52dfa5c7562c..dc937089a464a 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -81,7 +81,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+ 			 le16_to_cpu(ref->seq), le16_to_cpu(rec->seq));
+ 		goto out;
+ 	} else if (!is_rec_inuse(rec)) {
+-		err = -EINVAL;
++		err = -ESTALE;
+ 		ntfs_err(sb, "Inode r=%x is not in use!", (u32)ino);
+ 		goto out;
+ 	}
+@@ -92,8 +92,10 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+ 		goto out;
+ 	}
+ 
+-	if (!is_rec_base(rec))
+-		goto Ok;
++	if (!is_rec_base(rec)) {
++		err = -EINVAL;
++		goto out;
++	}
+ 
+ 	/* Record should contain $I30 root. */
+ 	is_dir = rec->flags & RECORD_FLAG_DIR;
+@@ -472,7 +474,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+ 		inode->i_flags |= S_NOSEC;
+ 	}
+ 
+-Ok:
+ 	if (ino == MFT_REC_MFT && !sb->s_root)
+ 		sbi->mft.ni = NULL;
+ 
+@@ -526,6 +527,9 @@ struct inode *ntfs_iget5(struct super_block *sb, const struct MFT_REF *ref,
+ 		_ntfs_bad_inode(inode);
+ 	}
+ 
++	if (IS_ERR(inode) && name)
++		ntfs_set_state(sb->s_fs_info, NTFS_DIRTY_ERROR);
++
+ 	return inode;
+ }
+ 
+@@ -1641,10 +1645,8 @@ struct inode *ntfs_create_inode(struct user_namespace *mnt_userns,
+ 		ntfs_remove_reparse(sbi, IO_REPARSE_TAG_SYMLINK, &new_de->ref);
+ 
+ out5:
+-	if (S_ISDIR(mode) || run_is_empty(&ni->file.run))
+-		goto out4;
+-
+-	run_deallocate(sbi, &ni->file.run, false);
++	if (!S_ISDIR(mode))
++		run_deallocate(sbi, &ni->file.run, false);
+ 
+ out4:
+ 	clear_rec_inuse(rec);
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index c5c022fef4e0b..24227b2e1b2b0 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -794,12 +794,12 @@ int run_pack(const struct runs_tree *run, CLST svcn, CLST len, u8 *run_buf,
+ 	     u32 run_buf_size, CLST *packed_vcns);
+ int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+ 	       CLST svcn, CLST evcn, CLST vcn, const u8 *run_buf,
+-	       u32 run_buf_size);
++	       int run_buf_size);
+ 
+ #ifdef NTFS3_CHECK_FREE_CLST
+ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+ 		  CLST svcn, CLST evcn, CLST vcn, const u8 *run_buf,
+-		  u32 run_buf_size);
++		  int run_buf_size);
+ #else
+ #define run_unpack_ex run_unpack
+ #endif
+diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
+index aaaa0d3d35a24..12d8682f33b53 100644
+--- a/fs/ntfs3/run.c
++++ b/fs/ntfs3/run.c
+@@ -919,12 +919,15 @@ int run_pack(const struct runs_tree *run, CLST svcn, CLST len, u8 *run_buf,
+  */
+ int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+ 	       CLST svcn, CLST evcn, CLST vcn, const u8 *run_buf,
+-	       u32 run_buf_size)
++	       int run_buf_size)
+ {
+ 	u64 prev_lcn, vcn64, lcn, next_vcn;
+ 	const u8 *run_last, *run_0;
+ 	bool is_mft = ino == MFT_REC_MFT;
+ 
++	if (run_buf_size < 0)
++		return -EINVAL;
++
+ 	/* Check for empty. */
+ 	if (evcn + 1 == svcn)
+ 		return 0;
+@@ -1046,7 +1049,7 @@ int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+  */
+ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+ 		  CLST svcn, CLST evcn, CLST vcn, const u8 *run_buf,
+-		  u32 run_buf_size)
++		  int run_buf_size)
+ {
+ 	int ret, err;
+ 	CLST next_vcn, lcn, len;
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index ea582b4fe1d9d..884781e423e1b 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -42,28 +42,26 @@ static inline size_t packed_ea_size(const struct EA_FULL *ea)
+  * Assume there is at least one xattr in the list.
+  */
+ static inline bool find_ea(const struct EA_FULL *ea_all, u32 bytes,
+-			   const char *name, u8 name_len, u32 *off)
++			   const char *name, u8 name_len, u32 *off, u32 *ea_sz)
+ {
+-	*off = 0;
++	u32 ea_size;
+ 
+-	if (!ea_all || !bytes)
++	*off = 0;
++	if (!ea_all)
+ 		return false;
+ 
+-	for (;;) {
++	for (; *off < bytes; *off += ea_size) {
+ 		const struct EA_FULL *ea = Add2Ptr(ea_all, *off);
+-		u32 next_off = *off + unpacked_ea_size(ea);
+-
+-		if (next_off > bytes)
+-			return false;
+-
++		ea_size = unpacked_ea_size(ea);
+ 		if (ea->name_len == name_len &&
+-		    !memcmp(ea->name, name, name_len))
++		    !memcmp(ea->name, name, name_len)) {
++			if (ea_sz)
++				*ea_sz = ea_size;
+ 			return true;
+-
+-		*off = next_off;
+-		if (next_off >= bytes)
+-			return false;
++		}
+ 	}
++
++	return false;
+ }
+ 
+ /*
+@@ -74,12 +72,12 @@ static inline bool find_ea(const struct EA_FULL *ea_all, u32 bytes,
+ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
+ 			size_t add_bytes, const struct EA_INFO **info)
+ {
+-	int err;
++	int err = -EINVAL;
+ 	struct ntfs_sb_info *sbi = ni->mi.sbi;
+ 	struct ATTR_LIST_ENTRY *le = NULL;
+ 	struct ATTRIB *attr_info, *attr_ea;
+ 	void *ea_p;
+-	u32 size;
++	u32 size, off, ea_size;
+ 
+ 	static_assert(le32_to_cpu(ATTR_EA_INFO) < le32_to_cpu(ATTR_EA));
+ 
+@@ -96,24 +94,31 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
+ 
+ 	*info = resident_data_ex(attr_info, sizeof(struct EA_INFO));
+ 	if (!*info)
+-		return -EINVAL;
++		goto out;
+ 
+ 	/* Check Ea limit. */
+ 	size = le32_to_cpu((*info)->size);
+-	if (size > sbi->ea_max_size)
+-		return -EFBIG;
++	if (size > sbi->ea_max_size) {
++		err = -EFBIG;
++		goto out;
++	}
++
++	if (attr_size(attr_ea) > sbi->ea_max_size) {
++		err = -EFBIG;
++		goto out;
++	}
+ 
+-	if (attr_size(attr_ea) > sbi->ea_max_size)
+-		return -EFBIG;
++	if (!size) {
++		/* EA info persists, but xattr is empty. Looks like EA problem. */
++		goto out;
++	}
+ 
+ 	/* Allocate memory for packed Ea. */
+ 	ea_p = kmalloc(size_add(size, add_bytes), GFP_NOFS);
+ 	if (!ea_p)
+ 		return -ENOMEM;
+ 
+-	if (!size) {
+-		/* EA info persists, but xattr is empty. Looks like EA problem. */
+-	} else if (attr_ea->non_res) {
++	if (attr_ea->non_res) {
+ 		struct runs_tree run;
+ 
+ 		run_init(&run);
+@@ -124,24 +129,52 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
+ 		run_close(&run);
+ 
+ 		if (err)
+-			goto out;
++			goto out1;
+ 	} else {
+ 		void *p = resident_data_ex(attr_ea, size);
+ 
+-		if (!p) {
+-			err = -EINVAL;
+-			goto out;
+-		}
++		if (!p)
++			goto out1;
+ 		memcpy(ea_p, p, size);
+ 	}
+ 
+ 	memset(Add2Ptr(ea_p, size), 0, add_bytes);
++
++	/* Check all attributes for consistency. */
++	for (off = 0; off < size; off += ea_size) {
++		const struct EA_FULL *ef = Add2Ptr(ea_p, off);
++		u32 bytes = size - off;
++
++		/* Check if we can use field ea->size. */
++		if (bytes < sizeof(ef->size))
++			goto out1;
++
++		if (ef->size) {
++			ea_size = le32_to_cpu(ef->size);
++			if (ea_size > bytes)
++				goto out1;
++			continue;
++		}
++
++		/* Check if we can use fields ef->name_len and ef->elength. */
++		if (bytes < offsetof(struct EA_FULL, name))
++			goto out1;
++
++		ea_size = ALIGN(struct_size(ef, name,
++					    1 + ef->name_len +
++						    le16_to_cpu(ef->elength)),
++				4);
++		if (ea_size > bytes)
++			goto out1;
++	}
++
+ 	*ea = ea_p;
+ 	return 0;
+ 
+-out:
++out1:
+ 	kfree(ea_p);
+-	*ea = NULL;
++out:
++	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
+ 	return err;
+ }
+ 
+@@ -163,6 +196,7 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, char *buffer,
+ 	const struct EA_FULL *ea;
+ 	u32 off, size;
+ 	int err;
++	int ea_size;
+ 	size_t ret;
+ 
+ 	err = ntfs_read_ea(ni, &ea_all, 0, &info);
+@@ -175,8 +209,9 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, char *buffer,
+ 	size = le32_to_cpu(info->size);
+ 
+ 	/* Enumerate all xattrs. */
+-	for (ret = 0, off = 0; off < size; off += unpacked_ea_size(ea)) {
++	for (ret = 0, off = 0; off < size; off += ea_size) {
+ 		ea = Add2Ptr(ea_all, off);
++		ea_size = unpacked_ea_size(ea);
+ 
+ 		if (buffer) {
+ 			if (ret + ea->name_len + 1 > bytes_per_buffer) {
+@@ -227,7 +262,8 @@ static int ntfs_get_ea(struct inode *inode, const char *name, size_t name_len,
+ 		goto out;
+ 
+ 	/* Enumerate all xattrs. */
+-	if (!find_ea(ea_all, le32_to_cpu(info->size), name, name_len, &off)) {
++	if (!find_ea(ea_all, le32_to_cpu(info->size), name, name_len, &off,
++		     NULL)) {
+ 		err = -ENODATA;
+ 		goto out;
+ 	}
+@@ -269,7 +305,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+ 	struct EA_FULL *new_ea;
+ 	struct EA_FULL *ea_all = NULL;
+ 	size_t add, new_pack;
+-	u32 off, size;
++	u32 off, size, ea_sz;
+ 	__le16 size_pack;
+ 	struct ATTRIB *attr;
+ 	struct ATTR_LIST_ENTRY *le;
+@@ -304,9 +340,8 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+ 		size_pack = ea_info.size_pack;
+ 	}
+ 
+-	if (info && find_ea(ea_all, size, name, name_len, &off)) {
++	if (info && find_ea(ea_all, size, name, name_len, &off, &ea_sz)) {
+ 		struct EA_FULL *ea;
+-		size_t ea_sz;
+ 
+ 		if (flags & XATTR_CREATE) {
+ 			err = -EEXIST;
+@@ -329,8 +364,6 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+ 		if (ea->flags & FILE_NEED_EA)
+ 			le16_add_cpu(&ea_info.count, -1);
+ 
+-		ea_sz = unpacked_ea_size(ea);
+-
+ 		le16_add_cpu(&ea_info.size_pack, 0 - packed_ea_size(ea));
+ 
+ 		memmove(ea, Add2Ptr(ea, ea_sz), size - off - ea_sz);
+-- 
+2.41.0.455.g037347b96a-goog
 
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
