@@ -1,178 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f78.google.com (mail-ot1-f78.google.com [209.85.210.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0B6611E;
-	Thu, 13 Jul 2023 23:01:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F2C8C433BD;
-	Thu, 13 Jul 2023 23:01:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689289319;
-	bh=t187d4hlj7Hd2B853hoiIPlXJE4vBx7O1lkOZGTYDW8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=BS7k3xvm0kV8VQrl/+Nc8umWhgO+pb9JT0LHiIqUglobFvawLeTwqlzQHpVKTDZvB
-	 uzCvx/VSEkD7rBjIYWrgFJPCVeqzpiWP8yPt0omTj30LLcay2tknCTfGbRYu6T8MHO
-	 XUKoIaSo5n/Bd8IGVTxHqLGvMrjMe0fw+PscScTZ4jWUdNZ+2byzzdy+o175llL7m5
-	 o50SLzukRXrSYzl6VaWT8ZrHwmm4KFENLB31WgFlIK5T2Pi03WKPiptSSMpQZPxFLm
-	 ct6V/7uDGKKjKZCyDiQclhCznfyT/lEVKO0vqyqaIX9NPJI1Mx1EUf0gKBJYoL63GW
-	 31d2FfqFHu4Cw==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Thu, 13 Jul 2023 19:00:57 -0400
-Subject: [PATCH v5 8/8] btrfs: convert to multigrain timestamps
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8930A927
+	for <ntfs3@lists.linux.dev>; Mon, 17 Jul 2023 09:40:57 +0000 (UTC)
+Received: by mail-ot1-f78.google.com with SMTP id 46e09a7af769-6b74f3faad0so4553133a34.0
+        for <ntfs3@lists.linux.dev>; Mon, 17 Jul 2023 02:40:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689586857; x=1692178857;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kttQmn0dCMzZYamjOcfSUDdkP6auWy1EciSKLJvr7c0=;
+        b=PtULkf2pgr26rk4Iq7o/Fp8iTLTO23GlYL9TyyV6Jv8dXpke421ttd9d6RCcgEXZA1
+         HUyDJxN0PNpkz8SekG8gHvpqyRojzvFnyRsbGaVC6XnzdNfZyRChJPVQ5n2iFjn9c/oO
+         zzfZzFXC9cex9cn93OnP72oZVzmOPdSO4rjJ+jWRI6z5kTxjhRetr+NGS5SJx1vVa+m7
+         V00FESHLLuabyaZx8DpjJwEbDxBIXLnwrd5d6/N7wFQWEUOr30ArqiOJH8B5anYCd3o7
+         /6vUETnWibQtKu211BwHH3E4Nk6Oimrksun5yY11d42GJDvwZi0xzsY6ySDZG5peogC+
+         cd+A==
+X-Gm-Message-State: ABy/qLbnj+1a0O9vWlQgMNg0MUDn9VTDl405pTPATJ2xG0DB0B2/4BAU
+	g5JRk1VUm0ci2BB39wS+eKLyeNcm5IdMnYd/sISVIy22/+3b
+X-Google-Smtp-Source: APBJJlGfknKsGBEab8tJk51M6WW018qwq7nlE3o6sm9CnyNVkuA8WdBm6l3xv9melqtC+eiuw+PMeAF/+LsxTg0qfD3cvXkhHlA4
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230713-mgctime-v5-8-9eb795d2ae37@kernel.org>
-References: <20230713-mgctime-v5-0-9eb795d2ae37@kernel.org>
-In-Reply-To: <20230713-mgctime-v5-0-9eb795d2ae37@kernel.org>
-To: Eric Van Hensbergen <ericvh@kernel.org>, 
- Latchesar Ionkov <lucho@ionkov.net>, 
- Dominique Martinet <asmadeus@codewreck.org>, 
- Christian Schoenebeck <linux_oss@crudebyte.com>, 
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
- David Sterba <dsterba@suse.com>, Xiubo Li <xiubli@redhat.com>, 
- Ilya Dryomov <idryomov@gmail.com>, Jan Harkes <jaharkes@cs.cmu.edu>, 
- coda@cs.cmu.edu, Tyler Hicks <code@tyhicks.com>, 
- Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
- Yue Hu <huyue2@coolpad.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
- Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
- Jan Kara <jack@suse.com>, Theodore Ts'o <tytso@mit.edu>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, Jaegeuk Kim <jaegeuk@kernel.org>, 
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
- Miklos Szeredi <miklos@szeredi.hu>, Bob Peterson <rpeterso@redhat.com>, 
- Andreas Gruenbacher <agruenba@redhat.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Trond Myklebust <trond.myklebust@hammerspace.com>, 
- Anna Schumaker <anna@kernel.org>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
- Joseph Qi <joseph.qi@linux.alibaba.com>, 
- Mike Marshall <hubcap@omnibond.com>, 
- Martin Brandenburg <martin@omnibond.com>, 
- Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <keescook@chromium.org>, 
- Iurii Zaikin <yzaikin@google.com>, Steve French <sfrench@samba.org>, 
- Paulo Alcantara <pc@manguebit.com>, Ronnie Sahlberg <lsahlber@redhat.com>, 
- Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Richard Weinberger <richard@nod.at>, Hans de Goede <hdegoede@redhat.com>, 
- Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
- "Darrick J. Wong" <djwong@kernel.org>
-Cc: Dave Chinner <david@fromorbit.com>, v9fs@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-afs@lists.infradead.org, 
- linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org, 
- codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org, 
- linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, 
- linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
- cluster-devel@redhat.com, linux-nfs@vger.kernel.org, ntfs3@lists.linux.dev, 
- ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
- linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, 
- linux-mtd@lists.infradead.org, linux-mm@kvack.org, 
- linux-xfs@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2706; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=t187d4hlj7Hd2B853hoiIPlXJE4vBx7O1lkOZGTYDW8=;
- b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBksIIv0d3fY46+2hyVZzGgFlf73uVo9uOX8lOx6
- K4UVJ9Da6yJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZLCCLwAKCRAADmhBGVaC
- FbztD/4uZXXSyTwCnSezUKeydXdyB1DOo4czPXF+iJ085mANTre9b4XbUvuEDf9bQijKjYvAiIF
- T6aBATLxstNxy4RGAHDXtSLWG232Ink6G1PNMhMC9R96FpJsuPjmMk8NUBog9j/mjyhM2PlaAMX
- tX5JL88Tb2gI1FbBxP6pQJCDRkYxbfydZ/FGNzZuAcvlJMt3BH7bGga81LPIjr5UOfLB+GnI8oe
- i5BFOw+r7A+Xu+KDGowTNXor3TGmR763yaM7A/mcig5Jp20jEJIXDGO1tVgSdAP0LebIstIif+9
- kiMe/3MWPnPs0eVd+mEtYR53HfccdkA9ShOKV+Jx7qg5v2TSojDh7bRQBVb22NQZGRPBlgv2560
- X83w+MU7yhsMU1MCxv2Whg6ooLLErWX5Zp68rM1FJYdQ/3YbvfDj6sg+4Aa3PF5ifwLM33BLCLr
- pXwEOeLySTL3OWSfSzMqbNqkSShHhPhxZs+ZtZsqAM1fTRTO3svFqI7T/IFjBt7NKwvQJKyhtIJ
- syGts3Gf66X08k1+2iwyGMuP2FA8o0TGMTCwUBXZtxQhhH4KlMpwsdFurHxhcT/j4CtVbSAH4Uc
- fB3KEuG+QiBPD89OSHahxCRhPa+vWgmHHVnmaRK/PJC6un6LOOBM1as6ikNxs/Lc9yixCPrHMNq
- /XZRVwDe3wtNV8A==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+X-Received: by 2002:a05:6870:772f:b0:1b0:60ff:b750 with SMTP id
+ dw47-20020a056870772f00b001b060ffb750mr10350933oab.3.1689586856738; Mon, 17
+ Jul 2023 02:40:56 -0700 (PDT)
+Date: Mon, 17 Jul 2023 02:40:56 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000069c5b30600ab98f3@google.com>
+Subject: [syzbot] [ntfs3?] kernel BUG in __blockdev_direct_IO
+From: syzbot <syzbot+c73388acf8b6a00343a4@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-Enable multigrain timestamps, which should ensure that there is an
-apparent change to the timestamp whenever it has been written after
-being actively observed via getattr.
+Hello,
 
-Beyond enabling the FS_MGTIME flag, this patch eliminates
-update_time_for_write, which goes to great pains to avoid in-memory
-stores. Just have it overwrite the timestamps unconditionally.
+syzbot found the following issue on:
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
+HEAD commit:    eb26cbb1a754 Merge tag 'platform-drivers-x86-v6.5-2' of gi..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14b3886ca80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=87ef4ae61b35aae1
+dashboard link: https://syzkaller.appspot.com/bug?extid=c73388acf8b6a00343a4
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+userspace arch: i386
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7bc7510fe41f/non_bootable_disk-eb26cbb1.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/64d2eea7ee5e/vmlinux-eb26cbb1.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2dbe6b1755b5/bzImage-eb26cbb1.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c73388acf8b6a00343a4@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+kernel BUG at fs/direct-io.c:1025!
+invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+CPU: 3 PID: 18918 Comm: syz-executor.2 Not tainted 6.5.0-rc1-syzkaller-00033-geb26cbb1a754 #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:do_direct_IO fs/direct-io.c:1025 [inline]
+RIP: 0010:__blockdev_direct_IO+0x2dc3/0x3cf0 fs/direct-io.c:1248
+Code: f3 ed 8a ff 41 83 ff 1f 0f 87 2b bb 21 08 e8 74 f2 8a ff b8 01 00 00 00 44 89 f9 d3 e0 8d 68 ff e9 26 d7 ff ff e8 5d f2 8a ff <0f> 0b e8 56 f2 8a ff 8b 9c 24 a8 01 00 00 31 ff 89 de e8 b6 ed 8a
+RSP: 0018:ffffc900291cf1c0 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: 0000000000000000 RCX: ffffc9000656a000
+RDX: 0000000000040000 RSI: ffffffff81fac443 RDI: 0000000000000005
+RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000000 R11: 000000000009401a R12: 0000000000000000
+R13: ffffea0001705040 R14: 0000000000000009 R15: dffffc0000000000
+FS:  0000000000000000(0000) GS:ffff88802c900000(0063) knlGS:00000000f7f8fb40
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 0000000056d1e04c CR3: 000000004efc7000 CR4: 0000000000350ee0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ blockdev_direct_IO include/linux/fs.h:2830 [inline]
+ ntfs_direct_IO+0x271/0x470 fs/ntfs3/inode.c:788
+ generic_file_direct_write+0x132/0x360 mm/filemap.c:3848
+ __generic_file_write_iter+0x11d/0x240 mm/filemap.c:4004
+ ntfs_file_write_iter+0xd20/0x1bf0 fs/ntfs3/file.c:1081
+ call_write_iter include/linux/fs.h:1871 [inline]
+ do_iter_readv_writev+0x208/0x3b0 fs/read_write.c:735
+ do_iter_write+0x17f/0x830 fs/read_write.c:860
+ vfs_iter_write+0x7a/0xb0 fs/read_write.c:901
+ iter_file_splice_write+0x666/0xba0 fs/splice.c:739
+ do_splice_from fs/splice.c:934 [inline]
+ direct_splice_actor+0x118/0x180 fs/splice.c:1143
+ splice_direct_to_actor+0x347/0xa30 fs/splice.c:1089
+ do_splice_direct+0x1af/0x280 fs/splice.c:1195
+ do_sendfile+0xb70/0x1370 fs/read_write.c:1254
+ __do_compat_sys_sendfile fs/read_write.c:1343 [inline]
+ __se_compat_sys_sendfile fs/read_write.c:1326 [inline]
+ __ia32_compat_sys_sendfile+0x1da/0x220 fs/read_write.c:1326
+ do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
+ __do_fast_syscall_32+0x61/0xe0 arch/x86/entry/common.c:178
+ do_fast_syscall_32+0x33/0x70 arch/x86/entry/common.c:203
+ entry_SYSENTER_compat_after_hwframe+0x70/0x82
+RIP: 0023:0xf7f94579
+Code: b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
+RSP: 002b:00000000f7f8f5ac EFLAGS: 00000292 ORIG_RAX: 00000000000000bb
+RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 0000000000000005
+RDX: 0000000000000000 RSI: 000000007fffffff RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:do_direct_IO fs/direct-io.c:1025 [inline]
+RIP: 0010:__blockdev_direct_IO+0x2dc3/0x3cf0 fs/direct-io.c:1248
+Code: f3 ed 8a ff 41 83 ff 1f 0f 87 2b bb 21 08 e8 74 f2 8a ff b8 01 00 00 00 44 89 f9 d3 e0 8d 68 ff e9 26 d7 ff ff e8 5d f2 8a ff <0f> 0b e8 56 f2 8a ff 8b 9c 24 a8 01 00 00 31 ff 89 de e8 b6 ed 8a
+RSP: 0018:ffffc900291cf1c0 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: 0000000000000000 RCX: ffffc9000656a000
+RDX: 0000000000040000 RSI: ffffffff81fac443 RDI: 0000000000000005
+RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000000 R11: 000000000009401a R12: 0000000000000000
+R13: ffffea0001705040 R14: 0000000000000009 R15: dffffc0000000000
+FS:  0000000000000000(0000) GS:ffff88802c900000(0063) knlGS:00000000f7f8fb40
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 0000000056d1e04c CR3: 000000004efc7000 CR4: 0000000000350ee0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess), 2 bytes skipped:
+   0:	10 06                	adc    %al,(%rsi)
+   2:	03 74 b4 01          	add    0x1(%rsp,%rsi,4),%esi
+   6:	10 07                	adc    %al,(%rdi)
+   8:	03 74 b0 01          	add    0x1(%rax,%rsi,4),%esi
+   c:	10 08                	adc    %cl,(%rax)
+   e:	03 74 d8 01          	add    0x1(%rax,%rbx,8),%esi
+  1e:	00 51 52             	add    %dl,0x52(%rcx)
+  21:	55                   	push   %rbp
+  22:	89 e5                	mov    %esp,%ebp
+  24:	0f 34                	sysenter
+  26:	cd 80                	int    $0x80
+* 28:	5d                   	pop    %rbp <-- trapping instruction
+  29:	5a                   	pop    %rdx
+  2a:	59                   	pop    %rcx
+  2b:	c3                   	ret
+  2c:	90                   	nop
+  2d:	90                   	nop
+  2e:	90                   	nop
+  2f:	90                   	nop
+  30:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
+  37:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
+
+
 ---
- fs/btrfs/file.c  | 24 ++++--------------------
- fs/btrfs/super.c |  5 +++--
- 2 files changed, 7 insertions(+), 22 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/btrfs/file.c b/fs/btrfs/file.c
-index d7a9ece7a40b..b9e75c9f95ac 100644
---- a/fs/btrfs/file.c
-+++ b/fs/btrfs/file.c
-@@ -1106,25 +1106,6 @@ void btrfs_check_nocow_unlock(struct btrfs_inode *inode)
- 	btrfs_drew_write_unlock(&inode->root->snapshot_lock);
- }
- 
--static void update_time_for_write(struct inode *inode)
--{
--	struct timespec64 now, ctime;
--
--	if (IS_NOCMTIME(inode))
--		return;
--
--	now = current_time(inode);
--	if (!timespec64_equal(&inode->i_mtime, &now))
--		inode->i_mtime = now;
--
--	ctime = inode_get_ctime(inode);
--	if (!timespec64_equal(&ctime, &now))
--		inode_set_ctime_to_ts(inode, now);
--
--	if (IS_I_VERSION(inode))
--		inode_inc_iversion(inode);
--}
--
- static int btrfs_write_check(struct kiocb *iocb, struct iov_iter *from,
- 			     size_t count)
- {
-@@ -1156,7 +1137,10 @@ static int btrfs_write_check(struct kiocb *iocb, struct iov_iter *from,
- 	 * need to start yet another transaction to update the inode as we will
- 	 * update the inode when we finish writing whatever data we write.
- 	 */
--	update_time_for_write(inode);
-+	if (!IS_NOCMTIME(inode)) {
-+		inode->i_mtime = inode_set_ctime_current(inode);
-+		inode_inc_iversion(inode);
-+	}
- 
- 	start_pos = round_down(pos, fs_info->sectorsize);
- 	oldsize = i_size_read(inode);
-diff --git a/fs/btrfs/super.c b/fs/btrfs/super.c
-index f1dd172d8d5b..8eda51b095c9 100644
---- a/fs/btrfs/super.c
-+++ b/fs/btrfs/super.c
-@@ -2144,7 +2144,7 @@ static struct file_system_type btrfs_fs_type = {
- 	.name		= "btrfs",
- 	.mount		= btrfs_mount,
- 	.kill_sb	= btrfs_kill_super,
--	.fs_flags	= FS_REQUIRES_DEV | FS_BINARY_MOUNTDATA,
-+	.fs_flags	= FS_REQUIRES_DEV | FS_BINARY_MOUNTDATA | FS_MGTIME,
- };
- 
- static struct file_system_type btrfs_root_fs_type = {
-@@ -2152,7 +2152,8 @@ static struct file_system_type btrfs_root_fs_type = {
- 	.name		= "btrfs",
- 	.mount		= btrfs_mount_root,
- 	.kill_sb	= btrfs_kill_super,
--	.fs_flags	= FS_REQUIRES_DEV | FS_BINARY_MOUNTDATA | FS_ALLOW_IDMAP,
-+	.fs_flags	= FS_REQUIRES_DEV | FS_BINARY_MOUNTDATA |
-+			  FS_ALLOW_IDMAP | FS_MGTIME,
- };
- 
- MODULE_ALIAS_FS("btrfs");
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
--- 
-2.41.0
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
