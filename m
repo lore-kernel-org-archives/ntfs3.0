@@ -1,64 +1,61 @@
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFD112B8D
-	for <ntfs3@lists.linux.dev>; Wed, 19 Jul 2023 11:39:31 +0000 (UTC)
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-39085e131dfso959007b6e.1
-        for <ntfs3@lists.linux.dev>; Wed, 19 Jul 2023 04:39:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689766770; x=1692358770;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/vGmZ9/fDb9epDvOedOBs7HeR46EwNPEEK7sk+j6Kio=;
-        b=Fq/sxa3cbCQq1oX9k6ECpqvOL4Y8gwrGkrtO/j4EPsxDXC+iDWGCy11IaF7w2HHimA
-         nRMSAUcMMqZq8U5gWwrruDrblwL077eMiUScTaCAjUVBdtL9+lDEgfMYH6sV+NP3tZN0
-         mieFpn0CR2hh4WAR2dQM6PQpzZeHzkudbuuOdRLI11BNXcN93PW0N92TIIdvSfjrl4tb
-         5XZU1LXBKdBYUZ+5ZWkn7NPqyiOfypm/WUhy708EUX/17oX45RSTt5Qg73Mciw7RckFV
-         9Wnr8OhsBE4DHIejR6J2uo9tduSyyyAnYoe0DkiXcw/4IKFSSa+WDiFV+uE9VGrdBBbt
-         SyVA==
-X-Gm-Message-State: ABy/qLbrsvFbSqS2/GXLSaJfNvgFaDpGGBlwNEzbHK+GeJiSdHgsLU2K
-	pEx2IPD2C9RfEUyb/1Sa1lGMpav/UKL6Vn7iVyDE6aUKEZNG
-X-Google-Smtp-Source: APBJJlHVcNkxZiOgTQ8esKMapxANI5L22BOi8in+N+miz/kb77z2U5OyIOT1jLZTT/rIepP8GTCXchunn8fJhay0LPEwt6P5G282
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51E119BA0
+	for <ntfs3@lists.linux.dev>; Thu, 20 Jul 2023 17:55:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DE7FC433C9;
+	Thu, 20 Jul 2023 17:55:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1689875753;
+	bh=8ExOoz90a98hu/tVFV7YMCWDB9bUKvorprZfF6xc8eI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oLYqVKOc5qXZwtl+6KDbhLtEleHUYHCv36ksWkOS0D0HrwtaiL/Th/70gwjBlZjya
+	 QPCRZsnDJ2DR57sY+Nb68/uo4oR2A33ol8vCgxvfX91pUh29Pr6xlZ/2W8jcB9w1j/
+	 EoFWjv1w5lg/muYENBtdYyKOKdUSrBkuECBNv1H0=
+Date: Thu, 20 Jul 2023 19:55:50 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Lee Jones <lee@kernel.org>
+Cc: almaz.alexandrovich@paragon-software.com, stable@vger.kernel.org,
+	ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	van fantasy <g1042620637@gmail.com>
+Subject: Re: [PATCH 1/1] fs/ntfs3: Check fields while reading
+Message-ID: <2023072022-yahoo-pushy-2b86@gregkh>
+References: <20230717125013.1246975-1-lee@kernel.org>
+ <2023071733-basically-snub-5570@gregkh>
+ <20230717174020.GE1082701@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:190f:b0:3a1:ee4f:77ce with SMTP id
- bf15-20020a056808190f00b003a1ee4f77cemr3849967oib.1.1689766770301; Wed, 19
- Jul 2023 04:39:30 -0700 (PDT)
-Date: Wed, 19 Jul 2023 04:39:30 -0700
-In-Reply-To: <0000000000007cfb2405febf9023@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000018e0570600d57cdb@google.com>
-Subject: Re: [syzbot] [ntfs3?] BUG: unable to handle kernel paging request in attr_data_read_resident
-From: syzbot <syzbot+33a67f9990381cc8951c@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230717174020.GE1082701@google.com>
 
-syzbot has bisected this issue to:
+On Mon, Jul 17, 2023 at 06:40:20PM +0100, Lee Jones wrote:
+> On Mon, 17 Jul 2023, Greg KH wrote:
+> 
+> > On Mon, Jul 17, 2023 at 01:50:13PM +0100, Lee Jones wrote:
+> > > commit 0e8235d28f3a0e9eda9f02ff67ee566d5f42b66b upstream.
+> > > 
+> > > Added new functions index_hdr_check and index_buf_check.
+> > > Now we check all stuff for correctness while reading from disk.
+> > > Also fixed bug with stale nfs data.
+> > > 
+> > > Reported-by: van fantasy <g1042620637@gmail.com>
+> > > Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+> > > Fixes: 82cae269cfa95 ("fs/ntfs3: Add initialization of super block")
+> > > Signed-off-by: Lee Jones <lee@kernel.org>
+> > > ---
+> > 
+> > What stable tree(s) is this for?
+> 
+> I thought you had tooling that used the Fixes: tag for this?
 
-commit ad26a9c84510af7252e582e811de970433a9758f
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Fri Oct 7 17:08:06 2022 +0000
+Yes, but that tells me how far back to take a patch, but not what a
+hand-crafted backport should be applied to :)
 
-    fs/ntfs3: Fixing wrong logic in attr_set_size and ntfs_fallocate
+Now queued up, thanks.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=143dfc66a80000
-start commit:   74f1456c4a5f Merge tag 'linux-kselftest-fixes-6.5-rc3' of ..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=163dfc66a80000
-console output: https://syzkaller.appspot.com/x/log.txt?x=123dfc66a80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=77b9a3cf8f44c6da
-dashboard link: https://syzkaller.appspot.com/bug?extid=33a67f9990381cc8951c
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15619a3aa80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12288c1aa80000
-
-Reported-by: syzbot+33a67f9990381cc8951c@syzkaller.appspotmail.com
-Fixes: ad26a9c84510 ("fs/ntfs3: Fixing wrong logic in attr_set_size and ntfs_fallocate")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+greg k-h
