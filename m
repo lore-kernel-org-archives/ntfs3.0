@@ -1,99 +1,160 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F2779D8
-	for <ntfs3@lists.linux.dev>; Thu, 27 Jul 2023 06:47:31 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3fbd33a1819so35475e9.1
-        for <ntfs3@lists.linux.dev>; Wed, 26 Jul 2023 23:47:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690440450; x=1691045250;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9VjR3y/NhR9d/n61OfA+UcoVAqNvKvdj5JIvCgpy4QI=;
-        b=jv8kLEWT6bSwYha6xFiUAElWMCPrx3lpi1qWwErb4NzD7uum6JoSy84x2ZQ1lSPBqy
-         JKSGnsuYi7/r3JF9xKsx7Nk8kMhafpBmSsD1oLdfdCGsDieibuegl6LfafbTHfToNLth
-         ApCcnXmususTHmOZGaiCwkYtDvIWX/kdtXz4VaJon/YHdjkS/7pEtmoknHjT6GWraSOs
-         +ElWjpcZGO2e8woDEb5CL+sKmKy4J196loIyFGF6OcJauDh+HW2hIR2+Iia3rsksqJqe
-         +IeEfZp7t1B58DRUR0Oos53qLswubOwyqMX/EcW6zhA/NHl9BV7ixCZgqBBeZQAVsCX8
-         EMOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690440450; x=1691045250;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9VjR3y/NhR9d/n61OfA+UcoVAqNvKvdj5JIvCgpy4QI=;
-        b=VRKPxjkIgzz19uwJQ5nq/8TQhEoU5QrycqKFn3H5NYHwY8rjvOwopz8EnTVhTz1Jud
-         hkHflPlscw3tq1xAt4ZYrcNBxebw+SSEmCuBA4Xzv7WzELyKcHjkQnXuf2sUugzv5/ee
-         wCuDbKKDpGnIFujMT0W4NzigrR2/xt3dZeJKaldLD65dw/QpXgNJ4TVRVn1lVk64pu0H
-         enOGN64phE3uoHPwyJIBPiJxPiYcs50jTZM82+MrDSeGRhPWTuYaBeU0KtOTLQt9jAUk
-         s4MKCWw9yq1x+vWafnL0p3JUs6NZj6iMlQMpjbOoG64Cu54s/aK+7fb5X+BYxMX2nFBU
-         66DQ==
-X-Gm-Message-State: ABy/qLaw4qucMVLqrVVaf+tF4rg0XWDFzuWblKgsJMy0OJS3LpBBF6+m
-	TrDNNEbLMeWnBpRA/k2CXt1yahFrRMEAZhTkV9YRvQ==
-X-Google-Smtp-Source: APBJJlHfJHMB79wmPcYAX+eRz3l3yJooxMVKXpu6Z2nTr7RChJGtq0JGjXHvXpOL9DCD74cw420Zqm1UmohQ13kUBC8=
-X-Received: by 2002:a05:600c:3b21:b0:3f7:7bd4:3b9d with SMTP id
- m33-20020a05600c3b2100b003f77bd43b9dmr1852wms.6.1690440436670; Wed, 26 Jul
- 2023 23:47:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF9A125AD;
+	Fri, 28 Jul 2023 11:01:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71689C433C8;
+	Fri, 28 Jul 2023 11:00:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690542063;
+	bh=OHILmmeiUht8a/iNB32Wqo6p3CZSNTmmXf/wqdU8eyM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=lUHncmkLN11wgaMD1KR1Gy5if09x5xh0KGyx50ZGUuC2fBx+ijTW2wECE/sOye+rG
+	 qDHl4LIc5ruyg2PAO1VZI95ZW/5j7Q0Vo/saVvtDVwvUJlMtgeQjFVYzjalCOIixt6
+	 gEQ+u8asPVZluAxs1HoSNgHXPJA0QhMWBw4NywwMFrjIj9j61U5pX9yO+iEoVUAfbu
+	 mdakOz70WJL7rxDzg7P00Ji6kHPu+xHi68+/TquTtcuasIukOIAL/+DVn48WGku6nx
+	 2ORenDwB3jD7HGc7jH1b/evq7YZ9RS2gsMH8Qjv3EgEZjMk8pxaawj3uGeQKo/zCuQ
+	 +lMRyzmoHCobQ==
+From: Christian Brauner <brauner@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Dave Chinner <david@fromorbit.com>,
+	Anthony Iliopoulos <ailiop@suse.com>,
+	v9fs@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-afs@lists.infradead.org,
+	linux-btrfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	codalist@coda.cs.cmu.edu,
+	ecryptfs@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	cluster-devel@redhat.com,
+	linux-nfs@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	ocfs2-devel@lists.linux.dev,
+	devel@lists.orangefs.org,
+	linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	linux-mtd@lists.infradead.org,
+	linux-mm@kvack.org,
+	linux-xfs@vger.kernel.org,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	David Sterba <dsterba@suse.com>,
+	Xiubo Li <xiubli@redhat.com>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Jan Harkes <jaharkes@cs.cmu.edu>,
+	coda@cs.cmu.edu,
+	Tyler Hicks <code@tyhicks.com>,
+	Gao Xiang <xiang@kernel.org>,
+	Chao Yu <chao@kernel.org>,
+	Yue Hu <huyue2@coolpad.com>,
+	Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Jan Kara <jack@suse.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Bob Peterson <rpeterso@redhat.com>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Kees Cook <keescook@chromium.org>,
+	Iurii Zaikin <yzaikin@google.com>,
+	Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.com>,
+	Ronnie Sahlberg <lsahlber@redhat.com>,
+	Shyam Prasad N <sprasad@microsoft.com>,
+	Tom Talpey <tom@talpey.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Richard Weinberger <richard@nod.at>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Hugh Dickins <hughd@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: (subset) [PATCH v6 0/7] fs: implement multigrain timestamps
+Date: Fri, 28 Jul 2023 13:00:37 +0200
+Message-Id: <20230728-unrecht-ersichtlich-cfa7d0c703d1@brauner>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230725-mgctime-v6-0-a794c2b7abca@kernel.org>
+References: <20230725-mgctime-v6-0-a794c2b7abca@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <000000000000a0d7f305eecfcbb9@google.com> <000000000000ca24700601714dd2@google.com>
-In-Reply-To: <000000000000ca24700601714dd2@google.com>
-From: Aleksandr Nogikh <nogikh@google.com>
-Date: Thu, 27 Jul 2023 08:47:04 +0200
-Message-ID: <CANp29Y5htGCC0X73qb-iGwjN0OaFCmCRKTEdhCcF_nx7aLpe2w@mail.gmail.com>
-Subject: Re: [syzbot] [ntfs3?] WARNING in path_openat
-To: syzbot <syzbot+be8872fcb764bf9fea73@syzkaller.appspotmail.com>
-Cc: almaz.alexandrovich@paragon-software.com, bp@alien8.de, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
-	viro@zeniv.linux.org.uk, yazen.ghannam@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1874; i=brauner@kernel.org; h=from:subject:message-id; bh=4DjYiXolHUh8qQu1N+OzbWT4vtvmgyT4c+N7Ht8XGtY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQcnsy9IaFu+ZP9z1N8rj/+PH2Pm5FLY6hTmXAw+6xpv069 EIk93lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjARMyFGhh2xp3MqP+WJ6kre7E0z/m vxVuf2tOrqbz/KOXZnbdld4czI8C9ly15G/weVYRsOZM6bEHF4077Al0vcwkM2vDFrTz89nQsA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-Please ignore this bisection result.
+On Tue, 25 Jul 2023 10:58:13 -0400, Jeff Layton wrote:
+> The VFS always uses coarse-grained timestamps when updating the
+> ctime and mtime after a change. This has the benefit of allowing
+> filesystems to optimize away a lot metadata updates, down to around 1
+> per jiffy, even when a file is under heavy writes.
+> 
+> Unfortunately, this coarseness has always been an issue when we're
+> exporting via NFSv3, which relies on timestamps to validate caches. A
+> lot of changes can happen in a jiffy, so timestamps aren't sufficient to
+> help the client decide to invalidate the cache.
+> 
+> [...]
 
-On Thu, Jul 27, 2023 at 7:33=E2=80=AFAM syzbot
-<syzbot+be8872fcb764bf9fea73@syzkaller.appspotmail.com> wrote:
->
-> syzbot suspects this issue was fixed by commit:
->
-> commit 00e4feb8c0476bbde3c8bf4a593e0f82ca9a4df6
-> Author: Yazen Ghannam <yazen.ghannam@amd.com>
-> Date:   Fri Jan 27 17:04:03 2023 +0000
->
->     EDAC/amd64: Rename debug_display_dimm_sizes()
->
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D157a6f81a8=
-0000
+Survives xfstests (tmpfs, ext4, overlayfs) and the fs portions of LTP.
+Let's keep our eyes open for any potential issues. Past suspects has
+been IMA interacting with overlayfs. We'll see. Picked everything minus
+the tmpfs-writepage patch that was contentious.
 
-accumulated error probability: 0.50
-< .. >
-reproducer is flaky (0.11 repro chance estimate)
+---
 
-The reproducer was too unstable and the threshold for non-reporting is
-currently exactly 0.5 :)
-I'll decrease it.
+Applied to the vfs.ctime branch of the vfs/vfs.git tree.
+Patches in the vfs.ctime branch should appear in linux-next soon.
 
-> start commit:   c1649ec55708 Merge tag 'nfsd-6.2-4' of git://git.kernel.o=
-r..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D319a3509d25b0=
-f85
-> dashboard link: https://syzkaller.appspot.com/bug?extid=3Dbe8872fcb764bf9=
-fea73
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D17c604fe480=
-000
->
-> If the result looks correct, please mark the issue as fixed by replying w=
-ith:
->
-> #syz fix: EDAC/amd64: Rename debug_display_dimm_sizes()
->
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisect=
-ion
->
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.ctime
+
+[1/7] fs: pass the request_mask to generic_fillattr
+      https://git.kernel.org/vfs/vfs/c/0a6ab6dc6958
+[2/7] fs: add infrastructure for multigrain timestamps
+      https://git.kernel.org/vfs/vfs/c/d242b98ac3e9
+[4/7] tmpfs: add support for multigrain timestamps
+      https://git.kernel.org/vfs/vfs/c/1f31c58cf032
+[5/7] xfs: switch to multigrain timestamps
+      https://git.kernel.org/vfs/vfs/c/859dd91017dd
+[6/7] ext4: switch to multigrain timestamps
+      https://git.kernel.org/vfs/vfs/c/093af249eab4
+[7/7] btrfs: convert to multigrain timestamps
+      https://git.kernel.org/vfs/vfs/c/b90a04d1c30c
