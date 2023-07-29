@@ -1,160 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF9A125AD;
-	Fri, 28 Jul 2023 11:01:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71689C433C8;
-	Fri, 28 Jul 2023 11:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690542063;
-	bh=OHILmmeiUht8a/iNB32Wqo6p3CZSNTmmXf/wqdU8eyM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lUHncmkLN11wgaMD1KR1Gy5if09x5xh0KGyx50ZGUuC2fBx+ijTW2wECE/sOye+rG
-	 qDHl4LIc5ruyg2PAO1VZI95ZW/5j7Q0Vo/saVvtDVwvUJlMtgeQjFVYzjalCOIixt6
-	 gEQ+u8asPVZluAxs1HoSNgHXPJA0QhMWBw4NywwMFrjIj9j61U5pX9yO+iEoVUAfbu
-	 mdakOz70WJL7rxDzg7P00Ji6kHPu+xHi68+/TquTtcuasIukOIAL/+DVn48WGku6nx
-	 2ORenDwB3jD7HGc7jH1b/evq7YZ9RS2gsMH8Qjv3EgEZjMk8pxaawj3uGeQKo/zCuQ
-	 +lMRyzmoHCobQ==
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Dave Chinner <david@fromorbit.com>,
-	Anthony Iliopoulos <ailiop@suse.com>,
-	v9fs@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-afs@lists.infradead.org,
-	linux-btrfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	codalist@coda.cs.cmu.edu,
-	ecryptfs@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	cluster-devel@redhat.com,
-	linux-nfs@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	ocfs2-devel@lists.linux.dev,
-	devel@lists.orangefs.org,
-	linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	linux-mtd@lists.infradead.org,
-	linux-mm@kvack.org,
-	linux-xfs@vger.kernel.org,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	David Sterba <dsterba@suse.com>,
-	Xiubo Li <xiubli@redhat.com>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	Jan Harkes <jaharkes@cs.cmu.edu>,
-	coda@cs.cmu.edu,
-	Tyler Hicks <code@tyhicks.com>,
-	Gao Xiang <xiang@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	Yue Hu <huyue2@coolpad.com>,
-	Jeffle Xu <jefflexu@linux.alibaba.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Jan Kara <jack@suse.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bob Peterson <rpeterso@redhat.com>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Anna Schumaker <anna@kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Kees Cook <keescook@chromium.org>,
-	Iurii Zaikin <yzaikin@google.com>,
-	Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.com>,
-	Ronnie Sahlberg <lsahlber@redhat.com>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	Tom Talpey <tom@talpey.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Richard Weinberger <richard@nod.at>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hugh Dickins <hughd@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: Re: (subset) [PATCH v6 0/7] fs: implement multigrain timestamps
-Date: Fri, 28 Jul 2023 13:00:37 +0200
-Message-Id: <20230728-unrecht-ersichtlich-cfa7d0c703d1@brauner>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230725-mgctime-v6-0-a794c2b7abca@kernel.org>
-References: <20230725-mgctime-v6-0-a794c2b7abca@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27BD51C02
+	for <ntfs3@lists.linux.dev>; Sat, 29 Jul 2023 06:45:40 +0000 (UTC)
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-3a6d99a58aaso5615404b6e.3
+        for <ntfs3@lists.linux.dev>; Fri, 28 Jul 2023 23:45:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690613140; x=1691217940;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qGOhGAeloc0ER8DTdip8+6IYfd63nwLytJCLHZfTBZM=;
+        b=Bndi7ii3FYMKE6KtclQtXwI9xy9UXx/ZJsxE/22DfJ8y/R4NvNteCKJWnYYNirL9q0
+         ncMAqqaC+lZnn01B7d+VUQUHydYuVaY34OpNEQRWIfUEsL1GXY1HkFW499AB9biZ3QHT
+         aGWAFZOUAAYDH/K6NftbpYaS+u8t2H+UxZTCkCsWmO0zVZIAROil3FoQ1BvkQy6GuitA
+         L55KKX8mKKnzm1NKCWDvcqsTGgok5sV+C70ZZZsWvRL093uxHB/+hjdauvPfTm/OmyKU
+         4GF6kMXKpqeflZI/lQaukuNPQ7Wn/eH9UqksDVXf45pvpRLykJkUJhot+oDg0JbHR80m
+         eLHQ==
+X-Gm-Message-State: ABy/qLZqJXJcJtghO9aOc3v0XUUhbubcA+GavDpyR60BS8uRnsvaMEti
+	8YKaFnU7YQbngKB7TwQ/o9LB6acnWwbx8Y/YK8Yll5M0/wHi
+X-Google-Smtp-Source: APBJJlHwLTxpTJNSenB84vLVZ9OaJaEUnFnE9thy0ErKec7kAFIgkLUe1lyCMQodE27Qm2+Jj+oY4fu1hQc9HW4pI0ZXAEmepcYX
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1874; i=brauner@kernel.org; h=from:subject:message-id; bh=4DjYiXolHUh8qQu1N+OzbWT4vtvmgyT4c+N7Ht8XGtY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQcnsy9IaFu+ZP9z1N8rj/+PH2Pm5FLY6hTmXAw+6xpv069 EIk93lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjARMyFGhh2xp3MqP+WJ6kre7E0z/m vxVuf2tOrqbz/KOXZnbdld4czI8C9ly15G/weVYRsOZM6bEHF4077Al0vcwkM2vDFrTz89nQsA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:bd1:b0:3a3:df1d:4369 with SMTP id
+ o17-20020a0568080bd100b003a3df1d4369mr8654851oik.7.1690613140148; Fri, 28 Jul
+ 2023 23:45:40 -0700 (PDT)
+Date: Fri, 28 Jul 2023 23:45:40 -0700
+In-Reply-To: <0000000000003ba9f506013b0aed@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000abd72906019a8b04@google.com>
+Subject: Re: [syzbot] [ntfs3?] INFO: task hung in ntfs_read_folio (2)
+From: syzbot <syzbot+913093197c71922e8375@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, 
+	clang-built-linux@googlegroups.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 25 Jul 2023 10:58:13 -0400, Jeff Layton wrote:
-> The VFS always uses coarse-grained timestamps when updating the
-> ctime and mtime after a change. This has the benefit of allowing
-> filesystems to optimize away a lot metadata updates, down to around 1
-> per jiffy, even when a file is under heavy writes.
-> 
-> Unfortunately, this coarseness has always been an issue when we're
-> exporting via NFSv3, which relies on timestamps to validate caches. A
-> lot of changes can happen in a jiffy, so timestamps aren't sufficient to
-> help the client decide to invalidate the cache.
-> 
-> [...]
+syzbot has bisected this issue to:
 
-Survives xfstests (tmpfs, ext4, overlayfs) and the fs portions of LTP.
-Let's keep our eyes open for any potential issues. Past suspects has
-been IMA interacting with overlayfs. We'll see. Picked everything minus
-the tmpfs-writepage patch that was contentious.
+commit 6e5be40d32fb1907285277c02e74493ed43d77fe
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Fri Aug 13 14:21:30 2021 +0000
 
----
+    fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
 
-Applied to the vfs.ctime branch of the vfs/vfs.git tree.
-Patches in the vfs.ctime branch should appear in linux-next soon.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17a1cbd9a80000
+start commit:   bfa3037d8280 Merge tag 'fuse-update-6.5' of git://git.kern..
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=1461cbd9a80000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1061cbd9a80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a4507c291b5ab5d4
+dashboard link: https://syzkaller.appspot.com/bug?extid=913093197c71922e8375
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15b8869ea80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=149e6072a80000
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Reported-by: syzbot+913093197c71922e8375@syzkaller.appspotmail.com
+Fixes: 6e5be40d32fb ("fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile")
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.ctime
-
-[1/7] fs: pass the request_mask to generic_fillattr
-      https://git.kernel.org/vfs/vfs/c/0a6ab6dc6958
-[2/7] fs: add infrastructure for multigrain timestamps
-      https://git.kernel.org/vfs/vfs/c/d242b98ac3e9
-[4/7] tmpfs: add support for multigrain timestamps
-      https://git.kernel.org/vfs/vfs/c/1f31c58cf032
-[5/7] xfs: switch to multigrain timestamps
-      https://git.kernel.org/vfs/vfs/c/859dd91017dd
-[6/7] ext4: switch to multigrain timestamps
-      https://git.kernel.org/vfs/vfs/c/093af249eab4
-[7/7] btrfs: convert to multigrain timestamps
-      https://git.kernel.org/vfs/vfs/c/b90a04d1c30c
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
