@@ -1,86 +1,175 @@
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D53363
-	for <ntfs3@lists.linux.dev>; Sun, 30 Jul 2023 13:16:51 +0000 (UTC)
-Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-6bb0bb2dedaso7085049a34.3
-        for <ntfs3@lists.linux.dev>; Sun, 30 Jul 2023 06:16:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690723011; x=1691327811;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=b9dj6/lAKaW7GGrTXIaj0DpOh57UC6d0adFmPDAuxes=;
-        b=PbrILJ5px7oUMAUiFQhL4SKqVmC8cbxJppYc9tSJv+Q/7ghpernbFI3zFacb1V7zSA
-         mmovzcxITT5K2Hcy0arAGwqzqv/PgTu8n0IlTprBNY6UrM9y8PicjVVthcij7TxvQFYp
-         jD/TfvF2TWbzgu+WBSstHo25rTr/waJlBTeQMTjotfvZoq1aO/ZtL5Po1/VSGAMQHtrE
-         4yvhHKb5gBfyyZjgeM+wIarulmoPTBa4Dh6g9oy7hP4XLapXNGVCpWZ9FF7bDyw/CdGO
-         1hEvhmhp0SMQrHSFhSKEj4EA+DbLRoFeC/WlI85JOvArDC2wxUXeALw6xW+1p9L8iohy
-         iPyw==
-X-Gm-Message-State: ABy/qLZm+y7vpxzB5wjjOImBEVPaWpG7/SXfA+sAVqr7VUIZXif7Sfpd
-	AOV2cTPCSqUr7kByuSUXAQoB/3FyD1TCPrlAvCCFnOJ0HN7c
-X-Google-Smtp-Source: APBJJlHpcOCZP0IFDoUOY33ez3X+TGQHNRABxm66oNBgly7kzFWnsqskmbEbz5GivcZV95hOR9nmWsIf929BUTTsHBjdDLKiGoBw
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CEA18C0E
+	for <ntfs3@lists.linux.dev>; Mon, 31 Jul 2023 14:43:23 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9F960221A9;
+	Mon, 31 Jul 2023 14:43:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1690814596; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CHAs68zjSb3lJSJ8IpnrzhOZGjTCvtIoG1i1YUV6/0I=;
+	b=TSdo/HjwCNkE9dhlYNJTi5h1dQVd8QaUW5Lj6n1S3rx/MqsaLRwAGzYk2MEw4aTm38i6eU
+	i2w2DUN3PyjTSBjjW9odU5k4/blCbHWfKEY68Ygb8G9Hlm4g37OZmUH1cRFYPcq6iZILde
+	nJMlyRxqF0RXY57yKKOGMRP3iQAffCQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1690814596;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CHAs68zjSb3lJSJ8IpnrzhOZGjTCvtIoG1i1YUV6/0I=;
+	b=wuNTcxu/Z5OIt2w6gTzHInsFGy7oEj4xVWs/6KobbCq9poTgUMgFso4YByO6H50QF3G8ls
+	JzqycqZYvzqRTzDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8EC90133F7;
+	Mon, 31 Jul 2023 14:43:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id MOfNIoTIx2RIXwAAMHmgww
+	(envelope-from <jack@suse.cz>); Mon, 31 Jul 2023 14:43:16 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 2CC22A069C; Mon, 31 Jul 2023 16:43:16 +0200 (CEST)
+Date: Mon, 31 Jul 2023 16:43:16 +0200
+From: Jan Kara <jack@suse.cz>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Sterba <dsterba@suse.com>, linux-fsdevel@vger.kernel.org,
+	Pankaj Raghav <p.raghav@samsung.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev, Theodore Tso <tytso@mit.edu>,
+	Jan Kara <jack@suse.com>, linux-ext4@vger.kernel.org
+Subject: Re: [PATCH 6/7] jbd2: Use a folio in
+ jbd2_journal_write_metadata_buffer()
+Message-ID: <20230731144316.dft4li5saphuy6jx@quack3>
+References: <20230713035512.4139457-1-willy@infradead.org>
+ <20230713035512.4139457-7-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6830:1e4d:b0:6b9:e272:d192 with SMTP id
- e13-20020a0568301e4d00b006b9e272d192mr8794396otj.7.1690723011116; Sun, 30 Jul
- 2023 06:16:51 -0700 (PDT)
-Date: Sun, 30 Jul 2023 06:16:51 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000007dc6d60601b4207b@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Jul 2023)
-From: syzbot <syzbot+list34537c28a13cbdf0663a@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230713035512.4139457-7-willy@infradead.org>
 
-Hello ntfs3 maintainers/developers,
+On Thu 13-07-23 04:55:11, Matthew Wilcox (Oracle) wrote:
+> The primary goal here is removing the use of set_bh_page().
+> Take the opportunity to switch from kmap_atomic() to kmap_local().
+> This simplifies the function as the offset is already added to
+> the pointer.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+Looks good. Feel free to add:
 
-During the period, 7 new issues were detected and 0 were fixed.
-In total, 63 issues are still open and 24 have been fixed so far.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Some of the still happening issues:
+							Honza
 
-Ref  Crashes Repro Title
-<1>  4288    Yes   UBSAN: shift-out-of-bounds in ntfs_fill_super (2)
-                   https://syzkaller.appspot.com/bug?extid=478c1bf0e6bf4a8f3a04
-<2>  3585    Yes   KASAN: slab-out-of-bounds Read in ntfs_iget5
-                   https://syzkaller.appspot.com/bug?extid=b4084c18420f9fad0b4f
-<3>  1748    Yes   possible deadlock in ni_fiemap
-                   https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
-<4>  1380    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
-                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
-<5>  1187    Yes   possible deadlock in attr_data_get_block
-                   https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
-<6>  1077    Yes   possible deadlock in ntfs_set_state
-                   https://syzkaller.appspot.com/bug?extid=f91c29a5d5a01ada051a
-<7>  576     No    possible deadlock in ntfs_mark_rec_free
-                   https://syzkaller.appspot.com/bug?extid=f83f0dbef763c426e3cf
-<8>  507     Yes   possible deadlock in mi_read
-                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
-<9>  421     Yes   possible deadlock in ntfs_fiemap
-                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
-<10> 68      Yes   WARNING in do_mkdirat
-                   https://syzkaller.appspot.com/bug?extid=919c5a9be8433b8bf201
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+> ---
+>  fs/jbd2/journal.c | 35 ++++++++++++++++-------------------
+>  1 file changed, 16 insertions(+), 19 deletions(-)
+> 
+> diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
+> index fbce16fedaa4..1b5a45ab62b0 100644
+> --- a/fs/jbd2/journal.c
+> +++ b/fs/jbd2/journal.c
+> @@ -341,7 +341,7 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+>  	int do_escape = 0;
+>  	char *mapped_data;
+>  	struct buffer_head *new_bh;
+> -	struct page *new_page;
+> +	struct folio *new_folio;
+>  	unsigned int new_offset;
+>  	struct buffer_head *bh_in = jh2bh(jh_in);
+>  	journal_t *journal = transaction->t_journal;
+> @@ -370,14 +370,14 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+>  	 */
+>  	if (jh_in->b_frozen_data) {
+>  		done_copy_out = 1;
+> -		new_page = virt_to_page(jh_in->b_frozen_data);
+> -		new_offset = offset_in_page(jh_in->b_frozen_data);
+> +		new_folio = virt_to_folio(jh_in->b_frozen_data);
+> +		new_offset = offset_in_folio(new_folio, jh_in->b_frozen_data);
+>  	} else {
+> -		new_page = jh2bh(jh_in)->b_page;
+> -		new_offset = offset_in_page(jh2bh(jh_in)->b_data);
+> +		new_folio = jh2bh(jh_in)->b_folio;
+> +		new_offset = offset_in_folio(new_folio, jh2bh(jh_in)->b_data);
+>  	}
+>  
+> -	mapped_data = kmap_atomic(new_page);
+> +	mapped_data = kmap_local_folio(new_folio, new_offset);
+>  	/*
+>  	 * Fire data frozen trigger if data already wasn't frozen.  Do this
+>  	 * before checking for escaping, as the trigger may modify the magic
+> @@ -385,18 +385,17 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+>  	 * data in the buffer.
+>  	 */
+>  	if (!done_copy_out)
+> -		jbd2_buffer_frozen_trigger(jh_in, mapped_data + new_offset,
+> +		jbd2_buffer_frozen_trigger(jh_in, mapped_data,
+>  					   jh_in->b_triggers);
+>  
+>  	/*
+>  	 * Check for escaping
+>  	 */
+> -	if (*((__be32 *)(mapped_data + new_offset)) ==
+> -				cpu_to_be32(JBD2_MAGIC_NUMBER)) {
+> +	if (*((__be32 *)mapped_data) == cpu_to_be32(JBD2_MAGIC_NUMBER)) {
+>  		need_copy_out = 1;
+>  		do_escape = 1;
+>  	}
+> -	kunmap_atomic(mapped_data);
+> +	kunmap_local(mapped_data);
+>  
+>  	/*
+>  	 * Do we need to do a data copy?
+> @@ -417,12 +416,10 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+>  		}
+>  
+>  		jh_in->b_frozen_data = tmp;
+> -		mapped_data = kmap_atomic(new_page);
+> -		memcpy(tmp, mapped_data + new_offset, bh_in->b_size);
+> -		kunmap_atomic(mapped_data);
+> +		memcpy_from_folio(tmp, new_folio, new_offset, bh_in->b_size);
+>  
+> -		new_page = virt_to_page(tmp);
+> -		new_offset = offset_in_page(tmp);
+> +		new_folio = virt_to_folio(tmp);
+> +		new_offset = offset_in_folio(new_folio, tmp);
+>  		done_copy_out = 1;
+>  
+>  		/*
+> @@ -438,12 +435,12 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+>  	 * copying, we can finally do so.
+>  	 */
+>  	if (do_escape) {
+> -		mapped_data = kmap_atomic(new_page);
+> -		*((unsigned int *)(mapped_data + new_offset)) = 0;
+> -		kunmap_atomic(mapped_data);
+> +		mapped_data = kmap_local_folio(new_folio, new_offset);
+> +		*((unsigned int *)mapped_data) = 0;
+> +		kunmap_local(mapped_data);
+>  	}
+>  
+> -	set_bh_page(new_bh, new_page, new_offset);
+> +	folio_set_bh(new_bh, new_folio, new_offset);
+>  	new_bh->b_size = bh_in->b_size;
+>  	new_bh->b_bdev = journal->j_dev;
+>  	new_bh->b_blocknr = blocknr;
+> -- 
+> 2.39.2
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
