@@ -1,99 +1,65 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130FC6FA1
-	for <ntfs3@lists.linux.dev>; Wed,  2 Aug 2023 14:43:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1690987438;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Lfsx7YMT1/nkAsgMqwMqDMIEJirhc7YJPrz4OW1nZfo=;
-	b=Mfh0IF7g7nD2wL4xAeSBSdtukpzt/1dNaLR62hzwGZXCphh6Q2W1umU1jXpkdkCH/svCl3
-	suI6JOII6T5jdUURXKGUHulepIOZdusnwgLxRInya8/WQyMncNcha1czxsqLWwTF+9wWry
-	bL+vIb0ij3t+4zTyXTZSR+Ea6y1QQxY=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-574-mTic3aWOO7WXjzYQIN77zA-1; Wed, 02 Aug 2023 10:43:57 -0400
-X-MC-Unique: mTic3aWOO7WXjzYQIN77zA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9E5A73806705;
-	Wed,  2 Aug 2023 14:43:56 +0000 (UTC)
-Received: from pasta.redhat.com (unknown [10.45.225.145])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 019401121325;
-	Wed,  2 Aug 2023 14:43:54 +0000 (UTC)
-From: Andreas Gruenbacher <agruenba@redhat.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matthew Wilcox <willy@infradead.org>,
-	David Sterba <dsterba@suse.com>,
-	linux-fsdevel@vger.kernel.org,
-	Pankaj Raghav <p.raghav@samsung.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev,
-	Theodore Tso <tytso@mit.edu>,
-	Jan Kara <jack@suse.com>,
-	linux-ext4@vger.kernel.org,
-	Andreas Gruenbacher <agruenba@redhat.com>
-Subject: [PATCH] highmem: memcpy_{from,to}_folio() fix
-Date: Wed,  2 Aug 2023 16:43:54 +0200
-Message-Id: <20230802144354.1023099-1-agruenba@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160268C0C
+	for <ntfs3@lists.linux.dev>; Wed,  2 Aug 2023 15:24:28 +0000 (UTC)
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-3a5a7e981ddso11974393b6e.2
+        for <ntfs3@lists.linux.dev>; Wed, 02 Aug 2023 08:24:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690989868; x=1691594668;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=d/xHSfiG3E7HaC8jNHVxDotiCnXbEHNk8zmRylg8nEY=;
+        b=dssuHrJejPYKkBORW0kV09mS32AFu9EzNNs4rogeUFvhDzeYdY62XOFTMo+cCVxyOV
+         YyKZBwAVTI6jbvwIRoBbP2vrDwLqVn+hgAK9K7TZ1QY/4nSi5GdH1ECJdVUvKLAkmW5R
+         +fqMeMS8OQmcHedtiXeVMO7BkakqCP+QPo+V0HTYoIaIv29t3fs71O//wg7MVoxHMdUm
+         4BZqwWGUIcW8WTXy1AGMq3WqBMsqjTH/6RR03QprflfYQukw09Cu6ZarR1j/U4uesJpH
+         7dBkwrwtKTd9vn/St+ArF6JIb2QvsYH/e9XIgKMPMZn1wm78W5VOjbseWk34svgMxfVT
+         V/pQ==
+X-Gm-Message-State: ABy/qLYXmqN6oqozgoQpqPgd0dgya+2f38IhtiJJUrD3kJuSP4daRyoT
+	JudjygiU2uf9KdyD5jULlDXHVckS3nKAkld6RlRq+8iEgn2I
+X-Google-Smtp-Source: APBJJlHU0WeUCbqnQs8zsRopuGrmVyWbNrSUF3np4ZkkweFSzWejKwIUs5LnnM7Oa9NOViGy8XUCpcAuAyrQpG9pi4TUeByF1XUT
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Received: by 2002:a05:6808:1511:b0:3a1:ed05:198 with SMTP id
+ u17-20020a056808151100b003a1ed050198mr26676639oiw.2.1690989868016; Wed, 02
+ Aug 2023 08:24:28 -0700 (PDT)
+Date: Wed, 02 Aug 2023 08:24:27 -0700
+In-Reply-To: <000000000000117c7505e7927cb4@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000066e89c0601f24249@google.com>
+Subject: Re: [syzbot] [ntfs3?] UBSAN: array-index-out-of-bounds in truncate_inode_pages_range
+From: syzbot <syzbot+5867885efe39089b339b@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, almaz.alexandrovich@paragon-software.com, 
+	davem@davemloft.net, dvyukov@google.com, jiri@nvidia.com, kuba@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
+	vishal.moola@gmail.com, willy@infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-memcpy_to_folio() and memcpy_from_folio() compute the size of the chunk
-of memory they can copy for each page, but then they don't use the chunk
-size in the actual memcpy.  Fix that.
+syzbot suspects this issue was fixed by commit:
 
-Also, git rid of superfluous parentheses in these two functions.
+commit d772781964415c63759572b917e21c4f7ec08d9f
+Author: Jakub Kicinski <kuba@kernel.org>
+Date:   Fri Jan 6 06:33:54 2023 +0000
 
-Fixes: 520a10fe2d72 ("highmem: add memcpy_to_folio() and memcpy_from_folio()")
-Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
----
- include/linux/highmem.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+    devlink: bump the instance index directly when iterating
 
-diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-index 0280f57d4744..99c474de800d 100644
---- a/include/linux/highmem.h
-+++ b/include/linux/highmem.h
-@@ -445,13 +445,13 @@ static inline void memcpy_from_folio(char *to, struct folio *folio,
- 	VM_BUG_ON(offset + len > folio_size(folio));
- 
- 	do {
--		char *from = kmap_local_folio(folio, offset);
-+		const char *from = kmap_local_folio(folio, offset);
- 		size_t chunk = len;
- 
- 		if (folio_test_highmem(folio) &&
--		    (chunk > (PAGE_SIZE - offset_in_page(offset))))
-+		    chunk > PAGE_SIZE - offset_in_page(offset))
- 			chunk = PAGE_SIZE - offset_in_page(offset);
--		memcpy(to, from, len);
-+		memcpy(to, from, chunk);
- 		kunmap_local(from);
- 
- 		from += chunk;
-@@ -470,9 +470,9 @@ static inline void memcpy_to_folio(struct folio *folio, size_t offset,
- 		size_t chunk = len;
- 
- 		if (folio_test_highmem(folio) &&
--		    (chunk > (PAGE_SIZE - offset_in_page(offset))))
-+		    chunk > PAGE_SIZE - offset_in_page(offset))
- 			chunk = PAGE_SIZE - offset_in_page(offset);
--		memcpy(to, from, len);
-+		memcpy(to, from, chunk);
- 		kunmap_local(to);
- 
- 		from += chunk;
--- 
-2.40.1
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=129893bea80000
+start commit:   e8bc52cb8df8 Merge tag 'driver-core-6.1-rc1' of git://git...
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7579993da6496f03
+dashboard link: https://syzkaller.appspot.com/bug?extid=5867885efe39089b339b
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=153137b8880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=123cae34880000
 
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: devlink: bump the instance index directly when iterating
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
