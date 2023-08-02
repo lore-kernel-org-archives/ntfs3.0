@@ -1,123 +1,99 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD29182C7
-	for <ntfs3@lists.linux.dev>; Mon, 31 Jul 2023 14:46:05 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130FC6FA1
+	for <ntfs3@lists.linux.dev>; Wed,  2 Aug 2023 14:43:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1690987438;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Lfsx7YMT1/nkAsgMqwMqDMIEJirhc7YJPrz4OW1nZfo=;
+	b=Mfh0IF7g7nD2wL4xAeSBSdtukpzt/1dNaLR62hzwGZXCphh6Q2W1umU1jXpkdkCH/svCl3
+	suI6JOII6T5jdUURXKGUHulepIOZdusnwgLxRInya8/WQyMncNcha1czxsqLWwTF+9wWry
+	bL+vIb0ij3t+4zTyXTZSR+Ea6y1QQxY=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-574-mTic3aWOO7WXjzYQIN77zA-1; Wed, 02 Aug 2023 10:43:57 -0400
+X-MC-Unique: mTic3aWOO7WXjzYQIN77zA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 199CF1F854;
-	Mon, 31 Jul 2023 14:46:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1690814764; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XPdIQm6lw+iMDcuyergAy0WqRBg61RsIM13C6k5yY04=;
-	b=OgD+1tFLQbf02OGazL3QZNSeqvVKobiVUeaL6F12nJxNVpRJClI4G+JKgIJ4NZVHGZtuM0
-	tIUuNWKsvNT8Uxu2ljZVUnpw7ZwXldyObS8XKIEmXlKA5sMP6R/aUEla258P0RxKiiUY2K
-	Th3bdJ97Q25pNBw4heNtI8BgtKuUQDk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1690814764;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XPdIQm6lw+iMDcuyergAy0WqRBg61RsIM13C6k5yY04=;
-	b=v0B6MyyuwFONgjvOCUy4haXJjwH9hbPB01oPAIkQx6V7OojJxIGkazXChJfeQXSLXp0mTx
-	SKO/f3jSZWcflAAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0AACE133F7;
-	Mon, 31 Jul 2023 14:46:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id z7+PAizJx2TBYAAAMHmgww
-	(envelope-from <jack@suse.cz>); Mon, 31 Jul 2023 14:46:04 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 94121A069C; Mon, 31 Jul 2023 16:46:03 +0200 (CEST)
-Date: Mon, 31 Jul 2023 16:46:03 +0200
-From: Jan Kara <jack@suse.cz>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Sterba <dsterba@suse.com>, linux-fsdevel@vger.kernel.org,
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9E5A73806705;
+	Wed,  2 Aug 2023 14:43:56 +0000 (UTC)
+Received: from pasta.redhat.com (unknown [10.45.225.145])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 019401121325;
+	Wed,  2 Aug 2023 14:43:54 +0000 (UTC)
+From: Andreas Gruenbacher <agruenba@redhat.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Matthew Wilcox <willy@infradead.org>,
+	David Sterba <dsterba@suse.com>,
+	linux-fsdevel@vger.kernel.org,
 	Pankaj Raghav <p.raghav@samsung.com>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev, Theodore Tso <tytso@mit.edu>,
-	Jan Kara <jack@suse.com>, linux-ext4@vger.kernel.org
-Subject: Re: [PATCH 7/7] buffer: Remove set_bh_page()
-Message-ID: <20230731144603.4ehtpamxbhhd7fv5@quack3>
-References: <20230713035512.4139457-1-willy@infradead.org>
- <20230713035512.4139457-8-willy@infradead.org>
+	ntfs3@lists.linux.dev,
+	Theodore Tso <tytso@mit.edu>,
+	Jan Kara <jack@suse.com>,
+	linux-ext4@vger.kernel.org,
+	Andreas Gruenbacher <agruenba@redhat.com>
+Subject: [PATCH] highmem: memcpy_{from,to}_folio() fix
+Date: Wed,  2 Aug 2023 16:43:54 +0200
+Message-Id: <20230802144354.1023099-1-agruenba@redhat.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230713035512.4139457-8-willy@infradead.org>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 
-On Thu 13-07-23 04:55:12, Matthew Wilcox (Oracle) wrote:
-> With all users converted to folio_set_bh(), remove this function.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+memcpy_to_folio() and memcpy_from_folio() compute the size of the chunk
+of memory they can copy for each page, but then they don't use the chunk
+size in the actual memcpy.  Fix that.
 
-Sure. Feel free to add:
+Also, git rid of superfluous parentheses in these two functions.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Fixes: 520a10fe2d72 ("highmem: add memcpy_to_folio() and memcpy_from_folio()")
+Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
+---
+ include/linux/highmem.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-								Honza
-
-> ---
->  fs/buffer.c                 | 15 ---------------
->  include/linux/buffer_head.h |  2 --
->  2 files changed, 17 deletions(-)
-> 
-> diff --git a/fs/buffer.c b/fs/buffer.c
-> index 587e4d4af9de..f0563ebae75f 100644
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -1539,21 +1539,6 @@ void invalidate_bh_lrus_cpu(void)
->  	bh_lru_unlock();
->  }
->  
-> -void set_bh_page(struct buffer_head *bh,
-> -		struct page *page, unsigned long offset)
-> -{
-> -	bh->b_page = page;
-> -	BUG_ON(offset >= PAGE_SIZE);
-> -	if (PageHighMem(page))
-> -		/*
-> -		 * This catches illegal uses and preserves the offset:
-> -		 */
-> -		bh->b_data = (char *)(0 + offset);
-> -	else
-> -		bh->b_data = page_address(page) + offset;
-> -}
-> -EXPORT_SYMBOL(set_bh_page);
-> -
->  void folio_set_bh(struct buffer_head *bh, struct folio *folio,
->  		  unsigned long offset)
->  {
-> diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
-> index a7377877ff4e..06566aee94ca 100644
-> --- a/include/linux/buffer_head.h
-> +++ b/include/linux/buffer_head.h
-> @@ -194,8 +194,6 @@ void buffer_check_dirty_writeback(struct folio *folio,
->  void mark_buffer_dirty(struct buffer_head *bh);
->  void mark_buffer_write_io_error(struct buffer_head *bh);
->  void touch_buffer(struct buffer_head *bh);
-> -void set_bh_page(struct buffer_head *bh,
-> -		struct page *page, unsigned long offset);
->  void folio_set_bh(struct buffer_head *bh, struct folio *folio,
->  		  unsigned long offset);
->  bool try_to_free_buffers(struct folio *);
-> -- 
-> 2.39.2
-> 
+diff --git a/include/linux/highmem.h b/include/linux/highmem.h
+index 0280f57d4744..99c474de800d 100644
+--- a/include/linux/highmem.h
++++ b/include/linux/highmem.h
+@@ -445,13 +445,13 @@ static inline void memcpy_from_folio(char *to, struct folio *folio,
+ 	VM_BUG_ON(offset + len > folio_size(folio));
+ 
+ 	do {
+-		char *from = kmap_local_folio(folio, offset);
++		const char *from = kmap_local_folio(folio, offset);
+ 		size_t chunk = len;
+ 
+ 		if (folio_test_highmem(folio) &&
+-		    (chunk > (PAGE_SIZE - offset_in_page(offset))))
++		    chunk > PAGE_SIZE - offset_in_page(offset))
+ 			chunk = PAGE_SIZE - offset_in_page(offset);
+-		memcpy(to, from, len);
++		memcpy(to, from, chunk);
+ 		kunmap_local(from);
+ 
+ 		from += chunk;
+@@ -470,9 +470,9 @@ static inline void memcpy_to_folio(struct folio *folio, size_t offset,
+ 		size_t chunk = len;
+ 
+ 		if (folio_test_highmem(folio) &&
+-		    (chunk > (PAGE_SIZE - offset_in_page(offset))))
++		    chunk > PAGE_SIZE - offset_in_page(offset))
+ 			chunk = PAGE_SIZE - offset_in_page(offset);
+-		memcpy(to, from, len);
++		memcpy(to, from, chunk);
+ 		kunmap_local(to);
+ 
+ 		from += chunk;
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.40.1
+
