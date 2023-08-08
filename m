@@ -1,22 +1,22 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2732614268
-	for <ntfs3@lists.linux.dev>; Tue,  8 Aug 2023 16:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15A814272
+	for <ntfs3@lists.linux.dev>; Tue,  8 Aug 2023 16:16:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=lMZjGmk9h743/vCRz7ALqu87zkGuLF1PQOhL9ZSvlGg=; b=Lt5MHPhXqy5ZqBlxSjrqolLm6V
-	77J2Dqu1dHaMYxZhxYqqrAGI1XDXdYkUvuXeDMx03d3r7kRvts4+MtCf8a1ooNVcPEn5Zx9NdXbPT
-	yD18EWhTTajNHN4eAMx8cdr2Fjf8F2O+7JeQXtAH1WqMlLQ9sFDD/mQpbMO6C5VGcznrUk4Bq9zAf
-	KwW/CT1tq/MtlVAgVprHw2pAqgjHm6Lx/uNY/HR6VpxSLpZ6Axn4ZJ4nELG6hBfhm81imCEU0O9ZG
-	5ZOLMsnMW6Rnal+thY9VblzaencC0uyZgk8EYfcjGbnMKvexDuCWaiionKX+2YfLQYI0kzacbNelA
-	zJp5VYKA==;
+	bh=LFjCk9siGwhTEADbkyjhtNSoRlaJLLFmtFQb55pjw8A=; b=nKc8xByA5ctdV1Q+Pm2v1F1/z6
+	nSuVSQtbYZTjG974c9Sa8/OR2tdlql1EX3xG+x8wMhUMC4SYMl1fsvQz5RttkFttIlExnqrPcbNtk
+	9zHnIuoicRi5VPo/aqXw7PY0RP52CETgPw0UqUlL3mtUZGZMQyfbbU+mKrEXAIlzUyDPqpkNasa1W
+	D8EyEm0O0CAyit+1ivMnFv02jD3pZof6Zk+sShizQS4NXF2OZxZ4alSzgLYWC1fwZQ8C3vjMJa+zi
+	foExiVmD+dmyn6o8rgeU3TqKwPEONwFATvbmyOh0uxLnP94PDdKTNxW6f+hjJB9gfHxDisJmMO9cr
+	c2ah1gmg==;
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTPNM-002vfB-2W;
-	Tue, 08 Aug 2023 16:16:04 +0000
+	id 1qTPNN-002vfo-1P;
+	Tue, 08 Aug 2023 16:16:05 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -30,9 +30,9 @@ Cc: Namjae Jeon <linkinjeon@kernel.org>,
 	linux-ext4@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH 10/13] exfat: free the sbi and iocharset in ->kill_sb
-Date: Tue,  8 Aug 2023 09:15:57 -0700
-Message-Id: <20230808161600.1099516-11-hch@lst.de>
+Subject: [PATCH 12/13] ntfs3: don't call sync_blockdev in ntfs_put_super
+Date: Tue,  8 Aug 2023 09:15:59 -0700
+Message-Id: <20230808161600.1099516-13-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230808161600.1099516-1-hch@lst.de>
 References: <20230808161600.1099516-1-hch@lst.de>
@@ -45,88 +45,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-As a rule of thumb everything allocated to the fs_context and moved into
-the super_block should be freed by ->kill_sb so that the teardown
-handling doesn't need to be duplicated between the fill_super error
-path and put_super.  Implement an exfat-specific kill_sb method to do
-that and share the code with the mount contex free helper for the
-mount error handling case.
+kill_block_super will call sync_blockdev just a tad later already.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/exfat/super.c | 28 ++++++++++++++++++----------
- 1 file changed, 18 insertions(+), 10 deletions(-)
+ fs/ntfs3/super.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/fs/exfat/super.c b/fs/exfat/super.c
-index 3c6aec96d0dc85..85b04a4064af1e 100644
---- a/fs/exfat/super.c
-+++ b/fs/exfat/super.c
-@@ -41,9 +41,7 @@ static void exfat_put_super(struct super_block *sb)
- 	mutex_unlock(&sbi->s_lock);
- 
- 	unload_nls(sbi->nls_io);
--	exfat_free_iocharset(sbi);
- 	exfat_free_upcase_table(sbi);
--	kfree(sbi);
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index bb985d3756d949..727138933a9324 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -629,8 +629,6 @@ static void ntfs_put_super(struct super_block *sb)
+ 	put_mount_options(sbi->options);
+ 	ntfs3_free_sbi(sbi);
+ 	sb->s_fs_info = NULL;
+-
+-	sync_blockdev(sb->s_bdev);
  }
  
- static int exfat_sync_fs(struct super_block *sb, int wait)
-@@ -703,9 +701,6 @@ static int exfat_fill_super(struct super_block *sb, struct fs_context *fc)
- 
- check_nls_io:
- 	unload_nls(sbi->nls_io);
--	exfat_free_iocharset(sbi);
--	sb->s_fs_info = NULL;
--	kfree(sbi);
- 	return err;
- }
- 
-@@ -714,14 +709,18 @@ static int exfat_get_tree(struct fs_context *fc)
- 	return get_tree_bdev(fc, exfat_fill_super);
- }
- 
-+static void exfat_free_sbi(struct exfat_sb_info *sbi)
-+{
-+	exfat_free_iocharset(sbi);
-+	kfree(sbi);
-+}
-+
- static void exfat_free(struct fs_context *fc)
- {
- 	struct exfat_sb_info *sbi = fc->s_fs_info;
- 
--	if (sbi) {
--		exfat_free_iocharset(sbi);
--		kfree(sbi);
--	}
-+	if (sbi)
-+		exfat_free_sbi(sbi);
- }
- 
- static int exfat_reconfigure(struct fs_context *fc)
-@@ -766,12 +765,21 @@ static int exfat_init_fs_context(struct fs_context *fc)
- 	return 0;
- }
- 
-+static void exfat_kill_sb(struct super_block *sb)
-+{
-+	struct exfat_sb_info *sbi = sb->s_fs_info;
-+
-+	kill_block_super(sb);
-+	if (sbi)
-+		exfat_free_sbi(sbi);
-+}
-+
- static struct file_system_type exfat_fs_type = {
- 	.owner			= THIS_MODULE,
- 	.name			= "exfat",
- 	.init_fs_context	= exfat_init_fs_context,
- 	.parameters		= exfat_parameters,
--	.kill_sb		= kill_block_super,
-+	.kill_sb		= exfat_kill_sb,
- 	.fs_flags		= FS_REQUIRES_DEV,
- };
- 
+ static int ntfs_statfs(struct dentry *dentry, struct kstatfs *buf)
 -- 
 2.39.2
 
