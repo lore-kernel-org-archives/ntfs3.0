@@ -1,22 +1,22 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5136613AFC
-	for <ntfs3@lists.linux.dev>; Tue,  8 Aug 2023 16:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B6A14261
+	for <ntfs3@lists.linux.dev>; Tue,  8 Aug 2023 16:16:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=rt0px8OIiQARO6GUL8fgA6BaKOKo7Z9Pdx2pSymnAUQ=; b=MQqMBYz676hItDqatL6JGvZ2jH
-	km7sn+WQU/dd15wbNotX4+Vdyyk03qVbn0sBwLURbVvLQ+5TtaRsCgJvY0A+KsgwO9f3gNR9UNLXh
-	W9/AZPYOWrmhkbWthGi/63qXFoPS0WZDG4nms7wlp6Csv9PEBZD7eM2NZnNnYsbr6RpELeXpkSyzj
-	13OqYjLV1Ltdqie74m83jj7sK0fyqkzr1zHBzeh4nEzjhDhnmqB50dnHeribX85qSdgCPihieul1B
-	AkjmkXs6Yi4nrf+iUSZ9yYDM/wfkuQIFLWSd6KpaqSCRhhHYRq1s2y8DYS95ZaELpo1Vxfqx1SbMj
-	/o62BDDw==;
+	bh=Ag0DC0GVA6ZWEFo+6KWBzeM9QEWvQfau0HnuIyRPxDg=; b=wBNIFpZ92lh5UtJct7aTxUWk96
+	ahDDuEuWFJq+4Zn0AJsu7/RVh69PqBlhV6tugDciKSVCj3EFXjeWGpEAXOJ/NG2M0eFTvPxQU9CSc
+	XOz2eSjNLzd0MtWB+yDjEauFH78iiHc8TSGWTb0gVG7buVFpr4/Cn7DYLJqZDlYRDU8tB3hnUwfmM
+	XhDcEKymhAXQuHkt2oqWoflDfkG9ZdVYwNmHDMejua0lc9EvGOglOKcV8XHPf5IpIqMsoe+j8VchW
+	ixFg0BOKpFJfE2zCyZtAvPU8MTls08mUAWgDPDXL67v+meZRnBnzLCf3eM3kymJhIqwzSmD31TU8o
+	nzvdj4TA==;
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTPNJ-002vbG-21;
-	Tue, 08 Aug 2023 16:16:01 +0000
+	id 1qTPNK-002vd4-1C;
+	Tue, 08 Aug 2023 16:16:02 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -30,9 +30,9 @@ Cc: Namjae Jeon <linkinjeon@kernel.org>,
 	linux-ext4@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH 01/13] xfs: reformat the xfs_fs_free prototype
-Date: Tue,  8 Aug 2023 09:15:48 -0700
-Message-Id: <20230808161600.1099516-2-hch@lst.de>
+Subject: [PATCH 03/13] xfs: free the mount in ->kill_sb
+Date: Tue,  8 Aug 2023 09:15:50 -0700
+Message-Id: <20230808161600.1099516-4-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230808161600.1099516-1-hch@lst.de>
 References: <20230808161600.1099516-1-hch@lst.de>
@@ -45,28 +45,80 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-The xfs_fs_free prototype formatting is a weird mix of the classic XFS
-style and the Linux style.  Fix it up to be consistent.
+As a rule of thumb everything allocated to the fs_context and moved into
+the super_block should be freed by ->kill_sb so that the teardown
+handling doesn't need to be duplicated between the fill_super error
+path and put_super.  Implement a XFS-specific kill_sb method to do that.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/xfs/xfs_super.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/xfs/xfs_super.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
 diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-index bf6e0a261a49e6..0a294659c18972 100644
+index 128f4a2924d49c..d2f3ae6ba8938b 100644
 --- a/fs/xfs/xfs_super.c
 +++ b/fs/xfs/xfs_super.c
-@@ -1933,7 +1933,8 @@ xfs_fs_reconfigure(
+@@ -1143,9 +1143,6 @@ xfs_fs_put_super(
+ 	xfs_destroy_percpu_counters(mp);
+ 	xfs_destroy_mount_workqueues(mp);
+ 	xfs_close_devices(mp);
+-
+-	sb->s_fs_info = NULL;
+-	xfs_mount_free(mp);
+ }
+ 
+ static long
+@@ -1487,7 +1484,7 @@ xfs_fs_fill_super(
+ 
+ 	error = xfs_fs_validate_params(mp);
+ 	if (error)
+-		goto out_free_names;
++		return error;
+ 
+ 	sb_min_blocksize(sb, BBSIZE);
+ 	sb->s_xattr = xfs_xattr_handlers;
+@@ -1514,7 +1511,7 @@ xfs_fs_fill_super(
+ 
+ 	error = xfs_open_devices(mp);
+ 	if (error)
+-		goto out_free_names;
++		return error;
+ 
+ 	error = xfs_init_mount_workqueues(mp);
+ 	if (error)
+@@ -1734,9 +1731,6 @@ xfs_fs_fill_super(
+ 	xfs_destroy_mount_workqueues(mp);
+  out_close_devices:
+ 	xfs_close_devices(mp);
+- out_free_names:
+-	sb->s_fs_info = NULL;
+-	xfs_mount_free(mp);
+ 	return error;
+ 
+  out_unmount:
+@@ -1999,12 +1993,20 @@ static int xfs_init_fs_context(
  	return 0;
  }
  
--static void xfs_fs_free(
 +static void
-+xfs_fs_free(
- 	struct fs_context	*fc)
- {
- 	struct xfs_mount	*mp = fc->s_fs_info;
++xfs_kill_sb(
++	struct super_block		*sb)
++{
++	kill_block_super(sb);
++	xfs_mount_free(XFS_M(sb));
++}
++
+ static struct file_system_type xfs_fs_type = {
+ 	.owner			= THIS_MODULE,
+ 	.name			= "xfs",
+ 	.init_fs_context	= xfs_init_fs_context,
+ 	.parameters		= xfs_fs_parameters,
+-	.kill_sb		= kill_block_super,
++	.kill_sb		= xfs_kill_sb,
+ 	.fs_flags		= FS_REQUIRES_DEV | FS_ALLOW_IDMAP,
+ };
+ MODULE_ALIAS_FS("xfs");
 -- 
 2.39.2
 
