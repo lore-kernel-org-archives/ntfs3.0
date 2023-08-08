@@ -1,22 +1,22 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7640614269
-	for <ntfs3@lists.linux.dev>; Tue,  8 Aug 2023 16:16:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210451401A
+	for <ntfs3@lists.linux.dev>; Tue,  8 Aug 2023 16:16:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=bJxgIoR4mJQUg5rLnZqrYlT5xT1x+GwLxo5eAVskIAQ=; b=OHuO8Wh/1Q0P/1nF6gcUMbFQod
-	5LDs5mgcANOxNCq0J3IZZlQoDbqurokslJv5aV7vgb5wdZXBYUqawpWm00FUa/uPb02aaSVb4wI5g
-	rnCkGWvpHMwutgEFJIyE5/sBuoiFVhJo7NyGL9dOIDqkQAzPlSG1hJ0nKYjwWmAzgUHr8WKbj6YPL
-	SqOrhQza8PU1DgJrj+sXMT3/PrNpObo8Q2k8AC0XixhL1WHDOUqVAWIktwgfmggi1B9Ka3wYnfIL5
-	UU7mPiBIs3lje/6PilCNjLgTb5WM4BFOuiJzPfWVzS6/3Qwt7X4FAqkSozzcDNGTUOsRMKVnmbjYB
-	4x5fl+PQ==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=tpISbOIlVot9F9U1RNc64fDb/+3/Ds6+lWu+Mwkvzdw=; b=El3mxO87GYV8usnOyCxQQx0kP4
+	97652Jjf00cv0Jc7CYPJYWVtwCRZer14tOk+uGQbXzJo85Kmq2iVIaETR8PLaF/hzP8AHhfin4b7K
+	1axfm+detn4BLknnjJm+aQzZh4eq6LLaJ94WjkgNmpso4rRGd5AHHgNQlj2q8x/UUMd35T3yozYk5
+	dHBv4hQAKiIo13G98SSejgl4FWzTrBOraCgaZZ+7RcJkIeJYSAGDX1jnCbxjIDhFbKsHWAnVqu4kh
+	mzpEF/MynV7qM2C29sFHeh+cELLDrt7uPHMcXSB8daE7pcItf/GuhIhZhFvVDMQBvd4I9aphH54Bs
+	JCh7hhcA==;
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTPNJ-002vao-0x;
-	Tue, 08 Aug 2023 16:16:01 +0000
+	id 1qTPNN-002vfe-0P;
+	Tue, 08 Aug 2023 16:16:05 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -30,10 +30,12 @@ Cc: Namjae Jeon <linkinjeon@kernel.org>,
 	linux-ext4@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	linux-xfs@vger.kernel.org
-Subject: s_fs_info and ->kill_sb revisited
-Date: Tue,  8 Aug 2023 09:15:47 -0700
-Message-Id: <20230808161600.1099516-1-hch@lst.de>
+Subject: [PATCH 11/13] ntfs3: rename put_ntfs ntfs3_free_sbi
+Date: Tue,  8 Aug 2023 09:15:58 -0700
+Message-Id: <20230808161600.1099516-12-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230808161600.1099516-1-hch@lst.de>
+References: <20230808161600.1099516-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -43,24 +45,58 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi all,
+put_ntfs is a rather unconventional name for a function that frees the
+sbi and associated resources.  Give it a more descriptive name and drop
+the duplicate name in the top of the function comment.
 
-this series is against the VFS vfs.super branch does two slightly
-related things:
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/ntfs3/super.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
- - move closing of the external devices in ext4 and xfs from ->put_super
-   into ->kill_sb so that this isn't done under s_umount which creates
-   lock ordere reversal
- - move freeing the private dta in s_fs_info into ->kill_sb for file systems
-   that pass it in through the fs_context, as otherwise we could leak it
-   before fill_super is called (this is something new on the vfs.super
-   branch because of the changed place where blkdev_get is called)
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 1a02072b6b0e16..bb985d3756d949 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -569,9 +569,9 @@ static void init_once(void *foo)
+ }
+ 
+ /*
+- * put_ntfs - Noinline to reduce binary size.
++ * Noinline to reduce binary size.
+  */
+-static noinline void put_ntfs(struct ntfs_sb_info *sbi)
++static noinline void ntfs3_free_sbi(struct ntfs_sb_info *sbi)
+ {
+ 	kfree(sbi->new_rec);
+ 	kvfree(ntfs_put_shared(sbi->upcase));
+@@ -627,7 +627,7 @@ static void ntfs_put_super(struct super_block *sb)
+ 	ntfs_set_state(sbi, NTFS_DIRTY_CLEAR);
+ 
+ 	put_mount_options(sbi->options);
+-	put_ntfs(sbi);
++	ntfs3_free_sbi(sbi);
+ 	sb->s_fs_info = NULL;
+ 
+ 	sync_blockdev(sb->s_bdev);
+@@ -1569,7 +1569,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	 * ntfs_fs_free will be called with fc->s_fs_info = NULL
+ 	 */
+ 	put_mount_options(sbi->options);
+-	put_ntfs(sbi);
++	ntfs3_free_sbi(sbi);
+ 	sb->s_fs_info = NULL;
+ 	kfree(boot2);
+ 
+@@ -1659,7 +1659,7 @@ static void ntfs_fs_free(struct fs_context *fc)
+ 	struct ntfs_sb_info *sbi = fc->s_fs_info;
+ 
+ 	if (sbi)
+-		put_ntfs(sbi);
++		ntfs3_free_sbi(sbi);
+ 
+ 	if (opts)
+ 		put_mount_options(opts);
+-- 
+2.39.2
 
-Diffstat:
- exfat/exfat_fs.h |    2 -
- exfat/super.c    |   39 +++++++++++++-------------
- ext4/super.c     |   50 +++++++++++++++++-----------------
- ntfs3/super.c    |   33 ++++++++++------------
- xfs/xfs_buf.c    |    7 +++-
- xfs/xfs_super.c  |   80 +++++++++++++++++++++++++------------------------------
- 6 files changed, 102 insertions(+), 109 deletions(-)
