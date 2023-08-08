@@ -1,208 +1,74 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D40DDBF;
-	Tue,  8 Aug 2023 10:05:59 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 48E552031C;
-	Tue,  8 Aug 2023 10:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1691489158; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cOTJYjkBLnwjV/lxEVtUyReuFAMisDvl/3KW3rcsa80=;
-	b=RYwrn0fdjwhhRR7l27SfhU6sEIZlfDKsRmqY6BlBC/mbMQlEPGtvhbIdRr7h8egn/oN8yh
-	Oz6U9UuTleHENrCE1avR3NSOn0guqcLSLu7iBXijjb70nxn/BQDxhjUWhk7QvvA5/v4PB8
-	VNLrqst7KIs78O2ejOjXiqcNSNVttFQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1691489158;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cOTJYjkBLnwjV/lxEVtUyReuFAMisDvl/3KW3rcsa80=;
-	b=3BwMkd6c3zAZ5/EGX3xW7irKJimW+k7SoacxDa/XvD8/WW5BAqfXsGAeW7PnSgHdphBpnB
-	7inqEIuyeW8nM7Cw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2CBE0139E9;
-	Tue,  8 Aug 2023 10:05:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id riV+CoYT0mRzKwAAMHmgww
-	(envelope-from <jack@suse.cz>); Tue, 08 Aug 2023 10:05:58 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 9F18AA0769; Tue,  8 Aug 2023 12:05:57 +0200 (CEST)
-Date: Tue, 8 Aug 2023 12:05:57 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>, Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
-	Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
-	Tyler Hicks <code@tyhicks.com>, Gao Xiang <xiang@kernel.org>,
-	Chao Yu <chao@kernel.org>, Yue Hu <huyue2@coolpad.com>,
-	Jeffle Xu <jefflexu@linux.alibaba.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>, Jan Kara <jack@suse.com>,
-	Theodore Ts'o <tytso@mit.edu>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BF43C37
+	for <ntfs3@lists.linux.dev>; Tue,  8 Aug 2023 16:16:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=uTtkmb1P3F6V6kZi49uGtNjhGEsYIbFhDnDhSq0eXdo=; b=TTJ+J5IZJXh15DaI89d/wkIacK
+	ZqFMky+b77pGGHwsKy0MKm4BaU6JKjmncaXkoG51mdUwjaMzh3f3a+cSIc9AOWiODQvoQYXkLE5WL
+	qmpqtPdty2R8pT3dLzXAP9B2Mrh60VHdcytyEnZW9nWWXeY9JR0A7Sn1TBPvXZgixSqL2xrpWsuJl
+	tFhwirSU07OTYBMJy/uSG2x5hSI/7+0n+GYAd8zBCkzOCAlX6Bd5va65Cj9u/ltcLbGFkx0XmxSrN
+	mkZXXAIRh22SwMpUY/E/tIyObMmUXeRdTRSRd5X0ZIRtfqduRn72dNL+t6HIIuo/NGFdVnj/1VF+J
+	mxpJmZXw==;
+Received: from [4.28.11.157] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1qTPNJ-002vcp-32;
+	Tue, 08 Aug 2023 16:16:01 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	"Theodore Ts'o" <tytso@mit.edu>,
 	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bob Peterson <rpeterso@redhat.com>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Anna Schumaker <anna@kernel.org>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Kees Cook <keescook@chromium.org>,
-	Iurii Zaikin <yzaikin@google.com>, Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.com>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Richard Weinberger <richard@nod.at>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hugh Dickins <hughd@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Amir Goldstein <amir73il@gmail.com>,
 	"Darrick J. Wong" <djwong@kernel.org>,
-	Benjamin Coddington <bcodding@redhat.com>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	v9fs@lists.linux.dev, linux-afs@lists.infradead.org,
-	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-	codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
-	linux-nfs@vger.kernel.org, ntfs3@lists.linux.dev,
-	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org,
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-	linux-mtd@lists.infradead.org, linux-mm@kvack.org,
-	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v7 13/13] btrfs: convert to multigrain timestamps
-Message-ID: <20230808100557.dowlxz2destpseqr@quack3>
-References: <20230807-mgctime-v7-0-d1dec143a704@kernel.org>
- <20230807-mgctime-v7-13-d1dec143a704@kernel.org>
+	linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	linux-xfs@vger.kernel.org
+Subject: [PATCH 02/13] xfs: remove a superflous s_fs_info NULL check in xfs_fs_put_super
+Date: Tue,  8 Aug 2023 09:15:49 -0700
+Message-Id: <20230808161600.1099516-3-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230808161600.1099516-1-hch@lst.de>
+References: <20230808161600.1099516-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230807-mgctime-v7-13-d1dec143a704@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon 07-08-23 15:38:44, Jeff Layton wrote:
-> Enable multigrain timestamps, which should ensure that there is an
-> apparent change to the timestamp whenever it has been written after
-> being actively observed via getattr.
-> 
-> Beyond enabling the FS_MGTIME flag, this patch eliminates
-> update_time_for_write, which goes to great pains to avoid in-memory
-> stores. Just have it overwrite the timestamps unconditionally.
-> 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> Acked-by: David Sterba <dsterba@suse.com>
+->put_super is only called when sb->s_root is set, and thus when
+fill_super succeeds.  Thus drop the NULL check that can't happen in
+xfs_fs_put_super.
 
-Looks good to me. Feel free to add:
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/xfs/xfs_super.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/btrfs/file.c  | 24 ++++--------------------
->  fs/btrfs/super.c |  5 +++--
->  2 files changed, 7 insertions(+), 22 deletions(-)
-> 
-> diff --git a/fs/btrfs/file.c b/fs/btrfs/file.c
-> index d7a9ece7a40b..b9e75c9f95ac 100644
-> --- a/fs/btrfs/file.c
-> +++ b/fs/btrfs/file.c
-> @@ -1106,25 +1106,6 @@ void btrfs_check_nocow_unlock(struct btrfs_inode *inode)
->  	btrfs_drew_write_unlock(&inode->root->snapshot_lock);
->  }
->  
-> -static void update_time_for_write(struct inode *inode)
-> -{
-> -	struct timespec64 now, ctime;
-> -
-> -	if (IS_NOCMTIME(inode))
-> -		return;
-> -
-> -	now = current_time(inode);
-> -	if (!timespec64_equal(&inode->i_mtime, &now))
-> -		inode->i_mtime = now;
-> -
-> -	ctime = inode_get_ctime(inode);
-> -	if (!timespec64_equal(&ctime, &now))
-> -		inode_set_ctime_to_ts(inode, now);
-> -
-> -	if (IS_I_VERSION(inode))
-> -		inode_inc_iversion(inode);
-> -}
-> -
->  static int btrfs_write_check(struct kiocb *iocb, struct iov_iter *from,
->  			     size_t count)
->  {
-> @@ -1156,7 +1137,10 @@ static int btrfs_write_check(struct kiocb *iocb, struct iov_iter *from,
->  	 * need to start yet another transaction to update the inode as we will
->  	 * update the inode when we finish writing whatever data we write.
->  	 */
-> -	update_time_for_write(inode);
-> +	if (!IS_NOCMTIME(inode)) {
-> +		inode->i_mtime = inode_set_ctime_current(inode);
-> +		inode_inc_iversion(inode);
-> +	}
->  
->  	start_pos = round_down(pos, fs_info->sectorsize);
->  	oldsize = i_size_read(inode);
-> diff --git a/fs/btrfs/super.c b/fs/btrfs/super.c
-> index f1dd172d8d5b..8eda51b095c9 100644
-> --- a/fs/btrfs/super.c
-> +++ b/fs/btrfs/super.c
-> @@ -2144,7 +2144,7 @@ static struct file_system_type btrfs_fs_type = {
->  	.name		= "btrfs",
->  	.mount		= btrfs_mount,
->  	.kill_sb	= btrfs_kill_super,
-> -	.fs_flags	= FS_REQUIRES_DEV | FS_BINARY_MOUNTDATA,
-> +	.fs_flags	= FS_REQUIRES_DEV | FS_BINARY_MOUNTDATA | FS_MGTIME,
->  };
->  
->  static struct file_system_type btrfs_root_fs_type = {
-> @@ -2152,7 +2152,8 @@ static struct file_system_type btrfs_root_fs_type = {
->  	.name		= "btrfs",
->  	.mount		= btrfs_mount_root,
->  	.kill_sb	= btrfs_kill_super,
-> -	.fs_flags	= FS_REQUIRES_DEV | FS_BINARY_MOUNTDATA | FS_ALLOW_IDMAP,
-> +	.fs_flags	= FS_REQUIRES_DEV | FS_BINARY_MOUNTDATA |
-> +			  FS_ALLOW_IDMAP | FS_MGTIME,
->  };
->  
->  MODULE_ALIAS_FS("btrfs");
-> 
-> -- 
-> 2.41.0
-> 
+diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+index 0a294659c18972..128f4a2924d49c 100644
+--- a/fs/xfs/xfs_super.c
++++ b/fs/xfs/xfs_super.c
+@@ -1132,10 +1132,6 @@ xfs_fs_put_super(
+ {
+ 	struct xfs_mount	*mp = XFS_M(sb);
+ 
+-	/* if ->fill_super failed, we have no mount to tear down */
+-	if (!sb->s_fs_info)
+-		return;
+-
+ 	xfs_notice(mp, "Unmounting Filesystem %pU", &mp->m_sb.sb_uuid);
+ 	xfs_filestream_unmount(mp);
+ 	xfs_unmountfs(mp);
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.39.2
+
