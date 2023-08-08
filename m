@@ -1,22 +1,22 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C2E14273
-	for <ntfs3@lists.linux.dev>; Tue,  8 Aug 2023 16:16:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7389014015
+	for <ntfs3@lists.linux.dev>; Tue,  8 Aug 2023 16:16:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=jgQoGphI7yhK2a8sAJjEwq0DyBSNj/HdoUXg4IN4ww8=; b=EGdn8woUvCMUAobaHTNF8ayAOV
-	vwXIM+Vt5q9CEagDHv+fUgyQTvMG6n3lEn4gNmFDNEx5IQPlG/z7a15ZFtJjE1dgOMK7G69QEjqJf
-	DAwr+FlbuDBELUgHSfJBXPR+ANqou+wRHDhBI6h17xCbob67Joa8lBJU0tv++7OXOVG2uSwX9qfQy
-	MHCuG5cTQMlVQrD2/YRz9MihKgyzOB06e6OlTp693vJ5PlO7QXOyfW3TK67VmzyJEr9RSkTdl6w0f
-	NQi3iddgzrX7/vRP3i4xdD0JMPGDr3bf+zxA/LZqLOzDYlYjnwTzaNywSsFtxcoBpYXNvHIAYg5sV
-	kp4mG5bA==;
+	bh=hGm0PoZsSJZw0UuDTLlojtKcsb/ByKVstfvqpwP4vdE=; b=Dndp7MnuKGeHFLR7PYLaTD/oO3
+	CDKJ8lBg4Csn7eIFMbJ6DeMAInwX1FuXCc+zgQQn+blEDdf73o1x1C7tVxb8ccTb12m7OeG34MWEA
+	XN9cRH/X8i2x7Vot/TNc7xIf5inPepsWUGo92hjBZ4lC2QEEuYTiOMHBm5ZtAh8aa7YfCnlbDxK5y
+	F76LWmlKyp5hLJb716y1qZ1WbLddfDnvlhtA3khPpbzl80M3FISp7LDxhQtGmF38ChwxPLIzplMEo
+	5lfzKAWAFFm8BLV3CiP3F8OlCW/VOK41D23L696sq9MHL4Kis8ymMN5yW74WJJfI2gegPm7NWOuqt
+	zYYud6gw==;
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTPNM-002vew-1N;
-	Tue, 08 Aug 2023 16:16:04 +0000
+	id 1qTPNL-002vdl-0x;
+	Tue, 08 Aug 2023 16:16:03 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -30,9 +30,9 @@ Cc: Namjae Jeon <linkinjeon@kernel.org>,
 	linux-ext4@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH 09/13] exfat: don't RCU-free the sbi
-Date: Tue,  8 Aug 2023 09:15:56 -0700
-Message-Id: <20230808161600.1099516-10-hch@lst.de>
+Subject: [PATCH 06/13] xfs: close the RT and log block devices in xfs_free_buftarg
+Date: Tue,  8 Aug 2023 09:15:53 -0700
+Message-Id: <20230808161600.1099516-7-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230808161600.1099516-1-hch@lst.de>
 References: <20230808161600.1099516-1-hch@lst.de>
@@ -45,61 +45,64 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-There are no RCU critical sections for accessing any information in the
-sbi, so drop the call_rcu indirection for freeing the sbi.
+Closing the block devices logically belongs into xfs_free_buftarg,  So instead
+of open coding it in the caller move it there and add a check for the s_bdev
+so that the main device isn't close as that's done by the VFS helper.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/exfat/exfat_fs.h |  2 --
- fs/exfat/super.c    | 15 ++++-----------
- 2 files changed, 4 insertions(+), 13 deletions(-)
+ fs/xfs/xfs_buf.c   |  5 +++++
+ fs/xfs/xfs_super.c | 12 ++----------
+ 2 files changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/fs/exfat/exfat_fs.h b/fs/exfat/exfat_fs.h
-index 729ada9e26e82e..f55498e5c23d46 100644
---- a/fs/exfat/exfat_fs.h
-+++ b/fs/exfat/exfat_fs.h
-@@ -273,8 +273,6 @@ struct exfat_sb_info {
- 
- 	spinlock_t inode_hash_lock;
- 	struct hlist_head inode_hashtable[EXFAT_HASH_SIZE];
--
--	struct rcu_head rcu;
- };
- 
- #define EXFAT_CACHE_VALID	0
-diff --git a/fs/exfat/super.c b/fs/exfat/super.c
-index 8c32460e031e80..3c6aec96d0dc85 100644
---- a/fs/exfat/super.c
-+++ b/fs/exfat/super.c
-@@ -31,16 +31,6 @@ static void exfat_free_iocharset(struct exfat_sb_info *sbi)
- 		kfree(sbi->options.iocharset);
- }
- 
--static void exfat_delayed_free(struct rcu_head *p)
--{
--	struct exfat_sb_info *sbi = container_of(p, struct exfat_sb_info, rcu);
--
--	unload_nls(sbi->nls_io);
--	exfat_free_iocharset(sbi);
--	exfat_free_upcase_table(sbi);
--	kfree(sbi);
--}
--
- static void exfat_put_super(struct super_block *sb)
+diff --git a/fs/xfs/xfs_buf.c b/fs/xfs/xfs_buf.c
+index 83b8702030f71d..c57e6e03dfa80c 100644
+--- a/fs/xfs/xfs_buf.c
++++ b/fs/xfs/xfs_buf.c
+@@ -1938,6 +1938,8 @@ void
+ xfs_free_buftarg(
+ 	struct xfs_buftarg	*btp)
  {
- 	struct exfat_sb_info *sbi = EXFAT_SB(sb);
-@@ -50,7 +40,10 @@ static void exfat_put_super(struct super_block *sb)
- 	brelse(sbi->boot_bh);
- 	mutex_unlock(&sbi->s_lock);
++	struct block_device	*bdev = btp->bt_bdev;
++
+ 	unregister_shrinker(&btp->bt_shrinker);
+ 	ASSERT(percpu_counter_sum(&btp->bt_io_count) == 0);
+ 	percpu_counter_destroy(&btp->bt_io_count);
+@@ -1945,6 +1947,9 @@ xfs_free_buftarg(
  
--	call_rcu(&sbi->rcu, exfat_delayed_free);
-+	unload_nls(sbi->nls_io);
-+	exfat_free_iocharset(sbi);
-+	exfat_free_upcase_table(sbi);
-+	kfree(sbi);
+ 	blkdev_issue_flush(btp->bt_bdev);
+ 	fs_put_dax(btp->bt_daxdev, btp->bt_mount);
++	/* the main block device is closed by kill_block_super */
++	if (bdev != btp->bt_mount->m_super->s_bdev)
++		blkdev_put(bdev, btp->bt_mount->m_super);
+ 
+ 	kmem_free(btp);
+ }
+diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+index f00d1162815d19..37b1b763a0bef0 100644
+--- a/fs/xfs/xfs_super.c
++++ b/fs/xfs/xfs_super.c
+@@ -399,18 +399,10 @@ STATIC void
+ xfs_close_devices(
+ 	struct xfs_mount	*mp)
+ {
+-	if (mp->m_logdev_targp && mp->m_logdev_targp != mp->m_ddev_targp) {
+-		struct block_device *logdev = mp->m_logdev_targp->bt_bdev;
+-
++	if (mp->m_logdev_targp && mp->m_logdev_targp != mp->m_ddev_targp)
+ 		xfs_free_buftarg(mp->m_logdev_targp);
+-		blkdev_put(logdev, mp->m_super);
+-	}
+-	if (mp->m_rtdev_targp) {
+-		struct block_device *rtdev = mp->m_rtdev_targp->bt_bdev;
+-
++	if (mp->m_rtdev_targp)
+ 		xfs_free_buftarg(mp->m_rtdev_targp);
+-		blkdev_put(rtdev, mp->m_super);
+-	}
+ 	xfs_free_buftarg(mp->m_ddev_targp);
  }
  
- static int exfat_sync_fs(struct super_block *sb, int wait)
 -- 
 2.39.2
 
