@@ -1,46 +1,46 @@
-Received: from sonic306-20.consmr.mail.gq1.yahoo.com (sonic306-20.consmr.mail.gq1.yahoo.com [98.137.68.83])
+Received: from sonic301-22.consmr.mail.gq1.yahoo.com (sonic301-22.consmr.mail.gq1.yahoo.com [98.137.64.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5AAC24505
-	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 19:11:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1691608283; bh=pGk+ei7mVYIbtNDcxRYe+YaYkpkA0eLfuB7XwcQIIa8=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=RKEEgy/sqKXNMbhPmPOb2CCvK8pB9z8WUHTR9vJI/Mm3PpvIU9CT97gKbi/Yya6NdtNQAGNn7YndxNS7D5EQQ/4y0Ft2qLqQEIpGAICARKFN74mkx8ntuv8xegaPfKuIR200cApGuNb7eVTRkBruY2T82fMg+PaAv4beCASrefiCc6VkWjSJ9CDE4ht80N9rFeAiqo24XTpusvV0+7LvfodVqCGW/oOeen9wA2fgG8c7Ok9cn5mnPDs6KEaAJ5p0AAcs3L2uCU8fMVE+INVUpjErnWtgIBw6Or7vf6n44R+RCvVguGbWmeIsh9tQy+M8Nb60OZOD6CmxAep71hqrlQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1691608283; bh=WRUb2ovt7/Hy9kQebJzxs6oL5M2f7pBE4Z7IUplxDj5=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=c8r58/LNjuNx8i70qlJFouoVrahyl09Odyr5yYFOv4OEqzuwzUbNpkfmQZmqzqRkU2crsAVRLhvGp08lzVMEMru+FJWgEcSXDnKMwN4BLJCsiojcCEe2XDRGt/xTG2JY/+SAy5tJhxsNAGmjt+95SB8TTB6t3gDvfcEl+qS8VuDm2wv3CNg1JBtFu99gtAw9TiSDCnu2+Gs4ZyzXvBrZnNuK3AoOlhnhajx0O5hE+I4w0qzEZb+t3vmi33plCcG8BfXZlS0PKYKN3ZqGPVBg0TFz3kh4FtVZS8P5KvA8uG9erm5WX4NcdcYKivrXDWtROLCzqUV+5q293hGOKtbx+g==
-X-YMail-OSG: sBkDDwIVM1knv4TXbZWyee3uo.kLmLUCG5Cc_yJ0EoZzYo7XJVkNt3lawjLmMOo
- peEAIXahrv_nZoMJLirJKx7AEDGvCi.jhMGgj7xgAVz7qGdlDVjGFLarCLKJ.36iCckxJmEaKQle
- rPNhG8cQ8.JTXX117FVCyYNwOWngVyCEJibG_kpFA0qZ_xshBuYDhJeBKddGjjru260mNAYqOghL
- mUBoW4Twx7rRRdzZPOYTZbvr4uFZ0MassGOS6epFW0oz9ez_c8PMRRZciSYlFMycstgMvTOcHisn
- mk_Rf6n_abx4Aknr7NDgxfigbdH98l2SVONzVa8ES3N_h7ZjM6ZXq6_DpMhD6SMVsL6FG3RX1qnM
- bvqN_S4NhBGqFJ3fnze3Tvvy30A3P9tvO35aCdNrc8I.VFYFhCWpD.EpndKStC7tAuES.KH2.WQq
- vYiJMNXpgZ_ApNBMof.OVoPAMjr8bF9fX.8YQGtfSzMJp2HHH8x5IDI_RSGUJtcFE0TJYrAQPInk
- vOJ5Kf7FHIYoKv9Cw86SGci5fju0q_s_KfpraXovw5imRzPUy.BLbHnzwJB3btHWDj3cD6CnE6po
- 39mvJaXzELxzDy1Op15Kq4CSxWOFLJzRqvJkBDl_hV1r8m24685uvwHX_.y4WqKlN09j7R8LPilk
- 3dUIisVFYVYxuQeTiZ9Fv1VbFh2NM4PCAFnJNTKvtuYTY5E8gPdY56SobAfh5LwqhFm3yhGE5_QH
- aihIQ37GUtUjhIbGNJzAFP_aFuD4l74DhLuB98MKFVCLs28e2BGls.zBRwGyhLMl9tPBLRXY8Jlg
- PQHyv_0lJJJ3Da1qSyjAaWHnUCvOc1rNzMD19qW5z1zX_X4K6eEKYb3J5dHz0odT22q6gdGe1b4p
- ELy3uLU8StG0jUll.Yf6x7W2ICsLF_zMCEmAU.eU1h3_c4mdOuzHjqkpE.4UJby6qLkykNhVXnwC
- 8BmkpimAzrBZwgeH76WR0vGCl.QoXP3RuIh4CSJ5yJR9MJivrEjGYQhY0G4eSt_ZwtL5JYOLkdVd
- yajLv2OJ7ETwWc4pGeFwxwk60AFbDVIsRvMzhS.ySGyTxWKSCufRbqLWzLt2JcvItY1Pkq_AMRFv
- vzGmHOB6RyCVZOA6vNPB9dLiSy.sjrBYgeVIFmyrw6HhyMSN8v3sixjeVhmeV7iIvYpNYXENWt2H
- bWOUYxqmOIIyI0S_0wDT4PPCaXo2ZH4rYxbkNc0vfUUgzla0iShlM8u1.87GD9hGElXTU6rMcWWv
- Jc1x9kyN6Zs293Bg5NDxqjnfhxP7eHMsYKZFVbEfO_9UTmvXkO8EHkK2LusqjjjD94Au8iJmavfa
- IZaITVumx9voTLs5wTWLKsC2WOPrFMXDGQkuCxAdVWAQ01yDsgUDhtudpC9eQ4iGtKKkoe3Vl1Jl
- q3su8URmyXzsAJjLIS7dJ38yRHRt5rGEo85Q9fiZ2hDgpOApSBzjhnuC8VPKjV9pYRxbvZjzbKm2
- bArQbWuh5IeAjV6NMmlUpDuD2k9nGcF6yXNO6Y_buqLvnuBhI.lXTITRoDCsHd_gs.KPH9J8pnJ5
- iF8cB4Qu.xLJl6GFk3Ucgk9Nh8pizx3Gk4ko.Rb1Kp1xwxdmN7Gw7pB6rFeQrJxzWwEWC.rOjvUI
- AQIVyIlnsphF6fRIpnBkhWRcRmzIsmVkCF2hGm4oJQsCMxxkbnnCt5epLUHCPvkvwABirLgvh1me
- MDaxX_Gz26NmqnuYoyf71VEOWkFCmsnlOeUeDFkjp9AQqS9B9aCcbNhmJDGcWGIFsCF4R17gQbdS
- .MC87T4M9Rnz.VecRNKiZFeRobNOu0uaDYMX4sARUpxmOM5ltfu8JHPQ7_88nN_XBFKjsu1sad27
- 1Pm2U4HnLygUq98nFMWWJXS.eSGMeXI25HhaYO53ZG0LPtoWf15b9cyOi9B4GkKcy9Qd0GKkdY_c
- qFeUdz84_PdWYji3T2t8jnTnggPvq9EzpSQSOtKimroxfVttxjdHJTdvAV153F8EYUaz96NhE2bY
- UsTg9T.iod2SmXzwZfpu62AgBjDwFQbZNyb4rMX6_C184AEaCtJoxzyXALEyPDkyrNAt1H7ZNxz0
- FJbKXfVcW2YUpO9PEP5kZ7fCgRWMIn7KD8eeTX3lpljzJ5Z.D6xPVHiLRsfqBSWOWw2DzKg4fsbc
- uBd5FKQWQnXCBGk1oUfWyQfmNAsBzu65lMhVfa.Sc3kjgmPaDmNpqhGdoHFF7u9g7DkIBuIuKTFD
- dAsTC6IQaccGDvU8KgJD62AaCBbC0UU.JW4x4W0WKKPnJsK7KMC.4wuu9eWOGDi0-
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C2924505
+	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 19:14:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1691608457; bh=wZTIIyno/nSp3AajUuy9PWlQ2MXxwAovxs1b2GEt9ik=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=glNCgQ0WuAUrCOpl/FrjOyhwYFr4dmIiof6dZvwfv76VfOWEMpU63R52eP3HNT+CIbe1yIxNWAYjVAkBKssILR6v5EIUv15yQnnrdOduCr790QZ51fqQwdroiiinDA1Ng8FpIIiLuvCER9BxEM+2CDqeWNM88Z8I461bKA406+LCuGkcHA3GgiKUNzrwPsiDdCugHGGnD/qrAE0fqcrEEk/tXCKrTwj0551GZsTyz+MvPxgPM7ilSyMt80LqFfWS5Cx1MvDLEO1h55JNsmWYT7T3uEND+JUp24mtkAoYGogK4U43xsAyIfBVt43tC9eTpOfj9kP2UFe1XLAyjfVyww==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1691608457; bh=UTTpC63XH+WsjjzgHGCYPNJF39cC7anF7p4ijmCVu+s=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=sWsVQNCtZQ5u3Kz7blMhg+M+ntpn85nKDVbhSyZI8EGWGETF5RQP2NhFlOFSEsyI+xYOWWUrf79FDVT0BhCdD7GpreZKH/9MO0/sPKlN8kTKRPk2o/7D20iY4G3bI5rAnwREzmYAZLtObl1i9WK3aBUEcy9TYlYxUcPPbsmGx+Z61nUDLew+9xW+JK+3YWjPWjLuSG4tefgNcHzU2j6FNR5jOEaLhwjvfaniBedIQoB4XOpJEPOfeh6L4VggKgWy3MHyGelf9aWpE7SgMylRaNuUoO3BTnwOZP2nY7PwvkYNu3xh2lU69UDEGqChNeM+YShEcpBzF6WmbaVoTX0TLg==
+X-YMail-OSG: ss9.NiwVM1maYPZ_cg36FbUypy2a4uS0_hgIx203vHg4.6DPtwjmAGBNoRwn0Jf
+ gH2lWVJPkXiabZx1SvRkg.nZtj0zCt_xPGejXEIUyW9tOmI2u.jWPcAN2YLS7rBi73xf0OJ5qW7a
+ XCGJmGreugdMdYae6hpwHEVN83hhV2Nbg2q7FcfDZ.WtV9o11d0LORa0k4PGodZ7IYl2rgpiFXD3
+ fRo23QFHSYypX3DKwAE7YyjQftyOewwnGh5UO99R573e3ueONbg_aH7xneysoAszkfFXuEPNNZeR
+ WySJ8NgHyZPjgoVi7TrjNwwxFC.CyH2CIU6jXN_fdfbhNLOGbhxxelq2Uv4paVGU7U_bgy__27KR
+ t8xLVqx9lTJ.R2rgjNm7wi7Rr1SSpuhKdrfccuWFkadfPFGe_5U8lAdn4ewAMqBqDNGXxCTJRdLm
+ rLdiYLIHGy8OdQQQCuj2nefvlC10uiyhOpjBPQHglHqljbTb3MTybXYrPu1DHKOjR6ISUDLl9Kdo
+ ay00SMCXCL9447JZ2YX2SYHABEkHakq9as4DzwYsDVZdWeZIlaf0FXVIB2hahy7jMdjD2Jqz1F1G
+ TXbqleskEevX_w4B8uieFD6WUldikZELFryyKkhzmgUIdSy3VkuKLCd0LpiK3tMVZUpFWBaeiyF.
+ LqSrJ0uWBMdxDQIAq0IR39QqIAiGn_m2aRQth_QfxS3EctOlbtnrvifNyOl994TUcyL2Et8KzSEE
+ vAVW344YN23E0sesVF9U.x9Ww4e86Jso0WpL.0KKgh1sl8EuYtolZwxuD.J_Yqgka5zpZue_.vlu
+ Deh9WL4WSws2Wn1cDtp0CZluvJNiN1cel8.j4Fv5zEWQiehk4IpLHVN7.BBuCfHDaq2jkZgedknB
+ tBgjhAhkucl8baZwd123Nyj04GWWRlmbMzlgjL557H.J44Rh0WjB0bmhmnHpmLEAabI.91OL4gg5
+ 5yvVabWzkaEQXxZ.lo_LKUyBJpejl30u9NzXwqKZNhLt8V44ByOYIia7BS9TGSE.kqKDHnEibElY
+ pEEgWkXTK2qT9vkFbr25KYOzg9eczCxIGmpcg3UdQXZthJl_ft85JuN30gwmzEDJ_PbvQJmoI7ot
+ g2b4sHaDAudg3C5T2tVyYkUPGHyDcYvJEHXflhkBrRQy1RJ.B0qaB6bxQPYz_LwKZi1Zm9bZ1oBo
+ P2WLo5u.sAxDB2L5Cla_LdTZe4u_4yUNUWOqvoHLOjKOYalgVR7MlpY7VSZEX6FakQFpkDyhkkLa
+ k1zyCf.4kCv59lJSLoxPftHa1zCNVvAFOrniRc7sOhAXCTX8xWPvph5W3sH_1hDYxoonMp4IBNh0
+ go7Uz45RO9cYcOCEqiPBujvHdA.FwLwnRKT5Jw937knv0TsGdJug7VmNJXWOywJno7NoLedou1ku
+ xJLJcXJWdcFddEgpmYM_OdzVAWmnAo3hKpAcP_H0Xa27iQvSfoBWvglwUmT8VhyW9m4JbSks2G9b
+ WdLAG1ZRUxu9p5P1QvmeTGmGBKKlNTB.ue4xKg2A6DmgrkDlHpJbOOZY6KtQCdL8G06_eeNg8D3p
+ coumV27AeqhA6l3eoSD1fQ3LIYwQlT1pNTCuf5IiZYDxb3TYdp2lwkgs6BjbqsbDTIOwVjbRsIfZ
+ JS0KYKCJYTlpy3xWdZPIJxT9OpKn9Nvqu1GggExtH4sw31eCoptmV5A0GbzaRE5G66Y4cXqsveRP
+ 11lcGK.bg41Ht_ctbaSsi1pEq1mth7BwMviipalEX1VQ__3xacPEUCV8chxuZ8v5_24sGmV38jmn
+ hOuY52DY1BEAg_1xrJPdJCqIWBhyBB4dz5jUvPmJybs5jm_Y.AstTE5yngs47lr6paOXOXQQiODP
+ oshDZHLMe6PwcN7kUfmB.uT_A4VsLhUMdBHz1fuBPRhk.C0ZlbfmwkLHLn8.88cxjxcn4jathid_
+ D1ls7YfCkqEkjluj0sqW51EpWbrjgLu4BY3P9IghppwyIGOty3zN5Z1d2hGh92Mxm6dGqeMfGs.A
+ E7nSN6e7E0toLmZg7L4CCHsYJxdF7jtywwOaRflGuGktQIuT.wviWjbECOzlttIHGaaNoR9S8Ow4
+ RdYz0lTmzqw_tXkR9LEI4g9KPB6Av.3j30kC8nlAfWwrrVs688ADVDKvCwXbALywRW1IUlRRzGol
+ 0Hk3KgGAgsCKeK0ccIWgDjNFKcn6OnfBPXz4ql.gjfmbgIkkifWMSo0Iwy7AMyBWzy3XqmmpqEau
+ yAnmgKLVu.9gmynpM_f.IlC.FIM1TXB9vw_k..G5tWB6QN9E8S5pGZwQjonTgXJ6U64IHM_g-
 X-Sonic-MF: <astrajoan@yahoo.com>
-X-Sonic-ID: 2cd33dfc-c9a5-4927-89f0-921cf8815197
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.gq1.yahoo.com with HTTP; Wed, 9 Aug 2023 19:11:23 +0000
-Received: by hermes--production-gq1-6b7c87dcf5-j6k2s (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d02974745c6aab630ff007acd426ea3b;
-          Wed, 09 Aug 2023 19:11:21 +0000 (UTC)
+X-Sonic-ID: 03f87f64-b920-4223-a27f-c3a0ef2a769d
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.gq1.yahoo.com with HTTP; Wed, 9 Aug 2023 19:14:17 +0000
+Received: by hermes--production-gq1-6b7c87dcf5-dscqf (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 2d0df630be64f0cc1f0621d6c82a1ba3;
+          Wed, 09 Aug 2023 19:14:12 +0000 (UTC)
 From: Ziqi Zhao <astrajoan@yahoo.com>
 To: syzbot+60cf892fc31d1f4358fc@syzkaller.appspotmail.com,
 	almaz.alexandrovich@paragon-software.com,
@@ -52,8 +52,8 @@ Cc: linux-fsdevel@vger.kernel.org,
 	syzkaller-bugs@googlegroups.com,
 	Ziqi Zhao <astrajoan@yahoo.com>
 Subject: [PATCH] fs/ntfs3: Fix possible null-pointer dereference in hdr_find_e()
-Date: Wed,  9 Aug 2023 12:11:18 -0700
-Message-Id: <20230809191118.30721-1-astrajoan@yahoo.com>
+Date: Wed,  9 Aug 2023 12:14:09 -0700
+Message-Id: <20230809191409.30786-1-astrajoan@yahoo.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <0000000000009531dc0602016bb0@google.com>
 References: <0000000000009531dc0602016bb0@google.com>
@@ -64,9 +64,6 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-
-#syz test:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 
 Upon investigation of the C reproducer provided by Syzbot, it seemed
 the reproducer was trying to mount a corrupted NTFS filesystem, then
