@@ -1,22 +1,22 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27BB1DDD7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8F91DDE3
 	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 22:05:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=6wqli7thU3l6HGCeQs5U/6Urc/CqXty5nOTjeTH4Emo=; b=3yq0rDf91n3vfK9HjgD1PKxUy5
-	QmP1l6UQ0ppll1LUaQKXscmB4gajVdjp0qkb1z4Ldd7S76zYUSJn1RuIp4RbvSOY/vWJlYW1f6PMd
-	H4KUru+MzOhHpIfeBXoVyxic6pSFYebSpOQEavoipTfn4uzPWXMa1YFjdBKAEnDasymFbI6joNzQe
-	nv7QArU208ivphc7NIp6Qoir9QF1olSnpRv0hHKltJSJr1xd5sRcf2HIVJ0K1RZHYxGtEXExGkbBp
-	hXcoPZdJWva3ISY/SpTyHXwM9W6Oniv4XOI8nkEdF9ZE56o/Z+NxZy3Z8TDQrjhFvKnEm7yS2farE
-	k5N0dFKQ==;
+	bh=MXJARFPmjc3yQgiqYUDoZ2GP7GID7GJftYa9RQlJfEY=; b=qkk1LhrHQiNUSP0x5xirq/gQPw
+	5lXh97wpqGF5TdXdhF3Wwg3MiVIB4X3SqtBPWpiyU+bbWiZb92sdDvVtraYzh8HPx6Uyz2OwTdeJr
+	h0dE+fhKXN6R5kQRVBoO4/e6SprnyaKy8UYvU3Mh12MoB3N+gf/dIWNNOuwQyzJRL2s4W6Fz/LIEZ
+	NehgT3sI8SfJkxV282VsWSBWR3B/fu9OHLSh4PIsElz7nYO2++2rvwyVInzBe1QEvEekbaWbeBauf
+	wHdb9t+FMpgzuglLmAGJHlml2f5S3iOooWB906khcbLs/ZZcPatfUHZtDr3elguZoMfJgIHsIUY5W
+	ISuNr3GA==;
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTrJK-005xnx-24;
-	Wed, 09 Aug 2023 22:05:46 +0000
+	id 1qTrJN-005xoi-2T;
+	Wed, 09 Aug 2023 22:05:49 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -30,9 +30,9 @@ Cc: Namjae Jeon <linkinjeon@kernel.org>,
 	linux-ext4@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH 01/13] xfs: reformat the xfs_fs_free prototype
-Date: Wed,  9 Aug 2023 15:05:33 -0700
-Message-Id: <20230809220545.1308228-2-hch@lst.de>
+Subject: [PATCH 11/13] ntfs3: rename put_ntfs ntfs3_free_sbi
+Date: Wed,  9 Aug 2023 15:05:43 -0700
+Message-Id: <20230809220545.1308228-12-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230809220545.1308228-1-hch@lst.de>
 References: <20230809220545.1308228-1-hch@lst.de>
@@ -45,29 +45,59 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-The xfs_fs_free prototype formatting is a weird mix of the classic XFS
-style and the Linux style.  Fix it up to be consistent.
+put_ntfs is a rather unconventional name for a function that frees the
+sbi and associated resources.  Give it a more descriptive name and drop
+the duplicate name in the top of the function comment.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+Reviewed-by: Christian Brauner <brauner@kernel.org>
 ---
- fs/xfs/xfs_super.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/ntfs3/super.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-index bf6e0a261a49e6..0a294659c18972 100644
---- a/fs/xfs/xfs_super.c
-+++ b/fs/xfs/xfs_super.c
-@@ -1933,7 +1933,8 @@ xfs_fs_reconfigure(
- 	return 0;
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 1a02072b6b0e16..bb985d3756d949 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -569,9 +569,9 @@ static void init_once(void *foo)
  }
  
--static void xfs_fs_free(
-+static void
-+xfs_fs_free(
- 	struct fs_context	*fc)
+ /*
+- * put_ntfs - Noinline to reduce binary size.
++ * Noinline to reduce binary size.
+  */
+-static noinline void put_ntfs(struct ntfs_sb_info *sbi)
++static noinline void ntfs3_free_sbi(struct ntfs_sb_info *sbi)
  {
- 	struct xfs_mount	*mp = fc->s_fs_info;
+ 	kfree(sbi->new_rec);
+ 	kvfree(ntfs_put_shared(sbi->upcase));
+@@ -627,7 +627,7 @@ static void ntfs_put_super(struct super_block *sb)
+ 	ntfs_set_state(sbi, NTFS_DIRTY_CLEAR);
+ 
+ 	put_mount_options(sbi->options);
+-	put_ntfs(sbi);
++	ntfs3_free_sbi(sbi);
+ 	sb->s_fs_info = NULL;
+ 
+ 	sync_blockdev(sb->s_bdev);
+@@ -1569,7 +1569,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	 * ntfs_fs_free will be called with fc->s_fs_info = NULL
+ 	 */
+ 	put_mount_options(sbi->options);
+-	put_ntfs(sbi);
++	ntfs3_free_sbi(sbi);
+ 	sb->s_fs_info = NULL;
+ 	kfree(boot2);
+ 
+@@ -1659,7 +1659,7 @@ static void ntfs_fs_free(struct fs_context *fc)
+ 	struct ntfs_sb_info *sbi = fc->s_fs_info;
+ 
+ 	if (sbi)
+-		put_ntfs(sbi);
++		ntfs3_free_sbi(sbi);
+ 
+ 	if (opts)
+ 		put_mount_options(opts);
 -- 
 2.39.2
 
