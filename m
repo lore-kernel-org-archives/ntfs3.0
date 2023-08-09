@@ -1,22 +1,22 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52F21DDDB
-	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 22:05:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4DF1DDE7
+	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 22:05:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=jgQoGphI7yhK2a8sAJjEwq0DyBSNj/HdoUXg4IN4ww8=; b=l2+VlDhQjqHeCtyIZQH09kn34B
-	XW68F5Gfkpa3KIQwsOcH9W0O8+tLrXXxGlrwQNEnJvM6VyTmvWyUymw2KoPm3LCT+dEL3StP22vqZ
-	eO3DM9OQX44ucG2ZHWroVbhPP6r2QwLzgq3IhhOHX52V1qIqhqskttslgWeM0QLa5QKi86nkLVlDF
-	WiaSjm96WweMFfTnHDkvfsh02RU4f8dl4C5IIJO4N7HHGVLFIClaBv09Y6L5XVjZGuQD8hkQDo09s
-	9L/hsayCW79BTT7jfehbmlnDPG3XVrbNcHIFz2N7rNFJu32QSbT26I45yYrp1LqPV9S5QTn4mlSxg
-	D7w0siTw==;
+	bh=xK+hj1hEYeZWT3M55/B6bE7sbXHBn8KbDjMjOOEHDF0=; b=4ZnuSNHinXvVhvWuz8x0n0kaA0
+	jGNBdR3F5YwmW6TXCIkkFevmVBDSipJ9X7m31kswlqafmNkiK0tg7biZq/XtKLqJk4V4w6oCP2kFT
+	tN2p7l0c/UciVAfrlnwUl29Kbu4xHjelWWqpx2B9XxkYBBO/Ohug4xUfy4gJLkg6S+xSIGiEqu7DT
+	cufsTMZAoT73lP6chubHkr4IpbaeokvUQjGKxjkNyGlGoavJ0/aIAwS3j6qivHvKFW1GnPnTYxgma
+	bSybWN2h5TJI8UhEU6/C77vBgrj0lzAcKBGtMeg4Rl7q+l7q6URNEclaSW1W0A0xmonYv9zRXwC0I
+	XIryUxVQ==;
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTrJN-005xoa-0c;
-	Wed, 09 Aug 2023 22:05:49 +0000
+	id 1qTrJO-005xp3-0e;
+	Wed, 09 Aug 2023 22:05:50 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -30,9 +30,9 @@ Cc: Namjae Jeon <linkinjeon@kernel.org>,
 	linux-ext4@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH 09/13] exfat: don't RCU-free the sbi
-Date: Wed,  9 Aug 2023 15:05:41 -0700
-Message-Id: <20230809220545.1308228-10-hch@lst.de>
+Subject: [PATCH 12/13] ntfs3: don't call sync_blockdev in ntfs_put_super
+Date: Wed,  9 Aug 2023 15:05:44 -0700
+Message-Id: <20230809220545.1308228-13-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230809220545.1308228-1-hch@lst.de>
 References: <20230809220545.1308228-1-hch@lst.de>
@@ -45,61 +45,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-There are no RCU critical sections for accessing any information in the
-sbi, so drop the call_rcu indirection for freeing the sbi.
+kill_block_super will call sync_blockdev just a tad later already.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Christian Brauner <brauner@kernel.org>
 ---
- fs/exfat/exfat_fs.h |  2 --
- fs/exfat/super.c    | 15 ++++-----------
- 2 files changed, 4 insertions(+), 13 deletions(-)
+ fs/ntfs3/super.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/fs/exfat/exfat_fs.h b/fs/exfat/exfat_fs.h
-index 729ada9e26e82e..f55498e5c23d46 100644
---- a/fs/exfat/exfat_fs.h
-+++ b/fs/exfat/exfat_fs.h
-@@ -273,8 +273,6 @@ struct exfat_sb_info {
- 
- 	spinlock_t inode_hash_lock;
- 	struct hlist_head inode_hashtable[EXFAT_HASH_SIZE];
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index bb985d3756d949..727138933a9324 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -629,8 +629,6 @@ static void ntfs_put_super(struct super_block *sb)
+ 	put_mount_options(sbi->options);
+ 	ntfs3_free_sbi(sbi);
+ 	sb->s_fs_info = NULL;
 -
--	struct rcu_head rcu;
- };
- 
- #define EXFAT_CACHE_VALID	0
-diff --git a/fs/exfat/super.c b/fs/exfat/super.c
-index 8c32460e031e80..3c6aec96d0dc85 100644
---- a/fs/exfat/super.c
-+++ b/fs/exfat/super.c
-@@ -31,16 +31,6 @@ static void exfat_free_iocharset(struct exfat_sb_info *sbi)
- 		kfree(sbi->options.iocharset);
+-	sync_blockdev(sb->s_bdev);
  }
  
--static void exfat_delayed_free(struct rcu_head *p)
--{
--	struct exfat_sb_info *sbi = container_of(p, struct exfat_sb_info, rcu);
--
--	unload_nls(sbi->nls_io);
--	exfat_free_iocharset(sbi);
--	exfat_free_upcase_table(sbi);
--	kfree(sbi);
--}
--
- static void exfat_put_super(struct super_block *sb)
- {
- 	struct exfat_sb_info *sbi = EXFAT_SB(sb);
-@@ -50,7 +40,10 @@ static void exfat_put_super(struct super_block *sb)
- 	brelse(sbi->boot_bh);
- 	mutex_unlock(&sbi->s_lock);
- 
--	call_rcu(&sbi->rcu, exfat_delayed_free);
-+	unload_nls(sbi->nls_io);
-+	exfat_free_iocharset(sbi);
-+	exfat_free_upcase_table(sbi);
-+	kfree(sbi);
- }
- 
- static int exfat_sync_fs(struct super_block *sb, int wait)
+ static int ntfs_statfs(struct dentry *dentry, struct kstatfs *buf)
 -- 
 2.39.2
 
