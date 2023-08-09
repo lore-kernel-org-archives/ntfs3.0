@@ -1,11 +1,11 @@
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A7C18AE4
-	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 16:14:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FB318AE4
+	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 16:17:49 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 329E26732D; Wed,  9 Aug 2023 18:14:11 +0200 (CEST)
-Date: Wed, 9 Aug 2023 18:14:11 +0200
+	id A3F316732D; Wed,  9 Aug 2023 18:17:45 +0200 (CEST)
+Date: Wed, 9 Aug 2023 18:17:45 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Al Viro <viro@zeniv.linux.org.uk>,
@@ -17,10 +17,10 @@ Cc: Christoph Hellwig <hch@lst.de>, Al Viro <viro@zeniv.linux.org.uk>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
 	ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 07/13] xfs: close the external block devices in
- xfs_mount_free
-Message-ID: <20230809161411.GA2346@lst.de>
-References: <20230808161600.1099516-1-hch@lst.de> <20230808161600.1099516-8-hch@lst.de> <20230809155524.GU11352@frogsfrogsfrogs>
+Subject: Re: [PATCH 06/13] xfs: close the RT and log block devices in
+ xfs_free_buftarg
+Message-ID: <20230809161745.GB2346@lst.de>
+References: <20230808161600.1099516-1-hch@lst.de> <20230808161600.1099516-7-hch@lst.de> <20230809154532.GT11352@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -29,17 +29,21 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230809155524.GU11352@frogsfrogsfrogs>
+In-Reply-To: <20230809154532.GT11352@frogsfrogsfrogs>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Aug 09, 2023 at 08:55:24AM -0700, Darrick J. Wong wrote:
-> If I'm following this correctly, putting the superblock flushes the
-> bdevs (though it doesn't invalidate the bdev mapping!) and only later
-> when we free the xfs_mount do we actually put the buftargs?
+On Wed, Aug 09, 2023 at 08:45:32AM -0700, Darrick J. Wong wrote:
+> >  	blkdev_issue_flush(btp->bt_bdev);
+> >  	fs_put_dax(btp->bt_daxdev, btp->bt_mount);
+> > +	/* the main block device is closed by kill_block_super */
+> > +	if (bdev != btp->bt_mount->m_super->s_bdev)
+> > +		blkdev_put(bdev, btp->bt_mount->m_super);
 > 
-> That works, though I still think we need to invalidate the bdev
-> pagecache for the log and data bdevs.
+> Hmm... I feel like this would be cleaner if the data dev buftarg could
+> get its own refcount separate from super_block.s_bdev, but I looked
+> through the code and couldn't identify a simple way to do that. Soo...
 
-Yes, I'll respin it with that.  And I'll also add a comment to the
-invalidate_bdev calls because it's completely non-obvious as-is.
+blkdev_put doesn't really drop a refcount, it closes the device.
+It just happens to be misnamed, but Jan is looking into a series that
+will as a side effect end up with a better name for this functionality.
 
