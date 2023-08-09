@@ -1,147 +1,61 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8582F24536;
-	Wed,  9 Aug 2023 20:14:37 +0000 (UTC)
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 0B7972055FA7;
-	Thu, 10 Aug 2023 05:14:36 +0900 (JST)
-Received: from devron.myhome.or.jp (foobar@devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (8.17.2/8.17.2/Debian-1) with ESMTPS id 379KEYfO226784
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 10 Aug 2023 05:14:35 +0900
-Received: from devron.myhome.or.jp (foobar@localhost [127.0.0.1])
-	by devron.myhome.or.jp (8.17.2/8.17.2/Debian-1) with ESMTPS id 379KEYHK237230
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 10 Aug 2023 05:14:34 +0900
-Received: (from hirofumi@localhost)
-	by devron.myhome.or.jp (8.17.2/8.17.2/Submit) id 379KESDU237221;
-	Thu, 10 Aug 2023 05:14:28 +0900
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        Eric Van Hensbergen
- <ericvh@kernel.org>,
-        Latchesar Ionkov <lucho@ionkov.net>,
-        Dominique
- Martinet <asmadeus@codewreck.org>,
-        Christian Schoenebeck
- <linux_oss@crudebyte.com>,
-        David Howells <dhowells@redhat.com>,
-        Marc
- Dionne <marc.dionne@auristor.com>, Chris Mason <clm@fb.com>,
-        Josef Bacik
- <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-        Xiubo Li
- <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
-        Jan Harkes
- <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
-        Tyler Hicks <code@tyhicks.com>, Gao Xiang <xiang@kernel.org>,
-        Chao Yu <chao@kernel.org>,
-        Yue Hu
- <huyue2@gl0jj8bn.sched.sma.tdnsstic1.cn>,
-        Jeffle Xu
- <jefflexu@linux.alibaba.com>,
-        Namjae Jeon <linkinjeon@kernel.org>,
-        Sungjong Seo <sj1557.seo@samsung.com>, Jan Kara <jack@suse.com>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Andreas Dilger
- <adilger.kernel@dilger.ca>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Miklos
- Szeredi <miklos@szeredi.hu>,
-        Bob Peterson <rpeterso@redhat.com>,
-        Andreas
- Gruenbacher <agruenba@redhat.com>,
-        Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,
-        Tejun Heo <tj@kernel.org>,
-        Trond Myklebust
- <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna@kernel.org>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Mark
- Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
-        Joseph Qi
- <joseph.qi@linux.alibaba.com>,
-        Mike Marshall <hubcap@omnibond.com>,
-        Martin Brandenburg <martin@omnibond.com>,
-        Luis Chamberlain
- <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>, Iurii Zaikin
- <yzaikin@google.com>,
-        Steve French <sfrench@samba.org>, Paulo Alcantara
- <pc@manguebit.com>,
-        Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-        Shyam
- Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
-        Sergey
- Senozhatsky <senozhatsky@chromium.org>,
-        Richard Weinberger
- <richard@nod.at>,
-        Hans de Goede <hdegoede@redhat.com>, Hugh Dickins
- <hughd@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Amir
- Goldstein <amir73il@gmail.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Benjamin Coddington <bcodding@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        v9fs@lists.linux.dev, linux-afs@lists.infradead.org,
-        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-        codalist@telemann.coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
-        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
-        linux-nfs@vger.kernel.org, ntfs3@lists.linux.dev,
-        ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org,
-        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-        linux-mtd@lists.infradead.org, linux-mm@kvack.org,
-        linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v7 05/13] fat: make fat_update_time get its own timestamp
-In-Reply-To: <edf8e8ca3b38e56f30e0d24ac7293f848ffee371.camel@kernel.org> (Jeff
-	Layton's message of "Wed, 09 Aug 2023 15:04:42 -0400")
-References: <20230807-mgctime-v7-0-d1dec143a704@kernel.org>
-	<20230807-mgctime-v7-5-d1dec143a704@kernel.org>
-	<87msz08vc7.fsf@mail.parknet.co.jp>
-	<52bead1d6a33fec89944b96e2ec20d1ea8747a9a.camel@kernel.org>
-	<878rak8hia.fsf@mail.parknet.co.jp>
-	<20230809150041.452w7gucjmvjnvbg@quack3>
-	<87v8do6y8q.fsf@mail.parknet.co.jp>
-	<2cb998ff14ace352a9dd553e82cfa0aa92ec09ce.camel@kernel.org>
-	<87leek6rh1.fsf@mail.parknet.co.jp>
-	<ccffe6ca3397c8374352b002fe01d55b09d84ef4.camel@kernel.org>
-	<87h6p86p9z.fsf@mail.parknet.co.jp>
-	<edf8e8ca3b38e56f30e0d24ac7293f848ffee371.camel@kernel.org>
-Date: Thu, 10 Aug 2023 05:14:28 +0900
-Message-ID: <87a5v06kij.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6621CA06
+	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 20:49:25 +0000 (UTC)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-686baf1c2fbso263605b3a.0
+        for <ntfs3@lists.linux.dev>; Wed, 09 Aug 2023 13:49:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691614165; x=1692218965;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KiO1UYKz1KmGz5vyEYa20p8Kf9nv4M/wBjQ77gRnteM=;
+        b=FpkRNokd8UFoFv6JF/kdRIF50vBVBn33XvYajD4hydGQOPE6YgxVpgZsqVi6IV7znS
+         HZHOtZZjcCny0A5sEHyDwWv5gUwQ7chXcUuPC0VGs0xOux/X28R5lkROao+1jU3TobpI
+         CNkbvxvWSJxAL3WMDITTy2BjxFTHP0CiY8ZZghjx/4ojImiJgNb+ABwfOyhIEF0r5tf6
+         9Ko9VFAUEgdgTKRTMmSsff4U5iPzT7rgdB3srYSar83/9UzjiLhP79lQJZeK6KfYVT7E
+         ub7Th0kDEFHNvFZv6I9HcK3Wtbru1+X12W1tm6zMYQo0Yf8j3IRGV552hrTWSH45B9H6
+         c/xw==
+X-Gm-Message-State: AOJu0YyioHSViauy/MHjCM6SYvU/FGn6/+BxGwk8bdMCkw1UrKHj2+n4
+	KSB1i4WY+g9lAb13HR3Y+z9raqigteLwxHD0AJJhZ192Fk2y
+X-Google-Smtp-Source: AGHT+IHM/PSrbeg1ZRWPQCHIWQxkAXmB84lw1plRrMW/1JwBCTdX+F8fk/Cvw8TeA/TVHtTefHpEhpbCSsRcdC5cgVKcXAmvAm1x
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Received: by 2002:a05:6a00:c8a:b0:677:7731:5edd with SMTP id
+ a10-20020a056a000c8a00b0067777315eddmr162506pfv.0.1691614165376; Wed, 09 Aug
+ 2023 13:49:25 -0700 (PDT)
+Date: Wed, 09 Aug 2023 13:49:25 -0700
+In-Reply-To: <20230809191118.30721-1-astrajoan@yahoo.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000006ca4a20602839deb@google.com>
+Subject: Re: [syzbot] [ntfs3?] BUG: unable to handle kernel NULL pointer
+ dereference in hdr_find_e (2)
+From: syzbot <syzbot+60cf892fc31d1f4358fc@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, astrajoan@yahoo.com, 
+	ivan.orlov0322@gmail.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Jeff Layton <jlayton@kernel.org> writes:
+Hello,
 
-> When you say it "doesn't work the same", what do you mean, specifically?
-> I had to make some allowances for the fact that FAT is substantially
-> different in its timestamp handling, and I tried to preserve existing
-> behavior as best I could.
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-Ah, ok. I was misreading some.
+Reported-and-tested-by: syzbot+60cf892fc31d1f4358fc@syzkaller.appspotmail.com
 
-inode_update_timestamps() checks IS_I_VERSION() now, not S_VERSION.  So,
-if adding the check of IS_I_VERSION() and (S_MTIME|S_CTIME|S_VERSION) to
-FAT?
+Tested on:
 
-With it, IS_I_VERSION() would be false on FAT, and I'm fine.
+commit:         cacc6e22 tpm: Add a helper for checking hwrng enabled
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+console output: https://syzkaller.appspot.com/x/log.txt?x=1107f5a5a80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=171b698bc2e613cf
+dashboard link: https://syzkaller.appspot.com/bug?extid=60cf892fc31d1f4358fc
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=11e4f5fda80000
 
-I.e. something like
-
-	if ((flags & (S_VERSION|S_CTIME|S_MTIME)) && IS_I_VERSION(inode)
-	    && inode_maybe_inc_iversion(inode, false))
-  		dirty_flags |= I_DIRTY_SYNC;
-
-Thanks.
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Note: testing is done by a robot and is best-effort only.
