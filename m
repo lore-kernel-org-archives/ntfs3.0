@@ -1,22 +1,22 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73791DDDC
-	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 22:05:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5871DDE6
+	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 22:05:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=n7uUvh2I36vtP2pdQDofTFTMFabyiLXXmy52th8BfPE=; b=ufrdTvMm6/CpESXQWsaY5Malug
-	qAis15wD1DVhXisPEIDtllailQ7qcnTZF7ZYPgK+MPpRciUJ12wtAc45hKnDj+Yo58TaQBQvIht2W
-	AKsl23OJ3JJKCrCY6eXed+g2qU2Fp0TnhzMfaohyL+P4GkILl2+n16qDZxQIiJ1fqrL/98sRzj0Y+
-	uxn+XdFfPStfiwZROOoln3gH73GORwMAIKLFwnOPFOG7oe55Ar4qk/EL5pQm5CcUUPxVypyxKBpvl
-	Mc39GxK9wViYhgPhZy/FE1zAcPseDtfxPDJRl6ADCNKg3RabldkPf6reD9x7kz8HoYeE4Jyt6gDnJ
-	8OzwcIrQ==;
+	bh=lMZjGmk9h743/vCRz7ALqu87zkGuLF1PQOhL9ZSvlGg=; b=tnrx0od2PPpPNGOaV4Ve/AcK1M
+	w85KS5B58iDdykHgWLGwQ0KyY0o1oRcXDh8ECQZMl9ZtqTDzwdijgqPzZBB9J+85k6ytYfxBN5b7B
+	H5c6zs+axAN3mQqy39Q5hTMxhJ/4HMALSz8W1JcOF5E2THK/TFtihDho8ZjrimIFBOK5MNB1TXpeI
+	zYXXQYMUvyBgyvWxDe6BMqO37P2CMZfxPgwwz2yK0w9sDdjBJetWTO3NrWPMpEOeAkVXhhYNEbg4i
+	Q1HgSLoo3PQLdMzle7MMMjt9H4typ+uUCdKztMFchLqYfjOCYyhR7FuLxBd9JbQ2fEZv899/fImcl
+	d686xyzw==;
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTrJM-005xoM-0u;
-	Wed, 09 Aug 2023 22:05:48 +0000
+	id 1qTrJN-005xoc-1X;
+	Wed, 09 Aug 2023 22:05:49 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -30,9 +30,9 @@ Cc: Namjae Jeon <linkinjeon@kernel.org>,
 	linux-ext4@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH 06/13] xfs: close the external block devices in xfs_mount_free
-Date: Wed,  9 Aug 2023 15:05:38 -0700
-Message-Id: <20230809220545.1308228-7-hch@lst.de>
+Subject: [PATCH 10/13] exfat: free the sbi and iocharset in ->kill_sb
+Date: Wed,  9 Aug 2023 15:05:42 -0700
+Message-Id: <20230809220545.1308228-11-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230809220545.1308228-1-hch@lst.de>
 References: <20230809220545.1308228-1-hch@lst.de>
@@ -45,108 +45,88 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-blkdev_put must not be called under sb->s_umount to avoid a lock order
-reversal with disk->open_mutex.  Move closing the buftargs into ->kill_sb
-to archive that.  Note that the flushing of the disk caches and
-block device mapping invalidated needs to stay in ->put_super as the main
-block device is closed in kill_block_super already.
+As a rule of thumb everything allocated to the fs_context and moved into
+the super_block should be freed by ->kill_sb so that the teardown
+handling doesn't need to be duplicated between the fill_super error
+path and put_super.  Implement an exfat-specific kill_sb method to do
+that and share the code with the mount contex free helper for the
+mount error handling case.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/xfs/xfs_buf.c   |  2 --
- fs/xfs/xfs_super.c | 36 ++++++++++++++++++++++++++----------
- 2 files changed, 26 insertions(+), 12 deletions(-)
+ fs/exfat/super.c | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
 
-diff --git a/fs/xfs/xfs_buf.c b/fs/xfs/xfs_buf.c
-index e33eb17648dfed..3b903f6bce98d8 100644
---- a/fs/xfs/xfs_buf.c
-+++ b/fs/xfs/xfs_buf.c
-@@ -1945,8 +1945,6 @@ xfs_free_buftarg(
- 	percpu_counter_destroy(&btp->bt_io_count);
- 	list_lru_destroy(&btp->bt_lru);
+diff --git a/fs/exfat/super.c b/fs/exfat/super.c
+index 3c6aec96d0dc85..85b04a4064af1e 100644
+--- a/fs/exfat/super.c
++++ b/fs/exfat/super.c
+@@ -41,9 +41,7 @@ static void exfat_put_super(struct super_block *sb)
+ 	mutex_unlock(&sbi->s_lock);
  
--	blkdev_issue_flush(btp->bt_bdev);
--	invalidate_bdev(btp->bt_bdev);
- 	fs_put_dax(btp->bt_daxdev, btp->bt_mount);
- 	/* the main block device is closed by kill_block_super */
- 	if (bdev != btp->bt_mount->m_super->s_bdev)
-diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-index 368c05a2dea5b9..4ae3b01ed038c7 100644
---- a/fs/xfs/xfs_super.c
-+++ b/fs/xfs/xfs_super.c
-@@ -396,14 +396,19 @@ xfs_blkdev_get(
+ 	unload_nls(sbi->nls_io);
+-	exfat_free_iocharset(sbi);
+ 	exfat_free_upcase_table(sbi);
+-	kfree(sbi);
  }
  
- STATIC void
--xfs_close_devices(
-+xfs_shutdown_devices(
- 	struct xfs_mount	*mp)
- {
--	if (mp->m_logdev_targp && mp->m_logdev_targp != mp->m_ddev_targp)
--		xfs_free_buftarg(mp->m_logdev_targp);
--	if (mp->m_rtdev_targp)
--		xfs_free_buftarg(mp->m_rtdev_targp);
--	xfs_free_buftarg(mp->m_ddev_targp);
-+	if (mp->m_logdev_targp && mp->m_logdev_targp != mp->m_ddev_targp) {
-+		blkdev_issue_flush(mp->m_logdev_targp->bt_bdev);
-+		invalidate_bdev(mp->m_logdev_targp->bt_bdev);
-+	}
-+	if (mp->m_rtdev_targp) {
-+		blkdev_issue_flush(mp->m_rtdev_targp->bt_bdev);
-+		invalidate_bdev(mp->m_rtdev_targp->bt_bdev);
-+	}
-+	blkdev_issue_flush(mp->m_ddev_targp->bt_bdev);
-+	invalidate_bdev(mp->m_ddev_targp->bt_bdev);
+ static int exfat_sync_fs(struct super_block *sb, int wait)
+@@ -703,9 +701,6 @@ static int exfat_fill_super(struct super_block *sb, struct fs_context *fc)
+ 
+ check_nls_io:
+ 	unload_nls(sbi->nls_io);
+-	exfat_free_iocharset(sbi);
+-	sb->s_fs_info = NULL;
+-	kfree(sbi);
+ 	return err;
  }
  
- /*
-@@ -741,6 +746,17 @@ static void
- xfs_mount_free(
- 	struct xfs_mount	*mp)
- {
-+	/*
-+	 * Free the buftargs here because blkdev_put needs to be called outside
-+	 * of sb->s_umount, which is held around the call to ->put_super.
-+	 */
-+	if (mp->m_logdev_targp && mp->m_logdev_targp != mp->m_ddev_targp)
-+		xfs_free_buftarg(mp->m_logdev_targp);
-+	if (mp->m_rtdev_targp)
-+		xfs_free_buftarg(mp->m_rtdev_targp);
-+	if (mp->m_ddev_targp)
-+		xfs_free_buftarg(mp->m_ddev_targp);
+@@ -714,14 +709,18 @@ static int exfat_get_tree(struct fs_context *fc)
+ 	return get_tree_bdev(fc, exfat_fill_super);
+ }
+ 
++static void exfat_free_sbi(struct exfat_sb_info *sbi)
++{
++	exfat_free_iocharset(sbi);
++	kfree(sbi);
++}
 +
- 	kfree(mp->m_rtname);
- 	kfree(mp->m_logname);
- 	kmem_free(mp);
-@@ -1126,7 +1142,7 @@ xfs_fs_put_super(
- 	xfs_inodegc_free_percpu(mp);
- 	xfs_destroy_percpu_counters(mp);
- 	xfs_destroy_mount_workqueues(mp);
--	xfs_close_devices(mp);
-+	xfs_shutdown_devices(mp);
+ static void exfat_free(struct fs_context *fc)
+ {
+ 	struct exfat_sb_info *sbi = fc->s_fs_info;
+ 
+-	if (sbi) {
+-		exfat_free_iocharset(sbi);
+-		kfree(sbi);
+-	}
++	if (sbi)
++		exfat_free_sbi(sbi);
  }
  
- static long
-@@ -1499,7 +1515,7 @@ xfs_fs_fill_super(
+ static int exfat_reconfigure(struct fs_context *fc)
+@@ -766,12 +765,21 @@ static int exfat_init_fs_context(struct fs_context *fc)
+ 	return 0;
+ }
  
- 	error = xfs_init_mount_workqueues(mp);
- 	if (error)
--		goto out_close_devices;
-+		goto out_shutdown_devices;
++static void exfat_kill_sb(struct super_block *sb)
++{
++	struct exfat_sb_info *sbi = sb->s_fs_info;
++
++	kill_block_super(sb);
++	if (sbi)
++		exfat_free_sbi(sbi);
++}
++
+ static struct file_system_type exfat_fs_type = {
+ 	.owner			= THIS_MODULE,
+ 	.name			= "exfat",
+ 	.init_fs_context	= exfat_init_fs_context,
+ 	.parameters		= exfat_parameters,
+-	.kill_sb		= kill_block_super,
++	.kill_sb		= exfat_kill_sb,
+ 	.fs_flags		= FS_REQUIRES_DEV,
+ };
  
- 	error = xfs_init_percpu_counters(mp);
- 	if (error)
-@@ -1713,8 +1729,8 @@ xfs_fs_fill_super(
- 	xfs_destroy_percpu_counters(mp);
-  out_destroy_workqueues:
- 	xfs_destroy_mount_workqueues(mp);
-- out_close_devices:
--	xfs_close_devices(mp);
-+ out_shutdown_devices:
-+	xfs_shutdown_devices(mp);
- 	return error;
- 
-  out_unmount:
 -- 
 2.39.2
 
