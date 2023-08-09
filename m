@@ -1,169 +1,154 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194451DDDF
-	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 22:05:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=L8sVHP9RGqcWVuho+Cb0LJSEjt/iRG0d7dP24a5Ec2k=; b=sj7hyiRVOY9Yp7dirpBOKAkKmo
-	AtGJGp9me91uQVf25A6zJeXyOxmFQ+JuHL5v8xReTN910qWxS5W/+z6CCaSzjrpPI0yFgLNY4LBj9
-	sPR7xzAqjjosZmPJlbAeLU2pbkCK71cOa6LWkoTfMUNskF/FHppeNWPZfeiGwGEx58cq8sHHdQmDq
-	pJM07gSgY5OT5RxvuidSbaI3sFHHY5MD46br7Z16YwFdeH5/wK3NJnuCyZv668L2mhhiODvxpqgvD
-	HRYukVCRoloK7dNWajFkCKBqm91kcbuWQrakMFtdsqrqZl4eeNYPCERVAI0IHns1hHY8HOJ+0zYk1
-	02yiixGA==;
-Received: from [4.28.11.157] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTrJM-005xoW-2q;
-	Wed, 09 Aug 2023 22:05:48 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	linux-xfs@vger.kernel.org
-Subject: [PATCH 08/13] ext4: close the external journal device in ->kill_sb
-Date: Wed,  9 Aug 2023 15:05:40 -0700
-Message-Id: <20230809220545.1308228-9-hch@lst.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230809220545.1308228-1-hch@lst.de>
-References: <20230809220545.1308228-1-hch@lst.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B766724535;
+	Wed,  9 Aug 2023 22:07:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8A1FC433C8;
+	Wed,  9 Aug 2023 22:07:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691618857;
+	bh=Sbngo3UIZo2TJfFo7ktsW7U9FXdWGIk5Lt7H9K5XFM8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=jLUEcluJ8QWu44nwg8FvEto5mxdSD6jhT4hkYGZFSvOuTab/uQF0xUgz8zLDtJscq
+	 f+HBUBgdFJj3+Y2ejcBWfM2DahqOuHFBxu+LY+Hv0Ofoq0ohoPPQ6mfudIqZwl+oWN
+	 pLNza58hUz5pcfryyZpEKO+0VcHneBut5CYMVVo+IlIVXRYDByI99w4/3LNaQTR8ZH
+	 5Tcm+fOwhAMw+LBYRd9XcCm1AD2BTsoO11JuCHNeGAZ3X/S7nnQe6dSMtz75w2+y5t
+	 1AyLcsRC7pto0A+XhqMGGaQoyj7sZyZ0q03rK2TphlgLtVEfD926pjyggGNcgTjePk
+	 OQw0IGY/USDEA==
+Message-ID: <e4cee2590f5cb9a13a8d4445e550e155d551670d.camel@kernel.org>
+Subject: Re: [PATCH v7 05/13] fat: make fat_update_time get its own timestamp
+From: Jeff Layton <jlayton@kernel.org>
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Frank Sorenson
+	 <sorenson@redhat.com>
+Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Eric Van Hensbergen
+ <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, Dominique
+ Martinet <asmadeus@codewreck.org>, Christian Schoenebeck
+ <linux_oss@crudebyte.com>, David Howells <dhowells@redhat.com>, Marc Dionne
+ <marc.dionne@auristor.com>, Chris Mason <clm@fb.com>, Josef Bacik
+ <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Xiubo Li
+ <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, Jan Harkes
+ <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, Tyler Hicks <code@tyhicks.com>, Gao
+ Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, Yue Hu
+ <huyue2@gl0jj8bn.sched.sma.tdnsstic1.cn>, Jeffle Xu
+ <jefflexu@linux.alibaba.com>,  Namjae Jeon <linkinjeon@kernel.org>,
+ Sungjong Seo <sj1557.seo@samsung.com>, Jan Kara <jack@suse.com>,  Theodore
+ Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, Jaegeuk
+ Kim <jaegeuk@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Bob Peterson
+ <rpeterso@redhat.com>, Andreas Gruenbacher <agruenba@redhat.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
+ Trond Myklebust <trond.myklebust@hammerspace.com>, Anna Schumaker
+ <anna@kernel.org>,  Konstantin Komarov
+ <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>,
+ Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>,
+ Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg
+ <martin@omnibond.com>, Luis Chamberlain <mcgrof@kernel.org>, Kees Cook
+ <keescook@chromium.org>, Iurii Zaikin <yzaikin@google.com>,  Steve French
+ <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.com>, Ronnie Sahlberg
+ <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, Tom
+ Talpey <tom@talpey.com>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Richard Weinberger <richard@nod.at>, Hans de Goede <hdegoede@redhat.com>,
+ Hugh Dickins <hughd@google.com>,  Andrew Morton
+ <akpm@linux-foundation.org>, Amir Goldstein <amir73il@gmail.com>, "Darrick
+ J. Wong" <djwong@kernel.org>, Benjamin Coddington <bcodding@redhat.com>, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ v9fs@lists.linux.dev, linux-afs@lists.infradead.org,
+ linux-btrfs@vger.kernel.org,  ceph-devel@vger.kernel.org,
+ codalist@telemann.coda.cs.cmu.edu,  ecryptfs@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org,  linux-ext4@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net,  cluster-devel@redhat.com,
+ linux-nfs@vger.kernel.org, ntfs3@lists.linux.dev, 
+ ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
+ linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, 
+ linux-mtd@lists.infradead.org, linux-mm@kvack.org,
+ linux-unionfs@vger.kernel.org,  linux-xfs@vger.kernel.org
+Date: Wed, 09 Aug 2023 18:07:29 -0400
+In-Reply-To: <87a5v06kij.fsf@mail.parknet.co.jp>
+References: <20230807-mgctime-v7-0-d1dec143a704@kernel.org>
+	 <20230807-mgctime-v7-5-d1dec143a704@kernel.org>
+	 <87msz08vc7.fsf@mail.parknet.co.jp>
+	 <52bead1d6a33fec89944b96e2ec20d1ea8747a9a.camel@kernel.org>
+	 <878rak8hia.fsf@mail.parknet.co.jp>
+	 <20230809150041.452w7gucjmvjnvbg@quack3>
+	 <87v8do6y8q.fsf@mail.parknet.co.jp>
+	 <2cb998ff14ace352a9dd553e82cfa0aa92ec09ce.camel@kernel.org>
+	 <87leek6rh1.fsf@mail.parknet.co.jp>
+	 <ccffe6ca3397c8374352b002fe01d55b09d84ef4.camel@kernel.org>
+	 <87h6p86p9z.fsf@mail.parknet.co.jp>
+	 <edf8e8ca3b38e56f30e0d24ac7293f848ffee371.camel@kernel.org>
+	 <87a5v06kij.fsf@mail.parknet.co.jp>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-blkdev_put must not be called under sb->s_umount to avoid a lock order
-reversal with disk->open_mutex.  Move closing the external journal device
-into ->kill_sb to archive that.
+On Thu, 2023-08-10 at 05:14 +0900, OGAWA Hirofumi wrote:
+> Jeff Layton <jlayton@kernel.org> writes:
+>=20
+> > When you say it "doesn't work the same", what do you mean, specifically=
+?
+> > I had to make some allowances for the fact that FAT is substantially
+> > different in its timestamp handling, and I tried to preserve existing
+> > behavior as best I could.
+>=20
+> Ah, ok. I was misreading some.
+>=20
+> inode_update_timestamps() checks IS_I_VERSION() now, not S_VERSION.  So,
+> if adding the check of IS_I_VERSION() and (S_MTIME|S_CTIME|S_VERSION) to
+> FAT?
+>=20
+> With it, IS_I_VERSION() would be false on FAT, and I'm fine.
+>=20
+> I.e. something like
+>=20
+> 	if ((flags & (S_VERSION|S_CTIME|S_MTIME)) && IS_I_VERSION(inode)
+> 	    && inode_maybe_inc_iversion(inode, false))
+>   		dirty_flags |=3D I_DIRTY_SYNC;
+>=20
+> Thanks.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- fs/ext4/super.c | 50 ++++++++++++++++++++++++-------------------------
- 1 file changed, 25 insertions(+), 25 deletions(-)
+If you do that then the i_version counter would never be incremented.
+But...I think I see what you're getting at.
 
-diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-index e6384782b4d036..60d2815a0b7ea5 100644
---- a/fs/ext4/super.c
-+++ b/fs/ext4/super.c
-@@ -93,6 +93,7 @@ static int ext4_get_tree(struct fs_context *fc);
- static int ext4_reconfigure(struct fs_context *fc);
- static void ext4_fc_free(struct fs_context *fc);
- static int ext4_init_fs_context(struct fs_context *fc);
-+static void ext4_kill_sb(struct super_block *sb);
- static const struct fs_parameter_spec ext4_param_specs[];
- 
- /*
-@@ -135,7 +136,7 @@ static struct file_system_type ext2_fs_type = {
- 	.name			= "ext2",
- 	.init_fs_context	= ext4_init_fs_context,
- 	.parameters		= ext4_param_specs,
--	.kill_sb		= kill_block_super,
-+	.kill_sb		= ext4_kill_sb,
- 	.fs_flags		= FS_REQUIRES_DEV,
- };
- MODULE_ALIAS_FS("ext2");
-@@ -151,7 +152,7 @@ static struct file_system_type ext3_fs_type = {
- 	.name			= "ext3",
- 	.init_fs_context	= ext4_init_fs_context,
- 	.parameters		= ext4_param_specs,
--	.kill_sb		= kill_block_super,
-+	.kill_sb		= ext4_kill_sb,
- 	.fs_flags		= FS_REQUIRES_DEV,
- };
- MODULE_ALIAS_FS("ext3");
-@@ -1116,25 +1117,6 @@ static struct block_device *ext4_blkdev_get(dev_t dev, struct super_block *sb)
- 	return NULL;
- }
- 
--/*
-- * Release the journal device
-- */
--static void ext4_blkdev_remove(struct ext4_sb_info *sbi)
--{
--	struct block_device *bdev;
--	bdev = sbi->s_journal_bdev;
--	if (bdev) {
--		/*
--		 * Invalidate the journal device's buffers.  We don't want them
--		 * floating about in memory - the physical journal device may
--		 * hotswapped, and it breaks the `ro-after' testing code.
--		 */
--		invalidate_bdev(bdev);
--		blkdev_put(bdev, sbi->s_sb);
--		sbi->s_journal_bdev = NULL;
--	}
--}
--
- static inline struct inode *orphan_list_entry(struct list_head *l)
- {
- 	return &list_entry(l, struct ext4_inode_info, i_orphan)->vfs_inode;
-@@ -1330,8 +1312,13 @@ static void ext4_put_super(struct super_block *sb)
- 	sync_blockdev(sb->s_bdev);
- 	invalidate_bdev(sb->s_bdev);
- 	if (sbi->s_journal_bdev) {
-+		/*
-+		 * Invalidate the journal device's buffers.  We don't want them
-+		 * floating about in memory - the physical journal device may
-+		 * hotswapped, and it breaks the `ro-after' testing code.
-+		 */
- 		sync_blockdev(sbi->s_journal_bdev);
--		ext4_blkdev_remove(sbi);
-+		invalidate_bdev(sbi->s_journal_bdev);
- 	}
- 
- 	ext4_xattr_destroy_cache(sbi->s_ea_inode_cache);
-@@ -5654,9 +5641,11 @@ failed_mount9: __maybe_unused
- 		kfree(get_qf_name(sb, sbi, i));
- #endif
- 	fscrypt_free_dummy_policy(&sbi->s_dummy_enc_policy);
--	/* ext4_blkdev_remove() calls kill_bdev(), release bh before it. */
- 	brelse(sbi->s_sbh);
--	ext4_blkdev_remove(sbi);
-+	if (sbi->s_journal_bdev) {
-+		invalidate_bdev(sbi->s_journal_bdev);
-+		blkdev_put(sbi->s_journal_bdev, sb);
-+	}
- out_fail:
- 	invalidate_bdev(sb->s_bdev);
- 	sb->s_fs_info = NULL;
-@@ -7266,12 +7255,23 @@ static inline int ext3_feature_set_ok(struct super_block *sb)
- 	return 1;
- }
- 
-+static void ext4_kill_sb(struct super_block *sb)
-+{
-+	struct ext4_sb_info *sbi = EXT4_SB(sb);
-+	struct block_device *journal_bdev = sbi ? sbi->s_journal_bdev : NULL;
-+
-+	kill_block_super(sb);
-+
-+	if (journal_bdev)
-+		blkdev_put(journal_bdev, sb);
-+}
-+
- static struct file_system_type ext4_fs_type = {
- 	.owner			= THIS_MODULE,
- 	.name			= "ext4",
- 	.init_fs_context	= ext4_init_fs_context,
- 	.parameters		= ext4_param_specs,
--	.kill_sb		= kill_block_super,
-+	.kill_sb		= ext4_kill_sb,
- 	.fs_flags		= FS_REQUIRES_DEV | FS_ALLOW_IDMAP,
- };
- MODULE_ALIAS_FS("ext4");
--- 
-2.39.2
+Most filesystems that support the i_version counter have an on-disk
+field for it. FAT obviously has no such thing. I suspect the i_version
+bits in fat_update_time were added by mistake. FAT doesn't set
+SB_I_VERSION so there's no need to do anything to the i_version field at
+all.
 
+Also, given that the mtime and ctime are always kept in sync on FAT,
+we're probably fine to have it look something like this:
+
+--------------------8<------------------
+int fat_update_time(struct inode *inode, int flags)=20
+{=20
+        int dirty_flags =3D 0;
+
+        if (inode->i_ino =3D=3D MSDOS_ROOT_INO)=20
+                return 0;
+
+        fat_truncate_time(inode, NULL, flags);
+        if (inode->i_sb->s_flags & SB_LAZYTIME)
+                dirty_flags |=3D I_DIRTY_TIME;
+        else
+                dirty_flags |=3D I_DIRTY_SYNC;
+
+        __mark_inode_dirty(inode, dirty_flags);
+        return 0;
+}=20
+--------------------8<------------------
+
+...and we should probably do that in a separate patch in advance of the
+update_time rework, since it's really a different change.
+
+If you're in agreement, then I'll plan to respin the series with this
+fixed and resend.
+
+Thanks for being patient!
+--=20
+Jeff Layton <jlayton@kernel.org>
