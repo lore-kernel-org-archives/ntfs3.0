@@ -1,22 +1,22 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926A32452D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73791DDDC
 	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 22:05:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=hQKQ7iNKLOfj5a3qVIegk556ZInv0gN1XnkKlge+c4A=; b=48E6c2ZeK6SNLV5qI+DTQvKa8M
-	8jQ1bvR8hz7+04YIm45Zx8VwwdMhZ/+eMxqyA5MjNzLWPjJnV9wT0s2kXaaB0qNxq84iqvaLiW5jY
-	NSqBCgh6KCAFKKYtFPCTcBtWCcq9GeuM9+iWPp5oqUi821e6tzhyopXSIvzRudXtjM/wQkbPVAnz2
-	36GrDVwCpkchkH7dMyOWHiaK/U46fnwReUxiuqBWXm7H9ThKzuU5l8ksYSoUd6zM3IZU+QCrRruwJ
-	9WskQCPFFyCE+M9WnxYpXWxrPLo3tDeidtx/7+m4oNKEB8L+1+6Tx+BKcSv55NZnV0UQnKO86dO6N
-	ULS3oNVQ==;
+	bh=n7uUvh2I36vtP2pdQDofTFTMFabyiLXXmy52th8BfPE=; b=ufrdTvMm6/CpESXQWsaY5Malug
+	qAis15wD1DVhXisPEIDtllailQ7qcnTZF7ZYPgK+MPpRciUJ12wtAc45hKnDj+Yo58TaQBQvIht2W
+	AKsl23OJ3JJKCrCY6eXed+g2qU2Fp0TnhzMfaohyL+P4GkILl2+n16qDZxQIiJ1fqrL/98sRzj0Y+
+	uxn+XdFfPStfiwZROOoln3gH73GORwMAIKLFwnOPFOG7oe55Ar4qk/EL5pQm5CcUUPxVypyxKBpvl
+	Mc39GxK9wViYhgPhZy/FE1zAcPseDtfxPDJRl6ADCNKg3RabldkPf6reD9x7kz8HoYeE4Jyt6gDnJ
+	8OzwcIrQ==;
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTrJL-005xo8-2A;
-	Wed, 09 Aug 2023 22:05:47 +0000
+	id 1qTrJM-005xoM-0u;
+	Wed, 09 Aug 2023 22:05:48 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -30,9 +30,9 @@ Cc: Namjae Jeon <linkinjeon@kernel.org>,
 	linux-ext4@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH 04/13] xfs: remove xfs_blkdev_put
-Date: Wed,  9 Aug 2023 15:05:36 -0700
-Message-Id: <20230809220545.1308228-5-hch@lst.de>
+Subject: [PATCH 06/13] xfs: close the external block devices in xfs_mount_free
+Date: Wed,  9 Aug 2023 15:05:38 -0700
+Message-Id: <20230809220545.1308228-7-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230809220545.1308228-1-hch@lst.de>
 References: <20230809220545.1308228-1-hch@lst.de>
@@ -45,66 +45,108 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-There isn't much use for this trivial wrapper, especially as the NULL
-check is only needed in a single call site.
+blkdev_put must not be called under sb->s_umount to avoid a lock order
+reversal with disk->open_mutex.  Move closing the buftargs into ->kill_sb
+to archive that.  Note that the flushing of the disk caches and
+block device mapping invalidated needs to stay in ->put_super as the main
+block device is closed in kill_block_super already.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Christian Brauner <brauner@kernel.org>
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
 ---
- fs/xfs/xfs_super.c | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
+ fs/xfs/xfs_buf.c   |  2 --
+ fs/xfs/xfs_super.c | 36 ++++++++++++++++++++++++++----------
+ 2 files changed, 26 insertions(+), 12 deletions(-)
 
+diff --git a/fs/xfs/xfs_buf.c b/fs/xfs/xfs_buf.c
+index e33eb17648dfed..3b903f6bce98d8 100644
+--- a/fs/xfs/xfs_buf.c
++++ b/fs/xfs/xfs_buf.c
+@@ -1945,8 +1945,6 @@ xfs_free_buftarg(
+ 	percpu_counter_destroy(&btp->bt_io_count);
+ 	list_lru_destroy(&btp->bt_lru);
+ 
+-	blkdev_issue_flush(btp->bt_bdev);
+-	invalidate_bdev(btp->bt_bdev);
+ 	fs_put_dax(btp->bt_daxdev, btp->bt_mount);
+ 	/* the main block device is closed by kill_block_super */
+ 	if (bdev != btp->bt_mount->m_super->s_bdev)
 diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-index d2f3ae6ba8938b..fc21e543357ef5 100644
+index 368c05a2dea5b9..4ae3b01ed038c7 100644
 --- a/fs/xfs/xfs_super.c
 +++ b/fs/xfs/xfs_super.c
-@@ -395,15 +395,6 @@ xfs_blkdev_get(
- 	return error;
+@@ -396,14 +396,19 @@ xfs_blkdev_get(
  }
  
--STATIC void
--xfs_blkdev_put(
--	struct xfs_mount	*mp,
--	struct block_device	*bdev)
--{
--	if (bdev)
--		blkdev_put(bdev, mp->m_super);
--}
--
  STATIC void
- xfs_close_devices(
+-xfs_close_devices(
++xfs_shutdown_devices(
  	struct xfs_mount	*mp)
-@@ -412,13 +403,13 @@ xfs_close_devices(
- 		struct block_device *logdev = mp->m_logdev_targp->bt_bdev;
- 
- 		xfs_free_buftarg(mp->m_logdev_targp);
--		xfs_blkdev_put(mp, logdev);
-+		blkdev_put(logdev, mp->m_super);
- 	}
- 	if (mp->m_rtdev_targp) {
- 		struct block_device *rtdev = mp->m_rtdev_targp->bt_bdev;
- 
- 		xfs_free_buftarg(mp->m_rtdev_targp);
--		xfs_blkdev_put(mp, rtdev);
-+		blkdev_put(rtdev, mp->m_super);
- 	}
- 	xfs_free_buftarg(mp->m_ddev_targp);
- }
-@@ -503,10 +494,11 @@ xfs_open_devices(
-  out_free_ddev_targ:
- 	xfs_free_buftarg(mp->m_ddev_targp);
-  out_close_rtdev:
--	xfs_blkdev_put(mp, rtdev);
-+	if (rtdev)
-+		blkdev_put(rtdev, sb);
-  out_close_logdev:
- 	if (logdev && logdev != ddev)
--		xfs_blkdev_put(mp, logdev);
-+		blkdev_put(logdev, sb);
- 	goto out_relock;
+ {
+-	if (mp->m_logdev_targp && mp->m_logdev_targp != mp->m_ddev_targp)
+-		xfs_free_buftarg(mp->m_logdev_targp);
+-	if (mp->m_rtdev_targp)
+-		xfs_free_buftarg(mp->m_rtdev_targp);
+-	xfs_free_buftarg(mp->m_ddev_targp);
++	if (mp->m_logdev_targp && mp->m_logdev_targp != mp->m_ddev_targp) {
++		blkdev_issue_flush(mp->m_logdev_targp->bt_bdev);
++		invalidate_bdev(mp->m_logdev_targp->bt_bdev);
++	}
++	if (mp->m_rtdev_targp) {
++		blkdev_issue_flush(mp->m_rtdev_targp->bt_bdev);
++		invalidate_bdev(mp->m_rtdev_targp->bt_bdev);
++	}
++	blkdev_issue_flush(mp->m_ddev_targp->bt_bdev);
++	invalidate_bdev(mp->m_ddev_targp->bt_bdev);
  }
  
+ /*
+@@ -741,6 +746,17 @@ static void
+ xfs_mount_free(
+ 	struct xfs_mount	*mp)
+ {
++	/*
++	 * Free the buftargs here because blkdev_put needs to be called outside
++	 * of sb->s_umount, which is held around the call to ->put_super.
++	 */
++	if (mp->m_logdev_targp && mp->m_logdev_targp != mp->m_ddev_targp)
++		xfs_free_buftarg(mp->m_logdev_targp);
++	if (mp->m_rtdev_targp)
++		xfs_free_buftarg(mp->m_rtdev_targp);
++	if (mp->m_ddev_targp)
++		xfs_free_buftarg(mp->m_ddev_targp);
++
+ 	kfree(mp->m_rtname);
+ 	kfree(mp->m_logname);
+ 	kmem_free(mp);
+@@ -1126,7 +1142,7 @@ xfs_fs_put_super(
+ 	xfs_inodegc_free_percpu(mp);
+ 	xfs_destroy_percpu_counters(mp);
+ 	xfs_destroy_mount_workqueues(mp);
+-	xfs_close_devices(mp);
++	xfs_shutdown_devices(mp);
+ }
+ 
+ static long
+@@ -1499,7 +1515,7 @@ xfs_fs_fill_super(
+ 
+ 	error = xfs_init_mount_workqueues(mp);
+ 	if (error)
+-		goto out_close_devices;
++		goto out_shutdown_devices;
+ 
+ 	error = xfs_init_percpu_counters(mp);
+ 	if (error)
+@@ -1713,8 +1729,8 @@ xfs_fs_fill_super(
+ 	xfs_destroy_percpu_counters(mp);
+  out_destroy_workqueues:
+ 	xfs_destroy_mount_workqueues(mp);
+- out_close_devices:
+-	xfs_close_devices(mp);
++ out_shutdown_devices:
++	xfs_shutdown_devices(mp);
+ 	return error;
+ 
+  out_unmount:
 -- 
 2.39.2
 
