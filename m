@@ -1,25 +1,24 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFB624509
-	for <ntfs3@lists.linux.dev>; Wed,  9 Aug 2023 22:39:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C7C7C433C7;
-	Wed,  9 Aug 2023 22:39:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A39366
+	for <ntfs3@lists.linux.dev>; Thu, 10 Aug 2023 08:20:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51C0EC433C7;
+	Thu, 10 Aug 2023 08:20:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691620763;
-	bh=CLgp0tXW3whDoLzghtguOCNYI43fpGW6om+fUAlt814=;
+	s=k20201202; t=1691655616;
+	bh=vkpB0KymfAHadNZg+1KHRj1yxHafNU8RXYifonw0meo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wne7raqRTdWHu6mipSTlfZt/A5MQaxdCrkanOu7ANiFhyHyQkLuaGOLCKVoLY0Ns/
-	 vW7ZMOInmdN3+tgqvqPwGeXevfmE/aSOYNjH2bYVLFl1ryoYPPshT8AXUTx2sw5DDx
-	 P1TZOQPm/QoktPNMsc7G1in4S3wsN/b1NZ+UMOyWDXX5Ct0wkxALJfo1kJZXWItRu4
-	 FnUYb08nA42np4hxi9KaA9A6+vNL8Dcx9FbTt6E/Buk0jf4z4hzMcajKzid6MaTbaB
-	 QBwPYEd9Hbvbfwl3JUTs/cUGYes8/WoMmWE05RxKSJ/tT1EHcFAkKJ4de+Pt3WCBUR
-	 uxdkZwXvQ8Cdg==
-Date: Wed, 9 Aug 2023 15:39:23 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
+	b=M2jnnle2t4DlMDLubGGIHqU7oPc1+V9cD7ZYRAlBIYardd0Xu3v/Mtlvc+h0vEAxX
+	 6So+eaOBkkY6ufhPZPXLxFy8Z6Dg8EabpjfaaSjPv3XFd4L7AOyhfoZ76K5zHa0EbZ
+	 2YXllfejU96WbzGV/hmrdeEEmKN5Usy3Ogc9DKUiRq7Ksi+LFydsVYRXfFe4MBopAj
+	 9Auj7rm3Ql6+abI04i5dIucMXMdOMimkOgjxa3a8NdiIMHJiwTGdhAcas8PnIONiBM
+	 9IME5pWvbPYFbWHG9z8hCvoVwQvMYQ5s82tqFgKNhqv9hox9AT+SoTGahF7Kn17+vk
+	 d7tWWKVYT4mRQ==
+Date: Thu, 10 Aug 2023 10:20:11 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Al Viro <viro@zeniv.linux.org.uk>,
 	Namjae Jeon <linkinjeon@kernel.org>,
 	Sungjong Seo <sj1557.seo@samsung.com>,
 	Theodore Ts'o <tytso@mit.edu>,
@@ -29,81 +28,70 @@ Cc: Al Viro <viro@zeniv.linux.org.uk>,
 	ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org
 Subject: Re: [PATCH 07/13] xfs: document the invalidate_bdev call in
  invalidate_bdev
-Message-ID: <20230809223923.GX11352@frogsfrogsfrogs>
+Message-ID: <20230810-labyrinth-weshalb-2a2e90537a2d@brauner>
 References: <20230809220545.1308228-1-hch@lst.de>
  <20230809220545.1308228-8-hch@lst.de>
+ <20230809223923.GX11352@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230809220545.1308228-8-hch@lst.de>
+In-Reply-To: <20230809223923.GX11352@frogsfrogsfrogs>
 
-On Wed, Aug 09, 2023 at 03:05:39PM -0700, Christoph Hellwig wrote:
-> Copy and paste the commit message from Darrick into a comment to explain
-> the seemly odd invalidate_bdev in xfs_shutdown_devices.
-
-      ^ seemingly?
+On Wed, Aug 09, 2023 at 03:39:23PM -0700, Darrick J. Wong wrote:
+> On Wed, Aug 09, 2023 at 03:05:39PM -0700, Christoph Hellwig wrote:
+> > Copy and paste the commit message from Darrick into a comment to explain
+> > the seemly odd invalidate_bdev in xfs_shutdown_devices.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  fs/xfs/xfs_super.c | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
+>       ^ seemingly?
+> > 
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > ---
+> >  fs/xfs/xfs_super.c | 26 ++++++++++++++++++++++++++
+> >  1 file changed, 26 insertions(+)
+> > 
+> > diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+> > index 4ae3b01ed038c7..c169beb0d8cab3 100644
+> > --- a/fs/xfs/xfs_super.c
+> > +++ b/fs/xfs/xfs_super.c
+> > @@ -399,6 +399,32 @@ STATIC void
+> >  xfs_shutdown_devices(
+> >  	struct xfs_mount	*mp)
+> >  {
+> > +	/*
+> > +	 * Udev is triggered whenever anyone closes a block device or unmounts
+> > +	 * a file systemm on a block device.
+> > +	 * The default udev rules invoke blkid to read the fs super and create
+> > +	 * symlinks to the bdev under /dev/disk.  For this, it uses buffered
+> > +	 * reads through the page cache.
+> > +	 *
+> > +	 * xfs_db also uses buffered reads to examine metadata.  There is no
+> > +	 * coordination between xfs_db and udev, which means that they can run
+> > +	 * concurrently.  Note there is no coordination between the kernel and
+> > +	 * blkid either.
+> > +	 *
+> > +	 * On a system with 64k pages, the page cache can cache the superblock
+> > +	 * and the root inode (and hence the root directory) with the same 64k
+> > +	 * page.  If udev spawns blkid after the mkfs and the system is busy
+> > +	 * enough that it is still running when xfs_db starts up, they'll both
+> > +	 * read from the same page in the pagecache.
+> > +	 *
+> > +	 * The unmount writes updated inode metadata to disk directly.  The XFS
+> > +	 * buffer cache does not use the bdev pagecache, nor does it invalidate
+> > +	 * the pagecache on umount.  If the above scenario occurs, the pagecache
 > 
-> diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-> index 4ae3b01ed038c7..c169beb0d8cab3 100644
-> --- a/fs/xfs/xfs_super.c
-> +++ b/fs/xfs/xfs_super.c
-> @@ -399,6 +399,32 @@ STATIC void
->  xfs_shutdown_devices(
->  	struct xfs_mount	*mp)
->  {
-> +	/*
-> +	 * Udev is triggered whenever anyone closes a block device or unmounts
-> +	 * a file systemm on a block device.
-> +	 * The default udev rules invoke blkid to read the fs super and create
-> +	 * symlinks to the bdev under /dev/disk.  For this, it uses buffered
-> +	 * reads through the page cache.
-> +	 *
-> +	 * xfs_db also uses buffered reads to examine metadata.  There is no
-> +	 * coordination between xfs_db and udev, which means that they can run
-> +	 * concurrently.  Note there is no coordination between the kernel and
-> +	 * blkid either.
-> +	 *
-> +	 * On a system with 64k pages, the page cache can cache the superblock
-> +	 * and the root inode (and hence the root directory) with the same 64k
-> +	 * page.  If udev spawns blkid after the mkfs and the system is busy
-> +	 * enough that it is still running when xfs_db starts up, they'll both
-> +	 * read from the same page in the pagecache.
-> +	 *
-> +	 * The unmount writes updated inode metadata to disk directly.  The XFS
-> +	 * buffer cache does not use the bdev pagecache, nor does it invalidate
-> +	 * the pagecache on umount.  If the above scenario occurs, the pagecache
-
-This sentence reads a little strangely, since "nor does it invalidate"
-would seem to conflict with the invalidate_bdev call below.  I suggest
-changing the verb a bit:
-
-"The XFS buffer cache does not use the bdev pagecache, so it needs to
-invalidate that pagecache on unmount."
-
-With those two things changed,
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-
---D
-
-
-> +	 * no longer reflects what's on disk, xfs_db reads the stale metadata,
-> +	 * and fails to find /a.  Most of the time this succeeds because closing
-> +	 * a bdev invalidates the page cache, but when processes race, everyone
-> +	 * loses.
-> +	 */
->  	if (mp->m_logdev_targp && mp->m_logdev_targp != mp->m_ddev_targp) {
->  		blkdev_issue_flush(mp->m_logdev_targp->bt_bdev);
->  		invalidate_bdev(mp->m_logdev_targp->bt_bdev);
-> -- 
-> 2.39.2
+> This sentence reads a little strangely, since "nor does it invalidate"
+> would seem to conflict with the invalidate_bdev call below.  I suggest
+> changing the verb a bit:
 > 
+> "The XFS buffer cache does not use the bdev pagecache, so it needs to
+> invalidate that pagecache on unmount."
+> 
+> With those two things changed,
+> Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+
+Fixed in-tree.
