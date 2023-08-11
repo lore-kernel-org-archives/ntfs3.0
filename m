@@ -1,64 +1,55 @@
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D307122F02
-	for <ntfs3@lists.linux.dev>; Thu, 10 Aug 2023 22:14:38 +0000 (UTC)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-1bbac333f2cso19843515ad.1
-        for <ntfs3@lists.linux.dev>; Thu, 10 Aug 2023 15:14:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691705678; x=1692310478;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+iSfVQKiy94ihvevaPz7mdBT1Zd/e8n0em7o/WIjuQ0=;
-        b=UTlO+kqJo2Oqpn5ol0oex7fy7FrpjnGWb245X7FG8hmI95vVZuKvMuSelH2/NBul/N
-         CCbLh7V/OyvaY5UEntVtrNHreYe7hoLC17/17CUhWyJ7xfHVzUIu1pKK7vo5j7wTETlU
-         JpLuArX5tfP1dbBwlg0UxoKlTCGpnzEyRAfh1XfsOlZVqjPnjeP3hAVTnibkd2dHs8Le
-         6riVDviBFwMVX8t3wcdbRZIUG8a+s/G6eGbhbkSrnHrKSqUiH0PIJiisufuRlH+k7ils
-         u9xRJWT0zNxuYC93GNTqF0BgJxuO/ZTlDljpJKQP0Cms4/v4wqXn0ZJZeINUd2TanAJp
-         eG8w==
-X-Gm-Message-State: AOJu0YwCY/rwXUspPEXSbzxTdS2capOXNnXTWXziZOSDNrwL1B0Iff10
-	+g12Rdr6RZ6Y8Jx2WYiNfLXBr5DoVtapst1Y5o9VdlperJIM
-X-Google-Smtp-Source: AGHT+IHTzTABqpJVuLtnELQWEcoBDNkcI7acDmY68LAjTTfOxK2QXJmkSMtIbz4lbKeoczQf+GCJ8xGSG+P8VQnPmUL+jm88OSVl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F531117
+	for <ntfs3@lists.linux.dev>; Fri, 11 Aug 2023 07:24:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37178C433C8;
+	Fri, 11 Aug 2023 07:24:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691738689;
+	bh=gn2WfJEZHOWAV3qHLFB1JfBTT0fLyhd0K6l80/kfy3E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AjRQqe610JNypA9abG8cVu+d/5OVCxyYLkOJDNVwq4SCyCpQtm9gBkPbruSkO4Smx
+	 jL+41qMS2dZSV3LhHowNx5iao8vX3ezpobAjclhOgQ3fJUvh8wWLudkw53INkdLhvV
+	 /3rY91pCJngQlx+938vTHdz7GYUqkzIqk5Wi6wghczOHLhalUQfqJFGwwIgs/BV/UB
+	 /Lh19m3SkW9Z0tRdwphI/rPPtoTgUB2X62itNGwENKMez0Syq7h4jCtqfweoiWdNAY
+	 0mZAPHVEFFtjRRNpaUiihyJjYRaBU/UzGW+He5o2Ae11qEDq+2UeTXTapj2ElnSKxU
+	 BXIFYLumFrMVg==
+Date: Fri, 11 Aug 2023 09:24:44 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org,
+	Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH 01/13] xfs: reformat the xfs_fs_free prototype
+Message-ID: <20230811-leeren-garnelen-6153c9e68cff@brauner>
+References: <20230809220545.1308228-1-hch@lst.de>
+ <20230809220545.1308228-2-hch@lst.de>
+ <20230810-unmerklich-grandios-281ae311e396@brauner>
+ <20230810155116.GC28000@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a17:902:e748:b0:1bd:9c78:8042 with SMTP id
- p8-20020a170902e74800b001bd9c788042mr13632plf.11.1691705678229; Thu, 10 Aug
- 2023 15:14:38 -0700 (PDT)
-Date: Thu, 10 Aug 2023 15:14:38 -0700
-In-Reply-To: <00000000000040e14205ffbf333f@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000003f591060298ecc6@google.com>
-Subject: Re: [syzbot] [ntfs3?] WARNING in wnd_add_free_ext (2)
-From: syzbot <syzbot+5b2f934f08ab03d473ff@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230810155116.GC28000@lst.de>
 
-syzbot has bisected this issue to:
+On Thu, Aug 10, 2023 at 05:51:16PM +0200, Christoph Hellwig wrote:
+> I think the btrfs hunk (below) in "fs: use the super_block as holder when
+> mounting file systems" needs to be dropped, as we dropped the prep patch
 
-commit 3880f2b816a7e4ca889b7e8a42e6c62c5706ed36
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Mon Oct 25 15:31:28 2021 +0000
+Ah yes, thanks!
 
-    fs/ntfs3: Fix fiemap + fix shrink file size (to remove preallocated space)
+> that allows to use the sb as a holder for now.  I'll add it to my resend
+> of the btrfs conversion.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=168fd89ba80000
-start commit:   f6a691685962 Merge tag '6.5-rc4-smb3-client-fix' of git://..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=158fd89ba80000
-console output: https://syzkaller.appspot.com/x/log.txt?x=118fd89ba80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1e3d5175079af5a4
-dashboard link: https://syzkaller.appspot.com/bug?extid=5b2f934f08ab03d473ff
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13f56679a80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=118b8eeda80000
-
-Reported-by: syzbot+5b2f934f08ab03d473ff@syzkaller.appspotmail.com
-Fixes: 3880f2b816a7 ("fs/ntfs3: Fix fiemap + fix shrink file size (to remove preallocated space)")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Dropped.
