@@ -1,42 +1,43 @@
-Received: from mail-pf1-f207.google.com (mail-pf1-f207.google.com [209.85.210.207])
+Received: from mail-pl1-f207.google.com (mail-pl1-f207.google.com [209.85.214.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58E8A51
-	for <ntfs3@lists.linux.dev>; Sat, 19 Aug 2023 10:47:59 +0000 (UTC)
-Received: by mail-pf1-f207.google.com with SMTP id d2e1a72fcca58-68873756f11so2239713b3a.2
-        for <ntfs3@lists.linux.dev>; Sat, 19 Aug 2023 03:47:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E426320F
+	for <ntfs3@lists.linux.dev>; Mon, 21 Aug 2023 16:36:58 +0000 (UTC)
+Received: by mail-pl1-f207.google.com with SMTP id d9443c01a7336-1bf56d92231so24843775ad.1
+        for <ntfs3@lists.linux.dev>; Mon, 21 Aug 2023 09:36:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692442079; x=1693046879;
+        d=1e100.net; s=20221208; t=1692635818; x=1693240618;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=CT5gB/VbboEBRriucm0WNmnXYtyJVrTVfxhNY9LdZtU=;
-        b=A65V+OuahOYjo0c8+aVW9nsslOOH1bv2jIXHUJQ9EyElCkFAM4b311H4OrqGRes3wm
-         yG9nqAPmrWuIBeqfyhfSMHpMKE1oWFsZ02cAqujKsGAic+TtBDJwsP7lIcrk8xde+agO
-         YJskAzmpuVonFMT+2oycqIQUnACSBuKp5KpXRkwOm5ELbwTPHA7vEn9HFHxYgrtLV45O
-         ccgIOu3vGKSTCevzb/WG1fCk1VK8l4mCoTbRNE8RfJBOj/9bIqbwL4FoY56kWZVPShmC
-         RK5bY1j+A8feI+EOnlpVsr0gDSTQEZyvE1aziXKkuvhdcTqVKCOTGibrwiPRCunEK/+0
-         u1vQ==
-X-Gm-Message-State: AOJu0Yy3wY5ql0h6dRT0kXHL4bN2n+RoKf/7qAP+1GQiQqM3tugX7kKt
-	rGmJKrPb19Ix2QPnT/babrgvW2ZxI6n+ZBdODYZTZ8bIdfDE
-X-Google-Smtp-Source: AGHT+IEjPSquAh6sp6nYTTLwHwK77EGfV9EEQA0Z8R/LzHi1+9SskfCChdYL8AgqAv/tHyy1yYDeD3sNBRT29v33QVTTpOMnMjaF
+        bh=7eioG8X10phzcVb5mcEi18JC2dsf8vnTpbGQbYGNGZ8=;
+        b=D15FRtfIfQv2UJt1ohIH5KA8Oot6O91wdue5upnKUCsm4FaRpHwHvlv5dPhNWcaoNT
+         9fbPadxI1K/S+KSb4+7ULXbZjnpENBDWgBbm8OMBiMXKiLvUBXbY6q9zWmPAhTX7aSOb
+         MAmh+NRUHmu8X4OASKlBRws5LhjE5SIn6CrncPGqKoXDkj5HXDXMkYlatoaT74GYVzyZ
+         B8BmDsPNERv4RA0NxYWfEGrYJ7nvcTKzd9vgEfilGW8Ab1NDjVT+oculKMo+/ggUj6MY
+         v9H7/UL8TQUG5lrApcya9VMVXUelkObg/AhIzsbd/FDfAy6zURKnt5gTIh4UyBa/WdmC
+         i7cQ==
+X-Gm-Message-State: AOJu0YypupX9YPTJefODbF1YVmdAM6Lnf3ocPsVDLMfxQUl4NFhWWg5r
+	oQ4cM8PzrAKrgnY7CPoS4suHioXY2I9ZvZj+mmE+ZOEVsWnY
+X-Google-Smtp-Source: AGHT+IF9eCq8JhsUzlL0IgH1ngneNUWv9Rjlha+PW/FByrO32aRIc+Xkv4Q/sLgDDkmst36rHFaF+fMv6woY1D6Jw756gFmkgeTx
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6a00:c92:b0:68a:ab8:e3c1 with SMTP id
- a18-20020a056a000c9200b0068a0ab8e3c1mr1048632pfv.2.1692442078965; Sat, 19 Aug
- 2023 03:47:58 -0700 (PDT)
-Date: Sat, 19 Aug 2023 03:47:58 -0700
+X-Received: by 2002:a17:902:e5cd:b0:1bf:cc5:7b57 with SMTP id
+ u13-20020a170902e5cd00b001bf0cc57b57mr3379189plf.3.1692635817920; Mon, 21 Aug
+ 2023 09:36:57 -0700 (PDT)
+Date: Mon, 21 Aug 2023 09:36:57 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000eb769006034460ca@google.com>
-Subject: [syzbot] [ntfs3?] WARNING in do_symlinkat (2)
-From: syzbot <syzbot+d123d9a1df4f9a897854@syzkaller.appspotmail.com>
+Message-ID: <000000000000a958a90603717c84@google.com>
+Subject: [syzbot] [ntfs3?] [squashfs?] INFO: task hung in truncate_inode_pages_final
+From: syzbot <syzbot+b6973d2babdaf51385eb@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, brauner@kernel.org, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
+	ntfs3@lists.linux.dev, phillip@squashfs.org.uk, 
+	squashfs-devel@lists.sourceforge.net, syzkaller-bugs@googlegroups.com, 
 	viro@zeniv.linux.org.uk
 Content-Type: text/plain; charset="UTF-8"
 
@@ -44,64 +45,74 @@ Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    d4ddefee5160 Merge tag 'arm64-fixes' of git://git.kernel.o..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1684c769a80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9c37cc0e4fcc5f8d
-dashboard link: https://syzkaller.appspot.com/bug?extid=d123d9a1df4f9a897854
+HEAD commit:    c014c37159a1 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=11904307a80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b40c4aa62d29380a
+dashboard link: https://syzkaller.appspot.com/bug?extid=b6973d2babdaf51385eb
 compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1610933da80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14d81e5fa80000
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12f81e5fa80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10d3b537a80000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/faa4473182fa/disk-d4ddefee.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f12b676582f4/vmlinux-d4ddefee.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/e8c9cea34485/bzImage-d4ddefee.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/027d8c9977f5/mount_0.gz
+disk image: https://storage.googleapis.com/syzbot-assets/890b3d127b57/disk-c014c371.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/300e5c07650c/vmlinux-c014c371.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/eb10f2f51203/Image-c014c371.gz.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/03d2fd0e1068/mount_0.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+d123d9a1df4f9a897854@syzkaller.appspotmail.com
+Reported-by: syzbot+b6973d2babdaf51385eb@syzkaller.appspotmail.com
 
-DEBUG_RWSEMS_WARN_ON((rwsem_owner(sem) != current) && !rwsem_test_oflags(sem, RWSEM_NONSPINNABLE)): count = 0x0, magic = 0xffff8880715bea70, owner = 0x0, curr 0xffff88802212bb80, list empty
-WARNING: CPU: 1 PID: 5387 at kernel/locking/rwsem.c:1370 __up_write kernel/locking/rwsem.c:1369 [inline]
-WARNING: CPU: 1 PID: 5387 at kernel/locking/rwsem.c:1370 up_write+0x4f4/0x580 kernel/locking/rwsem.c:1626
-Modules linked in:
-CPU: 1 PID: 5387 Comm: syz-executor310 Not tainted 6.5.0-rc6-syzkaller-00200-gd4ddefee5160 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/26/2023
-RIP: 0010:__up_write kernel/locking/rwsem.c:1369 [inline]
-RIP: 0010:up_write+0x4f4/0x580 kernel/locking/rwsem.c:1626
-Code: 48 c7 c7 20 8c 0a 8b 48 c7 c6 60 8e 0a 8b 48 8b 54 24 28 48 8b 4c 24 18 4d 89 e0 4c 8b 4c 24 30 53 e8 30 59 e8 ff 48 83 c4 08 <0f> 0b e9 75 fd ff ff 48 c7 c1 88 ab 98 8e 80 e1 07 80 c1 03 38 c1
-RSP: 0018:ffffc900042afd40 EFLAGS: 00010292
-RAX: 083997afe1a51c00 RBX: ffffffff8b0a8d00 RCX: ffff88802212bb80
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: ffffc900042afe10 R08: ffffffff8152d442 R09: 1ffff92000855f20
-R10: dffffc0000000000 R11: fffff52000855f21 R12: 0000000000000000
-R13: ffff8880715bea70 R14: 1ffff92000855fb0 R15: dffffc0000000000
-FS:  00007f472f84f6c0(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f4737a71000 CR3: 000000002634e000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- inode_unlock include/linux/fs.h:776 [inline]
- done_path_create fs/namei.c:3937 [inline]
- do_symlinkat+0x25e/0x610 fs/namei.c:4505
- __do_sys_symlink fs/namei.c:4524 [inline]
- __se_sys_symlink fs/namei.c:4522 [inline]
- __x64_sys_symlink+0x7e/0x90 fs/namei.c:4522
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f4737ab3d89
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 b1 18 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f472f84f218 EFLAGS: 00000246 ORIG_RAX: 0000000000000058
-RAX: ffffffffffffffda RBX: 00007f4737b5b6d8 RCX: 00007f4737ab3d89
-RDX: 0000000000000000 RSI: 0000000020000100 RDI: 0000000020000540
-RBP: 00007f4737b5b6d0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f4737b27954
-R13: 00007f4737b27850 R14: 0031656c69662f2e R15: 0030656c69662f2e
- </TASK>
+INFO: task syz-executor142:6032 blocked for more than 143 seconds.
+      Not tainted 6.5.0-rc6-syzkaller-gc014c37159a1 #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz-executor142 state:D stack:0     pid:6032  ppid:6030   flags:0x00000004
+Call trace:
+ __switch_to+0x320/0x754 arch/arm64/kernel/process.c:556
+ context_switch kernel/sched/core.c:5381 [inline]
+ __schedule+0x1364/0x23b4 kernel/sched/core.c:6710
+ schedule+0xc4/0x170 kernel/sched/core.c:6786
+ io_schedule+0x8c/0x12c kernel/sched/core.c:9028
+ folio_wait_bit_common+0x65c/0xb90 mm/filemap.c:1304
+ __folio_lock+0x2c/0x3c mm/filemap.c:1632
+ folio_lock include/linux/pagemap.h:959 [inline]
+ truncate_inode_pages_range+0x930/0xf74 mm/truncate.c:422
+ truncate_inode_pages mm/truncate.c:449 [inline]
+ truncate_inode_pages_final+0x90/0xc0 mm/truncate.c:484
+ evict+0x26c/0x68c fs/inode.c:666
+ dispose_list fs/inode.c:697 [inline]
+ evict_inodes+0x6b4/0x74c fs/inode.c:747
+ generic_shutdown_super+0x9c/0x328 fs/super.c:478
+ kill_block_super+0x60/0xa0 fs/super.c:1417
+ deactivate_locked_super+0xac/0x124 fs/super.c:330
+ deactivate_super+0xe0/0x100 fs/super.c:361
+ cleanup_mnt+0x34c/0x3dc fs/namespace.c:1254
+ __cleanup_mnt+0x20/0x30 fs/namespace.c:1261
+ task_work_run+0x230/0x2e0 kernel/task_work.c:179
+ resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
+ do_notify_resume+0x2180/0x3c90 arch/arm64/kernel/signal.c:1305
+ exit_to_user_mode_prepare arch/arm64/kernel/entry-common.c:137 [inline]
+ exit_to_user_mode arch/arm64/kernel/entry-common.c:144 [inline]
+ el0_svc+0xa0/0x16c arch/arm64/kernel/entry-common.c:679
+ el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:696
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:591
+
+Showing all locks held in the system:
+1 lock held by rcu_tasks_kthre/13:
+ #0: ffff80008e2718d0 (rcu_tasks.tasks_gp_mutex){+.+.}-{3:3}, at: rcu_tasks_one_gp+0x44/0xcf4 kernel/rcu/tasks.h:522
+1 lock held by rcu_tasks_trace/14:
+ #0: ffff80008e271c90 (rcu_tasks_trace.tasks_gp_mutex){+.+.}-{3:3}, at: rcu_tasks_one_gp+0x44/0xcf4 kernel/rcu/tasks.h:522
+1 lock held by khungtaskd/29:
+ #0: ffff80008e271700 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire+0xc/0x44 include/linux/rcupdate.h:302
+2 locks held by getty/5744:
+ #0: ffff0000d3f64098 (&tty->ldisc_sem){++++}-{0:0}, at: ldsem_down_read+0x3c/0x4c drivers/tty/tty_ldsem.c:340
+ #1: ffff8000959122f0 (&ldata->atomic_read_lock){+.+.}-{3:3}, at: n_tty_read+0x414/0x1214 drivers/tty/n_tty.c:2187
+1 lock held by syz-executor142/6032:
+ #0: ffff0000c77bc0e0 (&type->s_umount_key#42){+.+.}-{3:3}, at: deactivate_super+0xd8/0x100 fs/super.c:360
+
+=============================================
+
 
 
 ---
