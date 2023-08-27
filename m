@@ -1,110 +1,86 @@
-Received: from mail-pj1-f79.google.com (mail-pj1-f79.google.com [209.85.216.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from exchange.fintech.ru (e10edge.fintech.ru [195.54.195.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14954BE48
-	for <ntfs3@lists.linux.dev>; Wed, 23 Aug 2023 13:14:40 +0000 (UTC)
-Received: by mail-pj1-f79.google.com with SMTP id 98e67ed59e1d1-26f2dfb1fdbso5095677a91.2
-        for <ntfs3@lists.linux.dev>; Wed, 23 Aug 2023 06:14:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692796480; x=1693401280;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RFApB1Y2v2rveRjo6nnTdcFEwXfzQreGSzlC+r9Qk20=;
-        b=Me/sku8SRpIWJVNW0HMcxM/6enCpz1ofeQTjBI+i2GyRXZtQAZWgaPR0OpmJ2ai0f9
-         7+A6DEH/YwloYGgllGUTkmCDypDpCx7yQQ//ZxnVMxLeDnHAvPB+mRfACucE6yXrM17m
-         m/qi9aFyzqg+Pqd5Zg7Bia75V+27Ck4wvJwePJ4cN1DqL0PmbH1Jl2M0VR3VnXiDmSdt
-         LufjvQhVDwnCXxByoNejQNf5r/5JugGXOLaRFYFvkbRY3dl+uoHAFEO0I8MBv5f9dgA8
-         LGk9nOIxSCicDF8Y1fKiWSFm540Be6Uv9FTEb8/jzUzAigu79zNSwk7fD4GC4btLr1CE
-         jNjQ==
-X-Gm-Message-State: AOJu0YyRu0Q1y0UtQSviMZ6IfmmX7iKjBnP9yFhl1N7rWmF6wcz5B9xu
-	qDUj4GGS3OSm7cGlccpgJVqvmpr5nCBOD3vco0gKnkckp3H6
-X-Google-Smtp-Source: AGHT+IEX1yqAYhiEN1pueWO1LpFxWdmeDTE28VzHBsnz4BeGwdO3pqmg1pnm5QXJ79UtLgqPj9IJbjT/KmqHF23jlB6WpQP7/VJR
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4EA8478
+	for <ntfs3@lists.linux.dev>; Sun, 27 Aug 2023 16:51:11 +0000 (UTC)
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Sun, 27 Aug
+ 2023 19:49:54 +0300
+Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Sun, 27 Aug
+ 2023 19:49:54 +0300
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, <ntfs3@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>,
+	<syzbot+9d014e6e0df70d97c103@syzkaller.appspotmail.com>
+Subject: [PATCH] fs: ntfs3: fix possible NULL-ptr-deref in ni_readpage_cmpr()
+Date: Sun, 27 Aug 2023 09:49:44 -0700
+Message-ID: <20230827164944.52560-1-n.zhandarovich@fintech.ru>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a17:90a:ea07:b0:26d:43f3:eef1 with SMTP id
- w7-20020a17090aea0700b0026d43f3eef1mr3215711pjy.7.1692796480428; Wed, 23 Aug
- 2023 06:14:40 -0700 (PDT)
-Date: Wed, 23 Aug 2023 06:14:40 -0700
-In-Reply-To: <0000000000006f098a06000d10a5@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e4a538060396e4e9@google.com>
-Subject: Re: [syzbot] [ntfs3?] UBSAN: array-index-out-of-bounds in truncate_inode_pages_final
-From: syzbot <syzbot+e295147e14b474e4ad70@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
-	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.0.253.138]
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 
-syzbot has found a reproducer for the following issue on:
+Syzkaller identified a possible issue with calling unlock_page() for
+pages that have not been correctly allocated by
+find_or_create_page(), leading to possible NULL pointer dereferences
+among other issues.
 
-HEAD commit:    35e2132122ba Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=16924717a80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4f6a8d3c0bd07f11
-dashboard link: https://syzkaller.appspot.com/bug?extid=e295147e14b474e4ad70
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16a2eeb0680000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12224553a80000
+Specifically, in case of an error with aforementioned
+find_or_create_page() function due to memory issues,
+ni_readpage_cmpr() attempts to erroneously unlock and release all
+elements of 'pages'.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/6808a9c4c8df/disk-35e21321.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/85a6cfc7b474/vmlinux-35e21321.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/a3958fe16b1c/Image-35e21321.gz.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/b81535b17c61/mount_1.gz
+This patch ensures that we only deal with the pages successfully
+allocated with calls to find_or_create_page().
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e295147e14b474e4ad70@syzkaller.appspotmail.com
-
-================================================================================
-UBSAN: array-index-out-of-bounds in ./include/linux/pagevec.h:74:2
-index 255 is out of range for type 'struct folio *[15]'
-CPU: 1 PID: 12841 Comm: syz-executor402 Not tainted 6.5.0-rc7-syzkaller-g35e2132122ba #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/26/2023
-Call trace:
- dump_backtrace+0x1b8/0x1e4 arch/arm64/kernel/stacktrace.c:233
- show_stack+0x2c/0x44 arch/arm64/kernel/stacktrace.c:240
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd0/0x124 lib/dump_stack.c:106
- dump_stack+0x1c/0x28 lib/dump_stack.c:113
- ubsan_epilogue lib/ubsan.c:217 [inline]
- __ubsan_handle_out_of_bounds+0xfc/0x148 lib/ubsan.c:348
- folio_batch_add include/linux/pagevec.h:74 [inline]
- find_lock_entries+0x8fc/0xd84 mm/filemap.c:2089
- truncate_inode_pages_range+0x1b0/0xf74 mm/truncate.c:364
- truncate_inode_pages mm/truncate.c:449 [inline]
- truncate_inode_pages_final+0x90/0xc0 mm/truncate.c:484
- ntfs_evict_inode+0x20/0x48 fs/ntfs3/inode.c:1790
- evict+0x260/0x68c fs/inode.c:664
- iput_final fs/inode.c:1788 [inline]
- iput+0x734/0x818 fs/inode.c:1814
- ntfs_fill_super+0x3648/0x3f90 fs/ntfs3/super.c:1420
- get_tree_bdev+0x378/0x570 fs/super.c:1318
- ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1647
- vfs_get_tree+0x90/0x274 fs/super.c:1519
- do_new_mount+0x25c/0x8c8 fs/namespace.c:3335
- path_mount+0x590/0xe04 fs/namespace.c:3662
- do_mount fs/namespace.c:3675 [inline]
- __do_sys_mount fs/namespace.c:3884 [inline]
- __se_sys_mount fs/namespace.c:3861 [inline]
- __arm64_sys_mount+0x45c/0x594 fs/namespace.c:3861
- __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
- invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:51
- el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:136
- do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:155
- el0_svc+0x58/0x16c arch/arm64/kernel/entry-common.c:678
- el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:696
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:591
-================================================================================
-
-
+Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+Reported-by: syzbot+9d014e6e0df70d97c103@syzkaller.appspotmail.com
+Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+ fs/ntfs3/frecord.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 16bd9faa2d28..9789b2ac7e2d 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -2095,7 +2095,7 @@ int ni_readpage_cmpr(struct ntfs_inode *ni, struct page *page)
+ 	struct page **pages = NULL; /* Array of at most 16 pages. stack? */
+ 	u8 frame_bits;
+ 	CLST frame;
+-	u32 i, idx, frame_size, pages_per_frame;
++	u32 i, idx, frame_size, pages_per_frame, pages_created = 0;
+ 	gfp_t gfp_mask;
+ 	struct page *pg;
+ 
+@@ -2138,6 +2138,7 @@ int ni_readpage_cmpr(struct ntfs_inode *ni, struct page *page)
+ 			goto out1;
+ 		}
+ 		pages[i] = pg;
++		pages_created++;
+ 	}
+ 
+ 	err = ni_read_frame(ni, frame_vbo, pages, pages_per_frame);
+@@ -2146,7 +2147,7 @@ int ni_readpage_cmpr(struct ntfs_inode *ni, struct page *page)
+ 	if (err)
+ 		SetPageError(page);
+ 
+-	for (i = 0; i < pages_per_frame; i++) {
++	for (i = 0; i < pages_created; i++) {
+ 		pg = pages[i];
+ 		if (i == idx)
+ 			continue;
+-- 
+2.25.1
+
