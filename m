@@ -1,86 +1,108 @@
-Received: from exchange.fintech.ru (e10edge.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4EA8478
-	for <ntfs3@lists.linux.dev>; Sun, 27 Aug 2023 16:51:11 +0000 (UTC)
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Sun, 27 Aug
- 2023 19:49:54 +0300
-Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Sun, 27 Aug
- 2023 19:49:54 +0300
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, <ntfs3@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>,
-	<syzbot+9d014e6e0df70d97c103@syzkaller.appspotmail.com>
-Subject: [PATCH] fs: ntfs3: fix possible NULL-ptr-deref in ni_readpage_cmpr()
-Date: Sun, 27 Aug 2023 09:49:44 -0700
-Message-ID: <20230827164944.52560-1-n.zhandarovich@fintech.ru>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA3F6AAE;
+	Tue, 29 Aug 2023 22:47:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=XGuBrJRA9Fd4AduQK/hSseIFrv8V5F+R7owbTsvIznw=; b=q1V5fHa/AXkRLdmnc9TtDTItxb
+	sjv5FpbdJarUSWDm8h5uqmHXkHTGtBOUlKVK5U/4PExCLqpYcowYZaV/PvP/kk1bfsDWLvRZIDMi6
+	J4YRKXkMJOy3sqhHWZHu4Fl1bfB/qtOHn3XYeh3dGmGOC0qbSQkD2Y+wYSoEusMnNBuy4+VyYQnkY
+	Lc4KlaQORaxPNCRh9pBUGO98Ft5v23nvU0WQJiozkEiistd3znn+J2fx0QgNh+u6E23YopsyfOSpr
+	Rmce2YRpGqgEixjkKJHtsYkWfKbeh3RTX6XJKjEhssGOmTvrkXGjl1f8Qxu8W6gub1Ziw1YBVxlnq
+	0FDl8ZIQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1qb7SA-001wYO-34;
+	Tue, 29 Aug 2023 22:44:55 +0000
+Date: Tue, 29 Aug 2023 23:44:54 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+	Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
+	Tyler Hicks <code@tyhicks.com>, Gao Xiang <xiang@kernel.org>,
+	Chao Yu <chao@kernel.org>, Yue Hu <huyue2@coolpad.com>,
+	Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>, Jan Kara <jack@suse.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Bob Peterson <rpeterso@redhat.com>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Kees Cook <keescook@chromium.org>,
+	Iurii Zaikin <yzaikin@google.com>, Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.com>,
+	Ronnie Sahlberg <lsahlber@redhat.com>,
+	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Richard Weinberger <richard@nod.at>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Hugh Dickins <hughd@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Dave Chinner <david@fromorbit.com>,
+	Anthony Iliopoulos <ailiop@suse.com>, v9fs@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-afs@lists.infradead.org,
+	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+	codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	cluster-devel@redhat.com, linux-nfs@vger.kernel.org,
+	ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+	devel@lists.orangefs.org, linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org, linux-mtd@lists.infradead.org,
+	linux-mm@kvack.org, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH v6 1/7] fs: pass the request_mask to generic_fillattr
+Message-ID: <20230829224454.GA461907@ZenIV>
+References: <20230725-mgctime-v6-0-a794c2b7abca@kernel.org>
+ <20230725-mgctime-v6-1-a794c2b7abca@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.0.253.138]
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230725-mgctime-v6-1-a794c2b7abca@kernel.org>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Syzkaller identified a possible issue with calling unlock_page() for
-pages that have not been correctly allocated by
-find_or_create_page(), leading to possible NULL pointer dereferences
-among other issues.
+On Tue, Jul 25, 2023 at 10:58:14AM -0400, Jeff Layton wrote:
+> generic_fillattr just fills in the entire stat struct indiscriminately
+> today, copying data from the inode. There is at least one attribute
+> (STATX_CHANGE_COOKIE) that can have side effects when it is reported,
+> and we're looking at adding more with the addition of multigrain
+> timestamps.
+> 
+> Add a request_mask argument to generic_fillattr and have most callers
+> just pass in the value that is passed to getattr. Have other callers
+> (e.g. ksmbd) just pass in STATX_BASIC_STATS. Also move the setting of
+> STATX_CHANGE_COOKIE into generic_fillattr.
 
-Specifically, in case of an error with aforementioned
-find_or_create_page() function due to memory issues,
-ni_readpage_cmpr() attempts to erroneously unlock and release all
-elements of 'pages'.
+Out of curiosity - how much PITA would it be to put request_mask into
+kstat?  Set it in vfs_getattr_nosec() (and those get_file_..._info()
+on smbd side) and don't bother with that kind of propagation boilerplate
+- just have generic_fillattr() pick it there...
 
-This patch ensures that we only deal with the pages successfully
-allocated with calls to find_or_create_page().
-
-Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-Reported-by: syzbot+9d014e6e0df70d97c103@syzkaller.appspotmail.com
-Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
----
- fs/ntfs3/frecord.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 16bd9faa2d28..9789b2ac7e2d 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -2095,7 +2095,7 @@ int ni_readpage_cmpr(struct ntfs_inode *ni, struct page *page)
- 	struct page **pages = NULL; /* Array of at most 16 pages. stack? */
- 	u8 frame_bits;
- 	CLST frame;
--	u32 i, idx, frame_size, pages_per_frame;
-+	u32 i, idx, frame_size, pages_per_frame, pages_created = 0;
- 	gfp_t gfp_mask;
- 	struct page *pg;
- 
-@@ -2138,6 +2138,7 @@ int ni_readpage_cmpr(struct ntfs_inode *ni, struct page *page)
- 			goto out1;
- 		}
- 		pages[i] = pg;
-+		pages_created++;
- 	}
- 
- 	err = ni_read_frame(ni, frame_vbo, pages, pages_per_frame);
-@@ -2146,7 +2147,7 @@ int ni_readpage_cmpr(struct ntfs_inode *ni, struct page *page)
- 	if (err)
- 		SetPageError(page);
- 
--	for (i = 0; i < pages_per_frame; i++) {
-+	for (i = 0; i < pages_created; i++) {
- 		pg = pages[i];
- 		if (i == idx)
- 			continue;
--- 
-2.25.1
-
+Reduces the patchset size quite a bit...
