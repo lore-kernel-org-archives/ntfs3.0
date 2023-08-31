@@ -1,86 +1,65 @@
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC6D2107
-	for <ntfs3@lists.linux.dev>; Wed, 30 Aug 2023 12:45:02 +0000 (UTC)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-1c097e8a175so57977975ad.3
-        for <ntfs3@lists.linux.dev>; Wed, 30 Aug 2023 05:45:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9C410E1
+	for <ntfs3@lists.linux.dev>; Thu, 31 Aug 2023 00:31:34 +0000 (UTC)
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-6bb23d4b3b7so470540a34.3
+        for <ntfs3@lists.linux.dev>; Wed, 30 Aug 2023 17:31:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693399502; x=1694004302;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Jt3l9FGOI3Y5tt5qjFm1J8GEZChx9Hp7h/Vbc/JsQ3E=;
-        b=Q3MiU3wtMwFEIUAQUQDCoxrCSmdIYfRFLyYMoWaCOBG+o7yStAn4lBVkyKgCgfTIok
-         byK3FsozD7kc6DfUUgO/26k16y8R460pBdYpobwyGGOtPnq7oFqSs+ILtm31S9zrY76R
-         ifSKRRMmwiSt5Di6hPqJanHLiXxOhZ+A3z8NVPuGvQsVoN+5H4aRCdwuKmKjbU+pgtRi
-         HCl1fJjK5VCJMPyRf3+7qMC1gB/BCx24d/0Wt1Qm7Cz6lDgm0mHNaHUwmQzeZVPMztaf
-         OM7WY/2OK9NtivCBry1MasunSHyao0E9SrjTcE4fRTwT69mcd8U/VKLhTDWurhtiD/DE
-         ABcw==
-X-Gm-Message-State: AOJu0YwgmPfV+nVwrnChP4TZh0vM9Se00KMYwDSsM651cOxzBGUeo4lj
-	+ljLiYZznWWeO3iO+lWO1E1X3hXEBfjwQR8oalN6KRsgFt/0
-X-Google-Smtp-Source: AGHT+IF+BZ7YLC7iad66BUKll9riZuoAtEuwnKIWiTyEBoJRJpmCovwoB1+N8tFGqnTgUi6y3R9KLMCmbW1zGWpjn7BI9GeuhISD
+        d=1e100.net; s=20221208; t=1693441894; x=1694046694;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n+Ys1cwjPfgqv/vEsA4s7A+pElm5Cn9tj91Zioe86LI=;
+        b=M5TXm8miNks/SCDJhWFa5g8beYyQP8WGXZOn2X5UTsgLhDICkN8QoXu2SCBII86voX
+         PxR9CoAu9NfGp4PQHAbFnYJs92KcauTG4XiyZJXybXbQQfycdBA0fgKsbQKS1JfnJs98
+         76NG6WEgXZ67wiDjiqOFwyxXA6Se5M1LCGXtWytj+oOKpCscBO01OYXxsoDNySIxFPt8
+         zCao+ApVwd7HBbaInibvwP4FsbYJQI5jboLvZEtzVTfQ4PFVz4Dc5EZasSSj4c9qjUxV
+         bhoiZyNuTsja8fGZgqR78rWwssXWMpPa4XPyKmDepMZfxaCJDrgSFVF1WgOs4Xa6PZjN
+         B8/A==
+X-Gm-Message-State: AOJu0YxBHGHqQSB7avewSA6j4u/K0ZRRnXDxga61guhyPL11e71xIWZo
+	+MK+uOgKUrMN7Cwjt4ey94HkGpf9Q9XRITNvl0LYMR0+kqIa
+X-Google-Smtp-Source: AGHT+IH/xFTz4XQxoutjF9VYd71vW+qQX2pv9ulRwbHgizHfCMrd72ah6dGGlmAvpkUjeFfrdGqRibIV1gy5WEuRRlQQHGWoS/Gy
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a17:902:db08:b0:1bb:b74c:88fa with SMTP id
- m8-20020a170902db0800b001bbb74c88famr618138plx.6.1693399502045; Wed, 30 Aug
- 2023 05:45:02 -0700 (PDT)
-Date: Wed, 30 Aug 2023 05:45:01 -0700
+X-Received: by 2002:a9d:4d0e:0:b0:6b9:a422:9f with SMTP id n14-20020a9d4d0e000000b006b9a422009fmr374752otf.1.1693441894159;
+ Wed, 30 Aug 2023 17:31:34 -0700 (PDT)
+Date: Wed, 30 Aug 2023 17:31:34 -0700
+In-Reply-To: <0000000000009531dc0602016bb0@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c849190604234b66@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Aug 2023)
-From: syzbot <syzbot+list2fdacf96ea1991346bcd@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+Message-ID: <0000000000008c9d5106042d2abb@google.com>
+Subject: Re: [syzbot] [ntfs3?] BUG: unable to handle kernel NULL pointer
+ dereference in hdr_find_e (2)
+From: syzbot <syzbot+60cf892fc31d1f4358fc@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, astrajoan@yahoo.com, 
+	ivan.orlov0322@gmail.com, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
+	skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hello ntfs3 maintainers/developers,
+syzbot has bisected this issue to:
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+commit 6e5be40d32fb1907285277c02e74493ed43d77fe
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Fri Aug 13 14:21:30 2021 +0000
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 57 issues are still open and 24 have been fixed so far.
+    fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
 
-Some of the still happening issues:
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=151f20a8680000
+start commit:   4b954598a47b Merge tag 'exfat-for-6.5-rc5' of git://git.ke..
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=171f20a8680000
+console output: https://syzkaller.appspot.com/x/log.txt?x=131f20a8680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1e3d5175079af5a4
+dashboard link: https://syzkaller.appspot.com/bug?extid=60cf892fc31d1f4358fc
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11ee0aa6a80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=100eaedea80000
 
-Ref  Crashes Repro Title
-<1>  5004    Yes   UBSAN: shift-out-of-bounds in ntfs_fill_super (2)
-                   https://syzkaller.appspot.com/bug?extid=478c1bf0e6bf4a8f3a04
-<2>  3598    Yes   KASAN: slab-out-of-bounds Read in ntfs_iget5
-                   https://syzkaller.appspot.com/bug?extid=b4084c18420f9fad0b4f
-<3>  1912    Yes   possible deadlock in ni_fiemap
-                   https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
-<4>  1564    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
-                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
-<5>  1281    Yes   possible deadlock in ntfs_set_state
-                   https://syzkaller.appspot.com/bug?extid=f91c29a5d5a01ada051a
-<6>  1260    Yes   possible deadlock in attr_data_get_block
-                   https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
-<7>  780     No    possible deadlock in ntfs_mark_rec_free
-                   https://syzkaller.appspot.com/bug?extid=f83f0dbef763c426e3cf
-<8>  537     Yes   possible deadlock in mi_read
-                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
-<9>  512     Yes   possible deadlock in filemap_fault
-                   https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
-<10> 455     Yes   possible deadlock in ntfs_fiemap
-                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+Reported-by: syzbot+60cf892fc31d1f4358fc@syzkaller.appspotmail.com
+Fixes: 6e5be40d32fb ("fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile")
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
