@@ -1,129 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF2028E7
-	for <ntfs3@lists.linux.dev>; Thu,  7 Sep 2023 16:04:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8589BC433D9;
-	Thu,  7 Sep 2023 16:04:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1694102660;
-	bh=2iWWIs9Cw3cd+C0R7DZ44Oi4EPcWtnpbV9JxkNhh8Fs=;
-	h=From:Date:Subject:To:Cc:From;
-	b=DlSYC4ewgDf1qEwgUpJ0EYq8s+OMPU3KzmgbN0GlN/K5JlAWlid9TfojYZj3gdQ9q
-	 FZ9c2XVn14+08zlNe3PQUFsSy7dQmVyCJav6GPjRFk8eA7XHZRG/lwe64dRwFgrWHS
-	 pELg2a4s8CMGyKlNt4G3G19CcGPFdvNe6FEl4DP8uSs6uptPfFhmvmKos8O7Qt9d3b
-	 W+5LH2JSG5vWxcsINE7LP9GuYQwKh8ycRAVn7xq0lw3js4XlAZZrQ34+yAlbFbDY4L
-	 XmUD9utBHXgIm1a69/B41F0xZp5dHEQ9ocgH2GdYS2x5FtLBQhYeeKrJCumkESOXaZ
-	 VYMN1FAcmUsxg==
-From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 07 Sep 2023 18:03:40 +0200
-Subject: [PATCH] ntfs3: drop inode references in ntfs_put_super()
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA176134A3
+	for <ntfs3@lists.linux.dev>; Thu,  7 Sep 2023 17:24:33 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-500d13a8fafso2039881e87.1
+        for <ntfs3@lists.linux.dev>; Thu, 07 Sep 2023 10:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1694107471; x=1694712271; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ADxwAtasu+gveWpqZZkTiYMFLculswygOTZbb2QVivM=;
+        b=CZobEaYuqgcVmPYVyuT0x/FeXsNveVZrjetKAiDrn5sff1vUY7r4ym1SHh0Ovohd9A
+         oqohMa6X439XwtoRK9riQ/LNRWGI7pGH2pzITL0Lo1UD/wnBy/IzVVRkFAyPMJonK9FY
+         klvRQOHBBjHLUAuZZdquMpVMdZHqOezzMpbxo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694107471; x=1694712271;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ADxwAtasu+gveWpqZZkTiYMFLculswygOTZbb2QVivM=;
+        b=P0vVbMhOG+CiJxzhE6IKX4Gr3NHWONMMVIhhvvR/ZeCNzWv3iwrYrxMUbUMcBNCofK
+         XzIF9L0v6j3w2nmV+kJxa7LhU8lf84eKHXXJ/I67Ca5w0mAHabY0WOKESHwZB19Zj4IH
+         XSLtOEugBcx1JTAt5ZWx/nw2OpHikHyATIJVRVVDlKVnE1Az6At9qee1OnGaApuDAcIL
+         /oDbBifCtXz6cpgK4AuvvfEUzMUvkSP3fLaeFXtJRfLlltmy+fjC7NA0iUHd0jpVNKUz
+         HOGPVMsPLJSukwIzh/KwE++RAaQZ2KxDGTClBDcED/qhWEOmZn/BhrscQKE3S4ZxA3i3
+         UY4A==
+X-Gm-Message-State: AOJu0Yxd9EaaVhYJXgIMufv3pv87KAR69qRj6oO+aCxQ8nG2uea6SsUJ
+	tZ21KiWgBaVIa668N2pqwDaE9X1VxZ+HA4FZrD/354gZ
+X-Google-Smtp-Source: AGHT+IGIxqktm8CS/u/HQCPRjXBHq5V2PUmvhT5PtpftIP6neCrG6p+8FFS5puQn1gX5c5fvHzPjPw==
+X-Received: by 2002:a05:6512:3b95:b0:500:7fc1:414b with SMTP id g21-20020a0565123b9500b005007fc1414bmr94916lfv.25.1694107471357;
+        Thu, 07 Sep 2023 10:24:31 -0700 (PDT)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
+        by smtp.gmail.com with ESMTPSA id m13-20020ac24acd000000b005009aa86582sm3210508lfp.55.2023.09.07.10.24.30
+        for <ntfs3@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Sep 2023 10:24:30 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-500d13a8fafso2039828e87.1
+        for <ntfs3@lists.linux.dev>; Thu, 07 Sep 2023 10:24:30 -0700 (PDT)
+X-Received: by 2002:a05:6512:104b:b0:4f3:9136:9cd0 with SMTP id
+ c11-20020a056512104b00b004f391369cd0mr60515lfb.44.1694107470248; Thu, 07 Sep
+ 2023 10:24:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230907-vfs-ntfs3-kill_sb-v1-1-ef4397dd941d@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAFv0+WQC/x3M0QqCQBCF4VeRuW5gW7OoV4mIHZ3NIdtkRiQQ3
- 92xy4/D+RcwVmGDW7WA8iwm3+I4Hipo+1RejNK5IYZYh2u44JwNy5StxrcMw9MIm0h0zo3v3Qn
- 8Nypn+f2b94ebkjGSptL2e+mTbGKFdd0ASVV4KHwAAAA=
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Jan Kara <jack@suse.cz>, Guenter Roeck <linux@roeck-us.net>, 
- Christoph Hellwig <hch@lst.de>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev, 
- Christian Brauner <brauner@kernel.org>
-X-Mailer: b4 0.13-dev-83828
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2735; i=brauner@kernel.org;
- h=from:subject:message-id; bh=2iWWIs9Cw3cd+C0R7DZ44Oi4EPcWtnpbV9JxkNhh8Fs=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaT8/NK0Qe4hfwn/nc8Juq27NL14YsvXTZrZxvBLMvuibEl7
- 1PvfHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABO58IXhr2h9snHeqrPXF/gJLoguaJ
- eP+OBuqaseYnVF2n27gkBULsMf/kmxJXpr3zUbPNTxSmLdP7/SusTkwNybqdM2PpoQW36HBwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+References: <20230907-vfs-ntfs3-kill_sb-v1-1-ef4397dd941d@kernel.org>
+In-Reply-To: <20230907-vfs-ntfs3-kill_sb-v1-1-ef4397dd941d@kernel.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 7 Sep 2023 10:24:11 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg5NKHNdrzJ-8bwu0go=6n177M2EkwcgnXiyd23go5RPw@mail.gmail.com>
+Message-ID: <CAHk-=wg5NKHNdrzJ-8bwu0go=6n177M2EkwcgnXiyd23go5RPw@mail.gmail.com>
+Subject: Re: [PATCH] ntfs3: drop inode references in ntfs_put_super()
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Guenter Roeck <linux@roeck-us.net>, Christoph Hellwig <hch@lst.de>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, linux-fsdevel@vger.kernel.org, 
+	ntfs3@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Recently we moved most cleanup from ntfs_put_super() into
-ntfs3_kill_sb() as part of a bigger cleanup. This accidently also moved
-dropping inode references stashed in ntfs3's sb->s_fs_info from
-@sb->put_super() to @sb->kill_sb(). But generic_shutdown_super()
-verifies that there are no busy inodes past sb->put_super(). Fix this
-and disentangle dropping inode references from freeing @sb->s_fs_info.
+On Thu, 7 Sept 2023 at 09:04, Christian Brauner <brauner@kernel.org> wrote:
+>
+> Hey Linus,
+>
+> Would you mind applying this patch directly? It's a simple fix for an
+> ntfs3 bug that was introduced by some refactoring we did in mainline
+> only.
 
-Fixes: a4f64a300a29 ("ntfs3: free the sbi in ->kill_sb") # mainline only
-Reported-by: Guenter Roeck <linux@roeck-us.net>
-Tested-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Christian Brauner <brauner@kernel.org>
----
-Hey Linus,
+Done. Thanks,
 
-Would you mind applying this patch directly? It's a simple fix for an
-ntfs3 bug that was introduced by some refactoring we did in mainline
-only. Guenter reported it and both he and I verified that this patch
-fixes the issue. I can also resend it as a PR tomorrow if you prefer.
-
-Thanks!
-Christian
----
- fs/ntfs3/super.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 5fffddea554f..cfec5e0c7f66 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -571,12 +571,8 @@ static void init_once(void *foo)
- /*
-  * Noinline to reduce binary size.
-  */
--static noinline void ntfs3_free_sbi(struct ntfs_sb_info *sbi)
-+static noinline void ntfs3_put_sbi(struct ntfs_sb_info *sbi)
- {
--	kfree(sbi->new_rec);
--	kvfree(ntfs_put_shared(sbi->upcase));
--	kfree(sbi->def_table);
--
- 	wnd_close(&sbi->mft.bitmap);
- 	wnd_close(&sbi->used.bitmap);
- 
-@@ -601,6 +597,13 @@ static noinline void ntfs3_free_sbi(struct ntfs_sb_info *sbi)
- 	indx_clear(&sbi->security.index_sdh);
- 	indx_clear(&sbi->reparse.index_r);
- 	indx_clear(&sbi->objid.index_o);
-+}
-+
-+static void ntfs3_free_sbi(struct ntfs_sb_info *sbi)
-+{
-+	kfree(sbi->new_rec);
-+	kvfree(ntfs_put_shared(sbi->upcase));
-+	kfree(sbi->def_table);
- 	kfree(sbi->compress.lznt);
- #ifdef CONFIG_NTFS3_LZX_XPRESS
- 	xpress_free_decompressor(sbi->compress.xpress);
-@@ -625,6 +628,7 @@ static void ntfs_put_super(struct super_block *sb)
- 
- 	/* Mark rw ntfs as clear, if possible. */
- 	ntfs_set_state(sbi, NTFS_DIRTY_CLEAR);
-+	ntfs3_put_sbi(sbi);
- }
- 
- static int ntfs_statfs(struct dentry *dentry, struct kstatfs *buf)
-@@ -1644,8 +1648,10 @@ static void ntfs_fs_free(struct fs_context *fc)
- 	struct ntfs_mount_options *opts = fc->fs_private;
- 	struct ntfs_sb_info *sbi = fc->s_fs_info;
- 
--	if (sbi)
-+	if (sbi) {
-+		ntfs3_put_sbi(sbi);
- 		ntfs3_free_sbi(sbi);
-+	}
- 
- 	if (opts)
- 		put_mount_options(opts);
-
----
-base-commit: 7ba2090ca64ea1aa435744884124387db1fac70f
-change-id: 20230907-vfs-ntfs3-kill_sb-52bb6f5230d4
-
+                 Linus
