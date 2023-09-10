@@ -1,56 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD132108
-	for <ntfs3@lists.linux.dev>; Fri,  8 Sep 2023 11:27:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 864D6C433C9;
-	Fri,  8 Sep 2023 11:27:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1694172479;
-	bh=BtLelc3q2oPNmjzinHoYSpk7xou8GNDMnj0H2p2R/bE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d0RgsCkabn75V0qj7fvNKBuBlvweUo3msG5+LwJ1pNa1pGmonNqx8qZ0DWRI+7Kvg
-	 mO2Oj7+OvoQa4gfcFrq/w1hmV2cpxdIpfrSe1aL9HpA+dkHJfXmquRe1Uv1AoxmSCg
-	 S6TfMdPpQipyiNIYC5ZMqm5oZd7Jsr7+ZjHUXFt/QFhbwjuxzLoLwjU1G+KloWYfEB
-	 bfZfVA0o2i6CNW9VsxZlFz6iFNoucSgCJuJDQVD3Xks/zS8JaaGrWDePy7aSqTMIbJ
-	 boeIuxeNpAgHCwgrElrD2v1rV5rlJP+zJUBl0Ecb+uQo5j1Cdd+AYG//0ww9fvzMob
-	 mHRgF3M+TvXAQ==
-Date: Fri, 8 Sep 2023 13:27:54 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Jan Kara <jack@suse.cz>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev
-Subject: Re: [PATCH] ntfs3: drop inode references in ntfs_put_super()
-Message-ID: <20230908-grundlos-morgig-e055946fde44@brauner>
-References: <20230907-vfs-ntfs3-kill_sb-v1-1-ef4397dd941d@kernel.org>
- <20230908081213.GA8240@lst.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579191377
+	for <ntfs3@lists.linux.dev>; Sun, 10 Sep 2023 01:56:33 +0000 (UTC)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-1bf75ca4e4fso39465015ad.0
+        for <ntfs3@lists.linux.dev>; Sat, 09 Sep 2023 18:56:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694310992; x=1694915792;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g1AnbtdmHLxtYiw5SSlT3Mzclo1imdNxgM3fzBo8Y6I=;
+        b=NJrKn96hUAvjfwsHhH6H/bDpGVuHfi82r0jgNmOkLTm+YEK1ZWnHeXebA+t+mJv3xf
+         Hv6xncPegovwsB2icOsO183k87Znwn44MNCtCS5KM/dKmG1ZHmSFQTDVbs/YYwjBRlZ2
+         K+ys1xOpDCVfl9OUAY55IRu1JS4LTjFNwQeiViZ8PAAqZ8msZdREcwbygtt7I2/hyNzS
+         KiAfaMirGUpd8+ZPkadynVz+mWJ3Ps1t6+yvzNascRrNRcDQg53edD5BKtJ1XErSjAs6
+         m72KrhxgpGKk339+qbcYlEE2+hZx3QF74YgsAFl9VNAZgPGc7cCaH51S7SZLyZ8X00JZ
+         NYLA==
+X-Gm-Message-State: AOJu0YwY2vcz9NLdidMGAFnCFBUhqHRjYaD9GgjhuwHVuu3mkY5rEG4i
+	zTTJ7TkLx+jdHoYQe5sYj+3NlhcwuVLYuiAFD6qpvyi5K/+M
+X-Google-Smtp-Source: AGHT+IHiUFnYR5e4ZxlOCvxRqzDbIqM/FX2HwdXWmfaqC03/C7L5M31f5pyYJ99GJ9Mjc0cInXFJjLtDqAyIvRPodQqxHEOcKuqO
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230908081213.GA8240@lst.de>
+X-Received: by 2002:a17:902:eb8c:b0:1bb:cdea:d959 with SMTP id
+ q12-20020a170902eb8c00b001bbcdead959mr2473963plg.0.1694310992663; Sat, 09 Sep
+ 2023 18:56:32 -0700 (PDT)
+Date: Sat, 09 Sep 2023 18:56:32 -0700
+In-Reply-To: <000000000000885d8605e91963fd@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000db589b0604f784dd@google.com>
+Subject: Re: [syzbot] [ntfs3?] KASAN: stack-out-of-bounds Read in iput
+From: syzbot <syzbot+870ae3a4c7a251c996bd@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, elver@google.com, 
+	jacob.e.keller@intel.com, kuba@kernel.org, leonro@nvidia.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 08, 2023 at 10:12:13AM +0200, Christoph Hellwig wrote:
-> On Thu, Sep 07, 2023 at 06:03:40PM +0200, Christian Brauner wrote:
-> > Recently we moved most cleanup from ntfs_put_super() into
-> > ntfs3_kill_sb() as part of a bigger cleanup. This accidently also moved
-> > dropping inode references stashed in ntfs3's sb->s_fs_info from
-> > @sb->put_super() to @sb->kill_sb(). But generic_shutdown_super()
-> > verifies that there are no busy inodes past sb->put_super(). Fix this
-> > and disentangle dropping inode references from freeing @sb->s_fs_info.
-> 
-> Sorry for the delay, I've been travelling.  Wouldn't it make more
-> sense to just free it in ->kill_sb before calling kill_block_super?
+syzbot suspects this issue was fixed by commit:
 
-ntfs3 has ntfs_evict_inodes() which might depend on the info in
-sbi->s_fs_info to be valid. So calling it before kill_block_super()
-risks putting resources that ntfs_evict_inodes() might depend on. Doing
-it in ntfs_put_super() will prevent this from becoming an issue without
-having to wade through all callchains. And since we can't get rid of
-ntfs_put_super() anyway why bother risking that.
+commit c1b05105573b2cd5845921eb0d2caa26e2144a34
+Author: Jakub Kicinski <kuba@kernel.org>
+Date:   Wed Nov 9 18:32:54 2022 +0000
+
+    genetlink: fix single op policy dump when do is present
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17eb48a0680000
+start commit:   105a36f3694e Merge tag 'kbuild-fixes-v6.0-3' of git://git...
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c221af36f6d1d811
+dashboard link: https://syzkaller.appspot.com/bug?extid=870ae3a4c7a251c996bd
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17274404880000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: genetlink: fix single op policy dump when do is present
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
