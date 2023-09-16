@@ -1,66 +1,99 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976CA18E09
-	for <ntfs3@lists.linux.dev>; Fri, 15 Sep 2023 19:01:30 +0000 (UTC)
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-3aa164dd2d1so3726407b6e.3
-        for <ntfs3@lists.linux.dev>; Fri, 15 Sep 2023 12:01:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DC41BDCD
+	for <ntfs3@lists.linux.dev>; Sat, 16 Sep 2023 17:59:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1694887144;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=uxC3KkgcEVk/woa2gOxR4oEmhN+ppIRoS6d7Lsp8+jk=;
+	b=Sm8sNZXa7KAkkTTC72o6uoGWNashr92CqAb3DHqHOSO8NCJB8HGA4yqV0JHkyCUezJZfij
+	WOXSnzz6oUF6jOn5vcrs6FA1dn8XXjcs0A9WJBLPvIjLuB2d5STScis+74Wmsx8Cuo1ua9
+	zfAPe+tHFgjtHh8Kjh03S0ElTQuD9IQ=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-340-zs2rCZIfMhaAddY0DmOHrA-1; Sat, 16 Sep 2023 13:59:02 -0400
+X-MC-Unique: zs2rCZIfMhaAddY0DmOHrA-1
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-1c43e6ba8d1so12164625ad.3
+        for <ntfs3@lists.linux.dev>; Sat, 16 Sep 2023 10:59:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694804489; x=1695409289;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jIsxNI68mB9Kq0lc2JZJzazFfrMrZvjV6QtMhALsulY=;
-        b=Lfi7+RW7+qqqMzdQ1MfU5j+8Rldvx/vSTQbasxR1wl3AeL6OL25Goql4ZwyTrAxpPq
-         Cq68E8oVMcnmal31i+8Cy6GeZJ/hErvHIZ2ivB1akhqWNMXn8LbduoscjHIO9VOuUM7V
-         srEEPPR20161y0VAIoliBIHft29ksJJdw6p1BgnrbQM5889eaaXW4DuN5zWuhhw6Y8lh
-         xYvvaPMqLshjDKerdVUEWPtqDE3fdfc6QNweRSQu3NVFR7YavG9ZKoUCf36WUUlYnkTW
-         ZsuRCQv9BWfFxY2xI4hvFeVggpRUXJ6rwev7Mk+IWA1eLgERp0MHY/+hemNxR1VZeWVo
-         e/CA==
-X-Gm-Message-State: AOJu0Yx/kguAmOnutmqFtnCrU4EO9se4nqFgxa4I1Ycsf0vJHsZmpTxx
-	kZe6J5PkSF6a1U8PC95OtbMLwXZ6AdG38bJWB3I4SyR4UpTJ
-X-Google-Smtp-Source: AGHT+IEdW28QExD1CG+iyseqF14sfY7RwaCtlPwhqEcqryljdpqrzAKD69SsLJPnECJiegiA/z1xDUUpJu2RDnGpl364+DDKioM6
+        d=1e100.net; s=20230601; t=1694887141; x=1695491941;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uxC3KkgcEVk/woa2gOxR4oEmhN+ppIRoS6d7Lsp8+jk=;
+        b=mBTexJR3MPe1m7+BkcCIAfCSSyHVXq+GcQZsFhBAYIXNZFLyz3+Jb4kNXlm4zIC+TI
+         OTSyGrPDRSVTf/P5YVAROdRszvL3r70b8Taqc2wygBwxE28OtzqMNs/P3irlWLQiJvtr
+         Ju5Xw2YElvrDNYqE3B02tsD2QGwTzhO6aD+FgDbitcclqMJKpTqGmpu4yki9Mr9gLuJ6
+         ZT6o45QGrwdLiqpXn/2mmNIM/OXLhKXN4/9KX3m4C+t7FnKrBPeLYL1k3qPoQ8ByYtUn
+         PKzYwYvKvSjV43gEXVaGHOxVcI7q8tzTcPk5hepuI7x9HhRXMWocffbXCsctND8Ip45t
+         6ETA==
+X-Gm-Message-State: AOJu0YzrRyvUZBzgT29dOdTbJ8NZn4NRrJt3g0uyRkY5jJN9UKf2MsO9
+	bx6cq+nQLMZDPNChORM0uqXO7TDR0yp6LvmTU5E1pTIwlPlwnxl2P3rOsbFD/Ie3NKNPMpMtFyn
+	bzF/pqCM18NyXVFc=
+X-Received: by 2002:a17:902:b284:b0:1c0:953d:58 with SMTP id u4-20020a170902b28400b001c0953d0058mr4864513plr.0.1694887141106;
+        Sat, 16 Sep 2023 10:59:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHPk14frCdL1OB9hOXeYU8B5nEszOYgyqoW2r0dhAy/z9+/X7Gm77SjyEdqKN5zCh9sOkGjJg==
+X-Received: by 2002:a17:902:b284:b0:1c0:953d:58 with SMTP id u4-20020a170902b28400b001c0953d0058mr4864503plr.0.1694887140831;
+        Sat, 16 Sep 2023 10:59:00 -0700 (PDT)
+Received: from kernel-devel.local ([240d:1a:c0d:9f00:245e:16ff:fe87:c960])
+        by smtp.gmail.com with ESMTPSA id jw16-20020a170903279000b001b016313b1dsm5345546plb.86.2023.09.16.10.58.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Sep 2023 10:59:00 -0700 (PDT)
+From: Shigeru Yoshida <syoshida@redhat.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Shigeru Yoshida <syoshida@redhat.com>,
+	syzbot+9ccdd15480e9d9833822@syzkaller.appspotmail.com
+Subject: [PATCH] fs/ntfs3: Fix memory leak in ntfs_fill_super()
+Date: Sun, 17 Sep 2023 02:58:52 +0900
+Message-ID: <20230916175852.1607269-1-syoshida@redhat.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1589:b0:3ad:aeed:7ed9 with SMTP id
- t9-20020a056808158900b003adaeed7ed9mr1009026oiw.2.1694804489679; Fri, 15 Sep
- 2023 12:01:29 -0700 (PDT)
-Date: Fri, 15 Sep 2023 12:01:29 -0700
-In-Reply-To: <0000000000005c2d1f05e8945724@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000925bf206056a6b69@google.com>
-Subject: Re: [syzbot] [ntfs3?] BUG: unable to handle kernel NULL pointer
- dereference in __d_instantiate
-From: syzbot <syzbot+29dc75ed37be943c610e@syzkaller.appspotmail.com>
-To: adilger@dilger.ca, almaz.alexandrovich@paragon-software.com, 
-	edward.lo@ambergroup.io, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, nathan@kernel.org, 
-	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, trix@redhat.com, viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-syzbot suspects this issue was fixed by commit:
+syzbot reported memory leak in ntfs_fill_super(). ntfs_fill_super() calls
+wnd_init() and this allocates memory. So, we need to free those memory on the
+error handling path in ntfs_fill_super().
 
-commit 54e45702b648b7c0000e90b3e9b890e367e16ea8
-Author: Edward Lo <edward.lo@ambergroup.io>
-Date:   Thu Sep 22 16:50:23 2022 +0000
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Reported-and-tested-by: syzbot+9ccdd15480e9d9833822@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=9ccdd15480e9d9833822
+Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
+---
+ fs/ntfs3/super.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-    fs/ntfs3: Validate resident attribute name
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index cfec5e0c7f66..a9610f5f4cc0 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -1563,6 +1563,13 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	iput(inode);
+ out:
+ 	kfree(boot2);
++
++	if (sbi->mft.bitmap.inited)
++		wnd_close(&sbi->mft.bitmap);
++
++	if (sbi->used.bitmap.inited)
++		wnd_close(&sbi->used.bitmap);
++
+ 	return err;
+ }
+ 
+-- 
+2.41.0
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12403c74680000
-start commit:   f9ff5644bcc0 Merge tag 'hsi-for-6.2' of git://git.kernel.o..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c163713cf9186fe7
-dashboard link: https://syzkaller.appspot.com/bug?extid=29dc75ed37be943c610e
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1077def7880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10175baf880000
-
-If the result looks correct, please mark the issue as fixed by replying with:
-
-#syz fix: fs/ntfs3: Validate resident attribute name
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
