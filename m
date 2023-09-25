@@ -1,84 +1,62 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6723E79E3
-	for <ntfs3@lists.linux.dev>; Mon, 25 Sep 2023 12:59:32 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-502e7d66c1eso10188568e87.1
-        for <ntfs3@lists.linux.dev>; Mon, 25 Sep 2023 05:59:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695646770; x=1696251570; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:subject:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vn11NvO/kEDaOa8V8l24QgWZc2rX2rI//rN3jMclOws=;
-        b=aFiFv5tmSMmtR4JFE0zhEyUv6fW7009St0qh4UfoZCTNc4ZU3xu2217GnEq/E+P633
-         jaEQqWqsuG7YDZHiYZ+90WqD+noJQ/TPn1UvFVNBy1yucf7l1q6jolKZ9Lx1rqFdZ9Ai
-         seZWnRFjuRXU9Duzzs6mk+s0fr4vZU0BBw2oOQvzYbC8vgDs9rp6FdCtlmOUHcYJnZ5n
-         171M1Sy46HKl/QzvUlwFfHGD7x7TQignf/zoQ26zT5pBYPBqBSMaZgkLyFscT/tiPtUr
-         iKn1WBGLfVeasi0Ycyqg/XRPlGmY7iefzVqOx0JDspNpo8MFfB37A7cO084nLSnhkjlN
-         ufcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695646770; x=1696251570;
-        h=content-transfer-encoding:mime-version:message-id:subject:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vn11NvO/kEDaOa8V8l24QgWZc2rX2rI//rN3jMclOws=;
-        b=eBe+hl3vMiNSpxZVA+mXK1rKCxF1nTmbfxZuogNWhax08MJygPSYWjsoLW/lwEvRpA
-         qQWyB9Tl465uzHP/Fnhzo2+OBQTo7tMFQq/aJw57eC+y1DtMkWd/4kjz1SMghxa8CHix
-         +g02v8EsCk/RD3boMyOLlzdXlXMDjVDQlRjUSybJw3scwY4Psam8bVr7DCbEsGB7/Iog
-         evMDO124wkKp8f51S6wqZN08gEo0dpWqQGx2yivStuyaltZV135lcOXx9HpykF72TuEz
-         uLkEDurb4JjZ9F3TXMift+2XxCAuyWfl1Kt5+iqFnNt0NXIs4vKrOCEK8L+w1gQlb82E
-         0eeA==
-X-Gm-Message-State: AOJu0YxQruL7zDPBEXUEYqDddTGIX6KNzkYQv2HZT9Vkm8kGVLqRDC7C
-	tr8k4fj+5lx73Hju6c6zvS06M76XKvg=
-X-Google-Smtp-Source: AGHT+IHW0/VUT3VLby0tX70UtSnL2dcolngHUOneS4vvNc21hOC8UBkyMBFP8+XqTwtvZFs7JIBAAg==
-X-Received: by 2002:ac2:5f52:0:b0:503:5d8:da33 with SMTP id 18-20020ac25f52000000b0050305d8da33mr4625766lfz.20.1695646769748;
-        Mon, 25 Sep 2023 05:59:29 -0700 (PDT)
-Received: from malediction ([46.48.96.28])
-        by smtp.gmail.com with ESMTPSA id q4-20020ac25144000000b004fe951827easm1797052lfd.196.2023.09.25.05.59.28
-        for <ntfs3@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Sep 2023 05:59:28 -0700 (PDT)
-Date: Mon, 25 Sep 2023 17:59:25 +0500
-From: Mike Kazantsev <mk.fraggod@gmail.com>
-To: ntfs3@lists.linux.dev
-Subject: memcpy: detected field-spanning write (size 8) of single field
- "le->name"
-Message-ID: <20230925175925.20fca707@malediction>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3643610786
+	for <ntfs3@lists.linux.dev>; Mon, 25 Sep 2023 23:44:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com; s=s31663417;
+ t=1695685477; x=1696290277; i=aros@gmx.com;
+ bh=hZvGwbKeYw0yTbyMrftFKu+hWXJRbeEoFpRNnspoRN4=;
+ h=X-UI-Sender-Class:Date:From:Subject:To:Cc;
+ b=GjjffkcXPICuESHGYKyyslJwATH9rSJ8LSig5o6NOqGBWixdEmyUyr85G3Z3k0mXceYiHmH5Mcs
+ j+Yiknxgu02D1FGwUp5Yq6TdOLI5u2jNi1a06ZaILI9NORcFVZ3acspdOirWA2/RWnb4v3x5PnAu+
+ Utq/QBzOts4Vs28RRp4O8L94ra3RlMOYI3Q77Z/Ky6uHxjfKrTkxc+aEyBS5pvYbTiMN7VUGIbwy1
+ rwJdhsOC9tlVmJMHDrDPAwqmZWDuyVuqRB7NffRuAdz5d1rkq2HNl70PILKOnJ6lYqwCjTIiP7F8C
+ GV1EbY+bQ64AnSOyiymppf+wnusx+Ela9uKQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [10.28.110.11] ([98.159.234.111]) by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MVvLB-1rCnlA1J0X-00RnTy; Tue, 26
+ Sep 2023 01:44:37 +0200
+Message-ID: <64ad5f88-7ddb-4918-a43c-c459f213e5de@gmx.com>
+Date: Mon, 25 Sep 2023 23:44:35 +0000
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+From: "Artem S. Tashkinov" <aros@gmx.com>
+Subject: 64MB bytes written when mounting in RW mode
+To: ntfs3@lists.linux.dev
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:dRDZ9tyN4+htaSOhL3c2zGLvKwOif099y9HExLNsoQoTH5cUxlt
+ Q5vbQsU/xtkNVyLZTVV60bIbBbwzz5oS/uUf3Fu6u6xPe3RZv5/UuXVQmPRrOz+cwjJvcLO
+ Mmxs8oDbwJgQwUxI7HhBDaOFKx96kV0Gt0s4doSXjJYvBIRZW0VDG8kP90b0M8MhsMpRNc3
+ Nol/vykGas3o+rkE85pYQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:K8fKImsHHTU=;x9seWDf6eVyW38vD7xMRCbxSrH7
+ zfATYavLljSVfQTNPbzmUHhvpMxPh/WKl31KwMyOaojhcZL17ae0MFwsqlsGVFxJ2RQoZg5D+
+ S9Rbn6SjeMXn4q4+CSWn6ZC7AlGEdJ/Gf4eBNwYbD73Vlwam2NcGw0IKW54rDGrYtkb9uOcwN
+ Smg/WHIaGcdd895CLVu61dbLCQEVD2KwZBpFPQEjKRBltxd1tD6aChT5vDDYnbtUioLi6SXXA
+ miJD2i2SqDTGQhzSKEZep6poqDCA42p5inPiePfduXWLK7oHq7pb8oErfvFsamisIRRcQc4dh
+ h51gWIBKhMQUmTR+TSkgNhz/DD3RrZIj/qrRAC2JADV/R8/T3SypsJC+m7MEUFXUAVa11LHNh
+ 7B0qqr7441Eb6Am/9A/X278dMUCAKh9ROOrgZ+nEKyarcBzvoGDfnqBv7G1ytNXIpghs4wXkn
+ 6tt2IVxHbvfdryMbUdxOR4t2qPuSxByeTSApmkTu3zgwqwepYKQvwpAt7HGmiQZoDbERA05mN
+ pdv3wpx3XNUuM7vcfriipWjuIRRIIAuMQrp/YhD194yz3lX3fl9FCDCmE+bx/RM8q5IcXVseo
+ KU0Kap86k8sOHWyfuE05WLUVX8kaQAKnZ1eYFKpeHCpDzqT4JgcuTs7byS0mQH0fVf0mh/McC
+ g3K6ls2WErD+BQCBY8q3rYFwsrVMbEUca8um6nutm1O+eKq8/VnBUvKs1P0V/7O9GMJL/3ZXR
+ Yctmy79J+aZejC96bvPaYhLAcQ9dgSv+MAC/FPLGW8QN/vYjyQzPTAT5590a2fiXyBdQ181yk
+ Twp5CEKmGq7jeVwtvWgNekFbZ09zgqV7WyWZWH6NR1FIti/kEnfTJeSkmyNFLPkpaPyRgqv4l
+ oeusAAJZWu21JxtG1xUBERPJofRYe9QA6gmO3eiZWnRS9nxd6FKf/di1jWpwME6lLlk2mjQ9q
+ db9yMT3eb8NRoHcCIO5pBCr8AxY=
 
-Hi,
+Hello,
 
-Running latest stable linux kernels, I seem to have this WARNING pop-up
-under specific "create/write multiple 1-2M files per second" workload
-on ntfs3 mountpoint (generated by aria2c downloader for youtube DASH
-videos via yt-dlp):
+I'm curious why ntfs3 writes 67,117,056 (64MB + 8KB) bytes to a
+partition when you just mount it in RW mode without doing anything else.
+This looks quite excessive.
 
-  memcpy: detected field-spanning write (size 8) of single field
-  "le->name" at fs/ntfs3/attrlist.c:326 (size 6)
-
-I think this is a warning from security/sanity checks introduced in 6.x
-at some point, and might not be an actual problem that breaks anything.
-
-But presumably warnings still shouldn't be emitted, and fix might to
-split the write in two, if it's intentionally overwriting the next
-field as well, or mark it in the code as a non-issue somehow.
-
-I've initially reported it at https://bugzilla.kernel.org/show_bug.cgi?id=217937
-but it was suggested there to post it to this mailing list instead.
-See couple backtraces (which seem to be rather easily reproducible) attached there.
-
-Didn't look into the issue myself, but thought to report it anyway,
-in case it might be useful, and maybe trivial to fix.
-
-Cheers!
-
-
--- 
-Mike Kazantsev // fraggod.net
+Best regards,
+Artem
