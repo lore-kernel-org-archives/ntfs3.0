@@ -1,79 +1,66 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4612618E1B
-	for <ntfs3@lists.linux.dev>; Tue, 26 Sep 2023 10:03:34 +0000 (UTC)
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id CA2BF21AE;
-	Tue, 26 Sep 2023 09:48:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1695721710;
-	bh=cgW4FIdgGbuvm9U/H1+L1e/9qzZXAm0KOwXO3mAfiYI=;
-	h=Date:From:Subject:To:CC;
-	b=grMTRHSAu06JyKVSu++6XnV9b84G4TL1gEoLd1A18NmlVCJdFKHM2QBBRe/PeqJvS
-	 QlEBKStigYa86i+KqKqfgzC9o3Tforv8/8kGZammSiA2PTkRp5lNxc+tRGpsoVelWH
-	 XQ+GIhZ8JWq16G51VUxonJjU0qvnAAY2r4/+VcwM=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 270B41D45;
-	Tue, 26 Sep 2023 09:54:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1695722061;
-	bh=cgW4FIdgGbuvm9U/H1+L1e/9qzZXAm0KOwXO3mAfiYI=;
-	h=Date:From:Subject:To:CC;
-	b=TT/k+3Sv65rRZt/02mRwCkxiLKLKkOUuQ4xaD0ZGKMil5QDsNnUGfOga/0QrSeuYl
-	 G6IXfulL4m1mntNI/aplDVNtLqYfjsxyfTwH2ZUbYlNgtpBSsSw6RFzlIeRmzGYB18
-	 DEBDhECVgZfY2ZUZSle6LGC25c+korSHhJCj5wvQ=
-Received: from [172.16.192.129] (192.168.211.137) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 26 Sep 2023 12:54:20 +0300
-Message-ID: <7c217d7d-6ee4-4603-b5f1-ebe7b68cf430@paragon-software.com>
-Date: Tue, 26 Sep 2023 12:54:20 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675EB4C80
+	for <ntfs3@lists.linux.dev>; Wed, 27 Sep 2023 02:49:27 +0000 (UTC)
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-3aca0423310so24033220b6e.0
+        for <ntfs3@lists.linux.dev>; Tue, 26 Sep 2023 19:49:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695782966; x=1696387766;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eni7pjGsCnR02TmbIEYy5GXxjpcD0RnfDvpYlq3rhaM=;
+        b=gux7JEZqnEqnBU0BIWnoa2tImZzT5QeWAhUTMvsB4ADywBl+k9DfoGjqU5ZoDUSnI6
+         YPJgHByTNNIXeeG2kpWjYKa2iyhcTHIox0knLVypF3VbhLpMutQyxTi1u6+ooRnrXI0d
+         fxNTBejJHGLD8UBb5AVst+pxO86MKK86cPrw5iJZ1ipPPbubF5pXun08gpmUt+Dwz+JK
+         w1ZDENY8cLg29v3k0Jsadt0To/94VV7b58Ej8bvI8TdKfZ229Rd35J1qdW7XVAo6jHTF
+         pkPnWAnL7s2xDchapBpyKq5QahDYfrWa2TTKmozb7tp5uccBMQyTeQmJzLZfVUQtuzzo
+         qURg==
+X-Gm-Message-State: AOJu0Yx5FcFs8huYu8nPVOgY8wnVkgXEmR4jWehJGIFdG5dB+bQ2ywgs
+	FWBkv1uq8VKS2S6l78DoLez/0JCo+MMIIx3YX33ZeXCsePXk
+X-Google-Smtp-Source: AGHT+IFdbdFxnvYAoAwEmTvSKD9vV+LpoXdQyVZwGa9sq+8SBaVDHo7TFv5DlnRNou+NS6gE4mptqHru3h/s2UnlArnbPjr31pdR
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Konstantin Komarovc <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH 0/8] fs/ntfs3: Bugfix and refactoring
-Content-Language: en-US
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.211.137]
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Received: by 2002:a05:6808:1b11:b0:3ae:1e08:41e9 with SMTP id
+ bx17-20020a0568081b1100b003ae1e0841e9mr404808oib.3.1695782966473; Tue, 26 Sep
+ 2023 19:49:26 -0700 (PDT)
+Date: Tue, 26 Sep 2023 19:49:26 -0700
+In-Reply-To: <0000000000006777d506051db4fd@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000553a2106064e3d86@google.com>
+Subject: Re: [syzbot] [ntfs3?] KASAN: slab-use-after-free Read in ntfs_write_bh
+From: syzbot <syzbot+bc79f8d1898960d41073@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, brauner@kernel.org, hch@lst.de, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com, 
+	viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-This series contains various fixes and refactoring for ntfs3.
-Added more info into /proc/fs/ntfs3/<dev>/volinfo
+syzbot has bisected this issue to:
 
-Konstantin Komarov (8):
-   fs/ntfs3: Use inode_set_ctime_to_ts instead of inode_set_ctime
-   fs/ntfs3: Allow repeated call to ntfs3_put_sbi
-   fs/ntfs3: Fix alternative boot searching
-   fs/ntfs3: Refactoring and comments
-   fs/ntfs3: Add more info into /proc/fs/ntfs3/<dev>/volinfo
-   fs/ntfs3: Do not allow to change label if volume is read-only
-   fs/ntfs3: Fix possible NULL-ptr-deref in ni_readpage_cmpr()
-   fs/ntfs3: Fix NULL pointer dereference on error in
-     attr_allocate_frame()
+commit 5f0fb2210bb34ecd3f7bfde0d8f0068b79b2e094
+Author: Christoph Hellwig <hch@lst.de>
+Date:   Wed Aug 9 22:05:44 2023 +0000
 
-  fs/ntfs3/attrib.c  | 12 ++++----
-  fs/ntfs3/bitmap.c  |  1 +
-  fs/ntfs3/file.c    |  4 +--
-  fs/ntfs3/frecord.c |  2 +-
-  fs/ntfs3/inode.c   |  5 ++--
-  fs/ntfs3/namei.c   |  6 ++--
-  fs/ntfs3/ntfs.h    |  2 +-
-  fs/ntfs3/ntfs_fs.h |  2 --
-  fs/ntfs3/record.c  |  6 ++++
-  fs/ntfs3/super.c   | 71 +++++++++++++++++++++++++++++++---------------
-  10 files changed, 70 insertions(+), 41 deletions(-)
+    ntfs3: don't call sync_blockdev in ntfs_put_super
 
--- 
-2.34.1
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1671b51e680000
+start commit:   6465e260f487 Linux 6.6-rc3
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=1571b51e680000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1171b51e680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=bb54ecdfa197f132
+dashboard link: https://syzkaller.appspot.com/bug?extid=bc79f8d1898960d41073
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14aa4e32680000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=171787b6680000
 
+Reported-by: syzbot+bc79f8d1898960d41073@syzkaller.appspotmail.com
+Fixes: 5f0fb2210bb3 ("ntfs3: don't call sync_blockdev in ntfs_put_super")
 
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
