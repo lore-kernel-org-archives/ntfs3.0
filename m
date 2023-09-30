@@ -1,201 +1,104 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B4F15AF2
-	for <ntfs3@lists.linux.dev>; Fri, 29 Sep 2023 16:54:14 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50325ce89e9so23256967e87.0
-        for <ntfs3@lists.linux.dev>; Fri, 29 Sep 2023 09:54:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2A017C8
+	for <ntfs3@lists.linux.dev>; Sat, 30 Sep 2023 05:02:01 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5859e22c7daso1053754a12.1
+        for <ntfs3@lists.linux.dev>; Fri, 29 Sep 2023 22:02:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1696006452; x=1696611252; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1jnYTA/sVS+Z8Orhdi2AQdhdCY0rlD66I6Sde9ZBPos=;
-        b=IIoDkQPszhVst1kZXTvPmabAZGk5fkMlBS2rcGSw2qVKep7+H39BVaVJVI1SX567nB
-         o/vfy8GoaUFseFPioa1ygZxAhV8lAjEs7HEos30HaAy8gyddRfuJMBHP/bsbiXOW8Ksn
-         UmA823YjxxO6dI09buOGgYYSrgBBPruVh+CnM=
+        d=gmail.com; s=20230601; t=1696050121; x=1696654921; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wc3/lDJ0Y70q5wqO7T6IeDRSePuhtOmjFGCpqJDnCH4=;
+        b=OCFjFJjfVsSvf+HQA80Lt11MZSy+Ap4PIP3ZBBjPjI7PRRqcHgGhAVmhHWLw3eLP/o
+         lrhhPWWGklBvghk4TYqrzK1buQ9esDvMqB7posMHxxY9MYcYnTrgT+xiWAQ2jM4iD84I
+         xwxxcbAGjXpIb3DxNdzIch/vcnYDhFzsX9kljFANW3OpDebkZ9YIhJvzj3J/Z71SGqrT
+         jYnPgsFuF+a3AmJO8UzR1bHuYTUyVxEOLoATohqsIvtvZ0XCQ2wYGBmNBxFMMo/Lm403
+         /Ny2YXNnE2y2TPanGUNGst6GYRD7G0Be3n7kgtUQ5ojihUVriccvYS87lrTrrvO9IYr1
+         1JHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696006452; x=1696611252;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1jnYTA/sVS+Z8Orhdi2AQdhdCY0rlD66I6Sde9ZBPos=;
-        b=go9jw/FXI6xfwoqrOLrxnG8JjbUEe8lITvc0dL5x9RrNmGY2pZRqDZbDUg+jIJ9Wbw
-         S0gkqVXpN+EWXC8J4E/2j4PYiAv109yB2isAUnvDNb2wb7zOfVMDATGD1CLOoLWVZdxa
-         g6z7yDoHAvEsjzXaSjeRqb/bAxQMY8c2MgaKaLI3RaOPWkKwl2qunepEJ9RPnIIQDcnw
-         iQGpu9wLSAyfXbImTiIpeZFJursYgFmSKJbnA6MHtFQ2MyCm3A5L6H6vIVusshB+9FN5
-         adLjsPh1ZmHvv1w4rxsOj4DodsVRRccTVOUTQpDGBSEK1RehjpSH4zzUHu5x7T3KaYrh
-         Vuig==
-X-Gm-Message-State: AOJu0Yz9QpPF9WS2TbEYj1zdcRy/YREV2rIaMJFQfQEcnDb1DLJJSc8C
-	tZnXp9ujtABeKJJK9NjuK6m7FAZlOupGN5Wlgo8LjOeJ7MI=
-X-Google-Smtp-Source: AGHT+IH3og4lRSGZHkae2IHzjB1yXXIuKY3sAtC6L9gyRCO/Kzq9qnbxgWrEJDYyVY/elAwG+SNCrg==
-X-Received: by 2002:a05:6512:2386:b0:500:7f71:e46b with SMTP id c6-20020a056512238600b005007f71e46bmr5455129lfv.1.1696006452511;
-        Fri, 29 Sep 2023 09:54:12 -0700 (PDT)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id i3-20020ac25223000000b004f9c44b3e6dsm3601874lfl.127.2023.09.29.09.54.12
-        for <ntfs3@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Sep 2023 09:54:12 -0700 (PDT)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c1886777d9so52668141fa.0
-        for <ntfs3@lists.linux.dev>; Fri, 29 Sep 2023 09:54:12 -0700 (PDT)
-X-Received: by 2002:a17:907:2722:b0:9a1:cdf1:ba3 with SMTP id
- d2-20020a170907272200b009a1cdf10ba3mr4628345ejl.27.1696004552316; Fri, 29 Sep
- 2023 09:22:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696050121; x=1696654921;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Wc3/lDJ0Y70q5wqO7T6IeDRSePuhtOmjFGCpqJDnCH4=;
+        b=UfH9fXeuZgIWWWa8gK8j/yo4u70xElyNqFZPFt55/kf2God9IVRSiSDNTOZobGd56/
+         wpW/kqJthJb8/d8veoZ1CkJ2KJGHxTM7rHMIoq0ZKat9n1whNwLRGFcGBXw1qLFr5A2H
+         vU/ryBZb9Vv93jWPvs+o0SxFWUpmDUgJEMfMcPQIIZvp5hKTDRxPIgpxWOotQRFDsbG8
+         zdaIKZWY65yHFyYNDb2fg7DB8O2BL0it7gb2QcE87DFwOccZdUF8G+FEfiYUwVUkcW+Y
+         d9oYJC7N9q1x7nJYhGsEw5o17XY/cFrMSCh2dO8NDMaSC/gzNbaLWfEMyKJIoy6Mr3vV
+         2MPw==
+X-Gm-Message-State: AOJu0YwuXeYTAYaA5x1PkpTJj5f4FGppT+etMfftwDRW+H5eNxFSkL1u
+	uJXRLZtQybFbRIbisu4xYnQ=
+X-Google-Smtp-Source: AGHT+IGwjxf7szTTsQLyPMtmx6D961AfPmaEk+HWKxuN9bQbxtvcTWtZao4yWyr/O0xKDGBTdR7a8g==
+X-Received: by 2002:a05:6a20:1451:b0:15d:e68d:a855 with SMTP id a17-20020a056a20145100b0015de68da855mr6635638pzi.29.1696050121350;
+        Fri, 29 Sep 2023 22:02:01 -0700 (PDT)
+Received: from wedsonaf-dev.home.lan ([189.124.190.154])
+        by smtp.googlemail.com with ESMTPSA id y10-20020a17090322ca00b001c322a41188sm392136plg.117.2023.09.29.22.01.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Sep 2023 22:02:01 -0700 (PDT)
+From: Wedson Almeida Filho <wedsonaf@gmail.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Wedson Almeida Filho <walmeida@microsoft.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Subject: [PATCH 19/29] ntfs3: move ntfs_xattr_handlers to .rodata
+Date: Sat, 30 Sep 2023 02:00:23 -0300
+Message-Id: <20230930050033.41174-20-wedsonaf@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230930050033.41174-1-wedsonaf@gmail.com>
+References: <20230930050033.41174-1-wedsonaf@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230928110554.34758-1-jlayton@kernel.org> <20230928110554.34758-2-jlayton@kernel.org>
- <6020d6e7-b187-4abb-bf38-dc09d8bd0f6d@app.fastmail.com> <af047e4a1c6947c59d4a13d4ae221c784a5386b4.camel@kernel.org>
- <20230928171943.GK11439@frogsfrogsfrogs> <6a6f37d16b55a3003af3f3dbb7778a367f68cd8d.camel@kernel.org>
- <20230928212656.GC189345@mit.edu> <CAHk-=wjTynK9BdGbi+8eShU77nkPvipFwRxEd1TSBrw2+LiuDg@mail.gmail.com>
- <CAOQ4uxg5ctY9yCjLOjN1nETAcEuNb2UERnYuDv7PoErdxX=WUw@mail.gmail.com>
-In-Reply-To: <CAOQ4uxg5ctY9yCjLOjN1nETAcEuNb2UERnYuDv7PoErdxX=WUw@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 29 Sep 2023 09:22:14 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjTZ=6QkE_eksL+kzywj2cA_kiY-ydZKoz-+kBQwtNWwQ@mail.gmail.com>
-Message-ID: <CAHk-=wjTZ=6QkE_eksL+kzywj2cA_kiY-ydZKoz-+kBQwtNWwQ@mail.gmail.com>
-Subject: Re: [PATCH 86/87] fs: switch timespec64 fields in inode to discrete integers
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, Jeff Layton <jlayton@kernel.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	David Sterba <dsterba@suse.cz>, "Eric W. Biederman" <ebiederm@xmission.com>, 
-	Kees Cook <keescook@chromium.org>, Jeremy Kerr <jk@ozlabs.org>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
-	Joel Fernandes <joel@joelfernandes.org>, Carlos Llamas <cmllamas@google.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Mattia Dongili <malattia@linux.it>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Brad Warrum <bwarrum@linux.ibm.com>, 
-	Ritu Agarwal <rituagar@linux.ibm.com>, Hans de Goede <hdegoede@redhat.com>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Mark Gross <markgross@kernel.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
-	Dominique Martinet <asmadeus@codewreck.org>, Christian Schoenebeck <linux_oss@crudebyte.com>, 
-	David Sterba <dsterba@suse.com>, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, 
-	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Chris Mason <clm@fb.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Xiubo Li <xiubli@redhat.com>, 
-	Ilya Dryomov <idryomov@gmail.com>, Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
-	Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>, Nicolas Pitre <nico@fluxnic.net>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Gao Xiang <xiang@kernel.org>, 
-	Chao Yu <chao@kernel.org>, Yue Hu <huyue2@gl0jj8bn.sched.sma.tdnsstic1.cn>, 
-	Jeffle Xu <jefflexu@linux.alibaba.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, Jan Kara <jack@suse.com>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, Jaegeuk Kim <jaegeuk@kernel.org>, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Christoph Hellwig <hch@infradead.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Bob Peterson <rpeterso@redhat.com>, 
-	Andreas Gruenbacher <agruenba@redhat.com>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, Mike Kravetz <mike.kravetz@oracle.com>, 
-	Muchun Song <muchun.song@linux.dev>, Jan Kara <jack@suse.cz>, 
-	David Woodhouse <dwmw2@infradead.org>, Dave Kleikamp <shaggy@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Trond Myklebust <trond.myklebust@hammerspace.com>, Anna Schumaker <anna@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, Neil Brown <neilb@suse.de>, 
-	Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>, Anton Altaparmakov <anton@tuxera.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, 
-	Joseph Qi <joseph.qi@linux.alibaba.com>, Bob Copeland <me@bobcopeland.com>, 
-	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Iurii Zaikin <yzaikin@google.com>, Tony Luck <tony.luck@intel.com>, 
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>, Anders Larsen <al@alarsen.net>, Steve French <sfrench@samba.org>, 
-	Paulo Alcantara <pc@manguebit.com>, Ronnie Sahlberg <lsahlber@redhat.com>, 
-	Shyam Prasad N <sprasad@microsoft.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Phillip Lougher <phillip@squashfs.org.uk>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Evgeniy Dushistov <dushistov@mail.ru>, 
-	Chandan Babu R <chandan.babu@oracle.com>, Damien Le Moal <dlemoal@kernel.org>, 
-	Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Hugh Dickins <hughd@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	John Johansen <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Eric Paris <eparis@parisplace.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, v9fs@lists.linux.dev, 
-	linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
-	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org, 
-	codalist@telemann.coda.cs.cmu.edu, linux-efi@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, gfs2@lists.linux.dev, 
-	linux-um@lists.infradead.org, linux-mtd@lists.infradead.org, 
-	jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org, 
-	linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net, 
-	ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev, 
-	linux-karma-devel@lists.sourceforge.net, devel@lists.orangefs.org, 
-	linux-unionfs@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	reiserfs-devel@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	samba-technical@lists.samba.org, linux-trace-kernel@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, bpf@vger.kernel.org, 
-	Netdev <netdev@vger.kernel.org>, apparmor@lists.ubuntu.com, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 28 Sept 2023 at 20:50, Amir Goldstein <amir73il@gmail.com> wrote:
->
-> OTOH, it is perfectly fine if the vfs wants to stop providing sub 100ns
-> services to filesystems. It's just going to be the fs problem and the
-> preserved pre-historic/fine-grained time on existing files would only
-> need to be provided in getattr(). It does not need to be in __i_mtime.
+From: Wedson Almeida Filho <walmeida@microsoft.com>
 
-Hmm. That sounds technically sane, but for one thing: if the aim is to try to do
+This makes it harder for accidental or malicious changes to
+ntfs_xattr_handlers at runtime.
 
- (a) atomic timestamp access
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev
+Signed-off-by: Wedson Almeida Filho <walmeida@microsoft.com>
+---
+ fs/ntfs3/ntfs_fs.h | 2 +-
+ fs/ntfs3/xattr.c   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
- (b) shrink the inode
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 629403ede6e5..41c1538f8e51 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -872,7 +872,7 @@ int ntfs_init_acl(struct mnt_idmap *idmap, struct inode *inode,
+ 
+ int ntfs_acl_chmod(struct mnt_idmap *idmap, struct dentry *dentry);
+ ssize_t ntfs_listxattr(struct dentry *dentry, char *buffer, size_t size);
+-extern const struct xattr_handler *ntfs_xattr_handlers[];
++extern const struct xattr_handler * const ntfs_xattr_handlers[];
+ 
+ int ntfs_save_wsl_perm(struct inode *inode, __le16 *ea_size);
+ void ntfs_get_wsl_perm(struct inode *inode);
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index 023f314e8950..a67ff036a251 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -1016,7 +1016,7 @@ static const struct xattr_handler ntfs_other_xattr_handler = {
+ 	.list	= ntfs_xattr_user_list,
+ };
+ 
+-const struct xattr_handler *ntfs_xattr_handlers[] = {
++const struct xattr_handler * const ntfs_xattr_handlers[] = {
+ 	&ntfs_other_xattr_handler,
+ 	NULL,
+ };
+-- 
+2.34.1
 
-then having the filesystem maintain its own timestamp for fine-grained
-data will break both of those goals.
-
-Yes, we'd make 'struct inode' smaller if we pack the times into one
-64-bit entity, but if btrfs responds by adding mtime fields to "struct
-btrfs_inode", we lost the size advantage and only made things worse.
-
-And if ->getattr() then reads those fields without locking (and we
-definitely don't want locking in that path), then we lost the
-atomicity thing too.
-
-So no. A "but the filesystem can maintain finer granularity" model is
-not acceptable, I think.
-
-If we do require nanoseconds for compatibility, what we could possibly
-do is say "we guarantee nanosecond values for *legacy* dates", and say
-that future dates use 100ns resolution. We'd define "legacy dates" to
-be the traditional 32-bit signed time_t.
-
-So with a 64-bit fstime_t, we'd have the "legacy format":
-
- - top 32 bits are seconds, bottom 32 bits are ns
-
-which gives us that ns format.
-
-Then, because only 30 bits are needed for nanosecond resolution, we
-use the top two bits of that ns field as flags. '00' means that legacy
-format, and '01' would mean "we're not doing nanosecond resolution,
-we're doing 64ns resolution, and the low 6 bits of the ns field are
-actually bits 32-37 of the seconds field".
-
-That still gives us some extensibility (unless the multi-grain code
-still wants to use the other top bit), and it gives us 40 bits of
-seconds, which is quite a lot.
-
-And all the conversion functions will be simple bit field
-manipulations, so there are no expensive ops here.
-
-Anyway, I agree with the "let's introduce the accessor functions
-first, we can do the 'pack into one word' decisions later".
-
-                Linus
