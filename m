@@ -1,145 +1,197 @@
-Received: from mail-ot1-f78.google.com (mail-ot1-f78.google.com [209.85.210.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243824174F
-	for <ntfs3@lists.linux.dev>; Thu,  5 Oct 2023 19:47:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-ot1-f78.google.com with SMTP id 46e09a7af769-6c0f174540cso1808265a34.2
-        for <ntfs3@lists.linux.dev>; Thu, 05 Oct 2023 12:47:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696535278; x=1697140078;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+rJYWdpX39fnELsnaA+2kd6nQscj6bBDfjIPgrB9Ju0=;
-        b=dmpL6Eu4X2mbH5iTiFPMAAUcGRlV9T8egl2YUKzREQSD4W84N8lfAs6UaKUO92Zf6/
-         MJh0M/L2MoXQ8+XDywX8g0Mq1L0dHOiiD6IT7Uidlo54VChxEYLS73H+u/jO4q7xvYU/
-         Vj4RvRpnmce/NbcB0Yz1B9Jf/O8k7jFyMPoXOTvj+a5xnlhTkkeCgt6UTqqqUWtuLfAa
-         lT+3+cPtsS4TmCA3DFXG+REbXTT4NCJprm9yadJgywPZ9Sn3jKSWqe9H/1PiL3VvXfcl
-         apga3+MU6MIfl8VQzHabc9583ANsQfs9KqvHPljz0OuMSjASDt5cztygE84u9t6m0omL
-         Th6g==
-X-Gm-Message-State: AOJu0Yw+Xme9RTYxRFfaw4qEzCAQaFk15cZi81sPNiiFV5jVpxvJx61S
-	L8boFn+hthSMXZi/UW+JBG5rmTg+qgSV7R6ZiQEPy88h7atY
-X-Google-Smtp-Source: AGHT+IFUijQ5HWSsoSG3N0LC7VwaXmm+icbh/NGey9Tl9HOTXcuEWtAJ9WROrzOwSqClh5RBXfvO6mNgx1M4GTSql85R+ljbkhRO
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA633589E
+	for <ntfs3@lists.linux.dev>; Mon,  9 Oct 2023 15:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fYD1JMNm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696864389; x=1728400389;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XwrPDkt2Er5E2S1iV6wi5sTuMRra6k9W0AgF2nXsvus=;
+  b=fYD1JMNmy6Ui+7Wp8KmNYpt4YY6w4GYb0LVdyi777dRxmlLDDfj9XioM
+   WMLc3szu2fQ/3kBs0HwA/j0CGcIdGy3qBus4doVsN+AOBWXTQOU+HYSde
+   djvegg6iw7r7haOUHJCtALwXCO3BMzF60w7ENJu1C0Y63iUVbG6OxELT3
+   dB/PbpQusa3EOhKNm2NIDijK413w7jCDgCEquiPKP0qMQoPU3gx8FXkww
+   0QVdxbF8i2D9bHE3Nr0c+ghz+lUn3BWYixjdcG5p3st7ruhFgtxICFnk6
+   TWGeiyLKRBFQkdkLUQs9aZhoG3sv7y/Oed1COOubffzz7U8iOKWdddp6O
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="369231974"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="369231974"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 08:13:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="869287927"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="869287927"
+Received: from newjersey.igk.intel.com ([10.102.20.203])
+  by fmsmga002.fm.intel.com with ESMTP; 09 Oct 2023 08:13:00 -0700
+From: Alexander Lobakin <aleksander.lobakin@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Alexander Potapenko <glider@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	David Ahern <dsahern@kernel.org>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Simon Horman <simon.horman@corigine.com>,
+	netdev@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	dm-devel@redhat.com,
+	ntfs3@lists.linux.dev,
+	linux-s390@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 00/14] ip_tunnel: convert __be16 tunnel flags to bitmaps
+Date: Mon,  9 Oct 2023 17:10:12 +0200
+Message-ID: <20231009151026.66145-1-aleksander.lobakin@intel.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a9d:7dcf:0:b0:6c4:7e6c:cb4e with SMTP id
- k15-20020a9d7dcf000000b006c47e6ccb4emr1782895otn.5.1696535278207; Thu, 05 Oct
- 2023 12:47:58 -0700 (PDT)
-Date: Thu, 05 Oct 2023 12:47:58 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009b49ce0606fd665a@google.com>
-Subject: [syzbot] [ntfs3?] WARNING in attr_data_get_block (3)
-From: syzbot <syzbot+a9850b21d99643eadbb8@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, 
-	clang-built-linux@googlegroups.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nathan@kernel.org, ndesaulniers@google.com, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Derived from the PFCP support series[0] as this grew bigger (2 -> 14
+commits) and involved more core bitmap changes. Only commits 10 and 11
+are from the mentioned tree, the rest is new. PFCP itself still depends
+on this series.
 
-syzbot found the following issue on:
+IP tunnels have their flags defined as `__be16`, including UAPI, and
+after GTP was accepted, there are no more free bits left. UAPI (incl.
+direct usage of one of the user structs) and explicit Endianness only
+complicate things.
+Since it would either way end up with hundreds of locs due to all that,
+pick bitmaps right from the start to store the flags in the most native
+and scalable format with rich API. I don't think it's worth trying to
+praise luck and pick smth like u32 only to redo everything in x years :)
+More details regarding the IP tunnel flags is in 11 and 14.
 
-HEAD commit:    e402b08634b3 Merge tag 'soc-fixes-6.6' of git://git.kernel..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=111e0d01680000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=12da82ece7bf46f9
-dashboard link: https://syzkaller.appspot.com/bug?extid=a9850b21d99643eadbb8
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12b684e6680000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10ede4d6680000
+The rest is just a good bunch of prereqs and tests: a couple of new
+helpers and extensions to the old ones, a few optimizations to partially
+mitigate IP tunnel object code growth due to __be16 -> long, and
+decouping one UAPI struct used throughout the whole kernel into the
+userspace and the kernel space counterparts to eliminate the dependency.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/41cd2d7ae4a2/disk-e402b086.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/06c5c0caa862/vmlinux-e402b086.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/483b777ed71c/bzImage-e402b086.xz
-mounted in repro #1: https://storage.googleapis.com/syzbot-assets/f17ff5020b6d/mount_0.gz
-mounted in repro #2: https://storage.googleapis.com/syzbot-assets/6aff89451d15/mount_2.gz
+[0] https://lore.kernel.org/netdev/20230721071532.613888-1-marcin.szycik@linux.intel.com
 
-The issue was bisected to:
+Alexander Lobakin (14):
+  bitops: add missing prototype check
+  bitops: make BYTES_TO_BITS() treewide-available
+  bitops: let the compiler optimize __assign_bit()
+  linkmode: convert linkmode_{test,set,clear,mod}_bit() to macros
+  s390/cio: rename bitmap_size() -> idset_bitmap_size()
+  fs/ntfs3: rename bitmap_size() -> ntfs3_bitmap_size()
+  btrfs: rename bitmap_set_bits() -> btrfs_bitmap_set_bits()
+  bitmap: introduce generic optimized bitmap_size()
+  bitmap: extend bitmap_{get,set}_value8() to bitmap_{get,set}_bits()
+  ip_tunnel: use a separate struct to store tunnel params in the kernel
+  ip_tunnel: convert __be16 tunnel flags to bitmaps
+  lib/bitmap: add compile-time test for __assign_bit() optimization
+  lib/bitmap: add tests for bitmap_{get,set}_bits()
+  lib/bitmap: add tests for IP tunnel flags conversion helpers
 
-commit 6e5be40d32fb1907285277c02e74493ed43d77fe
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Fri Aug 13 14:21:30 2021 +0000
-
-    fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=15f20a7c680000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=17f20a7c680000
-console output: https://syzkaller.appspot.com/x/log.txt?x=13f20a7c680000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a9850b21d99643eadbb8@syzkaller.appspotmail.com
-Fixes: 6e5be40d32fb ("fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile")
-
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 5033 at fs/ntfs3/attrib.c:1059 attr_data_get_block+0x1926/0x2da0
-Modules linked in:
-CPU: 1 PID: 5033 Comm: syz-executor106 Not tainted 6.6.0-rc3-syzkaller-00214-ge402b08634b3 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/06/2023
-RIP: 0010:attr_data_get_block+0x1926/0x2da0 fs/ntfs3/attrib.c:1059
-Code: 80 e1 07 80 c1 03 38 c1 0f 8c 48 ff ff ff 48 8d bc 24 e0 01 00 00 e8 19 74 18 ff 48 8b 54 24 58 e9 31 ff ff ff e8 ba 01 be fe <0f> 0b bb ea ff ff ff e9 11 fa ff ff e8 a9 01 be fe e9 0f f9 ff ff
-RSP: 0018:ffffc9000406f6a0 EFLAGS: 00010293
-RAX: ffffffff82d008b6 RBX: 00000000ffffffff RCX: ffff888025380000
-RDX: 0000000000000000 RSI: 00000000ffffffff RDI: 00000000ffffffff
-RBP: ffffc9000406f908 R08: ffffffff82d0038f R09: 1ffffffff20df689
-R10: dffffc0000000000 R11: fffffbfff20df68a R12: 1ffff9200080def4
-R13: 000000000000001c R14: ffff888076620140 R15: dffffc0000000000
-FS:  00007f36f9b9c6c0(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f36f9b9cd58 CR3: 0000000026956000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- ntfs_fallocate+0xc6d/0x1100 fs/ntfs3/file.c:610
- vfs_fallocate+0x551/0x6b0 fs/open.c:324
- do_vfs_ioctl+0x22da/0x2b40 fs/ioctl.c:850
- __do_sys_ioctl fs/ioctl.c:869 [inline]
- __se_sys_ioctl+0x81/0x170 fs/ioctl.c:857
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f37091ff5a9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f36f9b9c218 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 000000000000003f RCX: 00007f37091ff5a9
-RDX: 0000000020000780 RSI: 0000000040305828 RDI: 0000000000000004
-RBP: 00007f37092aa6d8 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f37092aa6d0
-R13: 00007f3709277a14 R14: 726665646f747561 R15: 61635f6563617073
- </TASK>
-
+ drivers/md/dm-clone-metadata.c                |   5 -
+ drivers/net/bareudp.c                         |  19 +-
+ .../ethernet/mellanox/mlx5/core/en/tc_tun.h   |   2 +-
+ .../mellanox/mlx5/core/en/tc_tun_encap.c      |   6 +-
+ .../mellanox/mlx5/core/en/tc_tun_geneve.c     |  12 +-
+ .../mellanox/mlx5/core/en/tc_tun_gre.c        |   8 +-
+ .../mellanox/mlx5/core/en/tc_tun_vxlan.c      |   9 +-
+ .../net/ethernet/mellanox/mlx5/core/en_tc.c   |  16 +-
+ .../ethernet/mellanox/mlxsw/spectrum_ipip.c   |  56 +++--
+ .../ethernet/mellanox/mlxsw/spectrum_ipip.h   |   2 +-
+ .../ethernet/mellanox/mlxsw/spectrum_span.c   |  10 +-
+ .../ethernet/netronome/nfp/flower/action.c    |  27 ++-
+ drivers/net/geneve.c                          |  44 ++--
+ drivers/net/vxlan/vxlan_core.c                |  14 +-
+ drivers/s390/cio/idset.c                      |  10 +-
+ fs/btrfs/free-space-cache.c                   |   8 +-
+ fs/ntfs3/bitmap.c                             |   4 +-
+ fs/ntfs3/fsntfs.c                             |   2 +-
+ fs/ntfs3/index.c                              |  11 +-
+ fs/ntfs3/ntfs_fs.h                            |   2 +-
+ fs/ntfs3/super.c                              |   2 +-
+ include/linux/bitmap.h                        |  59 ++++--
+ include/linux/bitops.h                        |  13 +-
+ include/linux/cpumask.h                       |   2 +-
+ include/linux/linkmode.h                      |  27 +--
+ include/linux/netdevice.h                     |   7 +-
+ include/net/dst_metadata.h                    |  10 +-
+ include/net/flow_dissector.h                  |   2 +-
+ include/net/gre.h                             |  70 +++---
+ include/net/ip6_tunnel.h                      |   4 +-
+ include/net/ip_tunnels.h                      | 136 ++++++++++--
+ include/net/udp_tunnel.h                      |   4 +-
+ include/uapi/linux/if_tunnel.h                |  33 +++
+ kernel/trace/trace_probe.c                    |   2 -
+ lib/math/prime_numbers.c                      |   2 -
+ lib/test_bitmap.c                             | 200 +++++++++++++++++-
+ net/bridge/br_vlan_tunnel.c                   |   9 +-
+ net/core/filter.c                             |  26 +--
+ net/core/flow_dissector.c                     |  20 +-
+ net/ipv4/fou_bpf.c                            |   2 +-
+ net/ipv4/gre_demux.c                          |   2 +-
+ net/ipv4/ip_gre.c                             | 144 ++++++++-----
+ net/ipv4/ip_tunnel.c                          | 109 +++++++---
+ net/ipv4/ip_tunnel_core.c                     |  82 ++++---
+ net/ipv4/ip_vti.c                             |  41 ++--
+ net/ipv4/ipip.c                               |  33 +--
+ net/ipv4/ipmr.c                               |   2 +-
+ net/ipv4/udp_tunnel_core.c                    |   5 +-
+ net/ipv6/addrconf.c                           |   3 +-
+ net/ipv6/ip6_gre.c                            |  85 ++++----
+ net/ipv6/ip6_tunnel.c                         |  14 +-
+ net/ipv6/sit.c                                |  38 ++--
+ net/netfilter/ipvs/ip_vs_core.c               |   6 +-
+ net/netfilter/ipvs/ip_vs_xmit.c               |  20 +-
+ net/netfilter/nft_tunnel.c                    |  44 ++--
+ net/openvswitch/flow_netlink.c                |  61 +++---
+ net/psample/psample.c                         |  26 +--
+ net/sched/act_tunnel_key.c                    |  36 ++--
+ net/sched/cls_flower.c                        |  27 +--
+ tools/include/linux/bitmap.h                  |   8 +-
+ tools/include/linux/bitops.h                  |   2 +
+ tools/perf/util/probe-finder.c                |   2 -
+ 62 files changed, 1116 insertions(+), 571 deletions(-)
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Not sure whether it's fine to have that all in one series, but OTOH
+there's not much stuff I could split (like, 3 commits), it either
+depends directly (new helpers etc.) or will just generate suboptimal
+code w/o some of the commits.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+I'm also thinking of which tree this would ideally be taken through.
+The main subject is networking, but most of the commits are generic.
+My idea is to push this via Yury / bitmaps and then ask the netdev
+maintainers to pull his tree before they take PFCP (dependent on this
+one).
 
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Speaking of bitmap_{read,write}() from [1] vs bitmap_{get,set}_bits()
+from #09: they don't really conflict, because the former are
+generic-generic and support bound crossing, while the latter require
+the width to be a pow-2 and the offset to be a multiple of the width
+in order to preserve the optimization level as close to the current
+bitmap_{get,set}_value8() as possible...
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Old pfcp -> bitmap changelog:
 
-If you want to overwrite bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+As for former commits (now 10 and 11), almost all of the changes were
+suggested by Andy, notably: stop violating bitmap API, use
+__assign_bit() where appropriate, and add more tests to make sure
+everything works as expected. Apart from that, add simple wrappers for
+bitmap_*() used in the IP tunnel code to avoid manually specifying
+``__IP_TUNNEL_FLAG_NUM`` each time.
 
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
+[1] https://lore.kernel.org/lkml/20231006134529.2816540-2-glider@google.com
+-- 
+2.41.0
 
-If you want to undo deduplication, reply with:
-#syz undup
