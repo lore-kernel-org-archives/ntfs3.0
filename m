@@ -1,47 +1,47 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8BC328A7
-	for <ntfs3@lists.linux.dev>; Mon, 16 Oct 2023 17:48:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B75230F95
+	for <ntfs3@lists.linux.dev>; Mon, 16 Oct 2023 17:55:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="be+0/Sy0"
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-d9a4c0d89f7so5595695276.1
-        for <ntfs3@lists.linux.dev>; Mon, 16 Oct 2023 10:48:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qgaue/Nr"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5a7cc03dee5so59442517b3.3
+        for <ntfs3@lists.linux.dev>; Mon, 16 Oct 2023 10:55:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697478505; x=1698083305; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697478902; x=1698083702; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Gni6mzvaBaFKxuMxn9hZgE2UC6/dQHw9AadxVgtVNo=;
-        b=be+0/Sy0opiqNllI7oftgFsajvr6eY3TEvs76zWfb5mEXVRx85mzbrsxzCCxE1U0GN
-         jTwTzhgBFCoXG4Y4YAaCcgyh8hf2vYJHFoS0d7fqimE/SrGufFZIQLnwKcS4fDgn1M4I
-         bMXp7kQgQreHemJ+jQFWKpUnjGmLFM+X/zGorbGjOKIJQg/ZuWbfZUF7pXjSdeTBCyAS
-         d/GnZX7ZX15hl8v7PNAhxpBVN3Y6ba4kVyQ7t02MeyC8osok62yhv0ZkG8ldfR6+rkjo
-         n1dNNfDp0pFPNQcbcvK5k4wtTw33I1PTqkuXsy1KWqMq9tbZFXj5BbydNJ2xfIDBvL/F
-         CAeA==
+        bh=6bw4UalwD6RTLFekVHi/CP+1fpgIfdUhpzj+EU1oO1Y=;
+        b=Qgaue/NrMmWZE0FmjXM7TsCWBK2zj1wAoJr/6fEy5Q8jY6HHeeJyA/O1kHApc8wKka
+         G48dRndO9GSEjNQ0cu06eMGZit5wyd6eUTHZjWxi6ZY/90YNbIt49ZbKTHQJumIwZWf/
+         liDrNOCvQvWzGpo6HWvJ1d7EzoO/h7JSc9/7/c5400d5uH5hGAtGUgEIhanUhuh71U1l
+         ysC52z7I5Wq+ta6T6YgjZCeRsw5RwgjlbQ8CopJ6Cm24P50a9elSh13VEk/oCtiQVvW4
+         pVsIcKHBHEN1qTLrd0ejZhrGW8XQMEeZJBrKRzYePC2NuSvj1/qwlOLRJlcUFDGxBQ7Z
+         yvJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697478505; x=1698083305;
+        d=1e100.net; s=20230601; t=1697478902; x=1698083702;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6Gni6mzvaBaFKxuMxn9hZgE2UC6/dQHw9AadxVgtVNo=;
-        b=uL5Zgdy6Nng+WwmMqF8AuSRVst20QAsCKbgBGT694lyW3/KcA5MSb07MDdQpOdcVVm
-         wNwdNfmSpFmoCgUlu1U9JQooxVPPO9l0RQIKFg5X0e6WhewwqKuExuCK4GmO8BRm61lK
-         cDDpvn3k/eaVeKKHfWCaxGEYfBmN7YCBW6UNAgIOPrUEpVty+tDL+hIIMijQsJQd1DeB
-         vrza+RHCMzg0jOwR7gPLQIoffCKUWHsw1rBCyFPfnuq5vVtizrkUdw0eV4qb07b61VlT
-         C0x2pUeggmPqtsaYlwr7Mt6rNUA7io6NT3R6HpdbvWxMu+gPExGKDUceJGLvfP/Ep+6S
-         eyNA==
-X-Gm-Message-State: AOJu0YwyX5vXyXbk0P+lNnhQ2lrPMPtY01GFTQnEIZaAxMmLMj1WZPOL
-	+HMV1vnauKKH6ybWnd9gvTY=
-X-Google-Smtp-Source: AGHT+IFxhp5Fg6dD0ShGrsQoX3lKB8P2VZfUuC29sX4UXOWErGVDVNAevi+hJU45YX1WEraFAAwehQ==
-X-Received: by 2002:a25:3742:0:b0:d9a:4a5f:415d with SMTP id e63-20020a253742000000b00d9a4a5f415dmr18010718yba.0.1697478505154;
-        Mon, 16 Oct 2023 10:48:25 -0700 (PDT)
+        bh=6bw4UalwD6RTLFekVHi/CP+1fpgIfdUhpzj+EU1oO1Y=;
+        b=XRY41QoLqFKOnKjixIzMmeYQ2rT4bxgnyX1ogVATEQFwgzebPPyUhulXOy6S0SYWL0
+         k9DtQjtWubmbQ4aB3Gu6dZJgmuAUJPhLv1u7LKENYrJWGGdZfTkdGYzRV2KqA/tw8mFf
+         1pa9dYv1+TBW/H4GzjSorJdDBnpV1x+A7W2dPR25ILhwni1VfxPEBtvUOf+tYwgKNgyK
+         dpuVMR6Eym5PnXy50JehHOeq+cAU35ga9lUCG0bEJFa7djfSfFz086gjHnuAviTdkYD7
+         JvqF8pvXDQV/JKhnwJPwJtsjVlES54LzVYJLHSlZJvMwBhvfYFL4E0gDB1k3h26mgDJb
+         i3pA==
+X-Gm-Message-State: AOJu0YyVmSaiYw8CA779YYWbQ9CWjcBd3CTPbaJtH5szImjbLzLUTdnz
+	XT+xdXaB8MnVr8woR3k6Sv8=
+X-Google-Smtp-Source: AGHT+IGTSnIMdj/n4Ja3NbcbsGlcoAWOTqGIDx359ahueXqqmFI98BytrXJ2gg+e90t8fNnGTP3pNA==
+X-Received: by 2002:a05:690c:95:b0:5a8:6286:bee with SMTP id be21-20020a05690c009500b005a862860beemr5534482ywb.4.1697478901928;
+        Mon, 16 Oct 2023 10:55:01 -0700 (PDT)
 Received: from localhost ([2607:fb90:be80:2b9:64a5:5a0e:5435:bd4])
-        by smtp.gmail.com with ESMTPSA id q17-20020a25f911000000b00d20d4ffbbdbsm2775571ybe.0.2023.10.16.10.48.24
+        by smtp.gmail.com with ESMTPSA id w185-20020a817bc2000000b005a7ab32d454sm2404120ywc.10.2023.10.16.10.54.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Oct 2023 10:48:24 -0700 (PDT)
-Date: Mon, 16 Oct 2023 10:48:23 -0700
+        Mon, 16 Oct 2023 10:55:01 -0700 (PDT)
+Date: Mon, 16 Oct 2023 10:54:58 -0700
 From: Yury Norov <yury.norov@gmail.com>
 To: Alexander Lobakin <aleksander.lobakin@intel.com>
 Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -55,11 +55,10 @@ Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-btrfs@vger.kernel.org, dm-devel@redhat.com,
 	ntfs3@lists.linux.dev, linux-s390@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 09/13] bitmap: make bitmap_{get,set}_value8() use
- bitmap_{read,write}()
-Message-ID: <ZS13Z8Ls69lEBYib@yury-ThinkPad>
+Subject: Re: [PATCH v2 00/13] ip_tunnel: convert __be16 tunnel flags to
+ bitmaps
+Message-ID: <ZS148saIsG7WY8ul@yury-ThinkPad>
 References: <20231016165247.14212-1-aleksander.lobakin@intel.com>
- <20231016165247.14212-10-aleksander.lobakin@intel.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -68,85 +67,155 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231016165247.14212-10-aleksander.lobakin@intel.com>
+In-Reply-To: <20231016165247.14212-1-aleksander.lobakin@intel.com>
 
-On Mon, Oct 16, 2023 at 06:52:43PM +0200, Alexander Lobakin wrote:
-> Now that we have generic bitmap_read() and bitmap_write(), which are
-> inline and try to take care of non-bound-crossing and aligned cases
-> to keep them optimized, collapse bitmap_{get,set}_value8() into
-> simple wrappers around the former ones.
-> bloat-o-meter shows no difference in vmlinux and -2 bytes for
-> gpio-pca953x.ko, which says the code doesn't get optimized worse.
-
-That's just amazing!
-
-bloat-o-meter itself doesn't say on optimization, but in this case
-I think that BITS_PER_BYTE passed at compile time allows to generate
-just as good code with the generic bitmap_write/read().
-
-Acked-by: Yury Norov <yury.norov@gmail.com>
-
-> Suggested-by: Yury Norov <yury.norov@gmail.com>
-> Signed-off-by: Alexander Lobakin <aleksander.lobakin@intel.com>
-> ---
->  include/linux/bitmap.h | 38 +++++---------------------------------
->  1 file changed, 5 insertions(+), 33 deletions(-)
+On Mon, Oct 16, 2023 at 06:52:34PM +0200, Alexander Lobakin wrote:
+> Based on top of "Implement MTE tag compression for swapped pages"[0]
+> from Alexander Potapenko as it uses its bitmap_{read,write}() functions
+> to not introduce another pair of similar ones.
 > 
-> diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
-> index 2020cb534ed7..c2680f67bc4e 100644
-> --- a/include/linux/bitmap.h
-> +++ b/include/linux/bitmap.h
-> @@ -572,39 +572,6 @@ static inline void bitmap_from_u64(unsigned long *dst, u64 mask)
->  	bitmap_from_arr64(dst, &mask, 64);
->  }
->  
-> -/**
-> - * bitmap_get_value8 - get an 8-bit value within a memory region
-> - * @map: address to the bitmap memory region
-> - * @start: bit offset of the 8-bit value; must be a multiple of 8
-> - *
-> - * Returns the 8-bit value located at the @start bit offset within the @src
-> - * memory region.
-> - */
-> -static inline unsigned long bitmap_get_value8(const unsigned long *map,
-> -					      unsigned long start)
-> -{
-> -	const size_t index = BIT_WORD(start);
-> -	const unsigned long offset = start % BITS_PER_LONG;
-> -
-> -	return (map[index] >> offset) & 0xFF;
-> -}
-> -
-> -/**
-> - * bitmap_set_value8 - set an 8-bit value within a memory region
-> - * @map: address to the bitmap memory region
-> - * @value: the 8-bit value; values wider than 8 bits may clobber bitmap
-> - * @start: bit offset of the 8-bit value; must be a multiple of 8
-> - */
-> -static inline void bitmap_set_value8(unsigned long *map, unsigned long value,
-> -				     unsigned long start)
-> -{
-> -	const size_t index = BIT_WORD(start);
-> -	const unsigned long offset = start % BITS_PER_LONG;
-> -
-> -	map[index] &= ~(0xFFUL << offset);
-> -	map[index] |= value << offset;
-> -}
-> -
->  /**
->   * bitmap_read - read a value of n-bits from the memory region
->   * @map: address to the bitmap memory region
-> @@ -676,6 +643,11 @@ static inline void bitmap_write(unsigned long *map,
->  	map[index + 1] |= (value >> space);
->  }
->  
-> +#define bitmap_get_value8(map, start)			\
-> +	bitmap_read(map, start, BITS_PER_BYTE)
-> +#define bitmap_set_value8(map, value, start)		\
-> +	bitmap_write(map, value, start, BITS_PER_BYTE)
-> +
->  #endif /* __ASSEMBLY__ */
->  
->  #endif /* __LINUX_BITMAP_H */
+> Derived from the PFCP support series[1] as this grew bigger (2 -> 13
+> commits) and involved more core bitmap changes. Only commits 10 and 11
+> are from the mentioned tree, the rest is new. PFCP itself still depends
+> on this series.
+> 
+> IP tunnels have their flags defined as `__be16`, including UAPI, and
+> after GTP was accepted, there are no more free bits left. UAPI (incl.
+> direct usage of one of the user structs) and explicit Endianness only
+> complicate things.
+> Since it would either way end up with hundreds of locs due to all that,
+> pick bitmaps right from the start to store the flags in the most native
+> and scalable format with rich API. I don't think it's worth trying to
+> praise luck and pick smth like u32 only to redo everything in x years :)
+> More details regarding the IP tunnel flags is in 11 and 13.
+> 
+> The rest is just a good bunch of prereqs and tests: a couple of new
+> helpers and extensions to the old ones, a few optimizations to partially
+> mitigate IP tunnel object code growth due to __be16 -> long, and
+> decouping one UAPI struct used throughout the whole kernel into the
+> userspace and the kernel space counterparts to eliminate the dependency.
+> 
+> [0] https://lore.kernel.org/lkml/20231011172836.2579017-1-glider@google.com
+> [1] https://lore.kernel.org/netdev/20230721071532.613888-1-marcin.szycik@linux.intel.com
+> 
+> Alexander Lobakin (13):
+>   bitops: add missing prototype check
+>   bitops: make BYTES_TO_BITS() treewide-available
+>   bitops: let the compiler optimize {__,}assign_bit()
+>   linkmode: convert linkmode_{test,set,clear,mod}_bit() to macros
+>   s390/cio: rename bitmap_size() -> idset_bitmap_size()
+>   fs/ntfs3: add prefix to bitmap_size() and use BITS_TO_U64()
+>   btrfs: rename bitmap_set_bits() -> btrfs_bitmap_set_bits()
+>   bitmap: introduce generic optimized bitmap_size()
+>   bitmap: make bitmap_{get,set}_value8() use bitmap_{read,write}()
+>   ip_tunnel: use a separate struct to store tunnel params in the kernel
+>   ip_tunnel: convert __be16 tunnel flags to bitmaps
+>   lib/bitmap: add compile-time test for __assign_bit() optimization
+>   lib/bitmap: add tests for IP tunnel flags conversion helpers
+> 
+>  drivers/md/dm-clone-metadata.c                |   5 -
+>  drivers/net/bareudp.c                         |  19 ++-
+>  .../ethernet/mellanox/mlx5/core/en/tc_tun.h   |   2 +-
+>  .../mellanox/mlx5/core/en/tc_tun_encap.c      |   6 +-
+>  .../mellanox/mlx5/core/en/tc_tun_geneve.c     |  12 +-
+>  .../mellanox/mlx5/core/en/tc_tun_gre.c        |   8 +-
+>  .../mellanox/mlx5/core/en/tc_tun_vxlan.c      |   9 +-
+>  .../net/ethernet/mellanox/mlx5/core/en_tc.c   |  16 +-
+>  .../ethernet/mellanox/mlxsw/spectrum_ipip.c   |  56 ++++---
+>  .../ethernet/mellanox/mlxsw/spectrum_ipip.h   |   2 +-
+>  .../ethernet/mellanox/mlxsw/spectrum_span.c   |  10 +-
+>  .../ethernet/netronome/nfp/flower/action.c    |  27 +++-
+>  drivers/net/geneve.c                          |  44 +++---
+>  drivers/net/vxlan/vxlan_core.c                |  14 +-
+>  drivers/s390/cio/idset.c                      |  12 +-
+>  fs/btrfs/free-space-cache.c                   |   8 +-
+>  fs/ntfs3/bitmap.c                             |   4 +-
+>  fs/ntfs3/fsntfs.c                             |   2 +-
+>  fs/ntfs3/index.c                              |  11 +-
+>  fs/ntfs3/ntfs_fs.h                            |   4 +-
+>  fs/ntfs3/super.c                              |   2 +-
+>  include/linux/bitmap.h                        |  46 ++----
+>  include/linux/bitops.h                        |  23 +--
+>  include/linux/cpumask.h                       |   2 +-
+>  include/linux/linkmode.h                      |  27 +---
+>  include/linux/netdevice.h                     |   7 +-
+>  include/net/dst_metadata.h                    |  10 +-
+>  include/net/flow_dissector.h                  |   2 +-
+>  include/net/gre.h                             |  70 +++++----
+>  include/net/ip6_tunnel.h                      |   4 +-
+>  include/net/ip_tunnels.h                      | 136 ++++++++++++++---
+>  include/net/udp_tunnel.h                      |   4 +-
+>  include/uapi/linux/if_tunnel.h                |  33 ++++
+>  kernel/trace/trace_probe.c                    |   2 -
+>  lib/math/prime_numbers.c                      |   2 -
+>  lib/test_bitmap.c                             | 123 ++++++++++++++-
+>  net/bridge/br_vlan_tunnel.c                   |   9 +-
+>  net/core/filter.c                             |  26 ++--
+>  net/core/flow_dissector.c                     |  20 ++-
+>  net/ipv4/fou_bpf.c                            |   2 +-
+>  net/ipv4/gre_demux.c                          |   2 +-
+>  net/ipv4/ip_gre.c                             | 144 +++++++++++-------
+>  net/ipv4/ip_tunnel.c                          | 109 ++++++++-----
+>  net/ipv4/ip_tunnel_core.c                     |  82 ++++++----
+>  net/ipv4/ip_vti.c                             |  41 +++--
+>  net/ipv4/ipip.c                               |  33 ++--
+>  net/ipv4/ipmr.c                               |   2 +-
+>  net/ipv4/udp_tunnel_core.c                    |   5 +-
+>  net/ipv6/addrconf.c                           |   3 +-
+>  net/ipv6/ip6_gre.c                            |  85 ++++++-----
+>  net/ipv6/ip6_tunnel.c                         |  14 +-
+>  net/ipv6/sit.c                                |  38 ++---
+>  net/netfilter/ipvs/ip_vs_core.c               |   6 +-
+>  net/netfilter/ipvs/ip_vs_xmit.c               |  20 +--
+>  net/netfilter/nft_tunnel.c                    |  44 +++---
+>  net/openvswitch/flow_netlink.c                |  61 +++++---
+>  net/psample/psample.c                         |  26 ++--
+>  net/sched/act_tunnel_key.c                    |  36 ++---
+>  net/sched/cls_flower.c                        |  27 ++--
+>  tools/include/linux/bitmap.h                  |   8 +-
+>  tools/include/linux/bitops.h                  |   2 +
+>  tools/perf/util/probe-finder.c                |   2 -
+>  62 files changed, 1011 insertions(+), 600 deletions(-)
+> 
+> ---
+> Not sure whether it's fine to have that all in one series, but OTOH
+> there's not much stuff I could split (like, 3 commits), it either
+> depends directly (new helpers etc.) or will just generate suboptimal
+> code w/o some of the commits.
+> 
+> I'm also thinking of which tree this would ideally be taken through.
+> The main subject is networking, but most of the commits are generic.
+> My idea is to push this via Yury / bitmaps and then ask the netdev
+> maintainers to pull his tree before they take PFCP (dependent on this
+> one).
+
+Let's wait for more comments, but I'm generally OK with the generic
+part, and have nothing against moving it, or the whole series, through
+bitmap-for-next.
+
+Thanks,
+Yury
+ 
+> >From v1[2]:
+>  * 03: convert assign_bit() to a macro as well, saves some bytes and
+>    looks more consistent (Yury);
+>  * 03: enclose each argument into own pair of braces (Yury);
+>  * 06: use generic BITS_TO_U64() while at it (Yury);
+>  * 07: pick Acked-by (David);
+>  * 08: Acked-by, use bitmap_size() in the code from 05 as well (Yury);
+>  * 09: instead of introducing a new pair of functions, use generic
+>    bitmap_{read,write}() from [0]. bloat-o-meter shows no regressions
+>    from the switch (Yury, also Andy).
+> 
+> Old pfcp -> bitmap changelog:
+> 
+> As for former commits (now 10 and 11), almost all of the changes were
+> suggested by Andy, notably: stop violating bitmap API, use
+> __assign_bit() where appropriate, and add more tests to make sure
+> everything works as expected. Apart from that, add simple wrappers for
+> bitmap_*() used in the IP tunnel code to avoid manually specifying
+> ``__IP_TUNNEL_FLAG_NUM`` each time.
+> 
+> [2] https://lore.kernel.org/lkml/20231009151026.66145-1-aleksander.lobakin@intel.com
 > -- 
 > 2.41.0
