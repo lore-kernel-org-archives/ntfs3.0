@@ -1,87 +1,206 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC1529428
-	for <ntfs3@lists.linux.dev>; Tue, 17 Oct 2023 14:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05A02DF64;
+	Tue, 17 Oct 2023 19:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cFe9NV0v"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4064867903cso63532285e9.2
-        for <ntfs3@lists.linux.dev>; Tue, 17 Oct 2023 07:04:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OS+qgn72"
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-7b5fe8ab5f9so2192987241.3;
+        Tue, 17 Oct 2023 12:42:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697551485; x=1698156285; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ouydOp9DCQDO9RKyjjgbFfmh727nP3T250yuxX8/3Do=;
-        b=cFe9NV0vWWS9s+S/zBqgpp4OZoHaLu9S0+rPRaP/J7NsL6kOju+rxk9mBq80MYObtE
-         Oo9v6D/J0hcXeoc90UW5Q4SN1eNCzsHgszjNrDzpw5zlIlqyyMlMwg0cAOrja53P8UaR
-         bNsaYxNEffdFWTfAxQ5tuzO6CWaVBCqO735V6KsAlollk8q4wwN9lxycp6KgJ2v6ht3Z
-         X+ECUyKaYToAmh4rC9zUfzBZSPbfrCt+OlNSk5cOMlwdehd6Hn4FdI5Q1EPDeam5yl1w
-         83Wl+spuioajjF+aK0GsGfaRtSlEaMokIX4bacXaM5xbLCWAdYLR/IFl2ctlcfoL/Cnu
-         +5tw==
+        d=gmail.com; s=20230601; t=1697571721; x=1698176521; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nEdPLPUGt3bDYuqJR132GTKL4Kbaz2ZIt3XjP65gcfI=;
+        b=OS+qgn729sA/CffelznXtaNisNOjiMeYZ9qYH8GsnJ/wECxdaerj60OyTMzIT+9XOf
+         dJ5dcvXpQuRP5hUMPuo7T4xIKSu9l1JRPg3bk3c7ZIy6k3eywnbKzCDqlHb6ESAZhYh8
+         tC3ugbm1ohEQpynTRzNxLfTtSO5zXDrjMZWqhnpORhFu7s3VlGwhiOHzBE37+7ipbO9q
+         yj3zCiUzORonckohkHQB7vYP2H2S+nyRjogPJ/IUYCcDVRrt4G0ZQOvzF6miyWXKhGuZ
+         xU7bn/1DqjqLiQvf6ORCSBnjlJrpfE9R8BGyYrpwBQnUvABl/6EK2i68y+Nt47Ojpael
+         maIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697551485; x=1698156285;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ouydOp9DCQDO9RKyjjgbFfmh727nP3T250yuxX8/3Do=;
-        b=X+lkUwL1EEQ8RgDc2iwn7HeDxXr+4efmYydnALItaY9+eCK5KJXZcuKte6808vtyK2
-         wt4+V6wHXaovtPdln6DE6eNIpj2wCWqnbRTaF/ouJm63TVw42ep35ome7VY/zB2rC50p
-         E1E1+yF6RX2F4c4V38fq58CBlvmZBXIpZR94ecIiAp4uaUbRCMPbQ6QkHhl9Wrk646F8
-         E5ByePRtt6B2bmYJUKD0tsTta0pJOiLBCS8Z8s2jhpIa2fNp5IJn4Cr2KkDVUmnfzAAj
-         v1Tccgf+163zeyejOf5HsorV053qjelu+M8gLlLmhbY/Sh14CwSbo7k0moALU8m0Frbk
-         GVqA==
-X-Gm-Message-State: AOJu0YyBdzmEzbMQEX+RE4vjEu0vgESUrCAu57tkas7eoWt2VtoA1jb8
-	KuONswrVEppIRXgYWGjHseYMPQ==
-X-Google-Smtp-Source: AGHT+IG+7ZMm33Rpww/J0URdy4cjxktBY6DGdh6pUvEnJTHaaeZewjB7KcCSa1ayxVlxIeHyAxsIqQ==
-X-Received: by 2002:a5d:4b50:0:b0:32d:9fc9:d14c with SMTP id w16-20020a5d4b50000000b0032d9fc9d14cmr2220441wrs.47.1697551484896;
-        Tue, 17 Oct 2023 07:04:44 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o18-20020a5d58d2000000b0031c6581d55esm1752895wrf.91.2023.10.17.07.04.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Oct 2023 07:04:44 -0700 (PDT)
-Date: Tue, 17 Oct 2023 17:04:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, kernel-janitors@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: Fix an NULL dereference bug
-Message-ID: <4dea69da-738b-41b2-b48c-22dfee5f4fc8@moroto.mountain>
+        d=1e100.net; s=20230601; t=1697571721; x=1698176521;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nEdPLPUGt3bDYuqJR132GTKL4Kbaz2ZIt3XjP65gcfI=;
+        b=Xr8/hwKp9Nfi2FJYqxqGPAnuQa0q/SZiDJ7lk3DuYb1IopXi5W6TdV7qz7M2jqKJA9
+         yD/k4lj9zRufv+88AmpJDpfBiA56p0MP6NmVHOmTno959DGqlHEczhf4F2CH4mG25uGa
+         jBETE2dyUWf4CLnJhx4rPFxpMEtthREmbL1E2SB/yYAKEj1f2RZVq9l6i816GuzoT0Q9
+         G/kWqNuNZUQIRn0VyilVNAMU6H2fCv9D3BYoHrCFShlA7frLI24nYUdV/HLg6manTbFQ
+         iHtjU2pRH7ByflbzcH0wh6a+c8ftnsSl7v6NIrh8B6K3RNWARNWE8+6Oe7AGE3Gg1XW7
+         StxQ==
+X-Gm-Message-State: AOJu0YzD0C4dMlCRbnJxo5BpP6oOO4HYSHGYtXIYp9JTW0VLbT265g9C
+	q4As4VALlBtZ+1F87Eqc+XsJSN+hytcq87aJrhw=
+X-Google-Smtp-Source: AGHT+IEGVouf3g52zAQZKqogAWOdoqW2ayEa2oclPTWNKWf5D8raecPXGS+4xiqVaAbbP8NV0hXO6xERMf3T6Nmer6s=
+X-Received: by 2002:a67:c186:0:b0:457:dd92:f913 with SMTP id
+ h6-20020a67c186000000b00457dd92f913mr3741772vsj.14.1697571721243; Tue, 17 Oct
+ 2023 12:42:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+References: <20231016201114.1928083-1-willy@infradead.org> <20231016201114.1928083-2-willy@infradead.org>
+In-Reply-To: <20231016201114.1928083-2-willy@infradead.org>
+From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date: Wed, 18 Oct 2023 04:41:44 +0900
+Message-ID: <CAKFNMonj9XQe1PdeCny7N8MFAHwQVQNDf6A2S4g-gxX4iJLvZQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/27] buffer: Return bool from grow_dev_folio()
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, 
+	gfs2@lists.linux.dev, linux-nilfs@vger.kernel.org, 
+	linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev, 
+	ocfs2-devel@lists.linux.dev, reiserfs-devel@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, Pankaj Raghav <p.raghav@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The issue here is when this is called from ntfs_load_attr_list().  The
-"size" comes from le32_to_cpu(attr->res.data_size) so it can't overflow
-on a 64bit systems but on 32bit systems the "+ 1023" can overflow and
-the result is zero.  This means that the kmalloc will succeed by
-returning the ZERO_SIZE_PTR and then the memcpy() will crash with an
-Oops on the next line.
+On Tue, Oct 17, 2023 at 5:11=E2=80=AFAM Matthew Wilcox (Oracle) wrote:
+>
+> Rename grow_dev_page() to grow_dev_folio() and make it return a bool.
+> Document what that bool means; it's more subtle than it first appears.
+> Also rename the 'failed' label to 'unlock' beacuse it's not exactly
+> 'failed'.  It just hasn't succeeded.
+>
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> ---
+>  fs/buffer.c | 39 ++++++++++++++++++++++-----------------
+>  1 file changed, 22 insertions(+), 17 deletions(-)
+>
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index b33cc74e9649..dec41d84044b 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -1024,24 +1024,26 @@ static sector_t folio_init_buffers(struct folio *=
+folio,
+>  }
+>
+>  /*
+> - * Create the page-cache page that contains the requested block.
+> + * Create the page-cache folio that contains the requested block.
+>   *
+>   * This is used purely for blockdev mappings.
+> + *
+> + * Returns false if we have a 'permanent' failure.  Returns true if
+> + * we succeeded, or the caller should retry.
+>   */
+> -static int
+> -grow_dev_page(struct block_device *bdev, sector_t block,
+> +static bool grow_dev_folio(struct block_device *bdev, sector_t block,
+>               pgoff_t index, int size, int sizebits, gfp_t gfp)
+>  {
+>         struct inode *inode =3D bdev->bd_inode;
+>         struct folio *folio;
+>         struct buffer_head *bh;
+>         sector_t end_block;
+> -       int ret =3D 0;
+> +       bool ret;
+>
+>         folio =3D __filemap_get_folio(inode->i_mapping, index,
+>                         FGP_LOCK | FGP_ACCESSED | FGP_CREAT, gfp);
+>         if (IS_ERR(folio))
+> -               return PTR_ERR(folio);
+> +               return false;
+>
+>         bh =3D folio_buffers(folio);
+>         if (bh) {
+> @@ -1050,14 +1052,17 @@ grow_dev_page(struct block_device *bdev, sector_t=
+ block,
+>                                         (sector_t)index << sizebits, size=
+);
+>                         goto done;
+>                 }
+> +
+> +               /* Caller should retry if this call fails */
+> +               ret =3D true;
+>                 if (!try_to_free_buffers(folio))
+> -                       goto failed;
+> +                       goto unlock;
+>         }
+>
+> -       ret =3D -ENOMEM;
+> +       ret =3D false;
+>         bh =3D folio_alloc_buffers(folio, size, gfp | __GFP_ACCOUNT);
+>         if (!bh)
+> -               goto failed;
+> +               goto unlock;
+>
+>         /*
+>          * Link the folio to the buffers and initialise them.  Take the
+> @@ -1070,19 +1075,19 @@ grow_dev_page(struct block_device *bdev, sector_t=
+ block,
+>                         (sector_t)index << sizebits, size);
+>         spin_unlock(&inode->i_mapping->private_lock);
+>  done:
+> -       ret =3D (block < end_block) ? 1 : -ENXIO;
+> -failed:
+> +       ret =3D block < end_block;
+> +unlock:
+>         folio_unlock(folio);
+>         folio_put(folio);
+>         return ret;
+>  }
+>
+>  /*
+> - * Create buffers for the specified block device block's page.  If
+> - * that page was dirty, the buffers are set dirty also.
+> + * Create buffers for the specified block device block's folio.  If
+> + * that folio was dirty, the buffers are set dirty also.
+>   */
+> -static int
+> -grow_buffers(struct block_device *bdev, sector_t block, int size, gfp_t =
+gfp)
+> +static bool grow_buffers(struct block_device *bdev, sector_t block,
+> +               int size, gfp_t gfp)
+>  {
+>         pgoff_t index;
+>         int sizebits;
+> @@ -1099,11 +1104,11 @@ grow_buffers(struct block_device *bdev, sector_t =
+block, int size, gfp_t gfp)
+>                         "device %pg\n",
+>                         __func__, (unsigned long long)block,
+>                         bdev);
+> -               return -EIO;
+> +               return false;
+>         }
+>
+> -       /* Create a page with the proper size buffers.. */
+> -       return grow_dev_page(bdev, block, index, size, sizebits, gfp);
+> +       /* Create a folio with the proper size buffers.. */
+> +       return grow_dev_folio(bdev, block, index, size, sizebits, gfp);
+>  }
+>
+>  static struct buffer_head *
+> --
+> 2.40.1
 
-Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- fs/ntfs3/ntfs_fs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This changes the return type of grow_buffers() from "int"  to "bool".
+But, it seems that the caller, __getblk_slow(), has not changed the
+type of the variable "ret" that receives its return value:
 
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index f6706143d14b..a46d30b84bf3 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -473,7 +473,7 @@ bool al_delete_le(struct ntfs_inode *ni, enum ATTR_TYPE type, CLST vcn,
- int al_update(struct ntfs_inode *ni, int sync);
- static inline size_t al_aligned(size_t size)
- {
--	return (size + 1023) & ~(size_t)1023;
-+	return size_add(size, 1023) & ~(size_t)1023;
- }
- 
- /* Globals from bitfunc.c */
--- 
-2.39.2
+        for (;;) {
+                struct buffer_head *bh;
+                int ret;
 
+                bh =3D __find_get_block(bdev, block, size);
+                if (bh)
+                        return bh;
+
+                ret =3D grow_buffers(bdev, block, size, gfp);
+                if (ret < 0)
+                        return NULL;
+        }
+
+So, it looks like the error check immediately after calling
+grow_buffers() will not branch like before.
+Is this okay ?   Or, am I missing some other changes?
+
+Also, there is a typo in the changelog: "beacuse" -> "because".
+
+Regards,
+Ryusuke Konishi
