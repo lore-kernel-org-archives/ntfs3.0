@@ -1,67 +1,51 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9ECBE5B;
-	Wed, 18 Oct 2023 14:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151D6361;
+	Thu, 19 Oct 2023 00:27:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ibs+RNxU"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=glPK2nMlq3eHDbWVN7H4C3ISIh1VNxtl/70uXeL9vlY=; b=Ibs+RNxU+J51GkYsnDaoEWnUiP
-	luhtw2e3kMrs3u4Fzqd+KhmRb87sI1fUxfxufl6IDoWLh8ZH5+1jcC2+LdgtGMS3Ep1r+8rkrFcmf
-	3RG/aq07vRBh6yJGuf3wfIbGtb++ObXL076PGk6duum97gslZBZpW2IIDEvlvMvBe8ibsoKed6PSh
-	lTZBRNnx5TnhfSlAgL6Nl5A1AZdAbKUZYIpacxJH+XinPssyhI4K0tp2v+gTKpvQpx6V3fHkKLb7W
-	1snV5MuO5HKVjY8+kEs2509Dd4asRWcbVnaTg8CoaA5x5efBzrRlF4p4o/t88DcfOB4IXDeXqIolS
-	1tLPjCZQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qt7O2-001KzI-8R; Wed, 18 Oct 2023 14:19:02 +0000
-Date: Wed, 18 Oct 2023 15:19:02 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org, gfs2@lists.linux.dev,
-	linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
-	ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
-	reiserfs-devel@vger.kernel.org, linux-ext4@vger.kernel.org,
-	Pankaj Raghav <p.raghav@samsung.com>
-Subject: Re: [PATCH v2 01/27] buffer: Return bool from grow_dev_folio()
-Message-ID: <ZS/pVp9I4M8p4vwh@casper.infradead.org>
-References: <20231016201114.1928083-1-willy@infradead.org>
- <20231016201114.1928083-2-willy@infradead.org>
- <CAKFNMonj9XQe1PdeCny7N8MFAHwQVQNDf6A2S4g-gxX4iJLvZQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eKdfe0Of"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDBB4C433C7;
+	Thu, 19 Oct 2023 00:27:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697675268;
+	bh=jHDQqSS8ZaH9Uy7TQHB6qJm6Cs7OcqGT8rO524V8Zow=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=eKdfe0Ofzge00ZDfDlnuCMUEScoQywz09l4jkmlclhCPRw0u00shfEbaLaa8zMx9E
+	 lQ7iLz39Y53gPcWphz9okx9ykrt/I3WPsmXrRaNlfA+Ex5sFWXvUo3jIJNJKXtQO7r
+	 bMe1uwejICnTXHwHyhN8fS19yvRR/Aac0wubmU4FeNI4nYTZGOz0P2OaWXUn2gsNyu
+	 Rn7qpjcfpBwBXDOSzmO7g0UB4cm9obwYPAUcmeEP0Jb4pSRxhsgRyTRaLZpWwVTPdX
+	 VMcQ9/07YBtVuFo26rtQdLIC0AHRV8cmvwKiJMmIH35Xu81SqGaTzjHdoMiLTZHyfG
+	 8KgCl4U7k2gNw==
+Date: Wed, 18 Oct 2023 17:27:47 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: Yury Norov <yury.norov@gmail.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, Alexander Potapenko <glider@google.com>, Eric
+ Dumazet <edumazet@google.com>, David Ahern <dsahern@kernel.org>, Przemek
+ Kitszel <przemyslaw.kitszel@intel.com>, Simon Horman
+ <simon.horman@corigine.com>, netdev@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, dm-devel@redhat.com, ntfs3@lists.linux.dev,
+ linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 11/13] ip_tunnel: convert __be16 tunnel flags to
+ bitmaps
+Message-ID: <20231018172747.305c65bd@kernel.org>
+In-Reply-To: <20231016165247.14212-12-aleksander.lobakin@intel.com>
+References: <20231016165247.14212-1-aleksander.lobakin@intel.com>
+	<20231016165247.14212-12-aleksander.lobakin@intel.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKFNMonj9XQe1PdeCny7N8MFAHwQVQNDf6A2S4g-gxX4iJLvZQ@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 18, 2023 at 04:41:44AM +0900, Ryusuke Konishi wrote:
-> On Tue, Oct 17, 2023 at 5:11 AM Matthew Wilcox (Oracle) wrote:
-> >
-> > Rename grow_dev_page() to grow_dev_folio() and make it return a bool.
-> > Document what that bool means; it's more subtle than it first appears.
-> > Also rename the 'failed' label to 'unlock' beacuse it's not exactly
-> > 'failed'.  It just hasn't succeeded.
-> 
-> This changes the return type of grow_buffers() from "int"  to "bool".
-> But, it seems that the caller, __getblk_slow(), has not changed the
-> type of the variable "ret" that receives its return value:
-[...]
-> 
-> So, it looks like the error check immediately after calling
-> grow_buffers() will not branch like before.
-> Is this okay ?   Or, am I missing some other changes?
-> 
-> Also, there is a typo in the changelog: "beacuse" -> "because".
+On Mon, 16 Oct 2023 18:52:45 +0200 Alexander Lobakin wrote:
+>  40 files changed, 715 insertions(+), 415 deletions(-)
 
-Argh, yes.  Andrew, please drop this patch for now.  I'll submit
-something better next cycle.
+This already has at least two conflicts with networking if I'm looking
+right. Please let the pre-req's go in via Yury's tree and then send
+this for net-next in the next release cycle.
