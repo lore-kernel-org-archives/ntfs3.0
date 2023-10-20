@@ -1,140 +1,94 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A32546671
-	for <ntfs3@lists.linux.dev>; Thu, 19 Oct 2023 06:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8C1DDA2
+	for <ntfs3@lists.linux.dev>; Fri, 20 Oct 2023 07:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="NedFf5gf";
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="WUhCjrIu"
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 84E0D1D37;
-	Thu, 19 Oct 2023 06:31:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2bm8jlf3"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-778a20df8c3so33580085a.3
+        for <ntfs3@lists.linux.dev>; Fri, 20 Oct 2023 00:41:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1697697095;
-	bh=+tR/SuZ12C+bYNNqeuZZw4rfTtUeq8KRTtUUgfqHkLs=;
-	h=Date:To:CC:From:Subject;
-	b=NedFf5gfh5tADmdDx5q86t6uEtubFn1wv2MeXjZx0+0yVTst4PvpV7UcjcBgrWvnr
-	 nEfQLilrW+VEiMJMfep48oPMi0Cf3spHQAV+J1jFSu3MuQnw5bOM/ntydf/szP2k7n
-	 V4XKnyoPdNcaOC0j70rk/lTnPP9/e0LCXWCGGw+c=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 775971D0F;
-	Thu, 19 Oct 2023 06:37:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1697697456;
-	bh=+tR/SuZ12C+bYNNqeuZZw4rfTtUeq8KRTtUUgfqHkLs=;
-	h=Date:To:CC:From:Subject;
-	b=WUhCjrIuj9DWkUf07Y5v2FiNF+TvDI3o0/uSXL9Ll199ygCc/zw5rcBVgCHzjJo5V
-	 G08crjljCF8UbWRvbEydVcFvFp6ma8zpZ+LRh9dRx4uqDtHOdMcBtbYWFVMF+q1NOW
-	 Sz3PWmXq/OVhCp4PPzImCH0i/j+ks+hlKuYxm/SQ=
-Received: from [172.16.192.129] (192.168.211.127) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 19 Oct 2023 09:37:35 +0300
-Message-ID: <e7b035ea-320e-465f-966f-0c370f9848be@paragon-software.com>
-Date: Thu, 19 Oct 2023 09:37:33 +0300
+        d=google.com; s=20230601; t=1697787710; x=1698392510; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lBa0xa/eHNcCLSN4jU5w9L+UgbLX0/qpCkz9jorDITs=;
+        b=2bm8jlf3XrI+GRHtWRZuzX67yiwY1NNl0R6CQO8zZ22ywi+fQT+R0KY63VunhwGvSm
+         iJxPD09zn0WEsUp20LljcYHicPmxSAlijExrPcEZpAt6Bf526AbbUrA3ZGD3auvccclP
+         3zL0p0/cOuIzujjGuJHZ54sO1zHe5cAAMBBUrNfEaz/1e8PdO63KO2knyKiqYczTZ9pL
+         f0pb9RsreGTzZOkwWpW95yZwXS/V9F5QateeufjUnkP7KphZxcDPwXKmHhSOmTccbwqL
+         KZVpWFu2pBsPTbCLJcm27DpCLfUfgKZ4V4v+hmxPQ56OwWEIUSOXDdAVeeL4flkTJvbK
+         tWQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697787710; x=1698392510;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lBa0xa/eHNcCLSN4jU5w9L+UgbLX0/qpCkz9jorDITs=;
+        b=QY7TkkyGPulfzqXBjvmyvNPnHanvplmP2+m/qhhUCBbw5GRsnIGLSgNAjl4S3N8PId
+         7T3N5D2WDNRRM0GolY4a3GY/8onnkhAx6v2kFh3YBHyDCuOF4RfrNFWe+xC2KQXDpKaN
+         DhaVEx4ZqXifPtd79JAe/SughVdidNRcKR2z859HTLSCBuD2yLSP5kSDsja/nW+5bkzq
+         jsjBNQkRJgKvykBkv2IWjgfUHmMBYkgrZoCbfsDRLji3Lr4/Yn2ZBEYypwLf+Z8fIioE
+         Z/78g4dp9uU7WzhTEl+F0rdfuAEv0vjZj6HrUBnG8PFCTmvNmv1vuMCYJPgb/ydkRJpv
+         J7EQ==
+X-Gm-Message-State: AOJu0YyblkSB62zRxmh1Ld4ObYbkwcgUYNj8FFmR/zVQrQzJDWJ35Mrc
+	k8Ck4tBKX/BSl1f2+NXmcPkfJ0OMlTviP76qwDjCoA==
+X-Google-Smtp-Source: AGHT+IF4DP8EnmUuEgxb0AWEosQEB3fTMTya1XnxFLtaGR6STLfbHmgJkB9SCGKsieIg9mX9CbrMN19r3UImMJv5EAs=
+X-Received: by 2002:ad4:596a:0:b0:66d:1230:9682 with SMTP id
+ eq10-20020ad4596a000000b0066d12309682mr1436777qvb.62.1697787710110; Fri, 20
+ Oct 2023 00:41:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-From: Konstantin Komarovc <almaz.alexandrovich@paragon-software.com>
-Subject: [GIT PULL] ntfs3: bugfixes for 6.6
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.211.127]
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+References: <20231016165247.14212-1-aleksander.lobakin@intel.com>
+ <20231016165247.14212-12-aleksander.lobakin@intel.com> <20231018172747.305c65bd@kernel.org>
+In-Reply-To: <20231018172747.305c65bd@kernel.org>
+From: Alexander Potapenko <glider@google.com>
+Date: Fri, 20 Oct 2023 09:41:10 +0200
+Message-ID: <CAG_fn=XP819PnkoR0G6_anRNq0t_r=drCFx4PT2VgRnrBaUjdA@mail.gmail.com>
+Subject: Re: [PATCH v2 11/13] ip_tunnel: convert __be16 tunnel flags to bitmaps
+To: Jakub Kicinski <kuba@kernel.org>, Yury Norov <yury.norov@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Alexander Lobakin <aleksander.lobakin@intel.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Eric Dumazet <edumazet@google.com>, 
+	David Ahern <dsahern@kernel.org>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Simon Horman <simon.horman@corigine.com>, netdev@vger.kernel.org, 
+	linux-btrfs@vger.kernel.org, dm-devel@redhat.com, ntfs3@lists.linux.dev, 
+	linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Linus,
+On Thu, Oct 19, 2023 at 2:27=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Mon, 16 Oct 2023 18:52:45 +0200 Alexander Lobakin wrote:
+> >  40 files changed, 715 insertions(+), 415 deletions(-)
+>
+> This already has at least two conflicts with networking if I'm looking
+> right. Please let the pre-req's go in via Yury's tree and then send
+> this for net-next in the next release cycle.
 
-Please pull this branch containing ntfs3 code for 6.6.
+Yury, Andy,
 
-Fixed:
-- memory leak;
-- some logic errors, NULL dereferences;
-- some code was refactored.
+The MTE part of my series will need to be reworked, so it might take a whil=
+e.
+Shall I maybe send v8 of
+https://lore.kernel.org/lkml/20231011172836.2579017-1-glider@google.com/
+(plus the test) separately to unblock Alexander?
 
-Added:
-- more checks.
+--=20
+Alexander Potapenko
+Software Engineer
 
-All changed code was in linux-next branch for several weeks.
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
 
-Regards,
-
-Konstantin
-
-----------------------------------------------------------------
-
-The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d:
-
-    Linux 6.6-rc1 (Sun Sep 10 16:28:41 2023 -0700)
-
-are available in the Git repository at:
-
-    https://github.com/Paragon-Software-Group/linux-ntfs3.git ntfs3_for_6.6
-
-for you to fetch changes up to e4494770a5cad3c9d1d2a65ed15d07656c0d9b82:
-
-    fs/ntfs3: Avoid possible memory leak (Mon Sep 25 12:48:07 2023 +0800)
-
-----------------------------------------------------------------
-
-Gabriel Marcano (1):
-   fs/ntfs3: Fix directory element type detection
-
-Konstantin Komarov (14):
-   fs/ntfs3: Add ckeck in ni_update_parent()
-   fs/ntfs3: Write immediately updated ntfs state
-   fs/ntfs3: Use kvmalloc instead of kmalloc(... __GFP_NOWARN)
-   fs/ntfs3: Add more attributes checks in mi_enum_attr()
-   fs/ntfs3: fix deadlock in mark_as_free_ex
-   fs/ntfs3: Fix shift-out-of-bounds in ntfs_fill_super
-   fs/ntfs3: Use inode_set_ctime_to_ts instead of inode_set_ctime
-   fs/ntfs3: Allow repeated call to ntfs3_put_sbi
-   fs/ntfs3: Fix alternative boot searching
-   fs/ntfs3: Refactoring and comments
-   fs/ntfs3: Add more info into /proc/fs/ntfs3/<dev>/volinfo
-   fs/ntfs3: Do not allow to change label if volume is read-only
-   fs/ntfs3: Fix possible NULL-ptr-deref in ni_readpage_cmpr()
-   fs/ntfs3: Fix NULL pointer dereference on error in
-     attr_allocate_frame()
-
-Pavel Skripkin (1):
-   fs/ntfs3: Fix OOB read in ntfs_init_from_boot
-
-Su Hui (1):
-   fs/ntfs3: Avoid possible memory leak
-
-Zeng Heng (1):
-   fs/ntfs3: fix panic about slab-out-of-bounds caused by ntfs_list_ea()
-
-Ziqi Zhao (1):
-   fs/ntfs3: Fix possible null-pointer dereference in hdr_find_e()
-
-  fs/ntfs3/attrib.c   |  12 +++--
-  fs/ntfs3/attrlist.c |  15 ++++++-
-  fs/ntfs3/bitmap.c   |   4 +-
-  fs/ntfs3/dir.c      |   6 ++-
-  fs/ntfs3/file.c     |   4 +-
-  fs/ntfs3/frecord.c  |   8 +++-
-  fs/ntfs3/fslog.c    |   6 ++-
-  fs/ntfs3/fsntfs.c   |  19 ++++----
-  fs/ntfs3/index.c    |   3 ++
-  fs/ntfs3/inode.c    |   5 ++-
-  fs/ntfs3/namei.c    |   6 +--
-  fs/ntfs3/ntfs.h     |   2 +-
-  fs/ntfs3/ntfs_fs.h  |   4 +-
-  fs/ntfs3/record.c   |  74 ++++++++++++++++++++++++-------
-  fs/ntfs3/super.c    | 104 +++++++++++++++++++++++++++++++-------------
-  fs/ntfs3/xattr.c    |   7 ++-
-  16 files changed, 197 insertions(+), 82 deletions(-)
-
-
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
