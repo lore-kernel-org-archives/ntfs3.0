@@ -1,133 +1,131 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-oa1-f80.google.com (mail-oa1-f80.google.com [209.85.160.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E628F5A
-	for <ntfs3@lists.linux.dev>; Fri, 20 Oct 2023 12:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UYqVk6Xa"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5a81ab75f21so8124957b3.2
-        for <ntfs3@lists.linux.dev>; Fri, 20 Oct 2023 05:46:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697805963; x=1698410763; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jps82JBDACzoR3tUfyIbEtBbVZCxrcf9ApmwOX34umg=;
-        b=UYqVk6Xa0/G2fnNh7UZ7u3puziQtsAaO2zZrgq6o+lCDQdRYIk6N5Mnjb3Dz5yI6P8
-         vxOpxX5NmH8OtKuCspTaUB+U0DOAcPdz5hL9TVZm/5bG1dJHieMZmnralKPfcXX5Hu9V
-         shbmQX2hbnpuEp0mFq78AozekfyTnW3ftrDuDogSdibIorYj/d3xnROLGVJMjr1K/YVa
-         osdlRW+//29kjy5yTQbMor573ITDkvDaE1R3HLWE/Yfk3mRVxbtYaV8F1CzdrfMJpSrv
-         dAmYrzwyxQjhX928CXWSrugrnhP4tEFGJ4ikSsVtL0rjdxhu2pwlzouD1Jqs+UIuqPti
-         2/3w==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7315324A05
+	for <ntfs3@lists.linux.dev>; Tue, 24 Oct 2023 10:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by mail-oa1-f80.google.com with SMTP id 586e51a60fabf-1e987fa0d87so5886073fac.1
+        for <ntfs3@lists.linux.dev>; Tue, 24 Oct 2023 03:02:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697805963; x=1698410763;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jps82JBDACzoR3tUfyIbEtBbVZCxrcf9ApmwOX34umg=;
-        b=XE1jEMrmoGekdWKImIEgHrkkLP2rRzQGTstGqIgacsAsRcwYI27SZI1YUq1LQIdZO6
-         ES1LaxWFIV+KIr2wNiW5RDGEDJrmLQFLI49CA6//PgMfkduJoWfEvx7VsXt9LBAO6oLX
-         XHiT7a/znW+fFAp+mzXI/sZXxV0qN+AMdiL7FAIzcrW4mFqYKMOzaBVfWEIutmAEf2lf
-         nlD2/iqIrjoLXh4ElHJZ/oVNPn1ILfkqBrmm9Th0MDzfBtEe/zCNLDdVzrTsiuXfhZ4s
-         oA4sifM9n+r8jjdfKd4aAScaxPlAamT27dWjzilZNRjGZyOgg5xRwIZWYTEk63+S2amj
-         A9oQ==
-X-Gm-Message-State: AOJu0Yyd3qcRNEtOYe+7JfU6qTB3puAJDwtGZqHeYQw2tzj3f2ugctuF
-	vvnFiB0ka7Rc0ubGaCKo8Fc=
-X-Google-Smtp-Source: AGHT+IE6t/1v27h+fcqmTdO36JdundJNToc6FICMQ+l92k0VypVbJHWYvo6kei8XbZDOyOkNc3/wwA==
-X-Received: by 2002:a05:690c:dc4:b0:5a7:aa54:42b1 with SMTP id db4-20020a05690c0dc400b005a7aa5442b1mr2232055ywb.28.1697805962604;
-        Fri, 20 Oct 2023 05:46:02 -0700 (PDT)
-Received: from localhost ([2607:fb90:3e1a:8bc6:bf58:5f88:bb90:604])
-        by smtp.gmail.com with ESMTPSA id m205-20020a8171d6000000b0059af121d0b8sm654571ywc.52.2023.10.20.05.46.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Oct 2023 05:46:01 -0700 (PDT)
-Date: Fri, 20 Oct 2023 05:46:00 -0700
-From: Yury Norov <yury.norov@gmail.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Alexander Potapenko <glider@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	David Ahern <dsahern@kernel.org>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Simon Horman <simon.horman@corigine.com>, netdev@vger.kernel.org,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	linux-btrfs@vger.kernel.org, dm-devel@redhat.com,
-	ntfs3@lists.linux.dev, linux-s390@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/13] ip_tunnel: convert __be16 tunnel flags to
- bitmaps
-Message-ID: <ZTJ2iKk3sBFzVQJl@yury-ThinkPad>
-References: <20231016165247.14212-1-aleksander.lobakin@intel.com>
- <ZS148saIsG7WY8ul@yury-ThinkPad>
+        d=1e100.net; s=20230601; t=1698141774; x=1698746574;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vn0NoukJxAfZILvdsW+icS2xMfxi5fKAUjTvJNIqGUY=;
+        b=bgeGVaF2Pwlb8oUGrm960ijiGoIhACEcOkzJEOobmgbi3XbbKQk5luYi78iVouf1a0
+         Ku2LRUA8iPUCkfZDjIIQzBF16wJJSqvP1gtcdSaFDy7abfhm6ZYd8eEQbDkVZA03lKo3
+         23ZgA4DobeVmS/y/iQ6Y8k/QLf0ldY9orCsJhNQCwjR2c+Ahy/McdNRSqAkqpNtUsaRy
+         0ZvAluTobwpUrIQP7WR5P3NkavpAwl4vCeEjx0Nwi7ukmsQ3FYUmnflw+Jk+hujSMzPA
+         VRMEUFJmtelO53xkjHdAU/q1+0TsLNUy0Ey/aHf4PiWgipkT+uu/I02YXrrPuGkYEfLj
+         /6oQ==
+X-Gm-Message-State: AOJu0YydIo3IcGvyRUjgDV4F6VspSa+X2D5NBvc6wVlXHFWXnMbP90Py
+	fOIwixgChdlc2ID3njruD3sZ6vbrOWrUvlKZlCbJFYlaR5qW
+X-Google-Smtp-Source: AGHT+IGHhYm8RudYIBehaCc/J2WJHkqOLHGrUFdReEuwG4sAlvAFt8AhkmU5dW0ni+Q5yLBUZOSxzdGWvD9Grkji+80fry44dWAX
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZS148saIsG7WY8ul@yury-ThinkPad>
+X-Received: by 2002:a05:6870:148d:b0:1d6:5e45:3bc7 with SMTP id
+ k13-20020a056870148d00b001d65e453bc7mr5668205oab.5.1698141774531; Tue, 24 Oct
+ 2023 03:02:54 -0700 (PDT)
+Date: Tue, 24 Oct 2023 03:02:54 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000003fd455060873718b@google.com>
+Subject: [syzbot] [ntfs3?] WARNING in sys_pivot_root
+From: syzbot <syzbot+a76a065ad30c6ddea4a1@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, brauner@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-+ Stephen
+Hello,
 
-On Mon, Oct 16, 2023 at 10:55:02AM -0700, Yury Norov wrote:
-> On Mon, Oct 16, 2023 at 06:52:34PM +0200, Alexander Lobakin wrote:
-> > Based on top of "Implement MTE tag compression for swapped pages"[0]
-> > from Alexander Potapenko as it uses its bitmap_{read,write}() functions
-> > to not introduce another pair of similar ones.
-> > 
-> > Derived from the PFCP support series[1] as this grew bigger (2 -> 13
-> > commits) and involved more core bitmap changes. Only commits 10 and 11
-> > are from the mentioned tree, the rest is new. PFCP itself still depends
-> > on this series.
-> > 
-> > IP tunnels have their flags defined as `__be16`, including UAPI, and
-> > after GTP was accepted, there are no more free bits left. UAPI (incl.
-> > direct usage of one of the user structs) and explicit Endianness only
-> > complicate things.
-> > Since it would either way end up with hundreds of locs due to all that,
-> > pick bitmaps right from the start to store the flags in the most native
-> > and scalable format with rich API. I don't think it's worth trying to
-> > praise luck and pick smth like u32 only to redo everything in x years :)
-> > More details regarding the IP tunnel flags is in 11 and 13.
-> > 
-> > The rest is just a good bunch of prereqs and tests: a couple of new
-> > helpers and extensions to the old ones, a few optimizations to partially
-> > mitigate IP tunnel object code growth due to __be16 -> long, and
-> > decouping one UAPI struct used throughout the whole kernel into the
-> > userspace and the kernel space counterparts to eliminate the dependency.
-> > 
-> > [0] https://lore.kernel.org/lkml/20231011172836.2579017-1-glider@google.com
-> > [1] https://lore.kernel.org/netdev/20230721071532.613888-1-marcin.szycik@linux.intel.com
+syzbot found the following issue on:
 
-[...]
+HEAD commit:    ce55c22ec8b2 Merge tag 'net-6.6-rc7' of git://git.kernel.o..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11c0c24d680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=849fe52ba7c6d78a
+dashboard link: https://syzkaller.appspot.com/bug?extid=a76a065ad30c6ddea4a1
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17e511bd680000
 
-> > ---
-> > Not sure whether it's fine to have that all in one series, but OTOH
-> > there's not much stuff I could split (like, 3 commits), it either
-> > depends directly (new helpers etc.) or will just generate suboptimal
-> > code w/o some of the commits.
-> > 
-> > I'm also thinking of which tree this would ideally be taken through.
-> > The main subject is networking, but most of the commits are generic.
-> > My idea is to push this via Yury / bitmaps and then ask the netdev
-> > maintainers to pull his tree before they take PFCP (dependent on this
-> > one).
-> 
-> Let's wait for more comments, but I'm generally OK with the generic
-> part, and have nothing against moving it, or the whole series, through
-> bitmap-for-next.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/f6762ae43666/disk-ce55c22e.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9b2c191a2c66/vmlinux-ce55c22e.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/931e7d3d48a1/bzImage-ce55c22e.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/60186123065f/mount_0.gz
 
-I put this into bitmap-for-next, and it caused build failures for
-Stephen:
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a76a065ad30c6ddea4a1@syzkaller.appspotmail.com
 
-https://lore.kernel.org/lkml/20220722191657.1d7282c2@canb.auug.org.au/
+------------[ cut here ]------------
+DEBUG_RWSEMS_WARN_ON((rwsem_owner(sem) != current) && !rwsem_test_oflags(sem, RWSEM_NONSPINNABLE)): count = 0x0, magic = 0xffff888066862f70, owner = 0x0, curr 0xffff88807d629dc0, list empty
+WARNING: CPU: 1 PID: 9840 at kernel/locking/rwsem.c:1370 __up_write kernel/locking/rwsem.c:1369 [inline]
+WARNING: CPU: 1 PID: 9840 at kernel/locking/rwsem.c:1370 up_write+0x4f4/0x580 kernel/locking/rwsem.c:1626
+Modules linked in:
+CPU: 1 PID: 9840 Comm: syz-executor.5 Not tainted 6.6.0-rc6-syzkaller-00182-gce55c22ec8b2 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/06/2023
+RIP: 0010:__up_write kernel/locking/rwsem.c:1369 [inline]
+RIP: 0010:up_write+0x4f4/0x580 kernel/locking/rwsem.c:1626
+Code: 48 c7 c7 a0 98 0a 8b 48 c7 c6 e0 9a 0a 8b 48 8b 54 24 28 48 8b 4c 24 18 4d 89 e0 4c 8b 4c 24 30 53 e8 e0 e9 e7 ff 48 83 c4 08 <0f> 0b e9 75 fd ff ff 48 c7 c1 90 dd 99 8e 80 e1 07 80 c1 03 38 c1
+RSP: 0018:ffffc9000b3ffca0 EFLAGS: 00010296
+RAX: da70038a13777500 RBX: ffffffff8b0a9980 RCX: ffff88807d629dc0
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffc9000b3ffd70 R08: ffffffff81543302 R09: 1ffff9200167fee8
+R10: dffffc0000000000 R11: fffff5200167fee9 R12: 0000000000000000
+R13: ffff888066862f70 R14: 1ffff9200167ff9c R15: dffffc0000000000
+FS:  00007f0d80dfe6c0(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f6ea5934000 CR3: 0000000073a48000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ inode_unlock include/linux/fs.h:807 [inline]
+ unlock_mount fs/namespace.c:2508 [inline]
+ __do_sys_pivot_root fs/namespace.c:4252 [inline]
+ __se_sys_pivot_root+0x591/0x1650 fs/namespace.c:4166
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f0d81a7cae9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 e1 20 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f0d80dfe0c8 EFLAGS: 00000246 ORIG_RAX: 000000000000009b
+RAX: ffffffffffffffda RBX: 00007f0d81b9c050 RCX: 00007f0d81a7cae9
+RDX: 0000000000000000 RSI: 0000000020000040 RDI: 0000000020000000
+RBP: 00007f0d81ac847a R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f0d81b9c050 R15: 00007ffdbee6f518
+ </TASK>
 
-I can reproduce them too. So, removing from -next. Alexander, can you
-run another round with all found issues fixed?
 
-Thanks,
-Yury
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
