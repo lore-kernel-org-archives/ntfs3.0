@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C07112E51
-	for <ntfs3@lists.linux.dev>; Sun, 29 Oct 2023 22:54:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE05C12E51
+	for <ntfs3@lists.linux.dev>; Sun, 29 Oct 2023 22:55:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftYWzWF5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28FE1C433C7;
-	Sun, 29 Oct 2023 22:54:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E2rGCCz2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30B6AC433C9;
+	Sun, 29 Oct 2023 22:55:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698620099;
-	bh=3ecTuxaFxXd+4WzH7yZUfyWhqhdE2zoYnEaqwcm2F1Q=;
+	s=k20201202; t=1698620100;
+	bh=AKxOtT3QqFrG69RF7cmdei0Apow5y+b6LogocDbTJdQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ftYWzWF5NlFV5fa/Hii9tnMigbGoXy2nl3p9xaX0MNuxgGhDXt9fVRtyf9UzO17mT
-	 olwFHYtw+eujgLigw40G5lBA9qEstS0RAAGrYbMpXPSv4mkJJETf7oVmZO/7TqMZpI
-	 HvQFLxqeLOddUp+aPeG6pshpkjwS8QE9UYQoOLbdQgIyN1x3XmqMpfQe61KTyn2RlI
-	 P8RlNZmUEIWACjJ5FAfxjNZoQw7CE8yqUzHkFlQKrQ7vGQK8CrNUwF1h/RYtjse647
-	 RoKdXUWYN2d2/EWZAt1/v3bUDqaBDkCxMDwWCT9a6WQp00/baqvw+gpXNwn5Zmb/8U
-	 BmxzRlUB2jKXw==
+	b=E2rGCCz2moVjbFZmJ+3sJPL1IS4AZ66umW1defuubCvOrWoKWk1fgUk2T5gvxRIM/
+	 sU87LgxPU7/gnCesgAzoKa0zJhjxjDLL5XhTeNbG/L0oPYzylA7AOTmhWW9ZbF7LH1
+	 jZdxoj3UKd6wGQu55CqQJzsTbg7X7QtvNnR2+9APpUepu65oSk05xKA9GJNFJBHCnd
+	 reyik3BoBqi46x6chQP0ReHDN4ut+15OX9n61QG9OaUAitXuFMCyrLMhd8hDKmWXXj
+	 Wp3HvdW7uxxZZJxLqdbhInEpUXkLIAB/ENL7XDi8uAEVgvatt8yeKyXOEzGCgOB4Ye
+	 8JyFSpPymDv0Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.5 11/52] fs/ntfs3: Fix possible NULL-ptr-deref in ni_readpage_cmpr()
-Date: Sun, 29 Oct 2023 18:52:58 -0400
-Message-ID: <20231029225441.789781-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 12/52] fs/ntfs3: Fix NULL pointer dereference on error in attr_allocate_frame()
+Date: Sun, 29 Oct 2023 18:52:59 -0400
+Message-ID: <20231029225441.789781-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231029225441.789781-1-sashal@kernel.org>
 References: <20231029225441.789781-1-sashal@kernel.org>
@@ -42,27 +42,31 @@ Content-Transfer-Encoding: 8bit
 
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-[ Upstream commit 32e9212256b88f35466642f9c939bb40cfb2c2de ]
+[ Upstream commit 9c689c8dc86f8ca99bf91c05f24c8bab38fe7d5f ]
 
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/ntfs3/frecord.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/ntfs3/attrib.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 8f34d6472ddbd..05fb3dbe39076 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -2148,7 +2148,7 @@ int ni_readpage_cmpr(struct ntfs_inode *ni, struct page *page)
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index a9d82bbb4729e..0b52bc9681085 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -1736,10 +1736,8 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
+ 			le_b = NULL;
+ 			attr_b = ni_find_attr(ni, NULL, &le_b, ATTR_DATA, NULL,
+ 					      0, NULL, &mi_b);
+-			if (!attr_b) {
+-				err = -ENOENT;
+-				goto out;
+-			}
++			if (!attr_b)
++				return -ENOENT;
  
- 	for (i = 0; i < pages_per_frame; i++) {
- 		pg = pages[i];
--		if (i == idx)
-+		if (i == idx || !pg)
- 			continue;
- 		unlock_page(pg);
- 		put_page(pg);
+ 			attr = attr_b;
+ 			le = le_b;
 -- 
 2.42.0
 
