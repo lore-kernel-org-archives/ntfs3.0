@@ -1,66 +1,89 @@
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEBE2231F
-	for <ntfs3@lists.linux.dev>; Tue, 31 Oct 2023 20:22:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283F06FAB
+	for <ntfs3@lists.linux.dev>; Wed,  1 Nov 2023 10:13:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-3b2d8caadfbso242013b6e.0
-        for <ntfs3@lists.linux.dev>; Tue, 31 Oct 2023 13:22:04 -0700 (PDT)
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-6d31f885789so91288a34.1
+        for <ntfs3@lists.linux.dev>; Wed, 01 Nov 2023 03:13:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698783723; x=1699388523;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ABxS/Y/dEawUUeKH6gAmQ1oQDLcOIlAS+uqExwFT3Yw=;
-        b=F7rGNgxXj+yQcBNMIuYHlZHFm+BNSMLtK8/+WsPRKjg1t6Q8mygxlvusNWNj3QIjTh
-         yYf06ICIzQoKCNGEMgMmTCDR4WEbRIx0bXvqXoO20yYD+s9emRSteq+fxuaU23UeTpwk
-         LP4JLeGCGf7NIUKlv6rMJlFssxxvhXgCPlyncI1ZbRwEw4oDCtXdIWZ/4Q1OUSAr2VV0
-         JBY9rz/0ZusEKQbS2xmCaNDIrO6xz1rpiSHV2cBTApX78iPDhkHtlrgxReUHeK1/lx/Y
-         2eUhcMSbhxNpumode2WbFcQSu3g3ghSyuoW6sN9DwC0RjEqKGMLO1Hd7lEN6ttZqN6Bd
-         pC9w==
-X-Gm-Message-State: AOJu0Yy+pED6a7mNPpS63uERA7d3QuexN8yZWagJAWWwoUnCCjX+9YRQ
-	10dYTfqCSApRxFO41LKz3Fv7AjdAGxSmhONGlk5IAtW4yHu7
-X-Google-Smtp-Source: AGHT+IGb7b5+s5UWXuPaOfwbI5gjTxsrXeswNqM5+abNosVgXBYVP27oyqTOzSqlnYSpScnMXbpfJavMqzWhIqrVn1kjNJ71QDEp
+        d=1e100.net; s=20230601; t=1698833605; x=1699438405;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=H0X5+nC7jNHDCCTzWCwWOWfQ3Z6jzhEzmqgYVwfBxgs=;
+        b=Ieg/8aMCLkpOoYgDJNlv2sdtRKyLq6j4RCB9Bt/LFQXAq9qpRJ3IK7I5gG/CiFKo7H
+         dnLXqJRLs/xFIhFGZ62TtjGipe5nD4gFwCYyPEzizkkYS31RwGC+QXSrEXPdSvNi9BgL
+         yEbju5xJFeu28Lh74NA/RUbNwSHuO+v1FBLNEKjMzai5VrqN+7duubro3LRcY6SyKQa5
+         CCS9pcZN4ptQbP6zCjVD0DcKndruzibUzCpYK6aj2vWI8QO622NQevE22RuxJELIMwvv
+         uxI+/1XK/QVeWRzAZpr8eGrKOqJPgDRkgN/Z2KZhk1XOV0x4MXvA0Gai/z+xsFxNxK+N
+         TG6w==
+X-Gm-Message-State: AOJu0Yw7Hez2YjfxlnXjCY4TsRVG8vqQ8PteMVZnYEgb2i+kdY3MvF20
+	wX91AvuOqAwXsycVm/sBz1bSB3vnXYuO5UxxZDOVK/wzgvXn
+X-Google-Smtp-Source: AGHT+IGFSKBn9JzoyB4reWv8CcgGNMZjtRCfcFyjCHWO02tqqZSwfzmDuaO0vGgnMepapskNikf7cVBGP2rDCjV+nWJppqSTDRz1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:150e:b0:3b2:e7b3:5fc5 with SMTP id
- u14-20020a056808150e00b003b2e7b35fc5mr1621301oiw.3.1698783723868; Tue, 31 Oct
- 2023 13:22:03 -0700 (PDT)
-Date: Tue, 31 Oct 2023 13:22:03 -0700
-In-Reply-To: <00000000000019db4e05e9712237@google.com>
+X-Received: by 2002:a05:6830:8d6:b0:6c6:2b19:7270 with SMTP id
+ z22-20020a05683008d600b006c62b197270mr532346otg.1.1698833605405; Wed, 01 Nov
+ 2023 03:13:25 -0700 (PDT)
+Date: Wed, 01 Nov 2023 03:13:25 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000695613060908e8ed@google.com>
-Subject: Re: [syzbot] [ntfs3] kernel panic: stack is corrupted in lock_acquire (2)
-From: syzbot <syzbot+db99576f362a5c1e9f7a@syzkaller.appspotmail.com>
+Message-ID: <000000000000953abd0609148558@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Oct 2023)
+From: syzbot <syzbot+listbc4ef25e49f52c411bed@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-syzbot suspects this issue was fixed by commit:
+Hello ntfs3 maintainers/developers,
 
-commit 4ad5c924df6cd6d85708fa23f9d9a2b78a2e428e
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Fri Sep 22 10:07:59 2023 +0000
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-    fs/ntfs3: Allow repeated call to ntfs3_put_sbi
+During the period, 3 new issues were detected and 0 were fixed.
+In total, 56 issues are still open and 28 have been fixed so far.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=125d173b680000
-start commit:   45a3e24f65e9 Linux 6.4-rc7
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e74b395fe4978721
-dashboard link: https://syzkaller.appspot.com/bug?extid=db99576f362a5c1e9f7a
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1734eb5b280000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12ddb22f280000
+Some of the still happening issues:
 
-If the result looks correct, please mark the issue as fixed by replying with:
+Ref  Crashes Repro Title
+<1>  11317   Yes   VFS: Busy inodes after unmount (use-after-free)
+                   https://syzkaller.appspot.com/bug?extid=0af00f6a2cba2058b5db
+<2>  3613    Yes   KASAN: slab-out-of-bounds Read in ntfs_iget5
+                   https://syzkaller.appspot.com/bug?extid=b4084c18420f9fad0b4f
+<3>  2014    Yes   possible deadlock in ni_fiemap
+                   https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
+<4>  1786    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<5>  1358    Yes   possible deadlock in attr_data_get_block
+                   https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
+<6>  1347    Yes   possible deadlock in ntfs_set_state
+                   https://syzkaller.appspot.com/bug?extid=f91c29a5d5a01ada051a
+<7>  825     No    possible deadlock in ntfs_mark_rec_free
+                   https://syzkaller.appspot.com/bug?extid=f83f0dbef763c426e3cf
+<8>  626     Yes   possible deadlock in mi_read
+                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
+<9>  531     Yes   possible deadlock in filemap_fault
+                   https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
+<10> 482     Yes   possible deadlock in ntfs_fiemap
+                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
 
-#syz fix: fs/ntfs3: Allow repeated call to ntfs3_put_sbi
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
