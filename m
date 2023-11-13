@@ -1,37 +1,54 @@
-Received: from smtp.smtpout.orange.fr (smtp-18.smtpout.orange.fr [80.12.242.18])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332E93B785
-	for <ntfs3@lists.linux.dev>; Fri, 10 Nov 2023 20:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055F4224D6
+	for <ntfs3@lists.linux.dev>; Mon, 13 Nov 2023 17:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="sBF5L2r2"
-Received: from pop-os.home ([86.243.2.178])
-	by smtp.orange.fr with ESMTPA
-	id 1Xf2r9Jy2UC9i1Xf2rWXK2; Fri, 10 Nov 2023 20:59:25 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1699646365;
-	bh=JGFpthYiqaRPY244yP6qRl5S2GlMr+W8XYeFguG1JEM=;
-	h=From:To:Cc:Subject:Date;
-	b=sBF5L2r2secVj5RLVeh89KKXdDCnhOApxbEbYwQRDf1TWzlHI5fsZX1tRpwS+a6kp
-	 5xMS5UHKIUUFVCAaOrMXVP0WhcOjgw3Cg5GN/aw6TAp3he1AFKRmtTx9+PaqL88KS2
-	 AtSdDLpy/oNvAanGcvAsUDhwtbO2xHBd2+TUvVgan2wvtql3yedRnmJOecSTe5E5CD
-	 mNFlN7ZtEZwIAF0Y4u41JNYiG2FYkgUhwbShqWsxKgt2sK1wB4yaPbwPB+sT+K1xwS
-	 McmyOJEWVkT90BY25TYuubZpD4CeR2tn70bf4mVftWPCA7nnH5fgMZSbwjubRitrHI
-	 bYXOVBY9pzKZQ==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Fri, 10 Nov 2023 20:59:25 +0100
-X-ME-IP: 86.243.2.178
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	ntfs3@lists.linux.dev
-Subject: [PATCH] fs/ntfs3: Slightly simplify ntfs_inode_printk()
-Date: Fri, 10 Nov 2023 20:59:22 +0100
-Message-Id: <8c9196e6d3b4f5416183a498d3c9ebcf84f22ced.1699646339.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BoU9OH9t"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699897046; x=1731433046;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=DSacYvT1P2f6YUj8jbQzn2GhMgTBmy/U4Xnu4aI0x0g=;
+  b=BoU9OH9tFc2P/69CGGTRQ8Qz7FNl+hxl12W41DhSDG0QIDNsg93ilLN6
+   2sxrYe03dFDYBol+m3joJh2q2zz//Xcohy151KyTMPSOnESyEQBK2th0e
+   CfII9R95qC9tjdS5G/mMy4KVDf2QVSLgTzTrc6lG4EQVY82kVuWd4WIi9
+   63Pw3C3wYxExRbDA9GNBtS/HSMfsz/0tJVZwRfQo0ZYgl4qy1RFiwZYPG
+   EJs0AilKZzKm2ngcq11wwRp1WvJCWqQCtq7SQ4zFSLho/gP3wvPFBM81I
+   bk1rJtq1QNkWO4UG4BWt151/x+5CDK5s7KuArVIzHwbXdR+f7jFIMramQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="370671494"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="370671494"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 09:37:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="1095812617"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="1095812617"
+Received: from newjersey.igk.intel.com ([10.102.20.203])
+  by fmsmga005.fm.intel.com with ESMTP; 13 Nov 2023 09:37:21 -0800
+From: Alexander Lobakin <aleksander.lobakin@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Alexander Potapenko <glider@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	netdev@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	dm-devel@redhat.com,
+	ntfs3@lists.linux.dev,
+	linux-s390@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/11] bitmap: prereqs for ip_tunnel flags conversion
+Date: Mon, 13 Nov 2023 18:37:06 +0100
+Message-ID: <20231113173717.927056-1-aleksander.lobakin@intel.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -40,41 +57,93 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The size passed to snprintf() includes the space for the trailing space.
-So there is no reason here not to use all the available space.
+Based on top of "lib/bitmap: add bitmap_{read,write}()"[0] from Alexander
+Potapenko as it uses those new bitmap_{read,write}() functions to not
+introduce another pair of similar ones.
 
-So remove the -1 when computing 'name_len'.
-While at it, use the size of the array directly instead of the intermediate
-'name_len' variable.
+Derived from the PFCP support series[1] as this grew bigger (2 -> 13
+commits in v2) and involved more core bitmap changes, finally transforming
+into a pure bitmap series. The actual mentioned ip_tunnel flags conversion
+from `__be16` to bitmaps will be submitted bundled with the PFCP set after
+this one lands.
 
-snprintf() also guaranties that the buffer if NULL terminated, so there is
-no need to write an additional trailing NULL "To be sure".
+Little breakdown:
+ * #1, #8, #10: misc cleanups;
+ * #2, #5, #6, #7: symbol scope, name collisions;
+ * #3, #4, #9, #11: compile-time optimizations.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+[0] https://lore.kernel.org/lkml/20231109151106.2385155-1-glider@google.com
+[1] https://lore.kernel.org/netdev/20230721071532.613888-1-marcin.szycik@linux.intel.com
+
+Alexander Lobakin (11):
+  bitops: add missing prototype check
+  bitops: make BYTES_TO_BITS() treewide-available
+  bitops: let the compiler optimize {__,}assign_bit()
+  linkmode: convert linkmode_{test,set,clear,mod}_bit() to macros
+  s390/cio: rename bitmap_size() -> idset_bitmap_size()
+  fs/ntfs3: add prefix to bitmap_size() and use BITS_TO_U64()
+  btrfs: rename bitmap_set_bits() -> btrfs_bitmap_set_bits()
+  tools: move alignment-related macros to new <linux/align.h>
+  bitmap: introduce generic optimized bitmap_size()
+  bitmap: make bitmap_{get,set}_value8() use bitmap_{read,write}()
+  lib/bitmap: add compile-time test for __assign_bit() optimization
+
+ drivers/md/dm-clone-metadata.c |  5 ----
+ drivers/s390/cio/idset.c       | 12 +++++----
+ fs/btrfs/free-space-cache.c    |  8 +++---
+ fs/ntfs3/bitmap.c              |  4 +--
+ fs/ntfs3/fsntfs.c              |  2 +-
+ fs/ntfs3/index.c               | 11 ++++----
+ fs/ntfs3/ntfs_fs.h             |  4 +--
+ fs/ntfs3/super.c               |  2 +-
+ include/linux/bitmap.h         | 46 ++++++++--------------------------
+ include/linux/bitops.h         | 23 ++++++-----------
+ include/linux/cpumask.h        |  2 +-
+ include/linux/linkmode.h       | 27 +++-----------------
+ kernel/trace/trace_probe.c     |  2 --
+ lib/math/prime_numbers.c       |  2 --
+ lib/test_bitmap.c              | 18 +++++++------
+ tools/include/linux/align.h    | 11 ++++++++
+ tools/include/linux/bitmap.h   |  9 ++++---
+ tools/include/linux/bitops.h   |  2 ++
+ tools/include/linux/mm.h       |  5 +---
+ tools/perf/util/probe-finder.c |  4 +--
+ 20 files changed, 75 insertions(+), 124 deletions(-)
+ create mode 100644 tools/include/linux/align.h
+
 ---
- fs/ntfs3/super.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+From v2[2]:
+ * 00: drop ip_tunnel part: will be sent together with the PFCP part once
+   this gets accepted (Jakub, Yury);
+ * 02: fix format string literal build warning due to the new generic
+   macro having different implicit type (Stephen);
+ * 04: pick Acked-by (Jakub);
+ * 08: new;
+ * 09: pick Acked-by (Yury), fix including the header not existing under
+   the tools/ tree (via #8) (Stephen);.
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 9153dffde950..dcc8984a10a4 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -122,13 +122,12 @@ void ntfs_inode_printk(struct inode *inode, const char *fmt, ...)
- 
- 	if (name) {
- 		struct dentry *de = d_find_alias(inode);
--		const u32 name_len = ARRAY_SIZE(s_name_buf) - 1;
- 
- 		if (de) {
- 			spin_lock(&de->d_lock);
--			snprintf(name, name_len, " \"%s\"", de->d_name.name);
-+			snprintf(name, sizeof(s_name_buf), " \"%s\"",
-+				 de->d_name.name);
- 			spin_unlock(&de->d_lock);
--			name[name_len] = 0; /* To be sure. */
- 		} else {
- 			name[0] = 0;
- 		}
+From v1[3]:
+ * 03: convert assign_bit() to a macro as well, saves some bytes and
+   looks more consistent (Yury);
+ * 03: enclose each argument into own pair of braces (Yury);
+ * 06: use generic BITS_TO_U64() while at it (Yury);
+ * 07: pick Acked-by (David);
+ * 08: Acked-by, use bitmap_size() in the code from 05 as well (Yury);
+ * 09: instead of introducing a new pair of functions, use generic
+   bitmap_{read,write}() from [0]. bloat-o-meter shows no regressions
+   from the switch (Yury, also Andy).
+
+Old pfcp -> bitmap changelog:
+
+As for former commits (now 10 and 11), almost all of the changes were
+suggested by Andy, notably: stop violating bitmap API, use
+__assign_bit() where appropriate, and add more tests to make sure
+everything works as expected. Apart from that, add simple wrappers for
+bitmap_*() used in the IP tunnel code to avoid manually specifying
+``__IP_TUNNEL_FLAG_NUM`` each time.
+
+[2] https://lore.kernel.org/lkml/20231016165247.14212-1-aleksander.lobakin@intel.com
+[3] https://lore.kernel.org/lkml/20231009151026.66145-1-aleksander.lobakin@intel.com
 -- 
-2.34.1
+2.41.0
 
