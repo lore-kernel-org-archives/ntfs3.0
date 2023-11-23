@@ -1,157 +1,136 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pj1-f80.google.com (mail-pj1-f80.google.com [209.85.216.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20DB1388
-	for <ntfs3@lists.linux.dev>; Thu, 23 Nov 2023 01:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Stgsm0Iq"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-28039ee1587so309502a91.2
-        for <ntfs3@lists.linux.dev>; Wed, 22 Nov 2023 17:05:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700701543; x=1701306343; darn=lists.linux.dev;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=VoW55hPC6Xaj+bXoBqE+2ZC1QXRhQxU8y7azqOcOlv4=;
-        b=Stgsm0Iq3TKttCFbQJ8JgjOLbUnnP3UrtvWRFcCyEfbH3Ew9z1dRf+BOMAo5ziQquW
-         rhl2HE8kVOjV5VvkKl6zp+sAren5+q9fvgWCzpAnla12Fbna7scRyjdEwSiB1lIY15n4
-         q7IBi0ekS1spmriVhzKzpft4s7H840CJrcE2l4D/Nc/FE5FiUmdkwCnhmiJhwvsesF6i
-         x9Z8NqUh2YI6mB7xCVE2lXVLFdYgjyQblbeY9vOyupSiSQFzO2BmuV92/+XDVbx/9ZXq
-         O7rwd/9b0/PxOZGF5Z3+eenU8amvh2imkrWxiD6FdN/N4F/D7YaPgVkyx9zaw0nNswgG
-         vQXg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFB93FB35
+	for <ntfs3@lists.linux.dev>; Thu, 23 Nov 2023 17:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by mail-pj1-f80.google.com with SMTP id 98e67ed59e1d1-28513eccb01so2114316a91.1
+        for <ntfs3@lists.linux.dev>; Thu, 23 Nov 2023 09:06:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700701543; x=1701306343;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+        d=1e100.net; s=20230601; t=1700759186; x=1701363986;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=VoW55hPC6Xaj+bXoBqE+2ZC1QXRhQxU8y7azqOcOlv4=;
-        b=INs4k2EPFAYLJcQqHvkgy+/KPF4rv+A9p7QX2TaikVyVGD2ZYiZoJWtZGf6kUO8iTO
-         FV7cHMOPQMoAk74oII6Rs7DD07u7WQq7+NsRi8N9z1W9FVn7vBybLFzdy4BztW99Vi76
-         5MH2XuZhuRBh1Halu87G2ncPS+6oveqS+EYprpHXA0qW/GKLLT/7W3fBws0etCt/MOIC
-         jyEaY18vmMnswC+yugu3N0b8o4R2/HBcVKn3d8N4eg94jrZCXGB30I8sREpjTHD92bNl
-         H/N+eot97ctCmbihjBO/wmHRUvshG7nPnnDPoMLBSfobAYbch6UH52KGQxB2UmVCLVgC
-         ZUPg==
-X-Gm-Message-State: AOJu0YxXT5XPOuKdlFwAQptk0XYZKZOowJQwJ9SeKezQyzlXkfNMLJ2h
-	7CJmIIWOBbf3YFIM7pwMna1nhEMCk7tM9sn/Ca7TMt+cdtI=
-X-Google-Smtp-Source: AGHT+IEpv/JCL4LpneYjN8bB6/vvy+2rePoh9BmwZRyZrFnTv3tms0veVJKfAYbbMz8I3Uuhihcyw0Q2HOHAsgLRiRw=
-X-Received: by 2002:a17:90b:2245:b0:285:3482:5cb8 with SMTP id
- hk5-20020a17090b224500b0028534825cb8mr3785592pjb.4.1700701542021; Wed, 22 Nov
- 2023 17:05:42 -0800 (PST)
+        bh=yf11zIw9U1hiIYNefzB8bU+cyfTgmWMokVCBDmAj/ig=;
+        b=AmA5OAaxvSa0Uxeg3xaA2wHFJMgTdXqjFm8yMrifbYOxATWtuhMkigxVMfLoMEt7Xe
+         j41qMvwzSJiqxmXrBPCcEyHNg36p1mmb12Wzo+C6k+PFkgJcrvipbptc9U1e1sRaGpGA
+         odQs3QVZWQwFMl/mGLlbNk6L+U6+jBI1zZAs75cQPiNqHpT+3I4eURr+nIp1kqkvgIsC
+         99xohHgIlhdykKwJ941ZW7YN7IyOWlBM19Vvrg7TAN4ENH9VaelyfP5VzFkyeYnP7pSj
+         lu9kaTk87SbQTQwNS4/Yn/zFia41MkCMxueOnkYKUOT9DngbyqiM2Qj9N41uNV9sjfAM
+         apIw==
+X-Gm-Message-State: AOJu0YxkzCv4HRB80FhMZfXJBaive8oFpBorz1k5ZHQ5nZYyMN55zpW2
+	jrh3ZnhUANDvx1xypMUIQ/upxCsa1/ftQDAQAhB5p0KdyoZC
+X-Google-Smtp-Source: AGHT+IFaW8lUP9iGdpM+V8LEdM2TkTQRYLAg8rSW6D5JBfiJHnbvXaMthVVsXAcs2MxWDZvsTXddYbcGvOx6c4/HRWVcUCElTkx0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Gabriel Marcano <gem5597@gmail.com>
-Date: Wed, 22 Nov 2023 17:05:31 -0800
-Message-ID: <CANVH8qL=r2H_26EjLvrbBj=TBqG_M6yXBerrpWY=dPcjLSKnNA@mail.gmail.com>
-Subject: [BUG] ntfs3: Multiple ntfs_readdir calls with unlinks in between fail
- to list all elements in directory
-To: ntfs3@lists.linux.dev
+X-Received: by 2002:a17:90b:3547:b0:27d:3322:68aa with SMTP id
+ lt7-20020a17090b354700b0027d332268aamr789618pjb.2.1700759183501; Thu, 23 Nov
+ 2023 09:06:23 -0800 (PST)
+Date: Thu, 23 Nov 2023 09:06:23 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000fb2f84060ad4da7f@google.com>
+Subject: [syzbot] [ntfs3?] WARNING in indx_insert_into_buffer
+From: syzbot <syzbot+c5b339d16ffa61fd512d@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-I think I've stumbled upon the bug described here:
-   https://bugzilla.kernel.org/show_bug.cgi?id=217035
+Hello,
 
-I've also added my own findings to it. I'll include them here as well.
+syzbot found the following issue on:
 
-When using `opendir` and `readdir` from userland, when a folder has more than
-1024 entries it looks like glibc only asks for 1024 entries from the kernel at
-a time via `getdents64` on my machine. It then makes a second call upon the
-second `readdir` userland call to fetch the remaining files. This works fine if
-nothing happens to the directory between calls. However, if all files returned
-by the first `readdir` call are deleted/unlinked before the second `readdir`
-call is made, the second `readdir` call returns nothing, which is wrong as
-there are still files in the directory!
+HEAD commit:    037266a5f723 Merge tag 'scsi-fixes' of git://git.kernel.or..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16fa37b7680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=af04b7c4d36966d8
+dashboard link: https://syzkaller.appspot.com/bug?extid=c5b339d16ffa61fd512d
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16b86f2f680000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=116b289f680000
 
-Specifically, if I make a directory with 1024 files, the first readdir call
-returns 1024 entries including '.' and '..'. If I delete the 1022 actual files,
-then call `readdir` again to fetch the last two files to delete them, the
-kernel returns nothing.
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7bc7510fe41f/non_bootable_disk-037266a5.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/3611d88a1ea6/vmlinux-037266a5.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/92866a30a4f7/bzImage-037266a5.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/083e689d86f3/mount_0.gz
 
-I was able to build a VM and debug the kernel. On the second call to
-`ntfs_readdir`, in the `ntfs_read_hdr` helper function, I noticed that we never
-got past this check in fs/ntfs3/dir.c:346 :
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c5b339d16ffa61fd512d@syzkaller.appspotmail.com
 
-       /* Skip already enumerated. */
-       if (vbo + off < pos)
-               continue;
+R13: 0000000000000021 R14: 431bde82d7b634db R15: 00007ffc52cb10d0
+ </TASK>
+------------[ cut here ]------------
+memcpy: detected field-spanning write (size 3960) of single field "hdr1" at fs/ntfs3/index.c:1912 (size 16)
+WARNING: CPU: 2 PID: 5214 at fs/ntfs3/index.c:1912 indx_insert_into_buffer.isra.0+0xfb5/0x1280 fs/ntfs3/index.c:1912
+Modules linked in:
+CPU: 2 PID: 5214 Comm: syz-executor117 Not tainted 6.7.0-rc1-syzkaller-00344-g037266a5f723 #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:indx_insert_into_buffer.isra.0+0xfb5/0x1280 fs/ntfs3/index.c:1912
+Code: c1 ca c1 fe c6 05 a3 cb 3d 0c 01 90 48 8b 74 24 70 b9 10 00 00 00 48 c7 c2 80 cf 03 8b 48 c7 c7 e0 cf 03 8b e8 8c e9 87 fe 90 <0f> 0b 90 90 e9 1b fe ff ff 48 c7 44 24 68 00 00 00 00 31 db e9 10
+RSP: 0018:ffffc900035c76e8 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: 00000000fffffff4 RCX: ffffffff814ca799
+RDX: ffff8880287393c0 RSI: ffffffff814ca7a6 RDI: 0000000000000001
+RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000005 R12: ffff888021065c00
+R13: ffff8880143ecc20 R14: ffff888029712800 R15: ffff888018fae018
+FS:  0000555556341380(0000) GS:ffff88806b800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fd80dde5e00 CR3: 0000000026243000 CR4: 0000000000350ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ indx_insert_entry+0x1a5/0x460 fs/ntfs3/index.c:1981
+ ni_add_name+0x4d9/0x820 fs/ntfs3/frecord.c:3055
+ ni_rename+0xa1/0x1a0 fs/ntfs3/frecord.c:3087
+ ntfs_rename+0x91f/0xec0 fs/ntfs3/namei.c:322
+ vfs_rename+0x13e0/0x1c30 fs/namei.c:4844
+ do_renameat2+0xc3c/0xdc0 fs/namei.c:4996
+ __do_sys_rename fs/namei.c:5042 [inline]
+ __se_sys_rename fs/namei.c:5040 [inline]
+ __x64_sys_rename+0x81/0xa0 fs/namei.c:5040
+ do_syscall_x64 arch/x86/entry/common.c:51 [inline]
+ do_syscall_64+0x40/0x110 arch/x86/entry/common.c:82
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+RIP: 0033:0x7fd8160252a9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 21 18 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc52cb1068 EFLAGS: 00000246 ORIG_RAX: 0000000000000052
+RAX: ffffffffffffffda RBX: 00007ffc52cb1090 RCX: 00007fd8160252a9
+RDX: 00007fd816024370 RSI: 0000000020000a40 RDI: 0000000020000300
+RBP: 0000000000000002 R08: 00007ffc52cb0e06 R09: 00007ffc52cb10b0
+R10: 0000000000000002 R11: 0000000000000246 R12: 00007ffc52cb108c
+R13: 0000000000000021 R14: 431bde82d7b634db R15: 00007ffc52cb10d0
+ </TASK>
 
 
-On the final iteration of the containing loop, the loop is broken by
-fs/ntfs3/dir.c:343 :
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-       if (de_is_last(e))
-               return 0;
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-Which is checking if the entry is the last one in the header (I think?).
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-My interpretation of what's going on is as follows:
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-1. first ntfs_readdir call returns 1024 elements (including . and ..), with
-   ctx->pos == 199328
-2. we delete all 1022 actual files from userland (and not . and ..)
-3. when ntfs_readdir is called again, ctx->pos is still 199328 as expected,
-   but due to all of the deletions, it looks like the position of the last 2
-   files in the header have moved somehow? I haven't been able to figure out
-   how unlinking changes the inodes. This causes the ntfs_read_hdr code to
-   skip all entries as the check hits the end flag before getting to the
-   "current" position.
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-If this is actually the problem, I'm not sure how to go about fixing it yet as
-I'm not at all versed in NTFS. EXT4 does a check to see if the underlying
-directory structure has changed between readdir calls, but they check the inode
-version to confirm if there's been a change. I don't yet know if there's a
-similar thing we can do in NTFS. The way btrfs seems to do it is that the
-entries are strictly assigned increasing offsets values (doesn't seem to be a
-physical position). The issue with NTFS seems to be that they're tied to a
-physical location in some NTFS structure. ntfs-3g dances around the issue by
-letting FUSE deal with the ctx->pos aspect at the kernel level. I'm not sure how
-vfat gets around the issue, but they don't have this bug.
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-The steps to reproduce the problem are pretty easy-- this comment in the kernel
-bugzilla makes it trivial:
-https://bugzilla.kernel.org/show_bug.cgi?id=217035#c4
-
-And I'm also including the source code for my crappy C++ program that gets the
-directory info from the kernel (through glibc), and reports "count: 1022" on
-ntfs3, while if I reproduce the test setup from the comment above on my btrfs
-root, or in a vfat filesystem, I get "count: 1024" and all files are deleted
-properly.
-
-Gabriel Marcano
-
---
-
-#include <stdio.h>
-#include <sys/types.h>
-#include <dirent.h>
-
-#include <vector>
-#include <iostream>
-#include <filesystem>
-
-int main()
-{
-   DIR *dp;
-   struct dirent *ep;
-   dp = opendir("/mnt/foo/bar/");
-   std::vector<std::string> names;
-   while ((ep = readdir(dp)) != NULL)
-   {
-       if (ep->d_name[0] != '.')
-       {
-           names.emplace_back(ep->d_name);
-           //if (names.size() < 10000)
-           {
-               std::filesystem::remove(
-                   std::filesystem::path("/mnt/foo/bar") / ep->d_name);
-           }
-       }
-   }
-   std::cout << "count: " << names.size() << std::endl;
-   return 0;
-}
-
---
+If you want to undo deduplication, reply with:
+#syz undup
