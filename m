@@ -1,16 +1,28 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7411D1879;
-	Mon, 27 Nov 2023 06:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1r7UxG-0005MA-0Z; Mon, 27 Nov 2023 07:18:50 +0100
-Message-ID: <138ed123-0f84-4d7a-8a17-67fe2418cf29@leemhuis.info>
-Date: Mon, 27 Nov 2023 07:18:46 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93935FEE6
+	for <ntfs3@lists.linux.dev>; Thu, 30 Nov 2023 19:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b="psRzwNMR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
+	s=s31663417; t=1701373634; x=1701978434; i=aros@gmx.com;
+	bh=jZRqN8GT3GhjDkUhT7m70pEY6m9TBtRYyrltpRfQ2A8=;
+	h=X-UI-Sender-Class:Date:From:Subject:To:Cc;
+	b=psRzwNMRpNCoHyOH3YV/tP4yJppNdymPUA6qOJA76Lhsz0PnR1Q57I6KwinVZ8FJ
+	 V/EOYy34JAGKxca1DnKWXk2zfCxotFNQxH4HkQ3VClPDmAL/M1MkiAJh8yel6tizQ
+	 40wqsnTViRIQHEu1dSxMys0SlTckM8veIwC2klZb1zy3JbPPSfmQjmxmmSnVv849R
+	 6jjm+MStE196KYc7J3/3hXKG+MV3b053wAJIAQ434+hjERD0izsoBvqxA2uvqJCtD
+	 xll5T9WNBRnvUJ+wXO2kGt0ypwgoEAVjxdGm0qBkX06ukEyEbE3GIRgdMneKJuFrE
+	 2VzLhA0GdKieBYPDoA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.206.132] ([46.221.53.76]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MirjY-1rnMUH3oG4-00exTM; Thu, 30
+ Nov 2023 20:47:14 +0100
+Message-ID: <e047e44f-3d42-4410-a7bc-9bea450c4122@gmx.com>
+Date: Thu, 30 Nov 2023 19:47:12 +0000
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -18,81 +30,41 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US, de-DE
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
- Linux kernel regressions list <regressions@lists.linux.dev>,
- Linux kernel regressions list <regressions@lists.linux.dev>
-Subject: [regressions] ntfs3: empty file on update without forced cache drop
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1701065932;e3db66cb;
-X-HE-SMSGID: 1r7UxG-0005MA-0Z
+From: "Artem S. Tashkinov" <aros@gmx.com>
+Subject: 64MB written when mounting in RW mode
+To: ntfs3@lists.linux.dev
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:3eODrxM0hbJNqyBGHDm+C5q7o5pPekiug/jgd1o7zGNFwW8JYsJ
+ nJMIv06ytBUVetHvHVQ36ZGsjMTtIw8iob4mXxbshfkGcTsAUUhtORHrKXwiMW3fXxI/8uY
+ +rRI2yXV4njQfYHq/IYg/FkRCEf/cKxFMDwm6yc3y7L9kIseAn7MhWo5/+elRbmtOsxe6QE
+ D5mAUMtTdFfwgYZIMJmoA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:HReoU5IkEhY=;Y924OZpE3fL1Uxfu0h9q4XqapKx
+ VFdBulKd0X8Rc9cUl/TWDajX50yXJ8BodO+vtayEcoqcBRuViDiJJ28Z+/KNeqGzmk/BC+1RE
+ 0OLx9LYjURkLKZ/Cw8LocOUZMJErEU6MgpNufvTt4S99hnx+nDiAF33ZWZQFR9ovQqOb2eH0N
+ 9t2FcQxcNO/UZkPWICrbFwhq5PtCauuH0kRe11ECkY7dHJmeQkyDeoeYZU55RlFkR3kDukxVx
+ mfY9bxUZpkW4PnMWujmhPIPscRdr+z3NHZtnCpkwhDgccv03EQYzp89YglBQu0NfzvSgtA1Js
+ 8yLh/D7u3CuBCNBAVaEeOkudqoMdBlqwY9+pohrPVypELjkUqnFjN3bko9cCb2AE0ntd2i9OL
+ 6q/WbU08UaBcbt0d6LN9GrjEBRL4nLxxYVk2fTvwYHuHuIDlkvuWkZo9VFlitvgRbP2q1rYWS
+ L9M9KK2yxYmyMIedewAcC25FPS1dn++Tyqfx8B6o4GCn0xK0ovfYN0E3oj5OYXM3J1qe+N+jh
+ 6Dk9Y6tHrdbfocuRZlLH4nuSTBpalsAmKcPoUfKPqA7AzhRqyj3jOQb/xEm7DAmR2TVsgbRVB
+ U93XJMgZ86bDwMAN3ScYqydAcdzN+NMISdAOrLDcUO0m5Jacgxq9RJfikFjOVlw4EJBiXO1Eo
+ ldxMlE03PfYeKrif322JtBgD1GR4Kv24e1D6Vm+6C9k3+POuLssP4aj1Rc1TRes5buPs6PANx
+ ZoinX4ahbnuivbiszCxOx3yNCX92A0gcA3D1l2UMAPph4eeUawnv+JODsqZ9rDIOB5UMvfsp9
+ r7j7bl0ZdlCW/R4T8FpRhuJ/gG2g+a9kb/ABIakvpxz5JibtiL6GE5T64bDeP/PmpOkGWoXsH
+ oajt6GUU9phtZK0ahXaU0pBha97A5oslJN4ZLDmDSkZfztZFA7DnApb/uj8OP0OrkvNJJD/VS
+ 9CCT9g==
 
-Hi, Thorsten here, the Linux kernel's regression tracker.
+Hello,
 
-Konstantin, I noticed a regression report in bugzilla.kernel.org.
-Apparently it's cause by a change of yours.
+I'm curious why ntfs3 writes 67,117,056 (64MB + 8KB) bytes to a
+partition when you just mount it in RW mode without doing anything else.
+This looks quite excessive.
 
-As many (most?) kernel developers don't keep an eye on bugzilla, I
-decided to forward it by mail. Note, you have to use bugzilla to reach
-the reporter, as I sadly[1] can not CCed them in mails like this.
+This is happening in Linux 6.6.2 as well.
 
-Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=218180 :
-
-> The problem I am facing is the following:
-> 1. I mount an NTFS partition via NTFS3
-> 2. I create a file
-> 3. I write to the file
-> 4. The file is empty
-> 5. I remount the partition
-> 6. The file has the changes I made before the remount
-> 
-> I can avoid the remount by doing:
-> sudo sysctl vm.drop_caches=3
-
-See the ticket for more details. It according to the report happens
-still happens with 6.7-rc2, but not with 6.1.y. The reporter bisected
-the problem to ad26a9c84510af ("fs/ntfs3: Fixing wrong logic in
-attr_set_size and ntfs_fallocate") [v6.2-rc1].
-
-Side note: while briefly checking lore for existing problems caused by
-that change I noticed two syzbot reports about it that apparently nobody
-looked into:
-
-https://lore.kernel.org/all/000000000000bdf37505f1a7fc09@google.com/
-https://lore.kernel.org/all/00000000000062174006016bc386@google.com/
-
-[TLDR for the rest of this mail: I'm adding this report to the list of
-tracked Linux kernel regressions; the text you find below is based on a
-few templates paragraphs you might have encountered already in similar
-form.]
-
-BTW, let me use this mail to also add the report to the list of tracked
-regressions to ensure it's doesn't fall through the cracks:
-
-#regzbot introduced: ad26a9c84510af
-https://bugzilla.kernel.org/show_bug.cgi?id=218180
-#regzbot title: ntfs3: empty file on update without forced cache drop
-#regzbot ignore-activity
-
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
-
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (e.g. the buzgzilla ticket and maybe this mail as well, if
-this thread sees some discussion). See page linked in footer for details.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
-
-[1] because bugzilla.kernel.org tells users upon registration their
-"email address will never be displayed to logged out users"
+Best regards,
+Artem
