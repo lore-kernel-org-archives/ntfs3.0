@@ -1,28 +1,39 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059751A729
-	for <ntfs3@lists.linux.dev>; Wed,  6 Dec 2023 09:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAA23FB0A
+	for <ntfs3@lists.linux.dev>; Wed,  6 Dec 2023 15:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b="RR/A4GcD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
-	s=s31663417; t=1701854396; x=1702459196; i=aros@gmx.com;
-	bh=jZRqN8GT3GhjDkUhT7m70pEY6m9TBtRYyrltpRfQ2A8=;
-	h=X-UI-Sender-Class:Date:From:Subject:To:Cc;
-	b=RR/A4GcDLXSMMBLpj94A4gA39846j81Vp03GCuBAGhoXRrPNiArKNvHT1WblnCYI
-	 ACXt5TTZmPJeUkogMVSEyEVGxV9AXFQLLP9HyjFH/djGdoSwJCuAbv1tE2keft3Ck
-	 DtyiFjxi/QLoJ+FYq+UiViHH9QKW1c3t0e7aI+A4YqVcL/rz3zbVlQE3ZF64IsLBI
-	 8rWh8OcLDc8aHeFlIVUx4m0bVtwqEOFJEXv8HxFOUfArLm2jP4g3gEoNRyqGaQTHh
-	 YrYhkiT5Dliku958eicWwWrTRnJpfRubk7bNHNzbaDUOzEch7vUGSEwALPMMM7B4Q
-	 Q9zTM/LgXEuXxuDIoQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.114.132] ([156.200.109.154]) by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MlNtF-1res1B16VR-00lm5G; Wed, 06
- Dec 2023 10:19:56 +0100
-Message-ID: <8a3fa9a5-c055-48a3-a6e9-c3a2f420d80c@gmx.com>
-Date: Wed, 6 Dec 2023 09:19:55 +0000
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="FtCj3ZeR";
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="eyslm8PS"
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id DCC301D47;
+	Wed,  6 Dec 2023 15:02:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1701874953;
+	bh=h7CldxQv2S5Mzb+cgzMS8C/4d3oWIhrtzyaVf9z57fs=;
+	h=Date:Subject:From:To:CC:References:In-Reply-To;
+	b=FtCj3ZeRaBPZiv12dqOADExR+OT9YeqY3/k6OC2QQKJ9fE5ai7DN/5guAiwZgrx0Y
+	 jzP8+1cDoiXU1I2OILGI8oMrFGQ8Mzot78sQq7PJSr+NK9SifuC9zxxEqJPwFMUUQW
+	 5WoniFgJM0xApmStxoud0SP6WIR1lmABVdHpzCw8=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 243202117;
+	Wed,  6 Dec 2023 15:08:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1701875337;
+	bh=h7CldxQv2S5Mzb+cgzMS8C/4d3oWIhrtzyaVf9z57fs=;
+	h=Date:Subject:From:To:CC:References:In-Reply-To;
+	b=eyslm8PSDjgl/rJxNS7F5ffPQA97GTxlXUWYf2oWGY5RTCsYMvvFyqCsElJpRYSwz
+	 6npCQYykuV9udtf+8QOPyVk307zBuOQjVyLCP2+qixg9ZdLjMW9bmjegmNrIfmBVN8
+	 0V/6teX8F6muUqbGlKbZHgFBNOh1lspt8A1CwIIE=
+Received: from [172.16.192.129] (192.168.211.144) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 6 Dec 2023 18:08:56 +0300
+Message-ID: <53c3c86f-c816-4747-9262-592c3ddc6660@paragon-software.com>
+Date: Wed, 6 Dec 2023 18:08:56 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -30,41 +41,94 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: "Artem S. Tashkinov" <aros@gmx.com>
-Subject: 64MB written when mounting in RW mode
-To: ntfs3@lists.linux.dev
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH 01/16] fs/ntfs3: Improve alternative boot processing
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:nX/deI2u0T48cmjwlqJ0xdMr79pUsVNq1TQDV5CbjLrOiLwv1Ju
- 0I33iu8AQjfS17wHWWEFvXnimaXqI4Fhq+jgC156ANcAcmDW6Hc2p5aorduwpucES4J1bT2
- lWV1Hg6cMfji0y94M2IAbChXMqKP06gJ/9yGbFZQOCteALnSBJUqwSaEZ5mN/CO+vcbEzCQ
- 0ie5y0r1Mo4kLXJXdJpeg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:iBn/sU90aBI=;Xh0k8KWUODJR+Tjnz+xtIt0SUJ/
- qNGv+uv2ZP+JY0qfhtYvi1WkGKTb/H4i4PXneopA8S2E8E+tpNJECcPLx5JYQpGg+KcTxI7ck
- 8Za8RCG1wb9XUoBkETtArQqceVShB/XJFAXwBUhwa5KmiBbQdvDxwNc32P1NguSI/NjofhFj6
- Gi3br2klOx5td2XNPBA/dyMCJvbrGq/xx68UdWcv8JmADUGQvNCJqfCnpuldYGmCaG4p6Y5ap
- 477M8gHrYhTKRfInTd0/5FAbJlI8Qlrn2szaVb18/scd1eTIDpheZqk6kxJNddFBRm+Qx8ltp
- 6b+e0qeeTaMv+enqi3gEYCLH7Z5PbK5IfzK3NH5xyJmAXdw5NboNUxsj2Bz7fCYmqXeuNMYZT
- Fe5urJWbE/3Mw4hmsDCxy155+D8ncE9raWo2VI9Jk9dyi1CrDK2ve/VWGevQd0noX2x10G8Sy
- wwuh8TssFqdODp/fS8EMGNIVVk8dIhPppbl0737KuFnwS5ZEYDaQ2yGOT9QumLCEaq37IzqsZ
- MT6LjbQY3qcm0FBtlT1BsI3w2+FOkoVtnYeeVhXwg3Py/SCMl7NmSAsYgMEFeqUBE/AZffCw6
- kkMDJq17xLlI+PsQxM2ehn90gN+HpZGG7Sye5r1FoxHG9RdYzfP+f+wcReaDl5334SLo7N5Tq
- mgubkcyWbmERqAbJ9v1fP83gwhTwHvleAsyambsU0h/+oMq6Bv5YxmzxoRff3v8bldPRenDPd
- pufJixihVMuddEhAvvLxIeJMNPPCOQUVsow0Rlo2xziVqMEOvxL1l1XXoImYX5YJfPK6w5vll
- NIuFmGAoMQa/4qh1Uc6cDeMWbqdkTxoDol0v2QxxUgMk9BVqYoIRkve1pgTm7Q2lAdYpPKU1U
- I45Ei8r1l29n0wDyxnVvU5azTqwF+VQVagvJ9QwaFDUmvUA5UJSgl7IxJRt0ARnjH0CufTyv9
- E0bn3WmPu2rVRA2978raoqrzsyg=
+From: Konstantin Komarovc <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+References: <00fd1558-fda5-421b-be43-7de69e32cb4e@paragon-software.com>
+In-Reply-To: <00fd1558-fda5-421b-be43-7de69e32cb4e@paragon-software.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hello,
 
-I'm curious why ntfs3 writes 67,117,056 (64MB + 8KB) bytes to a
-partition when you just mount it in RW mode without doing anything else.
-This looks quite excessive.
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+---
+  fs/ntfs3/super.c | 35 +++++++++++++++++------------------
+  1 file changed, 17 insertions(+), 18 deletions(-)
 
-This is happening in Linux 6.6.2 as well.
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 9153dffde950..09d61c6c90aa 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -866,6 +866,7 @@ static int ntfs_init_from_boot(struct super_block 
+*sb, u32 sector_size,
+      u16 fn, ao;
+      u8 cluster_bits;
+      u32 boot_off = 0;
++    sector_t boot_block = 0;
+      const char *hint = "Primary boot";
 
-Best regards,
-Artem
+      /* Save original dev_size. Used with alternative boot. */
+@@ -873,11 +874,11 @@ static int ntfs_init_from_boot(struct super_block 
+*sb, u32 sector_size,
+
+      sbi->volume.blocks = dev_size >> PAGE_SHIFT;
+
+-    bh = ntfs_bread(sb, 0);
++read_boot:
++    bh = ntfs_bread(sb, boot_block);
+      if (!bh)
+-        return -EIO;
++        return boot_block ? -EINVAL : -EIO;
+
+-check_boot:
+      err = -EINVAL;
+
+      /* Corrupted image; do not read OOB */
+@@ -1108,26 +1109,24 @@ static int ntfs_init_from_boot(struct 
+super_block *sb, u32 sector_size,
+      }
+
+  out:
+-    if (err == -EINVAL && !bh->b_blocknr && dev_size0 > PAGE_SHIFT) {
++    brelse(bh);
++
++    if (err == -EINVAL && !boot_block && dev_size0 > PAGE_SHIFT) {
+          u32 block_size = min_t(u32, sector_size, PAGE_SIZE);
+          u64 lbo = dev_size0 - sizeof(*boot);
+
+-        /*
+-          * Try alternative boot (last sector)
+-         */
+-        brelse(bh);
+-
+-        sb_set_blocksize(sb, block_size);
+-        bh = ntfs_bread(sb, lbo >> blksize_bits(block_size));
+-        if (!bh)
+-            return -EINVAL;
+-
++        boot_block = lbo >> blksize_bits(block_size);
+          boot_off = lbo & (block_size - 1);
+-        hint = "Alternative boot";
+-        dev_size = dev_size0; /* restore original size. */
+-        goto check_boot;
++        if (boot_block && block_size >= boot_off + sizeof(*boot)) {
++            /*
++             * Try alternative boot (last sector)
++             */
++            sb_set_blocksize(sb, block_size);
++            hint = "Alternative boot";
++            dev_size = dev_size0; /* restore original size. */
++            goto read_boot;
++        }
+      }
+-    brelse(bh);
+
+      return err;
+  }
+-- 
+2.34.1
+
