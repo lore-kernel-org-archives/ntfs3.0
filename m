@@ -1,15 +1,28 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1200224DC;
-	Tue,  5 Dec 2023 12:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rAUs0-0006bO-Oa; Tue, 05 Dec 2023 13:49:48 +0100
-Message-ID: <24aa7a8b-40ed-449b-a722-df4abf65f114@leemhuis.info>
-Date: Tue, 5 Dec 2023 13:49:48 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1201A720
+	for <ntfs3@lists.linux.dev>; Wed,  6 Dec 2023 09:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b="kV0ztMGr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
+	s=s31663417; t=1701854386; x=1702459186; i=aros@gmx.com;
+	bh=CQ2Zi+SdqnzsK3l2b66evdZH+fbPbC6x+2cjdppNYCg=;
+	h=X-UI-Sender-Class:Date:From:Subject:To:Cc;
+	b=kV0ztMGrb7aNT4omOgR4YRKWnl3+T8buSk+UxsKIV0ukEBB26h8RZoCB/gjNPKYT
+	 PihJad1x6HGBGdVI401fCplPGGSyL1pwCiy5jl0pJJnQLGE/gzQw5BPBHa1xPaXaT
+	 6dMfZwSA6EAVnkg/gdJvsYGRC51Kd7MmNSnNkSnHtgzLgLB3dyw5KnsPAmjekFMbN
+	 mNjccbnfTbIL0e9lAVUANysqp1rxkrqZikTD2pA0IMoIKDxCut5lrthfCV1+LUBmA
+	 +7Bl1IEf213B/3wUiC+CF06/dcisAcaEujjfxY2E3B54nhUvPk8Xygj4kUYaymgGj
+	 yCykjyAb0yUooApHLg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.114.132] ([156.200.109.154]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1ML9uU-1qtpRr3qZG-00IEiH; Wed, 06
+ Dec 2023 10:19:46 +0100
+Message-ID: <9b01a076-a0f9-4954-a28f-644a74730abd@gmx.com>
+Date: Wed, 6 Dec 2023 09:19:45 +0000
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -17,108 +30,55 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [regressions] ntfs3: empty file on update without forced cache
- drop
-Content-Language: en-US, de-DE
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
- Linux kernel regressions list <regressions@lists.linux.dev>,
- Kari Argillander <kari.argillander@stargateuniverse.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>
-References: <138ed123-0f84-4d7a-8a17-67fe2418cf29@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <138ed123-0f84-4d7a-8a17-67fe2418cf29@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
+From: "Artem S. Tashkinov" <aros@gmx.com>
+Subject: du -hs doesn't work on directories with compressed files
+To: ntfs3@lists.linux.dev
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1701780591;17cf3df8;
-X-HE-SMSGID: 1rAUs0-0006bO-Oa
+X-Provags-ID: V03:K1:HlcUOtLgPXhxoatKtL5oy3yuY2LOYOe7Ftv5LOsCLAUaHD6Aw3y
+ hNM/3ed3i9Oj0Vv/gY7x7XXmD6g5WjeeVJm07B1ux1sl1NI6jcxLENnjP/uWMV/FJzNzyZ1
+ cLcZ5vvLtAgKEhng5M62ZWQsaN/OHUAAATW9MXjDBnMGh9iRgoFtLGL06t1bY7V2Gl5JRe9
+ fhJQx62uXZ6hpv74pl8og==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:TP5F5hbSlTY=;m7PBCcdHsfWLrSnloV5+Onlzoxs
+ y8h+iyGBEktUtB5WsquirysrtcS/HIriuobyIDTybjpIOTNtAMaVvBz1Kq+MiO9LNj3lAVjcS
+ 5A3ajdYj0SLn8szWXoG0GyknEYpFuioffkrZ/zdbKTj7dAYpi63EBVo0ZarUuF7urj34tQHbi
+ cUpS0Q0NNXEIxASXS6E5lrff1L5Qvdwh4g14a2ZUFTSay9HdTV8+pQ1WvVWFM26clUSLiNwRX
+ Xea8ia1A++GwZRVDTYYHyeuFYKgpOoj+Kw9xGDCSTahEipRydZ6qiBFgr3BMIo1AG6Jsfawrg
+ 5YwHuqTsEeDAsyFYGp2cEgABtUTy5s26wIw3aXsFCA2ZJNeATqsRp4mYWvzt4dptWGTHinmCM
+ jITosF7dJhBnaxScddLStwSS9MmgrHYCPE99G/q21QGCqLj+qw3GYLIpDAKae+quNwVLX/NAy
+ o7YLfudPA+r2dRJqnj6Zf0zR1T+zaDuGfGiT66ee3JkvF9uxul0rPhU2sUDIcluLlbX93monI
+ ik+uzOXKT8afS2ReGTpVjDaqD4pkx145jzX1TWTS+bvMHvcVfDLvvvZ4HwwlbUoWqmjDaTn+b
+ OqMBbA8p3F6aRDXO5L/mkpDUtp0fNo0SZw+vO6xbaC171CSpWmCRtacTzhhu1iWPNp+MzBVOm
+ KjtdURRZ8b9OjQthNsPeb9uCvDQ5Q8CWfG9VitG5jGKP+CNypDZIUKRv+pHvtY+WUu7hAfXTq
+ sLekDOUyiG5dGQxs47E79EyHPrPgO0U87GY/854mA/1muEaRxlDIE5Ff31PRuYNESvvySLnoW
+ tEDKtL+6b2p5HsMbxAC7ykVmltUYRBRGkzScPQ7FH8sADgtL9A29bjd6qvsDXhv/mJTt8SLnM
+ 6IiEx45dluO8h+y7ch5A7/zCEVEMwEHf2I4EZGgxHatgnpqU8cUv+mpbQmbKF0Bdv27CKolKR
+ 6w7HYfkEUBe9wWDkBbWmavX8z2M=
 
-[adding a bunch of people and two lists to the recipients, as Konstantin
-apparently hasn't sent any mail to any lists archived on lore for ~six
-weeks; maybe someone knows what's up or is willing to help out]
+Hello,
 
-On 27.11.23 07:18, Thorsten Leemhuis wrote:
-> Hi, Thorsten here, the Linux kernel's regression tracker.
-> 
-> Konstantin, I noticed a regression report in bugzilla.kernel.org.
-> Apparently it's cause by a change of yours.
-> 
-> As many (most?) kernel developers don't keep an eye on bugzilla, I
-> decided to forward it by mail. Note, you have to use bugzilla to reach
-> the reporter, as I sadly[1] can not CCed them in mails like this.
-> 
-> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=218180 :
+[birdie@hp baseq2]$ ls -la
+total 8
+dr-xr-xr-x. 1 root   root      4096 Nov 30 15:29 .
+dr-xr-xr-x. 1 root   root      4096 Nov 30 16:51 ..
+-rw-r--r--. 1 root   root   3282742 Mar  4  2003 maxpak.pak
+-rw-r--r--. 1 root   root 183997730 Nov 30  1997 pak0.pak
+-rw-r--r--. 1 root   root  12992754 Feb 12  1998 pak1.pak
+-rw-r--r--. 1 root   root     45055 Oct  9  1998 pak2.pak
+-rw-r--r--. 1 root   root     82848 Jun 17  1998 pak4.pak
+-rw-r--r--. 1 root   root     50821 Oct 19  1999 pak5.pak
+-rw-r--r--. 1 root   root  10321920 Jul 16  1998 pak6.pak
+-rw-r--r--. 1 root   root   5996495 Dec 31  2000 pak7.pak
+-rw-r--r--. 1 root   root   1456785 Jun  7  1998 pak8.pak
+-rw-r--r--. 1 root   root   3259748 Jun  5  2001 pak9.pak
 
-Konstantin, are you still around? Would be great if you could look into
-this regression, as this sounds somewhat worrying.
+[birdie@hp baseq2]$ du -hs .
+4.0K	.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+Files are compressed using EXE:LZX.
 
-#regzbot poke
-
->> The problem I am facing is the following:
->> 1. I mount an NTFS partition via NTFS3
->> 2. I create a file
->> 3. I write to the file
->> 4. The file is empty
->> 5. I remount the partition
->> 6. The file has the changes I made before the remount
->>
->> I can avoid the remount by doing:
->> sudo sysctl vm.drop_caches=3
-> 
-> See the ticket for more details. It according to the report happens
-> still happens with 6.7-rc2, but not with 6.1.y. The reporter bisected
-> the problem to ad26a9c84510af ("fs/ntfs3: Fixing wrong logic in
-> attr_set_size and ntfs_fallocate") [v6.2-rc1].
-> 
-> Side note: while briefly checking lore for existing problems caused by
-> that change I noticed two syzbot reports about it that apparently nobody
-> looked into:
-> 
-> https://lore.kernel.org/all/000000000000bdf37505f1a7fc09@google.com/
-> https://lore.kernel.org/all/00000000000062174006016bc386@google.com/
-> 
-> [TLDR for the rest of this mail: I'm adding this report to the list of
-> tracked Linux kernel regressions; the text you find below is based on a
-> few templates paragraphs you might have encountered already in similar
-> form.]
-> 
-> BTW, let me use this mail to also add the report to the list of tracked
-> regressions to ensure it's doesn't fall through the cracks:
-> 
-> #regzbot introduced: ad26a9c84510af
-> https://bugzilla.kernel.org/show_bug.cgi?id=218180
-> #regzbot title: ntfs3: empty file on update without forced cache drop
-> #regzbot ignore-activity
-> 
-> This isn't a regression? This issue or a fix for it are already
-> discussed somewhere else? It was fixed already? You want to clarify when
-> the regression started to happen? Or point out I got the title or
-> something else totally wrong? Then just reply and tell me -- ideally
-> while also telling regzbot about it, as explained by the page listed in
-> the footer of this mail.
-> 
-> Developers: When fixing the issue, remember to add 'Link:' tags pointing
-> to the report (e.g. the buzgzilla ticket and maybe this mail as well, if
-> this thread sees some discussion). See page linked in footer for details.
-> 
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> --
-> Everything you wanna know about Linux kernel regression tracking:
-> https://linux-regtracking.leemhuis.info/about/#tldr
-> If I did something stupid, please tell me, as explained on that page.
-> 
-> [1] because bugzilla.kernel.org tells users upon registration their
-> "email address will never be displayed to logged out users"
-> 
-> 
+Best regards,
+Artem
