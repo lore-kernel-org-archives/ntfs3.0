@@ -1,151 +1,118 @@
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-231.mail.qq.com (out203-205-221-231.mail.qq.com [203.205.221.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE2D11CB5
-	for <ntfs3@lists.linux.dev>; Fri, 22 Dec 2023 10:43:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-7b7fac89006so187808839f.1
-        for <ntfs3@lists.linux.dev>; Fri, 22 Dec 2023 02:43:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703241799; x=1703846599;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CT53CObgRUozGFWwZUm2K0V6Jb7mE/jX/cyMGyMAkn0=;
-        b=xB2RXrp4+8oHSMCenomqQtqvtMmNH/ZtEkTfoWp+LzhXzY42ZD/ENz8QhUwS04WIkO
-         2WDxMFT93MxmVd1rSi+4kh5ri8MI4KOsROoIHt5AlGA1RpS/9lMVjFYVB+yEjKPwJnoe
-         3DRR9TkHRwB9fExFtrXKeH4nEXmcgHPq9F4dBgx9HBK5PTKzxUYvcx338PyuL7A0dZmT
-         4EvtJT47SYb3J7WLGO8iswc6JWp8qIneGRgjtDlfyYcgdimQxeq8HAKcRch+3l5AWQqM
-         tS02XVEl4BDSixjQKYob4z0Nq0hasjwLW3j5USnalby3Jfafh68DJcM2p/YF8tZNfVPP
-         oR+A==
-X-Gm-Message-State: AOJu0YyduxMQUV9Ou/Nn1ZPoYpQ7f6C5s0ntvD6Of5W4cJpGeNhxrVEl
-	XwcJdTglrKjMZJZIKcFr/rEthZRAQTAgr5hNY1PnHmDVfzRp
-X-Google-Smtp-Source: AGHT+IGaTtC/wTC1KlT5RpBgPTmplLBpwl4WlSTnt3UTbdo4aHw3HG/Cf2PtfIZctDBXrK1Tm14XwU5zadhrL5IFFumEdJzILsVI
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455888F5B
+	for <ntfs3@lists.linux.dev>; Sat, 23 Dec 2023 04:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="oG+3ONFY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1703304702; bh=9xIgd02ObOuj54s7xcHHTnWTHw+ZVQIeUoYaZEUZRtw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=oG+3ONFYwF4I52aH/4gjqUlsJIVT5kWzClzgHD+zqLpKQsx7ov9F1YLyAKiLhnci7
+	 oW9rxDV8tOe2gNXJHh+g/T/rFw9lbRuTlwzWUlUtqrlS+yKV4ayKEbLgdpk053eRK6
+	 e2zjR5R/FFkVvVTWNJsPlPJpPcnmCZlL0Nqedev4=
+Received: from pek-lxu-l1.wrs.com ([111.198.225.215])
+	by newxmesmtplogicsvrszc5-0.qq.com (NewEsmtp) with SMTP
+	id 15B0E030; Sat, 23 Dec 2023 12:05:27 +0800
+X-QQ-mid: xmsmtpt1703304327t3rpz07u0
+Message-ID: <tencent_C789B86EF5AED70CAF27CF06EF52C1C66106@qq.com>
+X-QQ-XMAILINFO: MQ+wLuVvI2LQ56/bDmN3iU/naJcSLOFboafrVjtuRh941spThL5B2uJoSzK3G9
+	 E/rQ0Ia7ACu8X2B71OeOkGnwblrpuiOVWee9takTREre8XbtSWRozwp0KWC2fbl7qFK6kgW5rzgj
+	 FyDWFiorRCtSaJ1kZwHxJfqkD4ETkNirZMX8J3GtMZyQb8iK34lj+S6gJcDtQO2Yx20gqIXs8pZs
+	 WLgvQ08w4m3Ey0T7G30q3K8+R/P0A3r9pDpxhgjq/fbCz9KLYFXh84jEjztGvq34OavZ7pPEn28W
+	 QLGZpjsyYVPXJcT1Qd48DLNhlR/s1IsV3hksZnG7tB2sAJYE8mVZ/IzbTKttOFQpNVD9I2+HKnyq
+	 h2XFdmqZrCL30snllUajwlToNB0r9LmiCVINnviQwdgacPFz7ibxKu7ihFKhv5X4k8E6z3isVCGR
+	 nMzyJv/ShTF8V1JExLzJmNZVO2elVa/su5W2TjMFxUakmjrfMOA/p+VJU3XMyhVgjy49mDx8ThVK
+	 qPmxNbBxfEHXwkTDFmnzYIb/42NierzHg6A5gjMgojwzv9ftHFHBhXjx1UTDsZNreU1S7X1J5oF0
+	 MjeI6c2iGnCueVDUMKhuizQJ4GlDqrwjxwYk1Kddx+DLoK4vLsULR2UqirasYM+M1vhB+l7D3MOs
+	 ZUzQMtAwa6gIZRfmoRyf9r/JfQ4R2XNOvY75mg/mOuFUWSeKQknZz41ufY2MG+Z6crlQ56i50nGg
+	 +SRy2mQWAROpQqttocnfYdJfoKxfXgkpXuF3TAoKfTEZ0gZKlzBtkMhH38BSt0PK2FvH1L6yf3q+
+	 8jRbLRtXEwYyYUPgY3babOIvdsvGSFPkUPGAJdM2ea89ksl97+I/tHNCI8xdQEgvGZVROFxXf2sP
+	 Oo80f/3qBRDNLMkVAuqB6ufF0KSxXPH6lb3mUd2aImqOn8QcQaBxl/wAYjDv/vEQ==
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+f987ceaddc6bcc334cde@syzkaller.appspotmail.com
+Cc: almaz.alexandrovich@paragon-software.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] fs/ntfs3: fix warning in ntfs_load_attr_list
+Date: Sat, 23 Dec 2023 12:05:27 +0800
+X-OQ-MSGID: <20231223040527.1940850-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <0000000000006ee8fe060d16e2a5@google.com>
+References: <0000000000006ee8fe060d16e2a5@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:4bdd:b0:46d:2a2:a414 with SMTP id
- dk29-20020a0566384bdd00b0046d02a2a414mr6831jab.1.1703241799623; Fri, 22 Dec
- 2023 02:43:19 -0800 (PST)
-Date: Fri, 22 Dec 2023 02:43:19 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000006ee8fe060d16e2a5@google.com>
-Subject: [syzbot] [ntfs3?] WARNING: kmalloc bug in ntfs_load_attr_list
-From: syzbot <syzbot+f987ceaddc6bcc334cde@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+kvmalloc needs to check __GFP_NOWARN, so this flag should be passed before
+applying for memory.
 
-syzbot found the following issue on:
-
-HEAD commit:    9a6b294ab496 afs: Fix use-after-free due to get/remove rac..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=12c1ee79e80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e5751b3a2226135d
-dashboard link: https://syzkaller.appspot.com/bug?extid=f987ceaddc6bcc334cde
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1186ce6ee80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15a4c431e80000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/de41d893a2be/disk-9a6b294a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/96edd77e193d/vmlinux-9a6b294a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/1dc01d20de05/bzImage-9a6b294a.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/1a8ca9d17233/mount_0.gz
-
-The issue was bisected to:
-
-commit fc471e39e38fea6677017cbdd6d928088a59fc67
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Fri Jun 30 12:12:58 2023 +0000
-
-    fs/ntfs3: Use kvmalloc instead of kmalloc(... __GFP_NOWARN)
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=150ef3e9e80000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=170ef3e9e80000
-console output: https://syzkaller.appspot.com/x/log.txt?x=130ef3e9e80000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f987ceaddc6bcc334cde@syzkaller.appspotmail.com
 Fixes: fc471e39e38f ("fs/ntfs3: Use kvmalloc instead of kmalloc(... __GFP_NOWARN)")
-
-loop0: detected capacity change from 0 to 4096
-ntfs3: loop0: Different NTFS sector size (4096) and media sector size (512).
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 5058 at mm/util.c:632 kvmalloc_node+0x176/0x180 mm/util.c:632
-Modules linked in:
-CPU: 1 PID: 5058 Comm: syz-executor408 Not tainted 6.7.0-rc6-syzkaller-00168-g9a6b294ab496 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
-RIP: 0010:kvmalloc_node+0x176/0x180 mm/util.c:632
-Code: c3 44 89 fe 81 e6 00 20 00 00 31 ff e8 e3 d4 c1 ff 41 81 e7 00 20 00 00 74 0a e8 25 d1 c1 ff e9 3f ff ff ff e8 1b d1 c1 ff 90 <0f> 0b 90 e9 31 ff ff ff 66 90 f3 0f 1e fa 41 56 53 49 89 f6 48 89
-RSP: 0018:ffffc90003c67588 EFLAGS: 00010293
-RAX: ffffffff81cc9945 RBX: 0000000100000000 RCX: ffff8880246a1dc0
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: ffffffff81cc992d R09: 00000000ffffffff
-R10: ffffc90003c67420 R11: fffff5200078ce89 R12: ffff888075aa1620
-R13: ffff88807c8fc0a8 R14: 00000000ffffffff R15: 0000000000000000
-FS:  000055555591b380(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffdedfd4000 CR3: 000000001c753000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- kvmalloc include/linux/slab.h:738 [inline]
- ntfs_load_attr_list+0x123/0x510 fs/ntfs3/attrlist.c:56
- ntfs_read_mft fs/ntfs3/inode.c:190 [inline]
- ntfs_iget5+0x10ad/0x3b70 fs/ntfs3/inode.c:534
- ntfs_loadlog_and_replay+0x17d/0x530 fs/ntfs3/fsntfs.c:297
- ntfs_fill_super+0x2cf1/0x4c60 fs/ntfs3/super.c:1268
- get_tree_bdev+0x416/0x5b0 fs/super.c:1598
- vfs_get_tree+0x8c/0x2a0 fs/super.c:1771
- do_new_mount+0x28f/0xae0 fs/namespace.c:3337
- do_mount fs/namespace.c:3677 [inline]
- __do_sys_mount fs/namespace.c:3886 [inline]
- __se_sys_mount+0x2d9/0x3c0 fs/namespace.c:3863
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0x45/0x110 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x63/0x6b
-RIP: 0033:0x7f32f0f78d4a
-Code: d8 64 89 02 48 c7 c0 ff ff ff ff eb a6 e8 5e 04 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffdedfd3188 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007ffdedfd3190 RCX: 00007f32f0f78d4a
-RDX: 0000000020000040 RSI: 00000000200000c0 RDI: 00007ffdedfd3190
-RBP: 0000000000000004 R08: 00007ffdedfd31d0 R09: 000000000001f238
-R10: 0000000000000005 R11: 0000000000000286 R12: 00007ffdedfd31d0
-R13: 0000000000000003 R14: 0000000000200000 R15: 0000000000000001
- </TASK>
-
-
+Reported-and-tested-by: syzbot+f987ceaddc6bcc334cde@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/attrlist.c | 4 ++--
+ fs/ntfs3/bitmap.c   | 2 +-
+ fs/ntfs3/super.c    | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
+index 7c01735d1219..e631ecc1b9df 100644
+--- a/fs/ntfs3/attrlist.c
++++ b/fs/ntfs3/attrlist.c
+@@ -53,7 +53,7 @@ int ntfs_load_attr_list(struct ntfs_inode *ni, struct ATTRIB *attr)
+ 	if (!attr->non_res) {
+ 		lsize = le32_to_cpu(attr->res.data_size);
+ 		/* attr is resident: lsize < record_size (1K or 4K) */
+-		le = kvmalloc(al_aligned(lsize), GFP_KERNEL);
++		le = kvmalloc(al_aligned(lsize), GFP_KERNEL | __GFP_NOWARN);
+ 		if (!le) {
+ 			err = -ENOMEM;
+ 			goto out;
+@@ -91,7 +91,7 @@ int ntfs_load_attr_list(struct ntfs_inode *ni, struct ATTRIB *attr)
+ 		 * the result is 16M bytes per attribute list.
+ 		 * Use kvmalloc to allocate in range [several Kbytes - dozen Mbytes]
+ 		 */
+-		le = kvmalloc(al_aligned(lsize), GFP_KERNEL);
++		le = kvmalloc(al_aligned(lsize), GFP_KERNEL | __GFP_NOWARN);
+ 		if (!le) {
+ 			err = -ENOMEM;
+ 			goto out;
+diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
+index 63f14a0232f6..49e660be9a0f 100644
+--- a/fs/ntfs3/bitmap.c
++++ b/fs/ntfs3/bitmap.c
+@@ -660,7 +660,7 @@ int wnd_init(struct wnd_bitmap *wnd, struct super_block *sb, size_t nbits)
+ 		wnd->bits_last = wbits;
+ 
+ 	wnd->free_bits =
+-		kvmalloc_array(wnd->nwnd, sizeof(u16), GFP_KERNEL | __GFP_ZERO);
++		kvmalloc_array(wnd->nwnd, sizeof(u16), GFP_KERNEL | __GFP_ZERO | __GFP_NOWARN);
+ 
+ 	if (!wnd->free_bits)
+ 		return -ENOMEM;
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 9153dffde950..87778834aa9c 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -1413,7 +1413,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	}
+ 
+ 	bytes = inode->i_size;
+-	sbi->def_table = t = kvmalloc(bytes, GFP_KERNEL);
++	sbi->def_table = t = kvmalloc(bytes, GFP_KERNEL | __GFP_NOWARN);
+ 	if (!t) {
+ 		err = -ENOMEM;
+ 		goto put_inode_out;
+-- 
+2.43.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
