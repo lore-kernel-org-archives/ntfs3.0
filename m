@@ -1,43 +1,88 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7886FB1
-	for <ntfs3@lists.linux.dev>; Sat, 23 Dec 2023 05:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pePV5y5+"
-Date: Sat, 23 Dec 2023 00:00:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1703307635;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nHi2s1ywhHyj2ikLzCZWLKuKjtJbPgi5kAvkTiqjfVk=;
-	b=pePV5y5+NpL7hzm8DfIAqLqHLKbxFtmxbSoMLO8EfHJP15sUi5pst1+SnlACvXp8cujFJO
-	2lICnakFS267jhMyqNSwv4mGNVDgjxrn1sPP/wPsygbCOg6qJAIFHtevYfJXKP9ijbhEUu
-	IhxZjA4oc8Sf64TOz/oye6tdLouYRAU=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/8] fs/ntfs3: Bugfix and refactoring
-Message-ID: <t6cy5hu6cxsnawvlxsl4xlcqskkq2njeapjpwy4eku2kchgnue@w4cura2wu4pn>
-References: <e41f6717-7c70-edf2-2d3a-8034840d14c5@paragon-software.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52689D302
+	for <ntfs3@lists.linux.dev>; Sat, 23 Dec 2023 13:33:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from fsav312.sakura.ne.jp (fsav312.sakura.ne.jp [153.120.85.143])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 3BNDXCaO091885;
+	Sat, 23 Dec 2023 22:33:12 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav312.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav312.sakura.ne.jp);
+ Sat, 23 Dec 2023 22:33:12 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav312.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 3BNDXB7O091879
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Sat, 23 Dec 2023 22:33:12 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <bca8d526-2397-4ca5-b1d6-5758c9334a81@I-love.SAKURA.ne.jp>
+Date: Sat, 23 Dec 2023 22:33:11 +0900
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e41f6717-7c70-edf2-2d3a-8034840d14c5@paragon-software.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/8] fs/ntfs3: Use kvmalloc instead of kmalloc(...
+ __GFP_NOWARN)
+Content-Language: en-US
+To: Matthew Wilcox <willy@infradead.org>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org
+References: <e41f6717-7c70-edf2-2d3a-8034840d14c5@paragon-software.com>
+ <890222ac-1bd2-6817-7873-390801c5a172@paragon-software.com>
+ <ZYZmFPnJAM3aJLlF@casper.infradead.org>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <ZYZmFPnJAM3aJLlF@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 03, 2023 at 11:23:49AM +0400, Konstantin Komarov wrote:
-> This series contains various fixes and refactoring for ntfs3.
-> Added more checks in record.
+On 2023/12/23 13:46, Matthew Wilcox wrote:
+> On Mon, Jul 03, 2023 at 11:26:36AM +0400, Konstantin Komarov wrote:
+>>
+>> Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+> 
+> So, um, why?  I mean, I know what kvmalloc does, but why do you want to
+> do it?  Also, this is missing changes from kfree() to kvfree() so if
+> you do end up falling back to vmalloc, you'll hit a bug in kfree().
 
-I don't write explanations for all of my commits, but... zero?
+Right. The first thing we should do is to revert commit fc471e39e38f("fs/ntfs3:
+Use kvmalloc instead of kmalloc(... __GFP_NOWARN)"), for that commit is horrible.
+
+> 
+>> +++ b/fs/ntfs3/attrlist.c
+>> @@ -52,7 +52,8 @@ int ntfs_load_attr_list(struct ntfs_inode *ni, struct
+>> ATTRIB *attr)
+>>
+>>      if (!attr->non_res) {
+>>          lsize = le32_to_cpu(attr->res.data_size);
+>> -        le = kmalloc(al_aligned(lsize), GFP_NOFS | __GFP_NOWARN);
+>> +        /* attr is resident: lsize < record_size (1K or 4K) */
+>> +        le = kvmalloc(al_aligned(lsize), GFP_KERNEL);
+
+syzbot is reporting that
+
+  /* attr is resident: lsize < record_size (1K or 4K) */
+
+was false at https://syzkaller.appspot.com/bug?extid=f987ceaddc6bcc334cde .
+Maybe you can fix this report by adding more validations. Please be
+sure to take into account that the filesystem image is corrupted/crafted.
+
+But you can't replace GFP_NOFS with GFP_KERNEL anyway, for syzbot is also
+reporting GFP_KERNEL allocation with filesystem lock held
+at https://syzkaller.appspot.com/bug?extid=18f543fc90dd1194c616 .
+
+By the way, you might want to add __GFP_RETRY_MAYFAIL when you can't use
+GFP_KERNEL, for GFP_NOFS memory allocation request cannot trigger OOM
+killer in order to allocate requested amount of memory, leading to
+possibility of out-of-memory deadlock. Especially when there is possibility
+that kvmalloc() needs to allocate so many pages...
+See https://elixir.bootlin.com/linux/v6.7-rc6/source/mm/page_alloc.c#L3458 .
+
