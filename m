@@ -1,130 +1,176 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EE94D109
-	for <ntfs3@lists.linux.dev>; Tue, 26 Dec 2023 08:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QeETJAsc"
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3bba50cd318so1614470b6e.0
-        for <ntfs3@lists.linux.dev>; Tue, 26 Dec 2023 00:53:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703580808; x=1704185608; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jn4iVudUfGWwocGEENajE7FASNfvXCdRZiNgIIgsoiE=;
-        b=QeETJAsc3pp0KVJVllLjV5gebJ2dA4dQTdz7BvvhV+2oGIyufvB51HDP7DA6eDgOrr
-         7RIJI1m7ceWXoQlsH9mAGLhiLDDHOfzrZuDhoCx/JZBlaAunlzNE8yr3jPUF73NRvTlF
-         peaDZskvveKfKXA+FevUBBOb8Lj2NIxwOHH+kZdRLY4+8+8al5g77GCV0BMFY/dO0U8A
-         ySexyEJP4iNlbTiT3FXWU/0GHk25WJ4OTN/eBQjVUGnV6EtkmOU+AG/EFYOYcGxIIFp2
-         4NLVpSZ+UEomjnQ6GUsHbOQb9c4KeRVK4XGT2UYliIeBg5UOR7MCrj+eRKLTbLURw5jl
-         UgOA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513D65250
+	for <ntfs3@lists.linux.dev>; Tue, 26 Dec 2023 22:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-35fe765d63eso22113275ab.0
+        for <ntfs3@lists.linux.dev>; Tue, 26 Dec 2023 14:45:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703580808; x=1704185608;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jn4iVudUfGWwocGEENajE7FASNfvXCdRZiNgIIgsoiE=;
-        b=I3+q0nvwvnJmq2/dqWG6Xh1rNvqlaBH0IEhmQyj8lhDBgGm2Z1z5SbchvUosljIRwj
-         jwlwZilZUJ2JUl+aJuQYlnxnVf+Idb1lEofY+kvl/pCTswvBRD5vtAdL4sY37o89qVgs
-         I+osLDK+QcDmU/ZVkm6PEiNIuAmGXBpBlayMQ0n9q6BNM60gF4FK0uvfhQCwpKFjRQg2
-         nWcNfjT2YfZAF41+W28WrxpyhRxnMhoqZMjapVjSX1zc/o6VsKir/uRJvES+akSIE69X
-         NkcQ65UewEWxmgZZOAaOfjNFLf2Jz/7e3QaDvIO8Ght49WfhEkdohoTquyDfkIcv3WpI
-         pY2g==
-X-Gm-Message-State: AOJu0YxsZsu2MRaIfk8KNVVTJPAFr4p29PTd60HaB+VA9p917PYNciOD
-	+V9PmT4OwGJYdZrt1z1WiqY=
-X-Google-Smtp-Source: AGHT+IGh6rpiBownpN1lkmpD2ouX5CXUhRnZ6O4r+qB409O7lMyguRMsAyL+GYTut6KDVZYyCP9Cvw==
-X-Received: by 2002:a05:6808:399b:b0:3bb:bf35:f82f with SMTP id gq27-20020a056808399b00b003bbbf35f82fmr92448oib.104.1703580808578;
-        Tue, 26 Dec 2023 00:53:28 -0800 (PST)
-Received: from ism-manjaro.realtek.com.tw (125-227-180-151.hinet-ip.hinet.net. [125.227.180.151])
-        by smtp.gmail.com with ESMTPSA id a23-20020aa78657000000b006d9b8e1971dsm3174349pfo.191.2023.12.26.00.53.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Dec 2023 00:53:27 -0800 (PST)
-From: Ism Hong <ism.hong@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ism Hong <ism.hong@gmail.com>
-Subject: [PATCH] fs/ntfs3: use non-movable memory for ntfs3 MFT buffer cache
-Date: Tue, 26 Dec 2023 16:51:41 +0800
-Message-Id: <20231226085141.2830875-1-ism.hong@gmail.com>
-X-Mailer: git-send-email 2.37.2
+        d=1e100.net; s=20230601; t=1703630725; x=1704235525;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nke+NuDTG3SF317vq2MpQrzWpq09bUxj2nkltl846bc=;
+        b=RNrqIodfSGYD7YIUMeQGf8XPq3/8gr/uTpUjFtkB+PoFNzCZjbS1EGRWKyT1AR/2ZN
+         gNvsfmK3s/0HgkVqV3oU26L/9kusL8wd8p/8nS7Yl2YlevspD41yJGqwX12rp1Rnr7wy
+         nlRUrO10MG/CODpxiFEK4V0QZWH3qc4Q/Ei3Kj8a0bk8kYI2OVqAjQ31tvWfjv3DCC1s
+         ZvVXt9c+TvJaae1mleIxjHv7Bz3s15+eFr2kg2+lKougvDwu9gjaEJuKrYSgeRJrYwN8
+         3wD7oRIc4XEonr0prJXltodlkNLGG+reXDc0D9obxA7F/LrPSj5MmKZV151+GnxDoIqj
+         4TRg==
+X-Gm-Message-State: AOJu0Ywdd2TWzbvcS0GtjdOCQPvhikpFOvExsNeYgffLbbTHeshXx0bK
+	VMFf5HerhZIG4npgcku5npmBmddvK257RQfq19DBTqIgvWr4
+X-Google-Smtp-Source: AGHT+IHuDTZsqnd8xy0l8/SU3PH28hBPLvDTkA5IVQOxEtIABO7SSMUTpcBWlotQB4YReZyDtGyEUuqdGt3j7sQXcPROD490VNu+
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:1be1:b0:35f:e864:f6f with SMTP id
+ y1-20020a056e021be100b0035fe8640f6fmr1084863ilv.0.1703630725497; Tue, 26 Dec
+ 2023 14:45:25 -0800 (PST)
+Date: Tue, 26 Dec 2023 14:45:25 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000038cf2f060d7170a9@google.com>
+Subject: [syzbot] [ntfs3?] KASAN: slab-out-of-bounds Read in ntfs_listxattr (2)
+From: syzbot <syzbot+65e940cfb8f99a97aca7@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Since the buffer cache for ntfs3 metadata is not released until the file
-system is unmounted, allocating from the movable zone may result in cma
-allocation failures. This is due to the page still being used by ntfs3,
-leading to migration failures.
+Hello,
 
-To address this, this commit use sb_bread_umovable() instead of
-sb_bread(). This change prevents allocation from the movable zone,
-ensuring compatibility with scenarios where the buffer head is not
-released until unmount. This patch is inspired by commit
-a8ac900b8163("ext4: use non-movable memory for the ext4 superblock").
+syzbot found the following issue on:
 
-The issue is found when playing video files stored in NTFS on the
-Android TV platform. During this process, the media parser reads the
-video file, causing ntfs3 to allocate buffer cache from the CMA area.
-Subsequently, the hardware decoder attempts to allocate memory from the
-same CMA area. However, the page is still in use by ntfs3, resulting in
-a migrate failure in alloc_contig_range().
+HEAD commit:    aafe7ad77b91 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=15412f76e80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=23ce86eb3d78ef4d
+dashboard link: https://syzkaller.appspot.com/bug?extid=65e940cfb8f99a97aca7
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10627f76e80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1400171ae80000
 
-The pinned page and allocating stacktrace reported by page owner shows
-below:
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/23845238c49b/disk-aafe7ad7.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/1144b0f74104/vmlinux-aafe7ad7.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/6db20df213a2/Image-aafe7ad7.gz.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/4f0ec668b8cf/mount_0.gz
 
-page:ffffffff00b68880 refcount:3 mapcount:0 mapping:ffffff80046aa828
-        index:0xc0040 pfn:0x20fa4
-    aops:def_blk_aops ino:0
-    flags: 0x2020(active|private)
-    page dumped because: migration failure
-    page last allocated via order 0, migratetype Movable,
-        gfp_mask 0x108c48
-        (GFP_NOFS|__GFP_NOFAIL|__GFP_HARDWALL|__GFP_MOVABLE),
-    page_owner tracks the page as allocated
-     prep_new_page
-     get_page_from_freelist
-     __alloc_pages_nodemask
-     pagecache_get_page
-     __getblk_gfp
-     __bread_gfp
-     ntfs_read_run_nb
-     ntfs_read_bh
-     mi_read
-     ntfs_iget5
-     dir_search_u
-     ntfs_lookup
-     __lookup_slow
-     lookup_slow
-     walk_component
-     path_lookupat
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+65e940cfb8f99a97aca7@syzkaller.appspotmail.com
 
-Signed-off-by: Ism Hong <ism.hong@gmail.com>
+ntfs3: loop0: Different NTFS sector size (4096) and media sector size (512).
+ntfs3: loop0: Failed to initialize $Extend/$Reparse.
+ntfs3: loop0: Mark volume as dirty due to NTFS errors
+==================================================================
+BUG: KASAN: slab-out-of-bounds in ntfs_list_ea fs/ntfs3/xattr.c:232 [inline]
+BUG: KASAN: slab-out-of-bounds in ntfs_listxattr+0x354/0x50c fs/ntfs3/xattr.c:733
+Read of size 48 at addr ffff0000d0125c30 by task syz-executor346/6095
+
+CPU: 1 PID: 6095 Comm: syz-executor346 Not tainted 6.7.0-rc6-syzkaller-gaafe7ad77b91 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/10/2023
+Call trace:
+ dump_backtrace+0x1b8/0x1e4 arch/arm64/kernel/stacktrace.c:291
+ show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:298
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xd0/0x124 lib/dump_stack.c:106
+ print_address_description mm/kasan/report.c:364 [inline]
+ print_report+0x174/0x514 mm/kasan/report.c:475
+ kasan_report+0xd8/0x138 mm/kasan/report.c:588
+ kasan_check_range+0x254/0x294 mm/kasan/generic.c:187
+ __asan_memcpy+0x3c/0x84 mm/kasan/shadow.c:105
+ ntfs_list_ea fs/ntfs3/xattr.c:232 [inline]
+ ntfs_listxattr+0x354/0x50c fs/ntfs3/xattr.c:733
+ vfs_listxattr fs/xattr.c:494 [inline]
+ listxattr+0x108/0x368 fs/xattr.c:841
+ path_listxattr fs/xattr.c:865 [inline]
+ __do_sys_llistxattr fs/xattr.c:883 [inline]
+ __se_sys_llistxattr fs/xattr.c:880 [inline]
+ __arm64_sys_llistxattr+0x13c/0x21c fs/xattr.c:880
+ __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
+ invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:51
+ el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:136
+ do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:155
+ el0_svc+0x54/0x158 arch/arm64/kernel/entry-common.c:678
+ el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:696
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:595
+
+Allocated by task 6095:
+ kasan_save_stack mm/kasan/common.c:45 [inline]
+ kasan_set_track+0x4c/0x7c mm/kasan/common.c:52
+ kasan_save_alloc_info+0x24/0x30 mm/kasan/generic.c:511
+ ____kasan_kmalloc mm/kasan/common.c:374 [inline]
+ __kasan_kmalloc+0xac/0xc4 mm/kasan/common.c:383
+ kasan_kmalloc include/linux/kasan.h:198 [inline]
+ __do_kmalloc_node mm/slab_common.c:1007 [inline]
+ __kmalloc+0xcc/0x1b8 mm/slab_common.c:1020
+ kmalloc include/linux/slab.h:604 [inline]
+ ntfs_read_ea+0x3c0/0x808 fs/ntfs3/xattr.c:118
+ ntfs_list_ea fs/ntfs3/xattr.c:204 [inline]
+ ntfs_listxattr+0x14c/0x50c fs/ntfs3/xattr.c:733
+ vfs_listxattr fs/xattr.c:494 [inline]
+ listxattr+0x108/0x368 fs/xattr.c:841
+ path_listxattr fs/xattr.c:865 [inline]
+ __do_sys_llistxattr fs/xattr.c:883 [inline]
+ __se_sys_llistxattr fs/xattr.c:880 [inline]
+ __arm64_sys_llistxattr+0x13c/0x21c fs/xattr.c:880
+ __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
+ invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:51
+ el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:136
+ do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:155
+ el0_svc+0x54/0x158 arch/arm64/kernel/entry-common.c:678
+ el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:696
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:595
+
+The buggy address belongs to the object at ffff0000d0125c00
+ which belongs to the cache kmalloc-64 of size 64
+The buggy address is located 48 bytes inside of
+ allocated 60-byte region [ffff0000d0125c00, ffff0000d0125c3c)
+
+The buggy address belongs to the physical page:
+page:000000003d4f3554 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x110125
+ksm flags: 0x5ffc00000000800(slab|node=0|zone=2|lastcpupid=0x7ff)
+page_type: 0xffffffff()
+raw: 05ffc00000000800 ffff0000c0001640 fffffc0003376b40 dead000000000003
+raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff0000d0125b00: 00 00 00 00 00 00 02 fc fc fc fc fc fc fc fc fc
+ ffff0000d0125b80: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
+>ffff0000d0125c00: 00 00 00 00 00 00 00 04 fc fc fc fc fc fc fc fc
+                                        ^
+ ffff0000d0125c80: 00 00 00 00 00 00 04 fc fc fc fc fc fc fc fc fc
+ ffff0000d0125d00: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
+==================================================================
+
+
 ---
- fs/ntfs3/ntfs_fs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index abbc7182554a..2b54ae94440f 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -1035,7 +1035,7 @@ static inline u64 bytes_to_block(const struct super_block *sb, u64 size)
- static inline struct buffer_head *ntfs_bread(struct super_block *sb,
- 					     sector_t block)
- {
--	struct buffer_head *bh = sb_bread(sb, block);
-+	struct buffer_head *bh = sb_bread_unmovable(sb, block);
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
- 	if (bh)
- 		return bh;
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-base-commit: 4cdfb6e7bc9c80142d33bf1d4653a73fa678ba56
---
-2.37.2
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
