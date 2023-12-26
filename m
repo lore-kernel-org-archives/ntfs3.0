@@ -1,83 +1,130 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6EC12E4C;
-	Sat, 23 Dec 2023 16:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EE94D109
+	for <ntfs3@lists.linux.dev>; Tue, 26 Dec 2023 08:53:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WCCl570W"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=I/eFQM9OFj9mUmVjzXCK/VJEaJGdQdMdFIR0hwNMvZY=; b=WCCl570WZpNXZxA0H1eMYJhmNZ
-	fWwhiO4bF5zkndDyquY6lslVyBip0vv5KO3QfTUJfywTHivnH5X1HLiE5T8O4L/4DwLIT3heVjOkz
-	LLY7s4Oks/svjXGQOSBN6djfEJDD/bDAKwyYjeGYTzV+Sq+vyDQAXRkF5485h9uNwfC+fdW3fPhNJ
-	gdhF6cTeozO6xslaFmFFRe7fFieoIBdybeQ3GNtZl8c41Z0hqYJEJnsn8QtzgxeIC2wEnZAjRik8N
-	uekGh7L+dsMuzAR3az0iHWZtYz+8E7EYDF53wcz2Tv5qooQP2h8ZdDDwwbfU6Osqv5NQ9GxJWNHZK
-	PjSmplJw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1rH5Iw-00BFGY-IN; Sat, 23 Dec 2023 16:56:50 +0000
-Date: Sat, 23 Dec 2023 16:56:50 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 5/8] fs/ntfs3: Use kvmalloc instead of kmalloc(...
- __GFP_NOWARN)
-Message-ID: <ZYcRUvZXiaKtiANz@casper.infradead.org>
-References: <e41f6717-7c70-edf2-2d3a-8034840d14c5@paragon-software.com>
- <890222ac-1bd2-6817-7873-390801c5a172@paragon-software.com>
- <ZYZmFPnJAM3aJLlF@casper.infradead.org>
- <bca8d526-2397-4ca5-b1d6-5758c9334a81@I-love.SAKURA.ne.jp>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QeETJAsc"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3bba50cd318so1614470b6e.0
+        for <ntfs3@lists.linux.dev>; Tue, 26 Dec 2023 00:53:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703580808; x=1704185608; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jn4iVudUfGWwocGEENajE7FASNfvXCdRZiNgIIgsoiE=;
+        b=QeETJAsc3pp0KVJVllLjV5gebJ2dA4dQTdz7BvvhV+2oGIyufvB51HDP7DA6eDgOrr
+         7RIJI1m7ceWXoQlsH9mAGLhiLDDHOfzrZuDhoCx/JZBlaAunlzNE8yr3jPUF73NRvTlF
+         peaDZskvveKfKXA+FevUBBOb8Lj2NIxwOHH+kZdRLY4+8+8al5g77GCV0BMFY/dO0U8A
+         ySexyEJP4iNlbTiT3FXWU/0GHk25WJ4OTN/eBQjVUGnV6EtkmOU+AG/EFYOYcGxIIFp2
+         4NLVpSZ+UEomjnQ6GUsHbOQb9c4KeRVK4XGT2UYliIeBg5UOR7MCrj+eRKLTbLURw5jl
+         UgOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703580808; x=1704185608;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jn4iVudUfGWwocGEENajE7FASNfvXCdRZiNgIIgsoiE=;
+        b=I3+q0nvwvnJmq2/dqWG6Xh1rNvqlaBH0IEhmQyj8lhDBgGm2Z1z5SbchvUosljIRwj
+         jwlwZilZUJ2JUl+aJuQYlnxnVf+Idb1lEofY+kvl/pCTswvBRD5vtAdL4sY37o89qVgs
+         I+osLDK+QcDmU/ZVkm6PEiNIuAmGXBpBlayMQ0n9q6BNM60gF4FK0uvfhQCwpKFjRQg2
+         nWcNfjT2YfZAF41+W28WrxpyhRxnMhoqZMjapVjSX1zc/o6VsKir/uRJvES+akSIE69X
+         NkcQ65UewEWxmgZZOAaOfjNFLf2Jz/7e3QaDvIO8Ght49WfhEkdohoTquyDfkIcv3WpI
+         pY2g==
+X-Gm-Message-State: AOJu0YxsZsu2MRaIfk8KNVVTJPAFr4p29PTd60HaB+VA9p917PYNciOD
+	+V9PmT4OwGJYdZrt1z1WiqY=
+X-Google-Smtp-Source: AGHT+IGh6rpiBownpN1lkmpD2ouX5CXUhRnZ6O4r+qB409O7lMyguRMsAyL+GYTut6KDVZYyCP9Cvw==
+X-Received: by 2002:a05:6808:399b:b0:3bb:bf35:f82f with SMTP id gq27-20020a056808399b00b003bbbf35f82fmr92448oib.104.1703580808578;
+        Tue, 26 Dec 2023 00:53:28 -0800 (PST)
+Received: from ism-manjaro.realtek.com.tw (125-227-180-151.hinet-ip.hinet.net. [125.227.180.151])
+        by smtp.gmail.com with ESMTPSA id a23-20020aa78657000000b006d9b8e1971dsm3174349pfo.191.2023.12.26.00.53.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Dec 2023 00:53:27 -0800 (PST)
+From: Ism Hong <ism.hong@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ism Hong <ism.hong@gmail.com>
+Subject: [PATCH] fs/ntfs3: use non-movable memory for ntfs3 MFT buffer cache
+Date: Tue, 26 Dec 2023 16:51:41 +0800
+Message-Id: <20231226085141.2830875-1-ism.hong@gmail.com>
+X-Mailer: git-send-email 2.37.2
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bca8d526-2397-4ca5-b1d6-5758c9334a81@I-love.SAKURA.ne.jp>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Dec 23, 2023 at 10:33:11PM +0900, Tetsuo Handa wrote:
-> But you can't replace GFP_NOFS with GFP_KERNEL anyway, for syzbot is also
-> reporting GFP_KERNEL allocation with filesystem lock held
-> at https://syzkaller.appspot.com/bug?extid=18f543fc90dd1194c616 .
+Since the buffer cache for ntfs3 metadata is not released until the file
+system is unmounted, allocating from the movable zone may result in cma
+allocation failures. This is due to the page still being used by ntfs3,
+leading to migration failures.
 
-Well, you _can_.  What _all_ filesystem authors should be doing is 
-switching to memalloc_nofs_save/restore.  Generally when taking a lock
-that's needed during reclaim.  In this specific case, soemthing like
-this:
+To address this, this commit use sb_bread_umovable() instead of
+sb_bread(). This change prevents allocation from the movable zone,
+ensuring compatibility with scenarios where the buffer head is not
+released until unmount. This patch is inspired by commit
+a8ac900b8163("ext4: use non-movable memory for the ext4 superblock").
 
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index 7b6423584eae..432905489a14 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -122,6 +122,7 @@ int mi_read(struct mft_inode *mi, bool is_mft)
- 	struct ntfs_inode *mft_ni = sbi->mft.ni;
- 	struct runs_tree *run = mft_ni ? &mft_ni->file.run : NULL;
- 	struct rw_semaphore *rw_lock = NULL;
-+	unsigned int memalloc = memalloc_nofs_save();
- 
- 	if (is_mounted(sbi)) {
- 		if (!is_mft && mft_ni) {
-@@ -177,6 +178,7 @@ int mi_read(struct mft_inode *mi, bool is_mft)
- 		goto out;
- 	}
- 
-+	memalloc_nofs_restore(memalloc);
- 	return 0;
- 
- out:
-@@ -186,6 +188,7 @@ int mi_read(struct mft_inode *mi, bool is_mft)
- 		err = -EINVAL;
- 	}
- 
-+	memalloc_nofs_restore(memalloc);
- 	return err;
- }
- 
+The issue is found when playing video files stored in NTFS on the
+Android TV platform. During this process, the media parser reads the
+video file, causing ntfs3 to allocate buffer cache from the CMA area.
+Subsequently, the hardware decoder attempts to allocate memory from the
+same CMA area. However, the page is still in use by ntfs3, resulting in
+a migrate failure in alloc_contig_range().
+
+The pinned page and allocating stacktrace reported by page owner shows
+below:
+
+page:ffffffff00b68880 refcount:3 mapcount:0 mapping:ffffff80046aa828
+        index:0xc0040 pfn:0x20fa4
+    aops:def_blk_aops ino:0
+    flags: 0x2020(active|private)
+    page dumped because: migration failure
+    page last allocated via order 0, migratetype Movable,
+        gfp_mask 0x108c48
+        (GFP_NOFS|__GFP_NOFAIL|__GFP_HARDWALL|__GFP_MOVABLE),
+    page_owner tracks the page as allocated
+     prep_new_page
+     get_page_from_freelist
+     __alloc_pages_nodemask
+     pagecache_get_page
+     __getblk_gfp
+     __bread_gfp
+     ntfs_read_run_nb
+     ntfs_read_bh
+     mi_read
+     ntfs_iget5
+     dir_search_u
+     ntfs_lookup
+     __lookup_slow
+     lookup_slow
+     walk_component
+     path_lookupat
+
+Signed-off-by: Ism Hong <ism.hong@gmail.com>
+---
+ fs/ntfs3/ntfs_fs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index abbc7182554a..2b54ae94440f 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -1035,7 +1035,7 @@ static inline u64 bytes_to_block(const struct super_block *sb, u64 size)
+ static inline struct buffer_head *ntfs_bread(struct super_block *sb,
+ 					     sector_t block)
+ {
+-	struct buffer_head *bh = sb_bread(sb, block);
++	struct buffer_head *bh = sb_bread_unmovable(sb, block);
+
+ 	if (bh)
+ 		return bh;
+
+base-commit: 4cdfb6e7bc9c80142d33bf1d4653a73fa678ba56
+--
+2.37.2
+
