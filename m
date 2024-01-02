@@ -1,82 +1,88 @@
-Received: from out203-205-251-36.mail.qq.com (out203-205-251-36.mail.qq.com [203.205.251.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E4163C4
-	for <ntfs3@lists.linux.dev>; Sat, 30 Dec 2023 09:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="CrheSPLu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1703926884; bh=JhwbLXrg9xb5P3kWXzS/FhXW8uVTkvP/c+tNkfreaxg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=CrheSPLuwWskzeXymwS9ekWwmdnkrACdU2n6qPYmbIqFuTU0kB+u11hXSJS/91ZLB
-	 qxGAbMOVkP3vDKXOIqXYb4j3o6anlsbRii5//ZkQJZRy4Q54v5aa58Nd8II1X9dtx8
-	 GE4icBLlrKChNESkenWKyx4/kyTaw+mMiQ2JV5ZU=
-Received: from pek-lxu-l1.wrs.com ([111.198.225.215])
-	by newxmesmtplogicsvrsza10-0.qq.com (NewEsmtp) with SMTP
-	id 31FA94; Sat, 30 Dec 2023 17:00:03 +0800
-X-QQ-mid: xmsmtpt1703926803tjsu7s8b9
-Message-ID: <tencent_C51BB525D6BA72BB25338C9EB41B094B3608@qq.com>
-X-QQ-XMAILINFO: Mdc3TkmnJyI/uQ6d1i0rpisJz8zTDHyh0uBVnwzQKJOiejgXThC3kq8HRO08Q/
-	 Qmt22IQ+MQgsr1fl8h8KsdgsZfUS492UvqiuEpDsVXTPWD1XymN+pl66Rn7TK50GVZmKn0oA1lP0
-	 0LLMb3XnPd/36Ofh2z2NbNaMPfJH/mlUHzz2ar2Wpy4U8M6ugu/mrZJKZ4Sie7p+6a/BVnfBo7u2
-	 23TD05HmGeA7HCfU5BLNCjaAZW79W+BS7DJiZHS/42237LH2dJwRdJ4iDXxM9V8rbOaUlnzbx3qF
-	 ZhJc9ZZfRLseunviQSQ7lQelnB7IQNN/GIWYOdezgaLu9KQ2V4R4gE3lojNpd067m2taRS6MyYLX
-	 R8yfH2FbJENWPKoHJ2PV+XEvlZQbF6cJdACFkpH3y7Ibd//6JVWioM56t1wkUrCagtByDI8B6R8G
-	 /S1ifnrnD+2ANWHEqv+3Wmg3ffdGepdQwj14HMJJu+Iv/1lysO9ws3JnixtsIsnz9P4dMAme3qZi
-	 37AM24bZxoy3MnKVzYgM5BYIIt6WeKhpvV4POWq9YJ6t7dmcrGmhULBmwF4RAhAdW5r5Ci/VlMJx
-	 DxZAOvniAqeMBS2qm/t4HdCYmzROu0DJKRCVnTVnrUdDjaTk8EjDVzBN18wniUuwbFaVGoZbB1Xl
-	 F7whgSmz7khzl0KuST1I5r0vNK9f0f60PswpbQK9D3yj/KEirSC8ttJC5fdL01sa5VZ+4z6sB7V0
-	 LaFyN7gL4Jl56tPLIU5ixbeiFFEW1WRXFPmSemiLyDhoo8AnSuNX8mRgEVLAUnHMRcSqM/6nfcCV
-	 L64MgraHhVlCWLkyLpWEtkr2bNXHphyNH5V41dRTEVC2DbmTqnHlyswltvPnvzD4Xm+ghyfI+sHy
-	 qAelAX8wIrdzngnY7I1rrlwFsm59H9f8Ue1a5ECKC2fhM9W+gHejyc++L7NadbiY0oiPcQMTv0m3
-	 aoFtOs9eM=
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+65e940cfb8f99a97aca7@syzkaller.appspotmail.com
-Cc: almaz.alexandrovich@paragon-software.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH arm64] ntfs3: fix oob in ntfs_listxattr
-Date: Sat, 30 Dec 2023 17:00:03 +0800
-X-OQ-MSGID: <20231230090002.2305989-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <00000000000038cf2f060d7170a9@google.com>
-References: <00000000000038cf2f060d7170a9@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E6812E5D
+	for <ntfs3@lists.linux.dev>; Tue,  2 Jan 2024 13:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-7baa6cc3af2so909223539f.2
+        for <ntfs3@lists.linux.dev>; Tue, 02 Jan 2024 05:36:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704202588; x=1704807388;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xq+9JpQRqUPWRsi8LPCu9kv4AtckUKGAz3Nf0QkOMJM=;
+        b=b5cUmwqfMj3r89pGfJIHolsSDHklNMuNWKaEvcL9TncK0yqTJg9YtGUfPiiOXfEq3b
+         399Ba1C6g/qs0sJ3H+bIB46Bn/v/jMS0NMBKX2F1Tu2fPOKIIBq1whwKTMb/VQDNvPDE
+         B7G4oS5Wttoysw9lKT9j3I8ekoi7fPVqFItnJ7PAmihVp548uvDI8G68HhAMsGBCfT7u
+         h0BOEEgbgBfICAqHZ/pSgEcM6rBOrsUswOe23TuBrlJwQLQQlf11aQKN14hRjYwI0RVv
+         PvfhQfqkbnHuEsO8LpvuenypwS4E9lGgGV3uWnGNxWqDxhGYmYHnM5C/qEVmgofjV0j1
+         xS0Q==
+X-Gm-Message-State: AOJu0Yzl3cIxUVo7CILeX/+vezmZ6TiolKxmybQHPqOez7VC8rBv9N/Z
+	OhrDZ36iXHfRbYKHCzPCIslD88nrWbBfWtEk+qIOKTmmmVvM
+X-Google-Smtp-Source: AGHT+IGTvLM/soxJTtptngRbvo7c8EtklHcLe01Sh43enMqIUNyziXdQ72rwM8Pc4KX9om/QFroNsPp+89Hx9PGGyBBQnc7xKrWY
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6638:3586:b0:46b:6ffc:cb79 with SMTP id
+ v6-20020a056638358600b0046b6ffccb79mr514449jal.3.1704202588101; Tue, 02 Jan
+ 2024 05:36:28 -0800 (PST)
+Date: Tue, 02 Jan 2024 05:36:28 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000e3a1c3060df6956c@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Jan 2024)
+From: syzbot <syzbot+listb24c70845ff6f3242c14@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-The length of name cannot exceed the space occupied by ea.
+Hello ntfs3 maintainers/developers,
 
-Reported-and-tested-by: syzbot+65e940cfb8f99a97aca7@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
+
+During the period, 2 new issues were detected and 0 were fixed.
+In total, 47 issues are still open and 28 have been fixed so far.
+
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  11376   Yes   VFS: Busy inodes after unmount (use-after-free)
+                   https://syzkaller.appspot.com/bug?extid=0af00f6a2cba2058b5db
+<2>  3629    Yes   KASAN: slab-out-of-bounds Read in ntfs_iget5
+                   https://syzkaller.appspot.com/bug?extid=b4084c18420f9fad0b4f
+<3>  2282    Yes   possible deadlock in ni_fiemap
+                   https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
+<4>  1943    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<5>  1575    Yes   possible deadlock in attr_data_get_block
+                   https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
+<6>  826     No    possible deadlock in ntfs_mark_rec_free
+                   https://syzkaller.appspot.com/bug?extid=f83f0dbef763c426e3cf
+<7>  775     Yes   possible deadlock in mi_read
+                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
+<8>  583     Yes   possible deadlock in ntfs_fiemap
+                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+<9>  570     Yes   possible deadlock in filemap_fault
+                   https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
+<10> 312     Yes   kernel BUG at fs/inode.c:LINE! (2)
+                   https://syzkaller.appspot.com/bug?extid=c92c93d1f1aaaacdb9db
+
 ---
- fs/ntfs3/xattr.c | 3 +++
- 1 file changed, 3 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 4274b6f31cfa..3b97508a7bf2 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -219,6 +219,9 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, char *buffer,
- 		if (!ea->name_len)
- 			break;
- 
-+		if (ea->name_len > ea_size)
-+			break;
-+
- 		if (buffer) {
- 			/* Check if we can use field ea->name */
- 			if (off + ea_size > size)
--- 
-2.43.0
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
+You may send multiple commands in a single email message.
