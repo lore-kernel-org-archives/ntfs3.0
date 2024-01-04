@@ -1,67 +1,141 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31451FB4
-	for <ntfs3@lists.linux.dev>; Thu,  4 Jan 2024 02:02:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EC021364
+	for <ntfs3@lists.linux.dev>; Thu,  4 Jan 2024 12:04:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7b9648cb909so3372039f.0
-        for <ntfs3@lists.linux.dev>; Wed, 03 Jan 2024 18:02:07 -0800 (PST)
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-35ffb5723e9so2262965ab.2
+        for <ntfs3@lists.linux.dev>; Thu, 04 Jan 2024 04:04:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704333727; x=1704938527;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nkBZt+cJe9CSsbLvp8nYImZh+jjmiG7w16VVgl/Z6io=;
-        b=PxbSCz2M6INbpXUXlmb5LapQbz+NUZ1jqm+dXuQ38Qgi3NHGi3GvWcpwwTKWnBdNKd
-         g11Q384wtBQXYFVTaqXpk7iGTR8dwSOclCAz5IjWHmPAsm1o36s0O7SuUX/WGLSpYvQi
-         UcLUNydVminCPKBtofMhw745SpQCO6ojgfdzro+taVvWO8z9qrqSfNEZzme25Ix3wMaS
-         xx3wG4u+BLEc0SqdjYhdMjzxQE5M29e/kTBSBY8NTeHY/6k38bffNM5Xs6soJLkkZsaz
-         i1vUqtK7Xq/nGfOFk18C62SMwmEWyfOQQpVHutYS8pntxdQ1315vwphSHBZf922eu2Zf
-         iPUA==
-X-Gm-Message-State: AOJu0YyL42dRs8VThMwjNFlzsCY86Wv3FLbCe1INgWYWsriSMvAsFd9N
-	eiIcQCxU9JGkwKr79ko6MPZF6XIyEVawuulbrsq+Rpol5fks
-X-Google-Smtp-Source: AGHT+IFfv6RdAzd8APK4ZvQJnNCX1qY/ZFYz1XbmG/kEkEPVEKsRMAzfwiIH49DuVoTIzElQLvykLZ2Jq46DQqj2RviGrtInflI0
+        d=1e100.net; s=20230601; t=1704369865; x=1704974665;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5h4zCC2hUS/A4eGxWFau/Ir/9rP/TRBrjlRWoRrC1o8=;
+        b=t/rwAKYb/ipTBb4LK4Y/EY0E+fCRMu6Utp7srRz82sb7QiCB5IFiHiECStDMPIdvov
+         he6v6Bi4pSt9LqvAF+FyY3yX0B0NhnRLh1ABMTcn2HlkRygKQ5ps9DnIu1pUiFAwpQT1
+         AXSsJ0KUtxDnmCMkbtYQuZ7TdoOFLtSOv9l0hZvwiJsCch/PK+uCD2P90cQMfHHsd1ZE
+         f/n4OPf8pO5eRPgp9vmi1qodpAg4s65HNC5DTQjvfsMIIy99Pgmtw7fMAQCS8i+wx/Nk
+         FIeMU2P88xhAcRkqbPxxi68xk4H3W+WThWQkJk3gb7KcHIb4rhVez4alvOW8GIWE+heF
+         1yug==
+X-Gm-Message-State: AOJu0YzGMi+hdw+QXLM87uHZUjI97L9Th0Sxrf8w7Y+rQYaXKNFSxM/7
+	Q7+Tgw9kSphAkmo6vvEdz6kEa2aX5oEQfMG7W7reRFb82MI9
+X-Google-Smtp-Source: AGHT+IEpRdYEUpk+QhT8i+5s3rd/dbOy04wsTYq0jFBu6zIyiwxN5sLmfhVs+S11QU0A2JGZ1WH88c+DRE7pk+Bm7MDN3UCGPqZo
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:218a:b0:35f:ebc7:6065 with SMTP id
- j10-20020a056e02218a00b0035febc76065mr3325495ila.1.1704333726999; Wed, 03 Jan
- 2024 18:02:06 -0800 (PST)
-Date: Wed, 03 Jan 2024 18:02:06 -0800
-In-Reply-To: <0000000000008aa01105ec98487b@google.com>
+X-Received: by 2002:a05:6e02:1a2a:b0:35f:f683:f76b with SMTP id
+ g10-20020a056e021a2a00b0035ff683f76bmr75190ile.3.1704369865137; Thu, 04 Jan
+ 2024 04:04:25 -0800 (PST)
+Date: Thu, 04 Jan 2024 04:04:25 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000606eb4060e151e5f@google.com>
-Subject: Re: [syzbot] [ntfs3?] possible deadlock in filemap_fault
-From: syzbot <syzbot+7736960b837908f3a81d@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, almaz.alexandrovich@paragon-software.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, nogikh@google.com, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, willy@infradead.org
+Message-ID: <00000000000060a6c9060e1d8851@google.com>
+Subject: [syzbot] [ntfs3?] KMSAN: kernel-infoleak in listxattr
+From: syzbot <syzbot+608044293020556ff16b@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-syzbot has bisected this issue to:
+Hello,
 
-commit ad26a9c84510af7252e582e811de970433a9758f
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Fri Oct 7 17:08:06 2022 +0000
+syzbot found the following issue on:
 
-    fs/ntfs3: Fixing wrong logic in attr_set_size and ntfs_fallocate
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=152a3829e80000
-start commit:   610a9b8f49fb Linux 6.7-rc8
+HEAD commit:    8735c7c84d1b Merge tag '6.7rc7-smb3-srv-fix' of git://git...
 git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=172a3829e80000
-console output: https://syzkaller.appspot.com/x/log.txt?x=132a3829e80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=655f8abe9fe69b3b
-dashboard link: https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11013129e80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12c68929e80000
+console output: https://syzkaller.appspot.com/x/log.txt?x=11dec9a1e80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d4130d4bb32c48ef
+dashboard link: https://syzkaller.appspot.com/bug?extid=608044293020556ff16b
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
 
-Reported-by: syzbot+7736960b837908f3a81d@syzkaller.appspotmail.com
-Fixes: ad26a9c84510 ("fs/ntfs3: Fixing wrong logic in attr_set_size and ntfs_fallocate")
+Unfortunately, I don't have any reproducer for this issue yet.
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/03cd0531b6f3/disk-8735c7c8.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6bb4ebecaed0/vmlinux-8735c7c8.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/e40c5a86a2b5/bzImage-8735c7c8.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+608044293020556ff16b@syzkaller.appspotmail.com
+
+=====================================================
+BUG: KMSAN: kernel-infoleak in instrument_copy_to_user include/linux/instrumented.h:114 [inline]
+BUG: KMSAN: kernel-infoleak in _copy_to_user+0xbc/0x100 lib/usercopy.c:40
+ instrument_copy_to_user include/linux/instrumented.h:114 [inline]
+ _copy_to_user+0xbc/0x100 lib/usercopy.c:40
+ copy_to_user include/linux/uaccess.h:191 [inline]
+ listxattr+0x2e9/0x6a0 fs/xattr.c:843
+ path_listxattr fs/xattr.c:865 [inline]
+ __do_sys_listxattr fs/xattr.c:877 [inline]
+ __se_sys_listxattr fs/xattr.c:874 [inline]
+ __x64_sys_listxattr+0x16b/0x2e0 fs/xattr.c:874
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0x44/0x110 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+Uninit was stored to memory at:
+ ntfs_list_ea fs/ntfs3/xattr.c:232 [inline]
+ ntfs_listxattr+0x5d2/0x8d0 fs/ntfs3/xattr.c:733
+ vfs_listxattr fs/xattr.c:494 [inline]
+ listxattr+0x1f0/0x6a0 fs/xattr.c:841
+ path_listxattr fs/xattr.c:865 [inline]
+ __do_sys_listxattr fs/xattr.c:877 [inline]
+ __se_sys_listxattr fs/xattr.c:874 [inline]
+ __x64_sys_listxattr+0x16b/0x2e0 fs/xattr.c:874
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0x44/0x110 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+Uninit was created at:
+ slab_post_alloc_hook+0x129/0xa70 mm/slab.h:768
+ slab_alloc_node mm/slub.c:3478 [inline]
+ __kmem_cache_alloc_node+0x5c9/0x970 mm/slub.c:3517
+ __do_kmalloc_node mm/slab_common.c:1006 [inline]
+ __kmalloc+0x121/0x3c0 mm/slab_common.c:1020
+ kmalloc include/linux/slab.h:604 [inline]
+ ntfs_read_ea+0x78c/0x10b0 fs/ntfs3/xattr.c:118
+ ntfs_list_ea fs/ntfs3/xattr.c:204 [inline]
+ ntfs_listxattr+0x173/0x8d0 fs/ntfs3/xattr.c:733
+ vfs_listxattr fs/xattr.c:494 [inline]
+ listxattr+0x1f0/0x6a0 fs/xattr.c:841
+ path_listxattr fs/xattr.c:865 [inline]
+ __do_sys_listxattr fs/xattr.c:877 [inline]
+ __se_sys_listxattr fs/xattr.c:874 [inline]
+ __x64_sys_listxattr+0x16b/0x2e0 fs/xattr.c:874
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0x44/0x110 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+Bytes 26-31 of 63 are uninitialized
+Memory access of size 63 starts at ffff888103174b40
+Data copied to user address 0000000020000080
+
+CPU: 0 PID: 5727 Comm: syz-executor.4 Not tainted 6.7.0-rc7-syzkaller-00029-g8735c7c84d1b #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
+=====================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
