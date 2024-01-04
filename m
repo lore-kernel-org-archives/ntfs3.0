@@ -1,88 +1,67 @@
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E6812E5D
-	for <ntfs3@lists.linux.dev>; Tue,  2 Jan 2024 13:36:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31451FB4
+	for <ntfs3@lists.linux.dev>; Thu,  4 Jan 2024 02:02:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-7baa6cc3af2so909223539f.2
-        for <ntfs3@lists.linux.dev>; Tue, 02 Jan 2024 05:36:28 -0800 (PST)
+Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7b9648cb909so3372039f.0
+        for <ntfs3@lists.linux.dev>; Wed, 03 Jan 2024 18:02:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704202588; x=1704807388;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xq+9JpQRqUPWRsi8LPCu9kv4AtckUKGAz3Nf0QkOMJM=;
-        b=b5cUmwqfMj3r89pGfJIHolsSDHklNMuNWKaEvcL9TncK0yqTJg9YtGUfPiiOXfEq3b
-         399Ba1C6g/qs0sJ3H+bIB46Bn/v/jMS0NMBKX2F1Tu2fPOKIIBq1whwKTMb/VQDNvPDE
-         B7G4oS5Wttoysw9lKT9j3I8ekoi7fPVqFItnJ7PAmihVp548uvDI8G68HhAMsGBCfT7u
-         h0BOEEgbgBfICAqHZ/pSgEcM6rBOrsUswOe23TuBrlJwQLQQlf11aQKN14hRjYwI0RVv
-         PvfhQfqkbnHuEsO8LpvuenypwS4E9lGgGV3uWnGNxWqDxhGYmYHnM5C/qEVmgofjV0j1
-         xS0Q==
-X-Gm-Message-State: AOJu0Yzl3cIxUVo7CILeX/+vezmZ6TiolKxmybQHPqOez7VC8rBv9N/Z
-	OhrDZ36iXHfRbYKHCzPCIslD88nrWbBfWtEk+qIOKTmmmVvM
-X-Google-Smtp-Source: AGHT+IGTvLM/soxJTtptngRbvo7c8EtklHcLe01Sh43enMqIUNyziXdQ72rwM8Pc4KX9om/QFroNsPp+89Hx9PGGyBBQnc7xKrWY
+        d=1e100.net; s=20230601; t=1704333727; x=1704938527;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nkBZt+cJe9CSsbLvp8nYImZh+jjmiG7w16VVgl/Z6io=;
+        b=PxbSCz2M6INbpXUXlmb5LapQbz+NUZ1jqm+dXuQ38Qgi3NHGi3GvWcpwwTKWnBdNKd
+         g11Q384wtBQXYFVTaqXpk7iGTR8dwSOclCAz5IjWHmPAsm1o36s0O7SuUX/WGLSpYvQi
+         UcLUNydVminCPKBtofMhw745SpQCO6ojgfdzro+taVvWO8z9qrqSfNEZzme25Ix3wMaS
+         xx3wG4u+BLEc0SqdjYhdMjzxQE5M29e/kTBSBY8NTeHY/6k38bffNM5Xs6soJLkkZsaz
+         i1vUqtK7Xq/nGfOFk18C62SMwmEWyfOQQpVHutYS8pntxdQ1315vwphSHBZf922eu2Zf
+         iPUA==
+X-Gm-Message-State: AOJu0YyL42dRs8VThMwjNFlzsCY86Wv3FLbCe1INgWYWsriSMvAsFd9N
+	eiIcQCxU9JGkwKr79ko6MPZF6XIyEVawuulbrsq+Rpol5fks
+X-Google-Smtp-Source: AGHT+IFfv6RdAzd8APK4ZvQJnNCX1qY/ZFYz1XbmG/kEkEPVEKsRMAzfwiIH49DuVoTIzElQLvykLZ2Jq46DQqj2RviGrtInflI0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:3586:b0:46b:6ffc:cb79 with SMTP id
- v6-20020a056638358600b0046b6ffccb79mr514449jal.3.1704202588101; Tue, 02 Jan
- 2024 05:36:28 -0800 (PST)
-Date: Tue, 02 Jan 2024 05:36:28 -0800
+X-Received: by 2002:a05:6e02:218a:b0:35f:ebc7:6065 with SMTP id
+ j10-20020a056e02218a00b0035febc76065mr3325495ila.1.1704333726999; Wed, 03 Jan
+ 2024 18:02:06 -0800 (PST)
+Date: Wed, 03 Jan 2024 18:02:06 -0800
+In-Reply-To: <0000000000008aa01105ec98487b@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e3a1c3060df6956c@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Jan 2024)
-From: syzbot <syzbot+listb24c70845ff6f3242c14@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
+Message-ID: <000000000000606eb4060e151e5f@google.com>
+Subject: Re: [syzbot] [ntfs3?] possible deadlock in filemap_fault
+From: syzbot <syzbot+7736960b837908f3a81d@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, almaz.alexandrovich@paragon-software.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, nogikh@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, willy@infradead.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hello ntfs3 maintainers/developers,
+syzbot has bisected this issue to:
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+commit ad26a9c84510af7252e582e811de970433a9758f
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Fri Oct 7 17:08:06 2022 +0000
 
-During the period, 2 new issues were detected and 0 were fixed.
-In total, 47 issues are still open and 28 have been fixed so far.
+    fs/ntfs3: Fixing wrong logic in attr_set_size and ntfs_fallocate
 
-Some of the still happening issues:
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=152a3829e80000
+start commit:   610a9b8f49fb Linux 6.7-rc8
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=172a3829e80000
+console output: https://syzkaller.appspot.com/x/log.txt?x=132a3829e80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=655f8abe9fe69b3b
+dashboard link: https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11013129e80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12c68929e80000
 
-Ref  Crashes Repro Title
-<1>  11376   Yes   VFS: Busy inodes after unmount (use-after-free)
-                   https://syzkaller.appspot.com/bug?extid=0af00f6a2cba2058b5db
-<2>  3629    Yes   KASAN: slab-out-of-bounds Read in ntfs_iget5
-                   https://syzkaller.appspot.com/bug?extid=b4084c18420f9fad0b4f
-<3>  2282    Yes   possible deadlock in ni_fiemap
-                   https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
-<4>  1943    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
-                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
-<5>  1575    Yes   possible deadlock in attr_data_get_block
-                   https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
-<6>  826     No    possible deadlock in ntfs_mark_rec_free
-                   https://syzkaller.appspot.com/bug?extid=f83f0dbef763c426e3cf
-<7>  775     Yes   possible deadlock in mi_read
-                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
-<8>  583     Yes   possible deadlock in ntfs_fiemap
-                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
-<9>  570     Yes   possible deadlock in filemap_fault
-                   https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
-<10> 312     Yes   kernel BUG at fs/inode.c:LINE! (2)
-                   https://syzkaller.appspot.com/bug?extid=c92c93d1f1aaaacdb9db
+Reported-by: syzbot+7736960b837908f3a81d@syzkaller.appspotmail.com
+Fixes: ad26a9c84510 ("fs/ntfs3: Fixing wrong logic in attr_set_size and ntfs_fallocate")
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
