@@ -1,41 +1,41 @@
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EC021364
-	for <ntfs3@lists.linux.dev>; Thu,  4 Jan 2024 12:04:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682EC3C060
+	for <ntfs3@lists.linux.dev>; Tue,  9 Jan 2024 18:17:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-35ffb5723e9so2262965ab.2
-        for <ntfs3@lists.linux.dev>; Thu, 04 Jan 2024 04:04:25 -0800 (PST)
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-35fc70bd879so24475655ab.3
+        for <ntfs3@lists.linux.dev>; Tue, 09 Jan 2024 10:17:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704369865; x=1704974665;
+        d=1e100.net; s=20230601; t=1704824254; x=1705429054;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=5h4zCC2hUS/A4eGxWFau/Ir/9rP/TRBrjlRWoRrC1o8=;
-        b=t/rwAKYb/ipTBb4LK4Y/EY0E+fCRMu6Utp7srRz82sb7QiCB5IFiHiECStDMPIdvov
-         he6v6Bi4pSt9LqvAF+FyY3yX0B0NhnRLh1ABMTcn2HlkRygKQ5ps9DnIu1pUiFAwpQT1
-         AXSsJ0KUtxDnmCMkbtYQuZ7TdoOFLtSOv9l0hZvwiJsCch/PK+uCD2P90cQMfHHsd1ZE
-         f/n4OPf8pO5eRPgp9vmi1qodpAg4s65HNC5DTQjvfsMIIy99Pgmtw7fMAQCS8i+wx/Nk
-         FIeMU2P88xhAcRkqbPxxi68xk4H3W+WThWQkJk3gb7KcHIb4rhVez4alvOW8GIWE+heF
-         1yug==
-X-Gm-Message-State: AOJu0YzGMi+hdw+QXLM87uHZUjI97L9Th0Sxrf8w7Y+rQYaXKNFSxM/7
-	Q7+Tgw9kSphAkmo6vvEdz6kEa2aX5oEQfMG7W7reRFb82MI9
-X-Google-Smtp-Source: AGHT+IEpRdYEUpk+QhT8i+5s3rd/dbOy04wsTYq0jFBu6zIyiwxN5sLmfhVs+S11QU0A2JGZ1WH88c+DRE7pk+Bm7MDN3UCGPqZo
+        bh=9q9BQ0S8Z7KHiPZJPX58CFOxs6oGvr+J2FtFtceRXv0=;
+        b=TLhbS2XD8xN3cDHgvRwk3h5/sy6T5umDYeA4/0Ny5wyz8oWbZ6PPDP6in7Gis1r50L
+         IFkH8szVO36HkPNqVdrmTEgSJoDTFS/+M3MMXFcmBXEPouaBaneeHlq/EWnCYI1TRJ15
+         19o27Vf2COCLDC9OmlEm3de+rjpxp6ghxaHkKbr0TsXIC1+JXg8rZEGPy/OgSk5tDBzF
+         Rxd/aPWxMs4rx6h0BVtYvSnJQF9PvkxKsl82t2FBMCfaz4xam9tTni+4YpYF2rbbomMG
+         T0OsRebo6IPH69OGPOvIDHG3qU1eoncmMXg0OFk1geKMt7W4LOSfwUX06H37v0Gx3Rag
+         qyww==
+X-Gm-Message-State: AOJu0YzhgiTXYBOhsC01HnI7FGfDMZifMgMTmnNPVkaGKoqNEaTFCFUN
+	h4PS7qHnNwTfsjZ2Tt2q4zkQxibkc0I6SK7ejyZd4qgiC2XC
+X-Google-Smtp-Source: AGHT+IECh7dq0OJhdu8BR4nOMYRpySyGF6OM/CdT6o9s8bEHo6jBLQw5MJf6QeztWdaW1EZtQb1wH5mfqwa7rqayCf9EC4qZfJKz
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1a2a:b0:35f:f683:f76b with SMTP id
- g10-20020a056e021a2a00b0035ff683f76bmr75190ile.3.1704369865137; Thu, 04 Jan
- 2024 04:04:25 -0800 (PST)
-Date: Thu, 04 Jan 2024 04:04:25 -0800
+X-Received: by 2002:a05:6e02:2163:b0:35f:affb:bd7b with SMTP id
+ s3-20020a056e02216300b0035faffbbd7bmr663388ilv.2.1704824254628; Tue, 09 Jan
+ 2024 10:17:34 -0800 (PST)
+Date: Tue, 09 Jan 2024 10:17:34 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000060a6c9060e1d8851@google.com>
-Subject: [syzbot] [ntfs3?] KMSAN: kernel-infoleak in listxattr
-From: syzbot <syzbot+608044293020556ff16b@syzkaller.appspotmail.com>
+Message-ID: <0000000000001a0a38060e875458@google.com>
+Subject: [syzbot] [ntfs3?] KMSAN: uninit-value in longest_match_std (2)
+From: syzbot <syzbot+08d8956768c96a2c52cf@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
 	syzkaller-bugs@googlegroups.com
@@ -45,76 +45,68 @@ Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    8735c7c84d1b Merge tag '6.7rc7-smb3-srv-fix' of git://git...
+HEAD commit:    610a9b8f49fb Linux 6.7-rc8
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11dec9a1e80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d4130d4bb32c48ef
-dashboard link: https://syzkaller.appspot.com/bug?extid=608044293020556ff16b
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=11a0f711e80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e51fe20c3e51ba7f
+dashboard link: https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
 compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-
-Unfortunately, I don't have any reproducer for this issue yet.
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=141f845ee80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1413cf11e80000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/03cd0531b6f3/disk-8735c7c8.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/6bb4ebecaed0/vmlinux-8735c7c8.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/e40c5a86a2b5/bzImage-8735c7c8.xz
+disk image: https://storage.googleapis.com/syzbot-assets/28ecdd56de1e/disk-610a9b8f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/3c5afc17c174/vmlinux-610a9b8f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/96ff79b2992d/bzImage-610a9b8f.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/689e00cd89ff/mount_0.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+608044293020556ff16b@syzkaller.appspotmail.com
+Reported-by: syzbot+08d8956768c96a2c52cf@syzkaller.appspotmail.com
 
+ntfs3: loop0: Failed to initialize $Extend/$ObjId.
 =====================================================
-BUG: KMSAN: kernel-infoleak in instrument_copy_to_user include/linux/instrumented.h:114 [inline]
-BUG: KMSAN: kernel-infoleak in _copy_to_user+0xbc/0x100 lib/usercopy.c:40
- instrument_copy_to_user include/linux/instrumented.h:114 [inline]
- _copy_to_user+0xbc/0x100 lib/usercopy.c:40
- copy_to_user include/linux/uaccess.h:191 [inline]
- listxattr+0x2e9/0x6a0 fs/xattr.c:843
- path_listxattr fs/xattr.c:865 [inline]
- __do_sys_listxattr fs/xattr.c:877 [inline]
- __se_sys_listxattr fs/xattr.c:874 [inline]
- __x64_sys_listxattr+0x16b/0x2e0 fs/xattr.c:874
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0x44/0x110 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x63/0x6b
-
-Uninit was stored to memory at:
- ntfs_list_ea fs/ntfs3/xattr.c:232 [inline]
- ntfs_listxattr+0x5d2/0x8d0 fs/ntfs3/xattr.c:733
- vfs_listxattr fs/xattr.c:494 [inline]
- listxattr+0x1f0/0x6a0 fs/xattr.c:841
- path_listxattr fs/xattr.c:865 [inline]
- __do_sys_listxattr fs/xattr.c:877 [inline]
- __se_sys_listxattr fs/xattr.c:874 [inline]
- __x64_sys_listxattr+0x16b/0x2e0 fs/xattr.c:874
+BUG: KMSAN: uninit-value in longest_match_std+0x5d9/0xe00 fs/ntfs3/lznt.c:60
+ longest_match_std+0x5d9/0xe00 fs/ntfs3/lznt.c:60
+ compress_chunk fs/ntfs3/lznt.c:170 [inline]
+ compress_lznt+0x41b/0xef0 fs/ntfs3/lznt.c:336
+ ni_write_frame+0xf89/0x1c80 fs/ntfs3/frecord.c:2839
+ ntfs_compress_write+0x2521/0x3b70 fs/ntfs3/file.c:995
+ ntfs_file_write_iter+0x89b/0xd30 fs/ntfs3/file.c:1081
+ call_write_iter include/linux/fs.h:2020 [inline]
+ new_sync_write fs/read_write.c:491 [inline]
+ vfs_write+0x8ef/0x1490 fs/read_write.c:584
+ ksys_write+0x20f/0x4c0 fs/read_write.c:637
+ __do_sys_write fs/read_write.c:649 [inline]
+ __se_sys_write fs/read_write.c:646 [inline]
+ __x64_sys_write+0x93/0xd0 fs/read_write.c:646
  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
  do_syscall_64+0x44/0x110 arch/x86/entry/common.c:83
  entry_SYSCALL_64_after_hwframe+0x63/0x6b
 
 Uninit was created at:
- slab_post_alloc_hook+0x129/0xa70 mm/slab.h:768
- slab_alloc_node mm/slub.c:3478 [inline]
- __kmem_cache_alloc_node+0x5c9/0x970 mm/slub.c:3517
- __do_kmalloc_node mm/slab_common.c:1006 [inline]
- __kmalloc+0x121/0x3c0 mm/slab_common.c:1020
- kmalloc include/linux/slab.h:604 [inline]
- ntfs_read_ea+0x78c/0x10b0 fs/ntfs3/xattr.c:118
- ntfs_list_ea fs/ntfs3/xattr.c:204 [inline]
- ntfs_listxattr+0x173/0x8d0 fs/ntfs3/xattr.c:733
- vfs_listxattr fs/xattr.c:494 [inline]
- listxattr+0x1f0/0x6a0 fs/xattr.c:841
- path_listxattr fs/xattr.c:865 [inline]
- __do_sys_listxattr fs/xattr.c:877 [inline]
- __se_sys_listxattr fs/xattr.c:874 [inline]
- __x64_sys_listxattr+0x16b/0x2e0 fs/xattr.c:874
+ __alloc_pages+0x9a4/0xe00 mm/page_alloc.c:4591
+ alloc_pages_mpol+0x62b/0x9d0 mm/mempolicy.c:2133
+ alloc_pages mm/mempolicy.c:2204 [inline]
+ folio_alloc+0x1da/0x380 mm/mempolicy.c:2211
+ filemap_alloc_folio+0xa5/0x430 mm/filemap.c:974
+ __filemap_get_folio+0xa5a/0x1760 mm/filemap.c:1918
+ pagecache_get_page+0x4a/0x1a0 mm/folio-compat.c:99
+ find_or_create_page include/linux/pagemap.h:740 [inline]
+ ntfs_get_frame_pages+0xdc/0x9f0 fs/ntfs3/file.c:794
+ ntfs_compress_write+0x1b0b/0x3b70 fs/ntfs3/file.c:944
+ ntfs_file_write_iter+0x89b/0xd30 fs/ntfs3/file.c:1081
+ call_write_iter include/linux/fs.h:2020 [inline]
+ new_sync_write fs/read_write.c:491 [inline]
+ vfs_write+0x8ef/0x1490 fs/read_write.c:584
+ ksys_write+0x20f/0x4c0 fs/read_write.c:637
+ __do_sys_write fs/read_write.c:649 [inline]
+ __se_sys_write fs/read_write.c:646 [inline]
+ __x64_sys_write+0x93/0xd0 fs/read_write.c:646
  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
  do_syscall_64+0x44/0x110 arch/x86/entry/common.c:83
  entry_SYSCALL_64_after_hwframe+0x63/0x6b
 
-Bytes 26-31 of 63 are uninitialized
-Memory access of size 63 starts at ffff888103174b40
-Data copied to user address 0000000020000080
-
-CPU: 0 PID: 5727 Comm: syz-executor.4 Not tainted 6.7.0-rc7-syzkaller-00029-g8735c7c84d1b #0
+CPU: 0 PID: 4999 Comm: syz-executor227 Not tainted 6.7.0-rc8-syzkaller #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
 =====================================================
 
@@ -129,6 +121,10 @@ https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
 If the report is already addressed, let syzbot know by replying with:
 #syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
 If you want to overwrite report's subsystems, reply with:
 #syz set subsystems: new-subsystem
