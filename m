@@ -1,137 +1,69 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682EC3C060
-	for <ntfs3@lists.linux.dev>; Tue,  9 Jan 2024 18:17:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412291803E
+	for <ntfs3@lists.linux.dev>; Sat, 13 Jan 2024 23:43:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-35fc70bd879so24475655ab.3
-        for <ntfs3@lists.linux.dev>; Tue, 09 Jan 2024 10:17:35 -0800 (PST)
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-7baa66ebd17so724998039f.1
+        for <ntfs3@lists.linux.dev>; Sat, 13 Jan 2024 15:43:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704824254; x=1705429054;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9q9BQ0S8Z7KHiPZJPX58CFOxs6oGvr+J2FtFtceRXv0=;
-        b=TLhbS2XD8xN3cDHgvRwk3h5/sy6T5umDYeA4/0Ny5wyz8oWbZ6PPDP6in7Gis1r50L
-         IFkH8szVO36HkPNqVdrmTEgSJoDTFS/+M3MMXFcmBXEPouaBaneeHlq/EWnCYI1TRJ15
-         19o27Vf2COCLDC9OmlEm3de+rjpxp6ghxaHkKbr0TsXIC1+JXg8rZEGPy/OgSk5tDBzF
-         Rxd/aPWxMs4rx6h0BVtYvSnJQF9PvkxKsl82t2FBMCfaz4xam9tTni+4YpYF2rbbomMG
-         T0OsRebo6IPH69OGPOvIDHG3qU1eoncmMXg0OFk1geKMt7W4LOSfwUX06H37v0Gx3Rag
-         qyww==
-X-Gm-Message-State: AOJu0YzhgiTXYBOhsC01HnI7FGfDMZifMgMTmnNPVkaGKoqNEaTFCFUN
-	h4PS7qHnNwTfsjZ2Tt2q4zkQxibkc0I6SK7ejyZd4qgiC2XC
-X-Google-Smtp-Source: AGHT+IECh7dq0OJhdu8BR4nOMYRpySyGF6OM/CdT6o9s8bEHo6jBLQw5MJf6QeztWdaW1EZtQb1wH5mfqwa7rqayCf9EC4qZfJKz
+        d=1e100.net; s=20230601; t=1705189384; x=1705794184;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zVTEW8gc72M35iNvfDiHYtRKqIshGB2+jqJ982idX6k=;
+        b=iYUf7S2dGs+miabM3MNdZPKkSjIOtw3DOIq5+/C+62SUtrwafDA6kqhnvZwvY9Enjp
+         NtA2QEp2/XoOdgNSFr0E5JeaqbXnnyIMthrwLuJ0bSgL2yxb+4yJ+VHqyJzs2pNL0UMt
+         hSfcl6jG8Up1eFJz4ILWQJpFxB9NrsG//f0t2TAwnXhqUUBcsyqKYnkAsrkn6aEZItod
+         0BaqdN4WjUOZAfYOb+c1K4Xyg9w/G/xkFoj5IiFjrG8Z6s5voJMYJ+T1iGEJhuKBnLtd
+         IBGrc078veXCXsRpNVG580kKS6yWyQwHFo857Zk7uasV1+dJn+lMdls8yk+QobCAz9wZ
+         KXKA==
+X-Gm-Message-State: AOJu0Yz5SmKoNuQhS6V80hhRn1wXoOaD12h2Lnqo3nYUeAP+7zdpRfkA
+	2aORM6B7fajcKM/oIqPfQvMF+q8nOqYobdfSV0oEGwkf4Jg8
+X-Google-Smtp-Source: AGHT+IEoE88xswoj1XMACKCuRvTqh3qvUyE+/ZEIUu0VnsFJvYaDtYF86Tu5LYULFTn2qTIYM66IXQwHIh12WrkP+WjTC6B3RfxB
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:2163:b0:35f:affb:bd7b with SMTP id
- s3-20020a056e02216300b0035faffbbd7bmr663388ilv.2.1704824254628; Tue, 09 Jan
- 2024 10:17:34 -0800 (PST)
-Date: Tue, 09 Jan 2024 10:17:34 -0800
+X-Received: by 2002:a05:6e02:1a03:b0:35f:affb:bd7b with SMTP id
+ s3-20020a056e021a0300b0035faffbbd7bmr535715ild.2.1705189384468; Sat, 13 Jan
+ 2024 15:43:04 -0800 (PST)
+Date: Sat, 13 Jan 2024 15:43:04 -0800
+In-Reply-To: <000000000000ed1df405f05224aa@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001a0a38060e875458@google.com>
-Subject: [syzbot] [ntfs3?] KMSAN: uninit-value in longest_match_std (2)
-From: syzbot <syzbot+08d8956768c96a2c52cf@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
+Message-ID: <0000000000008942ff060edc57fb@google.com>
+Subject: Re: [syzbot] [ntfs3?] possible deadlock in ntfs_set_state
+From: syzbot <syzbot+f91c29a5d5a01ada051a@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, axboe@kernel.dk, 
+	brauner@kernel.org, bvanassche@acm.org, hch@lst.de, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, martin.petersen@oracle.com, nathan@kernel.org, 
+	ndesaulniers@google.com, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, trix@redhat.com, viro@zeniv.linux.org.uk, 
+	yanaijie@huawei.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+syzbot suspects this issue was fixed by commit:
 
-syzbot found the following issue on:
+commit 6f861765464f43a71462d52026fbddfc858239a5
+Author: Jan Kara <jack@suse.cz>
+Date:   Wed Nov 1 17:43:10 2023 +0000
 
-HEAD commit:    610a9b8f49fb Linux 6.7-rc8
+    fs: Block writes to mounted block devices
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10f71683e80000
+start commit:   8f6f76a6a29f Merge tag 'mm-nonmm-stable-2023-11-02-14-08' ..
 git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=11a0f711e80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e51fe20c3e51ba7f
-dashboard link: https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=141f845ee80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1413cf11e80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=94632a8e2ffd08bb
+dashboard link: https://syzkaller.appspot.com/bug?extid=f91c29a5d5a01ada051a
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15af0317680000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10de04b0e80000
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/28ecdd56de1e/disk-610a9b8f.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/3c5afc17c174/vmlinux-610a9b8f.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/96ff79b2992d/bzImage-610a9b8f.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/689e00cd89ff/mount_0.gz
+If the result looks correct, please mark the issue as fixed by replying with:
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+08d8956768c96a2c52cf@syzkaller.appspotmail.com
+#syz fix: fs: Block writes to mounted block devices
 
-ntfs3: loop0: Failed to initialize $Extend/$ObjId.
-=====================================================
-BUG: KMSAN: uninit-value in longest_match_std+0x5d9/0xe00 fs/ntfs3/lznt.c:60
- longest_match_std+0x5d9/0xe00 fs/ntfs3/lznt.c:60
- compress_chunk fs/ntfs3/lznt.c:170 [inline]
- compress_lznt+0x41b/0xef0 fs/ntfs3/lznt.c:336
- ni_write_frame+0xf89/0x1c80 fs/ntfs3/frecord.c:2839
- ntfs_compress_write+0x2521/0x3b70 fs/ntfs3/file.c:995
- ntfs_file_write_iter+0x89b/0xd30 fs/ntfs3/file.c:1081
- call_write_iter include/linux/fs.h:2020 [inline]
- new_sync_write fs/read_write.c:491 [inline]
- vfs_write+0x8ef/0x1490 fs/read_write.c:584
- ksys_write+0x20f/0x4c0 fs/read_write.c:637
- __do_sys_write fs/read_write.c:649 [inline]
- __se_sys_write fs/read_write.c:646 [inline]
- __x64_sys_write+0x93/0xd0 fs/read_write.c:646
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0x44/0x110 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x63/0x6b
-
-Uninit was created at:
- __alloc_pages+0x9a4/0xe00 mm/page_alloc.c:4591
- alloc_pages_mpol+0x62b/0x9d0 mm/mempolicy.c:2133
- alloc_pages mm/mempolicy.c:2204 [inline]
- folio_alloc+0x1da/0x380 mm/mempolicy.c:2211
- filemap_alloc_folio+0xa5/0x430 mm/filemap.c:974
- __filemap_get_folio+0xa5a/0x1760 mm/filemap.c:1918
- pagecache_get_page+0x4a/0x1a0 mm/folio-compat.c:99
- find_or_create_page include/linux/pagemap.h:740 [inline]
- ntfs_get_frame_pages+0xdc/0x9f0 fs/ntfs3/file.c:794
- ntfs_compress_write+0x1b0b/0x3b70 fs/ntfs3/file.c:944
- ntfs_file_write_iter+0x89b/0xd30 fs/ntfs3/file.c:1081
- call_write_iter include/linux/fs.h:2020 [inline]
- new_sync_write fs/read_write.c:491 [inline]
- vfs_write+0x8ef/0x1490 fs/read_write.c:584
- ksys_write+0x20f/0x4c0 fs/read_write.c:637
- __do_sys_write fs/read_write.c:649 [inline]
- __se_sys_write fs/read_write.c:646 [inline]
- __x64_sys_write+0x93/0xd0 fs/read_write.c:646
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0x44/0x110 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x63/0x6b
-
-CPU: 0 PID: 4999 Comm: syz-executor227 Not tainted 6.7.0-rc8-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
-=====================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
