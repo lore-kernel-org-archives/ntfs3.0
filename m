@@ -1,81 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F4A10F2
-	for <ntfs3@lists.linux.dev>; Mon, 15 Jan 2024 11:41:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24433182A3;
+	Mon, 15 Jan 2024 13:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aMUBf7ZM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A681C433C7
-	for <ntfs3@lists.linux.dev>; Mon, 15 Jan 2024 11:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705318904;
-	bh=AF4YEywEnYTlM03/Plpih4Pbca1bnQhXFsGI2ay5Fuk=;
-	h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-	b=aMUBf7ZMLDqZof18KXDBvK0s9WPm0D3E0ghUDuhizxd/BfOFxeWWCYrFeIFLfhO07
-	 TyJLWgVhUOiupwm8vrR2Xa+HtKMSvvXmlamxDRmJLhaPKVyVaXbWeyJYjfafi/ryqK
-	 shaN3tt79fcyW+84brxDufj4SMsudH0HnrzOKd95eZ8wsEfAdgvMUwpB5Yu59HmIHJ
-	 pBuzWZSD9LsfsVcPA8YesVAX0SMPRu0D7rSDDVcwWJcF4QEzHnmmWmVvaj4ZlPhkQc
-	 S81ph6gsBqHCYVzXm/v8h0xmAZHsw5OjyB4jca4yqVQPOm3GBz5Ixa+f9oBQlsDjtR
-	 HnrNpN50UNy/A==
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6dde1f23060so3636277a34.2
-        for <ntfs3@lists.linux.dev>; Mon, 15 Jan 2024 03:41:44 -0800 (PST)
-X-Gm-Message-State: AOJu0YwPRdTZ8ynhRJhREHWHqpOVb5A0FePYd4oSW/hVmU44DOKhNll5
-	4S/ikfti1wvcJxT8yF6ZkTnl1dVfb5TD9FU9RNs=
-X-Google-Smtp-Source: AGHT+IEiRvxaR4ohvrGlVCarDoYEKSzqvASl5lVVjyuCUD5DqyMcukKlIlo9mROvXDrjf0Cv5m4OrTNrTzpKDP/Osy8=
-X-Received: by 2002:a05:6870:ef84:b0:206:aca2:efae with SMTP id
- qr4-20020a056870ef8400b00206aca2efaemr5224717oab.118.1705318903363; Mon, 15
- Jan 2024 03:41:43 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jUtq8cYK";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PurxCMc+";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jUtq8cYK";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PurxCMc+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3C30721EF0;
+	Mon, 15 Jan 2024 13:41:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1705326101; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6jA5Cu9AWaUNPG7ZmLl1Q9dS9vTQjhzxdsBE+iAkyms=;
+	b=jUtq8cYKSaU3axuFDd9TAXNHTpSqZ0HO0f61mPKt8OnTYiqjB2lbm9z1vKjcp/0eY/pJQh
+	+p1pA6Lq5fpDBScDPHVJKSqufWbdrKP3/Oarhj1yg0DIy/tIKewTVeqnu7OtGcW8cH3kZ9
+	HNBJjfkgaP5EHDbaaE04lesB18Bu1rk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1705326101;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6jA5Cu9AWaUNPG7ZmLl1Q9dS9vTQjhzxdsBE+iAkyms=;
+	b=PurxCMc+LLigIrY8HAOAcwkNZ2VpzAZI+H5VTJhjNosVrLykFaplsTvf9s7i+11uriEpE/
+	Ru/z7dKQP7JLuQDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1705326101; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6jA5Cu9AWaUNPG7ZmLl1Q9dS9vTQjhzxdsBE+iAkyms=;
+	b=jUtq8cYKSaU3axuFDd9TAXNHTpSqZ0HO0f61mPKt8OnTYiqjB2lbm9z1vKjcp/0eY/pJQh
+	+p1pA6Lq5fpDBScDPHVJKSqufWbdrKP3/Oarhj1yg0DIy/tIKewTVeqnu7OtGcW8cH3kZ9
+	HNBJjfkgaP5EHDbaaE04lesB18Bu1rk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1705326101;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6jA5Cu9AWaUNPG7ZmLl1Q9dS9vTQjhzxdsBE+iAkyms=;
+	b=PurxCMc+LLigIrY8HAOAcwkNZ2VpzAZI+H5VTJhjNosVrLykFaplsTvf9s7i+11uriEpE/
+	Ru/z7dKQP7JLuQDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2ACC9136F5;
+	Mon, 15 Jan 2024 13:41:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0GxnChU2pWWkZAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 15 Jan 2024 13:41:41 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id DBD14A07EA; Mon, 15 Jan 2024 14:41:40 +0100 (CET)
+Date: Mon, 15 Jan 2024 14:41:40 +0100
+From: Jan Kara <jack@suse.cz>
+To: syzbot <syzbot+f91c29a5d5a01ada051a@syzkaller.appspotmail.com>
+Cc: almaz.alexandrovich@paragon-software.com, axboe@kernel.dk,
+	brauner@kernel.org, bvanassche@acm.org, hch@lst.de, jack@suse.cz,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, martin.petersen@oracle.com, nathan@kernel.org,
+	ndesaulniers@google.com, ntfs3@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com, trix@redhat.com,
+	viro@zeniv.linux.org.uk, yanaijie@huawei.com
+Subject: Re: [syzbot] [ntfs3?] possible deadlock in ntfs_set_state
+Message-ID: <20240115134140.a2jcs5dosdsizorj@quack3>
+References: <000000000000ed1df405f05224aa@google.com>
+ <0000000000008942ff060edc57fb@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: by 2002:ac9:668c:0:b0:513:2a06:84a8 with HTTP; Mon, 15 Jan 2024
- 03:41:42 -0800 (PST)
-In-Reply-To: <8a5d4fcb-f6dc-4c7e-a26c-0b0e91430104@tuxera.com>
-References: <20240115072025.2071931-1-willy@infradead.org> <8a5d4fcb-f6dc-4c7e-a26c-0b0e91430104@tuxera.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Mon, 15 Jan 2024 20:41:42 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd9VcORULpRUGpBYpZKc=GTV4vOAvv-B-rVVxfbz-y1TOQ@mail.gmail.com>
-Message-ID: <CAKYAXd9VcORULpRUGpBYpZKc=GTV4vOAvv-B-rVVxfbz-y1TOQ@mail.gmail.com>
-Subject: Re: [PATCH] fs: Remove NTFS classic
-To: Anton Altaparmakov <anton@tuxera.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net, 
-	ntfs3@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0000000000008942ff060edc57fb@google.com>
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=jUtq8cYK;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=PurxCMc+
+X-Spamd-Result: default: False [2.68 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=94632a8e2ffd08bb];
+	 TAGGED_RCPT(0.00)[f91c29a5d5a01ada051a];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BAYES_HAM(-0.01)[51.24%];
+	 R_RATELIMIT(0.00)[to_ip_from(RLgtcj9mh9ghuanj5qgfrqcyig)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.cz:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_TWELVE(0.00)[18];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[];
+	 SUBJECT_HAS_QUESTION(0.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: 2.68
+X-Rspamd-Queue-Id: 3C30721EF0
+X-Spam-Level: **
+X-Spam-Flag: NO
+X-Spamd-Bar: ++
 
-2024-01-15 20:00 GMT+09:00, Anton Altaparmakov <anton@tuxera.com>:
-> Hi Matthew,
->
-> On 15/01/2024 07:20, Matthew Wilcox (Oracle) wrote:
->> The replacement, NTFS3, was merged over two years ago.  It is now time to
->> remove the original from the tree as it is the last user of several APIs,
->> and it is not worth changing.
->
-> It was my impression that people are complaining ntfs3 is causing a
-> whole lot of problems including corrupting people's data.  Also, it
-> appears the maintainer has basically disappeared after it got merged.
-What can replace this is not only ntfs3 but also ntfs3g. I think
-read-only ntfs is obsolete.
-I am in favor of remove it.
+On Sat 13-01-24 15:43:04, syzbot wrote:
+> syzbot suspects this issue was fixed by commit:
+> 
+> commit 6f861765464f43a71462d52026fbddfc858239a5
+> Author: Jan Kara <jack@suse.cz>
+> Date:   Wed Nov 1 17:43:10 2023 +0000
+> 
+>     fs: Block writes to mounted block devices
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10f71683e80000
+> start commit:   8f6f76a6a29f Merge tag 'mm-nonmm-stable-2023-11-02-14-08' ..
+> git tree:       upstream
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=94632a8e2ffd08bb
+> dashboard link: https://syzkaller.appspot.com/bug?extid=f91c29a5d5a01ada051a
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15af0317680000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10de04b0e80000
+> 
+> If the result looks correct, please mark the issue as fixed by replying with:
 
-Acked-by: Namjae Jeon <linkinjeon@kernel.org>
+Makes sense
+ 
+#syz fix: fs: Block writes to mounted block devices
 
-Thanks.
->
-> Is it really such a good idea to remove the original ntfs driver which
-> actually works fine and does not cause any problems when the replacement
-> is so poor and unmaintained?
->
-> Also, which APIs are you referring to?  I can take a look into those.
->
-> Best regards,
->
-> 	Anton
-> --
-> Anton Altaparmakov <anton at tuxera.com> (replace at with @)
-> Lead in File System Development, Tuxera Inc., http://www.tuxera.com/
-> Linux NTFS maintainer
->
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
