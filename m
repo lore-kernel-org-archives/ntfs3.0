@@ -1,79 +1,34 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24433182A3;
-	Mon, 15 Jan 2024 13:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61AA7199A4;
+	Mon, 15 Jan 2024 14:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jUtq8cYK";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PurxCMc+";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jUtq8cYK";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PurxCMc+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3C30721EF0;
-	Mon, 15 Jan 2024 13:41:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1705326101; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6jA5Cu9AWaUNPG7ZmLl1Q9dS9vTQjhzxdsBE+iAkyms=;
-	b=jUtq8cYKSaU3axuFDd9TAXNHTpSqZ0HO0f61mPKt8OnTYiqjB2lbm9z1vKjcp/0eY/pJQh
-	+p1pA6Lq5fpDBScDPHVJKSqufWbdrKP3/Oarhj1yg0DIy/tIKewTVeqnu7OtGcW8cH3kZ9
-	HNBJjfkgaP5EHDbaaE04lesB18Bu1rk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1705326101;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6jA5Cu9AWaUNPG7ZmLl1Q9dS9vTQjhzxdsBE+iAkyms=;
-	b=PurxCMc+LLigIrY8HAOAcwkNZ2VpzAZI+H5VTJhjNosVrLykFaplsTvf9s7i+11uriEpE/
-	Ru/z7dKQP7JLuQDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1705326101; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6jA5Cu9AWaUNPG7ZmLl1Q9dS9vTQjhzxdsBE+iAkyms=;
-	b=jUtq8cYKSaU3axuFDd9TAXNHTpSqZ0HO0f61mPKt8OnTYiqjB2lbm9z1vKjcp/0eY/pJQh
-	+p1pA6Lq5fpDBScDPHVJKSqufWbdrKP3/Oarhj1yg0DIy/tIKewTVeqnu7OtGcW8cH3kZ9
-	HNBJjfkgaP5EHDbaaE04lesB18Bu1rk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1705326101;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6jA5Cu9AWaUNPG7ZmLl1Q9dS9vTQjhzxdsBE+iAkyms=;
-	b=PurxCMc+LLigIrY8HAOAcwkNZ2VpzAZI+H5VTJhjNosVrLykFaplsTvf9s7i+11uriEpE/
-	Ru/z7dKQP7JLuQDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2ACC9136F5;
-	Mon, 15 Jan 2024 13:41:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0GxnChU2pWWkZAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 15 Jan 2024 13:41:41 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id DBD14A07EA; Mon, 15 Jan 2024 14:41:40 +0100 (CET)
-Date: Mon, 15 Jan 2024 14:41:40 +0100
-From: Jan Kara <jack@suse.cz>
-To: syzbot <syzbot+f91c29a5d5a01ada051a@syzkaller.appspotmail.com>
-Cc: almaz.alexandrovich@paragon-software.com, axboe@kernel.dk,
-	brauner@kernel.org, bvanassche@acm.org, hch@lst.de, jack@suse.cz,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, martin.petersen@oracle.com, nathan@kernel.org,
-	ndesaulniers@google.com, ntfs3@lists.linux.dev,
-	syzkaller-bugs@googlegroups.com, trix@redhat.com,
-	viro@zeniv.linux.org.uk, yanaijie@huawei.com
-Subject: Re: [syzbot] [ntfs3?] possible deadlock in ntfs_set_state
-Message-ID: <20240115134140.a2jcs5dosdsizorj@quack3>
-References: <000000000000ed1df405f05224aa@google.com>
- <0000000000008942ff060edc57fb@google.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ImWYwdwW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=DMqbdyi4eLyG/P84atg6xw7sLhpYbrXTR+c3A3qjimU=; b=ImWYwdwWIEfyR5eMq3znGWSWKz
+	FrW8akY+9YiHOJjUSfxiMSp06YI3QteLOa2bzj+HwYKXKReTMO3l0Bmv/6occdwozYUVUFnSdo05x
+	Y+cfLQEvFUcxbhEcv1x37XfDqIGL3z1wSJS+D93PouzIvpUSj7bduOrCIbzTOwkWAyUKaJCqIXUv3
+	dDqjuYHJuzWdNs7cOTAs55UW08BeElvHj6qGHGafJq74AeOQvN28RWWQdySvYLgY7rRFX3/bv+VII
+	zGFBEA37bAvBoAMspWlIRZilliqsMBBFyaqbltmSX6Q+7aHtjJNfJ2TzjLnMnRJoIobvEb9b9R1rT
+	XwYCDuxg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1rPOH9-009yaj-8k; Mon, 15 Jan 2024 14:49:19 +0000
+Date: Mon, 15 Jan 2024 14:49:19 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Anton Altaparmakov <anton@tuxera.com>
+Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+	linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
+	Namjae Jeon <linkinjeon@kernel.org>
+Subject: Re: [PATCH] fs: Remove NTFS classic
+Message-ID: <ZaVF72QxQm/cN5yy@casper.infradead.org>
+References: <20240115072025.2071931-1-willy@infradead.org>
+ <8a5d4fcb-f6dc-4c7e-a26c-0b0e91430104@tuxera.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -82,67 +37,38 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0000000000008942ff060edc57fb@google.com>
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=jUtq8cYK;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=PurxCMc+
-X-Spamd-Result: default: False [2.68 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=94632a8e2ffd08bb];
-	 TAGGED_RCPT(0.00)[f91c29a5d5a01ada051a];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BAYES_HAM(-0.01)[51.24%];
-	 R_RATELIMIT(0.00)[to_ip_from(RLgtcj9mh9ghuanj5qgfrqcyig)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.cz:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_TWELVE(0.00)[18];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[];
-	 SUBJECT_HAS_QUESTION(0.00)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: 2.68
-X-Rspamd-Queue-Id: 3C30721EF0
-X-Spam-Level: **
-X-Spam-Flag: NO
-X-Spamd-Bar: ++
+In-Reply-To: <8a5d4fcb-f6dc-4c7e-a26c-0b0e91430104@tuxera.com>
 
-On Sat 13-01-24 15:43:04, syzbot wrote:
-> syzbot suspects this issue was fixed by commit:
+On Mon, Jan 15, 2024 at 11:00:35AM +0000, Anton Altaparmakov wrote:
+> Hi Matthew,
 > 
-> commit 6f861765464f43a71462d52026fbddfc858239a5
-> Author: Jan Kara <jack@suse.cz>
-> Date:   Wed Nov 1 17:43:10 2023 +0000
+> On 15/01/2024 07:20, Matthew Wilcox (Oracle) wrote:
+> > The replacement, NTFS3, was merged over two years ago.  It is now time to
+> > remove the original from the tree as it is the last user of several APIs,
+> > and it is not worth changing.
 > 
->     fs: Block writes to mounted block devices
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10f71683e80000
-> start commit:   8f6f76a6a29f Merge tag 'mm-nonmm-stable-2023-11-02-14-08' ..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=94632a8e2ffd08bb
-> dashboard link: https://syzkaller.appspot.com/bug?extid=f91c29a5d5a01ada051a
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15af0317680000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10de04b0e80000
-> 
-> If the result looks correct, please mark the issue as fixed by replying with:
+> It was my impression that people are complaining ntfs3 is causing a whole
+> lot of problems including corrupting people's data.  Also, it appears the
+> maintainer has basically disappeared after it got merged.
 
-Makes sense
- 
-#syz fix: fs: Block writes to mounted block devices
+I'm not terribly happy with how the maintainer behaves either, but
+you've also been missing in action for nine years (if we're counting
+code authored by you) or two years (if a R-b is enough).
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+According to your documentation, you don't support creating new files
+or directories, so I'd suggest that your code has never been put through
+the xfstests wringer in the way that ntfs3 has.
+
+> Also, which APIs are you referring to?  I can take a look into those.
+
+The biggest one for me is the folio work.  Everywhere in your code that
+use a struct page needs to be converted to a struct folio.  Support for
+large folios is optional, and I wouldn't bother trying to add that.
+Take a look at, eg, nilfs2, ext4, ext2, iomap, NFS, AFS for some
+filesystems which have been (at least mostly) converted.
+
+Any functions in mm/folio-compat.c should no longer be called.
+
+If we're being really ambitious, filesystems should stop using the
+buffer cache and switch to using iomap.  There's a lot of work going
+on and unmaintained filesystems are holding us back.
