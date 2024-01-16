@@ -1,148 +1,74 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA4712B6D
-	for <ntfs3@lists.linux.dev>; Tue, 16 Jan 2024 08:34:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD0612B7B;
+	Tue, 16 Jan 2024 09:34:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Tmh2CNU0";
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Hsp2M8Hd"
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id E94B126;
-	Tue, 16 Jan 2024 08:19:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1705393200;
-	bh=xtKnc81qgkt1hp+yrgP4nxQ9fcDthRgPBw7xJL7BYSI=;
-	h=Date:To:CC:From:Subject;
-	b=Tmh2CNU0YPPx7m00AJ8Ts3TC0cvRijx7y5OQAghP2q4LAOj1teg55gQ9M/Pqg2XUo
-	 XzC4lBOqxRSQckTX3O8jGHYLwKH6p6cHkFJfn8ECtw93HPN+HsvIK8Z9pBHmjkpNTU
-	 ZE3+MNpGIGy1G9MM/jUiOXTG/WiSq9UeDFWYclGw=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E95371DF9;
-	Tue, 16 Jan 2024 08:26:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1705393603;
-	bh=xtKnc81qgkt1hp+yrgP4nxQ9fcDthRgPBw7xJL7BYSI=;
-	h=Date:To:CC:From:Subject;
-	b=Hsp2M8HdMaGF1tAVu4ui6wCeB6rYF4iWde/iHCQy0hsmyhUH1Ad4GxCxJWwYqqASC
-	 xfmP5DiWsUHmdK1ITnGmLikpv7/3aWh3kTgEsa8C1Ocib3mwjGlsCATy5mXD2Hlehw
-	 NxVIbqgEW+E0IOhhqFilnFxI1YIWsiSs/LopraQ8=
-Received: from [192.168.211.197] (192.168.211.197) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 16 Jan 2024 11:26:43 +0300
-Message-ID: <667a5bc4-8cb5-47ce-a7f1-749479b25bec@paragon-software.com>
-Date: Tue, 16 Jan 2024 11:26:41 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nO2AItRA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04642C433C7;
+	Tue, 16 Jan 2024 09:34:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705397650;
+	bh=hmCmYEgqz59L8XvQn3RmH21Xr8NvEzN3ZqWmfeSuhRQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nO2AItRAwKSzZUnTc/U/CXtKR/QHWmKoSfiaW1stIwv01/U41sU07zK8tTtDghlI7
+	 bxL/2KHjYqjWueMZEap6a2bSfExm2AoiSnYHOClyFQFsjfiJd3qRk5skrovupOPySB
+	 fqFXvL3mr9XI22N9/iloCbQg0tieBc/L2056g/754TRCLOA+gZTkVqMIPTtU8ckmYd
+	 P6FI0AnEBB6KiGwTNCDn+ynm0r5C8ktnhRIsMF1rzPz89X5pHzdhGqlUw4PIKd3YS9
+	 +T8f+ZBjU1mvB8hS+OYZ3ALuPU4CtjAKGO3viL2y1CkMvTtGNkHhdSbeG6jUF5KRQq
+	 sDvxmAAA12hwg==
+From: Christian Brauner <brauner@kernel.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-ntfs-dev@lists.sourceforge.net,
+	ntfs3@lists.linux.dev,
+	Anton Altaparmakov <anton@tuxera.com>,
+	Namjae Jeon <linkinjeon@kernel.org>
+Subject: Re: [PATCH] fs: Remove NTFS classic
+Date: Tue, 16 Jan 2024 10:33:49 +0100
+Message-ID: <20240116-fernbedienung-vorwort-a21384fd7962@brauner>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240115072025.2071931-1-willy@infradead.org>
+References: <20240115072025.2071931-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH] fs/ntfs3: Use kvfree to free memory allocated by kvmalloc
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1152; i=brauner@kernel.org; h=from:subject:message-id; bh=hmCmYEgqz59L8XvQn3RmH21Xr8NvEzN3ZqWmfeSuhRQ=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQu821+Y3k3N+zavn1r/H6ceFtc8MzkdWdE9gf9UquKB /JL7giodZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkoTEjw4EbMss+i66Nj1ma ZhO1YbXTu83PRVp/zd+3XE11raHt8wuMDA+rLt70zZhb6hh259ABOd0LQs3CO/kmx17lXBdcvHU zNxsA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
+On Mon, 15 Jan 2024 07:20:25 +0000, Matthew Wilcox (Oracle) wrote:
+> The replacement, NTFS3, was merged over two years ago.  It is now time to
+> remove the original from the tree as it is the last user of several APIs,
+> and it is not worth changing.
+> 
+> 
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+I see no reason to not at least try and remove it given that we have
+ntfs3 as a replacement. Worst case is we have to put it back in. Let's
+try it.
+
 ---
-  fs/ntfs3/attrlist.c | 4 ++--
-  fs/ntfs3/bitmap.c   | 4 ++--
-  fs/ntfs3/frecord.c  | 4 ++--
-  fs/ntfs3/super.c    | 2 +-
-  4 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
-index 48e7da47c6b7..9f4bd8d26090 100644
---- a/fs/ntfs3/attrlist.c
-+++ b/fs/ntfs3/attrlist.c
-@@ -29,7 +29,7 @@ static inline bool al_is_valid_le(const struct 
-ntfs_inode *ni,
-  void al_destroy(struct ntfs_inode *ni)
-  {
-      run_close(&ni->attr_list.run);
--    kfree(ni->attr_list.le);
-+    kvfree(ni->attr_list.le);
-      ni->attr_list.le = NULL;
-      ni->attr_list.size = 0;
-      ni->attr_list.dirty = false;
-@@ -318,7 +318,7 @@ int al_add_le(struct ntfs_inode *ni, enum ATTR_TYPE 
-type, const __le16 *name,
-          memcpy(ptr, al->le, off);
-          memcpy(Add2Ptr(ptr, off + sz), le, old_size - off);
-          le = Add2Ptr(ptr, off);
--        kfree(al->le);
-+        kvfree(al->le);
-          al->le = ptr;
-      } else {
-          memmove(Add2Ptr(le, sz), le, old_size - off);
-diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
-index 63f14a0232f6..845f9b22deef 100644
---- a/fs/ntfs3/bitmap.c
-+++ b/fs/ntfs3/bitmap.c
-@@ -124,7 +124,7 @@ void wnd_close(struct wnd_bitmap *wnd)
-  {
-      struct rb_node *node, *next;
+Applied to the vfs.fs branch of the vfs/vfs.git tree.
+Patches in the vfs.fs branch should appear in linux-next soon.
 
--    kfree(wnd->free_bits);
-+    kvfree(wnd->free_bits);
-      wnd->free_bits = NULL;
-      run_close(&wnd->run);
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-@@ -1360,7 +1360,7 @@ int wnd_extend(struct wnd_bitmap *wnd, size_t 
-new_bits)
-          memcpy(new_free, wnd->free_bits, wnd->nwnd * sizeof(short));
-          memset(new_free + wnd->nwnd, 0,
-                 (new_wnd - wnd->nwnd) * sizeof(short));
--        kfree(wnd->free_bits);
-+        kvfree(wnd->free_bits);
-          wnd->free_bits = new_free;
-      }
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 6ff4f70ba077..2636ab7640ac 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -778,7 +778,7 @@ static int ni_try_remove_attr_list(struct ntfs_inode 
-*ni)
-      run_deallocate(sbi, &ni->attr_list.run, true);
-      run_close(&ni->attr_list.run);
-      ni->attr_list.size = 0;
--    kfree(ni->attr_list.le);
-+    kvfree(ni->attr_list.le);
-      ni->attr_list.le = NULL;
-      ni->attr_list.dirty = false;
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-@@ -927,7 +927,7 @@ int ni_create_attr_list(struct ntfs_inode *ni)
-      return 0;
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fs
 
-  out:
--    kfree(ni->attr_list.le);
-+    kvfree(ni->attr_list.le);
-      ni->attr_list.le = NULL;
-      ni->attr_list.size = 0;
-      return err;
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 65ef4b57411f..c55a29793a8d 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -625,7 +625,7 @@ static void ntfs3_free_sbi(struct ntfs_sb_info *sbi)
-  {
-      kfree(sbi->new_rec);
-      kvfree(ntfs_put_shared(sbi->upcase));
--    kfree(sbi->def_table);
-+    kvfree(sbi->def_table);
-      kfree(sbi->compress.lznt);
-  #ifdef CONFIG_NTFS3_LZX_XPRESS
-      xpress_free_decompressor(sbi->compress.xpress);
--- 
-2.34.1
-
+[1/1] fs: Remove NTFS classic
+      https://git.kernel.org/vfs/vfs/c/9c67092ed339
