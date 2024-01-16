@@ -1,76 +1,53 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C468134D5;
-	Tue, 16 Jan 2024 10:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rPh1A-0001CR-Cv; Tue, 16 Jan 2024 11:50:04 +0100
-Message-ID: <e3f1d31a-1e53-4a4e-bc5e-529b9205c72c@leemhuis.info>
-Date: Tue, 16 Jan 2024 11:50:03 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9361A5A7;
+	Tue, 16 Jan 2024 11:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CTmqgMWs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30D95C433F1;
+	Tue, 16 Jan 2024 11:06:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705403180;
+	bh=uUMkNzEGzC01p9em3PYSihIKIEGIjdqiW4cv0+lcKdg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CTmqgMWseGzuSl0x3yhZmdg+gDQYoPqmcrVI+df4VL7ogMAlu0ohWdNhkhPxlmsjE
+	 zNIXWjhVgYLBpsrm1qA6x7eZz7l6wnck2cbyVPTNnfYpznL+j2IpJbeRhep34oSemX
+	 y2zk7+yxwTgy1h+saMuu8tnIrJ48cn1Ji/POtfvJAgCFLYGlX5Cmw7yZPZZrMUAgL+
+	 BHy09rIh6rYNWSCPqwfiHEXoEH9aogowPLnKbSi/5v3x6LHoKFCzw2Kp239d/ohIAq
+	 KbIGiyfJBC8oBYKzpgORhbCpLOxKvOf9e4V1xyaz8FgTP9ohgpM+jOk8Bdptcrh4ev
+	 6ANFlrmIvZvXQ==
+Date: Tue, 16 Jan 2024 12:06:15 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Anton Altaparmakov <anton@tuxera.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>, 
+	"linux-ntfs-dev@lists.sourceforge.net" <linux-ntfs-dev@lists.sourceforge.net>, "ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>, 
+	Namjae Jeon <linkinjeon@kernel.org>
+Subject: Re: [PATCH] Remove NTFS classic
+Message-ID: <20240116-gutgesinnt-autodidaktisch-d1ac1d2f8253@brauner>
+References: <20240115072025.2071931-1-willy@infradead.org>
+ <20240116-fernbedienung-vorwort-a21384fd7962@brauner>
+ <1B634C72-9768-43E9-93B6-3396CBAA958E@tuxera.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: Re: [PATCH] fs/ntfs3: Use kvfree to free memory allocated by kvmalloc
-Content-Language: en-US, de-DE
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- ntfs3@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Giovanni Santini <giovannisantini93@yahoo.it>,
- Linux kernel regressions list <regressions@lists.linux.dev>
-References: <667a5bc4-8cb5-47ce-a7f1-749479b25bec@paragon-software.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <667a5bc4-8cb5-47ce-a7f1-749479b25bec@paragon-software.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1705402212;60d95378;
-X-HE-SMSGID: 1rPh1A-0001CR-Cv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1B634C72-9768-43E9-93B6-3396CBAA958E@tuxera.com>
 
-[/me jumps in here with something unrelated after unsuccessfully trying
-to contact Konstantin in the past weeks]
-
-On 16.01.24 09:26, Konstantin Komarov wrote:
+On Tue, Jan 16, 2024 at 09:51:47AM +0000, Anton Altaparmakov wrote:
+> Hi, 
 > 
-> Signed-off-by: Konstantin Komarov
-> <almaz.alexandrovich@paragon-software.com>
-> ---
->  fs/ntfs3/attrlist.c | 4 ++--
->  fs/ntfs3/bitmap.c   | 4 ++--
->  fs/ntfs3/frecord.c  | 4 ++--
->  fs/ntfs3/super.c    | 2 +-
->  4 files changed, 7 insertions(+), 7 deletions(-)> [...]
+> It seems there is consensus to remove it so please add: 
 
-Hi Konstantin, glad you are still around. If you have a minute, could
-you please take a look at the following bisected regression report? It
-sounds there is something really wrong here:
+Well, we'll try. This is one of those cases where we might end up not
+being able to do it. But imho this is a case where there's sufficient
+reason to at least try and remove this code precisely because we have an
+alternative implementation that's been around for a while.
 
-https://bugzilla.kernel.org/show_bug.cgi?id=218180
-
-In short:
-
-"""
-> The problem I am facing is the following:
-> 1. I mount an NTFS partition via NTFS3
-> 2. I create a file
-> 3. I write to the file
-> 4. The file is empty
-> 5. I remount the partition
-> 6. The file has the changes I made before the remount
->
-> I can avoid the remount by doing:
-> sudo sysctl vm.drop_caches=3
-"""
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+IOW, this isn't like reiserfs where we're actually getting rid of a
+filesystem completely.
