@@ -1,88 +1,148 @@
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE571AADB
-	for <ntfs3@lists.linux.dev>; Mon, 15 Jan 2024 22:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA4712B6D
+	for <ntfs3@lists.linux.dev>; Tue, 16 Jan 2024 08:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="EP5vyN7f"
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3608bd50cbeso37841505ab.3
-        for <ntfs3@lists.linux.dev>; Mon, 15 Jan 2024 14:20:42 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Tmh2CNU0";
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Hsp2M8Hd"
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id E94B126;
+	Tue, 16 Jan 2024 08:19:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1705357241; x=1705962041; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1e97FCLCiaJtKaM8A2COfDOTaSxHrLETGTHNR2Gz2g0=;
-        b=EP5vyN7f2ZP3KoXwia7/+tW+wP/sAL5437ERH2SP6opsVOC4Gd7+cT9c/HNX4xcV9k
-         RorDcVRihWU7c1ueqLC+VsSUoIPv/+SsyIQPjNKVs41gjwAwm+gUezzV7pNcCJuaoPQS
-         itJTevDLBOo4Kzj6ihY+6pln/WXO5QQQjKHMOTqteQ/4ewESNm2aduZYSPbfDlQb9V0I
-         ia3PXzrBJN/DxtAW5yDMTAU0+bkXaMwVDAMQdU7v02jAgFZDZnoZlgNGyfyp1E9wYOOc
-         Jw0FbkjHIe/BdSLAbhHw4bzDA919UJo+VgvMBy7W7DVyawPmH8KgXe4mPvCQw5JJtjI2
-         MOUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705357241; x=1705962041;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1e97FCLCiaJtKaM8A2COfDOTaSxHrLETGTHNR2Gz2g0=;
-        b=IVspKEymYObf0J5MH5aEwgUuDaf8OVytQuQrPOPaPEg/6xfxiC7NlT4T71HibMTSmR
-         SHJ8AFB5fexhhhdst7OaM75LFOiRUnObRRVzZgYSFgQdNy7zVQMsQO3f5+WX7i3Ov2EQ
-         cseIMC4kivUY6DO+NWmn93ubUzoZd3qP0zkneRaJowru4P1gXPUV844SuqyjIyAG6YAi
-         hkLp2KLLeUXNwbFl/cFQTO6XmPV0EduKhTSjVNR9oT8ksVNBhZEOv8MCD4Mf8gjIUvDe
-         VIHE+yXbQemfyAMPCY2RsQ4gp+NkSkUGRWPB0BDeWElRf+P3pK6zwwGdlIpMQ4ZmPPXW
-         dmzA==
-X-Gm-Message-State: AOJu0YxAxwKVaPx9yeVHJONOVAw9V2ayl1BTQc57P5NzKny7d9arU49C
-	UAp/mTqaQyzS0SBV7gSuheGlSF2VUqejOQ==
-X-Google-Smtp-Source: AGHT+IEakymELxTP8tP1+uJr4la+L3kGSc1S57KZxO+IjJWRQ7o3tOzQsgoBElifHzj0+fepJu8f5g==
-X-Received: by 2002:a92:d981:0:b0:35f:f425:520b with SMTP id r1-20020a92d981000000b0035ff425520bmr5550056iln.42.1705357241458;
-        Mon, 15 Jan 2024 14:20:41 -0800 (PST)
-Received: from dread.disaster.area (pa49-180-249-6.pa.nsw.optusnet.com.au. [49.180.249.6])
-        by smtp.gmail.com with ESMTPSA id f3-20020a170902e98300b001d5dbd68290sm548079plb.246.2024.01.15.14.20.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jan 2024 14:20:40 -0800 (PST)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-	(envelope-from <david@fromorbit.com>)
-	id 1rPVJt-00AsOX-0I;
-	Tue, 16 Jan 2024 09:20:37 +1100
-Date: Tue, 16 Jan 2024 09:20:37 +1100
-From: Dave Chinner <david@fromorbit.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
-	Anton Altaparmakov <anton@tuxera.com>,
-	Namjae Jeon <linkinjeon@kernel.org>
-Subject: Re: [PATCH] fs: Remove NTFS classic
-Message-ID: <ZaWvtfFMftPXg92X@dread.disaster.area>
-References: <20240115072025.2071931-1-willy@infradead.org>
+	d=paragon-software.com; s=mail; t=1705393200;
+	bh=xtKnc81qgkt1hp+yrgP4nxQ9fcDthRgPBw7xJL7BYSI=;
+	h=Date:To:CC:From:Subject;
+	b=Tmh2CNU0YPPx7m00AJ8Ts3TC0cvRijx7y5OQAghP2q4LAOj1teg55gQ9M/Pqg2XUo
+	 XzC4lBOqxRSQckTX3O8jGHYLwKH6p6cHkFJfn8ECtw93HPN+HsvIK8Z9pBHmjkpNTU
+	 ZE3+MNpGIGy1G9MM/jUiOXTG/WiSq9UeDFWYclGw=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E95371DF9;
+	Tue, 16 Jan 2024 08:26:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1705393603;
+	bh=xtKnc81qgkt1hp+yrgP4nxQ9fcDthRgPBw7xJL7BYSI=;
+	h=Date:To:CC:From:Subject;
+	b=Hsp2M8HdMaGF1tAVu4ui6wCeB6rYF4iWde/iHCQy0hsmyhUH1Ad4GxCxJWwYqqASC
+	 xfmP5DiWsUHmdK1ITnGmLikpv7/3aWh3kTgEsa8C1Ocib3mwjGlsCATy5mXD2Hlehw
+	 NxVIbqgEW+E0IOhhqFilnFxI1YIWsiSs/LopraQ8=
+Received: from [192.168.211.197] (192.168.211.197) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 16 Jan 2024 11:26:43 +0300
+Message-ID: <667a5bc4-8cb5-47ce-a7f1-749479b25bec@paragon-software.com>
+Date: Tue, 16 Jan 2024 11:26:41 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240115072025.2071931-1-willy@infradead.org>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH] fs/ntfs3: Use kvfree to free memory allocated by kvmalloc
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On Mon, Jan 15, 2024 at 07:20:25AM +0000, Matthew Wilcox (Oracle) wrote:
-> The replacement, NTFS3, was merged over two years ago.  It is now time to
-> remove the original from the tree as it is the last user of several APIs,
-> and it is not worth changing.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Cc: Anton Altaparmakov <anton@tuxera.com>
-> Cc: Namjae Jeon <linkinjeon@kernel.org>
 
-I agree - this is largely untestable code and given the newer,
-better featured functionality we have (ntfs3, ntfs3g), we should
-just get rid of this old code.
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+---
+  fs/ntfs3/attrlist.c | 4 ++--
+  fs/ntfs3/bitmap.c   | 4 ++--
+  fs/ntfs3/frecord.c  | 4 ++--
+  fs/ntfs3/super.c    | 2 +-
+  4 files changed, 7 insertions(+), 7 deletions(-)
 
-Acked-by: Dave Chinner <david@fromorbit.com>
+diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
+index 48e7da47c6b7..9f4bd8d26090 100644
+--- a/fs/ntfs3/attrlist.c
++++ b/fs/ntfs3/attrlist.c
+@@ -29,7 +29,7 @@ static inline bool al_is_valid_le(const struct 
+ntfs_inode *ni,
+  void al_destroy(struct ntfs_inode *ni)
+  {
+      run_close(&ni->attr_list.run);
+-    kfree(ni->attr_list.le);
++    kvfree(ni->attr_list.le);
+      ni->attr_list.le = NULL;
+      ni->attr_list.size = 0;
+      ni->attr_list.dirty = false;
+@@ -318,7 +318,7 @@ int al_add_le(struct ntfs_inode *ni, enum ATTR_TYPE 
+type, const __le16 *name,
+          memcpy(ptr, al->le, off);
+          memcpy(Add2Ptr(ptr, off + sz), le, old_size - off);
+          le = Add2Ptr(ptr, off);
+-        kfree(al->le);
++        kvfree(al->le);
+          al->le = ptr;
+      } else {
+          memmove(Add2Ptr(le, sz), le, old_size - off);
+diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
+index 63f14a0232f6..845f9b22deef 100644
+--- a/fs/ntfs3/bitmap.c
++++ b/fs/ntfs3/bitmap.c
+@@ -124,7 +124,7 @@ void wnd_close(struct wnd_bitmap *wnd)
+  {
+      struct rb_node *node, *next;
 
-Cheers,
+-    kfree(wnd->free_bits);
++    kvfree(wnd->free_bits);
+      wnd->free_bits = NULL;
+      run_close(&wnd->run);
 
-Dave.
+@@ -1360,7 +1360,7 @@ int wnd_extend(struct wnd_bitmap *wnd, size_t 
+new_bits)
+          memcpy(new_free, wnd->free_bits, wnd->nwnd * sizeof(short));
+          memset(new_free + wnd->nwnd, 0,
+                 (new_wnd - wnd->nwnd) * sizeof(short));
+-        kfree(wnd->free_bits);
++        kvfree(wnd->free_bits);
+          wnd->free_bits = new_free;
+      }
+
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 6ff4f70ba077..2636ab7640ac 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -778,7 +778,7 @@ static int ni_try_remove_attr_list(struct ntfs_inode 
+*ni)
+      run_deallocate(sbi, &ni->attr_list.run, true);
+      run_close(&ni->attr_list.run);
+      ni->attr_list.size = 0;
+-    kfree(ni->attr_list.le);
++    kvfree(ni->attr_list.le);
+      ni->attr_list.le = NULL;
+      ni->attr_list.dirty = false;
+
+@@ -927,7 +927,7 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+      return 0;
+
+  out:
+-    kfree(ni->attr_list.le);
++    kvfree(ni->attr_list.le);
+      ni->attr_list.le = NULL;
+      ni->attr_list.size = 0;
+      return err;
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 65ef4b57411f..c55a29793a8d 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -625,7 +625,7 @@ static void ntfs3_free_sbi(struct ntfs_sb_info *sbi)
+  {
+      kfree(sbi->new_rec);
+      kvfree(ntfs_put_shared(sbi->upcase));
+-    kfree(sbi->def_table);
++    kvfree(sbi->def_table);
+      kfree(sbi->compress.lznt);
+  #ifdef CONFIG_NTFS3_LZX_XPRESS
+      xpress_free_decompressor(sbi->compress.xpress);
 -- 
-Dave Chinner
-david@fromorbit.com
+2.34.1
+
