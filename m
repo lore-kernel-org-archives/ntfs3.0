@@ -1,66 +1,44 @@
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA33215697F
-	for <ntfs3@lists.linux.dev>; Mon, 29 Jan 2024 21:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FD6664A0;
+	Tue, 30 Jan 2024 09:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706562003; cv=none; b=tFw/Z+yudhBrZXYqnJ11/I0/XOwBuF+Np3ElPVJeb+ficFZJSFiSrd6u+wHknHOdwjJevkaVaWj7ddt6dYq30uLZYEg+LYyzyfQ68FpSTAvXoEwAHulP+Rh4L56Vk8H/nRHl6Dh7JSTIszSTY+omuTZpyXlcLkaejF0Yr0/FatY=
+	t=1706607588; cv=none; b=OxaaJt/62j98NdZb0sxdHKk71P9PMhDi22pzEMmvpJ7n57hYbTzeUAFF6zu//wAmMs5/mat727PKw4MXr8BGPs8po88ymU95Pq07C+ZmeIlECoe0pFJNs22oMiAOyzopRyAX1oXjdvN3PtSfJPyo3EU7L5T0etCFfdy8Aw/FTZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706562003; c=relaxed/simple;
-	bh=ibokadCESHSA11HDDNlCAcaBxiIM5GHQthJ33p4hMt8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CQulcIpoak7Azm7qIekAyMucvVuvY6DdBpkHkGAkhtkKD8NNBOjD9TNovvloZiqzK64pVe7LLsk0OTBxT/MoF+2IlGRpq4RpMwhY77Ugllv6UL3P4ehF8HRd76ZwUWF6C+oa9Nq6/fwh20D2XcTwGOqCDAXqIAR3IU5pzgNs+fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=ByLf6tgA; arc=none smtp.client-ip=209.85.166.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1706607588; c=relaxed/simple;
+	bh=mM2ess45AwnKbrhva6jwqwOxaR8DZ3trNEEwfS3BavI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ma1ItYTaqIwF+3QFWLII+vWCejTA6If0dVvviHew1RC3J0QdyKP7brBNLNETdBFOC4xvGxvO40G1RCT4y1+WL7TwV9TEfEuB3F8fHiz5O2ropr3tg3Be32mTLILtscUaalF0Isc1KeLFLxfZfwNoRvVwhChMt2CzD5cBunkZxKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M/1AD10a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="ByLf6tgA"
-Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-7beeeb1ba87so49652439f.0
-        for <ntfs3@lists.linux.dev>; Mon, 29 Jan 2024 13:00:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1706562000; x=1707166800; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8LSn6LBXM31HvHqvEALdWkrsVvyHsbFeG4dy64fSTfE=;
-        b=ByLf6tgAJnHbCyk6Egu4ZcriOMIFRZLhUXVOQ17Td17L4BtPDcbIexMh5WEcLzxw4c
-         tZPzdgMnuLk/d/yn93DWTSE6obX9JoQqkwfncGHfYPu3NP9d1gytCrHJ98mtcQlW2JUZ
-         /VKcHlKHfMyQ+DIFtt0cptBfc23qGloaAKpQjGXHuDLMLRQFz3UFg0Zqi2fGow5RFgtz
-         cT7THml8C0PQWKLCk6f9Wu+WiLEyl5fG5FwI6O/ZACFqSwDVb4c+wBjvYor9giropkyT
-         jgQ3rSNDeslf8PAKF2y6dXvQTkOKIbfqc4REQSOsNmdQxAf/IBH/hk6/XqXPqQyzSvyx
-         IzEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706562000; x=1707166800;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8LSn6LBXM31HvHqvEALdWkrsVvyHsbFeG4dy64fSTfE=;
-        b=vC1e7eQd8VChEXFzJFuUyIvMLHN14vY16MUTdy/WdCLFpXHD2L0FOhIQQYFlf7wclP
-         1fPcu1lU6NIoGbu/DqkbqTqzzLGDD1eQE48+cBiJejlukzLPUN2UXZcBUmy+7/+/q7PF
-         /AGkOJ3XJodCdKnO4cYfswDEX2e7kOrQ1doS+nD1yRm30mP/PNHdR2bDjVCV4emr5lfR
-         SatnWiuGFQGjlijKgMZlNCDVg8IAuaQCY+T9e6t9V0DztLWovSOT2OZnufP5AOFzYr/1
-         O+zwxYnAbcNBhKqIcRNspbqBusISve7LDYzIpos+ZxfbBfxCkUM/aurkMzrL4GID/DKG
-         +WbA==
-X-Gm-Message-State: AOJu0YzWWqoYpcL5kxOPqRV5Fu4S4mjg2TDTxk6DsGBn5GnJumM7+LYn
-	r7V6f/MQFBvSx10uVH9qWTD6b77X+XXuevxeqfaxBXjLaPs5DUm7Qir1zNAMX6U=
-X-Google-Smtp-Source: AGHT+IHPTdM7bWCC3uKdOyS9KP89WOgaIyn9pl+DIsnhjC44TMW7G+ElMdFDPse7HJKfD3zVMCK0Dg==
-X-Received: by 2002:a6b:c953:0:b0:7bf:60bc:7f1e with SMTP id z80-20020a6bc953000000b007bf60bc7f1emr8003144iof.1.1706561999898;
-        Mon, 29 Jan 2024 12:59:59 -0800 (PST)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id x17-20020a5d9911000000b007bf0e4b4c63sm2339741iol.31.2024.01.29.12.59.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jan 2024 12:59:59 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: brauner@kernel.org, Alexander Mikhalitsyn <alexander@mihalicyn.com>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M/1AD10a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3855C433F1;
+	Tue, 30 Jan 2024 09:39:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706607587;
+	bh=mM2ess45AwnKbrhva6jwqwOxaR8DZ3trNEEwfS3BavI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=M/1AD10ainb7xZ5Xh7+PkxKhKUE9EsKLKZ7Bp+7g1cEz3OhwehROSbXZnub3W1B/1
+	 NFs0Nmk4eCsy+5LR97e9uqIqHAkH7qnHv+QoF5ou27Foh9gpPr1cldovq4KCNoUzXD
+	 aytEQQVmfwCm7FswpGuP2DnawKPKxqIK0eR6O9xGlSCvZjMME69H2AvW6y0i3Fi6Vo
+	 LGWBiRLqKjtKtfJTzcvbna7VSS5AA0G3tAvhvQEs/tBkhgwH5MfarX5YH7HYuSLKS/
+	 axWcO1qbO5Pe8qkT87aYPv3cegHTz+qiVBv1DjsQFCiU/2+a2J4pUFREIYHVIUIolR
+	 PloqIRzKSMh3Q==
+From: Christian Brauner <brauner@kernel.org>
+To: Alexander Mikhalitsyn <alexander@mihalicyn.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH 1/2] ntfs3: use file_mnt_idmap helper
+Date: Tue, 30 Jan 2024 10:39:36 +0100
+Message-ID: <20240130-heimvorteil-glasfaser-0e371f946d21@brauner>
+X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240129180024.219766-1-aleksandr.mikhalitsyn@canonical.com>
 References: <20240129180024.219766-1-aleksandr.mikhalitsyn@canonical.com>
-Subject: Re: (subset) [PATCH 1/2] ntfs3: use file_mnt_idmap helper
-Message-Id: <170656199924.3224941.3075763153914506438.b4-ty@kernel.dk>
-Date: Mon, 29 Jan 2024 13:59:59 -0700
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -68,9 +46,9 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.5-dev-2aabd
-
+X-Developer-Signature: v=1; a=openpgp-sha256; l=908; i=brauner@kernel.org; h=from:subject:message-id; bh=mM2ess45AwnKbrhva6jwqwOxaR8DZ3trNEEwfS3BavI=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaTuOHzbxHape+Lmq1ur/0XFTAnOVJ1x57zL9m3ycwvW3 lLSzUuu7ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAYTJDH9Fn78uKBAV6y/XCMyX PKCyc3H7vaWO+cY8px2vKP1JM3ZlZHgmYHd035cz60+YW87iWMOQnzvFIaJ5VUdYys0VZouaYzg B
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
 On Mon, 29 Jan 2024 19:00:23 +0100, Alexander Mikhalitsyn wrote:
 > Let's use file_mnt_idmap() as we do that across the tree.
@@ -79,14 +57,20 @@ On Mon, 29 Jan 2024 19:00:23 +0100, Alexander Mikhalitsyn wrote:
 > 
 > 
 
-Applied, thanks!
+Applied to the vfs.misc branch of the vfs/vfs.git tree.
+Patches in the vfs.misc branch should appear in linux-next soon.
 
-[2/2] io_uring: use file_mnt_idmap helper
-      commit: 712fc7e5862c2b9af7cf37418e4b398c5493ffb5
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-Best regards,
--- 
-Jens Axboe
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.misc
 
+[1/2] ntfs3: use file_mnt_idmap helper
+      https://git.kernel.org/vfs/vfs/c/16a37cba65f1
