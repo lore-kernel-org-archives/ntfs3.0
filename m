@@ -1,44 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFAF15DBBD
-	for <ntfs3@lists.linux.dev>; Thu,  1 Feb 2024 12:23:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35354161B49
+	for <ntfs3@lists.linux.dev>; Thu,  1 Feb 2024 12:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706790228; cv=none; b=HXYPGUeRLZPnipn9Z9QWGIlXEkz4/zJuAU5eVDPkatUuAzSkgTRQhjAn9FGz2JA4kwuv51OLA4Y24X9EpLd3e1RKT3s8sUIDbQ054PCBVC4gEQciqAkueM7U/DCU5GBb0Eqc65I3DPOwaXOHYjSsYjqY0zNNou11ctVSS3tIHvQ=
+	t=1706790233; cv=none; b=eqvk5q2BGh8MKP5AumtzLog5vyzz72zSDKzrVFDlwCzaGkxfL0Pf9JnO1AaFbI7u5UKpqQjcYnW15XZqyCyJ0VQQgOzuPvNjq7tqiS/XwSqySGQtwF9QsWR0+e0rhp+xakbzboT6JONQCnB2DJGFCFaK7tKByx5swEaIyLtKNYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706790228; c=relaxed/simple;
-	bh=C0jCnN2niwUwVCK3xrfR+OUG4g6M8f7iVWlMtJ0aO34=;
+	s=arc-20240116; t=1706790233; c=relaxed/simple;
+	bh=B/sd+sxzN/iXla5JBjYaVGUO67qEImOBIvmA9V4z3CM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W6ofAdZD/ZVelO4RUb6dKxSbr85kZ/2VR07q8ZOh1K6f7X9yBGGUgqiYdqJfao/P13tZq3blOl5lQdKDBXxebXmf9uZtV5s9MM3N0o0R5HsxMFolSc6KcNgGN72W1ZP1ZAIwp7S/VDgl6Z4Dm03dNRM5Omf2Ik/iTYQ42NTWOi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aaNBGkGq; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=Eh2LeRf7Ha/yrO4cIDnD1O9zv9xOZbp45xEQSddGQ6xEVDlOy9Q/OUf/VCfgTxu4wsAMJdDDk7zcg9NkHkUmX/ovF1R0/vb6C+sl4UZOAltfyiWwqtcBM7LjQDpSki+om887XZ0V80aqkCcaIKmit3jd8A5I+cRKHX+YaPC8bjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S8lJ/gCe; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aaNBGkGq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S8lJ/gCe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706790228; x=1738326228;
+  t=1706790233; x=1738326233;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=C0jCnN2niwUwVCK3xrfR+OUG4g6M8f7iVWlMtJ0aO34=;
-  b=aaNBGkGq+afEERKaz3UwE7bUdbbWjDIlqT7FMjAbi81mrY8nGA8wM6cv
-   IOivIF+CrYDPII3YRSOMQO+vGKX89LCjP6qFsMWJjPsdk70C31rzyIFdX
-   BA6YOb6f0JQDBZ2SzMjIrDq9pDizZf4FLah74LRszmLdXW2UiThm3RzYk
-   Eq6ZHp/5rYEwi61O/DQwAqpQqV2j8z9rx9/23bSmxoIRbGHWmEp/Xmvwe
-   Jt41xnbcO1K/2TWeyfZgILv+EgU9Wu/ytkpFi3B6rMpqRa+iZVlOhaKzU
-   Y0EK1JUUA9XfhILegbWOE0CUXhrpOqYgLmhkL46XrUNOGwCEnR852tRKQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3746904"
+  bh=B/sd+sxzN/iXla5JBjYaVGUO67qEImOBIvmA9V4z3CM=;
+  b=S8lJ/gCeFa/y8Kt9KXztUSefFkc+8mJyDoPXkT4ya2H2OCZjV1YBi199
+   H2gT3hRrSBHJjZI9WjKX5bQOwFQUNBEQLL8u40IJv4CZAvEoHwFbS1uFd
+   SclLQEzyGxHNoc9bFU1gL8yxYeNk/r1ko92+RyAV3wcbOHJs4/Lw2JrSB
+   BizkeEiBw4inFtuiQJ6cydlK1HA55+QbiivxHWSdxI+24WmmUps1a5FUK
+   lHmlpMrcEFxgmFIsg3yhfMb4U0timQe5sehaS2KHWI2mPHWwF6RckOiT+
+   +uyoMunEGteHOSzDuPS9Lx9HUkM83aAaq8sdkV96aWklrm78wLVlZhEKD
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3746941"
 X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="3746904"
+   d="scan'208";a="3746941"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 04:23:47 -0800
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 04:23:52 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="4499090"
+   d="scan'208";a="4499093"
 Received: from newjersey.igk.intel.com ([10.102.20.203])
-  by orviesa004.jf.intel.com with ESMTP; 01 Feb 2024 04:23:42 -0800
+  by orviesa004.jf.intel.com with ESMTP; 01 Feb 2024 04:23:47 -0800
 From: Alexander Lobakin <aleksander.lobakin@intel.com>
 To: "David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
@@ -62,10 +62,11 @@ Cc: Alexander Lobakin <aleksander.lobakin@intel.com>,
 	linux-s390@vger.kernel.org,
 	intel-wired-lan@lists.osuosl.org,
 	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v5 03/21] lib/test_bitmap: use pr_info() for non-error messages
-Date: Thu,  1 Feb 2024 13:21:58 +0100
-Message-ID: <20240201122216.2634007-4-aleksander.lobakin@intel.com>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH net-next v5 04/21] bitops: add missing prototype check
+Date: Thu,  1 Feb 2024 13:21:59 +0100
+Message-ID: <20240201122216.2634007-5-aleksander.lobakin@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240201122216.2634007-1-aleksander.lobakin@intel.com>
 References: <20240201122216.2634007-1-aleksander.lobakin@intel.com>
@@ -77,69 +78,33 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Alexander Potapenko <glider@google.com>
+Commit 8238b4579866 ("wait_on_bit: add an acquire memory barrier") added
+a new bitop, test_bit_acquire(), with proper wrapping in order to try to
+optimize it at compile-time, but missed the list of bitops used for
+checking their prototypes a bit below.
+The functions added have consistent prototypes, so that no more changes
+are required and no functional changes take place.
 
-pr_err() messages may be treated as errors by some log readers, so let
-us only use them for test failures. For non-error messages, replace them
-with pr_info().
-
-Suggested-by: Alexander Lobakin <aleksander.lobakin@intel.com>
-Signed-off-by: Alexander Potapenko <glider@google.com>
-Acked-by: Yury Norov <yury.norov@gmail.com>
+Fixes: 8238b4579866 ("wait_on_bit: add an acquire memory barrier")
+Cc: stable@vger.kernel.org # 6.0+
+Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
 Signed-off-by: Alexander Lobakin <aleksander.lobakin@intel.com>
 ---
- lib/test_bitmap.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ include/linux/bitops.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/lib/test_bitmap.c b/lib/test_bitmap.c
-index 46c015468077..a6e92cf5266a 100644
---- a/lib/test_bitmap.c
-+++ b/lib/test_bitmap.c
-@@ -507,7 +507,7 @@ static void __init test_bitmap_parselist(void)
- 		}
+diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+index 2ba557e067fe..f7f5a783da2a 100644
+--- a/include/linux/bitops.h
++++ b/include/linux/bitops.h
+@@ -80,6 +80,7 @@ __check_bitop_pr(__test_and_set_bit);
+ __check_bitop_pr(__test_and_clear_bit);
+ __check_bitop_pr(__test_and_change_bit);
+ __check_bitop_pr(test_bit);
++__check_bitop_pr(test_bit_acquire);
  
- 		if (ptest.flags & PARSE_TIME)
--			pr_err("parselist: %d: input is '%s' OK, Time: %llu\n",
-+			pr_info("parselist: %d: input is '%s' OK, Time: %llu\n",
- 					i, ptest.in, time);
+ #undef __check_bitop_pr
  
- #undef ptest
-@@ -546,7 +546,7 @@ static void __init test_bitmap_printlist(void)
- 		goto out;
- 	}
- 
--	pr_err("bitmap_print_to_pagebuf: input is '%s', Time: %llu\n", buf, time);
-+	pr_info("bitmap_print_to_pagebuf: input is '%s', Time: %llu\n", buf, time);
- out:
- 	kfree(buf);
- 	kfree(bmap);
-@@ -624,7 +624,7 @@ static void __init test_bitmap_parse(void)
- 		}
- 
- 		if (test.flags & PARSE_TIME)
--			pr_err("parse: %d: input is '%s' OK, Time: %llu\n",
-+			pr_info("parse: %d: input is '%s' OK, Time: %llu\n",
- 					i, test.in, time);
- 	}
- }
-@@ -1380,7 +1380,7 @@ static void __init test_bitmap_read_perf(void)
- 		}
- 	}
- 	time = ktime_get() - time;
--	pr_err("Time spent in %s:\t%llu\n", __func__, time);
-+	pr_info("Time spent in %s:\t%llu\n", __func__, time);
- }
- 
- static void __init test_bitmap_write_perf(void)
-@@ -1402,7 +1402,7 @@ static void __init test_bitmap_write_perf(void)
- 		}
- 	}
- 	time = ktime_get() - time;
--	pr_err("Time spent in %s:\t%llu\n", __func__, time);
-+	pr_info("Time spent in %s:\t%llu\n", __func__, time);
- }
- 
- #undef TEST_BIT_LEN
 -- 
 2.43.0
 
