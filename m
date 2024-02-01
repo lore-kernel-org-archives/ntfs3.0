@@ -1,132 +1,271 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB395D491
-	for <ntfs3@lists.linux.dev>; Thu,  1 Feb 2024 14:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9686A6215C
+	for <ntfs3@lists.linux.dev>; Thu,  1 Feb 2024 15:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706796199; cv=none; b=BTbyd6zMFvYVIADLQjLKuSM6XA49oHbk20schr19IvwFQU5FGLEo1G5qX4cQISwxhZLdzUljkJu+0lYppEze5fftpyFiFA+7zF7MgKUM/fOryvLcinXUEMquhuniywxGNxUBURErkKZ3R6nj6ELGpynKywxHHPYLc6q2WPcoLh4=
+	t=1706800646; cv=none; b=A0aJoQfCP7a3ksIVeoODFIS9gsyjO3qDcHoYiJYxc6uq17pLNY8o46FOSvK/BHAOBHLO/vNz2Z8udlvm/1rvFLFXJiiTujQ+IrHWzk1JCAEU/ZlJj4XMpsMClBhI21Bvav4YKBTiX4UU7dSOYWnZX9MLbMWxvIw+doOXWJHtab4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706796199; c=relaxed/simple;
-	bh=ca8fj2gTG3iRmOfEmYapKTreDfkQJ3NcDZ7iQMWLM0k=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=VGTizVjS8xtbv58wuSsbXRm+SKuIi21CW1KjzAKgC1PiDkphxrmQcR0uBzFamEr5fsMzYTqvshulVtwdn9ML3GPnX3zNIQU7h/U9XIyzTtPHeZDsbxFZHLGAPJ8gavZx//6Ks+QEh128IFtzRgLQPX94yrN6NEw4tLBBg3Z53Gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=V6uoivNv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EtUyAS1n; arc=none smtp.client-ip=66.111.4.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="V6uoivNv";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EtUyAS1n"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id DA5765C015A;
-	Thu,  1 Feb 2024 09:03:11 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Thu, 01 Feb 2024 09:03:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1706796191;
-	 x=1706882591; bh=SrMsYSSdXBYrmJby1JuNx2foZxC1DPyP8T36AKwqkBI=; b=
-	V6uoivNvjOsWV8cVN414irLYJXlAxzYQLgIylQ4tIF25byDBNWNzWAFRdI2GHwXG
-	MqrpO04Rai1GLgT488yZbPpEnexlkT78FRbLnCRXSaWv2p3LNcpZ4KTQj6PDU8/q
-	P6/4YK57n8AJ+xvxcKFoSC6LRAiV2duWOBxPr0Ritc2iBXQrQcEgJSax/ELkNevM
-	omXro5wjkLCT/+BKTEDszb5lU6H1AUTKueRvQTV6brqfIO2Y0wc3RKBF4B/FODLZ
-	4aQe53Rg812/uIB13jRoudEycB0R4CeE+UWFQLBv5xdj1cR/SWQ31ELe4mPQ1LqG
-	XjZupRbQN8z0d9JXMsNNpw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1706796191; x=
-	1706882591; bh=SrMsYSSdXBYrmJby1JuNx2foZxC1DPyP8T36AKwqkBI=; b=E
-	tUyAS1nQPJjZFmzE8hd+Xi0j0IDvz3Hj5hZHLkcVSkEToZ0xLDtzH9zrFdQhPVcK
-	4ORifOcYB+qP1esUYHQdMeUjevk2wtAGWtA5UVQDmm4sGazF/Amv2cM9/CwjrYeh
-	cqXkC/mZeon+LU7GBTrjTrrs6bbSouPNyaRdnPvvcqNH3aSDpkzx5WwNltvOzj52
-	bCL7x7DU7gVGQk5urJJm/SOrdhx0sgIs5PgHAQl+Xq0zJhmcgVyX20aZjUQfJfS0
-	8cBWyDtfuOdcvqDZH0NEneABQY8yGy9zLW6Rl5VSXFOPPa7M9P9aeID1iBIZDvez
-	RrfCGP2rJwYWO17+hRQSg==
-X-ME-Sender: <xms:nqS7ZeZL0sSN5_odCeX5vdkvsOCiCpCr0DlG98SBeLHiqMPBiChcYg>
-    <xme:nqS7ZRYRuXF7tf-BBEqzi-kMH3lfeKk4hWLR5Z4K4g5I-RCib-Acttig8AG15z0xM
-    LYwh5UddWERCG88iPg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfeduuddgheeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
-    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:nqS7ZY9iznyhiGKP7YnBR_mUnhKxBooFkyaLliDR2nfmBTEMcgsymw>
-    <xmx:nqS7ZQrdI7OIfLpGnDRXupFZQTd2lvuYxCIkWQq0YwhHJk_-Xfnypw>
-    <xmx:nqS7ZZrdVyx3b5AJi1L8hmKTwflW3Tx7m_LLx88vZYDxN2HSclYC-Q>
-    <xmx:n6S7ZQ5EuvV7yz_oWjsSWX4fKvwtp0TLNHOe6ZoA5H8SyRV2YAKZbw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 9F57BB6008D; Thu,  1 Feb 2024 09:03:10 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
+	s=arc-20240116; t=1706800646; c=relaxed/simple;
+	bh=HPxCSUB5zEx98b6o6g9W3iSdTbRcBAtJx2EqLbpkmnQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Kf4L8KfxF+wwT7xHnFmEDD5LGsO293145Y3ycdnJCtOPzspf0QrUm/v8J47fu+VvS3srr7zzljlDHgJB+jAHYGQ1qz5Par+6wLYef1XTTGG++FFtnRx+1YpvELy/fvo2QDMeJ5wP6WiFdekSFSFpq6fHt1IBZJQRuDASVf8PWVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-363abe44869so752055ab.3
+        for <ntfs3@lists.linux.dev>; Thu, 01 Feb 2024 07:17:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706800643; x=1707405443;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=U2PR9jxlA2KYl4LaDdZfOkauFUflX5kg7bFxv7gTX2o=;
+        b=ullUBWt62Ok1yrFNwA9iP6Xm705gVopfk0CF06B5Yl+bvg/ljwoqUtGZj/N5tuI1rI
+         j0A6wfRB+LH9Cow2a1pzchg0Q/uUVWHTdARpLowzU8xwMP8HKc/lS3KsJBHrnmAS4tNP
+         XkIXboEH4tIs4sPTsW5SBXdqJQjBYQD2t5Oliy+ysXixPfPeO/mGD18FXScSZ7WUutGO
+         /+jrRkxI1VQE5b+6rMK3TAhXrXcLxZ2vFAC6CyukZkxFm1FfEL5cXa5a47x57Mb0fUpM
+         XzdlsL5RGdCt3RrZZ1VsiRN3CNwfj0u+VSM1IUl3FDCVYRniB/3LKHd9mg8tItBFjiu1
+         WvJw==
+X-Gm-Message-State: AOJu0YzQ9BmL51NN3IjrK/t7tNpgB0zaa4zjy04+Lr2qKxd2zrNW3noQ
+	ety7PttB5Geqh7g24bSAXPeVkzTZrNKaaHHd+PZ0j9ku6f1aOqkRHxiaHRuicxVIUlZI1TqANfF
+	ifSWJxnfYol/ac6UODFxHZcUthrPeV5nFbCO51W802PYvjoDLqohCoWw=
+X-Google-Smtp-Source: AGHT+IE1g+zmbl+ljmYjmt69qpUnFFP8vaxrDFurP/9mozniNZo5RdC2v8pKoETfgZB5hw6pebQDXeDsGm7QXHA8VJFnxegwjBhD
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <b4309c85-026c-4fc9-8c26-61689ac38fa1@app.fastmail.com>
-In-Reply-To: 
- <CAG_fn=Wb81V+axD2eLLiE9SfdbJ8yncrkhuyw8b+6OBJJ_M9Sw@mail.gmail.com>
-References: <20240201122216.2634007-1-aleksander.lobakin@intel.com>
- <20240201122216.2634007-2-aleksander.lobakin@intel.com>
- <3f6df876-4b25-4dc8-bbac-ce678c428d86@app.fastmail.com>
- <CAG_fn=Wb81V+axD2eLLiE9SfdbJ8yncrkhuyw8b+6OBJJ_M9Sw@mail.gmail.com>
-Date: Thu, 01 Feb 2024 15:02:50 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Alexander Potapenko" <glider@google.com>
-Cc: "Alexander Lobakin" <aleksander.lobakin@intel.com>,
- "David S . Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>,
- "Michal Swiatkowski" <michal.swiatkowski@linux.intel.com>,
- "Marcin Szycik" <marcin.szycik@linux.intel.com>,
- "Wojciech Drewek" <wojciech.drewek@intel.com>,
- "Yury Norov" <yury.norov@gmail.com>, "Andy Shevchenko" <andy@kernel.org>,
- "Rasmus Villemoes" <linux@rasmusvillemoes.dk>,
- "Jiri Pirko" <jiri@resnulli.us>, "Ido Schimmel" <idosch@nvidia.com>,
- "Przemek Kitszel" <przemyslaw.kitszel@intel.com>,
- "Simon Horman" <horms@kernel.org>, linux-btrfs@vger.kernel.org,
- dm-devel@redhat.com, ntfs3@lists.linux.dev, linux-s390@vger.kernel.org,
- "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
- Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org,
- "Syed Nayyar Waris" <syednwaris@gmail.com>,
- "William Breathitt Gray" <william.gray@linaro.org>,
- "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH net-next v5 01/21] lib/bitmap: add bitmap_{read,write}()
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Received: by 2002:a05:6e02:12ee:b0:363:8b04:6e01 with SMTP id
+ l14-20020a056e0212ee00b003638b046e01mr470670iln.3.1706800643754; Thu, 01 Feb
+ 2024 07:17:23 -0800 (PST)
+Date: Thu, 01 Feb 2024 07:17:23 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000012d4ed0610537e34@google.com>
+Subject: [syzbot] [ntfs3?] KASAN: slab-out-of-bounds Read in mi_enum_attr
+From: syzbot <syzbot+a426cde6dee8c2884b0b@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Feb 1, 2024, at 14:45, Alexander Potapenko wrote:
-> On Thu, Feb 1, 2024 at 2:23=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> w=
-rote:
->> On Thu, Feb 1, 2024, at 13:21, Alexander Lobakin wrote:
->>
->> As far as I can tell, the header ends up being included
->> indirectly almost everywhere, so just parsing these functions
->> likey adds not just dependencies but also compile time.
->>
->
-> Removing particular functions from a header to reduce compilation time
-> does not really scale.
-> Do we know this case has a noticeable impact on the compilation time?
-> If yes, maybe we need to tackle this problem in a different way (e.g.
-> reduce the number of dependencies on it)?
+Hello,
 
-Cleaning up the header dependencies is definitely possible in
-theory, and there are other places we could start this, but
-it's also a multi-year effort that several people have tried
-without much success.
+syzbot found the following issue on:
 
-All I'm asking here is to not make it worse by adding this
-one without need. If the function is not normally inlined
-anyway, there is no benefit to having it in the header.
+HEAD commit:    8a696a29c690 Merge tag 'platform-drivers-x86-v6.8-2' of gi..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16753f17e80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9247001bfee478be
+dashboard link: https://syzkaller.appspot.com/bug?extid=a426cde6dee8c2884b0b
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12c4efc3e80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16a562f3e80000
 
-      Arnd
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e52b675ecac5/disk-8a696a29.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/4fc98d5eb84b/vmlinux-8a696a29.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/5d4769a0b908/bzImage-8a696a29.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/d57d4609374b/mount_0.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a426cde6dee8c2884b0b@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: slab-out-of-bounds in mi_enum_attr+0x850/0x9e0 fs/ntfs3/record.c:246
+Read of size 4 at addr ffff88807483335d by task syz-executor171/9769
+
+CPU: 0 PID: 9769 Comm: syz-executor171 Not tainted 6.8.0-rc1-syzkaller-00356-g8a696a29c690 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x1e7/0x2d0 lib/dump_stack.c:106
+ print_address_description mm/kasan/report.c:377 [inline]
+ print_report+0x163/0x540 mm/kasan/report.c:488
+ kasan_report+0x142/0x170 mm/kasan/report.c:601
+ mi_enum_attr+0x850/0x9e0 fs/ntfs3/record.c:246
+ mi_find_attr+0x1c5/0x2b0 fs/ntfs3/record.c:353
+ ni_find_attr+0x609/0x8d0 fs/ntfs3/frecord.c:218
+ ntfs_readlink_hlp+0xa6/0xcb0 fs/ntfs3/inode.c:1922
+ ntfs_get_link+0x79/0x110 fs/ntfs3/inode.c:2068
+ pick_link+0x638/0xd70
+ step_into+0xc9f/0x1080 fs/namei.c:1871
+ open_last_lookups fs/namei.c:3588 [inline]
+ path_openat+0x187c/0x31e0 fs/namei.c:3795
+ do_filp_open+0x234/0x490 fs/namei.c:3825
+ do_sys_openat2+0x13e/0x1d0 fs/open.c:1404
+ do_sys_open fs/open.c:1419 [inline]
+ __do_sys_open fs/open.c:1427 [inline]
+ __se_sys_open fs/open.c:1423 [inline]
+ __x64_sys_open+0x225/0x270 fs/open.c:1423
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf5/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+RIP: 0033:0x7f1b33964c19
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 81 1d 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f1b338d3218 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
+RAX: ffffffffffffffda RBX: 00007f1b33a06708 RCX: 00007f1b33964c19
+RDX: 0000000000000065 RSI: 0000000000000080 RDI: 0000000020000440
+RBP: 0000000000000020 R08: 0000000000000000 R09: 0000000000000000
+R10: 00007ffcb7e5f0f7 R11: 0000000000000246 R12: 00007f1b33a06700
+R13: 00007f1b339d2024 R14: 0030656c69662f2e R15: 0031656c69662f2e
+ </TASK>
+
+Allocated by task 5096:
+ kasan_save_stack mm/kasan/common.c:47 [inline]
+ kasan_save_track+0x3f/0x70 mm/kasan/common.c:68
+ poison_kmalloc_redzone mm/kasan/common.c:372 [inline]
+ __kasan_kmalloc+0x98/0xb0 mm/kasan/common.c:389
+ kasan_kmalloc include/linux/kasan.h:211 [inline]
+ __do_kmalloc_node mm/slub.c:3981 [inline]
+ __kmalloc+0x22e/0x490 mm/slub.c:3994
+ kmalloc include/linux/slab.h:594 [inline]
+ tomoyo_realpath_from_path+0xcf/0x5e0 security/tomoyo/realpath.c:251
+ tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
+ tomoyo_path_perm+0x2b7/0x730 security/tomoyo/file.c:822
+ security_inode_getattr+0xd3/0x120 security/security.c:2237
+ vfs_getattr+0x46/0x430 fs/stat.c:173
+ vfs_statx+0x1a5/0x4e0 fs/stat.c:248
+ vfs_fstatat+0x135/0x190 fs/stat.c:304
+ __do_sys_newfstatat fs/stat.c:468 [inline]
+ __se_sys_newfstatat fs/stat.c:462 [inline]
+ __x64_sys_newfstatat+0x117/0x190 fs/stat.c:462
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf5/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+Freed by task 5096:
+ kasan_save_stack mm/kasan/common.c:47 [inline]
+ kasan_save_track+0x3f/0x70 mm/kasan/common.c:68
+ kasan_save_free_info+0x4e/0x60 mm/kasan/generic.c:640
+ poison_slab_object+0xa6/0xe0 mm/kasan/common.c:241
+ __kasan_slab_free+0x34/0x60 mm/kasan/common.c:257
+ kasan_slab_free include/linux/kasan.h:184 [inline]
+ slab_free_hook mm/slub.c:2121 [inline]
+ slab_free mm/slub.c:4299 [inline]
+ kfree+0x14a/0x380 mm/slub.c:4409
+ tomoyo_realpath_from_path+0x5a3/0x5e0 security/tomoyo/realpath.c:286
+ tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
+ tomoyo_path_perm+0x2b7/0x730 security/tomoyo/file.c:822
+ security_inode_getattr+0xd3/0x120 security/security.c:2237
+ vfs_getattr+0x46/0x430 fs/stat.c:173
+ vfs_statx+0x1a5/0x4e0 fs/stat.c:248
+ vfs_fstatat+0x135/0x190 fs/stat.c:304
+ __do_sys_newfstatat fs/stat.c:468 [inline]
+ __se_sys_newfstatat fs/stat.c:462 [inline]
+ __x64_sys_newfstatat+0x117/0x190 fs/stat.c:462
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf5/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+The buggy address belongs to the object at ffff888074832000
+ which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 861 bytes to the right of
+ allocated 4096-byte region [ffff888074832000, ffff888074833000)
+
+The buggy address belongs to the physical page:
+page:ffffea0001d20c00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x74830
+head:ffffea0001d20c00 order:3 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0xfff00000000840(slab|head|node=0|zone=1|lastcpupid=0x7ff)
+page_type: 0xffffffff()
+raw: 00fff00000000840 ffff888013042140 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000000040004 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0x1d2040(__GFP_IO|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC|__GFP_HARDWALL), pid 4500, tgid 4500 (udevd), ts 828902194240, free_ts 828781426813
+ set_page_owner include/linux/page_owner.h:31 [inline]
+ post_alloc_hook+0x1e6/0x210 mm/page_alloc.c:1533
+ prep_new_page mm/page_alloc.c:1540 [inline]
+ get_page_from_freelist+0x33ea/0x3570 mm/page_alloc.c:3311
+ __alloc_pages+0x255/0x680 mm/page_alloc.c:4567
+ __alloc_pages_node include/linux/gfp.h:238 [inline]
+ alloc_pages_node include/linux/gfp.h:261 [inline]
+ alloc_slab_page+0x5f/0x160 mm/slub.c:2190
+ allocate_slab mm/slub.c:2354 [inline]
+ new_slab+0x84/0x2f0 mm/slub.c:2407
+ ___slab_alloc+0xd17/0x13d0 mm/slub.c:3540
+ __slab_alloc mm/slub.c:3625 [inline]
+ __slab_alloc_node mm/slub.c:3678 [inline]
+ slab_alloc_node mm/slub.c:3850 [inline]
+ __do_kmalloc_node mm/slub.c:3980 [inline]
+ __kmalloc+0x2dc/0x490 mm/slub.c:3994
+ kmalloc include/linux/slab.h:594 [inline]
+ tomoyo_realpath_from_path+0xcf/0x5e0 security/tomoyo/realpath.c:251
+ tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
+ tomoyo_check_open_permission+0x255/0x500 security/tomoyo/file.c:771
+ security_file_open+0x66/0x560 security/security.c:2932
+ do_dentry_open+0x327/0x1590 fs/open.c:940
+ do_open fs/namei.c:3641 [inline]
+ path_openat+0x2823/0x31e0 fs/namei.c:3798
+ do_filp_open+0x234/0x490 fs/namei.c:3825
+ do_sys_openat2+0x13e/0x1d0 fs/open.c:1404
+ do_sys_open fs/open.c:1419 [inline]
+ __do_sys_openat fs/open.c:1435 [inline]
+ __se_sys_openat fs/open.c:1430 [inline]
+ __x64_sys_openat+0x247/0x290 fs/open.c:1430
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf5/0x230 arch/x86/entry/common.c:83
+page last free pid 4500 tgid 4500 stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1140 [inline]
+ free_unref_page_prepare+0x959/0xa80 mm/page_alloc.c:2346
+ free_unref_page+0x37/0x3f0 mm/page_alloc.c:2486
+ discard_slab mm/slub.c:2453 [inline]
+ __put_partials+0xeb/0x130 mm/slub.c:2922
+ put_cpu_partial+0x17b/0x250 mm/slub.c:2997
+ __slab_free+0x2fe/0x410 mm/slub.c:4166
+ qlink_free mm/kasan/quarantine.c:160 [inline]
+ qlist_free_all+0x6d/0xd0 mm/kasan/quarantine.c:176
+ kasan_quarantine_reduce+0x14b/0x160 mm/kasan/quarantine.c:283
+ __kasan_slab_alloc+0x23/0x70 mm/kasan/common.c:324
+ kasan_slab_alloc include/linux/kasan.h:201 [inline]
+ slab_post_alloc_hook mm/slub.c:3813 [inline]
+ slab_alloc_node mm/slub.c:3860 [inline]
+ kmem_cache_alloc_lru+0x172/0x340 mm/slub.c:3879
+ __d_alloc+0x31/0x750 fs/dcache.c:1624
+ d_alloc+0x4b/0x190 fs/dcache.c:1704
+ lookup_one_qstr_excl+0xce/0x250 fs/namei.c:1604
+ do_unlinkat+0x297/0x830 fs/namei.c:4386
+ __do_sys_unlink fs/namei.c:4446 [inline]
+ __se_sys_unlink fs/namei.c:4444 [inline]
+ __x64_sys_unlink+0x49/0x50 fs/namei.c:4444
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf5/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+Memory state around the buggy address:
+ ffff888074833200: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888074833280: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff888074833300: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                                                    ^
+ ffff888074833380: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888074833400: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
