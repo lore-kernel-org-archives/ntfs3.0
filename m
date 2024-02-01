@@ -1,114 +1,132 @@
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8285D465
-	for <ntfs3@lists.linux.dev>; Thu,  1 Feb 2024 13:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB395D491
+	for <ntfs3@lists.linux.dev>; Thu,  1 Feb 2024 14:03:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706795202; cv=none; b=NgrokXQrYbLXTd2uHs+XbfRk0DfPJ7LuABk/UTPLF8oOfA5d1Nkqbsgar1Uynsv4ok3HFq1XwMf95BdOWv+B88l2j8B9j64muylIkfamu0WIk+qr0gs1Swj+A6yEwMe2809Yt7S2+k4Ps4xo+eIkJd9aVTjapN+vTZdDMTlvHds=
+	t=1706796199; cv=none; b=BTbyd6zMFvYVIADLQjLKuSM6XA49oHbk20schr19IvwFQU5FGLEo1G5qX4cQISwxhZLdzUljkJu+0lYppEze5fftpyFiFA+7zF7MgKUM/fOryvLcinXUEMquhuniywxGNxUBURErkKZ3R6nj6ELGpynKywxHHPYLc6q2WPcoLh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706795202; c=relaxed/simple;
-	bh=suoI7qvddasF6ze11GbOGjsGkZl9FBFquOHwW330phg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZGBS2ivCa9C1rBeZHJJQv/xZ7Nw3p5CbaLBgGCnyMJZm3h8HfDdU+rCxWKqRdZ15tbqyEpMVVEZ6sSLEj6WDFAvBDTglGUknkT8bW77mH5sABvNN1UcVnUOhOpJIdQ2SINivszmUunLO1VmHjpFJMdkWwAkS6kjzeJ2yY07juSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P7Jj2hlF; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1706796199; c=relaxed/simple;
+	bh=ca8fj2gTG3iRmOfEmYapKTreDfkQJ3NcDZ7iQMWLM0k=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=VGTizVjS8xtbv58wuSsbXRm+SKuIi21CW1KjzAKgC1PiDkphxrmQcR0uBzFamEr5fsMzYTqvshulVtwdn9ML3GPnX3zNIQU7h/U9XIyzTtPHeZDsbxFZHLGAPJ8gavZx//6Ks+QEh128IFtzRgLQPX94yrN6NEw4tLBBg3Z53Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=V6uoivNv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EtUyAS1n; arc=none smtp.client-ip=66.111.4.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P7Jj2hlF"
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-4bd80b41cbdso342451e0c.3
-        for <ntfs3@lists.linux.dev>; Thu, 01 Feb 2024 05:46:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1706795199; x=1707399999; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gYWYexFtoJ2yHocou+INVoUtLbF8tOuPvQoRlZwm2yg=;
-        b=P7Jj2hlFJ6wTwY6XXAZOmVGKpnOJjcKk0geIELKoO2wKLhvcTc4eyr1I2aAoB8aO3i
-         WzjbKJlF2DgN0sR7PJ4QHtOtVjPYKc59PJh3N0MqhZZb7+T50xP5hC31CI2sHXmJTXlH
-         cSstJo3V6zWdcTdyERIT+RKMXDVBqpHMkPV0/5M9C7BEYWBxQJs0YK2Hbdvt/Tvvsykn
-         T52hrbSeg4tlvVl3nmkwl9OkrNLCZhJZG86Nq/b88WtLwQejosfavqIxmwSE72DbOU4+
-         WKpgcXpOXMlp/6jSThId57Floi98IiAK0cSnQuiIbBEKvs7nGwJKyphOtsoctg3CDmD3
-         ocXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706795199; x=1707399999;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gYWYexFtoJ2yHocou+INVoUtLbF8tOuPvQoRlZwm2yg=;
-        b=tB3YhWHQY2qJ8GbrS7NX75VVH1ZZyjOzPPN6Qv8feiNVAQloFZkCCqjqJeb/zmvgFd
-         2wdvU/lBHsV4IMusF6VWYTakmduAU33dlar5ziv/+CgY99ir0tieV1epfxoMcrJcEgAS
-         cdY9k9Qm47R3LMZtozcGLZf1VXn+mykQpMSSzlourE/MC612LNv/5NkUKtYM6UwJ6R4N
-         kjaWgKLmuRS7NbK9zm6JK2Ww5SfaonnRHL6qQ8BBcW0kfg5q99aEnYQvNrQ3Up1cfXLi
-         zCUfmr145Y/ydTV09CuAe0bF977f2jofxHOOBu0IJSGTK8NStQVJvS+cXpF6O46881w9
-         TcOw==
-X-Gm-Message-State: AOJu0Yy4wPhL+52s12nF2GUQQ/Cj5WRsF89nEGrCp9FXcyZ4ogkE+Ram
-	rX3yiBb57I3G7eYjZnjS67Bvle6OhRvFctmUmBuCsAy0faz7Mj5jjjh5q9p2iRrWhiAItEiJlKm
-	E1jGGZ0EA9190QMAcsmJBoq/YeA/UihPvLgan
-X-Google-Smtp-Source: AGHT+IG80kHJI3o0nh9nc37cFYAZfNgIoolcnGet/bLjzO8FQfWUZqIqvqwlp1tA8htBaza2xRqZOec13j3l2wPN17s=
-X-Received: by 2002:a05:6122:2a0d:b0:4b6:be94:acc6 with SMTP id
- fw13-20020a0561222a0d00b004b6be94acc6mr5599008vkb.10.1706795199311; Thu, 01
- Feb 2024 05:46:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="V6uoivNv";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EtUyAS1n"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id DA5765C015A;
+	Thu,  1 Feb 2024 09:03:11 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Thu, 01 Feb 2024 09:03:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1706796191;
+	 x=1706882591; bh=SrMsYSSdXBYrmJby1JuNx2foZxC1DPyP8T36AKwqkBI=; b=
+	V6uoivNvjOsWV8cVN414irLYJXlAxzYQLgIylQ4tIF25byDBNWNzWAFRdI2GHwXG
+	MqrpO04Rai1GLgT488yZbPpEnexlkT78FRbLnCRXSaWv2p3LNcpZ4KTQj6PDU8/q
+	P6/4YK57n8AJ+xvxcKFoSC6LRAiV2duWOBxPr0Ritc2iBXQrQcEgJSax/ELkNevM
+	omXro5wjkLCT/+BKTEDszb5lU6H1AUTKueRvQTV6brqfIO2Y0wc3RKBF4B/FODLZ
+	4aQe53Rg812/uIB13jRoudEycB0R4CeE+UWFQLBv5xdj1cR/SWQ31ELe4mPQ1LqG
+	XjZupRbQN8z0d9JXMsNNpw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1706796191; x=
+	1706882591; bh=SrMsYSSdXBYrmJby1JuNx2foZxC1DPyP8T36AKwqkBI=; b=E
+	tUyAS1nQPJjZFmzE8hd+Xi0j0IDvz3Hj5hZHLkcVSkEToZ0xLDtzH9zrFdQhPVcK
+	4ORifOcYB+qP1esUYHQdMeUjevk2wtAGWtA5UVQDmm4sGazF/Amv2cM9/CwjrYeh
+	cqXkC/mZeon+LU7GBTrjTrrs6bbSouPNyaRdnPvvcqNH3aSDpkzx5WwNltvOzj52
+	bCL7x7DU7gVGQk5urJJm/SOrdhx0sgIs5PgHAQl+Xq0zJhmcgVyX20aZjUQfJfS0
+	8cBWyDtfuOdcvqDZH0NEneABQY8yGy9zLW6Rl5VSXFOPPa7M9P9aeID1iBIZDvez
+	RrfCGP2rJwYWO17+hRQSg==
+X-ME-Sender: <xms:nqS7ZeZL0sSN5_odCeX5vdkvsOCiCpCr0DlG98SBeLHiqMPBiChcYg>
+    <xme:nqS7ZRYRuXF7tf-BBEqzi-kMH3lfeKk4hWLR5Z4K4g5I-RCib-Acttig8AG15z0xM
+    LYwh5UddWERCG88iPg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfeduuddgheeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
+    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:nqS7ZY9iznyhiGKP7YnBR_mUnhKxBooFkyaLliDR2nfmBTEMcgsymw>
+    <xmx:nqS7ZQrdI7OIfLpGnDRXupFZQTd2lvuYxCIkWQq0YwhHJk_-Xfnypw>
+    <xmx:nqS7ZZrdVyx3b5AJi1L8hmKTwflW3Tx7m_LLx88vZYDxN2HSclYC-Q>
+    <xmx:n6S7ZQ5EuvV7yz_oWjsSWX4fKvwtp0TLNHOe6ZoA5H8SyRV2YAKZbw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 9F57BB6008D; Thu,  1 Feb 2024 09:03:10 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Message-Id: <b4309c85-026c-4fc9-8c26-61689ac38fa1@app.fastmail.com>
+In-Reply-To: 
+ <CAG_fn=Wb81V+axD2eLLiE9SfdbJ8yncrkhuyw8b+6OBJJ_M9Sw@mail.gmail.com>
 References: <20240201122216.2634007-1-aleksander.lobakin@intel.com>
- <20240201122216.2634007-2-aleksander.lobakin@intel.com> <3f6df876-4b25-4dc8-bbac-ce678c428d86@app.fastmail.com>
-In-Reply-To: <3f6df876-4b25-4dc8-bbac-ce678c428d86@app.fastmail.com>
-From: Alexander Potapenko <glider@google.com>
-Date: Thu, 1 Feb 2024 14:45:58 +0100
-Message-ID: <CAG_fn=Wb81V+axD2eLLiE9SfdbJ8yncrkhuyw8b+6OBJJ_M9Sw@mail.gmail.com>
+ <20240201122216.2634007-2-aleksander.lobakin@intel.com>
+ <3f6df876-4b25-4dc8-bbac-ce678c428d86@app.fastmail.com>
+ <CAG_fn=Wb81V+axD2eLLiE9SfdbJ8yncrkhuyw8b+6OBJJ_M9Sw@mail.gmail.com>
+Date: Thu, 01 Feb 2024 15:02:50 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Alexander Potapenko" <glider@google.com>
+Cc: "Alexander Lobakin" <aleksander.lobakin@intel.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>,
+ "Michal Swiatkowski" <michal.swiatkowski@linux.intel.com>,
+ "Marcin Szycik" <marcin.szycik@linux.intel.com>,
+ "Wojciech Drewek" <wojciech.drewek@intel.com>,
+ "Yury Norov" <yury.norov@gmail.com>, "Andy Shevchenko" <andy@kernel.org>,
+ "Rasmus Villemoes" <linux@rasmusvillemoes.dk>,
+ "Jiri Pirko" <jiri@resnulli.us>, "Ido Schimmel" <idosch@nvidia.com>,
+ "Przemek Kitszel" <przemyslaw.kitszel@intel.com>,
+ "Simon Horman" <horms@kernel.org>, linux-btrfs@vger.kernel.org,
+ dm-devel@redhat.com, ntfs3@lists.linux.dev, linux-s390@vger.kernel.org,
+ "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+ Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ "Syed Nayyar Waris" <syednwaris@gmail.com>,
+ "William Breathitt Gray" <william.gray@linaro.org>,
+ "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
 Subject: Re: [PATCH net-next v5 01/21] lib/bitmap: add bitmap_{read,write}()
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Alexander Lobakin <aleksander.lobakin@intel.com>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>, 
-	Marcin Szycik <marcin.szycik@linux.intel.com>, Wojciech Drewek <wojciech.drewek@intel.com>, 
-	Yury Norov <yury.norov@gmail.com>, Andy Shevchenko <andy@kernel.org>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jiri Pirko <jiri@resnulli.us>, 
-	Ido Schimmel <idosch@nvidia.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Simon Horman <horms@kernel.org>, linux-btrfs@vger.kernel.org, dm-devel@redhat.com, 
-	ntfs3@lists.linux.dev, linux-s390@vger.kernel.org, 
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, Netdev <netdev@vger.kernel.org>, 
-	linux-kernel@vger.kernel.org, Syed Nayyar Waris <syednwaris@gmail.com>, 
-	William Breathitt Gray <william.gray@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 1, 2024 at 2:23=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote:
+On Thu, Feb 1, 2024, at 14:45, Alexander Potapenko wrote:
+> On Thu, Feb 1, 2024 at 2:23=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> w=
+rote:
+>> On Thu, Feb 1, 2024, at 13:21, Alexander Lobakin wrote:
+>>
+>> As far as I can tell, the header ends up being included
+>> indirectly almost everywhere, so just parsing these functions
+>> likey adds not just dependencies but also compile time.
+>>
 >
-> On Thu, Feb 1, 2024, at 13:21, Alexander Lobakin wrote:
-> > From: Syed Nayyar Waris <syednwaris@gmail.com>
-> >
-> > The two new functions allow reading/writing values of length up to
-> > BITS_PER_LONG bits at arbitrary position in the bitmap.
-> >
-> > The code was taken from "bitops: Introduce the for_each_set_clump macro=
-"
-> > by Syed Nayyar Waris with a number of changes and simplifications:
-> >  - instead of using roundup(), which adds an unnecessary dependency
-> >    on <linux/math.h>, we calculate space as BITS_PER_LONG-offset;
-> >  - indentation is reduced by not using else-clauses (suggested by
-> >    checkpatch for bitmap_get_value());
-> >  - bitmap_get_value()/bitmap_set_value() are renamed to bitmap_read()
-> >    and bitmap_write();
-> >  - some redundant computations are omitted.
->
-> These functions feel like they should not be inline but are
-> better off in lib/bitmap.c given their length.
->
-> As far as I can tell, the header ends up being included
-> indirectly almost everywhere, so just parsing these functions
-> likey adds not just dependencies but also compile time.
->
->      Arnd
+> Removing particular functions from a header to reduce compilation time
+> does not really scale.
+> Do we know this case has a noticeable impact on the compilation time?
+> If yes, maybe we need to tackle this problem in a different way (e.g.
+> reduce the number of dependencies on it)?
 
-Removing particular functions from a header to reduce compilation time
-does not really scale.
-Do we know this case has a noticeable impact on the compilation time?
-If yes, maybe we need to tackle this problem in a different way (e.g.
-reduce the number of dependencies on it)?
+Cleaning up the header dependencies is definitely possible in
+theory, and there are other places we could start this, but
+it's also a multi-year effort that several people have tried
+without much success.
+
+All I'm asking here is to not make it worse by adding this
+one without need. If the function is not normally inlined
+anyway, there is no benefit to having it in the header.
+
+      Arnd
