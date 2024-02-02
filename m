@@ -1,105 +1,188 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2CBE549
-	for <ntfs3@lists.linux.dev>; Fri,  2 Feb 2024 04:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706847078; cv=none; b=XICQV4X5CYEAgNS0AW2eBPdcYf5sR1K9KGgQBCGjPc/mO7VvUDxUvKCDbjkIG7sFDIJsfaNn158bRhc1aMlIc/vBEpGV+B9iAEUXE5ORAn8oSQnzFe4ku39U5p/K9WzG1X6CXBdfXYEmNAnDbQNkEk35NIh5aJahj79RqLbXRrM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706847078; c=relaxed/simple;
-	bh=OyxBJ+A0yGlHECRXeVfAbJEuoSWpFLSlFOQ48riM33o=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ylpwv+beblQWxHN62NB8haCmxTD3u5p/P0gd3yiNZD+AyoP1wDdKAHT5HstFjpZP+gg5J6ItwZmCnnXO/qclnTzZljpzoFhGZirdRs8TgMXBv+VzE8K6wXAmtHv4Nbp85xuyQS405lvw1cAcYzLkQEOTX2T8PBBEUSMbSQW+R9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=Gulj+Tu+; arc=none smtp.client-ip=205.220.178.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932EE13D4F5
+	for <ntfs3@lists.linux.dev>; Fri,  2 Feb 2024 11:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706873892; cv=fail; b=Kgez1HrB8jyd42xdiRrqXGQRkQxYhSqw+79N6TPwNUj2XVz94EHx3+9Efo9emNvHxG0G3BBt1MHja1rP2QS3nPwMw8n0EyQNSE/5A6OEv4T13jkOipT720NstUj1N3XeH/A9tm7igGp13MqxMa0In7QN+zVkBdry8JHQ2jEXl7A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706873892; c=relaxed/simple;
+	bh=cZioGB2HtDrsXgG5wz4fFN840drduEIUgNpk7rQWJg8=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=DzXEDkoDsIjVtK7++sWu9mZl2JyBfKttPyj2snGM9v4kIfHAUFJw5b75YN7FIsx4KFA60LCew9vX//MKgLF1OupSOFlSMJU2vef/BKAI4d6AyFdldl+pP9Z4Dhd2HObFF/4WCODe6d54eZ+atTXkHRCrydontfSouxSsLkSZp6Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XFA86tpW; arc=fail smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="Gulj+Tu+"
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4121b31T011765;
-	Fri, 2 Feb 2024 03:33:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PPS06212021; bh=ZB6EemBjg4kqn54hPi694lZL5cl9eBwRNQ7kuQcXWig=; b=
-	Gulj+Tu+3crXaFoBEGXPli3BzPOFtQ0HZxb/51R5LRhLop95qlGv2fEQRsFSZKhb
-	fsaOaieQDWOx1q6tlCRC11ZwoaADhez6zTlMsMfvwMTjG6gGj+Bb6pijCcVUNM2Z
-	IkGJQ18zpO2QlQa+kxCxqXr8knJv4bQcN3Q8S+If+5CGdK0TYVeFrlon9h7LlQq3
-	3gXNWYNKDCTTKqCMsyI3Uj46r1lnCHjgbYrGsXGSPhg82MaPuvUNAWZWRKPMhG6g
-	iNje9YaYkf/zvHoP866ZE4kqR/nzQPcfpnFsW1efHL0Woa44Xnvobgxg/K2P9Omg
-	eVxkjPyhvlmAbKXcPxsGKQ==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3w0pvcr28v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 02 Feb 2024 03:33:38 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XFA86tpW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706873889; x=1738409889;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=cZioGB2HtDrsXgG5wz4fFN840drduEIUgNpk7rQWJg8=;
+  b=XFA86tpWae32OPhnSpHX1AgwfpbGLJLwJ7xK3XJOx8Ga6WcNWz/VjFKd
+   YyW8iLj0FpDNh8X/dFywS9x8PJxB+Z/N5ZxKUAC+UGLHlbWM+7s/CL9Zk
+   XovgCnEwYl3MUxGdMFfZeOwh5UwjPd9AGBCoqvihItBOxsc4sdLJHIcF/
+   wlzNlp6yngJk27LtaqvWGay+WmNqhhqTej4gm5Y5FaVRR2BZ8DQTFxhHp
+   5+a+t9x0NVJM8aDuLUOLsvgMgPciuee21u8lGHRZxW6Vd0wJp/5OrPIiV
+   qAXAgMWpk29fEE1O/Mhml5lm+wbH3lf5ntZhmQ2K6pRDIo9Y9qWKWBjf0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="10793590"
+X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
+   d="scan'208";a="10793590"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 03:38:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
+   d="scan'208";a="45142"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Feb 2024 03:38:06 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 1 Feb 2024 19:33:34 -0800
-Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Thu, 1 Feb 2024 19:33:32 -0800
-From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <syzbot+a426cde6dee8c2884b0b@syzkaller.appspotmail.com>
-CC: <almaz.alexandrovich@paragon-software.com>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <ntfs3@lists.linux.dev>, <syzkaller-bugs@googlegroups.com>
-Subject: [PATCH] fs/ntfs3: fix oob in mi_enum_attr
-Date: Fri, 2 Feb 2024 11:33:34 +0800
-Message-ID: <20240202033334.1784409-1-lizhi.xu@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <00000000000012d4ed0610537e34@google.com>
-References: <00000000000012d4ed0610537e34@google.com>
+ 15.1.2507.35; Fri, 2 Feb 2024 03:38:06 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 2 Feb 2024 03:38:06 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 2 Feb 2024 03:38:06 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 2 Feb 2024 03:38:06 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cAfMfP+pVx7CN7xJvt341/fSgTugNAVyU0mYBm4K6T0n+0lxiRsrsv/koZVfeCgwhgXBk9f1RnI2sdb+L2Qman9vHjRTMdSTQgRiotzATfUln5pIuI6yE5ty9EC/4WMSO+VwXbWs8CvW+7lVAxsgVtnNOuK2PJTRs3Cf+qVe8ueFcAd+D69KkTQF5z1Cy/Jq9bhNgT8bQlZNzd9+057HRdbK0pFprXhWSWuYnLFEPlGflXQrGwcXzeDtCl7vfXXpDrC9Q88MJmsmfLvyQgW5hfI5jdARypKkyd/x4w9FKhwLqtDJxMRmG77fOPJO6QErN6i9kdxfPJUXZHhN7/Pe1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M584L8oCKrEJ2Rt2VGppr/AiDCbSayeL6c/cGgHNpHA=;
+ b=OuorxP84oRk3Lh7+SI/4pDNkadZqmIX52ga/qs50q0mRy+LJg5NbUx5sxCprB4e/gJx8ctPetEmfg4pbSwKZwySoC7OoJlSo2O6kyxy4ERokt/Np2s++3e8Li7Xgpf9b5tT8rZrVMmEyiPkNbHKAgP0Z9bdssu5eLjGkeLoY5t96SaE0ePacm0McrP62O8EYDYUBezJ2/IHJE3mK5IR4wkpzVGkL43v0sE9wzEvwBrdqhjatobKSOlhXTN/i5fKHm77dSWYq47PZO7LL+GXf39v1yU0RBAXONnVRGVwsELEPnelCZYnCoPa6xqLxn1jBa44dNYcd87ov2L/Ms3cImA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN6PR11MB8102.namprd11.prod.outlook.com (2603:10b6:208:46d::9)
+ by SA0PR11MB4541.namprd11.prod.outlook.com (2603:10b6:806:94::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.29; Fri, 2 Feb
+ 2024 11:38:04 +0000
+Received: from MN6PR11MB8102.namprd11.prod.outlook.com
+ ([fe80::b1b8:dbaa:aa04:a6bf]) by MN6PR11MB8102.namprd11.prod.outlook.com
+ ([fe80::b1b8:dbaa:aa04:a6bf%7]) with mapi id 15.20.7249.024; Fri, 2 Feb 2024
+ 11:38:04 +0000
+Message-ID: <694382da-8d3e-4092-8a52-1982f655aca1@intel.com>
+Date: Fri, 2 Feb 2024 12:37:54 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v5 11/21] tools: move alignment-related macros to
+ new <linux/align.h>
+Content-Language: en-US
+To: Alexander Lobakin <aleksander.lobakin@intel.com>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>, Marcin Szycik
+	<marcin.szycik@linux.intel.com>, Wojciech Drewek <wojciech.drewek@intel.com>,
+	Yury Norov <yury.norov@gmail.com>, Andy Shevchenko <andy@kernel.org>, "Rasmus
+ Villemoes" <linux@rasmusvillemoes.dk>, Alexander Potapenko
+	<glider@google.com>, Jiri Pirko <jiri@resnulli.us>, Ido Schimmel
+	<idosch@nvidia.com>, Simon Horman <horms@kernel.org>,
+	<linux-btrfs@vger.kernel.org>, <dm-devel@redhat.com>,
+	<ntfs3@lists.linux.dev>, <linux-s390@vger.kernel.org>,
+	<intel-wired-lan@lists.osuosl.org>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+References: <20240201122216.2634007-1-aleksander.lobakin@intel.com>
+ <20240201122216.2634007-12-aleksander.lobakin@intel.com>
+From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+In-Reply-To: <20240201122216.2634007-12-aleksander.lobakin@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0048.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:48::10) To MN6PR11MB8102.namprd11.prod.outlook.com
+ (2603:10b6:208:46d::9)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: jK86FqcCVEdZqEKrJxt2Cghy_RGh0MBu
-X-Proofpoint-ORIG-GUID: jK86FqcCVEdZqEKrJxt2Cghy_RGh0MBu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-01_10,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
- bulkscore=0 clxscore=1011 mlxscore=0 spamscore=0 phishscore=0
- mlxlogscore=574 suspectscore=0 priorityscore=1501 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402020023
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN6PR11MB8102:EE_|SA0PR11MB4541:EE_
+X-MS-Office365-Filtering-Correlation-Id: 09fa2ed5-fe72-4ad0-885a-08dc23e36b2b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: C1jgBuhuOLBMfiGqailvrlKvqgT+O0JEpP/Xm99tRhcSpkOc/nkzYhjUIe0MKnBkiAfXqCeZw3YOoQRouXhpvH3bEOaXZlVjOu9UCeoIVtzaLkeDm+X42/l93OLcFP8Kkv/anpIFkUoeNNWl+9ZI9iVLNyQEiwXXy3r82D35VR+yx1+U5VfyKpzi0ArXecqnOtp2aFLOpAnjRk99Nb70eqt3Eclr6dEeN9KwFUycb1xkgG5zEQ+574Rn+E78iYkRNzDcGWXzVWHBUZmAnUiv9UMWTydXkgu0ume/m1uxrmwl+cuhGyFqzyFq3hQ68XX8Wpuv3Suw7EXg/lhfGCTbmbr6uAPq1gvXDA7z7zokqLhhW/LotGBus4Mn7N5oB4GqtC+lCRawhm6ys/TXolY1jnsVeAX8toJU4rHM2R/UvJ3UPixF+5/lTliZq5dBAPhBNszWyypmEXZP5ZUUmAM1rY8q24tAZdOIQ6wHtUfq5zHPj20588ynXhzEpi7nRctZ8Vazm9fCj9p4Dgs7+n/z93PjQr43e3tySZkXSkOslP0RiTPaQElqrjTf1W59lBt6PhKz9Oso8HqN2feGufy/vusEIttsQoYCVm9+PZrxR/6cZucQ39cTKAUKzokNHkiWIFlxQTkMjJtgvbCwvbzP7w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN6PR11MB8102.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(376002)(136003)(39860400002)(346002)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(83380400001)(26005)(41300700001)(2616005)(54906003)(82960400001)(8936002)(38100700002)(110136005)(66946007)(8676002)(316002)(66556008)(4326008)(66476007)(5660300002)(4744005)(7416002)(2906002)(6666004)(6506007)(6486002)(6512007)(478600001)(53546011)(86362001)(31696002)(36756003)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S3hrTW04YmJYNElOY1Ixc052dW9MQkFNelhjVHUrZjJWSisxZk9PU3ljRDRl?=
+ =?utf-8?B?S3AyUk5KTHQ0dEpKbDhlWEJjTFhEZU9mMitMYmdoZFpGNmtCRDlXMEdkMEhV?=
+ =?utf-8?B?K0ZoZEs3dE81QSs3WGJtdE9qK083dWhtelk3WnFsTWM5bFg5TlRYYkthNzUw?=
+ =?utf-8?B?UjJrcTBlRTJnQ2RrL3NkNFhZV0N0cHl0c3I0djZLdndKWkduaG5oZk5kbkRP?=
+ =?utf-8?B?ZW5UQkxWTm5waExjVnpaNDBZbkRKclFJaUFNUVJRdkdGSURmV21ya29ZRFQx?=
+ =?utf-8?B?SXFKZy82MTdyMDE0ZUpad3lUVG5VVndNc1BJc1htaGJCK0NMM3YwRXN2djVq?=
+ =?utf-8?B?b3F2TEliWUdXSCtWdnZuOVZRZkloK2ZYVkljdGYyOUl0VUwwOHg1ZmRmcEE2?=
+ =?utf-8?B?eXRLUVRmNXFETmtFMTZxb0xWNUhYLy9BdU5OUVRTeXg4SjQ3OWViWmxORkl3?=
+ =?utf-8?B?aC81MVZRODRDMTZBWExNaVA1NGs3K2I0dGkxRWlzOTIzbWZMY1hrRW9Dd1hz?=
+ =?utf-8?B?SGl3Zk1Gb1g5aVhOR3RNVUVIVzF0Vi9sZHB0YlFKZEVzZHZ1eGRyQkxOK205?=
+ =?utf-8?B?TFh4SExJUnN2M05QcU0xbVZpMTljcnhpTVBvTU51TjU1NkdhVlVqY0dpREkz?=
+ =?utf-8?B?MjZxbUNKZU9RS0g3dkhaajdUaWk3d211MXl4dzUwdlc2NHFXMnRoTTd6SXRH?=
+ =?utf-8?B?dzdldDNFMS9BOUhPR0JZblNCelBrMWgxUEJKMXFTRGR3eDZZakNtQUtSSXJo?=
+ =?utf-8?B?RkZwSkZidkJ5MGMrbHRUeHNDeUU2V3d4aThtakI3YUdQM2gyVm9IQ2l0eS91?=
+ =?utf-8?B?cDMvS0hselJyeGJKQkRNa2gwL3ovVzRsTVNZNlcwRGRnd21PRjRIQ29kT0Zu?=
+ =?utf-8?B?QjlvbTVOalhzdTlzZExEV2drQU1tOEoyd0VxUWpSUGxTcTBwOG1XYktDZC9h?=
+ =?utf-8?B?eHFxTEhpZWRQYnB0WnFEU0R5OU9ERGtwSS81Rm9PQ0tjRHBiNUgveUhCY1pw?=
+ =?utf-8?B?YnlGT214bktJR0xyQkh4QjAzMDJuOE44ZFBpbHlsTGkwOW0yWU9OWUhGcDMz?=
+ =?utf-8?B?Rm9EcytsUGJPOGVlRDJ1RVZUYm5rang5cDFiZVB1aWhjSGtwUlh6RG8waDl2?=
+ =?utf-8?B?bjYycXZxVldsWUg4cGtNMUYzSVY3R2hTYml1Vzd6T2dLUzU5a3ZwdSs5NEYr?=
+ =?utf-8?B?c0hjcU1zZDRET1RNZEpWYy96Nys1aEFnZ0NYRGl1aEp0ZmcxdGNHTHZYb1k5?=
+ =?utf-8?B?QmRIb1J6TTFBRkdEejNSMytZcHhzOC9aNTI4R2JEbTRkSEFnZjZuOGIvcGh2?=
+ =?utf-8?B?M0dGRGpUM1AyWlVqOTkwWE05enVYaVRvSC9QQnRaQURuN2k0aEhGQjBRR2dT?=
+ =?utf-8?B?K1l2NTJkRDRzMEU1VFkyTDZaV3h1NTRKOGxqMkZwSnU5UG5BZDNSQVVsNVEw?=
+ =?utf-8?B?Q09nLzdKbm5NQko5NkF5UkNmOVFycTBDZ3gyYzR3eUpYVVBiSEprTWN4Y2Vm?=
+ =?utf-8?B?WDAzelhoamJoMzVJTXZtOUkzN0lrRHBPZTBMQWljVGRMOTU1MEk2bCszMzY4?=
+ =?utf-8?B?cExmNzdsdFVpOHlsU2NNSVpTSTV5dkhDQlM3S2JURThUSXVHRitKMm01aHFJ?=
+ =?utf-8?B?cGtxRmRKUWNEYmNGdlhnMU4xVGJPTTMyeWZZWERxMEE3WjhDSW9RM1IrVmV6?=
+ =?utf-8?B?UnhNME9mZmdBZU13TlhBZFBudXlOQkszbHQraUZvT0FwMFRLS0JmNU5tZG1L?=
+ =?utf-8?B?cmViOC8wRUZpS3VwRS9hQ29BbGJ6WmNxVW9ZQThuZ3NGVlBZYkV2OFlLbjN5?=
+ =?utf-8?B?cGQ5cVVKL0FlWHdSZVcvRzFuc0lpYXBGTjV1TlQ5eWc5RG50YmxMQVlDSUNm?=
+ =?utf-8?B?ZkRmdzB1blc5VXZsUUJWU2FPZEVCc0xDYTlXd3k4SDBTZXZ3UWJJK2xSNnhE?=
+ =?utf-8?B?K1g5NHpaWE1KOEM0b25WdXBhREF3TTd4YS9zZnZqdGVTakIya2drTnpFQmph?=
+ =?utf-8?B?MVpzWnBZOXFidWQ0cFZ0c2JhVVZvN2VIN2NVRmJtZ09wN1JjR3Z5L0x4ekhq?=
+ =?utf-8?B?R2hZSDBGOVkwa0luTHlqcTdQNUlTUnJXTS9MV250aDhmKzUvNjBsYjJlWitv?=
+ =?utf-8?B?TWxtc2dibGE0ZndWbC94bGxvTVo5Tkxpb280SG9yMCtSc292SE9SYUMrNVFI?=
+ =?utf-8?B?MlE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09fa2ed5-fe72-4ad0-885a-08dc23e36b2b
+X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8102.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2024 11:38:04.3982
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +VWa99jho0GVibwLN2kSkXbVoe0JbG4QizQGg2o9zixWert2WkY1RhFpFvsExM0Q1fB13XVrR9MwvvAduzVBj5i3ouJ4YGblQWor7PY273c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4541
+X-OriginatorOrg: intel.com
 
-When the value of attr->size is too large, it can cause overflow when taking
-the next attr. Here, off is used to determine the offset first to avoid problems.
+On 2/1/24 13:22, Alexander Lobakin wrote:
+> Currently, tools have *ALIGN*() macros scattered across the unrelated
+> headers, as there are only 3 of them and they were added separately
+> each time on an as-needed basis.
+> Anyway, let's make it more consistent with the kernel headers and allow
+> using those macros outside of the mentioned headers. Create
+> <linux/align.h> inside the tools/ folder and include it where needed.
+> 
+> Signed-off-by: Alexander Lobakin <aleksander.lobakin@intel.com>
+> ---
+>   tools/include/linux/align.h  | 12 ++++++++++++
+>   tools/include/linux/bitmap.h |  2 +-
+>   tools/include/linux/mm.h     |  5 +----
+>   3 files changed, 14 insertions(+), 5 deletions(-)
+>   create mode 100644 tools/include/linux/align.h
+> 
 
-Reported-and-tested-by: syzbot+a426cde6dee8c2884b0b@syzkaller.appspotmail.com
-Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
----
- fs/ntfs3/record.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index 53629b1f65e9..a435df98c2b1 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -243,14 +243,14 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 		off += asize;
- 	}
- 
--	asize = le32_to_cpu(attr->size);
--
- 	/* Can we use the first field (attr->type). */
- 	if (off + 8 > used) {
- 		static_assert(ALIGN(sizeof(enum ATTR_TYPE), 8) == 8);
- 		return NULL;
- 	}
- 
-+	asize = le32_to_cpu(attr->size);
-+
- 	if (attr->type == ATTR_END) {
- 		/* End of enumeration. */
- 		return NULL;
--- 
-2.43.0
-
+Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
