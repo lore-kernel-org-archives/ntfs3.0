@@ -1,87 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA5B46A1;
-	Fri,  2 Feb 2024 12:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B398060F
+	for <ntfs3@lists.linux.dev>; Fri,  2 Feb 2024 21:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706878267; cv=none; b=vBMwd+4J7ud77E9uPmGp2uGB/btHRNCpHwb5qVUisd3gW2QKU6m48l4ro3gakI29MKOyXsBogy18TV+qg9Op7vpF4Y2VmyXVLdU3KmldNXaUBlonIl4FFkg9VqzeKSRYf3f5ZRpLlDU6qp6apnB86ELOGmxIFtI/wBxFHZBm8Y0=
+	t=1706907870; cv=none; b=uuW5jbohfLYkDEqZCdnlv537UIFUNX9GuuDw8Kg9H3EkvctxMiOQ/rBdtvlIVUI6Bdi7UFAF0Bx5laIlS4HORq3RmLt6xCkwDeJOjS8AkHQ3kSLFBDzoLntrYBREYSaf3CQzHibUT3p6VcZ9ggA4a5t0s48L8jQW9O+jOgM1NTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706878267; c=relaxed/simple;
-	bh=bohs+MfRQtoEvlbrdoNXCxU86/PjKr+jUrCw8c/Vbak=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f71cPalTzj17nAwPHOCFsPxfOF4NEHb3Qa4fzG/zofhnWm9+oVWHi1UkamZNa8bTigA2GXZRiz4NAe7Utv6aaxDe0VrUDZZt3FtdQtQGTIRLSvmnNhpwnVqqDKmMljVYa0uqaeDRFRxYiBKEV0whHgDboXpcT7GyLzxnzaByt5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jgCPUre4; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jgCPUre4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B5DCC43390;
-	Fri,  2 Feb 2024 12:51:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706878266;
-	bh=bohs+MfRQtoEvlbrdoNXCxU86/PjKr+jUrCw8c/Vbak=;
-	h=From:To:Cc:Subject:Date:From;
-	b=jgCPUre4x8M4zBJWCaJb4zOgOhqI0TLLjGDrWbZBmG+RHHh5dkzO7D8EpwaWU0jcv
-	 sQ3qIa/mLGTPGceZucN8231CoKtoPMgnggFHnxgYAQWYNJ3xEC9hSlHgy669XbaotB
-	 a66B3kI9Sdes77idWssZiYHA1+Q2WnXBkp6Yfy2opQaCyh4sQMd/lL7GCpc5i98V7j
-	 Y5/hFCDrdA0U5th+9eDblPZv9eJsSFibGRhG2EGD8lO4FBIZl9lSiyrpt2Y0deBIXI
-	 g0mso1YO0bfAK1GLd7F3IIRA/BNetGiSrXCpWFqLj948v3vPfpYHCBUrmxASYzaOHn
-	 KnHZqrng12pNw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Jia-Ju Bai <baijiaju1990@gmail.com>,
-	Edward Lo <loyuantsung@gmail.com>,
-	Abdun Nihaal <abdun.nihaal@gmail.com>,
-	ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ntfs3: avoid an unused variable warning
-Date: Fri,  2 Feb 2024 13:50:56 +0100
-Message-Id: <20240202125101.986302-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1706907870; c=relaxed/simple;
+	bh=tq9OBZTgQyCH87t/qDarpMTGB6eSBXlRhY5JUdRvsvw=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=DwOGRPJzFjT2Lq/Qb64eHqUGhXCRDbJHGPposFfZTKwXFJy1qU21OUCEGhWSWc6nl6j2Ya6LMU7nSaw40n7pYzKYovVGIZaH7HOwyi2nybNDF6EujdPSY6B3QNWvvxA6ianEgRJleo2VfWo/pBlFnU2k0om0CZ2w6weMaApDoUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-7bfd75bf218so241032139f.2
+        for <ntfs3@lists.linux.dev>; Fri, 02 Feb 2024 13:04:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706907868; x=1707512668;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DI/w2TtwDGoScLVEviG8NmZ2V+Vz0pKlR5tZrWiwpvw=;
+        b=j408tZSR0yMhLFTsaQKbU2Em/0IcZ//qOCyEGZna8DY/V5AGiheFoHvUMSIIDxGwNf
+         lHXqTM5nPy0qxP5ojhdYp4a3eE9rK7OfoZFDCkxPgbMzfXKPPKCiTT9U8J1M0PqP5A8t
+         cd/vDTcQ6fdOK8GLY8Fu4lVfXepHg4ZMD588qHnExhLdDRBcfUUCCl1/He3T1fZYoXhC
+         HeWxViLxv4oy8u+m0b3k+dAiMPov5n6VRtkUwntqNvnuO7pjH1Dr2og7XANCDphi1311
+         5TAF3cSDj2sd7kneHItQ3TNFzcYOX/ngluZywFPLIj9OpNd7eLESVe4+Do2uL+swVnCJ
+         YQZw==
+X-Gm-Message-State: AOJu0YxrX5ZfgH8kjlGp34UNieGTqXcBYuReyVrbco0V+8SGqdyehkb3
+	UFl5/Vg9cEVo1dFpYhMEPTxhGblDVFn8L5gNy3NCgUgA3riUJ8mqsxR1uWbb45c+ew0fUqWti5w
+	dB8fuwvo6zH00xS6qZx2eOYsgXkEP5YRlPGmdBP3HCtcFOEyiEqqa9Ts=
+X-Google-Smtp-Source: AGHT+IGCtU+yrWKPk7kGGb9ww36wfLIcEkDHTPAbbFRyz29mLOaOgoBOKnbZZl9RtvScjBKvjbW1T193Azl07ex2OJnyt8A7mVxH
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a02:8790:0:b0:46e:c3d9:8636 with SMTP id
+ t16-20020a028790000000b0046ec3d98636mr27380jai.5.1706907867972; Fri, 02 Feb
+ 2024 13:04:27 -0800 (PST)
+Date: Fri, 02 Feb 2024 13:04:27 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000022908006106c7537@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Feb 2024)
+From: syzbot <syzbot+lista12ac4cc66e9ef5cbe7d@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hello ntfs3 maintainers/developers,
 
-A newly introduced variable is only referenced in an #ifdef:
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-fs/ntfs3/frecord.c: In function 'ni_read_frame':
-fs/ntfs3/frecord.c:2460:16: error: unused variable 'i_size' [-Werror=unused-variable]
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 54 issues are still open and 37 have been fixed so far.
 
-Move it into the same conditional block.
+Some of the still happening issues:
 
-Fixes: 4fd6c08a16d7 ("fs/ntfs3: Use i_size_read and i_size_write")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Ref  Crashes Repro Title
+<1>  11637   Yes   VFS: Busy inodes after unmount (use-after-free)
+                   https://syzkaller.appspot.com/bug?extid=0af00f6a2cba2058b5db
+<2>  5481    Yes   possible deadlock in ntfs_read_folio
+                   https://syzkaller.appspot.com/bug?extid=8ef76b0b1f86c382ad37
+<3>  3804    Yes   kernel BUG at fs/ntfs/aops.c:LINE!
+                   https://syzkaller.appspot.com/bug?extid=6a5a7672f663cce8b156
+<4>  2434    Yes   possible deadlock in ni_fiemap
+                   https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
+<5>  2032    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<6>  1926    Yes   kernel BUG in __ntfs_grab_cache_pages
+                   https://syzkaller.appspot.com/bug?extid=01b3ade7c86f7dd584d7
+<7>  1668    Yes   possible deadlock in attr_data_get_block
+                   https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
+<8>  1289    Yes   KMSAN: uninit-value in longest_match_std (2)
+                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
+<9>  936     Yes   possible deadlock in mi_read
+                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
+<10> 845     Yes   possible deadlock in map_mft_record
+                   https://syzkaller.appspot.com/bug?extid=cb1fdea540b46f0ce394
+
 ---
- fs/ntfs3/frecord.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 3b42938a9d3b..7f27382e0ce2 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -2457,7 +2457,6 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
- 	struct ATTR_LIST_ENTRY *le = NULL;
- 	struct runs_tree *run = &ni->file.run;
- 	u64 valid_size = ni->i_valid;
--	loff_t i_size = i_size_read(&ni->vfs_inode);
- 	u64 vbo_disk;
- 	size_t unc_size;
- 	u32 frame_size, i, npages_disk, ondisk_size;
-@@ -2509,6 +2508,7 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
- 		err = -EOPNOTSUPP;
- 		goto out1;
- #else
-+		loff_t i_size = i_size_read(&ni->vfs_inode);
- 		u32 frame_bits = ni_ext_compress_bits(ni);
- 		u64 frame64 = frame_vbo >> frame_bits;
- 		u64 frames, vbo_data;
--- 
-2.39.2
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
