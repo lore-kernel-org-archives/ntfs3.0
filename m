@@ -1,97 +1,374 @@
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B398060F
-	for <ntfs3@lists.linux.dev>; Fri,  2 Feb 2024 21:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9E410A01
+	for <ntfs3@lists.linux.dev>; Sat,  3 Feb 2024 05:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706907870; cv=none; b=uuW5jbohfLYkDEqZCdnlv537UIFUNX9GuuDw8Kg9H3EkvctxMiOQ/rBdtvlIVUI6Bdi7UFAF0Bx5laIlS4HORq3RmLt6xCkwDeJOjS8AkHQ3kSLFBDzoLntrYBREYSaf3CQzHibUT3p6VcZ9ggA4a5t0s48L8jQW9O+jOgM1NTc=
+	t=1706936839; cv=none; b=iormZd+yaxmIPSOZ5DbxvehOW/jNvZUCz4WNnCD5zzk9B9LdXgl6lhKXuEYiSZdZ3+fl2s95BMIa75ChLkWfBZTM/Xp7A72+iDPq+td322Sc1W68wzFGcySwpijULaM41nH8D9W5XngYXpT0dBN/OeLdNszslHFcJMYi2yDi7EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706907870; c=relaxed/simple;
-	bh=tq9OBZTgQyCH87t/qDarpMTGB6eSBXlRhY5JUdRvsvw=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=DwOGRPJzFjT2Lq/Qb64eHqUGhXCRDbJHGPposFfZTKwXFJy1qU21OUCEGhWSWc6nl6j2Ya6LMU7nSaw40n7pYzKYovVGIZaH7HOwyi2nybNDF6EujdPSY6B3QNWvvxA6ianEgRJleo2VfWo/pBlFnU2k0om0CZ2w6weMaApDoUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-7bfd75bf218so241032139f.2
-        for <ntfs3@lists.linux.dev>; Fri, 02 Feb 2024 13:04:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706907868; x=1707512668;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DI/w2TtwDGoScLVEviG8NmZ2V+Vz0pKlR5tZrWiwpvw=;
-        b=j408tZSR0yMhLFTsaQKbU2Em/0IcZ//qOCyEGZna8DY/V5AGiheFoHvUMSIIDxGwNf
-         lHXqTM5nPy0qxP5ojhdYp4a3eE9rK7OfoZFDCkxPgbMzfXKPPKCiTT9U8J1M0PqP5A8t
-         cd/vDTcQ6fdOK8GLY8Fu4lVfXepHg4ZMD588qHnExhLdDRBcfUUCCl1/He3T1fZYoXhC
-         HeWxViLxv4oy8u+m0b3k+dAiMPov5n6VRtkUwntqNvnuO7pjH1Dr2og7XANCDphi1311
-         5TAF3cSDj2sd7kneHItQ3TNFzcYOX/ngluZywFPLIj9OpNd7eLESVe4+Do2uL+swVnCJ
-         YQZw==
-X-Gm-Message-State: AOJu0YxrX5ZfgH8kjlGp34UNieGTqXcBYuReyVrbco0V+8SGqdyehkb3
-	UFl5/Vg9cEVo1dFpYhMEPTxhGblDVFn8L5gNy3NCgUgA3riUJ8mqsxR1uWbb45c+ew0fUqWti5w
-	dB8fuwvo6zH00xS6qZx2eOYsgXkEP5YRlPGmdBP3HCtcFOEyiEqqa9Ts=
-X-Google-Smtp-Source: AGHT+IGCtU+yrWKPk7kGGb9ww36wfLIcEkDHTPAbbFRyz29mLOaOgoBOKnbZZl9RtvScjBKvjbW1T193Azl07ex2OJnyt8A7mVxH
+	s=arc-20240116; t=1706936839; c=relaxed/simple;
+	bh=7qV9ExGz4rlsG3u7a9g8VLrFek2xKMCv4MvQ5O+J8Qk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pc7wQaOsokjI7jhn1iWMRzFbOZGUsbEYNBLkfay+mix8c5s3JaBgZuCJDKaL8izDzhUkDScPxvuOZZMyvDWP/N+3JgLPBIKltEuRHFR6FnRv9xkbUM0JrUF02dj8w/JbP6+hHFFoTt7K1menXvdF0RGMcF2kQVJu8Dvpx6qhp7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jPA42LBU; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jPA42LBU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706936837; x=1738472837;
+  h=date:from:to:cc:subject:message-id;
+  bh=7qV9ExGz4rlsG3u7a9g8VLrFek2xKMCv4MvQ5O+J8Qk=;
+  b=jPA42LBUBFVVZ4Lg7eeBuxRXbip+ljHUqGDMsf6sxhBowG1KXL4Qeo02
+   kx/Td+52FiJMkL/4YxAyO9Xz98t6pai2UiPzSX6tci+RMZoncOjboI2pP
+   fpBzX5qrDrakxyL348zZqu2mNrIXrzPHvJ1IBy64TTXLVPoxT7zhyZEuC
+   imoXktEcuVpRcw24idX5aXJiOv6Yte5m7ONrr0c1Jh0u8D21DrrB5GocH
+   s9cYLsGZTsWv+84gN1Vdfu7zJCMsVttnxgYKGCZxH70f4qfDVnTdv8mj2
+   aGA0ys8gPcgAucBCw0EwA/SqAmbvosVS3hmv8O1v1bwJ343ccV4oKftqG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="3254441"
+X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
+   d="scan'208";a="3254441"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 21:07:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
+   d="scan'208";a="4870493"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 02 Feb 2024 21:07:14 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rW8FE-0004eH-0V;
+	Sat, 03 Feb 2024 05:07:12 +0000
+Date: Sat, 03 Feb 2024 13:06:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Linux Memory Management List <linux-mm@kvack.org>,
+ dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ netdev@vger.kernel.org, ntfs3@lists.linux.dev
+Subject: [linux-next:master] BUILD REGRESSION
+ 076d56d74f17e625b3d63cf4743b3d7d02180379
+Message-ID: <202402031349.faJAWJvP-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-Received: by 2002:a02:8790:0:b0:46e:c3d9:8636 with SMTP id
- t16-20020a028790000000b0046ec3d98636mr27380jai.5.1706907867972; Fri, 02 Feb
- 2024 13:04:27 -0800 (PST)
-Date: Fri, 02 Feb 2024 13:04:27 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000022908006106c7537@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Feb 2024)
-From: syzbot <syzbot+lista12ac4cc66e9ef5cbe7d@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello ntfs3 maintainers/developers,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 076d56d74f17e625b3d63cf4743b3d7d02180379  Add linux-next specific files for 20240202
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+Error/Warning reports:
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 54 issues are still open and 37 have been fixed so far.
+https://lore.kernel.org/oe-kbuild-all/202402030006.2bwG9hee-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202402030306.l4idnFyz-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202402030631.6mCz0axA-lkp@intel.com
 
-Some of the still happening issues:
+Error/Warning: (recently discovered and may have been fixed)
 
-Ref  Crashes Repro Title
-<1>  11637   Yes   VFS: Busy inodes after unmount (use-after-free)
-                   https://syzkaller.appspot.com/bug?extid=0af00f6a2cba2058b5db
-<2>  5481    Yes   possible deadlock in ntfs_read_folio
-                   https://syzkaller.appspot.com/bug?extid=8ef76b0b1f86c382ad37
-<3>  3804    Yes   kernel BUG at fs/ntfs/aops.c:LINE!
-                   https://syzkaller.appspot.com/bug?extid=6a5a7672f663cce8b156
-<4>  2434    Yes   possible deadlock in ni_fiemap
-                   https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
-<5>  2032    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
-                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
-<6>  1926    Yes   kernel BUG in __ntfs_grab_cache_pages
-                   https://syzkaller.appspot.com/bug?extid=01b3ade7c86f7dd584d7
-<7>  1668    Yes   possible deadlock in attr_data_get_block
-                   https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
-<8>  1289    Yes   KMSAN: uninit-value in longest_match_std (2)
-                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
-<9>  936     Yes   possible deadlock in mi_read
-                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
-<10> 845     Yes   possible deadlock in map_mft_record
-                   https://syzkaller.appspot.com/bug?extid=cb1fdea540b46f0ce394
+or1k-linux-ld: sound_kunit.c:(.text+0x118): undefined reference to `snd_pcm_format_name'
+or1k-linux-ld: sound_kunit.c:(.text+0x410): undefined reference to `snd_pcm_format_unsigned'
+or1k-linux-ld: sound_kunit.c:(.text+0x490): undefined reference to `snd_pcm_format_width'
+or1k-linux-ld: sound_kunit.c:(.text+0x794): undefined reference to `snd_pcm_format_big_endian'
+or1k-linux-ld: sound_kunit.c:(.text+0x814): undefined reference to `snd_pcm_format_little_endian'
+or1k-linux-ld: sound_kunit.c:(.text+0xa50): undefined reference to `snd_pcm_format_physical_width'
+or1k-linux-ld: sound_kunit.c:(.text+0xc48): undefined reference to `snd_pcm_format_set_silence'
+sound_kunit.c:(.text+0x258): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_set_silence'
+sound_kunit.c:(.text+0x258): undefined reference to `snd_pcm_format_set_silence'
+sound_kunit.c:(.text+0x3b0): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_signed'
+sound_kunit.c:(.text+0x3b0): undefined reference to `snd_pcm_format_signed'
+sound_kunit.c:(.text+0x410): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_unsigned'
+sound_kunit.c:(.text+0x490): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_width'
+sound_kunit.c:(.text+0x54): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_name'
+sound_kunit.c:(.text+0x54): undefined reference to `snd_pcm_format_name'
+sound_kunit.c:(.text+0x5b4): undefined reference to `snd_pcm_format_width'
+sound_kunit.c:(.text+0x734): undefined reference to `snd_pcm_format_little_endian'
+sound_kunit.c:(.text+0x9ec): undefined reference to `snd_pcm_format_physical_width'
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+{standard input}:671: Warning: overflow in branch to .L87; converted into longer instruction sequence
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+Error/Warning ids grouped by kconfigs:
 
-You may send multiple commands in a single email message.
+gcc_recent_errors
+|-- arm-allmodconfig
+|   |-- drivers-dma-at_hdmac.c:warning:Enum-value-ATC_IS_CYCLIC-not-described-in-enum-atc_status
+|   `-- drivers-dma-at_hdmac.c:warning:Enum-value-ATC_IS_PAUSED-not-described-in-enum-atc_status
+|-- arm-allyesconfig
+|   |-- drivers-dma-at_hdmac.c:warning:Enum-value-ATC_IS_CYCLIC-not-described-in-enum-atc_status
+|   `-- drivers-dma-at_hdmac.c:warning:Enum-value-ATC_IS_PAUSED-not-described-in-enum-atc_status
+|-- arm-randconfig-002-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arm64-randconfig-004-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-randconfig-001-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-randconfig-006-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-randconfig-011-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- loongarch-randconfig-001-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- m68k-randconfig-r063-20240203
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- mips-allyesconfig
+|   |-- (.ref.text):relocation-truncated-to-fit:R_MIPS_26-against-start_secondary
+|   `-- (.text):relocation-truncated-to-fit:R_MIPS_26-against-kernel_entry
+|-- nios2-randconfig-002-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- openrisc-randconfig-r013-20211230
+|   |-- or1k-linux-ld:sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_big_endian
+|   |-- or1k-linux-ld:sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_little_endian
+|   |-- or1k-linux-ld:sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_name
+|   |-- or1k-linux-ld:sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_physical_width
+|   |-- or1k-linux-ld:sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_set_silence
+|   |-- or1k-linux-ld:sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_unsigned
+|   |-- or1k-linux-ld:sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_width
+|   |-- sound_kunit.c:(.text):relocation-truncated-to-fit:R_OR1K_INSN_REL_26-against-undefined-symbol-snd_pcm_format_name
+|   |-- sound_kunit.c:(.text):relocation-truncated-to-fit:R_OR1K_INSN_REL_26-against-undefined-symbol-snd_pcm_format_set_silence
+|   |-- sound_kunit.c:(.text):relocation-truncated-to-fit:R_OR1K_INSN_REL_26-against-undefined-symbol-snd_pcm_format_signed
+|   |-- sound_kunit.c:(.text):relocation-truncated-to-fit:R_OR1K_INSN_REL_26-against-undefined-symbol-snd_pcm_format_unsigned
+|   |-- sound_kunit.c:(.text):relocation-truncated-to-fit:R_OR1K_INSN_REL_26-against-undefined-symbol-snd_pcm_format_width
+|   |-- sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_little_endian
+|   |-- sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_name
+|   |-- sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_physical_width
+|   |-- sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_set_silence
+|   |-- sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_signed
+|   `-- sound_kunit.c:(.text):undefined-reference-to-snd_pcm_format_width
+|-- parisc-randconfig-001-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- parisc-randconfig-002-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- sh-allmodconfig
+|   `-- standard-input:Error:unknown-pseudo-op:cfi_def_
+|-- sh-randconfig-002-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- sh-randconfig-r024-20230511
+|   `-- standard-input:Warning:overflow-in-branch-to-.L87-converted-into-longer-instruction-sequence
+|-- sh-randconfig-r062-20240203
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-buildonly-randconfig-005-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-005-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-102-20240203
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-103-20240203
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-r123-20240201
+|   `-- mm-mempolicy.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-got-unsigned-char-noderef-usertype-__rcu-weights
+`-- xtensa-randconfig-r052-20240203
+    `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+clang_recent_errors
+|-- arm-defconfig
+|   |-- drivers-dma-at_hdmac.c:warning:Enum-value-ATC_IS_CYCLIC-not-described-in-enum-atc_status
+|   `-- drivers-dma-at_hdmac.c:warning:Enum-value-ATC_IS_PAUSED-not-described-in-enum-atc_status
+|-- hexagon-randconfig-r122-20240202
+|   `-- net-ipv4-inet_diag.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
+|-- powerpc64-randconfig-003-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- s390-randconfig-r133-20240202
+|   |-- mm-mempolicy.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-src-got-unsigned-char-noderef-usertype-__rcu-table
+|   `-- mm-mempolicy.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-dest-got-unsigned-char-noderef-usertype-__rcu-weights
+|-- x86_64-buildonly-randconfig-001-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-buildonly-randconfig-004-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-012-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-014-20240202
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+`-- x86_64-randconfig-072-20240202
+    `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+
+elapsed time: 1456m
+
+configs tested: 178
+configs skipped: 3
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240202   gcc  
+arc                   randconfig-002-20240202   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                         nhk8815_defconfig   clang
+arm                          pxa168_defconfig   clang
+arm                   randconfig-001-20240202   gcc  
+arm                   randconfig-002-20240202   gcc  
+arm                   randconfig-003-20240202   gcc  
+arm                   randconfig-004-20240202   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240202   gcc  
+arm64                 randconfig-002-20240202   clang
+arm64                 randconfig-003-20240202   gcc  
+arm64                 randconfig-004-20240202   gcc  
+csky                             alldefconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240202   gcc  
+csky                  randconfig-002-20240202   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240202   clang
+hexagon               randconfig-002-20240202   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240202   gcc  
+i386         buildonly-randconfig-002-20240202   clang
+i386         buildonly-randconfig-003-20240202   gcc  
+i386         buildonly-randconfig-004-20240202   clang
+i386         buildonly-randconfig-005-20240202   clang
+i386         buildonly-randconfig-006-20240202   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240202   gcc  
+i386                  randconfig-002-20240202   gcc  
+i386                  randconfig-003-20240202   clang
+i386                  randconfig-004-20240202   gcc  
+i386                  randconfig-005-20240202   gcc  
+i386                  randconfig-006-20240202   gcc  
+i386                  randconfig-011-20240202   gcc  
+i386                  randconfig-012-20240202   gcc  
+i386                  randconfig-013-20240202   gcc  
+i386                  randconfig-014-20240202   clang
+i386                  randconfig-015-20240202   gcc  
+i386                  randconfig-016-20240202   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240202   gcc  
+loongarch             randconfig-002-20240202   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5208evb_defconfig   gcc  
+m68k                            mac_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                           ip27_defconfig   gcc  
+mips                     loongson1c_defconfig   gcc  
+mips                      maltaaprp_defconfig   clang
+mips                  maltasmvp_eva_defconfig   gcc  
+mips                        maltaup_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240202   gcc  
+nios2                 randconfig-002-20240202   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-64bit_defconfig   gcc  
+parisc                randconfig-001-20240202   gcc  
+parisc                randconfig-002-20240202   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      ep88xc_defconfig   gcc  
+powerpc                      pcm030_defconfig   clang
+powerpc               randconfig-001-20240202   clang
+powerpc               randconfig-002-20240202   clang
+powerpc               randconfig-003-20240202   clang
+powerpc64             randconfig-001-20240202   clang
+powerpc64             randconfig-002-20240202   gcc  
+powerpc64             randconfig-003-20240202   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240202   gcc  
+riscv                 randconfig-002-20240202   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240202   clang
+s390                  randconfig-002-20240202   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                        edosk7760_defconfig   gcc  
+sh                    randconfig-001-20240202   gcc  
+sh                    randconfig-002-20240202   gcc  
+sh                      rts7751r2d1_defconfig   gcc  
+sh                   rts7751r2dplus_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240202   gcc  
+sparc64               randconfig-002-20240202   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                    randconfig-001-20240202   clang
+um                    randconfig-002-20240202   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240202   clang
+x86_64       buildonly-randconfig-002-20240202   clang
+x86_64       buildonly-randconfig-003-20240202   clang
+x86_64       buildonly-randconfig-004-20240202   clang
+x86_64       buildonly-randconfig-005-20240202   gcc  
+x86_64       buildonly-randconfig-006-20240202   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240202   clang
+x86_64                randconfig-002-20240202   clang
+x86_64                randconfig-003-20240202   gcc  
+x86_64                randconfig-004-20240202   gcc  
+x86_64                randconfig-005-20240202   gcc  
+x86_64                randconfig-006-20240202   gcc  
+x86_64                randconfig-011-20240202   clang
+x86_64                randconfig-012-20240202   clang
+x86_64                randconfig-013-20240202   gcc  
+x86_64                randconfig-014-20240202   clang
+x86_64                randconfig-015-20240202   clang
+x86_64                randconfig-016-20240202   clang
+x86_64                randconfig-071-20240202   gcc  
+x86_64                randconfig-072-20240202   clang
+x86_64                randconfig-073-20240202   gcc  
+x86_64                randconfig-074-20240202   clang
+x86_64                randconfig-075-20240202   gcc  
+x86_64                randconfig-076-20240202   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240202   gcc  
+xtensa                randconfig-002-20240202   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
