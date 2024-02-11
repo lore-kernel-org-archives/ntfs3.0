@@ -1,52 +1,24 @@
-Received: from omta038.useast.a.cloudfilter.net (omta038.useast.a.cloudfilter.net [44.202.169.37])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12068187F
-	for <ntfs3@lists.linux.dev>; Sun, 11 Feb 2024 04:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D6044C7C;
+	Sun, 11 Feb 2024 07:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707625921; cv=none; b=lYIwFDCmeaKCMhYruWosAg58p2PHLtijPpUnkNE6VXQv7Y2bUiUh/POrZBuxg36AJluiSSQHOC86A4wrwv2HBXjnTBJqqU4uw9J5l3joCN7eENCmI3vGw86BPEW4l5LF3x/BDWKDfX/IxpAp/cAEVSt7xxPwIFsKO9hDPxYoGVE=
+	t=1707636503; cv=none; b=D74yySbcImPnxwetcq0Lu4tdq69FF4oRbDGN+aWimo7L/AUmG7dDweSXhUCMG/2YxXPtMMbYE66kwMbpiO0phVVj6g0OZHvoyXuq2rSawKgzygX7PMCkzPOv+kwAZIDVdmp4446Yy6rJcZsSBmap49EhRkmg6BRXqsU3fn1nhQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707625921; c=relaxed/simple;
-	bh=5ZwnpT8mcXjBFkyjqPTZeh5s0VMPzldNDT4ybxfhyqQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BOPG+oJv0yVHDshduXOwDLMTnOPPOBvL9MiHKPHWCudkXnxYw+LLxvsVRJUrXkJEaMwWxWEqq6HVjtHNawo/8aqhDh/zrlbGzz4wNLfwXJU8D+7B63ESYF7ngXjzyhyf6GcbLMO79NjAdlnn2UD0BSAJQ1Z85KLMYPT+QF2dmbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=WfIGol9O; arc=none smtp.client-ip=44.202.169.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="WfIGol9O"
-Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
-	by cmsmtp with ESMTPS
-	id YrWGrTseD9gG6Z1VQrD5CM; Sun, 11 Feb 2024 04:31:52 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id Z1VPrXJMDqlVrZ1VPr3Q58; Sun, 11 Feb 2024 04:31:52 +0000
-X-Authority-Analysis: v=2.4 cv=e4GlSrp/ c=1 sm=1 tr=0 ts=65c84db8
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=VhncohosazJxI00KdYJ/5A==:17
- a=IkcTkHD0fZMA:10 a=k7vzHIieQBIA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=SFFPblQYn7CYJzprxtIA:9 a=QEXdDO2ut3YA:10
- a=9cHFzqQdt-sA:10 a=PUnBvhIW4WwA:10 a=AjGcO6oz07-iQ99wixmX:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=JB/WeyEbAV7OyjD3c1GyCrBYmyVdRfm89lgXESEF2VM=; b=WfIGol9OItIddg2zBSp23EqrT5
-	zc0dF5un58Jy92Zs0udxqIhcXZaG7iF2qgqWS0poWnNLgXM4AI3BkvYc8jX+qbxvsDkR+zJchzJbh
-	SuCe4RlhcRtxUeYQnPDRpBdb6x9IuTTDReiGwUY5mTJcvVJPGgtp6cZcfoeIhdjUpx7MWHAUAk3dK
-	6kKWA3VcdP6ZFwSfKMjO/n9UrFxUnGa/nihgYD1MfMDmpz6lE8bTTLEa3ztHlFd1+cEoCEYbm1IX6
-	r582PhANx4MiQ809bUjVy+QDOFmffrLhT+iz+1i3IC6yv4qF0wHI6hxQGQL1W0P+14IOL+LDohMWm
-	Y3p3kuwg==;
-Received: from [201.172.172.225] (port=59896 helo=[192.168.15.10])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96.2)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1rZ1VP-001GeW-00;
-	Sat, 10 Feb 2024 22:31:51 -0600
-Message-ID: <bb7a8d29-d80d-41b0-8dde-2aba44c3fd90@embeddedor.com>
-Date: Sat, 10 Feb 2024 22:31:49 -0600
+	s=arc-20240116; t=1707636503; c=relaxed/simple;
+	bh=6flaA0HBM0nfxu8OycT7I+8Yx1fIzIh2mHVEu2mMEOY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=RfxfVX1m4yiZjnWiFOdym2OPANJZ5DAYhvJEKvSLtxO/LlJancA5RPPzhhTPV0TNzKgdOPb/Ns4H5FF9YmkgNwjqfx1q1AnfP2U8Z+wNwKnh3J7oUHSdnf+MIFbNXfluKVP74QFrdn0oJAVkjRSSi6MbzzLJ4rw7r17qYtNF0P0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rZ4GA-0004Ow-Ps; Sun, 11 Feb 2024 08:28:18 +0100
+Message-ID: <64261685-1f82-4ba5-98f5-6d76178db53a@leemhuis.info>
+Date: Sun, 11 Feb 2024 08:28:18 +0100
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -54,72 +26,35 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: use kcalloc() instead of kzalloc()
-Content-Language: en-US
-To: Lenko Donchev <lenko.donchev@gmail.com>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <Zcgoighe07IahAV8@nixos>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <Zcgoighe07IahAV8@nixos>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [regressions] ntfs3: empty file on update without forced cache
+ drop
+Content-Language: en-US, de-DE
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+To: Linux kernel regressions list <regressions@lists.linux.dev>
+Cc: ntfs3@lists.linux.dev
+References: <138ed123-0f84-4d7a-8a17-67fe2418cf29@leemhuis.info>
+In-Reply-To: <138ed123-0f84-4d7a-8a17-67fe2418cf29@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 201.172.172.225
-X-Source-L: No
-X-Exim-ID: 1rZ1VP-001GeW-00
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.15.10]) [201.172.172.225]:59896
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 3
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfOeDZ4sCdCwYQak2ZSIxsANmZY9odcxAHABAtQnBc8Lz7RBv3b5A9oDZnVTmPSn2SMKQdQY0mHKgEkQzkHfARbc1hXdOtbW97T7XhuJhcErBm/V/ekLm
- OyHiAqnA87cRN3GMYr95UmqUSDJfo3dLDgYLzODqAqHiB6ndclzRVV58E8EfK6Pd1KEf5Yn37sbfCL4jiP3V6dbQ4wgn6bFL2/s=
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1707636501;54858668;
+X-HE-SMSGID: 1rZ4GA-0004Ow-Ps
 
-
-
-On 2/10/24 19:53, Lenko Donchev wrote:
-> We are trying to get rid of all multiplications from allocation
-> functions to prevent integer overflows[1]. Here the multiplication is
-> obviously safe, but using kcalloc() is more appropriate and improves
-> readability. This patch has no effect on runtime behavior.
+On 27.11.23 07:18, Thorsten Leemhuis wrote:
 > 
-> Link: https://github.com/KSPP/linux/issues/162 [1]
-> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [2]
+> Konstantin, I noticed a regression report in bugzilla.kernel.org.
+> Apparently it's cause by a change of yours.
 > 
-> Signed-off-by: Lenko Donchev <lenko.donchev@gmail.com>
-> ---
->   fs/ntfs3/frecord.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> As many (most?) kernel developers don't keep an eye on bugzilla, I
+> decided to forward it by mail. Note, you have to use bugzilla to reach
+> the reporter, as I sadly[1] can not CCed them in mails like this.
 > 
-> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-> index 3b42938a9d3b..d435446537ca 100644
-> --- a/fs/ntfs3/frecord.c
-> +++ b/fs/ntfs3/frecord.c
-> @@ -2636,7 +2636,7 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
->   		goto out1;
->   	}
->   
-> -	pages_disk = kzalloc(npages_disk * sizeof(struct page *), GFP_NOFS);
-> +	pages_disk = kcalloc(npages_disk, sizeof(struct page *), GFP_NOFS);
+> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=218180 :
 
-`sizeof(*pages_disk)` is preferable over `sizeof(struct page *)`
+#regzbot fix: d68968440b1a75dee0
+#regzbot ignore-activity
 
-Thanks
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
 --
-Gustavo
-
->   	if (!pages_disk) {
->   		err = -ENOMEM;
->   		goto out2;
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
