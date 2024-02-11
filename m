@@ -1,98 +1,125 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omta038.useast.a.cloudfilter.net (omta038.useast.a.cloudfilter.net [44.202.169.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C920515B3
-	for <ntfs3@lists.linux.dev>; Sun, 11 Feb 2024 01:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12068187F
+	for <ntfs3@lists.linux.dev>; Sun, 11 Feb 2024 04:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707616398; cv=none; b=udKBd+A9xuDN59l+KSKhUDDnTX4pSn2vQv7OSXbZwLyBuYGOWNQXWbpuHx3HwkNw0eO1bpXbAB+Ns9bFgUAOvKwullE2PWYO+DLTMqAZYmvPPk3zrOmgfM9wIuJeOfUIcFi98M8V3jiKOat3L1wPAmjaaxlYOl9tjWhnp3ea8pE=
+	t=1707625921; cv=none; b=lYIwFDCmeaKCMhYruWosAg58p2PHLtijPpUnkNE6VXQv7Y2bUiUh/POrZBuxg36AJluiSSQHOC86A4wrwv2HBXjnTBJqqU4uw9J5l3joCN7eENCmI3vGw86BPEW4l5LF3x/BDWKDfX/IxpAp/cAEVSt7xxPwIFsKO9hDPxYoGVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707616398; c=relaxed/simple;
-	bh=nuSzSl9gWOU7ThKVhsz/gLgGzU40+yE07LZq1v68Oyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sIb5I4ZYv2IEq9/NK9jdu5D3ffJIWMFRuF2mW7dJZyLNBz3d2mxG0VGY7ZxaFvDQWPjBnWcKJoTje87ossUkKjhP333eFJn9ghEovv9xNcVVOTcDfaYgRNijlh7K9Mz9P6cUfe9r7Po7/i3PIuJUrKfMCsJZEwvtBP+cLyuY23o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VNrgw9tc; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707625921; c=relaxed/simple;
+	bh=5ZwnpT8mcXjBFkyjqPTZeh5s0VMPzldNDT4ybxfhyqQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BOPG+oJv0yVHDshduXOwDLMTnOPPOBvL9MiHKPHWCudkXnxYw+LLxvsVRJUrXkJEaMwWxWEqq6HVjtHNawo/8aqhDh/zrlbGzz4wNLfwXJU8D+7B63ESYF7ngXjzyhyf6GcbLMO79NjAdlnn2UD0BSAJQ1Z85KLMYPT+QF2dmbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=WfIGol9O; arc=none smtp.client-ip=44.202.169.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VNrgw9tc"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-68c8790aeadso16295376d6.1
-        for <ntfs3@lists.linux.dev>; Sat, 10 Feb 2024 17:53:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707616395; x=1708221195; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P1jV67d8m24PXZq1850zcH4U3UHNFlaMaq/fIupQAUA=;
-        b=VNrgw9tcC9gRNAU08ufs8FeseLvAe0O3mj5Mml+erUfhAm3CH1mKTriW8TyWMhKEOh
-         /FSsvoQR3via0Didpa8XmameWnFnjxJdwwEXCkCOb0oZ7I2uy+KZvjX0Es90nEsyssgp
-         mna9qwiG7wM4L4Kxd3+gFqiuhjHKxoOWqgODAKAsTT+cqCmTmq2rvkKLjFRmZ9xap5SJ
-         gHWtI7WPERDTiJMMQ2LG6KTiTTSvMT0aZfUS6/NQg5QVQe+4tvpnKELT+Y5x6OlCcXA9
-         FFu3SbXoqdB6xt84du4XsFSCp5S7LBfFN/sh820+AU9ejc2578/mNAiD58OHijq9C6X6
-         qa4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707616395; x=1708221195;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P1jV67d8m24PXZq1850zcH4U3UHNFlaMaq/fIupQAUA=;
-        b=TysC1dRbR6onQmEx53aqxnK9+QgyHey3RvIVIFCobapIvcYF3vkPtkG2hRwD/LV889
-         MmmDJkooD+6pxKnt6zd9bfWzNRTtx0hikcgeWf2/vFs0cmxNTo8uIhgjhCwRljtwS1Us
-         /bCXPHLPZj5CvBI1U0VUffhaVPkrIdHdXUV+M9QKcOQz/PYniNcAUZ7V25O7D1cyXsFd
-         CXOBlP9gbxVYs07IQHPMyBRIivgFMfQ5wjNqABFqIUvUK8dKClx4sMbXeM45n+bCgcSg
-         dmIzvQk/bqryPRUpKVqRg+C6PcDK5QIlVN3TLtr8THKCYgcRRuotjZzezFB3AcfdiULp
-         mi/A==
-X-Gm-Message-State: AOJu0YzhsSQr9JPdpqV/ScTljSn68Dwc3+F0gcL/xEhjDx8uLuH65o57
-	mSw2ySeCGpxMDAAitnFUEQswFjv2svmwbcz0RZuEGlIZ0I6kJbk=
-X-Google-Smtp-Source: AGHT+IF3qzQja2kR2RYxGLqTqgS4IjK8n9nvUEg00vvn7W9qbbH4rgzdjr+GRq5k2l0JAplN2mPzRQ==
-X-Received: by 2002:a0c:dd14:0:b0:68c:627f:ed53 with SMTP id u20-20020a0cdd14000000b0068c627fed53mr3608896qvk.59.1707616395646;
-        Sat, 10 Feb 2024 17:53:15 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV6O9Ebb21G/lrlgwem4+12w8w/ssoqnMBcmAlTA9/i7CKwYyO3yj/QoX0Faoum6H5Nkw2vH94Wf3fg5FDvLQEJZEqqle0mPfhEFd1PPREyOP8JHzxHt3gz62i7mRAJ+cE8u9Fzx/sHjNWoBqj9C3AmG7KUsfkMLKRnyqLoXBOXrCZYUMM=
-Received: from localhost ([207.181.197.26])
-        by smtp.gmail.com with ESMTPSA id mu19-20020a056214329300b0068ca3ed8cb1sm2285785qvb.73.2024.02.10.17.53.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Feb 2024 17:53:15 -0800 (PST)
-Date: Sat, 10 Feb 2024 19:53:14 -0600
-From: Lenko Donchev <lenko.donchev@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: use kcalloc() instead of kzalloc()
-Message-ID: <Zcgoighe07IahAV8@nixos>
+	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="WfIGol9O"
+Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
+	by cmsmtp with ESMTPS
+	id YrWGrTseD9gG6Z1VQrD5CM; Sun, 11 Feb 2024 04:31:52 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id Z1VPrXJMDqlVrZ1VPr3Q58; Sun, 11 Feb 2024 04:31:52 +0000
+X-Authority-Analysis: v=2.4 cv=e4GlSrp/ c=1 sm=1 tr=0 ts=65c84db8
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=VhncohosazJxI00KdYJ/5A==:17
+ a=IkcTkHD0fZMA:10 a=k7vzHIieQBIA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=SFFPblQYn7CYJzprxtIA:9 a=QEXdDO2ut3YA:10
+ a=9cHFzqQdt-sA:10 a=PUnBvhIW4WwA:10 a=AjGcO6oz07-iQ99wixmX:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=JB/WeyEbAV7OyjD3c1GyCrBYmyVdRfm89lgXESEF2VM=; b=WfIGol9OItIddg2zBSp23EqrT5
+	zc0dF5un58Jy92Zs0udxqIhcXZaG7iF2qgqWS0poWnNLgXM4AI3BkvYc8jX+qbxvsDkR+zJchzJbh
+	SuCe4RlhcRtxUeYQnPDRpBdb6x9IuTTDReiGwUY5mTJcvVJPGgtp6cZcfoeIhdjUpx7MWHAUAk3dK
+	6kKWA3VcdP6ZFwSfKMjO/n9UrFxUnGa/nihgYD1MfMDmpz6lE8bTTLEa3ztHlFd1+cEoCEYbm1IX6
+	r582PhANx4MiQ809bUjVy+QDOFmffrLhT+iz+1i3IC6yv4qF0wHI6hxQGQL1W0P+14IOL+LDohMWm
+	Y3p3kuwg==;
+Received: from [201.172.172.225] (port=59896 helo=[192.168.15.10])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96.2)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1rZ1VP-001GeW-00;
+	Sat, 10 Feb 2024 22:31:51 -0600
+Message-ID: <bb7a8d29-d80d-41b0-8dde-2aba44c3fd90@embeddedor.com>
+Date: Sat, 10 Feb 2024 22:31:49 -0600
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs/ntfs3: use kcalloc() instead of kzalloc()
+Content-Language: en-US
+To: Lenko Donchev <lenko.donchev@gmail.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+References: <Zcgoighe07IahAV8@nixos>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <Zcgoighe07IahAV8@nixos>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 201.172.172.225
+X-Source-L: No
+X-Exim-ID: 1rZ1VP-001GeW-00
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.15.10]) [201.172.172.225]:59896
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 3
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfOeDZ4sCdCwYQak2ZSIxsANmZY9odcxAHABAtQnBc8Lz7RBv3b5A9oDZnVTmPSn2SMKQdQY0mHKgEkQzkHfARbc1hXdOtbW97T7XhuJhcErBm/V/ekLm
+ OyHiAqnA87cRN3GMYr95UmqUSDJfo3dLDgYLzODqAqHiB6ndclzRVV58E8EfK6Pd1KEf5Yn37sbfCL4jiP3V6dbQ4wgn6bFL2/s=
 
-We are trying to get rid of all multiplications from allocation
-functions to prevent integer overflows[1]. Here the multiplication is
-obviously safe, but using kcalloc() is more appropriate and improves
-readability. This patch has no effect on runtime behavior.
 
-Link: https://github.com/KSPP/linux/issues/162 [1]
-Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [2]
 
-Signed-off-by: Lenko Donchev <lenko.donchev@gmail.com>
----
- fs/ntfs3/frecord.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 2/10/24 19:53, Lenko Donchev wrote:
+> We are trying to get rid of all multiplications from allocation
+> functions to prevent integer overflows[1]. Here the multiplication is
+> obviously safe, but using kcalloc() is more appropriate and improves
+> readability. This patch has no effect on runtime behavior.
+> 
+> Link: https://github.com/KSPP/linux/issues/162 [1]
+> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [2]
+> 
+> Signed-off-by: Lenko Donchev <lenko.donchev@gmail.com>
+> ---
+>   fs/ntfs3/frecord.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+> index 3b42938a9d3b..d435446537ca 100644
+> --- a/fs/ntfs3/frecord.c
+> +++ b/fs/ntfs3/frecord.c
+> @@ -2636,7 +2636,7 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
+>   		goto out1;
+>   	}
+>   
+> -	pages_disk = kzalloc(npages_disk * sizeof(struct page *), GFP_NOFS);
+> +	pages_disk = kcalloc(npages_disk, sizeof(struct page *), GFP_NOFS);
 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 3b42938a9d3b..d435446537ca 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -2636,7 +2636,7 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
- 		goto out1;
- 	}
- 
--	pages_disk = kzalloc(npages_disk * sizeof(struct page *), GFP_NOFS);
-+	pages_disk = kcalloc(npages_disk, sizeof(struct page *), GFP_NOFS);
- 	if (!pages_disk) {
- 		err = -ENOMEM;
- 		goto out2;
--- 
-2.43.0
+`sizeof(*pages_disk)` is preferable over `sizeof(struct page *)`
 
+Thanks
+--
+Gustavo
+
+>   	if (!pages_disk) {
+>   		err = -ENOMEM;
+>   		goto out2;
