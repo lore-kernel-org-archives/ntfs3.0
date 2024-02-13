@@ -1,167 +1,78 @@
-Received: from r3-11.sinamail.sina.com.cn (r3-11.sinamail.sina.com.cn [202.108.3.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F2A38DDA
-	for <ntfs3@lists.linux.dev>; Tue, 13 Feb 2024 11:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DD410A05
+	for <ntfs3@lists.linux.dev>; Tue, 13 Feb 2024 18:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707824539; cv=none; b=by26Elcg9L2pRXOk1oXPWylQD1u0lsqKoO5dPuZ/9I9R9fDKW3LqMH3DecuVLmgBGbaPI7Qz855c1Ob5E6cx0d8Tne/1l2tt8WaLSPGCBGB+ti66CcyMWCdT2xoAfFzKN+vE2Jl1pivC3kzxxseoVaLHVOPZm8oOvJU/3M23ZJ0=
+	t=1707849725; cv=none; b=H51M2m6eBZilPCh2Qalztzrqm0XNULIhFswTXdKb95MRdlCitU+G8xuL8q2w9YVke08/fqK1Zcg/C36cYfeJCkKZ82JiQfT+GzoGMJ3TMECieJFBDei13di0k+6e64t7Onh4yF/7bsmlmZVa20FmsmghilGw2wUW9aNAvvvx3uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707824539; c=relaxed/simple;
-	bh=oSxe1FJZlCGcbRapDJTRHz75Y/P6sXJvOGbg3MtEggU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SfvJgWCIa5Tz/bFUO7ufjgLjZwT5pxxp7FylGLo9CKrSrnL6bbjhJkU1W7ZnR2Glw3EatfRmOkNLMh9V7NQXI9EZdsvaWX4E2iORrFe8xprG3AJCuLRgM4qK3o40ScI4opDXaYXAKTn49xsO6pTVsARNFJJxpbRXrJW3U4pD1o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; arc=none smtp.client-ip=202.108.3.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([114.249.59.61])
-	by sina.com (10.182.253.22) with ESMTP
-	id 65CB558C00007BC9; Tue, 13 Feb 2024 19:42:06 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=hdanton@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 3290486816228
-X-SMAIL-UIID: FEEA4E0FB2D3410CBE3ECB306D4FB6FA-20240213-194206-1
-From: Hillf Danton <hdanton@sina.com>
-To: syzbot <syzbot+c2ada45c23d98d646118@syzkaller.appspotmail.com>
-Cc: almaz.alexandrovich@paragon-software.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [ntfs3?] possible deadlock in ntfs_set_state (2)
-Date: Tue, 13 Feb 2024 19:41:50 +0800
-Message-ID: <20240213114151.982-1-hdanton@sina.com>
-In-Reply-To: <000000000000998cff06113e1d91@google.com>
-References: 
+	s=arc-20240116; t=1707849725; c=relaxed/simple;
+	bh=gGTofCRKDI0Z9TW+TeMYIS+KXW44FQb7kapqG3xt0NI=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=Hz0mc6uyErJtXWATX4JAD9eWKI5w4Cmi1b+H4fEhOJqGRFCHtDWSs1xLFVZelWo9RNLn0kQADIJdbxjCINHx5arZvJRC3GO8uFqr+q/2182BGlRapM2Xhcn2uK5XNi2Lea+TxslyrDUKl6nZ7Vl4hPHR+HuEtYP2Wf6ULy3TMe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-36381f0e0a6so30647525ab.2
+        for <ntfs3@lists.linux.dev>; Tue, 13 Feb 2024 10:42:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707849723; x=1708454523;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aiiASvbc7a26H8Bub12QdvoOFsqbdc7cNoE+2hwgvwk=;
+        b=tmEzvZo2RQZDovyRsieqOH3qwTvwTlo3GRbwjFxksE+enPWwuzRQ6vWXwfhWqn1jXQ
+         xpw8n/egSZgFPfDBfrnN/eSFaXFvPcxD1QGo5X6C5eYbdWakRfcoL1pbMnvehtLjUyH6
+         7Omjd5CdIlaFHSdhu8sAq344WHdBxhUYe9lr5cHlbPKb+GlcWIGbfxHqmfJTn8MTUa+B
+         9Oh/K7VDzztvp32S39xndEarWBJK5Fun79lsyHPPfqb1WW4I/VO3IKmA3xKO97gvsC62
+         tz25JV07zcGVjGk8BsYMrDpZbsCnkb/xWts14/s9WY5x80wgSddTE7SQ+7daZJyhSoQQ
+         zHGw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEl3aB29esTiVDhyrEJGmzS8r/TSbSX6K1nVAnluSlYrFd41NJpAR6/C/tj35UOQOEgRih1dwY67IpCYpa1NGDgyy/VuI=
+X-Gm-Message-State: AOJu0Yx1a9fl0UQ9FNKIcQuGQdVTaluXqy1L2K9NYQxtTq0Nu4Yf0scH
+	9x++zsD4LpeOmIxVbiu+zpYNDMXaI85kKqg+hjO4qLiNozy/9rXi/bkrZrScZZ7V7a+t0mpba3X
+	wTZvH++3u+Q6sVscAPmBXVxvpT9nItJGGS8wdFLIz9PARFuSUyoJ+dMs=
+X-Google-Smtp-Source: AGHT+IENo1xPvITOHRQQJ+M5KbsV17Ysd+dOGuZAlsgGB+yI15qx8x+sXPoucnIA7sf0wLWSQPaLwLfwWQ3yIBkYN186lvWoDH8J
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:1a03:b0:363:ba7e:ddc0 with SMTP id
+ s3-20020a056e021a0300b00363ba7eddc0mr30763ild.0.1707849723685; Tue, 13 Feb
+ 2024 10:42:03 -0800 (PST)
+Date: Tue, 13 Feb 2024 10:42:03 -0800
+In-Reply-To: <00000000000042f98c05f16c0792@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001c3739061147c07d@google.com>
+Subject: Re: [syzbot] [ntfs3?] BUG: unable to handle kernel paging request in step_into
+From: syzbot <syzbot+0994679b6f098bb3da6d@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, anton@tuxera.com, 
+	axboe@kernel.dk, brauner@kernel.org, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 12 Feb 2024 23:12:22 -0800
-> HEAD commit:    716f4aaa7b48 Merge tag 'vfs-6.8-rc5.fixes' of git://git.ke..
-> git tree:       upstream
-> console+strace: https://syzkaller.appspot.com/x/log.txt?x=100fd062180000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=1d7c92dd8d5c7a1e
-> dashboard link: https://syzkaller.appspot.com/bug?extid=c2ada45c23d98d646118
-> compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11fcbd48180000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17f6e642180000
-> 
-> Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/ca4bf59e5a18/disk-716f4aaa.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/3d7ade517e63/vmlinux-716f4aaa.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/e13f7054c0c1/bzImage-716f4aaa.xz
-> mounted in repro: https://storage.googleapis.com/syzbot-assets/00ba9c2f3dd0/mount_0.gz
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+c2ada45c23d98d646118@syzkaller.appspotmail.com
-> 
-> loop0: detected capacity change from 0 to 4096
-> ntfs3: loop0: Different NTFS sector size (4096) and media sector size (512).
-> ntfs3: loop0: ino=5, "/" ntfs_iget5
-> ============================================
-> WARNING: possible recursive locking detected
-> 6.8.0-rc4-syzkaller-00003-g716f4aaa7b48 #0 Not tainted
-> --------------------------------------------
-> syz-executor354/5071 is trying to acquire lock:
-> ffff888070ee0100 (&ni->ni_lock#3){+.+.}-{3:3}, at: ntfs_set_state+0x1ff/0x6c0 fs/ntfs3/fsntfs.c:947
-> 
-> but task is already holding lock:
-> ffff888070de3c00 (&ni->ni_lock#3){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1141 [inline]
-> ffff888070de3c00 (&ni->ni_lock#3){+.+.}-{3:3}, at: ni_write_inode+0x1bc/0x1010 fs/ntfs3/frecord.c:3265
-> 
-This report looks false positive but raises the question -- what made lockedp
-pull the wrong trigger? Because of the correct lock_class_key in mutex_init()
-instead of &ni->ni_lock?
+syzbot suspects this issue was fixed by commit:
 
-> other info that might help us debug this:
->  Possible unsafe locking scenario:
-> 
->        CPU0
->        ----
->   lock(&ni->ni_lock#3);
->   lock(&ni->ni_lock#3);
-> 
->  *** DEADLOCK ***
-> 
->  May be due to missing lock nesting notation
-> 
-> 3 locks held by syz-executor354/5071:
->  #0: ffff88802223a420 (sb_writers#9){.+.+}-{0:0}, at: do_sys_ftruncate+0x25c/0x390 fs/open.c:191
->  #1: ffff888070de3ea0 (&sb->s_type->i_mutex_key#15){+.+.}-{3:3}, at: inode_lock include/linux/fs.h:802 [inline]
->  #1: ffff888070de3ea0 (&sb->s_type->i_mutex_key#15){+.+.}-{3:3}, at: do_truncate+0x20c/0x310 fs/open.c:64
->  #2: ffff888070de3c00 (&ni->ni_lock#3){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1141 [inline]
->  #2: ffff888070de3c00 (&ni->ni_lock#3){+.+.}-{3:3}, at: ni_write_inode+0x1bc/0x1010 fs/ntfs3/frecord.c:3265
-> 
-> stack backtrace:
-> CPU: 0 PID: 5071 Comm: syz-executor354 Not tainted 6.8.0-rc4-syzkaller-00003-g716f4aaa7b48 #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
-> Call Trace:
->  <TASK>
->  __dump_stack lib/dump_stack.c:88 [inline]
->  dump_stack_lvl+0x1e7/0x2e0 lib/dump_stack.c:106
->  check_deadlock kernel/locking/lockdep.c:3062 [inline]
->  validate_chain+0x15c0/0x58e0 kernel/locking/lockdep.c:3856
->  __lock_acquire+0x1345/0x1fd0 kernel/locking/lockdep.c:5137
->  lock_acquire+0x1e3/0x530 kernel/locking/lockdep.c:5754
->  __mutex_lock_common kernel/locking/mutex.c:608 [inline]
->  __mutex_lock+0x136/0xd70 kernel/locking/mutex.c:752
->  ntfs_set_state+0x1ff/0x6c0 fs/ntfs3/fsntfs.c:947
->  ntfs_iget5+0x3f0/0x3b70 fs/ntfs3/inode.c:535
->  ni_update_parent+0x943/0xdd0 fs/ntfs3/frecord.c:3218
->  ni_write_inode+0xde9/0x1010 fs/ntfs3/frecord.c:3324
->  ntfs_truncate fs/ntfs3/file.c:410 [inline]
->  ntfs3_setattr+0x950/0xb40 fs/ntfs3/file.c:703
->  notify_change+0xb9f/0xe70 fs/attr.c:499
->  do_truncate+0x220/0x310 fs/open.c:66
->  do_sys_ftruncate+0x2f7/0x390 fs/open.c:194
->  do_syscall_64+0xfb/0x240
->  entry_SYSCALL_64_after_hwframe+0x6f/0x77
-> RIP: 0033:0x7fd0ca446639
-> Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 61 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007fff0baab678 EFLAGS: 00000246 ORIG_RAX: 000000000000004d
-> RAX: ffffffffffffffda RBX: 00007fff0baab848 RCX: 00007fd0ca446639
-> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000004
-> RBP: 00007fd0ca4d8610 R08: 0000000000000000 R09: 00007fff0baab848
-> R10: 000000000001f20a R11: 0000000000000246 R12: 0000000000000001
-> R13: 00007fff0baab838 R14: 0000000000000001 R15: 0000000000000001
->  </TASK>
-> 
-> 
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
-> 
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> 
-> If the report is already addressed, let syzbot know by replying with:
-> #syz fix: exact-commit-title
-> 
-> If you want syzbot to run the reproducer, reply with:
-> #syz test: git://repo/address.git branch-or-commit-hash
-> If you attach or paste a git patch, syzbot will apply it before testing.
-> 
-> If you want to overwrite report's subsystems, reply with:
-> #syz set subsystems: new-subsystem
-> (See the list of subsystem names on the web dashboard)
-> 
-> If the report is a duplicate of another one, reply with:
-> #syz dup: exact-subject-of-another-report
-> 
-> If you want to undo deduplication, reply with:
-> #syz undup
-> 
+commit 6f861765464f43a71462d52026fbddfc858239a5
+Author: Jan Kara <jack@suse.cz>
+Date:   Wed Nov 1 17:43:10 2023 +0000
+
+    fs: Block writes to mounted block devices
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10656c42180000
+start commit:   bff687b3dad6 Merge tag 'block-6.2-2022-12-29' of git://git..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=68e0be42c8ee4bb4
+dashboard link: https://syzkaller.appspot.com/bug?extid=0994679b6f098bb3da6d
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11307974480000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15c567f2480000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: fs: Block writes to mounted block devices
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
