@@ -1,45 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639DE14275;
-	Tue, 13 Feb 2024 00:21:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7434D2207A;
+	Tue, 13 Feb 2024 00:22:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707783679; cv=none; b=BqpXpww2myf6CAuMT0DwVu61zLy2SswB3d4IGLyQg90ADUaV9JSivzY87hdIq4LY7Z6+Vof2MBfice+hriTRBmJeiBxTiWacpt+D/mdK3PTP00WLvl8YMJSTf33AC5/zP5J1nGYvQ71bgGfERn5htSRRcOBOTze2er9YyELt3nw=
+	t=1707783758; cv=none; b=DF1pt0znp4qoYf5V1Pv8PHrUDccxupX6GfvNeJ7+/vlHri+0pu996oFsqfGbGpIUIDztPtEvD8TC280k+2CK6SqPcKjiM2ZyEUKDPh7yC+QFQxhUUdTqsDICcm5ArPlSjpxoi1xMlKS5ESHSTyAFYO2FKlXGXy9tBE7Xv6xPN4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707783679; c=relaxed/simple;
-	bh=ah+nzZDiru87RE9jCReCZvYCNwcsqB7efglrotv/6Pc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aXKzAm1b4y5sxQnxwuN4PldByF64BHvd5jhMbkenvd5qfXKUH7cGT77Mg2/oT6cZYbspghTd2/6oNbPlKQ92sGk8261rqv3oqWLhuEuYgVuwDtubD/OJZG8agaW8GTiSuhu8bAC743tW8n6Guzef3nZtLETeiztmZmqIfhbR3bE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lk1UKPAx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707783758; c=relaxed/simple;
+	bh=Cj6pQ9boaOw+HAqq3xcQolBE+yhny1YwI6Uzg4l7LBw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MmwAmhfswwnKlyXbqdhIg2wLrDWna9P0AdpkKRO08CNzPJZtYOLNvHJv8WRvdtfU/829/L0FE/xEH/aENKNgdUmVhs2RMCYldTCr8COcKrvGMgiB7Wdr5bu/qFPGr+WjDRhLdVVJ4T3adup/itNfz+gjeLvA88/Eas+OrM+0qKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jkEV7UgR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lk1UKPAx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BF1DC43399;
-	Tue, 13 Feb 2024 00:21:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jkEV7UgR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52804C433F1;
+	Tue, 13 Feb 2024 00:22:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707783679;
-	bh=ah+nzZDiru87RE9jCReCZvYCNwcsqB7efglrotv/6Pc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Lk1UKPAx8O17by8E0aNDbJubLRtH59mT1mN2ayU4m/EheP6sQ6ksbtrNAcaPxp+Bs
-	 z1KNE7O6e/flW/a947aIhBZTU7jY3Tsidy+qDcrMFedg1yvlsdajV50aI7mGhCdcJi
-	 O8G9AiOpNZZmsnPHxu0uRQQsShNu7qbD+HCE1NvHENXPC+7suaUtAAeX4GSwUhOQ5d
-	 kUuHTa+MUKbxRuhencHxpDs6vN4dUPfqOqhAJjlUji9LaLw9qIbyYmfxtQTj2PT2gW
-	 lQ40kWlzQ26StiI1DSX/0coSIOIsj5FmLNVggiFEHA3cr27O8F9RSORZxbDTviI0jB
-	 2PNcYKMxi8VXw==
+	s=k20201202; t=1707783758;
+	bh=Cj6pQ9boaOw+HAqq3xcQolBE+yhny1YwI6Uzg4l7LBw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jkEV7UgRuOtuyfKu8Hmuxlchw4Ba7hSzwP55H6htH5nMebxLkzfOVwCbgQLkOH061
+	 5c4SSUKMDvDiuMZ0FGQx9DSMLeZiTf1KKPyWL6Dt97l0sjc2w73XDNRdNe6dbSSY/4
+	 zyg2g+sDYGLL1tbXZR3O9g2ZDAKF4kbRV45jsRkHztX7WX70iy8cW0HsWvbFjNXzkK
+	 W96umbqt1C+6oOf1WqEQTxyQVvAqC8nV7aysg6RpnSFC5UA+p7TuswY9QsHG9Orat0
+	 H7mj2U37AVD9yh/paCIJKHHNiXzLKRpJKTJCa6gDFSTRILFTBJ3WJRbtfN0lFVDO+U
+	 ZTx5QYsatkziw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Edward Adam Davis <eadavis@qq.com>,
-	syzbot+65e940cfb8f99a97aca7@syzkaller.appspotmail.com,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 22/51] fs/ntfs3: Fix oob in ntfs_listxattr
-Date: Mon, 12 Feb 2024 19:19:59 -0500
-Message-ID: <20240213002052.670571-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 01/28] fs/ntfs3: Modified fix directory element type detection
+Date: Mon, 12 Feb 2024 19:21:59 -0500
+Message-ID: <20240213002235.671934-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240213002052.670571-1-sashal@kernel.org>
-References: <20240213002052.670571-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -48,37 +43,65 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.16
+X-stable-base: Linux 6.1.77
 Content-Transfer-Encoding: 8bit
 
-From: Edward Adam Davis <eadavis@qq.com>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-[ Upstream commit 731ab1f9828800df871c5a7ab9ffe965317d3f15 ]
+[ Upstream commit 22457c047ed971f2f2e33be593ddfabd9639a409 ]
 
-The length of name cannot exceed the space occupied by ea.
+Unfortunately reparse attribute is used for many purposes (several dozens).
+It is not possible here to know is this name symlink or not.
+To get exactly the type of name we should to open inode (read mft).
+getattr for opened file (fstat) correctly returns symlink.
 
-Reported-and-tested-by: syzbot+65e940cfb8f99a97aca7@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/ntfs3/xattr.c | 3 +++
- 1 file changed, 3 insertions(+)
+ fs/ntfs3/dir.c | 30 +++++++++++++++++++++++++-----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
 
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 838a79157fb9..b50010494e6d 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -219,6 +219,9 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, char *buffer,
- 		if (!ea->name_len)
- 			break;
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+index d4d9f4ffb6d9..c2fb76bb28f4 100644
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -309,11 +309,31 @@ static inline int ntfs_filldir(struct ntfs_sb_info *sbi, struct ntfs_inode *ni,
+ 		return 0;
+ 	}
  
-+		if (ea->name_len > ea_size)
-+			break;
+-	/* NTFS: symlinks are "dir + reparse" or "file + reparse" */
+-	if (fname->dup.fa & FILE_ATTRIBUTE_REPARSE_POINT)
+-		dt_type = DT_LNK;
+-	else
+-		dt_type = (fname->dup.fa & FILE_ATTRIBUTE_DIRECTORY) ? DT_DIR : DT_REG;
++	/*
++	 * NTFS: symlinks are "dir + reparse" or "file + reparse"
++	 * Unfortunately reparse attribute is used for many purposes (several dozens).
++	 * It is not possible here to know is this name symlink or not.
++	 * To get exactly the type of name we should to open inode (read mft).
++	 * getattr for opened file (fstat) correctly returns symlink.
++	 */
++	dt_type = (fname->dup.fa & FILE_ATTRIBUTE_DIRECTORY) ? DT_DIR : DT_REG;
 +
- 		if (buffer) {
- 			/* Check if we can use field ea->name */
- 			if (off + ea_size > size)
++	/*
++	 * It is not reliable to detect the type of name using duplicated information
++	 * stored in parent directory.
++	 * The only correct way to get the type of name - read MFT record and find ATTR_STD.
++	 * The code below is not good idea.
++	 * It does additional locks/reads just to get the type of name.
++	 * Should we use additional mount option to enable branch below?
++	 */
++	if ((fname->dup.fa & FILE_ATTRIBUTE_REPARSE_POINT) &&
++	    ino != ni->mi.rno) {
++		struct inode *inode = ntfs_iget5(sbi->sb, &e->ref, NULL);
++		if (!IS_ERR_OR_NULL(inode)) {
++			dt_type = fs_umode_to_dtype(inode->i_mode);
++			iput(inode);
++		}
++	}
+ 
+ 	return !dir_emit(ctx, (s8 *)name, name_len, ino, dt_type);
+ }
 -- 
 2.43.0
 
