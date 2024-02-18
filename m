@@ -1,157 +1,106 @@
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFB46EB42
-	for <ntfs3@lists.linux.dev>; Sun, 18 Feb 2024 18:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D018D6EB56
+	for <ntfs3@lists.linux.dev>; Sun, 18 Feb 2024 18:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708279219; cv=none; b=uZ6clCUrvL6z/N2oY6CRBCZsUmxz8Y+M0CcZbW6HleBhx9XPr6Jvt4KIedclrwZ9SWHxSNDtJQXVMq9YIZzZS0NXkiF7fiu7itniAD6PcF5eVlkZZywjjKW/Yp1PxS4JvDK39tWDqmrWFCmB7DHX49etr7q+d7PsTkQg8Z35RbY=
+	t=1708279607; cv=none; b=h4I4E3Ky+N3XR/KKo5FELIFwYZPFxM59kdaW7vwVjSdq/IcOv4hWsGUIzEPgowHuXfxM1H1PvGRv0jvDYp1SeywGzOiErfnAvmrD78vdVchsVqHjaFZRYH4XyuUy0SQpz7WkdTc12chCaaXnh4RY9z1aMCxKCBqu8hhzhw1nHF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708279219; c=relaxed/simple;
-	bh=MRTZT2wydvV9g4+L3T8Cy5v1cxJApA/ZFD4xuz+TmMQ=;
+	s=arc-20240116; t=1708279607; c=relaxed/simple;
+	bh=HIFMoj2YuwmU6O4R7BeSsyCqxiXjLSXIQp4RGI1VdXQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RA3ZAvd/JsFGmoKrgaDz+rMkpV9pKPFPzr6Jz3nFrjhRoYsbO8mEYYnURT0UE2im6N2noOpqUH6e1KGanBrFkEuVQqqpKV6MIPJ1WznsWHierWaAfG6JlFFWDjJd8gTq15kfoeLvWqCU8kmjok3Z1XlCtyg2ujSrtYvqqIfkfUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=Wpw7iV50; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=sQJr/9YRHpLhnsC7JyxhXJE97yNv5Tac/gCF6wA4/VTGsCoIhci+HIkwklGGm793LdUyYG1cHMnAURDsWoHKgicKQKBOAlBfILHzcds9cKt7QBlCYN5YrtJZcZhbhTpjCMGVayXu3vmmbQaARvJgXF+uS3/9+ADghf+VIGi8N74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=WEZdY36g; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EqHLC6iF; arc=none smtp.client-ip=66.111.4.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="Wpw7iV50"
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 5A4F81C006B; Sun, 18 Feb 2024 19:00:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1708279213;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KY7UwwVMk+29949A5eXWxc2HgEJyrtfWdkswBoyqc+Q=;
-	b=Wpw7iV50I3xg7wwwTkC2RL+gRLUacusIwzYbp6qA/PmEmgJGYqLnE2uZNXjw9Y7GXZ+Loi
-	L7aePebhhghtW+bP4jloi7MSK0ozKESuIqsp4AO+JgZnR+Opveg3h0Skdx7yXCH6M25ZtG
-	aRy+ApMGzXVlDCN+/vSLctqDGyWQQ20=
-Date: Sun, 18 Feb 2024 19:00:10 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="WEZdY36g";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EqHLC6iF"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id D05B15C0054;
+	Sun, 18 Feb 2024 13:06:44 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Sun, 18 Feb 2024 13:06:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1708279604; x=1708366004; bh=tb7sGQn+pH
+	ldqTfBtdXwgP8PRVkQyuHYYjbyt1nr/S0=; b=WEZdY36gdR8mpnHo8ke9S3OAZu
+	+fRUDKo5rQO8V+JIFWUXrvGnf6wiZNdD38TPGuqfQbuacW8EQ8OmYHKdWbTxZtmZ
+	rdAx4Mi9D7MdkD1qcyZ8L+jaG1ILzzgxriYN9nLUJUeb2nVkSO0gM78hyDBC1AYS
+	++OoENfA48m0WiLekUpaIvrr43XtUbUsZHYOc/G3ABZbYJQDDiMigDhJnFT0d0rB
+	E/CiRLYudR/Zhcy5w7yx5O8ThpPsowdsx24qSh3y1ka62XLALC9WzVK8KQMc9WB/
+	ZA4wa5vGSw7rDY67iN5BliL4snRgwowHyF0cTW2lNrjcvYEXUqHZkB0lV8vA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1708279604; x=1708366004; bh=tb7sGQn+pHldqTfBtdXwgP8PRVkQ
+	yuHYYjbyt1nr/S0=; b=EqHLC6iFbsECJN7E5PnIE6hp0dhCYGxT7mf0k/FOzoo/
+	e3yrRlQbXKk4lUgbCqCtfuKJAYaaAwz9893m7Z+OdpYG2PCyMy6FIBAbbyNp65Hd
+	h0rTSNfs5k/aXyZRLtpuW0GwTgRTBEOOsH6+1lXuV9tSlvJOXZISmJQAurfeCwoV
+	SzeTMiKyr8CrVt6Bhq+MquQMwCUTEd7S33Nbh3pgVEmAKB8uVVp7Y/W8Z6li7Acc
+	q1Pxb8diqK5P0yf7+J6mahTHMo+A+ZfENjCzEHzmolyAbNchaltNdSHhHDVoWAiL
+	JxjN+qFhIqmqm6Md983MYsLb07Ev+elaFvCIq3gr+A==
+X-ME-Sender: <xms:NEfSZYMqry9rVaIvcqaRJfmFpstj15TTlpoTnkcWcP-MnHRu-svszA>
+    <xme:NEfSZe_ngMCnROzPt8Qps9z005UkO3FdbDT6m2blIl3Wn7M616RWQ5HVIL-B_JBh2
+    C0oMMWsSl7qwQ>
+X-ME-Received: <xmr:NEfSZfTS99Ds7inpDZmFDTgm5btC9gbmJPISRx4x9WB_YRACFiqEWvL8N5uH8aHPhkjGe_Izg6I_111idmJO5aTtcAKJsE1_sQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeigdduudduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
+    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvd
+    evvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
+    hhrdgtohhm
+X-ME-Proxy: <xmx:NEfSZQt23_YKMUCkskhvULtH4Vnn15ZGY1FwdO_SEUsSN73lBa8C_g>
+    <xmx:NEfSZQfpmnkIBtI2pn1vnDW7Jyyv_xTT6FPCIZooMccQe8eX6srPlA>
+    <xmx:NEfSZU0erFlJBY5v0kBT8l9hbD67oPS8qyVAr7leUqq6SjT7Lp3yhA>
+    <xmx:NEfSZU1eavb15eB3BaqDcyyHXxvCvn-vo64u9eE-90tHl4z-bqua9A>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 18 Feb 2024 13:06:44 -0500 (EST)
+Date: Sun, 18 Feb 2024 19:06:42 +0100
+From: Greg KH <greg@kroah.com>
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
 Subject: Re: [PATCH AUTOSEL 6.1 09/28] fs/ntfs3: Prevent generic message
  "attempt to access beyond end of device"
-Message-ID: <ZdJFqmZhIwTFTbHR@duo.ucw.cz>
+Message-ID: <2024021823-iciness-spoof-eb6a@gregkh>
 References: <20240213002235.671934-1-sashal@kernel.org>
  <20240213002235.671934-9-sashal@kernel.org>
+ <ZdJFqmZhIwTFTbHR@duo.ucw.cz>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="pUDbgsQtT3lXZP2c"
-Content-Disposition: inline
-In-Reply-To: <20240213002235.671934-9-sashal@kernel.org>
-
-
---pUDbgsQtT3lXZP2c
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ZdJFqmZhIwTFTbHR@duo.ucw.cz>
 
-Hi!
+On Sun, Feb 18, 2024 at 07:00:10PM +0100, Pavel Machek wrote:
+> Hi!
+> 
+> > From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+> > 
+> > [ Upstream commit 5ca87d01eba7bdfe9536a157ca33c1455bb8d16c ]
+> > 
+> > It used in test environment.
+> 
+> This seems to just replace one printk with another; not sure we want
+> it in stable.
 
-> From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
->=20
-> [ Upstream commit 5ca87d01eba7bdfe9536a157ca33c1455bb8d16c ]
->=20
-> It used in test environment.
+It provides a better clue as to what the error is, I think it is a valid
+change.
 
-This seems to just replace one printk with another; not sure we want
-it in stable.
+thanks,
 
-Best regards,
-								Pavel
-
-> diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-> index 873b1434a998..34813429e2ab 100644
-> --- a/fs/ntfs3/fsntfs.c
-> +++ b/fs/ntfs3/fsntfs.c
-> @@ -976,6 +976,30 @@ static inline __le32 security_hash(const void *sd, s=
-ize_t bytes)
->  	return cpu_to_le32(hash);
->  }
-> =20
-> +/*
-> + * simple wrapper for sb_bread_unmovable.
-> + */
-> +struct buffer_head *ntfs_bread(struct super_block *sb, sector_t block)
-> +{
-> +	struct ntfs_sb_info *sbi =3D sb->s_fs_info;
-> +	struct buffer_head *bh;
-> +
-> +	if (unlikely(block >=3D sbi->volume.blocks)) {
-> +		/* prevent generic message "attempt to access beyond end of device" */
-> +		ntfs_err(sb, "try to read out of volume at offset 0x%llx",
-> +			 (u64)block << sb->s_blocksize_bits);
-> +		return NULL;
-> +	}
-> +
-> +	bh =3D sb_bread_unmovable(sb, block);
-> +	if (bh)
-> +		return bh;
-> +
-> +	ntfs_err(sb, "failed to read volume at offset 0x%llx",
-> +		 (u64)block << sb->s_blocksize_bits);
-> +	return NULL;
-> +}
-> +
->  int ntfs_sb_read(struct super_block *sb, u64 lbo, size_t bytes, void *bu=
-ffer)
->  {
->  	struct block_device *bdev =3D sb->s_bdev;
-> diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-> index 977e1422f904..cbeda94d7161 100644
-> --- a/fs/ntfs3/ntfs_fs.h
-> +++ b/fs/ntfs3/ntfs_fs.h
-> @@ -580,6 +580,7 @@ bool check_index_header(const struct INDEX_HDR *hdr, =
-size_t bytes);
->  int log_replay(struct ntfs_inode *ni, bool *initialized);
-> =20
->  /* Globals from fsntfs.c */
-> +struct buffer_head *ntfs_bread(struct super_block *sb, sector_t block);
->  bool ntfs_fix_pre_write(struct NTFS_RECORD_HEADER *rhdr, size_t bytes);
->  int ntfs_fix_post_read(struct NTFS_RECORD_HEADER *rhdr, size_t bytes,
->  		       bool simple);
-> @@ -1012,19 +1013,6 @@ static inline u64 bytes_to_block(const struct supe=
-r_block *sb, u64 size)
->  	return (size + sb->s_blocksize - 1) >> sb->s_blocksize_bits;
->  }
-> =20
-> -static inline struct buffer_head *ntfs_bread(struct super_block *sb,
-> -					     sector_t block)
-> -{
-> -	struct buffer_head *bh =3D sb_bread_unmovable(sb, block);
-> -
-> -	if (bh)
-> -		return bh;
-> -
-> -	ntfs_err(sb, "failed to read volume at offset 0x%llx",
-> -		 (u64)block << sb->s_blocksize_bits);
-> -	return NULL;
-> -}
-> -
->  static inline struct ntfs_inode *ntfs_i(struct inode *inode)
->  {
->  	return container_of(inode, struct ntfs_inode, vfs_inode);
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---pUDbgsQtT3lXZP2c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZdJFqgAKCRAw5/Bqldv6
-8kTAAJsEzDfmCgL6QEiJn5vOqZa4zoaaHgCfel7eOK9LUE+kRL/3jqHno+tiIlA=
-=rBzw
------END PGP SIGNATURE-----
-
---pUDbgsQtT3lXZP2c--
+greg k-h
