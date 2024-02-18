@@ -1,79 +1,157 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E27633E7
-	for <ntfs3@lists.linux.dev>; Sun, 18 Feb 2024 11:53:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFB46EB42
+	for <ntfs3@lists.linux.dev>; Sun, 18 Feb 2024 18:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708257185; cv=none; b=BZQrrZY4lvoEfYiDEw3dlhC7q91shJp6nrDTJ7DAEbKHjuVeOqaS8QBYE0CploPxHg0J1CjBAh6DIhm4FbpI6hMJFCdvD8riFdBAANBVegtRbX8MPfOohkuy96p6TGuCLVz5oJJI32hWseH85Jx7LJ4/1QaImfVHfe4dJU03O78=
+	t=1708279219; cv=none; b=uZ6clCUrvL6z/N2oY6CRBCZsUmxz8Y+M0CcZbW6HleBhx9XPr6Jvt4KIedclrwZ9SWHxSNDtJQXVMq9YIZzZS0NXkiF7fiu7itniAD6PcF5eVlkZZywjjKW/Yp1PxS4JvDK39tWDqmrWFCmB7DHX49etr7q+d7PsTkQg8Z35RbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708257185; c=relaxed/simple;
-	bh=6+hmd+W4BV+dvIrq+c8lyx1zUvi2WhOlm4Y9/3qs7UE=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=sSSUlIfVDZx5CAtsQJdx2+dxGvqDw2df/g3PWutxv4Wq9zjaADEOFmBWS29QkaESfpv5IJ/vIzZpzCQ88FVz4J31BeHxSYz0uM+g0Q/8/mLwzRZZ+/6qPaXSyZPQMmYDCxgtOpdq/DMvOyBACGM1SZJ3SyUGlNL2nT8rlVC1We4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-36516bed7c3so6567795ab.0
-        for <ntfs3@lists.linux.dev>; Sun, 18 Feb 2024 03:53:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708257183; x=1708861983;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BWsbO4aSSs4DO+xVFIe6sZD6wCzyO5IWX6HRTcWueSM=;
-        b=luZnu7eyp6gm7UQEbii0bD0aFUNjsnLXCctszk/w+76/FWiR3l8v8iEKuGPCADSlA6
-         9YRdKaSTfqrTcabAW6M9aS+pdvyTZ5kzOXZWvUF1VoP2k7PIZJ2zov05peGTYIjmGeqx
-         ZnDSsR4RqR/j3OUbYVIYvFlybb6Hcxjv7FCZLdF4zIKO2qSpx3VW2UZVTc0K5XzKcOUp
-         eTEgXXDvss6kQ+gcx541Elf3IyS5qWw9cmw6kMHcaBvxfQRW4Nk8qRIModhMrjbV57Pb
-         kw0DFZq7/yT1eeWCTzPT9ta+0efDMvr5CX5OAnRIGka1pPmVDyiAuAvtxZDD6p6WD21x
-         T1Zw==
-X-Forwarded-Encrypted: i=1; AJvYcCUc2Mj+D1dCqZ94JfrdPrDaFpsbRJsTodZeL4rK+HwW5ak1whVmBk812YxiJA6is1EWbxey5gPl2ptxUK/RlRqGYTCM6A4=
-X-Gm-Message-State: AOJu0Yywh1wIQ+9B6H4Qgyxb/t3vqkDIh9vGfLaxEf4fs+TmHtTvW6dY
-	95XjawcYLw7dY1U5rCgDi2QzHiHvElamLVBmhVAVjZ2ECnkl/hHrOInZg4j/TBInKFG7WNfLRIB
-	Y7xzb50URQ5Uvehk+PclpbXxLnsZzTBIDJZE/GiInnwZFOiOB2//cvPY=
-X-Google-Smtp-Source: AGHT+IFIXT3OhUsCbMVjYYsUWl3l9wpox5NiVMHC1HP2UXvlCL7fbuxvKuCnoQpKXDGz68p2pMLDaqBASQ70HUFhk4Qbd0wtQ812
+	s=arc-20240116; t=1708279219; c=relaxed/simple;
+	bh=MRTZT2wydvV9g4+L3T8Cy5v1cxJApA/ZFD4xuz+TmMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RA3ZAvd/JsFGmoKrgaDz+rMkpV9pKPFPzr6Jz3nFrjhRoYsbO8mEYYnURT0UE2im6N2noOpqUH6e1KGanBrFkEuVQqqpKV6MIPJ1WznsWHierWaAfG6JlFFWDjJd8gTq15kfoeLvWqCU8kmjok3Z1XlCtyg2ujSrtYvqqIfkfUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=Wpw7iV50; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="Wpw7iV50"
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 5A4F81C006B; Sun, 18 Feb 2024 19:00:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1708279213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KY7UwwVMk+29949A5eXWxc2HgEJyrtfWdkswBoyqc+Q=;
+	b=Wpw7iV50I3xg7wwwTkC2RL+gRLUacusIwzYbp6qA/PmEmgJGYqLnE2uZNXjw9Y7GXZ+Loi
+	L7aePebhhghtW+bP4jloi7MSK0ozKESuIqsp4AO+JgZnR+Opveg3h0Skdx7yXCH6M25ZtG
+	aRy+ApMGzXVlDCN+/vSLctqDGyWQQ20=
+Date: Sun, 18 Feb 2024 19:00:10 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Subject: Re: [PATCH AUTOSEL 6.1 09/28] fs/ntfs3: Prevent generic message
+ "attempt to access beyond end of device"
+Message-ID: <ZdJFqmZhIwTFTbHR@duo.ucw.cz>
+References: <20240213002235.671934-1-sashal@kernel.org>
+ <20240213002235.671934-9-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a92:c568:0:b0:363:8b04:6df7 with SMTP id
- b8-20020a92c568000000b003638b046df7mr783797ilj.0.1708257183250; Sun, 18 Feb
- 2024 03:53:03 -0800 (PST)
-Date: Sun, 18 Feb 2024 03:53:03 -0800
-In-Reply-To: <0000000000004b7b3a05f0bc25f8@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000097c4480611a69ec8@google.com>
-Subject: Re: [syzbot] [ntfs3?] kernel panic: stack is corrupted in
- __lock_acquire (5)
-From: syzbot <syzbot+0bc4c0668351ce1cab8f@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, axboe@kernel.dk, 
-	brauner@kernel.org, hdanton@sina.com, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="pUDbgsQtT3lXZP2c"
+Content-Disposition: inline
+In-Reply-To: <20240213002235.671934-9-sashal@kernel.org>
 
-syzbot suspects this issue was fixed by commit:
 
-commit 6f861765464f43a71462d52026fbddfc858239a5
-Author: Jan Kara <jack@suse.cz>
-Date:   Wed Nov 1 17:43:10 2023 +0000
+--pUDbgsQtT3lXZP2c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    fs: Block writes to mounted block devices
+Hi!
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1301e1d0180000
-start commit:   ce9ecca0238b Linux 6.6-rc2
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e4ca82a1bedd37e4
-dashboard link: https://syzkaller.appspot.com/bug?extid=0bc4c0668351ce1cab8f
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11814954680000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=103bc138680000
+> From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+>=20
+> [ Upstream commit 5ca87d01eba7bdfe9536a157ca33c1455bb8d16c ]
+>=20
+> It used in test environment.
 
-If the result looks correct, please mark the issue as fixed by replying with:
+This seems to just replace one printk with another; not sure we want
+it in stable.
 
-#syz fix: fs: Block writes to mounted block devices
+Best regards,
+								Pavel
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+> diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+> index 873b1434a998..34813429e2ab 100644
+> --- a/fs/ntfs3/fsntfs.c
+> +++ b/fs/ntfs3/fsntfs.c
+> @@ -976,6 +976,30 @@ static inline __le32 security_hash(const void *sd, s=
+ize_t bytes)
+>  	return cpu_to_le32(hash);
+>  }
+> =20
+> +/*
+> + * simple wrapper for sb_bread_unmovable.
+> + */
+> +struct buffer_head *ntfs_bread(struct super_block *sb, sector_t block)
+> +{
+> +	struct ntfs_sb_info *sbi =3D sb->s_fs_info;
+> +	struct buffer_head *bh;
+> +
+> +	if (unlikely(block >=3D sbi->volume.blocks)) {
+> +		/* prevent generic message "attempt to access beyond end of device" */
+> +		ntfs_err(sb, "try to read out of volume at offset 0x%llx",
+> +			 (u64)block << sb->s_blocksize_bits);
+> +		return NULL;
+> +	}
+> +
+> +	bh =3D sb_bread_unmovable(sb, block);
+> +	if (bh)
+> +		return bh;
+> +
+> +	ntfs_err(sb, "failed to read volume at offset 0x%llx",
+> +		 (u64)block << sb->s_blocksize_bits);
+> +	return NULL;
+> +}
+> +
+>  int ntfs_sb_read(struct super_block *sb, u64 lbo, size_t bytes, void *bu=
+ffer)
+>  {
+>  	struct block_device *bdev =3D sb->s_bdev;
+> diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+> index 977e1422f904..cbeda94d7161 100644
+> --- a/fs/ntfs3/ntfs_fs.h
+> +++ b/fs/ntfs3/ntfs_fs.h
+> @@ -580,6 +580,7 @@ bool check_index_header(const struct INDEX_HDR *hdr, =
+size_t bytes);
+>  int log_replay(struct ntfs_inode *ni, bool *initialized);
+> =20
+>  /* Globals from fsntfs.c */
+> +struct buffer_head *ntfs_bread(struct super_block *sb, sector_t block);
+>  bool ntfs_fix_pre_write(struct NTFS_RECORD_HEADER *rhdr, size_t bytes);
+>  int ntfs_fix_post_read(struct NTFS_RECORD_HEADER *rhdr, size_t bytes,
+>  		       bool simple);
+> @@ -1012,19 +1013,6 @@ static inline u64 bytes_to_block(const struct supe=
+r_block *sb, u64 size)
+>  	return (size + sb->s_blocksize - 1) >> sb->s_blocksize_bits;
+>  }
+> =20
+> -static inline struct buffer_head *ntfs_bread(struct super_block *sb,
+> -					     sector_t block)
+> -{
+> -	struct buffer_head *bh =3D sb_bread_unmovable(sb, block);
+> -
+> -	if (bh)
+> -		return bh;
+> -
+> -	ntfs_err(sb, "failed to read volume at offset 0x%llx",
+> -		 (u64)block << sb->s_blocksize_bits);
+> -	return NULL;
+> -}
+> -
+>  static inline struct ntfs_inode *ntfs_i(struct inode *inode)
+>  {
+>  	return container_of(inode, struct ntfs_inode, vfs_inode);
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--pUDbgsQtT3lXZP2c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZdJFqgAKCRAw5/Bqldv6
+8kTAAJsEzDfmCgL6QEiJn5vOqZa4zoaaHgCfel7eOK9LUE+kRL/3jqHno+tiIlA=
+=rBzw
+-----END PGP SIGNATURE-----
+
+--pUDbgsQtT3lXZP2c--
