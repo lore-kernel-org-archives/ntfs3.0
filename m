@@ -1,116 +1,149 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225AF383BF;
-	Wed, 21 Feb 2024 09:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3FE45954
+	for <ntfs3@lists.linux.dev>; Wed, 21 Feb 2024 10:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708507394; cv=none; b=HGP1NSwJJ8qr890u7VrW3u7HlkPF8YNF7pWFVI4GSrG8dwzBQIj43REdRyHjuFU5Nh/9qx4LLkKAdA7U0YE/p9T2rYQBDOjLfYBjlRIoU5BrDOi/A+t3uu0/jkBWRSBmIthTdOlybq7jQgHf1fVmOomO2DyLNW21brTRXoopMS4=
+	t=1708511024; cv=none; b=YyGm4aF715mkjJtbKp0qtmbAdNyE1i5e+2eUo78CexbclJ8eIXTc5+7HIPVX9V3AeYJmC1usF+8jLP3YCLeurKsEgs4EJGRZbOmoIongri3xu7M7y9kd/mYQr2v5BtDEZ6ngb6MYBcpx3LrHjxjgNwVzGZCTBqz/CkMsIe+2nJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708507394; c=relaxed/simple;
-	bh=0QR9CkrQOkYy9tKXZSu0qJqpOgrTbQV4Pwczfzxc8Ws=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gWBhXP6NTreXNLdz/O57IeEXlzmuDhHeeRlF/ILPyO3pQDB6/F0WgmURTMbjkSJz0jgA8V+YIBooBsCwLtOG4yLm/Ql3kq/qlQydw339aO4OPrYK48bXbE8xB/J/Zy7bYaYUJIY0nwwnPCfGcN3ZE2EEl24qE63v3Go4HvsEcSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=MP0cVlVC; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1708511024; c=relaxed/simple;
+	bh=Z7dZOMSEeCCP4d4SObybf4oqxbV8KdCpxT5f5whhQBA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BbU4BX2xqBE2gqlc2lRVqdOZKQIggi3a0t9nCFjvkiLHFdBs/FFUP1sy45DyKAHOyskcqAlkyFugEtH3b3xx64yLG280iWCGwFwVsr/v8IiijSnLxwADb96cvWAaOLEP9mv0zrwmik7qVss9eghUq2hiYtYgTWCTg1y3jZLSAtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AJZmMTFo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=chhiuuHy; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AJZmMTFo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=chhiuuHy; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="MP0cVlVC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=a5Y+jbVzMCuiskWa37OxLyCmdTfxWKxLyTZ3/6MLB0k=; t=1708507392;
-	x=1708939392; b=MP0cVlVCG9MH5+TEumEcBDB3ppnbXhkML/1DPSbQK13Z7VQ6MEp0KipAZxwLq
-	VnTXzVPhb/eN9TclYdgf0mhcaNSaIqeyTZ7JZgqFu2gJOUeTn5Lwwd9vrQhqIrWsISh8M+/IYTc/o
-	RoAnf4rPScBh+J1AE6S8NCdkvL/Dk9VT1+wVfDQFCeRnKHt68wFo6943hKjaKGhqmSlBEq0JP7ad9
-	FyMdxbuilSrZYMfNfsZxmwazA1jY56bRk/vzrB4DHW3olddyrAy0Eiq7HSMpox4IBRap8+ZDKAIBp
-	N+K8OTZgu4HMIo5Zd6d0x8YV7eRNTHshz/oy8yZ+HKXzL0SGYg==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rciom-0008Qf-JP; Wed, 21 Feb 2024 10:23:08 +0100
-Message-ID: <27ee0d22-18aa-453e-9020-76f4687bc044@leemhuis.info>
-Date: Wed, 21 Feb 2024 10:23:08 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AJZmMTFo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="chhiuuHy";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AJZmMTFo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="chhiuuHy"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8575821F49;
+	Wed, 21 Feb 2024 10:23:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708511020; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pwRKoQNdU7TokTyqWSCOhiUQb31LjSPweEvssF3ptLA=;
+	b=AJZmMTFoK97KEnefobpzstz3Rtx5JO9oBlzA8DY4iv28XS/zYghLJSGBAhjbQ7v+hl2iYL
+	+UYtR0gMhvrc487ZnoFvLIwyxaSqGCcIuAOptpRjv4qLe6M1tqMnRZg9kQS+6XjLJ1mrgJ
+	BmoO3bITdfDdnc8qw4Ryljc+b7zt1CA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708511020;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pwRKoQNdU7TokTyqWSCOhiUQb31LjSPweEvssF3ptLA=;
+	b=chhiuuHyVF+6lDFEB7X/S0GQFETJxoFWbql+Zga5Tx7V/AI/HWIx9Cg6RPX1KNBg21i8cE
+	EEPhoVaoofW6CvBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708511020; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pwRKoQNdU7TokTyqWSCOhiUQb31LjSPweEvssF3ptLA=;
+	b=AJZmMTFoK97KEnefobpzstz3Rtx5JO9oBlzA8DY4iv28XS/zYghLJSGBAhjbQ7v+hl2iYL
+	+UYtR0gMhvrc487ZnoFvLIwyxaSqGCcIuAOptpRjv4qLe6M1tqMnRZg9kQS+6XjLJ1mrgJ
+	BmoO3bITdfDdnc8qw4Ryljc+b7zt1CA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708511020;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pwRKoQNdU7TokTyqWSCOhiUQb31LjSPweEvssF3ptLA=;
+	b=chhiuuHyVF+6lDFEB7X/S0GQFETJxoFWbql+Zga5Tx7V/AI/HWIx9Cg6RPX1KNBg21i8cE
+	EEPhoVaoofW6CvBA==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 7939D139D1;
+	Wed, 21 Feb 2024 10:23:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id NomTHSzP1WXnFAAAn2gu4w
+	(envelope-from <jack@suse.cz>); Wed, 21 Feb 2024 10:23:40 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 28F45A0807; Wed, 21 Feb 2024 11:23:40 +0100 (CET)
+Date: Wed, 21 Feb 2024 11:23:40 +0100
+From: Jan Kara <jack@suse.cz>
+To: syzbot <syzbot+ba698041fcdf4d0214bb@syzkaller.appspotmail.com>
+Cc: almaz.alexandrovich@paragon-software.com, axboe@kernel.dk,
+	brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk,
+	yuran.pereira@hotmail.com
+Subject: Re: [syzbot] [ntfs3?] kernel panic: stack is corrupted in
+ run_unpack_ex
+Message-ID: <20240221102340.auf7ltb7yikmysf4@quack3>
+References: <000000000000bdf37505f1a7fc09@google.com>
+ <0000000000007a3b2a0611d18c03@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: fix build without CONFIG_NTFS3_LZX_XPRESS
-Content-Language: en-US, de-DE
-To: Chris Clayton <chris2553@googlemail.com>,
- Mark O'Donovan <shiftee@posteo.net>, linux-kernel@vger.kernel.org
-Cc: ntfs3@lists.linux.dev, almaz.alexandrovich@paragon-software.com
-References: <20240214224500.811609-1-shiftee@posteo.net>
- <89630027-f93c-4e1d-a9c0-a120b8f0bc9e@googlemail.com>
- <0f3542a4-d558-447c-9dd7-cbb410c88e23@googlemail.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <0f3542a4-d558-447c-9dd7-cbb410c88e23@googlemail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1708507392;987ebf7b;
-X-HE-SMSGID: 1rciom-0008Qf-JP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0000000000007a3b2a0611d18c03@google.com>
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [2.89 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-0.01)[45.14%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[hotmail.com];
+	 URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=8cdb1e7bec4b955a];
+	 TAGGED_RCPT(0.00)[ba698041fcdf4d0214bb];
+	 MIME_GOOD(-0.10)[text/plain];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 RCPT_COUNT_SEVEN(0.00)[11];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[paragon-software.com,kernel.dk,kernel.org,suse.cz,vger.kernel.org,lists.linux.dev,googlegroups.com,zeniv.linux.org.uk,hotmail.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[];
+	 SUBJECT_HAS_QUESTION(0.00)[]
+X-Spam-Level: **
+X-Spam-Score: 2.89
+X-Spam-Flag: NO
 
-On 21.02.24 09:27, Chris Clayton wrote:
+On Tue 20-02-24 07:06:02, syzbot wrote:
+> syzbot suspects this issue was fixed by commit:
 > 
-> This build regression also shows up, along with other problems, in a
-> report to the ntfs3 list by the kernel test robot.[1]
+> commit 6f861765464f43a71462d52026fbddfc858239a5
+> Author: Jan Kara <jack@suse.cz>
+> Date:   Wed Nov 1 17:43:10 2023 +0000
 > 
-> Also, as this patch seems not to have been picked up by the NTFS3
-> maintainer I've added Thorsten Leemhuis so he can consider adding
-> this egression to the tracker.
+>     fs: Block writes to mounted block devices
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=149d61e8180000
+> start commit:   41c03ba9beea Merge tag 'for_linus' of git://git.kernel.org..
+> git tree:       upstream
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=8cdb1e7bec4b955a
+> dashboard link: https://syzkaller.appspot.com/bug?extid=ba698041fcdf4d0214bb
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11e43f56480000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13fbabea480000
+> 
+> If the result looks correct, please mark the issue as fixed by replying with:
 
-You mistyped my email address, but I noticed this by chance. :-D
+Makes sense.
+ 
+#syz fix: fs: Block writes to mounted block devices
 
-Mark, could you do me a favor and send a v2 that picked up the Tested-by
-and includes a Fixes: tag for the commit causing it? Then in case
-Konstantin doesn't pick this up any time soon I'll ask Linus to pick
-this up straight from the list.
-
-Ciao, Thorsten
-
-> [1]
-> https://lore.kernel.org/ntfs3/202402211322.4GbTCzp8-lkp@intel.com/T/#u>
-> Chris>
-> On 19/02/2024 07:21, Chris Clayton wrote:
->> Hi.
->>
->> On 14/02/2024 22:45, Mark O'Donovan wrote:
->>> When CONFIG_NTFS3_LZX_XPRESS is not set then we get the following:
->>> fs/ntfs3/frecord.c:2460:16: error: unused variable ‘i_size’
->>>
->>> Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
->>> ---
->>>  fs/ntfs3/frecord.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
->>> index 3b42938a9d3b..7f27382e0ce2 100644
->>> --- a/fs/ntfs3/frecord.c
->>> +++ b/fs/ntfs3/frecord.c
->>> @@ -2457,7 +2457,6 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
->>>  	struct ATTR_LIST_ENTRY *le = NULL;
->>>  	struct runs_tree *run = &ni->file.run;
->>>  	u64 valid_size = ni->i_valid;
->>> -	loff_t i_size = i_size_read(&ni->vfs_inode);
->>>  	u64 vbo_disk;
->>>  	size_t unc_size;
->>>  	u32 frame_size, i, npages_disk, ondisk_size;
->>> @@ -2509,6 +2508,7 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
->>>  		err = -EOPNOTSUPP;
->>>  		goto out1;
->>>  #else
->>> +		loff_t i_size = i_size_read(&ni->vfs_inode);
->>>  		u32 frame_bits = ni_ext_compress_bits(ni);
->>>  		u64 frame64 = frame_vbo >> frame_bits;
->>>  		u64 frames, vbo_data;
->>>
->>> base-commit: 7e90b5c295ec1e47c8ad865429f046970c549a66
->>
->> Mark - Thanks for the patch.
->> Alex - Fixes a build bug introduced by 4fd6c08a16d7f1ba10212c9ef7bc73218144b463.
->>
->> Tested-by: Chris Clayton <chris2553@googlemail.com>
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
