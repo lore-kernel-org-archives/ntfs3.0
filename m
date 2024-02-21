@@ -1,149 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3FE45954
-	for <ntfs3@lists.linux.dev>; Wed, 21 Feb 2024 10:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D73120DC5
+	for <ntfs3@lists.linux.dev>; Wed, 21 Feb 2024 10:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708511024; cv=none; b=YyGm4aF715mkjJtbKp0qtmbAdNyE1i5e+2eUo78CexbclJ8eIXTc5+7HIPVX9V3AeYJmC1usF+8jLP3YCLeurKsEgs4EJGRZbOmoIongri3xu7M7y9kd/mYQr2v5BtDEZ6ngb6MYBcpx3LrHjxjgNwVzGZCTBqz/CkMsIe+2nJc=
+	t=1708512293; cv=none; b=A0TEudrTNlTqjFQ0MXX9xAbkabiEJEK+jBufb2ypvsQDKdxGt6crT/J9Q2G/nJsPNpB3kU5DqSiIYQNa+SpUEKF9X32TdNJ7pzNiZ0AUoFuVEoV4KmjOAH/sL4+mOyva7Hjf45RQ7DGdpB59lj5qzSs2TZMAWHLawqGkDcX9IYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708511024; c=relaxed/simple;
-	bh=Z7dZOMSEeCCP4d4SObybf4oqxbV8KdCpxT5f5whhQBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BbU4BX2xqBE2gqlc2lRVqdOZKQIggi3a0t9nCFjvkiLHFdBs/FFUP1sy45DyKAHOyskcqAlkyFugEtH3b3xx64yLG280iWCGwFwVsr/v8IiijSnLxwADb96cvWAaOLEP9mv0zrwmik7qVss9eghUq2hiYtYgTWCTg1y3jZLSAtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AJZmMTFo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=chhiuuHy; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AJZmMTFo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=chhiuuHy; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1708512293; c=relaxed/simple;
+	bh=ghhI+nFDhm0hnOFhmWeoRf94hHK/gPArrHEfJeQ/EBo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=l86LxJzfQJOaqtVX6fu6DSmgLb5iSEQg0l2cBfpS5NrKjtEI3GyP0ZZZmPTU25YfPyIwtGnt+t9EPHUEhGbMS09/GJlx+quGKUu0VYf31kOuvo5oG/H5aVha1BvLvkEU9VdKYZ3g2G1nCSUEmc2iX3fzWpFXhu0YSAFr5rFS1Fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=Oi6z7vhJ; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AJZmMTFo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="chhiuuHy";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AJZmMTFo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="chhiuuHy"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8575821F49;
-	Wed, 21 Feb 2024 10:23:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1708511020; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pwRKoQNdU7TokTyqWSCOhiUQb31LjSPweEvssF3ptLA=;
-	b=AJZmMTFoK97KEnefobpzstz3Rtx5JO9oBlzA8DY4iv28XS/zYghLJSGBAhjbQ7v+hl2iYL
-	+UYtR0gMhvrc487ZnoFvLIwyxaSqGCcIuAOptpRjv4qLe6M1tqMnRZg9kQS+6XjLJ1mrgJ
-	BmoO3bITdfDdnc8qw4Ryljc+b7zt1CA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1708511020;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pwRKoQNdU7TokTyqWSCOhiUQb31LjSPweEvssF3ptLA=;
-	b=chhiuuHyVF+6lDFEB7X/S0GQFETJxoFWbql+Zga5Tx7V/AI/HWIx9Cg6RPX1KNBg21i8cE
-	EEPhoVaoofW6CvBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1708511020; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pwRKoQNdU7TokTyqWSCOhiUQb31LjSPweEvssF3ptLA=;
-	b=AJZmMTFoK97KEnefobpzstz3Rtx5JO9oBlzA8DY4iv28XS/zYghLJSGBAhjbQ7v+hl2iYL
-	+UYtR0gMhvrc487ZnoFvLIwyxaSqGCcIuAOptpRjv4qLe6M1tqMnRZg9kQS+6XjLJ1mrgJ
-	BmoO3bITdfDdnc8qw4Ryljc+b7zt1CA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1708511020;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pwRKoQNdU7TokTyqWSCOhiUQb31LjSPweEvssF3ptLA=;
-	b=chhiuuHyVF+6lDFEB7X/S0GQFETJxoFWbql+Zga5Tx7V/AI/HWIx9Cg6RPX1KNBg21i8cE
-	EEPhoVaoofW6CvBA==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 7939D139D1;
-	Wed, 21 Feb 2024 10:23:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id NomTHSzP1WXnFAAAn2gu4w
-	(envelope-from <jack@suse.cz>); Wed, 21 Feb 2024 10:23:40 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 28F45A0807; Wed, 21 Feb 2024 11:23:40 +0100 (CET)
-Date: Wed, 21 Feb 2024 11:23:40 +0100
-From: Jan Kara <jack@suse.cz>
-To: syzbot <syzbot+ba698041fcdf4d0214bb@syzkaller.appspotmail.com>
-Cc: almaz.alexandrovich@paragon-software.com, axboe@kernel.dk,
-	brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev,
-	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk,
-	yuran.pereira@hotmail.com
-Subject: Re: [syzbot] [ntfs3?] kernel panic: stack is corrupted in
- run_unpack_ex
-Message-ID: <20240221102340.auf7ltb7yikmysf4@quack3>
-References: <000000000000bdf37505f1a7fc09@google.com>
- <0000000000007a3b2a0611d18c03@google.com>
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="Oi6z7vhJ"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 488BE240101
+	for <ntfs3@lists.linux.dev>; Wed, 21 Feb 2024 11:44:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1708512288; bh=ghhI+nFDhm0hnOFhmWeoRf94hHK/gPArrHEfJeQ/EBo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=Oi6z7vhJIUx+/QyafXRCdMFngP+BSIvcY4JjGHxacW4b1sOP3E3NwYU4dNHaI9ezt
+	 f/P1ez3QdLHnQV1U2citr8UM1vMw+UDavSuJ7VN8u0sYt8h0TbREiEPUMg2pmG/hcp
+	 jLKaQsRSsX/FoRwaRxSsMC2J8Xgx9xa1BEypPPVdlt6ImkK6CTYmglfVATfDWtTYdp
+	 x3HHNmftGJP6VJMQffun7ragIxowbF3Na86f8ukyd8lNmDRlSjg+5KK3pDEGwiwd/N
+	 5SPbgaN+rjV9ouUlLFRwu6pAz4RG4ZcyPgQVT9cpgfBiQkVZVVpbRG7XkNGsDsLKUS
+	 iqPuJTJxV+EEg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4TftFV4nPvz6twm;
+	Wed, 21 Feb 2024 11:44:46 +0100 (CET)
+From: Mark O'Donovan <shiftee@posteo.net>
+To: linux-kernel@vger.kernel.org
+Cc: ntfs3@lists.linux.dev,
+	almaz.alexandrovich@paragon-software.com,
+	chris2553@googlemail.com,
+	regressions@leemhuis.info,
+	Mark O'Donovan <shiftee@posteo.net>
+Subject: [PATCH v2] fs/ntfs3: fix build without CONFIG_NTFS3_LZX_XPRESS
+Date: Wed, 21 Feb 2024 10:43:58 +0000
+Message-Id: <20240221104358.2290969-1-shiftee@posteo.net>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0000000000007a3b2a0611d18c03@google.com>
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [2.89 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_HAM(-0.01)[45.14%];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[hotmail.com];
-	 URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=8cdb1e7bec4b955a];
-	 TAGGED_RCPT(0.00)[ba698041fcdf4d0214bb];
-	 MIME_GOOD(-0.10)[text/plain];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 RCPT_COUNT_SEVEN(0.00)[11];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[paragon-software.com,kernel.dk,kernel.org,suse.cz,vger.kernel.org,lists.linux.dev,googlegroups.com,zeniv.linux.org.uk,hotmail.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[];
-	 SUBJECT_HAS_QUESTION(0.00)[]
-X-Spam-Level: **
-X-Spam-Score: 2.89
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue 20-02-24 07:06:02, syzbot wrote:
-> syzbot suspects this issue was fixed by commit:
-> 
-> commit 6f861765464f43a71462d52026fbddfc858239a5
-> Author: Jan Kara <jack@suse.cz>
-> Date:   Wed Nov 1 17:43:10 2023 +0000
-> 
->     fs: Block writes to mounted block devices
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=149d61e8180000
-> start commit:   41c03ba9beea Merge tag 'for_linus' of git://git.kernel.org..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=8cdb1e7bec4b955a
-> dashboard link: https://syzkaller.appspot.com/bug?extid=ba698041fcdf4d0214bb
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11e43f56480000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13fbabea480000
-> 
-> If the result looks correct, please mark the issue as fixed by replying with:
+When CONFIG_NTFS3_LZX_XPRESS is not set then we get the following:
+fs/ntfs3/frecord.c:2460:16: error: unused variable ‘i_size’
 
-Makes sense.
- 
-#syz fix: fs: Block writes to mounted block devices
+Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
 
-								Honza
+Fixes: 4fd6c08a16d7 ("fs/ntfs3: Use i_size_read and i_size_write")
+Tested-by: Chris Clayton <chris2553@googlemail.com>
+---
+ fs/ntfs3/frecord.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 3b42938a9d3b..7f27382e0ce2 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -2457,7 +2457,6 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
+ 	struct ATTR_LIST_ENTRY *le = NULL;
+ 	struct runs_tree *run = &ni->file.run;
+ 	u64 valid_size = ni->i_valid;
+-	loff_t i_size = i_size_read(&ni->vfs_inode);
+ 	u64 vbo_disk;
+ 	size_t unc_size;
+ 	u32 frame_size, i, npages_disk, ondisk_size;
+@@ -2509,6 +2508,7 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
+ 		err = -EOPNOTSUPP;
+ 		goto out1;
+ #else
++		loff_t i_size = i_size_read(&ni->vfs_inode);
+ 		u32 frame_bits = ni_ext_compress_bits(ni);
+ 		u64 frame64 = frame_vbo >> frame_bits;
+ 		u64 frames, vbo_data;
+
+base-commit: 9fc1ccccfd8d53dc7936fe6d633f2373fc9f62e8
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.39.2
+
