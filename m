@@ -1,75 +1,77 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AD04E1BC
-	for <ntfs3@lists.linux.dev>; Sat, 24 Feb 2024 13:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334B714012;
+	Sun, 25 Feb 2024 14:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708782610; cv=none; b=LyIzMDdVilppOA5vt0DNOR53K8hocxUuaZfWye2GVRkr91MHSeLDCUEm18VqH4vEBwmH1UkTGsY7MEO4IJtpU6KZ8mwf/a6YnWqp6+0T5PbTr5kfM57emsn4GP/qtKPVRaOTJuBVvQga8kHQaiy5VETdGojTH+sBboJqOQwQxdI=
+	t=1708870911; cv=none; b=QxHfHXFy7QJkwudRTf5HaWfI18QJXx0FP5vWj5ZSIR/iorbyuIfc6gnaJiiixLFs1EOyg9GYE26E+qjE3Q9J9iGXPw1qROCiIhjyPREvnMvOg5PrcddHmpWl5Wqe7jhYDQRB7YEqGFBYME+hWbHtxWX13CyEFSvXqe1u2Ci+Ejs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708782610; c=relaxed/simple;
-	bh=SC68QRObN3rZto0vm71oNtq2r60WxPc8SvKlqbdxyb8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rzyWezZREgZJ6BTYZO42Y6xKPJjhnPs28fvg68p0VTCALYaCkrfly8fu+coRFWkk8ad8lIYNWK4A61dEL+8GEax6A0+JqfFeccrgHKjI+VPvQjOW9AR4diMrabYd72uQ7Cl1a1aljn/2GcVjKiMpnF+uQby9f7oI808ZoOiPO7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nEN+r/Mz; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1708870911; c=relaxed/simple;
+	bh=RCSh2ROZ/iFeMJsDJRaRk0vcrWxy8Y3mHcAABJnhl5A=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:Cc:
+	 In-Reply-To:Content-Type; b=ERwXjnv8Ka+uaG7vPtZJAQdVqoxnE+rXlntMX8udIygUrhxq1pENVi7BaamT2Q43WmATpJuKQmtlFHy5OAgEpSw/ANSZk8b8rMZc9Zvpe3f2eITMJDO6gMn5nZKJ72PhDo2UjG2DlQXr4PnF28DGp6//wevgsTOtlu3HiazC2ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=CGN+DXPw; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nEN+r/Mz"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1708782607;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=JSm+Ir7WRkiulBopfOJkhQ6MG0eswa+pECgZqNpCfq4=;
-	b=nEN+r/MzdqMbGgZ+spbwl3fekXWSnzE4u45vmFB9GcdFDRuPKn5LarV4Tgrm3Do2UFAo7h
-	I/NrN/obH1evP/noF2aS0FKNXd+/ghElmI34+LuBkxZlTly6bWeR0yHF00pV6PjvZbLXlf
-	4LZm/MBrBxT2zAiay+gXI+lPZzvikNo=
-From: chengming.zhou@linux.dev
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	vbabka@suse.cz,
-	roman.gushchin@linux.dev,
-	Xiongwei.Song@windriver.com,
-	chengming.zhou@linux.dev,
-	Chengming Zhou <zhouchengming@bytedance.com>
-Subject: [PATCH] ntfs3: remove SLAB_MEM_SPREAD flag usage
-Date: Sat, 24 Feb 2024 13:50:01 +0000
-Message-Id: <20240224135001.829831-1-chengming.zhou@linux.dev>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="CGN+DXPw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:Cc:Reply-To:References:To:From:Subject:MIME-Version:Date:
+	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=5zcxi1j2bz9y7GX419P/KFYBN93Ly9pm3MHmLrZHkIA=;
+	t=1708870909; x=1709302909; b=CGN+DXPwpjp7tELQUqJ237fTJraF2a62JvOi3sYTDkieDHr
+	LbVBJquOZaZ6L+uftuZtCXlEEQrQpmRvL4Gxu8+TppKie+jBmVskIaIgtrQftnf3C2KoiN7YbBYSY
+	s9KhyB+7dTDp6hkDN+aXoHllFiN7TXvlWL8VHuQrX2XqltuG+eHIv6M3Sw4WeYFOsBg4DGG1PGgKW
+	T+p3t05v7rBKtlceC9GMR++lPSX5L5767N9QK+Y5Fm0ytOCt2aUpmFH8o7Vqkjf+M61Hwtr3cEGBk
+	4b2H/DJsE4zcTTpM3RfdR6hg1prfL+fDMr8aufsflE0gCAEAEUodTIUvKV1YJ0EA==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1reFNz-0003Ps-2p; Sun, 25 Feb 2024 15:21:47 +0100
+Message-ID: <5ffb73e0-4b00-4bbb-857a-30a48945758d@leemhuis.info>
+Date: Sun, 25 Feb 2024 15:21:46 +0100
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: Linux regressions report for mainline [2024-02-25]
+Content-Language: en-US, de-DE
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+References: <170886726066.1516351.14377022830495300698@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ ntfs3@lists.linux.dev,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <170886726066.1516351.14377022830495300698@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1708870909;c050b0ec;
+X-HE-SMSGID: 1reFNz-0003Ps-2p
 
-From: Chengming Zhou <zhouchengming@bytedance.com>
+On 25.02.24 14:21, Regzbot (on behalf of Thorsten Leemhuis) wrote:
+> Hi Linus, things look mostly normal from my point of view and a few
+> fixes for tracked issues are heading your way today or next week.
+> Nevertheless let me mention one issue where I fear that they might not
+> be fixed before the release:
+> 
+> * Decreased network outgoing speed due to irq sharing that started with
+> [...]
 
-The SLAB_MEM_SPREAD flag is already a no-op as of 6.8-rc1, remove
-its usage so we can delete it from slab. No functional change.
+Sorry, forgot something: there is a patch to fix a ntfs3 build problem
+that was posted 10+ days ago[1] that didn't get any reaction from the
+ntfs3 maintainer at all. Given the history of occasional slow responses
+for that subsystem I thought I'd let you know in case you want to pick
+the fix up directly; but if you do, consider using v2 of the patch[2].
 
-Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
----
- fs/ntfs3/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1] https://lore.kernel.org/all/20240214224500.811609-1-shiftee@posteo.net/
+[2] https://lore.kernel.org/all/20240221104358.2290969-1-shiftee@posteo.net/
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index cef5467fd928..9df7c20d066f 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -1825,7 +1825,7 @@ static int __init init_ntfs_fs(void)
- 
- 	ntfs_inode_cachep = kmem_cache_create(
- 		"ntfs_inode_cache", sizeof(struct ntfs_inode), 0,
--		(SLAB_RECLAIM_ACCOUNT | SLAB_MEM_SPREAD | SLAB_ACCOUNT),
-+		(SLAB_RECLAIM_ACCOUNT | SLAB_ACCOUNT),
- 		init_once);
- 	if (!ntfs_inode_cachep) {
- 		err = -ENOMEM;
--- 
-2.40.1
-
+Ciao, Thorsten
