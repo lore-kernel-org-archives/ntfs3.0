@@ -1,73 +1,127 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734BA12EBF1
-	for <ntfs3@lists.linux.dev>; Mon, 26 Feb 2024 15:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807DF127B4D
+	for <ntfs3@lists.linux.dev>; Mon, 26 Feb 2024 17:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708959606; cv=none; b=IN3xfm0Syv8Vs5VaTsdecLWESGHhw0EcGylq98LF1CAwa7yng4R/B+lQhacN5/ar2AwkrOB2IXdX/HIWW7TQp9FGy+LDFI8CQVu5kqbwgSAM2uBTAMYdUt5xxkCg39sVhRU65luK/80xuweTwYroao6rlYx3OyjQ/bOBSBz7ZHY=
+	t=1708967667; cv=none; b=r8A4aXi7wprSizbMs9QME6PZaBuOB5pmgDu4KKYCnts2R/Nm27IMGUc2cfODoXDDeFQ+WF8WUVzuImwmo5VG5d8b2gqjgYPZY2Hmmxl+o2RYipTbUizRgAfG9l46pC8icvgXJrB3clMVU7Bhyff5MpzdqopMTShTpZCF7bRFuSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708959606; c=relaxed/simple;
-	bh=eHf6DhQsK0KZCPXgcrcFLMEU4s/axWJphZkoUqovX0s=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=rfsERAsWChIyW1gfWPfSTObxPzCyYsEOF71gRZDJt7FAYEjQ9dScpRKyqmjFXc6uXfkuHsBk2eoXaaKLA2bM8/WbV7hr25Iiz0BqbdIf1YXDQ918SG3pdAwtoiqQMMNCA/HGW7D4nxpT2OK2VAimXp8c5EsDCVqTG0nEXW2nND8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-365810221f3so24793835ab.2
-        for <ntfs3@lists.linux.dev>; Mon, 26 Feb 2024 07:00:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708959604; x=1709564404;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XWnimLAcCCtkR0KSTmxlZv4XKOQ8UbGKnAa9ZHp8bn8=;
-        b=eqYoVqvCulThQaLcpl1uNhslQQeErf/R5/aWNSQxFY0fDHPy0F6qy5Wcouq0JTykGx
-         OprbzyD5tAtdOsKGj5drPZeNPmGPmSFZTkWEeApv19+S9QCLd/KKWWUHltcmXKt+9Svx
-         Od9EQ4i9SyeYDySx6uEhk1WdlhmrEjFnU7wAPwVas6MyhYSgNBbLoXEyv91cq/AqqKQP
-         xofdWzI1Jqgz/I/dnRVOjJ/EbEYJO/WW5jErkoEobkUXcZfwGoK6wRUwttohBLfE4Nex
-         E2+ioqc3XYVudtkWQNpzH/Zt/ArThTbd+OnqZu2NQuhjsKy/r2Rc2htPH2dTtF+3RBoL
-         ur9g==
-X-Forwarded-Encrypted: i=1; AJvYcCWSOE3d6E3ziFiXwNLhCdxM4NlJn2QjKjXB2BnwoSdgZG9OcoWVxxXdRdQZoNrC9rrCcWoFTWHXoazYvdXx7dGT6s5X4fA=
-X-Gm-Message-State: AOJu0YyCOUK2XuqcA4WkmjeFG9C/9kWFuSHz5JP3XauOEeVpYQaEp4gM
-	toPz+F6q0e5lOK6WM9d8GEKWLfFw1EAHAG6bWETSG1cImc9zW/TChA2nAsHUmuKPVlHtKzr9YWp
-	qgQ6uvW2ZLfyJIyKaaAgzqlTPHUxnvyt4OdXWZXKpvQ0SF67vs5yTCaE=
-X-Google-Smtp-Source: AGHT+IGzpCE2nfkAg7pqbTcBeh9cTuldlXFttxjcewZTsZ4GZdTghVX1twDE6ea2vwl4aPcyM9GMOXvl7BXzuKiAcjQlhh0h57no
+	s=arc-20240116; t=1708967667; c=relaxed/simple;
+	bh=ZatBfX3GImAl/bUCZ9kxeO02BxuKFeBHkwxbI7272vE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iHMahIEndhictZi/Z66bw0LnvgWoR1BOANyiCf7Z6JcbAH37z/rXz9BCqyNutkrBDieruMfT+rL/cPe+8x2QpSWK/irP6FcVOcwGBbMg2jZtF7xXg3lcPwJQgleqYgNsmRyMUtkkF9UTaO5sKRjumF6VIqBdR9DV1yR6DOJLJZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=MbvrA4li; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="MbvrA4li"
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41QGwR0e032270;
+	Mon, 26 Feb 2024 17:14:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=7EiwRdm/V3a7kLEUdExazAqNGWLSc4lYEtu/GG4qUJ0=;
+ b=MbvrA4liD26UBVHzakTuYr0t60g3p3lFTN8BkLwRvT6ziymLUJgzI6fpxn7PD76+wLYs
+ 42zVAplEkClN8YKbxIWO9I2ImjJjU4TN7EXFs0W8o9bFwHYEjAsXqrRnK56xb2nTGaOA
+ KN3ipTfcuAl3/MK4gfpgW5P2zURHSb7LIcZTsQ7kHewvZt3jUZIh+vONFX0QylQg+Sal
+ kcJrpGJPFncGuJ9dvdCzwds4jJzgBqbVCbgHsGcZ5M/rWOJ3S+GLU4SKAk+bJbLuiYrd
+ AzmfWdwoYduR6JzUZNwRCfPZE9ijUt5hd4bPVU5Q3QrWcl3TazbX+OlvqHPIuAmdpgZH aQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wgxmm8fmc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 26 Feb 2024 17:14:19 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 41QGx2Rw001319;
+	Mon, 26 Feb 2024 17:14:18 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wgxmm8fkh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 26 Feb 2024 17:14:18 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41QGTLLA021808;
+	Mon, 26 Feb 2024 17:14:17 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3wfu5ytquv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 26 Feb 2024 17:14:17 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41QHEDNQ9372320
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 26 Feb 2024 17:14:15 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2CBAF2004D;
+	Mon, 26 Feb 2024 17:14:13 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E8E6520049;
+	Mon, 26 Feb 2024 17:14:11 +0000 (GMT)
+Received: from [9.171.4.124] (unknown [9.171.4.124])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 26 Feb 2024 17:14:11 +0000 (GMT)
+Message-ID: <3aae1410-e30f-4cd5-8c6c-3f1c6362ffee@linux.ibm.com>
+Date: Mon, 26 Feb 2024 18:13:41 +0100
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1562:b0:363:9d58:805b with SMTP id
- k2-20020a056e02156200b003639d58805bmr363419ilu.3.1708959604738; Mon, 26 Feb
- 2024 07:00:04 -0800 (PST)
-Date: Mon, 26 Feb 2024 07:00:04 -0800
-In-Reply-To: <20240226120623.1464-1-hdanton@sina.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002d120806124a2afe@google.com>
-Subject: Re: [syzbot] [ntfs3?] possible deadlock in ntfs_set_state (2)
-From: syzbot <syzbot+c2ada45c23d98d646118@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, boqun.feng@gmail.com, 
-	hdanton@sina.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, penguin-kernel@i-love.sakura.ne.jp, 
-	syzkaller-bugs@googlegroups.com, torvalds@linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v5 08/21] s390/cio: rename bitmap_size() ->
+ idset_bitmap_size()
+Content-Language: en-US
+To: Alexander Lobakin <aleksander.lobakin@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Cc: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+        Marcin Szycik <marcin.szycik@linux.intel.com>,
+        Wojciech Drewek <wojciech.drewek@intel.com>,
+        Yury Norov <yury.norov@gmail.com>, Andy Shevchenko <andy@kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Alexander Potapenko <glider@google.com>, Jiri Pirko <jiri@resnulli.us>,
+        Ido Schimmel <idosch@nvidia.com>,
+        Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+        Simon Horman <horms@kernel.org>, linux-btrfs@vger.kernel.org,
+        dm-devel@redhat.com, ntfs3@lists.linux.dev, linux-s390@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20240201122216.2634007-1-aleksander.lobakin@intel.com>
+ <20240201122216.2634007-9-aleksander.lobakin@intel.com>
+From: Peter Oberparleiter <oberpar@linux.ibm.com>
+In-Reply-To: <20240201122216.2634007-9-aleksander.lobakin@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: kJ2xFVSXDENYmSmRhicxbmrwDujXC5lV
+X-Proofpoint-GUID: yP0KC4JJEtYmY4bzsPQdnvQdAB2lXb3v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-26_11,2024-02-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1011
+ suspectscore=0 lowpriorityscore=0 mlxlogscore=961 adultscore=0 spamscore=0
+ impostorscore=0 priorityscore=1501 mlxscore=0 bulkscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2402260131
 
-Hello,
+On 01.02.2024 13:22, Alexander Lobakin wrote:
+> bitmap_size() is a pretty generic name and one may want to use it for
+> a generic bitmap API function. At the same time, its logic is not
+> "generic", i.e. it's not just `nbits -> size of bitmap in bytes`
+> converter as it would be expected from its name.
+> Add the prefix 'idset_' used throughout the file where the function
+> resides.
+> 
+> Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+> Signed-off-by: Alexander Lobakin <aleksander.lobakin@intel.com>
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+Apologies for the delay.
 
-Reported-and-tested-by: syzbot+c2ada45c23d98d646118@syzkaller.appspotmail.com
+Acked-by: Peter Oberparleiter <oberpar@linux.ibm.com>
 
-Tested on:
 
-commit:         d206a76d Linux 6.8-rc6
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-console output: https://syzkaller.appspot.com/x/log.txt?x=10dec3aa180000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=fad652894fc96962
-dashboard link: https://syzkaller.appspot.com/bug?extid=c2ada45c23d98d646118
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=163e9a9a180000
+-- 
+Peter Oberparleiter
+Linux on IBM Z Development - IBM Germany R&D
 
-Note: testing is done by a robot and is best-effort only.
