@@ -1,114 +1,74 @@
-Received: from mail115-69.sinamail.sina.com.cn (mail115-69.sinamail.sina.com.cn [218.30.115.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1D71CFB6
-	for <ntfs3@lists.linux.dev>; Mon, 26 Feb 2024 10:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=218.30.115.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B156C1DA21
+	for <ntfs3@lists.linux.dev>; Mon, 26 Feb 2024 11:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708944967; cv=none; b=UhirD188WdMtMu6N4os8j5dDCBL6yyAI2er2KnVz9bnvQ970ZnfKtkty3FNRgKvhPXfifvj6TfAN4AG8UcjmROgq4RclA29r0PvMQ0dBwhySnP1ltTIJphrlOHuqQcCTjG2vY0JYkOjpd6XJLISzBpdSVsMVs+6uWj+eCM8omBk=
+	t=1708947965; cv=none; b=RxSQ3JunED00KqLqXDBzwv0TzO2s9S9jtJa7+KDnAP3MJKBTfwef3uhauhA74gdDl8phOo2dWbc1vQO4mZLQ099ihC3CgrILEdtyniKvKB1o0EtPvlWJKrss0XqSKKJH7eVOofNq4TRqZjyGQf9xlUgl00+TWPVUJv/sfb7tXDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708944967; c=relaxed/simple;
-	bh=Hp2oMV39/LFmyfumxS6WCc8rlgTTMUsnMRb84o1Z+ks=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rwxwfDRbw7AKLUKbTfXpM6UXhMWXK/WcfyuG6arhFCje8oYo9aw0v5JX/4zfKYlSIt9oOxM5uLiPbDO0gdFEE4Wuy2JylgnKNXrVqfDT5aoj26SZkdoX+Jy9RpXptUSEVlV+rdkySrUzj3FZqybrtG4Kas267m9LltbJwB0Jpvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; arc=none smtp.client-ip=218.30.115.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([113.88.50.169])
-	by sina.com (10.75.12.45) with ESMTP
-	id 65DC6E1400005AA5; Mon, 26 Feb 2024 18:55:19 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=hdanton@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 3718231457759
-X-SMAIL-UIID: C180C45CB92344D9A4E456E3C4AA5979-20240226-185519-1
-From: Hillf Danton <hdanton@sina.com>
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: syzbot <syzbot+c2ada45c23d98d646118@syzkaller.appspotmail.com>,
-	almaz.alexandrovich@paragon-software.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [ntfs3?] possible deadlock in ntfs_set_state (2)
-Date: Mon, 26 Feb 2024 18:55:06 +0800
-Message-Id: <20240226105506.1398-1-hdanton@sina.com>
-In-Reply-To: <ZdwSXCaTrzq7mm7Z@boqun-archlinux>
-References: <000000000000998cff06113e1d91@google.com> <20240213114151.982-1-hdanton@sina.com>
+	s=arc-20240116; t=1708947965; c=relaxed/simple;
+	bh=S1DH6N129w+vMq5/UljzKNmTTX+FRMOyP1Xrb7w06Bs=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=JhC7C/fQXsoe4Ts0zUurCSfDLkldn2MrTmqxqvcA/fD65OuoWHK2YPem0EU3spauZvWaaNpOnj//W7ce2TEl/y7Nya9+MozIUd/WmztAmtbInbFC5XAwNKIDoW37NX0VAAP74sBQ1zPdRMekTKvtRjHcNgYnt4kZM+TZMRZaZlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-36424431577so26648185ab.3
+        for <ntfs3@lists.linux.dev>; Mon, 26 Feb 2024 03:46:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708947963; x=1709552763;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Co4mHqcajZ+TaVXtj1uAZr7j1bhwGXeKEUyHjDEeql4=;
+        b=ltZKAu1dLHD1hUs4YnA0ta7cblOBwLzeZ8Er66hS0GCpcUnJLH02eFCST6EOl5Lwer
+         VSYgKXLqbm7uMyKYBVaQGNrQid+hLYJF18j9t0FzNwDll1DTEXz8hNHeVB7Mk5bEWwY4
+         yR6iPTThtHOLrwrHrGzSFX+/lExd4AD8keXdGdlpZGbLeb2cyZITdgSoPv4qzT9+Z+zL
+         Ngwa8wETw+29eWtvJaJ9ycroqNuH+Gy7jl0FKZ9b1ahyLxjfW5oOLE8R0ZQS5e5BIqR2
+         /O/K2Y/kCnnMaN3HWNF1ZbKMx1+dLemZQlj9M4ecLr/RzNMnqJWKTlemaK3zry1KMBkb
+         ayTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUzEufNfoG+zWCoFs13FbMtAppElcS2bMVqAIJv76J8GHnvbKg423CIQLFX9H34sTd22NTOkS0oYRj0X8fiN+mUnGqkFE8=
+X-Gm-Message-State: AOJu0Yzp78dL/Ef/DIHWdufBbX2nZ/Gi/jcQ9VDyL5hf5JLQR39PDO3x
+	gzNXJFxGXN6lJ/5yM7smCSiy1M6SEYlUmEE/7WON+5yYiIp4aDF8gbVzhgDfmWiU+W9p5Cf6U/L
+	DUSWjl/bc0Kg8Th3eM6DAV0LqqKo0n7KEiMNbencUrqyCEi2OCqOhqRE=
+X-Google-Smtp-Source: AGHT+IHIVqTZZ7YCL3IN8GhgKNZ48yzHqYO4fermQmaHfAwR6BgfFyKH6DsdKtx8xrqBPkzE+Y2WHuiAXDPL2Aoeo4nERWuFkxCB
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:3885:b0:365:2f9d:5efc with SMTP id
+ cn5-20020a056e02388500b003652f9d5efcmr328599ilb.6.1708947962903; Mon, 26 Feb
+ 2024 03:46:02 -0800 (PST)
+Date: Mon, 26 Feb 2024 03:46:02 -0800
+In-Reply-To: <20240226105506.1398-1-hdanton@sina.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000044c2da06124774f7@google.com>
+Subject: Re: [syzbot] [ntfs3?] possible deadlock in ntfs_set_state (2)
+From: syzbot <syzbot+c2ada45c23d98d646118@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, boqun.feng@gmail.com, 
+	hdanton@sina.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, penguin-kernel@i-love.sakura.ne.jp, 
+	syzkaller-bugs@googlegroups.com, torvalds@linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 25 Feb 2024 20:23:56 -0800 Boqun Feng wrote:
-> On Tue, Feb 13, 2024 at 07:41:50PM +0800, Hillf Danton wrote:
-> > On Mon, 12 Feb 2024 23:12:22 -0800
-> > > HEAD commit:    716f4aaa7b48 Merge tag 'vfs-6.8-rc5.fixes' of git://git.ke..
-> > > git tree:       upstream
-> > > console+strace: https://syzkaller.appspot.com/x/log.txt?x=100fd062180000
-> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=1d7c92dd8d5c7a1e
-> > > dashboard link: https://syzkaller.appspot.com/bug?extid=c2ada45c23d98d646118
-> > > compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-> > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11fcbd48180000
-> > > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17f6e642180000
-> > > 
-> > > ============================================
-> > > WARNING: possible recursive locking detected
-> > > 6.8.0-rc4-syzkaller-00003-g716f4aaa7b48 #0 Not tainted
-> > > --------------------------------------------
-> > > syz-executor354/5071 is trying to acquire lock:
-> > > ffff888070ee0100 (&ni->ni_lock#3){+.+.}-{3:3}, at: ntfs_set_state+0x1ff/0x6c0 fs/ntfs3/fsntfs.c:947
-> 
-> this is a mutex_lock_nested() with a subkey 0.
-> 
-> > > 
-> > > but task is already holding lock:
-> > > ffff888070de3c00 (&ni->ni_lock#3){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1141 [inline]
-> > > ffff888070de3c00 (&ni->ni_lock#3){+.+.}-{3:3}, at: ni_write_inode+0x1bc/0x1010 fs/ntfs3/frecord.c:3265
-> 
-> These two are try locks.
-> 
-> > > 
-> > This report looks false positive but raises the question -- what made lockedp
-> 
-> This is not a false positive by lockdep locking rules, basically it
-> reported deadlock cases as the follow:
-> 
-> 	mutex_trylock(A1);
-> 	mutex_trylock(A2);
-> 	mutex_lock(A1 /* or A2 */);
-> 
-> Two things to notice here: 1) these two trylock()s not resulting in
-> real deadlock cases must be because they are on different lock
-> instances, 2) deadlock detectors work on lock classes, so although the
-> mutex_lock() above may be on a different instance (say A3), currently
-> there is no way for lockdep to tell that. In this case, users need to
-> use subkeys to tell lockdep mutex_lock() and mutex_trylock() are on
-> different sets of instannces (i.e. sub classes). Note that subkey == 0
-> means the main class.
+Hello,
 
-Test non-zero subkey.
+syzbot tried to test the proposed patch but the build/boot failed:
 
-#syz test https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git  716f4aaa7b48
+failed to checkout kernel repo https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git on commit 716f4aaa7b48: failed to run ["git" "fetch" "--force" "--tags" "4d52a57a3858a6eee0d0b25cc3a0c9533f747d8f" "716f4aaa7b48"]: exit status 128
+fatal: couldn't find remote ref 716f4aaa7b48
 
---- x/fs/ntfs3/fsntfs.c
-+++ y/fs/ntfs3/fsntfs.c
-@@ -944,7 +944,7 @@ int ntfs_set_state(struct ntfs_sb_info *
- 	if (!ni)
- 		return -EINVAL;
- 
--	mutex_lock_nested(&ni->ni_lock, NTFS_INODE_MUTEX_DIRTY);
-+	mutex_lock_nested(&ni->ni_lock, NTFS_INODE_MUTEX_NORMAL);
- 
- 	attr = ni_find_attr(ni, NULL, NULL, ATTR_VOL_INFO, NULL, 0, NULL, &mi);
- 	if (!attr) {
---
+
+
+Tested on:
+
+commit:         [unknown 
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 716f4aaa7b48
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1d7c92dd8d5c7a1e
+dashboard link: https://syzkaller.appspot.com/bug?extid=c2ada45c23d98d646118
+compiler:       
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=172e5f4a180000
+
