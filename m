@@ -1,77 +1,249 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334B714012;
-	Sun, 25 Feb 2024 14:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D428D1A5AC
+	for <ntfs3@lists.linux.dev>; Mon, 26 Feb 2024 04:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708870911; cv=none; b=QxHfHXFy7QJkwudRTf5HaWfI18QJXx0FP5vWj5ZSIR/iorbyuIfc6gnaJiiixLFs1EOyg9GYE26E+qjE3Q9J9iGXPw1qROCiIhjyPREvnMvOg5PrcddHmpWl5Wqe7jhYDQRB7YEqGFBYME+hWbHtxWX13CyEFSvXqe1u2Ci+Ejs=
+	t=1708921477; cv=none; b=KuDbj78Bi5eYZsiwJCEjl2walFfAVRNFviDtM02k6bT3GzaaXRnK0NCH2KzdRUZrIBKPZ6JdGEk5XPc2iDN/PzC9T9ef8KEPRCHLcOEBMh6413BuKaikDZ3rbG2qUiWm6Dx7oI6p/cyZwR5zbB6u+LTvg4WI2P1Y+I8/k5B3zDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708870911; c=relaxed/simple;
-	bh=RCSh2ROZ/iFeMJsDJRaRk0vcrWxy8Y3mHcAABJnhl5A=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:References:Cc:
-	 In-Reply-To:Content-Type; b=ERwXjnv8Ka+uaG7vPtZJAQdVqoxnE+rXlntMX8udIygUrhxq1pENVi7BaamT2Q43WmATpJuKQmtlFHy5OAgEpSw/ANSZk8b8rMZc9Zvpe3f2eITMJDO6gMn5nZKJ72PhDo2UjG2DlQXr4PnF28DGp6//wevgsTOtlu3HiazC2ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=CGN+DXPw; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1708921477; c=relaxed/simple;
+	bh=qcqEaGzQWy2K4XWuuhIFuuqeDkBLql4NDO/YoZO1nTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IOZe+tw8wwlsrvQEqfYaaQfGwax0v/ZH249KI+RyPfCJpOmCLwwFqAQ8xQ8dT6X/8u8xsevxQ5AXttgsOIsahR7fG5PnVhBOb7BT4luKrODtxXIaLK/Qh6b+bCEbVElXTWmxOkk6hyXq41WpOAy6royDKrZZH8Bko/+jNtXk8fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M0ta7QZ1; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="CGN+DXPw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:Cc:Reply-To:References:To:From:Subject:MIME-Version:Date:
-	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	In-Reply-To:References; bh=5zcxi1j2bz9y7GX419P/KFYBN93Ly9pm3MHmLrZHkIA=;
-	t=1708870909; x=1709302909; b=CGN+DXPwpjp7tELQUqJ237fTJraF2a62JvOi3sYTDkieDHr
-	LbVBJquOZaZ6L+uftuZtCXlEEQrQpmRvL4Gxu8+TppKie+jBmVskIaIgtrQftnf3C2KoiN7YbBYSY
-	s9KhyB+7dTDp6hkDN+aXoHllFiN7TXvlWL8VHuQrX2XqltuG+eHIv6M3Sw4WeYFOsBg4DGG1PGgKW
-	T+p3t05v7rBKtlceC9GMR++lPSX5L5767N9QK+Y5Fm0ytOCt2aUpmFH8o7Vqkjf+M61Hwtr3cEGBk
-	4b2H/DJsE4zcTTpM3RfdR6hg1prfL+fDMr8aufsflE0gCAEAEUodTIUvKV1YJ0EA==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1reFNz-0003Ps-2p; Sun, 25 Feb 2024 15:21:47 +0100
-Message-ID: <5ffb73e0-4b00-4bbb-857a-30a48945758d@leemhuis.info>
-Date: Sun, 25 Feb 2024 15:21:46 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0ta7QZ1"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-787bc854a77so157615185a.3
+        for <ntfs3@lists.linux.dev>; Sun, 25 Feb 2024 20:24:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708921474; x=1709526274; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y5hcfbJm00KFDUujxMG7JzPHaMn5k7FHxNAb1yVdXMY=;
+        b=M0ta7QZ1kaYV0byH00EvjEA+zsohl4JKhHq88WAqmzcJl8aYl/iPahvN/wuoyIEo3J
+         FMZwhJg28iWzR8FEmzgKgM7nx/TU8zDOyOQFxXL2R2Gn3THCWemB9Yj7aQ6cykrYVCKG
+         ZOhL7GsXOlQh3UrtcmRMsexZlOzPhOCk8X7xkamFFsg65HEUkBiI6Y03Bc+nbcqmKeaJ
+         T6UT8tRryXhUaeasO7oxV8+GKHCqV8hGxtKHgb3ozkcGyUhl1vNWQe2ebFmIjmILTvaF
+         XpEt+ebMdivgU6aus5xOBA5SICHPSfHh3V055qAQULPUoQ5x+GZUNgSzvp5c6R5DEdTv
+         16Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708921474; x=1709526274;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y5hcfbJm00KFDUujxMG7JzPHaMn5k7FHxNAb1yVdXMY=;
+        b=HLq8Z6KVB9G5gT/kuRllFbXx1xjLvVmhk+zSx4Q4sObcr9ReZjtLDiIzZC/SjSWcGS
+         /KkQqevnjw20tgHF6Bn0UezqmELiYYqr6syMg66minznoGXwItxe249Y/XFMQrz8gV6H
+         1mFdngQzavn5OqtAdf7dN/0R4/dt1MMPSWyMozGqEVsp71nLVDg6J1fOLbYd12mKEF/K
+         EKnUCXRGLUwIOhoVnhDCdk64pPuNgSLwpcjtPP8AXjTOkSgQNWGoF/AC/Seml+n1u0di
+         SNr4kpSjSwKO+MvvkO3108duv87tJAK4XsAPaTXK0OohmFsqihGAcGOqF7S+Qu2qKfPh
+         6N1g==
+X-Forwarded-Encrypted: i=1; AJvYcCXZ4p31gXqMbQ7W++QcY8T+ONqEq9UFOmcpA/UgAyMQVKxKuEm8jcSs6tLiQuh4Jq3rcDEk39ICMM8r8fs2xwyPbP5N/YQ=
+X-Gm-Message-State: AOJu0Yw/Y046TR1XMstWxwJEH4QHnhJ2htfqvRhcjOnXMBEHrv4eirww
+	wbAMy9LqNdrEOS8inRVaPMYfprdM10yQJc7BcWK07FcmqlUdJAKI
+X-Google-Smtp-Source: AGHT+IG+iZN6LsYo/klFrFA/+JwrzlNrmlQduMMlaBP2gTLmV9vNzbRDJPhrO8RP2MI8X44MhmXdhQ==
+X-Received: by 2002:a05:622a:408:b0:42e:8835:592b with SMTP id n8-20020a05622a040800b0042e8835592bmr1100639qtx.3.1708921473676;
+        Sun, 25 Feb 2024 20:24:33 -0800 (PST)
+Received: from fauth2-smtp.messagingengine.com (fauth2-smtp.messagingengine.com. [103.168.172.201])
+        by smtp.gmail.com with ESMTPSA id fp7-20020a05622a508700b0042e6d2dd6bbsm2046044qtb.11.2024.02.25.20.24.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Feb 2024 20:24:32 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfauth.nyi.internal (Postfix) with ESMTP id 5D2E8120006A;
+	Sun, 25 Feb 2024 23:24:32 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Sun, 25 Feb 2024 23:24:32 -0500
+X-ME-Sender: <xms:fxLcZVaRFbXj3bFuhQDzA04DrmW3ZQyaayD24UMRTw3ztHYZY5s5cg>
+    <xme:fxLcZcZBAFIgtFd0fZbQmPqgDvBJK1wPJybmsVz6QTpNr_q0Z0Ex3a6FxZuwUiKbh
+    As7BxHGq0ueBDv-Ug>
+X-ME-Received: <xmr:fxLcZX89HHMsji6ratmxLP2DBMRroBwlZ2q4PzydHZcoVyaH0jzojS1jwYnsog>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrgedugdejtdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
+    fuuhhsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpeffhffvvefukfhfgggtuggj
+    sehttdertddttddvnecuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvg
+    hnghesghhmrghilhdrtghomheqnecuggftrfgrthhtvghrnheptdfgffeuvedtvddvhefg
+    feevheeuheelueejteejieduudehjeehgedvgfelffelnecuffhomhgrihhnpehshiiikh
+    grlhhlvghrrdgrphhpshhpohhtrdgtohhmpdhgohhoghhlvggrphhishdrtghomhdpghho
+    ohdrghhlnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedt
+    ieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfh
+    higihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:fxLcZTq1PXqvL0JGoVlquqGBpTRYtpWglh9jiG1sMvR_JuA7zlr6YQ>
+    <xmx:fxLcZQoK1BaK2HCNfGyBMAEXN-TLpTLi6CyP0TA4fyjH_Huf571Q6Q>
+    <xmx:fxLcZZTea6dVxnkiEmwN6VQe1Sg0OO_40hukYAcrfyY8SH9iXLJPyA>
+    <xmx:gBLcZX2YcoAlSPP3L-5ieIHlKv_GB-fvMw5_q35uY0TP-VoY8FipKIrJbIQ>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 25 Feb 2024 23:24:31 -0500 (EST)
+Date: Sun, 25 Feb 2024 20:23:56 -0800
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Hillf Danton <hdanton@sina.com>
+Cc: syzbot <syzbot+c2ada45c23d98d646118@syzkaller.appspotmail.com>,
+	almaz.alexandrovich@paragon-software.com,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [ntfs3?] possible deadlock in ntfs_set_state (2)
+Message-ID: <ZdwSXCaTrzq7mm7Z@boqun-archlinux>
+References: <000000000000998cff06113e1d91@google.com>
+ <20240213114151.982-1-hdanton@sina.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Linux regressions report for mainline [2024-02-25]
-Content-Language: en-US, de-DE
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-References: <170886726066.1516351.14377022830495300698@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- ntfs3@lists.linux.dev,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <170886726066.1516351.14377022830495300698@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1708870909;c050b0ec;
-X-HE-SMSGID: 1reFNz-0003Ps-2p
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240213114151.982-1-hdanton@sina.com>
 
-On 25.02.24 14:21, Regzbot (on behalf of Thorsten Leemhuis) wrote:
-> Hi Linus, things look mostly normal from my point of view and a few
-> fixes for tracked issues are heading your way today or next week.
-> Nevertheless let me mention one issue where I fear that they might not
-> be fixed before the release:
+On Tue, Feb 13, 2024 at 07:41:50PM +0800, Hillf Danton wrote:
+> On Mon, 12 Feb 2024 23:12:22 -0800
+> > HEAD commit:    716f4aaa7b48 Merge tag 'vfs-6.8-rc5.fixes' of git://git.ke..
+> > git tree:       upstream
+> > console+strace: https://syzkaller.appspot.com/x/log.txt?x=100fd062180000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=1d7c92dd8d5c7a1e
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=c2ada45c23d98d646118
+> > compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11fcbd48180000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17f6e642180000
+> > 
+> > Downloadable assets:
+> > disk image: https://storage.googleapis.com/syzbot-assets/ca4bf59e5a18/disk-716f4aaa.raw.xz
+> > vmlinux: https://storage.googleapis.com/syzbot-assets/3d7ade517e63/vmlinux-716f4aaa.xz
+> > kernel image: https://storage.googleapis.com/syzbot-assets/e13f7054c0c1/bzImage-716f4aaa.xz
+> > mounted in repro: https://storage.googleapis.com/syzbot-assets/00ba9c2f3dd0/mount_0.gz
+> > 
+> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > Reported-by: syzbot+c2ada45c23d98d646118@syzkaller.appspotmail.com
+> > 
+> > loop0: detected capacity change from 0 to 4096
+> > ntfs3: loop0: Different NTFS sector size (4096) and media sector size (512).
+> > ntfs3: loop0: ino=5, "/" ntfs_iget5
+> > ============================================
+> > WARNING: possible recursive locking detected
+> > 6.8.0-rc4-syzkaller-00003-g716f4aaa7b48 #0 Not tainted
+> > --------------------------------------------
+> > syz-executor354/5071 is trying to acquire lock:
+> > ffff888070ee0100 (&ni->ni_lock#3){+.+.}-{3:3}, at: ntfs_set_state+0x1ff/0x6c0 fs/ntfs3/fsntfs.c:947
+
+this is a mutex_lock_nested() with a subkey 0.
+
+> > 
+> > but task is already holding lock:
+> > ffff888070de3c00 (&ni->ni_lock#3){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1141 [inline]
+> > ffff888070de3c00 (&ni->ni_lock#3){+.+.}-{3:3}, at: ni_write_inode+0x1bc/0x1010 fs/ntfs3/frecord.c:3265
+
+These two are try locks.
+
+> > 
+> This report looks false positive but raises the question -- what made lockedp
+
+This is not a false positive by lockdep locking rules, basically it
+reported deadlock cases as the follow:
+
+	mutex_trylock(A1);
+	mutex_trylock(A2);
+	mutex_lock(A1 /* or A2 */);
+
+Two things to notice here: 1) these two trylock()s not resulting in
+real deadlock cases must be because they are on different lock
+instances, 2) deadlock detectors work on lock classes, so although the
+mutex_lock() above may be on a different instance (say A3), currently
+there is no way for lockdep to tell that. In this case, users need to
+use subkeys to tell lockdep mutex_lock() and mutex_trylock() are on
+different sets of instannces (i.e. sub classes). Note that subkey == 0
+means the main class.
+
+Regards,
+Boqun
+
+> pull the wrong trigger? Because of the correct lock_class_key in mutex_init()
+> instead of &ni->ni_lock?
 > 
-> * Decreased network outgoing speed due to irq sharing that started with
-> [...]
-
-Sorry, forgot something: there is a patch to fix a ntfs3 build problem
-that was posted 10+ days ago[1] that didn't get any reaction from the
-ntfs3 maintainer at all. Given the history of occasional slow responses
-for that subsystem I thought I'd let you know in case you want to pick
-the fix up directly; but if you do, consider using v2 of the patch[2].
-
-[1] https://lore.kernel.org/all/20240214224500.811609-1-shiftee@posteo.net/
-[2] https://lore.kernel.org/all/20240221104358.2290969-1-shiftee@posteo.net/
-
-Ciao, Thorsten
+> > other info that might help us debug this:
+> >  Possible unsafe locking scenario:
+> > 
+> >        CPU0
+> >        ----
+> >   lock(&ni->ni_lock#3);
+> >   lock(&ni->ni_lock#3);
+> > 
+> >  *** DEADLOCK ***
+> > 
+> >  May be due to missing lock nesting notation
+> > 
+> > 3 locks held by syz-executor354/5071:
+> >  #0: ffff88802223a420 (sb_writers#9){.+.+}-{0:0}, at: do_sys_ftruncate+0x25c/0x390 fs/open.c:191
+> >  #1: ffff888070de3ea0 (&sb->s_type->i_mutex_key#15){+.+.}-{3:3}, at: inode_lock include/linux/fs.h:802 [inline]
+> >  #1: ffff888070de3ea0 (&sb->s_type->i_mutex_key#15){+.+.}-{3:3}, at: do_truncate+0x20c/0x310 fs/open.c:64
+> >  #2: ffff888070de3c00 (&ni->ni_lock#3){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1141 [inline]
+> >  #2: ffff888070de3c00 (&ni->ni_lock#3){+.+.}-{3:3}, at: ni_write_inode+0x1bc/0x1010 fs/ntfs3/frecord.c:3265
+> > 
+> > stack backtrace:
+> > CPU: 0 PID: 5071 Comm: syz-executor354 Not tainted 6.8.0-rc4-syzkaller-00003-g716f4aaa7b48 #0
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
+> > Call Trace:
+> >  <TASK>
+> >  __dump_stack lib/dump_stack.c:88 [inline]
+> >  dump_stack_lvl+0x1e7/0x2e0 lib/dump_stack.c:106
+> >  check_deadlock kernel/locking/lockdep.c:3062 [inline]
+> >  validate_chain+0x15c0/0x58e0 kernel/locking/lockdep.c:3856
+> >  __lock_acquire+0x1345/0x1fd0 kernel/locking/lockdep.c:5137
+> >  lock_acquire+0x1e3/0x530 kernel/locking/lockdep.c:5754
+> >  __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+> >  __mutex_lock+0x136/0xd70 kernel/locking/mutex.c:752
+> >  ntfs_set_state+0x1ff/0x6c0 fs/ntfs3/fsntfs.c:947
+> >  ntfs_iget5+0x3f0/0x3b70 fs/ntfs3/inode.c:535
+> >  ni_update_parent+0x943/0xdd0 fs/ntfs3/frecord.c:3218
+> >  ni_write_inode+0xde9/0x1010 fs/ntfs3/frecord.c:3324
+> >  ntfs_truncate fs/ntfs3/file.c:410 [inline]
+> >  ntfs3_setattr+0x950/0xb40 fs/ntfs3/file.c:703
+> >  notify_change+0xb9f/0xe70 fs/attr.c:499
+> >  do_truncate+0x220/0x310 fs/open.c:66
+> >  do_sys_ftruncate+0x2f7/0x390 fs/open.c:194
+> >  do_syscall_64+0xfb/0x240
+> >  entry_SYSCALL_64_after_hwframe+0x6f/0x77
+> > RIP: 0033:0x7fd0ca446639
+> > Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 61 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+> > RSP: 002b:00007fff0baab678 EFLAGS: 00000246 ORIG_RAX: 000000000000004d
+> > RAX: ffffffffffffffda RBX: 00007fff0baab848 RCX: 00007fd0ca446639
+> > RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000004
+> > RBP: 00007fd0ca4d8610 R08: 0000000000000000 R09: 00007fff0baab848
+> > R10: 000000000001f20a R11: 0000000000000246 R12: 0000000000000001
+> > R13: 00007fff0baab838 R14: 0000000000000001 R15: 0000000000000001
+> >  </TASK>
+> > 
+> > 
+> > ---
+> > This report is generated by a bot. It may contain errors.
+> > See https://goo.gl/tpsmEJ for more information about syzbot.
+> > syzbot engineers can be reached at syzkaller@googlegroups.com.
+> > 
+> > syzbot will keep track of this issue. See:
+> > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> > 
+> > If the report is already addressed, let syzbot know by replying with:
+> > #syz fix: exact-commit-title
+> > 
+> > If you want syzbot to run the reproducer, reply with:
+> > #syz test: git://repo/address.git branch-or-commit-hash
+> > If you attach or paste a git patch, syzbot will apply it before testing.
+> > 
+> > If you want to overwrite report's subsystems, reply with:
+> > #syz set subsystems: new-subsystem
+> > (See the list of subsystem names on the web dashboard)
+> > 
+> > If the report is a duplicate of another one, reply with:
+> > #syz dup: exact-subject-of-another-report
+> > 
+> > If you want to undo deduplication, reply with:
+> > #syz undup
+> > 
