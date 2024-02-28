@@ -1,57 +1,57 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6E26EF0B
-	for <ntfs3@lists.linux.dev>; Wed, 28 Feb 2024 16:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA796EF00
+	for <ntfs3@lists.linux.dev>; Wed, 28 Feb 2024 16:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709137486; cv=none; b=Hh5H5ksrjhS+gEk/x+8mLTiGcJyj1CyHmattWNfi1NUDMLJPJ6QJ8XkVGs4aNo4OJF2hdbSDv8iKw00uYMl5YqRjoxEQHJXejamNwq63On3HqbxlYvJXDsTMIWocnwfwIdxxqQUe26Tx1w1iaHc9/RPcYK6lw4oxf59scAPG1oo=
+	t=1709137608; cv=none; b=oE7AG5R34DJnSxouJeVWRiJiJiIPtKrrJG9DrMsoWHTf6Q++L/gqHEFm8t6ppBUN2k99KG3YBycHoOEPF407Pa+FpaDWlzZHVsPgWEWBV1FKkk3O8lXiuJKwuIweYJ1AVx7ftIbocpCJxzVPrAdqegrwxwt5NXhLO754yAv4Fo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709137486; c=relaxed/simple;
-	bh=vKUF/IwoOUPHwhneZ5hpyMp0Qy1d0T7jwb6stGL3VXY=;
+	s=arc-20240116; t=1709137608; c=relaxed/simple;
+	bh=cX0mbhq0/BEYvXkOM7RWyssC+Bf7DhBCperd504OjNA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YzKtEWTroH2B9xiVgoNYZQuPCdg1sV4G5aJEwbQWP9XDe/8BNuKFNOEXcy0BviiiJDp9ojan7sIpc8+enOl2mA7VYmwwgLOzC63MrHD+eFOyuVWmrP5Cn1kV4uxbEdduu1p6QNTxQTCe5E2oAb/CtPdo+Fr3MhnJn9FAWfBI5bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QB1q/jCh; arc=none smtp.client-ip=209.85.219.177
+	 Content-Type:Content-Disposition:In-Reply-To; b=OyFePebAodLKkfITlpLPC7/P/0FopQ9SX7HbqvsX2v+tR7dPE0bWLCIB1BSPhV83aJmYVJfEm9NhIP/kILNMxr9LQ51wzZk8hDmIDhVRc5SCJT4Shrufeuruk50ob5nQvFEwuPRHQAd+ntSSdr/4mn8JzDk21LGKGtbgP1ul3Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EIMQkuAO; arc=none smtp.client-ip=209.85.219.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QB1q/jCh"
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dc6d24737d7so5182130276.0
-        for <ntfs3@lists.linux.dev>; Wed, 28 Feb 2024 08:24:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EIMQkuAO"
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dcdb210cb6aso6401804276.2
+        for <ntfs3@lists.linux.dev>; Wed, 28 Feb 2024 08:26:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709137484; x=1709742284; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1709137606; x=1709742406; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6yiyiSurF95Yilk417AKvUkFM0dsA83koDFik74Ewi4=;
-        b=QB1q/jChvzIJ2XV+5LPU82HLZZ6raITTX/+zFmzHCccPfZieaVnYwBkL0WRo8GYHpE
-         91+Z7/qzPxxu+7xPAvJKzh8Axl4aGHd1HesoOt70jKM5CpsODD2GUkXyX+ky3L86foUN
-         El8YUj4VHI6pOw1Pp9WzBcnbA8Yy0DsoleR4e5b61aryookIedF2t33mLFjpwxsz2/3p
-         fujqdUV0PW2ZHqv9v0cmlEYc9rodMHJgRDnoGJbGS5QDyg+SLurmfGivH4wHLAjkEQQN
-         Us55qLgUJ5uL+WfxXqNfETn/3PTuTgWN4kOZQA0fTp3I551ckpWZYYoudrkeufmb9Tya
-         6ddw==
+        bh=jKTyKBoJ+zqx71icHaiIJXRtovwN+h+pKT79UfPo2co=;
+        b=EIMQkuAO6IMXmrY4PxoiEeZtixMlm+xILLpdz41+xJi6povx6GlgJJeBamYBkz6q0f
+         y8QPHPKZYo+eA9RD+HjIHyN1F7opSTNXaTEBd0BCOPNg8JpqB8mO7UPfSOQoH6DaHfsC
+         l3MqkzZr5YSC7sD+9mG3uC7j2w5GgXnzh7zc1Z5YhuFbmfv+75Fsqf9NkPKaoRCMY9v0
+         rXIycCxYpT7Ggbv3icicJd1JcThhss6h6D+nwLPUavQY/A0vH43HTQv/IwICfaPGOuX0
+         szv7+bPifapPfC8C0Eu0wriDaFL/cdjelk0WXTxyDVwQEKZHcAE0O5KiXFGGYkhu5P3B
+         yfMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709137484; x=1709742284;
+        d=1e100.net; s=20230601; t=1709137606; x=1709742406;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6yiyiSurF95Yilk417AKvUkFM0dsA83koDFik74Ewi4=;
-        b=Y75K0uCZ7EoGgMG0hRwE0e53mQAbJTB03rw/pi0kQZ8OFK3h4PZLwAnpxEb6uc06yH
-         eN+bIpddEyvGzS0jko8NcZsKvK2GK58Inxjwl1li1xpbejWCrcZQKooAqsYvn4aT1jxQ
-         khX4pNG0bpMlfRdM9LRYUiQC8pB6GdiN0M8zaeN2EYnlaR4BpJZg0tZXXH0Deh6ad5wj
-         eZYvGNFcRK90GbX+din8aj2Kezb2v5S5GdpK+FKE4WqTQ+xq4eMz/LYbda3z2Rthg90O
-         TtDu37QuysfkVD3yy7Z4cyG1YJS84DdAHj3/1qife9nCPU1X//VuGaM3S3487n5CQFDu
-         rEpg==
-X-Forwarded-Encrypted: i=1; AJvYcCW2KW1DAojh8OCe25cffbe86IFhqKAtuwUOy561i/3rarHAQHQJnGLee5wYmt5c1Wth+9AZBzHiEFkfbJGQ5iAKxoWMtCQ=
-X-Gm-Message-State: AOJu0YzDm6nDV9MJ4Vg7xVYme/Hfh0j/MkGl1gfhERnFfPOoVrt/8RgC
-	vCs4JkyiKDKFqbzVhLIUBDBmw0v+febMXoBY26/EoXntf/LqaXB8
-X-Google-Smtp-Source: AGHT+IE97AzDCtBDNO2Sn49xrnDEk1v4Xi/j9mx5F7dqZo00YL4uAX4pijipgcc3CcWP0xNp3S6Muw==
-X-Received: by 2002:a5b:c0b:0:b0:dcf:2cfe:c82e with SMTP id f11-20020a5b0c0b000000b00dcf2cfec82emr2516397ybq.55.1709137483760;
-        Wed, 28 Feb 2024 08:24:43 -0800 (PST)
+        bh=jKTyKBoJ+zqx71icHaiIJXRtovwN+h+pKT79UfPo2co=;
+        b=nYoXmRUFqlaCigW8eu+ctKxgJKvtxNCGRvcaqIx6YRKvuVIM/GqfhZkmCEMCAJKa1z
+         yu41NZcEKxhmkC5sF0FqhI9y1CXw2um+p5icZJUJwQGctJbZ382RMay392vLgpPKNGH+
+         emPD5uBCwfxbm65Wgj/UsGbmbUndBcF8ymYrpqvmW8RMLuMub1jN6JJzy+MsLA4pRSR6
+         MOI8P8Xfd95tgnuYbzIwkUytrkc7OY24NfLOE8B6ZUge1Io/DLJ32X6bawZy0iUbPztF
+         fNjM1XW1Vr2RPJIRjavrN4VSbnC6I6PDFvZRRk90uO2FrQV0uWU6C1R9j9oDZFR/D2zZ
+         VVLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVaWJirJbn9Vh94MHjEbM1H8WCgclWrs6rr7la1IEUWqyK8iF8ktikYRdCcESIJNAKIF6zYaPG3gkIZiTqabtKDJFn/Tsc=
+X-Gm-Message-State: AOJu0YzqNMMyTeO+9GU72KDDizolb1Nua6miqX3UvcHzwEFuYGsY2LqN
+	WjOg4RMWmjElznHub95q4yTsf/YsST2tY9qPIF+DwIvySKUOEmti
+X-Google-Smtp-Source: AGHT+IEzDdshAZPifjikVHSc+ExEKZEbNWC8tYDB1UrSX7QHB04ABcGjvuz4tLQbulb0mZqEO3cKSg==
+X-Received: by 2002:a25:c5ca:0:b0:dc2:2f4f:757 with SMTP id v193-20020a25c5ca000000b00dc22f4f0757mr2619998ybe.7.1709137606029;
+        Wed, 28 Feb 2024 08:26:46 -0800 (PST)
 Received: from localhost ([2601:344:8301:57f0:2256:57ae:919c:373f])
-        by smtp.gmail.com with ESMTPSA id z1-20020a25a101000000b00dcc234241c4sm2063668ybh.55.2024.02.28.08.24.43
+        by smtp.gmail.com with ESMTPSA id x11-20020a25accb000000b00dc6d6dc9771sm2072223ybd.8.2024.02.28.08.26.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Feb 2024 08:24:43 -0800 (PST)
-Date: Wed, 28 Feb 2024 08:24:42 -0800
+        Wed, 28 Feb 2024 08:26:45 -0800 (PST)
+Date: Wed, 28 Feb 2024 08:26:44 -0800
 From: Yury Norov <yury.norov@gmail.com>
 To: Alexander Lobakin <aleksander.lobakin@intel.com>
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -69,11 +69,11 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	dm-devel@redhat.com, ntfs3@lists.linux.dev,
 	linux-s390@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
 	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v5 07/21] linkmode: convert
- linkmode_{test,set,clear,mod}_bit() to macros
-Message-ID: <Zd9eStoaYFlz/ck6@yury-ThinkPad>
+Subject: Re: [PATCH net-next v5 09/21] fs/ntfs3: add prefix to bitmap_size()
+ and use BITS_TO_U64()
+Message-ID: <Zd9exCzbAnOxAY50@yury-ThinkPad>
 References: <20240201122216.2634007-1-aleksander.lobakin@intel.com>
- <20240201122216.2634007-8-aleksander.lobakin@intel.com>
+ <20240201122216.2634007-10-aleksander.lobakin@intel.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -82,29 +82,18 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240201122216.2634007-8-aleksander.lobakin@intel.com>
+In-Reply-To: <20240201122216.2634007-10-aleksander.lobakin@intel.com>
 
-On Thu, Feb 01, 2024 at 01:22:02PM +0100, Alexander Lobakin wrote:
-> Since commit b03fc1173c0c ("bitops: let optimize out non-atomic bitops
-> on compile-time constants"), the non-atomic bitops are macros which can
-> be expanded by the compilers into compile-time expressions, which will
-> result in better optimized object code. Unfortunately, turned out that
-> passing `volatile` to those macros discards any possibility of
-> optimization, as the compilers then don't even try to look whether
-> the passed bitmap is known at compilation time. In addition to that,
-> the mentioned linkmode helpers are marked with `inline`, not
-> `__always_inline`, meaning that it's not guaranteed some compiler won't
-> uninline them for no reason, which will also effectively prevent them
-> from being optimized (it's a well-known thing the compilers sometimes
-> uninline `2 + 2`).
-> Convert linkmode_*_bit() from inlines to macros. Their calling
-> convention are 1:1 with the corresponding bitops, so that it's not even
-> needed to enumerate and map the arguments, only the names. No changes in
-> vmlinux' object code (compiled by LLVM for x86_64) whatsoever, but that
-> doesn't necessarily means the change is meaningless.
+On Thu, Feb 01, 2024 at 01:22:04PM +0100, Alexander Lobakin wrote:
+> bitmap_size() is a pretty generic name and one may want to use it for
+> a generic bitmap API function. At the same time, its logic is
+> NTFS-specific, as it aligns to the sizeof(u64), not the sizeof(long)
+> (although it uses ideologically right ALIGN() instead of division).
+> Add the prefix 'ntfs3_' used for that FS (not just 'ntfs_' to not mix
+> it with the legacy module) and use generic BITS_TO_U64() while at it.
 > 
+> Suggested-by: Yury Norov <yury.norov@gmail.com> # BITS_TO_U64()
 > Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-> Acked-by: Jakub Kicinski <kuba@kernel.org>
 > Signed-off-by: Alexander Lobakin <aleksander.lobakin@intel.com>
 
-Acked-by: Yury Norov <yury.norov@gmail.com>
+Reviewed-by: Yury Norov <yury.norov@gmail.com>
