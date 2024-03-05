@@ -1,78 +1,98 @@
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DFBA64CCF
-	for <ntfs3@lists.linux.dev>; Thu, 29 Feb 2024 10:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52939548F0
+	for <ntfs3@lists.linux.dev>; Tue,  5 Mar 2024 11:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709202545; cv=none; b=jbyYSx1i5cjN20GHxwRD68kX4oa+Zh60rWyXO3vtunrbea30nka/hz2EyB78znRTQC+eMRp1bcjCufNeWavKZ0G3ylXUC3+Ehs+AmUaf5Jy4s8xBEGIa0vZBGyGbcGKdyDorUqU+1FijtXbpxf+cxRF+09iEcSyM9rfFjY4ftIo=
+	t=1709636966; cv=none; b=FK0xiOH6Nrhn/wo3NxYSDisJ4U9IZpq3995pxMzz+q9BwF3nSYH7WrZaAM3Wlt7oOR9QHPWvcSCTyDdox0huhHUKHhj85ENuopRrff6K//mTFii6884R8ah5+7UeTX52uEtifKGJTASbT1vPhEge7z7RgcX8Zb7+ZNo5MjT43sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709202545; c=relaxed/simple;
-	bh=G/v8tih04oAC4s//9EOGB31fFEFCAiSTHed4T5BB2i4=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=hYImIQO5wYtogmlSkhvct2cg07m7WCaMCY/EWjuAaHbkBFjDAJi9p59ce5NjRgZUvxBp5CXTMp9Iw1MrZyAnw1GPWes0U9fkCvu84UEi6dsXv23XF9TEjd5vHFp2uzyp8w+XdqiLIMjyEUj1N4PmW64p9g9pAAjrVDZNYHyDXmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
+	s=arc-20240116; t=1709636966; c=relaxed/simple;
+	bh=YGFkNFR6BVT4HzZEwFfHVNLmz3rtTFWjnXbYP88kSxk=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=qgODXqfy8J+suO2oWbmrxnYG/C+4Hta+bFAOZGZE62KXzSYW/JsImTcpAc4byaEyrMDYLzv/XAzEvC6Rlh4E9GUIPXl/llG8eUbYdRhpDKUqcYVrtvG+Vj37W5J8xGL4A6boq7vQIcvLhlYdwnUoA+pV4DUkF9PRbETEMPu40bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-7c75dee76c0so55189339f.1
-        for <ntfs3@lists.linux.dev>; Thu, 29 Feb 2024 02:29:04 -0800 (PST)
+Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7c49d118546so438761739f.0
+        for <ntfs3@lists.linux.dev>; Tue, 05 Mar 2024 03:09:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709202543; x=1709807343;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=due3BSO2Q9QQy1tfU+DhYvgI9lxf7h7yLmfxg2bj9yE=;
-        b=BUktUb4lPeBGgUiQddUx7zoNCyC5RHTFDtboJWivnsM8dFOCIll2c6ledbbYmwGlGd
-         PB78eWq5N+lw2rH4vDxV37i4fK5hMnn9GMXIrDOo0Eo6XVRTux6NUw6nK36wSO1X5onP
-         F6TPec5OXyjwHcPjQnKMgS1lY0eeznNHKaqUZ4j6wMbZbiXk97ekLbubRsyJgRBFlMnF
-         0Q+y+OB4YJOKD9OB3H1EC7oCLvnQyz4iE5G2ejGj/uixY/nbYED/06XcxBkY6lx/ymuQ
-         XFLWBiPrkcpvB3+/bReUIUe2NT55SHzWtTvRocyU054N/GY/JFbqlDPrQb5ysmGqh32j
-         WQCw==
-X-Forwarded-Encrypted: i=1; AJvYcCXPZfC2U3xbYWy2IQQnPMvCsYYOzHE+lvhesv1ZdTn/4A1qtUDlnqQL36MXxc76rJrgsitXeZzuH5rjXbUi4xfHivQ5jd4=
-X-Gm-Message-State: AOJu0Yy+F7yJtR/DyQh3qBT7wrSmocsteJCAqNT1z6FhPYPkOMV9AeGu
-	aq4vgVWzu3sv7Wy3k83/D2pEQsnuAwCf3d7kMunT/Og0mb5Lh3A+Yl/Xrt6sdNk4Acly2i/xd5p
-	I22IF41qeQQht3tinTrPVT/s8Du7/nmIeH3I2LmhkXqZSHqD3BCtOVwk=
-X-Google-Smtp-Source: AGHT+IG2pzGB/bSL5lyIW4of4SnG2AETh2eVcWNY2PjmAky9W70Ne3ilD1c0bgJEXD2NQSMBqAVmrCjpUxXXw1IVIbbE8VsD2goT
+        d=1e100.net; s=20230601; t=1709636964; x=1710241764;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NINenztmi1JIDOL7+T+uX7S56DXuTaxMwu0U9sYeZh8=;
+        b=a+H5Ipe3qqm37seRroaS7YFOWzXGraA4fgnBiyi1R3vaCsi5KqDVGkz0cP1d9DlYD0
+         BS0t36U1Zp56+cUNKmQSpDWQdbb5PHcAY90idF3W3s66f/nJgI3eWGHsrfsre35TJ0HW
+         +c4uvVPU9aoMxpkKt3jPd884kVP/Ue6XTVZyXhGnVimX1YLEilotgpBNMm9PgRVqv9hj
+         FXl8lqGMxC6Ox03th6qgbQlWFDLpOKDlx8/cT76Ki12CFGWoDIG7jb7k2oQ+7oPwAw6t
+         VDd9WMkj+Zisi71ScMtuJEpg7e5u96IcZyhHyDOxko9722zqKOY9e8eluojm8iu/AYy6
+         UFIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXgmcoQ2U+fM5MCEJZAtP2Ga3qjkM4HPaB2rD5b1oUgAuexnv28hYmpfsZrFHf/BIlutLtPlZFxHwgCkFYE+B/fRVtqavA=
+X-Gm-Message-State: AOJu0Yy3CO8+wlR9E4T3niz9fPNOEUZ8ZNU2dj3hQcWzp2p3daAWNspV
+	18+N99A9Dh0rilV1hCZ5vKmzPqgebLuEkfH3m/Z29IH+91u1bUVBedYgmbLYtNDedMhHRRs7fTF
+	0HqMK0IyVMzqZokEOvKtc/XifpBqJgXJrpSsBhggONMsUkXnYZwjHMPE=
+X-Google-Smtp-Source: AGHT+IE8tLV4V8t6SSMxemP9bmpaV+de9LW7kK6fYoUBrxgLrKYcz39WotJL8USLPdsfzWA0LRuRhuqaoYh+S/SiAs0RcNxheZBZ
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:3c45:b0:474:ba84:8ded with SMTP id
- bg5-20020a0566383c4500b00474ba848dedmr69269jab.0.1709202543676; Thu, 29 Feb
- 2024 02:29:03 -0800 (PST)
-Date: Thu, 29 Feb 2024 02:29:03 -0800
-In-Reply-To: <000000000000602c0e05f55d793c@google.com>
+X-Received: by 2002:a05:6638:35a7:b0:474:d2f6:f0d1 with SMTP id
+ v39-20020a05663835a700b00474d2f6f0d1mr71197jal.1.1709636964623; Tue, 05 Mar
+ 2024 03:09:24 -0800 (PST)
+Date: Tue, 05 Mar 2024 03:09:24 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000007717e5061282baa0@google.com>
-Subject: Re: [syzbot] [ntfs3?] kernel BUG in ntfs_iget
-From: syzbot <syzbot+d62e6bd2a2d05103d105@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, anton@tuxera.com, 
-	axboe@kernel.dk, brauner@kernel.org, jack@suse.cz, linkinjeon@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev, 
+Message-ID: <000000000000f8b0ab0612e7dffa@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Mar 2024)
+From: syzbot <syzbot+list6abea8b8591745b4404a@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
 	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-syzbot suspects this issue was fixed by commit:
+Hello ntfs3 maintainers/developers,
 
-commit 6f861765464f43a71462d52026fbddfc858239a5
-Author: Jan Kara <jack@suse.cz>
-Date:   Wed Nov 1 17:43:10 2023 +0000
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-    fs: Block writes to mounted block devices
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 47 issues are still open and 41 have been fixed so far.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=105d5a6a180000
-start commit:   2639772a11c8 get_maintainer: remove stray punctuation when..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f8e72bae38c079e4
-dashboard link: https://syzkaller.appspot.com/bug?extid=d62e6bd2a2d05103d105
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1358d65ee80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10dbbe45e80000
+Some of the still happening issues:
 
-If the result looks correct, please mark the issue as fixed by replying with:
+Ref  Crashes Repro Title
+<1>  11885   Yes   VFS: Busy inodes after unmount (use-after-free)
+                   https://syzkaller.appspot.com/bug?extid=0af00f6a2cba2058b5db
+<2>  3848    Yes   kernel BUG at fs/ntfs/aops.c:LINE!
+                   https://syzkaller.appspot.com/bug?extid=6a5a7672f663cce8b156
+<3>  2589    Yes   possible deadlock in ni_fiemap
+                   https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
+<4>  2164    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<5>  2136    Yes   KMSAN: uninit-value in longest_match_std (2)
+                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
+<6>  1940    Yes   kernel BUG in __ntfs_grab_cache_pages
+                   https://syzkaller.appspot.com/bug?extid=01b3ade7c86f7dd584d7
+<7>  1785    Yes   possible deadlock in attr_data_get_block
+                   https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
+<8>  1003    Yes   possible deadlock in mi_read
+                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
+<9>  672     Yes   possible deadlock in ntfs_fiemap
+                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+<10> 645     Yes   possible deadlock in filemap_fault
+                   https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
 
-#syz fix: fs: Block writes to mounted block devices
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
