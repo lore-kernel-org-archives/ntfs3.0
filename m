@@ -1,201 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8B855C07;
-	Mon, 18 Mar 2024 18:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6C47BAEC
+	for <ntfs3@lists.linux.dev>; Tue, 19 Mar 2024 03:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710786553; cv=none; b=HEhc/HPyfDtzMPoKq62otdwBBzg1I2FVXUE/wRGvr/bNd2UbRgiLEhHW6VdmKx/Ac9jT7JXOc+zOJgrK9rPMGds1sWaMfaUwMueLvmeLX+JyObbdxZw4vzGfhFH+azjBOYLUqKpSxxYJX8REFR7PcTvVWeH15lQFh4RjaRw1ZtY=
+	t=1710819715; cv=none; b=gdKQK0r2JWfq6QNTVi7KaGZ2U+0Y9IqvT7kY+cjfSg45EoFRp8NvX42hLQ/e5/+nQjvFXGZ3qgZXqrnYAFjLv6SD06rymbpNRdZ8z1aZhK5UeJd0Yx+I5vNXI30U9qjn9vsX5xSuWn+86itVqFdeA5chkhanjd1v89I8tanUlso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710786553; c=relaxed/simple;
-	bh=4BiSnBXF2XntdujNulUT7s4tD/RrjPjxiNCH97QXwF4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rqfPOvb8r4uv5uvzA+VHajZ9W5kmWhq3Uk2PiITfRgu0R1AXk4x+aDKWDybw2HT9GoZ4ggin8YXDHsbr46nLRD75Yu3iC2AvDeJX2r+xDTxgVC392eUpv1rVvjqyxi8u3YGFeMIn3fcvszANWa1JHtgwIhllrfhzSNZITyNDKr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rxieFLyG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710819715; c=relaxed/simple;
+	bh=5IKGUsT604SarA2pp8tkcU2re0vSyfgx4KAPcX1TIRw=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=LxOqWLeUeuMuN4CJ/0/P6ZhlxSEzbawCjDPU95H9hpXFFi0OFs+cXZCqDDvko3RCvNyeYW8vNp/30ihaCDtMX0F6HbQaNB5COsA6tXvDAyVSS1L+dSuQyUGXjvhhH1emPC16luSj3sKSYZEpepEFMgBay6CYpvA+6NMTWOAtIw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N/lf00Ce; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rxieFLyG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1689FC433F1;
-	Mon, 18 Mar 2024 18:29:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710786552;
-	bh=4BiSnBXF2XntdujNulUT7s4tD/RrjPjxiNCH97QXwF4=;
-	h=From:Date:Subject:To:Cc:From;
-	b=rxieFLyGRT76cOB5hREmWHq0exWv5OwSlzGrKK5pMe3PZjAu6CbZjnRHQK20eL3di
-	 1r8T5wJ/UYZ2+fEBtir0gbCgsIs1JlI9mno8d0rpCIDTEv1DUzsEGPQjBLgF+i50ke
-	 witk82ptXef2U4o8mVt+g0MoCnii8ghNuVEea3KacErBxdqoMDD0W1P2szHwTRT1oL
-	 5meV8a1N0/3vO+nsZfkmOVe+nEERtEN1MYu5yOTxdoz94RhsOtiN0n01cbAXdqhd1h
-	 kbVwOKkjYpHCKw+wGLYTAvg5lMovBKBGo/QpPsh/Y9ajmV0R/+oZky0q4ZFaaDExh5
-	 0diPrkn3HtYVw==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 18 Mar 2024 14:28:50 -0400
-Subject: [PATCH RFC] ntfs3: remove atomic_open
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N/lf00Ce"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a46a7208eedso349666866b.0
+        for <ntfs3@lists.linux.dev>; Mon, 18 Mar 2024 20:41:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710819712; x=1711424512; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=mj4OaTRPaGpT+VE2SxHG492qkZ7v9cu6nzH2I5lHJo0=;
+        b=N/lf00CegadyOrE8ycnrqrB7pel1EDn6fYQqdZRWxCW8ZgSwnwDm9oDnfORr3HVbI4
+         Brlad/Pe3XDQ56ZZMtGTe4uzefGFXPtc2MH90vyLmt1XacqyZmILnrOLViXiZky77DtQ
+         Ai6z+rHOKdsfOTht00aHi3SnKCmREZabnGyQ1U6MI6UBbPi1XWqWwg2HFM7dIniSv0wi
+         5+PSHklAG6UUcqu7C9N97RBylBm3N5G2pSzdxTAXl02FG033+GUJjLMOgMRPLrvYk5Q+
+         CRGsi7iPg4dudSVS8ciOzabJepHw8643pdEwd4y+ZQ1LujQ482gj9AM51EBGxZo7qXuf
+         BKHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710819712; x=1711424512;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mj4OaTRPaGpT+VE2SxHG492qkZ7v9cu6nzH2I5lHJo0=;
+        b=F4KeCoGhyGY3rvF2LTxVjn6QGnH0CSeeyvnJntQKpwN9dFdrbHOfKFpt3vLyzKjoAq
+         ygdtWxOVUgIeGrTWZ+b7n1fqHLUa+fEmru/T1ALHG0nvJtOU2H2tpgq4y7N+a25Ot6mY
+         JaXTd5LPf+NjdT4l1YnjLF9ZwoqgjdhAKm9CwDqoVlthS7wRH090cby/zczEVQpi/Pr9
+         mCeSpuvV9vspq7FuVBb0EW0ND8KTCw77v7zPGjFwHrEid2tqYov8O7NYU7q7BW+uHkTX
+         lpZx6x41X5ixT9UJrx36OA2uhj55v4z0EMcOtQjdKfvrYF7atozGNvbTZB/UW8JXOZ2A
+         iBxw==
+X-Gm-Message-State: AOJu0YyOkzCK/zJh6rISLhzaZYtQO7Z2waocT444R8JJmt8FkIjHxPcG
+	EvvQop+X+5GOYvjPXd1BVIrFKw4CDzEV4AJL2qs3sxeHYYZcrMFNumPFK7ozyc/1IWJjvJID2qC
+	cta1axXG1TW5JO9d8YlNc3lqMoo30GH5z8OcU/g==
+X-Google-Smtp-Source: AGHT+IGqcRxZMy5x4YNOXmmetPaMziE4M4LTRjPiPYX68i7FTii1YRYfgVWH2OzCnecKAK337z0msDxOUL01j+QQ1fQ=
+X-Received: by 2002:a17:906:ef0c:b0:a46:c01b:7e2c with SMTP id
+ f12-20020a170906ef0c00b00a46c01b7e2cmr3675532ejs.75.1710819711931; Mon, 18
+ Mar 2024 20:41:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240318-ntfs3-atomic-open-v1-1-57afed48fe86@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAOKH+GUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDY0ML3byStGJj3cSS/NzMZN38gtQ8XYPkZEtzyxTzZKASJaC+gqLUtMw
- KsJnRSkFuzkqxtbUAMe9nWmgAAAA=
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, ntfs3@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3536; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=4BiSnBXF2XntdujNulUT7s4tD/RrjPjxiNCH97QXwF4=;
- b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBl+Ify5+ag2l9CjEgDqMW/OZyFDhQDA+SVLVzKv
- p5Fta4VoIyJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZfiH8gAKCRAADmhBGVaC
- FY7wD/0XW6LwAkm0hdlpMO20mie+EqZnQNvNoXjZWMXJcV+rYPS1oWHc3eRlh3aseEGkXSWBJ3r
- djujh2o+yWLj2axMk+k9ZEdxRaEMgh0dnsrgdOi0Ot+GqNUZih24E7slSwm+5eE0oz40J3LjNm5
- Y2uj4pD7FdrrXf0CVLQpV7O02nLIw9/dQLAuSs0vQUZYxx+OaW+r9DeJXblaCDcrKqHsJKF07v5
- f6Stqsen8Fi6XVGOCdwgF2FyEVBwn+nexirtbYcLlpibP6/WKEqkIn7ZlyPLf0IYz5NXRKua4z5
- hgJgC0yyi/W0RMoN6/pUDhOocROGouEbSEFulzhp+yP01aQbEfE2Ceh1E/BHyyUrmzp4NcvRvUS
- tejN9LIXJzCeswyo1Sj/CKhZ0Z2MQPVjEhBVFRm0uZTUSE3WBUM9bLtTSFKmF6fNDeMApGogdmr
- 5TTQNh8cDhDk0F+XHoGiaiLj6kvWW05XuWzrEsUHi6MIOFriHIh2KkdjXJsmK7VX4vbsSB0IdNg
- CtrQIqQmdt34q4LvHnCP1WvuFC7WCzLc94j8tNl4X5metw9u8MpcWzDVAi/1ny/8wL7Lp2RLM0q
- iu/Aff89joy1pkWwcUP7ygjyucknK4AerThCyPAAHc34bFZg0lBebP32+XVidJbikmX6/Pn0kzg
- p1YxMrzKOZLj92Q==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+From: Russell Greene <russellgreene8@gmail.com>
+Date: Mon, 18 Mar 2024 21:41:41 -0600
+Message-ID: <CAAOCm6qrUu6n-oHK85hzFR5hWtf_NFckJZcDqHRBH6m1K6z38Q@mail.gmail.com>
+Subject: PROBLEM: ntfs3: nocase option seems to be registered incorrectly, has
+ strange behavior
+To: ntfs3@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-atomic_open is an optional VFS operation, and is primarily for network
-filesystems. NFS (for instance) can just send an open call for the last
-path component rather than doing a lookup and then having to follow that
-up with an open when it doesn't have a dentry in cache.
+The nocase ntfs3 mount option seems to be incorrectly registered and
+requires passing nonocase. It seems this is because it was registered
+like
+fsparam_flag_no("nocase", Opt_nocase)
+It is reported correctly in mtab because ntfs_show_options seems correct.
 
-ntfs3 is a local filesystem however, and its atomic_open just does a
-typical lookup + open, but in a convoluted way. atomic_open will also
-make directory leases more difficult to implement on the filesystem.
+If you do go ahead and add nonocase to your mount options, there's
+some interesting behavior. It feels a bit random, but here's one
+surprising sequence of commands:
 
-Remove ntfs_atomic_open.
+# mount -t ntfs3 -o nonocase /dev/nvme0n1p3  /mnt
+# ls /mnt/ars/build/CMakeCacHe.txt
+/mnt/ars/build/CMakeCacHe.txt
+# ls /mnt/program\ files\llvm\bin\clang.exe
+ls: cannot access '/mnt/program filesllvmbinclang.exe': No such file
+or directory
+# ls /mnt/program\ files/llvm/bin/clang.exe
+ls: cannot access '/mnt/program files/llvm/bin/clang.exe': No such
+file or directory
+# ls /mnt/Program\ Files/LLVM/bin/clang.exe
+'/mnt/Program Files/LLVM/bin/clang.exe'
+# ls /mnt/program\ files/llvm/bin/clang.exe
+'/mnt/program files/llvm/bin/clang.exe'
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
-Am I missing something about why ntfs3 requires an atomic_open op? In
-any case, this is only lightly tested, but it seems to work.
----
- fs/ntfs3/namei.c | 90 --------------------------------------------------------
- 1 file changed, 90 deletions(-)
+It's tricky to get exact reproduction instructions as if I ran this
+sequence of events again, it would likely work. Maybe based on
+something being cached or not? I kept my typos and commands that did
+work in there as they may be relevant, idk. Again, it's quite random.
 
-diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
-index 084d19d78397..edb6a7141246 100644
---- a/fs/ntfs3/namei.c
-+++ b/fs/ntfs3/namei.c
-@@ -358,95 +358,6 @@ static int ntfs_rename(struct mnt_idmap *idmap, struct inode *dir,
- 	return err;
- }
- 
--/*
-- * ntfs_atomic_open
-- *
-- * inode_operations::atomic_open
-- */
--static int ntfs_atomic_open(struct inode *dir, struct dentry *dentry,
--			    struct file *file, u32 flags, umode_t mode)
--{
--	int err;
--	struct inode *inode;
--	struct ntfs_fnd *fnd = NULL;
--	struct ntfs_inode *ni = ntfs_i(dir);
--	struct dentry *d = NULL;
--	struct cpu_str *uni = __getname();
--	bool locked = false;
--
--	if (!uni)
--		return -ENOMEM;
--
--	err = ntfs_nls_to_utf16(ni->mi.sbi, dentry->d_name.name,
--				dentry->d_name.len, uni, NTFS_NAME_LEN,
--				UTF16_HOST_ENDIAN);
--	if (err < 0)
--		goto out;
--
--#ifdef CONFIG_NTFS3_FS_POSIX_ACL
--	if (IS_POSIXACL(dir)) {
--		/*
--		 * Load in cache current acl to avoid ni_lock(dir):
--		 * ntfs_create_inode -> ntfs_init_acl -> posix_acl_create ->
--		 * ntfs_get_acl -> ntfs_get_acl_ex -> ni_lock
--		 */
--		struct posix_acl *p = get_inode_acl(dir, ACL_TYPE_DEFAULT);
--
--		if (IS_ERR(p)) {
--			err = PTR_ERR(p);
--			goto out;
--		}
--		posix_acl_release(p);
--	}
--#endif
--
--	if (d_in_lookup(dentry)) {
--		ni_lock_dir(ni);
--		locked = true;
--		fnd = fnd_get();
--		if (!fnd) {
--			err = -ENOMEM;
--			goto out1;
--		}
--
--		d = d_splice_alias(dir_search_u(dir, uni, fnd), dentry);
--		if (IS_ERR(d)) {
--			err = PTR_ERR(d);
--			d = NULL;
--			goto out2;
--		}
--
--		if (d)
--			dentry = d;
--	}
--
--	if (!(flags & O_CREAT) || d_really_is_positive(dentry)) {
--		err = finish_no_open(file, d);
--		goto out2;
--	}
--
--	file->f_mode |= FMODE_CREATED;
--
--	/*
--	 * fnd contains tree's path to insert to.
--	 * If fnd is not NULL then dir is locked.
--	 */
--	inode = ntfs_create_inode(file_mnt_idmap(file), dir, dentry, uni,
--				  mode, 0, NULL, 0, fnd);
--	err = IS_ERR(inode) ? PTR_ERR(inode) :
--			      finish_open(file, dentry, ntfs_file_open);
--	dput(d);
--
--out2:
--	fnd_put(fnd);
--out1:
--	if (locked)
--		ni_unlock(ni);
--out:
--	__putname(uni);
--	return err;
--}
--
- struct dentry *ntfs3_get_parent(struct dentry *child)
- {
- 	struct inode *inode = d_inode(child);
-@@ -612,7 +523,6 @@ const struct inode_operations ntfs_dir_inode_operations = {
- 	.setattr	= ntfs3_setattr,
- 	.getattr	= ntfs_getattr,
- 	.listxattr	= ntfs_listxattr,
--	.atomic_open	= ntfs_atomic_open,
- 	.fiemap		= ntfs_fiemap,
- };
- 
+I discovered this when using my windows boot drive's MSVC install to
+cross-compile some binaries, which depends on case-insensitive
+behavior. I was able to compile all my code, but it would often fail
+out because it could not find a header/library. Using a file search
+program to find the file (and nothing else!) seems to circumvent the
+issue, at least until likely some cache is dropped or something like
+that.
 
----
-base-commit: 0a7b0acecea273c8816f4f5b0e189989470404cf
-change-id: 20240318-ntfs3-atomic-open-0cc979d7c024
+Tested against latest linux-ntfs3/devel as of writing
+(6.7.0-rc4-00028-g622cd3daa8ea) as well as 6.8.
 
-Best regards,
--- 
-Jeff Layton <jlayton@kernel.org>
-
+Thanks for the time!
