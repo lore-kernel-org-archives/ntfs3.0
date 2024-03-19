@@ -1,80 +1,65 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1457E10D
-	for <ntfs3@lists.linux.dev>; Tue, 19 Mar 2024 11:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A827624B33;
+	Tue, 19 Mar 2024 15:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710846185; cv=none; b=l7BECZVQ59zNsjDnRmXYAhYocfr05zAsHEJqWVEHbHFQfsyWyKvriu/JZ9WOS1zasD/14MbuTu7a+jC3TBjMcupPZTGoQSWrJz0D04ze8cnTRlQAvlRsprJxtfgM4CDYExInnpCOrZn9FaYaNI7p1M1za9160q1i1qQqfxZN8XY=
+	t=1710862171; cv=none; b=LutWX6g1DX35NqBNieMkQVYgPKF9G4/GY6xlSNbuXxjh0NRQisncBCZ6iO3usC8uUA6FDmQ8xELt5W8O9fvZ2nE6E9AotqH6QV70tUM4W6YaeQINS0lUBAepNsf3pNmeaRJ0e+fZTAsp78EgEehWvSegn170+mDLPqOFI3ur+7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710846185; c=relaxed/simple;
-	bh=slKjRaMkRRkHh/39qn7hwcXp2X2erWHCbqhQGdEu/ow=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=sKVCXD2PqNeeepZVpO4iN959wVf6acDbkaatbkArvQ7lXSwsHg2emxBalXkyPM6ewC2patfwta+kUQEeB9Y62n1kyfwyurCszZU+gs9CahjG8pLw37lLewqc2eEaJNrZJduUxUsLJTZHGou8iV3O9hl+G3mhUIgsEn1J3q54v14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3684e301749so2777475ab.2
-        for <ntfs3@lists.linux.dev>; Tue, 19 Mar 2024 04:03:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710846183; x=1711450983;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NS31IZUVISj+9f5GH0XsvKxqqRb+tl8wJ9ZGlJagits=;
-        b=Ia9hOaXsniuj1o2ANuoElX3LVwy2wX36C3qtRdiWroBY7ajUhP4oSecT6WnsI2h3DG
-         VseoGr/Gf4Yc4qESdyve3QySiTy+FcyIj0bNNVsl76gWJiljh2OLmPI23VFiD4YHJfqN
-         WojDCqgzlcso262mqDVArdCp5Prg68EBTe1eFy8cHH6KbpyL2I1AlB/EKuQ3I23qCOqp
-         iRB5UqCOOPZGYQhi621vlwN6RjA+XT/+YBIE0TrSyyEvnmGUe5mD4DeijiZ7YIafsbZZ
-         NQX39Li57GKXGNZNcTmK0qF+LF8KCtnDHQy+K3qhPNaHfO1l9qqsV5s+HG4PWZRiB0lE
-         mMpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWSD+T0jKJhsjT/EkzqxuPhELNzQtRO3ii3mdAMvyGiz02i2A7+qbabKSG6iTKvIbg3K1ZQuEaUb4W84mE+W8diQpXhY4=
-X-Gm-Message-State: AOJu0YwSpRxQBZutH2O2SpOlaay60WfTSztV3wMODv2h4pvyPsHQzfqU
-	fGAgyzEM6zbDwXlGxuZjO3Ba2gsJKi2iUtkxklRVHetzzAvIwwim8x80jXF2JrThGcTKYQxxUo7
-	mNZ6YEqDh39k2q3yZc2+XLR4YQn3P9T+b7psz6lZtAs8bylmUnysn4vE=
-X-Google-Smtp-Source: AGHT+IFiDK1WT/n8TCOKAH5CGiH/AJ5QTidJfxOX7D2n/lTfWZAch3GSOQ51Bj+zC4HRoLqpgpszLLuCibMY38T8UfSWzD9bvdOO
+	s=arc-20240116; t=1710862171; c=relaxed/simple;
+	bh=VgLcP2hyQd2I/2FSYrwfNZkMKXumyqi2w8XTycPbpnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CWbXXQ+fBJNKyHRL7jViiH3yV6A1t4wGztB/RN3wFGXHTQ7T6bAiPRIBl7pu43nIz2bZGNPyB/YINBbzeq7Zq7i9TicjgmFWZZ35K+uQtpuLCDNK1DK+fcRk7/whir9ymU5ZtUkfKLXJTs9jtbU318WvmaRWQxGYbDyBwszTwCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dGw6kJcR; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dGw6kJcR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB880C433C7;
+	Tue, 19 Mar 2024 15:29:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710862170;
+	bh=VgLcP2hyQd2I/2FSYrwfNZkMKXumyqi2w8XTycPbpnQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dGw6kJcRiQqyqHz8N1GAr4dPVuIhAWUJ5XRkb4JoyqvJ3XDGxNKCTAvmfXvOoVZ5J
+	 mQDeMHLHGgShzcwAslHrZLIR8E09XOJP2FLShfOa+KnfBnkk5TBznSfjQweQBoAZbG
+	 bqUkL3pQ97ybYLwsNzmfCUIx9BPeyyLfHlagqQytZ7QIjYvfBDuoTGnkt086Ke0rqw
+	 V0EhtrPvn1nEnb5WyuiWAk0LSR1oiJ6SewSu6/Y7Y9lsmAbGO7yZRtJVlAflRksmgf
+	 g94V2v0fKoQPxnAitc5FRmWjTGo3YpJvUVEyQnJ9suk2VbljPOSdPPZ1chc1ax5TQ7
+	 IW0FdVqlhXl2w==
+Date: Tue, 19 Mar 2024 16:29:24 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] ntfs3: remove atomic_open
+Message-ID: <20240319-hoffen-fasten-66e583a0d595@brauner>
+References: <20240318-ntfs3-atomic-open-v1-1-57afed48fe86@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1c02:b0:366:c200:a9fa with SMTP id
- l2-20020a056e021c0200b00366c200a9famr121313ilh.1.1710846183604; Tue, 19 Mar
- 2024 04:03:03 -0700 (PDT)
-Date: Tue, 19 Mar 2024 04:03:03 -0700
-In-Reply-To: <000000000000aefc5005f5df169b@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000000a1c180614016bc9@google.com>
-Subject: Re: [syzbot] [ntfs3?] KASAN: use-after-free Read in ntfs_attr_find (2)
-From: syzbot <syzbot+ef50f8eb00b54feb7ba2@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, anton@tuxera.com, 
-	brauner@kernel.org, david@fromorbit.com, ghandatmanas@gmail.com, 
-	linkinjeon@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, syzkaller@googlegroups.com, 
-	willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240318-ntfs3-atomic-open-v1-1-57afed48fe86@kernel.org>
 
-syzbot suspects this issue was fixed by commit:
+On Mon, Mar 18, 2024 at 02:28:50PM -0400, Jeff Layton wrote:
+> atomic_open is an optional VFS operation, and is primarily for network
+> filesystems. NFS (for instance) can just send an open call for the last
+> path component rather than doing a lookup and then having to follow that
+> up with an open when it doesn't have a dentry in cache.
+> 
+> ntfs3 is a local filesystem however, and its atomic_open just does a
+> typical lookup + open, but in a convoluted way. atomic_open will also
+> make directory leases more difficult to implement on the filesystem.
+> 
+> Remove ntfs_atomic_open.
+> 
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+> Am I missing something about why ntfs3 requires an atomic_open op? In
+> any case, this is only lightly tested, but it seems to work.
 
-commit 7ffa8f3d30236e0ab897c30bdb01224ff1fe1c89
-Author: Matthew Wilcox (Oracle) <willy@infradead.org>
-Date:   Mon Jan 15 07:20:25 2024 +0000
-
-    fs: Remove NTFS classic
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11fafac9180000
-start commit:   9d64bf433c53 Merge tag 'perf-tools-for-v6.8-1-2024-01-09' ..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7a6ff9d9d5d2dc4a
-dashboard link: https://syzkaller.appspot.com/bug?extid=ef50f8eb00b54feb7ba2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13d79fbde80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14be4a73e80000
-
-If the result looks correct, please mark the issue as fixed by replying with:
-
-#syz fix: fs: Remove NTFS classic
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Seems we should just remove it.
