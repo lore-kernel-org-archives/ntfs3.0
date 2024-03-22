@@ -1,43 +1,46 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC81138C;
-	Fri, 22 Mar 2024 02:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720CC59163;
+	Fri, 22 Mar 2024 16:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711074923; cv=none; b=pM8cpO2WBon2l42DLQL3XyA+Pa88fRs6QKY/ZDej9dh+oItjkJDXToF6bx/IQStl5lw6a3Bu0XvJzqX91VU6oMy8lPJMwsiUvXBtOyvyEdZFLK84HkEyJwMsvhQEQfTV3xoR1tbcxHoqhOpKZ/1GfolFPAi80yH521wI3ssJ/eM=
+	t=1711125300; cv=none; b=ohzfMF2ObaL3FD4imUyeBSU6LLoAWDXo7sJgpcHWxGtvAreshxntFpqV6NPM+dIrRFUvzPyJO+dAr/qK+8P+BE4XZBNQylLbWw/RW6EuNl8XNW022dlXVHEra1SvIpiDl75TnjSTSnygihZ9JuAUB0fLOxZoTyY2aqLCa5lonLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711074923; c=relaxed/simple;
-	bh=nB0QDypS2n9Nsn2FH/sqpS/3Wr6EHtgvGrCrJlul2Ic=;
+	s=arc-20240116; t=1711125300; c=relaxed/simple;
+	bh=Cm01Q1014eD7bi3Ghg+OrTnDa1xuGXQVz909MO6xnV0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VOh1zCicwjSGxw2Ukhqa2J1nmhRxVxiAYvY9XsK8Gfy+PGPeVEdJCr42VJAt6C5G4FkAOx5wZPyK/fPe/WlYIDzE2GHWoOPcloSVDt+JVMDYzrnvEMJrn8CFeeUduPSsV1zsD4qwYKAJW6TZJo9RSTQkffQusRLwZToirdRJOUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=OjhrExiM; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=MjLsqidYFkPyaGAAWe/9MmIU6DJetDSjAItPwfHTh+LOPq1OvCHPQ8/5D9uUwQEw/dQKd+w6yJaXgBNSjoZtzMTeyL5dAXvdhZGWvmXVPFJIj4I1yava1dCXXrjKRh9/YtSNWCclJfgesqzf+gY3tr8H8Zc+S4sbwsSQSjJeMLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oilfk1zh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="OjhrExiM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=vjik512rUaEVFltmTlo5uRjlbgnvPI+ZtoSp05483d0=; b=OjhrExiMqssHwc8+LlNq3DD18s
-	mTVDyk0TCBA6cxhek+tL+ArRd4M/9JX7+lNeAdOnVTIKfHJ3o3YLKoe/6LvV7vrLkcVq9vWEtx73p
-	jfttgTZH45cPRqm6VL6fbLyQX7+/YkbFdTTULoXkgNYq2EWTlvgSfhHNagQsW8/qKS3zgsFDO6pWQ
-	Vzdt0DYPMXRNG1ClUBrSVfiAUhq6r33cO+ef/5tZI//FUw0q01fuD+yTExOd3TxW1P7nuMjNl4kV2
-	xZ15KlvHwgyF817PurOyZNLc5O8Jm/1LFy7PqEYKgl27Tto+Pf9hxI3kBwwze4+2cyvbfn8gfD5Pb
-	7X+ege8w==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1rnUkV-00EDhl-1k;
-	Fri, 22 Mar 2024 02:35:15 +0000
-Date: Fri, 22 Mar 2024 02:35:15 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Christian Brauner <brauner@kernel.org>, ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] ntfs3: remove atomic_open
-Message-ID: <20240322023515.GK538574@ZenIV>
-References: <20240318-ntfs3-atomic-open-v1-1-57afed48fe86@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oilfk1zh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E76F9C433C7;
+	Fri, 22 Mar 2024 16:34:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711125299;
+	bh=Cm01Q1014eD7bi3Ghg+OrTnDa1xuGXQVz909MO6xnV0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oilfk1zhhkn6/QOWDSz8/xIOh7J5NgEpjruYLPRoOiQu7qb+7CCiRMJ6HGhhZ3G37
+	 22WO4Fni5z3Nn7DxP/5MjqDRY7el+s5C9bv1JZLU3yPq9l2G/H2M5wDVc+w63r7+qr
+	 gRkiw253U2LkRccgdcHyUFCWWFGf7Aj3XuXLGbxiLUJ4iJjg8uEi6i5CfxoXwxh4G/
+	 o8LVa3+Z9Eu1eszg90WUqbizm0iKL+6ux4d7yM2nI8UlJC3wYW+t6pHNq52RMjk9qD
+	 YY2utGSjPSnX9dN/R6u1dKE9EPLmLyWFf3JI9xM26pzu+T+qh+sMa8wrSsM7V8LRf+
+	 KI6AYxOrY3dTQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1rnhrJ-000000002rv-2vlb;
+	Fri, 22 Mar 2024 17:35:09 +0100
+Date: Fri, 22 Mar 2024 17:35:09 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Christian Brauner <brauner@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+	ntfs3@lists.linux.dev, Anton Altaparmakov <anton@tuxera.com>,
+	Namjae Jeon <linkinjeon@kernel.org>, regressions@lists.linux.dev
+Subject: Re: [PATCH] fs: Remove NTFS classic
+Message-ID: <Zf2zPf5TO5oYt3I3@hovoldconsulting.com>
+References: <20240115072025.2071931-1-willy@infradead.org>
+ <20240116-fernbedienung-vorwort-a21384fd7962@brauner>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -46,53 +49,43 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240318-ntfs3-atomic-open-v1-1-57afed48fe86@kernel.org>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20240116-fernbedienung-vorwort-a21384fd7962@brauner>
 
-On Mon, Mar 18, 2024 at 02:28:50PM -0400, Jeff Layton wrote:
-> atomic_open is an optional VFS operation, and is primarily for network
-> filesystems. NFS (for instance) can just send an open call for the last
-> path component rather than doing a lookup and then having to follow that
-> up with an open when it doesn't have a dentry in cache.
-> 
-> ntfs3 is a local filesystem however, and its atomic_open just does a
-> typical lookup + open, but in a convoluted way. atomic_open will also
-> make directory leases more difficult to implement on the filesystem.
+On Tue, Jan 16, 2024 at 10:33:49AM +0100, Christian Brauner wrote:
+> On Mon, 15 Jan 2024 07:20:25 +0000, Matthew Wilcox (Oracle) wrote:
+> > The replacement, NTFS3, was merged over two years ago.  It is now time to
+> > remove the original from the tree as it is the last user of several APIs,
+> > and it is not worth changing.
 
-FWIW, I'm not sure they are actually doing it correctly, but in any
-case - there's no reason whatsoever for implementing that sucker on
-a local filesystem.  Kill it.
+> I see no reason to not at least try and remove it given that we have
+> ntfs3 as a replacement. Worst case is we have to put it back in. Let's
+> try it.
 
-> -	inode = ntfs_create_inode(file_mnt_idmap(file), dir, dentry, uni,
-> -				  mode, 0, NULL, 0, fnd);
-> -	err = IS_ERR(inode) ? PTR_ERR(inode) :
-> -			      finish_open(file, dentry, ntfs_file_open);
+This patch breaks boot of my Lenovo ThinkPad X13s where I have an fstab
+entry to access firmware from the original Windows partition; ended up
+in some kind of systemd emergency mode.
 
-... incidentally, this ntfs_create_inode() thing should not have the
-calling conventions it has.
+Fix is easy enough once I figured out what broke, but requires changing
+the fs type from 'ntfs' to 'ntfs3' in the fstab (after enabling NTFS3 in
+the kernel config).
 
-It does create inode, all right - and attaches it to dentry.  Then it
-proceeds to return the pointer to that new inode, with dentry->d_inode
-being the only thing that keeps it alive.  That would be defendable
-(we are holding a reference to dentry and nobody else could turn
-it negative under us), but... look at the callers.
+Is it possible to provide an alias or something to avoid breaking
+people's machines like this? Perhaps something is needed for the Kconfig
+too.
 
-4 out of 5 are of the same form:
-	inode = ntfs_create_inode(....);
-	return IS_ERR(inode) ? PTR_ERR(inode) : 0;
+I also now get a bunch of warning when listing the root directory:
 
-The fifth one is the crap above and there we *also* never look at the
-return value downstream of that IS_ERR(inode) ? PTR_ERR(inode) : ...;
+[   68.967970] ntfs3: nvme0n1p3: ino=130d6, Correct links count -> 1.
+[   68.969137] ntfs3: nvme0n1p3: ino=13a, Correct links count -> 1.
+[   68.969798] ntfs3: nvme0n1p3: ino=3ad, Correct links count -> 1.
+[   68.970431] ntfs3: nvme0n1p3: ino=3d9, Correct links count -> 1.
+[   68.971150] ntfs3: nvme0n1p3: ino=26, Correct links count -> 1.
+[   68.971780] ntfs3: nvme0n1p3: ino=eb, Correct links count -> 1.
+[   68.972263] ntfs3: nvme0n1p3: ino=1ce, Correct links count -> 1.
+[   68.973062] ntfs3: nvme0n1p3: ino=a608, Correct links count -> 1.
 
-Which is to say, all callers of that thing don't give a damn about
-the pointer per se - they only want to know if it's ERR_PTR(-E...)
-or not and if it is, what error had been wrapped into that ERR_PTR().
+Flagging this as a regression so that Thorsten is aware of it:
 
-Simply make it return 0 or -E... - if some future caller really
-wants a reference to struct inode that had been created, they can
-bloody well pick it from dentry->d_inode.
+#regzbot introduced: 7ffa8f3d3023
 
-In any case, this caller should simply die - ->atomic_open() instance
-does not buy *anything* here.
-
-Acked-by: Al Viro <viro@zeniv.linux.org.uk>
+Johan
