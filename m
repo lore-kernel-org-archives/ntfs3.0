@@ -1,81 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8860154C0A;
-	Mon, 25 Mar 2024 08:35:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948601BC46;
+	Mon, 25 Mar 2024 10:09:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711355747; cv=none; b=clzMrc1tPknO61KTlYXcLKNdjOj7POoGJ2JIVuLDQktIUSMHr0o39qwhimEM2qdLjOE3qwDKsoA68SMf9kONI/BBYvrLzRnecaYjxH/5Z7bX/RQsuJztraswbAw6N3P6rBRNf8ZRWA7baCSuxXO9JXjauheuRYqVmyaGqoi8A84=
+	t=1711361362; cv=none; b=PC+9qBh28Vf1UigEdNHsxkaxGO9XoAwG3zWYKfLE3UQWg/yJMDesEMN/CC56J47wyADWzsTrj99UGesEB2bxp3QZdMwbHAALX7pKDOGTzbpf+Vu3pUmXl7qEI5CMpApeF9tMdTtLnqcJ5OQnd+3yawHvEnm1TTEBiNrmAoAc71Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711355747; c=relaxed/simple;
-	bh=D/cqShrDInb29DCswvll5FkJaDOerwFsZiddIswk7hA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MW5hzf8YpVuOtFziUADuDuAouhtk64mPb0HEArB2cYv5LJC/JHtAc1SeDmfSrNSvRR3Hl/0QkpObpV+cDVNipGKtJJRXWwO7ZpglK4g/i2cYwRZPkWpterBSdlA9qdlXUIlzHXMxZB9U8TAZxfgSF5BaZZ9mFbM5u+79+CwZFYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=skM8ZPd1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711361362; c=relaxed/simple;
+	bh=+Ni54kzZZJZ8Gpflipk7sMkXhsxVvZJr72+bdfSCAWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G1HArhJxtrvV+eddyepKvoGZOqg3xKYzA0Pq7ASD4e7Tj/zhwr6TZhFbGtK/1vv4j+k8j+ftb1ueXI8I+In9AJYBX77wRetlSH5/xiDBav93408rb1/vYs8Yxs8+5JtbAKbXi0fLWDFb8gRmW2OXMgVtVQO4WJfAZpA0Juuo6VY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LAVyeJkm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="skM8ZPd1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E063DC433F1;
-	Mon, 25 Mar 2024 08:35:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LAVyeJkm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29A7AC433C7;
+	Mon, 25 Mar 2024 10:09:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711355747;
-	bh=D/cqShrDInb29DCswvll5FkJaDOerwFsZiddIswk7hA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=skM8ZPd1xsYf1kc26gj+77gFY84PiOgZcsWUHAdT38x6TMO4cY9uMQ5TR83dtZiEu
-	 XJDzWhl2vntb3ZxzrT/fl8gh0yrcg6gYuLl746cRuwtImpeI2c0HzumjeKWUx+Y2bS
-	 UOvxQw8aYAZ2UT8z0jDEBk89d7WEhI5UuLWIXS9y63SjelDULhJ9aeU7+W6AS69GrB
-	 1WcSbtmFJz4K/y/Vvi17ZezjSqinVh/qagpwUDZ9c8PSkt1Ps4rSYb0Tl+1aifa/So
-	 I7HnDIhRvMMSMjkEx088X0nztc1RJxsJicv026uLqYcN1H9JIFcXPZiGGRdbC4tEzQ
-	 +IgnBAkJaJzvg==
-From: Christian Brauner <brauner@kernel.org>
-To: Johan Hovold <johan@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	s=k20201202; t=1711361362;
+	bh=+Ni54kzZZJZ8Gpflipk7sMkXhsxVvZJr72+bdfSCAWA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LAVyeJkmpxeTN6Gxe2VGtXmpfHMhTMrpn/UXUh/Wn12y57WkwEnoAekyyvWfMg2qE
+	 gzTc1VIB7QQqr4sWYFMAV5OKg1ncgL02/pD/vVxyLZG4KwXFeO1qkRJU2ZaIJrUZAO
+	 fQib1lD8r/c7xoSZ0DEFM4PgT4/uJp7k+B4Dc3NS9veJVKXT7pq/GH2anB5Mwg/8h7
+	 FO0nVgHeTPbD8/5ZTjwxRpL9jRk96Mle73oV3aAgXbDCJy5BkzDKGGQQT6al5CROnm
+	 hJ58nyT9GCFwA+rC3A87WG5riMWck4SiRU92mtZHC7nwRUccM91gzavJqONMy0zDAV
+	 ShVDbZD2bJMRA==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1rohGi-000000000z4-3YKD;
+	Mon, 25 Mar 2024 11:09:28 +0100
+Date: Mon, 25 Mar 2024 11:09:28 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Anton Altaparmakov <anton@tuxera.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	ntfs3@lists.linux.dev
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-ntfs-dev@lists.sourceforge.net,
+	Namjae Jeon <linkinjeon@kernel.org>, ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
 	regressions@lists.linux.dev
-Subject: [PATCH 2/2] ntfs3: remove warning
-Date: Mon, 25 Mar 2024 09:34:38 +0100
-Message-ID: <20240325-faucht-kiesel-82c6c35504b3@brauner>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <Zf2zPf5TO5oYt3I3@hovoldconsulting.com>
+Subject: Re: [PATCH 1/2] ntfs3: serve as alias for the legacy ntfs driver
+Message-ID: <ZgFNWPCYQC6xYOBX@hovoldconsulting.com>
 References: <Zf2zPf5TO5oYt3I3@hovoldconsulting.com>
+ <20240325-hinkriegen-zuziehen-d7e2c490427a@brauner>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=987; i=brauner@kernel.org; h=from:subject:message-id; bh=D/cqShrDInb29DCswvll5FkJaDOerwFsZiddIswk7hA=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQxmstJK0fN4gtVX16YfEHrgUTJunn3k4/8Nu1qu+3Uc +P+6RCujlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgInwKzMynJrnGXTn+sXH1oF8 d/oU2U3eflZS2LclfFbQU17TQ4+/azD8j3bLPc995SOnWXCLIu+ZiZJbVTX0C7ws7szgfbjv9Po XTAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240325-hinkriegen-zuziehen-d7e2c490427a@brauner>
 
-This causes visible changes for users that rely on ntfs3 to serve as an
-alternative for the legacy ntfs driver. Print statements such as this
-should probably be made conditional on a debug config option or similar.
+On Mon, Mar 25, 2024 at 09:34:36AM +0100, Christian Brauner wrote:
+> Johan Hovold reported that removing the legacy ntfs driver broke boot
+> for him since his fstab uses the legacy ntfs driver to access firmware
+> from the original Windows partition.
+> 
+> Use ntfs3 as an alias for legacy ntfs if CONFIG_NTFS_FS is selected.
+> This is similar to how ext3 is treated.
+> 
+> Fixes: 7ffa8f3d3023 ("fs: Remove NTFS classic")
+> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+> Cc: Johan Hovold <johan@kernel.org>
+> Link: https://lore.kernel.org/r/Zf2zPf5TO5oYt3I3@hovoldconsulting.com
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> ---
+> Hey,
+> 
+> This is so far compile tested. It would be great if someone could test
+> this. @Johan?
 
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Johan Hovold <johan@kernel.org>
-Link: https://lore.kernel.org/r/Zf2zPf5TO5oYt3I3@hovoldconsulting.com
-Signed-off-by: Christian Brauner <brauner@kernel.org>
----
- fs/ntfs3/inode.c | 1 -
- 1 file changed, 1 deletion(-)
+This seems to do the trick. Thanks for the quick fix.
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index eb7a8c9fba01..8cc94a6a97ed 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -424,7 +424,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
- 
- 	if (names != le16_to_cpu(rec->hard_links)) {
- 		/* Correct minor error on the fly. Do not mark inode as dirty. */
--		ntfs_inode_warn(inode, "Correct links count -> %u.", names);
- 		rec->hard_links = cpu_to_le16(names);
- 		ni->mi.dirty = true;
- 	}
--- 
-2.43.0
+Tested-by: Johan Hovold <johan+linaro@kernel.org>
 
+Do we want to do something about the fact that ntfs mounts may now
+become writable as well?
+
+Johan
