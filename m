@@ -1,83 +1,78 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4799652
-	for <ntfs3@lists.linux.dev>; Wed, 27 Mar 2024 10:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18AD6144D3E
+	for <ntfs3@lists.linux.dev>; Sun, 31 Mar 2024 15:41:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711535318; cv=none; b=T1rgGQ7Wx+cL9oE8bmKK0SaH/zE+gstxb8cyHJ1VQZ5v60DLGHva79Hpgjl0pIw9OeHH8jjjwmLNw6IwtVFNrIpnh2WB0BXeFu2Soc44rwPGUuRqXm78kv3gBcPUZXimk4yV4sBv+qx7y79L489eCVApWQ/VZftLndNIExSiOBc=
+	t=1711899665; cv=none; b=c0bJLwskbxMWSO55gj4EYAZnQtp5nmQuPqbP/RgakdtFeagCSKlSYS/zDUzm6nzyWr8UdQrjRnKlx7MvhglKSIETte/ctgZvRon95yHNd7uWh26Wd6OvKKNYJLinUt82Vc50vydiIbzxK9QWnw7/kFXhUSsahf1hiZl2atd1S0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711535318; c=relaxed/simple;
-	bh=VaVjXkrkfgKFr8iKoWSaM2QeaUcHBaZ0TDUGEoH36qM=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=teyHtCZroScKjEGkGTyrISAuZCXqBpLzTLw2XAp/eY2iewmMiVWw+cPsbgY//aOnQCI6/5hDj8/PmSWRmX+beJ8JUhTkSTOZzudIhRl4WtEkY52wmlUbJTOVQRcZlZbjz9P+tFaNVpIS0DsavpPEMFQyEZIJ4X2w7Kwwe0fc1lE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b=OpPJM0KQ; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b="OpPJM0KQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1711535313; x=1712140113; i=aros@gmx.com;
-	bh=VaVjXkrkfgKFr8iKoWSaM2QeaUcHBaZ0TDUGEoH36qM=;
-	h=X-UI-Sender-Class:Date:From:Subject:To:Cc;
-	b=OpPJM0KQZS5QAwDqJByFEu3jXrz2/nQe/bswb2BcJ92gTgbyKhcdHl0A+uIVgHMJ
-	 N8AMmOKX7oHPJ3Z2V2Dx5PhNErZyaHf1FoYqS9h+tb9KobX5GlIP6YwgAZJ5/0lGQ
-	 4HVnbzEYx+BXH6cW3Y1aNh9Dx6tR7tn2VKjs27NYOPIw2pyWlG9m4nIeJMYt6hf9g
-	 gU1RYf1l6nzEXOUncwsGpWiGjTKvwT6eRxvCaktpWywtLrSe8NopyS/8Nswe1au20
-	 gPFDVfxjH7ksYKbY11sUMrgyPv+bJ7ZBAM0Xvo56ib8BuXNSdBgCKTQ2DTFG1QAPv
-	 n6bH/cDD2+dJnLZFbg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.54.110.16] ([89.149.39.14]) by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MQvD5-1sBc4F3BgN-00NywI; Wed, 27
- Mar 2024 11:28:32 +0100
-Message-ID: <6215a88a-7d78-4abb-911f-8a3e7033da3e@gmx.com>
-Date: Wed, 27 Mar 2024 10:28:31 +0000
+	s=arc-20240116; t=1711899665; c=relaxed/simple;
+	bh=Qz+nEJwMajHbpH7CBV1E9kYkMSV/cyOeBB4MlSGQNy8=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=FDMhc/lodpWggQ8h6Yo5NTs5sLvSwNJqgeMp5j/ywdJI3ON5wnU+ECRjuZ+0Bc+nNb6aVHamCsvB5b4XC3en/CNmlBD7G8wJHr15qZycYqCfihRXl8BGsFexfkpepy/SGfp+z+7BEPTeWUaxuQUKwq4oPmh7JI86Qwu2yY3wMRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-7c88a694b46so298216739f.1
+        for <ntfs3@lists.linux.dev>; Sun, 31 Mar 2024 08:41:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711899663; x=1712504463;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RMPIvofFZ0pzeDlA+dJFHUiRuMTw5ZBBa6f9TDeB6IA=;
+        b=gGxjLMnIkqpmurFKycqboSeSAd5HK5sWh58GG/+xquCK7bl6Cuc3HRywYoIikg2u1B
+         4EEh6cZG1FLt5lkro1r1eSCB+lF2GjUaqJTzn7jHIkgwFkxs9714TF87lEN2hB+Ov3aw
+         tVxJ5wc09EZYJAgqh4M5uwVtfnh3/xkyahn6IifSfJrCuj3A62ZMqmBuooJYlaFoNXc3
+         TVgzMLVbTKDAbW5fIRIhudjGugTQuMRsKmg+BU5U2Hwjt2+qTFooZ+KxMm0+QC92kq35
+         /z5t0R9bi+/tZpCmZbmZ+d6A9HM7FQj6O8WrEW4PsF/vYoYbCgGk+NIMw8YvfS/miwGR
+         I/iQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSLzaa/DK5sGkJ3n4/JcyyCrNY7B3zqULSewFl1Z3R11Ya06zTXrgo52JT0qCvDBD35vzUU2Bv41kHu9Ty5BPMZNyqzkU=
+X-Gm-Message-State: AOJu0YyFSfpIjdlfIhltCdwbjrPJrH3AAuDTjsE6MsHKAODeYoUkAuaP
+	k0Rlk6uz/kM5r/UcZmJoDfYrGMgNE9Mp+pMXK4wnCCnycBDUv2RYIOM2FywMYUknk55hK3U7RQ0
+	NWHz6EATPpUS52v7eRqiidDzHcowjrM931UerMW1BwmtYnOwhrvzdFKY=
+X-Google-Smtp-Source: AGHT+IEs3YkKutFNOonb15d5RKFj0anpMUEzpVWKAAfIa29yd9R+rbNaHMJtBfq5H3RMplyKrtWIE7u7ls65Czyj4h0zrEBkTqeb
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Artem S. Tashkinov" <aros@gmx.com>
-Subject: NTFS driver excessive logging by default: Correct links count
-To: ntfs3@lists.linux.dev
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:gjluedM2yH6XWKRrKfmtv/rhn1FmRzP3YExvBiRwBsDj9C2hFlc
- s+YzFpwM1qibulsNcGbVUBAm1Pl5lbnUEBuTWIH0v4PPTw+QIY8l7NNfh4t3FndAwR2eV1J
- k+d6lhUdeIaQolhD0g66kYWsoZ+inekY/GEQ56ZkuKAXqndJ5nYVyGoi4jHjCU9mT09sTrM
- bxVUmoIbSCmOPwuuLAAFA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:EuXRca1fjqs=;4G8skrM/BZ19xAoh2pWnnSj8BmH
- bJHGr9Xgt2FQ3bbGSiopNAfNZ6oEq07gfJSP9E+D5zoJqX2sfJ6oRKu61IigpKUyQ4nuWaQ6j
- r+/LwyxpTgtKZRNQQPiYxRCJQtenLB5PqY+KaS8Q1eMrb0MB3EeKrLDEpXH+aEcVGJcY7LD6e
- 07Knhx2hQSDktCkZxKdxDLW/t8OA0j0GvFhQ6zQzfz35Qup2FsOg97/sZh2brLoQnhxiC/ryo
- 9FzXPb04p4byX93WLdyGStBZ+mp8t45Ku/d3W6q0wkUEG/ggWy9GWUpZkOZ4YGrnv+sD/aB9L
- m+uG5/+dgetIPtEdctNOQfOsi91aFzEDiFV4XN68+JeaeJG6D2ayko8uNXDuaUPGkiqQFLwS0
- b02RGmiz/HcUXfgHgYl+ghTOEk3dQK6i3hxMAK2Hfk0Inxqwe8pAtZ2vAwl+2506KIQr7xGha
- 9y4haSV/J75gvUI1sWrammRoADis8TA0lDCjRfQ8Zkrr6KRhYH8bCRCWT4ii7RQzy7gdAzKCT
- PjoylQk+X9yPazUCCu9m8uojyhmV4nZbURjAnO7LlI26P8OqGWpP6SV7tcJ0Rx6R3CDG+WYrw
- UAU8nUoe8UG0v0PKOPHa84rj7x6IXOW7i1Y9vugsECL6AFBuQcYm8Bv9jKSaX8m5q7SNPVFI2
- C8cFv39cqhIbVfR9Ytba0L/zRIsoUzOcU63wVVegtv+hLYB9ecEYbRqVP++y9RzYqiXtgr2BD
- XbwJU6D5xBaKUghKiQzg9YuxptvVK451k4rKNI5XRn5MPRjSvoVLcmclmIzks8nkmaOJ1DjzT
- 4DhKnInMkshtKCMeI7IxHFxA/1FzO6ChuXAABKUNOpoHg=
+X-Received: by 2002:a05:6638:140c:b0:47e:b7a7:f4fe with SMTP id
+ k12-20020a056638140c00b0047eb7a7f4femr286348jad.1.1711899663146; Sun, 31 Mar
+ 2024 08:41:03 -0700 (PDT)
+Date: Sun, 31 Mar 2024 08:41:03 -0700
+In-Reply-To: <000000000000e05bc805e99789e1@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000504d0d0614f6b3dd@google.com>
+Subject: Re: [syzbot] [ntfs3?] kernel BUG in __ntfs_grab_cache_pages
+From: syzbot <syzbot+01b3ade7c86f7dd584d7@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, anton@tuxera.com, 
+	axboe@kernel.dk, brauner@kernel.org, jack@suse.cz, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+syzbot suspects this issue was fixed by commit:
 
-I hoped 6.8.2 would have the issue fixed but no luck.
+commit 6f861765464f43a71462d52026fbddfc858239a5
+Author: Jan Kara <jack@suse.cz>
+Date:   Wed Nov 1 17:43:10 2023 +0000
 
-Whenever I list files on my NTFS partitions I get a lot of SPAM in
-dmesg, e.g.:
+    fs: Block writes to mounted block devices
 
-ntfs3: sda3: ino=3D14c, Correct links count -> 1.
-ntfs3: sda3: ino=3D73, Correct links count -> 1.
-ntfs3: sda3: ino=3D167, Correct links count -> 1.
-ntfs3: sda3: ino=3Dd9, Correct links count -> 1.
-ntfs3: sda3: ino=3Dd5, Correct links count -> 1.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1636d11d180000
+start commit:   42dc814987c1 Merge tag 'media/v6.6-2' of git://git.kernel...
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e4ca82a1bedd37e4
+dashboard link: https://syzkaller.appspot.com/bug?extid=01b3ade7c86f7dd584d7
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=118cd46c680000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=136d04a6680000
 
-And the partition in question has been fully chkdsk'ed and has no issues.
+If the result looks correct, please mark the issue as fixed by replying with:
 
-Please fix.
+#syz fix: fs: Block writes to mounted block devices
 
-Best regards,
-Artem
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
