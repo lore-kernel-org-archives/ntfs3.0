@@ -1,102 +1,98 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE2A5DF23;
-	Thu,  4 Apr 2024 08:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2A013B798
+	for <ntfs3@lists.linux.dev>; Fri,  5 Apr 2024 12:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712217972; cv=none; b=NVZiHqZwMLYdTpCaGU7mLtlCpjsWF5A1JKR2ereZWZ/uzZAV7Mr2m9dL5WQ0T7wiCFOyDT4TtfrHnQfCGar+sfvgaR93m5NICgysZyw+AjlRlgHqddKFr0OD6Xq+vt0U7ulvfxfjtQpz9KIv9+3ZPt7fYl/FLc4q7AwtNhZl0PQ=
+	t=1712320703; cv=none; b=AZ23I0cHqUvCNZ5/mIuk3BAW427u9DwIkZnalrLyhHdSNcbrBTiRMBxD8QY1Kd/jO6KwgIZtiSP67XfjlKjueOxVL2hfxo5Jw3QUD4Hl/Hy//ptMtRuQw3qj6rhRzDmRsAkc3ncinc1SaTefKqGvfxR1PGPs7dZV2W8AQTfPbT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712217972; c=relaxed/simple;
-	bh=V0ZzmEqQsQKwVDJeWcxb9WLsHGI8+KEPzrwafFQMJh8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FJnOlpuTaR5pvnPm1/BfyOvqtpPH6/6qsL7COtOPs4ar3gBoqcIRVrzOdBTQtjNWlJONzyHuLOYlzWsqb8IJJqc6TxFEmbzOF7rvvU0ofcBjsDBwsJfJ2uDO1LWq1UubTBt/fD0g8npbhkwgHqiUBZKmUaG8XDEevuxQkPA/MfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=hqQ2aPWv; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="hqQ2aPWv"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	In-Reply-To:References; bh=lvik5pSFcG40Al9cRmT31wTUpqQ/o8j4XMGvq8bSXT8=;
-	t=1712217970; x=1712649970; b=hqQ2aPWvnKygWOpZ1E0z6luWkVMjsv4VUpwDBN7by4nk3Kt
-	6Jt+WsL0G/SO1DLRyku2oDKJiQfZiHP/sjQXh3tfRXejhkMUbDIhBpYmkkccVnuWhwp8angs9Ghbs
-	ggPZugdCaepIWPSJU52J98a1ZBjXODsTnB0qcVVCQbrFw7kLuD+fPzqkx+8lbE9dyNGLI9zZcb4HP
-	aygOiTWV/VgGFCgSh4Jb+I0+10biI0PDdC1Q4JVBCPx144mGi2mA0RP8Lv77podZF4UJ2rEmOQafQ
-	/OqFsgYx0Zr9XRTQI+hCV/FRa2U8MZWGjOQzUHnMVG+EdE10wTmAcOqah8qix3WQ==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rsI6m-0003jS-Ir; Thu, 04 Apr 2024 10:06:04 +0200
-Message-ID: <a417b52b-d1c0-4b7d-9d8f-f1b2cd5145f6@leemhuis.info>
-Date: Thu, 4 Apr 2024 10:06:03 +0200
+	s=arc-20240116; t=1712320703; c=relaxed/simple;
+	bh=VJy2fQXp4bH5ajdBVi8OcRqcvqGxk/2k8jyUc+7+TNY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Gs9Pzufo1DPhhT2aDdxzrxTiQzzjyHp26niU36UxDzOMZ3Fn8CkTIP7T4SMVphKyIyX1O4Qw4hCHLMOul42qDdr3Mdw2+BTDgi2r9/w2wBSJmHSaTj7QzhJVMOiBYvDBrOOelihMGaVv6H1k5PW+VyjNRenZuVGVlOpAMuCuAnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7cc01445f6bso233446739f.3
+        for <ntfs3@lists.linux.dev>; Fri, 05 Apr 2024 05:38:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712320701; x=1712925501;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2am2W/k9n1yloAByRyhVWfNC7/CvDaDawdSDOV1DGqU=;
+        b=c0gTr8fygJxgyRuqCQAJKcAGlqDYw0HXfeLmx/ctKOes2ruzNmfZSbCxTJjwYxw9OG
+         oNIyJEElCEQBHnKrknM9PadiPKOEqlmxaCNxBZvPHYyxD8cZo1YdpNaB2ye5wqi1F82e
+         Fw3Ixoc31gMWOvMQwRsVcvLlbMybFXcSZ9HsHQAmUpHzbvFmLUdj2UDuxIR+A/4Tgeb7
+         zv5pQYJKjy0sARkEaUCAr2b8/9qTg491TUKBawzlaP+meVr7K97EcAAneYQRqGQTslKt
+         INg44ju1ChAXx0+yajRBs5Hqn8w8M+57ZR5DqvOkiUanlwp6WyrsW3TL6DoqcNzOOKhC
+         n0Yw==
+X-Forwarded-Encrypted: i=1; AJvYcCWsLGc7WK0vU87MXWFx0fVLrF9XnGxN0Tb+z6RZUAhwSL+a4VxkwMBi24OuMe5F1WGXktwH9QhxlhJFzg3rxEsFdhBMZ1c=
+X-Gm-Message-State: AOJu0YxLf0LV1JZM5TovtPIsCd8LNoC9J0oLmj6UyLyIJn7LZd1EMyTm
+	Cy0uh50v2MSkP8zq4iUzBTYhKA31vt0Xg1DV5XR9Qjj1OMqwJce7n2ldhes4WvWw64ozBcRZ8CH
+	yrYQaFKh0FdnmCq1sVpjMNt3wlZBa+anfLH1Fqot9vVH/KYnlKM6yNLg=
+X-Google-Smtp-Source: AGHT+IEvPfoUMU6ehf1Inypureina91/Rf8s4280mhBuoEkxeX3LsAafB10gx47dLxjpUneLjq3x2vXzGjACyv9wBkvtb+nBgTfT
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ntfs3: remove warning
-To: Christian Brauner <brauner@kernel.org>, Johan Hovold <johan@kernel.org>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Anton Altaparmakov <anton@tuxera.com>, Namjae Jeon <linkinjeon@kernel.org>,
- ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-ntfs-dev@lists.sourceforge.net, regressions@lists.linux.dev
-References: <Zf2zPf5TO5oYt3I3@hovoldconsulting.com>
- <20240325-faucht-kiesel-82c6c35504b3@brauner>
- <ZgFN8LMYPZzp6vLy@hovoldconsulting.com>
- <20240325-shrimps-ballverlust-dc44fa157138@brauner>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20240325-shrimps-ballverlust-dc44fa157138@brauner>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1712217970;d526d445;
-X-HE-SMSGID: 1rsI6m-0003jS-Ir
+X-Received: by 2002:a05:6638:6d0b:b0:47e:db91:dd2a with SMTP id
+ he11-20020a0566386d0b00b0047edb91dd2amr69173jab.3.1712320700928; Fri, 05 Apr
+ 2024 05:38:20 -0700 (PDT)
+Date: Fri, 05 Apr 2024 05:38:20 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001ee4d3061558bb8d@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Apr 2024)
+From: syzbot <syzbot+listb6eea14750ad5e9c17ba@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 25.03.24 13:05, Christian Brauner wrote:
-> On Mon, Mar 25, 2024 at 11:12:00AM +0100, Johan Hovold wrote:
->> On Mon, Mar 25, 2024 at 09:34:38AM +0100, Christian Brauner wrote:
->>> This causes visible changes for users that rely on ntfs3 to serve as an
->>> alternative for the legacy ntfs driver. Print statements such as this
->>> should probably be made conditional on a debug config option or similar.
->>>
->>> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
->>> Cc: Johan Hovold <johan@kernel.org>
->>> Link: https://lore.kernel.org/r/Zf2zPf5TO5oYt3I3@hovoldconsulting.com
->>> Signed-off-by: Christian Brauner <brauner@kernel.org>
->>
->> Tested-by: Johan Hovold <johan+linaro@kernel.org>
->>
->> I also see a
->>
->> 	ntfs3: Max link count 4000
->>
->> message on mount which wasn't there with NTFS legacy. Is that benign
->> and should be suppressed too perhaps?
-> 
-> We need a reply from the ntfs3 maintainers here.
+Hello ntfs3 maintainers/developers,
 
-Those are known for taken their time to respond -- like we see here, as
-nothing happened for 10 days now. Which makes we wonder: should we at
-least bring the first patch from this series onto the track towards
-mainline?
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-FWIW, quick side note: just noticed there was another report about the
-"Correct links count -> 1." messages:
-https://lore.kernel.org/all/6215a88a-7d78-4abb-911f-8a3e7033da3e@gmx.com/
+During the period, 2 new issues were detected and 0 were fixed.
+In total, 40 issues are still open and 48 have been fixed so far.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+Some of the still happening issues:
 
-#regzbot duplicate:
-https://lore.kernel.org/all/6215a88a-7d78-4abb-911f-8a3e7033da3e@gmx.com/
-#regzbot poke
+Ref  Crashes Repro Title
+<1>  5493    Yes   possible deadlock in ntfs_read_folio
+                   https://syzkaller.appspot.com/bug?extid=8ef76b0b1f86c382ad37
+<2>  3886    Yes   kernel BUG at fs/ntfs/aops.c:LINE!
+                   https://syzkaller.appspot.com/bug?extid=6a5a7672f663cce8b156
+<3>  2812    Yes   KMSAN: uninit-value in longest_match_std (2)
+                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
+<4>  2647    Yes   possible deadlock in ni_fiemap
+                   https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
+<5>  2282    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<6>  1837    Yes   possible deadlock in attr_data_get_block
+                   https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
+<7>  1331    Yes   possible deadlock in mi_read
+                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
+<8>  669     Yes   possible deadlock in filemap_fault
+                   https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
+<9>  507     Yes   KASAN: slab-out-of-bounds Read in ntfs_readdir
+                   https://syzkaller.appspot.com/bug?extid=d36761079ac1b585a6df
+<10> 318     Yes   kernel BUG at fs/inode.c:LINE! (2)
+                   https://syzkaller.appspot.com/bug?extid=c92c93d1f1aaaacdb9db
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
