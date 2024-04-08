@@ -1,98 +1,164 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2A013B798
-	for <ntfs3@lists.linux.dev>; Fri,  5 Apr 2024 12:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9DA38F99
+	for <ntfs3@lists.linux.dev>; Mon,  8 Apr 2024 08:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712320703; cv=none; b=AZ23I0cHqUvCNZ5/mIuk3BAW427u9DwIkZnalrLyhHdSNcbrBTiRMBxD8QY1Kd/jO6KwgIZtiSP67XfjlKjueOxVL2hfxo5Jw3QUD4Hl/Hy//ptMtRuQw3qj6rhRzDmRsAkc3ncinc1SaTefKqGvfxR1PGPs7dZV2W8AQTfPbT4=
+	t=1712564779; cv=none; b=GX0vRwpxWiYY6KpcL8auEjkqe/8ORZfdUgcUy79UgXfo13X3GqemOuXtBo2O1Xb7cdTpRVFvEIDRYaRHvx8ZsvgICPUI2bS9h7AliXIA9FdpCmCHJYzFuu5UEjDylvigAj8xRrXmRtFe8gsZhE4L/t2TXUU4/JpPydZ33P1H2iU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712320703; c=relaxed/simple;
-	bh=VJy2fQXp4bH5ajdBVi8OcRqcvqGxk/2k8jyUc+7+TNY=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Gs9Pzufo1DPhhT2aDdxzrxTiQzzjyHp26niU36UxDzOMZ3Fn8CkTIP7T4SMVphKyIyX1O4Qw4hCHLMOul42qDdr3Mdw2+BTDgi2r9/w2wBSJmHSaTj7QzhJVMOiBYvDBrOOelihMGaVv6H1k5PW+VyjNRenZuVGVlOpAMuCuAnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
+	s=arc-20240116; t=1712564779; c=relaxed/simple;
+	bh=/Jtg+NeRPMsFlE0QQGjsP4QoCICP4TGVEmqGhuOhyJE=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=PrAkmSlL3Uy1CCHV9bnWlyrb7FPMU5dQdmIXar9hBqP5/E0uy3Xo1UzUfFJQd8ZKnOF9svFJRQbnv0/bXUGBcp7GcKTHwTVKkkKyRDo89SaPjWMGdgS/FCw3K2jXiGQLjhKqHW/1cO//isdvgpdkfhbDXkGAHiEj/NtiIMGwfFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7cc01445f6bso233446739f.3
-        for <ntfs3@lists.linux.dev>; Fri, 05 Apr 2024 05:38:21 -0700 (PDT)
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-36a0bf22f7dso30675925ab.0
+        for <ntfs3@lists.linux.dev>; Mon, 08 Apr 2024 01:26:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712320701; x=1712925501;
+        d=1e100.net; s=20230601; t=1712564777; x=1713169577;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=2am2W/k9n1yloAByRyhVWfNC7/CvDaDawdSDOV1DGqU=;
-        b=c0gTr8fygJxgyRuqCQAJKcAGlqDYw0HXfeLmx/ctKOes2ruzNmfZSbCxTJjwYxw9OG
-         oNIyJEElCEQBHnKrknM9PadiPKOEqlmxaCNxBZvPHYyxD8cZo1YdpNaB2ye5wqi1F82e
-         Fw3Ixoc31gMWOvMQwRsVcvLlbMybFXcSZ9HsHQAmUpHzbvFmLUdj2UDuxIR+A/4Tgeb7
-         zv5pQYJKjy0sARkEaUCAr2b8/9qTg491TUKBawzlaP+meVr7K97EcAAneYQRqGQTslKt
-         INg44ju1ChAXx0+yajRBs5Hqn8w8M+57ZR5DqvOkiUanlwp6WyrsW3TL6DoqcNzOOKhC
-         n0Yw==
-X-Forwarded-Encrypted: i=1; AJvYcCWsLGc7WK0vU87MXWFx0fVLrF9XnGxN0Tb+z6RZUAhwSL+a4VxkwMBi24OuMe5F1WGXktwH9QhxlhJFzg3rxEsFdhBMZ1c=
-X-Gm-Message-State: AOJu0YxLf0LV1JZM5TovtPIsCd8LNoC9J0oLmj6UyLyIJn7LZd1EMyTm
-	Cy0uh50v2MSkP8zq4iUzBTYhKA31vt0Xg1DV5XR9Qjj1OMqwJce7n2ldhes4WvWw64ozBcRZ8CH
-	yrYQaFKh0FdnmCq1sVpjMNt3wlZBa+anfLH1Fqot9vVH/KYnlKM6yNLg=
-X-Google-Smtp-Source: AGHT+IEvPfoUMU6ehf1Inypureina91/Rf8s4280mhBuoEkxeX3LsAafB10gx47dLxjpUneLjq3x2vXzGjACyv9wBkvtb+nBgTfT
+        bh=jpwnnhL0X5X253cB4zSmLnXn1GULv9cGLQ5C9RbRTj8=;
+        b=v7yQxUrd6gStxNG+jSj1IzIQRTpgtWQqSU94dQN7uEV+hygTFiNLFVyCgHSlvc5SYz
+         KF6Extq5AHtldRef6EihZrhZfC/YSBWJTAs/YRC6ppnSoGYwQ3HiU6uY5X/qYl0FTPRm
+         clUmkD45jBL1Vf+UGNZC6bVmgK7hRuZIgTO4O3es6qX0yFGubDZMJF4qTDtUkDoCN8Fg
+         eUSi7+6XToaAuC7ND8tEOwynpu/rO3TeVy6R0AjW3PWSZkfFZDO2RaZafkvG/b4g5tHH
+         4vXVTI5dJdb1d3pRlSq1XFpSXx6CPcfw/oX5gvO8R702yMWOmbNFHx+6+NoDK8T/0oMs
+         sPEw==
+X-Forwarded-Encrypted: i=1; AJvYcCVWaIAt2/v98jPVoWl3mWJme2JRU0kUCP9W/+V43Rubxps2LxV7rRzMXgu25soRwu7A4U/A7fbipB+2SOo8qVh4yhjpx1M=
+X-Gm-Message-State: AOJu0YwUXyg7WkJGRdlfzT5XPsCsRxCe6hXrmBJL0lwm2BY/ae5Z//Al
+	6eKppWlmAFX4alRyDNvJuiTymh+83BZFGyESX8AjZCh97I3y+slHxuWRd/yMfCZana2E/BAsl69
+	Ye4l77Ele8LmF9Ii3KHB08fFRQWtQmsPRROPNWXqPH8TIWjYw9Z47bGk=
+X-Google-Smtp-Source: AGHT+IHNYmesH17RC4hBVq4RhTEaAwgh3U3TO/yO0EHYxbE0BSQhMEvihQ2J76h92zaR3+LhiHraj/1fC15O1XnIGJHFLYfBYOXU
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:6d0b:b0:47e:db91:dd2a with SMTP id
- he11-20020a0566386d0b00b0047edb91dd2amr69173jab.3.1712320700928; Fri, 05 Apr
- 2024 05:38:20 -0700 (PDT)
-Date: Fri, 05 Apr 2024 05:38:20 -0700
+X-Received: by 2002:a92:c54c:0:b0:36a:23d5:e371 with SMTP id
+ a12-20020a92c54c000000b0036a23d5e371mr186634ilj.6.1712564777018; Mon, 08 Apr
+ 2024 01:26:17 -0700 (PDT)
+Date: Mon, 08 Apr 2024 01:26:17 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001ee4d3061558bb8d@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Apr 2024)
-From: syzbot <syzbot+listb6eea14750ad5e9c17ba@syzkaller.appspotmail.com>
+Message-ID: <000000000000307a8e0615918f2b@google.com>
+Subject: [syzbot] [ntfs3?] WARNING in attr_data_get_block (4)
+From: syzbot <syzbot+8e034d7422d389827720@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
 	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hello ntfs3 maintainers/developers,
+Hello,
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+syzbot found the following issue on:
 
-During the period, 2 new issues were detected and 0 were fixed.
-In total, 40 issues are still open and 48 have been fixed so far.
+HEAD commit:    fe46a7dd189e Merge tag 'sound-6.9-rc1' of git://git.kernel..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=10fbdda1180000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1a07d5da4eb21586
+dashboard link: https://syzkaller.appspot.com/bug?extid=8e034d7422d389827720
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=171bf3a9180000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1084f189180000
 
-Some of the still happening issues:
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/b42ab0fd4947/disk-fe46a7dd.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/b8a6e7231930/vmlinux-fe46a7dd.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/4fbf3e4ce6f8/bzImage-fe46a7dd.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/7a991be8b13a/mount_0.gz
 
-Ref  Crashes Repro Title
-<1>  5493    Yes   possible deadlock in ntfs_read_folio
-                   https://syzkaller.appspot.com/bug?extid=8ef76b0b1f86c382ad37
-<2>  3886    Yes   kernel BUG at fs/ntfs/aops.c:LINE!
-                   https://syzkaller.appspot.com/bug?extid=6a5a7672f663cce8b156
-<3>  2812    Yes   KMSAN: uninit-value in longest_match_std (2)
-                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
-<4>  2647    Yes   possible deadlock in ni_fiemap
-                   https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
-<5>  2282    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
-                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
-<6>  1837    Yes   possible deadlock in attr_data_get_block
-                   https://syzkaller.appspot.com/bug?extid=36bb70085ef6edc2ebb9
-<7>  1331    Yes   possible deadlock in mi_read
-                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
-<8>  669     Yes   possible deadlock in filemap_fault
-                   https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
-<9>  507     Yes   KASAN: slab-out-of-bounds Read in ntfs_readdir
-                   https://syzkaller.appspot.com/bug?extid=d36761079ac1b585a6df
-<10> 318     Yes   kernel BUG at fs/inode.c:LINE! (2)
-                   https://syzkaller.appspot.com/bug?extid=c92c93d1f1aaaacdb9db
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+8e034d7422d389827720@syzkaller.appspotmail.com
+
+R13: 00007ffd11b1eed8 R14: 431bde82d7b634db R15: 00007fad9422c03b
+ </TASK>
+------------[ cut here ]------------
+DEBUG_RWSEMS_WARN_ON(sem->magic != sem): count = 0x100, magic = 0x0, owner = 0xffff888022b61e01, curr 0xffff888022b61e00, list not empty
+WARNING: CPU: 0 PID: 5077 at kernel/locking/rwsem.c:1342 __up_read+0x508/0x760 kernel/locking/rwsem.c:1342
+Modules linked in:
+CPU: 0 PID: 5077 Comm: syz-executor179 Not tainted 6.8.0-syzkaller-08951-gfe46a7dd189e #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
+RIP: 0010:__up_read+0x508/0x760 kernel/locking/rwsem.c:1342
+Code: 24 10 80 3c 02 00 0f 85 21 02 00 00 48 8b 13 41 57 48 c7 c6 a0 bf 0c 8b 48 c7 c7 e0 bf 0c 8b 4c 8b 4c 24 08 e8 39 9a e5 ff 90 <0f> 0b 90 90 5f e9 c3 fe ff ff c6 05 2c 8a 1d 0e 01 90 4c 8d 7b 58
+RSP: 0018:ffffc900043c6338 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: ffff8880792208a0 RCX: ffffffff8150f3e9
+RDX: ffff888022b61e00 RSI: ffffffff8150f3f6 RDI: 0000000000000001
+RBP: ffffffff8f9f76b4 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000001 R12: ffff8880792208a8
+R13: 1ffff92000878c6b R14: ffff888079220908 R15: ffffffff8b0cbf60
+FS:  00005555685f1380(0000) GS:ffff8880b9400000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fad9427a100 CR3: 0000000078f48000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ attr_data_get_block+0x1f9/0x1b70 fs/ntfs3/attrib.c:905
+ ntfs_get_block_vbo+0x288/0xec0 fs/ntfs3/inode.c:587
+ do_mpage_readpage+0x663/0x17c0 fs/mpage.c:232
+ mpage_readahead+0x34d/0x590 fs/mpage.c:381
+ ntfs_readahead+0x1f7/0x250 fs/ntfs3/inode.c:755
+ read_pages+0x1ab/0xda0 mm/readahead.c:160
+ page_cache_ra_unbounded+0x455/0x5f0 mm/readahead.c:269
+ do_page_cache_ra mm/readahead.c:299 [inline]
+ page_cache_ra_order+0x7b7/0xa70 mm/readahead.c:544
+ ondemand_readahead+0x520/0x1140 mm/readahead.c:666
+ page_cache_sync_ra+0x174/0x1d0 mm/readahead.c:693
+ page_cache_sync_readahead include/linux/pagemap.h:1300 [inline]
+ filemap_get_pages+0xc0f/0x1840 mm/filemap.c:2507
+ filemap_read+0x39b/0xcf0 mm/filemap.c:2603
+ generic_file_read_iter+0x350/0x460 mm/filemap.c:2784
+ ntfs_file_read_iter+0x258/0x330 fs/ntfs3/file.c:768
+ __kernel_read+0x3ef/0xb20 fs/read_write.c:434
+ integrity_kernel_read+0x7f/0xb0 security/integrity/iint.c:28
+ ima_calc_file_hash_tfm+0x2cf/0x3e0 security/integrity/ima/ima_crypto.c:485
+ ima_calc_file_shash security/integrity/ima/ima_crypto.c:516 [inline]
+ ima_calc_file_hash+0x1c6/0x4a0 security/integrity/ima/ima_crypto.c:573
+ ima_collect_measurement+0x7eb/0x950 security/integrity/ima/ima_api.c:291
+ process_measurement+0x11ae/0x2100 security/integrity/ima/ima_main.c:359
+ ima_file_check+0xc1/0x110 security/integrity/ima/ima_main.c:559
+ security_file_post_open+0x70/0xc0 security/security.c:2975
+ do_open fs/namei.c:3644 [inline]
+ path_openat+0x17ad/0x2990 fs/namei.c:3799
+ do_file_open_root+0x2dd/0x5b0 fs/namei.c:3851
+ file_open_root+0x2a8/0x450 fs/open.c:1386
+ do_handle_open+0x3c9/0x5c0 fs/fhandle.c:235
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xd5/0x260 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x6d/0x75
+RIP: 0033:0x7fad941e3b19
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd11b1ec88 EFLAGS: 00000246 ORIG_RAX: 0000000000000130
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fad941e3b19
+RDX: 0000000000000000 RSI: 0000000020000240 RDI: 0000000000000005
+RBP: 00007fad942765f0 R08: 00005555685f24c0 R09: 00005555685f24c0
+R10: 00005555685f24c0 R11: 0000000000000246 R12: 00007ffd11b1ecb0
+R13: 00007ffd11b1eed8 R14: 431bde82d7b634db R15: 00007fad9422c03b
+ </TASK>
+
 
 ---
 This report is generated by a bot. It may contain errors.
 See https://goo.gl/tpsmEJ for more information about syzbot.
 syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-You may send multiple commands in a single email message.
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
