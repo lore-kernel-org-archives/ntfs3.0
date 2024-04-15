@@ -1,123 +1,114 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4078624
-	for <ntfs3@lists.linux.dev>; Thu, 11 Apr 2024 13:01:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E03E45944;
+	Mon, 15 Apr 2024 09:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712840489; cv=none; b=LGysJF959357jYd8RLF+0ffeqL5njdcx/ctS8UKLG09ujBnSXnB4Qs7gKVLPgFhPS7kEaaZHQKFluSaMOMvk+F/U1RViQqfYgfSUjzP8TxdWfXDgWP1T0DWbDFc8nHMcQn4kGbCrCiyeQHBjxTOdr3JpB90qJ34OP93STw7UvD8=
+	t=1713174862; cv=none; b=I8v097bspnOT90FlJKoDyw6EeO5T7WSz1AdH61wTo5pcLPejmulsauhQoo/cblRxqxRTzqEEYCq0EBYXmlcL7HYek5uqLO1H1RYJfpM2j0JFF6FHPb9yq4N/dIS82oEg7ZRQbMLV6ZbFqXCkDrSl/G335Q5tpVNDQAOVBc/hJk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712840489; c=relaxed/simple;
-	bh=fGdFz4lPb4jj3CrN44nc6KASfwrQXmZzloZDR2wULXY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=p7KW5otr81fxmzAH3NUkV8n+Qof3XPqJsFYq280i7qKEXXRMwSvlj1U7vS6zuwUrHdonvDoNcl1MoS0Y5WwxwX07eluYlSUubRMyJIXprbevrUjKljH3HqWCx3erfUksQfUvo81L7KakD5M1uYYYvpJkWLxNWfuP6WErJjTJgy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b=XR7j0gPy; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+	s=arc-20240116; t=1713174862; c=relaxed/simple;
+	bh=NoEbOkT6xpKcfcjZdRZo7iJAnVMKsEeObPkosVfORFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kMNX+qvLI+52G8r8EIhGeuTZmxUrQfFJ+rxWBvOTPVW9n+x+DDjFZjE+MsDhxkZu1LyExxmx7kfkItwR6pu61Eu4Gw4XxceBJMgL9R+wUB7fLdsPaMReiUgHIotklRjGR7OLiS5Ti0lmEUQIVoW9WkqRE7Ly5sj8Yr0gect4cb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NlGYN0Cz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b="XR7j0gPy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1712840483; x=1713445283; i=aros@gmx.com;
-	bh=fGdFz4lPb4jj3CrN44nc6KASfwrQXmZzloZDR2wULXY=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=XR7j0gPyA+iXctmLzj2CiaeabLsvjvvjKQZEpUfGP32Z7twlmj9Tmy1UDWN6+wjw
-	 hpKZyKlpKnaS0+0TCDgAy2+4cDGXKp7IuILkSVS0SO+oJ3Z1dgrxbY5BcknbiIBd2
-	 AKOq5AWTh/BErTlUV2Oens1TkN5U613JWe9sV5e4HDoURMk4qAYaHnNW84mRkq38I
-	 Tqxv+5cRTNI1vgdi1Fxu6WeU/gIGTw2ueEaBsD5kcjyoPr5Ojd8DdP2So5pOdq1k2
-	 FH6yCp6mV0ROfcCV31Y5KxKX8bEa32cb7LUoghrlmrnt41j8RRlKf4sJMZomE3aYA
-	 cFetsyzADipskt2MpQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.37.110.19] ([98.159.234.166]) by mail.gmx.net (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MRmfo-1sMuFt029q-00TCEh; Thu, 11
- Apr 2024 15:01:23 +0200
-Message-ID: <48b67a18-878a-4068-bf3d-bc76960ecc59@gmx.com>
-Date: Thu, 11 Apr 2024 13:01:21 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NlGYN0Cz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9E07C113CC;
+	Mon, 15 Apr 2024 09:54:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713174861;
+	bh=NoEbOkT6xpKcfcjZdRZo7iJAnVMKsEeObPkosVfORFc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NlGYN0CzRlOADAIXkZNUaiy1RbCw72AsWmRqt0l9v/IDG9KKoEyYEXW0b2BzHZ8hu
+	 Mbofryhvu9KtrKdKg72efLeeCZ0tdc66jtTV8H3lRq91amjot5uwr4gw2V7qrgCLyo
+	 g2kneAcIZS49T3dAD90kvrWnMOGAuTufUByPZEMEZAa2OMM563rRmMMbjJsP1lFZkj
+	 MzLBLHHB8sLWELwb07k9vSimPP5iUAF9oKzBohzUtj2TI/aceQvoV64PLtZKuLs1tE
+	 A5RVyVTds0uKDPPwj7h/yRqoHorS3YLfhZRUwzg/fL/AmgbwK4E54i15jZvQRdmGvg
+	 d7Ia7QEEOVYNg==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1rwJ2Z-000000002OA-1ayb;
+	Mon, 15 Apr 2024 11:54:19 +0200
+Date: Mon, 15 Apr 2024 11:54:19 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+	Christian Brauner <brauner@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Anton Altaparmakov <anton@tuxera.com>,
+	Namjae Jeon <linkinjeon@kernel.org>, ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net
+Subject: Re: [PATCH 2/2] ntfs3: remove warning
+Message-ID: <Zhz5S3TA-Nd_8LY8@hovoldconsulting.com>
+References: <Zf2zPf5TO5oYt3I3@hovoldconsulting.com>
+ <20240325-faucht-kiesel-82c6c35504b3@brauner>
+ <ZgFN8LMYPZzp6vLy@hovoldconsulting.com>
+ <20240325-shrimps-ballverlust-dc44fa157138@brauner>
+ <a417b52b-d1c0-4b7d-9d8f-f1b2cd5145f6@leemhuis.info>
+ <b0fa3c40-443b-4b89-99e9-678cbb89a67e@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: NTFS driver excessive logging by default: Correct links count
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- ntfs3@lists.linux.dev
-References: <6215a88a-7d78-4abb-911f-8a3e7033da3e@gmx.com>
- <32a9b58b-9781-4fb5-af86-3ba96041f85f@paragon-software.com>
-From: "Artem S. Tashkinov" <aros@gmx.com>
-In-Reply-To: <32a9b58b-9781-4fb5-af86-3ba96041f85f@paragon-software.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:xX1U2ywEZz8T69DM8qpW5sYrLp1cZcT0h30W1dddX/Mc+ZwMxUz
- rU9UFXxsBdARJLqLUn6iTJqXJwrHYUQBwwlUJzbyGQdB1MgBV6o+wBGxpPghu/H1jzYNjCS
- LLotUtb2AD4E1/3YyeBcy85RaoyfKXvHyQR4CtnE9GAlYUc+gA4hL0/R1GKA2HCzeSb08RJ
- OmeFMLjTChKpQLPKshkzw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:20oqUrZw318=;R5q8jGUqLcHDHy6qurojIrHUjX5
- Lm6GaRbzAiK7EfEzQB0PKJGJTPDbhydy5mdPGFKaXg7PdmyiiyBrtPC8tMEW3MBZe0HGpdPTh
- SMfXnbmKSFzlrzZ/7F9nKPjr3W5ZTinxDIRSV0RLUilXgBMnbYm5QE7MyZ6tukIG0lpFHuok4
- WaQkT1DmxIQMDycvZdDf1nAumeF7hfjW6vjjmLuP/UE5oXPgUTu1x/eDpf9vKRqm5u9Sx6MVf
- GY9LlvbjX7gN0I6syW/tnZK8i/xPAiHdauF2gK+G2p4v6z7+a/uxPLWPkYJzSmCmozNR0AZvo
- sTf6lX8newq9ruQjMK7DIwSHtIiKCFWc1xFFBqvUBeZYw5lTPq6OxKeRdv8U/ZTM9YlLwS60F
- yI8wXPRuHiKLv7J1EEhvMouMEgHkyLde8meL7QvDo/AhEkpg4kYXhaR9k29CqxODzcDXYXavd
- eLyFTq7wsXxyuKmoiSY/j/ZmjmVdirr3AaXA0zLIxGDUtQpOrmfiGzh7BgNjyB1Drbgpo+OX9
- QO63U8GE6KB5DlorsXm3EcrM9OqGjrzoaBAQrCoWucPhlHNYtwrd2r3406CSgWUlik6OJcvjH
- Cdvmc6qcZoEN3i73UUpHE8FE0+bS8e9+RA6vCTR6YuKhkjDVKRnjKgqVXcezkaqGxoop5e9+9
- zC7kkoY/mzOxpYbVKq66v73RqOgA5PRdD4scp2pe4cdpOFfgtypM3aT1QZhmq/V8RWoxHQ9ti
- /LhQbnWAvXDIOfDUmtM7Umt//fnegfkcgZq6+5HNFB3LeEpAZwdZqDu7QM7o0cgHDIYPDIgUj
- KHKCQHcpOkaXfFz1o/xk9esWuLR2LEpyElthhePNFL8N8=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b0fa3c40-443b-4b89-99e9-678cbb89a67e@paragon-software.com>
 
+On Thu, Apr 11, 2024 at 02:03:52PM +0300, Konstantin Komarov wrote:
+> On 04.04.2024 11:06, Linux regression tracking (Thorsten Leemhuis) wrote:
+> > On 25.03.24 13:05, Christian Brauner wrote:
+> >> On Mon, Mar 25, 2024 at 11:12:00AM +0100, Johan Hovold wrote:
+> >>> On Mon, Mar 25, 2024 at 09:34:38AM +0100, Christian Brauner wrote:
+> >>>> This causes visible changes for users that rely on ntfs3 to serve as an
+> >>>> alternative for the legacy ntfs driver. Print statements such as this
+> >>>> should probably be made conditional on a debug config option or similar.
+> >>>>
+> >>>> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+> >>>> Cc: Johan Hovold <johan@kernel.org>
+> >>>> Link: https://lore.kernel.org/r/Zf2zPf5TO5oYt3I3@hovoldconsulting.com
+> >>>> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> >>> Tested-by: Johan Hovold <johan+linaro@kernel.org>
+> >>>
+> >>> I also see a
+> >>>
+> >>> 	ntfs3: Max link count 4000
+> >>>
+> >>> message on mount which wasn't there with NTFS legacy. Is that benign
+> >>> and should be suppressed too perhaps?
+> >> We need a reply from the ntfs3 maintainers here.
 
+> There is no problem in suppressing the output of any messages during 
+> mounting, like:
 
-On 4/11/24 11:00, Konstantin Komarov wrote:
-> On 27.03.2024 13:28, Artem S. Tashkinov wrote:
->> Hello,
->>
->> I hoped 6.8.2 would have the issue fixed but no luck.
->>
->> Whenever I list files on my NTFS partitions I get a lot of SPAM in
->> dmesg, e.g.:
->>
->> ntfs3: sda3: ino=3D14c, Correct links count -> 1.
->> ntfs3: sda3: ino=3D73, Correct links count -> 1.
->> ntfs3: sda3: ino=3D167, Correct links count -> 1.
->> ntfs3: sda3: ino=3Dd9, Correct links count -> 1.
->> ntfs3: sda3: ino=3Dd5, Correct links count -> 1.
->>
->> And the partition in question has been fully chkdsk'ed and has no issue=
-s.
->>
->> Please fix.
->>
->> Best regards,
->> Artem
->
-> Hello Artem,
->
-> Probably your volume contains non-critical (minor) errors.
-> chkdsk does not show them, but fixes them if you specify /f.
->
+> Messages like this:
+> 
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index eb7a8c9fba01..8cc94a6a97ed 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -424,7 +424,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+>      if (names != le16_to_cpu(rec->hard_links)) {
+>          /* Correct minor error on the fly. Do not mark inode as dirty. */
+> -        ntfs_inode_warn(inode, "Correct links count -> %u.", names);
+>          rec->hard_links = cpu_to_le16(names);
+>          ni->mi.dirty = true;
+>      }
+> 
+> can also be suppressed for the sake of seamless transition from a remote 
+> NTFS driver.
+> However, I believe that file system corrections should be reported to 
+> the user.
 
-I have run chkdsk /f twice and I'm still getting these errors:
+A colleague of mine also tracked down a failed boot to the removal of
+the ntfs driver and reported seeing similar warnings with the ntfs3
+driver.
 
-ntfs3: sda7: ino=3D14c, Correct links count -> 1.
-ntfs3: sda7: ino=3D73, Correct links count -> 1.
-ntfs3: sda7: ino=3Dd9, Correct links count -> 1.
-ntfs3: sda7: ino=3D98, Correct links count -> 1.
-ntfs3: sda7: ino=3Dd5, Correct links count -> 1.
-ntfs3: sda7: ino=3Df2, Correct links count -> 1.
-ntfs3: sda7: ino=3De1, Correct links count -> 1.
-ntfs3: sda7: ino=3De8, Correct links count -> 1.
-ntfs3: sda7: ino=3De5, Correct links count -> 1.
-ntfs3: sda7: ino=3De4, Correct links count -> 1.
+We're both accessing an NTFS partition on a Windows on Arm device, but
+it makes you wonder whether these warnings (corrections) are correct or
+indicative of a problem in the driver?
 
-1. It's a bug
-2. Even if it's not a bug (I'm 100% sure there is one since chkdsk does
-not fix it), there must be a single message per partition per boot at most=
-.
-
-Regards,
-Artem
+Johan
