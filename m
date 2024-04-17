@@ -1,94 +1,74 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888D8148318;
-	Wed, 17 Apr 2024 16:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171171474DB;
+	Wed, 17 Apr 2024 17:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713370032; cv=none; b=ty1HUydyg0SSlgjZGwavbG+gBgUQDKrWoVWbmmItPwZWxhB/oZXHrJ4OeX/cB3NL2hZeh0LU3nhO/Ehj9Ypcw1qA5gtce4l1Iz6kGdbjPcapvvyV4VRmM7tF7wWC5Bt0pwQahJZZRU4A84fTG6UwSOY7CXbj5Hep7O0NcF03qXM=
+	t=1713373791; cv=none; b=B6HaZkl5CcP7sgbC8tYeIELPv6c3DhccRN+zXGmVGq5+79SMBjefy8vFdPpnKQAeOd1SgCEf3+bGFCxcX+dcsQzOWc4xn8ZImuvx2z1+Yx7zPm+rrv9pMV1O1CEw6AFDw+U9i0XuQzl6cxMYRRvFpZhN9fcxAcjTBLjecvvcFcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713370032; c=relaxed/simple;
-	bh=JMdImt1rqEG+anLm+o4q9u965rHrPHelnM1X6Rzf8tk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=emN51ZvIl+yk5Jqx3iZk9jOLsxLpwwwJKwjBn8mXCLe7oF4r16IgJMyoRIgAPo5U4U8bjQ+y0Ukw0C4V227LZCIIcQ7+Y5P1tqTeOiryicVbWC9+btk6kr7MEPoBkNF3lmEm+CM8SSJJsPH2miE/WZWqFnSiyMQ7hX6Agtxn6ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=aGuzyX+B; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1713373791; c=relaxed/simple;
+	bh=DW6JlRAmz29yAGaJgq0ObRQBK8QgVwlYF9/qzwutMf4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sm3gxOgpPaSyzGhHHUoQQoRI98WgNpJVSpDyXq9fsS1JYZqHzWFwO8cjYecZ1TaDSamWwcmzagRadh3t9o1YgSX9LzNQ9k4islM2Gj0qkSs9TGyAEj73v7wfmOlSo4OoV0nAqw0/rsZD+rH1tXnMwzW5/7jvaxQaqbig6csgy/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NuI7rYMy; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="aGuzyX+B"
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 2F7E71FE9;
-	Wed, 17 Apr 2024 15:59:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1713369579;
-	bh=5HR+GG9SCNa/Fu4bWlTHqrfnklhDGqCwal0cb0yJpso=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=aGuzyX+Bef2BO+H53d4nZxDdDBmpoTpsESG8PiUklBG1ssfJtmzLjyKe4yDu2OtkN
-	 UFkgRYAbeC1f9VZYgxcKAKfoq0LIO0XMB+nQ96m7hBTsS3w1TThJ5mr8KAdqfJQyvF
-	 hDAScC9s8paOXd7SwVWsrLdTUkCvNlSXawQFUAJg=
-Received: from [192.168.211.17] (192.168.211.17) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 17 Apr 2024 19:07:07 +0300
-Message-ID: <015aa42b-abac-4810-8743-43913ab8e2d9@paragon-software.com>
-Date: Wed, 17 Apr 2024 19:07:06 +0300
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NuI7rYMy"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=TPcTRvYAVJvGgWEdC2RwuYPJ3+0NOl/B/leUs9Y+eBA=; b=NuI7rYMyF+HL0+DIMRpSoi6qzq
+	a/F9/pomwaBUleC8MR0T8CaqmA1RJWGkn2FNHqHZJfVNMHxDwCtfly3xlwU3nF/weI8+Ik0dBubMU
+	nUWXS84uDBgun0FOfN5QC9M6oDyKDE6V1/8OUDXN8QXI6l+tROhL7qXTj67SDCwFVLfPsbA9O3YFJ
+	2r0DLdR/Eu5k5FvYmXPu6M9niy5sJQ+rXbbr1KcCtRnan+UIC8DxJT3QfjuUAT7hD7gp8JMVSNN/l
+	gH7G6AK5/640TOL5xfIklWdpWGYPP2N1RzI+0J7DQA0OyOqjjqnScY8BBOCJ83631ldIN2SfsWwTM
+	IzbULjFA==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rx8n5-00000003LN2-0LHc;
+	Wed, 17 Apr 2024 17:09:47 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH 00/10] ntfs3: Convert (most of) ntfs3 to use folios
+Date: Wed, 17 Apr 2024 18:09:28 +0100
+Message-ID: <20240417170941.797116-1-willy@infradead.org>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ntfs3: remove warning
-To: Christian Brauner <brauner@kernel.org>, Johan Hovold <johan@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Anton Altaparmakov
-	<anton@tuxera.com>, Namjae Jeon <linkinjeon@kernel.org>,
-	<ntfs3@lists.linux.dev>
-CC: <linux-fsdevel@vger.kernel.org>, <linux-ntfs-dev@lists.sourceforge.net>,
-	<regressions@lists.linux.dev>
-References: <Zf2zPf5TO5oYt3I3@hovoldconsulting.com>
- <20240325-faucht-kiesel-82c6c35504b3@brauner>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20240325-faucht-kiesel-82c6c35504b3@brauner>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Transfer-Encoding: 8bit
 
-On 25.03.2024 11:34, Christian Brauner wrote:
-> This causes visible changes for users that rely on ntfs3 to serve as an
-> alternative for the legacy ntfs driver. Print statements such as this
-> should probably be made conditional on a debug config option or similar.
->
-> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> Cc: Johan Hovold <johan@kernel.org>
-> Link: https://lore.kernel.org/r/Zf2zPf5TO5oYt3I3@hovoldconsulting.com
-> Signed-off-by: Christian Brauner <brauner@kernel.org>
-> ---
->   fs/ntfs3/inode.c | 1 -
->   1 file changed, 1 deletion(-)
->
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index eb7a8c9fba01..8cc94a6a97ed 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -424,7 +424,6 @@ static struct inode *ntfs_read_mft(struct inode *inode,
->   
->   	if (names != le16_to_cpu(rec->hard_links)) {
->   		/* Correct minor error on the fly. Do not mark inode as dirty. */
-> -		ntfs_inode_warn(inode, "Correct links count -> %u.", names);
->   		rec->hard_links = cpu_to_le16(names);
->   		ni->mi.dirty = true;
->   	}
-Hello Christian, all,
+I'm not making any attempt here to support large folios.  This is just
+to remove uses of the page-based APIs.  There are still a number of
+places in ntfs3 which use a struct page, but this is a good start on
+the conversions.
 
-The initial and true reason for multiple warnings is the disregard of 
-short (DOS) names when counting hard links.
+Matthew Wilcox (Oracle) (10):
+  ntfs3: Convert ntfs_read_folio to use a folio
+  ntfs3: Convert ntfs_write_begin to use a folio
+  ntfs3: Convert attr_data_read_resident() to take a folio
+  ntfs3: Convert ntfs_write_end() to work on a folio
+  ntfs3: Convert attr_data_write_resident to use a folio
+  ntfs3: Convert attr_make_nonresident to use a folio
+  ntfs3: Convert reading $AttrDef to use folios
+  ntfs3: Use a folio to read UpCase
+  ntfs3: Remove inode_write_data()
+  ntfs3: Remove ntfs_map_page and ntfs_unmap_page
 
-This patch should fixes this bug:
-https://lore.kernel.org/ntfs3/0cb0b314-e4f6-40a2-9628-0fe7d905a676@paragon-software.com/T/#u
+ fs/ntfs3/attrib.c       | 65 +++++++++++++---------------------
+ fs/ntfs3/inode.c        | 77 +++++++++++++----------------------------
+ fs/ntfs3/ntfs_fs.h      | 21 ++---------
+ fs/ntfs3/super.c        | 43 ++++++++++++-----------
+ include/linux/highmem.h | 31 +++++++++++++++++
+ 5 files changed, 104 insertions(+), 133 deletions(-)
 
-There is no longer a need to suppress the message itself.
-
+-- 
+2.43.0
 
