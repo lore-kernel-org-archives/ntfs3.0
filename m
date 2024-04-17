@@ -1,114 +1,66 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511DC172BC3;
-	Wed, 17 Apr 2024 17:09:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A151617166F;
+	Wed, 17 Apr 2024 17:32:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713373797; cv=none; b=BVjE8rYr5kHuupZt3KRxbcKskIq9qkAQvSStHSst3oV+aOZmnP6FHIzP8vwHxnPPw62USQYQtHbjhSN0Hcebfq4SCE47g2kVL0nYdqdR1v4ml2wAabs7OwrdPlRxjtr0NfJlcXF4Du4IrssCbYY7BE0m8Z/b/mZ5+Q/5bxWB7dc=
+	t=1713375155; cv=none; b=kqioai924Bc/hrbfUwilslRwaOyXIm+AzK7DeQnxzMAURdA0jr4gP4boxHD+5NtZS1PG26py1MeEGeqHrf+O2UzDVXZ2GoGyTEIi7NIAeoRkRlAZvXx8vqH4/b/7qbkW2uctdv9wGq56e6jcMvHukm7tXUlGVjdevvvmLNWePqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713373797; c=relaxed/simple;
-	bh=dENt5TGLtcqwH8n2n6+/ROVruoKRRQ0LEMgNut1PvKA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OtoodMaoHOhd7BICdt+MIzbOFRd22Knv7sVV1OcRgqDnv2rOVHkD00cnWjMqMbyE9Vey2+2DilQnQvuUFDmWK/rlIFpONR7bw5HiRPGrFYRc/3y1EbbA5gfWiZqliWhknyf+ChtErG+2VQAzdwRun+lxqoIR/haAMBni3dnVKJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wVteX4Ez; arc=none smtp.client-ip=90.155.50.34
+	s=arc-20240116; t=1713375155; c=relaxed/simple;
+	bh=YVXrtR2Et4haB/FkLEFHhKJVvjhdDPHgw8sByiDRsU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gRI2SgI0QTKAx6o/+8pGQbdd7kd48KMKWeO2WGGtCjFQQnwu02RyJgH0qi/rRdoKP8xr3Ea2CU4x31Cg3z1L6B8m9QTC9tzJi0dgz2Bn6BYRgXcCpJL00HTRqc6+3UzJsSn05Lump1pEwaiSh5khC1hjbZjjyrglKod8kU18bLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=arD7QnF3; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wVteX4Ez"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="arD7QnF3"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=BcwRdNxr+GiV+q3NXyqNKiazMO4WpYoF8YYTvyFIEjM=; b=wVteX4Ez2wlaKoEBLTUG5gCboI
-	ngICImHPkm9hNFVv2MCEI0/MvZk5+sJNJWpK/DZmDMtK2XWJJ+c5KQ/xBXjXCcZsD5COHujZIWsd/
-	I0yMKD0mTPZKraai32/4yhMByJIcqvbjFjlQvpWA4wIXyEPzblUjUdx/HuE4ohiD+hMIn48TGogml
-	bukd5NH4cE8z/icZkv71cLiAAuYvmEFvFUoB41o+01SOsBHv7WzzpbdJ+M7nQ95I6qoQ7qCDS3BmL
-	cVDXH4G0wFX/kD16jnXu5dC9q5mFTivjBSs3W1YseECQy9MQ9Sn7Uz+Spm2tfP0l5TjMR5NQFjGmL
-	vygCtB7w==;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Ed52c9aGmouADGESdUxJRHegkOeZbADbxl3BqKiWlTM=; b=arD7QnF3lS2sZ8K3EpqINcR2a8
+	4DngImSK6XVLk7OZ+z2sl4oOFfNFW1QpprhGunDQipMVWvOA5kQQ0PirWldL+Ku6mimK8tThlCNZ4
+	2cBxdzLVnUiT89d4cAblHMB3X1kq2eho15B2KG1pRFYt1pTk6PUB+FSygW88VlZRV/r6o76jqdAR+
+	vw4oCOZOuyvoC5e/9GiEh3PgiWR7NQ8Eqpskil/9lvykCuRQL2ZsHF/MXM8r1US3mR20PQ/SLrzsr
+	5Qs8JBSawDZJJRAHSZ5dpvXiW+J5G/mAF9S4NuRZmcOp2uVOSZHIxzUIYiXlW2TsjMnsaFRajBmg7
+	TTMLVrtQ==;
 Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rx8nA-00000003LNx-3ad3;
-	Wed, 17 Apr 2024 17:09:53 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+	id 1rx991-00000003OO9-2E1H;
+	Wed, 17 Apr 2024 17:32:27 +0000
+Date: Wed, 17 Apr 2024 18:32:27 +0100
+From: Matthew Wilcox <willy@infradead.org>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	ntfs3@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 09/10] ntfs3: Remove inode_write_data()
-Date: Wed, 17 Apr 2024 18:09:37 +0100
-Message-ID: <20240417170941.797116-10-willy@infradead.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240417170941.797116-1-willy@infradead.org>
+Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 08/10] ntfs3: Use a folio to read UpCase
+Message-ID: <ZiAHq5cm-UwTZF1h@casper.infradead.org>
 References: <20240417170941.797116-1-willy@infradead.org>
+ <20240417170941.797116-9-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240417170941.797116-9-willy@infradead.org>
 
-This function has no callers, so remove it.
+On Wed, Apr 17, 2024 at 06:09:36PM +0100, Matthew Wilcox (Oracle) wrote:
+> Add a memcpy_from_folio_le16() which does the byteswapping.
+> This is now large folio safe and avoids kmap().
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- fs/ntfs3/inode.c   | 30 ------------------------------
- fs/ntfs3/ntfs_fs.h |  1 -
- 2 files changed, 31 deletions(-)
+This patch is missing:
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index cd634398d770..693e8b2f562e 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -1086,36 +1086,6 @@ int ntfs_flush_inodes(struct super_block *sb, struct inode *i1,
- 	return ret;
- }
- 
--int inode_write_data(struct inode *inode, const void *data, size_t bytes)
--{
--	pgoff_t idx;
--
--	/* Write non resident data. */
--	for (idx = 0; bytes; idx++) {
--		size_t op = bytes > PAGE_SIZE ? PAGE_SIZE : bytes;
--		struct page *page = ntfs_map_page(inode->i_mapping, idx);
--
--		if (IS_ERR(page))
--			return PTR_ERR(page);
--
--		lock_page(page);
--		WARN_ON(!PageUptodate(page));
--		ClearPageUptodate(page);
--
--		memcpy(page_address(page), data, op);
--
--		flush_dcache_page(page);
--		SetPageUptodate(page);
--		unlock_page(page);
--
--		ntfs_unmap_page(page);
--
--		bytes -= op;
--		data = Add2Ptr(data, PAGE_SIZE);
--	}
--	return 0;
--}
--
- /*
-  * ntfs_reparse_bytes
-  *
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index d35dc001c2c0..1582cde21988 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -713,7 +713,6 @@ int ntfs3_write_inode(struct inode *inode, struct writeback_control *wbc);
- int ntfs_sync_inode(struct inode *inode);
- int ntfs_flush_inodes(struct super_block *sb, struct inode *i1,
- 		      struct inode *i2);
--int inode_write_data(struct inode *inode, const void *data, size_t bytes);
- struct inode *ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
- 				struct dentry *dentry,
- 				const struct cpu_str *uni, umode_t mode,
--- 
-2.43.0
+@@ -476,6 +476,7 @@ static inline void memcpy_from_folio_le16(u16 *to, struct folio *folio,
+        do {
+                const __le16 *from = kmap_local_folio(folio, offset);
+                size_t chunk = len;
++               int i;
 
+                if (folio_test_highmem(folio) &&
+                    chunk > PAGE_SIZE - offset_in_page(offset))
+
+I'll send a new version if needed, but I'll wait for other feedback
+first.
