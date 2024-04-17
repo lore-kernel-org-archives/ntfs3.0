@@ -1,37 +1,48 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9E5EDC
-	for <ntfs3@lists.linux.dev>; Wed, 17 Apr 2024 13:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204037D071
+	for <ntfs3@lists.linux.dev>; Wed, 17 Apr 2024 13:07:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713359246; cv=none; b=PqM0WE5iVAfT+Offuoz+5bAuYM+Lh/mDGOkeANYMImKY2Bge5w2JLxasi52RRtu95CEPK2AHxKBra8MrXPE+HknHwYyvLAaIZZRjuAQ3e2JvrWEAXiopQubzEVKSMzR5yNjg7FX/SU6rLJ4drzuNg1RelRaSFWesLRw6PluSEQA=
+	t=1713359272; cv=none; b=ZiOdR9oOQW0+g4hBmz/qer0/aV+9uhrsD8H1fdvTl/G0kO3I6NHgQePJ32ynRhGXttdV52+FzSph2E+vYHEdEeB9hCzYQsHfY94m4O+Nqbf9JBQcBdFA/gwsnD0/m0flCZHilGTpJ8LURM7yJG8TcZgkBjOigzcmM7Q4n8f1qWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713359246; c=relaxed/simple;
-	bh=z0IW3/Brxpfkh18MS9+cTaxXo9NVdBoBJ3n5eEgmBjM=;
+	s=arc-20240116; t=1713359272; c=relaxed/simple;
+	bh=lmasahfYKfVOBZlqGI9lYCBg9fkni9arTHpxK4mtGXw=;
 	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
-	 In-Reply-To:Content-Type; b=pA3CKrSkBg0Tg8hafL59hH0TfTGBjRuMkJSICYMiLwg7aXalssC24ctzE/1J0mwb3Thd1+4n8mtSzCaM9MXg5tYxhfwNtzrxXYiFW0ZaChIrp2UyP5Kn92wh/KhaZfjzjPKoVyR5LG8hpqJE9wrS/SiTNqytsqd/FVTjlq2jn0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=dQxfV0hr; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=WYypkfkTW9d1OzRKKEZL+X2C+vK6/TnrNYAKubPFBOVd44H58hQ09YLEfq8/jJla9TVOqtOimZ/nKHS0+2XVoLdLKgEG1pI69xVYg3Mkb/uM4n6evVCNywwf4OsGgarC4g02kkBVJ241jfAX69IritoPU2QD4bTf6gWKnLTe3cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=KH9DerAQ; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=dysMG+oi; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="dQxfV0hr"
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id CEC6E2126;
-	Wed, 17 Apr 2024 12:59:50 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="KH9DerAQ";
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="dysMG+oi"
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 11E1D2126;
+	Wed, 17 Apr 2024 13:00:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1713358790;
-	bh=+s6MrL/MryqHMryIwr1o1fGOI0TS7160OkRPd7Inyqg=;
+	d=paragon-software.com; s=mail; t=1713358818;
+	bh=IMyO98h2ap+R+a4RgdmKeCsdfzkIWjUB3lBQadUdqOQ=;
 	h=Date:Subject:From:To:References:In-Reply-To;
-	b=dQxfV0hr+dNtRjMRJ3grudsr3sK5G3NrH0Fv0CHTXEs5+wsSk/7rco53658zI44gb
-	 TPUz6tMEnL44M6kzO6jp8l3WMOGsnvrBO0zbR5rwDOEks5xLr/EOA69zoYWO682EOy
-	 Q0pvareU23Hr6O6ycMeuQT/WQxAB3JPGEYdpZwBE=
+	b=KH9DerAQZXwiD/zM3X17AjS+GPdu7Y8kHwmMAh+GcEHp4ZY0SEEASN6tO7nzyq/Pm
+	 Euii0gQAmT5qhLo1c2Au0ZDHC9XeX2HRqcZZGdcunaaabLLX2VDJwnPnBPTn4+rgud
+	 gUA7cYpt3szPv5RM9aryTpBeIBUeRoZRMik1GXNE=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 03BC935D;
+	Wed, 17 Apr 2024 13:07:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1713359267;
+	bh=IMyO98h2ap+R+a4RgdmKeCsdfzkIWjUB3lBQadUdqOQ=;
+	h=Date:Subject:From:To:References:In-Reply-To;
+	b=dysMG+oiiCetBRdhchoD5f2jOZhun7Gi7zy8ArGOJj2n+ANbkjGNM1RtT4qfqx2dE
+	 lw0XLZ2zALJKturXwTgTVunvLxkCSlItw4fktGKVC+Jji+E1LHBtJAZon5L+k7I0tl
+	 fyl736oKMIz7femYL5+WKArSkhvChHl3jxUuVuN4=
 Received: from [192.168.211.39] (192.168.211.39) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 17 Apr 2024 16:07:19 +0300
-Message-ID: <d282dfd1-82d0-4eda-8b9d-7b762f62a3dc@paragon-software.com>
-Date: Wed, 17 Apr 2024 16:07:18 +0300
+ 15.1.2375.7; Wed, 17 Apr 2024 16:07:46 +0300
+Message-ID: <eb05b34a-e21c-4948-bef8-0d06fb9d7c5e@paragon-software.com>
+Date: Wed, 17 Apr 2024 16:07:46 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -39,8 +50,7 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH 06/11] fs/ntfs3: Redesign ntfs_create_inode to return error
- code instead of inode
+Subject: [PATCH 07/11] fs/ntfs3: Check 'folio' pointer for NULL
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>, LKML <linux-kernel@vger.kernel.org>,
 	Linux-fsdevel <linux-fsdevel@vger.kernel.org>
@@ -52,164 +62,43 @@ Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
+It can be NULL if bmap is called.
+
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
-  fs/ntfs3/inode.c   | 22 +++++++++++-----------
-  fs/ntfs3/namei.c   | 31 ++++++++-----------------------
-  fs/ntfs3/ntfs_fs.h |  9 ++++-----
-  3 files changed, 23 insertions(+), 39 deletions(-)
+  fs/ntfs3/inode.c | 17 +++++++++++------
+  1 file changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index eb7a8c9fba01..85a10d4a74c4 100644
+index 85a10d4a74c4..94177c1dd818 100644
 --- a/fs/ntfs3/inode.c
 +++ b/fs/ntfs3/inode.c
-@@ -1210,11 +1210,10 @@ ntfs_create_reparse_buffer(struct ntfs_sb_info 
-*sbi, const char *symname,
-   *
-   * NOTE: if fnd != NULL (ntfs_atomic_open) then @dir is locked
-   */
--struct inode *ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
--                struct dentry *dentry,
--                const struct cpu_str *uni, umode_t mode,
--                dev_t dev, const char *symname, u32 size,
--                struct ntfs_fnd *fnd)
-+int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
-+              struct dentry *dentry, const struct cpu_str *uni,
-+              umode_t mode, dev_t dev, const char *symname, u32 size,
-+              struct ntfs_fnd *fnd)
-  {
-      int err;
-      struct super_block *sb = dir->i_sb;
-@@ -1239,6 +1238,9 @@ struct inode *ntfs_create_inode(struct mnt_idmap 
-*idmap, struct inode *dir,
-      struct REPARSE_DATA_BUFFER *rp = NULL;
-      bool rp_inserted = false;
+@@ -570,13 +570,18 @@ static noinline int ntfs_get_block_vbo(struct 
+inode *inode, u64 vbo,
+      clear_buffer_uptodate(bh);
 
-+    /* New file will be resident or non resident. */
-+    const bool new_file_resident = 1;
+      if (is_resident(ni)) {
+-        ni_lock(ni);
+-        err = attr_data_read_resident(ni, &folio->page);
+-        ni_unlock(ni);
+-
+-        if (!err)
+-            set_buffer_uptodate(bh);
++        bh->b_blocknr = RESIDENT_LCN;
+          bh->b_size = block_size;
++        if (!folio) {
++            err = 0;
++        } else {
++            ni_lock(ni);
++            err = attr_data_read_resident(ni, &folio->page);
++            ni_unlock(ni);
 +
-      if (!fnd)
-          ni_lock_dir(dir_ni);
++            if (!err)
++                set_buffer_uptodate(bh);
++        }
+          return err;
+      }
 
-@@ -1478,7 +1480,7 @@ struct inode *ntfs_create_inode(struct mnt_idmap 
-*idmap, struct inode *dir,
-          attr->size = cpu_to_le32(SIZEOF_RESIDENT);
-          attr->name_off = SIZEOF_RESIDENT_LE;
-          attr->res.data_off = SIZEOF_RESIDENT_LE;
--    } else if (S_ISREG(mode)) {
-+    } else if (!new_file_resident && S_ISREG(mode)) {
-          /*
-           * Regular file. Create empty non resident data attribute.
-           */
-@@ -1715,12 +1717,10 @@ struct inode *ntfs_create_inode(struct mnt_idmap 
-*idmap, struct inode *dir,
-      if (!fnd)
-          ni_unlock(dir_ni);
-
--    if (err)
--        return ERR_PTR(err);
--
--    unlock_new_inode(inode);
-+    if (!err)
-+        unlock_new_inode(inode);
-
--    return inode;
-+    return err;
-  }
-
-  int ntfs_link_inode(struct inode *inode, struct dentry *dentry)
-diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
-index edb6a7141246..71498421ce60 100644
---- a/fs/ntfs3/namei.c
-+++ b/fs/ntfs3/namei.c
-@@ -107,12 +107,8 @@ static struct dentry *ntfs_lookup(struct inode 
-*dir, struct dentry *dentry,
-  static int ntfs_create(struct mnt_idmap *idmap, struct inode *dir,
-                 struct dentry *dentry, umode_t mode, bool excl)
-  {
--    struct inode *inode;
--
--    inode = ntfs_create_inode(idmap, dir, dentry, NULL, S_IFREG | mode, 0,
--                  NULL, 0, NULL);
--
--    return IS_ERR(inode) ? PTR_ERR(inode) : 0;
-+    return ntfs_create_inode(idmap, dir, dentry, NULL, S_IFREG | mode, 0,
-+                 NULL, 0, NULL);
-  }
-
-  /*
-@@ -123,12 +119,8 @@ static int ntfs_create(struct mnt_idmap *idmap, 
-struct inode *dir,
-  static int ntfs_mknod(struct mnt_idmap *idmap, struct inode *dir,
-                struct dentry *dentry, umode_t mode, dev_t rdev)
-  {
--    struct inode *inode;
--
--    inode = ntfs_create_inode(idmap, dir, dentry, NULL, mode, rdev, 
-NULL, 0,
--                  NULL);
--
--    return IS_ERR(inode) ? PTR_ERR(inode) : 0;
-+    return ntfs_create_inode(idmap, dir, dentry, NULL, mode, rdev, NULL, 0,
-+                 NULL);
-  }
-
-  /*
-@@ -200,15 +192,12 @@ static int ntfs_symlink(struct mnt_idmap *idmap, 
-struct inode *dir,
-              struct dentry *dentry, const char *symname)
-  {
-      u32 size = strlen(symname);
--    struct inode *inode;
-
-      if (unlikely(ntfs3_forced_shutdown(dir->i_sb)))
-          return -EIO;
-
--    inode = ntfs_create_inode(idmap, dir, dentry, NULL, S_IFLNK | 0777, 0,
--                  symname, size, NULL);
--
--    return IS_ERR(inode) ? PTR_ERR(inode) : 0;
-+    return ntfs_create_inode(idmap, dir, dentry, NULL, S_IFLNK | 0777, 0,
-+                 symname, size, NULL);
-  }
-
-  /*
-@@ -217,12 +206,8 @@ static int ntfs_symlink(struct mnt_idmap *idmap, 
-struct inode *dir,
-  static int ntfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
-                struct dentry *dentry, umode_t mode)
-  {
--    struct inode *inode;
--
--    inode = ntfs_create_inode(idmap, dir, dentry, NULL, S_IFDIR | mode, 0,
--                  NULL, 0, NULL);
--
--    return IS_ERR(inode) ? PTR_ERR(inode) : 0;
-+    return ntfs_create_inode(idmap, dir, dentry, NULL, S_IFDIR | mode, 0,
-+                 NULL, 0, NULL);
-  }
-
-  /*
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index 79356fd29a14..3db6a61f61dc 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -714,11 +714,10 @@ int ntfs_sync_inode(struct inode *inode);
-  int ntfs_flush_inodes(struct super_block *sb, struct inode *i1,
-                struct inode *i2);
-  int inode_write_data(struct inode *inode, const void *data, size_t bytes);
--struct inode *ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
--                struct dentry *dentry,
--                const struct cpu_str *uni, umode_t mode,
--                dev_t dev, const char *symname, u32 size,
--                struct ntfs_fnd *fnd);
-+int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
-+              struct dentry *dentry, const struct cpu_str *uni,
-+              umode_t mode, dev_t dev, const char *symname, u32 size,
-+              struct ntfs_fnd *fnd);
-  int ntfs_link_inode(struct inode *inode, struct dentry *dentry);
-  int ntfs_unlink_inode(struct inode *dir, const struct dentry *dentry);
-  void ntfs_evict_inode(struct inode *inode);
 -- 
 2.34.1
 
