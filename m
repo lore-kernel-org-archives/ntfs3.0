@@ -1,37 +1,48 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CF513C90A
-	for <ntfs3@lists.linux.dev>; Wed, 17 Apr 2024 13:06:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E52A13D2BA
+	for <ntfs3@lists.linux.dev>; Wed, 17 Apr 2024 13:06:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713359168; cv=none; b=bOrOyOEGrZiY3ra4oq5jtccQMs8F3bw019GF/bYHYh5+VfnkLCXiNLUvNYzybLtkMf6vNoTvfOKjmNqLyjOm4NLrbX/140PRyibttKVCYRhp1MBMCSg1hbGWSMDU9ijIK2pw0LUYWiBjeG+KhlBc6kjDO2pGj134GpnvelCb/zA=
+	t=1713359184; cv=none; b=gYfoXuI/PD3nvRnslL03tVWMC9m7eOZpRI+uNIBull8TXHBVtv0N2zaxZfzAqRwuevsqTgrewukFxFry8N5oAHfTlpcjrit2y+MTCdRzJpiu7tI5vA3N403Bgb04pUmW+fjyix2EK8yIrs8VKIhU0MET2nD41EhP4jf1tUKwmCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713359168; c=relaxed/simple;
-	bh=9Ie/YLM/joywAkgY5c4+CnSqKB8Gr3vixzyksohbcTw=;
+	s=arc-20240116; t=1713359184; c=relaxed/simple;
+	bh=o2Pgs/OHVyxb8mEbOBd0XpJqiR9GMrCKt0nOnueqKXY=;
 	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
-	 In-Reply-To:Content-Type; b=j2Enx/sthIowe5k90egaOdWjX/vC5EK8LE7yGM1DOKm748Ts49USh5fB2Jw8pBDC5A+0wBlYwVfWvkQ0RiEbnGD+1bT2uvjP7Jx3vZAc89wZit+67uLFKPNaP0jVITmRgvZcUss2bL3iMOtxZCxXg5f/0TBAKVb19wVOLFsUHX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=NVHiYSx9; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=QE9eR7vFQ1aRzmEq46e23roTa8Y4gRFkfDuHbM7zMahQGVowX1Yrff5c+CnIkTlifnRRfmB8fyFAvYhRtibrBE+7OF7qMlAMI0nmqUIKLS/cW6A/Zs0YdpdRvapXxgWEXYoylMe/wMWDNc6m3aNByAz7lp/66+rSELe2lCWBqCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=LuZVpP1n; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=giFrNiZh; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="NVHiYSx9"
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 213B32126;
-	Wed, 17 Apr 2024 12:58:33 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="LuZVpP1n";
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="giFrNiZh"
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 4BA492126;
+	Wed, 17 Apr 2024 12:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1713358713;
-	bh=sstzwDA7HJF1SbYTI7fJ3qkhbZk4t2Sju46k98cE9Mk=;
+	d=paragon-software.com; s=mail; t=1713358732;
+	bh=x+Bby5lC0g9OLE4iwMauFcXl4HfEIHzHrb5HCchtf4s=;
 	h=Date:Subject:From:To:References:In-Reply-To;
-	b=NVHiYSx9A3Qy8ga9U6cPD4ucTqsztbDPJ3G1vOyNDXOz4qvhmIox/kSwJLwFDFEOt
-	 L83ygnznR6U2/UJcQVTvOOlXrMcPoTcFpTwHCHf+G5qoUYWKD0VZkBTOwObmRfBjRg
-	 pAhiJejHIrPpDsVwzcRb+XZDWj1UXcYwewVnNQUM=
+	b=LuZVpP1nFq0Qm4yxVRUAhTHFcbjiLRXLtlC8bp3Dk6Tvhl1ArB/wR7hYOET2lw47d
+	 LinyybqqDtpdqro4a6OXnGw6vpNpay44Cs6cHkNFfsyjFOL19SGChueGG2YulRrM2f
+	 RPIIv/xe/lA/Fr19x12JdeXWPRgULHfSAfT0GdQE=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 3B76035D;
+	Wed, 17 Apr 2024 13:06:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1713359181;
+	bh=x+Bby5lC0g9OLE4iwMauFcXl4HfEIHzHrb5HCchtf4s=;
+	h=Date:Subject:From:To:References:In-Reply-To;
+	b=giFrNiZhMuFUBviOnDgmEsuzFBpvUkRfrCC0Kb13mvyjf8Nn5S1vhgrWJBwoPEumw
+	 ofiFcl9/9HfJY1OQwhUAWbj6iLkyrvrJb7ZZb+AfPQUnGuxok4quC1v6EiGnIDq9uS
+	 dtOZuyKSOHX7Veu/4BvbbU5LifUVjUx1Jwsi756s=
 Received: from [192.168.211.39] (192.168.211.39) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 17 Apr 2024 16:06:01 +0300
-Message-ID: <dd3781f1-ca7f-4e7f-a7e3-453c8c29573e@paragon-software.com>
-Date: Wed, 17 Apr 2024 16:06:01 +0300
+ 15.1.2375.7; Wed, 17 Apr 2024 16:06:20 +0300
+Message-ID: <02e53c60-92f6-4d43-a9a1-bf4c17ec021e@paragon-software.com>
+Date: Wed, 17 Apr 2024 16:06:20 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -39,7 +50,8 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH 03/11] fs/ntfs3: Mark volume as dirty if xattr is broken
+Subject: [PATCH 04/11] fs/ntfs3: Use variable length array instead of fixed
+ size
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>, LKML <linux-kernel@vger.kernel.org>,
 	Linux-fsdevel <linux-fsdevel@vger.kernel.org>
@@ -53,62 +65,22 @@ X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
 
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
-  fs/ntfs3/xattr.c | 17 +++++++++++------
-  1 file changed, 11 insertions(+), 6 deletions(-)
+  fs/ntfs3/ntfs.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 53e7d1fa036a..872df2197202 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -200,6 +200,7 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, 
-char *buffer,
-      int err;
-      int ea_size;
-      size_t ret;
-+    u8 name_len;
+diff --git a/fs/ntfs3/ntfs.h b/fs/ntfs3/ntfs.h
+index 9c7478150a03..3d6143c7abc0 100644
+--- a/fs/ntfs3/ntfs.h
++++ b/fs/ntfs3/ntfs.h
+@@ -59,7 +59,7 @@ struct GUID {
+  struct cpu_str {
+      u8 len;
+      u8 unused;
+-    u16 name[10];
++    u16 name[];
+  };
 
-      err = ntfs_read_ea(ni, &ea_all, 0, &info);
-      if (err)
-@@ -215,28 +216,32 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, 
-char *buffer,
-      for (off = 0; off + sizeof(struct EA_FULL) < size; off += ea_size) {
-          ea = Add2Ptr(ea_all, off);
-          ea_size = unpacked_ea_size(ea);
-+        name_len = ea->name_len;
-
--        if (!ea->name_len)
-+        if (!name_len)
-              break;
-
--        if (ea->name_len > ea_size)
-+        if (name_len > ea_size) {
-+            ntfs_set_state(ni->mi.sbi, NTFS_DIRTY_ERROR);
-+            err = -EINVAL; /* corrupted fs. */
-              break;
-+        }
-
-          if (buffer) {
-              /* Check if we can use field ea->name */
-              if (off + ea_size > size)
-                  break;
-
--            if (ret + ea->name_len + 1 > bytes_per_buffer) {
-+            if (ret + name_len + 1 > bytes_per_buffer) {
-                  err = -ERANGE;
-                  goto out;
-              }
-
--            memcpy(buffer + ret, ea->name, ea->name_len);
--            buffer[ret + ea->name_len] = 0;
-+            memcpy(buffer + ret, ea->name, name_len);
-+            buffer[ret + name_len] = 0;
-          }
-
--        ret += ea->name_len + 1;
-+        ret += name_len + 1;
-      }
-
-  out:
+  struct le_str {
 -- 
 2.34.1
 
