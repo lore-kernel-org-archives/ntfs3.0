@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E70910FA;
-	Thu, 18 Apr 2024 00:01:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA8B4F5EC;
+	Thu, 18 Apr 2024 03:26:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713398513; cv=none; b=hvFUh1/1XAZSs0sU1WTOS2IBORLhoxHYK6k8Wbf5+hnlNerJmGLKwBE48VWzTzHX+DTSO/NSiMshpN0Sftv/kMy9k6+ZtAiCVoFLA66alh2tM2TpJEiZJIFm8HKQylTZmyRcEmgvnjxV2yAH2thCFyN7gnJOnnCC4p0hGuFIn6Y=
+	t=1713410811; cv=none; b=Olu13GqsA64aD+wFdn/Ka+CCSBybmcev5mb6YoNfp8de2pMtHN9uaaRw9dio4VAZNn1gebSQCJiVPMTNsoVdEGFojUWNG5foyOZaHpo4WS3n6JCjFRgUpExxYY4vK0aIc5X1RurYVEJl/A/wewPuGq+D60lnz/NQzeHV+0RyxlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713398513; c=relaxed/simple;
-	bh=MEsxprPcP5ihcXIhuWTJGzTfDpKC1EX9/qPvZLt32rc=;
+	s=arc-20240116; t=1713410811; c=relaxed/simple;
+	bh=5aekoJC6yNzG/G41GtrPthg56QUrUuVa8/E9DnDE95s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BfMaOnTK1IIw+o7S+KbKdH55wqul28Da1XsMShq4A9fAvt3cnvrZ9uBUN59mPt+KlPvr3jBltknHPFI20YbXhcnucskolBDFRMK8+XvZgJq8AIz/fwWJ4L76BPCxbqib3v4FvphwhMptEe1kPgNfYwamtMbpkAw6PZQyJJVGjR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kUkseB2R; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=MZDNtHVeOTBF9LNPhY5Rt0nHe4OsbKKM4hxl+diGsomYILHhqWDVqp1nxI+BCBffOHTM9NpIlKYzGlyRtNxYRPqwDFQHDzYSF0hqtBqm+epqTqocTCx9meMYNayGQwpXitjWDLJqXR9D5tpFiJPJtWqn1jFgcZ4pBRZqKAaqevg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=moBDJETo; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kUkseB2R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="moBDJETo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713398511; x=1744934511;
+  t=1713410809; x=1744946809;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MEsxprPcP5ihcXIhuWTJGzTfDpKC1EX9/qPvZLt32rc=;
-  b=kUkseB2ReuugfclT6MBsGSCB5RWcz31rZdt5txOa1Z3ZpAiDworD4JRQ
-   mfX2LWlNrL92szA4759kf40u7imfB0wmcNWfqGTL/jirUp6azHDJMHfxS
-   GtRfbYSTf7oLoM7c3iflqWSmxZ8iIqnXuARVwGBLUzZQKG/yGFhMbSZk7
-   gdD+ZyxhJSDPgdB59/ZTRWSKZhfDENjaty2jZnS5HacGyMUrfjMhqAJec
-   RCcI+Sv4SHqfxqqmZAqqtffN6AEHfEI9zyb9xYtNNjwTiiaCzwNo8QRFG
-   ZrCnbp6SIX0ZyJQeA2dqYN07nIs0BEfku11GXX0VNV6RmyCqMa5KZLmpP
-   A==;
-X-CSE-ConnectionGUID: EHrbJHEuThWCnsvVB0FAIQ==
-X-CSE-MsgGUID: T7Qy2kPrQUK8lGEzdp4dVg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="31399390"
-X-IronPort-AV: E=Sophos;i="6.07,210,1708416000"; 
-   d="scan'208";a="31399390"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 17:01:51 -0700
-X-CSE-ConnectionGUID: OV/cB7BDSu+Y4X+hjIL4DA==
-X-CSE-MsgGUID: xLMB8mUrRcGI6zJzT+uSwQ==
+  bh=5aekoJC6yNzG/G41GtrPthg56QUrUuVa8/E9DnDE95s=;
+  b=moBDJEToMWigANpmiPN/jEHmZndE55kCjk6d4e8GPtQ2wOnly6+cAXNF
+   x0ljkMr0MD72gJb0muDRf9O75EqptICpryTpUaGLE4IXcP6uPI/Qo/4gq
+   H17BwQqzKoNb2z/1gRl4BHNlKay9nwq7hSnGMzJ99vScWKwzS1BVCMv48
+   Cyg+DXtmnmPGSVflaUmrnuLCExL7lJOUvydeHAXTlGGCIwU4/T/vQEKAI
+   ZSfXpeUaRLuO9ieQbBuGmzPNxHhuKYWPrMnYDMruZqz9qlMUKcFrgtccK
+   XZHozVgm1oug4C7xQzEoOQbuItM9Bok4KmaK4D8IG9H/Y8V5pAhckfgW2
+   w==;
+X-CSE-ConnectionGUID: WnSToH0OSmKzLLvYRdoh8w==
+X-CSE-MsgGUID: 9RMk65ZwRFq2BKudHKDQNA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="9054962"
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="9054962"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 20:26:48 -0700
+X-CSE-ConnectionGUID: oXXvlaNfTi+NmXj7FMUpoA==
+X-CSE-MsgGUID: BkJ6MC/8SNWDfZhpSTKLyQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,210,1708416000"; 
-   d="scan'208";a="60229062"
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
+   d="scan'208";a="22895924"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 17 Apr 2024 17:01:50 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Apr 2024 20:26:46 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxFDm-00076G-2k;
-	Thu, 18 Apr 2024 00:01:46 +0000
-Date: Thu, 18 Apr 2024 08:01:21 +0800
+	id 1rxIQ6-0007GS-1o;
+	Thu, 18 Apr 2024 03:26:43 +0000
+Date: Thu, 18 Apr 2024 11:26:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev
-Subject: [paragon-software-group-ntfs3:master 12/13]
- fs/ntfs3/super.c:1241:26: warning: variable 'attr' is uninitialized when
- used here
-Message-ID: <202404180700.klXItylp-lkp@intel.com>
+Subject: [paragon-software-group-ntfs3:master 11/13]
+ fs/ntfs3/super.c:1473:40: sparse: sparse: incorrect type in initializer
+ (different base types)
+Message-ID: <202404181111.Wz8a1qX6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -65,206 +65,253 @@ Content-Disposition: inline
 
 tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git master
 head:   21b6b5bc6774720b8298d9e362bec01a53ec693b
-commit: 6be30a7aa20b0ed8e6d065c714c41ff8cf419c17 [12/13] fs/ntfs3: Remove cached label from sbi
-config: x86_64-randconfig-r071-20240418 (https://download.01.org/0day-ci/archive/20240418/202404180700.klXItylp-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240418/202404180700.klXItylp-lkp@intel.com/reproduce)
+commit: ad4d82df0d44e558d23aba1954040e9b531796c4 [11/13] fs/ntfs3: Optimize to store sorted attribute definition table
+config: parisc-randconfig-r133-20240418 (https://download.01.org/0day-ci/archive/20240418/202404181111.Wz8a1qX6-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240418/202404181111.Wz8a1qX6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404180700.klXItylp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404181111.Wz8a1qX6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/ntfs3/super.c:465:23: sparse: sparse: unknown escape sequence: '%'
+>> fs/ntfs3/super.c:1473:40: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 const [usertype] *src @@     got unsigned short [usertype] *upcase @@
+   fs/ntfs3/super.c:1473:40: sparse:     expected restricted __le16 const [usertype] *src
+   fs/ntfs3/super.c:1473:40: sparse:     got unsigned short [usertype] *upcase
 
->> fs/ntfs3/super.c:1241:26: warning: variable 'attr' is uninitialized when used here [-Wuninitialized]
-    1241 |         attr = ni_find_attr(ni, attr, NULL, ATTR_VOL_INFO, NULL, 0, NULL, NULL);
-         |                                 ^~~~
-   fs/ntfs3/super.c:1186:21: note: initialize the variable 'attr' to silence this warning
-    1186 |         struct ATTRIB *attr;
-         |                            ^
-         |                             = NULL
-   1 warning generated.
+vim +1473 fs/ntfs3/super.c
 
-
-vim +/attr +1241 fs/ntfs3/super.c
-
-82cae269cfa953 Konstantin Komarov 2021-08-13  1172  
-e8b8e97f91b80f Kari Argillander   2021-08-03  1173  /*
-e8b8e97f91b80f Kari Argillander   2021-08-03  1174   * ntfs_fill_super - Try to mount.
-e8b8e97f91b80f Kari Argillander   2021-08-03  1175   */
-610f8f5a7baf99 Kari Argillander   2021-09-07  1176  static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
-82cae269cfa953 Konstantin Komarov 2021-08-13  1177  {
-82cae269cfa953 Konstantin Komarov 2021-08-13  1178  	int err;
-610f8f5a7baf99 Kari Argillander   2021-09-07  1179  	struct ntfs_sb_info *sbi = sb->s_fs_info;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1180  	struct block_device *bdev = sb->s_bdev;
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1181  	struct ntfs_mount_options *options;
-10b4f12c702839 Kari Argillander   2021-09-09  1182  	struct inode *inode;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1183  	struct ntfs_inode *ni;
-ec5fc720137625 Konstantin Komarov 2022-10-11  1184  	size_t i, tt, bad_len, bad_frags;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1185  	CLST vcn, lcn, len;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1186  	struct ATTRIB *attr;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1187  	const struct VOLUME_INFO *info;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1188  	u16 *shared;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1189  	struct MFT_REF ref;
-6a4cd3ea7d771b Konstantin Komarov 2023-05-08  1190  	bool ro = sb_rdonly(sb);
-f1d325b8c75e90 Konstantin Komarov 2023-05-08  1191  	struct NTFS_BOOT *boot2 = NULL;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1192  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1193  	ref.high = 0;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1194  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1195  	sbi->sb = sb;
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1196  	sbi->options = options = fc->fs_private;
-cd39981fb92adf Konstantin Komarov 2022-05-11  1197  	fc->fs_private = NULL;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1198  	sb->s_flags |= SB_NODIRATIME;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1199  	sb->s_magic = 0x7366746e; // "ntfs"
-82cae269cfa953 Konstantin Komarov 2021-08-13  1200  	sb->s_op = &ntfs_sops;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1201  	sb->s_export_op = &ntfs_export_ops;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1202  	sb->s_time_gran = NTFS_TIME_GRAN; // 100 nsec
-82cae269cfa953 Konstantin Komarov 2021-08-13  1203  	sb->s_xattr = ntfs_xattr_handlers;
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1204  	sb->s_d_op = options->nocase ? &ntfs_dentry_ops : NULL;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1205  
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1206  	options->nls = ntfs_load_nls(options->nls_name);
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1207  	if (IS_ERR(options->nls)) {
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1208  		options->nls = NULL;
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1209  		errorf(fc, "Cannot load nls %s", options->nls_name);
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1210  		err = -EINVAL;
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1211  		goto out;
-610f8f5a7baf99 Kari Argillander   2021-09-07  1212  	}
-82cae269cfa953 Konstantin Komarov 2021-08-13  1213  
-7b47ef52d0a202 Christoph Hellwig  2022-04-15  1214  	if (bdev_max_discard_sectors(bdev) && bdev_discard_granularity(bdev)) {
-7b47ef52d0a202 Christoph Hellwig  2022-04-15  1215  		sbi->discard_granularity = bdev_discard_granularity(bdev);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1216  		sbi->discard_granularity_mask_inv =
-82cae269cfa953 Konstantin Komarov 2021-08-13  1217  			~(u64)(sbi->discard_granularity - 1);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1218  	}
-82cae269cfa953 Konstantin Komarov 2021-08-13  1219  
-e8b8e97f91b80f Kari Argillander   2021-08-03  1220  	/* Parse boot. */
-f09dac9afb8e3c Christoph Hellwig  2022-04-15  1221  	err = ntfs_init_from_boot(sb, bdev_logical_block_size(bdev),
-f1d325b8c75e90 Konstantin Komarov 2023-05-08  1222  				  bdev_nr_bytes(bdev), &boot2);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1223  	if (err)
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1224  		goto out;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1225  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1226  	/*
-e8b8e97f91b80f Kari Argillander   2021-08-03  1227  	 * Load $Volume. This should be done before $LogFile
-ad4d82df0d44e5 Konstantin Komarov 2024-04-16  1228  	 * 'cause 'sbi->volume.ni' is used in 'ntfs_set_state'.
-82cae269cfa953 Konstantin Komarov 2021-08-13  1229  	 */
-82cae269cfa953 Konstantin Komarov 2021-08-13  1230  	ref.low = cpu_to_le32(MFT_REC_VOL);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1231  	ref.seq = cpu_to_le16(MFT_REC_VOL);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1232  	inode = ntfs_iget5(sb, &ref, &NAME_VOLUME);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1233  	if (IS_ERR(inode)) {
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1234  		err = PTR_ERR(inode);
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1235  		ntfs_err(sb, "Failed to load $Volume (%d).", err);
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1236  		goto out;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1237  	}
-82cae269cfa953 Konstantin Komarov 2021-08-13  1238  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1239  	ni = ntfs_i(inode);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1240  
-82cae269cfa953 Konstantin Komarov 2021-08-13 @1241  	attr = ni_find_attr(ni, attr, NULL, ATTR_VOL_INFO, NULL, 0, NULL, NULL);
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1242  	if (!attr || is_attr_ext(attr) ||
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1243  	    !(info = resident_data_ex(attr, SIZEOF_ATTRIBUTE_VOLUME_INFO))) {
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1244  		ntfs_err(sb, "$Volume is corrupted.");
-82cae269cfa953 Konstantin Komarov 2021-08-13  1245  		err = -EINVAL;
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1246  		goto put_inode_out;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1247  	}
-82cae269cfa953 Konstantin Komarov 2021-08-13  1248  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1249  	sbi->volume.major_ver = info->major_ver;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1250  	sbi->volume.minor_ver = info->minor_ver;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1251  	sbi->volume.flags = info->flags;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1252  	sbi->volume.ni = ni;
-6a4cd3ea7d771b Konstantin Komarov 2023-05-08  1253  	if (info->flags & VOLUME_FLAG_DIRTY) {
-6a4cd3ea7d771b Konstantin Komarov 2023-05-08  1254  		sbi->volume.real_dirty = true;
-6a4cd3ea7d771b Konstantin Komarov 2023-05-08  1255  		ntfs_info(sb, "It is recommened to use chkdsk.");
-6a4cd3ea7d771b Konstantin Komarov 2023-05-08  1256  	}
-82cae269cfa953 Konstantin Komarov 2021-08-13  1257  
-e8b8e97f91b80f Kari Argillander   2021-08-03  1258  	/* Load $MFTMirr to estimate recs_mirr. */
-82cae269cfa953 Konstantin Komarov 2021-08-13  1259  	ref.low = cpu_to_le32(MFT_REC_MIRR);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1260  	ref.seq = cpu_to_le16(MFT_REC_MIRR);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1261  	inode = ntfs_iget5(sb, &ref, &NAME_MIRROR);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1262  	if (IS_ERR(inode)) {
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1263  		err = PTR_ERR(inode);
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1264  		ntfs_err(sb, "Failed to load $MFTMirr (%d).", err);
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1265  		goto out;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1266  	}
-82cae269cfa953 Konstantin Komarov 2021-08-13  1267  
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1268  	sbi->mft.recs_mirr = ntfs_up_cluster(sbi, inode->i_size) >>
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1269  			     sbi->record_bits;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1270  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1271  	iput(inode);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1272  
-d3624466b56dd5 Konstantin Komarov 2021-08-31  1273  	/* Load LogFile to replay. */
-82cae269cfa953 Konstantin Komarov 2021-08-13  1274  	ref.low = cpu_to_le32(MFT_REC_LOG);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1275  	ref.seq = cpu_to_le16(MFT_REC_LOG);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1276  	inode = ntfs_iget5(sb, &ref, &NAME_LOGFILE);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1277  	if (IS_ERR(inode)) {
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1278  		err = PTR_ERR(inode);
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1279  		ntfs_err(sb, "Failed to load \x24LogFile (%d).", err);
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1280  		goto out;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1281  	}
-82cae269cfa953 Konstantin Komarov 2021-08-13  1282  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1283  	ni = ntfs_i(inode);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1284  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1285  	err = ntfs_loadlog_and_replay(ni, sbi);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1286  	if (err)
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1287  		goto put_inode_out;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1288  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1289  	iput(inode);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1290  
-6a4cd3ea7d771b Konstantin Komarov 2023-05-08  1291  	if ((sbi->flags & NTFS_FLAGS_NEED_REPLAY) && !ro) {
-6a4cd3ea7d771b Konstantin Komarov 2023-05-08  1292  		ntfs_warn(sb, "failed to replay log file. Can't mount rw!");
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1293  		err = -EINVAL;
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1294  		goto out;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1295  	}
-6a4cd3ea7d771b Konstantin Komarov 2023-05-08  1296  
-6a4cd3ea7d771b Konstantin Komarov 2023-05-08  1297  	if ((sbi->volume.flags & VOLUME_FLAG_DIRTY) && !ro && !options->force) {
-6a4cd3ea7d771b Konstantin Komarov 2023-05-08  1298  		ntfs_warn(sb, "volume is dirty and \"force\" flag is not set!");
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1299  		err = -EINVAL;
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1300  		goto out;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1301  	}
-82cae269cfa953 Konstantin Komarov 2021-08-13  1302  
-e8b8e97f91b80f Kari Argillander   2021-08-03  1303  	/* Load $MFT. */
-82cae269cfa953 Konstantin Komarov 2021-08-13  1304  	ref.low = cpu_to_le32(MFT_REC_MFT);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1305  	ref.seq = cpu_to_le16(1);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1306  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1307  	inode = ntfs_iget5(sb, &ref, &NAME_MFT);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1308  	if (IS_ERR(inode)) {
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1309  		err = PTR_ERR(inode);
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1310  		ntfs_err(sb, "Failed to load $MFT (%d).", err);
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1311  		goto out;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1312  	}
-82cae269cfa953 Konstantin Komarov 2021-08-13  1313  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1314  	ni = ntfs_i(inode);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1315  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1316  	sbi->mft.used = ni->i_valid >> sbi->record_bits;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1317  	tt = inode->i_size >> sbi->record_bits;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1318  	sbi->mft.next_free = MFT_REC_USER;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1319  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1320  	err = wnd_init(&sbi->mft.bitmap, sb, tt);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1321  	if (err)
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1322  		goto put_inode_out;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1323  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1324  	err = ni_load_all_mi(ni);
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1325  	if (err) {
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1326  		ntfs_err(sb, "Failed to load $MFT's subrecords (%d).", err);
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1327  		goto put_inode_out;
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1328  	}
-82cae269cfa953 Konstantin Komarov 2021-08-13  1329  
-82cae269cfa953 Konstantin Komarov 2021-08-13  1330  	sbi->mft.ni = ni;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1331  
-e8b8e97f91b80f Kari Argillander   2021-08-03  1332  	/* Load $Bitmap. */
-82cae269cfa953 Konstantin Komarov 2021-08-13  1333  	ref.low = cpu_to_le32(MFT_REC_BITMAP);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1334  	ref.seq = cpu_to_le16(MFT_REC_BITMAP);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1335  	inode = ntfs_iget5(sb, &ref, &NAME_BITMAP);
-82cae269cfa953 Konstantin Komarov 2021-08-13  1336  	if (IS_ERR(inode)) {
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1337  		err = PTR_ERR(inode);
-e43f6ec224c1b4 Konstantin Komarov 2023-02-15  1338  		ntfs_err(sb, "Failed to load $Bitmap (%d).", err);
-9b75450d6c5801 Konstantin Komarov 2021-09-28  1339  		goto out;
-82cae269cfa953 Konstantin Komarov 2021-08-13  1340  	}
-82cae269cfa953 Konstantin Komarov 2021-08-13  1341  
-
-:::::: The code at line 1241 was first introduced by commit
-:::::: 82cae269cfa953032fbb8980a7d554d60fb00b17 fs/ntfs3: Add initialization of super block
-
-:::::: TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-:::::: CC: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+  1339	
+  1340		/* Check bitmap boundary. */
+  1341		tt = sbi->used.bitmap.nbits;
+  1342		if (inode->i_size < bitmap_size(tt)) {
+  1343			ntfs_err(sb, "$Bitmap is corrupted.");
+  1344			err = -EINVAL;
+  1345			goto put_inode_out;
+  1346		}
+  1347	
+  1348		err = wnd_init(&sbi->used.bitmap, sb, tt);
+  1349		if (err) {
+  1350			ntfs_err(sb, "Failed to initialize $Bitmap (%d).", err);
+  1351			goto put_inode_out;
+  1352		}
+  1353	
+  1354		iput(inode);
+  1355	
+  1356		/* Compute the MFT zone. */
+  1357		err = ntfs_refresh_zone(sbi);
+  1358		if (err) {
+  1359			ntfs_err(sb, "Failed to initialize MFT zone (%d).", err);
+  1360			goto out;
+  1361		}
+  1362	
+  1363		/* Load $BadClus. */
+  1364		ref.low = cpu_to_le32(MFT_REC_BADCLUST);
+  1365		ref.seq = cpu_to_le16(MFT_REC_BADCLUST);
+  1366		inode = ntfs_iget5(sb, &ref, &NAME_BADCLUS);
+  1367		if (IS_ERR(inode)) {
+  1368			err = PTR_ERR(inode);
+  1369			ntfs_err(sb, "Failed to load $BadClus (%d).", err);
+  1370			goto out;
+  1371		}
+  1372	
+  1373		ni = ntfs_i(inode);
+  1374		bad_len = bad_frags = 0;
+  1375		for (i = 0; run_get_entry(&ni->file.run, i, &vcn, &lcn, &len); i++) {
+  1376			if (lcn == SPARSE_LCN)
+  1377				continue;
+  1378	
+  1379			bad_len += len;
+  1380			bad_frags += 1;
+  1381			if (ro)
+  1382				continue;
+  1383	
+  1384			if (wnd_set_used_safe(&sbi->used.bitmap, lcn, len, &tt) || tt) {
+  1385				/* Bad blocks marked as free in bitmap. */
+  1386				ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
+  1387			}
+  1388		}
+  1389		if (bad_len) {
+  1390			/*
+  1391			 * Notice about bad blocks.
+  1392			 * In normal cases these blocks are marked as used in bitmap.
+  1393			 * And we never allocate space in it.
+  1394			 */
+  1395			ntfs_notice(sb,
+  1396				    "Volume contains %zu bad blocks in %zu fragments.",
+  1397				    bad_len, bad_frags);
+  1398		}
+  1399		iput(inode);
+  1400	
+  1401		/* Load $AttrDef. */
+  1402		ref.low = cpu_to_le32(MFT_REC_ATTR);
+  1403		ref.seq = cpu_to_le16(MFT_REC_ATTR);
+  1404		inode = ntfs_iget5(sb, &ref, &NAME_ATTRDEF);
+  1405		if (IS_ERR(inode)) {
+  1406			err = PTR_ERR(inode);
+  1407			ntfs_err(sb, "Failed to load $AttrDef (%d)", err);
+  1408			goto out;
+  1409		}
+  1410	
+  1411		/*
+  1412		 * Typical $AttrDef contains up to 20 entries.
+  1413		 * Check for extremely large/small size.
+  1414		 */
+  1415		if (inode->i_size < sizeof(struct ATTR_DEF_ENTRY) ||
+  1416		    inode->i_size > 100 * sizeof(struct ATTR_DEF_ENTRY)) {
+  1417			ntfs_err(sb, "Looks like $AttrDef is corrupted (size=%llu).",
+  1418				 inode->i_size);
+  1419			err = -EINVAL;
+  1420			goto put_inode_out;
+  1421		}
+  1422	
+  1423		{
+  1424			u32 bytes = inode->i_size;
+  1425			struct ATTR_DEF_ENTRY *def_table = kmalloc(bytes, GFP_KERNEL);
+  1426			if (!def_table) {
+  1427				err = -ENOMEM;
+  1428				goto put_inode_out;
+  1429			}
+  1430	
+  1431			/* Read the entire file. */
+  1432			err = inode_read_data(inode, def_table, bytes);
+  1433			if (err) {
+  1434				ntfs_err(sb, "Failed to read $AttrDef (%d).", err);
+  1435			} else {
+  1436				/* Check content and store sorted array. */
+  1437				err = ntfs_check_attr_def(sbi, def_table, bytes);
+  1438				if (err)
+  1439					ntfs_err(sb, "$AttrDef is corrupted.");
+  1440			}
+  1441	
+  1442			kfree(def_table);
+  1443			if (err)
+  1444				goto put_inode_out;
+  1445		}
+  1446		iput(inode);
+  1447	
+  1448		/* Load $UpCase. */
+  1449		ref.low = cpu_to_le32(MFT_REC_UPCASE);
+  1450		ref.seq = cpu_to_le16(MFT_REC_UPCASE);
+  1451		inode = ntfs_iget5(sb, &ref, &NAME_UPCASE);
+  1452		if (IS_ERR(inode)) {
+  1453			err = PTR_ERR(inode);
+  1454			ntfs_err(sb, "Failed to load $UpCase (%d).", err);
+  1455			goto out;
+  1456		}
+  1457	
+  1458		if (inode->i_size != 0x10000 * sizeof(short)) {
+  1459			err = -EINVAL;
+  1460			ntfs_err(sb, "$UpCase is corrupted.");
+  1461			goto put_inode_out;
+  1462		}
+  1463	
+  1464		/* Read the entire file. */
+  1465		err = inode_read_data(inode, sbi->upcase, 0x10000 * sizeof(short));
+  1466		if (err) {
+  1467			ntfs_err(sb, "Failed to read $UpCase (%d).", err);
+  1468			goto put_inode_out;
+  1469		}
+  1470	
+  1471	#ifdef __BIG_ENDIAN
+  1472		{
+> 1473			const __le16 *src = sbi->upcase;
+  1474			u16 *dst = sbi->upcase;
+  1475	
+  1476			for (i = 0; i < 0x10000; i++)
+  1477				*dst++ = le16_to_cpu(*src++);
+  1478		}
+  1479	#endif
+  1480	
+  1481		shared = ntfs_set_shared(sbi->upcase, 0x10000 * sizeof(short));
+  1482		if (shared && sbi->upcase != shared) {
+  1483			kvfree(sbi->upcase);
+  1484			sbi->upcase = shared;
+  1485		}
+  1486	
+  1487		iput(inode);
+  1488	
+  1489		if (is_ntfs3(sbi)) {
+  1490			/* Load $Secure. */
+  1491			err = ntfs_security_init(sbi);
+  1492			if (err) {
+  1493				ntfs_err(sb, "Failed to initialize $Secure (%d).", err);
+  1494				goto out;
+  1495			}
+  1496	
+  1497			/* Load $Extend. */
+  1498			err = ntfs_extend_init(sbi);
+  1499			if (err) {
+  1500				ntfs_warn(sb, "Failed to initialize $Extend.");
+  1501				goto load_root;
+  1502			}
+  1503	
+  1504			/* Load $Extend/$Reparse. */
+  1505			err = ntfs_reparse_init(sbi);
+  1506			if (err) {
+  1507				ntfs_warn(sb, "Failed to initialize $Extend/$Reparse.");
+  1508				goto load_root;
+  1509			}
+  1510	
+  1511			/* Load $Extend/$ObjId. */
+  1512			err = ntfs_objid_init(sbi);
+  1513			if (err) {
+  1514				ntfs_warn(sb, "Failed to initialize $Extend/$ObjId.");
+  1515				goto load_root;
+  1516			}
+  1517		}
+  1518	
+  1519	load_root:
+  1520		/* Load root. */
+  1521		ref.low = cpu_to_le32(MFT_REC_ROOT);
+  1522		ref.seq = cpu_to_le16(MFT_REC_ROOT);
+  1523		inode = ntfs_iget5(sb, &ref, &NAME_ROOT);
+  1524		if (IS_ERR(inode)) {
+  1525			err = PTR_ERR(inode);
+  1526			ntfs_err(sb, "Failed to load root (%d).", err);
+  1527			goto out;
+  1528		}
+  1529	
+  1530		/*
+  1531		 * Final check. Looks like this case should never occurs.
+  1532		 */
+  1533		if (!inode->i_op) {
+  1534			err = -EINVAL;
+  1535			ntfs_err(sb, "Failed to load root (%d).", err);
+  1536			goto put_inode_out;
+  1537		}
+  1538	
+  1539		sb->s_root = d_make_root(inode);
+  1540		if (!sb->s_root) {
+  1541			err = -ENOMEM;
+  1542			goto put_inode_out;
+  1543		}
+  1544	
+  1545		if (boot2) {
+  1546			/*
+  1547		 	 * Alternative boot is ok but primary is not ok.
+  1548		 	 * Volume is recognized as NTFS. Update primary boot.
+  1549			 */
+  1550			struct buffer_head *bh0 = sb_getblk(sb, 0);
+  1551			if (bh0) {
+  1552				if (buffer_locked(bh0))
+  1553					__wait_on_buffer(bh0);
+  1554	
+  1555				lock_buffer(bh0);
+  1556				memcpy(bh0->b_data, boot2, sizeof(*boot2));
+  1557				set_buffer_uptodate(bh0);
+  1558				mark_buffer_dirty(bh0);
+  1559				unlock_buffer(bh0);
+  1560				if (!sync_dirty_buffer(bh0))
+  1561					ntfs_warn(sb, "primary boot is updated");
+  1562				put_bh(bh0);
+  1563			}
+  1564	
+  1565			kfree(boot2);
+  1566		}
+  1567	
 
 -- 
 0-DAY CI Kernel Test Service
