@@ -1,82 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F223D2D03B;
-	Thu, 18 Apr 2024 06:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF31384;
+	Fri, 19 Apr 2024 00:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713422565; cv=none; b=sGQa1+cwVRruMHxy2pJDFQeYKux2k5UKEsodJQhamiE+ZN3nu1Ks4KgPOfdqdGPRdtX/tWXJxqParhg3aNubm1IfLxiG8d7RCzs3fxL44W66ukmHch4QmpygdQ0PxyekxNNW9yy4aetXxlVQIKAVcncFqmqm6fYBuf2JeHEgxmQ=
+	t=1713486641; cv=none; b=dnp9iSVpJjibbJjvXjEXHWeJ47LZ0o5mqIbBkISXdY3lwMj3l51I1j0stpb/TGBD4QO0Ganpg3O33G6xtuq/JF/IAIRSkNojQq2MKGqJ1gx+QNBhLl0nv7EkGNxnreg8jr2m/svFop3gu7+7eI0h1WEcruEYdeqs9CfQpo+0QUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713422565; c=relaxed/simple;
-	bh=MMUcfHaGa+xhMWh8LjjONaHLn3xh9RaU58sTpqt1ZVA=;
+	s=arc-20240116; t=1713486641; c=relaxed/simple;
+	bh=KuPMpVwUgnSUFnRUWRDeRwToaXoQtFfEFGyQl/W3lf8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NGBM4y7VVSp5tXCW9LvqF+SMjAhQfpNzovXjC4irrEQgWgRhOV3YHPwXKlsosKfWM5jhm8mowEwVLgWQm/70wgwsWxzJP2wRAtanbclyACemvBGMrVbB1skh8ZmWxILi/LAIbB2YxrQUmljUfUMwK5Ho1yfd+ss67Q4tabsubKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TIFbs274; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DW13IYVNCXbPSOrEPNmhhTIaai2hZWhg8KrlqgDitVGlkLgk9HQ3scoaIUt8v56ba4kt+hTEZcPaUAslGo/GlxGBh/uapj9FtTBj/hvI59ERMsZfFS5H2BqGR1ilGz1jWZNfu0blGaNXjl5lZF1AkdCT/prWIvpmyM+QTHUNCOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MAP7qSZn; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TIFbs274"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 814E9C3277B;
-	Thu, 18 Apr 2024 06:42:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713422564;
-	bh=MMUcfHaGa+xhMWh8LjjONaHLn3xh9RaU58sTpqt1ZVA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TIFbs274RDLlipX0UH0jdK5RQ9Hd48Ca9Mr4t74jL9eG9vF2W/T4pwzH/9hewfUl8
-	 HrGO9tLqEREKUrSwf4fmixfWAgQiZyfRQIjM31x8muYKeE1BX4qfQbmPmR8t/LM7wd
-	 H4YV6UUdsxu6fQVUUWqfX/soeBB1wTIQ+CbqwMjyZ0j9nc1NpVh3TH5PoT8cytTG/C
-	 B4iYUnuswDAe9ypE7GEON59G52DOgKT2mqMD0a61bpyT4UjBa0PyYnNUook4+DIOSY
-	 5caP/STYskHk46G0irQ3jQ+TxOOlW7sfiw1hlj1yTvNx/OksNsQFfaMHWBxDAfH6VR
-	 gEQ9GThO6Ff5Q==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1rxLTq-000000000ZI-2Jir;
-	Thu, 18 Apr 2024 08:42:46 +0200
-Date: Thu, 18 Apr 2024 08:42:46 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	Linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 00/11] Bugfix and refactoring
-Message-ID: <ZiDA5uUq7a7tR78a@hovoldconsulting.com>
-References: <6c99c1bd-448d-4301-8404-50df34e8df8e@paragon-software.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MAP7qSZn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713486638; x=1745022638;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KuPMpVwUgnSUFnRUWRDeRwToaXoQtFfEFGyQl/W3lf8=;
+  b=MAP7qSZns9bGZw5jLSkp0PivrmSMf7MLupHEBUUjhh9mwbHFthAeu4ho
+   6lnv8ByzYMzgdsx7RlxLIXWQG/pkgazXirA7zlk94ZIc5JriS+uR6y0OY
+   RXRBYvmV7DmYi33VvhPFsWte+b5wbG/ymF7St59J7e0yek8ERoRW15NoG
+   vjYXTIkqSYm62fPB6MSkmra7ZSc8UuZ5Xc4mDAc3ZOyvSB1lIM1tl8x6H
+   Ij8Gxq0FgojVCVndXWH5wbgzXpLM9sERkop4+JjT0NOVQUSAL8fq/ctDr
+   sZk/VqbkiE2NpIh8zwhQw9jfCRqVF8ZK4CqnKrKkCNJ0vWhBbJp6nGlf4
+   w==;
+X-CSE-ConnectionGUID: bIUqpVbNQaCQW7M1DBKVmg==
+X-CSE-MsgGUID: 4y5u/xKJRTmkuyPegFQEgw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="9231204"
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="9231204"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 17:30:37 -0700
+X-CSE-ConnectionGUID: BxKEu7MZTpmK+2XkJmCZEg==
+X-CSE-MsgGUID: 5IltU5jWQdehjC+e1RyR8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="23212547"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 18 Apr 2024 17:30:36 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rxc9B-0009PG-14;
+	Fri, 19 Apr 2024 00:30:33 +0000
+Date: Fri, 19 Apr 2024 08:30:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 08/10] ntfs3: Use a folio to read UpCase
+Message-ID: <202404190823.2p1A9tNE-lkp@intel.com>
+References: <20240417170941.797116-9-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6c99c1bd-448d-4301-8404-50df34e8df8e@paragon-software.com>
+In-Reply-To: <20240417170941.797116-9-willy@infradead.org>
 
-On Wed, Apr 17, 2024 at 04:03:46PM +0300, Konstantin Komarov wrote:
-> This series contains various fixes and refactoring for ntfs3.
-> Fixed problem with incorrect link counting for files with DOS names.
->
-> Konstantin Komarov (11):
->    fs/ntfs3: Remove max link count info display during driver init
->    fs/ntfs3: Missed le32_to_cpu conversion
->    fs/ntfs3: Mark volume as dirty if xattr is broken
->    fs/ntfs3: Use variable length array instead of fixed size
->    fs/ntfs3: Use 64 bit variable to avoid 32 bit overflow
->    fs/ntfs3: Redesign ntfs_create_inode to return error code instead of
->      inode
->    fs/ntfs3: Check 'folio' pointer for NULL
->    fs/ntfs3: Always make file nonresident if fallocate (xfstest 438)
->    fs/ntfs3: Optimize to store sorted attribute definition table
->    fs/ntfs3: Remove cached label from sbi
->    fs/ntfs3: Taking DOS names into account during link counting
+Hi Matthew,
 
-All the patches in this series appear to be white space damaged and
-cannot be applied.
+kernel test robot noticed the following build errors:
 
-Most of the patches are lacking proper commit messages, and the bug
-fixes should be clearly marked as such with a Fixes tag and CC-stable
-tag where appropriate.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.9-rc4]
+[cannot apply to next-20240418]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Also don't mix fixes with cleanups and refactoring unless the former
-really depends on the latter.
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/ntfs3-Convert-ntfs_read_folio-to-use-a-folio/20240418-011140
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240417170941.797116-9-willy%40infradead.org
+patch subject: [PATCH 08/10] ntfs3: Use a folio to read UpCase
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240419/202404190823.2p1A9tNE-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190823.2p1A9tNE-lkp@intel.com/reproduce)
 
-At least move the independent fixes to the front of the series.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404190823.2p1A9tNE-lkp@intel.com/
 
-Johan
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/pagemap.h:11,
+                    from lib/buildid.c:7:
+   include/linux/highmem.h: In function 'memcpy_from_folio_le16':
+>> include/linux/highmem.h:484:22: error: 'i' undeclared (first use in this function)
+     484 |                 for (i = 0; i < chunk / sizeof(*to); i++)
+         |                      ^
+   include/linux/highmem.h:484:22: note: each undeclared identifier is reported only once for each function it appears in
+--
+   In file included from include/linux/bvec.h:10,
+                    from include/linux/skbuff.h:17,
+                    from include/linux/tcp.h:17,
+                    from include/linux/ipv6.h:101,
+                    from include/net/addrconf.h:61,
+                    from lib/vsprintf.c:41:
+   include/linux/highmem.h: In function 'memcpy_from_folio_le16':
+>> include/linux/highmem.h:484:22: error: 'i' undeclared (first use in this function)
+     484 |                 for (i = 0; i < chunk / sizeof(*to); i++)
+         |                      ^
+   include/linux/highmem.h:484:22: note: each undeclared identifier is reported only once for each function it appears in
+   lib/vsprintf.c: In function 'va_format':
+   lib/vsprintf.c:1683:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1683 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
+         |         ^~~
+
+
+vim +/i +484 include/linux/highmem.h
+
+   469	
+   470	#ifdef __BIG_ENDIAN
+   471	static inline void memcpy_from_folio_le16(u16 *to, struct folio *folio,
+   472			size_t offset, size_t len)
+   473	{
+   474		VM_BUG_ON(offset + len > folio_size(folio));
+   475	
+   476		do {
+   477			const __le16 *from = kmap_local_folio(folio, offset);
+   478			size_t chunk = len;
+   479	
+   480			if (folio_test_highmem(folio) &&
+   481			    chunk > PAGE_SIZE - offset_in_page(offset))
+   482				chunk = PAGE_SIZE - offset_in_page(offset);
+   483	
+ > 484			for (i = 0; i < chunk / sizeof(*to); i++)
+   485				*to++ = le16_to_cpu(*from++);
+   486			kunmap_local(from);
+   487	
+   488			to += chunk / sizeof(*to);
+   489			offset += chunk;
+   490			len -= chunk;
+   491		} while (len > 0);
+   492	}
+   493	#else
+   494	static inline void memcpy_from_folio_le16(u16 *to, struct folio *folio,
+   495			size_t offset, size_t len)
+   496	{
+   497		memcpy_from_folio((char *)to, folio, offset, len);
+   498	}
+   499	#endif
+   500	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
