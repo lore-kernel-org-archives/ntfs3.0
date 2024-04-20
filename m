@@ -1,234 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8287E1;
-	Fri, 19 Apr 2024 01:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CA979DE;
+	Sat, 20 Apr 2024 02:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713489177; cv=none; b=ZMmmNQxrIhBxjTKNuvvNoytDnjDR4Uh+Bz/lVRiNAbPgdFLDEr0/9LyvKDYHDgw7Efkl+0LsCyaHVrDYOiGZJDCWknuHPvHJy6leo429XgB+NIhj7VySFssOtBUtrpoRqRYeLDoy10ioWYdwQ64yiExpwmdDpTdAMLg+z6BdQn0=
+	t=1713581458; cv=none; b=nOM8umJWEzrN4h04B6BijLPKo1k3Q79tb6Me/SGMYeacq+daSz5qoLgpTk+p75n1frrmbZNYmwe57AkjWwsUKJgDc2neAFIUPkLX1aDLYRvQmvoqw2cCuaKrWiC9ayi7f77UUmVOv6JiXw1wwcWsKgXuPEtzQ4/PN0/RMQTCitQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713489177; c=relaxed/simple;
-	bh=UrVZcXyuwhb2Y/0nnniH6U0OkjOJo1iNln9z3EeYTuI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jbGippjr3qOSl3bm7ua+287Bxz2Yq7aSQKGGUAcs6hkPnagW1t3fk/X29fjXPAhVUVqYQjq3IuZxhKxxvI8vyINXozKtLURbBgqB6bU0dbymXX2wd26jqDLc/f1C6fM0npNNo3Q9Ro+R0P373+H1hoDb33PsjAw4WNBwyrc7tsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TG2j9SfC; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713581458; c=relaxed/simple;
+	bh=JBMHCx32+MTaoX7pOxHoZ5qOitImkwXWOh6ZhtrER3Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JL557nS3YW0PcB7gTq0BlbMwNffb2aayHt2c0Ds4GHnQUe5t0r3QgyIM4TrqUACxByVAfjCxh/Rlds+NNahF5oujRtSi+Ax4utuhJsIcafpsHCg6y19wD1IwIF7eJOkiSkehFmsXmeuOYq8s4n9EFwi1vwSOcKf67oD3s9vcmXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DZhBD66V; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TG2j9SfC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713489176; x=1745025176;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UrVZcXyuwhb2Y/0nnniH6U0OkjOJo1iNln9z3EeYTuI=;
-  b=TG2j9SfCxwUAFbmdEZchjlX6ZXD2+7ZJp6u5R4FXg2qEHr6SrYxgBDvs
-   /BJOqRKxq0UE64TTkAxeXblZYu+Z0Hr/A9N5sqmIrHNJHYY+kRhlQJ0AJ
-   GvSiFCBYbSPh0TxcEL9eRN2u6+X/pf9Z0d69rRQMr924cilpVZAlFL8b/
-   bne3lo0JFyvh1gqZCcJZLwOOtG0qM8MDF/S2kAVW3UpEFXrFOXVSNyOSn
-   LgLQODua3d3MthD7hebSttIV4RHDM7ilD+wVYXPnBsCMd2l4u5Cg7dElJ
-   3z9ff03DqRXlTEG2lxB6GVlqF4UZvEgkCCOn7Ue04C+wTY23rBQhvDH8L
-   w==;
-X-CSE-ConnectionGUID: tgGA9LGrSuiN+ZiWZ+DqUA==
-X-CSE-MsgGUID: zG/fJzoGQ1ufImoxKbyIxQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12854846"
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="12854846"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 18:12:54 -0700
-X-CSE-ConnectionGUID: mbD2S+GfRwGaitbFZNqctg==
-X-CSE-MsgGUID: 90WyE5UHQOm2XMlqedKTxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="23677099"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 18 Apr 2024 18:12:51 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rxco5-0009Qy-0O;
-	Fri, 19 Apr 2024 01:12:49 +0000
-Date: Fri, 19 Apr 2024 09:12:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 08/10] ntfs3: Use a folio to read UpCase
-Message-ID: <202404190841.KPS2VQgB-lkp@intel.com>
-References: <20240417170941.797116-9-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DZhBD66V"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=eKSk8yOHrxF1A9Pm7zaTg06pb1+chA0GVOIhlKSs7/U=; b=DZhBD66V6uyJoQYNETjLIY/kK4
+	mKFWQksvSsiGu/W/Xn8nwRV9zPVlcfgUte6XCZ1Y52oS1eFQEVP1hCTbRqSxAREZGXjxoWnV2uiXU
+	h46uL9FSwGfEie2ljwWuUCPz7aGn3oxt4OdWqUV6RgejwsQRRGJMRrZP6A7uT8LgvBC0J0ETq37H6
+	64SziAE10YRclVd3+Xeq7updwW1StfBcCsMw8mNU/ai2ox1Yv2JGkC7on4b/eYx1rVCDe4ZcGZkkW
+	ZKx2NLSNQbrJgqYtKBCKKn57ZY9TXllQRjs5OJ/SiRzVFqvLBYXw6AxWAzBeXFREwfDXfCz5FHgh8
+	nATKLSMw==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1ry0oY-000000095fh-2Dz8;
+	Sat, 20 Apr 2024 02:50:54 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Subject: [PATCH 17/30] ntfs3: Remove calls to set/clear the error flag
+Date: Sat, 20 Apr 2024 03:50:12 +0100
+Message-ID: <20240420025029.2166544-18-willy@infradead.org>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240420025029.2166544-1-willy@infradead.org>
+References: <20240420025029.2166544-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240417170941.797116-9-willy@infradead.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Matthew,
+Nobody checks the error flag on ntfs3 folios, so stop setting and
+clearing it.
 
-kernel test robot noticed the following build errors:
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ fs/ntfs3/frecord.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.9-rc4]
-[cannot apply to next-20240418]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/ntfs3-Convert-ntfs_read_folio-to-use-a-folio/20240418-011140
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240417170941.797116-9-willy%40infradead.org
-patch subject: [PATCH 08/10] ntfs3: Use a folio to read UpCase
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240419/202404190841.KPS2VQgB-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190841.KPS2VQgB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404190841.KPS2VQgB-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:41:
-   In file included from include/linux/kvm_para.h:5:
-   In file included from include/uapi/linux/kvm_para.h:37:
-   In file included from arch/s390/include/asm/kvm_para.h:25:
-   In file included from arch/s390/include/asm/diag.h:12:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
->> include/linux/highmem.h:484:8: error: use of undeclared identifier 'i'
-     484 |                 for (i = 0; i < chunk / sizeof(*to); i++)
-         |                      ^
-   include/linux/highmem.h:484:15: error: use of undeclared identifier 'i'
-     484 |                 for (i = 0; i < chunk / sizeof(*to); i++)
-         |                             ^
-   include/linux/highmem.h:484:40: error: use of undeclared identifier 'i'
-     484 |                 for (i = 0; i < chunk / sizeof(*to); i++)
-         |                                                      ^
-   13 warnings and 3 errors generated.
-   make[3]: *** [scripts/Makefile.build:117: arch/s390/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1197: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +/i +484 include/linux/highmem.h
-
-   469	
-   470	#ifdef __BIG_ENDIAN
-   471	static inline void memcpy_from_folio_le16(u16 *to, struct folio *folio,
-   472			size_t offset, size_t len)
-   473	{
-   474		VM_BUG_ON(offset + len > folio_size(folio));
-   475	
-   476		do {
-   477			const __le16 *from = kmap_local_folio(folio, offset);
-   478			size_t chunk = len;
-   479	
-   480			if (folio_test_highmem(folio) &&
-   481			    chunk > PAGE_SIZE - offset_in_page(offset))
-   482				chunk = PAGE_SIZE - offset_in_page(offset);
-   483	
- > 484			for (i = 0; i < chunk / sizeof(*to); i++)
-   485				*to++ = le16_to_cpu(*from++);
-   486			kunmap_local(from);
-   487	
-   488			to += chunk / sizeof(*to);
-   489			offset += chunk;
-   490			len -= chunk;
-   491		} while (len > 0);
-   492	}
-   493	#else
-   494	static inline void memcpy_from_folio_le16(u16 *to, struct folio *folio,
-   495			size_t offset, size_t len)
-   496	{
-   497		memcpy_from_folio((char *)to, folio, offset, len);
-   498	}
-   499	#endif
-   500	
-
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 7f27382e0ce2..e9836170e2be 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -2143,9 +2143,6 @@ int ni_readpage_cmpr(struct ntfs_inode *ni, struct page *page)
+ 	err = ni_read_frame(ni, frame_vbo, pages, pages_per_frame);
+ 
+ out1:
+-	if (err)
+-		SetPageError(page);
+-
+ 	for (i = 0; i < pages_per_frame; i++) {
+ 		pg = pages[i];
+ 		if (i == idx || !pg)
+@@ -2718,7 +2715,6 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
+ 	for (i = 0; i < pages_per_frame; i++) {
+ 		pg = pages[i];
+ 		kunmap(pg);
+-		ClearPageError(pg);
+ 		SetPageUptodate(pg);
+ 	}
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
