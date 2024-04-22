@@ -1,42 +1,42 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3CC315532D;
-	Mon, 22 Apr 2024 19:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFD415533A;
+	Mon, 22 Apr 2024 19:32:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713814331; cv=none; b=AbiqRS2V8iWwU2KHWE5qwo2GyDxH2X+oqIoDTMS5RC/AoaHg5cSeWUTN+f+q9yzW4djI5nzbnJrfTAEAk1ScryfU4fywjo3KsvL4QdBaofiXgq4ZMTpcloEdIGGg3DI3DaC/j24J7x000eekca4h9ezb+M2zJa+TlEX3IyexKUA=
+	t=1713814331; cv=none; b=PGKmL13Tu/BuGDgVHlzqTUGdFU9rhcCWOmQbmZS/p/BzDfE6xXILDjqphmf7dc/jrG4nL5yyEUEmPEtIM8XPPOm6BX7rlJZ/OtAO7sVT8V5xUzB5VIsAlpEvwTxV2z5oHidXDaGwn0DZRTinkAgE3tioWX0A8ws6maGcEw+AvdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713814331; c=relaxed/simple;
-	bh=z43HQPlnbpQWzNfMMe6SGRFVI4CtmRZQWOv/Ybowqg0=;
+	bh=uPDerVXe2UZggM4wJuFXw0DncMuTpdmYUfyGZ6A17Mw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ihU6VdxsMbLS5gGzm0s8gxHnigD3M7oCVVsaXhRSHU7GoEuNX4g1XEUs+EfwlS1wMkMH1DxtgcLsnp3PrTDfPlhPId/JYh1EJAjmzt/hLVmcwQlGAT1uyX5hE8kxHlz4GQOQ4d4A6SG0ukwzbIcVoK8iSVg5S1CAs48u9GqRSfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fNZfG4W8; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=El14krWffGM8fN/kBLBcwqhYWVgu975V8B5lvGGJukChHJ9ENv4d8vNLaQ+pH2Z60V/prYH2iQu4pzJjy+UGhhmgJThDvNTxaXcFOkhmyEELpjXCgZgPhHdAWfbGDiHhRpv491E37yRdlkSniAJEtl5YeS8yD5Cbd3D32FLc4e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DL4BNm07; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fNZfG4W8"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DL4BNm07"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=J2jUvJdcQN4gwLHeLivK6x8gzEN8L6yg8m4bc9uB1LM=; b=fNZfG4W8ZoeWhwN+3gMugZbLx8
-	vUrUmuIuIDYgISnA3tK8NcLGLdovzgTkdp6PxYrDOI7lBraKxfmCuJR4Tbv6H61WOMiEsLpNHxbrE
-	0pwJa6GYHQ0UrxnuwlfIPiyEeKXhFTCRlGegEBaPXV8vpqeYP1zf0JgVasYgbnnyybhagdLjubUSm
-	mkF6W2Yyix8+jJHl08jes7GCD5Mmt6iizzDB2Gva5NdIqTuOyh+OK7GliRWcnRq7FM/x+QV+zUjxV
-	bo51/STooleSfn7frEs5fD0WQMtdHQKb3pi9rAJLw3wqvFgbDwMZoLYpXRNtkU1eCNBovAEEhOGLw
-	gwZpo+Yg==;
+	bh=PJmvraMWuUCE1znYmS9Vz7eaEL+OTUYhdOXwfVsOtUU=; b=DL4BNm07bSN3bTA/2ka59ScY8S
+	IedTvbDQbAEsar/hHdFAEW1radzoneH1CHvdscrDfyKs5s1j8BgT0MKvXfxNIY1cTk5DJzsQXxjW2
+	61F3gaopTvU9ebGPNb8MntSrEvXsC+Klc4VJOAJeP+E6RcK28W+ZNRgGdrxXVyzbLBXvCiCTp0r04
+	RJZ/81Gp+rYKEfoWkDz7GGX3G6fWYeXm9YEbq7ftiDHc+u4STrzj2Bydev/cnZnrDERkv9p3O/Pck
+	zoKBxz9zQbihqbeAZPuFDStamwU9M1gYXFqc/S/+hguhKnC3J33ZHt6ksKUWq5Urzan00OEOp+cPI
+	SFNLyAlg==;
 Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ryzOZ-0000000EpO8-0JFG;
-	Mon, 22 Apr 2024 19:32:07 +0000
+	id 1ryzOa-0000000EpOv-0HUV;
+	Mon, 22 Apr 2024 19:32:08 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	ntfs3@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 02/11] ntfs3: Convert ntfs_write_begin to use a folio
-Date: Mon, 22 Apr 2024 20:31:52 +0100
-Message-ID: <20240422193203.3534108-3-willy@infradead.org>
+Subject: [PATCH v2 10/11] ntfs3: Convert ntfs_get_frame_pages() to use a folio
+Date: Mon, 22 Apr 2024 20:32:00 +0100
+Message-ID: <20240422193203.3534108-11-willy@infradead.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240422193203.3534108-1-willy@infradead.org>
 References: <20240422193203.3534108-1-willy@infradead.org>
@@ -48,52 +48,53 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Retrieve a folio from the page cache instead of a precise page.
-This function is now large folio safe, but its called function is not.
+The function still takes an array of pages, but use a folio internally.
+This function would deadlock against itself if used with large folios
+(as it locks each page), so we can be a little sloppy with the conversion
+back from folio to page for now.
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- fs/ntfs3/inode.c | 17 +++++++++--------
+ fs/ntfs3/file.c | 17 +++++++++--------
  1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index bdaea9c783ad..794d2aa3a5ab 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -913,24 +913,25 @@ int ntfs_write_begin(struct file *file, struct address_space *mapping,
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 2f903b6ce157..40d3e7d0567a 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -824,23 +824,24 @@ static int ntfs_get_frame_pages(struct address_space *mapping, pgoff_t index,
+ 	*frame_uptodate = true;
  
- 	*pagep = NULL;
- 	if (is_resident(ni)) {
--		struct page *page =
--			grab_cache_page_write_begin(mapping, pos >> PAGE_SHIFT);
-+		struct folio *folio = __filemap_get_folio(mapping,
-+				pos >> PAGE_SHIFT, FGP_WRITEBEGIN,
-+				mapping_gfp_mask(mapping));
+ 	for (npages = 0; npages < pages_per_frame; npages++, index++) {
+-		struct page *page;
++		struct folio *folio;
  
+-		page = find_or_create_page(mapping, index, gfp_mask);
 -		if (!page) {
--			err = -ENOMEM;
++		folio = __filemap_get_folio(mapping, index,
++				FGP_LOCK | FGP_ACCESSED | FGP_CREAT, gfp_mask);
 +		if (IS_ERR(folio)) {
-+			err = PTR_ERR(folio);
- 			goto out;
+ 			while (npages--) {
+-				page = pages[npages];
+-				unlock_page(page);
+-				put_page(page);
++				folio = page_folio(pages[npages]);
++				folio_unlock(folio);
++				folio_put(folio);
+ 			}
+ 
+ 			return -ENOMEM;
  		}
  
- 		ni_lock(ni);
--		err = attr_data_read_resident(ni, page);
-+		err = attr_data_read_resident(ni, &folio->page);
- 		ni_unlock(ni);
+-		if (!PageUptodate(page))
++		if (!folio_test_uptodate(folio))
+ 			*frame_uptodate = false;
  
- 		if (!err) {
--			*pagep = page;
-+			*pagep = &folio->page;
- 			goto out;
- 		}
--		unlock_page(page);
--		put_page(page);
-+		folio_unlock(folio);
-+		folio_put(folio);
+-		pages[npages] = page;
++		pages[npages] = &folio->page;
+ 	}
  
- 		if (err != E_NTFS_NONRESIDENT)
- 			goto out;
+ 	return 0;
 -- 
 2.43.0
 
