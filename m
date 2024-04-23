@@ -1,157 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F681BC41;
-	Mon, 22 Apr 2024 20:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2167022619
+	for <ntfs3@lists.linux.dev>; Tue, 23 Apr 2024 06:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713818547; cv=none; b=UVx3E0MoBBlbMiX10qBJRBtTIiwUd6MWkYtHvDHqLQ34r5ootuUFIxqMlnqyvkfAQC4tBJzYWCrAxssOfmyIyN3sZ/C1vnLXlDP0X/LeCX/Oe3MCbdwrlWpgR7m2EnWT6KbyZmYCt9TjvNFF40s5X0NSGKAvTE4yPrC+5+HwVWE=
+	t=1713854704; cv=none; b=kiouU894CueXODT5i0hdmjjiBS0u6kezkTAaVnXsjyIIo9wDVqydmMa1VjOrgz9CCYXvG7aWrSeSEUlXDmVmTlNtTInpMbbD8kw7+8t7n0nKrAObsog/EtYCcuPYuBRtAlydOzuDw5gkmd/woZ3QcDUom7H1PMH9bRuxCNpPGF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713818547; c=relaxed/simple;
-	bh=qhK/xyI0znuaULfWmCQs605RLjIK84N6jBnKTLXgc9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=khVBTBYbZ+dJz4G+wflpC7QOzyvAqNZZRTSp1YmsSxMlkfuTrAseHAXJbBUuZ5+fF5KsDwAJODQB5XmY8NarxS7Os7BR2tIALZKX6veKyLiXKPBGgzCkli0Diw9z2Y9q/3tjR5RRcXnLjEBCi6oO4WiXn3hTuinqZulVNnqI+OE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u8NIHaco; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713854704; c=relaxed/simple;
+	bh=yHYr9NZjTLV0KVkaIOczsUbndTX5BtsZ0/S7Jb6UjRc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZOxo9hYCQfvBYcJoGZwSxohNjiSd1mf7SHk6VAibBAhUbh9K3ueoI0ZnhOtICyT3LVb+ghCqGe92CXm9+qEc0QWm4UHdG8FljRIzkDIzUY2NaoshSYl3akLQVRRZhu5rE2/NuZkvXx9Bk167HFAyz2ygKhMSiqnVTpIXk+viVl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=duK+jLT4; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u8NIHaco"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F6D3C113CC;
-	Mon, 22 Apr 2024 20:42:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713818546;
-	bh=qhK/xyI0znuaULfWmCQs605RLjIK84N6jBnKTLXgc9E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u8NIHaco8Lh+wWUK53bG85Cl7txTWMyWoo8o4kEpZemgV96kdOgSOOvlFHpUCvZN2
-	 9zWha28gPiHGE1Jks74qG0oOYpJGyhGrnsbcPtDqdg+SyWlHoJW+tYLM3BUr8WWEwY
-	 JXgSvmUze9igyfEQyqINKNkSFGc9h6D6time6KCE9/uJSeChzOzrpzKN9AYCJovVm5
-	 uJCFOOuoXlL5MvcDNwy15jCfdVZ7g1862Y4JVzqirsP6gf5kFpFbOHmIGuBvuojS7y
-	 YoUI8lumh7Th/36frzx0j4//sKOHB7eXXwyvFA16WFE/Vw+p5ZEF/+UHZUr4/EzFIz
-	 zx0lUkN8zx3zw==
-Date: Mon, 22 Apr 2024 13:42:24 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	Linux-fsdevel <linux-fsdevel@vger.kernel.org>, llvm@lists.linux.dev
-Subject: Re: [PATCH 10/11] fs/ntfs3: Remove cached label from sbi
-Message-ID: <20240422204224.GA770800@dev-arch.thelio-3990X>
-References: <6c99c1bd-448d-4301-8404-50df34e8df8e@paragon-software.com>
- <890cc224-fdb8-4c5e-a22e-b96dc86e6908@paragon-software.com>
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="duK+jLT4"
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 336401E80;
+	Tue, 23 Apr 2024 06:37:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1713854243;
+	bh=UmmlvBrk+NXAV/C0GvIsRMJbpjN8Ah/dZtXPiVlu6rQ=;
+	h=From:To:CC:Subject:Date;
+	b=duK+jLT4mqOFh4/ba2+8zXBJSlzAzybg0zVDV0WpOU4hrxjViTssHSMHd75r6bUZb
+	 Pc0Qb7rV5SHUR3b3b2xsozcRE5nca3OUdapgpFLGv5U2kEaLuUT66C1NkRhC3SlnQU
+	 Nu0HEMV1/4DWeYPMZXewqPFgZrx4io8+bIpMq09g=
+Received: from ntfs3vm.paragon-software.com (192.168.211.160) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 23 Apr 2024 09:44:54 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH v2 0/9] Bugfix and refactoring
+Date: Tue, 23 Apr 2024 09:44:19 +0300
+Message-ID: <20240423064428.8289-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <890cc224-fdb8-4c5e-a22e-b96dc86e6908@paragon-software.com>
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hi Konstantin,
+v1->v2:
+Here is a reworked series of patches with corrected formatting and layout:
+- two patches have been removed for finalization;
+- proper commit messages were added;
+- important patches have been moved to the beginning of the series
+(refactoring at the end).
 
-On Wed, Apr 17, 2024 at 04:09:00PM +0300, Konstantin Komarov wrote:
-> Add more checks using $AttrDef.
-> 
-> Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+This series contains various fixes and refactoring for ntfs3.
+Fixed problem with incorrect link counting for files with DOS names.
 
-<snip>
+Konstantin Komarov (9):
+  fs/ntfs3: Taking DOS names into account during link counting
+  fs/ntfs3: Remove max link count info display during driver init
+  fs/ntfs3: Missed le32_to_cpu conversion
+  fs/ntfs3: Check 'folio' pointer for NULL
+  fs/ntfs3: Use 64 bit variable to avoid 32 bit overflow
+  fs/ntfs3: Use variable length array instead of fixed size
+  fs/ntfs3: Redesign ntfs_create_inode to return error code instead of
+    inode
+  fs/ntfs3: Always make file nonresident on fallocate call
+  fs/ntfs3: Mark volume as dirty if xattr is broken
 
-> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-> index 8beefbca5769..dae961d2d6f8 100644
-> --- a/fs/ntfs3/super.c
-> +++ b/fs/ntfs3/super.c
-> @@ -481,11 +481,39 @@ static int ntfs3_volinfo_open(struct inode *inode,
-> struct file *file)
->  /* read /proc/fs/ntfs3/<dev>/label */
->  static int ntfs3_label_show(struct seq_file *m, void *o)
->  {
-> +    int len;
->      struct super_block *sb = m->private;
->      struct ntfs_sb_info *sbi = sb->s_fs_info;
-> +    struct ATTRIB *attr;
-> +    u8 *label = kmalloc(PAGE_SIZE, GFP_NOFS);
-> +
-> +    if (!label)
-> +        return -ENOMEM;
-> +
-> +    attr = ni_find_attr(sbi->volume.ni, NULL, NULL, ATTR_LABEL, NULL, 0,
-> +                NULL, NULL);
-> +
-> +    if (!attr) {
-> +        /* It is ok if no ATTR_LABEL */
-> +        label[0] = 0;
-> +        len = 0;
-> +    } else if (!attr_check(attr, sbi, sbi->volume.ni)) {
-> +        len = sprintf(label, "%pg: failed to get label", sb->s_bdev);
-> +    } else {
-> +        len = ntfs_utf16_to_nls(sbi, resident_data(attr),
-> +                    le32_to_cpu(attr->res.data_size) >> 1,
-> +                    label, PAGE_SIZE);
-> +        if (len < 0) {
-> +            label[0] = 0;
-> +            len = 0;
-> +        } else if (len >= PAGE_SIZE) {
-> +            len = PAGE_SIZE - 1;
-> +        }
-> +    }
-> 
-> -    seq_printf(m, "%s\n", sbi->volume.label);
-> +    seq_printf(m, "%.*s\n", len, label);
-> 
-> +    kfree(label);
->      return 0;
->  }
-> 
-> @@ -1210,25 +1238,6 @@ static int ntfs_fill_super(struct super_block *sb,
-> struct fs_context *fc)
-> 
->      ni = ntfs_i(inode);
-> 
-> -    /* Load and save label (not necessary). */
-> -    attr = ni_find_attr(ni, NULL, NULL, ATTR_LABEL, NULL, 0, NULL, NULL);
-> -
-> -    if (!attr) {
-> -        /* It is ok if no ATTR_LABEL */
-> -    } else if (!attr->non_res && !is_attr_ext(attr)) {
-> -        /* $AttrDef allows labels to be up to 128 symbols. */
-> -        err = utf16s_to_utf8s(resident_data(attr),
-> -                      le32_to_cpu(attr->res.data_size) >> 1,
-> -                      UTF16_LITTLE_ENDIAN, sbi->volume.label,
-> -                      sizeof(sbi->volume.label));
-> -        if (err < 0)
-> -            sbi->volume.label[0] = 0;
-> -    } else {
-> -        /* Should we break mounting here? */
-> -        //err = -EINVAL;
-> -        //goto put_inode_out;
-> -    }
-> -
+ fs/ntfs3/attrib.c  | 32 ++++++++++++++++++++++++++++++++
+ fs/ntfs3/file.c    |  9 +++++++++
+ fs/ntfs3/fslog.c   |  5 +++--
+ fs/ntfs3/inode.c   | 46 ++++++++++++++++++++++++++--------------------
+ fs/ntfs3/namei.c   | 31 ++++++++-----------------------
+ fs/ntfs3/ntfs.h    |  2 +-
+ fs/ntfs3/ntfs_fs.h | 10 +++++-----
+ fs/ntfs3/record.c  | 11 ++---------
+ fs/ntfs3/super.c   |  2 --
+ fs/ntfs3/xattr.c   |  5 ++++-
+ 10 files changed, 90 insertions(+), 63 deletions(-)
 
-The attr initialization above causes the use in the ni_find_attr() to be
-uninitialized, which results in the following clang warning (or error
-when CONFIG_WERROR is enabled):
+-- 
+2.34.1
 
-  fs/ntfs3/super.c:1247:26: error: variable 'attr' is uninitialized when used here [-Werror,-Wuninitialized]
-   1247 |         attr = ni_find_attr(ni, attr, NULL, ATTR_VOL_INFO, NULL, 0, NULL, NULL);
-        |                                 ^~~~
-  fs/ntfs3/super.c:1192:21: note: initialize the variable 'attr' to silence this warning
-   1192 |         struct ATTRIB *attr;
-        |                            ^
-        |                             = NULL
-  1 error generated.
-
-Please either fix this quickly (as this isn't the first time an ntfs3
-change has broken us for some time in -next for a similar reason [1]) or
-remove this series from -next. Given the issues that Johan has brought
-up in other comments in this thread, I feel like the latter may be
-better, as this series is clearly not ready for Linus (which is one of
--next's general requirements AFAIUI).
-
->      attr = ni_find_attr(ni, attr, NULL, ATTR_VOL_INFO, NULL, 0, NULL,
-> NULL);
->      if (!attr || is_attr_ext(attr) ||
->          !(info = resident_data_ex(attr, SIZEOF_ATTRIBUTE_VOLUME_INFO))) {
-
-[1]: https://github.com/ClangBuiltLinux/linux/issues/1729
-
-Cheers,
-Nathan
