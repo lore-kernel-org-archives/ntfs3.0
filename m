@@ -1,58 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C9A7F499;
-	Tue, 23 Apr 2024 14:56:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137C720B3E
+	for <ntfs3@lists.linux.dev>; Tue, 23 Apr 2024 20:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713884161; cv=none; b=alRdE7Aq0j+CX42zQkwz68WatWsP6YhlL8zcaguekuJU0hKff+JXQeFXbzG2LxpKMOkry7iheNkHNLzkaIdIdE9KnbBc13fELMB6SSwgXmSEAMDU8e6xMcPUnqDkx4QewNJ2OBZWOm95CORCtLSfOzS26wO6YGDKTIHCkrH/ZGk=
+	t=1713905801; cv=none; b=CY5dzySOUKuN2ej4prJgZq48r53VaW8j1CYyYxVRuCKSVCG9ecPhlS1IULQBBhYaVQhS4uH6wdHFlzcMPqCyKh4O108S2BUD7Q3OTeBffWNng21/vuT3Wz8Lf3rvYlxvroYSIcV69d1/FTnNTk0wLNJM0D++8NgL2/p0H76UwKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713884161; c=relaxed/simple;
-	bh=WFeTvzRXST40s/+gu/XHm2qFlrewTQycOh9VzOIVnJs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jFC9FhqZKT81iQXbXy2QaQ6GdsZPpqWfRH3MUmOHiXNvakDtsdRH3ScHuT9o0HUprcbES0H+IH33x62AgkmSqAbbRvOEvgJPxRJxPfHHxpbkosgyCFKvO4IliESKfdEDVZVpXbRuDyv1cg+41PpEZKVeGRzA2T6fU1qxi+zsZAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GM7iSm54; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713905801; c=relaxed/simple;
+	bh=OSZW1dIo9HrRXcWIzvZDXhaKoai+7qSvUqIhaBvvJBQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cMapAEc/YDwCfnVLxdIMiib5/1q+HkNi+sok06mKvGqk3hm3tp8aGvR0R+iZcZvSPuK9udQe88kXt+zl8R7lddi23cmr/vHBainize7Fse2VPbRBF4WP3rMSCwgK8FL1xdoGqLG+8b+wS2UTNVToLaczat3yP5Pbw99A6oinal8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HvV/rc20; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GM7iSm54"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35300C2BD10;
-	Tue, 23 Apr 2024 14:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1713884161;
-	bh=WFeTvzRXST40s/+gu/XHm2qFlrewTQycOh9VzOIVnJs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GM7iSm54s9Oh3xoGEQNExrgIuiJoesMNzNhx5IPuVhwN3PKOv+E6TCV21pB4YdcZg
-	 CkIjFDfhH1/6fkjKdnQTKA1cYt1pWGDlQYcNtKAoWMklNeLXLCSULFBNNLwYqRWj17
-	 iUGNdnRQvVCB8241vq/cijEy6URvTnw/gM+UskYo=
-Date: Tue, 23 Apr 2024 07:55:42 -0700
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] fs/ntfs3: Fix case when index is reused during tree
- transformation
-Message-ID: <2024042318-radio-concept-9a0b@gregkh>
-References: <20240423144155.10219-1-almaz.alexandrovich@paragon-software.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HvV/rc20"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713905800; x=1745441800;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OSZW1dIo9HrRXcWIzvZDXhaKoai+7qSvUqIhaBvvJBQ=;
+  b=HvV/rc20pz99hG59qEUVtQdLwrDcrHiC92M7hsCcHFtJsluQopr+bT7R
+   L5fuLIBIYU5hkB+6VUIo2VmzbIyliHxbkyM2Ff7e7mbg+NetOJM4CbXDo
+   P3UPMqkjJ9GNggBCfWqZYWpeRwXW15qF7Xm9l/UiEx0DD7mx9z3XMauG+
+   ytCWCT2MMWS4AeiSI4oF+lA5P2kUIT+FLw3b09XyIL0hzaBMA+RzJ0LGZ
+   Okc8534ork6sP2GtArWxER5oiVSOXi50T6P8WXIf/1y3iqbiiX46eIJqE
+   U12Id4g1ZqfTf/6MXU8mQnGMoeF+GtgQ4C+5ExCe6bOrpO6S4B0XFYSP+
+   A==;
+X-CSE-ConnectionGUID: Mw1grE8DSq+6hbbeuIY0UQ==
+X-CSE-MsgGUID: BQhilJoQQg2JDYgLW8DLJQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20061373"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="20061373"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 13:56:39 -0700
+X-CSE-ConnectionGUID: qfsKJUEvRVGUK5vkolM/Vg==
+X-CSE-MsgGUID: F5c30+5iTgK0bzhSdw4KvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="29284140"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa005.jf.intel.com with ESMTP; 23 Apr 2024 13:56:38 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 8AEDC192; Tue, 23 Apr 2024 23:56:36 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] fs/ntfs3: Fix compilation error
+Date: Tue, 23 Apr 2024 23:56:34 +0300
+Message-ID: <20240423205634.3673120-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240423144155.10219-1-almaz.alexandrovich@paragon-software.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 23, 2024 at 05:41:54PM +0300, Konstantin Komarov wrote:
-> Fixes: 82cae269cfa95 ("fs/ntfs3: Add initialization of super block")
-> Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-> Cc: stable@vger.kernel.org
-> ---
->  fs/ntfs3/index.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+Compilation with CONFIG_WERROR=y, which is default, is broken:
 
-I know I can't take patches without any changelog text, and odds are you
-shouldn't either...
+  fs/ntfs3/super.c:1247:26: error: variable 'attr' is uninitialized when used here [-Werror,-Wuninitialized]
 
-thanks,
+  attr = ni_find_attr(ni, attr, NULL, ATTR_VOL_INFO, NULL, 0, NULL, NULL);
+				^~~~
+Pass NULL instead.
 
-greg k-h
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ fs/ntfs3/super.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 4a514931269e..fa3cc2b6d34a 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -1244,7 +1244,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 
+ 	ni = ntfs_i(inode);
+ 
+-	attr = ni_find_attr(ni, attr, NULL, ATTR_VOL_INFO, NULL, 0, NULL, NULL);
++	attr = ni_find_attr(ni, NULL, NULL, ATTR_VOL_INFO, NULL, 0, NULL, NULL);
+ 	if (!attr || is_attr_ext(attr) ||
+ 	    !(info = resident_data_ex(attr, SIZEOF_ATTRIBUTE_VOLUME_INFO))) {
+ 		ntfs_err(sb, "$Volume is corrupted.");
+-- 
+2.43.0.rc1.1336.g36b5255a03ac
+
