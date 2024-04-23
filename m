@@ -1,114 +1,96 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C8B2561B
-	for <ntfs3@lists.linux.dev>; Tue, 23 Apr 2024 06:59:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6711B815
+	for <ntfs3@lists.linux.dev>; Tue, 23 Apr 2024 14:43:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713855598; cv=none; b=en/bU9e/7wJeZEgvoFXnLwbHsg8p7RBlRtZgJT813hCrRokU/IWVzRAZ1tNd4A14b1Pwm6jcW1WxmQrSJ2CmY2rk+koz9xLT7rTKrjiLnv9RvLOBZpPOT+9G0TVQ5jDqhT/MOxcHCTg2C6dnnlirKjPuCZTsbs/YgIyHJGUu2iE=
+	t=1713883425; cv=none; b=uMK3koPiuv3DE0qJfmEj1ei1x/NNDP5WLHmUbuY+JBhSPQc13iyOv9AAi4tutd/gO1OIn1vetZ2vrHHaHkcDutKAR56cb0xK6WtcQYC+1BJuVqLgkboc075LNlLqJJ7M+UiVK31OlYxGsGGnlJVJcd/CbJVjCcNx07Ew+SBG5RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713855598; c=relaxed/simple;
-	bh=Zzp8mj6zW/Jm4wThhCDdvfxjFV4U+HMKiOpiV/HaZuY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=IANtuoiwAxgyLbLvVWigLJnAQ2LbAhPJXuCuiss6dAr71ybT4GfZA3MzRq0TSaiAknkOwllMdaealIQU+jKv3vonsH6puqbOJ0oelfqelVE+48GlUSj+YosKwjlmXOcaEhglUMObpkKHa2oY9SlbVq8Tzuupm+t8Vpgrozd3CWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=E3ZdJEKH; arc=none smtp.client-ip=35.157.23.187
+	s=arc-20240116; t=1713883425; c=relaxed/simple;
+	bh=WbCw9nUWuNlue0JTbw7KKe+Klt1Zl5siF7ReQQs1Orc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SWUcJFmUuXevECqq7oMTPp1poRLoDoptRGPcXVlG9g24KYI/wQtjszCoNi9l1WswUq/ECXudTI5h8IEZhxFQJHS53Oh97CQprbNIWSER/ZcchK1WYLUVOX8g+CIeTMrckKBcH9jpACkZ0vbOtkyEEYMtfTMntMu9f4T7b8OVrhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=FV95OFNv; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=cX/OlauS; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="E3ZdJEKH"
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id D9EF71E80;
-	Tue, 23 Apr 2024 06:52:22 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="FV95OFNv";
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="cX/OlauS"
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id D33172111;
+	Tue, 23 Apr 2024 14:36:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1713855142;
-	bh=JOwWS5GfXukMyOR/UNU7ONa5eGBlcf6BRU7La5M7If4=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=E3ZdJEKHk0oEhyK+a8zB5KGFZcWbtsScEzkEukjgAv6nZ1CZHijXXEmBWuzmEt5hT
-	 dKQT4KXmyfsc8CiSbm+09sQpEWMrlSlVoOU27NScJhw1YOKj9/0FaUGVuaO1zEC1OW
-	 aDq/kV023VFgoPk7BFadbMBQRao2hOx6vIYG8DJM=
-Received: from [192.168.211.160] (192.168.211.160) by
+	d=paragon-software.com; s=mail; t=1713882969;
+	bh=fEEWQ5PXpVshURSalmdzx3oghb8b7D3y9U6SgDq2pmQ=;
+	h=From:To:CC:Subject:Date;
+	b=FV95OFNvh3IC0MpiuUATwUNaXvKnItIH6eelfFs+NBlXaRfj9cwo2Xo2yrKgBbKky
+	 LitGvrHpuWbNOzZfmYwp+GHb+9VO8bO19WiqRuMdZapyDdmJfLigkv5TO88hNJU9ST
+	 8MaE56RRRfcX6nhUmKwd0aXTe8XGFMsujlPq7VQ8=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id BF8D821B6;
+	Tue, 23 Apr 2024 14:43:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1713883421;
+	bh=fEEWQ5PXpVshURSalmdzx3oghb8b7D3y9U6SgDq2pmQ=;
+	h=From:To:CC:Subject:Date;
+	b=cX/OlauSd62Up47RVYWQ+MvU7prIaVwTzs2IAR1rxJvAVqSgby0/8/G9w3/0LlbIB
+	 3hsSWXlLRUyABU+Qs8eqD3nMM/koaAAoOdsnRrYyveJEVQhmylvdHnHA20a27VLCXi
+	 NYTgdupc6m9J0rxllAD5ga4JAarOCel0OGNpZhlM=
+Received: from ntfs3vm.paragon-software.com (192.168.211.186) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 23 Apr 2024 09:59:54 +0300
-Message-ID: <bc467c0d-99d0-4de7-9d09-a5e155f7ba4e@paragon-software.com>
-Date: Tue, 23 Apr 2024 09:59:53 +0300
+ 15.1.2375.7; Tue, 23 Apr 2024 17:43:41 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	<stable@vger.kernel.org>
+Subject: [PATCH] fs/ntfs3: Fix case when index is reused during tree transformation
+Date: Tue, 23 Apr 2024 17:41:54 +0300
+Message-ID: <20240423144155.10219-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/11] fs/ntfs3: Taking DOS names into account during link
- counting
-To: Johan Hovold <johan@kernel.org>
-CC: <ntfs3@lists.linux.dev>, LKML <linux-kernel@vger.kernel.org>,
-	Linux-fsdevel <linux-fsdevel@vger.kernel.org>, "Matthew Wilcox (Oracle)"
-	<willy@infradead.org>, Anton Altaparmakov <anton@tuxera.com>
-References: <6c99c1bd-448d-4301-8404-50df34e8df8e@paragon-software.com>
- <0cb0b314-e4f6-40a2-9628-0fe7d905a676@paragon-software.com>
- <ZiC-TNxianVojCJv@hovoldconsulting.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <ZiC-TNxianVojCJv@hovoldconsulting.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+Content-Type: text/plain
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 18.04.2024 09:31, Johan Hovold wrote:
-> On Wed, Apr 17, 2024 at 04:10:59PM +0300, Konstantin Komarov wrote:
->> When counting and checking hard links in an ntfs file record,
->>
->>     struct MFT_REC {
->>       struct NTFS_RECORD_HEADER rhdr; // 'FILE'
->>       __le16 seq;        // 0x10: Sequence number for this record.
->>   >>  __le16 hard_links;    // 0x12: The number of hard links to record.
->>       __le16 attr_off;    // 0x14: Offset to attributes.
->>     ...
->>
->> the ntfs3 driver ignored short names (DOS names), causing the link count
->> to be reduced by 1 and messages to be output to dmesg.
-> I also reported seeing link counts being reduced by 2:
->
-> [   78.307412] ntfs3: nvme0n1p3: ino=34e6, Correct links count -> 1 (3).
-> [   78.307843] ntfs3: nvme0n1p3: ino=5bb23, Correct links count -> 1 (2).
-> [   78.308509] ntfs3: nvme0n1p3: ino=5c722, Correct links count -> 1 (2).
-> [   78.310018] ntfs3: nvme0n1p3: ino=5d761, Correct links count -> 1 (2).
-> [   78.310717] ntfs3: nvme0n1p3: ino=33d18, Correct links count -> 1 (3).
-> [   78.311179] ntfs3: nvme0n1p3: ino=5d75b, Correct links count -> 1 (3).
-> [   78.311605] ntfs3: nvme0n1p3: ino=5c708, Correct links count -> 1 (3).
->
->   - https://lore.kernel.org/all/Zhz_axTjkJ6Aqeys@hovoldconsulting.com/
->
-> Are you sure there are not further issues with this code?
->
->> For Windows, such a situation is a minor error, meaning chkdsk does not
->> report
->> errors on such a volume, and in the case of using the /f switch, it silently
->> corrects them, reporting that no errors were found. This does not affect
->> the consistency of the file system.
->>
->> Nevertheless, the behavior in the ntfs3 driver is incorrect and
->> changes the content of the file system. This patch should fix that.
-> This patch is white space damaged and does not apply.
->
->> PS: most likely, there has been a confusion of concepts
->> MFT_REC::hard_links and inode::__i_nlink.
-> I'd also expect a Fixes and CC stable tag here.
->
-> And as this patch does not seem to depend on the rest of the series it
-> should go first (along with any other bug fixes).
->
->> Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-> Johan
+Fixes: 82cae269cfa95 ("fs/ntfs3: Add initialization of super block")
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: stable@vger.kernel.org
+---
+ fs/ntfs3/index.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Hi Johan,
-
-We are in the process of extending the tests for link counting and 
-related scenarios.
-
-If I find bugs, I'll reply ASAP.
-
-Thanks for highlighting the bug.
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index daabaad63aaf..14284f0ed46a 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -1533,6 +1533,11 @@ static int indx_add_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 		goto out1;
+ 	}
+ 
++	if (data_size <= le64_to_cpu(alloc->nres.data_size)) {
++		/* Reuse index. */
++		goto out;
++	}
++
+ 	/* Increase allocation. */
+ 	err = attr_set_size(ni, ATTR_ALLOC, in->name, in->name_len,
+ 			    &indx->alloc_run, data_size, &data_size, true,
+@@ -1546,6 +1551,7 @@ static int indx_add_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 	if (in->name == I30_NAME)
+ 		i_size_write(&ni->vfs_inode, data_size);
+ 
++out:
+ 	*vbn = bit << indx->idx2vbn_bits;
+ 
+ 	return 0;
+-- 
+2.34.1
 
