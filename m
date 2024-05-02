@@ -1,161 +1,111 @@
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADC112A14B
-	for <ntfs3@lists.linux.dev>; Wed,  1 May 2024 12:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1884204E
+	for <ntfs3@lists.linux.dev>; Thu,  2 May 2024 18:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714567887; cv=none; b=q8m2vboezyucS2PdPTszpjWy76X+Xf8wBWWLqETtW7dYdzRdo97yoMJgUw3JK3eTUnRdSkwEnIQ1ep0v8buxao0VgdKRYg22wdxCPUlYMn2VlPIQKkikvu2S1bUlbe6+rKoH1DSO2nRSqVLbwIcxYnzPeFMfJVlDiKW9d6WgFDY=
+	t=1714675346; cv=none; b=Eh5Xs9FUmLIT8QraG2A1zXcjhqD0cHdZXeltDPZ3To6YnGFQSiM+Iwwhzym84OE6gp+Zc1EJBJevtqCz6X4C0NkTpQJQ7uN/iXouYA6oG4ohs8jItL3hDU4jKka2kU95omqUUX5YGmg42k0AOWH739wZpS9kiZ+iycs8Nre5KqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714567887; c=relaxed/simple;
-	bh=9gjkchFMJwUjpF/uchEYtIcWsr1hiGH0tVbUVogWLfY=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=VYDBrCFSszSiKqZIy7CLaXg71ZSLBoYds/h5/FypfO8L5UxhdlPW2Ce2HgannSrRv/DeIjneq4lvNR01cuZe5+vaVLzKZP1xJZZP+cFhHmY+DHDxsL/0h+qIo7gIvLGKlFwWWVyrg1lgfxurr3HSRbOLOt5+yNK8MhSpe9bI6mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-36b3b387b4eso80241645ab.2
-        for <ntfs3@lists.linux.dev>; Wed, 01 May 2024 05:51:25 -0700 (PDT)
+	s=arc-20240116; t=1714675346; c=relaxed/simple;
+	bh=G5V5ACM950fGQKM/49XtcbRxUoJw8KTEU8tsC3O0IiM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=QdJ1m9r1IK3E2DAT/VnDEbPsNnhVJ15BksFWgpGeZOeJRPgOzlq77qHBe8i2aNLR0QUWc0NPdYS882RxV/F0oHWxAx+5ZKJY2j/IRVcvi7f7XS5FGHVsNVlzAkdKLOlhunBLoirXmpw5fS5x0j6dbWj4ppcOUQIO+t65pzVQOf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VVaJaEXn; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VVaJaEXn"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6ed627829e6so9681125b3a.1
+        for <ntfs3@lists.linux.dev>; Thu, 02 May 2024 11:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714675344; x=1715280144; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fmQTHNad7dmA0s0giWalMqGG/pxPdq/wO7cnMf5Ybbw=;
+        b=VVaJaEXnz/hon42b5yNHblZV2Jr4E9wAyhXVMA1shgse3i3Ae55184Q15RjxCEOt+X
+         s4JQT9EsP66yKwRfQ3Telb80Su4uCdIRjrZOaJLbwxPhN/T/KQhvxquKJzkObk15eIIr
+         2/i8bViySYKWEeJltgO1kZ/szQqZFNEozhEHidM4v5LU07sqjhm4m6WTMVlZmbAByR6r
+         Uza6uvaHoulj2P+pwcmZOGdL0xobZWvEwF4QYnZB1fxhQsnz1nDvTslb813Wow8Qw9n2
+         nzJN5Z6+icY2teRbCan2F1S1bCVFVel2aZdHKaIpntARYYvCQftsuIZv0TgaHecjBhNv
+         MjzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714567885; x=1715172685;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+        d=1e100.net; s=20230601; t=1714675344; x=1715280144;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=7wnNbmWU078woIxMllctBTvqWvHXn4tL8L+Wpu7svmM=;
-        b=i3pc+SJQRbqkv/Et3p+eyL4JsYI6RS5HfaQjqmLEf28j7m1GFc9JxDxGCVVTi689x/
-         2+LlhkE2oPNztjeyFmS9hwSTCiLTvJrHeOrLNlB5j48HnUvhoiV0YRcR7CokiG4dHz3Z
-         RDMsldn+pdWMSqOOwm1QgNP9m3aMY7/pKVqN/163HMx/HiaTqEcnOwYP2A9er+Yc/sWq
-         5I75Ni6KTn+GQ7dqdqmjCRZ3FDL+O/rNulM3kdq2ccnCZHUe17ihN9m2je5hV4QnirrZ
-         b4Ghxld+9DLa6y3ZHfcXhVR1Ktx5JEahSz9PKYOsTiwWA8+DXsaRDfppJ5DYgUyUc+ev
-         UXtw==
-X-Forwarded-Encrypted: i=1; AJvYcCXwK/xsMM7hDBfbSpA935PZj/Xs0suPukSJUQ+J5mfVfNZhgkmmZ+KUoefGRAdjj5OIcnUog8hNN1H+fJ+noFuDFzJ5H3g=
-X-Gm-Message-State: AOJu0Yw8OaKFsxZUGR9w4hqOACnWNCdt/Ykv1gdG4Uec9le1Kdin0pDb
-	RfzM3q6fqqCmm7ulfRN6i6QErw/9Ep1mfboBiW0dBjGXoiB4L7dw5tN9drLZN/tGtV6G6Tk5Oh6
-	f5rdnB4+9yrzlsTqzY5b5BnjRwSgyLTUDLRUS24RWdOVCOOcLj2UzzXQ=
-X-Google-Smtp-Source: AGHT+IFwqIAlIAaPoqZ9mYyeoyOw68HsY4uzYc7329qvgtFI9BPVks0/KISy/dNE+mk1ZQwyS76jJ6VBeW00aiQyGUD66Qjed4jE
+        bh=fmQTHNad7dmA0s0giWalMqGG/pxPdq/wO7cnMf5Ybbw=;
+        b=mRdwl2vIoSA5KrSwKTINul2rk6S0PrU+uMIrIgfMBQV67FKS5gXRc9T26WaPOc0Nsg
+         RzLkzOsYs6L+qtfWyTV1SWWW7tOt+F1UsmWcqTsEL0PIbeJY0P5lbVQRt1xzeYccFqkj
+         Wzm4Y4ofv5ayvTN5Xz/SyzA70xEVFUcswuAqv3gTK7HDtacesdfl5RT1FSbKp2YeQ0m3
+         XD17/V3RV7PDmaYzZS5+BHnMlnxHNzdT4VNRJKL5S04SJBGo6INMVnp8ZKwdrnrWPSAN
+         XCW7oJN2wSf+FP+jKvND06pkNtLsK4S4MVRt43t5xeXCKm5Rp+XA1aPSMrdCNy3ItfjK
+         chig==
+X-Gm-Message-State: AOJu0YxILfu/VojHuI77AsSkNAV+Z8dFHtext79qmAqghYtLXDhVFjiX
+	Rr0am4pQlK+5c4iq7UYRQMZqvjUY+CIcjZbFM/QAUneSeEVRFbZg8G9aHlrjEhbmXiKBALCQKbJ
+	n8fKidikuu1i9nIfRNcvC2O96bnugKQ==
+X-Google-Smtp-Source: AGHT+IH+FNSK195qG3bFbTfZRT9MxN1OOqFvoVe8INNeh/RDDAeslAlQ2IGbCmqGm67K93s0hgG6L3m4OAsh87HFSxs=
+X-Received: by 2002:a05:6a20:3953:b0:1af:5451:d00c with SMTP id
+ r19-20020a056a20395300b001af5451d00cmr737628pzg.32.1714675343944; Thu, 02 May
+ 2024 11:42:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1c2a:b0:36c:5029:1925 with SMTP id
- m10-20020a056e021c2a00b0036c50291925mr119176ilh.0.1714567885259; Wed, 01 May
- 2024 05:51:25 -0700 (PDT)
-Date: Wed, 01 May 2024 05:51:25 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000be9914061763f17a@google.com>
-Subject: [syzbot] [ntfs3?] BUG: unable to handle kernel NULL pointer
- dereference in attr_make_nonresident
-From: syzbot <syzbot+5b6ed16da1077f45bc8e@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
+From: Philippe Cerfon <philcerf@gmail.com>
+Date: Thu, 2 May 2024 20:42:13 +0200
+Message-ID: <CAN+za=NCAmgf9Lmc9qh6RC4TRMxHAimzm_qgXhF-tes0nChfyA@mail.gmail.com>
+Subject: support for Cygwin XATTRs in NTFS3?
+To: ntfs3@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Hey.
 
-syzbot found the following issue on:
+Cygwin supports user.* XATTRs by encoding them somehow in Windows EAs.
 
-HEAD commit:    bb7a2467e6be Add linux-next specific files for 20240426
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=16152fd8980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5c6a0288262dd108
-dashboard link: https://syzkaller.appspot.com/bug?extid=5b6ed16da1077f45bc8e
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1425307f180000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=129b956b180000
+Any chance to see support for reading these via ntfs3?
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/5175af7dda64/disk-bb7a2467.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/70db0462e868/vmlinux-bb7a2467.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/3217fb825698/bzImage-bb7a2467.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/5f3094e29bc3/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+5b6ed16da1077f45bc8e@syzkaller.appspotmail.com
-
-BUG: kernel NULL pointer dereference, address: 0000000000000000
-#PF: supervisor instruction fetch in kernel mode
-#PF: error_code(0x0010) - not-present page
-PGD 8000000078309067 P4D 8000000078309067 PUD 7b739067 PMD 0 
-Oops: Oops: 0010 [#1] PREEMPT SMP KASAN PTI
-CPU: 1 PID: 10600 Comm: syz-executor757 Not tainted 6.9.0-rc5-next-20240426-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
-RIP: 0010:0x0
-Code: Unable to access opcode bytes at 0xffffffffffffffd6.
-RSP: 0018:ffffc9000df7f698 EFLAGS: 00010282
-RAX: 1ffffffff17f906b RBX: 0000000000000000 RCX: dffffc0000000000
-RDX: 0000000000000000 RSI: ffffea0001dd3440 RDI: ffff8880785f9a98
-RBP: ffffc9000df7f800 R08: ffffffff81cfce8a R09: 1ffffd40003ba688
-R10: dffffc0000000000 R11: 0000000000000000 R12: ffff888022288170
-R13: ffff888022288188 R14: ffffea0001dd3440 R15: 1ffff92001befee8
-FS:  00007fb8369ff6c0(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffffffffffffd6 CR3: 000000007c042000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- attr_make_nonresident+0xa49/0xe80 fs/ntfs3/attrib.c:301
- attr_set_size_res fs/ntfs3/attrib.c:371 [inline]
- attr_set_size+0x711/0x4290 fs/ntfs3/attrib.c:432
- ntfs_set_size+0x161/0x200 fs/ntfs3/inode.c:851
- ntfs_extend+0x16d/0x4a0 fs/ntfs3/file.c:335
- ntfs_file_write_iter+0x3ea/0x770 fs/ntfs3/file.c:1124
- new_sync_write fs/read_write.c:497 [inline]
- vfs_write+0xa72/0xc90 fs/read_write.c:590
- ksys_write+0x1a0/0x2c0 fs/read_write.c:643
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf5/0x240 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fb837280a29
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 a1 1a 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fb8369ff168 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007fb8373276f8 RCX: 00007fb837280a29
-RDX: 000000000000fea7 RSI: 0000000020000200 RDI: 0000000000000004
-RBP: 00007fb8373276f0 R08: 00007ffc182e95a7 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007fb8373276fc
-R13: 000000000000006e R14: 00007ffc182e94c0 R15: 00007ffc182e95a8
- </TASK>
-Modules linked in:
-CR2: 0000000000000000
----[ end trace 0000000000000000 ]---
-RIP: 0010:0x0
-Code: Unable to access opcode bytes at 0xffffffffffffffd6.
-RSP: 0018:ffffc9000df7f698 EFLAGS: 00010282
-RAX: 1ffffffff17f906b RBX: 0000000000000000 RCX: dffffc0000000000
-RDX: 0000000000000000 RSI: ffffea0001dd3440 RDI: ffff8880785f9a98
-RBP: ffffc9000df7f800 R08: ffffffff81cfce8a R09: 1ffffd40003ba688
-R10: dffffc0000000000 R11: 0000000000000000 R12: ffff888022288170
-R13: ffff888022288188 R14: ffffea0001dd3440 R15: 1ffff92001befee8
-FS:  00007fb8369ff6c0(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffffffffffffd6 CR3: 000000007c042000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Maybe with default mount options, they could be mapped into some
+special namespace (like cygwin.*) and with some special mount option
+like xattr-profile=cygwin they could get mapped directly into user.* ?
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+I found only little information on how they do it.
+There's a few words in
+https://www.cygwin.com/cygwin-ug-net/cygwin-ug-net.pdf
+on PDF page 4, chapter 1.6.3 File Access.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Other than that, one would probably have to resort to:
+https://www.cygwin.com/git.html
+where it seems in
+winsup/cygwin/fhandler/disk_file.cc
+winsup/cygwin/include/attr/xattr.h
+winsup/cygwin/ntea.cc (which seems to contain the beef in read_ea())
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+ntfs-3g as some limited support for getting the data:
+$ getfattr -n system.ntfs_ea test --only-values | hd
+00000000  90 00 00 00 00 04 80 00  46 4f 4f 4f 00 37 32 66  |........FOOO.72f|
+00000010  32 35 64 39 30 65 66 34  63 66 65 63 64 61 38 66  |25d90ef4cfecda8f|
+00000020  61 32 63 34 37 35 36 31  61 66 35 61 66 30 61 31  |a2c47561af5af0a1|
+00000030  30 61 39 32 62 66 64 31  35 39 38 36 62 31 66 39  |0a92bfd15986b1f9|
+00000040  31 36 33 35 38 62 66 36  61 63 38 61 33 37 38 35  |16358bf6ac8a3785|
+00000050  38 61 31 34 64 32 37 33  32 39 35 30 36 61 33 37  |8a14d27329506a37|
+00000060  36 36 62 61 64 30 66 33  34 64 32 65 30 34 63 61  |66bad0f34d2e04ca|
+00000070  66 33 39 37 63 31 36 30  37 62 34 33 38 30 65 62  |f397c1607b4380eb|
+00000080  33 33 63 39 37 64 33 37  64 66 63 33 37 00 00 00  |33c97d37dfc37...|
+00000090
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+Here, on test the following XATTR was set from Cygwin:
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+$ setfattr -n user.fooo -v
+72f25d90ef4cfecda8fa2c47561af5af0a10a92bfd15986b1f916358bf6ac8a37858a14d27329506a3766bad0f34d2e04caf397c1607b4380eb33c97d37dfc37
+test
 
-If you want to undo deduplication, reply with:
-#syz undup
+
+Not sure whether support for FAT and exFAT is needed, because it seems
+Cygwin itself cannot even set XATTRs on them.
+
+
+Cheers,
+Philippe
