@@ -1,83 +1,111 @@
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F98158DB4
-	for <ntfs3@lists.linux.dev>; Wed, 15 May 2024 18:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E3B145B37
+	for <ntfs3@lists.linux.dev>; Thu, 16 May 2024 12:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715797146; cv=none; b=NrLmdqsHnqPXxYJ9xa4K7XsPBVpXRZjyOTLG7PrOPtAVJyFA9DirXg9S9awF0c8Q6s7p4fMxT1OwZJZ/0H++7Ud78CPKF7JBocfXFL78PScKkeiweD2SlDijtrUvK6PQKdap2Qr8Gy8+GWtVJGl88FZYIzF+iRXxjEr8gG30NHc=
+	t=1715861465; cv=none; b=COBx7gxyDQkt/bzG5ZMEYtJnQOqF7gYXW93FxWEl1nwNpzn5z2mtG+F102UGvWLUA/KtDLqR8VvCT1a9PhFWrU7QyG753Ah2L3C6Hfp1QV2VcJuQ6FIlq5B8BUlQPgsa6NnEw5a8QmbQF1cNNOVCbVwpt4cvDTFIQPAAP+NPGAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715797146; c=relaxed/simple;
-	bh=5eudQLXKDiRsYY49Oc+zW6UDq5YXoyySbCrA4nZlq9w=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=nZj/8bgpsSRbyWRL5bAmLxYRlm7g6WSMataNZNQhOqrQH9+1huCX7Zq2eoq3/CKvp2v8BHsRoFcExL7UrybQLsMWqGK4YpKKXZM8z++IuGz2GH3G+H7b+EfCqfGLfeADg9RoS8Qc6MmnCMFFzhJyXd5JTWR/f/CT4jJwH087r0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-7e1fe2ba2e1so219717139f.3
-        for <ntfs3@lists.linux.dev>; Wed, 15 May 2024 11:19:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715797144; x=1716401944;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z+tpDgK2JCqXeT0yDQHOxK3Y5nf0WqVOLoMtiI3Y/bw=;
-        b=TB+mqNtaFHgPTrenbhBTLTy4WpB/RxyGXUvHX88jiu2ckKTe1+VJfZKdp5W4bMb6yX
-         wGkNTmmgVQJaL7EmF6lRjO/ihCUSJZ/0pR6OxDZ9J1K+NZzbYR2gUZKFt/4TDPIEXOa2
-         GQnKqpYe34P/E3CCjBBGlwiAVFnMcH6iah17oBDNFu2WYO6j2OLo3b9SW1ZZfVqHnjU/
-         DPEjbPOl6wIdsLRsb8sfClRtrOrFAlymDisbwyDF+OiRM41xW5jJfAa1gakNQvt6/NdU
-         siuquJ6ZRMD5bYr7FB8IlVyICobACIhkEqLze0j+wWD3JhZcADwzmqElzt5eCPccMvfx
-         TNwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVkcFzvHVLyFvokn4qiBARDR50xnOiMoGq7q34Wh2vxLVE5uNrivA9TtKhcXzWjDjWVnAPXvI69CxwkHjIo9lmJ/7bP5ak=
-X-Gm-Message-State: AOJu0YzoQC4Z1TXrqqPQTYT/n4oC2QRj4XEPqXgweAWyoz4a8LLAbJRJ
-	n73DgpOCMx28WU2cinAuJPhOzNt/Mg+gIbs7ajMNcGHTGPYtNHbgttm7OGH9HGTca0823TfuzKA
-	438JdmTFkFckwyF3jRPifIV5mJTtbjV2Bbomf3P+1AW/vPau/aWIQIns=
-X-Google-Smtp-Source: AGHT+IEjNm55R8nOlSIvYdtT/+wPoKVbHS4MXBNSquAdO95DQ/qV9dYHkp5IQ0ROpBGxD/p/1FKq4FdnI5XNMO2HYBR0ez1OuwCN
+	s=arc-20240116; t=1715861465; c=relaxed/simple;
+	bh=F6WO1aR+Qxv99DM4oHOPG9apgSeKLUE9nrEBhqRH5D0=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IeniKKWH05nsdx5cY/CaO1JbZZjX7fNsXef+Birx/XA20rPkLwY1MIxWFt4fxH39rmCKBwOCjK8IDJvC7hzc1WFlbNjC8D7lt+g+IHhd5/G0I/6lluCnNuzURPA4tqvWhlRMNeP0euyMFzjWf4s8gcQW0jP1nCEiimCcScFjslw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=ACnZW+Kc; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=DiNDXPGj; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="ACnZW+Kc";
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="DiNDXPGj"
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id B6CCF1F86;
+	Thu, 16 May 2024 11:53:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1715860392;
+	bh=GOGJaz9UJqKRi2i7pMYNMK4sWlylteCj88ffOeaMKGQ=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=ACnZW+KcT0fYGBHLAlEIKlGjw8yCdUEqWqze1R37u3nNcT4VJ//Yv7b1W+srOZsZK
+	 Zcr5lSAXwf37mTjEQXkDRjgpRoRZGHLAnM2IKaeL7Zhyk1j2//kZPC0aRIMdj2PoE4
+	 zUpz4/MnQ2wZJCa7+LB3m524h6aUL47u7kqxgAYI=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id D77FE21CF;
+	Thu, 16 May 2024 12:00:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1715860855;
+	bh=GOGJaz9UJqKRi2i7pMYNMK4sWlylteCj88ffOeaMKGQ=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=DiNDXPGjfoHIRP/89L7R2yge4Qse7mfKIBekMGUtGs85UsqSQZbAEuP3U+76jmvt+
+	 nChTzXKmco6hoaFshnnFBZEPIiEtYe6DIYX050Kt1bppcKQDNF2eH9odSAu/A9EysS
+	 zo5Y8lLSKqur84a9RuSJUqPSZVE+tXIBy940FFx0=
+Received: from ntfs3vm.paragon-software.com (192.168.211.154) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Thu, 16 May 2024 15:00:55 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	<stable@vger.kernel.org>
+Subject: [PATCH v2] fs/ntfs3: Fix case when index is reused during tree transformation
+Date: Thu, 16 May 2024 15:00:29 +0300
+Message-ID: <20240516120029.5113-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240423144155.10219-1-almaz.alexandrovich@paragon-software.com>
+References:
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:861e:b0:488:59cc:eb4e with SMTP id
- 8926c6da1cb9f-4895854473cmr1136597173.1.1715797144326; Wed, 15 May 2024
- 11:19:04 -0700 (PDT)
-Date: Wed, 15 May 2024 11:19:04 -0700
-In-Reply-To: <000000000000c4b45a056a36872f@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000004b67120618822707@google.com>
-Subject: Re: [syzbot] [ntfs3?] kernel BUG at fs/ntfs/aops.c:LINE!
-From: syzbot <syzbot+6a5a7672f663cce8b156@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, anton@tuxera.com, 
-	axboe@kernel.dk, brauner@kernel.org, cgel.zte@gmail.com, 
-	dai.shixin@zte.com.cn, ebiggers@kernel.org, gregkh@linuxfoundation.org, 
-	jack@suse.cz, jiang.xuexin@zte.com.cn, linkinjeon@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-ntfs-dev@lists.sourceforge.net, lu.zhongjun@zte.com.cn, 
-	ntfs3@lists.linux.dev, ran.maosheng1@zte.com.cn, ran.xiaokai@zte.com.cn, 
-	stable@vger.kernel.org, syzkaller-bugs@googlegroups.com, xu.xin16@zte.com.cn, 
-	yang.tao172@zte.com.cn, yang.yang29@zte.com.cn, zealci@zte.com.cn, 
-	zhang.songyi@zte.com.cn, zhang.wenya1@zte.com.cn, zhang.yanan14@zte.com.cn
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-syzbot suspects this issue was fixed by commit:
+In most cases when adding a cluster to the directory index,
+they are placed at the end, and in the bitmap, this cluster corresponds
+to the last bit. The new directory size is calculated as follows:
 
-commit 6f861765464f43a71462d52026fbddfc858239a5
-Author: Jan Kara <jack@suse.cz>
-Date:   Wed Nov 1 17:43:10 2023 +0000
+	data_size = (u64)(bit + 1) << indx->index_bits;
 
-    fs: Block writes to mounted block devices
+In the case of reusing a non-final cluster from the index,
+data_size is calculated incorrectly, resulting in the directory size
+differing from the actual size.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=134d0268980000
-start commit:   ceb6a6f023fd Linux 6.7-rc6
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e5751b3a2226135d
-dashboard link: https://syzkaller.appspot.com/bug?extid=6a5a7672f663cce8b156
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=172458d6e80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=120d8026e80000
+A check for cluster reuse has been added, and the size update is skipped.
 
-If the result looks correct, please mark the issue as fixed by replying with:
+Fixes: 82cae269cfa95 ("fs/ntfs3: Add initialization of super block")
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: stable@vger.kernel.org
+---
+ fs/ntfs3/index.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-#syz fix: fs: Block writes to mounted block devices
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index daabaad63aaf..14284f0ed46a 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -1533,6 +1533,11 @@ static int indx_add_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 		goto out1;
+ 	}
+ 
++	if (data_size <= le64_to_cpu(alloc->nres.data_size)) {
++		/* Reuse index. */
++		goto out;
++	}
++
+ 	/* Increase allocation. */
+ 	err = attr_set_size(ni, ATTR_ALLOC, in->name, in->name_len,
+ 			    &indx->alloc_run, data_size, &data_size, true,
+@@ -1546,6 +1551,7 @@ static int indx_add_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 	if (in->name == I30_NAME)
+ 		i_size_write(&ni->vfs_inode, data_size);
+ 
++out:
+ 	*vbn = bit << indx->idx2vbn_bits;
+ 
+ 	return 0;
+-- 
+2.34.1
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
