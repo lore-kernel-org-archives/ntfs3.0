@@ -1,249 +1,123 @@
-Received: from mail-io1-f79.google.com (mail-io1-f79.google.com [209.85.166.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A440E52F70
-	for <ntfs3@lists.linux.dev>; Tue, 21 May 2024 23:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA27BE4B
+	for <ntfs3@lists.linux.dev>; Sat, 25 May 2024 07:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716334955; cv=none; b=f+UuPtoG2DgSaOTao3LwHto2WJNImDyGqUivPX6TLHywumeghuhDh+V8RdSKq8+dLNRJkYUdPoRjPU0fyfRavdaiLU/uwuIVPQitScpn5JOm+lSjuoVP3Bk5Xg5mj90riJtA1emvtQT77qekqnYT5zzwoCJfYDyRBdgvm3QMWoY=
+	t=1716621071; cv=none; b=TtW/CWOiiyih1AlLVFOEjoUMRkOiOHddNBO26XAxN1keR9MONtUThgMrQ80q9Sr9GUXlo7rY2hitUvzLXmp0HzFm0/RX+pwrPYPp3tvmUiRSt0sR+gLyKn1+XpMLfmlc0+xwnjIzXE5N+9wYgpG9Al8iR7Jetjqqzh5VpdryScs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716334955; c=relaxed/simple;
-	bh=HZhmePRTKTHrYpZPjBn6d7/6xh/WygoeEVn68YOyzic=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=hrpxSOfC/l6hA8KCg/9eDT28C06qE4GXb0josLvh2VwUFo810Q9Fdw4KiCAKFwWi2VEETM3m/K5ptaAY4uh3V60cJfGch8AV5Ve2TklUxEURVXvccLoRbl4cpo1RGrI/sEl5O3iFgwV3vxPt8UJxmbEUtpRpq99PWdqk9lhJY/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f79.google.com with SMTP id ca18e2360f4ac-7dabc125bddso1565006939f.1
-        for <ntfs3@lists.linux.dev>; Tue, 21 May 2024 16:42:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716334953; x=1716939753;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=25Dd6Na6+eHGBhrM7XVMQB+D9RCYmI2189ws6whiqso=;
-        b=jIDRy3h2LL82bBkoynJmbH1ZKsjl7zKKbFDpvoYYa6PLfCGv/u/aklOfINXqsGw049
-         sRaoZTM4qVmE7vOSKJb3ejZQkOJ7QmW2wMh2KSugHVA2EYTAZMhP+i6z+jjA+nRqJjlz
-         iJbxWplqwb9xmsVkUahrKa9K+RxRhKd+tVdl++EQoCaxRZk5rcEh6RALhTxpoW4BDBJv
-         18B+NB8I++IFYJCWo3r2rtaz2Iu9sW3DDauPb79wHL4EssPpVejbswMJhC+1TNlhK2HP
-         2hpaGRxUzujLtiQAtUOdeFULQnEAGPFQUOH+49r/OWsnjLKjB2rO5EJKsA4bD7Ahyqcx
-         C/Og==
-X-Forwarded-Encrypted: i=1; AJvYcCXrHeWkDdoLOAmt5tlzp7DsZ4g6sSdQ3eQ9eSpb5MDGTd8nyhe1Bq6PVTtNB18fXD275hUVTF5txnIE9PtlHGMBMZ298co=
-X-Gm-Message-State: AOJu0YwwwQRFsyhhhd3ibs7PjhDUNgM0cb1u8jJCuzP71A19yvI9L52y
-	/7md2xsNOg9MUI/39jn6c9Kel96RUXprr2UY/yjI8kfJRCGgv+2evyVhGNVLCMsPKTXXtvlYns9
-	/szSUrAKbTay9XKWLqK9o9FdBrlPOe3eTWMFnuIM8lUzdGozGM+Wt2AI=
-X-Google-Smtp-Source: AGHT+IFaWRqK1mJzmahkIPH+Miwd1rLQcyq+s4iziRLc6K/XXfkDajqOSBv6682mT5bSjogXlXijjbdIPzg2f/qo/b7zvJk/uSi7
+	s=arc-20240116; t=1716621071; c=relaxed/simple;
+	bh=lbX4qDZgejEpytYpq0C8e8qHHrz0f/oVYAcVWcvT//I=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qM6rULI3ujhKIU1lFtFqx50Md2k7rE3URpWcWD5KavXttRxWCeim2It2hBb3qV2gSBgb3xoDTxFSPlXfuv4bs48vgu31ZJEvEOTWruf827l+LpwhNyeS5yObJO4fPHPGb6lo8jkKNw0NGl+N5Ew5W/lVF9eBl+WHbJUt2gvWBas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=R1XLHEd8; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="R1XLHEd8"
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 0716B21E0;
+	Sat, 25 May 2024 06:55:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1716620148;
+	bh=wAw8ojUEEw2Xao242PKV2SRrDojzhXxyksnFr9vSu20=;
+	h=From:To:CC:Subject:Date;
+	b=R1XLHEd8tmYjPbegYdniTMPyhN02afp2CBkM5p1wu5a9Z0uOjVm3UL42461NdEWw7
+	 z731GZOb3bz/pCl+mIKEDknWzSkNMKVUURTscRcpR9LCixgeTWn6F0Nfda79cLHtPc
+	 fDb5un0GdngbMIQ8MkSw4nCXCHqz9Sr3d2MrXfLg=
+Received: from ntfs3vm.paragon-software.com (192.168.211.122) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Sat, 25 May 2024 10:03:35 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <torvalds@linux-foundation.org>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] ntfs3: bugfixes for 6.10
+Date: Sat, 25 May 2024 10:03:23 +0300
+Message-ID: <20240525070323.6106-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1565:b0:36c:c5f4:8dd3 with SMTP id
- e9e14a558f8ab-371f910e416mr438825ab.3.1716334952835; Tue, 21 May 2024
- 16:42:32 -0700 (PDT)
-Date: Tue, 21 May 2024 16:42:32 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002dfd6e0618ff5f9f@google.com>
-Subject: [syzbot] [ntfs3?] possible deadlock in ntfs_file_release
-From: syzbot <syzbot+b14d0f52a28b512d7b94@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hello,
+Please pull this branch containing ntfs3 code for 6.10.
 
-syzbot found the following issue on:
+Fixed:
+- reusing of the file index (could cause the file to be trimmed) [1];
+- infinite dir enumeration [2];
+- taking DOS names into account during link counting;
+- le32_to_cpu conversion, 32 bit overflow, NULL check;
+- some code was refactored.
 
-HEAD commit:    ff2632d7d08e Merge tag 'powerpc-6.10-1' of git://git.kerne..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=16839adc980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f1cd4092753f97c5
-dashboard link: https://syzkaller.appspot.com/bug?extid=b14d0f52a28b512d7b94
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+Changed:
+- removed max link count info display during driver init.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Removed:
+- atomic_open has been removed for lack of use.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/bfc388454a52/disk-ff2632d7.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/da1638631dd4/vmlinux-ff2632d7.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6249354c3233/bzImage-ff2632d7.xz
+All changed code (except [1] and [2]) was in linux-next branch for several weeks.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b14d0f52a28b512d7b94@syzkaller.appspotmail.com
+[1] https://lore.kernel.org/ntfs3/20240516122041.5759-1-almaz.alexandrovich@paragon-software.com/
+[2] https://lore.kernel.org/ntfs3/20240516120029.5113-1-almaz.alexandrovich@paragon-software.com/
+These two patches fix a critical bug, so I've added them to this request.
 
-======================================================
-WARNING: possible circular locking dependency detected
-6.9.0-syzkaller-08410-gff2632d7d08e #0 Not tainted
-------------------------------------------------------
-syz-executor.2/24188 is trying to acquire lock:
-ffff88805b815a30 (&ni->file.run_lock#3){++++}-{3:3}, at: ntfs_file_release+0x184/0x220 fs/ntfs3/file.c:1179
+Regards,
+Konstantin
 
-but task is already holding lock:
-ffff88805b815980 (&ni->ni_lock#2/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1123 [inline]
-ffff88805b815980 (&ni->ni_lock#2/4){+.+.}-{3:3}, at: ntfs_file_release+0x175/0x220 fs/ntfs3/file.c:1178
+----------------------------------------------------------------
 
-which lock already depends on the new lock.
+The following changes since commit 0bbac3facb5d6cc0171c45c9873a2dc96bea9680:
 
+  Linux 6.9-rc4 (2024-04-14 13:38:39 -0700)
 
-the existing dependency chain (in reverse order) is:
+are available in the Git repository at:
 
--> #3 (&ni->ni_lock#2/4){+.+.}-{3:3}:
-       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
-       __mutex_lock+0x175/0x9c0 kernel/locking/mutex.c:752
-       ni_lock fs/ntfs3/ntfs_fs.h:1123 [inline]
-       ntfs_fallocate+0x9af/0x1120 fs/ntfs3/file.c:556
-       vfs_fallocate+0x4b8/0xf70 fs/open.c:330
-       ksys_fallocate fs/open.c:353 [inline]
-       __do_sys_fallocate fs/open.c:361 [inline]
-       __se_sys_fallocate fs/open.c:359 [inline]
-       __x64_sys_fallocate+0xd5/0x140 fs/open.c:359
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xcf/0x260 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.10
 
--> #2 (mapping.invalidate_lock#9){++++}-{3:3}:
-       down_read+0x9a/0x330 kernel/locking/rwsem.c:1526
-       filemap_invalidate_lock_shared include/linux/fs.h:846 [inline]
-       filemap_fault+0x275/0x2630 mm/filemap.c:3277
-       __do_fault+0x10a/0x490 mm/memory.c:4526
-       do_shared_fault mm/memory.c:4949 [inline]
-       do_fault mm/memory.c:5023 [inline]
-       do_pte_missing mm/memory.c:3875 [inline]
-       handle_pte_fault mm/memory.c:5295 [inline]
-       __handle_mm_fault+0x3148/0x4a80 mm/memory.c:5436
-       handle_mm_fault+0x476/0xa00 mm/memory.c:5601
-       do_user_addr_fault+0x2e5/0x1010 arch/x86/mm/fault.c:1383
-       handle_page_fault arch/x86/mm/fault.c:1475 [inline]
-       exc_page_fault+0x5c/0xc0 arch/x86/mm/fault.c:1533
-       asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:623
-       filldir+0x28c/0x5e0 fs/readdir.c:293
-       dir_emit_dot include/linux/fs.h:3592 [inline]
-       dir_emit_dots include/linux/fs.h:3603 [inline]
-       ntfs_readdir+0x851/0x1090 fs/ntfs3/dir.c:414
-       iterate_dir+0x292/0x9e0 fs/readdir.c:110
-       __do_sys_getdents fs/readdir.c:326 [inline]
-       __se_sys_getdents fs/readdir.c:311 [inline]
-       __x64_sys_getdents+0x14f/0x2d0 fs/readdir.c:311
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xcf/0x260 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+for you to fetch changes up to 302e9dca8428979c9c99f2dbb44dc1783f5011c3:
 
--> #1 (&mm->mmap_lock){++++}-{3:3}:
-       __might_fault mm/memory.c:6215 [inline]
-       __might_fault+0x11b/0x190 mm/memory.c:6208
-       _copy_to_user+0x2b/0xc0 lib/usercopy.c:36
-       copy_to_user include/linux/uaccess.h:191 [inline]
-       fiemap_fill_next_extent+0x232/0x390 fs/ioctl.c:145
-       ni_fiemap+0x444/0xc10 fs/ntfs3/frecord.c:2065
-       ntfs_fiemap+0xc9/0x120 fs/ntfs3/file.c:1206
-       ioctl_fiemap fs/ioctl.c:220 [inline]
-       do_vfs_ioctl+0x404/0x1ad0 fs/ioctl.c:838
-       __do_sys_ioctl fs/ioctl.c:902 [inline]
-       __se_sys_ioctl fs/ioctl.c:890 [inline]
-       __x64_sys_ioctl+0x116/0x220 fs/ioctl.c:890
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xcf/0x260 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+  fs/ntfs3: Break dir enumeration if directory contents error (2024-05-24 12:50:12 +0300)
 
--> #0 (&ni->file.run_lock#3){++++}-{3:3}:
-       check_prev_add kernel/locking/lockdep.c:3134 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
-       validate_chain kernel/locking/lockdep.c:3869 [inline]
-       __lock_acquire+0x2478/0x3b30 kernel/locking/lockdep.c:5137
-       lock_acquire kernel/locking/lockdep.c:5754 [inline]
-       lock_acquire+0x1b1/0x560 kernel/locking/lockdep.c:5719
-       down_write+0x3a/0x50 kernel/locking/rwsem.c:1579
-       ntfs_file_release+0x184/0x220 fs/ntfs3/file.c:1179
-       __fput+0x270/0xb80 fs/file_table.c:422
-       task_work_run+0x14e/0x250 kernel/task_work.c:180
-       exit_task_work include/linux/task_work.h:38 [inline]
-       do_exit+0xa7d/0x2c10 kernel/exit.c:878
-       do_group_exit+0xd3/0x2a0 kernel/exit.c:1027
-       __do_sys_exit_group kernel/exit.c:1038 [inline]
-       __se_sys_exit_group kernel/exit.c:1036 [inline]
-       __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1036
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xcf/0x260 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+----------------------------------------------------------------
 
-other info that might help us debug this:
+Jeff Layton (1):
+      fs/ntfs3: remove atomic_open
 
-Chain exists of:
-  
-&ni->file.run_lock#3 --> mapping.invalidate_lock#9 --> &ni->ni_lock#2
-/4
+Konstantin Komarov (11):
+      fs/ntfs3: Taking DOS names into account during link counting
+      fs/ntfs3: Remove max link count info display during driver init
+      fs/ntfs3: Missed le32_to_cpu conversion
+      fs/ntfs3: Check 'folio' pointer for NULL
+      fs/ntfs3: Use 64 bit variable to avoid 32 bit overflow
+      fs/ntfs3: Use variable length array instead of fixed size
+      fs/ntfs3: Redesign ntfs_create_inode to return error code instead of inode
+      fs/ntfs3: Always make file nonresident on fallocate call
+      fs/ntfs3: Mark volume as dirty if xattr is broken
+      fs/ntfs3: Fix case when index is reused during tree transformation
+      fs/ntfs3: Break dir enumeration if directory contents error
 
- Possible unsafe locking scenario:
+Lenko Donchev (1):
+      fs/ntfs3: use kcalloc() instead of kzalloc()
 
-       CPU0                    CPU1
-       ----                    ----
-  lock(&ni->ni_lock
-#2/4);
-                               lock(mapping.invalidate_lock#9);
-                               lock(&ni->ni_lock#2/4);
-  lock(&ni->file.run_lock#3);
-
- *** DEADLOCK ***
-
-1 lock held by syz-executor.2/24188:
- #0: ffff88805b815980 (&ni->ni_lock#2/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1123 [inline]
- #0: ffff88805b815980 (&ni->ni_lock#2/4){+.+.}-{3:3}, at: ntfs_file_release+0x175/0x220 fs/ntfs3/file.c:1178
-
-stack backtrace:
-CPU: 1 PID: 24188 Comm: syz-executor.2 Not tainted 6.9.0-syzkaller-08410-gff2632d7d08e #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/02/2024
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:114
- check_noncircular+0x31a/0x400 kernel/locking/lockdep.c:2187
- check_prev_add kernel/locking/lockdep.c:3134 [inline]
- check_prevs_add kernel/locking/lockdep.c:3253 [inline]
- validate_chain kernel/locking/lockdep.c:3869 [inline]
- __lock_acquire+0x2478/0x3b30 kernel/locking/lockdep.c:5137
- lock_acquire kernel/locking/lockdep.c:5754 [inline]
- lock_acquire+0x1b1/0x560 kernel/locking/lockdep.c:5719
- down_write+0x3a/0x50 kernel/locking/rwsem.c:1579
- ntfs_file_release+0x184/0x220 fs/ntfs3/file.c:1179
- __fput+0x270/0xb80 fs/file_table.c:422
- task_work_run+0x14e/0x250 kernel/task_work.c:180
- exit_task_work include/linux/task_work.h:38 [inline]
- do_exit+0xa7d/0x2c10 kernel/exit.c:878
- do_group_exit+0xd3/0x2a0 kernel/exit.c:1027
- __do_sys_exit_group kernel/exit.c:1038 [inline]
- __se_sys_exit_group kernel/exit.c:1036 [inline]
- __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1036
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcf/0x260 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fb36fa7cee9
-Code: Unable to access opcode bytes at 0x7fb36fa7cebf.
-RSP: 002b:00007ffe2fc5daf8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
-RAX: ffffffffffffffda RBX: 000000000000001e RCX: 00007fb36fa7cee9
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000001 R08: 0000000000000001 R09: 0000000000000000
-R10: 00007fb36fa00000 R11: 0000000000000246 R12: 0000000000000001
-R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000001
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+ fs/ntfs3/attrib.c  |  32 ++++++++++++++
+ fs/ntfs3/dir.c     |   1 +
+ fs/ntfs3/file.c    |   9 ++++
+ fs/ntfs3/frecord.c |   2 +-
+ fs/ntfs3/fslog.c   |   5 ++-
+ fs/ntfs3/index.c   |   6 +++
+ fs/ntfs3/inode.c   |  46 +++++++++++---------
+ fs/ntfs3/namei.c   | 121 ++++-------------------------------------------------
+ fs/ntfs3/ntfs.h    |   2 +-
+ fs/ntfs3/ntfs_fs.h |  10 ++---
+ fs/ntfs3/record.c  |  11 +----
+ fs/ntfs3/super.c   |   2 -
+ fs/ntfs3/xattr.c   |   5 ++-
+ 13 files changed, 98 insertions(+), 154 deletions(-)
