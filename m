@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AED28F3;
-	Wed, 29 May 2024 01:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20AF28F3;
+	Wed, 29 May 2024 01:53:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716947631; cv=none; b=T84cJsShcx3vD+uVehctMcazVCr9BHh3JT1CiZo4NF5uSH9AQ4A3f8W2hyTJi7CdKe9BXNvWa+6YqoLTEleavcNeiOfcwFrCRF3TN/OtOLuviDPtoDkozl14JTJ3T4q4hBAvBlpI3wgc2znLfPZLbc9BCTmkFKfCzAvM17XXMRI=
+	t=1716947636; cv=none; b=hVapblc0dh1ewBde5FLkjFpjIeOJKt1rEgtm1niR6Ner+G34Z4bpfEzdADGirRwg5LRApv9dYhuec1n1mxkLugNq/4TPxRm0d77reiFaD/9oQh3z7gi/1IgBIvjKTt5VP8JS+/ZIhYDi9yMnMVdWA9Gpkz+BCNryrJao8ygSVOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716947631; c=relaxed/simple;
-	bh=1aOvpkJ0CGlCojgudVYjCDUe1qzytE3IJ364qp9h72A=;
+	s=arc-20240116; t=1716947636; c=relaxed/simple;
+	bh=m6Ft4sbliXDPqzG5rBrLiC88sUzqhukkyx9Euktp69g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o4UOTQCnkcccPiVmxyZluUdwDryKenfz2ryNsJGJRmPtpeacQHuD+ez11dAILUN/n3Q94Pd7zPoNXDN9Kx1Y7lgHgzWG1U/DdqVNHjMzHLQwqlM+sxtiwBOVONorYke5Dj6iCrpT2yWw0WvOLLUXccJcJTIm7x4Rh1cmCANXPac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SHlpsU9B; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ReLgYfJ+9oLu+NPZMItbMoPzcimaEhTJuRfaINzZX3z/JdFxZRplVTFB74lsaPt9RCdB54Fj94BlnIrAWYsvDXj3JYfhC++74dmm9meLmYlDihyim8d6STme14eFx79zqSBh49hPKl7aExhgLHl9ronp7egV3uM/2KHr2fE3RW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mMY9VL4e; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SHlpsU9B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mMY9VL4e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716947629; x=1748483629;
+  t=1716947634; x=1748483634;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1aOvpkJ0CGlCojgudVYjCDUe1qzytE3IJ364qp9h72A=;
-  b=SHlpsU9B/5PkRqoCBV/kwGtsi9Xh47wknQRcRT4WjzE6jxiw87WHSl6h
-   Nw3sqh3ocES/QcbPjxXQgH7c8iHBhVDmXdRJoRVduHUh4Ikj7wJlEO10g
-   gNRGEWrgZFIvVTa7ToT8cqlDTGEAYojtnCGreZA+hx6Txwtt/lRMPeu3S
-   tMThhRq3qdr624MpXfLTE7BRGhcwZ+/EKqYujm8+e/FoMl0r5jsVY+GnS
-   Hm0IF+m9Wvg+c520TkaqBtS/l/oL0DMAW+jGq10/sT30O+ZrD5PrA3U1u
-   i3F/KfzFpc1J8MLEX42GNxq1PBANQh3dKlI9TofI+wtFxjUjBaGNv/ZvD
+  bh=m6Ft4sbliXDPqzG5rBrLiC88sUzqhukkyx9Euktp69g=;
+  b=mMY9VL4exQBOvBQw7cn7FAzRXsHTNwu9dkIIuSlrxA13kyVsL0EBep/n
+   QBSMiNe6MJ4gqhaCA13cmVSt2Aq3wANWgNukTVaFkPKF3A7hDzjzbYd64
+   xfq1ZiWgWreROjhRi07yQr5sJjBLH16+z5o/JeQAF8jLMQR4DA/Lx0Ys5
+   NzS/9RvCsYAACPJgGwXVqYbBBE+sCuefkHE18icrXpG3KF1LRnpE5xgPE
+   xeUQYy7dzEtN0EPdGjt8uPG2+Ivv6vVKvINjrPyRhc6JcSaa8kwLyL3xa
+   HkF8GT0Jh1Uz2A+iMPPkVjpyRdE5Md20jIGFQtCsdhOXf/v9OZBkqnYIe
    A==;
-X-CSE-ConnectionGUID: e77iqmpNTLmjyxmWq9+jpw==
-X-CSE-MsgGUID: TkCoxf3QQB+YkDRWP2rgmg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13098612"
+X-CSE-ConnectionGUID: eEaU4xmoT7CfhCQffnpDnA==
+X-CSE-MsgGUID: 8RRQ8WLWTu6ZBQ5VA3IKZQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="11741313"
 X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
-   d="scan'208";a="13098612"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 18:53:48 -0700
-X-CSE-ConnectionGUID: GGf388NgTGGBB8rAgV7pjw==
-X-CSE-MsgGUID: SkNwEIioSEO5hq0d74wA2g==
+   d="scan'208";a="11741313"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 18:53:54 -0700
+X-CSE-ConnectionGUID: pEJurzDfSw+BwlJYHESHnA==
+X-CSE-MsgGUID: 46QvBlYjQreGugfN0gBelg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
-   d="scan'208";a="58442707"
+   d="scan'208";a="35243610"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 28 May 2024 18:53:47 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 28 May 2024 18:53:52 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sC8Vb-000CzP-2D;
-	Wed, 29 May 2024 01:53:44 +0000
-Date: Wed, 29 May 2024 09:53:09 +0800
+	id 1sC8Vg-000Cza-0J;
+	Wed, 29 May 2024 01:53:48 +0000
+Date: Wed, 29 May 2024 09:53:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: lei lu <llfamsec@gmail.com>, almaz.alexandrovich@paragon-software.com,
 	ntfs3@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, lei lu <llfamsec@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	lei lu <llfamsec@gmail.com>
 Subject: Re: [PATCH] ntfs3: Add a check for attr_names and oatbl
-Message-ID: <202405290927.H8vxoUsy-lkp@intel.com>
+Message-ID: <202405290925.n21Mxwuz-lkp@intel.com>
 References: <20240528200900.17980-1-llfamsec@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -79,37 +80,31 @@ url:    https://github.com/intel-lab-lkp/linux/commits/lei-lu/ntfs3-Add-a-check-
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20240528200900.17980-1-llfamsec%40gmail.com
 patch subject: [PATCH] ntfs3: Add a check for attr_names and oatbl
-config: csky-defconfig (https://download.01.org/0day-ci/archive/20240529/202405290927.H8vxoUsy-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290927.H8vxoUsy-lkp@intel.com/reproduce)
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240529/202405290925.n21Mxwuz-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290925.n21Mxwuz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405290927.H8vxoUsy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405290925.n21Mxwuz-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
-   In file included from fs/ntfs3/fslog.c:13:
-   fs/ntfs3/fslog.c: In function 'log_replay':
->> fs/ntfs3/fslog.c:4323:71: error: 'attr_name_len' undeclared (first use in this function); did you mean 'attr_names_len'?
-    4323 |                         (struct ATTR_NAME_ENTRY *)Add2Ptr(attr_names, attr_name_len);
-         |                                                                       ^~~~~~~~~~~~~
-   fs/ntfs3/debug.h:18:56: note: in definition of macro 'Add2Ptr'
-      18 | #define Add2Ptr(P, I)           ((void *)((u8 *)(P) + (I)))
-         |                                                        ^
-   fs/ntfs3/fslog.c:4323:71: note: each undeclared identifier is reported only once for each function it appears in
-    4323 |                         (struct ATTR_NAME_ENTRY *)Add2Ptr(attr_names, attr_name_len);
-         |                                                                       ^~~~~~~~~~~~~
-   fs/ntfs3/debug.h:18:56: note: in definition of macro 'Add2Ptr'
-      18 | #define Add2Ptr(P, I)           ((void *)((u8 *)(P) + (I)))
-         |                                                        ^
->> fs/ntfs3/fslog.c:4329:36: warning: comparison of distinct pointer types lacks a cast
-    4329 |                         if (oe + 1 > oatbl_end) {
-         |                                    ^
->> fs/ntfs3/fslog.c:3744:13: warning: variable 'attr_names_len' set but not used [-Wunused-but-set-variable]
-    3744 |         u32 attr_names_len, oatbl_len;
-         |             ^~~~~~~~~~~~~~
+>> fs/ntfs3/fslog.c:4323:50: error: use of undeclared identifier 'attr_name_len'; did you mean 'attr_names_len'?
+                           (struct ATTR_NAME_ENTRY *)Add2Ptr(attr_names, attr_name_len);
+                                                                         ^~~~~~~~~~~~~
+                                                                         attr_names_len
+   fs/ntfs3/debug.h:18:47: note: expanded from macro 'Add2Ptr'
+   #define Add2Ptr(P, I)           ((void *)((u8 *)(P) + (I)))
+                                                          ^
+   fs/ntfs3/fslog.c:3744:6: note: 'attr_names_len' declared here
+           u32 attr_names_len, oatbl_len;
+               ^
+>> fs/ntfs3/fslog.c:4329:15: warning: comparison of distinct pointer types ('struct OPEN_ATTR_ENRTY *' and 'struct OPEN_ATTR_ENTRY *') [-Wcompare-distinct-pointer-types]
+                           if (oe + 1 > oatbl_end) {
+                               ~~~~~~ ^ ~~~~~~~~~
+   1 warning and 1 error generated.
 
 
 vim +4323 fs/ntfs3/fslog.c
