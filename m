@@ -1,292 +1,741 @@
-Received: from mail-io1-f80.google.com (mail-io1-f80.google.com [209.85.166.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C2F1791EB
-	for <ntfs3@lists.linux.dev>; Tue, 28 May 2024 20:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AED28F3;
+	Wed, 29 May 2024 01:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716928832; cv=none; b=oP1u2FQ93EuOrGhJb0MmpJzbUMEZnT9SuZcx0DiOyl37Rx3X5AUgdHiMxoLoEy7ANTYn+8eMzJuuR39qXOf8UKa2Z7ycDRWpA/SYJNKtiMOC7sJrCz+zwRdNykw7LyjVwT2bvM7H+B+B7VEyYtJjKojhhod8NAIaA3WRXTz6egk=
+	t=1716947631; cv=none; b=T84cJsShcx3vD+uVehctMcazVCr9BHh3JT1CiZo4NF5uSH9AQ4A3f8W2hyTJi7CdKe9BXNvWa+6YqoLTEleavcNeiOfcwFrCRF3TN/OtOLuviDPtoDkozl14JTJ3T4q4hBAvBlpI3wgc2znLfPZLbc9BCTmkFKfCzAvM17XXMRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716928832; c=relaxed/simple;
-	bh=73yupYHmt9pNwsbVVHnDOx7R2Zf7aFpVkVPAjwnHI5Q=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=FdKrUNDJ8sLziXPzIu5pUiRglLpVEHzv83E5icN/RuvsU57c2xGWkJscpYU+CB9KlMWmfuM/RAj5pbbZYc0BzCKpCvGQcjaaE2r0CNdT3f2HZv4XaBROk/xwdToYnpuOrrYbpS6jceKHNy2aw6QvFMJ3EQWLVlEi+RyBsmQpe/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f80.google.com with SMTP id ca18e2360f4ac-7ea8fc6bd4dso147466439f.1
-        for <ntfs3@lists.linux.dev>; Tue, 28 May 2024 13:40:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716928829; x=1717533629;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=61vCZL0ZUE6NF9rNLv7XPINYfuoRg4l1gKt8IuzxJho=;
-        b=DYiUOfm+rC+HKzpRIJ9pUJFayFQTMkmL50OiVUPZacdkV60VrbV2eQHDCgUchtNcZ1
-         4sZ9/d+Hh7EySXk9y4oRiSFogoRr9IxbNCLiX10vVAJ3XFthUZQHu/QDVAN9z755Sgsa
-         rTq/YawrIEIleWQUjugdMLwFRR0CBwPhyBy1Wyf24fXaPGHdJqsW9tHn2+HqA1A99nEC
-         noAVvxcZJHQ1fgfbvzVmb9kS1MYo6h4JHZz9EbBQVZwbxUGwK8v3NyhwLD3mki2EC11n
-         OtraF0ijh1oPsY2zwN6LFBX6Q/aRx3qqyZ/WNqCJYFAWw74y74h0/NRT60h/+aoMGSnh
-         4GhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVceoYTm6I93ul7pSDgt9XBVFcgnDPdbMVHFLitJWKcF0/QZDsxbH73ymogff9Mw9fbr8dweknl8xIgyJr8y2mcdRS65MU=
-X-Gm-Message-State: AOJu0YxcNVbqKZst0LOz1IBGT3wtiI1gsfneWMjqo/1Li8+bouV3IAV5
-	2ix/LyV0gtyJ8JK3w2plicuA/VD/+pdyhHwtdh7kxjL6MGtxvt43zRr0HfTNCKWpz41I14jBqEW
-	rZurDB6sk1Kqh79SlY8GPpU0PzKRk5Qf9Hfe6sQkvelCFYaDPRCH2jlE=
-X-Google-Smtp-Source: AGHT+IG4ooGiZ72ftGO+GKC3FtuDTLtJvTNmFV4UTA8Wnfv1htrL/nWuuabnyxKorVEkQvPwHFNzZiJVS+emnTceGqPAiksCfHfL
+	s=arc-20240116; t=1716947631; c=relaxed/simple;
+	bh=1aOvpkJ0CGlCojgudVYjCDUe1qzytE3IJ364qp9h72A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o4UOTQCnkcccPiVmxyZluUdwDryKenfz2ryNsJGJRmPtpeacQHuD+ez11dAILUN/n3Q94Pd7zPoNXDN9Kx1Y7lgHgzWG1U/DdqVNHjMzHLQwqlM+sxtiwBOVONorYke5Dj6iCrpT2yWw0WvOLLUXccJcJTIm7x4Rh1cmCANXPac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SHlpsU9B; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SHlpsU9B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716947629; x=1748483629;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1aOvpkJ0CGlCojgudVYjCDUe1qzytE3IJ364qp9h72A=;
+  b=SHlpsU9B/5PkRqoCBV/kwGtsi9Xh47wknQRcRT4WjzE6jxiw87WHSl6h
+   Nw3sqh3ocES/QcbPjxXQgH7c8iHBhVDmXdRJoRVduHUh4Ikj7wJlEO10g
+   gNRGEWrgZFIvVTa7ToT8cqlDTGEAYojtnCGreZA+hx6Txwtt/lRMPeu3S
+   tMThhRq3qdr624MpXfLTE7BRGhcwZ+/EKqYujm8+e/FoMl0r5jsVY+GnS
+   Hm0IF+m9Wvg+c520TkaqBtS/l/oL0DMAW+jGq10/sT30O+ZrD5PrA3U1u
+   i3F/KfzFpc1J8MLEX42GNxq1PBANQh3dKlI9TofI+wtFxjUjBaGNv/ZvD
+   A==;
+X-CSE-ConnectionGUID: e77iqmpNTLmjyxmWq9+jpw==
+X-CSE-MsgGUID: TkCoxf3QQB+YkDRWP2rgmg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13098612"
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
+   d="scan'208";a="13098612"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 18:53:48 -0700
+X-CSE-ConnectionGUID: GGf388NgTGGBB8rAgV7pjw==
+X-CSE-MsgGUID: SkNwEIioSEO5hq0d74wA2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
+   d="scan'208";a="58442707"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 28 May 2024 18:53:47 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sC8Vb-000CzP-2D;
+	Wed, 29 May 2024 01:53:44 +0000
+Date: Wed, 29 May 2024 09:53:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: lei lu <llfamsec@gmail.com>, almaz.alexandrovich@paragon-software.com,
+	ntfs3@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, lei lu <llfamsec@gmail.com>
+Subject: Re: [PATCH] ntfs3: Add a check for attr_names and oatbl
+Message-ID: <202405290927.H8vxoUsy-lkp@intel.com>
+References: <20240528200900.17980-1-llfamsec@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:830b:b0:4b1:1112:bf1c with SMTP id
- 8926c6da1cb9f-4b11112c0e0mr41673173.2.1716928829601; Tue, 28 May 2024
- 13:40:29 -0700 (PDT)
-Date: Tue, 28 May 2024 13:40:29 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000fe4688061989a44f@google.com>
-Subject: [syzbot] [ntfs3?] possible deadlock in ntfs_set_size (2)
-From: syzbot <syzbot+516b0263e31e4b561fdd@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240528200900.17980-1-llfamsec@gmail.com>
 
-Hello,
+Hi lei,
 
-syzbot found the following issue on:
+kernel test robot noticed the following build errors:
 
-HEAD commit:    02c438bbfffe Merge tag 'for-6.10-tag' of git://git.kernel...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14b92b3f180000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2b8d1faad9ceb620
-dashboard link: https://syzkaller.appspot.com/bug?extid=516b0263e31e4b561fdd
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-userspace arch: i386
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.10-rc1 next-20240528]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Unfortunately, I don't have any reproducer for this issue yet.
+url:    https://github.com/intel-lab-lkp/linux/commits/lei-lu/ntfs3-Add-a-check-for-attr_names-and-oatbl/20240529-041305
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240528200900.17980-1-llfamsec%40gmail.com
+patch subject: [PATCH] ntfs3: Add a check for attr_names and oatbl
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20240529/202405290927.H8vxoUsy-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240529/202405290927.H8vxoUsy-lkp@intel.com/reproduce)
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7bc7510fe41f/non_bootable_disk-02c438bb.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f15f7f7666df/vmlinux-02c438bb.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/171158a72c15/bzImage-02c438bb.xz
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405290927.H8vxoUsy-lkp@intel.com/
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+516b0263e31e4b561fdd@syzkaller.appspotmail.com
+All error/warnings (new ones prefixed by >>):
 
-ntfs3: loop2: Different NTFS sector size (4096) and media sector size (512).
-ntfs3: loop2: Mark volume as dirty due to NTFS errors
-======================================================
-WARNING: possible circular locking dependency detected
-6.9.0-syzkaller-12220-g02c438bbfffe #0 Not tainted
-------------------------------------------------------
-syz-executor.2/10627 is trying to acquire lock:
-ffffffff8dd3a860 (fs_reclaim){+.+.}-{0:0}, at: might_alloc include/linux/sched/mm.h:334 [inline]
-ffffffff8dd3a860 (fs_reclaim){+.+.}-{0:0}, at: slab_pre_alloc_hook mm/slub.c:3890 [inline]
-ffffffff8dd3a860 (fs_reclaim){+.+.}-{0:0}, at: slab_alloc_node mm/slub.c:3980 [inline]
-ffffffff8dd3a860 (fs_reclaim){+.+.}-{0:0}, at: __do_kmalloc_node mm/slub.c:4120 [inline]
-ffffffff8dd3a860 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc_node_noprof+0xbb/0x450 mm/slub.c:4128
-
-but task is already holding lock:
-ffff888028cef050 (&ni->file.run_lock#2){++++}-{3:3}, at: ntfs_set_size+0x119/0x220 fs/ntfs3/inode.c:843
-
-which lock already depends on the new lock.
+   In file included from fs/ntfs3/fslog.c:13:
+   fs/ntfs3/fslog.c: In function 'log_replay':
+>> fs/ntfs3/fslog.c:4323:71: error: 'attr_name_len' undeclared (first use in this function); did you mean 'attr_names_len'?
+    4323 |                         (struct ATTR_NAME_ENTRY *)Add2Ptr(attr_names, attr_name_len);
+         |                                                                       ^~~~~~~~~~~~~
+   fs/ntfs3/debug.h:18:56: note: in definition of macro 'Add2Ptr'
+      18 | #define Add2Ptr(P, I)           ((void *)((u8 *)(P) + (I)))
+         |                                                        ^
+   fs/ntfs3/fslog.c:4323:71: note: each undeclared identifier is reported only once for each function it appears in
+    4323 |                         (struct ATTR_NAME_ENTRY *)Add2Ptr(attr_names, attr_name_len);
+         |                                                                       ^~~~~~~~~~~~~
+   fs/ntfs3/debug.h:18:56: note: in definition of macro 'Add2Ptr'
+      18 | #define Add2Ptr(P, I)           ((void *)((u8 *)(P) + (I)))
+         |                                                        ^
+>> fs/ntfs3/fslog.c:4329:36: warning: comparison of distinct pointer types lacks a cast
+    4329 |                         if (oe + 1 > oatbl_end) {
+         |                                    ^
+>> fs/ntfs3/fslog.c:3744:13: warning: variable 'attr_names_len' set but not used [-Wunused-but-set-variable]
+    3744 |         u32 attr_names_len, oatbl_len;
+         |             ^~~~~~~~~~~~~~
 
 
-the existing dependency chain (in reverse order) is:
+vim +4323 fs/ntfs3/fslog.c
 
--> #2 (&ni->file.run_lock#2){++++}-{3:3}:
-       down_read+0x9a/0x330 kernel/locking/rwsem.c:1526
-       mi_read+0x301/0x660 fs/ntfs3/record.c:129
-       mi_format_new+0x376/0x540 fs/ntfs3/record.c:420
-       ni_add_subrecord+0xd1/0x4f0 fs/ntfs3/frecord.c:372
-       ntfs_look_free_mft+0x209/0xdd0 fs/ntfs3/fsntfs.c:715
-       ni_create_attr_list+0x75b/0x1280 fs/ntfs3/frecord.c:876
-       ni_ins_attr_ext+0x236/0xae0 fs/ntfs3/frecord.c:974
-       ni_insert_attr+0x305/0x820 fs/ntfs3/frecord.c:1141
-       ni_insert_resident+0xd2/0x3a0 fs/ntfs3/frecord.c:1525
-       ni_add_name+0x48b/0x820 fs/ntfs3/frecord.c:3047
-       ni_rename+0xa1/0x1a0 fs/ntfs3/frecord.c:3087
-       ntfs_rename+0x96f/0xf20 fs/ntfs3/namei.c:334
-       vfs_rename+0xf84/0x20a0 fs/namei.c:4887
-       do_renameat2+0xc54/0xdc0 fs/namei.c:5044
-       __do_sys_rename fs/namei.c:5091 [inline]
-       __se_sys_rename fs/namei.c:5089 [inline]
-       __ia32_sys_rename+0x80/0xa0 fs/namei.c:5089
-       do_syscall_32_irqs_on arch/x86/entry/common.c:165 [inline]
-       __do_fast_syscall_32+0x73/0x120 arch/x86/entry/common.c:386
-       do_fast_syscall_32+0x32/0x80 arch/x86/entry/common.c:411
-       entry_SYSENTER_compat_after_hwframe+0x84/0x8e
+  3709	
+  3710	/*
+  3711	 * log_replay - Replays log and empties it.
+  3712	 *
+  3713	 * This function is called during mount operation.
+  3714	 * It replays log and empties it.
+  3715	 * Initialized is set false if logfile contains '-1'.
+  3716	 */
+  3717	int log_replay(struct ntfs_inode *ni, bool *initialized)
+  3718	{
+  3719		int err;
+  3720		struct ntfs_sb_info *sbi = ni->mi.sbi;
+  3721		struct ntfs_log *log;
+  3722	
+  3723		u64 rec_lsn, checkpt_lsn = 0, rlsn = 0;
+  3724		struct ATTR_NAME_ENTRY *attr_names = NULL;
+  3725		struct RESTART_TABLE *dptbl = NULL;
+  3726		struct RESTART_TABLE *trtbl = NULL;
+  3727		const struct RESTART_TABLE *rt;
+  3728		struct RESTART_TABLE *oatbl = NULL;
+  3729		struct inode *inode;
+  3730		struct OpenAttr *oa;
+  3731		struct ntfs_inode *ni_oe;
+  3732		struct ATTRIB *attr = NULL;
+  3733		u64 size, vcn, undo_next_lsn;
+  3734		CLST rno, lcn, lcn0, len0, clen;
+  3735		void *data;
+  3736		struct NTFS_RESTART *rst = NULL;
+  3737		struct lcb *lcb = NULL;
+  3738		struct OPEN_ATTR_ENRTY *oe;
+  3739		struct TRANSACTION_ENTRY *tr;
+  3740		struct DIR_PAGE_ENTRY *dp;
+  3741		u32 i, bytes_per_attr_entry;
+  3742		u32 vbo, tail, off, dlen;
+  3743		u32 saved_len, rec_len, transact_id;
+  3744		u32 attr_names_len, oatbl_len;
+  3745		bool use_second_page;
+  3746		struct RESTART_AREA *ra2, *ra = NULL;
+  3747		struct CLIENT_REC *ca, *cr;
+  3748		__le16 client;
+  3749		struct RESTART_HDR *rh;
+  3750		const struct LFS_RECORD_HDR *frh;
+  3751		const struct LOG_REC_HDR *lrh;
+  3752		bool is_mapped;
+  3753		bool is_ro = sb_rdonly(sbi->sb);
+  3754		u64 t64;
+  3755		u16 t16;
+  3756		u32 t32;
+  3757	
+  3758		log = kzalloc(sizeof(struct ntfs_log), GFP_NOFS);
+  3759		if (!log)
+  3760			return -ENOMEM;
+  3761	
+  3762		log->ni = ni;
+  3763		log->l_size = log->orig_file_size = ni->vfs_inode.i_size;
+  3764	
+  3765		/* Get the size of page. NOTE: To replay we can use default page. */
+  3766	#if PAGE_SIZE >= DefaultLogPageSize && PAGE_SIZE <= DefaultLogPageSize * 2
+  3767		log->page_size = norm_file_page(PAGE_SIZE, &log->l_size, true);
+  3768	#else
+  3769		log->page_size = norm_file_page(PAGE_SIZE, &log->l_size, false);
+  3770	#endif
+  3771		if (!log->page_size) {
+  3772			err = -EINVAL;
+  3773			goto out;
+  3774		}
+  3775	
+  3776		log->one_page_buf = kmalloc(log->page_size, GFP_NOFS);
+  3777		if (!log->one_page_buf) {
+  3778			err = -ENOMEM;
+  3779			goto out;
+  3780		}
+  3781	
+  3782		log->page_mask = log->page_size - 1;
+  3783		log->page_bits = blksize_bits(log->page_size);
+  3784	
+  3785		/* Look for a restart area on the disk. */
+  3786		err = log_read_rst(log, true, &log->rst_info);
+  3787		if (err)
+  3788			goto out;
+  3789	
+  3790		/* remember 'initialized' */
+  3791		*initialized = log->rst_info.initialized;
+  3792	
+  3793		if (!log->rst_info.restart) {
+  3794			if (log->rst_info.initialized) {
+  3795				/* No restart area but the file is not initialized. */
+  3796				err = -EINVAL;
+  3797				goto out;
+  3798			}
+  3799	
+  3800			log_init_pg_hdr(log, 1, 1);
+  3801			log_create(log, 0, get_random_u32(), false, false);
+  3802	
+  3803			ra = log_create_ra(log);
+  3804			if (!ra) {
+  3805				err = -ENOMEM;
+  3806				goto out;
+  3807			}
+  3808			log->ra = ra;
+  3809			log->init_ra = true;
+  3810	
+  3811			goto process_log;
+  3812		}
+  3813	
+  3814		/*
+  3815		 * If the restart offset above wasn't zero then we won't
+  3816		 * look for a second restart.
+  3817		 */
+  3818		if (log->rst_info.vbo)
+  3819			goto check_restart_area;
+  3820	
+  3821		err = log_read_rst(log, false, &log->rst_info2);
+  3822		if (err)
+  3823			goto out;
+  3824	
+  3825		/* Determine which restart area to use. */
+  3826		if (!log->rst_info2.restart ||
+  3827		    log->rst_info2.last_lsn <= log->rst_info.last_lsn)
+  3828			goto use_first_page;
+  3829	
+  3830		use_second_page = true;
+  3831	
+  3832		if (log->rst_info.chkdsk_was_run &&
+  3833		    log->page_size != log->rst_info.vbo) {
+  3834			struct RECORD_PAGE_HDR *sp = NULL;
+  3835			bool usa_error;
+  3836	
+  3837			if (!read_log_page(log, log->page_size, &sp, &usa_error) &&
+  3838			    sp->rhdr.sign == NTFS_CHKD_SIGNATURE) {
+  3839				use_second_page = false;
+  3840			}
+  3841			kfree(sp);
+  3842		}
+  3843	
+  3844		if (use_second_page) {
+  3845			kfree(log->rst_info.r_page);
+  3846			memcpy(&log->rst_info, &log->rst_info2,
+  3847			       sizeof(struct restart_info));
+  3848			log->rst_info2.r_page = NULL;
+  3849		}
+  3850	
+  3851	use_first_page:
+  3852		kfree(log->rst_info2.r_page);
+  3853	
+  3854	check_restart_area:
+  3855		/*
+  3856		 * If the restart area is at offset 0, we want
+  3857		 * to write the second restart area first.
+  3858		 */
+  3859		log->init_ra = !!log->rst_info.vbo;
+  3860	
+  3861		/* If we have a valid page then grab a pointer to the restart area. */
+  3862		ra2 = log->rst_info.valid_page ?
+  3863			      Add2Ptr(log->rst_info.r_page,
+  3864				      le16_to_cpu(log->rst_info.r_page->ra_off)) :
+  3865			      NULL;
+  3866	
+  3867		if (log->rst_info.chkdsk_was_run ||
+  3868		    (ra2 && ra2->client_idx[1] == LFS_NO_CLIENT_LE)) {
+  3869			bool wrapped = false;
+  3870			bool use_multi_page = false;
+  3871			u32 open_log_count;
+  3872	
+  3873			/* Do some checks based on whether we have a valid log page. */
+  3874			open_log_count = log->rst_info.valid_page ?
+  3875						 le32_to_cpu(ra2->open_log_count) :
+  3876						 get_random_u32();
+  3877	
+  3878			log_init_pg_hdr(log, 1, 1);
+  3879	
+  3880			log_create(log, log->rst_info.last_lsn, open_log_count, wrapped,
+  3881				   use_multi_page);
+  3882	
+  3883			ra = log_create_ra(log);
+  3884			if (!ra) {
+  3885				err = -ENOMEM;
+  3886				goto out;
+  3887			}
+  3888			log->ra = ra;
+  3889	
+  3890			/* Put the restart areas and initialize
+  3891			 * the log file as required.
+  3892			 */
+  3893			goto process_log;
+  3894		}
+  3895	
+  3896		if (!ra2) {
+  3897			err = -EINVAL;
+  3898			goto out;
+  3899		}
+  3900	
+  3901		/*
+  3902		 * If the log page or the system page sizes have changed, we can't
+  3903		 * use the log file. We must use the system page size instead of the
+  3904		 * default size if there is not a clean shutdown.
+  3905		 */
+  3906		t32 = le32_to_cpu(log->rst_info.r_page->sys_page_size);
+  3907		if (log->page_size != t32) {
+  3908			log->l_size = log->orig_file_size;
+  3909			log->page_size = norm_file_page(t32, &log->l_size,
+  3910							t32 == DefaultLogPageSize);
+  3911		}
+  3912	
+  3913		if (log->page_size != t32 ||
+  3914		    log->page_size != le32_to_cpu(log->rst_info.r_page->page_size)) {
+  3915			err = -EINVAL;
+  3916			goto out;
+  3917		}
+  3918	
+  3919		/* If the file size has shrunk then we won't mount it. */
+  3920		if (log->l_size < le64_to_cpu(ra2->l_size)) {
+  3921			err = -EINVAL;
+  3922			goto out;
+  3923		}
+  3924	
+  3925		log_init_pg_hdr(log, le16_to_cpu(log->rst_info.r_page->major_ver),
+  3926				le16_to_cpu(log->rst_info.r_page->minor_ver));
+  3927	
+  3928		log->l_size = le64_to_cpu(ra2->l_size);
+  3929		log->seq_num_bits = le32_to_cpu(ra2->seq_num_bits);
+  3930		log->file_data_bits = sizeof(u64) * 8 - log->seq_num_bits;
+  3931		log->seq_num_mask = (8 << log->file_data_bits) - 1;
+  3932		log->last_lsn = le64_to_cpu(ra2->current_lsn);
+  3933		log->seq_num = log->last_lsn >> log->file_data_bits;
+  3934		log->ra_off = le16_to_cpu(log->rst_info.r_page->ra_off);
+  3935		log->restart_size = log->sys_page_size - log->ra_off;
+  3936		log->record_header_len = le16_to_cpu(ra2->rec_hdr_len);
+  3937		log->ra_size = le16_to_cpu(ra2->ra_len);
+  3938		log->data_off = le16_to_cpu(ra2->data_off);
+  3939		log->data_size = log->page_size - log->data_off;
+  3940		log->reserved = log->data_size - log->record_header_len;
+  3941	
+  3942		vbo = lsn_to_vbo(log, log->last_lsn);
+  3943	
+  3944		if (vbo < log->first_page) {
+  3945			/* This is a pseudo lsn. */
+  3946			log->l_flags |= NTFSLOG_NO_LAST_LSN;
+  3947			log->next_page = log->first_page;
+  3948			goto find_oldest;
+  3949		}
+  3950	
+  3951		/* Find the end of this log record. */
+  3952		off = final_log_off(log, log->last_lsn,
+  3953				    le32_to_cpu(ra2->last_lsn_data_len));
+  3954	
+  3955		/* If we wrapped the file then increment the sequence number. */
+  3956		if (off <= vbo) {
+  3957			log->seq_num += 1;
+  3958			log->l_flags |= NTFSLOG_WRAPPED;
+  3959		}
+  3960	
+  3961		/* Now compute the next log page to use. */
+  3962		vbo &= ~log->sys_page_mask;
+  3963		tail = log->page_size - (off & log->page_mask) - 1;
+  3964	
+  3965		/*
+  3966		 *If we can fit another log record on the page,
+  3967		 * move back a page the log file.
+  3968		 */
+  3969		if (tail >= log->record_header_len) {
+  3970			log->l_flags |= NTFSLOG_REUSE_TAIL;
+  3971			log->next_page = vbo;
+  3972		} else {
+  3973			log->next_page = next_page_off(log, vbo);
+  3974		}
+  3975	
+  3976	find_oldest:
+  3977		/*
+  3978		 * Find the oldest client lsn. Use the last
+  3979		 * flushed lsn as a starting point.
+  3980		 */
+  3981		log->oldest_lsn = log->last_lsn;
+  3982		oldest_client_lsn(Add2Ptr(ra2, le16_to_cpu(ra2->client_off)),
+  3983				  ra2->client_idx[1], &log->oldest_lsn);
+  3984		log->oldest_lsn_off = lsn_to_vbo(log, log->oldest_lsn);
+  3985	
+  3986		if (log->oldest_lsn_off < log->first_page)
+  3987			log->l_flags |= NTFSLOG_NO_OLDEST_LSN;
+  3988	
+  3989		if (!(ra2->flags & RESTART_SINGLE_PAGE_IO))
+  3990			log->l_flags |= NTFSLOG_WRAPPED | NTFSLOG_MULTIPLE_PAGE_IO;
+  3991	
+  3992		log->current_openlog_count = le32_to_cpu(ra2->open_log_count);
+  3993		log->total_avail_pages = log->l_size - log->first_page;
+  3994		log->total_avail = log->total_avail_pages >> log->page_bits;
+  3995		log->max_current_avail = log->total_avail * log->reserved;
+  3996		log->total_avail = log->total_avail * log->data_size;
+  3997	
+  3998		log->current_avail = current_log_avail(log);
+  3999	
+  4000		ra = kzalloc(log->restart_size, GFP_NOFS);
+  4001		if (!ra) {
+  4002			err = -ENOMEM;
+  4003			goto out;
+  4004		}
+  4005		log->ra = ra;
+  4006	
+  4007		t16 = le16_to_cpu(ra2->client_off);
+  4008		if (t16 == offsetof(struct RESTART_AREA, clients)) {
+  4009			memcpy(ra, ra2, log->ra_size);
+  4010		} else {
+  4011			memcpy(ra, ra2, offsetof(struct RESTART_AREA, clients));
+  4012			memcpy(ra->clients, Add2Ptr(ra2, t16),
+  4013			       le16_to_cpu(ra2->ra_len) - t16);
+  4014	
+  4015			log->current_openlog_count = get_random_u32();
+  4016			ra->open_log_count = cpu_to_le32(log->current_openlog_count);
+  4017			log->ra_size = offsetof(struct RESTART_AREA, clients) +
+  4018				       sizeof(struct CLIENT_REC);
+  4019			ra->client_off =
+  4020				cpu_to_le16(offsetof(struct RESTART_AREA, clients));
+  4021			ra->ra_len = cpu_to_le16(log->ra_size);
+  4022		}
+  4023	
+  4024		le32_add_cpu(&ra->open_log_count, 1);
+  4025	
+  4026		/* Now we need to walk through looking for the last lsn. */
+  4027		err = last_log_lsn(log);
+  4028		if (err)
+  4029			goto out;
+  4030	
+  4031		log->current_avail = current_log_avail(log);
+  4032	
+  4033		/* Remember which restart area to write first. */
+  4034		log->init_ra = log->rst_info.vbo;
+  4035	
+  4036	process_log:
+  4037		/* 1.0, 1.1, 2.0 log->major_ver/minor_ver - short values. */
+  4038		switch ((log->major_ver << 16) + log->minor_ver) {
+  4039		case 0x10000:
+  4040		case 0x10001:
+  4041		case 0x20000:
+  4042			break;
+  4043		default:
+  4044			ntfs_warn(sbi->sb, "\x24LogFile version %d.%d is not supported",
+  4045				  log->major_ver, log->minor_ver);
+  4046			err = -EOPNOTSUPP;
+  4047			log->set_dirty = true;
+  4048			goto out;
+  4049		}
+  4050	
+  4051		/* One client "NTFS" per logfile. */
+  4052		ca = Add2Ptr(ra, le16_to_cpu(ra->client_off));
+  4053	
+  4054		for (client = ra->client_idx[1];; client = cr->next_client) {
+  4055			if (client == LFS_NO_CLIENT_LE) {
+  4056				/* Insert "NTFS" client LogFile. */
+  4057				client = ra->client_idx[0];
+  4058				if (client == LFS_NO_CLIENT_LE) {
+  4059					err = -EINVAL;
+  4060					goto out;
+  4061				}
+  4062	
+  4063				t16 = le16_to_cpu(client);
+  4064				cr = ca + t16;
+  4065	
+  4066				remove_client(ca, cr, &ra->client_idx[0]);
+  4067	
+  4068				cr->restart_lsn = 0;
+  4069				cr->oldest_lsn = cpu_to_le64(log->oldest_lsn);
+  4070				cr->name_bytes = cpu_to_le32(8);
+  4071				cr->name[0] = cpu_to_le16('N');
+  4072				cr->name[1] = cpu_to_le16('T');
+  4073				cr->name[2] = cpu_to_le16('F');
+  4074				cr->name[3] = cpu_to_le16('S');
+  4075	
+  4076				add_client(ca, t16, &ra->client_idx[1]);
+  4077				break;
+  4078			}
+  4079	
+  4080			cr = ca + le16_to_cpu(client);
+  4081	
+  4082			if (cpu_to_le32(8) == cr->name_bytes &&
+  4083			    cpu_to_le16('N') == cr->name[0] &&
+  4084			    cpu_to_le16('T') == cr->name[1] &&
+  4085			    cpu_to_le16('F') == cr->name[2] &&
+  4086			    cpu_to_le16('S') == cr->name[3])
+  4087				break;
+  4088		}
+  4089	
+  4090		/* Update the client handle with the client block information. */
+  4091		log->client_id.seq_num = cr->seq_num;
+  4092		log->client_id.client_idx = client;
+  4093	
+  4094		err = read_rst_area(log, &rst, &checkpt_lsn);
+  4095		if (err)
+  4096			goto out;
+  4097	
+  4098		if (!rst)
+  4099			goto out;
+  4100	
+  4101		bytes_per_attr_entry = !rst->major_ver ? 0x2C : 0x28;
+  4102	
+  4103		if (rst->check_point_start)
+  4104			checkpt_lsn = le64_to_cpu(rst->check_point_start);
+  4105	
+  4106		/* Allocate and Read the Transaction Table. */
+  4107		if (!rst->transact_table_len)
+  4108			goto check_dirty_page_table;
+  4109	
+  4110		t64 = le64_to_cpu(rst->transact_table_lsn);
+  4111		err = read_log_rec_lcb(log, t64, lcb_ctx_prev, &lcb);
+  4112		if (err)
+  4113			goto out;
+  4114	
+  4115		lrh = lcb->log_rec;
+  4116		frh = lcb->lrh;
+  4117		rec_len = le32_to_cpu(frh->client_data_len);
+  4118	
+  4119		if (!check_log_rec(lrh, rec_len, le32_to_cpu(frh->transact_id),
+  4120				   bytes_per_attr_entry)) {
+  4121			err = -EINVAL;
+  4122			goto out;
+  4123		}
+  4124	
+  4125		t16 = le16_to_cpu(lrh->redo_off);
+  4126	
+  4127		rt = Add2Ptr(lrh, t16);
+  4128		t32 = rec_len - t16;
+  4129	
+  4130		/* Now check that this is a valid restart table. */
+  4131		if (!check_rstbl(rt, t32)) {
+  4132			err = -EINVAL;
+  4133			goto out;
+  4134		}
+  4135	
+  4136		trtbl = kmemdup(rt, t32, GFP_NOFS);
+  4137		if (!trtbl) {
+  4138			err = -ENOMEM;
+  4139			goto out;
+  4140		}
+  4141	
+  4142		lcb_put(lcb);
+  4143		lcb = NULL;
+  4144	
+  4145	check_dirty_page_table:
+  4146		/* The next record back should be the Dirty Pages Table. */
+  4147		if (!rst->dirty_pages_len)
+  4148			goto check_attribute_names;
+  4149	
+  4150		t64 = le64_to_cpu(rst->dirty_pages_table_lsn);
+  4151		err = read_log_rec_lcb(log, t64, lcb_ctx_prev, &lcb);
+  4152		if (err)
+  4153			goto out;
+  4154	
+  4155		lrh = lcb->log_rec;
+  4156		frh = lcb->lrh;
+  4157		rec_len = le32_to_cpu(frh->client_data_len);
+  4158	
+  4159		if (!check_log_rec(lrh, rec_len, le32_to_cpu(frh->transact_id),
+  4160				   bytes_per_attr_entry)) {
+  4161			err = -EINVAL;
+  4162			goto out;
+  4163		}
+  4164	
+  4165		t16 = le16_to_cpu(lrh->redo_off);
+  4166	
+  4167		rt = Add2Ptr(lrh, t16);
+  4168		t32 = rec_len - t16;
+  4169	
+  4170		/* Now check that this is a valid restart table. */
+  4171		if (!check_rstbl(rt, t32)) {
+  4172			err = -EINVAL;
+  4173			goto out;
+  4174		}
+  4175	
+  4176		dptbl = kmemdup(rt, t32, GFP_NOFS);
+  4177		if (!dptbl) {
+  4178			err = -ENOMEM;
+  4179			goto out;
+  4180		}
+  4181	
+  4182		/* Convert Ra version '0' into version '1'. */
+  4183		if (rst->major_ver)
+  4184			goto end_conv_1;
+  4185	
+  4186		dp = NULL;
+  4187		while ((dp = enum_rstbl(dptbl, dp))) {
+  4188			struct DIR_PAGE_ENTRY_32 *dp0 = (struct DIR_PAGE_ENTRY_32 *)dp;
+  4189			// NOTE: Danger. Check for of boundary.
+  4190			memmove(&dp->vcn, &dp0->vcn_low,
+  4191				2 * sizeof(u64) +
+  4192					le32_to_cpu(dp->lcns_follow) * sizeof(u64));
+  4193		}
+  4194	
+  4195	end_conv_1:
+  4196		lcb_put(lcb);
+  4197		lcb = NULL;
+  4198	
+  4199		/*
+  4200		 * Go through the table and remove the duplicates,
+  4201		 * remembering the oldest lsn values.
+  4202		 */
+  4203		if (sbi->cluster_size <= log->page_size)
+  4204			goto trace_dp_table;
+  4205	
+  4206		dp = NULL;
+  4207		while ((dp = enum_rstbl(dptbl, dp))) {
+  4208			struct DIR_PAGE_ENTRY *next = dp;
+  4209	
+  4210			while ((next = enum_rstbl(dptbl, next))) {
+  4211				if (next->target_attr == dp->target_attr &&
+  4212				    next->vcn == dp->vcn) {
+  4213					if (le64_to_cpu(next->oldest_lsn) <
+  4214					    le64_to_cpu(dp->oldest_lsn)) {
+  4215						dp->oldest_lsn = next->oldest_lsn;
+  4216					}
+  4217	
+  4218					free_rsttbl_idx(dptbl, PtrOffset(dptbl, next));
+  4219				}
+  4220			}
+  4221		}
+  4222	trace_dp_table:
+  4223	check_attribute_names:
+  4224		/* The next record should be the Attribute Names. */
+  4225		if (!rst->attr_names_len)
+  4226			goto check_attr_table;
+  4227	
+  4228		t64 = le64_to_cpu(rst->attr_names_lsn);
+  4229		err = read_log_rec_lcb(log, t64, lcb_ctx_prev, &lcb);
+  4230		if (err)
+  4231			goto out;
+  4232	
+  4233		lrh = lcb->log_rec;
+  4234		frh = lcb->lrh;
+  4235		rec_len = le32_to_cpu(frh->client_data_len);
+  4236	
+  4237		if (!check_log_rec(lrh, rec_len, le32_to_cpu(frh->transact_id),
+  4238				   bytes_per_attr_entry)) {
+  4239			err = -EINVAL;
+  4240			goto out;
+  4241		}
+  4242	
+  4243		t32 = lrh_length(lrh);
+  4244		rec_len -= t32;
+  4245	
+  4246		attr_names = kmemdup(Add2Ptr(lrh, t32), rec_len, GFP_NOFS);
+  4247		if (!attr_names) {
+  4248			err = -ENOMEM;
+  4249			goto out;
+  4250		}
+  4251		attr_names_len = rec_len;
+  4252	
+  4253		lcb_put(lcb);
+  4254		lcb = NULL;
+  4255	
+  4256	check_attr_table:
+  4257		/* The next record should be the attribute Table. */
+  4258		if (!rst->open_attr_len)
+  4259			goto check_attribute_names2;
+  4260	
+  4261		t64 = le64_to_cpu(rst->open_attr_table_lsn);
+  4262		err = read_log_rec_lcb(log, t64, lcb_ctx_prev, &lcb);
+  4263		if (err)
+  4264			goto out;
+  4265	
+  4266		lrh = lcb->log_rec;
+  4267		frh = lcb->lrh;
+  4268		rec_len = le32_to_cpu(frh->client_data_len);
+  4269	
+  4270		if (!check_log_rec(lrh, rec_len, le32_to_cpu(frh->transact_id),
+  4271				   bytes_per_attr_entry)) {
+  4272			err = -EINVAL;
+  4273			goto out;
+  4274		}
+  4275	
+  4276		t16 = le16_to_cpu(lrh->redo_off);
+  4277	
+  4278		rt = Add2Ptr(lrh, t16);
+  4279		t32 = rec_len - t16;
+  4280	
+  4281		if (!check_rstbl(rt, t32)) {
+  4282			err = -EINVAL;
+  4283			goto out;
+  4284		}
+  4285	
+  4286		oatbl = kmemdup(rt, t32, GFP_NOFS);
+  4287		if (!oatbl) {
+  4288			err = -ENOMEM;
+  4289			goto out;
+  4290		}
+  4291		oatbl_len = t32;
+  4292	
+  4293		log->open_attr_tbl = oatbl;
+  4294	
+  4295		/* Clear all of the Attr pointers. */
+  4296		oe = NULL;
+  4297		while ((oe = enum_rstbl(oatbl, oe))) {
+  4298			if (!rst->major_ver) {
+  4299				struct OPEN_ATTR_ENRTY_32 oe0;
+  4300	
+  4301				/* Really 'oe' points to OPEN_ATTR_ENRTY_32. */
+  4302				memcpy(&oe0, oe, SIZEOF_OPENATTRIBUTEENTRY0);
+  4303	
+  4304				oe->bytes_per_index = oe0.bytes_per_index;
+  4305				oe->type = oe0.type;
+  4306				oe->is_dirty_pages = oe0.is_dirty_pages;
+  4307				oe->name_len = 0;
+  4308				oe->ref = oe0.ref;
+  4309				oe->open_record_lsn = oe0.open_record_lsn;
+  4310			}
+  4311	
+  4312			oe->is_attr_name = 0;
+  4313			oe->ptr = NULL;
+  4314		}
+  4315	
+  4316		lcb_put(lcb);
+  4317		lcb = NULL;
+  4318	
+  4319	check_attribute_names2:
+  4320		if (rst->attr_names_len && oatbl) {
+  4321			struct ATTR_NAME_ENTRY *ane = attr_names;
+  4322			struct ATTR_NAME_ENTRY *attr_names_end =
+> 4323				(struct ATTR_NAME_ENTRY *)Add2Ptr(attr_names, attr_name_len);
+  4324			struct OPEN_ATTR_ENTRY *oatbl_end =
+  4325				(struct OPEN_ATTR_ENTRY *)Add2Ptr(oatbl, oatbl_len);
+  4326			while (ane->off) {
+  4327				/* TODO: Clear table on exit! */
+  4328				oe = Add2Ptr(oatbl, le16_to_cpu(ane->off));
+> 4329				if (oe + 1 > oatbl_end) {
 
--> #1 (&wnd->rw_lock/1){+.+.}-{3:3}:
-       down_write_nested+0x3d/0x50 kernel/locking/rwsem.c:1695
-       ntfs_mark_rec_free+0x2f4/0x400 fs/ntfs3/fsntfs.c:742
-       ni_delete_all+0x6ad/0x880 fs/ntfs3/frecord.c:1637
-       ni_clear+0x519/0x6a0 fs/ntfs3/frecord.c:106
-       evict+0x2ed/0x6c0 fs/inode.c:667
-       iput_final fs/inode.c:1741 [inline]
-       iput.part.0+0x5a8/0x7f0 fs/inode.c:1767
-       iput+0x5c/0x80 fs/inode.c:1757
-       dentry_unlink_inode+0x295/0x480 fs/dcache.c:400
-       __dentry_kill+0x1d0/0x600 fs/dcache.c:603
-       shrink_kill fs/dcache.c:1048 [inline]
-       shrink_dentry_list+0x140/0x5d0 fs/dcache.c:1075
-       prune_dcache_sb+0xeb/0x150 fs/dcache.c:1156
-       super_cache_scan+0x32a/0x550 fs/super.c:221
-       do_shrink_slab+0x44f/0x11c0 mm/shrinker.c:435
-       shrink_slab_memcg mm/shrinker.c:548 [inline]
-       shrink_slab+0xa87/0x1310 mm/shrinker.c:626
-       shrink_one+0x493/0x7c0 mm/vmscan.c:4790
-       shrink_many mm/vmscan.c:4851 [inline]
-       lru_gen_shrink_node+0x89f/0x1750 mm/vmscan.c:4951
-       shrink_node mm/vmscan.c:5910 [inline]
-       kswapd_shrink_node mm/vmscan.c:6720 [inline]
-       balance_pgdat+0x1105/0x1970 mm/vmscan.c:6911
-       kswapd+0x5ea/0xbf0 mm/vmscan.c:7180
-       kthread+0x2c1/0x3a0 kernel/kthread.c:389
-       ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
-
--> #0 (fs_reclaim){+.+.}-{0:0}:
-       check_prev_add kernel/locking/lockdep.c:3134 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
-       validate_chain kernel/locking/lockdep.c:3869 [inline]
-       __lock_acquire+0x2478/0x3b30 kernel/locking/lockdep.c:5137
-       lock_acquire kernel/locking/lockdep.c:5754 [inline]
-       lock_acquire+0x1b1/0x560 kernel/locking/lockdep.c:5719
-       __fs_reclaim_acquire mm/page_alloc.c:3783 [inline]
-       fs_reclaim_acquire+0x102/0x160 mm/page_alloc.c:3797
-       might_alloc include/linux/sched/mm.h:334 [inline]
-       slab_pre_alloc_hook mm/slub.c:3890 [inline]
-       slab_alloc_node mm/slub.c:3980 [inline]
-       __do_kmalloc_node mm/slub.c:4120 [inline]
-       __kmalloc_node_noprof+0xbb/0x450 mm/slub.c:4128
-       kmalloc_node_noprof include/linux/slab.h:681 [inline]
-       kvmalloc_node_noprof+0x9d/0x1a0 mm/util.c:634
-       run_add_entry+0x7ba/0xb00 fs/ntfs3/run.c:389
-       attr_allocate_clusters+0x213/0x720 fs/ntfs3/attrib.c:181
-       attr_set_size+0x142e/0x2b90 fs/ntfs3/attrib.c:572
-       ntfs_set_size+0x13d/0x220 fs/ntfs3/inode.c:845
-       ntfs_extend+0x401/0x570 fs/ntfs3/file.c:335
-       ntfs_file_write_iter+0x433/0x2050 fs/ntfs3/file.c:1115
-       new_sync_write fs/read_write.c:497 [inline]
-       vfs_write+0x6b6/0x1140 fs/read_write.c:590
-       ksys_write+0x12f/0x260 fs/read_write.c:643
-       do_syscall_32_irqs_on arch/x86/entry/common.c:165 [inline]
-       __do_fast_syscall_32+0x73/0x120 arch/x86/entry/common.c:386
-       do_fast_syscall_32+0x32/0x80 arch/x86/entry/common.c:411
-       entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-
-other info that might help us debug this:
-
-Chain exists of:
-  fs_reclaim --> &wnd->rw_lock/1 --> &ni->file.run_lock#2
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&ni->file.run_lock#2);
-                               lock(&wnd->rw_lock/1);
-                               lock(&ni->file.run_lock#2);
-  lock(fs_reclaim);
-
- *** DEADLOCK ***
-
-5 locks held by syz-executor.2/10627:
- #0: ffff88801de9f048 (&f->f_pos_lock){+.+.}-{3:3}, at: __fdget_pos+0xeb/0x180 fs/file.c:1191
- #1: ffff88802bf00420 (sb_writers#21){.+.+}-{0:0}, at: ksys_write+0x12f/0x260 fs/read_write.c:643
- #2: ffff888028cef240 (&sb->s_type->i_mutex_key#30){+.+.}-{3:3}, at: inode_trylock include/linux/fs.h:811 [inline]
- #2: ffff888028cef240 (&sb->s_type->i_mutex_key#30){+.+.}-{3:3}, at: ntfs_file_write_iter+0x2db/0x2050 fs/ntfs3/file.c:1093
- #3: ffff888028ceefa0 (&ni->ni_lock/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1123 [inline]
- #3: ffff888028ceefa0 (&ni->ni_lock/4){+.+.}-{3:3}, at: ntfs_set_size+0x111/0x220 fs/ntfs3/inode.c:842
- #4: ffff888028cef050 (&ni->file.run_lock#2){++++}-{3:3}, at: ntfs_set_size+0x119/0x220 fs/ntfs3/inode.c:843
-
-stack backtrace:
-CPU: 3 PID: 10627 Comm: syz-executor.2 Not tainted 6.9.0-syzkaller-12220-g02c438bbfffe #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:114
- check_noncircular+0x31a/0x400 kernel/locking/lockdep.c:2187
- check_prev_add kernel/locking/lockdep.c:3134 [inline]
- check_prevs_add kernel/locking/lockdep.c:3253 [inline]
- validate_chain kernel/locking/lockdep.c:3869 [inline]
- __lock_acquire+0x2478/0x3b30 kernel/locking/lockdep.c:5137
- lock_acquire kernel/locking/lockdep.c:5754 [inline]
- lock_acquire+0x1b1/0x560 kernel/locking/lockdep.c:5719
- __fs_reclaim_acquire mm/page_alloc.c:3783 [inline]
- fs_reclaim_acquire+0x102/0x160 mm/page_alloc.c:3797
- might_alloc include/linux/sched/mm.h:334 [inline]
- slab_pre_alloc_hook mm/slub.c:3890 [inline]
- slab_alloc_node mm/slub.c:3980 [inline]
- __do_kmalloc_node mm/slub.c:4120 [inline]
- __kmalloc_node_noprof+0xbb/0x450 mm/slub.c:4128
- kmalloc_node_noprof include/linux/slab.h:681 [inline]
- kvmalloc_node_noprof+0x9d/0x1a0 mm/util.c:634
- run_add_entry+0x7ba/0xb00 fs/ntfs3/run.c:389
- attr_allocate_clusters+0x213/0x720 fs/ntfs3/attrib.c:181
- attr_set_size+0x142e/0x2b90 fs/ntfs3/attrib.c:572
- ntfs_set_size+0x13d/0x220 fs/ntfs3/inode.c:845
- ntfs_extend+0x401/0x570 fs/ntfs3/file.c:335
- ntfs_file_write_iter+0x433/0x2050 fs/ntfs3/file.c:1115
- new_sync_write fs/read_write.c:497 [inline]
- vfs_write+0x6b6/0x1140 fs/read_write.c:590
- ksys_write+0x12f/0x260 fs/read_write.c:643
- do_syscall_32_irqs_on arch/x86/entry/common.c:165 [inline]
- __do_fast_syscall_32+0x73/0x120 arch/x86/entry/common.c:386
- do_fast_syscall_32+0x32/0x80 arch/x86/entry/common.c:411
- entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-RIP: 0023:0xf7330579
-Code: b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
-RSP: 002b:00000000f5f225ac EFLAGS: 00000292 ORIG_RAX: 0000000000000004
-RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 0000000020000100
-RDX: 0000000000000020 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000292 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-----------------
-Code disassembly (best guess), 2 bytes skipped:
-   0:	10 06                	adc    %al,(%rsi)
-   2:	03 74 b4 01          	add    0x1(%rsp,%rsi,4),%esi
-   6:	10 07                	adc    %al,(%rdi)
-   8:	03 74 b0 01          	add    0x1(%rax,%rsi,4),%esi
-   c:	10 08                	adc    %cl,(%rax)
-   e:	03 74 d8 01          	add    0x1(%rax,%rbx,8),%esi
-  1e:	00 51 52             	add    %dl,0x52(%rcx)
-  21:	55                   	push   %rbp
-  22:	89 e5                	mov    %esp,%ebp
-  24:	0f 34                	sysenter
-  26:	cd 80                	int    $0x80
-* 28:	5d                   	pop    %rbp <-- trapping instruction
-  29:	5a                   	pop    %rdx
-  2a:	59                   	pop    %rcx
-  2b:	c3                   	ret
-  2c:	90                   	nop
-  2d:	90                   	nop
-  2e:	90                   	nop
-  2f:	90                   	nop
-  30:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
-  37:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
