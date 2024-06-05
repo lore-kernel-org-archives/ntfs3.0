@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCF51BD4E7;
-	Wed,  5 Jun 2024 11:56:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CF21BE23B;
+	Wed,  5 Jun 2024 11:56:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717588581; cv=none; b=KmcczOm7780XLTe5E4uPEomHCT7GKt3O3ogGr2yMqLAgh5Iaof+N3c9QycR4CPPA71uyb84V3BLYmqMgpcj1T0BDm7B4AhKxVlWjzGfYR4XhdmxNJ+Ah5GJOo2MYbF8bBZ6Yy8PqIwKpFdDN7yOCarO0CPbUAjgIOYmNBCSClEU=
+	t=1717588593; cv=none; b=qL6QSe4iYvc7kON664YSshPdXjAGBLIVwrhBenIAt1Xg0ODARDQwXFxP9GybqLLMANjnYUIIg3TWfyCOf0Sn05pAkItJ25kjSJzVDr+IPd2OB5e/fQ5HMJhfPVC3V4/A4J6W7f/dMJ/Ct+RBqrNCW+axjc1a3eE/e7d/ET2gkJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717588581; c=relaxed/simple;
-	bh=ceeJCzGk3tRd6y45nGAz6nA6y/fUYC7C7+ndgPabfS4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XY3KJKhNLF1R5XiPoIxigNSAMI2ZO6l5c2/N6oPx3zDcGOR9lgH4otIbm86CZ9i2iNkVClHDMOd5PJHMUVIsy6WV8x4J9N3drIyW/AwKa3/iZiI8CCgqMIFBaTI8YZLG+RFrqpO0tgiu4edIFAYfpk9drcOT4hSEub1KdDiynY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HxhBIwf2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717588593; c=relaxed/simple;
+	bh=ud0KgdxXFmBBJ+h+D1lJUODrVBGzmuTQU7s8hDu5FGQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gwGrMdo6IOx15+T27IAfKdvL2AiQC4sZe83/ucWX2BYeJtSkVQX8MxTzCNN0Oe+V4Y3DYizbn6DyKJcGdG0vEKSKahtRJfqyT2AMeUxpSgULzx73rCKU8q3NWWWETuYMgxCTnu7RXu3rz79EyPkhBtub5IayJaJ0k4PnUXs6nyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ssRx4W/z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HxhBIwf2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EF0FC32786;
-	Wed,  5 Jun 2024 11:56:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ssRx4W/z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FBB2C32781;
+	Wed,  5 Jun 2024 11:56:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717588580;
-	bh=ceeJCzGk3tRd6y45nGAz6nA6y/fUYC7C7+ndgPabfS4=;
+	s=k20201202; t=1717588593;
+	bh=ud0KgdxXFmBBJ+h+D1lJUODrVBGzmuTQU7s8hDu5FGQ=;
 	h=From:To:Cc:Subject:Date:From;
-	b=HxhBIwf2Ie+qS69nc5uUBUbnI0LESNbnRHW6sxC2zvUWyjydl6axttB/9IPUMSgDe
-	 Uefn4pCTQHd9rTLTJGgCsRhACrzW/1HTaFpNJapRyFhvS989odvF1MGM3HarB+dsPQ
-	 36iNao+2UtrTvQ4HTQgpOvTiU88JHbc5R0myZW+IFd5IMMn0PzM4SGxbKbk6BNieKQ
-	 y9te0+j0+N5j6r0luORRsirVfET+PaRHkHfRm8f0QV3Al8hFDpE1dUTR0d1EMtuTcA
-	 7WzIOgfaeS4jLNYfrKUOlAfYJn9k5iL7ALuFjD6MIxKmQ1f5vu6gmsJUsSz2nW1Eh8
-	 3de4zUH/nEeMQ==
+	b=ssRx4W/z7w6DT/WG44/1PefD11AjmXyxKc40+7gDojqE2HV+QeogvIMFlITBLidFl
+	 oaR6BeVuxniOJ5smBDsjF1slfChZy2uquEWqi2Amj0NoJNpxIirTwOD4k8daxDu92Q
+	 +JlMU1Vb/CkVRUjY70mZM2FJjt5ASKQ9DvT69e3wzz+U7vdi9kJETQm/QvUIcE+qcA
+	 6ksgLqb2/h1ZX3jTm6eTbmOv7rYlkvjgV3A3C4chutNj2zWT52LQw6Jz5ziWJMNOi3
+	 UmAjj1uE+UFrfhoO8CNOv4PdhbYm0upoKb81R4EIe78Xoe2/vaV5WoLWnXNmQ+Al5a
+	 4qmSNE6GulLxw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 1/4] fs/ntfs3: Mark volume as dirty if xattr is broken
-Date: Wed,  5 Jun 2024 07:56:13 -0400
-Message-ID: <20240605115619.2965224-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 1/3] fs/ntfs3: Mark volume as dirty if xattr is broken
+Date: Wed,  5 Jun 2024 07:56:26 -0400
+Message-ID: <20240605115631.2965331-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -43,7 +43,7 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.32
+X-stable-base: Linux 6.1.92
 Content-Transfer-Encoding: 8bit
 
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
@@ -60,10 +60,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index b50010494e6d0..72bceb8cd164b 100644
+index d98cf7b382bcc..2e4eea854bda5 100644
 --- a/fs/ntfs3/xattr.c
 +++ b/fs/ntfs3/xattr.c
-@@ -219,8 +219,11 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, char *buffer,
+@@ -217,8 +217,11 @@ static ssize_t ntfs_list_ea(struct ntfs_inode *ni, char *buffer,
  		if (!ea->name_len)
  			break;
  
