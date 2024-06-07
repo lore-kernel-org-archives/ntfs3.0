@@ -1,53 +1,42 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC57C187346
-	for <ntfs3@lists.linux.dev>; Fri,  7 Jun 2024 12:21:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBA11922F9
+	for <ntfs3@lists.linux.dev>; Fri,  7 Jun 2024 12:26:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717762877; cv=none; b=p2k7J2DnOuKlvx7ySyral2G2ykavESycoEplu0XMdHtVbitnG/8B6rOdZXQG+GenoE1MmlNAtP9Bp4d1d/TyXsPXWe3g3uyZxoA8SbVxDOHMnh97zvJXZiGZHH8mUuMrRNIWmx+JdiNDjryvpSpQ+qQe1+37mnT3SofOD6FMl8o=
+	t=1717763176; cv=none; b=STYr/+Vu7SUG6BfxXDvPIn/r2uvhjoWbPLS5othVs64rUBS8WA5S0sm1+D2amJY7piv9gA3EiCwBkirbtI04LtO8e+XJILNh2pzWg8dqG+sP5TlBC+cJ80Bjqh6Fxf4svAoQDXgA35mzGz9RMpXUTCWFLLnLBgIOqrbtk5QCiSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717762877; c=relaxed/simple;
-	bh=y6qWtrpkZqusAAapvB5X4IkDLdvvSpaWslGRSO8ceWs=;
+	s=arc-20240116; t=1717763176; c=relaxed/simple;
+	bh=9pfPn1DGlgCPQSm1l68MBIhjL6uK0pKgf2XzkNTt120=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PinYKWo6ewt6DQhht1c6a6iNWEUlZXcFoIG/MBo19k3ZD5l+sJv025+u3JyGr8n8Z4KnKgt1xPSUUFZ16nowyQXTO/2djl8mFKmxWiD+RlK06kcbEnpyVlw6Qd+RzS565InMSgu5DK7XhjT7qo4DMy3ZcHn935RK+o/+Fi9AQl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=iab/r7sh; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=WCklOibq; arc=none smtp.client-ip=35.157.23.187
+	 MIME-Version:Content-Type; b=RmcR4qaNVPp9C+IoDjubFEpKorROBKZ7CIRH1zxbHe6KZfhrC4e8rugIH4m4rSeMljQLFtQxDyJYN0aBmv3yKJNlCGghqmBsqsHPHZKw8+fVn5HOGUBDIj9nuv82sgmcn6RhNE9fozb8xHrPUWoHmlCaR6OOuaECxWPpxSjNKfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=MhmQO+3w; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="iab/r7sh";
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="WCklOibq"
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 7783F20F5;
-	Fri,  7 Jun 2024 12:08:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1717762090;
-	bh=ieQyW4z66ZKq7WPGZB3WJThiQlHeD3ZBUU4O1S8w13s=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=iab/r7shxZyQcEZAZhvreSkg/ZGQn4CL76lO4lkbkJyhuybFXLA/+IhZ3CAc+t8GX
-	 QG0cQB2szYLpaWxDUt5vEgowTo7cJqk3HPu6Dit2GeKoqfal/i5Kvjm5OhUGXagNGD
-	 Vxb28F9WTsGGB6z7iY0fHNoHd+zYoyLsVR/U/f8A=
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="MhmQO+3w"
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 5979A195;
-	Fri,  7 Jun 2024 12:16:04 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 123A72110;
+	Fri,  7 Jun 2024 12:08:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1717762564;
-	bh=ieQyW4z66ZKq7WPGZB3WJThiQlHeD3ZBUU4O1S8w13s=;
+	d=paragon-software.com; s=mail; t=1717762095;
+	bh=hZDgLEF+W6zZWxUzPUdboblkLRtxbcKk/oAVZILB+e4=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=WCklOibqwPSdIbcMRQNVCfzy9nhwd48pD81SaZ3CajC+WPoic8oO7TgIwXEgTHCU8
-	 dwaWBiMrVBLd7ne+8s8exygyJChsN4xg5onItl8aq35xv/Gbll2taT0M6mOzyreUSA
-	 4wkc6UzrUxZEFfj38yIwuPYTIejd250CwZm3elOY=
+	b=MhmQO+3wsHnK5Fg3xzRJt2k9tQH70q/hOnKV5CFtagm4ISB+eVWwYbFLKQiM+aYYn
+	 qAswQYHDqS4nrCIYol8JFPNmukVUr4Sycyyr0DWh6tkF+JjCgx4KSneWqlseE/mh7q
+	 cUOOhllUs0kF7prHBXYcMk9A0UYoJttTqsZ2G6sQ=
 Received: from ntfs3vm.paragon-software.com (192.168.211.95) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 7 Jun 2024 15:16:03 +0300
+ 15.1.2375.7; Fri, 7 Jun 2024 15:16:08 +0300
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
 CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH 01/18] fs/ntfs3: Remove unused function
-Date: Fri, 7 Jun 2024 15:15:31 +0300
-Message-ID: <20240607121548.18818-2-almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH 04/18] fs/ntfs3: Deny getting attr data block in compressed frame
+Date: Fri, 7 Jun 2024 15:15:34 +0300
+Message-ID: <20240607121548.18818-5-almaz.alexandrovich@paragon-software.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240607121548.18818-1-almaz.alexandrovich@paragon-software.com>
 References: <20240607121548.18818-1-almaz.alexandrovich@paragon-software.com>
@@ -62,67 +51,39 @@ Content-Type: text/plain
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-At the moment, the function turned out to be unused, so I removed it.
+Attempting to retrieve an attribute data block in a compressed frame
+is ignored.
 
+Fixes: be71b5cba2e64 ("fs/ntfs3: Add attrib operations")
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
- fs/ntfs3/inode.c   | 30 ------------------------------
- fs/ntfs3/ntfs_fs.h |  1 -
- 2 files changed, 31 deletions(-)
+ fs/ntfs3/attrib.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 0f1664db94ad..6dc51faeef8d 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -1097,36 +1097,6 @@ int ntfs_flush_inodes(struct super_block *sb, struct inode *i1,
- 	return ret;
- }
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index 8638248d80d9..7918ab1a3f35 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -975,6 +975,19 @@ int attr_data_get_block(struct ntfs_inode *ni, CLST vcn, CLST clen, CLST *lcn,
+ 	if (err)
+ 		goto out;
  
--int inode_write_data(struct inode *inode, const void *data, size_t bytes)
--{
--	pgoff_t idx;
--
--	/* Write non resident data. */
--	for (idx = 0; bytes; idx++) {
--		size_t op = bytes > PAGE_SIZE ? PAGE_SIZE : bytes;
--		struct page *page = ntfs_map_page(inode->i_mapping, idx);
--
--		if (IS_ERR(page))
--			return PTR_ERR(page);
--
--		lock_page(page);
--		WARN_ON(!PageUptodate(page));
--		ClearPageUptodate(page);
--
--		memcpy(page_address(page), data, op);
--
--		flush_dcache_page(page);
--		SetPageUptodate(page);
--		unlock_page(page);
--
--		ntfs_unmap_page(page);
--
--		bytes -= op;
--		data = Add2Ptr(data, PAGE_SIZE);
--	}
--	return 0;
--}
--
- /*
-  * ntfs_reparse_bytes
-  *
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index f9ed6d2b065d..ee0c1b76e812 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -716,7 +716,6 @@ int ntfs3_write_inode(struct inode *inode, struct writeback_control *wbc);
- int ntfs_sync_inode(struct inode *inode);
- int ntfs_flush_inodes(struct super_block *sb, struct inode *i1,
- 		      struct inode *i2);
--int inode_write_data(struct inode *inode, const void *data, size_t bytes);
- int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
- 		      struct dentry *dentry, const struct cpu_str *uni,
- 		      umode_t mode, dev_t dev, const char *symname, u32 size,
++	/* Check for compressed frame. */
++	err = attr_is_frame_compressed(ni, attr, vcn >> NTFS_LZNT_CUNIT, &hint);
++	if (err)
++		goto out;
++
++	if (hint) {
++		/* if frame is compressed - don't touch it. */
++		*lcn = COMPRESSED_LCN;
++		*len = hint;
++		err = -EOPNOTSUPP;
++		goto out;
++	}
++
+ 	if (!*len) {
+ 		if (run_lookup_entry(run, vcn, lcn, len, NULL)) {
+ 			if (*lcn != SPARSE_LCN || !new)
 -- 
 2.34.1
 
