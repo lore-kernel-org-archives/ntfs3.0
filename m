@@ -1,53 +1,53 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D8515DBC1
-	for <ntfs3@lists.linux.dev>; Fri,  7 Jun 2024 12:16:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3366019068E
+	for <ntfs3@lists.linux.dev>; Fri,  7 Jun 2024 12:16:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717762575; cv=none; b=HAQFGFXKdx0AphZkMnbhkCZIuaXq+/tmiBIDXHa1ljOJWHy3BoN478OXZCTMI+TuDVEoDQvbx37Wr5IXyMcObdrHbrV9gmAwpBmzwA9z0wiKe2fKOjJMbj0h51y6A8nBj0tn7snCS17uRzMZKMR033Nlo1U9fey0m4iXVIus8ZA=
+	t=1717762575; cv=none; b=S8LQ2Q6L0bjVYz0JqFTVpv3K/Uufrp+QDjfaGt4dK8gw+cvbznf061Z78DlsB6L9lLCYIIKuysWcd4JaLywkHetk/kcl6X1sb5uxAAPRZVS8MeIfjupHDJvbnn4XrBY1MV1N0rA0cTy4BQRRgLkFZcrDy25OLsNHfRmNDia2vp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1717762575; c=relaxed/simple;
-	bh=YBMNvGaHXBY1iE8bR/ub81+vXUT/4Gibt/hvIi+Vp1M=;
+	bh=bdc7v58U5+YV3a/IoeHMrgpoIua9Z6Fq3QWkfoSP3PU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ug2WPzyNdh+TGWfGyLBez7Hx6Wi/5SBAarxDzc0APJe/4mLff8b//WZi4SSGOM0RDCUGXj3gC64GX0BTc+UIAfEfqFKA3rBll86L/155RUilhFIxQ5sB6P0XIuDfF9CqsyqupgF/AwhRkmxGwghonWB6nrcjhy1QtPrb8RehLvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=fp0aJiW/; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=The1bojn; arc=none smtp.client-ip=35.157.23.187
+	 MIME-Version:Content-Type; b=lNDrShiUG88uizHukJFKF70WoTXiIm8y1ck98bRnkYYKSyuF9Zb86GqL7T3d0rVdGgFOwiVblIBU3l13iErJRn62OiSH7JLwAOqIMHuBM4zb0jyvAUVz76E4ueh/QxCYCl9Q+hEQujwCpSLQuacVUaML7ue1o3dx6wbvXeOdVgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=TuFhbLCE; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=u+COEebs; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="fp0aJiW/";
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="The1bojn"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="TuFhbLCE";
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="u+COEebs"
 Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 4089C2111;
-	Fri,  7 Jun 2024 12:08:16 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 4CF8A2117;
+	Fri,  7 Jun 2024 12:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1717762096;
-	bh=6p1zGEnOfUC6mKbV+PZ9lD9z8S0agv4/5/6Rd6f5BCc=;
+	d=paragon-software.com; s=mail; t=1717762098;
+	bh=fGX3LJWvmJiBdb0H+MRYhaCDPeTRkfcYEhh/amy+hjk=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=fp0aJiW/xHJJxTjaEmgIfFd9RpnfHUGE6eGCNRqIRjdVy572F1x3mqoPHmInh/pFR
-	 k55F3tbaJDnzmUCxNQr81KpAjFdYPNtkCBN+GfDB5jiGV3klZqFGRiRg1N0xGbdj0w
-	 CuxsJ+j377cD8y2QtCJvNthCJu8JbpUlQ8PyTA2E=
+	b=TuFhbLCE8i0x0ddVOmat7uFqkzGS1GP/vhjvUUXb8T0JwTUeqnl5RDYodMtIAxt/y
+	 7+WrIzba4yyidYkLp27aOhJ/y3lYl/MYQMiOESUrkoxXlY8I6MeJDa4jpVCQ6I/+Ay
+	 NECtFXXke3LKXmQ6yjz68kjZLDfOf2DJyPKcoYT8=
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 25341195;
-	Fri,  7 Jun 2024 12:16:10 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 30766195;
+	Fri,  7 Jun 2024 12:16:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1717762570;
-	bh=6p1zGEnOfUC6mKbV+PZ9lD9z8S0agv4/5/6Rd6f5BCc=;
+	d=paragon-software.com; s=mail; t=1717762572;
+	bh=fGX3LJWvmJiBdb0H+MRYhaCDPeTRkfcYEhh/amy+hjk=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=The1bojn4lSM6xboNjP3TuFw29hQYrvbGbE8M+fvlvP2JS6Q3EJcwzlmrgKooApzd
-	 HJVhKvysJiMncfCeHA7sYVFQgXe+T7oNd0BDrzVshP+bpobBql2hrm+0QgZYTfnaUO
-	 As1YVQXz6lKyBsVBhigiakGK0kH5J8uGYaix7pqg=
+	b=u+COEebs+OlPEuYDJfV+IZ+YkWEkhYSGN1h6Yh2mLjuGt+xqtS4WR18+DJu2Jmwfd
+	 esTFccXsru7pGmrWK5vx9fQjCCI5+kf4jrIldSMVSHzeaUe8wJTmabruz+PWkbrzDu
+	 VA3MdBremMERJ9/GeCCTibZFkl0kTWZxOOGn5HCc=
 Received: from ntfs3vm.paragon-software.com (192.168.211.95) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 7 Jun 2024 15:16:09 +0300
+ 15.1.2375.7; Fri, 7 Jun 2024 15:16:11 +0300
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
 CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH 05/18] fs/ntfs3: Missed NI_FLAG_UPDATE_PARENT setting
-Date: Fri, 7 Jun 2024 15:15:35 +0300
-Message-ID: <20240607121548.18818-6-almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH 07/18] fs/ntfs3: Add missing .dirty_folio in address_space_operations
+Date: Fri, 7 Jun 2024 15:15:37 +0300
+Message-ID: <20240607121548.18818-8-almaz.alexandrovich@paragon-software.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240607121548.18818-1-almaz.alexandrovich@paragon-software.com>
 References: <20240607121548.18818-1-almaz.alexandrovich@paragon-software.com>
@@ -62,24 +62,29 @@ Content-Type: text/plain
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Fixes: be71b5cba2e64 ("fs/ntfs3: Add attrib operations")
+After switching from pages to folio [1], it became evident that
+the initialization of .dirty_folio for page cache operations was missed for
+compressed files.
+
+[1] https://lore.kernel.org/ntfs3/20240422193203.3534108-1-willy@infradead.org
+
+Fixes: 82cae269cfa95 ("fs/ntfs3: Add initialization of super block")
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
- fs/ntfs3/attrib.c | 1 +
+ fs/ntfs3/inode.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index 7918ab1a3f35..0d13da5523b1 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -1738,6 +1738,7 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
- 
- 	attr_b->nres.total_size = cpu_to_le64(total_size);
- 	inode_set_bytes(&ni->vfs_inode, total_size);
-+	ni->ni_flags |= NI_FLAG_UPDATE_PARENT;
- 
- 	mi_b->dirty = true;
- 	mark_inode_dirty(&ni->vfs_inode);
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 2a3522bbeeb4..d43a87a79ff2 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -2131,5 +2131,6 @@ const struct address_space_operations ntfs_aops = {
+ const struct address_space_operations ntfs_aops_cmpr = {
+ 	.read_folio	= ntfs_read_folio,
+ 	.readahead	= ntfs_readahead,
++	.dirty_folio	= block_dirty_folio,
+ };
+ // clang-format on
 -- 
 2.34.1
 
