@@ -1,51 +1,51 @@
-Received: from mail-il1-f206.google.com (mail-il1-f206.google.com [209.85.166.206])
+Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D941401C
-	for <ntfs3@lists.linux.dev>; Sat, 15 Jun 2024 07:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AF2637
+	for <ntfs3@lists.linux.dev>; Sat, 15 Jun 2024 08:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718435849; cv=none; b=NLjyyCbNAdv/Hb9Q5g54tefwpCUewbV3TktY5aZjMSEzxu3/dNoiT8XeawrSR/+ii7c3x4kdfO0yUYy8xwACGBx0WBkgIRDaDfJQK5UNJ2h6YRD98/vEeoZOBaiZXgcn0xpDzV3SUru8/p0dFVzMwk73Ewkxtas2cEOhFFvgRFQ=
+	t=1718441121; cv=none; b=Rmp4KiKYpmiJDfxjP2f5vUdyoGP97ZBA0tPKrDekwXjEYAmSbDj2Lw7Fp/p7zhGbzBzjqtnEfTFyJAJ0WJlhpwUvPpIBewTK+S/ZObuK3kqY7ml/NhrwIgum4sIrBi+1crcRny+3CTdmSnJY0tBV4SkTNwtRv0IUQuqdL6tX1mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718435849; c=relaxed/simple;
-	bh=UZwPlevoa47vYTu1LU1Z0nyM9yQuDjVEFg5Bz4Z2+LM=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=CmohOQGS2XRwfbzjyogH58l4WVzuaYudujLoQlOh5K2wrnaumeZccKpWRqNxPBkGjBwb7h1aeCegwOFK8pXmjgFwtXDmG6Zmi4kdEqlCsKJR68TZaC3AOe/CU3g5jRKN3APLDhQHXdw9VVxOB2+urOSVspT8ag+2CMvbaUtq2cE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.206
+	s=arc-20240116; t=1718441121; c=relaxed/simple;
+	bh=l1Sx3qmy06FcL1F7V68RUCWwd7IUlBKp/eAYZ+FUVME=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=mP1TxysMOjuXOeS7VyuUrQQD9hPjfvIrGi5fOZruMJd/0s++fGRx34D6dkgXjjGk3PO+gKDWu9e8VgStaAlCpNy0tG6sDOuUJrCa1VVm+y/5BG7fkxVB3Ah3jdxgBz+gGn6QHHYZLKlPha6zGPljHTYlyD7yEx6X7AsrcZrg228=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f206.google.com with SMTP id e9e14a558f8ab-3737ee417baso21124505ab.1
-        for <ntfs3@lists.linux.dev>; Sat, 15 Jun 2024 00:17:26 -0700 (PDT)
+Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3745fb76682so28536275ab.2
+        for <ntfs3@lists.linux.dev>; Sat, 15 Jun 2024 01:45:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718435845; x=1719040645;
+        d=1e100.net; s=20230601; t=1718441119; x=1719045919;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=M7HxTcY9HGZ88QORBAPj7iceLv2FXtx63X63Tww9Bvs=;
-        b=Cay5gDNxkmocui6ma2rbsREveADbve8GjBinYX6gVAg8RyS6ZPbIvZ/WWh17Cwrzjx
-         +ItO/MJY5BT98q2+TrOwN1q4hcKofrStK/1dtdSk84EX59wV1CjDsC3jx7j/e3CF8V0x
-         0tPVxgFbD9752G5esX7LFM8/S7A5ZO21FXnMhLZD47hF2WUiLEL4sR90OsbAM0hgoGeM
-         wA38RHCKKpnWosv6eI7+3yODm2SbFDgLE+lALbQqAe74IJdL5mHVkKwEi1qKjg2xh25T
-         QLNrJdf3dMGHWcTeDEyLRzWWHWgvqbWfJ+PjQH0QHBFh0V4uiy2Db8c7s3lSRByHbjTW
-         AmSw==
-X-Forwarded-Encrypted: i=1; AJvYcCW++/WraXuvsuY7PamcJMZDSpkvPTlYqeGTpZ7XKuNKNLGI1PHQ0Lle6brB4GjJN7wU90H0MapXzekZA0pMu0khZSnGOOQ=
-X-Gm-Message-State: AOJu0Yxd11tkJTdTqL4oGlsS8H3GwghPPH/GSmnNUZ4GUOj99OJGz41f
-	1OPzDIavQIEgW1x/j8QD7OUX9egyfjczuG1QHfap6EagUGcNkSUbwi1coUygtJlyNNm5FpLAKch
-	6EXyUA7SRB44TalMLDe4RPiaGMkkOHZy7YWWWCEtxMsp7eOtu7x2v4G4=
-X-Google-Smtp-Source: AGHT+IEdTY1YAoBscGSHJoQ+v23HFe8H2uuO4khud3RyEUWfqQlt3OdBW2PPBggQLWbWwVXj9VzprAaeD4adbLFcuJsOniiOT7xm
+        bh=beM6ivaNLd2GldzB/4jrOyU5rDywP4/PSTtvn1v3Pxk=;
+        b=R66x3hgviwZ9H5p39+vGsQM73Pjcml5EhgR71ou6PbET9XIWAxPRPkESkhVZmdwBs+
+         6ZyUqeyr3WAcUqwWly2XFNTpkmxPHXzN/fdxCvE5sxwMFlfa8P1Dt/2ShdDhVGvkhxrU
+         s73OLOKEXVzxwKEN5t4UVAdg5I55+qmBMtA0FK6x4TYwM2SFsqyEYrDi0k6uVBoXYA+I
+         jYl7XsDD/VE/6f1YsbIxanhniYjmTnlLxt5uqOkkrTKNyfyFmpzLPVf77HUhDH+Zjpn8
+         DQ5WDXrE4iMB5znc31B02c3VhCJyCWvSCplBarXVveHkE3R69UuliIwAhfaBdCtRZsmW
+         riJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWB7IVrq43bhe4LNnMvG9eo1BvtN3xtfTfHssI6DoTmv4MKq1+tpP7CE9aJGMxxcIFCydDrlCgpqacVWDMqT1tH96BpAFA=
+X-Gm-Message-State: AOJu0Yz4cuIJJjuQswOUXH3/HrUTLmIrB6buLeZcrmY4GmVl0kuHLJM9
+	d2FYwZnnYxDxrW/x7AtvBwtK32jl4OW63wTBpsjMUHGBhTwyjXQuX4F9CYvNNlyWTsr/wy5gyhJ
+	2pSEQLk9/vzkCbJiQIqIp3OmbGXim99RHH0/8v4Vghxr4LNZAYEb99/Q=
+X-Google-Smtp-Source: AGHT+IFAO4PHyAvEQ+aUGIt4aWSJCCXaaTFwvL7NyNefxLmHvquZ4pxTpuQZnNT6sFjZBVwlXkSCFHknCJbLv6QrYmoawX9ChRRm
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1c2a:b0:374:9ea3:a2e with SMTP id
- e9e14a558f8ab-375e01adbf1mr2537805ab.1.1718435845533; Sat, 15 Jun 2024
- 00:17:25 -0700 (PDT)
-Date: Sat, 15 Jun 2024 00:17:25 -0700
+X-Received: by 2002:a05:6e02:1909:b0:375:9e28:49b with SMTP id
+ e9e14a558f8ab-375e0e2be9bmr3706085ab.2.1718441119092; Sat, 15 Jun 2024
+ 01:45:19 -0700 (PDT)
+Date: Sat, 15 Jun 2024 01:45:19 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002488fc061ae886f8@google.com>
-Subject: [syzbot] [ntfs3?] possible deadlock in ntfs_file_mmap
-From: syzbot <syzbot+c1751b6739d83d70bb75@syzkaller.appspotmail.com>
+Message-ID: <00000000000078a6b2061ae9c05c@google.com>
+Subject: [syzbot] [ntfs3?] possible deadlock in ntfs_file_write_iter
+From: syzbot <syzbot+d7452fc408a961bcc6ec@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
 	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -56,9 +56,9 @@ syzbot found the following issue on:
 
 HEAD commit:    a957267fa7e9 Add linux-next specific files for 20240611
 git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=1139caa2980000
+console output: https://syzkaller.appspot.com/x/log.txt?x=16aea4ee980000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=9a880e96898e79f8
-dashboard link: https://syzkaller.appspot.com/bug?extid=c1751b6739d83d70bb75
+dashboard link: https://syzkaller.appspot.com/bug?extid=d7452fc408a961bcc6ec
 compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
 
 Unfortunately, I don't have any reproducer for this issue yet.
@@ -69,54 +69,25 @@ vmlinux: https://storage.googleapis.com/syzbot-assets/7f635dbe5b8a/vmlinux-a9572
 kernel image: https://storage.googleapis.com/syzbot-assets/33eafd1b8aec/bzImage-a957267f.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c1751b6739d83d70bb75@syzkaller.appspotmail.com
+Reported-by: syzbot+d7452fc408a961bcc6ec@syzkaller.appspotmail.com
 
-loop0: detected capacity change from 0 to 4096
-ntfs3: loop0: Different NTFS sector size (4096) and media sector size (512).
 ======================================================
 WARNING: possible circular locking dependency detected
 6.10.0-rc3-next-20240611-syzkaller #0 Not tainted
 ------------------------------------------------------
-syz-executor.0/9000 is trying to acquire lock:
-ffff88805b15dbb8 (&sb->s_type->i_mutex_key#21){+.+.}-{3:3}, at: inode_lock include/linux/fs.h:795 [inline]
-ffff88805b15dbb8 (&sb->s_type->i_mutex_key#21){+.+.}-{3:3}, at: ntfs_file_mmap+0x5d8/0x860 fs/ntfs3/file.c:302
+syz-executor.1/11846 is trying to acquire lock:
+ffff88807bdfba98 (&mm->mmap_lock){++++}-{3:3}, at: mmap_read_lock_killable+0x1d/0x70 include/linux/mmap_lock.h:153
 
 but task is already holding lock:
-ffff88807d087398 (&mm->mmap_lock){++++}-{3:3}, at: mmap_write_lock_killable include/linux/mmap_lock.h:122 [inline]
-ffff88807d087398 (&mm->mmap_lock){++++}-{3:3}, at: vm_mmap_pgoff+0x17c/0x3d0 mm/util.c:571
+ffff888077e4d460 (&sb->s_type->i_mutex_key#26){+.+.}-{3:3}, at: inode_trylock include/linux/fs.h:815 [inline]
+ffff888077e4d460 (&sb->s_type->i_mutex_key#26){+.+.}-{3:3}, at: ntfs_file_write_iter+0x25a/0x770 fs/ntfs3/file.c:1099
 
 which lock already depends on the new lock.
 
 
 the existing dependency chain (in reverse order) is:
 
--> #1 (&mm->mmap_lock){++++}-{3:3}:
-       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5817
-       gup_fast_fallback+0x24c/0x2b40 mm/gup.c:3534
-       pin_user_pages_fast+0xcc/0x160 mm/gup.c:3658
-       iov_iter_extract_user_pages lib/iov_iter.c:1583 [inline]
-       iov_iter_extract_pages+0x3db/0x720 lib/iov_iter.c:1646
-       dio_refill_pages fs/direct-io.c:173 [inline]
-       dio_get_page fs/direct-io.c:214 [inline]
-       do_direct_IO fs/direct-io.c:916 [inline]
-       __blockdev_direct_IO+0x150f/0x49d0 fs/direct-io.c:1249
-       blockdev_direct_IO include/linux/fs.h:3201 [inline]
-       ntfs_direct_IO+0x195/0x370 fs/ntfs3/inode.c:803
-       generic_file_direct_write+0x130/0x350 mm/filemap.c:3941
-       __generic_file_write_iter+0x129/0x230 mm/filemap.c:4097
-       ntfs_file_write_iter+0x68f/0x770 fs/ntfs3/file.c:1126
-       new_sync_write fs/read_write.c:497 [inline]
-       vfs_write+0xa72/0xc90 fs/read_write.c:590
-       ksys_write+0x1a0/0x2c0 fs/read_write.c:643
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (&sb->s_type->i_mutex_key#21){+.+.}-{3:3}:
-       check_prev_add kernel/locking/lockdep.c:3159 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3278 [inline]
-       validate_chain+0x18ef/0x5920 kernel/locking/lockdep.c:3902
-       __lock_acquire+0x1359/0x2000 kernel/locking/lockdep.c:5194
+-> #1 (&sb->s_type->i_mutex_key#26){+.+.}-{3:3}:
        lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5817
        down_write+0x3a/0x50 kernel/locking/rwsem.c:1579
        inode_lock include/linux/fs.h:795 [inline]
@@ -130,26 +101,54 @@ the existing dependency chain (in reverse order) is:
        do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
        entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
+-> #0 (&mm->mmap_lock){++++}-{3:3}:
+       check_prev_add kernel/locking/lockdep.c:3159 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3278 [inline]
+       validate_chain+0x18ef/0x5920 kernel/locking/lockdep.c:3902
+       __lock_acquire+0x1359/0x2000 kernel/locking/lockdep.c:5194
+       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5817
+       down_read_killable+0xca/0xd30 kernel/locking/rwsem.c:1549
+       mmap_read_lock_killable+0x1d/0x70 include/linux/mmap_lock.h:153
+       get_mmap_lock_carefully mm/memory.c:5846 [inline]
+       lock_mm_and_find_vma+0x29c/0x2f0 mm/memory.c:5897
+       do_user_addr_fault arch/x86/mm/fault.c:1361 [inline]
+       handle_page_fault arch/x86/mm/fault.c:1481 [inline]
+       exc_page_fault+0x1bf/0x8c0 arch/x86/mm/fault.c:1539
+       asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:623
+       fault_in_readable+0x108/0x2b0 mm/gup.c:2382
+       fault_in_iov_iter_readable+0x229/0x280 lib/iov_iter.c:94
+       generic_perform_write+0x492/0x640 mm/filemap.c:4006
+       ntfs_file_write_iter+0x68f/0x770 fs/ntfs3/file.c:1126
+       new_sync_write fs/read_write.c:497 [inline]
+       vfs_write+0xa72/0xc90 fs/read_write.c:590
+       ksys_write+0x1a0/0x2c0 fs/read_write.c:643
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
 other info that might help us debug this:
 
  Possible unsafe locking scenario:
 
        CPU0                    CPU1
        ----                    ----
-  lock(&mm->mmap_lock);
-                               lock(&sb->s_type->i_mutex_key#21);
+  lock(&sb->s_type->i_mutex_key#26);
                                lock(&mm->mmap_lock);
-  lock(&sb->s_type->i_mutex_key#21);
+                               lock(&sb->s_type->i_mutex_key#26);
+  rlock(&mm->mmap_lock);
 
  *** DEADLOCK ***
 
-1 lock held by syz-executor.0/9000:
- #0: ffff88807d087398 (&mm->mmap_lock){++++}-{3:3}, at: mmap_write_lock_killable include/linux/mmap_lock.h:122 [inline]
- #0: ffff88807d087398 (&mm->mmap_lock){++++}-{3:3}, at: vm_mmap_pgoff+0x17c/0x3d0 mm/util.c:571
+3 locks held by syz-executor.1/11846:
+ #0: ffff88801d356fc8 (&f->f_pos_lock){+.+.}-{3:3}, at: __fdget_pos+0x24e/0x310 fs/file.c:1191
+ #1: ffff88801f5e0420 (sb_writers#18){.+.+}-{0:0}, at: file_start_write include/linux/fs.h:2870 [inline]
+ #1: ffff88801f5e0420 (sb_writers#18){.+.+}-{0:0}, at: vfs_write+0x227/0xc90 fs/read_write.c:586
+ #2: ffff888077e4d460 (&sb->s_type->i_mutex_key#26){+.+.}-{3:3}, at: inode_trylock include/linux/fs.h:815 [inline]
+ #2: ffff888077e4d460 (&sb->s_type->i_mutex_key#26){+.+.}-{3:3}, at: ntfs_file_write_iter+0x25a/0x770 fs/ntfs3/file.c:1099
 
 stack backtrace:
-CPU: 0 PID: 9000 Comm: syz-executor.0 Not tainted 6.10.0-rc3-next-20240611-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/07/2024
+CPU: 1 PID: 11846 Comm: syz-executor.1 Not tainted 6.10.0-rc3-next-20240611-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/02/2024
 Call Trace:
  <TASK>
  __dump_stack lib/dump_stack.c:91 [inline]
@@ -161,26 +160,61 @@ Call Trace:
  validate_chain+0x18ef/0x5920 kernel/locking/lockdep.c:3902
  __lock_acquire+0x1359/0x2000 kernel/locking/lockdep.c:5194
  lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5817
- down_write+0x3a/0x50 kernel/locking/rwsem.c:1579
- inode_lock include/linux/fs.h:795 [inline]
- ntfs_file_mmap+0x5d8/0x860 fs/ntfs3/file.c:302
- call_mmap include/linux/fs.h:2123 [inline]
- mmap_region+0xe8f/0x2090 mm/mmap.c:2927
- do_mmap+0x8ad/0xfa0 mm/mmap.c:1438
- vm_mmap_pgoff+0x1dd/0x3d0 mm/util.c:573
- ksys_mmap_pgoff+0x4f1/0x720 mm/mmap.c:1484
+ down_read_killable+0xca/0xd30 kernel/locking/rwsem.c:1549
+ mmap_read_lock_killable+0x1d/0x70 include/linux/mmap_lock.h:153
+ get_mmap_lock_carefully mm/memory.c:5846 [inline]
+ lock_mm_and_find_vma+0x29c/0x2f0 mm/memory.c:5897
+ do_user_addr_fault arch/x86/mm/fault.c:1361 [inline]
+ handle_page_fault arch/x86/mm/fault.c:1481 [inline]
+ exc_page_fault+0x1bf/0x8c0 arch/x86/mm/fault.c:1539
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0010:fault_in_readable+0x108/0x2b0 mm/gup.c:2383
+Code: 00 00 00 0f 01 cb 0f ae e8 48 89 de 48 81 e6 ff 0f 00 00 31 ff e8 a8 56 b5 ff 48 89 d8 48 25 ff 0f 00 00 4c 89 74 24 18 74 30 <8a> 1b e8 b1 51 b5 ff 43 0f b6 04 2f 84 c0 0f 85 4d 01 00 00 88 5c
+RSP: 0018:ffffc900035df9e0 EFLAGS: 00050202
+RAX: 0000000000000240 RBX: 0000000020081240 RCX: ffff8880760d9e00
+RDX: ffffc9000a56f000 RSI: 0000000000000240 RDI: 0000000000000000
+RBP: ffffc900035dfa98 R08: ffffffff81ddf628 R09: ffffffff84ac0ea9
+R10: 0000000000000002 R11: ffff8880760d9e00 R12: 0000000000001000
+R13: dffffc0000000000 R14: 1ffff920006bbf40 R15: 1ffff920006bbf44
+ fault_in_iov_iter_readable+0x229/0x280 lib/iov_iter.c:94
+ generic_perform_write+0x492/0x640 mm/filemap.c:4006
+ ntfs_file_write_iter+0x68f/0x770 fs/ntfs3/file.c:1126
+ new_sync_write fs/read_write.c:497 [inline]
+ vfs_write+0xa72/0xc90 fs/read_write.c:590
+ ksys_write+0x1a0/0x2c0 fs/read_write.c:643
  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
  do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f7e2707cea9
+RIP: 0033:0x7f9a82c7cf69
 Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 e1 20 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f7e27de60c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
-RAX: ffffffffffffffda RBX: 00007f7e271b3f80 RCX: 00007f7e2707cea9
-RDX: 00000000007fffff RSI: 0000000000003000 RDI: 0000000020000000
-RBP: 00007f7e270ebff4 R08: 0000000000000004 R09: 0000000000000000
-R10: 0000000000000012 R11: 0000000000000246 R12: 0000000000000000
-R13: 000000000000000b R14: 00007f7e271b3f80 R15: 00007ffee8137f98
+RSP: 002b:00007f9a839f60c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f9a82db4050 RCX: 00007f9a82c7cf69
+RDX: 000000000208e24b RSI: 0000000020000240 RDI: 0000000000000009
+RBP: 00007f9a82cda6fe R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000006e R14: 00007f9a82db4050 R15: 00007ffef2c2b4c8
  </TASK>
+----------------
+Code disassembly (best guess):
+   0:	00 00                	add    %al,(%rax)
+   2:	00 0f                	add    %cl,(%rdi)
+   4:	01 cb                	add    %ecx,%ebx
+   6:	0f ae e8             	lfence
+   9:	48 89 de             	mov    %rbx,%rsi
+   c:	48 81 e6 ff 0f 00 00 	and    $0xfff,%rsi
+  13:	31 ff                	xor    %edi,%edi
+  15:	e8 a8 56 b5 ff       	call   0xffb556c2
+  1a:	48 89 d8             	mov    %rbx,%rax
+  1d:	48 25 ff 0f 00 00    	and    $0xfff,%rax
+  23:	4c 89 74 24 18       	mov    %r14,0x18(%rsp)
+  28:	74 30                	je     0x5a
+* 2a:	8a 1b                	mov    (%rbx),%bl <-- trapping instruction
+  2c:	e8 b1 51 b5 ff       	call   0xffb551e2
+  31:	43 0f b6 04 2f       	movzbl (%r15,%r13,1),%eax
+  36:	84 c0                	test   %al,%al
+  38:	0f 85 4d 01 00 00    	jne    0x18b
+  3e:	88                   	.byte 0x88
+  3f:	5c                   	pop    %rsp
 
 
 ---
