@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3ED81CA84;
-	Sun, 16 Jun 2024 17:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9796028689;
+	Sun, 16 Jun 2024 18:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718559815; cv=none; b=O+7a1abk0AWeViW3rWvMO46Ec42BV96ptMtmH+LcIyHRFO0ok6tPSDOINfzQnH1/S9qXyhr507576bT59i79Jo1EVun7ObpXgPP1wbfESxhLmBct/DOlGlE5uf2og6ToZ6O0okFa4nF22uL/3bO3D19flx7kz8y/kd4plLooi70=
+	t=1718562937; cv=none; b=LZ0v9s73pN/qTEXZls7H0B7JiNW9dSIVH2J6A0SD3re3Us4EABGANnP3by8BlBgTZm6nyl9m1cV41ChoqLe4+UQ5J7gjrBEvuQrL/uMN5B2tqJI98GFhaLNoP3nG3J7JHPVplkoLqIKBzrUrBOAyJ7LRb6Ymf/G0VCV6eYpNa7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718559815; c=relaxed/simple;
-	bh=kney88/fR3zgNHKHHoQnct2BGElZJz8iOIPJpsSQXtk=;
+	s=arc-20240116; t=1718562937; c=relaxed/simple;
+	bh=9D6X4KUq2Z+IfOGKk88Oby0p6/0qr9bGFD8w4x8TFKE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AojJkAswoEfjWRsUGLhFMZOr5D/HAJLgLW7IMl+WtpfXCb973aSdA04klSAR5rm6o1xaukQ5O2ZEXhn9b0DEpqxguvjNxTIHFusHu5ATlE0ve2QLf+h2ZAZRMOppmD2uv+B/ot6NlbAkTwqRkfcMcD1MIntqAtMT9huzZqgUaBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VCGCDCJI; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=oXbqDECH9cuRIFhROTCps4pJ7efEY5ceD/ydgMd/TwISzKkhNgITGkcGQbvN8766pT5nimxCHVBmy+7Uw/nNOssRfddKhWekE7ISSQwWvEz59M6SoGkNtI1CMdx4P7jIerTSgiRzG8rGzJmx4cHaRRYgU0iQGeGTFcOHCt7/I5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W3Uv1mHf; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VCGCDCJI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W3Uv1mHf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718559812; x=1750095812;
+  t=1718562935; x=1750098935;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kney88/fR3zgNHKHHoQnct2BGElZJz8iOIPJpsSQXtk=;
-  b=VCGCDCJInMmkAxTnO7VTr+qwPuhV2OSyQ4o0FSjAFGQS8+nKUkqesqU/
-   PRi2MWcRBbdLwg/5n0IVyfe1MFhoW/d5oN9g6R0+5hcKqy9orLTVA8iUN
-   o1nyfYzo6LRl9f40fAs/Huj3+bp1jU//r5bYV5jwzjZ2GVEkVy37gfa9o
-   uv0f4Vi3PYCqiALRp3sDXZdPLUJuS/zMeMsDen5wrzq96rH0MuWIXNGKa
-   VSLleGNay1g+9Qwh2dQiRdr559+HxvdBFSj3pJES3gtuXO+7OyeDNVEen
-   RR3TrYyG73dhAgCD+xRsS9yxaFfC0DWNjzPA+vTYEpVF7YzYjZf6fAwXu
-   w==;
-X-CSE-ConnectionGUID: BHnZwATYQQutZnfhaRtiFg==
-X-CSE-MsgGUID: +wFUuGFRQpuzDFrHIKNvOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="32864151"
-X-IronPort-AV: E=Sophos;i="6.08,242,1712646000"; 
-   d="scan'208";a="32864151"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 10:43:31 -0700
-X-CSE-ConnectionGUID: d0mv4TVPSEax9xjk+C2CPw==
-X-CSE-MsgGUID: F5+OD2EFTYyH6/8hWUkYJw==
+  bh=9D6X4KUq2Z+IfOGKk88Oby0p6/0qr9bGFD8w4x8TFKE=;
+  b=W3Uv1mHfdtCdPRnGI56w3b7jtqxbp+l45ZuYapakmjByxp4nEGbP9oEw
+   TjX0m3A9HlYbm2AarDos/jKSBYjqQI+s0+RE1r7kKcVRgtIlSIdPB7ba4
+   VmH5OiXubF07FHhL2hTnM2cjXR1v/k1WSTWKqFzxZ/7WniN4RJFPiQnpd
+   kjLVPOXf70ib0OMyhUtA9SLtAI7t/EK9ooP4YwoJ04k7pg57aM2xZES4C
+   8xsBfJzesaM/6+2+I/+TseLQxjIoKD45zNWIDFFIP2qyzaBo/drRX+n2B
+   fPSTkrDpIBbF6npqwn7Oq4tVFHxeASNlNKjLbfVEeWy3WNsQSnVuHvW48
+   A==;
+X-CSE-ConnectionGUID: fa56S/MrQ7mFM550nTVMAg==
+X-CSE-MsgGUID: wQV5025LSIi7YG4agElVug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="15267375"
+X-IronPort-AV: E=Sophos;i="6.08,243,1712646000"; 
+   d="scan'208";a="15267375"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 11:35:34 -0700
+X-CSE-ConnectionGUID: MdqAgedUTQ+tE/SF46he0A==
+X-CSE-MsgGUID: n8tFrNA2QXec2PXZ8a4ckg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,242,1712646000"; 
-   d="scan'208";a="40839229"
+X-IronPort-AV: E=Sophos;i="6.08,243,1712646000"; 
+   d="scan'208";a="40877869"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Jun 2024 10:43:29 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 16 Jun 2024 11:35:32 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sItuY-00036s-2z;
-	Sun, 16 Jun 2024 17:43:26 +0000
-Date: Mon, 17 Jun 2024 01:42:27 +0800
+	id 1sIuiv-0003A2-3C;
+	Sun, 16 Jun 2024 18:35:30 +0000
+Date: Mon, 17 Jun 2024 02:35:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Abhinav Jain <jain.abhinav177@gmail.com>,
 	almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
-	javier.carrasco.cruz@gmail.com, jain.abhinav177@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com,
+	jain.abhinav177@gmail.com
 Subject: Re: [PATCH] fs/ntfs3: Remove recursion in indx_insert_into_buffer
-Message-ID: <202406170138.l8RDg80M-lkp@intel.com>
+Message-ID: <202406170254.2fKFAwWr-lkp@intel.com>
 References: <20240616133704.45284-1-jain.abhinav177@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -81,32 +82,35 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Abhinav-Jain/fs-ntfs3-Rem
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20240616133704.45284-1-jain.abhinav177%40gmail.com
 patch subject: [PATCH] fs/ntfs3: Remove recursion in indx_insert_into_buffer
-config: arc-randconfig-001-20240616 (https://download.01.org/0day-ci/archive/20240617/202406170138.l8RDg80M-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406170138.l8RDg80M-lkp@intel.com/reproduce)
+config: arm-randconfig-004-20240616 (https://download.01.org/0day-ci/archive/20240617/202406170254.2fKFAwWr-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406170254.2fKFAwWr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406170138.l8RDg80M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406170254.2fKFAwWr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/ntfs3/index.c: In function 'indx_insert_into_buffer':
->> fs/ntfs3/index.c:1915:25: error: 'hrd1' undeclared (first use in this function); did you mean 'hdr1'?
+   In file included from fs/ntfs3/index.c:8:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm/include/asm/cacheflush.h:10:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> fs/ntfs3/index.c:1915:4: error: use of undeclared identifier 'hrd1'
     1915 |                         hrd1 = &n1->index->ihdr;
-         |                         ^~~~
-         |                         hdr1
-   fs/ntfs3/index.c:1915:25: note: each undeclared identifier is reported only once for each function it appears in
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for REGMAP_SPI
-   Depends on [n]: SPI [=n]
-   Selected by [y]:
-   - AD9739A [=y] && IIO [=y] && (SPI [=n] || COMPILE_TEST [=y])
+         |                         ^
+   1 warning and 1 error generated.
 
 
-vim +1915 fs/ntfs3/index.c
+vim +/hrd1 +1915 fs/ntfs3/index.c
 
   1780	
   1781	/*
