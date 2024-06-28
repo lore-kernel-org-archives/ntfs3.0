@@ -1,65 +1,64 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB136FC7
-	for <ntfs3@lists.linux.dev>; Fri, 28 Jun 2024 00:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82273224E8
+	for <ntfs3@lists.linux.dev>; Fri, 28 Jun 2024 00:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719534390; cv=none; b=DgIdX3nz6t4yIRPTdLpn9xDwrA8/srigzjfXwqzdkiC85NhUFWVMZJB0oriLkBnrNceWHaxBHKSqZn6HPff27tRBp+H0ZtnX8PSTbRpyj0sP8No11QO6gcjrnx2H+JWN6WLxYrLsxNXxxvQM7UnFCkPr9w+MiYIpYgvikC/XYI0=
+	t=1719535072; cv=none; b=hCnuP0M+MgUM1QPaI52eInjQfp/EqwYCDwAF9rgXFlFS6PY/tzT1wlF7JbFHbzibwethBqA1dOpC3J7eFWDVE9LClr7WFNRWRmY+SRE7WASC+pV7VRnGA9lhmGpzfRUcOYkWcVECoNH9GEapSMi5dIpf5R+0QFEvRI11RABUxSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719534390; c=relaxed/simple;
-	bh=hh11G/iodh5iWE0DKtFfqmVHr22By8Ulh9rirP+ZYcQ=;
+	s=arc-20240116; t=1719535072; c=relaxed/simple;
+	bh=T9giCEeQe9O8JFgY1dAQ7TEqaknAFm0RMHXlWCjwxCM=;
 	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=nc1BJTIANk9qFQzQYeOIPJQf9VyW/ji+0IjXk/5x5G/tdL6GUhHiEu280j/kzJnOFZ+oz13aPpMMOi2l++Kes3BYYx2iDLN49h955IxkkZWsxlpUDj6xCdPZEzJYJBPYVe7gYn24HD0vt5UAkfrdsRFWcU8Lrq4ra/kHtJs9NrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MqkCs1vE; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=hjDJK2yJ1uN+rCEDlJ1IkJA+S+9DrYiNXyAdwXt1bocuw7xTQNrfeZW6LaniwbViio/wCDk91UUTbkj95F5cbCtj2ceKMUXc5Ge5mvqEH9sSNqqkMLpl2zGNelRjJv4zH4HaacCcYUnoazDqMIi1ZpELcewXA6cLl+hjGaAdqBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dV7+w2up; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MqkCs1vE"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dV7+w2up"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1719534388;
+	s=mimecast20190719; t=1719535069;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=F920R5yaBE3PsuRdteKVNVN6MSLZBpfM90SMj8g8nmA=;
-	b=MqkCs1vELpBXue/wzqbDkxiCkET4JDzLp+A0PCGAJ/eWIUog8Uv9BByus4U8hcydGZewNn
-	J0U+dE/SeBwB8YUnQs2UAOgOPHDTDc3/imI6cm92A0jYtpmCJb/l+nRiXDPeq84G65oA/c
-	Tcush1T+oKaqiX7WYCwwttQgqlqBzRY=
+	bh=zQhMiTQyhSFYcIKwGIviJG1vL1dNkSkhvAxcEpR5AZU=;
+	b=dV7+w2upqQS5raPYmc/Xh+NVfrZ06RNiSl/XERSOKeOD+p3+7e0orf+gbCyeS3NWHS5lHP
+	fSY3OnOehWhViYHC4e9Yk0f1Fz1hqLMRmKfKgxB8AXXpl5nRPX51WvrlfrhCO1jLMuEKBR
+	E3esNcf4Ih26RLm1wcsw/Was9CtlgCo=
 Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
  [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-609-tM5Ac5P_PMuYlxHoVzGAWQ-1; Thu, 27 Jun 2024 20:26:26 -0400
-X-MC-Unique: tM5Ac5P_PMuYlxHoVzGAWQ-1
-Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-7e1fe2ba2e1so2902739f.3
-        for <ntfs3@lists.linux.dev>; Thu, 27 Jun 2024 17:26:26 -0700 (PDT)
+ us-mta-426-H6zwHGzXP765Ur8c-xO_eg-1; Thu, 27 Jun 2024 20:37:23 -0400
+X-MC-Unique: H6zwHGzXP765Ur8c-xO_eg-1
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-7f4cff1d3d5so3322539f.2
+        for <ntfs3@lists.linux.dev>; Thu, 27 Jun 2024 17:37:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719534386; x=1720139186;
+        d=1e100.net; s=20230601; t=1719535042; x=1720139842;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:from:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F920R5yaBE3PsuRdteKVNVN6MSLZBpfM90SMj8g8nmA=;
-        b=I0iEDMW2RfR78EV0yFdS8kzwVzjVg3IARCfXD9oOtVHIR0PqhPcAusaRyzaIwcVNnR
-         o3dEWJPi59YZRL1dxMZsZHJRI0Ns5iI2toCG8fFSHmiNuZdgxJRWg2VsQylIP4VTiPjJ
-         QqRu1fLmJYp6oEpjm3N1DxMWgKZ/h8S+nF5YkeU5J8bwNBiIDRcBk6zuBy5gxQtI+t4X
-         Pl9+Ed2CNkEnEDBKVzoSe27iflgliqvttuccwCf3ExtTZQQeT1LjCAxxPa/A/k+Ryl3K
-         oFVdOsoW8a1hcGq1kySaxkAgWBUW3s+f9rdpmrWJjSIk5rHwdYI2bk5rIdmaDB6wUnod
-         8ONQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVE3D/cwIdHyPm+Bd58bWIrmU79PeNDOAIAV5o7HDO80ABt46klIuuhbxq9i1I6J+YwAcPqoVocdAGzPP5Y7Lm8OrFiaD8=
-X-Gm-Message-State: AOJu0YxkgwnFF1+ojRpaJc0uqEQ65CWirgkojJEVqN09mZlLkDFOz4gi
-	vAedSvFughg5VvuqQptxTrT8+NSIsKU9mszfGFvSzFbbwHqjgfbRN4LClegs8jrz6p84ynRUO62
-	nI/rz5y4ahm8DP3qUR/4KoZ0uaGge/am9ENI43fGjGePlvERMWV1k
-X-Received: by 2002:a6b:730e:0:b0:7f3:d863:3cf8 with SMTP id ca18e2360f4ac-7f3d8634018mr415331439f.4.1719534385816;
-        Thu, 27 Jun 2024 17:26:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGLQ+evTqW23iP2xMhQPr9hw69BKkkeaSh3vRZVLP5nIJpjBkoHrAggDlvkHwnRujUOQkyNmA==
-X-Received: by 2002:a6b:730e:0:b0:7f3:d863:3cf8 with SMTP id ca18e2360f4ac-7f3d8634018mr415329439f.4.1719534385516;
-        Thu, 27 Jun 2024 17:26:25 -0700 (PDT)
+        bh=zQhMiTQyhSFYcIKwGIviJG1vL1dNkSkhvAxcEpR5AZU=;
+        b=nWypDKcIBW2TxyYbBtO0QtX7MVHAmNpPKm08mtsshYAtYR9uvi95Sr/Gad7giJXmUb
+         meJxh6LBZ1N0FRX7T0xkDA5DaWDfLL/p7xm98wnWc8CQgmDpWGGyyWp9n26RLFw/6sCX
+         Qj+MbwN3ev2Pp4r0XSSgR5xtU04BsNJZr3awNi9/SJyuU1CBog65i+0TODEF4opecEGC
+         t8wZTYsFMlYf48VwSPCMmkYPKXPz69Jkykg1mILfwqYz1Ci58/MygX4e10vLtCZ0Sd3N
+         U4QnqtWhTpy9iFB1s4mLhSlpGm+0q16EU2xZb0ErJ3xMacMeg7tpCWZlqVPDOxH4Yoif
+         +PYA==
+X-Gm-Message-State: AOJu0Yzr4x/nYo36Cq1Lj0uLU0j+gMQAlJgXwPYev3jwHzgM6HhZHCKk
+	2ysGRkzPHuytIHqHAfuLHHvLbbI+Hklr3ZjXGMFIRr43xeqzhy639y+xNVvsAyJoAV7/wmQk/Ry
+	4SGhLsfv13cLAFLri48TI1df4gPZ6ZVVhY6Q4FuPX8eg8ZevpCTRB
+X-Received: by 2002:a6b:7010:0:b0:7f6:1b9f:8939 with SMTP id ca18e2360f4ac-7f61b9f8cecmr145464039f.7.1719535042329;
+        Thu, 27 Jun 2024 17:37:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGTaAADBARuSKBG3oQZT/2IZEnJcQm2Lvl9Dt7upSPBZW1npZEvY8uH0LWguSFbG15wJ+Z0dw==
+X-Received: by 2002:a6b:7010:0:b0:7f6:1b9f:8939 with SMTP id ca18e2360f4ac-7f61b9f8cecmr145463439f.7.1719535042046;
+        Thu, 27 Jun 2024 17:37:22 -0700 (PDT)
 Received: from [10.0.0.71] (sandeen.net. [63.231.237.45])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4bb73dd541dsm219330173.55.2024.06.27.17.26.24
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4bb742f1774sm218559173.160.2024.06.27.17.37.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jun 2024 17:26:25 -0700 (PDT)
-Message-ID: <de859d0a-feb9-473d-a5e2-c195a3d47abb@redhat.com>
-Date: Thu, 27 Jun 2024 19:26:24 -0500
+        Thu, 27 Jun 2024 17:37:21 -0700 (PDT)
+Message-ID: <04bf30db-8542-48dc-9060-7f7dc08eda22@redhat.com>
+Date: Thu, 27 Jun 2024 19:37:21 -0500
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -67,15 +66,10 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH 01/14] fs_parse: add uid & gid option option parsing helpers
+Subject: [PATCH 10/14] ntfs3: Convert to new uid/gid option parsing helpers
 From: Eric Sandeen <sandeen@redhat.com>
 To: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>
-Cc: autofs@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
- linux-efi@vger.kernel.org, Namjae Jeon <linkinjeon@kernel.org>,
- linux-ext4@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
- linux-mm@kvack.org, Jan Kara <jack@suse.cz>, ntfs3@lists.linux.dev,
- linux-cifs@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- Hans Caniullan <hcaniull@redhat.com>
+Cc: ntfs3@lists.linux.dev
 References: <8dca3c11-99f4-446d-a291-35c50ed2dc14@redhat.com>
 In-Reply-To: <8dca3c11-99f4-446d-a291-35c50ed2dc14@redhat.com>
 X-Mimecast-Spam-Score: 0
@@ -84,133 +78,46 @@ Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Multiple filesystems take uid and gid as options, and the code to
-create the ID from an integer and validate it is standard boilerplate
-that can be moved into common helper functions, so do that for
-consistency and less cut&paste.
+Convert to new uid/gid option parsing helpers
 
-This also helps avoid the buggy pattern noted by Seth Jenkins at
-https://lore.kernel.org/lkml/CALxfFW4BXhEwxR0Q5LSkg-8Vb4r2MONKCcUCVioehXQKr35eHg@mail.gmail.com/
-because uid/gid parsing will fail before any assignment in most
-filesystems.
-
-Signed-off-by: Eric Sandeen <sandeen@sandeen.net>
+Signed-off-by: Eric Sandeen <sandeen@redhat.com>
 ---
- Documentation/filesystems/mount_api.rst |  9 +++++--
- fs/fs_parser.c                          | 34 +++++++++++++++++++++++++
- include/linux/fs_parser.h               |  6 ++++-
- 3 files changed, 46 insertions(+), 3 deletions(-)
+ fs/ntfs3/super.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/filesystems/mount_api.rst b/Documentation/filesystems/mount_api.rst
-index 9aaf6ef75eb5..317934c9e8fc 100644
---- a/Documentation/filesystems/mount_api.rst
-+++ b/Documentation/filesystems/mount_api.rst
-@@ -645,6 +645,8 @@ The members are as follows:
- 	fs_param_is_blockdev	Blockdev path		* Needs lookup
- 	fs_param_is_path	Path			* Needs lookup
- 	fs_param_is_fd		File descriptor		result->int_32
-+	fs_param_is_uid		User ID (u32)           result->uid
-+	fs_param_is_gid		Group ID (u32)          result->gid
- 	=======================	=======================	=====================
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 27fbde2701b6..c5b688c5f984 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -259,8 +259,8 @@ enum Opt {
  
-      Note that if the value is of fs_param_is_bool type, fs_parse() will try
-@@ -678,6 +680,8 @@ The members are as follows:
- 	fsparam_bdev()		fs_param_is_blockdev
- 	fsparam_path()		fs_param_is_path
- 	fsparam_fd()		fs_param_is_fd
-+	fsparam_uid()		fs_param_is_uid
-+	fsparam_gid()		fs_param_is_gid
- 	=======================	===============================================
+ // clang-format off
+ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
+-	fsparam_u32("uid",			Opt_uid),
+-	fsparam_u32("gid",			Opt_gid),
++	fsparam_uid("uid",			Opt_uid),
++	fsparam_gid("gid",			Opt_gid),
+ 	fsparam_u32oct("umask",			Opt_umask),
+ 	fsparam_u32oct("dmask",			Opt_dmask),
+ 	fsparam_u32oct("fmask",			Opt_fmask),
+@@ -319,14 +319,10 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
  
-      all of which take two arguments, name string and option number - for
-@@ -784,8 +788,9 @@ process the parameters it is given.
-      option number (which it returns).
- 
-      If successful, and if the parameter type indicates the result is a
--     boolean, integer or enum type, the value is converted by this function and
--     the result stored in result->{boolean,int_32,uint_32,uint_64}.
-+     boolean, integer, enum, uid, or gid type, the value is converted by this
-+     function and the result stored in
-+     result->{boolean,int_32,uint_32,uint_64,uid,gid}.
- 
-      If a match isn't initially made, the key is prefixed with "no" and no
-      value is present then an attempt will be made to look up the key with the
-diff --git a/fs/fs_parser.c b/fs/fs_parser.c
-index a4d6ca0b8971..24727ec34e5a 100644
---- a/fs/fs_parser.c
-+++ b/fs/fs_parser.c
-@@ -308,6 +308,40 @@ int fs_param_is_fd(struct p_log *log, const struct fs_parameter_spec *p,
- }
- EXPORT_SYMBOL(fs_param_is_fd);
- 
-+int fs_param_is_uid(struct p_log *log, const struct fs_parameter_spec *p,
-+		    struct fs_parameter *param, struct fs_parse_result *result)
-+{
-+	kuid_t uid;
-+
-+	if (fs_param_is_u32(log, p, param, result) != 0)
-+		return fs_param_bad_value(log, param);
-+
-+	uid = make_kuid(current_user_ns(), result->uint_32);
-+	if (!uid_valid(uid))
-+		return inval_plog(log, "Invalid uid '%s'", param->string);
-+
-+	result->uid = uid;
-+	return 0;
-+}
-+EXPORT_SYMBOL(fs_param_is_uid);
-+
-+int fs_param_is_gid(struct p_log *log, const struct fs_parameter_spec *p,
-+		    struct fs_parameter *param, struct fs_parse_result *result)
-+{
-+	kgid_t gid;
-+
-+	if (fs_param_is_u32(log, p, param, result) != 0)
-+		return fs_param_bad_value(log, param);
-+
-+	gid = make_kgid(current_user_ns(), result->uint_32);
-+	if (!gid_valid(gid))
-+		return inval_plog(log, "Invalid gid '%s'", param->string);
-+
-+	result->gid = gid;
-+	return 0;
-+}
-+EXPORT_SYMBOL(fs_param_is_gid);
-+
- int fs_param_is_blockdev(struct p_log *log, const struct fs_parameter_spec *p,
- 		  struct fs_parameter *param, struct fs_parse_result *result)
- {
-diff --git a/include/linux/fs_parser.h b/include/linux/fs_parser.h
-index d3350979115f..6cf713a7e6c6 100644
---- a/include/linux/fs_parser.h
-+++ b/include/linux/fs_parser.h
-@@ -28,7 +28,7 @@ typedef int fs_param_type(struct p_log *,
-  */
- fs_param_type fs_param_is_bool, fs_param_is_u32, fs_param_is_s32, fs_param_is_u64,
- 	fs_param_is_enum, fs_param_is_string, fs_param_is_blob, fs_param_is_blockdev,
--	fs_param_is_path, fs_param_is_fd;
-+	fs_param_is_path, fs_param_is_fd, fs_param_is_uid, fs_param_is_gid;
- 
- /*
-  * Specification of the type of value a parameter wants.
-@@ -57,6 +57,8 @@ struct fs_parse_result {
- 		int		int_32;		/* For spec_s32/spec_enum */
- 		unsigned int	uint_32;	/* For spec_u32{,_octal,_hex}/spec_enum */
- 		u64		uint_64;	/* For spec_u64 */
-+		kuid_t		uid;
-+		kgid_t		gid;
- 	};
- };
- 
-@@ -131,6 +133,8 @@ static inline bool fs_validate_description(const char *name,
- #define fsparam_bdev(NAME, OPT)	__fsparam(fs_param_is_blockdev, NAME, OPT, 0, NULL)
- #define fsparam_path(NAME, OPT)	__fsparam(fs_param_is_path, NAME, OPT, 0, NULL)
- #define fsparam_fd(NAME, OPT)	__fsparam(fs_param_is_fd, NAME, OPT, 0, NULL)
-+#define fsparam_uid(NAME, OPT) __fsparam(fs_param_is_uid, NAME, OPT, 0, NULL)
-+#define fsparam_gid(NAME, OPT) __fsparam(fs_param_is_gid, NAME, OPT, 0, NULL)
- 
- /* String parameter that allows empty argument */
- #define fsparam_string_empty(NAME, OPT) \
+ 	switch (opt) {
+ 	case Opt_uid:
+-		opts->fs_uid = make_kuid(current_user_ns(), result.uint_32);
+-		if (!uid_valid(opts->fs_uid))
+-			return invalf(fc, "ntfs3: Invalid value for uid.");
++		opts->fs_uid = result.uid;
+ 		break;
+ 	case Opt_gid:
+-		opts->fs_gid = make_kgid(current_user_ns(), result.uint_32);
+-		if (!gid_valid(opts->fs_gid))
+-			return invalf(fc, "ntfs3: Invalid value for gid.");
++		opts->fs_gid = result.gid;
+ 		break;
+ 	case Opt_umask:
+ 		if (result.uint_32 & ~07777)
 -- 
 2.45.2
+
 
