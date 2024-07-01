@@ -1,99 +1,103 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DF314B943
-	for <ntfs3@lists.linux.dev>; Mon,  1 Jul 2024 10:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F67115A85A;
+	Mon,  1 Jul 2024 12:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719829804; cv=none; b=cuYItylROJz/HvzzPQ1y8oMx/q6h29aJYZwk4mmMzF9rCAKS+yAeKUU/WXhWhBPPfdvjo8rBE2Enq+dKjaV0VA//RAzylyg6Zro2FO9IBg2HqZcWwQJLS/cSUi3rFutCY8WNwN5yMDbpDcEupPWCht0VXaJYBOXJZy1bIPUw13k=
+	t=1719838440; cv=none; b=IViLG9qZNCQnlnPOjhlQI4CBXQKiMbNOiTxEAvoGObKx7gnJu1ej/6PWnI7GpRAWEsG5OD5xksgGWmLIt33uKr2FxsxCJnXtYgTosBnDtAiTe/XIX64EBBZxpZwmc/ez/mzNtLOGsYaHAihxLWP5tzzXrBYAfY82fMrb1pOCrgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719829804; c=relaxed/simple;
-	bh=OO+2/ON76sJVy9Pa0ZLw5+35ax+dpZuNtKqSg/g0HS8=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=b76pe/9F/RzIIBqfZhZYTL2yLrVw/bReSorg7bLCBzc8v2gOJPmrwNf36FIZL5IwZ1IbX7G9IWbPvMPFg4LpP89VmnsGMqWlF0BnMeJFwgLHamUpnyvAX/kJXF0uPPSOlCe5Y5w1KghEoYuHPR6VQV5UQSg3sR//6bGwKuEl1kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ga3KOtO8; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719838440; c=relaxed/simple;
+	bh=joqZqxfvJhfI6MGsku+7ZiuyZkmDI6a7ruDeHS6gU1E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
+	 In-Reply-To:Content-Type; b=UipSaXj1wp4C6Igh9xRMrVqZP3+IXmPoAKPL2+HsYHdgFbiIUFQYmgFbsmq76vBx5DZxhLdBgkIoUKXoiQ0lbDX3DrHSB+4BW7CzkRVLmoNuDvxkKyoxlq8UJi8mXUMufEUV/kciEXvEXhiayMFgMZw0v23qLDZmOJD4Y6Pl2xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=Hc9VI9Ov; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ga3KOtO8"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7201cb6cae1so1268990a12.2
-        for <ntfs3@lists.linux.dev>; Mon, 01 Jul 2024 03:30:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719829803; x=1720434603; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hnMzFvWipRo1kBxS6WdO09SxOkLo4LEwwGqcS/2jaJ8=;
-        b=Ga3KOtO8apWagJficRgFJdGi3PNRWlOWyxUQ9gQekhTBwXN3zZIqOxDx6ttAkOGJ5s
-         tl9l6x0COuKJkoj1nuZl+eRmMQzf3arWA7dpPqqVC9e1zNMefzRLf0iipw8aaP9JuppA
-         N5NGlmYemVETSep9EqvuwtLsFGNYK1u7NgTAA2PepuhIVZMPiXOVfATDMfeRJlMdEEen
-         V5xDyBuqiz95Y+ATURcQ8X4BFBm6QQpMqxTU8LIEZG44y7xPKqHTi86oZdp8kBqYRuSG
-         lI+PQ3jzTIuE/TbgP/ROtJTKFsJC51qt2uGVbJ85FfUCkYDV+JT0Rx4BPmJ1LkkC4hsU
-         61Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719829803; x=1720434603;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hnMzFvWipRo1kBxS6WdO09SxOkLo4LEwwGqcS/2jaJ8=;
-        b=F2GOF05SuXHRDikB/gj8XVj/ze55DRXDh1iJR+odHYESFHUx2SMfC/IgtuWMELfiPY
-         4B5FUIuHBrijtCKvXJ49eQ7IozI0IyQaAzgTJ/ZkhKYWbYDPmWJ3zIQP/hgwGVJ6fXmv
-         z2aOfEnpLUytFx4DjMRl/dFzya9lYwkmZnXRUG/AmtXgw6TnCr2/dqy8U3qqahp59Qvm
-         TJYyyd5am/DcUvocFs2JcV23wf/tno8/wv381i14EKHOSvMy0pLiwcPGgaaXi5NwkXCk
-         FwqSGzLGZN7Cw/yuezzC8NiSsxqQ0FO7nY0DdQ9njneFLOIbZomdAnfa3Oa3mZHqv8Wo
-         z+UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQMTadbNEobW7+2A9Pxhbh8W7D8i3kjH1Lc18lFS9E6WhkYUCaorIER49QluoQv5gTO2aDj255HC6bg3+sqAGc8QJz+24=
-X-Gm-Message-State: AOJu0YxCsSc9LxESZYFA6ML9Us5bgj3cvOVn9d6u+56fxtheQoZk+31q
-	spCVgSRCtQ2MLJ3yGL0B1wRgbhwSxUHE8MpdqTk1XyNO+JH6+vFqkuz5t9hFspM=
-X-Google-Smtp-Source: AGHT+IGgx7/seHz0s72m8pjh5NnHZCKgtUYnwQZWlfYQYEoNerIERbdIgYvb6otnGhVFISe/d7EUkg==
-X-Received: by 2002:a05:6a21:339d:b0:1bd:a048:7fcf with SMTP id adf61e73a8af0-1bef610e5ecmr4745877637.13.1719829802423;
-        Mon, 01 Jul 2024 03:30:02 -0700 (PDT)
-Received: from localhost.localdomain ([47.238.252.167])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac10c8f81sm61289825ad.28.2024.07.01.03.30.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 03:30:02 -0700 (PDT)
-From: lei lu <llfamsec@gmail.com>
-To: almaz.alexandrovich@paragon-software.com,
-	ntfs3@lists.linux.dev
-Subject: [PATCH] ntfs3: Add bounds checking for dp0
-Date: Mon,  1 Jul 2024 18:29:35 +0800
-Message-Id: <20240701102935.3018-1-llfamsec@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="Hc9VI9Ov"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:Cc:From:References:To:Subject:Reply-To:MIME-Version:Date:
+	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=t+dVjH56wuvAZMPLxREj1dS4Lb8ihceYjbLapljYOh8=;
+	t=1719838438; x=1720270438; b=Hc9VI9OvKZk9XydVJKeulcENUM/WMLZTPlh9I4LB0vd8F+O
+	JIZ8CpLlIM2wA/EMhYcOvZk8d8NmaI0liLETGL6x0lwYU4/5jXroGpqLdyTHwqhUHY/aVUIZBpeLi
+	TEASf/fXYNM6fdLfGCZUqf6quNiWX6FgkQCHzF/C1HhFH+Qw0qInElZGtOXcmjTh3/wg2sOMATIv9
+	rovKekvSQyfqaTj2DQGYKl+7/5yJ5kK9R7USI7z51iJf6h27Oi3J0pKY+aHbMcNinK3iY/9UEi9nT
+	6XOZMbCdSfO8L23zzLhvLRiRpnzBmA1TPMtCot4yQMjNyyNIL/mG3odNr4qk+IlA==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1sOGXc-0008Qe-Fb; Mon, 01 Jul 2024 14:53:56 +0200
+Message-ID: <a60fc742-0ad4-498d-b90f-793b9578b843@leemhuis.info>
+Date: Mon, 1 Jul 2024 14:53:55 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: [PATCH] fs/ntfs3: Fix memory corruption when page_size changes
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+References: <20240614155437.2063380-1-popcornmix@gmail.com>
+ <CAEi1pCSQePMo4X_RvMfYmpxYwmuamhd8=1OXgNCU-N2BBdTXPg@mail.gmail.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+Cc: popcorn mix <popcornmix@gmail.com>, ntfs3@lists.linux.dev,
+ Linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Linux kernel regressions list <regressions@lists.linux.dev>
+In-Reply-To: <CAEi1pCSQePMo4X_RvMfYmpxYwmuamhd8=1OXgNCU-N2BBdTXPg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1719838438;8fe70a28;
+X-HE-SMSGID: 1sOGXc-0008Qe-Fb
 
-Added out-of-bound checking for *dp0 (DIR_PAGE_ENTRY_32).
+[CCing a few lists]
 
-Signed-off-by: lei lu <llfamsec@gmail.com>
----
- fs/ntfs3/fslog.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
+for once, to make this easily accessible to everyone.
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 855519713bf7..af6f2ce9ea68 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -4184,10 +4184,14 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 	dp = NULL;
- 	while ((dp = enum_rstbl(dptbl, dp))) {
- 		struct DIR_PAGE_ENTRY_32 *dp0 = (struct DIR_PAGE_ENTRY_32 *)dp;
--		// NOTE: Danger. Check for of boundary.
--		memmove(&dp->vcn, &dp0->vcn_low,
--			2 * sizeof(u64) +
--				le32_to_cpu(dp->lcns_follow) * sizeof(u64));
-+		// Check for of boundary.
-+		u32 len = 2 * sizeof(u64) +
-+			le32_to_cpu(dp->lcns_follow) * sizeof(u64);
-+		if (PtrOffset(dptbl, &dp0->vcn_low) + len > t32) {
-+			err = -EINVAL;
-+			goto out;
-+		}
-+		memmove(&dp->vcn, &dp0->vcn_low, len);
- 	}
- 
- end_conv_1:
--- 
-2.34.1
+Konstantin, what's the status of this regression report or the patch Dom
+Cobley propsed to fix the issue? From here it looks like it fall through
+the cracks, but I might be missing something.
 
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+#regzbot poke
+
+On 14.06.24 18:24, popcorn mix wrote:
+> On Fri, Jun 14, 2024 at 4:55 PM Dom Cobley <popcornmix@gmail.com> wrote:
+>> The kernel panic can be observed when connecting an
+>> ntfs formatted drive that has previously been connected
+>> to a Windows machine to a Raspberry Pi 5, which by defauilt
+>> uses a 16K kernel pagesize.
+> 
+> Here are links to some bug reports about the issue:
+> https://github.com/raspberrypi/linux/issues/6036
+> https://forum.libreelec.tv/thread/28620-libreelec-12-0-rpi5-and-ntfs-hdd-problem/?postID=192713#post192713
+> https://forums.raspberrypi.com/viewtopic.php?p=2203090#p2203090
+> https://forums.raspberrypi.com/viewtopic.php?t=367545
+> 
+> The common points are it occurs on the (default) 16K pagesize kernel,
+> but switching to 4K pagesize kernel
+> avoids the issue.
+> 
+> Issue wasn't present in previous RPiOS LTS kernel (6.1), but is
+> present in current LTS kernel (6.6).
+> Revering to 6.1 kernel avoids the issue.
+> 
+> I've confirmed that reverting the commit:
+> 865e7a7700d9 ("fs/ntfs3: Reduce stack usage")
+> 
+> avoids the issue.
+> 
+> This patch avoids the issue for me, and I'd like confirmation it is correct.
