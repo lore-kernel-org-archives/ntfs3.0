@@ -1,120 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1183F8E2;
-	Tue,  2 Jul 2024 04:27:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35E215B104;
+	Tue,  2 Jul 2024 11:41:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719894437; cv=none; b=uNxepcjEW8w29a23JyVt6p3qvEpY5Tt1selM2Gyk6VqyMcM+54d9fCfCExXrp1jg1g3WPgrYwLesrz/jY1c455Qv+q11M99MNto8zFLPDPrhXksi0yDB4HZPEzNXdUiq3IRwMfzetZ0ItydV43t/NyTd5mVF2rap0TSqPuewDkc=
+	t=1719920494; cv=none; b=rkO0UGYNFll2XyBbkJb0XzxYlbyHMece4gV7zJQktIa+3JGOGAQuWLPBmwmkmhf7gFM/MdFt4+F51aI41XdG8utqzw56a/7vV9km1LcO4ED9XuZ5pGHEKCJdd8hNoUItmCdQtOOgJ48Yn9W5Rz4g2w/qCsvAChutveCaYEKUGqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719894437; c=relaxed/simple;
-	bh=Pv0BfDTulESS3H2hspa9V/qPBcr+GryRdQNP1DxU5JY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BHjo1UmSc5jUdZNWi6C4S2G6AXBMcu3yUgWMIWzCZK5ABww3irvjwLUarizT4STM4xEXdRd0ZiLWOtCz4aVDNWYdCxD1LdiEPXSjBnJ3ZIzpXljIzwON3UbV6JgPxru6xIUYzdZWMFo4CiqwT9DwEfioxfs0+cGHR2TSlRZfxrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QmThOihg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719920494; c=relaxed/simple;
+	bh=XpF7Ovdn2GPQkALgInOtej7RrXCY+KCbZ7EXlTpeWSs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=oeplTcifxmQf5CZbX4qUkSqrYnZ+CNd38sGY2QG0QST+ycSbk34wveBoRj95c/2/RnlDGNg+5/SUOziYB5waIT+b5kWJ9l/Up6D7bkeCTJzNSJWcL8dWV1fudyfyHM2hX7zKW7n7T9WvUDMfFZcJne92g7G0VG/t0X0kT59cdT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=FCktr51S; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=jtKEKH4I; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QmThOihg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B27DDC116B1;
-	Tue,  2 Jul 2024 04:27:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719894437;
-	bh=Pv0BfDTulESS3H2hspa9V/qPBcr+GryRdQNP1DxU5JY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QmThOihg9UGFPaNoDYQyvvbRVQdaQkcab25Xy2SgQMsBgmC3a7qBKgUNdrsX6AoTx
-	 mJhcmZq7U/oVhTFsfpggxVdwg8WRJXrYHREzkqOw34vvGDGgZX7R90e2xCIGko+vvA
-	 qBmWLbhllc4Ea/2SnLbt4k0Kb0R8dMBE1S9D1iXW7Zt27SE0Ya2hVrO11DbQWG+2ri
-	 HqbBH6dAx7D01N9uC0MQBTZvFaqmMw13gj3qDjJVI6mwSkBuY2ATeM1/wpABIqaAhH
-	 8z+HoC0itipm7i+VVUwgjskOl6FhAVgVuLe2pHxeKVLhhG2BoVo9KTzlu0+oEK8oN3
-	 q8sGJHAxqGD8Q==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org,
-	Eric Sandeen <sandeen@redhat.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	autofs@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-efi@vger.kernel.org,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	linux-ext4@vger.kernel.org,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	linux-mm@kvack.org,
-	Jan Kara <jack@suse.cz>,
-	ntfs3@lists.linux.dev,
-	linux-cifs@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	Hans Caniullan <hcaniull@redhat.com>
-Subject: Re: (subset) [PATCH 0/14] New uid & gid mount option parsing helpers
-Date: Tue,  2 Jul 2024 06:25:05 +0200
-Message-ID: <20240702-putzig-krater-aea1bf2b652d@brauner>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <8dca3c11-99f4-446d-a291-35c50ed2dc14@redhat.com>
-References: <8dca3c11-99f4-446d-a291-35c50ed2dc14@redhat.com>
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="FCktr51S";
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="jtKEKH4I"
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 5FE612168;
+	Tue,  2 Jul 2024 11:33:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1719919998;
+	bh=FvoWozv7kiGX5kCPeJTR6YhhTOGEpNfWM7pqi1LrdKY=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=FCktr51SmR4olYGJ2vxwHBcO9KwMO0dynZxEPPwC4TICQrPHkOTp9uyX/e436o/H/
+	 FS2BngZMp2ilR77GMkvhC2JtJ6kQlVOIGHVHrWfXSgGoHIdgcYDa38fchFG+dQ8g07
+	 CqN5nDgoL4/xrvtjf0DuYH7fkz27aIbNT12VHg8I=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 7B7D61D09;
+	Tue,  2 Jul 2024 11:41:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1719920484;
+	bh=FvoWozv7kiGX5kCPeJTR6YhhTOGEpNfWM7pqi1LrdKY=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=jtKEKH4IolMCs3UOtawejZ+BFvpJonwAYywkAZ7FfIcy8hEMni8YtmybQMmQJw+3R
+	 0J5ZrJmE8FhZdY6sQkIgk1/kPSNbFldTIwcnyu2GHj7p7BDlndTthxu6d0zUdCqagF
+	 VYCZh3Yusvofwdnt/JUZTXc+kyipk3+5IiVT3wiQ=
+Received: from [192.168.211.37] (192.168.211.37) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 2 Jul 2024 14:41:23 +0300
+Message-ID: <b41e693f-940b-42a8-8154-1721c7ff13e1@paragon-software.com>
+Date: Tue, 2 Jul 2024 14:41:23 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2869; i=brauner@kernel.org; h=from:subject:message-id; bh=Pv0BfDTulESS3H2hspa9V/qPBcr+GryRdQNP1DxU5JY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQ1N86epaB8O+RGuUfcyR2t/+MibkifPWzJrzm/ojW// bz+7/jIjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIncDGf4p3JIf1/9yu1MzKr3 pz/12149IctCKa9v5339fMP28/emGDIyXF+35fODGL28nUFvD8xImtm5d1dfRe/hRdfiA9seu4Y HcwIA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs/ntfs3: Fix memory corruption when page_size changes
+To: Linux regressions mailing list <regressions@lists.linux.dev>
+CC: popcorn mix <popcornmix@gmail.com>, <ntfs3@lists.linux.dev>, Linux-fsdevel
+	<linux-fsdevel@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20240614155437.2063380-1-popcornmix@gmail.com>
+ <CAEi1pCSQePMo4X_RvMfYmpxYwmuamhd8=1OXgNCU-N2BBdTXPg@mail.gmail.com>
+ <a60fc742-0ad4-498d-b90f-793b9578b843@leemhuis.info>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <a60fc742-0ad4-498d-b90f-793b9578b843@leemhuis.info>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On Thu, 27 Jun 2024 19:24:59 -0500, Eric Sandeen wrote:
-> Multiple filesystems take uid and gid as options, and the code to
-> create the ID from an integer and validate it is standard boilerplate
-> that can be moved into common helper functions, so do that for
-> consistency and less cut&paste.
-> 
-> This also helps avoid the buggy pattern noted by Seth Jenkins at
-> https://lore.kernel.org/lkml/CALxfFW4BXhEwxR0Q5LSkg-8Vb4r2MONKCcUCVioehXQKr35eHg@mail.gmail.com/
-> because uid/gid parsing will fail before any assignment in most
-> filesystems.
-> 
-> [...]
 
-I've snatched everything but the fuse change as we should do that one in
-two steps.
+On 01.07.2024 15:53, Linux regression tracking (Thorsten Leemhuis) wrote:
+> [CCing a few lists]
+>
+> Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
+> for once, to make this easily accessible to everyone.
+>
+> Konstantin, what's the status of this regression report or the patch Dom
+> Cobley propsed to fix the issue? From here it looks like it fall through
+> the cracks, but I might be missing something.
+>
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> If I did something stupid, please tell me, as explained on that page.
+>
+> #regzbot poke
+>
+> On 14.06.24 18:24, popcorn mix wrote:
+>> On Fri, Jun 14, 2024 at 4:55 PM Dom Cobley <popcornmix@gmail.com> wrote:
+>>> The kernel panic can be observed when connecting an
+>>> ntfs formatted drive that has previously been connected
+>>> to a Windows machine to a Raspberry Pi 5, which by defauilt
+>>> uses a 16K kernel pagesize.
+>> Here are links to some bug reports about the issue:
+>> https://github.com/raspberrypi/linux/issues/6036
+>> https://forum.libreelec.tv/thread/28620-libreelec-12-0-rpi5-and-ntfs-hdd-problem/?postID=192713#post192713
+>> https://forums.raspberrypi.com/viewtopic.php?p=2203090#p2203090
+>> https://forums.raspberrypi.com/viewtopic.php?t=367545
+>>
+>> The common points are it occurs on the (default) 16K pagesize kernel,
+>> but switching to 4K pagesize kernel
+>> avoids the issue.
+>>
+>> Issue wasn't present in previous RPiOS LTS kernel (6.1), but is
+>> present in current LTS kernel (6.6).
+>> Revering to 6.1 kernel avoids the issue.
+>>
+>> I've confirmed that reverting the commit:
+>> 865e7a7700d9 ("fs/ntfs3: Reduce stack usage")
+>>
+>> avoids the issue.
+>>
+>> This patch avoids the issue for me, and I'd like confirmation it is correct.
+Hello everyone,
 
----
+I recently accepted this patch with the same fix:
+https://lore.kernel.org/ntfs3/20240529064053.2741996-2-chenhuacai@loongson.cn/.
 
-Applied to the vfs.mount.api branch of the vfs/vfs.git tree.
-Patches in the vfs.mount.api branch should appear in linux-next soon.
+Unfortunately, I don't have an RPi with a pagesize=16K at hand, so I 
+can't practically test it.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.mount.api
-
-[01/14] fs_parse: add uid & gid option option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/9f111059e725
-[02/14] autofs: Convert to new uid/gid option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/748cddf13de5
-[03/14] debugfs: Convert to new uid/gid option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/49abee5991e1
-[04/14] efivarfs: Convert to new uid/gid option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/dcffad38c767
-[05/14] exfat: Convert to new uid/gid option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/ffe1b94d7464
-[06/14] ext4: Convert to new uid/gid option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/6b5732b5ca4f
-[08/14] hugetlbfs: Convert to new uid/gid option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/eefc13247722
-[09/14] isofs: Convert to new uid/gid option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/6a265845db28
-[10/14] ntfs3: Convert to new uid/gid option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/c449cb5d1bce
-[11/14] tmpfs: Convert to new uid/gid option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/2ec07010b6a9
-[12/14] smb: client: Convert to new uid/gid option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/3229e3a5a374
-[13/14] tracefs: Convert to new uid/gid option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/b548291690d1
-[14/14] vboxsf: Convert to new uid/gid option parsing helpers
-        https://git.kernel.org/vfs/vfs/c/da99d45bd551
+Regards, Konstantin
