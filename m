@@ -1,121 +1,108 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35E215B104;
-	Tue,  2 Jul 2024 11:41:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1851ACE7F
+	for <ntfs3@lists.linux.dev>; Thu,  4 Jul 2024 13:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719920494; cv=none; b=rkO0UGYNFll2XyBbkJb0XzxYlbyHMece4gV7zJQktIa+3JGOGAQuWLPBmwmkmhf7gFM/MdFt4+F51aI41XdG8utqzw56a/7vV9km1LcO4ED9XuZ5pGHEKCJdd8hNoUItmCdQtOOgJ48Yn9W5Rz4g2w/qCsvAChutveCaYEKUGqk=
+	t=1720100919; cv=none; b=hFfjG9i9ENDpwoVoyW2wd7ILWp8WLoS3ToZe6y8bFIwXqhYvyHuOs1ZEPz8i38Gwv2MKUHp7PthsAzRCCi0MqV3EdQJVsWwWrqM2nXDwhNpt4Poc6iPgsmgBym8qWlbIqMujkeYpvBH4TLbJHyBvU3t7bvl3bl5g6b8vOTI4Y94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719920494; c=relaxed/simple;
-	bh=XpF7Ovdn2GPQkALgInOtej7RrXCY+KCbZ7EXlTpeWSs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=oeplTcifxmQf5CZbX4qUkSqrYnZ+CNd38sGY2QG0QST+ycSbk34wveBoRj95c/2/RnlDGNg+5/SUOziYB5waIT+b5kWJ9l/Up6D7bkeCTJzNSJWcL8dWV1fudyfyHM2hX7zKW7n7T9WvUDMfFZcJne92g7G0VG/t0X0kT59cdT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=FCktr51S; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=jtKEKH4I; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1720100919; c=relaxed/simple;
+	bh=zBOpXyvwIS3huxyg9OvwpPo+zMCGOcSIvJKe7SPPeNs=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=tgPqVqQCNHXMr1Vl3KegRgFm2ZLQ+30b/Qlp+C61k7OPOupcxQziFRIs6RzXCrNBz8C6GmwQqKijriGUVtZf9UYhIC2dP0ryvh2TklVqrwQQOP2NZBAwltmlbMHjotBuUkZTe5zqmDu+abGE/SVNAcfozyqI+JzaIQGUqgieer4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XaSJl/4v; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="FCktr51S";
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="jtKEKH4I"
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 5FE612168;
-	Tue,  2 Jul 2024 11:33:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XaSJl/4v"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a75131ce948so80064366b.2
+        for <ntfs3@lists.linux.dev>; Thu, 04 Jul 2024 06:48:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1719919998;
-	bh=FvoWozv7kiGX5kCPeJTR6YhhTOGEpNfWM7pqi1LrdKY=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=FCktr51SmR4olYGJ2vxwHBcO9KwMO0dynZxEPPwC4TICQrPHkOTp9uyX/e436o/H/
-	 FS2BngZMp2ilR77GMkvhC2JtJ6kQlVOIGHVHrWfXSgGoHIdgcYDa38fchFG+dQ8g07
-	 CqN5nDgoL4/xrvtjf0DuYH7fkz27aIbNT12VHg8I=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 7B7D61D09;
-	Tue,  2 Jul 2024 11:41:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1719920484;
-	bh=FvoWozv7kiGX5kCPeJTR6YhhTOGEpNfWM7pqi1LrdKY=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=jtKEKH4IolMCs3UOtawejZ+BFvpJonwAYywkAZ7FfIcy8hEMni8YtmybQMmQJw+3R
-	 0J5ZrJmE8FhZdY6sQkIgk1/kPSNbFldTIwcnyu2GHj7p7BDlndTthxu6d0zUdCqagF
-	 VYCZh3Yusvofwdnt/JUZTXc+kyipk3+5IiVT3wiQ=
-Received: from [192.168.211.37] (192.168.211.37) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 2 Jul 2024 14:41:23 +0300
-Message-ID: <b41e693f-940b-42a8-8154-1721c7ff13e1@paragon-software.com>
-Date: Tue, 2 Jul 2024 14:41:23 +0300
+        d=gmail.com; s=20230601; t=1720100916; x=1720705716; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fl/u3jPx0gHIfeyGGqcMtr0eNVfRN2u0uNzmYXWN2rs=;
+        b=XaSJl/4vqxnOoTCdpA5pPtxugqGzbT3eH2i7WPfmDZnBPaNAsGq9gc92tZU1gjIj/R
+         7vkvA1pvEnVrRnHxRx19aMTwcwFI7UIS6bXRc5+kUYt8XcSc5DaMzy6GVcbTOEWTbNe5
+         +OJNH3VHamquZaW+TqrmB240e1mZQDoU+fIh8XW8KU3AptNOxA14xYR3qC5juM/GV6T9
+         xrcdq+Sb2jTkH4QI6mGH6Jbh54WIK7/56NLrRj4Y22R8mU/u9wlCn3ao7NSufAMlHdKm
+         DjxgkDItPw2HOIDXgm14N43DCspEfOZ2IeO7wn6IqCfppEEOOoEz7i3VF17gTw+8YrEs
+         fBhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720100916; x=1720705716;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fl/u3jPx0gHIfeyGGqcMtr0eNVfRN2u0uNzmYXWN2rs=;
+        b=ks4QGwQTysQSXtyXMPRBHzgBMpuk33SMlzu5K8XMNEMXFklHLBv4hu0qXdddsn4GIX
+         Xlk7c8CdmAGxX7sZUnOx1RMps9kEP1T/vBT1eGk9dua6O1NFHUZMP4sJe6bQVgMuAPWx
+         5rK0Yj7s5VUrGeSC6MFaMM5Eftb+RZvDVlFBKwe/5dZ+D9or2uglTtYkixBai17HkINB
+         4O5NKLwg1WWoXeAzzrMoVLnJO+zYod8g6AM7ElirVLAaV/noJZHbctFYPsYuUDj84lJB
+         3qbhEWzGJeQ01cmKXSoQWoV8w0/iMHDXDj9wTGXmpZxEwMrCEJiigwt98hVpb7B/KWut
+         WskA==
+X-Gm-Message-State: AOJu0YxiPBHGQUeT3iX0bgxeSPbbYZm1lhMIV2KEAZlrilnUPyQuWS/d
+	s6YX7wGCBGULhtNNPLzjXeZHtA/SlXcI+8IOIhhQiLPC1xIc0jbC5fVk3ZsED/b4TULRXU6EIm5
+	ivemo3B3JkMMwqJr+qhYxaz5E7qIxL8Hm
+X-Google-Smtp-Source: AGHT+IHPM8FYCmpCMcHO7AvV7sUajzwxZjrcQ4VtLJXarlPna594616TXAFUw3WpMI3xc+Fu3ey/dGvQ87zTD4uuWBo=
+X-Received: by 2002:a17:907:94d0:b0:a72:b804:566f with SMTP id
+ a640c23a62f3a-a77ba711c83mr139177666b.52.1720100916097; Thu, 04 Jul 2024
+ 06:48:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: Fix memory corruption when page_size changes
-To: Linux regressions mailing list <regressions@lists.linux.dev>
-CC: popcorn mix <popcornmix@gmail.com>, <ntfs3@lists.linux.dev>, Linux-fsdevel
-	<linux-fsdevel@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20240614155437.2063380-1-popcornmix@gmail.com>
- <CAEi1pCSQePMo4X_RvMfYmpxYwmuamhd8=1OXgNCU-N2BBdTXPg@mail.gmail.com>
- <a60fc742-0ad4-498d-b90f-793b9578b843@leemhuis.info>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <a60fc742-0ad4-498d-b90f-793b9578b843@leemhuis.info>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+From: Tom <tomasbortoli@gmail.com>
+Date: Thu, 4 Jul 2024 15:48:24 +0200
+Message-ID: <CAAHj5qgoDCcUBiCKPBHCDjZraqiy1dmTrHFwQzLaowjUPdLTyw@mail.gmail.com>
+Subject: Unreadable files on NTFS partition
+To: ntfs3@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+
+Howdy,
+
+I have an NTFS partition which contains a few files which are
+unreadable. All the other files are fine.
+
+This seems weird as I can't even read them as root.  I do not believe
+the disk's physical blocks belonging to the files are damaged.
+
+I did run from a Windows system 'chkdsk /f d:' to check the partition
+and try to fix it but no issue was detected.
+
+I am running Linux 6.1.90 x86_64.
+
+mount command excerpt:
+
+/dev/sda2 on /media/tomas/DiskWithTheIssue type fuseblk
+(ro,nosuid,nodev,relatime,user_id=0,group_id=0,default_permissions,allow_other,blksize=4096,uhelper=udisks2)
+
+ls command excerpt:
+
+# ls -lh
+total 1.5G
+-rwxrwxrwx 1 tomas tomas 583M Nov 14  2014 TRE_8446.MOV
+-rwxrwxrwx 1 tomas tomas 581M Nov 14  2014 TRE_8447.MOV
+-rwxrwxrwx 1 tomas tomas 170M Nov 14  2014 TRE_8448.MOV
+-rwxrwxrwx 1 tomas tomas  19M Nov 14  2014 TRE_8449.MOV
+-rwxrwxrwx 1 tomas tomas  42M Nov 14  2014 TRE_8450.MOV
+-rwxrwxrwx 1 tomas tomas 116M Nov 14  2014 TRE_8452.MOV
 
 
-On 01.07.2024 15:53, Linux regression tracking (Thorsten Leemhuis) wrote:
-> [CCing a few lists]
->
-> Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
-> for once, to make this easily accessible to everyone.
->
-> Konstantin, what's the status of this regression report or the patch Dom
-> Cobley propsed to fix the issue? From here it looks like it fall through
-> the cracks, but I might be missing something.
->
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> --
-> Everything you wanna know about Linux kernel regression tracking:
-> https://linux-regtracking.leemhuis.info/about/#tldr
-> If I did something stupid, please tell me, as explained on that page.
->
-> #regzbot poke
->
-> On 14.06.24 18:24, popcorn mix wrote:
->> On Fri, Jun 14, 2024 at 4:55 PM Dom Cobley <popcornmix@gmail.com> wrote:
->>> The kernel panic can be observed when connecting an
->>> ntfs formatted drive that has previously been connected
->>> to a Windows machine to a Raspberry Pi 5, which by defauilt
->>> uses a 16K kernel pagesize.
->> Here are links to some bug reports about the issue:
->> https://github.com/raspberrypi/linux/issues/6036
->> https://forum.libreelec.tv/thread/28620-libreelec-12-0-rpi5-and-ntfs-hdd-problem/?postID=192713#post192713
->> https://forums.raspberrypi.com/viewtopic.php?p=2203090#p2203090
->> https://forums.raspberrypi.com/viewtopic.php?t=367545
->>
->> The common points are it occurs on the (default) 16K pagesize kernel,
->> but switching to 4K pagesize kernel
->> avoids the issue.
->>
->> Issue wasn't present in previous RPiOS LTS kernel (6.1), but is
->> present in current LTS kernel (6.6).
->> Revering to 6.1 kernel avoids the issue.
->>
->> I've confirmed that reverting the commit:
->> 865e7a7700d9 ("fs/ntfs3: Reduce stack usage")
->>
->> avoids the issue.
->>
->> This patch avoids the issue for me, and I'd like confirmation it is correct.
-Hello everyone,
+file command excerpt:
 
-I recently accepted this patch with the same fix:
-https://lore.kernel.org/ntfs3/20240529064053.2741996-2-chenhuacai@loongson.cn/.
+# file *
+TRE_8446.MOV: ERROR: cannot read `TRE_8446.MOV' (Permission denied)
+TRE_8447.MOV: ERROR: cannot read `TRE_8447.MOV' (Permission denied)
+TRE_8448.MOV: ERROR: cannot read `TRE_8448.MOV' (Permission denied)
+TRE_8449.MOV: ERROR: cannot read `TRE_8449.MOV' (Permission denied)
+TRE_8450.MOV: ERROR: cannot read `TRE_8450.MOV' (Permission denied)
+TRE_8452.MOV: ERROR: cannot read `TRE_8452.MOV' (Permission denied)
 
-Unfortunately, I don't have an RPi with a pagesize=16K at hand, so I 
-can't practically test it.
 
-Regards, Konstantin
+Does anyone have an idea what's going on here? Is this due to some
+weird NTFS feature to encrypt files or something which is not
+implemented in the Linux driver? or what..?
+
+
+Thanks all a lot.
