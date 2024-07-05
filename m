@@ -1,125 +1,91 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4F91AED50
-	for <ntfs3@lists.linux.dev>; Thu,  4 Jul 2024 14:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78431459E8
+	for <ntfs3@lists.linux.dev>; Fri,  5 Jul 2024 13:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720101924; cv=none; b=I/2j7LFtG8PYePuR8bjk5ysI9vUkquh57NJyhttORFPBlXYyyDJK6GBUKyruMdM8Qf03qWcdkwpj9+CnpAXjMtls13IpEvTan6M7HnbQx1xtfuS5BlgZjd14xL1JQPAV1/Aev++7+zvXZLJMUQY9GvAh4K1XZMSN3BxAOKaWfmM=
+	t=1720187584; cv=none; b=RnmQbkdGpVb+4Gnnm90SNyCvEojssPzyCNY5G/ztYTxRXoVxuBA0dGy7RWhchYXyF7x1ROVUwQ05gS4CillRgSISdKWIne+vUl4NrvfAEyNJu+kWIO3QJBryerVvaQKU52uULfNeYwMqwqNyTNpsgWdSbSuzrb4kT2W3ds5pExE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720101924; c=relaxed/simple;
-	bh=Ayx0WLWW+9KL0gpuYdMOovcPLAzB9yRmH5mDo4ptY3g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sbSohcQTXvNGvU/kW4PoqWiBJh9BVDV5YZYYimlGfFjyyDb+Ol2/kidHRWPRg0kdJ3fxGYv0cqvj7wPEfKN10gd/uyWMxpf8kmgwP6cIzV6bGq1MpxLoowMnbWnBLDyaj6ty6W2LyACVgrqDcfTQQsG0MsKToJ90Pk7R+3T6GdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RT6vnSXH; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RT6vnSXH"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2ee90f56e31so3821921fa.0
-        for <ntfs3@lists.linux.dev>; Thu, 04 Jul 2024 07:05:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720101921; x=1720706721; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qMZgK9np1473SJ5xqx0XcxhQw5giPc4Iy7ytd0ErZ5Y=;
-        b=RT6vnSXHsgqQHkDms7mmefYd6HJGKfPVO+Cj5GnqfDukBJ8TAYE4T/cuDtct+uIU8R
-         PIF970Zh14NApZvLsaoDxVQYLJNmf0YlbJTt/YOVIg1ZZPBLDoZ5L6QrKV2b9FuuzcTx
-         yvUjcFPdHPY7/qTXqtzY3HStpX6FrG3ld3CgDL/19NOMLTyuNKpw3IY5EiuQ4XU62aMe
-         IrPAcP3RpUk+RTo4A4AWIc3mHmHhdceynMmmBK5+4KNyX4RtUXlYVupHNXgb9c6Mkd/B
-         DFEeTgyz6LF5L8+pbRV/xZnBoe/NMYuR9tExp/ZyrsxNDThLvf9AZFRV83idBwYaylzc
-         vNww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720101921; x=1720706721;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qMZgK9np1473SJ5xqx0XcxhQw5giPc4Iy7ytd0ErZ5Y=;
-        b=rQ996ApV5R4ZmNkL4bsvd/1Pzy+ZrrZW0GhuCy5V3INKm1nhNMJgDj6lYMIua/ged9
-         M7tdgqs3ufmnigZ8PYFf8qTWF7q08JcGNoyxWf1uWu+AjfD8p565B/9FD7KRUZfyaeLw
-         Bk+TJ+OLUuA1PQvPesBzoVSUiPqbqWZ2mKTyEJ6CYyC/LObPQq1/0wckjcF5hnW1Wycn
-         pc5SfjX4m0z75i1/xVXrxVxfpcpSWumE+KLFWJ+xlQDJKwQJPEJvwtWWCUqBF50Y8dRZ
-         H/VYRuUYfdbC0PUIQLoHqLyXyUo/ccBSK/eN1Fi3ClFqK2Kk79J+BKyQE3TcZ7d4Sg5j
-         5PSA==
-X-Gm-Message-State: AOJu0YymMZKTYCHUMcSK4k1H9+PIWmMhaJQ0jaDQmnnihGldEh8dDX7N
-	ckExIJe5U2Gc7/5tFcJLGLjAFPvarEdC4iLKSO8L66TXew/UCCMl
-X-Google-Smtp-Source: AGHT+IEdnisilTuMvINn3LD4cAC5sgd/az0yVKCFHsCOrS7kn8+XxYV2u0mBEvZmjZNJ6hXSHD+FDg==
-X-Received: by 2002:a2e:8456:0:b0:2ec:56ce:d51f with SMTP id 38308e7fff4ca-2ee8ed42d0dmr12066611fa.20.1720101920643;
-        Thu, 04 Jul 2024 07:05:20 -0700 (PDT)
-Received: from rivendell ([2a01:4f9:c010:5d73::1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ee81c79a73sm5351001fa.45.2024.07.04.07.05.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 07:05:20 -0700 (PDT)
-Date: Thu, 4 Jul 2024 16:05:19 +0200
-From: Enrico Mioso <mrkiko.rs@gmail.com>
-To: Tom <tomasbortoli@gmail.com>
-Cc: ntfs3@lists.linux.dev
-Subject: Re: Unreadable files on NTFS partition
-Message-ID: <ZoasH_ozBpADJBjl@rivendell>
-References: <CAAHj5qgoDCcUBiCKPBHCDjZraqiy1dmTrHFwQzLaowjUPdLTyw@mail.gmail.com>
+	s=arc-20240116; t=1720187584; c=relaxed/simple;
+	bh=sm118sAxchGuKFASZW6P4OZONsrrpdlZZiLkYDBahYU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cHoF//bC/qM8uqIPeNDTviQsaO0pCQKyU2k4bwtpyRvtl4OA3RgSvZizmlycCipE1/Q1gtePV5ZgZ9lZ7DXN3nbo61fDNXrtRkXLcQ7I7iYHw2IU7ptqf8fiqSG7k8R+fHHiQDUr9Ln4Y5Ye1Feh9s0OJ1U/hjfvV50DfeERIys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.166.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 465DfQnK032117;
+	Fri, 5 Jul 2024 06:52:53 -0700
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 405jp1hfp3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 05 Jul 2024 06:52:53 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 5 Jul 2024 06:52:52 -0700
+Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Fri, 5 Jul 2024 06:52:50 -0700
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <dvyukov@google.com>
+CC: <almaz.alexandrovich@paragon-software.com>, <linux-kernel@vger.kernel.org>,
+        <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+        <syzbot+a426cde6dee8c2884b0b@syzkaller.appspotmail.com>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: Re: [syzbot] [ntfs3?] KASAN: slab-out-of-bounds Read in mi_enum_attr
+Date: Fri, 5 Jul 2024 21:52:50 +0800
+Message-ID: <20240705135250.3587041-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CACT4Y+ZWjUE6-q1YF=ZaPjKgGZBw4JLD1v2DphSgCAVf1RzE8g@mail.gmail.com>
+References: <CACT4Y+ZWjUE6-q1YF=ZaPjKgGZBw4JLD1v2DphSgCAVf1RzE8g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAHj5qgoDCcUBiCKPBHCDjZraqiy1dmTrHFwQzLaowjUPdLTyw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: mYGhZTdY-0RCetm-QbEqRWmKnBK1oLTg
+X-Proofpoint-ORIG-GUID: mYGhZTdY-0RCetm-QbEqRWmKnBK1oLTg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-05_09,2024-07-05_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ clxscore=1011 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ impostorscore=0 adultscore=0 phishscore=0 mlxlogscore=760 spamscore=0
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2406140001 definitions=main-2407050099
 
-Hello!
+On Thu, 4 Jul 2024 15:44:02 +0200, Dmitry Vyukov wrote: 
+> > index 53629b1f65e9..a435df98c2b1 100644
+> > --- a/fs/ntfs3/record.c
+> > +++ b/fs/ntfs3/record.c
+> > @@ -243,14 +243,14 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
+> >                 off += asize;
+> >         }
+> >
+> > -       asize = le32_to_cpu(attr->size);
+> > -
+> >         /* Can we use the first field (attr->type). */
+> >         if (off + 8 > used) {
+> >                 static_assert(ALIGN(sizeof(enum ATTR_TYPE), 8) == 8);
+> >                 return NULL;
+> >         }
+> >
+> > +       asize = le32_to_cpu(attr->size);
+> > +
+> >         if (attr->type == ATTR_END) {
+> >                 /* End of enumeration. */
+> >                 return NULL;
+> 
+> Hi Lizhi,
+> 
+> I don't see this fix mailed as a patch. Do you plan to submit it officially?
+Hi Dmitry Vyukov,
+Here: https://lore.kernel.org/all/20240202033334.1784409-1-lizhi.xu@windriver.com
 
-do you see any messages in the dmesg?
-Do the files appear with something like a padlock icon?
-
-Enrico
-
-On Thu, Jul 04, 2024 at 03:48:24PM +0200, Tom wrote:
-> Howdy,
-> 
-> I have an NTFS partition which contains a few files which are
-> unreadable. All the other files are fine.
-> 
-> This seems weird as I can't even read them as root.  I do not believe
-> the disk's physical blocks belonging to the files are damaged.
-> 
-> I did run from a Windows system 'chkdsk /f d:' to check the partition
-> and try to fix it but no issue was detected.
-> 
-> I am running Linux 6.1.90 x86_64.
-> 
-> mount command excerpt:
-> 
-> /dev/sda2 on /media/tomas/DiskWithTheIssue type fuseblk
-> (ro,nosuid,nodev,relatime,user_id=0,group_id=0,default_permissions,allow_other,blksize=4096,uhelper=udisks2)
-> 
-> ls command excerpt:
-> 
-> # ls -lh
-> total 1.5G
-> -rwxrwxrwx 1 tomas tomas 583M Nov 14  2014 TRE_8446.MOV
-> -rwxrwxrwx 1 tomas tomas 581M Nov 14  2014 TRE_8447.MOV
-> -rwxrwxrwx 1 tomas tomas 170M Nov 14  2014 TRE_8448.MOV
-> -rwxrwxrwx 1 tomas tomas  19M Nov 14  2014 TRE_8449.MOV
-> -rwxrwxrwx 1 tomas tomas  42M Nov 14  2014 TRE_8450.MOV
-> -rwxrwxrwx 1 tomas tomas 116M Nov 14  2014 TRE_8452.MOV
-> 
-> 
-> file command excerpt:
-> 
-> # file *
-> TRE_8446.MOV: ERROR: cannot read `TRE_8446.MOV' (Permission denied)
-> TRE_8447.MOV: ERROR: cannot read `TRE_8447.MOV' (Permission denied)
-> TRE_8448.MOV: ERROR: cannot read `TRE_8448.MOV' (Permission denied)
-> TRE_8449.MOV: ERROR: cannot read `TRE_8449.MOV' (Permission denied)
-> TRE_8450.MOV: ERROR: cannot read `TRE_8450.MOV' (Permission denied)
-> TRE_8452.MOV: ERROR: cannot read `TRE_8452.MOV' (Permission denied)
-> 
-> 
-> Does anyone have an idea what's going on here? Is this due to some
-> weird NTFS feature to encrypt files or something which is not
-> implemented in the Linux driver? or what..?
-> 
-> 
-> Thanks all a lot.
-> 
+--
+Lizhi
