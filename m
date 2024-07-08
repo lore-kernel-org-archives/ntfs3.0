@@ -1,64 +1,38 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB77944C64
-	for <ntfs3@lists.linux.dev>; Mon,  8 Jul 2024 07:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2AE14D6E7
+	for <ntfs3@lists.linux.dev>; Mon,  8 Jul 2024 19:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720424868; cv=none; b=RwgAKC1h878QDfMApBoArmZlufRJvH/gO5/CQPwxMcmmnT5GizsZrkz7bC2aGy9OHZ7DMV3l0CO3QyDX7zDGelumZ70Rtr4WtCgtvnHt3FrfB4bmYF8YuYm+j8RoBv4p42mRMPVVg9XFkD3qUQX1ElvDzQVgw5Y0pyahUJsMQ/4=
+	t=1720468333; cv=none; b=K8F9Bwhezy8AsOzRgcvpZS/UWR5Nsb5R2BUaxFYsrFMU1HLPOwYQctvn4TICCalvU/mf23bK8+gyUwPWX1KBsyoP7+M1b9dAZDV3wHcBwYcDKoogDyFblhw0ek5Oc2aUsjuDiJJDAYHi5hELcXbTWJ8ICr4ZXGgr+8HQy/ZOP6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720424868; c=relaxed/simple;
-	bh=O6IQKteLK3zcAaY1Y6XLXE+xA0dzekFE6Ivu46p0sQ4=;
+	s=arc-20240116; t=1720468333; c=relaxed/simple;
+	bh=+ecCjd0wI+hbgxXk7DFMOxcTrjc05KLOnHAbNSjamkE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uegScAcp61pa+EkBC5wzBD8024pVxyqCGowi/ScXTaYndShEsbCRdhOocaZ+eRVBuDi6bH9hqmeH014N16V9cx28jHGijFwqrRtzf04iEM0n7pNc69rl1gwdHPMF01eXsjHFwkEKWnMN0R3XgCn5qzbfs0wFbyaG+qrSuC2YMsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WX9EMKWP; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=KlIxDLNJhopCRcgkLJ4Ky/YrpaWd9/YfQbKmmmu3AHOcegqcsdqKNFgXJKJr56eAA3qLIp3J7uvz+2LwS1aQOg98XtYS3W4+J1v5B5voxihckb7y7cv7WGqns6PqP9QLu1YhKpajvbBNhhgnpshDpYjiL4xi6uhj17I+zTI3Sgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nVTd4Igy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WX9EMKWP"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52ea5dc3c66so4325650e87.3
-        for <ntfs3@lists.linux.dev>; Mon, 08 Jul 2024 00:47:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720424865; x=1721029665; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O6IQKteLK3zcAaY1Y6XLXE+xA0dzekFE6Ivu46p0sQ4=;
-        b=WX9EMKWPBwtgMlzOJK4BXKkrIvswQxtI75vheE7mEOr+94/zIMQyLKoAp2zPqC0TsE
-         OvGf8OIdx9hDI10X8Di55t9plmT1XC5A0AoL83nJ3R0nwEAlxR6BhfH9wkXGDElm4YUi
-         J1LxlrYojNvRT6/7WrR/U2KLlA7zkbw+jtEvvIFdcbVnelSayYAukcGI9K8kDxX1y6H2
-         uGWmvv/nqqNkWemmD0l67B7vlY8JY50f6lma6PtOt0V2OcIR4ZC7P0KxXrjaEiPKBRGJ
-         Er6KmisEEwqUjnO2FRfjPkP/2pNuL0q7OzpqIieqJNQqg9ys2p34fe4FPnZ/kmkJ9cvE
-         Wm8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720424865; x=1721029665;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O6IQKteLK3zcAaY1Y6XLXE+xA0dzekFE6Ivu46p0sQ4=;
-        b=lNYRLMt/2zsEsWeimirZtBGTVTM6pL7OsQqTi/eOBlCUdsUZ5L14NPz7YxCwcTj+wN
-         9V2ZK/zNOkE1hnlWYrPHNMpvWYjgBXw+6YoyNHR9ptwptuKLme/eCKK7XxtYT3GTS9Jt
-         dX3iDwaHXp1Ck20hkyaaJfvWVyP8K1IZwKy1lONvxFK2mzHimfw8vF8L1mRJPRr7WKl3
-         rOpt3uGD0BZiO5IqUQrxDXFwjBTO3N19VWKfM2Z1SoHjFaosAD8wyTkSfgyvdTcXJAsW
-         YQ+j6jczuX3zJws/6dmZjqjOhmdxmkm/+9j6UZNlxrZZ0ls14kcZWC/q7ImO5VFv4K2y
-         30wg==
-X-Gm-Message-State: AOJu0Yxfab4To7hcaYxgMbB+LmSubXaQLm+99lBXi3FKR7Sx8FfiS3xH
-	5KhB/jeMulA/mmvoPQVX3PukDQ98XImWJtgWbscf5EistqxIuBUv
-X-Google-Smtp-Source: AGHT+IHDJZ5/1hJK4/MDks4FVRAfean6W4tXygpbRCFsilnFwXctpe8+9pdR4/2J9fOtP+lUw6l1TQ==
-X-Received: by 2002:ac2:5639:0:b0:52c:e10b:cb33 with SMTP id 2adb3069b0e04-52ea06a6d0bmr8365373e87.50.1720424864517;
-        Mon, 08 Jul 2024 00:47:44 -0700 (PDT)
-Received: from rivendell ([2a01:4f9:c010:5d73::1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52e7ab10253sm3390946e87.87.2024.07.08.00.47.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jul 2024 00:47:44 -0700 (PDT)
-Date: Mon, 8 Jul 2024 09:47:42 +0200
-From: Enrico Mioso <mrkiko.rs@gmail.com>
-To: Tom <tomasbortoli@gmail.com>
-Cc: ntfs3@lists.linux.dev
-Subject: Re: Unreadable files on NTFS partition
-Message-ID: <ZouZnklYj9vRzQAp@rivendell>
-References: <CAAHj5qgoDCcUBiCKPBHCDjZraqiy1dmTrHFwQzLaowjUPdLTyw@mail.gmail.com>
- <ZoasH_ozBpADJBjl@rivendell>
- <CAAHj5qhZ-9dtyX6jcC4e9gUPq5aeimnNvw=2wFbL7nW9meVFvg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nVTd4Igy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5863BC116B1;
+	Mon,  8 Jul 2024 19:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720468333;
+	bh=+ecCjd0wI+hbgxXk7DFMOxcTrjc05KLOnHAbNSjamkE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nVTd4Igysf/teer/ejrIQMY19vfIE2CnA5VlrLafmgyRQGcm41S1o+ySL6jMNp6hP
+	 nnnzVRrloXKP3RoQQFHo8tMsn9GT6LXoErU8FMcbM5mRhMdtaavfzjU6Vs/UCyLE/C
+	 EOsfterZ1fkzcErXANe/XfobtdW8mXuXXb3r95zcrJnhF9+T+ydNRVwVrn7GhqUyI3
+	 mxoWXneYglnYtth2z4buUjTTCufrfzfGGEvt+6ErT91L5J9TkhDQEobshFesmo9DtL
+	 NFhWMkxboRqYzUtwMg3+DcRoZ08uLq9cYKuv7bha8SXBIaKqHs1O6WYKcfdoM7b6eX
+	 pZPEwvom7lqOQ==
+Date: Mon, 8 Jul 2024 12:52:12 -0700
+From: Kees Cook <kees@kernel.org>
+To: lei lu <llfamsec@gmail.com>
+Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev
+Subject: Re: [PATCH] ntfs3: Add bounds checking for dp0
+Message-ID: <202407081244.99EB198E@keescook>
+References: <20240701102935.3018-1-llfamsec@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -67,10 +41,74 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAHj5qhZ-9dtyX6jcC4e9gUPq5aeimnNvw=2wFbL7nW9meVFvg@mail.gmail.com>
+In-Reply-To: <20240701102935.3018-1-llfamsec@gmail.com>
 
-Hi!
+On Mon, Jul 01, 2024 at 06:29:35PM +0800, lei lu wrote:
+> Added out-of-bound checking for *dp0 (DIR_PAGE_ENTRY_32).
+> 
+> Signed-off-by: lei lu <llfamsec@gmail.com>
+> ---
+>  fs/ntfs3/fslog.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+> index 855519713bf7..af6f2ce9ea68 100644
+> --- a/fs/ntfs3/fslog.c
+> +++ b/fs/ntfs3/fslog.c
+> @@ -4184,10 +4184,14 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+>  	dp = NULL;
+>  	while ((dp = enum_rstbl(dptbl, dp))) {
+>  		struct DIR_PAGE_ENTRY_32 *dp0 = (struct DIR_PAGE_ENTRY_32 *)dp;
+> -		// NOTE: Danger. Check for of boundary.
+> -		memmove(&dp->vcn, &dp0->vcn_low,
+> -			2 * sizeof(u64) +
+> -				le32_to_cpu(dp->lcns_follow) * sizeof(u64));
+> +		// Check for of boundary.
+> +		u32 len = 2 * sizeof(u64) +
+> +			le32_to_cpu(dp->lcns_follow) * sizeof(u64);
 
-i have no idea what's going on - still in doubt if it's not too hard, I would try a 6.9 kernel just in case.
+Can't this calculation still overflow?
 
-Enrico
+> +		if (PtrOffset(dptbl, &dp0->vcn_low) + len > t32) {
+> +			err = -EINVAL;
+> +			goto out;
+> +		}
+> +		memmove(&dp->vcn, &dp0->vcn_low, len);
+>  	}
+
+Hmm, I think this code has not been exercised under CONFIG_FORTIFY_SOURCE.
+This would immediately WARN at run-time: dp->vcn is a u64. This is
+writing beyond the member. Likely this needs to be split up:
+
+struct DIR_PAGE_ENTRY {
+        __le32 next;         // 0x00: RESTART_ENTRY_ALLOCATED if allocated
+        __le32 target_attr;  // 0x04: Index into the Open attribute Table
+        __le32 transfer_len; // 0x08:
+        __le32 lcns_follow;  // 0x0C:
+        __le64 vcn;          // 0x10: Vcn of dirty page
+        __le64 oldest_lsn;   // 0x18:
+        __le64 page_lcns[];  // 0x20:
+};
+
+struct DIR_PAGE_ENTRY_32 {
+        __le32 next;            // 0x00: RESTART_ENTRY_ALLOCATED if allocated
+        __le32 target_attr;     // 0x04: Index into the Open attribute Table
+        __le32 transfer_len;    // 0x08:
+        __le32 lcns_follow;     // 0x0C:
+        __le32 reserved;        // 0x10:
+        __le32 vcn_low;         // 0x14: Vcn of dirty page
+        __le32 vcn_hi;          // 0x18: Vcn of dirty page
+        __le32 oldest_lsn_low;  // 0x1C:
+        __le32 oldest_lsn_hi;   // 0x1C:
+        __le32 page_lcns_low;   // 0x24:
+        __le32 page_lcns_hi;    // 0x24:
+};
+
+dp->vcn = ((u64)dp0->vcn_high << 32U | dp0->vcn_low);
+dp->oldest_lsn = ((u64)dp0->oldest_lsn_high << 32U | dp0->oldest_lsn_low);
+
+memmove(dp->page_lcns, dp0->...?, ...)
+
+
+-- 
+Kees Cook
