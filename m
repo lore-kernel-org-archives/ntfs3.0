@@ -1,121 +1,104 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E08217BDA;
-	Wed, 10 Jul 2024 18:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F004C1581F6
+	for <ntfs3@lists.linux.dev>; Thu, 11 Jul 2024 08:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720637168; cv=none; b=DJtko6E6KO02ixVnPW1ytYZ+h2BZqKkGOWIkQm7gTGfTMsPEbhGLaNiZ9YXK/4c4WGf7qU249kyGUoao1FkTiDw168Phcdu33GGuLr+etM+eJto6RA1S6+vvMe4JjU5QZaVjylVjMW5B0Djba9CAfFibz6xY/NBteX1A6w+sHJE=
+	t=1720686999; cv=none; b=Z0NvOAsBb1pPYcyYp65eoH52bMoTM0SRyU+6QndpUAkFoyBorkXtADE5Pnt9NIrB3iENuVPdfHGqQl5uFTQhzfbpdursGrF6DFJWl5pW3T+vdBtaGft4FYL9RBZI5XWcSl4bgBZ19WuNwXAhWj6L/nsCkRYNf8ZVCLEp7+lG+FM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720637168; c=relaxed/simple;
-	bh=FYELWohWWwePsX2DvSJcFc/ik06zo+KLRbUekiqgz04=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LwT/HYbr6T22khuzE0ogajj//HciAXJxUp8h9xObg3ABExZS4uEaIYAxUy+ZJHg2ETim2Eor0lsIF//MdK4v0LvmgirzJBMAZWJwXksNBeVK5z6uROt2MBtOzgnA1dwz1zyFi9Sh2P0sNvtM+GMetlWV/dpKfzG75EOyUoInZLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KiXnjDGP; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1720686999; c=relaxed/simple;
+	bh=1bwqFinbtDkxAjW+8WZSgeF63cbN78DWBNtyGL2nQlw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=lxIiIfX3E4lw6MuDnPVqQIwJqqZdN1HlsZxaE7+WQRyizQqiC6dY1w4mkW29Gp8Xyxd49n/o7j6rk2CBw+3u7e61hYxFpOEosHTnfVSGzZp/ce4exIBeOIp54V4pm2oLtkaNBslZvI2vFSrsQotOp6g9ygCj+NmFMWgmBwa69wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=gAGyHnh1; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=KtBs9Wnt; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KiXnjDGP"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=XIVsVtZR4sKwoWw0hH3mcinrZ+Qys9S/yre8qbWHDtg=; b=KiXnjDGPZbpjea/wFuRTOSRGEN
-	/HRPemn9Y7Vlxe0WX7u31wa2s53zszyQ5o0XYFVVuKCv4lWsTNo6rVXwPG/8qSmBPLmWeJ9A7mfjx
-	JCwRFJrfnA30bMUFCAti/iKkQAeGaBVJ8u11KyEhiUJz0TewqBbzxwGWICYMr7g4dNpDZUoDEGy1T
-	hfypbxJoqPMUTwMjh6AlBDmt79+p+eaNVXqW7G8hkeTXXms/D0FnQiizEE55btU4mRJPad6jmbUL5
-	oOlbKwgkxUqxbI/DMjMdRoAM98hPgjg82ZrhX10jE8sYKVxCpnqWliit5q7AfG3vqD7xVJtiIpfef
-	1h9sPCLg==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sRcKJ-00000009gtr-0XS4;
-	Wed, 10 Jul 2024 18:46:03 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	ntfs3@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH] ntfs3: Remove reset_log_file()
-Date: Wed, 10 Jul 2024 19:45:56 +0100
-Message-ID: <20240710184558.2309826-1-willy@infradead.org>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="gAGyHnh1";
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="KtBs9Wnt"
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 96F1F1D43;
+	Thu, 11 Jul 2024 08:19:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1720685961;
+	bh=2lEB1CwnPIAdMdowq8U5BKOPAzNq4douQboeJQ9Bho0=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=gAGyHnh1h1+4+vr9qI1qCl99UqNtF0br+qa85Zr50J/O7EBPbyG5jNgqK16M5ygXQ
+	 R2dRxUbK1HiWAEF4Nwrb9ry21sfVmMWfjRRKMHWA4/NYx9Lug4fMgiCC96Vx9nO07/
+	 AB97AY7Tt+z84+I3yQ+IW5h8Y+61MmO3osicS+UY=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 0EB6621C8;
+	Thu, 11 Jul 2024 08:27:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1720686452;
+	bh=2lEB1CwnPIAdMdowq8U5BKOPAzNq4douQboeJQ9Bho0=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=KtBs9Wntn8bYdopHYHiA5ajMgyd/L1KY+9R+rk6AyT8pnNGYcl/lCzSW+/DgWkcj+
+	 lmkEe+gQ+xfI+Zd24CxKqHbm0+Y4tqc40bm8OhOL5y++qP9HIjNkE4/NWRD/QB3fbC
+	 Ay99ORjmdIhoL7Rp8djm7rgbBqP4rjricDMm0Wcs=
+Received: from [192.168.211.91] (192.168.211.91) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Thu, 11 Jul 2024 11:27:31 +0300
+Message-ID: <216de662-023a-4a94-8b07-d2affb72aeb5@paragon-software.com>
+Date: Thu, 11 Jul 2024 11:27:30 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [ntfs3?] KASAN: slab-out-of-bounds Read in mi_enum_attr
+To: Dmitry Vyukov <dvyukov@google.com>, Lizhi Xu <lizhi.xu@windriver.com>
+CC: <linux-kernel@vger.kernel.org>, <ntfs3@lists.linux.dev>,
+	<linux-fsdevel@vger.kernel.org>,
+	<syzbot+a426cde6dee8c2884b0b@syzkaller.appspotmail.com>,
+	<syzkaller-bugs@googlegroups.com>, Kees Cook <keescook@google.com>
+References: <CACT4Y+ZWjUE6-q1YF=ZaPjKgGZBw4JLD1v2DphSgCAVf1RzE8g@mail.gmail.com>
+ <20240705135250.3587041-1-lizhi.xu@windriver.com>
+ <CACT4Y+YrjD=3Tn6o4FJFefDYsOCbUFWahPUp87PXXcHQsr0xXg@mail.gmail.com>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <CACT4Y+YrjD=3Tn6o4FJFefDYsOCbUFWahPUp87PXXcHQsr0xXg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-This function has no callers (which will be why nobody noticed that
-the page wasn't being unlocked).
-
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- fs/ntfs3/inode.c   | 39 ---------------------------------------
- fs/ntfs3/ntfs_fs.h |  1 -
- 2 files changed, 40 deletions(-)
-
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 6b0bdc474e76..8eaaf9e465d4 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -1008,45 +1008,6 @@ int ntfs_write_end(struct file *file, struct address_space *mapping, loff_t pos,
- 	return err;
- }
- 
--int reset_log_file(struct inode *inode)
--{
--	int err;
--	loff_t pos = 0;
--	u32 log_size = inode->i_size;
--	struct address_space *mapping = inode->i_mapping;
--
--	for (;;) {
--		u32 len;
--		void *kaddr;
--		struct page *page;
--
--		len = pos + PAGE_SIZE > log_size ? (log_size - pos) : PAGE_SIZE;
--
--		err = block_write_begin(mapping, pos, len, &page,
--					ntfs_get_block_write_begin);
--		if (err)
--			goto out;
--
--		kaddr = kmap_atomic(page);
--		memset(kaddr, -1, len);
--		kunmap_atomic(kaddr);
--		flush_dcache_page(page);
--
--		err = block_write_end(NULL, mapping, pos, len, len, page, NULL);
--		if (err < 0)
--			goto out;
--		pos += len;
--
--		if (pos >= log_size)
--			break;
--		balance_dirty_pages_ratelimited(mapping);
--	}
--out:
--	mark_inode_dirty_sync(inode);
--
--	return err;
--}
--
- int ntfs3_write_inode(struct inode *inode, struct writeback_control *wbc)
- {
- 	return _ni_write_inode(inode, wbc->sync_mode == WB_SYNC_ALL);
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index e5255a251929..4e363b8342d6 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -708,7 +708,6 @@ int indx_update_dup(struct ntfs_inode *ni, struct ntfs_sb_info *sbi,
- struct inode *ntfs_iget5(struct super_block *sb, const struct MFT_REF *ref,
- 			 const struct cpu_str *name);
- int ntfs_set_size(struct inode *inode, u64 new_size);
--int reset_log_file(struct inode *inode);
- int ntfs_get_block(struct inode *inode, sector_t vbn,
- 		   struct buffer_head *bh_result, int create);
- int ntfs_write_begin(struct file *file, struct address_space *mapping,
--- 
-2.43.0
-
+On 08.07.2024 09:54, Dmitry Vyukov wrote:
+> On Fri, 5 Jul 2024 at 15:52, Lizhi Xu <lizhi.xu@windriver.com> wrote:
+>> On Thu, 4 Jul 2024 15:44:02 +0200, Dmitry Vyukov wrote:
+>>>> index 53629b1f65e9..a435df98c2b1 100644
+>>>> --- a/fs/ntfs3/record.c
+>>>> +++ b/fs/ntfs3/record.c
+>>>> @@ -243,14 +243,14 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
+>>>>                  off += asize;
+>>>>          }
+>>>>
+>>>> -       asize = le32_to_cpu(attr->size);
+>>>> -
+>>>>          /* Can we use the first field (attr->type). */
+>>>>          if (off + 8 > used) {
+>>>>                  static_assert(ALIGN(sizeof(enum ATTR_TYPE), 8) == 8);
+>>>>                  return NULL;
+>>>>          }
+>>>>
+>>>> +       asize = le32_to_cpu(attr->size);
+>>>> +
+>>>>          if (attr->type == ATTR_END) {
+>>>>                  /* End of enumeration. */
+>>>>                  return NULL;
+>>> Hi Lizhi,
+>>>
+>>> I don't see this fix mailed as a patch. Do you plan to submit it officially?
+>> Hi Dmitry Vyukov,
+>> Here: https://lore.kernel.org/all/20240202033334.1784409-1-lizhi.xu@windriver.com
+> I don't see this patch merged upstream.  Was it lost? Perhaps it needs
+> to be resent.
+Hi, Lizhi, Dmitry, This patch is indeed not present in either the 
+upstream or our repository. I will retest it and figure out why I didn't 
+add it. Around the same time, I was making changes to mi_enum_attr, so I 
+might have mixed something up. Thanks for your attention! Regards,
+Konstantin
