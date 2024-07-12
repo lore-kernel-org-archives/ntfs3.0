@@ -1,104 +1,97 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F004C1581F6
-	for <ntfs3@lists.linux.dev>; Thu, 11 Jul 2024 08:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6B3145326
+	for <ntfs3@lists.linux.dev>; Fri, 12 Jul 2024 10:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720686999; cv=none; b=Z0NvOAsBb1pPYcyYp65eoH52bMoTM0SRyU+6QndpUAkFoyBorkXtADE5Pnt9NIrB3iENuVPdfHGqQl5uFTQhzfbpdursGrF6DFJWl5pW3T+vdBtaGft4FYL9RBZI5XWcSl4bgBZ19WuNwXAhWj6L/nsCkRYNf8ZVCLEp7+lG+FM=
+	t=1720778723; cv=none; b=IiMwp8W5gfKTT/16wmSklG97HGzjJck5e+7dGA1BIl5WTtGIOn2mSyHttyxjh8zDFsOXe1W1KOps09RDQggT9TI1KfTVEygLybgH3W678D9Its/Gvjp5X1Lvp6OMo4H0jnVPYloJAM2A2xdHJQY2vw7pMiat+H0Gw49xd3N39Bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720686999; c=relaxed/simple;
-	bh=1bwqFinbtDkxAjW+8WZSgeF63cbN78DWBNtyGL2nQlw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lxIiIfX3E4lw6MuDnPVqQIwJqqZdN1HlsZxaE7+WQRyizQqiC6dY1w4mkW29Gp8Xyxd49n/o7j6rk2CBw+3u7e61hYxFpOEosHTnfVSGzZp/ce4exIBeOIp54V4pm2oLtkaNBslZvI2vFSrsQotOp6g9ygCj+NmFMWgmBwa69wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=gAGyHnh1; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=KtBs9Wnt; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="gAGyHnh1";
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="KtBs9Wnt"
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 96F1F1D43;
-	Thu, 11 Jul 2024 08:19:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1720685961;
-	bh=2lEB1CwnPIAdMdowq8U5BKOPAzNq4douQboeJQ9Bho0=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=gAGyHnh1h1+4+vr9qI1qCl99UqNtF0br+qa85Zr50J/O7EBPbyG5jNgqK16M5ygXQ
-	 R2dRxUbK1HiWAEF4Nwrb9ry21sfVmMWfjRRKMHWA4/NYx9Lug4fMgiCC96Vx9nO07/
-	 AB97AY7Tt+z84+I3yQ+IW5h8Y+61MmO3osicS+UY=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 0EB6621C8;
-	Thu, 11 Jul 2024 08:27:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1720686452;
-	bh=2lEB1CwnPIAdMdowq8U5BKOPAzNq4douQboeJQ9Bho0=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=KtBs9Wntn8bYdopHYHiA5ajMgyd/L1KY+9R+rk6AyT8pnNGYcl/lCzSW+/DgWkcj+
-	 lmkEe+gQ+xfI+Zd24CxKqHbm0+Y4tqc40bm8OhOL5y++qP9HIjNkE4/NWRD/QB3fbC
-	 Ay99ORjmdIhoL7Rp8djm7rgbBqP4rjricDMm0Wcs=
-Received: from [192.168.211.91] (192.168.211.91) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 11 Jul 2024 11:27:31 +0300
-Message-ID: <216de662-023a-4a94-8b07-d2affb72aeb5@paragon-software.com>
-Date: Thu, 11 Jul 2024 11:27:30 +0300
+	s=arc-20240116; t=1720778723; c=relaxed/simple;
+	bh=DikmJ9E0CkpxwbNQafR/uYCkxku/pf/Nz17bFWwUQD4=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=LNxsDR0Ga0KRk9xPVybnl8wYr0OSor10fQHYEb9fvm+Zj0oiWx9OYiCxov0hn2BO+OlXgQfziwqA+Yz1cyWGaatPT8LF1Ed+1Zx7WRdonN4fXJpIjbqrAMa+d/6vBR0PcL++SY/nqd1Qdq1/AWagwUVB6c5mewQ3gpHE3IJaRAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-7ebd11f77d8so196115839f.1
+        for <ntfs3@lists.linux.dev>; Fri, 12 Jul 2024 03:05:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720778721; x=1721383521;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Sbd91EqdxWCu/AGP/6JU5N6zMd6H/sbaW+FVWVJC6ew=;
+        b=nq/qY12+kVvBQIzZ773xpfw2W8MY0xhLKv/LqidX5EsWSszx4FdutoFn4Wkdw70ouj
+         8IHoYo1JtRw0j5QeGdIrUawU8Ka8v67tUmWvunYGjnU3xLAg9+iwUThQgYeYxeHe5sR8
+         jmThvjUvA+qWCx3pjo4196VG6CbSiXhOEudSRZiHWsQq6wz/oHQBL9VKu2e0mdcT2jKB
+         0f0jpVeVqqqyGuM3Ow9IYsSnECY1ekKjEzbs4G7X37mY+DF8JiHa7uOicstX9kGSy3nN
+         taO8AeHOcZIxAbmPKt95FUk+zkZ6B6Iyr6rLosU6By7qL6lF7mm7E091NvRDRpSMBz4K
+         67GQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/dWEWPJg3/7QQnRbMK+VygWavduQXEh7Ix79p5juj42FzKeFT/OQFhzYiqNEKiVXzPmTsScPe2iC/kcZ65+5KFWmhRwI=
+X-Gm-Message-State: AOJu0Yx/1o47zd41os3ELHK0JwSMGA+MtqYE7Cvqe+bzphEIGX38j7Ym
+	g7U6o8bRj8CbdOb6ag0eOxdg6bEFMRu3N4064tkt3qpCbaySnYzWZjwVZBRNrF0wSP63QdHXL3k
+	hJGAm4al6yUyxH/G8XO+1JI0CzkXbeMM+4I2qUlTfWKegnfSjSbBxuv8=
+X-Google-Smtp-Source: AGHT+IGOOu5kA2OdFNx3OPYCfpBjbuyZtWQxI+rSmp0aKMpP/GM8DhnuanvAXnFLoMgIkRMkFSPKyuZ7sLUB9otUh7fA+i7L+Nnw
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [ntfs3?] KASAN: slab-out-of-bounds Read in mi_enum_attr
-To: Dmitry Vyukov <dvyukov@google.com>, Lizhi Xu <lizhi.xu@windriver.com>
-CC: <linux-kernel@vger.kernel.org>, <ntfs3@lists.linux.dev>,
-	<linux-fsdevel@vger.kernel.org>,
-	<syzbot+a426cde6dee8c2884b0b@syzkaller.appspotmail.com>,
-	<syzkaller-bugs@googlegroups.com>, Kees Cook <keescook@google.com>
-References: <CACT4Y+ZWjUE6-q1YF=ZaPjKgGZBw4JLD1v2DphSgCAVf1RzE8g@mail.gmail.com>
- <20240705135250.3587041-1-lizhi.xu@windriver.com>
- <CACT4Y+YrjD=3Tn6o4FJFefDYsOCbUFWahPUp87PXXcHQsr0xXg@mail.gmail.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <CACT4Y+YrjD=3Tn6o4FJFefDYsOCbUFWahPUp87PXXcHQsr0xXg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Received: by 2002:a05:6638:8601:b0:4c0:9a05:44c4 with SMTP id
+ 8926c6da1cb9f-4c0b24e9f62mr666495173.0.1720778720883; Fri, 12 Jul 2024
+ 03:05:20 -0700 (PDT)
+Date: Fri, 12 Jul 2024 03:05:20 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000065473a061d0a0451@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Jul 2024)
+From: syzbot <syzbot+list90007c8b31066d0be99e@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 08.07.2024 09:54, Dmitry Vyukov wrote:
-> On Fri, 5 Jul 2024 at 15:52, Lizhi Xu <lizhi.xu@windriver.com> wrote:
->> On Thu, 4 Jul 2024 15:44:02 +0200, Dmitry Vyukov wrote:
->>>> index 53629b1f65e9..a435df98c2b1 100644
->>>> --- a/fs/ntfs3/record.c
->>>> +++ b/fs/ntfs3/record.c
->>>> @@ -243,14 +243,14 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
->>>>                  off += asize;
->>>>          }
->>>>
->>>> -       asize = le32_to_cpu(attr->size);
->>>> -
->>>>          /* Can we use the first field (attr->type). */
->>>>          if (off + 8 > used) {
->>>>                  static_assert(ALIGN(sizeof(enum ATTR_TYPE), 8) == 8);
->>>>                  return NULL;
->>>>          }
->>>>
->>>> +       asize = le32_to_cpu(attr->size);
->>>> +
->>>>          if (attr->type == ATTR_END) {
->>>>                  /* End of enumeration. */
->>>>                  return NULL;
->>> Hi Lizhi,
->>>
->>> I don't see this fix mailed as a patch. Do you plan to submit it officially?
->> Hi Dmitry Vyukov,
->> Here: https://lore.kernel.org/all/20240202033334.1784409-1-lizhi.xu@windriver.com
-> I don't see this patch merged upstream.  Was it lost? Perhaps it needs
-> to be resent.
-Hi, Lizhi, Dmitry, This patch is indeed not present in either the 
-upstream or our repository. I will retest it and figure out why I didn't 
-add it. Around the same time, I was making changes to mi_enum_attr, so I 
-might have mixed something up. Thanks for your attention! Regards,
-Konstantin
+Hello ntfs3 maintainers/developers,
+
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
+
+During the period, 2 new issues were detected and 0 were fixed.
+In total, 32 issues are still open and 48 have been fixed so far.
+
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  11954   Yes   VFS: Busy inodes after unmount (use-after-free)
+                   https://syzkaller.appspot.com/bug?extid=0af00f6a2cba2058b5db
+<2>  5491    Yes   possible deadlock in mi_read
+                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
+<3>  3908    Yes   possible deadlock in ni_fiemap
+                   https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
+<4>  3543    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<5>  2533    Yes   kernel BUG in dnotify_free_mark
+                   https://syzkaller.appspot.com/bug?extid=06cc05ddc896f12b7ec5
+<6>  870     Yes   possible deadlock in ntfs_fiemap
+                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+<7>  562     Yes   possible deadlock in ntfs_set_state (2)
+                   https://syzkaller.appspot.com/bug?extid=c2ada45c23d98d646118
+<8>  97      No    possible deadlock in ntfs_fallocate
+                   https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
+<9>  92      Yes   BUG: unable to handle kernel NULL pointer dereference in attr_make_nonresident
+                   https://syzkaller.appspot.com/bug?extid=5b6ed16da1077f45bc8e
+<10> 82      Yes   possible deadlock in ntfs_mark_rec_free (2)
+                   https://syzkaller.appspot.com/bug?extid=016b09736213e65d106e
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
