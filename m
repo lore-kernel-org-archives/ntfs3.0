@@ -1,63 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C10D2C879;
-	Mon, 22 Jul 2024 20:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A22149C62
+	for <ntfs3@lists.linux.dev>; Tue, 23 Jul 2024 23:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721681085; cv=none; b=KUDXWut60lC0RoyKhCQSXIHn/rN7wJ58JBsPQ6KCMdlVi9O9yrU1lHgU8dqw0Ze0yVnDtb7OaDAAzsgUkb5E+jExQ8MRygIxMLeW6xAupiGeeLs91FS2xd9aTQNAAZhlHmacy10sOUEVlrQC8bSulazGIxuMqsmwNkmPIKB9wpo=
+	t=1721779085; cv=none; b=XgpMDhb3aGNkbhv7pR5QceV+kkQ79B9dGw1oXe4z7KJw8u3xlk+55FN4vpyxTi5Wme49mCJGN6V6HOblXyuXxCSV1L5DKGvwhqbU7tN7+XbmweNt3jazSV2hGRtc/L/qnzKg6uIJkeKI/Q2TaR/PCQguCR8h5qeaExUhyxjk7rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721681085; c=relaxed/simple;
-	bh=9HziypFt7UmheTx1kExdsVxWElmmGCTeLc5pkbsTTUM=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=XRYEFMj31/4sDui+g1qNuquUHzSfh8cQXJz/AddfU5q7uUSeWUNrvh88t+izhmoFEPU+1JogPEoPiBY0AWLGeua4/BlsaWElrCggbZb2BiBgOJAp5NBt83YnsPeufKy1FblGf6g/2NC7ovLk5vvcbi/c1ELfDZlOGoyOcXZS/xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OgDOMPp1; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OgDOMPp1"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3E669C116B1;
-	Mon, 22 Jul 2024 20:44:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721681085;
-	bh=9HziypFt7UmheTx1kExdsVxWElmmGCTeLc5pkbsTTUM=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=OgDOMPp1UCE+WgZzfTlABPTWuXowicAixlJatrDPbQiRyc1JAr11q7ku0gtme70Rn
-	 5Xh32qp7KzoFicrUxCcRsR+SsIBm6LQq97Sz8itF/ZjD0sP99ZrQnw3cAx51Oq3HK5
-	 Wa5oed4nfRRpfNmezNjjI0RZpU+TfSUsVScUimchE1OU5XGqMFIuSZvklHrC2KDCP/
-	 UrLK24Ka0mpvHJN68oIfCibI2lecO3GYZRqbAqHLqdYfspqzkq60KeukDVeBUk35Vr
-	 hybIvWPKk/3/wt5zXPnxfLi1gfq8qU0Yjg46vknnnf6FOgoIapdWG3mj79efObDAtN
-	 9pSrJocgdEROA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3287AC433E9;
-	Mon, 22 Jul 2024 20:44:45 +0000 (UTC)
-Subject: Re: [GIT PULL] ntfs3: bugfixes for 6.11
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20240722094014.16888-1-almaz.alexandrovich@paragon-software.com>
-References: <20240722094014.16888-1-almaz.alexandrovich@paragon-software.com>
-X-PR-Tracked-List-Id: <ntfs3.lists.linux.dev>
-X-PR-Tracked-Message-Id: <20240722094014.16888-1-almaz.alexandrovich@paragon-software.com>
-X-PR-Tracked-Remote: https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.11
-X-PR-Tracked-Commit-Id: 911daf695a740d9a58daef65dabfb5f69f18190f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 5ea6d72489a4a937fb9e9f9e81474cdf3483196e
-Message-Id: <172168108519.32529.14879953561624262800.pr-tracker-bot@kernel.org>
-Date: Mon, 22 Jul 2024 20:44:45 +0000
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: torvalds@linux-foundation.org, ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+	s=arc-20240116; t=1721779085; c=relaxed/simple;
+	bh=hjOYStjjoYX2np0BHeHR/g/Tp+auHJmuVRMt2T6GoEc=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=Qq79yR6jvQsIa5jixPjbDa1FrroOGOh02Ji0LJK8Ty7pRGgmoQJK0f9aF3Eva4BEzd+ByVgpN1jg8VY78e4P8xQByIuupysL7GBrD4/NUYjhuxnWnBTHHuDUi7uzskDqhZobC6W2EKrFRRWjNzu82PozmIY6yuksoAbKinQ4hQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-81258697716so1039224139f.3
+        for <ntfs3@lists.linux.dev>; Tue, 23 Jul 2024 16:58:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721779083; x=1722383883;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EgOyZUlzEMZOpU/YW1FXvWk4x0U9V9/l/E3qzG/wK8Q=;
+        b=K4gWOFeC07s2HGfGkGcs/yFsYeEvtHXv37G2E9WjdFzVgwU4utck+D3Cs/5jq9DZcv
+         nT/b5pMgAxkqb66DdPJkHUKqqr8YCxHPvdQigK8RD/5shF1eKA0LpnQlv0Ozwc7rcQQO
+         TrwGOqThCaCeJwmOUtR90VBJ23dPuaQ8eWLWQYauyp9jzdzXD+mGl3QgKhQaFnv2n1bB
+         bwDRi13bUH/+vUXEMHjfiU+PW/y6Ibwbrndbi3Szzo68UizLeLpOgzxoXQ1RnVbH4PmN
+         P1WO/joPOJ6w5s4vxikD+qv8HFIL9+MwkAQi9SQxldcrKx6Lbf+WxQLSnN7AWo66VpAb
+         z3iQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXXBKvcyL+V/64EZFn4z31hG3weswLQOnbThdMlKpRUU2AllWdDFNzQMUFtsSCLrsHLKQcio3wvzxXWnGZIqCHA4D44GN0=
+X-Gm-Message-State: AOJu0YyOlEQQGBYR5Pl9VShnXbjzDoajnPTAkcU8OnIu7DFggKnnDJCj
+	dhtvDCEfkHNGIcCFuu6EKpxyzVKytho0DAmSS2VRefte8ndLudW89RPM6D/H+y6UTJl3Sb6UcIx
+	sp6sWRw8Pe6G4YoSMBKbn/3pcDEQdTxNfuf61Yk3i0Tpt6WsN5pujB7M=
+X-Google-Smtp-Source: AGHT+IEzZornDDZMpWDzFdkE+q/FriUsjqZ+4sHmZEu/bJAB9hWGgnKawl2seZVupWtON8ikupSSpqqlgz3tPuyYT3PdwKwJZ6Lc
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-Received: by 2002:a05:6e02:20c6:b0:374:9a34:a16 with SMTP id
+ e9e14a558f8ab-398e7de7b70mr8748705ab.5.1721779083711; Tue, 23 Jul 2024
+ 16:58:03 -0700 (PDT)
+Date: Tue, 23 Jul 2024 16:58:03 -0700
+In-Reply-To: <0000000000007cfb2405febf9023@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000aaa8dc061df2eef7@google.com>
+Subject: Re: [syzbot] [ntfs3?] BUG: unable to handle kernel paging request in attr_data_read_resident
+From: syzbot <syzbot+33a67f9990381cc8951c@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, axboe@kernel.dk, 
+	brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-The pull request you sent on Mon, 22 Jul 2024 12:40:14 +0300:
+syzbot suspects this issue was fixed by commit:
 
-> https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.11
+commit 6f861765464f43a71462d52026fbddfc858239a5
+Author: Jan Kara <jack@suse.cz>
+Date:   Wed Nov 1 17:43:10 2023 +0000
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/5ea6d72489a4a937fb9e9f9e81474cdf3483196e
+    fs: Block writes to mounted block devices
 
-Thank you!
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12d4adc3980000
+start commit:   b57b17e88bf5 Merge tag 'parisc-for-6.7-rc1-2' of git://git..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=88e7ba51eecd9cd6
+dashboard link: https://syzkaller.appspot.com/bug?extid=33a67f9990381cc8951c
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12493e98e80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1334b4a8e80000
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: fs: Block writes to mounted block devices
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
