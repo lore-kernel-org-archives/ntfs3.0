@@ -1,208 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CD21A0AF1;
-	Tue, 30 Jul 2024 12:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4345F1AED53
+	for <ntfs3@lists.linux.dev>; Wed, 31 Jul 2024 13:54:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722343363; cv=none; b=fqihEgonk/4ISG9utoLsdbl3HucqbY2f6EfvLrSCHpqcKRJPKDIvVbaPQPO1hKBAfebgpUTFeKGAhjxGjJBtQ8Ii1xr0Xk16QNRYSS24K+t/eVN1n1eKQ+zQ/8K+Z5sfpfx9wwnPSi6QpGeOmpCwLiYDYki7T965iqPLlnuoHYY=
+	t=1722434089; cv=none; b=Rdmyd6Zct4Mj5ztXZVVooXS8xbasEAdjVMUV8MNxEJblwxRxbQ+/gCQfGuajX8smr9NdQ6x1m/4CujMeYpwALUtTSzVGZznGk5pohBIEMoXtS/ivH8qbq/2TvPjKUKfe+VrsDsdLazEAFo77Fr2P9rzDap521t6nP8lAYk6qWJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722343363; c=relaxed/simple;
-	bh=CzgyNjAVxCKHSHEemDAQykPmrSQuhwhvKYmediHcS2g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VQO9EimaFHRs8+NisZcDRsOmKKT0AxGVDVJnyo+Ur+xu9PwdZy/WXT4WfAEOGxfA4ZSvYqNUTQIBWVTYmIM6/2P1x4KoKgcFLSWG7C+FxbTAZH3xNdKjGOuLJnwGCMQufWmjK/yMJ/kSot4zDIMy38rewTiScgPPUi7ulgK9iDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KvrFrtGY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722434089; c=relaxed/simple;
+	bh=8cZ7LKFs7mJeGc+v4+iPls/B4S37umLa96hNuJxowA4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lHJZMMPUgKxKkJ3pqSYOCd6icTZ1cExBJ58ywlszRvIf5xWilolqqfv1cWK5r2HDhIywmM4QqPIuvqDF/7ub09KUN3Md1hTfIl4PcoEVPdUINkTnX0Kxd79kXPL3USFztf9AbBLMVAuVY2NbEt45EwqR5+NSAsGRsyTMf7CSmis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=TLWJzPwQ; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KvrFrtGY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D603C4AF0C;
-	Tue, 30 Jul 2024 12:42:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722343363;
-	bh=CzgyNjAVxCKHSHEemDAQykPmrSQuhwhvKYmediHcS2g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KvrFrtGYBgwy7sttPvvVuNKnxVTddXC7yFLf5j1GC7BO2tGhu07SxkPtKurmzL9Br
-	 G3VcPc89yt2YeUugsP00XqDIuhGVOH8z2cBeMm2J/5fi1UqviXzqqFiBN5ucx2stdq
-	 T7fflXPTQdQ3VU2JuR8/mRGfDqNAP370jOnYP5C2W7jCbcioML63lvsqdLJBGWSXCV
-	 1fHangwtBNt0di+NG8m8ELTem5cCIVR1B4HeJG/4RBi8V+xmq6Na6cLApUKm0AHzzk
-	 Z2H70ym7VNzA0hazFlVssXvpUgcOimE6tGtjstsdnB0/961U9Tk4AdbUQKMfCkFBLJ
-	 UYOfJh05tQpOQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Sasha Levin <sashal@kernel.org>,
-	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.15 2/2] fs/ntfs3: Check more cases when directory is corrupted
-Date: Tue, 30 Jul 2024 08:42:38 -0400
-Message-ID: <20240730124238.3084861-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240730124238.3084861-1-sashal@kernel.org>
-References: <20240730124238.3084861-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="TLWJzPwQ"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4280b3a7efaso38091865e9.0
+        for <ntfs3@lists.linux.dev>; Wed, 31 Jul 2024 06:54:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1722434086; x=1723038886; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RoJJmKmlb6pOf2w0Io+9nkBW5fd81cjrd3TmeWughbw=;
+        b=TLWJzPwQjcvKImrn618TWw3f5liE5H6mkXlwJbv3Q7z9zNVs/SU/z0WLu1rN0JB8sq
+         /Z1e7ssA3LqEILRoEfbnrRzQ0dbBf8GORCw2B3GJFwpgQDh+7VfJ3972yz1Z4rASG4+R
+         GF9Vlx4VmVYtmnZ7qnGBRR1GX8ld6cbljiX6BIZJ6uo2ySPsIK7lT1P1G0zz8VKQAoBu
+         Xrv3B1hOQ0wlUftMmd5HhHuxRpghLqz6QvMSm254PFraa6l17QtzI0G0doe/wLwRX+n9
+         LXfPbQ7S5xLbbm8v18ML1U6BBxUl1YNxjFtwDzvRgv4cX10pB4au8Av3rky+lVWbCkQM
+         eUsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722434086; x=1723038886;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RoJJmKmlb6pOf2w0Io+9nkBW5fd81cjrd3TmeWughbw=;
+        b=b3xiK/0t1n6vmMjmOuT+7IKV9B2c2XPa0cJ5o4MSLSopq8E7ImUfHUPlMeSDwB1Zhz
+         /fVVlIATx1GVy0KG0Ceg3nNXUe83RHc4nDKdS1uPObW3Q0XtYC7AjseS9lfcWiS4wkNk
+         PvM5AmYi6RD8cZXecg4l0XLJvuLPKGWY3K17p+lG69TE7oN8xxXcmuVLFGKZp+vRjEoh
+         bLHJtNjqNgBWBtQ20ZhT/zX+OSt04gxj09CqHc5YZEklMtypKB00GOsQicTQ3Q7EGlJg
+         kPmgweBXQpjxGPSGtX8gfF5FO1qxpVZ+UhrjEu2buo7xLiTWyCiF48QW53xg4Nf9NR8f
+         BomA==
+X-Gm-Message-State: AOJu0YxKwRJ9UvXHPHwV/nX2KNzqUQyiDSQ52GJv6ocNwYDdqTNnF13L
+	j2+Yg7KBko3nDUhYfMKWn6yUc0Tt6vDrxVkW0HiM3+DfC5rqhWYeEHv0NaK7FMdP+BUMDVOPeeQ
+	kJ48=
+X-Google-Smtp-Source: AGHT+IHUO/t8tbBPVuGLNpykHjNyPFsLLPMW/WZZS8E6EuBjBA0hdH54GNHam3w9GuGi7t3kslP7qA==
+X-Received: by 2002:a05:6000:1c4:b0:367:96a1:3c91 with SMTP id ffacd0b85a97d-36b5d0d1478mr8875813f8f.62.1722434086539;
+        Wed, 31 Jul 2024 06:54:46 -0700 (PDT)
+Received: from fedora.fritz.box (aftr-82-135-80-26.dynamic.mnet-online.de. [82.135.80.26])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b3686fdc5sm16938028f8f.114.2024.07.31.06.54.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jul 2024 06:54:46 -0700 (PDT)
+From: Thorsten Blum <thorsten.blum@toblux.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Thorsten Blum <thorsten.blum@toblux.com>
+Subject: [RESEND PATCH] fs/ntfs3: Use swap() to improve code
+Date: Wed, 31 Jul 2024 15:54:04 +0200
+Message-ID: <20240731135403.80805-2-thorsten.blum@toblux.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.164
 Content-Transfer-Encoding: 8bit
 
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Use the swap() macro to simplify the code and improve its readability.
 
-[ Upstream commit 744375343662058cbfda96d871786e5a5cbe1947 ]
+Fixes the following Coccinelle/coccicheck warning reported by
+swap.cocci:
 
-Mark ntfs dirty in this case.
-Rename ntfs_filldir to ntfs_dir_emit.
+  WARNING opportunity for swap()
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Compile-tested only.
+
+Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
 ---
- fs/ntfs3/dir.c | 52 +++++++++++++++++++++++++++++++-------------------
- 1 file changed, 32 insertions(+), 20 deletions(-)
+ fs/ntfs3/lib/lzx_decompress.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index 98f57d0c702eb..9c5da43323f39 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -272,9 +272,12 @@ struct inode *dir_search_u(struct inode *dir, const struct cpu_str *uni,
- 	return err == -ENOENT ? NULL : err ? ERR_PTR(err) : inode;
- }
+diff --git a/fs/ntfs3/lib/lzx_decompress.c b/fs/ntfs3/lib/lzx_decompress.c
+index 6b16f07073c1..d9adb290acba 100644
+--- a/fs/ntfs3/lib/lzx_decompress.c
++++ b/fs/ntfs3/lib/lzx_decompress.c
+@@ -511,9 +511,7 @@ static int lzx_decompress_block(const struct lzx_decompressor *d,
+ 			 * quirk allows all 3 recent offsets to be handled by
+ 			 * the same code.  (For R0, the swap is a no-op.)
+ 			 */
+-			match_offset = recent_offsets[offset_slot];
+-			recent_offsets[offset_slot] = recent_offsets[0];
+-			recent_offsets[0] = match_offset;
++			swap(recent_offsets[offset_slot], recent_offsets[0]);
+ 		} else {
+ 			/* Explicit offset  */
  
--static inline int ntfs_filldir(struct ntfs_sb_info *sbi, struct ntfs_inode *ni,
--			       const struct NTFS_DE *e, u8 *name,
--			       struct dir_context *ctx)
-+/*
-+ * returns false if 'ctx' if full
-+ */
-+static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
-+				 struct ntfs_inode *ni, const struct NTFS_DE *e,
-+				 u8 *name, struct dir_context *ctx)
- {
- 	const struct ATTR_FILE_NAME *fname;
- 	unsigned long ino;
-@@ -284,29 +287,29 @@ static inline int ntfs_filldir(struct ntfs_sb_info *sbi, struct ntfs_inode *ni,
- 	fname = Add2Ptr(e, sizeof(struct NTFS_DE));
- 
- 	if (fname->type == FILE_NAME_DOS)
--		return 0;
-+		return true;
- 
- 	if (!mi_is_ref(&ni->mi, &fname->home))
--		return 0;
-+		return true;
- 
- 	ino = ino_get(&e->ref);
- 
- 	if (ino == MFT_REC_ROOT)
--		return 0;
-+		return true;
- 
- 	/* Skip meta files. Unless option to show metafiles is set. */
- 	if (!sbi->options->showmeta && ntfs_is_meta_file(sbi, ino))
--		return 0;
-+		return true;
- 
- 	if (sbi->options->nohidden && (fname->dup.fa & FILE_ATTRIBUTE_HIDDEN))
--		return 0;
-+		return true;
- 
- 	name_len = ntfs_utf16_to_nls(sbi, fname->name, fname->name_len, name,
- 				     PATH_MAX);
- 	if (name_len <= 0) {
- 		ntfs_warn(sbi->sb, "failed to convert name for inode %lx.",
- 			  ino);
--		return 0;
-+		return true;
- 	}
- 
- 	/*
-@@ -335,17 +338,20 @@ static inline int ntfs_filldir(struct ntfs_sb_info *sbi, struct ntfs_inode *ni,
- 		}
- 	}
- 
--	return !dir_emit(ctx, (s8 *)name, name_len, ino, dt_type);
-+	return dir_emit(ctx, (s8 *)name, name_len, ino, dt_type);
- }
- 
- /*
-  * ntfs_read_hdr - Helper function for ntfs_readdir().
-+ *
-+ * returns 0 if ok.
-+ * returns -EINVAL if directory is corrupted.
-+ * returns +1 if 'ctx' is full.
-  */
- static int ntfs_read_hdr(struct ntfs_sb_info *sbi, struct ntfs_inode *ni,
- 			 const struct INDEX_HDR *hdr, u64 vbo, u64 pos,
- 			 u8 *name, struct dir_context *ctx)
- {
--	int err;
- 	const struct NTFS_DE *e;
- 	u32 e_size;
- 	u32 end = le32_to_cpu(hdr->used);
-@@ -353,12 +359,12 @@ static int ntfs_read_hdr(struct ntfs_sb_info *sbi, struct ntfs_inode *ni,
- 
- 	for (;; off += e_size) {
- 		if (off + sizeof(struct NTFS_DE) > end)
--			return -1;
-+			return -EINVAL;
- 
- 		e = Add2Ptr(hdr, off);
- 		e_size = le16_to_cpu(e->size);
- 		if (e_size < sizeof(struct NTFS_DE) || off + e_size > end)
--			return -1;
-+			return -EINVAL;
- 
- 		if (de_is_last(e))
- 			return 0;
-@@ -368,14 +374,15 @@ static int ntfs_read_hdr(struct ntfs_sb_info *sbi, struct ntfs_inode *ni,
- 			continue;
- 
- 		if (le16_to_cpu(e->key_size) < SIZEOF_ATTRIBUTE_FILENAME)
--			return -1;
-+			return -EINVAL;
- 
- 		ctx->pos = vbo + off;
- 
- 		/* Submit the name to the filldir callback. */
--		err = ntfs_filldir(sbi, ni, e, name, ctx);
--		if (err)
--			return err;
-+		if (!ntfs_dir_emit(sbi, ni, e, name, ctx)) {
-+			/* ctx is full. */
-+			return +1;
-+		}
- 	}
- }
- 
-@@ -474,8 +481,6 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 
- 		vbo = (u64)bit << index_bits;
- 		if (vbo >= i_size) {
--			ntfs_inode_err(dir, "Looks like your dir is corrupt");
--			ctx->pos = eod;
- 			err = -EINVAL;
- 			goto out;
- 		}
-@@ -498,9 +503,16 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 	__putname(name);
- 	put_indx_node(node);
- 
--	if (err == -ENOENT) {
-+	if (err == 1) {
-+		/* 'ctx' is full. */
-+		err = 0;
-+	} else if (err == -ENOENT) {
- 		err = 0;
- 		ctx->pos = pos;
-+	} else if (err < 0) {
-+		if (err == -EINVAL)
-+			ntfs_inode_err(dir, "directory corrupted");
-+		ctx->pos = eod;
- 	}
- 
- 	return err;
 -- 
-2.43.0
+2.45.2
 
