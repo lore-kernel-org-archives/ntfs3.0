@@ -1,101 +1,223 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4345F1AED53
-	for <ntfs3@lists.linux.dev>; Wed, 31 Jul 2024 13:54:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1B41E2101
+	for <ntfs3@lists.linux.dev>; Fri,  2 Aug 2024 11:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722434089; cv=none; b=Rdmyd6Zct4Mj5ztXZVVooXS8xbasEAdjVMUV8MNxEJblwxRxbQ+/gCQfGuajX8smr9NdQ6x1m/4CujMeYpwALUtTSzVGZznGk5pohBIEMoXtS/ivH8qbq/2TvPjKUKfe+VrsDsdLazEAFo77Fr2P9rzDap521t6nP8lAYk6qWJo=
+	t=1722597805; cv=none; b=ihCqWyC7WSOvAis8ILqr+OBpDKbi71Y+m8jh15TYi2fa8AouDSWVGt4vYSi/NoaXTGsv5fac+/jNZ+EWGv3aeYvW2Rdhe4tQcJly8HqZwQM57bT7HGeOZJUwZC3C3pYIXp1iARr6Ia+OasSdGdB9IGyzncz9hEGgURhjwL6QkjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722434089; c=relaxed/simple;
-	bh=8cZ7LKFs7mJeGc+v4+iPls/B4S37umLa96hNuJxowA4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lHJZMMPUgKxKkJ3pqSYOCd6icTZ1cExBJ58ywlszRvIf5xWilolqqfv1cWK5r2HDhIywmM4QqPIuvqDF/7ub09KUN3Md1hTfIl4PcoEVPdUINkTnX0Kxd79kXPL3USFztf9AbBLMVAuVY2NbEt45EwqR5+NSAsGRsyTMf7CSmis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=TLWJzPwQ; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="TLWJzPwQ"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4280b3a7efaso38091865e9.0
-        for <ntfs3@lists.linux.dev>; Wed, 31 Jul 2024 06:54:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1722434086; x=1723038886; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RoJJmKmlb6pOf2w0Io+9nkBW5fd81cjrd3TmeWughbw=;
-        b=TLWJzPwQjcvKImrn618TWw3f5liE5H6mkXlwJbv3Q7z9zNVs/SU/z0WLu1rN0JB8sq
-         /Z1e7ssA3LqEILRoEfbnrRzQ0dbBf8GORCw2B3GJFwpgQDh+7VfJ3972yz1Z4rASG4+R
-         GF9Vlx4VmVYtmnZ7qnGBRR1GX8ld6cbljiX6BIZJ6uo2ySPsIK7lT1P1G0zz8VKQAoBu
-         Xrv3B1hOQ0wlUftMmd5HhHuxRpghLqz6QvMSm254PFraa6l17QtzI0G0doe/wLwRX+n9
-         LXfPbQ7S5xLbbm8v18ML1U6BBxUl1YNxjFtwDzvRgv4cX10pB4au8Av3rky+lVWbCkQM
-         eUsA==
+	s=arc-20240116; t=1722597805; c=relaxed/simple;
+	bh=hAsozl+HJiKjvJZgGVsLVy4wmnkbduL5ahxrrVzDqYI=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=tmpeq9pNGUYfQr0HWH398V8WTkPwwhMlQcM1ft3IdOONlQfJkEyfrUAfoLrILWpwJ3DSBDNnUTaIxVsS4ow6Cb5XyhvlsFOa0S3LAlWolw21aOU63b1VaDRexnZY3YEJlcsCyjsXG0S798lTH6Z6h77OutRSLAiX0U7tqlwuUpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-396a820a8a3so41506905ab.1
+        for <ntfs3@lists.linux.dev>; Fri, 02 Aug 2024 04:23:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722434086; x=1723038886;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RoJJmKmlb6pOf2w0Io+9nkBW5fd81cjrd3TmeWughbw=;
-        b=b3xiK/0t1n6vmMjmOuT+7IKV9B2c2XPa0cJ5o4MSLSopq8E7ImUfHUPlMeSDwB1Zhz
-         /fVVlIATx1GVy0KG0Ceg3nNXUe83RHc4nDKdS1uPObW3Q0XtYC7AjseS9lfcWiS4wkNk
-         PvM5AmYi6RD8cZXecg4l0XLJvuLPKGWY3K17p+lG69TE7oN8xxXcmuVLFGKZp+vRjEoh
-         bLHJtNjqNgBWBtQ20ZhT/zX+OSt04gxj09CqHc5YZEklMtypKB00GOsQicTQ3Q7EGlJg
-         kPmgweBXQpjxGPSGtX8gfF5FO1qxpVZ+UhrjEu2buo7xLiTWyCiF48QW53xg4Nf9NR8f
-         BomA==
-X-Gm-Message-State: AOJu0YxKwRJ9UvXHPHwV/nX2KNzqUQyiDSQ52GJv6ocNwYDdqTNnF13L
-	j2+Yg7KBko3nDUhYfMKWn6yUc0Tt6vDrxVkW0HiM3+DfC5rqhWYeEHv0NaK7FMdP+BUMDVOPeeQ
-	kJ48=
-X-Google-Smtp-Source: AGHT+IHUO/t8tbBPVuGLNpykHjNyPFsLLPMW/WZZS8E6EuBjBA0hdH54GNHam3w9GuGi7t3kslP7qA==
-X-Received: by 2002:a05:6000:1c4:b0:367:96a1:3c91 with SMTP id ffacd0b85a97d-36b5d0d1478mr8875813f8f.62.1722434086539;
-        Wed, 31 Jul 2024 06:54:46 -0700 (PDT)
-Received: from fedora.fritz.box (aftr-82-135-80-26.dynamic.mnet-online.de. [82.135.80.26])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b3686fdc5sm16938028f8f.114.2024.07.31.06.54.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 06:54:46 -0700 (PDT)
-From: Thorsten Blum <thorsten.blum@toblux.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Thorsten Blum <thorsten.blum@toblux.com>
-Subject: [RESEND PATCH] fs/ntfs3: Use swap() to improve code
-Date: Wed, 31 Jul 2024 15:54:04 +0200
-Message-ID: <20240731135403.80805-2-thorsten.blum@toblux.com>
-X-Mailer: git-send-email 2.45.2
+        d=1e100.net; s=20230601; t=1722597802; x=1723202602;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5fRdRUEXRw84Ye9MfYJd2zHy6udnN9R3+/QYoDUc3FM=;
+        b=dOw1Phj8Gf1o+hWppqfuXbigd2yIutDgh6+8S9QUnU395NH9hkJmY/R6eIdnMyL092
+         RY9wcYpEskCMby6OctupCHpmmOQ6nnMnYSB2LE/5rShlMo0J9rOBQ2ifW0cErMFmbwkE
+         GygBKqAzQEhuPVEBWMaSUqTeRolMTOsZF8bhRanmJW1sCyb5+H1e4HTJ5pFNK+cGFJwh
+         aCUiweHt4uvrAO/rETpjp+DC0v0TJr/aeIJN6ubduaGnGMibMETGokq4v/1XkcmmSxx7
+         Wh9HAYf8lYDSZ40fSPnKNgPNbIS4oRQ6YtdG6O7BC2HUHUlvovGUrwyAwaOMA2nGU2EQ
+         kzGg==
+X-Forwarded-Encrypted: i=1; AJvYcCWzW59GSuGid79uYehBXkzfi908X/WuaCNjf2lO9p44vUbEEkXtXcGmezlsKRuqhiUE9MDnia919Rt/+smlQmiroxvL1sY=
+X-Gm-Message-State: AOJu0YxpQhIiND0Z2Ft0wWc5q91u2FHtIYA8REEQ9P43wSw1pzGVex45
+	FA8VgtljtUAKWM9oky2xg1X1wBlx3HCZcVVgVzTHGRLag2fK/OZPP3rWeoZnvhJU1mgkqEukQgi
+	Re0p1JwsY2BZwe7Vp25Rxk5MBNUrst9DBU8BJD+LdTF5RhRFydmqv+zI=
+X-Google-Smtp-Source: AGHT+IE/pj2EVjOTjJcxhTFH+3BzAqJxtAlwHRkoIbW921Db1yDBspG8Agr2HOC/t+byfvv+2uDj2PEHxMblHEJbjMPBcjRCZwNL
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:1a23:b0:39b:c00:85aa with SMTP id
+ e9e14a558f8ab-39b20054434mr2218145ab.0.1722597802522; Fri, 02 Aug 2024
+ 04:23:22 -0700 (PDT)
+Date: Fri, 02 Aug 2024 04:23:22 -0700
+In-Reply-To: <00000000000078a6b2061ae9c05c@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001c4ae9061eb18ef4@google.com>
+Subject: Re: [syzbot] [ntfs3?] possible deadlock in ntfs_file_write_iter
+From: syzbot <syzbot+d7452fc408a961bcc6ec@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Use the swap() macro to simplify the code and improve its readability.
+syzbot has found a reproducer for the following issue on:
 
-Fixes the following Coccinelle/coccicheck warning reported by
-swap.cocci:
+HEAD commit:    c0ecd6388360 Merge tag 'pci-v6.11-fixes-1' of git://git.ke..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=17478c7d980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=288f248fe2b6eab0
+dashboard link: https://syzkaller.appspot.com/bug?extid=d7452fc408a961bcc6ec
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=142941a1980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15b302d9980000
 
-  WARNING opportunity for swap()
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/0cb5895deab9/disk-c0ecd638.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/bce552aea06e/vmlinux-c0ecd638.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/5489dae15424/bzImage-c0ecd638.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/56ae044ae9a1/mount_0.gz
 
-Compile-tested only.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+d7452fc408a961bcc6ec@syzkaller.appspotmail.com
 
-Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+======================================================
+WARNING: possible circular locking dependency detected
+6.11.0-rc1-syzkaller-00154-gc0ecd6388360 #0 Not tainted
+------------------------------------------------------
+syz-executor170/5231 is trying to acquire lock:
+ffff888078ac6098 (&mm->mmap_lock){++++}-{3:3}, at: mmap_read_lock_killable+0x1d/0x70 include/linux/mmap_lock.h:153
+
+but task is already holding lock:
+ffff888074715460 (&sb->s_type->i_mutex_key#14){+.+.}-{3:3}, at: inode_trylock include/linux/fs.h:819 [inline]
+ffff888074715460 (&sb->s_type->i_mutex_key#14){+.+.}-{3:3}, at: ntfs_file_write_iter+0x24a/0x740 fs/ntfs3/file.c:1166
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #1 (&sb->s_type->i_mutex_key#14){+.+.}-{3:3}:
+       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5759
+       down_write+0x99/0x220 kernel/locking/rwsem.c:1579
+       inode_lock include/linux/fs.h:799 [inline]
+       ntfs_file_mmap+0x5bf/0x850 fs/ntfs3/file.c:368
+       call_mmap include/linux/fs.h:2129 [inline]
+       mmap_region+0xe8f/0x2090 mm/mmap.c:2957
+       do_mmap+0x8f9/0x1010 mm/mmap.c:1468
+       vm_mmap_pgoff+0x1dd/0x3d0 mm/util.c:588
+       ksys_mmap_pgoff+0x4f1/0x720 mm/mmap.c:1514
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&mm->mmap_lock){++++}-{3:3}:
+       check_prev_add kernel/locking/lockdep.c:3133 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3252 [inline]
+       validate_chain+0x18e0/0x5900 kernel/locking/lockdep.c:3868
+       __lock_acquire+0x137a/0x2040 kernel/locking/lockdep.c:5142
+       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5759
+       down_read_killable+0xca/0xd30 kernel/locking/rwsem.c:1549
+       mmap_read_lock_killable+0x1d/0x70 include/linux/mmap_lock.h:153
+       get_mmap_lock_carefully mm/memory.c:5879 [inline]
+       lock_mm_and_find_vma+0x29c/0x2f0 mm/memory.c:5930
+       do_user_addr_fault arch/x86/mm/fault.c:1361 [inline]
+       handle_page_fault arch/x86/mm/fault.c:1481 [inline]
+       exc_page_fault+0x1bf/0x8c0 arch/x86/mm/fault.c:1539
+       asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:623
+       fault_in_readable+0x108/0x2b0 mm/gup.c:2236
+       fault_in_iov_iter_readable+0x229/0x280 lib/iov_iter.c:94
+       generic_perform_write+0x29f/0x840 mm/filemap.c:4009
+       ntfs_file_write_iter+0x663/0x740 fs/ntfs3/file.c:1193
+       new_sync_write fs/read_write.c:497 [inline]
+       vfs_write+0xa72/0xc90 fs/read_write.c:590
+       ksys_write+0x1a0/0x2c0 fs/read_write.c:643
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&sb->s_type->i_mutex_key#14);
+                               lock(&mm->mmap_lock);
+                               lock(&sb->s_type->i_mutex_key#14);
+  rlock(&mm->mmap_lock);
+
+ *** DEADLOCK ***
+
+3 locks held by syz-executor170/5231:
+ #0: ffff88802a594d48 (&f->f_pos_lock){+.+.}-{3:3}, at: __fdget_pos+0x24e/0x310 fs/file.c:1191
+ #1: ffff88802c5b8420 (sb_writers#9){.+.+}-{0:0}, at: file_start_write include/linux/fs.h:2876 [inline]
+ #1: ffff88802c5b8420 (sb_writers#9){.+.+}-{0:0}, at: vfs_write+0x227/0xc90 fs/read_write.c:586
+ #2: ffff888074715460 (&sb->s_type->i_mutex_key#14){+.+.}-{3:3}, at: inode_trylock include/linux/fs.h:819 [inline]
+ #2: ffff888074715460 (&sb->s_type->i_mutex_key#14){+.+.}-{3:3}, at: ntfs_file_write_iter+0x24a/0x740 fs/ntfs3/file.c:1166
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 5231 Comm: syz-executor170 Not tainted 6.11.0-rc1-syzkaller-00154-gc0ecd6388360 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/27/2024
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:93 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
+ check_noncircular+0x36a/0x4a0 kernel/locking/lockdep.c:2186
+ check_prev_add kernel/locking/lockdep.c:3133 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3252 [inline]
+ validate_chain+0x18e0/0x5900 kernel/locking/lockdep.c:3868
+ __lock_acquire+0x137a/0x2040 kernel/locking/lockdep.c:5142
+ lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5759
+ down_read_killable+0xca/0xd30 kernel/locking/rwsem.c:1549
+ mmap_read_lock_killable+0x1d/0x70 include/linux/mmap_lock.h:153
+ get_mmap_lock_carefully mm/memory.c:5879 [inline]
+ lock_mm_and_find_vma+0x29c/0x2f0 mm/memory.c:5930
+ do_user_addr_fault arch/x86/mm/fault.c:1361 [inline]
+ handle_page_fault arch/x86/mm/fault.c:1481 [inline]
+ exc_page_fault+0x1bf/0x8c0 arch/x86/mm/fault.c:1539
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0010:fault_in_readable+0x108/0x2b0 mm/gup.c:2237
+Code: 00 00 00 0f 01 cb 0f ae e8 48 89 de 48 81 e6 ff 0f 00 00 31 ff e8 48 af b7 ff 48 89 d8 48 25 ff 0f 00 00 4c 89 74 24 18 74 30 <8a> 1b e8 51 aa b7 ff 43 0f b6 04 2f 84 c0 0f 85 4d 01 00 00 88 5c
+RSP: 0018:ffffc90003487a00 EFLAGS: 00050202
+RAX: 0000000000000440 RBX: 0000000020005440 RCX: ffff88801cff8000
+RDX: 0000000000000000 RSI: 0000000000000440 RDI: 0000000000000000
+RBP: ffffc90003487ab8 R08: ffffffff81dbbb68 R09: ffffffff84a51eb9
+R10: 0000000000000002 R11: ffff88801cff8000 R12: 000000000000000f
+R13: dffffc0000000000 R14: 1ffff92000690f44 R15: 1ffff92000690f48
+ fault_in_iov_iter_readable+0x229/0x280 lib/iov_iter.c:94
+ generic_perform_write+0x29f/0x840 mm/filemap.c:4009
+ ntfs_file_write_iter+0x663/0x740 fs/ntfs3/file.c:1193
+ new_sync_write fs/read_write.c:497 [inline]
+ vfs_write+0xa72/0xc90 fs/read_write.c:590
+ ksys_write+0x1a0/0x2c0 fs/read_write.c:643
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0a955a2c59
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 b1 18 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f0a95537218 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f0a9564a6d8 RCX: 00007f0a955a2c59
+RDX: 000000000000000f RSI: 0000000020005440 RDI: 0000000000000004
+RBP: 00007f0a9564a6d0 R08: 00007ffdf6185d97 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f0a95616830
+R13: 0000000000000016 R14: 7275632e73646970 R15: 69662f7375622f2e
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	00 00                	add    %al,(%rax)
+   2:	00 0f                	add    %cl,(%rdi)
+   4:	01 cb                	add    %ecx,%ebx
+   6:	0f ae e8             	lfence
+   9:	48 89 de             	mov    %rbx,%rsi
+   c:	48 81 e6 ff 0f 00 00 	and    $0xfff,%rsi
+  13:	31 ff                	xor    %edi,%edi
+  15:	e8 48 af b7 ff       	call   0xffb7af62
+  1a:	48 89 d8             	mov    %rbx,%rax
+  1d:	48 25 ff 0f 00 00    	and    $0xfff,%rax
+  23:	4c 89 74 24 18       	mov    %r14,0x18(%rsp)
+  28:	74 30                	je     0x5a
+* 2a:	8a 1b                	mov    (%rbx),%bl <-- trapping instruction
+  2c:	e8 51 aa b7 ff       	call   0xffb7aa82
+  31:	43 0f b6 04 2f       	movzbl (%r15,%r13,1),%eax
+  36:	84 c0                	test   %al,%al
+  38:	0f 85 4d 01 00 00    	jne    0x18b
+  3e:	88                   	.byte 0x88
+  3f:	5c                   	pop    %rsp
+
+
 ---
- fs/ntfs3/lib/lzx_decompress.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/fs/ntfs3/lib/lzx_decompress.c b/fs/ntfs3/lib/lzx_decompress.c
-index 6b16f07073c1..d9adb290acba 100644
---- a/fs/ntfs3/lib/lzx_decompress.c
-+++ b/fs/ntfs3/lib/lzx_decompress.c
-@@ -511,9 +511,7 @@ static int lzx_decompress_block(const struct lzx_decompressor *d,
- 			 * quirk allows all 3 recent offsets to be handled by
- 			 * the same code.  (For R0, the swap is a no-op.)
- 			 */
--			match_offset = recent_offsets[offset_slot];
--			recent_offsets[offset_slot] = recent_offsets[0];
--			recent_offsets[0] = match_offset;
-+			swap(recent_offsets[offset_slot], recent_offsets[0]);
- 		} else {
- 			/* Explicit offset  */
- 
--- 
-2.45.2
-
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
