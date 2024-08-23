@@ -1,65 +1,70 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6BB186E5F
-	for <ntfs3@lists.linux.dev>; Fri, 23 Aug 2024 13:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3D9187FEE
+	for <ntfs3@lists.linux.dev>; Fri, 23 Aug 2024 13:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724420434; cv=none; b=t0wW+7oPsvcfe6Ukyt4fystQ3V1gfSjNLrPL5tAfbXdnGFg4tHFRs3BptJWCplQmmwLVAB+F5zWLRZqFysTsTor7Uzl7lKaKqIjImhrKr9jGr6X96i4xDguU4hX825hBOWYUqIL0zQd5NUpT3tD+1+e/0aW0+JiN3wVo/dgwujo=
+	t=1724420974; cv=none; b=oX6K4zNx5lPQT84cWh4MKwZwuqOyfKZaBqWZ7tZdEIS3k/b8r+1tUxcMVGYZnXIlsaedH2aor93xspQ4KOpaP4d94aAfLXD9vCLmAnd6jcciMpRg+IEJ0muIfxkMk/qwLReuaahMr6gGikE1A0de3sRC7QgRmnygCgQaUgfuJOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724420434; c=relaxed/simple;
-	bh=wz72NYHjcZxJeGiawhkYwpKxexrJV0qHcEFIFR/lH3c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sIsw8WGmEAjYhSYB5AdRG0fcR89VU1ZJ0TmiJSc2iC/5KT8gN86md0BYD0JTwmOY5B0lceRwadA49yamjz+PPexMVXKOy/7/jO2xidflPqA4ImizXWS8CRATU4TIstJjmOHYTvdZYkPjmo3KrNehGRZsBni5j4B41fCbPgcpbV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GdPAnF0J; arc=none smtp.client-ip=209.85.214.176
+	s=arc-20240116; t=1724420974; c=relaxed/simple;
+	bh=UF91XnzIhdId96XFTNCn4pc0NyR17a+Z94QxjN7qIwg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=TIoiX6PLdppzpNu1MoxZFWYZ6qtggtzCrPxTZme6lJLNIAJAaOic+OGExuRhpljT+by1BdUkPpALL+IEx9LkPAlIUdZ2tkYRKI6CSObGC99D4cLLY2TViK50idvLl0tUN7PmjISkXKmZxH+j5zxvfvQHYn4kRwMw6ZFfHoKA76Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k+E3jvl2; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GdPAnF0J"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-201e64607a5so14450395ad.2
-        for <ntfs3@lists.linux.dev>; Fri, 23 Aug 2024 06:40:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k+E3jvl2"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7141b04e7a3so1639870b3a.3
+        for <ntfs3@lists.linux.dev>; Fri, 23 Aug 2024 06:49:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724420432; x=1725025232; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=grxP+nIGud6o+HrmUnVvRBQHIxNSN7qIxCzexC6yUco=;
-        b=GdPAnF0JzmqsY7v9vn6RUAJBqZ+2aX0XGOQ3HLy0lk+pgoE+Z9XL1YwvK09Em4qlww
-         VgeNBI2/EwhstmSfjvkl3vOnygYAVfv0wI3NZApUiwrdmKbbzav0aa+V9qHlekwm1u/Q
-         qKjDjOzvYsWWXcXes2c+FsQ7l0MA+ncLOvYEYJeQZAOolDan5dGBECt4pHd7lK9Jg/Hz
-         p6lsPaVOjRqEJjKnjwchYPtjeH09qvfyLVRR8ggj+iZUcRymmEPvq9CbU3RUOdsh4Jpi
-         xikfLJGWrJwZY0zbX/CHo94ZH10BUxYy8Js+MY6MjyCJmEqyYnOzAG2LzW5Iwc62btAe
-         cLbA==
+        d=gmail.com; s=20230601; t=1724420972; x=1725025772; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UF91XnzIhdId96XFTNCn4pc0NyR17a+Z94QxjN7qIwg=;
+        b=k+E3jvl2r9eXuPGwpUqdUR+j3j0+I5WKXGU34uTIwbcaR23n0xL9dsFn96zmllLPzz
+         /2jTlBoLl0jXFG4y+07zKExZidz3b448bM5TshWW2n0qBm3TXhbf4cMudi0Fr1y81wKf
+         RWpIZJGYFVRF1dQUEAzeD4hYO1BMrhjZXCcFpsEIbsG/uluL2kxSPH5V9LebYgNZuzCC
+         /PGM1x5oIK4GXbyVSZboDdBq50xWh3KkV5uT6w5zb/uCE7zqZ+xRNEyFXyIWjpZbSl38
+         vFimSmnauYQzGwwjhL6VJvy8kWQEsJRGafLHuxqVOO562TbcdG7p68UwBOLN1x95mfgd
+         PGvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724420432; x=1725025232;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=grxP+nIGud6o+HrmUnVvRBQHIxNSN7qIxCzexC6yUco=;
-        b=eZk3mtRGy1kMfEDWCp3craNKe7kP//kljErS5HOHga1B8NJ8uHifgvKWO1/efIhIPf
-         suV/VtT46Y4pynRCmkvb0qczDIkP4IId/TT0NgSK2+KW94TYedpYHx0UC6yRBr6Icp+N
-         M+1Zt2ZZ39FVQY13wLT7VMAtnOvNk4fjt0Bcmcy5F8cOw+FAo1U5rAUTbYSspF/GbmUZ
-         W18kd/9K6YSysi+27wLckuQOzis7HjIh+TLgEIYjlVlnfVoMNKiNa4Ln6nV5yx7vVTQv
-         b6k/jgGmmgZsoW+cbF73pds2HlnMCz1o3u0+uny4ScNyhha6rybwS28nxCS91E5aDB2w
-         +3aA==
-X-Forwarded-Encrypted: i=1; AJvYcCW6toijqubacwJiVeUsPt6Muq2TxaSALmfX0TfiIJ1OsbCKox4S01CuZpamTMiZLEmS8cgAig==@lists.linux.dev
-X-Gm-Message-State: AOJu0YypqcE1dNFjFqxXX6Op43uZNN6Vxonvkrlb641LcGPF/uabvFl4
-	vbQHJh+bjgp5SgFHUn67X4H24Gy56vPmhySyRXv1vY0q7Pm0Cgyn
-X-Google-Smtp-Source: AGHT+IH3QNdeufMaRopFHVmIdX1RvoY7wCaw6eDd6tnPYYpCqDy5JxI4Xr1RE21C2j6+3xuj7PmOlw==
-X-Received: by 2002:a17:902:db0d:b0:1fc:6740:3ce6 with SMTP id d9443c01a7336-2039e46cbedmr21756765ad.20.1724420431608;
-        Fri, 23 Aug 2024 06:40:31 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724420972; x=1725025772;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UF91XnzIhdId96XFTNCn4pc0NyR17a+Z94QxjN7qIwg=;
+        b=mn2tVRQsaEoZVkX2jdDne3yszFO/koH0aFB3uRh6/NzZ5hiwVRQID5i6v5IQ93SrOP
+         B/5DTJgAlRxZHC5CywpxFk8E7KkRm6z5UCtCfKF7RUuqxk0qIMeKosygAnDcmjCkz4yU
+         JNAJk7T9ikImgsOIS8p1nRUx80ozBoLUXhz4zCwIE+urB3s16wVtH2mTUtVYTUHS5m1H
+         yuqXyzKKGHBo95Qd7hjsvDYPj68r/XJrBnlV4QUBNcDmyUCfSSUx2WIDfDNRvInzvS7T
+         oHbfdKdNEKEkruUTuA3d6PnujVpaXNGKXc3vbjWliY8yRfKONduS3FGuZJ/sY8amvzh0
+         ggLw==
+X-Forwarded-Encrypted: i=1; AJvYcCWuoqYEo92iglxAxF35Exxn1CoYXLyIQbzpLZrzEfollxgHnQ6xwLpZ6Wn0Gi6vH1weVzpPMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHlEyRE14qf3B7CSlq4q8Dm2bk2rfzmVybWAqod00rIz517Iw6
+	VzqL9I2UQwXDWGwWghhfeqH76R7DLdIyv6mG3bQj2aGwmN/V6mUJ
+X-Google-Smtp-Source: AGHT+IHAqfeaLETCZy3AwjoeCp8tYq7cTWz6Q+xLtyJxclWB1vmYSTUAZp3w275R3heb2xrbpQbcjw==
+X-Received: by 2002:a05:6a21:3a41:b0:1be:e265:81fa with SMTP id adf61e73a8af0-1cc89ee544dmr3001518637.35.1724420972039;
+        Fri, 23 Aug 2024 06:49:32 -0700 (PDT)
 Received: from localhost.localdomain ([47.76.200.152])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038557f093sm28343285ad.63.2024.08.23.06.40.30
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-714343403b1sm3026063b3a.211.2024.08.23.06.49.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2024 06:40:31 -0700 (PDT)
+        Fri, 23 Aug 2024 06:49:31 -0700 (PDT)
 From: lei lu <llfamsec@gmail.com>
-To: almaz.alexandrovich@paragon-software.com,
-	ntfs3@lists.linux.dev
-Cc: lizhi.xu@windriver.com,
+To: llfamsec@gmail.com
+Cc: almaz.alexandrovich@paragon-software.com,
+	lizhi.xu@windriver.com,
+	ntfs3@lists.linux.dev,
 	syzbot+a426cde6dee8c2884b0b@syzkaller.appspotmail.com,
 	syzkaller-bugs@googlegroups.com
-Subject: [PATCH v2] ntfs3: Add bounds checking to mi_enum_attr()
-Date: Fri, 23 Aug 2024 21:39:44 +0800
-Message-Id: <20240823133944.211852-1-llfamsec@gmail.com>
+Subject: Re: [PATCH v2] ntfs3: Add bounds checking to mi_enum_attr()
+Date: Fri, 23 Aug 2024 21:49:11 +0800
+Message-Id: <20240823134911.211897-1-llfamsec@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240823130503.177723-1-llfamsec@gmail.com>
+References: <20240823130503.177723-1-llfamsec@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -68,64 +73,7 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Added bounds checking to make sure that every attr don't stray beyond
-valid memory region.
+Hi all,
 
-Signed-off-by: lei lu <llfamsec@gmail.com>
----
- fs/ntfs3/record.c | 23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
-
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index 6aa3a9d44df1..973e2a371bc2 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -223,28 +223,19 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 		prev_type = 0;
- 		attr = Add2Ptr(rec, off);
- 	} else {
--		/* Check if input attr inside record. */
-+		/*
-+		 * We don't need to check previous attr here. There is
-+		 * a bounds checking in the previous round.
-+		 */
- 		off = PtrOffset(rec, attr);
--		if (off >= used)
--			return NULL;
- 
- 		asize = le32_to_cpu(attr->size);
--		if (asize < SIZEOF_RESIDENT) {
--			/* Impossible 'cause we should not return such attribute. */
--			return NULL;
--		}
--
--		/* Overflow check. */
--		if (off + asize < off)
--			return NULL;
- 
- 		prev_type = le32_to_cpu(attr->type);
- 		attr = Add2Ptr(attr, asize);
- 		off += asize;
- 	}
- 
--	asize = le32_to_cpu(attr->size);
--
- 	/* Can we use the first field (attr->type). */
- 	if (off + 8 > used) {
- 		static_assert(ALIGN(sizeof(enum ATTR_TYPE), 8) == 8);
-@@ -265,6 +256,12 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 	if (t32 < prev_type)
- 		return NULL;
- 
-+	asize = le32_to_cpu(attr->size);
-+	if (asize < SIZEOF_RESIDENT) {
-+		/* Impossible 'cause we should not return such attribute. */
-+		return NULL;
-+	}
-+
- 	/* Check overflow and boundary. */
- 	if (off + asize < off || off + asize > used)
- 		return NULL;
--- 
-2.34.1
-
+This patch ignores the last attr is just 8 bytes and type field
+is ATTR_END. I have already send V2.
