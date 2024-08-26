@@ -1,55 +1,64 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9681213B792
-	for <ntfs3@lists.linux.dev>; Mon, 26 Aug 2024 08:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F8614A098
+	for <ntfs3@lists.linux.dev>; Mon, 26 Aug 2024 10:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724661489; cv=none; b=nOqr5yoYzkaKYFlPVN6X5TwdSycfIFenQbygrQlKMHkJ1tGymb+8luXuQaFwiDhZQz2aCEYbNBUY4penJiC7vhOEcNe5zzSKfLqtORvQXJepym75uwxfpdtk+CcliSS/qngNjTyWXzS7EGISvTxgnJoEzaTlapmL4VzILqBX8xg=
+	t=1724668845; cv=none; b=CJfHwjEa+TSsj2Bc+/Gm8vr869ehRFkLW65be+h8/k73JrV1r8W1gZUatFxBYIO29I6qF5qSFy2aPH+C/Jjc5GMhuP/VZuaJIvMM8+MvDRrL2A0v4fkXo6gN7p25yuQOjaIVldsVWs1nZhBhDN84Dzu6m9GY1YDr6qVP/huq4F0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724661489; c=relaxed/simple;
-	bh=f6WOKgUZX0rd1q010kiIRrMVJGZK+oOgf0rw6HjJRd8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jEeKoqOik1P6NtuHkJpVCAZ1rqx64vl8tnMbN6PRU54ehNRm6r4iI0XWsuo3VoYIxBlCYnl+Rq7R9BT4k795tsnOmkDPswqUQIbVTqAsrjtzI/APwJNffwQk+ODGfzCPAlxRCsH3j3xA238KCzVPstdjU1LKYmXAcT9sETzqJic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=o82HGZfq; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=HTkJhELW; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1724668845; c=relaxed/simple;
+	bh=6g/oV404bW5QFuPJUxPuEebiANjYNEz6eUT4NbDeGy8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k4zC08j0Owkobc7/ud/UBbmp9gIoMfbkUjLrkMVMwfcFiGQ+81avX4zRmGIe3zQB2ECVNjDYLRHMhva1PrV0lsXWKMohPxEdA768PEUDKCbPF2I3tHdJLU2a1Sk0TDeJ2sTz35f/Ltwo3Dl4gK4QB01z1VOfjk2gnk7p6zaqIKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=qhvFAPq/; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="o82HGZfq";
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="HTkJhELW"
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 3A9582140;
-	Mon, 26 Aug 2024 08:30:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="qhvFAPq/"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5bec23c0ba8so653579a12.2
+        for <ntfs3@lists.linux.dev>; Mon, 26 Aug 2024 03:40:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1724661011;
-	bh=GicoWd5fQBsfs00lq6bWLZ+mh02c48OxcW4/4s0XrdE=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=o82HGZfqiiwJ9FAOWiW0j4Mg1KGM7GXqGZSu4q+0NUioMPCOSvOXBgJLyeHG3av0Q
-	 VD76odA2YS0BSUkaqQeCe2KuuTdxAwbjYMNki0UzUSxBOPwRoDmJ2yOHCCkhMuVBgR
-	 W7/QTAhthCAVgc31tw2GPSJNiYFsK9GJnw0X6emw=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E3AA3211A;
-	Mon, 26 Aug 2024 08:38:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1724661484;
-	bh=GicoWd5fQBsfs00lq6bWLZ+mh02c48OxcW4/4s0XrdE=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=HTkJhELWXNyyt08IaEflxoLtnyl0qER1KXUI6xs7/lFu8q0a9hU7vAJbRJHK27pob
-	 OFbJa6inOpV/Ntdtm2xU/LsgXvn3SMQfjjIS/cLVEHkceVzJVi5WEltXGSj0MVTTkb
-	 pyHGK7Lu2oX2yYaH7j2b695QHBl0yCTmaYC1F3us=
-Received: from ntfs3vm.paragon-software.com (192.168.211.172) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Mon, 26 Aug 2024 11:38:04 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <hoditohod@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <almaz.alexandrovich@paragon-software.com>
-Subject: RE: Crash in ntfs_iget5 on mounting
-Date: Mon, 26 Aug 2024 11:37:57 +0300
-Message-ID: <20240826083757.10048-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <CAG3GjfM2o9nEutyF0fO_tv1tid8mhmAR0GvXNEBkWFEx7TKojw@mail.gmail.com>
-References: <CAG3GjfM2o9nEutyF0fO_tv1tid8mhmAR0GvXNEBkWFEx7TKojw@mail.gmail.com>
+        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1724668842; x=1725273642; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JjbeKVSi31WzRxhWlL+Ld03XcZ51OwPUH+uTO2cw8Zk=;
+        b=qhvFAPq/U3lnN9KAECfI0pElalWLUCCJL5iLVUp4kTEM6nQ86/qrylEm5hYvHO1zGL
+         6CIf5iC40kxwcZuxwqTecwm5Au3bwyy+TT91IdhxmG9SFCpjCMP4+hkMpvCdvHCX+l0n
+         LcPkcnPBa+kxd6RyU8Y/JFBNBWFePivHGDyh5YuU8y7jnoyBbu6UTHE+bEl7jscd2uJr
+         R7+gOEqRLJRJmih0F0iNFxOECgD+D/YEHqXFLpuHB2fK4/jL2ogUoDMFDwXhacH0Zkbt
+         xgyv716DKnqzxygDb6IexZdqVMNemRwt+MyBuovhLJjTWPJxIdSr10dAgkEKOQa6s2QY
+         Mbtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724668842; x=1725273642;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JjbeKVSi31WzRxhWlL+Ld03XcZ51OwPUH+uTO2cw8Zk=;
+        b=DIZ3LUrfjmbGPKeC64i+aIr8yJC5P13QXadBiHg/BqVZh8dUld0kJ+hkvBzw91z/KB
+         hm4ftocDXSXjH5Jk+QDTbYeL8NHEf7/RQWO89WS6Rjs+lE8Nfgush47UaIEBGv++KWaH
+         gTZtttDyLy2LuOOZNIvZUwpowZ4lpTp5mnl2uMOZLWXIBcfws4ihXaf64eL8tjQx/6iH
+         Bk0IVJHGbn3/9mRKZMWGCfJOGlnTwtq746cZwcfUpQc9LQVf53iWt214WsG2W+YjtSvw
+         vUz5/AlVoS03j3E+Q/kxmBhI/CwXqL4EXviTr9wcOi5WHyjhV/ofeUb3EEdeX/vua3He
+         fv4w==
+X-Gm-Message-State: AOJu0YxfidKZavNtQWPGwaTg98VppnkluXDfxiPZtcHX02e4cf/HLNoN
+	0rBPNtx0kKf+OJI1+We8EpHuOVWJ4u4FECsdL3Ad6z0nBCmF57lP5cz1aQ5zE9Q=
+X-Google-Smtp-Source: AGHT+IF3/CR9+PS5ME8Zc2H/zaAuxXs2zJ+J6nyz7JzpsWcXVfSGLWtplzdX2HeAajXOJbeQRQeKfg==
+X-Received: by 2002:a05:6402:2695:b0:58b:e3b:c5de with SMTP id 4fb4d7f45d1cf-5c0891b5c97mr3571705a12.4.1724668841917;
+        Mon, 26 Aug 2024 03:40:41 -0700 (PDT)
+Received: from fedora.fritz.box (aftr-82-135-80-228.dynamic.mnet-online.de. [82.135.80.228])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c04a3eaa90sm5407427a12.45.2024.08.26.03.40.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Aug 2024 03:40:41 -0700 (PDT)
+From: Thorsten Blum <thorsten.blum@toblux.com>
+To: almaz.alexandrovich@paragon-software.com,
+	dan.carpenter@linaro.org
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Thorsten Blum <thorsten.blum@toblux.com>
+Subject: [PATCH v2] fs/ntfs3: Use swap() to improve code
+Date: Mon, 26 Aug 2024 12:39:40 +0200
+Message-ID: <20240826103939.63548-2-thorsten.blum@toblux.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -57,18 +66,39 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hello, Gyorgy.
-At the moment, I can't say with 100% certainty whether this is an issue
-with the ntfs3 driver.
-Patch
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6f861765464f43a71462d52026fbddfc858239a5
-at the filesystem level seems to indeed resolve the problem (with a code that is far ahead of 6.1.83).
-The second, independent cause might be incorrect attributes enumeration.
-As Lei Lu points out, there is an issue here:
-  https://lore.kernel.org/ntfs3/20240823133944.211852-1-llfamsec@gmail.com/T/#u
+Use the swap() macro to simplify the code and improve its readability.
 
-Regards, Konstantin
+Fixes the following Coccinelle/coccicheck warning reported by
+swap.cocci:
+
+  WARNING opportunity for swap()
+
+Compile-tested only.
+
+Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+---
+Changes in v2:
+- Address kernel test robot feedback and assign match_offset as before
+- Link to v1: https://lore.kernel.org/linux-kernel/20240731135403.80805-2-thorsten.blum@toblux.com/
+---
+ fs/ntfs3/lib/lzx_decompress.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/fs/ntfs3/lib/lzx_decompress.c b/fs/ntfs3/lib/lzx_decompress.c
+index 6b16f07073c1..4d5701024f83 100644
+--- a/fs/ntfs3/lib/lzx_decompress.c
++++ b/fs/ntfs3/lib/lzx_decompress.c
+@@ -512,8 +512,7 @@ static int lzx_decompress_block(const struct lzx_decompressor *d,
+ 			 * the same code.  (For R0, the swap is a no-op.)
+ 			 */
+ 			match_offset = recent_offsets[offset_slot];
+-			recent_offsets[offset_slot] = recent_offsets[0];
+-			recent_offsets[0] = match_offset;
++			swap(recent_offsets[offset_slot], recent_offsets[0]);
+ 		} else {
+ 			/* Explicit offset  */
+ 
+-- 
+2.46.0
+
