@@ -1,104 +1,77 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F8614A098
-	for <ntfs3@lists.linux.dev>; Mon, 26 Aug 2024 10:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3792E62C
+	for <ntfs3@lists.linux.dev>; Tue, 27 Aug 2024 16:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724668845; cv=none; b=CJfHwjEa+TSsj2Bc+/Gm8vr869ehRFkLW65be+h8/k73JrV1r8W1gZUatFxBYIO29I6qF5qSFy2aPH+C/Jjc5GMhuP/VZuaJIvMM8+MvDRrL2A0v4fkXo6gN7p25yuQOjaIVldsVWs1nZhBhDN84Dzu6m9GY1YDr6qVP/huq4F0=
+	t=1724775425; cv=none; b=CvFviD+q2MvIzRL+V6xNIFO2HTRGVl5UMO2kGDNP3KofgKc+N1ZswTlkkQNBkv7Sz7xn/8gFZIShCSY9R0SX54PJePEjglYYXp/4ggdXa/IjxmDzrL5y2Rs2aeb14acxO+JFbEbWWLJnfuC+suAKQp4JwkC6qacjJEDRavvsDHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724668845; c=relaxed/simple;
-	bh=6g/oV404bW5QFuPJUxPuEebiANjYNEz6eUT4NbDeGy8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k4zC08j0Owkobc7/ud/UBbmp9gIoMfbkUjLrkMVMwfcFiGQ+81avX4zRmGIe3zQB2ECVNjDYLRHMhva1PrV0lsXWKMohPxEdA768PEUDKCbPF2I3tHdJLU2a1Sk0TDeJ2sTz35f/Ltwo3Dl4gK4QB01z1VOfjk2gnk7p6zaqIKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=qhvFAPq/; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="qhvFAPq/"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5bec23c0ba8so653579a12.2
-        for <ntfs3@lists.linux.dev>; Mon, 26 Aug 2024 03:40:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1724668842; x=1725273642; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JjbeKVSi31WzRxhWlL+Ld03XcZ51OwPUH+uTO2cw8Zk=;
-        b=qhvFAPq/U3lnN9KAECfI0pElalWLUCCJL5iLVUp4kTEM6nQ86/qrylEm5hYvHO1zGL
-         6CIf5iC40kxwcZuxwqTecwm5Au3bwyy+TT91IdhxmG9SFCpjCMP4+hkMpvCdvHCX+l0n
-         LcPkcnPBa+kxd6RyU8Y/JFBNBWFePivHGDyh5YuU8y7jnoyBbu6UTHE+bEl7jscd2uJr
-         R7+gOEqRLJRJmih0F0iNFxOECgD+D/YEHqXFLpuHB2fK4/jL2ogUoDMFDwXhacH0Zkbt
-         xgyv716DKnqzxygDb6IexZdqVMNemRwt+MyBuovhLJjTWPJxIdSr10dAgkEKOQa6s2QY
-         Mbtw==
+	s=arc-20240116; t=1724775425; c=relaxed/simple;
+	bh=5XAqISp1O5JZg1ULLaLmQmHYO6E/l554W9XWwLazz7w=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=fx458OfMCi8F4fdDl+Ycchb4TdO2jfydhLV2maC0Cjzr1wTDzCB9/4ApZbWvhFx3oiTPHE5li9pBoH/8yso8ML3u0KfS5wkGw6jgA/M+Z+9mxfcT0ha8vtQ9Yn3LUjL21CoGSVGjAEq/pl4wGURUlZsUKub021jy7Eomwf/pAOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-81f99a9111fso606819839f.2
+        for <ntfs3@lists.linux.dev>; Tue, 27 Aug 2024 09:17:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724668842; x=1725273642;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JjbeKVSi31WzRxhWlL+Ld03XcZ51OwPUH+uTO2cw8Zk=;
-        b=DIZ3LUrfjmbGPKeC64i+aIr8yJC5P13QXadBiHg/BqVZh8dUld0kJ+hkvBzw91z/KB
-         hm4ftocDXSXjH5Jk+QDTbYeL8NHEf7/RQWO89WS6Rjs+lE8Nfgush47UaIEBGv++KWaH
-         gTZtttDyLy2LuOOZNIvZUwpowZ4lpTp5mnl2uMOZLWXIBcfws4ihXaf64eL8tjQx/6iH
-         Bk0IVJHGbn3/9mRKZMWGCfJOGlnTwtq746cZwcfUpQc9LQVf53iWt214WsG2W+YjtSvw
-         vUz5/AlVoS03j3E+Q/kxmBhI/CwXqL4EXviTr9wcOi5WHyjhV/ofeUb3EEdeX/vua3He
-         fv4w==
-X-Gm-Message-State: AOJu0YxfidKZavNtQWPGwaTg98VppnkluXDfxiPZtcHX02e4cf/HLNoN
-	0rBPNtx0kKf+OJI1+We8EpHuOVWJ4u4FECsdL3Ad6z0nBCmF57lP5cz1aQ5zE9Q=
-X-Google-Smtp-Source: AGHT+IF3/CR9+PS5ME8Zc2H/zaAuxXs2zJ+J6nyz7JzpsWcXVfSGLWtplzdX2HeAajXOJbeQRQeKfg==
-X-Received: by 2002:a05:6402:2695:b0:58b:e3b:c5de with SMTP id 4fb4d7f45d1cf-5c0891b5c97mr3571705a12.4.1724668841917;
-        Mon, 26 Aug 2024 03:40:41 -0700 (PDT)
-Received: from fedora.fritz.box (aftr-82-135-80-228.dynamic.mnet-online.de. [82.135.80.228])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c04a3eaa90sm5407427a12.45.2024.08.26.03.40.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 03:40:41 -0700 (PDT)
-From: Thorsten Blum <thorsten.blum@toblux.com>
-To: almaz.alexandrovich@paragon-software.com,
-	dan.carpenter@linaro.org
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Thorsten Blum <thorsten.blum@toblux.com>
-Subject: [PATCH v2] fs/ntfs3: Use swap() to improve code
-Date: Mon, 26 Aug 2024 12:39:40 +0200
-Message-ID: <20240826103939.63548-2-thorsten.blum@toblux.com>
-X-Mailer: git-send-email 2.46.0
+        d=1e100.net; s=20230601; t=1724775423; x=1725380223;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xwdLy7ifDFmOoT2TcapjsucGnYM4zQXePJyan7677kc=;
+        b=P++sTN53oEDDMbHpCeKGsyDWHgtj1M4XpxAfX72J186sp/6SMxYs5+Dw0jQM1IqvoI
+         2uEfueKawxBY5Pa7cKDHfMcsTKcopJ40XwEnlRqif+u7OdYGbj2yhNg+5bae4lgHEXcT
+         1YEIQdpRvGmfz6vq+0QKIrnsB1zEihfqEbL3l+nUvmBu2FPv+1mWqpbwaDO+h6zpjoJn
+         8W7o8GMQwsANEBgf1ltmIxjsl7t+dYBBG3E2NzXnEvAVajpyucqgWAnC3S5ZdJuhwWbM
+         QpFQWSIi2QNbi6U8QTbz+ysG+/A4vrcBdxSDlUgmyUyBUiqJR6ABiJ9haqE4ECR8mLJ9
+         UM9A==
+X-Forwarded-Encrypted: i=1; AJvYcCWLXB+oCyeyD27UiXrIw+z4eW1mCv/taSIF1oCCfuEcpB7dwN5/MMrqd0gzTdUcl6uI0oc2uA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyEWwxnuiMlvTizQcM7JRfOI6DP+CfN1DSU6ZgTiOGGATJHx6gp
+	vp/xAjl+kdGXw5bZjX+g9uxqtnBqyNagKK9qOSyDtFcqwJNQAzcdn4YX3opPNuQOd/qyY+ropJD
+	Xp+5Q/NqQ4T7pG5PbY8iIWfAvi/n5kyXkFK2QM42N4Lw+gk8iC4lsf7k=
+X-Google-Smtp-Source: AGHT+IGpwEmPBIxSKDNU4LNMXj+yBrZQT3OiZ3ToEhcwCQyzlfwwdNLqvvVvcM3LRCTQNIhnwWPtHyIODAfKlavgXJMzK0Y9wJWI
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6638:1485:b0:4b9:ad20:51ff with SMTP id
+ 8926c6da1cb9f-4ce8284ec5bmr330404173.1.1724775423189; Tue, 27 Aug 2024
+ 09:17:03 -0700 (PDT)
+Date: Tue, 27 Aug 2024 09:17:03 -0700
+In-Reply-To: <000000000000be9914061763f17a@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000006ab89d0620ac92fc@google.com>
+Subject: Re: [syzbot] [ntfs3?] BUG: unable to handle kernel NULL pointer
+ dereference in attr_make_nonresident
+From: syzbot <syzbot+5b6ed16da1077f45bc8e@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Use the swap() macro to simplify the code and improve its readability.
+syzbot suspects this issue was fixed by commit:
 
-Fixes the following Coccinelle/coccicheck warning reported by
-swap.cocci:
+commit 0f9579d9e0331b6255132ac06bdf2c0a01cceb90
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Mon Jun 3 06:58:13 2024 +0000
 
-  WARNING opportunity for swap()
+    fs/ntfs3: Add missing .dirty_folio in address_space_operations
 
-Compile-tested only.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=116e278d980000
+start commit:   34afb82a3c67 Merge tag '6.10-rc6-smb3-server-fixes' of git..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=42a432cfd0e579e0
+dashboard link: https://syzkaller.appspot.com/bug?extid=5b6ed16da1077f45bc8e
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=110a2c7e980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1312ea4e980000
 
-Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
----
-Changes in v2:
-- Address kernel test robot feedback and assign match_offset as before
-- Link to v1: https://lore.kernel.org/linux-kernel/20240731135403.80805-2-thorsten.blum@toblux.com/
----
- fs/ntfs3/lib/lzx_decompress.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+If the result looks correct, please mark the issue as fixed by replying with:
 
-diff --git a/fs/ntfs3/lib/lzx_decompress.c b/fs/ntfs3/lib/lzx_decompress.c
-index 6b16f07073c1..4d5701024f83 100644
---- a/fs/ntfs3/lib/lzx_decompress.c
-+++ b/fs/ntfs3/lib/lzx_decompress.c
-@@ -512,8 +512,7 @@ static int lzx_decompress_block(const struct lzx_decompressor *d,
- 			 * the same code.  (For R0, the swap is a no-op.)
- 			 */
- 			match_offset = recent_offsets[offset_slot];
--			recent_offsets[offset_slot] = recent_offsets[0];
--			recent_offsets[0] = match_offset;
-+			swap(recent_offsets[offset_slot], recent_offsets[0]);
- 		} else {
- 			/* Explicit offset  */
- 
--- 
-2.46.0
+#syz fix: fs/ntfs3: Add missing .dirty_folio in address_space_operations
 
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
