@@ -1,93 +1,78 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4645E15748F
-	for <ntfs3@lists.linux.dev>; Wed, 28 Aug 2024 09:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BB317C23B
+	for <ntfs3@lists.linux.dev>; Fri, 30 Aug 2024 10:44:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724837333; cv=none; b=ALu+c3LwUG+dMRmR5IKWljXBd8sQc2omcApGTLaqHmRnc2uFkCHpg73GJxwA4Rccb4ynxVGV6jDHjIDDP6ox69XuDPI3k7KkO+eaaE1mAw1Xifmilz6oEbMm2KkEZZafWqa4uSIV3JDBmIjvXgR9G/+kQD7oJGw47bZZdbmDa/k=
+	t=1725014644; cv=none; b=KKMX0yXcLyWGivoSrmQLg5YMDqnWEiQo5uaLIPeiFYhbcEHQXcEYHOEbhJoIxOwvpj0034dCzYN58L1vnCxl8PdkaA0zDYUOT20aTvC+FAJ34XaMD9fJK+llf3NC4Iw1syapCEvyClUHrB6qVljuj4wYVdrE1adKT6d5DdOSvZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724837333; c=relaxed/simple;
-	bh=G0qFQ9oUEmOIvAA+6HRgAjEdV7UcjkbxDkfABWBdDRw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=fqLSkztcQBWCec3nFQMmI8tKjp3eoD3/BpNRi9vBt5lAh+mkIhh8aGJVYJnZ3ZIu3F/iJgc7Dj/Qtd77lOis+HF++Cu0vLdMcQbz4pDXMqM75Y1D7L8gDgphBcKuk0xzzgbsajEiIXhJBoJ0NffLwg70VQtD+74Qv1dFbn49xzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KeKLHKUM; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KeKLHKUM"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a868d7f92feso825826966b.2
-        for <ntfs3@lists.linux.dev>; Wed, 28 Aug 2024 02:28:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724837331; x=1725442131; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3BQsCoCFEiSXVcRGxQXzqzuLe0usDHQdTEHSNrfC54g=;
-        b=KeKLHKUMszAL6gSp0BrytBeZVHA5MHmGLqNT1Vspt+7E0jf3cIQcmqJPcNA+L3Uyud
-         oHf0oemPPOkRb6PsDbblmG29qvtwpDFT8fF1cWFIjDilcAlblwA+nH/HPHnbJzCQy774
-         U41HGl0PfJYwW2AJtqvK5YfJEunUI4wqU6NsDGImXMzpgXMPrEziFD/wchf8Cuf7itm8
-         NvlC+J//FrxoxqXAOQRxCE64xrqTcjV9RenMJy1x/buApQvMPJdfhdESlwbx9dfwLGHV
-         6VSWJGBWjdrsz0nauUUeJhR0gIeQumXuqQfPVJaXk8DkiFAx9rpdQKNCDmrzuh1gBwmG
-         Y1AA==
+	s=arc-20240116; t=1725014644; c=relaxed/simple;
+	bh=niNpNZJMobFOh4FQA6zvVD8T0AOLgz3BBoY4hFfdYJ4=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=DH5OhxBz0URouxxw1mL4KGsnKUcxr5S90r+ZxRe/9TYOE66Rh07A5NN3LHYIz3F+9r8SINI61hLiE6557rbiHrgdtP9hrdJaA1QVyZAptF2nxjZpNk+uWDBfvV/7ZA+6n3QO05uOKWqpt3gWiBN/5QCYE+5s+e3CN0jiEBSpX3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-39d4b5b9fa0so20109005ab.1
+        for <ntfs3@lists.linux.dev>; Fri, 30 Aug 2024 03:44:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724837331; x=1725442131;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3BQsCoCFEiSXVcRGxQXzqzuLe0usDHQdTEHSNrfC54g=;
-        b=iOSh2jecvTN3MyQnD9D5+20xM+o4NLdyu97qUPcL8DhT+Dhi+7LXuK7Ae6tMiyAEAy
-         RdpDrjcRy9JnGjWXTWXtQicLgC9xC52UukQRcS67e0fCHgiCjGw/00lOnox2YjV+Kqii
-         J2fEh7pWt5RFc4IifrUffCSfnWKnsWPgzz5aKt5cnzUDY+n2SiDGL2UGfO4zKm5MrGPJ
-         wQgOz7VdnnrXOxcVi2Zq9xMHhQEpSKdHR+lezQ64HqycpuoGzp+BrB+/kPXc7aIS5Z39
-         fG3ImMXi40xDk2N9Ny5M9Fnly9uoWkT4fxFZV2u4FjVrPui5W7NkTtx7/JjgT1febqgV
-         PNdA==
-X-Forwarded-Encrypted: i=1; AJvYcCWCoksFagaqhOh4ni+4CvFqlB27LvpKL2IgKkp3pmY5tdJVQLiVEuMVuIEitxnRQDt1kEGX7Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxXpgL9VMggfj6Itf0U8uPjl4skJABrXjVS5fvnrj7J2Ac65rnb
-	fWv+DCzCcn2QTt0VR+SJe8PJS6M8F+RDUuwRVU6dFXjvLr+qPMtQOjT45w==
-X-Google-Smtp-Source: AGHT+IHsvmMmXLzi1s2aMB4wtmGpZMD6DO/nxH1hCgKa0l8kC5vSxDkMyu1GH+Mu5ojwuMpDIs9pjw==
-X-Received: by 2002:a17:907:3da1:b0:a86:9d3d:edef with SMTP id a640c23a62f3a-a86a5188f43mr1083191366b.12.1724837330104;
-        Wed, 28 Aug 2024 02:28:50 -0700 (PDT)
-Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e549cb8esm219239166b.67.2024.08.28.02.28.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 02:28:49 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] fs/ntfs3: Fix spelling mistake "recommened" -> "recommended"
-Date: Wed, 28 Aug 2024 10:28:48 +0100
-Message-Id: <20240828092848.271137-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20230601; t=1725014642; x=1725619442;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LJKtDFQx4A7z8EmFPZ787p4mjXNb5tRqOM9oMTocYA4=;
+        b=shB9d0t4ylEkKyd4tIyfbY1QMUvR/kWLYnd1qIJSaBAhIAgM676PAbsh5skaawBFH6
+         96iMIx3J7zyH4msGrM6KXnbPi7DouWk8zJLQ0TGdzohDac2EVuCfrenaNq+bjAEJ74j0
+         5r5F5jJ7JCoz0PZIvAsdtJTrmx5cWvpCme7E3I5EZ+QqcES4KonC6lb8kOW047PzpXsA
+         g4ddq5JViaKpfJmOCc3UCC1JUnuBnvcOK3WE7E19MbZGsGPc8Nmo8T9PYa4jdqXcwlw/
+         lOSoW6tZCxvVXt63iIqpEaERYT3Pj3aidpvq+lE1RpNOaUgapD1aV3PGMLuKqgctvpgg
+         kRPg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZZaE28r4JSwMObURKLFJFffMpBpBptV1872fsYsNZkbVJcXQZu5neJYqxahA0lG5c9AGAWA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOCUfOz750DEYzjq52PTQHS7j/B84Afi8PY23nuFBzTLO/MXSF
+	ZKvvFQksVOqDzhxPW87o33ID7yioyVn7tSMlhYVdV05M9c6z7BDvFwG08SJqJIoBFSipqGYNRGf
+	dYNs4ZwM6LdpaFpEfqaue2dhqGka5ARMNOSgNCzgx4EDLect0conMdT8=
+X-Google-Smtp-Source: AGHT+IFphnEkAR4PqF2gg0wh439hJmAr4j9EryTljjcSjPfYV4T1MBzhbaA98mG907oZ464Z9Y84zJ6WGp8spaxpqGvYh1Qn+Uh+
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:1a65:b0:380:9233:96e6 with SMTP id
+ e9e14a558f8ab-39f41073afemr1366405ab.4.1725014642624; Fri, 30 Aug 2024
+ 03:44:02 -0700 (PDT)
+Date: Fri, 30 Aug 2024 03:44:02 -0700
+In-Reply-To: <0000000000008886db06150bcc92@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000001a0600620e4451b@google.com>
+Subject: Re: [syzbot] [ntfs3?] INFO: trying to register non-static key in
+ do_mpage_readpage (2)
+From: syzbot <syzbot+6783b9aaa6a224fabde8@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-There is a spelling mistake in a ntfs_info message. Fix it.
+syzbot has bisected this issue to:
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- fs/ntfs3/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+commit 24c5100aceedcd47af89aaa404d4c96cd2837523
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Tue Jun 4 07:41:39 2024 +0000
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 128d49512f5d..7c4eb9b61d4e 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -1247,7 +1247,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	sbi->volume.ni = ni;
- 	if (info->flags & VOLUME_FLAG_DIRTY) {
- 		sbi->volume.real_dirty = true;
--		ntfs_info(sb, "It is recommened to use chkdsk.");
-+		ntfs_info(sb, "It is recommended to use chkdsk.");
- 	}
- 
- 	/* Load $MFTMirr to estimate recs_mirr. */
--- 
-2.39.2
+    fs/ntfs3: Fix getting file type
 
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1104eb2f980000
+start commit:   d5d547aa7b51 Merge tag 'random-6.11-rc6-for-linus' of git:..
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=1304eb2f980000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1504eb2f980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d806687521800cad
+dashboard link: https://syzkaller.appspot.com/bug?extid=6783b9aaa6a224fabde8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=140ddf93980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11c83909980000
+
+Reported-by: syzbot+6783b9aaa6a224fabde8@syzkaller.appspotmail.com
+Fixes: 24c5100aceed ("fs/ntfs3: Fix getting file type")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
