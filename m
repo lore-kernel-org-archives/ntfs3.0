@@ -1,78 +1,155 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BB317C23B
-	for <ntfs3@lists.linux.dev>; Fri, 30 Aug 2024 10:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775EF17B50B
+	for <ntfs3@lists.linux.dev>; Sun,  1 Sep 2024 18:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725014644; cv=none; b=KKMX0yXcLyWGivoSrmQLg5YMDqnWEiQo5uaLIPeiFYhbcEHQXcEYHOEbhJoIxOwvpj0034dCzYN58L1vnCxl8PdkaA0zDYUOT20aTvC+FAJ34XaMD9fJK+llf3NC4Iw1syapCEvyClUHrB6qVljuj4wYVdrE1adKT6d5DdOSvZc=
+	t=1725213936; cv=none; b=lcDfi3JMhTifeOtQCOqty4RNYsNBHbShtOxxTogl5O6WZT+xsVHjzxPTGQ8byvB5m+LbbHBRnPiGtxc8QeLuO5D23Ff6Cdnb+r6fRq5on+inrV3ZJXyp2Gbtt4ltxBMhce71BrXSN7Mrqybb8VBeCKSd2iO+CVIH6zXetDnAKlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725014644; c=relaxed/simple;
-	bh=niNpNZJMobFOh4FQA6zvVD8T0AOLgz3BBoY4hFfdYJ4=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=DH5OhxBz0URouxxw1mL4KGsnKUcxr5S90r+ZxRe/9TYOE66Rh07A5NN3LHYIz3F+9r8SINI61hLiE6557rbiHrgdtP9hrdJaA1QVyZAptF2nxjZpNk+uWDBfvV/7ZA+6n3QO05uOKWqpt3gWiBN/5QCYE+5s+e3CN0jiEBSpX3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+	s=arc-20240116; t=1725213936; c=relaxed/simple;
+	bh=xe4H309ncZ6b3uP86vLrmgcA6/5kXN4xkauLD1CrmHw=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=tma+oN32V7RAySvyJSK9F9ByCs0SxVoAqAuhxzNEs1/893euVsNegmRvMJ8Hy2SjjjfZIcoOkDpyopRkEBDCFGDNflx9Y5BC7mxnt76G5WLmJ1LDr2w4um4aGZFP2V+Ur51s6roN+fOwE/uufYztF57MxQmGoqP7NBUM/IK6kVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-39d4b5b9fa0so20109005ab.1
-        for <ntfs3@lists.linux.dev>; Fri, 30 Aug 2024 03:44:03 -0700 (PDT)
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-39f5328fd5eso13612535ab.2
+        for <ntfs3@lists.linux.dev>; Sun, 01 Sep 2024 11:05:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725014642; x=1725619442;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LJKtDFQx4A7z8EmFPZ787p4mjXNb5tRqOM9oMTocYA4=;
-        b=shB9d0t4ylEkKyd4tIyfbY1QMUvR/kWLYnd1qIJSaBAhIAgM676PAbsh5skaawBFH6
-         96iMIx3J7zyH4msGrM6KXnbPi7DouWk8zJLQ0TGdzohDac2EVuCfrenaNq+bjAEJ74j0
-         5r5F5jJ7JCoz0PZIvAsdtJTrmx5cWvpCme7E3I5EZ+QqcES4KonC6lb8kOW047PzpXsA
-         g4ddq5JViaKpfJmOCc3UCC1JUnuBnvcOK3WE7E19MbZGsGPc8Nmo8T9PYa4jdqXcwlw/
-         lOSoW6tZCxvVXt63iIqpEaERYT3Pj3aidpvq+lE1RpNOaUgapD1aV3PGMLuKqgctvpgg
-         kRPg==
-X-Forwarded-Encrypted: i=1; AJvYcCUZZaE28r4JSwMObURKLFJFffMpBpBptV1872fsYsNZkbVJcXQZu5neJYqxahA0lG5c9AGAWA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxOCUfOz750DEYzjq52PTQHS7j/B84Afi8PY23nuFBzTLO/MXSF
-	ZKvvFQksVOqDzhxPW87o33ID7yioyVn7tSMlhYVdV05M9c6z7BDvFwG08SJqJIoBFSipqGYNRGf
-	dYNs4ZwM6LdpaFpEfqaue2dhqGka5ARMNOSgNCzgx4EDLect0conMdT8=
-X-Google-Smtp-Source: AGHT+IFphnEkAR4PqF2gg0wh439hJmAr4j9EryTljjcSjPfYV4T1MBzhbaA98mG907oZ464Z9Y84zJ6WGp8spaxpqGvYh1Qn+Uh+
+        d=1e100.net; s=20230601; t=1725213933; x=1725818733;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=83Y3SnCsJy5Zx+0NGs/Pec13m9on1G/M8LYnEtKP7ZE=;
+        b=on3UjiixGmQg35D20PJqOax0CN254xf5W2pYlMbahWhEcVWDWxDqNIAkG2PbdXFmhP
+         ESXrZ2SQG+DYrshwkKx8ftYDHp854w+IAQmAxtaC6YVraBjTS+DwMLNoRR4wzC/tzPT8
+         ryMzi6Cfa61WTpGb9e1WPJMqFhSxuaSo3oCxLmlOsCFY+7hoMAlBnjQnpdVuHRQVObSB
+         MIbGxCm6sqPg4XHbtOeboUgYc+cTyAvTHAjTyg3tlP6dRmRblmzRtEjhx6a7EAJYJLYJ
+         C1ta+oXFWOIrDsTk67V8XCdTsvgCogm4YYFJtgnlEu3X2tVHd/Z90rwl853E7XyHRpfX
+         gKKg==
+X-Forwarded-Encrypted: i=1; AJvYcCWgIntjjuuAf/MHnIQhhI7BjBQG6C5Qsudz5ez43EY8DVzH3vjDWd5l5ZH3Uar17md+Uowq/g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0fzgcaOv7ZDzPOeoq8g7cRhQG8JumdDKD1j0CT7UTcZ5NL+CZ
+	u96d3t1DQwijyFVsxHnZ5aKfNPVyMPNjnhyONJRzd80Sf642U+zge2t8QpTojxz+zX2KJeWzvsQ
+	IZQS2OxLVzGr4YOyGx1LhJy3XbK2hg5Ccj+WfvNfjQkr71WSZkGCwNPw=
+X-Google-Smtp-Source: AGHT+IGp7cfo4urMQBIpzM8jClXAfbPR8iCw+8Nx+l71AUO3OvrTj+GvLYceLashzIeWpH0kCorjGLq7h++S7VZX4CIv6CcwzCBQ
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1a65:b0:380:9233:96e6 with SMTP id
- e9e14a558f8ab-39f41073afemr1366405ab.4.1725014642624; Fri, 30 Aug 2024
- 03:44:02 -0700 (PDT)
-Date: Fri, 30 Aug 2024 03:44:02 -0700
-In-Reply-To: <0000000000008886db06150bcc92@google.com>
+X-Received: by 2002:a05:6e02:3b05:b0:39f:4ec5:f4bf with SMTP id
+ e9e14a558f8ab-39f4ec5f75amr1609865ab.0.1725213933688; Sun, 01 Sep 2024
+ 11:05:33 -0700 (PDT)
+Date: Sun, 01 Sep 2024 11:05:33 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000001a0600620e4451b@google.com>
-Subject: Re: [syzbot] [ntfs3?] INFO: trying to register non-static key in
- do_mpage_readpage (2)
-From: syzbot <syzbot+6783b9aaa6a224fabde8@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
+Message-ID: <000000000000adea7f062112ab4c@google.com>
+Subject: [syzbot] [ntfs3?] BUG: sleeping function called from invalid context
+ in ntfs_d_hash
+From: syzbot <syzbot+7f71f79bbfb4427b00e1@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-syzbot has bisected this issue to:
+Hello,
 
-commit 24c5100aceedcd47af89aaa404d4c96cd2837523
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Tue Jun 4 07:41:39 2024 +0000
+syzbot found the following issue on:
 
-    fs/ntfs3: Fix getting file type
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1104eb2f980000
-start commit:   d5d547aa7b51 Merge tag 'random-6.11-rc6-for-linus' of git:..
+HEAD commit:    86987d84b968 Merge tag 'v6.11-rc5-client-fixes' of git://g..
 git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=1304eb2f980000
-console output: https://syzkaller.appspot.com/x/log.txt?x=1504eb2f980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d806687521800cad
-dashboard link: https://syzkaller.appspot.com/bug?extid=6783b9aaa6a224fabde8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=140ddf93980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11c83909980000
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=12935393980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8605cd35ddc8ff3c
+dashboard link: https://syzkaller.appspot.com/bug?extid=7f71f79bbfb4427b00e1
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14516fa7980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11bf1e47980000
 
-Reported-by: syzbot+6783b9aaa6a224fabde8@syzkaller.appspotmail.com
-Fixes: 24c5100aceed ("fs/ntfs3: Fix getting file type")
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/17720a1549d0/disk-86987d84.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/55a9f2cf6e8d/vmlinux-86987d84.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/8760a72ae7d5/bzImage-86987d84.xz
+mounted in repro #1: https://storage.googleapis.com/syzbot-assets/8d38edc6ad5d/mount_0.gz
+mounted in repro #2: https://storage.googleapis.com/syzbot-assets/57ba0d69287b/mount_1.gz
 
+The issue was bisected to:
+
+commit d392e85fd1e8d58e460c17ca7d0d5c157848d9c1
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Tue Jun 25 06:57:33 2024 +0000
+
+    fs/ntfs3: Fix the format of the "nocase" mount option
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1525a647980000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=1725a647980000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1325a647980000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7f71f79bbfb4427b00e1@syzkaller.appspotmail.com
+Fixes: d392e85fd1e8 ("fs/ntfs3: Fix the format of the "nocase" mount option")
+
+ntfs3: loop0: Failed to initialize $Extend/$Reparse.
+BUG: sleeping function called from invalid context at include/linux/sched/mm.h:337
+in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 5222, name: syz-executor508
+preempt_count: 0, expected: 0
+RCU nest depth: 1, expected: 0
+1 lock held by syz-executor508/5222:
+ #0: ffffffff8e938320 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:326 [inline]
+ #0: ffffffff8e938320 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:838 [inline]
+ #0: ffffffff8e938320 (rcu_read_lock){....}-{1:2}, at: path_init+0x12a/0x1360 fs/namei.c:2437
+CPU: 0 UID: 0 PID: 5222 Comm: syz-executor508 Not tainted 6.11.0-rc5-syzkaller-00057-g86987d84b968 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:93 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
+ __might_resched+0x5d4/0x780 kernel/sched/core.c:8463
+ might_alloc include/linux/sched/mm.h:337 [inline]
+ slab_pre_alloc_hook mm/slub.c:3939 [inline]
+ slab_alloc_node mm/slub.c:4017 [inline]
+ kmem_cache_alloc_noprof+0x5d/0x2a0 mm/slub.c:4044
+ ntfs_d_hash+0x1a0/0x420 fs/ntfs3/namei.c:398
+ link_path_walk+0x92d/0xea0 fs/namei.c:2375
+ path_openat+0x25d/0x3470 fs/namei.c:3882
+ do_filp_open+0x235/0x490 fs/namei.c:3913
+ do_sys_openat2+0x13e/0x1d0 fs/open.c:1416
+ do_sys_open fs/open.c:1431 [inline]
+ __do_sys_openat fs/open.c:1447 [inline]
+ __se_sys_openat fs/open.c:1442 [inline]
+ __x64_sys_openat+0x247/0x2a0 fs/open.c:1442
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5174e4c2f9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 61 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffe8ece6038 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007ffe8ece6040 RCX: 00007f5174e4c2f9
+RDX: 000000000000275a RSI: 0000000020000240 RDI: 00000000ffffff9c
+RBP: 00007ffe8ece6048 R08: 00007ffe8ece6048 R09: 00007f5174e17ff0
+R10: 0000000000000000 R11: 0000
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
