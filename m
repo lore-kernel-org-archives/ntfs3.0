@@ -1,52 +1,51 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775EF17B50B
-	for <ntfs3@lists.linux.dev>; Sun,  1 Sep 2024 18:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A331F957
+	for <ntfs3@lists.linux.dev>; Sun,  1 Sep 2024 20:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725213936; cv=none; b=lcDfi3JMhTifeOtQCOqty4RNYsNBHbShtOxxTogl5O6WZT+xsVHjzxPTGQ8byvB5m+LbbHBRnPiGtxc8QeLuO5D23Ff6Cdnb+r6fRq5on+inrV3ZJXyp2Gbtt4ltxBMhce71BrXSN7Mrqybb8VBeCKSd2iO+CVIH6zXetDnAKlA=
+	t=1725222509; cv=none; b=gfL6/CtcAOmfWRPHLDmAi3RFNketT2NWlEKwwMPMYilbTU4RbCqD9y2OaC8GZgKychbc2eqRP7Xsm3PXdcjtlhUGsMc9rtOmPXa4CDtmNJ2QLOoDnh4AEdekq4nh1YI8emx6EEMyMMx5vrpQPofK5UxPVSFAZjX5h7fnln6j6Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725213936; c=relaxed/simple;
-	bh=xe4H309ncZ6b3uP86vLrmgcA6/5kXN4xkauLD1CrmHw=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=tma+oN32V7RAySvyJSK9F9ByCs0SxVoAqAuhxzNEs1/893euVsNegmRvMJ8Hy2SjjjfZIcoOkDpyopRkEBDCFGDNflx9Y5BC7mxnt76G5WLmJ1LDr2w4um4aGZFP2V+Ur51s6roN+fOwE/uufYztF57MxQmGoqP7NBUM/IK6kVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
+	s=arc-20240116; t=1725222509; c=relaxed/simple;
+	bh=7EBJOvDTmCgNvh7cUGo5j28NKL1Nz2qMatEEIuHnw0U=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=H2SHQgzAdQ/q9O6GVXuyDGqOYM27gKb50oQdisvdDyhQHelj0MzQDcEtIz2RVe7R/NNRjbTx1VWDf+YjXx9iHQ1c4cVydwidPjzJVzSmxLuq6v2jsZmXNt56rPpLuKSyI3nDjcdTt9Qrcvg7ns+SsJubX3/6NFXM/RnpuXEd3C4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-39f5328fd5eso13612535ab.2
-        for <ntfs3@lists.linux.dev>; Sun, 01 Sep 2024 11:05:34 -0700 (PDT)
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-82a3754a02bso200668139f.0
+        for <ntfs3@lists.linux.dev>; Sun, 01 Sep 2024 13:28:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725213933; x=1725818733;
+        d=1e100.net; s=20230601; t=1725222507; x=1725827307;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=83Y3SnCsJy5Zx+0NGs/Pec13m9on1G/M8LYnEtKP7ZE=;
-        b=on3UjiixGmQg35D20PJqOax0CN254xf5W2pYlMbahWhEcVWDWxDqNIAkG2PbdXFmhP
-         ESXrZ2SQG+DYrshwkKx8ftYDHp854w+IAQmAxtaC6YVraBjTS+DwMLNoRR4wzC/tzPT8
-         ryMzi6Cfa61WTpGb9e1WPJMqFhSxuaSo3oCxLmlOsCFY+7hoMAlBnjQnpdVuHRQVObSB
-         MIbGxCm6sqPg4XHbtOeboUgYc+cTyAvTHAjTyg3tlP6dRmRblmzRtEjhx6a7EAJYJLYJ
-         C1ta+oXFWOIrDsTk67V8XCdTsvgCogm4YYFJtgnlEu3X2tVHd/Z90rwl853E7XyHRpfX
-         gKKg==
-X-Forwarded-Encrypted: i=1; AJvYcCWgIntjjuuAf/MHnIQhhI7BjBQG6C5Qsudz5ez43EY8DVzH3vjDWd5l5ZH3Uar17md+Uowq/g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0fzgcaOv7ZDzPOeoq8g7cRhQG8JumdDKD1j0CT7UTcZ5NL+CZ
-	u96d3t1DQwijyFVsxHnZ5aKfNPVyMPNjnhyONJRzd80Sf642U+zge2t8QpTojxz+zX2KJeWzvsQ
-	IZQS2OxLVzGr4YOyGx1LhJy3XbK2hg5Ccj+WfvNfjQkr71WSZkGCwNPw=
-X-Google-Smtp-Source: AGHT+IGp7cfo4urMQBIpzM8jClXAfbPR8iCw+8Nx+l71AUO3OvrTj+GvLYceLashzIeWpH0kCorjGLq7h++S7VZX4CIv6CcwzCBQ
+        bh=zWnPjTUWwWec2L8dOHWnX8tBqet94rg3TyCYQg7utpA=;
+        b=IwYpDBGwKo+AAZV4mjhU8/rsk6FAtJJoL0jwKv/YvpXggrpriWhELrcYdtJ5uULXXw
+         le8T5p1dgjKCfRoopX2nRC4pcuta2lzToMz44f6ieqqiaCIIlY3nQ74oN2MILr6x3FGE
+         OAz2gnNIZZQ4cWETBzmm8SRW7Gv+4OfRkgKczIPSmKGZYDvpLCwPc3GIuckSvOGs7x0m
+         hKvo0+LU79T66csikjChDQ341Vr4N4HaBRsJm1E7JW/Cixau8LTrwBjmw2kvicmg4pS/
+         eljqLXYdzoJ811w6VeUxLcQO6+V4Oe0fkjPGnAfTHfgtQ6kps3ItY80Ffon+5n6cVa5w
+         5QoA==
+X-Forwarded-Encrypted: i=1; AJvYcCXmOlhKt81+X54bgWfLXtJIwFSb9dUaVw4uAUf/YWTZKiL/iGmp2ifLx1Ut4m27seeg7jDeoQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxD3vnDAgfMhZc6l4sZtGzYwOTh3Xhw8uC3BesvttzgZTkXrrfm
+	smOCv/615KqVP9xKTB8v02cdRC8uYpLlA7+yjFY0zq/m6dO4y+WahY2hVrWcSYiL6lofJjPZxL1
+	ltydCTGxmY/aZrK+2uX504jTp2bYcWe1DyAdEBVENxMvYe99lPAVsqN8=
+X-Google-Smtp-Source: AGHT+IGEaa370Q+UzeojF0tIUd3ekWHpQvuZXhMcpI/ygBMzEQJ2dBhpNWfoxJFvl0Ji5ulxSk2PEEkznkEU2RJptY7VYorV4yrO
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:3b05:b0:39f:4ec5:f4bf with SMTP id
- e9e14a558f8ab-39f4ec5f75amr1609865ab.0.1725213933688; Sun, 01 Sep 2024
- 11:05:33 -0700 (PDT)
-Date: Sun, 01 Sep 2024 11:05:33 -0700
+X-Received: by 2002:a05:6602:14c2:b0:81b:d4:3802 with SMTP id
+ ca18e2360f4ac-82a2611839amr68123839f.0.1725222507196; Sun, 01 Sep 2024
+ 13:28:27 -0700 (PDT)
+Date: Sun, 01 Sep 2024 13:28:27 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000adea7f062112ab4c@google.com>
-Subject: [syzbot] [ntfs3?] BUG: sleeping function called from invalid context
- in ntfs_d_hash
-From: syzbot <syzbot+7f71f79bbfb4427b00e1@syzkaller.appspotmail.com>
+Message-ID: <000000000000b3424a062114aaa3@google.com>
+Subject: [syzbot] [ntfs3?] KMSAN: uninit-value in ntfs_read_bh
+From: syzbot <syzbot+7a2ba6b7b66340cff225@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
 	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -55,77 +54,102 @@ Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    86987d84b968 Merge tag 'v6.11-rc5-client-fixes' of git://g..
+HEAD commit:    431c1646e1f8 Linux 6.11-rc6
 git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=12935393980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8605cd35ddc8ff3c
-dashboard link: https://syzkaller.appspot.com/bug?extid=7f71f79bbfb4427b00e1
+console output: https://syzkaller.appspot.com/x/log.txt?x=137426eb980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=35c699864e165c51
+dashboard link: https://syzkaller.appspot.com/bug?extid=7a2ba6b7b66340cff225
 compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14516fa7980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11bf1e47980000
+
+Unfortunately, I don't have any reproducer for this issue yet.
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/17720a1549d0/disk-86987d84.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/55a9f2cf6e8d/vmlinux-86987d84.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/8760a72ae7d5/bzImage-86987d84.xz
-mounted in repro #1: https://storage.googleapis.com/syzbot-assets/8d38edc6ad5d/mount_0.gz
-mounted in repro #2: https://storage.googleapis.com/syzbot-assets/57ba0d69287b/mount_1.gz
-
-The issue was bisected to:
-
-commit d392e85fd1e8d58e460c17ca7d0d5c157848d9c1
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Tue Jun 25 06:57:33 2024 +0000
-
-    fs/ntfs3: Fix the format of the "nocase" mount option
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1525a647980000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=1725a647980000
-console output: https://syzkaller.appspot.com/x/log.txt?x=1325a647980000
+disk image: https://storage.googleapis.com/syzbot-assets/5ab3219cb5e8/disk-431c1646.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/82e6779c1851/vmlinux-431c1646.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d5d4a104ce36/bzImage-431c1646.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7f71f79bbfb4427b00e1@syzkaller.appspotmail.com
-Fixes: d392e85fd1e8 ("fs/ntfs3: Fix the format of the "nocase" mount option")
+Reported-by: syzbot+7a2ba6b7b66340cff225@syzkaller.appspotmail.com
 
-ntfs3: loop0: Failed to initialize $Extend/$Reparse.
-BUG: sleeping function called from invalid context at include/linux/sched/mm.h:337
-in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 5222, name: syz-executor508
-preempt_count: 0, expected: 0
-RCU nest depth: 1, expected: 0
-1 lock held by syz-executor508/5222:
- #0: ffffffff8e938320 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:326 [inline]
- #0: ffffffff8e938320 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:838 [inline]
- #0: ffffffff8e938320 (rcu_read_lock){....}-{1:2}, at: path_init+0x12a/0x1360 fs/namei.c:2437
-CPU: 0 UID: 0 PID: 5222 Comm: syz-executor508 Not tainted 6.11.0-rc5-syzkaller-00057-g86987d84b968 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:93 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
- __might_resched+0x5d4/0x780 kernel/sched/core.c:8463
- might_alloc include/linux/sched/mm.h:337 [inline]
- slab_pre_alloc_hook mm/slub.c:3939 [inline]
- slab_alloc_node mm/slub.c:4017 [inline]
- kmem_cache_alloc_noprof+0x5d/0x2a0 mm/slub.c:4044
- ntfs_d_hash+0x1a0/0x420 fs/ntfs3/namei.c:398
- link_path_walk+0x92d/0xea0 fs/namei.c:2375
- path_openat+0x25d/0x3470 fs/namei.c:3882
- do_filp_open+0x235/0x490 fs/namei.c:3913
- do_sys_openat2+0x13e/0x1d0 fs/open.c:1416
- do_sys_open fs/open.c:1431 [inline]
- __do_sys_openat fs/open.c:1447 [inline]
- __se_sys_openat fs/open.c:1442 [inline]
- __x64_sys_openat+0x247/0x2a0 fs/open.c:1442
+=====================================================
+BUG: KMSAN: uninit-value in ntfs_fix_post_read fs/ntfs3/fsntfs.c:180 [inline]
+BUG: KMSAN: uninit-value in ntfs_read_bh+0x1eb/0xde0 fs/ntfs3/fsntfs.c:1317
+ ntfs_fix_post_read fs/ntfs3/fsntfs.c:180 [inline]
+ ntfs_read_bh+0x1eb/0xde0 fs/ntfs3/fsntfs.c:1317
+ indx_read+0x44e/0x17b0 fs/ntfs3/index.c:1067
+ indx_find+0xd12/0x1440 fs/ntfs3/index.c:1181
+ indx_update_dup+0x607/0xf80 fs/ntfs3/index.c:2666
+ ni_update_parent+0x12de/0x14b0 fs/ntfs3/frecord.c:3301
+ ni_write_inode+0x1cf4/0x1de0 fs/ntfs3/frecord.c:3392
+ ntfs3_write_inode+0x94/0xb0 fs/ntfs3/inode.c:1052
+ write_inode fs/fs-writeback.c:1497 [inline]
+ __writeback_single_inode+0x849/0x12c0 fs/fs-writeback.c:1716
+ writeback_sb_inodes+0xc95/0x1e00 fs/fs-writeback.c:1947
+ wb_writeback+0x4df/0xea0 fs/fs-writeback.c:2127
+ wb_do_writeback fs/fs-writeback.c:2274 [inline]
+ wb_workfn+0x40b/0x1940 fs/fs-writeback.c:2314
+ process_one_work kernel/workqueue.c:3231 [inline]
+ process_scheduled_works+0xae0/0x1c40 kernel/workqueue.c:3312
+ worker_thread+0xea7/0x14d0 kernel/workqueue.c:3389
+ kthread+0x3e2/0x540 kernel/kthread.c:389
+ ret_from_fork+0x6d/0x90 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+
+Uninit was stored to memory at:
+ ntfs_read_run_nb+0x786/0x1070 fs/ntfs3/fsntfs.c:1252
+ ntfs_read_bh+0x64/0xde0 fs/ntfs3/fsntfs.c:1313
+ indx_read+0x44e/0x17b0 fs/ntfs3/index.c:1067
+ indx_find+0xd12/0x1440 fs/ntfs3/index.c:1181
+ indx_update_dup+0x607/0xf80 fs/ntfs3/index.c:2666
+ ni_update_parent+0x12de/0x14b0 fs/ntfs3/frecord.c:3301
+ ni_write_inode+0x1cf4/0x1de0 fs/ntfs3/frecord.c:3392
+ ntfs3_write_inode+0x94/0xb0 fs/ntfs3/inode.c:1052
+ write_inode fs/fs-writeback.c:1497 [inline]
+ __writeback_single_inode+0x849/0x12c0 fs/fs-writeback.c:1716
+ writeback_sb_inodes+0xc95/0x1e00 fs/fs-writeback.c:1947
+ wb_writeback+0x4df/0xea0 fs/fs-writeback.c:2127
+ wb_do_writeback fs/fs-writeback.c:2274 [inline]
+ wb_workfn+0x40b/0x1940 fs/fs-writeback.c:2314
+ process_one_work kernel/workqueue.c:3231 [inline]
+ process_scheduled_works+0xae0/0x1c40 kernel/workqueue.c:3312
+ worker_thread+0xea7/0x14d0 kernel/workqueue.c:3389
+ kthread+0x3e2/0x540 kernel/kthread.c:389
+ ret_from_fork+0x6d/0x90 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+
+Uninit was created at:
+ __alloc_pages_noprof+0x9d6/0xe70 mm/page_alloc.c:4718
+ alloc_pages_mpol_noprof+0x299/0x990 mm/mempolicy.c:2263
+ alloc_pages_noprof mm/mempolicy.c:2343 [inline]
+ folio_alloc_noprof+0x1db/0x310 mm/mempolicy.c:2350
+ filemap_alloc_folio_noprof+0xa6/0x440 mm/filemap.c:1008
+ __filemap_get_folio+0xa05/0x14b0 mm/filemap.c:1950
+ grow_dev_folio fs/buffer.c:1047 [inline]
+ grow_buffers fs/buffer.c:1113 [inline]
+ __getblk_slow fs/buffer.c:1139 [inline]
+ bdev_getblk+0x2c9/0xab0 fs/buffer.c:1441
+ __getblk include/linux/buffer_head.h:381 [inline]
+ sb_getblk include/linux/buffer_head.h:387 [inline]
+ ntfs_get_bh+0x605/0x1190 fs/ntfs3/fsntfs.c:1365
+ indx_new+0x1bc/0x780 fs/ntfs3/index.c:955
+ indx_insert_into_root+0x2fd1/0x37d0 fs/ntfs3/index.c:1723
+ indx_insert_entry+0xe1d/0xee0 fs/ntfs3/index.c:1982
+ ntfs_create_inode+0x4391/0x4df0 fs/ntfs3/inode.c:1689
+ ntfs_mkdir+0x56/0x70 fs/ntfs3/namei.c:207
+ vfs_mkdir+0x4a0/0x780 fs/namei.c:4210
+ do_mkdirat+0x529/0x810 fs/namei.c:4233
+ __do_sys_mkdirat fs/namei.c:4248 [inline]
+ __se_sys_mkdirat fs/namei.c:4246 [inline]
+ __x64_sys_mkdirat+0xc6/0x120 fs/namei.c:4246
+ x64_sys_call+0x3a81/0x3ba0 arch/x86/include/generated/asm/syscalls_64.h:259
  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ do_syscall_64+0xcd/0x1e0 arch/x86/entry/common.c:83
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f5174e4c2f9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 61 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe8ece6038 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007ffe8ece6040 RCX: 00007f5174e4c2f9
-RDX: 000000000000275a RSI: 0000000020000240 RDI: 00000000ffffff9c
-RBP: 00007ffe8ece6048 R08: 00007ffe8ece6048 R09: 00007f5174e17ff0
-R10: 0000000000000000 R11: 0000
+
+CPU: 1 UID: 0 PID: 2918 Comm: kworker/u8:9 Not tainted 6.11.0-rc6-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
+Workqueue: writeback wb_workfn (flush-7:4)
+=====================================================
 
 
 ---
@@ -135,14 +159,9 @@ syzbot engineers can be reached at syzkaller@googlegroups.com.
 
 syzbot will keep track of this issue. See:
 https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
 If the report is already addressed, let syzbot know by replying with:
 #syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
 
 If you want to overwrite report's subsystems, reply with:
 #syz set subsystems: new-subsystem
