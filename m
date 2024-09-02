@@ -1,174 +1,128 @@
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A331F957
-	for <ntfs3@lists.linux.dev>; Sun,  1 Sep 2024 20:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED4219F139
+	for <ntfs3@lists.linux.dev>; Mon,  2 Sep 2024 14:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725222509; cv=none; b=gfL6/CtcAOmfWRPHLDmAi3RFNketT2NWlEKwwMPMYilbTU4RbCqD9y2OaC8GZgKychbc2eqRP7Xsm3PXdcjtlhUGsMc9rtOmPXa4CDtmNJ2QLOoDnh4AEdekq4nh1YI8emx6EEMyMMx5vrpQPofK5UxPVSFAZjX5h7fnln6j6Ag=
+	t=1725287192; cv=none; b=qoWVGU5tlLhJbVDuXqifsuIJQgqD+dKSV7kWWugNjFGBCyO0XFlD1E1mbgxwkDiz5eUgcCiLOCLnLiyUC8FZCCxEZ6rwpUqB83KDC3C4fEtThakk4B4e9gLgE1ibDXO6xcM9mzrxaRY/FoM5Sx18vyGzFffN2QdNfiPryfDJglY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725222509; c=relaxed/simple;
-	bh=7EBJOvDTmCgNvh7cUGo5j28NKL1Nz2qMatEEIuHnw0U=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=H2SHQgzAdQ/q9O6GVXuyDGqOYM27gKb50oQdisvdDyhQHelj0MzQDcEtIz2RVe7R/NNRjbTx1VWDf+YjXx9iHQ1c4cVydwidPjzJVzSmxLuq6v2jsZmXNt56rPpLuKSyI3nDjcdTt9Qrcvg7ns+SsJubX3/6NFXM/RnpuXEd3C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-82a3754a02bso200668139f.0
-        for <ntfs3@lists.linux.dev>; Sun, 01 Sep 2024 13:28:27 -0700 (PDT)
+	s=arc-20240116; t=1725287192; c=relaxed/simple;
+	bh=H7vyAyYos1Mwcq7X2jIEKoRVgsk9WdtvDuhSksp7HbQ=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=WZmkmPQUIIEoGeVn51V9gsPjcw7nWWN7o7tEicwCU9/WwU1OgRreS7fXBNIMyXVuBnA3yk18h6b0Psrov4Uck7WTQgBNc7UqSTQA1muPzBaBBrDS8cTwUHIVdydz4sPe87hLkw+pFev7rsPdI3QPuhm54w+dGYt0pv9g1bDVlPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=mXNThLrI; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="mXNThLrI"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5334a8708a9so768260e87.1
+        for <ntfs3@lists.linux.dev>; Mon, 02 Sep 2024 07:26:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1725287188; x=1725891988; darn=lists.linux.dev;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PjFOfcuO0ShvMdTp7/UhQI6FmPlsW1v0riJgONdlWOw=;
+        b=mXNThLrIDKj3oRsCe49rNViAqJjpy7S9XyE3Jtlw9/Tc2yb+2D/wLWljFjfFsoHL4O
+         zCoIlGfqT/hHJbWdg81ryBiZ1x/n1n22jnIuWuhP9PDm8ej4NInLTMhvvnaikMl4xsgt
+         RZePupA7KVh6mAqFJSp2SRtOzSj4DmTcswyspp6db8OLd1FGnfB8m8g6DxzHpMfwK9NS
+         YPjjefBOP4T5oj4VvwyRX1AXUFUejQ4eIZ72cJoFVej89aZ4qRPW7v6gPtKVOsURAEWq
+         7v4ElYjjBe1nHncUE3uIOroYxy0BgMCXCeivucS0DD7enwgX2xOxzvoQMMR78ENpGhAH
+         NtYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725222507; x=1725827307;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zWnPjTUWwWec2L8dOHWnX8tBqet94rg3TyCYQg7utpA=;
-        b=IwYpDBGwKo+AAZV4mjhU8/rsk6FAtJJoL0jwKv/YvpXggrpriWhELrcYdtJ5uULXXw
-         le8T5p1dgjKCfRoopX2nRC4pcuta2lzToMz44f6ieqqiaCIIlY3nQ74oN2MILr6x3FGE
-         OAz2gnNIZZQ4cWETBzmm8SRW7Gv+4OfRkgKczIPSmKGZYDvpLCwPc3GIuckSvOGs7x0m
-         hKvo0+LU79T66csikjChDQ341Vr4N4HaBRsJm1E7JW/Cixau8LTrwBjmw2kvicmg4pS/
-         eljqLXYdzoJ811w6VeUxLcQO6+V4Oe0fkjPGnAfTHfgtQ6kps3ItY80Ffon+5n6cVa5w
-         5QoA==
-X-Forwarded-Encrypted: i=1; AJvYcCXmOlhKt81+X54bgWfLXtJIwFSb9dUaVw4uAUf/YWTZKiL/iGmp2ifLx1Ut4m27seeg7jDeoQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxD3vnDAgfMhZc6l4sZtGzYwOTh3Xhw8uC3BesvttzgZTkXrrfm
-	smOCv/615KqVP9xKTB8v02cdRC8uYpLlA7+yjFY0zq/m6dO4y+WahY2hVrWcSYiL6lofJjPZxL1
-	ltydCTGxmY/aZrK+2uX504jTp2bYcWe1DyAdEBVENxMvYe99lPAVsqN8=
-X-Google-Smtp-Source: AGHT+IGEaa370Q+UzeojF0tIUd3ekWHpQvuZXhMcpI/ygBMzEQJ2dBhpNWfoxJFvl0Ji5ulxSk2PEEkznkEU2RJptY7VYorV4yrO
+        d=1e100.net; s=20230601; t=1725287188; x=1725891988;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PjFOfcuO0ShvMdTp7/UhQI6FmPlsW1v0riJgONdlWOw=;
+        b=wrGjpuViZGaMJjpBeXgaCXTx766o395asnD1oFZfiAobpYpQtE7MWjWGqAHPoNI2rY
+         PBSKS1OkdLs+bxXBpSCOvO6su5HK70P2Tu58Pdn0C6xsmsECTZ+HTJU0zhezORITAW5j
+         fMT7qUU2yK6P1fMk2WwSfjCFVTWswPBZCUcsntMEsLEwf86tG5wP3Nti5Yq9CX5jPxE5
+         P9GQdtDqj4+VCDMGypsbln1B2whPtnPHcjS3IpPG13wUfPBSzOZtc+KTDu4glNzhvqGJ
+         DfrWBy4EY7sFxT074WobtlpoVoYuHhWyBZwJ9D/f1mk2kw6Zk/o0BRrE3y7iK4D/knY/
+         zm3Q==
+X-Gm-Message-State: AOJu0YyqlJDfy8qjgorFB0bb9N5VdOFp/1zbNY5WOq3cm49dMoFfEWvY
+	baNY4oTPrS4lyxyA47w2zZAmBFAcsyuYZXfhNvfejHZKavbP0qGxoPmpeUX3+U8=
+X-Google-Smtp-Source: AGHT+IHeIw+q9i7onUbUCEx78myzhKZ0pIFDsy/43aHlqTGGuR/yF5s3RmikeRVD7XGZV/QWroy3Ng==
+X-Received: by 2002:a05:6512:b1a:b0:532:f06d:b12a with SMTP id 2adb3069b0e04-53546afcdabmr4089916e87.3.1725287188014;
+        Mon, 02 Sep 2024 07:26:28 -0700 (PDT)
+Received: from smtpclient.apple ([2001:a61:1050:bb01:34e6:8781:24eb:6a6c])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89891d7482sm561805966b.165.2024.09.02.07.26.27
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 02 Sep 2024 07:26:27 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-Received: by 2002:a05:6602:14c2:b0:81b:d4:3802 with SMTP id
- ca18e2360f4ac-82a2611839amr68123839f.0.1725222507196; Sun, 01 Sep 2024
- 13:28:27 -0700 (PDT)
-Date: Sun, 01 Sep 2024 13:28:27 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b3424a062114aaa3@google.com>
-Subject: [syzbot] [ntfs3?] KMSAN: uninit-value in ntfs_read_bh
-From: syzbot <syzbot+7a2ba6b7b66340cff225@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
+Subject: Re: [PATCH v2] fs/ntfs3: Use swap() to improve code
+From: Thorsten Blum <thorsten.blum@toblux.com>
+In-Reply-To: <20240826103939.63548-2-thorsten.blum@toblux.com>
+Date: Mon, 2 Sep 2024 16:26:16 +0200
+Cc: ntfs3@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ dan.carpenter@linaro.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <041F9CBB-17E9-4D6F-B981-BC861E1048CB@toblux.com>
+References: <20240826103939.63548-2-thorsten.blum@toblux.com>
+To: almaz.alexandrovich@paragon-software.com
+X-Mailer: Apple Mail (2.3776.700.51)
 
-Hello,
+On 26. Aug 2024, at 12:39, Thorsten Blum <thorsten.blum@toblux.com> =
+wrote:
+>=20
+> Use the swap() macro to simplify the code and improve its readability.
+>=20
+> Fixes the following Coccinelle/coccicheck warning reported by
+> swap.cocci:
+>=20
+>  WARNING opportunity for swap()
+>=20
+> Compile-tested only.
+>=20
+> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+> ---
+> Changes in v2:
+> - Address kernel test robot feedback and assign match_offset as before
+> - Link to v1: =
+https://lore.kernel.org/linux-kernel/20240731135403.80805-2-thorsten.blum@=
+toblux.com/
+> ---
+> fs/ntfs3/lib/lzx_decompress.c | 3 +--
+> 1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/fs/ntfs3/lib/lzx_decompress.c =
+b/fs/ntfs3/lib/lzx_decompress.c
+> index 6b16f07073c1..4d5701024f83 100644
+> --- a/fs/ntfs3/lib/lzx_decompress.c
+> +++ b/fs/ntfs3/lib/lzx_decompress.c
+> @@ -512,8 +512,7 @@ static int lzx_decompress_block(const struct =
+lzx_decompressor *d,
+> * the same code.  (For R0, the swap is a no-op.)
+> */
+> match_offset =3D recent_offsets[offset_slot];
+> - recent_offsets[offset_slot] =3D recent_offsets[0];
+> - recent_offsets[0] =3D match_offset;
+> + swap(recent_offsets[offset_slot], recent_offsets[0]);
+> } else {
+> /* Explicit offset  */
+>=20
+> --=20
+> 2.46.0
+>=20
 
-syzbot found the following issue on:
+Hi Konstantin,
 
-HEAD commit:    431c1646e1f8 Linux 6.11-rc6
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=137426eb980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=35c699864e165c51
-dashboard link: https://syzkaller.appspot.com/bug?extid=7a2ba6b7b66340cff225
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+I just noticed that v1 of this patch is already in next (commit=20
+7495ce846bbe4f38d7ea5e023e44ad864b6348ad), but v2 fixes a possible bug=20=
 
-Unfortunately, I don't have any reproducer for this issue yet.
+reported by kernel test robot (match_offset is still used later).
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/5ab3219cb5e8/disk-431c1646.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/82e6779c1851/vmlinux-431c1646.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d5d4a104ce36/bzImage-431c1646.xz
+Could you take another look at it and apply v2 if possible?
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7a2ba6b7b66340cff225@syzkaller.appspotmail.com
-
-=====================================================
-BUG: KMSAN: uninit-value in ntfs_fix_post_read fs/ntfs3/fsntfs.c:180 [inline]
-BUG: KMSAN: uninit-value in ntfs_read_bh+0x1eb/0xde0 fs/ntfs3/fsntfs.c:1317
- ntfs_fix_post_read fs/ntfs3/fsntfs.c:180 [inline]
- ntfs_read_bh+0x1eb/0xde0 fs/ntfs3/fsntfs.c:1317
- indx_read+0x44e/0x17b0 fs/ntfs3/index.c:1067
- indx_find+0xd12/0x1440 fs/ntfs3/index.c:1181
- indx_update_dup+0x607/0xf80 fs/ntfs3/index.c:2666
- ni_update_parent+0x12de/0x14b0 fs/ntfs3/frecord.c:3301
- ni_write_inode+0x1cf4/0x1de0 fs/ntfs3/frecord.c:3392
- ntfs3_write_inode+0x94/0xb0 fs/ntfs3/inode.c:1052
- write_inode fs/fs-writeback.c:1497 [inline]
- __writeback_single_inode+0x849/0x12c0 fs/fs-writeback.c:1716
- writeback_sb_inodes+0xc95/0x1e00 fs/fs-writeback.c:1947
- wb_writeback+0x4df/0xea0 fs/fs-writeback.c:2127
- wb_do_writeback fs/fs-writeback.c:2274 [inline]
- wb_workfn+0x40b/0x1940 fs/fs-writeback.c:2314
- process_one_work kernel/workqueue.c:3231 [inline]
- process_scheduled_works+0xae0/0x1c40 kernel/workqueue.c:3312
- worker_thread+0xea7/0x14d0 kernel/workqueue.c:3389
- kthread+0x3e2/0x540 kernel/kthread.c:389
- ret_from_fork+0x6d/0x90 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
-
-Uninit was stored to memory at:
- ntfs_read_run_nb+0x786/0x1070 fs/ntfs3/fsntfs.c:1252
- ntfs_read_bh+0x64/0xde0 fs/ntfs3/fsntfs.c:1313
- indx_read+0x44e/0x17b0 fs/ntfs3/index.c:1067
- indx_find+0xd12/0x1440 fs/ntfs3/index.c:1181
- indx_update_dup+0x607/0xf80 fs/ntfs3/index.c:2666
- ni_update_parent+0x12de/0x14b0 fs/ntfs3/frecord.c:3301
- ni_write_inode+0x1cf4/0x1de0 fs/ntfs3/frecord.c:3392
- ntfs3_write_inode+0x94/0xb0 fs/ntfs3/inode.c:1052
- write_inode fs/fs-writeback.c:1497 [inline]
- __writeback_single_inode+0x849/0x12c0 fs/fs-writeback.c:1716
- writeback_sb_inodes+0xc95/0x1e00 fs/fs-writeback.c:1947
- wb_writeback+0x4df/0xea0 fs/fs-writeback.c:2127
- wb_do_writeback fs/fs-writeback.c:2274 [inline]
- wb_workfn+0x40b/0x1940 fs/fs-writeback.c:2314
- process_one_work kernel/workqueue.c:3231 [inline]
- process_scheduled_works+0xae0/0x1c40 kernel/workqueue.c:3312
- worker_thread+0xea7/0x14d0 kernel/workqueue.c:3389
- kthread+0x3e2/0x540 kernel/kthread.c:389
- ret_from_fork+0x6d/0x90 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
-
-Uninit was created at:
- __alloc_pages_noprof+0x9d6/0xe70 mm/page_alloc.c:4718
- alloc_pages_mpol_noprof+0x299/0x990 mm/mempolicy.c:2263
- alloc_pages_noprof mm/mempolicy.c:2343 [inline]
- folio_alloc_noprof+0x1db/0x310 mm/mempolicy.c:2350
- filemap_alloc_folio_noprof+0xa6/0x440 mm/filemap.c:1008
- __filemap_get_folio+0xa05/0x14b0 mm/filemap.c:1950
- grow_dev_folio fs/buffer.c:1047 [inline]
- grow_buffers fs/buffer.c:1113 [inline]
- __getblk_slow fs/buffer.c:1139 [inline]
- bdev_getblk+0x2c9/0xab0 fs/buffer.c:1441
- __getblk include/linux/buffer_head.h:381 [inline]
- sb_getblk include/linux/buffer_head.h:387 [inline]
- ntfs_get_bh+0x605/0x1190 fs/ntfs3/fsntfs.c:1365
- indx_new+0x1bc/0x780 fs/ntfs3/index.c:955
- indx_insert_into_root+0x2fd1/0x37d0 fs/ntfs3/index.c:1723
- indx_insert_entry+0xe1d/0xee0 fs/ntfs3/index.c:1982
- ntfs_create_inode+0x4391/0x4df0 fs/ntfs3/inode.c:1689
- ntfs_mkdir+0x56/0x70 fs/ntfs3/namei.c:207
- vfs_mkdir+0x4a0/0x780 fs/namei.c:4210
- do_mkdirat+0x529/0x810 fs/namei.c:4233
- __do_sys_mkdirat fs/namei.c:4248 [inline]
- __se_sys_mkdirat fs/namei.c:4246 [inline]
- __x64_sys_mkdirat+0xc6/0x120 fs/namei.c:4246
- x64_sys_call+0x3a81/0x3ba0 arch/x86/include/generated/asm/syscalls_64.h:259
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x1e0 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-CPU: 1 UID: 0 PID: 2918 Comm: kworker/u8:9 Not tainted 6.11.0-rc6-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
-Workqueue: writeback wb_workfn (flush-7:4)
-=====================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Thanks,
+Thorsten=
