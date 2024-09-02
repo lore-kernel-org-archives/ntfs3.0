@@ -1,135 +1,108 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CDA21C16F
-	for <ntfs3@lists.linux.dev>; Mon,  2 Sep 2024 14:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E97183CBB
+	for <ntfs3@lists.linux.dev>; Mon,  2 Sep 2024 17:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725287854; cv=none; b=Enq72mFZ/0PIxcS/95ANrtkHCU06e4w0mVklou41gCHLmxjozNshja3htUZcW/3weAguISlNn5waNMKm9z4kfISvQEg3LbEXNpXi1Yd+gVQcRx5BPtIi2GrbB7R6vfyQiD/hxsTmbkZgQWA3wrTbzCpYdqqp8FvQglmtXjgPzj8=
+	t=1725297606; cv=none; b=uuS4TyTr7bUhIzdrtlw39pT5dy5MQcPV2a2lr44f7jTfAsBLBhxF8Yqp0WkQrxqMXjGkblX3FZujdhNDE6K0w+GBbjkRo5pK4sx8iWI0QmYFCxVdQXJB2nBDoLEbnH7u48GxrsYARtgWUoxaBm+GdPFNLjs17YUvAwZ+xpiEvjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725287854; c=relaxed/simple;
-	bh=QlJUtfucbcB9eU4G1Pzz7EZrVBuytWidgoUWwmGGoxA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kZvSJrk8bLMUCLHE21mcslxsP38zZp1XbrLmIfpyFWRmY92jW6Ss24R7yJiAcwvOBlyQCFAzM0nVyFKx1ajmt8NZC/a/If9I9CZkpCES6CHMV0l6Yt4qHVks9JyhtDWLdJ8TPoI/WDmywoev6eKxA0ZipTYpgA1MnJ49gW2QRmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m/u3x3bl; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1725297606; c=relaxed/simple;
+	bh=4Qhsku91lFKJ8KjbB5aFPJSDK9oNgKbdpsT1c9CLkqk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b/tlLXpIzVuD63jXWLdIbQ8YFr8+WJss2YDBLaevK4/lURJLcPDfxlGbQ+ajNK0AU5EQyJS7kABeW32B/veb6hN+iJnobw/43vkc92kcDPeGioe2KT8KQA11jYQ7CUps55tUwBnriV35KSwF5JIGNlo5xsDNmzCKObed4idQZek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dGL8gTaW; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m/u3x3bl"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a8679f534c3so447162366b.0
-        for <ntfs3@lists.linux.dev>; Mon, 02 Sep 2024 07:37:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dGL8gTaW"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-715abede256so3252051b3a.3
+        for <ntfs3@lists.linux.dev>; Mon, 02 Sep 2024 10:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725287849; x=1725892649; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ksimq/X8z36n93auL3QzW0MCIhynenZ4+E4hepBpL4c=;
-        b=m/u3x3blZW8Ar4w9JcdLWMzz/lWkG0t+MPSnvddNbGCq5GKLxftZHd60HB8wyWVUJ2
-         x8/+/EDPh30zE5SBUvTEwt1kWOTYmEgTI5eLsOzN3wYaSurcPdDZJAWmn2EA7oq3+Zzn
-         9ENzdIHJTs+QvUqXktZekrFOXVKqXucv1NIIeID9kMXFVS5J+rsjF+HIoMOy5XVTAlnm
-         WaxLCDyIdbpYidUkxA3ZSSXcLzlexg5UxV+edgWpyrNnSKn+auLUeIiCT67UTXhpTVEN
-         v+mIgZfUzBpm1shaoZ7cQtpo5jHNp6dC3IgVwcFNh4jGvQq90btbuZex5KOvdH/3dbHI
-         Hqqg==
+        d=gmail.com; s=20230601; t=1725297604; x=1725902404; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5tfqQDexu4Vmpn8wv3LnZmio6F6PpZY2ba5RnBulZUU=;
+        b=dGL8gTaWky2oKCCR83Wk2CYkyj29F/KlWiWuGZJ7kDF/J6e2uEId1pS+EE4kja8w1e
+         +aL3RpAELqpK09s9I7LYl/MF9eJtxSWyGgM2iQAZdcNw6b4oLejGcK0VArxq6/i5iZgz
+         d9TFSQfI/7rc/1DZDhhGJOrT7a2TTv4V9ER3rGzFpcygL3ipF11izUp1dRCWVfEY8uzk
+         rjF88WN0EO12l5ZtZhhmRoFzqnMxTskowR0lyfD5TrmcZDzzppWQVVqbZjF1Jyt9A84V
+         atga8mu4Qwal4tW2muWApRbni1cUwJWbFPadTUkh3iNw+YpUqSKwbf0nYkPL1Zk49/4+
+         3AVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725287849; x=1725892649;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ksimq/X8z36n93auL3QzW0MCIhynenZ4+E4hepBpL4c=;
-        b=LfDgmcVnE5EJs70pJGeEcZe/8NXvHHWjMKA30L8ezWWiX2BfqBAFtqD5bGuS5zp5Fa
-         7EzR3ZhcBN7xMig7ur8pJlP/7n9YfmXAIylHWDst5SLolseU4q3ww9zh6xDlEYPeCuHP
-         srdj/GqF9R3DhJKr1+5d5rvIHPYo9fNaaeyqNnUjRw5mEcMdfQsowlIGzbCtIH4LtkUD
-         Op/Wm8q/US+4MjNHPY5xckwa+P9VM6QPYgyRRACG5XmkXW35/zHYjvcv/R6+ZLTDEFSc
-         GJ3lan3tfeg9au8PPyzFMo2ejyvMhBEXSnUXfqwqPr801JWbsovMMV/5DzpmoVzVCfuR
-         Bx8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVQNB2lkPighM9C6h+7luYm2WGEjorImZb2U8H/g/fTfFyZasAqN6bfDt1kYfJ2rkOVi41xXA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzFIctAeumUdF0u65MeVy2x0gOQc+7BCqPKmJeKHpwEcwYFMiDQ
-	AXvE8IXIurdP6iQhe3arqHIltrFuhDIHUuYXXslLxzY4zBGhke1uYseXZrrZFBVt8+qLrrDox/u
-	t
-X-Google-Smtp-Source: AGHT+IFN/BuiU/VQTETMCNCGYmY9dG4wN7RdxT/6udZdCaJHhUriHjg2+YKFMK55XW9pJnkO/V6Duw==
-X-Received: by 2002:a17:907:7b92:b0:a7d:e98c:5bd1 with SMTP id a640c23a62f3a-a89d8782279mr554770666b.26.1725287849184;
-        Mon, 02 Sep 2024 07:37:29 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89891964e5sm570121066b.98.2024.09.02.07.37.27
+        d=1e100.net; s=20230601; t=1725297604; x=1725902404;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5tfqQDexu4Vmpn8wv3LnZmio6F6PpZY2ba5RnBulZUU=;
+        b=PH5NMMprlyLjGlOcPOwk3Zel+f0ax/R49/Zqmcv55Er5B8gud3M/uqEAcqrmAF34SU
+         cQ5rFPhBl75g3ZfcLOE8EVcGdcMEoLJykLhYZMwXsCRhbGigN8Y70KOOfsuYBfhuff2i
+         K2iPsF6O4gdgL/SNcx3aakrNRYzTBlp6A3o0ACHIaQ/QLUFyL9XB5AIqXPQAP+5/anxH
+         k/6BVtZyXBcHwbLA1+WAa5whTg3BP6p40/bkCeAXLD4wxPHtL20lbQ+o1l0PQbgOYo+1
+         fWzC0UADnGpPtmHYbrq818CufbMIOyMIn+XzV+Tpr5fzZZdkKiTxSPtrgfSstLWnQnva
+         TWLA==
+X-Forwarded-Encrypted: i=1; AJvYcCVE4IrvbpKUMMY78Obk167QQPtMGqw9TXzEV16VZD5DAkf1Vssaiuhj1W0YmDma6CD9WBsmxg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw7WwmQDA4DQTbrNpgEUTUu6sH7g+oW9hedTzxkQfW8OPmkKFww
+	O5UZkdsePfHHTJItBb1KNRtG9S5tl+irG814ljJh8+fmrhrEb8Nb
+X-Google-Smtp-Source: AGHT+IHiDPD5RuKVFF7mAaes5/kv8Ofzqhd+37iBeLG1Tx/crY06VSDQ+QBSi5kzkfUxASSlQlYYrA==
+X-Received: by 2002:a05:6a21:3213:b0:1c4:a8a6:a85f with SMTP id adf61e73a8af0-1ced62a2b24mr6259929637.30.1725297603805;
+        Mon, 02 Sep 2024 10:20:03 -0700 (PDT)
+Received: from diogo-jahchan-ASUS-TUF-Gaming-A15-FA507RM-FA507RM.. ([200.4.98.97])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e575c0a1sm7096907b3a.194.2024.09.02.10.20.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 07:37:28 -0700 (PDT)
-Date: Mon, 2 Sep 2024 17:37:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Thorsten Blum <thorsten.blum@toblux.com>
-Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
+        Mon, 02 Sep 2024 10:20:03 -0700 (PDT)
+From: Diogo Jahchan Koike <djahchankoike@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: Diogo Jahchan Koike <djahchankoike@gmail.com>,
+	syzbot+7f71f79bbfb4427b00e1@syzkaller.appspotmail.com,
+	ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] fs/ntfs3: Use swap() to improve code
-Message-ID: <9212714c-7f75-47da-bc34-48d775925194@stanley.mountain>
-References: <20240826103939.63548-2-thorsten.blum@toblux.com>
- <041F9CBB-17E9-4D6F-B981-BC861E1048CB@toblux.com>
+Subject: [PATCH] ntfs3: change to non-blocking allocation in ntfs_d_hash
+Date: Mon,  2 Sep 2024 14:19:32 -0300
+Message-ID: <20240902171945.79656-1-djahchankoike@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <041F9CBB-17E9-4D6F-B981-BC861E1048CB@toblux.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 02, 2024 at 04:26:16PM +0200, Thorsten Blum wrote:
-> On 26. Aug 2024, at 12:39, Thorsten Blum <thorsten.blum@toblux.com> wrote:
-> > 
-> > Use the swap() macro to simplify the code and improve its readability.
-> > 
-> > Fixes the following Coccinelle/coccicheck warning reported by
-> > swap.cocci:
-> > 
-> >  WARNING opportunity for swap()
-> > 
-> > Compile-tested only.
-> > 
-> > Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
-> > ---
-> > Changes in v2:
-> > - Address kernel test robot feedback and assign match_offset as before
-> > - Link to v1: https://lore.kernel.org/linux-kernel/20240731135403.80805-2-thorsten.blum@toblux.com/
-> > ---
-> > fs/ntfs3/lib/lzx_decompress.c | 3 +--
-> > 1 file changed, 1 insertion(+), 2 deletions(-)
-> > 
-> > diff --git a/fs/ntfs3/lib/lzx_decompress.c b/fs/ntfs3/lib/lzx_decompress.c
-> > index 6b16f07073c1..4d5701024f83 100644
-> > --- a/fs/ntfs3/lib/lzx_decompress.c
-> > +++ b/fs/ntfs3/lib/lzx_decompress.c
-> > @@ -512,8 +512,7 @@ static int lzx_decompress_block(const struct lzx_decompressor *d,
-> > * the same code.  (For R0, the swap is a no-op.)
-> > */
-> > match_offset = recent_offsets[offset_slot];
-> > - recent_offsets[offset_slot] = recent_offsets[0];
-> > - recent_offsets[0] = match_offset;
-> > + swap(recent_offsets[offset_slot], recent_offsets[0]);
-> > } else {
-> > /* Explicit offset  */
-> > 
-> > -- 
-> > 2.46.0
-> > 
-> 
-> Hi Konstantin,
-> 
-> I just noticed that v1 of this patch is already in next (commit 
-> 7495ce846bbe4f38d7ea5e023e44ad864b6348ad), but v2 fixes a possible bug 
-> reported by kernel test robot (match_offset is still used later).
-> 
-> Could you take another look at it and apply v2 if possible?
+d_hash is done while under "rcu-walk" and should not sleep.
+__get_name() allocates using GFP_KERNEL, having the possibility
+to sleep when under memory pressure. Change the allocation to
+GFP_NOWAIT.
 
-The kbuild-bot only complained after the code was already merged.  Here is the
-bug report:
+Reported-by: syzbot+7f71f79bbfb4427b00e1@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=7f71f79bbfb4427b00e1
+Fixes: d392e85fd1e8 ("fs/ntfs3: Fix the format of the "nocase" mount option")
+Signed-off-by: Diogo Jahchan Koike <djahchankoike@gmail.com>
+---
+ fs/ntfs3/namei.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-https://lore.kernel.org/all/38752402-3a41-45f0-97ba-4f208d17337b@stanley.mountain/
-
-I don't know if ntfs3 git tree rebases, but generally the advice we would give
-would be to assume it isn't and write a Fixes commit which can be applied on
-top instead of a v2.  If it's a rebase tree, the maintainer will know how to
-fold the two patches together.
-
-Thanks for following up on this.
-
-regards,
-dan carpenter
+diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
+index f16d318c4372..0a70c3658546 100644
+--- a/fs/ntfs3/namei.c
++++ b/fs/ntfs3/namei.c
+@@ -395,7 +395,7 @@ static int ntfs_d_hash(const struct dentry *dentry, struct qstr *name)
+ 	/*
+ 	 * Try slow way with current upcase table
+ 	 */
+-	uni = __getname();
++	uni = kmem_cache_alloc(names_cachep, GFP_NOWAIT);
+ 	if (!uni)
+ 		return -ENOMEM;
+ 
+@@ -417,7 +417,7 @@ static int ntfs_d_hash(const struct dentry *dentry, struct qstr *name)
+ 	err = 0;
+ 
+ out:
+-	__putname(uni);
++	kmem_cache_free(names_cachep, uni);
+ 	return err;
+ }
+ 
+-- 
+2.43.0
 
