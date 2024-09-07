@@ -1,51 +1,58 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from out203-205-221-236.mail.qq.com (out203-205-221-236.mail.qq.com [203.205.221.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CE1158866
-	for <ntfs3@lists.linux.dev>; Fri,  6 Sep 2024 10:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725620098; cv=pass; b=J7WJj9uJRycUPFOorFLOzxOaHIgXGmll7uOgpB6Wuinpvw7hrljdOWcDyD5oSRkj674M7e23FE+ZG+cxi1QIikBhJ9GZSZRVy5jY4sTWiSaMZx4yKpImllJCSJQzGA8laSvqqArMEGguwdr8LgFUVACYxkaKxHBmClifKXnV7Qo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725620098; c=relaxed/simple;
-	bh=e1SgrX//vcgc8W2rTXlur0ijWcVQfMawXaz73iZNQnw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=l1QqHE7bgVeJsIgdghrOz0ohCsm+GeHqGSmigpA+hNAS6MaWvMva214ZIsVfTuUvsqvgQAmkO183Tr9/8DjE5nqtWc1sDAMpA7rfo+7b10mMCX0ihBGh25QT91sVRkgPJ8Gfaq7idW8qIWywbngCBjaTfwiwLnJQIh3VYf5R06c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=O8sYKdS3; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230D1125BA
+	for <ntfs3@lists.linux.dev>; Sat,  7 Sep 2024 01:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.236
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725673752; cv=none; b=KaIJimuYKzdZFBCZS+cMSddqGCHD3D6BkKZyk01p48jFS0kWpARGLSgvoF2KbAo1+wHc+loUxtpZy9yYXV06w6gwOj25iFottH+diTemwHBrcgLlBN/a7qHrUavFR1fyR1OJp51b3zKtJVYAy56CCHhnT0x08gExNVZCR//EaSs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725673752; c=relaxed/simple;
+	bh=eNt+p4t3mbxOaD2bqhmu3nNASkrt3YmWHvIyNhqNBlk=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=OVE1z/Al+wEAfuQNgvJQI8G4NtRwKToMjjDibdYPvQeM9Dq2zTxi16lwxLFBdiT3SEQ7s1R0/BC3GWSg6GsRkCLyIpSwtYQbqVU48/4QCeg/v+q2K6Ben2mUEq89OoniJ0zzmy6a3C0Yhuog+keZHpwBulOnhmgv3qZR8NaVox0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=ShPejgy0; arc=none smtp.client-ip=203.205.221.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="O8sYKdS3"
-ARC-Seal: i=1; a=rsa-sha256; t=1725620092; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=DCJ27+XodNHaIsOouraC0sMnipDxWdpBm0GNjxR6yLkpaNrOtl8OMZv6fonxjGR32izGGtV3szYeNzWeAyD2WSJZ6XQegp081AWC4NeOS1ZAiSANepzQL/OP4I1GV1FaXnFD7TYbCefjcrTgCaGtyNnBAd7SoSOKGwa7mDjJ63Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1725620092; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=DFX8XXFOcRvz6fa1WMFBM/40+k4bgQonMZz5XOdb6z0=; 
-	b=DJVmFSoUgkIodKx8//ZT1FeLpAG+zmqj59xPYgT+t25Zf0lCTJ066ORVGh7J0h4SLB3vss50Qq5ejotL3wbllyIO3TMG3F7juxf8KKkerE77W7pSnMSd+VNGwcIcAK/ELnC4kWMPZRVYLb4lX/V9nyObK9xd9TZYbIAuyYIRRXk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
-	dmarc=pass header.from=<usama.anjum@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1725620092;
-	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=DFX8XXFOcRvz6fa1WMFBM/40+k4bgQonMZz5XOdb6z0=;
-	b=O8sYKdS3YGqqW8g4aiNP1ykw+PYwajSL/T9/MiSS3N9frEzUMUQNLJy6WaahcQXL
-	CSx6ok2lR2lLE1/qdwVvz8HLolnnG6bJ71er1xGYFNCDDszp2Yc3hJeueUwVZgxUFRw
-	kfaCybrzLzssse3HICNEiMg3qN509H9NvEJK9okE=
-Received: by mx.zohomail.com with SMTPS id 172562009001826.953507390782875;
-	Fri, 6 Sep 2024 03:54:50 -0700 (PDT)
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	lei lu <llfamsec@gmail.com>
-Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	kernel@collabora.com,
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="ShPejgy0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1725673741; bh=8G3qj1qfuwE8Fg1/n2YYsrJOIhTbCUMPT2rjZDmi3H8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ShPejgy0CkrHc0jPotBu3DPZYPUgD4IX/j3VoIc3GE2KXRZTYoKlMITc4A1fpvClk
+	 a/TisDOiY3vS0fTst6ZNcT4s/KtpLl2zN1AxqU9PTf7z8jTJ2M7c04vmDIQSPChtzD
+	 i9grteLfzg5oqxsh2cthqY9J27cJHu5/u/t89I7U=
+Received: from pek-lxu-l1.wrs.com ([111.198.224.50])
+	by newxmesmtplogicsvrsza29-0.qq.com (NewEsmtp) with SMTP
+	id AB9B209F; Sat, 07 Sep 2024 09:42:57 +0800
+X-QQ-mid: xmsmtpt1725673377twjjob309
+Message-ID: <tencent_70204B621B682561BA47BB81339A9E031B08@qq.com>
+X-QQ-XMAILINFO: MntsAqBg2ZZ5IG87yAobPGJfZFATKaIxgziRRP+pv9XsR2RJZzgrIOq9LCC7sH
+	 mN+UTfTSmOrvXRedgXERDd7vn2gGDebpkTm0x0hwg462BwgN+5U5rc2He1DvtzGpMu2nEj8SHYkj
+	 1YxVN51JxcfojXXinGPRR4wn8MkctQmSOu3ahxrnM79yg5B1reL0YSdu88rMqqoN657jnthFi6uG
+	 bMN0nFgNf3iNlWIwsASnGaZ/+YAF78qemUW+sBR/RkyUBug4bP+tdoC7O+wNe7y4d3/n3Bnc23/I
+	 PVAkO6+tuzr0Mz4Ev9DxlIpRQ1iWgKkxxkDfFRkMiOx2jpbEUyvA/JljnEVPi0NH6HmrtUDa4HpI
+	 b9rvxm+OcpcokXVucKCwaEXL6zkek8PyeiygAJAAJXt0906bhGR+o9Sv/mX6bf9rTAccUJn17I5V
+	 +d2tcvlVUZ75v9hHCQe0QnuS5gemH88JLfbc2tlE7d3ksIsd6Vi2LODUQTlRRXEYuHycR5hqat7M
+	 JCBkRbYs6XsjiVtUn2XJ/eAwfOkBcq+mcg+sIFsJsTCDI8uAW+peYyje8/TgNXysZRU0kjA+7IgN
+	 io/g/yDWWXo1d75ydg38l3owoSIm6TTNS5tM8n4bQK3M97428a9EqIVjKLdaRoZORgL8sTVbiJVF
+	 c9AGybvZXgNey+P9owFEUnLSabhCTeJn9N6K3WhVbTknBA3hlYpCXATd9hlSKweTmT1p56pIYjs8
+	 sWb43murbfHHUYKR4LBVPVm9mkV5hQcLzMmkojhJyzpLyxtXvJlMTJqtk+QyHpJowPqzVczI+qrh
+	 rvg+2ASSj/729hi64K8t1RpzqIeQ/kl3sknut7H0mCJfWizikI7eAVGSGZXv4jxWnBOuKR75xX7j
+	 tCg0Qe6u+xW9DF5YlE1yhGTeUlXy9VBgn+fi8ds0H0ZN54Y7g/IImpkMqxAVWfft86KF0n+MlP
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+3bfd2cc059ab93efcdb4@syzkaller.appspotmail.com
+Cc: almaz.alexandrovich@paragon-software.com,
+	linux-kernel@vger.kernel.org,
 	ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ntfs3: Remove duplicate code
-Date: Fri,  6 Sep 2024 15:54:33 +0500
-Message-Id: <20240906105434.263323-1-usama.anjum@collabora.com>
-X-Mailer: git-send-email 2.39.2
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] fs/ntfs3: Move condition bitmap.sb to before run_unpack
+Date: Sat,  7 Sep 2024 09:42:58 +0800
+X-OQ-MSGID: <20240907014257.499390-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <0000000000007a66c5062140e8f9@google.com>
+References: <0000000000007a66c5062140e8f9@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -53,32 +60,73 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-Don't check validity of asize second time once it has been checked
-before. Remove the duplicate code.
+[Syzbot reported]
+ntfs3: loop0: Different NTFS sector size (4096) and media sector size (512).
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+CPU: 0 UID: 0 PID: 5231 Comm: syz-executor253 Not tainted 6.11.0-rc6-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:93 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
+ assign_lock_key+0x238/0x270 kernel/locking/lockdep.c:975
+ register_lock_class+0x1cf/0x980 kernel/locking/lockdep.c:1288
+ __lock_acquire+0xf0/0x2040 kernel/locking/lockdep.c:5019
+ lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5759
+ down_write_nested+0xa2/0x220 kernel/locking/rwsem.c:1695
+ mark_as_free_ex+0x3e/0x390 fs/ntfs3/fsntfs.c:2484
+ run_unpack+0x7f3/0xda0 fs/ntfs3/run.c:1019
+ run_unpack_ex+0x14b/0x7f0 fs/ntfs3/run.c:1060
+ ni_delete_all+0x2d9/0x9a0 fs/ntfs3/frecord.c:1610
+ ni_clear+0x28e/0x4b0 fs/ntfs3/frecord.c:106
+ evict+0x534/0x950 fs/inode.c:704
+ ntfs_loadlog_and_replay+0x2e8/0x4f0 fs/ntfs3/fsntfs.c:326
+ ntfs_fill_super+0x2c38/0x4730 fs/ntfs3/super.c:1280
+ get_tree_bdev+0x3f9/0x570 fs/super.c:1635
+ vfs_get_tree+0x92/0x2b0 fs/super.c:1800
+ do_new_mount+0x2be/0xb40 fs/namespace.c:3472
+ do_mount fs/namespace.c:3812 [inline]
+ __do_sys_mount fs/namespace.c:4020 [inline]
+ __se_sys_mount+0x2d6/0x3c0 fs/namespace.c:3997
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-Fixes: 556bdf27c2dd ("ntfs3: Add bounds checking to mi_enum_attr()")
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+[Analysis]
+Before call this path, sbi->used.bitmap.sb has not been initialized in
+ntfs_fill_super.
+
+Reported-and-tested-by: syzbot+3bfd2cc059ab93efcdb4@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=3bfd2cc059ab93efcdb4
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 ---
- fs/ntfs3/record.c | 4 ----
- 1 file changed, 4 deletions(-)
+ fs/ntfs3/run.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index 427c71be0f087..0f400366231d5 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -268,10 +268,6 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
+diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
+index cb8cf0161177..8970101147c7 100644
+--- a/fs/ntfs3/run.c
++++ b/fs/ntfs3/run.c
+@@ -1057,11 +1057,14 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+ 	bool ok;
+ 	struct wnd_bitmap *wnd;
  
- 	/* Check size of attribute. */
- 	if (!attr->non_res) {
--		/* Check resident fields. */
--		if (asize < SIZEOF_RESIDENT)
--			return NULL;
--
- 		t16 = le16_to_cpu(attr->res.data_off);
- 		if (t16 > asize)
- 			return NULL;
++	if (!sbi->used.bitmap.sb)
++		return -EINVAL;
++
+ 	ret = run_unpack(run, sbi, ino, svcn, evcn, vcn, run_buf, run_buf_size);
+ 	if (ret <= 0)
+ 		return ret;
+ 
+-	if (!sbi->used.bitmap.sb || !run || run == RUN_DEALLOCATE)
++	if (!run || run == RUN_DEALLOCATE)
+ 		return ret;
+ 
+ 	if (ino == MFT_REC_BADCLUST)
 -- 
-2.39.2
+2.43.0
 
