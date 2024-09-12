@@ -1,134 +1,97 @@
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF61863CB
-	for <ntfs3@lists.linux.dev>; Thu, 12 Sep 2024 05:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F73418FDD8
+	for <ntfs3@lists.linux.dev>; Thu, 12 Sep 2024 08:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726120525; cv=none; b=r3lmmqu60mn4xzUuVIdykZYbhgYXerBBrYjp9xT/PoO5NsMwO3es/wT+xzzwHNFQsMJn6PvjRDP6fBJOa7zGVR//rWxj4CMc3FNekP3lY2MptHJeY5WFA9JUM4j7F3GHIPVYUBRHaOgHWqIBFe+lUkDpNMrHtRgnFR12PEsd0CY=
+	t=1726128683; cv=none; b=CUURzslTtx2Xnsq41i2kOMF2Iv8JrkMwLVoU0vHoJRXxB3rsFkAmg/mzXcLtjFViCtBCZZPg7PWoFTmMP+Eu/uqACPkAc5bctEHCeuGs8hRd5kudZ88ftn8quWxUSW7n+84g8GIF5SbUVabgahEombUUGQ1A1/kHOVbXmEj6QL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726120525; c=relaxed/simple;
-	bh=PApkvqJXVEUNrwVkteCTy1JePFsPgV32jO/HlEaSDJ4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=VsXrjxCnLbhAH5n4AsuzGD9DB5JL7poNJH/9oOV2VbqAFbftOo1RcRFdzR2GX5x0py/FOJLU97O8Li2jfmWSyZ1uUscHho6PjklVpmOvTNiCwV1cI9jNjPmPMEDSEJMqI3B+5TdIVgw9m3Qp3jTlZWrxBKhlRqEqgYk8eW/87bM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
+	s=arc-20240116; t=1726128683; c=relaxed/simple;
+	bh=+FjPOjsC90nGSQ6SyM2El4O7afIWk4e2DSPjQIXmi6c=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=pY0TItQhokLBUvFogTJLsQZhzTErXd6xAWucw4Ksi+y45rXzUUteTGd7vrmCjkz98Rtlh1Br03ry/MnJDUhujslnHpH78rKwMi+Rndp22zjSpGY4qMJn4nwCeP8Ek6x1L33TktfXiwY3WX1pSexiGWkyXd7cTaMPGiwsQO9m2sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-39d505a087aso6999075ab.1
-        for <ntfs3@lists.linux.dev>; Wed, 11 Sep 2024 22:55:23 -0700 (PDT)
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-39f5605c674so11605045ab.3
+        for <ntfs3@lists.linux.dev>; Thu, 12 Sep 2024 01:11:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726120523; x=1726725323;
+        d=1e100.net; s=20230601; t=1726128681; x=1726733481;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=zefzmfyJk8t8yJT5t/jigSUzYtXEsJyalJWIcKH+4Uo=;
-        b=KNn9GIs2NmxEhCcUNchmDZsjmaBF9rN/G5Lae/jGKH8MgbHPWb+nuxTwoQIaSIacpD
-         p6McH6itR2MnuTmk8Khwrx4RH69LX0RWS7dGjAQJYhIUnKV9tJfTkNWduSglZmuYmIJn
-         68ZY5NOBdbJ4ihu/qPqFnvZlYpR+W2RgFEDCJM9M7P6Anm/ERWdRA2lvRzuabNNWq+oa
-         PnuFCwO4ZRm9l/3/D3wjo1DVdiPq015uuvhxj+NGFxqJU+axgCvo2tk/dGD1CDdTIz7O
-         RbiqAYrcxJp3EYXVyrlyzTGdpimtv+Vz36wjxM3j+PUq3ceh6PrSz3nPRKGsJxxQM++3
-         ERIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXk/FwLhnJMClof3pF4IOkXQ3SU/GPpebx4G7YraSBcI0B1oxrppzpWypT9/0URrBb3IqoRqQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJ86doJA1yCubEDPBlZyL60d3UHwHDNYQaCUB5MZoqPbf9aAmh
-	SMQjkgTNlXbNvhNWd8tJrbQrbmoHFnYNTAD3qpkk1q3qvtebc5vwZ2U2+G0IN9Jzd6fBqYCf+Mh
-	uAD86on8l8BJTkdLcVi21S542LDSzC/T0M31oPO06tjAVOAsE6nepvz0=
-X-Google-Smtp-Source: AGHT+IHKPoAnfLthhAIuluDrpEV1nrIA2EDTF3BxQ6SRlol9/JoP6cWnQbOeqYC4Rwce5LCyoGQWlLmNbAZKujsUG1oqxhYdp9l4
+        bh=p6URRhafhkSYWjZNhALlJLM/SfWa/5qmQZKFuhu6WB8=;
+        b=r+X5rFjEKIiVSwrEf3pDMiPxjKjyk9S+Av0FJkQdkxr1rrfCv5A6HJppgvFS5TQhs2
+         IdMG83Crpx4g/sFg8s0w7a8TRsioGdvGZo1pB7bwP6nBh7pKime788KnbkV7jrQQWWP0
+         6hJ2Mh6WHRLRbl6sP60hLYoYpx6egnnnbX9l8JA/jrcAL/qlcw1LvA2fU7Sy9SLhvzYY
+         WhdrfsBR3ytFkREv/Quxg5m+wyTVMBZfHLgv37yXSH8SZdTLiC5KrU6h0d3vrkjBQ+XW
+         KwebCjSpTXC29sXh2hCukgoblPmq6PZYV5ML2Gt9rpEhTqKfRrr4zC/yr4aKte0mYFN+
+         2KeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUEV9kdZHJLQHIHcSyhJCgCkk3+Y9uxHbppAVipaUiR/f/Kt3Llk05WbrcgJbuQA5ErvOs36w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzUg4J1Q4EuPyP0H60YRdUD3C27s2ZCbEaZirsGBn7Ihb/sRx1V
+	Zqw19KxeZjFUczJGoU5u/7bvgtCINNIJDpvRfuLbC6EtuMzaABEHVZgshKiiL+ZNwlYUzqc9cEQ
+	WGJXB9pDbbYQV7Bidjq3+qjwJUbct4qvVR12V+IK5oY4yz5X1aih5l7w=
+X-Google-Smtp-Source: AGHT+IH9PefFzA7QiLpOatAAZXNdwSgRcv509nYPOUBPbCuMPlwum216H1nu9GMdnHtOhvrwl6/I2VauZokki3C6SgdxpXrxhNu7
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:12c5:b0:39f:325f:78e6 with SMTP id
- e9e14a558f8ab-3a0845a0d55mr13801545ab.0.1726120522992; Wed, 11 Sep 2024
- 22:55:22 -0700 (PDT)
-Date: Wed, 11 Sep 2024 22:55:22 -0700
+X-Received: by 2002:a05:6e02:148c:b0:39d:1694:d261 with SMTP id
+ e9e14a558f8ab-3a084907d29mr19004285ab.12.1726128681656; Thu, 12 Sep 2024
+ 01:11:21 -0700 (PDT)
+Date: Thu, 12 Sep 2024 01:11:21 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009ce1970621e5c01f@google.com>
-Subject: [syzbot] [ntfs3?] kernel panic: stack is corrupted in do_raw_spin_lock
-From: syzbot <syzbot+3659c2af3c190d9e5548@syzkaller.appspotmail.com>
+Message-ID: <000000000000e831e90621e7a6b5@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Sep 2024)
+From: syzbot <syzbot+list6ec5971c0fd039e92cbd@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
 	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Hello ntfs3 maintainers/developers,
 
-syzbot found the following issue on:
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-HEAD commit:    d1f2d51b711a Merge tag 'clk-fixes-for-linus' of git://git...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15b32797980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=fc7fa3453562e8b
-dashboard link: https://syzkaller.appspot.com/bug?extid=3659c2af3c190d9e5548
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13b32797980000
+During the period, 12 new issues were detected and 0 were fixed.
+In total, 38 issues are still open and 50 have been fixed so far.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/9e90e1655cd2/disk-d1f2d51b.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/4e83e072c038/vmlinux-d1f2d51b.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/f9da7a0ffce5/bzImage-d1f2d51b.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/b141e72fbe37/mount_0.gz
+Some of the still happening issues:
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+3659c2af3c190d9e5548@syzkaller.appspotmail.com
-
-loop0: detected capacity change from 0 to 4096
-Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: do_raw_spin_lock+0x36c/0x370
-CPU: 0 UID: 0 PID: 6983 Comm: syz.0.762 Not tainted 6.11.0-rc6-syzkaller-00326-gd1f2d51b711a #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:93 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
- panic+0x349/0x860 kernel/panic.c:354
- __stack_chk_fail+0x15/0x20 kernel/panic.c:827
- do_raw_spin_lock+0x36c/0x370
- spin_lock include/linux/spinlock.h:351 [inline]
- inode_wait_for_writeback+0x8d/0x290 fs/fs-writeback.c:1529
- evict+0x502/0x950 fs/inode.c:701
- ntfs_fill_super+0x3e27/0x4730 fs/ntfs3/super.c:1467
- get_tree_bdev+0x3f7/0x570 fs/super.c:1635
- vfs_get_tree+0x90/0x2b0 fs/super.c:1800
- do_new_mount+0x2be/0xb40 fs/namespace.c:3472
- do_mount fs/namespace.c:3812 [inline]
- __do_sys_mount fs/namespace.c:4020 [inline]
- __se_sys_mount+0x2d6/0x3c0 fs/namespace.c:3997
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fa489b7e69a
-Code: d8 64 89 02 48 c7 c0 ff ff ff ff eb a6 e8 de 1a 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fa48a8b5e68 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007fa48a8b5ef0 RCX: 00007fa489b7e69a
-RDX: 0000000020000080 RSI: 000000002001f740 RDI: 00007fa48a8b5eb0
-RBP: 0000000020000080 R08: 00007fa48a8b5ef0 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 000000002001f740
-R13: 00007fa48a8b5eb0 R14: 000000000001f70e R15: 00000000200000c0
- </TASK>
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
-
+Ref  Crashes Repro Title
+<1>  12022   Yes   VFS: Busy inodes after unmount (use-after-free)
+                   https://syzkaller.appspot.com/bug?extid=0af00f6a2cba2058b5db
+<2>  8882    Yes   possible deadlock in mi_read
+                   https://syzkaller.appspot.com/bug?extid=bc7ca0ae4591cb2550f9
+<3>  6470    Yes   kernel BUG in dnotify_free_mark
+                   https://syzkaller.appspot.com/bug?extid=06cc05ddc896f12b7ec5
+<4>  3596    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<5>  1828    Yes   possible deadlock in ntfs_fiemap
+                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+<6>  864     Yes   possible deadlock in ntfs_file_mmap
+                   https://syzkaller.appspot.com/bug?extid=c1751b6739d83d70bb75
+<7>  491     Yes   possible deadlock in attr_data_get_block (2)
+                   https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+<8>  179     Yes   possible deadlock in ntfs_fallocate
+                   https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
+<9>  83      Yes   possible deadlock in ntfs_mark_rec_free (2)
+                   https://syzkaller.appspot.com/bug?extid=016b09736213e65d106e
+<10> 56      Yes   KMSAN: uninit-value in ntfs_read_bh
+                   https://syzkaller.appspot.com/bug?extid=7a2ba6b7b66340cff225
 
 ---
 This report is generated by a bot. It may contain errors.
 See https://goo.gl/tpsmEJ for more information about syzbot.
 syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+You may send multiple commands in a single email message.
