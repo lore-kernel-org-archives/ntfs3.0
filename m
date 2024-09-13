@@ -1,82 +1,143 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58A8A2AEFC
-	for <ntfs3@lists.linux.dev>; Fri, 13 Sep 2024 02:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BBB34CD8;
+	Fri, 13 Sep 2024 20:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726194817; cv=none; b=cInJETGdZ7DlGFZxQiXXSwfUbRoEy/jEce8MHfNePj+4znunsFz5tnalTTGZhwAWEZdfnNHxDYrqQK8dyEiCA581JR0T69tk4L//2pek3bqe/WOs+FrDlMjWOe2wOlsbOl6etvkL5ZYvRaeU/Mjrt3Suu9m+iT0ohqPWZhbu7l0=
+	t=1726260612; cv=none; b=G/UMX6zMcXwpi1SPa9AQcioQbBRWVEp00hAqf0p6jE0JE40rNZInQoIQTxypG+NVN/7Zoxj4VpRDdhcrUzS0HRjyRKAD7wDlDOkivrWG9mJcgiASMm0lKtmOwS/Bj8SkZuWcmGWr8ZDgJC4Ju+ZhvTTriXzn2hvwWGi7S3Tamdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726194817; c=relaxed/simple;
-	bh=NdTkWnpysOIzWCxoeKLkto7GLif67/SO2119cg6rYqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M7/QulluEYpn7F6KTqqKyqQJ/lKADbngyOeXj8A4J6qVeSK0t76S/HrBgxtExfS+AwQ8ib0i7gs7ltGV9rTNdulU6wOmPij3N1mLK04Qigikzuu9+DHpSoVqyG1Q1+vQxqHd9T1AcY4d9w6KosUD4qfhDrwFfNkxg4O83ktWlCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=b4AL+VWQ; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1726260612; c=relaxed/simple;
+	bh=2zrYHpA3kX7JC9/5SSEGb4MN5LXNBxgDBMyfH9tRaJI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g8mUslEN/gNo2G659ltj8bnccWyr08SI7rtbteCMwY3nfKF4RVFeIDKZo8n32K9XYN+w+uZBmAF8f6uHUnHm9rp4zo6DcCEfaGO4/VD5PrckjY3PQe6zkrksQgSgfvB7PutExIzUDrjL9Yz8oZNbMvKZI+xpbkTPxpw6Y/hp3iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=pVdVjUQQ; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="b4AL+VWQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=U3C86QQWao7tuzRN4lIMwsjWiVhXXFRyJjitYGN9wdU=;
-	b=b4AL+VWQp+Q+cDWfc5ADENzwYr4SRN6WKm92AiyxiizLVv9EXKAq7lLCC7BEOa
-	X8MLdSU7yAoTPZf/eVsH5gR7VI0RWcmXInr5MbWBaI8C54mAPL7+g7z+I28Sh7WT
-	1TOxO9MUFjkRWFc99hyIj4A/RPwFb+fawE1Er9se15Z58=
-Received: from localhost (unknown [120.26.85.94])
-	by gzga-smtp-mta-g3-5 (Coremail) with SMTP id _____wB3_6l3pONmeXiNMg--.40278S2;
-	Fri, 13 Sep 2024 10:33:27 +0800 (CST)
-Date: Fri, 13 Sep 2024 10:33:27 +0800
-From: Qianqiang Liu <qianqiang.liu@163.com>
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="pVdVjUQQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=jEbycQkoY9Azc+AVUuDXEFyr7MoYnCHK99x5c0TENqw=; b=pVdVjUQQa79uxa4+
+	EMWhBqRmKqBrs9XI5qCf3F7pLmX67mVeyim0A6u5rtEeafpUAangpGyFhfeOXv0AbL/VfZI+eaWBn
+	xE4BZkSHxGabrN7BSOfLron793/1vw8WGHdZRILhPKSn5SassfFr0qFQjApFMVxL3HJ7dJJmSXHgx
+	cyMJs/a2HGe2jMCWI0upsYdSs9wapGnP/xHuDfX42QG/8kQxoHnDxAuWpXAS9kh7sMuwU+em7t846
+	isFB10fntPtXjbkSm6KS6drgtiD3ut2szXAa5c0Jzy2Cg81+5KG+EHpcbgJfSOVTLOV9Kbdap+bPW
+	k7lFB/6luppr0PkOlA==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1spDF1-005foX-2B;
+	Fri, 13 Sep 2024 20:50:07 +0000
+From: linux@treblig.org
 To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fs/ntfs3: Remove the unnecessary 'if' statement
-Message-ID: <ZuOkd8dMur08t0zo@iZbp1asjb3cy8ks0srf007Z>
-References: <20240911015753.49513-1-qianqiang.liu@163.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] fs/ntfs3: Remove unused al_delete_le
+Date: Fri, 13 Sep 2024 21:50:06 +0100
+Message-ID: <20240913205006.279177-1-linux@treblig.org>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240911015753.49513-1-qianqiang.liu@163.com>
-X-CM-TRANSID:_____wB3_6l3pONmeXiNMg--.40278S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7XF13Cw45ZrWkKFy8Jr1rCrg_yoW3urX_Ga
-	yjka1rK3Z8Jw1v93Z5KrWYgrWqgFW8tFsYvw13tF95CF45tFZ5Za4vq395AFsFgrZ7ZFW7
-	Gwn8CFW2ka4YyjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbAR67UUUUU==
-X-CM-SenderInfo: xtld01pldqwhxolxqiywtou0bp/1tbiRRJZamXAo4kDXgABs3
+Content-Transfer-Encoding: 8bit
 
-Hi almaz,
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-On Wed, Sep 11, 2024 at 09:57:54AM +0800, Qianqiang Liu wrote:
-> The 'asize' was already checked to be less than SIZEOF_RESIDENT.
-> 
-> Signed-off-by: Qianqiang Liu <qianqiang.liu@163.com>
-> ---
->  fs/ntfs3/record.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-> index 427c71be0f08..0f400366231d 100644
-> --- a/fs/ntfs3/record.c
-> +++ b/fs/ntfs3/record.c
-> @@ -268,10 +268,6 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
->  
->  	/* Check size of attribute. */
->  	if (!attr->non_res) {
-> -		/* Check resident fields. */
-> -		if (asize < SIZEOF_RESIDENT)
-> -			return NULL;
-> -
->  		t16 = le16_to_cpu(attr->res.data_off);
->  		if (t16 > asize)
->  			return NULL;
-> -- 
-> 2.39.2
+'al_delete_le' was added by:
+Commit be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
 
-Could you please review this patch?
+but has remained unused; there is an al_remove_le which seems
+to be being used instead.
 
+Remove 'al_delete_le'.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ fs/ntfs3/attrlist.c | 53 ---------------------------------------------
+ fs/ntfs3/ntfs_fs.h  |  2 --
+ 2 files changed, 55 deletions(-)
+
+diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
+index 9f4bd8d26090..a4d74bed74fa 100644
+--- a/fs/ntfs3/attrlist.c
++++ b/fs/ntfs3/attrlist.c
+@@ -382,59 +382,6 @@ bool al_remove_le(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le)
+ 	return true;
+ }
+ 
+-/*
+- * al_delete_le - Delete first le from the list which matches its parameters.
+- */
+-bool al_delete_le(struct ntfs_inode *ni, enum ATTR_TYPE type, CLST vcn,
+-		  const __le16 *name, u8 name_len, const struct MFT_REF *ref)
+-{
+-	u16 size;
+-	struct ATTR_LIST_ENTRY *le;
+-	size_t off;
+-	typeof(ni->attr_list) *al = &ni->attr_list;
+-
+-	/* Scan forward to the first le that matches the input. */
+-	le = al_find_ex(ni, NULL, type, name, name_len, &vcn);
+-	if (!le)
+-		return false;
+-
+-	off = PtrOffset(al->le, le);
+-
+-next:
+-	if (off >= al->size)
+-		return false;
+-	if (le->type != type)
+-		return false;
+-	if (le->name_len != name_len)
+-		return false;
+-	if (name_len && ntfs_cmp_names(le_name(le), name_len, name, name_len,
+-				       ni->mi.sbi->upcase, true))
+-		return false;
+-	if (le64_to_cpu(le->vcn) != vcn)
+-		return false;
+-
+-	/*
+-	 * The caller specified a segment reference, so we have to
+-	 * scan through the matching entries until we find that segment
+-	 * reference or we run of matching entries.
+-	 */
+-	if (ref && memcmp(ref, &le->ref, sizeof(*ref))) {
+-		off += le16_to_cpu(le->size);
+-		le = Add2Ptr(al->le, off);
+-		goto next;
+-	}
+-
+-	/* Save on stack the size of 'le'. */
+-	size = le16_to_cpu(le->size);
+-	/* Delete the le. */
+-	memmove(le, Add2Ptr(le, size), al->size - (off + size));
+-
+-	al->size -= size;
+-	al->dirty = true;
+-
+-	return true;
+-}
+-
+ int al_update(struct ntfs_inode *ni, int sync)
+ {
+ 	int err;
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index e5255a251929..f0cf4c8aa1ec 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -471,8 +471,6 @@ int al_add_le(struct ntfs_inode *ni, enum ATTR_TYPE type, const __le16 *name,
+ 	      u8 name_len, CLST svcn, __le16 id, const struct MFT_REF *ref,
+ 	      struct ATTR_LIST_ENTRY **new_le);
+ bool al_remove_le(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le);
+-bool al_delete_le(struct ntfs_inode *ni, enum ATTR_TYPE type, CLST vcn,
+-		  const __le16 *name, u8 name_len, const struct MFT_REF *ref);
+ int al_update(struct ntfs_inode *ni, int sync);
+ static inline size_t al_aligned(size_t size)
+ {
 -- 
-Best,
-Qianqiang Liu
+2.46.0
 
