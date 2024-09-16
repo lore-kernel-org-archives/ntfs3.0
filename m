@@ -1,42 +1,65 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BBB34CD8;
-	Fri, 13 Sep 2024 20:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D5715852F
+	for <ntfs3@lists.linux.dev>; Mon, 16 Sep 2024 18:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726260612; cv=none; b=G/UMX6zMcXwpi1SPa9AQcioQbBRWVEp00hAqf0p6jE0JE40rNZInQoIQTxypG+NVN/7Zoxj4VpRDdhcrUzS0HRjyRKAD7wDlDOkivrWG9mJcgiASMm0lKtmOwS/Bj8SkZuWcmGWr8ZDgJC4Ju+ZhvTTriXzn2hvwWGi7S3Tamdg=
+	t=1726510559; cv=none; b=tgiLaw2es97D5Uix3cvsyfL/knw5uaX0zrFVQOQE6VBOJW7CYMNAahBvg0s3JYm3uQU+z5HQ9BEaBAgXquWErnDC+OXqKlMpBGzxsvmXbulglcUhqAbuELmcRja0NUZ8zdUKeXJ5SW4sQQFXbA1QcZBL2FlOs9BYi7c5nivsbcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726260612; c=relaxed/simple;
-	bh=2zrYHpA3kX7JC9/5SSEGb4MN5LXNBxgDBMyfH9tRaJI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g8mUslEN/gNo2G659ltj8bnccWyr08SI7rtbteCMwY3nfKF4RVFeIDKZo8n32K9XYN+w+uZBmAF8f6uHUnHm9rp4zo6DcCEfaGO4/VD5PrckjY3PQe6zkrksQgSgfvB7PutExIzUDrjL9Yz8oZNbMvKZI+xpbkTPxpw6Y/hp3iI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=pVdVjUQQ; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1726510559; c=relaxed/simple;
+	bh=4Qhsku91lFKJ8KjbB5aFPJSDK9oNgKbdpsT1c9CLkqk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bTrtQtpmY14j+MEgpXV8SueW+NhrWuMdv/fzTCi5ZyKXVFkva5PIVgSXCpglwAvAR+b2MA007U98Ua09+LW1Ok2mYsHJaGAUEtmRHHln8ihZEtg7nK9t7YA6/wcPJRffclrfmTroTGQKA7Gd32ikebGDUzoaycMLEPdH9Tg26Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZEvQuplo; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="pVdVjUQQ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=jEbycQkoY9Azc+AVUuDXEFyr7MoYnCHK99x5c0TENqw=; b=pVdVjUQQa79uxa4+
-	EMWhBqRmKqBrs9XI5qCf3F7pLmX67mVeyim0A6u5rtEeafpUAangpGyFhfeOXv0AbL/VfZI+eaWBn
-	xE4BZkSHxGabrN7BSOfLron793/1vw8WGHdZRILhPKSn5SassfFr0qFQjApFMVxL3HJ7dJJmSXHgx
-	cyMJs/a2HGe2jMCWI0upsYdSs9wapGnP/xHuDfX42QG/8kQxoHnDxAuWpXAS9kh7sMuwU+em7t846
-	isFB10fntPtXjbkSm6KS6drgtiD3ut2szXAa5c0Jzy2Cg81+5KG+EHpcbgJfSOVTLOV9Kbdap+bPW
-	k7lFB/6luppr0PkOlA==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1spDF1-005foX-2B;
-	Fri, 13 Sep 2024 20:50:07 +0000
-From: linux@treblig.org
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] fs/ntfs3: Remove unused al_delete_le
-Date: Fri, 13 Sep 2024 21:50:06 +0100
-Message-ID: <20240913205006.279177-1-linux@treblig.org>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZEvQuplo"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-718e2855479so3481131b3a.1
+        for <ntfs3@lists.linux.dev>; Mon, 16 Sep 2024 11:15:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726510557; x=1727115357; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5tfqQDexu4Vmpn8wv3LnZmio6F6PpZY2ba5RnBulZUU=;
+        b=ZEvQuplooVKEtwJSL0DStU0QVmEJlVp232I6U7jC2mje5Ctlsu9dBgNQq7UoxN4IOZ
+         hRjkgUO7EbgdybnKcN6VVbwyme5DeiCxh5hP+QCTTslYyTGC2uLoqRUfRLrA5PNwJeqV
+         4W0Mxh52+xCz/iiDsmNdd/F760bU5fXxv5hzhyOVUkB5qcqU0GqHIDLfJH2JcT8zX0c4
+         3ro31T7LFR7VMh6/FVxW+9KRZGqyPyMQoLpp2xTecRgkFgc2M9shxpXSKopYLTDgs6UT
+         66HYNblM8a7O3OzmS51wH91epePz2xdDLPBBfYA6MPDBb+JYql0VpXATrTXSxZiu4Lu0
+         AAHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726510557; x=1727115357;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5tfqQDexu4Vmpn8wv3LnZmio6F6PpZY2ba5RnBulZUU=;
+        b=A/ATR/bjI3enP7x2rZa8t43ncBR+lcK1jv0rXfHErdf+j9KVUkA0dA27lJacs7/cho
+         Vp8hmBRwy32/mGEsIZqHLNdTdCeJtUnIPMOIwytIx3KmBdR0GEMrybS8O8hkFqNKUHo2
+         lrUFYEEOpUmwzecQjPkyIDPrxsyeyQik6MNThTRWTSfp7jpyi9dSZrvTuC5Fga4pytK6
+         dib7R64bceIckk1nS1BCnpLEBGqNOiZO8S2zwS7nLa+XgP6mwgb4QwKMNUAROWPprcUg
+         ZXZXhGCV9bTPTvER65QsqBZItmipwkZ3sk/hKyk5H6maeLmi8zwKbFdN9JJvrYL1PB2N
+         ytdw==
+X-Forwarded-Encrypted: i=1; AJvYcCWv9+769H8MLs/CuLeBogl5of2iyeiqn/qRTVVsGEvNbrREP08Lfct0AX6F1LmvHdOZm3tNJg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1vJZMpa2iQY+ENAhNRb0pr+jxgCBKkBmnBluyA0LrbnN+ghtE
+	LgOtqGOmiWX6guwNLdwCCMPPUTSYJL7h1W97JhQJaMLrSfhZVDde
+X-Google-Smtp-Source: AGHT+IH+J9oOULqskqZUCMfdC6hBDHP0/oiMJqDpk20h3oWKuvbeZz90Xb1HAyM+X6Kd3sQBdHSBgw==
+X-Received: by 2002:a05:6a00:1883:b0:706:58ef:613 with SMTP id d2e1a72fcca58-719262066efmr23193056b3a.27.1726510557247;
+        Mon, 16 Sep 2024 11:15:57 -0700 (PDT)
+Received: from diogo-jahchan-ASUS-TUF-Gaming-A15-FA507RM-FA507RM.. ([200.4.98.98])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71944a9831esm4002548b3a.24.2024.09.16.11.15.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Sep 2024 11:15:56 -0700 (PDT)
+From: Diogo Jahchan Koike <djahchankoike@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: Diogo Jahchan Koike <djahchankoike@gmail.com>,
+	syzbot+7f71f79bbfb4427b00e1@syzkaller.appspotmail.com,
+	ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND] ntfs3: change to non-blocking allocation in ntfs_d_hash
+Date: Mon, 16 Sep 2024 15:15:31 -0300
+Message-ID: <20240916181544.6765-1-djahchankoike@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,99 +68,41 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+d_hash is done while under "rcu-walk" and should not sleep.
+__get_name() allocates using GFP_KERNEL, having the possibility
+to sleep when under memory pressure. Change the allocation to
+GFP_NOWAIT.
 
-'al_delete_le' was added by:
-Commit be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
-
-but has remained unused; there is an al_remove_le which seems
-to be being used instead.
-
-Remove 'al_delete_le'.
-
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+Reported-by: syzbot+7f71f79bbfb4427b00e1@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=7f71f79bbfb4427b00e1
+Fixes: d392e85fd1e8 ("fs/ntfs3: Fix the format of the "nocase" mount option")
+Signed-off-by: Diogo Jahchan Koike <djahchankoike@gmail.com>
 ---
- fs/ntfs3/attrlist.c | 53 ---------------------------------------------
- fs/ntfs3/ntfs_fs.h  |  2 --
- 2 files changed, 55 deletions(-)
+ fs/ntfs3/namei.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ntfs3/attrlist.c b/fs/ntfs3/attrlist.c
-index 9f4bd8d26090..a4d74bed74fa 100644
---- a/fs/ntfs3/attrlist.c
-+++ b/fs/ntfs3/attrlist.c
-@@ -382,59 +382,6 @@ bool al_remove_le(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le)
- 	return true;
+diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
+index f16d318c4372..0a70c3658546 100644
+--- a/fs/ntfs3/namei.c
++++ b/fs/ntfs3/namei.c
+@@ -395,7 +395,7 @@ static int ntfs_d_hash(const struct dentry *dentry, struct qstr *name)
+ 	/*
+ 	 * Try slow way with current upcase table
+ 	 */
+-	uni = __getname();
++	uni = kmem_cache_alloc(names_cachep, GFP_NOWAIT);
+ 	if (!uni)
+ 		return -ENOMEM;
+ 
+@@ -417,7 +417,7 @@ static int ntfs_d_hash(const struct dentry *dentry, struct qstr *name)
+ 	err = 0;
+ 
+ out:
+-	__putname(uni);
++	kmem_cache_free(names_cachep, uni);
+ 	return err;
  }
  
--/*
-- * al_delete_le - Delete first le from the list which matches its parameters.
-- */
--bool al_delete_le(struct ntfs_inode *ni, enum ATTR_TYPE type, CLST vcn,
--		  const __le16 *name, u8 name_len, const struct MFT_REF *ref)
--{
--	u16 size;
--	struct ATTR_LIST_ENTRY *le;
--	size_t off;
--	typeof(ni->attr_list) *al = &ni->attr_list;
--
--	/* Scan forward to the first le that matches the input. */
--	le = al_find_ex(ni, NULL, type, name, name_len, &vcn);
--	if (!le)
--		return false;
--
--	off = PtrOffset(al->le, le);
--
--next:
--	if (off >= al->size)
--		return false;
--	if (le->type != type)
--		return false;
--	if (le->name_len != name_len)
--		return false;
--	if (name_len && ntfs_cmp_names(le_name(le), name_len, name, name_len,
--				       ni->mi.sbi->upcase, true))
--		return false;
--	if (le64_to_cpu(le->vcn) != vcn)
--		return false;
--
--	/*
--	 * The caller specified a segment reference, so we have to
--	 * scan through the matching entries until we find that segment
--	 * reference or we run of matching entries.
--	 */
--	if (ref && memcmp(ref, &le->ref, sizeof(*ref))) {
--		off += le16_to_cpu(le->size);
--		le = Add2Ptr(al->le, off);
--		goto next;
--	}
--
--	/* Save on stack the size of 'le'. */
--	size = le16_to_cpu(le->size);
--	/* Delete the le. */
--	memmove(le, Add2Ptr(le, size), al->size - (off + size));
--
--	al->size -= size;
--	al->dirty = true;
--
--	return true;
--}
--
- int al_update(struct ntfs_inode *ni, int sync)
- {
- 	int err;
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index e5255a251929..f0cf4c8aa1ec 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -471,8 +471,6 @@ int al_add_le(struct ntfs_inode *ni, enum ATTR_TYPE type, const __le16 *name,
- 	      u8 name_len, CLST svcn, __le16 id, const struct MFT_REF *ref,
- 	      struct ATTR_LIST_ENTRY **new_le);
- bool al_remove_le(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le);
--bool al_delete_le(struct ntfs_inode *ni, enum ATTR_TYPE type, CLST vcn,
--		  const __le16 *name, u8 name_len, const struct MFT_REF *ref);
- int al_update(struct ntfs_inode *ni, int sync);
- static inline size_t al_aligned(size_t size)
- {
 -- 
-2.46.0
+2.43.0
 
