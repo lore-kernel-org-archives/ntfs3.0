@@ -1,61 +1,67 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46361AD3F8
-	for <ntfs3@lists.linux.dev>; Wed, 18 Sep 2024 17:17:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969A31C7B83
+	for <ntfs3@lists.linux.dev>; Wed, 18 Sep 2024 17:43:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726679864; cv=none; b=ELNlCII4s5AkH3LrizAXsTE3wisXbcXleUA3x1n+49IfVZ79tuE2H0sBwb1qKSVQq0B/zKvjg5elaoonMoGWAYSkex5YMPuhkH67TzIcGOA19C/Pn/NBGu4+nh+xECHM77+aIOWnGE6tpfKaQM4QxuyJ+PEblgwyI+3KSMhKe2w=
+	t=1726681429; cv=none; b=RPAa3vQZNLoankPm9bVUKwnAJ9gZ03AZccF1/a8kok7M5Qi6o9Lk2fXleYWQwxuFmFx3xRMQD9D95msI1nEg+2Ifk6I8k5hp9T5WIK3PR4Tkjq+CHtskbTcml7XCpwhw5ebFF3FCl4QZCyvk5ggQWVlqHB2IOeu23f6DCU0jjhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726679864; c=relaxed/simple;
-	bh=4e6R9wY2hW6X7O7T+qI/m2pY4ab1yzYVL/5jv/HyHRk=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=smhXypgVyd/xQ03Ow3bOaCyRuUxdL3kU/rUaN6gIOvbl7W2YxzU8HTHeRw7ftCOto7gO6jdEpp2yBOoSJLaDhgn/0MKmYqvOtKEE1uHLJ64PMlNtzzwx95tW0zort3UDaJ38nwl6xBFPoRkuriAFMkFgBvxKlvLp3t+sFsOg6yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UsktnnXs; arc=none smtp.client-ip=209.85.215.175
+	s=arc-20240116; t=1726681429; c=relaxed/simple;
+	bh=sgsZ9th74YEypO7KWA9vv1IUuQrb5H0WMvkk2t8USOY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=jUROJDCz0znSTBJHtTEMNGi4vglnstiMO2dRbcn6bJKRYm2I5RxC4WioTMHAwkqkJt3SM7rwlpuqndG8j1/urqPohIg4SH+4iWoITCbGikOdLLdilpMFXKQtHLcB3gMcrK1/JL6SIgPCVV+nYVzY/PDJckON875F4cSYL0Z+GsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BCUNEP4j; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UsktnnXs"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7db0fb03df5so5232333a12.3
-        for <ntfs3@lists.linux.dev>; Wed, 18 Sep 2024 10:17:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BCUNEP4j"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2068bee21d8so235035ad.2
+        for <ntfs3@lists.linux.dev>; Wed, 18 Sep 2024 10:43:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726679862; x=1727284662; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sxks8HvVUS3cawfHOPgFaShIwCThkulVA+f9kPxgXiI=;
-        b=UsktnnXsCaoKqCKUmnAivVkBGEWT/A/aWmrDmfQDjrz2AQf/+Z0l8SnGW6kFf9J4D2
-         3Y/5ZqxKbw3paNs/AqXLvtfym08i2+4PaCLQ0z13ogc3pAODaG/6lImpU6jj8QasQUpA
-         a8xPKbiBSEcgX9uHaUtMkSDXQrsskNAGhLkLfN1sSCjVOFAYRSu/Eq6nK9eskwhY6bYb
-         OF8DXB+7rpxxzGbse2qbbScwmdAZ3sFbKkzvn/ULDlcztf3rrUMKizHtSr4U/xIQEVqn
-         MCo2svafp4PYpAA4ES9IZKvyn066/IPI7ZJ8S7SqD70kzl12stDr0dyaOnTF/vBbqvf2
-         cCnw==
+        d=gmail.com; s=20230601; t=1726681426; x=1727286226; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u93mWgTEl/HquhdTEss9CS7X31wqgA34c4eSNrM6rRs=;
+        b=BCUNEP4j9mGfDnF4R0/78T3le5lAxJgE54lom9o+vgSF0yu41XphaFwc4gs30RYbC2
+         Q4D5zp7hbrEEKCzQPPIFOBimAAftKEasTb+NZzi/rUhlX9FNf43H483vj3CbScBueGLP
+         f//lU4WhtJ3KhaItjua0qYunsylKTcpcH55zHAJT0hh6A5PgtKnTb9XoJA4DZ5Ywn7Gn
+         Xz0pQR5rwj1JIE2+X7+Ma2VaR6qWJ9KER/SrwokdUK60kyLjqUnxyAx1OKXRA/0MfNiW
+         2mKsFAx797FcIqEwosLaVJw1GiaL0Nfwj81qaPCVXfrJ5k+0vzZ3ACE6JNsd/Elq8NPU
+         5Nlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726679862; x=1727284662;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sxks8HvVUS3cawfHOPgFaShIwCThkulVA+f9kPxgXiI=;
-        b=LDashzSofsWYSRsL6SJBMWIqxXvjWyBnGPkSO+j/b6YDEPQ9BGjhIGVdJ+bCj49tTj
-         vGcemHzF0DGtHcUWO5aY3fnQbE+B0qxfFW7V/aenTaWHnenTekWsAoIV1sFPiPuyl29H
-         8sGPQQ2a8KLWeuVptmy0sJYyasPFuIW7Z5IChHNYadwIB8nrCwmFMMnV4GH/T4mSPxbG
-         f236UFrXZ2iu7Z8GMQw2sHDhmeuz5SYa+udIkG1MI0w1QJY6U/i5K43AjsWk8sb/f1rU
-         lz9o7GPyDVkWnw/i3c0pzC9gfQ4AcDTHh8Qq9AtFfjmEXKoeCvZTpkNEShDcnIO4nfmR
-         Fg9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU6CXmYWCIkb4IW2vnKeTsthmJnWLAPiC5GYJkdmlJXqBe3payXbJPFq73qujPV0fjaYYNqhw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxvibWbDyiDvrqx0P890E8qeeepDhvyOgyOwqY+JskIWgW5NOz
-	6MRUWggBLoJWOuqL/vnCJ9LNnZCfRhIbj4fIZ/NzBeG/MI8EIKfA
-X-Google-Smtp-Source: AGHT+IFsBPdm7BLJoW/TZm9sWCHJAPvaz/5KEqlVpNgCpcczSIt5FIgfBZDMeuV62O+4UwlSaTwshw==
-X-Received: by 2002:a05:6a21:3a84:b0:1cf:3d14:6921 with SMTP id adf61e73a8af0-1cf7624b3e0mr36904990637.35.1726679861755;
-        Wed, 18 Sep 2024 10:17:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1726681426; x=1727286226;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u93mWgTEl/HquhdTEss9CS7X31wqgA34c4eSNrM6rRs=;
+        b=Kn5b8aT72VKcEIsNqqQ/L2ojXpZLq5A+ua0U27EdOGIEcHhQu3OR5nBJ8rCebea/Nn
+         AGIxB/vKyQnqRVmWAnvr6oykrPeuR7thloHmMBBCybLMhYMu5D2LeRyjQ+8Hzplx195D
+         M32YZRFXBmIXUI5QBiRER5JjvGBD2r7LY/+ompwTwdcnZUpvV/7nKKbP6/HEXyBu2Lg8
+         9q6TjitsCBX12yYakga98le1n8C7U4/jQ7M+/B6IAyBUnDLb208RgARchqgtzf05b2WC
+         7cTUxIonrbi/1+pkdDUuGNE/AIORJS+gXzQw8jt4zYpZ8lc1QM9U9KQ2uvrWefnxGzvJ
+         K+SA==
+X-Forwarded-Encrypted: i=1; AJvYcCWB64I4GXcNjjJ1c/C0tQygPwtES+BZVwW/9CFo8JQKE9hC94XpitbUbCFbVVLLoA+sIfYNxw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgPxHj6pI4EV/wnkhGfbAbTMCD3LSUo0VLhA5GZh8PzpgNKbVe
+	tZ8nQZVV+igtDceLQiWn4IpJSp+4SRoIPLmzyZWyNLGTe08QKlp0
+X-Google-Smtp-Source: AGHT+IEYOfO7Bea5jt0lyBcbgzzw7uSXAA4qa3lGeF60gz1l9XmTGJsYyRW0U7QX+YTwyWuOf8yDTw==
+X-Received: by 2002:a17:90b:3e87:b0:2dd:5e86:8c2f with SMTP id 98e67ed59e1d1-2dd5e8699c8mr3118797a91.21.1726681425617;
+        Wed, 18 Sep 2024 10:43:45 -0700 (PDT)
 Received: from localhost.localdomain ([47.76.200.152])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71944bc2bd3sm6975744b3a.200.2024.09.18.10.17.40
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dd608b7394sm1961499a91.21.2024.09.18.10.43.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Sep 2024 10:17:41 -0700 (PDT)
+        Wed, 18 Sep 2024 10:43:45 -0700 (PDT)
 From: lei lu <llfamsec@gmail.com>
-To: almaz.alexandrovich@paragon-software.com,
+To: llfamsec@gmail.com
+Cc: almaz.alexandrovich@paragon-software.com,
 	ntfs3@lists.linux.dev
-Subject: [PATCH v2] ntfs3: Add bounds checking to enum_rstbl()
-Date: Thu, 19 Sep 2024 01:17:20 +0800
-Message-Id: <20240918171720.555304-1-llfamsec@gmail.com>
+Subject: Re: [PATCH v2] ntfs3: Add bounds checking to enum_rstbl()
+Date: Thu, 19 Sep 2024 01:43:24 +0800
+Message-Id: <20240918174324.555381-1-llfamsec@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240918171720.555304-1-llfamsec@gmail.com>
+References: <20240918171720.555304-1-llfamsec@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -64,172 +70,63 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Added bounds checking to make sure rsize is not less than the entry
-size and make sure the remaining bytes are large enough to hold an
-entry before accessing in the caller.
+Hi, Konstantin,
 
-Signed-off-by: lei lu <llfamsec@gmail.com>
----
- fs/ntfs3/fslog.c | 40 +++++++++++++++++++++++-----------------
- 1 file changed, 23 insertions(+), 17 deletions(-)
+In log_replay, enum_rstbl didn't check the real size of the entry. It
+traverses based on RESTART_TABLE.size. There is a lack of boundary check
+if the real size is not equal to RESTART_TABLE.size.
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 855519713bf7..8a70af93e2ce 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -609,12 +609,15 @@ static inline void add_client(struct CLIENT_REC *ca, u16 index, __le16 *head)
- 	*head = cpu_to_le16(index);
- }
- 
--static inline void *enum_rstbl(struct RESTART_TABLE *t, void *c)
-+static inline void *enum_rstbl(struct RESTART_TABLE *t, void *c, u16 esize)
- {
- 	__le32 *e;
- 	u32 bprt;
- 	u16 rsize = t ? le16_to_cpu(t->size) : 0;
- 
-+	if (rsize < esize)
-+		return NULL;
-+
- 	if (!c) {
- 		if (!t || !t->total)
- 			return NULL;
-@@ -626,6 +629,8 @@ static inline void *enum_rstbl(struct RESTART_TABLE *t, void *c)
- 	/* Loop until we hit the first one allocated, or the end of the list. */
- 	for (bprt = bytes_per_rt(t); PtrOffset(t, e) < bprt;
- 	     e = Add2Ptr(e, rsize)) {
-+		if (PtrOffset(t, Add2Ptr(e, esize)) > bprt)
-+			return NULL;
- 		if (*e == RESTART_ENTRY_ALLOCATED_LE)
- 			return e;
- 	}
-@@ -641,7 +646,7 @@ static inline struct DIR_PAGE_ENTRY *find_dp(struct RESTART_TABLE *dptbl,
- 	__le32 ta = cpu_to_le32(target_attr);
- 	struct DIR_PAGE_ENTRY *dp = NULL;
- 
--	while ((dp = enum_rstbl(dptbl, dp))) {
-+	while ((dp = enum_rstbl(dptbl, dp, sizeof(*dp)))) {
- 		u64 dp_vcn = le64_to_cpu(dp->vcn);
- 
- 		if (dp->target_attr == ta && vcn >= dp_vcn &&
-@@ -2950,7 +2955,7 @@ static struct OpenAttr *find_loaded_attr(struct ntfs_log *log,
- {
- 	struct OPEN_ATTR_ENRTY *oe = NULL;
- 
--	while ((oe = enum_rstbl(log->open_attr_tbl, oe))) {
-+	while ((oe = enum_rstbl(log->open_attr_tbl, oe, sizeof(*oe)))) {
- 		struct OpenAttr *op_attr;
- 
- 		if (ino_get(&oe->ref) != rno)
-@@ -4182,7 +4187,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 		goto end_conv_1;
- 
- 	dp = NULL;
--	while ((dp = enum_rstbl(dptbl, dp))) {
-+	while ((dp = enum_rstbl(dptbl, dp, sizeof(struct DIR_PAGE_ENTRY_32)))) {
- 		struct DIR_PAGE_ENTRY_32 *dp0 = (struct DIR_PAGE_ENTRY_32 *)dp;
- 		// NOTE: Danger. Check for of boundary.
- 		memmove(&dp->vcn, &dp0->vcn_low,
-@@ -4202,10 +4207,10 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 		goto trace_dp_table;
- 
- 	dp = NULL;
--	while ((dp = enum_rstbl(dptbl, dp))) {
-+	while ((dp = enum_rstbl(dptbl, dp, sizeof(*dp)))) {
- 		struct DIR_PAGE_ENTRY *next = dp;
- 
--		while ((next = enum_rstbl(dptbl, next))) {
-+		while ((next = enum_rstbl(dptbl, next, sizeof(*next)))) {
- 			if (next->target_attr == dp->target_attr &&
- 			    next->vcn == dp->vcn) {
- 				if (le64_to_cpu(next->oldest_lsn) <
-@@ -4290,11 +4295,11 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 
- 	/* Clear all of the Attr pointers. */
- 	oe = NULL;
--	while ((oe = enum_rstbl(oatbl, oe))) {
--		if (!rst->major_ver) {
-+	if (!rst->major_ver) {
-+		while ((oe = enum_rstbl(oatbl, oe, sizeof(struct OPEN_ATTR_ENRTY_32)))) {
- 			struct OPEN_ATTR_ENRTY_32 oe0;
- 
--			/* Really 'oe' points to OPEN_ATTR_ENRTY_32. */
-+			/* Really 'oe' points to OPEN_ATTR_ENTRY_32. */
- 			memcpy(&oe0, oe, SIZEOF_OPENATTRIBUTEENTRY0);
- 
- 			oe->bytes_per_index = oe0.bytes_per_index;
-@@ -4304,7 +4309,8 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 			oe->ref = oe0.ref;
- 			oe->open_record_lsn = oe0.open_record_lsn;
- 		}
--
-+	}
-+	while ((oe = enum_rstbl(oatbl, oe, sizeof(*oe)))) {
- 		oe->is_attr_name = 0;
- 		oe->ptr = NULL;
- 	}
-@@ -4507,7 +4513,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 			u64 lcn_e = lcn0 + le64_to_cpu(r->len) - 1;
- 
- 			dp = NULL;
--			while ((dp = enum_rstbl(dptbl, dp))) {
-+			while ((dp = enum_rstbl(dptbl, dp, sizeof(*dp)))) {
- 				u32 j;
- 
- 				t32 = le32_to_cpu(dp->lcns_follow);
-@@ -4640,14 +4646,14 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 	 * the lowest lsn, and return it as the Redo lsn.
- 	 */
- 	dp = NULL;
--	while ((dp = enum_rstbl(dptbl, dp))) {
-+	while ((dp = enum_rstbl(dptbl, dp, sizeof(*dp)))) {
- 		t64 = le64_to_cpu(dp->oldest_lsn);
- 		if (t64 && t64 < rlsn)
- 			rlsn = t64;
- 	}
- 
- 	tr = NULL;
--	while ((tr = enum_rstbl(trtbl, tr))) {
-+	while ((tr = enum_rstbl(trtbl, tr, sizeof(*tr)))) {
- 		t64 = le64_to_cpu(tr->first_lsn);
- 		if (t64 && t64 < rlsn)
- 			rlsn = t64;
-@@ -4668,7 +4674,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 	oe = NULL;
- next_open_attribute:
- 
--	oe = enum_rstbl(oatbl, oe);
-+	oe = enum_rstbl(oatbl, oe, sizeof(*oe));
- 	if (!oe) {
- 		err = 0;
- 		dp = NULL;
-@@ -4770,7 +4776,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 	 * Mapping that we have, and insert it into the appropriate run.
- 	 */
- next_dirty_page:
--	dp = enum_rstbl(dptbl, dp);
-+	dp = enum_rstbl(dptbl, dp, sizeof(*dp));
- 	if (!dp)
- 		goto do_redo_1;
- 
-@@ -4968,7 +4974,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 	/* Scan Transaction Table. */
- 	tr = NULL;
- transaction_table_next:
--	tr = enum_rstbl(trtbl, tr);
-+	tr = enum_rstbl(trtbl, tr, sizeof(*tr));
- 	if (!tr)
- 		goto undo_action_done;
- 
-@@ -5142,7 +5148,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 	 * the open attributes.
- 	 */
- 	oe = NULL;
--	while ((oe = enum_rstbl(oatbl, oe))) {
-+	while ((oe = enum_rstbl(oatbl, oe, sizeof(*oe)))) {
- 		rno = ino_get(&oe->ref);
- 
- 		if (oe->is_attr_name == 1) {
--- 
-2.34.1
+Here is a PoC to reproduce.
+PoC:
+1) Found NTFS_RESTART by CLIENT_REC[0].restart_lsn
+   NTFS_RESTART.open_attr_table_lsn: LSN where PoC is located
+   NTFS_RESTART.open_attr_len: 0x1
+2) Layout PoC as follow in a LSN area as follow:
+   LFS_RECORD_HDR.this_lsn: 0x28455b
+   LFS_RECORD_HDR.client_prev_lsn: 0x0
+   LFS_REOCRD_HDR.client_undo_next_lsn: 0x0
+   LFS_RECORD_HDR.client_data_len: 0x98
+   LFS_RECORD_HDR.CLIENT_ID.seq_num: 0x0
+   LFS_RECORD_HDR.CLIENT_ID.client_idx: 0x0
+   LFS_RECORD_HDR.record_type: 0x1
+   LFS_RECORD_HDR.transact_id: 0x18
+   LFS_RECORD_HDR.flags: 0x4
+   LOG_REC_HDR.redo_op: 0x0
+   LOG_REC_HDR.undo_op: 0x0
+   LOG_REC_HDR.redo_off: 0x98-sizeof(RESTART_TABLE)-RESTART_TABLE.size (redo_off&7 != 0)
+   LOG_REC_HDR.redo_len: 0x0
+   LOG_REC_HDR.undo_off: 0x0
+   LOG_REC_HDR.undo_len: 0x0
+   LOG_REC_HDR.target_attr: 0x0
+   LOG_REC_HDR.lcns_follow: 0x0
+   LOG_REC_HDR.record_off: 0x0
+   LOG_REC_HDR.attr_off: 0x0
+   LOG_REC_HDR.cluster_off: 0x0
+   LOG_REC_HDR.reserved: 0x0
+   LOG_REC_HDR.target_vcn: 0x0
+   LOG_REC_HDR.page_lcns[0]: 0x0
+   RESTART_TABLE.size: 8
+   RESTART_TABLE.used: 0x1
+   RESTART_TABLE.total: 0x1
+   RESTART_TABLE.res[0]: 0x0
+   RESTART_TABLE.res[1]: 0x0
+   RESTART_TABLE.res[2]: 0x0
+   RESTART_TABLE.free_goal: 0x0
+   RESTART_TABLE.first_free: 0x0
+   RESTART_TABLE.last_free: 0x0
+   entry[0][0:4]: 0xFFFFFFFF (OPEN_ATTR_ENRTY[0].next)
+   OPEN_ATTR_ENRTY[0].bytes_per_index: 0x0
 
+In the patch, taking DIR_PAGE_ENTRY_32/DIR_PAGE_ENTRY as an example, there are two
+situations:
+[1] https://elixir.bootlin.com/linux/v6.10-rc4/source/fs/ntfs3/fslog.c#L4186
+    If entry is DIR_PAGE_ENTRY_32, it seems to explain it as DIR_PAGE_ENTRY, but the
+    entry size is still DIR_PAGE_ENTRY_32, so we use sizeof(struct DIR_PAGE_ENTRY_32)
+[2] https://elixir.bootlin.com/linux/v6.10-rc4/source/fs/ntfs3/fslog.c#L4206
+    - If entry is DIR_PAGE_ENTRY directly, we use sizeof(*dp)
+    - If entry is DIR_PAGE_ENTRY_32, but it is explained as DIR_PAGE_ENTRY. Because
+      We check it in [1], and sizeof(struct DIR_PAGE_ENTRY) is smaller, so we also
+      use sizeof(*dp)
+
+Thanks,
+LL
