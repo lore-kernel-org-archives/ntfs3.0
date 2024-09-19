@@ -1,132 +1,192 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969A31C7B83
-	for <ntfs3@lists.linux.dev>; Wed, 18 Sep 2024 17:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21CF199943
+	for <ntfs3@lists.linux.dev>; Thu, 19 Sep 2024 09:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726681429; cv=none; b=RPAa3vQZNLoankPm9bVUKwnAJ9gZ03AZccF1/a8kok7M5Qi6o9Lk2fXleYWQwxuFmFx3xRMQD9D95msI1nEg+2Ifk6I8k5hp9T5WIK3PR4Tkjq+CHtskbTcml7XCpwhw5ebFF3FCl4QZCyvk5ggQWVlqHB2IOeu23f6DCU0jjhI=
+	t=1726738354; cv=none; b=Byb5Royxv4yJpX/PSonlPpraG0UBeYblZUXzgH65SXB5MggXpHdWRfezF66TUF7v7SjX5H/eLSnpI9ZusJSnMGaBZ+cBfQLWPVuu45q9J2AEpBP1Rbjl7Yu1u9beAiSeqpQ6g5v7myj5MVj0QAWfjoSBGKtHAqt4EqrXihBAmIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726681429; c=relaxed/simple;
-	bh=sgsZ9th74YEypO7KWA9vv1IUuQrb5H0WMvkk2t8USOY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jUROJDCz0znSTBJHtTEMNGi4vglnstiMO2dRbcn6bJKRYm2I5RxC4WioTMHAwkqkJt3SM7rwlpuqndG8j1/urqPohIg4SH+4iWoITCbGikOdLLdilpMFXKQtHLcB3gMcrK1/JL6SIgPCVV+nYVzY/PDJckON875F4cSYL0Z+GsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BCUNEP4j; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BCUNEP4j"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2068bee21d8so235035ad.2
-        for <ntfs3@lists.linux.dev>; Wed, 18 Sep 2024 10:43:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726681426; x=1727286226; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u93mWgTEl/HquhdTEss9CS7X31wqgA34c4eSNrM6rRs=;
-        b=BCUNEP4j9mGfDnF4R0/78T3le5lAxJgE54lom9o+vgSF0yu41XphaFwc4gs30RYbC2
-         Q4D5zp7hbrEEKCzQPPIFOBimAAftKEasTb+NZzi/rUhlX9FNf43H483vj3CbScBueGLP
-         f//lU4WhtJ3KhaItjua0qYunsylKTcpcH55zHAJT0hh6A5PgtKnTb9XoJA4DZ5Ywn7Gn
-         Xz0pQR5rwj1JIE2+X7+Ma2VaR6qWJ9KER/SrwokdUK60kyLjqUnxyAx1OKXRA/0MfNiW
-         2mKsFAx797FcIqEwosLaVJw1GiaL0Nfwj81qaPCVXfrJ5k+0vzZ3ACE6JNsd/Elq8NPU
-         5Nlg==
+	s=arc-20240116; t=1726738354; c=relaxed/simple;
+	bh=kNR5zcZJ7VAsittlht678O2zXJum1rcG9XJRdXLFG70=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ZmKFRbN76xloSZd57wRydD4Pa+JkRaG+jPMhIB100h6KFhhYPMUYhgYNWYBWIiWrKZXgn5fCbbLe/bCbq9rFPjQqfgD84hL3NkHjH3VDouaNUozf1RWmNTaPrcQCwKN9kU1jMJEB8HDXd/oxzleXnT9J8tdLj0LgfP42sWN44vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-39f4e119c57so7436495ab.2
+        for <ntfs3@lists.linux.dev>; Thu, 19 Sep 2024 02:32:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726681426; x=1727286226;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=u93mWgTEl/HquhdTEss9CS7X31wqgA34c4eSNrM6rRs=;
-        b=Kn5b8aT72VKcEIsNqqQ/L2ojXpZLq5A+ua0U27EdOGIEcHhQu3OR5nBJ8rCebea/Nn
-         AGIxB/vKyQnqRVmWAnvr6oykrPeuR7thloHmMBBCybLMhYMu5D2LeRyjQ+8Hzplx195D
-         M32YZRFXBmIXUI5QBiRER5JjvGBD2r7LY/+ompwTwdcnZUpvV/7nKKbP6/HEXyBu2Lg8
-         9q6TjitsCBX12yYakga98le1n8C7U4/jQ7M+/B6IAyBUnDLb208RgARchqgtzf05b2WC
-         7cTUxIonrbi/1+pkdDUuGNE/AIORJS+gXzQw8jt4zYpZ8lc1QM9U9KQ2uvrWefnxGzvJ
-         K+SA==
-X-Forwarded-Encrypted: i=1; AJvYcCWB64I4GXcNjjJ1c/C0tQygPwtES+BZVwW/9CFo8JQKE9hC94XpitbUbCFbVVLLoA+sIfYNxw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwgPxHj6pI4EV/wnkhGfbAbTMCD3LSUo0VLhA5GZh8PzpgNKbVe
-	tZ8nQZVV+igtDceLQiWn4IpJSp+4SRoIPLmzyZWyNLGTe08QKlp0
-X-Google-Smtp-Source: AGHT+IEYOfO7Bea5jt0lyBcbgzzw7uSXAA4qa3lGeF60gz1l9XmTGJsYyRW0U7QX+YTwyWuOf8yDTw==
-X-Received: by 2002:a17:90b:3e87:b0:2dd:5e86:8c2f with SMTP id 98e67ed59e1d1-2dd5e8699c8mr3118797a91.21.1726681425617;
-        Wed, 18 Sep 2024 10:43:45 -0700 (PDT)
-Received: from localhost.localdomain ([47.76.200.152])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dd608b7394sm1961499a91.21.2024.09.18.10.43.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Sep 2024 10:43:45 -0700 (PDT)
-From: lei lu <llfamsec@gmail.com>
-To: llfamsec@gmail.com
-Cc: almaz.alexandrovich@paragon-software.com,
-	ntfs3@lists.linux.dev
-Subject: Re: [PATCH v2] ntfs3: Add bounds checking to enum_rstbl()
-Date: Thu, 19 Sep 2024 01:43:24 +0800
-Message-Id: <20240918174324.555381-1-llfamsec@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240918171720.555304-1-llfamsec@gmail.com>
-References: <20240918171720.555304-1-llfamsec@gmail.com>
+        d=1e100.net; s=20230601; t=1726738350; x=1727343150;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1SnQjl4GXF3+K986YiWwl9LstGzvH12H+/t0TktR+1o=;
+        b=cWWIhcWjogTsR0mq1LO9PLieehzRe2m6Ae0OGU9M+3MaEC05dkGf6ErEUlPzSIC9LU
+         lHsd1aPB9ra/ZIwkIhpAnn85gWVmCLhXF5i3MZSBeVVrqGiTEfH2eXPwp1OTZ09KtLHV
+         xp0J5iY+mXsy+TI9xNFe354CqJjQDA7O6RFinZBvGu1S5X+9ZFYshA1/2glOC5tRt/Lt
+         yRFqvuLeKZCYvPS9AgqcetDBmJRIO37mXzDlooA9IskKczIPUtUrvBTRnba/aok5E+uY
+         HCa6/5ofa/xu0WmCNI5wLp7G0kxwNel4uLXqPmCuvIeQJeMQEVHjoGoluTWYswjSkiK+
+         mkXg==
+X-Forwarded-Encrypted: i=1; AJvYcCV6VZ4QPT+/lxCagisn8Qd+dxgiRkMmccjtd9dkkOikCA1VvJlHYG2e+Tn4vkM6Wh9UhznUZQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz50bk42DozzNYfH+cyjiZFVprxc0D3pX+Dpp4Cj08+uIuyDpu2
+	OFLoutnRPDty5nUyRNjSNCnB2y/Wr6foKedXg46mtWNMwZQyZvLWewKo6uRp6aL0hQMyl1DfAmX
+	slPp96b0gM49DKuLGV10u+Kn7F+jyPPBQFrdTFbMeJ5cCp+bQB/NRsxg=
+X-Google-Smtp-Source: AGHT+IGKiiRrVoIB5e3NoKbWyw/dEC7eY/92Mgjfy8vQgUCOoTZVl1ELnxd6VUPzI59KzUrD9kFEjcKB9eL1by3QYY1iSl7Tp9Nu
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:20ee:b0:3a0:ac5a:2015 with SMTP id
+ e9e14a558f8ab-3a0ac5a2062mr89354135ab.6.1726738349977; Thu, 19 Sep 2024
+ 02:32:29 -0700 (PDT)
+Date: Thu, 19 Sep 2024 02:32:29 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <66ebefad.050a0220.92ef1.0019.GAE@google.com>
+Subject: [syzbot] [ntfs3?] INFO: trying to register non-static key in
+ ntfs3_setattr (2)
+From: syzbot <syzbot+2e842ec1beb075a25865@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi, Konstantin,
+Hello,
 
-In log_replay, enum_rstbl didn't check the real size of the entry. It
-traverses based on RESTART_TABLE.size. There is a lack of boundary check
-if the real size is not equal to RESTART_TABLE.size.
+syzbot found the following issue on:
 
-Here is a PoC to reproduce.
-PoC:
-1) Found NTFS_RESTART by CLIENT_REC[0].restart_lsn
-   NTFS_RESTART.open_attr_table_lsn: LSN where PoC is located
-   NTFS_RESTART.open_attr_len: 0x1
-2) Layout PoC as follow in a LSN area as follow:
-   LFS_RECORD_HDR.this_lsn: 0x28455b
-   LFS_RECORD_HDR.client_prev_lsn: 0x0
-   LFS_REOCRD_HDR.client_undo_next_lsn: 0x0
-   LFS_RECORD_HDR.client_data_len: 0x98
-   LFS_RECORD_HDR.CLIENT_ID.seq_num: 0x0
-   LFS_RECORD_HDR.CLIENT_ID.client_idx: 0x0
-   LFS_RECORD_HDR.record_type: 0x1
-   LFS_RECORD_HDR.transact_id: 0x18
-   LFS_RECORD_HDR.flags: 0x4
-   LOG_REC_HDR.redo_op: 0x0
-   LOG_REC_HDR.undo_op: 0x0
-   LOG_REC_HDR.redo_off: 0x98-sizeof(RESTART_TABLE)-RESTART_TABLE.size (redo_off&7 != 0)
-   LOG_REC_HDR.redo_len: 0x0
-   LOG_REC_HDR.undo_off: 0x0
-   LOG_REC_HDR.undo_len: 0x0
-   LOG_REC_HDR.target_attr: 0x0
-   LOG_REC_HDR.lcns_follow: 0x0
-   LOG_REC_HDR.record_off: 0x0
-   LOG_REC_HDR.attr_off: 0x0
-   LOG_REC_HDR.cluster_off: 0x0
-   LOG_REC_HDR.reserved: 0x0
-   LOG_REC_HDR.target_vcn: 0x0
-   LOG_REC_HDR.page_lcns[0]: 0x0
-   RESTART_TABLE.size: 8
-   RESTART_TABLE.used: 0x1
-   RESTART_TABLE.total: 0x1
-   RESTART_TABLE.res[0]: 0x0
-   RESTART_TABLE.res[1]: 0x0
-   RESTART_TABLE.res[2]: 0x0
-   RESTART_TABLE.free_goal: 0x0
-   RESTART_TABLE.first_free: 0x0
-   RESTART_TABLE.last_free: 0x0
-   entry[0][0:4]: 0xFFFFFFFF (OPEN_ATTR_ENRTY[0].next)
-   OPEN_ATTR_ENRTY[0].bytes_per_index: 0x0
+HEAD commit:    0babf683783d Merge tag 'pinctrl-v6.11-4' of git://git.kern..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1417bc77980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1c9e296880039df9
+dashboard link: https://syzkaller.appspot.com/bug?extid=2e842ec1beb075a25865
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10b9b0a9980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=155e9900580000
 
-In the patch, taking DIR_PAGE_ENTRY_32/DIR_PAGE_ENTRY as an example, there are two
-situations:
-[1] https://elixir.bootlin.com/linux/v6.10-rc4/source/fs/ntfs3/fslog.c#L4186
-    If entry is DIR_PAGE_ENTRY_32, it seems to explain it as DIR_PAGE_ENTRY, but the
-    entry size is still DIR_PAGE_ENTRY_32, so we use sizeof(struct DIR_PAGE_ENTRY_32)
-[2] https://elixir.bootlin.com/linux/v6.10-rc4/source/fs/ntfs3/fslog.c#L4206
-    - If entry is DIR_PAGE_ENTRY directly, we use sizeof(*dp)
-    - If entry is DIR_PAGE_ENTRY_32, but it is explained as DIR_PAGE_ENTRY. Because
-      We check it in [1], and sizeof(struct DIR_PAGE_ENTRY) is smaller, so we also
-      use sizeof(*dp)
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/aab0f0b09dd6/disk-0babf683.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/b97896b7812c/vmlinux-0babf683.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/340ce283efd3/bzImage-0babf683.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/282ca00a7cb2/mount_0.gz
 
-Thanks,
-LL
+The issue was bisected to:
+
+commit 24c5100aceedcd47af89aaa404d4c96cd2837523
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Tue Jun 4 07:41:39 2024 +0000
+
+    fs/ntfs3: Fix getting file type
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12b748a9980000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=11b748a9980000
+console output: https://syzkaller.appspot.com/x/log.txt?x=16b748a9980000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+2e842ec1beb075a25865@syzkaller.appspotmail.com
+Fixes: 24c5100aceed ("fs/ntfs3: Fix getting file type")
+
+ntfs3: loop0: ino=0, ntfs_iget5
+ntfs3: loop0: Mark volume as dirty due to NTFS errors
+ntfs3: loop0: failed to convert "046c" to maccroatian
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+CPU: 0 UID: 0 PID: 5224 Comm: syz-executor352 Not tainted 6.11.0-rc7-syzkaller-00149-g0babf683783d #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:93 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
+ assign_lock_key+0x238/0x270 kernel/locking/lockdep.c:975
+ register_lock_class+0x1cf/0x980 kernel/locking/lockdep.c:1288
+ __lock_acquire+0xf0/0x2040 kernel/locking/lockdep.c:5019
+ lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5759
+ down_write+0x99/0x220 kernel/locking/rwsem.c:1579
+ ntfs_truncate fs/ntfs3/file.c:458 [inline]
+ ntfs3_setattr+0x6d3/0xb80 fs/ntfs3/file.c:775
+ notify_change+0xbca/0xe90 fs/attr.c:503
+ do_truncate+0x220/0x310 fs/open.c:65
+ vfs_truncate+0x2e1/0x3b0 fs/open.c:111
+ do_sys_truncate+0xdb/0x190 fs/open.c:134
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f43d7bf8779
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 61 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fffda6ccac8 EFLAGS: 00000246 ORIG_RAX: 000000000000004c
+RAX: ffffffffffffffda RBX: 00007fffda6ccc98 RCX: 00007f43d7bf8779
+RDX: 00007f43d7bf8779 RSI: 0000000000000000 RDI: 0000000020000000
+RBP: 00007f43d7c8b610 R08: 00007fffda6ccc98 R09: 00007fffda6ccc98
+R10: 00007fffda6ccc98 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007fffda6ccc88 R14: 0000000000000001 R15: 0000000000000001
+ </TASK>
+------------[ cut here ]------------
+DEBUG_RWSEMS_WARN_ON(sem->magic != sem): count = 0x1, magic = 0x0, owner = 0xffff88802f4f9e00, curr 0xffff88802f4f9e00, list not empty
+WARNING: CPU: 0 PID: 5224 at kernel/locking/rwsem.c:1364 __up_write kernel/locking/rwsem.c:1364 [inline]
+WARNING: CPU: 0 PID: 5224 at kernel/locking/rwsem.c:1364 up_write+0x412/0x590 kernel/locking/rwsem.c:1632
+Modules linked in:
+CPU: 0 UID: 0 PID: 5224 Comm: syz-executor352 Not tainted 6.11.0-rc7-syzkaller-00149-g0babf683783d #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
+RIP: 0010:__up_write kernel/locking/rwsem.c:1364 [inline]
+RIP: 0010:up_write+0x412/0x590 kernel/locking/rwsem.c:1632
+Code: c7 c7 a0 c8 ea 8b 48 c7 c6 80 ca ea 8b 48 89 da 48 8b 4c 24 20 4c 8b 44 24 30 4c 8b 4c 24 28 50 e8 63 9c e6 ff 48 83 c4 08 90 <0f> 0b 90 90 e9 b6 fc ff ff 90 0f 0b 90 e9 2a fd ff ff 48 89 5c 24
+RSP: 0018:ffffc9000346fa00 EFLAGS: 00010296
+RAX: cfd9eb2aab6fe000 RBX: 0000000000000001 RCX: ffff88802f4f9e00
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffc9000346fad0 R08: ffffffff8155b292 R09: fffffbfff1cba0e0
+R10: dffffc0000000000 R11: fffffbfff1cba0e0 R12: ffff88807b7288f0
+R13: ffff88807b728898 R14: 1ffff9200068df48 R15: dffffc0000000000
+FS:  000055556efe7380(0000) GS:ffff8880b8800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020001000 CR3: 0000000078130000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ ntfs_truncate fs/ntfs3/file.c:461 [inline]
+ ntfs3_setattr+0x7b5/0xb80 fs/ntfs3/file.c:775
+ notify_change+0xbca/0xe90 fs/attr.c:503
+ do_truncate+0x220/0x310 fs/open.c:65
+ vfs_truncate+0x2e1/0x3b0 fs/open.c:111
+ do_sys_truncate+0xdb/0x190 fs/open.c:134
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f43d7bf8779
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 61 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fffda6ccac8 EFLAGS: 00000246 ORIG_RAX: 000000000000004c
+RAX: ffffffffffffffda RBX: 00007fffda6ccc98 RCX: 00007f43d7bf8779
+RDX: 00007f43d7bf8779 RSI: 0000000000000000 RDI: 0000000020000000
+RBP: 00007f43d7c8b610 R08: 00007fffda6ccc98 R09: 00007fffda6ccc98
+R10: 00007fffda6ccc98 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007fffda6ccc88 R14: 0000000000000001 R15: 0000000000000001
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
