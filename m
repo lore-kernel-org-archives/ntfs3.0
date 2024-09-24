@@ -1,192 +1,175 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21CF199943
-	for <ntfs3@lists.linux.dev>; Thu, 19 Sep 2024 09:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33F6157468
+	for <ntfs3@lists.linux.dev>; Tue, 24 Sep 2024 10:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726738354; cv=none; b=Byb5Royxv4yJpX/PSonlPpraG0UBeYblZUXzgH65SXB5MggXpHdWRfezF66TUF7v7SjX5H/eLSnpI9ZusJSnMGaBZ+cBfQLWPVuu45q9J2AEpBP1Rbjl7Yu1u9beAiSeqpQ6g5v7myj5MVj0QAWfjoSBGKtHAqt4EqrXihBAmIE=
+	t=1727172029; cv=none; b=L0c+2haS6U2723GhSuzvozhhAF7rm/y7fvahfq3JFr4bsinzn8zy3w4p3PYZRATJWwN63Hld273xBR9M1yg91DWYLkyVaZgiJRiM12Zoor59E+xXUzF9ism/H0UeDP8rFjsXdmaJAsmnK1Guzmu2h6lzWGnawAiLDJRIszAPUoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726738354; c=relaxed/simple;
-	bh=kNR5zcZJ7VAsittlht678O2zXJum1rcG9XJRdXLFG70=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ZmKFRbN76xloSZd57wRydD4Pa+JkRaG+jPMhIB100h6KFhhYPMUYhgYNWYBWIiWrKZXgn5fCbbLe/bCbq9rFPjQqfgD84hL3NkHjH3VDouaNUozf1RWmNTaPrcQCwKN9kU1jMJEB8HDXd/oxzleXnT9J8tdLj0LgfP42sWN44vU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
+	s=arc-20240116; t=1727172029; c=relaxed/simple;
+	bh=MW7uAMBxOxYvLczeiayMBeBe4tJ6ZSEA1YN1+9gK99E=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=s0jwRdqSZcD7nAhuHmiKz1OnFUUsD1svQn54B/nwNVkZN8qb0SPax4JXxGG1SrQcmIbAsy4ydlXvxbyEvrO3QTxsejmvWSSHUB7pBja+gTBWRaAoX+p543ZyI9vHA0ehZb3nmomYeyzcI3Aha6dLNQsEO6bohodNiqeobLjfqXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-39f4e119c57so7436495ab.2
-        for <ntfs3@lists.linux.dev>; Thu, 19 Sep 2024 02:32:30 -0700 (PDT)
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3a049f9738fso56930435ab.3
+        for <ntfs3@lists.linux.dev>; Tue, 24 Sep 2024 03:00:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726738350; x=1727343150;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1SnQjl4GXF3+K986YiWwl9LstGzvH12H+/t0TktR+1o=;
-        b=cWWIhcWjogTsR0mq1LO9PLieehzRe2m6Ae0OGU9M+3MaEC05dkGf6ErEUlPzSIC9LU
-         lHsd1aPB9ra/ZIwkIhpAnn85gWVmCLhXF5i3MZSBeVVrqGiTEfH2eXPwp1OTZ09KtLHV
-         xp0J5iY+mXsy+TI9xNFe354CqJjQDA7O6RFinZBvGu1S5X+9ZFYshA1/2glOC5tRt/Lt
-         yRFqvuLeKZCYvPS9AgqcetDBmJRIO37mXzDlooA9IskKczIPUtUrvBTRnba/aok5E+uY
-         HCa6/5ofa/xu0WmCNI5wLp7G0kxwNel4uLXqPmCuvIeQJeMQEVHjoGoluTWYswjSkiK+
-         mkXg==
-X-Forwarded-Encrypted: i=1; AJvYcCV6VZ4QPT+/lxCagisn8Qd+dxgiRkMmccjtd9dkkOikCA1VvJlHYG2e+Tn4vkM6Wh9UhznUZQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz50bk42DozzNYfH+cyjiZFVprxc0D3pX+Dpp4Cj08+uIuyDpu2
-	OFLoutnRPDty5nUyRNjSNCnB2y/Wr6foKedXg46mtWNMwZQyZvLWewKo6uRp6aL0hQMyl1DfAmX
-	slPp96b0gM49DKuLGV10u+Kn7F+jyPPBQFrdTFbMeJ5cCp+bQB/NRsxg=
-X-Google-Smtp-Source: AGHT+IGKiiRrVoIB5e3NoKbWyw/dEC7eY/92Mgjfy8vQgUCOoTZVl1ELnxd6VUPzI59KzUrD9kFEjcKB9eL1by3QYY1iSl7Tp9Nu
+        d=1e100.net; s=20230601; t=1727172027; x=1727776827;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=a01in42YpZacjQNq2gwoU1Xzi0dMyhrMcy5fwZ6YU+0=;
+        b=aaaGFLgOvMhEcsDB+ipQP/vXN+D0Uas76sQ7ImyStpjL+GOKqUEM60z7hFLz23ADxV
+         95dtgrXKe5Y7k1gWlXNqAnPgjtFuej/t2mOQPzr0rTGrwovepQlbkPSlqPspv13wuAE4
+         08ib/P8dj8k/hSFzyTzisI/aHXseOWnzeXurnhBjikNHr+sSFuaqbRhO6wmhLpwHYVP6
+         EGhHLsENySZ2jG9E9CT1SKr2kevj3DWvO2LnVrhaQC+J2KKhTwL8GzU2gbF9xADuJjr/
+         3tRT3EDPKnn/UkypuakGLG+nI0RjCCGjzvSKBPWtEk7o+6fQ2dKwBiyFqm9zVUNACntm
+         N4TA==
+X-Forwarded-Encrypted: i=1; AJvYcCVb/ZLTveyFy/p4qpNf4ZWoaNLpttowNS26Kby1ru41eiglK1yWv/hCt0D2FccsdpVjlPlqFg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfBZidO1DkJJop72qj9iTNt6hhKrUw2zG4tBsYiIvILTg9qZTZ
+	qH2uVYrsRHuIteYhUjSb4XemtSft8bU7NHTlyDxh90leZNUOH6wfx7B2mc2Gw6jxC0ppD25w7ce
+	tOYutsiYzsw1jvJ8IEKIqiMZDwpHpMYgohsZwNHe2khQ/eItZ/bbFAKU=
+X-Google-Smtp-Source: AGHT+IFEyPIqDOU0BgXapvNJ0AprH4g0Xhtxo+g/M18pZBOlY2RfqAs7/63imA7TvnWzXPr2FXqpLW98eVcT5vclBsQfy1g3Zgnj
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:20ee:b0:3a0:ac5a:2015 with SMTP id
- e9e14a558f8ab-3a0ac5a2062mr89354135ab.6.1726738349977; Thu, 19 Sep 2024
- 02:32:29 -0700 (PDT)
-Date: Thu, 19 Sep 2024 02:32:29 -0700
+X-Received: by 2002:a05:6e02:1789:b0:3a0:bc39:2d8c with SMTP id
+ e9e14a558f8ab-3a0c8d2e653mr99327325ab.25.1727172027017; Tue, 24 Sep 2024
+ 03:00:27 -0700 (PDT)
+Date: Tue, 24 Sep 2024 03:00:26 -0700
+In-Reply-To: <0000000000005b6b0e0622220846@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <66ebefad.050a0220.92ef1.0019.GAE@google.com>
-Subject: [syzbot] [ntfs3?] INFO: trying to register non-static key in
- ntfs3_setattr (2)
-From: syzbot <syzbot+2e842ec1beb075a25865@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Message-ID: <66f28dba.050a0220.3eed3.0028.GAE@google.com>
+Subject: Re: [syzbot] [ntfs3?] kernel panic: corrupted stack end in
+ kernel_init (2)
+From: syzbot <syzbot+ec17b78de14721dd3bdc@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, almaz.alexandrovich@paragon-software.com, 
+	ardb@kernel.org, linux-block@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, virtualization@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+syzbot has found a reproducer for the following issue on:
 
-syzbot found the following issue on:
-
-HEAD commit:    0babf683783d Merge tag 'pinctrl-v6.11-4' of git://git.kern..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1417bc77980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1c9e296880039df9
-dashboard link: https://syzkaller.appspot.com/bug?extid=2e842ec1beb075a25865
+HEAD commit:    5f5673607153 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=1298499f980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=dedbcb1ff4387972
+dashboard link: https://syzkaller.appspot.com/bug?extid=ec17b78de14721dd3bdc
 compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10b9b0a9980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=155e9900580000
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11323107980000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/aab0f0b09dd6/disk-0babf683.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/b97896b7812c/vmlinux-0babf683.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/340ce283efd3/bzImage-0babf683.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/282ca00a7cb2/mount_0.gz
-
-The issue was bisected to:
-
-commit 24c5100aceedcd47af89aaa404d4c96cd2837523
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Tue Jun 4 07:41:39 2024 +0000
-
-    fs/ntfs3: Fix getting file type
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12b748a9980000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=11b748a9980000
-console output: https://syzkaller.appspot.com/x/log.txt?x=16b748a9980000
+disk image: https://storage.googleapis.com/syzbot-assets/40172aed5414/disk-5f567360.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/58372f305e9d/vmlinux-5f567360.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d2aae6fa798f/Image-5f567360.gz.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/33ba6e22aaa5/mount_0.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+2e842ec1beb075a25865@syzkaller.appspotmail.com
-Fixes: 24c5100aceed ("fs/ntfs3: Fix getting file type")
+Reported-by: syzbot+ec17b78de14721dd3bdc@syzkaller.appspotmail.com
 
-ntfs3: loop0: ino=0, ntfs_iget5
-ntfs3: loop0: Mark volume as dirty due to NTFS errors
-ntfs3: loop0: failed to convert "046c" to maccroatian
-INFO: trying to register non-static key.
-The code is fine but needs lockdep annotation, or maybe
-you didn't initialize this object before use?
-turning off the locking correctness validator.
-CPU: 0 UID: 0 PID: 5224 Comm: syz-executor352 Not tainted 6.11.0-rc7-syzkaller-00149-g0babf683783d #0
+x8 : 8f1719b15e27f800 x7 : 0000000000000000 x6 : 0000000000000000
+x5 : 0000000000000000 x4 : 0000000000000008 x3 : 0000000000000000
+x2 : ffff0000d7975ac0 x1 : 0000000000000000 x0 : ffff800080872848
+Kernel panic - not syncing: kernel stack overflow
+CPU: 1 UID: 0 PID: 16523 Comm: syz.3.4916 Not tainted 6.11.0-rc7-syzkaller-g5f5673607153 #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
-Call Trace:
- <TASK>
+Call trace:
+ dump_backtrace+0x1b8/0x1e4 arch/arm64/kernel/stacktrace.c:319
+ show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:326
  __dump_stack lib/dump_stack.c:93 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
- assign_lock_key+0x238/0x270 kernel/locking/lockdep.c:975
- register_lock_class+0x1cf/0x980 kernel/locking/lockdep.c:1288
- __lock_acquire+0xf0/0x2040 kernel/locking/lockdep.c:5019
- lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5759
- down_write+0x99/0x220 kernel/locking/rwsem.c:1579
- ntfs_truncate fs/ntfs3/file.c:458 [inline]
- ntfs3_setattr+0x6d3/0xb80 fs/ntfs3/file.c:775
- notify_change+0xbca/0xe90 fs/attr.c:503
- do_truncate+0x220/0x310 fs/open.c:65
- vfs_truncate+0x2e1/0x3b0 fs/open.c:111
- do_sys_truncate+0xdb/0x190 fs/open.c:134
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f43d7bf8779
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 61 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fffda6ccac8 EFLAGS: 00000246 ORIG_RAX: 000000000000004c
-RAX: ffffffffffffffda RBX: 00007fffda6ccc98 RCX: 00007f43d7bf8779
-RDX: 00007f43d7bf8779 RSI: 0000000000000000 RDI: 0000000020000000
-RBP: 00007f43d7c8b610 R08: 00007fffda6ccc98 R09: 00007fffda6ccc98
-R10: 00007fffda6ccc98 R11: 0000000000000246 R12: 0000000000000001
-R13: 00007fffda6ccc88 R14: 0000000000000001 R15: 0000000000000001
- </TASK>
-------------[ cut here ]------------
-DEBUG_RWSEMS_WARN_ON(sem->magic != sem): count = 0x1, magic = 0x0, owner = 0xffff88802f4f9e00, curr 0xffff88802f4f9e00, list not empty
-WARNING: CPU: 0 PID: 5224 at kernel/locking/rwsem.c:1364 __up_write kernel/locking/rwsem.c:1364 [inline]
-WARNING: CPU: 0 PID: 5224 at kernel/locking/rwsem.c:1364 up_write+0x412/0x590 kernel/locking/rwsem.c:1632
-Modules linked in:
-CPU: 0 UID: 0 PID: 5224 Comm: syz-executor352 Not tainted 6.11.0-rc7-syzkaller-00149-g0babf683783d #0
+ dump_stack_lvl+0xe4/0x150 lib/dump_stack.c:119
+ dump_stack+0x1c/0x28 lib/dump_stack.c:128
+ panic+0x300/0x884 kernel/panic.c:354
+ nmi_panic+0x11c/0x23c kernel/panic.c:205
+ panic_bad_stack+0x200/0x28c arch/arm64/kernel/traps.c:917
+ enter_from_kernel_mode+0x0/0x74 arch/arm64/kernel/entry-common.c:928
+ __bad_stack+0x78/0x7c arch/arm64/kernel/entry.S:566
+ el1h_64_sync+0x0/0x68 arch/arm64/kernel/entry.S:591
+SMP: stopping secondary CPUs
+Kernel Offset: disabled
+CPU features: 0x10,00000207,00200128,42017203
+Memory Limit: none
+
+================================
+WARNING: inconsistent lock state
+6.11.0-rc7-syzkaller-g5f5673607153 #0 Not tainted
+--------------------------------
+inconsistent {INITIAL USE} -> {IN-NMI} usage.
+syz.3.4916/16523 [HC1[1]:SC0[0]:HE0:SE1] takes:
+ffff800091c892b8 ((efivars_lock).lock){....}-{2:2}, at: down_trylock+0x28/0xd8 kernel/locking/semaphore.c:139
+{INITIAL USE} state was registered at:
+  lock_acquire+0x240/0x728 kernel/locking/lockdep.c:5759
+  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+  _raw_spin_lock_irqsave+0x5c/0x7c kernel/locking/spinlock.c:162
+  down_interruptible+0x3c/0xfc kernel/locking/semaphore.c:83
+  efivars_register+0x2c/0x10c drivers/firmware/efi/vars.c:68
+  generic_ops_register drivers/firmware/efi/efi.c:229 [inline]
+  efisubsys_init+0x414/0x5f8 drivers/firmware/efi/efi.c:433
+  do_one_initcall+0x24c/0x9c0 init/main.c:1267
+  do_initcall_level+0x154/0x214 init/main.c:1329
+  do_initcalls+0x58/0xac init/main.c:1345
+  do_basic_setup+0x8c/0xa0 init/main.c:1364
+  kernel_init_freeable+0x324/0x478 init/main.c:1578
+  kernel_init+0x24/0x2a0 init/main.c:1467
+  ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:860
+irq event stamp: 10106
+hardirqs last  enabled at (10105): [<ffff80008b3388f8>] __exit_to_kernel_mode arch/arm64/kernel/entry-common.c:85 [inline]
+hardirqs last  enabled at (10105): [<ffff80008b3388f8>] exit_to_kernel_mode+0xdc/0x10c arch/arm64/kernel/entry-common.c:95
+hardirqs last disabled at (10106): [<ffff80008b42e1b4>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (10106): [<ffff80008b42e1b4>] _raw_spin_lock_irq+0x28/0x70 kernel/locking/spinlock.c:170
+softirqs last  enabled at (8930): [<ffff8000800307f8>] local_bh_enable+0x10/0x34 include/linux/bottom_half.h:32
+softirqs last disabled at (8928): [<ffff8000800307c4>] local_bh_disable+0x10/0x34 include/linux/bottom_half.h:19
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock((efivars_lock).lock);
+  <Interrupt>
+    lock((efivars_lock).lock);
+
+ *** DEADLOCK ***
+
+1 lock held by syz.3.4916/16523:
+ #0: ffff0000ef1b60e0 (&type->s_umount_key#52/1){+.+.}-{3:3}, at: alloc_super+0x1b0/0x83c fs/super.c:344
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 16523 Comm: syz.3.4916 Not tainted 6.11.0-rc7-syzkaller-g5f5673607153 #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
-RIP: 0010:__up_write kernel/locking/rwsem.c:1364 [inline]
-RIP: 0010:up_write+0x412/0x590 kernel/locking/rwsem.c:1632
-Code: c7 c7 a0 c8 ea 8b 48 c7 c6 80 ca ea 8b 48 89 da 48 8b 4c 24 20 4c 8b 44 24 30 4c 8b 4c 24 28 50 e8 63 9c e6 ff 48 83 c4 08 90 <0f> 0b 90 90 e9 b6 fc ff ff 90 0f 0b 90 e9 2a fd ff ff 48 89 5c 24
-RSP: 0018:ffffc9000346fa00 EFLAGS: 00010296
-RAX: cfd9eb2aab6fe000 RBX: 0000000000000001 RCX: ffff88802f4f9e00
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: ffffc9000346fad0 R08: ffffffff8155b292 R09: fffffbfff1cba0e0
-R10: dffffc0000000000 R11: fffffbfff1cba0e0 R12: ffff88807b7288f0
-R13: ffff88807b728898 R14: 1ffff9200068df48 R15: dffffc0000000000
-FS:  000055556efe7380(0000) GS:ffff8880b8800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000020001000 CR3: 0000000078130000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- ntfs_truncate fs/ntfs3/file.c:461 [inline]
- ntfs3_setattr+0x7b5/0xb80 fs/ntfs3/file.c:775
- notify_change+0xbca/0xe90 fs/attr.c:503
- do_truncate+0x220/0x310 fs/open.c:65
- vfs_truncate+0x2e1/0x3b0 fs/open.c:111
- do_sys_truncate+0xdb/0x190 fs/open.c:134
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f43d7bf8779
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 61 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fffda6ccac8 EFLAGS: 00000246 ORIG_RAX: 000000000000004c
-RAX: ffffffffffffffda RBX: 00007fffda6ccc98 RCX: 00007f43d7bf8779
-RDX: 00007f43d7bf8779 RSI: 0000000000000000 RDI: 0000000020000000
-RBP: 00007f43d7c8b610 R08: 00007fffda6ccc98 R09: 00007fffda6ccc98
-R10: 00007fffda6ccc98 R11: 0000000000000246 R12: 0000000000000001
-R13: 00007fffda6ccc88 R14: 0000000000000001 R15: 0000000000000001
- </TASK>
+Call trace:
+ dump_backtrace+0x1b8/0x1e4 arch/arm64/kernel/stacktrace.c:319
+ show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:326
+ __dump_stack lib/dump_stack.c:93 [inline]
+ dump_stack_lvl+0xe4/0x150 lib/dump_stack.c:119
+ dump_stack+0x1c/0x28 lib/dump_stack.c:128
+ print_usage_bug+0x698/0x9ac kernel/locking/lockdep.c:4000
+ verify_lock_unused+0xc0/0x114 kernel/locking/lockdep.c:5691
+ lock_acquire+0x3b0/0x728 kernel/locking/lockdep.c:5750
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x5c/0x7c kernel/locking/spinlock.c:162
+ down_trylock+0x28/0xd8 kernel/locking/semaphore.c:139
+ efivar_trylock+0x20/0xa0 drivers/firmware/efi/vars.c:160
+ efi_pstore_write+0x21c/0x63c drivers/firmware/efi/efi-pstore.c:223
+ pstore_dump+0x764/0xad0 fs/pstore/platform.c:354
+ kmsg_dump+0x17c/0x274 kernel/printk/printk.c:4214
+ panic+0x34c/0x884 kernel/panic.c:385
+ nmi_panic+0x11c/0x23c kernel/panic.c:205
+ panic_bad_stack+0x200/0x28c arch/arm64/kernel/traps.c:917
+ enter_from_kernel_mode+0x0/0x74 arch/arm64/kernel/entry-common.c:928
+ __bad_stack+0x78/0x7c arch/arm64/kernel/entry.S:566
+ el1h_64_sync+0x0/0x68 arch/arm64/kernel/entry.S:591
 
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
 If you want syzbot to run the reproducer, reply with:
 #syz test: git://repo/address.git branch-or-commit-hash
 If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
