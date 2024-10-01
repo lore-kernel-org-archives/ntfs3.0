@@ -1,148 +1,94 @@
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3549198A0B
-	for <ntfs3@lists.linux.dev>; Fri, 27 Sep 2024 22:34:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0BA519922D
+	for <ntfs3@lists.linux.dev>; Tue,  1 Oct 2024 09:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727476469; cv=none; b=UWnCWq300gB61m/Yebq62qvvN5LIL4Igz6/CX7TM9CfeFfjtPgJ6/N14A++pKlxWy97cflk/1Jhh6JO5HUpf2ZRmS4WCiMp7U34HECktw8bVeNAIrAcVsMorTwjR/NZoC/CwBowgPT6JybbrTANh/CE+KpSF7wmy+NADsoCeZDo=
+	t=1727773296; cv=none; b=XHCz6ghuIkGj4ONj9o2JjV8a5DJEDKC8yFn4vVbyYIJMsSZhCtjuCBXDXXPjiHjOn1vl+T6155YzxAISpx3LddR8E87/UwLFWgpRa6384Jll9LKwEzyvyrLhjQCsUWYvWboDQe83p/cgslJ3lNEnYQpY228RrW2rTvXnhFqLFWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727476469; c=relaxed/simple;
-	bh=zmlaBg377cAf34EsASmsZFGRqGPqwGoMst1UzhGEON4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=SFe8VLBttGyQy5IK5GeA6tzUkLVc93mkoddyqhzPtqoab6WonRNFK7rOZBzrpH6ElHKTFd06wvoAkt5MTaIe1xAJldKVaVsmrUsgW7ioVJbXEORSRlOZyY7jwuORlUFWlVC7RVxA7fwMPAF6/x5H5sXLz+Rp9ugE40U0MZFmZHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-3a3412ecb29so25130095ab.0
-        for <ntfs3@lists.linux.dev>; Fri, 27 Sep 2024 15:34:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727476467; x=1728081267;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=j2Igy5PW4SyOARBnxB1I5c5ouJJZ4yuGO7/1MRZzBAQ=;
-        b=QdkH8F6Qft6FGoM0bLKMt1jZ7htrjVO0Edt/EXG/CfqsTQgr+NnNPU8PU9LleX7ou9
-         p3a9SU6sBbH4FVXHBByMcw0RzFQVfcj21R2E8Qimui/sY6edBsKFmkb2qOwYRD2RUGJ3
-         zvmQ6JWY82xXXyYoTna5eYgP/vCuSbcyMRF5CE1JMNZYndhLo1NFL39dW7liN+vcSnvy
-         EZhf9080Zz9HBvI7RcEWdBqIufpjx/+1I2s30d8AGcz3qafdE+/ASgUYVWx/hlDRzlyK
-         OnIiG0uYjtldy44RRKPhsU4SDC+gFrNKBsozz3H1GJvaZAnt1yCgiPXfXD/LX71tgmju
-         +Htg==
-X-Forwarded-Encrypted: i=1; AJvYcCXjTu/g6y61hjCiwfwj1SJ9SX9BNFclpSGr0Zr6lKJUG0yQQlhg+imYNKif3LFou+HweLdIPQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5Ek/usN8n+nLcJpSIUvG8IXVzhxPhBs3lRmCXrDR7SDsV0+9o
-	L0eCz23WvXcbW0h0M8u3stLypg858zOCGcyYaZRk5Fg9YgT93Gnzfc506esQNQhJTHAob6PQLG7
-	GlK7UbM2WmNX82UTlrbmPWwuHgjcpydAZ4jOPzY+CCqUPuHE7kaowd8M=
-X-Google-Smtp-Source: AGHT+IFldvpJlBnOPaHQAO0RiZ1dI4qyH+XQU+9Fypsl9R4IeurawaRA/Yg6uqvob6F2H0ul9KgbWblAOlkgVPxknv0/wPkBhwOy
+	s=arc-20240116; t=1727773296; c=relaxed/simple;
+	bh=qWjK1RsYyKSUzUBD+yADyl36UD/grgHqx9G+jDdtfTw=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DVnRqae6Q0EwyYN+AgH8sG25Vz9w1bkXHaAJlgp5jfgQKR9IqwnlRo2X7mhoOIjqTBsMGI0BPOyeacBFaJSKv4UB1WDw91jv1CM4az6KubRyi511aRQ8BhvjlxLeOtKa9GwPyBZqCuWxeDCT5GGclIk9JIICxOS6XsEkiLkI0IA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=CeRRCjfZ; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=EoPstPcs; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="CeRRCjfZ";
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="EoPstPcs"
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 7B57C21BC;
+	Tue,  1 Oct 2024 08:53:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1727772834;
+	bh=jlLbgdrAfNBCBg4R6vHQVbLSiuo7T5iPhjtMGiclWGM=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=CeRRCjfZzk2Ad3xaHUT7Su/DgIFcCYGDAF/u4VnXHHCAZKzdAYmzJAKsZf/HitWBC
+	 tK5DhdMMGOwFH2M42QdHVQOnzURC38szVhT2MRdZCLF2Kfu4VqBEmwv9RPp57QI9Bi
+	 61HVMOvXit6m/zsjdzZsisNiMllfpSie+oYO5mJw=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 2A9DD21F1;
+	Tue,  1 Oct 2024 09:01:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1727773288;
+	bh=jlLbgdrAfNBCBg4R6vHQVbLSiuo7T5iPhjtMGiclWGM=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=EoPstPcsAfFq5iDPvzGV0uNhZ84UO8sizoPpH7OfPq03zCeaTK0suh4mLRBuZBjo9
+	 oYglpsHbzwx7kljUDHauMtXwbWwsNKtORuqC0IZrQtXOqjb+ey+rZG3b6uaX+E3KWQ
+	 XaR0GNZrxRqhH2uCW1MH6Vmqh1sm8ozhauF9OrHA=
+Received: from ntfs3vm.paragon-software.com (192.168.211.162) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 1 Oct 2024 12:01:27 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	<syzbot+8c652f14a0fde76ff11d@syzkaller.appspotmail.com>
+Subject: [PATCH 5/6] fs/ntfs3: Additional check in ntfs_file_release
+Date: Tue, 1 Oct 2024 12:01:03 +0300
+Message-ID: <20241001090104.15313-6-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241001090104.15313-1-almaz.alexandrovich@paragon-software.com>
+References: <20241001090104.15313-1-almaz.alexandrovich@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1c83:b0:3a0:8c83:91fb with SMTP id
- e9e14a558f8ab-3a3451bc001mr41939635ab.20.1727476467059; Fri, 27 Sep 2024
- 15:34:27 -0700 (PDT)
-Date: Fri, 27 Sep 2024 15:34:27 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <66f732f3.050a0220.46d20.0029.GAE@google.com>
-Subject: [syzbot] [mm?] [ntfs3?] kernel panic: stack is corrupted in _raw_spin_unlock_irqrestore
-From: syzbot <syzbot+7614fef79a88d3c02bf2@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, almaz.alexandrovich@paragon-software.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    e477dba5442c Merge tag 'for-6.12/dm-changes' of git://git...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14a8fa80580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b2d4fdf18a83ec0b
-dashboard link: https://syzkaller.appspot.com/bug?extid=7614fef79a88d3c02bf2
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=101386a9980000
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-e477dba5.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/3bf119f19bb7/vmlinux-e477dba5.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/2de4db7684f9/bzImage-e477dba5.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/184157d9745b/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7614fef79a88d3c02bf2@syzkaller.appspotmail.com
-
-loop0: detected capacity change from 0 to 256
-exFAT-fs (loop0): failed to load upcase table (idx : 0x000104d0, chksum : 0x60d18cac, utbl_chksum : 0xe619d30d)
-Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: _raw_spin_unlock_irqrestore+0x137/0x140
-CPU: 0 UID: 0 PID: 7456 Comm: syz.0.1047 Not tainted 6.11.0-syzkaller-11624-ge477dba5442c #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
- panic+0x349/0x880 kernel/panic.c:354
- __stack_chk_fail+0x15/0x20 kernel/panic.c:836
- _raw_spin_unlock_irqrestore+0x137/0x140
- debug_object_activate+0x3e4/0x510 lib/debugobjects.c:726
- debug_rcu_head_queue kernel/rcu/rcu.h:224 [inline]
- __call_rcu_common kernel/rcu/tree.c:3071 [inline]
- call_rcu+0x97/0xa70 kernel/rcu/tree.c:3190
- slab_free_hook mm/slub.c:2307 [inline]
- slab_free mm/slub.c:4580 [inline]
- kmem_cache_free+0x2fc/0x420 mm/slub.c:4682
- anon_vma_free mm/rmap.c:138 [inline]
- __put_anon_vma+0x128/0x2d0 mm/rmap.c:2560
- put_anon_vma include/linux/rmap.h:116 [inline]
- unlink_anon_vmas+0x492/0x5f0 mm/rmap.c:445
- free_pgtables+0x567/0x840 mm/memory.c:409
- exit_mmap+0x48e/0xc40 mm/mmap.c:1875
- __mmput+0x115/0x390 kernel/fork.c:1347
- exit_mm+0x220/0x310 kernel/exit.c:571
- do_exit+0x9b2/0x28e0 kernel/exit.c:926
- do_group_exit+0x207/0x2c0 kernel/exit.c:1088
- get_signal+0x16a3/0x1740 kernel/signal.c:2917
- arch_do_signal_or_restart+0x96/0x860 arch/x86/kernel/signal.c:337
- exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
- exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
- __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
- syscall_exit_to_user_mode+0xc9/0x370 kernel/entry/common.c:218
- do_syscall_64+0x100/0x230 arch/x86/entry/common.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fed97b7df39
-Code: Unable to access opcode bytes at 0x7fed97b7df0f.
-RSP: 002b:00007fed975ff0e8 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
-RAX: 0000000000000001 RBX: 00007fed97d35f88 RCX: 00007fed97b7df39
-RDX: 00000000000f4240 RSI: 0000000000000081 RDI: 00007fed97d35f8c
-RBP: 00007fed97d35f80 R08: 7fffffffffffffff R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007fed97d35f8c
-R13: 0000000000000000 R14: 00007fff93524ba0 R15: 00007fff93524c88
- </TASK>
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
-
-
+Reported-by: syzbot+8c652f14a0fde76ff11d@syzkaller.appspotmail.com
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/file.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 4fdcb5177ea1..eb935d4180c0 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -1314,7 +1314,14 @@ static int ntfs_file_release(struct inode *inode, struct file *file)
+ 	/* If we are last writer on the inode, drop the block reservation. */
+ 	if (sbi->options->prealloc &&
+ 	    ((file->f_mode & FMODE_WRITE) &&
+-	     atomic_read(&inode->i_writecount) == 1)) {
++	     atomic_read(&inode->i_writecount) == 1)
++	   /*
++	    * The only file when inode->i_fop = &ntfs_file_operations and
++	    * init_rwsem(&ni->file.run_lock) is not called explicitly is MFT.
++	    *
++	    * Add additional check here.
++	    */
++	    && inode->i_ino != MFT_REC_MFT) {
+ 		ni_lock(ni);
+ 		down_write(&ni->file.run_lock);
+ 
+-- 
+2.34.1
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
