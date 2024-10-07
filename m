@@ -1,73 +1,105 @@
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-155.mail.qq.com (out203-205-221-155.mail.qq.com [203.205.221.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5FF139CFA
-	for <ntfs3@lists.linux.dev>; Mon,  7 Oct 2024 05:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2CA4C91
+	for <ntfs3@lists.linux.dev>; Mon,  7 Oct 2024 11:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728277327; cv=none; b=Tnp7oT9emQEhLM7HoQrTn0bxr0L9Mc6mWB+higaj3nMe1+KZSWdwbjlNo0gZ8jQ81nTLmEhNJv3qQSy+ciIr65ugLVJ0WTMij2/pbT3jKn3Fqf8uLY/Tu29Tr2UHdQbQkEIBecgOVayK+xf4l17dnVv+/FyfIZo1iNEpaFWdpi4=
+	t=1728299722; cv=none; b=Sz7MHs6OPfcowQpRIDBgMo5ZfcnL1KHPvnWsV+eypQ52GSCU2cKJTAFTCSVnTZkjXlWPvfHhfn54wdILYhvAWFSYShrIZjls41qT6TCqCB9HBIWrdWYyuCVQu5kcEIvPuE0aB5JTu1RmNBRsj/UrNjaRPyqWaAjFkDoBlodj8xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728277327; c=relaxed/simple;
-	bh=CIIjV/hWcdyFP05m5m4NTGbWgsxHfusAn7Dl+7PLsrk=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=W01gwb7cuMqrVZ2JIwmfAzXvsqd2W8Pw7crHg+kespKR19JvkBomm3GhZ/QznyD8b2Zwc2NLjKZ9bbYQxXAfS8QpNwyCke0Fq5P9qhKEjWl2DLPrUihQnYWZ0c7vWONB3eqlG9+AZGBoJUEcQJWCCOAarfqjvXgr9uwydnTCvas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-832160abde4so395875139f.1
-        for <ntfs3@lists.linux.dev>; Sun, 06 Oct 2024 22:02:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728277325; x=1728882125;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M81u5pFZU9kf7CiDd7xdJW6Q5HmFx0rGdBALi4uV7Ps=;
-        b=ajpJavFQIujcQJ2t1LRIeDAlP4HyH0iSSEqAFueRbObkblIDES9E9yRQBrsR6zk0QI
-         gID+RvG1Qo7zFAEQFDK8tCujMhK0dKSaUCcKzytozeBdnGybP9IAiBtn5ROlLeAHUHk3
-         Z3jQyfrsZriz/Npbyp1zhY+aXjRIgbBF97WKrx+ZRedoiduTiWr3ATgX0J0rI95p43Np
-         LzGJgc3bmVfnIMAOO6gLA5u5fvpnKUdE/eAPONGvCy7MdiZkxscXeIr8TvInHWHJ3dN/
-         ZhKrUix5/OCHrv37J6QFyQZAl+e8Z4n+3D2dh5mP/DssWSER7pegV3/yYzG0NbGp1gYv
-         iO4A==
-X-Forwarded-Encrypted: i=1; AJvYcCXtsieED8l1R02rqU/BYsaG/IElulS1sn4MxK/daKpSC/XnApQh+x/l2u3EM5I64a6eEg3jIg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6dwwlTPjNOIMvgfer+iDAmXnfYkfbQ1pqidqUx0OGOpSmbQli
-	4NRy+5knt/MRdH2SGdXRu+O72cwhn9bmKsaifA2+V5qU4rrll6AFBHIm0D2HRFXbOn78nOwQ8M3
-	LrzrdIptPnvkLHdbVzZfGxR669TfgHfbFIuQfIWKfhM3md6dM4cgn5uw=
-X-Google-Smtp-Source: AGHT+IGcHQlHbT+mZEs24tHUFLZOVw30EswUciVc4QnWf5Jxogro6ZUfcA/4pKxRE4+/8wJlDefVCu03RLZagRZjhfg17YPv2kjj
+	s=arc-20240116; t=1728299722; c=relaxed/simple;
+	bh=IEogS7qBcDkIxH/lDa0FbA0H02Lh473WsQ2JuEKUmU4=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=SMM749L9Gr09qVHAfuVtkCEnsDOqIK5e8x4dhBCLXJGdFtHLsJlvf+fgSIeljp2hfTrpcPhtmHKpChyJCRFHF2ZSo+vpwBWcOctRNvesgwPRDZblJ3MCQ6ePXc8E8yAHoyFRaAswYb/v8xj1SSi2VbVHkpPnQsOCL3H0w/dKDTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=pJ9Ugfhj; arc=none smtp.client-ip=203.205.221.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="pJ9Ugfhj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1728299401; bh=sI7g+cXO6Bskawnkt36EGxrET2f84T1y5C8hHcCBfok=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=pJ9UgfhjaUq6wdmXK6lnL7U/N4DFvmLoVSzcc48mAKdr4k5NSDQHKkewezGPgeG00
+	 I7pKbHJdWwlVCM+qxHKa8HynCANcHHKHS8K2KsjaQ9P/lbnUolp63++x/3D8kapB3E
+	 VTi53O8eUajQnuucGlKjdAQrEXaYc566GXa+exkM=
+Received: from pek-lxu-l1.wrs.com ([111.198.224.50])
+	by newxmesmtplogicsvrszgpua4-0.qq.com (NewEsmtp) with SMTP
+	id 27B35876; Mon, 07 Oct 2024 19:09:59 +0800
+X-QQ-mid: xmsmtpt1728299399t6j71migv
+Message-ID: <tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907@qq.com>
+X-QQ-XMAILINFO: MyIXMys/8kCtYudmUXYSJ7u8+QYzXlmuDhVI3C+surwzAA+C28q9tBvOvoYoDI
+	 4T2h8VEVr28UlMwqpNE5WlISBSzHPAIpKlE48bzO0Ww2XF3qWtUjiLCxV7WKNJP4bYYZksyM1e6G
+	 BIAi8iIhk4qCh+iOjjDJqtFOl57Z24WyxdUP9iIn51M07ZG6IFAkel4Dj3QO86GZbqeMFcJjFk44
+	 oQkke1zWqT8/voUmlNdMBAqB6QFV8qksG9DzLKqOQdhxSJW5D4IKIw0/aHkJvOCUM9OCxNcEHUzV
+	 QYcxEA13TXzcxXaa2Ll/KJczcgFmhwAy329oqoUEBJs9o/RCB3UKw+LqEvVS+nIQzOuZmxLZUl/w
+	 Eajg6J3BbWU6jWXk2lI86EmQgmwi7FEHlMcNSC2e3zPzKQLyi1czcbCa6Lou6DsdzkxMbC8G21ct
+	 dPRyOljlA9TFMyJ28wzpblKQW7GKefnJ5+XnZWZ4nSM37hoV5ZgLZMe7uc+dO1RxaQjS7BIX18kz
+	 lBw/BnSPGUd3gnqK3W6a4JMlffv3jUXaGUoM4IoMASJjvrm44+iEG1QFV47HZU/zQKuVIA7O8Uuh
+	 auiu1OsHdZrIVGx7w93qcAI6A5qW71zOCjwM/YlZuGNuWVrrNT7xfrCwnl8JjVh7kiHBgIPHLp3M
+	 F+rauaxIZLvsBey8KmJGcPszYdrr/Os3uqWyhXoHo7GzTt8H2Fv+q/FlGjy2HvXj8OUHreUPKfXG
+	 dZ5f8xijwoQGyX8bu8/FfWSoPXunvLKEJGbZbJeozro1dOwpMsM3uRCuafovBWTmQuo+nYH3it7Q
+	 9QMI0DsD/j1JdDJlOyw/XrpJLIC4Lc3KF1kuA1aJH4lD5moo/W4ZJ9KWTatHtdZWFaGQBgJWMLWa
+	 eZlUKr88jYzdvIaui53AMxuI4N3h4xYkrLBVZ1CA8tLqvsO2LtwXiaoOqxyNNW6/aagQHvvlqr
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+e37dd1dfc814b10caa55@syzkaller.appspotmail.com
+Cc: almaz.alexandrovich@paragon-software.com,
+	linux-kernel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] ntfs3: Fix WARNING in ntfs_extend_initialized_size
+Date: Mon,  7 Oct 2024 19:10:00 +0800
+X-OQ-MSGID: <20241007110959.3380145-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <6701c108.050a0220.49194.04ca.GAE@google.com>
+References: <6701c108.050a0220.49194.04ca.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1b02:b0:3a1:a2b4:6665 with SMTP id
- e9e14a558f8ab-3a375ce11c9mr76668105ab.12.1728277324939; Sun, 06 Oct 2024
- 22:02:04 -0700 (PDT)
-Date: Sun, 06 Oct 2024 22:02:04 -0700
-In-Reply-To: <tencent_B3968DE192105D945D9F997D4FE88DAE2507@qq.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67036b4c.050a0220.49194.04f9.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] WARNING in ntfs_extend_initialized_size
-From: syzbot <syzbot+e37dd1dfc814b10caa55@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, eadavis@qq.com, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Syzbot reported a WARNING in ntfs_extend_initialized_size.
+The data type of in->i_valid and to is u64 in ntfs_file_mmap().
+If their values are greater than LLONG_MAX, overflow will occur because
+the data types of the parameters valid and new_valid corresponding to
+the function ntfs_extend_initialized_size() are loff_t.
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+Before calling ntfs_extend_initialized_size() in the ntfs_file_mmap(),
+the "ni->i_valid < to" has been determined, so the same WARN_ON determination
+is not required in ntfs_extend_initialized_size(). 
+Just execute the ntfs_extend_initialized_size() in ntfs_extend() to make
+a WARN_ON check.
 
-Reported-by: syzbot+e37dd1dfc814b10caa55@syzkaller.appspotmail.com
-Tested-by: syzbot+e37dd1dfc814b10caa55@syzkaller.appspotmail.com
+Reported-and-tested-by: syzbot+e37dd1dfc814b10caa55@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=e37dd1dfc814b10caa55
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ fs/ntfs3/file.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Tested on:
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 6202895a4542..c42454a62314 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -178,7 +178,6 @@ static int ntfs_extend_initialized_size(struct file *file,
+ 	}
+ 
+ 	WARN_ON(is_compressed(ni));
+-	WARN_ON(valid >= new_valid);
+ 
+ 	for (;;) {
+ 		u32 zerofrom, len;
+@@ -400,6 +399,7 @@ static int ntfs_extend(struct inode *inode, loff_t pos, size_t count,
+ 	}
+ 
+ 	if (extend_init && !is_compressed(ni)) {
++		WARN_ON(ni->valid >= pos);
+ 		err = ntfs_extend_initialized_size(file, ni, ni->i_valid, pos);
+ 		if (err)
+ 			goto out;
+-- 
+2.43.0
 
-commit:         8cf0b939 Linux 6.12-rc2
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=12e24327980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7a3fccdd0bb995
-dashboard link: https://syzkaller.appspot.com/bug?extid=e37dd1dfc814b10caa55
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=13ac4327980000
-
-Note: testing is done by a robot and is best-effort only.
