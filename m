@@ -1,149 +1,149 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF3B1DFD8E
-	for <ntfs3@lists.linux.dev>; Tue,  8 Oct 2024 15:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496381FA261
+	for <ntfs3@lists.linux.dev>; Tue,  8 Oct 2024 17:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728400276; cv=none; b=IGqwk6rxRE7EIxDhxtOKeM2kB3PTtXnF+ta1s01sn1Ghx7fihB2jMzi6ZyFeRkVbpc4nGOHYiztLLTFTLlCSUVUTjIJuk7uoMx9fUgMZFpS++Pvh6Se+k+hH9YJljV72B5uIfqIYyd4mXqLIyU7xKogupYctJYTytDakkwsUUnM=
+	t=1728408570; cv=none; b=hsMC1VlC7TDUFFn0oYTpVbtECUsee9cLEzWK1SLQ+0Ovnj/wQ7tmLUYj0LeIdPK2EBvzUbORPDoAs925oHMZMa42GSu91Gx4ZZ4GijmyEOpONa2SzzqrhwzdXmraUROHPKfdUCm39sZ8bdrGeLoVAHr1X8zmQEX7AWt7IwS4+7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728400276; c=relaxed/simple;
-	bh=/O8v0DQ2GVRzc48m8wAHNCHFIAtYmj1AJQd9V2qu9/Q=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Vs7gSx7bvoMhgsbS7nPTtcn3qJGd6OpgsTnioe1D3074+M0nigDimeiSHSU58ebKp7cO6c0KIYI+qwf9DOUduGNjknERTaVj2GhZjGi7hEQ4SQ7wBKW49uAqSLPn+H8pjGePGy9dFESoKRj6jK5ZwIALUSYpU6xwj7odvE3OcpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=JfPyUFGZ; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=qJH6i1q7; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="JfPyUFGZ";
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="qJH6i1q7"
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id E4C061FEC;
-	Tue,  8 Oct 2024 14:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1728399324;
-	bh=P9vUqHOsu28vLeBNL5YkhZnY7tqCTNGqt+mdS6UqDeI=;
-	h=From:To:CC:Subject:Date;
-	b=JfPyUFGZhpUK9bCQ/Zeq9DiFMkeq/58YGLmgKl1Re5YNkSGbf1M1OKEQQGr2jS/FQ
-	 irH0qDUSakbUSPjsNtDyQQ8Do26jLyTjss1SaIrzHVNVTO5K7Awx9UBi9m5Msv2lsQ
-	 ElH7FqjFJNF3zf2VrpjJGwqFrypKZwKPtPQCtXlg=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id A0341217E;
-	Tue,  8 Oct 2024 15:02:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1728399779;
-	bh=P9vUqHOsu28vLeBNL5YkhZnY7tqCTNGqt+mdS6UqDeI=;
-	h=From:To:CC:Subject:Date;
-	b=qJH6i1q7qiz1eLhjGnBNNn4uObWDmFJiy7C9aosAeMohhSdq4hEyP986qWSKcfuUQ
-	 OjQ1W2o82oU62csX5vO09ryO1oL5UgCsH9LfzXdqwMhoF8MU8Dy+BYiqsEnegjbaeM
-	 YSoceNUpg4az02YsAmyxIiicuCujI/d5LO98w9tU=
-Received: from ntfs3vm.localdomain (192.168.211.199) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 8 Oct 2024 18:02:59 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] ntfs3: bugfixes for 6.12
-Date: Tue, 8 Oct 2024 18:02:47 +0300
-Message-ID: <20241008150247.6972-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1728408570; c=relaxed/simple;
+	bh=PjfGjNp0aGMeBH1UTQyMb1qa0iqc53T5fedJ9cyPP7Q=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=aaxPSJsObrdtyujMxDUDXujmslsKMhc6XsAA4Eqxym/d0VK1u/mnrs7n39v628vZ4S0SyTPq2b/Y8cYuqjeiwatDnSTcp9ENgSh9e3lhijsez2IbOsKCNV4EzYI8T4IkOLb8/YG/vSZ/CiiBOxxvz20RdM8US+q+q5bcMQ9jRVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3a342e872a7so61245605ab.3
+        for <ntfs3@lists.linux.dev>; Tue, 08 Oct 2024 10:29:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728408568; x=1729013368;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/VozRzlWnWnb+rzWLqtju9jc3tvwPZFmIAhcK0bx5ZE=;
+        b=LxXRf+bnBENzxk1St4RmC88kDvrfFuYUj9OzHhqBH5fKw7ec+juQaAfL7j9z82+tuO
+         w5vhVwZq8T/7KqASqVNtKWOboy8L85OCopqoqnFGglpZBCA6jqR43Rr1yOHmTZzr9jNA
+         GQdRpnoHGhZNtUoefWzO5D85MWuwRUrIOjcCnVz2XgQFVfpf9LnoGTnxsPzL1up/lBnC
+         +TVTSWPSOd56o3SQ3ENsMKozMc1ZqHOfLYA13dZSBqj26BD8aYReBQ9tZwgftg+Yc5Go
+         a/mGdirK0uKTAGhwCIgWeg4YuzXFNWU93IkM2NfuLm3jBjFiPWf+60VvV0sa+OXcNWvS
+         Zlag==
+X-Forwarded-Encrypted: i=1; AJvYcCXbx/n8EACuU0bPRjESdYNL+/Eb3DwkUkuaXLTyFVpw7INXnqPkuqYs9Kl2V8h+sHnynaRO3w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhWpKrolztiiU+zPa7b8H9GRSbBNJEIYG2SCUcgBgz23aYk1VW
+	6R2xHM1LP3f+hORcmRwRmETiiEeLy2AxC1zNlOAXJcQp2NVljzdE/Y9drDmpWr3OzkLgZM05+L8
+	WEoKm3CeGEgWXLhzL7MNVBKhRQxYlShlQK50qU0xl7ZZvkvqv1pvGTsE=
+X-Google-Smtp-Source: AGHT+IFaQFT614wWs4e7N1liEAZAiJUAAejFVobZlZBtZKl4OpsltaISeEuEV78oucjgLHSQ+AYWxDUhpWbaEICAvh+bI09wZB5e
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Received: by 2002:a05:6e02:16c9:b0:3a2:463f:fd9e with SMTP id
+ e9e14a558f8ab-3a37599709amr142221445ab.6.1728408568431; Tue, 08 Oct 2024
+ 10:29:28 -0700 (PDT)
+Date: Tue, 08 Oct 2024 10:29:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67056bf8.050a0220.840ef.0009.GAE@google.com>
+Subject: [syzbot] [ntfs3?] kernel BUG in ntfs_extend_initialized_size
+From: syzbot <syzbot+39385e8595a092bae44b@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Please pull this branch containing ntfs3 code for 6.12.
+Hello,
 
-New:
-	implement fallocate for compressed files;
-	add support for the compression attribute;
-	optimize large writes to sparse files.
-Fixed:
-	fix several potential deadlock scenarios;
-	fix various internal bugs detected by syzbot;
-	add checks before accessing NTFS structures during parsing;
-	correct the format of output messages.
-Refactored:
-	replace fsparam_flag_no with fsparam_flag in options parser;
-	remove unused functions and macros.
+syzbot found the following issue on:
 
-All changed code was in linux-next branch at least week (New/Refactored
-changes much longer).
+HEAD commit:    3eddb108abe3 arm64: Subscribe Microsoft Azure Cobalt 100 t..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=1021cd27980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1d1bd4b6ef6aba4a
+dashboard link: https://syzkaller.appspot.com/bug?extid=39385e8595a092bae44b
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1633bbd0580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15123380580000
 
-Regards,
-Konstantin
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/a5978792dbfc/disk-3eddb108.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/462a5dffd79a/vmlinux-3eddb108.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/66cd572e6130/Image-3eddb108.gz.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/f2151f3f3ceb/mount_0.gz
 
-----------------------------------------------------------------
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+39385e8595a092bae44b@syzkaller.appspotmail.com
 
-The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f017b:
+loop0: detected capacity change from 0 to 4096
+ntfs3: loop0: Different NTFS sector size (2048) and media sector size (512).
+ntfs3: loop0: Mark volume as dirty due to NTFS errors
+------------[ cut here ]------------
+kernel BUG at include/linux/highmem.h:275!
+Internal error: Oops - BUG: 00000000f2000800 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 1 UID: 0 PID: 6413 Comm: syz-executor181 Not tainted 6.12.0-rc1-syzkaller-g3eddb108abe3 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
+pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : zero_user_segments include/linux/highmem.h:275 [inline]
+pc : folio_zero_range include/linux/highmem.h:647 [inline]
+pc : ntfs_extend_initialized_size+0x92c/0x938 fs/ntfs3/file.c:215
+lr : zero_user_segments include/linux/highmem.h:275 [inline]
+lr : folio_zero_range include/linux/highmem.h:647 [inline]
+lr : ntfs_extend_initialized_size+0x92c/0x938 fs/ntfs3/file.c:215
+sp : ffff8000a28b76e0
+x29: ffff8000a28b7800 x28: 0000000000001000 x27: 1fffffbff86e8b50
+x26: fffffdffc3745a80 x25: 0000000000000ff6 x24: 000000000000100a
+x23: dfff800000000000 x22: 0000000000001000 x21: 000000000000100a
+x20: 000000000000000a x19: fff1000040000000 x18: 1fffe000366cc476
+x17: ffff80008f7dd000 x16: ffff80008032d24c x15: 0000000000000001
+x14: 1fffe0001b8e9691 x13: 0000000000000000 x12: 0000000000000000
+x11: ffff60001b8e9692 x10: 0000000000ff0100 x9 : 0000000000000000
+x8 : ffff0000c2779e40 x7 : ffff8000802c3cec x6 : 0000000000000000
+x5 : 0000000000000001 x4 : 0000000000000001 x3 : ffff800080cc9484
+x2 : 0000000000000000 x1 : 000000000000100a x0 : 0000000000001000
+Call trace:
+ zero_user_segments include/linux/highmem.h:275 [inline]
+ folio_zero_range include/linux/highmem.h:647 [inline]
+ ntfs_extend_initialized_size+0x92c/0x938 fs/ntfs3/file.c:215
+ ntfs_extend+0x37c/0x3f0 fs/ntfs3/file.c:403
+ ntfs_file_write_iter+0x320/0x610 fs/ntfs3/file.c:1187
+ do_iter_readv_writev+0x490/0x6d4
+ vfs_writev+0x410/0xbc8 fs/read_write.c:1064
+ do_pwritev fs/read_write.c:1165 [inline]
+ __do_sys_pwritev2 fs/read_write.c:1224 [inline]
+ __se_sys_pwritev2 fs/read_write.c:1215 [inline]
+ __arm64_sys_pwritev2+0x1dc/0x2f0 fs/read_write.c:1215
+ __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+ invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
+ el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
+ do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
+ el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:712
+ el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:730
+ el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:598
+Code: aa1a03e0 97c4f15b d4210000 97b63f4c (d4210000) 
+---[ end trace 0000000000000000 ]---
 
-  Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
 
-are available in the Git repository at:
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.12
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-for you to fetch changes up to 48dbc127836a6f311414bc03eae386023d05ed30:
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-  fs/ntfs3: Format output messages like others fs in kernel (2024-10-01 12:19:09 +0300)
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-----------------------------------------------------------------
-Andrew Ballance (1):
-      fs/ntfs3: Check if more than chunk-size bytes are written
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-Diogo Jahchan Koike (1):
-      ntfs3: Change to non-blocking allocation in ntfs_d_hash
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-Dr. David Alan Gilbert (1):
-      fs/ntfs3: Remove unused al_delete_le
-
-Konstantin Komarov (20):
-      fs/ntfs3: Do not call file_modified if collapse range failed
-      fs/ntfs3: Optimize large writes into sparse file
-      fs/ntfs3: Separete common code for file_read/write iter/splice
-      fs/ntfs3: Fix sparse warning for bigendian
-      fs/ntfs3: Fix warning possible deadlock in ntfs_set_state
-      fs/ntfs3: Fix sparse warning in ni_fiemap
-      fs/ntfs3: Refactor enum_rstbl to suppress static checker
-      fs/ntfs3: Stale inode instead of bad
-      fs/ntfs3: Add rough attr alloc_size check
-      fs/ntfs3: Make checks in run_unpack more clear
-      fs/ntfs3: Implement fallocate for compressed files
-      fs/ntfs3: Add support for the compression attribute
-      fs/ntfs3: Replace fsparam_flag_no -> fsparam_flag
-      fs/ntfs3: Rename ntfs3_setattr into ntfs_setattr
-      fs/ntfs3: Fix possible deadlock in mi_read
-      fs/ntfs3: Additional check in ni_clear()
-      fs/ntfs3: Sequential field availability check in mi_enum_attr()
-      fs/ntfs3: Fix general protection fault in run_is_mapped_full
-      fs/ntfs3: Additional check in ntfs_file_release
-      fs/ntfs3: Format output messages like others fs in kernel
-
-Thorsten Blum (1):
-      fs/ntfs3: Use swap() to improve code
-
-lei lu (1):
-      ntfs3: Add bounds checking to mi_enum_attr()
-
- fs/ntfs3/attrib.c             |  96 +++++++++++++++++++---
- fs/ntfs3/attrlist.c           |  53 ------------
- fs/ntfs3/file.c               | 185 +++++++++++++++++++++++++++++++-----------
- fs/ntfs3/frecord.c            |  97 ++++++++++++++++++----
- fs/ntfs3/fslog.c              |  19 ++++-
- fs/ntfs3/inode.c              |  20 +++--
- fs/ntfs3/lib/lzx_decompress.c |   3 +-
- fs/ntfs3/lznt.c               |   3 +
- fs/ntfs3/namei.c              |  10 +--
- fs/ntfs3/ntfs_fs.h            |  10 +--
- fs/ntfs3/record.c             |  31 ++++---
- fs/ntfs3/run.c                |   8 +-
- fs/ntfs3/super.c              |  70 ++++++++--------
- fs/ntfs3/xattr.c              |   2 +-
- 14 files changed, 410 insertions(+), 197 deletions(-)
+If you want to undo deduplication, reply with:
+#syz undup
