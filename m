@@ -1,76 +1,149 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F208208B8
-	for <ntfs3@lists.linux.dev>; Tue,  8 Oct 2024 03:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF3B1DFD8E
+	for <ntfs3@lists.linux.dev>; Tue,  8 Oct 2024 15:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728358625; cv=none; b=CJV505CjvIRiXzzjc6K6B99srGBoZ7T52WQS6O/mDtKnWzayNTicwOYTFN3aK87Bt2rBOXThDmbVvubWPGNYkGxqwNZ6g0Cllas+gIbhVM1wYXR380a9YzymzEIKFUKVxPKr+CjHCZfTRt14yxDQBFUDWC5sNVRt6CidP6xHALQ=
+	t=1728400276; cv=none; b=IGqwk6rxRE7EIxDhxtOKeM2kB3PTtXnF+ta1s01sn1Ghx7fihB2jMzi6ZyFeRkVbpc4nGOHYiztLLTFTLlCSUVUTjIJuk7uoMx9fUgMZFpS++Pvh6Se+k+hH9YJljV72B5uIfqIYyd4mXqLIyU7xKogupYctJYTytDakkwsUUnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728358625; c=relaxed/simple;
-	bh=9lCC6/cPpt6A3D9ApigehizFGweWB9PeX4KwX3Vh3HA=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=Pldi0u5aIZTdBdZNZF1N16V4WVLoomfqFlmTwenqx0figycm0AE3RnlYKhju7Org5xEbLqhmE9cWuZZVJpjKUjMlL2ELusC04LFDMKjdAlYMshz9KXsvfWP+bVx9cQYmrpeb5kgV6+h897p/qOIssGM0u4PU8hfyEeI4DVlVRsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3a1925177fdso58539255ab.3
-        for <ntfs3@lists.linux.dev>; Mon, 07 Oct 2024 20:37:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728358623; x=1728963423;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KSzLNKT6ggLBRa7OjU1CCapcNmts6fijQLpZW/Tgbkk=;
-        b=EwlqZbWih8hIzNJPJu5w7eeEQ28z1FnJuBntPcJufJHGnADDrxkC5+JhDoQgI9dXMo
-         eIEdRx9cLS4Ii19m7D8bTu/ggvN4Cq9slNp/oagWFJYdNlnZ8GeFnuZPfynbSqeQgHiF
-         GofTD0q6S3w9mgeUkNmYfBs/p92Wi0khdHF7+JlAkjYpJAswJhU3Bz6ujHW4uYBDZFFH
-         Go3rQbQl5wm0NtXfaQmxhfh/fXFjlcgPqYfUDOTJ02b757V8HxmgPTGVXiiPW+Quvy3C
-         jt/IKSSC026Eq7tSegJD0D4ybTY/GckxM9pqYQKrxskIQtctAs5Wm9qe7WCLFX0Vf8iB
-         U98Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWR8mw93bVo6qQCeuInT8gy8uPfhSz0gH/yiHr7ZiHKJ/R3gorD/ME4TEJlwrO5GM9kulUq6w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzkWzqxyCcktY31mprNh++57qi+1R7Aik2mQCSukguU5ibHQaSH
-	zQBkph7wKQvpQWDLuME+k1XpvZsLE0qysfMTzMtck+AbgcmAeQXynyHKhKVQXRqxp8t+UkLUODT
-	Z5EZiaVO+1kbWmoEVyr/0e6SFTXbY8B2eLh/pVJXlCLTY4gBvdiNJL0E=
-X-Google-Smtp-Source: AGHT+IF0hAiBE0Fb+aPb21J0S7uMLzyS9Sc9RrEn7srF0SIcpCnZCDnEqOSeWf85zCgZaSnrqbrbOA9grvuCBSNyji9u+HpMxZSt
+	s=arc-20240116; t=1728400276; c=relaxed/simple;
+	bh=/O8v0DQ2GVRzc48m8wAHNCHFIAtYmj1AJQd9V2qu9/Q=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Vs7gSx7bvoMhgsbS7nPTtcn3qJGd6OpgsTnioe1D3074+M0nigDimeiSHSU58ebKp7cO6c0KIYI+qwf9DOUduGNjknERTaVj2GhZjGi7hEQ4SQ7wBKW49uAqSLPn+H8pjGePGy9dFESoKRj6jK5ZwIALUSYpU6xwj7odvE3OcpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=JfPyUFGZ; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=qJH6i1q7; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="JfPyUFGZ";
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="qJH6i1q7"
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id E4C061FEC;
+	Tue,  8 Oct 2024 14:55:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1728399324;
+	bh=P9vUqHOsu28vLeBNL5YkhZnY7tqCTNGqt+mdS6UqDeI=;
+	h=From:To:CC:Subject:Date;
+	b=JfPyUFGZhpUK9bCQ/Zeq9DiFMkeq/58YGLmgKl1Re5YNkSGbf1M1OKEQQGr2jS/FQ
+	 irH0qDUSakbUSPjsNtDyQQ8Do26jLyTjss1SaIrzHVNVTO5K7Awx9UBi9m5Msv2lsQ
+	 ElH7FqjFJNF3zf2VrpjJGwqFrypKZwKPtPQCtXlg=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id A0341217E;
+	Tue,  8 Oct 2024 15:02:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1728399779;
+	bh=P9vUqHOsu28vLeBNL5YkhZnY7tqCTNGqt+mdS6UqDeI=;
+	h=From:To:CC:Subject:Date;
+	b=qJH6i1q7qiz1eLhjGnBNNn4uObWDmFJiy7C9aosAeMohhSdq4hEyP986qWSKcfuUQ
+	 OjQ1W2o82oU62csX5vO09ryO1oL5UgCsH9LfzXdqwMhoF8MU8Dy+BYiqsEnegjbaeM
+	 YSoceNUpg4az02YsAmyxIiicuCujI/d5LO98w9tU=
+Received: from ntfs3vm.localdomain (192.168.211.199) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 8 Oct 2024 18:02:59 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <torvalds@linux-foundation.org>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] ntfs3: bugfixes for 6.12
+Date: Tue, 8 Oct 2024 18:02:47 +0300
+Message-ID: <20241008150247.6972-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:184d:b0:3a0:451b:ade3 with SMTP id
- e9e14a558f8ab-3a375a978dbmr140169875ab.10.1728358623187; Mon, 07 Oct 2024
- 20:37:03 -0700 (PDT)
-Date: Mon, 07 Oct 2024 20:37:03 -0700
-In-Reply-To: <66f70232.050a0220.38ace9.002f.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6704a8df.050a0220.49194.0521.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] WARNING in wnd_init (2)
-From: syzbot <syzbot+47de774a425e2380f16f@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-syzbot has bisected this issue to:
+Please pull this branch containing ntfs3 code for 6.12.
 
-commit fc471e39e38fea6677017cbdd6d928088a59fc67
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Fri Jun 30 12:12:58 2023 +0000
+New:
+	implement fallocate for compressed files;
+	add support for the compression attribute;
+	optimize large writes to sparse files.
+Fixed:
+	fix several potential deadlock scenarios;
+	fix various internal bugs detected by syzbot;
+	add checks before accessing NTFS structures during parsing;
+	correct the format of output messages.
+Refactored:
+	replace fsparam_flag_no with fsparam_flag in options parser;
+	remove unused functions and macros.
 
-    fs/ntfs3: Use kvmalloc instead of kmalloc(... __GFP_NOWARN)
+All changed code was in linux-next branch at least week (New/Refactored
+changes much longer).
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10a4bb80580000
-start commit:   8cf0b93919e1 Linux 6.12-rc2
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=12a4bb80580000
-console output: https://syzkaller.appspot.com/x/log.txt?x=14a4bb80580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7a3fccdd0bb995
-dashboard link: https://syzkaller.appspot.com/bug?extid=47de774a425e2380f16f
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17ab2707980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10dbc327980000
+Regards,
+Konstantin
 
-Reported-by: syzbot+47de774a425e2380f16f@syzkaller.appspotmail.com
-Fixes: fc471e39e38f ("fs/ntfs3: Use kvmalloc instead of kmalloc(... __GFP_NOWARN)")
+----------------------------------------------------------------
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f017b:
+
+  Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.12
+
+for you to fetch changes up to 48dbc127836a6f311414bc03eae386023d05ed30:
+
+  fs/ntfs3: Format output messages like others fs in kernel (2024-10-01 12:19:09 +0300)
+
+----------------------------------------------------------------
+Andrew Ballance (1):
+      fs/ntfs3: Check if more than chunk-size bytes are written
+
+Diogo Jahchan Koike (1):
+      ntfs3: Change to non-blocking allocation in ntfs_d_hash
+
+Dr. David Alan Gilbert (1):
+      fs/ntfs3: Remove unused al_delete_le
+
+Konstantin Komarov (20):
+      fs/ntfs3: Do not call file_modified if collapse range failed
+      fs/ntfs3: Optimize large writes into sparse file
+      fs/ntfs3: Separete common code for file_read/write iter/splice
+      fs/ntfs3: Fix sparse warning for bigendian
+      fs/ntfs3: Fix warning possible deadlock in ntfs_set_state
+      fs/ntfs3: Fix sparse warning in ni_fiemap
+      fs/ntfs3: Refactor enum_rstbl to suppress static checker
+      fs/ntfs3: Stale inode instead of bad
+      fs/ntfs3: Add rough attr alloc_size check
+      fs/ntfs3: Make checks in run_unpack more clear
+      fs/ntfs3: Implement fallocate for compressed files
+      fs/ntfs3: Add support for the compression attribute
+      fs/ntfs3: Replace fsparam_flag_no -> fsparam_flag
+      fs/ntfs3: Rename ntfs3_setattr into ntfs_setattr
+      fs/ntfs3: Fix possible deadlock in mi_read
+      fs/ntfs3: Additional check in ni_clear()
+      fs/ntfs3: Sequential field availability check in mi_enum_attr()
+      fs/ntfs3: Fix general protection fault in run_is_mapped_full
+      fs/ntfs3: Additional check in ntfs_file_release
+      fs/ntfs3: Format output messages like others fs in kernel
+
+Thorsten Blum (1):
+      fs/ntfs3: Use swap() to improve code
+
+lei lu (1):
+      ntfs3: Add bounds checking to mi_enum_attr()
+
+ fs/ntfs3/attrib.c             |  96 +++++++++++++++++++---
+ fs/ntfs3/attrlist.c           |  53 ------------
+ fs/ntfs3/file.c               | 185 +++++++++++++++++++++++++++++++-----------
+ fs/ntfs3/frecord.c            |  97 ++++++++++++++++++----
+ fs/ntfs3/fslog.c              |  19 ++++-
+ fs/ntfs3/inode.c              |  20 +++--
+ fs/ntfs3/lib/lzx_decompress.c |   3 +-
+ fs/ntfs3/lznt.c               |   3 +
+ fs/ntfs3/namei.c              |  10 +--
+ fs/ntfs3/ntfs_fs.h            |  10 +--
+ fs/ntfs3/record.c             |  31 ++++---
+ fs/ntfs3/run.c                |   8 +-
+ fs/ntfs3/super.c              |  70 ++++++++--------
+ fs/ntfs3/xattr.c              |   2 +-
+ 14 files changed, 410 insertions(+), 197 deletions(-)
