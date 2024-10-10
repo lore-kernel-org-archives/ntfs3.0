@@ -1,85 +1,170 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692551C2457
-	for <ntfs3@lists.linux.dev>; Thu, 10 Oct 2024 11:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12591C7B6A;
+	Thu, 10 Oct 2024 12:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728558033; cv=none; b=VDe1IZibBS7ZyrW4ksN2RXr9uBCcqxApRW+jngiF1dS8GOEa5/6K6jcf3klxUAvCFuDpMuGZdYd9pF1lPXLLzekMBq3ZwQcwwlN4ue/4+0XU528CH2vJdfzfjoUL5bj0a3TQcvCG3+fJ+6X0zNY2rn9i5GRlcmwjTdxr2KfR4g4=
+	t=1728564736; cv=none; b=CX/MtGDdwczRYMmR3RbqtDIPB0+eCbaCvjdVMdbrTsJWmIUsVwLU6BIMxa8ofGKQFZGrMPl5kd3ZskwqpxOBh/Q++5LUIC4+jvxg9yZmuAHJp8HJxnM4h1FqJfacG+Dvm2UslC29STj4qrTO2uF5JesDhxcfLVJm9hx9xk7PFJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728558033; c=relaxed/simple;
-	bh=f6kBOvXqEEvA0RSqMTbMkrWDSbziBuOzQ1mA4xkEcrI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bXuZemd0nRQ0hiDs4uIlioEvJjUqq7x7XXN4MP+pZGg2GhXKtCirqLPvrITaivWPAtySo0YRH8k1AUxi4V6ncHILBbDqhq7IzsWyIHG5/n2md7gDk3IFWuT9Kf8vEfaV1y66/qTEba5rLAjvzR9obv0PTW6qFWorDGBVuRxVVHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aAnfVxEL; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728564736; c=relaxed/simple;
+	bh=OWW31GL+prw9JjHftIiHStrX0S42nNFeYgoHhk2i+vI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AuQ/o30hEwnftfi4i5FaiuQhYfLfO2OqCCgm5e8qgC20hvbUMaMDv089ovEcWpSGL5z/EBAUz4icBdzWrxBH2G8mqS3G0yLxZ/Ulom+USwtv7TD9lYh5G/2EYvedavID2uS1R5f7CryB8y7KM6sVA9ATrgLk2lFrX/I3mYf9fZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UrQFwCiQ; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aAnfVxEL"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-71df468496fso783616b3a.1
-        for <ntfs3@lists.linux.dev>; Thu, 10 Oct 2024 04:00:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728558031; x=1729162831; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f6kBOvXqEEvA0RSqMTbMkrWDSbziBuOzQ1mA4xkEcrI=;
-        b=aAnfVxEL3ZOdiyWYzAmWEHZr2xY9HDLez3APXGwiJ/bUwJOWRJmPZyC7eve9ZuOMj2
-         JRMr3N55nu88KKai3/61mwAEV5Tieke1npu1trFwZghqqw2zohBXl6A+ylRWQnZT2t5N
-         /pzqYlwV4UvupjoPC9yyMCbrLZn2cTv1iIMNnsd3iUIgPiKzsYF1ACaJ57TKwhiaIrnN
-         xmMNq5sU3mnPg8a3ofA/B9OxVMFjqdaR704Me3P6ZmF3DJG/YyAJ9e/zrrFsvs1FFEUL
-         jCVlYeGpJpu8HQ00i/u1WwMEk2hNWBgL94meMg4hlpNnkeI6WqyIajkRzJNERAfpvZl2
-         v1iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728558031; x=1729162831;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f6kBOvXqEEvA0RSqMTbMkrWDSbziBuOzQ1mA4xkEcrI=;
-        b=mWew+SaDfX3Hu5vFu18qtgL5510HTPltkGETtSXTqO6wucYlDVo8kdBEZMojmTRqVF
-         nGO5Tf0M/3GHnWwIli8+79eEwcaRsqzolzCgSQ/yux1phjRrDkRqdIIbrfYDxSz0gjmu
-         gKGG5v57AkPr2XF9e42qIaIgePc2ljykezz4Dd2rvU7NmmFUvydqzfgd5eKlEnsPupsQ
-         n4QKgCle9GPzzjeZMGldxjXTKUaBKd34oG3BmqE3+5Y4Ynm9v4TrPi6rFVcKVRwhkSkg
-         TX/XPpfoGBHhG/w4EqnAWmHSMq9oxnBcWCSqmBOuRbcfSbpUK3vH6ekNCQD9HrKsN7ad
-         s4tg==
-X-Forwarded-Encrypted: i=1; AJvYcCUvusFGOxqkCne39iQ6dCjkHHHImHLap1nyaPXNJtDaUsL95pflyzOq261ZJquCXiPRtypwEA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy8OtZLZ1QBkfLAP8a00rFTRvYTglKTTg6S+muepx4sCM37VVXe
-	q0yza1CXsMiPmPWn68+WP8HinYYwYf7Z+tD/7HfbZeJCEd71oX3v
-X-Google-Smtp-Source: AGHT+IFlu5uf1Qiom8RsM+Bq8DEd5QG73nk7g1rcmg6YkaP8ggiuvYyIBezZvNEv3/eWA8PBix4Qug==
-X-Received: by 2002:a05:6a00:2e8f:b0:71e:9a8:2b9d with SMTP id d2e1a72fcca58-71e1dbce0c4mr9978027b3a.23.1728558030276;
-        Thu, 10 Oct 2024 04:00:30 -0700 (PDT)
-Received: from localhost.localdomain ([47.76.200.152])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e2aafd100sm805625b3a.190.2024.10.10.04.00.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 04:00:29 -0700 (PDT)
-From: lei lu <llfamsec@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev
-Subject: Re: [PATCH 3/6] fs/ntfs3: Sequential field availability check in mi_enum_attr()
-Date: Thu, 10 Oct 2024 19:00:05 +0800
-Message-Id: <20241010110005.42792-1-llfamsec@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241001090104.15313-4-almaz.alexandrovich@paragon-software.com>
-References: <20241001090104.15313-4-almaz.alexandrovich@paragon-software.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UrQFwCiQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728564735; x=1760100735;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OWW31GL+prw9JjHftIiHStrX0S42nNFeYgoHhk2i+vI=;
+  b=UrQFwCiQzWq6TeQOHiGOHAyltZgz3TmwapzuKsAOSNhnl7yiadyKTnrS
+   GBn/3gAUK1S2Rd7jN/s7rcv5iUkBiXb/+txHigIz2GGEBQuo7GycLhw8Q
+   N3B5GODkIVAHHR9w70AGonpgqZJI9pMEmV0CBTASZwUq67afGzWhCl0Br
+   3/6fAetsLRZ3xeR09Lgw/BQdvTeOW+Ypb0e9x0ncspwppXrsJTFs8HmFf
+   KGkjVLk/D+NpVxUA5kSly3gfQ64vicrB8AIDxSDODSOOKmJef2OJrlzKm
+   r/vGtmwcP1IH8kLXR485YDZHOIknmhNPvRUoR1TP1/+ZCUOH1dJLDo3I+
+   Q==;
+X-CSE-ConnectionGUID: IMd1W9nfQza/tUQLwqLWBg==
+X-CSE-MsgGUID: 3DmokyicTYSRpMQv3slZzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27389355"
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="27389355"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 05:52:14 -0700
+X-CSE-ConnectionGUID: XyoHadmPQHqZ8Op9r+OaMw==
+X-CSE-MsgGUID: ayORUROpT3eXjEsJfskqng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="99917176"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 10 Oct 2024 05:52:12 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1syseH-000AlL-2t;
+	Thu, 10 Oct 2024 12:52:09 +0000
+Date: Thu, 10 Oct 2024 20:52:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Edward Adam Davis <eadavis@qq.com>,
+	syzbot+e37dd1dfc814b10caa55@syzkaller.appspotmail.com
+Cc: oe-kbuild-all@lists.linux.dev, almaz.alexandrovich@paragon-software.com,
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] ntfs3: Fix WARNING in ntfs_extend_initialized_size
+Message-ID: <202410102052.KIxxilgH-lkp@intel.com>
+References: <tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907@qq.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907@qq.com>
 
-Hi, Konstantin,
+Hi Edward,
 
-Refer to: https://lore.kernel.org/ntfs3/20240820105342.79788-1-llfamsec@gmail.com/T/#t.
+kernel test robot noticed the following build errors:
 
-In https://github.com/Paragon-Software-Group/linux-ntfs3/blob/master/fs/ntfs3/record.c#L267.
-The code did not check the 'non_res' field. If asize is just 8 bytes, it still trigger OOB.
-So I added "if (asize < SIZEOF_RESIDENT)" before accessing the 'non_res'. Because
-SIZEOF_RESIDENT is smaller than SIZEOF_NONRESIDENT which seems to be the minimum size of
-attr. Or maybe we can use "if (off + 9 > used)" directly.
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.12-rc2 next-20241010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks,
-LL
+url:    https://github.com/intel-lab-lkp/linux/commits/Edward-Adam-Davis/ntfs3-Fix-WARNING-in-ntfs_extend_initialized_size/20241007-191224
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907%40qq.com
+patch subject: [PATCH] ntfs3: Fix WARNING in ntfs_extend_initialized_size
+config: i386-randconfig-003-20241010 (https://download.01.org/0day-ci/archive/20241010/202410102052.KIxxilgH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410102052.KIxxilgH-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410102052.KIxxilgH-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/include/asm/bug.h:99,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/backing-dev.h:13,
+                    from fs/ntfs3/file.c:10:
+   fs/ntfs3/file.c: In function 'ntfs_extend':
+>> fs/ntfs3/file.c:402:29: error: 'struct ntfs_inode' has no member named 'valid'; did you mean 'i_valid'?
+     402 |                 WARN_ON(ni->valid >= pos);
+         |                             ^~~~~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+
+
+vim +402 fs/ntfs3/file.c
+
+   379	
+   380	static int ntfs_extend(struct inode *inode, loff_t pos, size_t count,
+   381			       struct file *file)
+   382	{
+   383		struct ntfs_inode *ni = ntfs_i(inode);
+   384		struct address_space *mapping = inode->i_mapping;
+   385		loff_t end = pos + count;
+   386		bool extend_init = file && pos > ni->i_valid;
+   387		int err;
+   388	
+   389		if (end <= inode->i_size && !extend_init)
+   390			return 0;
+   391	
+   392		/* Mark rw ntfs as dirty. It will be cleared at umount. */
+   393		ntfs_set_state(ni->mi.sbi, NTFS_DIRTY_DIRTY);
+   394	
+   395		if (end > inode->i_size) {
+   396			err = ntfs_set_size(inode, end);
+   397			if (err)
+   398				goto out;
+   399		}
+   400	
+   401		if (extend_init && !is_compressed(ni)) {
+ > 402			WARN_ON(ni->valid >= pos);
+   403			err = ntfs_extend_initialized_size(file, ni, ni->i_valid, pos);
+   404			if (err)
+   405				goto out;
+   406		} else {
+   407			err = 0;
+   408		}
+   409	
+   410		inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode));
+   411		mark_inode_dirty(inode);
+   412	
+   413		if (IS_SYNC(inode)) {
+   414			int err2;
+   415	
+   416			err = filemap_fdatawrite_range(mapping, pos, end - 1);
+   417			err2 = sync_mapping_buffers(mapping);
+   418			if (!err)
+   419				err = err2;
+   420			err2 = write_inode_now(inode, 1);
+   421			if (!err)
+   422				err = err2;
+   423			if (!err)
+   424				err = filemap_fdatawait_range(mapping, pos, end - 1);
+   425		}
+   426	
+   427	out:
+   428		return err;
+   429	}
+   430	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
