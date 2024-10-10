@@ -1,220 +1,162 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0641A263F
-	for <ntfs3@lists.linux.dev>; Wed,  9 Oct 2024 19:06:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046121BD039;
+	Thu, 10 Oct 2024 09:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728500783; cv=none; b=pTgCPOtq4cQQs9KNQ/ACqljhiVJkQEAsELn26fN/Uw02Q0Ah0W0UVt86qDLjIGPS6JgGE/zpZFKnnYXY2Rgh4ePXzJz7w13KkiLIfP+SI4yHIbXnvOfVM0373Tq0RRjYDHo/mnJP8b3Qk+t+JBTaTRC1VstzVyNRUTSgXDdNOUE=
+	t=1728554289; cv=none; b=jrTCFYryXPGP2Ypta7ixVgUdRl6gFhmRt3LT1XEFPsU4dmDVBWbZ4KcLq6AuAypOOZ0QBBkoDCM0j66JqAe7LEGqHqh1v0OMvIo1dmIzW58SLohU+kQQenDlvWikGr4xJWm6w2zk8uFi0VqocwVoekw8cLljl6vXFX0UHh+q+G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728500783; c=relaxed/simple;
-	bh=S0yngzlf7/hnbdlcYPff/UkGi4KuNGvvz2eLoQOs/T4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=LNGWu5F9XvF3pV7t1bTmSNs4A9jypZsHJ/yiSjNOV7y3Cuohw83mHQ/OnLm7j074npWyeoc1LN/TWyXbT9ARSyE7vKHZFMa/JsI44YxS98pcFXIK0UFB+Tbxxg6cbRQXDWkEdxgei7ky77pIho2gPVD66LKgyTHoTcFZNF2qxPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3a345a02c23so1867385ab.1
-        for <ntfs3@lists.linux.dev>; Wed, 09 Oct 2024 12:06:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728500781; x=1729105581;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HqMRnlNkwheCLMbZJR5dLRpMf+ZgytYRKTjLiVGMaTo=;
-        b=C6TH8DY4u7sGErjJr1DJ3tc2SOvKyWBr6TDo/bYoCQt4cAcnlU+zxrCh2uC4zjTUdu
-         FmPZrWtSqWhwf5lf8ysYMAG9RJnIx124dTMumWwFyKTdb3lB3UMk6z8olzNfHrmgXnQY
-         TC+4QrcJlE+LvBp8llJ08xvVv51qOhdkn2dwK5KeGiA+RslX7h9F9dTRs9WFKZEqxVMv
-         3WeutjaZy0kV2kmw0Jz00tyvRKbaaFnBbLZw6NzH+KypkMs/jf4amOgMGsu3QBBLDxw6
-         kOXQo4KQQpLd3jSMyX+Fn/3MMZqfnQIUvkzppZUIQrZpbxukb9QI+vyKUCN3vlTPuHMv
-         fcaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUL8PvXVFvxCNfBAd+ezTeX3ZIOPUGyCjE27Byche80qBdyVYioD4xnxVEhBpG3fCrTJSwuGg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpzTAJt7WNvchvbnlirARQsjpHX9Gi9+cYXHlXLk+wuFbluPpR
-	4wb8Cnj+zTYWBtzLuRpGP9V10UlDejJ3kbspSw/znKMTI0+1qZpz+Ts0FusbAOVD0Jlwn6etJn/
-	FY/Tm8fDDYKmcWwTP7IejXcVy6iZJnlf3dv3cH670eraRCtatChzcQhk=
-X-Google-Smtp-Source: AGHT+IFXPsbLhA79mSoopHbrLby0iiKWafgJYmUW2iHWUBvz3oEEU7LATnHCjkThHhFr3aTeH7Aq0KO4AcBR/RefsuljnA95+QPr
+	s=arc-20240116; t=1728554289; c=relaxed/simple;
+	bh=NfhfZqu2Su0RgqD8cq5nEWdseA734/1rsCzpimrRzr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tw3ybIahDgSD5iGIJLYKkLcToE5mwA9q6kZ6aOrC2XVP0zn+Lt7wbl34iKoz6UJaBwcrKEBcie9geZVK2raz+xnaSXkgZdcRf1lBcbgdT/7jNcYn4PLNwY7UK+ynbP7zt0IUKvSPdnArM9ece6h56B+zCbqQaGKZf4HXJHETFso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ku7zG7Ch; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ku7zG7Ch"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728554288; x=1760090288;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NfhfZqu2Su0RgqD8cq5nEWdseA734/1rsCzpimrRzr8=;
+  b=Ku7zG7ChR2UEV/7zGR/M/hNJwKCGkFImMDcgpmMkSAnxXP4pqkjE+ARQ
+   +3Sd/BnpxbPadgzlDmX+T2i+nyBRmDAVIpR8QTqi8GS1RiCGrEmdPjy16
+   ZUPYjLyJ+sqfVFIsv4zZrAGH7MmsBmIWvqhUGhFulev9Bc/MoZalmubiM
+   fCbJxo27vNgXNrbfXi/6GYMT1qqTgQbSRZ8nwiYOLY/gYhX3ORp/pN7Ax
+   LjY317YxzhZ8uNwHbHpih+OS8N8SatGhONOnvZQfh3sQi0yUtXAhluHNH
+   y8Dr6bzCfKrBJqP7W7kN+XO8H04oljxxcwkpO6cEnuWe0mRCLVXRUDDgo
+   w==;
+X-CSE-ConnectionGUID: L2L90KDrQ/eIE4yAdj3qXw==
+X-CSE-MsgGUID: MhNbOHOjQaal7/rsneZ+Kg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="31797862"
+X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
+   d="scan'208";a="31797862"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 02:58:07 -0700
+X-CSE-ConnectionGUID: N7yLUXyFTj2JAcgUg+ExFA==
+X-CSE-MsgGUID: N+4A3YoOQVOSa5ysiTYLQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
+   d="scan'208";a="76742946"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 10 Oct 2024 02:58:05 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sypvm-000Abe-1i;
+	Thu, 10 Oct 2024 09:58:02 +0000
+Date: Thu, 10 Oct 2024 17:57:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Edward Adam Davis <eadavis@qq.com>,
+	syzbot+e37dd1dfc814b10caa55@syzkaller.appspotmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	almaz.alexandrovich@paragon-software.com,
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] ntfs3: Fix WARNING in ntfs_extend_initialized_size
+Message-ID: <202410101748.6VtnyCOG-lkp@intel.com>
+References: <tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907@qq.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:219d:b0:39f:5e18:239d with SMTP id
- e9e14a558f8ab-3a397cee009mr36409105ab.15.1728500780772; Wed, 09 Oct 2024
- 12:06:20 -0700 (PDT)
-Date: Wed, 09 Oct 2024 12:06:20 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6706d42c.050a0220.1139e6.000d.GAE@google.com>
-Subject: [syzbot] [ntfs3?] possible deadlock in ntfs_set_size (3)
-From: syzbot <syzbot+bc7ded2e21137a228c72@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907@qq.com>
 
-Hello,
+Hi Edward,
 
-syzbot found the following issue on:
+kernel test robot noticed the following build errors:
 
-HEAD commit:    8f602276d390 Merge tag 'bcachefs-2024-10-05' of git://evil..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=10520327980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9775e9a1af839423
-dashboard link: https://syzkaller.appspot.com/bug?extid=bc7ded2e21137a228c72
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.12-rc2 next-20241010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Unfortunately, I don't have any reproducer for this issue yet.
+url:    https://github.com/intel-lab-lkp/linux/commits/Edward-Adam-Davis/ntfs3-Fix-WARNING-in-ntfs_extend_initialized_size/20241007-191224
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/tencent_EE134FDF8DFFA5E18D84121FDDE5DDB41907%40qq.com
+patch subject: [PATCH] ntfs3: Fix WARNING in ntfs_extend_initialized_size
+config: i386-buildonly-randconfig-001-20241010 (https://download.01.org/0day-ci/archive/20241010/202410101748.6VtnyCOG-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410101748.6VtnyCOG-lkp@intel.com/reproduce)
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/c85b02a6dfd7/disk-8f602276.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/e428dbf555c6/vmlinux-8f602276.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/24dbed728796/bzImage-8f602276.xz
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410101748.6VtnyCOG-lkp@intel.com/
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+bc7ded2e21137a228c72@syzkaller.appspotmail.com
+All errors (new ones prefixed by >>):
 
-======================================================
-WARNING: possible circular locking dependency detected
-6.12.0-rc1-syzkaller-00349-g8f602276d390 #0 Not tainted
-------------------------------------------------------
-syz.0.245/7337 is trying to acquire lock:
-ffff88805e861e60 (&ni->ni_lock/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1109 [inline]
-ffff88805e861e60 (&ni->ni_lock/4){+.+.}-{3:3}, at: ntfs_set_size+0x12e/0x200 fs/ntfs3/inode.c:846
-
-but task is already holding lock:
-ffff88805e8620f8 (&sb->s_type->i_mutex_key#23){+.+.}-{3:3}, at: inode_trylock include/linux/fs.h:835 [inline]
-ffff88805e8620f8 (&sb->s_type->i_mutex_key#23){+.+.}-{3:3}, at: ntfs_file_write_iter+0x247/0x740 fs/ntfs3/file.c:1165
-
-which lock already depends on the new lock.
+>> fs/ntfs3/file.c:402:15: error: no member named 'valid' in 'struct ntfs_inode'
+     402 |                 WARN_ON(ni->valid >= pos);
+         |                         ~~  ^
+   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   1 error generated.
 
 
-the existing dependency chain (in reverse order) is:
+vim +402 fs/ntfs3/file.c
 
--> #2 (&sb->s_type->i_mutex_key#23){+.+.}-{3:3}:
-       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5825
-       down_write+0x99/0x220 kernel/locking/rwsem.c:1577
-       inode_lock include/linux/fs.h:815 [inline]
-       ntfs_file_mmap+0x5bc/0x850 fs/ntfs3/file.c:367
-       call_mmap include/linux/fs.h:2172 [inline]
-       mmap_region+0x1add/0x2990 mm/mmap.c:1440
-       do_mmap+0x8f0/0x1000 mm/mmap.c:496
-       vm_mmap_pgoff+0x1dd/0x3d0 mm/util.c:588
-       ksys_mmap_pgoff+0x4eb/0x720 mm/mmap.c:542
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+   379	
+   380	static int ntfs_extend(struct inode *inode, loff_t pos, size_t count,
+   381			       struct file *file)
+   382	{
+   383		struct ntfs_inode *ni = ntfs_i(inode);
+   384		struct address_space *mapping = inode->i_mapping;
+   385		loff_t end = pos + count;
+   386		bool extend_init = file && pos > ni->i_valid;
+   387		int err;
+   388	
+   389		if (end <= inode->i_size && !extend_init)
+   390			return 0;
+   391	
+   392		/* Mark rw ntfs as dirty. It will be cleared at umount. */
+   393		ntfs_set_state(ni->mi.sbi, NTFS_DIRTY_DIRTY);
+   394	
+   395		if (end > inode->i_size) {
+   396			err = ntfs_set_size(inode, end);
+   397			if (err)
+   398				goto out;
+   399		}
+   400	
+   401		if (extend_init && !is_compressed(ni)) {
+ > 402			WARN_ON(ni->valid >= pos);
+   403			err = ntfs_extend_initialized_size(file, ni, ni->i_valid, pos);
+   404			if (err)
+   405				goto out;
+   406		} else {
+   407			err = 0;
+   408		}
+   409	
+   410		inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode));
+   411		mark_inode_dirty(inode);
+   412	
+   413		if (IS_SYNC(inode)) {
+   414			int err2;
+   415	
+   416			err = filemap_fdatawrite_range(mapping, pos, end - 1);
+   417			err2 = sync_mapping_buffers(mapping);
+   418			if (!err)
+   419				err = err2;
+   420			err2 = write_inode_now(inode, 1);
+   421			if (!err)
+   422				err = err2;
+   423			if (!err)
+   424				err = filemap_fdatawait_range(mapping, pos, end - 1);
+   425		}
+   426	
+   427	out:
+   428		return err;
+   429	}
+   430	
 
--> #1 (&mm->mmap_lock){++++}-{3:3}:
-       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5825
-       __might_fault+0xc6/0x120 mm/memory.c:6700
-       _inline_copy_to_user include/linux/uaccess.h:183 [inline]
-       _copy_to_user+0x2a/0xb0 lib/usercopy.c:26
-       copy_to_user include/linux/uaccess.h:216 [inline]
-       fiemap_fill_next_extent+0x235/0x410 fs/ioctl.c:145
-       ni_fiemap+0x4f5/0x1910 fs/ntfs3/frecord.c:1993
-       ntfs_fiemap+0x132/0x180 fs/ntfs3/file.c:1278
-       ioctl_fiemap fs/ioctl.c:220 [inline]
-       do_vfs_ioctl+0x1bf8/0x2e40 fs/ioctl.c:841
-       __do_sys_ioctl fs/ioctl.c:905 [inline]
-       __se_sys_ioctl+0x81/0x170 fs/ioctl.c:893
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (&ni->ni_lock/4){+.+.}-{3:3}:
-       check_prev_add kernel/locking/lockdep.c:3161 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3280 [inline]
-       validate_chain+0x18ef/0x5920 kernel/locking/lockdep.c:3904
-       __lock_acquire+0x1384/0x2050 kernel/locking/lockdep.c:5202
-       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5825
-       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
-       __mutex_lock+0x136/0xd70 kernel/locking/mutex.c:752
-       ni_lock fs/ntfs3/ntfs_fs.h:1109 [inline]
-       ntfs_set_size+0x12e/0x200 fs/ntfs3/inode.c:846
-       ntfs_extend+0x163/0x480 fs/ntfs3/file.c:397
-       ntfs_file_write_iter+0x3ce/0x740 fs/ntfs3/file.c:1187
-       new_sync_write fs/read_write.c:590 [inline]
-       vfs_write+0xa6d/0xc90 fs/read_write.c:683
-       ksys_write+0x183/0x2b0 fs/read_write.c:736
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  &ni->ni_lock/4 --> &mm->mmap_lock --> &sb->s_type->i_mutex_key#23
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&sb->s_type->i_mutex_key#23);
-                               lock(&mm->mmap_lock);
-                               lock(&sb->s_type->i_mutex_key#23);
-  lock(&ni->ni_lock/4);
-
- *** DEADLOCK ***
-
-3 locks held by syz.0.245/7337:
- #0: ffff8880260022b8 (&f->f_pos_lock){+.+.}-{3:3}, at: fdget_pos+0x24e/0x320 fs/file.c:1160
- #1: ffff8880126be420 (sb_writers#15){.+.+}-{0:0}, at: file_start_write include/linux/fs.h:2931 [inline]
- #1: ffff8880126be420 (sb_writers#15){.+.+}-{0:0}, at: vfs_write+0x224/0xc90 fs/read_write.c:679
- #2: ffff88805e8620f8 (&sb->s_type->i_mutex_key#23){+.+.}-{3:3}, at: inode_trylock include/linux/fs.h:835 [inline]
- #2: ffff88805e8620f8 (&sb->s_type->i_mutex_key#23){+.+.}-{3:3}, at: ntfs_file_write_iter+0x247/0x740 fs/ntfs3/file.c:1165
-
-stack backtrace:
-CPU: 1 UID: 0 PID: 7337 Comm: syz.0.245 Not tainted 6.12.0-rc1-syzkaller-00349-g8f602276d390 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
- print_circular_bug+0x13a/0x1b0 kernel/locking/lockdep.c:2074
- check_noncircular+0x36a/0x4a0 kernel/locking/lockdep.c:2206
- check_prev_add kernel/locking/lockdep.c:3161 [inline]
- check_prevs_add kernel/locking/lockdep.c:3280 [inline]
- validate_chain+0x18ef/0x5920 kernel/locking/lockdep.c:3904
- __lock_acquire+0x1384/0x2050 kernel/locking/lockdep.c:5202
- lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5825
- __mutex_lock_common kernel/locking/mutex.c:608 [inline]
- __mutex_lock+0x136/0xd70 kernel/locking/mutex.c:752
- ni_lock fs/ntfs3/ntfs_fs.h:1109 [inline]
- ntfs_set_size+0x12e/0x200 fs/ntfs3/inode.c:846
- ntfs_extend+0x163/0x480 fs/ntfs3/file.c:397
- ntfs_file_write_iter+0x3ce/0x740 fs/ntfs3/file.c:1187
- new_sync_write fs/read_write.c:590 [inline]
- vfs_write+0xa6d/0xc90 fs/read_write.c:683
- ksys_write+0x183/0x2b0 fs/read_write.c:736
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fdd5297dff9
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fdd5381b038 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007fdd52b35f80 RCX: 00007fdd5297dff9
-RDX: 0000000000001006 RSI: 0000000020006640 RDI: 0000000000000006
-RBP: 00007fdd529f0296 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 00007fdd52b35f80 R15: 00007ffdd949f3f8
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
