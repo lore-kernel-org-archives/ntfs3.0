@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CFC145B18;
-	Mon, 14 Oct 2024 03:58:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E2A1494A5;
+	Mon, 14 Oct 2024 03:59:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728878336; cv=none; b=GNsoPa01M6Tmwajg+hAueTQc+m5D7j44iXf7X7kAKOOu6qE666T1BZLu97h2Y7Zk0Jvf8VPujfA6ZJwLeBbEM4PpNJeBYMK6pI2C/cz1vqfWfPB5PULsuBsq3Eb9W2+lc54KeLlWq3HsUnhgrdgBLKI9BgO67xVdDUt+8Z/Lh4c=
+	t=1728878372; cv=none; b=io+ofgyQm5qtkZq4rTL9H13IA7LfZk3QycpCdGiqy6USN+vXTTGUzxcWKkC8XOaCnXgqKhG9XQCQno+iGAXaUeQa68Xqf1IaBQ3fXJHosnZWhIigWpAiZctntkJZf4Xw0nYR4zJqazTmoi8GdvYiaM/KV5lXdD50aIaIJndGHh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728878336; c=relaxed/simple;
-	bh=l9CPfeX3T6QhLr8nM+G9xBjbSUfXhNiE8pZfFYilJyw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=I4IUoqd3wth6qed7narKbz/X5T33zfOkKnlVqe0wsgH+h2EU+KwpWGheYVsSw9jfZGRxkuBxb7WTFRxM1Rr2BlFcdYfqrqpi6XSxLaWqe0U1iajcL06hY7APJSEX0Qaw1+JeUXjbrFtEjqk8Pz2AqhAfRy0PgmjILV1uaIdRmcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqO/OBqz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728878372; c=relaxed/simple;
+	bh=+pCTZq5gffnwaGyI/JHSLk7jHCYopxjr2+PXu0oiK6I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eLFRdO399yaKV8wv10OLz+kg9vnuKAfFED1Hv1YIOJcnwLkow7M1/qlQvjWVdZH5JSZoU8WTZkKSMUUPWlg92JiZ7kUeKdfeF/KwHvwNB1dzw4cKh6UPpBbgvhaZJKH4Mpxv0O0gZPqd+BeH1ztMZkrrxbck/zEDftG5MjrE7WY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ONDQ1rew; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqO/OBqz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43EC1C4CECE;
-	Mon, 14 Oct 2024 03:58:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONDQ1rew"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3718C4CEC3;
+	Mon, 14 Oct 2024 03:59:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728878336;
-	bh=l9CPfeX3T6QhLr8nM+G9xBjbSUfXhNiE8pZfFYilJyw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DqO/OBqzHi4XzDGLjIt4/5nQCYdScKwcrjGsSYo9328CXTKAndXih9LOp7L+YkQ1b
-	 5Q2TsYbLJSJ/9UQ5ab1/0ZsK4hLDzfkkisr9L7QdzA8h00A0En2Lfar09nJiMO/Mu9
-	 F92hZkQLtM53iuguCu2zDiguLb8GMbk6LND56E9OQPc9apyFyo5P3WOki4knhKiDL7
-	 Hje2lCkH0zCdJox8r1Hk6AxV925pU3oLXw38pYhnURt+k19pYKnsB879oVvkXKShCt
-	 +yNQdejFB607BejjBJc9gEpEE4luO6SH9fcUORgj8mQPN/5NB4nOnd2rsJOfaVzc85
-	 NkbnAsPPXu1+Q==
+	s=k20201202; t=1728878371;
+	bh=+pCTZq5gffnwaGyI/JHSLk7jHCYopxjr2+PXu0oiK6I=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ONDQ1rew2ldnG/1YAoRDfmB9UxzBjFPyhonOImpzaFkIBoMiUPxxG78DAtOsxjbbV
+	 4qG9X6SwKpXyj/Q96nKiO5qsLbLfCHV8GSLskgc/7lR4aq6F2d4A6P/PZRDqzI2xRS
+	 AY7ia8mZFf9x97D6JcgkZAGglX/QFN5X6vAxtLb+LBjGiTePbvO+i/guMAKCOJFROe
+	 cc6CLax0AyZqxXrxGRRKSEbS8PeeTOvmnCOGb21oZdmia8kR8Wr/KptOIx9U8aVhmM
+	 8dDvtghE1DsOddc7Lbb2Lkt/xxzyRTlnUve1aSfnJDXH+DBojVA/2PnemHkXOoNkcc
+	 sRzuJ/xKKXrpw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	syzbot+3bfd2cc059ab93efcdb4@syzkaller.appspotmail.com,
+Cc: Andrew Ballance <andrewjballance@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.1 05/10] fs/ntfs3: Additional check in ni_clear()
-Date: Sun, 13 Oct 2024 23:58:40 -0400
-Message-ID: <20241014035848.2247549-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 1/8] fs/ntfs3: Check if more than chunk-size bytes are written
+Date: Sun, 13 Oct 2024 23:59:16 -0400
+Message-ID: <20241014035929.2251266-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241014035848.2247549-1-sashal@kernel.org>
-References: <20241014035848.2247549-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -47,38 +44,38 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.112
+X-stable-base: Linux 5.15.167
 Content-Transfer-Encoding: 8bit
 
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+From: Andrew Ballance <andrewjballance@gmail.com>
 
-[ Upstream commit d178944db36b3369b78a08ba520de109b89bf2a9 ]
+[ Upstream commit 9931122d04c6d431b2c11b5bb7b10f28584067f0 ]
 
-Checking of NTFS_FLAGS_LOG_REPLAYING added to prevent access to
-uninitialized bitmap during replay process.
+A incorrectly formatted chunk may decompress into
+more than LZNT_CHUNK_SIZE bytes and a index out of bounds
+will occur in s_max_off.
 
-Reported-by: syzbot+3bfd2cc059ab93efcdb4@syzkaller.appspotmail.com
+Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/ntfs3/frecord.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ fs/ntfs3/lznt.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index b3299cda59622..44bcc9c7591d9 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -102,7 +102,9 @@ void ni_clear(struct ntfs_inode *ni)
- {
- 	struct rb_node *node;
+diff --git a/fs/ntfs3/lznt.c b/fs/ntfs3/lznt.c
+index 28f654561f279..09db01c1098cd 100644
+--- a/fs/ntfs3/lznt.c
++++ b/fs/ntfs3/lznt.c
+@@ -236,6 +236,9 @@ static inline ssize_t decompress_chunk(u8 *unc, u8 *unc_end, const u8 *cmpr,
  
--	if (!ni->vfs_inode.i_nlink && ni->mi.mrec && is_rec_inuse(ni->mi.mrec))
-+	if (!ni->vfs_inode.i_nlink && ni->mi.mrec &&
-+	    is_rec_inuse(ni->mi.mrec) &&
-+	    !(ni->mi.sbi->flags & NTFS_FLAGS_LOG_REPLAYING))
- 		ni_delete_all(ni);
- 
- 	al_destroy(ni);
+ 	/* Do decompression until pointers are inside range. */
+ 	while (up < unc_end && cmpr < cmpr_end) {
++		// return err if more than LZNT_CHUNK_SIZE bytes are written
++		if (up - unc > LZNT_CHUNK_SIZE)
++			return -EINVAL;
+ 		/* Correct index */
+ 		while (unc + s_max_off[index] < up)
+ 			index += 1;
 -- 
 2.43.0
 
