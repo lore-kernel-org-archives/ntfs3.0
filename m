@@ -1,76 +1,141 @@
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85551205AD6
-	for <ntfs3@lists.linux.dev>; Tue, 12 Nov 2024 03:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBF51A0BCF
+	for <ntfs3@lists.linux.dev>; Tue, 12 Nov 2024 04:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731381789; cv=none; b=S3iqer/sae3vy++CCuT28+YAdlc4eYIAJVfcRQqhOifG5uHJfQtHweFG5uRsn/l37XHF6q1wqi8FQlZ4ZSxUrvHnSQdpir7NgKnl0x6yQ6mqZPoMJ5Fa3/8MPuKWCFy0vKx3hGcbcslzo/NsTtVGxNanFdzXOcQrz8KFClM3kKg=
+	t=1731387554; cv=none; b=RZST0UtxXUSwjdARIEnBvmtYM5ZE9IcfNE495KKZ4xdjSvkMKwv6C1LWswwH+Egzia0BUe+2xtyuV1pkCMGt5E3ZmQjQ2oTQGUj9aoZgKVDtOd0tiLS4o9pw6Jnib4g0S1rChn/LnboXE4dUtVVeYICTeVmOsgzoFXfd+Ol2Y/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731381789; c=relaxed/simple;
-	bh=c59rq/7n3PHZV+Suo9gZ6Sof0WvUW1q/ji67zSE35eg=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=gZk6dSM4nKc0AqjJ3eJqMR+40nGnAByFdqk0RI8cwEwedYRBNBs7lpLgPaKUrZRqkpxKTRVvBaenDcUfJfQ37ARuSFL8xUJ7bUjCX+XEuuT7KvXOJpGLeI3lRIytH6sriYqqwhFw0UcfipQqEAGe3tpGEgZTRSiByHKs6bU7xK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-3a4e41e2732so70500365ab.2
-        for <ntfs3@lists.linux.dev>; Mon, 11 Nov 2024 19:23:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731381787; x=1731986587;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GmAGIQngpXa/1+2VC6uEAt5s/OZNY5/G7HFFw9+3pkI=;
-        b=ceVC7106xXLvTW7qKkJsdGXn8WVB4uQF02deA22rQIG7MShxWDuSuJ32ZehXrVDEj8
-         KUigm45+LzMiwMNzyKX92+mwB+V/OI5iqslZhP1UJObeZbYuYvUkZEPD9IfoUNOrOJkl
-         KWbhaQfRejc/sf6vqZTfn08YWwTtr5bNMky3OWPk4C47aPPRDA9lQOqpYMgTsaId8/cj
-         uTfCxcHVgllXFrv/TDW89aYROUWEE4VLQi2/ccSgvZMihYGD0lazmTD6b8hcjTIuovrj
-         CE3SfVLXsTYPgnBAtbNOtwbjWkXg7J0Q8czTWJOp27asCLtmIgSslBODT/Wf6KTMwIzg
-         lXnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWdqYkEdmCvlYqjxKF7mNmEspRp3I5k3vJzAJ6rytjzyjfPrjxG9gCXihDhTgtLbgm6J1CxQA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyAyhyzAl6R6lsqFGPCWHFlssQ/ZU2FRZtnMHhcxQVr0ZRXruDR
-	y0AGad7vBks1D7KYdlp3BUBx4AG71fasKaQgWgj23M+mVkvf0bT/OzfvI3ARnKsCND9bYWLuOFz
-	j/o8VrLrxv40NPr97LSkiEtMsSSVYRcEwxw2OGgVBrgIvB+1wjxCYM/A=
-X-Google-Smtp-Source: AGHT+IFnZynlEK9QhImG9NWvPseVWbTnlWM+8+8PwejoxDtnQc2IgH3PqxrpxZ8IU6RvIxJs5G11NXwh3DX79PwcdetZgOD4vPjM
+	s=arc-20240116; t=1731387554; c=relaxed/simple;
+	bh=5DH25WIw+//IB3q1u+V5RXS1KjYqBicunDdkKgSo7do=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=RzJdVYlj4ZFR2oqcjBtO96g3winWWiZBKzrtruJqn1eA78lhn02VA7XLxQYGdwYlEX++QCTVG1E9yNXL22AY4o4I3QKFj18KbSnmMLYdQDLsuJF5Vs4KgNsOvzjg0PuYo+neK7ipdC08wsdp7w87HUEXgPJ8wGoIpvgSs/41iYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=L+4VcAYu; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=L+4VcAYu; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="L+4VcAYu";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="L+4VcAYu"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 147581F392;
+	Tue, 12 Nov 2024 04:59:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1731387551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=bg+Dyzwg3x8KB+QLKlNLJTrf47vQEYWjVaY4dCwJE6I=;
+	b=L+4VcAYu4ptzxO34rWzWjV5F11ZOtavkJeuAFLM6bPcQs4i6SYtUM6mc4VtcVrzdtXTvxe
+	wwmZZcGkPADKRJfF2tMTfpJfA88Km377G6mgm35+Q3Jehoqq6n1b1rM6DwQI1riLbGm2IB
+	lP8iwToZavXyvBr6EtM4Q0pMBT828KA=
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=L+4VcAYu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1731387551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=bg+Dyzwg3x8KB+QLKlNLJTrf47vQEYWjVaY4dCwJE6I=;
+	b=L+4VcAYu4ptzxO34rWzWjV5F11ZOtavkJeuAFLM6bPcQs4i6SYtUM6mc4VtcVrzdtXTvxe
+	wwmZZcGkPADKRJfF2tMTfpJfA88Km377G6mgm35+Q3Jehoqq6n1b1rM6DwQI1riLbGm2IB
+	lP8iwToZavXyvBr6EtM4Q0pMBT828KA=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8CE6A13301;
+	Tue, 12 Nov 2024 04:59:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rJOcE53gMmf/TwAAD6G6ig
+	(envelope-from <wqu@suse.com>); Tue, 12 Nov 2024 04:59:09 +0000
+From: Qu Wenruo <wqu@suse.com>
+To: linux-btrfs@vger.kernel.org,
+	almaz.alexandrovich@paragon-software.com,
+	ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH] ntfs3: remove a_ops->write_begin/end() call backs
+Date: Tue, 12 Nov 2024 15:28:47 +1030
+Message-ID: <ec1574d80e4b98726e6005a31f3766d84810ca6a.1731387379.git.wqu@suse.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:348c:b0:3a5:e5cf:c5b6 with SMTP id
- e9e14a558f8ab-3a6f19e2641mr168214415ab.10.1731381786682; Mon, 11 Nov 2024
- 19:23:06 -0800 (PST)
-Date: Mon, 11 Nov 2024 19:23:06 -0800
-In-Reply-To: <000000000000307a8e0615918f2b@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6732ca1a.050a0220.1fb99c.0162.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] WARNING in attr_data_get_block (4)
-From: syzbot <syzbot+8e034d7422d389827720@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mail@seo-local.net, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 147581F392
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.com:dkim,suse.com:mid];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	RCPT_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[suse.com:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Flag: NO
 
-syzbot suspects this issue was fixed by commit:
+Currently a_ops->write_begin/end() helpers are only called by the
+following exported functions:
+- generic_perform_write()
+- generic_cont_expand_simple()
+- cont_write_begin()
+- page_symlink()
 
-commit 1fd21919de6de245b63066b8ee3cfba92e36f0e9
-Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Date:   Thu Aug 22 11:43:32 2024 +0000
+NTFS3 doesn't utilize any of the above functions, thus there is no need to
+assign write_begin() nor write_end() call backs in its
+address_space_operations structure.
 
-    fs/ntfs3: Stale inode instead of bad
+The functions ntfs_write_begin() and ntfs_write_end() are directly
+called inside ntfs_extend_initialized_size() only.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17d5b8c0580000
-start commit:   fe46a7dd189e Merge tag 'sound-6.9-rc1' of git://git.kernel..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1a07d5da4eb21586
-dashboard link: https://syzkaller.appspot.com/bug?extid=8e034d7422d389827720
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=171bf3a9180000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1084f189180000
+Signed-off-by: Qu Wenruo <wqu@suse.com>
+---
+ fs/ntfs3/inode.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-If the result looks correct, please mark the issue as fixed by replying with:
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index be04d2845bb7..6b4a11467c65 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -947,9 +947,6 @@ int ntfs_write_begin(struct file *file, struct address_space *mapping,
+ 	return err;
+ }
+ 
+-/*
+- * ntfs_write_end - Address_space_operations::write_end.
+- */
+ int ntfs_write_end(struct file *file, struct address_space *mapping, loff_t pos,
+ 		   u32 len, u32 copied, struct folio *folio, void *fsdata)
+ {
+@@ -2092,8 +2089,6 @@ const struct address_space_operations ntfs_aops = {
+ 	.read_folio	= ntfs_read_folio,
+ 	.readahead	= ntfs_readahead,
+ 	.writepages	= ntfs_writepages,
+-	.write_begin	= ntfs_write_begin,
+-	.write_end	= ntfs_write_end,
+ 	.direct_IO	= ntfs_direct_IO,
+ 	.bmap		= ntfs_bmap,
+ 	.dirty_folio	= block_dirty_folio,
+-- 
+2.47.0
 
-#syz fix: fs/ntfs3: Stale inode instead of bad
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
