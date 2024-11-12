@@ -1,141 +1,157 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBF51A0BCF
-	for <ntfs3@lists.linux.dev>; Tue, 12 Nov 2024 04:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BF020A5D6
+	for <ntfs3@lists.linux.dev>; Tue, 12 Nov 2024 05:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731387554; cv=none; b=RZST0UtxXUSwjdARIEnBvmtYM5ZE9IcfNE495KKZ4xdjSvkMKwv6C1LWswwH+Egzia0BUe+2xtyuV1pkCMGt5E3ZmQjQ2oTQGUj9aoZgKVDtOd0tiLS4o9pw6Jnib4g0S1rChn/LnboXE4dUtVVeYICTeVmOsgzoFXfd+Ol2Y/Q=
+	t=1731388449; cv=none; b=OhSBeQu8rzMUf4By369g3XLOTSR4OV24KMFfmpnP12ypxOwqAUeT4/71zWybo8KKMTqzZc0B6nDoojSEem/v3nSTCyUhp4Pbx/Z7BBtlx9W/DPUg6p2VbuckC61v0BZFB5D7Je46U9ovrsQoUS2yvyYS4BhpYgFmsxW2bmIpAOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731387554; c=relaxed/simple;
-	bh=5DH25WIw+//IB3q1u+V5RXS1KjYqBicunDdkKgSo7do=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=RzJdVYlj4ZFR2oqcjBtO96g3winWWiZBKzrtruJqn1eA78lhn02VA7XLxQYGdwYlEX++QCTVG1E9yNXL22AY4o4I3QKFj18KbSnmMLYdQDLsuJF5Vs4KgNsOvzjg0PuYo+neK7ipdC08wsdp7w87HUEXgPJ8wGoIpvgSs/41iYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=L+4VcAYu; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=L+4VcAYu; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1731388449; c=relaxed/simple;
+	bh=UVEZKpcKg9QCj/okJxJAdN+0jfe4PiYu++peCVwSkRo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=pyRKP+o+86QU+GxjGsFsPUxeda9AhEvhLN+lofivRSH14F69OdiHb2guAAfCqsHxh4QgMR+NaYMVixvn0OLPp5C4v/zBYJeE47PAx3zGYHkNfOWLBUv+QszrlOAXyL6K/yOJNMefvd7KXA4/nxOukSZgwkO11hFhfZ11xBZriBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UdkwGDZU; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="L+4VcAYu";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="L+4VcAYu"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 147581F392;
-	Tue, 12 Nov 2024 04:59:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1731387551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=bg+Dyzwg3x8KB+QLKlNLJTrf47vQEYWjVaY4dCwJE6I=;
-	b=L+4VcAYu4ptzxO34rWzWjV5F11ZOtavkJeuAFLM6bPcQs4i6SYtUM6mc4VtcVrzdtXTvxe
-	wwmZZcGkPADKRJfF2tMTfpJfA88Km377G6mgm35+Q3Jehoqq6n1b1rM6DwQI1riLbGm2IB
-	lP8iwToZavXyvBr6EtM4Q0pMBT828KA=
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=L+4VcAYu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1731387551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=bg+Dyzwg3x8KB+QLKlNLJTrf47vQEYWjVaY4dCwJE6I=;
-	b=L+4VcAYu4ptzxO34rWzWjV5F11ZOtavkJeuAFLM6bPcQs4i6SYtUM6mc4VtcVrzdtXTvxe
-	wwmZZcGkPADKRJfF2tMTfpJfA88Km377G6mgm35+Q3Jehoqq6n1b1rM6DwQI1riLbGm2IB
-	lP8iwToZavXyvBr6EtM4Q0pMBT828KA=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8CE6A13301;
-	Tue, 12 Nov 2024 04:59:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rJOcE53gMmf/TwAAD6G6ig
-	(envelope-from <wqu@suse.com>); Tue, 12 Nov 2024 04:59:09 +0000
-From: Qu Wenruo <wqu@suse.com>
-To: linux-btrfs@vger.kernel.org,
-	almaz.alexandrovich@paragon-software.com,
-	ntfs3@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH] ntfs3: remove a_ops->write_begin/end() call backs
-Date: Tue, 12 Nov 2024 15:28:47 +1030
-Message-ID: <ec1574d80e4b98726e6005a31f3766d84810ca6a.1731387379.git.wqu@suse.com>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UdkwGDZU"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53c779ef19cso6197820e87.3
+        for <ntfs3@lists.linux.dev>; Mon, 11 Nov 2024 21:14:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1731388445; x=1731993245; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:to:from:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hd0WkmLd9kzYTvtTQK7D8ZgWKJFvfwWeEsC/5QB0mEM=;
+        b=UdkwGDZUQAlIR2R0fmrtmPwd6P7BSp+pF91+NjnSUewJdwK2JMDpxLYJc2RgvbgL0V
+         hC/rId2nv63weShPr4QutaHtHpJzywk/qmzap2Qm16eilNDXMA1XO/nRFIkHBOE2hVMz
+         64VSvS6iR9BZtIGGNVbMRTuJ5F2fq4SgDZcDde178YYILIjtwr3eWIqKq0lWwxqeV9BW
+         0DOSOy5eIqgQjRmhnuqgEsGy0fF/FPveobEIlbN35Bq2vsxZgCc9jPEsmbW8ki/VNlfw
+         cqiO+rdLdg5X5q9tVcZUPKZFto+nmaMvRvjBDEAuPA5pfPiVQsGAfKb3O2OsbhwhH+u/
+         IXYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731388445; x=1731993245;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hd0WkmLd9kzYTvtTQK7D8ZgWKJFvfwWeEsC/5QB0mEM=;
+        b=L3qMRMdTteNKneV8l4ZXYj6uTbdxj6jlQNrtQZx/0k1x4i0/jLyvUFTaUkKGYVcsGZ
+         DWTQiltC9RAY2qIHV2dAn59opGZlxAVWJlVsnym/Uq8kQHDq8l4ARO+UnXj9q1X55ZFw
+         VlR0AAvNrNQYAKx99RRpe+++Iu+nwEqdP4SA9iAL1owcHomcPm45yn5dutWMpAOqJaqx
+         wwm4CW+AccbCh1zKebLuOjHBsv0FNd7AGTOsMK04PDSWlezSSFjHVmod+hfysrtV/Oe7
+         CXDTcUgfmkYwxXpDa2xwwzeL0KjvMxfFUalo6z07eUeYJb+TdF7IQDZECHVA5IFXTT5W
+         elEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUTyMSrGhjVh6nmXcBVbYQoDfiCuS5ILiTKwcjeYoTJzalbzU6QFjr+jdYd1VNuXnVZC2+RhQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx4G2i3YQHtrbSJjgvJ33hZDRqGI1ey+IV/baUiqNm8D8fFBXSi
+	pfgEqK6/duai3tJwPJ3s+rw2CCe6E2ZswCUWMlkrpLEFZkbZaIwF61zGQd9byQs=
+X-Google-Smtp-Source: AGHT+IEXnqHW4+Ek52zimsJLcvepmwzquh+E5iuwO/DWvtCanwp8ZSDOWJIERcxEjPpSZWE6+tVQAQ==
+X-Received: by 2002:a05:6512:b93:b0:539:f689:3c30 with SMTP id 2adb3069b0e04-53d86289e48mr6818187e87.20.1731388444655;
+        Mon, 11 Nov 2024 21:14:04 -0800 (PST)
+Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177dc835fsm84917375ad.41.2024.11.11.21.14.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Nov 2024 21:14:04 -0800 (PST)
+Message-ID: <e718febc-a73e-459a-8716-f0d70495eabd@suse.com>
+Date: Tue, 12 Nov 2024 15:43:59 +1030
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ntfs3: remove a_ops->write_begin/end() call backs
+From: Qu Wenruo <wqu@suse.com>
+To: linux-btrfs@vger.kernel.org, almaz.alexandrovich@paragon-software.com,
+ ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org
+References: <ec1574d80e4b98726e6005a31f3766d84810ca6a.1731387379.git.wqu@suse.com>
+Content-Language: en-US
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
+ Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
+ fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
+ 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
+ V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
+ rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
+ cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
+ qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
+ /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
+ o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
+ JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
+In-Reply-To: <ec1574d80e4b98726e6005a31f3766d84810ca6a.1731387379.git.wqu@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 147581F392
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.com:dkim,suse.com:mid];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	RCPT_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[suse.com:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Flag: NO
 
-Currently a_ops->write_begin/end() helpers are only called by the
-following exported functions:
-- generic_perform_write()
-- generic_cont_expand_simple()
-- cont_write_begin()
-- page_symlink()
 
-NTFS3 doesn't utilize any of the above functions, thus there is no need to
-assign write_begin() nor write_end() call backs in its
-address_space_operations structure.
 
-The functions ntfs_write_begin() and ntfs_write_end() are directly
-called inside ntfs_extend_initialized_size() only.
+在 2024/11/12 15:28, Qu Wenruo 写道:
+> Currently a_ops->write_begin/end() helpers are only called by the
+> following exported functions:
+> - generic_perform_write()
+> - generic_cont_expand_simple()
+> - cont_write_begin()
+> - page_symlink()
 
-Signed-off-by: Qu Wenruo <wqu@suse.com>
----
- fs/ntfs3/inode.c | 5 -----
- 1 file changed, 5 deletions(-)
+Please drop this patch.
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index be04d2845bb7..6b4a11467c65 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -947,9 +947,6 @@ int ntfs_write_begin(struct file *file, struct address_space *mapping,
- 	return err;
- }
- 
--/*
-- * ntfs_write_end - Address_space_operations::write_end.
-- */
- int ntfs_write_end(struct file *file, struct address_space *mapping, loff_t pos,
- 		   u32 len, u32 copied, struct folio *folio, void *fsdata)
- {
-@@ -2092,8 +2089,6 @@ const struct address_space_operations ntfs_aops = {
- 	.read_folio	= ntfs_read_folio,
- 	.readahead	= ntfs_readahead,
- 	.writepages	= ntfs_writepages,
--	.write_begin	= ntfs_write_begin,
--	.write_end	= ntfs_write_end,
- 	.direct_IO	= ntfs_direct_IO,
- 	.bmap		= ntfs_bmap,
- 	.dirty_folio	= block_dirty_folio,
--- 
-2.47.0
+There are two more exported callers:
+
+- __generic_file_write_iter()
+- generic_file_write_iter()
+
+And ntfs3 utilizes __generic_file_write_iter(), so the write_begin/end() 
+call backs are still required.
+
+Thanks,
+Qu
+
+> 
+> NTFS3 doesn't utilize any of the above functions, thus there is no need to
+> assign write_begin() nor write_end() call backs in its
+> address_space_operations structure.
+> 
+> The functions ntfs_write_begin() and ntfs_write_end() are directly
+> called inside ntfs_extend_initialized_size() only.
+> 
+> Signed-off-by: Qu Wenruo <wqu@suse.com>
+> ---
+>   fs/ntfs3/inode.c | 5 -----
+>   1 file changed, 5 deletions(-)
+> 
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index be04d2845bb7..6b4a11467c65 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -947,9 +947,6 @@ int ntfs_write_begin(struct file *file, struct address_space *mapping,
+>   	return err;
+>   }
+>   
+> -/*
+> - * ntfs_write_end - Address_space_operations::write_end.
+> - */
+>   int ntfs_write_end(struct file *file, struct address_space *mapping, loff_t pos,
+>   		   u32 len, u32 copied, struct folio *folio, void *fsdata)
+>   {
+> @@ -2092,8 +2089,6 @@ const struct address_space_operations ntfs_aops = {
+>   	.read_folio	= ntfs_read_folio,
+>   	.readahead	= ntfs_readahead,
+>   	.writepages	= ntfs_writepages,
+> -	.write_begin	= ntfs_write_begin,
+> -	.write_end	= ntfs_write_end,
+>   	.direct_IO	= ntfs_direct_IO,
+>   	.bmap		= ntfs_bmap,
+>   	.dirty_folio	= block_dirty_folio,
 
