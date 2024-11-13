@@ -1,157 +1,97 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BF020A5D6
-	for <ntfs3@lists.linux.dev>; Tue, 12 Nov 2024 05:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDB01FEFA0
+	for <ntfs3@lists.linux.dev>; Wed, 13 Nov 2024 11:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731388449; cv=none; b=OhSBeQu8rzMUf4By369g3XLOTSR4OV24KMFfmpnP12ypxOwqAUeT4/71zWybo8KKMTqzZc0B6nDoojSEem/v3nSTCyUhp4Pbx/Z7BBtlx9W/DPUg6p2VbuckC61v0BZFB5D7Je46U9ovrsQoUS2yvyYS4BhpYgFmsxW2bmIpAOI=
+	t=1731496046; cv=none; b=I9KvZkF8VEI0ULi6IDB1OcHaUDHceMM+cj5Fqk2rugqvpk6YcITfmgxRzSJeT4p9Gn6MkP0HPeTkz/JhIj/TVoq2k2zL0CRNSMJHC2QSTr+YnhzStS18EbJuvukKiccIF0UvIKKxFjtdcCx9JyP22bu6vmpeAE4j281PkuNQL70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731388449; c=relaxed/simple;
-	bh=UVEZKpcKg9QCj/okJxJAdN+0jfe4PiYu++peCVwSkRo=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
-	 In-Reply-To:Content-Type; b=pyRKP+o+86QU+GxjGsFsPUxeda9AhEvhLN+lofivRSH14F69OdiHb2guAAfCqsHxh4QgMR+NaYMVixvn0OLPp5C4v/zBYJeE47PAx3zGYHkNfOWLBUv+QszrlOAXyL6K/yOJNMefvd7KXA4/nxOukSZgwkO11hFhfZ11xBZriBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UdkwGDZU; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UdkwGDZU"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53c779ef19cso6197820e87.3
-        for <ntfs3@lists.linux.dev>; Mon, 11 Nov 2024 21:14:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1731388445; x=1731993245; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:to:from:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hd0WkmLd9kzYTvtTQK7D8ZgWKJFvfwWeEsC/5QB0mEM=;
-        b=UdkwGDZUQAlIR2R0fmrtmPwd6P7BSp+pF91+NjnSUewJdwK2JMDpxLYJc2RgvbgL0V
-         hC/rId2nv63weShPr4QutaHtHpJzywk/qmzap2Qm16eilNDXMA1XO/nRFIkHBOE2hVMz
-         64VSvS6iR9BZtIGGNVbMRTuJ5F2fq4SgDZcDde178YYILIjtwr3eWIqKq0lWwxqeV9BW
-         0DOSOy5eIqgQjRmhnuqgEsGy0fF/FPveobEIlbN35Bq2vsxZgCc9jPEsmbW8ki/VNlfw
-         cqiO+rdLdg5X5q9tVcZUPKZFto+nmaMvRvjBDEAuPA5pfPiVQsGAfKb3O2OsbhwhH+u/
-         IXYw==
+	s=arc-20240116; t=1731496046; c=relaxed/simple;
+	bh=SjEdKI+Kf2R/D5KyAWV7tYeKtJYT89P1xDRnIawO9Z4=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=GrDHKtTSzXFTz2pRadxVrcIa6bFx+8GoN3T0H/NX7FZ8/6c0CSuCU5HU+GHKW+ciNzsYL1XLnGXvrpL3BhWrartGY6VwtfEeylMjwnmvVWRFbA+yOdSCvOcq9eUe7wGqgoPukqbphU63zbcHqZvafZ9E4RhUGvxSrjNe9fEzjbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3a715ac91f6so7939275ab.2
+        for <ntfs3@lists.linux.dev>; Wed, 13 Nov 2024 03:07:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731388445; x=1731993245;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hd0WkmLd9kzYTvtTQK7D8ZgWKJFvfwWeEsC/5QB0mEM=;
-        b=L3qMRMdTteNKneV8l4ZXYj6uTbdxj6jlQNrtQZx/0k1x4i0/jLyvUFTaUkKGYVcsGZ
-         DWTQiltC9RAY2qIHV2dAn59opGZlxAVWJlVsnym/Uq8kQHDq8l4ARO+UnXj9q1X55ZFw
-         VlR0AAvNrNQYAKx99RRpe+++Iu+nwEqdP4SA9iAL1owcHomcPm45yn5dutWMpAOqJaqx
-         wwm4CW+AccbCh1zKebLuOjHBsv0FNd7AGTOsMK04PDSWlezSSFjHVmod+hfysrtV/Oe7
-         CXDTcUgfmkYwxXpDa2xwwzeL0KjvMxfFUalo6z07eUeYJb+TdF7IQDZECHVA5IFXTT5W
-         elEg==
-X-Forwarded-Encrypted: i=1; AJvYcCUTyMSrGhjVh6nmXcBVbYQoDfiCuS5ILiTKwcjeYoTJzalbzU6QFjr+jdYd1VNuXnVZC2+RhQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx4G2i3YQHtrbSJjgvJ33hZDRqGI1ey+IV/baUiqNm8D8fFBXSi
-	pfgEqK6/duai3tJwPJ3s+rw2CCe6E2ZswCUWMlkrpLEFZkbZaIwF61zGQd9byQs=
-X-Google-Smtp-Source: AGHT+IEXnqHW4+Ek52zimsJLcvepmwzquh+E5iuwO/DWvtCanwp8ZSDOWJIERcxEjPpSZWE6+tVQAQ==
-X-Received: by 2002:a05:6512:b93:b0:539:f689:3c30 with SMTP id 2adb3069b0e04-53d86289e48mr6818187e87.20.1731388444655;
-        Mon, 11 Nov 2024 21:14:04 -0800 (PST)
-Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177dc835fsm84917375ad.41.2024.11.11.21.14.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Nov 2024 21:14:04 -0800 (PST)
-Message-ID: <e718febc-a73e-459a-8716-f0d70495eabd@suse.com>
-Date: Tue, 12 Nov 2024 15:43:59 +1030
+        d=1e100.net; s=20230601; t=1731496044; x=1732100844;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ia67arJPZRlvAYh7PoL/9fY5Xwvq773i9uIxPQF94OA=;
+        b=n/jNtlN/6mHLAV2zWSMjvadzFst3OD/uZRSisBhUOXbkIHNe5AkNbfSN7aNM//pK7l
+         GfB6SXti3dt/OEhpBvA2GyxWSRxXHB0qLB7cMHIAWG8OBwkLz5KBwDT51e4u3pVIFkqH
+         +jE3EkS/fOe5nsZJVi4A2snyKYIBgFXfsK16einy7qIlR6pKxcvhcChRCMxXiOi5EsVM
+         YP5fLJcCZlkXcUmzb4fr3y0zBWWVOH7AtsMpQHQyltpaSNy3MmKFrhRem5qJK5y3F9dN
+         scsDe2VpN1ki63dFz2Xp1sqTzde7QATOV9UkIp2/qmGM/+awMWn30paLagFOQjwvNz3A
+         7qIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXD8/tbykwepE+iTHB4r1sR9l9O/OA2wh7iCQYnXt9KKfnM3gLv9sN1TkazIXY4ULoUbsB4cQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZkVs/peSu8s0+b0xOCqxykLHumGyNqzNbVcFQXX2XMIT6oqSV
+	qOEfSnciqu5P3osizv4SKbkCVjcuN6XjC1mqNGu2IuEqVjcESa/ke0zunEKJ1Qo00cNO5i5AyY9
+	OgKXQ2sOzLK3uylAKnz0aAxllCC4BcfQjN7N47M1dqorUcm+D4/UqLBQ=
+X-Google-Smtp-Source: AGHT+IHb1qQ281rd8LQ1YRUaOEUlsWojI7DHK9jf4xZnGydMEjXlCKwBSxGrPBN9YWVUkVgPxVqZrerO9cmUFkgZ2Vdbf0Z6JEp7
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ntfs3: remove a_ops->write_begin/end() call backs
-From: Qu Wenruo <wqu@suse.com>
-To: linux-btrfs@vger.kernel.org, almaz.alexandrovich@paragon-software.com,
- ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org
-References: <ec1574d80e4b98726e6005a31f3766d84810ca6a.1731387379.git.wqu@suse.com>
-Content-Language: en-US
-Autocrypt: addr=wqu@suse.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
- FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
- Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
- fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
- 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
- V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
- rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
- rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
- Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
- E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
- vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
- g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
- AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
- cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
- qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
- /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
- o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
- JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
-In-Reply-To: <ec1574d80e4b98726e6005a31f3766d84810ca6a.1731387379.git.wqu@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:388d:b0:3a6:aee2:1696 with SMTP id
+ e9e14a558f8ab-3a71578db17mr25270845ab.21.1731496043969; Wed, 13 Nov 2024
+ 03:07:23 -0800 (PST)
+Date: Wed, 13 Nov 2024 03:07:23 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6734886b.050a0220.2a2fcc.0009.GAE@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Nov 2024)
+From: syzbot <syzbot+liste07f67aea454cc1bcc00@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
+Hello ntfs3 maintainers/developers,
 
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-在 2024/11/12 15:28, Qu Wenruo 写道:
-> Currently a_ops->write_begin/end() helpers are only called by the
-> following exported functions:
-> - generic_perform_write()
-> - generic_cont_expand_simple()
-> - cont_write_begin()
-> - page_symlink()
+During the period, 5 new issues were detected and 0 were fixed.
+In total, 41 issues are still open and 57 have already been fixed.
 
-Please drop this patch.
+Some of the still happening issues:
 
-There are two more exported callers:
+Ref  Crashes Repro Title
+<1>  14466   Yes   kernel BUG in zero_user_segments
+                   https://syzkaller.appspot.com/bug?extid=78eeb671facb19832e95
+<2>  10502   Yes   kernel BUG in dnotify_free_mark
+                   https://syzkaller.appspot.com/bug?extid=06cc05ddc896f12b7ec5
+<3>  9346    Yes   KMSAN: uninit-value in longest_match_std (2)
+                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
+<4>  5539    Yes   possible deadlock in ntfs_read_folio
+                   https://syzkaller.appspot.com/bug?extid=8ef76b0b1f86c382ad37
+<5>  3780    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<6>  2983    Yes   possible deadlock in ntfs_fiemap
+                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+<7>  1538    Yes   possible deadlock in ntfs_file_mmap
+                   https://syzkaller.appspot.com/bug?extid=c1751b6739d83d70bb75
+<8>  1302    Yes   possible deadlock in attr_data_get_block (2)
+                   https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+<9>  529     Yes   kernel BUG in ntfs_extend_initialized_size
+                   https://syzkaller.appspot.com/bug?extid=39385e8595a092bae44b
+<10> 313     Yes   possible deadlock in ntfs_fallocate
+                   https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
 
-- __generic_file_write_iter()
-- generic_file_write_iter()
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-And ntfs3 utilizes __generic_file_write_iter(), so the write_begin/end() 
-call backs are still required.
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-Thanks,
-Qu
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
-> 
-> NTFS3 doesn't utilize any of the above functions, thus there is no need to
-> assign write_begin() nor write_end() call backs in its
-> address_space_operations structure.
-> 
-> The functions ntfs_write_begin() and ntfs_write_end() are directly
-> called inside ntfs_extend_initialized_size() only.
-> 
-> Signed-off-by: Qu Wenruo <wqu@suse.com>
-> ---
->   fs/ntfs3/inode.c | 5 -----
->   1 file changed, 5 deletions(-)
-> 
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index be04d2845bb7..6b4a11467c65 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -947,9 +947,6 @@ int ntfs_write_begin(struct file *file, struct address_space *mapping,
->   	return err;
->   }
->   
-> -/*
-> - * ntfs_write_end - Address_space_operations::write_end.
-> - */
->   int ntfs_write_end(struct file *file, struct address_space *mapping, loff_t pos,
->   		   u32 len, u32 copied, struct folio *folio, void *fsdata)
->   {
-> @@ -2092,8 +2089,6 @@ const struct address_space_operations ntfs_aops = {
->   	.read_folio	= ntfs_read_folio,
->   	.readahead	= ntfs_readahead,
->   	.writepages	= ntfs_writepages,
-> -	.write_begin	= ntfs_write_begin,
-> -	.write_end	= ntfs_write_end,
->   	.direct_IO	= ntfs_direct_IO,
->   	.bmap		= ntfs_bmap,
->   	.dirty_folio	= block_dirty_folio,
-
+You may send multiple commands in a single email message.
