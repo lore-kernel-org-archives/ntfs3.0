@@ -1,97 +1,178 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDB01FEFA0
-	for <ntfs3@lists.linux.dev>; Wed, 13 Nov 2024 11:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7075192D7D
+	for <ntfs3@lists.linux.dev>; Thu, 14 Nov 2024 18:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731496046; cv=none; b=I9KvZkF8VEI0ULi6IDB1OcHaUDHceMM+cj5Fqk2rugqvpk6YcITfmgxRzSJeT4p9Gn6MkP0HPeTkz/JhIj/TVoq2k2zL0CRNSMJHC2QSTr+YnhzStS18EbJuvukKiccIF0UvIKKxFjtdcCx9JyP22bu6vmpeAE4j281PkuNQL70=
+	t=1731607705; cv=none; b=VJ0h0liDEh7ZHY59e5g0h7B7xNZOJ4oOA0t72xFCEiFXNE5qMQn9elf72ZmVeGsCgaF7Kw0PL4otCfGTID4Md/xG4bGyFFr/YQR+criwa+HTxE0pze+vZTw276Xtrith/Td6SSPj/AiUC4MinDQs20sj2R4GG6s6Y1Ik+Lb6HkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731496046; c=relaxed/simple;
-	bh=SjEdKI+Kf2R/D5KyAWV7tYeKtJYT89P1xDRnIawO9Z4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=GrDHKtTSzXFTz2pRadxVrcIa6bFx+8GoN3T0H/NX7FZ8/6c0CSuCU5HU+GHKW+ciNzsYL1XLnGXvrpL3BhWrartGY6VwtfEeylMjwnmvVWRFbA+yOdSCvOcq9eUe7wGqgoPukqbphU63zbcHqZvafZ9E4RhUGvxSrjNe9fEzjbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+	s=arc-20240116; t=1731607705; c=relaxed/simple;
+	bh=Fh546p/rbytnmnE4xmmXpNeC62ADBchoQwOLmebb6dg=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=BC/Z3BWMinLLzR6qP09PVVNm4Ift0Cu4AEAZgDe/9yQhp81APSpYioSXVV9SG8D5/JOaYodqgpMVzTi64eWRTKRwgtIP9rS2o4QpdO5asNF75xFn/3HtNxQRzcck8HaUezxQJUcS0PU0ZIRUwEo3CshjqsXbRvgwiLUPAAH5IjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3a715ac91f6so7939275ab.2
-        for <ntfs3@lists.linux.dev>; Wed, 13 Nov 2024 03:07:24 -0800 (PST)
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-83ac1f28d2bso91863739f.0
+        for <ntfs3@lists.linux.dev>; Thu, 14 Nov 2024 10:08:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731496044; x=1732100844;
+        d=1e100.net; s=20230601; t=1731607703; x=1732212503;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ia67arJPZRlvAYh7PoL/9fY5Xwvq773i9uIxPQF94OA=;
-        b=n/jNtlN/6mHLAV2zWSMjvadzFst3OD/uZRSisBhUOXbkIHNe5AkNbfSN7aNM//pK7l
-         GfB6SXti3dt/OEhpBvA2GyxWSRxXHB0qLB7cMHIAWG8OBwkLz5KBwDT51e4u3pVIFkqH
-         +jE3EkS/fOe5nsZJVi4A2snyKYIBgFXfsK16einy7qIlR6pKxcvhcChRCMxXiOi5EsVM
-         YP5fLJcCZlkXcUmzb4fr3y0zBWWVOH7AtsMpQHQyltpaSNy3MmKFrhRem5qJK5y3F9dN
-         scsDe2VpN1ki63dFz2Xp1sqTzde7QATOV9UkIp2/qmGM/+awMWn30paLagFOQjwvNz3A
-         7qIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXD8/tbykwepE+iTHB4r1sR9l9O/OA2wh7iCQYnXt9KKfnM3gLv9sN1TkazIXY4ULoUbsB4cQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZkVs/peSu8s0+b0xOCqxykLHumGyNqzNbVcFQXX2XMIT6oqSV
-	qOEfSnciqu5P3osizv4SKbkCVjcuN6XjC1mqNGu2IuEqVjcESa/ke0zunEKJ1Qo00cNO5i5AyY9
-	OgKXQ2sOzLK3uylAKnz0aAxllCC4BcfQjN7N47M1dqorUcm+D4/UqLBQ=
-X-Google-Smtp-Source: AGHT+IHb1qQ281rd8LQ1YRUaOEUlsWojI7DHK9jf4xZnGydMEjXlCKwBSxGrPBN9YWVUkVgPxVqZrerO9cmUFkgZ2Vdbf0Z6JEp7
+        bh=nYUWis8KsVfXhccSEKlve2MsGBsC6w+q7AvNFF8Y2o8=;
+        b=r9Vlz+7AALBUcKQhdi5M/fPSpYFpdxEdHBhEwQHPDoicefcfwOheMxZi2UD+QWizNq
+         rmuVhJ1TxJZF0JlUusi5KZGViLdm07k2ULE/ph+bMkjnzXnkHmfAVQ08bZhWyxy1QuSX
+         kqBunZFn3C3G99VY9Rc7OdGWzit29bUrFFhmvoluj3CXLgOa+F8kY/Gvqnn34A+6m6i2
+         MfRF0DcjCEz3op1xuRT0/ggB326dfXqmEcfZAgAxECuLIiv7BMYaJuRl3Aq9UoEa6eLz
+         gbrtRq/vl1VJ8qe9otk9p0dIOOqgaGwYVj8JRJz3h3oSb29TJIHuD/hPwWsh7i8A/bWl
+         HiCg==
+X-Forwarded-Encrypted: i=1; AJvYcCWbPRS8lfKOLoR7LTOfP+dndZ2AD4AtGxMyAv4RmCqcNz9q83N+aN+576mOlYihwNMhcc2ntw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxoX5NK+5qzP0tWVmCXZYwvhyD2hVxLndiLpiwWhLLrObEHFzGo
+	oAv6TlLWTtvxNG9Kw+G6eZzwDkY62yZ9LDpYMMnyZ6gTwmdyQ5pqAdCsfytMGy4ZDvvl/h5oN3e
+	qBDVD7sGxMdJeerqT/iTP9A7cOAUHUeH7dHOo2DtWX2MFuMIytTkFuDo=
+X-Google-Smtp-Source: AGHT+IFq6SFhWwnQ9PZNjtTiqyXxdVsTm550kHY7vQfZVeh6jyu86UqZI15Mqv0mQXXtG+siqPtRkkJDaKCTj9PI2KstP09Ca1xv
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:388d:b0:3a6:aee2:1696 with SMTP id
- e9e14a558f8ab-3a71578db17mr25270845ab.21.1731496043969; Wed, 13 Nov 2024
- 03:07:23 -0800 (PST)
-Date: Wed, 13 Nov 2024 03:07:23 -0800
+X-Received: by 2002:a92:c26c:0:b0:3a7:1e78:330b with SMTP id
+ e9e14a558f8ab-3a71e78347dmr41965255ab.17.1731607702829; Thu, 14 Nov 2024
+ 10:08:22 -0800 (PST)
+Date: Thu, 14 Nov 2024 10:08:22 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6734886b.050a0220.2a2fcc.0009.GAE@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Nov 2024)
-From: syzbot <syzbot+liste07f67aea454cc1bcc00@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Message-ID: <67363c96.050a0220.1324f8.009e.GAE@google.com>
+Subject: [syzbot] [ntfs3?] general protection fault in pick_link
+From: syzbot <syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, brauner@kernel.org, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
 Content-Type: text/plain; charset="UTF-8"
 
-Hello ntfs3 maintainers/developers,
+Hello,
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+syzbot found the following issue on:
 
-During the period, 5 new issues were detected and 0 were fixed.
-In total, 41 issues are still open and 57 have already been fixed.
+HEAD commit:    a9cda7c0ffed Merge tag 'irq_urgent_for_v6.12_rc7' of git:/..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11e55ea7980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=64aa0d9945bd5c1
+dashboard link: https://syzkaller.appspot.com/bug?extid=73d8fc29ec7cba8286fa
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=133fe35f980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13e93e30580000
 
-Some of the still happening issues:
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-a9cda7c0.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/29b6746965e0/vmlinux-a9cda7c0.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/455959afbe37/bzImage-a9cda7c0.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/d478326f6d12/mount_0.gz
 
-Ref  Crashes Repro Title
-<1>  14466   Yes   kernel BUG in zero_user_segments
-                   https://syzkaller.appspot.com/bug?extid=78eeb671facb19832e95
-<2>  10502   Yes   kernel BUG in dnotify_free_mark
-                   https://syzkaller.appspot.com/bug?extid=06cc05ddc896f12b7ec5
-<3>  9346    Yes   KMSAN: uninit-value in longest_match_std (2)
-                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
-<4>  5539    Yes   possible deadlock in ntfs_read_folio
-                   https://syzkaller.appspot.com/bug?extid=8ef76b0b1f86c382ad37
-<5>  3780    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
-                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
-<6>  2983    Yes   possible deadlock in ntfs_fiemap
-                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
-<7>  1538    Yes   possible deadlock in ntfs_file_mmap
-                   https://syzkaller.appspot.com/bug?extid=c1751b6739d83d70bb75
-<8>  1302    Yes   possible deadlock in attr_data_get_block (2)
-                   https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
-<9>  529     Yes   kernel BUG in ntfs_extend_initialized_size
-                   https://syzkaller.appspot.com/bug?extid=39385e8595a092bae44b
-<10> 313     Yes   possible deadlock in ntfs_fallocate
-                   https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 4096
+ntfs3(loop0): Different NTFS sector size (4096) and media sector size (512).
+ntfs3(loop0): ino=1b, "file0" attr_set_size
+ntfs3(loop0): Mark volume as dirty due to NTFS errors
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] PREEMPT SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 0 UID: 0 PID: 5310 Comm: syz-executor255 Not tainted 6.12.0-rc6-syzkaller-00318-ga9cda7c0ffed #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+RIP: 0010:pick_link+0x51c/0xd50 fs/namei.c:1864
+Code: c1 e8 03 42 80 3c 38 00 74 08 48 89 df e8 fc 00 e9 ff 48 8b 2b 48 85 ed 0f 84 92 00 00 00 e8 7b 36 7f ff 48 89 e8 48 c1 e8 03 <42> 0f b6 04 38 84 c0 0f 85 a2 05 00 00 0f b6 5d 00 bf 2f 00 00 00
+RSP: 0018:ffffc9000d147998 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff88804558dec8 RCX: ffff88801ec7a440
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000002 R08: ffffffff8215a35f R09: 1ffffffff203a13d
+R10: dffffc0000000000 R11: fffffbfff203a13e R12: 1ffff92001a28f93
+R13: ffffc9000d147af8 R14: 1ffff92001a28f5f R15: dffffc0000000000
+FS:  0000555577611380(0000) GS:ffff88801fc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fcc0a595ed8 CR3: 0000000035760000 CR4: 0000000000352ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ step_into+0xca9/0x1080 fs/namei.c:1923
+ lookup_last fs/namei.c:2556 [inline]
+ path_lookupat+0x16f/0x450 fs/namei.c:2580
+ filename_lookup+0x256/0x610 fs/namei.c:2609
+ user_path_at+0x3a/0x60 fs/namei.c:3016
+ do_mount fs/namespace.c:3844 [inline]
+ __do_sys_mount fs/namespace.c:4057 [inline]
+ __se_sys_mount+0x297/0x3c0 fs/namespace.c:4034
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f4b18ad5b19
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc2e486c48 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0030656c69662f2e RCX: 00007f4b18ad5b19
+RDX: 0000000000000000 RSI: 00000000200000c0 RDI: 0000000000000000
+RBP: 00007f4b18b685f0 R08: 0000000000000000 R09: 00005555776124c0
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffc2e486c70
+R13: 00007ffc2e486e98 R14: 431bde82d7b634db R15: 00007f4b18b1e03b
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:pick_link+0x51c/0xd50 fs/namei.c:1864
+Code: c1 e8 03 42 80 3c 38 00 74 08 48 89 df e8 fc 00 e9 ff 48 8b 2b 48 85 ed 0f 84 92 00 00 00 e8 7b 36 7f ff 48 89 e8 48 c1 e8 03 <42> 0f b6 04 38 84 c0 0f 85 a2 05 00 00 0f b6 5d 00 bf 2f 00 00 00
+RSP: 0018:ffffc9000d147998 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff88804558dec8 RCX: ffff88801ec7a440
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000002 R08: ffffffff8215a35f R09: 1ffffffff203a13d
+R10: dffffc0000000000 R11: fffffbfff203a13e R12: 1ffff92001a28f93
+R13: ffffc9000d147af8 R14: 1ffff92001a28f5f R15: dffffc0000000000
+FS:  0000555577611380(0000) GS:ffff88801fc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fcc0a595ed8 CR3: 0000000035760000 CR4: 0000000000352ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	c1 e8 03             	shr    $0x3,%eax
+   3:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1)
+   8:	74 08                	je     0x12
+   a:	48 89 df             	mov    %rbx,%rdi
+   d:	e8 fc 00 e9 ff       	call   0xffe9010e
+  12:	48 8b 2b             	mov    (%rbx),%rbp
+  15:	48 85 ed             	test   %rbp,%rbp
+  18:	0f 84 92 00 00 00    	je     0xb0
+  1e:	e8 7b 36 7f ff       	call   0xff7f369e
+  23:	48 89 e8             	mov    %rbp,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 0f b6 04 38       	movzbl (%rax,%r15,1),%eax <-- trapping instruction
+  2f:	84 c0                	test   %al,%al
+  31:	0f 85 a2 05 00 00    	jne    0x5d9
+  37:	0f b6 5d 00          	movzbl 0x0(%rbp),%ebx
+  3b:	bf 2f 00 00 00       	mov    $0x2f,%edi
+
 
 ---
 This report is generated by a bot. It may contain errors.
 See https://goo.gl/tpsmEJ for more information about syzbot.
 syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-You may send multiple commands in a single email message.
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
