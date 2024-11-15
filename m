@@ -1,84 +1,74 @@
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7075192D7D
-	for <ntfs3@lists.linux.dev>; Thu, 14 Nov 2024 18:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6C318CC10
+	for <ntfs3@lists.linux.dev>; Fri, 15 Nov 2024 09:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731607705; cv=none; b=VJ0h0liDEh7ZHY59e5g0h7B7xNZOJ4oOA0t72xFCEiFXNE5qMQn9elf72ZmVeGsCgaF7Kw0PL4otCfGTID4Md/xG4bGyFFr/YQR+criwa+HTxE0pze+vZTw276Xtrith/Td6SSPj/AiUC4MinDQs20sj2R4GG6s6Y1Ik+Lb6HkA=
+	t=1731664173; cv=none; b=JzL6nfg8EUBuJ+Hyci/vF4Y6mpHAJpAC3hxrhs7u2FUVqhg6R5Xz/QOmEzKxb0Zr8UJ6rBGaG2zyeyqx6iJ+VwqEB2b2FjSH2nF7UdCC796whY6WOCQga5g1KLIeEUYjd6AP9RgT54Mgyf0mKtlgAor7q5F9sHgpsArxl8XDzmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731607705; c=relaxed/simple;
-	bh=Fh546p/rbytnmnE4xmmXpNeC62ADBchoQwOLmebb6dg=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=BC/Z3BWMinLLzR6qP09PVVNm4Ift0Cu4AEAZgDe/9yQhp81APSpYioSXVV9SG8D5/JOaYodqgpMVzTi64eWRTKRwgtIP9rS2o4QpdO5asNF75xFn/3HtNxQRzcck8HaUezxQJUcS0PU0ZIRUwEo3CshjqsXbRvgwiLUPAAH5IjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-83ac1f28d2bso91863739f.0
-        for <ntfs3@lists.linux.dev>; Thu, 14 Nov 2024 10:08:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731607703; x=1732212503;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nYUWis8KsVfXhccSEKlve2MsGBsC6w+q7AvNFF8Y2o8=;
-        b=r9Vlz+7AALBUcKQhdi5M/fPSpYFpdxEdHBhEwQHPDoicefcfwOheMxZi2UD+QWizNq
-         rmuVhJ1TxJZF0JlUusi5KZGViLdm07k2ULE/ph+bMkjnzXnkHmfAVQ08bZhWyxy1QuSX
-         kqBunZFn3C3G99VY9Rc7OdGWzit29bUrFFhmvoluj3CXLgOa+F8kY/Gvqnn34A+6m6i2
-         MfRF0DcjCEz3op1xuRT0/ggB326dfXqmEcfZAgAxECuLIiv7BMYaJuRl3Aq9UoEa6eLz
-         gbrtRq/vl1VJ8qe9otk9p0dIOOqgaGwYVj8JRJz3h3oSb29TJIHuD/hPwWsh7i8A/bWl
-         HiCg==
-X-Forwarded-Encrypted: i=1; AJvYcCWbPRS8lfKOLoR7LTOfP+dndZ2AD4AtGxMyAv4RmCqcNz9q83N+aN+576mOlYihwNMhcc2ntw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxoX5NK+5qzP0tWVmCXZYwvhyD2hVxLndiLpiwWhLLrObEHFzGo
-	oAv6TlLWTtvxNG9Kw+G6eZzwDkY62yZ9LDpYMMnyZ6gTwmdyQ5pqAdCsfytMGy4ZDvvl/h5oN3e
-	qBDVD7sGxMdJeerqT/iTP9A7cOAUHUeH7dHOo2DtWX2MFuMIytTkFuDo=
-X-Google-Smtp-Source: AGHT+IFq6SFhWwnQ9PZNjtTiqyXxdVsTm550kHY7vQfZVeh6jyu86UqZI15Mqv0mQXXtG+siqPtRkkJDaKCTj9PI2KstP09Ca1xv
+	s=arc-20240116; t=1731664173; c=relaxed/simple;
+	bh=E9X5/BJ0HyAu7U+C8rsmIJ2doYhTV/TI3FjfSQcUXI4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jlfgHEmxXplDecRr+sNOJHEHVascw+vdkCyeultM5D/88or4yKhWQJ8qJVdXiSlY5OjfM0TAod20n+hggvIgrTe8BQ80AseG5v91SSGAyydVEohqZjJrBO4giO16/DFahrP6TxJCYfQoU0/JRYS6cb528NlS3RRbrPLJhOMN8BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.166.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AF6NtsH016559;
+	Fri, 15 Nov 2024 01:49:12 -0800
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42uwpmmy8y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 15 Nov 2024 01:49:12 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Fri, 15 Nov 2024 01:49:11 -0800
+Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Fri, 15 Nov 2024 01:49:09 -0800
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com>
+CC: <almaz.alexandrovich@paragon-software.com>, <brauner@kernel.org>,
+        <jack@suse.cz>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <ntfs3@lists.linux.dev>,
+        <syzkaller-bugs@googlegroups.com>, <viro@zeniv.linux.org.uk>
+Subject: [PATCH] fs: add check for symlink corrupted
+Date: Fri, 15 Nov 2024 17:49:08 +0800
+Message-ID: <20241115094908.3783952-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <67363c96.050a0220.1324f8.009e.GAE@google.com>
+References: <67363c96.050a0220.1324f8.009e.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a92:c26c:0:b0:3a7:1e78:330b with SMTP id
- e9e14a558f8ab-3a71e78347dmr41965255ab.17.1731607702829; Thu, 14 Nov 2024
- 10:08:22 -0800 (PST)
-Date: Thu, 14 Nov 2024 10:08:22 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67363c96.050a0220.1324f8.009e.GAE@google.com>
-Subject: [syzbot] [ntfs3?] general protection fault in pick_link
-From: syzbot <syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, brauner@kernel.org, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
-	viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: UVmAmIj2gE77aTnkDOB-iqGYsMhwEuEt
+X-Authority-Analysis: v=2.4 cv=ZdlPNdVA c=1 sm=1 tr=0 ts=67371918 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8 a=VlfE0Wjl4eU6NXOjZBMA:9 a=DcSpbTIhAlouE1Uv7lRv:22
+ a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: UVmAmIj2gE77aTnkDOB-iqGYsMhwEuEt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-14_05,2024-11-14_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ adultscore=0 mlxlogscore=737 clxscore=1011 impostorscore=0
+ lowpriorityscore=0 phishscore=0 mlxscore=0 priorityscore=1501 spamscore=0
+ suspectscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2411150082
 
-Hello,
+syzbot reported a null-ptr-deref in pick_link. [1]
+When symlink's inode is corrupted, the value of the i_link is 2 in this case,
+it will trigger null pointer deref when accessing *res in pick_link(). 
 
-syzbot found the following issue on:
+To avoid this issue, add a check for inode mode, return -EINVAL when it's
+not symlink.
 
-HEAD commit:    a9cda7c0ffed Merge tag 'irq_urgent_for_v6.12_rc7' of git:/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11e55ea7980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=64aa0d9945bd5c1
-dashboard link: https://syzkaller.appspot.com/bug?extid=73d8fc29ec7cba8286fa
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=133fe35f980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13e93e30580000
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-a9cda7c0.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/29b6746965e0/vmlinux-a9cda7c0.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/455959afbe37/bzImage-a9cda7c0.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/d478326f6d12/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com
-
-loop0: detected capacity change from 0 to 4096
-ntfs3(loop0): Different NTFS sector size (4096) and media sector size (512).
-ntfs3(loop0): ino=1b, "file0" attr_set_size
-ntfs3(loop0): Mark volume as dirty due to NTFS errors
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] PREEMPT SMP KASAN NOPTI
+[1]
 KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
 CPU: 0 UID: 0 PID: 5310 Comm: syz-executor255 Not tainted 6.12.0-rc6-syzkaller-00318-ga9cda7c0ffed #0
 Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
@@ -117,62 +107,28 @@ RBP: 00007f4b18b685f0 R08: 0000000000000000 R09: 00005555776124c0
 R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffc2e486c70
 R13: 00007ffc2e486e98 R14: 431bde82d7b634db R15: 00007f4b18b1e03b
  </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:pick_link+0x51c/0xd50 fs/namei.c:1864
-Code: c1 e8 03 42 80 3c 38 00 74 08 48 89 df e8 fc 00 e9 ff 48 8b 2b 48 85 ed 0f 84 92 00 00 00 e8 7b 36 7f ff 48 89 e8 48 c1 e8 03 <42> 0f b6 04 38 84 c0 0f 85 a2 05 00 00 0f b6 5d 00 bf 2f 00 00 00
-RSP: 0018:ffffc9000d147998 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: ffff88804558dec8 RCX: ffff88801ec7a440
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000002 R08: ffffffff8215a35f R09: 1ffffffff203a13d
-R10: dffffc0000000000 R11: fffffbfff203a13e R12: 1ffff92001a28f93
-R13: ffffc9000d147af8 R14: 1ffff92001a28f5f R15: dffffc0000000000
-FS:  0000555577611380(0000) GS:ffff88801fc00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fcc0a595ed8 CR3: 0000000035760000 CR4: 0000000000352ef0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	c1 e8 03             	shr    $0x3,%eax
-   3:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1)
-   8:	74 08                	je     0x12
-   a:	48 89 df             	mov    %rbx,%rdi
-   d:	e8 fc 00 e9 ff       	call   0xffe9010e
-  12:	48 8b 2b             	mov    (%rbx),%rbp
-  15:	48 85 ed             	test   %rbp,%rbp
-  18:	0f 84 92 00 00 00    	je     0xb0
-  1e:	e8 7b 36 7f ff       	call   0xff7f369e
-  23:	48 89 e8             	mov    %rbp,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	42 0f b6 04 38       	movzbl (%rax,%r15,1),%eax <-- trapping instruction
-  2f:	84 c0                	test   %al,%al
-  31:	0f 85 a2 05 00 00    	jne    0x5d9
-  37:	0f b6 5d 00          	movzbl 0x0(%rbp),%ebx
-  3b:	bf 2f 00 00 00       	mov    $0x2f,%edi
 
-
+Reported-and-tested-by: syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=73d8fc29ec7cba8286fa
+Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/namei.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/namei.c b/fs/namei.c
+index 4a4a22a08ac2..f5dbccb3aafc 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -1844,6 +1844,9 @@ static const char *pick_link(struct nameidata *nd, struct path *link,
+ 	if (unlikely(error))
+ 		return ERR_PTR(error);
+ 
++	if (!S_ISLNK(inode->i_mode))
++		return ERR_PTR(-EINVAL);
++
+ 	res = READ_ONCE(inode->i_link);
+ 	if (!res) {
+ 		const char * (*get)(struct dentry *, struct inode *,
+-- 
+2.43.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
