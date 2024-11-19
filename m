@@ -1,76 +1,158 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DA514A635
-	for <ntfs3@lists.linux.dev>; Mon, 18 Nov 2024 06:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C935F1459F6
+	for <ntfs3@lists.linux.dev>; Tue, 19 Nov 2024 11:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731913085; cv=none; b=ttedMGJjsYRVpya0+NtmOmZCB+WIOkvRBeYeoNWBvzISJOBQwaoS8GW6Ou4qfTzBLLIRsG8XOrEDEE6YTPsLlBJ4k1XoOn1qTt1XkwdGAy0rhXoA9OyVsfhhmdsDEF3Exy2w/56ugWcxIu1HPKFpe2PvgWEtbHDajrOSDoYf4+k=
+	t=1732015796; cv=none; b=NtUkA3VJlgCMdoqvBnh15RhpOMpYxFvtSs8FryDRR4wFzrjz3xyWHEz7q8SuXZ4JK3O5dAx9GtNT2S8n1MJHuJTP1EjJeJFHaoZtS+naKmFbX9qA/d9jG/olIvNen3BOm3AgQRqnbBLioHPIoAVsqEtKoJHPwCoSWcUpv9GqC2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731913085; c=relaxed/simple;
-	bh=xphumfc+8v+hZxlhemmR0uazoP3uH9uQvMf4ECWjmcU=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=YK3TY8WMuOTARkzIaRZSX1KqpsdxauyF2U44y4clwj2ZsjGOcIwwUrlBY3ClmfiC9b/mh9h51wKTWexohxKO00b2+QUzAiaCogI12Ob5iWn3KDVz6cFWOhsiVVpnh+vFiMxirr+M/7XpFB88ftpKAsumwqWjLEB9XCirVibhBbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-3a7162d1485so42829125ab.0
-        for <ntfs3@lists.linux.dev>; Sun, 17 Nov 2024 22:58:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731913083; x=1732517883;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WTxLF36+Z28UFe0muHYp/+Q2EWoocHPS7WBe2Dr+vRg=;
-        b=U6oN6YCUKS+SybElAFn6WUdmM9wnzKVFdEXFlNBJY2XNzWVWpHaDXq2IzQ0TabaDep
-         /dXLertPmLHrS2e9ZDneVxhtvdcpM66oZnD8/tIhwbyox04QyIGBoSMNZXEfnbLSqtq6
-         nRrdJA47SXsr0K7n/q3Mhz38NALszp/A72SUAjoK6LJWONTmYSx7WPS2vR7ivVNRmsm7
-         299RXavvzFEeM/MCa3D+g3Sb435+qvCpfTKEqMN+cbBQwoWExe5kk11w4wqWGYjrfwYd
-         20zzZ8EJlfw3fIvaK1Z0QE8BvK82lGBoZcDuO053cvjvrD2EqN+mu5BQhmVobOkW66Dz
-         DJbw==
-X-Forwarded-Encrypted: i=1; AJvYcCXY01PEgmiePuRhKgE3gUUY7TXy5dZB5lxcLhiRbzNDhzuJCsW12NhH0BIE6rOq5skp0ytB8g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzh5dEKDfdvVyK2EsfhVFeVVA43zGesj8cH7zgx4nsKbeVM4XGt
-	rFAMX3Vq36a4Z90VRvmrJlCMzjuevZL/ejHacEiE2+JXI1j9CirmQngWtYsaO6uJwTe7NDnKzoK
-	Ifxa9Q3QYD+VOwRDevmtEUe3q5xqCWY3/c0yslnVORZLUFSogkyKDAMw=
-X-Google-Smtp-Source: AGHT+IHykOYzKiqHu0/8fmHWY2+qsP6dgdXZ51ll9DidWZFeQmHKuBeoMcXUuokaEkqdT/NY2QQr+X8bO8wpwKvRARIGH55UQqAg
+	s=arc-20240116; t=1732015796; c=relaxed/simple;
+	bh=1lFIcRb9qoRuN9aLYUQMbGjnYMhTsgPxp1CrEUn/gHI=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bml4MvrIO/jN0U88Q+aWmwm3Kne9UCSE/S/5lY/aOWKOPGYpYPt9BeA+orPql18MzBAIo9TYVAJLfplMWvK8/rrIsO0hAUQtKA/9zrNNF2xZWA+NOglvG10CpHhzpagZPx/p366LjXs2XKI//mb4Kupw/y1amdeYRNI+qekWntE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.178.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AJ7p93Q006003;
+	Tue, 19 Nov 2024 11:29:50 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42xjc8avwy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 19 Nov 2024 11:29:49 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Tue, 19 Nov 2024 03:29:48 -0800
+Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Tue, 19 Nov 2024 03:29:46 -0800
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <viro@zeniv.linux.org.uk>
+CC: <almaz.alexandrovich@paragon-software.com>, <brauner@kernel.org>,
+        <jack@suse.cz>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <lizhi.xu@windriver.com>,
+        <ntfs3@lists.linux.dev>,
+        <syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: [PATCH V2] fs: improve the check of whether i_link has been set
+Date: Tue, 19 Nov 2024 19:29:45 +0800
+Message-ID: <20241119112945.767118-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241116023241.GZ3387508@ZenIV>
+References: <20241116023241.GZ3387508@ZenIV>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1c28:b0:3a7:66e0:a96b with SMTP id
- e9e14a558f8ab-3a766e0ad62mr22425045ab.7.1731913082968; Sun, 17 Nov 2024
- 22:58:02 -0800 (PST)
-Date: Sun, 17 Nov 2024 22:58:02 -0800
-In-Reply-To: <0000000000000fc50405eb48a1be@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <673ae57a.050a0220.87769.0025.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] possible deadlock in ni_fiemap
-From: syzbot <syzbot+c300ab283ba3bc072439@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, axboe@kernel.dk, 
-	brauner@kernel.org, jack@suse.cz, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: FN9QB39rltRAUrdKUNEAg6XhTFkjfWQk
+X-Authority-Analysis: v=2.4 cv=R6hRGsRX c=1 sm=1 tr=0 ts=673c76ad cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VlfZXiiP6vEA:10 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8 a=mg1Wa837EIQHRb_qIgQA:9 a=DcSpbTIhAlouE1Uv7lRv:22
+ a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: FN9QB39rltRAUrdKUNEAg6XhTFkjfWQk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-19_03,2024-11-18_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
+ mlxscore=0 malwarescore=0 adultscore=0 spamscore=0 mlxlogscore=877
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2409260000 definitions=main-2411190083
 
-syzbot suspects this issue was fixed by commit:
+syzbot reported a null-ptr-deref in pick_link. [1]
 
-commit 6f861765464f43a71462d52026fbddfc858239a5
-Author: Jan Kara <jack@suse.cz>
-Date:   Wed Nov 1 17:43:10 2023 +0000
+First, i_link and i_dir_seq are in the same union, they share the same memory
+address, and i_dir_seq will be updated during the execution of walk_component,
+which makes the value of i_link equal to i_dir_seq.
+In this case, setting i_dir_seq is triggered by move_mount, and the calltrace
+is as follows:
+move_mount()->
+  user_path_at()->
+    filename_lookup()->
+      path_lookupat()->
+        lookup_last()->
+          walk_component()->
+            __lookup_slow()->
+              ntfs_lookup()->
+                d_splice_alias()->
+                  __d_add()->
+                    end_dir_add()
 
-    fs: Block writes to mounted block devices
+In pick_link(), the simple "if (!i_link)" is used to determine whether i_link
+has been set, which is not rigorous enough.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=120c0ac0580000
-start commit:   d537ae43f8a1 Merge tag 'gpio-fixes-for-v6.6-rc7' of git://..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=849fe52ba7c6d78a
-dashboard link: https://syzkaller.appspot.com/bug?extid=c300ab283ba3bc072439
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1056076d680000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17093269680000
+On the other hand, the mode value of the symlink inode becomes REG because
+attr_set_size() fails to set the attribute and calls ntfs_bad_inode().
+By confirming that the i_link pointer value is valid, the null-ptr-deref
+problem in pick_link can be avoided.
 
-If the result looks correct, please mark the issue as fixed by replying with:
+[1]
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 0 UID: 0 PID: 5310 Comm: syz-executor255 Not tainted 6.12.0-rc6-syzkaller-00318-ga9cda7c0ffed #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+RIP: 0010:pick_link+0x51c/0xd50 fs/namei.c:1864
+Code: c1 e8 03 42 80 3c 38 00 74 08 48 89 df e8 fc 00 e9 ff 48 8b 2b 48 85 ed 0f 84 92 00 00 00 e8 7b 36 7f ff 48 89 e8 48 c1 e8 03 <42> 0f b6 04 38 84 c0 0f 85 a2 05 00 00 0f b6 5d 00 bf 2f 00 00 00
+RSP: 0018:ffffc9000d147998 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff88804558dec8 RCX: ffff88801ec7a440
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000002 R08: ffffffff8215a35f R09: 1ffffffff203a13d
+R10: dffffc0000000000 R11: fffffbfff203a13e R12: 1ffff92001a28f93
+R13: ffffc9000d147af8 R14: 1ffff92001a28f5f R15: dffffc0000000000
+FS:  0000555577611380(0000) GS:ffff88801fc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fcc0a595ed8 CR3: 0000000035760000 CR4: 0000000000352ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ step_into+0xca9/0x1080 fs/namei.c:1923
+ lookup_last fs/namei.c:2556 [inline]
+ path_lookupat+0x16f/0x450 fs/namei.c:2580
+ filename_lookup+0x256/0x610 fs/namei.c:2609
+ user_path_at+0x3a/0x60 fs/namei.c:3016
+ do_mount fs/namespace.c:3844 [inline]
+ __do_sys_mount fs/namespace.c:4057 [inline]
+ __se_sys_mount+0x297/0x3c0 fs/namespace.c:4034
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f4b18ad5b19
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc2e486c48 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0030656c69662f2e RCX: 00007f4b18ad5b19
+RDX: 0000000000000000 RSI: 00000000200000c0 RDI: 0000000000000000
+RBP: 00007f4b18b685f0 R08: 0000000000000000 R09: 00005555776124c0
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffc2e486c70
+R13: 00007ffc2e486e98 R14: 431bde82d7b634db R15: 00007f4b18b1e03b
+ </TASK>
 
-#syz fix: fs: Block writes to mounted block devices
+Fixes: ad6cc4c338f4 ("finally fold get_link() into pick_link()")
+Reported-by: syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=73d8fc29ec7cba8286fa
+Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
+---
+V1 --> V2: add the root cause of the i_link not set issue and imporve the check
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+ fs/namei.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/namei.c b/fs/namei.c
+index 4a4a22a08ac2..49bd5ac16137 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -1845,7 +1845,7 @@ static const char *pick_link(struct nameidata *nd, struct path *link,
+ 		return ERR_PTR(error);
+ 
+ 	res = READ_ONCE(inode->i_link);
+-	if (!res) {
++	if (!virt_addr_valid(res)) {
+ 		const char * (*get)(struct dentry *, struct inode *,
+ 				struct delayed_call *);
+ 		get = inode->i_op->get_link;
+-- 
+2.43.0
+
