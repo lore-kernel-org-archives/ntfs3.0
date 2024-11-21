@@ -1,73 +1,142 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D3713A250;
-	Thu, 21 Nov 2024 03:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DAC1428F3
+	for <ntfs3@lists.linux.dev>; Thu, 21 Nov 2024 05:28:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732161336; cv=none; b=mbsiXqQkXQvX8mcpzq6EISixsKdgDSZmG+3gXYpcqRR8/gSprpvzsqpmOAC6zy/vzKyGWAB3F/wv06+8283DmsWs5LrG7sd6ImWy6A4kXmVZ7pv4RXBInjcaILAFIH+dxzvPXuiDTXCQHNBVjxhLA2+BIJOFgvJx+wINsGA00yY=
+	t=1732166897; cv=none; b=thRCgb+DjtHu7WMKisG9JEnWPtXTW0Xxi4HXE5Lm8W8+U4xLSxL7wcgSAGIXbmShmmWgABIqf1/GB++WuYNl2XNzVrmGXu8JQVD1Wd43kpmQtArkv/bTAZyER8+06S6Y6J5S5Mk7wX026MGZXS2o5tlSfCCyDMTLlR4GRQKXA8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732161336; c=relaxed/simple;
-	bh=tQLUE/gi3EGbCHGaJiv63C4EjxkPIgJOhIF+qibu+tE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DOMR8PyUvH3nOMP2Zv2gsK2ycrEORFsEtG9/0qQUt2ifc/FdkdIKJdnVyo3p5UaKTVkG0kIWX5lsVquydiF785F/lNkZU6Uy8TF6HATErT1uK0Gbq8iQkbrUMqCcHgyYo7UoBm5luQEfpcBAqJPox4nyIWUUVEIQ5rQlsO0JH9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=DopwVdA6; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="DopwVdA6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=ld04TMVD+t82H7O0vb5VDs9spkg+DTGQKeuhllcoYNo=; b=DopwVdA6lp1CvIr+6VhaaeKcIS
-	n3xg3Vjz7cuHk2VUv3LMj9z/Z5NJzsQ1b/0Y0A03bu8wm44xnlfmenZXtov33K+fFRhRlKg1nWPD/
-	PHONCVbiRnbRWl/ZT5TObpJ8HXsq/BTdNpSdAFSHwBk5oX8FamP+CeG5amu/ccLn+gWgxpaKu2tal
-	DJgHjvp3E70MSJ+MQdknXnwuVk9Kkpu5PNsxknRkanseJzQnySDrjw7EBJtfuJ0/u6XEKorfKOSR5
-	pfgc1NiVuPaY4/cjoW3ugci1ANsSuUoVATCsOjEzdElmDZD4xQ6pbmlqL0wKsEDKziqWWgUg7+heR
-	IPeXQJhg==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDyHx-000000000Hr-0UKE;
-	Thu, 21 Nov 2024 03:55:29 +0000
-Date: Thu, 21 Nov 2024 03:55:29 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Lizhi Xu <lizhi.xu@windriver.com>
-Cc: almaz.alexandrovich@paragon-software.com, brauner@kernel.org,
-	jack@suse.cz, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev,
-	syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH V3] fs/ntfs3: check if the inode is bad before creating
- symlink
-Message-ID: <20241121035529.GO3387508@ZenIV>
-References: <20241120161045.GL3387508@ZenIV>
- <20241121031329.354341-1-lizhi.xu@windriver.com>
+	s=arc-20240116; t=1732166897; c=relaxed/simple;
+	bh=H4nEbDvEQDnynPlsLfcxoTdGWcmabL35D6NVyIVtqAw=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i3AY8ZubY6T7+7vQS1qQsHp4riZAf6YG9hBCWSB4kHR4Bqia0/t1TwQ9VD3etKwZM4nL654sO3vzabFsKSE4xN4pbiQbecyOoBweIBzmDnj2iysgJ1G3YAUKZNuEg0/KiP/nVu0tJt9Jk9O5AylxNb9IMVt8QrmkLc6ScnTqozU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.166.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AL543E3019769;
+	Wed, 20 Nov 2024 21:28:04 -0800
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42xusq4y2n-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 20 Nov 2024 21:28:03 -0800 (PST)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 20 Nov 2024 21:28:03 -0800
+Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Wed, 20 Nov 2024 21:28:00 -0800
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <viro@zeniv.linux.org.uk>
+CC: <almaz.alexandrovich@paragon-software.com>, <brauner@kernel.org>,
+        <jack@suse.cz>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <lizhi.xu@windriver.com>,
+        <ntfs3@lists.linux.dev>,
+        <syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: Re: [PATCH V3] fs/ntfs3: check if the inode is bad before creating symlink
+Date: Thu, 21 Nov 2024 13:27:59 +0800
+Message-ID: <20241121052759.967642-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241121035529.GO3387508@ZenIV>
+References: <20241121035529.GO3387508@ZenIV>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241121031329.354341-1-lizhi.xu@windriver.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 8K5XrFakC2YMisJ3Q1P0oNkGYbRujZ1N
+X-Proofpoint-ORIG-GUID: 8K5XrFakC2YMisJ3Q1P0oNkGYbRujZ1N
+X-Authority-Analysis: v=2.4 cv=d9mnygjE c=1 sm=1 tr=0 ts=673ec4e3 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=OEdkkgd6TnMo6Y_G:21 a=VlfZXiiP6vEA:10 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8 a=cYg7BZOSDzSb177eBLgA:9
+ a=DcSpbTIhAlouE1Uv7lRv:22 a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-21_03,2024-11-20_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ phishscore=0 clxscore=1015 malwarescore=0 mlxlogscore=893 spamscore=0
+ bulkscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2411210041
 
-On Thu, Nov 21, 2024 at 11:13:29AM +0800, Lizhi Xu wrote:
->   user_path_at()->
->     filename_lookup()->
->       path_lookupat()->
->         lookup_last()->
->           walk_component()->
->             __lookup_slow()->
->               ntfs_lookup()->
->                 d_splice_alias()->
+On Thu, 21 Nov 2024 03:55:29 +0000, Al Viro wrote:
+> >   user_path_at()->
+> >     filename_lookup()->
+> >       path_lookupat()->
+> >         lookup_last()->
+> >           walk_component()->
+> >             __lookup_slow()->
+> >               ntfs_lookup()->
+> >                 d_splice_alias()->
+> >
+> > 2. The subsequent chmod fails, causing the inode to be set to bad.
 > 
-> 2. The subsequent chmod fails, causing the inode to be set to bad.
+> What's wrong with "return an error"?
+make_bad_inode() is executed in attr_set_size() and the error code -ENOENT is returned;
+attr_set_size() defined in fs/ntfs3/attrib.c
+> 
+> > 3. During the link operation, d_instantiate() is executed in ntfs_link() to associate the bad inode with the dentry.
+> 
+> Yecchhh...  If nothing else, check for is_bad_inode() should be there
+> for as long as make_bad_inode() is done on live inodes.
+I checked is_bad_inode() in ntfs_link(), see line 146 of ntfs_link(), please see my V3 of the patch [2].
 
-What's wrong with "return an error"?
+[1]
+fs/ntfs3/namei.c
+ 19 static int ntfs_link(struct dentry *ode, struct inode *dir, struct dentry *de)
+ 18 {
+ 17         int err;
+ 16         struct inode *inode = d_inode(ode);
+ 15         struct ntfs_inode *ni = ntfs_i(inode);
+ 14
+ 13         if (S_ISDIR(inode->i_mode))
+ 12                 return -EPERM;
+ 11
+ 10         if (inode->i_nlink >= NTFS_LINK_MAX)
+  9                 return -EMLINK;
+  8
+  7         ni_lock_dir(ntfs_i(dir));
+  6         if (inode != dir)
+  5                 ni_lock(ni);
+  4
+  3         inc_nlink(inode);
+  2         ihold(inode);
+  1
+146         err = ntfs_link_inode(inode, de);
+  1
+  2         if (!err) {
+  3                 inode_set_ctime_current(inode);
+  4                 inode_set_mtime_to_ts(dir, inode_set_ctime_current(dir));
+  5                 mark_inode_dirty(inode);
+  6                 mark_inode_dirty(dir);
+  7                 d_instantiate(de, inode);
 
-> 3. During the link operation, d_instantiate() is executed in ntfs_link() to associate the bad inode with the dentry.
+[2]  
+Reported-by: syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=73d8fc29ec7cba8286fa
+Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
+---
+V1 --> V2: add the root cause of the i_link not set issue and imporve the check
+V2 --> V3: when creating a symbolic link, first check whether the inode of file is bad.
 
-Yecchhh...  If nothing else, check for is_bad_inode() should be there
-for as long as make_bad_inode() is done on live inodes.
+ fs/ntfs3/inode.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index be04d2845bb7..fefbdcf75016 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -1719,6 +1719,9 @@ int ntfs_link_inode(struct inode *inode, struct dentry *dentry)
+ 	struct ntfs_sb_info *sbi = inode->i_sb->s_fs_info;
+ 	struct NTFS_DE *de;
+
++	if (is_bad_inode(inode))
++		return -EIO;
++
+ 	/* Allocate PATH_MAX bytes. */
+ 	de = __getname();
+ 	if (!de)
