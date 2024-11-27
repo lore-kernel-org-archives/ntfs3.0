@@ -1,51 +1,51 @@
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0936A8D2
-	for <ntfs3@lists.linux.dev>; Wed, 27 Nov 2024 09:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9A812E1E0
+	for <ntfs3@lists.linux.dev>; Wed, 27 Nov 2024 19:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732700973; cv=none; b=XwagTsgQAgLIutlPvYkM4xlM9AFg40WP5Rjj5h+zNtdlIV+PfwnigsOdlNK9ImVdDWFxEQfCT7fELCyzkIfZd8zM0LWCUPz/M/J4kkeQLMyhBzkdkN4putkIM7U56YdZvVD7v660Tyu1vUWZ+SMK5okfNQlHW/kREqVJmXK40TM=
+	t=1732735895; cv=none; b=BzuFlpiqc57TG2uIY+HUjZ179M4smpO/27gHw+RBLa2w+VqJMk8W/VFc265ppRi4xnsNfyoHFxJMBMtfUzu/ETT3zc3SVfiJ63EaA5V5S4nEnikOcCSF/6IBRownsqW52jMgRIqyi9OBz5DQR2xTwC9Oya8fasCd6Phdml6fTO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732700973; c=relaxed/simple;
-	bh=+i9UYsPc1u314u44i+XhREFyNRvregaPr93eeYTMGSo=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=PDyibtmTUqnQ3hpCDaaUAeWq5kKIV7E7i6sEk+2gs5RprG5doPeQdSEAEIuyk0rIjuoyb5jGOLUSNNyNbDNBy/FVpWs4lJ2QkXfM6wA+UBXWNP4+Xk95xq1dkUU67eEPHwlOfkHknkXflU6Fwo6Jnwko8JK8MQsHBZkegUbfk04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.70
+	s=arc-20240116; t=1732735895; c=relaxed/simple;
+	bh=ZRWv/qJXWX0N+LmlrTPTdZNF7tI8MhRL5ijfHMRhmuI=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=RS4uD31CD3qD3JWR2AYuX2UQTzphBs8uFf0DvnREQZkKyYm+SNSBuSfgri0zdnifxWYqD8pn+xhU49T0Lc5WpeqcpC5DHgjGTMr20d9oDAsh4qh25KSJbxgX0iPa+6nwZUGnvgA9Hzl9gHu5YERlTtfwdjoxH9+Cwu6mkO1DV10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-84181aad98aso382457539f.0
-        for <ntfs3@lists.linux.dev>; Wed, 27 Nov 2024 01:49:31 -0800 (PST)
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-3a7bdd00353so769605ab.1
+        for <ntfs3@lists.linux.dev>; Wed, 27 Nov 2024 11:31:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732700971; x=1733305771;
+        d=1e100.net; s=20230601; t=1732735892; x=1733340692;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=j1e1txHINzeeISulL9qfNM+/I+6cuMZa6XFV5XbUwNI=;
-        b=pqeMlAZaYwiWv7JqXlKBrjqejYmVbjiT9MQ+M3krlWMejyuqRHZgyu4umGIft71F/V
-         M7JmjPO67hl3iNdqptnkhYPO/SYGHmOx4QTp2sDmnkNjV6TRyk02G2qUN1rP50Imp8Cx
-         arujSqut3Cgzn04l1P4VrS7N1TCdaOuj24FKyOV2he03CskddJ0c3JbkuHapMT99ugDT
-         cYC3/lR3G+v7fAvDV79wKMCrsIzzMjTsnzp65F6cn8UTF+Oj7jC3YAJAb7sXxgGeNHiK
-         lJ0FriIBNTNAfV7NtfxZEEqEu6jFC5gYQ6kR5KnZHhylMzLeYaTyqeG8t4sKWEbXzaCe
-         5TmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+Tmrc4haIe29oNWCuY7yHfaAi6Kzd6+rGsAhJonEvEhPAnXkOnm0F+bRNRqmlUBiIJGNrKA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTnnpcoS6htA3J96Kfsi4RtigB/q59mLPtcdLSU59X24+/rwSs
-	cpccG3QKPUv8OWRn070ERTDASclQMMNKAPjVay8G/3Ssfbti5sakesh5jBKlar/hMmXCaSIZ5/H
-	zNrLopY2xiST8Q27+KQMz27RT5pdnL1yc29+9BY96BPQ5C985ei7uF9I=
-X-Google-Smtp-Source: AGHT+IGnSYm2uvF5NkzSJivqe/0veQUq8O25REPzZJbwv2ce3zRIfMnm2/RsaifYxx6o8VgmqMMBjZdIP9GYzHC2Di+1CHSftSEr
+        bh=Nhvv+26YcoilaAxS4XzL863FzPGOjY6ajDUbRofaE8U=;
+        b=bQxTK6llR4wfctwPmfIAOITeu7aki279SJ3hK3CkUROVkJjUAPFYZPIc56FhfD8tcA
+         8RflI870P63G93csX6Bocx9IBsOQ/TliC2IX82XSBKInllVX93u3Sz5lTmsFl5PYzNiM
+         1R053kXj7ajYokex0GSxnq4TguXCxzoRqYxBPI8O3wut6qjzb+w8JoUUhLTEBJAz+PVC
+         jxCRbYyfXqExr2kHiaJQVPUQA4S+eAe3STaGbtsZ2GUSplFVyhiMV3TaUAXMkPh79bwt
+         xrJMQqb2VocAnkzF1nkUURktIfYWY/r30C0UfQxAv8svz8qzxxbsjfudZtZPdzErUZDb
+         Tj3g==
+X-Forwarded-Encrypted: i=1; AJvYcCXX1LO8yjiNBKj62YyrpsloAYBPZIfSwZWZYxMNULgY589m7ThBiCWzzFYMjmh4TbCh4KGyGA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzTIyYg+K6A0a6pmQTfnKupgvoiw2j7w0E8WQvOA//kJnFU9zhm
+	rUbSt7sjQ0T/QvwjVE/cJ0oEKksuOv0nLKdEl+R9plH5m/u+T02TbUQheXSGXt6ubMXqCPNMLRP
+	+EZAHR0XLk9v/v+KSG1jgucyY/JD0rTL+pgF745xiWR6A38VONbwXNpU=
+X-Google-Smtp-Source: AGHT+IGY8P0kD9Kmo8vCaJ0MVKVivQfixo468bFvt0QCfbxcippbtBDZm5OvuigToBSx0ngtAUJfslLcqQ6yvMLlfBYqp54CCWfp
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:12cc:b0:3a7:7ad4:fe78 with SMTP id
- e9e14a558f8ab-3a7c55d3e94mr20879165ab.19.1732700970906; Wed, 27 Nov 2024
- 01:49:30 -0800 (PST)
-Date: Wed, 27 Nov 2024 01:49:30 -0800
+X-Received: by 2002:a05:6e02:144a:b0:3a7:6f1c:a084 with SMTP id
+ e9e14a558f8ab-3a7c55e2adfmr49463305ab.23.1732735892640; Wed, 27 Nov 2024
+ 11:31:32 -0800 (PST)
+Date: Wed, 27 Nov 2024 11:31:32 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6746eb2a.050a0220.21d33d.0022.GAE@google.com>
-Subject: [syzbot] [ntfs3?] kernel panic: stack is corrupted in ntfs_set_state
-From: syzbot <syzbot+bbcb68026d186313e795@syzkaller.appspotmail.com>
+Message-ID: <67477394.050a0220.21d33d.0026.GAE@google.com>
+Subject: [syzbot] [ntfs3?] kernel panic: stack is corrupted in ntfs_printk
+From: syzbot <syzbot+41821903c04037f57f20@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
 	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -56,27 +56,26 @@ syzbot found the following issue on:
 
 HEAD commit:    9f16d5e6f220 Merge tag 'for-linus' of git://git.kernel.org..
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1724c778580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=110e19c0580000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=5073f0bff19a2470
-dashboard link: https://syzkaller.appspot.com/bug?extid=bbcb68026d186313e795
+dashboard link: https://syzkaller.appspot.com/bug?extid=41821903c04037f57f20
 compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1738b75f980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15772530580000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=130e19c0580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1064f6e8580000
 
 Downloadable assets:
 disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-9f16d5e6.raw.xz
 vmlinux: https://storage.googleapis.com/syzbot-assets/0b34c9010f21/vmlinux-9f16d5e6.xz
 kernel image: https://storage.googleapis.com/syzbot-assets/fa5635896077/bzImage-9f16d5e6.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/d8c38ce23614/mount_0.gz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/d7a3b96e4e1b/mount_0.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+bbcb68026d186313e795@syzkaller.appspotmail.com
+Reported-by: syzbot+41821903c04037f57f20@syzkaller.appspotmail.com
 
 loop0: detected capacity change from 0 to 4096
-ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
-ntfs3(loop0): Mark volume as dirty due to NTFS errors
-Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: ntfs_set_state+0x6b9/0x6c0
-CPU: 0 UID: 0 PID: 5922 Comm: syz-executor192 Not tainted 6.12.0-syzkaller-09073-g9f16d5e6f220 #0
+ntfs3(loop0): Inode r=a is not in use!
+Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: ntfs_printk+0x415/0x420
+CPU: 0 UID: 0 PID: 5379 Comm: syz-executor218 Not tainted 6.12.0-syzkaller-09073-g9f16d5e6f220 #0
 Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
 Call Trace:
  <TASK>
@@ -84,8 +83,9 @@ Call Trace:
  dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
  panic+0x349/0x880 kernel/panic.c:354
  __stack_chk_fail+0x15/0x20 kernel/panic.c:836
- ntfs_set_state+0x6b9/0x6c0
- ntfs_iget5+0x912/0x37b0 fs/ntfs3/inode.c:548
+ ntfs_printk+0x415/0x420
+ ntfs_read_mft fs/ntfs3/inode.c:86 [inline]
+ ntfs_iget5+0x57c/0x37b0 fs/ntfs3/inode.c:537
  ntfs_fill_super+0x3e8e/0x4730 fs/ntfs3/super.c:1477
  get_tree_bdev_flags+0x48c/0x5c0 fs/super.c:1636
  vfs_get_tree+0x90/0x2b0 fs/super.c:1814
@@ -96,14 +96,14 @@ Call Trace:
  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
  do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fde72d5479a
-Code: d8 64 89 02 48 c7 c0 ff ff ff ff eb a6 e8 ee 08 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff75a1aaf8 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007fff75a1ab10 RCX: 00007fde72d5479a
-RDX: 0000000020000140 RSI: 0000000020000040 RDI: 00007fff75a1ab10
-RBP: 0000000000000004 R08: 00007fff75a1ab50 R09: 000000000001f853
-R10: 0000000000004002 R11: 0000000000000286 R12: 0000000000004002
-R13: 00007fff75a1ab50 R14: 0000000000000003 R15: 0000000000200000
+RIP: 0033:0x7f3c5f178d6a
+Code: d8 64 89 02 48 c7 c0 ff ff ff ff eb a6 e8 7e 09 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffedbe7c538 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007ffedbe7c540 RCX: 00007f3c5f178d6a
+RDX: 0000000020000280 RSI: 0000000020000300 RDI: 00007ffedbe7c540
+RBP: 0000000000000004 R08: 00007ffedbe7c580 R09: 000000000001f746
+R10: 0000000000200001 R11: 0000000000000286 R12: 00007ffedbe7c580
+R13: 0000000000000003 R14: 0000000000200000 R15: 00007ffedbe7c7d0
  </TASK>
 Kernel Offset: disabled
 Rebooting in 86400 seconds..
