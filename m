@@ -1,109 +1,128 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787AE1482F3
-	for <ntfs3@lists.linux.dev>; Thu, 28 Nov 2024 11:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 647EF19D086
+	for <ntfs3@lists.linux.dev>; Thu, 28 Nov 2024 13:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732794113; cv=none; b=rSBf7X/WTZWrZEDLxmgvjehm45qLI2H7weJLCnicJevwu39wgmhHG4BlJIZ/ouE+1HvAtfkDEiKJDvf5zbhuzxkJPtwnAFvhkEzE+xZFwtIY4FZPkmWRXMKLXgAR5NnK+AUKGa2v7r8kDAV7oBwmhtq1zfyIHLDo9/lB2xYxb88=
+	t=1732798969; cv=none; b=kSdtlnxWE30/PgJM1X/Fs0tzomAk1LHauwjbOR2oCEehIgqcOatKzqzgyG3A77IU2mxfaWsYA4KqufnvI07QNIuvqa+7zosGCUfhSDIxXUDzXzbSxybHEVYrDLkeYXzWUO+/kEKR57GVreBB/DrosHOZQu5U2MMo+qNc6Sh9KVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732794113; c=relaxed/simple;
-	bh=tmX7xoY3LX01MewSUUympU6UrXICAWr6yUSpwT8AOB4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KPcFEZvSEAC3V3quo5ejVrplfJ8V4u6UFRIRHLpblPscpegr9YbPl5iGM/OFPrxxu1g2jutvE8vgj6lQPBm5itEftYZJd2/xZFYYm1PeGUdpNW2PKFdn2w8v7UIcqr6ayJUlgJXg5Qb2l9OGVJ6BM9TtZinpB6wIqOUhkD3GLaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=dLAqs+XF; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=VDnqac7T; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="dLAqs+XF";
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="VDnqac7T"
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id AFF352305;
-	Thu, 28 Nov 2024 11:27:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1732793255;
-	bh=NqIAAeMDOoiqx41SDJtqResr0fd/wauc47erVyXIRo8=;
-	h=From:To:CC:Subject:Date;
-	b=dLAqs+XFvU6d1m6sSnMojhXikiNGL0Pvl32PURkr1VeKtOk3ZzhUhAYbPxogU1M1h
-	 8lv3kQyzUfdHxtP57050wFl+n9opeRQH+zNtvtWdZ5LVaM7yAVn1aGXtnXrXtphwGC
-	 ZWXa24ON3zuLPxZA/4tKfpr2k3wB47gX+ooWCw5k=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 3E528F7;
-	Thu, 28 Nov 2024 11:35:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1732793738;
-	bh=NqIAAeMDOoiqx41SDJtqResr0fd/wauc47erVyXIRo8=;
-	h=From:To:CC:Subject:Date;
-	b=VDnqac7TagIho2HX6XSrmwjK+Q3bdwudAwC0/nMrb9bCLflQleOAPb5Uqb3fUOs9c
-	 YsRCvnzDUI7dEdNSDRLCPGHtvpO4SYcKG967nqF1dRo14TXXWJ0qud3UL7q7NBQuP6
-	 huDGDyLpmYQ6Q/5U+tWv/5ecQRRzs5JxUlmlaUGU=
-Received: from ntfs3vm.paragon-software.com (192.168.211.21) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 28 Nov 2024 14:35:37 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] ntfs3: bugfixes for 6.13
-Date: Thu, 28 Nov 2024 14:35:05 +0300
-Message-ID: <20241128113505.44406-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1732798969; c=relaxed/simple;
+	bh=RwyjqG4LZ2LhFIdnZkRsMEeA2h3e3codKl+M/K8l9Gg=;
+	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=ni1FSi9LCkZo+lOXV2vlLDCoogXYUkWPM60ymHskv+fuQSKFPeo7d2tGX/voH1Uc1N6zu7en0BweJTwmFYi2UJXhbK9oLiZRdOCvcYBtJX7Z+QE8OQBY+3sgUg3S/+X3pKphCbDmgA5snNsYq+twbvg41Af5PjtN8d0hVAf2DtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.79.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from sh.jiang$zju.edu.cn ( [183.157.161.210] ) by
+ ajax-webmail-mail-app2 (Coremail) ; Thu, 28 Nov 2024 21:02:27 +0800
+ (GMT+08:00)
+Date: Thu, 28 Nov 2024 21:02:27 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?5rGf5LiW5piK?= <sh.jiang@zju.edu.cn>
+To: security@kernel.org
+Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
+Subject: [bug report] ntfs3: kernel BUG in zero_user_segments
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.1-cmXT5 build
+ 20240625(a75f206e) Copyright (c) 2002-2024 www.mailtech.cn zju.edu.cn
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Message-ID: <51ef1f62.3cbae.19372dd9fb2.Coremail.sh.jiang@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:by_KCgCXb+njaUhntJVGAQ--.25220W
+X-CM-SenderInfo: qrsujiarxsq6lmxovvfxof0/1tbiAgETEWdHVCglsgABsL
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-Please pull this branch containing ntfs3 code for 6.13.
-
-All changed code was in linux-next branch at 2 weeks.
-
-Regards,
-Konstantin
-
-----------------------------------------------------------------
-
-The following changes since commit 8e929cb546ee42c9a61d24fae60605e9e3192354:
-
-  Linux 6.12-rc3 (2024-10-13 14:33:32 -0700)
-
-are available in the Git repository at:
-
-  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.13
-
-for you to fetch changes up to bac89bb33d91cdd75092e15cf59fe6be34571142:
-
-  fs/ntfs3: Accumulated refactoring changes (2024-11-01 11:19:53 +0300)
-
-----------------------------------------------------------------
-Changes for 6.13-rc1
-
-Fixed:
-	additional checks have been added to address issues identified by syzbot.
-Refactored:
-	continuation of the transition from 'page' to 'folio'.
-
-----------------------------------------------------------------
-Konstantin Komarov (7):
-      fs/ntfs3: Fix warning in ni_fiemap
-      fs/ntfs3: Fix case when unmarked clusters intersect with zone
-      fs/ntfs3: Equivalent transition from page to folio
-      fs/ntfs3: Add more checks in mi_enum_attr (part 2)
-      fs/ntfs3: Add check in ntfs_extend_initialized_size
-      fs/ntfs3: Switch to folio to release resources
-      fs/ntfs3: Accumulated refactoring changes
-
- fs/ntfs3/attrib.c  |   9 +++--
- fs/ntfs3/bitmap.c  |  62 +++++++++-----------------------
- fs/ntfs3/file.c    |  34 +++++++++++-------
- fs/ntfs3/frecord.c | 104 ++++++++---------------------------------------------
- fs/ntfs3/fsntfs.c  |   2 +-
- fs/ntfs3/ntfs_fs.h |   3 +-
- fs/ntfs3/record.c  |  16 +++++++--
- fs/ntfs3/run.c     |  40 +++++++++++++++------
- 8 files changed, 103 insertions(+), 167 deletions(-)
+SGVsbG8gZGV2ZWxvcGVycywKCldlIGhpdCBhbiBpc3N1ZSBpbiBudGZzMyBmaWxlc3lzdGVtIG1v
+ZHVsZS4gQSBrZXJuZWwgQlVHIGlzIHRyaWdnZXJlZAp3aGVuIG1vdW50aW5nIGFuIGltYWdlLgoK
+SEVBRCBjb21taXQ6IDgxOTgzNzU4NDMwOSA2LjEyLjAtcmM1CmdpdCB0cmVlOiB1cHN0cmVhbQpr
+ZXJuZWwgY29uZmlnOiBodHRwczovL2RyaXZlLmdvb2dsZS5jb20vZmlsZS9kLzEtOXBsdEUtMUNN
+Z0dnTkZ1OW81bDBCbENIazNSbnpiXy92aWV3P3VzcD1zaGFyaW5nCmNvbnNvbGUgb3V0cHV0OiBo
+dHRwczovL2RyaXZlLmdvb2dsZS5jb20vZmlsZS9kLzFHVVN1Qnl2ckpWYTV0aHlBSFF2M2xLUjEw
+S3hCZnZiSi92aWV3P3VzcD1zaGFyaW5nCnN5eiByZXBybzogaHR0cHM6Ly9kcml2ZS5nb29nbGUu
+Y29tL2ZpbGUvZC8xdzRwX1JieE0xWEVVYjVNMmhkLXhSQnFkY3ZQQlRYNm8vdmlldz91c3A9c2hh
+cmluZwpDIHJlcHJvZHVjZXI6IGh0dHBzOi8vZHJpdmUuZ29vZ2xlLmNvbS9maWxlL2QvMVV1RUVU
+eVZDZlV4dHJBOXo2YXVCTWVaUFFvSU1FazVzL3ZpZXc/dXNwPXNoYXJpbmcKCkVudmlyb25tZW50
+OgpVYnVudHUgMjIuMDQgb24gTGludXggNS4xNQpRRU1VIGVtdWxhdG9yIHZlcnNpb24gNi4yLjAK
+cWVtdS1zeXN0ZW0teDg2XzY0IFwKLW0gMkcgXAotc21wIDIgXAota2VybmVsIC9ob21lL3dkL2J6
+SW1hZ2UgXAotYXBwZW5kICJjb25zb2xlPXR0eVMwIHJvb3Q9L2Rldi9zZGEgZWFybHlwcmludGs9
+c2VyaWFsIG5ldC5pZm5hbWVzPTAiIFwKLWRyaXZlIGZpbGU9L2hvbWUvd2QvYnVsbHNleWUuaW1n
+LGZvcm1hdD1yYXcgXAotbmV0IHVzZXIsaG9zdD0xMC4wLjIuMTAsaG9zdGZ3ZD10Y3A6MTI3LjAu
+MC4xOjEwMDIxLToyMiBcCi1uZXQgbmljLG1vZGVsPWUxMDAwIFwKLWVuYWJsZS1rdm0gXAotbm9n
+cmFwaGljIFwKLXBpZGZpbGUgdm0ucGlkIFwKMj4mMSB8IHRlZSB2bS5sb2cKCklmIHlvdSBmaXgg
+dGhpcyBpc3N1ZSwgcGxlYXNlIGFkZCB0aGUgZm9sbG93aW5nIHRhZyB0byB0aGUgY29tbWl0OgpS
+ZXBvcnRlZC1ieTogU2hpaGFvIEppYW5nPHNoLmppYW5nQHpqdS5lZHUuY24+Cgo9PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KU3l6a2FsbGVyIGhp
+dCAna2VybmVsIEJVRyBpbiB6ZXJvX3VzZXJfc2VnbWVudHMnIGJ1Zy4KLS0tLS0tLS0tLS0tWyBj
+dXQgaGVyZSBdLS0tLS0tLS0tLS0tCmtlcm5lbCBCVUcgYXQgaW5jbHVkZS9saW51eC9oaWdobWVt
+Lmg6Mjc1IQpPb3BzOiBpbnZhbGlkIG9wY29kZTogMDAwMCBbIzFdIFBSRUVNUFQgU01QIEtBU0FO
+IFBUSQpDUFU6IDAgVUlEOiAwIFBJRDogOTQxNiBDb21tOiBzeXotZXhlY3V0b3I5MTEgVGFpbnRl
+ZDogRyAgICAgICAgVyAgICAgICAgICA2LjEyLjAtcmM1ICM3ClRhaW50ZWQ6IFtXXT1XQVJOCkhh
+cmR3YXJlIG5hbWU6IFFFTVUgU3RhbmRhcmQgUEMgKGk0NDBGWCArIFBJSVgsIDE5OTYpLCBCSU9T
+IDEuMTUuMC0xIDA0LzAxLzIwMTQKUklQOiAwMDEwOnplcm9fdXNlcl9zZWdtZW50cy5jb25zdHBy
+b3AuMCsweGQwLzB4MmMwIGluY2x1ZGUvbGludXgvaGlnaG1lbS5oOjI3NQpDb2RlOiA4OSBlZSBl
+OCAzMyAzYiBiYSBmZSA4NSBlZCAwZiA4NSAzZSA5MyAyNiAwOCBlOCBmNiAzNyBiYSBmZSA0YyA4
+OSBmZSA0YyA4OSBmNyBlOCA4YiAzYSBiYSBmZSA0ZCAzOSBmZSA3NiAwOCBlOCBlMSAzNyBiYSBm
+ZSA5MCA8MGY+IDBiIGU4IGQ5IDM3IGJhIGZlIGJlIDA4IDAwIDAwIDAwIDQ4IDg5IGRmIGU4IDlj
+IDM5IDFhIGZmIDQ4IDg5ClJTUDogMDAxODpmZmZmYzkwMDA3MDZmNzU4IEVGTEFHUzogMDAwMTAy
+OTMKUkFYOiAwMDAwMDAwMDAwMDAwMDAwIFJCWDogZmZmZmVhMDAwMGFkMzE0MCBSQ1g6IGZmZmZm
+ZmZmODJkMTU4NDUKUkRYOiBmZmZmODg4MDQ1MGY4MDAwIFJTSTogZmZmZmZmZmY4MmQxNTg0ZiBS
+REk6IDAwMDAwMDAwMDAwMDAwMDYKUkJQOiAwMDAwMDAwMDAwMDAwMDAwIFIwODogMDAwMDAwMDAw
+MDAwMDAwMCBSMDk6IGZmZmZmOTQwMDAxNWE2MjgKUjEwOiAwMDAwMDAwMDAwMDAxMDAwIFIxMTog
+MWZmZmZmZmZmMWJiODQ2OSBSMTI6IDAwMDAwMDAwMDAwMDEwMGEKUjEzOiAwMDAwMDAwMDAwMDAw
+MDBhIFIxNDogMDAwMDAwMDAwMDAwMTAwYSBSMTU6IDAwMDAwMDAwMDAwMDEwMDAKRlM6ICAwMDAw
+NTU1NTVhZjQyM2MwKDAwMDApIEdTOmZmZmY4ODgwMmI4MDAwMDAoMDAwMCkga25sR1M6MDAwMDAw
+MDAwMDAwMDAwMApDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUw
+MDMzCkNSMjogMDAwMDdmMjZiN2YwNjhlOCBDUjM6IDAwMDAwMDAwNGJiNzIwMDAgQ1I0OiAwMDAw
+MDAwMDAwMzUyZWYwCkRSMDogMDAwMDAwMDAwMDAwMDAwMCBEUjE6IDAwMDAwMDAwMDAwMDAwMDAg
+RFIyOiAwMDAwMDAwMDAwMDAwMDAwCkRSMzogMDAwMDAwMDAwMDAwMDAwMCBEUjY6IDAwMDAwMDAw
+ZmZmZTBmZjAgRFI3OiAwMDAwMDAwMDAwMDAwNDAwCkNhbGwgVHJhY2U6CiA8VEFTSz4KIGZvbGlv
+X3plcm9fcmFuZ2UgaW5jbHVkZS9saW51eC9oaWdobWVtLmg6NjQ3IFtpbmxpbmVdCiBudGZzX2V4
+dGVuZF9pbml0aWFsaXplZF9zaXplKzB4MzQ5LzB4NmQwIGZzL250ZnMzL2ZpbGUuYzoyMjUKIG50
+ZnNfZXh0ZW5kKzB4Nzc1LzB4YTEwIGZzL250ZnMzL2ZpbGUuYzo0MTMKIG50ZnNfZmlsZV93cml0
+ZV9pdGVyKzB4MmQ4LzB4MTljMCBmcy9udGZzMy9maWxlLmM6MTI1NAogZG9faXRlcl9yZWFkdl93
+cml0ZXYrMHg1MWYvMHg3ZTAgZnMvcmVhZF93cml0ZS5jOjgzNAogdmZzX3dyaXRldisweDMwZS8w
+eGQ3MCBmcy9yZWFkX3dyaXRlLmM6MTA2NAogZG9fcHdyaXRldisweDFiNy8weDI3MCBmcy9yZWFk
+X3dyaXRlLmM6MTE2NQogX19kb19zeXNfcHdyaXRldjIgZnMvcmVhZF93cml0ZS5jOjEyMjQgW2lu
+bGluZV0KIF9fc2Vfc3lzX3B3cml0ZXYyIGZzL3JlYWRfd3JpdGUuYzoxMjE1IFtpbmxpbmVdCiBf
+X3g2NF9zeXNfcHdyaXRldjIrMHhlZi8weDE2MCBmcy9yZWFkX3dyaXRlLmM6MTIxNQogZG9fc3lz
+Y2FsbF94NjQgYXJjaC94ODYvZW50cnkvY29tbW9uLmM6NTIgW2lubGluZV0KIGRvX3N5c2NhbGxf
+NjQrMHhjYi8weDI1MCBhcmNoL3g4Ni9lbnRyeS9jb21tb24uYzo4MwogZW50cnlfU1lTQ0FMTF82
+NF9hZnRlcl9od2ZyYW1lKzB4NzcvMHg3ZgpSSVA6IDAwMzM6MHg3ZmQxYmFiYzRiZmQKQ29kZTog
+YzMgZTggZDcgMjEgMDAgMDAgMGYgMWYgODAgMDAgMDAgMDAgMDAgZjMgMGYgMWUgZmEgNDggODkg
+ZjggNDggODkgZjcgNDggODkgZDYgNDggODkgY2EgNGQgODkgYzIgNGQgODkgYzggNGMgOGIgNGMg
+MjQgMDggMGYgMDUgPDQ4PiAzZCAwMSBmMCBmZiBmZiA3MyAwMSBjMyA0OCBjNyBjMSBiOCBmZiBm
+ZiBmZiBmNyBkOCA2NCA4OSAwMSA0OApSU1A6IDAwMmI6MDAwMDdmZmQ2ZTBjODExOCBFRkxBR1M6
+IDAwMDAwMjQ2IE9SSUdfUkFYOiAwMDAwMDAwMDAwMDAwMTQ4ClJBWDogZmZmZmZmZmZmZmZmZmZk
+YSBSQlg6IDAwMDA3ZmZkNmUwYzgzMjggUkNYOiAwMDAwN2ZkMWJhYmM0YmZkClJEWDogMDAwMDAw
+MDAwMDAwMDAwMSBSU0k6IDAwMDAwMDAwMjAwMDAyNDAgUkRJOiAwMDAwMDAwMDAwMDAwMDA0ClJC
+UDogMDAwMDAwMDAwMDAwMDAwMSBSMDg6IDAwMDAwMDAwMDAwMDAwMDAgUjA5OiAwMDAwMDAwMDAw
+MDAwMDAwClIxMDogMDAwMDAwMDAwMDAwOWYwYSBSMTE6IDAwMDAwMDAwMDAwMDAyNDYgUjEyOiAw
+MDAwMDAwMDAwMDAwMDAwClIxMzogMDAwMDdmZmQ2ZTBjODMxOCBSMTQ6IDAwMDA3ZmQxYmFjNjI1
+MzAgUjE1OiAwMDAwMDAwMDAwMDAwMDAxCiA8L1RBU0s+Ck1vZHVsZXMgbGlua2VkIGluOgotLS1b
+IGVuZCB0cmFjZSAwMDAwMDAwMDAwMDAwMDAwIF0tLS0KUklQOiAwMDEwOnplcm9fdXNlcl9zZWdt
+ZW50cy5jb25zdHByb3AuMCsweGQwLzB4MmMwIGluY2x1ZGUvbGludXgvaGlnaG1lbS5oOjI3NQpD
+b2RlOiA4OSBlZSBlOCAzMyAzYiBiYSBmZSA4NSBlZCAwZiA4NSAzZSA5MyAyNiAwOCBlOCBmNiAz
+NyBiYSBmZSA0YyA4OSBmZSA0YyA4OSBmNyBlOCA4YiAzYSBiYSBmZSA0ZCAzOSBmZSA3NiAwOCBl
+OCBlMSAzNyBiYSBmZSA5MCA8MGY+IDBiIGU4IGQ5IDM3IGJhIGZlIGJlIDA4IDAwIDAwIDAwIDQ4
+IDg5IGRmIGU4IDljIDM5IDFhIGZmIDQ4IDg5ClJTUDogMDAxODpmZmZmYzkwMDA3MDZmNzU4IEVG
+TEFHUzogMDAwMTAyOTMKUkFYOiAwMDAwMDAwMDAwMDAwMDAwIFJCWDogZmZmZmVhMDAwMGFkMzE0
+MCBSQ1g6IGZmZmZmZmZmODJkMTU4NDUKUkRYOiBmZmZmODg4MDQ1MGY4MDAwIFJTSTogZmZmZmZm
+ZmY4MmQxNTg0ZiBSREk6IDAwMDAwMDAwMDAwMDAwMDYKUkJQOiAwMDAwMDAwMDAwMDAwMDAwIFIw
+ODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6IGZmZmZmOTQwMDAxNWE2MjgKUjEwOiAwMDAwMDAwMDAw
+MDAxMDAwIFIxMTogMWZmZmZmZmZmMWJiODQ2OSBSMTI6IDAwMDAwMDAwMDAwMDEwMGEKUjEzOiAw
+MDAwMDAwMDAwMDAwMDBhIFIxNDogMDAwMDAwMDAwMDAwMTAwYSBSMTU6IDAwMDAwMDAwMDAwMDEw
+MDAKRlM6ICAwMDAwNTU1NTVhZjQyM2MwKDAwMDApIEdTOmZmZmY4ODgwMmI4MDAwMDAoMDAwMCkg
+a25sR1M6MDAwMDAwMDAwMDAwMDAwMApDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAw
+MDAwMDAwMDgwMDUwMDMzCkNSMjogMDAwMDdmMjZiN2VkMDMzOCBDUjM6IDAwMDAwMDAwNGJiNzIw
+MDAgQ1I0OiAwMDAwMDAwMDAwMzUyZWYwCkRSMDogMDAwMDAwMDAwMDAwMDAwMCBEUjE6IDAwMDAw
+MDAwMDAwMDAwMDAgRFIyOiAwMDAwMDAwMDAwMDAwMDAwCkRSMzogMDAwMDAwMDAwMDAwMDAwMCBE
+UjY6IDAwMDAwMDAwZmZmZTBmZjAgRFI3OiAwMDAwMDAwMDAwMDAwNDAwCj09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ==
