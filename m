@@ -1,255 +1,71 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FFB28EA
-	for <ntfs3@lists.linux.dev>; Sat, 30 Nov 2024 00:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08C9433BC
+	for <ntfs3@lists.linux.dev>; Sat, 30 Nov 2024 15:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732925251; cv=none; b=WpIXSMwnJHgAmvPbRvmnTpQOnPogihSgx0ShAI1ilvDPM/PzJmQdAeaSj1BxZc9htih7dTePAa+NhP846zbSutL2Vii6m8ZSoZvWMlqJ2Hyt5CxvFBNLA39mALtOuC369KTGGM57Y2J5fgyH9nZqNoZ1HqVK9c74yJpDHAZp5tg=
+	t=1732982320; cv=none; b=EVWy4abNa+oGTl7UjAJaz2cUvY2ltbaprFSzbwDW503rvC/TXS5madmHflNK2OGUWKv07FSMSGnwsaTNPmpmBOcwvzLNdYpIVyTfRYABs4CIqWqq1boYZv2J/JrdnffBxLrs4kpiXsftBrshpG+923qD+btAfXU63mZ/jsNvbeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732925251; c=relaxed/simple;
-	bh=LnYPHK32WOqUL1jPaHpZhXq4a6sC1IYLnjPRvbBweNE=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=MD0PosJ3gnn0QevMMu9ACzaEnnMBts/8XBnOOsTFYNgRKwv2NmFCP2RO5GskqgEg0RlWuuDEaNjXYdzO6N/v/3VhI3dXi0HxHyUkNT+0aygKQfh91Uu/YzrnKdOok5gM3RDeeekfxL3aQkaK8xxk1NLGFydTJ4iVCwQubSDa00s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3a7e1e6d83fso7096935ab.3
-        for <ntfs3@lists.linux.dev>; Fri, 29 Nov 2024 16:07:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732925249; x=1733530049;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=41P7vPKffU91pYvGSwhSs8ri6IUQKOAy7s8jnDTAGlw=;
-        b=SUvdX6ibdk2JSa04EPYzo4u5BvBASo3/AHyx4vGUTerIHDHIiAHAa/7LkoJ74izC71
-         ZfDSCoGRcqFYtS6vyLx941XUi0v6dMg4tBWJW9Aq6Aj7hmvtG+mxEu5xwoIv0MhonFOq
-         VdE/cU6yM7eogN98XhktRJctF0vGSzvCZDt67mzaMAddttjXed7JN4G861hNT/GNfuV3
-         u1x0OtUa7Opnuckc69eYydzI11e8AbOCb1GYR0ylnOwKmkJGvfXjCH3sA71s3xLvL+/Z
-         wDzNc//ZqlGj4Eep56odP8kTqYoapygjPPJqmtHlu128Q1ClHtNq8QUHdgpxLrqdoBYf
-         iMZw==
-X-Forwarded-Encrypted: i=1; AJvYcCXUjFbVPON4/YmgDpZ2CGMm+iXssLtPT9m8QnTAeC6jgNQgINeh7MZw5oFxV0f16lzqoeLc+Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxE4JjwC5U2sYhyzDpI6w/dVGu5kJR0l/IqM7FnQuGSZWRsTXVA
-	i2gdnGsKUPS185dD+YaHcyBQFNFTrCZGdRdhmH4+ilqDV/A6trxGUURx7xyRaJD8a38d/fztDq4
-	VOumJjGTSW6hnTjO2RMG9GMrpnT6pEQ6SSZwPprw+fvJjJt7lSQq+8G0=
-X-Google-Smtp-Source: AGHT+IGh6dFDfmU73NL1knOS8Kyq4c5m9ewAtS9qRNNMfA+plPhYoyaZzBMDggr5OzhGEv3Zyxr4nt2rXh1yD3WIPrl8AoelHB3V
+	s=arc-20240116; t=1732982320; c=relaxed/simple;
+	bh=QB2pgRiEozv5EyxJd4OxPbhE4bEoMNsWkZ36wINZSLw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=K4av49kTu9JdYTZaEuCGSQH41IXsAtyHfpLS+IH135562cqckie5Q+JXa8C3Se/ulFg8IJTPD1Pf221N4m8ZM9Q6vxeX70LWPfwB5VQvvRx4zt3UhSCEm16BoU37fMZGBVQzwIMpOCU13TNO955MRdD6ci7Y7HsZcHpWiL0kzrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Sat, 30 Nov
+ 2024 18:58:33 +0300
+Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Sat, 30 Nov
+ 2024 18:58:33 +0300
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>
+CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, Konstantin Komarov
+	<almaz.alexandrovich@paragon-software.com>, <ntfs3@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
+Subject: [PATCH 6.1.y] fs/ntfs3: Fixed overflow check in mi_enum_attr()
+Date: Sat, 30 Nov 2024 07:58:25 -0800
+Message-ID: <20241130155825.30829-1-n.zhandarovich@fintech.ru>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1d9a:b0:3a7:d7dd:e70f with SMTP id
- e9e14a558f8ab-3a7d7dde9dcmr41877845ab.12.1732925248876; Fri, 29 Nov 2024
- 16:07:28 -0800 (PST)
-Date: Fri, 29 Nov 2024 16:07:28 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <674a5740.050a0220.253251.00d1.GAE@google.com>
-Subject: [syzbot] [ntfs3?] possible deadlock in vfs_rename (2)
-From: syzbot <syzbot+9edbc41b1330724a6243@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 
-Hello,
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-syzbot found the following issue on:
+[ Upstream commit 652cfeb43d6b9aba5c7c4902bed7a7340df131fb ]
 
-HEAD commit:    9f16d5e6f220 Merge tag 'for-linus' of git://git.kernel.org..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13406778580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=54f7b2f59e7640e5
-dashboard link: https://syzkaller.appspot.com/bug?extid=9edbc41b1330724a6243
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/7562d921dc97/disk-9f16d5e6.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/8fb84b5dec53/vmlinux-9f16d5e6.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/cac8b3f180c1/bzImage-9f16d5e6.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+9edbc41b1330724a6243@syzkaller.appspotmail.com
-
-ntfs3(loop1): mft corrupted
-ntfs3(loop1): Failed to load $Extend (-22).
-ntfs3(loop1): Failed to initialize $Extend.
-======================================================
-WARNING: possible circular locking dependency detected
-6.12.0-syzkaller-09073-g9f16d5e6f220 #0 Not tainted
-------------------------------------------------------
-syz.1.1301/14345 is trying to acquire lock:
-ffff88807c587918 (&sb->s_type->i_mutex_key#32/4){+.+.}-{4:4}, at: vfs_rename+0x6a2/0xf00 fs/namei.c:5038
-
-but task is already holding lock:
-ffff88807c583e58 (&sb->s_type->i_mutex_key#32){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:818 [inline]
-ffff88807c583e58 (&sb->s_type->i_mutex_key#32){+.+.}-{4:4}, at: lock_two_nondirectories+0xe1/0x170 fs/inode.c:1281
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #4 (&sb->s_type->i_mutex_key#32){+.+.}-{4:4}:
-       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
-       down_write+0x99/0x220 kernel/locking/rwsem.c:1577
-       inode_lock include/linux/fs.h:818 [inline]
-       ntfs_file_mmap+0x5bc/0x850 fs/ntfs3/file.c:377
-       call_mmap include/linux/fs.h:2183 [inline]
-       mmap_file mm/internal.h:124 [inline]
-       __mmap_new_file_vma mm/vma.c:2291 [inline]
-       __mmap_new_vma mm/vma.c:2355 [inline]
-       __mmap_region+0x2204/0x2cd0 mm/vma.c:2456
-       mmap_region+0x1d0/0x2c0 mm/mmap.c:1347
-       do_mmap+0x8f0/0x1000 mm/mmap.c:496
-       vm_mmap_pgoff+0x1dd/0x3d0 mm/util.c:588
-       ksys_mmap_pgoff+0x4eb/0x720 mm/mmap.c:542
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #3 (&mm->mmap_lock){++++}-{4:4}:
-       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
-       __might_fault+0xc6/0x120 mm/memory.c:6751
-       _inline_copy_to_user include/linux/uaccess.h:192 [inline]
-       _copy_to_user+0x2c/0xb0 lib/usercopy.c:26
-       copy_to_user include/linux/uaccess.h:225 [inline]
-       ni_fiemap+0x57c/0x18c0 fs/ntfs3/frecord.c:2139
-       ntfs_fiemap+0x132/0x180 fs/ntfs3/file.c:1352
-       ioctl_fiemap fs/ioctl.c:220 [inline]
-       do_vfs_ioctl+0x1c01/0x2e40 fs/ioctl.c:840
-       __do_sys_ioctl fs/ioctl.c:904 [inline]
-       __se_sys_ioctl+0x80/0x170 fs/ioctl.c:892
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #2 (&ni->ni_lock/5){+.+.}-{4:4}:
-       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
-       __mutex_lock_common kernel/locking/mutex.c:585 [inline]
-       __mutex_lock+0x1ac/0xee0 kernel/locking/mutex.c:735
-       ni_lock fs/ntfs3/ntfs_fs.h:1109 [inline]
-       ntfs_save_wsl_perm+0x8f/0x500 fs/ntfs3/xattr.c:959
-       ntfs_create_inode+0x21a0/0x3760 fs/ntfs3/inode.c:1631
-       ntfs_symlink+0xde/0x110 fs/ntfs3/namei.c:197
-       vfs_symlink+0x137/0x2e0 fs/namei.c:4669
-       do_symlinkat+0x222/0x3a0 fs/namei.c:4695
-       __do_sys_symlink fs/namei.c:4716 [inline]
-       __se_sys_symlink fs/namei.c:4714 [inline]
-       __x64_sys_symlink+0x7a/0x90 fs/namei.c:4714
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (&ni->ni_lock#3/6){+.+.}-{4:4}:
-       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
-       __mutex_lock_common kernel/locking/mutex.c:585 [inline]
-       __mutex_lock+0x1ac/0xee0 kernel/locking/mutex.c:735
-       ni_lock_dir fs/ntfs3/ntfs_fs.h:1114 [inline]
-       ntfs_rename+0x72f/0xd10 fs/ntfs3/namei.c:311
-       vfs_rename+0xbdb/0xf00 fs/namei.c:5067
-       do_renameat2+0xd94/0x13f0 fs/namei.c:5224
-       __do_sys_rename fs/namei.c:5271 [inline]
-       __se_sys_rename fs/namei.c:5269 [inline]
-       __x64_sys_rename+0x82/0x90 fs/namei.c:5269
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (&sb->s_type->i_mutex_key#32/4){+.+.}-{4:4}:
-       check_prev_add kernel/locking/lockdep.c:3161 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3280 [inline]
-       validate_chain+0x18ef/0x5920 kernel/locking/lockdep.c:3904
-       __lock_acquire+0x1397/0x2100 kernel/locking/lockdep.c:5226
-       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
-       down_write_nested+0xa2/0x220 kernel/locking/rwsem.c:1693
-       vfs_rename+0x6a2/0xf00 fs/namei.c:5038
-       do_renameat2+0xd94/0x13f0 fs/namei.c:5224
-       __do_sys_rename fs/namei.c:5271 [inline]
-       __se_sys_rename fs/namei.c:5269 [inline]
-       __x64_sys_rename+0x82/0x90 fs/namei.c:5269
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  &sb->s_type->i_mutex_key#32/4 --> &mm->mmap_lock --> &sb->s_type->i_mutex_key#32
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&sb->s_type->i_mutex_key#32);
-                               lock(&mm->mmap_lock);
-                               lock(&sb->s_type->i_mutex_key#32);
-  lock(&sb->s_type->i_mutex_key#32/4);
-
- *** DEADLOCK ***
-
-5 locks held by syz.1.1301/14345:
- #0: ffff888051910420 (sb_writers#22){.+.+}-{0:0}, at: mnt_want_write+0x3f/0x90 fs/namespace.c:515
- #1: ffff888051910730 (&type->s_vfs_rename_key#7){+.+.}-{4:4}, at: lock_rename fs/namei.c:3219 [inline]
- #1: ffff888051910730 (&type->s_vfs_rename_key#7){+.+.}-{4:4}, at: do_renameat2+0x5cf/0x13f0 fs/namei.c:5159
- #2: ffff88807c585460 (&type->i_mutex_dir_key#14/1){+.+.}-{4:4}, at: inode_lock_nested include/linux/fs.h:853 [inline]
- #2: ffff88807c585460 (&type->i_mutex_dir_key#14/1){+.+.}-{4:4}, at: lock_two_directories+0x1a8/0x220 fs/namei.c:3195
- #3: ffff88807c580398 (&type->i_mutex_dir_key#14/5){+.+.}-{4:4}, at: inode_lock_nested include/linux/fs.h:853 [inline]
- #3: ffff88807c580398 (&type->i_mutex_dir_key#14/5){+.+.}-{4:4}, at: lock_two_directories+0x1d1/0x220 fs/namei.c:3196
- #4: ffff88807c583e58 (&sb->s_type->i_mutex_key#32){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:818 [inline]
- #4: ffff88807c583e58 (&sb->s_type->i_mutex_key#32){+.+.}-{4:4}, at: lock_two_nondirectories+0xe1/0x170 fs/inode.c:1281
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 14345 Comm: syz.1.1301 Not tainted 6.12.0-syzkaller-09073-g9f16d5e6f220 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
- print_circular_bug+0x13a/0x1b0 kernel/locking/lockdep.c:2074
- check_noncircular+0x36a/0x4a0 kernel/locking/lockdep.c:2206
- check_prev_add kernel/locking/lockdep.c:3161 [inline]
- check_prevs_add kernel/locking/lockdep.c:3280 [inline]
- validate_chain+0x18ef/0x5920 kernel/locking/lockdep.c:3904
- __lock_acquire+0x1397/0x2100 kernel/locking/lockdep.c:5226
- lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
- down_write_nested+0xa2/0x220 kernel/locking/rwsem.c:1693
- vfs_rename+0x6a2/0xf00 fs/namei.c:5038
- do_renameat2+0xd94/0x13f0 fs/namei.c:5224
- __do_sys_rename fs/namei.c:5271 [inline]
- __se_sys_rename fs/namei.c:5269 [inline]
- __x64_sys_rename+0x82/0x90 fs/namei.c:5269
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f171917e819
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f1719f99038 EFLAGS: 00000246 ORIG_RAX: 0000000000000052
-RAX: ffffffffffffffda RBX: 00007f1719335fa0 RCX: 00007f171917e819
-RDX: 0000000000000000 RSI: 00000000200002c0 RDI: 0000000020000240
-RBP: 00007f17191f175e R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 00007f1719335fa0 R15: 00007ffd570c5a98
- </TASK>
-
-
+Reported-by: Robert Morris <rtm@csail.mit.edu>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+[Nikita: Fix for CVE-2024-27407 in 6.1.y. No changes were made
+to get it to apply to older branch.]
+Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/record.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
+index 7ab452710572..826a756669a3 100644
+--- a/fs/ntfs3/record.c
++++ b/fs/ntfs3/record.c
+@@ -273,7 +273,7 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
+ 		if (t16 > asize)
+ 			return NULL;
+ 
+-		if (t16 + le32_to_cpu(attr->res.data_size) > asize)
++		if (le32_to_cpu(attr->res.data_size) > asize - t16)
+ 			return NULL;
+ 
+ 		if (attr->name_len &&
+-- 
+2.25.1
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
