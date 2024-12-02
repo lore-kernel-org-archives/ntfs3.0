@@ -1,71 +1,188 @@
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08C9433BC
-	for <ntfs3@lists.linux.dev>; Sat, 30 Nov 2024 15:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BEF41FDE05
+	for <ntfs3@lists.linux.dev>; Mon,  2 Dec 2024 12:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732982320; cv=none; b=EVWy4abNa+oGTl7UjAJaz2cUvY2ltbaprFSzbwDW503rvC/TXS5madmHflNK2OGUWKv07FSMSGnwsaTNPmpmBOcwvzLNdYpIVyTfRYABs4CIqWqq1boYZv2J/JrdnffBxLrs4kpiXsftBrshpG+923qD+btAfXU63mZ/jsNvbeI=
+	t=1733144067; cv=none; b=m8C0Cpkblohn5IV953AutHBFsuG0BUikc4RC3c+HCpDnGiJECePtz4jxIeqxMBD0810YYqJtBfeuKN1X4bwyK4Ol26m8L9Rt0acviOweDsWum+b/BcMaM4FCP/o1mBtXJ2i+iDxcljyV7VC24WCTQyb/BmtHoGgS2N2xAPl00oY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732982320; c=relaxed/simple;
-	bh=QB2pgRiEozv5EyxJd4OxPbhE4bEoMNsWkZ36wINZSLw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=K4av49kTu9JdYTZaEuCGSQH41IXsAtyHfpLS+IH135562cqckie5Q+JXa8C3Se/ulFg8IJTPD1Pf221N4m8ZM9Q6vxeX70LWPfwB5VQvvRx4zt3UhSCEm16BoU37fMZGBVQzwIMpOCU13TNO955MRdD6ci7Y7HsZcHpWiL0kzrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Sat, 30 Nov
- 2024 18:58:33 +0300
-Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Sat, 30 Nov
- 2024 18:58:33 +0300
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>
-CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, Konstantin Komarov
-	<almaz.alexandrovich@paragon-software.com>, <ntfs3@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
-Subject: [PATCH 6.1.y] fs/ntfs3: Fixed overflow check in mi_enum_attr()
-Date: Sat, 30 Nov 2024 07:58:25 -0800
-Message-ID: <20241130155825.30829-1-n.zhandarovich@fintech.ru>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1733144067; c=relaxed/simple;
+	bh=ZCFTzitm8WDx9MV4GVhrVdaIMkyujyGmtRhLKMcgVjM=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=pyXicLR4nhzT1wx+qvb1tT8wsIcJiMJM8B1xMTAuL+NxRlHOM+Ei7KGaezm7JTOKWY8qfGW61JdiiZJjxiTBfzlg+yle6enGQ+r3mRdTlA0NmPiB6tD903iprwgo1FeIZqwWssXKi93jQnKlOJvrMTZ8F2FKE9E5Jnsp3MRm1ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-3a7c8259214so43772105ab.2
+        for <ntfs3@lists.linux.dev>; Mon, 02 Dec 2024 04:54:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733144065; x=1733748865;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IBBFBJDa32RUIKQFH0JCV3u7qklWJQA6cnv7lwRT634=;
+        b=SumxBfk/g28TrRVlZ3oB/6gdDdlkZynF60AFH49QeL6lw/kGZGS1FHlnQT3SFwNElW
+         E4JupEuKlDLUf3KunAbF0xHsU2uBOGqNcE5IWQ0E5Y3WbU4V+RkcUqq+NwoFH5ZpccA6
+         /TesY1fMvZ5z5+ZjvMvSQRYXOUQb9WGHj5rix4YOV4F2tdlRdZPL5KKcceLqDkU5WKER
+         wb0SiVcEWF1A/pEawK01OyUrKt6naa+d8AKIAcax2gFYr/jOZnkvtbnKK1HvvulSW30u
+         EuW74khttS48X7FWJAB184GkIBCrm29qsCCxZDuZ7p1nXkmYnLuMSd888T/KkhwusAuJ
+         oIww==
+X-Forwarded-Encrypted: i=1; AJvYcCU/atJM4XKlhwd/vE/lhoTLM/7sbkVryg1zK+YNBY7aGfbs4iM6IGE4+46ukLdh7+OEVfME4w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywh2/I0jNtNwJ0eGSQscLAbhsmXMTQn5GHhx6Xx9ZctF5qEAUaY
+	fnj8TV6TZz9AVWSmNi4zFmORlAoPq7buCCL5Q0DMASvguWzoGMTjUPXsx7X/pbTy7jaZt0+Xj7z
+	7L4YHdK28KZbD6F2wmHMfWzl5kXDECBsisNZHkpps8mqabIxIW/esw9I=
+X-Google-Smtp-Source: AGHT+IF+Hl0bNH/drwOVUlhkjJqhTwfxSMYDVcRotUlchcu9Wp4EE0wgsAmXVDZO4b1kawMj1JFL7dSTxhvC4H8ZrJRxQ+h/XDP8
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+X-Received: by 2002:a05:6e02:1aa5:b0:3a7:e286:a560 with SMTP id
+ e9e14a558f8ab-3a7e286a85fmr98594595ab.2.1733144065233; Mon, 02 Dec 2024
+ 04:54:25 -0800 (PST)
+Date: Mon, 02 Dec 2024 04:54:25 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <674dae01.050a0220.48a03.0025.GAE@google.com>
+Subject: [syzbot] [ntfs3?] WARNING: nested lock was not taken in
+ ntfs_fill_super (3)
+From: syzbot <syzbot+a86ba8468e1f414dce00@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Hello,
 
-[ Upstream commit 652cfeb43d6b9aba5c7c4902bed7a7340df131fb ]
+syzbot found the following issue on:
 
-Reported-by: Robert Morris <rtm@csail.mit.edu>
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-[Nikita: Fix for CVE-2024-27407 in 6.1.y. No changes were made
-to get it to apply to older branch.]
-Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+HEAD commit:    40384c840ea1 Linux 6.13-rc1
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12c000f8580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ad7dafcfaa48849c
+dashboard link: https://syzkaller.appspot.com/bug?extid=a86ba8468e1f414dce00
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1576d5e8580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/32ee9cd04555/disk-40384c84.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/e7894cd1da27/vmlinux-40384c84.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2129df5d769f/bzImage-40384c84.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/8e5370ea11d8/mount_0.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a86ba8468e1f414dce00@syzkaller.appspotmail.com
+
+ntfs3(loop0): Different NTFS sector size (2048) and media sector size (512).
+==================================
+WARNING: Nested lock was not taken
+6.13.0-rc1-syzkaller #0 Not tainted
+----------------------------------
+syz.0.167/6410 is trying to lock:
+ffff88805d36f110 (&sb->s_type->i_lock_key#34){+.+.}-{3:3}, at: spin_lock include/linux/spinlock.h:351 [inline]
+ffff88805d36f110 (&sb->s_type->i_lock_key#34){+.+.}-{3:3}, at: iput_final fs/inode.c:1935 [inline]
+ffff88805d36f110 (&sb->s_type->i_lock_key#34){+.+.}-{3:3}, at: iput fs/inode.c:1972 [inline]
+ffff88805d36f110 (&sb->s_type->i_lock_key#34){+.+.}-{3:3}, at: iput+0x63e/0x890 fs/inode.c:1958
+
+but this task is not holding:
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000003: 0000 [#1] PREEMPT SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
+CPU: 0 UID: 0 PID: 6410 Comm: syz.0.167 Not tainted 6.13.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
+RIP: 0010:print_lock_nested_lock_not_held kernel/locking/lockdep.c:5049 [inline]
+RIP: 0010:__lock_acquire+0x1241/0x3c40 kernel/locking/lockdep.c:5217
+Code: fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 08 21 00 00 48 b8 00 00 00 00 00 fc ff df 49 8b 5f 18 48 8d 7b 18 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 db 20 00 00 48 8b 73 18 48 c7 c7 20 0c 6d 8b e8
+RSP: 0018:ffffc9000524f820 EFLAGS: 00010016
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff81794fa9
+RDX: 0000000000000003 RSI: ffffffff8179f976 RDI: 0000000000000018
+RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000080000002 R11: 7369687420747562 R12: ffff888025af8000
+R13: ffff888025af8000 R14: ffffed1004b5f15b R15: ffff888025af8b08
+FS:  00007f4e610c96c0(0000) GS:ffff8880b8600000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000555577de8608 CR3: 000000005eac8000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ lock_acquire.part.0+0x11b/0x380 kernel/locking/lockdep.c:5849
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:351 [inline]
+ iput_final fs/inode.c:1935 [inline]
+ iput fs/inode.c:1972 [inline]
+ iput+0x63e/0x890 fs/inode.c:1958
+ ntfs_fill_super+0x331c/0x4190 fs/ntfs3/super.c:1472
+ get_tree_bdev_flags+0x38e/0x620 fs/super.c:1636
+ vfs_get_tree+0x92/0x380 fs/super.c:1814
+ do_new_mount fs/namespace.c:3507 [inline]
+ path_mount+0x14e6/0x1f20 fs/namespace.c:3834
+ do_mount fs/namespace.c:3847 [inline]
+ __do_sys_mount fs/namespace.c:4057 [inline]
+ __se_sys_mount fs/namespace.c:4034 [inline]
+ __x64_sys_mount+0x294/0x320 fs/namespace.c:4034
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f4e60381fea
+Code: d8 64 89 02 48 c7 c0 ff ff ff ff eb a6 e8 de 1a 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f4e610c8e88 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007f4e610c8f10 RCX: 00007f4e60381fea
+RDX: 00000000200000c0 RSI: 000000002001f3c0 RDI: 00007f4e610c8ed0
+RBP: 00000000200000c0 R08: 00007f4e610c8f10 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 000000002001f3c0
+R13: 00007f4e610c8ed0 R14: 000000000001f393 R15: 00000000200001c0
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:print_lock_nested_lock_not_held kernel/locking/lockdep.c:5049 [inline]
+RIP: 0010:__lock_acquire+0x1241/0x3c40 kernel/locking/lockdep.c:5217
+Code: fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 08 21 00 00 48 b8 00 00 00 00 00 fc ff df 49 8b 5f 18 48 8d 7b 18 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 db 20 00 00 48 8b 73 18 48 c7 c7 20 0c 6d 8b e8
+RSP: 0018:ffffc9000524f820 EFLAGS: 00010016
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff81794fa9
+RDX: 0000000000000003 RSI: ffffffff8179f976 RDI: 0000000000000018
+RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000080000002 R11: 7369687420747562 R12: ffff888025af8000
+R13: ffff888025af8000 R14: ffffed1004b5f15b R15: ffff888025af8b08
+FS:  00007f4e610c96c0(0000) GS:ffff8880b8600000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000555577de8608 CR3: 000000005eac8000 CR4: 0000000000350ef0
+----------------
+Code disassembly (best guess), 3 bytes skipped:
+   0:	48 c1 ea 03          	shr    $0x3,%rdx
+   4:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+   8:	0f 85 08 21 00 00    	jne    0x2116
+   e:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  15:	fc ff df
+  18:	49 8b 5f 18          	mov    0x18(%r15),%rbx
+  1c:	48 8d 7b 18          	lea    0x18(%rbx),%rdi
+  20:	48 89 fa             	mov    %rdi,%rdx
+  23:	48 c1 ea 03          	shr    $0x3,%rdx
+* 27:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2b:	0f 85 db 20 00 00    	jne    0x210c
+  31:	48 8b 73 18          	mov    0x18(%rbx),%rsi
+  35:	48 c7 c7 20 0c 6d 8b 	mov    $0xffffffff8b6d0c20,%rdi
+  3c:	e8                   	.byte 0xe8
+
+
 ---
- fs/ntfs3/record.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index 7ab452710572..826a756669a3 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -273,7 +273,7 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 		if (t16 > asize)
- 			return NULL;
- 
--		if (t16 + le32_to_cpu(attr->res.data_size) > asize)
-+		if (le32_to_cpu(attr->res.data_size) > asize - t16)
- 			return NULL;
- 
- 		if (attr->name_len &&
--- 
-2.25.1
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
