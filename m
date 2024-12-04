@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2555220E32D;
-	Wed,  4 Dec 2024 23:26:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D040E20E70F;
+	Wed,  4 Dec 2024 23:27:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733354820; cv=none; b=YPfniYaKwylC2wslZjAPL0KTTDRJC4WtySN84pEig0uTtVtlUUVbYk5Kne+oD05WJp9it8BliLEiKH1L0SSqf4Nr7lwdQ9cPWuwjDDX9/OyjMyou974Sqzvy8g3TLTd15AIwPYRv/sDrUzv36wvtUwk5bu82cGQEvkLJoLG3JCQ=
+	t=1733354823; cv=none; b=NhF2+kxIYqlNzMH/mDl661Brn/bN1V3esukJSqzInZaUzQZJmt7RdS1qb+bB4fgjtleO5tLNiqd0ykfjcdW40kfnDYHNQxHppTrLBTht048ScS5jB833OP1KblkUabQT9CDYKTFfRLfDdJjFlP5y/RwsvlkZdBBlvAqBJlJrNZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733354820; c=relaxed/simple;
+	s=arc-20240116; t=1733354823; c=relaxed/simple;
 	bh=Y9JKejcSL4uFEb7Pawul7nYeququsEJt7FV7B5uTBZg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KcjBYt64oRCEw9c1OYS4guEDwNh4nI+d0XBAKIXoPIoApvK7DJxYGZQQDrZ8VHeGI4HM8I9oKTUhvJe+SXIKxNQaYUA7mHO5p9MAHSywf5vjZt2cY+klErlHPZTh7v8JrdX1Ux8nmPk733Iys2E1uNXJ4byMFnVFmz+78qV1Eoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h81yAb37; arc=none smtp.client-ip=10.30.226.201
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pAyrWs8kW6ybS2usQIkA++nLqKTn0kIsFgApByXiu674nmhnjziZdwanHAbYtIuZc8ET1G5p3bG89nRnMdEKnAe2xJ83Ye7qjX7Qzq3dBGRbZeWHxs8RzNnVFINeKmi2g2/8ugafqznS46zR8E67nbjzVZuG+LNUccvpX/AryaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=brvyr9xh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h81yAb37"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D62BEC4CECD;
-	Wed,  4 Dec 2024 23:26:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="brvyr9xh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00146C4CECD;
+	Wed,  4 Dec 2024 23:27:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733354819;
+	s=k20201202; t=1733354823;
 	bh=Y9JKejcSL4uFEb7Pawul7nYeququsEJt7FV7B5uTBZg=;
 	h=From:To:Cc:Subject:Date:From;
-	b=h81yAb37AIyrM0YTmWvaypfts0xhZXm0ajZQVV0CxWWXmQWLYlbbnsw16K/d3uo9k
-	 bBVsQQBfMqDIXb83TWTydluWhmZ7fDmIICNqkLTYazsWhCgjde0JD0L11Hdcrnh6hz
-	 iKBhlIOF/yiUdv1g4xl6pL+oJN3XCm3vP9j1IbG+yUeK1AuaEbxxILbQ+PICVool95
-	 N/dgBwfRn96VOUzPURu9fz+7l4lAUhdUYxylvOU2a3MhzCnBvMRA7yHH4D/VZh7n3P
-	 KZV1xK0gPlrcgqwgE6KEzsrcpusJP1D/zE+namofDbORJkJMGnfRpAuxP5bT4Pssa2
-	 lG5hGEz+FFVRw==
+	b=brvyr9xhB3c9dPQSSGeQLyQlQjxjkHhS/jKWkBNgfGmJMETFE3K293u805XllaxP2
+	 Jfu57J/RNx/auygbu/iw4cLDw+KrcpKz28bYaPbi8bpUuyMbw63WWqVS+f4oh62GIN
+	 xG117orH8xRUwQ6Uq2NceWPbfTFEHVdxXWz845Ywu7GX0jJN/A0A1BhCr1bpk+g1pv
+	 q/A5uFimsjnAMeOdyIvOvAaH0B+a2x+wtZoYqGq5ZGHJj8g40GONZZq9o/NODdIIXW
+	 rMdlxxP4dupBh3gsyLLHsHb5QGueYQwg7pM/kGNKUHjr4dpLOcA0mLg2qBvzx9XdYC
+	 DrSxViS2rVa2w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -32,9 +32,9 @@ Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	syzbot+7f3761b790fa41d0f3d5@syzkaller.appspotmail.com,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.11 1/2] fs/ntfs3: Fix case when unmarked clusters intersect with zone
-Date: Wed,  4 Dec 2024 17:15:38 -0500
-Message-ID: <20241204221539.2247447-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6] fs/ntfs3: Fix case when unmarked clusters intersect with zone
+Date: Wed,  4 Dec 2024 17:15:43 -0500
+Message-ID: <20241204221543.2247503-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -44,7 +44,7 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.10
+X-stable-base: Linux 6.6.63
 Content-Transfer-Encoding: 8bit
 
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
