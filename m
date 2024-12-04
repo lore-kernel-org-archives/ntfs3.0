@@ -1,31 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D80220E016;
-	Wed,  4 Dec 2024 23:26:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2555220E32D;
+	Wed,  4 Dec 2024 23:26:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733354815; cv=none; b=XlSuwJE7UNKC1EwabKQ0AJh9Ndj78tVbcHy7IKBdN8ZPVeIjFKNKYzBWxChnfIHFjl0Gps/FNOjvTdQx/7BiN0ji0Fne5le2xJ+jBQLNi84VtQC3Cx5EUd+eDgwpZcQyjEtUd24Vhq187OY4FXLuxRq8I6bMuEaXWFmPcdk0N7Y=
+	t=1733354820; cv=none; b=YPfniYaKwylC2wslZjAPL0KTTDRJC4WtySN84pEig0uTtVtlUUVbYk5Kne+oD05WJp9it8BliLEiKH1L0SSqf4Nr7lwdQ9cPWuwjDDX9/OyjMyou974Sqzvy8g3TLTd15AIwPYRv/sDrUzv36wvtUwk5bu82cGQEvkLJoLG3JCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733354815; c=relaxed/simple;
-	bh=2YG1CF2q58HG6E9xqH4h2aveIrGJdp6i2yfxVFAXtxU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hIx+DusOipNh0Thf7/0eqNTNT0uCjd38keNgbmCL3TbFMLhPG/Vf7r5hpbZMYOqk1Eh2KRbuyYhflVoMuDFN/WFs2Peh0pO3CtSg1FsI45riooU8kZKNcaXu3Nx6xXTzgL7GEStcPbxTPXQ6dK5DIoMDCfMj7fdP9mF+HldSa6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mSv5zcff; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733354820; c=relaxed/simple;
+	bh=Y9JKejcSL4uFEb7Pawul7nYeququsEJt7FV7B5uTBZg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KcjBYt64oRCEw9c1OYS4guEDwNh4nI+d0XBAKIXoPIoApvK7DJxYGZQQDrZ8VHeGI4HM8I9oKTUhvJe+SXIKxNQaYUA7mHO5p9MAHSywf5vjZt2cY+klErlHPZTh7v8JrdX1Ux8nmPk733Iys2E1uNXJ4byMFnVFmz+78qV1Eoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h81yAb37; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mSv5zcff"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FFAEC4CECD;
-	Wed,  4 Dec 2024 23:26:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h81yAb37"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D62BEC4CECD;
+	Wed,  4 Dec 2024 23:26:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733354815;
-	bh=2YG1CF2q58HG6E9xqH4h2aveIrGJdp6i2yfxVFAXtxU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mSv5zcffe1RgQc0on6uFsP7hedfdlYqPMQa+poZ24wtYNLbZYclOKlKAOaEHskpcV
-	 BjO66VPm6KCPZkLcpcHExGL9Rd//42gU8X3unNeMoFTSWWAXCsSvVZJ1rqDW9Py+eO
-	 zChtD/6VuEe046dASZ+7R2+TKpHkrsuAuWH4t46pIq0RnwLqHg5z2KR+a+DS2E4t8d
-	 zQZybVvYGZUYOrnvLptmnFnqMJziIjtlJ/KoVxGQmVjjIZ+1RuTHJ9A0Z712oealXn
-	 yyKBkMhOv2o1oZq/k5vtQ9RnzE3sQxbZhvhPDmgsJG31QJ5YoeXhwiC9+hvEHfcqdI
-	 0om+Fry6yi56Q==
+	s=k20201202; t=1733354819;
+	bh=Y9JKejcSL4uFEb7Pawul7nYeququsEJt7FV7B5uTBZg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=h81yAb37AIyrM0YTmWvaypfts0xhZXm0ajZQVV0CxWWXmQWLYlbbnsw16K/d3uo9k
+	 bBVsQQBfMqDIXb83TWTydluWhmZ7fDmIICNqkLTYazsWhCgjde0JD0L11Hdcrnh6hz
+	 iKBhlIOF/yiUdv1g4xl6pL+oJN3XCm3vP9j1IbG+yUeK1AuaEbxxILbQ+PICVool95
+	 N/dgBwfRn96VOUzPURu9fz+7l4lAUhdUYxylvOU2a3MhzCnBvMRA7yHH4D/VZh7n3P
+	 KZV1xK0gPlrcgqwgE6KEzsrcpusJP1D/zE+namofDbORJkJMGnfRpAuxP5bT4Pssa2
+	 lG5hGEz+FFVRw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -33,12 +32,10 @@ Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	syzbot+7f3761b790fa41d0f3d5@syzkaller.appspotmail.com,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.12 2/3] fs/ntfs3: Fix case when unmarked clusters intersect with zone
-Date: Wed,  4 Dec 2024 17:15:31 -0500
-Message-ID: <20241204221534.2247369-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 1/2] fs/ntfs3: Fix case when unmarked clusters intersect with zone
+Date: Wed,  4 Dec 2024 17:15:38 -0500
+Message-ID: <20241204221539.2247447-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204221534.2247369-1-sashal@kernel.org>
-References: <20241204221534.2247369-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -47,7 +44,7 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.1
+X-stable-base: Linux 6.11.10
 Content-Transfer-Encoding: 8bit
 
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
@@ -62,10 +59,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 30 insertions(+), 10 deletions(-)
 
 diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
-index 58e988cd80490..48566dff0dc92 100644
+index cb8cf0161177b..44e93ad491ba7 100644
 --- a/fs/ntfs3/run.c
 +++ b/fs/ntfs3/run.c
-@@ -1055,8 +1055,8 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+@@ -1053,8 +1053,8 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
  {
  	int ret, err;
  	CLST next_vcn, lcn, len;
@@ -76,7 +73,7 @@ index 58e988cd80490..48566dff0dc92 100644
  	struct wnd_bitmap *wnd;
  
  	ret = run_unpack(run, sbi, ino, svcn, evcn, vcn, run_buf, run_buf_size);
-@@ -1087,8 +1087,9 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+@@ -1085,8 +1085,9 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
  			continue;
  
  		down_read_nested(&wnd->rw_lock, BITMAP_MUTEX_CLUSTERS);
@@ -87,7 +84,7 @@ index 58e988cd80490..48566dff0dc92 100644
  		up_read(&wnd->rw_lock);
  		if (ok)
  			continue;
-@@ -1096,14 +1097,33 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+@@ -1094,14 +1095,33 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
  		/* Looks like volume is corrupted. */
  		ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
  
