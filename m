@@ -1,86 +1,207 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4277F2210C4;
-	Wed, 11 Dec 2024 09:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4AE20C009
+	for <ntfs3@lists.linux.dev>; Thu, 12 Dec 2024 08:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733908235; cv=none; b=DvEssIDubizoCnEYi9YlH2drEsDGgr2KKR3ksVfGMvI1EqxbD35TC7R6LmAoOdG6y+JUs2Q4gdcJBCuf+vgP+ALwNgK7eBurKAOEh1kqz6CGZdInBct4+sLMinSL4dhlt3jsMqg2QI3xnljFq9w+ziBCQZ2epzbRnzLBEk3amx4=
+	t=1733992530; cv=none; b=ayvePAB67fV9obSylfbrEviz4dgLf9O3xsLy2KgdlcWMy7/gR6IvFOcC05c1XxhtxHSyAkKFaqsJ6enAdvRJO56k0boMRklo5ZsaAReNxKUf9mfF57Z9/zGhgRxripNK7bN6pHDpLgzwKKROWrH6koXr9LopdyI6V2Opvorrck8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733908235; c=relaxed/simple;
-	bh=a3K64jJA2uqJMe1HS7E60k7y1DffRW1euJVCcFm1q9Q=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ErhKZSTXIsev/DUD9WDVlWTZMvCX1rErnMWN0v8ULw1pHjD5FQ26L7/zNUSK5gfxpOwGppBbjkXoTWJAVlZc6xm09Xc4286ZtLFECmG0lgzQRhutTjZPd4NgUUN1fflsyjh1BQEpOkK0x6saMW1dyWwdKEqRWODuA1sKCmXVpQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.178.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BB5lpTm000975;
-	Wed, 11 Dec 2024 09:10:21 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43cwy3kysv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 11 Dec 2024 09:10:21 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 11 Dec 2024 01:10:19 -0800
-Received: from pek-lpg-core1.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 11 Dec 2024 01:10:17 -0800
-From: <jianqi.ren.cn@windriver.com>
-To: <rtm@csail.mit.edu>, <gregkh@linuxfoundation.org>,
-        <almaz.alexandrovich@paragon-software.com>
-CC: <patches@lists.linux.dev>, <stable@vger.kernel.org>,
-        <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 6.1.y] fs/ntfs3: Fixed overflow check in mi_enum_attr()
-Date: Wed, 11 Dec 2024 18:08:11 +0800
-Message-ID: <20241211100811.2069894-1-jianqi.ren.cn@windriver.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1733992530; c=relaxed/simple;
+	bh=1uQyb0fyFHZWvZlk+o2GTg1a512RhpEyP+IbAz0kJfc=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=Sek0Gv6dih7Zn8ROzQXzcAiIc9S5ML8xnnb4BYRwenvSL+/WxSs9RoufIOgNJxOhJ9ODBIyAe+hO5TShgztvj5BHUt19tTgna/ZV7Vzb+3Kj9SjgEDAHKwifltVGmaTCmYkLps0Q50TRbatfvNVtMmCzFXyvWPo0nKKSSin7nL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-3a81777ab57so2849515ab.2
+        for <ntfs3@lists.linux.dev>; Thu, 12 Dec 2024 00:35:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733992527; x=1734597327;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2z0khIIhP8/UZ3BXerT67wZzUu41LWFs8goIzSaBFXo=;
+        b=JL37dnOiwbEAWRKm2goiv27RjZMtFg+3LRmJc7o3ZWWDZwpQ3tApgKqe4I5dxGNcvU
+         AUM0kUcPiCzaDAiTqMXBAyf3Ki9947bN/O+LUvlnsUZLA51wcIGF+0JM30P5PCclUbOQ
+         g6TyMnFi5sLN/G/+igkLtaQlZcF4AwKut6HDyRxf0TRUyr9aH3rz9xmdb3I+F9Ybwf8K
+         5xppY5lx5TgkgI0M2wKvKjHWCQIX5Zi3EhQGOiOvsWNz3tBYzR4UgJRxtnp2uwuyo5qH
+         oB0NwlwPuEEywGdXQjtI019u5xxg6MVHmXTZ3hTfA4qoG2EWLfpZJGbBK9+cZmdm4f7i
+         OMKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUv4vk3xGg7vMed/UUciexHg+123dwn5ouHlPvmVSmRqUZOpIi8+tph2ZYYDphPs3ig1e58A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWGwiZaJXMaQLBdeVfB0m/1pPxMTjkUMSqSwnPfPj6qeC0meu0
+	3LVIgDMQFbLIIlJIE7FEWvvQ/TUYt3aiQj9c5t7hcA3zui8flue9BnysPBv4Xz7SeNqZAT5PGBl
+	ormS0tqG5R5DtgIFRz+nm6zcWcUlp/gg3/ihbYRvJuZ48Mz5hDrqrCZY=
+X-Google-Smtp-Source: AGHT+IHcMlK6fpbC/Gou1uGX/RARv4ECgV0j/HudfQRw2rDjrvFkAIwpk+ylQ/yuTB0VQMAvt6DR9gcjeYlHd+bTLXcw/Xx0M9R8
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 5NpboHxqjj25SPvjgNMWaF6Wh2cWABDp
-X-Proofpoint-ORIG-GUID: 5NpboHxqjj25SPvjgNMWaF6Wh2cWABDp
-X-Authority-Analysis: v=2.4 cv=D7O9KuRj c=1 sm=1 tr=0 ts=675956fd cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=GFCt93a2AAAA:8 a=t7CeM3EgAAAA:8 a=fATKHIbVh68Ky4GJMjkA:9 a=0UNspqPZPZo5crgNHNjb:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-11_08,2024-12-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
- adultscore=0 priorityscore=1501 mlxscore=0 impostorscore=0 phishscore=0
- clxscore=1011 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2412110068
+X-Received: by 2002:a05:6e02:198f:b0:3a7:8040:5962 with SMTP id
+ e9e14a558f8ab-3ac41e2ab70mr23598505ab.0.1733992527024; Thu, 12 Dec 2024
+ 00:35:27 -0800 (PST)
+Date: Thu, 12 Dec 2024 00:35:27 -0800
+In-Reply-To: <672dbff0.050a0220.69327.0002.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <675aa04e.050a0220.17f54a.0083.GAE@google.com>
+Subject: Re: [syzbot] [ntfs3?] possible deadlock in mark_as_free_ex (2)
+From: syzbot <syzbot+8df514c431bd240c5644@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+syzbot has found a reproducer for the following issue on:
 
-[ Upstream commit 652cfeb43d6b9aba5c7c4902bed7a7340df131fb ]
+HEAD commit:    231825b2e1ff Revert "unicode: Don't special case ignorable..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1635ebe8580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c7c9f223bfe8924e
+dashboard link: https://syzkaller.appspot.com/bug?extid=8df514c431bd240c5644
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=128e6cdf980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1784b20f980000
 
-Reported-by: Robert Morris <rtm@csail.mit.edu>
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Signed-off-by: Jianqi Ren <jianqi.ren.cn@windriver.com>
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/dc23b60ff29a/disk-231825b2.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/377c8f65d53a/vmlinux-231825b2.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/09bc1abb7c7a/bzImage-231825b2.xz
+mounted in repro #1: https://storage.googleapis.com/syzbot-assets/fe1662038b98/mount_0.gz
+mounted in repro #2: https://storage.googleapis.com/syzbot-assets/5c6aa5da5c24/mount_3.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+8df514c431bd240c5644@syzkaller.appspotmail.com
+
+ntfs3(loop3): Mark volume as dirty due to NTFS errors
+======================================================
+WARNING: possible circular locking dependency detected
+6.13.0-rc2-syzkaller-00036-g231825b2e1ff #0 Not tainted
+------------------------------------------------------
+syz-executor149/6544 is trying to acquire lock:
+ffff88807e17a270 (&wnd->rw_lock){++++}-{4:4}, at: mark_as_free_ex+0x3e/0x390 fs/ntfs3/fsntfs.c:2484
+
+but task is already holding lock:
+ffff8880705e43c8 (&ni->file.run_lock#2){++++}-{4:4}, at: ntfs_truncate fs/ntfs3/file.c:505 [inline]
+ffff8880705e43c8 (&ni->file.run_lock#2){++++}-{4:4}, at: ntfs_setattr+0x6d3/0xb80 fs/ntfs3/file.c:824
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #1 (&ni->file.run_lock#2){++++}-{4:4}:
+       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
+       down_read+0xb1/0xa40 kernel/locking/rwsem.c:1524
+       run_unpack_ex+0x55e/0x9e0 fs/ntfs3/run.c:1119
+       ntfs_read_mft fs/ntfs3/inode.c:401 [inline]
+       ntfs_iget5+0x1f9a/0x37b0 fs/ntfs3/inode.c:537
+       ntfs_dir_emit fs/ntfs3/dir.c:335 [inline]
+       ntfs_read_hdr+0x700/0xb80 fs/ntfs3/dir.c:383
+       ntfs_readdir+0x91f/0xf00 fs/ntfs3/dir.c:494
+       iterate_dir+0x571/0x800 fs/readdir.c:108
+       __do_sys_getdents64 fs/readdir.c:403 [inline]
+       __se_sys_getdents64+0x1e2/0x4b0 fs/readdir.c:389
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&wnd->rw_lock){++++}-{4:4}:
+       check_prev_add kernel/locking/lockdep.c:3161 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3280 [inline]
+       validate_chain+0x18ef/0x5920 kernel/locking/lockdep.c:3904
+       __lock_acquire+0x1397/0x2100 kernel/locking/lockdep.c:5226
+       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
+       down_write_nested+0xa2/0x220 kernel/locking/rwsem.c:1693
+       mark_as_free_ex+0x3e/0x390 fs/ntfs3/fsntfs.c:2484
+       run_deallocate_ex+0x244/0x5f0 fs/ntfs3/attrib.c:122
+       attr_set_size+0x168d/0x4300 fs/ntfs3/attrib.c:753
+       ntfs_truncate fs/ntfs3/file.c:506 [inline]
+       ntfs_setattr+0x7a4/0xb80 fs/ntfs3/file.c:824
+       notify_change+0xbca/0xe90 fs/attr.c:552
+       do_truncate+0x220/0x310 fs/open.c:65
+       handle_truncate fs/namei.c:3449 [inline]
+       do_open fs/namei.c:3832 [inline]
+       path_openat+0x2e1e/0x3590 fs/namei.c:3987
+       do_filp_open+0x27f/0x4e0 fs/namei.c:4014
+       do_sys_openat2+0x13e/0x1d0 fs/open.c:1402
+       do_sys_open fs/open.c:1417 [inline]
+       __do_sys_open fs/open.c:1425 [inline]
+       __se_sys_open fs/open.c:1421 [inline]
+       __x64_sys_open+0x225/0x270 fs/open.c:1421
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&ni->file.run_lock#2);
+                               lock(&wnd->rw_lock);
+                               lock(&ni->file.run_lock#2);
+  lock(&wnd->rw_lock);
+
+ *** DEADLOCK ***
+
+4 locks held by syz-executor149/6544:
+ #0: ffff888079980420 (sb_writers#11){.+.+}-{0:0}, at: mnt_want_write+0x3f/0x90 fs/namespace.c:515
+ #1: ffff8880705e45b0 (&sb->s_type->i_mutex_key#19){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:818 [inline]
+ #1: ffff8880705e45b0 (&sb->s_type->i_mutex_key#19){+.+.}-{4:4}, at: do_truncate+0x20c/0x310 fs/open.c:63
+ #2: ffff8880705e4318 (&ni->ni_lock#2/5){+.+.}-{4:4}, at: ni_lock fs/ntfs3/ntfs_fs.h:1110 [inline]
+ #2: ffff8880705e4318 (&ni->ni_lock#2/5){+.+.}-{4:4}, at: ntfs_truncate fs/ntfs3/file.c:503 [inline]
+ #2: ffff8880705e4318 (&ni->ni_lock#2/5){+.+.}-{4:4}, at: ntfs_setattr+0x6bf/0xb80 fs/ntfs3/file.c:824
+ #3: ffff8880705e43c8 (&ni->file.run_lock#2){++++}-{4:4}, at: ntfs_truncate fs/ntfs3/file.c:505 [inline]
+ #3: ffff8880705e43c8 (&ni->file.run_lock#2){++++}-{4:4}, at: ntfs_setattr+0x6d3/0xb80 fs/ntfs3/file.c:824
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 6544 Comm: syz-executor149 Not tainted 6.13.0-rc2-syzkaller-00036-g231825b2e1ff #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/25/2024
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
+ print_circular_bug+0x13a/0x1b0 kernel/locking/lockdep.c:2074
+ check_noncircular+0x36a/0x4a0 kernel/locking/lockdep.c:2206
+ check_prev_add kernel/locking/lockdep.c:3161 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3280 [inline]
+ validate_chain+0x18ef/0x5920 kernel/locking/lockdep.c:3904
+ __lock_acquire+0x1397/0x2100 kernel/locking/lockdep.c:5226
+ lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
+ down_write_nested+0xa2/0x220 kernel/locking/rwsem.c:1693
+ mark_as_free_ex+0x3e/0x390 fs/ntfs3/fsntfs.c:2484
+ run_deallocate_ex+0x244/0x5f0 fs/ntfs3/attrib.c:122
+ attr_set_size+0x168d/0x4300 fs/ntfs3/attrib.c:753
+ ntfs_truncate fs/ntfs3/file.c:506 [inline]
+ ntfs_setattr+0x7a4/0xb80 fs/ntfs3/file.c:824
+ notify_change+0xbca/0xe90 fs/attr.c:552
+ do_truncate+0x220/0x310 fs/open.c:65
+ handle_truncate fs/namei.c:3449 [inline]
+ do_open fs/namei.c:3832 [inline]
+ path_openat+0x2e1e/0x3590 fs/namei.c:3987
+ do_filp_open+0x27f/0x4e0 fs/namei.c:4014
+ do_sys_openat2+0x13e/0x1d0 fs/open.c:1402
+ do_sys_open fs/open.c:1417 [inline]
+ __do_sys_open fs/open.c:1425 [inline]
+ __se_sys_open fs/open.c:1421 [inline]
+ __x64_sys_open+0x225/0x270 fs/open.c:1421
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f17dc4ac879
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 1c 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc503e84b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f17dc4ac879
+RDX: 00000000000001d8 RSI: 0000000000147383 RDI: 0000000020000240
+RBP: 00007ffc503e84ec R08: 000000000001f216 R09: 0000000020000880
+R10: 00007ffc503e8380 R11: 0000000000000246 R12: 00007ffc503e8540
+R13: 00007ffc503e8500 R14: 0000000000024ec5 R15: 0000000000000090
+ </TASK>
+
+
 ---
- fs/ntfs3/record.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index 7ab452710572..826a756669a3 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -273,7 +273,7 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 		if (t16 > asize)
- 			return NULL;
- 
--		if (t16 + le32_to_cpu(attr->res.data_size) > asize)
-+		if (le32_to_cpu(attr->res.data_size) > asize - t16)
- 			return NULL;
- 
- 		if (attr->name_len &&
--- 
-2.25.1
-
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
