@@ -1,193 +1,97 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB85187849
-	for <ntfs3@lists.linux.dev>; Fri, 13 Dec 2024 09:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0322F201100
+	for <ntfs3@lists.linux.dev>; Mon, 16 Dec 2024 09:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734080708; cv=none; b=pHOROUiJMJzaABiIvqN3uK6iEJuizm6X+/UKlHBBhpQKJgui4aIqvmXVupbZifvog3+xzTVqpdYhYLAXnHHVVpx9Xksh8oK06fRVqcjrxVKSC8gv9NsvIsTkAS5jkAG3VQpCgoqoBtruNPfjzBjD5pzlHEM4j6+IHzHgf5gotXc=
+	t=1734342263; cv=none; b=BvhleNHlgN5OFrLbl4YfmAqhuQ6aj4YYXwSR26lqkFmnGWjXogufIF5lDF2+qi34o2kPlE88v2SFz2XZFTX7TRk/p6GLLIbL4BCWcLX+gq/iGXI+leAyQirRPXhkF3ZcRUQw3J91AS8sYzZ7XSbnvSGzlTlrv1WWU96/zjLcpyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734080708; c=relaxed/simple;
-	bh=+xaoCDwOo18MCwOmAHkTVKG+EeUzHiJWt4PWovXkx9U=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nf9leIuhY7WcgpnBT/zDGwC6r7fFS02ZCr6GdlsvuyuzsD/VipmWPcTbQVN9l7a/25pDgjdo7Wn56CI9RRtDxfqgN8f92au3gMjGxi1lEXZ/g1DYtIkEA9M59x0XhPH9JN2CuIqGtsvm8C9gY/AezQHdO0vwqaO+wm6/9/5lsU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD7sXhG029034;
-	Fri, 13 Dec 2024 01:05:03 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43cx1u6wq8-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 13 Dec 2024 01:05:03 -0800 (PST)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Fri, 13 Dec 2024 01:05:02 -0800
-Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Fri, 13 Dec 2024 01:05:01 -0800
-From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <syzbot+8df514c431bd240c5644@syzkaller.appspotmail.com>
-CC: <almaz.alexandrovich@paragon-software.com>, <linux-kernel@vger.kernel.org>,
-        <ntfs3@lists.linux.dev>, <syzkaller-bugs@googlegroups.com>
-Subject: [PATCH] ntfs3: fix deadlock in mark_as_free_ex
-Date: Fri, 13 Dec 2024 17:05:00 +0800
-Message-ID: <20241213090501.2053886-1-lizhi.xu@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <675aa04e.050a0220.17f54a.0083.GAE@google.com>
-References: <675aa04e.050a0220.17f54a.0083.GAE@google.com>
+	s=arc-20240116; t=1734342263; c=relaxed/simple;
+	bh=AG8K2DMLN0Ode/7NxCk/OkFCTrhFYNnYze1xqVrE/6k=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=VXqpTPzN/ld8JM6zRTeCiFUzEpaWmcI5RQ6SVrJBbt+5C++I/PZkc93IKNBdZujlZkWXU82o57GIS86G+cA6bCFTkPdda9y926Uq/Gf6MYrO52XhQ0Khf0Bi2zhS0D2TTrIK/IbHRq3FhTfwS49DAm7m6+KGucrU8I5x67oUTtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-3a81570ea43so37379275ab.0
+        for <ntfs3@lists.linux.dev>; Mon, 16 Dec 2024 01:44:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734342261; x=1734947061;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ltWQwfR9GIc+MCjFnjnrnTvhb+cUIMwa9fDdY2xAn0I=;
+        b=EGOvozmteWzMge7l7OhNWtPT6X7ABDQVF9lr8KBaL3MrFfweDoSkXl2EW4YnkEWD1p
+         Mu+FToCzJtb1NXTIngVK9430mgpBXrzG6UhQELJvRN3oNptW2Bu/BbHunIfxa0fxmOaJ
+         XGH9WD/yF1SU77K+dTnnRBMG9erpea2Ml7F4do4CbZF0rD5vC1QL+B4eEW9A1O0ac5Bm
+         0u9uQHOhQxWuRN9R8WIt4ZeP8e1wdlemgHm0PJaZD0/MjzYEm5AVkMyv2UenX3Qocy1k
+         wzoCMg6dW8Xw9nUfWc0wO4qSEoLVRTSdUhqAy3aV308wnZmyzAzr0SU9z9R4S8THPmwB
+         S8cg==
+X-Forwarded-Encrypted: i=1; AJvYcCWT/P0V7FCCuJlbLdX5CcWC6/qChux3mtvzLv+41+RJFPS2cCVo/tXcBu6f/2itu3hysi1RxA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOyxIK4YIWGdIfQkKU8ezdYA5ucIIn9/Hpc47dpyJ+tzyVsjho
+	VL4raIXowbj0e08v/6uXDJ/s02T9RuT638gAZBSCBBXQqpyOsJ8pUoB4Lsn0WydkkAjV4tMB9/F
+	tgS7WkOUJPU2HN5Ny/E0kyb41Uv/5s94iuJgKvuXCDXqj18B84MIgPco=
+X-Google-Smtp-Source: AGHT+IEK6ui5yECvmSrw0yP+Q3n74CQa/s47RUkzp+DHvOojyx3mYtlOdAB02vz4ZVXjIu4BmzQdPBQLMmFDOBXQeI+a28lRvnuk
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=H/shw/Yi c=1 sm=1 tr=0 ts=675bf8bf cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=RZcAm9yDv7YA:10 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8 a=EMw80oP_oC-SzKdMtYEA:9 a=DcSpbTIhAlouE1Uv7lRv:22
- a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: fN3hiovaqxHP7MRFG3L38nYu2tYHCXnd
-X-Proofpoint-GUID: fN3hiovaqxHP7MRFG3L38nYu2tYHCXnd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-13_03,2024-12-12_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- phishscore=0 mlxlogscore=999 suspectscore=0 spamscore=0 clxscore=1015
- impostorscore=0 adultscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
- mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2412130061
+X-Received: by 2002:a05:6e02:144c:b0:3a7:e8e1:cbcd with SMTP id
+ e9e14a558f8ab-3aff8c9159bmr105220035ab.22.1734342261229; Mon, 16 Dec 2024
+ 01:44:21 -0800 (PST)
+Date: Mon, 16 Dec 2024 01:44:21 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <675ff675.050a0220.37aaf.0123.GAE@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Dec 2024)
+From: syzbot <syzbot+list26922f6871252a2b2df9@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-syzbot reported a deadlock in mark_as_free_ex. [1]
+Hello ntfs3 maintainers/developers,
 
-Reset the order of mft and used locks to avoid this issue.
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-[1]
-WARNING: possible circular locking dependency detected
-6.13.0-rc2-syzkaller-00036-g231825b2e1ff #0 Not tainted
-------------------------------------------------------
-syz-executor149/6544 is trying to acquire lock:
-ffff88807e17a270 (&wnd->rw_lock){++++}-{4:4}, at: mark_as_free_ex+0x3e/0x390 fs/ntfs3/fsntfs.c:2484
+During the period, 4 new issues were detected and 0 were fixed.
+In total, 45 issues are still open and 60 have already been fixed.
 
-but task is already holding lock:
-ffff8880705e43c8 (&ni->file.run_lock#2){++++}-{4:4}, at: ntfs_truncate fs/ntfs3/file.c:505 [inline]
-ffff8880705e43c8 (&ni->file.run_lock#2){++++}-{4:4}, at: ntfs_setattr+0x6d3/0xb80 fs/ntfs3/file.c:824
+Some of the still happening issues:
 
-which lock already depends on the new lock.
+Ref  Crashes Repro Title
+<1>  12409   Yes   kernel BUG in dnotify_free_mark
+                   https://syzkaller.appspot.com/bug?extid=06cc05ddc896f12b7ec5
+<2>  9932    Yes   KMSAN: uninit-value in longest_match_std (2)
+                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
+<3>  5549    Yes   possible deadlock in ntfs_read_folio
+                   https://syzkaller.appspot.com/bug?extid=8ef76b0b1f86c382ad37
+<4>  3925    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<5>  3409    Yes   possible deadlock in ntfs_fiemap
+                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+<6>  1827    Yes   possible deadlock in ntfs_file_mmap
+                   https://syzkaller.appspot.com/bug?extid=c1751b6739d83d70bb75
+<7>  1580    Yes   possible deadlock in attr_data_get_block (2)
+                   https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+<8>  1569    No    possible deadlock in run_unpack_ex
+                   https://syzkaller.appspot.com/bug?extid=731b27ee9413ba859499
+<9>  1474    Yes   kernel BUG in ntfs_extend_initialized_size
+                   https://syzkaller.appspot.com/bug?extid=39385e8595a092bae44b
+<10> 585     No    possible deadlock in ntfs_look_for_free_space
+                   https://syzkaller.appspot.com/bug?extid=d27edf9f96ae85939222
 
-
-the existing dependency chain (in reverse order) is:
-
--> #1 (&ni->file.run_lock#2){++++}-{4:4}:
-       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
-       down_read+0xb1/0xa40 kernel/locking/rwsem.c:1524
-       run_unpack_ex+0x55e/0x9e0 fs/ntfs3/run.c:1119
-       ntfs_read_mft fs/ntfs3/inode.c:401 [inline]
-       ntfs_iget5+0x1f9a/0x37b0 fs/ntfs3/inode.c:537
-       ntfs_dir_emit fs/ntfs3/dir.c:335 [inline]
-       ntfs_read_hdr+0x700/0xb80 fs/ntfs3/dir.c:383
-       ntfs_readdir+0x91f/0xf00 fs/ntfs3/dir.c:494
-       iterate_dir+0x571/0x800 fs/readdir.c:108
-       __do_sys_getdents64 fs/readdir.c:403 [inline]
-       __se_sys_getdents64+0x1e2/0x4b0 fs/readdir.c:389
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (&wnd->rw_lock){++++}-{4:4}:
-       check_prev_add kernel/locking/lockdep.c:3161 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3280 [inline]
-       validate_chain+0x18ef/0x5920 kernel/locking/lockdep.c:3904
-       __lock_acquire+0x1397/0x2100 kernel/locking/lockdep.c:5226
-       lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
-       down_write_nested+0xa2/0x220 kernel/locking/rwsem.c:1693
-       mark_as_free_ex+0x3e/0x390 fs/ntfs3/fsntfs.c:2484
-       run_deallocate_ex+0x244/0x5f0 fs/ntfs3/attrib.c:122
-       attr_set_size+0x168d/0x4300 fs/ntfs3/attrib.c:753
-       ntfs_truncate fs/ntfs3/file.c:506 [inline]
-       ntfs_setattr+0x7a4/0xb80 fs/ntfs3/file.c:824
-       notify_change+0xbca/0xe90 fs/attr.c:552
-       do_truncate+0x220/0x310 fs/open.c:65
-       handle_truncate fs/namei.c:3449 [inline]
-       do_open fs/namei.c:3832 [inline]
-       path_openat+0x2e1e/0x3590 fs/namei.c:3987
-       do_filp_open+0x27f/0x4e0 fs/namei.c:4014
-       do_sys_openat2+0x13e/0x1d0 fs/open.c:1402
-       do_sys_open fs/open.c:1417 [inline]
-       __do_sys_open fs/open.c:1425 [inline]
-       __se_sys_open fs/open.c:1421 [inline]
-       __x64_sys_open+0x225/0x270 fs/open.c:1421
-       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-       do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&ni->file.run_lock#2);
-                               lock(&wnd->rw_lock);
-                               lock(&ni->file.run_lock#2);
-  lock(&wnd->rw_lock);
-
- *** DEADLOCK ***
-
-Fixes: 5fc982fe7eca ("fs/ntfs3: Fix case when unmarked clusters intersect with zone")
-Reported-by: syzbot+8df514c431bd240c5644@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=8df514c431bd240c5644
-Tested-by: syzbot+8df514c431bd240c5644@syzkaller.appspotmail.com
-Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
 ---
- fs/ntfs3/run.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
-index 6e86d66197ef..fdac1f941379 100644
---- a/fs/ntfs3/run.c
-+++ b/fs/ntfs3/run.c
-@@ -1096,9 +1096,17 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
- 
- 		/* Looks like volume is corrupted. */
- 		ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
--
--		if (!down_write_trylock(&wnd->rw_lock))
-+		struct rw_semaphore *lock =
-+			is_mounted(sbi) ? &sbi->mft.ni->file.run_lock :
-+					  NULL;
-+		if (zone && lock)
-+			down_read(lock);
-+
-+		if (!down_write_trylock(&wnd->rw_lock)) {
-+			if (zone && lock)
-+				up_read(lock);
- 			continue;
-+		}
- 
- 		if (zone) {
- 			/*
-@@ -1112,16 +1120,12 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
- 		err = wnd_set_used_safe(wnd, lcn, len, &done);
- 		if (zone) {
- 			/* Restore zone. Lock mft run. */
--			struct rw_semaphore *lock =
--				is_mounted(sbi) ? &sbi->mft.ni->file.run_lock :
--						  NULL;
--			if (lock)
--				down_read(lock);
- 			ntfs_refresh_zone(sbi);
--			if (lock)
--				up_read(lock);
- 		}
- 		up_write(&wnd->rw_lock);
-+		if (zone && lock)
-+			up_read(lock);
-+
- 		if (err)
- 			return err;
- 	}
--- 
-2.43.0
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
