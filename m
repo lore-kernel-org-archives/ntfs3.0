@@ -1,80 +1,75 @@
-Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11566748A
-	for <ntfs3@lists.linux.dev>; Mon, 30 Dec 2024 00:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A3817C228
+	for <ntfs3@lists.linux.dev>; Mon, 30 Dec 2024 06:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735519220; cv=none; b=NbelHPhVjHyyHWWlfIh4cSrMrP8pQjNnOg+zLCn1nuVTEWDYuDLJUVx1hdlo3R4CvC5n5Awp5ZNCEj3Z0pmM2Y6Wq27u85/zlHG55nnNXSy3WnL2QlKEX7hrKxKUPGUfYnaO3hcsOTOeShfoF8mbk2f+S+AjPwCOkUy7gF1oBXE=
+	t=1735538957; cv=none; b=efMVW60EtwhiIBDUvuEBkwJWVcowm/H9s/zmY1XcvMnRy28uzV52ez5M+PwoO8m9mu4TZ/wdFq8H9G8ZvDBxG1C9IHJ5Hz5BprCtGHt8tw9uJa2euR5RzxvU8/DkFQv88KuQzufrcbsyU5FZwGQpWjWqjFbetTfQg8xJfRgVa8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735519220; c=relaxed/simple;
-	bh=Y/LeuiLSwocSS++DSeJxrfXwxybwVkyvkcxHCDRDnYY=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=QnJe4rFvq/6E0I/v1Bo7YK/CNZ7zkpyqSY8n6ge5bvM/a3tt531BTAmVvuvkUos+1LB5eNssbCjfpIOgJJAC5anc2Pv6yC/9hfnrsgeJOT8U4tS44L+1Nj6+/aAzbKZ0e5Bp2W98B28/A9lOAmtcfwShzgyaftI9baog88ft/jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-3a815ab079cso179019195ab.0
-        for <ntfs3@lists.linux.dev>; Sun, 29 Dec 2024 16:40:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735519218; x=1736124018;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=K5OMac1s8dIGkZt8k5003S1w2/J/tZOr8JKmLRCjoF0=;
-        b=xFdw3ODg2sL6EmGMU8jyXfa1ekwNeR1QKPzhEQ9Npk9yuzLuYzPJzSJWhO7h1wWd5z
-         6ZoCHclFAEsbeR+d1wYoXkehssD1Wj3MCK9hTvERtLeBAd3kzeXggbF3JmU96ayJmv+0
-         DOIm0Hz6dMV2HpP0APKFv7ne9jscSzRiSC6/SiP8DCqqa6qGFPjw9RIdOHdi4hgAM+rQ
-         LEeBdVCcfOlfRd33exqeDliuJc+1ik4O80JW4WocGx3r+pi66/bwV3TqBhV1aEJD0yfX
-         bUuWAe/5CLIC/tcoVv8BAlLg2Egy9f0NUO+anwgyvSyrcIdgJJILrKo5U6aDUr2heWjj
-         nT+w==
-X-Forwarded-Encrypted: i=1; AJvYcCWePcLc7V9EMYv/akPp6Rru7H/xCU8WeAWxvNinNVjYU50uW/59TobGo8+dUcGANckKBVSWdg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwRyDWbPPFIfk5KOSM0S3uNjP0ue5WLtjfrtkOVaIvBPj/Dp8/W
-	mVYjywtZyfTfbqbh0TI2+ASbsdwG65d/Jzji/YgxW34Q3RPMDAFCGhPkGZ/zgIL6rdL6BncUI5U
-	7usJUCzGM0G3TdEmRe2YVahXOLWq7n7wy9CG6N2RfaKyeZ7uoP8dVFfo=
-X-Google-Smtp-Source: AGHT+IFGiw+9GitYaN6AMXW8yTNSgOfow5EuVxhFEDryXi6KP2QN/wUhIqQXCxsJcdvXfIvFwCT5c+Rw8cv2Ds+CnviMSZzJHa9i
+	s=arc-20240116; t=1735538957; c=relaxed/simple;
+	bh=7AsGo/0t6TAVCFCltE/hfFmlgI59Ofa/NWUaLvBkJ7g=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s3ePsA1fmbYLOmzNiy1bRkVywD4DpYEZNtji7YYx/O6HOBeuiGJ0YSjawH1SR7VIX1HgsG23KsCQ4FnehHZlQJiQ7erw7n4FSmaj692FH/2M6N5cBKa+8lTVa/EOixGuwZZBuWgUsj49DY/+alYP/wjmWyrZ0tSJDDR8nxNtZLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.178.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BU5UVfG018907;
+	Mon, 30 Dec 2024 06:09:07 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43t6j0he48-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 30 Dec 2024 06:09:06 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Sun, 29 Dec 2024 22:09:05 -0800
+Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Sun, 29 Dec 2024 22:09:03 -0800
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <syzbot+5d0bdc98770e6c55a0fd@syzkaller.appspotmail.com>
+CC: <almaz.alexandrovich@paragon-software.com>, <linux-kernel@vger.kernel.org>,
+        <ntfs3@lists.linux.dev>, <syzkaller-bugs@googlegroups.com>
+Subject: [PATCH] fs/ntfs3: Keep write operations atomic
+Date: Mon, 30 Dec 2024 14:09:02 +0800
+Message-ID: <20241230060902.7526-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <6771ebf2.050a0220.226966.00cb.GAE@google.com>
+References: <6771ebf2.050a0220.226966.00cb.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:3497:b0:3a7:e528:6f1e with SMTP id
- e9e14a558f8ab-3c2d278364bmr273004985ab.11.1735519218199; Sun, 29 Dec 2024
- 16:40:18 -0800 (PST)
-Date: Sun, 29 Dec 2024 16:40:18 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6771ebf2.050a0220.226966.00cb.GAE@google.com>
-Subject: [syzbot] [ntfs3?] BUG: unable to handle kernel NULL pointer
- dereference in __generic_file_write_iter (2)
-From: syzbot <syzbot+5d0bdc98770e6c55a0fd@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=V7KH0fni c=1 sm=1 tr=0 ts=67723902 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=RZcAm9yDv7YA:10 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8 a=drM_RmuUk77qzieWX1cA:9 a=DcSpbTIhAlouE1Uv7lRv:22
+ a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 5q_ZP9pp4u0wlW6I3EA4M7nSd99eeZ7c
+X-Proofpoint-GUID: 5q_ZP9pp4u0wlW6I3EA4M7nSd99eeZ7c
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-30_02,2024-12-24_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=943 priorityscore=1501 malwarescore=0 bulkscore=0 phishscore=0
+ clxscore=1011 impostorscore=0 adultscore=0 spamscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2411120000 definitions=main-2412300050
 
-Hello,
+syzbot reported a NULL pointer dereference in __generic_file_write_iter. [1]
 
-syzbot found the following issue on:
+Before the write operation is completed, the user executes ioctl[2] to clear
+the compress flag of the file, which causes the is_compressed() judgment to
+return 0, further causing the program to enter the wrong process and call the
+wrong ops ntfs_aops_cmpr, which triggers the null pointer dereference of
+write_begin.
 
-HEAD commit:    573067a5a685 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=11fafcc4580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cd7202b56d469648
-dashboard link: https://syzkaller.appspot.com/bug?extid=5d0bdc98770e6c55a0fd
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10bb8018580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=176b1adf980000
+Use inode lock to synchronize ioctl and write to avoid this case.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/9d3b5c855aa0/disk-573067a5.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/0c06fc1ead83/vmlinux-573067a5.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/3390e59b9e4b/Image-573067a5.gz.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/5063ea88b5e9/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+5d0bdc98770e6c55a0fd@syzkaller.appspotmail.com
-
-loop0: detected capacity change from 0 to 4096
+[1]
 Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
 Mem abort info:
   ESR = 0x0000000086000006
@@ -118,32 +113,47 @@ Call trace:
  do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
  el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:744
  el0t_64_sync_handler+0x84/0x108 arch/arm64/kernel/entry-common.c:762
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
-Code: ???????? ???????? ???????? ???????? (????????) 
----[ end trace 0000000000000000 ]---
 
+[2]
+ioctl$FS_IOC_SETFLAGS(r0, 0x40086602, &(0x7f00000000c0)=0x20)
 
+Reported-by: syzbot+5d0bdc98770e6c55a0fd@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=5d0bdc98770e6c55a0fd
+Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/file.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 3f96a11804c9..ec6103c97321 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -1228,6 +1228,12 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 	ssize_t ret;
+ 	int err;
+ 
++	if (!inode_trylock(inode)) {
++		if (iocb->ki_flags & IOCB_NOWAIT)
++			return -EAGAIN;
++		inode_lock(inode);
++	}
++
+ 	err = check_write_restriction(inode);
+ 	if (err)
+ 		return err;
+@@ -1237,12 +1243,6 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+-	if (!inode_trylock(inode)) {
+-		if (iocb->ki_flags & IOCB_NOWAIT)
+-			return -EAGAIN;
+-		inode_lock(inode);
+-	}
+-
+ 	ret = generic_write_checks(iocb, from);
+ 	if (ret <= 0)
+ 		goto out;
+-- 
+2.43.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
