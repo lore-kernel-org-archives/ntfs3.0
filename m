@@ -1,43 +1,45 @@
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A3817C228
-	for <ntfs3@lists.linux.dev>; Mon, 30 Dec 2024 06:09:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA8113E40F
+	for <ntfs3@lists.linux.dev>; Mon, 30 Dec 2024 07:10:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735538957; cv=none; b=efMVW60EtwhiIBDUvuEBkwJWVcowm/H9s/zmY1XcvMnRy28uzV52ez5M+PwoO8m9mu4TZ/wdFq8H9G8ZvDBxG1C9IHJ5Hz5BprCtGHt8tw9uJa2euR5RzxvU8/DkFQv88KuQzufrcbsyU5FZwGQpWjWqjFbetTfQg8xJfRgVa8Q=
+	t=1735542612; cv=none; b=ZzAzkifGP6XOznIRV0DeO1O4d5YSk4NTy25RM7jf8xYh4xak1i+jzfc0hLzN7UlceUiFCW0ueHBZPvlKIaQg/Cq2zXvHRSYygHFpuw8u52Fgqc66vWTKGKE1SK6Oxltz26gqHqSBA7grzTR4VK64/jiTWHyf+mx+dmIp8X7vt6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735538957; c=relaxed/simple;
-	bh=7AsGo/0t6TAVCFCltE/hfFmlgI59Ofa/NWUaLvBkJ7g=;
+	s=arc-20240116; t=1735542612; c=relaxed/simple;
+	bh=8Tscofo+TGCfTPq1Y1zBn3HXCMt56JKswzAt3SWLuBY=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s3ePsA1fmbYLOmzNiy1bRkVywD4DpYEZNtji7YYx/O6HOBeuiGJ0YSjawH1SR7VIX1HgsG23KsCQ4FnehHZlQJiQ7erw7n4FSmaj692FH/2M6N5cBKa+8lTVa/EOixGuwZZBuWgUsj49DY/+alYP/wjmWyrZ0tSJDDR8nxNtZLM=
+	 MIME-Version:Content-Type; b=k0MwpY51q8QqpwHRl5w8Z4lPYQEVur9ORln6MvaP+r64LGWivktMibjgZTXEBVL4yHBlP28VzGPqv5Fji7Ie7Hoom6SXZx9+IdIVk1Os36sWawjtCf6a5SE9JNnfs/GId4COM9wyKh0NM8ALQRyEx3Fg021r5A4J8z742frJ0WA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.178.238
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BU5UVfG018907;
-	Mon, 30 Dec 2024 06:09:07 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43t6j0he48-1
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BU6jWNq024027;
+	Mon, 30 Dec 2024 07:10:08 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43t8a81dek-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 30 Dec 2024 06:09:06 +0000 (GMT)
+	Mon, 30 Dec 2024 07:10:07 +0000 (GMT)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Sun, 29 Dec 2024 22:09:05 -0800
+ 15.1.2507.43; Sun, 29 Dec 2024 23:10:06 -0800
 Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Sun, 29 Dec 2024 22:09:03 -0800
+ 15.1.2507.43 via Frontend Transport; Sun, 29 Dec 2024 23:10:04 -0800
 From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <syzbot+5d0bdc98770e6c55a0fd@syzkaller.appspotmail.com>
+To: <lizhi.xu@windriver.com>
 CC: <almaz.alexandrovich@paragon-software.com>, <linux-kernel@vger.kernel.org>,
-        <ntfs3@lists.linux.dev>, <syzkaller-bugs@googlegroups.com>
-Subject: [PATCH] fs/ntfs3: Keep write operations atomic
-Date: Mon, 30 Dec 2024 14:09:02 +0800
-Message-ID: <20241230060902.7526-1-lizhi.xu@windriver.com>
+        <ntfs3@lists.linux.dev>,
+        <syzbot+5d0bdc98770e6c55a0fd@syzkaller.appspotmail.com>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: [PATCH V2] fs/ntfs3: Keep write operations atomic
+Date: Mon, 30 Dec 2024 15:10:03 +0800
+Message-ID: <20241230071003.130590-1-lizhi.xu@windriver.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <6771ebf2.050a0220.226966.00cb.GAE@google.com>
-References: <6771ebf2.050a0220.226966.00cb.GAE@google.com>
+In-Reply-To: <20241230060902.7526-1-lizhi.xu@windriver.com>
+References: <20241230060902.7526-1-lizhi.xu@windriver.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -46,18 +48,18 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=V7KH0fni c=1 sm=1 tr=0 ts=67723902 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=RZcAm9yDv7YA:10 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8 a=drM_RmuUk77qzieWX1cA:9 a=DcSpbTIhAlouE1Uv7lRv:22
+X-Proofpoint-GUID: cXmpAaODkUuDdP8K3dm-rfyMQIpE8uuM
+X-Proofpoint-ORIG-GUID: cXmpAaODkUuDdP8K3dm-rfyMQIpE8uuM
+X-Authority-Analysis: v=2.4 cv=f8qyBPyM c=1 sm=1 tr=0 ts=6772474f cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8 a=eX3EWibwm58GufKUjPQA:9 a=DcSpbTIhAlouE1Uv7lRv:22
  a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: 5q_ZP9pp4u0wlW6I3EA4M7nSd99eeZ7c
-X-Proofpoint-GUID: 5q_ZP9pp4u0wlW6I3EA4M7nSd99eeZ7c
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-30_02,2024-12-24_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=943 priorityscore=1501 malwarescore=0 bulkscore=0 phishscore=0
- clxscore=1011 impostorscore=0 adultscore=0 spamscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.21.0-2411120000 definitions=main-2412300050
+ definitions=2024-12-30_03,2024-12-24_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ bulkscore=0 clxscore=1015 adultscore=0 phishscore=0 priorityscore=1501
+ suspectscore=0 impostorscore=0 mlxlogscore=971 lowpriorityscore=0
+ mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2412300059
 
 syzbot reported a NULL pointer dereference in __generic_file_write_iter. [1]
 
@@ -121,36 +123,44 @@ Reported-by: syzbot+5d0bdc98770e6c55a0fd@syzkaller.appspotmail.com
 Closes: https://syzkaller.appspot.com/bug?extid=5d0bdc98770e6c55a0fd
 Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
 ---
- fs/ntfs3/file.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+V1 -> V2: unlock and return err
+
+ fs/ntfs3/file.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 3f96a11804c9..ec6103c97321 100644
+index 3f96a11804c9..d3a31bad21f9 100644
 --- a/fs/ntfs3/file.c
 +++ b/fs/ntfs3/file.c
-@@ -1228,6 +1228,12 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+@@ -1228,21 +1228,22 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
  	ssize_t ret;
  	int err;
  
-+	if (!inode_trylock(inode)) {
-+		if (iocb->ki_flags & IOCB_NOWAIT)
-+			return -EAGAIN;
-+		inode_lock(inode);
-+	}
-+
- 	err = check_write_restriction(inode);
- 	if (err)
- 		return err;
-@@ -1237,12 +1243,6 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 		return -EOPNOTSUPP;
- 	}
- 
--	if (!inode_trylock(inode)) {
--		if (iocb->ki_flags & IOCB_NOWAIT)
--			return -EAGAIN;
--		inode_lock(inode);
+-	err = check_write_restriction(inode);
+-	if (err)
+-		return err;
+-
+-	if (is_compressed(ni) && (iocb->ki_flags & IOCB_DIRECT)) {
+-		ntfs_inode_warn(inode, "direct i/o + compressed not supported");
+-		return -EOPNOTSUPP;
 -	}
 -
+ 	if (!inode_trylock(inode)) {
+ 		if (iocb->ki_flags & IOCB_NOWAIT)
+ 			return -EAGAIN;
+ 		inode_lock(inode);
+ 	}
+ 
++	ret = check_write_restriction(inode);
++	if (ret)
++		goto out;
++
++	if (is_compressed(ni) && (iocb->ki_flags & IOCB_DIRECT)) {
++		ntfs_inode_warn(inode, "direct i/o + compressed not supported");
++		ret = -EOPNOTSUPP;
++		goto out;
++	}
++
  	ret = generic_write_checks(iocb, from);
  	if (ret <= 0)
  		goto out;
