@@ -1,51 +1,52 @@
-Received: from mail-il1-f206.google.com (mail-il1-f206.google.com [209.85.166.206])
+Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B6A4A1D
-	for <ntfs3@lists.linux.dev>; Fri, 27 Dec 2024 02:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11566748A
+	for <ntfs3@lists.linux.dev>; Mon, 30 Dec 2024 00:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735268301; cv=none; b=Hkc6jqr2rH6nz766dKfj7dW2jX4Db1Yc7kf3wMC23+Af0+sSdw35YIgoUzH+m1X4QjoXCgmdG5ab8wxIhh/xNrFrcXqH1A+RnWu86UmE1cEB+FTzYSX1DhsdBoBVl2l9L1tVxIkZlKaHBB9GkxQZ8K3eBMl6udhqTfpfz/x9Kpk=
+	t=1735519220; cv=none; b=NbelHPhVjHyyHWWlfIh4cSrMrP8pQjNnOg+zLCn1nuVTEWDYuDLJUVx1hdlo3R4CvC5n5Awp5ZNCEj3Z0pmM2Y6Wq27u85/zlHG55nnNXSy3WnL2QlKEX7hrKxKUPGUfYnaO3hcsOTOeShfoF8mbk2f+S+AjPwCOkUy7gF1oBXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735268301; c=relaxed/simple;
-	bh=DBnyIXkDAicpt45rZpw1rfGI2jVA/KF9GbCkQQC7SeI=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Qw9e3fc+4jNLcGGcJcwyA8QmRIvdVaYmqQnr7mDTgfwCQFw9KIzyhLoEZDa1FLVOp+knzaMxCen9KQycSUEOhl5F6ge25mpj8aBmv1f9so8NfN3UgmmGXddKvZi+qqr3OP81i6dS2MnBMDcFGdps1M8iCFUbb5mrI4kzmEkQ/pU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.206
+	s=arc-20240116; t=1735519220; c=relaxed/simple;
+	bh=Y/LeuiLSwocSS++DSeJxrfXwxybwVkyvkcxHCDRDnYY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=QnJe4rFvq/6E0I/v1Bo7YK/CNZ7zkpyqSY8n6ge5bvM/a3tt531BTAmVvuvkUos+1LB5eNssbCjfpIOgJJAC5anc2Pv6yC/9hfnrsgeJOT8U4tS44L+1Nj6+/aAzbKZ0e5Bp2W98B28/A9lOAmtcfwShzgyaftI9baog88ft/jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f206.google.com with SMTP id e9e14a558f8ab-3a7de3ab182so134455555ab.1
-        for <ntfs3@lists.linux.dev>; Thu, 26 Dec 2024 18:58:19 -0800 (PST)
+Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-3a815ab079cso179019195ab.0
+        for <ntfs3@lists.linux.dev>; Sun, 29 Dec 2024 16:40:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735268299; x=1735873099;
+        d=1e100.net; s=20230601; t=1735519218; x=1736124018;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=u/n2MyuxYc3/ELwEiaJyNcc11EPJRbhMvXT6DKJTKY4=;
-        b=B+jZrbwEoLJpxf7M3p6bSFhjs9RBuwt9hp3FTnOU6Nagk0unfbNnkJR0Rz2l3eQEEz
-         0FjzDehvgMQj0DL1EFqen7Wz0IJBXG1eTb9n0FitAJpIKRmOblYJnTm2hBh1NhKHp8IW
-         daW2hKTAKL9PyUq6XqCwypqiskFrK7pmA4i+SjQbS4r5V4b21EtRNyd8/3AU24yWU8Jo
-         3aMlzMHtn3zcZfn0bJeWlH4sHBMBWm/WeVjtT6wApSzl+zWU3+B/Uap+ZCWcvP0YbeTD
-         jfg8vfB7TLHzCaxoccHSibiGgHhKhW4i+7XcxrDOh0ntcRTtjmgZVZAdTPyqX8EjDzOw
-         keVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWO8dBovuZxQlSILR3gK9NEDcADJVceb08iJHGMofDKQ8tz5cdAeaB/WdpJtvMWcrcgeFVPLw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywwl8DNlhMTVc49yPf04qjykuh0U2jGVbfhGzBDP24aBSe+w9sx
-	aqahRkgE3Sp5rt6/szMgOE3HgviaL5OAP26G3eUybMHSlIfrmFqfNjl51LeAtNkVeC6clWALa5o
-	F0Z5SC85QDPcCJFKgo9u1J6QDsjWd+zew8i0m3adfl7lsvoTsxO4nF14=
-X-Google-Smtp-Source: AGHT+IG0kb/+up1ojZeuFo9vYYBKbHKn/s3ficcMhwG4tsJrJmbTQdAwYNoktgWQmRJItbWLsmY3zjfXYzSAo7LFXRKJNJSfXN0K
+        bh=K5OMac1s8dIGkZt8k5003S1w2/J/tZOr8JKmLRCjoF0=;
+        b=xFdw3ODg2sL6EmGMU8jyXfa1ekwNeR1QKPzhEQ9Npk9yuzLuYzPJzSJWhO7h1wWd5z
+         6ZoCHclFAEsbeR+d1wYoXkehssD1Wj3MCK9hTvERtLeBAd3kzeXggbF3JmU96ayJmv+0
+         DOIm0Hz6dMV2HpP0APKFv7ne9jscSzRiSC6/SiP8DCqqa6qGFPjw9RIdOHdi4hgAM+rQ
+         LEeBdVCcfOlfRd33exqeDliuJc+1ik4O80JW4WocGx3r+pi66/bwV3TqBhV1aEJD0yfX
+         bUuWAe/5CLIC/tcoVv8BAlLg2Egy9f0NUO+anwgyvSyrcIdgJJILrKo5U6aDUr2heWjj
+         nT+w==
+X-Forwarded-Encrypted: i=1; AJvYcCWePcLc7V9EMYv/akPp6Rru7H/xCU8WeAWxvNinNVjYU50uW/59TobGo8+dUcGANckKBVSWdg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwRyDWbPPFIfk5KOSM0S3uNjP0ue5WLtjfrtkOVaIvBPj/Dp8/W
+	mVYjywtZyfTfbqbh0TI2+ASbsdwG65d/Jzji/YgxW34Q3RPMDAFCGhPkGZ/zgIL6rdL6BncUI5U
+	7usJUCzGM0G3TdEmRe2YVahXOLWq7n7wy9CG6N2RfaKyeZ7uoP8dVFfo=
+X-Google-Smtp-Source: AGHT+IFGiw+9GitYaN6AMXW8yTNSgOfow5EuVxhFEDryXi6KP2QN/wUhIqQXCxsJcdvXfIvFwCT5c+Rw8cv2Ds+CnviMSZzJHa9i
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:20e5:b0:3a7:a3a4:2cb3 with SMTP id
- e9e14a558f8ab-3c2d533f4a2mr190963885ab.15.1735268298956; Thu, 26 Dec 2024
- 18:58:18 -0800 (PST)
-Date: Thu, 26 Dec 2024 18:58:18 -0800
+X-Received: by 2002:a05:6e02:3497:b0:3a7:e528:6f1e with SMTP id
+ e9e14a558f8ab-3c2d278364bmr273004985ab.11.1735519218199; Sun, 29 Dec 2024
+ 16:40:18 -0800 (PST)
+Date: Sun, 29 Dec 2024 16:40:18 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <676e17ca.050a0220.2f3838.0479.GAE@google.com>
-Subject: [syzbot] [ntfs3?] kernel panic: stack is corrupted in debug_object_activate
-From: syzbot <syzbot+352ebcaffdbde4edf230@syzkaller.appspotmail.com>
+Message-ID: <6771ebf2.050a0220.226966.00cb.GAE@google.com>
+Subject: [syzbot] [ntfs3?] BUG: unable to handle kernel NULL pointer
+ dereference in __generic_file_write_iter (2)
+From: syzbot <syzbot+5d0bdc98770e6c55a0fd@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
 	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -54,61 +55,72 @@ Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    d6ef8b40d075 Merge tag 'sound-6.13-rc5' of git://git.kerne..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1617dadf980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d269ef41b9262400
-dashboard link: https://syzkaller.appspot.com/bug?extid=352ebcaffdbde4edf230
+HEAD commit:    573067a5a685 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=11fafcc4580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cd7202b56d469648
+dashboard link: https://syzkaller.appspot.com/bug?extid=5d0bdc98770e6c55a0fd
 compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-
-Unfortunately, I don't have any reproducer for this issue yet.
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10bb8018580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=176b1adf980000
 
 Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-d6ef8b40.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/38a9784dd46d/vmlinux-d6ef8b40.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/8d1728b3051d/bzImage-d6ef8b40.xz
+disk image: https://storage.googleapis.com/syzbot-assets/9d3b5c855aa0/disk-573067a5.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0c06fc1ead83/vmlinux-573067a5.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/3390e59b9e4b/Image-573067a5.gz.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/5063ea88b5e9/mount_0.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+352ebcaffdbde4edf230@syzkaller.appspotmail.com
+Reported-by: syzbot+5d0bdc98770e6c55a0fd@syzkaller.appspotmail.com
 
 loop0: detected capacity change from 0 to 4096
-ntfs3(loop0): Different NTFS sector size (2048) and media sector size (512).
-Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: debug_object_activate+0x57e/0x580
-CPU: 0 UID: 0 PID: 5315 Comm: syz.0.0 Not tainted 6.13.0-rc4-syzkaller-00054-gd6ef8b40d075 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
- panic+0x349/0x880 kernel/panic.c:354
- __stack_chk_fail+0x15/0x20 kernel/panic.c:836
- debug_object_activate+0x57e/0x580
- debug_rcu_head_queue kernel/rcu/rcu.h:224 [inline]
- __call_rcu_common kernel/rcu/tree.c:3071 [inline]
- call_rcu+0x97/0xa70 kernel/rcu/tree.c:3190
- destroy_inode fs/inode.c:391 [inline]
- evict+0x836/0x9a0 fs/inode.c:827
- ntfs_fill_super+0x3e27/0x4730 fs/ntfs3/super.c:1472
- get_tree_bdev_flags+0x48c/0x5c0 fs/super.c:1636
- vfs_get_tree+0x90/0x2b0 fs/super.c:1814
- do_new_mount+0x2be/0xb40 fs/namespace.c:3507
- do_mount fs/namespace.c:3847 [inline]
- __do_sys_mount fs/namespace.c:4057 [inline]
- __se_sys_mount+0x2d6/0x3c0 fs/namespace.c:4034
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7ffa6f9874ca
-Code: d8 64 89 02 48 c7 c0 ff ff ff ff eb a6 e8 de 1a 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffa70727e68 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007ffa70727ef0 RCX: 00007ffa6f9874ca
-RDX: 0000000020000000 RSI: 00000000200000c0 RDI: 00007ffa70727eb0
-RBP: 0000000020000000 R08: 00007ffa70727ef0 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000200000c0
-R13: 00007ffa70727eb0 R14: 000000000001f336 R15: 0000000020000100
- </TASK>
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
+Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+Mem abort info:
+  ESR = 0x0000000086000006
+  EC = 0x21: IABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x06: level 2 translation fault
+user pgtable: 4k pages, 48-bit VAs, pgdp=000000011896d000
+[0000000000000000] pgd=0800000118b44403, p4d=0800000118b44403, pud=0800000117517403, pmd=0000000000000000
+Internal error: Oops: 0000000086000006 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 0 UID: 0 PID: 6427 Comm: syz-executor347 Not tainted 6.13.0-rc3-syzkaller-g573067a5a685 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
+pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : 0x0
+lr : generic_perform_write+0x29c/0x868 mm/filemap.c:4055
+sp : ffff80009d4978a0
+x29: ffff80009d4979c0 x28: dfff800000000000 x27: ffff80009d497bc8
+x26: 0000000000000000 x25: ffff80009d497960 x24: ffff80008ba71c68
+x23: 0000000000000000 x22: ffff0000c655dac0 x21: 0000000000001000
+x20: 000000000000000c x19: 1ffff00013a92f2c x18: ffff0000e183aa1c
+x17: 0004060000000014 x16: ffff800083275834 x15: 0000000000000001
+x14: 0000000000000000 x13: 0000000000000001 x12: ffff0000c655dac0
+x11: 0000000000ff0100 x10: 0000000000ff0100 x9 : 0000000000000000
+x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0000000000000000
+x5 : ffff80009d497980 x4 : ffff80009d497960 x3 : 0000000000001000
+x2 : 0000000000000000 x1 : ffff0000e183a928 x0 : ffff0000d60b0fc0
+Call trace:
+ 0x0 (P)
+ __generic_file_write_iter+0xfc/0x204 mm/filemap.c:4156
+ ntfs_file_write_iter+0x54c/0x630 fs/ntfs3/file.c:1267
+ new_sync_write fs/read_write.c:586 [inline]
+ vfs_write+0x920/0xcf4 fs/read_write.c:679
+ ksys_write+0x15c/0x26c fs/read_write.c:731
+ __do_sys_write fs/read_write.c:742 [inline]
+ __se_sys_write fs/read_write.c:739 [inline]
+ __arm64_sys_write+0x7c/0x90 fs/read_write.c:739
+ __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+ invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
+ el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
+ do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
+ el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:744
+ el0t_64_sync_handler+0x84/0x108 arch/arm64/kernel/entry-common.c:762
+ el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
+Code: ???????? ???????? ???????? ???????? (????????) 
+---[ end trace 0000000000000000 ]---
 
 
 ---
@@ -121,6 +133,10 @@ https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
 If the report is already addressed, let syzbot know by replying with:
 #syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
 If you want to overwrite report's subsystems, reply with:
 #syz set subsystems: new-subsystem
