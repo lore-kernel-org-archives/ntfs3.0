@@ -1,649 +1,243 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f79.google.com (mail-io1-f79.google.com [209.85.166.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B357D1A0BFA
-	for <ntfs3@lists.linux.dev>; Mon, 30 Dec 2024 08:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CDA17FE
+	for <ntfs3@lists.linux.dev>; Sun,  5 Jan 2025 11:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735549099; cv=none; b=qEgxsgruHgah1dhQSxGYcsirPFuuKPInu3mggAxXCnRC+zhsh9Xb9NTCo2BYvYnOpXjcyjdhrp+VZl4+IBCpp6oy4TX54m/hemqQ5/GMB9JUjJ5kta5ISEJWHqvnLTPWclslIGhzRS3t6JuKEahf2T8ue4nvDkipSXGmANFQaKA=
+	t=1736076925; cv=none; b=lAhOk/+/+CJE+yfsbVEzno9UYcM5ZkaOfhtozs8IfpdhE+ZqJsvIbtaHiEbeiq5RWh/abtH5M+wQEexe9tv/8uTUiNhP+VmlwgFhtDy7mcZkIVNGvGWBexiVj6H5CH6VL2QD38iZ49CNJH8Hs7/+xK9SiEfn3xwEr5aZpT9oMT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735549099; c=relaxed/simple;
-	bh=n3TCaSUBQMNk9VmAT5qs22bvHWsLoEBNGxNK+DHsToc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C3zIInWQl+ElndYBBZYI/oDX+6PU3NnmTZgPQpgwWiclkv/m5acAE5Xz43Vc/n0SRodrdpAQ7hOALbKCri5/SPueDeFZ1aCV4B3d8Jc4cm5MuFA27xKDqiAtPjd5ybzlh+7+bqMi7bQwJZ5dL9g3Qt11bcuWlymasuP9cG7jHL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=C4ZFTCz/; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=H3pplF7r; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="C4ZFTCz/";
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="H3pplF7r"
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 72E2E1FEA;
-	Mon, 30 Dec 2024 08:51:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1735548661;
-	bh=N8Bh5Cc0JmnUP5SB5gpUFuUhHJp04W9XvOM3AUvkC5M=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=C4ZFTCz/c+EsvSITMO6+gJzHLgse/GunUWXfYt/LvXsrfMmie2okF0+nQsXloYoyI
-	 NSdpxYALHXd7aOn30BZyWKULzjXDM4aqJi3yzcwsbPOz7TpfS/QBSgUOin8bYi2OO1
-	 29Yc31Oz0u8YKi49vAgvmkIAmyutz/4sXjSXAIpc=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 1409B1D6E;
-	Mon, 30 Dec 2024 08:51:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1735548688;
-	bh=N8Bh5Cc0JmnUP5SB5gpUFuUhHJp04W9XvOM3AUvkC5M=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=H3pplF7r1oREDmEmKAjBelFE1roD5Ej2X/kUjsa66xHzB9DjYJwknMWi20wD3Mn8g
-	 vmGkTIRfYAS5h3jH8jRrjYsESN42Vs0AOeLhJuoAPinI8iR6MgKzRON/iqQsOj+VMD
-	 sg98gnO3ntxmYZWLa09g0D4BQfXqjrCrQUJ07htQ=
-Received: from ntfs3vm.paragon-software.com (192.168.211.75) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Mon, 30 Dec 2024 11:51:27 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	<syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com>
-Subject: [PATCH 1/2] fs/ntfs3: Mark inode as bad as soon as error detected in mi_enum_attr()
-Date: Mon, 30 Dec 2024 11:51:15 +0300
-Message-ID: <20241230085116.322824-2-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241230085116.322824-1-almaz.alexandrovich@paragon-software.com>
-References: <20241230085116.322824-1-almaz.alexandrovich@paragon-software.com>
+	s=arc-20240116; t=1736076925; c=relaxed/simple;
+	bh=DUudvDp6psNU6xKZcNiYWUc2cQvVBMUbiHOHLlKt5dE=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Vzh/O4dhAZ1aBh6eXLsIiARex/03EPRYYah1koKQAX/7bDSGCAiP8bVmC+kvdwdgWPkKkGEbhOFqpHQKqQzTCWR7fXyh0wX4sqkbuzitHnGvJI7R/AFC1nI+jn4/P72rC4XbArH1hphGR2WGbxTOnPyh/NNZd4uX5EDZ7nzxr4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f79.google.com with SMTP id ca18e2360f4ac-84730592e44so1130926139f.3
+        for <ntfs3@lists.linux.dev>; Sun, 05 Jan 2025 03:35:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736076922; x=1736681722;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lKe/J2QFmM9TIMdWq8tAycPiDbAMH2VDna9/TyK3Ruw=;
+        b=fc98WgJ/s5P47+Fz1MoQCleURIeWrcvyRMFPoSPOmlxNVTFefxhN/d+uVKDUQWkTpl
+         ugghl39iGLAqhB996BQdGr3nAyrPPazVrUa8u1ql03CehfBTa7x7lcx5A7/GvWl9atuZ
+         VKAH+NMBuJDiYK+hhPtqoxbHMAJ9WWem2+L1W0M/ASBT85aiJjCm8f0OGc/DI/5ann24
+         Y59cIvPleFKxAU8OyTYNvd/wSj/TIIGS7ptDxEpTy+4AHahBffvUZSqvFQPRzJ2CGjvv
+         e9XfCaR4OX0GsvDxTDg9mAjxTVfjdR/ON6/vCuOzjM6WnXuYvZnxOZE6od8jj3OBJN7+
+         8bcg==
+X-Forwarded-Encrypted: i=1; AJvYcCXfQ6la3UGkymGKwwWKwHXH5ChrSBa+i7Qrw1iTIY82a9THEZOVQ19qPynir8OsNn42h2f1GQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx6EMQcxPHIBbmZfJ1K7BBszNUK/JwSijnyD4U3pcJxuGnqvEld
+	jhFm9GcXbNNgZGbjg2YWNZb1cqeYEOHJg8UURJETtwL+0imrkwMM1BoXU0KvJfFqEILXTvbK8Fu
+	clgTcXhT34onGiXT5G9sCHJrKLyIheRaqKQAeXXuZdPQFQU9lYsnuciI=
+X-Google-Smtp-Source: AGHT+IFH3HRhbPcXFOk6UbMoRepvqiCC4q6eK2JedXik/mdKqpCXmhNGa1mTFvkUcK4dF6M82b9VH7GJrIKipTTXYLU7eXq95sFI
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Received: by 2002:a05:6e02:1ca5:b0:3a7:81c6:be7e with SMTP id
+ e9e14a558f8ab-3c2d2d510c9mr415367255ab.13.1736076922487; Sun, 05 Jan 2025
+ 03:35:22 -0800 (PST)
+Date: Sun, 05 Jan 2025 03:35:22 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <677a6e7a.050a0220.380ff0.0011.GAE@google.com>
+Subject: [syzbot] [ntfs3?] KASAN: out-of-bounds Read in __wait_on_bit
+From: syzbot <syzbot+339240205a3fd334f686@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Extended the `mi_enum_attr()` function interface with an additional
-parameter, `struct ntfs_inode *ni`, to allow marking the inode
-as bad as soon as an error is detected.
+Hello,
 
-Reported-by: syzbot+73d8fc29ec7cba8286fa@syzkaller.appspotmail.com
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+syzbot found the following issue on:
+
+HEAD commit:    ab75170520d4 Merge tag 'linux-watchdog-6.13-rc6' of git://..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=120604b0580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1c541fa8af5c9cc7
+dashboard link: https://syzkaller.appspot.com/bug?extid=339240205a3fd334f686
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-ab751705.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/81d0d11be3bd/vmlinux-ab751705.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/1f076be686f8/bzImage-ab751705.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+339240205a3fd334f686@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 4096
+ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
+overlayfs: upper fs does not support tmpfile.
+overlayfs: upper fs does not support RENAME_WHITEOUT.
+IPv6: sit1: Disabled Multicast RS
+==================================================================
+BUG: KASAN: out-of-bounds in __wait_on_bit+0xdf/0x2f0 kernel/sched/wait_bit.c:50
+Read of size 8 at addr ffffc9000d1a5920 by task syz.0.0/5316
+
+CPU: 0 UID: 0 PID: 5316 Comm: syz.0.0 Not tainted 6.13.0-rc5-syzkaller-00163-gab75170520d4 #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x169/0x550 mm/kasan/report.c:489
+ kasan_report+0x143/0x180 mm/kasan/report.c:602
+ __wait_on_bit+0xdf/0x2f0 kernel/sched/wait_bit.c:50
+ out_of_line_wait_on_bit+0x1d5/0x260 kernel/sched/wait_bit.c:64
+ wait_on_bit_io include/linux/wait_bit.h:105 [inline]
+ __wait_on_buffer fs/buffer.c:123 [inline]
+ wait_on_buffer include/linux/buffer_head.h:414 [inline]
+ __sync_dirty_buffer+0x2f7/0x390 fs/buffer.c:2858
+ ntfs_write_bh+0x5f7/0x7c0 fs/ntfs3/fsntfs.c:1481
+ mi_write+0x9b/0x1e0 fs/ntfs3/record.c:397
+ indx_update_dup+0x69a/0x860 fs/ntfs3/index.c:2699
+ ni_update_parent+0xa18/0xdd0 fs/ntfs3/frecord.c:3224
+ ni_write_inode+0xd9f/0x1020 fs/ntfs3/frecord.c:3315
+ write_inode fs/fs-writeback.c:1525 [inline]
+ __writeback_single_inode+0x708/0x10d0 fs/fs-writeback.c:1745
+ writeback_single_inode+0x1f3/0x660 fs/fs-writeback.c:1801
+ sync_inode_metadata+0xc4/0x120 fs/fs-writeback.c:2871
+ __generic_file_fsync+0x134/0x1a0 fs/libfs.c:1543
+ generic_file_fsync+0x70/0xf0 fs/libfs.c:1573
+ ovl_sync_file+0x3a/0x50 fs/overlayfs/copy_up.c:254
+ ovl_copy_up_metadata+0xac1/0xef0 fs/overlayfs/copy_up.c:724
+ ovl_copy_up_workdir fs/overlayfs/copy_up.c:816 [inline]
+ ovl_do_copy_up fs/overlayfs/copy_up.c:1001 [inline]
+ ovl_copy_up_one fs/overlayfs/copy_up.c:1202 [inline]
+ ovl_copy_up_flags+0x2099/0x46f0 fs/overlayfs/copy_up.c:1257
+ ovl_open+0x139/0x310 fs/overlayfs/file.c:211
+ do_dentry_open+0xbe1/0x1b70 fs/open.c:945
+ vfs_open+0x3e/0x330 fs/open.c:1075
+ dentry_open+0x61/0xa0 fs/open.c:1098
+ ima_calc_file_hash+0x16b/0x1b30 security/integrity/ima/ima_crypto.c:553
+ ima_collect_measurement+0x520/0xb10 security/integrity/ima/ima_api.c:293
+ process_measurement+0x1351/0x1fb0 security/integrity/ima/ima_main.c:372
+ ima_file_check+0xd9/0x120 security/integrity/ima/ima_main.c:572
+ security_file_post_open+0xb9/0x280 security/security.c:3121
+ do_open fs/namei.c:3830 [inline]
+ path_openat+0x2ccd/0x3590 fs/namei.c:3987
+ do_filp_open+0x27f/0x4e0 fs/namei.c:4014
+ do_sys_openat2+0x13e/0x1d0 fs/open.c:1402
+ do_sys_open fs/open.c:1417 [inline]
+ __do_sys_openat fs/open.c:1433 [inline]
+ __se_sys_openat fs/open.c:1428 [inline]
+ __x64_sys_openat+0x247/0x2a0 fs/open.c:1428
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f9433585d29
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f9434384038 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f9433775fa0 RCX: 00007f9433585d29
+RDX: 0000000000000083 RSI: 0000000020000000 RDI: ffffffffffffff9c
+RBP: 00007f9433601b08 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 00007f9433775fa0 R15: 00007ffecfac9528
+ </TASK>
+
+The buggy address belongs to stack of task syz.0.0/5316
+ and is located at offset 32 in frame:
+ out_of_line_wait_on_bit+0x0/0x260
+
+This frame has 1 object:
+ [32, 96) 'wq_entry'
+
+The buggy address belongs to the virtual mapping at
+ [ffffc9000d1a0000, ffffc9000d1a9000) created by:
+ copy_process+0x5d1/0x3d50 kernel/fork.c:2224
+
+The buggy address belongs to the physical page:
+page: refcount:1 mapcount:0 mapping:0000000000000000 index:0xffff8880367700d8 pfn:0x36770
+memcg:ffff88801e21f582
+flags: 0x4fff00000000000(node=1|zone=1|lastcpupid=0x7ff)
+raw: 04fff00000000000 0000000000000000 dead000000000122 0000000000000000
+raw: ffff8880367700d8 0000000000000000 00000001ffffffff ffff88801e21f582
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x2dc2(GFP_KERNEL|__GFP_HIGHMEM|__GFP_NOWARN|__GFP_ZERO), pid 5315, tgid 5315 (syz.0.0), ts 67454609265, free_ts 67065166284
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x1f3/0x230 mm/page_alloc.c:1558
+ prep_new_page mm/page_alloc.c:1566 [inline]
+ get_page_from_freelist+0x365c/0x37a0 mm/page_alloc.c:3476
+ __alloc_pages_noprof+0x292/0x710 mm/page_alloc.c:4753
+ alloc_pages_mpol_noprof+0x3e8/0x680 mm/mempolicy.c:2269
+ vm_area_alloc_pages mm/vmalloc.c:3591 [inline]
+ __vmalloc_area_node mm/vmalloc.c:3669 [inline]
+ __vmalloc_node_range_noprof+0x9c9/0x1380 mm/vmalloc.c:3846
+ alloc_thread_stack_node kernel/fork.c:314 [inline]
+ dup_task_struct+0x444/0x8c0 kernel/fork.c:1116
+ copy_process+0x5d1/0x3d50 kernel/fork.c:2224
+ kernel_clone+0x226/0x8e0 kernel/fork.c:2806
+ __do_sys_clone3 kernel/fork.c:3110 [inline]
+ __se_sys_clone3+0x2d8/0x360 kernel/fork.c:3089
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+page last free pid 5300 tgid 5300 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ free_pages_prepare mm/page_alloc.c:1127 [inline]
+ free_unref_page+0xd3f/0x1010 mm/page_alloc.c:2659
+ __slab_free+0x2c2/0x380 mm/slub.c:4524
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x9a/0x140 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x14f/0x170 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x23/0x80 mm/kasan/common.c:329
+ kasan_slab_alloc include/linux/kasan.h:250 [inline]
+ slab_post_alloc_hook mm/slub.c:4119 [inline]
+ slab_alloc_node mm/slub.c:4168 [inline]
+ __kmalloc_cache_noprof+0x1d9/0x390 mm/slub.c:4324
+ kmalloc_noprof include/linux/slab.h:901 [inline]
+ netdevice_queue_work drivers/infiniband/core/roce_gid_mgmt.c:664 [inline]
+ netdevice_event+0x37d/0x950 drivers/infiniband/core/roce_gid_mgmt.c:823
+ notifier_call_chain+0x1a5/0x3f0 kernel/notifier.c:85
+ call_netdevice_notifiers_extack net/core/dev.c:2034 [inline]
+ call_netdevice_notifiers net/core/dev.c:2048 [inline]
+ dev_set_mac_address+0x3d9/0x510 net/core/dev.c:9214
+ dev_set_mac_address_user+0x31/0x50 net/core/dev.c:9228
+ do_setlink+0x74b/0x4210 net/core/rtnetlink.c:3064
+ rtnl_changelink net/core/rtnetlink.c:3723 [inline]
+ __rtnl_newlink net/core/rtnetlink.c:3875 [inline]
+ rtnl_newlink+0x1bb6/0x2210 net/core/rtnetlink.c:4012
+ rtnetlink_rcv_msg+0x791/0xcf0 net/core/rtnetlink.c:6922
+ netlink_rcv_skb+0x1e3/0x430 net/netlink/af_netlink.c:2542
+ netlink_unicast_kernel net/netlink/af_netlink.c:1321 [inline]
+ netlink_unicast+0x7f6/0x990 net/netlink/af_netlink.c:1347
+ netlink_sendmsg+0x8e4/0xcb0 net/netlink/af_netlink.c:1891
+
+Memory state around the buggy address:
+ ffffc9000d1a5800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffffc9000d1a5880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>ffffc9000d1a5900: f1 f1 f1 f1 00 00 00 00 00 00 00 00 f3 f3 f3 f3
+                                  ^
+ ffffc9000d1a5980: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffffc9000d1a5a00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+==================================================================
+
+
 ---
- fs/ntfs3/attrib.c  | 11 ++++---
- fs/ntfs3/frecord.c | 59 ++++++++++++++++++----------------
- fs/ntfs3/ntfs_fs.h | 21 ++++++------
- fs/ntfs3/record.c  | 79 ++++++++++++++++++++++++----------------------
- 4 files changed, 90 insertions(+), 80 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index 8d789b017fa9..795cf8e75d2e 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -787,7 +787,8 @@ int attr_set_size(struct ntfs_inode *ni, enum ATTR_TYPE type,
- 		if (err)
- 			goto out;
- 
--		attr = mi_find_attr(mi, NULL, type, name, name_len, &le->id);
-+		attr = mi_find_attr(ni, mi, NULL, type, name, name_len,
-+				    &le->id);
- 		if (!attr) {
- 			err = -EINVAL;
- 			goto bad_inode;
-@@ -1181,7 +1182,7 @@ int attr_data_get_block(struct ntfs_inode *ni, CLST vcn, CLST clen, CLST *lcn,
- 			goto out;
- 		}
- 
--		attr = mi_find_attr(mi, NULL, ATTR_DATA, NULL, 0, &le->id);
-+		attr = mi_find_attr(ni, mi, NULL, ATTR_DATA, NULL, 0, &le->id);
- 		if (!attr) {
- 			err = -EINVAL;
- 			goto out;
-@@ -1796,7 +1797,7 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
- 				goto out;
- 			}
- 
--			attr = mi_find_attr(mi, NULL, ATTR_DATA, NULL, 0,
-+			attr = mi_find_attr(ni, mi, NULL, ATTR_DATA, NULL, 0,
- 					    &le->id);
- 			if (!attr) {
- 				err = -EINVAL;
-@@ -2041,8 +2042,8 @@ int attr_collapse_range(struct ntfs_inode *ni, u64 vbo, u64 bytes)
- 				}
- 
- 				/* Look for required attribute. */
--				attr = mi_find_attr(mi, NULL, ATTR_DATA, NULL,
--						    0, &le->id);
-+				attr = mi_find_attr(ni, mi, NULL, ATTR_DATA,
-+						    NULL, 0, &le->id);
- 				if (!attr) {
- 					err = -EINVAL;
- 					goto out;
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index c57f0686b14b..b6be7dfafcbd 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -75,7 +75,7 @@ struct ATTR_STD_INFO *ni_std(struct ntfs_inode *ni)
- {
- 	const struct ATTRIB *attr;
- 
--	attr = mi_find_attr(&ni->mi, NULL, ATTR_STD, NULL, 0, NULL);
-+	attr = mi_find_attr(ni, &ni->mi, NULL, ATTR_STD, NULL, 0, NULL);
- 	return attr ? resident_data_ex(attr, sizeof(struct ATTR_STD_INFO)) :
- 		      NULL;
- }
-@@ -89,7 +89,7 @@ struct ATTR_STD_INFO5 *ni_std5(struct ntfs_inode *ni)
- {
- 	const struct ATTRIB *attr;
- 
--	attr = mi_find_attr(&ni->mi, NULL, ATTR_STD, NULL, 0, NULL);
-+	attr = mi_find_attr(ni, &ni->mi, NULL, ATTR_STD, NULL, 0, NULL);
- 
- 	return attr ? resident_data_ex(attr, sizeof(struct ATTR_STD_INFO5)) :
- 		      NULL;
-@@ -201,7 +201,8 @@ struct ATTRIB *ni_find_attr(struct ntfs_inode *ni, struct ATTRIB *attr,
- 			*mi = &ni->mi;
- 
- 		/* Look for required attribute in primary record. */
--		return mi_find_attr(&ni->mi, attr, type, name, name_len, NULL);
-+		return mi_find_attr(ni, &ni->mi, attr, type, name, name_len,
-+				    NULL);
- 	}
- 
- 	/* First look for list entry of required type. */
-@@ -217,7 +218,7 @@ struct ATTRIB *ni_find_attr(struct ntfs_inode *ni, struct ATTRIB *attr,
- 		return NULL;
- 
- 	/* Look for required attribute. */
--	attr = mi_find_attr(m, NULL, type, name, name_len, &le->id);
-+	attr = mi_find_attr(ni, m, NULL, type, name, name_len, &le->id);
- 
- 	if (!attr)
- 		goto out;
-@@ -259,7 +260,7 @@ struct ATTRIB *ni_enum_attr_ex(struct ntfs_inode *ni, struct ATTRIB *attr,
- 		if (mi)
- 			*mi = &ni->mi;
- 		/* Enum attributes in primary record. */
--		return mi_enum_attr(&ni->mi, attr);
-+		return mi_enum_attr(ni, &ni->mi, attr);
- 	}
- 
- 	/* Get next list entry. */
-@@ -275,7 +276,7 @@ struct ATTRIB *ni_enum_attr_ex(struct ntfs_inode *ni, struct ATTRIB *attr,
- 		*mi = mi2;
- 
- 	/* Find attribute in loaded record. */
--	return rec_find_attr_le(mi2, le2);
-+	return rec_find_attr_le(ni, mi2, le2);
- }
- 
- /*
-@@ -293,7 +294,8 @@ struct ATTRIB *ni_load_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
- 	if (!ni->attr_list.size) {
- 		if (pmi)
- 			*pmi = &ni->mi;
--		return mi_find_attr(&ni->mi, NULL, type, name, name_len, NULL);
-+		return mi_find_attr(ni, &ni->mi, NULL, type, name, name_len,
-+				    NULL);
- 	}
- 
- 	le = al_find_ex(ni, NULL, type, name, name_len, NULL);
-@@ -319,7 +321,7 @@ struct ATTRIB *ni_load_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
- 	if (pmi)
- 		*pmi = mi;
- 
--	attr = mi_find_attr(mi, NULL, type, name, name_len, &le->id);
-+	attr = mi_find_attr(ni, mi, NULL, type, name, name_len, &le->id);
- 	if (!attr)
- 		return NULL;
- 
-@@ -398,7 +400,8 @@ int ni_remove_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
- 	int diff;
- 
- 	if (base_only || type == ATTR_LIST || !ni->attr_list.size) {
--		attr = mi_find_attr(&ni->mi, NULL, type, name, name_len, id);
-+		attr = mi_find_attr(ni, &ni->mi, NULL, type, name, name_len,
-+				    id);
- 		if (!attr)
- 			return -ENOENT;
- 
-@@ -437,7 +440,7 @@ int ni_remove_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
- 
- 		al_remove_le(ni, le);
- 
--		attr = mi_find_attr(mi, NULL, type, name, name_len, id);
-+		attr = mi_find_attr(ni, mi, NULL, type, name, name_len, id);
- 		if (!attr)
- 			return -ENOENT;
- 
-@@ -485,7 +488,7 @@ ni_ins_new_attr(struct ntfs_inode *ni, struct mft_inode *mi,
- 		name = le->name;
- 	}
- 
--	attr = mi_insert_attr(mi, type, name, name_len, asize, name_off);
-+	attr = mi_insert_attr(ni, mi, type, name, name_len, asize, name_off);
- 	if (!attr) {
- 		if (le_added)
- 			al_remove_le(ni, le);
-@@ -673,7 +676,7 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
- 	if (err)
- 		return err;
- 
--	attr_list = mi_find_attr(&ni->mi, NULL, ATTR_LIST, NULL, 0, NULL);
-+	attr_list = mi_find_attr(ni, &ni->mi, NULL, ATTR_LIST, NULL, 0, NULL);
- 	if (!attr_list)
- 		return 0;
- 
-@@ -695,7 +698,7 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
- 		if (!mi)
- 			return 0;
- 
--		attr = mi_find_attr(mi, NULL, le->type, le_name(le),
-+		attr = mi_find_attr(ni, mi, NULL, le->type, le_name(le),
- 				    le->name_len, &le->id);
- 		if (!attr)
- 			return 0;
-@@ -731,7 +734,7 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
- 			goto out;
- 		}
- 
--		attr = mi_find_attr(mi, NULL, le->type, le_name(le),
-+		attr = mi_find_attr(ni, mi, NULL, le->type, le_name(le),
- 				    le->name_len, &le->id);
- 		if (!attr) {
- 			/* Should never happened, 'cause already checked. */
-@@ -740,7 +743,7 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
- 		asize = le32_to_cpu(attr->size);
- 
- 		/* Insert into primary record. */
--		attr_ins = mi_insert_attr(&ni->mi, le->type, le_name(le),
-+		attr_ins = mi_insert_attr(ni, &ni->mi, le->type, le_name(le),
- 					  le->name_len, asize,
- 					  le16_to_cpu(attr->name_off));
- 		if (!attr_ins) {
-@@ -768,7 +771,7 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
- 		if (!mi)
- 			continue;
- 
--		attr = mi_find_attr(mi, NULL, le->type, le_name(le),
-+		attr = mi_find_attr(ni, mi, NULL, le->type, le_name(le),
- 				    le->name_len, &le->id);
- 		if (!attr)
- 			continue;
-@@ -831,7 +834,7 @@ int ni_create_attr_list(struct ntfs_inode *ni)
- 	free_b = 0;
- 	attr = NULL;
- 
--	for (; (attr = mi_enum_attr(&ni->mi, attr)); le = Add2Ptr(le, sz)) {
-+	for (; (attr = mi_enum_attr(ni, &ni->mi, attr)); le = Add2Ptr(le, sz)) {
- 		sz = le_size(attr->name_len);
- 		le->type = attr->type;
- 		le->size = cpu_to_le16(sz);
-@@ -886,7 +889,7 @@ int ni_create_attr_list(struct ntfs_inode *ni)
- 		u32 asize = le32_to_cpu(b->size);
- 		u16 name_off = le16_to_cpu(b->name_off);
- 
--		attr = mi_insert_attr(mi, b->type, Add2Ptr(b, name_off),
-+		attr = mi_insert_attr(ni, mi, b->type, Add2Ptr(b, name_off),
- 				      b->name_len, asize, name_off);
- 		if (!attr)
- 			goto out;
-@@ -909,7 +912,7 @@ int ni_create_attr_list(struct ntfs_inode *ni)
- 			goto out;
- 	}
- 
--	attr = mi_insert_attr(&ni->mi, ATTR_LIST, NULL, 0,
-+	attr = mi_insert_attr(ni, &ni->mi, ATTR_LIST, NULL, 0,
- 			      lsize + SIZEOF_RESIDENT, SIZEOF_RESIDENT);
- 	if (!attr)
- 		goto out;
-@@ -993,13 +996,13 @@ static int ni_ins_attr_ext(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
- 		mi = rb_entry(node, struct mft_inode, node);
- 
- 		if (is_mft_data &&
--		    (mi_enum_attr(mi, NULL) ||
-+		    (mi_enum_attr(ni, mi, NULL) ||
- 		     vbo <= ((u64)mi->rno << sbi->record_bits))) {
- 			/* We can't accept this record 'cause MFT's bootstrapping. */
- 			continue;
- 		}
- 		if (is_mft &&
--		    mi_find_attr(mi, NULL, ATTR_DATA, NULL, 0, NULL)) {
-+		    mi_find_attr(ni, mi, NULL, ATTR_DATA, NULL, 0, NULL)) {
- 			/*
- 			 * This child record already has a ATTR_DATA.
- 			 * So it can't accept any other records.
-@@ -1008,7 +1011,7 @@ static int ni_ins_attr_ext(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
- 		}
- 
- 		if ((type != ATTR_NAME || name_len) &&
--		    mi_find_attr(mi, NULL, type, name, name_len, NULL)) {
-+		    mi_find_attr(ni, mi, NULL, type, name, name_len, NULL)) {
- 			/* Only indexed attributes can share same record. */
- 			continue;
- 		}
-@@ -1157,7 +1160,7 @@ static int ni_insert_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
- 	/* Estimate the result of moving all possible attributes away. */
- 	attr = NULL;
- 
--	while ((attr = mi_enum_attr(&ni->mi, attr))) {
-+	while ((attr = mi_enum_attr(ni, &ni->mi, attr))) {
- 		if (attr->type == ATTR_STD)
- 			continue;
- 		if (attr->type == ATTR_LIST)
-@@ -1175,7 +1178,7 @@ static int ni_insert_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
- 	attr = NULL;
- 
- 	for (;;) {
--		attr = mi_enum_attr(&ni->mi, attr);
-+		attr = mi_enum_attr(ni, &ni->mi, attr);
- 		if (!attr) {
- 			/* We should never be here 'cause we have already check this case. */
- 			err = -EINVAL;
-@@ -1259,7 +1262,7 @@ static int ni_expand_mft_list(struct ntfs_inode *ni)
- 	for (node = rb_first(&ni->mi_tree); node; node = rb_next(node)) {
- 		mi = rb_entry(node, struct mft_inode, node);
- 
--		attr = mi_enum_attr(mi, NULL);
-+		attr = mi_enum_attr(ni, mi, NULL);
- 
- 		if (!attr) {
- 			mft_min = mi->rno;
-@@ -1280,7 +1283,7 @@ static int ni_expand_mft_list(struct ntfs_inode *ni)
- 		ni_remove_mi(ni, mi_new);
- 	}
- 
--	attr = mi_find_attr(&ni->mi, NULL, ATTR_DATA, NULL, 0, NULL);
-+	attr = mi_find_attr(ni, &ni->mi, NULL, ATTR_DATA, NULL, 0, NULL);
- 	if (!attr) {
- 		err = -EINVAL;
- 		goto out;
-@@ -1397,7 +1400,7 @@ int ni_expand_list(struct ntfs_inode *ni)
- 			continue;
- 
- 		/* Find attribute in primary record. */
--		attr = rec_find_attr_le(&ni->mi, le);
-+		attr = rec_find_attr_le(ni, &ni->mi, le);
- 		if (!attr) {
- 			err = -EINVAL;
- 			goto out;
-@@ -3344,7 +3347,7 @@ int ni_write_inode(struct inode *inode, int sync, const char *hint)
- 		if (!mi->dirty)
- 			continue;
- 
--		is_empty = !mi_enum_attr(mi, NULL);
-+		is_empty = !mi_enum_attr(ni, mi, NULL);
- 
- 		if (is_empty)
- 			clear_rec_inuse(mi->mrec);
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index cd8e8374bb5a..382820464dee 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -745,23 +745,24 @@ int mi_get(struct ntfs_sb_info *sbi, CLST rno, struct mft_inode **mi);
- void mi_put(struct mft_inode *mi);
- int mi_init(struct mft_inode *mi, struct ntfs_sb_info *sbi, CLST rno);
- int mi_read(struct mft_inode *mi, bool is_mft);
--struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr);
--// TODO: id?
--struct ATTRIB *mi_find_attr(struct mft_inode *mi, struct ATTRIB *attr,
--			    enum ATTR_TYPE type, const __le16 *name,
--			    u8 name_len, const __le16 *id);
--static inline struct ATTRIB *rec_find_attr_le(struct mft_inode *rec,
-+struct ATTRIB *mi_enum_attr(struct ntfs_inode *ni, struct mft_inode *mi,
-+			    struct ATTRIB *attr);
-+struct ATTRIB *mi_find_attr(struct ntfs_inode *ni, struct mft_inode *mi,
-+			    struct ATTRIB *attr, enum ATTR_TYPE type,
-+			    const __le16 *name, u8 name_len, const __le16 *id);
-+static inline struct ATTRIB *rec_find_attr_le(struct ntfs_inode *ni,
-+					      struct mft_inode *rec,
- 					      struct ATTR_LIST_ENTRY *le)
- {
--	return mi_find_attr(rec, NULL, le->type, le_name(le), le->name_len,
-+	return mi_find_attr(ni, rec, NULL, le->type, le_name(le), le->name_len,
- 			    &le->id);
- }
- int mi_write(struct mft_inode *mi, int wait);
- int mi_format_new(struct mft_inode *mi, struct ntfs_sb_info *sbi, CLST rno,
- 		  __le16 flags, bool is_mft);
--struct ATTRIB *mi_insert_attr(struct mft_inode *mi, enum ATTR_TYPE type,
--			      const __le16 *name, u8 name_len, u32 asize,
--			      u16 name_off);
-+struct ATTRIB *mi_insert_attr(struct ntfs_inode *ni, struct mft_inode *mi,
-+			      enum ATTR_TYPE type, const __le16 *name,
-+			      u8 name_len, u32 asize, u16 name_off);
- 
- bool mi_remove_attr(struct ntfs_inode *ni, struct mft_inode *mi,
- 		    struct ATTRIB *attr);
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index 61d53d39f3b9..714c7ecedca8 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -31,7 +31,7 @@ static inline int compare_attr(const struct ATTRIB *left, enum ATTR_TYPE type,
-  *
-  * Return: Unused attribute id that is less than mrec->next_attr_id.
-  */
--static __le16 mi_new_attt_id(struct mft_inode *mi)
-+static __le16 mi_new_attt_id(struct ntfs_inode *ni, struct mft_inode *mi)
- {
- 	u16 free_id, max_id, t16;
- 	struct MFT_REC *rec = mi->mrec;
-@@ -52,7 +52,7 @@ static __le16 mi_new_attt_id(struct mft_inode *mi)
- 	attr = NULL;
- 
- 	for (;;) {
--		attr = mi_enum_attr(mi, attr);
-+		attr = mi_enum_attr(ni, mi, attr);
- 		if (!attr) {
- 			rec->next_attr_id = cpu_to_le16(max_id + 1);
- 			mi->dirty = true;
-@@ -195,7 +195,8 @@ int mi_read(struct mft_inode *mi, bool is_mft)
-  * NOTE: mi->mrec - memory of size sbi->record_size
-  * here we sure that mi->mrec->total == sbi->record_size (see mi_read)
-  */
--struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
-+struct ATTRIB *mi_enum_attr(struct ntfs_inode *ni, struct mft_inode *mi,
-+			    struct ATTRIB *attr)
- {
- 	const struct MFT_REC *rec = mi->mrec;
- 	u32 used = le32_to_cpu(rec->used);
-@@ -209,11 +210,11 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 		off = le16_to_cpu(rec->attr_off);
- 
- 		if (used > total)
--			return NULL;
-+			goto out;
- 
- 		if (off >= used || off < MFTRECORD_FIXUP_OFFSET_1 ||
- 		    !IS_ALIGNED(off, 8)) {
--			return NULL;
-+			goto out;
- 		}
- 
- 		/* Skip non-resident records. */
-@@ -243,7 +244,7 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 	 */
- 	if (off + 8 > used) {
- 		static_assert(ALIGN(sizeof(enum ATTR_TYPE), 8) == 8);
--		return NULL;
-+		goto out;
- 	}
- 
- 	if (attr->type == ATTR_END) {
-@@ -254,112 +255,116 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 	/* 0x100 is last known attribute for now. */
- 	t32 = le32_to_cpu(attr->type);
- 	if (!t32 || (t32 & 0xf) || (t32 > 0x100))
--		return NULL;
-+		goto out;
- 
- 	/* attributes in record must be ordered by type */
- 	if (t32 < prev_type)
--		return NULL;
-+		goto out;
- 
- 	asize = le32_to_cpu(attr->size);
- 
- 	if (!IS_ALIGNED(asize, 8))
--		return NULL;
-+		goto out;
- 
- 	/* Check overflow and boundary. */
- 	if (off + asize < off || off + asize > used)
--		return NULL;
-+		goto out;
- 
- 	/* Can we use the field attr->non_res. */
- 	if (off + 9 > used)
--		return NULL;
-+		goto out;
- 
- 	/* Check size of attribute. */
- 	if (!attr->non_res) {
- 		/* Check resident fields. */
- 		if (asize < SIZEOF_RESIDENT)
--			return NULL;
-+			goto out;
- 
- 		t16 = le16_to_cpu(attr->res.data_off);
- 		if (t16 > asize)
--			return NULL;
-+			goto out;
- 
- 		if (le32_to_cpu(attr->res.data_size) > asize - t16)
--			return NULL;
-+			goto out;
- 
- 		t32 = sizeof(short) * attr->name_len;
- 		if (t32 && le16_to_cpu(attr->name_off) + t32 > t16)
--			return NULL;
-+			goto out;
- 
- 		return attr;
- 	}
- 
- 	/* Check nonresident fields. */
- 	if (attr->non_res != 1)
--		return NULL;
-+		goto out;
- 
- 	/* Can we use memory including attr->nres.valid_size? */
- 	if (asize < SIZEOF_NONRESIDENT)
--		return NULL;
-+		goto out;
- 
- 	t16 = le16_to_cpu(attr->nres.run_off);
- 	if (t16 > asize)
--		return NULL;
-+		goto out;
- 
- 	t32 = sizeof(short) * attr->name_len;
- 	if (t32 && le16_to_cpu(attr->name_off) + t32 > t16)
--		return NULL;
-+		goto out;
- 
- 	/* Check start/end vcn. */
- 	if (le64_to_cpu(attr->nres.svcn) > le64_to_cpu(attr->nres.evcn) + 1)
--		return NULL;
-+		goto out;
- 
- 	data_size = le64_to_cpu(attr->nres.data_size);
- 	if (le64_to_cpu(attr->nres.valid_size) > data_size)
--		return NULL;
-+		goto out;
- 
- 	alloc_size = le64_to_cpu(attr->nres.alloc_size);
- 	if (data_size > alloc_size)
--		return NULL;
-+		goto out;
- 
- 	t32 = mi->sbi->cluster_mask;
- 	if (alloc_size & t32)
--		return NULL;
-+		goto out;
- 
- 	if (!attr->nres.svcn && is_attr_ext(attr)) {
- 		/* First segment of sparse/compressed attribute */
- 		/* Can we use memory including attr->nres.total_size? */
- 		if (asize < SIZEOF_NONRESIDENT_EX)
--			return NULL;
-+			goto out;
- 
- 		tot_size = le64_to_cpu(attr->nres.total_size);
- 		if (tot_size & t32)
--			return NULL;
-+			goto out;
- 
- 		if (tot_size > alloc_size)
--			return NULL;
-+			goto out;
- 	} else {
- 		if (attr->nres.c_unit)
--			return NULL;
-+			goto out;
- 
- 		if (alloc_size > mi->sbi->volume.size)
--			return NULL;
-+			goto out;
- 	}
- 
- 	return attr;
-+
-+out:
-+	_ntfs_bad_inode(&ni->vfs_inode);
-+	return NULL;
- }
- 
- /*
-  * mi_find_attr - Find the attribute by type and name and id.
-  */
--struct ATTRIB *mi_find_attr(struct mft_inode *mi, struct ATTRIB *attr,
--			    enum ATTR_TYPE type, const __le16 *name,
--			    u8 name_len, const __le16 *id)
-+struct ATTRIB *mi_find_attr(struct ntfs_inode *ni, struct mft_inode *mi,
-+			    struct ATTRIB *attr, enum ATTR_TYPE type,
-+			    const __le16 *name, u8 name_len, const __le16 *id)
- {
- 	u32 type_in = le32_to_cpu(type);
- 	u32 atype;
- 
- next_attr:
--	attr = mi_enum_attr(mi, attr);
-+	attr = mi_enum_attr(ni, mi, attr);
- 	if (!attr)
- 		return NULL;
- 
-@@ -467,9 +472,9 @@ int mi_format_new(struct mft_inode *mi, struct ntfs_sb_info *sbi, CLST rno,
-  *
-  * Return: Not full constructed attribute or NULL if not possible to create.
-  */
--struct ATTRIB *mi_insert_attr(struct mft_inode *mi, enum ATTR_TYPE type,
--			      const __le16 *name, u8 name_len, u32 asize,
--			      u16 name_off)
-+struct ATTRIB *mi_insert_attr(struct ntfs_inode *ni, struct mft_inode *mi,
-+			      enum ATTR_TYPE type, const __le16 *name,
-+			      u8 name_len, u32 asize, u16 name_off)
- {
- 	size_t tail;
- 	struct ATTRIB *attr;
-@@ -488,7 +493,7 @@ struct ATTRIB *mi_insert_attr(struct mft_inode *mi, enum ATTR_TYPE type,
- 	 * at which we should insert it.
- 	 */
- 	attr = NULL;
--	while ((attr = mi_enum_attr(mi, attr))) {
-+	while ((attr = mi_enum_attr(ni, mi, attr))) {
- 		int diff = compare_attr(attr, type, name, name_len, upcase);
- 
- 		if (diff < 0)
-@@ -508,7 +513,7 @@ struct ATTRIB *mi_insert_attr(struct mft_inode *mi, enum ATTR_TYPE type,
- 		tail = used - PtrOffset(rec, attr);
- 	}
- 
--	id = mi_new_attt_id(mi);
-+	id = mi_new_attt_id(ni, mi);
- 
- 	memmove(Add2Ptr(attr, asize), attr, tail);
- 	memset(attr, 0, asize);
--- 
-2.34.1
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
