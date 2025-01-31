@@ -1,208 +1,153 @@
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9321B6D14
-	for <ntfs3@lists.linux.dev>; Fri, 31 Jan 2025 10:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1471A1C2457
+	for <ntfs3@lists.linux.dev>; Fri, 31 Jan 2025 13:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738320934; cv=none; b=cW2nM30Iic117H7JCZn7Npr5qhCJrkE0rXI9UJysOtWE+bf2QS+K18QdwpJSpZ4kWSnWH4CxfWpSS74GvUyrTsfP+DBSxLaoFQuK7bSFQSu5EgZ+E58IMukyuNLBhlPSnoNuFslGxziuDwzWifUa/8eLWqQ1zdy7SR9O9QeYX9I=
+	t=1738329524; cv=none; b=Os/8TIsvixJgY1KxXnT11nqB/J3uAAWPl7DrqZPDeSYaHrH4Ln+T9SpKsHxpuYib8MtzGrTTwBDFsgtJTOy5AAbQ31LH3ohrD50xWTCLGFU5lgZXYyPmfpDR6Jw3RcLqeQYfBnsqlNvOJKKexE+6ugLUJf1CBaygqXUZ4LHAPrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738320934; c=relaxed/simple;
-	bh=L+t7rnM7rmH5q09taXDmcrKhj1PtNfnxnFxPKIUY6Iw=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=rfyxySfLHU0ECINPP6LTAF8u7WN4tsDTxS0h3bWlIZXr5OWevf5Y8lKlEiw7FtX+/Jr9ik0w+qQBBe3jDwS3Ln+ctHnN4zu8v+GyzmNltlz3XS2Wcp3u92NcCcokJuYQBlUXKLL2Jk3mshjbGdScwCAhUloYlEA/TzCYUE6sSy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-3d00eac3de2so9118445ab.0
-        for <ntfs3@lists.linux.dev>; Fri, 31 Jan 2025 02:55:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738320932; x=1738925732;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=woC//orRGI2Di/y1i/twZ9EPOn4DcYdlMp3O75UV0P0=;
-        b=QUEAI29eE1r9uKmCsHFc0vlc0TX2O9hF4Cs4146fw1b5ZCtLR2V1GAXecDrdPLPMI4
-         AlhmnknjuswYgewQHHDZJxHdQEDz1ktONhi4Hh6NPvRttCJ6sgVaaeEsMh8oIvqQSod4
-         9uWOvQuPHzEAdZO41cMq8pR0AbsuhHKwW+U2y1K89Zi5WIkp7nifPVmJOxZXvSYQVIpw
-         b53jwduyaOw42MsEry4anjwrEPerZQxK64VNyGhZlvFJdf4Usz0wSmrX5RtpGAwDqfES
-         CmcVClOK4pyDOXFx7e+FDO7E78M+nkocqZao2LeY5sPoqF/l+IKdMQnXk1TIhKADkMvC
-         LjDA==
-X-Forwarded-Encrypted: i=1; AJvYcCUBsgSE766nxrz9hPcFTXbBmIfN3l1VOcA6x4GPV2db91L6S6O/rsva2QI2OYN+uUadTfF3Ag==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy1Gk1Is82buZZsybaehuOpMhuabDfUJ4VmNg8egUiLKupRpHLm
-	hlt3WNd+Mg8Fn+WdzDi/o56v7hhhUuHhfk5EYaTfr3fQwDDrvO9u3tBifai+hTGRTxJxwijy2SJ
-	vjn2IA2f6e8lz/io3++JPSWo76x8zyEmuGMtYpPnPEFvnmibmOJyTqzA=
-X-Google-Smtp-Source: AGHT+IHlogUV7bPPu2u+ZrptU9Y3T/DJ1H2T7ER6/oCJbXk42etX8850qUtyzsa3KlEIQphJrrg2IE1ZzYAqP7Imdk4EsDUX2k//
+	s=arc-20240116; t=1738329524; c=relaxed/simple;
+	bh=+2R6j+G5LXdz2bl7xJs2HJikFKp1C18+Q1dZWVErtuk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fLu+cz+Q+P3HfmQrmhkuIIBo1Af896WlvHG4BiMmVRwztuPYUWl6uxJlOtUW2CO5yDn41/imT1hIxHNneKfvH56/GEnT0fhvMqr8KOx/qc7r5rUzP4M0Q79SsOZhLSLPNpDHzlAcVtoVqN4zPDrisUMZ4Lto4DRQ3FlfNbfvYXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=FhWbB7Sr; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=LJPcDGam; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="FhWbB7Sr";
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="LJPcDGam"
+Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 8DB2B26D1;
+	Fri, 31 Jan 2025 13:17:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1738329458;
+	bh=mqejZPqDCmsCg/VWmxG+29NTa0ZeGImihnLOpNHI2xM=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=FhWbB7SriaHFOzQJ3+YjbQA+QhwP+YCas2/hLr5bgTj17z30HeJNWPT7/jKseeWRF
+	 HipPqU9Ue4efZA3m8RhG4nOBdk/Cbn+JW6OZEw3YLHxXzfftvqG/ItU5s/Z817QobG
+	 Sv+4Q2bPlF/ZLyDboiLpKrtStpCgGS44II6L6d1Q=
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id C9E492117;
+	Fri, 31 Jan 2025 13:18:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1738329519;
+	bh=mqejZPqDCmsCg/VWmxG+29NTa0ZeGImihnLOpNHI2xM=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=LJPcDGamO2BFPa66j/4i9Dkhx3QbhyUHEI/N/DoLhLqWp01GbZ7rIUTKdE5U8PGoX
+	 RyCK+JLBkx9/BUqPdcEoqSLzTbXVaE67nBDkVFNloZK/cBQh6oCvzRhQYHb2V/9xQJ
+	 DYPNnvChvW7eMLugLG6e2kTO4vddIE61Wx/w/SuE=
+Received: from ntfs3vm.localdomain (192.168.211.140) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Fri, 31 Jan 2025 16:18:39 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Kun Hu
+	<huk23@m.fudan.edu.cn>
+Subject: [PATCH v2] fs/ntfs3: Update inode->i_mapping->a_ops on compression state
+Date: Fri, 31 Jan 2025 16:18:31 +0300
+Message-ID: <20250131131831.6289-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250123135335.15060-1-almaz.alexandrovich@paragon-software.com>
+References: <20250123135335.15060-1-almaz.alexandrovich@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1aa7:b0:3cf:cac6:b61d with SMTP id
- e9e14a558f8ab-3cffe4068acmr86739795ab.16.1738320931934; Fri, 31 Jan 2025
- 02:55:31 -0800 (PST)
-Date: Fri, 31 Jan 2025 02:55:31 -0800
-In-Reply-To: <672dbfef.050a0220.69327.0001.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <679cac23.050a0220.163cdc.0007.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] possible deadlock in ntfs_look_for_free_space
-From: syzbot <syzbot+d27edf9f96ae85939222@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-syzbot has found a reproducer for the following issue on:
+Update inode->i_mapping->a_ops when the compression state changes to
+ensure correct address space operations.
+Clear ATTR_FLAG_SPARSED/FILE_ATTRIBUTE_SPARSE_FILE when enabling
+compression to prevent flag conflicts.
 
-HEAD commit:    1950a0af2d55 Merge tag 'arm64-upstream' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=10404518580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cc031f8aa606a448
-dashboard link: https://syzkaller.appspot.com/bug?extid=d27edf9f96ae85939222
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=118aab64580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15865ddf980000
+v2:
+Additionally, ensure that all dirty pages are flushed and concurrent access
+to the page cache is blocked.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/f7a210b6e168/disk-1950a0af.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/fffe4bd5b59c/vmlinux-1950a0af.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/b5e6fc6340b2/Image-1950a0af.gz.xz
-mounted in repro #1: https://storage.googleapis.com/syzbot-assets/8ae15bf11712/mount_0.gz
-mounted in repro #2: https://storage.googleapis.com/syzbot-assets/3b6c55850042/mount_3.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+d27edf9f96ae85939222@syzkaller.appspotmail.com
-
-ntfs3(loop3): Different NTFS sector size (4096) and media sector size (512).
-ntfs3(loop3): Mark volume as dirty due to NTFS errors
-======================================================
-WARNING: possible circular locking dependency detected
-6.13.0-rc7-syzkaller-g1950a0af2d55 #0 Not tainted
-------------------------------------------------------
-syz-executor323/6469 is trying to acquire lock:
-ffff0000c9402270 (&wnd->rw_lock){++++}-{4:4}, at: ntfs_look_for_free_space+0xe4/0x58c fs/ntfs3/fsntfs.c:362
-
-but task is already holding lock:
-ffff0000dca92dc0 (&ni->file.run_lock#2){++++}-{4:4}, at: ntfs_set_size+0x130/0x200 fs/ntfs3/inode.c:852
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #1 (&ni->file.run_lock#2){++++}-{4:4}:
-       down_read+0x58/0x2fc kernel/locking/rwsem.c:1524
-       run_unpack_ex+0x43c/0x7fc fs/ntfs3/run.c:1119
-       ntfs_read_mft fs/ntfs3/inode.c:401 [inline]
-       ntfs_iget5+0x15b4/0x2c60 fs/ntfs3/inode.c:537
-       dir_search_u+0x298/0x324 fs/ntfs3/dir.c:264
-       ntfs_lookup+0x108/0x1f8 fs/ntfs3/namei.c:85
-       lookup_open fs/namei.c:3627 [inline]
-       open_last_lookups fs/namei.c:3748 [inline]
-       path_openat+0xf7c/0x2b14 fs/namei.c:3984
-       do_filp_open+0x1e8/0x404 fs/namei.c:4014
-       do_sys_openat2+0x124/0x1b8 fs/open.c:1402
-       do_sys_open fs/open.c:1417 [inline]
-       __do_sys_openat fs/open.c:1433 [inline]
-       __se_sys_openat fs/open.c:1428 [inline]
-       __arm64_sys_openat+0x1f0/0x240 fs/open.c:1428
-       __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
-       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
-       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
-       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
-       el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:744
-       el0t_64_sync_handler+0x84/0x108 arch/arm64/kernel/entry-common.c:762
-       el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
-
--> #0 (&wnd->rw_lock){++++}-{4:4}:
-       check_prev_add kernel/locking/lockdep.c:3161 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3280 [inline]
-       validate_chain kernel/locking/lockdep.c:3904 [inline]
-       __lock_acquire+0x34f0/0x7904 kernel/locking/lockdep.c:5226
-       lock_acquire+0x23c/0x724 kernel/locking/lockdep.c:5849
-       down_write_nested+0x58/0xcc kernel/locking/rwsem.c:1693
-       ntfs_look_for_free_space+0xe4/0x58c fs/ntfs3/fsntfs.c:362
-       attr_allocate_clusters+0x1dc/0x85c fs/ntfs3/attrib.c:159
-       attr_set_size+0x192c/0x3468 fs/ntfs3/attrib.c:574
-       ntfs_set_size+0x158/0x200 fs/ntfs3/inode.c:854
-       ntfs_extend+0x19c/0x8e8 fs/ntfs3/file.c:409
-       ntfs_setattr+0x220/0x95c fs/ntfs3/file.c:826
-       notify_change+0x9f0/0xca0 fs/attr.c:552
-       do_truncate+0x1c0/0x28c fs/open.c:65
-       vfs_truncate+0x2b8/0x360 fs/open.c:111
-       do_sys_truncate+0xe8/0x1ac fs/open.c:134
-       __do_sys_truncate fs/open.c:146 [inline]
-       __se_sys_truncate fs/open.c:144 [inline]
-       __arm64_sys_truncate+0x5c/0x70 fs/open.c:144
-       __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
-       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
-       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
-       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
-       el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:744
-       el0t_64_sync_handler+0x84/0x108 arch/arm64/kernel/entry-common.c:762
-       el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
-
-other info that might help us debug this:
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&ni->file.run_lock#2);
-                               lock(&wnd->rw_lock);
-                               lock(&ni->file.run_lock#2);
-  lock(&wnd->rw_lock);
-
- *** DEADLOCK ***
-
-4 locks held by syz-executor323/6469:
- #0: ffff0000c9404420 (sb_writers#10){.+.+}-{0:0}, at: mnt_want_write+0x44/0x9c fs/namespace.c:516
- #1: ffff0000dca92fa8 (&sb->s_type->i_mutex_key#18){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:818 [inline]
- #1: ffff0000dca92fa8 (&sb->s_type->i_mutex_key#18){+.+.}-{4:4}, at: do_truncate+0x1ac/0x28c fs/open.c:63
- #2: ffff0000dca92d10 (&ni->ni_lock#3/5){+.+.}-{4:4}, at: ni_lock fs/ntfs3/ntfs_fs.h:1110 [inline]
- #2: ffff0000dca92d10 (&ni->ni_lock#3/5){+.+.}-{4:4}, at: ntfs_set_size+0x124/0x200 fs/ntfs3/inode.c:851
- #3: ffff0000dca92dc0 (&ni->file.run_lock#2){++++}-{4:4}, at: ntfs_set_size+0x130/0x200 fs/ntfs3/inode.c:852
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 6469 Comm: syz-executor323 Not tainted 6.13.0-rc7-syzkaller-g1950a0af2d55 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 12/27/2024
-Call trace:
- show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:466 (C)
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0xe4/0x150 lib/dump_stack.c:120
- dump_stack+0x1c/0x28 lib/dump_stack.c:129
- print_circular_bug+0x154/0x1c0 kernel/locking/lockdep.c:2074
- check_noncircular+0x310/0x404 kernel/locking/lockdep.c:2206
- check_prev_add kernel/locking/lockdep.c:3161 [inline]
- check_prevs_add kernel/locking/lockdep.c:3280 [inline]
- validate_chain kernel/locking/lockdep.c:3904 [inline]
- __lock_acquire+0x34f0/0x7904 kernel/locking/lockdep.c:5226
- lock_acquire+0x23c/0x724 kernel/locking/lockdep.c:5849
- down_write_nested+0x58/0xcc kernel/locking/rwsem.c:1693
- ntfs_look_for_free_space+0xe4/0x58c fs/ntfs3/fsntfs.c:362
- attr_allocate_clusters+0x1dc/0x85c fs/ntfs3/attrib.c:159
- attr_set_size+0x192c/0x3468 fs/ntfs3/attrib.c:574
- ntfs_set_size+0x158/0x200 fs/ntfs3/inode.c:854
- ntfs_extend+0x19c/0x8e8 fs/ntfs3/file.c:409
- ntfs_setattr+0x220/0x95c fs/ntfs3/file.c:826
- notify_change+0x9f0/0xca0 fs/attr.c:552
- do_truncate+0x1c0/0x28c fs/open.c:65
- vfs_truncate+0x2b8/0x360 fs/open.c:111
- do_sys_truncate+0xe8/0x1ac fs/open.c:134
- __do_sys_truncate fs/open.c:146 [inline]
- __se_sys_truncate fs/open.c:144 [inline]
- __arm64_sys_truncate+0x5c/0x70 fs/open.c:144
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
- do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
- el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:744
- el0t_64_sync_handler+0x84/0x108 arch/arm64/kernel/entry-common.c:762
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
-
-
+Fixes: 6b39bfaeec44 ("fs/ntfs3: Add support for the compression attribute")
+Reported-by: Kun Hu <huk23@m.fudan.edu.cn>, Jiaji Qin <jjtan24@m.fudan.edu.cn>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+ fs/ntfs3/attrib.c  |  3 ++-
+ fs/ntfs3/file.c    | 22 ++++++++++++++++++++--
+ fs/ntfs3/frecord.c |  6 ++++--
+ 3 files changed, 26 insertions(+), 5 deletions(-)
+
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index af94e3737470..e946f75eb540 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -2664,8 +2664,9 @@ int attr_set_compress(struct ntfs_inode *ni, bool compr)
+ 		attr->nres.run_off = cpu_to_le16(run_off);
+ 	}
+ 
+-	/* Update data attribute flags. */
++	/* Update attribute flags. */
+ 	if (compr) {
++		attr->flags &= ~ATTR_FLAG_SPARSED;
+ 		attr->flags |= ATTR_FLAG_COMPRESSED;
+ 		attr->nres.c_unit = NTFS_LZNT_CUNIT;
+ 	} else {
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 4d9d84cc3c6f..9b6a3f8d2e7c 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -101,8 +101,26 @@ int ntfs_fileattr_set(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	/* Allowed to change compression for empty files and for directories only. */
+ 	if (!is_dedup(ni) && !is_encrypted(ni) &&
+ 	    (S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode))) {
+-		/* Change compress state. */
+-		int err = ni_set_compress(inode, flags & FS_COMPR_FL);
++		int err = 0;
++		struct address_space *mapping = inode->i_mapping;
++
++		/* write out all data and wait. */
++		filemap_invalidate_lock(mapping);
++		err = filemap_write_and_wait(mapping);
++
++		if (err >= 0) {
++			/* Change compress state. */
++			bool compr = flags & FS_COMPR_FL;
++			err = ni_set_compress(inode, compr);
++
++			/* For files change a_ops too. */
++			if (!err)
++				mapping->a_ops = compr ? &ntfs_aops_cmpr :
++							 &ntfs_aops;
++		}
++
++		filemap_invalidate_unlock(mapping);
++
+ 		if (err)
+ 			return err;
+ 	}
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 5df6a0b5add9..81271196c557 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -3434,10 +3434,12 @@ int ni_set_compress(struct inode *inode, bool compr)
+ 	}
+ 
+ 	ni->std_fa = std->fa;
+-	if (compr)
++	if (compr) {
++		std->fa &= ~FILE_ATTRIBUTE_SPARSE_FILE;
+ 		std->fa |= FILE_ATTRIBUTE_COMPRESSED;
+-	else
++	} else {
+ 		std->fa &= ~FILE_ATTRIBUTE_COMPRESSED;
++	}
+ 
+ 	if (ni->std_fa != std->fa) {
+ 		ni->std_fa = std->fa;
+-- 
+2.34.1
+
