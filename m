@@ -1,43 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BA986321;
-	Tue,  4 Feb 2025 01:16:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC56C86349;
+	Tue,  4 Feb 2025 01:16:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738631795; cv=none; b=WQoHe5ze/YA4t0Iai2YlNcDCwCfVz5u9rE6QuQLODRUE5Hpwxt2J0GIKCPh0EyCZIxgTDCWFBF0Ap23utw+MiE4QdCbQHKPYXF2Gl2/BW0ZQuSdOy0PJLe7r5V20Z1DkyXFlWBE6reEfb6vH+FyMSRJvBDqxdcZR5hPI7iZh3Ik=
+	t=1738631808; cv=none; b=JAtg0a9raGHeg2g06P81SA8HqeG3jHYVLAaiPPfSan/WrMyWwCIZOva3av974RQgtgdtrfet5c2/8LXJp1Hz+xVGPqefTVvq5JCI96lLEXi4TQY/QaDIDLwnKQibwsB99NEEKL1JDzuFxMJGJwzHpLfMJ5uMDDEUwsiQJH4mWVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738631795; c=relaxed/simple;
-	bh=BKX74RxQvj7KO34dJ9SbmqicVrrf7jXE1/V5pa5N27Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=B2mLy17c13AsMrCtbO99cEHz5vw9YVGvtrWxVjH5ouDJB9w/RFqvYX8jWZIa6rHi2VGfWBbkNUVq/jhnM+r5crYsbwLeZu3gODJ20OVGKnk2lAcU39t9St6kXHvs+mboxNynlPk13u30+BPfwS6vjxx1xNiP8p1ZeOY4bNhxLhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cpexNTx1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738631808; c=relaxed/simple;
+	bh=TusPbK6U6mxyzxl6/yI/szj2/noBuUatiCCqLXwl234=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nou4/DdZpdAsZuNTOWWNJ8vkj8r3B9iYoR4J/ih8ha08l8execG97TjCZK5204MTTzFJ7n+qf+9Is9jymB549GLuFowS93Mo8bRiyD7bP+A3nUAEn+dWdeiKHXur+GiTRiIVAdJqwfxkF8DjNa5RK0b7ZsVFJzV4AeAiCpXXWwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZsRlqnBz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cpexNTx1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E29EC4CEE4;
-	Tue,  4 Feb 2025 01:16:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZsRlqnBz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81118C4CEE7;
+	Tue,  4 Feb 2025 01:16:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738631795;
-	bh=BKX74RxQvj7KO34dJ9SbmqicVrrf7jXE1/V5pa5N27Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cpexNTx1OQ4zQ3uouRo6Cf5J3CY2aIIUz+YEyTkoBrV0oMVuJpwBkO/cSfNc802gh
-	 6e5XWN8Li2dOeUBErK4OVIbKtwaprWAjjqZ6tyrW0QGOm/JL9UKkVi98Xcwrorwwxi
-	 hzlEmMU5OQnVUNLe16CCYXG8OjMb2mAfTQ4XG01INzVKJjj5vfr8CXaGvag0xYC0FL
-	 h7WUin52nPzYfjPLWDezWLLaARKhRoAy8y56FEfVSlWwLk5UhtZY7lYvUVDSdV8GJi
-	 RcUtq49rZgTnkV2c9T/0zRnGNitQ2U+BLMkFrepKndzAaf9EbZOGWZwP+pPYWNNRTh
-	 eTsMWFjeSIg1g==
+	s=k20201202; t=1738631808;
+	bh=TusPbK6U6mxyzxl6/yI/szj2/noBuUatiCCqLXwl234=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZsRlqnBzuzNIhU3gGCni2eIGajAsOus980/v/n83NaWXnxMjpbPvRSTU4dspiO70+
+	 DUDQJsYrAR9otsaQFr4gBdzst5JIG/v6kzNa3GauPBKm1CjtukiAW8/w8beNWD4M9y
+	 K7PJRKNaQQ9AXEbVy9O0xtKoz2JvQsQMwu0WUPVAauUfnoVDpz7cd+pHCT12LqnP9q
+	 06ZjRtSBOMnps9pXkMbULS42S8JG6FB0aMpOqb/S36eWfFJSCMoJJt8UvtNRubPHQa
+	 aNOy4WxqVgSwVpQgg+IxGkG0RIckapIOTUSUIkqFt2g5duNAKY/a5t/5O4955yhlW/
+	 ar0UYx4NhHTlw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.13 2/5] fs/ntfs3: Unify inode corruption marking with _ntfs_bad_inode()
-Date: Mon,  3 Feb 2025 20:16:24 -0500
-Message-Id: <20250204011627.2206261-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 1/4] fs/ntfs3: Unify inode corruption marking with _ntfs_bad_inode()
+Date: Mon,  3 Feb 2025 20:16:39 -0500
+Message-Id: <20250204011643.2206417-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250204011627.2206261-1-sashal@kernel.org>
-References: <20250204011627.2206261-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -46,7 +43,7 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13.1
+X-stable-base: Linux 6.12.12
 Content-Transfer-Encoding: 8bit
 
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
@@ -67,10 +64,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  6 files changed, 20 insertions(+), 13 deletions(-)
 
 diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index 795cf8e75d2ea..af94e3737470d 100644
+index 8d789b017fa9b..da1a9312e61a0 100644
 --- a/fs/ntfs3/attrib.c
 +++ b/fs/ntfs3/attrib.c
-@@ -1407,7 +1407,7 @@ int attr_wof_frame_info(struct ntfs_inode *ni, struct ATTRIB *attr,
+@@ -1406,7 +1406,7 @@ int attr_wof_frame_info(struct ntfs_inode *ni, struct ATTRIB *attr,
  	 */
  	if (!attr->non_res) {
  		if (vbo[1] + bytes_per_off > le32_to_cpu(attr->res.data_size)) {
@@ -79,7 +76,7 @@ index 795cf8e75d2ea..af94e3737470d 100644
  			return -EINVAL;
  		}
  		addr = resident_data(attr);
-@@ -2588,7 +2588,7 @@ int attr_force_nonresident(struct ntfs_inode *ni)
+@@ -2587,7 +2587,7 @@ int attr_force_nonresident(struct ntfs_inode *ni)
  
  	attr = ni_find_attr(ni, NULL, &le, ATTR_DATA, NULL, 0, NULL, &mi);
  	if (!attr) {
@@ -102,7 +99,7 @@ index fc6a8aa29e3af..b6da80c69ca63 100644
  	}
  
 diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index b9d6cb1fb54f4..f66186dbeda9d 100644
+index c33e818b3164c..175662acd5eaf 100644
 --- a/fs/ntfs3/frecord.c
 +++ b/fs/ntfs3/frecord.c
 @@ -148,8 +148,10 @@ int ni_load_mi_ex(struct ntfs_inode *ni, CLST rno, struct mft_inode **mi)
@@ -117,7 +114,7 @@ index b9d6cb1fb54f4..f66186dbeda9d 100644
  
  	ni_add_mi(ni, r);
  
-@@ -239,8 +241,7 @@ struct ATTRIB *ni_find_attr(struct ntfs_inode *ni, struct ATTRIB *attr,
+@@ -238,8 +240,7 @@ struct ATTRIB *ni_find_attr(struct ntfs_inode *ni, struct ATTRIB *attr,
  	return attr;
  
  out:
@@ -127,7 +124,7 @@ index b9d6cb1fb54f4..f66186dbeda9d 100644
  	return NULL;
  }
  
-@@ -332,6 +333,7 @@ struct ATTRIB *ni_load_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
+@@ -330,6 +331,7 @@ struct ATTRIB *ni_load_attr(struct ntfs_inode *ni, enum ATTR_TYPE type,
  	    vcn <= le64_to_cpu(attr->nres.evcn))
  		return attr;
  
@@ -135,7 +132,7 @@ index b9d6cb1fb54f4..f66186dbeda9d 100644
  	return NULL;
  }
  
-@@ -1607,8 +1609,8 @@ int ni_delete_all(struct ntfs_inode *ni)
+@@ -1604,8 +1606,8 @@ int ni_delete_all(struct ntfs_inode *ni)
  		roff = le16_to_cpu(attr->nres.run_off);
  
  		if (roff > asize) {
@@ -147,7 +144,7 @@ index b9d6cb1fb54f4..f66186dbeda9d 100644
  
  		/* run==1 means unpack and deallocate. */
 diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-index 03471bc9371cd..938d351ebac72 100644
+index 0fa636038b4e4..6c73e93afb478 100644
 --- a/fs/ntfs3/fsntfs.c
 +++ b/fs/ntfs3/fsntfs.c
 @@ -908,7 +908,11 @@ void ntfs_bad_inode(struct inode *inode, const char *hint)
