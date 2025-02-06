@@ -1,137 +1,222 @@
-Received: from mail-il1-f206.google.com (mail-il1-f206.google.com [209.85.166.206])
+Received: from mail-io1-f79.google.com (mail-io1-f79.google.com [209.85.166.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6114621D5A8
-	for <ntfs3@lists.linux.dev>; Wed,  5 Feb 2025 06:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BED61FDA8C
+	for <ntfs3@lists.linux.dev>; Thu,  6 Feb 2025 07:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738736905; cv=none; b=oLuLUv9CPwfqA48xSEANAMrNIUrtevBTdlQOOQQxfyRvKsD91CunmijaxVbB8xJ0/2M03CqPFElkSBbzDNLJp3Cz/RLqiLSMOQihz5uH4YchVtm2Ji1D2GleZbz5530qTcEnxfBYdXI0Lsv15sDEUE/jLN3n0dmaVE7px1PINsM=
+	t=1738827622; cv=none; b=Hjs9I60Gehrsrz3b2LVYQ4OJWSLdrRn/B6gyxWAFRelDpY8Iaz4X71F0QALBfzSmnA4z5/0Fh+UNab2H96rK7souccUrCFYuaQPOu6SyI08vC367mvSulRmX9phAhXcDHDLSUPIrIHdw5l1I/6S9yfQV8Z+ZUY0aXSWR6+66VSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738736905; c=relaxed/simple;
-	bh=vSbqnzR1xyzYtpWvblXks7qeEBgSteFAYaGNumpJIiE=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=kng0JS70x5ob2dk/2LNJCCmRBVkm+k2Iu36PgrUB7yOyAxKnsl/mFF8paxkzy+NoNyXNaBHM1B/ENeHQ13rW+Lxw2TtPbpIBX0AYb3hWdnybAQmWBwV0McwIW0OfNWsrWgifmRWDoouDfLVVA/seI84kcg4ZhgbbWj+1/xcaRBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.206
+	s=arc-20240116; t=1738827622; c=relaxed/simple;
+	bh=xxsAEzSdDYTLOOBJ1Z7nj5DDWBClshhX/xz8IhkitzY=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=owhKER+JJY/AqYZ8SCcrKk+bShwkl/7E2woa+yHOeMd/Rlr3q71+iIaw/k+gERq8AaxSTqW2cksGN/goFXU8Or3ayxVQfEFjL3Ld15w4jaTUjli3D1NhBXns5mjEbw/GjMvuJjGhD3mfJl3CThmDabSyBrjHCu964E+2MCEKpAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.79
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f206.google.com with SMTP id e9e14a558f8ab-3d0225c44e8so77166565ab.0
-        for <ntfs3@lists.linux.dev>; Tue, 04 Feb 2025 22:28:23 -0800 (PST)
+Received: by mail-io1-f79.google.com with SMTP id ca18e2360f4ac-844cffcb685so50229439f.0
+        for <ntfs3@lists.linux.dev>; Wed, 05 Feb 2025 23:40:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738736902; x=1739341702;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/mSQCkeHuwhZt0xgZfQYnAAlUtXuw/pecT5TvaMXbg0=;
-        b=mktQqjZHeQ+kqeeRCQxIJGIlQnoenefUuUA2RB3QbmbrMwlGfq2CPCHK3aJMxYJ0YI
-         JdZn06nkEyzF4Qv8rFC8PUtxzxlOeS/aKVC5FjMBP8aZ2Jn0bNjwTFzwXWh0WoQsBEh/
-         37kdklSbNbktny+AieKODBGiyfEhCfZsHO/1Je242iVdmLy1dr6rTbp/+9U/pA++tR/v
-         U2Z9VqWTqM6B7Lz2q5e9w8a+Xzr4Q0fARMAwXiqivOMZM3fNWQ9Bl8ewfzhFSXsLt3qp
-         zULmdcj+uYpffvSOKWwI2px0a3aM9YTx66V23hGwItQnHUc+IM9pfDLGf883bZkLIf8v
-         5mng==
-X-Forwarded-Encrypted: i=1; AJvYcCXeLVIJnxzG9aNUJfhiHtAv1bIEKx8FeB1KK58TlMjWq7a68lAYupzufUZELt+VP60+OeRf9w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywm0Vxl9VLMY7CrcMYAVak5saj1WTG9ycCNpUGr9DXta5qViFE6
-	y9c5K8ENXalF48RgE+/3aRQClBXBh4Gxl/OQmqnWWPE0J7SFxsmRqFzrJjqZ42Ip/+IfCZgv01r
-	/CmkbUK5YrFxCjOEyeuae4Z4HGF92Af69AaULA8b0LeyJsmFUtp+/rzU=
-X-Google-Smtp-Source: AGHT+IGoH6/x7eWSgJnwDXYdv0fUIqvMnn1baO6rbOPbWHLkjPGjquabYqCgR/KUHPGoY7Lj51yJCLAf+YB2msqdEdwBilzQ+ThQ
+        d=1e100.net; s=20230601; t=1738827620; x=1739432420;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/2ExmAbSI83+xsbiSaRQbUe2LXDyG5IoM7SY2DhB/t0=;
+        b=BgmQJQt6jLVe6/xBN2CZ0Zg/iWEViq1qERl/sRpCT20alQ5AeUF/yPUsbwjG3oxssT
+         DtEc2zZU9/wAlQFpx2H6RSGqH5pSg4Z+wf+fUPRkOSI0YqFTfiNJhZyNs8BLD5smF++7
+         xlfUY+6VpmvPQ+8AjL7NflL+XerajBfFvF1Kfw3KVFyahMq0Okv5S2nOmIySvT4GeakS
+         LM/ELAdiGDR8TPjOBF7ZRpf48XSLZZEIgaRNfoRV5quYcCb0ehbppW8j5pHPzF+cGH7+
+         cCnATaMfmZuyTikUByuV+TOKXZpjamBsqRMPRBBXD4S6/V4sA0Oi9su2CIMFrr9gED/y
+         dRUw==
+X-Forwarded-Encrypted: i=1; AJvYcCUtHVMiPVfgZBNIoUt8uHUpyGzcPr15czU7GZUAMD22YxNb78d95Fm8EKC3dtie3r0T+k577Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyugkl+ZnmDANQrCdaPKn8hjb9e2JNvuD6dK3henZHkgYRRMxZI
+	T8ZT1UMBXt/t0FrMsxhVnh/dUpKg/oJAaLnVBdIn3v7uNUNMJcIWNg68XaO6YRmpUEQ75RD31QU
+	keHPvOeB5UbpJOC4tYU4OFgjS3RA/RSZrVn5e/JWZiA2IgR92WeORbFc=
+X-Google-Smtp-Source: AGHT+IFUTOzlzXY43VReAiihfub6YyvCIfTeVMje9bsy88O8F7RsSj21UsLGyvuXlE6KCT76gri2c9ZDGMdnTvtLi4wALSY0GzIO
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1989:b0:3cf:c745:4fa8 with SMTP id
- e9e14a558f8ab-3d04f961873mr19890895ab.18.1738736902526; Tue, 04 Feb 2025
- 22:28:22 -0800 (PST)
-Date: Tue, 04 Feb 2025 22:28:22 -0800
+X-Received: by 2002:a05:6e02:18cc:b0:3d0:27f5:1b6c with SMTP id
+ e9e14a558f8ab-3d04f917e79mr49795225ab.14.1738827619954; Wed, 05 Feb 2025
+ 23:40:19 -0800 (PST)
+Date: Wed, 05 Feb 2025 23:40:19 -0800
+In-Reply-To: <677a6e7a.050a0220.380ff0.0011.GAE@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67a30506.050a0220.50516.0010.GAE@google.com>
-Subject: [syzbot] [ntfs3?] kernel panic: stack is corrupted in ni_enum_attr_ex
-From: syzbot <syzbot+fe33beb8c5dba41e050b@syzkaller.appspotmail.com>
+Message-ID: <67a46763.050a0220.19061f.05f8.GAE@google.com>
+Subject: Re: [syzbot] [ntfs3?] KASAN: out-of-bounds Read in __wait_on_bit
+From: syzbot <syzbot+339240205a3fd334f686@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
 	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+syzbot has found a reproducer for the following issue on:
 
-syzbot found the following issue on:
-
-HEAD commit:    69e858e0b8b2 Merge tag 'uml-for-linus-6.14-rc1' of git://g..
+HEAD commit:    92514ef226f5 Merge tag 'for-6.14-rc1-tag' of git://git.ker..
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13ca4b24580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d033b14aeef39158
-dashboard link: https://syzkaller.appspot.com/bug?extid=fe33beb8c5dba41e050b
+console output: https://syzkaller.appspot.com/x/log.txt?x=1029adf8580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1909f2f0d8e641ce
+dashboard link: https://syzkaller.appspot.com/bug?extid=339240205a3fd334f686
 compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14ac3ddf980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14f595f8580000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1429adf8580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=169381b0580000
 
 Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-69e858e0.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/a53b888c1f3f/vmlinux-69e858e0.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6b5e17edafc0/bzImage-69e858e0.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/57d4f876a7f0/mount_0.gz
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-92514ef2.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c4d8b91f8769/vmlinux-92514ef2.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c24ec4365966/bzImage-92514ef2.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/2ad88ddc4451/mount_0.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+fe33beb8c5dba41e050b@syzkaller.appspotmail.com
+Reported-by: syzbot+339240205a3fd334f686@syzkaller.appspotmail.com
 
-loop0: detected capacity change from 0 to 4096
-ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
-ntfs3(loop0): ino=a, mi_enum_attr
-ntfs3(loop0): Mark volume as dirty due to NTFS errors
-Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: ni_enum_attr_ex+0x445/0x450
-CPU: 0 UID: 0 PID: 5634 Comm: syz-executor427 Not tainted 6.13.0-syzkaller-09760-g69e858e0b8b2 #0
+overlayfs: upper fs does not support RENAME_WHITEOUT.
+==================================================================
+BUG: KASAN: out-of-bounds in __wait_on_bit+0xdf/0x2f0 kernel/sched/wait_bit.c:50
+Read of size 8 at addr ffffc9000d86d940 by task syz-executor369/5428
+
+CPU: 0 UID: 0 PID: 5428 Comm: syz-executor369 Not tainted 6.14.0-rc1-syzkaller-00034-g92514ef226f5 #0
 Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
 Call Trace:
  <TASK>
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
- panic+0x349/0x880 kernel/panic.c:354
- __stack_chk_fail+0x15/0x20 kernel/panic.c:836
- ni_enum_attr_ex+0x445/0x450
- ntfs_read_mft fs/ntfs3/inode.c:123 [inline]
- ntfs_iget5+0x23f7/0x3800 fs/ntfs3/inode.c:540
- ntfs_fill_super+0x3e8e/0x4730 fs/ntfs3/super.c:1477
- get_tree_bdev_flags+0x48c/0x5c0 fs/super.c:1636
- vfs_get_tree+0x90/0x2b0 fs/super.c:1814
- do_new_mount+0x2be/0xb40 fs/namespace.c:3560
- do_mount fs/namespace.c:3900 [inline]
- __do_sys_mount fs/namespace.c:4111 [inline]
- __se_sys_mount+0x2d6/0x3c0 fs/namespace.c:4088
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x169/0x550 mm/kasan/report.c:489
+ kasan_report+0x143/0x180 mm/kasan/report.c:602
+ __wait_on_bit+0xdf/0x2f0 kernel/sched/wait_bit.c:50
+ out_of_line_wait_on_bit+0x1d5/0x260 kernel/sched/wait_bit.c:64
+ wait_on_bit_io include/linux/wait_bit.h:105 [inline]
+ __wait_on_buffer fs/buffer.c:123 [inline]
+ wait_on_buffer include/linux/buffer_head.h:414 [inline]
+ __sync_dirty_buffer+0x2f7/0x390 fs/buffer.c:2858
+ ntfs_write_bh+0x5f7/0x7c0 fs/ntfs3/fsntfs.c:1485
+ mi_write+0x9b/0x1e0 fs/ntfs3/record.c:402
+ indx_update_dup+0x69a/0x860 fs/ntfs3/index.c:2697
+ ni_update_parent+0xa18/0xdd0 fs/ntfs3/frecord.c:3230
+ ni_write_inode+0xe61/0x1100 fs/ntfs3/frecord.c:3321
+ write_inode fs/fs-writeback.c:1525 [inline]
+ __writeback_single_inode+0x708/0x10d0 fs/fs-writeback.c:1745
+ writeback_single_inode+0x1f3/0x660 fs/fs-writeback.c:1801
+ sync_inode_metadata+0xc4/0x120 fs/fs-writeback.c:2871
+ __generic_file_fsync+0x134/0x1a0 fs/libfs.c:1536
+ generic_file_fsync+0x70/0xf0 fs/libfs.c:1566
+ ovl_sync_file+0x3a/0x50 fs/overlayfs/copy_up.c:254
+ ovl_copy_up_metadata+0xac1/0xef0 fs/overlayfs/copy_up.c:724
+ ovl_copy_up_workdir fs/overlayfs/copy_up.c:816 [inline]
+ ovl_do_copy_up fs/overlayfs/copy_up.c:1001 [inline]
+ ovl_copy_up_one fs/overlayfs/copy_up.c:1202 [inline]
+ ovl_copy_up_flags+0x244a/0x47c0 fs/overlayfs/copy_up.c:1257
+ ovl_open+0x139/0x310 fs/overlayfs/file.c:211
+ do_dentry_open+0xdec/0x1960 fs/open.c:955
+ vfs_open+0x3b/0x370 fs/open.c:1085
+ dentry_open+0x61/0xa0 fs/open.c:1108
+ ima_calc_file_hash+0x16b/0x1b30 security/integrity/ima/ima_crypto.c:553
+ ima_collect_measurement+0x520/0xb10 security/integrity/ima/ima_api.c:293
+ process_measurement+0x1351/0x1fb0 security/integrity/ima/ima_main.c:372
+ ima_file_check+0xd9/0x120 security/integrity/ima/ima_main.c:600
+ security_file_post_open+0xb9/0x280 security/security.c:3130
+ do_open fs/namei.c:3832 [inline]
+ path_openat+0x2cca/0x3590 fs/namei.c:3989
+ do_filp_open+0x27f/0x4e0 fs/namei.c:4016
+ do_sys_openat2+0x13e/0x1d0 fs/open.c:1427
+ do_sys_open fs/open.c:1442 [inline]
+ __do_sys_openat fs/open.c:1458 [inline]
+ __se_sys_openat fs/open.c:1453 [inline]
+ __x64_sys_openat+0x247/0x2a0 fs/open.c:1453
  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
  do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f258c7a00ea
-Code: d8 64 89 02 48 c7 c0 ff ff ff ff eb a6 e8 5e 04 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffc3d396c38 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007ffc3d396c50 RCX: 00007f258c7a00ea
-RDX: 000000002001f800 RSI: 000000002001f840 RDI: 00007ffc3d396c50
-RBP: 0000000000000004 R08: 00007ffc3d396c90 R09: 000000000001f815
-R10: 0000000000000000 R11: 0000000000000286 R12: 0000000000000000
-R13: 00007ffc3d396c90 R14: 0000000000000003 R15: 0000000000200000
+RIP: 0033:0x7f0002351fb9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 01 1a 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fffb15b1078 EFLAGS: 00000206 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f0002351fb9
+RDX: 0000000000000083 RSI: 0000200000000000 RDI: 00000000ffffff9c
+RBP: 0031656c69662f2e R08: 00007fffb15b10b0 R09: 00007fffb15b10b0
+R10: 0000000000000000 R11: 0000000000000206 R12: 00007fffb15b109c
+R13: 0000000000000004 R14: 431bde82d7b634db R15: 00007fffb15b10d0
  </TASK>
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
+
+The buggy address belongs to stack of task syz-executor369/5428
+ and is located at offset 32 in frame:
+ out_of_line_wait_on_bit+0x0/0x260
+
+This frame has 1 object:
+ [32, 96) 'wq_entry'
+
+The buggy address belongs to the virtual mapping at
+ [ffffc9000d868000, ffffc9000d871000) created by:
+ copy_process+0x5d1/0x3d50 kernel/fork.c:2233
+
+The buggy address belongs to the physical page:
+page: refcount:1 mapcount:0 mapping:0000000000000000 index:0xffff888000000000 pfn:0x49fa7
+flags: 0x4fff00000000000(node=1|zone=1|lastcpupid=0x7ff)
+raw: 04fff00000000000 0000000000000000 dead000000000122 0000000000000000
+raw: ffff888000000000 0000000000000000 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x2dc2(GFP_KERNEL|__GFP_HIGHMEM|__GFP_NOWARN|__GFP_ZERO), pid 5311, tgid 5311 (syz-executor369), ts 75259377764, free_ts 75170649321
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x1f4/0x240 mm/page_alloc.c:1551
+ prep_new_page mm/page_alloc.c:1559 [inline]
+ get_page_from_freelist+0x365c/0x37a0 mm/page_alloc.c:3477
+ __alloc_frozen_pages_noprof+0x292/0x710 mm/page_alloc.c:4739
+ alloc_pages_mpol+0x311/0x660 mm/mempolicy.c:2270
+ alloc_frozen_pages_noprof mm/mempolicy.c:2341 [inline]
+ alloc_pages_noprof+0x121/0x190 mm/mempolicy.c:2361
+ vm_area_alloc_pages mm/vmalloc.c:3591 [inline]
+ __vmalloc_area_node mm/vmalloc.c:3669 [inline]
+ __vmalloc_node_range_noprof+0x9c6/0x1380 mm/vmalloc.c:3846
+ alloc_thread_stack_node kernel/fork.c:314 [inline]
+ dup_task_struct+0x444/0x8c0 kernel/fork.c:1127
+ copy_process+0x5d1/0x3d50 kernel/fork.c:2233
+ kernel_clone+0x226/0x8e0 kernel/fork.c:2815
+ __do_sys_clone kernel/fork.c:2958 [inline]
+ __se_sys_clone kernel/fork.c:2942 [inline]
+ __x64_sys_clone+0x258/0x2a0 kernel/fork.c:2942
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+page last free pid 5313 tgid 5313 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ free_pages_prepare mm/page_alloc.c:1127 [inline]
+ free_frozen_pages+0xe0d/0x10e0 mm/page_alloc.c:2660
+ pagetable_free include/linux/mm.h:2917 [inline]
+ pagetable_dtor_free include/linux/mm.h:3015 [inline]
+ __tlb_remove_table+0x33c/0x420 include/asm-generic/tlb.h:216
+ __tlb_remove_table_free mm/mmu_gather.c:227 [inline]
+ tlb_remove_table_rcu+0x76/0xf0 mm/mmu_gather.c:282
+ rcu_do_batch kernel/rcu/tree.c:2546 [inline]
+ rcu_core+0xaaa/0x17a0 kernel/rcu/tree.c:2802
+ handle_softirqs+0x2d4/0x9b0 kernel/softirq.c:561
+ do_softirq+0x11b/0x1e0 kernel/softirq.c:462
+ __local_bh_enable_ip+0x1bb/0x200 kernel/softirq.c:389
+ spin_unlock_bh include/linux/spinlock.h:396 [inline]
+ wg_packet_send_staged_packets+0x313/0x18c0 drivers/net/wireguard/send.c:352
+ wg_open+0x2a3/0x420 drivers/net/wireguard/device.c:55
+ __dev_open+0x2d3/0x4a0 net/core/dev.c:1604
+ __dev_change_flags+0x1e2/0x6f0 net/core/dev.c:9172
+ dev_change_flags+0x8b/0x1a0 net/core/dev.c:9244
+ do_setlink+0xc90/0x4210 net/core/rtnetlink.c:3118
+ rtnl_changelink net/core/rtnetlink.c:3732 [inline]
+ __rtnl_newlink net/core/rtnetlink.c:3884 [inline]
+ rtnl_newlink+0x1bb6/0x2210 net/core/rtnetlink.c:4021
+ rtnetlink_rcv_msg+0x791/0xcf0 net/core/rtnetlink.c:6911
+ netlink_rcv_skb+0x1e3/0x430 net/netlink/af_netlink.c:2543
+
+Memory state around the buggy address:
+ ffffc9000d86d800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffffc9000d86d880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>ffffc9000d86d900: 00 00 00 00 f1 f1 f1 f1 00 00 00 00 00 00 00 00
+                                              ^
+ ffffc9000d86d980: f3 f3 f3 f3 00 00 00 00 00 00 00 00 00 00 00 00
+ ffffc9000d86da00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+==================================================================
 
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
 If you want syzbot to run the reproducer, reply with:
 #syz test: git://repo/address.git branch-or-commit-hash
 If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
