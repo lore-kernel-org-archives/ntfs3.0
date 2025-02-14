@@ -1,95 +1,179 @@
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C118070825
-	for <ntfs3@lists.linux.dev>; Fri, 14 Feb 2025 02:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B0120370C
+	for <ntfs3@lists.linux.dev>; Fri, 14 Feb 2025 06:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739500722; cv=none; b=jWeX8/wU7oovgjhr1hMyFUbc6O/21BOHC+k1YrOJWdpKDL3u8o5SwiyTHpPGzW1HcArn7uStp+g6rYZCTvx9ysfgLsDgVZanWO4oc6sYhsCqgIPCagqrNzenPdL9icHyivoqhfkPhesXTmkbcwcoPf21HuOE79g/8i8/vMe8I2I=
+	t=1739516122; cv=none; b=p04GABzK3tUgJHQl8e4/bGuRZhXuotrQanCzdhz3aHkasDlUOyis/Jo04gXZdhOg3Apa0UjsBvZz/tMSCrqIwj7SMnyoAz5D4UmcFrnj/Mp/q19P/PGmJ9sTa1B2DFOlb5579K+GKPFLbdVcyU/TtsxUndhYGkr2dhUA7Lm4dU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739500722; c=relaxed/simple;
-	bh=N7Pn0EHMxbi5fS2utS1dSBrEvZ41q5ipKm8bx/tq02Y=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=Dc69umV3px8WPri+MGy1+RVwoLhPwG1VfpyM10ffmcLN2+KIW6Toab5p2CE6u45DfywsYkITkzhOt6HSdBIVrxbySlSQyOOiK63ApYfKrX+bNFM8SXgXDu7jp2WL7ksWsq8onBM9gRnkXa5xPwTW08MRuG4H1wuKvvgcS/eATgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m.fudan.edu.cn; spf=pass smtp.mailfrom=m.fudan.edu.cn; dkim=pass (1024-bit key) header.d=m.fudan.edu.cn header.i=@m.fudan.edu.cn header.b=bISmqngL; arc=none smtp.client-ip=54.206.34.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m.fudan.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m.fudan.edu.cn
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=m.fudan.edu.cn header.i=@m.fudan.edu.cn header.b="bISmqngL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=m.fudan.edu.cn;
-	s=sorc2401; t=1739500701;
-	bh=N7Pn0EHMxbi5fS2utS1dSBrEvZ41q5ipKm8bx/tq02Y=;
-	h=Mime-Version:Subject:From:Date:Message-Id:To;
-	b=bISmqngLW65GuJF3+L68BHJQxHHf2yGVmmsnpyLlxUNtk153gVvkAqY7bvDxd5DzM
-	 HeN4c4JbOG1e1sNdPp9pZ0sPO9nzhh4TCMhVm9CCQuus2a/KRCLjnEMOZZUrXu/5oX
-	 vplY2pnKy7de6hzizngr9RsGo1RfH5J56o1ucan0=
-X-QQ-mid: bizesmtpip3t1739500700t9v0ngr
-X-QQ-Originating-IP: PmkW5tpiknW79/o4jkoUBC+jFzn3Vl7O5uGKqwlUDp4=
-Received: from smtpclient.apple ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 14 Feb 2025 10:38:18 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 1620896532733177375
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1739516122; c=relaxed/simple;
+	bh=a73UfzxNIq/V2/0VlnPixRfE7CtnBAjp4UW9qxdoE5w=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=QQKKg5XM1ogRaQrd8qpe9caOpDAaHR6tpa9cyfHjFImWnk+Y1xyGsthSzeaGJuSSuQZdLvOOw9qeXHI8ZtgI45UYudGUpzDKbmIBGVg2ibSHdsm6J+tdv+wrhk9ryQC62xAkTUWiQWNPx0lvSaAHFVPg+/AKCd5k6nbbuRAIbdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-3d18fbafa4dso8913575ab.1
+        for <ntfs3@lists.linux.dev>; Thu, 13 Feb 2025 22:55:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739516119; x=1740120919;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uvhSJKlXu2vdv5jVgpbCFsB6zIQDcJPgAt6yW1vxj1E=;
+        b=OJDOTNye2jx86GJQE5fmuNRipBcJdtwYjVslIdS2rcZV8r0W8xz/7irxkGM823vjaL
+         q6qlPQESb61WuUtgUvmMm/od14YQMH8wlCtPtRy9bcMtHWa1kJtwSFyDabUbKzZCxqLd
+         I62yvi4oCdnA+Zs+67oNvjXjeGuiraZEFT/0n2zWnij9RYOcvctOqTF3KRh/E2MU0CNy
+         4ixITLSbp0w1bi5Uhei5ukzKtAkGqnWBvoTZX9Rc5+9heLEgMu4hSHded2YxMZv1fcbN
+         ZQ740kg03F9DLSSplnuLsmkmEV/ZjAsv28dAhxGQLVJNRa3Cv0x24qb7uqMSATLM0DOJ
+         54Ew==
+X-Forwarded-Encrypted: i=1; AJvYcCU07G6yxogzsEB38GgxPrKhbpiSaNBPhYwff8TYihqnG282aJkrrgKjdpJCGFavljezByy/YA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhlF4rXhX2DEIoFLHk/Y0UGrhslH/5nfZV+3W50r+hlwa9ThwH
+	YCt4nw6oJOWQXkOGbt4W5UlpJLcOS0RpTpccOaAJCAhz3nTYedSZKf5/OH8FfXUUtchUaPkfP3t
+	FhQRW/53DJfdEtEwMltAwcWuWyRshyD+IsRUZTK2R6682hE4+RhbjAVI=
+X-Google-Smtp-Source: AGHT+IGh3j1qyeR4o8P2RJa9XV053OJv8zmkAXSP2xAWhm1Z5foIkp1IIK3xIlB9NxRvTWnlCDzJ4j3Qebi/68HD+orFqlAB1icj
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
-Subject: Re: [PATCH v2] fs/ntfs3: Update inode->i_mapping->a_ops on
- compression state
-From: Kun Hu <huk23@m.fudan.edu.cn>
-In-Reply-To: <20250131131831.6289-1-almaz.alexandrovich@paragon-software.com>
-Date: Fri, 14 Feb 2025 10:38:08 +0800
-Cc: ntfs3@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <41833FB4-22EF-41A9-BBE2-E67D2BE91F47@m.fudan.edu.cn>
-References: <20250123135335.15060-1-almaz.alexandrovich@paragon-software.com>
- <20250131131831.6289-1-almaz.alexandrovich@paragon-software.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-X-Mailer: Apple Mail (2.3818.100.11.1.3)
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpip:m.fudan.edu.cn:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NWujniBqiFoNVlUJC4bvMPKna9i3MwE0yZjECMRRD+GpLKVgADnJX638
-	Vd5b3J+VdE7Q3mlG8dVVUy0+XIo9gMDe9euX6uCNjo5TpYjTVTn/k4nMF6BfS8rq0xsIJez
-	FqkC9IW74vKhvd2ulGn7VrVnUhMdZyB/2PNIbgj1gq7xTMqT/B8SngBOx/1l7FdIRt1+Anr
-	MEUjxHg+KvmweyvlNS/lmR7xKkuj+LIas+kINid+R+mCpdJuEsJBeC5NURRFnquMmBZZs8p
-	AZpR/Z9eB4WbYaunP1pc27XBo5EB3BJeAD4ztUHEvpkpYGOSD/scmL2baYErj7ZhM8uzCMh
-	BOyiJXT6N1+JwxRiJrDwuRYXbbhVY3YUWPsQZ8EYWLyjJY4qEOZnrwZQxEORExqeK+gf3Zd
-	Cfh7dNfwt1nR9c0BL0E5uqY1KPju2XGtg8Yo36VrHgJg4JBGzyti1Gq63fktm7xub9H+9WG
-	7rIhsHvQAb00YhoFCjX8jrw8lSgVGKbXahZ0OZ6VpX+VgybZJcQOq+vJy6jdtAhaHQz55K1
-	dsM25eYyu6Y6JgKh7gX/s/xAODdEe8RCkbaDVMr9wL13fBlBqKARluAgFU0gXRsNRXdpMQH
-	rrV/5/H8V3VxO2UJPznY+2WIJWQqXeXDeWyJYfnG7H7PnSlYpzM2MuJCkqUzWU7PzJ17IwL
-	OrVhTn2EiG86LpdMFi6rXdnHvnydGhhhBeXedmXdvuVPddnhLB+JdSIdrWqCEXUvjpAC2yN
-	o63T4F9ZyCme3M1IqZoIz8VUT66l4YMdkhHH8Azcl++28Km/QUXMSXsAk7NDN0J9DP+cnLs
-	Z8JSzEd5aMbinJPbRaymGjWk7pr/D6ecF1OLNFmlE5MIZpoW99DIE1hpeg7l/CbSTyfZ6QF
-	R1LhrLNgba9dgR9HG7EjgjV7qbyjg6a4HQO3k4roh8SWXfd9Rkwey1gZUOyvAeF0Dms13Jv
-	dTMZdRlhOMbvL86DXpdKs9rdy/3k/hHOcKy4=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-X-QQ-RECHKSPAM: 0
+MIME-Version: 1.0
+X-Received: by 2002:a05:6e02:18c7:b0:3d0:4eaa:e480 with SMTP id
+ e9e14a558f8ab-3d18c2151e9mr45166905ab.3.1739516119060; Thu, 13 Feb 2025
+ 22:55:19 -0800 (PST)
+Date: Thu, 13 Feb 2025 22:55:19 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67aee8d7.050a0220.21dd3.0031.GAE@google.com>
+Subject: [syzbot] [ntfs3?] BUG: unable to handle kernel paging request in mi_init
+From: syzbot <syzbot+8282d8328968be03242e@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    ab68d7eb7b1a Merge tag 'loongarch-fixes-6.14-1' of git://g..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15c281b8580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3c2347dd6174fbe2
+dashboard link: https://syzkaller.appspot.com/bug?extid=8282d8328968be03242e
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-ab68d7eb.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c21c98f96a97/vmlinux-ab68d7eb.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d84966ad5d14/bzImage-ab68d7eb.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+8282d8328968be03242e@syzkaller.appspotmail.com
+
+UDPLite6: UDP-Lite is deprecated and scheduled to be removed in 2025, please contact the netdev mailing list
+loop0: detected capacity change from 0 to 4096
+ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
+BUG: unable to handle page fault for address: ffffed110a52075b
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 5ffcd067 P4D 5ffcd067 PUD 0 
+Oops: Oops: 0000 [#1] PREEMPT SMP KASAN NOPTI
+CPU: 0 UID: 0 PID: 5319 Comm: syz.0.0 Not tainted 6.14.0-rc2-syzkaller-00056-gab68d7eb7b1a #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+RIP: 0010:mi_init+0x86/0xe0 fs/ntfs3/record.c:105
+Code: 89 f0 48 c1 e8 03 42 0f b6 04 20 84 c0 75 5d 41 8b 3e be 40 0c 00 00 e8 18 91 00 ff 48 89 c5 48 83 c3 20 48 89 d8 48 c1 e8 03 <42> 80 3c 20 00 74 08 48 89 df e8 9b ed 0b ff 48 89 2b 31 c9 48 85
+RSP: 0018:ffffc9000d2f7690 EFLAGS: 00010a06
+RAX: 1ffff1100a52075c RBX: ffff888052903ae0 RCX: 0000000000000800
+RDX: 0000000000000400 RSI: ffffffff8c608ca0 RDI: ffffffff8c608c60
+RBP: ffff8880367f4000 R08: 0000000000000c40 R09: 00000000ffffffff
+R10: dffffc0000000000 R11: fffffbfff285f729 R12: dffffc00ffffffff
+R13: ffff888035c16000 R14: ffff888035c16030 R15: 000000000000000a
+FS:  00007fec9fdc16c0(0000) GS:ffff88801fc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffed110a52075b CR3: 00000000432c4000 CR4: 0000000000352ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ ntfs_read_mft fs/ntfs3/inode.c:54 [inline]
+ ntfs_iget5+0x372/0x3800 fs/ntfs3/inode.c:540
+ ntfs_fill_super+0x3e8e/0x4730 fs/ntfs3/super.c:1477
+ get_tree_bdev_flags+0x48c/0x5c0 fs/super.c:1636
+ vfs_get_tree+0x90/0x2b0 fs/super.c:1814
+ do_new_mount+0x2be/0xb40 fs/namespace.c:3560
+ do_mount fs/namespace.c:3900 [inline]
+ __do_sys_mount fs/namespace.c:4111 [inline]
+ __se_sys_mount+0x2d6/0x3c0 fs/namespace.c:4088
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fec9ef8e58a
+Code: d8 64 89 02 48 c7 c0 ff ff ff ff eb a6 e8 de 1a 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fec9fdc0e68 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007fec9fdc0ef0 RCX: 00007fec9ef8e58a
+RDX: 000040000001f800 RSI: 000040000001f840 RDI: 00007fec9fdc0eb0
+RBP: 000040000001f800 R08: 00007fec9fdc0ef0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 000040000001f840
+R13: 00007fec9fdc0eb0 R14: 000000000001f813 R15: 0000400000000040
+ </TASK>
+Modules linked in:
+CR2: ffffed110a52075b
+---[ end trace 0000000000000000 ]---
+RIP: 0010:mi_init+0x86/0xe0 fs/ntfs3/record.c:105
+Code: 89 f0 48 c1 e8 03 42 0f b6 04 20 84 c0 75 5d 41 8b 3e be 40 0c 00 00 e8 18 91 00 ff 48 89 c5 48 83 c3 20 48 89 d8 48 c1 e8 03 <42> 80 3c 20 00 74 08 48 89 df e8 9b ed 0b ff 48 89 2b 31 c9 48 85
+RSP: 0018:ffffc9000d2f7690 EFLAGS: 00010a06
+RAX: 1ffff1100a52075c RBX: ffff888052903ae0 RCX: 0000000000000800
+RDX: 0000000000000400 RSI: ffffffff8c608ca0 RDI: ffffffff8c608c60
+RBP: ffff8880367f4000 R08: 0000000000000c40 R09: 00000000ffffffff
+R10: dffffc0000000000 R11: fffffbfff285f729 R12: dffffc00ffffffff
+R13: ffff888035c16000 R14: ffff888035c16030 R15: 000000000000000a
+FS:  00007fec9fdc16c0(0000) GS:ffff88801fc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffed110a52075b CR3: 00000000432c4000 CR4: 0000000000352ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	89 f0                	mov    %esi,%eax
+   2:	48 c1 e8 03          	shr    $0x3,%rax
+   6:	42 0f b6 04 20       	movzbl (%rax,%r12,1),%eax
+   b:	84 c0                	test   %al,%al
+   d:	75 5d                	jne    0x6c
+   f:	41 8b 3e             	mov    (%r14),%edi
+  12:	be 40 0c 00 00       	mov    $0xc40,%esi
+  17:	e8 18 91 00 ff       	call   0xff009134
+  1c:	48 89 c5             	mov    %rax,%rbp
+  1f:	48 83 c3 20          	add    $0x20,%rbx
+  23:	48 89 d8             	mov    %rbx,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 80 3c 20 00       	cmpb   $0x0,(%rax,%r12,1) <-- trapping instruction
+  2f:	74 08                	je     0x39
+  31:	48 89 df             	mov    %rbx,%rdi
+  34:	e8 9b ed 0b ff       	call   0xff0bedd4
+  39:	48 89 2b             	mov    %rbp,(%rbx)
+  3c:	31 c9                	xor    %ecx,%ecx
+  3e:	48                   	rex.W
+  3f:	85                   	.byte 0x85
 
 
->=20
-> v2:
-> Additionally, ensure that all dirty pages are flushed and concurrent =
-access
-> to the page cache is blocked.
->=20
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Hi Konstantin,
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-I wanted to follow up as I haven=E2=80=99t yet seen the fix you =
-provided, titled =E2=80=9C[v2] fs/ntfs3: Update inode->i_mapping->a_ops =
-on compression state=E2=80=9D in the kernel tree. Could you kindly =
-confirm if this resolves the issue we=E2=80=99ve been discussing? =
-Additionally, I would greatly appreciate it if you could share any =
-updates regarding the resolution of this matter.
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-=E2=80=94=E2=80=94=E2=80=94
-Thanks,
-Kun Hu=
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
