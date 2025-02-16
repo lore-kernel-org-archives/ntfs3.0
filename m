@@ -1,66 +1,66 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812D619D8B7
-	for <ntfs3@lists.linux.dev>; Sun, 16 Feb 2025 20:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F7D154C05
+	for <ntfs3@lists.linux.dev>; Sun, 16 Feb 2025 20:52:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739739128; cv=none; b=EWHLHBem6hARozIlEMdrunnlMnx4dNfQuVfad2HoFWtGO9AaYG8Peyd7HVbCn1ar5ACnwQ+0+BM+qJUnMSllHCQDehp8qiHcFP5Lw2epupl7N0B21u0qXEOxPSWIqlrIi0FVpjZJ1zU4dC+PiyMWgfpGnfbeCep+JWXtsE3aHOs=
+	t=1739739139; cv=none; b=VudNQtE5Limi9N1LcI1IvysyPaEnq6YPK33KbjNWddYHO5rDLMwVf+aQg4YVtO4TqPcO1BLLOgs6S2BrcklRs3ZnwQBY/XB1OObckwGyvkHZmazT7Lb6pfmVf1ZlO6JMdfX0oKZzmDc5HlBQRhAY6lfcG7u4qHxKs64GYMtfpXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739739128; c=relaxed/simple;
-	bh=NtGbrjrmznu2NSRW7WDGTNFMx2/QQx6TquE+W2bapjE=;
+	s=arc-20240116; t=1739739139; c=relaxed/simple;
+	bh=aXs0vWAmuS0U8j3KJYwst5oPNJcMtkOfy6vx1+vPaD8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SgbqHEevp+PnDSPxnDnhP67neRmM/Mm6RxFU7ys4xlT/iEjIsXF8VawsBU5kHXz8aJ+N6WytlMXqz8SpmAXNzgRxrMsaNSm5/MmBlet/t9Ks7FNtFtlgUZLIx35RHFV/QSJDdfVhdo6ri2lZcwXJSoAe1Nq4i60ndcNZFqwkeB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nMOf6VLY; arc=none smtp.client-ip=209.85.208.42
+	 Content-Disposition; b=UxAFcRQqC8DFxTodviBLTHTQs7OgTam/KQs6DK8Cj7vlh/D5xcOX39UFvbQZ6LQHH2K2exPv2A22X6NRjwhV4/js+gaz1eGYZBOEJx7CV092o4QFpiXfesgLYmKgwAQpbGH4tc5tbOi6Bwq7oujHDPeT+NUCJihkLOKB0torKLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tyZmJH5r; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nMOf6VLY"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5dec817f453so6208942a12.2
-        for <ntfs3@lists.linux.dev>; Sun, 16 Feb 2025 12:52:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tyZmJH5r"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5df07041c24so3038043a12.0
+        for <ntfs3@lists.linux.dev>; Sun, 16 Feb 2025 12:52:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739739125; x=1740343925; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1739739136; x=1740343936; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=uwcNQNpK2HNYBvKAgWSMSPgBYr8v+ovYWYrUWEbnsrM=;
-        b=nMOf6VLY1etBYZzkmHFBwInk0KWkjp+DsJq35jgnaG2YrkVjbFThp7lwYOAGyPeVTp
-         vaJvOxwGD/hZSydZhiQP19oTztVnrATqbY9Z5bn8AdbD7YENYu8sOCfvc3A6E3EwaOF3
-         UU8hHaJNz1UO1PKlSSytDIMOVeJ1/yDv9V8aKI97RGsZUUrbE2g9AalRh5Bfume2ZkLy
-         IJMz0nMYqGB2qLLJPLlaWms6dVtv2P4Avs4kaDVZMsbw3jUjSwPfd3V+rpZzwDQU73K7
-         j/XhiKW2mx7M/Cd1lOlQQ0ZCl0rSrueQhEpr+Rct6J6s1k/qj5zMRbJugQ2cKalUeZZo
-         4+xg==
+        bh=XkyPg/crIfWv0Cn6JEGTdKe/XqmIlkAQmtesjInAumU=;
+        b=tyZmJH5reRKpF9BPNxAIMsElhx94dYZrv4OS9p//JzhGKcOgfqTp5BRPCfMtjLiIRm
+         lNFakd9ySCohH7RgfOLztWiN8kesqeIr+epEi3FQJJIfcfUY6+27+2CmEqjqhZDIQ/lF
+         +wah/YEtYoAik0A+9M/YFZGMZ4fPVSxukwmNWl535Ug5r7tTIh5HpqmerQQO+sbU6cuT
+         DWW+VArzQ6ds1yRHvRDgG6k3pgXJErKHA8WwqSZrN1F9Toie/QfpGBOXwIELuTjkuMvJ
+         3JPascHKyDvosi9P42TCxorsCEmpScWv+clPFiAWNGKvvTABBnBwqx9gLDZDXrRHj8HZ
+         xkmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739739125; x=1740343925;
+        d=1e100.net; s=20230601; t=1739739136; x=1740343936;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uwcNQNpK2HNYBvKAgWSMSPgBYr8v+ovYWYrUWEbnsrM=;
-        b=mjPHDRPxiocIDpfms0u+YEPVNgksA4Azxk8JIYwIytj9hC14L1DUomh1yEnemVCH81
-         WWn+HceJCdDoMkVcwvqMuDri7k5YTnnQT+rrYCZHlI3yo4HveoiNbtoU2BbkHzpc/yq9
-         RWYBzW2bBDUR4iPiJkwfih+/LDQMkaBCCQOA1bSbQL9HZW2sv/cDxs64k6l2XdLkrk9q
-         +b3IZ8rSdfzBeWxQ+OoxmLKUYJzTJuHmYlAvy3UzlFz3fu5PcMJpTPGGwE90dw/ceg/P
-         NjzWN0/9bsSimtDllm0e+6Vn1lbKL/JtvlqdCM8sLA5jH3nV5h0YG/v6U8bInEnnxtZ6
-         3FVg==
-X-Gm-Message-State: AOJu0YwbCxm1/logJ19CUq0WALD6TYkNiO1WD1oEEla/ui305h+cc8GV
-	Iwa4KfZUesDEmQuYmvrBMKegLvYp2nqE5fifxXmwapnj/NMutiS+f2wp7H5R+II=
-X-Gm-Gg: ASbGncth2A/YN1EPoJgaJyYUxzlQJbkuowMkLk9OygyZ3TqzoQpqf5/PaaYyv5ryhcp
-	jEkuv5TXdrYMscrv22A8IF/ie9CQHhKO7CL2FBV7/AmjjjAII3N5xgQE4gPE9W8Cb3xojhak4x8
-	eYxHZ7R6a/Y6KBJ67eRLddI3hOXZBZhGKSxHWNcAVGxJw9JM4y+d5wETfPb3GFURiz4JhRkWCqr
-	pfhmDuD85rls/lGW4j/0nJK22kzS4B3kMlkmNayz8vR8UBBy0Ja7oCe+Rg6ecS7wVT6aRoZ3fz4
-	BOKTgvB6D/eUFtMFGkU+
-X-Google-Smtp-Source: AGHT+IHgwYPj3iqat9vbldQSlkyDo1u1ykz7UQvzC8QUVDQndEh7Kshy5EEfZbLcYAkxQywWbeqVOA==
-X-Received: by 2002:a17:907:1b0b:b0:ab7:ee47:9938 with SMTP id a640c23a62f3a-abb70dd9024mr765292366b.39.1739739124793;
-        Sun, 16 Feb 2025 12:52:04 -0800 (PST)
+        bh=XkyPg/crIfWv0Cn6JEGTdKe/XqmIlkAQmtesjInAumU=;
+        b=ITAPfYZ2Re7+v+E3xdxYvR09SFPnTdPdGnNtvjSBINfpn8utRXakKwS4mooXS9tyNq
+         hAwqp300/Ipvw1UfQXIWJRea5Z2v0dZIMCSSxvrgIiyRHrQ8v7UOxggS/XShsQMxZRyS
+         ZMSl/qQSzhpzobIp0tRJFyApnDMoD++FfLRp57lOjDYfjeTK/9/gblbuKh7hcljE2veA
+         qocbKxRb1RDaNM1Y1KBqpgfYxePW1OwcK6SOP/EC4XB5lNFi/r6kBHGZyQvimlxGGy+r
+         kTuywclFTaRdiBHl8UtoFG1MyS2Ef5eu0IvycVctWSEt3uf+u/WcZomUlO9tVipdutj/
+         W76Q==
+X-Gm-Message-State: AOJu0YwpDv5yZwmxlcZVxpsARiYZaRRdMtqaf97lKX3R8Frwtxg4zCxX
+	s0BZ58rZE/IYVx/HaJja5AW4etWy2TkbXzH6CVmxK4B+O5gu7ULvWHdI/CY44qA=
+X-Gm-Gg: ASbGncsgrrie0Iq6CJySlmWvFTW0i7ys2NtGSRpBRLzEyIcXU/DguRbEcwiYB3H6I8B
+	e2XvOmIeuwfJkBhoqnk/RYvzlfekZQ1QVuALO3YkXXMrXcouo6F6G/99mrnt5J/Xwv0Rv/gpIv2
+	pstEhI9JvFfFPHlRROFO2DPQml7buNLdzrx2fHk19hOtHcLg6RQOZ8OnVnyOqac/HkMR/SgufhP
+	avp/DrCBzhOsnXLBYHWxJtVFQfMR3OwZ9OCXbuUTizr9I9BYPeNRFH13dt2sXSEcyIUuF20v+Os
+	qtSyiXR9fcBm3FOr4kyJ
+X-Google-Smtp-Source: AGHT+IEMU++D2lnTLgi14JzxAcN1KpQU2iWjj9Zk4bircM7Q9WHx1vcmQHv39BJ+Q3JC4O7xeGXx3w==
+X-Received: by 2002:a05:6402:42d2:b0:5e0:2996:72ff with SMTP id 4fb4d7f45d1cf-5e0360bdf15mr7424447a12.19.1739739136154;
+        Sun, 16 Feb 2025 12:52:16 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abb9b81aacdsm75610966b.104.2025.02.16.12.52.03
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5dece1b4e99sm6273670a12.16.2025.02.16.12.52.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Feb 2025 12:52:04 -0800 (PST)
-Date: Sun, 16 Feb 2025 23:52:00 +0300
+        Sun, 16 Feb 2025 12:52:15 -0800 (PST)
+Date: Sun, 16 Feb 2025 23:52:10 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
 	kernel-janitors@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: Fix a couple integer overflows on 32bit systems
-Message-ID: <3e34cf5a-e70c-4096-b516-661c2a836001@stanley.mountain>
+Subject: [PATCH] fs/ntfs3: Prevent integer overflow in hdr_first_de()
+Message-ID: <b78ff7ff-f260-4499-beaa-169f725abff9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -71,37 +71,30 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-Mailer: git-send-email haha only kidding
 
-On 32bit systems the "off + sizeof(struct NTFS_DE)" addition can
-have an integer wrapping issue.  Fix it by using size_add().
+The "de_off" and "used" variables come from the disk so they both need to
+check.  The problem is that on 32bit systems if they're both greater than
+UINT_MAX - 16 then the check does work as intended because of an integer
+overflow.
 
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Fixes: 60ce8dfde035 ("fs/ntfs3: Fix wrong if in hdr_first_de")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- fs/ntfs3/index.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ fs/ntfs3/ntfs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index 7eb9fae22f8d..78d20e4baa2c 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -618,7 +618,7 @@ static bool index_hdr_check(const struct INDEX_HDR *hdr, u32 bytes)
- 	u32 off = le32_to_cpu(hdr->de_off);
+diff --git a/fs/ntfs3/ntfs.h b/fs/ntfs3/ntfs.h
+index 241f2ffdd920..44c99d35a59c 100644
+--- a/fs/ntfs3/ntfs.h
++++ b/fs/ntfs3/ntfs.h
+@@ -717,7 +717,7 @@ static inline struct NTFS_DE *hdr_first_de(const struct INDEX_HDR *hdr)
+ 	struct NTFS_DE *e;
+ 	u16 esize;
  
- 	if (!IS_ALIGNED(off, 8) || tot > bytes || end > tot ||
--	    off + sizeof(struct NTFS_DE) > end) {
-+	    size_add(off, sizeof(struct NTFS_DE)) > end) {
- 		/* incorrect index buffer. */
- 		return false;
- 	}
-@@ -736,7 +736,7 @@ static struct NTFS_DE *hdr_find_e(const struct ntfs_index *indx,
- 	if (end > total)
+-	if (de_off >= used || de_off + sizeof(struct NTFS_DE) > used )
++	if (de_off >= used || size_add(de_off, sizeof(struct NTFS_DE)) > used)
  		return NULL;
  
--	if (off + sizeof(struct NTFS_DE) > end)
-+	if (size_add(off, sizeof(struct NTFS_DE)) > end)
- 		return NULL;
- 
- 	e = Add2Ptr(hdr, off);
+ 	e = Add2Ptr(hdr, de_off);
 -- 
 2.47.2
 
