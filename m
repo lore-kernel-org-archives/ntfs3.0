@@ -1,100 +1,97 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F7D154C05
-	for <ntfs3@lists.linux.dev>; Sun, 16 Feb 2025 20:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3549423CE
+	for <ntfs3@lists.linux.dev>; Sun, 16 Feb 2025 21:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739739139; cv=none; b=VudNQtE5Limi9N1LcI1IvysyPaEnq6YPK33KbjNWddYHO5rDLMwVf+aQg4YVtO4TqPcO1BLLOgs6S2BrcklRs3ZnwQBY/XB1OObckwGyvkHZmazT7Lb6pfmVf1ZlO6JMdfX0oKZzmDc5HlBQRhAY6lfcG7u4qHxKs64GYMtfpXU=
+	t=1739742801; cv=none; b=iypOcD6wirid85HkI+yF5nBO7VHY7P1hmRj1TlBEcqPzFEnHfG7D5AN6yvPYk4LjnaiRL17P9F3FmJFU1yWZRX9wlgHAZWZXHYaK8AZeXORZPBpvL6fpeeh+KTPcCX0jbnxnrvGU6QumoboSt1B3sIuPwbTerNPqtU4MYIcsBLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739739139; c=relaxed/simple;
-	bh=aXs0vWAmuS0U8j3KJYwst5oPNJcMtkOfy6vx1+vPaD8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UxAFcRQqC8DFxTodviBLTHTQs7OgTam/KQs6DK8Cj7vlh/D5xcOX39UFvbQZ6LQHH2K2exPv2A22X6NRjwhV4/js+gaz1eGYZBOEJx7CV092o4QFpiXfesgLYmKgwAQpbGH4tc5tbOi6Bwq7oujHDPeT+NUCJihkLOKB0torKLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tyZmJH5r; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tyZmJH5r"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5df07041c24so3038043a12.0
-        for <ntfs3@lists.linux.dev>; Sun, 16 Feb 2025 12:52:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739739136; x=1740343936; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XkyPg/crIfWv0Cn6JEGTdKe/XqmIlkAQmtesjInAumU=;
-        b=tyZmJH5reRKpF9BPNxAIMsElhx94dYZrv4OS9p//JzhGKcOgfqTp5BRPCfMtjLiIRm
-         lNFakd9ySCohH7RgfOLztWiN8kesqeIr+epEi3FQJJIfcfUY6+27+2CmEqjqhZDIQ/lF
-         +wah/YEtYoAik0A+9M/YFZGMZ4fPVSxukwmNWl535Ug5r7tTIh5HpqmerQQO+sbU6cuT
-         DWW+VArzQ6ds1yRHvRDgG6k3pgXJErKHA8WwqSZrN1F9Toie/QfpGBOXwIELuTjkuMvJ
-         3JPascHKyDvosi9P42TCxorsCEmpScWv+clPFiAWNGKvvTABBnBwqx9gLDZDXrRHj8HZ
-         xkmA==
+	s=arc-20240116; t=1739742801; c=relaxed/simple;
+	bh=uIhAZ4GX55IifAUO0HZ5YNZ4H95enbP3Ufo7EZSw4es=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=gDLzl/gNL/uUTKmXLv+ltu9OGHjyUh+thLjVZ1yZrMGPIAB9FaKe2aKt6CNFePutH7razL4mkl0JLiBw7eFBd4xUsRgyxCo3WMNRgAYi4xJYVZ6t/cClN6b/cEckeNa3TfNKWiaJqLZL/bi6a5Dg/y9wod/kpok/p+nG1k6Ai+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-3cfba354f79so77950565ab.1
+        for <ntfs3@lists.linux.dev>; Sun, 16 Feb 2025 13:53:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739739136; x=1740343936;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XkyPg/crIfWv0Cn6JEGTdKe/XqmIlkAQmtesjInAumU=;
-        b=ITAPfYZ2Re7+v+E3xdxYvR09SFPnTdPdGnNtvjSBINfpn8utRXakKwS4mooXS9tyNq
-         hAwqp300/Ipvw1UfQXIWJRea5Z2v0dZIMCSSxvrgIiyRHrQ8v7UOxggS/XShsQMxZRyS
-         ZMSl/qQSzhpzobIp0tRJFyApnDMoD++FfLRp57lOjDYfjeTK/9/gblbuKh7hcljE2veA
-         qocbKxRb1RDaNM1Y1KBqpgfYxePW1OwcK6SOP/EC4XB5lNFi/r6kBHGZyQvimlxGGy+r
-         kTuywclFTaRdiBHl8UtoFG1MyS2Ef5eu0IvycVctWSEt3uf+u/WcZomUlO9tVipdutj/
-         W76Q==
-X-Gm-Message-State: AOJu0YwpDv5yZwmxlcZVxpsARiYZaRRdMtqaf97lKX3R8Frwtxg4zCxX
-	s0BZ58rZE/IYVx/HaJja5AW4etWy2TkbXzH6CVmxK4B+O5gu7ULvWHdI/CY44qA=
-X-Gm-Gg: ASbGncsgrrie0Iq6CJySlmWvFTW0i7ys2NtGSRpBRLzEyIcXU/DguRbEcwiYB3H6I8B
-	e2XvOmIeuwfJkBhoqnk/RYvzlfekZQ1QVuALO3YkXXMrXcouo6F6G/99mrnt5J/Xwv0Rv/gpIv2
-	pstEhI9JvFfFPHlRROFO2DPQml7buNLdzrx2fHk19hOtHcLg6RQOZ8OnVnyOqac/HkMR/SgufhP
-	avp/DrCBzhOsnXLBYHWxJtVFQfMR3OwZ9OCXbuUTizr9I9BYPeNRFH13dt2sXSEcyIUuF20v+Os
-	qtSyiXR9fcBm3FOr4kyJ
-X-Google-Smtp-Source: AGHT+IEMU++D2lnTLgi14JzxAcN1KpQU2iWjj9Zk4bircM7Q9WHx1vcmQHv39BJ+Q3JC4O7xeGXx3w==
-X-Received: by 2002:a05:6402:42d2:b0:5e0:2996:72ff with SMTP id 4fb4d7f45d1cf-5e0360bdf15mr7424447a12.19.1739739136154;
-        Sun, 16 Feb 2025 12:52:16 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5dece1b4e99sm6273670a12.16.2025.02.16.12.52.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Feb 2025 12:52:15 -0800 (PST)
-Date: Sun, 16 Feb 2025 23:52:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: Prevent integer overflow in hdr_first_de()
-Message-ID: <b78ff7ff-f260-4499-beaa-169f725abff9@stanley.mountain>
+        d=1e100.net; s=20230601; t=1739742799; x=1740347599;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Zvzlh8rBNfRkvNnq76a9cHlXie97oPHR6kXBR2RdZMs=;
+        b=A0dDc7ZQYOboXNz/R5N2MsKF1e/AZ1NnS4U2Dumghg4W01rHzmQoXk3/aq+l4rSi1B
+         bZpIRfdz9PG2gLbEa+YFmsQEwjIYLpkmEo6rAjdBj97dpdPWjobCU1pC7w+Yd9CjWV2P
+         qpbvjzC9V+B6OA4UoLPguBoz5H5npTdc4gvJayXfF9ttm9pFofCDwwy5wPtfx5wQbSlC
+         64spt9VqyS/gUQelA17ZeXAJEtCM3Yu0keirQA/uSVvNmSKZjBHVz8ng5OB+T34xv4Mz
+         UJvuomZ5OB1blzG4Qk+T8DED+IBXHdfH+DlimU4ogJYtyddiTwUryP2l942NNwPA9y1t
+         iSCA==
+X-Forwarded-Encrypted: i=1; AJvYcCWVLgcu5GFkkteUzwLl46uWuyH6oG95iv9Zvab0ahnQAMjIo1x6Asf7EFUxdpvR7xUQMHEkXw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMokvfkY3dtjM8HxUvjE+ktKXS1fdAXZX77VXPkcJ81ixkaC/5
+	twOH5amqtndhCOTulIQk9EkmqKNE+wlQNciAzSq1m6Tq7QEw2ArWuVbOdWFxrmYG/LN7GD5z+pA
+	QuTZnZDAhvwnc6PsMzTJuGhGnKb1oRxLcLtGjiNcd1Os2O4eRbPZaGuI=
+X-Google-Smtp-Source: AGHT+IHQmuM6vRequHdbUhqRX+tGP+7f81E5WepbRoXVBH+w2f7nnCdNHCePw7gGOXimpBVEvfG1ToF80Rww+3tNEuB8fyEtlChX
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+X-Received: by 2002:a05:6e02:184d:b0:3cf:bb3e:884c with SMTP id
+ e9e14a558f8ab-3d280940c90mr60134545ab.16.1739742799361; Sun, 16 Feb 2025
+ 13:53:19 -0800 (PST)
+Date: Sun, 16 Feb 2025 13:53:19 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67b25e4f.050a0220.173698.0015.GAE@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Feb 2025)
+From: syzbot <syzbot+list540750168bf76ebe43cf@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-The "de_off" and "used" variables come from the disk so they both need to
-check.  The problem is that on 32bit systems if they're both greater than
-UINT_MAX - 16 then the check does work as intended because of an integer
-overflow.
+Hello ntfs3 maintainers/developers,
 
-Fixes: 60ce8dfde035 ("fs/ntfs3: Fix wrong if in hdr_first_de")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
+
+During the period, 2 new issues were detected and 0 were fixed.
+In total, 43 issues are still open and 61 have already been fixed.
+
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  16240   Yes   kernel BUG in dnotify_free_mark
+                   https://syzkaller.appspot.com/bug?extid=06cc05ddc896f12b7ec5
+<2>  5550    Yes   possible deadlock in ntfs_read_folio
+                   https://syzkaller.appspot.com/bug?extid=8ef76b0b1f86c382ad37
+<3>  4557    Yes   possible deadlock in run_unpack_ex
+                   https://syzkaller.appspot.com/bug?extid=731b27ee9413ba859499
+<4>  4395    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<5>  3718    Yes   possible deadlock in ntfs_fiemap
+                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+<6>  2302    Yes   possible deadlock in ntfs_file_mmap
+                   https://syzkaller.appspot.com/bug?extid=c1751b6739d83d70bb75
+<7>  1999    Yes   possible deadlock in mark_as_free_ex (2)
+                   https://syzkaller.appspot.com/bug?extid=8df514c431bd240c5644
+<8>  1782    Yes   possible deadlock in attr_data_get_block (2)
+                   https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+<9>  1717    Yes   possible deadlock in ntfs_look_for_free_space
+                   https://syzkaller.appspot.com/bug?extid=d27edf9f96ae85939222
+<10> 399     Yes   possible deadlock in ntfs_fallocate
+                   https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
+
 ---
- fs/ntfs3/ntfs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/ntfs.h b/fs/ntfs3/ntfs.h
-index 241f2ffdd920..44c99d35a59c 100644
---- a/fs/ntfs3/ntfs.h
-+++ b/fs/ntfs3/ntfs.h
-@@ -717,7 +717,7 @@ static inline struct NTFS_DE *hdr_first_de(const struct INDEX_HDR *hdr)
- 	struct NTFS_DE *e;
- 	u16 esize;
- 
--	if (de_off >= used || de_off + sizeof(struct NTFS_DE) > used )
-+	if (de_off >= used || size_add(de_off, sizeof(struct NTFS_DE)) > used)
- 		return NULL;
- 
- 	e = Add2Ptr(hdr, de_off);
--- 
-2.47.2
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
