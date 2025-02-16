@@ -1,179 +1,107 @@
-Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B0120370C
-	for <ntfs3@lists.linux.dev>; Fri, 14 Feb 2025 06:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812D619D8B7
+	for <ntfs3@lists.linux.dev>; Sun, 16 Feb 2025 20:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739516122; cv=none; b=p04GABzK3tUgJHQl8e4/bGuRZhXuotrQanCzdhz3aHkasDlUOyis/Jo04gXZdhOg3Apa0UjsBvZz/tMSCrqIwj7SMnyoAz5D4UmcFrnj/Mp/q19P/PGmJ9sTa1B2DFOlb5579K+GKPFLbdVcyU/TtsxUndhYGkr2dhUA7Lm4dU4=
+	t=1739739128; cv=none; b=EWHLHBem6hARozIlEMdrunnlMnx4dNfQuVfad2HoFWtGO9AaYG8Peyd7HVbCn1ar5ACnwQ+0+BM+qJUnMSllHCQDehp8qiHcFP5Lw2epupl7N0B21u0qXEOxPSWIqlrIi0FVpjZJ1zU4dC+PiyMWgfpGnfbeCep+JWXtsE3aHOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739516122; c=relaxed/simple;
-	bh=a73UfzxNIq/V2/0VlnPixRfE7CtnBAjp4UW9qxdoE5w=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=QQKKg5XM1ogRaQrd8qpe9caOpDAaHR6tpa9cyfHjFImWnk+Y1xyGsthSzeaGJuSSuQZdLvOOw9qeXHI8ZtgI45UYudGUpzDKbmIBGVg2ibSHdsm6J+tdv+wrhk9ryQC62xAkTUWiQWNPx0lvSaAHFVPg+/AKCd5k6nbbuRAIbdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-3d18fbafa4dso8913575ab.1
-        for <ntfs3@lists.linux.dev>; Thu, 13 Feb 2025 22:55:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739516119; x=1740120919;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+	s=arc-20240116; t=1739739128; c=relaxed/simple;
+	bh=NtGbrjrmznu2NSRW7WDGTNFMx2/QQx6TquE+W2bapjE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SgbqHEevp+PnDSPxnDnhP67neRmM/Mm6RxFU7ys4xlT/iEjIsXF8VawsBU5kHXz8aJ+N6WytlMXqz8SpmAXNzgRxrMsaNSm5/MmBlet/t9Ks7FNtFtlgUZLIx35RHFV/QSJDdfVhdo6ri2lZcwXJSoAe1Nq4i60ndcNZFqwkeB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nMOf6VLY; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nMOf6VLY"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5dec817f453so6208942a12.2
+        for <ntfs3@lists.linux.dev>; Sun, 16 Feb 2025 12:52:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739739125; x=1740343925; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=uvhSJKlXu2vdv5jVgpbCFsB6zIQDcJPgAt6yW1vxj1E=;
-        b=OJDOTNye2jx86GJQE5fmuNRipBcJdtwYjVslIdS2rcZV8r0W8xz/7irxkGM823vjaL
-         q6qlPQESb61WuUtgUvmMm/od14YQMH8wlCtPtRy9bcMtHWa1kJtwSFyDabUbKzZCxqLd
-         I62yvi4oCdnA+Zs+67oNvjXjeGuiraZEFT/0n2zWnij9RYOcvctOqTF3KRh/E2MU0CNy
-         4ixITLSbp0w1bi5Uhei5ukzKtAkGqnWBvoTZX9Rc5+9heLEgMu4hSHded2YxMZv1fcbN
-         ZQ740kg03F9DLSSplnuLsmkmEV/ZjAsv28dAhxGQLVJNRa3Cv0x24qb7uqMSATLM0DOJ
-         54Ew==
-X-Forwarded-Encrypted: i=1; AJvYcCU07G6yxogzsEB38GgxPrKhbpiSaNBPhYwff8TYihqnG282aJkrrgKjdpJCGFavljezByy/YA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxhlF4rXhX2DEIoFLHk/Y0UGrhslH/5nfZV+3W50r+hlwa9ThwH
-	YCt4nw6oJOWQXkOGbt4W5UlpJLcOS0RpTpccOaAJCAhz3nTYedSZKf5/OH8FfXUUtchUaPkfP3t
-	FhQRW/53DJfdEtEwMltAwcWuWyRshyD+IsRUZTK2R6682hE4+RhbjAVI=
-X-Google-Smtp-Source: AGHT+IGh3j1qyeR4o8P2RJa9XV053OJv8zmkAXSP2xAWhm1Z5foIkp1IIK3xIlB9NxRvTWnlCDzJ4j3Qebi/68HD+orFqlAB1icj
+        bh=uwcNQNpK2HNYBvKAgWSMSPgBYr8v+ovYWYrUWEbnsrM=;
+        b=nMOf6VLY1etBYZzkmHFBwInk0KWkjp+DsJq35jgnaG2YrkVjbFThp7lwYOAGyPeVTp
+         vaJvOxwGD/hZSydZhiQP19oTztVnrATqbY9Z5bn8AdbD7YENYu8sOCfvc3A6E3EwaOF3
+         UU8hHaJNz1UO1PKlSSytDIMOVeJ1/yDv9V8aKI97RGsZUUrbE2g9AalRh5Bfume2ZkLy
+         IJMz0nMYqGB2qLLJPLlaWms6dVtv2P4Avs4kaDVZMsbw3jUjSwPfd3V+rpZzwDQU73K7
+         j/XhiKW2mx7M/Cd1lOlQQ0ZCl0rSrueQhEpr+Rct6J6s1k/qj5zMRbJugQ2cKalUeZZo
+         4+xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739739125; x=1740343925;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uwcNQNpK2HNYBvKAgWSMSPgBYr8v+ovYWYrUWEbnsrM=;
+        b=mjPHDRPxiocIDpfms0u+YEPVNgksA4Azxk8JIYwIytj9hC14L1DUomh1yEnemVCH81
+         WWn+HceJCdDoMkVcwvqMuDri7k5YTnnQT+rrYCZHlI3yo4HveoiNbtoU2BbkHzpc/yq9
+         RWYBzW2bBDUR4iPiJkwfih+/LDQMkaBCCQOA1bSbQL9HZW2sv/cDxs64k6l2XdLkrk9q
+         +b3IZ8rSdfzBeWxQ+OoxmLKUYJzTJuHmYlAvy3UzlFz3fu5PcMJpTPGGwE90dw/ceg/P
+         NjzWN0/9bsSimtDllm0e+6Vn1lbKL/JtvlqdCM8sLA5jH3nV5h0YG/v6U8bInEnnxtZ6
+         3FVg==
+X-Gm-Message-State: AOJu0YwbCxm1/logJ19CUq0WALD6TYkNiO1WD1oEEla/ui305h+cc8GV
+	Iwa4KfZUesDEmQuYmvrBMKegLvYp2nqE5fifxXmwapnj/NMutiS+f2wp7H5R+II=
+X-Gm-Gg: ASbGncth2A/YN1EPoJgaJyYUxzlQJbkuowMkLk9OygyZ3TqzoQpqf5/PaaYyv5ryhcp
+	jEkuv5TXdrYMscrv22A8IF/ie9CQHhKO7CL2FBV7/AmjjjAII3N5xgQE4gPE9W8Cb3xojhak4x8
+	eYxHZ7R6a/Y6KBJ67eRLddI3hOXZBZhGKSxHWNcAVGxJw9JM4y+d5wETfPb3GFURiz4JhRkWCqr
+	pfhmDuD85rls/lGW4j/0nJK22kzS4B3kMlkmNayz8vR8UBBy0Ja7oCe+Rg6ecS7wVT6aRoZ3fz4
+	BOKTgvB6D/eUFtMFGkU+
+X-Google-Smtp-Source: AGHT+IHgwYPj3iqat9vbldQSlkyDo1u1ykz7UQvzC8QUVDQndEh7Kshy5EEfZbLcYAkxQywWbeqVOA==
+X-Received: by 2002:a17:907:1b0b:b0:ab7:ee47:9938 with SMTP id a640c23a62f3a-abb70dd9024mr765292366b.39.1739739124793;
+        Sun, 16 Feb 2025 12:52:04 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abb9b81aacdsm75610966b.104.2025.02.16.12.52.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Feb 2025 12:52:04 -0800 (PST)
+Date: Sun, 16 Feb 2025 23:52:00 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: Fix a couple integer overflows on 32bit systems
+Message-ID: <3e34cf5a-e70c-4096-b516-661c2a836001@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:18c7:b0:3d0:4eaa:e480 with SMTP id
- e9e14a558f8ab-3d18c2151e9mr45166905ab.3.1739516119060; Thu, 13 Feb 2025
- 22:55:19 -0800 (PST)
-Date: Thu, 13 Feb 2025 22:55:19 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67aee8d7.050a0220.21dd3.0031.GAE@google.com>
-Subject: [syzbot] [ntfs3?] BUG: unable to handle kernel paging request in mi_init
-From: syzbot <syzbot+8282d8328968be03242e@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-Hello,
+On 32bit systems the "off + sizeof(struct NTFS_DE)" addition can
+have an integer wrapping issue.  Fix it by using size_add().
 
-syzbot found the following issue on:
-
-HEAD commit:    ab68d7eb7b1a Merge tag 'loongarch-fixes-6.14-1' of git://g..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15c281b8580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3c2347dd6174fbe2
-dashboard link: https://syzkaller.appspot.com/bug?extid=8282d8328968be03242e
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-ab68d7eb.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/c21c98f96a97/vmlinux-ab68d7eb.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d84966ad5d14/bzImage-ab68d7eb.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+8282d8328968be03242e@syzkaller.appspotmail.com
-
-UDPLite6: UDP-Lite is deprecated and scheduled to be removed in 2025, please contact the netdev mailing list
-loop0: detected capacity change from 0 to 4096
-ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
-BUG: unable to handle page fault for address: ffffed110a52075b
-#PF: supervisor read access in kernel mode
-#PF: error_code(0x0000) - not-present page
-PGD 5ffcd067 P4D 5ffcd067 PUD 0 
-Oops: Oops: 0000 [#1] PREEMPT SMP KASAN NOPTI
-CPU: 0 UID: 0 PID: 5319 Comm: syz.0.0 Not tainted 6.14.0-rc2-syzkaller-00056-gab68d7eb7b1a #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-RIP: 0010:mi_init+0x86/0xe0 fs/ntfs3/record.c:105
-Code: 89 f0 48 c1 e8 03 42 0f b6 04 20 84 c0 75 5d 41 8b 3e be 40 0c 00 00 e8 18 91 00 ff 48 89 c5 48 83 c3 20 48 89 d8 48 c1 e8 03 <42> 80 3c 20 00 74 08 48 89 df e8 9b ed 0b ff 48 89 2b 31 c9 48 85
-RSP: 0018:ffffc9000d2f7690 EFLAGS: 00010a06
-RAX: 1ffff1100a52075c RBX: ffff888052903ae0 RCX: 0000000000000800
-RDX: 0000000000000400 RSI: ffffffff8c608ca0 RDI: ffffffff8c608c60
-RBP: ffff8880367f4000 R08: 0000000000000c40 R09: 00000000ffffffff
-R10: dffffc0000000000 R11: fffffbfff285f729 R12: dffffc00ffffffff
-R13: ffff888035c16000 R14: ffff888035c16030 R15: 000000000000000a
-FS:  00007fec9fdc16c0(0000) GS:ffff88801fc00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffed110a52075b CR3: 00000000432c4000 CR4: 0000000000352ef0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- ntfs_read_mft fs/ntfs3/inode.c:54 [inline]
- ntfs_iget5+0x372/0x3800 fs/ntfs3/inode.c:540
- ntfs_fill_super+0x3e8e/0x4730 fs/ntfs3/super.c:1477
- get_tree_bdev_flags+0x48c/0x5c0 fs/super.c:1636
- vfs_get_tree+0x90/0x2b0 fs/super.c:1814
- do_new_mount+0x2be/0xb40 fs/namespace.c:3560
- do_mount fs/namespace.c:3900 [inline]
- __do_sys_mount fs/namespace.c:4111 [inline]
- __se_sys_mount+0x2d6/0x3c0 fs/namespace.c:4088
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fec9ef8e58a
-Code: d8 64 89 02 48 c7 c0 ff ff ff ff eb a6 e8 de 1a 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fec9fdc0e68 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007fec9fdc0ef0 RCX: 00007fec9ef8e58a
-RDX: 000040000001f800 RSI: 000040000001f840 RDI: 00007fec9fdc0eb0
-RBP: 000040000001f800 R08: 00007fec9fdc0ef0 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 000040000001f840
-R13: 00007fec9fdc0eb0 R14: 000000000001f813 R15: 0000400000000040
- </TASK>
-Modules linked in:
-CR2: ffffed110a52075b
----[ end trace 0000000000000000 ]---
-RIP: 0010:mi_init+0x86/0xe0 fs/ntfs3/record.c:105
-Code: 89 f0 48 c1 e8 03 42 0f b6 04 20 84 c0 75 5d 41 8b 3e be 40 0c 00 00 e8 18 91 00 ff 48 89 c5 48 83 c3 20 48 89 d8 48 c1 e8 03 <42> 80 3c 20 00 74 08 48 89 df e8 9b ed 0b ff 48 89 2b 31 c9 48 85
-RSP: 0018:ffffc9000d2f7690 EFLAGS: 00010a06
-RAX: 1ffff1100a52075c RBX: ffff888052903ae0 RCX: 0000000000000800
-RDX: 0000000000000400 RSI: ffffffff8c608ca0 RDI: ffffffff8c608c60
-RBP: ffff8880367f4000 R08: 0000000000000c40 R09: 00000000ffffffff
-R10: dffffc0000000000 R11: fffffbfff285f729 R12: dffffc00ffffffff
-R13: ffff888035c16000 R14: ffff888035c16030 R15: 000000000000000a
-FS:  00007fec9fdc16c0(0000) GS:ffff88801fc00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffed110a52075b CR3: 00000000432c4000 CR4: 0000000000352ef0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	89 f0                	mov    %esi,%eax
-   2:	48 c1 e8 03          	shr    $0x3,%rax
-   6:	42 0f b6 04 20       	movzbl (%rax,%r12,1),%eax
-   b:	84 c0                	test   %al,%al
-   d:	75 5d                	jne    0x6c
-   f:	41 8b 3e             	mov    (%r14),%edi
-  12:	be 40 0c 00 00       	mov    $0xc40,%esi
-  17:	e8 18 91 00 ff       	call   0xff009134
-  1c:	48 89 c5             	mov    %rax,%rbp
-  1f:	48 83 c3 20          	add    $0x20,%rbx
-  23:	48 89 d8             	mov    %rbx,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	42 80 3c 20 00       	cmpb   $0x0,(%rax,%r12,1) <-- trapping instruction
-  2f:	74 08                	je     0x39
-  31:	48 89 df             	mov    %rbx,%rdi
-  34:	e8 9b ed 0b ff       	call   0xff0bedd4
-  39:	48 89 2b             	mov    %rbp,(%rbx)
-  3c:	31 c9                	xor    %ecx,%ecx
-  3e:	48                   	rex.W
-  3f:	85                   	.byte 0x85
-
-
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/index.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 7eb9fae22f8d..78d20e4baa2c 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -618,7 +618,7 @@ static bool index_hdr_check(const struct INDEX_HDR *hdr, u32 bytes)
+ 	u32 off = le32_to_cpu(hdr->de_off);
+ 
+ 	if (!IS_ALIGNED(off, 8) || tot > bytes || end > tot ||
+-	    off + sizeof(struct NTFS_DE) > end) {
++	    size_add(off, sizeof(struct NTFS_DE)) > end) {
+ 		/* incorrect index buffer. */
+ 		return false;
+ 	}
+@@ -736,7 +736,7 @@ static struct NTFS_DE *hdr_find_e(const struct ntfs_index *indx,
+ 	if (end > total)
+ 		return NULL;
+ 
+-	if (off + sizeof(struct NTFS_DE) > end)
++	if (size_add(off, sizeof(struct NTFS_DE)) > end)
+ 		return NULL;
+ 
+ 	e = Add2Ptr(hdr, off);
+-- 
+2.47.2
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
