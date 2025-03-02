@@ -1,133 +1,132 @@
-Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
+Received: from mail-io1-f77.google.com (mail-io1-f77.google.com [209.85.166.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02831CAA74
-	for <ntfs3@lists.linux.dev>; Sat,  1 Mar 2025 07:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AAA23F362
+	for <ntfs3@lists.linux.dev>; Sun,  2 Mar 2025 11:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740815966; cv=none; b=N4VOXlVZeG6+EHCG9KrsZj1aoIlI2xcfaCvEFp4ZdBcrtGkiQjFPl1tFAOR7aRkp6JGWVfUAhzBgjNxI2slTlxsoK/zU148+GJSJq9fZTktaYvBShEk5zzy8Ib8sSm4bAlNZnSqf9G6WWGja1dZ91UGd8mcmtYfJxtLy7P+Eu1w=
+	t=1740916591; cv=none; b=rioZS76cSgDrncs7GlBbP0+I/9aAQuuldnXH6u8d662DYJ5eR11lvwMHGDY52z6Rsfl7/K+27+MUY7Mu9kVM6VfPSvLlwTJIIzXI99zGCsWm2PgOI/vg9jbWzsR2YMgFjcRLeKNhnqNX00BhO5icdO0pCH3mzFMWbeLWWtD/b3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740815966; c=relaxed/simple;
-	bh=Yd4tc2V8z3YQYvl3BkrLJcEKsrKoL54QyhIDwkmjQpo=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=px+5zZECF3uBwDVPBDmu4dqHVhCbJuwAxsOi/JWsJ0cNyaPysAaKLY6Jw1aGHvpJzxFSxfl60fHA9jFVGcLz9cS2rSQMItW0v3zDliF/FuSqU+ydML+isE2/pNIBWawKps6vWodmhBmxH1f4HxD/lQhBx3+Nx/5iPgOtTDNWt44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
+	s=arc-20240116; t=1740916591; c=relaxed/simple;
+	bh=e/8NPDdl/C/KSXMToHEJfdK6HDA3izRuXWUlU+92O0I=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=dDjP97C005RmAaPobKBQ4sjA8j3N+4oH2aYUrhpbAM72JXNl8fuhsjpcdVmp0WOPaHl6BGBQM2fB07CxTqIeChvV6+3Rhy8cSnd5JqPgFx/TGd1czTjwVGB0/AJKj1Ammch6KKeY6qeZlCPIg3g7+fKeNzJLTdVLpNuxpfP0tjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.77
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-3ce8dadfb67so34329815ab.1
-        for <ntfs3@lists.linux.dev>; Fri, 28 Feb 2025 23:59:24 -0800 (PST)
+Received: by mail-io1-f77.google.com with SMTP id ca18e2360f4ac-851c4ef08b9so774134939f.0
+        for <ntfs3@lists.linux.dev>; Sun, 02 Mar 2025 03:56:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740815963; x=1741420763;
+        d=1e100.net; s=20230601; t=1740916588; x=1741521388;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=XQfjU0CFSSNm9Q04jClWvWXmuJQpF9HWUNBd2fNcWrs=;
-        b=bxCJXDTV16eX8qaQss/SVEkaw94u2kBOBZ+g60Tz2i4S8bAZ0/slM6m6hYIhBz2YDG
-         NTccQkXo91ivLXgh855ZVn25dJEQLdr+puER6ltkmF2whCqD5NrdcKunGHG7YqtyPzra
-         wc4UrvW0JClCz3fMe5SJzArBHSWN9KahAS+qUf7tPPypkZjTnFHJjfjr3GbZTRpELkfO
-         14hNVgin78aWS36Dj4UoxhZ8vu9zOorINq2awoc6KNoD406NkAFRR5n8nATRXfcOKP0h
-         plcyDvQltu3rBAz27+OkPxVXehYAuGBoa/8fvOEmRduQI20bY9olSwr9cgD6vTE7N4v8
-         ACfg==
-X-Forwarded-Encrypted: i=1; AJvYcCV+9wdW0qe1sTDHsYBQX+mvsMsieyAMz7Y5kXr0HP6eE6KZAQXW0sKq4MlyeXeAPOxDB38pDg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxt3bJAN6qsa4I+dkE4cBE6LBxm+dOxb+B1Mg8BxqoE9PiBT3p7
-	RPFp+tTtbn9hVTYd3XOHmUTcWRVxoy5RiR7PXj2+T2GQFWZNZhnQ8CvJvIVirJai42dzUFT20Um
-	Kufp2q/0bI3Au3pK8/C2406Eo+CDClIHyoes1K6jwP2p0roh1+n9cguM=
-X-Google-Smtp-Source: AGHT+IGhw00S9WjVz5GoUuoA42DWyssDnpGTHvtqKZG5J7OBfBy+IvnzfMnGcRf9KsHdrCg/rJowB+F1JeW1jsomT9D4qWy4QXW/
+        bh=nNGiguucKv36XtMhASonsxGpIptdKPoI8VZ3oCZc80s=;
+        b=nUEODOqM/9wnDeUrEiXoRgFBcBZhlCy0llqECzX8EoMYa18oEui8r1fTzBnX6HFlB0
+         9ykZIzP5wk11e2FClBRU0Et4h4sCPSNa4Nho5NVU416A45d2bEsePFYeQ/qvyROIZ2i9
+         X4ksVnHXq8QD/hnoUJwYj9vGjh+3vkISOmd5m9N+HkE+QS6wH1AbYU/grkVwyVZ8mNwv
+         ZFY65BDAr53lPQMZiFYhwP9T5OcQDs4INYRzIF+PHsYwTw43WYfFzuieoJXxa8WlHypw
+         oxuIbVuXQ6CGlqyxna5jvkt0dAWdKASxQULibB2n1GlfNPo7JzEbHiIoYpoMQ9l0l1Dh
+         ls/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWL4wrOSDWbol1ZU62Gr68+DZQUYQIR5rPAZiPAMZMO7zOjcobOqLdoZwpCNepXu2kVXHti6g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwvKqwqCPWC3mjn2ECT4S1j/7k59D2SxlX7L371PnxblqWyrTnT
+	aVQC984/U9A2CHe0EG0ElOOHr1iNQpzrVvOXDGvlzfNxLPFk1n6gENfIHTL1KXE7VgdrzjjQHFn
+	s1FwXgg8/MrnEp0fQ+NsUr5/iBtWPu8sHItz+hEXOHp6/RHtyBxG0aYQ=
+X-Google-Smtp-Source: AGHT+IG/AxJ/rdapw6H25dl5mizA7wEBrjLdBPtMjUpEus6mGgvC4bTWY9Q58kHEpiOt4mqX6lw3sq8PW1WoYpXB7BBgzuEScVye
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:20ee:b0:3d3:f64a:38b9 with SMTP id
- e9e14a558f8ab-3d3f64a398fmr17930135ab.15.1740815963741; Fri, 28 Feb 2025
- 23:59:23 -0800 (PST)
-Date: Fri, 28 Feb 2025 23:59:23 -0800
+X-Received: by 2002:a05:6e02:180f:b0:3d3:de8a:630e with SMTP id
+ e9e14a558f8ab-3d3e6f9b14fmr97696255ab.16.1740916588609; Sun, 02 Mar 2025
+ 03:56:28 -0800 (PST)
+Date: Sun, 02 Mar 2025 03:56:28 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67c2be5b.050a0220.dc10f.015f.GAE@google.com>
-Subject: [syzbot] [ntfs3?] BUG: unable to handle kernel paging request in io_schedule
-From: syzbot <syzbot+b43febb4dbd338b56739@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Message-ID: <67c4476c.050a0220.1dee4d.002e.GAE@google.com>
+Subject: [syzbot] [cgroups?] [mm?] [ntfs3?] KASAN: global-out-of-bounds Read
+ in get_mem_cgroup_from_mm
+From: syzbot <syzbot+7687c9b2316f07027b29@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, almaz.alexandrovich@paragon-software.com, 
+	cgroups@vger.kernel.org, hannes@cmpxchg.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, mhocko@kernel.org, muchun.song@linux.dev, 
+	ntfs3@lists.linux.dev, roman.gushchin@linux.dev, shakeel.butt@linux.dev, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    d082ecbc71e9 Linux 6.14-rc4
+HEAD commit:    03d38806a902 Merge tag 'thermal-6.14-rc5' of git://git.ker..
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1616ec98580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=17d6a864580000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=5b4c41bdaeea1964
-dashboard link: https://syzkaller.appspot.com/bug?extid=b43febb4dbd338b56739
+dashboard link: https://syzkaller.appspot.com/bug?extid=7687c9b2316f07027b29
 compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=102737a4580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11176db0580000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=144528b7980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1036a864580000
 
 Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-d082ecbc.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/c5299c562b1f/vmlinux-d082ecbc.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c0bed38fa342/bzImage-d082ecbc.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/251596561f87/mount_0.gz
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-03d38806.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/67cb2018261a/vmlinux-03d38806.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/a6169e75b74a/bzImage-03d38806.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/b184f3480c95/mount_0.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b43febb4dbd338b56739@syzkaller.appspotmail.com
+Reported-by: syzbot+7687c9b2316f07027b29@syzkaller.appspotmail.com
 
-loop0: detected capacity change from 0 to 4096
-ntfs3(loop0): Different NTFS sector size (2048) and media sector size (512).
+ntfs3(loop0): Failed to initialize $Extend.
 overlayfs: upper fs does not support tmpfile.
 overlayfs: upper fs does not support RENAME_WHITEOUT.
-BUG: unable to handle page fault for address: ffffed110016d539
-#PF: supervisor read access in kernel mode
-#PF: error_code(0x0000) - not-present page
-PGD 5ffcd067 P4D 5ffcd067 PUD 0 
-Oops: Oops: 0000 [#1] PREEMPT SMP KASAN NOPTI
-CPU: 0 UID: 0 PID: 5311 Comm: syz-executor285 Not tainted 6.14.0-rc4-syzkaller #0
+==================================================================
+BUG: KASAN: global-out-of-bounds in __lock_acquire+0x78/0x2100 kernel/locking/lockdep.c:5091
+Read of size 8 at addr ffffffff8eb38f9f by task syz-executor682/7971
+
+CPU: 0 UID: 0 PID: 7971 Comm: syz-executor682 Not tainted 6.14.0-rc4-syzkaller-00248-g03d38806a902 #0
 Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-RIP: 0010:io_schedule_finish kernel/sched/core.c:7665 [inline]
-RIP: 0010:io_schedule+0x8d/0x110 kernel/sched/core.c:7691
-Code: 42 80 3c 38 00 74 08 48 89 df e8 1e 82 1f f6 48 8b 3b 48 85 ff 74 0a be 01 00 00 00 e8 1c 43 ca f8 41 83 e5 08 e8 43 f4 ff ff <43> 0f b6 04 3c 84 c0 75 59 41 8b 06 83 e0 f7 41 0f b7 cd 09 c1 66
-RSP: 0018:ffffc9000d136378 EFLAGS: 00010246
-RAX: 0000000000400140 RBX: ffff888000b6b6c8 RCX: 0000000000000001
-RDX: 0000000000000001 RSI: 0000000000000004 RDI: 0000000000000001
-RBP: 0000000000000008 R08: ffff888011ec6e03 R09: 1ffff110023d8dc0
-R10: dffffc0000000000 R11: ffffed10023d8dc1 R12: 1ffff1100016d53a
-R13: 0000000000000000 R14: ffff888000b6a9d0 R15: dffffc00ffffffff
-FS:  000055558362e380(0000) GS:ffff88801fc00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffed110016d539 CR3: 000000004066a000 CR4: 0000000000352ef0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
  <TASK>
- bit_wait_io+0x12/0xd0 kernel/sched/wait_bit.c:247
- __wait_on_bit+0xb0/0x2f0 kernel/sched/wait_bit.c:49
- out_of_line_wait_on_bit+0x1d5/0x260 kernel/sched/wait_bit.c:64
- wait_on_bit_io include/linux/wait_bit.h:105 [inline]
- __wait_on_buffer fs/buffer.c:123 [inline]
- wait_on_buffer include/linux/buffer_head.h:414 [inline]
- __sync_dirty_buffer+0x2f7/0x390 fs/buffer.c:2858
- ntfs_write_bh+0x5fa/0x7c0 fs/ntfs3/fsntfs.c:1485
- mi_write+0x9b/0x1e0 fs/ntfs3/record.c:402
- indx_update_dup+0x69a/0x860 fs/ntfs3/index.c:2697
- ni_update_parent+0xa18/0xdd0 fs/ntfs3/frecord.c:3230
- ni_write_inode+0xe61/0x1100 fs/ntfs3/frecord.c:3321
- write_inode fs/fs-writeback.c:1525 [inline]
- __writeback_single_inode+0x708/0x10d0 fs/fs-writeback.c:1745
- writeback_single_inode+0x1f3/0x660 fs/fs-writeback.c:1801
- sync_inode_metadata+0xc4/0x120 fs/fs-writeback.c:2871
- __generic_file_fsync+0x134/0x1a0 fs/libfs.c:1536
- generic_file_fsync+0x70/0xf0 fs/libfs.c:1566
- ovl_sync_file+0x3a/0x50 fs/overlayfs/copy_up.c:254
- ovl_copy_up_metadata+0xac1/0xef0 fs/overlayfs/copy_up.c:724
- ovl_copy_up_workdir fs/overlayfs/copy_up.c:816 [inline]
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:408 [inline]
+ print_report+0x16e/0x5b0 mm/kasan/report.c:521
+ kasan_report+0x143/0x180 mm/kasan/report.c:634
+ __lock_acquire+0x78/0x2100 kernel/locking/lockdep.c:5091
+ lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5851
+ rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
+ rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ get_mem_cgroup_from_mm+0x55/0x2a0 mm/memcontrol.c:943
+ __mem_cgroup_charge+0x16/0x80 mm/memcontrol.c:4504
+ mem_cgroup_charge include/linux/memcontrol.h:644 [inline]
+ filemap_add_folio+0xb7/0x380 mm/filemap.c:976
+ __filemap_get_folio+0x52b/0xae0 mm/filemap.c:1980
+ ntfs_get_frame_pages+0xbe/0x4b0 fs/ntfs3/file.c:945
+ ntfs_compress_write+0x1154/0x2170 fs/ntfs3/file.c:1101
+ ntfs_file_write_iter+0x697/0x7f0 fs/ntfs3/file.c:1266
+ iter_file_splice_write+0xbfa/0x1510 fs/splice.c:743
+ do_splice_from fs/splice.c:941 [inline]
+ direct_splice_actor+0x11b/0x220 fs/splice.c:1164
+ splice_direct_to_actor+0x586/0xc80 fs/splice.c:1108
+ do_splice_direct_actor fs/splice.c:1207 [inline]
+ do_splice_direct+0x289/0x3e0 fs/splice.c:1233
+ ovl_copy_up_file+0x5ed/0x7e0 fs/overlayfs/copy_up.c:349
+ ovl_copy_up_data+0x216/0x290 fs/overlayfs/copy_up.c:654
+ ovl_copy_up_workdir fs/overlayfs/copy_up.c:796 [inline]
  ovl_do_copy_up fs/overlayfs/copy_up.c:1001 [inline]
  ovl_copy_up_one fs/overlayfs/copy_up.c:1202 [inline]
- ovl_copy_up_flags+0x244a/0x47c0 fs/overlayfs/copy_up.c:1257
+ ovl_copy_up_flags+0x1e86/0x47e0 fs/overlayfs/copy_up.c:1257
  ovl_open+0x139/0x310 fs/overlayfs/file.c:211
  do_dentry_open+0xdec/0x1960 fs/open.c:956
  vfs_open+0x3b/0x370 fs/open.c:1086
- do_open fs/namei.c:3830 [inline]
- path_openat+0x2c81/0x3590 fs/namei.c:3989
+ dentry_open+0x61/0xa0 fs/open.c:1109
+ ima_calc_file_hash+0x16b/0x1b30 security/integrity/ima/ima_crypto.c:553
+ ima_collect_measurement+0x529/0xb20 security/integrity/ima/ima_api.c:293
+ process_measurement+0x1351/0x1fb0 security/integrity/ima/ima_main.c:375
+ ima_file_check+0xd9/0x120 security/integrity/ima/ima_main.c:603
+ security_file_post_open+0xb9/0x280 security/security.c:3130
+ do_open fs/namei.c:3832 [inline]
+ path_openat+0x2cca/0x3590 fs/namei.c:3989
  do_filp_open+0x27f/0x4e0 fs/namei.c:4016
  do_sys_openat2+0x13e/0x1d0 fs/open.c:1428
  do_sys_open fs/open.c:1443 [inline]
@@ -137,53 +136,35 @@ Call Trace:
  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
  do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f8041315cb9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 a1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffd14b37ce8 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 0030656c69662f2e RCX: 00007f8041315cb9
-RDX: 0000000000040042 RSI: 0000400000002580 RDI: 00000000ffffff9c
-RBP: 0000400000000180 R08: 000055558362f4c0 R09: 000055558362f4c0
-R10: 00000000000000f7 R11: 0000000000000246 R12: 00004000000001a8
-R13: 000040000000018c R14: 0000400000000188 R15: 0000000000000000
+RIP: 0033:0x7f492e5d8d19
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 b1 18 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f492e58f218 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f492e6806a8 RCX: 00007f492e5d8d19
+RDX: 0000000000000083 RSI: 0000400000000000 RDI: 00000000ffffff9c
+RBP: 00007f492e6806a0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f492e64c920
+R13: 0000400000000000 R14: 0000400000000140 R15: 0030656c69662f2e
  </TASK>
-Modules linked in:
-CR2: ffffed110016d539
----[ end trace 0000000000000000 ]---
-RIP: 0010:io_schedule_finish kernel/sched/core.c:7665 [inline]
-RIP: 0010:io_schedule+0x8d/0x110 kernel/sched/core.c:7691
-Code: 42 80 3c 38 00 74 08 48 89 df e8 1e 82 1f f6 48 8b 3b 48 85 ff 74 0a be 01 00 00 00 e8 1c 43 ca f8 41 83 e5 08 e8 43 f4 ff ff <43> 0f b6 04 3c 84 c0 75 59 41 8b 06 83 e0 f7 41 0f b7 cd 09 c1 66
-RSP: 0018:ffffc9000d136378 EFLAGS: 00010246
-RAX: 0000000000400140 RBX: ffff888000b6b6c8 RCX: 0000000000000001
-RDX: 0000000000000001 RSI: 0000000000000004 RDI: 0000000000000001
-RBP: 0000000000000008 R08: ffff888011ec6e03 R09: 1ffff110023d8dc0
-R10: dffffc0000000000 R11: ffffed10023d8dc1 R12: 1ffff1100016d53a
-R13: 0000000000000000 R14: ffff888000b6a9d0 R15: dffffc00ffffffff
-FS:  000055558362e380(0000) GS:ffff88801fc00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffed110016d539 CR3: 000000004066a000 CR4: 0000000000352ef0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1)
-   5:	74 08                	je     0xf
-   7:	48 89 df             	mov    %rbx,%rdi
-   a:	e8 1e 82 1f f6       	call   0xf61f822d
-   f:	48 8b 3b             	mov    (%rbx),%rdi
-  12:	48 85 ff             	test   %rdi,%rdi
-  15:	74 0a                	je     0x21
-  17:	be 01 00 00 00       	mov    $0x1,%esi
-  1c:	e8 1c 43 ca f8       	call   0xf8ca433d
-  21:	41 83 e5 08          	and    $0x8,%r13d
-  25:	e8 43 f4 ff ff       	call   0xfffff46d
-* 2a:	43 0f b6 04 3c       	movzbl (%r12,%r15,1),%eax <-- trapping instruction
-  2f:	84 c0                	test   %al,%al
-  31:	75 59                	jne    0x8c
-  33:	41 8b 06             	mov    (%r14),%eax
-  36:	83 e0 f7             	and    $0xfffffff7,%eax
-  39:	41 0f b7 cd          	movzwl %r13w,%ecx
-  3d:	09 c1                	or     %eax,%ecx
-  3f:	66                   	data16
+
+The buggy address belongs to the variable:
+ rcu_expedited_nesting+0x1f/0x20
+
+The buggy address belongs to the physical page:
+page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0xeb38
+flags: 0xfff00000002000(reserved|node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000002000 ffffea00003ace08 ffffea00003ace08 0000000000000000
+raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner info is not present (never set?)
+
+Memory state around the buggy address:
+ ffffffff8eb38e80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f9
+ ffffffff8eb38f00: f9 f9 f9 f9 00 00 00 00 00 f9 f9 f9 f9 f9 f9 f9
+>ffffffff8eb38f80: 04 f9 f9 f9 00 00 00 00 00 f9 f9 f9 f9 f9 f9 f9
+                            ^
+ ffffffff8eb39000: 00 00 00 00 00 f9 f9 f9 f9 f9 f9 f9 00 00 00 00
+ ffffffff8eb39080: 00 f9 f9 f9 f9 f9 f9 f9 00 00 00 00 00 00 00 00
+==================================================================
 
 
 ---
