@@ -1,45 +1,51 @@
-Received: from mail.crpt.ru (mail.crpt.ru [91.236.205.1])
+Received: from mail.crpt.ru (mail1.crpt.ru [91.236.205.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3E01F0E2C
-	for <ntfs3@lists.linux.dev>; Mon,  3 Mar 2025 09:13:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4614A20D4FE
+	for <ntfs3@lists.linux.dev>; Tue, 18 Mar 2025 13:57:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.236.205.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740993244; cv=none; b=tqn4ES6Ko5k9323ZsEpHuiVe1xLvB8BxZ7eDWZyl6CRzM9bQa9AVKXMrvBTLXL5iICzvqNUGDY9Sb/o61A8gTTmnztXiFZ5WlQIgcUw+crVw4MYzpiJ+pZ7CFYgrGZ9JziOTmeyjcbcTQ4afbSsSUXzzQN0xJJgHcbwlNP0lLPY=
+	t=1742306268; cv=none; b=q0eCefh2u7hK75mb2YIQv4rf7EQ1zw5ZPtMoorXt5ijzTTJsbgoEp/fttbZIsuXb19L0wKsdnqd6461QKLNgF750isCLh28uHZ0CkyJ28RL+oWZ1e0LaKrRJRkGr71OOIdp1Zmx/zPSo2lmKbqufacUc60ibo2g2YjFlsVIzvCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740993244; c=relaxed/simple;
-	bh=Y4na+PZuq9qpln+6pQDbOO1I/ozVi+pT4LINH5/Xlf8=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=S8seJKJIBNZ+ESd2OU6tszzj8hKcsyCNONCravE76Bq8gjj9/8IsQEk7z7rnL4d1ZhZdnAd2YhyePqwj2bNAksDdr+R+C0CHl0MGimltSbTNWoJyACAi6B4s5gpRWNuUGqEMTmq5WfS4oidROdiEJQx9uWDoYUvlnZaLbJg8oOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crpt.ru; spf=pass smtp.mailfrom=crpt.ru; dkim=pass (2048-bit key) header.d=crpt.ru header.i=@crpt.ru header.b=Opd1Ifto; arc=none smtp.client-ip=91.236.205.1
+	s=arc-20240116; t=1742306268; c=relaxed/simple;
+	bh=zHBz2NzGYeN8kH4fiaKRZfcg7nVFrjGejjkp7DglSnM=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=dMscZUUsbwkhgy1QUpbB1LzPFeAbsu9HccbvIFSfFUPPU1BcHQJrWpYAFekFtQ1N+0UiW6QDy23/KQqXralAS37DjLDmDQEgBy5XSqNuBudOXHTtuq66UlOoCtGGCF6NgLyiO7rRPEysTJgLtPcgCY/8+Ma9bG7Fk1BVK6FnFqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crpt.ru; spf=pass smtp.mailfrom=crpt.ru; dkim=pass (2048-bit key) header.d=crpt.ru header.i=@crpt.ru header.b=jAGSr8Kf; arc=none smtp.client-ip=91.236.205.1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crpt.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crpt.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=crpt.ru header.i=@crpt.ru header.b="Opd1Ifto"
+	dkim=pass (2048-bit key) header.d=crpt.ru header.i=@crpt.ru header.b="jAGSr8Kf"
 Received: from mail.crpt.ru ([192.168.60.4])
-	by mail.crpt.ru  with ESMTP id 5239Dv3R014231-5239Dv3T014231
+	by mail.crpt.ru  with ESMTP id 52IDgI81019229-52IDgI83019229
 	(version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=OK);
-	Mon, 3 Mar 2025 12:13:57 +0300
-Received: from EX1.crpt.local (192.168.60.3) by ex2.crpt.local (192.168.60.4)
+	Tue, 18 Mar 2025 16:42:18 +0300
+Received: from EX2.crpt.local (192.168.60.4) by ex2.crpt.local (192.168.60.4)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Mon, 3 Mar
- 2025 12:13:57 +0300
-Received: from EX1.crpt.local ([192.168.60.3]) by EX1.crpt.local
- ([192.168.60.3]) with mapi id 15.01.2507.044; Mon, 3 Mar 2025 12:13:56 +0300
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Tue, 18 Mar
+ 2025 16:42:18 +0300
+Received: from EX2.crpt.local ([192.168.60.4]) by EX2.crpt.local
+ ([192.168.60.4]) with mapi id 15.01.2507.044; Tue, 18 Mar 2025 16:42:18 +0300
 From: =?koi8-r?B?98HUz9LP0MnOIOHOxNLFyg==?= <a.vatoropin@crpt.ru>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 CC: =?koi8-r?B?98HUz9LP0MnOIOHOxNLFyg==?= <a.vatoropin@crpt.ru>,
 	"ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	"lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>
-Subject: [PATCH] fs/ntfs3: Drop redundant NULL check
-Thread-Topic: [PATCH] fs/ntfs3: Drop redundant NULL check
-Thread-Index: AQHbjByXRCuH30BWgkWBO5T9Xi9FhA==
-Date: Mon, 3 Mar 2025 09:13:56 +0000
-Message-ID: <20250303091321.68634-1-a.vatoropin@crpt.ru>
+Subject: [PATCH v2] fs/ntfs3: handle hdr_first_de() return value
+Thread-Topic: [PATCH v2] fs/ntfs3: handle hdr_first_de() return value
+Thread-Index: AQHbmAuQAyfNJudJa0SRheQB6mnCWA==
+Date: Tue, 18 Mar 2025 13:42:18 +0000
+Message-ID: <20250318134211.149170-1-a.vatoropin@crpt.ru>
 Accept-Language: ru-RU, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
+x-kse-serverinfo: EX2.crpt.local, 9
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: Clean, bases: 3/18/2025 10:14:00 AM
+x-kse-attachment-filter-triggered-rules: Clean
+x-kse-attachment-filter-triggered-filters: Clean
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
 Content-Type: text/plain; charset="koi8-r"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -52,43 +58,59 @@ X-FEAS-Client-IP: 192.168.60.4
 X-FE-Policy-ID: 2:4:0:SYSTEM
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=crpt.ru; s=crpt.ru; c=relaxed/relaxed;
  h=from:to:cc:subject:date:message-id:content-type:mime-version;
- bh=pWgN86eTmOK9MIqHI455dmQDuotfD8lDByCxbx0so6g=;
- b=Opd1IftoPEawGICNHpkbQc77+FGkvgOn7uG7QKYxcgdPYrnSoeVtjTUDs0qZbmiX5U29LNb/Tr83
-	XlhLZv9DzCfXuiwxvjkTJ5fywD60AU03zRbDx1/skaPjYw4gn2A9yiYMWGPun2EjsGNsITqjn0hl
-	LS/W2EZMoPQhFrNyCxpkub2gcny2mhdl/UOW/TqHC0uQ9Mq8xXVVjSPYNkd0Vc0REvcXJ6dAU/0E
-	pVecCbKYFMad4F16anQfL7+7/SttQ1+PTC8dY3uwIerHeloyU+KJjQH4WQoe24GqnG8DWjCxSRda
-	AnZsasnah1fxbU4i9BwOo6HZtE+8cB1pFILGQw==
+ bh=VrN5ggXU+9ieg/XF+YNQbzdFaG3OPBPHUDO8pb+HC5g=;
+ b=jAGSr8KfziJ4q7X3/WbDcNYYlVIG95qByWIysHPzrIB1lIDZomy2SvhnT1QX6aj0QDoFy6v/PKhD
+	xtGc8/cJIgwmetqlMmDHIArgd3oLX3BVrl4EqeY5NHvY+GkPLa2BaPlT3QXtiLbcdbmy49/pK851
+	iYfPikJKaOg2Vux6OpruOMwsXnuFJjm+4DLppLbPHUsqmpMaGn7nynLAyskdjiFOIoA5Z6eGBWRF
+	QrR5Bt7R3dlwGIXrftzaKMs49igm8QTcl/79eJepV6We3MK6DXKjjEH8lR7ihfqLYU//wjgFMGge
+	oZE4PVWc6KmyuDS3jyncoOTxDqdswSjlNfGyNQ==
 
 From: Andrey Vatoropin <a.vatoropin@crpt.ru>
 
-Static analysis shows that pointer "mi" cannot be NULL, since it is
-pre-initialized above. A potential failure when mi equals NULL is
-processed.
+The hdr_first_de() function returns a pointer to a struct NTFS_DE. This
+pointer may be NULL. To handle the NULL error effectively, it is important
+to implement an error handler. This will help manage potential errors
+consistently.
 
-Remove the extra NULL check. It is meaningless and harms the readability
-of the code, since before that the pointer is unconditionally
-dereferenced.
+Additionally, error handling for the return value already exists at other=20
+points where this function is called.
 
 Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
 Signed-off-by: Andrey Vatoropin <a.vatoropin@crpt.ru>
 ---
- fs/ntfs3/fslog.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v1->v2: Fixed memory leak.
+ fs/ntfs3/index.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index d0d530f4e2b9..03f3292fa987 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -3143,7 +3143,7 @@ static int do_action(struct ntfs_log *log, struct OPE=
-N_ATTR_ENRTY *oe,
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 7eb9fae22f8d..12bea99da3dc 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -2182,6 +2182,10 @@ static int indx_get_entry_to_replace(struct ntfs_ind=
+ex *indx,
 =20
- 			if (inode)
- 				iput(inode);
--			else if (mi)
-+			else
- 				mi_put(mi);
+ 		e =3D hdr_first_de(&n->index->ihdr);
+ 		fnd_push(fnd, n, e);
++		if (!e) {
++			err =3D -EINVAL;
++			goto out;
++		}
 =20
- 			inode =3D inode_parent;
+ 		if (!de_is_last(e)) {
+ 			/*
+@@ -2203,6 +2207,10 @@ static int indx_get_entry_to_replace(struct ntfs_ind=
+ex *indx,
+=20
+ 	n =3D fnd->nodes[level];
+ 	te =3D hdr_first_de(&n->index->ihdr);
++	if (!te) {
++		err =3D -EINVAL;
++		goto out;
++	}
+ 	/* Copy the candidate entry into the replacement entry buffer. */
+ 	re =3D kmalloc(le16_to_cpu(te->size) + sizeof(u64), GFP_NOFS);
+ 	if (!re) {
 --=20
 2.43.0
