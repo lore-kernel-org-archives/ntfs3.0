@@ -1,164 +1,117 @@
-Received: from mail-io1-f79.google.com (mail-io1-f79.google.com [209.85.166.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0D4176ADE
-	for <ntfs3@lists.linux.dev>; Thu, 27 Mar 2025 16:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BB714F11E
+	for <ntfs3@lists.linux.dev>; Fri, 28 Mar 2025 17:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743092847; cv=none; b=hiKHGeBxvrZXhCaGTFZFQRQ2dUIziWn1WgfguCozAgJJPvIvVF9jInJglD8wMTyueMcMNTHUWHlJa2uPEHg1UnTIg2rh22CbUTd4IMQSh6LQjOWPagUNs+b9UT9vH/Tzbkfv70NoXb9Bxi4Rlq0zm27KK6f17/C0fsjabBGdyQ4=
+	t=1743183993; cv=none; b=VupdIErI5wcDXbfwKiTPL6iwTuZofUOCW5CjOFd+OSXWcff9squRIS3AaJbwjDECTSYv0S1fVNRoqQnsTgkBECmi5HVjqoKsjoaOgUI4RlZPpKxHy3F/PiNma7woVOyr6HDOiLBT9QIOcuzFERRNfbhNrZc1rEbualG3azAymmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743092847; c=relaxed/simple;
-	bh=KPCml6j7CHwydSRliwQIJzzHz7MfyFrREqAY9xWY4xQ=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=rxgxjZETeT8dPUPMtW+SYtzWl63AIQ/XWujUaeD5ZOAUZocmXe9yOuCe80VZfRxQ4fozw0+IwWyo2IIgiZUzChJQV/mSypuu7Dv2ZRja3ZGggxhJeELACpPEs+iHEaIBpMxIZspzutPaiSjHKwGf5zt3wDKVWlRZEjQhPFfvUZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f79.google.com with SMTP id ca18e2360f4ac-85dcaf42b61so252622439f.3
-        for <ntfs3@lists.linux.dev>; Thu, 27 Mar 2025 09:27:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743092845; x=1743697645;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3dJYfOZG9N5/gGlh+JB+8S/OHwVNzQCaxyrmPC/PVNY=;
-        b=w5obhlDsFffRzxR1bKBa7Zrr4KL+oOzR/CiNwLcXIbQvslImPW7/ZQKQ7o8F+1SAha
-         3gKAizbPeksXuCLQBPa77GTBkK8foC37j2ym6cKH4NZw7l39SOlvrn8L+2HYGnrEEBBn
-         Xj4hMysZ62nzNdZT4ZBnMJ03GuloEVSJlo4Zep+W6Bhpd5p12/VF7p2H1IuXe3pHn/oy
-         Y783p3LcZxajl98yOxhL5SatgnXI7dPHa46O0UgzKUtQjgCC5IOLl1LXIKcEuxTd2trZ
-         CPoh/GUca1jpQcoropRDLs4EfZ87h1sQ+5QlVsOBiM6EHzIZN2n+yPNAWJpX9diov8RP
-         NFhw==
-X-Forwarded-Encrypted: i=1; AJvYcCU1ouwma7xDamB1aLf8mpGUCwms4b+JCrIS8Niv35EFXzgSdrSvJIy1Xows6J2dA4UEsHvxMg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyY6tQCb01yEI2QX871aDE0pqHzy5r2NzQa2/QJnZhcR4EC2Agk
-	p+HbxmmDR/ZMOeN8Gii18ALQlq7C9J3SOEwIC1eaoiLFvKpX1nfwloRXVnqNita22BiKWbF4DXz
-	N4chZ7dUe2pk1ZvWwPh/JMlRf2oSmlgs6XFLbGMjTKArHZPr8Xk3nWO8=
-X-Google-Smtp-Source: AGHT+IGrNMF37L8egpn1bDkjE3W7FUbtfHVQDLWO93iOohLOxhEaPIO4/RLDkN5d1GKjt9T1BDp/EPGJMq5FTnnQ7WZdBkXYrqJJ
+	s=arc-20240116; t=1743183993; c=relaxed/simple;
+	bh=nxMJr4IbRtF06Hjyor8w2xYGQsJXLN5afA0RK++UJuM=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=YhIAWzeIzaw6kwpFsweMND8ExzVVRI4VMJ+NqpD48EsvM5M5uTTEDZd0pSPxZaWHuEp/dkCpNwrjkAPhVInJ8zTCJThrRmCsQsa0wPDNmu3gyhZ+N0uAc52QVcZMvo5LhJAsW1DFfybL6+hYqlKI8IgBXhghHgpeGQgiQobzSCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iTBSqGRl; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iTBSqGRl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1743183990;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vBdIklFUQdOQtD+W7fZJginlQqeJFZ4hpEcj5ZkuKHQ=;
+	b=iTBSqGRlQai8aTt6t+5jC8oU83qqm/GgXZHUvcOXnfv/PBzCHodVS2+RlI+h4LDsAmfgFX
+	1UZ7mtc6hpiEg4BNMOED1jWgDrEEhdD1lDB1tOaKu0tox8CtQsMXj4twxoS1kAVrGMAeI8
+	We5p8Q7I2KUrUr2vTUhDetecX3xaEcw=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-275-SZcbH0u9PUa58bCZtD7zFw-1; Fri,
+ 28 Mar 2025 13:46:27 -0400
+X-MC-Unique: SZcbH0u9PUa58bCZtD7zFw-1
+X-Mimecast-MFC-AGG-ID: SZcbH0u9PUa58bCZtD7zFw_1743183986
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B8A121933B57;
+	Fri, 28 Mar 2025 17:46:25 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.40])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BF123180B486;
+	Fri, 28 Mar 2025 17:46:22 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <67e57c6c.050a0220.2f068f.0036.GAE@google.com>
+References: <67e57c6c.050a0220.2f068f.0036.GAE@google.com>
+To: syzbot <syzbot+54e6c2176ba76c56217e@syzkaller.appspotmail.com>
+Cc: dhowells@redhat.com, almaz.alexandrovich@paragon-software.com,
+    linux-afs@lists.infradead.org, linux-kernel@vger.kernel.org,
+    marc.dionne@auristor.com, ntfs3@lists.linux.dev,
+    syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [afs?] [ntfs3?] BUG: sleeping function called from invalid context in ovl_cache_entry_new
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:2149:b0:3cf:c9ad:46a1 with SMTP id
- e9e14a558f8ab-3d5ccddfb14mr42159795ab.13.1743092844752; Thu, 27 Mar 2025
- 09:27:24 -0700 (PDT)
-Date: Thu, 27 Mar 2025 09:27:24 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67e57c6c.050a0220.2f068f.0036.GAE@google.com>
-Subject: [syzbot] [afs?] [ntfs3?] BUG: sleeping function called from invalid
- context in ovl_cache_entry_new
-From: syzbot <syzbot+54e6c2176ba76c56217e@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, dhowells@redhat.com, 
-	linux-afs@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	marc.dionne@auristor.com, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <85068.1743183981.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 28 Mar 2025 17:46:21 +0000
+Message-ID: <85069.1743183981@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-Hello,
+#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
 
-syzbot found the following issue on:
-
-HEAD commit:    2df0c02dab82 x86 boot build: make git ignore stale 'tools'..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=138f0a4c580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5f1762820c18874b
-dashboard link: https://syzkaller.appspot.com/bug?extid=54e6c2176ba76c56217e
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=178f0a4c580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14182bb0580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/7fe089500003/disk-2df0c02d.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d8df5abbd7c5/vmlinux-2df0c02d.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/09d23e93d3a8/bzImage-2df0c02d.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/586c05b92249/mount_0.gz
-
-The issue was bisected to:
-
-commit 1d0b929fc070b4115403a0a6206a0c6a62dd61f5
+commit f34068283e8650ecd7a2f57b0b55aa91e498a470
 Author: David Howells <dhowells@redhat.com>
-Date:   Mon Feb 24 09:52:58 2025 +0000
+Date:   Fri Mar 28 16:46:58 2025 +0000
 
-    afs: Change dynroot to create contents on demand
+    afs: Fix afs_dynroot_readdir() to not use the RCU read lock
+    =
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1747aa4c580000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=14c7aa4c580000
-console output: https://syzkaller.appspot.com/x/log.txt?x=10c7aa4c580000
+    afs_dynroot_readdir() uses the RCU read lock to walk the cell list whi=
+lst
+    emitting cell automount entries - but dir_emit() may write to a usersp=
+ace
+    buffer, thereby causing a fault to occur and waits to happen.
+    =
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+54e6c2176ba76c56217e@syzkaller.appspotmail.com
-Fixes: 1d0b929fc070 ("afs: Change dynroot to create contents on demand")
+    Fix afs_dynroot_readdir() to get a shared lock on i_rwsem instead.
+    =
 
-BUG: sleeping function called from invalid context at ./include/linux/sched/mm.h:321
-in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 5821, name: syz-executor365
-preempt_count: 0, expected: 0
-RCU nest depth: 1, expected: 0
-4 locks held by syz-executor365/5821:
- #0: ffff888032b155f8 (&f->f_pos_lock){+.+.}-{4:4}, at: fdget_pos+0x247/0x310 fs/file.c:1213
- #1: ffff888077c90cf8 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: wrap_directory_iterator+0x5a/0xd0 fs/readdir.c:54
- #2: ffff88807d2c0148 (&type->i_mutex_dir_key#6){++++}-{4:4}, at: iterate_dir+0x4a6/0x760 fs/readdir.c:101
- #3: ffffffff8eb3a760 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:331 [inline]
- #3: ffffffff8eb3a760 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:841 [inline]
- #3: ffffffff8eb3a760 (rcu_read_lock){....}-{1:3}, at: afs_dynroot_readdir+0x466/0xbe0 fs/afs/dynroot.c:351
-CPU: 0 UID: 0 PID: 5821 Comm: syz-executor365 Not tainted 6.14.0-syzkaller-01103-g2df0c02dab82 #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
- __might_resched+0x558/0x6c0 kernel/sched/core.c:8798
- might_alloc include/linux/sched/mm.h:321 [inline]
- slab_pre_alloc_hook mm/slub.c:4089 [inline]
- slab_alloc_node mm/slub.c:4167 [inline]
- __do_kmalloc_node mm/slub.c:4317 [inline]
- __kmalloc_noprof+0xd0/0x4d0 mm/slub.c:4330
- kmalloc_noprof include/linux/slab.h:906 [inline]
- ovl_cache_entry_new+0x39/0x7b0 fs/overlayfs/readdir.c:152
- ovl_cache_entry_add_rb fs/overlayfs/readdir.c:188 [inline]
- ovl_fill_merge+0x416/0x830 fs/overlayfs/readdir.c:266
- dir_emit include/linux/fs.h:3853 [inline]
- afs_dynroot_readdir_cells fs/afs/dynroot.c:310 [inline]
- afs_dynroot_readdir+0x814/0xbe0 fs/afs/dynroot.c:352
- iterate_dir+0x5a9/0x760 fs/readdir.c:108
- ovl_dir_read+0xfe/0x570 fs/overlayfs/readdir.c:313
- ovl_dir_read_merged+0x315/0x5e0 fs/overlayfs/readdir.c:369
- ovl_cache_get fs/overlayfs/readdir.c:422 [inline]
- ovl_iterate+0x1196/0x21c0 fs/overlayfs/readdir.c:783
- wrap_directory_iterator+0x91/0xd0 fs/readdir.c:65
- iterate_dir+0x5a9/0x760 fs/readdir.c:108
- __do_sys_getdents fs/readdir.c:322 [inline]
- __se_sys_getdents+0x1ff/0x4e0 fs/readdir.c:308
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f7c82f020f9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 61 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff5a9e9b58 EFLAGS: 00000246 ORIG_RAX: 000000000000004e
-RAX: ffffffffffffffda RBX: 00007fff5a9e9c20 RCX: 00007f7c82f020f9
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000000000000
+    Fixes: 1d0b929fc070 ("afs: Change dynroot to create contents on demand=
+")
+    Reported-by: syzbot+3b6c5c6a1d0119b687a1@syzkaller.appspotmail.com
+    Signed-off-by: David Howells <dhowells@redhat.com>
+    cc: Marc Dionne <marc.dionne@auristor.com>
+    cc: linux-afs@lists.infradead.org
+    cc: linux-fsdevel@vger.kernel.org
 
+diff --git a/fs/afs/dynroot.c b/fs/afs/dynroot.c
+index 691e0ae607a1..61bc8c81c5ca 100644
+--- a/fs/afs/dynroot.c
++++ b/fs/afs/dynroot.c
+@@ -348,9 +348,9 @@ static int afs_dynroot_readdir(struct file *file, stru=
+ct dir_context *ctx)
+ 	}
+ =
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ 	if ((unsigned long long)ctx->pos <=3D AFS_MAX_DYNROOT_CELL_INO) {
+-		rcu_read_lock();
++		down_read(&file_inode(file)->i_rwsem);
+ 		ret =3D afs_dynroot_readdir_cells(net, ctx);
+-		rcu_read_unlock();
++		up_read(&file_inode(file)->i_rwsem);
+ 	}
+ 	return ret;
+ }
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
