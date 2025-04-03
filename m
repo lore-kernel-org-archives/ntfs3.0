@@ -1,130 +1,63 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0351DD0C7
-	for <ntfs3@lists.linux.dev>; Tue,  1 Apr 2025 10:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6741854;
+	Thu,  3 Apr 2025 00:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743502511; cv=none; b=BgpEkBDGtkV1KAWigBM158L4f9b5RwBv1oYmR7OQqOVUZyQmdWpd2y0dIvRZrkciKOLiwBOVzkjXVoKd6xOS3F5KQvHoiJNJmVV5YKTDfgLw4FA7Fee5/pLJX7tX+XLXm/9zCEWPQ1cfnqERPFgqAFy5mRBtdeh6lkBKD0ZW2X0=
+	t=1743639061; cv=none; b=N8UYN3UVYbXrHNKnQbFx2m5kymo2cbItk5nnPiokVglv0ZhvjWJU3qAwH/NF7v8xvj3rg2c7WJZjhxNl2L0zM4mBMUFA8WRui/47OLoqRLl7p2z55A0SkD05SuTt+LmIWlLTQfcDFuxjKn21G+1wptZp5mWDvrRAhZg4/NhotUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743502511; c=relaxed/simple;
-	bh=F2vsjXDI66wiWMktYwJdPzRHIUvzmNJpS21AxKHlksE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YwYt2X2IlfvM0lBLSNXdKw7Dq6nM/pL+FONcnfRE5o+Q12bI6L2AWVQitD+zmfLxcSA74Qu4cnXQXPlnEUY1xGpNo+NC6T88C5su/610MrET3rcXv1CJjuolGy5U95rZ1BxBHvjsVGy9OeSccZzoyJro2Rg+d1uG9yYeWZL5h7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=SVbcjRmk; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=U9sHrC78; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1743639061; c=relaxed/simple;
+	bh=mp5TJF+PV1YLBlSX2zwO0xNrzgpSG5e6+GHpjzMkbdc=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=B8O4sPnSln+Znk3sAF+FUZSsezPFUjv5fj5S4JcRW8vf7X5dUtFnaYwepWF9hA0qOrX0gvtJgf9XPmWqAV6GmCo0O651fcPEBMmmwqPbSn4ZF4uccMrTK0XLdg4sRpFy4ZnmhyZNMfKDq/n9FyfHT6/E+elUVUXJKCALS4cdVLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RIK9xDd5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="SVbcjRmk";
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="U9sHrC78"
-Received: from relayfre-01.paragon-software.com (unknown [172.30.72.12])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id AD80D212F;
-	Tue,  1 Apr 2025 10:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1743501997;
-	bh=DsaYEb2nVtRuXrpsaOjMkKiSqaCyerjUxjRkdWT/QIE=;
-	h=From:To:CC:Subject:Date;
-	b=SVbcjRmk0v+p81nQYTrHsDqOw4sB68NfiaiS7vQTtas9YnSkSIxrdnRoixhYJxKgP
-	 Sxo9p3rddh4luaQkP4djQ5SKLvi8CQXTlkNG4GGMCREUWgSy6rWaq5de6kwQTtpKn9
-	 wroUd7ErWN/hasuD1sQiSMwpXpQ3XPQYR5q9GeXg=
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 6E78A25C5;
-	Tue,  1 Apr 2025 10:08:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1743502123;
-	bh=DsaYEb2nVtRuXrpsaOjMkKiSqaCyerjUxjRkdWT/QIE=;
-	h=From:To:CC:Subject:Date;
-	b=U9sHrC78BSVZ/eVDUxCts0ocSBo+monJg7oaO6lj+swHxijFk0mIlJo9yqquiTQWq
-	 j3ip7hMhgdAxM9jn0JrFdG6d6Jf5Sl9TampSrjIIrBRApKIeE8iBJSIxWYjpp2AwEk
-	 OIAXOwNSVRvHNA3y7mw0ITx5ad84sMtRAlc/Uuw8=
-Received: from ntfs3vm.localdomain (192.168.211.33) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 1 Apr 2025 13:08:42 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] ntfs3: bugfixes for 6.15
-Date: Tue, 1 Apr 2025 13:08:22 +0300
-Message-ID: <20250401100822.40050-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RIK9xDd5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96637C4CEDD;
+	Thu,  3 Apr 2025 00:11:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743639060;
+	bh=mp5TJF+PV1YLBlSX2zwO0xNrzgpSG5e6+GHpjzMkbdc=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=RIK9xDd5KOYeL+wlXVrzZZXv0sSopctikMf6EMuN5ZKeGO/UOyGSRcLMuxlyMb7Wa
+	 /vfP4Sm36win/SBnn+lZJluUWSerUDdzhKweN6BBoGhLeKFYOtwJkaSs8iFuJCqp8R
+	 J0GkxHyUMJYkNEf07vt3+bTQelLA/7pCIufCdmf6myN89LP7PdGrJGNPOuYnKPuDZz
+	 C1laJCAX9ztWo6UPvdTfqfZfSCFFWTvS/NkWk1mJIn0byQUEC/4XNSb9xhhqE1Wq5f
+	 9QxWXy/TFBvuSUdn18zKGt4ZTW2AvVrQ6tgA068ststzqw0TWiWJf9SiBUphtMnAjy
+	 H6CpOVBsEpoQw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE04B380CEE3;
+	Thu,  3 Apr 2025 00:11:38 +0000 (UTC)
+Subject: Re: [GIT PULL] ntfs3: bugfixes for 6.15
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20250401100822.40050-1-almaz.alexandrovich@paragon-software.com>
+References: <20250401100822.40050-1-almaz.alexandrovich@paragon-software.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20250401100822.40050-1-almaz.alexandrovich@paragon-software.com>
+X-PR-Tracked-Remote: https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.15
+X-PR-Tracked-Commit-Id: 8b12017c1b9582db8c5833cf08d610e8f810f4b3
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 0cc5543fad527878b311dcc361ec505f613da4e2
+Message-Id: <174363909720.1725867.17593371004813058844.pr-tracker-bot@kernel.org>
+Date: Thu, 03 Apr 2025 00:11:37 +0000
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: torvalds@linux-foundation.org, ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Please pull this branch containing ntfs3 code for 6.15.
+The pull request you sent on Tue, 1 Apr 2025 13:08:22 +0300:
 
-Regards,
-Konstantin
+> https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.15
 
-----------------------------------------------------------------
-The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f05b:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/0cc5543fad527878b311dcc361ec505f613da4e2
 
-  Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
+Thank you!
 
-are available in the Git repository at:
-
-  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.15
-
-for you to fetch changes up to 8b12017c1b9582db8c5833cf08d610e8f810f4b3:
-
-  fs/ntfs3: Remove unused ntfs_flush_inodes (2025-03-06 19:53:28 +0300)
-
-----------------------------------------------------------------
-Changes for 6.15-rc1
-
-Fixed:
-  integer overflows on 32-bit systems;
-  integer overflow in hdr_first_de();
-  'proc_info_root' leak when NTFS initialization failed.
-
-Removed:
-  unused functions ni_load_attr, ntfs_sb_read, ntfs_flush_inodes.
-
-Changed:
-  updated inode->i_mapping->a_ops on compression state;
-  ensured atomicity of write operations;
-  refactored ntfs_{create/remove}_procdir();
-  refactored ntfs_{create/remove}_proc_root().
-
-----------------------------------------------------------------
-Dan Carpenter (2):
-      fs/ntfs3: Fix a couple integer overflows on 32bit systems
-      fs/ntfs3: Prevent integer overflow in hdr_first_de()
-
-Dr. David Alan Gilbert (3):
-      fs/ntfs3: Remove unused ni_load_attr
-      fs/ntfs3: Remove unused ntfs_sb_read
-      fs/ntfs3: Remove unused ntfs_flush_inodes
-
-Edward Adam Davis (1):
-      fs/ntfs3: Fix WARNING in ntfs_extend_initialized_size
-
-Konstantin Komarov (1):
-      fs/ntfs3: Update inode->i_mapping->a_ops on compression state
-
-Lizhi Xu (1):
-      fs/ntfs3: Keep write operations atomic
-
-Ye Bin (3):
-      fs/ntfs3: Factor out ntfs_{create/remove}_procdir()
-      fs/ntfs3: Factor out ntfs_{create/remove}_proc_root()
-      fs/ntfs3: Fix 'proc_info_root' leak when init ntfs failed
-
- fs/ntfs3/attrib.c  |  3 +-
- fs/ntfs3/file.c    | 42 +++++++++++++++++++-------
- fs/ntfs3/frecord.c | 63 +++-----------------------------------
- fs/ntfs3/fsntfs.c  | 28 -----------------
- fs/ntfs3/index.c   |  4 +--
- fs/ntfs3/inode.c   | 40 ------------------------
- fs/ntfs3/ntfs.h    |  2 +-
- fs/ntfs3/ntfs_fs.h |  6 ----
- fs/ntfs3/super.c   | 89 ++++++++++++++++++++++++++++++++++--------------------
- 9 files changed, 96 insertions(+), 181 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
