@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22DD267B1F;
-	Mon,  7 Apr 2025 18:14:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F522698AD;
+	Mon,  7 Apr 2025 18:15:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744049695; cv=none; b=fyQ9b6eB4LWEbeiLZJX60CORnikVaIjs9zjHOjLvfYGxVLDOeH7KB7Zox+ryUbxnKnMerVsCdIB0RRU+bfyIuXcIy2PMQ2/dcc9fKV7nkCoQgyim1eNm/hAUAofdhqxSMLWpyFUuB4lSA7yhkFw0RABZODncVtMMiee+FeDgRUM=
+	t=1744049723; cv=none; b=T1PTWg2qzZoQ59yJAbxIddF74C+zkLY0dPk8f5dVErC5AtpgiFJx3CKOBx8UO1tlmz8nW829sv2qP4sAxqOX/eOfE1m7ajhX/ehaTo1NP1qCib2N3LpVbNoAQLDCWA6fJc+Ho0SkNSKhgHh3b2r+fqSdxcUKu2wO8IUpWZTOdHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744049695; c=relaxed/simple;
-	bh=nXY8em9monBQsY1lfRU5oYpVAbgufBykXkdRAmedgp0=;
+	s=arc-20240116; t=1744049723; c=relaxed/simple;
+	bh=vRa1TO2Rx5LoC2wlUI1YrSfJryZk3hAm+vk+Ej7ZReY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hzEanhX15aDX8h6SacWSyA/yy4FPXQYksh6Un/Q9V375ip+4aBiDSs5v6voC2adjMZuIVhnv9qPrfVVgD5y+o6vU8wzM96NgrBnkVPtISD+MTnKdaCMjT7sY4jtQbfewEhLgcyBcp9Upx10v3bVj95HK0vepaJyT0iVJOybwD6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TLmBwDfa; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=VvKchJFnKsmL7irtai7kWyI1+xnV7uxOedS0GU80q6repwUcY/Vu6eP0xDBTH5ocR6/BgE/symp7GdBSaaTIfOnTNyvB3fI6hMXJDf9mZgiY0pRrKB0+twSllJu/WMNpgDeb43JQUEhebgDAELRIHmFZquS3peqfc9h2B2O2nV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kZF+E8iq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TLmBwDfa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE54C4CEE9;
-	Mon,  7 Apr 2025 18:14:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kZF+E8iq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C245BC4CEDD;
+	Mon,  7 Apr 2025 18:15:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744049695;
-	bh=nXY8em9monBQsY1lfRU5oYpVAbgufBykXkdRAmedgp0=;
+	s=k20201202; t=1744049722;
+	bh=vRa1TO2Rx5LoC2wlUI1YrSfJryZk3hAm+vk+Ej7ZReY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TLmBwDfa8fMiR1CMn3x76cU3JGHulzjaNOG85lrBOjcAIYPpNnU3i8glKqq8Oyh7W
-	 G5rWna7f6Rphn32DsNcQr0nAId93c0l8l3BTqAaJeTUyhBCN8VPdlxqkgtTiCOd/y/
-	 PFf5lwBWD/SkIU4IaCFBj2AjpWHShvnb6mNmK3AEkkhYKLGV4rg5SGEdOZ7ts2i4uY
-	 8eBEurN07j5EHhLS6DX2y2O6joP8P83aQSnmH1p1ad/6lU0//3mzZ7PxbCal2OGcMe
-	 rECVaeBfQQ2tGRakbnV1jjA5JTINGIVThqJzrvhMtonJ3IT7BBlejZxnBfc8OUHFu/
-	 LvuSkyf//ZtAQ==
+	b=kZF+E8iqcAlm3JAJdCj1Y9epb3XqbQRN2+CW5BWRKdbmT0L1rbWvoIcA6/8b6va94
+	 My3blRk0pw2qAktAS7w5XcYe4J63R37Hxt5spHYoeFmfwXD+lft1edH5pxDFwQ2Rkf
+	 EcjqHDFzlbFs6ntfcFSo2y5vTtAmJ3hKYQGYAWnAhHqepIRmkJypLE/z8IwdGz/xGQ
+	 IbCcX9leILDTP3Y2TfUkG6wBMlI8UXA9t3hwh/QVP7nT3L0iZT+UEpb3a2AmAGZsXf
+	 5XCU83Fwnri3slqTpxYIrEPhT30UEO49NOQ93P5Pjobv+cogBsDX6jcp/6M8FRt3aU
+	 C13lIrPZFgFhA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -34,12 +34,12 @@ Cc: Edward Adam Davis <eadavis@qq.com>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.1 02/13] fs/ntfs3: Fix WARNING in ntfs_extend_initialized_size
-Date: Mon,  7 Apr 2025 14:14:36 -0400
-Message-Id: <20250407181449.3183687-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 2/8] fs/ntfs3: Fix WARNING in ntfs_extend_initialized_size
+Date: Mon,  7 Apr 2025 14:15:08 -0400
+Message-Id: <20250407181516.3183864-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250407181449.3183687-1-sashal@kernel.org>
-References: <20250407181449.3183687-1-sashal@kernel.org>
+In-Reply-To: <20250407181516.3183864-1-sashal@kernel.org>
+References: <20250407181516.3183864-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -48,7 +48,7 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.133
+X-stable-base: Linux 5.15.179
 Content-Transfer-Encoding: 8bit
 
 From: Edward Adam Davis <eadavis@qq.com>
@@ -77,10 +77,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 72e25842f5dc9..46eec986ec9ca 100644
+index 2d5d234a4533d..74cf9c51e3228 100644
 --- a/fs/ntfs3/file.c
 +++ b/fs/ntfs3/file.c
-@@ -354,6 +354,7 @@ static int ntfs_extend(struct inode *inode, loff_t pos, size_t count,
+@@ -435,6 +435,7 @@ static int ntfs_extend(struct inode *inode, loff_t pos, size_t count,
  	}
  
  	if (extend_init && !is_compressed(ni)) {
