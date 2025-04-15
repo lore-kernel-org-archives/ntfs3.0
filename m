@@ -1,105 +1,168 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D38E284688
-	for <ntfs3@lists.linux.dev>; Tue, 15 Apr 2025 09:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF537284680
+	for <ntfs3@lists.linux.dev>; Tue, 15 Apr 2025 11:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744709224; cv=none; b=ClQnuPZpfvgXZwXd2g3g94rYIhAS/bgOGxrh1cPkNv79haEUXHF0ESiGmCM0mG/Xm0M7L4++cRjkOG5Su2ALgOP94UKdW7VQ+Yaum4DdnlS12oWrTZdr71ntLiQdBScOajPzmEHwRGiR005KgCurK81wGhBOXpSPIDkjyr2kGVg=
+	t=1744715335; cv=none; b=UThAHwEuD2gtyEAksx/Gw4wd+bEYZyNYAjiJ0SzYOjzFhzdZzTrYbXl2fK/bpOOFgwIDUBFb8EX5N3lEk9at+dbn0QAynaqhxfvNgsTQWtDsidhiSfgN0SOJyV3aVCl/JF1xK0vKrtpttlx5ZPrvfeaJL0Smeghm6ZBcBshzVOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744709224; c=relaxed/simple;
-	bh=LP2dtJdyJA35myFiGrNHz8KbwDPs7k7TIUhuQIUB7U8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hhu0jIB5oBByrwuaWM6mt9D8gCvg7ChMAP2zn4exJgSydLGJlYj3KES0pZnEr1q81d3ZkDeXfIwvXSJGGYzIfl0YHIvaZsVEzsYahRgdQwGgpGRxPPAbwiCi5s/BrjV22lOBxBXyyD/h6FKB+z/jISaiNgrh48iVRknQPobR9YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.178.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53F6JK5V008571;
-	Tue, 15 Apr 2025 09:26:42 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45ydd1k67t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 15 Apr 2025 09:26:41 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Tue, 15 Apr 2025 02:26:40 -0700
-Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Tue, 15 Apr 2025 02:26:37 -0700
-From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <jack@suse.cz>
-CC: <almaz.alexandrovich@paragon-software.com>, <brauner@kernel.org>,
-        <hch@infradead.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <lizhi.xu@windriver.com>,
-        <ntfs3@lists.linux.dev>,
-        <syzbot+e36cc3297bd3afd25e19@syzkaller.appspotmail.com>,
-        <syzkaller-bugs@googlegroups.com>, <viro@zeniv.linux.org.uk>
-Subject: [PATCH V2] fs/ntfs3: Add missing direct_IO in ntfs_aops_cmpr
-Date: Tue, 15 Apr 2025 17:26:37 +0800
-Message-ID: <20250415092637.251786-1-lizhi.xu@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <q5zbucxhdxsso7r3ydtnsz7jjkohc2zevz5swfbzwjizceqicp@32vssyaakhqo>
+	s=arc-20240116; t=1744715335; c=relaxed/simple;
+	bh=bwEfUzuopWre1ZySt0NNb2cBAIv614nzpCPXlndK/2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XO1A4MwARxri3WpdkgtmXnBItqAnqa5lFbEGAeas9VdL6BT0iu/FT511S/uPzkyVfM7LNCuvEeL7BOtoP+LQVi2RhhphwDkyhVpaKlGxRhvKURCu9LAcfEgBRYPo8IzVyObESYKhdedNKCgVdWj8yDECCZBvynKY2TtMjmirz5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uI1xDssi; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=MtaJyPc5; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OIOY4hfw; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7VatcsVk; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uI1xDssi";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="MtaJyPc5";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OIOY4hfw";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7VatcsVk"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B22EE21134;
+	Tue, 15 Apr 2025 11:08:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1744715332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BoJpHota7+8QJvowdrK3ydyh8Nvcw7MRfbekl5i6fho=;
+	b=uI1xDssijvRPgEhNjgtz/d6LHJHiMoqgk5+aFRRc3TIz6/DmeOdcu5XGL39KBj6KqGOcrO
+	0XpSWSnbZwGvXRsm6oGA0z77nqgRCqCaY8XqYmK87caNiCtKeWsyp39NryH3YGo8CBp10x
+	PpYi4w3My4PY++qjZzeLrQnUr0/8G+o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1744715332;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BoJpHota7+8QJvowdrK3ydyh8Nvcw7MRfbekl5i6fho=;
+	b=MtaJyPc5cWZQYB7VnrET301ACxGfazmbdNZVQOE8fK3bIHQNNZuteBWfh/viz5zxlRkR/q
+	cn8LabHNcJ6+clAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1744715330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BoJpHota7+8QJvowdrK3ydyh8Nvcw7MRfbekl5i6fho=;
+	b=OIOY4hfwzHclarmjQp/4Xik9oOW9ugDd/LWh4EgqDsCEpcQKasmTqt9zbP/1vY4jB9td+q
+	xz8DzyK382A+YIWVBzaRfHRQVDMkjsfyAPXOu+dkEyhWVyd3XIV1H8QQ6S/nHrJ3gANo/p
+	JFrMhFz5BL7/bLPI+Neg7O2yfNNWCZs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1744715330;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BoJpHota7+8QJvowdrK3ydyh8Nvcw7MRfbekl5i6fho=;
+	b=7VatcsVkssUeeHiklmJg5w6/ZXOoXk92eR5NGTr4sNe2dGmEz/70aE/wGW57xDwpjA8vJa
+	llng1ct7294y0rAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A6F27137A5;
+	Tue, 15 Apr 2025 11:08:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Vee7KEI+/mcLdwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 15 Apr 2025 11:08:50 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 664B2A0947; Tue, 15 Apr 2025 13:08:46 +0200 (CEST)
+Date: Tue, 15 Apr 2025 13:08:46 +0200
+From: Jan Kara <jack@suse.cz>
+To: Lizhi Xu <lizhi.xu@windriver.com>
+Cc: jack@suse.cz, almaz.alexandrovich@paragon-software.com, 
+	brauner@kernel.org, hch@infradead.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzbot+e36cc3297bd3afd25e19@syzkaller.appspotmail.com, syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+Subject: Re: [PATCH V2] fs/ntfs3: Add missing direct_IO in ntfs_aops_cmpr
+Message-ID: <tgj6l2ymwspc7gd4mexoxtey27ewmrgj42mdozxmr7uymtubqr@q46d6tdh7kid>
 References: <q5zbucxhdxsso7r3ydtnsz7jjkohc2zevz5swfbzwjizceqicp@32vssyaakhqo>
+ <20250415092637.251786-1-lizhi.xu@windriver.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: ajtiTctVFHTci5pOX7J_hLlgq0UvoyFH
-X-Proofpoint-GUID: ajtiTctVFHTci5pOX7J_hLlgq0UvoyFH
-X-Authority-Analysis: v=2.4 cv=HecUTjE8 c=1 sm=1 tr=0 ts=67fe2651 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=XR8D0OoHHMoA:10 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8 a=wy8MQQXfsJFEdZ-aUNQA:9 a=DcSpbTIhAlouE1Uv7lRv:22
- a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Sensitive_Customer_Information: Yes
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-15_04,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- phishscore=0 malwarescore=0 priorityscore=1501 spamscore=0 bulkscore=0
- adultscore=0 mlxlogscore=921 impostorscore=0 suspectscore=0 clxscore=1015
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2504150065
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250415092637.251786-1-lizhi.xu@windriver.com>
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[e36cc3297bd3afd25e19];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[windriver.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo,syzkaller.appspot.com:url,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-The ntfs3 can use the page cache directly, so its address_space_operations
-need direct_IO. Exit ntfs_direct_IO() if it is a compressed file.
+On Tue 15-04-25 17:26:37, Lizhi Xu wrote:
+> The ntfs3 can use the page cache directly, so its address_space_operations
+> need direct_IO. Exit ntfs_direct_IO() if it is a compressed file.
+> 
+> Fixes: b432163ebd15 ("fs/ntfs3: Update inode->i_mapping->a_ops on compression state")
+> Reported-by: syzbot+e36cc3297bd3afd25e19@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=e36cc3297bd3afd25e19
+> Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
 
-Fixes: b432163ebd15 ("fs/ntfs3: Update inode->i_mapping->a_ops on compression state")
-Reported-by: syzbot+e36cc3297bd3afd25e19@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=e36cc3297bd3afd25e19
-Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
----
-V1 -> V2: exit direct io if it is a compressed file.
+OK, this looks sensible to me. Feel free to add:
 
- fs/ntfs3/inode.c | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 3e2957a1e360..0f0d27d4644a 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -805,6 +805,10 @@ static ssize_t ntfs_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
- 		ret = 0;
- 		goto out;
- 	}
-+	if (is_compressed(ni)) {
-+		ret = 0;
-+		goto out;
-+	}
- 
- 	ret = blockdev_direct_IO(iocb, inode, iter,
- 				 wr ? ntfs_get_block_direct_IO_W :
-@@ -2068,5 +2072,6 @@ const struct address_space_operations ntfs_aops_cmpr = {
- 	.read_folio	= ntfs_read_folio,
- 	.readahead	= ntfs_readahead,
- 	.dirty_folio	= block_dirty_folio,
-+	.direct_IO	= ntfs_direct_IO,
- };
- // clang-format on
+								Honza
+
+> ---
+> V1 -> V2: exit direct io if it is a compressed file.
+> 
+>  fs/ntfs3/inode.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index 3e2957a1e360..0f0d27d4644a 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -805,6 +805,10 @@ static ssize_t ntfs_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
+>  		ret = 0;
+>  		goto out;
+>  	}
+> +	if (is_compressed(ni)) {
+> +		ret = 0;
+> +		goto out;
+> +	}
+>  
+>  	ret = blockdev_direct_IO(iocb, inode, iter,
+>  				 wr ? ntfs_get_block_direct_IO_W :
+> @@ -2068,5 +2072,6 @@ const struct address_space_operations ntfs_aops_cmpr = {
+>  	.read_folio	= ntfs_read_folio,
+>  	.readahead	= ntfs_readahead,
+>  	.dirty_folio	= block_dirty_folio,
+> +	.direct_IO	= ntfs_direct_IO,
+>  };
+>  // clang-format on
+> -- 
+> 2.43.0
+> 
 -- 
-2.43.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
