@@ -1,61 +1,73 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445C04A1A;
-	Wed, 16 Apr 2025 04:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198C528373
+	for <ntfs3@lists.linux.dev>; Wed, 16 Apr 2025 05:34:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744778227; cv=none; b=OP/lcwKgpSCWVbRJiNcBhP46bH7458iGLhyCInqRtMo+sm1xKk961IRDQr1by7vQbGFLljut18jz4Ll7U9qoqAUXZDLrpgppiB6sE8VJlYbxVVgCPDrnO+yARJciwT1nKsk6la11qO2hp4qfVEbhftOodvTU8yFvN0d5tjW5V1g=
+	t=1744781683; cv=none; b=t/IFa+yEh0lsWFJjNgwESp9uhYKptTLKMZ0oeonRQJE13OA0NJm0BpT63QlAGHYcoXteDIDUvmUJo5vUuFqi3dKN4f3UW+U5r7NAJMeqexYHaNuKs2gTEmKG8R9PMivqW6oR82XOReN3xMVTKYyoMYTn93qCkzj1MJ4IivAGhrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744778227; c=relaxed/simple;
-	bh=CLuTPtJ/W0nH0ifdaKYd5Lka79cNaAeH4PkTOAgL/WQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YFFsqk3oQuE7PA78CmhX21OiHGkDHttrJ+sGnxZvE/SGOzp/H+nxjEIUt+sqGkLKhUScIv0TccRBBWcJl+cuZRwDqyFTh39KPSxOnlkkDkYE4oQD3+A8v5PkHhwu4REtafZbFmlHityUhe8v2RqWSxnPizKwZ78ot4Fut5u4fLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EqYgKWsB; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EqYgKWsB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=PalyFqm2a9ht5Bv38AYsElqk2gmdRQBYGnXGQdGD96s=; b=EqYgKWsBgM6sOJ30PAi7VMCSzq
-	yKxQWFjE74FWHg0EAAmVlv9Eq0gFUhVO8QnR8uUiaNTPJxJ0dA9I8taYRe6YSxaZ86GtxKTwtDpge
-	E3OUYRk2NCREFa0O3dKxCW2UToRIP4gop6NfChx6DYq5Vjd51vjjUDoTzdDr72zmfciPmAvyqoGCk
-	AIaAElqyaB2Z2rwLQLscT7Ik9ru6qhYufQLh/vhIOtHf/Z0jxRr0r74aanxwMLveQV7Laa96EnRMp
-	S/FiK+Y++yp4jLrnMjwZit8Tjgi9AewGgE41EAq7XQN9b8jNWNnvnu7tql6dUXcL6GEAKkxoURZu0
-	QlGPUzyA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4uWG-00000008AJb-088f;
-	Wed, 16 Apr 2025 04:37:04 +0000
-Date: Tue, 15 Apr 2025 21:37:04 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Lizhi Xu <lizhi.xu@windriver.com>
-Cc: jack@suse.cz, almaz.alexandrovich@paragon-software.com,
-	brauner@kernel.org, hch@infradead.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	syzbot+e36cc3297bd3afd25e19@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+	s=arc-20240116; t=1744781683; c=relaxed/simple;
+	bh=qJ0eWAfZQvMKC14qaN5C2gsiSBtw8LBERrVoH+b2buU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j+4DhpHYgM10CTmizTGZZOMR8B7DvgwkUpXSxJ3miSEbxZd1rI16j2Wkeu7oJc4VB4whos5yFCLpWUiQOJT6y7I/IRKE4xPpuobiG+XHuu0e66eKT0ekUk4x8iGHc3ROgE4Mc6uHRaRUhhnWsqNkrtL5zwueIQ2q3lJ6rtOq5TE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.178.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53G3bihf026759;
+	Wed, 16 Apr 2025 05:34:31 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45ydd1md40-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 16 Apr 2025 05:34:31 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Tue, 15 Apr 2025 22:34:30 -0700
+Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Tue, 15 Apr 2025 22:34:27 -0700
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <hch@infradead.org>
+CC: <almaz.alexandrovich@paragon-software.com>, <brauner@kernel.org>,
+        <jack@suse.cz>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <lizhi.xu@windriver.com>,
+        <ntfs3@lists.linux.dev>,
+        <syzbot+e36cc3297bd3afd25e19@syzkaller.appspotmail.com>,
+        <syzkaller-bugs@googlegroups.com>, <viro@zeniv.linux.org.uk>
 Subject: Re: [PATCH V2] fs/ntfs3: Add missing direct_IO in ntfs_aops_cmpr
-Message-ID: <Z_8z8CD4FKlxw5Vm@infradead.org>
-References: <q5zbucxhdxsso7r3ydtnsz7jjkohc2zevz5swfbzwjizceqicp@32vssyaakhqo>
- <20250415092637.251786-1-lizhi.xu@windriver.com>
+Date: Wed, 16 Apr 2025 13:34:26 +0800
+Message-ID: <20250416053426.2931176-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <Z_8z8CD4FKlxw5Vm@infradead.org>
+References: <Z_8z8CD4FKlxw5Vm@infradead.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250415092637.251786-1-lizhi.xu@windriver.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: Rao5gv14PV8_wt8iKtHyAHgOBfN6ksym
+X-Proofpoint-GUID: Rao5gv14PV8_wt8iKtHyAHgOBfN6ksym
+X-Authority-Analysis: v=2.4 cv=HecUTjE8 c=1 sm=1 tr=0 ts=67ff4167 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8 a=haV94hm0_3eM6ig1Zd8A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-16_02,2025-04-15_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ phishscore=0 malwarescore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ adultscore=0 mlxlogscore=521 impostorscore=0 suspectscore=0 clxscore=1015
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2504160044
 
-On Tue, Apr 15, 2025 at 05:26:37PM +0800, Lizhi Xu wrote:
-> The ntfs3 can use the page cache directly, so its address_space_operations
-> need direct_IO. 
-
-This sentence still does not make any sense.
-
+On Tue, 15 Apr 2025 21:37:04 -0700, Christoph Hellwig wrote:
+> > The ntfs3 can use the page cache directly, so its address_space_operations
+> > need direct_IO.
+> 
+> This sentence still does not make any sense.
+Did you see the following comments?
+https://lore.kernel.org/all/20250415010518.2008216-1-lizhi.xu@windriver.com/
