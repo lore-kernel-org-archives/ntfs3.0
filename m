@@ -1,123 +1,237 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f77.google.com (mail-io1-f77.google.com [209.85.166.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405221BF37
-	for <ntfs3@lists.linux.dev>; Sun, 20 Apr 2025 11:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D148E1E5702
+	for <ntfs3@lists.linux.dev>; Mon, 21 Apr 2025 16:47:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745147124; cv=none; b=h+DWkLCB1q8zC3+4MQwUvTm/cbFce+yQiJk5lieVK9dFf8CTMpddageuO3TnKCqQxRsloxJ1oVR+hmpUv8I6Wm/fOnIhNNL02JFO+rQjwBMvtezZ/aH2LTFtkZmF7MS+XFdNKIoR/0iBhCieUdjU/FNoF0O59ECDAeaEt2gDIQo=
+	t=1745254049; cv=none; b=qNU2LFIUUYjj+5eUF70d8k6RwxXrh6/3aGc5ihWfh0bbrc6f9w4Vwc818oDAqwNG5XA5ypHXkNNsJHxcYJK073Gd3rb5KzJ0fm22dkw2TB3c3enG/c8D8qOytksSF1OuRjTv1w783lF6BHnazFZffQ5H2dv/4538R+UgdNoitFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745147124; c=relaxed/simple;
-	bh=mW8KobNGNavz3C27tYZsasae3UiTYtHJPZy23of3LAo=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=VVsX0djG2O0O3S2QeZccuBkRdvbTpFUeR1h8qsG15FkrWDrL967M5pE3SxZ2Q+rao4qnZw8Lqikm2uS/YIpLyXblKokRwKfXem4VysjTW9r4L42GumBThrMMbSup0HezOAIjnMDY36m7TtC83cWJJlhDLAMbzD3FNhhAdfnzE2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b=GU7VGNNt; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b="GU7VGNNt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1745147119; x=1745751919; i=aros@gmx.com;
-	bh=mW8KobNGNavz3C27tYZsasae3UiTYtHJPZy23of3LAo=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:From:Subject:To:
-	 Cc:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=GU7VGNNtCT955lAxGqoBlZOE8xMNCFnezABbgre6YOtblsIemzHySpYakvFNDz7q
-	 Oix46asShKTOCoTPmFSnBQa2KMqCnoURVx84CdiZn4+ef2prpdqzyxMp2AeeP1UDd
-	 5sxJXdwswS93Kon+vOPo/vucSKDQB0aoBgPMdIQ2PRJdhXFKBcJ5i41Ws7Y4zmWJr
-	 3KwUJ+DOf6tVkQPRr+NqHuDQtEuOabAc6LCQXe07RVgUz3gSCr4zOkngGgggoLZ7a
-	 cdJTn4XXG6lF/bF8hY4On2A7kpP4X1irLRRZS5RC/mVJvYUyUJASb1ZQ3i/VkxF4s
-	 vlhaYT0GrzNMOXiBcw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.23.12.110] ([98.159.234.24]) by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MjS54-1ur71p0XH8-00j6Pk; Sun, 20
- Apr 2025 13:05:19 +0200
-Message-ID: <6c6159be-abb8-4608-8184-18a48b6f07f8@gmx.com>
-Date: Sun, 20 Apr 2025 11:05:15 +0000
+	s=arc-20240116; t=1745254049; c=relaxed/simple;
+	bh=waSzMPLAQviwrKgfZQTWoUY8aIciLWqFpcE/7zo6wJY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=hwmKEmi5FHYonO8/njtnKkW3go02yNW9OwJ6aIwXFp+mMLQVsscvFPXBdRXIA16NPhtLTEbrYMs0kSHLCHe3T9sj8qjzhwnSC911PGDbsIs4+/X4ibgtmsN9C2iugGCD6QdmSO0hvanOvKaoJze2kyUYZbYskpoLRAOdThnQVh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f77.google.com with SMTP id ca18e2360f4ac-86184fa3d00so388938939f.3
+        for <ntfs3@lists.linux.dev>; Mon, 21 Apr 2025 09:47:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745254047; x=1745858847;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=O/Z+E4MArse6XwOaXBZnDCHXBo4tMYe14cQIf3eVRG4=;
+        b=eQ/ALTYJHDHXTvfJmxsXZfdIIbzg4dK1sRVJzeUAn2YIFjtCLsp9uQGAPsQeLeQy4M
+         /p0TYfOqTAuuPYNktv1xebuKBw4H9DOfH/Cx+Q2e1yPTTo7DhmQ++8cwSQuDpbS/k1tl
+         +kpr8nOHkt4TJV+VKj3QH0kLRH+y/Z4bUmoWumXOR37VNnb21WMYKnxRDBFpLWc4hoVx
+         tvu1+kL0j+qg+VRifPWQpSTchEHQ3C9HCYGbaeaF4Ayt+0E1SwtEc373zx8xSXDmdoNa
+         1fnV3+8Upomicbq3NbHWqsUP1BWp216vsK0ZjK6Gg28LdKn9GRWyuU+w9YHsqLVtsjoK
+         yMUw==
+X-Forwarded-Encrypted: i=1; AJvYcCU/SzXx/TXTIVtU9lVKVrejOzQQEXlpzCRAW4L9jCrpflGhbPLG0WX5U06QvVwCwrx61Z3e9A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxgnNj0B6VyfD66FLwrEok1Lc8QJ9Y9GuI0dzyrig30lmDEznlZ
+	GF09L7STdyYNnNHXiYWo9IEnK0Jy75Cp2NwDrbMA8DYANmz97kde5KWqwZPovfWOsChSlWwEAes
+	7UIRQtY5VuFXpZxRCUtYGXVlmgQqK6ARGslUj3qp4KVAqLVOybqnoXI8=
+X-Google-Smtp-Source: AGHT+IFBF2vkCVLRJ05sS0//j0gW40qowXBVTCjSWhWkxInBAjleaERU+HmzC13ggq3Xfazn9kKJ6JG9M4HwBUJmCTm+5jMu9c9P
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Artem S. Tashkinov" <aros@gmx.com>
-Subject: NTFS driver excessive logging by default: Correct links count
-To: ntfs3@lists.linux.dev
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:GDQ/A/h6Hz/sk8BKOQyTzpDDTFcXa7ZzGgMXPJ4FTRP+DM+9CHx
- FklBQTyERyhxIi/i9r8jRozeqxkVdStrVbG9rOaUfQK6RyKPjUnkwElLC3Bp6WAYAs4drvQ
- ZujSuTlGV4TGZszyiSZswJb8vd3bQotbAzcuK3ADAmYii+PZKWsK6ewg9+MuPpQdRGGtsJo
- 2JA1SimoEUkoSjqUnkj+w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:UB2O5ZPDOqk=;FirPVh32lOPFZIf/IlXn5cFNRPq
- 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
+X-Received: by 2002:a05:6602:394c:b0:85d:b054:6eb9 with SMTP id
+ ca18e2360f4ac-861dbf5f998mr1335764639f.14.1745254046895; Mon, 21 Apr 2025
+ 09:47:26 -0700 (PDT)
+Date: Mon, 21 Apr 2025 09:47:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6806769e.050a0220.297747.02f9.GAE@google.com>
+Subject: [syzbot] [ntfs3?] possible deadlock in ni_set_compress
+From: syzbot <syzbot+839ea12926e5df362ff1@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
-This is my ~20th attempt to draw attention to this issue. Konstantin has=
-=20
-been emailed twice with a clean Windows image that exhibits the issue.
+syzbot found the following issue on:
 
-Whenever I list files on my NTFS partitions I get a lot of SPAM in=20
-dmesg, e.g.:
+HEAD commit:    cfb2e2c57aef Merge tag 'mm-hotfixes-stable-2025-04-16-19-5..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13441fe4580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b8b55ae4a62d79b8
+dashboard link: https://syzkaller.appspot.com/bug?extid=839ea12926e5df362ff1
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
 
-ntfs3: sda3: ino=3D14c, Correct links count -> 1.
-ntfs3: sda3: ino=3D73, Correct links count -> 1.
-ntfs3: sda3: ino=3D167, Correct links count -> 1.
-ntfs3: sda3: ino=3Dd9, Correct links count -> 1.
-ntfs3: sda3: ino=3Dd5, Correct links count -> 1.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-And the partition in question has been fully chkdsk'ed and has no issues.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/5590e609f231/disk-cfb2e2c5.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6865703da4ca/vmlinux-cfb2e2c5.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/6944af88a20f/bzImage-cfb2e2c5.xz
 
-Please fix.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+839ea12926e5df362ff1@syzkaller.appspotmail.com
 
-This is still reproducible as of 6.14.3. I first reported the issue for=20
-Linux 6.8.2, i.e. over a year ago. Maybe someone could look into it=20
-after all. I can email you an NTFS image if necessary but _ANY_ Windows=20
-10 or 11 install will exhibit it.
+======================================================
+WARNING: possible circular locking dependency detected
+6.15.0-rc2-syzkaller-00087-gcfb2e2c57aef #0 Not tainted
+------------------------------------------------------
+syz.5.237/7937 is trying to acquire lock:
+ffff88805e9fca70 (&ni->ni_lock#3/5){+.+.}-{4:4}, at: ni_lock fs/ntfs3/ntfs_fs.h:1105 [inline]
+ffff88805e9fca70 (&ni->ni_lock#3/5){+.+.}-{4:4}, at: ni_set_compress+0x174/0x5a0 fs/ntfs3/frecord.c:3359
 
-Best regards,
-Artem
+but task is already holding lock:
+ffff88805e9fcea8 (mapping.invalidate_lock#12){++++}-{4:4}, at: filemap_invalidate_lock include/linux/fs.h:912 [inline]
+ffff88805e9fcea8 (mapping.invalidate_lock#12){++++}-{4:4}, at: ntfs_fileattr_set+0x2a9/0x4a0 fs/ntfs3/file.c:108
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #2 (mapping.invalidate_lock#12){++++}-{4:4}:
+       lock_acquire+0x116/0x2f0 kernel/locking/lockdep.c:5866
+       down_read+0xb3/0xa50 kernel/locking/rwsem.c:1524
+       filemap_invalidate_lock_shared include/linux/fs.h:922 [inline]
+       filemap_fault+0x66b/0x13d0 mm/filemap.c:3391
+       __do_fault+0x135/0x390 mm/memory.c:5098
+       do_read_fault mm/memory.c:5518 [inline]
+       do_fault mm/memory.c:5652 [inline]
+       do_pte_missing mm/memory.c:4160 [inline]
+       handle_pte_fault+0x3f0c/0x61c0 mm/memory.c:5997
+       __handle_mm_fault mm/memory.c:6140 [inline]
+       handle_mm_fault+0x1030/0x1aa0 mm/memory.c:6309
+       do_user_addr_fault arch/x86/mm/fault.c:1388 [inline]
+       handle_page_fault arch/x86/mm/fault.c:1480 [inline]
+       exc_page_fault+0x2bb/0x920 arch/x86/mm/fault.c:1538
+       asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:623
+       do_strncpy_from_user lib/strncpy_from_user.c:-1 [inline]
+       strncpy_from_user+0xb8/0x280 lib/strncpy_from_user.c:130
+       getname_flags+0xf1/0x530 fs/namei.c:157
+       getname include/linux/fs.h:2852 [inline]
+       do_sys_openat2+0xbf/0x1d0 fs/open.c:1423
+       do_sys_open fs/open.c:1444 [inline]
+       __do_sys_open fs/open.c:1452 [inline]
+       __se_sys_open fs/open.c:1448 [inline]
+       __x64_sys_open+0x226/0x280 fs/open.c:1448
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xf3/0x230 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&mm->mmap_lock){++++}-{4:4}:
+       lock_acquire+0x116/0x2f0 kernel/locking/lockdep.c:5866
+       __might_fault+0xc6/0x120 mm/memory.c:7151
+       _inline_copy_to_user include/linux/uaccess.h:192 [inline]
+       _copy_to_user+0x2c/0xb0 lib/usercopy.c:26
+       copy_to_user include/linux/uaccess.h:225 [inline]
+       fiemap_fill_next_extent+0x237/0x420 fs/ioctl.c:145
+       ni_fiemap+0xa42/0x12a0 fs/ntfs3/frecord.c:2007
+       ntfs_fiemap+0x134/0x180 fs/ntfs3/file.c:1380
+       ioctl_fiemap fs/ioctl.c:220 [inline]
+       do_vfs_ioctl+0x1975/0x2750 fs/ioctl.c:840
+       __do_sys_ioctl fs/ioctl.c:904 [inline]
+       __se_sys_ioctl+0x80/0x160 fs/ioctl.c:892
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xf3/0x230 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&ni->ni_lock#3/5){+.+.}-{4:4}:
+       check_prev_add kernel/locking/lockdep.c:3166 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3285 [inline]
+       validate_chain+0xa69/0x24e0 kernel/locking/lockdep.c:3909
+       __lock_acquire+0xad5/0xd80 kernel/locking/lockdep.c:5235
+       lock_acquire+0x116/0x2f0 kernel/locking/lockdep.c:5866
+       __mutex_lock_common kernel/locking/mutex.c:601 [inline]
+       __mutex_lock+0x1a5/0x10c0 kernel/locking/mutex.c:746
+       ni_lock fs/ntfs3/ntfs_fs.h:1105 [inline]
+       ni_set_compress+0x174/0x5a0 fs/ntfs3/frecord.c:3359
+       ntfs_fileattr_set+0x2ef/0x4a0 fs/ntfs3/file.c:114
+       vfs_fileattr_set+0x901/0xd50 fs/ioctl.c:696
+       ioctl_setflags fs/ioctl.c:728 [inline]
+       do_vfs_ioctl+0x180c/0x2750 fs/ioctl.c:869
+       __do_sys_ioctl fs/ioctl.c:904 [inline]
+       __se_sys_ioctl+0x80/0x160 fs/ioctl.c:892
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xf3/0x230 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  &ni->ni_lock#3/5 --> &mm->mmap_lock --> mapping.invalidate_lock#12
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(mapping.invalidate_lock#12);
+                               lock(&mm->mmap_lock);
+                               lock(mapping.invalidate_lock#12);
+  lock(&ni->ni_lock#3/5);
+
+ *** DEADLOCK ***
+
+3 locks held by syz.5.237/7937:
+ #0: ffff88807cdac420 (sb_writers#25){.+.+}-{0:0}, at: mnt_want_write_file+0x5e/0x200 fs/namespace.c:600
+ #1: ffff88805e9fcd08 (&sb->s_type->i_mutex_key#31){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:867 [inline]
+ #1: ffff88805e9fcd08 (&sb->s_type->i_mutex_key#31){+.+.}-{4:4}, at: vfs_fileattr_set+0x13b/0xd50 fs/ioctl.c:681
+ #2: ffff88805e9fcea8 (mapping.invalidate_lock#12){++++}-{4:4}, at: filemap_invalidate_lock include/linux/fs.h:912 [inline]
+ #2: ffff88805e9fcea8 (mapping.invalidate_lock#12){++++}-{4:4}, at: ntfs_fileattr_set+0x2a9/0x4a0 fs/ntfs3/file.c:108
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 7937 Comm: syz.5.237 Not tainted 6.15.0-rc2-syzkaller-00087-gcfb2e2c57aef #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
+ print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2079
+ check_noncircular+0x142/0x160 kernel/locking/lockdep.c:2211
+ check_prev_add kernel/locking/lockdep.c:3166 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3285 [inline]
+ validate_chain+0xa69/0x24e0 kernel/locking/lockdep.c:3909
+ __lock_acquire+0xad5/0xd80 kernel/locking/lockdep.c:5235
+ lock_acquire+0x116/0x2f0 kernel/locking/lockdep.c:5866
+ __mutex_lock_common kernel/locking/mutex.c:601 [inline]
+ __mutex_lock+0x1a5/0x10c0 kernel/locking/mutex.c:746
+ ni_lock fs/ntfs3/ntfs_fs.h:1105 [inline]
+ ni_set_compress+0x174/0x5a0 fs/ntfs3/frecord.c:3359
+ ntfs_fileattr_set+0x2ef/0x4a0 fs/ntfs3/file.c:114
+ vfs_fileattr_set+0x901/0xd50 fs/ioctl.c:696
+ ioctl_setflags fs/ioctl.c:728 [inline]
+ do_vfs_ioctl+0x180c/0x2750 fs/ioctl.c:869
+ __do_sys_ioctl fs/ioctl.c:904 [inline]
+ __se_sys_ioctl+0x80/0x160 fs/ioctl.c:892
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5dca38e169
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f5dcb1ed038 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f5dca5b5fa0 RCX: 00007f5dca38e169
+RDX: 00002000000006c0 RSI: 0000000040086602 RDI: 0000000000000004
+RBP: 00007f5dca410a68 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 00007f5dca5b5fa0 R15: 00007ffcd4490398
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
