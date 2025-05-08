@@ -1,131 +1,242 @@
-Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
+Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5145F19F424
-	for <ntfs3@lists.linux.dev>; Thu,  8 May 2025 03:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50EBD239E90
+	for <ntfs3@lists.linux.dev>; Thu,  8 May 2025 08:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746674432; cv=none; b=ZOcHlM1z4ZE3v4X8HSeVP/FQSfwoz4W3An/mSrWcG8sLFyd0D3O0E/bVEvTbUx4Ok16Vtoi7kdVSDdmbiw2R5fHokoqjC8BPd5sAs5eDbjoV3JubgmAaUgvWc0CVguHwY61uUhNc3UVY0pU3+fVFgzUMYUq3ueQ70ys+zE/v4Nk=
+	t=1746694362; cv=none; b=SffWCUkRPTUThzj1P4WqzcL6XFAM/Yz/XOKBDqX3eqtfito9oPrtsTtEkVA3Z/IM1Hcfc8fsj8aS34Tv9NbeXydPGjtCtXowy67d3WjvgUnMpK086akCLp6FRduRnqN3wjFqtYeev3oAIidt0n5AkuBwZsn06gpo9aokn0x0HLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746674432; c=relaxed/simple;
-	bh=toexBCWtC/QzbHDuKQBajTpHcp2ESpxMHyTg8BYyoRU=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=iYX3/grauyij7y6uOSkHO32sJ2cJ8Q7AAkS5Ex8qMAaZo3ze8WLHaEYilS2PSDpQdd70/hOD8E+qfTdN+Nozw33EFwONzDpO0J4oRHf5Kqq7PJ1PY27QMEfkiLTf807wzeb8QJG08/c5EDqIiB1kMZx5n7GTgYO6BZAOXmsRtQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
+	s=arc-20240116; t=1746694362; c=relaxed/simple;
+	bh=Y5OoOFqzBwXhZcTP5+FQKVU18wxPEnZPvWFKQRerFRk=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=tHSXCDS4vNQS7+XQWcci5kQKA9xRxW8K8mr8+sBn6257EiHikYp1ipuH75o75UEBuYQrAxYYkHj9mIJel0V+fA6W5IU01vBvU/vWPRFMBEn6angu2d2DmicPiP+IWHeqLsDagGaR3GurXqngkUQkU+AKvppW4OPF7NKk8OhzXfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3d91a0d3e15so5949385ab.2
-        for <ntfs3@lists.linux.dev>; Wed, 07 May 2025 20:20:30 -0700 (PDT)
+Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-3da720ff4a0so8753535ab.3
+        for <ntfs3@lists.linux.dev>; Thu, 08 May 2025 01:52:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746674429; x=1747279229;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=njkK5Q/+P60k2xOwOK/nWx/93V6V59fxM7hC5u6zxwA=;
-        b=WeT3lCHVf/mdHjw8Yu2CnAW5xX4FfQnWoH2dbQw/Ob2AvSkJQUnwb/a9q1PKR69Gov
-         /IpPLb5ilj5Wl+TVV9oVoAxrnXqKQ54cmWavST1NE3Jd8OftX6gxQaFx+E2a62AeO9hC
-         jKLwFMYtkwivXc7Nt99j7YploO2YvwVrIg/LdOKmi39L56Cd7PLB/gpyvC1ps7V7cLiJ
-         HuNddm8SqWOLGhO2vV3O+NQSU+DVdvmSErxOGz5v4BkyDfOQH/0365dZZjRcb7EQFzn1
-         I4QCDhgjqQzVuTbyt30cTKH9YEUpn784Nb+zXICUKwn+JdSC9NkutHiqnzkHNi5zDxGK
-         HycQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWG6d7jVZ8vLdK6IIOIwwRerXk3QdDAEYUPZbthnlj0pJiACzGyvfR24uceueW+JCKqz9UW7g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwYvyilDZF57JQMWEI+vLY7NYcZvw9CECmHgCIEP3cTaamGQNZM
-	rmAHIwde2Em9fH+NYGMrrtAvc9DpIFCLc6e8MF2+i5cajmsmP3lwE5g+qFtusciWz2yeW1Hq1gu
-	PvzqGEJ8NuxURHF/CvJxjDtYyvfBeln8/yI/Zs9tZfaNRUBMdWeKmBjM=
-X-Google-Smtp-Source: AGHT+IE6lxlmSyVY8kD0bT7EPbcvlshDmvxVYqfCOQF4jQudWLi4dlviiCxNJ4i8l6UygrjSvB8/km+xiC4Xu+AgTJW4wuVZAJT9
+        d=1e100.net; s=20230601; t=1746694359; x=1747299159;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nCLNC4atFd3LqE75nIlkkiMnyAwzhYa/SNx//fNd3fc=;
+        b=JxyCWxRxTEJHBztB1tPx33nzCLAOdb5S1HORs7wwJjh1fVth6hJBIu4zNg/tunCR1y
+         katohswDBO4biGrb7f7bxuGipcL/XKA6SZ0T+dQQrMWfNCbK0iyISjZcklpN1sKpQzGl
+         ft10yBHWwnfFWOyfli+bNiAZadYZWLBuQkASMHHUDVYrbhHBfmo5ovDLZBlNqiZaoAAl
+         Jg5PbfJRryRD4ezUt8xdDRwkqNjzD7aAZ3ITgu1UFFJnEnrpEUy2bTjASjZBxqaTVRlr
+         9KuzozN/R3jqtp2vwR6F9b5ugQ3+3ga49euK7iENeeiMcSwqcdKqpQsogpX3xr58OZtf
+         oaLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUip+EBrns0oMMUOOR/wMj/Nj2v1WN6TbiG2Fx+Bmi+WVX6aeYIRwuPOhKFSYysjJ8MB8l2Mw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YytO1GgdkyIyWFWKH1Wg1gMwUilet9kYI19pzEcV+i2Ufdoji6T
+	sKwzWQTkGslRLo7siaZfijiEpG2SLqNAKADiyaiEYbalwxZalctVlVnUl1mEpUv3/ABtpesZAtt
+	ps3vgisbyNHxROCpNzFxaR1XLEL4SIh0zMpP5sbqxCvcghP9CvcwvGTo=
+X-Google-Smtp-Source: AGHT+IEdBijYqwvtFUTFAnBGsdYw02iX9YG/qYh3jDOPB2xOeZhHpAN5PvNSYzBNSzZEkgUB1MI+pQuCWcPjXgDZowcHeWnpciFZ
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:378e:b0:3d8:8900:9a30 with SMTP id
- e9e14a558f8ab-3da785a5601mr26876625ab.20.1746674429523; Wed, 07 May 2025
- 20:20:29 -0700 (PDT)
-Date: Wed, 07 May 2025 20:20:29 -0700
-In-Reply-To: <67810cc6.050a0220.216c54.000a.GAE@google.com>
+X-Received: by 2002:a05:6e02:1c04:b0:3cf:bc71:94f5 with SMTP id
+ e9e14a558f8ab-3da785a4da8mr32339985ab.22.1746694359494; Thu, 08 May 2025
+ 01:52:39 -0700 (PDT)
+Date: Thu, 08 May 2025 01:52:39 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <681c22fd.050a0220.a19a9.009d.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] WARNING in errseq_set (2)
-From: syzbot <syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com>
+Message-ID: <681c70d7.050a0220.a19a9.00c7.GAE@google.com>
+Subject: [syzbot] [ntfs3?] possible deadlock in ntfs_unlink_inode (2)
+From: syzbot <syzbot+dab475abf94f7513eb9f@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
 	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-syzbot has found a reproducer for the following issue on:
+Hello,
 
-HEAD commit:    707df3375124 Merge tag 'media/v6.15-2' of git://git.kernel..
+syzbot found the following issue on:
+
+HEAD commit:    2a239ffbebb5 Merge tag 'sound-6.15-rc5' of git://git.kerne..
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=173c8670580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b9683d529ec1b880
-dashboard link: https://syzkaller.appspot.com/bug?extid=57f9327d593d301ce2a2
+console output: https://syzkaller.appspot.com/x/log.txt?x=157fe0f4580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a42a9d552788177b
+dashboard link: https://syzkaller.appspot.com/bug?extid=dab475abf94f7513eb9f
 compiler:       Debian clang version 20.1.2 (++20250402124445+58df0ef89dd6-1~exp1~20250402004600.97), Debian LLD 20.1.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11ae0768580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17fa98f4580000
+
+Unfortunately, I don't have any reproducer for this issue yet.
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/b678b69ad07a/disk-707df337.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/747856a66c71/vmlinux-707df337.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/69a1d9539047/bzImage-707df337.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/44a5023af4cf/mount_0.gz
+disk image: https://storage.googleapis.com/syzbot-assets/39057b073d40/disk-2a239ffb.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c82b778f8922/vmlinux-2a239ffb.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/000bd0cd2b5e/bzImage-2a239ffb.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com
+Reported-by: syzbot+dab475abf94f7513eb9f@syzkaller.appspotmail.com
 
-------------[ cut here ]------------
-err = 556
-WARNING: CPU: 1 PID: 5826 at lib/errseq.c:75 errseq_set+0xed/0x120 lib/errseq.c:74
-Modules linked in:
-CPU: 1 UID: 0 PID: 5826 Comm: syz-executor335 Not tainted 6.15.0-rc5-syzkaller-00038-g707df3375124 #0 PREEMPT(full) 
+======================================================
+WARNING: possible circular locking dependency detected
+6.15.0-rc4-syzkaller-00291-g2a239ffbebb5 #0 Not tainted
+------------------------------------------------------
+syz-executor/11002 is trying to acquire lock:
+ffff88805a314318 (&ni->ni_lock#3/5){+.+.}-{4:4}, at: ni_lock fs/ntfs3/ntfs_fs.h:1105 [inline]
+ffff88805a314318 (&ni->ni_lock#3/5){+.+.}-{4:4}, at: ntfs_unlink_inode+0x273/0x6a0 fs/ntfs3/inode.c:1728
+
+but task is already holding lock:
+ffff88805a3125b8 (&ni->ni_lock/6){+.+.}-{4:4}, at: ni_lock_dir fs/ntfs3/ntfs_fs.h:1110 [inline]
+ffff88805a3125b8 (&ni->ni_lock/6){+.+.}-{4:4}, at: ntfs_rmdir+0xb6/0xf0 fs/ntfs3/namei.c:222
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #3 (&ni->ni_lock/6){+.+.}-{4:4}:
+       lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5866
+       __mutex_lock_common kernel/locking/mutex.c:601 [inline]
+       __mutex_lock+0x182/0xe80 kernel/locking/mutex.c:746
+       ni_lock_dir fs/ntfs3/ntfs_fs.h:1110 [inline]
+       ntfs_unlink+0xb6/0xf0 fs/ntfs3/namei.c:177
+       vfs_unlink+0x391/0x650 fs/namei.c:4579
+       do_unlinkat+0x350/0x560 fs/namei.c:4643
+       __do_sys_unlinkat fs/namei.c:4684 [inline]
+       __se_sys_unlinkat fs/namei.c:4677 [inline]
+       __x64_sys_unlinkat+0xd3/0xf0 fs/namei.c:4677
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xf6/0x210 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #2 (&sb->s_type->i_mutex_key#26){+.+.}-{4:4}:
+       lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5866
+       down_write+0x96/0x1f0 kernel/locking/rwsem.c:1577
+       inode_lock include/linux/fs.h:867 [inline]
+       ntfs_file_mmap+0x525/0x730 fs/ntfs3/file.c:397
+       call_mmap include/linux/fs.h:2243 [inline]
+       mmap_file mm/internal.h:167 [inline]
+       __mmap_new_file_vma mm/vma.c:2353 [inline]
+       __mmap_new_vma mm/vma.c:2417 [inline]
+       __mmap_region mm/vma.c:2519 [inline]
+       mmap_region+0x103b/0x1e50 mm/vma.c:2597
+       do_mmap+0xc68/0x1100 mm/mmap.c:561
+       vm_mmap_pgoff+0x31b/0x4c0 mm/util.c:579
+       ksys_mmap_pgoff+0x51f/0x760 mm/mmap.c:607
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xf6/0x210 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&mm->mmap_lock){++++}-{4:4}:
+       lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5866
+       __might_fault+0xcc/0x130 mm/memory.c:7151
+       _inline_copy_to_user include/linux/uaccess.h:192 [inline]
+       _copy_to_user+0x2c/0xb0 lib/usercopy.c:26
+       copy_to_user include/linux/uaccess.h:225 [inline]
+       fiemap_fill_next_extent+0x1c0/0x390 fs/ioctl.c:145
+       ni_fiemap+0x89c/0xbf0 fs/ntfs3/frecord.c:2007
+       ntfs_fiemap+0xda/0x130 fs/ntfs3/file.c:1380
+       ioctl_fiemap fs/ioctl.c:220 [inline]
+       do_vfs_ioctl+0x1638/0x1eb0 fs/ioctl.c:840
+       __do_sys_ioctl fs/ioctl.c:904 [inline]
+       __se_sys_ioctl+0x82/0x170 fs/ioctl.c:892
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xf6/0x210 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&ni->ni_lock#3/5){+.+.}-{4:4}:
+       check_prev_add kernel/locking/lockdep.c:3166 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3285 [inline]
+       validate_chain+0xb9b/0x2140 kernel/locking/lockdep.c:3909
+       __lock_acquire+0xaac/0xd20 kernel/locking/lockdep.c:5235
+       lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5866
+       __mutex_lock_common kernel/locking/mutex.c:601 [inline]
+       __mutex_lock+0x182/0xe80 kernel/locking/mutex.c:746
+       ni_lock fs/ntfs3/ntfs_fs.h:1105 [inline]
+       ntfs_unlink_inode+0x273/0x6a0 fs/ntfs3/inode.c:1728
+       ntfs_rmdir+0xc1/0xf0 fs/ntfs3/namei.c:224
+       vfs_rmdir+0x3b7/0x520 fs/namei.c:4454
+       do_rmdir+0x2ac/0x630 fs/namei.c:4509
+       __do_sys_unlinkat fs/namei.c:4683 [inline]
+       __se_sys_unlinkat fs/namei.c:4677 [inline]
+       __x64_sys_unlinkat+0xc2/0xf0 fs/namei.c:4677
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xf6/0x210 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  &ni->ni_lock#3/5 --> &sb->s_type->i_mutex_key#26 --> &ni->ni_lock/6
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&ni->ni_lock/6);
+                               lock(&sb->s_type->i_mutex_key#26);
+                               lock(&ni->ni_lock/6);
+  lock(&ni->ni_lock#3/5);
+
+ *** DEADLOCK ***
+
+4 locks held by syz-executor/11002:
+ #0: ffff88803057a420 (sb_writers#18){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:556
+ #1: ffff88805a312850 (&type->i_mutex_dir_key#10/1){+.+.}-{4:4}, at: inode_lock_nested include/linux/fs.h:902 [inline]
+ #1: ffff88805a312850 (&type->i_mutex_dir_key#10/1){+.+.}-{4:4}, at: do_rmdir+0x1b2/0x630 fs/namei.c:4501
+ #2: ffff88805a3145b0 (&type->i_mutex_dir_key#10){++++}-{4:4}, at: inode_lock include/linux/fs.h:867 [inline]
+ #2: ffff88805a3145b0 (&type->i_mutex_dir_key#10){++++}-{4:4}, at: vfs_rmdir+0xf7/0x520 fs/namei.c:4443
+ #3: ffff88805a3125b8 (&ni->ni_lock/6){+.+.}-{4:4}, at: ni_lock_dir fs/ntfs3/ntfs_fs.h:1110 [inline]
+ #3: ffff88805a3125b8 (&ni->ni_lock/6){+.+.}-{4:4}, at: ntfs_rmdir+0xb6/0xf0 fs/ntfs3/namei.c:222
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 11002 Comm: syz-executor Not tainted 6.15.0-rc4-syzkaller-00291-g2a239ffbebb5 #0 PREEMPT(full) 
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/29/2025
-RIP: 0010:errseq_set+0xed/0x120 lib/errseq.c:74
-Code: 5b 41 5c 41 5e 41 5f 5d c3 cc cc cc cc cc e8 3a 4a 0e fd eb e9 e8 33 4a 0e fd 90 48 c7 c7 80 b5 c0 8b 89 de e8 84 a6 d2 fc 90 <0f> 0b 90 90 eb ce 44 89 f1 80 e1 07 80 c1 03 38 c1 0f 8c 2f ff ff
-RSP: 0018:ffffc900041c73a0 EFLAGS: 00010246
-RAX: 5edf3f3cab771a00 RBX: 000000000000022c RCX: ffff888033313c00
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000002
-RBP: 0000000000000000 R08: ffff8880b8923e93 R09: 1ffff110171247d2
-R10: dffffc0000000000 R11: ffffed10171247d3 R12: ffff8880769766d0
-R13: dffffc0000000000 R14: ffff888076976c70 R15: ffff888076976768
-FS:  00007fd18cfee6c0(0000) GS:ffff8881261fd000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fd184bffe00 CR3: 0000000077516000 CR4: 00000000003526f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
  <TASK>
- __filemap_set_wb_err+0x22/0x1e0 mm/filemap.c:711
- mapping_set_error include/linux/pagemap.h:244 [inline]
- ntfs_resident_writepage+0x114/0x200 fs/ntfs3/inode.c:886
- write_cache_pages+0x61/0x100 mm/page-writeback.c:2613
- do_writepages+0x3ae/0x7b0 mm/page-writeback.c:2656
- filemap_fdatawrite_wbc mm/filemap.c:386 [inline]
- __filemap_fdatawrite_range mm/filemap.c:419 [inline]
- filemap_write_and_wait_range+0x217/0x310 mm/filemap.c:691
- kiocb_write_and_wait mm/filemap.c:2792 [inline]
- generic_file_read_iter+0x19f/0x510 mm/filemap.c:2866
- copy_splice_read+0x54f/0x9b0 fs/splice.c:363
- do_splice_read fs/splice.c:978 [inline]
- splice_direct_to_actor+0x4d0/0xcc0 fs/splice.c:1083
- do_splice_direct_actor fs/splice.c:1201 [inline]
- do_splice_direct+0x181/0x270 fs/splice.c:1227
- do_sendfile+0x4da/0x7d0 fs/read_write.c:1368
- __do_sys_sendfile64 fs/read_write.c:1429 [inline]
- __se_sys_sendfile64+0x13e/0x190 fs/read_write.c:1415
+ dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
+ print_circular_bug+0x2ee/0x310 kernel/locking/lockdep.c:2079
+ check_noncircular+0x134/0x160 kernel/locking/lockdep.c:2211
+ check_prev_add kernel/locking/lockdep.c:3166 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3285 [inline]
+ validate_chain+0xb9b/0x2140 kernel/locking/lockdep.c:3909
+ __lock_acquire+0xaac/0xd20 kernel/locking/lockdep.c:5235
+ lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5866
+ __mutex_lock_common kernel/locking/mutex.c:601 [inline]
+ __mutex_lock+0x182/0xe80 kernel/locking/mutex.c:746
+ ni_lock fs/ntfs3/ntfs_fs.h:1105 [inline]
+ ntfs_unlink_inode+0x273/0x6a0 fs/ntfs3/inode.c:1728
+ ntfs_rmdir+0xc1/0xf0 fs/ntfs3/namei.c:224
+ vfs_rmdir+0x3b7/0x520 fs/namei.c:4454
+ do_rmdir+0x2ac/0x630 fs/namei.c:4509
+ __do_sys_unlinkat fs/namei.c:4683 [inline]
+ __se_sys_unlinkat fs/namei.c:4677 [inline]
+ __x64_sys_unlinkat+0xc2/0xf0 fs/namei.c:4677
  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
  do_syscall_64+0xf6/0x210 arch/x86/entry/syscall_64.c:94
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fd18d039e89
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 b1 18 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fd18cfee218 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
-RAX: ffffffffffffffda RBX: 00007fd18d0e16c8 RCX: 00007fd18d039e89
-RDX: 0000000000000000 RSI: 0000000000000004 RDI: 0000000000000004
-RBP: 00007fd18d0e16c0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000fffe80 R11: 0000000000000246 R12: 00007fd18d0ad820
-R13: 0000200000000100 R14: 0000200000000400 R15: 0000200000000080
+RIP: 0033:0x7f21ac98df47
+Code: 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 b8 07 01 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffff76a6458 EFLAGS: 00000207 ORIG_RAX: 0000000000000107
+RAX: ffffffffffffffda RBX: 0000000000000065 RCX: 00007f21ac98df47
+RDX: 0000000000000200 RSI: 00007ffff76a7600 RDI: 00000000ffffff9c
+RBP: 00007f21aca1089d R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000100 R11: 0000000000000207 R12: 00007ffff76a7600
+R13: 00007f21aca1089d R14: 000000000006bff7 R15: 00007ffff76a97c0
  </TASK>
 
 
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
