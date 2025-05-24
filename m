@@ -1,167 +1,97 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB80B22A7E1
-	for <ntfs3@lists.linux.dev>; Fri, 23 May 2025 11:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2626195811
+	for <ntfs3@lists.linux.dev>; Sat, 24 May 2025 10:04:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748001504; cv=none; b=Q9ufZbcYwnDxnQjPS8ItEmCAN+J9lS72gUxXb3Uz+vYZpoWKE2edFIiqocvKnGJdIYrtwbpoUsjddETimEOyg5A9cjLtvqXsIu+xm4j2n9QyNP1UQTYo0m0+iwWBU3ul0uBKKrqi2A7gBu1iumwg7dYKiea1NRefORLUPkvQrTo=
+	t=1748081076; cv=none; b=EO5e03zsje8ys4nRDY008sP6NaJU6LCkybjRDhjIxkoQjlL34Be/Bjk21AGz/FyISfkE8c9rTqWgO6jah9kdVeH6PS9VwmXo/dHRpO3kg/d31exRqCz5EsYOvo0BbVtixHFI4abC6pEcsd4rNOfYwnCTz4kntuyLKM0AOF8QZf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748001504; c=relaxed/simple;
-	bh=xAoiG/U7I6McdtxYVUqGpzn0nGDMMLv3aj9OwDFKm40=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=AezHd3LXgME9KmMY4gDD/yYr4nN4cbJsMlYOyXmYmM/SSg0Wrp9fmIqHZRKM+QVqNsAmkpsccQDEva5iiTvRoOji/DbhkY3u62E8IM9Ncc4qPgj9Xc0suULriYW+mkWLRRLAh7TFluStepRl5KmTRAdMk45jY8vQL7Azo1RoaFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=JHJT6w5h; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="JHJT6w5h"
-Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 19FF31D21;
-	Fri, 23 May 2025 11:57:58 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=JHJT6w5h;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id F23CA2095;
-	Fri, 23 May 2025 11:58:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1748001494;
-	bh=+hpZbVz33CApebXOuP1kPfp5LoLvF9fAiy4MFQhcwx8=;
-	h=Date:From:Subject:To:CC:References:In-Reply-To;
-	b=JHJT6w5hD9ET6tqB7sFW5FvT702vDY6DKvmu9cKE+R606ZM4aBCS42y28Fjv/IZFS
-	 +qb9s7xmaPl+qJ97mT1lhX841Qiat7DU+WC7INH5OcVPfxsc4zC6ShJU03tfQomfTa
-	 WDx3muHBOkelPMdWplvo1bl6QRvlhPPAGfrrO4BU=
-Received: from [192.168.95.128] (192.168.211.157) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 23 May 2025 14:58:13 +0300
-Message-ID: <2c56b6a9-dfa0-474e-92fe-d6e7c578fe55@paragon-software.com>
-Date: Fri, 23 May 2025 13:58:12 +0200
+	s=arc-20240116; t=1748081076; c=relaxed/simple;
+	bh=b1Uq1m/6fvr+jmGl93XzGvlmwruTnkA8n8VcvNy+mDo=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=LVwk4dvEe6Ni0qToAlyi321G+ljo6YA1JOGVK+Z9lGLGJRqCj24ogI54oTasBK/xEw+k47EF8on27iW6AffLozH5GAu3egFuOZndY4h9YnBCAzwclMffxcJn9u5y7FE41vYTyIuzNGbQProVZkyK474Uoyx4jhrnTuin5D4dbnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-861d6e340e2so59439639f.2
+        for <ntfs3@lists.linux.dev>; Sat, 24 May 2025 03:04:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748081074; x=1748685874;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gaS3ynhDOu3Jf/8g2JUKVyz6qWFIrfoIhxFFX/+x46c=;
+        b=VegTuCK/6lPuH4MTY4oemcguqdMmoVJxI0YtxWCLb9cWCZGp6dMFcnp/WBjij5Ozqm
+         rWNQdLwcQUF20qLeqZvPFAyOgb8L96jVgx8cRg0Uh6ifdP6qj9F7FYNw31As3BloZpml
+         FAYmnjNYJTJO2SmjnWbVXCZr/8IrrJRXZGSkNsb+aW7UnVRbAesxx+6XqQbVsgBQW1Tq
+         xKW3n0HszY2sgYnalpv01kWjj6tJ0a2ej427D+Wf6PipTzffyMI9FhtZ+I3+hmWnWgxY
+         7ZCu1CXSJlnDLVMEdyjKxZ7lhEW+immwN1M2jJHtgr9fTfYDSzcEbvGQYFuLWrP97MFg
+         2djg==
+X-Forwarded-Encrypted: i=1; AJvYcCWAfxHGy7f/JwTQVwfNa2CGz0ZUiae2xnVPTcddwOu7+R4xD1s7hp1A6/wxedz0V7HihHDMKQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzmauHG6IvJtBWYUKRoPJjnp/r854Qaxal0+c+lAj9xOVxlDUFQ
+	njSePwKV48ermWwcn8uc1tqK/NwbkHmDhV/8Ec+BV/E1ZDKlIa/A+GkwoL3+YNaH5/+HwV1jhAp
+	wDNeFwG3aaDdMFU5hwBlTUSn31fgOJIdBV1JdAiQA2qFZIarZZdqTcvD8aDw=
+X-Google-Smtp-Source: AGHT+IH7RuOUEBJR2A0sEwtFKn5Dzt1rLOhsdXhUdRO2GGdIpwBX65i8bNWFlLio15FPIdFeIQmBA+8r7pDP0i906VblBPbTZhkk
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: Re: [PATCH 2/3] ntfs3: Use folios more in ntfs_compress_write()
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-CC: <ntfs3@lists.linux.dev>, <linux-mm@kvack.org>, <viro@zeniv.linux.org.uk>,
-	<linux-fsdevel@vger.kernel.org>, <hughd@google.com>,
-	<akpm@linux-foundation.org>
-References: <20250514170607.3000994-1-willy@infradead.org>
- <20250514170607.3000994-3-willy@infradead.org>
-Content-Language: en-US
-In-Reply-To: <20250514170607.3000994-3-willy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Received: by 2002:a05:6602:3a09:b0:85a:eecd:37b with SMTP id
+ ca18e2360f4ac-86cbb88d2a5mr227413239f.11.1748081074020; Sat, 24 May 2025
+ 03:04:34 -0700 (PDT)
+Date: Sat, 24 May 2025 03:04:34 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <683199b2.a70a0220.29d4a0.07f4.GAE@google.com>
+Subject: [syzbot] Monthly ntfs3 report (May 2025)
+From: syzbot <syzbot+list55b581808b23b36a03dc@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 5/14/25 19:06, Matthew Wilcox (Oracle) wrote:
-> Remove the local 'page' variable and do everything in terms of folios.
-> Removes the last user of copy_page_from_iter_atomic() and a hidden
-> call to compound_head() in ClearPageDirty().
->
-> Signed-off-by: Matthew Wilcox (Oracle)<willy@infradead.org>
-> ---
->   fs/ntfs3/file.c | 31 +++++++++++++------------------
->   1 file changed, 13 insertions(+), 18 deletions(-)
->
-> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-> index 9b6a3f8d2e7c..bc6062e0668e 100644
-> --- a/fs/ntfs3/file.c
-> +++ b/fs/ntfs3/file.c
-> @@ -998,7 +998,8 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
->   	struct ntfs_inode *ni = ntfs_i(inode);
->   	u64 valid = ni->i_valid;
->   	struct ntfs_sb_info *sbi = ni->mi.sbi;
-> -	struct page *page, **pages = NULL;
-> +	struct page **pages = NULL;
-> +	struct folio *folio;
->   	size_t written = 0;
->   	u8 frame_bits = NTFS_LZNT_CUNIT + sbi->cluster_bits;
->   	u32 frame_size = 1u << frame_bits;
-> @@ -1008,7 +1009,6 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
->   	u64 frame_vbo;
->   	pgoff_t index;
->   	bool frame_uptodate;
-> -	struct folio *folio;
->   
->   	if (frame_size < PAGE_SIZE) {
->   		/*
-> @@ -1062,8 +1062,7 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
->   					    pages_per_frame);
->   			if (err) {
->   				for (ip = 0; ip < pages_per_frame; ip++) {
-> -					page = pages[ip];
-> -					folio = page_folio(page);
-> +					folio = page_folio(pages[ip]);
->   					folio_unlock(folio);
->   					folio_put(folio);
->   				}
-> @@ -1074,10 +1073,9 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
->   		ip = off >> PAGE_SHIFT;
->   		off = offset_in_page(valid);
->   		for (; ip < pages_per_frame; ip++, off = 0) {
-> -			page = pages[ip];
-> -			folio = page_folio(page);
-> -			zero_user_segment(page, off, PAGE_SIZE);
-> -			flush_dcache_page(page);
-> +			folio = page_folio(pages[ip]);
-> +			folio_zero_segment(folio, off, PAGE_SIZE);
-> +			flush_dcache_folio(folio);
->   			folio_mark_uptodate(folio);
->   		}
->   
-> @@ -1086,8 +1084,7 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
->   		ni_unlock(ni);
->   
->   		for (ip = 0; ip < pages_per_frame; ip++) {
-> -			page = pages[ip];
-> -			folio = page_folio(page);
-> +			folio = page_folio(pages[ip]);
->   			folio_mark_uptodate(folio);
->   			folio_unlock(folio);
->   			folio_put(folio);
-> @@ -1131,8 +1128,7 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
->   				if (err) {
->   					for (ip = 0; ip < pages_per_frame;
->   					     ip++) {
-> -						page = pages[ip];
-> -						folio = page_folio(page);
-> +						folio = page_folio(pages[ip]);
->   						folio_unlock(folio);
->   						folio_put(folio);
->   					}
-> @@ -1150,10 +1146,10 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
->   		for (;;) {
->   			size_t cp, tail = PAGE_SIZE - off;
->   
-> -			page = pages[ip];
-> -			cp = copy_page_from_iter_atomic(page, off,
-> +			folio = page_folio(pages[ip]);
-> +			cp = copy_folio_from_iter_atomic(folio, off,
->   							min(tail, bytes), from);
-> -			flush_dcache_page(page);
-> +			flush_dcache_folio(folio);
->   
->   			copied += cp;
->   			bytes -= cp;
-> @@ -1173,9 +1169,8 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
->   		ni_unlock(ni);
->   
->   		for (ip = 0; ip < pages_per_frame; ip++) {
-> -			page = pages[ip];
-> -			ClearPageDirty(page);
-> -			folio = page_folio(page);
-> +			folio = page_folio(pages[ip]);
-> +			folio_clear_dirty(folio);
->   			folio_mark_uptodate(folio);
->   			folio_unlock(folio);
->   			folio_put(folio);
+Hello ntfs3 maintainers/developers,
 
-The changes look fine. Feel free to add them.
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
+During the period, 2 new issues were detected and 0 were fixed.
+In total, 41 issues are still open and 64 have already been fixed.
+
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  19612   Yes   kernel BUG in dnotify_free_mark
+                   https://syzkaller.appspot.com/bug?extid=06cc05ddc896f12b7ec5
+<2>  13795   Yes   KMSAN: uninit-value in longest_match_std (2)
+                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
+<3>  5580    Yes   possible deadlock in run_unpack_ex
+                   https://syzkaller.appspot.com/bug?extid=731b27ee9413ba859499
+<4>  4703    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<5>  4153    Yes   possible deadlock in ntfs_fiemap
+                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+<6>  2971    Yes   possible deadlock in ntfs_file_mmap
+                   https://syzkaller.appspot.com/bug?extid=c1751b6739d83d70bb75
+<7>  2537    Yes   possible deadlock in mark_as_free_ex (2)
+                   https://syzkaller.appspot.com/bug?extid=8df514c431bd240c5644
+<8>  2155    Yes   possible deadlock in ntfs_look_for_free_space
+                   https://syzkaller.appspot.com/bug?extid=d27edf9f96ae85939222
+<9>  2151    Yes   possible deadlock in attr_data_get_block (2)
+                   https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+<10> 438     Yes   possible deadlock in ntfs_fallocate
+                   https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
