@@ -1,114 +1,63 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8AAA1AF0AE
-	for <ntfs3@lists.linux.dev>; Tue, 27 May 2025 16:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEC722156A;
+	Wed, 28 May 2025 19:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748361787; cv=none; b=fEMgwzvK5vziYFAmwmzIvlCcGOLhgAORQunGUHvK5j2+3ulAu6Uu6B6fbvS/giPP4ES86XVUNnEoF6Qn9SqVoYuPgjmfvUcaeZgnzOTKdP1RYk1Rx3d2QtHMqaustMHG9/DbBSaf2/NlPxjPSFQsOZrE0e4/5fQ5Eig+tEOh/pc=
+	t=1748461467; cv=none; b=D6gIQvaa8Y9bzxTh5JdiGB9eOFbpoSp7O7NFPObI+kOtYTsFjuHKda0AMJP/spuJy/n5gNZXiIlGNQDHQcYrXMrb1mYy04cyhNN7sdt76KY4RkDmPnk5NOHYaVs2lQye5fEPkvtwmPDmhIMiF6H8t1Id6FabDZmkguKa2StCpBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748361787; c=relaxed/simple;
-	bh=RAAFafTxFaWgifvm1k7r2nbdZcKd8n1FQZLnD8uIB+I=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G3hF6Uyeu/bTR1aCp4v0H1y/JJlYtb39nWhtsefVSEJyYGUm1X8gUF7g9Rc7Jr9wzHPxEEjkNrIFRVW5fNsH7EYelwpyA1L5hmk0x665uX/i65NIhJ3AHVH3NKyQlRugTKP10NWHgBnwUG/7gXEf3fMVTEEWqPSUVXTfH7X9SP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=MSSiP6/0; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1748461467; c=relaxed/simple;
+	bh=32Xg1Yg4UeKVa/Otm8FkA4BCdw5ePRDgybfv6Yout+0=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=YrUXqWe75IHkqbocPCs20aVXxtLTYUiQyygaPXBHYhZgFiD72fZlQIPKmWXTJGwNwFv+5FXKgeDJ/Duqew98mM64SOSXtIQ1wmZvEKtYNN9n/kAr0S+YFV3CRzL1FN8lwi1W1RJUsDxE4+p32R4gb7GSUEo0lq5dntFGmQtSk98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MqI+xoLm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="MSSiP6/0"
-Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 6E96A439;
-	Tue, 27 May 2025 16:02:37 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=MSSiP6/0;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id CD9F92113;
-	Tue, 27 May 2025 16:02:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1748361777;
-	bh=ou71YzW4j0nqWyyVs7p+K5QW8WwlJdR4S0UwE0D+L18=;
-	h=From:To:CC:Subject:Date;
-	b=MSSiP6/0j7e3fh+0P/5pTZWh3PPXKuxNRdjSTB04iUjTIx9x1rzTbccnwvmI7MzSj
-	 ZbbUIs0GzE98VPL+g2SC74nvA/6JsAss9uOfC+J3AqlUqZ0DRKCwOjrcneZi0+wti0
-	 IHxbq++RZ/QhRn9fCGc6i3r08TFtZYQH6leRbvig=
-Received: from localhost.localdomain (172.30.20.214) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 27 May 2025 19:02:56 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] ntfs3: bugfixes for 6.16
-Date: Tue, 27 May 2025 18:02:46 +0200
-Message-ID: <20250527160246.6905-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MqI+xoLm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AF41C4CEE3;
+	Wed, 28 May 2025 19:44:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748461467;
+	bh=32Xg1Yg4UeKVa/Otm8FkA4BCdw5ePRDgybfv6Yout+0=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=MqI+xoLm4Jit0CSGvF8Yec3RHVJKYIw9gf4s0qtzcnoTxAMt/lgA6CW9h0i3lY0sR
+	 VJospUHqbxt++uLIMzDpeh406DKKfZeLYivKmO4nisenWV12IyHA44gUfI/LeBjIBR
+	 K5UVwcr/TgoBAocYOfG66MeEO+u2f2uLWKAtyNSdY/S5mOW44T5u+lMwWfj2N+KnhY
+	 mWYrU87am176lpekLI8g8U5gF30XfkGBb7duJlq3K6Jlk3e4neFA1BLY1wR4VEi3Ga
+	 ADQHAOhCXwfJ+GB+sBYoWYd0DzFw88Kv5iRZrN7G5IaxZlQ+SgzUlLe+lRBJ8uXvnx
+	 +HbanNz9oeKXQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70E633822D1A;
+	Wed, 28 May 2025 19:45:02 +0000 (UTC)
+Subject: Re: [GIT PULL] ntfs3: bugfixes for 6.16
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20250527160246.6905-1-almaz.alexandrovich@paragon-software.com>
+References: <20250527160246.6905-1-almaz.alexandrovich@paragon-software.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20250527160246.6905-1-almaz.alexandrovich@paragon-software.com>
+X-PR-Tracked-Remote: https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.16
+X-PR-Tracked-Commit-Id: eeb0819318cc0c30161821d429ca022dfbedc6ac
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: e9d712653633a05ffff19c39809a7c1820edb2bf
+Message-Id: <174846150091.2536722.734456989379141313.pr-tracker-bot@kernel.org>
+Date: Wed, 28 May 2025 19:45:00 +0000
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: torvalds@linux-foundation.org, ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Please pull this branch containing ntfs3 code for 6.16.
+The pull request you sent on Tue, 27 May 2025 18:02:46 +0200:
 
-In commit "remove ability to change compression on mounted volume" many removals are present. This is because it's not safe and not maintainable to change compression on the fly. Detailed description can be found in this letter [1].
+> https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.16
 
-[1] https://lore.kernel.org/ntfs3/Z7Qlh9856tVuzrYK@dread.disaster.area/  
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/e9d712653633a05ffff19c39809a7c1820edb2bf
 
-Regards,
-Konstantin
- 
-----------------------------------------------------------------
+Thank you!
 
-The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089ac8:
-
-  Linux 6.15-rc1 (2025-04-06 13:11:33 -0700)
-
-are available in the Git repository at:
-
-  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.16
-
-for you to fetch changes up to eeb0819318cc0c30161821d429ca022dfbedc6ac:
-
-  fs/ntfs3: remove ability to change compression on mounted volume (2025-05-19 11:17:33 +0200)
-
-----------------------------------------------------------------
-Changes for 6.16-rc1
-
-Added:
-    missing direct_IO in ntfs_aops_cmpr;
-    handling of hdr_first_de() return value.
-
-Fixed:
-    handling of InitializeFileRecordSegment operation.
-
-Removed:
-    ability to change compression on mounted volume;
-    redundant NULL check.
-
-----------------------------------------------------------------
-Andrey Vatoropin (2):
-      fs/ntfs3: Drop redundant NULL check
-      fs/ntfs3: handle hdr_first_de() return value
-
-Konstantin Komarov (2):
-      fs/ntfs3: Fix handling of InitializeFileRecordSegment
-      fs/ntfs3: remove ability to change compression on mounted volume
-
-Lizhi Xu (1):
-      fs/ntfs3: Add missing direct_IO in ntfs_aops_cmpr
-
- fs/ntfs3/attrib.c  | 72 --------------------------------------------
- fs/ntfs3/file.c    | 87 ------------------------------------------------------
- fs/ntfs3/frecord.c | 74 ----------------------------------------------
- fs/ntfs3/fslog.c   | 32 ++++++++++----------
- fs/ntfs3/index.c   |  8 +++++
- fs/ntfs3/inode.c   |  5 ++++
- fs/ntfs3/namei.c   |  2 --
- fs/ntfs3/ntfs_fs.h |  5 ----
- 8 files changed, 28 insertions(+), 257 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
