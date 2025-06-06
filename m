@@ -1,91 +1,95 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809D233086
-	for <ntfs3@lists.linux.dev>; Fri,  6 Jun 2025 03:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D143234;
+	Fri,  6 Jun 2025 04:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749181896; cv=none; b=h0L+kn2wp4LM1WzoP95XEps5TtI35w8QvUVkCMSC6NfDOmPuMyguqIby0IJzX0L7pXdDy9ICabkq2OkQx5RXTEfBQwH7G7TZ6hhXiIOWmSH+HbRPOovaBgnvh1z0fxAcXSG+MiyfhPlOxg+XgvwBst4pLI3kL5qt9RsLf0EkS1k=
+	t=1749183908; cv=none; b=E8EfxA9PAdJrXseLLQGT1/Wml8UXeMSXFxu3C1c8xDRvtKRasjAlO4la/ljFOcthC35+hgIEYnS0cx/pU8RiazznVtqIP1uVx80S1M5n+PvXJTI4RzvHIWsMLY06jEG/70cScJRw3fwphTJqD+pi9FozjIPr3VanIVeLQlOML94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749181896; c=relaxed/simple;
-	bh=wqUQH/6fTeckUJtz6yrRhOa+hPuJ4xP7uZcApJ5GAlc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DSwnrFYAepXjpJuyYuBw4AN2O2cqmNasI+ap7DjQNW49JotWYWqm1D3jgWnYuLLrivIucZChn7jED/LKxm7vK/bl+ormUHWqNdJEVfkqo7/4ELUdalyOXYBXgiRYop3KPkiYzyPm4tkG9Hb/0JPEzDVeWauqsrBRTZWseAZzZrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55619RCS030567;
-	Thu, 5 Jun 2025 20:51:32 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 471g9rvxph-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 05 Jun 2025 20:51:32 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Thu, 5 Jun 2025 20:51:27 -0700
-Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Thu, 5 Jun 2025 20:51:25 -0700
-From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <syzbot+598057afa0f49e62bd23@syzkaller.appspotmail.com>
-CC: <almaz.alexandrovich@paragon-software.com>, <linux-kernel@vger.kernel.org>,
-        <ntfs3@lists.linux.dev>, <syzkaller-bugs@googlegroups.com>
-Subject: [PATCH] fs/ntfs3: Add sanity check for file name
-Date: Fri, 6 Jun 2025 11:51:24 +0800
-Message-ID: <20250606035125.1693536-1-lizhi.xu@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <68407923.a00a0220.d8eae.008f.GAE@google.com>
+	s=arc-20240116; t=1749183908; c=relaxed/simple;
+	bh=jWs0GMla51yiYCkT98ds2y58nfOLoUvbpGt+kdMkuXM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o+bMOZeGTjGVe+N+hTCWrN29V/vyacuiR9FQI8onyZi334e4qhgaGP8q8e06M4gsQ/DXaSG2RDEhuW3VcP6enmOzpkwV0I/U5COBTAcBHwITJ7tBM7jHJKM9+wY2Trn6OqY+cllkaeP9eBOkGZDE4kBLvHXUBvu/kf2QCM5uTww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=wfmCj/QT; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="wfmCj/QT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=+6zkQOBycn4uT+YeUBvYpDwM+Bb5loLxwP/2YHCEYEk=; b=wfmCj/QTQNiEiytDpCOpRd7VAF
+	m/+HqmyUkdZK+yI3TWqqoiTR5XycUTfRqgtZPzhJ8xH8mFz/DGqQgLBt/qsooU2og5x8tD3FXAiyZ
+	MzO/BonImYGyy2O8vbJ5ilICwRHib3Tmoi9JtvotXF8EnabqAn/Y+Vwz8Kv8H3ltht6Zv8svJShuS
+	oD9IYhjIAL2cmFMj5rsuSZIx9EIxG9CQCvyQfEriOuRTfEzEhlpTAIlWJvC8//vJqCf6gWrFRTAI0
+	CbLOYtjs2LSxCDIbz0ABo22r71KK0ekv/3LVi7c1uCBiJwEY7EBPsCaab9m82bRPeShKaXw2SB/6h
+	Dl+PA+HA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uNOdZ-0000000BhLE-41rW;
+	Fri, 06 Jun 2025 04:25:02 +0000
+Date: Fri, 6 Jun 2025 05:25:01 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Lizhi Xu <lizhi.xu@windriver.com>
+Cc: syzbot+598057afa0f49e62bd23@syzkaller.appspotmail.com,
+	almaz.alexandrovich@paragon-software.com,
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] fs/ntfs3: Add sanity check for file name
+Message-ID: <20250606042501.GR299672@ZenIV>
 References: <68407923.a00a0220.d8eae.008f.GAE@google.com>
+ <20250606035125.1693536-1-lizhi.xu@windriver.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA2MDAzMyBTYWx0ZWRfX3VdOST4Fd02I X76J3/EcImRTL91R20ubRFUwcO078tZnOQQV6sMSeBLZAfMgExhgoSxVimvEhnrtZhyWmh5XrrH 6GtTHNCk1X3exI6oTcFAkbsuRJeUE9LI703COJRU4GA9ehdd58g+3HF4PCfyty6RCTZOu6NGHFp
- WHORXJIWWQKnvClMfv1u7xeAuH+SPxCdyjxpmS2EZ0tWsDt1KOKlOAhQJGnf+h3Ws9Fal9eEE4F 2tAEfIytlicoHF1bzha/gbWASsCRljc0+ftg44PolQHpHgsWSznC19xUYuOrYJHQ4aQfBW6coW1 PO4aWTZKHIVXAIG3Hctj6+bCQmvhvTAs1uj63D8suCmtAgbz9gzeIxIGK4H8aiD0WPMyGuD0sPP
- axKY5OkVNFstLApanQpNMYOuxB3mCl/kYx33d1e0/6p/73O5oyfr163qLauD6vDA7YZdJ4LQ
-X-Authority-Analysis: v=2.4 cv=PvyTbxM3 c=1 sm=1 tr=0 ts=684265c4 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=6IFa9wvqVegA:10 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8 a=mp8hP4E6WeWH5piVKYsA:9 a=DcSpbTIhAlouE1Uv7lRv:22
- a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: M_s4cCc8yAdV0IDWwTtMUkJMqoFbOjjY
-X-Proofpoint-ORIG-GUID: M_s4cCc8yAdV0IDWwTtMUkJMqoFbOjjY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-06_01,2025-06-05_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
- bulkscore=0 adultscore=0 mlxscore=0 mlxlogscore=818 impostorscore=0
- lowpriorityscore=0 phishscore=0 suspectscore=0 spamscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506060033
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250606035125.1693536-1-lizhi.xu@windriver.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-The length of the file name should be smaller than the directory entry size.
+On Fri, Jun 06, 2025 at 11:51:24AM +0800, Lizhi Xu wrote:
+> The length of the file name should be smaller than the directory entry size.
+> 
+> Reported-by: syzbot+598057afa0f49e62bd23@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=598057afa0f49e62bd23
+> Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
+> ---
+>  fs/ntfs3/dir.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+> index b6da80c69ca6..b31bc9cbfa35 100644
+> --- a/fs/ntfs3/dir.c
+> +++ b/fs/ntfs3/dir.c
+> @@ -304,6 +304,9 @@ static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
+>  	if (sbi->options->nohidden && (fname->dup.fa & FILE_ATTRIBUTE_HIDDEN))
+>  		return true;
+>  
+> +	if (fname->name_len > le16_to_cpu(e->size) - sizeof(struct NTFS_DE))
+> +		return true;
 
-Reported-by: syzbot+598057afa0f49e62bd23@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=598057afa0f49e62bd23
-Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
----
- fs/ntfs3/dir.c | 3 +++
- 1 file changed, 3 insertions(+)
+And if e->size happens to be e.g. 0?  Note that (unsigned short)0 - sizeof(whatever)
+ends up being a large unsigned.
 
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index b6da80c69ca6..b31bc9cbfa35 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -304,6 +304,9 @@ static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
- 	if (sbi->options->nohidden && (fname->dup.fa & FILE_ATTRIBUTE_HIDDEN))
- 		return true;
- 
-+	if (fname->name_len > le16_to_cpu(e->size) - sizeof(struct NTFS_DE))
-+		return true;
-+
- 	name_len = ntfs_utf16_to_nls(sbi, fname->name, fname->name_len, name,
- 				     PATH_MAX);
- 	if (name_len <= 0) {
--- 
-2.43.0
+unsigned short gets promoted to int.  sizeof is size_t - whatever it is,
+it's an unsigned integer type, with rank no lower than that of int.
 
+Since we have the entire range of unsigned short representable by int on all
+architectures we care about, we get unsigned short promoted to int (preserving
+the value) and then to size_t (value taken modulo range of size_t, i.e.
+the original unsigned short value preserved).  Incidentally, even on a target
+where sizeof(unsigned short) == sizeof(int) we'd still get an unsigned result -
+unsigned short would be promoted to unsigned int, and mix of two unsigned
+integer types gets converted to whichever has the higher rank.
+
+IOW, comparison in
+	if (fname->name_len > le16_to_cpu(e->size) - sizeof(struct NTFS_DE))
+is going to be an unsigned one.  AFAICS, fname->name_len is u8, so just
+turn that check into
+	if (sizeof(struct NTFS_DE) + fname->name_len > le16_to_cpu(e->size))
+and be done with that - comparison is, again, unsigned, but there's no
+possibility of wraparounds in that variant.
