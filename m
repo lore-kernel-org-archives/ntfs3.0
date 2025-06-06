@@ -1,228 +1,91 @@
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642511487F6
-	for <ntfs3@lists.linux.dev>; Wed,  4 Jun 2025 16:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809D233086
+	for <ntfs3@lists.linux.dev>; Fri,  6 Jun 2025 03:51:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749055782; cv=none; b=oYK8JQIhCJ/tj8tIJtovJAGzJPWdNcN+lurqgwEgdV4DY77ZpL/rju1JBcg45d5KJwnFoOu4TgbgyocoLKho/00FQDw8FpRTvaG9gEngccFXheQwPAYkqpmZ+zW79E3oTQOa6PklOXBzjJ5JZncpofSVONmtLndxBw6jn9MsznI=
+	t=1749181896; cv=none; b=h0L+kn2wp4LM1WzoP95XEps5TtI35w8QvUVkCMSC6NfDOmPuMyguqIby0IJzX0L7pXdDy9ICabkq2OkQx5RXTEfBQwH7G7TZ6hhXiIOWmSH+HbRPOovaBgnvh1z0fxAcXSG+MiyfhPlOxg+XgvwBst4pLI3kL5qt9RsLf0EkS1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749055782; c=relaxed/simple;
-	bh=YHu4jGF1YZkVGWIkqN8M9mNusZtcaNE6i9u1jHDIVjM=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=a88Fs9M6EPhAmovWMupCHpTg/iTBlyv9y6xXEdijiEvYs1jpnC7bexVYbWitoQ7PhkC+unt0Ps+jS+8qKGyn96rSlt4CP9IIAleCQppu8tIDtW2X1LanRfXeeBAJ2ur/hCI6pG13w6ESj8TpgEZoYYb7WNsUqQLphng7QFjwlyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-3dd78bfeac0so1069085ab.2
-        for <ntfs3@lists.linux.dev>; Wed, 04 Jun 2025 09:49:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749055779; x=1749660579;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LY0iAR1mVKVdvCWEoGg6XCJvj+K1kuwpgZIryLUf6Uo=;
-        b=PiMGMpOAqTxJEgkMHACLLO+mzujLD53l/+/l2xPevOZvANsQCh5lDsXfaNQKMZPdad
-         hQAq80uzk2tP5Lq4eAPf0v8VPkBNw+m0RfPvejKki+VTP+zvBRQHJb52Q3GqOrmLcO1S
-         PuK6dH4pYJtMbowLoiymkGb4Ya656cMhbVVzvSKzGAsxKNeea6gHfnbzlcqJp59QYMVp
-         /xqQXvVt9Jn3FVFrlC0QI6gRLfnxpmOTFUfYVdIBSeXXGw9OImiFaFN5X3mCFkZ5HNHA
-         nWtkOZGTDTWXWM0qsnDbGzS18FSEp2xP+/ye3e1ubl7lf3BR9zYWs0PleRo1cdsVMurW
-         oKhw==
-X-Forwarded-Encrypted: i=1; AJvYcCWDenkRUX2fEgLuFy1sMQb80rO0/LT4T25lQyG7MaOY7rFI3M0oWLn6K6zASZq5oEhla4qOLw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw832RHcSUMLoL10bBxQ/yNhcO5VrXo7GCE7JzCKTxSMXEEj7IG
-	08g34DN9caQKIls8Vs0YDK25upD9uMVOlz8KdXFggtrQeX53bjVlQaWX4cRdOfidW02BybX1EYI
-	Ot9KDizzj+mZZVCUDJ/KjefltPqqjI52urGQ8biFHiWaRngev2WgQoPbBDLE=
-X-Google-Smtp-Source: AGHT+IHl7MMEDMkYIj0El3grfSetVsJPbG3tlPNbWW9btv6EsUelEiy1s4MjFIDgxQAlTmjpmRKkoOePK7YFjFhslEgFncrCRDi4
+	s=arc-20240116; t=1749181896; c=relaxed/simple;
+	bh=wqUQH/6fTeckUJtz6yrRhOa+hPuJ4xP7uZcApJ5GAlc=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DSwnrFYAepXjpJuyYuBw4AN2O2cqmNasI+ap7DjQNW49JotWYWqm1D3jgWnYuLLrivIucZChn7jED/LKxm7vK/bl+ormUHWqNdJEVfkqo7/4ELUdalyOXYBXgiRYop3KPkiYzyPm4tkG9Hb/0JPEzDVeWauqsrBRTZWseAZzZrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.166.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55619RCS030567;
+	Thu, 5 Jun 2025 20:51:32 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 471g9rvxph-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 05 Jun 2025 20:51:32 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Thu, 5 Jun 2025 20:51:27 -0700
+Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Thu, 5 Jun 2025 20:51:25 -0700
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <syzbot+598057afa0f49e62bd23@syzkaller.appspotmail.com>
+CC: <almaz.alexandrovich@paragon-software.com>, <linux-kernel@vger.kernel.org>,
+        <ntfs3@lists.linux.dev>, <syzkaller-bugs@googlegroups.com>
+Subject: [PATCH] fs/ntfs3: Add sanity check for file name
+Date: Fri, 6 Jun 2025 11:51:24 +0800
+Message-ID: <20250606035125.1693536-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <68407923.a00a0220.d8eae.008f.GAE@google.com>
+References: <68407923.a00a0220.d8eae.008f.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:4508:10b0:3dc:8b29:30b1 with SMTP id
- e9e14a558f8ab-3ddbed5f03dmr26573375ab.14.1749055779521; Wed, 04 Jun 2025
- 09:49:39 -0700 (PDT)
-Date: Wed, 04 Jun 2025 09:49:39 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68407923.a00a0220.d8eae.008f.GAE@google.com>
-Subject: [syzbot] [ntfs3?] KASAN: slab-out-of-bounds Read in ntfs_utf16_to_nls
-From: syzbot <syzbot+598057afa0f49e62bd23@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA2MDAzMyBTYWx0ZWRfX3VdOST4Fd02I X76J3/EcImRTL91R20ubRFUwcO078tZnOQQV6sMSeBLZAfMgExhgoSxVimvEhnrtZhyWmh5XrrH 6GtTHNCk1X3exI6oTcFAkbsuRJeUE9LI703COJRU4GA9ehdd58g+3HF4PCfyty6RCTZOu6NGHFp
+ WHORXJIWWQKnvClMfv1u7xeAuH+SPxCdyjxpmS2EZ0tWsDt1KOKlOAhQJGnf+h3Ws9Fal9eEE4F 2tAEfIytlicoHF1bzha/gbWASsCRljc0+ftg44PolQHpHgsWSznC19xUYuOrYJHQ4aQfBW6coW1 PO4aWTZKHIVXAIG3Hctj6+bCQmvhvTAs1uj63D8suCmtAgbz9gzeIxIGK4H8aiD0WPMyGuD0sPP
+ axKY5OkVNFstLApanQpNMYOuxB3mCl/kYx33d1e0/6p/73O5oyfr163qLauD6vDA7YZdJ4LQ
+X-Authority-Analysis: v=2.4 cv=PvyTbxM3 c=1 sm=1 tr=0 ts=684265c4 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=6IFa9wvqVegA:10 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8 a=mp8hP4E6WeWH5piVKYsA:9 a=DcSpbTIhAlouE1Uv7lRv:22
+ a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: M_s4cCc8yAdV0IDWwTtMUkJMqoFbOjjY
+X-Proofpoint-ORIG-GUID: M_s4cCc8yAdV0IDWwTtMUkJMqoFbOjjY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-06_01,2025-06-05_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
+ bulkscore=0 adultscore=0 mlxscore=0 mlxlogscore=818 impostorscore=0
+ lowpriorityscore=0 phishscore=0 suspectscore=0 spamscore=0
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2506060033
 
-Hello,
+The length of the file name should be smaller than the directory entry size.
 
-syzbot found the following issue on:
-
-HEAD commit:    0f70f5b08a47 Merge tag 'pull-automount' of git://git.kerne..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=167abed4580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=22765942f2e2ebcf
-dashboard link: https://syzkaller.appspot.com/bug?extid=598057afa0f49e62bd23
-compiler:       Debian clang version 20.1.6 (++20250514063057+1e4d39e07757-1~exp1~20250514183223.118), Debian LLD 20.1.6
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13a2200c580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12831970580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/4af859a809ab/disk-0f70f5b0.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d3df10c6aa23/vmlinux-0f70f5b0.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/3a2d5f44d739/bzImage-0f70f5b0.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/d6f6d89632f0/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
 Reported-by: syzbot+598057afa0f49e62bd23@syzkaller.appspotmail.com
-
-ntfs3(loop0): failed to convert "0000" to maccroatian
-==================================================================
-BUG: KASAN: slab-out-of-bounds in ntfs_utf16_to_nls+0x3c9/0x5a0 fs/ntfs3/dir.c:49
-Read of size 2 at addr ffff88807c7f1000 by task syz-executor243/5824
-
-CPU: 0 UID: 0 PID: 5824 Comm: syz-executor243 Not tainted 6.15.0-syzkaller-09161-g0f70f5b08a47 #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
-Call Trace:
- <TASK>
- dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:408 [inline]
- print_report+0xd2/0x2b0 mm/kasan/report.c:521
- kasan_report+0x118/0x150 mm/kasan/report.c:634
- ntfs_utf16_to_nls+0x3c9/0x5a0 fs/ntfs3/dir.c:49
- ntfs_dir_emit fs/ntfs3/dir.c:307 [inline]
- ntfs_read_hdr+0x508/0xbc0 fs/ntfs3/dir.c:383
- ntfs_readdir+0xa5c/0xdd0 fs/ntfs3/dir.c:494
- iterate_dir+0x5ac/0x770 fs/readdir.c:108
- __do_sys_getdents64 fs/readdir.c:410 [inline]
- __se_sys_getdents64+0xe4/0x260 fs/readdir.c:396
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f34189bde59
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff44014e48 EFLAGS: 00000246 ORIG_RAX: 00000000000000d9
-RAX: ffffffffffffffda RBX: 0000200000000080 RCX: 00007f34189bde59
-RDX: 0000000000001000 RSI: 0000200000000f80 RDI: 0000000000000004
-RBP: 00007f3418a515f0 R08: 000055556d8c34c0 R09: 000055556d8c34c0
-R10: 000055556d8c34c0 R11: 0000000000000246 R12: 00007fff44014e70
-R13: 00007fff44015098 R14: 431bde82d7b634db R15: 00007f3418a0703b
- </TASK>
-
-Allocated by task 5824:
- kasan_save_stack mm/kasan/common.c:47 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
- poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:394
- kasan_kmalloc include/linux/kasan.h:260 [inline]
- __do_kmalloc_node mm/slub.c:4327 [inline]
- __kmalloc_noprof+0x27a/0x4f0 mm/slub.c:4339
- kmalloc_noprof include/linux/slab.h:909 [inline]
- indx_read+0x27c/0xc20 fs/ntfs3/index.c:1059
- ntfs_readdir+0x9d8/0xdd0 fs/ntfs3/dir.c:489
- iterate_dir+0x5ac/0x770 fs/readdir.c:108
- __do_sys_getdents64 fs/readdir.c:410 [inline]
- __se_sys_getdents64+0xe4/0x260 fs/readdir.c:396
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff88807c7f0000
- which belongs to the cache kmalloc-4k of size 4096
-The buggy address is located 0 bytes to the right of
- allocated 4096-byte region [ffff88807c7f0000, ffff88807c7f1000)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x7c7f0
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000040 ffff88801a442140 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000080040004 00000000f5000000 0000000000000000
-head: 00fff00000000040 ffff88801a442140 dead000000000122 0000000000000000
-head: 0000000000000000 0000000080040004 00000000f5000000 0000000000000000
-head: 00fff00000000003 ffffea0001f1fc01 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd2040(__GFP_IO|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5824, tgid 5824 (syz-executor243), ts 94062103587, free_ts 87837995758
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x240/0x2a0 mm/page_alloc.c:1710
- prep_new_page mm/page_alloc.c:1718 [inline]
- get_page_from_freelist+0x21d1/0x22b0 mm/page_alloc.c:3680
- __alloc_frozen_pages_noprof+0x181/0x370 mm/page_alloc.c:4970
- alloc_pages_mpol+0x232/0x4a0 mm/mempolicy.c:2301
- alloc_slab_page mm/slub.c:2450 [inline]
- allocate_slab+0x8a/0x3b0 mm/slub.c:2618
- new_slab mm/slub.c:2672 [inline]
- ___slab_alloc+0xbfc/0x1480 mm/slub.c:3858
- __slab_alloc mm/slub.c:3948 [inline]
- __slab_alloc_node mm/slub.c:4023 [inline]
- slab_alloc_node mm/slub.c:4184 [inline]
- __do_kmalloc_node mm/slub.c:4326 [inline]
- __kmalloc_noprof+0x305/0x4f0 mm/slub.c:4339
- kmalloc_noprof include/linux/slab.h:909 [inline]
- indx_read+0x27c/0xc20 fs/ntfs3/index.c:1059
- ntfs_readdir+0x9d8/0xdd0 fs/ntfs3/dir.c:489
- iterate_dir+0x5ac/0x770 fs/readdir.c:108
- __do_sys_getdents64 fs/readdir.c:410 [inline]
- __se_sys_getdents64+0xe4/0x260 fs/readdir.c:396
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-page last free pid 5814 tgid 5814 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- free_pages_prepare mm/page_alloc.c:1254 [inline]
- __free_frozen_pages+0xc65/0xe50 mm/page_alloc.c:2717
- discard_slab mm/slub.c:2716 [inline]
- __put_partials+0x161/0x1c0 mm/slub.c:3185
- put_cpu_partial+0x17c/0x250 mm/slub.c:3260
- __slab_free+0x2f7/0x400 mm/slub.c:4512
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x97/0x140 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:329
- kasan_slab_alloc include/linux/kasan.h:250 [inline]
- slab_post_alloc_hook mm/slub.c:4147 [inline]
- slab_alloc_node mm/slub.c:4196 [inline]
- kmem_cache_alloc_noprof+0x1c1/0x3c0 mm/slub.c:4203
- vm_area_dup+0x28/0x540 kernel/fork.c:488
- __split_vma+0x1a0/0x9b0 mm/vma.c:477
- vms_gather_munmap_vmas+0x2de/0x12b0 mm/vma.c:1315
- do_vmi_align_munmap+0x25d/0x420 mm/vma.c:1483
- __do_sys_brk mm/mmap.c:176 [inline]
- __se_sys_brk+0x74e/0xb90 mm/mmap.c:115
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Memory state around the buggy address:
- ffff88807c7f0f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff88807c7f0f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffff88807c7f1000: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-                   ^
- ffff88807c7f1080: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff88807c7f1100: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-==================================================================
-
-
+Closes: https://syzkaller.appspot.com/bug?extid=598057afa0f49e62bd23
+Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/dir.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+index b6da80c69ca6..b31bc9cbfa35 100644
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -304,6 +304,9 @@ static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
+ 	if (sbi->options->nohidden && (fname->dup.fa & FILE_ATTRIBUTE_HIDDEN))
+ 		return true;
+ 
++	if (fname->name_len > le16_to_cpu(e->size) - sizeof(struct NTFS_DE))
++		return true;
++
+ 	name_len = ntfs_utf16_to_nls(sbi, fname->name, fname->name_len, name,
+ 				     PATH_MAX);
+ 	if (name_len <= 0) {
+-- 
+2.43.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
