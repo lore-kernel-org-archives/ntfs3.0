@@ -1,282 +1,175 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01864278163;
-	Tue, 17 Jun 2025 05:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750138240; cv=fail; b=NtTD5Z02+MjH1pdwT93YvDNVoQzTu4glcw5JSo+GfWfhR8/qzI/2QaSMMGpSetR0hppimt2JQxYlI6CECyUAvpPo/yhko0nMuw6G/t/RRJ2+20fMZASNE5gY5TOEYKNkE+0zMP7n+hdtJ4HeKpLZxmJfs+ZRotuZ4uxoCx7Sk9Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750138240; c=relaxed/simple;
-	bh=ROdNidelrgrpRvtHdRtJfh3Pgoc7JLVdnxJhjlsbT14=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=mD2caVhIKnOS5O3SkStP28DKuiG6mVDSQHbWWIpDeMibYp86bkI2Jeq39eJfNuiOH0yd/+/N0R1unYpJ0JYqyGF595KQ5XlfxAP4EpsUAKD/a2PKPC+54tyA5pHBJfWSAeTkA7Ca5bYfADg4z5pZxgtyoHek9fcC2FgQybIhZf8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=qlZsnJuj; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=jkmlhMf+; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="qlZsnJuj";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="jkmlhMf+"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55H0iurG017362;
-	Tue, 17 Jun 2025 05:29:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=ROdNidelrgrpRvtHdR
-	tJfh3Pgoc7JLVdnxJhjlsbT14=; b=qlZsnJujiUbKhuhGUFVb2xVkOENd1q2eim
-	6T5NMWPvOI8icPvLF6mWjhDeeZ2sy2LZM73lLvOofMys5ga5t8aQEdAD34GU3p44
-	Ddjywsw4OXVzsXgqa+jEuUlprlhVtpljY3SgabhrRgCe73Nwu78cJstoz5lzfMJh
-	lkg/FgGGaTYHdwATDL13iadgm97HnzF4hSeExpszOYw+9+Et5C1Yd8g4uRAbP3ql
-	L3gczGUanL8XWKyvgZ347lf6e3//YsorxUHeMHGhTEMR50NdVfy0ZOFwStv9BO5Z
-	HzxfmpNH8XhRhS31TY7GXq2KknWmR24a3W/+iNfmLfReA91VY5tg==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47914emgjh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 17 Jun 2025 05:29:54 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55H2OL2G001502;
-	Tue, 17 Jun 2025 05:29:54 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam04on2082.outbound.protection.outlook.com [40.107.100.82])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 478yh8sjn7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 17 Jun 2025 05:29:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JtveZz32bFuSly1d9yXY6SfUc8F1Q1pcRQBdOtLSxXSva3GzQpvbts6Me0uXonC0GqNsqwqIuUxr/CIZMVOvXrudACOqQ/IW/ZBkPLpyjQr+II7xlRXdqFVS/dswI00xSrOCcIDh30rlnjunVQYSCZHmjLOEJi9Rk0S9iR681waI+HfJfIbI+0F0N596ZLTKYU6hR0382VV64aL3qVC/pPlY9hD5kP55lqCZQIH+2lmvFFD3Y0x8PDCKDKu0b59ESukhwwPOSV3jxfGyscdZoK8AItepdAsd1D8FpxF4wLGurKIW043dk/P2x790zBqq5Scx/AmBUBww76SSk8Wukg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ROdNidelrgrpRvtHdRtJfh3Pgoc7JLVdnxJhjlsbT14=;
- b=yhK3EGaCfBAJvgm08W4Pjre8f1BC/WiakC7tMuPPdwL5hhUHy5dwc/LM8wxNtfbctARmJRT2VHNEt1/UmFwxEVwrOu/dI/4aMpN4s8Q2bUL3Mpn9EV5OTwI0jn3L+JhUs1Oe3If7uJrNOgfIwGAnqcqqOq8jpNVgcoAP8HRvoXoOTPGPk2ZgbQ9RvF+cV+eFAsdkR9CzgjBNm6G4VXgCHaYC2nry18NLzpVBZr0vMC82KyHnIO/71k/gRMl0KJLYJOU1Aib50n70EM9YYSyzpSaZ8XVXoSnpG3in0QYKDihVmzZeiHO/onfLrXVPxC7Z4uqItqVmENorNv2gkQtS5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ROdNidelrgrpRvtHdRtJfh3Pgoc7JLVdnxJhjlsbT14=;
- b=jkmlhMf+FybnE04238lDIIO186NXnNBl2iD7XAi2whyHTR+iJ+9aZ4ICGEl8Fg5CpUcnPybKZnPqKQGClllAIhQcgoNB/vupZnSFEXF6HegKWZX56WA+i9ixeWeweb9M6Zb0sIrE8E6FhkPk46nJ5yKnbzp+CLNoXdag8StkGa8=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by SJ0PR10MB5719.namprd10.prod.outlook.com (2603:10b6:a03:3ee::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.26; Tue, 17 Jun
- 2025 05:29:50 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%6]) with mapi id 15.20.8835.026; Tue, 17 Jun 2025
- 05:29:49 +0000
-Date: Tue, 17 Jun 2025 06:29:47 +0100
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Eric Van Hensbergen <ericvh@kernel.org>,
-        Latchesar Ionkov <lucho@ionkov.net>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Christian Schoenebeck <linux_oss@crudebyte.com>,
-        David Sterba <dsterba@suse.com>, David Howells <dhowells@redhat.com>,
-        Marc Dionne <marc.dionne@auristor.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        Benjamin LaHaise <bcrl@kvack.org>, Miklos Szeredi <miklos@szeredi.hu>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Kent Overstreet <kent.overstreet@linux.dev>,
-        "Tigran A . Aivazian" <aivazian.tigran@gmail.com>,
-        Kees Cook <kees@kernel.org>, Chris Mason <clm@fb.com>,
-        Josef Bacik <josef@toxicpanda.com>, Xiubo Li <xiubli@redhat.com>,
-        Ilya Dryomov <idryomov@gmail.com>, Jan Harkes <jaharkes@cs.cmu.edu>,
-        coda@cs.cmu.edu, Tyler Hicks <code@tyhicks.com>,
-        Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
-        Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
-        Sandeep Dhavale <dhavale@google.com>,
-        Hongbo Li <lihongbo22@huawei.com>, Namjae Jeon <linkinjeon@kernel.org>,
-        Sungjong Seo <sj1557.seo@samsung.com>,
-        Yuezhang Mo <yuezhang.mo@sony.com>, Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Viacheslav Dubeyko <slava@dubeyko.com>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Yangtao Li <frank.li@vivo.com>, Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Dave Kleikamp <shaggy@kernel.org>,
-        Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
-        Joseph Qi <joseph.qi@linux.alibaba.com>,
-        Bob Copeland <me@bobcopeland.com>, Mike Marshall <hubcap@omnibond.com>,
-        Martin Brandenburg <martin@omnibond.com>,
-        Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>,
-        Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-        Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
-        Bharath SM <bharathsm@microsoft.com>,
-        Zhihao Cheng <chengzhihao1@huawei.com>,
-        Hans de Goede <hdegoede@redhat.com>, Carlos Maiolino <cem@kernel.org>,
-        Damien Le Moal <dlemoal@kernel.org>,
-        Naohiro Aota <naohiro.aota@wdc.com>,
-        Johannes Thumshirn <jth@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
-        Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-        linux-afs@lists.infradead.org, linux-aio@kvack.org,
-        linux-unionfs@vger.kernel.org, linux-bcachefs@vger.kernel.org,
-        linux-mm@kvack.org, linux-btrfs@vger.kernel.org,
-        ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu,
-        ecryptfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-um@lists.infradead.org, linux-mtd@lists.infradead.org,
-        jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
-        ocfs2-devel@lists.linux.dev, linux-karma-devel@lists.sourceforge.net,
-        devel@lists.orangefs.org, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org, linux-xfs@vger.kernel.org,
-        nvdimm@lists.linux.dev
-Subject: Re: [PATCH 01/10] mm: rename call_mmap/mmap_prepare to
- vfs_mmap/mmap_prepare
-Message-ID: <de93f95f-c90e-4bae-a1e3-150fb91c0c07@lucifer.local>
-References: <cover.1750099179.git.lorenzo.stoakes@oracle.com>
- <8d389f4994fa736aa8f9172bef8533c10a9e9011.1750099179.git.lorenzo.stoakes@oracle.com>
- <aFD4xtpot22xvTEq@infradead.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFD4xtpot22xvTEq@infradead.org>
-X-ClientProxiedBy: LO4P123CA0260.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:194::13) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410B08528E
+	for <ntfs3@lists.linux.dev>; Tue, 17 Jun 2025 08:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750147290; cv=none; b=E0pOAg8kYkiV8LOY9ZWsTY6ygFaJ0WCAAk6iYKIcQ9o9htIUlX29Fit23HzUxvacf8edl1pPYls6qQjbXr9d3SYbLXnvxBDwW9i2VJzrnrgAXWDdQHYO4zRj6kCSuHogsfxCGzWOSgjQnoVCQsDTQNuNIxJ/B/dN+0U2I+8h0GU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750147290; c=relaxed/simple;
+	bh=FYncf0Gwp1uLRRk+uYgc+h7nkTLVop02HHpfWbUpAT0=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=KXIvmevxNP9jKKd4ykScihV3JwsO5skALq6s0uC3a5h8kCoQPAHM+xJS6A2quNM//mseBceAGLX/qIpu3wh0G0mVcQr9huSWcd63BH9tPcWSrYk7xDilGKYHqAP63TEnd3ailohTtjQaSycHDpPF1G5N/YODkTo0eO0JmiEAsI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3de0dc57859so25362825ab.2
+        for <ntfs3@lists.linux.dev>; Tue, 17 Jun 2025 01:01:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750147288; x=1750752088;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=e29NjVcmLgFlgix8gs7SJOTwD7u9KXoV23o2ubJcggQ=;
+        b=WiEZC/CynADW3YahmCPPuPUqWrOPBDOnudwclmE1PEQ0yD8nPQqzoutwtqGanguNYn
+         b2E1GhK3xOLcAuE3qIIsWfu43LsG3STdpfnc1Wb0RJrPFwtl33nxlH7uxgnhv7tyjEDw
+         xKsGAT9zJyDmIFkfZJAZ2P8hxPRe3onV72IEV1QB6I0Fh27j9RyUMer1sMBrGTYAHAea
+         9boLha0CFZ+p5qqiNghQFMPdnTXWbK1v3RNQ3HkNNLU464mjkNbITfcJHYOGtc3SsYwd
+         9LGPt5LAV4jDH5NqDvQrp8V9HykTOXlv0lBLyw9v21qUXrwCmxHAY1tc9VbXEVNsWd8W
+         PBVw==
+X-Forwarded-Encrypted: i=1; AJvYcCUVb3s+8yaPJ5jtQqaKrc/lmzMbjBNDMTxW17lSVF7QzvrR8NHw2+S9hiM9+fLvE2dvLuZV7Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzdEe7ArT+cyaEiPSIpvaAN0mxjAqdoMsLaIMXYUHGfSIjMsBVE
+	LgrziUircZ71gz8igiNv04d/wPQtGh5sbkudBg6yQdwxwdyCQe5QaPyn72dBLuUEbAgWnGiTG1S
+	fHJZOXlvx3US/LcNdq0YFl10auPO+6Ai+6xBbNI9m7LdZWNvN2XdcH+BM+jI=
+X-Google-Smtp-Source: AGHT+IGEtTFqUZrc9jB73llRLoLcKYQbUn9ikYxSRc2hqlSQIm2PIZkBrEGpFh2tgRG1FMUZ5DzaJF874DDr6cZkYJQOSxAIJCMN
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|SJ0PR10MB5719:EE_
-X-MS-Office365-Filtering-Correlation-Id: 427bfea2-f44a-49de-8c2a-08ddad5ffad1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?t297ZeE+Qt0oPxY5uERLDtBA9evkzi6J3a1NvKaVmpnOYuWiZ94JKDNZoT5+?=
- =?us-ascii?Q?3hEnWslTkZgI1V52T7ckhkcMDiioC3I0ZzaU7XDg8EWLU2QA9EMinW4/VDbd?=
- =?us-ascii?Q?f1zzbZRofu7RvKOicotXbKfxtO4NKmtfuR3DV5OrLOoEQ5OWrUYA7qxjhIt5?=
- =?us-ascii?Q?e94TV9+zYhmm7fKXs103jO4tOHI5vpnZCtdPoDnFuE0bSthVbDP5qeh7VcAH?=
- =?us-ascii?Q?FCD8XYJ6gLuOp8D7na4BHIuzDDZFHZyynLlFXXQR/yjQzaN1OTzBO6MzmvFk?=
- =?us-ascii?Q?oI/IIu05t7ycnB5bBku0piNIGCqnyjWeHskMJlKl5DABbhuf9XuKDB70iql5?=
- =?us-ascii?Q?8QUV0hSMbiCxOz2RG89Ga4Xl1IP55nJ1sMMZluGDkQ84LQP4Oe4Tuiac64my?=
- =?us-ascii?Q?+oP58VMwHgLUBbhYLJGTEi4SlicVuSHvBsskkAAQvuzEs2Jnt+oMB0y7svqc?=
- =?us-ascii?Q?/5+H/vIK99xIFETAnJZjmDHhteHZ2sEI5vmaKJPfyqjljWFuwZFMLk8Ew3p7?=
- =?us-ascii?Q?ol3SkW7X7oXZk1OGMRW1AO6FGluJJOjvNeqzEZ6L3pIRq0OAyzddXZ1YtcPs?=
- =?us-ascii?Q?AG0A1p1+Htd0g9PHIuZHk/xTXhzq5h2IIjHxb+O6L1zTqtHs7Fcz0ZzrHS+x?=
- =?us-ascii?Q?zR3MJ97fQCwtbovwwoBChE/0mOFylK/3/BBEU5p5ktLqaSP5FzdTLQbPK6mq?=
- =?us-ascii?Q?uzhYbQSLPN7gngN80h7Y4GRMBbQMFEUWJIYDbN0lnlnR3+FK5H4HnvDKLVQp?=
- =?us-ascii?Q?YfI0FlQhpMDS2fU9U4fl6iawllmDeQOeQ93K6OYJDXlkP61Z0TXKcAfjX+XL?=
- =?us-ascii?Q?askDIZ3/jsbWJPypx2SwU2fcJ6LYY+kbnbh8NeGUShALA8wyG8TzJYhdPW1G?=
- =?us-ascii?Q?6ZSVMHkkCL4W0dOvZNXwgG8by4N6hdRpWK8QOwfD0mJhE58WBImgyZY5ucN9?=
- =?us-ascii?Q?d4TL1/uBjWjg3IaI5cIXJECkOlxF7q+WpZosjWnwh0obwfeMeQ7FGdFYje7D?=
- =?us-ascii?Q?uSl5+2GWnqwiQx6w3eqdcU0vAjSYX0XM2D7h6HNi980qUW2mQTy9OGa+2NmL?=
- =?us-ascii?Q?TE1uT50okpJkR+y6+PPHuvjqi9d1LA//3Ffb00ghaSrFP472w/rhzFxO8Jkb?=
- =?us-ascii?Q?GCAFnVwhyKR8KyG2iNjhzBHYRjLlLvwT8sjygvYjLMp3YulptTca0KeF8Qqd?=
- =?us-ascii?Q?RhpYdIqwjN8a3DVneghahhiX/w1fdpEthmpr8yx6K6AmY+f+MRmEefd0emA0?=
- =?us-ascii?Q?qHUd4FliV0ONvALafP4btnv4Pw6xAlE1JjPWdqksDyDdM/Iiq0XCrfL0tlx6?=
- =?us-ascii?Q?GX0mnn6cHdg7srEEMOqB45UgPvFtMujpS96bugJ+BI38HtLEFf317am1Jjms?=
- =?us-ascii?Q?nTp/eGWREhWBluM4FJUEPA+bMxoB3Nw2yQSLtFj8PQqATnIvOXoNvzDsNypm?=
- =?us-ascii?Q?Fs8U9H8M0mQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?NhoO+3UrU7CIEq/OAPy+x/H5GIBVC/otiH5AqoPa+dy3MhswWxcQwdyDmZ2p?=
- =?us-ascii?Q?l9w/Kyf2mxLhW3w0X2EmOKq2w37QBA59HvSJ6c8CCwDFqH5u53hX8WyrKXNf?=
- =?us-ascii?Q?uTHrv0NvQAZFeE7DvKKnikIuLugfX1sCvPHnoQJzgRRx7iJvNcAA/caKUIns?=
- =?us-ascii?Q?opKSHcnOa8gL2Ec7sp2cWwznuVOJbg9p+dG5hpNjK6P1Bf8Q5NmKBjof7MgT?=
- =?us-ascii?Q?d135sAWj+11WqbbJ14D4a20aD61KfA+ONWe2ZsNv1NtGzj1QOeWzT7Xh0QZE?=
- =?us-ascii?Q?oF+rh0c2Ufya4cvTZ5QD/lMHhrGctVdb4alKkmwDaj/7dwQP/NFn0GdrkoJ9?=
- =?us-ascii?Q?4p71PMBrzoqrjh81TXYq8K3tcj1Mx2sEzGbEQVoLyrRP5M7BguSXVTeP83Jo?=
- =?us-ascii?Q?RYINiiYm3OcX+X/s7PCubQYn24FLti64IfI5fi+m0njzJ95HggYcGLTY6so/?=
- =?us-ascii?Q?GOyXOGGWX3PwN44ddg8l3L+EcVgmrwQHugM39V84p1Lle1tWTKAozRmRcsMQ?=
- =?us-ascii?Q?PfI33a827T187X82Ev2lmb92XoVv6ywcQPNF9RFz9cduM2ysFZVtY2zcJRKK?=
- =?us-ascii?Q?u1uLFSjM43Ojxmhfc/9ze4FZn1qv7vpC/12LtD/yVbMECIzQiuiyp8kEQhF+?=
- =?us-ascii?Q?YfOcM4N36EoEHRTj9O1PmZuPvmXokfplqUHqCGo4louiJNflAi82dr+FKA6A?=
- =?us-ascii?Q?XRgda3dSFOmAbhx6j/5ZpWlp3IsK6lf3ew4mh4v22ARaEyHb+ncCF5GUBz1M?=
- =?us-ascii?Q?oCqxMSW8OSZ2PDkTjatvf2CeYW6NU5iSaX3pnjmvIDt4q9ea+jYI8t90bqg4?=
- =?us-ascii?Q?zaGx4FVdIunyeeCdts0I6LlKME4BMlbdma9o/OOG9WoujQuB75LBcUYc6rkA?=
- =?us-ascii?Q?sp3aWgHet72zE1Ol23flotfWIOm6SoQF2aH90nKSpBezK6B8hNca4j0Nxxqe?=
- =?us-ascii?Q?pg90m0H0NQummZP4H2XxIIONwsXuPvbqehcCmQXzJVDZmUbGVS22poDAEabR?=
- =?us-ascii?Q?T4ADg0+fFXsKYoG0w63G7c8JmBSwY2QZC6sd6IOYQ0FXIx6pS47YuhRjOhLE?=
- =?us-ascii?Q?hm/DSHn9sFDKQxGd2KByyjMEeP6l+1xNQoVloT1uRyWSl3/57f8pBkbfvLwO?=
- =?us-ascii?Q?haHCHi2M/vxOCRFPK2lf4PGYqLYPcnoCZTfu1Q1+eRXwv1fpHpWMeTPgjfFf?=
- =?us-ascii?Q?ilxyP28XxkRpTrLS4qGVVNIzNgtdpK+Txky9FdqvNsF6Ri89y24aXYbu+x3T?=
- =?us-ascii?Q?aBdkvnQjaILt3BT7hA2SYWhLT8HATL16LNxJIaLJepPnvXKjc9hB3iny6USH?=
- =?us-ascii?Q?wzuuZ/+JfwymiroWQZkpUC96bWjoLzPGGRtPVp2WM4/nXwvdD0rE0JdDhqrc?=
- =?us-ascii?Q?k6Rf6pAAiRd0ptBGy2NNewCoTP/qPt0hzYbH3R6jQnpMRsuKJIbEUeLkYRAh?=
- =?us-ascii?Q?FeAnZO+hyajBRrA46mt85qRTxiJWj/It2wwJ+kkcZ4JQ63F4cAJX21sNvGZE?=
- =?us-ascii?Q?Qd4j7LB4bFfXket0vtXTzm4vET0SDY/X39ERfqRZ+5JZiUKHQsrmgdTTKqeR?=
- =?us-ascii?Q?E8uWgADf+ur4B/maKIFUWHVFuKGHE7kMYPYM+LXqYuqlrCJeiFMnjkTEkVVJ?=
- =?us-ascii?Q?oA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	PmvzkoCDcq4B2dj4qIGgDe+ZGukn8XOEap9n6vPA8EP9COYZ2DVAcJgp0uQH/GxmMVUvpkEFf+073+MxiDY+8Uuv/7Kh+iPICp0KNEFENl2PvmM7BoR/HEubygpqPej8yDEs5UyZxhLguapoojx2FP6B0W11pQLiOXP09xzO7YCl0f84MObfqrTMogC7L9xP0jfcmZ0Qrqdsx1kJk+U6gn2keQBaKWLYXbnBxMDMN7/gMpoZAN1HE79zsTArzcCMH6k/lzfBg+oOABENDL9vEdhdyHHS2qYgBTQyk7uFrDwjXnhVunhiepXDQEcFnnYJHYBrDNkSOnwp69EB45NNLSIVfVrRQOXSrBOSMF6x7wtN5EqmDXjO6FAkz0aVHgVhadVkQ1jDpt+VvEuG+y5tzNP8A7XOa1eS182/kY3u/liKkh4dm9yf3jtashlBiZBtRCJj7ckcm6U0fzSEVcTS1SXAdPe0jpj5s/170qjJKfP3ssy74v4gVv+Lf1/YHgnkNlJpHaB9Ui5TtTqmuGjf2koTiOP233yJiPLnjmZalikdVhKDcKbtAzR5ggukOMOuafL+K3v1oCdZ7qFYdR1AiezMpoR6VGfuejl/OnM0BL4=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 427bfea2-f44a-49de-8c2a-08ddad5ffad1
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2025 05:29:49.8793
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RUDBM99dexTVhNRyq6BCSdwGRV7f+gw25HH5FpCsFFa47M35UedAOzes2QtmnOa1I0kEOsP0MvOcoTVMtvYkH0CH9xN6WfpGtBreiOcajF8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5719
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-17_02,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
- mlxlogscore=999 mlxscore=0 bulkscore=0 spamscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2505160000 definitions=main-2506170043
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE3MDA0MyBTYWx0ZWRfX5DeODN+lGaW7 5L7TGCs43qZoPBZ0X2o7rA975HvXn87HLc8kqxWwAoAEJ1z/tjhkNN059g8qVxXgRnn3GhRrBw2 1nq8llIWWBcYE1ntxR509pxkpahHz9BHI1nnKx62C9YUg0NZPlIh6oI+GRKiZe0T0W2Qn+uTPmn
- cKQ8WSke3KluG19/No7bfCT4L/UQXrf+u6rCOu/U6DJCKOMGaOUz6LigNPh+rh+s+KVcZvCiBbl 7IuutV/x/c+OzJzMZWlxVGKMT2JkDijRyQUP2HWE1n9030T76ZxTBMNd961gd0tKZ8O/n3gF7d5 9koD4E54ThRSS2XJGWYVG6c5C3Y+1Prk5y01kcvA9Eppk22STMBZYMOqS23CDkvsSlurndj/nlV
- tTV7v0jTw4vukt1Pp5TeuS7JAvhyuAqMtkPQAzKWpH2u84212JMWWzFyHZKn85Re5SDR9NAe
-X-Authority-Analysis: v=2.4 cv=U4CSDfru c=1 sm=1 tr=0 ts=6850fd52 b=1 cx=c_pps a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=6IFa9wvqVegA:10 a=GoEa3M9JfhUA:10 a=JfrnYn6hAAAA:8 a=ga9ms1K9sbQnPafhHRgA:9 a=CjuIK1q_8ugA:10 a=1CNFftbPRP8L7MoqJWF3:22 cc=ntf awl=host:13206
-X-Proofpoint-GUID: qScwlbb7Zb7_uj7w6xPTuX6tuA8Rvp2F
-X-Proofpoint-ORIG-GUID: qScwlbb7Zb7_uj7w6xPTuX6tuA8Rvp2F
+X-Received: by 2002:a05:6e02:1a68:b0:3dc:7bc9:503e with SMTP id
+ e9e14a558f8ab-3de07cdb455mr138915935ab.2.1750147288407; Tue, 17 Jun 2025
+ 01:01:28 -0700 (PDT)
+Date: Tue, 17 Jun 2025 01:01:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <685120d8.a70a0220.395abc.0204.GAE@google.com>
+Subject: [syzbot] [ntfs3?] general protection fault in pick_link (2)
+From: syzbot <syzbot+1aa90f0eb1fc3e77d969@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, brauner@kernel.org, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 16, 2025 at 10:10:30PM -0700, Christoph Hellwig wrote:
-> On Mon, Jun 16, 2025 at 08:33:20PM +0100, Lorenzo Stoakes wrote:
-> > The call_mmap() function violates the existing convention in
-> > include/linux/fs.h whereby invocations of virtual file system hooks is
-> > performed by functions prefixed with vfs_xxx().
-> >
-> > Correct this by renaming call_mmap() to vfs_mmap(). This also avoids
-> > confusion as to the fact that f_op->mmap_prepare may be invoked here.
-> >
-> > Also rename __call_mmap_prepare() function to vfs_mmap_prepare() and adjust
-> > to accept a file parameter, this is useful later for nested file systems.
-> >
-> > Finally, fix up the VMA userland tests and ensure the mmap_prepare -> mmap
-> > shim is implemented there.
->
-> Can we please just kill these silly call_* helpers instead?
+Hello,
 
-The vfs_mmap() function now has some actual meaningful logic added in
-commit bb666b7c2707 ("mm: add mmap_prepare() compatibility layer for nested
-file systems").
+syzbot found the following issue on:
 
->
->
-> ______________________________________________________
-> Linux MTD discussion mailing list
-> http://lists.infradead.org/mailman/listinfo/linux-mtd/
+HEAD commit:    9afe652958c3 Merge tag 'x86_urgent_for_6.16-rc3' of git://..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=10cf95d4580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d11f52d3049c3790
+dashboard link: https://syzkaller.appspot.com/bug?extid=1aa90f0eb1fc3e77d969
+compiler:       Debian clang version 20.1.6 (++20250514063057+1e4d39e07757-1~exp1~20250514183223.118), Debian LLD 20.1.6
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11969e82580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14fd450c580000
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-9afe6529.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/46695f4e5fdb/vmlinux-9afe6529.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/4357674be01a/bzImage-9afe6529.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/dd817d4f3932/mount_0.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+1aa90f0eb1fc3e77d969@syzkaller.appspotmail.com
+
+ntfs3(loop0): ino=1b, "file0" ntfs_rename
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 0 UID: 0 PID: 5313 Comm: syz-executor352 Not tainted 6.16.0-rc2-syzkaller-00024-g9afe652958c3 #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+RIP: 0010:pick_link+0x4f1/0xe80 fs/namei.c:1949
+Code: 4c 89 f7 e8 81 fa ea ff 4d 8b 36 4d 85 f6 0f 84 9b 00 00 00 e8 50 7c 87 ff 49 bf 00 00 00 00 00 fc ff df 4c 89 f0 48 c1 e8 03 <42> 0f b6 04 38 84 c0 0f 85 b9 06 00 00 41 0f b6 2e bf 2f 00 00 00
+RSP: 0018:ffffc9000d2477e8 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffffc9000d247908 RCX: ffff88801a34c880
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: ffffffff823d3d98
+R10: 000000003b9aca00 R11: ffffffff823cb0a0 R12: 1ffff92001a48f8b
+R13: ffffc9000d247c20 R14: 0000000000000002 R15: dffffc0000000000
+FS:  00005555725f0380(0000) GS:ffff88808d251000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f4a1afaf000 CR3: 00000000438a8000 CR4: 0000000000352ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ step_into+0xc5d/0xf30 fs/namei.c:2008
+ open_last_lookups fs/namei.c:3843 [inline]
+ path_openat+0x1bc6/0x3830 fs/namei.c:4052
+ do_filp_open+0x1fa/0x410 fs/namei.c:4082
+ do_sys_openat2+0x121/0x1c0 fs/open.c:1437
+ do_sys_open fs/open.c:1452 [inline]
+ __do_sys_open fs/open.c:1460 [inline]
+ __se_sys_open fs/open.c:1456 [inline]
+ __x64_sys_open+0x11e/0x150 fs/open.c:1456
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5aa2adeed9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc2e7cf7e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
+RAX: ffffffffffffffda RBX: 00007f5aa2b47ac0 RCX: 00007f5aa2adeed9
+RDX: 0000000000000000 RSI: 0000000000048500 RDI: 0000200000000a80
+RBP: 0000200000001240 R08: 00005555725f14c0 R09: 00005555725f14c0
+R10: 00005555725f14c0 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffc2e7cfa38 R14: 431bde82d7b634db R15: 00007f5aa2b2803b
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:pick_link+0x4f1/0xe80 fs/namei.c:1949
+Code: 4c 89 f7 e8 81 fa ea ff 4d 8b 36 4d 85 f6 0f 84 9b 00 00 00 e8 50 7c 87 ff 49 bf 00 00 00 00 00 fc ff df 4c 89 f0 48 c1 e8 03 <42> 0f b6 04 38 84 c0 0f 85 b9 06 00 00 41 0f b6 2e bf 2f 00 00 00
+RSP: 0018:ffffc9000d2477e8 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffffc9000d247908 RCX: ffff88801a34c880
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: ffffffff823d3d98
+R10: 000000003b9aca00 R11: ffffffff823cb0a0 R12: 1ffff92001a48f8b
+R13: ffffc9000d247c20 R14: 0000000000000002 R15: dffffc0000000000
+FS:  00005555725f0380(0000) GS:ffff88808d251000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055ff6c3df070 CR3: 00000000438a8000 CR4: 0000000000352ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	4c 89 f7             	mov    %r14,%rdi
+   3:	e8 81 fa ea ff       	call   0xffeafa89
+   8:	4d 8b 36             	mov    (%r14),%r14
+   b:	4d 85 f6             	test   %r14,%r14
+   e:	0f 84 9b 00 00 00    	je     0xaf
+  14:	e8 50 7c 87 ff       	call   0xff877c69
+  19:	49 bf 00 00 00 00 00 	movabs $0xdffffc0000000000,%r15
+  20:	fc ff df
+  23:	4c 89 f0             	mov    %r14,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 0f b6 04 38       	movzbl (%rax,%r15,1),%eax <-- trapping instruction
+  2f:	84 c0                	test   %al,%al
+  31:	0f 85 b9 06 00 00    	jne    0x6f0
+  37:	41 0f b6 2e          	movzbl (%r14),%ebp
+  3b:	bf 2f 00 00 00       	mov    $0x2f,%edi
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
