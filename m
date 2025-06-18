@@ -1,64 +1,65 @@
-Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+Received: from out203-205-221-231.mail.qq.com (out203-205-221-231.mail.qq.com [203.205.221.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7014025A341
-	for <ntfs3@lists.linux.dev>; Wed, 18 Jun 2025 07:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C199B156C6F
+	for <ntfs3@lists.linux.dev>; Wed, 18 Jun 2025 07:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750230019; cv=none; b=OunbcmnMjipQwhuUkBgQIYsu8rqFMAFTrf639ODU87GCv3XWvdgTmYbpGGF5b3X695TfRhGIeXnctX61E2RhlnrA62AlVOmKlurKive9OKoqp0DkR7po3/TQSBMiijtxZdXHsW2YDkd6V72U+q3SUeHTaS82MZ9WnDg+nxSDNvY=
+	t=1750232246; cv=none; b=PRdFaSjpRdO2amRI5d32eoKppqW+EpQJzAHOXnD88BgATvotr2cZth+KgXoPAG1iJ4MSRNVYsnJU+ePKwSqJgxkRJ/d2ZG6eg9LAHbneB+jaBCm2p6Vhwjdjhm6fJE284u1MeiX5eBnsxTUjl6YvX9mVuAmZlvam0R4VGvJzuAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750230019; c=relaxed/simple;
-	bh=6O4E31IFWhwT1mKncIIfB5M0IyKaYLlTTLmgubkQWeM=;
+	s=arc-20240116; t=1750232246; c=relaxed/simple;
+	bh=CZrw0hZVLufcRQ6KoDBlKtf6z36AOGiH0czbmOejAnk=;
 	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=QJbyJTtyHT5j8P7soqz/SusU+ns/3Y9EROV+1pVHheo82nYeCIoXfQb36FCcmjdieSrh4AgIUEMEGKWfk+5SQ6f5LjP3v8o/QByOpZ+v6Rm+W6ehUg5Q4z9MvR47T9Z66J7zqOiKmdsaX6QwplSNp7tj+ccA7GcpGDb0g3VLmTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=dhNxogrs; arc=none smtp.client-ip=162.62.57.210
+	 MIME-Version; b=T2koQP8eYluZ/gERVfIgpnivMtJDPqqAtXLPUjxeEIZ9X5FNvYi2gZ4s8idQ0HtZ1qO0dNUUZeEgGX3Ho9igUDsGlRl+GNkKP6XtvUUvFulPNoDezqWSVYOsUv2MW3+3RsVQhBOoUsHSNT45xOvHZV3XFsSwXPjT6xp6raoGexM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=g2gFiJPB; arc=none smtp.client-ip=203.205.221.231
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="dhNxogrs"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="g2gFiJPB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1750230001; bh=g79FYQgOsNwSl3tOaXLz/txIsFLP64rs0sArg9v4BXI=;
+	t=1750231920; bh=EoJMe+ER56WT5YjRS7gq69hy5cAQHbjgmBK4fFHg+nE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=dhNxogrsoPLWEsq4ta2uw8mifWCpGI9KFbjY4/UJjbOSOBldRU0bj2DKXuXXXFCg0
-	 nS+kOMwOAXRNLVZrA2cK2bElL1Dm01qZ7emQEakBFV0pyCg6JgEdWBXZf8sTA4gTPx
-	 MUZbLg72uTsEn6pweUFycJoh4sJYU8/0UJVWtcYw=
+	b=g2gFiJPBFBw2j65evc8gKRNl7ZAgCwOscoctsAMwjlxu+O3SzMWAQT7DcT7S1jzpu
+	 Qcu/Kd343icToKHe5c0wAPL3uc1DlgxO+9e6RZh/Xtp7aeMG1Sey5qEyKf6WthSp4r
+	 GZfsqFKsXuy4Ox3u5MaJE0jiZSt2Gzrzyse/bEBc=
 Received: from pek-lxu-l1.corp.ad.wrs.com ([111.198.228.63])
-	by newxmesmtplogicsvrszgpuc5-0.qq.com (NewEsmtp) with SMTP
-	id D7617201; Wed, 18 Jun 2025 14:53:54 +0800
-X-QQ-mid: xmsmtpt1750229634tc8wvgidz
-Message-ID: <tencent_ED33789EDE1B3B4BB21B4325EDBA10BB7F08@qq.com>
-X-QQ-XMAILINFO: MIAHdi1iQo+z16kuYiyj/ZhQ2a4rFDdwa0nU5mpjxpLJbUzgrj7FxujSkmVaje
-	 5U3JMIsus966+z4oYcGSR1EZRDXl+nr6GdFBtHn8PIA4IEMlkDJC9BNx/NaWwPIHEXe2WnG0QHfN
-	 FK7cxaEZ6O+il1tEFEsuveQs/ybmUQBqTls1k1nrdgciJhKPRT4b0Om2ZzfBTehXCW0RPsTydQSL
-	 JDImCKWop+jpq0M6EXNmTsJ2hitv9mB/JcTUZBwWW1fXet8ysgf4vFhO5Gf/w37LMDiTGnYKinHj
-	 TqieJYwoDrx+EzwM0ItXH3oB1FhY76pNzPPjoZ+IUDoYRtObZnAMlHIg2VRs/fm8UhBwlTNE8vqI
-	 pnBNjDrqUZ8LmwP6OiD+hMyTP3e6g1XQ3VYq89NizwH1W+MxhNX/u+F8oogct04GDFNhXcMuu3jd
-	 6gVcLbD02NkDm9HiT3zhxOgBQOB6z1Oc+hO/CjdNF8MQmCOXhBRY6jrp+5LaVdgY9r6wa6EEzvV2
-	 yPZMZQttlLzSye1m9I/5y2/Cxg5V7GDbGwLQxNgbyxiQTWqkihLrn6yyLPjAIXunkH20WTm9/0lY
-	 1lFm1XxHC5F77ABAOnrsTbpBas1Fg+q0FLLhUPLfITxr0iakG8ehgBJtTteQU0KopFext5SfhlfC
-	 GKr6t50rOjKo1S2TmbAD56iPTH+m/BuDwt1ElW2cgnBbnL+vZs70rhBBj0LMLB9GX0eExidLoygg
-	 csofFNjijbhBKgO/VHzbdXmrpPUQGpf51crGp4cj5MzV5dlz+SU+y0ygDfqkpz93cshQxgwVvvbD
-	 Lce1yGaT4iUIUMJP1opDGq5qezgfcyrOGV439m7sXdYyk66mrH7hN6OQ4z1lQmQB1fsZ9jLnDhdL
-	 eCAN763HFgLutlOaug0ZBBlpe3W/7wmKcuoiUiZATD0x2H8YbTLHacKUWR8omxW9/vy0baGOTvvu
-	 Qc2AEEhSXpXqZZXfiS6sQWvNbXTww03m3tQwGrDJc=
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+	by newxmesmtplogicsvrszgpua8-0.qq.com (NewEsmtp) with SMTP
+	id 7F90DCF0; Wed, 18 Jun 2025 15:31:57 +0800
+X-QQ-mid: xmsmtpt1750231917tbrnaiawa
+Message-ID: <tencent_BCCDAC7BEE6CFC2DD96CF095ACE9F2EDDE0A@qq.com>
+X-QQ-XMAILINFO: MMjT29R4j27sXFE3NKwoHLC8DvsZ4Jv5IActATCYwpf3tAxhSzhL/tqE9agTvH
+	 V74mDl35LGrRG/d7mtA+zPEFtxNVPQDF4J8NTPPAyUnGpvQTk2mTGklDNxn+U15SDCoMZVUBUK6W
+	 qkOVEb91RfBejla5/DRFODUEM7RrTHp11DIiwFgIIZkF2IbE9Br3beG0KPZU7v7oDfCJnRKCN6xZ
+	 LLYiUMSHcMsbSiUKnOHBypNrLEJbDeEZ/1bcth94nmC33xFFhbJN6mdEIi8tqffFIIMuxGFTwdXn
+	 MOFcLVtSW+ym/7nDVRRSD8zg5Qv8tkOZ/bhSZq1EBKJKoCkHK60UJv51CxFmWwWZ707KnujTVnry
+	 UmL8v/S6818VaUlbvKPghkUVvlcIAcQek0h9+SxYiBgOnzaOj1FzLlD/gEQSnFzWBw+KgJFWtg0j
+	 VRWRzglYTFx3pouctpCqWdsX4PvP7IkE0TWwXJNkWJCkc0y4jgyC5Grgjnhes+Q+SDjyb5M7/zyb
+	 v9ra63K8Ebg/07CDK7enV2icfRULPubQe/ks0YvdB36Rjpe+qfhY8251yVwJ8M9XfyNzUpnCey6I
+	 WtDSPK06sk7fJNso+iUsVlcY7nW1wMTqg/yN/R1rWe/ZKrCgfUYmGglco5eO91mjlFN4fi9cRULb
+	 WSjLyrIRFNcHXNINZ4bMxcBFVoBlzHwncS1cSR/N9A1rjHTcFynwPBdW3K+hVGzzNtWTM9lJ5WSC
+	 DqCYeMt+T+4NjxRQXkRLSguMgYFbxajnb2RyTBkpsJRaFafpZegr7915uXdR+3ABdAAhrdGmiOVD
+	 eDZOH6xcHLdt5IA3N23S6GJVn3v3Bz1/MnI8hYuEjsoq+p0WL+eyEspgzUMqT7WQyhz2Hg6l3Poj
+	 L/2zrmtvr+mfcjwUUe/oSr7oVOgOkmCoMod2lWLrm7cKeLTywisJy6JfVh5MgZFzVZRLrKtSbeRZ
+	 TSsCZ3yEHGqUMTvEoUbFWZQ7l/r8bSwjrsPccY4ZzrRziYjW9BnhuojXH0K/j2k15Caq8TikO/ql
+	 DNpjVFACbfLjGybk3VSbYVY3xAL1Q=
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
 From: Edward Adam Davis <eadavis@qq.com>
-To: viro@zeniv.linux.org.uk
+To: eadavis@qq.com
 Cc: almaz.alexandrovich@paragon-software.com,
 	brauner@kernel.org,
-	eadavis@qq.com,
 	jack@suse.cz,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	syzbot+1aa90f0eb1fc3e77d969@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] fs: Prevent non-symlinks from entering pick link
-Date: Wed, 18 Jun 2025 14:53:55 +0800
-X-OQ-MSGID: <20250618065354.1322589-2-eadavis@qq.com>
+	syzkaller-bugs@googlegroups.com,
+	viro@zeniv.linux.org.uk
+Subject: [PATCH V2] fs/ntfs3: cancle set bad inode after removing name fails
+Date: Wed, 18 Jun 2025 15:31:57 +0800
+X-OQ-MSGID: <20250618073156.1363455-2-eadavis@qq.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250618061815.GR1880847@ZenIV>
-References: <20250618061815.GR1880847@ZenIV>
+In-Reply-To: <tencent_ED33789EDE1B3B4BB21B4325EDBA10BB7F08@qq.com>
+References: <tencent_ED33789EDE1B3B4BB21B4325EDBA10BB7F08@qq.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -67,31 +68,98 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Wed, 18 Jun 2025 07:18:15 +0100, Al Viro wrote:
-> > On Wed, 18 Jun 2025 06:27:47 +0100, Al Viro wrote:
-> > > Note that anything that calls __d_add(dentry, inode) with is_bad_inode(inode)
-> > > (or d_add(), or d_instantiate(), or d_splice_alias() under the same conditions)
-> > > is also FUBAR.
-> > >
-> > > So's anything that calls make_bad_inode() on a struct inode that might be
-> > > in process of being passed to one of those functions by another thread.
-> > >
-> > > This is fundamentally wrong; bad inodes are not supposed to end up attached
-> > > to dentries.
-> > As far as I know, pick_link() is used to resolve the target path of a
-> > symbolic link (symlink). Can you explain why pick_link() is executed on
-> > a directory or a regular file?
-> 
-> Because the inode_operations of that thing contains ->get_link().
-I removed _ntfs_bad_inode() and it fixed the problem.
-I should have thought more carefully about what you said about the bad inode.
-> Again, the underlying bug is that make_bad_inode() is called on a live inode.
-> In some cases it's "icache lookup finds a normal inode, d_splice_alias() is called
-> to attach it to dentry, while another thread decides to call make_bad_inode() on
-> it - that would evict it from icache, but we'd already found it there earlier".
-> In some it's outright "we have an inode attached to dentry - that's how we got
-> it in the first place; let's call make_bad_inode() on it just for shits and giggles".
+The reproducer uses a file0 on a ntfs3 file system with a corrupted i_link.
+When renaming, the file0's inode is marked as a bad inode because the file
+name cannot be deleted.
 
-BR,
-Edward
+The underlying bug is that make_bad_inode() is called on a live inode.
+In some cases it's "icache lookup finds a normal inode, d_splice_alias()
+is called to attach it to dentry, while another thread decides to call
+make_bad_inode() on it - that would evict it from icache, but we'd already
+found it there earlier".
+In some it's outright "we have an inode attached to dentry - that's how we
+got it in the first place; let's call make_bad_inode() on it just for shits
+and giggles".
+
+Fixes: 78ab59fee07f ("fs/ntfs3: Rework file operations")
+Reported-by: syzbot+1aa90f0eb1fc3e77d969@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=1aa90f0eb1fc3e77d969
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+V1 -> V2: fix it by removing set bad inode
+
+ fs/ntfs3/frecord.c |  7 +++----
+ fs/ntfs3/namei.c   | 10 +++-------
+ fs/ntfs3/ntfs_fs.h |  3 +--
+ 3 files changed, 7 insertions(+), 13 deletions(-)
+
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 756e1306fe6c..7afbb4418eb2 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -3003,8 +3003,7 @@ int ni_add_name(struct ntfs_inode *dir_ni, struct ntfs_inode *ni,
+  * ni_rename - Remove one name and insert new name.
+  */
+ int ni_rename(struct ntfs_inode *dir_ni, struct ntfs_inode *new_dir_ni,
+-	      struct ntfs_inode *ni, struct NTFS_DE *de, struct NTFS_DE *new_de,
+-	      bool *is_bad)
++	      struct ntfs_inode *ni, struct NTFS_DE *de, struct NTFS_DE *new_de)
+ {
+ 	int err;
+ 	struct NTFS_DE *de2 = NULL;
+@@ -3027,8 +3026,8 @@ int ni_rename(struct ntfs_inode *dir_ni, struct ntfs_inode *new_dir_ni,
+ 	err = ni_add_name(new_dir_ni, ni, new_de);
+ 	if (!err) {
+ 		err = ni_remove_name(dir_ni, ni, de, &de2, &undo);
+-		if (err && ni_remove_name(new_dir_ni, ni, new_de, &de2, &undo))
+-			*is_bad = true;
++		WARN_ON(err && ni_remove_name(new_dir_ni, ni, new_de, &de2,
++			&undo));
+ 	}
+ 
+ 	/*
+diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
+index b807744fc6a9..0db7ca3b64ea 100644
+--- a/fs/ntfs3/namei.c
++++ b/fs/ntfs3/namei.c
+@@ -244,7 +244,7 @@ static int ntfs_rename(struct mnt_idmap *idmap, struct inode *dir,
+ 	struct ntfs_inode *ni = ntfs_i(inode);
+ 	struct inode *new_inode = d_inode(new_dentry);
+ 	struct NTFS_DE *de, *new_de;
+-	bool is_same, is_bad;
++	bool is_same;
+ 	/*
+ 	 * de		- memory of PATH_MAX bytes:
+ 	 * [0-1024)	- original name (dentry->d_name)
+@@ -313,12 +313,8 @@ static int ntfs_rename(struct mnt_idmap *idmap, struct inode *dir,
+ 	if (dir_ni != new_dir_ni)
+ 		ni_lock_dir2(new_dir_ni);
+ 
+-	is_bad = false;
+-	err = ni_rename(dir_ni, new_dir_ni, ni, de, new_de, &is_bad);
+-	if (is_bad) {
+-		/* Restore after failed rename failed too. */
+-		_ntfs_bad_inode(inode);
+-	} else if (!err) {
++	err = ni_rename(dir_ni, new_dir_ni, ni, de, new_de);
++	if (!err) {
+ 		simple_rename_timestamp(dir, dentry, new_dir, new_dentry);
+ 		mark_inode_dirty(inode);
+ 		mark_inode_dirty(dir);
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 36b8052660d5..f54635df18fa 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -577,8 +577,7 @@ int ni_add_name(struct ntfs_inode *dir_ni, struct ntfs_inode *ni,
+ 		struct NTFS_DE *de);
+ 
+ int ni_rename(struct ntfs_inode *dir_ni, struct ntfs_inode *new_dir_ni,
+-	      struct ntfs_inode *ni, struct NTFS_DE *de, struct NTFS_DE *new_de,
+-	      bool *is_bad);
++	      struct ntfs_inode *ni, struct NTFS_DE *de, struct NTFS_DE *new_de);
+ 
+ bool ni_is_dirty(struct inode *inode);
+ 
+-- 
+2.43.0
 
