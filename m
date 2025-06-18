@@ -1,106 +1,84 @@
-Received: from out203-205-221-245.mail.qq.com (out203-205-221-245.mail.qq.com [203.205.221.245])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96E028E7
-	for <ntfs3@lists.linux.dev>; Wed, 18 Jun 2025 03:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D576C2F5335;
+	Wed, 18 Jun 2025 04:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750217471; cv=none; b=ksa5h96DW9iLI7nykt+aRcIn2iqdXNstrEGWXOVwGD1FSrMpChUGZZuc7bFYWlIcEnTWZq8mnRm87iu6tC+01e7dhNolQBNd0OmwmDYhPpJVoUyyBOOb5pZ6oMoYLuf8OMuN9KhacA48n2ICFGNLCt+UHGa6YYJAh5wdgmeD4pY=
+	t=1750222224; cv=none; b=adfQtik/w0OQG0+yjSLZF2/7VDWYGC3dsgPdiwhTtWBUW9IhDJoqbOX1Erv3i79H3K9HxxIB6qOfB+OV5xz6vA2luxPDPfX0Bjjlhjw7uLtWYtkZyt19es88TiQl0pLZxiHRmynEa//1ZENsC4nUieO8dLm21XA6tcvsk+GR4mA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750217471; c=relaxed/simple;
-	bh=cuaANZaoz2FHYgtAxqEoNZNsN25Tybf3+eWwehn1+zI=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=pof0z5SEPpEbx+VbCg0yTRHOv+ajxYYoAKLNOg1kqiT594u0HwkujA9yO6KntxVxqCboT7/ATa0MXsyoJKO7T4E5+bg1r8R4+FBTJ8fMnNJpqEkcUXy6stOfayvz/bh9OmnWqX1mOVKKDebX+tsrVeVNyexzbVO9hCefUPXoCLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=fcbTNSZ2; arc=none smtp.client-ip=203.205.221.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1750222224; c=relaxed/simple;
+	bh=AmTtiMD6yE0jPOyHVPqZAQTx2+YEgvOS4EFS37eI394=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CnRThTRA5vcNfHdHrlDmm/t5MTiDrQh89gPQWQ7uU2x2d0NdlTBMFiRDwix8+y6gb97unN8GYHlxjFNs8DA+3wtXavq7mMRs4hwWWBzAXAIRMeZULHrUAAfJHmC8cjr2CHQ3Iu6YnzgZFasr12pU/xpWUjr/JpLYs8ZoaVBdVag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=aJtT/tv7; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="fcbTNSZ2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1750217450; bh=eHk3hR68qYNaDZ54UaA20pIxk2xTJX8697byy1PHsaQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fcbTNSZ2sgy1Q6yB+mILxQuNykgaV29fq3hGKOhvA2wI1OsPItJ2goTTA+qxI1xP3
-	 4Zq8ARqnDxQQMMFyVxTX3tFKoUPjC5UWCBIfXsdKPn/eMULDLE0XRzu14NB0ST866+
-	 TECsMyuVCjDptHiL1+GtdX8cpPPFuVAiItuwTvfc=
-Received: from pek-lxu-l1.corp.ad.wrs.com ([111.198.228.63])
-	by newxmesmtplogicsvrszgpua8-0.qq.com (NewEsmtp) with SMTP
-	id 7AFA5CCB; Wed, 18 Jun 2025 11:30:47 +0800
-X-QQ-mid: xmsmtpt1750217447tq8nygmwl
-Message-ID: <tencent_7FB38DB725848DA99213DDB35DBF195FCF07@qq.com>
-X-QQ-XMAILINFO: MFdGPHhuqhNo8bsXqtmbMYZi9ZBEoVICJhjWKXsQoew/9a32Uz4zhZ3v9rUtG7
-	 i4RQQOMqHBPD17kZDxp6xQ15SdwqW1qHc5MtKLMiTA0Is9TqYs08ch9rCJNxIx519OZuHSguQ+PW
-	 UfsAZNQrUBRFlhAUyV/qb5JxXYR7NQENiPTQfhD2EPnOb3tCgJqowWbYbL/Jqbv7L6GhzEErTdEl
-	 sSKw2Z+mG0DfI2chSUx7KyFF9qr1o41osO3lF3HhIfogQSK5GW16CSDt91yvMo4/vtf0pdepRmA3
-	 SujkOEWQx+HhvoLeXXatRb4KhdY5zdkyIZhfk8Hg5PY7Solx6ME9W1FI5ItjA5RGSEF68O0U0qhl
-	 x04GJNemilaLv5aQZdIo2yPrp9lSyGs2DsxkGuGaxgRYFbTjD00ijVr38PhcZ/IfqHjvsBZCmy0L
-	 jdo2BR7+qwQgX/fYVoMuJeMESA3N6wkvQH0EQxofEl3H9F9NIjoas+hF7Mk6xetMaA+M7bbZlg3I
-	 h70cIaDDVRzf5Jse79AmfvRfVRMmPVzc1lYcc8oSOZfZGLd2liShXv84ts8efVVAbsbuWex61ZM2
-	 oBm22T+/524dViYmfcvRf/1qkW5He30YnuIDpOQtT392BQWqO/RWXY+PPWexoCeQs/CgYTyaBUrU
-	 SIjXhpdc9DIAeAw5gkwfp2oMtwohX5BRSkfz+Oxq0kXPQYZTOOxnZqR/6VncC+ItdILsR9+0DKpA
-	 o8WZ5vRzySTtYB6CZrcN5D5/SUajIRTtsFlwh2sRPMW5zkXGdJZ6xwr4B0158gsWHIwfOVKwAHYa
-	 89RkuXOqKzxcdwP3MaoGwV1Df8YWqdWLia+DFvteYxIq8F+J7H1AVvUTfRAb0BvxpqjFk6fBuBYf
-	 Bd+eJfQKVUYH1KbBInUkFM9qYa7UiEd4kVvf4RGwS61ctpEdZLRySHQ9ieaiSdg5U1GzTYzNSJXO
-	 T62d7eg7WaQZpIRFzwpapFBV6m5xiZ
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+1aa90f0eb1fc3e77d969@syzkaller.appspotmail.com
-Cc: almaz.alexandrovich@paragon-software.com,
-	brauner@kernel.org,
-	jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	syzkaller-bugs@googlegroups.com,
-	viro@zeniv.linux.org.uk
-Subject: [PATCH] fs: Prevent non-symlinks from entering pick link
-Date: Wed, 18 Jun 2025 11:30:48 +0800
-X-OQ-MSGID: <20250618033047.1137158-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <685120d8.a70a0220.395abc.0204.GAE@google.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="aJtT/tv7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=ODPOLUlvf2qURExlUHFoxGYf/GepaVDBWLemGB5KzQg=; b=aJtT/tv7JViZp52Rwv4a57kxhj
+	IZhAE0UDRokQSHEsrfFxw80TXhXU41gT5fbCw8fzsyJhE/k+BvJ7JKS0gwVhj/wimJtgLOTgzyH8Y
+	xkPp/UXn+gGnpG9/R/dLka+cptbC/PDB7mBKyE7oWZFV1a84SfeO1mVNG8CmWewW3LITjxbr9URWC
+	1kRR+uFxL76xsnLa4vZ+OksgUN+e2yIJo+hIcFXOjPKIYK7H3HmPBzxYoePxd1KGjjyTztGpNh2xP
+	N/dBpN/4OF1ThQ/3jldFPSxnqPlPvmkBUBroCngQqmZ9g2ujc/JTw/HGEGHq9IQW4yPs3KZB47Slu
+	j9xe7o1w==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uRkka-00000005YCh-39gs;
+	Wed, 18 Jun 2025 04:50:16 +0000
+Date: Wed, 18 Jun 2025 05:50:16 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Edward Adam Davis <eadavis@qq.com>
+Cc: syzbot+1aa90f0eb1fc3e77d969@syzkaller.appspotmail.com,
+	almaz.alexandrovich@paragon-software.com, brauner@kernel.org,
+	jack@suse.cz, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] fs: Prevent non-symlinks from entering pick link
+Message-ID: <20250618045016.GO1880847@ZenIV>
 References: <685120d8.a70a0220.395abc.0204.GAE@google.com>
+ <tencent_7FB38DB725848DA99213DDB35DBF195FCF07@qq.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_7FB38DB725848DA99213DDB35DBF195FCF07@qq.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-The reproducer uses a file0 on a ntfs3 file system with a corrupted i_link.
-When renaming, the file0's inode is marked as a bad inode because the file
-name cannot be deleted. However, before renaming, file0 is a directory.
-After the renaming fails, it is marked as a bad inode, which makes it a
-regular file. In any case, when opening it after creating a hard link,
-pick_link() should not be entered because it is not a symbolic link from
-beginning to end.
+On Wed, Jun 18, 2025 at 11:30:48AM +0800, Edward Adam Davis wrote:
+> The reproducer uses a file0 on a ntfs3 file system with a corrupted i_link.
+> When renaming, the file0's inode is marked as a bad inode because the file
+> name cannot be deleted. However, before renaming, file0 is a directory.
+> After the renaming fails, it is marked as a bad inode, which makes it a
+> regular file. In any case, when opening it after creating a hard link,
+> pick_link() should not be entered because it is not a symbolic link from
+> beginning to end.
+> 
+> Add a check on the symbolic link before entering pick_link() to avoid
+> triggering unknown exceptions when performing the i_link acquisition
+> operation on other types of files.
+> 
+> Reported-by: syzbot+1aa90f0eb1fc3e77d969@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=1aa90f0eb1fc3e77d969
+> Tested-by: syzbot+1aa90f0eb1fc3e77d969@syzkaller.appspotmail.com
+> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 
-Add a check on the symbolic link before entering pick_link() to avoid
-triggering unknown exceptions when performing the i_link acquisition
-operation on other types of files.
+NAK.  This is not the first time that garbage is suggested and no,
+we are not going to paper over that shite in fs/namei.c.
 
-Reported-by: syzbot+1aa90f0eb1fc3e77d969@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=1aa90f0eb1fc3e77d969
-Tested-by: syzbot+1aa90f0eb1fc3e77d969@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
- fs/namei.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Not going to happen.
 
-diff --git a/fs/namei.c b/fs/namei.c
-index 4bb889fc980b..1524a5359d46 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -2005,6 +2005,10 @@ static const char *step_into(struct nameidata *nd, int flags,
- 		if (path.mnt == nd->path.mnt)
- 			mntget(path.mnt);
- 	}
-+
-+	if (inode && !S_ISLNK(inode->i_mode))
-+		return NULL;
-+
- 	return pick_link(nd, &path, inode, flags);
- }
- 
--- 
-2.43.0
+You ARE NOT ALLOWED to call make_bad_inode() on a live inode, period.
+Never, ever to be done.
 
+There's a lot of assertions it violates and there's no chance in
+hell to plaster each with that kind of checks.
+
+Fix NTFS.  End of story.
