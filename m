@@ -1,241 +1,188 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639E92EA17A
-	for <ntfs3@lists.linux.dev>; Wed, 18 Jun 2025 17:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2955825DAF7
+	for <ntfs3@lists.linux.dev>; Thu, 19 Jun 2025 08:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750266374; cv=none; b=IHV3YtuxSy55awSlcFhy68+TM1JIUU61Dc6lK8ItQfP602q23ywAzj69FwQuZo+stJKKu4QgkqhWx8EJHWABC0JYQiO6cQEjxG+Dl3hmLDJ2NgcQL0A6izc6tipwOKRFSymanJDMHPNLdeqIHH6RhZC9mgUuVETib213XGb6sFs=
+	t=1750320755; cv=none; b=FqgUzkTo1hdTQdY5VmWUFO6hx/9RprMAg9/qqAMskPXGf5dEUHULZWhbGoG7KBxhcBwtRnEUSWKa4e3Ovicqtljo+GD26XTwtaMXwq/qTxaae8XxxOpzVXkPan6lqn7b6Md1eUCbw3ASpQjwo2x6g7UaAVAM1PZs+fB2v1wlPw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750266374; c=relaxed/simple;
-	bh=u/MUMNb60uBK+vsx1qODNxoJrBOmSeznx6yE9JyHvlQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=siGmL0aVpGZpTO5/BOJBUTfLiNm4sD/ldFgx8F4epP8nGmSoQWwNIFj5UMOkix4gsPzrjQsQk+TSIQT8qduUS+mgn/8aZowMeFKMsvypiMLShj/hHHmUW5+tVz7OePlZJmk7EZ06dLg6MsKvbsQqoZVc6VUmeVjn29claECkB9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NHroZLiP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=G3RePS1F; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NHroZLiP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=G3RePS1F; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NHroZLiP";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="G3RePS1F";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NHroZLiP";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="G3RePS1F"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 788C91F7BD;
-	Wed, 18 Jun 2025 17:06:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1750266368;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SAxHe4/SFOgVVfwP/YkVikw5O0UdBvLzL0DaWVhZNTM=;
-	b=NHroZLiPV+1/rO8sD9qZX/5PHN5D5Rfo5Zb5aOHdYXCyTajLXhRkymKkUo6NqEKT1i51Wq
-	3jzRv5I50TsK881TQSExVKFBTV1uPJb21aJuIaeXllkCTjwU0SL7U9SX534GcVuTrf9MkN
-	z5adrX6FKDM+9HUfScghJAj+d4/N4Kw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1750266368;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SAxHe4/SFOgVVfwP/YkVikw5O0UdBvLzL0DaWVhZNTM=;
-	b=G3RePS1FfsxZPpVKpINLhWACefVqXMozYLP/NJ+59JpdNLld0DBJsRsQUOr6wb7MNlldLN
-	KfEZjWEX4nPtmqCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1750266368;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SAxHe4/SFOgVVfwP/YkVikw5O0UdBvLzL0DaWVhZNTM=;
-	b=NHroZLiPV+1/rO8sD9qZX/5PHN5D5Rfo5Zb5aOHdYXCyTajLXhRkymKkUo6NqEKT1i51Wq
-	3jzRv5I50TsK881TQSExVKFBTV1uPJb21aJuIaeXllkCTjwU0SL7U9SX534GcVuTrf9MkN
-	z5adrX6FKDM+9HUfScghJAj+d4/N4Kw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1750266368;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SAxHe4/SFOgVVfwP/YkVikw5O0UdBvLzL0DaWVhZNTM=;
-	b=G3RePS1FfsxZPpVKpINLhWACefVqXMozYLP/NJ+59JpdNLld0DBJsRsQUOr6wb7MNlldLN
-	KfEZjWEX4nPtmqCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D50B313721;
-	Wed, 18 Jun 2025 17:06:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4kJvM//xUmgeMgAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Wed, 18 Jun 2025 17:06:07 +0000
-Date: Wed, 18 Jun 2025 19:06:06 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	David Sterba <dsterba@suse.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Benjamin LaHaise <bcrl@kvack.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	"Tigran A . Aivazian" <aivazian.tigran@gmail.com>,
-	Kees Cook <kees@kernel.org>, Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>, Xiubo Li <xiubli@redhat.com>,
-	Ilya Dryomov <idryomov@gmail.com>, Jan Harkes <jaharkes@cs.cmu.edu>,
-	coda@cs.cmu.edu, Tyler Hicks <code@tyhicks.com>,
-	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
-	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
-	Sandeep Dhavale <dhavale@google.com>,
-	Hongbo Li <lihongbo22@huawei.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>, Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>, Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Bob Copeland <me@bobcopeland.com>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
-	Bharath SM <bharathsm@microsoft.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Carlos Maiolino <cem@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Naohiro Aota <naohiro.aota@wdc.com>,
-	Johannes Thumshirn <jth@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, v9fs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org,
-	linux-aio@kvack.org, linux-unionfs@vger.kernel.org,
-	linux-bcachefs@vger.kernel.org, linux-mm@kvack.org,
-	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-	codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-um@lists.infradead.org, linux-mtd@lists.infradead.org,
-	jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-	linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
-	ocfs2-devel@lists.linux.dev,
-	linux-karma-devel@lists.sourceforge.net, devel@lists.orangefs.org,
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-	linux-xfs@vger.kernel.org, nvdimm@lists.linux.dev
-Subject: Re: [PATCH 10/10] fs: replace mmap hook with .mmap_prepare for
- simple mappings
-Message-ID: <20250618170606.GI4037@suse.cz>
-Reply-To: dsterba@suse.cz
-References: <cover.1750099179.git.lorenzo.stoakes@oracle.com>
- <f528ac4f35b9378931bd800920fee53fc0c5c74d.1750099179.git.lorenzo.stoakes@oracle.com>
+	s=arc-20240116; t=1750320755; c=relaxed/simple;
+	bh=fZDd2QEBhBxFp765iDz4UkzBpf2+EIFoG0m7o2T2XHY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=JXRQ++PgTY9Jdb1CFQqT1K+ujcmA80usv2tN4oYfOMSrq1s1M49LlR2vhXHQargWQdjo1wvUrNKid/x0m3gbUP7JxYtK982SjAnieuX0sAXH+qtsv4kK5UnTxj9kBr4rd1aRlqAWV4epZicSsFyLxkPYHwFg52rfKWH5CO8UgQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3ddd5cd020dso11200555ab.0
+        for <ntfs3@lists.linux.dev>; Thu, 19 Jun 2025 01:12:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750320753; x=1750925553;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+QwoRwYwJcF9xzb+aF468RPfwVm0aF6GUPn9yJF7qKE=;
+        b=OcXGzjwnj6fZlQRgBPMBUO80AyPvafQqsupaegl4qu2lyNPodt158TYyZjINO61aeP
+         F/dyZxK1L2TLBUF2HHCXyNGBC0PCKpZnVQ2vEujQFOllPOV5rNhUaR8Ds42kUR3Tt7AQ
+         zx4TMVsP0gol9D9hZ2oRx50BLRmtbkNcpc3u73wBDKDs008tqUkCpGUvTbOGX/vF89Is
+         gUrRtnveKAzBp149OdWadbwLKgLtYwG/et819/O5AreVdWsyYOMxuddeabpFDfwV2xv8
+         00FKgQtuh6+NXZoU7SQ4ZSL0AkXa/sIntEFqnou1M9IiqnznlLuOgQ80vjZcJ2Kik3rY
+         Fo3w==
+X-Forwarded-Encrypted: i=1; AJvYcCXKLtTl8Ry2tx+of/xmQtdca4/ZKuFBfCGk/4a7CCvuVNkI65kZ9XaDKkiYQQoXGlSdA6vgWQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZs3PWFeBvXYwaKjappflsgqD7WeTbw5DDA/O9JiZxAi4Ald+l
+	5lYIr77awxyWEgt1F3GRt2MsIIZm0D8tKSwdbiz1dmSHC+hyAjdbQNvRbui8mlp2n9VkxILSGq1
+	0EtJBCx7ePAmX5BJAOwS//MON2vYmRfTKgp5D/T5AqcLPhV259cL2tHqdmiA=
+X-Google-Smtp-Source: AGHT+IFOLMlXAuzzUyOTLwQFPM2bBi8X1YF58EQni0Knyk0o4mU2qnbHTS7GOvRmqbiGqTDOKOQoMpOOwHaAOiLliGSvdMG9baaQ
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f528ac4f35b9378931bd800920fee53fc0c5c74d.1750099179.git.lorenzo.stoakes@oracle.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spamd-Result: default: False [-0.50 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	FORGED_RECIPIENTS(2.00)[m:akpm@linux-foundation.org,m:axboe@kernel.dk,m:rodrigo.vivi@intel.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:ericvh@kernel.org,m:lucho@ionkov.net,m:asmadeus@codewreck.org,m:linux_oss@crudebyte.com,m:marc.dionne@auristor.com,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:bcrl@kvack.org,m:amir73il@gmail.com,m:aivazian.tigran@gmail.com,m:kees@kernel.org,m:clm@fb.com,m:idryomov@gmail.com,m:jaharkes@cs.cmu.edu,m:coda@cs.cmu.edu,m:xiang@kernel.org,m:chao@kernel.org,m:zbestahu@gmail.com,m:dhavale@google.com,m:lihongbo22@huawei.com,m:linkinjeon@kernel.org,m:adilger.kernel@dilger.ca,m:jaegeuk@kernel.org,m:slava@dubeyko.com,m:frank.li@vivo.com,m:anton.ivanov@cambridgegreys.com,m:mikulas@artax.karlin.mff.cuni.cz,m:dwmw2@infradead.org,m:shaggy@kernel.org,m:trondmy@kernel.org,m:anna@kernel.org,m:konishi.ryusuke@gmail.com,m:mark@fasheh.com,m:jlbec@evilplan.org,m:me@bobcopeland.com,m:ronniesahlberg@gmail.com,m:chengzhihao1@huawei.com,m:cem@kernel.org,m:dlemoal@kernel.or
- g,m:naohiro.aota@wdc.com,m:jth@kernel.org,m:dan.j.williams@intel.com,m:willy@infradead.org,m:jannh@google.com,m:linux-aio@kvack.org,m:linux-mm@kvack.org,m:codalist@coda.cs.cmu.edu,s:linux-mtd@lists.infradead.org,s:linux-um@lists.infradead.org,s:ntfs3@lists.linux.dev,s:nvdimm@lists.linux.dev,s:ocfs2-devel@lists.linux.dev,s:devel@lists.orangefs.org,s:samba-technical@lists.samba.org,s:jfs-discussion@lists.sourceforge.net,s:linux-f2fs-devel@lists.sourceforge.net,s:linux-karma-devel@lists.sourceforge.net];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,oracle.com,kernel.dk,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,kernel.org,ionkov.net,codewreck.org,crudebyte.com,suse.com,redhat.com,auristor.com,zeniv.linux.org.uk,suse.cz,kvack.org,szeredi.hu,linux.dev,fb.com,toxicpanda.com,cs.cmu.edu,tyhicks.com,linux.alibaba.com,google.com,huawei.com,samsung.com,sony.com,mit.edu,dilger.ca,mail.parknet.co.jp,dubeyko.com,physik.fu-berlin.de,vivo.com,nod.at,cambridgegreys.com,sipsolutions.net,artax.karlin.mff.cuni.cz,infradead.org,paragon-software.com,fasheh.com,evilplan.org,bobcopeland.com,omnibond.com,samba.org,manguebit.org,microsoft.com,talpey.com,wdc.com,suse.de,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,coda.cs.cmu.edu,lists.ozlabs.org,lists.sourceforge.net,lists.orangefs.org,lists.samba.org];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLghqfk66faf4qxrpoiianeeaj)];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[113];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:replyto,suse.cz:mid,oracle.com:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -0.50
+X-Received: by 2002:a92:ca4e:0:b0:3dd:fad4:7c61 with SMTP id
+ e9e14a558f8ab-3de07c5588dmr240916945ab.8.1750320753399; Thu, 19 Jun 2025
+ 01:12:33 -0700 (PDT)
+Date: Thu, 19 Jun 2025 01:12:33 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6853c671.050a0220.216029.01c8.GAE@google.com>
+Subject: [syzbot] [ntfs3?] WARNING in wnd_add_free_ext (4)
+From: syzbot <syzbot+323f07d372f692a127b3@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 16, 2025 at 08:33:29PM +0100, Lorenzo Stoakes wrote:
-> Since commit c84bf6dd2b83 ("mm: introduce new .mmap_prepare() file
-> callback"), the f_op->mmap() hook has been deprecated in favour of
-> f_op->mmap_prepare().
-> 
-> This callback is invoked in the mmap() logic far earlier, so error handling
-> can be performed more safely without complicated and bug-prone state
-> unwinding required should an error arise.
-> 
-> This hook also avoids passing a pointer to a not-yet-correctly-established
-> VMA avoiding any issues with referencing this data structure.
-> 
-> It rather provides a pointer to the new struct vm_area_desc descriptor type
-> which contains all required state and allows easy setting of required
-> parameters without any consideration needing to be paid to locking or
-> reference counts.
-> 
-> Note that nested filesystems like overlayfs are compatible with an
-> .mmap_prepare() callback since commit bb666b7c2707 ("mm: add mmap_prepare()
-> compatibility layer for nested file systems").
-> 
-> In this patch we apply this change to file systems with relatively simple
-> mmap() hook logic - exfat, ceph, f2fs, bcachefs, zonefs, btrfs, ocfs2,
-> orangefs, nilfs2, romfs, ramfs and aio.
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> ---
+Hello,
 
-For
+syzbot found the following issue on:
 
->  fs/btrfs/file.c       |  7 ++++---
+HEAD commit:    4663747812d1 Merge tag 'platform-drivers-x86-v6.16-2' of g..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13f2750c580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d11f52d3049c3790
+dashboard link: https://syzkaller.appspot.com/bug?extid=323f07d372f692a127b3
+compiler:       Debian clang version 20.1.6 (++20250514063057+1e4d39e07757-1~exp1~20250514183223.118), Debian LLD 20.1.6
 
-Acked-by: David Sterba <dsterba@suse.com>
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-46637478.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/bde908b9f3d9/vmlinux-46637478.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/87a1193c8552/bzImage-46637478.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+323f07d372f692a127b3@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 4096
+FAULT_INJECTION: forcing a failure.
+name failslab, interval 1, probability 0, space 0, times 1
+CPU: 0 UID: 0 PID: 5334 Comm: syz.0.0 Not tainted 6.16.0-rc2-syzkaller-00045-g4663747812d1 #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
+ fail_dump lib/fault-inject.c:73 [inline]
+ should_fail_ex+0x414/0x560 lib/fault-inject.c:174
+ should_failslab+0xa8/0x100 mm/failslab.c:46
+ slab_pre_alloc_hook mm/slub.c:4101 [inline]
+ slab_alloc_node mm/slub.c:4177 [inline]
+ kmem_cache_alloc_noprof+0x73/0x3c0 mm/slub.c:4204
+ wnd_remove_free_ext+0x902/0x11b0 fs/ntfs3/bitmap.c:476
+ wnd_zone_set+0x106/0x160 fs/ntfs3/bitmap.c:1396
+ ntfs_look_for_free_space+0x1cd/0x600 fs/ntfs3/fsntfs.c:383
+ attr_allocate_clusters+0x1c1/0x6d0 fs/ntfs3/attrib.c:159
+ attr_set_size+0x14a4/0x2c70 fs/ntfs3/attrib.c:574
+ ntfs_set_size+0x164/0x200 fs/ntfs3/inode.c:861
+ ntfs_extend+0x1d9/0x970 fs/ntfs3/file.c:343
+ ntfs_file_write_iter+0x3f4/0x820 fs/ntfs3/file.c:1192
+ iter_file_splice_write+0x937/0x1000 fs/splice.c:738
+ do_splice_from fs/splice.c:935 [inline]
+ direct_splice_actor+0x101/0x160 fs/splice.c:1158
+ splice_direct_to_actor+0x5a5/0xcc0 fs/splice.c:1102
+ do_splice_direct_actor fs/splice.c:1201 [inline]
+ do_splice_direct+0x181/0x270 fs/splice.c:1227
+ do_sendfile+0x4da/0x7e0 fs/read_write.c:1370
+ __do_sys_sendfile64 fs/read_write.c:1425 [inline]
+ __se_sys_sendfile64+0xd9/0x190 fs/read_write.c:1417
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f9976d8e929
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f9977c79038 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
+RAX: ffffffffffffffda RBX: 00007f9976fb5fa0 RCX: 00007f9976d8e929
+RDX: 0000200000000080 RSI: 0000000000000005 RDI: 0000000000000005
+RBP: 00007f9977c79090 R08: 0000000000000000 R09: 0000000000000000
+R10: 00000000e0000000 R11: 0000000000000246 R12: 0000000000000002
+R13: 0000000000000000 R14: 00007f9976fb5fa0 R15: 00007ffc92c50238
+ </TASK>
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 5334 at fs/ntfs3/bitmap.c:217 rb_insert_start fs/ntfs3/bitmap.c:217 [inline]
+WARNING: CPU: 0 PID: 5334 at fs/ntfs3/bitmap.c:217 wnd_add_free_ext+0xafd/0xdb0 fs/ntfs3/bitmap.c:352
+Modules linked in:
+CPU: 0 UID: 0 PID: 5334 Comm: syz.0.0 Not tainted 6.16.0-rc2-syzkaller-00045-g4663747812d1 #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+RIP: 0010:rb_insert_start fs/ntfs3/bitmap.c:217 [inline]
+RIP: 0010:wnd_add_free_ext+0xafd/0xdb0 fs/ntfs3/bitmap.c:352
+Code: 00 00 fc ff df 42 80 3c 28 00 74 08 4c 89 f7 e8 99 a5 20 ff 49 89 1e 48 89 df 4c 89 e6 e8 bb 8f 5e 08 eb 18 e8 74 26 bd fe 90 <0f> 0b 90 49 bd 00 00 00 00 00 fc ff df 4c 8b 7c 24 10 48 8b 44 24
+RSP: 0018:ffffc9000d247058 EFLAGS: 00010293
+RAX: ffffffff830335cc RBX: ffff888052c3a600 RCX: ffff88801f7ea440
+RDX: 0000000000000000 RSI: 0000000000000003 RDI: 0000000000000003
+RBP: 0000000000000001 R08: 00000000ffffffff R09: 0000000000000000
+R10: ffff888052c3a600 R11: ffffffff81acf690 R12: ffff88801e8be2d8
+R13: ffff888052c3a5a0 R14: 0000000000000003 R15: 0000000000000003
+FS:  00007f9977c796c0(0000) GS:ffff88808d251000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f56af384000 CR3: 000000003f180000 CR4: 0000000000352ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ wnd_zone_set+0xb2/0x160 fs/ntfs3/bitmap.c:1393
+ ntfs_look_for_free_space+0x1cd/0x600 fs/ntfs3/fsntfs.c:383
+ attr_allocate_clusters+0x1c1/0x6d0 fs/ntfs3/attrib.c:159
+ attr_set_size+0x14a4/0x2c70 fs/ntfs3/attrib.c:574
+ ntfs_set_size+0x164/0x200 fs/ntfs3/inode.c:861
+ ntfs_extend+0x1d9/0x970 fs/ntfs3/file.c:343
+ ntfs_file_write_iter+0x3f4/0x820 fs/ntfs3/file.c:1192
+ iter_file_splice_write+0x937/0x1000 fs/splice.c:738
+ do_splice_from fs/splice.c:935 [inline]
+ direct_splice_actor+0x101/0x160 fs/splice.c:1158
+ splice_direct_to_actor+0x5a5/0xcc0 fs/splice.c:1102
+ do_splice_direct_actor fs/splice.c:1201 [inline]
+ do_splice_direct+0x181/0x270 fs/splice.c:1227
+ do_sendfile+0x4da/0x7e0 fs/read_write.c:1370
+ __do_sys_sendfile64 fs/read_write.c:1425 [inline]
+ __se_sys_sendfile64+0xd9/0x190 fs/read_write.c:1417
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f9976d8e929
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f9977c79038 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
+RAX: ffffffffffffffda RBX: 00007f9976fb5fa0 RCX: 00007f9976d8e929
+RDX: 0000200000000080 RSI: 0000000000000005 RDI: 0000000000000005
+RBP: 00007f9977c79090 R08: 0000000000000000 R09: 0000000000000000
+R10: 00000000e0000000 R11: 0000000000000246 R12: 0000000000000002
+R13: 0000000000000000 R14: 00007f9976fb5fa0 R15: 00007ffc92c50238
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
