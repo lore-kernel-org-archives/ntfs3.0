@@ -1,188 +1,164 @@
-Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2955825DAF7
-	for <ntfs3@lists.linux.dev>; Thu, 19 Jun 2025 08:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31F123D28E;
+	Thu, 19 Jun 2025 17:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750320755; cv=none; b=FqgUzkTo1hdTQdY5VmWUFO6hx/9RprMAg9/qqAMskPXGf5dEUHULZWhbGoG7KBxhcBwtRnEUSWKa4e3Ovicqtljo+GD26XTwtaMXwq/qTxaae8XxxOpzVXkPan6lqn7b6Md1eUCbw3ASpQjwo2x6g7UaAVAM1PZs+fB2v1wlPw4=
+	t=1750355299; cv=none; b=nvdj4tFhfkEOHWTPYRqK1aHbnftqa1dvZY2ZjFLhhZholP1LrCKusOPtwrCCCr4CPBEj+CGMa0RFt4gjIJd0Gf5DPcKWFXT0cawyEeafppqqrvWKgrGm2BnNZqMse+dipObrLC/CRVbD2Qla7oeRBVJI3nO+L5cuImZUq/dIS+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750320755; c=relaxed/simple;
-	bh=fZDd2QEBhBxFp765iDz4UkzBpf2+EIFoG0m7o2T2XHY=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=JXRQ++PgTY9Jdb1CFQqT1K+ujcmA80usv2tN4oYfOMSrq1s1M49LlR2vhXHQargWQdjo1wvUrNKid/x0m3gbUP7JxYtK982SjAnieuX0sAXH+qtsv4kK5UnTxj9kBr4rd1aRlqAWV4epZicSsFyLxkPYHwFg52rfKWH5CO8UgQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3ddd5cd020dso11200555ab.0
-        for <ntfs3@lists.linux.dev>; Thu, 19 Jun 2025 01:12:34 -0700 (PDT)
+	s=arc-20240116; t=1750355299; c=relaxed/simple;
+	bh=YvO5fzYLvhWnXwDLeu0osljtoe46Ll4TNlde5gM445I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QpIj2K9mmMYs7vyxemAq4kZSgWiUnDkEfH4Vo6xKrE+cAr0iT/97QzvYkjBEF+jbcS+IB3YjrYmZEn2i5sqEwrKPOdeqKQVWG+/Q+3JCUNHxMnrahd5ZcVCTCMVU/ZfZF6TcAGjOsy/XwXCcmk1jvfripVd15QW1T/agZVpLLEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fKZ/Jei6; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fKZ/Jei6"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-32b855b468bso9819961fa.3;
+        Thu, 19 Jun 2025 10:48:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750355295; x=1750960095; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YvO5fzYLvhWnXwDLeu0osljtoe46Ll4TNlde5gM445I=;
+        b=fKZ/Jei6UwDxt9MzdpYSPDyciIfjpJ311hF/rh8g/lpZt2UmrcgB0XxorcVS651mA8
+         e6fM9kzFlxmn1Kqn54BOX2KmN3rgXHFUTiH2nvpcPXw9YX0BKRGv/WckRAX1KkSQ+MNO
+         qstg62X0ailrZs9kfkAbXEPFbHS+VqEvqibbet951j6Ahuh78aIiIln5d2z7XiyAHewv
+         yznNBUFmhh82memcW8TYbGCLYHyX8ImP7yD+qyzMZv6LPfAmBiu5C/MoUwZ4nFJMk0Mr
+         0Noq27ryaKC03R12jkstj2LC1peIl3zTYpaIBS4bE/NrMox/bbWZcGU4Kpr2EAwLCBpN
+         bgkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750320753; x=1750925553;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+QwoRwYwJcF9xzb+aF468RPfwVm0aF6GUPn9yJF7qKE=;
-        b=OcXGzjwnj6fZlQRgBPMBUO80AyPvafQqsupaegl4qu2lyNPodt158TYyZjINO61aeP
-         F/dyZxK1L2TLBUF2HHCXyNGBC0PCKpZnVQ2vEujQFOllPOV5rNhUaR8Ds42kUR3Tt7AQ
-         zx4TMVsP0gol9D9hZ2oRx50BLRmtbkNcpc3u73wBDKDs008tqUkCpGUvTbOGX/vF89Is
-         gUrRtnveKAzBp149OdWadbwLKgLtYwG/et819/O5AreVdWsyYOMxuddeabpFDfwV2xv8
-         00FKgQtuh6+NXZoU7SQ4ZSL0AkXa/sIntEFqnou1M9IiqnznlLuOgQ80vjZcJ2Kik3rY
-         Fo3w==
-X-Forwarded-Encrypted: i=1; AJvYcCXKLtTl8Ry2tx+of/xmQtdca4/ZKuFBfCGk/4a7CCvuVNkI65kZ9XaDKkiYQQoXGlSdA6vgWQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZs3PWFeBvXYwaKjappflsgqD7WeTbw5DDA/O9JiZxAi4Ald+l
-	5lYIr77awxyWEgt1F3GRt2MsIIZm0D8tKSwdbiz1dmSHC+hyAjdbQNvRbui8mlp2n9VkxILSGq1
-	0EtJBCx7ePAmX5BJAOwS//MON2vYmRfTKgp5D/T5AqcLPhV259cL2tHqdmiA=
-X-Google-Smtp-Source: AGHT+IFOLMlXAuzzUyOTLwQFPM2bBi8X1YF58EQni0Knyk0o4mU2qnbHTS7GOvRmqbiGqTDOKOQoMpOOwHaAOiLliGSvdMG9baaQ
+        d=1e100.net; s=20230601; t=1750355295; x=1750960095;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YvO5fzYLvhWnXwDLeu0osljtoe46Ll4TNlde5gM445I=;
+        b=T/+PexpEIJIMgWd74VgllnUNc+YEFDfqh8L42x3WAS7Ar/PhANLIitWMZQQXsK5P9/
+         IG8ZgDjbFGrlkPcySq2H9QUx1/XXJOsSeInzaR2T18c3E2kCZG6LX6f2JP42p7TNP/fh
+         pajjcxPQ/H+RzYV6IGah7LZzoGtE+kvHcl18U7IXgRYW0yKxSWsCfwJs+DIHyvSA4J1B
+         CRmaDtc9jCVxgrZE1eo8lPewiZI7YoCFtxjsf26Ta5POMKsAvzcvslEi2zbqzaJSNc0J
+         4l3lL++n9foDnjOFH07n2piJ11Sm4Zqnu727CtQfwNZ8yeyUzJO+gKCwQLrEbYAzmz55
+         6JBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVhWRhVcBhBIr9wHGmQwiEjxkD+dN49NcC+XnPKrfhZsIJb7bHJ+4IZskOVIUlFdtbvqg6tO2xz@lists.linux.dev, AJvYcCWBz3/zPI3QSKkcqbI9HeVonBY9hbrXzqwdBckaASgo43IWc5+hMOil0dp+q40dfHEPfHdRjw==@lists.linux.dev, AJvYcCWDv2hn1XcoiFos5yvAijvBmwJJq6rO1S7arZyDAYeIy1fKdoC1PhGgXdvAA1ePEED49+M9BBDZZ11z+BQ=@lists.linux.dev, AJvYcCXbWoVtxKvmeUmQu7pI08q57xVXeeKqVj3qz2NnARcfHJbvepEK27nCqRK9PoANytwJelSlMg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzMZS7qlE+Vy1pwQHF/FK57iSduMKjU6blnwYcmNEtd31LuonVy
+	NvSZ+EqTTI8wm2Fuc2PKF5UpgWxny83+gxr5Dof1rFi4J5zLEOCZ02IL5doFdznBRsT0AOEITIJ
+	Hz8GAg0vIWg6kIJLNWIctd/Op8RYZxIc=
+X-Gm-Gg: ASbGncs87CiMgFa64dt8zfqgdOP2JLIsroz+gmeuP5ZKgNyOTILRpLdedvcMVmRDT6+
+	K2qusuFMWzfapTrp7CrD14lfFa3YcB/XHJGuZiuhWN9bZSML30h/vd3GZE7XBWCY20umWNCC8yc
+	jF8aiK/yd0WwgvuOVoH08uEDo1UfqmPVYgi40NksI+GGkFxnzodShCGtxJh3Zg8iAPxbEpiy3Mz
+	K3Q4A==
+X-Google-Smtp-Source: AGHT+IGL41V3DbmFvBsWr3jGwFHfcX0duW69mbczpCAOINsa85ECUigYdfUlpWqgF++enxibRnhFFvr8Kxdp2WtP+R0=
+X-Received: by 2002:a05:651c:2203:b0:32a:8297:54c9 with SMTP id
+ 38308e7fff4ca-32b4a3088bbmr63065741fa.8.1750355294494; Thu, 19 Jun 2025
+ 10:48:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a92:ca4e:0:b0:3dd:fad4:7c61 with SMTP id
- e9e14a558f8ab-3de07c5588dmr240916945ab.8.1750320753399; Thu, 19 Jun 2025
- 01:12:33 -0700 (PDT)
-Date: Thu, 19 Jun 2025 01:12:33 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6853c671.050a0220.216029.01c8.GAE@google.com>
-Subject: [syzbot] [ntfs3?] WARNING in wnd_add_free_ext (4)
-From: syzbot <syzbot+323f07d372f692a127b3@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+References: <cover.1750099179.git.lorenzo.stoakes@oracle.com> <f528ac4f35b9378931bd800920fee53fc0c5c74d.1750099179.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <f528ac4f35b9378931bd800920fee53fc0c5c74d.1750099179.git.lorenzo.stoakes@oracle.com>
+From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date: Fri, 20 Jun 2025 02:47:58 +0900
+X-Gm-Features: AX0GCFsRgomy43xV-Lv7Stfld1a1yqIyJ3-ysZ2OVO90S8cEE5UAjZMSvGqxZQ8
+Message-ID: <CAKFNMom4NJ91Ov7twQ3AGT7PSqt5vN9ROrNHzfV53GHf=bK6oQ@mail.gmail.com>
+Subject: Re: [PATCH 10/10] fs: replace mmap hook with .mmap_prepare for simple mappings
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Jens Axboe <axboe@kernel.dk>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
+	Dominique Martinet <asmadeus@codewreck.org>, Christian Schoenebeck <linux_oss@crudebyte.com>, 
+	David Sterba <dsterba@suse.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Benjamin LaHaise <bcrl@kvack.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+	Kent Overstreet <kent.overstreet@linux.dev>, 
+	"Tigran A . Aivazian" <aivazian.tigran@gmail.com>, Kees Cook <kees@kernel.org>, Chris Mason <clm@fb.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Xiubo Li <xiubli@redhat.com>, 
+	Ilya Dryomov <idryomov@gmail.com>, Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
+	Tyler Hicks <code@tyhicks.com>, Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
+	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
+	Sandeep Dhavale <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
+	Yuezhang Mo <yuezhang.mo@sony.com>, "Theodore Ts'o" <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Jaegeuk Kim <jaegeuk@kernel.org>, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Viacheslav Dubeyko <slava@dubeyko.com>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, 
+	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, 
+	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, David Woodhouse <dwmw2@infradead.org>, 
+	Dave Kleikamp <shaggy@kernel.org>, Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, 
+	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Bob Copeland <me@bobcopeland.com>, Mike Marshall <hubcap@omnibond.com>, 
+	Martin Brandenburg <martin@omnibond.com>, Steve French <sfrench@samba.org>, 
+	Paulo Alcantara <pc@manguebit.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
+	Bharath SM <bharathsm@microsoft.com>, Zhihao Cheng <chengzhihao1@huawei.com>, 
+	Hans de Goede <hdegoede@redhat.com>, Carlos Maiolino <cem@kernel.org>, 
+	Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, 
+	Johannes Thumshirn <jth@kernel.org>, Dan Williams <dan.j.williams@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, v9fs@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org, 
+	linux-aio@kvack.org, linux-unionfs@vger.kernel.org, 
+	linux-bcachefs@vger.kernel.org, linux-mm@kvack.org, 
+	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org, 
+	codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-um@lists.infradead.org, 
+	linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net, 
+	linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev, 
+	ocfs2-devel@lists.linux.dev, linux-karma-devel@lists.sourceforge.net, 
+	devel@lists.orangefs.org, linux-cifs@vger.kernel.org, 
+	samba-technical@lists.samba.org, linux-xfs@vger.kernel.org, 
+	nvdimm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Tue, Jun 17, 2025 at 4:48=E2=80=AFAM Lorenzo Stoakes wrote:
+>
+> Since commit c84bf6dd2b83 ("mm: introduce new .mmap_prepare() file
+> callback"), the f_op->mmap() hook has been deprecated in favour of
+> f_op->mmap_prepare().
+>
+> This callback is invoked in the mmap() logic far earlier, so error handli=
+ng
+> can be performed more safely without complicated and bug-prone state
+> unwinding required should an error arise.
+>
+> This hook also avoids passing a pointer to a not-yet-correctly-establishe=
+d
+> VMA avoiding any issues with referencing this data structure.
+>
+> It rather provides a pointer to the new struct vm_area_desc descriptor ty=
+pe
+> which contains all required state and allows easy setting of required
+> parameters without any consideration needing to be paid to locking or
+> reference counts.
+>
+> Note that nested filesystems like overlayfs are compatible with an
+> .mmap_prepare() callback since commit bb666b7c2707 ("mm: add mmap_prepare=
+()
+> compatibility layer for nested file systems").
+>
+> In this patch we apply this change to file systems with relatively simple
+> mmap() hook logic - exfat, ceph, f2fs, bcachefs, zonefs, btrfs, ocfs2,
+> orangefs, nilfs2, romfs, ramfs and aio.
+>
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-syzbot found the following issue on:
+For nilfs2,
 
-HEAD commit:    4663747812d1 Merge tag 'platform-drivers-x86-v6.16-2' of g..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13f2750c580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d11f52d3049c3790
-dashboard link: https://syzkaller.appspot.com/bug?extid=323f07d372f692a127b3
-compiler:       Debian clang version 20.1.6 (++20250514063057+1e4d39e07757-1~exp1~20250514183223.118), Debian LLD 20.1.6
+Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-46637478.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/bde908b9f3d9/vmlinux-46637478.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/87a1193c8552/bzImage-46637478.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+323f07d372f692a127b3@syzkaller.appspotmail.com
-
-loop0: detected capacity change from 0 to 4096
-FAULT_INJECTION: forcing a failure.
-name failslab, interval 1, probability 0, space 0, times 1
-CPU: 0 UID: 0 PID: 5334 Comm: syz.0.0 Not tainted 6.16.0-rc2-syzkaller-00045-g4663747812d1 #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
- fail_dump lib/fault-inject.c:73 [inline]
- should_fail_ex+0x414/0x560 lib/fault-inject.c:174
- should_failslab+0xa8/0x100 mm/failslab.c:46
- slab_pre_alloc_hook mm/slub.c:4101 [inline]
- slab_alloc_node mm/slub.c:4177 [inline]
- kmem_cache_alloc_noprof+0x73/0x3c0 mm/slub.c:4204
- wnd_remove_free_ext+0x902/0x11b0 fs/ntfs3/bitmap.c:476
- wnd_zone_set+0x106/0x160 fs/ntfs3/bitmap.c:1396
- ntfs_look_for_free_space+0x1cd/0x600 fs/ntfs3/fsntfs.c:383
- attr_allocate_clusters+0x1c1/0x6d0 fs/ntfs3/attrib.c:159
- attr_set_size+0x14a4/0x2c70 fs/ntfs3/attrib.c:574
- ntfs_set_size+0x164/0x200 fs/ntfs3/inode.c:861
- ntfs_extend+0x1d9/0x970 fs/ntfs3/file.c:343
- ntfs_file_write_iter+0x3f4/0x820 fs/ntfs3/file.c:1192
- iter_file_splice_write+0x937/0x1000 fs/splice.c:738
- do_splice_from fs/splice.c:935 [inline]
- direct_splice_actor+0x101/0x160 fs/splice.c:1158
- splice_direct_to_actor+0x5a5/0xcc0 fs/splice.c:1102
- do_splice_direct_actor fs/splice.c:1201 [inline]
- do_splice_direct+0x181/0x270 fs/splice.c:1227
- do_sendfile+0x4da/0x7e0 fs/read_write.c:1370
- __do_sys_sendfile64 fs/read_write.c:1425 [inline]
- __se_sys_sendfile64+0xd9/0x190 fs/read_write.c:1417
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f9976d8e929
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f9977c79038 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
-RAX: ffffffffffffffda RBX: 00007f9976fb5fa0 RCX: 00007f9976d8e929
-RDX: 0000200000000080 RSI: 0000000000000005 RDI: 0000000000000005
-RBP: 00007f9977c79090 R08: 0000000000000000 R09: 0000000000000000
-R10: 00000000e0000000 R11: 0000000000000246 R12: 0000000000000002
-R13: 0000000000000000 R14: 00007f9976fb5fa0 R15: 00007ffc92c50238
- </TASK>
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 5334 at fs/ntfs3/bitmap.c:217 rb_insert_start fs/ntfs3/bitmap.c:217 [inline]
-WARNING: CPU: 0 PID: 5334 at fs/ntfs3/bitmap.c:217 wnd_add_free_ext+0xafd/0xdb0 fs/ntfs3/bitmap.c:352
-Modules linked in:
-CPU: 0 UID: 0 PID: 5334 Comm: syz.0.0 Not tainted 6.16.0-rc2-syzkaller-00045-g4663747812d1 #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-RIP: 0010:rb_insert_start fs/ntfs3/bitmap.c:217 [inline]
-RIP: 0010:wnd_add_free_ext+0xafd/0xdb0 fs/ntfs3/bitmap.c:352
-Code: 00 00 fc ff df 42 80 3c 28 00 74 08 4c 89 f7 e8 99 a5 20 ff 49 89 1e 48 89 df 4c 89 e6 e8 bb 8f 5e 08 eb 18 e8 74 26 bd fe 90 <0f> 0b 90 49 bd 00 00 00 00 00 fc ff df 4c 8b 7c 24 10 48 8b 44 24
-RSP: 0018:ffffc9000d247058 EFLAGS: 00010293
-RAX: ffffffff830335cc RBX: ffff888052c3a600 RCX: ffff88801f7ea440
-RDX: 0000000000000000 RSI: 0000000000000003 RDI: 0000000000000003
-RBP: 0000000000000001 R08: 00000000ffffffff R09: 0000000000000000
-R10: ffff888052c3a600 R11: ffffffff81acf690 R12: ffff88801e8be2d8
-R13: ffff888052c3a5a0 R14: 0000000000000003 R15: 0000000000000003
-FS:  00007f9977c796c0(0000) GS:ffff88808d251000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f56af384000 CR3: 000000003f180000 CR4: 0000000000352ef0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- wnd_zone_set+0xb2/0x160 fs/ntfs3/bitmap.c:1393
- ntfs_look_for_free_space+0x1cd/0x600 fs/ntfs3/fsntfs.c:383
- attr_allocate_clusters+0x1c1/0x6d0 fs/ntfs3/attrib.c:159
- attr_set_size+0x14a4/0x2c70 fs/ntfs3/attrib.c:574
- ntfs_set_size+0x164/0x200 fs/ntfs3/inode.c:861
- ntfs_extend+0x1d9/0x970 fs/ntfs3/file.c:343
- ntfs_file_write_iter+0x3f4/0x820 fs/ntfs3/file.c:1192
- iter_file_splice_write+0x937/0x1000 fs/splice.c:738
- do_splice_from fs/splice.c:935 [inline]
- direct_splice_actor+0x101/0x160 fs/splice.c:1158
- splice_direct_to_actor+0x5a5/0xcc0 fs/splice.c:1102
- do_splice_direct_actor fs/splice.c:1201 [inline]
- do_splice_direct+0x181/0x270 fs/splice.c:1227
- do_sendfile+0x4da/0x7e0 fs/read_write.c:1370
- __do_sys_sendfile64 fs/read_write.c:1425 [inline]
- __se_sys_sendfile64+0xd9/0x190 fs/read_write.c:1417
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f9976d8e929
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f9977c79038 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
-RAX: ffffffffffffffda RBX: 00007f9976fb5fa0 RCX: 00007f9976d8e929
-RDX: 0000200000000080 RSI: 0000000000000005 RDI: 0000000000000005
-RBP: 00007f9977c79090 R08: 0000000000000000 R09: 0000000000000000
-R10: 00000000e0000000 R11: 0000000000000246 R12: 0000000000000002
-R13: 0000000000000000 R14: 00007f9976fb5fa0 R15: 00007ffc92c50238
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Thanks,
+Ryusuke Konishi
