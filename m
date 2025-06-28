@@ -1,190 +1,129 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013026.outbound.protection.outlook.com [40.107.44.26])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE18028FFEE
-	for <ntfs3@lists.linux.dev>; Thu, 26 Jun 2025 17:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.26
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750957834; cv=fail; b=ZJlzR9SB/dcUNV6UnhBw8oPY7BrZQ9UTyjXNO8JyOjl24eFls5QQsD9kDknUx0b3wfo2AUfTtY2jKwONyctCJCo7yKQ0q/e4fc2Rgr+HATvhxnkz6wWhCgj+hv9Qvp1Mo9RHliX6UB5syx8T2SgnjUScv55iUcV9qZxwnH684UE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750957834; c=relaxed/simple;
-	bh=P2Lxi+JxzbjwUsd/mhzooz+NpLPtdXqItNiTy9yYtvc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=tCxJOxk5QLmeT/P8SchJfEuSPnR16KPZf/7lLk3TauiaAnJmhDtR4KDWQT2TF6ScoqAk/q5/BBuyBCn+6JncD2LKAiGxqoQ/89Z4yyqfriuUhgY5JdE7eg1aQoDjHBeQAUYLal44YZoJUrgNvcEMcuh/Pvqrl5j18RzeJ2xOPy8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=Nwj3B1p6; arc=fail smtp.client-ip=40.107.44.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E30E7DA66
+	for <ntfs3@lists.linux.dev>; Sat, 28 Jun 2025 21:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751146910; cv=none; b=ODiEnqbGi8R0t0PxKOCqAtUK/nBZ9mGwNataLRpnYXL33rfg7PmetZuOQ0I86Zn1Zm3G2RhFZNvE66Es+Giiz/VTlasWPibXXpVD4gUM0z8ZnKNZ0Gr4isnztc7v9swsc2tVPjUqwZv8t7rtsJKb8dh7EeHcZhi+JPgWLmgyBx4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751146910; c=relaxed/simple;
+	bh=RR0M7cfrrG28Dl7ellaidAvyZAWwItCfd2ypwT3aQj0=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=MZsbmO4by0HhTWsLOKwZzACGNIhDHUJOe4WD9pO8g4uLF0SHpUpkXKIU3Z7eM4PKzAhX2YG5Hw12KMrLqN4zD+sJFL8pbjKqUu4QP7Nzh7oO2PsVim5RMdcrxPrab9GLleEV4jVkxOlg8IOPKsyoW+EsBPpStWR9s/EwL17Klgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b=AXMWYky3; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="Nwj3B1p6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bteeaA/M0Ts82fN8iPAIPTSn3qWWGXX2oU99fkhnaveKvolYmCgqG8trvddOOR4iG3ynM4DCNNuqi/rJY0bwNtBS8VhnKx/ceb9dqOlRACVFvQ5wXOH78dOXIeyUQKJKDMmwYxDLwDZ0+yIbYVOw8xcX3lbpDAW6vHAi/LQOy3NiliMl/l6uY2E0VViHyGKBJd3EV06ll0ZseCis1y5/aNJrgIMxfHEdo9zF14UL022raOnEkNx3ifo53Ja0uXIWYjnGLKCBI+hG3cEfMs6zNgtaXiIvjZNWaMMCqbuj5Nq5gFlaatEwn4atPYraCR/kSSYNDuDVusdm5irSdG/k/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HcQDHSMcmQA+kIgPmzRkbQ4Ow3qAz++6gTRG168eUDY=;
- b=BBxe/if7rM6+98bbIg3E1bmKFJOEPSXziEOLeR4EicXzTB/pqmCMZ2gJv26PdrTiTQ/tYjz2p1TlZTHSixleMouLnZu0mSMnxz1mrJ5O1Uek4O1zeL72ytbh/TQGc/80T6ITotqnp1P5o7NVB4a8QB/Rjnb+mihE+GXihhrXvvQQa3ttNDI96hikvU5JHK0L26gwNv2xUq+n/agjtNozYGivcYtu0vxAjHmyAbVXFQiKYA/YYnAT9X0fSJNHByk2wTdmkpG5B03Nntr3DLpmAH/SoKFmKm+yMeFd4oQWgZ+GC+1N/74VNRDb3CuwiZbiIotVsJzRJV4cRQ5tk4uQsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HcQDHSMcmQA+kIgPmzRkbQ4Ow3qAz++6gTRG168eUDY=;
- b=Nwj3B1p6jM2ozNFfU9sHwf9tjbzR/2LrTlSRpp775w+v6QOOilXyazwO4KmgqIEShNS7B4VrOfWYIumZwHndWwpl4Xkni/ODHBq16+IAxR3PaJqPROofaGCjWYyZV9cx65DRblr0r+TmaDIziLV1ZGBd2PCeJaU8SirGLEXPkqthNeyY6ptFjjNQyKkX0fipOz7TdJU1N0JcpI58ikxBC6WYo0W9f7+R9+TSN7n+GlPs0vbD/1+/Y7qD8qhwSxkzVqUFSM5JgccLjaslPkSqHO8QlgCIKT+rc0fF2lRcagbGVmBu9UXl2iYpRv76ShLJkIC1X1nzJ6HOVaooQmkJ0Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by TY0PR06MB5610.apcprd06.prod.outlook.com (2603:1096:400:328::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.18; Thu, 26 Jun
- 2025 17:10:29 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::8c74:6703:81f7:9535]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::8c74:6703:81f7:9535%7]) with mapi id 15.20.8857.026; Thu, 26 Jun 2025
- 17:10:29 +0000
-From: Yangtao Li <frank.li@vivo.com>
-To: axboe@kernel.dk,
-	aivazian.tigran@gmail.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	linkinjeon@kernel.org,
-	sj1557.seo@samsung.com,
-	yuezhang.mo@sony.com,
-	slava@dubeyko.com,
-	glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com,
-	shaggy@kernel.org,
-	konishi.ryusuke@gmail.com,
-	almaz.alexandrovich@paragon-software.com,
-	me@bobcopeland.com,
-	willy@infradead.org,
-	josef@toxicpanda.com,
-	kovalev@altlinux.org,
-	dave@stgolabs.net,
-	mhocko@suse.com,
-	chentaotao@didiglobal.com
-Cc: linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	jfs-discussion@lists.sourceforge.net,
-	linux-nilfs@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	linux-karma-devel@lists.sourceforge.net,
-	bpf@vger.kernel.org
-Subject: [PATCH 4/4] hfs: enable uncached buffer io support
-Date: Thu, 26 Jun 2025 11:30:23 -0600
-Message-Id: <20250626173023.2702554-5-frank.li@vivo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250626173023.2702554-1-frank.li@vivo.com>
-References: <20250626173023.2702554-1-frank.li@vivo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SGXP274CA0008.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::20)
- To SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
+	dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b="AXMWYky3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
+	s=s31663417; t=1751146905; x=1751751705; i=aros@gmx.com;
+	bh=RR0M7cfrrG28Dl7ellaidAvyZAWwItCfd2ypwT3aQj0=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:From:Subject:To:
+	 Cc:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=AXMWYky33moxHf8l2oK4ZtlqVbKgaSG0tlAKYdDfJXAcFKSI5BOyJ91WCU2ZWMzc
+	 FV16ruh3wwEUaXNPq7QMGwCsMCE7VBM7zR6Qv0an9sXukfViUKgbZ2+e7ncfrBdHu
+	 Ixyh9O2W6xQigN74FEz/J83SHQ9W5uipjO6snh7E6vtw3WHDSqeIJieG9w6lcoe4L
+	 UhXv2Wrh5UE2LA3y6M3vM1BBIMw9dKpAdI7iOWojSHGDf05ePvBcEdj+70/Cw/wTV
+	 k0DiY45yh/rEx3HgbPwW4+QfSpEewc6Sg55k0ehaSvkTdWlQa7TQTbxcVijAoHGqT
+	 XkkHmN10Jj5D7WEcOQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [10.19.12.16] ([98.159.234.61]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MhU9j-1vAD740b8F-00oNsd; Sat, 28
+ Jun 2025 23:41:45 +0200
+Message-ID: <6c25909e-cfa8-411e-a352-2c5d749a7742@gmx.com>
+Date: Sat, 28 Jun 2025 21:41:42 +0000
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|TY0PR06MB5610:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a4d399f-c0bd-4e3a-1869-08ddb4d45a10
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|52116014|1800799024|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?6WSNU7/QfXF7lewmV0vPUN+rzUPaE9x84hdfxl38fcpliYhW2STe0YSJkaoX?=
- =?us-ascii?Q?rcuzcZoHILjSE8TkzrVj9Ufko047dv0Mqk4JIQEvothNcLc3l7fosEOAsBL0?=
- =?us-ascii?Q?+z1RgznEgH8L5Sm3A1NF1pgt7gTeMkfQ/kHowFgKbY4IG/45YL1fmZgHfUbO?=
- =?us-ascii?Q?mIdtFwOvYfmgqkifCumYIyDEK3bJiZiYjmmrV7I5OuGiX1zeEli6LHQuJn/f?=
- =?us-ascii?Q?IVViSyL9+aIGZUOD0CodAOHJ8/RHKMRPI48nVExUXaGy/attvK5OSpD7yxTt?=
- =?us-ascii?Q?u9VLczXMd5Qv4Kp+wfCTh30TABtRRLsk0KS5CDQ8qXAY0wVjumBs+a/Trq0u?=
- =?us-ascii?Q?r4gJb2P3l60kEG38L2MU1R0fiT8Dy0HgaV/CZnQdYsEGYiFkhJwPI/C3Zaro?=
- =?us-ascii?Q?r6b2ikv1iVnIs2EaVfUtOCq28LirOgldNB/EcV3LMNd43v590YS0KXtHIK+P?=
- =?us-ascii?Q?uDpaBwRvLgxBHvwUwKRpSE3cr3WKo3UnRj1iarOHJTQO9YX8lwQ2rAgg41Wf?=
- =?us-ascii?Q?4aP176wRZvewA2zfPSQOoRYnG04I7mlrNbFHWV147hhAPwqCZLOFo+p9scJ4?=
- =?us-ascii?Q?utRRjWvgdvycyDRqXWmt93KRha0Akfg19hKalUn1kpe6Y81AErcN9hxhXN0v?=
- =?us-ascii?Q?sBT2QHBkcxaCQaznydCln4xlpW4WeKWmdSY/J/kF7KQ2X8HtMwbwpEEkpCie?=
- =?us-ascii?Q?q+scZhoWg3xb7ClS6Qtlw56n61+IbEee9TEPWnwhktFSvDCADSNfYKYj3M7G?=
- =?us-ascii?Q?glSKnmdUyFJtsjn0voJFNKmhiHdMD8bvGlIRgWsEscGndM6uhFHmgrZIPaiJ?=
- =?us-ascii?Q?SoGHP7BUJ8WJFNSvc4sLHIYk8E5HClhcjdj71WnjE3u+SqkhHpYDyA6R/9j4?=
- =?us-ascii?Q?lObriIhNlDStDrtykTlwdvysc/CtWcb6tm0s/ZFxeerMFlZY5uOXpjn2QOv+?=
- =?us-ascii?Q?01Aa1zlPk0dq/jdwoQiDtjbd9KsieP+cv0waIaUV4ErwRZ6pqcw3Y2rBWef8?=
- =?us-ascii?Q?K835UpAjt5btCbyWc7k6e6pn0AYtvSh9X+FLWIXF88UgzQmFpP5Icc/FEEpP?=
- =?us-ascii?Q?7X9I5ZfZyvc6/WOQ17JDj8ZJQk3F/58WeuoelMHHObuA74c+M9Lrm5gGiS2j?=
- =?us-ascii?Q?qDlghTY6Eb/Sc6puI8VozIGkvd8UajLtlHPZTTWYNeyUuUOOte2Qs4tuRz/L?=
- =?us-ascii?Q?aS/u3asc5aM9QxkPu7HN4K7f0icIrBjGNeuw67wK9j0Y6Wvj4ce3QbhfFQd+?=
- =?us-ascii?Q?i2WK2xtuWyvusrCLwx3Y5rSJPRcefQEzAR+LEZ+dtxfounNhwj66GBktGHfz?=
- =?us-ascii?Q?hPveIzexDoVgSvRXIyrkzUrSlenPWC2mdT0+bW0w9HHiG5O9UtRT6PapMWah?=
- =?us-ascii?Q?FXwvfvkoYZ5Ti8SIDFbP/IeMk13MDqJXw01ZIyeWLZUYql9aI03v+oPPztJ2?=
- =?us-ascii?Q?H49lFVxEo2xX7az9G7Mv+lz3oQ0kJegwGSJUPMMU2zJHIKmgOOEFId0SgDQw?=
- =?us-ascii?Q?uXnhBVlGxyZ76vQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?e1qusTXUtbyINs7s1tkhZqJE/zM3/oDS+yi7ypFEUrkCk6qHkayqjHXEtFF7?=
- =?us-ascii?Q?12+5IUG4OCT56PKpRz9DwO+7+V5ebhyx/iUuTzJA2WvUc+yBd5b0g/RjkC1c?=
- =?us-ascii?Q?6fuZiYwl7lYQJKog8hSM4WPi9C5wGq7f6UIb7pc/GMZs7flkSJvXMpkyGG1H?=
- =?us-ascii?Q?7/thqU2svvToC6ev1M9VO/4J5IkXijbj1oWvQcad7FttFoVeLKzsHfN2tmDc?=
- =?us-ascii?Q?hCeyQmvN3ZBvFJ+lG8/IkyG3JDixJoqb1WGDaJpOWLThC/F9YXDQO17Vb8QH?=
- =?us-ascii?Q?JFl7p163qQO61HVcEFGoioMSGE9LtmG6eR3/eulRA46cGvKqxaSArxRigOJ3?=
- =?us-ascii?Q?MsQR9WgRwh7rTwAo8xme42V3XA+T/GwcQCY+nLyHRV1FnSO/nsXqFJRsRO4G?=
- =?us-ascii?Q?7/msAotHlhNSppQaxpEJ9y/HupQb+SL/Z+Hw/6m+Iy/qggoo43/cyBGgCnJM?=
- =?us-ascii?Q?mcsJo2sFoX4zUScSQPPybx+QZrwmhH4mVYSYkc1+JQET9CUq3rXh513CfuSJ?=
- =?us-ascii?Q?YE7D/jDZnyRAUiU2gmahkzyGr5/yslZbI7HWNxtRyDsfe0sWRE8ICARNG83M?=
- =?us-ascii?Q?tO7AWTOeLcyRbnUB6PZDOryRMYEcL/ArJxTslo0mubvmw8s3heQZ0roRTY2S?=
- =?us-ascii?Q?PZmXLiKTNc1tPoXDXMthZUHyOQ3lPARw+kuLvY1ulgAPvseQqKlsbf0mSnhv?=
- =?us-ascii?Q?t6rwPgIqtHc0p50obd7+oA8cxPAGBsBFJu7xe5ZcOmze4WbkFj4967V04BkC?=
- =?us-ascii?Q?1tBneWKiAPNQuWKdMWED9+bl3fLd6C0MmFjI3mLQwgiKUILnQMRC/TO2Wlek?=
- =?us-ascii?Q?l3XjrKBcY7rJzA6i1wE5m0z8j0NCZ4cavfR3b+1mk1lhN8NvtE1MXjmhk9xM?=
- =?us-ascii?Q?02nwYRh64nO5LE3p8j9uQ1t5Y/lCTpyx0ftnQBTPdgLvpnuw12A3ah5KP2IL?=
- =?us-ascii?Q?jQyMwMkCqGn/D6ziFauygM0UYXZ1JueidSWLCZm44Q50jjuNkZZ9x1XK+gCt?=
- =?us-ascii?Q?6VHYU7MckqrbEqEgxfmNeOYLHson40k23C23509vY7xZZ7qhAzpjMyjpm7w3?=
- =?us-ascii?Q?HyedqMwBkQMq12mOAOyygxDxR07zp+Lg6hz4HIrW3xYt3ORMdUYUw5QQ/fKP?=
- =?us-ascii?Q?5XWcSwZHSYg+HteNZ1IE8GC+rYBAlNOxFKzduJsyRGt6ODthY58n46Kmi2Dg?=
- =?us-ascii?Q?k251j0CIuGvQCyaBUkgLzFDfzXxI97rV8p6h3/EdnUMTxzgX6WhTSmLinTp7?=
- =?us-ascii?Q?ZKfliViN31tb4VITtCGjr91+2t+0zvJboJNyloLzNMsYlbPZmL4/MPgh2Kfc?=
- =?us-ascii?Q?Wa0NyARSVf3nKhHDpwOTJwJjiYtA88kuuy3ScrGc05rByyLCSURcWDSnRytO?=
- =?us-ascii?Q?BNBboSf3+/eTGIFxvqtLWMcnATiJVA6X4VbD/A32Kg8MCtBVl5y9ppmHpWrt?=
- =?us-ascii?Q?/O2wcqUDjTq8YjAHmvBIzJBH2FRZolHw/HjYjxnxaX4hhtqbkZO7UTOw/sLD?=
- =?us-ascii?Q?cI4Y3TEutcaVpSPc+FQ+URKouY9ovaEfnJFo57RW6YkUiYB/Rpc1VjqYwVI8?=
- =?us-ascii?Q?dOZ1NNSHEfg1HkEovHZHrie76bz07I3AXzfTZJT3?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a4d399f-c0bd-4e3a-1869-08ddb4d45a10
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2025 17:10:29.6273
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IeOII528DvjaQorOWbv5t+tVdhuaOx2GbPHm1MdxMNusgHR8eEC49gVnEdolI/Ao2WHqB0aTEVxg+5ZwRVDLXA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5610
+From: "Artem S. Tashkinov" <aros@gmx.com>
+Subject: NTFS driver excessive logging by default: Correct links count
+To: ntfs3@lists.linux.dev
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QoMAAR3rbZNl3WFvW/2ekhXgk2WDORwQWTOWHD02yEKQcBq84jk
+ wTmxYtusj0y4GZD+J85QbjF3KqSS0hYhVtaJtqLqBy8LyAU8vwel2eD0Sy0YAA9KsKAY0Ln
+ XxQ+FWmy/2uBnCCrC/ZJtPLC2eqHcD5+Cy0AWL++UymXHIEgv/dbwtT3HyV+JNokjJRtJpk
+ sQIR51oVeS2ZrAxu15jJQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:uz1LvkZzusE=;USOrZ4EwqFwD1who92zSm0cvV6c
+ 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
 
-Now cont_write_begin() support DONTCACHE mode, let's set FOP_DONTCACHE
-flag to enable uncached buffer io support for hfs.
+Hello,
 
-Signed-off-by: Yangtao Li <frank.li@vivo.com>
----
- fs/hfs/inode.c | 1 +
- 1 file changed, 1 insertion(+)
+This is my ~21th attempt to draw attention to this issue. Konstantin has=
+=20
+been emailed twice with a clean Windows image that exhibits the issue.
 
-diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-index 8409e4412366..a62f45e9745d 100644
---- a/fs/hfs/inode.c
-+++ b/fs/hfs/inode.c
-@@ -695,6 +695,7 @@ static const struct file_operations hfs_file_operations = {
- 	.fsync		= hfs_file_fsync,
- 	.open		= hfs_file_open,
- 	.release	= hfs_file_release,
-+	.fop_flags	= FOP_DONTCACHE,
- };
- 
- static const struct inode_operations hfs_file_inode_operations = {
--- 
-2.48.1
+Whenever I list files on my NTFS partitions I get a lot of SPAM in=20
+dmesg, e.g.:
 
+ntfs3: sda3: ino=3D14c, Correct links count -> 1.
+ntfs3: sda3: ino=3D73, Correct links count -> 1.
+ntfs3: sda3: ino=3D167, Correct links count -> 1.
+ntfs3: sda3: ino=3Dd9, Correct links count -> 1.
+ntfs3: sda3: ino=3Dd5, Correct links count -> 1.
+
+And the partition in question has been fully chkdsk'ed and has no issues.
+
+Please fix.
+
+This is still reproducible as of 6.15.4. I first reported the issue for=20
+Linux 6.8.2, i.e. over a year ago. Maybe someone could look into it=20
+after all. I can email you an NTFS image if necessary but _ANY_ Windows=20
+10 or 11 install will exhibit it.
+
+Best regards,
+Artem
