@@ -1,129 +1,138 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E30E7DA66
-	for <ntfs3@lists.linux.dev>; Sat, 28 Jun 2025 21:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5E71E9B12
+	for <ntfs3@lists.linux.dev>; Sun, 29 Jun 2025 09:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751146910; cv=none; b=ODiEnqbGi8R0t0PxKOCqAtUK/nBZ9mGwNataLRpnYXL33rfg7PmetZuOQ0I86Zn1Zm3G2RhFZNvE66Es+Giiz/VTlasWPibXXpVD4gUM0z8ZnKNZ0Gr4isnztc7v9swsc2tVPjUqwZv8t7rtsJKb8dh7EeHcZhi+JPgWLmgyBx4=
+	t=1751190388; cv=none; b=h2eEEpDXXcMCjdtNER4aZOAMSkPp1LkrbbczFZHWOI1qpy2QiQWQJPDIV0BBLX9NsmopK6/ZsSEj6LJSAcNJyTxntX9+qmSdPrGZqYZT70FnbdCvOqQUG8fwGWttH2Ol+ujKeYICxdLhHjPO930CLPrlmO4ftwi1gHsMyIcz4PU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751146910; c=relaxed/simple;
-	bh=RR0M7cfrrG28Dl7ellaidAvyZAWwItCfd2ypwT3aQj0=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=MZsbmO4by0HhTWsLOKwZzACGNIhDHUJOe4WD9pO8g4uLF0SHpUpkXKIU3Z7eM4PKzAhX2YG5Hw12KMrLqN4zD+sJFL8pbjKqUu4QP7Nzh7oO2PsVim5RMdcrxPrab9GLleEV4jVkxOlg8IOPKsyoW+EsBPpStWR9s/EwL17Klgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b=AXMWYky3; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=aros@gmx.com header.b="AXMWYky3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1751146905; x=1751751705; i=aros@gmx.com;
-	bh=RR0M7cfrrG28Dl7ellaidAvyZAWwItCfd2ypwT3aQj0=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:From:Subject:To:
-	 Cc:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=AXMWYky33moxHf8l2oK4ZtlqVbKgaSG0tlAKYdDfJXAcFKSI5BOyJ91WCU2ZWMzc
-	 FV16ruh3wwEUaXNPq7QMGwCsMCE7VBM7zR6Qv0an9sXukfViUKgbZ2+e7ncfrBdHu
-	 Ixyh9O2W6xQigN74FEz/J83SHQ9W5uipjO6snh7E6vtw3WHDSqeIJieG9w6lcoe4L
-	 UhXv2Wrh5UE2LA3y6M3vM1BBIMw9dKpAdI7iOWojSHGDf05ePvBcEdj+70/Cw/wTV
-	 k0DiY45yh/rEx3HgbPwW4+QfSpEewc6Sg55k0ehaSvkTdWlQa7TQTbxcVijAoHGqT
-	 XkkHmN10Jj5D7WEcOQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.19.12.16] ([98.159.234.61]) by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MhU9j-1vAD740b8F-00oNsd; Sat, 28
- Jun 2025 23:41:45 +0200
-Message-ID: <6c25909e-cfa8-411e-a352-2c5d749a7742@gmx.com>
-Date: Sat, 28 Jun 2025 21:41:42 +0000
+	s=arc-20240116; t=1751190388; c=relaxed/simple;
+	bh=tJaYJoy1pjfQoCMQLmPh2pFunrL9fpkDJI+UYPJGqcc=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=FqdCCGo7qaSbtShbDFL0n/3Kua1kcsK5oIPDUTAIMyJjFu41CPegNX8jk9obr3/Kk8D9Zzwr7MaVZrnswpe3xJxcTlJDUi8rX88tAxMlHlP6Gc6gc8wiykbyA+xNAMjuhevBF7Fb0CMJX7EDZIZquWISAX/Ce0Po3Y1BrsUmgSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-3de0dc57859so16168695ab.2
+        for <ntfs3@lists.linux.dev>; Sun, 29 Jun 2025 02:46:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751190386; x=1751795186;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nFGuMXAdlPCZWd64QK4rB1VLMUAOxI/KaHmVVkGjw+A=;
+        b=Zv+iglBUNBL1oW+bickxncbmd0ubrwq1QqbvFt14DgLRLvj8naeLnkY1n52hwR+kc2
+         KJ1JUFBRgyfYHjskzznyx8t0CUfcMtGeBMrw2EV9cH3h9T/ISkUZQO8Z15X445o7a7uX
+         woBi4KWmo4sZex65VeDx/CdVQiOoUjVNx3YndhtXHwh9afJ4xiBQJPkFaOULpX4LUcr+
+         jbIn8zlGFGek64Jj+kD7fHUtU5rH6dgPyqqW3TaPNqObkGYg0AqfyN6Fr1Gmg5HZ4/vb
+         rVPcwTV4EkaDwzoxofslgXIGBSLcIqd3KHKRiQCS3QWfs99tlPPM+1U+UnNGnMxUAZpz
+         DcYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUuANfmk0mIi4ER0vm9VtAJILPrOxfVey1IkNjK0o04+c8f93Q81kszzoZ9c6FU3tmk7bY0Lg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyRVPfGTqtF0wHnIB9BCM8r8uA/3pTgTok+csu+3oV0bpxG/CmW
+	DbnFWBHdt6q6aa3qfeIhFE4lmBF1csQBNYdu1pje/qx+0aANEd4GqBE+W1v42STQt/WGKP4Q6+q
+	1xzAfligtEP4qJux+lwKLCa8tSrYdrOA/r77LJDG28PNxLTY5fkJu3Szer74=
+X-Google-Smtp-Source: AGHT+IExVXdV5RAOmPI1rmmvWE5HKcLJoeBoVX8IBIbj1BZAWuvl6DGID/Xq0SZQLxwl/i3o7YZ37D2r2cJk5wUpo/EsGMzwQieb
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Artem S. Tashkinov" <aros@gmx.com>
-Subject: NTFS driver excessive logging by default: Correct links count
-To: ntfs3@lists.linux.dev
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QoMAAR3rbZNl3WFvW/2ekhXgk2WDORwQWTOWHD02yEKQcBq84jk
- wTmxYtusj0y4GZD+J85QbjF3KqSS0hYhVtaJtqLqBy8LyAU8vwel2eD0Sy0YAA9KsKAY0Ln
- XxQ+FWmy/2uBnCCrC/ZJtPLC2eqHcD5+Cy0AWL++UymXHIEgv/dbwtT3HyV+JNokjJRtJpk
- sQIR51oVeS2ZrAxu15jJQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:uz1LvkZzusE=;USOrZ4EwqFwD1who92zSm0cvV6c
- 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
+X-Received: by 2002:a05:6e02:1c23:b0:3dd:dd39:324c with SMTP id
+ e9e14a558f8ab-3df4ab6d058mr104367365ab.9.1751190386452; Sun, 29 Jun 2025
+ 02:46:26 -0700 (PDT)
+Date: Sun, 29 Jun 2025 02:46:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68610b72.a70a0220.2f4de1.0019.GAE@google.com>
+Subject: [syzbot] [ntfs3?] WARNING in ni_rename
+From: syzbot <syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
-This is my ~21th attempt to draw attention to this issue. Konstantin has=
-=20
-been emailed twice with a clean Windows image that exhibits the issue.
+syzbot found the following issue on:
 
-Whenever I list files on my NTFS partitions I get a lot of SPAM in=20
-dmesg, e.g.:
+HEAD commit:    1b152eeca84a Add linux-next specific files for 20250625
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1409df0c580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a3d8d413c6928dae
+dashboard link: https://syzkaller.appspot.com/bug?extid=b0373017f711c06ada64
+compiler:       Debian clang version 20.1.6 (++20250514063057+1e4d39e07757-1~exp1~20250514183223.118), Debian LLD 20.1.6
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1683770c580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1183770c580000
 
-ntfs3: sda3: ino=3D14c, Correct links count -> 1.
-ntfs3: sda3: ino=3D73, Correct links count -> 1.
-ntfs3: sda3: ino=3D167, Correct links count -> 1.
-ntfs3: sda3: ino=3Dd9, Correct links count -> 1.
-ntfs3: sda3: ino=3Dd5, Correct links count -> 1.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/4fe40968b29a/disk-1b152eec.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/edf810403580/vmlinux-1b152eec.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/0b63be52ad9a/bzImage-1b152eec.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/3256aebc06d8/mount_0.gz
 
-And the partition in question has been fully chkdsk'ed and has no issues.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com
 
-Please fix.
+------------[ cut here ]------------
+WARNING: fs/ntfs3/frecord.c:3030 at ni_rename+0xee/0x100 fs/ntfs3/frecord.c:3029, CPU#0: syz-executor359/5838
+Modules linked in:
+CPU: 0 UID: 0 PID: 5838 Comm: syz-executor359 Not tainted 6.16.0-rc3-next-20250625-syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
+RIP: 0010:ni_rename+0xee/0x100 fs/ntfs3/frecord.c:3029
+Code: 8b 05 36 32 9a 0f 48 3b 44 24 10 75 22 44 89 e0 48 83 c4 18 5b 41 5c 41 5d 41 5e 41 5f 5d e9 19 b4 6b 08 cc e8 73 fe b9 fe 90 <0f> 0b 90 eb c5 e8 e8 d9 68 08 0f 1f 84 00 00 00 00 00 90 90 90 90
+RSP: 0018:ffffc9000420fab8 EFLAGS: 00010293
+RAX: ffffffff8305be0d RBX: 00000000fffffffe RCX: ffff888029afbc00
+RDX: 0000000000000000 RSI: 00000000fffffffe RDI: 0000000000000000
+RBP: 00000000fffffffe R08: ffffffff8fa18d37 R09: 1ffffffff1f431a6
+R10: dffffc0000000000 R11: fffffbfff1f431a7 R12: 0000000000000000
+R13: ffff88807c10a200 R14: ffff8880776e8758 R15: ffff888073d566d0
+FS:  0000555581b87380(0000) GS:ffff888125c21000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055e3bd1067a8 CR3: 0000000072ba4000 CR4: 00000000003526f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ ntfs_rename+0x6e2/0xb40 fs/ntfs3/namei.c:316
+ vfs_rename+0xbda/0xf00 fs/namei.c:5129
+ do_renameat2+0x6ce/0xa80 fs/namei.c:5278
+ __do_sys_rename fs/namei.c:5325 [inline]
+ __se_sys_rename fs/namei.c:5323 [inline]
+ __x64_sys_rename+0x82/0x90 fs/namei.c:5323
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe16d5c28b9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 61 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffcc6842518 EFLAGS: 00000246 ORIG_RAX: 0000000000000052
+RAX: ffffffffffffffda RBX: 0000200000000000 RCX: 00007fe16d5c28b9
+RDX: 0000000000000000 RSI: 0000200000001040 RDI: 0000200000000280
+RBP: 0030656c69662f2e R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007ffcc68426f8 R14: 0000000000000001 R15: 0000000000000001
+ </TASK>
 
-This is still reproducible as of 6.15.4. I first reported the issue for=20
-Linux 6.8.2, i.e. over a year ago. Maybe someone could look into it=20
-after all. I can email you an NTFS image if necessary but _ANY_ Windows=20
-10 or 11 install will exhibit it.
 
-Best regards,
-Artem
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
