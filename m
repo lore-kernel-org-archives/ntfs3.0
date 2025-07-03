@@ -1,203 +1,309 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8CD222590
-	for <ntfs3@lists.linux.dev>; Tue,  1 Jul 2025 08:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6606F1C07C3
+	for <ntfs3@lists.linux.dev>; Thu,  3 Jul 2025 23:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751359633; cv=none; b=J5vY0tyzQS2+qqM86NdeA11oJ76TRn04g4DeYr+R1dxJCkn5a74HllYdoPZNlzQki7kr/XogMM/odYG+StMWNHy/J06oQNSjZv2EkjrY8+1DMbqLvZe7lGVCaxvkMLcJPq+pYbw08JxDb2UooDn6z9A5zOa3nQHPrQ9Y7+ECiCw=
+	t=1751586166; cv=none; b=bZ4yXCYglXmF2DsPBhuMUDBObJ/7NlMPW6s95hKG5TfOCBXfp5Fm3wQSqVT61ZShPYbFm2KoRR8pZWSWXXfpBxQcIY55PlYsieDblH6m0RhKAItwxgPxoFbCw4Jfr2qO2yLDNZAgmyj9Avpl8PBZK2doe7IApNylBORKs9E5ntc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751359633; c=relaxed/simple;
-	bh=qU/9VkiHj7ijOetrr/MvYBE4G3xwpd+xB5b6lyXQTWg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rbTAVyUaVvnaQ1i2AQNpG9K9MAsZrPFNSBxWtu5quGJbPWiIeLnLpfJeRRrfiRtzRBw7ExzqTJQRkUcGhf1Px/j6lt0mionUas89wabz8xtsUXcXS/VCqTKExsXlvSfRgWAv1XZK2WSNh5ttHhvJem0E7km5F2ZzqoB+HidfZgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b=T+zDCNDb; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+	s=arc-20240116; t=1751586166; c=relaxed/simple;
+	bh=iLYqMMQdkW/PgePrU75FJL5LCAAAwHJEz+iBs9v0sgQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=m3s3emsOEnl7XEmI+d74aRd5sgLPCGZ5An+bCC7837Z6bwY5pORZZeP8yPNLvso2K12T8pRdr2lXkzM9BZOWRPH7UjCB+Gsu2EALMVP/LrQ4lSFgDFlX93uvvbpOYYhoqrHDdQOVvSRI6hUMVxvltKPOFES8CJogjXs43lDZNAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=Pjpktw/l; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=Pjpktw/l; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b="T+zDCNDb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1751359600; x=1751964400; i=quwenruo.btrfs@gmx.com;
-	bh=YudY/ZM/rmx3cSbEA/yES/Ra50DzYmrGbdlfV/TbpHU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=T+zDCNDbE+FDw+y2Lbh6iqpoL6kMkHnQ7/EozmHoGdWcvMge52b6lcxV1lXUjACV
-	 6R9FfXkmqbEXgo6Dtq5lGRgVZr4tQAPkHbB/AwJDMA9xiGMfo1NBPdgsQmq/2U2ZE
-	 HAPS97e3arqDdT9YXNkNVgNppRRjjlwoiTI6EQnezX5d+iIAZnLF7mlbYQ6E01eiB
-	 W3DxCy97yfNkesG0+PCH48DxoqQjZxR7BLiDiuLK1iZL7AwdIdWI6H+Vw4VMGrNq3
-	 jCilJ4YZ5Mne45xJ2w+es0t+BkQ8AJIeXZw5K37kP7CY/O/Mvoudwmrlqk2DiRWed
-	 ikwy6u+3+pYwxrftDw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [172.16.0.229] ([159.196.52.54]) by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MIMbU-1uTDFD1jpk-004ZPJ; Tue, 01
- Jul 2025 10:46:39 +0200
-Message-ID: <db803720-66a6-4e0e-88ce-6b8a05845146@gmx.com>
-Date: Tue, 1 Jul 2025 18:16:33 +0930
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Pjpktw/l";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Pjpktw/l"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 75C7821194;
+	Thu,  3 Jul 2025 23:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1751586162; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2cTMOFVLSi4FOef+mXjpJX0bB1CSMTiFxQSLfegoq9s=;
+	b=Pjpktw/lT+xJqkXdI3zl48reol5Jf6DcEcYjYwAv9txtDMmY6rWSk0+w0DF4hMADHjE/N4
+	rhCyomWDKODbED9S3pPJglrGxhwXYAjFNepgmy3jlS6D1FlJEIOE80BVnzn0BbTvo5fbE1
+	RClDc8lKj1Tq6SBQIi+yrKrvHzmaNlE=
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b="Pjpktw/l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1751586162; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2cTMOFVLSi4FOef+mXjpJX0bB1CSMTiFxQSLfegoq9s=;
+	b=Pjpktw/lT+xJqkXdI3zl48reol5Jf6DcEcYjYwAv9txtDMmY6rWSk0+w0DF4hMADHjE/N4
+	rhCyomWDKODbED9S3pPJglrGxhwXYAjFNepgmy3jlS6D1FlJEIOE80BVnzn0BbTvo5fbE1
+	RClDc8lKj1Tq6SBQIi+yrKrvHzmaNlE=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BCC6013721;
+	Thu,  3 Jul 2025 23:42:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OBeHH28VZ2j7AQAAD6G6ig
+	(envelope-from <wqu@suse.com>); Thu, 03 Jul 2025 23:42:39 +0000
+From: Qu Wenruo <wqu@suse.com>
+To: linux-btrfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	ntfs3@lists.linux.dev,
+	linux-xfs@vger.kernel.org
+Subject: [PATCH v3 1/6] fs: enhance and rename shutdown() callback to remove_bdev()
+Date: Fri,  4 Jul 2025 09:12:14 +0930
+Message-ID: <cbe06b06a2fe4c4e0c90fc86503efc06080e6bc8.1751577459.git.wqu@suse.com>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <cover.1751577459.git.wqu@suse.com>
+References: <cover.1751577459.git.wqu@suse.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] fs: enhance and rename shutdown() callback to
- remove_bdev()
-To: Christian Brauner <brauner@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Qu Wenruo <wqu@suse.com>,
- linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- viro@zeniv.linux.org.uk, jack@suse.cz, linux-ext4@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, ntfs3@lists.linux.dev,
- linux-xfs@vger.kernel.org
-References: <cover.1751347436.git.wqu@suse.com>
- <6164b8c708b6606c640c066fbc42f8ca9838c24b.1751347436.git.wqu@suse.com>
- <aGN8zsyYEArKr0DV@infradead.org>
- <baec02a0-e2fb-4801-b2ad-f602fc4d1cfc@gmx.com>
- <20250701-beziffern-penetrant-ed93dbc57654@brauner>
-Content-Language: en-US
-From: Qu Wenruo <quwenruo.btrfs@gmx.com>
-Autocrypt: addr=quwenruo.btrfs@gmx.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNIlF1IFdlbnJ1byA8cXV3ZW5ydW8uYnRyZnNAZ214LmNvbT7CwJQEEwEIAD4CGwMFCwkI
- BwIGFQgJCgsCBBYCAwECHgECF4AWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCZxF1YAUJEP5a
- sQAKCRDCPZHzoSX+qF+mB/9gXu9C3BV0omDZBDWevJHxpWpOwQ8DxZEbk9b9LcrQlWdhFhyn
- xi+l5lRziV9ZGyYXp7N35a9t7GQJndMCFUWYoEa+1NCuxDs6bslfrCaGEGG/+wd6oIPb85xo
- naxnQ+SQtYLUFbU77WkUPaaIU8hH2BAfn9ZSDX9lIxheQE8ZYGGmo4wYpnN7/hSXALD7+oun
- tZljjGNT1o+/B8WVZtw/YZuCuHgZeaFdhcV2jsz7+iGb+LsqzHuznrXqbyUQgQT9kn8ZYFNW
- 7tf+LNxXuwedzRag4fxtR+5GVvJ41Oh/eygp8VqiMAtnFYaSlb9sjia1Mh+m+OBFeuXjgGlG
- VvQFzsBNBFnVga8BCACqU+th4Esy/c8BnvliFAjAfpzhI1wH76FD1MJPmAhA3DnX5JDORcga
- CbPEwhLj1xlwTgpeT+QfDmGJ5B5BlrrQFZVE1fChEjiJvyiSAO4yQPkrPVYTI7Xj34FnscPj
- /IrRUUka68MlHxPtFnAHr25VIuOS41lmYKYNwPNLRz9Ik6DmeTG3WJO2BQRNvXA0pXrJH1fN
- GSsRb+pKEKHKtL1803x71zQxCwLh+zLP1iXHVM5j8gX9zqupigQR/Cel2XPS44zWcDW8r7B0
- q1eW4Jrv0x19p4P923voqn+joIAostyNTUjCeSrUdKth9jcdlam9X2DziA/DHDFfS5eq4fEv
- ABEBAAHCwHwEGAEIACYCGwwWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCZxF1gQUJEP5a0gAK
- CRDCPZHzoSX+qHGpB/kB8A7M7KGL5qzat+jBRoLwB0Y3Zax0QWuANVdZM3eJDlKJKJ4HKzjo
- B2Pcn4JXL2apSan2uJftaMbNQbwotvabLXkE7cPpnppnBq7iovmBw++/d8zQjLQLWInQ5kNq
- Vmi36kmq8o5c0f97QVjMryHlmSlEZ2Wwc1kURAe4lsRG2dNeAd4CAqmTw0cMIrR6R/Dpt3ma
- +8oGXJOmwWuDFKNV4G2XLKcghqrtcRf2zAGNogg3KulCykHHripG3kPKsb7fYVcSQtlt5R6v
- HZStaZBzw4PcDiaAF3pPDBd+0fIKS6BlpeNRSFG94RYrt84Qw77JWDOAZsyNfEIEE0J6LSR/
-In-Reply-To: <20250701-beziffern-penetrant-ed93dbc57654@brauner>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:tZio1FPOqX5rmOFKcRLf6dtEMceSPgpkWrQcDvgYxLZGTsic4PE
- 0af3ZDmh/UaY7u8DxnvaWWUa4HoEBauptoTq9wEPvpXvGykuI/67+4cZdaldwbSf1e5BiPY
- xVHSooQ8Q8fgM/R6wjTi7rTLbnNDMgh+EywL9qf9IRt+z0cJWdm6WOg4D2KG778R142GYbn
- P9QujpMieBPJbVJ8/NTWA==
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,linux.dev:email,suse.com:mid,suse.com:dkim,suse.com:email];
+	DKIM_TRACE(0.00)[suse.com:+]
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:kvlb2w5npLI=;JVQoLpUuKRfZJiwHI9KietYGhuB
- 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
- Gw==
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 75C7821194
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 
+Currently all the filesystems implementing the
+super_opearations::shutdown() call back can not afford losing a device.
 
+Thus fs_bdev_mark_dead() will just call the shutdown() callback for the
+involved filesystem.
 
-=E5=9C=A8 2025/7/1 18:11, Christian Brauner =E5=86=99=E9=81=93:
-> On Tue, Jul 01, 2025 at 04:05:03PM +0930, Qu Wenruo wrote:
->>
->>
->> =E5=9C=A8 2025/7/1 15:44, Christoph Hellwig =E5=86=99=E9=81=93:
->>> On Tue, Jul 01, 2025 at 03:02:34PM +0930, Qu Wenruo wrote:
->>>> To allow those multi-device filesystems to be integrated to use
->>>> fs_holder_ops:
->>>>
->>>> - Rename shutdown() call back to remove_bdev()
->>>>     To better describe when the call back is called.
->>>
->>> What is renamed back here?
->>
->> Rename the old shutdown to remove_bdev().
->>
->>>
->>>> -static void exfat_shutdown(struct super_block *sb)
->>>> +static void exfat_shutdown(struct super_block *sb, struct block_devi=
-ce *bdev)
->>>>    {
->>>>    	exfat_force_shutdown(sb, EXFAT_GOING_DOWN_NOSYNC);
->>>>    }
->>>> @@ -202,7 +202,7 @@ static const struct super_operations exfat_sops =
-=3D {
->>>>    	.put_super	=3D exfat_put_super,
->>>>    	.statfs		=3D exfat_statfs,
->>>>    	.show_options	=3D exfat_show_options,
->>>> -	.shutdown	=3D exfat_shutdown,
->>>> +	.remove_bdev	=3D exfat_shutdown,
->>>
->>> Please also rename the function so that they match the method name.
->>
->> I prefer not, and it is intentionally left as is.
->>
->> This give us a very clear view what a fs is expected to do.
->=20
-> Qu, would you please rename the individual functions?
+But it will no longer be the case, with multi-device filesystems like
+btrfs and bcachefs the filesystem can handle certain device loss without
+shutting down the whole filesystem.
 
-Sure. I'll keep the fs' function names consistent with the callback names.
+To allow those multi-device filesystems to be integrated to use
+fs_holder_ops:
 
-Especially there are already quite some maintainers wanting a consistent=
-=20
-pattern here.
+- Rename shutdown() call back to remove_bdev()
+  To better describe when the call back is called.
 
-Thanks,
-Qu
+- Add a new @bdev parameter to remove_bdev() callback
+  To allow the fs to determine which device is missing, and do the
+  proper handling when needed.
 
->=20
-> The NAK later just because of this is unnecessary. I will say clearly
-> that I will ignore gratuitous NAKs that are premised on large scale
-> rewrites that are out of scope for the problem.
->=20
-> Here the requested rework has an acceptable scope though and we can
-> sidestep the whole problem and solve it so everyone's happy.
->=20
+For the existing shutdown callback users, the change is minimal.
+
+They only need to follow the rename and the new parameter list.
+Since the behavior is still to shutdown the fs, they shouldn't change
+their function names.
+
+This has a good side effect that, a single line like
+".remove_bdev = ext4_shutdown," will easily show the fs behavior and
+indicate the fs will shutdown when a device went missing.
+
+Btrfs is going to implement the callback soon, which will either
+shutdown the fs or continue read-write operations.
+
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-ext4@vger.kernel.org
+Cc: linux-f2fs-devel@lists.sourceforge.net
+Cc: ntfs3@lists.linux.dev
+Cc: linux-xfs@vger.kernel.org
+Signed-off-by: Qu Wenruo <wqu@suse.com>
+---
+ fs/exfat/super.c   | 4 ++--
+ fs/ext4/super.c    | 4 ++--
+ fs/f2fs/super.c    | 4 ++--
+ fs/ntfs3/super.c   | 6 +++---
+ fs/super.c         | 4 ++--
+ fs/xfs/xfs_super.c | 7 ++++---
+ include/linux/fs.h | 7 ++++++-
+ 7 files changed, 21 insertions(+), 15 deletions(-)
+
+diff --git a/fs/exfat/super.c b/fs/exfat/super.c
+index 7ed858937d45..a0e11166b194 100644
+--- a/fs/exfat/super.c
++++ b/fs/exfat/super.c
+@@ -172,7 +172,7 @@ int exfat_force_shutdown(struct super_block *sb, u32 flags)
+ 	return 0;
+ }
+ 
+-static void exfat_shutdown(struct super_block *sb)
++static void exfat_remove_bdev(struct super_block *sb, struct block_device *bdev)
+ {
+ 	exfat_force_shutdown(sb, EXFAT_GOING_DOWN_NOSYNC);
+ }
+@@ -202,7 +202,7 @@ static const struct super_operations exfat_sops = {
+ 	.put_super	= exfat_put_super,
+ 	.statfs		= exfat_statfs,
+ 	.show_options	= exfat_show_options,
+-	.shutdown	= exfat_shutdown,
++	.remove_bdev	= exfat_remove_bdev,
+ };
+ 
+ enum {
+diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+index c7d39da7e733..d75b416401ae 100644
+--- a/fs/ext4/super.c
++++ b/fs/ext4/super.c
+@@ -1456,7 +1456,7 @@ static void ext4_destroy_inode(struct inode *inode)
+ 			 EXT4_I(inode)->i_reserved_data_blocks);
+ }
+ 
+-static void ext4_shutdown(struct super_block *sb)
++static void ext4_remove_bdev(struct super_block *sb, struct block_device *bdev)
+ {
+        ext4_force_shutdown(sb, EXT4_GOING_FLAGS_NOLOGFLUSH);
+ }
+@@ -1620,7 +1620,7 @@ static const struct super_operations ext4_sops = {
+ 	.unfreeze_fs	= ext4_unfreeze,
+ 	.statfs		= ext4_statfs,
+ 	.show_options	= ext4_show_options,
+-	.shutdown	= ext4_shutdown,
++	.remove_bdev	= ext4_remove_bdev,
+ #ifdef CONFIG_QUOTA
+ 	.quota_read	= ext4_quota_read,
+ 	.quota_write	= ext4_quota_write,
+diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+index bbf1dad6843f..8667af9f76e4 100644
+--- a/fs/f2fs/super.c
++++ b/fs/f2fs/super.c
+@@ -2640,7 +2640,7 @@ static int f2fs_remount(struct super_block *sb, int *flags, char *data)
+ 	return err;
+ }
+ 
+-static void f2fs_shutdown(struct super_block *sb)
++static void f2fs_remove_bdev(struct super_block *sb, struct block_device *bdev)
+ {
+ 	f2fs_do_shutdown(F2FS_SB(sb), F2FS_GOING_DOWN_NOSYNC, false, false);
+ }
+@@ -3264,7 +3264,7 @@ static const struct super_operations f2fs_sops = {
+ 	.unfreeze_fs	= f2fs_unfreeze,
+ 	.statfs		= f2fs_statfs,
+ 	.remount_fs	= f2fs_remount,
+-	.shutdown	= f2fs_shutdown,
++	.remove_bdev	= f2fs_remove_bdev,
+ };
+ 
+ #ifdef CONFIG_FS_ENCRYPTION
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 920a1ab47b63..3e69dc805e3a 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -762,9 +762,9 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
+ }
+ 
+ /*
+- * ntfs_shutdown - super_operations::shutdown
++ * ntfs_remove_bdev - super_operations::remove_bdev
+  */
+-static void ntfs_shutdown(struct super_block *sb)
++static void ntfs_remove_bdev(struct super_block *sb, struct block_device *bdev)
+ {
+ 	set_bit(NTFS_FLAGS_SHUTDOWN_BIT, &ntfs_sb(sb)->flags);
+ }
+@@ -821,7 +821,7 @@ static const struct super_operations ntfs_sops = {
+ 	.put_super = ntfs_put_super,
+ 	.statfs = ntfs_statfs,
+ 	.show_options = ntfs_show_options,
+-	.shutdown = ntfs_shutdown,
++	.remove_bdev = ntfs_remove_bdev,
+ 	.sync_fs = ntfs_sync_fs,
+ 	.write_inode = ntfs3_write_inode,
+ };
+diff --git a/fs/super.c b/fs/super.c
+index 80418ca8e215..c972efb38f6a 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -1463,8 +1463,8 @@ static void fs_bdev_mark_dead(struct block_device *bdev, bool surprise)
+ 		sync_filesystem(sb);
+ 	shrink_dcache_sb(sb);
+ 	evict_inodes(sb);
+-	if (sb->s_op->shutdown)
+-		sb->s_op->shutdown(sb);
++	if (sb->s_op->remove_bdev)
++		sb->s_op->remove_bdev(sb, bdev);
+ 
+ 	super_unlock_shared(sb);
+ }
+diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+index 0bc4b5489078..8e307b036133 100644
+--- a/fs/xfs/xfs_super.c
++++ b/fs/xfs/xfs_super.c
+@@ -1276,8 +1276,9 @@ xfs_fs_free_cached_objects(
+ }
+ 
+ static void
+-xfs_fs_shutdown(
+-	struct super_block	*sb)
++xfs_fs_remove_bdev(
++	struct super_block	*sb,
++	struct block_device	*bdev)
+ {
+ 	xfs_force_shutdown(XFS_M(sb), SHUTDOWN_DEVICE_REMOVED);
+ }
+@@ -1308,7 +1309,7 @@ static const struct super_operations xfs_super_operations = {
+ 	.show_options		= xfs_fs_show_options,
+ 	.nr_cached_objects	= xfs_fs_nr_cached_objects,
+ 	.free_cached_objects	= xfs_fs_free_cached_objects,
+-	.shutdown		= xfs_fs_shutdown,
++	.remove_bdev		= xfs_fs_remove_bdev,
+ 	.show_stats		= xfs_fs_show_stats,
+ };
+ 
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index b085f161ed22..b08af63d2d4f 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2367,7 +2367,12 @@ struct super_operations {
+ 				  struct shrink_control *);
+ 	long (*free_cached_objects)(struct super_block *,
+ 				    struct shrink_control *);
+-	void (*shutdown)(struct super_block *sb);
++	/*
++	 * Called when block device @bdev belonging to @sb is removed.
++	 *
++	 * If the fs can't afford the device loss, it should be shutdown.
++	 */
++	void (*remove_bdev)(struct super_block *sb, struct block_device *bdev);
+ };
+ 
+ /*
+-- 
+2.50.0
 
