@@ -1,307 +1,91 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D663120326
-	for <ntfs3@lists.linux.dev>; Fri,  4 Jul 2025 00:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC012ECEA7;
+	Fri,  4 Jul 2025 09:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751589780; cv=none; b=ASvybii3lkld2PT1gUTbX4DTDw2FAFVNYckbbsy89G1M3Y18EajaPUyemHCRhxc5jHHaWAMYmBtEOgg6yzD+dDjh4oomwIyeaG7ouRXNaHpZVCMfpB74jYbi1VyRXIRairiYa7ledXeTXHEAIrkc3JWLNMFTgVboDo/+Pm2lyjU=
+	t=1751619684; cv=none; b=QBcEo9hqquXp8zA5CBqrT8g9rVFraS8eUmcM9XyfSCmLoLfCiZ6ZRWn0wuLaYzIpmNm6cdoXbkp2VUv/riKE7jcOVikqf21bHArQmuSKkS6CULkOUsjjy5WaCG5EZIzuW2y6iijifMHmrEzETun7cAHSfkh0SQQg34xeHfu0X58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751589780; c=relaxed/simple;
-	bh=PHqpdWHM1q5fy4diE562ZDKNlxlyAvJQ4+Z7ZpEXYrg=;
+	s=arc-20240116; t=1751619684; c=relaxed/simple;
+	bh=pcXFhsJsF5hHVop2Uie9TJ3r5ke5/MrZcsdmdG6PI90=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rw9Isn6ivmt5fJwk154MnwZKXtEupY3xoFn/eif/NLb89TZD+Wq4iSFis2YwknC9g55gMjcF8/8Ni9uC5o837pfe+h7bkIlXQHUVHmxlwU4o6uTEfEVnd1tE5j3o2cmud5rIGv05pHZQwxVnQtVB3YUkiT+yco++MZG5XvLXMag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=bN0V/etm; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=XJoTsyyV; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 MIME-Version:Content-Type; b=Efu9oY7af0CUoBpOOswTXZD0QCIFL5KgN6gOdfS6pxK5lFKgOwFR5IuSj6QJE5bRdoMtXoxTJdzGEXXIUX4WCMtTtyP5cEmMXGgQqzT4XzRXoTrSlEU62kgO6EnDteMA61qZF0E6UfJze150fCtE27/HXO9Q2QbDwMbxbRM+jIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SWth88w9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="bN0V/etm";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="XJoTsyyV"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D9DC72118F;
-	Fri,  4 Jul 2025 00:42:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1751589777; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xgTteYEh6kB2TKiLCWX4vrJyGKCg0VwB8fCv2q9hnBA=;
-	b=bN0V/etmV5iusKme7I1v63ZN3zDCJwf1v/oHT0WF8YG6UNyNRxhQ5c0FKh5u/ooKAf3yTm
-	YrRWlUQr4NURKl3xNNl/4Vd1q/E+oxjS9v7XZWUwH4mWdWhLDe6CrrLzEO4YIV86liwEcq
-	e6G9XVMwOhw6Ux2sMKdPOi9QxxSQgZI=
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=XJoTsyyV
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1751589776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xgTteYEh6kB2TKiLCWX4vrJyGKCg0VwB8fCv2q9hnBA=;
-	b=XJoTsyyV44sylvxTh4AYeQO8uRcTPzuikmUlh6MekojbSQV7eIKmkrnk+F6ASuhiWg1DKn
-	P47G30iuknoiSSfGKs1WePE7TUAusr+C+IrXxJja43dyWbUSy0E5A0WQoLdMqOjyyiQU8o
-	e3GLAHT2fHq3JJX79PEO81UI/FMEYOw=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 29C8213A66;
-	Fri,  4 Jul 2025 00:42:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EBYbN40jZ2hMEwAAD6G6ig
-	(envelope-from <wqu@suse.com>); Fri, 04 Jul 2025 00:42:53 +0000
-From: Qu Wenruo <wqu@suse.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SWth88w9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54F17C4CEF2;
+	Fri,  4 Jul 2025 09:01:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751619683;
+	bh=pcXFhsJsF5hHVop2Uie9TJ3r5ke5/MrZcsdmdG6PI90=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SWth88w9VKiIbf+GBcuBPQcOc6Hwh9zyQr71qDjparPp1ptSZEjb0iNmv3p9fr84F
+	 YqhL8670JOZgkF1AyL7Mz26ZHup6c0+Jg14eoduZmk8lsTpIuiODaoXJr5+6wUHAfz
+	 9r+HuGiNwLAJP1PjQpHgYCMabqGvXfTL88m/gCDC2V8vEQk9N30pZ+exhWBSz3KC9Q
+	 S4AUxgAvfTbDZgGk00E2Et3Ght8hDjzFjNH0gbZaM6CP5xgIMnY6pHJ+YSyoQWEQfk
+	 W943Nkg84GGNj75k0JuVRn2L1kn2CQhg2cnx3+hQE+GWWg8sBNa5m5CKkUWD3InsAo
+	 aehILMedRcJqQ==
+From: Christian Brauner <brauner@kernel.org>
 To: linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Qu Wenruo <wqu@suse.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	viro@zeniv.linux.org.uk,
 	jack@suse.cz,
 	linux-ext4@vger.kernel.org,
 	linux-f2fs-devel@lists.sourceforge.net,
 	ntfs3@lists.linux.dev,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH v4 1/6] fs: enhance and rename shutdown() callback to remove_bdev()
-Date: Fri,  4 Jul 2025 10:12:29 +0930
-Message-ID: <de25bbdb572c75df38b1002d3779bf19e3ad0ff6.1751589725.git.wqu@suse.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <cover.1751589725.git.wqu@suse.com>
-References: <cover.1751589725.git.wqu@suse.com>
+Subject: Re: (subset) [PATCH v4 1/6] fs: enhance and rename shutdown() callback to remove_bdev()
+Date: Fri,  4 Jul 2025 11:00:15 +0200
+Message-ID: <20250704-erproben-umgefahren-a485732e97de@brauner>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <de25bbdb572c75df38b1002d3779bf19e3ad0ff6.1751589725.git.wqu@suse.com>
+References: <de25bbdb572c75df38b1002d3779bf19e3ad0ff6.1751589725.git.wqu@suse.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1408; i=brauner@kernel.org; h=from:subject:message-id; bh=pcXFhsJsF5hHVop2Uie9TJ3r5ke5/MrZcsdmdG6PI90=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSkz4id2rdw0f/jH/S4TgTGCK0OP6vgkbBCwX1SZb/CT Jf0sDd7OkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYiwMjI8KTol5138C/TV3su Hq5XK607tObknMkLlJPL4td7HdCJXcHIcMb/WwtfQV2QD3ezGEui+49+4e9amvcnfDl3YBlnX6Y gOwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: D9DC72118F
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,suse.com:dkim,suse.com:mid,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.com:+]
-X-Spam-Score: -3.01
 
-Currently all the filesystems implementing the
-super_opearations::shutdown() callback can not afford losing a device.
+On Fri, 04 Jul 2025 10:12:29 +0930, Qu Wenruo wrote:
+> Currently all the filesystems implementing the
+> super_opearations::shutdown() callback can not afford losing a device.
+> 
+> Thus fs_bdev_mark_dead() will just call the shutdown() callback for the
+> involved filesystem.
+> 
+> But it will no longer be the case, with multi-device filesystems like
+> btrfs and bcachefs the filesystem can handle certain device loss without
+> shutting down the whole filesystem.
+> 
+> [...]
 
-Thus fs_bdev_mark_dead() will just call the shutdown() callback for the
-involved filesystem.
+Moving this into a stable branch that won't change anymore and that you
+can pull into btrfs/use as base for your patches.
 
-But it will no longer be the case, with multi-device filesystems like
-btrfs and bcachefs the filesystem can handle certain device loss without
-shutting down the whole filesystem.
-
-To allow those multi-device filesystems to be integrated to use
-fs_holder_ops:
-
-- Replace super_opearation::shutdown() with
-  super_opearations::remove_bdev()
-  To better describe when the callback is called.
-
-- Add a new @bdev parameter to remove_bdev() callback
-  To allow the fs to determine which device is missing, and do the
-  proper handling when needed.
-
-For the existing shutdown callback users, the change is minimal.
-They only need to follow the rename and the new parameter list.
-The new @bdev parameter can be ignored if the filesystem can not afford
-losing any device, and continue using the old shutdown behavior.
-
-Btrfs is going to implement the callback soon, which will either
-shutdown the fs or continue read-write operations.
-
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-ext4@vger.kernel.org
-Cc: linux-f2fs-devel@lists.sourceforge.net
-Cc: ntfs3@lists.linux.dev
-Cc: linux-xfs@vger.kernel.org
-Signed-off-by: Qu Wenruo <wqu@suse.com>
 ---
- fs/exfat/super.c   | 4 ++--
- fs/ext4/super.c    | 4 ++--
- fs/f2fs/super.c    | 4 ++--
- fs/ntfs3/super.c   | 6 +++---
- fs/super.c         | 4 ++--
- fs/xfs/xfs_super.c | 7 ++++---
- include/linux/fs.h | 7 ++++++-
- 7 files changed, 21 insertions(+), 15 deletions(-)
 
-diff --git a/fs/exfat/super.c b/fs/exfat/super.c
-index 7ed858937d45..a0e11166b194 100644
---- a/fs/exfat/super.c
-+++ b/fs/exfat/super.c
-@@ -172,7 +172,7 @@ int exfat_force_shutdown(struct super_block *sb, u32 flags)
- 	return 0;
- }
- 
--static void exfat_shutdown(struct super_block *sb)
-+static void exfat_remove_bdev(struct super_block *sb, struct block_device *bdev)
- {
- 	exfat_force_shutdown(sb, EXFAT_GOING_DOWN_NOSYNC);
- }
-@@ -202,7 +202,7 @@ static const struct super_operations exfat_sops = {
- 	.put_super	= exfat_put_super,
- 	.statfs		= exfat_statfs,
- 	.show_options	= exfat_show_options,
--	.shutdown	= exfat_shutdown,
-+	.remove_bdev	= exfat_remove_bdev,
- };
- 
- enum {
-diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-index c7d39da7e733..d75b416401ae 100644
---- a/fs/ext4/super.c
-+++ b/fs/ext4/super.c
-@@ -1456,7 +1456,7 @@ static void ext4_destroy_inode(struct inode *inode)
- 			 EXT4_I(inode)->i_reserved_data_blocks);
- }
- 
--static void ext4_shutdown(struct super_block *sb)
-+static void ext4_remove_bdev(struct super_block *sb, struct block_device *bdev)
- {
-        ext4_force_shutdown(sb, EXT4_GOING_FLAGS_NOLOGFLUSH);
- }
-@@ -1620,7 +1620,7 @@ static const struct super_operations ext4_sops = {
- 	.unfreeze_fs	= ext4_unfreeze,
- 	.statfs		= ext4_statfs,
- 	.show_options	= ext4_show_options,
--	.shutdown	= ext4_shutdown,
-+	.remove_bdev	= ext4_remove_bdev,
- #ifdef CONFIG_QUOTA
- 	.quota_read	= ext4_quota_read,
- 	.quota_write	= ext4_quota_write,
-diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-index bbf1dad6843f..8667af9f76e4 100644
---- a/fs/f2fs/super.c
-+++ b/fs/f2fs/super.c
-@@ -2640,7 +2640,7 @@ static int f2fs_remount(struct super_block *sb, int *flags, char *data)
- 	return err;
- }
- 
--static void f2fs_shutdown(struct super_block *sb)
-+static void f2fs_remove_bdev(struct super_block *sb, struct block_device *bdev)
- {
- 	f2fs_do_shutdown(F2FS_SB(sb), F2FS_GOING_DOWN_NOSYNC, false, false);
- }
-@@ -3264,7 +3264,7 @@ static const struct super_operations f2fs_sops = {
- 	.unfreeze_fs	= f2fs_unfreeze,
- 	.statfs		= f2fs_statfs,
- 	.remount_fs	= f2fs_remount,
--	.shutdown	= f2fs_shutdown,
-+	.remove_bdev	= f2fs_remove_bdev,
- };
- 
- #ifdef CONFIG_FS_ENCRYPTION
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 920a1ab47b63..3e69dc805e3a 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -762,9 +762,9 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
- }
- 
- /*
-- * ntfs_shutdown - super_operations::shutdown
-+ * ntfs_remove_bdev - super_operations::remove_bdev
-  */
--static void ntfs_shutdown(struct super_block *sb)
-+static void ntfs_remove_bdev(struct super_block *sb, struct block_device *bdev)
- {
- 	set_bit(NTFS_FLAGS_SHUTDOWN_BIT, &ntfs_sb(sb)->flags);
- }
-@@ -821,7 +821,7 @@ static const struct super_operations ntfs_sops = {
- 	.put_super = ntfs_put_super,
- 	.statfs = ntfs_statfs,
- 	.show_options = ntfs_show_options,
--	.shutdown = ntfs_shutdown,
-+	.remove_bdev = ntfs_remove_bdev,
- 	.sync_fs = ntfs_sync_fs,
- 	.write_inode = ntfs3_write_inode,
- };
-diff --git a/fs/super.c b/fs/super.c
-index 80418ca8e215..c972efb38f6a 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -1463,8 +1463,8 @@ static void fs_bdev_mark_dead(struct block_device *bdev, bool surprise)
- 		sync_filesystem(sb);
- 	shrink_dcache_sb(sb);
- 	evict_inodes(sb);
--	if (sb->s_op->shutdown)
--		sb->s_op->shutdown(sb);
-+	if (sb->s_op->remove_bdev)
-+		sb->s_op->remove_bdev(sb, bdev);
- 
- 	super_unlock_shared(sb);
- }
-diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-index 0bc4b5489078..8e307b036133 100644
---- a/fs/xfs/xfs_super.c
-+++ b/fs/xfs/xfs_super.c
-@@ -1276,8 +1276,9 @@ xfs_fs_free_cached_objects(
- }
- 
- static void
--xfs_fs_shutdown(
--	struct super_block	*sb)
-+xfs_fs_remove_bdev(
-+	struct super_block	*sb,
-+	struct block_device	*bdev)
- {
- 	xfs_force_shutdown(XFS_M(sb), SHUTDOWN_DEVICE_REMOVED);
- }
-@@ -1308,7 +1309,7 @@ static const struct super_operations xfs_super_operations = {
- 	.show_options		= xfs_fs_show_options,
- 	.nr_cached_objects	= xfs_fs_nr_cached_objects,
- 	.free_cached_objects	= xfs_fs_free_cached_objects,
--	.shutdown		= xfs_fs_shutdown,
-+	.remove_bdev		= xfs_fs_remove_bdev,
- 	.show_stats		= xfs_fs_show_stats,
- };
- 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index b085f161ed22..b08af63d2d4f 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2367,7 +2367,12 @@ struct super_operations {
- 				  struct shrink_control *);
- 	long (*free_cached_objects)(struct super_block *,
- 				    struct shrink_control *);
--	void (*shutdown)(struct super_block *sb);
-+	/*
-+	 * Called when block device @bdev belonging to @sb is removed.
-+	 *
-+	 * If the fs can't afford the device loss, it should be shutdown.
-+	 */
-+	void (*remove_bdev)(struct super_block *sb, struct block_device *bdev);
- };
- 
- /*
--- 
-2.50.0
+Applied to the vfs-6.17.super branch of the vfs/vfs.git tree.
+Patches in the vfs-6.17.super branch should appear in linux-next soon.
 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-6.17.super
+
+[1/6] fs: enhance and rename shutdown() callback to remove_bdev()
+      https://git.kernel.org/vfs/vfs/c/165fa94de612
