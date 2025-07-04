@@ -1,330 +1,169 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBA22ECD29
-	for <ntfs3@lists.linux.dev>; Fri,  4 Jul 2025 09:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2453E207E03
+	for <ntfs3@lists.linux.dev>; Fri,  4 Jul 2025 17:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751619934; cv=none; b=YgrC6OK6GwHV7W1Do+9JAY+6OmbVt/5FiEMsi03WJiy/yWGpUjfksHKmGyjBKbfmMpkcN4iS/2HR96WKO+Q6g9kjl8kucjd4Lk31eV164MLFpli7n9kpHqifxYh3wS7p/hF1ABCIiq2YaHTMvD8uO1JOQF4v9ghoVuCuavWmWH8=
+	t=1751650174; cv=none; b=BOk9y4ZOfYHsl5VMLcB1WnAdfwOXJbkgJhd6NtsMg6cvKg6jEeCOYkG5NS/hExKQqX8iuGT4jbwb9n6U3CUlCDAomV8alw2w8nZf6yejzTN0NYNeaguIPgOQKZxdAM3rP51/dIbWdxi8S28veVqay1+czDm40I6aBw0VzjQFwaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751619934; c=relaxed/simple;
-	bh=hpzUYbJAq1TnWqpU6r5JKq7hljtPojJXaRtJWDUtTFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l3cU/wXTPyUIuySpklFAhwUUE6okNsEPviybymJ4rr/Kpic5crduw811zUU9yQQULpqi9slRvY0dNm9Ryc+WBbU4mx3HgNKRAV3lDLa+HrDMAZqXxYIar8SPHd/I8frxYVD/APHxQc+NNDyjrVMmnsrXUGcrrV9+AsBLKeyRzzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qfBb4+sH; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=NM9DKMq5; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vDHsu56a; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jEFmAHHO; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1751650174; c=relaxed/simple;
+	bh=iDbM20iQNedl8N2hzi1Pep7gBZiDuMA5oe8q7lPmVJk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=PbjQlvqf9GZAefX8ALadu7JyiNbpsEppd5hfnl5K1mq7oqUI6FoEUMDYStM+x0rj5HwDatJqauTjPP50mLe7XE1IP5opJ/2SFf1kmpC4tyj7XJz6rb6YjbQugM1Cs/HNMmf80p+0A/qqLSC8X+JGmip6YWwd+uUhyfJb0MsInII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=UWFeU3+z; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qfBb4+sH";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="NM9DKMq5";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vDHsu56a";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jEFmAHHO"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C048D21185;
-	Fri,  4 Jul 2025 09:05:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1751619931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Om6I5tFyyfcVPangDfbiEU+nIPjPaTL8L4plfMPqXn8=;
-	b=qfBb4+sHK9BfeeWcUjfD5mRPSdttXFRP64KYHtqu+d0Q472yOpgmCOkOrfJ1UgFQBGZHV5
-	OYusvWl+4kvunMmtGzU8NBtDoWEMYAFHmJdnazWbJ0FcpYGBiV30EznAdAyKxRyElrfMjD
-	1Zqhd4b3zVLE67rnzr8Gue23N6nz4IM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1751619931;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Om6I5tFyyfcVPangDfbiEU+nIPjPaTL8L4plfMPqXn8=;
-	b=NM9DKMq5jHqAwl6hKHyll9FNBaFPMblKpdnWRn3dxhn/RQqvOGBnR42lfm3ngX91BzRweD
-	THSzZ6RUelehQfAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1751619929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Om6I5tFyyfcVPangDfbiEU+nIPjPaTL8L4plfMPqXn8=;
-	b=vDHsu56aBWMos2GEDefWTDa1hJ4vdTD/vFFqfy0jbznRGu6ZxhpsLzK6J9A2RnlUC8+oci
-	+lFT4zi7SnLsFdVEHt6jVYYq5rD1F7/PyAn3Y8b66ojk14Ijjv8SAjSNwcAXi3D5hisHhH
-	hqj5gayWwu/9zGgCFuj6ATx8JXyrFC8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1751619929;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Om6I5tFyyfcVPangDfbiEU+nIPjPaTL8L4plfMPqXn8=;
-	b=jEFmAHHOjAnGAPIJL648yH8UYVIw7cG7M41c2+nXbcEkuLgbd3nrWV4Bcgq3KltDpPS/Vl
-	7pA57YOx0PTfq5Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9CCFB13757;
-	Fri,  4 Jul 2025 09:05:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id axZDJlmZZ2gGHwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 04 Jul 2025 09:05:29 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 4770BA0A31; Fri,  4 Jul 2025 11:05:25 +0200 (CEST)
-Date: Fri, 4 Jul 2025 11:05:25 +0200
-From: Jan Kara <jack@suse.cz>
-To: Qu Wenruo <wqu@suse.com>
-Cc: linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v4 1/6] fs: enhance and rename shutdown() callback to
- remove_bdev()
-Message-ID: <3koe4okqyngnl3djuj46xz5jk2hbwnsukmwn4wwpgf3nebn3uh@uxaot4z2wdgc>
-References: <cover.1751589725.git.wqu@suse.com>
- <de25bbdb572c75df38b1002d3779bf19e3ad0ff6.1751589725.git.wqu@suse.com>
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="UWFeU3+z"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e731a56e111so990436276.1
+        for <ntfs3@lists.linux.dev>; Fri, 04 Jul 2025 10:29:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1751650171; x=1752254971; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=NKZOXif4dY8WW9PJKNKuGFpmuROoWR4AN0EGiAV7vcE=;
+        b=UWFeU3+zqszx33AVfJl3I0dpYpsiLM+CK6djSqIsObmFy5POZOANoW6z41z0tz8sPR
+         fNSyeG3EK1zC+t15AFlujZqbkuNuljlSL80cI0hDORk91sq5Di9KjF8XKxrHsk37lHYX
+         mpzvKgtHmgPs9ac9C+zzx0/svd5vdwb7V26osDW19iWLi3Df/emaKv1WJ7cmO6xABYeF
+         iuGEBDMppbFbNbVgvfZs3SWCsdz5Wf7xiqZfAHMPpZpYAUgg+JZuxJ0bG7LiEQi9aX+l
+         863FDqvMkn1Jw7g9Mz+LTn2VfZa8X12ODsJTrtjwryXdUcu9nHMNVGf7Ag9cvdPlN9mI
+         feDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751650171; x=1752254971;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NKZOXif4dY8WW9PJKNKuGFpmuROoWR4AN0EGiAV7vcE=;
+        b=jqyPwZ6MxLeTuYaYxq2NQWutQNN5iX+P0EAJmEXotpG1jPSkrijcqJpakQbzkIJG2V
+         hgk471TA1lWI/ZL3vghkADEh6S4rio0fIUcX3rjx/PY+dQg8tqSGY2vh+HLpg1aPo19B
+         WcOt4J+deGosbuhKpyyE95F3UHSJasaAePb/SWd2kh68rcvODYVHzHjdDvFh6FH+8Qa5
+         YTrwQA4VC8oWI4sGMyyzHqjptXSGaG0eaNwF7W9Ldqll+SJ95Aj8CEqLlwwtATsTq3Gh
+         QDWIU+G7uIPHgtclTEKUuntOqgZAhh4UkZ33GGG1bpSyTdoiO/qHDIOY/u2DZyfpSrZ7
+         RQcg==
+X-Forwarded-Encrypted: i=1; AJvYcCVzUE+RfTN8/Qpaq/QaxELn0kVGU4NgEW04Z/AQIfMKlXNFt5zUYH3k2NQy19NLe2rR6psf7A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxDZPTYPnGImpkYzggpXTGC1GUycDA65tkHYV3NVDKuGENRr/z2
+	dbpi7CEyT0auALrCgAV/ycFxpY4TMo3bkbJz/dz4g3KHpmU6N8VmbTMLUzyHKl7wChk=
+X-Gm-Gg: ASbGnctj41GvZWgqclhdI6j+ltyXNhGmWfyVB25LiSVhCIuHtfjO1eepk4MkzkxyUh4
+	5ahsXUk/le+rmtRVzHSJkBJNfPtgk1sV9IyPcourxWx4iA94T/5xHEIRJb9i4FQKG/u4Eg6bCF1
+	BYZ0OTLW64KSSd2xg6evs5RmqMc+ewgXxrvqh36ZfIy52/8SZ0G9AtsIVhS1pymT6a6wgtHLi5D
+	WR01X/WUzi5SjrMdHS+Q44NdaDgzXjXV89MJZNzyLC1ofOVN2a4hIEWp+2+92a3WHxFcenjHvD4
+	MAsZGV3CxrYow/6fK0cUxtcAmYNYFzoOqI4AUZfKtcBndPpa1XwTkLPPYxxhAQbwMcs+WosHIlL
+	tF1oqF/+Tn9TDIC8lDOcNg7wCegoWEms=
+X-Google-Smtp-Source: AGHT+IH90uXGHA1KLkxMwBoLjKzi40wo5WwD8z6pePkSFDnX+wBofTNDe+oRgHEM+GBC/SzPv5geJw==
+X-Received: by 2002:a05:6902:2808:b0:e81:b6b1:153d with SMTP id 3f1490d57ef6-e89a0c1fb0emr3480402276.21.1751650171096;
+        Fri, 04 Jul 2025 10:29:31 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:f030:281a:9e2c:722? ([2600:1700:6476:1430:f030:281a:9e2c:722])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e899c48b086sm742656276.42.2025.07.04.10.29.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Jul 2025 10:29:30 -0700 (PDT)
+Message-ID: <d698490f3ee35889d8922f392079846b647cd47e.camel@dubeyko.com>
+Subject: Re: [PATCH 2/4] fs/buffer: parse IOCB_DONTCACHE flag in
+ block_write_begin()
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Yangtao Li <frank.li@vivo.com>, axboe@kernel.dk,
+ aivazian.tigran@gmail.com, 	viro@zeniv.linux.org.uk, brauner@kernel.org,
+ jack@suse.cz, linkinjeon@kernel.org, 	sj1557.seo@samsung.com,
+ yuezhang.mo@sony.com, glaubitz@physik.fu-berlin.de, 	shaggy@kernel.org,
+ konishi.ryusuke@gmail.com, 	almaz.alexandrovich@paragon-software.com,
+ me@bobcopeland.com, 	willy@infradead.org, josef@toxicpanda.com,
+ kovalev@altlinux.org, dave@stgolabs.net, 	mhocko@suse.com,
+ chentaotao@didiglobal.com
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, 
+	ntfs3@lists.linux.dev, linux-karma-devel@lists.sourceforge.net, 
+	bpf@vger.kernel.org
+Date: Fri, 04 Jul 2025 10:29:27 -0700
+In-Reply-To: <20250626173023.2702554-3-frank.li@vivo.com>
+References: <20250626173023.2702554-1-frank.li@vivo.com>
+	 <20250626173023.2702554-3-frank.li@vivo.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+ fAMjjkInIPg7RLGs8FiwxfcpkILP0YbVWHiNAaQ==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <de25bbdb572c75df38b1002d3779bf19e3ad0ff6.1751589725.git.wqu@suse.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.80
 
-OK, now that you've made me read the changelog :) :
-
-On Fri 04-07-25 10:12:29, Qu Wenruo wrote:
-> Currently all the filesystems implementing the
-> super_opearations::shutdown() callback can not afford losing a device.
-        ^^^ operations
-
-> Thus fs_bdev_mark_dead() will just call the shutdown() callback for the
-> involved filesystem.
-> 
-> But it will no longer be the case, with multi-device filesystems like
-> btrfs and bcachefs the filesystem can handle certain device loss without
-> shutting down the whole filesystem.
-> 
-> To allow those multi-device filesystems to be integrated to use
-> fs_holder_ops:
-> 
-> - Replace super_opearation::shutdown() with
->   super_opearations::remove_bdev()
-    ^^ again typos in work "operations"
-
->   To better describe when the callback is called.
-> 
-> - Add a new @bdev parameter to remove_bdev() callback
->   To allow the fs to determine which device is missing, and do the
->   proper handling when needed.
-> 
-> For the existing shutdown callback users, the change is minimal.
-> They only need to follow the rename and the new parameter list.
-> The new @bdev parameter can be ignored if the filesystem can not afford
-> losing any device, and continue using the old shutdown behavior.
-> 
-> Btrfs is going to implement the callback soon, which will either
-> shutdown the fs or continue read-write operations.
-> 
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-ext4@vger.kernel.org
-> Cc: linux-f2fs-devel@lists.sourceforge.net
-> Cc: ntfs3@lists.linux.dev
-> Cc: linux-xfs@vger.kernel.org
-> Signed-off-by: Qu Wenruo <wqu@suse.com>
-
-Still feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
+On Thu, 2025-06-26 at 11:30 -0600, Yangtao Li wrote:
+> When iocb flags passes IOCB_DONTCACHE, use FGP_DONTCACHE mode to get
+> folio.
+>=20
+> Signed-off-by: Yangtao Li <frank.li@vivo.com>
 > ---
->  fs/exfat/super.c   | 4 ++--
->  fs/ext4/super.c    | 4 ++--
->  fs/f2fs/super.c    | 4 ++--
->  fs/ntfs3/super.c   | 6 +++---
->  fs/super.c         | 4 ++--
->  fs/xfs/xfs_super.c | 7 ++++---
->  include/linux/fs.h | 7 ++++++-
->  7 files changed, 21 insertions(+), 15 deletions(-)
-> 
-> diff --git a/fs/exfat/super.c b/fs/exfat/super.c
-> index 7ed858937d45..a0e11166b194 100644
-> --- a/fs/exfat/super.c
-> +++ b/fs/exfat/super.c
-> @@ -172,7 +172,7 @@ int exfat_force_shutdown(struct super_block *sb, u32 flags)
->  	return 0;
->  }
->  
-> -static void exfat_shutdown(struct super_block *sb)
-> +static void exfat_remove_bdev(struct super_block *sb, struct block_device *bdev)
->  {
->  	exfat_force_shutdown(sb, EXFAT_GOING_DOWN_NOSYNC);
->  }
-> @@ -202,7 +202,7 @@ static const struct super_operations exfat_sops = {
->  	.put_super	= exfat_put_super,
->  	.statfs		= exfat_statfs,
->  	.show_options	= exfat_show_options,
-> -	.shutdown	= exfat_shutdown,
-> +	.remove_bdev	= exfat_remove_bdev,
->  };
->  
->  enum {
-> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-> index c7d39da7e733..d75b416401ae 100644
-> --- a/fs/ext4/super.c
-> +++ b/fs/ext4/super.c
-> @@ -1456,7 +1456,7 @@ static void ext4_destroy_inode(struct inode *inode)
->  			 EXT4_I(inode)->i_reserved_data_blocks);
->  }
->  
-> -static void ext4_shutdown(struct super_block *sb)
-> +static void ext4_remove_bdev(struct super_block *sb, struct block_device *bdev)
->  {
->         ext4_force_shutdown(sb, EXT4_GOING_FLAGS_NOLOGFLUSH);
->  }
-> @@ -1620,7 +1620,7 @@ static const struct super_operations ext4_sops = {
->  	.unfreeze_fs	= ext4_unfreeze,
->  	.statfs		= ext4_statfs,
->  	.show_options	= ext4_show_options,
-> -	.shutdown	= ext4_shutdown,
-> +	.remove_bdev	= ext4_remove_bdev,
->  #ifdef CONFIG_QUOTA
->  	.quota_read	= ext4_quota_read,
->  	.quota_write	= ext4_quota_write,
-> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-> index bbf1dad6843f..8667af9f76e4 100644
-> --- a/fs/f2fs/super.c
-> +++ b/fs/f2fs/super.c
-> @@ -2640,7 +2640,7 @@ static int f2fs_remount(struct super_block *sb, int *flags, char *data)
->  	return err;
->  }
->  
-> -static void f2fs_shutdown(struct super_block *sb)
-> +static void f2fs_remove_bdev(struct super_block *sb, struct block_device *bdev)
->  {
->  	f2fs_do_shutdown(F2FS_SB(sb), F2FS_GOING_DOWN_NOSYNC, false, false);
->  }
-> @@ -3264,7 +3264,7 @@ static const struct super_operations f2fs_sops = {
->  	.unfreeze_fs	= f2fs_unfreeze,
->  	.statfs		= f2fs_statfs,
->  	.remount_fs	= f2fs_remount,
-> -	.shutdown	= f2fs_shutdown,
-> +	.remove_bdev	= f2fs_remove_bdev,
->  };
->  
->  #ifdef CONFIG_FS_ENCRYPTION
-> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-> index 920a1ab47b63..3e69dc805e3a 100644
-> --- a/fs/ntfs3/super.c
-> +++ b/fs/ntfs3/super.c
-> @@ -762,9 +762,9 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
->  }
->  
->  /*
-> - * ntfs_shutdown - super_operations::shutdown
-> + * ntfs_remove_bdev - super_operations::remove_bdev
->   */
-> -static void ntfs_shutdown(struct super_block *sb)
-> +static void ntfs_remove_bdev(struct super_block *sb, struct block_device *bdev)
->  {
->  	set_bit(NTFS_FLAGS_SHUTDOWN_BIT, &ntfs_sb(sb)->flags);
->  }
-> @@ -821,7 +821,7 @@ static const struct super_operations ntfs_sops = {
->  	.put_super = ntfs_put_super,
->  	.statfs = ntfs_statfs,
->  	.show_options = ntfs_show_options,
-> -	.shutdown = ntfs_shutdown,
-> +	.remove_bdev = ntfs_remove_bdev,
->  	.sync_fs = ntfs_sync_fs,
->  	.write_inode = ntfs3_write_inode,
->  };
-> diff --git a/fs/super.c b/fs/super.c
-> index 80418ca8e215..c972efb38f6a 100644
-> --- a/fs/super.c
-> +++ b/fs/super.c
-> @@ -1463,8 +1463,8 @@ static void fs_bdev_mark_dead(struct block_device *bdev, bool surprise)
->  		sync_filesystem(sb);
->  	shrink_dcache_sb(sb);
->  	evict_inodes(sb);
-> -	if (sb->s_op->shutdown)
-> -		sb->s_op->shutdown(sb);
-> +	if (sb->s_op->remove_bdev)
-> +		sb->s_op->remove_bdev(sb, bdev);
->  
->  	super_unlock_shared(sb);
->  }
-> diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-> index 0bc4b5489078..8e307b036133 100644
-> --- a/fs/xfs/xfs_super.c
-> +++ b/fs/xfs/xfs_super.c
-> @@ -1276,8 +1276,9 @@ xfs_fs_free_cached_objects(
->  }
->  
->  static void
-> -xfs_fs_shutdown(
-> -	struct super_block	*sb)
-> +xfs_fs_remove_bdev(
-> +	struct super_block	*sb,
-> +	struct block_device	*bdev)
->  {
->  	xfs_force_shutdown(XFS_M(sb), SHUTDOWN_DEVICE_REMOVED);
->  }
-> @@ -1308,7 +1309,7 @@ static const struct super_operations xfs_super_operations = {
->  	.show_options		= xfs_fs_show_options,
->  	.nr_cached_objects	= xfs_fs_nr_cached_objects,
->  	.free_cached_objects	= xfs_fs_free_cached_objects,
-> -	.shutdown		= xfs_fs_shutdown,
-> +	.remove_bdev		= xfs_fs_remove_bdev,
->  	.show_stats		= xfs_fs_show_stats,
->  };
->  
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index b085f161ed22..b08af63d2d4f 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -2367,7 +2367,12 @@ struct super_operations {
->  				  struct shrink_control *);
->  	long (*free_cached_objects)(struct super_block *,
->  				    struct shrink_control *);
-> -	void (*shutdown)(struct super_block *sb);
-> +	/*
-> +	 * Called when block device @bdev belonging to @sb is removed.
-> +	 *
-> +	 * If the fs can't afford the device loss, it should be shutdown.
-> +	 */
-> +	void (*remove_bdev)(struct super_block *sb, struct block_device *bdev);
->  };
->  
->  /*
-> -- 
-> 2.50.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> =C2=A0fs/buffer.c | 7 +++++--
+> =C2=A01 file changed, 5 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index f2b7b30a76ca..0ed80b62feea 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -2251,11 +2251,14 @@ int block_write_begin(struct kiocb *iocb,
+> struct address_space *mapping, loff_t
+> =C2=A0		unsigned len, struct folio **foliop, get_block_t
+> *get_block)
+> =C2=A0{
+> =C2=A0	pgoff_t index =3D pos >> PAGE_SHIFT;
+> +	fgf_t fgp =3D FGP_WRITEBEGIN;
+> =C2=A0	struct folio *folio;
+> =C2=A0	int status;
+> =C2=A0
+> -	folio =3D __filemap_get_folio(mapping, index, FGP_WRITEBEGIN,
+> -			mapping_gfp_mask(mapping));
+> +	if (iocb->ki_flags & IOCB_DONTCACHE)
+> +		fgp |=3D FGP_DONTCACHE;
+> +
+> +	folio =3D __filemap_get_folio(mapping, index, fgp,
+> mapping_gfp_mask(mapping));
+> =C2=A0	if (IS_ERR(folio))
+> =C2=A0		return PTR_ERR(folio);
+> =C2=A0
+
+Correct me if I am wrong. As far as I can see, the first patch depends
+from  second one. It means that if somebody applies the first patch
+but, somehow, don't apply the second one, then nobody will be able to
+compile the kernel code. Am I correct?
+
+Why do we need to make this modification and, then, touch other file
+systems? What the justification of this? Why do we need to make this
+modification at the first place?
+
+Thanks,
+Slava.
