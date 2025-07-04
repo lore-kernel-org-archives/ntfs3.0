@@ -1,65 +1,65 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E684A2D542E
-	for <ntfs3@lists.linux.dev>; Fri,  4 Jul 2025 17:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B861519BC
+	for <ntfs3@lists.linux.dev>; Fri,  4 Jul 2025 17:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751650679; cv=none; b=tHDFeldOoqqa/U7yZlLD14nXpC0byztp5h7eUmCVHoPPu2rFgcCaJKZFBJ/BqKM0O/e5807lDhah2r5TMM9RXFz940XakxZUghTxBQxQlkNz5AYyVNoYYM6up7FqMipMK6Ba1hZs4nYhhrpClJxLjzswihMA6GrIqgbc4+ryNRY=
+	t=1751651134; cv=none; b=AiOaYLBs0gYzRiRBTRK0fabh7K93J+w8LTVigKPkSn2AMT1PSwE7G4zalW7iyPrK6YxG/4ehqp/1mPBBUzrO/OJtLJFnrlEY5genvlAcGXG3HVLpPGHs3kSH2YuEeNcX4BGvRG4lDt5RJNrHfTHUODNZak4EIgjxXVdH+Q6/6ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751650679; c=relaxed/simple;
-	bh=9EALfSFFBRNxRqRk7VUICyoOrPWaEk2Bqic5Nq+c1QU=;
+	s=arc-20240116; t=1751651134; c=relaxed/simple;
+	bh=Nqm9M4UJIqwudHAuGH7UYCWuSwRLdeHqz5vOhTfsqY0=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Z29L7htXc4J8SlFJjK2p8fTc1KC7NIu627gROzNpyxwKcQMEjG11x8PSsP6HLNjLpkBdBThO3gAN3OYEprNjZJ7uI761xlF+s+uBVVGw5y+CWX5+EOdbi8J2aPlAUn4lWPx9UfxDWSeJ2xnZj/P2PN7IOWwblaDva6NzD50jvhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=CjsIc9Nw; arc=none smtp.client-ip=209.85.128.171
+	 Content-Type:MIME-Version; b=bYmi4Pll6Zj3Pt654t6emueBhI18tJtN97gKgaViw+D/u7bcnIXnFJdB/9fgfSG/TE8TqOZAhNxDFMMp6HX5u3GepooT1D1DUoe771P8kZ7bc0KKCC/23PkZal+e5Vhue2g+wDKCProro2qU0ygukW03FGLORjztwsr1mWWLs74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=ueqHvK0H; arc=none smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="CjsIc9Nw"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-716ee8947cdso2742837b3.0
-        for <ntfs3@lists.linux.dev>; Fri, 04 Jul 2025 10:37:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="ueqHvK0H"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-714067ecea3so8528737b3.0
+        for <ntfs3@lists.linux.dev>; Fri, 04 Jul 2025 10:45:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1751650676; x=1752255476; darn=lists.linux.dev;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1751651131; x=1752255931; darn=lists.linux.dev;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=lLUj9yr52QgRuAClbNBOdP/RkbfnWsisubBXRJYh1fQ=;
-        b=CjsIc9NwZLzTBjYhVz8+iWuVYs7qgB75rywhByRmQvjH9veVb0fNizi34AZZNPB0bo
-         r/kugiMeEMOpm2hilztFfc/kw93QQaUzPa//iYuGiLWUfwU70av3N2d66U96i2bvNo80
-         Dux49pyXCVkLdC2YG89E0MX6Fk3Af6k/2+nJe8Z9SdHD+NHmcFwEs9bSrBiuJMYVs/xw
-         AYvFGa8lxuXTGBp9Oo7mFcmQtAhx8YJa/C5L+gEPJavFLJEUcQVWMOil7AxhGhl++NjL
-         0tcYZxwS4+/uGFYK0OX5GzRCdgJThPv9YpA8/h1ZuxQI+eso3uGZJOUmGsk1njXvUR2x
-         ONzw==
+        bh=sRRTUBR1HhzbPWZOo6ysCxsvxUXtkw1uTBwQrVosYbE=;
+        b=ueqHvK0HxfyRDLZMx2M4a9QckFAz5RhQXVWkctL7tqPnyxztpvasLspOTo4O5Lp8R0
+         h13mM65RKmmabdTcapEM5To52pcBfNEiCdnHWXGdVHRRDSIqUZz0AYYf6YZYYvUjYKDW
+         mpw1LsgnYI0uPhdWZzzRTQSAtLi5uJVj7WGBP9BB3LbBFx7MdAWDeIySYLP5eYfEt/eA
+         wqlyHazdQ6zb/k1mxWhsnr1ZMxAXBNgnE6IPF67mZfRMDU/g84Nr/ijbUfyjZH4XDOen
+         UbEaiToDjcFxTV4heWKhZewSOuaSlXd84wMe5rdQ8KQvPiAz4z6AJxSgS8BDkz9aYdqH
+         DI/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751650676; x=1752255476;
+        d=1e100.net; s=20230601; t=1751651131; x=1752255931;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lLUj9yr52QgRuAClbNBOdP/RkbfnWsisubBXRJYh1fQ=;
-        b=VIFlFItsIXtJBu+q8Sk402ENKYIdahhioWYxtmm6+EhIXZ2fhaeWfcwAdvI1H1qYH5
-         EM1WUVYBsasXmFesWcceEdy4DxNaqRElrfNzsvpTswsDGdrag1+5L5SsI5IZSQ1+f6Rl
-         NutS4XT66s1U12uwpHsxbWvAAEBF0ymEwiEgLoeujlDrwz37P3DSwDCpM8piaWaGxmO4
-         kJmG/+UFeZ64K83a4DIUPlEXGVBmB0K5U7P25PZqXhsnCv9SYhZ650ZCG4tPfBIJLboh
-         gjq4X9CnfkXohWX9mBPbZFPGDBpOeZP1ZXdSREHhEXCgbIeIM6tfE1UpcGjD0jijWK/X
-         hNqg==
-X-Forwarded-Encrypted: i=1; AJvYcCVe4z4yNfQN4NNF09fexEgXkwTL3nCTIOkecPQqd80aSRFd8nUzaLfMY2dTpvXIQr+i+hlrSA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyDEOf+rGBJCIZ0tnrFBHyIeV9wdCuUAZBLFI+T+YDLnPmydXoJ
-	7A76spPxIDTATsDvd1/ps1gKyeb+cwuyKJUKvp+jpi4TB3o9Vl8+6L0VYCqxzFgaj5k=
-X-Gm-Gg: ASbGncuQjMFmknjkGniObVAm4i8/pbCJxXX9wtwN+pRRK+gNEazJ1W1UlhHTNGBBN4l
-	MF4AmrfLFC5a0i4oHXJJqMOlQ3S78kKUm+Lbw+4Uu5qE1rAmC2i5MkqJ6xuRvKpo5zYSNfbI56F
-	64IQ4ha6mIKOKvMgAsYqymVWKVpwSMhugI27RJKvDW0hWqiPhFoTAc9iKujKnCt6CrWW1ZmA+eF
-	iG7UlaGqASrVIWOYGzKtL9V9IulBfFwUdAdw1DDytBUWdjj2kL5Ha++EGokxJyhos8tRZkmdfv+
-	VOUiUigVNDVh+TH3UbmaqyLhAeDwunWYk5qR6aR6jAt0WmFm7Q2gCkXwD9IIdWVEpN3GPxnF2gN
-	EKJlM6bd5Uzu4DTiUDc7SKkJeKlWgXA4=
-X-Google-Smtp-Source: AGHT+IG/aHreLeb27PwZvmI50YVh3KULg7kve7WZz2i4AoC208Quitrbot6B7W1w0/7tBwFUvl1n9g==
-X-Received: by 2002:a05:690c:b84:b0:70f:84c8:3105 with SMTP id 00721157ae682-71668d73139mr47948477b3.37.1751650675940;
-        Fri, 04 Jul 2025 10:37:55 -0700 (PDT)
+        bh=sRRTUBR1HhzbPWZOo6ysCxsvxUXtkw1uTBwQrVosYbE=;
+        b=sKH4HAF8PteQSYqV2Ym68ZQwql8RSSbQscYd7jHYcGhuAOAjHAo9pDorotS5bz4UtU
+         LgurDEH6+IT/LaubDgQGDbeFdhQ/p7ahH+2FA+Ab278nTo7L6XCVQVclJ8fGglTm/6iI
+         EyZMZ3GLmISDAFm2DUpvFCSrENUA2aniYcEzCFygVaFfycvsWfrhd5xr9bJJVAphOe47
+         jIwj3a/nH/nVsGrdMSeKlJ/HjpzOPmsIky29vJ4zedbUJqdvxcEvrTHE9fi1Jb1y9iWm
+         Nb4VkWImguE8GM0IhFfaUgjb10VXn4jCCO13yTHwPCogKCcs4SB2K2kWurXXdH3AVxaY
+         3IGg==
+X-Forwarded-Encrypted: i=1; AJvYcCVwLdrLRqWSYqG8c4AOs3mSRz6R1gfOTvPYSlHrYrceN+3vUuQxzHyLTX6v4QN/cUF27kTb/A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZp25Urg5ho7gZ+q8HQDiOvJuPJoU+58vj5K72Oz1llhFu3PK2
+	Qe99YCcowAp09O5w9179HBi/DY5ke0LU0Xbd0PkU2tKIps5zdXZyN31jxaimJg0e/pE=
+X-Gm-Gg: ASbGncvPhKRUuxudczGXoG3YMuKCqoZv2GYZlYy9Uy4smJ/++z4oSswpD/p/aIOpVxA
+	a66Y4H/3OFmcVG3cUIMxo3X+YGHQmF53LqdVExbw/QyBeRPGavVrJDZ83u9S20BtFrRTKkWS282
+	qkl9D3CSOpZdlg0GgaM3dCC1OhKe7qTRYnuniDF+Zl9gfCJvViad00fI74PDNYWlBJSmJ6NJOY/
+	PggSpqmmSyvbAR6gOQi0i9zkekE5rCodIm9AH1QEyOPDbXjYQMWUiUQzLkkeWs5+nwPlb+D+3kp
+	3Ll++gGibc0UtYmSTtlvIm/GwivXG4wwa/Mm8hCWemwO4JxG8gPQ3A8HnH+wLwVpHeYiUwIFe8b
+	MJXr7TrDnn3trgpexmiLO5b+ghRDRxt4=
+X-Google-Smtp-Source: AGHT+IHavxdRXfQcFPtCri7JPle6nXppaWnSECfYS7k4+PrbVcT/6JmmoNF/J8UBNVnhAzeOW0UVtw==
+X-Received: by 2002:a05:690c:3709:b0:70e:29d2:fba1 with SMTP id 00721157ae682-7166b66f4d6mr36192927b3.23.1751651131297;
+        Fri, 04 Jul 2025 10:45:31 -0700 (PDT)
 Received: from ?IPv6:2600:1700:6476:1430:f030:281a:9e2c:722? ([2600:1700:6476:1430:f030:281a:9e2c:722])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7166599fc22sm4941937b3.28.2025.07.04.10.37.53
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e899c48ba54sm754640276.43.2025.07.04.10.45.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 10:37:55 -0700 (PDT)
-Message-ID: <9d9d7bbab5443bd1c3dfd7d81d9bc91debecf4ef.camel@dubeyko.com>
-Subject: Re: [PATCH 4/4] hfs: enable uncached buffer io support
+        Fri, 04 Jul 2025 10:45:30 -0700 (PDT)
+Message-ID: <3c4ac1ab5f7afbbd745f88c595ee1465fc2e9ac6.camel@dubeyko.com>
+Subject: Re: [PATCH 3/4] hfsplus: enable uncached buffer io support
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: Yangtao Li <frank.li@vivo.com>, axboe@kernel.dk,
  aivazian.tigran@gmail.com, 	viro@zeniv.linux.org.uk, brauner@kernel.org,
@@ -74,10 +74,10 @@ Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
 	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, 
 	ntfs3@lists.linux.dev, linux-karma-devel@lists.sourceforge.net, 
 	bpf@vger.kernel.org
-Date: Fri, 04 Jul 2025 10:37:52 -0700
-In-Reply-To: <20250626173023.2702554-5-frank.li@vivo.com>
+Date: Fri, 04 Jul 2025 10:45:27 -0700
+In-Reply-To: <20250626173023.2702554-4-frank.li@vivo.com>
 References: <20250626173023.2702554-1-frank.li@vivo.com>
-	 <20250626173023.2702554-5-frank.li@vivo.com>
+	 <20250626173023.2702554-4-frank.li@vivo.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -124,45 +124,39 @@ MIME-Version: 1.0
 On Thu, 2025-06-26 at 11:30 -0600, Yangtao Li wrote:
 > Now cont_write_begin() support DONTCACHE mode, let's set
 > FOP_DONTCACHE
-> flag to enable uncached buffer io support for hfs.
+> flag to enable uncached buffer io support for hfsplus.
 >=20
 > Signed-off-by: Yangtao Li <frank.li@vivo.com>
 > ---
-> =C2=A0fs/hfs/inode.c | 1 +
+> =C2=A0fs/hfsplus/inode.c | 1 +
 > =C2=A01 file changed, 1 insertion(+)
 >=20
-> diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-> index 8409e4412366..a62f45e9745d 100644
-> --- a/fs/hfs/inode.c
-> +++ b/fs/hfs/inode.c
-> @@ -695,6 +695,7 @@ static const struct file_operations
-> hfs_file_operations =3D {
-> =C2=A0	.fsync		=3D hfs_file_fsync,
-> =C2=A0	.open		=3D hfs_file_open,
-> =C2=A0	.release	=3D hfs_file_release,
+> diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
+> index 26cc150856b9..b790ffe92019 100644
+> --- a/fs/hfsplus/inode.c
+> +++ b/fs/hfsplus/inode.c
+> @@ -372,6 +372,7 @@ static const struct file_operations
+> hfsplus_file_operations =3D {
+> =C2=A0	.open		=3D hfsplus_file_open,
+> =C2=A0	.release	=3D hfsplus_file_release,
+> =C2=A0	.unlocked_ioctl =3D hfsplus_ioctl,
 > +	.fop_flags	=3D FOP_DONTCACHE,
 > =C2=A0};
 > =C2=A0
-> =C2=A0static const struct inode_operations hfs_file_inode_operations =3D =
-{
+> =C2=A0struct inode *hfsplus_new_inode(struct super_block *sb, struct inod=
+e
+> *dir,
 
-Frankly speaking, I am not convinced that HFS really need to support
-this feature. It is old and pretty obsolete file system. The main use-
-case is simply support the capability to mount HFS volume is created
-under Mac OS X, for example, and to access the data there. Of course,
-we can support this feature, but what is the point of this?
-
-As far as I can see, the goal of RWF_DONTCACHE feature is:
-
-"Common for both reads and writes with RWF_DONTCACHE is that they use
-the page cache for IO. Reads work just like a normal buffered read
-would, with the only exception being that the touched ranges will get
-pruned after data has been copied. For writes, the ranges will get
-writeback kicked off before the syscall returns, and then writeback
-completion will prune the range."
-
-So, who would like to see such efficiency in HFS? Do we really need to
-support it in HFS? I think that it is not.
+The same question for HFS+. Because, it is again old and pretty
+obsolete file system. :) The main use-case is simply support the
+capability to mount HFS+ volume is created under Mac OS X, for example,
+and to access the data there. What is the point to support this feature
+in HFS+? Currently, around 200 xfstests fails in HFS/HFS+. We even
+cannot test any new functionality properly. And guys reports bugs in
+existing functionality. We need to be focused on this right now. Sorry,
+HFS/HFS+ is not so good ground for implementing new features. :)
+We really need to stabilize the existing functionality right now. And
+we have a lot of work yet. :)=20
 
 Thanks,
-Slava. =20
+Slava.=20
