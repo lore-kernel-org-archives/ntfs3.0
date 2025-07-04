@@ -1,66 +1,65 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2453E207E03
-	for <ntfs3@lists.linux.dev>; Fri,  4 Jul 2025 17:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E684A2D542E
+	for <ntfs3@lists.linux.dev>; Fri,  4 Jul 2025 17:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751650174; cv=none; b=BOk9y4ZOfYHsl5VMLcB1WnAdfwOXJbkgJhd6NtsMg6cvKg6jEeCOYkG5NS/hExKQqX8iuGT4jbwb9n6U3CUlCDAomV8alw2w8nZf6yejzTN0NYNeaguIPgOQKZxdAM3rP51/dIbWdxi8S28veVqay1+czDm40I6aBw0VzjQFwaI=
+	t=1751650679; cv=none; b=tHDFeldOoqqa/U7yZlLD14nXpC0byztp5h7eUmCVHoPPu2rFgcCaJKZFBJ/BqKM0O/e5807lDhah2r5TMM9RXFz940XakxZUghTxBQxQlkNz5AYyVNoYYM6up7FqMipMK6Ba1hZs4nYhhrpClJxLjzswihMA6GrIqgbc4+ryNRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751650174; c=relaxed/simple;
-	bh=iDbM20iQNedl8N2hzi1Pep7gBZiDuMA5oe8q7lPmVJk=;
+	s=arc-20240116; t=1751650679; c=relaxed/simple;
+	bh=9EALfSFFBRNxRqRk7VUICyoOrPWaEk2Bqic5Nq+c1QU=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PbjQlvqf9GZAefX8ALadu7JyiNbpsEppd5hfnl5K1mq7oqUI6FoEUMDYStM+x0rj5HwDatJqauTjPP50mLe7XE1IP5opJ/2SFf1kmpC4tyj7XJz6rb6YjbQugM1Cs/HNMmf80p+0A/qqLSC8X+JGmip6YWwd+uUhyfJb0MsInII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=UWFeU3+z; arc=none smtp.client-ip=209.85.219.176
+	 Content-Type:MIME-Version; b=Z29L7htXc4J8SlFJjK2p8fTc1KC7NIu627gROzNpyxwKcQMEjG11x8PSsP6HLNjLpkBdBThO3gAN3OYEprNjZJ7uI761xlF+s+uBVVGw5y+CWX5+EOdbi8J2aPlAUn4lWPx9UfxDWSeJ2xnZj/P2PN7IOWwblaDva6NzD50jvhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=CjsIc9Nw; arc=none smtp.client-ip=209.85.128.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="UWFeU3+z"
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e731a56e111so990436276.1
-        for <ntfs3@lists.linux.dev>; Fri, 04 Jul 2025 10:29:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="CjsIc9Nw"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-716ee8947cdso2742837b3.0
+        for <ntfs3@lists.linux.dev>; Fri, 04 Jul 2025 10:37:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1751650171; x=1752254971; darn=lists.linux.dev;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1751650676; x=1752255476; darn=lists.linux.dev;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=NKZOXif4dY8WW9PJKNKuGFpmuROoWR4AN0EGiAV7vcE=;
-        b=UWFeU3+zqszx33AVfJl3I0dpYpsiLM+CK6djSqIsObmFy5POZOANoW6z41z0tz8sPR
-         fNSyeG3EK1zC+t15AFlujZqbkuNuljlSL80cI0hDORk91sq5Di9KjF8XKxrHsk37lHYX
-         mpzvKgtHmgPs9ac9C+zzx0/svd5vdwb7V26osDW19iWLi3Df/emaKv1WJ7cmO6xABYeF
-         iuGEBDMppbFbNbVgvfZs3SWCsdz5Wf7xiqZfAHMPpZpYAUgg+JZuxJ0bG7LiEQi9aX+l
-         863FDqvMkn1Jw7g9Mz+LTn2VfZa8X12ODsJTrtjwryXdUcu9nHMNVGf7Ag9cvdPlN9mI
-         feDA==
+        bh=lLUj9yr52QgRuAClbNBOdP/RkbfnWsisubBXRJYh1fQ=;
+        b=CjsIc9NwZLzTBjYhVz8+iWuVYs7qgB75rywhByRmQvjH9veVb0fNizi34AZZNPB0bo
+         r/kugiMeEMOpm2hilztFfc/kw93QQaUzPa//iYuGiLWUfwU70av3N2d66U96i2bvNo80
+         Dux49pyXCVkLdC2YG89E0MX6Fk3Af6k/2+nJe8Z9SdHD+NHmcFwEs9bSrBiuJMYVs/xw
+         AYvFGa8lxuXTGBp9Oo7mFcmQtAhx8YJa/C5L+gEPJavFLJEUcQVWMOil7AxhGhl++NjL
+         0tcYZxwS4+/uGFYK0OX5GzRCdgJThPv9YpA8/h1ZuxQI+eso3uGZJOUmGsk1njXvUR2x
+         ONzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751650171; x=1752254971;
+        d=1e100.net; s=20230601; t=1751650676; x=1752255476;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NKZOXif4dY8WW9PJKNKuGFpmuROoWR4AN0EGiAV7vcE=;
-        b=jqyPwZ6MxLeTuYaYxq2NQWutQNN5iX+P0EAJmEXotpG1jPSkrijcqJpakQbzkIJG2V
-         hgk471TA1lWI/ZL3vghkADEh6S4rio0fIUcX3rjx/PY+dQg8tqSGY2vh+HLpg1aPo19B
-         WcOt4J+deGosbuhKpyyE95F3UHSJasaAePb/SWd2kh68rcvODYVHzHjdDvFh6FH+8Qa5
-         YTrwQA4VC8oWI4sGMyyzHqjptXSGaG0eaNwF7W9Ldqll+SJ95Aj8CEqLlwwtATsTq3Gh
-         QDWIU+G7uIPHgtclTEKUuntOqgZAhh4UkZ33GGG1bpSyTdoiO/qHDIOY/u2DZyfpSrZ7
-         RQcg==
-X-Forwarded-Encrypted: i=1; AJvYcCVzUE+RfTN8/Qpaq/QaxELn0kVGU4NgEW04Z/AQIfMKlXNFt5zUYH3k2NQy19NLe2rR6psf7A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDZPTYPnGImpkYzggpXTGC1GUycDA65tkHYV3NVDKuGENRr/z2
-	dbpi7CEyT0auALrCgAV/ycFxpY4TMo3bkbJz/dz4g3KHpmU6N8VmbTMLUzyHKl7wChk=
-X-Gm-Gg: ASbGnctj41GvZWgqclhdI6j+ltyXNhGmWfyVB25LiSVhCIuHtfjO1eepk4MkzkxyUh4
-	5ahsXUk/le+rmtRVzHSJkBJNfPtgk1sV9IyPcourxWx4iA94T/5xHEIRJb9i4FQKG/u4Eg6bCF1
-	BYZ0OTLW64KSSd2xg6evs5RmqMc+ewgXxrvqh36ZfIy52/8SZ0G9AtsIVhS1pymT6a6wgtHLi5D
-	WR01X/WUzi5SjrMdHS+Q44NdaDgzXjXV89MJZNzyLC1ofOVN2a4hIEWp+2+92a3WHxFcenjHvD4
-	MAsZGV3CxrYow/6fK0cUxtcAmYNYFzoOqI4AUZfKtcBndPpa1XwTkLPPYxxhAQbwMcs+WosHIlL
-	tF1oqF/+Tn9TDIC8lDOcNg7wCegoWEms=
-X-Google-Smtp-Source: AGHT+IH90uXGHA1KLkxMwBoLjKzi40wo5WwD8z6pePkSFDnX+wBofTNDe+oRgHEM+GBC/SzPv5geJw==
-X-Received: by 2002:a05:6902:2808:b0:e81:b6b1:153d with SMTP id 3f1490d57ef6-e89a0c1fb0emr3480402276.21.1751650171096;
-        Fri, 04 Jul 2025 10:29:31 -0700 (PDT)
+        bh=lLUj9yr52QgRuAClbNBOdP/RkbfnWsisubBXRJYh1fQ=;
+        b=VIFlFItsIXtJBu+q8Sk402ENKYIdahhioWYxtmm6+EhIXZ2fhaeWfcwAdvI1H1qYH5
+         EM1WUVYBsasXmFesWcceEdy4DxNaqRElrfNzsvpTswsDGdrag1+5L5SsI5IZSQ1+f6Rl
+         NutS4XT66s1U12uwpHsxbWvAAEBF0ymEwiEgLoeujlDrwz37P3DSwDCpM8piaWaGxmO4
+         kJmG/+UFeZ64K83a4DIUPlEXGVBmB0K5U7P25PZqXhsnCv9SYhZ650ZCG4tPfBIJLboh
+         gjq4X9CnfkXohWX9mBPbZFPGDBpOeZP1ZXdSREHhEXCgbIeIM6tfE1UpcGjD0jijWK/X
+         hNqg==
+X-Forwarded-Encrypted: i=1; AJvYcCVe4z4yNfQN4NNF09fexEgXkwTL3nCTIOkecPQqd80aSRFd8nUzaLfMY2dTpvXIQr+i+hlrSA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyDEOf+rGBJCIZ0tnrFBHyIeV9wdCuUAZBLFI+T+YDLnPmydXoJ
+	7A76spPxIDTATsDvd1/ps1gKyeb+cwuyKJUKvp+jpi4TB3o9Vl8+6L0VYCqxzFgaj5k=
+X-Gm-Gg: ASbGncuQjMFmknjkGniObVAm4i8/pbCJxXX9wtwN+pRRK+gNEazJ1W1UlhHTNGBBN4l
+	MF4AmrfLFC5a0i4oHXJJqMOlQ3S78kKUm+Lbw+4Uu5qE1rAmC2i5MkqJ6xuRvKpo5zYSNfbI56F
+	64IQ4ha6mIKOKvMgAsYqymVWKVpwSMhugI27RJKvDW0hWqiPhFoTAc9iKujKnCt6CrWW1ZmA+eF
+	iG7UlaGqASrVIWOYGzKtL9V9IulBfFwUdAdw1DDytBUWdjj2kL5Ha++EGokxJyhos8tRZkmdfv+
+	VOUiUigVNDVh+TH3UbmaqyLhAeDwunWYk5qR6aR6jAt0WmFm7Q2gCkXwD9IIdWVEpN3GPxnF2gN
+	EKJlM6bd5Uzu4DTiUDc7SKkJeKlWgXA4=
+X-Google-Smtp-Source: AGHT+IG/aHreLeb27PwZvmI50YVh3KULg7kve7WZz2i4AoC208Quitrbot6B7W1w0/7tBwFUvl1n9g==
+X-Received: by 2002:a05:690c:b84:b0:70f:84c8:3105 with SMTP id 00721157ae682-71668d73139mr47948477b3.37.1751650675940;
+        Fri, 04 Jul 2025 10:37:55 -0700 (PDT)
 Received: from ?IPv6:2600:1700:6476:1430:f030:281a:9e2c:722? ([2600:1700:6476:1430:f030:281a:9e2c:722])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e899c48b086sm742656276.42.2025.07.04.10.29.28
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7166599fc22sm4941937b3.28.2025.07.04.10.37.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 10:29:30 -0700 (PDT)
-Message-ID: <d698490f3ee35889d8922f392079846b647cd47e.camel@dubeyko.com>
-Subject: Re: [PATCH 2/4] fs/buffer: parse IOCB_DONTCACHE flag in
- block_write_begin()
+        Fri, 04 Jul 2025 10:37:55 -0700 (PDT)
+Message-ID: <9d9d7bbab5443bd1c3dfd7d81d9bc91debecf4ef.camel@dubeyko.com>
+Subject: Re: [PATCH 4/4] hfs: enable uncached buffer io support
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: Yangtao Li <frank.li@vivo.com>, axboe@kernel.dk,
  aivazian.tigran@gmail.com, 	viro@zeniv.linux.org.uk, brauner@kernel.org,
@@ -75,10 +74,10 @@ Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
 	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, 
 	ntfs3@lists.linux.dev, linux-karma-devel@lists.sourceforge.net, 
 	bpf@vger.kernel.org
-Date: Fri, 04 Jul 2025 10:29:27 -0700
-In-Reply-To: <20250626173023.2702554-3-frank.li@vivo.com>
+Date: Fri, 04 Jul 2025 10:37:52 -0700
+In-Reply-To: <20250626173023.2702554-5-frank.li@vivo.com>
 References: <20250626173023.2702554-1-frank.li@vivo.com>
-	 <20250626173023.2702554-3-frank.li@vivo.com>
+	 <20250626173023.2702554-5-frank.li@vivo.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -123,47 +122,47 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
 On Thu, 2025-06-26 at 11:30 -0600, Yangtao Li wrote:
-> When iocb flags passes IOCB_DONTCACHE, use FGP_DONTCACHE mode to get
-> folio.
+> Now cont_write_begin() support DONTCACHE mode, let's set
+> FOP_DONTCACHE
+> flag to enable uncached buffer io support for hfs.
 >=20
 > Signed-off-by: Yangtao Li <frank.li@vivo.com>
 > ---
-> =C2=A0fs/buffer.c | 7 +++++--
-> =C2=A01 file changed, 5 insertions(+), 2 deletions(-)
+> =C2=A0fs/hfs/inode.c | 1 +
+> =C2=A01 file changed, 1 insertion(+)
 >=20
-> diff --git a/fs/buffer.c b/fs/buffer.c
-> index f2b7b30a76ca..0ed80b62feea 100644
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -2251,11 +2251,14 @@ int block_write_begin(struct kiocb *iocb,
-> struct address_space *mapping, loff_t
-> =C2=A0		unsigned len, struct folio **foliop, get_block_t
-> *get_block)
-> =C2=A0{
-> =C2=A0	pgoff_t index =3D pos >> PAGE_SHIFT;
-> +	fgf_t fgp =3D FGP_WRITEBEGIN;
-> =C2=A0	struct folio *folio;
-> =C2=A0	int status;
+> diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+> index 8409e4412366..a62f45e9745d 100644
+> --- a/fs/hfs/inode.c
+> +++ b/fs/hfs/inode.c
+> @@ -695,6 +695,7 @@ static const struct file_operations
+> hfs_file_operations =3D {
+> =C2=A0	.fsync		=3D hfs_file_fsync,
+> =C2=A0	.open		=3D hfs_file_open,
+> =C2=A0	.release	=3D hfs_file_release,
+> +	.fop_flags	=3D FOP_DONTCACHE,
+> =C2=A0};
 > =C2=A0
-> -	folio =3D __filemap_get_folio(mapping, index, FGP_WRITEBEGIN,
-> -			mapping_gfp_mask(mapping));
-> +	if (iocb->ki_flags & IOCB_DONTCACHE)
-> +		fgp |=3D FGP_DONTCACHE;
-> +
-> +	folio =3D __filemap_get_folio(mapping, index, fgp,
-> mapping_gfp_mask(mapping));
-> =C2=A0	if (IS_ERR(folio))
-> =C2=A0		return PTR_ERR(folio);
-> =C2=A0
+> =C2=A0static const struct inode_operations hfs_file_inode_operations =3D =
+{
 
-Correct me if I am wrong. As far as I can see, the first patch depends
-from  second one. It means that if somebody applies the first patch
-but, somehow, don't apply the second one, then nobody will be able to
-compile the kernel code. Am I correct?
+Frankly speaking, I am not convinced that HFS really need to support
+this feature. It is old and pretty obsolete file system. The main use-
+case is simply support the capability to mount HFS volume is created
+under Mac OS X, for example, and to access the data there. Of course,
+we can support this feature, but what is the point of this?
 
-Why do we need to make this modification and, then, touch other file
-systems? What the justification of this? Why do we need to make this
-modification at the first place?
+As far as I can see, the goal of RWF_DONTCACHE feature is:
+
+"Common for both reads and writes with RWF_DONTCACHE is that they use
+the page cache for IO. Reads work just like a normal buffered read
+would, with the only exception being that the touched ranges will get
+pruned after data has been copied. For writes, the ranges will get
+writeback kicked off before the syscall returns, and then writeback
+completion will prune the range."
+
+So, who would like to see such efficiency in HFS? Do we really need to
+support it in HFS? I think that it is not.
 
 Thanks,
-Slava.
+Slava. =20
