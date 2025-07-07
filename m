@@ -1,162 +1,89 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B861519BC
-	for <ntfs3@lists.linux.dev>; Fri,  4 Jul 2025 17:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75891E51EF
+	for <ntfs3@lists.linux.dev>; Mon,  7 Jul 2025 12:47:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751651134; cv=none; b=AiOaYLBs0gYzRiRBTRK0fabh7K93J+w8LTVigKPkSn2AMT1PSwE7G4zalW7iyPrK6YxG/4ehqp/1mPBBUzrO/OJtLJFnrlEY5genvlAcGXG3HVLpPGHs3kSH2YuEeNcX4BGvRG4lDt5RJNrHfTHUODNZak4EIgjxXVdH+Q6/6ZQ=
+	t=1751892472; cv=none; b=QTGP30Y8luNvCBF1MYTK5m2a2/cyEbuyf+nQ188akGzgTlWQq2aes8Q4DUSueozhkcQeN2CjnhgfADqskoqeESWluGmMhsLBhgjjg+IVDhyrIzUabPcmBh8LPVvBd1frYPFjGl6EafUQG9YwvkxG+C9ATZ7qYpNzqsOpKWTIBEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751651134; c=relaxed/simple;
-	bh=Nqm9M4UJIqwudHAuGH7UYCWuSwRLdeHqz5vOhTfsqY0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bYmi4Pll6Zj3Pt654t6emueBhI18tJtN97gKgaViw+D/u7bcnIXnFJdB/9fgfSG/TE8TqOZAhNxDFMMp6HX5u3GepooT1D1DUoe771P8kZ7bc0KKCC/23PkZal+e5Vhue2g+wDKCProro2qU0ygukW03FGLORjztwsr1mWWLs74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=ueqHvK0H; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1751892472; c=relaxed/simple;
+	bh=kz6g0RZrjv0pS76XcYVs4XWiln5FXU1dNiOYnrZOlWI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l7W5ouf/9W1ew/D2+6oZ9aphjBY1C8qCfQBz3R09r/QGsn0PtTD/GYY13/aCEJ6TKjHxpxjrnjS1ufa7larvckiePJmw2Z6HXEoC9f5Z6eo4egUXAQErrW29f8x8jqqrHSZdTs8VVxVHZbK2vuahdQiFQHh7pnvV5j/u/A8/H2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=KIwHVVF7; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="ueqHvK0H"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-714067ecea3so8528737b3.0
-        for <ntfs3@lists.linux.dev>; Fri, 04 Jul 2025 10:45:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="KIwHVVF7"
+Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 6094C2F4;
+	Mon,  7 Jul 2025 12:46:44 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=KIwHVVF7;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id CB98E1FDF;
+	Mon,  7 Jul 2025 12:47:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1751651131; x=1752255931; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=sRRTUBR1HhzbPWZOo6ysCxsvxUXtkw1uTBwQrVosYbE=;
-        b=ueqHvK0HxfyRDLZMx2M4a9QckFAz5RhQXVWkctL7tqPnyxztpvasLspOTo4O5Lp8R0
-         h13mM65RKmmabdTcapEM5To52pcBfNEiCdnHWXGdVHRRDSIqUZz0AYYf6YZYYvUjYKDW
-         mpw1LsgnYI0uPhdWZzzRTQSAtLi5uJVj7WGBP9BB3LbBFx7MdAWDeIySYLP5eYfEt/eA
-         wqlyHazdQ6zb/k1mxWhsnr1ZMxAXBNgnE6IPF67mZfRMDU/g84Nr/ijbUfyjZH4XDOen
-         UbEaiToDjcFxTV4heWKhZewSOuaSlXd84wMe5rdQ8KQvPiAz4z6AJxSgS8BDkz9aYdqH
-         DI/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751651131; x=1752255931;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sRRTUBR1HhzbPWZOo6ysCxsvxUXtkw1uTBwQrVosYbE=;
-        b=sKH4HAF8PteQSYqV2Ym68ZQwql8RSSbQscYd7jHYcGhuAOAjHAo9pDorotS5bz4UtU
-         LgurDEH6+IT/LaubDgQGDbeFdhQ/p7ahH+2FA+Ab278nTo7L6XCVQVclJ8fGglTm/6iI
-         EyZMZ3GLmISDAFm2DUpvFCSrENUA2aniYcEzCFygVaFfycvsWfrhd5xr9bJJVAphOe47
-         jIwj3a/nH/nVsGrdMSeKlJ/HjpzOPmsIky29vJ4zedbUJqdvxcEvrTHE9fi1Jb1y9iWm
-         Nb4VkWImguE8GM0IhFfaUgjb10VXn4jCCO13yTHwPCogKCcs4SB2K2kWurXXdH3AVxaY
-         3IGg==
-X-Forwarded-Encrypted: i=1; AJvYcCVwLdrLRqWSYqG8c4AOs3mSRz6R1gfOTvPYSlHrYrceN+3vUuQxzHyLTX6v4QN/cUF27kTb/A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZp25Urg5ho7gZ+q8HQDiOvJuPJoU+58vj5K72Oz1llhFu3PK2
-	Qe99YCcowAp09O5w9179HBi/DY5ke0LU0Xbd0PkU2tKIps5zdXZyN31jxaimJg0e/pE=
-X-Gm-Gg: ASbGncvPhKRUuxudczGXoG3YMuKCqoZv2GYZlYy9Uy4smJ/++z4oSswpD/p/aIOpVxA
-	a66Y4H/3OFmcVG3cUIMxo3X+YGHQmF53LqdVExbw/QyBeRPGavVrJDZ83u9S20BtFrRTKkWS282
-	qkl9D3CSOpZdlg0GgaM3dCC1OhKe7qTRYnuniDF+Zl9gfCJvViad00fI74PDNYWlBJSmJ6NJOY/
-	PggSpqmmSyvbAR6gOQi0i9zkekE5rCodIm9AH1QEyOPDbXjYQMWUiUQzLkkeWs5+nwPlb+D+3kp
-	3Ll++gGibc0UtYmSTtlvIm/GwivXG4wwa/Mm8hCWemwO4JxG8gPQ3A8HnH+wLwVpHeYiUwIFe8b
-	MJXr7TrDnn3trgpexmiLO5b+ghRDRxt4=
-X-Google-Smtp-Source: AGHT+IHavxdRXfQcFPtCri7JPle6nXppaWnSECfYS7k4+PrbVcT/6JmmoNF/J8UBNVnhAzeOW0UVtw==
-X-Received: by 2002:a05:690c:3709:b0:70e:29d2:fba1 with SMTP id 00721157ae682-7166b66f4d6mr36192927b3.23.1751651131297;
-        Fri, 04 Jul 2025 10:45:31 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:f030:281a:9e2c:722? ([2600:1700:6476:1430:f030:281a:9e2c:722])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e899c48ba54sm754640276.43.2025.07.04.10.45.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 10:45:30 -0700 (PDT)
-Message-ID: <3c4ac1ab5f7afbbd745f88c595ee1465fc2e9ac6.camel@dubeyko.com>
-Subject: Re: [PATCH 3/4] hfsplus: enable uncached buffer io support
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Yangtao Li <frank.li@vivo.com>, axboe@kernel.dk,
- aivazian.tigran@gmail.com, 	viro@zeniv.linux.org.uk, brauner@kernel.org,
- jack@suse.cz, linkinjeon@kernel.org, 	sj1557.seo@samsung.com,
- yuezhang.mo@sony.com, glaubitz@physik.fu-berlin.de, 	shaggy@kernel.org,
- konishi.ryusuke@gmail.com, 	almaz.alexandrovich@paragon-software.com,
- me@bobcopeland.com, 	willy@infradead.org, josef@toxicpanda.com,
- kovalev@altlinux.org, dave@stgolabs.net, 	mhocko@suse.com,
- chentaotao@didiglobal.com
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, 
-	ntfs3@lists.linux.dev, linux-karma-devel@lists.sourceforge.net, 
-	bpf@vger.kernel.org
-Date: Fri, 04 Jul 2025 10:45:27 -0700
-In-Reply-To: <20250626173023.2702554-4-frank.li@vivo.com>
-References: <20250626173023.2702554-1-frank.li@vivo.com>
-	 <20250626173023.2702554-4-frank.li@vivo.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
- fAMjjkInIPg7RLGs8FiwxfcpkILP0YbVWHiNAaQ==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1 (by Flathub.org) 
+	d=paragon-software.com; s=mail; t=1751892468;
+	bh=4ORtnEo8Lo5/TecHN3+QL+myt9NI3UgcjwgBg3qFVm0=;
+	h=From:To:CC:Subject:Date;
+	b=KIwHVVF7Yk2JiCCLxBvLIn3Y0FxiJRpSZTEvjUQazfMGwFPcN7nAKjtbFqzqjEjtn
+	 osEfC0xkMKCfLt1apfo4OGv94XsWeS09ZngfIv7UGXVMYz6LY6SLhPkeUCEP7gohuQ
+	 LnHQ3MrYfArbSGQuqkPiHEvdqZ/n64d7Vk7h00aY=
+Received: from localhost.localdomain (172.30.20.165) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Mon, 7 Jul 2025 15:47:47 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	<syzbot+a5d1c9dfa91705cd2f6d@syzkaller.appspotmail.com>, Lorenzo Stoakes
+	<lorenzo.stoakes@oracle.com>
+Subject: [PATCH] Revert "fs/ntfs3: Replace inode_trylock with inode_lock"
+Date: Mon, 7 Jul 2025 14:47:38 +0200
+Message-ID: <20250707124738.6764-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On Thu, 2025-06-26 at 11:30 -0600, Yangtao Li wrote:
-> Now cont_write_begin() support DONTCACHE mode, let's set
-> FOP_DONTCACHE
-> flag to enable uncached buffer io support for hfsplus.
->=20
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
-> ---
-> =C2=A0fs/hfsplus/inode.c | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
-> index 26cc150856b9..b790ffe92019 100644
-> --- a/fs/hfsplus/inode.c
-> +++ b/fs/hfsplus/inode.c
-> @@ -372,6 +372,7 @@ static const struct file_operations
-> hfsplus_file_operations =3D {
-> =C2=A0	.open		=3D hfsplus_file_open,
-> =C2=A0	.release	=3D hfsplus_file_release,
-> =C2=A0	.unlocked_ioctl =3D hfsplus_ioctl,
-> +	.fop_flags	=3D FOP_DONTCACHE,
-> =C2=A0};
-> =C2=A0
-> =C2=A0struct inode *hfsplus_new_inode(struct super_block *sb, struct inod=
-e
-> *dir,
+This reverts commit 69505fe98f198ee813898cbcaf6770949636430b.
 
-The same question for HFS+. Because, it is again old and pretty
-obsolete file system. :) The main use-case is simply support the
-capability to mount HFS+ volume is created under Mac OS X, for example,
-and to access the data there. What is the point to support this feature
-in HFS+? Currently, around 200 xfstests fails in HFS/HFS+. We even
-cannot test any new functionality properly. And guys reports bugs in
-existing functionality. We need to be focused on this right now. Sorry,
-HFS/HFS+ is not so good ground for implementing new features. :)
-We really need to stabilize the existing functionality right now. And
-we have a lot of work yet. :)=20
+Make lock acquiring conditional to avoid the deadlock.
 
-Thanks,
-Slava.=20
+Fixes: 69505fe98f19 ("fs/ntfs3: Replace inode_trylock with inode_lock")
+Reported-by: syzbot+a5d1c9dfa91705cd2f6d@syzkaller.appspotmail.com
+Suggested-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+---
+ fs/ntfs3/file.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 65fb27d1e17c..2e321b84a1ed 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -322,7 +322,10 @@ static int ntfs_file_mmap(struct file *file, struct vm_area_struct *vma)
+ 		}
+ 
+ 		if (ni->i_valid < to) {
+-			inode_lock(inode);
++			if (!inode_trylock(inode)) {
++				err = -EAGAIN;
++				goto out;
++			}
+ 			err = ntfs_extend_initialized_size(file, ni,
+ 							   ni->i_valid, to);
+ 			inode_unlock(inode);
+-- 
+2.43.0
+
