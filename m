@@ -1,73 +1,255 @@
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB402153ED
-	for <ntfs3@lists.linux.dev>; Tue,  8 Jul 2025 09:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A4C26981F
+	for <ntfs3@lists.linux.dev>; Tue,  8 Jul 2025 10:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751965565; cv=none; b=HA/OQGw36DNPUsXnpzh1mubH4Nmms94KpwSe5Galu9dCKnbRd/jZHRP1O0AnRLJNhMtWLfmKom9CYjHiD4J06Zjo7SNfbuUT6CIRgtdGRWPVHTaICCzmQvaMJHZtw4RhTelpSI8Qm5DvFhFubCkWqqJYRuVloJIUPGVXGvsOyVI=
+	t=1751970005; cv=none; b=danZyWiBNl+RT0XdWDSioQAPipM0f8XqvpcBJtst30cywEWmgTbAzsu5Jtz/gKWaz2OcwHk6uVGX1TCXk7I+/9tNjRnvg2wNxLa8e/hgW9ta4ixFgOsFo1ZbewLPuXj/UAeCTqk1KtbRArZvEr0WPOtWITN50MifUx8kJ0H1OL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751965565; c=relaxed/simple;
-	bh=Xhb9ffyW8dSjYoMTKUPlDRr5VE0teCeAMQ6EAiIEer8=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=PJ9sVJuFVxpoX4QcIuRG340Q2a0/0AL0CTzsoIv0JXb9o306sF0tU6QT2GSc4+0wqORn37GjPc1ktRLyUuISBNZXUUEkH8pGswf6fYB/aGMKtDChjFXLstWPa86yhwpROrsPYyFMsr8BHaZ9jIVvG785TGJc6GCGcvErHJuCFtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-87595d00ca0so353831339f.2
-        for <ntfs3@lists.linux.dev>; Tue, 08 Jul 2025 02:06:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751965563; x=1752570363;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KKU2Ks7QggMb85/IbT+YTciHNCoFkKdX3/APeX+LtU0=;
-        b=dGy2eJoRQvXcWQjvQuqB87H6GCnk5sEeTDnL7wD0Sy6vE+sipmwRVDxeZBOUSjwJ6S
-         Io4NtIc4jl2yMixaBI34vx2HVfzVYBnE2M9u6Fd0nk/R9iYIiy/yBYvx2yRfWoMMqYXN
-         Qj4vlnkOy9cNePLTwI3buaX3B4gBqh0cXrlnWa0VWVRnHDsI/UG8m6BKOJ0Yhh7kLRfc
-         r7o0kzwegp5DqnJ4r1y5WvvNJc+tGN3RYtjAyNooZ+VUrPbXkApnTET7fOyT1tXRbH5t
-         ptJNBL9I9tk8WTnl+0s+YcDaG4HtVPFE68fWOsK4NuhM4TeR+0VxrXyJ9W/gnDj5oCmE
-         rr0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU7FUoDT3ISw1Ow6+Rtrz9j6FhLai/KzkKlC3Ck+zirMJglrhVcQqQ1CP7qSxJ3p9w9V5IrWw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyE/i0463Dtw9oMAulaQ7aYvNFloe02QaXJBdDh8ueb2qP7QSgV
-	KxaHvA2oLq9CRux8Qww2YMZwbuvQOPOMUAzpA6Zwu1dNn2MlHZZJqF/t+QCy3OgiPSkgGrh2FE4
-	V1qcPjAQkOfWV5BzQAl3RUjWmXpT34WfVTvuM79n/A6NAKusvIYc4QD6/XhA=
-X-Google-Smtp-Source: AGHT+IE+BaPhaNoHXu+pbQ9ISl094NhJTXYh45F6pUUAI/I/nlwym42E7vyfZwRJ1uOiDI6DxQFhoxw/D9f/d3mFKp6yk62/EznT
+	s=arc-20240116; t=1751970005; c=relaxed/simple;
+	bh=6F+F/iGv3OA5nxQdu8gCwkz1tTRlsBjIS7mrQcANGjY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H1KdHUJPUNVIGUCAw8C1vM7cjZOSDWUFsMEJ8ZefKUh3SC1JFt00kZUeDnsikRQRr15ZuSzg6HF9P9+IRKNpPo3zdfMMd1aazB5nA8b5U0PZfkTZc5IcCmynkFyLgyV2wFVqGgeMGOf3Cw02E3DoJ9/TruoBykOeFEBUoZShUjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gvcSW/jb; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=JPeLmiN4; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gvcSW/jb; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=JPeLmiN4; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gvcSW/jb";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="JPeLmiN4";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gvcSW/jb";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="JPeLmiN4"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 77A321F38D;
+	Tue,  8 Jul 2025 10:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1751970001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hj1CDaVD+4BtlFnopoRZeD5WKkVDF86m6K5HhWwwKt8=;
+	b=gvcSW/jbIbPJe4xojVrkaRri64CmwfkMCivzcOcy7X/5Ulw+aCiQctp3+++b5kqbwtKWfd
+	XZQLG1KLyBLvSIpnHoUMBP0JhOPCk/9pWF975zNBS2Z89IyO8R3f1A0MnwdyqV1ahHhof+
+	2hJTSd2oiBrpFPJh/W1vOOSMyXPKh1E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1751970001;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hj1CDaVD+4BtlFnopoRZeD5WKkVDF86m6K5HhWwwKt8=;
+	b=JPeLmiN4a6hJiNlYT+wM83pfzh7kRvuR3E14GWwd7cCJViE7FCdJgiAGCQ4t0tbrbV7KE0
+	6is/9OuH+76f87BA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="gvcSW/jb";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=JPeLmiN4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1751970001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hj1CDaVD+4BtlFnopoRZeD5WKkVDF86m6K5HhWwwKt8=;
+	b=gvcSW/jbIbPJe4xojVrkaRri64CmwfkMCivzcOcy7X/5Ulw+aCiQctp3+++b5kqbwtKWfd
+	XZQLG1KLyBLvSIpnHoUMBP0JhOPCk/9pWF975zNBS2Z89IyO8R3f1A0MnwdyqV1ahHhof+
+	2hJTSd2oiBrpFPJh/W1vOOSMyXPKh1E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1751970001;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hj1CDaVD+4BtlFnopoRZeD5WKkVDF86m6K5HhWwwKt8=;
+	b=JPeLmiN4a6hJiNlYT+wM83pfzh7kRvuR3E14GWwd7cCJViE7FCdJgiAGCQ4t0tbrbV7KE0
+	6is/9OuH+76f87BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6340A13A54;
+	Tue,  8 Jul 2025 10:20:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9+I3GNHwbGi7eQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 08 Jul 2025 10:20:01 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id EA382A098F; Tue,  8 Jul 2025 12:20:00 +0200 (CEST)
+Date: Tue, 8 Jul 2025 12:20:00 +0200
+From: Jan Kara <jack@suse.cz>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Qu Wenruo <quwenruo.btrfs@gmx.com>, Dave Chinner <david@fromorbit.com>, 
+	Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, linux-ext4@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH v4 1/6] fs: enhance and rename shutdown() callback to
+ remove_bdev()
+Message-ID: <2dm6bsup7vxwl4vwmllkvt5erncirr272bov4ehd5gix7n2vnw@bkagb26tjtj5>
+References: <cover.1751589725.git.wqu@suse.com>
+ <de25bbdb572c75df38b1002d3779bf19e3ad0ff6.1751589725.git.wqu@suse.com>
+ <aGxSHKeyldrR1Q0T@dread.disaster.area>
+ <dbd955f7-b9b4-402f-97bf-6b38f0c3237e@gmx.com>
+ <20250708004532.GA2672018@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1aaa:b0:3df:43ac:af5a with SMTP id
- e9e14a558f8ab-3e154da8d00mr21915035ab.2.1751965562784; Tue, 08 Jul 2025
- 02:06:02 -0700 (PDT)
-Date: Tue, 08 Jul 2025 02:06:02 -0700
-In-Reply-To: <CAF3JpA5UK1iRiHTbPZNej5izQZNVwi3phN5f0pzCzadqn7K0+Q@mail.gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <686cdf7a.a00a0220.338033.000b.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] WARNING in ni_rename
-From: syzbot <syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	moonhee.lee.ca@gmail.com, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250708004532.GA2672018@frogsfrogsfrogs>
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmx.com];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[gmx.com,fromorbit.com,suse.com,vger.kernel.org,zeniv.linux.org.uk,kernel.org,suse.cz,lists.sourceforge.net,lists.linux.dev];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 77A321F38D
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.01
 
-Hello,
+On Mon 07-07-25 17:45:32, Darrick J. Wong wrote:
+> On Tue, Jul 08, 2025 at 08:52:47AM +0930, Qu Wenruo wrote:
+> > 在 2025/7/8 08:32, Dave Chinner 写道:
+> > > On Fri, Jul 04, 2025 at 10:12:29AM +0930, Qu Wenruo wrote:
+> > > > Currently all the filesystems implementing the
+> > > > super_opearations::shutdown() callback can not afford losing a device.
+> > > > 
+> > > > Thus fs_bdev_mark_dead() will just call the shutdown() callback for the
+> > > > involved filesystem.
+> > > > 
+> > > > But it will no longer be the case, with multi-device filesystems like
+> > > > btrfs and bcachefs the filesystem can handle certain device loss without
+> > > > shutting down the whole filesystem.
+> > > > 
+> > > > To allow those multi-device filesystems to be integrated to use
+> > > > fs_holder_ops:
+> > > > 
+> > > > - Replace super_opearation::shutdown() with
+> > > >    super_opearations::remove_bdev()
+> > > >    To better describe when the callback is called.
+> > > 
+> > > This conflates cause with action.
+> > > 
+> > > The shutdown callout is an action that the filesystem must execute,
+> > > whilst "remove bdev" is a cause notification that might require an
+> > > action to be take.
+> > > 
+> > > Yes, the cause could be someone doing hot-unplug of the block
+> > > device, but it could also be something going wrong in software
+> > > layers below the filesystem. e.g. dm-thinp having an unrecoverable
+> > > corruption or ENOSPC errors.
+> > > 
+> > > We already have a "cause" notification: blk_holder_ops->mark_dead().
+> > > 
+> > > The generic fs action that is taken by this notification is
+> > > fs_bdev_mark_dead().  That action is to invalidate caches and shut
+> > > down the filesystem.
+> > > 
+> > > btrfs needs to do something different to a blk_holder_ops->mark_dead
+> > > notification. i.e. it needs an action that is different to
+> > > fs_bdev_mark_dead().
+> > > 
+> > > Indeed, this is how bcachefs already handles "single device
+> > > died" events for multi-device filesystems - see
+> > > bch2_fs_bdev_mark_dead().
+> > 
+> > I do not think it's the correct way to go, especially when there is already
+> > fs_holder_ops.
+> > 
+> > We're always going towards a more generic solution, other than letting the
+> > individual fs to do the same thing slightly differently.
+> 
+> On second thought -- it's weird that you'd flush the filesystem and
+> shrink the inode/dentry caches in a "your device went away" handler.
+> Fancy filesystems like bcachefs and btrfs would likely just shift IO to
+> a different bdev, right?  And there's no good reason to run shrinkers on
+> either of those fses, right?
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+I agree it is awkward and bcachefs avoids these in case of removal it can
+handle gracefully AFAICS.
 
-Reported-by: syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com
-Tested-by: syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com
+> > Yes, the naming is not perfect and mixing cause and action, but the end
+> > result is still a more generic and less duplicated code base.
+> 
+> I think dchinner makes a good point that if your filesystem can do
+> something clever on device removal, it should provide its own block
+> device holder ops instead of using fs_holder_ops.  I don't understand
+> why you need a "generic" solution for btrfs when it's not going to do
+> what the others do anyway.
 
-Tested on:
+Well, I'd also say just go for own fs_holder_ops if it was not for the
+awkward "get super from bdev" step. As Christian wrote we've encapsulated
+that in fs/super.c and bdev_super_lock() in particular but the calling
+conventions for the fs_holder_ops are not very nice (holding
+bdev_holder_lock, need to release it before grabbing practically anything
+else) so I'd have much greater peace of mind if this didn't spread too
+much. Once you call bdev_super_lock() and hold on to sb with s_umount held,
+things are much more conventional for the fs land so I'd like if this
+step happened before any fs hook got called. So I prefer something like
+Qu's proposal of separate sb op for device removal over exporting
+bdev_super_lock(). Like:
 
-commit:         26ffb3d6 Add linux-next specific files for 20250704
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=13a14a8c580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=59817f9ef599726c
-dashboard link: https://syzkaller.appspot.com/bug?extid=b0373017f711c06ada64
-compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=12a9df70580000
+static void fs_bdev_mark_dead(struct block_device *bdev, bool surprise)
+{
+        struct super_block *sb;
 
-Note: testing is done by a robot and is best-effort only.
+        sb = bdev_super_lock(bdev, false);
+        if (!sb)
+                return;
+
+	if (sb->s_op->remove_bdev) {
+		sb->s_op->remove_bdev(sb, bdev, surprise);
+		return;
+	}
+
+	if (!surprise)
+		sync_filesystem(sb);
+	shrink_dcache_sb(sb);
+	evict_inodes(sb);
+	if (sb->s_op->shutdown)
+		sb->s_op->shutdown(sb);
+
+	super_unlock_shared(sb);
+}
+
+> As an aside:
+> 'twould be nice if we could lift the *FS_IOC_SHUTDOWN dispatch out of
+> everyone's ioctl functions into the VFS, and then move the "I am dead"
+> state into super_block so that you could actually shut down any
+> filesystem, not just the seven that currently implement it.
+
+Yes, I should find time to revive that patch series... It was not *that*
+hard to do.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
