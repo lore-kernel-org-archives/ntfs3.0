@@ -1,153 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D4B221282;
-	Tue,  8 Jul 2025 07:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F40E29B79A
+	for <ntfs3@lists.linux.dev>; Tue,  8 Jul 2025 07:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751961320; cv=none; b=UiZVNYDfkhpVvfDohNtu2JY/IpU106/bx2uiqCe5oTNx1YDWCtpFxZ3X7cnDFBpkS337bwIKjTh2NLqQKCZCAewTfRwGx1DxLXAjZQHJQa9eQn4FE+fFRuYqQcgfcaMdQtsRwRmgvzdwCkTDTav1M7Z+ykfvps8jZnbxcIr5dys=
+	t=1751961485; cv=none; b=SxiGeidlIrJSqY2E8TB6y+um3tg4CNzJlX4s/zor7uNkYaBV40gc2O+N8oUC9llszpKH/KV88SrzhbdSYmjW1v2Y+IliszTGPI4/8PJC+3ipSv0hsiQBYBThjH8DnuVji8ltaTE7A7tkZRciLz3x4fve1mzFoptfl8v5wuu9djM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751961320; c=relaxed/simple;
-	bh=qsPSN2BpCezUCvdd+RaM6scGQ8lIU5NoJZv7E/OP/1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MY2gHv0KybElIM+eF7K+SrSE74pcjdUOT6OCdWyniDDI5nEPUTxfRI6LcS2+JaKpq2B3iuGfFU4PkKSP4za2il6giWfDYtUlU7dA9BiVOl37QQhjcKg1aglhBMrYeEOym/T5IFBReM9ai+ZM1jHumYzPexLNERPGkvCxRMKH12Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sgxuPBfh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751961485; c=relaxed/simple;
+	bh=U1Ihyv6JEYMY+/2H63MoHcvRpy0YoqMTrtio+QfjEO4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mujajkcPi2Cw62iHzQs0h3kfkidJiaudayKj08OS6qVL/KQ2GTs7gxy+X/DSKBA6M/358t0PPTOIZkAdBov5iKet6WcdWaNrvifvTSJHq3WTjv/NS2u6qxDQJ2+bXpML5WAxwpO5DTiuM7cuYjA6nrOupdLD5zfB4Dw8CBc0TgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=qthWr76Q; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sgxuPBfh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59B88C4CEED;
-	Tue,  8 Jul 2025 07:55:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751961320;
-	bh=qsPSN2BpCezUCvdd+RaM6scGQ8lIU5NoJZv7E/OP/1I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sgxuPBfh3cZ0dSDKch6I5Rqryw9OXZSRJcFlBBbK2wZk7UGITXp4prgxpzNUQi6VS
-	 +nmmibndMCtDY0Li8hfg7Jw/0gZudYRJblZ6FolRAubFzcLMuAsK7XEoKiSDxIgIW1
-	 9qRXNQoc/ihFCGt2UwXeahyM5dgBpX/hh1PBhZEkRleJQEzgoAcBwUYxCiRTCaUC1o
-	 XPGqDJKxSp5j5XzA1ld1uWapoMzVkWw9oV5u9f/lfYdSi0W1PygUXlIMOWdhVsP0C/
-	 ABdtdShHTLFroT13TzZA/Ayi8o093gg45lzstPUfEDRdSAW6wkVshNvzkuIsltRaXJ
-	 tIjDK/9jXsNog==
-Date: Tue, 8 Jul 2025 09:55:14 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Qu Wenruo <quwenruo.btrfs@gmx.com>, Dave Chinner <david@fromorbit.com>, 
-	Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	viro@zeniv.linux.org.uk, jack@suse.cz, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v4 1/6] fs: enhance and rename shutdown() callback to
- remove_bdev()
-Message-ID: <20250708-geahndet-rohmaterial-0419fd6a76b3@brauner>
-References: <cover.1751589725.git.wqu@suse.com>
- <de25bbdb572c75df38b1002d3779bf19e3ad0ff6.1751589725.git.wqu@suse.com>
- <aGxSHKeyldrR1Q0T@dread.disaster.area>
- <dbd955f7-b9b4-402f-97bf-6b38f0c3237e@gmx.com>
- <20250708004532.GA2672018@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="qthWr76Q"
+Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 447401CC;
+	Tue,  8 Jul 2025 07:56:56 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=qthWr76Q;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 796F321ED;
+	Tue,  8 Jul 2025 07:58:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1751961481;
+	bh=8EzE0KyPCRoabRtPC3XYbwuX1/3nOaJPo5gc1Ts2SJc=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=qthWr76QLibDRqGBdIM5JPOQcl47xXm44r0fL7nj8fR5Q+zwVe3Ei4kKRy1XUR2G9
+	 4oOWw8VC72YhC93L8rsDd3d8JngmPK9S89A6GNNkD/CARH+ukDYhqOr9xuXCi9j8um
+	 ZILPAGPEO+0DVtdV6ePVqURD/BX48iPI6P4BpvxQ=
+Received: from localhost.localdomain (172.30.20.199) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 8 Jul 2025 10:57:59 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	<syzbot+a91fcdbd2698f99db8f4@syzkaller.appspotmail.com>, Lorenzo Stoakes
+	<lorenzo.stoakes@oracle.com>
+Subject: [PATCH v2] Revert "fs/ntfs3: Replace inode_trylock with inode_lock"
+Date: Tue, 8 Jul 2025 09:57:09 +0200
+Message-ID: <20250708075709.5688-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <d18a4aa3-bd7d-4c4b-a34c-48ba7f907ecf@lucifer.local>
+References: <d18a4aa3-bd7d-4c4b-a34c-48ba7f907ecf@lucifer.local>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250708004532.GA2672018@frogsfrogsfrogs>
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On Mon, Jul 07, 2025 at 05:45:32PM -0700, Darrick J. Wong wrote:
-> On Tue, Jul 08, 2025 at 08:52:47AM +0930, Qu Wenruo wrote:
-> > 
-> > 
-> > 在 2025/7/8 08:32, Dave Chinner 写道:
-> > > On Fri, Jul 04, 2025 at 10:12:29AM +0930, Qu Wenruo wrote:
-> > > > Currently all the filesystems implementing the
-> > > > super_opearations::shutdown() callback can not afford losing a device.
-> > > > 
-> > > > Thus fs_bdev_mark_dead() will just call the shutdown() callback for the
-> > > > involved filesystem.
-> > > > 
-> > > > But it will no longer be the case, with multi-device filesystems like
-> > > > btrfs and bcachefs the filesystem can handle certain device loss without
-> > > > shutting down the whole filesystem.
-> > > > 
-> > > > To allow those multi-device filesystems to be integrated to use
-> > > > fs_holder_ops:
-> > > > 
-> > > > - Replace super_opearation::shutdown() with
-> > > >    super_opearations::remove_bdev()
-> > > >    To better describe when the callback is called.
-> > > 
-> > > This conflates cause with action.
-> > > 
-> > > The shutdown callout is an action that the filesystem must execute,
-> > > whilst "remove bdev" is a cause notification that might require an
-> > > action to be take.
-> > > 
-> > > Yes, the cause could be someone doing hot-unplug of the block
-> > > device, but it could also be something going wrong in software
-> > > layers below the filesystem. e.g. dm-thinp having an unrecoverable
-> > > corruption or ENOSPC errors.
-> > > 
-> > > We already have a "cause" notification: blk_holder_ops->mark_dead().
-> > > 
-> > > The generic fs action that is taken by this notification is
-> > > fs_bdev_mark_dead().  That action is to invalidate caches and shut
-> > > down the filesystem.
-> > > 
-> > > btrfs needs to do something different to a blk_holder_ops->mark_dead
-> > > notification. i.e. it needs an action that is different to
-> > > fs_bdev_mark_dead().
-> > > 
-> > > Indeed, this is how bcachefs already handles "single device
-> > > died" events for multi-device filesystems - see
-> > > bch2_fs_bdev_mark_dead().
-> > 
-> > I do not think it's the correct way to go, especially when there is already
-> > fs_holder_ops.
-> > 
-> > We're always going towards a more generic solution, other than letting the
-> > individual fs to do the same thing slightly differently.
-> 
-> On second thought -- it's weird that you'd flush the filesystem and
-> shrink the inode/dentry caches in a "your device went away" handler.
-> Fancy filesystems like bcachefs and btrfs would likely just shift IO to
-> a different bdev, right?  And there's no good reason to run shrinkers on
-> either of those fses, right?
-> 
-> > Yes, the naming is not perfect and mixing cause and action, but the end
-> > result is still a more generic and less duplicated code base.
-> 
-> I think dchinner makes a good point that if your filesystem can do
-> something clever on device removal, it should provide its own block
-> device holder ops instead of using fs_holder_ops.  I don't understand
-> why you need a "generic" solution for btrfs when it's not going to do
-> what the others do anyway.
+This reverts commit 69505fe98f198ee813898cbcaf6770949636430b.
 
-I think letting filesystems implement their own holder ops should be
-avoided if we can. Christoph may chime in here. I have no appettite for
-exporting stuff like get_bdev_super() unless absolutely necessary. We
-tried to move all that handling into the VFS to eliminate a slew of
-deadlocks we detected and fixed. I have no appetite to repeat that
-cycle.
+Initially, conditional lock acquisition was removed to fix an xfstest bug
+that was observed during internal testing. The deadlock reported by syzbot
+is resolved by reintroducing conditional acquisition. The xfstest bug no
+longer occurs on kernel version 6.16-rc1 during internal testing. I
+assume that changes in other modules may have contributed to this.
 
-The shutdown method is implemented only by block-based filesystems and
-arguably shutdown was always a misnomer because it assumed that the
-filesystem needs to actually shut down when it is called. IOW, we made
-it so that it is a call to action but that doesn't have to be the case.
-Calling it ->remove_bdev() is imo the correct thing because it gives
-block based filesystem the ability to handle device events how they see
-fit.
+Fixes: 69505fe98f19 ("fs/ntfs3: Replace inode_trylock with inode_lock")
+Reported-by: syzbot+a91fcdbd2698f99db8f4@syzkaller.appspotmail.com
+Suggested-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+---
+ fs/ntfs3/file.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Once we will have non-block based filesystems that need a method to
-always shut down the filesystem itself we might have to revisit this
-design anyway but no one had that use-case yet.
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 65fb27d1e17c..2e321b84a1ed 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -322,7 +322,10 @@ static int ntfs_file_mmap(struct file *file, struct vm_area_struct *vma)
+ 		}
+ 
+ 		if (ni->i_valid < to) {
+-			inode_lock(inode);
++			if (!inode_trylock(inode)) {
++				err = -EAGAIN;
++				goto out;
++			}
+ 			err = ntfs_extend_initialized_size(file, ni,
+ 							   ni->i_valid, to);
+ 			inode_unlock(inode);
+-- 
+2.43.0
 
-> 
-> Awkward naming is often a sign that further thought (or at least
-> separation of code) is needed.
-> 
-> As an aside:
-> 'twould be nice if we could lift the *FS_IOC_SHUTDOWN dispatch out of
-> everyone's ioctl functions into the VFS, and then move the "I am dead"
-> state into super_block so that you could actually shut down any
-> filesystem, not just the seven that currently implement it.
-
-That goes back to my earlier point. Fwiw, I think that's valuable work.
