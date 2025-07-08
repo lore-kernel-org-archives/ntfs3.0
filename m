@@ -1,109 +1,114 @@
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FE229E0F4
-	for <ntfs3@lists.linux.dev>; Tue,  8 Jul 2025 08:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F7D29E0F4
+	for <ntfs3@lists.linux.dev>; Tue,  8 Jul 2025 08:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751963884; cv=none; b=AvDvmyrCewHjU7AKbz+X04Ih2bfWmv12Svn5nNyJC6ZxRhiLAykncoOk8jBt3D58PlxieZo3b2FpcAVYuPLv0cYlK1S4dClSZakqUHyxDtAPk/88cLLD8SqAfZeBHzEaOqEGt1PREO1mtTYu0KpL0JHZu5EHhE6whvtXDwwEsSo=
+	t=1751964009; cv=none; b=UiZ6K8gfzrJHIzec9Mr8H73GfviF7YOzzjzh/D34wNRLnHHPx1fuZfL+pwiNsQgySEx0hwrgg7zB7uudzWvcjz5HcIdLAmmSn8MyAFPwrntHi7/G+mstrYHLmEj2PYHDYsx/NY6PznqRR8PJ1hKrInWetNZO4FVtCcwMwO/TUEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751963884; c=relaxed/simple;
-	bh=AfCRptvM+8vPR0YsPkweAVjbdKNVmdEuWNbW9x5kht0=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=EQbN23nELVxJGXQXStog90nJKcjBPh7qZwUX0zbpV2hvPKhMoBgPP7r3yLrY9AgVla4Cz3m8cTbBlzFGGBzutPtoFX8ooQfkEcq+ePNjXuCeOyQvoHR4ZZrwhg5cKtHuLg89zGrl+De68PUIfBjkXHyyA6MUcZWhVXGtN34eyBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-3ddba1b53e8so50827465ab.1
-        for <ntfs3@lists.linux.dev>; Tue, 08 Jul 2025 01:38:02 -0700 (PDT)
+	s=arc-20240116; t=1751964009; c=relaxed/simple;
+	bh=oaSnugCEdeQcBT4v6FEIbhEgdiJTD1Msrq8MfPMc5iU=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=mmTIOHu2+c46EGFq9ivQw2xbUyk8XGHf2R5XsowFivP6eR8H/ftUZiymxPYuarvtl5TkS87wriZRY/VC3Pi5AOkI8K//n6Ivvgs0w5XPHUUXcfmbwg1AU6DWG4t7HIvv+phMj3upJqXtbVAf9QyzDA8i2N4TDL9fuKlYT89s2ZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMNOW6TD; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMNOW6TD"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-70e77831d68so35204807b3.2
+        for <ntfs3@lists.linux.dev>; Tue, 08 Jul 2025 01:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751964007; x=1752568807; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=gl0QAD/tbVzDvZuawsafKO1HsSUYi+swaKefHPvsCQM=;
+        b=WMNOW6TDamKfvunxxTBGXXA4Jc8juGjJRGrJHwTZ8OqSt5L7TLKvRFHWRJb0LVqStl
+         9k9plSMfLKDB1ax8yAfa93fLgEUgkd9mZHYUZcJ7S36xdi9pnt2pLDW5fl+sU2v8c94b
+         BjkQuyNPGejn2TpfjWmctkjloSoSJmGBxnd/7Pb7G0QJrWx567Wt3tY7BanohuKDBGZF
+         UxBe1MMZNBEQBFtwuM4hWUgip6So4+VgFN77uM504BY7j9Jo2Mz5S4w3hLn2E4vC/xez
+         Jr27ZV81SJ8ETjHcDiMCc3W9uLeNPxKFu9AUvJg9PdzaeqZKo37qPZ9SzecpBoZgv4S7
+         YHbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751963882; x=1752568682;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FP5ANYKkfvQ6lu6trr2cX17en6Ozu8rR1+B7KUQBXsU=;
-        b=ATL0jnwnwwLJqQRXdoiurTi/qNoD86oIEc4Dz/JsiWXT0fHMv4B0jf7wDJhToE75fw
-         mp4tZjTFIK1t18/OdcofvPkLnxls6l3L9o3KCKk1ZH5cHn00LDeyBT9rztt0+yK1GMrD
-         Hf/ZwdCJClVvFT4Fzahr0ia1Ba+ebBZUxmnwfZQ9oFZR7k/20SKCZE9uH1ujiY+gyeoa
-         zBmb+xBbWrmStmo5WiHKyg68agRL4ASYIDfMHg6I6SfxEKf/O2jyrIvDzuVMKGi1e/5E
-         1LMpf6+9eh9euIgiQvcCq9/pOmfZjueDgDlK+t3TuU9sUnHfUSD2UdJSjCUGKsxoIeWJ
-         worQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU6br28pfWnXVP+vStwYlTIzxJLhySuOQvY4YMfcL6fK0s49QRfleS29SF7juKdku2qdGepCg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+JzBiolysZIFiYrZ5ZRXpn1Vose1lijCa6vVsQ+g5UHtTGqKe
-	w1n4Kv0HwUWNTguR8yXReVxMBAK+5i5IiOdpNjB+p1uZRUe61gkOUDlLZPGGKG33JKDA21oVdW2
-	USLaXS0HOY6mayH3bJAmdpSVY579V8VZoGhlSej9gbX4WiOZBnWYBbPK4J+k=
-X-Google-Smtp-Source: AGHT+IH3jsYpnC+LlP/QNW/8dzjyMyCsvVGskrcx72E0sGcP0xzTu++E01MJKP7Hn7jRLn2/zFAZd6vM8K0gVU/Cx96F9W0nGShm
+        d=1e100.net; s=20230601; t=1751964007; x=1752568807;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gl0QAD/tbVzDvZuawsafKO1HsSUYi+swaKefHPvsCQM=;
+        b=NQbpnigan1XCE2EnRQ67rtIarh4EfEMh+EBMN81T+wJnmQf+b75VCgwKr13Az2/90S
+         vqgRpRld7xk0nqecG82y86VHjBGUR0QGJS1vnYArZi+MlLVtEhYLRhWHi9Ut7gpH6IeK
+         /cwNT5qD+IxMP2NrzTW14XrrKCM6+iMUY6wVWnMDqieeFe8eJfeudRX3QwLnEkxDmZGh
+         72ZekpLm79OF9d+ZMVd/9tCklNOvnM6yjflIma/d9EEYFiKEDDSnoXPdBVGcPZaCT4lX
+         vcGwvLWEIQZQHjwyjPqXW96mLxBHpiK1zWSFekcacEV14VoIVIqNUNViNyYqjPuqaIKw
+         oJxw==
+X-Forwarded-Encrypted: i=1; AJvYcCXZ5zlP6fLwLo6BV34BEVd0i3G+npOoP7dY0ifo6X2nYUKygcFlGeo2rZGhxUwswKdtAvbBfw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDbmGX8N53m0AB6OzosGWcxjhJIcHnMaTHNdN9Ndj0DTofpVua
+	4JJKwy0md/Fjdpm/zzz+wWgTSu//HJEQ/KAUMurdZ3wQKD00PbbE8XrKh/2eJkBkILySqrYgd+E
+	0uOIArhVJDgtMIxq/8QTWgyUW2FW6mJY=
+X-Gm-Gg: ASbGncvIvtHJ0VuMJTyvtQL86hfs1KoP07pq0bbNxg25vx0kWrGnVv1AxPnTCIIAm8Q
+	Kp55uejTDx8o605oHxVlkv2tBRY6UY9JbrByfWH0tRsYQlkWK4l8IG06hd9XiSw3YW2hTAyJLBs
+	0yO8AuFZ+g+nQf/ERoWFh5xFBeMEn/uizlcPkG9jFH9AXQOKDvog7c3WPx+SatTWPna4PQJArfU
+	YWV
+X-Google-Smtp-Source: AGHT+IFVSqFV+JHejEaMrQ/AcobiDs3n3dnlQorVuoAZYAXAjM1srOc9PMjjID6k+C5uO2bRlqNjtZJkfHvqbDsFdLk=
+X-Received: by 2002:a05:690c:60c1:b0:70f:83ef:ddff with SMTP id
+ 00721157ae682-71668d47390mr217482997b3.30.1751964007285; Tue, 08 Jul 2025
+ 01:40:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:f:b0:3df:3bc5:bac1 with SMTP id
- e9e14a558f8ab-3e1538fd850mr26479275ab.5.1751963882275; Tue, 08 Jul 2025
- 01:38:02 -0700 (PDT)
-Date: Tue, 08 Jul 2025 01:38:02 -0700
-In-Reply-To: <CAF3JpA5ZaFem=oPLQbuE4ThT0wpmkw-y-hSvypWu1-evpx8TrA@mail.gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <686cd8ea.a00a0220.338033.000a.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] WARNING in ni_rename
-From: syzbot <syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	moonhee.lee.ca@gmail.com, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
+From: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+Date: Tue, 8 Jul 2025 01:39:55 -0700
+X-Gm-Features: Ac12FXzBCT5EBKeLYS0vb_uaT7F7BBoWv3Jo27oObiDeVLb3zges4wxI2j_RbzA
+Message-ID: <CAF3JpA5UK1iRiHTbPZNej5izQZNVwi3phN5f0pzCzadqn7K0+Q@mail.gmail.com>
+Subject: [syzbot] [ntfs3?] WARNING in ni_rename
+To: syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com
+Cc: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: multipart/mixed; boundary="000000000000507a1d063966e8b7"
+
+--000000000000507a1d063966e8b7
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+#syz test
 
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-WARNING in ni_rename
+--000000000000507a1d063966e8b7
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-ntfs3-reject-zero-length-BITMAP-when-index-blocks-ar.patch"
+Content-Disposition: attachment; 
+	filename="0001-ntfs3-reject-zero-length-BITMAP-when-index-blocks-ar.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mcu9wgkq0>
+X-Attachment-Id: f_mcu9wgkq0
 
-loop0: detected capacity change from 0 to 4096
-------------[ cut here ]------------
-WARNING: fs/ntfs3/frecord.c:3030 at ni_rename+0xee/0x100 fs/ntfs3/frecord.c:3029, CPU#1: syz.0.16/6603
-Modules linked in:
-CPU: 1 UID: 0 PID: 6603 Comm: syz.0.16 Not tainted 6.16.0-rc4-next-20250704-syzkaller-07381-g26ffb3d6f02c-dirty #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
-RIP: 0010:ni_rename+0xee/0x100 fs/ntfs3/frecord.c:3029
-Code: 8b 05 b6 5d 9a 0f 48 3b 44 24 10 75 22 44 89 e0 48 83 c4 18 5b 41 5c 41 5d 41 5e 41 5f 5d e9 d9 a6 6c 08 cc e8 f3 7d b9 fe 90 <0f> 0b 90 eb c5 e8 68 cc 69 08 0f 1f 84 00 00 00 00 00 90 90 90 90
-RSP: 0018:ffffc90003007ab8 EFLAGS: 00010293
-RAX: ffffffff8306228d RBX: 00000000fffffffe RCX: ffff8880274e5a00
-RDX: 0000000000000000 RSI: 00000000fffffffe RDI: 0000000000000000
-RBP: 00000000fffffffe R08: ffffffff8fa18a37 R09: 1ffffffff1f43146
-R10: dffffc0000000000 R11: fffffbfff1f43147 R12: 0000000000000000
-R13: ffff88802d5e3300 R14: ffff88805b6e8758 R15: ffff88805b6e66d0
-FS:  00007f5d3eea16c0(0000) GS:ffff888125d18000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000200000001060 CR3: 0000000032258000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- ntfs_rename+0x6e2/0xb40 fs/ntfs3/namei.c:316
- vfs_rename+0xbd7/0xf00 fs/namei.c:5129
- do_renameat2+0x6ce/0xa80 fs/namei.c:5278
- __do_sys_rename fs/namei.c:5325 [inline]
- __se_sys_rename fs/namei.c:5323 [inline]
- __x64_sys_rename+0x82/0x90 fs/namei.c:5323
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f5d3df8e929
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f5d3eea1038 EFLAGS: 00000246 ORIG_RAX: 0000000000000052
-RAX: ffffffffffffffda RBX: 00007f5d3e1b5fa0 RCX: 00007f5d3df8e929
-RDX: 0000000000000000 RSI: 0000200000001040 RDI: 0000200000000280
-RBP: 00007f5d3e010b39 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 00007f5d3e1b5fa0 R15: 00007ffe542eb158
- </TASK>
-
-
-Tested on:
-
-commit:         26ffb3d6 Add linux-next specific files for 20250704
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=1484abd4580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=59817f9ef599726c
-dashboard link: https://syzkaller.appspot.com/bug?extid=b0373017f711c06ada64
-compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=16ecf28c580000
-
+RnJvbSBhN2U5NGFkNDk1OWU0NmFjZjM4NjFmYTBjNzI1YTJkMGMzMzczZWJiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNb29uIEhlZSBMZWUgPG1vb25oZWUubGVlLmNhQGdtYWlsLmNv
+bT4KRGF0ZTogVHVlLCA4IEp1bCAyMDI1IDAxOjE3OjEzIC0wNzAwClN1YmplY3Q6IFtQQVRDSF0g
+bnRmczM6IHJlamVjdCB6ZXJvLWxlbmd0aCAkQklUTUFQIHdoZW4gaW5kZXggYmxvY2tzIGFyZQog
+YWxsb2NhdGVkCgpBIG5vbi1lbXB0eSBpbmRleCBhbGxvY2F0aW9uIHJlcXVpcmVzIGF0IGxlYXN0
+IG9uZSBiaXQgaW4gJEJJVE1BUAp0byB0cmFjayB1c2FnZS4gUmVqZWN0IG1hbGZvcm1lZCBvbi1k
+aXNrIHN0cnVjdHVyZXMgd2l0aCB6ZXJvLWxlbmd0aApiaXRtYXBzIGFuZCBhbGxvY2F0ZWQgaW5k
+ZXggYmxvY2tzLgoKU2lnbmVkLW9mZi1ieTogTW9vbiBIZWUgTGVlIDxtb29uaGVlLmxlZS5jYUBn
+bWFpbC5jb20+Ci0tLQogZnMvbnRmczMvaW5kZXguYyB8IDEyICsrKysrKysrKysrKwogMSBmaWxl
+IGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9mcy9udGZzMy9pbmRleC5j
+IGIvZnMvbnRmczMvaW5kZXguYwppbmRleCAxYmYyYTY1OTNkZWMuLjE1ZjNhNzExZWEwYSAxMDA2
+NDQKLS0tIGEvZnMvbnRmczMvaW5kZXguYworKysgYi9mcy9udGZzMy9pbmRleC5jCkBAIC00Nzgs
+NiArNDc4LDcgQEAgc3RhdGljIGludCBpbmR4X2ZpbmRfZnJlZShzdHJ1Y3QgbnRmc19pbmRleCAq
+aW5keCwgc3RydWN0IG50ZnNfaW5vZGUgKm5pLAogCXN0cnVjdCBBVFRSX0xJU1RfRU5UUlkgKmxl
+ID0gTlVMTDsKIAljb25zdCBzdHJ1Y3QgSU5ERVhfTkFNRVMgKmluID0gJnNfaW5kZXhfbmFtZXNb
+aW5keC0+dHlwZV07CiAJaW50IGVycjsKKwl1NjQgYm1fc2l6ZTsKIAogCWIgPSBuaV9maW5kX2F0
+dHIobmksIE5VTEwsICZsZSwgQVRUUl9CSVRNQVAsIGluLT5uYW1lLCBpbi0+bmFtZV9sZW4sCiAJ
+CQkgTlVMTCwgTlVMTCk7CkBAIC00ODgsNiArNDg5LDE3IEBAIHN0YXRpYyBpbnQgaW5keF9maW5k
+X2ZyZWUoc3RydWN0IG50ZnNfaW5kZXggKmluZHgsIHN0cnVjdCBudGZzX2lub2RlICpuaSwKIAkq
+Yml0bWFwID0gYjsKIAkqYml0ID0gTUlOVVNfT05FX1Q7CiAKKwlibV9zaXplID0gYi0+bm9uX3Jl
+cyA/IGxlNjRfdG9fY3B1KGItPm5yZXMudmFsaWRfc2l6ZSkgOgorCQkJICAgICAgIGxlMzJfdG9f
+Y3B1KGItPnJlcy5kYXRhX3NpemUpOworCisJLyoKKwkgKiBBbGxvY2F0ZWQgaW5kZXggYmxvY2tz
+IHJlcXVpcmUgJEJJVE1BUCB0byBjb250YWluIGF0IGxlYXN0CisJICogb25lIGJpdCBmb3IgdXNh
+Z2UgdHJhY2tpbmcuIEEgemVyby1sZW5ndGggYml0bWFwIGluIHRoaXMKKwkgKiBjYXNlIGluZGlj
+YXRlcyBhIG1hbGZvcm1lZCBvbi1kaXNrIHN0cnVjdHVyZSBhbmQgY2Fubm90IGJlIHVzZWQuCisJ
+ICovCisJaWYgKHVubGlrZWx5KGJtX3NpemUgPT0gMCAmJiBpbmR4LT5hbGxvY19ydW4uY291bnQp
+KQorCQlyZXR1cm4gLUVJTlZBTDsKKwogCWlmICghYi0+bm9uX3JlcykgewogCQl1MzIgbmJpdHMg
+PSA4ICogbGUzMl90b19jcHUoYi0+cmVzLmRhdGFfc2l6ZSk7CiAJCXNpemVfdCBwb3MgPSBmaW5k
+X25leHRfemVyb19iaXRfbGUocmVzaWRlbnRfZGF0YShiKSwgbmJpdHMsIDApOwotLSAKMi40My4w
+Cgo=
+--000000000000507a1d063966e8b7--
