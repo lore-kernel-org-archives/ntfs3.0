@@ -1,185 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAC11D54E2;
-	Tue,  8 Jul 2025 20:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFBE49461
+	for <ntfs3@lists.linux.dev>; Tue,  8 Jul 2025 21:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752006052; cv=none; b=dEPLau6gg5JBwuabax/pHvDyJMiiWCsRdkAkFnYeGj4h+V7MKGVtrUtFfyKJ0E/0kgcOCJdvDCHNblJnOnGgk+9ruZguYG/TVN0bScVecxJZooQPdIWV+jqJF9XJmUuN3WjnRb1FHGn4sjSd25edXqxM/e+6cV+wxmos4yynScU=
+	t=1752011155; cv=none; b=guMYIMxD9+4eof1q+9vkfOsHiC07WuoxjMIh9WKzcWhgRSMzZhGWVe9OMXKi4SIhC7Z2TzkFH0C77VvLXsGE/6HXPhZeH8OK5d39mALtNrNAPyw3i71UKLd3ZD+z0rmDOkJyT8z+CPcduIqT/NQ0frnrZThqDDDkTg29kfcsJ3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752006052; c=relaxed/simple;
-	bh=+yxZ08dKrAbdFZ6sAL+9jMwOYAMn3pq6/TMoNHiAVqM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=POqngLEtnY7UOEA1+VhFCNGe5YPKhl9DFMSdzSwhChJOxQopnmP7kwSOjfvFZHJ35dn/m7YMKRBX4K3+S5PZayMHntqKPQ7Dqxf/gmhWoLhnBUp3EMwOcl3iXvrC7zUZ0mtFvXwAYTI/PZpFsvHdIsVJQcfNkCwOuugM3Gc3oX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hPMEhSkU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752011155; c=relaxed/simple;
+	bh=AupsQCF0dWNjnaeNPs3+9yWwIfidJH7lNb8ftuw+vSk=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=NKae2QTIg/aVYb5Io7dmOF2pDGxCrCorkoG7Q1bnTVBjQVjzzjzgSVEP/RY9Mc456qkgNMsgvzw2ChFjPFdMW1CjL50rj9y5l3uNPSMPpdSlahgeLqlHLxI5YyGUvem+iHo5a2IaLsA+6vTn085//lbIN6/bmrs4jYoj/fuw3dM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZnOf/bx8; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hPMEhSkU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E7EC4CEED;
-	Tue,  8 Jul 2025 20:20:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752006051;
-	bh=+yxZ08dKrAbdFZ6sAL+9jMwOYAMn3pq6/TMoNHiAVqM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hPMEhSkUX/LsvtZLeds9iEsFR445eshxWZXvoRnSLujgLEPzAcfHTEY1hKzvOZwLi
-	 CO6xBgdyPLvwJKOyvRvQbfayjvwz//qmWRwCqXX9eJfnurVWX9yJjB+FGnGJqw9Bdo
-	 YvTa4ZUzOiq4x/0+MnhVWgvty8CXom2KMAk1lU1DdgCV3QPlLlzl63cgXPodHeUmuR
-	 c/DyafLAONZHqILRSCVnIMh6DkLySD8sZvd+yvzKsb2YGHyNZ8+dzvy79GVsPU2CIa
-	 QSxZLDXRKYoNFJq9mC7u92Mfs4HyGdJgpKNx3bbNB6DnNtxSNNOGKynr+rejYv2LwT
-	 nVQjowPhBvE+A==
-Date: Tue, 8 Jul 2025 13:20:50 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Qu Wenruo <quwenruo.btrfs@gmx.com>, Dave Chinner <david@fromorbit.com>,
-	Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, ntfs3@lists.linux.dev,
-	linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v4 1/6] fs: enhance and rename shutdown() callback to
- remove_bdev()
-Message-ID: <20250708202050.GG2672049@frogsfrogsfrogs>
-References: <cover.1751589725.git.wqu@suse.com>
- <de25bbdb572c75df38b1002d3779bf19e3ad0ff6.1751589725.git.wqu@suse.com>
- <aGxSHKeyldrR1Q0T@dread.disaster.area>
- <dbd955f7-b9b4-402f-97bf-6b38f0c3237e@gmx.com>
- <20250708004532.GA2672018@frogsfrogsfrogs>
- <2dm6bsup7vxwl4vwmllkvt5erncirr272bov4ehd5gix7n2vnw@bkagb26tjtj5>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZnOf/bx8"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-70e75f30452so32744987b3.2
+        for <ntfs3@lists.linux.dev>; Tue, 08 Jul 2025 14:45:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752011153; x=1752615953; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=0qfiTnhb6RgnIzn3Y/7jQJsasnXGa87k1HcGtvIkI6I=;
+        b=ZnOf/bx8r2/luUiN1f/TQY7PkZ7oKCkH0g/gcp5U6cR0rL5+Jm112/DFFB7ddBhqGk
+         EJcXbBHUxDtSnZ+VQe/A+OOWA38F7uBSnMRDq3kZAyeKX1gYsDjaTXQaS4yeT30QfdX8
+         wijH5cR6pcccTyazv2qODhwBkdU7IKJL50CHLtisnEHML2KWcn2Pt85jqpW/LcPiSOvR
+         jwKytghGIDTDS2DUvzl4+MSLrsE5z3pKrRZjhIi3vOt7UjO7T5+D8kjNbj9fWPFYz7JG
+         xfgl3tnLMiPqQoVpBJ+tMxpkZsAN0kBTv5VhvQ968ASx+1v3hmTsNSNFMtpehpjIp6zV
+         C5eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752011153; x=1752615953;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0qfiTnhb6RgnIzn3Y/7jQJsasnXGa87k1HcGtvIkI6I=;
+        b=rIRY7JfLp72qGTG2mtQ7meNY8Qwq/KPPCHEUsgcD/DtTs9qyYmnTNED6Kqi4BzmPTG
+         3lb6wtlepG6ZV+BzzrBHkGRT8e8YiMUWoM+3GHKPIZmoDZYbfD6mB8MuGzgbbUr1cl5i
+         PFxGdD/7MIZCKRdJkS1N8w94j9nUnMQfMJg52vnHmq8fvtoS1Y6oPJozD7F2gROzuWS+
+         J0tNGfeZfm1BnRSMKlWBaq+xEte4mp70KpIk/x0KrKlYuO+x80ZdBQ/hLbCTGB3PHoai
+         jjpEa7X+zNuiYzO2PahRbjZ7Yi9K/pzJU530IrLMlUHIrpbmiFbdrKatgJ13E3uXV2Tj
+         1q2w==
+X-Forwarded-Encrypted: i=1; AJvYcCXNakjeIJR0wT7ZoK7ikVT2v2X1C6utR90XOujBwfqfr6soGhxf7DlrFEFVLEVvzK6CZRUtuQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNzslXi+rLbGRomr0MYQ+IC42t8XofsTcHZrQYAJ1L3QLVE8TX
+	EHR2x5eiATRJhO/N+kFUehM7DewjoMOBbS3o5J1Tg0pro7Ox7jVojs0sglRTq10fUOlYOfPeZ9n
+	oWF3mNFZEuWnbvHSax/8RXtALrOUjoIQ=
+X-Gm-Gg: ASbGnctM//KR7ijwFF0mibUurJpqP77kjk02U8JG8Nh5ukg49kNzis/tSPvRyPRO51L
+	bDfw8Yogr10h3j4hcga6AXsFVU1lLBMSFUOcR0p8vaasKVbhJXAtIKftoc9x87MAPtfSVy8a0xS
+	rWFZlm+4pcodWK7hKEBNrU5PR/pcN6S7gPMxuPA/jbiy358TgTxT6WxEiKilGuhv3495TZbQs72
+	uYh
+X-Google-Smtp-Source: AGHT+IFDLywOhIoTBUVsoUXWMjLAi/bix2Ut3Dp8N3IqRRXkqv60tAX3F1JWBWLSzGhwiJM/NwjKVWrmeXn+BAiuCho=
+X-Received: by 2002:a05:690c:8d05:b0:712:de91:53d4 with SMTP id
+ 00721157ae682-717b1999941mr4403417b3.24.1752011152881; Tue, 08 Jul 2025
+ 14:45:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2dm6bsup7vxwl4vwmllkvt5erncirr272bov4ehd5gix7n2vnw@bkagb26tjtj5>
+From: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+Date: Tue, 8 Jul 2025 14:45:41 -0700
+X-Gm-Features: Ac12FXy6yZ6UCj-hjSdotBfvazCVnQYha1jcywIWZh69lrvJ-Cm7wQoK6JdoTQk
+Message-ID: <CAF3JpA7yXEB_Fj3AMtFG1OYLX2g9P3LFQ5f3qSSEcheB4axVKg@mail.gmail.com>
+Subject: [syzbot] [ntfs3?] WARNING in ni_rename
+To: syzbot <syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com>
+Cc: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: multipart/mixed; boundary="0000000000006965b2063971e29b"
 
-On Tue, Jul 08, 2025 at 12:20:00PM +0200, Jan Kara wrote:
-> On Mon 07-07-25 17:45:32, Darrick J. Wong wrote:
-> > On Tue, Jul 08, 2025 at 08:52:47AM +0930, Qu Wenruo wrote:
-> > > 在 2025/7/8 08:32, Dave Chinner 写道:
-> > > > On Fri, Jul 04, 2025 at 10:12:29AM +0930, Qu Wenruo wrote:
-> > > > > Currently all the filesystems implementing the
-> > > > > super_opearations::shutdown() callback can not afford losing a device.
-> > > > > 
-> > > > > Thus fs_bdev_mark_dead() will just call the shutdown() callback for the
-> > > > > involved filesystem.
-> > > > > 
-> > > > > But it will no longer be the case, with multi-device filesystems like
-> > > > > btrfs and bcachefs the filesystem can handle certain device loss without
-> > > > > shutting down the whole filesystem.
-> > > > > 
-> > > > > To allow those multi-device filesystems to be integrated to use
-> > > > > fs_holder_ops:
-> > > > > 
-> > > > > - Replace super_opearation::shutdown() with
-> > > > >    super_opearations::remove_bdev()
-> > > > >    To better describe when the callback is called.
-> > > > 
-> > > > This conflates cause with action.
-> > > > 
-> > > > The shutdown callout is an action that the filesystem must execute,
-> > > > whilst "remove bdev" is a cause notification that might require an
-> > > > action to be take.
-> > > > 
-> > > > Yes, the cause could be someone doing hot-unplug of the block
-> > > > device, but it could also be something going wrong in software
-> > > > layers below the filesystem. e.g. dm-thinp having an unrecoverable
-> > > > corruption or ENOSPC errors.
-> > > > 
-> > > > We already have a "cause" notification: blk_holder_ops->mark_dead().
-> > > > 
-> > > > The generic fs action that is taken by this notification is
-> > > > fs_bdev_mark_dead().  That action is to invalidate caches and shut
-> > > > down the filesystem.
-> > > > 
-> > > > btrfs needs to do something different to a blk_holder_ops->mark_dead
-> > > > notification. i.e. it needs an action that is different to
-> > > > fs_bdev_mark_dead().
-> > > > 
-> > > > Indeed, this is how bcachefs already handles "single device
-> > > > died" events for multi-device filesystems - see
-> > > > bch2_fs_bdev_mark_dead().
-> > > 
-> > > I do not think it's the correct way to go, especially when there is already
-> > > fs_holder_ops.
-> > > 
-> > > We're always going towards a more generic solution, other than letting the
-> > > individual fs to do the same thing slightly differently.
-> > 
-> > On second thought -- it's weird that you'd flush the filesystem and
-> > shrink the inode/dentry caches in a "your device went away" handler.
-> > Fancy filesystems like bcachefs and btrfs would likely just shift IO to
-> > a different bdev, right?  And there's no good reason to run shrinkers on
-> > either of those fses, right?
-> 
-> I agree it is awkward and bcachefs avoids these in case of removal it can
-> handle gracefully AFAICS.
-> 
-> > > Yes, the naming is not perfect and mixing cause and action, but the end
-> > > result is still a more generic and less duplicated code base.
-> > 
-> > I think dchinner makes a good point that if your filesystem can do
-> > something clever on device removal, it should provide its own block
-> > device holder ops instead of using fs_holder_ops.  I don't understand
-> > why you need a "generic" solution for btrfs when it's not going to do
-> > what the others do anyway.
-> 
-> Well, I'd also say just go for own fs_holder_ops if it was not for the
-> awkward "get super from bdev" step. As Christian wrote we've encapsulated
-> that in fs/super.c and bdev_super_lock() in particular but the calling
-> conventions for the fs_holder_ops are not very nice (holding
-> bdev_holder_lock, need to release it before grabbing practically anything
-> else) so I'd have much greater peace of mind if this didn't spread too
-> much. Once you call bdev_super_lock() and hold on to sb with s_umount held,
-> things are much more conventional for the fs land so I'd like if this
-> step happened before any fs hook got called. So I prefer something like
-> Qu's proposal of separate sb op for device removal over exporting
-> bdev_super_lock(). Like:
-> 
-> static void fs_bdev_mark_dead(struct block_device *bdev, bool surprise)
-> {
->         struct super_block *sb;
-> 
->         sb = bdev_super_lock(bdev, false);
->         if (!sb)
->                 return;
-> 
-> 	if (sb->s_op->remove_bdev) {
-> 		sb->s_op->remove_bdev(sb, bdev, surprise);
-> 		return;
-> 	}
+--0000000000006965b2063971e29b
+Content-Type: text/plain; charset="UTF-8"
 
-It feels odd but I could live with this, particularly since that's the
-direction that brauner is laying down. :)
+#syz test
 
-Do we still need to super_unlock_shared here?
+--0000000000006965b2063971e29b
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-ntfs3-validate-BITMAP-size-when-index-blocks-are-pre.patch"
+Content-Disposition: attachment; 
+	filename="0001-ntfs3-validate-BITMAP-size-when-index-blocks-are-pre.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mcv24lot0>
+X-Attachment-Id: f_mcv24lot0
 
---D
-
-> 
-> 	if (!surprise)
-> 		sync_filesystem(sb);
-> 	shrink_dcache_sb(sb);
-> 	evict_inodes(sb);
-> 	if (sb->s_op->shutdown)
-> 		sb->s_op->shutdown(sb);
-> 
-> 	super_unlock_shared(sb);
-> }
-> 
-> > As an aside:
-> > 'twould be nice if we could lift the *FS_IOC_SHUTDOWN dispatch out of
-> > everyone's ioctl functions into the VFS, and then move the "I am dead"
-> > state into super_block so that you could actually shut down any
-> > filesystem, not just the seven that currently implement it.
-> 
-> Yes, I should find time to revive that patch series... It was not *that*
-> hard to do.
-> 
-> 								Honza
-> -- 
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
-> 
+RnJvbSA3ZmExZjRiMzk5YzJkNDdkMWFiMzAxYzI2NjJmNmE2MGMyMDk4YzQ1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNb29uIEhlZSBMZWUgPG1vb25oZWUubGVlLmNhQGdtYWlsLmNv
+bT4KRGF0ZTogVHVlLCA4IEp1bCAyMDI1IDE0OjM5OjQzIC0wNzAwClN1YmplY3Q6IFtQQVRDSF0g
+bnRmczM6IHZhbGlkYXRlICRCSVRNQVAgc2l6ZSB3aGVuIGluZGV4IGJsb2NrcyBhcmUgcHJlc2Vu
+dAoKUmVqZWN0IGRpcmVjdG9yaWVzIHdpdGggYWxsb2NhdGVkIGluZGV4IGJsb2NrcyBidXQgemVy
+by1sZW5ndGggJEJJVE1BUCwKYXMgdGhpcyBpbmRpY2F0ZXMgYW4gaW5jb25zaXN0ZW50IG9uLWRp
+c2sgc3RydWN0dXJlLgoKU2lnbmVkLW9mZi1ieTogTW9vbiBIZWUgTGVlIDxtb29uaGVlLmxlZS5j
+YUBnbWFpbC5jb20+Ci0tLQogZnMvbnRmczMvaW5kZXguYyB8IDEwICsrKysrKysrKysKIDEgZmls
+ZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZnMvbnRmczMvaW5kZXgu
+YyBiL2ZzL250ZnMzL2luZGV4LmMKaW5kZXggMWJmMmE2NTkzZGVjLi42ZDFiZjg5MDkyOWQgMTAw
+NjQ0Ci0tLSBhL2ZzL250ZnMzL2luZGV4LmMKKysrIGIvZnMvbnRmczMvaW5kZXguYwpAQCAtMTUw
+OCw2ICsxNTA4LDE2IEBAIHN0YXRpYyBpbnQgaW5keF9hZGRfYWxsb2NhdGUoc3RydWN0IG50ZnNf
+aW5kZXggKmluZHgsIHN0cnVjdCBudGZzX2lub2RlICpuaSwKIAkJCWJtcF9zaXplID0gYm1wX3Np
+emVfdiA9IGxlMzJfdG9fY3B1KGJtcC0+cmVzLmRhdGFfc2l6ZSk7CiAJCX0KIAorCQkvKgorCQkg
+KiBJbmRleCBibG9ja3MgZXhpc3QsIGJ1dCAkQklUTUFQIGhhcyB6ZXJvIHZhbGlkIGJpdHMuCisJ
+CSAqIFRoaXMgaW1wbGllcyBhbiBvbi1kaXNrIGNvcnJ1cHRpb24gYW5kIG11c3QgYmUgcmVqZWN0
+ZWQuCisJCSAqLworCQlpZiAoaW4tPm5hbWUgPT0gSTMwX05BTUUgJiYKKwkJICAgIHVubGlrZWx5
+KGJtcF9zaXplX3YgPT0gMCAmJiBpbmR4LT5hbGxvY19ydW4uY291bnQpKSB7CisJCQllcnIgPSAt
+RUlOVkFMOworCQkJZ290byBvdXQxOworCQl9CisKIAkJYml0ID0gYm1wX3NpemUgPDwgMzsKIAl9
+CiAKLS0gCjIuNDMuMAoK
+--0000000000006965b2063971e29b--
