@@ -1,242 +1,124 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113D5220F5B
-	for <ntfs3@lists.linux.dev>; Tue,  8 Jul 2025 22:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE871990A7;
+	Tue,  8 Jul 2025 23:05:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752015587; cv=none; b=Cjlp0os9ED1UdTYE7KuKEho2C166N8z1E/9jzLAk4K1s8RkqeJqNOYPL8rAB1ZNPd3x07KJN81IxzsT4a7DDONKvsBqDdQDZq4FOwdikrehOF2iyJ2+7XwMmLQ8+Sbq10WhevsiTJrbNLkbzGXemPpENUuum4HjCyqRjtLeI8qs=
+	t=1752015922; cv=none; b=OXN1L8YRhJ4+hWLXGD6B87mKCK3OjICxqkT6qtq/QczKhB0NYYnLt4M735yIKZgvERhwPinPYCnR2ozgLZ1Cf/JVh6kpnEI2mJ11wPrv7h9L6RYA0BAOL2A+a2e0DpBMIBIvQ8TxbV364TY8Dh6lN9pYURT3YL1mkTUf37O3+JY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752015587; c=relaxed/simple;
-	bh=M3mbuCdHP5nRK/r1JDT5y/NZEwpCM+rOZ/k+iVnc3Xk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TAbJSellJuIe7nZq3dIQI/wIUQvjeQHSbHucLUX0FQyAEW2abbkIa8goOOsZE83GDkdXGMLCulD+7tehpR5lLT+g+s8+WHB4iBoUvCXZArm71WZQH8FlO1maXEZyQZZLw7mZd8sz07mzQWZ5sT+awY+betJ3a4jAR0AW0krbbTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=bZpH79EH; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
+	s=arc-20240116; t=1752015922; c=relaxed/simple;
+	bh=WovQaQ9PikrY5uLmVbsHl3tpSSKbTT19zMVimO8nhF8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sw5gcSS9+66dBAPHGOqC5wVIh5dksRW/M0rAm+LG34WNiqEjskVsYm06PRXMVaBn38XmB14Q+QMnkjnuM0KEyhqdQC6I5T2sMmldnUZqf4Qe0n4SwFvHMSWtAGC+oZdHs6ZSqy43Y+uGdpg5MyG5FWgdScuzBaap1xAHiTf3Q54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K2SOicbe; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="bZpH79EH"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-23aeac7d77aso44903535ad.3
-        for <ntfs3@lists.linux.dev>; Tue, 08 Jul 2025 15:59:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K2SOicbe"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-235e1d710d8so65013515ad.1;
+        Tue, 08 Jul 2025 16:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1752015585; x=1752620385; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=s3l35aQqAnevtjyZ/VyVsw6OhRX5o5OHMyl6xIvwp38=;
-        b=bZpH79EHyajiw5OY0O/edixH8aXBJrHXAEYeay9hkNSDJrFQu9KtWIUOLVASfG4wPB
-         aBgRjIaM2mhi6bWdvS55xWYavks945oxkwAODdBQl/dhczj4k5QTP8v8IBWnDc24sy+r
-         IB7zgXwBeRkn6tOSBsFqE5W+WqcFmDyPtvjknFMLOc//2LtzpRKGT/+9XV9TX80zwC+g
-         Ad7KuW17cnX96QWZovqUgy63KzBIfyIMt5p7veTCgNBr7DvD42qk2/5mDDzjCLElreHc
-         BhMjjF3CXRaTnxr7P7jfQwJ+Ga4cUacXK8eFjBh/roOnv022hCEbzjGih7dKbDikSI87
-         fLlw==
+        d=gmail.com; s=20230601; t=1752015920; x=1752620720; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3nTeLrKufhqWMbv8ZxgNZNY3CTIL94aICMXLX0urdhU=;
+        b=K2SOicbejzpkIS7DtgE9isBonEBZ3bMftY6uj1L3XCVYn5PCLtM4MCrqCbJ7m8LstI
+         wVEYVoexCBUasozFtd4Q77oy7MHu1P6MPRpFcGduDMLAyBKXTbzI8LxHkGvjtP51qyRJ
+         RQdEAGFyjHaJvzRyeV/LlZLxoGpR35IJ0gtZyE+ixFxVmmn9cwv4U5uu254Ot6K+gOVW
+         dYpUYThAfDDD9xcxrKSAX9bAXhWuhyfy5icUh18KAbWXCRbKivI7mDkcG00jSY28YX7O
+         mOqPEgmZ8bb8+qpzgOyHYeLHgTuTa4GjoBqIJ7uRJPAcztbgZJddD65d69USFPDdRpPR
+         FGrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752015585; x=1752620385;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s3l35aQqAnevtjyZ/VyVsw6OhRX5o5OHMyl6xIvwp38=;
-        b=fHpWCrplTbf+geVpgaWI74OLCuoYK1VrPurb8I01VvRoTWGVelNUWSKsDzjLjewwOV
-         SamypVV2mO+CTRtUuycO7slO/DbNMlKerGJr2In+Gg4xXmY69+bTI9hInn5UGOpHLsut
-         g6zpvVhcaFDdeJddj+k+u21jsWqkaDmikwFY2NhPCVi6FhvZp0s7S2TEz9oEeMPfZyb0
-         dzhlu0IOReR3tql28NydKSd9CFhbdhoXuPrEuTOhlqmDNYVJXGBmy/WwaKZnbRsp6BmF
-         vaaMwd/SiC+yBH378YW26JYtUhZ2wkutEGSIX6s7bGA8XLakXTNYHJTHBVH5m9YaZdW4
-         FL2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX5JRC761oqaNWFFF3PmPE9X6p8KT0hjcljji73Cx8BovEx+B2UL1aZvXMkKjE5CABFocvvJA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy8izhfIm/gAzDt3XAH9YOcfeR06scYBZKrJVODfBrHqGZ+brSu
-	a+EHEf3OD0O6/Aa+v8qgx7hgQLdtALrHgsieyw00x5bYBMx9oi3LEJ2d0GIlr8U6has=
-X-Gm-Gg: ASbGncvie8C7QE5ZOgUORpkub2zr17p8U3S4UK7FSXn9SMBC7PbWXxd46WJc43wmVSW
-	tQxkUgJ+khI5q3UTSOMkoPi0y8+AME/V1kw7mJwc4QatABKQx1QUtgLrZJncOEoQW3rsCirSlv4
-	e90yEW4fdt4OaKSaSxlSiFk6BlRdxslTDGn8cAlfBnQylL4Nxl9vV9JECciEXUNwwxwDNRclTjY
-	AIEbagASoyAovHhUGdBg3hNTbe4bV+njl27AGzbAuBh9le3Z6u51w5Ljol9cOPbpoyhEjC+/t+R
-	wu/h7+sP9fH/6JHQj0R2FAAceA4uzzq8VO8CTX+WKHo2UWYaU+A/6EZFAP57ZkoLIOMgzfxNmtu
-	IsLwjG4CH35SS9VdJkiQIwmXjtj1ZsM0b+4TbYA==
-X-Google-Smtp-Source: AGHT+IHgAio6dtY7YujZnCX74Dqj6rWXG+QIi1+TToEKN6tFwVYNcRTRFvNMZWDi8G3LmTON1cFJ/Q==
-X-Received: by 2002:a17:903:2411:b0:223:7006:4db2 with SMTP id d9443c01a7336-23ddb2e62cfmr4398715ad.31.1752015585353;
-        Tue, 08 Jul 2025 15:59:45 -0700 (PDT)
-Received: from dread.disaster.area (pa49-180-184-88.pa.nsw.optusnet.com.au. [49.180.184.88])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8455eea0sm121499985ad.137.2025.07.08.15.59.44
+        d=1e100.net; s=20230601; t=1752015920; x=1752620720;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3nTeLrKufhqWMbv8ZxgNZNY3CTIL94aICMXLX0urdhU=;
+        b=VNfrIgYQUXhaH/kkxYsdGTsMB21bfttTHMF466oyUc+i+wLSHeV13BJh2dPszp0kKR
+         GCCAybVJr8J+3Z3E7gPa2q06c6y0Hv8bYuGl03h6/xscL6kCRQ7Agv4tQH/YoIB3eylq
+         gcv018g7/ZTrQrjtsc8VDqOjf1E87eoYd2TQurozwo4YgXfwWXV2EJm2fxRj3NcijmC5
+         41USkgVQpP0Ba3IF1R/MFOx/+3M9yMtsa1vwPUMrsLOCzeyUKq72vpgvn7JZgS4zxwxr
+         YAiOHROVTUo7ptmetp1V3rJ6ezxKL92fbM28DRpAvRCfjDAXp+Ml3ilkdg9JD7HhBXgR
+         mzpA==
+X-Forwarded-Encrypted: i=1; AJvYcCWAWPT0Gd4gmHQhhPBBqA3Xlf9BlLDY9RWZ2bjbjFAmwEpAccoTGaNSkumuv5/IbXICYHaOn//swdOfdSwmVJLXY3UUXw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyUkt+2nkjJOFLgwvlE4xrhlntUwmlDqHqGRg/cv4R4dPofTOyp
+	+oWON+bwiVJSX4hryvLk0r/hUKJvOwCNK6lR9vOE68hjp7fThgIforFk
+X-Gm-Gg: ASbGncuHiYhpX/c548JFrVhUamJ/KhqVER6oXsxJGraVQ5CZmVLi5x3CRPOCcQJ3RFH
+	4GPYAB10KWSBNvP0A9UMLr5mhM1Yo66aYUhieH9gLEebo7cTtYuPZPikHHY5Is96ILMk18JNGNC
+	xZrJ9sV4+Ly8qAmFv2hBIzr63Cwy+p45OX9A/W8u9Ml39ZjiarLrVmihKGN3pYejut6iHaTiOcF
+	v4f0aZTIogq6VQIEliF0/VpyI43R5gOBkHKVCqyh0d1N3gQeVUx6+aEem2soHbquK+UoPPxrezf
+	oiws/Yn1hUqUgW1hHJg3Tm2KNhW1b34cRQK4zVXa3aCqcQFCB506+eh6EZn7JmPk
+X-Google-Smtp-Source: AGHT+IEKFLgqtEP19+48DpnOvxj3AeRJtQt+1/a9IT4AzzhP5p8Oq+cBQQrGaVgjDHWgXi4OBaDXaA==
+X-Received: by 2002:a17:903:2888:b0:236:363e:55d with SMTP id d9443c01a7336-23ddb2f2e2emr3240005ad.28.1752015919744;
+        Tue, 08 Jul 2025 16:05:19 -0700 (PDT)
+Received: from p920.. ([2001:569:799a:1600:edd4:8189:b111:bc2a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8434ee13sm118879925ad.70.2025.07.08.16.05.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 15:59:44 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.98.2)
-	(envelope-from <david@fromorbit.com>)
-	id 1uZHHq-00000008cJE-0C8v;
-	Wed, 09 Jul 2025 08:59:42 +1000
-Date: Wed, 9 Jul 2025 08:59:42 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: "Darrick J. Wong" <djwong@kernel.org>,
-	Qu Wenruo <quwenruo.btrfs@gmx.com>, Qu Wenruo <wqu@suse.com>,
-	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	viro@zeniv.linux.org.uk, jack@suse.cz, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, ntfs3@lists.linux.dev,
-	linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v4 1/6] fs: enhance and rename shutdown() callback to
- remove_bdev()
-Message-ID: <aG2i3qP01m-vmFVE@dread.disaster.area>
-References: <cover.1751589725.git.wqu@suse.com>
- <de25bbdb572c75df38b1002d3779bf19e3ad0ff6.1751589725.git.wqu@suse.com>
- <aGxSHKeyldrR1Q0T@dread.disaster.area>
- <dbd955f7-b9b4-402f-97bf-6b38f0c3237e@gmx.com>
- <20250708004532.GA2672018@frogsfrogsfrogs>
- <20250708-geahndet-rohmaterial-0419fd6a76b3@brauner>
+        Tue, 08 Jul 2025 16:05:19 -0700 (PDT)
+From: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com,
+	Moon Hee Lee <moonhee.lee.ca@gmail.com>
+Subject: [PATCH] fs/ntfs3: reject index allocation if $BITMAP is empty but blocks exist
+Date: Tue,  8 Jul 2025 16:04:55 -0700
+Message-ID: <20250708230454.156971-2-moonhee.lee.ca@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250708-geahndet-rohmaterial-0419fd6a76b3@brauner>
 
-On Tue, Jul 08, 2025 at 09:55:14AM +0200, Christian Brauner wrote:
-> On Mon, Jul 07, 2025 at 05:45:32PM -0700, Darrick J. Wong wrote:
-> > On Tue, Jul 08, 2025 at 08:52:47AM +0930, Qu Wenruo wrote:
-> > > 
-> > > 
-> > > 在 2025/7/8 08:32, Dave Chinner 写道:
-> > > > On Fri, Jul 04, 2025 at 10:12:29AM +0930, Qu Wenruo wrote:
-> > > > > Currently all the filesystems implementing the
-> > > > > super_opearations::shutdown() callback can not afford losing a device.
-> > > > > 
-> > > > > Thus fs_bdev_mark_dead() will just call the shutdown() callback for the
-> > > > > involved filesystem.
-> > > > > 
-> > > > > But it will no longer be the case, with multi-device filesystems like
-> > > > > btrfs and bcachefs the filesystem can handle certain device loss without
-> > > > > shutting down the whole filesystem.
-> > > > > 
-> > > > > To allow those multi-device filesystems to be integrated to use
-> > > > > fs_holder_ops:
-> > > > > 
-> > > > > - Replace super_opearation::shutdown() with
-> > > > >    super_opearations::remove_bdev()
-> > > > >    To better describe when the callback is called.
-> > > > 
-> > > > This conflates cause with action.
-> > > > 
-> > > > The shutdown callout is an action that the filesystem must execute,
-> > > > whilst "remove bdev" is a cause notification that might require an
-> > > > action to be take.
-> > > > 
-> > > > Yes, the cause could be someone doing hot-unplug of the block
-> > > > device, but it could also be something going wrong in software
-> > > > layers below the filesystem. e.g. dm-thinp having an unrecoverable
-> > > > corruption or ENOSPC errors.
-> > > > 
-> > > > We already have a "cause" notification: blk_holder_ops->mark_dead().
-> > > > 
-> > > > The generic fs action that is taken by this notification is
-> > > > fs_bdev_mark_dead().  That action is to invalidate caches and shut
-> > > > down the filesystem.
-> > > > 
-> > > > btrfs needs to do something different to a blk_holder_ops->mark_dead
-> > > > notification. i.e. it needs an action that is different to
-> > > > fs_bdev_mark_dead().
-> > > > 
-> > > > Indeed, this is how bcachefs already handles "single device
-> > > > died" events for multi-device filesystems - see
-> > > > bch2_fs_bdev_mark_dead().
-> > > 
-> > > I do not think it's the correct way to go, especially when there is already
-> > > fs_holder_ops.
-> > > 
-> > > We're always going towards a more generic solution, other than letting the
-> > > individual fs to do the same thing slightly differently.
-> > 
-> > On second thought -- it's weird that you'd flush the filesystem and
-> > shrink the inode/dentry caches in a "your device went away" handler.
-> > Fancy filesystems like bcachefs and btrfs would likely just shift IO to
-> > a different bdev, right?  And there's no good reason to run shrinkers on
-> > either of those fses, right?
-> > 
-> > > Yes, the naming is not perfect and mixing cause and action, but the end
-> > > result is still a more generic and less duplicated code base.
-> > 
-> > I think dchinner makes a good point that if your filesystem can do
-> > something clever on device removal, it should provide its own block
-> > device holder ops instead of using fs_holder_ops.  I don't understand
-> > why you need a "generic" solution for btrfs when it's not going to do
-> > what the others do anyway.
-> 
-> I think letting filesystems implement their own holder ops should be
-> avoided if we can. Christoph may chime in here. I have no appettite for
-> exporting stuff like get_bdev_super() unless absolutely necessary. We
-> tried to move all that handling into the VFS to eliminate a slew of
-> deadlocks we detected and fixed. I have no appetite to repeat that
-> cycle.
+Index allocation requires at least one bit in the $BITMAP attribute to
+track usage of index entries. If the bitmap is empty while index blocks
+are already present, this reflects on-disk corruption.
 
-Except it isn't actually necessary.
+syzbot triggered this condition using a malformed NTFS image. During a
+rename() operation involving a long filename (which spans multiple
+index entries), the empty bitmap allowed the name to be added without
+valid tracking. Subsequent deletion of the original entry failed with
+-ENOENT, due to unexpected index state.
 
-Everyone here seems to be assuming that the filesystem *must* take
-an active superblock reference to process a device removal event,
-and that is *simply not true*.
+Reject such cases by verifying that the bitmap is not empty when index
+blocks exist.
 
-bcachefs does not use get_bdev_super() or an active superblock
-reference to process ->mark_dead events.
+Reported-by: syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=b0373017f711c06ada64
+Fixes: d99208b91933 ("fs/ntfs3: cancle set bad inode after removing name fails")
+Tested-by: syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com
+Signed-off-by: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+---
+ fs/ntfs3/index.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-It has it's own internal reference counting on the struct bch_fs
-attached to the bdev that ensures the filesystem structures can't go
-away whilst ->mark_dead is being processed.  i.e. bcachefs is only
-dependent on the bdev->bd_holder_lock() being held when
-->mark_dead() is called and does not rely on the VFS for anything.
-
-This means that device removal processing can be performed
-without global filesystem/VFS locks needing to be held. Hence issues
-like re-entrancy deadlocks when there are concurrent/cascading
-device failures (e.g. a HBA dies, taking out multiple devices
-simultaneously) are completely avoided...
-
-It also avoids the problem of ->mark_dead events being generated
-from a context that holds filesystem/vfs locks and then deadlocking
-waiting for those locks to be released.
-
-IOWs, a multi-device filesystem should really be implementing
-->mark_dead itself, and should not be depending on being able to
-lock the superblock to take an active reference to it.
-
-It should be pretty clear that these are not issues that the generic
-filesystem ->mark_dead implementation should be trying to
-handle.....
-
-> The shutdown method is implemented only by block-based filesystems and
-> arguably shutdown was always a misnomer because it assumed that the
-> filesystem needs to actually shut down when it is called.
-
-Shutdown was not -assumed- as the operation that needed to be
-performed. That was the feature that was *required* to fix
-filesystem level problems that occur when the device underneath it
-disappears.
-
-->mark_dead() is the abstract filesystem notification from the block
-device, fs_bdfev_mark_dead() is the -generic implementation- of the
-functionality required by single block device filesystems. Part of
-that functionality is shutting down the filesystem because it can
-*no longer function without a backing device*.
-
-multi-block device filesystems require compeltely different
-implementations, and we already have one that -does not use active
-superblock references-. IOWs, even if we add ->remove_bdev(sb)
-callout, bcachefs will continue to use ->mark_dead() because low
-level filesystem device management isn't (and shouldn't be!)
-dependent on high level VFS structure reference counting....
-
-> IOW, we made
-> it so that it is a call to action but that doesn't have to be the case.
-> Calling it ->remove_bdev() is imo the correct thing because it gives
-> block based filesystem the ability to handle device events how they see
-> fit.
-
-And that's exactly what ->mark_dead already provides. 
-
-And, as I've pointed out above, multi-device filesystems don't
-actually need actively referenced superblocks to process device
-removal notifications. Hence ->mark_dead is the correct interface
-for them to use.
-
--Dave.
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 1bf2a6593dec..6d1bf890929d 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -1508,6 +1508,16 @@ static int indx_add_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 			bmp_size = bmp_size_v = le32_to_cpu(bmp->res.data_size);
+ 		}
+ 
++		/*
++		 * Index blocks exist, but $BITMAP has zero valid bits.
++		 * This implies an on-disk corruption and must be rejected.
++		 */
++		if (in->name == I30_NAME &&
++		    unlikely(bmp_size_v == 0 && indx->alloc_run.count)) {
++			err = -EINVAL;
++			goto out1;
++		}
++
+ 		bit = bmp_size << 3;
+ 	}
+ 
 -- 
-Dave Chinner
-david@fromorbit.com
+2.43.0
+
