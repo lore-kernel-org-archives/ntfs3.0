@@ -1,53 +1,37 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F40E29B79A
-	for <ntfs3@lists.linux.dev>; Tue,  8 Jul 2025 07:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67FEC21771B
+	for <ntfs3@lists.linux.dev>; Tue,  8 Jul 2025 08:01:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751961485; cv=none; b=SxiGeidlIrJSqY2E8TB6y+um3tg4CNzJlX4s/zor7uNkYaBV40gc2O+N8oUC9llszpKH/KV88SrzhbdSYmjW1v2Y+IliszTGPI4/8PJC+3ipSv0hsiQBYBThjH8DnuVji8ltaTE7A7tkZRciLz3x4fve1mzFoptfl8v5wuu9djM=
+	t=1751961691; cv=none; b=tE73csuHU8uew/XNxt5AJWJfOLX3P9vtAjMk+mswgN7FEwYd18PZ8LAfH64njM5qLYWSRWlEr1XoCskF8cAxphDIwbZkC7IxUFPc/Hh8M/V9bEaxE07L9WCZ2BUeJs533F5eHjjDq3FkLuHcF6N3xxV9noIut1ZJMbXKHZmnPc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751961485; c=relaxed/simple;
-	bh=U1Ihyv6JEYMY+/2H63MoHcvRpy0YoqMTrtio+QfjEO4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mujajkcPi2Cw62iHzQs0h3kfkidJiaudayKj08OS6qVL/KQ2GTs7gxy+X/DSKBA6M/358t0PPTOIZkAdBov5iKet6WcdWaNrvifvTSJHq3WTjv/NS2u6qxDQJ2+bXpML5WAxwpO5DTiuM7cuYjA6nrOupdLD5zfB4Dw8CBc0TgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=qthWr76Q; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1751961691; c=relaxed/simple;
+	bh=5JmUo5wzYdhjJxAOdK8joBgBIJLjs1DAmnWDAuzwHGg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IqE9tzTiWFt6CdFvTJfc37y4kz9qguTw105H1lGe5/p1nqzckY+u5rnhjS+BSLgRDLPAWhSJelkboHYG5vmCpom3oHqH0YBxrrPSX7w6LhMd9G+81qDG+2P7sP7oKUxH3cDLfoCMWrKeONNQKpChq3w0UPtU9LcjN7qmbWKMewY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Ce1AwGmR; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="qthWr76Q"
-Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 447401CC;
-	Tue,  8 Jul 2025 07:56:56 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=qthWr76Q;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 796F321ED;
-	Tue,  8 Jul 2025 07:58:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1751961481;
-	bh=8EzE0KyPCRoabRtPC3XYbwuX1/3nOaJPo5gc1Ts2SJc=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=qthWr76QLibDRqGBdIM5JPOQcl47xXm44r0fL7nj8fR5Q+zwVe3Ei4kKRy1XUR2G9
-	 4oOWw8VC72YhC93L8rsDd3d8JngmPK9S89A6GNNkD/CARH+ukDYhqOr9xuXCi9j8um
-	 ZILPAGPEO+0DVtdV6ePVqURD/BX48iPI6P4BpvxQ=
-Received: from localhost.localdomain (172.30.20.199) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 8 Jul 2025 10:57:59 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	<syzbot+a91fcdbd2698f99db8f4@syzkaller.appspotmail.com>, Lorenzo Stoakes
-	<lorenzo.stoakes@oracle.com>
-Subject: [PATCH v2] Revert "fs/ntfs3: Replace inode_trylock with inode_lock"
-Date: Tue, 8 Jul 2025 09:57:09 +0200
-Message-ID: <20250708075709.5688-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <d18a4aa3-bd7d-4c4b-a34c-48ba7f907ecf@lucifer.local>
-References: <d18a4aa3-bd7d-4c4b-a34c-48ba7f907ecf@lucifer.local>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Ce1AwGmR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=u8
+	qA80TU+qvZWZGpZXUYmlo1JufyjuXgNsy8o8OtuNQ=; b=Ce1AwGmRbvmVr5RitY
+	0klvgv6YfNyQu7CSZM+c/cr8lc74x1gZa9BC70zSS3p8JCLc4H6JkFG4clyC8VC6
+	kS5WSms0MFqE6gYyZDtNXb/oNVFBa9mvHCgs7aioHeRY40rUyFWXb8yyJBdFkPTy
+	lF/dQWt5XineJqOfM2ynNMge0=
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id PSgvCgCXcYxL0Gxot6ERAg--.61762S4;
+	Tue, 08 Jul 2025 16:01:16 +0800 (CST)
+From: Haoxiang Li <haoxiang_li2024@163.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Haoxiang Li <haoxiang_li2024@163.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: Fix a resource leak bug in wnd_extend()
+Date: Tue,  8 Jul 2025 16:01:13 +0800
+Message-Id: <20250708080113.2870200-1-haoxiang_li2024@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -55,42 +39,35 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-CM-TRANSID:PSgvCgCXcYxL0Gxot6ERAg--.61762S4
+X-Coremail-Antispam: 1Uf129KBjvdXoW7XF4kXw15XrW8Kr1fKr1kGrg_yoWxAFX_Ga
+	s7Ca48X3y5JFn8K3WkWr90vws7Xw4rK3WkGrZFvFyDta4DXa90qrsYyrs3twsYgay7uFWr
+	Jr9aqrZak34fWjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRC38eUUUUUU==
+X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbBkBmEbmhszu8vkAAAs5
 
-This reverts commit 69505fe98f198ee813898cbcaf6770949636430b.
+Add put_bh() to decrease the refcount of 'bh' after the job
+is finished, preventing a resource leak.
 
-Initially, conditional lock acquisition was removed to fix an xfstest bug
-that was observed during internal testing. The deadlock reported by syzbot
-is resolved by reintroducing conditional acquisition. The xfstest bug no
-longer occurs on kernel version 6.16-rc1 during internal testing. I
-assume that changes in other modules may have contributed to this.
-
-Fixes: 69505fe98f19 ("fs/ntfs3: Replace inode_trylock with inode_lock")
-Reported-by: syzbot+a91fcdbd2698f99db8f4@syzkaller.appspotmail.com
-Suggested-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Fixes: 3f3b442b5ad2 ("fs/ntfs3: Add bitmap")
+Cc: stable@vger.kernel.org
+Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
 ---
- fs/ntfs3/file.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ fs/ntfs3/bitmap.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 65fb27d1e17c..2e321b84a1ed 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -322,7 +322,10 @@ static int ntfs_file_mmap(struct file *file, struct vm_area_struct *vma)
- 		}
+diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
+index 04107b950717..65d05e6a0566 100644
+--- a/fs/ntfs3/bitmap.c
++++ b/fs/ntfs3/bitmap.c
+@@ -1371,6 +1371,7 @@ int wnd_extend(struct wnd_bitmap *wnd, size_t new_bits)
+ 		mark_buffer_dirty(bh);
+ 		unlock_buffer(bh);
+ 		/* err = sync_dirty_buffer(bh); */
++		put_bh(bh);
  
- 		if (ni->i_valid < to) {
--			inode_lock(inode);
-+			if (!inode_trylock(inode)) {
-+				err = -EAGAIN;
-+				goto out;
-+			}
- 			err = ntfs_extend_initialized_size(file, ni,
- 							   ni->i_valid, to);
- 			inode_unlock(inode);
+ 		b0 = 0;
+ 		bits -= op;
 -- 
-2.43.0
+2.25.1
 
