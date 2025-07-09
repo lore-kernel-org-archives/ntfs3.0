@@ -1,170 +1,165 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD85226D11
-	for <ntfs3@lists.linux.dev>; Wed,  9 Jul 2025 17:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B224156237
+	for <ntfs3@lists.linux.dev>; Wed,  9 Jul 2025 22:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752083371; cv=none; b=Hsj5Gm/BwOLGDeogk6OWVJRQmi3UR2o0df/9hYnisgTUfog2RxpZav6n37hNBBSaCcT/jxLv1y5+8q2nwkfYf+ABwkHmc8Z8XC+bjjDOua+hoUH/gMUofmjA5KB3NKw0+1XADD7xxPWPWSI4QPACZJ+OG3hxa7GX82HldKS9bQ0=
+	t=1752100326; cv=none; b=YJSDfhG+TizEbYhM9oO7YcSE+d5JwN/FrdMvPHTQDbIWwh8LCFepYY2dnYt5/mqdpKMIOEIhzgeQsDnUrtfmVDkIQJn4cf6MXod1ecraOA3CSwUT83jt2CuR0EQkr+Ww4UXEw4t0crWBGPEHyo+MV3TP3hQNjURY7KrRWXF74cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752083371; c=relaxed/simple;
-	bh=O2COwCVuJdzgOw6OpvXMgyjCNr+fnukRUw64/d9W5ek=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M7QPCIcwfFXuW+m9dlaAIoysf7IiFkG2gT01swcKUpJswNgw0NJv72tPpM7ws6tgBZvHI9ab7yGoXSCmr5izxJmxr28qHQBE9jsKiLulL+u9w1DcAdi6n/GH4mHrrv9OQbiJ+f0ePKt0jxtsl0wHquq+NMnBD6/gv93gHkZ4Np8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nxOYpGdf; arc=none smtp.client-ip=91.218.175.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1752100326; c=relaxed/simple;
+	bh=1McGgLdm606Z00KEINY5kt1JkZk/Tuk74qM5f1qRaKw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C3hANrzdpnyWIBsq/NOHJ2TGGHGegV3Is1ArKT7qR3a8ZazJgGHOvk8ZUkt2LgZbyaVwfRmoZmBI+WeBgJIqZ7YII+LmpQIQ2g0VHGeCAkNmohuVeTmMzyNyPKFBJIZvVb4S4WrBPhBTpm0/lPBLVMF5DjSiZhch5EJiNilNxMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KRJpYxs9; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nxOYpGdf"
-Date: Wed, 9 Jul 2025 13:49:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1752083364;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hqDUS4BBDM+csIlPWx+TszLLC9bq/xJu9mUJf/EWg0s=;
-	b=nxOYpGdfTMPJVXG5huvcmm3wX800iKwgvi9EibH7o8WPbGD0IbJnuT8Xfh49BzCs2NNRiI
-	l7YWbWGNS8/XY+4jyd7qjYN5zK+VF2fi6LvcD3n2iQlxfIicgfoo+0Ab8aH3ZqPTI1/j4M
-	/GaxGdzpYELaL0glMe+tv7VhZuKHsRo=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Jan Kara <jack@suse.cz>
-Cc: Dave Chinner <david@fromorbit.com>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Qu Wenruo <quwenruo.btrfs@gmx.com>, Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org, 
-	linux-bcachefs@vger.kernel.org
-Subject: Re: [PATCH v4 1/6] fs: enhance and rename shutdown() callback to
- remove_bdev()
-Message-ID: <y2rpp6u6pksjrzgxsn5rtcsl2vspffkcbtu6tfzgo7thn7g23p@7quhaixfx5yh>
-References: <343vlonfhw76mnbjnysejihoxsjyp2kzwvedhjjjml4ccaygbq@72m67s3e2ped>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KRJpYxs9"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-32f3ef6178bso2782961fa.1
+        for <ntfs3@lists.linux.dev>; Wed, 09 Jul 2025 15:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752100323; x=1752705123; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X0vCCNe1kaK9nYgw+uNh0fKsxB1qET3iJlussJtaUx4=;
+        b=KRJpYxs9JStqu57sn9JSvy81kQBCkVFpFX5JXtKjfZBIf015XqYyvys0KxAmVtZ0xp
+         tJ155XJk3LHd5byrNyZ3s0orml9g48dcSe9eo9g8kb5+SUK0zUkPyXtgS9Dj2Ut/KJX0
+         0i5AS6QaAkxQtJvNx2P+NXnJazioQ272GWwepu/JY8OBfAZGWrRVPncPg3CqV9O9U7i1
+         nj11djC+mVVhO00FbvzOWUg/H9Jp0TnT5b/NgVISmVRjU9FZLkRQbCwlg9YtyFGbygFD
+         +K1syfJCpjdknfsLGlnW2VoT7szSPkMq6L8Ef9A3ucn9R1rrB7TuZIgBZTpa6zu+GN5P
+         43bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752100323; x=1752705123;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X0vCCNe1kaK9nYgw+uNh0fKsxB1qET3iJlussJtaUx4=;
+        b=YtcfoCfsVzwgPNHWlGPUIdzYjAv3Zc0e+6Lx3Z/Juo3nEvFCKl/pEnEeddIFYyjsT0
+         9Gsw3gVDJ1MALfNLVEPPz3fmUyj3/rO0l5wZa1PVkJbl0QIcBW0T/Z7CZpdhQl2CNk3+
+         xgDQRtZ/C4Qp3CFPpim81+7BPVsp25l14ow2k7BztqgFbNxmRu69mFSqYLHKYGBuZLNS
+         ynkjh/6a1wrWVJ9x2DOEpyGOQEmw5V0DdTWA148ai4CItYCN53EFcupZy/nrAPKkLDHx
+         YDkmsIB1UzVKMG735YgtxzZyPNJ/wNaNf68sGd5Stmg5st/5eaxmQ95zIAAfl5bvhQRG
+         khlg==
+X-Forwarded-Encrypted: i=1; AJvYcCVdIPfY88WQnbMgkGH9ftibr1iCcLU/ATEzwIZCRs6Zbh8CBp92HFPMt+BQwN3TFmLHV+inuA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyKgOspiAgN/j2A7ZoxbcDdn7CgDfAXCE8ySdpxcuy7dWy8VOq0
+	aGbDP1DJKJpD6uKblD2rcd5xr3RKKVwoWgdSIR9DpnynbMQMjC3e/tfuzG3M5m8REuGNX+gBcVi
+	iydTLLygWLK61rIC9wHFTBLmejLDujmY=
+X-Gm-Gg: ASbGncumr59P/Id2GW30hzk5MtRKiIddBesAZSD/7uG8vZisHQCYGVXKk2jrUiaK4lz
+	bqkp9aDlhyqE30YmYoQPu0oLllQR7JiwXRlbXNnDziaBS99o4QiM6hUedKo1P0KV/jwBKU0Kp11
+	bOtVgU2KlnlkmjcGXPCJUrWBGXVYrmS7/dPD7IAMKgLLqkGdabOYa07xrtoMWAkLDevEWJqbE/o
+	sVb
+X-Google-Smtp-Source: AGHT+IFbXOlgT4ROOR21178XUwTpOomY4dhNIM2pkgyDfppMb4TnPhF1NlbJSd0RbHs++YsgJzW/IrfJpyvZLzydKWc=
+X-Received: by 2002:a2e:a917:0:b0:32a:7dd7:ff47 with SMTP id
+ 38308e7fff4ca-32f485853d4mr15492511fa.30.1752100322919; Wed, 09 Jul 2025
+ 15:32:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <343vlonfhw76mnbjnysejihoxsjyp2kzwvedhjjjml4ccaygbq@72m67s3e2ped>
-X-Migadu-Flow: FLOW_OUT
+References: <686d5a9f.050a0220.1ffab7.0015.GAE@google.com> <xrpmf6yj32iirfaumpbal6qxph7mkmgwtra7p4hpbvzozlp4zr@2bzl4p5ejgfj>
+In-Reply-To: <xrpmf6yj32iirfaumpbal6qxph7mkmgwtra7p4hpbvzozlp4zr@2bzl4p5ejgfj>
+From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date: Thu, 10 Jul 2025 07:31:46 +0900
+X-Gm-Features: Ac12FXw4eCeHGhJ1kXZFIcDPr8OZWRZX-aSMKBRl9njt_so4dWb4RcvDCVUSRDA
+Message-ID: <CAKFNMomH8Ur3gOvps_vdbs3BU4C6UZBL7tDYxjPUG_29_Bo-8w@mail.gmail.com>
+Subject: Re: [syzbot] [nilfs?] kernel BUG in may_open (2)
+To: Jan Kara <jack@suse.cz>
+Cc: syzbot <syzbot+895c23f6917da440ed0d@syzkaller.appspotmail.com>, 
+	brauner@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org, mjguzik@gmail.com, 
+	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev, 
+	Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 09, 2025 at 07:23:07PM +0200, Jan Kara wrote:
-> On Wed 09-07-25 08:59:42, Dave Chinner wrote:
-> > This means that device removal processing can be performed
-> > without global filesystem/VFS locks needing to be held. Hence issues
-> > like re-entrancy deadlocks when there are concurrent/cascading
-> > device failures (e.g. a HBA dies, taking out multiple devices
-> > simultaneously) are completely avoided...
-> 
-> Funnily enough how about:
-> 
-> bch2_fs_bdev_mark_dead()		umount()
->   bdev_get_fs()
->     bch2_ro_ref_tryget() -> grabs bch_fs->ro_ref
->     mutex_unlock(&bdev->bd_holder_lock);
-> 					deactivate_super()
-> 					  down_write(&sb->s_umount);
-> 					  deactivate_locked_super()
-> 					    bch2_kill_sb()
-> 					      generic_shutdown_super()
-> 					        bch2_put_super()
-> 						  __bch2_fs_stop()
-> 						    bch2_ro_ref_put()
-> 						    wait_event(c->ro_ref_wait, !refcount_read(&c->ro_ref));
->   sb = c->vfs_sb;
->   down_read(&sb->s_umount); -> deadlock
-> 
-> Which is a case in point why I would like to have a shared infrastructure
-> for bdev -> sb transition that's used as widely as possible. Because it
-> isn't easy to get the lock ordering right given all the constraints in the
-> VFS and block layer code paths for this transition that's going contrary to
-> the usual ordering sb -> bdev. And yes I do realize bcachefs grabs s_umount
-> not because it itself needs it but because it calls some VFS helpers
-> (sync_filesystem()) which expect it to be held so the pain is inflicted
-> by VFS here but that just demostrates the fact that VFS and FS locking are
-> deeply intertwined and you can hardly avoid dealing with VFS locking rules
-> in the filesystem itself.
+On Wed, Jul 9, 2025 at 5:30=E2=80=AFPM Jan Kara wrote:
+>
+> Hi!
+>
+> On Tue 08-07-25 10:51:27, syzbot wrote:
+> > syzbot found the following issue on:
+> >
+> > HEAD commit:    d7b8f8e20813 Linux 6.16-rc5
+> > git tree:       upstream
+> > console+strace: https://syzkaller.appspot.com/x/log.txt?x=3D107e728c580=
+000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3D72aa0474e3c=
+3b9ac
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=3D895c23f6917da=
+440ed0d
+> > compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6=
+049-1~exp1~20250616065826.132), Debian LLD 20.1.7
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D113055825=
+80000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D10952bd4580=
+000
+> >
+> > Downloadable assets:
+> > disk image: https://storage.googleapis.com/syzbot-assets/605b3edeb031/d=
+isk-d7b8f8e2.raw.xz
+> > vmlinux: https://storage.googleapis.com/syzbot-assets/a3cb6f3ea4a9/vmli=
+nux-d7b8f8e2.xz
+> > kernel image: https://storage.googleapis.com/syzbot-assets/cd9e0c6a9926=
+/bzImage-d7b8f8e2.xz
+> > mounted in repro: https://storage.googleapis.com/syzbot-assets/2a7ab270=
+a8da/mount_0.gz
+> >
+> > The issue was bisected to:
+> >
+> > commit af153bb63a336a7ca0d9c8ef4ca98119c5020030
+> > Author: Mateusz Guzik <mjguzik@gmail.com>
+> > Date:   Sun Feb 9 18:55:21 2025 +0000
+> >
+> >     vfs: catch invalid modes in may_open()
+> >
+> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D17f94a8c=
+580000
+> > final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D14054a8c=
+580000
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D10054a8c580=
+000
+> >
+> > IMPORTANT: if you fix the issue, please add the following tag to the co=
+mmit:
+> > Reported-by: syzbot+895c23f6917da440ed0d@syzkaller.appspotmail.com
+> > Fixes: af153bb63a33 ("vfs: catch invalid modes in may_open()")
+> >
+> > VFS_BUG_ON_INODE(!IS_ANON_FILE(inode)) encountered for inode ffff888072=
+4735b8
+>
+> FWIW the reproducer just mounts a filesystem image and opens a file there
+> which crashes because the inode type is invalid. Which suggests there's
+> insufficient validation of inode metadata (in particular the inode mode)
+> being loaded from the disk... There are reproducers in the syzbot dashboa=
+rd
+> for nilfs2, ntfs3, isofs, jfs. I'll take care of isofs, added other
+> filesystem maintainers to CC.
+>
+>                                                                 Honza
 
-Getting rid of the s_umount use looks like the much saner and easier
-fix - like the comment notes, it's only taken to avoid the warning in
-sync_filesystem, we don't actually need it.
+Thank you for taking the initiative!
+I'll deal with the nilfs2 issue.
 
-Locking gets easier when locks are private to individual subsystems,
-protecting specific data structures that are private to those
-subsystems.
+For convenience, the correspondence between the reproducers and file
+systems listed in the syzbot dashboard at the moment is as follows:
 
-> > It also avoids the problem of ->mark_dead events being generated
-> > from a context that holds filesystem/vfs locks and then deadlocking
-> > waiting for those locks to be released.
-> > 
-> > IOWs, a multi-device filesystem should really be implementing
-> > ->mark_dead itself, and should not be depending on being able to
-> > lock the superblock to take an active reference to it.
-> > 
-> > It should be pretty clear that these are not issues that the generic
-> > filesystem ->mark_dead implementation should be trying to
-> > handle.....
-> 
-> Well, IMO every fs implementation needs to do the bdev -> sb transition and
-> make sb somehow stable. It may be that grabbing s_umount and active sb
-> reference is not what everybody wants but AFAIU btrfs as the second
-> multi-device filesystem would be fine with that and for bcachefs this
-> doesn't work only because they have special superblock instantiation
-> behavior on mount for independent reasons (i.e., not because active ref
-> + s_umount would be problematic for them) if I understand Kent right.
-> So I'm still not fully convinced each multi-device filesystem should be
-> shipping their special method to get from device to stable sb reference.
+Detection time      Filesystem
+2025/07/08 13:03    iso9660
+2025/07/08 12:34    ntfs3
+2025/07/08 12:04    nilfs2
+2025/07/08 04:06    nilfs2
+2025/07/08 02:39    ntfs3
+2025/07/08 01:41    jfs
+2025/07/08 01:56    nilfs2
+2025/07/08 01:21    nilfs2
+2025/07/08 01:57    iso9660
+2025/07/08 02:15    jfs
+2025/07/08 01:34    ntfs3
 
-Honestly, the sync_filesystem() call seems bogus.
-
-If the block device is truly dead, what's it going to accomplish?
-
-It's not like we get callbacks for "this device is going to be going
-away soon", we only get that in reaction to something that's already
-happened.
-
-> > > The shutdown method is implemented only by block-based filesystems and
-> > > arguably shutdown was always a misnomer because it assumed that the
-> > > filesystem needs to actually shut down when it is called.
-> > 
-> > Shutdown was not -assumed- as the operation that needed to be
-> > performed. That was the feature that was *required* to fix
-> > filesystem level problems that occur when the device underneath it
-> > disappears.
-> > 
-> > ->mark_dead() is the abstract filesystem notification from the block
-> > device, fs_bdfev_mark_dead() is the -generic implementation- of the
-> > functionality required by single block device filesystems. Part of
-> > that functionality is shutting down the filesystem because it can
-> > *no longer function without a backing device*.
-> > 
-> > multi-block device filesystems require compeltely different
-> > implementations, and we already have one that -does not use active
-> > superblock references-. IOWs, even if we add ->remove_bdev(sb)
-> > callout, bcachefs will continue to use ->mark_dead() because low
-> > level filesystem device management isn't (and shouldn't be!)
-> > dependent on high level VFS structure reference counting....
-> 
-> I have to admit I don't get why device management shouldn't be dependent on
-> VFS refcounts / locking. IMO it is often dependent although I agree with
-> multiple devices you likely have to do *additional* locking. And yes, I can
-> imagine VFS locking could get in your way but the only tangible example we
-> have is bcachefs and btrfs seems to be a counter example showing even multi
-> device filesystem can live with VFS locking. So I don't think the case is
-> as clear as you try to frame it.
-
-Individual devices coming and going has nothing to do with the VFS. If a
-single device goes away and we're continuing in RW mode, _no_ VFS state
-is affected whatsoever.
-
-The only thing that's needed is a ref to prevent the filesystem from
-going away, not a lock. But again given that a bch_fs doesn't
-necessarily even have a VFS superblock it's not something we'd use
-directly in .mark_dead, that synchronization is handled directly via
-kill_sb -> generic_shutdown_super -> and all that...
-
-We don't want bch_fs to outlive the VFS superblock if we do have a VFS
-sb, because asynchronous shutdown and releasing of resources causes very
-real problems (which already exist for other reasons...)
+Thanks,
+Ryusuke Konishi
