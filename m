@@ -1,44 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A33928A1CC;
-	Thu, 10 Jul 2025 07:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B547328C2B8;
+	Thu, 10 Jul 2025 08:33:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752133339; cv=none; b=EAwbdVfQT6RobVR0hSqNdKBLYMNLhN1DGWLXRygG+vnN3oVdTKLFyr2Rq4/YcskDXcrK7S8s6bEE4Gwvsr4hk8tdXuXIs+SC9W9u4vWmwE8ahDHOMUo3C/+7blnZWrRXdiaF+8xLzyyyLKvFNgbdXx9PFoNkR69+kv1OTXHr6rY=
+	t=1752136414; cv=none; b=WeotfSEyvek3zyW1mXBHha6Ilog8F0tdAunxMp2lQmFGio7gTtWG3Q6zWEsohROrOl067KL4s3NHjHNMZRYtt2zCOojo+jgIWC7HUqrGr/7JA9ZAsT6Y6NPnNunwEGcpjOtz6jOiDLrzPOJlen6WhRc/wsJcRSPCNJR0VzoI7CY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752133339; c=relaxed/simple;
-	bh=5HRCIqpzoAh0WXlu0yZBnyBN2sSTIllnMwkUl+dRio4=;
+	s=arc-20240116; t=1752136414; c=relaxed/simple;
+	bh=R9b7+hWyJ6gpe2+oeqJYo/68ZSLNbj8perkTo8oGBwY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gFGvqXbd0RIKNL2osxKK162ZZms1kqJs7D5vP+X7Dj82IdHKxSRqaf/HmuIg5+aDkrAJSGybQ7jFy/tF1XsOTjnCOdlHrSKDL2vvGd+LYSQT8u1M5YMz2eJsD10J8aABnkHZb72+uxuP9GWIaSqxJoGGjb522V7EOg5rVs8kCBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JRavN8q+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uxjF2ceA10kBpBOD/EnLkT2AsD14QwYlgmQsglbImzgomeZkHE03dsOI282fs71doAdFx92xPt7LjMWEUCzpYv9707iN0RsmueppJfXjF6cCb45K0xRdDJb5MWfJlrKt61YttgqdpsZv2eeG2BGwXUfrwCkofqvX6xXIn/cQtyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s4wYb/wJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JRavN8q+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49ABAC4CEE3;
-	Thu, 10 Jul 2025 07:42:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s4wYb/wJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77394C4CEE3;
+	Thu, 10 Jul 2025 08:33:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752133339;
-	bh=5HRCIqpzoAh0WXlu0yZBnyBN2sSTIllnMwkUl+dRio4=;
+	s=k20201202; t=1752136414;
+	bh=R9b7+hWyJ6gpe2+oeqJYo/68ZSLNbj8perkTo8oGBwY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JRavN8q+200eZihwvBuXy+p6Yd11P7b3U0n8eZwyaoiShn+t9JXXPAQ5Y253hDyqT
-	 GhaS7V//zKvEN8EGuh5P5FRlL6LlSV90ia7TbemMqDTZZ5MK3RQqxxn6mdPBr/2/MY
-	 +WdtKlYfkRPZpSKh7pOxF0yQ57i51p3EQnKDyVUFYwLgWjl8fdzKDWXGXhG2viBUxh
-	 U/VRFE9EbXmHupE4x1u+gtPN3gXYfi2tG/p8amSgfjdYcNTfUeOGPZh7pdOOvJdJFW
-	 ueoHDoApOKisedgJCmPmY/G7QWUTAwLLDvuQ5tr46xaUcVtUMXCQi3C6FOCXOIdoFz
-	 a28AcikNG37Mg==
-Date: Thu, 10 Jul 2025 09:42:13 +0200
+	b=s4wYb/wJqU7WvJJS+HWpf+MLbR4QdL3k6V9v1TTBW0gSIbyziqUP77aR5nlTEsLj6
+	 ql7ifdWjFUYsBjZnUVXuVU1DlrR++M7jlytzAZHlLuGAEFjGCGnevtsRmBnKta2E0d
+	 IV4NUe1U5YRS7bFHuNAkYLG1WusQB1wHNIVm2tIed7LZSEpj7mPoCLVkfRo0opGOX4
+	 qw+Nvfp+eSBpOHuEhpPuzsuEhRtuI29DOn/H5yY5UDm5GMsxT8Y3DUrYAVnrOTzy2j
+	 F0bO9JcYT1vjE/JPysLLt+3cYSQwUnctap/qv9Ob1QpRo4MbnrV9f+Fkmzu3E1Hyqf
+	 i6YqXhl34iobw==
+Date: Thu, 10 Jul 2025 10:33:28 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: syzbot <syzbot+895c23f6917da440ed0d@syzkaller.appspotmail.com>, 
-	konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nilfs@vger.kernel.org, mjguzik@gmail.com, syzkaller-bugs@googlegroups.com, 
-	viro@zeniv.linux.org.uk, Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	ntfs3@lists.linux.dev, Dave Kleikamp <shaggy@kernel.org>, 
-	jfs-discussion@lists.sourceforge.net
-Subject: Re: [syzbot] [nilfs?] kernel BUG in may_open (2)
-Message-ID: <20250710-getrunken-fazit-74e068b05c16@brauner>
-References: <686d5a9f.050a0220.1ffab7.0015.GAE@google.com>
- <xrpmf6yj32iirfaumpbal6qxph7mkmgwtra7p4hpbvzozlp4zr@2bzl4p5ejgfj>
+To: Dave Chinner <david@fromorbit.com>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, 
+	Qu Wenruo <quwenruo.btrfs@gmx.com>, Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, ntfs3@lists.linux.dev, 
+	linux-xfs@vger.kernel.org
+Subject: Re: [PATCH v4 1/6] fs: enhance and rename shutdown() callback to
+ remove_bdev()
+Message-ID: <20250710-laufkundschaft-watscheln-2b1ea9ee4519@brauner>
+References: <cover.1751589725.git.wqu@suse.com>
+ <de25bbdb572c75df38b1002d3779bf19e3ad0ff6.1751589725.git.wqu@suse.com>
+ <aGxSHKeyldrR1Q0T@dread.disaster.area>
+ <dbd955f7-b9b4-402f-97bf-6b38f0c3237e@gmx.com>
+ <20250708004532.GA2672018@frogsfrogsfrogs>
+ <20250708-geahndet-rohmaterial-0419fd6a76b3@brauner>
+ <aG2i3qP01m-vmFVE@dread.disaster.area>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -47,52 +52,166 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <xrpmf6yj32iirfaumpbal6qxph7mkmgwtra7p4hpbvzozlp4zr@2bzl4p5ejgfj>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aG2i3qP01m-vmFVE@dread.disaster.area>
 
-On Wed, Jul 09, 2025 at 10:30:12AM +0200, Jan Kara wrote:
-> Hi!
+On Wed, Jul 09, 2025 at 08:59:42AM +1000, Dave Chinner wrote:
+> On Tue, Jul 08, 2025 at 09:55:14AM +0200, Christian Brauner wrote:
+> > On Mon, Jul 07, 2025 at 05:45:32PM -0700, Darrick J. Wong wrote:
+> > > On Tue, Jul 08, 2025 at 08:52:47AM +0930, Qu Wenruo wrote:
+> > > > 
+> > > > 
+> > > > 在 2025/7/8 08:32, Dave Chinner 写道:
+> > > > > On Fri, Jul 04, 2025 at 10:12:29AM +0930, Qu Wenruo wrote:
+> > > > > > Currently all the filesystems implementing the
+> > > > > > super_opearations::shutdown() callback can not afford losing a device.
+> > > > > > 
+> > > > > > Thus fs_bdev_mark_dead() will just call the shutdown() callback for the
+> > > > > > involved filesystem.
+> > > > > > 
+> > > > > > But it will no longer be the case, with multi-device filesystems like
+> > > > > > btrfs and bcachefs the filesystem can handle certain device loss without
+> > > > > > shutting down the whole filesystem.
+> > > > > > 
+> > > > > > To allow those multi-device filesystems to be integrated to use
+> > > > > > fs_holder_ops:
+> > > > > > 
+> > > > > > - Replace super_opearation::shutdown() with
+> > > > > >    super_opearations::remove_bdev()
+> > > > > >    To better describe when the callback is called.
+> > > > > 
+> > > > > This conflates cause with action.
+> > > > > 
+> > > > > The shutdown callout is an action that the filesystem must execute,
+> > > > > whilst "remove bdev" is a cause notification that might require an
+> > > > > action to be take.
+> > > > > 
+> > > > > Yes, the cause could be someone doing hot-unplug of the block
+> > > > > device, but it could also be something going wrong in software
+> > > > > layers below the filesystem. e.g. dm-thinp having an unrecoverable
+> > > > > corruption or ENOSPC errors.
+> > > > > 
+> > > > > We already have a "cause" notification: blk_holder_ops->mark_dead().
+> > > > > 
+> > > > > The generic fs action that is taken by this notification is
+> > > > > fs_bdev_mark_dead().  That action is to invalidate caches and shut
+> > > > > down the filesystem.
+> > > > > 
+> > > > > btrfs needs to do something different to a blk_holder_ops->mark_dead
+> > > > > notification. i.e. it needs an action that is different to
+> > > > > fs_bdev_mark_dead().
+> > > > > 
+> > > > > Indeed, this is how bcachefs already handles "single device
+> > > > > died" events for multi-device filesystems - see
+> > > > > bch2_fs_bdev_mark_dead().
+> > > > 
+> > > > I do not think it's the correct way to go, especially when there is already
+> > > > fs_holder_ops.
+> > > > 
+> > > > We're always going towards a more generic solution, other than letting the
+> > > > individual fs to do the same thing slightly differently.
+> > > 
+> > > On second thought -- it's weird that you'd flush the filesystem and
+> > > shrink the inode/dentry caches in a "your device went away" handler.
+> > > Fancy filesystems like bcachefs and btrfs would likely just shift IO to
+> > > a different bdev, right?  And there's no good reason to run shrinkers on
+> > > either of those fses, right?
+> > > 
+> > > > Yes, the naming is not perfect and mixing cause and action, but the end
+> > > > result is still a more generic and less duplicated code base.
+> > > 
+> > > I think dchinner makes a good point that if your filesystem can do
+> > > something clever on device removal, it should provide its own block
+> > > device holder ops instead of using fs_holder_ops.  I don't understand
+> > > why you need a "generic" solution for btrfs when it's not going to do
+> > > what the others do anyway.
+> > 
+> > I think letting filesystems implement their own holder ops should be
+> > avoided if we can. Christoph may chime in here. I have no appettite for
+> > exporting stuff like get_bdev_super() unless absolutely necessary. We
+> > tried to move all that handling into the VFS to eliminate a slew of
+> > deadlocks we detected and fixed. I have no appetite to repeat that
+> > cycle.
 > 
-> On Tue 08-07-25 10:51:27, syzbot wrote:
-> > syzbot found the following issue on:
-> > 
-> > HEAD commit:    d7b8f8e20813 Linux 6.16-rc5
-> > git tree:       upstream
-> > console+strace: https://syzkaller.appspot.com/x/log.txt?x=107e728c580000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=72aa0474e3c3b9ac
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=895c23f6917da440ed0d
-> > compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11305582580000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10952bd4580000
-> > 
-> > Downloadable assets:
-> > disk image: https://storage.googleapis.com/syzbot-assets/605b3edeb031/disk-d7b8f8e2.raw.xz
-> > vmlinux: https://storage.googleapis.com/syzbot-assets/a3cb6f3ea4a9/vmlinux-d7b8f8e2.xz
-> > kernel image: https://storage.googleapis.com/syzbot-assets/cd9e0c6a9926/bzImage-d7b8f8e2.xz
-> > mounted in repro: https://storage.googleapis.com/syzbot-assets/2a7ab270a8da/mount_0.gz
-> > 
-> > The issue was bisected to:
-> > 
-> > commit af153bb63a336a7ca0d9c8ef4ca98119c5020030
-> > Author: Mateusz Guzik <mjguzik@gmail.com>
-> > Date:   Sun Feb 9 18:55:21 2025 +0000
-> > 
-> >     vfs: catch invalid modes in may_open()
-> > 
-> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17f94a8c580000
-> > final oops:     https://syzkaller.appspot.com/x/report.txt?x=14054a8c580000
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=10054a8c580000
-> > 
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+895c23f6917da440ed0d@syzkaller.appspotmail.com
-> > Fixes: af153bb63a33 ("vfs: catch invalid modes in may_open()")
-> > 
-> > VFS_BUG_ON_INODE(!IS_ANON_FILE(inode)) encountered for inode ffff8880724735b8
+> Except it isn't actually necessary.
 > 
-> FWIW the reproducer just mounts a filesystem image and opens a file there
-> which crashes because the inode type is invalid. Which suggests there's
-> insufficient validation of inode metadata (in particular the inode mode)
-> being loaded from the disk... There are reproducers in the syzbot dashboard
-> for nilfs2, ntfs3, isofs, jfs. I'll take care of isofs, added other
-> filesystem maintainers to CC.
+> Everyone here seems to be assuming that the filesystem *must* take
+> an active superblock reference to process a device removal event,
+> and that is *simply not true*.
+> 
+> bcachefs does not use get_bdev_super() or an active superblock
+> reference to process ->mark_dead events.
+> 
+> It has it's own internal reference counting on the struct bch_fs
+> attached to the bdev that ensures the filesystem structures can't go
+> away whilst ->mark_dead is being processed.  i.e. bcachefs is only
+> dependent on the bdev->bd_holder_lock() being held when
+> ->mark_dead() is called and does not rely on the VFS for anything.
+> 
+> This means that device removal processing can be performed
+> without global filesystem/VFS locks needing to be held. Hence issues
+> like re-entrancy deadlocks when there are concurrent/cascading
+> device failures (e.g. a HBA dies, taking out multiple devices
+> simultaneously) are completely avoided...
+> 
+> It also avoids the problem of ->mark_dead events being generated
+> from a context that holds filesystem/vfs locks and then deadlocking
+> waiting for those locks to be released.
+> 
+> IOWs, a multi-device filesystem should really be implementing
+> ->mark_dead itself, and should not be depending on being able to
+> lock the superblock to take an active reference to it.
+> 
+> It should be pretty clear that these are not issues that the generic
+> filesystem ->mark_dead implementation should be trying to
+> handle.....
+> 
+> > The shutdown method is implemented only by block-based filesystems and
+> > arguably shutdown was always a misnomer because it assumed that the
+> > filesystem needs to actually shut down when it is called.
+> 
+> Shutdown was not -assumed- as the operation that needed to be
+> performed. That was the feature that was *required* to fix
+> filesystem level problems that occur when the device underneath it
+> disappears.
+> 
+> ->mark_dead() is the abstract filesystem notification from the block
+> device, fs_bdfev_mark_dead() is the -generic implementation- of the
+> functionality required by single block device filesystems. Part of
+> that functionality is shutting down the filesystem because it can
+> *no longer function without a backing device*.
+> 
+> multi-block device filesystems require compeltely different
+> implementations, and we already have one that -does not use active
+> superblock references-. IOWs, even if we add ->remove_bdev(sb)
+> callout, bcachefs will continue to use ->mark_dead() because low
+> level filesystem device management isn't (and shouldn't be!)
+> dependent on high level VFS structure reference counting....
+> 
+> > IOW, we made
+> > it so that it is a call to action but that doesn't have to be the case.
+> > Calling it ->remove_bdev() is imo the correct thing because it gives
+> > block based filesystem the ability to handle device events how they see
+> > fit.
+> 
+> And that's exactly what ->mark_dead already provides. 
+> 
+> And, as I've pointed out above, multi-device filesystems don't
+> actually need actively referenced superblocks to process device
+> removal notifications. Hence ->mark_dead is the correct interface
+> for them to use.
 
-I'm certainly happy to have added that assert.
+I'm not sure what this is trying to argue about as we agree.
+
+All current filesystems that use the fs_holder_ops require an active
+superblock reference. If they want to rewrite themselves to not need an
+active superblock reference and switch to custom holder ops then the VFS
+doesn't care.
+
+This is about what is currently the case. Everyone is aware that a
+filesystem can do this differently.
+
+If btrfs wants to rely on the VFS infrastructure then we will enable it
+and we will help them move along and the only requirement is that we
+don't have to bleed the VFS locking requirements into the specific
+filesystem unnecessarily. That's all this is.
