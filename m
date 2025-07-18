@@ -1,87 +1,67 @@
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28214BA27;
-	Thu, 17 Jul 2025 03:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCB5D517;
+	Fri, 18 Jul 2025 19:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752722312; cv=none; b=s/uUdj92rsKRA+/MmpyKqsyBhjStT2kwGNCSIEXIr6skZjHXErPPhoOjXsN4zVDHd6YFB30qc4wjrurP2RFBQd1beyd0snnLKNWnyIr9VC7HHkni+7mVAdQV0B0mCQoJ3J01w3A3plsB4bdQMwYqLtBqGj+zIXOubW94b9PEQVk=
+	t=1752868445; cv=none; b=paH5nVZ9MUfwU7jmxS7FR1gbvImZo9MyOabUmUn4TnePFTQucGMbPHYdUkF26mspJMlq2Yrq6ZuEY4ANTFuYMvUErjEx3NcJdnRov/lRYdYWyVLDpEcFIIKFd9MvUjEbBkl28gkczq33IfvaHrpciab8bZY9NmRbVr6i12rGlaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752722312; c=relaxed/simple;
-	bh=7Aw2cRMv/h7kGSk8iIlN78MnpE9Mt/7y9nLg/a91z2I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WTBJ9s1YtsTmx2dKTV50jGa14d3AGQqwH06tpwC0yBW5GAJ2dmSiJlEPA/xCWL3BJKafN939BPJwd2W4r4/3zZUY4/PVgdhrmETbdcs5fG9E9J0VXeqF2CvjQbKlELN1HHao/4tJvZAdvZGNozhOqMSXvRqMkvW1wh82LH6jxrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=N2KlNCfU; arc=none smtp.client-ip=115.124.30.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1752868445; c=relaxed/simple;
+	bh=NBVvxfQU2UF5Ri4RW1U5k96OfhJ9HCekTHFhmOI0pqo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fcdcoacFRAA3FUCX6R62Ckiew4B4kktrOFl+wp6J/jWo73UutEwSRWyk0DF4iDKwGyINjQM65ljJ8yR3SDhV1zGRrUdMuZkX+ABh39C65Ya6qjDnhvqgiLzPCtMO4WI8UGSwBH9Z5nnH40AhEnGWac2cbdpkewwz6+WxHWqWNUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fWvbX5LP; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="N2KlNCfU"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1752722301; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=4gUaF7R4/EBDJfRjJRTdp0icwbrWb7f2nyKt3jMgey4=;
-	b=N2KlNCfULoPaHg2HsLHiXH7o7NBbs4UlhRpN5jU97WfU57/CWeL8g+QEBMDJD7adoqakPuz1cBfa4p7QU6tcTL1yTRAFWuPVhM2kuo0nuShAxq1K5X3cEkkl710FHkmlb9m8rUTwIDz+mM1gwaPO05l7ca4i/xvFRST4A58qZl8=
-Received: from 30.221.131.143(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0Wj6YBs9_1752722299 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 17 Jul 2025 11:18:20 +0800
-Message-ID: <51c92913-6176-4516-8b14-bd12e2a85697@linux.alibaba.com>
-Date: Thu, 17 Jul 2025 11:18:18 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fWvbX5LP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=DmhGbX3NcSp6znFOezRVw58iMq/M4scFjSJ0/rPL7xw=; b=fWvbX5LPjgmVsph3ARZGVZmBFR
+	hT0bfKBkJD5+gnWruWXfXUT7EG1fjHYzmuMBbaOQ54BQps2NYzU9SHnDvpTkXKuL7ItRnRQ+5Chhb
+	sutyn2WuvQ77/hOEn1dICmzDy/KUgfjlMfPNHDGJkLctgOldwyPJOO4RMJAbiF4VLk6PrhqA5CT1K
+	I3Ji//jKcPFjPrFgljmfKzBlC9BrFlz/4KedEsLzT/xxKWdk4AFAwYlEZeR/7GZucgbtV7yvh6GPf
+	cLF7ZmUuHywCt6EfchzTMmjSa28eg+IeOTqMCEDPyexv0OTlKr8diD7eYoWXjWZz6ePQfaNpTYstt
+	EfLcroLg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ucr9d-00000008FTN-49RW;
+	Fri, 18 Jul 2025 19:54:02 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH 0/3] Compression fixes for ntfs3
+Date: Fri, 18 Jul 2025 20:53:55 +0100
+Message-ID: <20250718195400.1966070-1-willy@infradead.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Compressed files & the page cache
-To: Eric Biggers <ebiggers@kernel.org>,
- Phillip Lougher <phillip@squashfs.org.uk>
-Cc: Matthew Wilcox <willy@infradead.org>, Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
- linux-btrfs@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
- Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
- linux-erofs@lists.ozlabs.org, Jaegeuk Kim <jaegeuk@kernel.org>,
- linux-f2fs-devel@lists.sourceforge.net, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
- Richard Weinberger <richard@nod.at>, linux-mtd@lists.infradead.org,
- David Howells <dhowells@redhat.com>, netfs@lists.linux.dev,
- Paulo Alcantara <pc@manguebit.org>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- ntfs3@lists.linux.dev, Steve French <sfrench@samba.org>,
- linux-cifs@vger.kernel.org
-References: <aHa8ylTh0DGEQklt@casper.infradead.org>
- <f4b9faf9-8efd-4396-b080-e712025825ab@squashfs.org.uk>
- <20250717024903.GA1288@sol>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <20250717024903.GA1288@sol>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Hi Konstantin,
 
+I found three problems with the NTFS (de)compression code.  The
+first two are simple inefficiencies; there's no need to kmap these
+pages.  The third looks like a potential data corruption (description
+in the patch).  I've marked the third one for backport.
 
-On 2025/7/17 10:49, Eric Biggers wrote:
-> On Wed, Jul 16, 2025 at 11:37:28PM +0100, Phillip Lougher wrote:
+I haven't tested any of this; it could be that my analysis is wrong.
 
-...
+Matthew Wilcox (Oracle) (3):
+  ntfs: Do not kmap pages used for reading from disk
+  ntfs: Do not kmap page cache pages for compression
+  ntfs: Do not overwrite uptodate pages
 
-> buffer.  I suspect that vmap() (or vm_map_ram() which is what f2fs uses)
-> is actually more efficient than these streaming APIs, since it avoids
-> the internal copy.  But it would need to be measured.
+ fs/ntfs3/frecord.c | 50 +++++++++++++++++++++++++++-------------------
+ 1 file changed, 29 insertions(+), 21 deletions(-)
 
-Of course vm_map_ram() (that is what erofs relies on first for
-decompression in tree since 2018, then the f2fs one) will be
-efficient for decompression and avoid polluting unnecessary
-caching (considering typical PIPT or VIPT.)
+-- 
+2.47.2
 
-Especially for large compressed extents such as 1MiB, another
-memcpy() will cause much extra overhead over lz4.
-
-But as for gzip, xz and zstd, they just implement internal lz77
-dictionaries then memcpy for streaming APIs.  Since those
-algorithms are relatively slow (for example Zstd still relies
-on Huffman and FSE), I don't think it causes much difference
-to avoid memcpy() in the whole I/O path (because Huffman tree
-and FSE table are already slow), but lz4 matters.
-
-Thanks,
-Gao Xiang
