@@ -1,97 +1,124 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326341DEFF5;
-	Fri, 18 Jul 2025 19:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69810126C03;
+	Mon, 21 Jul 2025 00:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752868448; cv=none; b=jrwbN5NOgf/Sa1ZUnQrHxHaFm3WL1PmmQr735jiuxtRQOhOs5njNAc5FTOyUs6z3f9UwiMQT5QYxzvMyFgjsIJ759MYUId4d7i2lKDG9BwTjvheLTiDMmjdVm+YI8pUY1O2pAWXAOBvWAH2QN48FGs6JM2X8bjSTBEqNGI/QrF0=
+	t=1753058645; cv=none; b=Z/Gh3HlMVOp3LUHOsq7wbwqJCxdSrPILXsV1MSZkX7kKulkDhrGSShZMV4IIWACfwhtQ2Dg3nyea2RkTXkQYB/xNkmnhDQ7SKI5nJCs52mEDSAgHb89NDeEqxCJ1rUlzR+TVL64AtvYQV56YlR5AISj6/Rt9INP4odeRdWC4vDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752868448; c=relaxed/simple;
-	bh=G909SxDe/q2RSmFJXU4N0BMvJWcUhkpfyYQ/oKFwIds=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rfKzOa+Rn9TFX11SKyeWR810PCMVQD2viOBBLMGaFo+Iw9huT6rtQW5W49XyIhMl8mPUXw6V6ChP78Jj4CbdcCRaVe6Wo1P/778yrE1zkEQNShNmFuCahRjCMbKR5JpNzBO1lRA5bag/tZT/1Ss7ongvWr2QeWaA6Nazqsd+FTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DQy2+nnM; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1753058645; c=relaxed/simple;
+	bh=sZh7nAa2H+zz6Rw4iCplFxXECYnUeug3lpaO6Yshh1g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Qz00Wclb4UkaU6D8od1fwIH9l4kQbtb4WRQ03YBR4Ztgv8LUlr2zyWEubecSdTp3YJzeMXRKkCA22WZVu4pQ4z5H84G3p1cqI8YXrQCWyaKwc2SGVJE8+BugKWaWX19Vc/BY07w5+uIqwhJuNDFNYHhQ8FMAiTWcR3RY7Ut+pFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WOM0Hxbs; arc=none smtp.client-ip=209.85.222.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DQy2+nnM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=5kLQ1rhcnSMcdti8qPcprWTeCZwAKX+lye7SqJvGDAs=; b=DQy2+nnMvoFRgrnwDHf+AIm5K9
-	W2Es0EYklAK1Qr653+WCZ3cylY2ovpgnfrXK8x9Pj1GQGZRhF1YooTZibS2mk+gJ+OycrIhbBgYbv
-	6/CRNoaSpvJ12CuirfBiMc0f89Z9qyTz1DAasuC5IvtboXL7KWONM+7qn5ZGc1QzI506ay63KoGSO
-	1zsu8eCpBFUtwk6lWWjOqMIFOhO1jUCUVvQ/yyfHBGMTku2TLJGKA3Qh1woaE49XkKwjPXQgy/Gpm
-	h9V4xtj28OyvYqMmmb8NMHy5Jm4w1iPnuI97nTrn4SFSFcRCNI2Z4anEBkfGdfRluWuWEs2izhSpT
-	mYn8z9eg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ucr9e-00000008FTP-0HwR;
-	Fri, 18 Jul 2025 19:54:02 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	ntfs3@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 1/3] ntfs: Do not kmap pages used for reading from disk
-Date: Fri, 18 Jul 2025 20:53:56 +0100
-Message-ID: <20250718195400.1966070-2-willy@infradead.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250718195400.1966070-1-willy@infradead.org>
-References: <20250718195400.1966070-1-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WOM0Hxbs"
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-87f2ba094dcso1786468241.3;
+        Sun, 20 Jul 2025 17:44:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753058643; x=1753663443; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CtTXofz3YZU8ZHZgSXsRm5LIUyeVOephgcfaxbmgBHg=;
+        b=WOM0HxbsCLbhRIcryhHxjGqnWWV1+mkbFQ5h5TNB1jZ6rqyQpFBLFY92QOyHh81tQt
+         0MRjtdzi32bKVlBWlX7J/2DtC6ETLK4cuu/GYZzq0423ZhwtbloBmZdlAb1RxiWT5Iki
+         KYKHCkdZ2PL6DOUtug2OcS7MRyaetRjbG5o9aCLFjGlAiaJs2jb7HA+gX4wWQWJNMFhm
+         XRGWRmbp8g/uAGbmBu9TUYaFSd2rQNFwD+fYAK8NCh1BuE1QVYfLuTZYI8J80Zt28RK9
+         K1oXay39QA5AGuyrMfMrhsBVqgbtACCorLZMaqkWE+qL9VhIxzexHz5lCCn4rla5bajC
+         ktyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753058643; x=1753663443;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CtTXofz3YZU8ZHZgSXsRm5LIUyeVOephgcfaxbmgBHg=;
+        b=vLK20oh4a/wscGHccFi8KJ0k6bQHd0Whxhwh3HlDxmUxT+VYPjUDiE5q7eHh7Cjc6J
+         pHUDdrkle3sk+gJTwhLhJZdVvCCHf3OprfX8VRqK3p6g54/JbBIps+lGh1YwbGvfal59
+         6CPOPEh5Lafz9KK9fL6GEKPYSwg+o2MdKVJ4jHTHdx7izoh/DRfzE9NTSgH3pqXfsc5t
+         QUfEHFZcg5gZnZoaDEe6ggw6lqrxGxBKNAH+36Hm12pZidhcmHmhbsJMKTSoj0bY3+lf
+         e+4zjyBUWuYlPm1sEDkTgltU3JC6SLxKw6iNHvSYkSymaDB2w85PcV/HhlzvlkLBxZGU
+         q9AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWrs9R2NN294PARjmVJg8gXVkzwcr3+etsTM5zOlq7GCF9iwfnC1BKzQCElirDNJSvARCyjHAE=@lists.linux.dev, AJvYcCXhLHFCoPqN8mk1LnKMWk6mscXq5dsR1IipKZ67I3NYgWH6CVkSdX+1xan6ZIHnWBdiGq/uNw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwX1+2pua81hmX3rf39LzMgCByk8QRNFYHgFkkSvoVs4waoVh7c
+	zJ06gJ5R5w5dJXvxY2hJCVOmr/2otDVrAmidwR1u0WIW5uaNVFXe2zPJMQqfnZLDyQaRPLVfx46
+	dtV6IliEK0nbgW4/1mnd+CgiCqxuXR/s=
+X-Gm-Gg: ASbGncsX8/5DqsRTwVqoNVLz2zpUZAS40JuBlocYB2XJVTfdTZDIcLXCB56BNWnjbIx
+	mbbYrTZsDlD241lQ87t4hiN9sGHoyzYaQ9lguCjimvW9JoQGp7hkP/G6scIpmJ15HAqkjUK7Cj0
+	X6el1MMYJwzKOjMv06MelzvvoXQS8JivCi0bIMygnCnWeViD7h12pYmVEUyosFmY+N4FmvQcgJF
+	89ctU4=
+X-Google-Smtp-Source: AGHT+IGFRYyrS35WTP3i9Qe8TXmZslY6x6nCRq1gIJA/O9dosgodOs3uPYD7WXYU49lcEb5mCGS05wblqRqGVV/3QiI=
+X-Received: by 2002:a05:6102:6316:10b0:4f9:6a91:cc95 with SMTP id
+ ada2fe7eead31-4f96a91cec6mr5610145137.27.1753058643165; Sun, 20 Jul 2025
+ 17:44:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <aHa8ylTh0DGEQklt@casper.infradead.org> <e5165052-ead3-47f4-88f6-84eb23dc34df@linux.alibaba.com>
+In-Reply-To: <e5165052-ead3-47f4-88f6-84eb23dc34df@linux.alibaba.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Mon, 21 Jul 2025 08:43:51 +0800
+X-Gm-Features: Ac12FXzyFbI4GjwypQZFYPLAZaBnNxcXr0fPPaJY0y3WB9_zSNUgD719YOscIeg
+Message-ID: <CAGsJ_4wOeBwm2=1CbtZk+gHXe0wVyAYZuV-RZcV-wXe4Rj+h7g@mail.gmail.com>
+Subject: Re: Compressed files & the page cache
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
+	David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org, 
+	Nicolas Pitre <nico@fluxnic.net>, Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
+	linux-erofs@lists.ozlabs.org, Jaegeuk Kim <jaegeuk@kernel.org>, 
+	linux-f2fs-devel@lists.sourceforge.net, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>, 
+	Richard Weinberger <richard@nod.at>, linux-mtd@lists.infradead.org, 
+	David Howells <dhowells@redhat.com>, netfs@lists.linux.dev, 
+	Paulo Alcantara <pc@manguebit.org>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev, 
+	Steve French <sfrench@samba.org>, linux-cifs@vger.kernel.org, 
+	Phillip Lougher <phillip@squashfs.org.uk>, Hailong Liu <hailong.liu@oppo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-These pages are accessed through DMA and vmap; they are not accessed
-by calling page_address(), so they do not need to be kmapped.
+On Wed, Jul 16, 2025 at 7:32=E2=80=AFAM Gao Xiang <hsiangkao@linux.alibaba.=
+com> wrote:
+[...]
+>
+> I don't see this will work for EROFS because EROFS always supports
+> variable uncompressed extent lengths and that will break typical
+> EROFS use cases and on-disk formats.
+>
+> Other thing is that large order folios (physical consecutive) will
+> caused "increase the latency on UX task with filemap_fault()"
+> because of high-order direct reclaims, see:
+> https://android-review.googlesource.com/c/kernel/common/+/3692333
+> so EROFS will not set min-order and always support order-0 folios.
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- fs/ntfs3/frecord.c | 4 ----
- 1 file changed, 4 deletions(-)
+Regarding Hailong's Android hook, it's essentially a complaint about
+the GFP mask used to allocate large folios for files. I'm wondering
+why the page cache hasn't adopted the same approach that's used for
+anon large folios:
 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 37826288fbb0..c41968fcab00 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -2590,7 +2590,6 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
- 		}
- 		pages_disk[i] = pg;
- 		lock_page(pg);
--		kmap(pg);
- 	}
- 
- 	/* Read 'ondisk_size' bytes from disk. */
-@@ -2640,7 +2639,6 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
- 	for (i = 0; i < npages_disk; i++) {
- 		pg = pages_disk[i];
- 		if (pg) {
--			kunmap(pg);
- 			unlock_page(pg);
- 			put_page(pg);
- 		}
-@@ -2735,7 +2733,6 @@ int ni_write_frame(struct ntfs_inode *ni, struct page **pages,
- 		}
- 		pages_disk[i] = pg;
- 		lock_page(pg);
--		kmap(pg);
- 	}
- 
- 	/* To simplify compress algorithm do vmap for source and target pages. */
-@@ -2823,7 +2820,6 @@ int ni_write_frame(struct ntfs_inode *ni, struct page **pages,
- 	for (i = 0; i < pages_per_frame; i++) {
- 		pg = pages_disk[i];
- 		if (pg) {
--			kunmap(pg);
- 			unlock_page(pg);
- 			put_page(pg);
- 		}
--- 
-2.47.2
+    gfp =3D vma_thp_gfp_mask(vma);
 
+Another concern might be that the allocation order is too large,
+which could lead to memory fragmentation and waste. Ideally, we'd
+have "small" large folios=E2=80=94say, with order <=3D 4=E2=80=94to strike =
+a better
+balance.
+
+>
+> I think EROFS will not use this new approach, vmap() interface is
+> always the case for us.
+>
+> Thanks,
+> Gao Xiang
+>
+> >
+>
+
+Thanks
+Barry
