@@ -1,156 +1,127 @@
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AAB228B4EB;
-	Tue, 22 Jul 2025 03:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94AF19D082;
+	Tue, 22 Jul 2025 17:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753156468; cv=none; b=AUDCJYr/57FX1KxfPHqQXlQbjEChuqm30AdFfAnuaDYwbL/d52Zq4LqgNhF6GhDJm4eVM3AWSbRTXzhomhx0b2TYD4VA7D7iVphpt7YP1MnPezIQmiiEphN1XVt8VpE3j5vS/4KC6QpAsGX7zRgU3iarsC+29FWDKRmt+zd0Kd4=
+	t=1753206049; cv=none; b=E/ji8Pk0Woqw80JZ4NO2q1P2Z2olU8jLKVUeYPni/Ptf9kMx5X8avm1Y26sYPAxaaGgAlqMeX3fRG42R+9yYYEkptH0eNWIjvyVjIwIGrkP15UaojTJXt53tQzhKiuWXQkhcvCt1N3rgiOiub3NmcvJfj838ApyoSkmu31f/2K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753156468; c=relaxed/simple;
-	bh=pMF5pqseEWjPYxGMLMeAr2jDTsuh1B1VIVqreXIt6BU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GiRQ87qDB9IBgEgXadOap6MiVXPOdNFrlbU5HaSfCM4/ioKVtLzBH7P4Ry0X8DtbwwJRO+GCjvif9+j+zYNWTMn5k1AzrlrgHaJTnVWbsNijw4x46e4SodABAGsw4C9J90CudwbXBaSR19ywUhQGIT98PlxK6MLrkHDon1EcFYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FKW1ZuR9; arc=none smtp.client-ip=209.85.221.175
+	s=arc-20240116; t=1753206049; c=relaxed/simple;
+	bh=WovQaQ9PikrY5uLmVbsHl3tpSSKbTT19zMVimO8nhF8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m5MDeK27cCQN9ryFWvB2Qf5Jw2I+9+bqdMvTWAfWWxBDUTYnxR6A8I/rxs8mbmsRGNBgn7gxoR90HmiYmVTRx0hCbp2LKOHvQsLeoCcRLexr+5Q9Ydjs9DdVMR2UunE1pXBxGdULo+8H/3kQguVaeYfP0WsVpgQ9p10zVtlEFj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nSCaMbhU; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FKW1ZuR9"
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5313eff2649so1307254e0c.0;
-        Mon, 21 Jul 2025 20:54:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nSCaMbhU"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-748e63d4b05so3491634b3a.2;
+        Tue, 22 Jul 2025 10:40:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753156466; x=1753761266; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sAAlykKu642VPrQqfIgQ/sSqAoZceoQZhIURS8zROzA=;
-        b=FKW1ZuR9naSLEfJYdZnKcd+H4gEeM7Jie+NLvD8Wt14Yftpi1XzplOY6BS8zR5TqM8
-         CU7aeQHPS1L/gkSh93x3nyzEkIYJc9ZQtziWpvifwtkuC4JYa4eMtQYbKDkdhJU7cKtb
-         FghvX9q6OTD2IUWQHAf4NpmKpfa+3JT8uw+MW4UHQ+FDk10n822gUuKAqukmxrKcb96R
-         cmnYeLaq9WqtYyChl9Hld/qptp2jtAnyjfL3fVLOMpNLvDPMdtUMZE4SFYT0AmN0ckbA
-         nyuaQl3Sv8z9EZ/rq8eSt0meeTdhQt6hjz4PePfAvZOx+TEyvT/wA6tDN9w2gcJEJDdW
-         hgqQ==
+        d=gmail.com; s=20230601; t=1753206046; x=1753810846; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3nTeLrKufhqWMbv8ZxgNZNY3CTIL94aICMXLX0urdhU=;
+        b=nSCaMbhUyboWETq2vonAsL7VtC1JdMpPcrdYRNnb28YzsFkcMtCuSMKmBjeJtaIZuL
+         sw7TZIwqbMP0y+kJfoRpw2o32g7iGjDY4xHYkzxi+mn2KtioL6lhVNDo8ISTun4LepES
+         sAiov/4jlR8Q3r7BFp88nwIfwtaU8/l+kZJjLsjmXLzUy8W0cZn8MLKUGEs7N9JGqQjy
+         2CDWqfYCa6o417d1mjUMooTcBm66dGYeyOLEaDDQPnTCLwIHpXy/LmM9w+xssvCP4Upa
+         hUOuS3w0tWkSFGCwM0xCrAsrsMuTzrndz1UjCZoWolIDaiur+mBHtM9astwtosyNTyhg
+         5maw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753156466; x=1753761266;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sAAlykKu642VPrQqfIgQ/sSqAoZceoQZhIURS8zROzA=;
-        b=RVdBkD8BLwEE2NvYnrCe3WwjmPWjU+JltKLutZwaHC07UYbFROH+d9lkz1ZV87C6bE
-         IpXf+nIfBikYaDkFiIka4KIqJvAxGlI+B2VirhOK6TW9tt8uSXxC7dNBo04TIpEhny6v
-         XrTXXwTkIXkNWqsff9c9hRHLGHUu+qyqmAjkw4uYky+so7SPlh+03nn2idJsUfRjlXPx
-         kP8GnBuM7m9JKwjcKsWb9PWGSvoLrb5qufrGz2uXXKCGc48dCEZXhm5OD93LCaCO7Y1j
-         06g5PrkCOmzstrhQfBiU8SO+Mh3ylAS6uDNFZfHI89AidiQZ6CNPLny+qzYyxVsHc9Gc
-         dpNw==
-X-Forwarded-Encrypted: i=1; AJvYcCUSyv1YKbP6WZdiYX66InnrE350X8UQXE885ha09tUGjevKYf6X3jhSYRb463xBN6/4lT9WEf0=@lists.linux.dev, AJvYcCVHRrYEnt8iy1ugvmkZt2dHGxpaXoZOJHQBs9nDw2EDeiDSeOocyRUUhGV+Ps4dJmWhZXldzA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRsI90hWZSEHxbX2YyEreiOfcZ7xlg83njkXmmj0X3dMnj9TsQ
-	AHay4lIzfANEf717mBeZg0r4V8KELxrhOjJ1Gn/cjwo1sgADHGsfF1fea4Zez826h8Ze9lXwlmH
-	cNblFlIFwapuR57YIlNDmFZFSiBUN7dE=
-X-Gm-Gg: ASbGncuJ6DNF21WJlw9f0IwtxjmxbY9qHY4aDYV5AKDRDyjUhK+vnRBBYa5bGhSlJhA
-	oXXI0R+/rKlFEyq4dgaEjOJemP73gV3Tkytp3wVWTKR0q/8T9GkRhVGw7xv0n0G784JZKnfpVjr
-	GH2d4w+yYyR+KH1YP1tGK2b054Z39NopD8Y7OVqfS3ZrTAUbuKnbg4lO+V/mnhQLcfbhDpr0p+C
-	nGWq3w=
-X-Google-Smtp-Source: AGHT+IFdEM3sDnKSU7djtnY2X77gIkWr33PBhDuXfdQIDGEOAUgRW6b8nyrGT5SpWkQFjiRSNtgM+8Lmi+axf63N/6M=
-X-Received: by 2002:a05:6122:4d0f:b0:531:236f:1295 with SMTP id
- 71dfb90a1353d-5373fbda52dmr10043238e0c.5.1753156466033; Mon, 21 Jul 2025
- 20:54:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753206046; x=1753810846;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3nTeLrKufhqWMbv8ZxgNZNY3CTIL94aICMXLX0urdhU=;
+        b=Q4W7Gsmwy0KSmSiMByJa7t7DAedfAN54Oe8+x7Z3l6/CZ5CQWoAMGdVEz7KBRQlGc7
+         9iUheyTevKwATqxflsebYRRKtaKz1im9Hubbd/BH+pzoY05gJO2D27HWJf/xB1Zhoynh
+         HFQeFp7/NOGnESl65kY5GA0JQuzYO4RoXi0rdJp9UUsZiYxYKg67EcbyweeOZJQ0f3k4
+         vN6MZPWAqqMgnu06aU89U/PkjaOPwYHAWnU4lzrglxOiYgxOJNm0GF4Lw/F6AgZEYwQe
+         o+ltf9/8tKK4i1AY4A+ZarCIZbgNtUh1bR+5ayveGsLSDGT/MU8beOeCbZaU/aS38NxX
+         UpYw==
+X-Forwarded-Encrypted: i=1; AJvYcCVcVywa5R7lgGZTQ868/QRu+quTifMzuaPQwy4A8Dnm/WA1QD6Ww4W9ZcZpJK5zAEOHly8Wa5wDAWy/yyRX6CPzPHRxRA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yww8yoqTAjPNDNwlJ6mBgvY8aPKw3ofeUAwfkU8CmYYchHDE0rX
+	wmYTFzT3Stg+NVdEsBfvbj5WsSt7f/VvHAsIh+WZgpeCkVxEUqrVkMJg
+X-Gm-Gg: ASbGncs+fQUe28Wl7BGrmuD+iPtQ572UpFkgT14KfIojZAe2MB5RWUNHYG0xUxdmifT
+	6p9pGivOZFIzu2nTIs2yxeh0Ih9aHR9Dk1dhUtzAkaUKanGYU6ILjPl3v/pnUJfgUe9OlCDEql0
+	V+ceT+eslqKpOhNbk5ZAtP6ZpDX+VeRIl3PnxDn6YhzS8ePdaJQeHgtpFRV7LtGvHE4iCrxEWRq
+	IHHCUO1oV/2zoKu2VQrXkfdxmdqOBYnh13fEkOQzosuB8MGoQTQc0HNgKaWL+E0BXqiJ2mmDyT2
+	ZTp4weZbR6/SH53OTvoeQZSDIK5hoR54V+vTH+HGNuJl+Qs/I/jBugQUnH/IwQ7+585nwDewJqk
+	7A+zs9MlVsNCYpnFxhkWuf5TgMvVix1CP+a7se5f54d2aiY1ygAHz9hkYt63z5137ZetGWRYOX8
+	XXx8xI
+X-Google-Smtp-Source: AGHT+IHXofxaXAuzCTLZ52xYH7I3ZxslIzIjmJnqbJ8FLMUIdSLObu7TSKc0W/EqY0JYX1uN7V/HHg==
+X-Received: by 2002:a05:6a21:6da3:b0:232:5977:bbfc with SMTP id adf61e73a8af0-2381225eb60mr44715347637.10.1753206046007;
+        Tue, 22 Jul 2025 10:40:46 -0700 (PDT)
+Received: from p920.moonheelee.internal (d173-180-147-14.bchsia.telus.net. [173.180.147.14])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759c84e2706sm7936159b3a.31.2025.07.22.10.40.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jul 2025 10:40:45 -0700 (PDT)
+From: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com,
+	Moon Hee Lee <moonhee.lee.ca@gmail.com>
+Subject: [PATCH RESEND] fs/ntfs3: reject index allocation if $BITMAP is empty but blocks exist
+Date: Tue, 22 Jul 2025 10:40:16 -0700
+Message-ID: <20250722174015.274146-2-moonhee.lee.ca@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <aHa8ylTh0DGEQklt@casper.infradead.org> <e5165052-ead3-47f4-88f6-84eb23dc34df@linux.alibaba.com>
- <b61c4b7f-4bb1-4551-91ba-a0e0ffd19e75@linux.alibaba.com> <CAGsJ_4xJjwsvMpeBV-QZFoSznqhiNSFtJu9k6da_T-T-a6VwNw@mail.gmail.com>
- <7ea73f49-df4b-4f88-8b23-c917b4a9bd8a@linux.alibaba.com> <z2ule3ilnnpoevo5mvt3intvjtuyud7vg3pbfauon47fhr4owa@giaehpbie4a5>
- <85946346-8bfd-4164-a49d-594b4a158588@gmx.com>
-In-Reply-To: <85946346-8bfd-4164-a49d-594b4a158588@gmx.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Tue, 22 Jul 2025 11:54:14 +0800
-X-Gm-Features: Ac12FXykbYYT14P53wpCeHJw2yoMEcQU-j3E43IYKsTdPACdf43QFDrlblVigVM
-Message-ID: <CAGsJ_4ySQFzSbXZzecH9oy53KFpVsoaqXThPiJxfYUJF3_Y+Hg@mail.gmail.com>
-Subject: Re: Compressed files & the page cache
-To: Qu Wenruo <quwenruo.btrfs@gmx.com>
-Cc: Jan Kara <jack@suse.cz>, Gao Xiang <hsiangkao@linux.alibaba.com>, 
-	Matthew Wilcox <willy@infradead.org>, Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
-	David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org, 
-	Nicolas Pitre <nico@fluxnic.net>, Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
-	linux-erofs@lists.ozlabs.org, Jaegeuk Kim <jaegeuk@kernel.org>, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, 
-	David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, linux-mtd@lists.infradead.org, 
-	David Howells <dhowells@redhat.com>, netfs@lists.linux.dev, 
-	Paulo Alcantara <pc@manguebit.org>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev, 
-	Steve French <sfrench@samba.org>, linux-cifs@vger.kernel.org, 
-	Phillip Lougher <phillip@squashfs.org.uk>, Hailong Liu <hailong.liu@oppo.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 21, 2025 at 7:37=E2=80=AFPM Qu Wenruo <quwenruo.btrfs@gmx.com> =
-wrote:
->
->
->
-> =E5=9C=A8 2025/7/21 19:55, Jan Kara =E5=86=99=E9=81=93:
-> > On Mon 21-07-25 11:14:02, Gao Xiang wrote:
-> >> Hi Barry,
-> >>
-> >> On 2025/7/21 09:02, Barry Song wrote:
-> >>> On Wed, Jul 16, 2025 at 8:28=E2=80=AFAM Gao Xiang <hsiangkao@linux.al=
-ibaba.com> wrote:
-> [...]
-> >>> Given the difficulty of allocating large folios, it's always a good
-> >>> idea to have order-0 as a fallback. While I agree with your point,
-> >>> I have a slightly different perspective =E2=80=94 enabling large foli=
-os for
-> >>> those devices might be beneficial, but the maximum order should
-> >>> remain small. I'm referring to "small" large folios.
-> >>
-> >> Yeah, agreed. Having a way to limit the maximum order for those small
-> >> devices (rather than disabling it completely) would be helpful.  At
-> >> least "small" large folios could still provide benefits when memory
-> >> pressure is light.
-> >
-> > Well, in the page cache you can tune not only the minimum but also the
-> > maximum order of a folio being allocated for each inode. Btrfs and ext4
-> > already use this functionality. So in principle the functionality is th=
-ere,
-> > it is "just" a question of proper user interfaces or automatic logic to
-> > tune this limit.
-> >
-> >                                                               Honza
->
-> And enabling large folios doesn't mean all fs operations will grab an
-> unnecessarily large folio.
->
-> For buffered write, all those filesystem will only try to get folios as
-> large as necessary, not overly large.
->
-> This means if the user space program is always doing buffered IO in a
-> power-of-two unit (and aligned offset of course), the folio size will
-> match the buffer size perfectly (if we have enough memory).
->
-> So for properly aligned buffered writes, large folios won't really cause
->   unnecessarily large folios, meanwhile brings all the benefits.
+Index allocation requires at least one bit in the $BITMAP attribute to
+track usage of index entries. If the bitmap is empty while index blocks
+are already present, this reflects on-disk corruption.
 
-I don't think this captures the full picture. For example, in memory
-reclamation, if any single subpage is hot, the entire large folio is
-treated as hot and cannot be reclaimed. So I=E2=80=99m not convinced that
-"filesystems will only try to get folios as large as necessary" is the
-right policy.
+syzbot triggered this condition using a malformed NTFS image. During a
+rename() operation involving a long filename (which spans multiple
+index entries), the empty bitmap allowed the name to be added without
+valid tracking. Subsequent deletion of the original entry failed with
+-ENOENT, due to unexpected index state.
 
-Large folios are a good idea, but the lack of control over their maximum
-size limits their practical applicability. When an embedded device enables
-large folios and only observes performance regressions, the immediate
-reaction is often to disable the feature entirely. This, in turn, harms the
-adoption and development of large folios.
+Reject such cases by verifying that the bitmap is not empty when index
+blocks exist.
 
->
-> Although I'm not familiar enough with filemap to comment on folio read
-> and readahead...
->
-> Thanks,
-> Qu
+Reported-by: syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=b0373017f711c06ada64
+Fixes: d99208b91933 ("fs/ntfs3: cancle set bad inode after removing name fails")
+Tested-by: syzbot+b0373017f711c06ada64@syzkaller.appspotmail.com
+Signed-off-by: Moon Hee Lee <moonhee.lee.ca@gmail.com>
+---
+ fs/ntfs3/index.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Best Regards
-Barry
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 1bf2a6593dec..6d1bf890929d 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -1508,6 +1508,16 @@ static int indx_add_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 			bmp_size = bmp_size_v = le32_to_cpu(bmp->res.data_size);
+ 		}
+ 
++		/*
++		 * Index blocks exist, but $BITMAP has zero valid bits.
++		 * This implies an on-disk corruption and must be rejected.
++		 */
++		if (in->name == I30_NAME &&
++		    unlikely(bmp_size_v == 0 && indx->alloc_run.count)) {
++			err = -EINVAL;
++			goto out1;
++		}
++
+ 		bit = bmp_size << 3;
+ 	}
+ 
+-- 
+2.43.0
+
