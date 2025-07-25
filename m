@@ -1,97 +1,114 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564172EBDC1
-	for <ntfs3@lists.linux.dev>; Fri, 25 Jul 2025 12:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9713810FD
+	for <ntfs3@lists.linux.dev>; Fri, 25 Jul 2025 14:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753447174; cv=none; b=fMBkHjK6/Vypcbyliw+76MIJxxApFsBw2HYhVlcDyWFoW6l6VGKHJzN1Ta6gHyzD+RQjKAH5KzwTyztdDsScWCEoeGGCF2T1Qmrq33geiugnjTKDT0mJSC2LiYH8JCnwjV/cYNsiiIxdmFB8IxwTOcWbTh+krZeXbW6xO77t4kM=
+	t=1753452077; cv=none; b=uOAA6iBlnmirIvD4nQnSa+1Q2pCDlrjkV37C8XeTWvWLabCirw7JHfkA/8xBaGukjdjhi08KCd+cs2aJAnV/F2beVsljOpwzuMdtoBxqq/aDVsMO3KvTVXYO7E5+pIksZSLLNxfzTOKbpPc5aJ6C+bjqGgGmqtvMcQLwDk/cZJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753447174; c=relaxed/simple;
-	bh=pDbXLO9s1B26nuvXrdNGv7NEmVAQzgsCzx8/zI2EuY4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=AAKab0+ThboGJpf8ByQmDm4z140nLgPzC4iQOr4/NhquZZnlA6XS+f1nQgqkCMsUbtcJ3tfsvOmFylywckIXEwQYBAhT8jLes+fyQ/5rv1MxoR4KgYs/UEoJUNGDeMxDGdwGZhV48I7XCq0ipMJllfHjXC+e4CiAIoUFxCWqEak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-87b89891d5dso356943539f.0
-        for <ntfs3@lists.linux.dev>; Fri, 25 Jul 2025 05:39:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753447171; x=1754051971;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Sa/HoxLzLJuDpA44YCodPaUbQNsjacjc1N01Ba02j7s=;
-        b=PiGQdwk07/TOO4rOgKdWfTVviQjE1B8RJrmGafLplCg5nQKzn3cQZMDdwJXW7K0NpK
-         6xhAx4QQPbqFRsq+T4QzYJgI0u6j9RpSV7P1vQBWyMSfQ1ucYaqc3x+/HPBp1ZFxUIGL
-         esjKiJtec9Xf2/dk3X3ZTHoWcYdSTI9JqqMcFIp0xgTWNNL1H4TjoHF7ba0xS5lfAQ4p
-         0hm4lU3m7eCKiy7SGpc50KVPv0k8QVETz++2KNxIFL0huXjBTy2QeVIl+eiG3L4WDIVC
-         KfshuywprDax6hDTUBRjaRKGv69EsY4fgIBKdo76Y/CuiJipKb0pbJ+toNxyg9+Gkyzg
-         0UiA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6WpJiQq9lBFiFaR7xk2FtkQEABGQrGaTvqyNI5of6quEMJ9NMwVDCjDOM3P+hJrW2qv58IA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxxMGkxSkAHB9uj9cH42DDfFsAbt4Y46kbxreroQJ7WPESZYS3l
-	6cpFPeJEtftALHMzqMDMIzZPmkqG6xwoAUJKvCtrozEtGrWx8c6izHhxysCEN04H7SAXKJR6Rb5
-	zjUqpG/aSXrbqYZ4E/u26GsSFTJlN2GQTqJ3pfa6MEYbNRJIHWSkWQvS+KC4=
-X-Google-Smtp-Source: AGHT+IHYEK4t6W6Z1UUdvddJPgXDuXoBZxCVRJOv06G6878vsmMs7JTE/MR5b5v7NlTxPz1DRqI2jJ4scAsJ96IQ/S5jqSH5+rqh
+	s=arc-20240116; t=1753452077; c=relaxed/simple;
+	bh=CU/ofPcM/4/31XAsGzsSMeFb1aVoCrvt6kL7NaWtHiU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MTfxHf7Q8t4HMGv0t7pa6cmgYs8rWvEeWbsUiZyT8Fp7YQlhHooGLGo01tSbB3z1GiCtQvCRVAorTGtNYyhejdR36Ii7+0BWMcag8SoVS6kIuKskoy0GKJv0LCdVIpVaqBWGoNcmJxvC6g4z7gz1UatHkIV+6Onicz9K4trtBtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=EHENJhpt; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="EHENJhpt"
+Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id E69301D1A;
+	Fri, 25 Jul 2025 13:52:57 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=EHENJhpt;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id C7FA12302;
+	Fri, 25 Jul 2025 13:54:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1753451661;
+	bh=XERKZUg/mSTGqo3b6VJtn4q+/PRdwVrweknVT9vWgnc=;
+	h=From:To:CC:Subject:Date;
+	b=EHENJhpt+Erc+3kdzeeDpP8aVnliX60cIimbGnBxooKRug3QbnmrkyHP+JBDTpBqL
+	 VKtASoDe/nfYuyGEEoEH7H0ATe17p0bHnwr38TbyRqnAGn1LWXsfGV900XCzxLHcSb
+	 hscmdNckkIWUi+eVsPhHyV+BPLXG6Noo118Vf4oI=
+Received: from localhost.localdomain (172.30.20.191) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Fri, 25 Jul 2025 16:54:20 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <torvalds@linux-foundation.org>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] ntfs3: bugfixes for 6.17
+Date: Fri, 25 Jul 2025 15:54:11 +0200
+Message-ID: <20250725135411.4064-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:2c06:b0:869:d4de:f7 with SMTP id
- ca18e2360f4ac-880388fedfbmr242259339f.12.1753447171304; Fri, 25 Jul 2025
- 05:39:31 -0700 (PDT)
-Date: Fri, 25 Jul 2025 05:39:31 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68837b03.a00a0220.2f88df.0050.GAE@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Jul 2025)
-From: syzbot <syzbot+listcde0fbb18221df5bd95c@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hello ntfs3 maintainers/developers,
+Please pull this branch containing ntfs3 code for 6.17.
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+Regards,
+Konstantin
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 36 issues are still open and 65 have already been fixed.
+----------------------------------------------------------------
+The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd1354494:
 
-Some of the still happening issues:
+  Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
 
-Ref  Crashes Repro Title
-<1>  22703   Yes   kernel BUG in dnotify_free_mark
-                   https://syzkaller.appspot.com/bug?extid=06cc05ddc896f12b7ec5
-<2>  15421   Yes   KMSAN: uninit-value in longest_match_std (2)
-                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
-<3>  6258    Yes   possible deadlock in run_unpack_ex
-                   https://syzkaller.appspot.com/bug?extid=731b27ee9413ba859499
-<4>  5558    Yes   possible deadlock in ntfs_read_folio
-                   https://syzkaller.appspot.com/bug?extid=8ef76b0b1f86c382ad37
-<5>  4823    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
-                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
-<6>  4651    Yes   possible deadlock in ntfs_fiemap
-                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
-<7>  3603    Yes   possible deadlock in ntfs_file_mmap
-                   https://syzkaller.appspot.com/bug?extid=c1751b6739d83d70bb75
-<8>  2818    Yes   possible deadlock in mark_as_free_ex (2)
-                   https://syzkaller.appspot.com/bug?extid=8df514c431bd240c5644
-<9>  2524    Yes   possible deadlock in ntfs_look_for_free_space
-                   https://syzkaller.appspot.com/bug?extid=d27edf9f96ae85939222
-<10> 2522    Yes   possible deadlock in attr_data_get_block (2)
-                   https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+are available in the Git repository at:
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.17
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+for you to fetch changes up to a49f0abd8959048af18c6c690b065eb0d65b2d21:
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+  Revert "fs/ntfs3: Replace inode_trylock with inode_lock" (2025-07-08 09:42:21 +0200)
 
-You may send multiple commands in a single email message.
+----------------------------------------------------------------
+Changes for 6.17-rc1
+
+Added:
+    sanity check for file name;
+    mark live inode as bad and avoid any operations.
+
+Fixed:
+    handling of symlinks created in windows;
+    creation of symlinks for relative path.
+
+Changed:
+    cancel setting inode as bad after removing name fails;
+    revert "replace inode_trylock with inode_lock".
+
+----------------------------------------------------------------
+Edward Adam Davis (1):
+      fs/ntfs3: cancle set bad inode after removing name fails
+
+Konstantin Komarov (2):
+      fs/ntfs3: Exclude call make_bad_inode for live nodes.
+      Revert "fs/ntfs3: Replace inode_trylock with inode_lock"
+
+Lizhi Xu (1):
+      fs/ntfs3: Add sanity check for file name
+
+Rong Zhang (2):
+      fs/ntfs3: fix symlinks cannot be handled correctly
+      fs/ntfs3: correctly create symlink for relative path
+
+ fs/ntfs3/dir.c     |  6 ++--
+ fs/ntfs3/file.c    | 37 +++++++++++++++++++++-
+ fs/ntfs3/frecord.c | 31 +++++++++++++------
+ fs/ntfs3/fsntfs.c  |  6 +++-
+ fs/ntfs3/inode.c   | 91 ++++++++++++++++++++++++++++++++++--------------------
+ fs/ntfs3/namei.c   | 26 +++++++++++-----
+ fs/ntfs3/ntfs.h    |  3 +-
+ fs/ntfs3/ntfs_fs.h | 17 ++++++++--
+ fs/ntfs3/xattr.c   | 22 +++++++++++--
+ 9 files changed, 178 insertions(+), 61 deletions(-)
