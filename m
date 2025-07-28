@@ -1,114 +1,63 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9713810FD
-	for <ntfs3@lists.linux.dev>; Fri, 25 Jul 2025 14:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D059B2882AB;
+	Mon, 28 Jul 2025 23:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753452077; cv=none; b=uOAA6iBlnmirIvD4nQnSa+1Q2pCDlrjkV37C8XeTWvWLabCirw7JHfkA/8xBaGukjdjhi08KCd+cs2aJAnV/F2beVsljOpwzuMdtoBxqq/aDVsMO3KvTVXYO7E5+pIksZSLLNxfzTOKbpPc5aJ6C+bjqGgGmqtvMcQLwDk/cZJo=
+	t=1753746043; cv=none; b=GgWxtNEcM4FFimkoZ1hzpjtubkeGfbHCZWbOM/pnJ7e2I2h0CwHuyHg3Sx549kZNm4/vx2pS1sCxBDRuXaPBmEBbu+0C3Lq+5IZK51epOz8+zXZm7mx6+dF0nc9Xovel3taaJpsEbU0QP4RMLhU09vim2gEpHTXNpwN/tHP8piA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753452077; c=relaxed/simple;
-	bh=CU/ofPcM/4/31XAsGzsSMeFb1aVoCrvt6kL7NaWtHiU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MTfxHf7Q8t4HMGv0t7pa6cmgYs8rWvEeWbsUiZyT8Fp7YQlhHooGLGo01tSbB3z1GiCtQvCRVAorTGtNYyhejdR36Ii7+0BWMcag8SoVS6kIuKskoy0GKJv0LCdVIpVaqBWGoNcmJxvC6g4z7gz1UatHkIV+6Onicz9K4trtBtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=EHENJhpt; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1753746043; c=relaxed/simple;
+	bh=XGMoesjtB1ZVhFK+o6wcHAoCoJpineOJeFa1aCdeGHE=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=k9vuOz8MMNVGIs3j1pL+cSRk3C25tcoCL/9fFCc1JgvUUD5C9/IpK4PcJibvhIv8sdfOELdgS6PSeOtaPz7cFyOWcbG4sUTKo8evCufa2iuiH/5GZbWKB+LytzW3lyeOA4GVrI6xzkG1osDvLFwkyBtQlXBp7BUuhtMsBbe1n4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQQ7en7d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="EHENJhpt"
-Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id E69301D1A;
-	Fri, 25 Jul 2025 13:52:57 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=EHENJhpt;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id C7FA12302;
-	Fri, 25 Jul 2025 13:54:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1753451661;
-	bh=XERKZUg/mSTGqo3b6VJtn4q+/PRdwVrweknVT9vWgnc=;
-	h=From:To:CC:Subject:Date;
-	b=EHENJhpt+Erc+3kdzeeDpP8aVnliX60cIimbGnBxooKRug3QbnmrkyHP+JBDTpBqL
-	 VKtASoDe/nfYuyGEEoEH7H0ATe17p0bHnwr38TbyRqnAGn1LWXsfGV900XCzxLHcSb
-	 hscmdNckkIWUi+eVsPhHyV+BPLXG6Noo118Vf4oI=
-Received: from localhost.localdomain (172.30.20.191) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 25 Jul 2025 16:54:20 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] ntfs3: bugfixes for 6.17
-Date: Fri, 25 Jul 2025 15:54:11 +0200
-Message-ID: <20250725135411.4064-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQQ7en7d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4C65C4CEF6;
+	Mon, 28 Jul 2025 23:40:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753746043;
+	bh=XGMoesjtB1ZVhFK+o6wcHAoCoJpineOJeFa1aCdeGHE=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=UQQ7en7do6HhYyLJM7VuQ1JUu4kNYVs2tnc4XIJNGHI0RAHdWFQr5YeBY5jIgGcxQ
+	 eO8plCFzMpPqOGE5kd5myLk79Mw82/dmx0s2k+Mu2nLdms5QFt5Vpy2h/uVDd2i5Bp
+	 mZ/l1ZPaxAygZiGxskGGQqpiUTVNOWr/x/lEMFSlSqRa6wDmL/z90eaZHolftfU0lx
+	 p+1LWsN0HYmxF3PrK1e6Zs/EJtWlqRsb0ihGez3taemR0NhrEmiUmUDdqbHY3Sejw7
+	 pQJQsBj1neXK2b99WaAwF/klymA/nXjIB32fEI2yC+jw2NXw0H/ZmzzqLnMtjpBBnN
+	 n7sZoE5sTIDGg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 865ED383BF60;
+	Mon, 28 Jul 2025 23:41:01 +0000 (UTC)
+Subject: Re: [GIT PULL] ntfs3: bugfixes for 6.17
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20250725135411.4064-1-almaz.alexandrovich@paragon-software.com>
+References: <20250725135411.4064-1-almaz.alexandrovich@paragon-software.com>
+X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20250725135411.4064-1-almaz.alexandrovich@paragon-software.com>
+X-PR-Tracked-Remote: https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.17
+X-PR-Tracked-Commit-Id: a49f0abd8959048af18c6c690b065eb0d65b2d21
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: a11b4fa602ed3b744aa075f34bee82c12aa3553a
+Message-Id: <175374606037.885311.12880724332711455524.pr-tracker-bot@kernel.org>
+Date: Mon, 28 Jul 2025 23:41:00 +0000
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: torvalds@linux-foundation.org, ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Please pull this branch containing ntfs3 code for 6.17.
+The pull request you sent on Fri, 25 Jul 2025 15:54:11 +0200:
 
-Regards,
-Konstantin
+> https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.17
 
-----------------------------------------------------------------
-The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd1354494:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/a11b4fa602ed3b744aa075f34bee82c12aa3553a
 
-  Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
+Thank you!
 
-are available in the Git repository at:
-
-  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.17
-
-for you to fetch changes up to a49f0abd8959048af18c6c690b065eb0d65b2d21:
-
-  Revert "fs/ntfs3: Replace inode_trylock with inode_lock" (2025-07-08 09:42:21 +0200)
-
-----------------------------------------------------------------
-Changes for 6.17-rc1
-
-Added:
-    sanity check for file name;
-    mark live inode as bad and avoid any operations.
-
-Fixed:
-    handling of symlinks created in windows;
-    creation of symlinks for relative path.
-
-Changed:
-    cancel setting inode as bad after removing name fails;
-    revert "replace inode_trylock with inode_lock".
-
-----------------------------------------------------------------
-Edward Adam Davis (1):
-      fs/ntfs3: cancle set bad inode after removing name fails
-
-Konstantin Komarov (2):
-      fs/ntfs3: Exclude call make_bad_inode for live nodes.
-      Revert "fs/ntfs3: Replace inode_trylock with inode_lock"
-
-Lizhi Xu (1):
-      fs/ntfs3: Add sanity check for file name
-
-Rong Zhang (2):
-      fs/ntfs3: fix symlinks cannot be handled correctly
-      fs/ntfs3: correctly create symlink for relative path
-
- fs/ntfs3/dir.c     |  6 ++--
- fs/ntfs3/file.c    | 37 +++++++++++++++++++++-
- fs/ntfs3/frecord.c | 31 +++++++++++++------
- fs/ntfs3/fsntfs.c  |  6 +++-
- fs/ntfs3/inode.c   | 91 ++++++++++++++++++++++++++++++++++--------------------
- fs/ntfs3/namei.c   | 26 +++++++++++-----
- fs/ntfs3/ntfs.h    |  3 +-
- fs/ntfs3/ntfs_fs.h | 17 ++++++++--
- fs/ntfs3/xattr.c   | 22 +++++++++++--
- 9 files changed, 178 insertions(+), 61 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
