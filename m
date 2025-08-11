@@ -1,45 +1,41 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4F82DEA76;
-	Mon, 11 Aug 2025 13:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCE5192D8A;
+	Mon, 11 Aug 2025 13:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754919536; cv=none; b=VMdBqcmI/RTz1X7rw4Jx9xq8j26FpBgDk1OhE1/XOjoARlBVYo65eJZy8ehRvifa8yNYLQwO9VSboAfV+LCAoSpXHoKQXD9F8ok9MWmWdBSEsK4snqXHIYVVRLyDxOdqRkSaLpcaKxXRLIpB/3wvlVWXrF3JMrT+rxCETMpLw9Y=
+	t=1754920207; cv=none; b=FMIzsLm3WKF7XLH8xKoAftNBckaenGqtubUYoWWChyTsdFTVMu+Sgv5VpPQzmf8ZyJ6HiBFYATdZCMmdkKQ77ynS03fvlIyI68iLYelVnZMpB5UuXx27dKGFIln9rAKpDumbkM9pHzHoOYTx9sUrDJWoQnk3uimLPEJIUlzwEtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754919536; c=relaxed/simple;
-	bh=NTxLN/OIxdavvXriPAMpsQ/MGWkSJkBk6dizUl8lFio=;
+	s=arc-20240116; t=1754920207; c=relaxed/simple;
+	bh=Q3wRFljT1RqYBoMrZp5hrUr0ZoeqxaR44aa4gXoxX18=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k8L/ydHYEgRpqTesJvXmoMhDe3rA8bHaQv+mp1DBE1dCWcpPOXMSFYUuy/az4VWw7WKXHNIvvauMl84VojmtW8l++xHZb8GhGmtF+DTUgqYjf0DHoisZ5O1A5SQ8+TDxSm1egV5kIL4UzadNqOst86QdXdBIXBoLQvBvJyPebTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=YrRN6BWV; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=ASmFbVnRlZP218XwE5Z9Sg9c9/FALaGiLb9xDkPDzhnjgpVhbEcqsqbU0lfS7rQkcfHdARcTRWd7+aTyNdO4BQdX8u/IHGwBnAIKV7tjTQqWXTVVb4NO8BKndIOwO57Cf+uw+98R/DfjYvhzaZvDcVRSPe+YbCo5ioYuGCrFVNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tvTKhn7+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="YrRN6BWV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=ZpQwJb5N9DB6xXQvZYGJMUsct3O7Ai+ocYqxGIM0vSk=; b=YrRN6BWVo93BdrvTMPbddp9LK5
-	B5YtER7BRP33UvwIdaC4KYrEI0T1O6A9iOXgJrpYb9/E93HYrmnrFK+X6sq1iV+RQpq5ZZwHPm+Ze
-	JfJz6A5T31t3lEzJJhiMpltBvWmqbdh2VwmJeI8L1yXn86r/ZJaSSP4jp7WwQsB5aUA2YRSv2wRIT
-	lPDmHXpY+IasxZrQ6pyP2fq5BWEX/uqZvBSkgqnScZVMKVKzMPOKei2RRCwHp+SRRwXegFn/g7de8
-	ffUsXh46HjYGaKTIdpma4N0YDBxq/U1AuACimlqGDUCm0i2Vf12QYSdZMmS8ivZOuZauIs+nY6XP5
-	FN0Y6rYA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulSjg-0000000147G-1Sic;
-	Mon, 11 Aug 2025 13:38:48 +0000
-Date: Mon, 11 Aug 2025 14:38:48 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tvTKhn7+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE867C4CEED;
+	Mon, 11 Aug 2025 13:50:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754920206;
+	bh=Q3wRFljT1RqYBoMrZp5hrUr0ZoeqxaR44aa4gXoxX18=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tvTKhn7+/cg26lCF8iufQgaAZVGIt+1RdEg5ca3bkwvmjm/9zzFu+dpLh/NCYBaxq
+	 nB2bTrKZqQ/0OeKeh3VfXOLlguf5zCFD/XBeN0O+Ojx77pzkVbUFdT6sdbXTnxn1bY
+	 zBjBU1oGDe/FhG6AE/y10dKDMSvhEZSkJ9UV29botVq4qVLDZDwUWlCotJfcREW79t
+	 nSHSFqUznSu7YT+x2o0HXBEwiWwXSBodYrWcVrwieTmvPbupRBDfrUn3Nbqv8v7z95
+	 YbYHe4zWfam2qOco0imx51oYaBBJdiBfllh27S16Yt7xZJG6fV+P/IZBI6vUwMumAL
+	 uoX8g4EiAZLaA==
+Date: Mon, 11 Aug 2025 15:50:02 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Mateusz Guzik <mjguzik@gmail.com>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
 	ntfs3@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
 Subject: Re: [RFC PATCH] vfs: exclude ntfs3 from file mode validation in
  may_open()
-Message-ID: <20250811133848.GR222315@ZenIV>
+Message-ID: <20250811-geteilt-sprudeln-f09e6ec25c0c@brauner>
 References: <fb3888fb-11b8-481b-86a6-766bbbab5c81@I-love.SAKURA.ne.jp>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -47,10 +43,9 @@ List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <fb3888fb-11b8-481b-86a6-766bbbab5c81@I-love.SAKURA.ne.jp>
-Sender: Al Viro <viro@ftp.linux.org.uk>
 
 On Mon, Aug 11, 2025 at 04:05:51PM +0900, Tetsuo Handa wrote:
 > Since ntfs_read_mft() not only accepts file modes which may_open() accepts
@@ -72,6 +67,11 @@ On Mon, Aug 11, 2025 at 04:05:51PM +0900, Tetsuo Handa wrote:
 > Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 > ---
 > Is it possible to handle this problem on the NTFS3 side?
+
+Ugh, this is annoying.
+@Konstantin, why do you leave a zero mode for these files?
+Let's just make them regular files?
+
 > 
 >   --- a/fs/ntfs3/inode.c
 >   +++ b/fs/ntfs3/inode.c
@@ -103,17 +103,15 @@ On Mon, Aug 11, 2025 at 04:05:51PM +0900, Tetsuo Handa wrote:
 > +		if (inode->i_sb->s_magic == 0x7366746e) {
 > +			if ((acc_mode & MAY_EXEC) && path_noexec(path))
 > +				return -EACCES;
+
+That's really unacceptable. We either need to drop the assert which
+would be a shame because it keeps finding bugs or we fix that in ntfs3
+which is my preferred solution...
+
 > +			break;
 > +		}
 >  		VFS_BUG_ON_INODE(!IS_ANON_FILE(inode), inode);
 >  	}
 >  
-
-Bravo, but that's several months late - would be lovely for an AFD posting.
-In the current form the patch is obviously unacceptable; if we do that
-kind of special-casing, the proper place is in register_filesystem() where
-we clearly ought to compare fs->name with "ntfs" and return an error.
-
-All jokes aside, this kind of stuff is a non-starter.  Blacklist it on
-syzbot side or fix fs/ntfs3; VFS is *NOT* the place for this kind of
-special-casing.
+> -- 
+> 2.50.1
