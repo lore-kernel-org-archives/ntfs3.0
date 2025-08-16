@@ -1,117 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCE5192D8A;
-	Mon, 11 Aug 2025 13:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C741A704B
+	for <ntfs3@lists.linux.dev>; Sat, 16 Aug 2025 03:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754920207; cv=none; b=FMIzsLm3WKF7XLH8xKoAftNBckaenGqtubUYoWWChyTsdFTVMu+Sgv5VpPQzmf8ZyJ6HiBFYATdZCMmdkKQ77ynS03fvlIyI68iLYelVnZMpB5UuXx27dKGFIln9rAKpDumbkM9pHzHoOYTx9sUrDJWoQnk3uimLPEJIUlzwEtQ=
+	t=1755313775; cv=none; b=S6Wn/NY2XLLWABzolxbvibQMgJRyJ34nXTD62A+A4rnV8iqWFgZcRfJC085gNWgp2tEZNNDfCjwZaXsCa6pu98HE0qs2FgwZt1kdqysos4M5ZgUAKa6T3Q5YSZsEh7HKthe8CS4+Z7KU2eZIFS5kEBLWqBtwKhFBxh8debQ5r6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754920207; c=relaxed/simple;
-	bh=Q3wRFljT1RqYBoMrZp5hrUr0ZoeqxaR44aa4gXoxX18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ASmFbVnRlZP218XwE5Z9Sg9c9/FALaGiLb9xDkPDzhnjgpVhbEcqsqbU0lfS7rQkcfHdARcTRWd7+aTyNdO4BQdX8u/IHGwBnAIKV7tjTQqWXTVVb4NO8BKndIOwO57Cf+uw+98R/DfjYvhzaZvDcVRSPe+YbCo5ioYuGCrFVNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tvTKhn7+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tvTKhn7+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE867C4CEED;
-	Mon, 11 Aug 2025 13:50:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754920206;
-	bh=Q3wRFljT1RqYBoMrZp5hrUr0ZoeqxaR44aa4gXoxX18=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tvTKhn7+/cg26lCF8iufQgaAZVGIt+1RdEg5ca3bkwvmjm/9zzFu+dpLh/NCYBaxq
-	 nB2bTrKZqQ/0OeKeh3VfXOLlguf5zCFD/XBeN0O+Ojx77pzkVbUFdT6sdbXTnxn1bY
-	 zBjBU1oGDe/FhG6AE/y10dKDMSvhEZSkJ9UV29botVq4qVLDZDwUWlCotJfcREW79t
-	 nSHSFqUznSu7YT+x2o0HXBEwiWwXSBodYrWcVrwieTmvPbupRBDfrUn3Nbqv8v7z95
-	 YbYHe4zWfam2qOco0imx51oYaBBJdiBfllh27S16Yt7xZJG6fV+P/IZBI6vUwMumAL
-	 uoX8g4EiAZLaA==
-Date: Mon, 11 Aug 2025 15:50:02 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Mateusz Guzik <mjguzik@gmail.com>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	ntfs3@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH] vfs: exclude ntfs3 from file mode validation in
- may_open()
-Message-ID: <20250811-geteilt-sprudeln-f09e6ec25c0c@brauner>
-References: <fb3888fb-11b8-481b-86a6-766bbbab5c81@I-love.SAKURA.ne.jp>
+	s=arc-20240116; t=1755313775; c=relaxed/simple;
+	bh=6rpvt4bu7koVNHJAw0YNVn3GgDvYic0XfD/q4xFRCuU=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=uYtLbpmrNqQI3cfQzcoe3ls3L3JM55PJLfsbj9JZJ5TMgHkTcwmwWvaDiG/9BMsFaZPSdmtDba664OoIPjy9E4NihJOSXhsxcmPAM6e5RiMadScFAFgqlX4poo8GZScVyatz8Bbqm5+fpsSJXnp8b3CH/r4Tc9it0kz/6i80lbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-3e5700b4c7cso29938165ab.3
+        for <ntfs3@lists.linux.dev>; Fri, 15 Aug 2025 20:09:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755313773; x=1755918573;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0lvwxMDxmPvJqu07t+jWtNAWLFvXutLPx1UGrWnx1WU=;
+        b=l55vRw0cLbhZaFvxGvWAK5VNsGY8qKbojuPgvhwx51wv+AoMcxn62YHR485tf7coAM
+         8QVn3pL/tWBcAUEw2WOxrJSDfXcAtlq1zA8VF4OYNcWTFjg9gadhFGc5ewXm6EH/RU/I
+         gs+lJo44pBQJ+CNa60xOjuT2j/Bp1DCIXQB5Ws+JKWfg7DOR2iLeVjLpG42Fr8c18hP8
+         Bq29PB0NFH7Zzt+FuAmSG37TB9tV9WSY5AlMyQIc2mG0mzBuvR1O7XnpK8xjTpRSk8+7
+         kWuIsqLNJWyyJRTO+ePW06YKiwLFSZgkT/wuGYtkhUsyqZnNszRZUJxPYl63mRAY3TG/
+         P21Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXFs+mdC5oDfeLJr3bUAxAWEQAUUJDEk4UKUJ7QIdCMysnW+d8Bk+GiLoZCj48i9H/O/4A2Iw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyiJf5L72giElr18TjUvencl06m59xauB9nq5bqjt8f60iHtqZp
+	b+c/iCC6zqqMqJqP3gjeuu5BM5orK56VqTcAcLfJ3XabdLEulOQUQwHCHwVzTGE4Ry3z77B2Cof
+	mg3ExKm9Nt/3ewCf72yGLJE+Mg/72kUTlmC9cdqWHEdbAU+QCnlD/9AW667Y=
+X-Google-Smtp-Source: AGHT+IEBP3Nl/weGxoqY4beA1FVfIV6qmF0N1Hphxg7bfoIEr7I4y2Qvk0D3XZwFwbO8XjqL2fhcKoI9qv5Ag6RKTGq3eVhoOa6W
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <fb3888fb-11b8-481b-86a6-766bbbab5c81@I-love.SAKURA.ne.jp>
+X-Received: by 2002:a05:6e02:154c:b0:3e5:4002:e820 with SMTP id
+ e9e14a558f8ab-3e5837fadc0mr31965635ab.6.1755313773252; Fri, 15 Aug 2025
+ 20:09:33 -0700 (PDT)
+Date: Fri, 15 Aug 2025 20:09:33 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <689ff66d.050a0220.e29e5.0036.GAE@google.com>
+Subject: [syzbot] [ntfs3?] kernel panic: stack is corrupted in debug_object_active_state
+From: syzbot <syzbot+56728135217003dc6f7d@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Aug 11, 2025 at 04:05:51PM +0900, Tetsuo Handa wrote:
-> Since ntfs_read_mft() not only accepts file modes which may_open() accepts
-> but also accepts
-> 
->   (fname && fname->home.low == cpu_to_le32(MFT_REC_EXTEND) &&
->    fname->home.seq == cpu_to_le16(MFT_REC_EXTEND)
-> 
-> case when the file mode is none of
-> S_IFDIR/S_IFLNK/S_IFREG/S_IFCHR/S_IFBLK/S_IFIFO/S_IFSOCK, may_open() cannot
-> unconditionally expect IS_ANON_FILE(inode) when the file mode is none of
-> S_IFDIR/S_IFLNK/S_IFREG/S_IFCHR/S_IFBLK/S_IFIFO/S_IFSOCK.
-> 
-> Treat as if S_IFREG when the inode is for NTFS3 filesystem.
-> 
-> Reported-by: syzbot <syzbot+895c23f6917da440ed0d@syzkaller.appspotmail.com>
-> Closes: https://syzkaller.appspot.com/bug?extid=895c23f6917da440ed0d
-> Fixes: af153bb63a33 ("vfs: catch invalid modes in may_open()")
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> ---
-> Is it possible to handle this problem on the NTFS3 side?
+Hello,
 
-Ugh, this is annoying.
-@Konstantin, why do you leave a zero mode for these files?
-Let's just make them regular files?
+syzbot found the following issue on:
 
-> 
->   --- a/fs/ntfs3/inode.c
->   +++ b/fs/ntfs3/inode.c
->   @@ -470,8 +470,9 @@ static struct inode *ntfs_read_mft(struct inode *inode,
->           } else if (fname && fname->home.low == cpu_to_le32(MFT_REC_EXTEND) &&
->                      fname->home.seq == cpu_to_le16(MFT_REC_EXTEND)) {
->                   /* Records in $Extend are not a files or general directories. */
->                   inode->i_op = &ntfs_file_inode_operations;
->   +               mode = S_IFREG;
->           } else {
->                   err = -EINVAL;
->                   goto out;
->           }
-> 
-> I don't know what breaks if we pretend as if S_IFREG...
-> 
->  fs/namei.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index cd43ff89fbaa..a66599754394 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -3471,6 +3471,12 @@ static int may_open(struct mnt_idmap *idmap, const struct path *path,
->  			return -EACCES;
->  		break;
->  	default:
-> +		/* Special handling for ntfs_read_mft() case. */
-> +		if (inode->i_sb->s_magic == 0x7366746e) {
-> +			if ((acc_mode & MAY_EXEC) && path_noexec(path))
-> +				return -EACCES;
+HEAD commit:    ee94b00c1a64 Merge tag 'block-6.17-20250815' of git://git...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=178a0442580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=98e114f4eb77e551
+dashboard link: https://syzkaller.appspot.com/bug?extid=56728135217003dc6f7d
+compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=118d2234580000
 
-That's really unacceptable. We either need to drop the assert which
-would be a shame because it keeps finding bugs or we fix that in ntfs3
-which is my preferred solution...
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/d3a276780499/disk-ee94b00c.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9d0179cf0059/vmlinux-ee94b00c.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/93f6f92d9369/bzImage-ee94b00c.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/a81e1292f715/mount_0.gz
 
-> +			break;
-> +		}
->  		VFS_BUG_ON_INODE(!IS_ANON_FILE(inode), inode);
->  	}
->  
-> -- 
-> 2.50.1
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+56728135217003dc6f7d@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 4096
+ntfs3(loop0): Different NTFS sector size (2048) and media sector size (512).
+Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: debug_object_active_state+0x204/0x260 lib/debugobjects.c:-1
+CPU: 0 UID: 0 PID: 10513 Comm: syz.0.2210 Tainted: G        W           6.17.0-rc1-syzkaller-00165-gee94b00c1a64 #0 PREEMPT_{RT,(full)} 
+Tainted: [W]=WARN
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/12/2025
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x99/0x250 lib/dump_stack.c:120
+ vpanic+0x281/0x750 kernel/panic.c:430
+ panic+0xb9/0xc0 kernel/panic.c:566
+ __stack_chk_fail+0x26/0x30 kernel/panic.c:929
+ debug_object_active_state+0x204/0x260 lib/debugobjects.c:-1
+ debug_rcu_head_queue kernel/rcu/rcu.h:237 [inline]
+ __call_rcu_common kernel/rcu/tree.c:3108 [inline]
+ call_rcu+0xc3/0x9c0 kernel/rcu/tree.c:3243
+ __destroy_inode+0x2da/0x670 fs/inode.c:371
+ destroy_inode fs/inode.c:394 [inline]
+ evict+0x797/0x9c0 fs/inode.c:834
+ ntfs_fill_super+0x38fa/0x40b0 fs/ntfs3/super.c:1514
+ get_tree_bdev_flags+0x40e/0x4d0 fs/super.c:1692
+ vfs_get_tree+0x8f/0x2b0 fs/super.c:1815
+ do_new_mount+0x2a2/0x9e0 fs/namespace.c:3805
+ do_mount fs/namespace.c:4133 [inline]
+ __do_sys_mount fs/namespace.c:4344 [inline]
+ __se_sys_mount+0x317/0x410 fs/namespace.c:4321
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f622eac038a
+Code: d8 64 89 02 48 c7 c0 ff ff ff ff eb a6 e8 de 1a 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f622e12de68 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007f622e12def0 RCX: 00007f622eac038a
+RDX: 000020000001f380 RSI: 000020000001f3c0 RDI: 00007f622e12deb0
+RBP: 000020000001f380 R08: 00007f622e12def0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 000020000001f3c0
+R13: 00007f622e12deb0 R14: 000000000001f34c R15: 000020000001f400
+ </TASK>
+Kernel Offset: disabled
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
