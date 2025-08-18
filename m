@@ -1,125 +1,98 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991E3272E71;
-	Mon, 18 Aug 2025 06:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A2130FF38
+	for <ntfs3@lists.linux.dev>; Mon, 18 Aug 2025 11:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755497429; cv=none; b=tsfG01ncrDGarFpt9Mi573VR1DMQlxGDh68avb/rcnRIo4GX0LtPogFUfsFRitTalBwksuX40fRZ17qZjSqRbicwy6gYwUzeVRZO+73Ntsj8/JYfYoAyo9M4R0eBqZqw2oj2SslggnY5PEmFPgL78B51NnYkfPS8DoXoAvYa4s8=
+	t=1755515844; cv=none; b=bHAT28q/BkNMUnK3A4CgPeW4a5+r//P6B8PmbzVeBE98A11SaF6rjz3yVZfXI4mYkivTi/dJ8s02VnXLjs8nfkCh5K27aEjzhJWBwxHOSvv6ZpzosSO8Iorxnh04MT3LagFTl6742KfPcfwA69gj/empyOIJjdP5ZS3kOS84l9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755497429; c=relaxed/simple;
-	bh=KUjBeneIizbrzejn6dI00yz7HLW6CEtclxutPpCFH5c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ksA3p38pYrOp4umxv/VmWZubesmOlkV1OYs+j/QvFjiTECk74ZppqJCeclsmAvR3vePLxg4oCGU6rdTg2yhktorkF4G6Pqmocutfk5MdoQAYTEwqeKqlxGhVG0h/4dbNaEYrR35RcrcKkJSqheNg8edfSUAsBcWBeEFqMKLeaqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QPg55rm0; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1755515844; c=relaxed/simple;
+	bh=Vn+6AoeFfOC2dEOVUivoL+u8+xhCzZN6tjBzp+tZRCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ufu2PCnbUBPt4Be6CfXYvgceicUB2vatlZY6QLqyKDERV4Ed7Xr5kT31NZk7QoBNWyBw/dcHvbnNdIH9+NV1kyFk0DaAAt5CHO3S4sT84IkEH2AhMi+lJFN9GiWPhDOu08Ds9DFYMMmz0Si22dShigc8hpjwdlcWapp/e7zEmmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gWNgzXFv; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QPg55rm0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=4J1/06gJDoy116dfpIOWW0QWPaS1Pkc+RGvAfs19vE4=; b=QPg55rm0rQfK16zrN/EzN/1j5A
-	SzTVgY45blodBybCI5xGxFia2fC8Mcrgq0cJklfNWtRK9LP/dJuBDyJ9CIi16ChCjAr9oA+6X81xI
-	irIOtJq4HbEyh5O3hdxFdlGzk57fpJKfVVzz0WD1V2q2t6JdP61P+DKanTrU3annX5br8NYt7Mmba
-	4DseCVrBmxO5WbduUFYrbKKOfiZBy5ny2kqMwbqZu+ph8th9rZcmRtFq6wvB7KTZ7TT0EICzVDhfn
-	tDXdXK8Nc4HAxT7P68c+2fUT95EZXywef3KHdkpycwAzJr/OOWJ/FKBM6mJQOHQPVhajAVCwv8wBA
-	NQBX7NhA==;
-Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unt4d-00000006bmt-1Vjk;
-	Mon, 18 Aug 2025 06:10:27 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	linux-bcachefs@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gWNgzXFv"
+Date: Mon, 18 Aug 2025 07:17:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1755515839;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m7eARwxjHrjiUlBOiogcNArJCMPY65GQtpA9M3yDfEg=;
+	b=gWNgzXFvM2QaqbmFBRvkjWKcwPYU1DAMKzIajtoC5k/zXPy73UOBOMiOt7CHhgObe/sVRc
+	oJHt9snDy24PGD8frtEgFgwK122zorE+Ab22ALq5Qpw/bYsQa9alBQNERUDIRSXwKD90Cz
+	R/c+5G3y4tj3D8DnaLGniWIm3XOhof8=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	linux-bcachefs@vger.kernel.org, ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
 	linux-mm@kvack.org
-Subject: [PATCH 3/3] mm: remove write_cache_pages
-Date: Mon, 18 Aug 2025 08:10:10 +0200
-Message-ID: <20250818061017.1526853-4-hch@lst.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250818061017.1526853-1-hch@lst.de>
+Subject: Re: [PATCH 2/3] bcachefs: stop using write_cache_pages
+Message-ID: <3zji6rc56egwqvy2gy63aj2wjfo5pyeuq2iikhgudcttdcif2m@dphqqiozruka>
 References: <20250818061017.1526853-1-hch@lst.de>
+ <20250818061017.1526853-3-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250818061017.1526853-3-hch@lst.de>
+X-Migadu-Flow: FLOW_OUT
 
-No users left.
+On Mon, Aug 18, 2025 at 08:10:09AM +0200, Christoph Hellwig wrote:
+> Stop using the obsolete write_cache_pages and use writeback_iter
+> directly.  This basically just open codes write_cache_pages
+> without the indirect call, but there's probably ways to structure
+> the code even nicer as a follow on.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- include/linux/writeback.h |  6 ------
- mm/page-writeback.c       | 30 ------------------------------
- 2 files changed, 36 deletions(-)
+Wouldn't inlining write_cache_pages() achieve the same thing?
 
-diff --git a/include/linux/writeback.h b/include/linux/writeback.h
-index a2848d731a46..2a7e134d03ee 100644
---- a/include/linux/writeback.h
-+++ b/include/linux/writeback.h
-@@ -360,12 +360,6 @@ bool wb_over_bg_thresh(struct bdi_writeback *wb);
- struct folio *writeback_iter(struct address_space *mapping,
- 		struct writeback_control *wbc, struct folio *folio, int *error);
- 
--typedef int (*writepage_t)(struct folio *folio, struct writeback_control *wbc,
--				void *data);
--
--int write_cache_pages(struct address_space *mapping,
--		      struct writeback_control *wbc, writepage_t writepage,
--		      void *data);
- int do_writepages(struct address_space *mapping, struct writeback_control *wbc);
- void writeback_set_ratelimit(void);
- void tag_pages_for_writeback(struct address_space *mapping,
-diff --git a/mm/page-writeback.c b/mm/page-writeback.c
-index 3e248d1c3969..7e1e798e7213 100644
---- a/mm/page-writeback.c
-+++ b/mm/page-writeback.c
-@@ -2590,36 +2590,6 @@ struct folio *writeback_iter(struct address_space *mapping,
- }
- EXPORT_SYMBOL_GPL(writeback_iter);
- 
--/**
-- * write_cache_pages - walk the list of dirty pages of the given address space and write all of them.
-- * @mapping: address space structure to write
-- * @wbc: subtract the number of written pages from *@wbc->nr_to_write
-- * @writepage: function called for each page
-- * @data: data passed to writepage function
-- *
-- * Return: %0 on success, negative error code otherwise
-- *
-- * Note: please use writeback_iter() instead.
-- */
--int write_cache_pages(struct address_space *mapping,
--		      struct writeback_control *wbc, writepage_t writepage,
--		      void *data)
--{
--	struct folio *folio = NULL;
--	int error;
--
--	while ((folio = writeback_iter(mapping, wbc, folio, &error))) {
--		error = writepage(folio, wbc, data);
--		if (error == AOP_WRITEPAGE_ACTIVATE) {
--			folio_unlock(folio);
--			error = 0;
--		}
--	}
--
--	return error;
--}
--EXPORT_SYMBOL(write_cache_pages);
--
- int do_writepages(struct address_space *mapping, struct writeback_control *wbc)
- {
- 	int ret;
--- 
-2.47.2
-
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  fs/bcachefs/fs-io-buffered.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/bcachefs/fs-io-buffered.c b/fs/bcachefs/fs-io-buffered.c
+> index 1c54b9b5bd69..fdeaa25189f2 100644
+> --- a/fs/bcachefs/fs-io-buffered.c
+> +++ b/fs/bcachefs/fs-io-buffered.c
+> @@ -655,6 +655,17 @@ static int __bch2_writepage(struct folio *folio,
+>  	return 0;
+>  }
+>  
+> +static int bch2_write_cache_pages(struct address_space *mapping,
+> +		      struct writeback_control *wbc, void *data)
+> +{
+> +	struct folio *folio = NULL;
+> +	int error;
+> +
+> +	while ((folio = writeback_iter(mapping, wbc, folio, &error)))
+> +		error = __bch2_writepage(folio, wbc, data);
+> +	return error;
+> +}
+> +
+>  int bch2_writepages(struct address_space *mapping, struct writeback_control *wbc)
+>  {
+>  	struct bch_fs *c = mapping->host->i_sb->s_fs_info;
+> @@ -663,7 +674,7 @@ int bch2_writepages(struct address_space *mapping, struct writeback_control *wbc
+>  	bch2_inode_opts_get(&w->opts, c, &to_bch_ei(mapping->host)->ei_inode);
+>  
+>  	blk_start_plug(&w->plug);
+> -	int ret = write_cache_pages(mapping, wbc, __bch2_writepage, w);
+> +	int ret = bch2_write_cache_pages(mapping, wbc, w);
+>  	if (w->io)
+>  		bch2_writepage_do_io(w);
+>  	blk_finish_plug(&w->plug);
+> -- 
+> 2.47.2
+> 
