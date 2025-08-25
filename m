@@ -1,195 +1,97 @@
-Received: from mailhub9-fb.kaspersky-labs.com (mailhub9-fb.kaspersky-labs.com [195.122.169.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720B51F95C
-	for <ntfs3@lists.linux.dev>; Mon, 25 Aug 2025 10:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.122.169.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8AF1F4CAF
+	for <ntfs3@lists.linux.dev>; Mon, 25 Aug 2025 13:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756116885; cv=none; b=GJqMm3MVpXlHLCA6AL7SI7h3xiXl8E0MO4BCzU8eE/LeqLvjVBeE8rjM+J2lsn1FveUxt/o74WWWS28tEN61KF4wCNR2+tYjxeZ3f/WEHwhs7qnLDb09T6QJVRxKuPbIOdzyF6YA1mc4rzBJ2c7e5FgoLEnK+mBUJWTR1o1TWwM=
+	t=1756127983; cv=none; b=d+OaUPhTCUb7D3ey46YzVhoqQlyRljVhR9dwN1jWlZv7Hu91HDo7ZektP7nFSeh9p3Y2kAngFdt7ZrCLwZzfkEr2WMP7bOTOPk+xWWfngFZEsJIgKFEO/rHHHKz9BGjYPm1xDZ09NBWcx4JgPhsWLTT6S+OvLLJHZY+wYRQ1nsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756116885; c=relaxed/simple;
-	bh=wTT4f687RviT4XPRnYOHHt+WIsj2Z5vQhzteBZlx2bc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=e6nFX3qjZJT/PvIsNNq7Ge6IRtcIIbxkPxfm9cO2t0C/kP6l+7xMgPn4A+Pl7FGQaX62GXyYmJ3fMdpgG1k/HBxUeZWIZ6QnbXoOlzgdP6NOaYKjX+musGw99sB5pI01tlnZNz0aHEi0Lgokn66SLu7ff36EgJqszWEN/DLBnm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaspersky.com; spf=pass smtp.mailfrom=kaspersky.com; dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b=DWOxv7Qt; dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b=R/SdyWwY; arc=none smtp.client-ip=195.122.169.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaspersky.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaspersky.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b="DWOxv7Qt";
-	dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b="R/SdyWwY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaspersky.com;
-	s=mail202505; t=1756116555;
-	bh=izDY/mIwIJVLtiSbOkgOxgE/5YF0HgMNMtobWE5+ra0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=DWOxv7QtCq0xSl0jRSYrctNrNXYTQVW5eNO3aXD8YKIzf9i5UctKzrLKRXI/rgUvw
-	 Wsya75dHUXXD4QXXYTbaC9VIDpC8s2lVsRc5Aal0ZcRJVzGnIMI9zyP+E6HtTKVBHD
-	 yLumWkFwdDdBlzSKui23x6mLikLuA65PaVMfoDIK72wyb0KLesn9bizH+YooE0D842
-	 FEyhxbeEwa9U8Uai5Bdi7tUsFVuqZfHHlwEnxR+UguY1UVS59F4EL0Se8L1LuRwY4d
-	 uVkZDxTANlVBaI5U8ppmRqNT6PzmNIqvgfs65U19r3w3FdqRJH5lWKXQPrRfti74EU
-	 qR1OvF8Sf/AHA==
-Received: from mailhub9-fb.kaspersky-labs.com (localhost [127.0.0.1])
-	by mailhub9-fb.kaspersky-labs.com (Postfix) with ESMTP id 1DEE9908ECD
-	for <ntfs3@lists.linux.dev>; Mon, 25 Aug 2025 13:09:15 +0300 (MSK)
-Received: from mx12.kaspersky-labs.com (mx12.kaspersky-labs.com [91.103.66.155])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "mx12.kaspersky-labs.com", Issuer "Kaspersky MailRelays CA G3" (verified OK))
-	by mailhub9-fb.kaspersky-labs.com (Postfix) with ESMTPS id E0D01908EC7
-	for <ntfs3@lists.linux.dev>; Mon, 25 Aug 2025 13:09:14 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaspersky.com;
-	s=mail202505; t=1756116547;
-	bh=izDY/mIwIJVLtiSbOkgOxgE/5YF0HgMNMtobWE5+ra0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=R/SdyWwYuMwSAAa0BKPJ18t7A7upzqVD7XhbkJywrLpCztdE9en6kDXRZyzx6eMss
-	 CryxOgEE0qEFffcR3nt1h61LhxL4G2IetkkfJcN0aeYR5v1ASOsQZmoNftGVnnTw2k
-	 zYHYXEnqz72n7FlCwiH4MReaiui+RSaIkVhqlWI2yO//C87HuuhPVIKTrUie2JVEYs
-	 vgUcwq8shDku8IuGByJNalEzJ4dzPf9329aGNOnwNws2lZGhnXCWOY/CLswSJHmSP4
-	 N2sKIIz4mRsTEbrwzHvROI1n3tXE9F/N9lclGcgOeartLAyLszW7lfvs+Hjzxv2Rj+
-	 D4FNz7D71M8kQ==
-Received: from relay12.kaspersky-labs.com (localhost [127.0.0.1])
-	by relay12.kaspersky-labs.com (Postfix) with ESMTP id 608A95A143C;
-	Mon, 25 Aug 2025 13:09:07 +0300 (MSK)
-Received: from mail-hq2.kaspersky.com (unknown [91.103.66.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "mail-hq2.kaspersky.com", Issuer "Kaspersky MailRelays CA G3" (verified OK))
-	by mailhub12.kaspersky-labs.com (Postfix) with ESMTPS id E740B5A1785;
-	Mon, 25 Aug 2025 13:09:06 +0300 (MSK)
-Received: from larshin.avp.ru (10.16.104.188) by HQMAILSRV4.avp.ru
- (10.64.57.54) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.36; Mon, 25 Aug
- 2025 13:09:06 +0300
-From: Vitaly Grigoryev <Vitaly.Grigoryev@kaspersky.com>
-To: <ntfs3@lists.linux.dev>
-CC: Vitaly Grigoryev <Vitaly.Grigoryev@kaspersky.com>,
-	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>,
-	<Maxim.L.Alexandrov@kaspersky.com>
-Subject: [PATCH] fs: ntfs3: Fix integer overflow in run_unpack()
-Date: Mon, 25 Aug 2025 13:08:55 +0300
-Message-ID: <20250825100855.1590067-1-Vitaly.Grigoryev@kaspersky.com>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1756127983; c=relaxed/simple;
+	bh=So+cLh59wFV6WlC+MdzEWwEidHZnvDsZHCEBKhIg1qY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Sqc3xI6FWH21IPFFmh3PUhqobRDD3nWpXasYjkz5rujHnQQi7ufuJlSOH37Yh7RUplDAyz9WXQ8p38yYL91BFOGULSr/MdxaD40Bf3tSj2hiJ5GdyACdnItCJBvZV4XqX1WOMGN7LjfkRU38TE7yMTpVzwroLNtcxoESPLj8/4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-88432e33c84so1164864239f.2
+        for <ntfs3@lists.linux.dev>; Mon, 25 Aug 2025 06:19:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756127981; x=1756732781;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bnPwcV7XV+OKMtppIn4w2Brof3ieT9kdiC+gJ3ovg/4=;
+        b=nq2LBFpAvQMEc6P82je0fJL4SkaPDwLardm/WD3ZFllbwkWBnhza3vpQT+yiIcJKBN
+         2KsPlxPXz5scN9biJLMjPbuyNCWzasxNm8LKMdaxh8wmkEpRkg0SVE0zvVTpsCP6NN7x
+         vzFKTlfpy6JYrQvOQ80kW0i1/emNQJq9YlhZr1mAgv0ZRN/c0mLUgg8boAfmvl7K2YsJ
+         D5c3mjMSSvQIQhNTkSRNIGUV51KU3CBEwiG2DKapagJP+QtvEh173u4mqT+KOYN2u0w3
+         4Yv6TDU2cabOdACMZ44djoXgZaQCAjRAV+nGrH275hGL792OvI+UgY32Qu612Ox1a4C2
+         EeGg==
+X-Forwarded-Encrypted: i=1; AJvYcCVRX/MBcsBt1HjToEBlmbSUukicGmCrShWWf1MUGVclldlSADn1oF8gXVVBXrqdCBTUbMwwPw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzc+SDQVBIniGwSrJ5BW403CxjHxO8Q//L4/JwMmaI9BHYse4YL
+	0dr0JdfrwkDl8c/abJwIv7lbH15ViNRwyJAjymItJ3y68y7c70+M9+cT6sGrZbNheJTB8c/8klm
+	QhKdtliIVFr4gnlslRqPSc9rCEa7a4/UHsHWrE6BaSXl/GfS94CmQRB4DJDs=
+X-Google-Smtp-Source: AGHT+IGnKj67SqUKzIsKL4YCEGT5LHPMqCLohbVjhqxj8GDHlK5HhEd7WwWBCYIl6Dw1gHMr6uOUGXvFPWZRKHcoEWupWIJOkHgR
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HQMAILSRV4.avp.ru (10.64.57.54) To HQMAILSRV4.avp.ru
- (10.64.57.54)
-X-KSE-ServerInfo: HQMAILSRV4.avp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 08/25/2025 09:49:40
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 0
-X-KSE-AntiSpam-Info: Lua profiles 195738 [Aug 25 2025]
-X-KSE-AntiSpam-Info: Version: 6.1.1.11
-X-KSE-AntiSpam-Info: Envelope from: Vitaly.Grigoryev@kaspersky.com
-X-KSE-AntiSpam-Info: LuaCore: 64 0.3.64
- 96c1edcdaeab4cf6c1fd6858be74d3893179d628
-X-KSE-AntiSpam-Info: {Tracking_cluster_exceptions}
-X-KSE-AntiSpam-Info: {Tracking_real_kaspersky_domains}
-X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: larshin.avp.ru:7.1.1,5.0.1;kaspersky.com:7.1.1,5.0.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: {Tracking_white_helo}
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: Rate: 0
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Deterministic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 08/25/2025 09:51:00
-X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
- rules found
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 8/25/2025 9:19:00 AM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
- rules found
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-KSMG-AntiPhishing: NotDetected
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/08/25 09:32:00 #27692559
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 52
+X-Received: by 2002:a05:6e02:440f:20b0:3e9:eec4:9b59 with SMTP id
+ e9e14a558f8ab-3e9eec49ea7mr96860655ab.32.1756127980870; Mon, 25 Aug 2025
+ 06:19:40 -0700 (PDT)
+Date: Mon, 25 Aug 2025 06:19:40 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68ac62ec.050a0220.37038e.008f.GAE@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Aug 2025)
+From: syzbot <syzbot+list87b222bdd76a860b53ed@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-The MFT record relative to the file being opened contains its runlist,
-an array containing information about the file's location on the physical
-disk. Analysis of all Call Stack paths showed that the values of the
-runlist array, from which LCNs are calculated, are not validated before
-run_unpack function.
+Hello ntfs3 maintainers/developers,
 
-The run_unpack function decodes the compressed runlist data format
-from MFT attributes (for example, $DATA), converting them into a runs_tree
-structure, which describes the mapping of virtual clusters (VCN) to
-logical clusters (LCN). The NTFS3 subsystem also has a shortcut for
-deleting files from MFT records - in this case, the RUN_DEALLOCATE
-command is sent to the run_unpack input, and the function logic
-provides that all data transferred to the runlist about file or
-directory is deleted without creating a runs_tree structure.
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-Substituting the runlist in the $DATA attribute of the MFT record for an
-arbitrary file can lead either to access to arbitrary data on the disk
-bypassing access checks to them (since the inode access check
-occurs above) or to destruction of arbitrary data on the disk.
+During the period, 8 new issues were detected and 0 were fixed.
+In total, 42 issues are still open and 68 have already been fixed.
 
-Add overflow check for addition operation.
+Some of the still happening issues:
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Ref  Crashes Repro Title
+<1>  22993   Yes   kernel BUG in dnotify_free_mark
+                   https://syzkaller.appspot.com/bug?extid=06cc05ddc896f12b7ec5
+<2>  16786   Yes   KMSAN: uninit-value in longest_match_std (2)
+                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
+<3>  6561    Yes   possible deadlock in run_unpack_ex
+                   https://syzkaller.appspot.com/bug?extid=731b27ee9413ba859499
+<4>  4896    Yes   KASAN: out-of-bounds Write in end_buffer_read_sync
+                   https://syzkaller.appspot.com/bug?extid=3f7f291a3d327486073c
+<5>  4799    Yes   possible deadlock in ntfs_fiemap
+                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+<6>  3005    Yes   possible deadlock in mark_as_free_ex (2)
+                   https://syzkaller.appspot.com/bug?extid=8df514c431bd240c5644
+<7>  2666    Yes   possible deadlock in ntfs_look_for_free_space
+                   https://syzkaller.appspot.com/bug?extid=d27edf9f96ae85939222
+<8>  2644    Yes   possible deadlock in attr_data_get_block (2)
+                   https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+<9>  490     Yes   possible deadlock in ntfs_fallocate
+                   https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
+<10> 413     Yes   KMSAN: uninit-value in bcmp (3)
+                   https://syzkaller.appspot.com/bug?extid=0399100e525dd9696764
 
-Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-Signed-off-by: Vitaly Grigoryev <Vitaly.Grigoryev@kaspersky.com>
 ---
- fs/ntfs3/run.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
-index aaaa0d3d35a2..09e4c5d90a2d 100644
---- a/fs/ntfs3/run.c
-+++ b/fs/ntfs3/run.c
-@@ -9,6 +9,7 @@
- #include <linux/blkdev.h>
- #include <linux/fs.h>
- #include <linux/log2.h>
-+#include <linux/overflow.h>
- 
- #include "debug.h"
- #include "ntfs.h"
-@@ -979,12 +980,16 @@ int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
- 
- 			if (!dlcn)
- 				return -EINVAL;
--			lcn = prev_lcn + dlcn;
-+
-+			if (check_add_overflow(prev_lcn, dlcn, &lcn))
-+				return -EINVAL;
- 			prev_lcn = lcn;
- 		} else
- 			return -EINVAL;
- 
--		next_vcn = vcn64 + len;
-+		if (check_add_overflow(vcn64, len, &next_vcn))
-+			return -EINVAL;
-+
- 		/* Check boundary. */
- 		if (next_vcn > evcn + 1)
- 			return -EINVAL;
-@@ -1145,7 +1150,8 @@ int run_get_highest_vcn(CLST vcn, const u8 *run_buf, u64 *highest_vcn)
- 			return -EINVAL;
- 
- 		run_buf += size_size + offset_size;
--		vcn64 += len;
-+		if (check_add_overflow(vcn64, len, &vcn64))
-+			return -EINVAL;
- 
- #ifndef CONFIG_NTFS3_64BIT_CLUSTER
- 		if (vcn64 > 0x100000000ull)
--- 
-2.39.5
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
