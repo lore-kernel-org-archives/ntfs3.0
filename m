@@ -1,70 +1,75 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8411287506
-	for <ntfs3@lists.linux.dev>; Thu, 28 Aug 2025 20:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E995A2C237C
+	for <ntfs3@lists.linux.dev>; Thu, 28 Aug 2025 20:37:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756413442; cv=none; b=St+O9EnyDpj4ZyyUSrIuk51+SIubIMIQkEHRfvpn1DQElv9YVKpigsGpFmjkAuwuSLinouqDv+hl0WkvVSTbtQ31Lu0OYSsaJxFzob1qXAYoyF9psAbfAFf4MQV4FJxsAEVFa6enDWzYQo2Y3kk/Ddn5LUX04seOXnEfIGurbaQ=
+	t=1756413450; cv=none; b=bqrRREdzuMUoEHgjLms/oLar8qnTYd2yTqnFzIwKUez78C/62dV4qBorZ+RHk7Fiob3BC9qvrq6uVyfrC6mhRxSfCzgEihyVpF4k9ekmMkJoXhTAgXQtpAnP+CK0HVV5uOZ8wwIeKMuM56m1Z+2FLe2UPSRlgy1KJv74Sp8vu8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756413442; c=relaxed/simple;
-	bh=4A+hHQVDvywK8T/Ae9Z8hdT8p+fMiZHJ8U+tYoMJ1ew=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YptEiF9vxvlTpLWvRJSsWSFqNv5J9tlPb/ZMmVAsQqCtiPzGDlKsshMO+ekXu1wrj8Rwk32P6u5jQsxfRpWkBMamOodPPPwR/+LUOVhIXBZjF9BfuCk0bY6R7gARZWk4Y8h6TytW8qUoV4aI03QMKRp2CuVbXOLfMC5qDTrRaD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zetier.com; spf=pass smtp.mailfrom=zetier.com; dkim=pass (2048-bit key) header.d=zetier.com header.i=@zetier.com header.b=TX3t7IX6; arc=none smtp.client-ip=209.85.222.177
+	s=arc-20240116; t=1756413450; c=relaxed/simple;
+	bh=eKyn8NXO5NCJnrd2nhmwYnVO8Mdw8+5kx8vCPpQpD2k=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=lleehNlWTCHEkJbGKagtQDsr3GgTd5CAwoNPdtd0iMywuFK2PzVUy+YdlEqly5XObUPf/F0Res0PyRHWnqqkSjZrT/GOCvNehOX8+Re0Zb17hHsM0dylDiwVQFH10FYLjoI7Z/VxePg0rped+Tqh9N3flRxA+ER7xwzjnRR3tNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zetier.com; spf=pass smtp.mailfrom=zetier.com; dkim=pass (2048-bit key) header.d=zetier.com header.i=@zetier.com header.b=F9+wW8Tq; arc=none smtp.client-ip=209.85.222.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zetier.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zetier.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zetier.com header.i=@zetier.com header.b="TX3t7IX6"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7e870689dedso94582085a.3
-        for <ntfs3@lists.linux.dev>; Thu, 28 Aug 2025 13:37:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=zetier.com header.i=@zetier.com header.b="F9+wW8Tq"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7f6f367a248so136202185a.3
+        for <ntfs3@lists.linux.dev>; Thu, 28 Aug 2025 13:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=zetier.com; s=gm; t=1756413439; x=1757018239; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KVnydNepin/bD+gaNKF2yJ3IfALHgiOLd/oO8fikfzw=;
-        b=TX3t7IX6REL00F+oZbDu5jzI1rGrS3DPG4sFkBwIUeF3/X+2HWUDfFWd8XAViXCteT
-         iyJinPsLx+NAZabME9xEECRLYZnZZuL8PRZVMDS8Qhe6qLvKvJhKnX12KvFUKujhYMZZ
-         AbhD6n9/lHYA6e14tpjn7/v4sUTrjxWmMBWtIeL4gmUaJW+2GpEBYcPCfE1nRhTt1EJK
-         cxd8vfQk5W4NgUpYfeY7S2aAQCu8pjhN7h4zBTpIKPQFswL7SH63UhmARVWF7uvfi/jQ
-         9nXOgp054ljAXFRQraOlHHphicrk3c34uSkfWvX5e2deGRtuOHs1L0IMTBYgYxTP/MzV
-         o/Bg==
+        d=zetier.com; s=gm; t=1756413448; x=1757018248; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+mH1moQqYEsSGxE3+UVMXsVz3NSOmj4LqAu+NnOGgb0=;
+        b=F9+wW8TqVWXXD+adPA2JbfVrnwbKSj/8VIrp34egbwLa8oBmIlIHv2iZJa15+YauxQ
+         x+aaEc9ERSz6pW1QujiisL+A0cVao/BacT3OyycY/uqLDRfLWbLQzRYBrWkvKlzRpwi+
+         C3BM2nth2RZO5Yb+sFRadDF/tIKmRvDugbMRxweg+BfrJaQ+uWcXH2EjaySBj543PU5x
+         2rb1h9Jerp4uEIEuwy41bRLhQkAkMykhAlGr3Z6puZT0WvGvVnLOrNAfh5yuu8dyQtUD
+         JNX6uuZAJPq8DjWQd49tNgdI3t1mVKhxv4eFrhIenrUSu8KNtwhKTzVTvrfQIGIWYPY/
+         OKnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756413439; x=1757018239;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KVnydNepin/bD+gaNKF2yJ3IfALHgiOLd/oO8fikfzw=;
-        b=w1CkLxE2qcj1scfxZd5THUps5TU9At1WSmd2JZEd6jCMANFwsuW5zeMvX2akH2abgR
-         iqZc55jiqSp0sThZD+TQ/0qRE7m99Cpk8caah4z1uzMeCx8tgXWirqfvoHLucU0krg34
-         Eb6ZuJC/K+Tmxy0LRNb8q/rHjzJqS4dXhTv9CKrczw+MrSPZE9Q6VtAdfOxU+juyA2fi
-         UmXy42MhrK03jih1tPGxy2ohDGdmnXhlyi8zd9xnAl0rckMfjyIBuBStVxal5GH2Nywt
-         r0nxNBu0Wo0MZSSTH4a4l//fbfVuZudpdCT0rNz+V3QIeHfiPIZuof2rHb2V2sxt3KoW
-         hzGg==
-X-Gm-Message-State: AOJu0Yx4RNBmTZKThggLFzZBjehLybiH45cX8XeZITPp7w7y4aeKFicY
-	Cm4HfygFYIGBo22zN3kVO6bHaog5mfLA4q88LSu1pkLdWkku3/2bng9MXD62etaGQdE=
-X-Gm-Gg: ASbGncueVwWDlyN1fL3YXTLYw5LQB5XzKEC5RYwAKfLkQ/dgcgPaUkgm9Tqpko4zn7l
-	etTRPCEoaCT2n0a5jTG4Zs/EkhGG9PgPN/6RBWJ8vDRfwTtv9ZR8hC4DRhype3g3eaxWfcShodA
-	RbFGElxQPoEJI1UK426IxgYtuuA7FMdc6Akqk7rIWnagyn7M01oOicrfzNDIpMP/JSiMQkNdh5k
-	BIaidMUUeNueaQ7qTpXE490/M3Zp2xbmofdwS/hx6GD4ktIurzvd1uQquGb9NzUBr+to+PxSRSk
-	7pjW5o5KFy5YiliK+HRtD/fS8dk5zanK/u3yLOPNxIRvh3/BNYXCf24oWPUqXpJEK6lW2wHyGO5
-	NpXUSPOYFZXieSDwlQVBUXWjiOm1WaOMh8aBgwvAmkQPExKBA
-X-Google-Smtp-Source: AGHT+IFWPGVp0EFtnuGP7IuzsNN7VqWYceEJm3OSNcdsLTKS89hG84EHpmzJ4FBRIi0atJXeDsDiIw==
-X-Received: by 2002:a05:620a:1915:b0:7e8:6e2e:84b4 with SMTP id af79cd13be357-7ea11049992mr2638016385a.45.1756413439578;
-        Thu, 28 Aug 2025 13:37:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756413448; x=1757018248;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+mH1moQqYEsSGxE3+UVMXsVz3NSOmj4LqAu+NnOGgb0=;
+        b=CZUJGEQSWRK5tG6v9nnQiQDeGdI1CL1CYQ++WEzU8gHFj0d1HjjdTzAJJeTpdhiWpF
+         n4rXR5CFPnxpLptvm5maX+n+lQ/fQnl/NUiUGbIo7ebSzUFRuBwMwKncLrrskHnLOg08
+         kxNpeSwZ0bFTT+IMZCHS00WVxdyLPz0TsJWHXhdp81bFFHILEi5GF3DgFoC9IHQVH+r9
+         Zlhiq3AtNi7ox5oTnyHshDzqUoQzVwUyJjjKE/OwbNEItS1D5s847urSSzpG64H4OJrh
+         ZHR3B1I1O4bdRTQaOlt9C5ZTdqpj+++tPoUydQH8i9tak47NQfdDmYNgNAu6PzCnyovq
+         3nDg==
+X-Gm-Message-State: AOJu0Yy/HNNmaiGcavrTQ/dgqhAJR1WiU65i65G+GppXOmXQIA2GgYkJ
+	miCHyER/AvBh9CX/qJmCaQeki65uqiFKoSeON+vMwQ+KxNshXR1FmpyUkucaNu7TrvGIKFzqWgA
+	FQPO9
+X-Gm-Gg: ASbGncujdQAk6vY7o0RBhB2OJpIuSTaDUnuxZz+oyYQk5U+qEHDb4YzKdcSSh1oB5jA
+	rV4QZy3EP02Dxx/sen7vnn75t5+j7/B56smgBR6ePyPI1G2LpBNZhIjial4U8YQ0WXr9NWq6nsK
+	8sUiNiK/h8hpXnCYpE9LI0lS4dNBc7TlGHGP4y/DC7hwtlg6Musys/KI1lHw2opj6Eho/d8pXzY
+	pcjNy1l5OpnBhp5YrqD8Iv6n3zzZ+2gcl8Ra6nuq1Mi7ponhRcVgjwzEeZNYPk838ksDYUkuyZc
+	mc4TYWcsixKE6Ctqj5hOBxDlqjEUC6zpdoIPpiJG949AJwM19ClaUGs+WJg5LYvR8EEVVHdVZA+
+	adW+8vbb2ToXoch8gnrbCLlCjdfG1DpFxnJ2i7WnukxBGrBi3Jer5VIFY9w4=
+X-Google-Smtp-Source: AGHT+IERVxha56qApbTM7KtcTfottUjnLoIFBt+FYBzEzeioMpqY/O4nfcNXgi1nY45nfmgmpUTZIw==
+X-Received: by 2002:a05:620a:40cc:b0:7fb:423d:57ad with SMTP id af79cd13be357-7fb425bde6cmr282181785a.47.1756413447643;
+        Thu, 28 Aug 2025 13:37:27 -0700 (PDT)
 Received: from ethanf.zetier.com ([65.222.209.234])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7fc153de18asm45879585a.54.2025.08.28.13.37.18
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7fc153de18asm45879585a.54.2025.08.28.13.37.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 13:37:19 -0700 (PDT)
+        Thu, 28 Aug 2025 13:37:27 -0700 (PDT)
 From: Ethan Ferguson <ethan.ferguson@zetier.com>
 To: almaz.alexandrovich@paragon-software.com
 Cc: ntfs3@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Ethan Ferguson <ethan.ferguson@zetier.com>
-Subject: [PATCH 0/3] ntfs3: Add support for FS_IOC_{GET,SET}FSLABEL ioctl
-Date: Thu, 28 Aug 2025 16:37:13 -0400
-Message-Id: <20250828203716.468564-1-ethan.ferguson@zetier.com>
+Subject: [PATCH 1/3] ntfs3: transition magic number to shared constant
+Date: Thu, 28 Aug 2025 16:37:14 -0400
+Message-Id: <20250828203716.468564-2-ethan.ferguson@zetier.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250828203716.468564-1-ethan.ferguson@zetier.com>
+References: <20250828203716.468564-1-ethan.ferguson@zetier.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -73,28 +78,28 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+Use the common FSLABEL_MAX constant instead of a hardcoded magic
+constant of 256.
 
-Given the FS_IOC_{GET,SET}FSLABEL ioctls are now the de-facto standard
-for reading and writing the FS label, implement these ioctls for the
-ntfs3 driver.
+Signed-off-by: Ethan Ferguson <ethan.ferguson@zetier.com>
 
-Use the common FSLABEL_MAX constant instead of a magic number.
+---
+ fs/ntfs3/ntfs_fs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-Ethan Ferguson
-
-Ethan Ferguson (3):
-  ntfs3: transition magic number to shared constant
-  ntfs3: add FS_IOC_GETFSLABEL ioctl
-  ntfs3: add FS_IOC_SETFSLABEL ioctl
-
- fs/ntfs3/file.c    | 28 ++++++++++++++++++++++++++++
- fs/ntfs3/ntfs_fs.h |  2 +-
- 2 files changed, 29 insertions(+), 1 deletion(-)
-
-
-base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 1296e6fcc779..630128716ea7 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -280,7 +280,7 @@ struct ntfs_sb_info {
+ 		__le16 flags; // Cached current VOLUME_INFO::flags, VOLUME_FLAG_DIRTY.
+ 		u8 major_ver;
+ 		u8 minor_ver;
+-		char label[256];
++		char label[FSLABEL_MAX];
+ 		bool real_dirty; // Real fs state.
+ 	} volume;
+ 
 -- 
 2.34.1
 
