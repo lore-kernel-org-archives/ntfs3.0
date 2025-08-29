@@ -1,126 +1,78 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD99E2D1319
-	for <ntfs3@lists.linux.dev>; Thu, 28 Aug 2025 20:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2451F6FC5
+	for <ntfs3@lists.linux.dev>; Fri, 29 Aug 2025 13:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756413454; cv=none; b=GaiMOVZQaFfgXGWV65bLoA0RHQPQR+2zFiic9orA17D7lrtgI7p7x6voXMhCKiFltQbV2tUeryaXXAp4K3onyboSEirSyzTgbrRGZIUmobG+BpMT9cEwJeAKdi2TdYmleBzvjRFOc/GYjj23hyw7KYL6w9o0gHhXiXBX4hUx21Y=
+	t=1756474690; cv=none; b=RbrAYrmxy1AQegYOkjnGKNRsrEDU9/r6wp8/clbAqt5jnG/SG5SsXdDPj1IEpHWSrYPQeMUnnGwUFuAdD3tfJlfL10ka+pOhmu8YNdZhH2N3mld182KiQodMc1gHRjIZKPF6aF57E1aDyxs2+JTR0sRYGWXDfpSWCsM6UkKgl+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756413454; c=relaxed/simple;
-	bh=oRP2p2pJOga67cG+m/f+zcP4uYDeO+yZ3lN6tYQQkXA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qiW/MP2FOjr3AF7ff22V5wTlqljxMKmoS0HAz5jOeWjlT66sJMJ/NRVym+L0GWNl+JNUmJycVY1nn+q+X6GY0mGacBIGAJmloZBRm4MzPUy5v8wL3OYhDdzyY5oGI/8/DFCjeQhN1l4WC1iWY+KytL1vEqgcTxrk0mKBf67/JD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zetier.com; spf=pass smtp.mailfrom=zetier.com; dkim=pass (2048-bit key) header.d=zetier.com header.i=@zetier.com header.b=HnaBeG63; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zetier.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zetier.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zetier.com header.i=@zetier.com header.b="HnaBeG63"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7e870689dedso94598185a.3
-        for <ntfs3@lists.linux.dev>; Thu, 28 Aug 2025 13:37:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=zetier.com; s=gm; t=1756413452; x=1757018252; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZOMMLFiaOAz+64Gs7xjJhrQIlkJjOe3bWicWl5TD5n4=;
-        b=HnaBeG63uuwRCWjDl+UJlBlj18Qbpe4Fll28N+es/fQEicDdeIPy/G2hrhqDtUDfnH
-         js2df1NFYRqCqErM6TmvQRzOkVpSfmaFEbo+24YozZ1IyvaHOgiPU4ChFQ2tU5gI4MqQ
-         QhOAdHMuTsMlSnKueCSvgIzTB0cSoG775WJUQGzX6k+fbz/EaAbF8vWEhrDKokUfrAW2
-         qg7+ufxVbgtIbm9snmn2gmQPx4gftI/JlhsAVtrCClFjHTqBWVJl43Hf5hYuBO59MLwW
-         lhFMeDnloFqFxNgHVf3XN2AVReQ2LZO2/DbU5/8R4UaX/84WoiAXFqiaQxezskydcl0/
-         Ebkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756413452; x=1757018252;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZOMMLFiaOAz+64Gs7xjJhrQIlkJjOe3bWicWl5TD5n4=;
-        b=DfKx0HQTKY6RNXe3ihNMKn3h1XyD9e5OS02ddVAA0Aba/Iu683HQOUC0YsqHHmxFmS
-         Cc862qu09ZFoAP+7URSH7n9o1QrViDgDq4YsxTBYwKVecn850lJ8gheWBkn0uQVRkKQO
-         vullvd7SWPkEuFSstr5Y0IdJH/VpcN9xc4eYaUg6EVKUAouJTh30xAaiVq/AL5uwEww5
-         jrjW5Ytyjju2t0GZbsvUXD6daw/mxMH3EMg1L5dGeTjG9KvO39kVv0cgK/LUGr64GXdC
-         xaY8Juam1n68jyrfNRhMqBV5376gENwnLN4G9KKyRWslX6eehlLSQiVPNjdfsFTHzRA3
-         t6iw==
-X-Gm-Message-State: AOJu0Yy9gGqO2lRSaCfQ1iAnBdLaTA2G+ssubQq6Eyh/huKxIY63bQEM
-	O2JHt+7io62vGRuZrhWo1nQgg3NRkTkURIhkPHAeMYzPn2PkkIHf6hXXFwE4UOZ1rkY=
-X-Gm-Gg: ASbGncvUmDeAQg+zjKB+sx34+UOad6TiB7FxLPpR9l2H/b8KwROXCGN8rbxGth2v+Ry
-	PpbQO4wZOgABE+W2G4/PxCqYv9FZTbrVhuxsYurFVJKBA4v7tlOYhc7ua9pAhjjJUFDhbo4ZhE7
-	ywWRigCKyoRgCKdcRDU2TwdctUAcXEkux5kd4HuVmMZfZhHXUjBxQRRHUIx0nwqcbmrHo64xwgz
-	HwvN3/cgrrgkBzq5TbixQCwiXhuC4uQmxNV4V3CJhYQhxqZi2oL2bWV2f/+9ZLtwGgeME+Hsi/L
-	trygelhkNzm3HVvw+AEs9n8prahm9KodqG/QjcbKJ2aED/jmJNHLgpxfq+RNY1sHe+9uqp52GEk
-	8Hefq63WlzsHqt1ufWPDCRjAkUn26yhSkyvvRAA==
-X-Google-Smtp-Source: AGHT+IEuSR941eoZ1jOjsoOEgYz1hR0QFvD7yeN/R81eIk6+aXmjbxztfihWFemM+y/f9Vu5CUyggw==
-X-Received: by 2002:a05:620a:1a98:b0:7e9:fdca:1296 with SMTP id af79cd13be357-7ea10f74696mr2973451385a.13.1756413451848;
-        Thu, 28 Aug 2025 13:37:31 -0700 (PDT)
-Received: from ethanf.zetier.com ([65.222.209.234])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7fc153de18asm45879585a.54.2025.08.28.13.37.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 13:37:31 -0700 (PDT)
-From: Ethan Ferguson <ethan.ferguson@zetier.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ethan Ferguson <ethan.ferguson@zetier.com>
-Subject: [PATCH 3/3] ntfs3: add FS_IOC_SETFSLABEL ioctl
-Date: Thu, 28 Aug 2025 16:37:16 -0400
-Message-Id: <20250828203716.468564-4-ethan.ferguson@zetier.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250828203716.468564-1-ethan.ferguson@zetier.com>
-References: <20250828203716.468564-1-ethan.ferguson@zetier.com>
+	s=arc-20240116; t=1756474690; c=relaxed/simple;
+	bh=6l8qYyyo9xzbGYakuOHTAn3PdioH+JkvpoeXSqCW5NE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X+BNAHl8YpOV4zs7LEn3G01D05PVT/wjlIBWfxwbnavpmqXugTmsw/QCVXkydcFMjhuKIyygKIIGQAfamD9f7W6C9q9Wlwxq29IBhhNjxVZdfCNw0UGKlskOQMHg03uNkgUwkeqRIESHkfZQpybXluWNkzP3YXGAva1CVm4gq6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 57TDbobn051412;
+	Fri, 29 Aug 2025 22:37:50 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.10] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 57TDbnVK051401
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 29 Aug 2025 22:37:50 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <d422acf1-129c-4886-9862-e16185ff26e9@I-love.SAKURA.ne.jp>
+Date: Fri, 29 Aug 2025 22:37:47 +0900
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] vfs: exclude ntfs3 from file mode validation in
+ may_open()
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        ntfs3@lists.linux.dev
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+        Mateusz Guzik <mjguzik@gmail.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Christian Brauner <brauner@kernel.org>
+References: <fb3888fb-11b8-481b-86a6-766bbbab5c81@I-love.SAKURA.ne.jp>
+ <20250811-geteilt-sprudeln-f09e6ec25c0c@brauner>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <20250811-geteilt-sprudeln-f09e6ec25c0c@brauner>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Anti-Virus-Server: fsav302.rs.sakura.ne.jp
+X-Virus-Status: clean
 
-Add support for the FS_IOC_SETFSLABEL ioctl.
+Konstantin, can you answer?
 
-Signed-off-by: Ethan Ferguson <ethan.ferguson@zetier.com>
-
----
- fs/ntfs3/file.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 0a1e9f16ffaf..4c90ec2fa2ea 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -57,6 +57,22 @@ static int ntfs_ioctl_get_volume_label(struct ntfs_sb_info *sbi, u8 __user *buf)
- 	return 0;
- }
- 
-+static int ntfs_ioctl_set_volume_label(struct ntfs_sb_info *sbi, u8 __user *buf)
-+{
-+	u8 user[FSLABEL_MAX] = {0};
-+	int len;
-+
-+	if (!capable(CAP_SYS_ADMIN))
-+		return -EPERM;
-+
-+	if (copy_from_user(user, buf, FSLABEL_MAX))
-+		return -EFAULT;
-+
-+	len = strnlen(user, FSLABEL_MAX);
-+
-+	return ntfs_set_label(sbi, user, len);
-+}
-+
- /*
-  * ntfs_ioctl - file_operations::unlocked_ioctl
-  */
-@@ -74,6 +90,8 @@ long ntfs_ioctl(struct file *filp, u32 cmd, unsigned long arg)
- 		return ntfs_ioctl_fitrim(sbi, arg);
- 	case FS_IOC_GETFSLABEL:
- 		return ntfs_ioctl_get_volume_label(sbi, (u8 __user *)arg);
-+	case FS_IOC_SETFSLABEL:
-+		return ntfs_ioctl_set_volume_label(sbi, (u8 __user *)arg);
- 	}
- 	return -ENOTTY; /* Inappropriate ioctl for device. */
- }
--- 
-2.34.1
-
+On 2025/08/11 22:50, Christian Brauner wrote:
+>> Is it possible to handle this problem on the NTFS3 side?
+> 
+> Ugh, this is annoying.
+> @Konstantin, why do you leave a zero mode for these files?
+> Let's just make them regular files?
+> 
+>>
+>>   --- a/fs/ntfs3/inode.c
+>>   +++ b/fs/ntfs3/inode.c
+>>   @@ -470,8 +470,9 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+>>           } else if (fname && fname->home.low == cpu_to_le32(MFT_REC_EXTEND) &&
+>>                      fname->home.seq == cpu_to_le16(MFT_REC_EXTEND)) {
+>>                   /* Records in $Extend are not a files or general directories. */
+>>                   inode->i_op = &ntfs_file_inode_operations;
+>>   +               mode = S_IFREG;
+>>           } else {
+>>                   err = -EINVAL;
+>>                   goto out;
+>>           }
+>>
+>> I don't know what breaks if we pretend as if S_IFREG...
