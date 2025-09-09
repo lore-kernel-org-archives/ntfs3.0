@@ -1,78 +1,75 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C891434DCFC
-	for <ntfs3@lists.linux.dev>; Tue,  9 Sep 2025 16:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFE4356912
+	for <ntfs3@lists.linux.dev>; Tue,  9 Sep 2025 16:45:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757436223; cv=none; b=SD9y8TP9Mnp/KEjPcXFo3uUs58+rzWdvD68hii/wdHCzgZN+HKmrTSwr+bFTIEilPrm494KAsd2EGVOdfj05JK5BZIDz43ZkCzPOE5OmQsegbC0cfgRtQPRxrRvVb/UYojUr5coxTU9IvQTYN1hwINR8XBCcNcFTzom2vQa3d4s=
+	t=1757436317; cv=none; b=gV+2A/EBaKEC6RM5Q46bbaD2yImqTHfBfm+TYdUGG9e+ON2cSTy1Of77M2ces3LXC5EBtHgb04qFHN+VxKx2xqdVtf2Kc2+qpIkdaW2LikD4FUDiT7kaDDjWE2b51JKoyuJNaG6tfgGit7XN18WCNkz1jeL9ZQ9unvcW4ysvqFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757436223; c=relaxed/simple;
-	bh=QvvxVmrQ6ERDo1A0ifaFO0uKs7uSQdW94E943VWjhCY=;
+	s=arc-20240116; t=1757436317; c=relaxed/simple;
+	bh=YdqZOJS1XegllADYMp14xOqLRozKDiiQo9nTBZULf1E=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oWy6bSYu1m8DOKI0vF3y0+Tpk3aJ4Gw5aQOqND7SUJk+ngrmk6OjZxda5G1tqEGaAB4LUOGNVcGa7X2xZwcJkmVz9XKH76MUuvlSswJa7ioLYVqIgnkm/m1lBVWOOasiBKt5pBjXGvxzUsdQQKvJqpl4xO92c3px6amILr0O2eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=x0KslDfv; arc=none smtp.client-ip=209.85.208.51
+	 To:Cc:Content-Type; b=fJxp/Ui57KqoMn8lkAUosYOOaS3z6+kDDTnEAEKrYvydlGG6y3FjUOpy0MbYZwf1XFBadUIzG812Jw9Ge0ypBeR1ulCgTfX+nb1RMSXWRcnx7r3J/RUpiIu/YgghITSnnkNbu4xwdTKOe+/rQwNb6D/zxxaUlpnT/E75ngsVn/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=w9RC4I3c; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="x0KslDfv"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-61d14448c22so43a12.1
-        for <ntfs3@lists.linux.dev>; Tue, 09 Sep 2025 09:43:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="w9RC4I3c"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-61cfbb21fd1so256a12.0
+        for <ntfs3@lists.linux.dev>; Tue, 09 Sep 2025 09:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1757436219; x=1758041019; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1757436312; x=1758041112; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=X9zR1ns6r4tli6kgpMkZXeVyHg9onE4yZmroH/q5x2E=;
-        b=x0KslDfvCoXfDG5IzMT2yFB7ttqD61AOkRBkmTIGdOv2GzTxDJUk5pzlHFwwgsUC1C
-         h13gpgk7ujcQzKRZ7GQ+3OVfEtGm9NiSpcu7m9CqUm4r0g27DYjp0UZy+7nveSJNMwAF
-         lUojsuJzPiCnaYHAmXRLh7R6sB32ZMdQhzZCeat38HbnOyTQ3BpxgFqK46O+Ips/M0uK
-         eDcOyeSLbbdCwp32Sf2FuRyRLENTBZXSvx423WybEzXN1Bmwb+VmX1BjNulj4D3/0CHY
-         V3aXJRahvV5YHK/ZK5y4vn68Cesl8lGZmtbINb5tl5Tz4hxVWOhn7ZeiW+cJI9hPEtPL
-         fixA==
+        bh=wg66ytqT5gW0pLgpcFNtD+RmpG9kakagwaMvlSmeZ+A=;
+        b=w9RC4I3c5iLoSBDOBFx0EACGrhxaamfNLREEHodVwy1O2+B5kV/MCTgrd5kF0HQ3ZE
+         zhhJhMA7C40mJbaKclOc4d4imLoRGMvT3FkGtu986IqIoepUueZH7PZ54G1A+Y/403E6
+         rrJ2nesTIK++RufMCdCsGXiY8TT83cJQHB2t0nKRaW7oR65cVWhX71SmWwfOP2MbOdZk
+         ZbaEsm5WMBk1xLrIgcs3eHrTK+Ywlq8g4Nm7jnwWqw+NT5bgMa/Gc8GNE6Rj2HbOiZKR
+         D5FCiJn4+LS64y3hywK0e6jYiTBZFNF4J2p6Jet76xVYWBxbD/YXaIH1AHAqA885Lat2
+         zxBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757436219; x=1758041019;
+        d=1e100.net; s=20230601; t=1757436312; x=1758041112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=X9zR1ns6r4tli6kgpMkZXeVyHg9onE4yZmroH/q5x2E=;
-        b=UNeRZVP0jjjmuajaf25qfCc0Qzkv/79hqdfAqRwxQqpjbCjwmbAuNPDRcssMqi2mJh
-         vQwWGbrQ34cAtW6EleMI6pnDswOPrUpBlHaCs0OYUh6dlMIK67VM1BJvwksydhdXgPRl
-         LSqIWhWRgB2nA3O6xcFOFDM9B0CM6AoieAZctS+PpnaDBxvT7te4P8CcA0/DGrtbR+LA
-         MJ5mIZXl6eLAJ55g9SnX+MEnCybiWVYFEoYFvaMUC4wIWgTvXH5Ow8l24W/8Pf1LP4l2
-         YP44XgFKE+ETK5EFqvJotwcdVw+enpHnXJXpi/4GA/6c6k6UAnYYt37nz7YkMxxdKYnW
-         eTdw==
-X-Forwarded-Encrypted: i=1; AJvYcCUyKcSgv3N/TDFIseGoLQUmlKQ/QjF+GLVHXrV2vsDN/QuzBU5tiCVSWWGp3ooSnSwOHmHj1Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwCaiDIBK0mwfqfY3/ZMsOES9vQ2yqC9pPszyBmT25N8Jsj1Ev9
-	YQmVZPtFQsG0ejkGmx932sNgxUem957CUuxzx+wNzmmZYFDkY5881WnC9DJIDHgV5CxMZYBsp2/
-	mRECCt+gKjSuTMTzAolE043Pvm5l2VSMrIN2GXYkE
-X-Gm-Gg: ASbGncvCLL9g367dbQHW81gJKdjgIr2LjRbksqU49HH6/fDXbIUugy174/UMzXmFT1C
-	G15OVXfNtVoNa38Bo3Qb8FCTcj6zbuEGZPTavd3j+vC3NBW4vcNlbrzypK8XwLEdcMcoxih5XPT
-	GnMg1k0SdmU6xZEkVL6K+euHPnnnO5lyb7GBeNB4YHX+yYitfPat6Gj3Cz383IzEYWecC9Xchv6
-	pDoSpINO1+/4xgacjHG+jJjaoqjl2ryIu9Ycaa6SMYJOusma5gFegQ=
-X-Google-Smtp-Source: AGHT+IELrtj08JXZeKFczydeIaWz+ZDdGREnJhxstnY5vYYsKxfzgQANvCdFJ1mjoGgstj0WHnOScZjfoo2Pzh65Zfk=
-X-Received: by 2002:a05:6402:4024:b0:61c:c9e3:18f9 with SMTP id
- 4fb4d7f45d1cf-623d2c4dda5mr356673a12.3.1757436218862; Tue, 09 Sep 2025
- 09:43:38 -0700 (PDT)
+        bh=wg66ytqT5gW0pLgpcFNtD+RmpG9kakagwaMvlSmeZ+A=;
+        b=NvAWrVrjXu0mMlSDZsRUGQwgFwo4GJDeMLBICQXOfgw0YNuAZ2DqRyByUTvjUpTktn
+         QEWEDUnFMZy2mgh+kj6kdIiaQMP8QMITXsm+M5ogn0StBVqeshn1FdVNBi408LZOseYl
+         nmTV3jeGvtZE92praVPOW2tUwijX6tbfNeEUxe3PwQc+yaIeum20f+c2YogHBIFRXDUi
+         X2+f3mtNl4iujqKmw3/O1qN4HHurwJo/zjWYxvSxXXHwW5HrqK3/CMNd7X8l1tnsClG9
+         QrSoNoe/GNRpDxhSz8dUwT2g4kCdZ91DQL22d/h7+8Kc2N/2bUEjC5Wj7ZR8PwSzHKJ4
+         bg2A==
+X-Forwarded-Encrypted: i=1; AJvYcCXvGiUamiglpNO3KnkOVfhAq8c4ti7tPRPgVP92qsm9e7Yx8PANNV4X9zbIU0ajVmQyL11iFw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywf/vJu6vEkAm56ScSvDuxjBRu+UBNgLsN/1ZuW2lzoLgzwZQWm
+	3B6vTXPIPj+RXj96YLSpd86plWADe1Bl8zr+Zo/DFisQnoqADBxzEpF0GRYpw37eE3uTGAfVQYf
+	8hyIaQUMMrLvRkYwtAstqrNTe6IEAS8DhpMFMDiIt
+X-Gm-Gg: ASbGncta6IDnA/Xh69xsuMygQ59JTDrtIQOtgDUi8HoqUixlLF5RHZhr8hE1pu51yzc
+	QSDwxIPvDeawafkJC/pdm5XRVY0GgT6I6QK2vrUHQI8HRDu2DiY1/rwJWq/fh76lJM66R86rp6u
+	m60uV/sUrLDQQOFsgKp6j1/KmHnLTcnSQKu79rdsky7HqUHYp9IGknuJSBJWG/cYThGfs6RqS85
+	AKapBSi6Oi3snA1omqJbqQwAB+rJ3RC4qeOE1mr6/62pZrO96G4bHQ=
+X-Google-Smtp-Source: AGHT+IGPGk0qf/IiaeJSTR25Y6zNMAmob9Bf6pRZiB8Cz91tPx5tFvdw6FMK8xHuP6h0JHF887G6sd0LUCfFyNW1CIU=
+X-Received: by 2002:a05:6402:d60:b0:61c:d36d:218c with SMTP id
+ 4fb4d7f45d1cf-6234d3ee779mr242645a12.0.1757436311257; Tue, 09 Sep 2025
+ 09:45:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1757329751.git.lorenzo.stoakes@oracle.com>
- <ea1a5ab9fff7330b69f0b97c123ec95308818c98.1757329751.git.lorenzo.stoakes@oracle.com>
- <ad69e837-b5c7-4e2d-a268-c63c9b4095cf@redhat.com> <c04357f9-795e-4a5d-b762-f140e3d413d8@lucifer.local>
- <e882bb41-f112-4ec3-a611-0b7fcf51d105@redhat.com> <8994a0f1-1217-49e6-a0db-54ddb5ab8830@lucifer.local>
-In-Reply-To: <8994a0f1-1217-49e6-a0db-54ddb5ab8830@lucifer.local>
+References: <cover.1757329751.git.lorenzo.stoakes@oracle.com> <ea1a5ab9fff7330b69f0b97c123ec95308818c98.1757329751.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <ea1a5ab9fff7330b69f0b97c123ec95308818c98.1757329751.git.lorenzo.stoakes@oracle.com>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 9 Sep 2025 09:43:25 -0700
-X-Gm-Features: AS18NWB56jIrhZDM4c-qSVZLOkH6X6dA_iJA_IjgEAuDFh14nG2Q8lK0Ov1ujjQ
-Message-ID: <CAJuCfpEeUkta7UfN2qzSxHuohHnm7qXe=rEzVjfynhmn2WF0fA@mail.gmail.com>
+Date: Tue, 9 Sep 2025 09:44:58 -0700
+X-Gm-Features: AS18NWD_8AWrPfmI0tsMVHUiuAGzDjgerBQcQZeWasEIUA51d1DPsE14BgjCaGA
+Message-ID: <CAJuCfpFr+vMowHzAs7QDwMmNvS4RMJg0xqXkYAxBLCKh1wdAmQ@mail.gmail.com>
 Subject: Re: [PATCH 06/16] mm: introduce the f_op->mmap_complete, mmap_abort hooks
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: David Hildenbrand <david@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>, Guo Ren <guoren@kernel.org>, 
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Matthew Wilcox <willy@infradead.org>, Guo Ren <guoren@kernel.org>, 
 	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Heiko Carstens <hca@linux.ibm.com>, 
 	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
 	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
@@ -80,7 +77,7 @@ Cc: David Hildenbrand <david@redhat.com>, Andrew Morton <akpm@linux-foundation.o
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>, 
 	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
 	Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, 
+	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@redhat.com>, 
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Baoquan He <bhe@redhat.com>, 
 	Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>, 
 	Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, 
@@ -99,82 +96,385 @@ Cc: David Hildenbrand <david@redhat.com>, Andrew Morton <akpm@linux-foundation.o
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 9, 2025 at 2:37=E2=80=AFAM Lorenzo Stoakes
+On Mon, Sep 8, 2025 at 4:11=E2=80=AFAM Lorenzo Stoakes
 <lorenzo.stoakes@oracle.com> wrote:
 >
-> On Tue, Sep 09, 2025 at 11:26:21AM +0200, David Hildenbrand wrote:
-> > > >
-> > > > In particular, the mmap_complete() looks like another candidate for=
- letting
-> > > > a driver just go crazy on the vma? :)
-> > >
-> > > Well there's only so much we can do. In an ideal world we'd treat VMA=
-s as
-> > > entirely internal data structures and pass some sort of opaque thing =
-around, but
-> > > we have to keep things real here :)
-> >
-> > Right, we'd pass something around that cannot be easily abused (like
-> > modifying random vma flags in mmap_complete).
-> >
-> > So I was wondering if most operations that driver would perform during =
-the
-> > mmap_complete() could be be abstracted, and only those then be called w=
-ith
-> > whatever opaque thing we return here.
+> We have introduced the f_op->mmap_prepare hook to allow for setting up a
+> VMA far earlier in the process of mapping memory, reducing problematic
+> error handling paths, but this does not provide what all
+> drivers/filesystems need.
 >
-> Well there's 2 issues at play:
+> In order to supply this, and to be able to move forward with removing
+> f_op->mmap altogether, introduce f_op->mmap_complete.
 >
-> 1. I might end up having to rewrite _large parts_ of kernel functionality=
- all of
->    which relies on there being a vma parameter (or might find that to be
->    intractable).
+> This hook is called once the VMA is fully mapped and everything is done,
+> however with the mmap write lock and VMA write locks held.
 >
-> 2. There's always the 'odd ones out' :) so there'll be some drivers that
->    absolutely do need to have access to this.
+> The hook is then provided with a fully initialised VMA which it can do wh=
+at
+> it needs with, though the mmap and VMA write locks must remain held
+> throughout.
 >
-> But as I was writing this I thought of an idea - why don't we have someth=
-ing
-> opaque like this, perhaps with accessor functions, but then _give the abi=
-lity to
-> get the VMA if you REALLY have to_.
+> It is not intended that the VMA be modified at this point, attempts to do
+> so will end in tears.
 >
-> That way we can handle both problems without too much trouble.
+> This allows for operations such as pre-population typically via a remap, =
+or
+> really anything that requires access to the VMA once initialised.
 >
-> Also Jason suggested generic functions that can just be assigned to
-> .mmap_complete for instance, which would obviously eliminate the crazy
-> factor a lot too.
+> In addition, a caller may need to take a lock in mmap_prepare, when it is
+> possible to modify the VMA, and release it on mmap_complete. In order to
+> handle errors which may arise between the two operations, f_op->mmap_abor=
+t
+> is provided.
 >
-> I'm going to refactor to try to put ONLY prepopulate logic in
-> .mmap_complete where possible which fits with all of this.
+> This hook should be used to drop any lock and clean up anything before th=
+e
+> VMA mapping operation is aborted. After this point the VMA will not be
+> added to any mapping and will not exist.
+>
+> We also add a new mmap_context field to the vm_area_desc type which can b=
+e
+> used to pass information pertinent to any locks which are held or any sta=
+te
+> which is required for mmap_complete, abort to operate correctly.
+>
+> We also update the compatibility layer for nested filesystems which
+> currently still only specify an f_op->mmap() handler so that it correctly
+> invokes f_op->mmap_complete as necessary (note that no error can occur
+> between mmap_prepare and mmap_complete so mmap_abort will never be called
+> in this case).
+>
+> Also update the VMA tests to account for the changes.
+>
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> ---
+>  include/linux/fs.h               |  4 ++
+>  include/linux/mm_types.h         |  5 ++
+>  mm/util.c                        | 18 +++++--
+>  mm/vma.c                         | 82 ++++++++++++++++++++++++++++++--
+>  tools/testing/vma/vma_internal.h | 31 ++++++++++--
+>  5 files changed, 129 insertions(+), 11 deletions(-)
+>
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 594bd4d0521e..bb432924993a 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -2195,6 +2195,10 @@ struct file_operations {
+>         int (*uring_cmd_iopoll)(struct io_uring_cmd *, struct io_comp_bat=
+ch *,
+>                                 unsigned int poll_flags);
+>         int (*mmap_prepare)(struct vm_area_desc *);
+> +       int (*mmap_complete)(struct file *, struct vm_area_struct *,
+> +                            const void *context);
+> +       void (*mmap_abort)(const struct file *, const void *vm_private_da=
+ta,
+> +                          const void *context);
+>  } __randomize_layout;
+>
+>  /* Supports async buffered reads */
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index cf759fe08bb3..052db1f31fb3 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -793,6 +793,11 @@ struct vm_area_desc {
+>         /* Write-only fields. */
+>         const struct vm_operations_struct *vm_ops;
+>         void *private_data;
+> +       /*
+> +        * A user-defined field, value will be passed to mmap_complete,
+> +        * mmap_abort.
+> +        */
+> +       void *mmap_context;
+>  };
+>
+>  /*
+> diff --git a/mm/util.c b/mm/util.c
+> index 248f877f629b..f5bcac140cb9 100644
+> --- a/mm/util.c
+> +++ b/mm/util.c
+> @@ -1161,17 +1161,26 @@ int __compat_vma_mmap_prepare(const struct file_o=
+perations *f_op,
+>         err =3D f_op->mmap_prepare(&desc);
+>         if (err)
+>                 return err;
+> +
+>         set_vma_from_desc(vma, &desc);
+>
+> -       return 0;
+> +       /*
+> +        * No error can occur between mmap_prepare() and mmap_complete so=
+ no
+> +        * need to invoke mmap_abort().
+> +        */
+> +
+> +       if (f_op->mmap_complete)
+> +               err =3D f_op->mmap_complete(file, vma, desc.mmap_context)=
+;
+> +
+> +       return err;
+>  }
+>  EXPORT_SYMBOL(__compat_vma_mmap_prepare);
+>
+>  /**
+>   * compat_vma_mmap_prepare() - Apply the file's .mmap_prepare() hook to =
+an
+> - * existing VMA.
+> + * existing VMA and invoke .mmap_complete() if provided.
+>   * @file: The file which possesss an f_op->mmap_prepare() hook.
 
-Thinking along these lines, do you have a case when mmap_abort() needs
-vm_private_data? I was thinking if VMA mapping failed, why would you
-need vm_private_data to unwind prep work? You already have the context
-pointer for that, no?
+nit: possesss seems to be misspelled. Maybe we can fix it here as well?
 
+> - * @vma: The VMA to apply the .mmap_prepare() hook to.
+> + * @vma: The VMA to apply the hooks to.
+>   *
+>   * Ordinarily, .mmap_prepare() is invoked directly upon mmap(). However,=
+ certain
+>   * stacked filesystems invoke a nested mmap hook of an underlying file.
+> @@ -1188,6 +1197,9 @@ EXPORT_SYMBOL(__compat_vma_mmap_prepare);
+>   * establishes a struct vm_area_desc descriptor, passes to the underlyin=
+g
+>   * .mmap_prepare() hook and applies any changes performed by it.
+>   *
+> + * If the relevant hooks are provided, it also invokes .mmap_complete() =
+upon
+> + * successful completion.
+> + *
+>   * Once the conversion of filesystems is complete this function will no =
+longer
+>   * be required and will be removed.
+>   *
+> diff --git a/mm/vma.c b/mm/vma.c
+> index 0efa4288570e..a0b568fe9e8d 100644
+> --- a/mm/vma.c
+> +++ b/mm/vma.c
+> @@ -22,6 +22,7 @@ struct mmap_state {
+>         /* User-defined fields, perhaps updated by .mmap_prepare(). */
+>         const struct vm_operations_struct *vm_ops;
+>         void *vm_private_data;
+> +       void *mmap_context;
 >
-> >
-> > But I have no feeling about what crazy things a driver might do. Just
-> > calling remap_pfn_range() would be easy, for example, and we could abst=
-ract
-> > that.
+>         unsigned long charged;
 >
-> Yeah, I've obviously already added some wrappers for these.
+> @@ -2343,6 +2344,23 @@ static int __mmap_prelude(struct mmap_state *map, =
+struct list_head *uf)
+>         int error;
+>         struct vma_iterator *vmi =3D map->vmi;
+>         struct vma_munmap_struct *vms =3D &map->vms;
+> +       struct file *file =3D map->file;
+> +
+> +       if (file) {
+> +               /* f_op->mmap_complete requires f_op->mmap_prepare. */
+> +               if (file->f_op->mmap_complete && !file->f_op->mmap_prepar=
+e)
+> +                       return -EINVAL;
+> +
+> +               /*
+> +                * It's not valid to provide an f_op->mmap_abort hook wit=
+hout also
+> +                * providing the f_op->mmap_prepare and f_op->mmap_comple=
+te hooks it is
+> +                * used with.
+> +                */
+> +               if (file->f_op->mmap_abort &&
+> +                    (!file->f_op->mmap_prepare ||
+> +                     !file->f_op->mmap_complete))
+> +                       return -EINVAL;
+> +       }
 >
-> BTW I really really hate that STUPID ->vm_pgoff hack, if not for that, li=
-fe
-> would be much simpler.
+>         /* Find the first overlapping VMA and initialise unmap state. */
+>         vms->vma =3D vma_find(vmi, map->end);
+> @@ -2595,6 +2613,7 @@ static int call_mmap_prepare(struct mmap_state *map=
+)
+>         /* User-defined fields. */
+>         map->vm_ops =3D desc.vm_ops;
+>         map->vm_private_data =3D desc.private_data;
+> +       map->mmap_context =3D desc.mmap_context;
 >
-> But instead now we need to specify PFN in the damn remap prepare wrapper =
-in
-> case of CoW. God.
+>         return 0;
+>  }
+> @@ -2636,16 +2655,61 @@ static bool can_set_ksm_flags_early(struct mmap_s=
+tate *map)
+>         return false;
+>  }
 >
-> >
-> > --
-> > Cheers
-> >
-> > David / dhildenb
-> >
+> +/*
+> + * Invoke the f_op->mmap_complete hook, providing it with a fully initia=
+lised
+> + * VMA to operate upon.
+> + *
+> + * The mmap and VMA write locks must be held prior to and after the hook=
+ has
+> + * been invoked.
+> + */
+> +static int call_mmap_complete(struct mmap_state *map, struct vm_area_str=
+uct *vma)
+> +{
+> +       struct file *file =3D map->file;
+> +       void *context =3D map->mmap_context;
+> +       int error;
+> +       size_t len;
+> +
+> +       if (!file || !file->f_op->mmap_complete)
+> +               return 0;
+> +
+> +       error =3D file->f_op->mmap_complete(file, vma, context);
+> +       /* The hook must NOT drop the write locks. */
+> +       vma_assert_write_locked(vma);
+> +       mmap_assert_write_locked(current->mm);
+> +       if (!error)
+> +               return 0;
+> +
+> +       /*
+> +        * If an error occurs, unmap the VMA altogether and return an err=
+or. We
+> +        * only clear the newly allocated VMA, since this function is onl=
+y
+> +        * invoked if we do NOT merge, so we only clean up the VMA we cre=
+ated.
+> +        */
+> +       len =3D vma_pages(vma) << PAGE_SHIFT;
+> +       do_munmap(current->mm, vma->vm_start, len, NULL);
+> +       return error;
+> +}
+> +
+> +static void call_mmap_abort(struct mmap_state *map)
+> +{
+> +       struct file *file =3D map->file;
+> +       void *vm_private_data =3D map->vm_private_data;
+> +
+> +       VM_WARN_ON_ONCE(!file || !file->f_op);
+> +       file->f_op->mmap_abort(file, vm_private_data, map->mmap_context);
+> +}
+> +
+>  static unsigned long __mmap_region(struct file *file, unsigned long addr=
+,
+>                 unsigned long len, vm_flags_t vm_flags, unsigned long pgo=
+ff,
+>                 struct list_head *uf)
+>  {
+> -       struct mm_struct *mm =3D current->mm;
+> -       struct vm_area_struct *vma =3D NULL;
+> -       int error;
+>         bool have_mmap_prepare =3D file && file->f_op->mmap_prepare;
+> +       bool have_mmap_abort =3D file && file->f_op->mmap_abort;
+> +       struct mm_struct *mm =3D current->mm;
+>         VMA_ITERATOR(vmi, mm, addr);
+>         MMAP_STATE(map, mm, &vmi, addr, len, pgoff, vm_flags, file);
+> +       struct vm_area_struct *vma =3D NULL;
+> +       bool allocated_new =3D false;
+> +       int error;
 >
-> Cheers, Lorenzo
+>         map.check_ksm_early =3D can_set_ksm_flags_early(&map);
+>
+> @@ -2668,8 +2732,12 @@ static unsigned long __mmap_region(struct file *fi=
+le, unsigned long addr,
+>         /* ...but if we can't, allocate a new VMA. */
+>         if (!vma) {
+>                 error =3D __mmap_new_vma(&map, &vma);
+> -               if (error)
+> +               if (error) {
+> +                       if (have_mmap_abort)
+> +                               call_mmap_abort(&map);
+>                         goto unacct_error;
+> +               }
+> +               allocated_new =3D true;
+>         }
+>
+>         if (have_mmap_prepare)
+> @@ -2677,6 +2745,12 @@ static unsigned long __mmap_region(struct file *fi=
+le, unsigned long addr,
+>
+>         __mmap_epilogue(&map, vma);
+>
+> +       if (allocated_new) {
+> +               error =3D call_mmap_complete(&map, vma);
+> +               if (error)
+> +                       return error;
+> +       }
+> +
+>         return addr;
+>
+>         /* Accounting was done by __mmap_prelude(). */
+> diff --git a/tools/testing/vma/vma_internal.h b/tools/testing/vma/vma_int=
+ernal.h
+> index 07167446dcf4..566cef1c0e0b 100644
+> --- a/tools/testing/vma/vma_internal.h
+> +++ b/tools/testing/vma/vma_internal.h
+> @@ -297,11 +297,20 @@ struct vm_area_desc {
+>         /* Write-only fields. */
+>         const struct vm_operations_struct *vm_ops;
+>         void *private_data;
+> +       /*
+> +        * A user-defined field, value will be passed to mmap_complete,
+> +        * mmap_abort.
+> +        */
+> +       void *mmap_context;
+>  };
+>
+>  struct file_operations {
+>         int (*mmap)(struct file *, struct vm_area_struct *);
+>         int (*mmap_prepare)(struct vm_area_desc *);
+> +       void (*mmap_abort)(const struct file *, const void *vm_private_da=
+ta,
+> +                          const void *context);
+> +       int (*mmap_complete)(struct file *, struct vm_area_struct *,
+> +                            const void *context);
+>  };
+>
+>  struct file {
+> @@ -1471,7 +1480,7 @@ static inline int __compat_vma_mmap_prepare(const s=
+truct file_operations *f_op,
+>  {
+>         struct vm_area_desc desc =3D {
+>                 .mm =3D vma->vm_mm,
+> -               .file =3D vma->vm_file,
+> +               .file =3D file,
+>                 .start =3D vma->vm_start,
+>                 .end =3D vma->vm_end,
+>
+> @@ -1485,13 +1494,21 @@ static inline int __compat_vma_mmap_prepare(const=
+ struct file_operations *f_op,
+>         err =3D f_op->mmap_prepare(&desc);
+>         if (err)
+>                 return err;
+> +
+>         set_vma_from_desc(vma, &desc);
+>
+> -       return 0;
+> +       /*
+> +        * No error can occur between mmap_prepare() and mmap_complete so=
+ no
+> +        * need to invoke mmap_abort().
+> +        */
+> +
+> +       if (f_op->mmap_complete)
+> +               err =3D f_op->mmap_complete(file, vma, desc.mmap_context)=
+;
+> +
+> +       return err;
+>  }
+>
+> -static inline int compat_vma_mmap_prepare(struct file *file,
+> -               struct vm_area_struct *vma)
+> +static inline int compat_vma_mmap_prepare(struct file *file, struct vm_a=
+rea_struct *vma)
+>  {
+>         return __compat_vma_mmap_prepare(file->f_op, file, vma);
+>  }
+> @@ -1548,4 +1565,10 @@ static inline vm_flags_t ksm_vma_flags(const struc=
+t mm_struct *, const struct fi
+>         return vm_flags;
+>  }
+>
+> +static inline int do_munmap(struct mm_struct *mm, unsigned long start, s=
+ize_t len,
+> +             struct list_head *uf)
+> +{
+> +       return 0;
+> +}
+> +
+>  #endif /* __MM_VMA_INTERNAL_H */
+> --
+> 2.51.0
+>
