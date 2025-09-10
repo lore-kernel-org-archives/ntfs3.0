@@ -1,257 +1,272 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642F52F879
-	for <ntfs3@lists.linux.dev>; Wed, 10 Sep 2025 15:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757517438; cv=none; b=kmacRn9ntry6dI5x6x8HtZwJKdK/pNU67yhd+cv3PY6Nz4xGRDtRefQyI3rXT19VU2Kc8IreOvIIuS05PSoZh4wMdrGVQquBClK5soyQEGbZNztKBHzqEF5AarXdUg8HZAIYLf8UT6GwdLhMug/Xggv11qHLox2GUCLwfWXAYHs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757517438; c=relaxed/simple;
-	bh=j58Ug4xAazb5e4BSWh0QoB9IC+jg9pk4B5u7PD4jvkk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M2/kpeUV0n7H1tFUmcpMG/01uUdjHPWVY01RYZdl4tNGA0wCJbX6+or7YiR857tR1+sBgbXcwvxn/v4y6bx7ubVs1omJ8YGN25Yxy3X1XzHbACdpjEblVKiEbIlAiF+KV1Bzv0n+2n5/1OhPusmbYVHdGov5fw4+H4p3RdOOb8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cxJY94Du; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6412D2459DC;
+	Wed, 10 Sep 2025 20:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757535790; cv=fail; b=u8rWIQZ/fcZOM4h2E47zuSsIgWbuRi/Ec09SqEqtAKkqWUOEgZPMwfGCirARJ8jWzgYSS2OenH7JNOVdWlWnq/SHVol3V0aaz1SQ01PJCskPgRWM4oeNR0ka9ncTQBTGviFz3lnawvmh2nov5udF0eZr+Ch15nT9GGFePtg2aI4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757535790; c=relaxed/simple;
+	bh=OmBk45+xqox65yLOlKChKPb3T2sYjfHosl3O0JyXpDk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=VWBAX2uPeFt4PvzExzskj3NT2O8dcE9l+1vSvyOwTWoK6lcgUiVWKOXaWeHHJXOlNJO3YPB88+QV188AJDWVH/xbhW94avYB/MC7uxQYDG0HbRZxj4N/Uqfeb4iVpOcOPILccNLOcWNYRCTNsJf+zrR+rqD/a2MtEq9jdLSE0Y8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=LGv1E2t9; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=o545mt3E; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cxJY94Du"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-24cbd9d9f09so89749835ad.2
-        for <ntfs3@lists.linux.dev>; Wed, 10 Sep 2025 08:17:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="LGv1E2t9";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="o545mt3E"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58AGfiCU009725;
+	Wed, 10 Sep 2025 20:22:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=AmUcjNy47CjjgkAwV08cKlUqjlePUW7BN5yFydg4gC4=; b=
+	LGv1E2t9XxJ78GktcU7luDJ8lMbhag9dCfTDKYCLbgb3me25kzVh2ZY1HVRTpWa8
+	JGz+DbWV1RFoVUY2P1c8Fo3M28iHVH/Qt2f1dCsz8Atm0qQU1ejkIV1GoBJ1Qd3W
+	R5zym60NaSdQGYEx90ATlln6Ovy36tbvVrKJAV7l0Hh6wZ7JT1dvPzMr4vNHNZb+
+	flsQHVkpb6mRIpUpWBuDp5xxNrjsYQ0EmJ+oVePu0QgdCc0+I94A17PHOonlTyT5
+	Je+OQdni8R/C+sCcBzoCzYyFXgsqrQZxqSdF2Fa4GHWOYM/9Y7tZWQXjISSplEv0
+	HuqQnAp6RDdz4guPjjQCvg==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4922shvv1h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 10 Sep 2025 20:22:35 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58AK3dAp030716;
+	Wed, 10 Sep 2025 20:22:34 GMT
+Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011034.outbound.protection.outlook.com [52.101.57.34])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 490bdbfhjs-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 10 Sep 2025 20:22:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BOLownyJS118HOK7Q0fEk7IiEf2EvkkhFR1R8PFRQ311QY2w0ovTZ8b2+UDaSiG/JlGYnkBVONbuz80sJwnhpgQ2cA0WOS0F85Qlt0rkj8hWiX2LiAbaSeWcDo+gcABCPv36hMMHq1sSag+ahHd/whAwfqwCgLaeF/tNaNnrVl2hFtTMFMPOocZdZgu4TUX2m2a3UIU22+8+TB8ZGRPGw179j2h9lu1br2Z9d/hLQsT48/P54vgEG8n1gJkSPRlZokCR2arBalcJZ7PJlZpDv2BWfjpCC0sxx4QoRmBSwf+ndb6bGa88R9Hm68INRhMofGz16AmVIWCj8cLiLIVrcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AmUcjNy47CjjgkAwV08cKlUqjlePUW7BN5yFydg4gC4=;
+ b=UnSKrnrpuCJL7Nz1S/vPYB9dMcAfV12RoIv6Fm8Q3K1go4vcftJMQgsqdzOatJvO6TMHA5PUiFcNt5Nbon6k4/znsUmQgu8fLTZ0sk1Fm1hVJSNgYDvmz7QZlR0wKgJq8gfUddjEe+qcukvnzt+exkwOp4Di1fAJg0Uajui7KWXw2sjtUsfYXryXNH2F3hpE90L9wjh7mlIrRZx95WqO6MLa0u2Aq6miVUgq4WB9wxcNXy9svOJgJ11q2aiNR5NAYQBF24yGr3hVRH0yp5AXE2eiYXeG2yAiMF/pQUSRqemk55LSeqwqeRgiFPjzpxkfj9zzlTfoIOqHmIDVlbeEng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757517434; x=1758122234; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GOQkYwriVDSKMxqkuzjKeOZZnOVXvsFhF9wM7M7C4ek=;
-        b=cxJY94Duu8jD9X7FoKxbHD0kxqf9zqn2+k9j8cByBFpfBIS6hrUEULNM5Bao7vl+UR
-         pOb66JnK2lOjZod+L7P8dDlN1D+7YgMiYNmRdrRRXinZcDDgsGi3Zz0Jo6/wVvCaw0wh
-         6+oM7zG2V+CAca2bIfTjKMBSEp/xUhJRCQFvRNQOrIUxVyG9SFCsVZE2ooneObGurGe3
-         fyKCgNWKAZmxCGJoUu45M8Z8cShLj6sIUNZkMD1/Iv3lTpqo/r/b4QEO9vn0W6RY6lJ3
-         nVBtU83nNrOCH/3M/+tCQ4asPSM5l6YOXEFKITmCm+1iXiDg6Lxv+wQnGoTbLpxA6fsX
-         5WUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757517434; x=1758122234;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GOQkYwriVDSKMxqkuzjKeOZZnOVXvsFhF9wM7M7C4ek=;
-        b=R5LYzdRIK06c4Vdx5Zwpn7UHB2RcrDfXnZo/NKenaj8FvS8xaA2iPzcMHH+GKfzeQv
-         BvAVi23a4ovxB1vBBtmDHGOvV5oaufk1MjTY3ZKkzTMi+YhA2x8ob+Q8kMLTXmmHR2dA
-         ANp9ecoj/WUkr5LcYJfMkRstZzG8VtWK53non8pIAyCZCDKuqvrZ2Zg9fjj9qsZfnUx3
-         QK+5oLffV98+6dnpKSnGc7GBx3CyN9FHUiebw4rbBSWODdkuDalUXDVaCbMSgoM5QWcX
-         a0KLCUsGVXkd+2R1tzT3UFmcwBgbJynGm+ymeWKUo170IokWDT0IMI+kBT/sNGv7QXSh
-         irAQ==
-X-Gm-Message-State: AOJu0Yy3fhH3Ug224hu1pAyaxIZQmFYyVWSa09+J22VtejGo67G6plv3
-	GpfPa2YDJjR9PEj7P8YKe3EcbFNN62+GYzGafDBO4HWgsJZ1Yq6uitWw
-X-Gm-Gg: ASbGncu/PCWqQh42bcU4veQK8mf/DudIvNPXYyzVI2v2uiAG/eepqj3PxKH4EMSdelu
-	tFb1cq6LMrqRsYSoHw6elRwkoeL2ys2XLJAXmHzHhPqoRoSriZMWlF65GtAwPkig9M4xAJ0dxr7
-	qrngvUMH9Odehi/DRW/LzwtzGvOUP2FOHQvjy5gEnDsTKtZAhVRqKRpT4It1FKKj2GFQIfa7RUB
-	VO1NM5/SLgkATF7NsAYqzM3hGJD2M1sx41ikfFRczE97s8U/x8pZKnHf0xq+5KsbZuoPU0a9Tv+
-	AzIrGX5k5vvFSNe+plj8nN5bnwP5Tqztbk6qi+QweSUOLLBxLY2AuRVc4BnXVLGS6HI1U+4Cs8o
-	F1Y023LxvWg5C4qdEoudgNHm1e+/wI/7D1fNsJeMUd/JJz05G9+6hzQ==
-X-Google-Smtp-Source: AGHT+IEwRx8/O/DEAP8DJpiN/GPPSAmWaGA6Oc5zIGvkeOWwhsN6U5j/+KWlpC0rHUTO7NUIPnzWiw==
-X-Received: by 2002:a17:903:1c2:b0:249:1213:6725 with SMTP id d9443c01a7336-251753d88d0mr219820145ad.50.1757517434355;
-        Wed, 10 Sep 2025 08:17:14 -0700 (PDT)
-Received: from yangwen.localdomain ([117.88.134.52])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25a2ab0f924sm29795595ad.115.2025.09.10.08.17.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 08:17:13 -0700 (PDT)
-From: YangWen <anmuxixixi@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	YangWen <anmuxixixi@gmail.com>,
-	syzbot+d77c546c60db651a389c@syzkaller.appspotmail.com
-Subject: [PATCH] ntfs3: fix use-after-free of sbi->options in cmp_fnames
-Date: Wed, 10 Sep 2025 23:17:08 +0800
-Message-ID: <20250910151708.28810-1-anmuxixixi@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AmUcjNy47CjjgkAwV08cKlUqjlePUW7BN5yFydg4gC4=;
+ b=o545mt3ED0WQl20O7W2ieJOvHEoO85qbZf6KTRS2sXVT61p7gHT9gfzBuWOIWLI185MMWix+1LQ8V4bZ9bZ+D57qofVD14VdMt5QJ/JE4wkNFrB3N3VR0Z4/rbX1cFJX+Sj4604cVu6fiRQ3gKuQ2e2yn1IVPlCVzSb2EcLYOjQ=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by CO6PR10MB5789.namprd10.prod.outlook.com (2603:10b6:303:140::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
+ 2025 20:22:30 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
+ 20:22:30 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
+        Guo Ren <guoren@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre <nico@fluxnic.net>,
+        Muchun Song <muchun.song@linux.dev>,
+        Oscar Salvador <osalvador@suse.de>,
+        David Hildenbrand <david@redhat.com>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Hugh Dickins <hughd@google.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>, Jann Horn <jannh@google.com>,
+        Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-csky@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
+        ntfs3@lists.linux.dev, kexec@lists.infradead.org,
+        kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>
+Subject: [PATCH v2 01/16] mm/shmem: update shmem to use mmap_prepare
+Date: Wed, 10 Sep 2025 21:21:56 +0100
+Message-ID: <c328d14480808cb0e136db8090f2a203ade72233.1757534913.git.lorenzo.stoakes@oracle.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1757534913.git.lorenzo.stoakes@oracle.com>
+References: <cover.1757534913.git.lorenzo.stoakes@oracle.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: GV2PEPF00004532.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:401::35d) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|CO6PR10MB5789:EE_
+X-MS-Office365-Filtering-Correlation-Id: ccf4f7ad-bebc-4e20-c43e-08ddf0a7c45d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?B11zIKsXFrIYiJr20PeoKdAPn+wWU6k5j0lGpTZCHL3/3dtqff5QjWqr8cqv?=
+ =?us-ascii?Q?kQ+A2plbfPMpwIMlkSJSjVgtAwc0r2XV72GsV41FDA3PEXiOvpB+2V0tXIv6?=
+ =?us-ascii?Q?Fx09Crlltsz6HwbVvlNcQ2QPN3gcIicPJqfBY5sQccedqUMIe0J6ZPo+Yy7f?=
+ =?us-ascii?Q?bnnJhZ1rXuta6cgj6rO0yjvYaoCxXEn18z2lbN9JvMk4KC+MtYLrpzfPGL9P?=
+ =?us-ascii?Q?EFz185uDiZHkXE1bczMN+is+zL2mUQOh0dVWFAlKMXQx/2A7hmo9kyZ77dGB?=
+ =?us-ascii?Q?7NPGZmpmBi42kJTKv4wWlckXxSXvMgPp8bCZjTcRa3n5ZXp4rk9J0sL/iakE?=
+ =?us-ascii?Q?uncXdo8C/KUQinawlNnggQUMexl7hNvegG4UYv0BYZ/1Fiy3j529HZmaoyKL?=
+ =?us-ascii?Q?//XvOG0XxHKnIuAnN2XAjUT+6i5kSbFIqUQGilGfwylnf5cZ6NamV4ZoYfUa?=
+ =?us-ascii?Q?wlNlQqGZz+6cIXqPrGpb7uG/7igfxm9RO5r1yPXd5ib4la4b1GhD3g4m9O1K?=
+ =?us-ascii?Q?H8X9VLKMWZYom6PmQPB64HugoqU1yKV2o3qOblDOoQxhxoHF8GS3vrM219tp?=
+ =?us-ascii?Q?eGEVs8CndqqWnjRAfkApXWJl1TmAkBR33cp1WZTgSDsI0ixtDkU4TVd3J/QI?=
+ =?us-ascii?Q?tffFqhORylic/9iz2Q3Ju+uT6pefiTePWNwB8ih4zkgGgBohmsYD8kgk3J9Q?=
+ =?us-ascii?Q?VYDewrdlxGgqPPRG80Vg4V+e81A7dYfLqZbDrrXXyc/V4Gnot0bT22AfidLO?=
+ =?us-ascii?Q?l4qoxqgACVuQvUbWMSDM5r8vrHwuJlGx29Ll/0xTLskLGkoaPhwjVb2rb1k2?=
+ =?us-ascii?Q?lUJ+9vSxekSwgCINCX74bq9ruBjof1Ctt7g1UP6JuALx5w3oMJtbJXpc7ZI7?=
+ =?us-ascii?Q?Ze+CUfJZfvPZHBJJELdm6pvrWzDx+P+Csec9uqVjBeQWCgP7MsCW3V/RuqmC?=
+ =?us-ascii?Q?2zukPnvh5fRpKGGbGSyJXIAN2KblU0hN7R95xofWYew7wN4SZYvTs1aK5D4L?=
+ =?us-ascii?Q?RbwUnwNheklE255s0/XRgzDgqziQnxvfIVEg4azrm5E1XFYiMf/UTOV6J1HA?=
+ =?us-ascii?Q?xgGMEy9Jp4e3EJdKqgrmoepZu+YOyTVn0ODd/NOLa05NEvCmB9aB6i9/UMLS?=
+ =?us-ascii?Q?tjzqsiw8lAaZ1z6+mvtZub1ZFjCSTKnqGZICLKbYcJKVcYCLq+lZnGxuUwMq?=
+ =?us-ascii?Q?0xtZYyKZOybHg3k6jKEykiEOq1Dyf00WhFwqKDsZW1Noqh41/nlD85LR79r1?=
+ =?us-ascii?Q?U/1eCliWOZjAi4/T9GAzFMTQaTlez8rmyuUpmLMONVFjkBNLxupUOhqfyYJD?=
+ =?us-ascii?Q?1bq48M2b6UPmwwXwGVMI5PGgK9fUYlkTSGXSyc7pzA0CdDLItKFpE1fxloJc?=
+ =?us-ascii?Q?6u4ZeVOLyySZJWEy+nnp9G9FvYL56ylnw011dO04ZLjSrFU8QuQwlQajSIM+?=
+ =?us-ascii?Q?vpTc6kpsNR8=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VsiYuZCMKhXG0nioAlubhjlKmR1Dr8GaZnsOvXWypOzLkyOHS7/PMOQqNHRI?=
+ =?us-ascii?Q?KTakZ2iKBcGjEfBIftIUtYnfC6LfUhOKaFeVdaM+2vwL+mP9mZDLpkS9Ggq1?=
+ =?us-ascii?Q?jkMdjnzCT8DfnNGhqfAu1MXt3c6H9xSophHPPaALp4Csyv4CgA6rL5tblR9r?=
+ =?us-ascii?Q?SB+7UdHUQEv//B6yiPOH8ktapruaJ97uPujmWheAI5Xkwr50jPtuU9EWzJ8w?=
+ =?us-ascii?Q?9OIoGxSOOgmcydCr7D1lDc0MnPEt7xQF6pMt/hLtckOUVCFew1kiftSmMPao?=
+ =?us-ascii?Q?pi04ST9aI8DIW+fH4dhAk6BCJZMD9511vNyYyaiNTh8xEioEir/4Z6RPLJNs?=
+ =?us-ascii?Q?OX5O6jjtdW8d9Vnr3d8DmTkPgTq/l7prqbfd/oWSR+YAjqxnekgYgg4JFcDI?=
+ =?us-ascii?Q?so9P3vpBalIv/77/u7PWe/vuV6FBk1TiMtXO+x2vHlO5mDWDtRvWDPngmjG2?=
+ =?us-ascii?Q?cV1KpthEjXYlx87eHRzFRCuSP5z0kLHYkCZwog2WShAb+wWlg8DR/4HtoAdu?=
+ =?us-ascii?Q?W2HxdgK2o4oQP3uAhfjqiCypQmpkZU0JVYcajmV691oML5zj5+uUEnuWMlC6?=
+ =?us-ascii?Q?3o9EVbON5qOzYSq77LnXR+X0J1UWr4R7EXuRcJcBDm8zhtqXxV2pxwh6JSom?=
+ =?us-ascii?Q?xH0iGmwtq8QdXoGR5EoAgDqT+GFJNj8nZZc12L/6rie4EopYOAjL2b6tKei4?=
+ =?us-ascii?Q?kU0hZA28pTq6YhCiQ2Ps4jAgDuiTQ5M5O75k7sRbPPt5iXf4SaL7UTqq+ZEr?=
+ =?us-ascii?Q?U4jojGr2rrQwHCUJACGMVIuTuMz0gef/cLQswoFU5K3ibSJBN/nDNRFT7ZD9?=
+ =?us-ascii?Q?wz4ECdYfU8o9Lmv9dv5EiTMUs9IYbFq32OVHTsNANSuCCmahS7K1s8N5oky1?=
+ =?us-ascii?Q?fWG5yFewQGhTFxlU/d/qq9n0Xx/Fphx5Kn3YHUF/GxqfbhgCht0fqfPGpk2n?=
+ =?us-ascii?Q?fs8xwVZLAtyLjd2qcLLNWPDjrv8OnGG6NpaLbxTE6n20U1JBzYIQsZwzgbhI?=
+ =?us-ascii?Q?5nD0MwNNUz9OzLVfNyLD2F3iD7m2peOp3HluNC9wSsXxv5vxCUmpK/eAmdYo?=
+ =?us-ascii?Q?Eud115Z1/LXRUm3o0BRK2LOfeaZbFD0BVAFtAqSEnRE8bkSvS4V9DV4yWvyB?=
+ =?us-ascii?Q?loCL9YFx3LbgAyHgJcAczPSqCPRFgUxv/xRSjujh9fRPc5GqtlLaBVPbj5yw?=
+ =?us-ascii?Q?Pr/v3A25+jVF7ikboZoUW4PXbUXcI1EO2nTB6hmdd3OvGmSZUM7h/vAIVNOf?=
+ =?us-ascii?Q?/0KxHkJpg7eTL+9UJLJN7baPwcsyuOWipGb9lIWXc0D76cBKTjQ41PxmXaF8?=
+ =?us-ascii?Q?skBALQRZMB++Iy2qutIoUvf8325QKz2DBpbikBFb8H2oj7X0m0qRoQVS7j+9?=
+ =?us-ascii?Q?7CVE04/UPtNfzVuu1vW6IVDkfPCHvzP9QI7S7EPgRb6yP8wwAM7q3VGwYE3v?=
+ =?us-ascii?Q?IwN0xFWW9LoOqrPfS4ofOFzmUETygaez5wHy7AuzBJFdqGarOje8DPU/PFI+?=
+ =?us-ascii?Q?tMvbUHDTv9tfrzsEAMt711OKUVBeal3BdXyNNzbsYtHXuSfxBnUHIHGdyMBa?=
+ =?us-ascii?Q?9LDgon2cF5hWRh+XewIJcMqsKs9NmlhwoI04PzAwMeIvCGneefYskyo5cLpZ?=
+ =?us-ascii?Q?hA=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	djpwhirJCLPyoghPxLEuYTHGmqZdQ3/6QGJzQZnFNDLF8/9/l54VRyYLfVAP5QT/nFHidCV8YHu9LgXNPZpqsc1j8amL2HfBQ+ZMuHVukfR+S5tg5utPAK569WKAwgu/ESoA6+Hwyh5Vn0BS5p2w9no0OEQ3WOveTY012o2FbCP4rrcCHXIof+EdDuqTFaEvov0/sbgWgz+V3BOvMPi884erLLCmLx4+c32igrNqhbnygUipQ0kyNhd2oFLcVv8v8A6Y6XHNz2poyDH3LWwB16EoQwFPluVF06VHOqm6OJRcXotxcMCxSk3vpROMmXjCnnQAqf9RtZQSFrzQJQR+a3m37g9orFs5rnDB5Ds30G18WL+2oAHV5v43EtYqGqUOzwVjyHo/M8sM/VUb+DN9VBXpkfiDmDkWoVHRYY5Sw44e6bhB2Un331k54UfVnkbFD7VFjquVl1OJu6AvhrBjO0Y8Pn/L+kuktOdRKaNKZ6jrwV6NG+ooE4T12jnzMYm25wjj+l2rVaobOdbvVjbRP9rs4sI0nDMJ+zon7lexq5oWswIcLEiSSgkckMd2e1O7Ii+ZYgrUkFl+M6Td14Jbl+W/Hu3Wq4iwvKgWoj8ZOtQ=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccf4f7ad-bebc-4e20-c43e-08ddf0a7c45d
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 20:22:30.1953
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6Y2NM5r+x2Z7jNgDR8EKm9RUQKSEHtSC4kdQ+eEHkedf3X/82lk3JAswZSN3XunBo39NOY5Igm3lZ8WYnklidhTlqHVigfIRdtOZZKMBm4o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5789
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-10_04,2025-09-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ suspectscore=0 spamscore=0 phishscore=0 bulkscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2508110000 definitions=main-2509100189
+X-Authority-Analysis: v=2.4 cv=esTfzppX c=1 sm=1 tr=0 ts=68c1de0b cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
+ a=GoEa3M9JfhUA:10 a=SRrdq9N9AAAA:8 a=20KFwNOVAAAA:8 a=yPCof4ZbAAAA:8
+ a=hKknKL_MvJZ0P6Ka4G4A:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDE2NSBTYWx0ZWRfXxt3OuHH2FB8T
+ ZPJdgwiA40Gpu0E2RJ+rtQItnq4Lvj5qKzndFvmMZZA+sQedDy52kb07kccc+2iOGN4uE9Tev9T
+ 2OzOOcX+xfP0ccvprD3270624BIqSMzpzp5Gr9GwLTbxBS0aOyFHQa1azabVIWmPura2bsy8ZlX
+ iJed+RUH4HKhXEhzrNka5inpYeYlsqaEgj3AVrTV0GCjeHBeNNu1KAnyXwCE7izMUojj8WAuJhp
+ R78Vq3WW8fS2gwYg6EeJBy7fZhjf/S9JCHIqyWnYUFANgX0KNLuP6VstqbZk+QIVzrag6eymGZs
+ 6xm7NR5YNo1XwACatyMHlELA1U73VXE8/tvbDxYUG+St3OqqNyJAu0kGj+zpTQ8xkCoHC56+800
+ bsQp02xu
+X-Proofpoint-GUID: _SXzNTioQD4tmu8rWAwd4SW1mnVHkuSk
+X-Proofpoint-ORIG-GUID: _SXzNTioQD4tmu8rWAwd4SW1mnVHkuSk
 
-BUG: KASAN: slab-use-after-free in cmp_fnames+0x292/0x2a0 fs/ntfs3/index.c:50
-Read of size 2 at addr ffff88801f6da2dc by task syz.7.385/9323
+This simply assigns the vm_ops so is easily updated - do so.
 
-CPU: 0 UID: 0 PID: 9323 Comm: syz.7.385 Tainted: G        W           6.17.0-rc1-syzkaller-00211-g90d970cade8e #0 PREEMPT_{RT,(full)}
-Tainted: [W]=WARN
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/12/2025
-Call Trace:
- <TASK>
- dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0xca/0x240 mm/kasan/report.c:482
- kasan_report+0x118/0x150 mm/kasan/report.c:595
- cmp_fnames+0x292/0x2a0 fs/ntfs3/index.c:50
- hdr_find_e+0x3c6/0x630 fs/ntfs3/index.c:762
- indx_find+0x516/0xba0 fs/ntfs3/index.c:1186
- dir_search_u+0x15f/0x2c0 fs/ntfs3/dir.c:254
- ntfs_lookup+0xfb/0x1f0 fs/ntfs3/namei.c:85
- lookup_one_qstr_excl+0x12e/0x360 fs/namei.c:1697
- filename_create+0x224/0x3c0 fs/namei.c:4140
- do_mknodat+0x184/0x4d0 fs/namei.c:4272
- __do_sys_mknodat fs/namei.c:4313 [inline]
- __se_sys_mknodat fs/namei.c:4310 [inline]
- __x64_sys_mknodat+0xa7/0xc0 fs/namei.c:4310
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f763f38ebe9
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f763d5d5038 EFLAGS: 00000246 ORIG_RAX: 0000000000000103
-RAX: ffffffffffffffda RBX: 00007f763f5b6090 RCX: 00007f763f38ebe9
-RDX: 00000000000021c0 RSI: 0000200000000040 RDI: ffffffffffffff9c
-RBP: 00007f763f411e19 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000103 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f763f5b6128 R14: 00007f763f5b6090 R15: 00007ffca1693878
- </TASK>
-
-Allocated by task 9322:
- kasan_save_stack mm/kasan/common.c:47 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
- poison_kmalloc_redzone mm/kasan/common.c:388 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:405
- kasan_kmalloc include/linux/kasan.h:260 [inline]
- __kmalloc_cache_noprof+0x1a8/0x320 mm/slub.c:4396
- kmalloc_noprof include/linux/slab.h:905 [inline]
- kzalloc_noprof include/linux/slab.h:1039 [inline]
- __ntfs_init_fs_context fs/ntfs3/super.c:1761 [inline]
- ntfs_init_fs_context+0x54/0x4c0 fs/ntfs3/super.c:1806
- alloc_fs_context+0x659/0x7e0 fs/fs_context.c:318
- do_remount fs/namespace.c:3299 [inline]
- path_mount+0xc25/0xfe0 fs/namespace.c:4112
- do_mount fs/namespace.c:4133 [inline]
- __do_sys_mount fs/namespace.c:4344 [inline]
- __se_sys_mount+0x317/0x410 fs/namespace.c:4321
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Freed by task 9322:
- kasan_save_stack mm/kasan/common.c:47 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
- kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:576
- poison_slab_object mm/kasan/common.c:243 [inline]
- __kasan_slab_free+0x5b/0x80 mm/kasan/common.c:275
- kasan_slab_free include/linux/kasan.h:233 [inline]
- slab_free_hook mm/slub.c:2417 [inline]
- slab_free mm/slub.c:4680 [inline]
- kfree+0x195/0x550 mm/slub.c:4879
- put_fs_context+0x123/0x790 fs/fs_context.c:524
- do_remount fs/namespace.c:3326 [inline]
- path_mount+0xe57/0xfe0 fs/namespace.c:4112
- do_mount fs/namespace.c:4133 [inline]
- __do_sys_mount fs/namespace.:qc:4344 [inline]
- __se_sys_mount+0x317/0x410 fs/namespace.c:4321
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The root cause is that sbi->options points directly to fc->fs_private.
-If fc->fs_private is freed while sbi still exists, sbi->options becomes
-a dangling pointer.
-
-This patch ensures that sbi->options is a separate copy of fc->fs_private
-and duplicates nls_name if present. On superblock release or error,
-sbi->options->nls_name and sbi->options are freed and sbi->options
-is set to NULL to avoid any dangling pointer.
-
-Reported-by: syzbot+d77c546c60db651a389c@syzkaller.appspotmail.com
-Signed-off-by: YangWen <anmuxixixi@gmail.com>
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 ---
- fs/ntfs3/super.c | 47 +++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 39 insertions(+), 8 deletions(-)
+ mm/shmem.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index ddff94c091b8..6f4aab96e999 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -697,6 +697,14 @@ static void ntfs_put_super(struct super_block *sb)
- 
- 	/* Mark rw ntfs as clear, if possible. */
- 	ntfs_set_state(sbi, NTFS_DIRTY_CLEAR);
-+
-+	if (sbi->options) {
-+		unload_nls(sbi->options->nls);
-+		kfree(sbi->options->nls);
-+		kfree(sbi->options);
-+		sbi->options = NULL;
-+	}
-+
- 	ntfs3_put_sbi(sbi);
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 45e7733d6612..990e33c6a776 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -2938,16 +2938,17 @@ int shmem_lock(struct file *file, int lock, struct ucounts *ucounts)
+ 	return retval;
  }
  
-@@ -1198,7 +1206,8 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	int err;
- 	struct ntfs_sb_info *sbi = sb->s_fs_info;
- 	struct block_device *bdev = sb->s_bdev;
--	struct ntfs_mount_options *options;
-+	struct ntfs_mount_options *fc_opts;
-+	struct ntfs_mount_options *options = NULL;
- 	struct inode *inode;
- 	struct ntfs_inode *ni;
- 	size_t i, tt, bad_len, bad_frags;
-@@ -1215,21 +1224,36 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	ref.high = 0;
+-static int shmem_mmap(struct file *file, struct vm_area_struct *vma)
++static int shmem_mmap_prepare(struct vm_area_desc *desc)
+ {
++	struct file *file = desc->file;
+ 	struct inode *inode = file_inode(file);
  
- 	sbi->sb = sb;
--	sbi->options = options = fc->fs_private;
--	fc->fs_private = NULL;
-+	fc_opts = fc->fs_private;
-+	if (!fc_opts) {
-+		errorf(fc, "missing mount options");
-+		return -EINVAL;
-+	}
-+	options = kmemdup(fc_opts, sizeof(*fc_opts), GFP_KERNEL);
-+	if (!options)
-+		return -ENOMEM;
-+
-+	if (fc_opts->nls_name) {
-+		options->nls_name = kstrdup(fc_opts->nls_name, GFP_KERNEL);
-+		if (!options->nls_name) {
-+			kfree(options);
-+			return -ENOMEM;
-+		}
-+	}
-+	sbi->options = options;
- 	sb->s_flags |= SB_NODIRATIME;
- 	sb->s_magic = 0x7366746e; // "ntfs"
- 	sb->s_op = &ntfs_sops;
- 	sb->s_export_op = &ntfs_export_ops;
- 	sb->s_time_gran = NTFS_TIME_GRAN; // 100 nsec
- 	sb->s_xattr = ntfs_xattr_handlers;
--	if (options->nocase)
-+	if (sbi->options->nocase)
- 		set_default_d_op(sb, &ntfs_dentry_ops);
+ 	file_accessed(file);
+ 	/* This is anonymous shared memory if it is unlinked at the time of mmap */
+ 	if (inode->i_nlink)
+-		vma->vm_ops = &shmem_vm_ops;
++		desc->vm_ops = &shmem_vm_ops;
+ 	else
+-		vma->vm_ops = &shmem_anon_vm_ops;
++		desc->vm_ops = &shmem_anon_vm_ops;
+ 	return 0;
+ }
  
--	options->nls = ntfs_load_nls(options->nls_name);
--	if (IS_ERR(options->nls)) {
--		options->nls = NULL;
--		errorf(fc, "Cannot load nls %s", options->nls_name);
-+	sbi->options->nls = ntfs_load_nls(sbi->options->nls_name);
-+	if (IS_ERR(sbi->options->nls)) {
-+		sbi->options->nls = NULL;
-+		errorf(fc, "Cannot load nls %s", fc_opts->nls_name);
- 		err = -EINVAL;
- 		goto out;
- 	}
-@@ -1641,6 +1665,13 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- put_inode_out:
- 	iput(inode);
- out:
-+	if (sbi && sbi->options) {
-+		unload_nls(sbi->options->nls);
-+		kfree(sbi->options->nls);
-+		kfree(sbi->options);
-+		sbi->options = NULL;
-+	}
-+
- 	ntfs3_put_sbi(sbi);
- 	kfree(boot2);
- 	ntfs3_put_sbi(sbi);
+@@ -5217,7 +5218,7 @@ static const struct address_space_operations shmem_aops = {
+ };
+ 
+ static const struct file_operations shmem_file_operations = {
+-	.mmap		= shmem_mmap,
++	.mmap_prepare	= shmem_mmap_prepare,
+ 	.open		= shmem_file_open,
+ 	.get_unmapped_area = shmem_get_unmapped_area,
+ #ifdef CONFIG_TMPFS
 -- 
-2.43.0
+2.51.0
 
