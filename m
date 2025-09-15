@@ -1,352 +1,197 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8670C2EF660;
-	Mon, 15 Sep 2025 15:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757948814; cv=fail; b=BM0DWsDzimZte1X/dnfPW6BpiMkq4nyfTGjCRTums6Cok7zM8vXw43AFdzpStDPVdVm5Qnou2xYKyYGAHz6Y9q27OnW4qYBBk8RPIIiTqGgIoZ/GKU7tBDnFVTQpDyr39JWoGKYOTHq9GkUHrnZWF2sPmaqH32y8fpVH9Rm+hmQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757948814; c=relaxed/simple;
-	bh=2AzuQW3LOQtD528XTK9MazyGiq/eO4T6g5JiRMu7gsI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=NvQ8phvpMNvDYGpQb/lcoeM2QA9qr0zUeLjHlKj1DOEaAnmVzGQ64R+GKPs66gsNVJzqisUR5PJmOsWv8szw04SQhMScLs7ZA5zNYyj1lqJYjI2UKBX3xfV/96LJ5tj8z1bdecHk2Gul0Im4Kd0LJsvUxKFKvlk9/BfKkhREtHU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Sn77ifHc; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ZNJyof1r; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Sn77ifHc";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ZNJyof1r"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58FEMnSq020268;
-	Mon, 15 Sep 2025 15:05:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=9zi855moYw2KbC3ZX0
-	OCjYwrIf9mR21txiFBMDTcDv0=; b=Sn77ifHcYf9YyRx51T8dqgmJn0uZ2v4oCK
-	VJ4MYk38kVkchoLr9YVgff0pkLC5BKAxeIKLXPjKqUKsXqcXoMqBvjDwRPYP4j3T
-	XD/r2eX+X11YwnFw2x3hPDj+89yik8Hv7pGN/F2IbovdgHlJlq+qJwf+4rfIfLZo
-	yF/biTJNSHapaL1ZKoKVxrRriBjFtj9aQeK0ESIiq3MqHtB0PE1BwnVQ1FN8lT70
-	7aTKwcJr5ESlJ9lhxWiT9hxjyuBdbt0F1NnVHWRlDdect5ApZKRmsLekh8/jYEbJ
-	0WLdFB7N7ZKFX+UEEow+ANFWPTVNlhXU8M076uSTQcKPENvkKkPQ==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 494y1fjkvd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 15 Sep 2025 15:05:12 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58FE42iW015298;
-	Mon, 15 Sep 2025 15:05:11 GMT
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011056.outbound.protection.outlook.com [52.101.62.56])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 494y2he78s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 15 Sep 2025 15:05:11 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PfMzvZd8XodgwW3KBh5w8g0Us5Vq8WVLzT8VZjqtUpoAKuFHBz6Lx1xG1J56V1skLVB996qtAfxQoc2Q2HJaOrifaNasLI+qn254UeQFs9ZPKtYnt/mbz5rrJ2jfN3NMqfmTxjsV98HnLKNTrEkxqdN8O3pa747tA9C8R91R6zf1HVZ9LRC7+BxwVc0Yy/Ao2FhXOC3tOtCW0MKlbZYi2s328BQHXEoBk9cF5CBDy+8XW2BpmapmDE/heHEBBRW2qU3Y3znkV6xFfUg12/L0dlH5nRJ8FmIF5J4pm05GpwRT3CBmehnZZst/M7qhW1QK8alXIsocmY+pOXUuJ/Bc7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9zi855moYw2KbC3ZX0OCjYwrIf9mR21txiFBMDTcDv0=;
- b=W7nS/5Wbp3DwnfVdj7+I16rlXCPAYPbffAf5coxEjJsdjmYghNygURQkJxnf4GAAdYOoikht4/KarK3kfwqy2yVnfvFlmjhkKriJ7sej/7LWV/InKx99+cNBoKBt6Qhbrm8Xxk1FMweuP3wKK2QQGffZpNWz3wrXd8Ln6aYiXTr93DN2znWZ1W9+dSzLTwwozCwmMyRzN7k6g805b/6ZJbaEclYzruxQNyWIgcWLDAfEkb5sGOTYbUHMiNfPvifLSatt24YhzZjHDwkAPpxJvYGY/hQ+CRP7wCluZ1eALWZh++iOdVgtqt0xf9FCXc6FaFFGFGLNcACIi7KtUTi7WA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9zi855moYw2KbC3ZX0OCjYwrIf9mR21txiFBMDTcDv0=;
- b=ZNJyof1rk3Sc2xjYVVCags/6/6XeT7Jxo5ccKLz2exYfy7ULtzi9iTTHdMbtTk0nNuQBXnt9cHBw59sHDk00BDdKLbTdS+bzORpytouSbnV7McgsDF2NBAaD2Up/vJVRIv6XpzLVQ/gZI+biFOujiDZuxNtZMZapobSLXa1fZvE=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by DS0PR10MB7430.namprd10.prod.outlook.com (2603:10b6:8:15b::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.21; Mon, 15 Sep
- 2025 15:04:47 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9115.020; Mon, 15 Sep 2025
- 15:04:47 +0000
-Date: Mon, 15 Sep 2025 16:04:44 +0100
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
-        Guo Ren <guoren@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre <nico@fluxnic.net>,
-        Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@redhat.com>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Hugh Dickins <hughd@google.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>, Jann Horn <jannh@google.com>,
-        Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
-        ntfs3@lists.linux.dev, kexec@lists.infradead.org,
-        kasan-dev@googlegroups.com
-Subject: Re: [PATCH v2 08/16] mm: add ability to take further action in
- vm_area_desc
-Message-ID: <3c968a23-cf25-4b95-bb44-f7cdfd47c964@lucifer.local>
-References: <cover.1757534913.git.lorenzo.stoakes@oracle.com>
- <d85cc08dd7c5f0a4d5a3c5a5a1b75556461392a1.1757534913.git.lorenzo.stoakes@oracle.com>
- <20250915121112.GC1024672@nvidia.com>
- <77bbbfe8-871f-4bb3-ae8d-84dd328a1f7c@lucifer.local>
- <20250915124259.GF1024672@nvidia.com>
- <5be340e8-353a-4cde-8770-136a515f326a@lucifer.local>
- <20250915131142.GI1024672@nvidia.com>
- <c9c576db-a8d6-4a69-a7f6-2de4ab11390b@lucifer.local>
- <20250915143414.GJ1024672@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250915143414.GJ1024672@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0526.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:2c5::12) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E5E277CB6
+	for <ntfs3@lists.linux.dev>; Mon, 15 Sep 2025 18:17:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757960256; cv=none; b=lrnXbN51iYmYhn4YkCA+qUaTLzAu/Fp6fBtItLacXW/Ha2tjr+iLQf3w+JMawwX8lbhNZ9xqs3KwRZ8oE5FfhoshBDdN5vwutxBYaMf7Tse/WEDVRj36/ZBE+aaSD/9qRj1j/YH3EA2J/Z8yOT4A2yEUtnOlaSo355W1MpSw42k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757960256; c=relaxed/simple;
+	bh=Jjg2hMj25U0w9kzHueLMZM5Y7zcp/6sgHfxlLGx0WA4=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=pZ0RedwQeUscRXsHOuUCokdxwZ37RkmplSsxEGIH7rTi/cRZxzog8WD5y0bb3xVQM95Sx327ekVkbQSer22oRBWqwCZi7C2uNdhhrBYp6OSPV9+wEc/CFgka9WiQgv4p+nfpST1pbym3hf81h0YClQoqk67FOKpN4H71CzMiHIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-3f65e91bfa9so124331765ab.2
+        for <ntfs3@lists.linux.dev>; Mon, 15 Sep 2025 11:17:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757960253; x=1758565053;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8h+44VfvFMVv7i2X/IhaTHCIaRTeDzshijo2lVVhBjs=;
+        b=kNfM7xBXMHAJCJX7a4E5lhypQlAyqJdBopYiwHcVwdAlSkNy0V6OHYb///d3zXa5X0
+         ZbXudkBR0XY+MurhYXwAWrrYVE5fZiufjXUYbXaGv/YIgJzd+jEiW6Vc24olH1bystIw
+         3QajXBe9GUoTkEk/gpsEKDJMDGkc9WDRUL55m9w4ACFdJXMbpXq6va3fD28GhTmzz2Ik
+         LpWeuebvRayuSeKDd3iFlbnyh6ZDxCyopEFjKR0MvaXBJKhH2wsI8zSSBmFBWLnk1Q1p
+         2IItRTOmKqw3VDwF02oI0K4co7QoVSAMJJoha2lxRH5qwRAxPT3TdrNGYMHJEcYxD2ST
+         hUVA==
+X-Forwarded-Encrypted: i=1; AJvYcCW8AdJkclnWDRTzTp+PsUwC2NQamITR5yWVyL0oug1i9Ua/weL4Nhsrr5dUMJ6MjsjIwPtMvw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzlCzIcSWJys/WOmmaPHETBSJZAUZ7KwgWrKhaOL6V2mwzmaLM/
+	YE6lIJ2LVgGYZBWyeHjVI++FMBWNcasoMwrzzkh8ERtJoefOV6ntK1NhSQUAOruXHmxmvdMnFed
+	mct6sthH2SiXqt0mdok9RLkkXUBLa1vxWOmXGOtJAD9sPi+ROVWZdd9SZgjc=
+X-Google-Smtp-Source: AGHT+IEcmws6unQyv9+1SLk4+xB92pn5iQD0AoKP5pZ734+i1mV7n5tR5HLcr5uINrbEO/pnzguq7EaLlx8wc2vKFmHj+tVGqVXW
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|DS0PR10MB7430:EE_
-X-MS-Office365-Filtering-Correlation-Id: df62b800-e704-4760-dfb9-08ddf46935e1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?YpZ4FA9Tu9aRn9wxD1uu+x/6JA8Unni8i/1eX+zZ0KzCaO2U85NVrHOdAQze?=
- =?us-ascii?Q?ua/mR2LvwgC0VRIh6SaFk/YrigVU9krt/jExgR7ARSTqSnoBF1tfL/IdGUMT?=
- =?us-ascii?Q?PKH3K2FF62erzrEQNWwb5KHBOAlb+Aw+NOFfBO4DeF0R5MJAHkC5M3dQBx4R?=
- =?us-ascii?Q?XixKogvhnWLweY8mkNwN11aM8DlVTOTevUiHluRCn7ACrQhii6x5+24EbRsc?=
- =?us-ascii?Q?bryD7fmv5SuWC6xMjPZ1toUTB4JBUEQTpPuVqyanJVBu7O3sSImyJwvk3CKv?=
- =?us-ascii?Q?leFMq2IjA6P8YODcNtMEMHqoAh9NQsb5KTZ8eQJFYNrbVopSPMOTJs/bzTou?=
- =?us-ascii?Q?nL7dkiZoCcx2SMhW0vaEclFuWzm0bv4j3LdnEAwyn1s5Ps0STlIc3lfDW9Q7?=
- =?us-ascii?Q?mqH7gewh5/BFIc8gsis+TsAv5uaMszA99A+WfrBa2g4d99zXbNLsr31k4jFF?=
- =?us-ascii?Q?hT6RRkXKNhik8NOrNpVBKpjfhzr49dypVwg2TWZX8nYMcZLuZrJrjPWwkTQ6?=
- =?us-ascii?Q?m//rijDO2/38abTpxpzDQn6CC91fa4IeujZQDGAMxq+EphCl7xsmMRLiZ5ee?=
- =?us-ascii?Q?tkiUW54jFKnDqGWs4/ympd+APAkoyqk14okQtzB08r21ggQkVVEpgu0Aa2Ou?=
- =?us-ascii?Q?59Js01AAoWTWzch8ICOwRxLWcNrWAOY8YnzGRrjyxQC2EE0NdH8Zyld50R6P?=
- =?us-ascii?Q?SO1dPThbYtmFhsJsKvCZIoTWzXbXPstI8kCfHe25oAIVXbcZwWiUIJDDboST?=
- =?us-ascii?Q?8h7pAVttv9JMJ7e2LOlPmHSxXOMwPPyxr0o1rZUoEn2N9j9zAkEJkJ02hOCM?=
- =?us-ascii?Q?etDjUoDA1cPEI9EJODdjAdeenR6NugZUd4NG99z4ddQKzK7r0fJ2aA+CE3UQ?=
- =?us-ascii?Q?6CbT65aJvy8QzVu7Oo+8P2gscGcBJ8CKAzQW/M4LEoKfZ6qYGbkM0ly13apB?=
- =?us-ascii?Q?OjUEAHG8k7+O4XwEJvDBaJ0q4YfcNIA3P455/NHLrAC20F9JiS2bM7V3h0fe?=
- =?us-ascii?Q?/Y9f8II0+TYR9DVsxyYh7k3fv3JglnbwCy28KD5VQPf/BFi83E37RBdE47+o?=
- =?us-ascii?Q?jClK51YAlOtRtJiNwYRhaqgzB2Wg7ajNyFxJQEFSpnI6ocrP38ZJnpJvJ88U?=
- =?us-ascii?Q?FAxnxsEYYqUabEAiNrCY8ViWUsnZfTkns4CZM5xHNtJLYU4+tPiZvRc+6VUW?=
- =?us-ascii?Q?HfopLmIEnEsjfOlY5fTNkWpTPkK9r5ECT7taCuhkG/neSoZzbpcZUi+tFv3D?=
- =?us-ascii?Q?F4nNuDTs0oSLZNz8pnjNQPtg/+t/HVebDtK9jQ3EezhsS0fSiwfJUwFtHhpN?=
- =?us-ascii?Q?MIAvcYXR5jB7JyZppbLc2mAXPsAqZ9KnUR7/Xsqw2bt9R6gmEXTjzyJIQlaN?=
- =?us-ascii?Q?489wzxO7vZciUbu6QaIXxbDiLsCflg9Xd8bxVhgyxFCLPYOTDS3NOLpP2BkT?=
- =?us-ascii?Q?oYtesUFR0s4=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?qyIZAj5xz/8d3bystBZevVhTWIq3lS8NkSAahae9kc4xpk669KOQtTNVNDUo?=
- =?us-ascii?Q?CAGCUHm5k/hKwt//sXhXh1bNLrUc8rA+fKyXLTlnYptBdRMmxunF7Bjm6ZpP?=
- =?us-ascii?Q?OlwXLhdnPlZm4l9QRs6h2YRWbKVWLUJnK31R9V416Oi1yk1ezXenyqGSYAe6?=
- =?us-ascii?Q?5jtWFCUpJGdp0EALs9Tkl27ZBzvMaTXGAfaUEZhAcR3/LTpopXJDzTwEgmD0?=
- =?us-ascii?Q?6l8ylT5NxqyQaXz6+z/2DvEmnP3St8Eee+VJXJNrRmfzAiwcumcUkp3rb6yg?=
- =?us-ascii?Q?dxLLv9Pk9VSmdmSsNzg48R/6NhOjveK7+S+2TqPeEqIQLtjgk4wrznymCsza?=
- =?us-ascii?Q?WVmCwJ5UrU8OilvVH1jUUGCV0pZSSYpTvoJ/1nKS03EQG6UXuruxbnz0Q+wi?=
- =?us-ascii?Q?9DzhXYo1uEdCsd+aKYHUmFiI+dbeHKroLgsLEro7Rk/rjy93Orgvxrhm8x5t?=
- =?us-ascii?Q?Rk/vZcvI9gKCDobZpmifoxH3tNNKP7DfFei+llxPg7rPMe8unvKlIpILAtUx?=
- =?us-ascii?Q?1W7uu7bQPEWiM0X1wNd0T/4alupTUdMe2G+B2z3XuFI81aOlfWKDSq3c26ER?=
- =?us-ascii?Q?XM4P4YXjZu6AOYYw01QXUp51vtjUtydS5DzOmSTdIb4BjczD4kg6G9KHjJhh?=
- =?us-ascii?Q?+P6kmfAC7A2nK6NJpxPZCAdRscpt4cPrfcvg5WJYrQQifKjAehsIm+gNz1RB?=
- =?us-ascii?Q?idKDnDGhwxyJ6PU6rDWYtwjwDlRnXMCWKtOf4PboNR6dNDqnFPJUybtwA9BR?=
- =?us-ascii?Q?InPe8Utbpv07gYIKaD2jnhKWqaaF7GpePROjGb7SakH/nqhNA+06jv5pKl4u?=
- =?us-ascii?Q?Yplfu6yUIZ6D+qa/ViDKfqYg1Di4gvKz2SBp6LUKgYROnX35vvo8MgUN83Fv?=
- =?us-ascii?Q?HdXkIRtPlVdJmGCI5Nd4XPA5AWRy44Ki1V2i+5RYZJrMTznh5MPRFXH8ypsG?=
- =?us-ascii?Q?wZ6I6cX5tGVNXNAQCpyFfPJ3DFDB5EbB/amuUz77y7f0oi6L+FnF4M6ZkOQ+?=
- =?us-ascii?Q?3SF41gQ4FhcULsy+rmAF8tlbD6/x7slJwdK30+Y3PKMRht9aSbhzAOzjQ2Zm?=
- =?us-ascii?Q?3RKbm4GQSA118pVuqzGov2FMCa9TWwWSjbRaTRKH2aAo4hkj+2pRNGVFmhm/?=
- =?us-ascii?Q?qfp+9ba07f2aFFTJjkFZthD6ODppudZIDbyJzLjWMJMEsvlL2A70R9EWKZO0?=
- =?us-ascii?Q?VyOUd+7zZVDFQj2IParSz5ZsO1HBISW3Jkm3z2ytH9pQF7sswVm+KdfDowz9?=
- =?us-ascii?Q?JjUGL7Cq60KO5h5ZmuDOH33WHGFZmRCfZ+DReq+ytbQAz2FJcFgofcM61pNw?=
- =?us-ascii?Q?acmJhfW9dxM/ltCWk0+dJ2BvBZFqXuX9jIHXQAewkt7Ip7LPeAUDNxDhrvHC?=
- =?us-ascii?Q?j0+oVPzaEY99rYFW5jR9zhG6rRm98HFJ6GQtL4UjwCFVCz0tEjaaww/VjfpN?=
- =?us-ascii?Q?h/zeLxWfD/qEKOFq4F3gWAA9bJBohu6cfAz74LZVShfy5+5/cch3EXKhCw+A?=
- =?us-ascii?Q?8JqPEfb17OwvEVtwQ7R6HO331WazHTT1pjMoFf8DzlI1juKOo0BS230mO8YK?=
- =?us-ascii?Q?y+tAE0iCI6if4MGVIjrgnnkw8/peWiDW2jmQrjMCYJrcptQJe77meSaeXfA+?=
- =?us-ascii?Q?rw=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	RdSHP8JynCFQSzEXbIa8F6Pxqi/bRRo1nrHQSoa+Y8KBeV8L7w6PUS3Z6zez9tAwvjeUvWl+ojVBvp05IffMJvyHAHely+ERClaUXGmMrwQ8amvQP2esdf8HqwRXmAT0BFJlKxF8+IN+aOGrZGzw3WWB5kqzkJpMBXKBLFtkLK2hJJERyJe6N7HoS4wzWVV5kvOi7g7djA/17ccieB+orv49pBaPXKRxAF/OEP/chdc5S0tqFby4dGYFvjB+DM6x9Q5//u4dzZ++2labwG6jYWH16hOpEmTvqe8CCKZleX5uOuroc3PBx35mPxPDo2hr3vhAh/kQ6Kbyt2Bw3yBPDrAMoEmSEFjZIZtADEGgeWjvlaR+F45FNHiqyNIH6DKWsYByzKdCEZ1so3Kf69fxdyDq6aTEbBjPnc1BivNOKvmeHfoMmPtdPhrehxE4dUBz7eTSC4qgRyIz8LJbMgFMooBnDelmxGJgDPA0eYO+atl8TOHxnEGjK+T2s/v9Kps5h/RQoPpF5d8XSFm50Lqbh73LrXzK0Gh9LNc7qq9lbPOo6QGtIRzv5oY5GCugsyvljv99d8JaCdS8Bwl2RsLgHv2ZTa4IFbwizBl0q/r2KV4=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df62b800-e704-4760-dfb9-08ddf46935e1
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2025 15:04:47.1148
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lzQr/RfVA8jKjcnFLpbkEa+T35n8j3u5Fc9VyF9xRK3nrVm+JQARrJJcH8/GhnXnLXJPtoaEqKvEy1i9n6hh5ktDES0ojZ44SATAKRJU1VA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7430
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-15_06,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 mlxscore=0
- adultscore=0 bulkscore=0 suspectscore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
- definitions=main-2509150143
-X-Proofpoint-ORIG-GUID: _Clld2-6NJqe8w8m6ACRtj6Oy6FwjEkr
-X-Authority-Analysis: v=2.4 cv=KNpaDEFo c=1 sm=1 tr=0 ts=68c82b28 b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=xsfo4qHKq2V8f6MN6hQA:9
- a=CjuIK1q_8ugA:10 cc=ntf awl=host:13614
-X-Proofpoint-GUID: _Clld2-6NJqe8w8m6ACRtj6Oy6FwjEkr
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAxMiBTYWx0ZWRfXyrIBTSUbnnTT
- FuqhtNFRAaCEfjqsnNTP3iEI5jrOpL7wNvvSnXnkab/NeOY//2LEFF270ePnFvOLeXgjO5DRJiX
- j7EeP4pXkBCFuHegtr2iB2Psi069f4d7wvw/6vVpQX9LiVLBLhDRflVO0aBeZdvsJVN9hx5+lB1
- qxqZWnK7Sq+E6a2MsCCFuNXYk8ia4HTl9DCyiqxOLr1i6v0IEzlG7jvJty8erXsukOKCiDTKZK2
- lrdnoeBtRoKGPhUInxwn53nuTWKLanHcYGlRNtwvEKxKkd+JshQxjjRHpY9rbx3SI0WKC4EHrwf
- DOWzq9yve2MHp5Vh5o8qXkcK2JCUhKnLClTGrPitTMicwWegwE8XMaaWPRRsTkkAGQ4ziEcJld4
- lKq+n3/E9yuBU473nphj0Q4f+hzBLA==
+X-Received: by 2002:a05:6e02:1985:b0:424:2d4:5844 with SMTP id
+ e9e14a558f8ab-42402d45b3bmr39874415ab.5.1757960253220; Mon, 15 Sep 2025
+ 11:17:33 -0700 (PDT)
+Date: Mon, 15 Sep 2025 11:17:33 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68c8583d.050a0220.2ff435.03a1.GAE@google.com>
+Subject: [syzbot] [ntfs3?] INFO: trying to register non-static key in ntfs_set_size
+From: syzbot <syzbot+bdeb22a4b9a09ab9aa45@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, penguin-kernel@I-love.SAKURA.ne.jp, 
+	penguin-kernel@i-love.sakura.ne.jp, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 15, 2025 at 11:34:14AM -0300, Jason Gunthorpe wrote:
-> On Mon, Sep 15, 2025 at 02:51:52PM +0100, Lorenzo Stoakes wrote:
-> > > vmcore is a true MIXEDMAP, it isn't doing two actions. These mixedmap
-> > > helpers just aren't good for what mixedmap needs.. Mixed map need a
-> > > list of physical pfns with a bit indicating if they are "special" or
-> > > not. If you do it with a callback or a kmalloc allocation it doesn't
-> > > matter.
-> >
-> > Well it's a mix of actions to accomodate PFNs and normal pages as
-> > implemented via a custom hook that can invoke each.
->
-> No it's not a mix of actions. The mixedmap helpers are just
-> wrong for actual mixedmap usage:
->
-> +static inline void mmap_action_remap(struct mmap_action *action,
-> +		unsigned long addr, unsigned long pfn, unsigned long size,
-> +		pgprot_t pgprot)
-> +
-> +static inline void mmap_action_mixedmap(struct mmap_action *action,
-> +		unsigned long addr, unsigned long pfn, unsigned long num_pages)
->
-> Mixed map is a list of PFNs and a flag if the PFN is special or
-> not. That's what makes mixed map different from the other mapping
-> cases.
->
-> One action per VMA, and mixed map is handled by supporting the above
-> lis tin some way.
+Hello,
 
-I don't think any of the above is really useful for me to respond to, I
-think you've misunderstood what I'm saying, but it doesn't really matter
-because I agree that the interface you propose is better for mixed map.
+syzbot found the following issue on:
 
->
-> > > I think this series should drop the mixedmem stuff, it is the most
-> > > complicated action type. A vmalloc_user action is better for kcov.
-> >
-> > Fine, I mean if we could find a way to explicitly just give a list of stuff
-> > to map that'd be _great_ vs. having a custom hook.
->
-> You already proposed to allocate memory to hold an array, I suggested
-> to have a per-range callback. Either could work as an API for
-> mixedmap.
+HEAD commit:    590b221ed425 Add linux-next specific files for 20250912
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=1379b934580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=12a1d1f3a8199632
+dashboard link: https://syzkaller.appspot.com/bug?extid=bdeb22a4b9a09ab9aa45
+compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=144aa762580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=117c8762580000
 
-Again, I think you've misunderstood me, but it's moot, because I agree,
-this kind of interface is better.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/63a963fc26db/disk-590b221e.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0c2013d30830/vmlinux-590b221e.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/7ee4d3a8e8f6/bzImage-590b221e.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/0f2061b3352a/mount_0.gz
 
->
-> > So maybe I should drop the vmalloc_user() bits too and make this a
-> > remap-only change...
->
-> Sure
->
-> > But I don't want to tackle _all_ remap cases here.
->
-> Due 4-5 or something to show the API is working. Things like my remark
-> to have a better helper that does whole-vma only should show up more
-> clearly with a few more conversions.
+The issue was bisected to:
 
-I was trying to limit to mm or mm-adjacent as per the cover letter.
+commit 4e8011ffec79717e5fdac43a7e79faf811a384b7
+Author: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Date:   Tue Sep 2 10:43:24 2025 +0000
 
-But sure I will do that.
+    ntfs3: pretend $Extend records as regular files
 
->
-> It is generally a good idea when doing these reworks to look across
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10d9947c580000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=12d9947c580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=14d9947c580000
 
-It's not a rework :) cover letter describes why I'm doing this.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+bdeb22a4b9a09ab9aa45@syzkaller.appspotmail.com
+Fixes: 4e8011ffec79 ("ntfs3: pretend $Extend records as regular files")
 
-> all the use cases patterns and try to simplify them. This is why a
-> series per pattern is a good idea because you are saying you found a
-> pattern, and here are N examples of the pattern to prove it.
->
-> Eg if a huge number of drivers are just mmaping a linear range of
-> memory with a fixed pgoff then a helper to support exactly that
-> pattern with minimal driver code should be developed.
+loop0: detected capacity change from 0 to 4096
+ntfs3(loop0): Different NTFS sector size (4096) and media sector size (512).
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+CPU: 1 UID: 0 PID: 6038 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/18/2025
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
+ assign_lock_key+0x133/0x150 kernel/locking/lockdep.c:984
+ register_lock_class+0x105/0x320 kernel/locking/lockdep.c:1299
+ __lock_acquire+0x99/0xd20 kernel/locking/lockdep.c:5112
+ lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+ down_write+0x96/0x1f0 kernel/locking/rwsem.c:1590
+ ntfs_set_size+0x140/0x200 fs/ntfs3/inode.c:860
+ ntfs_extend+0x1d9/0x970 fs/ntfs3/file.c:387
+ ntfs_setattr+0x2e8/0xbe0 fs/ntfs3/file.c:808
+ notify_change+0xc1a/0xf40 fs/attr.c:546
+ do_truncate+0x1a4/0x220 fs/open.c:68
+ vfs_truncate+0x493/0x520 fs/open.c:118
+ do_sys_truncate+0xdb/0x190 fs/open.c:141
+ __do_sys_truncate fs/open.c:153 [inline]
+ __se_sys_truncate fs/open.c:151 [inline]
+ __x64_sys_truncate+0x5b/0x70 fs/open.c:151
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f037f38eba9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffff0b0c318 EFLAGS: 00000246 ORIG_RAX: 000000000000004c
+RAX: ffffffffffffffda RBX: 00007f037f5d5fa0 RCX: 00007f037f38eba9
+RDX: 0000000000000000 RSI: 00000000000003ff RDI: 0000200000000140
+RBP: 00007f037f411e19 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f037f5d5fa0 R14: 00007f037f5d5fa0 R15: 0000000000000002
+ </TASK>
+ntfs3(loop0): ino=19, "file1" attr_set_size
+------------[ cut here ]------------
+DEBUG_RWSEMS_WARN_ON(sem->magic != sem): count = 0x1, magic = 0x0, owner = 0xffff888075e03c80, curr 0xffff888075e03c80, list not empty
+WARNING: kernel/locking/rwsem.c:1375 at __up_write kernel/locking/rwsem.c:1375 [inline], CPU#1: syz.0.17/6038
+WARNING: kernel/locking/rwsem.c:1375 at up_write+0x2d1/0x420 kernel/locking/rwsem.c:1643, CPU#1: syz.0.17/6038
+Modules linked in:
+CPU: 1 UID: 0 PID: 6038 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/18/2025
+RIP: 0010:__up_write kernel/locking/rwsem.c:1375 [inline]
+RIP: 0010:up_write+0x2d1/0x420 kernel/locking/rwsem.c:1643
+Code: c7 c7 00 ea aa 8b 48 c7 c6 60 eb aa 8b 48 8b 54 24 08 48 8b 0c 24 4c 8b 44 24 10 4d 89 e1 41 52 e8 54 57 e6 ff 48 83 c4 08 90 <0f> 0b 90 90 e9 a4 fd ff ff 90 0f 0b 90 e9 8c fe ff ff c6 05 09 ed
+RSP: 0018:ffffc90002f878b8 EFLAGS: 00010286
+RAX: 01d3ee795f15c600 RBX: ffff888058e20140 RCX: ffff888075e03c80
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000002
+RBP: dffffc0000000000 R08: ffffc90002f875c7 R09: 1ffff920005f0eb8
+R10: dffffc0000000000 R11: fffff520005f0eb9 R12: ffff888075e03c80
+R13: ffff888058e201a8 R14: 1ffff1100b1c4035 R15: ffff888058e20198
+FS:  00005555647f8500(0000) GS:ffff888125ae8000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32563fff CR3: 0000000073aba000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ ntfs_set_size+0x172/0x200 fs/ntfs3/inode.c:865
+ ntfs_extend+0x1d9/0x970 fs/ntfs3/file.c:387
+ ntfs_setattr+0x2e8/0xbe0 fs/ntfs3/file.c:808
+ notify_change+0xc1a/0xf40 fs/attr.c:546
+ do_truncate+0x1a4/0x220 fs/open.c:68
+ vfs_truncate+0x493/0x520 fs/open.c:118
+ do_sys_truncate+0xdb/0x190 fs/open.c:141
+ __do_sys_truncate fs/open.c:153 [inline]
+ __se_sys_truncate fs/open.c:151 [inline]
+ __x64_sys_truncate+0x5b/0x70 fs/open.c:151
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f037f38eba9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffff0b0c318 EFLAGS: 00000246 ORIG_RAX: 000000000000004c
+RAX: ffffffffffffffda RBX: 00007f037f5d5fa0 RCX: 00007f037f38eba9
+RDX: 0000000000000000 RSI: 00000000000003ff RDI: 0000200000000140
+RBP: 00007f037f411e19 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f037f5d5fa0 R14: 00007f037f5d5fa0 R15: 0000000000000002
+ </TASK>
 
-Fine in spirit, let's be pragmatic also though.
 
-Again this isn't a refactoring exercise. But I agree we should try to get
-the API right as best we can.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
->
-> Like below, apparently vmalloc_user() is already a pattern and already
-> has a simplifying safe helper.
->
-> > Anyway maybe if I simplify there's still a shot at this landing in time...
->
-> Simplify is always good to help things get merged :)
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
-Yup :)
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
->
-> > > Eg there are not that many places calling vmalloc_user(), a single
-> > > series could convert alot of them.
-> > >
-> > > If you did it this way we'd discover that there are already
-> > > helpers for vmalloc_user():
-> > >
-> > > 	return remap_vmalloc_range(vma, mdev_state->memblk, 0);
-> > >
-> > > And kcov looks buggy to not be using it already. The above gets the
-> > > VMA type right and doesn't force mixedmap :)
-> >
-> > Right, I mean maybe.
->
-> Maybe send out a single patch to change kcov to remap_vmalloc_range()
-> for this cycle? Answer the maybe?
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-Sure I can probably do that.
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-The question is time and, because most of my days are full of review as per
-my self-inflicted^W -selected role as a maintainer.
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-This series will be the priority obviously :)
-
->
-> Jason
-
-Cheers, Lorenzo
+If you want to undo deduplication, reply with:
+#syz undup
