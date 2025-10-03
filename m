@@ -1,177 +1,121 @@
-Received: from mail-io1-f78.google.com (mail-io1-f78.google.com [209.85.166.78])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A38718DB26
-	for <ntfs3@lists.linux.dev>; Thu,  2 Oct 2025 16:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B1F267729
+	for <ntfs3@lists.linux.dev>; Fri,  3 Oct 2025 15:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759420891; cv=none; b=Sqj5wuOl1nf+nsZgNboGjzgRddEWAeXFmZjcMTs4I1+imLy8L/zSpS+LeIXNZfDvJiKydDozoCngm4oH9tSFR68bjds9gaLtUd+Byulc3H0IDD6W03+oB/tHfcbbzPnK29Q5IzOSLuvDrBBLcgyeP+vJBAEt6j6LFdxuSA0Aec0=
+	t=1759506053; cv=none; b=Qh8yZCWd77qoyHKXB03KzdNp/nzklEESrimr8inU1eAvvrADHFqFwnM8TAGvoiGrR30dd7nGeRgupZr7Me3DC9wZTgRajUXWh+S0vfPpdwSaPZs+Y6Izod4Mmat2NALbP/pAtjQa8q6upKNVqlv7qmkd5BFCG1EgwUFxoVD57sE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759420891; c=relaxed/simple;
-	bh=w2Y2QF2llxGF8shdV8sbkQl9VQBi962VNSCw5q7OYcs=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=lY+RgRjK7IBEiqbMKNKWMt/ddYgHxSbfi6x2tsoFuW4XdOUCLqu6a/GwsAwG1uHysFABMcXlq/2T9wb6VK5kpAlo5rE3gHeyndj3ugWtrwvzfZ6CsivLEu/9IcWXjUSNOHAstUPdMfeziQmB7DYVeyIK8xydmhhnX4+mfLOd9pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f78.google.com with SMTP id ca18e2360f4ac-937ce715b90so307509439f.0
-        for <ntfs3@lists.linux.dev>; Thu, 02 Oct 2025 09:01:28 -0700 (PDT)
+	s=arc-20240116; t=1759506053; c=relaxed/simple;
+	bh=LOg4T94ipRq8J347hgnTWV0pMK8tjjOpCc0XTauE/Uo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XdodFKI3ZKj1LFRwkPStchihlXhJnNX8ZN5sG34UG5Ijz2U0ZyXKDJ0G4EYm2//eKPTFdSTXXwaB71jf13l1uyUw1w7qkhq2b7XVkSpr3dgZfwb0eVAGqHCelO4tEU+W5DjQzZ3eSzcJMOOtYVmM3a2ZgO/aPcLVFosXFufyf9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cd+7aGiB; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cd+7aGiB"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-781010ff051so1856564b3a.0
+        for <ntfs3@lists.linux.dev>; Fri, 03 Oct 2025 08:40:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759506051; x=1760110851; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K7r9cq9P/21nnwhqpNX1hAPkeXOwTrBQce9AVDcYHDc=;
+        b=Cd+7aGiBZGvnlZ4FYG6UxVVs6BoWqJ3xsh3C8ftfrDErIIrlgyq4MvoIHGBHVfCx6k
+         OC5Yp8ZHcvZQt+lH1IMp3OOdtERa2ppUU4EVF3UzVo1/QPdfmPQdHY/sdOGtfetWju/o
+         ml13CEDRhiyePZcJsdvWMM4uzLXseiEjFJ0VYjXRnZnqCB5y+84vPXlmzodJOVzfOoA7
+         n5j4KQU+nFNjv+A0wurpsPLFueAWbdVKKYCVNYa+frNxniFzBezXD/pWCgHqthepRcoN
+         +qTPOASMNAyuhp5SasoiULHFrm1HcDjkUdbjYTX+3qoxdtqkl4eqPhZBCAz4TL4ltBMZ
+         b3hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759420888; x=1760025688;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6Jz1T9sSuQKTB6Iy2gijMr4H81ISh/9XX5h9fzwPqRg=;
-        b=oycGHOL1B1/FdSUK2UwHf8GI0Ub0DRubePRMJqzWQmu4VP40sgXstwoCsXRwhRaLJw
-         c4Gp8aESXmR9qmFm0pf48k0tvz4akgIRWr5T93P/HwnF8TYQsHiTuhZgXxw1fRyMMGc+
-         m9IccvdO35iFh/2XtBDLHrN9ywTQ4ZKVjDlsndHmRsh8VblYCKopwW05A/PzBySAUc/M
-         6VDa2WBAZSUcPPpYh3E6qZLVsZ6PKvw5auadjMiVT0236QVFXDfKfwwJvKvlS7WrcQmW
-         elbtHsgzymUABAo4QBTSpkHjAS8KtKz7ERjVxnxAjlWe+JpRm7SfuDE3mQ7Wk01bEZzG
-         VwIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV3HRsy9WvAfxIoKQgssiTDAwPe5iI6yUhR4vGClKyS1prL4e3jDgXqLNXsc9e4UBrB7Jp71Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZCD8N0vWAh+Sd6YtGa9Ef/8zDyF152e5qqa1ESDJu8bvXu7nb
-	/q+qf4FCAG7Vl+FjHKZa0m2e5hdjMm+zBnR7lvERGJ/onTsId/Zs/CHzWR9hx0+/NLRzDwgNqVF
-	Zknf9ft/IdKFCMJl3ape9gq2VCETZlQlscLCQCyirpLMTe8YGDHENWhcxLwo=
-X-Google-Smtp-Source: AGHT+IHffKavk02Gbend6tu0ZvbYDE2ugTDl2b4vE30bJvYlN+ntr9RClO6SL6k1O2AbMbbG9hI2WRr4z1uSBD9hUQYev1uKiqnu
+        d=1e100.net; s=20230601; t=1759506051; x=1760110851;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K7r9cq9P/21nnwhqpNX1hAPkeXOwTrBQce9AVDcYHDc=;
+        b=KUniNL+rhhqY3MqJeywaJNUnFN8Dcza55gF0XpcYHxpPlsyx404jJdLhhcZAn59T9q
+         Ms0w6jkOTDpwylzs9Vj/0rPuRMzYA6o72wWL5Ujlh1GZtKV3TcRA5/WrQG+6ZA7Whtym
+         NKLHqAiRwhjKwKmTZWt4P1i/6vgcWzCVbu8D349j0IOK/BBj+i1dlTVC70ry1NfSxLjI
+         ukjiqK9Tdgf7gzefFKxuSPKUztdR70S4Eo/wbKnlec5FGFdhTHLV2KMqPBjsrIHWZ+u0
+         HcS4JWLoVD/DCWD2uaXM9s/K63Xmgb3f7gRsFdaeB2XJ9RVHOXh8N78laa5S88V4Oc1p
+         wniQ==
+X-Gm-Message-State: AOJu0Yyljt3SiMU0R9/eOIv+D1RXs+80jFxZMV3jAzStKw3Pyub4CuGH
+	ml3J6ZQyBFNKTIbmtRJ8nkbFsNrzl/GQIO7pSIUn4h874IB22mZWY6x0
+X-Gm-Gg: ASbGnctWjPZhRg9siXlKzOgDNRKpmKrAxWlJpwYI5xQZVMdvpKxUZ6cKwvWlKqWYe06
+	DbMXdt8XetWvTVkWdmqdlddKoRScb4/U7w7QRGUgNnfQ0rBeGBzH8PJeKtEA4cqvXkB43kwR/Si
+	c1aGmC+006pQNiGmfos2Z86OH6XWG6C9k395FX8jezMJtj2M0YGiQ4AEnWPjKkYIiBOFBrp8/IH
+	vw24rdB5Xx6sziXxhtV8Pe9DfLpuRVObkGajdul2AcrodNNAR1p7vD9ikQ6LNRqUNaY9TwDJbmm
+	g0Zq8ww76A+JFieBVknHPxZbW058cQAhoLfeOVDdsvltWQwC9XlA5XS3mfHsoQYEJh/AEcJxl2b
+	HnQxn82qeuq48CO/HJhn+bOFAkIzrj8VFjtmHJbZozBWhbhtMvrcZu6hNjl/Od4hQYpvhXDaIhp
+	YiuM1pfP1CVg==
+X-Google-Smtp-Source: AGHT+IHSOuHphbmG3g6A0WPDYkpmRmaUeSt/uHAeUHBHPqJHLyn8M8hem8ooNEv/cPxzBc6Dfir51w==
+X-Received: by 2002:a05:6a21:9989:b0:2ec:65c:c25 with SMTP id adf61e73a8af0-32b61dfb914mr4385705637.8.1759506051178;
+        Fri, 03 Oct 2025 08:40:51 -0700 (PDT)
+Received: from weg-ThinkPad-P16v-Gen-2.. ([2804:30c:166c:ce00:17a8:586a:f651:fcd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6099f7ab4fsm4946496a12.44.2025.10.03.08.40.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Oct 2025 08:40:50 -0700 (PDT)
+From: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Pedro Demarchi Gomes <pedrodemargomes@gmail.com>,
+	syzbot+f4f84b57a01d6b8364ad@syzkaller.appspotmail.com
+Subject: [PATCH] ntfs: set dummy blocksize to read boot_block when mounting
+Date: Fri,  3 Oct 2025 12:38:50 -0300
+Message-ID: <20251003153850.55643-1-pedrodemargomes@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a92:c265:0:b0:428:cd3c:6a3c with SMTP id
- e9e14a558f8ab-42d8b192b01mr35614035ab.1.1759420887768; Thu, 02 Oct 2025
- 09:01:27 -0700 (PDT)
-Date: Thu, 02 Oct 2025 09:01:27 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68dea1d7.050a0220.25d7ab.07bc.GAE@google.com>
-Subject: [syzbot] [ntfs3?] [usb?] general protection fault in rtlock_slowlock_locked
-From: syzbot <syzbot+08df3e4c9b304b37cb04@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+When mounting, sb->s_blocksize is used to read the boot_block without
+being defined or validated. Set a dummy blocksize before attempting to
+read the boot_block.
 
-syzbot found the following issue on:
+The issue can be triggered with the following syz reproducer:
 
-HEAD commit:    99bade344cfa Merge tag 'rust-fixes-6.17' of git://git.kern..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15f513a2580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=98e114f4eb77e551
-dashboard link: https://syzkaller.appspot.com/bug?extid=08df3e4c9b304b37cb04
-compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
+  mkdirat(0xffffffffffffff9c, &(0x7f0000000080)='./file1\x00', 0x0)
+  r4 = openat$nullb(0xffffffffffffff9c, &(0x7f0000000040), 0x121403, 0x0)
+  ioctl$FS_IOC_SETFLAGS(r4, 0x40081271, &(0x7f0000000980)=0x4000)
+  mount(&(0x7f0000000140)=@nullb, &(0x7f0000000040)='./cgroup\x00',
+        &(0x7f0000000000)='ntfs3\x00', 0x2208004, 0x0)
+  syz_clone(0x88200200, 0x0, 0x0, 0x0, 0x0, 0x0)
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Here, the ioctl sets the bdev block size to 16384. During mount,
+get_tree_bdev_flags() calls sb_set_blocksize(sb, block_size(bdev)),
+but since block_size(bdev) > PAGE_SIZE, sb_set_blocksize() leaves
+sb->s_blocksize at zero.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/309f13a7cc12/disk-99bade34.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/0d782186486b/vmlinux-99bade34.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/174f592d16e2/bzImage-99bade34.xz
+Later, ntfs_init_from_boot() attempts to read the boot_block while
+sb->s_blocksize is still zero, which triggers the bug.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+08df3e4c9b304b37cb04@syzkaller.appspotmail.com
-
-loop7: detected capacity change from 0 to 4096
-Oops: general protection fault, probably for non-canonical address 0xffdffc0000000148: 0000 [#1] SMP KASAN PTI
-KASAN: maybe wild-memory-access in range [0xff00000000000a40-0xff00000000000a47]
-CPU: 0 UID: 0 PID: 11227 Comm: syz.7.607 Tainted: G        W           6.17.0-rc1-syzkaller-00214-g99bade344cfa #0 PREEMPT_{RT,(full)} 
-Tainted: [W]=WARN
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/12/2025
-RIP: 0010:debug_spin_lock_before kernel/locking/spinlock_debug.c:86 [inline]
-RIP: 0010:do_raw_spin_lock+0x78/0x290 kernel/locking/spinlock_debug.c:115
-Code: aa 9c 81 48 8d 4c 24 20 48 c1 e9 03 48 b8 f1 f1 f1 f1 04 f3 f3 f3 48 89 4c 24 18 4a 89 04 39 4c 8d 77 04 4c 89 f0 48 c1 e8 03 <42> 0f b6 04 38 84 c0 0f 85 9f 01 00 00 41 8b 06 3d ad 4e ad de 0f
-RSP: 0018:ffffc900049ff4c0 EFLAGS: 00010807
-RAX: 1fe0000000000148 RBX: ff00000000000a40 RCX: 1ffff9200093fe9c
-RDX: 0000000000000000 RSI: ffffffff8b620b60 RDI: ff00000000000a40
-RBP: ffffc900049ff570 R08: 0000000000000001 R09: 0000000000000000
-R10: dffffc0000000000 R11: ffffed10053788b9 R12: ffff88808316a1b0
-R13: ff00000000000000 R14: ff00000000000a44 R15: dffffc0000000000
-FS:  00007f7f773fe6c0(0000) GS:ffff8881268c5000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f7f79182020 CR3: 000000005aace000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- task_blocks_on_rt_mutex kernel/locking/rtmutex.c:1265 [inline]
- rtlock_slowlock_locked+0x8ef/0x4010 kernel/locking/rtmutex.c:1851
- rtlock_slowlock kernel/locking/rtmutex.c:1895 [inline]
- rtlock_lock kernel/locking/spinlock_rt.c:43 [inline]
- __rt_spin_lock kernel/locking/spinlock_rt.c:49 [inline]
- rt_spin_lock+0x152/0x2c0 kernel/locking/spinlock_rt.c:57
- spin_lock include/linux/spinlock_rt.h:44 [inline]
- iput_final fs/inode.c:1886 [inline]
- iput+0x5c1/0x9d0 fs/inode.c:1923
- ntfs_fill_super+0x38fa/0x40b0 fs/ntfs3/super.c:1514
- get_tree_bdev_flags+0x40e/0x4d0 fs/super.c:1692
- vfs_get_tree+0x8f/0x2b0 fs/super.c:1815
- do_new_mount+0x2a2/0x9e0 fs/namespace.c:3805
- do_mount fs/namespace.c:4133 [inline]
- __do_sys_mount fs/namespace.c:4344 [inline]
- __se_sys_mount+0x317/0x410 fs/namespace.c:4321
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f7f791a038a
-Code: d8 64 89 02 48 c7 c0 ff ff ff ff eb a6 e8 de 1a 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f7f773fde68 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007f7f773fdef0 RCX: 00007f7f791a038a
-RDX: 0000200000000080 RSI: 0000200000000000 RDI: 00007f7f773fdeb0
-RBP: 0000200000000080 R08: 00007f7f773fdef0 R09: 0000000002010c10
-R10: 0000000002010c10 R11: 0000000000000246 R12: 0000200000000000
-R13: 00007f7f773fdeb0 R14: 000000000001f743 R15: 0000200000000380
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:debug_spin_lock_before kernel/locking/spinlock_debug.c:86 [inline]
-RIP: 0010:do_raw_spin_lock+0x78/0x290 kernel/locking/spinlock_debug.c:115
-Code: aa 9c 81 48 8d 4c 24 20 48 c1 e9 03 48 b8 f1 f1 f1 f1 04 f3 f3 f3 48 89 4c 24 18 4a 89 04 39 4c 8d 77 04 4c 89 f0 48 c1 e8 03 <42> 0f b6 04 38 84 c0 0f 85 9f 01 00 00 41 8b 06 3d ad 4e ad de 0f
-RSP: 0018:ffffc900049ff4c0 EFLAGS: 00010807
-RAX: 1fe0000000000148 RBX: ff00000000000a40 RCX: 1ffff9200093fe9c
-RDX: 0000000000000000 RSI: ffffffff8b620b60 RDI: ff00000000000a40
-RBP: ffffc900049ff570 R08: 0000000000000001 R09: 0000000000000000
-R10: dffffc0000000000 R11: ffffed10053788b9 R12: ffff88808316a1b0
-R13: ff00000000000000 R14: ff00000000000a44 R15: dffffc0000000000
-FS:  00007f7f773fe6c0(0000) GS:ffff8881268c5000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f7f79182020 CR3: 000000005aace000 CR4: 00000000003526f0
-----------------
-Code disassembly (best guess):
-   0:	aa                   	stos   %al,%es:(%rdi)
-   1:	9c                   	pushf
-   2:	81 48 8d 4c 24 20 48 	orl    $0x4820244c,-0x73(%rax)
-   9:	c1 e9 03             	shr    $0x3,%ecx
-   c:	48 b8 f1 f1 f1 f1 04 	movabs $0xf3f3f304f1f1f1f1,%rax
-  13:	f3 f3 f3
-  16:	48 89 4c 24 18       	mov    %rcx,0x18(%rsp)
-  1b:	4a 89 04 39          	mov    %rax,(%rcx,%r15,1)
-  1f:	4c 8d 77 04          	lea    0x4(%rdi),%r14
-  23:	4c 89 f0             	mov    %r14,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	42 0f b6 04 38       	movzbl (%rax,%r15,1),%eax <-- trapping instruction
-  2f:	84 c0                	test   %al,%al
-  31:	0f 85 9f 01 00 00    	jne    0x1d6
-  37:	41 8b 06             	mov    (%r14),%eax
-  3a:	3d ad 4e ad de       	cmp    $0xdead4ead,%eax
-  3f:	0f                   	.byte 0xf
-
-
+Reported-by: syzbot+f4f84b57a01d6b8364ad@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=f4f84b57a01d6b8364ad
+Signed-off-by: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/super.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index ddff94c091b8..7648663d70c9 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -933,6 +933,9 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+ 
+ 	sbi->volume.blocks = dev_size >> PAGE_SHIFT;
+ 
++	// Set dummy blocksize to read boot_block
++	sb_min_blocksize(sb, PAGE_SIZE);
++
+ read_boot:
+ 	bh = ntfs_bread(sb, boot_block);
+ 	if (!bh)
+-- 
+2.43.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
