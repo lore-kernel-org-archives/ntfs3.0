@@ -1,176 +1,57 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from mail.w13.tutanota.de (mail.w13.tutanota.de [185.205.69.213])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A8A13774D
-	for <ntfs3@lists.linux.dev>; Sat,  4 Oct 2025 10:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C5F339A8
+	for <ntfs3@lists.linux.dev>; Sat,  4 Oct 2025 11:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.205.69.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759574603; cv=none; b=AKm4pQQ8+/olpl6C6VcgvhSSFu5NXTVlreouOicFFRooAl+h2LwuhefqnX9ij4O/ZEdOEFEXE8hynqfV8dU6FjYGg89H8vc0BY5EZu0H0OyMcS35iHZU3NHWYdNnr0BgaQBNrd4VL2+vPWj/8zJ+OOA47rbOEW6FOG1nWsPCOhg=
+	t=1759575810; cv=none; b=ZVHZepA8sOZK6QkrjR+duhUx2u29CQBIXdNuZrRNzHuz55PvXAHnmqN027mEo4mHnfCg7XfcKK7oM2KbAf5NL3hvTKjjxLKTJm/M6OkhpIhA2nql8yiuev0v7KVJPDC3O4bvtnSPFd9iLwX1vTAm3XaTGN0gRv/WlCXYyBygulk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759574603; c=relaxed/simple;
-	bh=LSc2k3JG640I+h7g5SBcDrjqgT5YyCRJVhxvq/KrV/o=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=NDBXdsNFv3NLKmVLwxRfSeTEijsGGcYaq9END2k/pYW+Gb1f0QpqCbRley1leMrObXtqw679mskxUCF6uHqkoKsmJSQww3qGDP+PhIEDHSBLVGYJsgGsHeKAljk+ocJ1g2gZ1KGDTEh8PeY6wWir0PtsOnDW/PF92g4KqaLSV98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 594Ah8tw090063;
-	Sat, 4 Oct 2025 19:43:08 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.10] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 594Ah1dj090035
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Sat, 4 Oct 2025 19:43:08 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <842b3b43-0a1c-4fe8-adff-94fdb2cee59b@I-love.SAKURA.ne.jp>
-Date: Sat, 4 Oct 2025 19:43:02 +0900
+	s=arc-20240116; t=1759575810; c=relaxed/simple;
+	bh=zY4q+qOHQAiAM+gLWnanAbK2Ly668w0XvxnR9pXhisM=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=rDnM5UHCKsOE2EV5BlSiuHQBVkgcPQqrlOhm39OE4mP6HoPbTMtlgDEBd9l5nVGqrQ9brzDi/DZ0GCZtLEZ9pequBfXpBCFqEgdGD19bmJgIxdMhz3AcBdhN1tSkoALjrIBjh3AVOrYs3scIsEuSeNbgu/irOmaR1hoEEUkSbf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutamail.com; spf=pass smtp.mailfrom=tutamail.com; dkim=pass (2048-bit key) header.d=tutamail.com header.i=@tutamail.com header.b=zZmOicF6; arc=none smtp.client-ip=185.205.69.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutamail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tutamail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tutamail.com header.i=@tutamail.com header.b="zZmOicF6"
+Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
+	by mail.w13.tutanota.de (Postfix) with ESMTP id C414FCB1D4BB
+	for <ntfs3@lists.linux.dev>; Sat,  4 Oct 2025 13:03:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759575806;
+	s=s1; d=tutamail.com;
+	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
+	bh=zY4q+qOHQAiAM+gLWnanAbK2Ly668w0XvxnR9pXhisM=;
+	b=zZmOicF6jYbXh8vR2B+PpbmoIgsU60ilRmJ0bcITf4TL8cntGRX+iAaoxZElb7m+
+	dXl/0BbGvHmuBFLQLjAFAvsV8nte01b52OFyLgTpviWFRN9rnESqMoxqqmgQ6MXEbSn
+	7wJ0XzPxD7hyPsekRLsJhvLqB7bRutoyrOwti/HVrOi50ehZ8pTTgMv5rlUcQYiO+gZ
+	tCF49e1yk5/sXmRaCwEiajYszDwAA9sml6IU6XT0MUseZP8m8iWZGwc/TkNxZFktfAP
+	BsPXkoh7YBIenSwML35JEYd7oHw+HOlFajsX0wIMM+xNKu8SmXH6mC1ImthQzF6qS6M
+	b641zMcpVw==
+Date: Sat, 4 Oct 2025 13:03:26 +0200 (CEST)
+From: craftfever@tutamail.com
+To: Ntfs3 <ntfs3@lists.linux.dev>,
+	Linux Kernel <linux-kernel@vger.kernel.org>,
+	Regressions <regressions@lists.linux.dev>
+Cc: Almaz Alexandrovich <almaz.alexandrovich@paragon-software.com>
+Message-ID: <Oait04j--F-9@tutamail.com>
+In-Reply-To: <OaiQgS3--F-9@tutamail.com>
+References: <OaiQgS3--F-9@tutamail.com>
+Subject: Re: [Bug] Memory allocation errors and system crashing due to buggy
+ disk cache/inode allocations by ntfs3 kernel module.
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [ntfs3?] INFO: trying to register non-static key in
- ntfs_set_size
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
-        Edward Adam Davis <eadavis@qq.com>
-Cc: syzbot <syzbot+bdeb22a4b9a09ab9aa45@syzkaller.appspotmail.com>,
-        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-References: <68c8583d.050a0220.2ff435.03a1.GAE@google.com>
- <bcd184f1-acbc-46c7-9e30-045a8f17fc5c@I-love.SAKURA.ne.jp>
- <d79cb8dd-7dc3-49da-8fb1-793fa7e2a7e0@I-love.SAKURA.ne.jp>
-Content-Language: en-US
-In-Reply-To: <d79cb8dd-7dc3-49da-8fb1-793fa7e2a7e0@I-love.SAKURA.ne.jp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Anti-Virus-Server: fsav301.rs.sakura.ne.jp
-X-Virus-Status: clean
 
-On 2025/09/20 18:42, Tetsuo Handa wrote:
-> On 2025/09/16 12:48, Tetsuo Handa wrote:
->> Well, we need to also initialize ni->file.run_lock, for vfs_truncate() now
->> passes the
->>
->> 	/* For directories it's -EISDIR, for other non-regulars - -EINVAL */
->> 	if (S_ISDIR(inode->i_mode))
->> 		return -EISDIR;
->> 	if (!S_ISREG(inode->i_mode))
->> 		return -EINVAL;
->>
->> check. But do we really want to pretend as if S_IFREG ?
->>
->> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
->> index 37cbbee7fa58..ea2193ebf8fc 100644
->> --- a/fs/ntfs3/inode.c
->> +++ b/fs/ntfs3/inode.c
->> @@ -471,6 +471,8 @@ static struct inode *ntfs_read_mft(struct inode *inode,
->>                    fname->home.seq == cpu_to_le16(MFT_REC_EXTEND)) {
->>                 /* Records in $Extend are not a files or general directories. */
->>                 inode->i_op = &ntfs_file_inode_operations;
->> +               mode = S_IFREG;
->> +               init_rwsem(&ni->file.run_lock);
->>         } else {
->>                 err = -EINVAL;
->>                 goto out;
->>
->> Are records in $Extend expected to be truncated to arbitrary size? Should we
->> prepend something other than S_IFREG (at least S_IFREG so that truncate()
-> 
-> pretend something other than S_IFREG (at least S_IFDIR so that truncate()
-> 
->> will fail, or possibly S_IFSOCK so that open() will fail) ?
 
-I tested using a legitimate filesystem image, and I came to a conclusion that
-pretending as if S_IFREG seems to be OK because normal operations (e.g. read,
-truncate) fail with "No such device or address" despite S_IFREG.
+Oct 4, 2025, 11:55 by craftfever@tutamail.com:
 
-Therefore, please apply
-https://lkml.kernel.org/r/tencent_F24B651BC22523BA92BB5A337D9E2A1B5F08@qq.com
-and send to linux.git .
-
-------------------------------------------------------------
-[root@localhost ~]# truncate -s 100M testfile.img
-[root@localhost ~]# mkfs.ntfs -F testfile.img
-testfile.img is not a block device.
-mkntfs forced anyway.
-The sector size was not specified for testfile.img and it could not be obtained automatically.  It has been set to 512 bytes.
-The partition start sector was not specified for testfile.img and it could not be obtained automatically.  It has been set to 0.
-The number of sectors per track was not specified for testfile.img and it could not be obtained automatically.  It has been set to 0.
-The number of heads was not specified for testfile.img and it could not be obtained automatically.  It has been set to 0.
-Cluster size has been automatically set to 4096 bytes.
-To boot from a device, Windows needs the 'partition start sector', the 'sectors per track' and the 'number of heads' to be set.
-Windows will not be able to boot from this device.
-Initializing device with zeroes: 100% - Done.
-Creating NTFS volume structures.
-mkntfs completed successfully. Have a nice day.
-[root@localhost ~]# mount -t ntfs3 -o loop testfile.img /mnt/
-for i in '$ObjId' '$Quota' '$Reparse'
-do
-  stat /mnt/\$Extend/$i
-  truncate -s 1024 /mnt/\$Extend/$i
-  chmod 7777 /mnt/\$Extend/$i
-  chown 1 /mnt/\$Extend/$i
-  cat /mnt/\$Extend/\$Reparse
-  stat /mnt/\$Extend/$i
-  rm -f /mnt/\$Extend/$i
-done
-  File: /mnt/$Extend/$ObjId
-  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
-Device: 7,0     Inode: 25          Links: 1
-Access: (0000/----------)  Uid: (    0/    root)   Gid: (    0/    root)
-Access: 2025-10-04 19:26:28.077612000 +0900
-Modify: 2025-10-04 19:26:28.077612000 +0900
-Change: 2025-10-04 19:26:28.077612000 +0900
- Birth: 2025-10-04 19:26:28.077612000 +0900
-truncate: cannot open '/mnt/$Extend/$ObjId' for writing: No such device or address
-cat: '/mnt/$Extend/$Reparse': No such device or address
-  File: /mnt/$Extend/$ObjId
-  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
-Device: 7,0     Inode: 25          Links: 1
-Access: (1777/-rwxrwxrwt)  Uid: (    1/     bin)   Gid: (    0/    root)
-Access: 2025-10-04 19:26:28.077612000 +0900
-Modify: 2025-10-04 19:26:28.077612000 +0900
-Change: 2025-10-04 19:28:18.811900400 +0900
- Birth: 2025-10-04 19:26:28.077612000 +0900
-  File: /mnt/$Extend/$Quota
-  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
-Device: 7,0     Inode: 24          Links: 1
-Access: (0000/----------)  Uid: (    0/    root)   Gid: (    0/    root)
-Access: 2025-10-04 19:26:28.077612000 +0900
-Modify: 2025-10-04 19:26:28.077612000 +0900
-Change: 2025-10-04 19:26:28.077612000 +0900
- Birth: 2025-10-04 19:26:28.077612000 +0900
-truncate: cannot open '/mnt/$Extend/$Quota' for writing: No such device or address
-cat: '/mnt/$Extend/$Reparse': No such device or address
-  File: /mnt/$Extend/$Quota
-  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
-Device: 7,0     Inode: 24          Links: 1
-Access: (1777/-rwxrwxrwt)  Uid: (    1/     bin)   Gid: (    0/    root)
-Access: 2025-10-04 19:26:28.077612000 +0900
-Modify: 2025-10-04 19:26:28.077612000 +0900
-Change: 2025-10-04 19:28:18.901901800 +0900
- Birth: 2025-10-04 19:26:28.077612000 +0900
-  File: /mnt/$Extend/$Reparse
-  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
-Device: 7,0     Inode: 26          Links: 1
-Access: (0000/----------)  Uid: (    0/    root)   Gid: (    0/    root)
-Access: 2025-10-04 19:26:28.077612000 +0900
-Modify: 2025-10-04 19:26:28.077612000 +0900
-Change: 2025-10-04 19:26:28.077612000 +0900
- Birth: 2025-10-04 19:26:28.077612000 +0900
-truncate: cannot open '/mnt/$Extend/$Reparse' for writing: No such device or address
-cat: '/mnt/$Extend/$Reparse': No such device or address
-  File: /mnt/$Extend/$Reparse
-  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
-Device: 7,0     Inode: 26          Links: 1
-Access: (1777/-rwxrwxrwt)  Uid: (    1/     bin)   Gid: (    0/    root)
-Access: 2025-10-04 19:26:28.077612000 +0900
-Modify: 2025-10-04 19:26:28.077612000 +0900
-Change: 2025-10-04 19:28:18.983903100 +0900
- Birth: 2025-10-04 19:26:28.077612000 +0900
-------------------------------------------------------------
-
+> I'm expecting serious bug when writing large amount of files to NTFS hard drive, shortly after memory allocation errors and system crash occurs/ Firstly, I thought, than this is bug in linux kernel itself, somewhat disk cache allocation error, but when I tested same operations on ext4 drive or using NTFS-3G module, bug is not present.
+>
+To reproduce a bug, try cloning two big Git repositories to an external NTFS drive mounted with ntfs3 module.
