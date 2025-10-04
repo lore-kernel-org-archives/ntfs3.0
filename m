@@ -1,48 +1,176 @@
-Received: from mail.w13.tutanota.de (mail.w13.tutanota.de [185.205.69.213])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DB01F4C8E
-	for <ntfs3@lists.linux.dev>; Sat,  4 Oct 2025 08:55:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.205.69.213
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A8A13774D
+	for <ntfs3@lists.linux.dev>; Sat,  4 Oct 2025 10:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759568123; cv=none; b=RHmdBKN1TLZhrVL4UNWe/DEm/eeBrMxscyJj+8EQ1ftbDyMdRUDXElysG//UozXCLt4KLqVTqFS1s+B5DcmJ1aiVZWlGFfu5oqmTUDxGpLkHHAbEc9K7iNpVXQjreqJjyGt5nyXtJfNq00aT/Vq89lTwKRjPo+evO1gDCSrV13A=
+	t=1759574603; cv=none; b=AKm4pQQ8+/olpl6C6VcgvhSSFu5NXTVlreouOicFFRooAl+h2LwuhefqnX9ij4O/ZEdOEFEXE8hynqfV8dU6FjYGg89H8vc0BY5EZu0H0OyMcS35iHZU3NHWYdNnr0BgaQBNrd4VL2+vPWj/8zJ+OOA47rbOEW6FOG1nWsPCOhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759568123; c=relaxed/simple;
-	bh=NdPrNhN29SUk+sp3WiejdjpFfYVI9ZIvrbHDdEQ0S5Y=;
-	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=c/+iqnV1QkBtL4XS83QmwLoLykJpw6W/4fBVeLCKldXmjNIf+D+h8nEfe7ndzPEAy6yNyhIxhQ2IWaP2ELYPTMuL0pC5wX48ZvWxEK6LfQ53H2dbHqhf1Jl+YWU77TZwGALobkAM3yrV2bDikvfOqRFuS/prQ4kvocBH0mHdjLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutamail.com; spf=pass smtp.mailfrom=tutamail.com; dkim=pass (2048-bit key) header.d=tutamail.com header.i=@tutamail.com header.b=o+mmHhno; arc=none smtp.client-ip=185.205.69.213
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutamail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tutamail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tutamail.com header.i=@tutamail.com header.b="o+mmHhno"
-Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
-	by mail.w13.tutanota.de (Postfix) with ESMTP id 2E7B3CB14076
-	for <ntfs3@lists.linux.dev>; Sat,  4 Oct 2025 10:55:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759568120;
-	s=s1; d=tutamail.com;
-	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Date:Date:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:Sender;
-	bh=NdPrNhN29SUk+sp3WiejdjpFfYVI9ZIvrbHDdEQ0S5Y=;
-	b=o+mmHhnor/CU8uzLjUUIdsdDQhgREK+7Jh4P30D+kba+/56BFUZ2NIG/XPH+gaaV
-	reQlPxp+5lpZq5T4PApWGpE2CXasJklGhTWP9rG1RfeivoivMqMlplGLXzE0jFIubTJ
-	+axNo+Kwf3fn8a6ONJ3ScfNaXnTZILsPN1MR/53QrKQDG/jCRqyli53oevELLdJRjI2
-	2dcbfHDpeh9mbjg27gzNc6Ld2GIMzg0M4d/XmYWoYg19rwZUkCAtRzsQBiQC/asSGJO
-	C7u14SW6x2ZOg/G8ZmRRIMMIDcjS/J51IiKi2zxjbe/6UYfqTvav2qJnX87PGSc5a8S
-	NW8PWIiFuw==
-Date: Sat, 4 Oct 2025 10:55:20 +0200 (CEST)
-From: craftfever@tutamail.com
-To: Ntfs3 <ntfs3@lists.linux.dev>,
-	Linux Kernel <linux-kernel@vger.kernel.org>,
-	Regressions <regressions@lists.linux.dev>
-Message-ID: <OaiQgS3--F-9@tutamail.com>
-Subject: [Bug] Memory allocation errors and system crashing due to buggy
- disk cache/inode allocations by ntfs3 kernel module.
+	s=arc-20240116; t=1759574603; c=relaxed/simple;
+	bh=LSc2k3JG640I+h7g5SBcDrjqgT5YyCRJVhxvq/KrV/o=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=NDBXdsNFv3NLKmVLwxRfSeTEijsGGcYaq9END2k/pYW+Gb1f0QpqCbRley1leMrObXtqw679mskxUCF6uHqkoKsmJSQww3qGDP+PhIEDHSBLVGYJsgGsHeKAljk+ocJ1g2gZ1KGDTEh8PeY6wWir0PtsOnDW/PF92g4KqaLSV98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 594Ah8tw090063;
+	Sat, 4 Oct 2025 19:43:08 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.10] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 594Ah1dj090035
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Sat, 4 Oct 2025 19:43:08 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <842b3b43-0a1c-4fe8-adff-94fdb2cee59b@I-love.SAKURA.ne.jp>
+Date: Sat, 4 Oct 2025 19:43:02 +0900
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [ntfs3?] INFO: trying to register non-static key in
+ ntfs_set_size
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
+        Edward Adam Davis <eadavis@qq.com>
+Cc: syzbot <syzbot+bdeb22a4b9a09ab9aa45@syzkaller.appspotmail.com>,
+        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+References: <68c8583d.050a0220.2ff435.03a1.GAE@google.com>
+ <bcd184f1-acbc-46c7-9e30-045a8f17fc5c@I-love.SAKURA.ne.jp>
+ <d79cb8dd-7dc3-49da-8fb1-793fa7e2a7e0@I-love.SAKURA.ne.jp>
+Content-Language: en-US
+In-Reply-To: <d79cb8dd-7dc3-49da-8fb1-793fa7e2a7e0@I-love.SAKURA.ne.jp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Anti-Virus-Server: fsav301.rs.sakura.ne.jp
+X-Virus-Status: clean
 
-I'm expecting serious bug when writing large amount of files to NTFS hard drive, shortly after memory allocation errors and system crash occurs/ Firstly, I thought, than this is bug in linux kernel itself, somewhat disk cache allocation error, but when I tested same operations on ext4 drive or using NTFS-3G module, bug is not present.
+On 2025/09/20 18:42, Tetsuo Handa wrote:
+> On 2025/09/16 12:48, Tetsuo Handa wrote:
+>> Well, we need to also initialize ni->file.run_lock, for vfs_truncate() now
+>> passes the
+>>
+>> 	/* For directories it's -EISDIR, for other non-regulars - -EINVAL */
+>> 	if (S_ISDIR(inode->i_mode))
+>> 		return -EISDIR;
+>> 	if (!S_ISREG(inode->i_mode))
+>> 		return -EINVAL;
+>>
+>> check. But do we really want to pretend as if S_IFREG ?
+>>
+>> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+>> index 37cbbee7fa58..ea2193ebf8fc 100644
+>> --- a/fs/ntfs3/inode.c
+>> +++ b/fs/ntfs3/inode.c
+>> @@ -471,6 +471,8 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+>>                    fname->home.seq == cpu_to_le16(MFT_REC_EXTEND)) {
+>>                 /* Records in $Extend are not a files or general directories. */
+>>                 inode->i_op = &ntfs_file_inode_operations;
+>> +               mode = S_IFREG;
+>> +               init_rwsem(&ni->file.run_lock);
+>>         } else {
+>>                 err = -EINVAL;
+>>                 goto out;
+>>
+>> Are records in $Extend expected to be truncated to arbitrary size? Should we
+>> prepend something other than S_IFREG (at least S_IFREG so that truncate()
+> 
+> pretend something other than S_IFREG (at least S_IFDIR so that truncate()
+> 
+>> will fail, or possibly S_IFSOCK so that open() will fail) ?
+
+I tested using a legitimate filesystem image, and I came to a conclusion that
+pretending as if S_IFREG seems to be OK because normal operations (e.g. read,
+truncate) fail with "No such device or address" despite S_IFREG.
+
+Therefore, please apply
+https://lkml.kernel.org/r/tencent_F24B651BC22523BA92BB5A337D9E2A1B5F08@qq.com
+and send to linux.git .
+
+------------------------------------------------------------
+[root@localhost ~]# truncate -s 100M testfile.img
+[root@localhost ~]# mkfs.ntfs -F testfile.img
+testfile.img is not a block device.
+mkntfs forced anyway.
+The sector size was not specified for testfile.img and it could not be obtained automatically.  It has been set to 512 bytes.
+The partition start sector was not specified for testfile.img and it could not be obtained automatically.  It has been set to 0.
+The number of sectors per track was not specified for testfile.img and it could not be obtained automatically.  It has been set to 0.
+The number of heads was not specified for testfile.img and it could not be obtained automatically.  It has been set to 0.
+Cluster size has been automatically set to 4096 bytes.
+To boot from a device, Windows needs the 'partition start sector', the 'sectors per track' and the 'number of heads' to be set.
+Windows will not be able to boot from this device.
+Initializing device with zeroes: 100% - Done.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
+[root@localhost ~]# mount -t ntfs3 -o loop testfile.img /mnt/
+for i in '$ObjId' '$Quota' '$Reparse'
+do
+  stat /mnt/\$Extend/$i
+  truncate -s 1024 /mnt/\$Extend/$i
+  chmod 7777 /mnt/\$Extend/$i
+  chown 1 /mnt/\$Extend/$i
+  cat /mnt/\$Extend/\$Reparse
+  stat /mnt/\$Extend/$i
+  rm -f /mnt/\$Extend/$i
+done
+  File: /mnt/$Extend/$ObjId
+  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
+Device: 7,0     Inode: 25          Links: 1
+Access: (0000/----------)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2025-10-04 19:26:28.077612000 +0900
+Modify: 2025-10-04 19:26:28.077612000 +0900
+Change: 2025-10-04 19:26:28.077612000 +0900
+ Birth: 2025-10-04 19:26:28.077612000 +0900
+truncate: cannot open '/mnt/$Extend/$ObjId' for writing: No such device or address
+cat: '/mnt/$Extend/$Reparse': No such device or address
+  File: /mnt/$Extend/$ObjId
+  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
+Device: 7,0     Inode: 25          Links: 1
+Access: (1777/-rwxrwxrwt)  Uid: (    1/     bin)   Gid: (    0/    root)
+Access: 2025-10-04 19:26:28.077612000 +0900
+Modify: 2025-10-04 19:26:28.077612000 +0900
+Change: 2025-10-04 19:28:18.811900400 +0900
+ Birth: 2025-10-04 19:26:28.077612000 +0900
+  File: /mnt/$Extend/$Quota
+  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
+Device: 7,0     Inode: 24          Links: 1
+Access: (0000/----------)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2025-10-04 19:26:28.077612000 +0900
+Modify: 2025-10-04 19:26:28.077612000 +0900
+Change: 2025-10-04 19:26:28.077612000 +0900
+ Birth: 2025-10-04 19:26:28.077612000 +0900
+truncate: cannot open '/mnt/$Extend/$Quota' for writing: No such device or address
+cat: '/mnt/$Extend/$Reparse': No such device or address
+  File: /mnt/$Extend/$Quota
+  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
+Device: 7,0     Inode: 24          Links: 1
+Access: (1777/-rwxrwxrwt)  Uid: (    1/     bin)   Gid: (    0/    root)
+Access: 2025-10-04 19:26:28.077612000 +0900
+Modify: 2025-10-04 19:26:28.077612000 +0900
+Change: 2025-10-04 19:28:18.901901800 +0900
+ Birth: 2025-10-04 19:26:28.077612000 +0900
+  File: /mnt/$Extend/$Reparse
+  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
+Device: 7,0     Inode: 26          Links: 1
+Access: (0000/----------)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2025-10-04 19:26:28.077612000 +0900
+Modify: 2025-10-04 19:26:28.077612000 +0900
+Change: 2025-10-04 19:26:28.077612000 +0900
+ Birth: 2025-10-04 19:26:28.077612000 +0900
+truncate: cannot open '/mnt/$Extend/$Reparse' for writing: No such device or address
+cat: '/mnt/$Extend/$Reparse': No such device or address
+  File: /mnt/$Extend/$Reparse
+  Size: 0               Blocks: 0          IO Block: 4096   regular empty file
+Device: 7,0     Inode: 26          Links: 1
+Access: (1777/-rwxrwxrwt)  Uid: (    1/     bin)   Gid: (    0/    root)
+Access: 2025-10-04 19:26:28.077612000 +0900
+Modify: 2025-10-04 19:26:28.077612000 +0900
+Change: 2025-10-04 19:28:18.983903100 +0900
+ Birth: 2025-10-04 19:26:28.077612000 +0900
+------------------------------------------------------------
+
