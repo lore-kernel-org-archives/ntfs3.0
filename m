@@ -1,63 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.w13.tutanota.de (mail.w13.tutanota.de [185.205.69.213])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316E826B2D5;
-	Fri,  3 Oct 2025 21:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DB01F4C8E
+	for <ntfs3@lists.linux.dev>; Sat,  4 Oct 2025 08:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.205.69.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759527077; cv=none; b=dHqd/Dp6SQoWfSNNS5WuPrr5Q6HTeLf+f2xBOeaMenH3znHpIr9C7zQgOFcNYH4EQ/PlsaF3QHOusTXhQW5fiyQZHIwu8bmV4Zacd4+MUas6smvh7izDfEKT8cVK7E2dpAbzG/rII4216Hc8Kwpc93YxCFV1riQMmI6q8gL/284=
+	t=1759568123; cv=none; b=RHmdBKN1TLZhrVL4UNWe/DEm/eeBrMxscyJj+8EQ1ftbDyMdRUDXElysG//UozXCLt4KLqVTqFS1s+B5DcmJ1aiVZWlGFfu5oqmTUDxGpLkHHAbEc9K7iNpVXQjreqJjyGt5nyXtJfNq00aT/Vq89lTwKRjPo+evO1gDCSrV13A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759527077; c=relaxed/simple;
-	bh=n8o82dyP4GM8eyAZaZBpoTld/aybbv5wwM06ltTBiZ8=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=MHeI+vuQy9LpFwzVvHqNz/OQjSGOwHtgd/KWRAWIdaxE1QBLKFGNNpb3UrZQYwafvyuPesEzwNu9GTQJuvGSXLm3MivugfOEyzJPAo2KMuZMWnCZCDsHgM0R+KFsywhNdp53CG2p7aqMvltiuEBgBj2ns1Z6HPGcLB8ckWhHTao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jGSXpVTd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759568123; c=relaxed/simple;
+	bh=NdPrNhN29SUk+sp3WiejdjpFfYVI9ZIvrbHDdEQ0S5Y=;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=c/+iqnV1QkBtL4XS83QmwLoLykJpw6W/4fBVeLCKldXmjNIf+D+h8nEfe7ndzPEAy6yNyhIxhQ2IWaP2ELYPTMuL0pC5wX48ZvWxEK6LfQ53H2dbHqhf1Jl+YWU77TZwGALobkAM3yrV2bDikvfOqRFuS/prQ4kvocBH0mHdjLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutamail.com; spf=pass smtp.mailfrom=tutamail.com; dkim=pass (2048-bit key) header.d=tutamail.com header.i=@tutamail.com header.b=o+mmHhno; arc=none smtp.client-ip=185.205.69.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutamail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tutamail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jGSXpVTd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11EB0C4CEFE;
-	Fri,  3 Oct 2025 21:31:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759527077;
-	bh=n8o82dyP4GM8eyAZaZBpoTld/aybbv5wwM06ltTBiZ8=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=jGSXpVTdg8jkbfzIL+EBNfeBq7DqKUmRbdtXwi4zQXS6p5CHFtfWT//fhG8jLehlc
-	 LFUGiG1G04wIyleKAzsnyynEUdepFnH6qZ5idmk5l4x9HZQ7r9yYs3H2BlcFgLVsAv
-	 2UFlGNLd41FDU24i2Y3ztwnSWtikmdxSNqVlIt4hLNlVj5wrg/dNz3fxv92f9hEXKg
-	 BL5zngOflsWKiBWsKo9kUzL+dTduyVQr9h9X2W4yiVriNgJbxVcgG4NNhAYMpfi8jc
-	 tOeQze1oIJF0Vw4cHXBM6x4+Xpj/jOQzEyF5kUxUp8a4NyE5PUPM3BNzqvJx4G0LSE
-	 RhGrpJyct04NQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 99F8139D0CA0;
-	Fri,  3 Oct 2025 21:31:09 +0000 (UTC)
-Subject: Re: [GIT PULL] ntfs3: bugfixes for 6.18
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20250930130833.4866-1-almaz.alexandrovich@paragon-software.com>
-References: <20250930130833.4866-1-almaz.alexandrovich@paragon-software.com>
-X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20250930130833.4866-1-almaz.alexandrovich@paragon-software.com>
-X-PR-Tracked-Remote: https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.18
-X-PR-Tracked-Commit-Id: 7d460636b6402343ca150682f7bae896c4ff2a76
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: a9b38767c607e0de219b66a2b1ba0cb37beaba08
-Message-Id: <175952706827.82231.708668137387633081.pr-tracker-bot@kernel.org>
-Date: Fri, 03 Oct 2025 21:31:08 +0000
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: torvalds@linux-foundation.org, ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=tutamail.com header.i=@tutamail.com header.b="o+mmHhno"
+Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
+	by mail.w13.tutanota.de (Postfix) with ESMTP id 2E7B3CB14076
+	for <ntfs3@lists.linux.dev>; Sat,  4 Oct 2025 10:55:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759568120;
+	s=s1; d=tutamail.com;
+	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Date:Date:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:Sender;
+	bh=NdPrNhN29SUk+sp3WiejdjpFfYVI9ZIvrbHDdEQ0S5Y=;
+	b=o+mmHhnor/CU8uzLjUUIdsdDQhgREK+7Jh4P30D+kba+/56BFUZ2NIG/XPH+gaaV
+	reQlPxp+5lpZq5T4PApWGpE2CXasJklGhTWP9rG1RfeivoivMqMlplGLXzE0jFIubTJ
+	+axNo+Kwf3fn8a6ONJ3ScfNaXnTZILsPN1MR/53QrKQDG/jCRqyli53oevELLdJRjI2
+	2dcbfHDpeh9mbjg27gzNc6Ld2GIMzg0M4d/XmYWoYg19rwZUkCAtRzsQBiQC/asSGJO
+	C7u14SW6x2ZOg/G8ZmRRIMMIDcjS/J51IiKi2zxjbe/6UYfqTvav2qJnX87PGSc5a8S
+	NW8PWIiFuw==
+Date: Sat, 4 Oct 2025 10:55:20 +0200 (CEST)
+From: craftfever@tutamail.com
+To: Ntfs3 <ntfs3@lists.linux.dev>,
+	Linux Kernel <linux-kernel@vger.kernel.org>,
+	Regressions <regressions@lists.linux.dev>
+Message-ID: <OaiQgS3--F-9@tutamail.com>
+Subject: [Bug] Memory allocation errors and system crashing due to buggy
+ disk cache/inode allocations by ntfs3 kernel module.
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Tue, 30 Sep 2025 15:08:33 +0200:
-
-> https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.18
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/a9b38767c607e0de219b66a2b1ba0cb37beaba08
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+I'm expecting serious bug when writing large amount of files to NTFS hard drive, shortly after memory allocation errors and system crash occurs/ Firstly, I thought, than this is bug in linux kernel itself, somewhat disk cache allocation error, but when I tested same operations on ext4 drive or using NTFS-3G module, bug is not present.
