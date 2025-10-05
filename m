@@ -1,85 +1,141 @@
-Received: from mail.w13.tutanota.de (mail.w13.tutanota.de [185.205.69.213])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f78.google.com (mail-io1-f78.google.com [209.85.166.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0F51DA0E1
-	for <ntfs3@lists.linux.dev>; Sat,  4 Oct 2025 11:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.205.69.213
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A3213774D
+	for <ntfs3@lists.linux.dev>; Sun,  5 Oct 2025 23:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759577192; cv=none; b=HgIVlyHt2z+MmQ03yRyWopTRPFrm+uDUOJp5i4cxjGGBf0Vnd3IjuqkuvOMRNit6kT6wHHDd+T4xVHyDgp6/6Dw5EOxtywXsqRv0LJKW79xNzDpzwYq3gDshT59GZY9zGUaqJ+IEdj2kwbxdzgZzNIEN/S7O3eR1pziMXq1+pYQ=
+	t=1759707027; cv=none; b=XE+fF8PNSjVA0QlfGxEzQU4qlNetBYU1h3S6pwN0IKc3Byr8FXSCy2NrC5FQtP64LZZo6v6e8Ec5x/Fb3dpujenaXI/KBY2lqmYYyUpIC47gz0QSF+R/bt3KRW//NoQUPXoy2t18uD16h5deEpol0f1PhADV99ENGLj3ASdtKuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759577192; c=relaxed/simple;
-	bh=Iwn5YQ+gxKKr8W7MSqMYv/B8lWIPv5rbzN9d2kCZq7Q=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=oUjzP84Pk4owQF/rTWlLv484okxxVhmG/RGNir36CVNc4fi1PceufXS8EjdALXxgozQGJ3QCOJEdy5CodSBp7BpGmvB3L5KpHqog+8a5v6vrULJoDYvDStbc1bxjP3g/6jlXyywqE7ub0K2YFFz2U5RdJg/EUqCTAQxD0Lvtois=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutamail.com; spf=pass smtp.mailfrom=tutamail.com; dkim=pass (2048-bit key) header.d=tutamail.com header.i=@tutamail.com header.b=q+orHalW; arc=none smtp.client-ip=185.205.69.213
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutamail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tutamail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tutamail.com header.i=@tutamail.com header.b="q+orHalW"
-Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
-	by mail.w13.tutanota.de (Postfix) with ESMTP id 76011CB1F2C4
-	for <ntfs3@lists.linux.dev>; Sat,  4 Oct 2025 13:26:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759577189;
-	s=s1; d=tutamail.com;
-	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
-	bh=Iwn5YQ+gxKKr8W7MSqMYv/B8lWIPv5rbzN9d2kCZq7Q=;
-	b=q+orHalWcLCLTJqf7x0GLbP6wkTJeXRj4RTwmkzTvjQcBO3fWFu6O0xv3LvQG0dK
-	Ch918bhPh0AFO4EUSoCa9UqMqCbaLjxTLpeJSqk0YGgP68cpu5p0C/267OxuPSzzxev
-	5sLU/ULfnE+cxfEK4Zq1axbNvY0eAW/jJqYXhPFJTZlcdV6yatKndpYHhRnUDxEKB5g
-	3QDrkHumymOTARWyfCERqjJHqGKBF+2+r1cCqTF6yluMiUN+Flcd1bAPFET7gvBivHo
-	2T7bIoJALgfrqyf/lxUt6Phe9K/bZdqG/Qg30xCikRlCl5L3m6Xkr3/rW8N+u9tr4xx
-	rrtZc+ikPA==
-Date: Sat, 4 Oct 2025 13:26:29 +0200 (CEST)
-From: craftfever@tutamail.com
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: Ntfs3 <ntfs3@lists.linux.dev>,
-	Linux Kernel <linux-kernel@vger.kernel.org>,
-	Regressions <regressions@lists.linux.dev>,
-	Almaz Alexandrovich <almaz.alexandrovich@paragon-software.com>
-Message-ID: <OaiyHa1----9@tutamail.com>
-In-Reply-To: <d9ae2341-b385-45f4-9359-550d1118efb7@leemhuis.info>
-References: <OaiQgS3--F-9@tutamail.com> <Oait04j--F-9@tutamail.com> <d9ae2341-b385-45f4-9359-550d1118efb7@leemhuis.info>
-Subject: Re: [Bug] Memory allocation errors and system crashing due to
- buggy
- disk cache/inode allocations by ntfs3 kernel module.
+	s=arc-20240116; t=1759707027; c=relaxed/simple;
+	bh=75ERC6mVlcP+0s7urdWwm4NONtCuHEvmI1LGy4VtD1I=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=njp2/L0nUlmSePRpNTmj901vf3GQeZZ/1bTWXrF92kFbX3zSso9831u/eVTiMCSkjDKqpO6Sc5EQkbF3OqHskNzozUZNmZLxDjhf0W75Hma9q5sg1yxSell3cGp4iq6s6kOWHvbaEEo4lyaufNJhzPvX5rx+7h1XmKLXZHNm8Mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f78.google.com with SMTP id ca18e2360f4ac-91e1d4d0976so1132237239f.2
+        for <ntfs3@lists.linux.dev>; Sun, 05 Oct 2025 16:30:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759707025; x=1760311825;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=trZlZImbmcaAhlE8sigTqJv3T3ChaC7LfmvwDqEqkS0=;
+        b=kbxYWt3cLpusYgrCS3cKAnfJ/eo5iqF3d8B0yRhJWl7rRYY06rAHsvVu1ElPEg9yxp
+         JNRptLVryiH/b3V6+ehb1GEzb7hAIFx2SJaw0Q35D4qgbQlCFFi8mhAwTqF+eGMhCmG+
+         vx5mVolHIp7RNqJmRXI7YqVj5aUZUJv5B8mGBFhi5duYJZb+6cH/Y9cjRmCFGlpK0Dev
+         kQDqx7/GmissgBJhK2gS8mummTW1WMMWkB9mTth34ni5tIx9//CaqFQVQBYNvy3A5YcT
+         30pm9ls0yz7M7+swyUQCh8Yk7FAS21AxFUmxKRT4ZGIYWmwweot0JxNZMA7PVFb4NvV+
+         kJNA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5pHLSXVa0Iu2vvHoRVzkPXPFzm7eFlTx2YIMrxAgiKijz+BGvIOZjZahoMy0KuV4bzxWbXw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxjNqMP9ERQNS0q2p+1zxb+xE41D2y+yq41w7k/GZGdtUPbh2Yj
+	hD1bnuy+zJF+DXFnkhLkVdyS0NJrRqtawo/8cAR50cVNXygGKb8/H0NIF/DlD/LTh2whMAi9PRw
+	4pksyVfmfGhkZdLuneOl0kua5X7p2vVpjg62ePyEEFWI1TOK2wDuRVrcS8q4=
+X-Google-Smtp-Source: AGHT+IEJffKj5NbuytLavLNmtzhrY1Xa4KENymvle9KZlbxZ/n7Iib8GRsIT0u3bDAZXwx3KxV/fX+YlUekbZvrx+NzB6I04ugWQ
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6e02:12ef:b0:427:1de5:e10f with SMTP id
+ e9e14a558f8ab-42e7ad9c5e9mr141692915ab.22.1759707025190; Sun, 05 Oct 2025
+ 16:30:25 -0700 (PDT)
+Date: Sun, 05 Oct 2025 16:30:25 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68e2ff91.050a0220.2c17c1.003a.GAE@google.com>
+Subject: [syzbot] [ntfs3?] WARNING in indx_insert_into_buffer (3)
+From: syzbot <syzbot+3a1878433bc1cb97b42a@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-I'm posting there first time, so I through it like generic bug mailing list, but I can say, that, for example, version 6.12.50-lts a little less pron to bug, but it occurs there as well. I'm using Linux 6.16.10 for now. So, bug is present a while, but i hardly to tell, in what kernel version it appeared, cause earlier, I didn't manage that big amount of files. Again, it's okay with ntfs-3g.
+Hello,
 
-Oct 4, 2025, 14:12 by regressions@leemhuis.info:
+syzbot found the following issue on:
 
->
->
-> On 10/4/25 13:03, craftfever@tutamail.com wrote:
->
->>
->> Oct 4, 2025, 11:55 by craftfever@tutamail.com:
->>
->>> I'm expecting serious bug when writing large amount of files to
->>> NTFS hard drive, shortly after memory allocation errors and system
->>> crash occurs/ Firstly, I thought, than this is bug in linux kernel
->>> itself, somewhat disk cache allocation error, but when I tested
->>> same operations on ext4 drive or using NTFS-3G module, bug is not
->>> present.
->>>
->> To reproduce a bug, try cloning two big Git repositories to an
->> external NTFS drive mounted with ntfs3 module.
->>
-> Thx for the report.
->
-> What kernel version are your using?
->
-> You CCed the regression list, so I assume this used to work, which leads
-> to two more questions: What was the last version where this works? Could
-> you bisect?
->
-> Ciao, Thorsten
->
+HEAD commit:    6093a688a07d Merge tag 'char-misc-6.18-rc1' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13962458580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e654219ed2546322
+dashboard link: https://syzkaller.appspot.com/bug?extid=3a1878433bc1cb97b42a
+compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=104b692f980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17962458580000
 
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/660883fc9bdb/disk-6093a688.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/29f543ec9187/vmlinux-6093a688.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/456918818f89/bzImage-6093a688.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/dc6369359d19/mount_0.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+3a1878433bc1cb97b42a@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 4096
+------------[ cut here ]------------
+memcpy: detected field-spanning write (size 3656) of single field "hdr1" at fs/ntfs3/index.c:1927 (size 16)
+WARNING: CPU: 0 PID: 6065 at fs/ntfs3/index.c:1927 indx_insert_into_buffer.isra.0+0x1041/0x12a0 fs/ntfs3/index.c:1927
+Modules linked in:
+CPU: 0 UID: 0 PID: 6065 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/18/2025
+RIP: 0010:indx_insert_into_buffer.isra.0+0x1041/0x12a0 fs/ntfs3/index.c:1927
+Code: b5 ed a3 fe c6 05 52 41 31 0d 01 90 48 8b 74 24 68 b9 10 00 00 00 48 c7 c2 20 53 a7 8b 48 c7 c7 80 53 a7 8b e8 a0 74 62 fe 90 <0f> 0b 90 90 e9 df fd ff ff e8 71 6d 0b ff e9 4d f4 ff ff e8 67 6d
+RSP: 0018:ffffc900039af748 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: 00000000ffffffe4 RCX: ffffffff81799b88
+RDX: ffff88802ed50000 RSI: ffffffff81799b95 RDI: 0000000000000001
+RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff888146f46800
+R13: ffff888069637800 R14: 0000000000000e48 R15: ffff88807ae74018
+FS:  0000555563ff7500(0000) GS:ffff888124e6a000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fdbd7fd4286 CR3: 0000000069517000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ indx_insert_entry+0x1a0/0x460 fs/ntfs3/index.c:1996
+ ni_add_name+0x4dd/0x820 fs/ntfs3/frecord.c:2995
+ ni_rename+0x98/0x170 fs/ntfs3/frecord.c:3026
+ ntfs_rename+0xab9/0xf00 fs/ntfs3/namei.c:332
+ vfs_rename+0xfa3/0x2290 fs/namei.c:5216
+ do_renameat2+0x7d8/0xc20 fs/namei.c:5364
+ __do_sys_rename fs/namei.c:5411 [inline]
+ __se_sys_rename fs/namei.c:5409 [inline]
+ __x64_sys_rename+0x7d/0xa0 fs/namei.c:5409
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xcd/0x4e0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f780118eec9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffcbf706748 EFLAGS: 00000246 ORIG_RAX: 0000000000000052
+RAX: ffffffffffffffda RBX: 00007f78013e5fa0 RCX: 00007f780118eec9
+RDX: 0000000000000000 RSI: 0000200000000f40 RDI: 00002000000003c0
+RBP: 00007f7801211f91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f78013e5fa0 R14: 00007f78013e5fa0 R15: 0000000000000002
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
