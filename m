@@ -1,144 +1,135 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61FF82D373F
-	for <ntfs3@lists.linux.dev>; Sat, 25 Oct 2025 15:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03E32580F2;
+	Sat, 25 Oct 2025 16:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761404835; cv=none; b=bqoZyhppT/quW5Syy35+NK/K51hEGlIDsVusplAts8IrzYZcKRxnMJIx3rRwzw70e07UqK6zCLBfxHUlLKLXpDyqqtkRTOA2MGMdRUxK4l6Nk1bwKcZVl2PRlvpEed06fhVUuirVosSSJHBLJisyFobYPfQiN52s9Sst+H1hkn4=
+	t=1761408910; cv=none; b=Opkghyu0cm/TqbrMKk0uJ1CN0SfZdOVyqZOK154ed+5V9RpDLIa0SU/0Vyd3Ll58XcqOAbOTr8zjPXqkp8Vr+8kMXXIoisB59KlbSjxZRAFOE1f3WSyPVp/ReSoN+skTNdJY5jSV6yxCfU2KaxZgvGjzfTbKw0RbpDwb6LflQp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761404835; c=relaxed/simple;
-	bh=pdElZZTBRl/ohTApnI+0p2VE9kXSMqg2mVsZtsGTtng=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G2lfw+EJ0hCaxYtEzMgVArP+4XDOPveNMhkiFQLUsfmPtJGklWNGK/O910KyGIzDKmeK8uH/8RIsWY7YLMx7WvMAlBrBjzk2bGPN/+2WZy/fzZhd+I4RS/+cf/ZSs6X15cs350vlxdbOHfQmu+izMi+ARmSlEnnT3fUUZrPsKA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GBHt3qPv; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761408910; c=relaxed/simple;
+	bh=6nNQtbJ5vYXMplOb3xudC63qPL/Z0j1vsdKDxh0ykmI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VXsCdsa5co9AnaMP5qCkrwdFGy0BKR5davOrWAtsnZGtCjh3+wBOER3P33nf53ec2s1u1wRkCz4jU3IlmU5rAGuMjIUFsV0Dt0X9pUBXPmLiRWEYhklLbqRs4eFl4NBC+zP6S7+tl1JcX6E2KJtNdgy3adJbasb09//10oVJVzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gVpE3HMs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GBHt3qPv"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-79ef9d1805fso3435408b3a.1
-        for <ntfs3@lists.linux.dev>; Sat, 25 Oct 2025 08:07:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761404833; x=1762009633; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ehGvucYryd5ksZM+NP6h3eQPQh9+jzxwKY2MY5g6NkY=;
-        b=GBHt3qPvHVW9plQtavmXb92Jy0FkjKvySLDSJrJZTpWplN3DzdoHkBGjwbMzKqntWC
-         mmEK/6qJK6SE2HtyVlTkFo+iqZfRC0prKqprKJZKaBUcPMcnOk95agHs+XljeF7C72no
-         UvlZQVe+WCDZPeAQq8aL6iINs5XvPC+bXCSZXuWiES6yc64jKGLbgWjUeSZD2cjrLKeO
-         tsSUhAyL1zbbo4WefXCOmCP1gzz4M2qAwh+BH7Yuo7OSGz3C5uSTEfep/TaMyC25yF9r
-         RU4fNf/+cRboagcx+aw3CCeDrUYNMrEDSw/AyXwpRBNw2wKV2jFa2C9gAu2NVWwbHnV7
-         pOrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761404833; x=1762009633;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ehGvucYryd5ksZM+NP6h3eQPQh9+jzxwKY2MY5g6NkY=;
-        b=UULRPM1J/S79WbOMylVyyzA9t+BX85UCQpmD1eu7QytMhFPsvFQoR5qqqEcV/EHRgT
-         2MXGDvg+oYcLsTQV3ZFuSoB5EoPOJR7IKy2KhgIyExyw1lEvtn4t5M1x1ikVv23f0SJR
-         RU9GXEcD0e4CHG37JEhHYpxxWUPoVyBjr8KChm/MklhHd5pu+fuAZoAxTCn5K0DNd86x
-         p6cIVgIA5SHeS5GkQTNCtne7uwvaPhgjJppfSXtcuZM9FJIidD1TuTN4l9ZLS/4r6RBo
-         b4XyCDeKkRySf3jx3bbhffaS1BujMs+023nvXRcjvWop5OhdJrwt3QBxIWbcDxBgg3QS
-         EsDA==
-X-Forwarded-Encrypted: i=1; AJvYcCWlAWA1eyJJcNS++DBjIxbLDwJtjjfRhZwsynFLZ4DOj5TA015cI367CcJJkssfThjZnE5ubg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz+zz0Y1y2Wx+h0FqiostjvS6Ce4GOdY4NvX+Zo6OzKPt/O5eLM
-	bvEeOwim6c2NIMRbVXSf2x5oWNrwsuMULdZCb977SMHvzpQGd/ISwjyE
-X-Gm-Gg: ASbGnctW4DgTPJS2+vyj8hChrX4Kma80LKJM/yCembyXLDo9wks67Kj0aG6cYV+Bd+J
-	M9wLAsUAx/o1OwdwjQfFm40793w3YNWmvsE6O8eijmPPkdO5kqI/GzR0RNxxIALR54dnGsgQQtV
-	YDNZYxhL9dVPBgLmOkk4xzEuIx6qIWctZs4VBjeSt/zOO41iFj+bB/i2o8dMZ6ur3+eYWqph77P
-	u669FMDDXFaHlowvGQlS0ZvNj1X0AT94YfgZOeiOyLZk00oR0FLaeAdie/tD1h6i4kMSZbpueIv
-	ofvSfuA24q9uPciX/st+6pPOKoQcxa2P8tRYC/WcviGT7p1Z+fOlZeIxcxn1Ad3dAnxvoOjTeAD
-	5cfbgKA/UbmyMtC/aC+G5tvw6Zm566k40UdEL1kk6l0V1T+4G8hs6L6FHSX+t+v3seyxk6SS51h
-	XWDJHuK4LZldamo/U/dalPpgRugYiqs2RdDSPNaagaAYbRr8dJspfzbyGwl0NFiDIZlHQ01Od9H
-	i2oeqa3qd4iAacZXwU03uA=
-X-Google-Smtp-Source: AGHT+IHc2D1me194quCxZvcS0NmqKlfdcG9goQhTzdjCPdL4h6Tfx4LteJBnMLzm8AlcYT1LIELvtw==
-X-Received: by 2002:a17:90b:1b4a:b0:32b:6151:d1b with SMTP id 98e67ed59e1d1-33fafb98ac1mr12129890a91.8.1761404833441;
-        Sat, 25 Oct 2025 08:07:13 -0700 (PDT)
-Received: from ?IPV6:2606:4700:110:896a:5f1b:2412:be21:3a45? ([2a09:bac5:3c3b:a82::10c:59])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fed73a7b7sm2605532a91.5.2025.10.25.08.07.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Oct 2025 08:07:13 -0700 (PDT)
-Message-ID: <4aeceb66-ceea-4171-8806-95bd11a928b3@gmail.com>
-Date: Sat, 25 Oct 2025 20:37:07 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVpE3HMs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2EA4C113D0;
+	Sat, 25 Oct 2025 16:15:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761408910;
+	bh=6nNQtbJ5vYXMplOb3xudC63qPL/Z0j1vsdKDxh0ykmI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=gVpE3HMsBNtVoDyN5elVlBzhgonN9hKKkTKL0YVB/LkHrL+G1Tyna49lcx3DI9Rey
+	 tJVCzmSUlTy2stJj0wRqSsoCPiHwiOC5KtRTCI+3xCPmYMYJe5TxhLj2osVaM6BTm+
+	 mOvHIyyFWqQp0o5Mq4I7W82XSbs/n7TTSPmPNRsqt4mCTVw3dYb2Ec5Be2do0zLEfa
+	 fJIPe6ID4+mKcO9zkAT3cb9m6rAnBrGGYDTB77WeEBLkpXVE/eE2bPsWoImsYCNEcn
+	 5kDH/7+RUH6QJS5jflRhcx9QDhym7T+BQbplpxSeNkaKoRxLH8kh6yCDrVpDFyggXM
+	 t2S+9mQyWvpNQ==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+	syzbot <syzbot+895c23f6917da440ed0d@syzkaller.appspotmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Sasha Levin <sashal@kernel.org>,
+	ntfs3@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.17-5.15] ntfs3: pretend $Extend records as regular files
+Date: Sat, 25 Oct 2025 11:55:56 -0400
+Message-ID: <20251025160905.3857885-125-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
+References: <20251025160905.3857885-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: fix KMSAN uninit-value in ni_create_attr_list
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: david.hunter.linux@gmail.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org, khalid@kernel.org,
- syzbot+83c9dd5c0dcf6184fdbf@syzkaller.appspotmail.com,
- ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20251006223805.139206-1-nirbhay.lkd@gmail.com>
-Content-Language: en-US
-From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-In-Reply-To: <20251006223805.139206-1-nirbhay.lkd@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.17.5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
+[ Upstream commit 4e8011ffec79717e5fdac43a7e79faf811a384b7 ]
 
-On 10/7/25 4:08 AM, Nirbhay Sharma wrote:
-> The call to kmalloc() to allocate the attribute list buffer is given a
-> size of al_aligned(rs). This size can be larger than the data
-> subsequently copied into the buffer, leaving trailing bytes uninitialized.
-> 
-> This can trigger a KMSAN "uninit-value" warning if that memory is
-> later accessed.
-> 
-> Fix this by using kzalloc() instead, which ensures the entire
-> allocated buffer is zero-initialized, preventing the warning.
-> 
-> Reported-by: syzbot+83c9dd5c0dcf6184fdbf@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=83c9dd5c0dcf6184fdbf
-> Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-> ---
-> The following syzbot test commands were used to verify the fix against
-> both linux-next and a specific mainline commit. Both kernels were
-> configured with CONFIG_KMSAN=y, and no KMSAN warnings were observed
-> with the patch applied.
-> 
-> An attempt to test against the latest mainline tip failed due to an
-> unrelated boot failure in the SCSI subsystem (KMSAN: use-after-free in
-> scsi_get_vpd_buf). Therefore, testing was done on the last known-good
-> mainline commit below.
-> 
-> For mainline commit 9b0d551bcc05 ("Merge tag 'pull-misc' of..."):
-> #syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 9b0d551bcc05
-> 
-> For the linux-next branch:
-> #syz test: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> 
->   fs/ntfs3/frecord.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-> index 8f9fe1d7a690..4fe8da7fc034 100644
-> --- a/fs/ntfs3/frecord.c
-> +++ b/fs/ntfs3/frecord.c
-> @@ -767,7 +767,7 @@ int ni_create_attr_list(struct ntfs_inode *ni)
->   	 * Skip estimating exact memory requirement.
->   	 * Looks like one record_size is always enough.
->   	 */
-> -	le = kmalloc(al_aligned(rs), GFP_NOFS);
-> +	le = kzalloc(al_aligned(rs), GFP_NOFS);
->   	if (!le)
->   		return -ENOMEM;
->   
-Hi Konstantin,
+Since commit af153bb63a33 ("vfs: catch invalid modes in may_open()")
+requires any inode be one of S_IFDIR/S_IFLNK/S_IFREG/S_IFCHR/S_IFBLK/
+S_IFIFO/S_IFSOCK type, use S_IFREG for $Extend records.
 
-I sent this patch about 3 weeks ago and haven't heard back yet. I wanted
-to check if there are any concerns with the patch or if any changes are
-needed. The fix addresses a KMSAN uninit-value bug and has been tested
-successfully on both linux-next and the commit from the syzbot report.
+Reported-by: syzbot <syzbot+895c23f6917da440ed0d@syzkaller.appspotmail.com>
+Closes: https://syzkaller.appspot.com/bug?extid=895c23f6917da440ed0d
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
-Please let me know if you need any additional information or testing.
+LLM Generated explanations, may be completely bogus:
 
-Thanks,
-Nirbhay
+YES
+
+- Fixes a real bug triggered by VFS invariants: After vfs change
+  af153bb63a33 (“vfs: catch invalid modes in may_open()”), inodes must
+  have a valid S_IFMT type. ntfs3 could leave $Extend records with an
+  invalid/zero mode, causing may_open() to reject or warn on opens. The
+  patch makes these records appear as regular files, satisfying the VFS
+  type check.
+- Small, local, and low-risk change: Only one code path is touched in a
+  single file, with a one-line assignment in a narrow case.
+  - In the $Extend-specific branch in `ntfs_read_mft()`, the code now
+    sets a valid file type: `mode = S_IFREG;` immediately after
+    identifying an $Extend record and setting inode ops
+    (fs/ntfs3/inode.c:470-474).
+  - The mode is then stored into the inode as usual (`inode->i_mode =
+    mode;`, fs/ntfs3/inode.c:488), ensuring the inode passes VFS type
+    checks.
+- Constrained to special metadata records: The branch only triggers when
+  the filename references the $Extend MFT record (`fname->home.low ==
+  cpu_to_le32(MFT_REC_EXTEND)` and `fname->home.seq ==
+  cpu_to_le16(MFT_REC_EXTEND)`, fs/ntfs3/inode.c:470-471). Regular
+  files/dirs/symlinks/special devices remain unaffected.
+- Preserves ntfs3 behavior while satisfying VFS: The $Extend branch
+  still sets only `i_op = &ntfs_file_inode_operations`
+  (fs/ntfs3/inode.c:473), unlike the normal regular-file branch which
+  also sets `i_fop` and `a_ops` (fs/ntfs3/inode.c:456-465). So $Extend
+  records won’t gain full file operations; they simply have a valid
+  S_IFMT for VFS. This minimizes behavioral change while fixing the bug.
+- No architectural changes or cross-subsystem impact: The patch does not
+  alter VFS or broader kernel APIs; it’s contained within ntfs3’s inode
+  setup logic.
+- Aligns with stable rules:
+  - Important bugfix reported by syzbot (Closes: the linked syzkaller
+    bug).
+  - Minimal change and clear rationale.
+  - Low regression risk and limited scope (ntfs3 only).
+- Forward/backward compatibility: Even on trees without the may_open()
+  enforcement, setting a valid type for these metadata inodes is
+  harmless and arguably improves correctness. On trees with
+  af153bb63a33, it avoids spurious failures/warnings.
+
+Conclusion: This is a targeted bugfix to comply with VFS invariants and
+prevent failures when interacting with $Extend records. It’s safe and
+appropriate to backport to stable kernels that include ntfs3 and the
+may_open() invariant check.
+
+ fs/ntfs3/inode.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 37cbbee7fa580..b08b009121653 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -471,6 +471,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+ 		   fname->home.seq == cpu_to_le16(MFT_REC_EXTEND)) {
+ 		/* Records in $Extend are not a files or general directories. */
+ 		inode->i_op = &ntfs_file_inode_operations;
++		mode = S_IFREG;
+ 	} else {
+ 		err = -EINVAL;
+ 		goto out;
+-- 
+2.51.0
+
