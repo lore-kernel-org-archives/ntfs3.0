@@ -1,97 +1,139 @@
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214D42ED164
-	for <ntfs3@lists.linux.dev>; Mon, 27 Oct 2025 08:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DBA2E6100
+	for <ntfs3@lists.linux.dev>; Mon, 27 Oct 2025 10:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761554543; cv=none; b=erf8lfNS1KnGQ0aMrUCOYCZufbXT49r8QiwicCFFOiLq024Dv1agjSMPrs9Ybt0mZ83n0wKydbdI6CIpGw2kb+W7NuTbJP1xwaczuppRxybKj07UmV4vL3FwP/UfihQPGGj87c8nN6u9WtI2u6yS2rmnnUoW/6cUeRUffGJ/2YQ=
+	t=1761560718; cv=none; b=kL3DGyRf9pDtTKAVbxtqA/JO/P4c6a7LpiFpour10R1c3yJWda28h++q/LOd2L5cVOWN9QMq3agCT5rSJKenACBTC6MdrW9bnrJnkHUTCZYS7b5MZ/Z9BKqnnhNFwRNDTS6Nf6RKQs6FRR/PR3FuvKtfQMgOTt0RdI9Bba5MjLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761554543; c=relaxed/simple;
-	bh=hnlLRcV8zn3MJM2yQhRmnXTcVYj2iqM+bgJVAjxQtm0=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=cQqCuCincyKf045bTK1Djm93ZYY0GLuFBP04DaXU8HsewwZdagF3fHc7XfjAe/kQ2QTZp85Y/qssSK4jS0G6GDZDXsiUSQJCjHGgGI5RCk+7kC6cZvWuEPEFQPGeu6z8D08hYq98vD0uWqUB5UZZqReo3Ppv0lRfXaVdg6RQbt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-9374627bb7eso641563839f.1
-        for <ntfs3@lists.linux.dev>; Mon, 27 Oct 2025 01:42:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761554541; x=1762159341;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+QBqeIwOciaTmXKoZIhci2rtjD+K88Ea+ckvbwYoOuU=;
-        b=cRRHals+UTf8lA/oymO0Zs/YWRa0cUf3YdTfdAa1F+U9AJJ0YPa3R+dqzME2gGAo9y
-         dJe28U95vTvLm/+0dFCbKlJ/WJObpfBB29SF3CIO3Gc/HJ01W2bhxCSLAMLSjHeETgZu
-         qrrWb0BvAffvdMOKGoZENtcDaOKs249375BWaTzMk3DG+UtzEaV4hDUGWP5XW6dq8pt/
-         QNnwOAwHvfPseY8SNUqYDFlqTKNtTJvidaVn97W2s2BnPDskrphL4LV30KLQ73xxPkLL
-         WICzoamkoIVoNIYqhDesVgH8Plr1wZk3mJ+YzfWcbyL+rKV+KiyEZamPcTSQCnG9RmtT
-         uvQw==
-X-Forwarded-Encrypted: i=1; AJvYcCX6xHXVQvj66SHWYNPlcK/FTENmmNl2Iea5DXIM3c5ZdAbWzOZBNO+jKwioj7oLi2qezvcC3g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxvEiFId0aIoqXIVSIwf0Bw3aYZjGaLTAtAmHvwoIrh6evdESYo
-	OX07V1ThZN/Q82OaPdNvUjLMDCFAWlwv6/t/BvXjLy2LZw51cxBHovmM4jzTeDKoHuiX2T0OqAS
-	KTw6AL91gUDdvhTbtn4GIr6DPOR0xgRihXBwLu4l+fBzFw0MT3EzgQDEkvTQ=
-X-Google-Smtp-Source: AGHT+IHuDkYOQ/FNaVGfp1mI13EztKQGqIFfCUpYQu1XTw5g4VXS4sBo5lLIUmoxmiVDtdogHimrS0mAP7Yy5u0bHCL5lx/W+Uo4
+	s=arc-20240116; t=1761560718; c=relaxed/simple;
+	bh=SQBuNsRqqdj8/7b8hx6Gcd/hWl54K9RgVTNi0Hm0Kho=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=YV0RQB0GRLsLzahYuYeJVt3qQEQwkwN6BBJMAJ4Hj3dfqbcXJ37UeU/iwRmQczDrLMj+rhu+BlOVZMTUcv3xU5ihbVz7gGw4q+82aCTy4K3MR2652QG0HM1r5obBaYgjWHwIoLi8jHr4t5RidAY8zZOnmsiP1qA26fTWE9NI8u0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=Ny1kEvvM; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Ny1kEvvM"
+Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 1F9F41D24;
+	Mon, 27 Oct 2025 10:21:53 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=Ny1kEvvM;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id CA8F8217E;
+	Mon, 27 Oct 2025 10:24:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1761560687;
+	bh=y1JvDIp1oNzIWo8rgtPOFtXMHW2j570whSBQvdvv6h8=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=Ny1kEvvM5yJiEY1KgCrvP5JwqALzKdy4ck1+Shf7YvRYUtI/8MgDWX6tEpwpq4yCq
+	 IH5yE4er/Edlk8CKjWj6NzNmxdmr5H5uvny26NMcqjge+SHa6sRk7EON+LrS6hIlCq
+	 hM+yDW1+BXAK/irV2N/qDAyLGJ0wAQ7FJ5EeCsUQ=
+Received: from [192.168.95.128] (172.30.20.206) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Mon, 27 Oct 2025 13:24:46 +0300
+Message-ID: <d3d93d11-9895-4d4b-853d-729be06ead4e@paragon-software.com>
+Date: Mon, 27 Oct 2025 11:24:44 +0100
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:2c95:b0:945:a834:5951 with SMTP id
- ca18e2360f4ac-945a8346334mr425689639f.6.1761554541318; Mon, 27 Oct 2025
- 01:42:21 -0700 (PDT)
-Date: Mon, 27 Oct 2025 01:42:21 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68ff306d.050a0220.32483.0013.GAE@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Oct 2025)
-From: syzbot <syzbot+list0bca5cd9894f3ce13802@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs/ntfs3: fix KMSAN uninit-value in ni_create_attr_list
+To: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+CC: <david.hunter.linux@gmail.com>, <skhan@linuxfoundation.org>,
+	<linux-kernel-mentees@lists.linuxfoundation.org>, <khalid@kernel.org>,
+	<syzbot+83c9dd5c0dcf6184fdbf@syzkaller.appspotmail.com>,
+	<ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20251006223805.139206-1-nirbhay.lkd@gmail.com>
+ <4aeceb66-ceea-4171-8806-95bd11a928b3@gmail.com>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <4aeceb66-ceea-4171-8806-95bd11a928b3@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hello ntfs3 maintainers/developers,
+On 10/25/25 17:07, Nirbhay Sharma wrote:
+>
+>
+> On 10/7/25 4:08 AM, Nirbhay Sharma wrote:
+>> The call to kmalloc() to allocate the attribute list buffer is given a
+>> size of al_aligned(rs). This size can be larger than the data
+>> subsequently copied into the buffer, leaving trailing bytes 
+>> uninitialized.
+>>
+>> This can trigger a KMSAN "uninit-value" warning if that memory is
+>> later accessed.
+>>
+>> Fix this by using kzalloc() instead, which ensures the entire
+>> allocated buffer is zero-initialized, preventing the warning.
+>>
+>> Reported-by: syzbot+83c9dd5c0dcf6184fdbf@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=83c9dd5c0dcf6184fdbf
+>> Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+>> ---
+>> The following syzbot test commands were used to verify the fix against
+>> both linux-next and a specific mainline commit. Both kernels were
+>> configured with CONFIG_KMSAN=y, and no KMSAN warnings were observed
+>> with the patch applied.
+>>
+>> An attempt to test against the latest mainline tip failed due to an
+>> unrelated boot failure in the SCSI subsystem (KMSAN: use-after-free in
+>> scsi_get_vpd_buf). Therefore, testing was done on the last known-good
+>> mainline commit below.
+>>
+>> For mainline commit 9b0d551bcc05 ("Merge tag 'pull-misc' of..."):
+>> #syz test: 
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
+>> 9b0d551bcc05
+>>
+>> For the linux-next branch:
+>> #syz test: 
+>> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git 
+>> master
+>>
+>>   fs/ntfs3/frecord.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+>> index 8f9fe1d7a690..4fe8da7fc034 100644
+>> --- a/fs/ntfs3/frecord.c
+>> +++ b/fs/ntfs3/frecord.c
+>> @@ -767,7 +767,7 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+>>        * Skip estimating exact memory requirement.
+>>        * Looks like one record_size is always enough.
+>>        */
+>> -    le = kmalloc(al_aligned(rs), GFP_NOFS);
+>> +    le = kzalloc(al_aligned(rs), GFP_NOFS);
+>>       if (!le)
+>>           return -ENOMEM;
+> Hi Konstantin,
+>
+> I sent this patch about 3 weeks ago and haven't heard back yet. I wanted
+> to check if there are any concerns with the patch or if any changes are
+> needed. The fix addresses a KMSAN uninit-value bug and has been tested
+> successfully on both linux-next and the commit from the syzbot report.
+>
+> Please let me know if you need any additional information or testing.
+>
+> Thanks,
+> Nirbhay
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+Hello,
 
-During the period, 3 new issues were detected and 0 were fixed.
-In total, 40 issues are still open and 70 have already been fixed.
+Your patch has been applied, but it hasn’t been pushed to our repository
+yet. It will be there as soon as possible.
 
-Some of the still happening issues:
+I’ll let you know once it’s merged into kernel. Thanks for your patience.
 
-Ref  Crashes Repro Title
-<1>  19521   Yes   KMSAN: uninit-value in longest_match_std (2)
-                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
-<2>  7872    Yes   possible deadlock in run_unpack_ex
-                   https://syzkaller.appspot.com/bug?extid=731b27ee9413ba859499
-<3>  5563    Yes   possible deadlock in ntfs_read_folio
-                   https://syzkaller.appspot.com/bug?extid=8ef76b0b1f86c382ad37
-<4>  5086    Yes   possible deadlock in ntfs_fiemap
-                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
-<5>  3590    Yes   possible deadlock in mark_as_free_ex (2)
-                   https://syzkaller.appspot.com/bug?extid=8df514c431bd240c5644
-<6>  3255    Yes   possible deadlock in ntfs_look_for_free_space
-                   https://syzkaller.appspot.com/bug?extid=d27edf9f96ae85939222
-<7>  2983    Yes   possible deadlock in attr_data_get_block (2)
-                   https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
-<8>  499     Yes   possible deadlock in ntfs_fallocate
-                   https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
-<9>  380     Yes   possible deadlock in mi_read (2)
-                   https://syzkaller.appspot.com/bug?extid=17f812893d5906837f33
-<10> 193     Yes   KMSAN: uninit-value in ntfs_read_bh
-                   https://syzkaller.appspot.com/bug?extid=7a2ba6b7b66340cff225
+Regards,
+Konstantin
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
