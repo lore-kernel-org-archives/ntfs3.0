@@ -1,97 +1,77 @@
-Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C45128850E
-	for <ntfs3@lists.linux.dev>; Wed, 29 Oct 2025 06:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.252
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7110E2F7442
+	for <ntfs3@lists.linux.dev>; Wed, 29 Oct 2025 15:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761718215; cv=none; b=bohdJm+NjiojBRaXqxrE/1beeHd2Jo629FdsWASUipMHafqa99Qi8soD+SpXPsufmn6ZNepbJftf/okIYcEHk8244c1RSxw2fx6p2IrQEzW5y8q5BsMiMFnGL9KrhfRETbwxZMwglgtLbGv+hgg5TKYSTy+D59t7cBp0oGGcoqg=
+	t=1761751506; cv=none; b=ZzT8iAguStIKI7Oop9r7mP68ex4BOWBZIv6mqHGsEDdFHBrUu5YZAwPskmYw/rJuJImPOTVlniAnVzponN7aRwqdMmcPLPAHqm1iqVpXdF+0NqG9EkFBGuqVn20OkcqIBzBGRNc7Y4DKWkkjdNoXGhkNZ/cUbyU+Bm9L45mxTIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761718215; c=relaxed/simple;
-	bh=Ngpp/8zqk6wsUmyWsqLDW5fqczuYCzv6VpOD7jIY1VU=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=VA3J13Mhq/+3fTUoM2z35Dlxl+nFXtWHyeQafdzuH89itCr2lLe21gfphCLtSjisdiuO9OscDz4x3t5AtD/Xz9GZOsE2MJL0KFt7i3dtkhaUmBFQCScAupGcbPXv9T2IfL6ssWkeLXxiMUgeYnYrS6vAT3WbRGYugWnyfwT1HgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=PdGLUKNs; arc=none smtp.client-ip=162.62.57.252
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="PdGLUKNs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1761718203; bh=6c8StLamAGsCUDoOBRH7WQVE6j2s07lODsxk15SlgYk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PdGLUKNsPHBNrov73l00XB8ZrihXw2RD3HbSsoR9jDPLzfuds4IhvkYLhmb6dF99m
-	 eA6eRsqcfzYtQWq9z/kKkruZzu+/SLrjdsPALvfuAu69oqhtcHymO1cW9FZGW5Yl6s
-	 VJfMAOBG01LG9rOL4zmVc2/b/2jby78xc33NsTa4=
-Received: from pek-lxu-l1.corp.ad.wrs.com ([111.201.7.117])
-	by newxmesmtplogicsvrszb20-0.qq.com (NewEsmtp) with SMTP
-	id F816820; Wed, 29 Oct 2025 14:03:56 +0800
-X-QQ-mid: xmsmtpt1761717836t9qfhq75p
-Message-ID: <tencent_BEE7F906E552D68657C9B7EECC6ED7CC9206@qq.com>
-X-QQ-XMAILINFO: NC4p7XQIBeahnOTSVw3pb/XvCB73hmNxwHgUbc7eK/8IfLBC9TxesWiaUpWaKK
-	 MwIunf00sbB9//PLtnlzCBMDE7Y90wNUXn/jGaPlCBvN4ik2+B13HvHErb6mQaHsBSLs+Cu4XMPL
-	 72fo9iYxxEAReHVDa9yOwNbNUE5qpA1N89UZSgHYmcC1yXhLTAY7BAIeT84tBRQ29SW+PZzzFEMU
-	 Mv7nJ0Fc4B6l+AxRSfTtdQpsCpXVPb+Yg+nypj8glaGZw2m6pE4/ZbFWYUnuEpwLC+YsKY5Yo7t8
-	 IqS8vmOkMrEefhDPk0qGzffwXt1C01/qcO++VX70Ed4iFAbjAk53NU5K8pZjVIc27j8bj1ejWB+S
-	 gOUdCpyLlLiqDzzhVhUHfHSVEamzVoveMecoAnFA+Bo4nYWsRCpaHQPZ5m56VEywNOPY4eUu16SE
-	 6BgDaQKLK8Mb85S/vKFplcIY0dALuuTAi7JWE9J+yvoGt1sKNKf6yTzjcgSZLrYcslqaeQizr/bJ
-	 mx7xCB3/+4aCcp1IhYu9lOe+YGFWt7xd/Hd5YH1hEDlcvhAXbE577+hZvdizUNZb+eXjtWw2s/RI
-	 qTZo3NSTdphZOoZFP+3iaw+1BSbJnv50f3bmwXRVzqfkO28QyCDD6VwZ80iLg9p+F82PEdTpi2ye
-	 xlwFCTFWapLrxFTgKC8H4JI+ikNhLF0JqgVWJtHrOM6aG5mMrFQ7leRIFnwQfdqCSJhQlAd3Hjrz
-	 mJJILSdVojia3wecOo4NKyq+Stm57OQ9dmJM96cc13yAa+K4s7xUII89xg5isb8oq2yRiDhlLPH6
-	 t+B8vdukj0g5O8s8aMwyIfG9FXsYqnxgkugUvDjNVRPtNVUh8W7RIKvd++R9S+SGhCY1xg2nnTMQ
-	 8j+PtEgiuhYOHbTw2bkHyYArI+uuT234cfzEwZGZIJIXdXRYX3A8JwZ76ZneOFsUT1bSNg4ONxAn
-	 6tK3Yu1fVJiMd4Q51meQeEHoFFHiKcqiYxaOmBqSQCg6BDLHTQK+8QywH+Q0RwbzKHFZr2L7rDv+
-	 YYBVZbdddmscABYPhG
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+cc433e4cd6d54736bf80@syzkaller.appspotmail.com
-Cc: almaz.alexandrovich@paragon-software.com,
-	linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH next] ntfs3: Remove redundant nls free
-Date: Wed, 29 Oct 2025 14:03:57 +0800
-X-OQ-MSGID: <20251029060356.3366094-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <69015bf1.050a0220.3344a1.03f7.GAE@google.com>
-References: <69015bf1.050a0220.3344a1.03f7.GAE@google.com>
+	s=arc-20240116; t=1761751506; c=relaxed/simple;
+	bh=oz5/FdGaNUEgLVToKsd5oT6RMB3AVWzvznYx2ubnONQ=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=a5BE9JOOS5UqVGVFtRpyziHqVVX8yRXx7NT5t1M8FMHcoGVS2wDY6Co9/H1S9Kj0XU/xO/v9JNr8ciGcOhpmBeChfZjZaZ7y2+WnYnNv2nktyCpCjFl5no3EYsCQpf+Mrji6I+Uj3DiHZk4pPTqdKbN4ggRRZK9uaLxuI6t1mZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-945ab8d3d0bso400698439f.2
+        for <ntfs3@lists.linux.dev>; Wed, 29 Oct 2025 08:25:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761751504; x=1762356304;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bjxd8/NUsI1hfMIrqtOMXoq3b6QjBv+xq100vcZ9G+E=;
+        b=XkxP+4VVQOYTg2K2R9cXGnxgpMoVs+RaTfgG4gc+ddK9BH7JzWv3Tev/YSi//ju6iH
+         5TRzXY1aWkg8CV5Hh9rQlvZWOrUbKoERMIDlHmoUWH28vMGdQVeUWsn0IyrFg/nGyDbd
+         90UiYef+RVqCtJ+RFuDouJ1kxSy5vM2LQcWw4H9wYkQjDk0FLSXPUVY6U3XRl+q2Ys2Q
+         cMp7C5snpMnv5yKwYPo5oNvbeK1MYp5D6u5pRibx1fsPKIOPRO44yGiW/1u8DEw607uI
+         Ob7lCZixYs3W2vfhnWIQoCRJtHkd5s6R0Hh9zg7f7D+esaJqHhSWtks1/SavGEmg75/s
+         Jebw==
+X-Forwarded-Encrypted: i=1; AJvYcCX5kDyB72g1mxaGdstlkz+maJphekSr6p3QtqvQfeVfex10DQJE+ukYQaYwXbBNk29am44HMg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwhvmEcJ+irlzi7gXbzmkjqgLtt2PBgQHxvm4Yu0ST4LTwKFnx1
+	tSb00WAy5BKhZYoTpgmqA9R6ODvJxf1lTGJlqm13wiWvq5JId2ZeVjUwDYSNOEt2szd3ug3Nv5Z
+	lwJ5bB4zB7kVicjvfGpcn0I+jBUfNnz50x42ee1fhLb5kn7+Uiw5Aefrrs0E=
+X-Google-Smtp-Source: AGHT+IGuHiMjVIwLMgSMF2Yqd97+3DJATLJD55vykLJy9hu3ZBUHu44RCvAnyaEsWL6rkVUmh9Khhk/hjDnedWa666N0X3odFRz8
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:4611:b0:432:fd5c:df03 with SMTP id
+ e9e14a558f8ab-432fd5cdff8mr13478835ab.24.1761751504572; Wed, 29 Oct 2025
+ 08:25:04 -0700 (PDT)
+Date: Wed, 29 Oct 2025 08:25:04 -0700
+In-Reply-To: <69015bf1.050a0220.3344a1.03f7.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <690231d0.050a0220.3344a1.0425.GAE@google.com>
+Subject: Re: [syzbot] [ntfs3?] WARNING in ntfs_put_super
+From: syzbot <syzbot+cc433e4cd6d54736bf80@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, anmuxixixi@gmail.com, 
+	eadavis@qq.com, linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Using unload_nls() is sufficient for nls.
+syzbot has bisected this issue to:
 
-syzbot reported:
-WARNING: mm/slub.c:6752 at free_large_kmalloc+0x15c/0x1f0 mm/slub.c:6752, CPU#1: syz-executor/5939
-Call Trace:
- ntfs_put_super+0x15b/0x1b0 fs/ntfs3/super.c:708
- generic_shutdown_super+0x135/0x2c0 fs/super.c:642
- kill_block_super+0x44/0x90 fs/super.c:1722
- ntfs3_kill_sb+0x44/0x1b0 fs/ntfs3/super.c:1847
+commit 02f312754c873efe076888a2fdca982e56617929
+Author: YangWen <anmuxixixi@gmail.com>
+Date:   Wed Sep 10 15:17:08 2025 +0000
+
+    ntfs3: fix use-after-free of sbi->options in cmp_fnames
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12ba4bcd980000
+start commit:   f7d2388eeec2 Add linux-next specific files for 20251028
+git tree:       linux-next
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=11ba4bcd980000
+console output: https://syzkaller.appspot.com/x/log.txt?x=16ba4bcd980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ecdce5bceba74f
+dashboard link: https://syzkaller.appspot.com/bug?extid=cc433e4cd6d54736bf80
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16b73d42580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1019dfe2580000
 
 Reported-by: syzbot+cc433e4cd6d54736bf80@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=cc433e4cd6d54736bf80
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
- fs/ntfs3/super.c | 1 -
- 1 file changed, 1 deletion(-)
+Fixes: 02f312754c87 ("ntfs3: fix use-after-free of sbi->options in cmp_fnames")
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index aae1f32f4dab..02b03d810dcf 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -705,7 +705,6 @@ static void ntfs_put_super(struct super_block *sb)
- 
- 	if (sbi->options) {
- 		unload_nls(sbi->options->nls);
--		kfree(sbi->options->nls);
- 		kfree(sbi->options);
- 		sbi->options = NULL;
- 	}
--- 
-2.43.0
-
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
