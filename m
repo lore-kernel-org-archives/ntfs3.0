@@ -1,55 +1,55 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7110E2F7442
-	for <ntfs3@lists.linux.dev>; Wed, 29 Oct 2025 15:25:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2936C324B2F
+	for <ntfs3@lists.linux.dev>; Wed, 29 Oct 2025 23:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761751506; cv=none; b=ZzT8iAguStIKI7Oop9r7mP68ex4BOWBZIv6mqHGsEDdFHBrUu5YZAwPskmYw/rJuJImPOTVlniAnVzponN7aRwqdMmcPLPAHqm1iqVpXdF+0NqG9EkFBGuqVn20OkcqIBzBGRNc7Y4DKWkkjdNoXGhkNZ/cUbyU+Bm9L45mxTIA=
+	t=1761781625; cv=none; b=APWN/bkDi8GoOUFAvMVT8uOe2/Y2uZwq6bfTc/0IGMSwM4Ocp4SBRW3J2dNEKK2PE+5yoyXdtt4JRlS+KH+kjdC1UZz/WglJFIN302jHay+AJjMKs9hmDmVJGy5diu1pjv8YDTRPHUyFtoI/7DwBETqSINAT9iCKoA4oP+gR78s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761751506; c=relaxed/simple;
-	bh=oz5/FdGaNUEgLVToKsd5oT6RMB3AVWzvznYx2ubnONQ=;
+	s=arc-20240116; t=1761781625; c=relaxed/simple;
+	bh=nfRxFHm+9TZ0tLP/v5TW7uTT0F58CAooDqfltg0GWks=;
 	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=a5BE9JOOS5UqVGVFtRpyziHqVVX8yRXx7NT5t1M8FMHcoGVS2wDY6Co9/H1S9Kj0XU/xO/v9JNr8ciGcOhpmBeChfZjZaZ7y2+WnYnNv2nktyCpCjFl5no3EYsCQpf+Mrji6I+Uj3DiHZk4pPTqdKbN4ggRRZK9uaLxuI6t1mZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
+	 Content-Type; b=eonHW03bnliK9hduL7Iz5gUXGQlixk8KVKbKar4/2fNa0sUoZ32Yc+mEyfvbFGQrrtlYhXPBtM9r/V9kKDsJq/A5hpKQ/8VG2r1pvgUUlioWufr+clc1IMUlXN5PemHzzrexB3C6m9S8ckg/CA1B6UXr1F1KFaBNy/pkbL02s30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-945ab8d3d0bso400698439f.2
-        for <ntfs3@lists.linux.dev>; Wed, 29 Oct 2025 08:25:05 -0700 (PDT)
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-431d8643856so15120215ab.2
+        for <ntfs3@lists.linux.dev>; Wed, 29 Oct 2025 16:47:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761751504; x=1762356304;
+        d=1e100.net; s=20230601; t=1761781623; x=1762386423;
         h=to:from:subject:message-id:in-reply-to:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bjxd8/NUsI1hfMIrqtOMXoq3b6QjBv+xq100vcZ9G+E=;
-        b=XkxP+4VVQOYTg2K2R9cXGnxgpMoVs+RaTfgG4gc+ddK9BH7JzWv3Tev/YSi//ju6iH
-         5TRzXY1aWkg8CV5Hh9rQlvZWOrUbKoERMIDlHmoUWH28vMGdQVeUWsn0IyrFg/nGyDbd
-         90UiYef+RVqCtJ+RFuDouJ1kxSy5vM2LQcWw4H9wYkQjDk0FLSXPUVY6U3XRl+q2Ys2Q
-         cMp7C5snpMnv5yKwYPo5oNvbeK1MYp5D6u5pRibx1fsPKIOPRO44yGiW/1u8DEw607uI
-         Ob7lCZixYs3W2vfhnWIQoCRJtHkd5s6R0Hh9zg7f7D+esaJqHhSWtks1/SavGEmg75/s
-         Jebw==
-X-Forwarded-Encrypted: i=1; AJvYcCX5kDyB72g1mxaGdstlkz+maJphekSr6p3QtqvQfeVfex10DQJE+ukYQaYwXbBNk29am44HMg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhvmEcJ+irlzi7gXbzmkjqgLtt2PBgQHxvm4Yu0ST4LTwKFnx1
-	tSb00WAy5BKhZYoTpgmqA9R6ODvJxf1lTGJlqm13wiWvq5JId2ZeVjUwDYSNOEt2szd3ug3Nv5Z
-	lwJ5bB4zB7kVicjvfGpcn0I+jBUfNnz50x42ee1fhLb5kn7+Uiw5Aefrrs0E=
-X-Google-Smtp-Source: AGHT+IGuHiMjVIwLMgSMF2Yqd97+3DJATLJD55vykLJy9hu3ZBUHu44RCvAnyaEsWL6rkVUmh9Khhk/hjDnedWa666N0X3odFRz8
+        bh=E4ohgP/kWGAWCgLzkRSuXf2G22n9q/x2vsu6I4BIXPo=;
+        b=gd1jeyXSUCszF1q9jLd6RtdYOu8ThGQfhx8SB9veF+yeOd/d6f4iQ1YRu8f64ugijO
+         nd6ISoAHS4WV9VNX+wnRfCLDjqTiA5KfReZddbyuc5yM6gp7U8Bt32cUfbvjqJeBN/DT
+         f61JSyOT6dT/bVi6tWe8D+4dEIpehepJ3ezNl7EfBVrVAo/tmQvtvcrvBuGk3pBeyCak
+         1ZIJJ/wtqXi7KKB3re7xpEQ2zDghb7OHAThqjlGBStRwOtXnGnoXwYKRA4buBHr6wUOT
+         fkaxSKd6ZABF5uion8jCKpqUhUUUSMsxU2ysLHNLGhsrfomeZtLthdnKKKvpvFo3Qmf7
+         BgrA==
+X-Forwarded-Encrypted: i=1; AJvYcCWdcd3Y9CgdvJiCDU4dFW8R41DiqnOtQVATczHDSsr2QZYbRzmJj582rMUv1lXFxxUNfjCB4Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxEYNzjBeBXsAENFDDeMBCA2yhrsQzcTuVjVQJQR2ZaghtmQtRQ
+	VsxrDqkFICx1+bkelwHPtF6M4OzLkl4X7PUqQElp9ynyPa94YOQ8lgM7HKhU3E1dxvatwFdg15c
+	0WpEukuJCi8Dn2oXKIDjgjkycgdnpfcDiVrqQhsy68MN5LpDxNC8m1aUgJYA=
+X-Google-Smtp-Source: AGHT+IFlCtKkoBjZVCQ14rcVAEaGC/TrYlK+5JUYeN/+dO89IWGnuhYs+O+4fqOSCTTYeLZC/DzdXHtz4yGtPGLjzHDaINa1Tnje
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:4611:b0:432:fd5c:df03 with SMTP id
- e9e14a558f8ab-432fd5cdff8mr13478835ab.24.1761751504572; Wed, 29 Oct 2025
- 08:25:04 -0700 (PDT)
-Date: Wed, 29 Oct 2025 08:25:04 -0700
-In-Reply-To: <69015bf1.050a0220.3344a1.03f7.GAE@google.com>
+X-Received: by 2002:a05:6e02:3486:b0:432:f835:2584 with SMTP id
+ e9e14a558f8ab-432f8f871b3mr64356975ab.1.1761781623296; Wed, 29 Oct 2025
+ 16:47:03 -0700 (PDT)
+Date: Wed, 29 Oct 2025 16:47:03 -0700
+In-Reply-To: <69015bf1.050a0220.3344a1.03f8.GAE@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <690231d0.050a0220.3344a1.0425.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] WARNING in ntfs_put_super
-From: syzbot <syzbot+cc433e4cd6d54736bf80@syzkaller.appspotmail.com>
+Message-ID: <6902a777.a70a0220.5b2ed.0015.GAE@google.com>
+Subject: Re: [syzbot] [ntfs3?] WARNING in ntfs_fill_super (2)
+From: syzbot <syzbot+2e6c1eda2eff0745b028@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, anmuxixixi@gmail.com, 
-	eadavis@qq.com, linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
 	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
@@ -61,17 +61,17 @@ Date:   Wed Sep 10 15:17:08 2025 +0000
 
     ntfs3: fix use-after-free of sbi->options in cmp_fnames
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12ba4bcd980000
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11825f34580000
 start commit:   f7d2388eeec2 Add linux-next specific files for 20251028
 git tree:       linux-next
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=11ba4bcd980000
-console output: https://syzkaller.appspot.com/x/log.txt?x=16ba4bcd980000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=13825f34580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=15825f34580000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=ecdce5bceba74f
-dashboard link: https://syzkaller.appspot.com/bug?extid=cc433e4cd6d54736bf80
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16b73d42580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1019dfe2580000
+dashboard link: https://syzkaller.appspot.com/bug?extid=2e6c1eda2eff0745b028
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=116e6704580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11198fe2580000
 
-Reported-by: syzbot+cc433e4cd6d54736bf80@syzkaller.appspotmail.com
+Reported-by: syzbot+2e6c1eda2eff0745b028@syzkaller.appspotmail.com
 Fixes: 02f312754c87 ("ntfs3: fix use-after-free of sbi->options in cmp_fnames")
 
 For information about bisection process see: https://goo.gl/tpsmEJ#bisection
