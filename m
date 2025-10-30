@@ -1,77 +1,122 @@
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2936C324B2F
-	for <ntfs3@lists.linux.dev>; Wed, 29 Oct 2025 23:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CD12D12EB
+	for <ntfs3@lists.linux.dev>; Thu, 30 Oct 2025 16:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761781625; cv=none; b=APWN/bkDi8GoOUFAvMVT8uOe2/Y2uZwq6bfTc/0IGMSwM4Ocp4SBRW3J2dNEKK2PE+5yoyXdtt4JRlS+KH+kjdC1UZz/WglJFIN302jHay+AJjMKs9hmDmVJGy5diu1pjv8YDTRPHUyFtoI/7DwBETqSINAT9iCKoA4oP+gR78s=
+	t=1761841254; cv=none; b=RfaCrKdCEruYRnc1moZAl63R0uerEndi7yOtQkhl1K3fu41nPAkAGjtV4eYV66Ovdzh4bHt00FHI6qWMlfFfvSSgo/UmtYlca02AncijUivR0dGZxI4DBZcihVSKxz+4GXC1CncOxIQpwiGsLVivTk+zqDFZXVwGve5BdtQ5ThM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761781625; c=relaxed/simple;
-	bh=nfRxFHm+9TZ0tLP/v5TW7uTT0F58CAooDqfltg0GWks=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=eonHW03bnliK9hduL7Iz5gUXGQlixk8KVKbKar4/2fNa0sUoZ32Yc+mEyfvbFGQrrtlYhXPBtM9r/V9kKDsJq/A5hpKQ/8VG2r1pvgUUlioWufr+clc1IMUlXN5PemHzzrexB3C6m9S8ckg/CA1B6UXr1F1KFaBNy/pkbL02s30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-431d8643856so15120215ab.2
-        for <ntfs3@lists.linux.dev>; Wed, 29 Oct 2025 16:47:03 -0700 (PDT)
+	s=arc-20240116; t=1761841254; c=relaxed/simple;
+	bh=yhBI48V0wmlBwA6nlzAZ6b3XU7gtXK748W7KsFub0fI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IfvQ1LsrU+76Rbcj6jTmohpEKQVIZFoRVgzy+CrvRpx0paLxhe2iGDm0XsMXxpX9uVjB2iNrXjKZ7flUVL0XTjxkA+Mbh7qzG0Iof7xGKNauVq7cqNf1Gok1odK74s9ZhY9cUlUtA+vsH0twApqkNsDyCtZtsuDZxbPStXwqtJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lmqks6e1; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lmqks6e1"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7833765433cso1753203b3a.0
+        for <ntfs3@lists.linux.dev>; Thu, 30 Oct 2025 09:20:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761841252; x=1762446052; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jr4bXWVpbyanB9ZmKdE3YKsrObBxhl3NbLS1jm+yp90=;
+        b=lmqks6e1ufX7yZkTkCrh5pEnSUXauGA8muHF51IAbxFUP7M4lxdI58ankcKGW8SPP8
+         OBzc1E76IXyaYPTGUe0eMTtK456KfhJWlxRX3Uh9UWfp1H33xTu5sddw9WuWcM2fNSzr
+         YywLPhsBCfWGlE1NF8Kgto+ANSkW9ybfqabsSwXr67OGTIxHIY0KI4eEmbOcv1hq6eOh
+         1MAX0tAkMG5bzJKlB9G1nKzXAJ1U0mA+YDhcB9S/9TYFBKlWdZdsnxpizEx+bc0QceDu
+         W60av75j19+POCMP5Chc7GyLTrUDPrb1uAAU7U1su5cJDMq0vyZCkO2R5+nxW0BDGR0y
+         ZQvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761781623; x=1762386423;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E4ohgP/kWGAWCgLzkRSuXf2G22n9q/x2vsu6I4BIXPo=;
-        b=gd1jeyXSUCszF1q9jLd6RtdYOu8ThGQfhx8SB9veF+yeOd/d6f4iQ1YRu8f64ugijO
-         nd6ISoAHS4WV9VNX+wnRfCLDjqTiA5KfReZddbyuc5yM6gp7U8Bt32cUfbvjqJeBN/DT
-         f61JSyOT6dT/bVi6tWe8D+4dEIpehepJ3ezNl7EfBVrVAo/tmQvtvcrvBuGk3pBeyCak
-         1ZIJJ/wtqXi7KKB3re7xpEQ2zDghb7OHAThqjlGBStRwOtXnGnoXwYKRA4buBHr6wUOT
-         fkaxSKd6ZABF5uion8jCKpqUhUUUSMsxU2ysLHNLGhsrfomeZtLthdnKKKvpvFo3Qmf7
-         BgrA==
-X-Forwarded-Encrypted: i=1; AJvYcCWdcd3Y9CgdvJiCDU4dFW8R41DiqnOtQVATczHDSsr2QZYbRzmJj582rMUv1lXFxxUNfjCB4Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxEYNzjBeBXsAENFDDeMBCA2yhrsQzcTuVjVQJQR2ZaghtmQtRQ
-	VsxrDqkFICx1+bkelwHPtF6M4OzLkl4X7PUqQElp9ynyPa94YOQ8lgM7HKhU3E1dxvatwFdg15c
-	0WpEukuJCi8Dn2oXKIDjgjkycgdnpfcDiVrqQhsy68MN5LpDxNC8m1aUgJYA=
-X-Google-Smtp-Source: AGHT+IFlCtKkoBjZVCQ14rcVAEaGC/TrYlK+5JUYeN/+dO89IWGnuhYs+O+4fqOSCTTYeLZC/DzdXHtz4yGtPGLjzHDaINa1Tnje
+        d=1e100.net; s=20230601; t=1761841252; x=1762446052;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jr4bXWVpbyanB9ZmKdE3YKsrObBxhl3NbLS1jm+yp90=;
+        b=muQgsIol2+xep09+nE6OyOAdE5HQxfvOJyAMZnCygeJCwMR8FZK27pmhr1d6EWJAIQ
+         IPWQmx1d35utHhcAJThj1ITXcZ11XRrrAIP3XVERT4/N9dH8k6fBLTAYuyA6v3THqWTj
+         qlNGCPV9fxNsiB0NFiDM+ddnTf0pbpHpN/1BfdY+tr/0UNb4Ov8HLjOBQR4AqD2TILwO
+         Ot/G9RuwfLrrjYtgi7EjtfHyw6BLkyBrU1+d66ezUsflOOxdv2PMkU5DXndFl4+FehAk
+         W10kmnNbsFjnQk1vDkfNtXEV/B1tW00/ZYzPwcCw+qFFZNKUp6NdII1f7OrNfNnq5ZLB
+         sqrg==
+X-Gm-Message-State: AOJu0Yy+3q5oPuWe4AfZXgFdR/r9HQQu7piTqUZ8V3lmwwq+xeLbgO0i
+	D1/LMpdlUPuxJP7aJq0IaQHOXuR3YG/JaqYGC9iRoEWCGHkvj4d+tiKc
+X-Gm-Gg: ASbGnctToHs8h5tEOpGIkU/7qgNouIEY1yb6dQwYLFtDRqWReDriRIuzsI00Z3z8l0m
+	veRlthp9JdtOCD/vntjlQl2rsvJXJvG8/H8D0+OsMUhtHauHckXC7uK+60YfFaQmIkvh6XNBv3l
+	bkyJNfhHECdM4Iz3zwYtO1+kxYW4Xn8ITvgQJNjq5UIYUl9sJ3B3CzsZtX6SS6x/dmdkzaVMnsJ
+	QjfjvP+epxq1uz+eCAgHcxW+DKgKtxJusTHwnL9SUM4kcOyOlLcpGp9Dllfn6BHe58rXJtzYxke
+	AmIAw+dXcINHku8hXKL/tXlZ2Jj2Bic5vkS70htUcrBQXyikKitlgmTxHsq7gqeYN5x/XuyPwXd
+	CI2RT56twv2MIueHGyVLqqPeNoqLq30IKiKDOO6ZKBqE8wlPaVRnWh4qptw0ppQa+FwCeBWiDjh
+	R8gOuGLNL0Cw==
+X-Google-Smtp-Source: AGHT+IF+ELkof7ycUjT9m5QQlipuUDB6aaber6YXfw5ImcMWfAD7q2Det7dq77zeD9X5Z1cHTeAHSg==
+X-Received: by 2002:a05:6a20:734b:b0:33e:6d4b:608c with SMTP id adf61e73a8af0-348cc3d95d9mr217460637.40.1761841252189;
+        Thu, 30 Oct 2025 09:20:52 -0700 (PDT)
+Received: from yangwen.localdomain ([117.88.134.34])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a4140530d3sm19534338b3a.40.2025.10.30.09.20.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Oct 2025 09:20:51 -0700 (PDT)
+From: YangWen <anmuxixixi@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	YangWen <anmuxixixi@gmail.com>,
+	syzbot+cc433e4cd6d54736bf80@syzkaller.appspotmail.com
+Subject: [PATCH] [PATCH] ntfs3: fix double free of sbi->options->nls and clarify ownership of fc->fs_private
+Date: Fri, 31 Oct 2025 00:20:45 +0800
+Message-ID: <20251030162045.27813-1-anmuxixixi@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:3486:b0:432:f835:2584 with SMTP id
- e9e14a558f8ab-432f8f871b3mr64356975ab.1.1761781623296; Wed, 29 Oct 2025
- 16:47:03 -0700 (PDT)
-Date: Wed, 29 Oct 2025 16:47:03 -0700
-In-Reply-To: <69015bf1.050a0220.3344a1.03f8.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6902a777.a70a0220.5b2ed.0015.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] WARNING in ntfs_fill_super (2)
-From: syzbot <syzbot+2e6c1eda2eff0745b028@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, anmuxixixi@gmail.com, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-syzbot has bisected this issue to:
+commit 02f312754c87 ("ntfs3: fix use-after-free of sbi->options in cmp_fnames") introduced a use-after-free bug
+due to improper handling of sbi->options in error paths. This resulted in crashes when superblock cleanup
+is performed in ntfs_put_super.
 
-commit 02f312754c873efe076888a2fdca982e56617929
-Author: YangWen <anmuxixixi@gmail.com>
-Date:   Wed Sep 10 15:17:08 2025 +0000
+This patch ensures that the options structure and its subfields are properly freed, preventing the memory
+corruption and use-after-free errors.
 
-    ntfs3: fix use-after-free of sbi->options in cmp_fnames
+Reported-by: syzbot+cc433e4cd6d54736bf80@syzkaller.appspotmail.com
+Signed-off-by: YangWen <anmuxixixi@gmail.com>
+---
+ fs/ntfs3/super.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11825f34580000
-start commit:   f7d2388eeec2 Add linux-next specific files for 20251028
-git tree:       linux-next
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=13825f34580000
-console output: https://syzkaller.appspot.com/x/log.txt?x=15825f34580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ecdce5bceba74f
-dashboard link: https://syzkaller.appspot.com/bug?extid=2e6c1eda2eff0745b028
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=116e6704580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11198fe2580000
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index aae1f32f4dab..5d4ca4c10116 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -705,7 +705,7 @@ static void ntfs_put_super(struct super_block *sb)
+ 
+ 	if (sbi->options) {
+ 		unload_nls(sbi->options->nls);
+-		kfree(sbi->options->nls);
++		kfree(sbi->options->nls_name);
+ 		kfree(sbi->options);
+ 		sbi->options = NULL;
+ 	}
+@@ -1246,6 +1246,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 		}
+ 	}
+ 	sbi->options = options;
++	fc->fs_private = NULL;
+ 	sb->s_flags |= SB_NODIRATIME;
+ 	sb->s_magic = 0x7366746e; // "ntfs"
+ 	sb->s_op = &ntfs_sops;
+@@ -1671,7 +1672,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ out:
+ 	if (sbi && sbi->options) {
+ 		unload_nls(sbi->options->nls);
+-		kfree(sbi->options->nls);
++		kfree(sbi->options->nls_name);
+ 		kfree(sbi->options);
+ 		sbi->options = NULL;
+ 	}
+-- 
+2.43.0
 
-Reported-by: syzbot+2e6c1eda2eff0745b028@syzkaller.appspotmail.com
-Fixes: 02f312754c87 ("ntfs3: fix use-after-free of sbi->options in cmp_fnames")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
