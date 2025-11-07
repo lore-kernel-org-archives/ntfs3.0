@@ -1,127 +1,249 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from flow-a5-smtp.messagingengine.com (flow-a5-smtp.messagingengine.com [103.168.172.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F08828725F;
-	Thu,  6 Nov 2025 18:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6C510F1;
+	Fri,  7 Nov 2025 00:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762453988; cv=none; b=cU6vJmkMr+wMqeQgqFuaV29zE8NbsgVvPgX3U/3VfkP98pZgaLzvXkhJIpIwSnDos5XLWLPbEH9O6k0qGobkt8fJshh8Orr9yAhUG00fWoryRwqrgPuc4+nB3NZdRhdH8xphD4DODvG15vNoB8kqEToCI8EIL17Dzgi5Jyvw8MU=
+	t=1762473680; cv=none; b=jb6PNtXIJD7QFys2T+s+dM0ZYTlY90ryI2CY08+EfonAelFzft3OfhtTK1zEOBY7v9WaeYR7jvfUy55T+uuGIdfc7Os89U4Yq8YCIOiRedCdDQK8x9RFgXF77Suq9f7TktxzG1EPzCiCVB8eT8+WNKO+HUMDUgRlCoAzAPZFafk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762453988; c=relaxed/simple;
-	bh=kyEhNYI7HzIpb2ZS57YS899tQPqI51sWObp1JT+wH0c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bg5MccuOuDb4tkXkX8+iHyx+gOQf1u9J/yKrVdeUo7CaV3Q3qaxqfWdNS4xxznciIFP63uwqOZb11sJTIiLHgT0C3ABnJMTGvpCLa3S+ySsf9Z84GFuCJGroH/33DyyxbpHnzr7sEEuJJsEleMNy9aoyNZKk27BN+yOOz9FtJU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gOV+8Ut1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762473680; c=relaxed/simple;
+	bh=MufCujU/0LsEsdoh25mDaMBAKJ5uFyL9+gDf2+vBd+0=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=J1VvILipiE7X+1t8n1U0SOL9HQveYJQj2Zie7J4OY8BrXk3P4vuJUzMm1Y/B5ZUMuwmV7/dYzcq6c61RHfoL373wTHugxe3YGBHM1J5RjVFlypc4h6FNeivluNWoIcZMDhGViIc2jIdRkxSyqnM+CSxGVSsetEZazIxuaFpvwmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=WZYAC5pt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Psg2gNos; arc=none smtp.client-ip=103.168.172.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gOV+8Ut1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37256C4CEFB;
-	Thu,  6 Nov 2025 18:33:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762453982;
-	bh=kyEhNYI7HzIpb2ZS57YS899tQPqI51sWObp1JT+wH0c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gOV+8Ut1d6OcGYc3ICn04IZJW//qT27NjmUtjJ6+mBW1NT1FFiv7zt7i+LtlVYr2u
-	 +QyjsqeXE8Sn2oMnEma69cqZnz8E2bs97Zd21gVcE9G+lLR2h4a7HI13S60l+iXsVs
-	 u16usha+Jdk67Zl7zF3UaT+UJVxWp7m1yJ0qB6+oG9KS25zWNmVHJlSDFSZzRv2+1P
-	 ZAYKzpGNv6p3B4Q/kW+nI41gjOTNrhNvKKK58r6zgnYp52LIMmln8DYOxYVB3Nv6qw
-	 s3UQNBSNhXrmD9+XPEWOMgXKSUBynWUYAenY7fGvck8RU/W1+bGVm9+C4zQls2P0Us
-	 cwmLU7tUs0DRg==
-Message-ID: <4791720d-59ac-4cbb-9a72-74d3dcb55a2a@kernel.org>
-Date: Thu, 6 Nov 2025 11:33:01 -0700
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="WZYAC5pt";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Psg2gNos"
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailflow.phl.internal (Postfix) with ESMTP id 2F76A13801BB;
+	Thu,  6 Nov 2025 19:01:16 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Thu, 06 Nov 2025 19:01:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1762473676; x=1762480876; bh=H6fp6wT7I155+JjI5U+YS+I+wpfi8UjlpY4
+	LU8fjdU4=; b=WZYAC5ptT+JI+E3LCYQDPMrHgn2+EeezTwSX9Fj81LnO57sEIW0
+	r5bog5i33AtRsNThYOW5jDpkHJo5LmpOQU7UBC/WI2CsBHqkVpPTyHV/ApxUM1tN
+	z6dVSfEJthkopAMT44s7CyEjRA2sDrA7Y2ef+eMrFuZp33UeziEFvqR18wUswgoZ
+	7iPlUWWsOUPV/ZTTFBfyHToZxwjR9SvGXXZHsmi76QwHLy2cwbWHeeTpiMc4d1Bx
+	XeBUu2V3z1ClTvl5FdR+kiB+ei1mybka1yZ1GjCONTkXDJfd+mNjp5j/C8/VHSTP
+	dThaFVWL2uE50jq2dsohAmGrZdbMqVO7Ang==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762473676; x=
+	1762480876; bh=H6fp6wT7I155+JjI5U+YS+I+wpfi8UjlpY4LU8fjdU4=; b=P
+	sg2gNosOUgNreOPGLlVE9k8r0A93bFTvKl0A1YiFCaR0/yxDdKMWNofRmX2pbv2C
+	pRquqzDxvSlnoOFKUo3q0Ir6NiXbOSxcJH8T5/d9/oXcWZsBYNknHCW+NvYGKU2G
+	Ni1/LdQGu7Us7ontcePjlATrS/pgRVzjGEEX7HanmFiC2g+ePTDJ5SSAtpJBah0H
+	UWRXuHQQCAsLEu8BLIO90FsUNkSBOy8aoz2K3RYVbczfmOyGIUeyWzmqDvAPkDRA
+	jQU6SMudoXVNKkegC9Kaz3mNZdYl5nPuZwKwE6TAABXrWOiDglM1NlGb8+vPxFje
+	mse7RGNm/dK9IXvzGfidw==
+X-ME-Sender: <xms:xDYNaRhNbUJHsahPPmb6piowRnF47nS9W-BDbBUWZMioGCLB0QKE0Q>
+    <xme:xDYNadGCoPUcs45mlm9G-M-v6BypV59NlC8i5D0rXfDdqG1vicJvxUwSAeEgzm-AW
+    mM9E_dg4ffodJEGnHgTyJ5KyY9-2grnnN8X99UhFArcj-pfDw>
+X-ME-Received: <xmr:xDYNaZhYRnJe2Zwy43UTfxOwR_mAMlSeo2ztdDGjHNPtTGiDI9p-9jO_eGsbdcJ0bT11eVgdtj8wsq09LuBid3ldax93JTUA9nFc7WrB4ws3>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeekudeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
+    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    epleejtdefgeeukeeiteduveehudevfeffvedutefgteduhfegvdfgtdeigeeuudejnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsg
+    esohifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepleegpdhmohguvgepshhmthhp
+    ohhuthdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpd
+    hrtghpthhtohepfhhrrghnkhdrlhhisehvihhvohdrtghomhdprhgtphhtthhopehlihhn
+    uhigqdigfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugi
+    dquhhnihhonhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhn
+    uhigqdhnihhlfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
+    hugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhig
+    qdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuh
+    igqdhhrghruggvnhhinhhgsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    lhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:xDYNaRZM3kLhMQrgyC03y_mvDTyKIhHr-UZRyaVoDw1bUdd3TO5KWQ>
+    <xmx:xDYNab6BMLI1rNIb697RuBsl1xbiAOh3-jJjQLerAQCMMocsAIIZ6A>
+    <xmx:xDYNaWzpKwiCJssErWAKaC5Omh24WDMdd_ESMwy-1QKK0c3T8HNikg>
+    <xmx:xDYNadOOkUDnvT6bORX3tFjgvG8jH6RVTiJmdbw7J549hUUGJI3E9w>
+    <xmx:zDYNaZmP4HdGrgNN2fuf1yLCRS5MEi7pUT3ZiXhJ138U_-MYPTZPl43i>
+Feedback-ID: iab3e480c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 6 Nov 2025 19:00:45 -0500 (EST)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH linux-next] fs/ntfs3: Initialize allocated memory before
- use
-To: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>,
- almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
- david.hunter.linux@gmail.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev,
- syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com,
- syzbot+0399100e525dd9696764@syzkaller.appspotmail.com
-References: <20251105211808.260893-1-kubik.bartlomiej@gmail.com>
-From: Khalid Aziz <khalid@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20251105211808.260893-1-kubik.bartlomiej@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: NeilBrown <neilb@ownmail.net>
+To: "Jeff Layton" <jlayton@kernel.org>
+Cc: "Eric Van Hensbergen" <ericvh@kernel.org>,
+ "Latchesar Ionkov" <lucho@ionkov.net>,
+ "Dominique Martinet" <asmadeus@codewreck.org>,
+ "Christian Schoenebeck" <linux_oss@crudebyte.com>,
+ "David Sterba" <dsterba@suse.com>, "David Howells" <dhowells@redhat.com>,
+ "Marc Dionne" <marc.dionne@auristor.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+ "Chris Mason" <clm@fb.com>, "Xiubo Li" <xiubli@redhat.com>,
+ "Ilya Dryomov" <idryomov@gmail.com>, "Jan Harkes" <jaharkes@cs.cmu.edu>,
+ coda@cs.cmu.edu, "Tyler Hicks" <code@tyhicks.com>,
+ "Jeremy Kerr" <jk@ozlabs.org>, "Ard Biesheuvel" <ardb@kernel.org>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Sungjong Seo" <sj1557.seo@samsung.com>,
+ "Yuezhang Mo" <yuezhang.mo@sony.com>, "Theodore Ts'o" <tytso@mit.edu>,
+ "Andreas Dilger" <adilger.kernel@dilger.ca>,
+ "Jaegeuk Kim" <jaegeuk@kernel.org>, "Chao Yu" <chao@kernel.org>,
+ "OGAWA Hirofumi" <hirofumi@mail.parknet.co.jp>,
+ "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Andreas Gruenbacher" <agruenba@redhat.com>,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "Yangtao Li" <frank.li@vivo.com>, "Richard Weinberger" <richard@nod.at>,
+ "Anton Ivanov" <anton.ivanov@cambridgegreys.com>,
+ "Johannes Berg" <johannes@sipsolutions.net>,
+ "Mikulas Patocka" <mikulas@artax.karlin.mff.cuni.cz>,
+ "Muchun Song" <muchun.song@linux.dev>,
+ "Oscar Salvador" <osalvador@suse.de>,
+ "David Hildenbrand" <david@redhat.com>,
+ "David Woodhouse" <dwmw2@infradead.org>,
+ "Dave Kleikamp" <shaggy@kernel.org>,
+ "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>,
+ "Ryusuke Konishi" <konishi.ryusuke@gmail.com>,
+ "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>,
+ "Mark Fasheh" <mark@fasheh.com>, "Joel Becker" <jlbec@evilplan.org>,
+ "Joseph Qi" <joseph.qi@linux.alibaba.com>,
+ "Bob Copeland" <me@bobcopeland.com>,
+ "Mike Marshall" <hubcap@omnibond.com>,
+ "Martin Brandenburg" <martin@omnibond.com>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Steve French" <sfrench@samba.org>, "Paulo Alcantara" <pc@manguebit.org>,
+ "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
+ "Shyam Prasad N" <sprasad@microsoft.com>, "Tom Talpey" <tom@talpey.com>,
+ "Bharath SM" <bharathsm@microsoft.com>,
+ "Zhihao Cheng" <chengzhihao1@huawei.com>,
+ "Hans de Goede" <hansg@kernel.org>, "Carlos Maiolino" <cem@kernel.org>,
+ "Hugh Dickins" <hughd@google.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Kees Cook" <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-kernel@vger.kernel.org, v9fs@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+ codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, gfs2@lists.linux.dev,
+ linux-um@lists.infradead.org, linux-mm@kvack.org,
+ linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
+ linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
+ ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+ linux-karma-devel@lists.sourceforge.net, devel@lists.orangefs.org,
+ linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ samba-technical@lists.samba.org, linux-xfs@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+Subject:
+ Re: [PATCH] vfs: remove the excl argument from the ->create() inode_operation
+In-reply-to: <f5927a9bb985b9ad241bc5f9fc32acfd35340222.camel@kernel.org>
+References: <20251105-create-excl-v1-1-a4cce035cc55@kernel.org>,
+ <176237780417.634289.15818324160940255011@noble.neil.brown.name>,
+ <6758176514cdd6e2ceacb3bd0e4d63fb8784b7c6.camel@kernel.org>,
+ <f5927a9bb985b9ad241bc5f9fc32acfd35340222.camel@kernel.org>
+Date: Fri, 07 Nov 2025 11:00:34 +1100
+Message-id: <176247363419.634289.473957828516111884@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On 11/5/25 2:18 PM, Bartlomiej Kubik wrote:
-> KMSAN reports: Multiple uninitialized values detected:
-> 
-> - KMSAN: uninit-value in ntfs_read_hdr (3)
-> - KMSAN: uninit-value in bcmp (3)
-> 
-> Memory is allocated by __getname(), which is a wrapper for
-> kmem_cache_alloc(). This memory is used before being properly
-> cleared. Change kmem_cache_alloc() to kmem_cache_zalloc() to
-> properly allocate and clear memory before use.
-> 
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> Fixes: 78ab59fee07f ("fs/ntfs3: Rework file operations")
-> Tested-by: syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com
-> Reported-by: syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=332bd4e9d148f11a87dc
-> 
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> Fixes: 78ab59fee07f ("fs/ntfs3: Rework file operations")
-> Tested-by: syzbot+0399100e525dd9696764@syzkaller.appspotmail.com
-> Reported-by: syzbot+0399100e525dd9696764@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=0399100e525dd9696764
-> 
-> Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-> ---
+On Fri, 07 Nov 2025, Jeff Layton wrote:
+> On Thu, 2025-11-06 at 07:07 -0500, Jeff Layton wrote:
+> > On Thu, 2025-11-06 at 08:23 +1100, NeilBrown wrote:
+> > > On Thu, 06 Nov 2025, Jeff Layton wrote:
+> > > > Since ce8644fcadc5 ("lookup_open(): expand the call of vfs_create()"),
+> > > > the "excl" argument to the ->create() inode_operation is always set to
+> > > > true. Remove it, and fix up all of the create implementations.
+> > >=20
+> > > nonono
+> > >=20
+> > >=20
+> > > > @@ -3802,7 +3802,7 @@ static struct dentry *lookup_open(struct nameid=
+ata *nd, struct file *file,
+> > > >  		}
+> > > > =20
+> > > >  		error =3D dir_inode->i_op->create(idmap, dir_inode, dentry,
+> > > > -						mode, open_flag & O_EXCL);
+> > > > +						mode);
+> > >=20
+> > > "open_flag & O_EXCL" is not the same as "true".
+> > >=20
+> > > It is true that "all calls to vfs_create() pass true for 'excl'"
+> > > The same is NOT true for inode_operations.create.
+> > >=20
+> >=20
+> > I don't think this is a problem, actually:
+> >=20
+> > Almost all of the existing ->create() operations ignore the "excl"
+> > bool. There are only two that I found that do not: NFS and GFS2. Both
+> > of those have an ->atomic_open() operation though, so lookup_open()
+> > will never call ->create() for those filesystems. This means that -
+> > > create() _is_ always called with excl =3D=3D true.
+>=20
+> How about this for a revised changelog, which makes the above clear:
+>=20
+>     vfs: remove the excl argument from the ->create() inode_operation
+>    =20
+>     Since ce8644fcadc5 ("lookup_open(): expand the call of vfs_create()"),
+>     the "excl" argument to the ->create() inode_operation is always set to
+>     true in vfs_create().
+>    =20
+>     There is another call to ->create() in lookup_open() that can set it to
+>     either true or false. All of the ->create() operations in the kernel
+>     ignore the excl argument, except for NFS and GFS2. Both NFS and GFS2
+>     have an ->atomic_open() operation, however so lookup_open() will never
+>     call ->create() on those filesystems.
+>    =20
+>     Remove the "excl" argument from the ->create() operation, and fix up the
+>     filesystems accordingly.
 
-Looks good to me.
+Thanks, that is a substantial improvement.  I see your point now and I
+think this is a really nice cleanup to make - thanks.
 
-Reviewed-by: Khalid Aziz <khalid@kernel.org>
+I think the commit message could be improved further by leading with the
+detail that is central - that most ->create function ignore 'excl'.
 
---
-Khalid
+ With two exceptions, ->create() methods provided by filesystems ignore
+ the "excl" flag.  Those exception are NFS and GFS2 which both also
+ provide ->atomic_open.
 
->   fs/ntfs3/inode.c | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index ab61388f819c..13720baf079d 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -1281,7 +1281,7 @@ int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
->   		fa |= FILE_ATTRIBUTE_READONLY;
-> 
->   	/* Allocate PATH_MAX bytes. */
-> -	new_de = __getname();
-> +	new_de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
->   	if (!new_de) {
->   		err = -ENOMEM;
->   		goto out1;
-> @@ -1723,10 +1723,9 @@ int ntfs_link_inode(struct inode *inode, struct dentry *dentry)
->   	struct NTFS_DE *de;
-> 
->   	/* Allocate PATH_MAX bytes. */
-> -	de = __getname();
-> +	de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
->   	if (!de)
->   		return -ENOMEM;
-> -	memset(de, 0, PATH_MAX);
-> 
->   	/* Mark rw ntfs as dirty. It will be cleared at umount. */
->   	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
-> @@ -1762,7 +1761,7 @@ int ntfs_unlink_inode(struct inode *dir, const struct dentry *dentry)
->   		return -EINVAL;
-> 
->   	/* Allocate PATH_MAX bytes. */
-> -	de = __getname();
-> +	de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
->   	if (!de)
->   		return -ENOMEM;
-> 
-> --
-> 2.39.5
-> 
+ excl is always true when ->create is called from vfs_create() (since
+ commit......) so the only time it can be false is when it is called by
+ lookup_open() for filesystems that do not provide ->atomic_open.
+
+ So the excl flag to ->create is either ignored or true.  So we can
+ remove it and change NFS and GFS2 to acts as though it were true.
+
+>=20
+> Maybe we also need some comments or updates to Documentation/ to make
+> it clear that ->create() always implies O_EXCL semantics?
+
+Definitely, something in porting.rst and something in vfs.rst.
+
+I would be worth saying somewhere that if the fs needs to mediate
+non-exclusive creation, it must provide atomic_open().
+
+Thanks,
+NeilBrown
+
+
+> --=20
+> Jeff Layton <jlayton@kernel.org>
+>=20
 
