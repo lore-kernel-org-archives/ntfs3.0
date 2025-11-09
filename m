@@ -1,227 +1,140 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF65828980E
-	for <ntfs3@lists.linux.dev>; Sat,  8 Nov 2025 09:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771458F5B
+	for <ntfs3@lists.linux.dev>; Sun,  9 Nov 2025 10:15:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762593580; cv=none; b=cn+HUPKTwbs7XS/ZlFtqEh47PGZmhydD4zA3CF1K15gxrGPalrjuwO5mcg+kZYHVPUhBYKd3Th83ImLYHvxW1+HKSRJ1IyX0UUnzJa0Z1kR9MXCK6veovLCjjPjqrboyQA18rwc9shj+01r6Ayl9EhvwLqdP9VLH/kAICwnx1vQ=
+	t=1762683336; cv=none; b=ITswxY4iyrCu5hR6qRiyxZ/sam8b52nkw5xT9QS4L/1r2JcVEzk5oaEulBXxwRzW/3Pt9hLNYqTr7+tGiK6MhpzslxkLwrM/wgmuO0dAhSbRsJLwGqaWgJvkfVrZL8KaScsA51wjq1PMUxvpD8bEHM90V4wjlWcFD4Puxh0t1EE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762593580; c=relaxed/simple;
-	bh=Y49FEVhEZCj60/+Ylnua7B5NNXsJ25LsdBXGXmWxbi8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RX172xQ6vhnd4DKPWvmSV8Fq4NsdK7f/pfeUY/UjtdHOwMD/5O4Z8YTXfLXDRRFrx69o2AVF+LDkBDN4ezm3fBaxC9NWRPyejYYbqHx/D0WLF+X7YJTFc3aaDWLinypgjMDTr7xOgX9B4v9ujDd/L2Jrk8NCHiygsoXiLdhFfhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JolopQ+s; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JolopQ+s"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7ade456b6abso1295163b3a.3
-        for <ntfs3@lists.linux.dev>; Sat, 08 Nov 2025 01:19:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762593577; x=1763198377; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xMJJSbsWQXZcDWYlPD+q/sMKmcoPg7XO2KNCJJBRcPk=;
-        b=JolopQ+sE6nsUhaaLuPmWqi5bQZUp2DSjTRtFdyq4133dTcNDDwpo9TpauqC6u9XcE
-         7/qxAGs7bSwsB9jc6z8BmRqq69KbrXYABihWFEZqdYoiuUUWIlecFX3guBk7Qnk2vPJ5
-         V8wiHj+GIFw2PLm4myaFqIT0BBEfkB/GUBEIXW8O0DNkzlWj+PF3F5CND+URQwAuaCCc
-         elNSr2+zEM5p4FG0h9VPvL4jX9XuTsoCSs4v/EOf/tf4cXtb51bihO6OXWf6ErOJF7le
-         05jKd8LDr2N4f7Lkm88P4mG1QzDKUL/kp6N9LQvo1PPdmsbEAaotekd5tgk9fd1Yo0N0
-         hLYg==
+	s=arc-20240116; t=1762683336; c=relaxed/simple;
+	bh=q/qbJWFfFE5P6vG0JPZ59MczMNUFyCKYvENiFok2S2U=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=VkIRTqzLyY3rKqWdinTcRA7tSONAdQVxVBH75RHLVCQjjXfD5yWo4PCj/e9BArHJIiJyderuMe9mBAlkipzPPIpMg+cuzJlHdqoOM7BAsFf0PusdeyCEBdh75aYcQVPpGf/fmZZ5fsloiTUuzl+dQYTAdGSiSfHYTlZeME58WS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-43331f93979so19720015ab.1
+        for <ntfs3@lists.linux.dev>; Sun, 09 Nov 2025 02:15:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762593577; x=1763198377;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xMJJSbsWQXZcDWYlPD+q/sMKmcoPg7XO2KNCJJBRcPk=;
-        b=lWclfel5J3v7B6M0vUefA5gUtWgfUrWadt0ZbYn/ZRehd2ffgpxyuJoOLCq+LS5mTA
-         10Zy2AKNier9hkbXq42ED6AY3SDbhPTWhoNNWObi+XSwaJ6/zbNiyBTeHlx1IjzBoiw7
-         PzWdLSFR1eHTJXdxAevTwOzUCRV+Z7Dl87Qtut2fSp/2Zyr9rJ74lxeMHCOyU5hWxo9b
-         NM0IY2Ewb9nCcFL/06B98o5j+Oy5kViYFEqui3i/XJO86uDxWxMDS0Hg8rS/TIWKSYaw
-         rPUlAmE5mc69qDVPFr+HUVRaTJGoEKA4m2pZSdSDZWx7qhvN2D55RhMigoAqMAh2uau4
-         aROg==
-X-Forwarded-Encrypted: i=1; AJvYcCX/LY08vwCJFEPnimVwp7DjH0njMDgkrQl/0V3X3DCAsf0LPVstLMSuJQ3U01DCSU6oc1gbbg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwW8vONhrjI3ZTs0xE4lrWogfmJcl3NkavDI7U3anytMs0MwvSa
-	bMJ9PezAb4Mp+jELNmI5rUaseSwOBdAdDe4zm9c6jRnqzHTiAzJkXa7J
-X-Gm-Gg: ASbGncvvQtJcq+rppwVZB0fdFGTr9xksJDlQZC7r0L5+yR4xLhOpw7Bfz6iCMoxBU3c
-	5DT7Zeeum1GoJs9QkS5iw18/KG76nmSPktrxkt6y+kjhWkdMk9WMHgO/5yI3t8ob/VM31loRc2S
-	Q4CPUvpK+CBv1v+qEUVGOWzz0YW5RaitrCpqTBsmrI87M7KWgmDzwaJtMYBMVG/oI36gGF/RzLF
-	cDfrmOJecvmy8+6vGdlZJSEBaf88QXbRPbKnI+uAlCytT2yIBdmQasKrNQVJSOom5A2u0LL/iMm
-	NQGS5W1eQBQlhbLVszKwzJCGnAxkhZP4m7ASCbN+9T1beqQMvWn4Q89AivGUWgHOfA05BCbs3mS
-	vJDtJL0+WC0h/I7Se6oQNYLp1JfVMjsrZ7EIxE3RsN5AReUQ1LU3cgiY+1ygDFeAPg9ro1wr+F9
-	Ps
-X-Google-Smtp-Source: AGHT+IF0YP4Otkbzly3RQbSixJdpmmdp1zu3glQ2poSUDNCvD7oGyUzRXByQOYxnN497yc+CfkoJmg==
-X-Received: by 2002:a05:6a00:a8d:b0:7ac:69cd:ea0d with SMTP id d2e1a72fcca58-7b226f8dd18mr2391831b3a.19.1762593576763;
-        Sat, 08 Nov 2025 01:19:36 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0c953cf79sm5483323b3a.3.2025.11.08.01.19.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Nov 2025 01:19:35 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 77412400200B; Sat, 08 Nov 2025 16:19:33 +0700 (WIB)
-Date: Sat, 8 Nov 2025 16:19:33 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Dominique Martinet <asmadeus@codewreck.org>,
-	Jeff Layton <jlayton@kernel.org>
-Cc: Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	David Sterba <dsterba@suse.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	Chris Mason <clm@fb.com>, Xiubo Li <xiubli@redhat.com>,
-	Ilya Dryomov <idryomov@gmail.com>, Jan Harkes <jaharkes@cs.cmu.edu>,
-	coda@cs.cmu.edu, Tyler Hicks <code@tyhicks.com>,
-	Jeremy Kerr <jk@ozlabs.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>, Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>, Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@redhat.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Bob Copeland <me@bobcopeland.com>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
-	Bharath SM <bharathsm@microsoft.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	Hans de Goede <hansg@kernel.org>, Carlos Maiolino <cem@kernel.org>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	NeilBrown <neilb@ownmail.net>, linux-kernel@vger.kernel.org,
-	v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-afs@lists.infradead.org, linux-btrfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu,
-	ecryptfs@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	gfs2@lists.linux.dev, linux-um@lists.infradead.org,
-	linux-mm@kvack.org, linux-mtd@lists.infradead.org,
-	jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-	linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
-	ocfs2-devel@lists.linux.dev,
-	linux-karma-devel@lists.sourceforge.net, devel@lists.orangefs.org,
-	linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org, linux-xfs@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] vfs: remove the excl argument from the ->create()
- inode_operation
-Message-ID: <aQ8LJfKC0R-4ehLU@archie.me>
-References: <20251107-create-excl-v2-1-f678165d7f3f@kernel.org>
- <aQ7fOmknHIxcxuha@codewreck.org>
+        d=1e100.net; s=20230601; t=1762683333; x=1763288133;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NWfewmnudh1KlyEWNvuVvB5Kgj50o7QInWoa1pVfLis=;
+        b=ipmEFPeZkR0o9IuFIfUepEP68Y1KVadFnTOuD5j725TfpZDbnw70mHHgLWQlSn5mz9
+         FAgt0GmpiW0VFBsH1kSNEH7kSFP0lRJximH+pQwvWsQse/VMV9LNJVMH5tIwZsvJlPrg
+         0E+IZz77ixduCn4Z1dq+MXvtuzKqGUSbxBYQemABiacpsZt7p6gISIqIjh6jpPsJWW/e
+         KWo4eHxlqvXnMaiMZPQ1xAHU/6A3YzS73uCCWEB7i3hMt2Pe0SXTED2GUtx6ch1cTmAo
+         vllqV98d4RGKal4KZEr5ps6MOlVVxnxdHpEnXHFvhOkeyuI7dEvhr+seoVy5Js+xidW8
+         p3eA==
+X-Forwarded-Encrypted: i=1; AJvYcCUkxkv8wHBU21HtkFUMd3zsG5cqpr77yce+NXRBcci/Fgs6dGW0nzwCjiX0xOBEojGFvhK9Qw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyF20GLsbqvRoPTN7tdF2sFswZDnO9EEbTD9hwwKeGOtw99DsDC
+	nMJ5zVWwmsQGbjageurAlRn8S240ucXgpLRth0kes8OuoRTjLw2Jb/IZH1ZmV9yis1UmhlkDbEJ
+	/oiK3+Tc0dyEkC1KthLKvIDgfdu0tHSQf044VyVaClLFZ7TAOuyxXXRQMqLs=
+X-Google-Smtp-Source: AGHT+IEbcKnfSa5fRGJI6MUUWScp8I9DxMyTDf8/KLrLsOwjjl8LC6bhITS7iNJ8+amgcbqzNaoHjpmnfLUcajxKRTAphhZ1AsKm
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hTQgJTXrd9+JcPiP"
-Content-Disposition: inline
-In-Reply-To: <aQ7fOmknHIxcxuha@codewreck.org>
+X-Received: by 2002:a05:6e02:1fc3:b0:433:43fb:37dd with SMTP id
+ e9e14a558f8ab-43367de214emr71758115ab.5.1762683333724; Sun, 09 Nov 2025
+ 02:15:33 -0800 (PST)
+Date: Sun, 09 Nov 2025 02:15:33 -0800
+In-Reply-To: <68fc0765.a00a0220.9662e.000e.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <691069c5.a70a0220.22f260.00aa.GAE@google.com>
+Subject: Re: [syzbot] [f2fs?] WARNING in get_data
+From: syzbot <syzbot+f5d91b1897d5b094c6b4@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, chao@kernel.org, 
+	jaegeuk@kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, mchehab@kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+
+syzbot has found a reproducer for the following issue on:
+
+HEAD commit:    9c0826a5d9aa Add linux-next specific files for 20251107
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=11c44b42580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f2ebeee52bf052b8
+dashboard link: https://syzkaller.appspot.com/bug?extid=f5d91b1897d5b094c6b4
+compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16263084580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14496a92580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/32b5c04a0baa/disk-9c0826a5.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9438206c142a/vmlinux-9c0826a5.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/129cd0208baa/bzImage-9c0826a5.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/be89fc48acf0/mount_3.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+f5d91b1897d5b094c6b4@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 4096
+ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
+------------[ cut here ]------------
+WARNING: kernel/printk/printk_ringbuffer.c:1278 at get_data+0x48a/0x840 kernel/printk/printk_ringbuffer.c:1278, CPU#1: syz.0.541/6553
+Modules linked in:
+CPU: 1 UID: 0 PID: 6553 Comm: syz.0.541 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/02/2025
+RIP: 0010:get_data+0x48a/0x840 kernel/printk/printk_ringbuffer.c:1278
+Code: 83 c4 f8 48 b8 00 00 00 00 00 fc ff df 41 0f b6 04 07 84 c0 0f 85 ee 01 00 00 44 89 65 00 49 83 c5 08 eb 13 e8 87 47 1f 00 90 <0f> 0b 90 eb 05 e8 7c 47 1f 00 45 31 ed 4c 89 e8 48 83 c4 28 5b 41
+RSP: 0018:ffffc9000c0eec40 EFLAGS: 00010293
+RAX: ffffffff81a238a9 RBX: 00003fffffffffff RCX: ffff888026123d00
+RDX: 0000000000000000 RSI: 00003fffffffffff RDI: 0000000000000000
+RBP: 0000000000000012 R08: 0000000000000f4d R09: 0000003b6994bf6b
+R10: 0000003b6994bf6b R11: 0000199962000021 R12: 0000000000000012
+R13: 0000000000000000 R14: ffffc9000c0eed88 R15: 1ffffffff1bca6c2
+FS:  000055557ac66500(0000) GS:ffff888125fc2000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffec7fad000 CR3: 000000002ea20000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ copy_data kernel/printk/printk_ringbuffer.c:1857 [inline]
+ prb_read kernel/printk/printk_ringbuffer.c:1966 [inline]
+ _prb_read_valid+0x672/0xa90 kernel/printk/printk_ringbuffer.c:2143
+ prb_read_valid+0x3c/0x60 kernel/printk/printk_ringbuffer.c:2215
+ printk_get_next_message+0x15c/0x7b0 kernel/printk/printk.c:2978
+ console_emit_next_record kernel/printk/printk.c:3062 [inline]
+ console_flush_one_record kernel/printk/printk.c:3194 [inline]
+ console_flush_all+0x4cc/0xb10 kernel/printk/printk.c:3268
+ __console_flush_and_unlock kernel/printk/printk.c:3298 [inline]
+ console_unlock+0xbb/0x190 kernel/printk/printk.c:3338
+ vprintk_emit+0x4c5/0x590 kernel/printk/printk.c:2423
+ _printk+0xcf/0x120 kernel/printk/printk.c:2448
+ ntfs_inode_printk+0x5fd/0x700 fs/ntfs3/super.c:156
+ ntfs_bad_inode+0x71/0x150 fs/ntfs3/fsntfs.c:910
+ mi_enum_attr+0x7b9/0x9f0 fs/ntfs3/record.c:352
+ ntfs_read_mft fs/ntfs3/inode.c:123 [inline]
+ ntfs_iget5+0x245b/0x3860 fs/ntfs3/inode.c:542
+ ntfs_fill_super+0x23ce/0x43d0 fs/ntfs3/super.c:1284
+ get_tree_bdev_flags+0x40e/0x4d0 fs/super.c:1692
+ vfs_get_tree+0x92/0x2b0 fs/super.c:1752
+ fc_mount fs/namespace.c:1198 [inline]
+ do_new_mount_fc fs/namespace.c:3641 [inline]
+ do_new_mount+0x302/0xa10 fs/namespace.c:3717
+ do_mount fs/namespace.c:4040 [inline]
+ __do_sys_mount fs/namespace.c:4228 [inline]
+ __se_sys_mount+0x313/0x410 fs/namespace.c:4205
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f6530f90e6a
+Code: d8 64 89 02 48 c7 c0 ff ff ff ff eb a6 e8 de 1a 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffec7fac3c8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007ffec7fac450 RCX: 00007f6530f90e6a
+RDX: 00002000000002c0 RSI: 0000200000000040 RDI: 00007ffec7fac410
+RBP: 00002000000002c0 R08: 00007ffec7fac450 R09: 0000000000000082
+R10: 0000000000000082 R11: 0000000000000246 R12: 0000200000000040
+R13: 00007ffec7fac410 R14: 000000000001f853 R15: 00002000000000c0
+ </TASK>
 
 
---hTQgJTXrd9+JcPiP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Nov 08, 2025 at 03:12:10PM +0900, Dominique Martinet wrote:
-> Jeff Layton wrote on Fri, Nov 07, 2025 at 10:05:03AM -0500:
-> > diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesyst=
-ems/vfs.rst
-> > index 4f13b01e42eb5e2ad9d60cbbce7e47d09ad831e6..7a55e491e0c87a0d18909bd=
-181754d6d68318059 100644
-> > --- a/Documentation/filesystems/vfs.rst
-> > +++ b/Documentation/filesystems/vfs.rst
-> > @@ -505,7 +505,10 @@ otherwise noted.
-> >  	if you want to support regular files.  The dentry you get should
-> >  	not have an inode (i.e. it should be a negative dentry).  Here
-> >  	you will probably call d_instantiate() with the dentry and the
-> > -	newly created inode
-> > +        newly created inode. This operation should always provide O_EX=
-CL
->=20
-> This and the block below change halfway from tab (old text) to spaces
-> (your patch)
->=20
-> Looks like the file has a few space-indented sections though so it won't
-> be the first if that goes in as is, the html-rendering doesn't seem to
-> care :)
-
-FYI: I'm using Vim. My important settings (in ~/.vimrc) are:
-
-```
-set nojoinspaces
-set textwidth=3D0
-set backspace=3D2
-```
-
-However, ftplugin override these for each file type, so you have to essenti=
-ally
-"fork" the relevant ftplugin file for each type if you want for your settin=
-gs
-to take precedence. For example, in case of reST, copy
-/usr/share/vim/vim91/ftplugin/rst.vim to ~/.vim/ftplugin/rst and override t=
-he
-already defined options there:
-
-```
-=2E..
-" keep tabs as-is
-setlocal comments=3Dfb:.. commentstring=3D..\ %s noexpandtab
-=2E..
-if exists("g:rst_style") && g:rst_style !=3D 0
-    setlocal noexpandtab shiftwidth=3D8 softtabstop=3D0 tabstop=3D8
-endif
-=2E..
-```
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---hTQgJTXrd9+JcPiP
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQ8LHwAKCRD2uYlJVVFO
-o2WVAPsFBRuUsYfWxAnWROgP/61sBqVYDc/UsPimcXm5dJJfgQD9ESTXpfxlpefS
-VKeWBneX6svZYShHE5RzrbcYO+G5GA0=
-=gW2v
------END PGP SIGNATURE-----
-
---hTQgJTXrd9+JcPiP--
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
