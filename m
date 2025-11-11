@@ -1,56 +1,57 @@
-Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CFA34DB53
-	for <ntfs3@lists.linux.dev>; Tue, 11 Nov 2025 11:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7DE348883
+	for <ntfs3@lists.linux.dev>; Tue, 11 Nov 2025 11:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762859167; cv=none; b=kliTTfrmc2lgwnFa3v+Y56pz3kalrCiV1YiTQZYUpdhWFiIdIsNeUuaXNARLCEPLEt/b8yW7D9QuVM7oY9t9qOYg8XMX+q+E5Trn1TAcIm6Xq5fUjSznnH5JZbbVZMU7qwiyB3ytzSX2a+/SNJ9gp3d6RCpvy3GiLy3CZzS7VFc=
+	t=1762859659; cv=none; b=bn9W4ZcGvVOj3/VridRwxw8VLOBV3Ssi1dwixn+Il8dYiK3ahe1eRCyQIjiAAPQONej+3YPjzkJWFi46zJMW2KKX/Z5V1PGKfRlc9Aav3/xaphzovojIudGJEdVaVWPqdDTmCy1KzTgRHzR0CzV9whIKap95EYmQ5URfyS659O0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762859167; c=relaxed/simple;
-	bh=NGZY7D8PfbiFbd887TvButBPycC3r7BwVEmdgLETi1E=;
+	s=arc-20240116; t=1762859659; c=relaxed/simple;
+	bh=qUPdyWreFV1lPbWkZi9HrJb9CBDP9RMP7SqB5J9u/7A=;
 	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=ZK+ddSuN3N3w0jZHIsflW8tfcvatx0reTGgSAfe6Dpy+Q6215CnMfaORnlsXZohbLbtKG2qRKLHnM7iOp0gXyUL9BdxjI1tUBSaKxayfQrWA4z/5+aTgYruoX5tQnaVgx9eJYRAc7HHBoODBMlnP0PPNRlSfYqb9vDc+bJck0K0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=SmhCV4fr; arc=none smtp.client-ip=162.62.57.49
+	 MIME-Version; b=BzXtqhbtXgVjwcH+GP1POj1cqpgEiBuwHCbl8SnMt3TfWhGOaMHpcflyqWTmlu5j5ePTJSQspmQQE+3k7Dzj7+Fznzzpy4zLzzFv2zih77HOzCftgXeAK4JXaI41/rHPw+mKLJv37/LqHImAB8gKEcmu7gxOGggMjrDeG/MfnhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Z07rrWbZ; arc=none smtp.client-ip=43.163.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="SmhCV4fr"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Z07rrWbZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1762859151; bh=5KM/czTHkFEHND165zBXo4h8LPx0eIm+WQx5hjmuObY=;
+	t=1762859648; bh=taXUVma0NRozkDssCapELyL8AA0H9E6fe9k8SGAz+xg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=SmhCV4frcHDetTSgxyR7XZ9W2aeO1w6hL1UyS40simixwLzpMfsxP4LCdjpOW4CX1
-	 NwkBjc7GJ0agzg9owBv91gmBCmnE3+Sb1w7dnkSoeU32LvJng/e56MDA6DhmVet/Gp
-	 8HsCaqDLbWspZY/ZkXQwV2fzgWzB+oYD+xcdgtlU=
+	b=Z07rrWbZ1CHXUUnU1K/lgc2I7nhG3CO38GiTTLJLGpOcwRnIRzXAb5YnD6aBs99so
+	 JDyNre+HSQjH00GoOPxpjsoLz3s5sSmAXF39MdM+Nb2m9KMT2cFVHBBgtpwT+ZVRb0
+	 vylWk40cZi0f4zvCVApjDUWbT9S2JY7hvO56k5ro=
 Received: from pek-lxu-l1.corp.ad.wrs.com ([111.201.7.117])
-	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
-	id 169964CC; Tue, 11 Nov 2025 19:05:41 +0800
-X-QQ-mid: xmsmtpt1762859141tr7uwxdsx
-Message-ID: <tencent_F07E963236A64B34744177E3672A3CB93609@qq.com>
-X-QQ-XMAILINFO: MDbayGdXPuoe0yCjW11OIF5FklWQl0wX+LOZc/f+cvUuOiQe/CgaqrlUaSvhyq
-	 k+p+l9joDQveK7VnTuHD3QhthEaJ95H14ovtl22FaTJuM/7kolcxFwHZ+ljMAgZ6EDp2JZzwuE5M
-	 PRGgX1WXpFQFe8O/HGXb6ekmgITxcMRSJo7+FA28NqCJKqHB62vLB3bZtE2xrC2FRYS92Uj0xO9T
-	 xUgBXD7zN9p3MOjRGSYEequpybtNra2coHVecSMnrDGfbN+/EdASTMcA5Np8OEU9rZyPQ5LmHaLO
-	 MD42mYGidXHjKonP/Hi7WY0+oYWN9mfT/lHfDLR7A6P8v6hdcqVOt/yxu1ZLEiEjex+9iWzyGIZi
-	 iDg/T/SnQ0prT0CrvfAK17Ndv8+unHe573RhggVuxzE2zAdCxns4qTxZYRviFCr7wKU3jh0YqLRy
-	 c5+CD95tKj71dasvRrq/wXdDgILZVfAdC+9vx1Hcc4ZvShCqAlsTVNkvHjE8DIaoj21s5qyTgaYi
-	 0I7si44lWF5xZhUi0EKEOGrxBc1A+hd5OL94u0XlNcvtf/PzktEE43lCAZj4L1VW1H01Mj2vYl4o
-	 4CBS75Cf+GHfaT3N0G5TdBN+N4Kx8mfo9ZjzbdlDOlZCOb0y5Ew1VjI6WSXY9HtZ7hOsB/dxSUTk
-	 SUI8qkGFpZAYp/XVWv2GoSICmBixSiYUj55BGZVJVQPtHsZMx6HAkAIeXwo8EeytUXRGqwZv7aV1
-	 Eu0Z0ahueQzhJ2zI+BlCTtPjpgCTxx8+NIZ6XGhW34xtQNAVwMdoKEBs4H3GFszkNoHzcqIgNTTl
-	 KYRe8GW5JvkLZdkdJeWD2ITnz0l1Rb9u2pd/HZwH7vzymdQDSKsAysb1GB9MF2msCNyw6WQwiZfv
-	 HPdi6B5KD8sQ6wvxjBRN1Pk/J28mwQLQxLEaeTQJtusvUL8ltOTp/o6GjV/I6/fQ3pRCjDbt4j7p
-	 jnKFhTGIikeSjfyKsqUwB7c8IyROEamD7t5m2n2CvVWMR4KOjCyg==
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+	by newxmesmtplogicsvrszc41-0.qq.com (NewEsmtp) with SMTP
+	id 377862D6; Tue, 11 Nov 2025 19:13:55 +0800
+X-QQ-mid: xmsmtpt1762859635tobyr8oqy
+Message-ID: <tencent_046B83AAE44C976C976926C9936903604905@qq.com>
+X-QQ-XMAILINFO: NZSml8PQdeKATZu7Oi29OrL6p4nZCwdAumMuUoAO7ogqU4gDANGJwIkk9PT+nH
+	 34QYt+uV4WPwAUjbKcaEBNQmZMmajqhzGDLDRCZz9fJ6xHuLgRheVuhFNco2AniZGs4N/vGBqh6y
+	 h+/tM9CED4wVNFr5B+q45ObLgSK3nEjrLPvt9myXYfbHzBKZeFLVohXeTVNqyGCT410pnpx55rWm
+	 JDvgDyHbR/BBmdlCk0lYaHehqg8NRAgujIBP9khYm39NbaXfWzsTokdjGoTNjxsCmXFkmXv7JIrq
+	 cfSui55ICmUHbfKaUkjsF3JhbZdgZkjI2pgQmwCytRvXW2RhqlK9CMWwj2S0EtUX27mzN1wmZC64
+	 tazlskO+j9CGhwwVTzx4iuQPN183+tDyHNa78PqGAgM/PGNQBhtdYl6KMWAEFsHkZbTjE0GPU9nY
+	 g1GZ3+2sfeKFRyLoYN4jXwQeZHuLY4FD1+iOpAy/ZqMxbUn8Pfr/WDm783bG6ooY1vjPd8PlBmo1
+	 tO+L7560hPZ/E9NANQXkvyImSNGKDBqYy3d2+N+x4ooV3FMVSp8jdNG/t93/AVrWzKgqZe4X9lzY
+	 9xzp/TX51Bbo+YWNGqsHQa1mmnnECya8mVE5okUVN0J6Ol0ge8qdaF8yIi96gSRSBcrHTn+w6EGG
+	 0FbhQtWXIFIPRdap2YkwdohFrAm+Z075jFEjc5wjk0sWiMNZduagNWmrlxvWfQispPVYRCPJiVwQ
+	 YL0vxtDIe4kIJJIagkpNgHkD1a4XUFJ3rspfl3XeDoQcK17FX3F5hkIq6KwAWVHSg3F9sIPjeYuZ
+	 GO0IVaMK54CyRZ8knyiPnLmX+avd6mUEq7gjwbn6aWK/dJuJn727u2E5DIkxjk4CDOEisjikKCtB
+	 pWG7OsYOnIipfOr4GZwqXpVKG5p+uLHVUCKrMFC2YY71831MyWBGYyUhwDKZuwI8/DJMIARPaRl7
+	 XxzHYNbG02N3A1AZfqtKCY0DbpjTS1GrPVDgn3e+4z/yTzD4jNsNd41/oNJOrlpr/lF/Lv5jyfeq
+	 Odq9/dsA==
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
 From: Edward Adam Davis <eadavis@qq.com>
 To: syzbot+3932ccb896e06f7414c9@syzkaller.appspotmail.com
 Cc: almaz.alexandrovich@paragon-software.com,
 	linux-kernel@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	syzkaller-bugs@googlegroups.com
-Subject: [PATCH 1/2] fs/ntfs3: Prevent memory leaks in add sub record
-Date: Tue, 11 Nov 2025 19:05:42 +0800
-X-OQ-MSGID: <20251111110541.2266435-3-eadavis@qq.com>
+Subject: [PATCH 2/2] fs/ntfs3: out1 also needs to put mi
+Date: Tue, 11 Nov 2025 19:13:56 +0800
+X-OQ-MSGID: <20251111111355.2274848-2-eadavis@qq.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <69122a96.a70a0220.22f260.00fe.GAE@google.com>
 References: <69122a96.a70a0220.22f260.00fe.GAE@google.com>
@@ -62,51 +63,30 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If a rb node with the same ino already exists in the rb tree, the newly
-alloced mft_inode in ni_add_subrecord() will not have its memory cleaned
-up, which leads to the memory leak issue reported by syzbot.
-
-The best option to avoid this issue is to put the newly alloced mft node
-when a rb node with the same ino already exists in the rb tree and return
-the rb node found in the rb tree to the parent layer.
-
-syzbot reported:
-BUG: memory leak
-unreferenced object 0xffff888110bef280 (size 128):
-  backtrace (crc 126a088f):
-    ni_add_subrecord+0x31/0x180 fs/ntfs3/frecord.c:317
-    ntfs_look_free_mft+0xf0/0x790 fs/ntfs3/fsntfs.c:715
-
-BUG: memory leak
-unreferenced object 0xffff888109093400 (size 1024):
-  backtrace (crc 7197c55e):
-    mi_init+0x2b/0x50 fs/ntfs3/record.c:105
-    mi_format_new+0x40/0x220 fs/ntfs3/record.c:422
+After ntfs_look_free_mft() executes successfully, all subsequent code
+that fails to execute must put mi.
 
 Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-Reported-by: syzbot+3932ccb896e06f7414c9@syzkaller.appspotmail.com
 Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 ---
- fs/ntfs3/frecord.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ fs/ntfs3/frecord.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 8f9fe1d7a690..b6cbc1fc3455 100644
+index b6cbc1fc3455..e5a005d216f3 100644
 --- a/fs/ntfs3/frecord.c
 +++ b/fs/ntfs3/frecord.c
-@@ -325,8 +325,10 @@ bool ni_add_subrecord(struct ntfs_inode *ni, CLST rno, struct mft_inode **mi)
+@@ -1017,9 +1017,9 @@ static int ni_ins_attr_ext(struct ntfs_inode *ni, struct ATTR_LIST_ENTRY *le,
  
- 	mi_get_ref(&ni->mi, &m->mrec->parent_ref);
+ out2:
+ 	ni_remove_mi(ni, mi);
+-	mi_put(mi);
  
--	ni_add_mi(ni, m);
--	*mi = m;
-+	*mi = ni_ins_mi(ni, &ni->mi_tree, m->rno, &m->node);
-+	if (*mi != m)
-+		mi_put(m);
-+
- 	return true;
- }
+ out1:
++	mi_put(mi);
+ 	ntfs_mark_rec_free(sbi, rno, is_mft);
  
+ out:
 -- 
 2.43.0
 
