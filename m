@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6E82D5C91;
-	Wed, 19 Nov 2025 02:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E6AF9D9;
+	Wed, 19 Nov 2025 04:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763520712; cv=none; b=k0WOpf45CB/8/Sp4o+MjxStOEajMXmXcA0a/2uYALTtnKr8MCbAQg00EhX5cWcU/tyrNT3bYDXtBxQxM+lTLSPi2Q4Jn0eYgSTwQaR/TzcLrEKkow/KR9hbP17GqRbPad0wnx7WGarUzU7go2vvdZLxI1ol7MPosoDa4s4VOE4g=
+	t=1763525278; cv=none; b=uDA2ev3wD81i55uI5ldvJD10nZGN9dyzi2eHH50BnrcsbQiuzM4U3uvbUbuSqaFusJZ4ke/7jUWsUDtytQdhpsHs138xJ9N9S5fLy3D/lVjoIC9/JLPL8LCN8//xhCQYZWFXdRDlVla1GAZGZ5lUNx1vHmcmHRB2wmQ7nZ7jzbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763520712; c=relaxed/simple;
-	bh=f59lkW1kLsorsgVtNx1U5dbGIq5GqpNOYfD81YTZl84=;
+	s=arc-20240116; t=1763525278; c=relaxed/simple;
+	bh=PXKxhAplBz4aozmWWBxa9fj9MVAkQZ0bQvNiMyEJolY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cdYJSNeOUnkGHpk7/TD4CEPx8jD5dEGqfAyFpIoNLJuIRkuqIDJD5BqVoAEiTOozfDl1az1Qf63DCUH70XI/wXfwDRrbCVaHdBBRMeBIF5Wp9QfCzDU2uS8CbyV5B/wdTXYSMJCBiUkuSziNllrpcoMIsXuUrZSGxtC11Tr4gwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PgZNmtWL; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ww4fdbW3ms7q7XnU5VLF6twwnRQbvBAdNS0Mf4pf8W9YbNP5VAO+RuzzfUGUX/4amDHPmNKM4B+b89pCVCCJuJYkWZsTgJV2qT4vcDs1nftbff3KERO+MZ7wBIjNXSuDOsr4ainC68Rq120xJ2ZSzyEYH0WytySLPuZIUQbDJmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kHrgQ5ki; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PgZNmtWL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kHrgQ5ki"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763520709; x=1795056709;
+  t=1763525276; x=1795061276;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=f59lkW1kLsorsgVtNx1U5dbGIq5GqpNOYfD81YTZl84=;
-  b=PgZNmtWLfdGW2jJJh0bP+vGjj4UelcnRs6ku5gbhF5d/Yd6e6oR4/lS2
-   X5R95FbWCE7ZTAMUwzpSpe42dYxI4k/ZGoNArbSWW34E1PAe01DIBZUsh
-   H1qHXiZw2iu7TDLX38bulSovZAAl0p9hPi4KTVJVeN4nPGV0F3e7AzzXh
-   YCLdl2b/MdCAc2MY0IlWgPt+dh66Ibm37JueWGtshqKfEQ3Dp2YUUm3JG
-   bwq0S/IlEl+k+2dl4gouTtPy4YQeFeAHsknqiJed0DXw94hmnw8+XnD9c
-   rTy79UzaSxs2i10e74ORbt5zuS2kvlnz865k5xH6odtyVNRrVG/wD1YDb
-   g==;
-X-CSE-ConnectionGUID: lvbXoeb6Rcak4TE31crAhQ==
-X-CSE-MsgGUID: uPlORweSQGqge2pHNZ6mTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="76660158"
+  bh=PXKxhAplBz4aozmWWBxa9fj9MVAkQZ0bQvNiMyEJolY=;
+  b=kHrgQ5kiZu/YvlCcIgwDviwh+X7txz5ZwZ3KtNRgFAthwEAgU6u2JU/J
+   cHVnS26wuEJw0sRTaeJj8HKRS19UYnIWouqat/K450JR8zpufTwkyq4dF
+   Y7Q1HoBR6KYiGeXYsFC2VL4wqf5FqGM2bgTkFQL7hPJezdkIVv+D6/9kQ
+   SziXeYMqxopAuSxz9CJRmR5XKJKjp5B0ql1iE0H4E7v4O2Ak3RWg/NeoW
+   b9pH4I4o+29wwbM3bD1OT3eVF8uNXqbhGAqQTln9nbgexlus9n9zxu0Zm
+   i24xgZ9POWhMMplSyaqqlb/s6Jdzw+F1xSlOaB0yAfet3wYyzu8gMZ4jA
+   Q==;
+X-CSE-ConnectionGUID: S9ZN0/hQRfWGphmPV1Qp3w==
+X-CSE-MsgGUID: k01DF4PKTJ2IEQonjGR9YA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="82949475"
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="76660158"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 18:51:48 -0800
-X-CSE-ConnectionGUID: /UTULZkSSMeUHoEUgtgfBA==
-X-CSE-MsgGUID: UGMkM4H5QlOWBxOgduCEMg==
+   d="scan'208";a="82949475"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 20:07:56 -0800
+X-CSE-ConnectionGUID: 7cG798WRRMSFzKCCqLAXtg==
+X-CSE-MsgGUID: 7VRbNMovSve5IWrMkcNf1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="195855738"
+   d="scan'208";a="228279822"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Nov 2025 18:51:47 -0800
+  by orviesa001.jf.intel.com with ESMTP; 18 Nov 2025 20:07:55 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLYIL-0002NT-0I;
-	Wed, 19 Nov 2025 02:51:45 +0000
-Date: Wed, 19 Nov 2025 10:51:02 +0800
+	id 1vLZU0-0002RL-0u;
+	Wed, 19 Nov 2025 04:07:52 +0000
+Date: Wed, 19 Nov 2025 12:07:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	ntfs3@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Subject: Re: [PATCH] fs/ntfs3: check for shutdown in fsync
-Message-ID: <202511191004.GdiCxONs-lkp@intel.com>
+Message-ID: <202511191144.MLx5UTO4-lkp@intel.com>
 References: <20251118130705.411336-1-almaz.alexandrovich@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -81,31 +81,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Konstantin-Komarov/fs-ntf
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
 patch link:    https://lore.kernel.org/r/20251118130705.411336-1-almaz.alexandrovich%40paragon-software.com
 patch subject: [PATCH] fs/ntfs3: check for shutdown in fsync
-config: i386-buildonly-randconfig-004-20251119 (https://download.01.org/0day-ci/archive/20251119/202511191004.GdiCxONs-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191004.GdiCxONs-lkp@intel.com/reproduce)
+config: arm-randconfig-001-20251119 (https://download.01.org/0day-ci/archive/20251119/202511191144.MLx5UTO4-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191144.MLx5UTO4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511191004.GdiCxONs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511191144.MLx5UTO4-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/ntfs3/file.c:1381:5: warning: no previous prototype for function 'ntfs_file_fsync' [-Wmissing-prototypes]
-    1381 | int ntfs_file_fsync(struct file *file, loff_t start, loff_t end, int datasync)
-         |     ^
-   fs/ntfs3/file.c:1381:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1381 | int ntfs_file_fsync(struct file *file, loff_t start, loff_t end, int datasync)
-         | ^
-         | static 
-   fs/ntfs3/file.c:1415:12: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-    1415 |         .fsync          = ntfs_file_fsync,
-         |                           ^~~~~~~~~~~~~~~
-   fs/ntfs3/file.c:1412:12: note: previous initialization is here
-    1412 |         .fsync          = generic_file_fsync,
-         |                           ^~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+>> fs/ntfs3/file.c:1381:5: warning: no previous prototype for 'ntfs_file_fsync' [-Wmissing-prototypes]
+    int ntfs_file_fsync(struct file *file, loff_t start, loff_t end, int datasync)
+        ^~~~~~~~~~~~~~~
+   fs/ntfs3/file.c:1415:12: warning: initialized field overwritten [-Woverride-init]
+     .fsync  = ntfs_file_fsync,
+               ^~~~~~~~~~~~~~~
+   fs/ntfs3/file.c:1415:12: note: (near initialization for 'ntfs_file_operations.fsync')
 
 
 vim +/ntfs_file_fsync +1381 fs/ntfs3/file.c
