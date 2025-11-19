@@ -1,122 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E6AF9D9;
-	Wed, 19 Nov 2025 04:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC403358CA;
+	Wed, 19 Nov 2025 09:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763525278; cv=none; b=uDA2ev3wD81i55uI5ldvJD10nZGN9dyzi2eHH50BnrcsbQiuzM4U3uvbUbuSqaFusJZ4ke/7jUWsUDtytQdhpsHs138xJ9N9S5fLy3D/lVjoIC9/JLPL8LCN8//xhCQYZWFXdRDlVla1GAZGZ5lUNx1vHmcmHRB2wmQ7nZ7jzbA=
+	t=1763543434; cv=none; b=e6rwZjM6zeB5pMiJ9zBocy9xOQ9WgXoNrUKCzyv39JHwqq0RFq0On080EewNR18aauFUmsodRv2DKSEdsXpxzAzrbxeqkRwPD5T1up8T8YMTa5wcEZ3yNFDoIizcD1TRwQ39Dzi77Jt2oGrZ56YkSv4Pmpqp6jkRGE42T84+/2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763525278; c=relaxed/simple;
-	bh=PXKxhAplBz4aozmWWBxa9fj9MVAkQZ0bQvNiMyEJolY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ww4fdbW3ms7q7XnU5VLF6twwnRQbvBAdNS0Mf4pf8W9YbNP5VAO+RuzzfUGUX/4amDHPmNKM4B+b89pCVCCJuJYkWZsTgJV2qT4vcDs1nftbff3KERO+MZ7wBIjNXSuDOsr4ainC68Rq120xJ2ZSzyEYH0WytySLPuZIUQbDJmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kHrgQ5ki; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763543434; c=relaxed/simple;
+	bh=z31FjG8X/w1eafkWHYQVFMlMDVZIuMqR2hyTgueQSBw=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=q3qSw/UtPPRmYJRcUlbg4pJu4HTvC/Hm3NMwA4xHB6qCQgwjvgwDmOoTDPcxyCVbQfA+L/nt+7yJ1QYrX9x61IZdq+h224ZzXBakNMDr8cZnC666yn9oyGwjsMhgc1dVIk92eF0s1NdW77mCLE/HYi4kXZS4xoYbGv77ywLBBrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=B2bCDg6K; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kHrgQ5ki"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763525276; x=1795061276;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PXKxhAplBz4aozmWWBxa9fj9MVAkQZ0bQvNiMyEJolY=;
-  b=kHrgQ5kiZu/YvlCcIgwDviwh+X7txz5ZwZ3KtNRgFAthwEAgU6u2JU/J
-   cHVnS26wuEJw0sRTaeJj8HKRS19UYnIWouqat/K450JR8zpufTwkyq4dF
-   Y7Q1HoBR6KYiGeXYsFC2VL4wqf5FqGM2bgTkFQL7hPJezdkIVv+D6/9kQ
-   SziXeYMqxopAuSxz9CJRmR5XKJKjp5B0ql1iE0H4E7v4O2Ak3RWg/NeoW
-   b9pH4I4o+29wwbM3bD1OT3eVF8uNXqbhGAqQTln9nbgexlus9n9zxu0Zm
-   i24xgZ9POWhMMplSyaqqlb/s6Jdzw+F1xSlOaB0yAfet3wYyzu8gMZ4jA
-   Q==;
-X-CSE-ConnectionGUID: S9ZN0/hQRfWGphmPV1Qp3w==
-X-CSE-MsgGUID: k01DF4PKTJ2IEQonjGR9YA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="82949475"
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="82949475"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 20:07:56 -0800
-X-CSE-ConnectionGUID: 7cG798WRRMSFzKCCqLAXtg==
-X-CSE-MsgGUID: 7VRbNMovSve5IWrMkcNf1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="228279822"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Nov 2025 20:07:55 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vLZU0-0002RL-0u;
-	Wed, 19 Nov 2025 04:07:52 +0000
-Date: Wed, 19 Nov 2025 12:07:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="B2bCDg6K"
+Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id E83E01D46;
+	Wed, 19 Nov 2025 09:07:03 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=B2bCDg6K;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 981082095;
+	Wed, 19 Nov 2025 09:10:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1763543430;
+	bh=P/IOWb5RUWCH+HALw9+9JEBa7PRFGkQmR2BBnE8EoVk=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=B2bCDg6KI6gN1gZXTu0IkWsqhydnpM0nVHbESk/jTutP4Y1qYXg+WFrCdDbCVkANX
+	 vtaYPc/F83w7hvk4ALxNg8tgLhMouA3EUFoX17ayh82P/DxN10lKsF6nnzMen19oXw
+	 a1HkEUUZUkncroNJVo58t1hjJX8aWfxTLKCDTY5k=
+Received: from localhost.localdomain (172.30.20.173) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 19 Nov 2025 12:10:29 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<lkp@intel.com>, <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: Re: [PATCH] fs/ntfs3: check for shutdown in fsync
-Message-ID: <202511191144.MLx5UTO4-lkp@intel.com>
-References: <20251118130705.411336-1-almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH v2] fs/ntfs3: check for shutdown in fsync
+Date: Wed, 19 Nov 2025 10:10:20 +0100
+Message-ID: <20251119091020.5397-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <202511191004.GdiCxONs-lkp@intel.com>
+References: <202511191004.GdiCxONs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251118130705.411336-1-almaz.alexandrovich@paragon-software.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hi Konstantin,
+Ensure fsync() returns -EIO when the ntfs3 filesystem is in forced
+shutdown, instead of silently succeeding via generic_file_fsync().
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+---
+ fs/ntfs3/file.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.18-rc6 next-20251118]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Konstantin-Komarov/fs-ntfs3-check-for-shutdown-in-fsync/20251118-210835
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20251118130705.411336-1-almaz.alexandrovich%40paragon-software.com
-patch subject: [PATCH] fs/ntfs3: check for shutdown in fsync
-config: arm-randconfig-001-20251119 (https://download.01.org/0day-ci/archive/20251119/202511191144.MLx5UTO4-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191144.MLx5UTO4-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511191144.MLx5UTO4-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/ntfs3/file.c:1381:5: warning: no previous prototype for 'ntfs_file_fsync' [-Wmissing-prototypes]
-    int ntfs_file_fsync(struct file *file, loff_t start, loff_t end, int datasync)
-        ^~~~~~~~~~~~~~~
-   fs/ntfs3/file.c:1415:12: warning: initialized field overwritten [-Woverride-init]
-     .fsync  = ntfs_file_fsync,
-               ^~~~~~~~~~~~~~~
-   fs/ntfs3/file.c:1415:12: note: (near initialization for 'ntfs_file_operations.fsync')
-
-
-vim +/ntfs_file_fsync +1381 fs/ntfs3/file.c
-
-  1377	
-  1378	/*
-  1379	 * ntfs_file_fsync - file_operations::fsync
-  1380	 */
-> 1381	int ntfs_file_fsync(struct file *file, loff_t start, loff_t end, int datasync)
-  1382	{
-  1383		struct inode *inode = file_inode(file);
-  1384		if (unlikely(ntfs3_forced_shutdown(inode->i_sb)))
-  1385			return -EIO;
-  1386	
-  1387		return generic_file_fsync(file, start, end, datasync);
-  1388	}
-  1389	
-
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 3b22c7375616..5016bccc2ac5 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -1440,6 +1440,18 @@ static ssize_t ntfs_file_splice_write(struct pipe_inode_info *pipe,
+ 	return iter_file_splice_write(pipe, file, ppos, len, flags);
+ }
+ 
++/*
++ * ntfs_file_fsync - file_operations::fsync
++ */
++static int ntfs_file_fsync(struct file *file, loff_t start, loff_t end, int datasync)
++{
++	struct inode *inode = file_inode(file);
++	if (unlikely(ntfs3_forced_shutdown(inode->i_sb)))
++		return -EIO;
++
++	return generic_file_fsync(file, start, end, datasync);
++}
++
+ // clang-format off
+ const struct inode_operations ntfs_file_inode_operations = {
+ 	.getattr	= ntfs_getattr,
+@@ -1462,7 +1474,7 @@ const struct file_operations ntfs_file_operations = {
+ 	.splice_write	= ntfs_file_splice_write,
+ 	.mmap_prepare	= ntfs_file_mmap_prepare,
+ 	.open		= ntfs_file_open,
+-	.fsync		= generic_file_fsync,
++	.fsync		= ntfs_file_fsync,
+ 	.fallocate	= ntfs_fallocate,
+ 	.release	= ntfs_file_release,
+ };
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
