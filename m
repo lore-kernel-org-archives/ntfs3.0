@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0B530DD27
-	for <ntfs3@lists.linux.dev>; Thu, 20 Nov 2025 08:44:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683BD1EEA3C;
+	Thu, 20 Nov 2025 08:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763628303; cv=none; b=ftM1CHZ5ki21za7QIfSWTA7cMaqJEh+44+O/+VoINS34yBdcbx7zJnEPA0/YG6np8SL5hdPwlUDEVTo0mMpNdZuA+hVqjrJRH3YK9arjPaQvTF/TZ+weU2tBV8e3vRk074DK6MCqrQmYNhuC2rrgHDgnGCBQBudlfZjf68wS35c=
+	t=1763628411; cv=none; b=KsuUQsVpu+CJzSILfUUU4sCw5dYhZ4OXuVaUWzgxtL8S/AJDr5oi7X0n0Dd5bKfOab1hEp6JSpFSpAcWZvW7WrCpxi1vJJBpNgGTfhuAsPknq5D6tZSci+51TD+HexH+dRRKONkFHhuxuxAFFjNdZlXgOdiCV21dXHtmJIXupb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763628303; c=relaxed/simple;
-	bh=vmDGAsN9UN+3+DFRSPIfAW47DtSM2TCXBtlCutLNQpc=;
+	s=arc-20240116; t=1763628411; c=relaxed/simple;
+	bh=l3mjIO9hACtSsl9DOyZapEVUfSdfw6kwiXyNsNC+0Gk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=AROadWQRalyWZBJ8kxndoHLaTnwBZZWcSkSZTI/vdHSjpbyxP7OM1ADtCSLn2+UYJou/yv6BMKEAXOJyVJLEj3EDm2gPGsyMtQ6iXZl/ZBuhF2UdBoanc9Io+zH5c/01gla1YbaS/XYF2tztEmiG0dPRt+Qu1y5NISHxqPD6eTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=abfaEZL2; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=ZRF8hXSc3OxxmkBqhqRejQmx8MLO8LEiQAVXqVYa0rRcG3Br6I7W2irPDvqlmFn5jJUuG5CHOO+Ou/lDrGKYbpUTTY/pzGrORDYoM/eJm1JKoLq4Yiw4jflMNILuRl1lGfUi0tap5R3z1YXOwwrD0QzbGzK9MmcBmov2Mffq3bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=tLx99VWa; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="abfaEZL2"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="tLx99VWa"
 Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 30C1626;
-	Thu, 20 Nov 2025 08:41:29 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 0F6D326;
+	Thu, 20 Nov 2025 08:43:19 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=abfaEZL2;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=tLx99VWa;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id A5CBC1FA3;
-	Thu, 20 Nov 2025 08:44:56 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 894DB1FA3;
+	Thu, 20 Nov 2025 08:46:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1763628296;
-	bh=1y3Nl9mFTd19+WV5/l9EH/o1DTQKWXLMx3ryyp4JctA=;
+	d=paragon-software.com; s=mail; t=1763628406;
+	bh=jOCjSAED0ZhZdaYclzVInOSOFItaiptGx5fsnmde14A=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=abfaEZL28QtDq5UUCt5dCoBblur2JWt3DFxey4iWyvA7JVteLNywTw6bENXD6VL+9
-	 ofEBdyVoydaRkoCCs3I3xdGCtUzCt9pTPQIiedupIak+ZUKY5Ibr78lAhqN0WpeVPU
-	 YCEzfv2jYgv8XWnq+kyRoV4tvqhss6KUci+AoRLs=
+	b=tLx99VWamtABEjEDz5/zA0LvR4F1vaLHPVmOdSzW9nNSSe+xfC9adx64sy9bI9z9k
+	 VJe5aj9R5biUzKQ5rg+Oi9gwl2QUA4yxc9F62QnXs+GePp6s56doQ25o0mn9bY91ca
+	 ZqZIWjly6h6M0vS8gtLR3M3AVLWgjMveBUd96NyU=
 Received: from [192.168.95.128] (172.30.20.202) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 20 Nov 2025 11:44:55 +0300
-Message-ID: <2a38980f-2ce7-45e9-adf2-ce04c68be398@paragon-software.com>
-Date: Thu, 20 Nov 2025 09:44:53 +0100
+ 15.1.2375.7; Thu, 20 Nov 2025 11:46:44 +0300
+Message-ID: <1c018215-0ce2-48dd-aced-1fe373a42358@paragon-software.com>
+Date: Thu, 20 Nov 2025 09:46:43 +0100
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,202 +45,83 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ntfs3: fix use-after-free of sbi->options in cmp_fnames
-To: YangWen <anmuxixixi@gmail.com>
+Subject: Re: [PATCH v2] ntfs3: fix uninit memory after failed mi_read in
+ mi_format_new
+To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
 CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<syzbot+d77c546c60db651a389c@syzkaller.appspotmail.com>
-References: <20250910151708.28810-1-anmuxixixi@gmail.com>
+	<syzbot+7a2ba6b7b66340cff225@syzkaller.appspotmail.com>,
+	<linux-kernel-mentees@lists.linux.dev>, <skhan@linuxfoundation.org>,
+	<david.hunter.linux@gmail.com>, <khalid@kernel.org>
+References: <20251012201635.378419-2-rpthibeault@gmail.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20250910151708.28810-1-anmuxixixi@gmail.com>
+In-Reply-To: <20251012201635.378419-2-rpthibeault@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 9/10/25 17:17, YangWen wrote:
+On 10/12/25 22:16, Raphael Pinsonneault-Thibeault wrote:
 
-> BUG: KASAN: slab-use-after-free in cmp_fnames+0x292/0x2a0 fs/ntfs3/index.c:50
-> Read of size 2 at addr ffff88801f6da2dc by task syz.7.385/9323
+> Fix a KMSAN un-init bug found by syzkaller.
 >
-> CPU: 0 UID: 0 PID: 9323 Comm: syz.7.385 Tainted: G        W           6.17.0-rc1-syzkaller-00211-g90d970cade8e #0 PREEMPT_{RT,(full)}
-> Tainted: [W]=WARN
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/12/2025
-> Call Trace:
->   <TASK>
->   dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
->   print_address_description mm/kasan/report.c:378 [inline]
->   print_report+0xca/0x240 mm/kasan/report.c:482
->   kasan_report+0x118/0x150 mm/kasan/report.c:595
->   cmp_fnames+0x292/0x2a0 fs/ntfs3/index.c:50
->   hdr_find_e+0x3c6/0x630 fs/ntfs3/index.c:762
->   indx_find+0x516/0xba0 fs/ntfs3/index.c:1186
->   dir_search_u+0x15f/0x2c0 fs/ntfs3/dir.c:254
->   ntfs_lookup+0xfb/0x1f0 fs/ntfs3/namei.c:85
->   lookup_one_qstr_excl+0x12e/0x360 fs/namei.c:1697
->   filename_create+0x224/0x3c0 fs/namei.c:4140
->   do_mknodat+0x184/0x4d0 fs/namei.c:4272
->   __do_sys_mknodat fs/namei.c:4313 [inline]
->   __se_sys_mknodat fs/namei.c:4310 [inline]
->   __x64_sys_mknodat+0xa7/0xc0 fs/namei.c:4310
->   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->   do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
->   entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7f763f38ebe9
-> Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007f763d5d5038 EFLAGS: 00000246 ORIG_RAX: 0000000000000103
-> RAX: ffffffffffffffda RBX: 00007f763f5b6090 RCX: 00007f763f38ebe9
-> RDX: 00000000000021c0 RSI: 0000200000000040 RDI: ffffffffffffff9c
-> RBP: 00007f763f411e19 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000103 R11: 0000000000000246 R12: 0000000000000000
-> R13: 00007f763f5b6128 R14: 00007f763f5b6090 R15: 00007ffca1693878
->   </TASK>
+> ntfs_get_bh() expects a buffer from sb_getblk(), that buffer may not be
+> uptodate. We do not bring the buffer uptodate before setting it as
+> uptodate. If the buffer were to not be uptodate, it could mean adding a
+> buffer with un-init data to the mi record. Attempting to load that record
+> will trigger KMSAN.
 >
-> Allocated by task 9322:
->   kasan_save_stack mm/kasan/common.c:47 [inline]
->   kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
->   poison_kmalloc_redzone mm/kasan/common.c:388 [inline]
->   __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:405
->   kasan_kmalloc include/linux/kasan.h:260 [inline]
->   __kmalloc_cache_noprof+0x1a8/0x320 mm/slub.c:4396
->   kmalloc_noprof include/linux/slab.h:905 [inline]
->   kzalloc_noprof include/linux/slab.h:1039 [inline]
->   __ntfs_init_fs_context fs/ntfs3/super.c:1761 [inline]
->   ntfs_init_fs_context+0x54/0x4c0 fs/ntfs3/super.c:1806
->   alloc_fs_context+0x659/0x7e0 fs/fs_context.c:318
->   do_remount fs/namespace.c:3299 [inline]
->   path_mount+0xc25/0xfe0 fs/namespace.c:4112
->   do_mount fs/namespace.c:4133 [inline]
->   __do_sys_mount fs/namespace.c:4344 [inline]
->   __se_sys_mount+0x317/0x410 fs/namespace.c:4321
->   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->   do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
->   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> Avoid this by setting the buffer as uptodate, if it’s not already, by
+> overwriting it.
 >
-> Freed by task 9322:
->   kasan_save_stack mm/kasan/common.c:47 [inline]
->   kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
->   kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:576
->   poison_slab_object mm/kasan/common.c:243 [inline]
->   __kasan_slab_free+0x5b/0x80 mm/kasan/common.c:275
->   kasan_slab_free include/linux/kasan.h:233 [inline]
->   slab_free_hook mm/slub.c:2417 [inline]
->   slab_free mm/slub.c:4680 [inline]
->   kfree+0x195/0x550 mm/slub.c:4879
->   put_fs_context+0x123/0x790 fs/fs_context.c:524
->   do_remount fs/namespace.c:3326 [inline]
->   path_mount+0xe57/0xfe0 fs/namespace.c:4112
->   do_mount fs/namespace.c:4133 [inline]
->   __do_sys_mount fs/namespace.:qc:4344 [inline]
->   __se_sys_mount+0x317/0x410 fs/namespace.c:4321
->   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->   do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
->   entry_SYSCALL_64_after_hwframe+0x77/0x7f
->
-> The root cause is that sbi->options points directly to fc->fs_private.
-> If fc->fs_private is freed while sbi still exists, sbi->options becomes
-> a dangling pointer.
->
-> This patch ensures that sbi->options is a separate copy of fc->fs_private
-> and duplicates nls_name if present. On superblock release or error,
-> sbi->options->nls_name and sbi->options are freed and sbi->options
-> is set to NULL to avoid any dangling pointer.
->
-> Reported-by: syzbot+d77c546c60db651a389c@syzkaller.appspotmail.com
-> Signed-off-by: YangWen <anmuxixixi@gmail.com>
+> Reported-by: syzbot+7a2ba6b7b66340cff225@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=7a2ba6b7b66340cff225
+> Tested-by: syzbot+7a2ba6b7b66340cff225@syzkaller.appspotmail.com
+> Fixes: 4342306f0f0d5 ("fs/ntfs3: Add file operations and implementation")
+> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
 > ---
->   fs/ntfs3/super.c | 47 +++++++++++++++++++++++++++++++++++++++--------
->   1 file changed, 39 insertions(+), 8 deletions(-)
 >
-> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-> index ddff94c091b8..6f4aab96e999 100644
-> --- a/fs/ntfs3/super.c
-> +++ b/fs/ntfs3/super.c
-> @@ -697,6 +697,14 @@ static void ntfs_put_super(struct super_block *sb)
->   
->   	/* Mark rw ntfs as clear, if possible. */
->   	ntfs_set_state(sbi, NTFS_DIRTY_CLEAR);
+> v1:
+> https://lore.kernel.org/all/20250925203701.223744-2-rpthibeault@gmail.com/
+> Differences from v1:
+> In the previous version, I thought that mi_read() returning an error was
+> a genuine reason to stop trying to format the record. That was wrong. If
+> we find that mi_read() fails and that therefore we cannot reuse an old
+> record, we should try to make a new one. It then follows that
+> ntfs_get_bh() should provide an uptodate bh for the new record.
+>
+> On testing:
+> I could not get xfstests-bld to work for ntfs3. Config nightmare. So I
+> first tested with the syzkaller repro, then tested for regressions manually
+> with a program that called all the syscall code paths touched by my change:
+> mkdir, fallocate (FALLOC_FL_COLLAPSE_RANGE), and
+> fallocate (FALLOC_FL_INSERT_RANGE).
+>
+>   fs/ntfs3/fsntfs.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+> index 938d351ebac7..0c07502fdb0f 100644
+> --- a/fs/ntfs3/fsntfs.c
+> +++ b/fs/ntfs3/fsntfs.c
+> @@ -1373,7 +1373,14 @@ int ntfs_get_bh(struct ntfs_sb_info *sbi, const struct runs_tree *run, u64 vbo,
+>   				}
+>   				if (buffer_locked(bh))
+>   					__wait_on_buffer(bh);
+> -				set_buffer_uptodate(bh);
 > +
-> +	if (sbi->options) {
-> +		unload_nls(sbi->options->nls);
-> +		kfree(sbi->options->nls);
-> +		kfree(sbi->options);
-> +		sbi->options = NULL;
-> +	}
-> +
->   	ntfs3_put_sbi(sbi);
->   }
->   
-> @@ -1198,7 +1206,8 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
->   	int err;
->   	struct ntfs_sb_info *sbi = sb->s_fs_info;
->   	struct block_device *bdev = sb->s_bdev;
-> -	struct ntfs_mount_options *options;
-> +	struct ntfs_mount_options *fc_opts;
-> +	struct ntfs_mount_options *options = NULL;
->   	struct inode *inode;
->   	struct ntfs_inode *ni;
->   	size_t i, tt, bad_len, bad_frags;
-> @@ -1215,21 +1224,36 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
->   	ref.high = 0;
->   
->   	sbi->sb = sb;
-> -	sbi->options = options = fc->fs_private;
-> -	fc->fs_private = NULL;
-> +	fc_opts = fc->fs_private;
-> +	if (!fc_opts) {
-> +		errorf(fc, "missing mount options");
-> +		return -EINVAL;
-> +	}
-> +	options = kmemdup(fc_opts, sizeof(*fc_opts), GFP_KERNEL);
-> +	if (!options)
-> +		return -ENOMEM;
-> +
-> +	if (fc_opts->nls_name) {
-> +		options->nls_name = kstrdup(fc_opts->nls_name, GFP_KERNEL);
-> +		if (!options->nls_name) {
-> +			kfree(options);
-> +			return -ENOMEM;
-> +		}
-> +	}
-> +	sbi->options = options;
->   	sb->s_flags |= SB_NODIRATIME;
->   	sb->s_magic = 0x7366746e; // "ntfs"
->   	sb->s_op = &ntfs_sops;
->   	sb->s_export_op = &ntfs_export_ops;
->   	sb->s_time_gran = NTFS_TIME_GRAN; // 100 nsec
->   	sb->s_xattr = ntfs_xattr_handlers;
-> -	if (options->nocase)
-> +	if (sbi->options->nocase)
->   		set_default_d_op(sb, &ntfs_dentry_ops);
->   
-> -	options->nls = ntfs_load_nls(options->nls_name);
-> -	if (IS_ERR(options->nls)) {
-> -		options->nls = NULL;
-> -		errorf(fc, "Cannot load nls %s", options->nls_name);
-> +	sbi->options->nls = ntfs_load_nls(sbi->options->nls_name);
-> +	if (IS_ERR(sbi->options->nls)) {
-> +		sbi->options->nls = NULL;
-> +		errorf(fc, "Cannot load nls %s", fc_opts->nls_name);
->   		err = -EINVAL;
->   		goto out;
->   	}
-> @@ -1641,6 +1665,13 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
->   put_inode_out:
->   	iput(inode);
->   out:
-> +	if (sbi && sbi->options) {
-> +		unload_nls(sbi->options->nls);
-> +		kfree(sbi->options->nls);
-> +		kfree(sbi->options);
-> +		sbi->options = NULL;
-> +	}
-> +
->   	ntfs3_put_sbi(sbi);
->   	kfree(boot2);
->   	ntfs3_put_sbi(sbi);
+> +				lock_buffer(bh);
+> +				if (!buffer_uptodate(bh))
+> +				{
+> +					memset(bh->b_data, 0, blocksize);
+> +					set_buffer_uptodate(bh);
+> +				}
+> +				unlock_buffer(bh);
+>   			} else {
+>   				bh = ntfs_bread(sb, block);
+>   				if (!bh) {
 
-Thanks. Applied, will be sent in the next pull request.
+Applied to my tree, thanks for the patch.
 
 Regards,
 Konstantin
