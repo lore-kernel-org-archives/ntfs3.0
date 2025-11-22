@@ -1,117 +1,145 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDE92D8DD4
-	for <ntfs3@lists.linux.dev>; Fri, 21 Nov 2025 17:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D68276028
+	for <ntfs3@lists.linux.dev>; Sat, 22 Nov 2025 03:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763745164; cv=none; b=Uc/uJuRIQ7lf6E5Aeey1Xbaj8Tf6Y9fbXJD5xTYTnMrf0FgPO98/lxLKjFq98Ue2K93HFKQPpqis+GDlyHMMlgHIBudgaV/M9qwYYTHABJMZFnbimmwQRQvZA7c+igNrMTgjpCkBsB6ipAnMCvFvW2z8t4QdM/JBN+OYPNXBBGU=
+	t=1763782554; cv=none; b=TPbyjbuBPxwgge5Bn88qA4cXdXVc7zqRwKdoA52nOQUuhPFqoRZSNXLfNueZBtPxrEI7mAcw2SbnGJ27ZoO03U7IbF7VLIKg91OIyikHJphZooly4UR02ttz7GQimZDMaSjM15NpsfGhwWk8c8v6G4q6PuUeEKcaakz5q3NN9VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763745164; c=relaxed/simple;
-	bh=4knX7UdpV5PqcFPGudPF/uxcuJbYSUmyGMDEJIBJ6aQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M47End10PyHYeZgOgCiScszUXOpe9rbxWnRQ6xNmGPIxa5fYvS5p5sj4PeEU2gE1+qczfFNsNClNf+5f/+FgoYLiX6LgpoNoqLhZbtJsyJTpdkTMkNPhVRpDuU7oBZwvVGHp0RRVKpWrQo4LDNgbc/jUYVStB/LT4jJ4Zow9JPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KtU+lgK2; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1763782554; c=relaxed/simple;
+	bh=DtlZjjB5GXBxNimbN1fUyBrU1LDcvuZ//NBqVnUr52c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fllKM4rfWAI3ttKFIQtR3UQqu9qR53U41qoO/Kt66f5EdJUK4c3Q+7l8pa1HFCee3U6Zjfe+is+1GpCO5c1NG9a6lvmryyjZqTmZtDsroJLkKnLKHQJVvj2x7ykFjoHF0VBxGXvscPevo8Mz1SsNqGPs1CfBzyVL3cAfxbuX2GI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=A58KSmlI; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KtU+lgK2"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A58KSmlI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1763745161;
+	s=mimecast20190719; t=1763782552;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FRU2qLfbf/wNhvSHqqWH92nPqYewb6NVEbhZtNPwvUI=;
-	b=KtU+lgK2JIHMhPTnrlcOFEvNZOemC2MZ+MBg6YGZ0FsIITfucxfh+HT6XJrrawsv1znYv8
-	8cCPXHuEoLP3fR1+vNR92maYNl05b8qtORwInLRObCAalvA3ozGOosyIgHbQyPfYy//gIw
-	2d7bJcupW+eFpa+PBI+Pq4nWOoPxKF0=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-606-prAHXKEjN2eRE5Gjg0h6TQ-1; Fri, 21 Nov 2025 12:12:40 -0500
-X-MC-Unique: prAHXKEjN2eRE5Gjg0h6TQ-1
-X-Mimecast-MFC-AGG-ID: prAHXKEjN2eRE5Gjg0h6TQ_1763745160
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-787cf398a53so28017207b3.3
-        for <ntfs3@lists.linux.dev>; Fri, 21 Nov 2025 09:12:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763745160; x=1764349960;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FRU2qLfbf/wNhvSHqqWH92nPqYewb6NVEbhZtNPwvUI=;
-        b=j4kAmXuq2A0GMLHK0wlvGRBHBjkSfszOaTSjah+Bi0l5poGZR5M/gAZQNt58jJsomd
-         9PSHUJZaOQ2MOx9nK+xKLOflWwP1Im8u/l240BNVy8I/8405heQGIIVuRihF9vzkANdV
-         TOO4pSONNg17q/YTUcaMthzreE6u6K29HhliaCJYJ0Tv1wjesw6uDjK3baK5SRtNwQDT
-         J0FZpKYGkTHw7nmb5bCMV6hK0CjjEU8UZkcfskELykrkBxB+2Xwyv5yHooY+beBncuFZ
-         E6XgNpZII1dJKUusDDt0YIqiqqqPAEVD5bATOxLHG5lp3Y6mRN116vXpgrUx9rB91vxG
-         mCXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUcYSfnNmmxmsQTI0yx7uh7dMqhCBg+xLCatjMPXIGW1bziAcR4qnlvX3IxoZhGO4BtLvdj4g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+ydUdVodwba4Q87GJzZywFV5EXsOk2SEHd+l7E9w65yh+DPeY
-	EVuulNivqt/HLriaQsSODBWRencaYW4zzdEjB8m8rRSMLYguA4Ky/zRW2jvfnc11cRAKsrzBwHq
-	8sEWuEacul3fyAUCOxDoVbgnxbgYvIy6JJFrDWzYy3KTP7lUUv+yCI6ByHDS0I9Dn7BN1xM2SKA
-	D/yem1OHD9VXlvJdj+URmFaKmEIv5Ypk0=
-X-Gm-Gg: ASbGncvz3PSyJ0F4hBml9EcBhy/bNWmJb+aIrVZ4r7VuFdKJsS+zW7TYnQTmrsU9oUl
-	hBqZO5XZOGjvHCurgOU5xAxRbRODSJWw9zdifyBL8Mu96rjVPwjXOmk9XL/XkQrFHu1Imob07xX
-	w3SI5dIivNEBZvIBTZIllwRHzuXzQLq93ZJHqVbf7/lZ2DOm45fpJAaVJnvrfj7f3u
-X-Received: by 2002:a05:690c:4c09:b0:787:bf16:d489 with SMTP id 00721157ae682-78a8b5681a0mr24167017b3.62.1763745160074;
-        Fri, 21 Nov 2025 09:12:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFJMtLvkeHiv5tBcVk8Zunn6fcLBfbMFj2OlEQ7sDWssH1e01yWoO2IMY4KicgI4AI0qMGjQLfshccde2mHq/o=
-X-Received: by 2002:a05:690c:4c09:b0:787:bf16:d489 with SMTP id
- 00721157ae682-78a8b5681a0mr24166847b3.62.1763745159764; Fri, 21 Nov 2025
- 09:12:39 -0800 (PST)
+	bh=Jjkw7I36uekbrB3Ab3Kh8mBpfHiwM7PFy2Oe3WuWs0A=;
+	b=A58KSmlIMk7j1oA5um6YFghzlPke5I//tpG3YlL9/C1ZGBJA5e4vJ+zPqcd0cF+MC7IpEA
+	TQh6W3cDZLwtDWjVylh8tEYc+wxPsmBsBa+P1BfKHWiIGD6b6+QokCGIkXUuXKyvYkglVu
+	luVlOoq+G+LEBl/s9X9yIoWsni6FBog=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-141-1VuEGGSHOMylSb3CeDK9wg-1; Fri,
+ 21 Nov 2025 22:35:46 -0500
+X-MC-Unique: 1VuEGGSHOMylSb3CeDK9wg-1
+X-Mimecast-MFC-AGG-ID: 1VuEGGSHOMylSb3CeDK9wg_1763782544
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CC2E1180049F;
+	Sat, 22 Nov 2025 03:35:43 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.9])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 11E371956045;
+	Sat, 22 Nov 2025 03:35:35 +0000 (UTC)
+Date: Sat, 22 Nov 2025 11:35:31 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: zhangshida <starzhangzsd@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	nvdimm@lists.linux.dev, virtualization@lists.linux.dev,
+	linux-nvme@lists.infradead.org, gfs2@lists.linux.dev,
+	ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org,
+	zhangshida@kylinos.cn
+Subject: Re: Fix potential data loss and corruption due to Incorrect BIO
+ Chain Handling
+Message-ID: <aSEvg8z9qxSwJmZn@fedora>
+References: <20251121081748.1443507-1-zhangshida@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251121081748.1443507-1-zhangshida@kylinos.cn> <20251121081748.1443507-3-zhangshida@kylinos.cn>
-In-Reply-To: <20251121081748.1443507-3-zhangshida@kylinos.cn>
-From: Andreas Gruenbacher <agruenba@redhat.com>
-Date: Fri, 21 Nov 2025 18:12:28 +0100
-X-Gm-Features: AWmQ_bnhlFe4bz2evbPrSI0Jb0EHnrWDpAVAemzJqi8jgCPnPPGI5CuseKDcbLY
-Message-ID: <CAHc6FU7eL6Xuoc5dYjm9pYLr=akDH6ETow_yNPR0JpLGcz8QWw@mail.gmail.com>
-Subject: Re: [PATCH 2/9] block: export bio_chain_and_submit
-To: zhangshida <starzhangzsd@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	nvdimm@lists.linux.dev, virtualization@lists.linux.dev, 
-	linux-nvme@lists.infradead.org, gfs2@lists.linux.dev, ntfs3@lists.linux.dev, 
-	linux-xfs@vger.kernel.org, zhangshida@kylinos.cn
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Zjb-UsbKPU6IFtU2oO_1xGhzTK1ftfDwcJohLhcsu_8_1763745160
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251121081748.1443507-1-zhangshida@kylinos.cn>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Fri, Nov 21, 2025 at 9:27=E2=80=AFAM zhangshida <starzhangzsd@gmail.com>=
- wrote:
+On Fri, Nov 21, 2025 at 04:17:39PM +0800, zhangshida wrote:
 > From: Shida Zhang <zhangshida@kylinos.cn>
->
-> Signed-off-by: Shida Zhang <zhangshida@kylinos.cn>
-> ---
->  block/bio.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/block/bio.c b/block/bio.c
-> index 55c2c1a0020..a6912aa8d69 100644
-> --- a/block/bio.c
-> +++ b/block/bio.c
-> @@ -363,6 +363,7 @@ struct bio *bio_chain_and_submit(struct bio *prev, st=
-ruct bio *new)
->         }
->         return new;
->  }
-> +EXPORT_SYMBOL_GPL(bio_chain_and_submit);
->
->  struct bio *blk_next_bio(struct bio *bio, struct block_device *bdev,
->                 unsigned int nr_pages, blk_opf_t opf, gfp_t gfp)
-> --
-> 2.34.1
+> 
+> Hello everyone,
+> 
+> We have recently encountered a severe data loss issue on kernel version 4.19,
+> and we suspect the same underlying problem may exist in the latest kernel versions.
+> 
+> Environment:
+> *   **Architecture:** arm64
+> *   **Page Size:** 64KB
+> *   **Filesystem:** XFS with a 4KB block size
+> 
+> Scenario:
+> The issue occurs while running a MySQL instance where one thread appends data
+> to a log file, and a separate thread concurrently reads that file to perform
+> CRC checks on its contents.
+> 
+> Problem Description:
+> Occasionally, the reading thread detects data corruption. Specifically, it finds
+> that stale data has been exposed in the middle of the file.
+> 
+> We have captured four instances of this corruption in our production environment.
+> In each case, we observed a distinct pattern:
+>     The corruption starts at an offset that aligns with the beginning of an XFS extent.
+>     The corruption ends at an offset that is aligned to the system's `PAGE_SIZE` (64KB in our case).
+> 
+> Corruption Instances:
+> 1.  Start:`0x73be000`, **End:** `0x73c0000` (Length: 8KB)
+> 2.  Start:`0x10791a000`, **End:** `0x107920000` (Length: 24KB)
+> 3.  Start:`0x14535a000`, **End:** `0x145b70000` (Length: 8280KB)
+> 4.  Start:`0x370d000`, **End:** `0x3710000` (Length: 12KB)
+> 
+> After analysis, we believe the root cause is in the handling of chained bios, specifically
+> related to out-of-order io completion.
+> 
+> Consider a bio chain where `bi_remaining` is decremented as each bio in the chain completes.
+> For example,
+> if a chain consists of three bios (bio1 -> bio2 -> bio3) with
+> bi_remaining count:
+> 1->2->2
 
-Can this and the following patches please go in a separate patch
-queue? It's got nothing to do with the bug.
+Right.
+
+> if the bio completes in the reverse order, there will be a problem. 
+> if bio 3 completes first, it will become:
+> 1->2->1
+
+Yes.
+
+> then bio 2 completes:
+> 1->1->0
+
+No, it is supposed to be 1->1->1.
+
+When bio 1 completes, it will become 0->0->0
+
+bio3's `__bi_remaining` won't drop to zero until bio2's reaches
+zero, and bio2 won't be done until bio1 is ended.
+
+Please look at bio_endio():
+
+void bio_endio(struct bio *bio)
+{
+again:
+	if (!bio_remaining_done(bio))
+		return;
+	...
+	if (bio->bi_end_io == bio_chain_endio) {
+		bio = __bio_chain_endio(bio);
+        goto again;
+	}
+	...
+}
+
 
 Thanks,
-Andreas
+Ming
 
