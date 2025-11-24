@@ -1,76 +1,132 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B311A0BD0
-	for <ntfs3@lists.linux.dev>; Mon, 24 Nov 2025 00:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4DB259C80
+	for <ntfs3@lists.linux.dev>; Mon, 24 Nov 2025 01:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763945825; cv=none; b=G0urMs5DkUgpQts0aV4dpMYvRylxIqHUfzfk6cJfHlYTjBaKmEzpjY/Zc0xV6Waq12mK2I66OTmW1JsS0ErMzYj0e5VeUDkUq/6xYb4OhtzjhvYdxhgNtZdCOAC35IHBTR1uwFJmQ37orioGlZ2nbyVdKnMW/+dIhXXriFVsS8s=
+	t=1763947728; cv=none; b=hcNmJOTeePTTgCz9kWtFPIgfxkTDzRjsgh5HjtvE5Kb2/zywZ1VVpdYSOpLeyO4gJDY4CsVIvMERW5oUoyjVKBf/SJP1+y2daZ2nt7Pje/PqjzGb6DZDGKCHUFYjuOYvEqcObfmCny4+K1CjFaWfvPD4jdGEvmjoeK9SxrX+0GU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763945825; c=relaxed/simple;
-	bh=dpCiPzAIeVgX5++J/5+WfZ2c/FVoGFonloJu10MAfFQ=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=WnrmpOdozYK1Q6b075ETem4lclGxI344wFukThk/xP1VcoGalQTHe0mli8nUJNuyOBppI4oC7KfSk3PSI+3Dbi9eHUGV90p56OxjrZDcWvKCPQATg21wZB+LqfHhPp7bmGP2+JezO8VYl3mMH4saWfkMlQQtfopsmlvdRQnUK5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-43377f5ae6fso39966695ab.1
-        for <ntfs3@lists.linux.dev>; Sun, 23 Nov 2025 16:57:03 -0800 (PST)
+	s=arc-20240116; t=1763947728; c=relaxed/simple;
+	bh=Tdtix09h6RcCKm+k90F10JITFmAMc7QjiDjFYuJxxsM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TPaDQFERlmp897e3g5QWquiBiQqyTKJ7jMdVYUtfFn3sUa6UMrlWie8nXWHBowu6+X8r6As8SJVkP95xpAJr3sAnFhWYY59M1311GTQQ4hmSeQrW1YBoXK1SIiSqQrHDb/YPzsxxcJz44xQolQbqLiDosjDfPjqxaiWesI9ys4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X12erFp4; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X12erFp4"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4ee1a3ef624so25038331cf.0
+        for <ntfs3@lists.linux.dev>; Sun, 23 Nov 2025 17:28:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763947725; x=1764552525; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y/rWYDjm0xShtpWJ/wMbqIqCozvhm5iHYOzGvjLTIVQ=;
+        b=X12erFp4huV92f5OSxMo9GAWcUTYRMdr+QxMHYP88oq+BYfKDLErxOznnUnso+E5Ab
+         oz7lnZ3unQj3yuASvRWMd2tuvhwqQn6saUPa9fa9kOenuQLvVKH09cbMnezTgCeTi1BV
+         7IByyDrIEdHiCQ3Rz6hG4i5jWAVR7vhEAa7bssi8Z2mmEoN5kO5hW0zLp43oFuYO2MKm
+         BhaEos5b42jUxSUh9WbqVANb9rhzzw43P1ssSn/1CswP/tSQUOVn/N1lArxsMDcrbaEr
+         ay4q1caX3WPi5EToCaMFM7Utx4z4HsBAjeZ08N9Lf8N1o0CiaisDJlkWhJP106UkoODD
+         R8rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763945823; x=1764550623;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=m/4fCOC4PpktK3rYrYe8yxO/WowO2dsX2aVI3vzm/Hk=;
-        b=w6M+hUBvGxOYw49woVgEGeIVxHUfnxILyI3vgfS8Jwq8MFuImCaApaLhztl9QKb6eR
-         sfqYKT0Iqtd3N06zmS6SxryANaVctggAjyTc/8AV3TDc2DPH0R+wm8tEI/58jBXXQFEs
-         3eYk68qjYrSYJL8920vDIEtWN2Y85Mn9I6VsTE27ynmAzxRn25GS4KHDchYWXftWw5Oo
-         CthuXYXJv/9ksqtt12MVnPt1kip2yI8oU6a6AlRmtwzL5V8I8wfmSOoB+Tgq8sdEr53x
-         nXGQsfYdIs3+ncOW8Ukz0XfKnjnb/rPgnnrAG8Os1kFB5F9Pz3Avt64s59QcDqNYbTWb
-         3SxA==
-X-Forwarded-Encrypted: i=1; AJvYcCV3Dsl5eRbvRl8I++6UVPnN6hGVQqQw4U5m18Gms4bvz3Uwe0eEGAp3SFsZKQETi2UOv/7Vyg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw0PFrx94HJ83lPHIYbpSbysTOz1c6JN6v8QWH5zaIJuS5i//iU
-	AJxgCfHVZHEK7hUrkuIFddP6YyqX6I1lcHSwrFafC8jfC+zdrhlPPcHBl8TjCcDcSEdA6iRD18E
-	Wx62ImBKSZMSIWRT/UABkPL5sWfo2a6KDbab38v+6epNRYHWzpOYTyqWVhlw=
-X-Google-Smtp-Source: AGHT+IGDPJeEfOF4zHJaIy56M2IFQH/x2aTvGnfAbNijVQ5EyaL/z4SquIw9K3hsr4+SARQmeqYdjSBb3AaU8xegrWbXWCIsBGSe
+        d=1e100.net; s=20230601; t=1763947725; x=1764552525;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Y/rWYDjm0xShtpWJ/wMbqIqCozvhm5iHYOzGvjLTIVQ=;
+        b=q1DraAk9hxlfkDdPfDvWNW76OTR38jzIQxWsxBdmK/NBrtF4dK6uUicjWN4mhfDlC+
+         Ik9GGVCNimd55xj0tPkpaDxWRHMTLfd/NFlKA5FVBYYXS3xbH72qedJuoFFEo7S3mrnn
+         48sKEO2hgi/vSJzcGkUzVCGoKPZAuTiG7EjsLnS8Mk5Xu3YB7YMcIhuJRFWv4EoFDs0h
+         nRRVlzJ2JUKjBRe8wmFQ97AFSmsYWcu8fcvm6tdiBUQT/NwASXRAy/ZjbnhTAlejn5Kz
+         1Tw8lZouK69UoM1WQCOexGdm3BlTcm5gTvnS+mQJSxve23Paaa0zTn5AmEpNE5PPUvK4
+         dBKw==
+X-Forwarded-Encrypted: i=1; AJvYcCWC5XRmiMXr9dFtBM75eLuc+acubQuTNy+MHHMfQu9m0g2aN9rR1BcGJ4EOME2/7z7IVP2Sgg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwBZSwawlBVe8F2GCFhQFgADThue5rYF1zKUP5lsUW8aOLHEE+V
+	yN8lysVVHImgx15l7q0PyG+RidJdaPh8BSoHgsBCJirvDirD5BJFlgTvXtv9O6CpXj4jkQgrv/q
+	3eCi9SzEN3MQ8wKI2C7WouNm9P0quTn4=
+X-Gm-Gg: ASbGnctUd+jhKiGTXnqwYgCDVERPy/Z2O0gLws+wSonZIlQeQLsjKIgTerAjBOlzPy7
+	KhkvJnZfUA/ZR1hOZ9BYVFiJivTV5G6kn0pItzUlur4dtwoxE0YKSnw7z5f985pFkDeaMKR9naB
+	Qk1GOMxGmao+1v9gbrFCm/HtiYoUV9HnRUPy9s60MXuK+NaOw7SrmJpr7mKDrdHTV4C0VTFfwko
+	EqS+xxwQWQL0isV19ksAgpBaGEnfH8eTv62bx/hdX2WZFChdKiEVMfNLuH0FSHsps3Zl7+as4Sr
+	+ePsKQ==
+X-Google-Smtp-Source: AGHT+IFHZruP2YBfL7pdTjTDvePbwJad50RtaobjpQ37TLxnePvW54pVHPb5rvzSUyg3BEeJesXp2k7UVUVu8L9oRt8=
+X-Received: by 2002:ac8:5d0f:0:b0:4ee:2080:2597 with SMTP id
+ d75a77b69052e-4ee589103cfmr127248731cf.38.1763947725292; Sun, 23 Nov 2025
+ 17:28:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:19cf:b0:434:96ea:ff8f with SMTP id
- e9e14a558f8ab-435b98f0a6cmr78245265ab.39.1763945822935; Sun, 23 Nov 2025
- 16:57:02 -0800 (PST)
-Date: Sun, 23 Nov 2025 16:57:02 -0800
-In-Reply-To: <6q2lk36d7ylpqu2vyb3tonxniebiwdhdygbudoi5osmy2ebdtx@4luyu7tw46sv>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6923ad5e.a70a0220.d98e3.0072.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] INFO: task hung in __start_renaming
-From: syzbot <syzbot+2fefb910d2c20c0698d8@syzkaller.appspotmail.com>
-To: agruenba@redhat.com, almaz.alexandrovich@paragon-software.com, 
-	brauner@kernel.org, dhowells@redhat.com, gfs2@lists.linux.dev, jack@suse.cz, 
-	linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, marc.dionne@auristor.com, mjguzik@gmail.com, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
-	viro@zeniv.linux.org.uk
+References: <20251121081748.1443507-1-zhangshida@kylinos.cn>
+ <aSEvg8z9qxSwJmZn@fedora> <CANubcdULTQo5jF7hGSWFqXw6v5DhEg=316iFNipMbsyz64aneg@mail.gmail.com>
+ <aSGmBAP0BA_2D3Po@fedora> <CAHc6FU7+riVQBX7L2uk64A355rF+DfQ6xhP425ruQ76d_SDPGA@mail.gmail.com>
+ <aSMQyCJrqbIromUd@fedora>
+In-Reply-To: <aSMQyCJrqbIromUd@fedora>
+From: Stephen Zhang <starzhangzsd@gmail.com>
+Date: Mon, 24 Nov 2025 09:28:09 +0800
+X-Gm-Features: AWmQ_blFIl-YjYfjpEue9I17YWgGWhW3tKNMKvxlJbU5ZD_pYkwFt7d133xm8_0
+Message-ID: <CANubcdX4oOFkwt8Z5OEJMm7L5pusVZW0OaRiN8JyYoPN_F0DpA@mail.gmail.com>
+Subject: Re: Fix potential data loss and corruption due to Incorrect BIO Chain Handling
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Andreas Gruenbacher <agruenba@redhat.com>, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, nvdimm@lists.linux.dev, 
+	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
+	gfs2@lists.linux.dev, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org, 
+	zhangshida@kylinos.cn, Coly Li <colyli@fnnas.com>, linux-bcache@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Ming Lei <ming.lei@redhat.com> =E4=BA=8E2025=E5=B9=B411=E6=9C=8823=E6=97=A5=
+=E5=91=A8=E6=97=A5 21:49=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Sat, Nov 22, 2025 at 03:56:58PM +0100, Andreas Gruenbacher wrote:
+> > On Sat, Nov 22, 2025 at 1:07=E2=80=AFPM Ming Lei <ming.lei@redhat.com> =
+wrote:
+> > > > static void bio_chain_endio(struct bio *bio)
+> > > > {
+> > > >         bio_endio(__bio_chain_endio(bio));
+> > > > }
+> > >
+> > > bio_chain_endio() never gets called really, which can be thought as `=
+flag`,
+> >
+> > That's probably where this stops being relevant for the problem
+> > reported by Stephen Zhang.
+> >
+> > > and it should have been defined as `WARN_ON_ONCE(1);` for not confusi=
+ng people.
+> >
+> > But shouldn't bio_chain_endio() still be fixed to do the right thing
+> > if called directly, or alternatively, just BUG()? Warning and still
+> > doing the wrong thing seems a bit bizarre.
+>
+> IMO calling ->bi_end_io() directly shouldn't be encouraged.
+>
+> The only in-tree direct call user could be bcache, so is this reported
+> issue triggered on bcache?
+>
+> If bcache can't call bio_endio(), I think it is fine to fix
+> bio_chain_endio().
+>
+> >
+> > I also see direct bi_end_io calls in erofs_fileio_ki_complete(),
+> > erofs_fscache_bio_endio(), and erofs_fscache_submit_bio(), so those
+> > are at least confusing.
+>
+> All looks FS bio(non-chained), so bio_chain_endio() shouldn't be involved
+> in erofs code base.
+>
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+Okay, will add that.
 
-Reported-by: syzbot+2fefb910d2c20c0698d8@syzkaller.appspotmail.com
-Tested-by: syzbot+2fefb910d2c20c0698d8@syzkaller.appspotmail.com
+Thanks,
+Shida
 
-Tested on:
-
-commit:         d724c6f8 Add linux-next specific files for 20251121
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=13f3d8b4580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=68d11c703cf8e4a0
-dashboard link: https://syzkaller.appspot.com/bug?extid=2fefb910d2c20c0698d8
-compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1347d612580000
-
-Note: testing is done by a robot and is best-effort only.
+>
+> Thanks,
+> Ming
+>
