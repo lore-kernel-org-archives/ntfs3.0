@@ -1,77 +1,97 @@
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A14530EF69;
-	Thu, 27 Nov 2025 07:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52CE31A07C
+	for <ntfs3@lists.linux.dev>; Thu, 27 Nov 2025 07:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764229229; cv=none; b=i78W8sEZhBc23nt1+YWFxGzD8VEGv2CpJtGTwCevinn86qoZ0LtWJKcHFCuL1GTwNKTC1/i7NbkUF08MeHXnZFGMhNLzyKVcqoXRlQApeDeQdVkzsLC3lC8ANsXvT08/IjaHEI/hK7X5kK59AMQuWeQVzDPqscZyXv914dlX6yk=
+	t=1764229471; cv=none; b=SFJsnMl4E7LY7pop5M/6N4c1tckylniUBORIeFNp5UR7Y89pEUjFGqTwbPQBxx8PIHHn1dN/JhFJVMdHNnuJ/8B4DCRHdC27mP/HNx8VVKc5woPLA4n54nGHeEPN9lB8JvamIhRMJ9uRK5KWdnvGWQzC6QroARtiAV7EYnbnNto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764229229; c=relaxed/simple;
-	bh=v+x8m17SMep7QwNRc8L1NJ12+irfdLsoYz+Yneae5NA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gPMhLxbZQn0zxpphvNbNoKj9PvLf/P9G7kipi+5m4rgMcu0VytKobYeBunyBijwll6RFMXyH4QV/RM36a/0wTUfaxmQVHaBhYyB2Y+a78Kq0tQoHxyEPgBzpVVP4T38nq+gD6zLkxWZDzvaeH7X+V9CFMXRHKTBt5m6SWdWuJnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Nn9TcqxG; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Nn9TcqxG"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1764229222; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=nZvOZnMAnx1zOEgYP1YGj2cerA28YaqBJ135PxGutMU=;
-	b=Nn9TcqxGYPNdzPCUEb+xP6a86+VBpE6D7F72qYMMfL7NJMGj/MWBkmU6BDLOLfkMrKZdcJ/rNnrNqaGAx97iqNp8/B7J8ydksZK3CkNy6Smse2Ht/ZydHBGBYBATJha9jhT3xDapaX8lke4uICOolpl0AzxkuJvf4C1gawTuWao=
-Received: from 30.221.131.208(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0WtWMC3B_1764229221 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 27 Nov 2025 15:40:21 +0800
-Message-ID: <3a29b0d8-f13d-4566-8643-18580a859af7@linux.alibaba.com>
-Date: Thu, 27 Nov 2025 15:40:20 +0800
+	s=arc-20240116; t=1764229471; c=relaxed/simple;
+	bh=P8sgxWJEoeimp+yooNzt5Cmk0ga1Xb4FpAgDXir6OpY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=I32Rda33xDSEapvNUm7jm++VvyyrM/v0NmHDg7ZG2HLyoA9QbQ4zy1xIP53Mn9ZQW/HHvmm2bo1Ob+77kmTnbbznQ4XQHq+Vptp0BdLaFEXCmqlQDUoN56wQSi++dl92llglMI3I3YhzrQmNf7GgEUCsbIHAJtQNgWrzHQqYXoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-949026e871cso42642039f.1
+        for <ntfs3@lists.linux.dev>; Wed, 26 Nov 2025 23:44:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764229469; x=1764834269;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QUjnGrylghAkdbGBeXf2liX9400ezVp/N/1peTBT+/0=;
+        b=efYOHRO1TKgAaqvgXq3187PrTkOej8Lixgr1oHU+QcT3Pouny78gjiOb126VfrLm3u
+         s8+35pDzrEKp2TIqU1zGwDgzlNC/VO3+XvrfxNgn31AoDncDs4PV1mh5xw9S3fzqbMAy
+         JvhlqFDgFWQqPPwjAJmUpVaAKRvIDjRBQXjEwh5R6yynwVCMrbA0P9kuhGoyAn6x6low
+         7WHPpt8kDsw+Tm6eSppf2ltT/w/ECG+7l9R/k+8lewWoS7+/CoxtmSeNDPjr+Q5k1cKQ
+         a3WOi6hwrDpwg73GoxCNYllSV/veMfBQ7Ahqj5/NqorgG5jrOT7XjUWi3lNCvlYxJ4Od
+         A3qg==
+X-Forwarded-Encrypted: i=1; AJvYcCWXY8oHbLTgijazZc4EFt+YhnRhSZpYXY6H6/9//Gm0jtDVHtmWwo+FPrcIiszG/a6hf4a0vg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzky0BLUkBpjtwpgyhtROamzZ9OrGesrAHBsxi7mlb8N0JQEJg6
+	LFPLcRL8PMjyWs2HuIP04Jzb9cuzEBTr4csi3mMqENd/Zt5kkTXqgvx6qVki5v3XQteyiF8h4g2
+	/3ANO7mrA/AyThhyNYgiFdTf5y1MVNtPOI4fcuOveGo6CrydU9ODl2b4Pl3I=
+X-Google-Smtp-Source: AGHT+IG/Wnj1HOAPLtIuht680gEPJOJ/TMN7wK6hdjPkPuPr/uzT9OVzAcuXFmX8/va6QPeAYWm/YAWJvkurlglBpdzl8DH0T9Ox
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Fix potential data loss and corruption due to Incorrect BIO Chain
- Handling
-To: Christoph Hellwig <hch@infradead.org>,
- Stephen Zhang <starzhangzsd@gmail.com>
-Cc: Ming Lei <ming.lei@redhat.com>, Andreas Gruenbacher
- <agruenba@redhat.com>, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, nvdimm@lists.linux.dev,
- virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
- gfs2@lists.linux.dev, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org,
- zhangshida@kylinos.cn
-References: <20251121081748.1443507-1-zhangshida@kylinos.cn>
- <aSBA4xc9WgxkVIUh@infradead.org>
- <CANubcdVjXbKc88G6gzHAoJCwwxxHUYTzexqH+GaWAhEVrwr6Dg@mail.gmail.com>
- <aSP5svsQfFe8x8Fb@infradead.org>
- <CANubcdVgeov2fhcgDLwOmqW1BNDmD392havRRQ7Jz5P26+8HrQ@mail.gmail.com>
- <aSf6T6z6f2YqQRPH@infradead.org>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <aSf6T6z6f2YqQRPH@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a92:280d:0:b0:433:4f43:2322 with SMTP id
+ e9e14a558f8ab-435b8c181demr133643555ab.4.1764229469012; Wed, 26 Nov 2025
+ 23:44:29 -0800 (PST)
+Date: Wed, 26 Nov 2025 23:44:29 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6928015c.a70a0220.d98e3.00f5.GAE@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Nov 2025)
+From: syzbot <syzbot+list76209f953d5a6e865b37@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Christoph,
+Hello ntfs3 maintainers/developers,
 
-On 2025/11/27 15:14, Christoph Hellwig wrote:
-> On Thu, Nov 27, 2025 at 03:05:29PM +0800, Stephen Zhang wrote:
->> No, they are not using bcache.
-> 
-> Then please figure out how bio_chain_endio even gets called in this
-> setup.  I think for mainline the approach should be to fix bcache
-> and eorfs to not call into ->bi_end_io and add a BUG_ON() to
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-Just saw this.
+During the period, 3 new issues were detected and 0 were fixed.
+In total, 26 issues are still open and 70 have already been fixed.
 
-For erofs, let me fix this directly to use bio_endio() instead
-and go through the erofs (although it doesn't matter in practice
-since no chain i/os for erofs and bio interfaces are unique and
-friendly to operate bvecs for both block or non-block I/Os
-compared to awkward bvec interfaces) and I will Cc you, Ming
-and Stephen then.
+Some of the still happening issues:
 
-Thanks,
-Gao Xiang
+Ref  Crashes Repro Title
+<1>  8369    Yes   possible deadlock in run_unpack_ex
+                   https://syzkaller.appspot.com/bug?extid=731b27ee9413ba859499
+<2>  5226    Yes   possible deadlock in ntfs_fiemap
+                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+<3>  3778    Yes   possible deadlock in mark_as_free_ex (2)
+                   https://syzkaller.appspot.com/bug?extid=8df514c431bd240c5644
+<4>  3438    Yes   possible deadlock in ntfs_look_for_free_space
+                   https://syzkaller.appspot.com/bug?extid=d27edf9f96ae85939222
+<5>  3182    Yes   possible deadlock in attr_data_get_block (2)
+                   https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+<6>  504     Yes   possible deadlock in ntfs_fallocate
+                   https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
+<7>  403     Yes   possible deadlock in mi_read (2)
+                   https://syzkaller.appspot.com/bug?extid=17f812893d5906837f33
+<8>  126     Yes   INFO: task hung in do_unlinkat (5)
+                   https://syzkaller.appspot.com/bug?extid=08b113332e19a9378dd5
+<9>  31      Yes   WARNING in ni_rename (2)
+                   https://syzkaller.appspot.com/bug?extid=4d8e30dbafb5c1260479
+<10> 15      Yes   WARNING in walk_component
+                   https://syzkaller.appspot.com/bug?extid=eba014ac93ef29f83dc8
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
