@@ -1,59 +1,59 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EA542050
-	for <ntfs3@lists.linux.dev>; Fri, 28 Nov 2025 01:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26220285CA4
+	for <ntfs3@lists.linux.dev>; Fri, 28 Nov 2025 03:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764293617; cv=none; b=HRntYBLHNtTe5qlgxluXjDEIhDRdh9WVx92r1t1Nw/HIKwsdOSkHiTe/fAbw/BO8udj0C3cUyCY5EYDV9BbQo0gKXUygmgR9QC7vR3+YgzmYl+xSQepKqFklUj12fECaSXle6OlsOSgM5DrlTV0599rhBtQm0FpvrzkZ+JezSgY=
+	t=1764300209; cv=none; b=YvkL2fydFHg3Vfe6hhLnjhOcY7GYxtYPAGj82o1ChwufPgfF38YIdnpV8sl96JlmTZLmnPSVtHApSbGiLE+Ge7cv6JTf/LcCUZJ2vNLQaYK0i1JtmwCiJA0zYDUovWESiYaBbdNFZGRrJKUbf+Rtnj1g0lTsVptrkQmO3700Q4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764293617; c=relaxed/simple;
-	bh=uW7r4RZeddBNz8cscDewEXSV9y5trmetenOT44ENLvk=;
+	s=arc-20240116; t=1764300209; c=relaxed/simple;
+	bh=PNeIkz45DuQRho1DwPL9oWfBnWeiTTntIhb6ZT/FME0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V/oUFOBGF0D1llvJZARKXyJweJO1JQSHP1LNwefOyQEZ/82L7We3Bv0DjRZcj/L/bGb1wJyPQ8B02cXDVCmu1Y+Esx13OTam/egi984NWydNX9TLbxLKIp7hgx0pi/m6rZ+S6QWYv4evH/B/6X/KYffz8DKgf9kv9IZl5PGN9JY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jmwZph4+; arc=none smtp.client-ip=209.85.160.173
+	 To:Cc:Content-Type; b=q3yIDAZ0Gz3kQIcGAQcMrDv26Xg7EE7RB7S7FZm2un6T4+jeSdkpnEEP6ZQps4ZX6S2el4nwSa0tqq6h5Dyphza+pslLZewQ5rKUFDwdxXThVNT0M8eiHFnuf3+Ps4HwVQypuM7BBD5o5GWmxGVxLRoyCdBU0KFUDJ9DFqgZZuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NflQiqkD; arc=none smtp.client-ip=209.85.160.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jmwZph4+"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4eda6a8cc12so12942841cf.0
-        for <ntfs3@lists.linux.dev>; Thu, 27 Nov 2025 17:33:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NflQiqkD"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4ed66b5abf7so26422631cf.1
+        for <ntfs3@lists.linux.dev>; Thu, 27 Nov 2025 19:23:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764293614; x=1764898414; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1764300206; x=1764905006; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OCmoVsJTYhvhdEhqnCuQdxLwDfWSRN4iQRhiwDtzkSM=;
-        b=jmwZph4+n4oKfouADQk3j1drbm8X3vhOtmOePTBfSU7BzzRlXZoViy8wJRPY46trB3
-         W97B7HSIwzgngO5zL9BbqgwE4k4OtFqwTvkLVncsDPX7pQqS5T+aj5dPF/KS5GDcfSKP
-         bhyP/NxztFXkTcngDrMPU5a5x3hfsQEXXsXnOhBamSSWbULkvdSwebozJ24YhHELP+tz
-         leGle+AQh6jk7JhLiMSuj2Ez9XoW5P7T7HGMz2QAlB/aK6vEyde10SjlDfWHsoocNvos
-         cXgEICNuUau1pOwxiCp9uZUXuDiZTYtK3g6GPv5dA/1mxZDONOGQwfF1GPFhRmkwe4z0
-         GUnQ==
+        bh=QO8NwmkkI9mg0Fvr/iDdQ4VLLlyo+WunqlauIGsbobw=;
+        b=NflQiqkDHqL20Q6cjCb3Nqs79yPoiPfuwAPj+Fu8Kv8wLWTs57dO5u3VQhg4YU9x18
+         uVBqz6E/XZOwXvgVnNOpzEB2juehJ7Np/s7uHhIKcQf2UfW2aNWEZmzASt5AeF2/DH5Q
+         kgFUbUkNfHGXf1e2kXnO6X2L47XNWYiGmtuys9eh1OxrDVFbeye/R2AFB5jXit1oHFiX
+         luGpvstv1b9orCcH6GjE9cif6jzwhWYUCTyhqyMfdF0PeIFS9zSjHfN5tzhjoKz94tPI
+         NOrzHScgg5uNimbGuH2xuypf3o6Bz2+yFy8jc+PRFXfI85ZG/TFZIypX9/VGXexakXIR
+         pDIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764293614; x=1764898414;
+        d=1e100.net; s=20230601; t=1764300206; x=1764905006;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=OCmoVsJTYhvhdEhqnCuQdxLwDfWSRN4iQRhiwDtzkSM=;
-        b=t+FddD23kzPKQ2vhYIom2kPCdMyRYdlQgRX84LHC/TQEtBvEQUUOuEDjjOr5O7c6Ny
-         OmB+GhBgPI3sb5xqsKRq3uL4+ir4d5I7JRH0cBsEiDIEZDnBhuQ9JJmx6/RithxGrmx3
-         djIKxnd4llnnEFibq4/qvWSt81Yxl7sqC7KmSl6HCzcGQcSQhMLKCFPSjOVzdYJ+UVMl
-         3A1YHNCkD9Zp9a3vANJVPhEm+ss5p0S5L8kV95+aJJuZzueeQrQKuv5UwpxjGX1bw4Mf
-         1h4bh9olHf7d0U69e/x7XEWY26mWxi/erClONuKjC7WmwVwJQdpQpdz2Naf1smZ2FnU4
-         fY0g==
-X-Forwarded-Encrypted: i=1; AJvYcCU/41oPN9fXail1jJoLJbOGDQ6VxRSRYYPQkEyIi46Os+ySi8W1lDRGBomRBnCkTjvAwTTwig==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzfVVXRpIF2/gXx6n/3zt5hf3axK/ISsGjk+4lHL03sjVTZ1SpW
-	dqTWSEVVuOA7JSRB8S5ujhbJX8yIzMQ9jE975S1U2utJqP1Hz/RMP8jwYBNfpGc5jajlNW7xkIp
-	70t42wC8FB4xthfONrdssR4pBTZlEbfM=
-X-Gm-Gg: ASbGnct7mAjBrsTfu0ISA8WIkDvZTj+fMbXd9wz2HkOopbM++biThmyXpJQlItU7VI7
-	g5ZeVwMPUtLaRyyBqFjd/LZndan/V4OZQWlkTbRnAAPqZl8a41Q21nkia7OdhsP9W4yeoaJWWK8
-	uJXXyRGOMRRpnPWEK7LS1bzbDsrsOUKX0SBuOEkdG0FNLPkzMkrfNhX4jlgbgEF1QDPvMDoD+Ky
-	1ShKBkqR0VixSJvInBtErudNRBDrcj6EBUQEkJ8gkq62dp60EgzMEbSE+k/uxzEqu9dbAw=
-X-Google-Smtp-Source: AGHT+IE6nrHo52NkC3u4arv+NV93c/YfHBRAs+svXfCqzbJAogT20JAMk+GOCyu5yn5XMiOUt3k5WhNEc+/7Yy6kmls=
-X-Received: by 2002:a05:622a:1a13:b0:4ec:ef6e:585 with SMTP id
- d75a77b69052e-4ee5894f748mr348305511cf.73.1764293614202; Thu, 27 Nov 2025
- 17:33:34 -0800 (PST)
+        bh=QO8NwmkkI9mg0Fvr/iDdQ4VLLlyo+WunqlauIGsbobw=;
+        b=uVnHjyy8mNRrlNyqRx/VZvQ3CyDUnG7AjjyzdAJJWir56OyfmVyaDMGDMnh/9GxO2U
+         VyoWUxonk07Qn6RTrpO7s0dn3Pymx1PzWUM++7uFEKoFaxA75H5NeJ0Dt8r40V6ewNt0
+         U061wM6pOKkIvBjr6cLy3Hu9lNZnHQ1RjeGG68+Tt9aTSm0a2hB4wPju4YQ1XGur0fQq
+         UAmvP/PL4kzz6AviQPMWbUJfFBYa6T7f4/t8u4T+yQ5g1qglhDky/kNH99NosMWlmOkt
+         6wRmvF+U1S3tp+taiU9hsbWH4zucA3fUe3NwxLr9VIEW9zgTFEsQq2PwHJ6Ybh0Ha5dw
+         qpmg==
+X-Forwarded-Encrypted: i=1; AJvYcCU6h224x64n2NNlJPN52QobsKofMrsowWOp0x7WjrNQQxEPswJkOw7BAQANIKGy5tpr0mH5fw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+TIDC7lShNkQNUKHPweoinq2lYZAt0FQ1iGJ/n/tONXx2K+Qh
+	7WI5W18xleivdXS1zndbnVqBd7qjbOL6ZmdXDWG+RMm3mqPuW7I0A72K5hvofwCRlOHXKVpzsV+
+	mJdLgI4cmBP3J/Dj2kv0kuhMD5COYmeE=
+X-Gm-Gg: ASbGncuSwXYSjCsLtkr8+732iaOM8SpHfs/1K0YP4+C8S06MWQPYWUl+lhS0/1AVWUU
+	OruzRSZhtw+OxC4O0OLOBI8/jSKe/yhAliwBLCkpq5TzFMcGfg9BSgfSw9KfFuBiA6aYw7b03Ru
+	oh0IXM5u0sVty3dr0oY5fD3jesnmbA3guZdR5HO7Qnwj5wU1xT9regpmX8mw/bFJtfr/EevZmzs
+	BOJJK5Q/k+R1st6dvfMq0WyMOG9Vzt55rHmFxfxEdU3rkcOoKkm+XgWs0RL31ZW1hdq+JA=
+X-Google-Smtp-Source: AGHT+IG9mqJdVZgQj3BVyXnihjqxo6smpev5tsviBeKxWgS8ADskcY34A+TMMILps/HKlL0xyNYCt0kJ8fD8XQas0U8=
+X-Received: by 2002:ac8:5e4c:0:b0:4ed:a6b0:5c14 with SMTP id
+ d75a77b69052e-4ee4b54fd07mr426909921cf.23.1764300205954; Thu, 27 Nov 2025
+ 19:23:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -61,19 +61,17 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20251121081748.1443507-1-zhangshida@kylinos.cn>
- <aSBA4xc9WgxkVIUh@infradead.org> <CANubcdVjXbKc88G6gzHAoJCwwxxHUYTzexqH+GaWAhEVrwr6Dg@mail.gmail.com>
- <aSP5svsQfFe8x8Fb@infradead.org> <CANubcdVgeov2fhcgDLwOmqW1BNDmD392havRRQ7Jz5P26+8HrQ@mail.gmail.com>
- <aSf6T6z6f2YqQRPH@infradead.org> <3a29b0d8-f13d-4566-8643-18580a859af7@linux.alibaba.com>
- <aShkWxt9Yfa7YiSe@infradead.org>
-In-Reply-To: <aShkWxt9Yfa7YiSe@infradead.org>
+ <20251121081748.1443507-2-zhangshida@kylinos.cn> <aSA_dTktkC85K39o@infradead.org>
+ <CAHc6FU7NpnmbOGZB8Z7VwOBoZLm8jZkcAk_2yPANy9=DYS67-A@mail.gmail.com>
+In-Reply-To: <CAHc6FU7NpnmbOGZB8Z7VwOBoZLm8jZkcAk_2yPANy9=DYS67-A@mail.gmail.com>
 From: Stephen Zhang <starzhangzsd@gmail.com>
-Date: Fri, 28 Nov 2025 09:32:58 +0800
-X-Gm-Features: AWmQ_bnqkcJ2TfUO_Hy5DulnmQrOor9Eq1r7gxzBzqTjOKvbRCKHxxHaYPQTzc0
-Message-ID: <CANubcdWh0zZpOqhBhWtKf0uN1+8Ec-RsHiSCQUFrqYXoux2-TA@mail.gmail.com>
-Subject: Re: Fix potential data loss and corruption due to Incorrect BIO Chain Handling
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Gao Xiang <hsiangkao@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>, 
-	Andreas Gruenbacher <agruenba@redhat.com>, linux-kernel@vger.kernel.org, 
+Date: Fri, 28 Nov 2025 11:22:49 +0800
+X-Gm-Features: AWmQ_blj83ISfyC32dpt8HHM0xujFYlidvaYOqxvcTwKucopW11tVoED-TPviuI
+Message-ID: <CANubcdXzxPuh9wweeW0yjprsQRZuBWmJwnEBcihqtvk6n7b=bQ@mail.gmail.com>
+Subject: Re: [PATCH 1/9] block: fix data loss and stale date exposure problems
+ during append write
+To: Andreas Gruenbacher <agruenba@redhat.com>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-kernel@vger.kernel.org, 
 	linux-block@vger.kernel.org, nvdimm@lists.linux.dev, 
 	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
 	gfs2@lists.linux.dev, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org, 
@@ -81,24 +79,82 @@ Cc: Gao Xiang <hsiangkao@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Christoph Hellwig <hch@infradead.org> =E4=BA=8E2025=E5=B9=B411=E6=9C=8827=
-=E6=97=A5=E5=91=A8=E5=9B=9B 22:46=E5=86=99=E9=81=93=EF=BC=9A
+Andreas Gruenbacher <agruenba@redhat.com> =E4=BA=8E2025=E5=B9=B411=E6=9C=88=
+22=E6=97=A5=E5=91=A8=E5=85=AD 00:13=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Thu, Nov 27, 2025 at 03:40:20PM +0800, Gao Xiang wrote:
-> > For erofs, let me fix this directly to use bio_endio() instead
-> > and go through the erofs (although it doesn't matter in practice
-> > since no chain i/os for erofs and bio interfaces are unique and
-> > friendly to operate bvecs for both block or non-block I/Os
-> > compared to awkward bvec interfaces) and I will Cc you, Ming
-> > and Stephen then.
+> On Fri, Nov 21, 2025 at 11:38=E2=80=AFAM Christoph Hellwig <hch@infradead=
+.org> wrote:
+> > On Fri, Nov 21, 2025 at 04:17:40PM +0800, zhangshida wrote:
+> > > From: Shida Zhang <zhangshida@kylinos.cn>
+> > >
+> > > Signed-off-by: Shida Zhang <zhangshida@kylinos.cn>
+> > > ---
+> > >  block/bio.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/block/bio.c b/block/bio.c
+> > > index b3a79285c27..55c2c1a0020 100644
+> > > --- a/block/bio.c
+> > > +++ b/block/bio.c
+> > > @@ -322,7 +322,7 @@ static struct bio *__bio_chain_endio(struct bio *=
+bio)
+> > >
+> > >  static void bio_chain_endio(struct bio *bio)
+> > >  {
+> > > -     bio_endio(__bio_chain_endio(bio));
+> > > +     bio_endio(bio);
+> >
+> > I don't see how this can work.  bio_chain_endio is called literally
+> > as the result of calling bio_endio, so you recurse into that.
 >
-> Thanks.  I'll ping Coly for bcache.
+> Hmm, I don't actually see where: bio_endio() only calls
+> __bio_chain_endio(), which is fine.
+>
+> Once bio_chain_endio() only calls bio_endio(), it can probably be
+> removed in a follow-up patch.
+>
+> Also, loosely related, what I find slightly odd is this code in
+> __bio_chain_endio():
+>
+>         if (bio->bi_status && !parent->bi_status)
+>                 parent->bi_status =3D bio->bi_status;
+>
+> I don't think it really matters whether or not parent->bi_status is
+> already set here?
+>
+> Also, multiple completions can race setting bi_status, so shouldn't we
+> at least have a WRITE_ONCE() here and in the other places that set
+> bi_status?
 >
 
-I would like the opportunity to fix this issue in bcache. From my analysis,=
- it
-seems the solution may be as straightforward as replacing the ->bi_end_io
-assignment with a call to bio_endio().
+I'm considering whether we need to add a WRITE_ONCE() in version 2
+ of this series.
+
+From my understanding, WRITE_ONCE() prevents write merging and
+tearing by ensuring the write operation is performed as a single, atomic
+access. For instance, it stops the compiler from splitting a 32-bit write
+into multiple 8-bit writes that could be interleaved with reads from other
+CPUs.
+
+However, since we're dealing with a single-byte (u8/blk_status_t) write,
+it's naturally atomic at the hardware level. The CPU won't tear a byte-size=
+d
+write into separate bit-level operations.
+
+Therefore, we could potentially change it to::
+
+        if (bio->bi_status && !READ_ONCE(parent->bi_status))
+                parent->bi_status =3D bio->bi_status;
+
+But as you mentioned, the check might not be critical here. So ultimately,
+we can simplify it to:
+
+        if (bio->bi_status)
+                parent->bi_status =3D bio->bi_status;
 
 Thanks,
 shida
+
+> Thanks,
+> Andreas
+>
