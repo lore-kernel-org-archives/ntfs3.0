@@ -1,62 +1,64 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699A02E613A
-	for <ntfs3@lists.linux.dev>; Fri, 28 Nov 2025 08:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260FD2E8B9C
+	for <ntfs3@lists.linux.dev>; Fri, 28 Nov 2025 08:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764318760; cv=none; b=CMmgr1c2s0wGBQGpNCf+++0lv/FM9HAaLDIKNo/zIi/Dn2N4m1p+v1Al4UBAjA/9P3hgQwtn0bGl5OKLdbEu3Z37SE0Bt/y063y/S+WtOpcsrUYegoAO+u3dP2gKA5DywUC2lWBXuzseTpkXKZtETzjH6jbSNV1CnxMUsq4UARU=
+	t=1764318765; cv=none; b=NaiplMcUJ8AixdieSLTvvg8Y+/HaW4sIKTOJXFHzyr4CIW/UP5Um+oN2VI6FRiEnSAYomyADlsSEPNgBOCQG6AA9iMExyHjGS5VA5ivJl2HugAUIfzTjPjK+S18oTtyWY1PqZ8Bha0glt+tWGR0717YKi+qq59yYpozhcfPhh7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764318760; c=relaxed/simple;
-	bh=nXmk28ARgCcn+VciidQA11ELnwMOW79oTG8rwah+rkY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NtFjSKBH3Hh7n5D25VT5sJxm/fmN8BNHRgFl9xRR0JdXJtFG76hztCLS7QnlRPrn6as4VBV9rmFNMoZGHtvx8u2kJByU74T7NujciZ/ReYZIIWj/aHe8FZJc1mb7scBvVype3qHF7NawBEYVNaNJZUyoxU4PFUvkxtROir5mkvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jUH8Kl5y; arc=none smtp.client-ip=209.85.215.182
+	s=arc-20240116; t=1764318765; c=relaxed/simple;
+	bh=nbYby2EM9de8liKCH6EPXwLAr+CXSG8jGQgCdHY1huE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=n4rwibzc1cwO66wQiWoFspK68W2NsyQz/h/OMBzU5PjK4Mkfyzuik8CrKzYHmNxziIS7YDJe7f381+gAReT8pFRRkdAepeWS0mtMdP+DABbqMz+kxb+l9K3f57V1yMmfhuLTZhND+0lBv3w8Lk8NiMW7KFE+Lkkj/LkJKD1k324=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N3BtgFLq; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jUH8Kl5y"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b98983baeacso824227a12.1
-        for <ntfs3@lists.linux.dev>; Fri, 28 Nov 2025 00:32:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N3BtgFLq"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-bd1b0e2c1eeso1285620a12.0
+        for <ntfs3@lists.linux.dev>; Fri, 28 Nov 2025 00:32:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764318758; x=1764923558; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NqrU9sAvwHlZJQNnImTr6s/wIfO8kcl//WUqMA/q7Cw=;
-        b=jUH8Kl5yPbTHHmA8UhMI+1t5T/al5pZFyH+5kVWeLenfkKBtm2F6xkjJNrAiFL/qsJ
-         G+tIkwkrreNF6FQCMhzcIGbd1kYEGeCGZVSmuT/AtKRQGe90kv1bnnt+720s+Mdj/Xvw
-         dchkgOzrBmpfmRoBQUMlbwjKyZW5Ywap4VAfD71m0LTaKNHpyebv3nvwkIYakuPIbQ/H
-         w7dF6XBScFFC5UxFPBQXxp+3+t7RX0w56csB1ZmRx10xm6NeHrxZLdvBPziqAmF9VruJ
-         NquHmq8+Zt1XH56rB6TZxBnxIojG2LBj2np1sWQ2C99q2azy7ADhHZ9XY5OgWvSeRn+M
-         tVXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764318758; x=1764923558;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1764318763; x=1764923563; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NqrU9sAvwHlZJQNnImTr6s/wIfO8kcl//WUqMA/q7Cw=;
-        b=KVfeug4i7IVKAxDuf/Gmi8FQxDb0NFHJPeqqQ0haPkm/estdQM4K8KQYczj4tq83Gs
-         j8TgA9AWVdAY2fISkmrYV6ypfLQ3t5av7702ipLaWJ7Cr4MF9iV0+mLktcvh3VnInvIP
-         jefjvHX2KZ4KTnPCZ/rDDyuSqR8oo9JO81ZnFlAtaSV3BD8k/z5XedVLlgzeBKo3+nOP
-         0KCVcjAMt1wWpEO2Y2/Bk2P++yzdPDKCGl0E11y04QjxFebv7lM+WG01+KILCzVdfvKI
-         6nNRa1P5nq8u4aXRTfK7kr5VDui533t7xfT210/Gm1rP7MTVvS4+uj9Kf3RMK2IOqdCH
-         8XsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXO7ialDQq7qhXL2jkscieOlDkomuXh05cQv8Mm8T//dzqDMXPvLNcFpqxg4maFPhyxT2L48w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwEI7U7D6MG/Qu3Cthx97bygUwZP+cC0U/VRIc5hCSqp0+3MNQO
-	KPbu3tAUnJJ8KYQRqIy2157qpGIHTwlNcmhE7Xk5JUEVIB+Qkw4Lj8yu
-X-Gm-Gg: ASbGncsRkqvH4MZo3HtajfeVTI8R/Cv5oRvKup41tG5Zee2XRShv+bupLR58v/MjP/6
-	Kcd93f5FS9Fi8tfKru+Fob223eiqkfsn14fqwKCzBib2xdEbJ0JJBfNgfE3wW8ZKiB7wz7g4rEX
-	2Dd3Ij9WBOiW8TzE6qf+UZ9qvSIXV/sgLqmP+scNICyGjFNJv5Ju0BpM54yJiAA+PSSCVB7qSR2
-	/xRItlYfmSKN5XHTRAFCtN2v+tvzyf7OiPWzouNFkSLluSOuMNzBwxHIKAJBpafQ4tTBssU6eS8
-	EOa7m9+g2rE6OQpXPcXDMB9Arq1931YsJO2Y00PdM2z3LCTWEh2TPW19dRubphv2xRpUhaMt3PE
-	TACcHTKurxK8+bMN/Rr7fzZ1dJe0SsQZRzmzynAs4BGBrN+zF4SWbygh3UmutwSKCAD1XZV4gkD
-	it/frx0ff2qoyUs7/kZzhTLENAbA==
-X-Google-Smtp-Source: AGHT+IHdakmTE4ccsFNQ1yLU+VXJurH34ar1nC0le8zm5bpThSihG4vDxPqEawqzf6sYQkBphfQIBA==
-X-Received: by 2002:a05:7022:ebc2:b0:11a:e610:ee32 with SMTP id a92af1059eb24-11c9d85f282mr16086363c88.25.1764318757636;
-        Fri, 28 Nov 2025 00:32:37 -0800 (PST)
+        bh=wEXNzDk3PZG7Vl6bACrm82r4Ym6fDNxq87feOMpROvE=;
+        b=N3BtgFLq/cvdaTHlVBJ2zwKAGS734L+NqR0I+kXcichDYbnjBlJjiURhOHahW1oKjL
+         DbEF0raZm3LgoFJL+gpA5O3PU3k1gLRs/IiWClPGJgP31coEUAolCu+lwb92LlB0LrP7
+         +Yw+IJcsyjhfdn4Eg7zLIp0QMvvAtkwHvUnJk7BVwpcIS4tDUtbHs6wobiDET4T6pOjH
+         Vzq6PENS5HQ21n4EbxasHxfYEk3EV5rvZpGXsLGDT9HI7fXWAwR1QUeexCy95VqstBUC
+         7qhaFiOz5GYvG1yHaNFW3Dz9uGSfENUIplIXP+XklRMYJ6m17jAWUYhTBcc4TLjCdN5y
+         YgfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764318763; x=1764923563;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wEXNzDk3PZG7Vl6bACrm82r4Ym6fDNxq87feOMpROvE=;
+        b=VMwo8ZIN4ewKJEzP8VkJn4MxAVvhXK3K3w91Ebz2ojRRTPsGD2xozoW/ZDwRT9Fe2e
+         tYmpQHveEpELBODalXFfZsEC7g1DR/PhkZTWmYivhThkwRgCEm8hzmhiOBSe3m87gGv7
+         eQ2YlaSpAMlHDgW7auqJD85DjG1mBKwSiu2mUPd9wWKarChXsF5MefN2dtu/nslgq9Vc
+         FY3r9v3Y2VmptaG28Ju9qss17VHSiVQydOXt0XM5mqiiXylAqKRq13QOl+z+oZMxIkr9
+         usO/9uWbejH25X6w8Q9K7eyiAcTDS9zlG7h6s2hCCk41UbglORuK7dy9GV+NMfQ75PM2
+         NrBw==
+X-Forwarded-Encrypted: i=1; AJvYcCWFA0z2TErEe2me7qnbmP6taoT4Bs0yBbGRuYIu9Zex5u/sXBAf5dQ/EI1oA83ETk31SdrlAA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwSKqCQzAPxVjegVUayRK8UAbR1CfoZyXGsg1I5cl7QW9tHGaIZ
+	C7HOWLXACmOQBlVgtk+sQKDdEa73gFXJk8N0qJe5LGhtVG21gewpGUW5
+X-Gm-Gg: ASbGnctcHvRyG7ajeuqkSfix1hM9BIX9g2GCFh5s1tAQJ02gEiVr9/oQaTcyMGSq8yu
+	yJcu/G0v42TOPL7HD7jmQ8b7v7BzGNuEh9el0SzW6yrybyShUjTdAkLrllk2KHjUKYEKtbAEpRl
+	AIDVoV+qZEVnOtv3T7NUKf7270HCfsAcNsvh0UbyoJ4bd+ZLwa/Z/CUB4P1CUJY0ElXw1hfJORE
+	XzdXMe0n95c8/UcbvFwVWAGm+FzxW0vnBPOYPUNhHngbITPF3y6EEtTPEyvVppBx20eATVH7bO+
+	YMTfgyPc/fP2mdRO3t9gq4PNNdrLbmjZZA331ukmGovkBF+wIqumikzKHYVp3AKzf9n5vY3wkoq
+	48m7u34kFqTT0BLlN50VIRPLTx8kJMqC64JNkZgXHMV9Y7bh9LymrQpJuoEnagU6a5ar2BCPijQ
+	awrnKrC6lNSvlK/+59dq31pa/QRA==
+X-Google-Smtp-Source: AGHT+IF16ld9QNCqaVETJUBsXYjs2kY4Pw4mcEH3R6jDofKcar8TG/UX/uqF2Rs9fZ+s8kH1ElEzpw==
+X-Received: by 2002:a05:7022:7f1c:b0:119:e569:f615 with SMTP id a92af1059eb24-11c9d712704mr11436137c88.14.1764318762983;
+        Fri, 28 Nov 2025 00:32:42 -0800 (PST)
 Received: from localhost.localdomain ([104.128.72.44])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11dcaed5f6bsm20941371c88.1.2025.11.28.00.32.32
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11dcaed5f6bsm20941371c88.1.2025.11.28.00.32.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Nov 2025 00:32:37 -0800 (PST)
+        Fri, 28 Nov 2025 00:32:42 -0800 (PST)
 From: zhangshida <starzhangzsd@gmail.com>
 X-Google-Original-From: zhangshida <zhangshida@kylinos.cn>
 To: Johannes.Thumshirn@wdc.com,
@@ -75,10 +77,12 @@ Cc: linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	zhangshida@kylinos.cn,
 	starzhangzsd@gmail.com
-Subject: [PATCH v2 00/12] Fix bio chain related issues
-Date: Fri, 28 Nov 2025 16:32:07 +0800
-Message-Id: <20251128083219.2332407-1-zhangshida@kylinos.cn>
+Subject: [PATCH v2 01/12] block: fix incorrect logic in bio_chain_endio
+Date: Fri, 28 Nov 2025 16:32:08 +0800
+Message-Id: <20251128083219.2332407-2-zhangshida@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20251128083219.2332407-1-zhangshida@kylinos.cn>
+References: <20251128083219.2332407-1-zhangshida@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -89,51 +93,48 @@ Content-Transfer-Encoding: 8bit
 
 From: Shida Zhang <zhangshida@kylinos.cn>
 
-Hi all,
+The `__bio_chain_endio` function, which was intended to serve only as a
+flag, contains faulty completion logic. When called, it decrements the
+`bi_remaining` count on the *next* bio in the chain without checking its
+own.
 
-While investigating another problem [mentioned in v1], we identified
-some buggy code in the bio chain handling logic. This series addresses
-those issues and performs related code cleanup.
+Consider a bio chain where `bi_remaining` is decremented as each bio in
+the chain completes.
+For example, if a chain consists of three bios (bio1 -> bio2 -> bio3)
+with bi_remaining count:
+1->2->2
+if the bio completes in the reverse order, there will be a problem.
+if bio 3 completes first, it will become:
+1->2->1
+then bio 2 completes:
+1->1->0
 
-Patches 1-4 fix incorrect usage of bio_chain_endio().
-Patches 5-12 clean up repetitive code patterns in bio chain handling.
+Because `bi_remaining` has reached zero, the final `end_io` callback for
+the entire chain is triggered, even though not all bios in the chain have
+actually finished processing.
 
-v2:
-- Added fix for bcache.
-- Added BUG_ON() in bio_chain_endio().
-- Enhanced commit messages for each patch
+As a quick fix, removing `__bio_chain_endio` and allowing the standard
+`bio_endio` to handle the completion logic should resolve this issue,
+as `bio_endio` correctly manages the `bi_remaining` counter.
 
-v1:
-https://lore.kernel.org/all/20251121081748.1443507-1-zhangshida@kylinos.cn/
+Signed-off-by: Shida Zhang <zhangshida@kylinos.cn>
+---
+ block/bio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Shida Zhang (12):
-  block: fix incorrect logic in bio_chain_endio
-  block: prevent race condition on bi_status in __bio_chain_endio
-  md: bcache: fix improper use of bi_end_io
-  block: prohibit calls to bio_chain_endio
-  block: export bio_chain_and_submit
-  gfs2: Replace the repetitive bio chaining code patterns
-  xfs: Replace the repetitive bio chaining code patterns
-  block: Replace the repetitive bio chaining code patterns
-  fs/ntfs3: Replace the repetitive bio chaining code patterns
-  zram: Replace the repetitive bio chaining code patterns
-  nvdimm: Replace the repetitive bio chaining code patterns
-  nvmet: use bio_chain_and_submit to simplify bio chaining
-
- block/bio.c                       | 15 ++++++++++++---
- drivers/block/zram/zram_drv.c     |  3 +--
- drivers/md/bcache/request.c       |  6 +++---
- drivers/nvdimm/nd_virtio.c        |  3 +--
- drivers/nvme/target/io-cmd-bdev.c |  3 +--
- fs/gfs2/lops.c                    |  3 +--
- fs/ntfs3/fsntfs.c                 | 12 ++----------
- fs/squashfs/block.c               |  3 +--
- fs/xfs/xfs_bio_io.c               |  3 +--
- fs/xfs/xfs_buf.c                  |  3 +--
- fs/xfs/xfs_log.c                  |  3 +--
- 11 files changed, 25 insertions(+), 32 deletions(-)
-
+diff --git a/block/bio.c b/block/bio.c
+index b3a79285c27..55c2c1a0020 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -322,7 +322,7 @@ static struct bio *__bio_chain_endio(struct bio *bio)
+ 
+ static void bio_chain_endio(struct bio *bio)
+ {
+-	bio_endio(__bio_chain_endio(bio));
++	bio_endio(bio);
+ }
+ 
+ /**
 -- 
 2.34.1
 
