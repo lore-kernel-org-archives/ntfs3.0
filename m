@@ -1,139 +1,165 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3F22E7186
-	for <ntfs3@lists.linux.dev>; Fri, 28 Nov 2025 08:38:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8747C309DAF
+	for <ntfs3@lists.linux.dev>; Fri, 28 Nov 2025 10:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764319113; cv=none; b=ZpMRAB5z4fYKeMiIhXZu25ie2VeAr3w+Ddqoo5kZnHtkH9NYm+wKFztb2z6hCwjrFtPMeI0Vak6mcOr/+W03g+iTrnmHgoZL8Gv8zH/yD9lWMvuHyCt3+3CrI4NWTO8AZwDy5xzaqDP+8kz/+iEAUfCod13SnTy7A74ZrUmEDTA=
+	t=1764324849; cv=none; b=F2klEZVyIyx2j9p3PQp1Z9++iToa+L1kZmjOOTzrMS6I22gpFff6+qQFoXH35LMmdtSwaGFFOd/sCYOdQEGwXTmWhQ9uO6f0kcNipvllESgXAECHqscrOzxvI9HpvVtbwakmkZTJ9rV8xyISCqEgEdCAUUTq0tTr1/2tHwH132o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764319113; c=relaxed/simple;
-	bh=mG04EOy5shg0G6MHF6boM7DuHGiLByU6HW/XuA5FyN4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jLR+qxRQ0ksNth/Vr4vbLJRGTiDhTdIrgp27RqyKXn+xHWEeFep5YyPt+JkcafwLZOB5eQdKE9mwim0yEnMHNz/suU0uFsA+mdvE6zGMZzsAW+qLkZ+59twcRIAeljQ+T5LtFWYLo8qJ45XyumsIDF9F3ndgywVPJB1Ef4612FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FDah3nTU; arc=none smtp.client-ip=209.85.160.175
+	s=arc-20240116; t=1764324849; c=relaxed/simple;
+	bh=kVr6DBoa/bqfAwZkgZNONZ5a6MNtPx0ck2No19GrBEw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fzYYRdA/tyTbeqyk1YDCojAA25hoK/DfvaPUxpuBOtfuCUPNfTlF2hoeQ4GyuLC2HZYFgpK3S22rwxJQhhI28qNPNIQ/44iPApwMpOYtxMjdIwyfFzonWDVhFEp3JEfEnocKQ93JYIQyj4OWjGm6HbdiJSw7UDW8ZmcD+nTr3AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cSCQgLL5; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FDah3nTU"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4ee44df7750so13668351cf.3
-        for <ntfs3@lists.linux.dev>; Fri, 28 Nov 2025 00:38:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cSCQgLL5"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-341988c720aso1438794a91.3
+        for <ntfs3@lists.linux.dev>; Fri, 28 Nov 2025 02:14:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764319110; x=1764923910; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=++QMIe2Gzi7z7FeXSAmSiuqg8P1uQ1lVTlMI6i3m06g=;
-        b=FDah3nTUaudXCsXdq2+lppZtuGiQxbXnt7zX5vbbHSWCw5YD9MMMjC2EvH15CpsL3u
-         HIX509u6wcpH86rIO2sGZ3n4XIQ6JqRJi4XMZII79+c0TxEIcGMeZc9LBy7/WAkn9b74
-         B5GlKb7P6v3ITddyjUjQsiIxHBt+V2mJr4xxIa6wrkaNEULj7+fkJpKA7lNlBBdXEX+O
-         a4laU9RjvQPfMbPlQx7P/con3zScwdP/aqUAVsuKZMpwIM8QWXcjxWt0643j//Ux3Qyi
-         gNv5vrD0aH47XWp+M/EcKoUp84MM2XdtrGNUgqKL9PxM63T8dtvtL7xRtLbwYoAxU39T
-         HkTg==
+        d=gmail.com; s=20230601; t=1764324847; x=1764929647; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yVuhVMY/nTuaFLZ3xpN4cW4yIYVl0+dcLUX2HVwBwT4=;
+        b=cSCQgLL5657EVB690POmwIQno9hljpNLQcG7BvSJRCWq0+9Aen1cp3iK5/IN65vd9x
+         fa3DP32CtJ9md2iHh0YLT7aBNwLAZZmrfNbNKIX6Gn7mJ/RXGboDmhF+sth3wgO202V4
+         F/JrsE9m0EgahQJw8jZR6YLCxJiZtV8g+xxyEPY/jfD9/zRD14CQAZXsr2WfrCNpjKhy
+         RfXOB6jxZ41jn06aElTSQ4TwykTjIL0h4QXVrQPh/qvETtxTYQfAb+LY0BpbWSo3WO3T
+         l8nnNqDStG+6AMwfW0RIMahxPbaWBW80dVixxnVxyMGiKGcoxtFkUd1XUq5pY+PNEAWn
+         g1JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764319110; x=1764923910;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=++QMIe2Gzi7z7FeXSAmSiuqg8P1uQ1lVTlMI6i3m06g=;
-        b=f6Lc+BuaVGAG5q8lSkVoFiW6xB00FzpuBGhuPnJewXm7meojdAjRaKOlbJBaOElqFj
-         EUQNvJRNYI0f2mfWGDh3J5UsfCbJ52ZwoIu4JI4v4fqtxnDZkIEXWvR9h1ip4z477dtr
-         WMdUnHNnp9GWAqI9ekXNuJ1V+wL63WSMvCWL5tqfAFqWsa6y1QiN+JT3nSYnh4x/IQ2y
-         1upBHeoZ3Z95RxYjnAj4ug349tJSERRkZpjCM6e7GgaWriFYVEgYOa06XN7sZzLSr6YR
-         mVbvA43ogvMD8IFwvZf4UZIg3Bw12gQnvnQj4UahOFjGTT2BRrRVMF6NHbrXVCpjl0qL
-         q4mQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXFN/dQwEh7A+rkN27jzkC4xcSq1NGecZ8g09rHdGKWuXHJR0wMzsvVmFI0m3W8zIN0mi8qUA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwnLZoSLYtWQClBsvQ5vOLVjnMgicEXL3MPVs9i1SeIaw3vcosZ
-	8nv0FMfsjaAd4MaW8iFHC8MD0XQCb8HgyKdg9F/hDclhPJcDQxZaPPpNX3dCuS5OwejZziVUfh8
-	WIaiJtzfJe9h7MA14WCwoSpSIuf4NQIs=
-X-Gm-Gg: ASbGncsmbaBY/VCWPWiGLux91SV2dIObHqifG3GTi3A2dtlcLBhXSHcckSyQ2r6xs2g
-	VxyX/yCzvE1HhlJstklGpc7EgKyRf4MMbiQ1d6O3ymfIs7Rs4+ckUvXmgC2Wq3nH0U/Pc7+4S7g
-	poI0FLAqul1D/JMkLo0xJgynx1s3j4CgIGQ7KSdiI7BpOJ7gKKYSQAh/FmOzH620hW6GCfOf28s
-	xomeTJAJztDuFGdLqt1/FkUJF1p6pK4oN5XRZ3cMBfMvRQBLqv6t8bZYMHYVXBqX1lvL3g=
-X-Google-Smtp-Source: AGHT+IEfh/pR5dVEp+MyGlS6Z0E5USpuJd+WqXIzQcqzstZI05ioUW/B3ey2i9/MpvyCwVsDk2BTTIWfhdBYNOpApmc=
-X-Received: by 2002:ac8:5a4d:0:b0:4e7:1eb9:605d with SMTP id
- d75a77b69052e-4ee5883f99cmr321417371cf.11.1764319110284; Fri, 28 Nov 2025
- 00:38:30 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764324847; x=1764929647;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yVuhVMY/nTuaFLZ3xpN4cW4yIYVl0+dcLUX2HVwBwT4=;
+        b=BDucirux9ergTUC0fzwNadayh/nWX6JLnn2DB6BHA8kHzA6JgD4oD0uWIftAeQ9Hrs
+         KMmcSUBofXKAkV6W6ih8GDuI0J/ZLLwKoXA4mc8FRGKbgNfMfXsV4bmkwvbGqup68wIq
+         0t1ZRBqrno568V7ofQCGROT10rn8ubMbchag35SSgEuUMeOJsz2pLUx8OAL1i7qXgYio
+         kiO/eJse0C+gZBw7wXzo2ER4+ZRMIMzI7jv5qYCENhaXeY3x3YPz9ALhq4IzlZUymRfk
+         BF4W/JvksLDpabRN9/I38kQTw4IfNOGuYlgbOTJWmJoLNfbQQ7U5pNGkqBRtV6VjJ3FX
+         r0EA==
+X-Gm-Message-State: AOJu0Yz7PQ4N2+QJboeWUjF7Jzc+yghs0hOpFwESCGRdkyRGq6PXQuvR
+	R8qXP/0T2/fgOV76+/Vz9rzvp0BziBQyF09f2cZ+UcRZLHFG3vq1V4V9
+X-Gm-Gg: ASbGncu325jZLP9ktLFlsfvtFRpk4nonw0/Llo3mvJxTrbpS86nQ2/mIy68ZI2QJMJb
+	X+WQw8WLezMZ0Y65Iab4GHcPG/i+tWNmLUUJNHOzVS795cgAgyVNg8LqsjS8cnOdHoo7hDtygjp
+	UpZ7jqeScFW+3XFN+Xj/cA4aqA0o6pUxui2BgPk3HMzLLqYR4YPj8wxtdDalvjtQIYiU/GTySQf
+	Od8bYQNsoiiwS3liDxpKqJTK7Z167hahQhT1Iw2oWR6eYXYByR++UxfBvqHNeMwyC2KvT7lMLZs
+	0jxuFhhPlrNonH5lUMzdn+hbkJKWFiSE7KIhrQ7kfgQ3TEYKD1jBO5O9a03HdDRCn0OW0bODTM4
+	2Sp8ydb1ips7V6iIFdW3m1bvXaytCdeVmAAfDwexfzLnYbHE1ONbjuydpTwjAut2ySXrQeMpHS/
+	/juG+F5UPbGc6ixrPr4SYYlvDdABi0riFLDoQwYK6Iag==
+X-Google-Smtp-Source: AGHT+IGPNQcoNeTmGBagvJ6Fu/LU8IZMnDRWO/fq/BjBDONgwBLHMQh5JHFx0V5ZcQr1wINP80B9gg==
+X-Received: by 2002:a17:90b:5628:b0:341:194:5e7c with SMTP id 98e67ed59e1d1-34733f2d700mr25570078a91.24.1764324846664;
+        Fri, 28 Nov 2025 02:14:06 -0800 (PST)
+Received: from Dell-G15.SRMIST.EDU.IN ([104.28.225.172])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3475ff9fed2sm5421023a91.6.2025.11.28.02.14.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Nov 2025 02:14:06 -0800 (PST)
+From: Lalit Shankar Chowdhury <lalitshankarch@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Lalit Shankar Chowdhury <lalitshankarch@gmail.com>
+Subject: [PATCH] fs/ntfs3: Use wait_on_buffer() directly
+Date: Fri, 28 Nov 2025 10:12:56 +0000
+Message-ID: <20251128101256.283353-1-lalitshankarch@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251128083219.2332407-1-zhangshida@kylinos.cn>
-In-Reply-To: <20251128083219.2332407-1-zhangshida@kylinos.cn>
-From: Stephen Zhang <starzhangzsd@gmail.com>
-Date: Fri, 28 Nov 2025 16:37:54 +0800
-X-Gm-Features: AWmQ_bkmQmYK3DJQjInSuzOGjciJ8sGZNWSCY3EbybUAu4bZJ47LIxlxmcK_q9w
-Message-ID: <CANubcdUgYpxBqPrsOnFpGJK8S9DM46DT6hriu4kDckPMVzc-Fw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/12] Fix bio chain related issues
-To: Johannes.Thumshirn@wdc.com, hch@infradead.org, gruenba@redhat.com, 
-	ming.lei@redhat.com, Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: linux-block@vger.kernel.org, linux-bcache@vger.kernel.org, 
-	nvdimm@lists.linux.dev, virtualization@lists.linux.dev, 
-	linux-nvme@lists.infradead.org, gfs2@lists.linux.dev, ntfs3@lists.linux.dev, 
-	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	zhangshida@kylinos.cn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-zhangshida <starzhangzsd@gmail.com> =E4=BA=8E2025=E5=B9=B411=E6=9C=8828=E6=
-=97=A5=E5=91=A8=E4=BA=94 16:32=E5=86=99=E9=81=93=EF=BC=9A
->
-> From: Shida Zhang <zhangshida@kylinos.cn>
->
-> Hi all,
->
-> While investigating another problem [mentioned in v1], we identified
-> some buggy code in the bio chain handling logic. This series addresses
-> those issues and performs related code cleanup.
->
-> Patches 1-4 fix incorrect usage of bio_chain_endio().
-> Patches 5-12 clean up repetitive code patterns in bio chain handling.
->
-> v2:
-> - Added fix for bcache.
-> - Added BUG_ON() in bio_chain_endio().
-> - Enhanced commit messages for each patch
->
-> v1:
-> https://lore.kernel.org/all/20251121081748.1443507-1-zhangshida@kylinos.c=
-n/
->
->
-> Shida Zhang (12):
->   block: fix incorrect logic in bio_chain_endio
->   block: prevent race condition on bi_status in __bio_chain_endio
->   md: bcache: fix improper use of bi_end_io
->   block: prohibit calls to bio_chain_endio
->   block: export bio_chain_and_submit
->   gfs2: Replace the repetitive bio chaining code patterns
->   xfs: Replace the repetitive bio chaining code patterns
->   block: Replace the repetitive bio chaining code patterns
->   fs/ntfs3: Replace the repetitive bio chaining code patterns
->   zram: Replace the repetitive bio chaining code patterns
->   nvdimm: Replace the repetitive bio chaining code patterns
->   nvmet: use bio_chain_and_submit to simplify bio chaining
->
->  block/bio.c                       | 15 ++++++++++++---
->  drivers/block/zram/zram_drv.c     |  3 +--
->  drivers/md/bcache/request.c       |  6 +++---
->  drivers/nvdimm/nd_virtio.c        |  3 +--
->  drivers/nvme/target/io-cmd-bdev.c |  3 +--
->  fs/gfs2/lops.c                    |  3 +--
->  fs/ntfs3/fsntfs.c                 | 12 ++----------
->  fs/squashfs/block.c               |  3 +--
->  fs/xfs/xfs_bio_io.c               |  3 +--
->  fs/xfs/xfs_buf.c                  |  3 +--
->  fs/xfs/xfs_log.c                  |  3 +--
->  11 files changed, 25 insertions(+), 32 deletions(-)
->
-> --
-> 2.34.1
->
+wait_on_buffer() checks buffer_locked() internally
+before calling __wait_on_buffer().
 
-Apologies, I missed the 'h' in the email address when CC'ing
-hsiangkao@linux.alibaba.com.
+Signed-off-by: Lalit Shankar Chowdhury <lalitshankarch@gmail.com>
+---
+ fs/ntfs3/fsntfs.c | 15 ++++-----------
+ fs/ntfs3/index.c  |  4 +---
+ fs/ntfs3/super.c  |  4 +---
+ 3 files changed, 6 insertions(+), 17 deletions(-)
 
-Thanks,
-Shida
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index c7a2f191254d..a6c155c691d6 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -875,9 +875,7 @@ void ntfs_update_mftmirr(struct ntfs_sb_info *sbi, int wait)
+ 			return;
+ 		}
+ 
+-		if (buffer_locked(bh2))
+-			__wait_on_buffer(bh2);
+-
++		wait_on_buffer(bh2);
+ 		lock_buffer(bh2);
+ 		memcpy(bh2->b_data, bh1->b_data, blocksize);
+ 		set_buffer_uptodate(bh2);
+@@ -1069,9 +1067,7 @@ int ntfs_sb_write(struct super_block *sb, u64 lbo, size_t bytes,
+ 				return -ENOMEM;
+ 		}
+ 
+-		if (buffer_locked(bh))
+-			__wait_on_buffer(bh);
+-
++		wait_on_buffer(bh);
+ 		lock_buffer(bh);
+ 		if (buf) {
+ 			memcpy(bh->b_data + off, buf, op);
+@@ -1347,8 +1343,7 @@ int ntfs_get_bh(struct ntfs_sb_info *sbi, const struct runs_tree *run, u64 vbo,
+ 					err = -ENOMEM;
+ 					goto out;
+ 				}
+-				if (buffer_locked(bh))
+-					__wait_on_buffer(bh);
++				wait_on_buffer(bh);
+ 				set_buffer_uptodate(bh);
+ 			} else {
+ 				bh = ntfs_bread(sb, block);
+@@ -1420,9 +1415,7 @@ int ntfs_write_bh(struct ntfs_sb_info *sbi, struct NTFS_RECORD_HEADER *rhdr,
+ 		if (op > bytes)
+ 			op = bytes;
+ 
+-		if (buffer_locked(bh))
+-			__wait_on_buffer(bh);
+-
++		wait_on_buffer(bh);
+ 		lock_buffer(bh);
+ 
+ 		bh_data = bh->b_data + off;
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 6d1bf890929d..763fc05d3ca7 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -252,9 +252,7 @@ static int bmp_buf_get(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 
+ 	bbuf->bh = bh;
+ 
+-	if (buffer_locked(bh))
+-		__wait_on_buffer(bh);
+-
++	wait_on_buffer(bh);
+ 	lock_buffer(bh);
+ 
+ 	sb = sbi->sb;
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index ddff94c091b8..bb6462d5569c 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -1616,9 +1616,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 		 */
+ 		struct buffer_head *bh0 = sb_getblk(sb, 0);
+ 		if (bh0) {
+-			if (buffer_locked(bh0))
+-				__wait_on_buffer(bh0);
+-
++			wait_on_buffer(bh0);
+ 			lock_buffer(bh0);
+ 			memcpy(bh0->b_data, boot2, sizeof(*boot2));
+ 			set_buffer_uptodate(bh0);
+-- 
+2.43.0
+
