@@ -1,175 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119562DE707;
-	Wed,  3 Dec 2025 10:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C8B10957
+	for <ntfs3@lists.linux.dev>; Wed,  3 Dec 2025 12:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764757151; cv=none; b=l1y/iSY3P6bBKvJmq7rfGniKBLZ/N+ITjeHc/tYquDWUGvNErSeQ+Nx1uktYZhMQwK9KJaKYAVzIDIwpFWKsOCDR5OQt2vxS1pXHKllevKb46ByutDXSV7CIX1ds0M4LfkzWbsbeKqWsSV42pR80nsIwvB1HEA7q5/RDEwFV3CY=
+	t=1764765768; cv=none; b=YyMcZRtKnQI88cDnX4bfUBXPbDWxP/Dxn4nth/+CU4C2OFJVprYf5ycgPPHBJ4E9WNowB8eCb4WsaKPN26A2WCasAkSJXhCKsZsur9P8gHrAOnxowKMlth/k44TM1bofps0w1m31XvJORkASdOlv/NKfYRXTzKj4k/ZA81N1lXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764757151; c=relaxed/simple;
-	bh=1ALGFmGlgOHY6f+bdLdgKebsX+au1yQ5dTRhimTaFoA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MzVrCaPOfJSbHnu5034+sN/igCQpAT0+eqawrc2CmK2pAHRA2QjXw7hUydE514Q7CmplIfKVrvREVZ5mESHganvctY0wvUSStpd4q0tj2K2UR/RW+qDVmiF3IJKZIDMao2imUe8JmnRcJWDHCn1/lUgf8DoAhemIKTQ1oTsaR84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sia1MYIL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764765768; c=relaxed/simple;
+	bh=T/GMN2CoicBMxKviotgm59sRN9N20o6l00AaDCeqqZY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iSVmwzFhOEuGHQjgUQ3uDqq+ur9mS/zNv1xztAMiDIiEW9TFbBGGmsRoZHx2nEz84cy/uKCBK2DHYodgQLpO8rPqR3zIiZt3h3o+rRbtdNYMee5uBH9LpaX08EoRXnYGldPrRnZRbY8Iw+WGvyPwFXHyPhAav9Jx1wQoeIR9bW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=vMVf4Rgp; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sia1MYIL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25361C113D0;
-	Wed,  3 Dec 2025 10:18:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764757150;
-	bh=1ALGFmGlgOHY6f+bdLdgKebsX+au1yQ5dTRhimTaFoA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Sia1MYILwN3OHyU8vJVbFzEbPmh+E9Rkdc13NmENJiNAQwujMzrx7aLJDYQwnRJH2
-	 icv0Cs7+2DiJlUtJrJ3jFjsxz5e5SC+H4b4cDPm/4/s+aTZepyO4AvrHMcRjPs8po7
-	 P0lAluHlqilBXk1Sh/B/XN0TZMdipTL7EolZ0FehsZ8XGO0/aidHMHK8ayQiiiT5TA
-	 U6OOgYna9Ec2DgYD68Hcv9/StfMLZVIApf1YAZumWdYivMJy+S1b4NF19fKc5R60wD
-	 vv/cJLS0nI7ttPeXB8OyKOFM1iSYjxfn/4avfs6o2Xu7czGUpIFQziUIbMv79dw+WM
-	 YExRE41C2xh0g==
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	NeilBrown <neilb@ownmail.net>,
-	linux-kernel@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-afs@lists.infradead.org,
-	linux-btrfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	codalist@coda.cs.cmu.edu,
-	ecryptfs@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	gfs2@lists.linux.dev,
-	linux-um@lists.infradead.org,
-	linux-mm@kvack.org,
-	linux-mtd@lists.infradead.org,
-	jfs-discussion@lists.sourceforge.net,
-	linux-nfs@vger.kernel.org,
-	linux-nilfs@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	ocfs2-devel@lists.linux.dev,
-	linux-karma-devel@lists.sourceforge.net,
-	devel@lists.orangefs.org,
-	linux-unionfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	linux-xfs@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	NeilBrown <neil@brown.name>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	David Sterba <dsterba@suse.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	Chris Mason <clm@fb.com>,
-	Xiubo Li <xiubli@redhat.com>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	Jan Harkes <jaharkes@cs.cmu.edu>,
-	coda@cs.cmu.edu,
-	Tyler Hicks <code@tyhicks.com>,
-	Jeremy Kerr <jk@ozlabs.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Bob Copeland <me@bobcopeland.com>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	Tom Talpey <tom@talpey.com>,
-	Bharath SM <bharathsm@microsoft.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	David Hildenbrand <david@kernel.org>
-Subject: Re: [PATCH RESEND v3] vfs: remove the excl argument from the ->create() inode_operation
-Date: Wed,  3 Dec 2025 11:18:32 +0100
-Message-ID: <20251203-sechzehn-lethargisch-cd739d4ff49a@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251201-create-excl-v3-1-8933a444b046@kernel.org>
-References: <20251201-create-excl-v3-1-8933a444b046@kernel.org>
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="vMVf4Rgp"
+Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id D3D55454;
+	Wed,  3 Dec 2025 12:38:58 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=vMVf4Rgp;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 931E023A7;
+	Wed,  3 Dec 2025 12:42:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1764765757;
+	bh=tlGoE/4tQaTLBpIgMTrYF+GSd2ljfVvzSbK6eRlF3h0=;
+	h=From:To:CC:Subject:Date;
+	b=vMVf4RgpVyD+M2QyXNkVzDwVfnM+F+WS9yh9HmLrUl8tAVTlFUp0fvWft91TKCi92
+	 feEWJ9lxclDblWXP5Vd44CyDph6/WS3uetY/4Y3n+3ZQ+6ETPUOr/3mQH9rl7VbmVn
+	 iqU+Rwf30NoUklTwHOA9TU/CrxKkqFS1kDb87Qd4=
+Received: from localhost.localdomain (172.30.20.142) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 3 Dec 2025 15:42:36 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <torvalds@linux-foundation.org>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] ntfs3: bugfixes for 6.19
+Date: Wed, 3 Dec 2025 13:42:28 +0100
+Message-ID: <20251203124228.6082-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1370; i=brauner@kernel.org; h=from:subject:message-id; bh=1ALGFmGlgOHY6f+bdLdgKebsX+au1yQ5dTRhimTaFoA=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQa8NXdfyOWEe7C1j7j3H39MtmOfckhfYU3uPbO3GJ5W X9idSdfRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwER6JjEyXElxiNLjXsTcG/zF veHQZtE3X3LuXMnZx/2vIaPja/5RBYb/9Vo7JnHefOS2MX2Dr5zm5id7fnmJz3GXVk7n4Wu5Kpf KBAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On Mon, 01 Dec 2025 08:11:42 -0500, Jeff Layton wrote:
-> With three exceptions, ->create() methods provided by filesystems ignore
-> the "excl" flag.  Those exception are NFS, GFS2 and vboxsf which all also
-> provide ->atomic_open.
-> 
-> Since ce8644fcadc5 ("lookup_open(): expand the call of vfs_create()"),
-> the "excl" argument to the ->create() inode_operation is always set to
-> true in vfs_create(). The ->create() call in lookup_open() sets it
-> according to the O_EXCL open flag, but is never called if the filesystem
-> provides ->atomic_open().
-> 
-> [...]
+Please pull this branch containing ntfs3 code for 6.19. There are more 
+patches than usual this time.
 
-Applied to the vfs-6.20.mkdir branch of the vfs/vfs.git tree.
-Patches in the vfs-6.20.mkdir branch should appear in linux-next soon.
+Regards,
+Konstantin
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+----------------------------------------------------------------
+The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+  Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+are available in the Git repository at:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-6.20.mkdir
+  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_6.19
 
-[1/1] vfs: remove the excl argument from the ->create() inode_operation
-      https://git.kernel.org/vfs/vfs/c/7d91315b4335
+for you to fetch changes up to 1b2ae190ea43bebb8c73d21f076addc8a8c71849:
+
+  fs/ntfs3: check for shutdown in fsync (2025-11-19 09:21:36 +0100)
+
+----------------------------------------------------------------
+Changes for 6.19-rc1
+
+Added:
+    support timestamps prior to epoch;
+    do not overwrite uptodate pages;
+    disable readahead for compressed files;
+    setting of dummy blocksize to read boot_block when mounting;
+    the run_lock initialization when loading $Extend;
+    initialization of allocated memory before use;
+    support for the NTFS3_IOC_SHUTDOWN ioctl;
+    check for minimum alignment when performing direct I/O reads;
+    check for shutdown in fsync.
+
+Fixed:
+    mount failure for sparse runs in run_unpack();
+    use-after-free of sbi->options in cmp_fnames;
+    KMSAN uninit bug after failed mi_read in mi_format_new;
+    uninit error after buffer allocation by __getname();
+    KMSAN uninit-value in ni_create_attr_list;
+    double free of sbi->options->nls and ownership of fc->fs_private;
+    incorrect vcn adjustments in attr_collapse_range();
+    mode update when ACL can be reduced to mode;
+    memory leaks in add sub record.
+
+Changed:
+    refactor code, updated terminology, spelling;
+    do not kmap pages in (de)compression code;
+    after ntfs_look_free_mft(), code that fails must put mi;
+    default mount options for "acl" and "prealloc".
+
+Replaced:
+    use unsafe_memcpy() to avoid memcpy size warning;
+    ntfs_bio_pages with page cache for compressed files.
+
+----------------------------------------------------------------
+Bartlomiej Kubik (1):
+      fs/ntfs3: Initialize allocated memory before use
+
+Colin Ian King (1):
+      fs/ntfs3: Fix spelling mistake "recommened" -> "recommended"
+
+Edward Adam Davis (3):
+      ntfs3: init run lock for extend inode
+      fs/ntfs3: out1 also needs to put mi
+      fs/ntfs3: Prevent memory leaks in add sub record
+
+Konstantin Komarov (11):
+      fs/ntfs3: Support timestamps prior to epoch
+      fs/ntfs3: Reformat code and update terminology
+      fs/ntfs3: fix mount failure for sparse runs in run_unpack()
+      fs/ntfs3: disable readahead for compressed files
+      fs/ntfs3: remove ntfs_bio_pages and use page cache for compressed I/O
+      fs/ntfs3: correct attr_collapse_range when file is too fragmented
+      fs/ntfs3: implement NTFS3_IOC_SHUTDOWN ioctl
+      fs/ntfs3: check minimum alignment for direct I/O
+      fs/ntfs3: update mode in xattr when ACL can be reduced to mode
+      fs/ntfs3: change the default mount options for "acl" and "prealloc"
+      fs/ntfs3: check for shutdown in fsync
+
+Lizhi Xu (1):
+      ntfs3: avoid memcpy size warning
+
+Matthew Wilcox (Oracle) (3):
+      ntfs: Do not kmap pages used for reading from disk
+      ntfs: Do not kmap page cache pages for compression
+      ntfs: Do not overwrite uptodate pages
+
+Nirbhay Sharma (1):
+      fs/ntfs3: fix KMSAN uninit-value in ni_create_attr_list
+
+Pedro Demarchi Gomes (1):
+      ntfs: set dummy blocksize to read boot_block when mounting
+
+Raphael Pinsonneault-Thibeault (1):
+      ntfs3: fix uninit memory after failed mi_read in mi_format_new
+
+Sidharth Seela (1):
+      ntfs3: Fix uninit buffer allocated by __getname()
+
+YangWen (2):
+      ntfs3: fix use-after-free of sbi->options in cmp_fnames
+      ntfs3: fix double free of sbi->options->nls and clarify ownership of fc->fs_private
+
+ fs/ntfs3/attrib.c  |  88 ++++++++++-----------
+ fs/ntfs3/dir.c     |   3 +-
+ fs/ntfs3/file.c    | 109 ++++++++++++++++++++++----
+ fs/ntfs3/frecord.c | 219 +++++++++++++++++++----------------------------------
+ fs/ntfs3/fsntfs.c  | 132 +++++++++++++++-----------------
+ fs/ntfs3/index.c   |   3 +-
+ fs/ntfs3/inode.c   |  27 ++++---
+ fs/ntfs3/namei.c   |   6 +-
+ fs/ntfs3/ntfs_fs.h |  40 ++++++----
+ fs/ntfs3/record.c  |   2 +-
+ fs/ntfs3/run.c     |  17 ++++-
+ fs/ntfs3/super.c   |  88 ++++++++++++++++-----
+ fs/ntfs3/xattr.c   |  18 ++++-
+ 13 files changed, 421 insertions(+), 331 deletions(-)
