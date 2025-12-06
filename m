@@ -1,128 +1,173 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536432E413
-	for <ntfs3@lists.linux.dev>; Fri,  5 Dec 2025 08:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942282FABE7;
+	Sat,  6 Dec 2025 14:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764925031; cv=none; b=Bo7dHGCZgCRFi1iWyEgML5AIhQyPA4bNJVpnw+sPSHsOso6RPMdS6KlEvxnjIFy7Nlryj1cxBqmCMxrmYmgl48w6R4J40dMRgdV5JTTugciSlUqBRgKi7wG3wQq5SF2XQoclQ4Ojce6k2Bdz3Vo2zWFGcHFRb5V6gUvDuglbU3s=
+	t=1765029778; cv=none; b=n/2S+4v3NLwnGhi3vpM6d7REKn1ZmlZ44Z8YiPJWr5EGFcFL/cN37gKfJmHAmuaSu99kNV1MmbIXGmcrhWIiSYQHSp2SxUnJzZJG3Xt7YFRTbUbx4a7sbeREENtxOtwy2VhhnUc4irGtu8Qewi0TMIY4mrOQjNaUf7+QQ7knOE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764925031; c=relaxed/simple;
-	bh=kI/BmZknfJEnMAoux6UNqNWZZavATt2Ci9CEQ2NFztc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n/c6ViIBBFNnXO8FKldD8ui6t9gMBtQLJiBLpg9BhWCeM+WxyIYjFsDe4HuYXzM+hsdLtP2/LLlRyXPN5FZHRLMWCvXyxDTOMBokyHi6bXnm1QWb0nv9CH0ksb5Fau1rxP9PDXAkyu8aTG0xkD5E6zdHn4e9A0nujUZO3SYgoAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Xlnz3tOy; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1765029778; c=relaxed/simple;
+	bh=cHLGrinxjH0Mob8lQc7FeiUHYQJExk2+7wmYKJZ8SNM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OUoIpbm/s0F5im3OcQ48QDiQcV3qRr8J2OkJ/o/ctWxPO2wxjESKlUeYoaC3FBFZybmN0/nAMc79DeowWvq9eNcD77Jwe2HReNzMbKylqlS70k6n1RLqK5oDnyYpJptno8QBSv9RzERKPUDzv/5HSsGTEPx9KF3jrc42fh4y7h4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OCRPwW+T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xlnz3tOy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1764925022;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kI/BmZknfJEnMAoux6UNqNWZZavATt2Ci9CEQ2NFztc=;
-	b=Xlnz3tOyAvnzTEu5P5xXFQGUu8B4tZ+K3kVdrmQIrDEjMbzfP+WZ62DQRlKWZ8k9jgt13A
-	GBW/4PrNYEaaS8eaA95OMcWzNb4bnB9Nwrd7gegUFJgQsh3mcB9kUT5Cmdh9j9z0MzdgB9
-	8gR0B9N1u/1ZU83koUKjuA/d2oxwSxw=
-Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com
- [74.125.224.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-441-WU1JhwCmNryuZI2B1sywVQ-1; Fri, 05 Dec 2025 03:55:51 -0500
-X-MC-Unique: WU1JhwCmNryuZI2B1sywVQ-1
-X-Mimecast-MFC-AGG-ID: WU1JhwCmNryuZI2B1sywVQ_1764924951
-Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-64203afd866so3081118d50.0
-        for <ntfs3@lists.linux.dev>; Fri, 05 Dec 2025 00:55:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764924951; x=1765529751;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kI/BmZknfJEnMAoux6UNqNWZZavATt2Ci9CEQ2NFztc=;
-        b=QXaL5eZ/+JAp5LECMVA0hNn41dGp1wyklaw+gdNYSi/b7Dx8cmpn1V/NiMc+0S8B8S
-         +231jTQlB5WeprspPb9HOs7tQPByoF9Xl1Oga9x+PHdB5M7vWP6duECmkfrL8Xgr6+QO
-         Ip0Yz7Gs8wO00W79+HfwHsMR4jOwvJB9/U0+y8OgIs981XWQ4/pVksUl1DsIr7DYryiv
-         JConR3yk1AIeMdzyvoxsQ5mki8tmbDQCbKhtaw8uqOhgIKt0C20RcG6xFHzoNXm/R/Qg
-         gd6rxqpDP36vcmn3IHd9pb0eiTR++NrEyOz2q+lm2nFzlsr2+tE14qnQeSy9+ajmMttr
-         0fYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUqxaKYZXNxxTDm+1+OVTKSF3J8wBtbNUpsGBwG1CZwmYpbiywwI+lr/wRaLbz484MljwPA4w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxGgVRfIACHCSCHAfHG52lUW869g1+88L34bWznIbU5XHwUMxpx
-	GK6ghIgTp3x/RdxvQanir/HpSOMrTVsQGr5AdpjTB0j9l5h8ohc75A35o+Mo1Ga40SojQ9UficZ
-	2rBM/9BeYopQVdVyZHIAVM+cHQ/QRJu2XRP/2nuf4HQpgp8sWdsuoEfkpe/V0ZhZgc0zWJj5bWG
-	1zo37jqG4rNX+Xj2mmY6XpTsNAbA2XCTc=
-X-Gm-Gg: ASbGncsECPqWCMe9TRYIPSDj6pb0SpKNjrp5fOC1CBqlff4hJTxYoHQKuFJoQOgIiEM
-	oCWM+UsneDHXXiLi7zyV19h8bWJ29wJhShdnrA9BKsv2oX3UfbnyGKfRXWE6qvNeLX3S+65o128
-	S0RmrrBGAXNHec1o6F2+a9elmekyaXo6VaRozkAXlUtx+9fqBGB/IGiuScIP7p+UH4
-X-Received: by 2002:a05:690e:11c7:b0:63f:a876:ae58 with SMTP id 956f58d0204a3-6443d6e683bmr5035623d50.9.1764924951053;
-        Fri, 05 Dec 2025 00:55:51 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH06t5ScTL3/41cXQ9/KNdNBUKke6bRZRDIIsDOJI/s90MmtU+OELXMsXOy8CKQ41Y5BIrK12B8cMtyqGUq3aU=
-X-Received: by 2002:a05:690e:11c7:b0:63f:a876:ae58 with SMTP id
- 956f58d0204a3-6443d6e683bmr5035612d50.9.1764924950709; Fri, 05 Dec 2025
- 00:55:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OCRPwW+T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D818C116D0;
+	Sat,  6 Dec 2025 14:02:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765029778;
+	bh=cHLGrinxjH0Mob8lQc7FeiUHYQJExk2+7wmYKJZ8SNM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OCRPwW+TpRdcDdJ2tsQEbqgpyCualVAbPlLDjnd4/H2IM4ZxzwXgRVFqM3CaS+JKB
+	 Eo+IL7lAYNAu2sMNsm7l7TkCiH/QijRi4f0lDcZIVH/bDRtuRmlOcqySRZmRSNpjPP
+	 u7z3tyFuu6X6YWxpA7xLLVMvkY+U0CjT20b2yJFD27n1LZcVn1SV4xNDjx17Li+4m9
+	 v4A0gPFFtB4olTU1Nc/myvLyHWhZ1pJ5xIpSr/kcv4mm94fnCFYtszSkEcdzGLw5XO
+	 6vIp/iAoIqd8PAkYYookveT29cEMJviMfaHHdYgGyMMIasWCHFAihf9gLSWmU/M8WL
+	 uvEpBGSOJuVFg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Sasha Levin <sashal@kernel.org>,
+	ntfs3@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.18-6.12] fs/ntfs3: check for shutdown in fsync
+Date: Sat,  6 Dec 2025 09:02:07 -0500
+Message-ID: <20251206140252.645973-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251206140252.645973-1-sashal@kernel.org>
+References: <20251206140252.645973-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251128083219.2332407-1-zhangshida@kylinos.cn>
- <20251128083219.2332407-7-zhangshida@kylinos.cn> <CANubcdUtncH7OxYg0+4ax0v9OmbuV337AM5DQHOpsBVa-A1cbA@mail.gmail.com>
- <CAHc6FU5DAhrRKyYjuZ+qF84rCsUDiPo3iPoZ67NvN-pbunJH4A@mail.gmail.com>
- <CAHc6FU57xqs1CTSOd-oho_m52aCTorRVJQKKyVAGJ=rbfh5VxQ@mail.gmail.com> <CANubcdVuRNfygyGwnXQpsb2GsHy4=yrzcLC06paUbAMS60+qyA@mail.gmail.com>
-In-Reply-To: <CANubcdVuRNfygyGwnXQpsb2GsHy4=yrzcLC06paUbAMS60+qyA@mail.gmail.com>
-From: Andreas Gruenbacher <agruenba@redhat.com>
-Date: Fri, 5 Dec 2025 09:55:39 +0100
-X-Gm-Features: AWmQ_bn5nYIfNoOVXdPvu9TIQvwvBK4TRvGDwrtrakvgOSxNJSsbjWkIZFSXMho
-Message-ID: <CAHc6FU4G+5QnSgXoMN726DOTF9R-d88-CrfYMof0kME6P_o-7w@mail.gmail.com>
-Subject: Re: [PATCH v2 06/12] gfs2: Replace the repetitive bio chaining code patterns
-To: Stephen Zhang <starzhangzsd@gmail.com>
-Cc: Johannes.Thumshirn@wdc.com, hch@infradead.org, ming.lei@redhat.com, 
-	Gao Xiang <hsiangkao@linux.alibaba.com>, linux-block@vger.kernel.org, 
-	linux-bcache@vger.kernel.org, nvdimm@lists.linux.dev, 
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
-	gfs2@lists.linux.dev, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, zhangshida@kylinos.cn
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: PxyeCSYJcRx32tv5pWwm5BR-7cIgnVAbH4eJBPlSIFo_1764924951
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 5, 2025 at 8:46=E2=80=AFAM Stephen Zhang <starzhangzsd@gmail.co=
-m> wrote:
-> Andreas Gruenbacher <agruenba@redhat.com> =E4=BA=8E2025=E5=B9=B412=E6=9C=
-=884=E6=97=A5=E5=91=A8=E5=9B=9B 17:37=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > On Mon, Dec 1, 2025 at 11:31=E2=80=AFAM Andreas Gruenbacher <agruenba@r=
-edhat.com> wrote:
-> > > On Sat, Nov 29, 2025 at 3:48=E2=80=AFAM Stephen Zhang <starzhangzsd@g=
-mail.com> wrote:
-> > > > This one should also be dropped because the 'prev' and 'new' are in
-> > > > the wrong order.
-> > >
-> > > Ouch. Thanks for pointing this out.
-> >
-> > Linus has merged the fix for this bug now, so this patch can be
-> > updated / re-added.
-> >
->
-> Thank you for the update. I'm not clear on what specifically has been
-> merged or how to verify it.
-> Could you please clarify which fix was merged,
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
-id=3D8a157e0a0aa5
-"gfs2: Fix use of bio_chain"
+[ Upstream commit 1b2ae190ea43bebb8c73d21f076addc8a8c71849 ]
 
+Ensure fsync() returns -EIO when the ntfs3 filesystem is in forced
+shutdown, instead of silently succeeding via generic_file_fsync().
 
-> and if I should now resubmit the cleanup patches?
->
-> Thanks,
-> Shida
->
-> > Thanks,
-> > Andreas
-> >
->
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+## Analysis Summary
+
+### What the commit does:
+Adds a new wrapper function `ntfs_file_fsync()` that checks if the ntfs3
+filesystem is in forced shutdown state before calling
+`generic_file_fsync()`. If the filesystem is shutting down, it returns
+`-EIO` instead of silently succeeding.
+
+### Technical mechanism:
+The fix is straightforward:
+1. Get the inode from the file
+2. Call `ntfs3_forced_shutdown(inode->i_sb)` to check if filesystem is
+   in error state
+3. Return `-EIO` if true, otherwise delegate to `generic_file_fsync()`
+
+### Is this a real bug fix?
+**Yes** - this fixes a data integrity semantics issue. When a filesystem
+is in forced shutdown (typically after critical I/O errors), fsync()
+should return an error to inform applications their data was not synced.
+Silently succeeding could cause data loss without applications knowing.
+
+### Stable kernel criteria evaluation:
+
+| Criteria | Assessment |
+|----------|------------|
+| Fixes real bug | Yes - data integrity semantics issue |
+| Small/contained | Yes - ~10 lines, single function |
+| Obviously correct | Yes - follows existing pattern in ntfs3 |
+| Stable tag | **NO** - maintainer didn't request stable |
+| Fixes: tag | **NO** - no indication of when bug was introduced |
+
+### Critical dependency issue:
+The `ntfs3_forced_shutdown()` function was introduced in **kernel 6.8**
+(commit 6c3684e703837). My verification shows:
+- **v6.6**: Does NOT have `ntfs3_forced_shutdown` (0 occurrences)
+- **v6.8+**: Has the shutdown infrastructure
+
+This means:
+- Stable trees **6.6.y**, **6.1.y**, **5.15.y**, etc. cannot use this
+  fix without first backporting the entire shutdown feature (~75 lines
+  across 7 files)
+- Only newer stable trees (if any exist based on 6.8+) would benefit
+
+### Risk vs Benefit:
+- **Benefit**: Correct fsync() error handling during filesystem shutdown
+- **Risk**: Low for applicable kernels - simple logic, well-tested
+  pattern
+- **Applicability**: Very limited - only affects recent kernels with
+  shutdown support
+
+### Conclusion:
+While this is a legitimate fix for a data integrity issue, several
+factors argue against backporting:
+
+1. **No maintainer request**: No "Cc: stable@vger.kernel.org" tag
+   indicates the maintainer didn't consider this critical for stable
+2. **Dependency on new feature**: Requires the shutdown infrastructure
+   from 6.8, which is not in most active stable trees (6.6.y, 6.1.y,
+   5.15.y)
+3. **Limited impact scope**: Only applies to the relatively recent
+   kernel versions that have the shutdown feature
+4. **The shutdown feature itself is new**: The forced shutdown
+   functionality only existed for a short time before this fix, meaning
+   the exposure window is small
+
+This fix would require significant infrastructure backporting to be
+useful in most stable trees, making it unsuitable as-is for stable
+backporting.
+
+**NO**
+
+ fs/ntfs3/file.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 4c90ec2fa2eae..83f0072f0896c 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -1375,6 +1375,18 @@ static ssize_t ntfs_file_splice_write(struct pipe_inode_info *pipe,
+ 	return iter_file_splice_write(pipe, file, ppos, len, flags);
+ }
+ 
++/*
++ * ntfs_file_fsync - file_operations::fsync
++ */
++static int ntfs_file_fsync(struct file *file, loff_t start, loff_t end, int datasync)
++{
++	struct inode *inode = file_inode(file);
++	if (unlikely(ntfs3_forced_shutdown(inode->i_sb)))
++		return -EIO;
++
++	return generic_file_fsync(file, start, end, datasync);
++}
++
+ // clang-format off
+ const struct inode_operations ntfs_file_inode_operations = {
+ 	.getattr	= ntfs_getattr,
+@@ -1397,7 +1409,7 @@ const struct file_operations ntfs_file_operations = {
+ 	.splice_write	= ntfs_file_splice_write,
+ 	.mmap_prepare	= ntfs_file_mmap_prepare,
+ 	.open		= ntfs_file_open,
+-	.fsync		= generic_file_fsync,
++	.fsync		= ntfs_file_fsync,
+ 	.fallocate	= ntfs_fallocate,
+ 	.release	= ntfs_file_release,
+ };
+-- 
+2.51.0
 
