@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942282FABE7;
-	Sat,  6 Dec 2025 14:02:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0CE218EB1;
+	Sat,  6 Dec 2025 14:03:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765029778; cv=none; b=n/2S+4v3NLwnGhi3vpM6d7REKn1ZmlZ44Z8YiPJWr5EGFcFL/cN37gKfJmHAmuaSu99kNV1MmbIXGmcrhWIiSYQHSp2SxUnJzZJG3Xt7YFRTbUbx4a7sbeREENtxOtwy2VhhnUc4irGtu8Qewi0TMIY4mrOQjNaUf7+QQ7knOE4=
+	t=1765029816; cv=none; b=Tlll7DlWhzi4P5RGuNDMy1XrJe9j1bTk3kmz/CAXfjVZLoOrgWLZDYoWRL3kRSPVmH8PqCZOjEMU6Zvz7aSh/aoTI9OW71TKvoBP8EU/8gq70CyFcxbx5J4PlI07sBmI/EfoaVFwqxRkEKhGKfGP51+xy1/6wE6IgV0Pu202Nr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765029778; c=relaxed/simple;
-	bh=cHLGrinxjH0Mob8lQc7FeiUHYQJExk2+7wmYKJZ8SNM=;
+	s=arc-20240116; t=1765029816; c=relaxed/simple;
+	bh=IeZgkpybZ0rIz1q+Gm3w9egLOf4sif3gjsDJ1W0YVoQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OUoIpbm/s0F5im3OcQ48QDiQcV3qRr8J2OkJ/o/ctWxPO2wxjESKlUeYoaC3FBFZybmN0/nAMc79DeowWvq9eNcD77Jwe2HReNzMbKylqlS70k6n1RLqK5oDnyYpJptno8QBSv9RzERKPUDzv/5HSsGTEPx9KF3jrc42fh4y7h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OCRPwW+T; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=krbQG6vo/QwEz/UJ3WPtnHUTJFZx5cW6XwgIE0mHUUxViHnWFTlVK1LmsqLfJnjhtCEhZxKKGPSCXgFvPem4yMfbYQ1UJNZ8SqJSRaUJWwYzCIjwKlB6wF8VlWVySAtb4EKiyFVM7rs5KlBXNxx54i9aarU5ugRFRFEAZpMSS9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iAOrnNKv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OCRPwW+T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D818C116D0;
-	Sat,  6 Dec 2025 14:02:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iAOrnNKv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18FB4C4CEF5;
+	Sat,  6 Dec 2025 14:03:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765029778;
-	bh=cHLGrinxjH0Mob8lQc7FeiUHYQJExk2+7wmYKJZ8SNM=;
+	s=k20201202; t=1765029816;
+	bh=IeZgkpybZ0rIz1q+Gm3w9egLOf4sif3gjsDJ1W0YVoQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OCRPwW+TpRdcDdJ2tsQEbqgpyCualVAbPlLDjnd4/H2IM4ZxzwXgRVFqM3CaS+JKB
-	 Eo+IL7lAYNAu2sMNsm7l7TkCiH/QijRi4f0lDcZIVH/bDRtuRmlOcqySRZmRSNpjPP
-	 u7z3tyFuu6X6YWxpA7xLLVMvkY+U0CjT20b2yJFD27n1LZcVn1SV4xNDjx17Li+4m9
-	 v4A0gPFFtB4olTU1Nc/myvLyHWhZ1pJ5xIpSr/kcv4mm94fnCFYtszSkEcdzGLw5XO
-	 6vIp/iAoIqd8PAkYYookveT29cEMJviMfaHHdYgGyMMIasWCHFAihf9gLSWmU/M8WL
-	 uvEpBGSOJuVFg==
+	b=iAOrnNKvYXcdWMPHPBWyPDBmpOl29wGuLI9vH+iY4hVcYx+SJD/PgEta59N0Brwtj
+	 x90XQpRsiJwp4/dJJOTu3jvD/PVjZ5/Ek2a+7pXSFgKF2Bcntk8oJ0CBzvwWRC0DNA
+	 KiqxECGPpR1it+VXraTYJ6j4qa3DZQTMs2b/vX6Zf+MuAdx9Oi19lrQolAezHQ9qy0
+	 G5IzDpmVvR4c2gQE7AR4yaVXfe1nbFCdzUB3ZZPOiy8Aa/O1Oi829oM/S/RMml+fvz
+	 /+85XWo5ZSZuNtLiVqJzd+AioYVUKXFbIa2dAhrEGMcjbkIHIBq0W9sXx7WN4TdYgB
+	 2bkx0txkQafvw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
 Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.18-6.12] fs/ntfs3: check for shutdown in fsync
-Date: Sat,  6 Dec 2025 09:02:07 -0500
-Message-ID: <20251206140252.645973-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.15] fs/ntfs3: Support timestamps prior to epoch
+Date: Sat,  6 Dec 2025 09:02:25 -0500
+Message-ID: <20251206140252.645973-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251206140252.645973-1-sashal@kernel.org>
 References: <20251206140252.645973-1-sashal@kernel.org>
@@ -47,14 +47,16 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-[ Upstream commit 1b2ae190ea43bebb8c73d21f076addc8a8c71849 ]
+[ Upstream commit 5180138604323895b5c291eca6aa7c20be494ade ]
 
-Ensure fsync() returns -EIO when the ntfs3 filesystem is in forced
-shutdown, instead of silently succeeding via generic_file_fsync().
+Before it used an unsigned 64-bit type, which prevented proper handling
+of timestamps earlier than 1970-01-01. Switch to a signed 64-bit type to
+support pre-epoch timestamps. The issue was caught by xfstests.
 
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
@@ -62,112 +64,218 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 
 LLM Generated explanations, may be completely bogus:
 
-## Analysis Summary
+Now I have a complete understanding. Let me write the detailed analysis:
 
-### What the commit does:
-Adds a new wrapper function `ntfs_file_fsync()` that checks if the ntfs3
-filesystem is in forced shutdown state before calling
-`generic_file_fsync()`. If the filesystem is shutting down, it returns
-`-EIO` instead of silently succeeding.
+## Detailed Analysis
 
-### Technical mechanism:
-The fix is straightforward:
-1. Get the inode from the file
-2. Call `ntfs3_forced_shutdown(inode->i_sb)` to check if filesystem is
-   in error state
-3. Return `-EIO` if true, otherwise delegate to `generic_file_fsync()`
+### 1. COMMIT MESSAGE ANALYSIS
 
-### Is this a real bug fix?
-**Yes** - this fixes a data integrity semantics issue. When a filesystem
-is in forced shutdown (typically after critical I/O errors), fsync()
-should return an error to inform applications their data was not synced.
-Silently succeeding could cause data loss without applications knowing.
+**Subject:** `fs/ntfs3: Support timestamps prior to epoch`
 
-### Stable kernel criteria evaluation:
+**Commit Body:**
+- The commit explains that before this fix, the code used an **unsigned
+  64-bit type** (`u64`), which prevented proper handling of timestamps
+  earlier than 1970-01-01 (the Unix epoch).
+- The fix switches to a **signed 64-bit type** (`s64`) to support pre-
+  epoch timestamps.
+- The issue was caught by **xfstests test 258**, which specifically
+  tests for timestamps prior to the epoch.
 
-| Criteria | Assessment |
-|----------|------------|
-| Fixes real bug | Yes - data integrity semantics issue |
-| Small/contained | Yes - ~10 lines, single function |
-| Obviously correct | Yes - follows existing pattern in ntfs3 |
-| Stable tag | **NO** - maintainer didn't request stable |
-| Fixes: tag | **NO** - no indication of when bug was introduced |
+**Tags:**
+- **No `Cc: stable@vger.kernel.org` tag** is present.
+- **No `Fixes:` tag** is present.
 
-### Critical dependency issue:
-The `ntfs3_forced_shutdown()` function was introduced in **kernel 6.8**
-(commit 6c3684e703837). My verification shows:
-- **v6.6**: Does NOT have `ntfs3_forced_shutdown` (0 occurrences)
-- **v6.8+**: Has the shutdown infrastructure
+### 2. CODE CHANGE ANALYSIS
 
-This means:
-- Stable trees **6.6.y**, **6.1.y**, **5.15.y**, etc. cannot use this
-  fix without first backporting the entire shutdown feature (~75 lines
-  across 7 files)
-- Only newer stable trees (if any exist based on 6.8+) would benefit
+#### The Bug:
 
-### Risk vs Benefit:
-- **Benefit**: Correct fsync() error handling during filesystem shutdown
-- **Risk**: Low for applicable kernels - simple logic, well-tested
-  pattern
-- **Applicability**: Very limited - only affects recent kernels with
-  shutdown support
+In the current code (before the patch):
 
-### Conclusion:
-While this is a legitimate fix for a data integrity issue, several
-factors argue against backporting:
+```980:987:fs/ntfs3/ntfs_fs.h
+static inline void nt2kernel(const __le64 tm, struct timespec64 *ts)
+{
+        u64 t = le64_to_cpu(tm) - _100ns2seconds * SecondsToStartOf1970;
 
-1. **No maintainer request**: No "Cc: stable@vger.kernel.org" tag
-   indicates the maintainer didn't consider this critical for stable
-2. **Dependency on new feature**: Requires the shutdown infrastructure
-   from 6.8, which is not in most active stable trees (6.6.y, 6.1.y,
-   5.15.y)
-3. **Limited impact scope**: Only applies to the relatively recent
-   kernel versions that have the shutdown feature
-4. **The shutdown feature itself is new**: The forced shutdown
-   functionality only existed for a short time before this fix, meaning
-   the exposure window is small
+        // WARNING: do_div changes its first argument(!)
+        ts->tv_nsec = do_div(t, _100ns2seconds) * 100;
+        ts->tv_sec = t;
+}
+```
 
-This fix would require significant infrastructure backporting to be
-useful in most stable trees, making it unsuitable as-is for stable
-backporting.
+The variable `t` is declared as `u64` (unsigned 64-bit integer). NTFS
+timestamps are stored as the number of 100-nanosecond intervals since
+January 1, 1601. After subtracting `SecondsToStartOf1970`
+(0x00000002B6109100), which represents the number of seconds between
+1601 and 1970, `t` represents a Unix timestamp.
 
-**NO**
+**Problem:** When the NTFS timestamp represents a date before January 1,
+1970, the subtraction produces a **negative** result. But since `t` is
+unsigned (`u64`), the negative value wraps around to a very large
+positive value, resulting in a wrong (future) timestamp.
 
- fs/ntfs3/file.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+**The `do_div` macro** operates on unsigned integers and uses unsigned
+division, which doesn't handle negative values correctly.
 
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 4c90ec2fa2eae..83f0072f0896c 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -1375,6 +1375,18 @@ static ssize_t ntfs_file_splice_write(struct pipe_inode_info *pipe,
- 	return iter_file_splice_write(pipe, file, ppos, len, flags);
+#### The Fix:
+
+The patch changes:
+1. `u64 t` → `s64 t` (signed 64-bit integer)
+2. `do_div(t, _100ns2seconds)` → `div_s64_rem(t, _100ns2seconds, &t32)`
+   (signed division)
+3. Introduces `s32 t32` to hold the remainder
+
+The new code:
+```c
+static inline void nt2kernel(const __le64 tm, struct timespec64 *ts)
+{
+        s32 t32;
+        /* use signed 64 bit to support timestamps prior to epoch.
+xfstest 258. */
+        s64 t = le64_to_cpu(tm) - _100ns2seconds * SecondsToStartOf1970;
+
+        ts->tv_sec = div_s64_rem(t, _100ns2seconds, &t32);
+        ts->tv_nsec = t32 * 100;
+}
+```
+
+`div_s64_rem()` is designed for signed 64-bit division with a 32-bit
+divisor, properly handling negative values and returning the remainder
+through a pointer.
+
+**Root Cause:** Using unsigned arithmetic for a value that can be
+negative (pre-epoch timestamps).
+
+### 3. CLASSIFICATION
+
+- **Bug fix:** YES - This is fixing incorrect behavior with timestamps
+  before 1970.
+- **New feature:** NO - It doesn't add new functionality, only fixes
+  existing functionality.
+- **Security fix:** NO - No security implications.
+- **Exception category:** NO - Not a device ID, quirk, DT update, build
+  fix, or documentation fix.
+
+### 4. SCOPE AND RISK ASSESSMENT
+
+**Lines Changed:** Very minimal - changes ~8 lines of code within a
+single inline function.
+
+**Files Touched:** 1 file (`fs/ntfs3/ntfs_fs.h`)
+
+**Subsystem Complexity:**
+- NTFS3 is a relatively new filesystem (added in 5.15)
+- The change is in a core time conversion function `nt2kernel()` that is
+  called whenever reading timestamps from disk
+- All file timestamps (creation, modification, access times) use this
+  function
+
+**Risk Assessment:**
+- **LOW RISK** - The change is small, surgical, and uses a well-
+  established kernel API (`div_s64_rem`)
+- The new code is mathematically equivalent to the old code for
+  timestamps after 1970
+- For timestamps before 1970, the new code produces correct results
+  (negative `tv_sec` values)
+- The `timespec64` structure's `tv_sec` field is `time64_t` which is
+  signed (`__s64`), so it can properly represent negative timestamps
+
+### 5. USER IMPACT
+
+**Who is affected?**
+- Users of NTFS3 filesystem
+- Users with NTFS volumes containing files with pre-1970 timestamps
+
+**How severe?**
+- The bug causes **data corruption** (incorrect timestamp
+  display/storage) for pre-epoch files
+- Without this fix, timestamps like January 1, 1960 would appear as some
+  date far in the future
+- This breaks file management tools and any software relying on correct
+  timestamps
+
+**Test Coverage:**
+- The fix was identified by **xfstests generic/258**, a standard
+  filesystem test that specifically validates pre-epoch timestamp
+  handling
+- This is a well-known and commonly run test suite
+
+### 6. STABILITY INDICATORS
+
+- **No `Tested-by:` tag** - However, xfstests is mentioned, implying the
+  fix was tested against this test suite
+- **No `Reviewed-by:` tag**
+- The commit is from the ntfs3 maintainer (Konstantin Komarov from
+  Paragon Software)
+
+### 7. DEPENDENCY CHECK
+
+- **No dependencies** - This is a standalone fix
+- Uses existing kernel APIs (`div_s64_rem`, `s64`, `s32`) that have been
+  available for a long time
+- The affected code (`nt2kernel` function) has existed since ntfs3 was
+  introduced in kernel 5.15
+
+### Summary
+
+**YES signals:**
+1. ✅ Fixes a **real bug** (incorrect timestamps for pre-epoch dates)
+2. ✅ **Small and surgical** change - only 8 lines changed in one
+   function
+3. ✅ **Obviously correct** - uses proper signed arithmetic for values
+   that can be negative
+4. ✅ No new features, no new APIs
+5. ✅ Caught by **xfstests**, a standard fs test suite (test 258)
+6. ✅ Applies to all stable kernels that have ntfs3 (5.15+)
+7. ✅ Zero risk of regression for post-epoch timestamps (mathematically
+   equivalent)
+8. ✅ Fixes **data integrity issue** (timestamp corruption)
+
+**NO signals:**
+1. ⚠️ No explicit `Cc: stable@vger.kernel.org` tag
+2. ⚠️ No `Fixes:` tag
+3. ⚠️ No `Tested-by:` or `Reviewed-by:` tags
+
+**Verdict:**
+
+This is a clear bug fix that addresses a real issue (incorrect pre-epoch
+timestamp handling) that affects NTFS3 users. The fix is small,
+surgical, uses well-tested kernel APIs, and is mathematically correct.
+While the commit lacks stable tags, the nature of the fix - correcting
+data integrity issues with timestamps - makes it appropriate for
+backporting. The bug has existed since ntfs3 was introduced (5.15), so
+all stable trees with ntfs3 would benefit from this fix.
+
+The lack of `Cc: stable` tag is likely an oversight since the fix
+clearly meets stable kernel criteria: it's a bug fix, small in scope,
+obviously correct, and fixes a real user-visible issue (incorrect file
+timestamps).
+
+**YES**
+
+ fs/ntfs3/ntfs_fs.h | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 630128716ea73..2649fbe16669d 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -979,11 +979,12 @@ static inline __le64 kernel2nt(const struct timespec64 *ts)
+  */
+ static inline void nt2kernel(const __le64 tm, struct timespec64 *ts)
+ {
+-	u64 t = le64_to_cpu(tm) - _100ns2seconds * SecondsToStartOf1970;
++	s32 t32;
++	/* use signed 64 bit to support timestamps prior to epoch. xfstest 258. */
++	s64 t = le64_to_cpu(tm) - _100ns2seconds * SecondsToStartOf1970;
+ 
+-	// WARNING: do_div changes its first argument(!)
+-	ts->tv_nsec = do_div(t, _100ns2seconds) * 100;
+-	ts->tv_sec = t;
++	ts->tv_sec = div_s64_rem(t, _100ns2seconds, &t32);
++	ts->tv_nsec = t32 * 100;
  }
  
-+/*
-+ * ntfs_file_fsync - file_operations::fsync
-+ */
-+static int ntfs_file_fsync(struct file *file, loff_t start, loff_t end, int datasync)
-+{
-+	struct inode *inode = file_inode(file);
-+	if (unlikely(ntfs3_forced_shutdown(inode->i_sb)))
-+		return -EIO;
-+
-+	return generic_file_fsync(file, start, end, datasync);
-+}
-+
- // clang-format off
- const struct inode_operations ntfs_file_inode_operations = {
- 	.getattr	= ntfs_getattr,
-@@ -1397,7 +1409,7 @@ const struct file_operations ntfs_file_operations = {
- 	.splice_write	= ntfs_file_splice_write,
- 	.mmap_prepare	= ntfs_file_mmap_prepare,
- 	.open		= ntfs_file_open,
--	.fsync		= generic_file_fsync,
-+	.fsync		= ntfs_file_fsync,
- 	.fallocate	= ntfs_fallocate,
- 	.release	= ntfs_file_release,
- };
+ static inline struct ntfs_sb_info *ntfs_sb(struct super_block *sb)
 -- 
 2.51.0
 
