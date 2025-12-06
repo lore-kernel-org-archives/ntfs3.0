@@ -1,202 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2752A1A5B8A;
-	Sat,  6 Dec 2025 14:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438DE2E645;
+	Sat,  6 Dec 2025 18:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765029820; cv=none; b=LSIaB2GjnsYkPZIjjPDxns5GYuT/orRjkZHRf5zeqeaAsUm0wLJZC9L6TQvUS/ya8vh9ZQyC4DC7r99e9cS2SyEyhSTvrCtxNz69K0UG5OCNX0GcswY8qzFlD/mh0Cx6JxTCzjxHT40cCPlD/AfDgAB4YwxRt67VarfYoHlg158=
+	t=1765044121; cv=none; b=FXUh7iOc2wd+/eSSyFMsuwi7MZbsbO0mgnPHfCsCwJftfRR8smk8j00rXb6evsY68PsTB/bVLhHjX1werznskTmXVOuuRz/3bs5tLouT+3BoxUavOMc3i7zIFj2DL18GCkrkdP93kAJtZwiyVD+SY8VhkTqoNJLld2Ud8Y9IrN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765029820; c=relaxed/simple;
-	bh=kJAdqCXr4d3RnC2ag6980p/5Tk4kg1ToKyAzNT9irtc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kpqy0C7jfM1I/Z6y+QMwqKUecQ+Frc2b4hmPGzus5DJz6h5Q4YvYRWgIDuJtDtagY/yqOI201XnFzDtzej2+ruhZDgq6kgrV4wICWdXwDr4Re5ODEn0LjAb+uectKP83A107/mV3hiK5Zj4BWQgKuQ3Ys4/WiSalUB82Qz2K1c0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VXn/Lgxm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765044121; c=relaxed/simple;
+	bh=YoHW8PPiN2rSkIW/NA0mZkSslyiXwDxRxy8s45eKEus=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dqx1uUVb4TpGc6N+SxOq5PKNO8oHcU1Nw0LTlREpu+KEtA0PzFyZLRWxUJ65hG/H3GrlczCT4FRjli8cF4IkRMYQ97QfjgziQ9cfCQYP2N/ZcGkz4Nrkq515HeDqW3N1yEiv7g8hZX8yTAV3ezDhnvhN2X4W9CaJWildNdFhMso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fKU+BuyT; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VXn/Lgxm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BA70C113D0;
-	Sat,  6 Dec 2025 14:03:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765029819;
-	bh=kJAdqCXr4d3RnC2ag6980p/5Tk4kg1ToKyAzNT9irtc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VXn/Lgxmu6x1H4vOirfzlumAgzWOKXEHT5GKJJc2WowrvC3Cutbhrx5EwyDrADedQ
-	 K04NLntrmDuK0EDfbSMgHTVunaDnlNVXwNR2U5Phqw7DjYKfp0bjaQwlVTC1/jbFAk
-	 wKay5NWNnNlIbULPlCC10hvUutUOUZWpypAQG9u7ED4FvQQF37qERvY56aUFdy9xR9
-	 YsDP8Kp7HlQtbA7DX88JV9mGKCY1SZutuEduiYT4Vb0McM9TfrXYeQIJAdmWURYe0q
-	 BRvr3BJ4y5HQOB4bcwXX/1GuK4PN3LNrTZsBBkryPac99+RAr3wQxuZGmWBpWjly+2
-	 6uYy7GHedVmKw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>,
-	syzbot+f4f84b57a01d6b8364ad@syzkaller.appspotmail.com,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Sasha Levin <sashal@kernel.org>,
-	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.18-6.6] ntfs: set dummy blocksize to read boot_block when mounting
-Date: Sat,  6 Dec 2025 09:02:27 -0500
-Message-ID: <20251206140252.645973-22-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251206140252.645973-1-sashal@kernel.org>
-References: <20251206140252.645973-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fKU+BuyT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765044120; x=1796580120;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YoHW8PPiN2rSkIW/NA0mZkSslyiXwDxRxy8s45eKEus=;
+  b=fKU+BuyTcRZYfPX1wBgEcT7VV7298DM2/MPx6qzmaRk1Z9hYBONZAL8L
+   ERE+I/pjLVnuR9TlgTf68egGrZE7Bgv/IYA9/3rYb6EJe4E84fjsj8i0d
+   mUXsaD0s/NyWT66WwhE4nMq1xcrFaCovvpbFXsZbeS6zIYYgyU09yNxuL
+   Zjvhdm4rimAJH8bZMf48ih7t+r2nj0jQWvfzLhncc4W8LputEzM9qwK4v
+   6o4joRuZqZHQluQg9OVqrr5cosqXXOwDa+0LgCyPYQq0SnG+8ng45vxJa
+   5f0keV9AQcfpbI69kupQJTOwmeYd3rHJIefdvJcGQ+c6FQEjXZLZx2yhD
+   Q==;
+X-CSE-ConnectionGUID: id+CwKC0QpibuEZVkCzJ8g==
+X-CSE-MsgGUID: lFrfe0xTSJ+S/oVoURK1dQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="70896811"
+X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
+   d="scan'208";a="70896811"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 10:01:59 -0800
+X-CSE-ConnectionGUID: mbVIpTMvSQGcpHRVZsdDmg==
+X-CSE-MsgGUID: s4k9r/igRSCDKCoEwdGvBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
+   d="scan'208";a="195384340"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 06 Dec 2025 10:01:55 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vRwbP-00000000IeP-3eOd;
+	Sat, 06 Dec 2025 18:01:51 +0000
+Date: Sun, 7 Dec 2025 02:01:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: zhangshida <starzhangzsd@gmail.com>, Johannes.Thumshirn@wdc.com,
+	hch@infradead.org, agruenba@redhat.com, ming.lei@redhat.com,
+	hsiangkao@linux.alibaba.com, csander@purestorage.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-bcache@vger.kernel.org, nvdimm@lists.linux.dev,
+	virtualization@lists.linux.dev, ntfs3@lists.linux.dev,
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	zhangshida@kylinos.cn, starzhangzsd@gmail.com
+Subject: Re: [PATCH v3 3/9] block: prevent race condition on bi_status in
+ __bio_chain_endio
+Message-ID: <202512070122.my7vkR7A-lkp@intel.com>
+References: <20251129090122.2457896-4-zhangshida@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.18
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251129090122.2457896-4-zhangshida@kylinos.cn>
 
-From: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>
+Hi zhangshida,
 
-[ Upstream commit d1693a7d5a38acf6424235a6070bcf5b186a360d ]
+kernel test robot noticed the following build warnings:
 
-When mounting, sb->s_blocksize is used to read the boot_block without
-being defined or validated. Set a dummy blocksize before attempting to
-read the boot_block.
+[auto build test WARNING on axboe/for-next]
+[also build test WARNING on xfs-linux/for-next nvdimm/libnvdimm-for-next linus/master brauner-vfs/vfs.all v6.18 next-20251205]
+[cannot apply to nvdimm/dax-misc]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The issue can be triggered with the following syz reproducer:
+url:    https://github.com/intel-lab-lkp/linux/commits/zhangshida/md-bcache-fix-improper-use-of-bi_end_io/20251129-170348
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
+patch link:    https://lore.kernel.org/r/20251129090122.2457896-4-zhangshida%40kylinos.cn
+patch subject: [PATCH v3 3/9] block: prevent race condition on bi_status in __bio_chain_endio
+config: loongarch-randconfig-r133-20251130 (https://download.01.org/0day-ci/archive/20251207/202512070122.my7vkR7A-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251207/202512070122.my7vkR7A-lkp@intel.com/reproduce)
 
-  mkdirat(0xffffffffffffff9c, &(0x7f0000000080)='./file1\x00', 0x0)
-  r4 = openat$nullb(0xffffffffffffff9c, &(0x7f0000000040), 0x121403, 0x0)
-  ioctl$FS_IOC_SETFLAGS(r4, 0x40081271, &(0x7f0000000980)=0x4000)
-  mount(&(0x7f0000000140)=@nullb, &(0x7f0000000040)='./cgroup\x00',
-        &(0x7f0000000000)='ntfs3\x00', 0x2208004, 0x0)
-  syz_clone(0x88200200, 0x0, 0x0, 0x0, 0x0, 0x0)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512070122.my7vkR7A-lkp@intel.com/
 
-Here, the ioctl sets the bdev block size to 16384. During mount,
-get_tree_bdev_flags() calls sb_set_blocksize(sb, block_size(bdev)),
-but since block_size(bdev) > PAGE_SIZE, sb_set_blocksize() leaves
-sb->s_blocksize at zero.
+sparse warnings: (new ones prefixed by >>)
+>> block/bio.c:319:17: sparse: sparse: cast from restricted blk_status_t
+>> block/bio.c:319:17: sparse: sparse: cast from restricted blk_status_t
+>> block/bio.c:319:17: sparse: sparse: cast to restricted blk_status_t
 
-Later, ntfs_init_from_boot() attempts to read the boot_block while
-sb->s_blocksize is still zero, which triggers the bug.
+vim +319 block/bio.c
 
-Reported-by: syzbot+f4f84b57a01d6b8364ad@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=f4f84b57a01d6b8364ad
-Signed-off-by: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>
-[almaz.alexandrovich@paragon-software.com: changed comment style, added
-return value handling]
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+   313	
+   314	static struct bio *__bio_chain_endio(struct bio *bio)
+   315	{
+   316		struct bio *parent = bio->bi_private;
+   317	
+   318		if (bio->bi_status)
+ > 319			cmpxchg(&parent->bi_status, 0, bio->bi_status);
+   320	
+   321		bio_put(bio);
+   322		return parent;
+   323	}
+   324	
 
-LLM Generated explanations, may be completely bogus:
-
-Now I have a complete picture of the issue. Let me summarize my
-analysis:
-
-## Summary of Analysis
-
-### The Bug
-
-The commit fixes a bug in ntfs3's `ntfs_init_from_boot()` function where
-`ntfs_bread()` is called to read the boot block **before**
-`sb->s_blocksize` is properly set.
-
-### Root Cause Analysis
-
-1. **Mount Flow**: When mounting an ntfs3 filesystem:
-   - `get_tree_bdev()` calls `setup_bdev_super()` which calls
-     `sb_set_blocksize(sb, block_size(bdev))`
-   - If `block_size(bdev) > PAGE_SIZE` (which can happen via ioctl
-     `FS_IOC_SETFLAGS` setting bdev block size to 16384 as shown in the
-     reproducer), and the filesystem doesn't have `FS_LBS` flag,
-     `sb_set_blocksize()` returns 0 and leaves `sb->s_blocksize = 0`
-
-2. **The Crash Path**: In `ntfs_init_from_boot()`:
-  ```c
-  sbi->volume.blocks = dev_size >> PAGE_SHIFT;
-  // sb->s_blocksize is 0 here!
-  bh = ntfs_bread(sb, boot_block);  // Uses sb->s_blocksize = 0
-  ```
-
-3. **Cascade to Infinite Loop**:
-   - `ntfs_bread()` → `sb_bread_unmovable()` → `__bread_gfp()` with
-     size=0
-   - `bdev_getblk()` → `__getblk_slow()` → `grow_buffers()` →
-     `grow_dev_folio()` → `folio_alloc_buffers()`
-   - In `folio_alloc_buffers()`: `while ((offset -= size) >= 0)` with
-     size=0 causes infinite loop
-
-### The Fix
-
-The fix adds a call to `sb_min_blocksize(sb, PAGE_SIZE)` before
-attempting to read the boot block:
-
-```c
-/* Set dummy blocksize to read boot_block. */
-if (!sb_min_blocksize(sb, PAGE_SIZE)) {
-    return -EINVAL;
-}
-```
-
-This ensures:
-1. `sb->s_blocksize` is set to at least the device's logical block size,
-   capped at PAGE_SIZE
-2. If this fails, mount fails gracefully with `-EINVAL` instead of
-   hanging
-
-### Backport Assessment
-
-**STRONG YES signals:**
-1. ✅ **Fixes a real crash/hang** - System hangs due to infinite loop in
-   `folio_alloc_buffers()`
-2. ✅ **Syzbot reported** - Has syzkaller reproducer
-   (`f4f84b57a01d6b8364ad`)
-3. ✅ **Small, surgical fix** - Only 4 lines added
-4. ✅ **Clear, obvious fix** - Sets blocksize before using it for reads
-5. ✅ **Uses well-established API** - `sb_min_blocksize()` is a standard
-   helper used by many filesystems
-6. ✅ **Affects production users** - ntfs3 is widely used (included since
-   5.15)
-7. ✅ **Denial of Service potential** - A local user can trigger the hang
-
-**Risk Assessment:**
-- **Very Low Risk**: The fix adds a safety check before an I/O operation
-- **No behavioral change** for normal cases - the blocksize would have
-  been set to PAGE_SIZE anyway after successful boot read
-- **Graceful failure** if `sb_min_blocksize()` fails (which would be
-  very rare in practice)
-
-**Stable Trees Affected:**
-- All stable trees with ntfs3: 5.15.y, 6.1.y, 6.6.y, 6.10.y, 6.11.y,
-  etc.
-- The bug has existed since ntfs3 was introduced in v5.15
-- The recent `FS_LBS` change (March 2025) made it easier to trigger but
-  the underlying issue predates it
-
-**Dependencies:**
-- The fix is standalone and uses existing kernel APIs
-- No other patches required for backport
-- `sb_min_blocksize()` has been available since at least 2.6.x
-
-**YES**
-
- fs/ntfs3/super.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index ddff94c091b8c..e6c0908e27c29 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -933,6 +933,11 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
- 
- 	sbi->volume.blocks = dev_size >> PAGE_SHIFT;
- 
-+	/* Set dummy blocksize to read boot_block. */
-+	if (!sb_min_blocksize(sb, PAGE_SIZE)) {
-+		return -EINVAL;
-+	}
-+
- read_boot:
- 	bh = ntfs_bread(sb, boot_block);
- 	if (!bh)
 -- 
-2.51.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
