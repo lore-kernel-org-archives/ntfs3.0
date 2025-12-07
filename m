@@ -1,120 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438DE2E645;
-	Sat,  6 Dec 2025 18:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E84F2D29C7
+	for <ntfs3@lists.linux.dev>; Sun,  7 Dec 2025 10:04:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765044121; cv=none; b=FXUh7iOc2wd+/eSSyFMsuwi7MZbsbO0mgnPHfCsCwJftfRR8smk8j00rXb6evsY68PsTB/bVLhHjX1werznskTmXVOuuRz/3bs5tLouT+3BoxUavOMc3i7zIFj2DL18GCkrkdP93kAJtZwiyVD+SY8VhkTqoNJLld2Ud8Y9IrN0=
+	t=1765101872; cv=none; b=jdQjXADKJd90mQ2LIY67oCR4dYrNC/GqcN6WNG7bLL6yGEXlIOXqWj8v2s1DFeCF7bhKLBCThi6Qu3VmsmTozqz9tPrGH9cdh8IOGZIYouWIEZFXuLAg3R9lhTmqjs5YL6xYYD+bMZRoLTfR6sW4/WV9d/1SyIxsgyBUsjMhjAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765044121; c=relaxed/simple;
-	bh=YoHW8PPiN2rSkIW/NA0mZkSslyiXwDxRxy8s45eKEus=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dqx1uUVb4TpGc6N+SxOq5PKNO8oHcU1Nw0LTlREpu+KEtA0PzFyZLRWxUJ65hG/H3GrlczCT4FRjli8cF4IkRMYQ97QfjgziQ9cfCQYP2N/ZcGkz4Nrkq515HeDqW3N1yEiv7g8hZX8yTAV3ezDhnvhN2X4W9CaJWildNdFhMso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fKU+BuyT; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765101872; c=relaxed/simple;
+	bh=oU+vvCeHMKSGHwu1ci54jpS3s8eATvZ3aiVnEThBVIc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y5/X/ar3ZsiFvUt/L9PxqeW6j6PVEPDVcsuqG+cNmkxuMAoFwoVR93iEWkCTrWqZg5ts4IOSTnR+BXkEq4uNisDmfQVTVs2G9rIcaCupxEfU/sTPEFZV5ys3th45aTeUZFun2XCPp10IKpvvzNmm4nWBHIx4jDiEbEGCoJ8hRQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S49MsaeF; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fKU+BuyT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765044120; x=1796580120;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YoHW8PPiN2rSkIW/NA0mZkSslyiXwDxRxy8s45eKEus=;
-  b=fKU+BuyTcRZYfPX1wBgEcT7VV7298DM2/MPx6qzmaRk1Z9hYBONZAL8L
-   ERE+I/pjLVnuR9TlgTf68egGrZE7Bgv/IYA9/3rYb6EJe4E84fjsj8i0d
-   mUXsaD0s/NyWT66WwhE4nMq1xcrFaCovvpbFXsZbeS6zIYYgyU09yNxuL
-   Zjvhdm4rimAJH8bZMf48ih7t+r2nj0jQWvfzLhncc4W8LputEzM9qwK4v
-   6o4joRuZqZHQluQg9OVqrr5cosqXXOwDa+0LgCyPYQq0SnG+8ng45vxJa
-   5f0keV9AQcfpbI69kupQJTOwmeYd3rHJIefdvJcGQ+c6FQEjXZLZx2yhD
-   Q==;
-X-CSE-ConnectionGUID: id+CwKC0QpibuEZVkCzJ8g==
-X-CSE-MsgGUID: lFrfe0xTSJ+S/oVoURK1dQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="70896811"
-X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
-   d="scan'208";a="70896811"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 10:01:59 -0800
-X-CSE-ConnectionGUID: mbVIpTMvSQGcpHRVZsdDmg==
-X-CSE-MsgGUID: s4k9r/igRSCDKCoEwdGvBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
-   d="scan'208";a="195384340"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 06 Dec 2025 10:01:55 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vRwbP-00000000IeP-3eOd;
-	Sat, 06 Dec 2025 18:01:51 +0000
-Date: Sun, 7 Dec 2025 02:01:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: zhangshida <starzhangzsd@gmail.com>, Johannes.Thumshirn@wdc.com,
-	hch@infradead.org, agruenba@redhat.com, ming.lei@redhat.com,
-	hsiangkao@linux.alibaba.com, csander@purestorage.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-bcache@vger.kernel.org, nvdimm@lists.linux.dev,
-	virtualization@lists.linux.dev, ntfs3@lists.linux.dev,
-	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	zhangshida@kylinos.cn, starzhangzsd@gmail.com
-Subject: Re: [PATCH v3 3/9] block: prevent race condition on bi_status in
- __bio_chain_endio
-Message-ID: <202512070122.my7vkR7A-lkp@intel.com>
-References: <20251129090122.2457896-4-zhangshida@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S49MsaeF"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4ee328b8e38so33637911cf.0
+        for <ntfs3@lists.linux.dev>; Sun, 07 Dec 2025 02:04:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765101870; x=1765706670; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oU+vvCeHMKSGHwu1ci54jpS3s8eATvZ3aiVnEThBVIc=;
+        b=S49MsaeFdEPAFtEpevNWYJDBtH9mEM8+LNqS+FHLmZtODALy4nY5A+THgHZfsTmEnV
+         4/lQxMMu2QNceC//DIxv561zSQQbU2FtWw8micw48SqH8cvqAwY08WzuVDneKOnPmEuO
+         VIhmQMTsiOpZFzUuw+0rJOAtbw9bEvkRze6HlKyxc1vnnl08wHSVMRsA5yifuOWvHzlv
+         SfiOpNS9ZD59iqDVVgvOQGGBA+ahd/XQaixyMeJbkdqLh1JamJxOjEtBAD5CrshAfZdP
+         EHDeNeWIGNbEBrCjeFBn+M2KYYxa76CVy4eCegGUu2KGCCt2Jnqz7RPi8TrZLdf9mdna
+         sA8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765101870; x=1765706670;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oU+vvCeHMKSGHwu1ci54jpS3s8eATvZ3aiVnEThBVIc=;
+        b=cD27k6YvARAWqRd3jgC7ST3ZZl9bpIs86O2oTKTLLyEr+GDEVFdSo+hF2sgiaUjAV8
+         XPixP0V6zR9OBzfqLp7tM5qbNpu9VblyebM8FuomQjK0fkCJTb39YThppKBOzS8tok5q
+         eForkuBY9jyrmdm/G+PVfIL2mW1Xgv+vAoVTU2WSoFsPI6XG/YTSy+JIV2dZPHLAJYoF
+         dnVySzuy7gq+AitZvOzIOZNJMxa26KC4MckDz4iTlVv3tl9Nu2B7Ewj+UCrGECJ3yPJV
+         p3uPmeVihhgvLUTyF9SZBkJ1ZIDScMdcPXUcP4L0l8TRNcVgacPdj8ymDmvly/FNwW/S
+         offw==
+X-Forwarded-Encrypted: i=1; AJvYcCVzE1DM2pe0p9JIPzrw5GU86wuuqxFr5SPsbimvto/nhKV4sY9yXopyorKP4X4hfa1xCh8IGw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzs/NK2SSi7FU2eGMcLSwZBhmZb11qwDDauonQjEkaReoRylXmO
+	sxrv7XDX/vi16+fDbj/yXuMqsw6sRxCB+C9GQYWxol6eFoD4T/UEFRdz7/nmH9zfnnDe9GwYjvQ
+	kKLweE8k4IDKwLLEdWxa7Xw5C53E4LYk=
+X-Gm-Gg: ASbGnctaK5+NSvuJtAahPcbv1En5L8744BzpPivXJ7/JSyVn0i002Pa3AF7bL+65I7/
+	/4cFlhFzULYcUjUtYznEEJ4cZbt7J0oIOEbC3JIerXkBsRtpXPi5Q0ZWyw8K/c9wufUlsYUF+Qt
+	f+ifv0ijgDBSiBUYxEbKxAwiFRwGxbE6iPomgZyXmw09WcZ4lvcYObqSZQIhazAsR4qHIPNTr6l
+	Kea5UGQ8mUnCfh1FNe/SSBfrZB/IyDTFl9FphLNKpkbWgyj0tM7s76LGvJr1GQRbMGRG98=
+X-Google-Smtp-Source: AGHT+IFyS19gciaAgZhRx4HvH1R1sNPMXGO05IWdCy0tyufd5AG5DROw9tSZhuIt2ZeFQYvOMOepLj8Zf3YwFI1IGTs=
+X-Received: by 2002:a05:622a:1249:b0:4ed:aeaa:ec4d with SMTP id
+ d75a77b69052e-4f03ff48c23mr65405971cf.77.1765101869874; Sun, 07 Dec 2025
+ 02:04:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251129090122.2457896-4-zhangshida@kylinos.cn>
+References: <20251128083219.2332407-1-zhangshida@kylinos.cn>
+ <20251128083219.2332407-7-zhangshida@kylinos.cn> <CANubcdUtncH7OxYg0+4ax0v9OmbuV337AM5DQHOpsBVa-A1cbA@mail.gmail.com>
+ <CAHc6FU5DAhrRKyYjuZ+qF84rCsUDiPo3iPoZ67NvN-pbunJH4A@mail.gmail.com>
+ <CAHc6FU57xqs1CTSOd-oho_m52aCTorRVJQKKyVAGJ=rbfh5VxQ@mail.gmail.com>
+ <CANubcdVuRNfygyGwnXQpsb2GsHy4=yrzcLC06paUbAMS60+qyA@mail.gmail.com> <CAHc6FU4G+5QnSgXoMN726DOTF9R-d88-CrfYMof0kME6P_o-7w@mail.gmail.com>
+In-Reply-To: <CAHc6FU4G+5QnSgXoMN726DOTF9R-d88-CrfYMof0kME6P_o-7w@mail.gmail.com>
+From: Stephen Zhang <starzhangzsd@gmail.com>
+Date: Sun, 7 Dec 2025 18:03:53 +0800
+X-Gm-Features: AQt7F2r1YNFWGA2Q9VwdNr_tG5KYi4lqES_2HjNJQ6tE7fdz6CI5_Dt06IQV2e4
+Message-ID: <CANubcdVAitTW_aBqwxC=TV77rg_iie0uX54_qEtMCjgdN+zeig@mail.gmail.com>
+Subject: Re: [PATCH v2 06/12] gfs2: Replace the repetitive bio chaining code patterns
+To: Andreas Gruenbacher <agruenba@redhat.com>, sashal@kernel.org
+Cc: Johannes.Thumshirn@wdc.com, hch@infradead.org, ming.lei@redhat.com, 
+	Gao Xiang <hsiangkao@linux.alibaba.com>, linux-block@vger.kernel.org, 
+	linux-bcache@vger.kernel.org, nvdimm@lists.linux.dev, 
+	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
+	gfs2@lists.linux.dev, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, zhangshida@kylinos.cn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi zhangshida,
+Andreas Gruenbacher <agruenba@redhat.com> =E4=BA=8E2025=E5=B9=B412=E6=9C=88=
+5=E6=97=A5=E5=91=A8=E4=BA=94 16:55=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Fri, Dec 5, 2025 at 8:46=E2=80=AFAM Stephen Zhang <starzhangzsd@gmail.=
+com> wrote:
+> > Andreas Gruenbacher <agruenba@redhat.com> =E4=BA=8E2025=E5=B9=B412=E6=
+=9C=884=E6=97=A5=E5=91=A8=E5=9B=9B 17:37=E5=86=99=E9=81=93=EF=BC=9A
+> > >
+> > > On Mon, Dec 1, 2025 at 11:31=E2=80=AFAM Andreas Gruenbacher <agruenba=
+@redhat.com> wrote:
+> > > > On Sat, Nov 29, 2025 at 3:48=E2=80=AFAM Stephen Zhang <starzhangzsd=
+@gmail.com> wrote:
+> > > > > This one should also be dropped because the 'prev' and 'new' are =
+in
+> > > > > the wrong order.
+> > > >
+> > > > Ouch. Thanks for pointing this out.
+> > >
+> > > Linus has merged the fix for this bug now, so this patch can be
+> > > updated / re-added.
+> > >
+> >
+> > Thank you for the update. I'm not clear on what specifically has been
+> > merged or how to verify it.
+> > Could you please clarify which fix was merged,
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D8a157e0a0aa5
+> "gfs2: Fix use of bio_chain"
+>
+>
 
-kernel test robot noticed the following build warnings:
+Thank you for the detailed clarification. Here is a polite and
+professional rephrasing of your message:
 
-[auto build test WARNING on axboe/for-next]
-[also build test WARNING on xfs-linux/for-next nvdimm/libnvdimm-for-next linus/master brauner-vfs/vfs.all v6.18 next-20251205]
-[cannot apply to nvdimm/dax-misc]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+---
 
-url:    https://github.com/intel-lab-lkp/linux/commits/zhangshida/md-bcache-fix-improper-use-of-bi_end_io/20251129-170348
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251129090122.2457896-4-zhangshida%40kylinos.cn
-patch subject: [PATCH v3 3/9] block: prevent race condition on bi_status in __bio_chain_endio
-config: loongarch-randconfig-r133-20251130 (https://download.01.org/0day-ci/archive/20251207/202512070122.my7vkR7A-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251207/202512070122.my7vkR7A-lkp@intel.com/reproduce)
+[WARNING]
+Hello,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512070122.my7vkR7A-lkp@intel.com/
+I may not have expressed myself clearly, and you might have
+misunderstood my point.
 
-sparse warnings: (new ones prefixed by >>)
->> block/bio.c:319:17: sparse: sparse: cast from restricted blk_status_t
->> block/bio.c:319:17: sparse: sparse: cast from restricted blk_status_t
->> block/bio.c:319:17: sparse: sparse: cast to restricted blk_status_t
+In the original code, the real end I/O handler (`gfs2_end_log_read`)
+was placed at the end of the chained bio list, while the newer
+`bio_chain_endio` was placed earlier. With `bio_chain(new, prev)`,
+the chain looked like:
 
-vim +319 block/bio.c
+`bio1 =E2=86=92 bio2 =E2=86=92 bio3`
+`bio_chain_endio =E2=86=92 bio_chain_endio =E2=86=92 gfs2_end_log_read`
 
-   313	
-   314	static struct bio *__bio_chain_endio(struct bio *bio)
-   315	{
-   316		struct bio *parent = bio->bi_private;
-   317	
-   318		if (bio->bi_status)
- > 319			cmpxchg(&parent->bi_status, 0, bio->bi_status);
-   320	
-   321		bio_put(bio);
-   322		return parent;
-   323	}
-   324	
+This ensured the actual handler (`gfs2_end_log_read`) was triggered
+at the end of the chain.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+However, after the fix changed the order to `bio_chain(prev, new)`,
+the chain now looks like:
+
+`bio1 =E2=86=92 bio2 =E2=86=92 bio3`
+`gfs2_end_log_read =E2=86=92 bio_chain_endio =E2=86=92 bio_chain_endio`
+
+This seems to place `gfs2_end_log_read` at the beginning rather
+than the end, potentially preventing it from being executed as intended.
+
+I hope I misunderstand the gfs2 code logic, and your fix may still be
+correct. However, given how quickly the change was made and ported
+back, I wanted to highlight this concern in case the original behavior
+was intentional.
+
+Thank you for your attention to this matter.
+
+Best regards,
+Shida
+
+
+
+
+> > and if I should now resubmit the cleanup patches?
+> >
+> > Thanks,
+> > Shida
+> >
+> > > Thanks,
+> > > Andreas
+> > >
+> >
+>
