@@ -1,138 +1,113 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A0B21C16A
-	for <ntfs3@lists.linux.dev>; Tue,  9 Dec 2025 07:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD63A219A86
+	for <ntfs3@lists.linux.dev>; Tue,  9 Dec 2025 13:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765265544; cv=none; b=LpdvfgZ+eM7jHKMjMv1s4Mh8W7l5UWWy8MY1vvRf6l2W6BFeq/qUNYE1JCkZZcq3C39W+It2nIClj4S8mVyx2XdPrMcc9P0BepPOh8+yVHcYSqf/PBDDPXGzxAiUNJssXnXeN+s4SwIRjEr4LkXZMAPf1qGqBd0r4qioBm7Xh8M=
+	t=1765287390; cv=none; b=LBEi1amgIKtLKFpI+zWShbws1dU6wAqLGiy+mc6WzZjcIEADkhZOWFNz0vAYdZ2X5zWI9bNiFKzj10RAOj3PeOoUmtJgCZTWLeoZVXYVpU7sNbpdRA0CKfRx7Fud75nAbvxggWkFime50IHxA5AbWgLZrF9YFSBDK8HCp956XqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765265544; c=relaxed/simple;
-	bh=J/4JYCvk/+LRKhxkmSyM7lbHTbMLPWcKEB/jDN51shI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mLexuzkDrgcGxsR6D3829Qd8PE0uB/hqw3KWRgLbYk2z2MC+rgfKHHnAR8fOxORJjJoEUT0aBXQ39AySuJJ/4E5lRy2tkho8zvU2g2VV32Hi8XrJzehdFlxlKktGbsOdfZakrGeBUef/ciWcPtfLQ3QLWhFu6mdQqY1XCtHBweM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dQVsr3mpJzYQtwV
-	for <ntfs3@lists.linux.dev>; Tue,  9 Dec 2025 15:32:00 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.75])
-	by mail.maildlp.com (Postfix) with ESMTP id 95FFD1A06DC
-	for <ntfs3@lists.linux.dev>; Tue,  9 Dec 2025 15:32:13 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.87.129])
-	by APP2 (Coremail) with SMTP id Syh0CgDH80150DdpHC18BA--.12048S4;
-	Tue, 09 Dec 2025 15:32:10 +0800 (CST)
-From: libaokun@huaweicloud.com
-To: ntfs3@lists.linux.dev
-Cc: almaz.alexandrovich@paragon-software.com,
-	linux-fsdevel@vger.kernel.org,
-	yangerkun@huawei.com,
-	libaokun1@huawei.com,
-	syzbot+23aee7afc440fe803545@syzkaller.appspotmail.com
-Subject: [PATCH] fs/ntfs3: fix ntfs_mount_options leak in ntfs_fill_super()
-Date: Tue,  9 Dec 2025 15:21:41 +0800
-Message-Id: <20251209072141.2936193-1-libaokun@huaweicloud.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1765287390; c=relaxed/simple;
+	bh=qVarLALKtE361AXiFTDbqQdvpzOuT6ATWZEaexT5d7k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=DbtfALllwnvWRl2ETLsGkmJLm9K4sCancBmDUzh5Tt9F/gja5ijYilVn5n72MROPSanHqrsEBu6Tt8T+uTKvvharSQzUHSKItF4pBxwBRTyaSanIMWsodSm+y6p8YuQYxoKKqfuMccZwDq7dZSkqQVKvuSP4MgIYT8XMm/HqZtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=pzzba2TR; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="pzzba2TR"
+Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id F06E81D42;
+	Tue,  9 Dec 2025 13:32:46 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=pzzba2TR;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id EC8852416;
+	Tue,  9 Dec 2025 13:36:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1765287379;
+	bh=+O73i+bCFw4Mv+OPee7n7G19xy4Km6MIHZ62jG4QOXA=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=pzzba2TRi1v8QiLCQ9SleSr9Zk8GW955eIdG9luvPmqAoRCKWRKG/3PZkN+SLTT0k
+	 7uVnj6Ycc1Y8cnXEJbM0vXoaYQwaon6iZ+8qSsAehGaHngq03KCpzFvGNYlnRQAzDY
+	 7z2muMa+ax+BEZl7BV8n0UEZaL/4V8/VxMGn73yE=
+Received: from [192.168.95.128] (172.30.20.141) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 9 Dec 2025 16:36:19 +0300
+Message-ID: <ee6e02b3-9384-44f7-ab69-826be883d21c@paragon-software.com>
+Date: Tue, 9 Dec 2025 14:36:17 +0100
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:Syh0CgDH80150DdpHC18BA--.12048S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxZw15Jw48Zw13JF47ZrWUArb_yoW5Gw1kpr
-	y3ur18Kr48tF10qanFqFs5Xw1fCayDCFWjgryfXw13Aw1Dt3W7Ka4vy3s5KrZrZrWkJr1F
-	vr4qyrWagryjyaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkCb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4I
-	kC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lw4CEc2x0rVAKj4xxMxkF7I0En4kS14v2
-	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
-	Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUFXo7DU
-	UUU
-X-CM-SenderInfo: 5olet0hnxqqx5xdzvxpfor3voofrz/1tbiAQAJBWkthuQYCAABs6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs: ntfs3: check return value of indx_find to avoid
+ infinite loop
+To: Jaehun Gou <p22gone@gmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Seunghun Han
+	<kkamagui@gmail.com>, Jihoon Kwon <kjh010315@gmail.com>
+References: <20251202105959.1885454-1-p22gone@gmail.com>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20251202105959.1885454-1-p22gone@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-From: Baokun Li <libaokun1@huawei.com>
+On 12/2/25 11:59, Jaehun Gou wrote:
 
-In ntfs_fill_super(), the fc->fs_private pointer is set to NULL without
-first freeing the memory it points to. This causes the subsequent call to
-ntfs_fs_free() to skip freeing the ntfs_mount_options structure.
+> We found an infinite loop bug in the ntfs3 file system that can lead to a
+> Denial-of-Service (DoS) condition.
+>
+> A malformed dentry in the ntfs3 filesystem can cause the kernel to hang
+> during the lookup operations. By setting the HAS_SUB_NODE flag in an
+> INDEX_ENTRY within a directory's INDEX_ALLOCATION block and manipulating the
+> VCN pointer, an attacker can cause the indx_find() function to repeatedly
+> read the same block, allocating 4 KB of memory each time. The kernel lacks
+> VCN loop detection and depth limits, causing memory exhaustion and an OOM
+> crash.
+>
+> This patch adds a return value check for fnd_push() to prevent a memory
+> exhaustion vulnerability caused by infinite loops. When the index exceeds the
+> size of the fnd->nodes array, fnd_push() returns -EINVAL. The indx_find()
+> function checks this return value and stops processing, preventing further
+> memory allocation.
+>
+> Co-developed-by: Seunghun Han <kkamagui@gmail.com>
+> Signed-off-by: Seunghun Han <kkamagui@gmail.com>
+> Co-developed-by: Jihoon Kwon <kjh010315@gmail.com>
+> Signed-off-by: Jihoon Kwon <kjh010315@gmail.com>
+> Signed-off-by: Jaehun Gou <p22gone@gmail.com>
+> ---
+>   fs/ntfs3/index.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+> index 6d1bf890929d..050b3709e020 100644
+> --- a/fs/ntfs3/index.c
+> +++ b/fs/ntfs3/index.c
+> @@ -1190,7 +1190,12 @@ int indx_find(struct ntfs_index *indx, struct ntfs_inode *ni,
+>   			return -EINVAL;
+>   		}
+>   
+> -		fnd_push(fnd, node, e);
+> +		err = fnd_push(fnd, node, e);
+> +
+> +		if (err) {
+> +			put_indx_node(node);
+> +			return err;
+> +		}
+>   	}
+>   
+>   	*entry = e;
 
-This results in a kmemleak report:
+Your patch has been applied. Thanks.
 
-  unreferenced object 0xff1100015378b800 (size 32):
-    comm "mount", pid 582, jiffies 4294890685
-    hex dump (first 32 bytes):
-      00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-      00 00 00 00 00 00 00 00 ed ff ed ff 00 04 00 00  ................
-    backtrace (crc ed541d8c):
-      __kmalloc_cache_noprof+0x424/0x5a0
-      __ntfs_init_fs_context+0x47/0x590
-      alloc_fs_context+0x5d8/0x960
-      __x64_sys_fsopen+0xb1/0x190
-      do_syscall_64+0x50/0x1f0
-      entry_SYSCALL_64_after_hwframe+0x76/0x7e
-
-This issue can be reproduced using the following commands:
-        fallocate -l 100M test.file
-        mount test.file /tmp/test
-
-Since sbi->options is duplicated from fc->fs_private and does not
-directly use the memory allocated for fs_private, it is unnecessary to
-set fc->fs_private to NULL.
-
-Additionally, this patch simplifies the code by utilizing the helper
-function put_mount_options() instead of open-coding the cleanup logic.
-
-Reported-by: syzbot+23aee7afc440fe803545@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=23aee7afc440fe803545
-Fixes: aee4d5a521e9 ("ntfs3: fix double free of sbi->options->nls and clarify ownership of fc->fs_private")
-Signed-off-by: Baokun Li <libaokun1@huawei.com>
----
- fs/ntfs3/super.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
-
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 8b0cf0ed4f72..0567a3b224ed 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -705,9 +705,7 @@ static void ntfs_put_super(struct super_block *sb)
- 	ntfs_set_state(sbi, NTFS_DIRTY_CLEAR);
- 
- 	if (sbi->options) {
--		unload_nls(sbi->options->nls);
--		kfree(sbi->options->nls_name);
--		kfree(sbi->options);
-+		put_mount_options(sbi->options);
- 		sbi->options = NULL;
- 	}
- 
-@@ -1253,7 +1251,6 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 		}
- 	}
- 	sbi->options = options;
--	fc->fs_private = NULL;
- 	sb->s_flags |= SB_NODIRATIME;
- 	sb->s_magic = 0x7366746e; // "ntfs"
- 	sb->s_op = &ntfs_sops;
-@@ -1679,9 +1676,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- out:
- 	/* sbi->options == options */
- 	if (options) {
--		unload_nls(options->nls);
--		kfree(options->nls_name);
--		kfree(options);
-+		put_mount_options(sbi->options);
- 		sbi->options = NULL;
- 	}
- 
--- 
-2.39.2
+Regards,
+Konstantin
 
