@@ -1,202 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BDE2E8B7E;
-	Tue,  9 Dec 2025 00:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A0B21C16A
+	for <ntfs3@lists.linux.dev>; Tue,  9 Dec 2025 07:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765239489; cv=none; b=cXRaE/OS+7zWlocKdPCrD7bX3czgYUI4cmksKaPP+gRZUtBauzJBuC8RXo2w4n2ygvgVHdFaGnkOAIPsrTEppje7Y7fimn9uMIzlxdB4u1y8FIej28UKcPRPtVnd2gPLxQ1nWl22GjNGuNlNVoIQqZDXnOAStwtUcAq/uiAbRYg=
+	t=1765265544; cv=none; b=LpdvfgZ+eM7jHKMjMv1s4Mh8W7l5UWWy8MY1vvRf6l2W6BFeq/qUNYE1JCkZZcq3C39W+It2nIClj4S8mVyx2XdPrMcc9P0BepPOh8+yVHcYSqf/PBDDPXGzxAiUNJssXnXeN+s4SwIRjEr4LkXZMAPf1qGqBd0r4qioBm7Xh8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765239489; c=relaxed/simple;
-	bh=kJAdqCXr4d3RnC2ag6980p/5Tk4kg1ToKyAzNT9irtc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Rgi6ZJLLLAeW9TJ3dDcMgIdSDesnxeOuemQakPARYOUv1/asQHvpJVE4ohLhlROqEjzHZ72dc1gMorvsTXZnN3guXBMUhCj0wf1896pxXFwVyjqDfVYaNMlFLZklG0AtjI0vMqkXwu8WFfH+tJ8dA7g8YS04bsPhd2zL5vg5Wm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fXZenXE4; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fXZenXE4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E7B3C19421;
-	Tue,  9 Dec 2025 00:18:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765239489;
-	bh=kJAdqCXr4d3RnC2ag6980p/5Tk4kg1ToKyAzNT9irtc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fXZenXE4Eyl8DW9b/XyINswx2mwHO4gXbbKR3QfLwsI6+E1aX29SdTSF9W0acAHQt
-	 APIOoc1cvA3Fqxiu7UQbGM3QsFgvB1pV2mhdcpyoAwI5PJQOaRgC936Cy1JuO+HqkH
-	 8+fq5Tc7gWDBTEtvfZC/Tim2DbWfg1aAaxaKAmaEw51bKxtaC0+8ToHFOpyV1MWyRb
-	 PRH6d06F9/re30QsHEJsrTE+c3HKDmvqTfQipkKAjeheO//k39SA2IX5IK+Qv2HdPo
-	 FcPnTKwZyFFoO95zRr0OkgUSttoumI97YeEjtk4HbrCdB5bYZpdQkJlrumHeDGi4Yh
-	 WQZh4DJpnTfDw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>,
-	syzbot+f4f84b57a01d6b8364ad@syzkaller.appspotmail.com,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Sasha Levin <sashal@kernel.org>,
-	ntfs3@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.18-6.6] ntfs: set dummy blocksize to read boot_block when mounting
-Date: Mon,  8 Dec 2025 19:15:31 -0500
-Message-ID: <20251209001610.611575-39-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251209001610.611575-1-sashal@kernel.org>
-References: <20251209001610.611575-1-sashal@kernel.org>
+	s=arc-20240116; t=1765265544; c=relaxed/simple;
+	bh=J/4JYCvk/+LRKhxkmSyM7lbHTbMLPWcKEB/jDN51shI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mLexuzkDrgcGxsR6D3829Qd8PE0uB/hqw3KWRgLbYk2z2MC+rgfKHHnAR8fOxORJjJoEUT0aBXQ39AySuJJ/4E5lRy2tkho8zvU2g2VV32Hi8XrJzehdFlxlKktGbsOdfZakrGeBUef/ciWcPtfLQ3QLWhFu6mdQqY1XCtHBweM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dQVsr3mpJzYQtwV
+	for <ntfs3@lists.linux.dev>; Tue,  9 Dec 2025 15:32:00 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.75])
+	by mail.maildlp.com (Postfix) with ESMTP id 95FFD1A06DC
+	for <ntfs3@lists.linux.dev>; Tue,  9 Dec 2025 15:32:13 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.50.87.129])
+	by APP2 (Coremail) with SMTP id Syh0CgDH80150DdpHC18BA--.12048S4;
+	Tue, 09 Dec 2025 15:32:10 +0800 (CST)
+From: libaokun@huaweicloud.com
+To: ntfs3@lists.linux.dev
+Cc: almaz.alexandrovich@paragon-software.com,
+	linux-fsdevel@vger.kernel.org,
+	yangerkun@huawei.com,
+	libaokun1@huawei.com,
+	syzbot+23aee7afc440fe803545@syzkaller.appspotmail.com
+Subject: [PATCH] fs/ntfs3: fix ntfs_mount_options leak in ntfs_fill_super()
+Date: Tue,  9 Dec 2025 15:21:41 +0800
+Message-Id: <20251209072141.2936193-1-libaokun@huaweicloud.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.18
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:Syh0CgDH80150DdpHC18BA--.12048S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxZw15Jw48Zw13JF47ZrWUArb_yoW5Gw1kpr
+	y3ur18Kr48tF10qanFqFs5Xw1fCayDCFWjgryfXw13Aw1Dt3W7Ka4vy3s5KrZrZrWkJr1F
+	vr4qyrWagryjyaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkCb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4I
+	kC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lw4CEc2x0rVAKj4xxMxkF7I0En4kS14v2
+	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
+	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+	AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
+	Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUFXo7DU
+	UUU
+X-CM-SenderInfo: 5olet0hnxqqx5xdzvxpfor3voofrz/1tbiAQAJBWkthuQYCAABs6
 
-From: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>
+From: Baokun Li <libaokun1@huawei.com>
 
-[ Upstream commit d1693a7d5a38acf6424235a6070bcf5b186a360d ]
+In ntfs_fill_super(), the fc->fs_private pointer is set to NULL without
+first freeing the memory it points to. This causes the subsequent call to
+ntfs_fs_free() to skip freeing the ntfs_mount_options structure.
 
-When mounting, sb->s_blocksize is used to read the boot_block without
-being defined or validated. Set a dummy blocksize before attempting to
-read the boot_block.
+This results in a kmemleak report:
 
-The issue can be triggered with the following syz reproducer:
+  unreferenced object 0xff1100015378b800 (size 32):
+    comm "mount", pid 582, jiffies 4294890685
+    hex dump (first 32 bytes):
+      00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+      00 00 00 00 00 00 00 00 ed ff ed ff 00 04 00 00  ................
+    backtrace (crc ed541d8c):
+      __kmalloc_cache_noprof+0x424/0x5a0
+      __ntfs_init_fs_context+0x47/0x590
+      alloc_fs_context+0x5d8/0x960
+      __x64_sys_fsopen+0xb1/0x190
+      do_syscall_64+0x50/0x1f0
+      entry_SYSCALL_64_after_hwframe+0x76/0x7e
 
-  mkdirat(0xffffffffffffff9c, &(0x7f0000000080)='./file1\x00', 0x0)
-  r4 = openat$nullb(0xffffffffffffff9c, &(0x7f0000000040), 0x121403, 0x0)
-  ioctl$FS_IOC_SETFLAGS(r4, 0x40081271, &(0x7f0000000980)=0x4000)
-  mount(&(0x7f0000000140)=@nullb, &(0x7f0000000040)='./cgroup\x00',
-        &(0x7f0000000000)='ntfs3\x00', 0x2208004, 0x0)
-  syz_clone(0x88200200, 0x0, 0x0, 0x0, 0x0, 0x0)
+This issue can be reproduced using the following commands:
+        fallocate -l 100M test.file
+        mount test.file /tmp/test
 
-Here, the ioctl sets the bdev block size to 16384. During mount,
-get_tree_bdev_flags() calls sb_set_blocksize(sb, block_size(bdev)),
-but since block_size(bdev) > PAGE_SIZE, sb_set_blocksize() leaves
-sb->s_blocksize at zero.
+Since sbi->options is duplicated from fc->fs_private and does not
+directly use the memory allocated for fs_private, it is unnecessary to
+set fc->fs_private to NULL.
 
-Later, ntfs_init_from_boot() attempts to read the boot_block while
-sb->s_blocksize is still zero, which triggers the bug.
+Additionally, this patch simplifies the code by utilizing the helper
+function put_mount_options() instead of open-coding the cleanup logic.
 
-Reported-by: syzbot+f4f84b57a01d6b8364ad@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=f4f84b57a01d6b8364ad
-Signed-off-by: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>
-[almaz.alexandrovich@paragon-software.com: changed comment style, added
-return value handling]
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Reported-by: syzbot+23aee7afc440fe803545@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=23aee7afc440fe803545
+Fixes: aee4d5a521e9 ("ntfs3: fix double free of sbi->options->nls and clarify ownership of fc->fs_private")
+Signed-off-by: Baokun Li <libaokun1@huawei.com>
 ---
-
-LLM Generated explanations, may be completely bogus:
-
-Now I have a complete picture of the issue. Let me summarize my
-analysis:
-
-## Summary of Analysis
-
-### The Bug
-
-The commit fixes a bug in ntfs3's `ntfs_init_from_boot()` function where
-`ntfs_bread()` is called to read the boot block **before**
-`sb->s_blocksize` is properly set.
-
-### Root Cause Analysis
-
-1. **Mount Flow**: When mounting an ntfs3 filesystem:
-   - `get_tree_bdev()` calls `setup_bdev_super()` which calls
-     `sb_set_blocksize(sb, block_size(bdev))`
-   - If `block_size(bdev) > PAGE_SIZE` (which can happen via ioctl
-     `FS_IOC_SETFLAGS` setting bdev block size to 16384 as shown in the
-     reproducer), and the filesystem doesn't have `FS_LBS` flag,
-     `sb_set_blocksize()` returns 0 and leaves `sb->s_blocksize = 0`
-
-2. **The Crash Path**: In `ntfs_init_from_boot()`:
-  ```c
-  sbi->volume.blocks = dev_size >> PAGE_SHIFT;
-  // sb->s_blocksize is 0 here!
-  bh = ntfs_bread(sb, boot_block);  // Uses sb->s_blocksize = 0
-  ```
-
-3. **Cascade to Infinite Loop**:
-   - `ntfs_bread()` → `sb_bread_unmovable()` → `__bread_gfp()` with
-     size=0
-   - `bdev_getblk()` → `__getblk_slow()` → `grow_buffers()` →
-     `grow_dev_folio()` → `folio_alloc_buffers()`
-   - In `folio_alloc_buffers()`: `while ((offset -= size) >= 0)` with
-     size=0 causes infinite loop
-
-### The Fix
-
-The fix adds a call to `sb_min_blocksize(sb, PAGE_SIZE)` before
-attempting to read the boot block:
-
-```c
-/* Set dummy blocksize to read boot_block. */
-if (!sb_min_blocksize(sb, PAGE_SIZE)) {
-    return -EINVAL;
-}
-```
-
-This ensures:
-1. `sb->s_blocksize` is set to at least the device's logical block size,
-   capped at PAGE_SIZE
-2. If this fails, mount fails gracefully with `-EINVAL` instead of
-   hanging
-
-### Backport Assessment
-
-**STRONG YES signals:**
-1. ✅ **Fixes a real crash/hang** - System hangs due to infinite loop in
-   `folio_alloc_buffers()`
-2. ✅ **Syzbot reported** - Has syzkaller reproducer
-   (`f4f84b57a01d6b8364ad`)
-3. ✅ **Small, surgical fix** - Only 4 lines added
-4. ✅ **Clear, obvious fix** - Sets blocksize before using it for reads
-5. ✅ **Uses well-established API** - `sb_min_blocksize()` is a standard
-   helper used by many filesystems
-6. ✅ **Affects production users** - ntfs3 is widely used (included since
-   5.15)
-7. ✅ **Denial of Service potential** - A local user can trigger the hang
-
-**Risk Assessment:**
-- **Very Low Risk**: The fix adds a safety check before an I/O operation
-- **No behavioral change** for normal cases - the blocksize would have
-  been set to PAGE_SIZE anyway after successful boot read
-- **Graceful failure** if `sb_min_blocksize()` fails (which would be
-  very rare in practice)
-
-**Stable Trees Affected:**
-- All stable trees with ntfs3: 5.15.y, 6.1.y, 6.6.y, 6.10.y, 6.11.y,
-  etc.
-- The bug has existed since ntfs3 was introduced in v5.15
-- The recent `FS_LBS` change (March 2025) made it easier to trigger but
-  the underlying issue predates it
-
-**Dependencies:**
-- The fix is standalone and uses existing kernel APIs
-- No other patches required for backport
-- `sb_min_blocksize()` has been available since at least 2.6.x
-
-**YES**
-
- fs/ntfs3/super.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ fs/ntfs3/super.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
 diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index ddff94c091b8c..e6c0908e27c29 100644
+index 8b0cf0ed4f72..0567a3b224ed 100644
 --- a/fs/ntfs3/super.c
 +++ b/fs/ntfs3/super.c
-@@ -933,6 +933,11 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+@@ -705,9 +705,7 @@ static void ntfs_put_super(struct super_block *sb)
+ 	ntfs_set_state(sbi, NTFS_DIRTY_CLEAR);
  
- 	sbi->volume.blocks = dev_size >> PAGE_SHIFT;
+ 	if (sbi->options) {
+-		unload_nls(sbi->options->nls);
+-		kfree(sbi->options->nls_name);
+-		kfree(sbi->options);
++		put_mount_options(sbi->options);
+ 		sbi->options = NULL;
+ 	}
  
-+	/* Set dummy blocksize to read boot_block. */
-+	if (!sb_min_blocksize(sb, PAGE_SIZE)) {
-+		return -EINVAL;
-+	}
-+
- read_boot:
- 	bh = ntfs_bread(sb, boot_block);
- 	if (!bh)
+@@ -1253,7 +1251,6 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 		}
+ 	}
+ 	sbi->options = options;
+-	fc->fs_private = NULL;
+ 	sb->s_flags |= SB_NODIRATIME;
+ 	sb->s_magic = 0x7366746e; // "ntfs"
+ 	sb->s_op = &ntfs_sops;
+@@ -1679,9 +1676,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ out:
+ 	/* sbi->options == options */
+ 	if (options) {
+-		unload_nls(options->nls);
+-		kfree(options->nls_name);
+-		kfree(options);
++		put_mount_options(sbi->options);
+ 		sbi->options = NULL;
+ 	}
+ 
 -- 
-2.51.0
+2.39.2
 
