@@ -1,110 +1,97 @@
-Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB061F19A
-	for <ntfs3@lists.linux.dev>; Sun, 28 Dec 2025 03:53:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B36238C1B
+	for <ntfs3@lists.linux.dev>; Mon, 29 Dec 2025 08:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766894021; cv=none; b=BvSHUMpBDVfXYsgAVNU/IF2l6TVagImMs6+HW9pguq9cwhImsSbncpxf5TfbKRTdYm9rAmpHoIaJlhaKeltbsOaOMsczh2lofYCv555jWgL6fCTsbxG5tHV+3ldj4CRt0kjlCwbXE0IO1DbC1pbO0ghMRqSfpiLY2AYJAYpi9oE=
+	t=1766995884; cv=none; b=VlvZx8FB60SD+NB9+eNNgTaSi4z6+FEITAq2Z9zQ5AhDAGqDCVHd66uI6Yr5XICwgV8BbgTrOggZUwHjvozL65+s3V1Ij93KCzqslpolr1J1k46GL7JMMPOrSKG6bNnhAFmRi2YtWfKnlrxzHZFk7bXxHRbuiX28N9TFXrEHctM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766894021; c=relaxed/simple;
-	bh=R4RaHhgHRtYqHw7sgZFIRRQqKMbkE+fy6iCESmtjh2w=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=bHJbKd3Wfwcz3uFOQVytIajKgmyeXHMGZ1W73LJyICwZO1wZ080xPmyc/cm6piSdxIMwNQAcLzYT9S1OqdeFnyIl4aiBdmBPx6T9LgFXJLrVkaM9P0kfTgujClOMVSza8/1ku72acjh5AanFJ5PcVfVJQdLzbDtESkheyUQL/fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Q4ajDgLh; arc=none smtp.client-ip=162.62.57.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Q4ajDgLh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1766894008; bh=Uwswnz/YOqpctSG1gRalhVsZaA5kCtxEa+XJ1xZHYrs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Q4ajDgLhhFrLEzyYsii6+Ur2oMHPjSv6QKzMBk9M6Hi+/6myLEwLOk7dGxNMHzPoG
-	 dQtK7akzNq2ZjAOBdc5WoUSk5FTv8NUj/OrpwkKfHHI7bCTKygSOZnzObHaMYbCpsK
-	 wvQUPK7HPYlyehUgD6H7ebEI/TtGwrzqEgGaRkpw=
-Received: from lxu-ped-host.. ([111.201.7.117])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id D5911EAC; Sun, 28 Dec 2025 11:53:25 +0800
-X-QQ-mid: xmsmtpt1766894005te7zby2rk
-Message-ID: <tencent_D46CCC9550EA26ED7ECE4079366D542E790A@qq.com>
-X-QQ-XMAILINFO: Nj+lDvaLCxoMVYmJ5AEVjQ7dgqCEXFVBVKJglVQwE05f1/c8H71kTxuMW1y7dx
-	 sharozbYNSJWNlG1ww96s7ODenGx3mJJ/QUuymn2OrTPtiPl8L4ph1+bwALmvDrk82pHspqurJAG
-	 YVrJeyOX+ST6rMgplu05Q7xm+qO6LOkEIefD1ZKuSv2IgwuS+AoQ6Y0z+9OR3avSgkss4eYp9v4e
-	 7DAfKEnExz0X1rpDfWYZawhY1BC43X4rsp53tjWLhGToQznSPzKkgv5tpevwHM2vIHSG47SfxB7q
-	 UhuYbrA0FG1acHq0plJP+HgAmGeZ8U9e83OqUMgceNlrk/sx4Ci3vGgutAEDBQK35V1hz5XcIP7F
-	 Ucg8sJRcg1kLNqHJvq09f+VKey2aAtB+CSJSuTD5alXEszajMwVYfOmLO7nVEOkG7e0bO1BTGttI
-	 MjF/q0UzkukQvE7MxZvpSZ2gDgf3Q9vhDhHArqRD69armfEva0/NLBduWcfhPZJov0R5lzlrI4bx
-	 Mgbzc8MUresAohXfGTy/Z3q2n+DuYdxxjs0/sJd4N9OR7EYgdhHT14krD5Fxcmmi9JhPeq9I3ldy
-	 dwlAN0BJ2y/D9Ks1dSQAJpp+JJGBa5PMeaK4UMHuR6LU1emuRwFS+qgDMRZifpRSrsG6ngl0iOnD
-	 NQK0zzqEn+dlXd5BCBve9txvCv4XaWnEEwFHdf7t9jJpnjph8v3okMJGgYV3L37YWb84VII1BLip
-	 pF/LLypXonL0u0s0azxcbVZHGJ1c38US0zJ8kzbPsEx0YRVY+Ath6EznoaKQE7f+4r2hBq70VI6e
-	 caMqksl9ESooMMnRh0la0mLaAVPbkBL3nDwOmmH2x1CcragVBGviGUibMh5/CqbDvl5ygk2BcHn6
-	 2Qb5fkOAsxs+It/mCWjBdGJAD31APlQavZoGYxamcEEAZOu3I97TApVlbwq9o05PXVs5zwfHrsZ7
-	 beW2xDbQdzf4ULdLBl9RZ+pyEJ2Na0IDK+9PwQka+pr1Fv7t/nTA==
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+bcf9e1868c1a0c7e04f1@syzkaller.appspotmail.com
-Cc: almaz.alexandrovich@paragon-software.com,
-	linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] fs/ntfs3: prevent infinite loops caused by the next valid being the same
-Date: Sun, 28 Dec 2025 11:53:25 +0800
-X-OQ-MSGID: <20251228035324.133663-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <694f53ba.050a0220.35954c.0083.GAE@google.com>
-References: <694f53ba.050a0220.35954c.0083.GAE@google.com>
+	s=arc-20240116; t=1766995884; c=relaxed/simple;
+	bh=063dUptcDxQbArr4zPwTVjTjKa2jyhOamrOLFZyQKOU=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=d627oevHV0PPDdOFAxoH0iZgsFWnpjS4H/Ht5rizjkIm5Fhz0SLYroSn5/CbLW12s6rub5bA2jiQlc4xEf/g0E3sPUQiFNWyZ3sjahiP4Pd46XwJVMNMDTHMf0K75kLnxX971IY9Rp8f3ue04Ykzxn1DSsUBoTY6ZBwKSfRqw9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-7c705ffd76fso10216197a34.3
+        for <ntfs3@lists.linux.dev>; Mon, 29 Dec 2025 00:11:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766995882; x=1767600682;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uKzKeLK+ZicVVZfQETdO8/QeJ1600PSojCROCKq/rYQ=;
+        b=G4iUruCrt7fLl73Z8lnv/24VKBUrrZ1aKbOV5Vwm+s+22ROeAbJBGLt8IqpeMwMLTx
+         WmdabU/nm6yfl5nLrZ8/p4DAjovgaWmN0h1G710obkMFRn1rO1NBVg7X6WBmWUv3Irxu
+         xzfb/rM3zyQSEwhZ7EgaEcO48v5hyNLgGikQb00mGYDHrncrZIOIBVjJWr5Hnjd+66M8
+         K72f0RnhoQ6kAeR6RxkItbxBA5eT+B4O0A/qqjn0Lmee0QFtnIC1LouqOkLWf/f/+yK4
+         CaS1MCAyngjS+c9z0la77u8/uBD2KSL7fe9uezWGtiJmVRV3nxzC/5V+1Gx/WOFINbpK
+         +yjw==
+X-Forwarded-Encrypted: i=1; AJvYcCXKhSisG0DOWkzmkNAUFVPQduUP0Z9D1fbP1SR/UjEaumvHzOaucrO7MxExvOcwM9O0oKSYjQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTa8uF0RCAaAAtjafLsT7A7zgVTk3seZMcEL4NjWj0Nt8THoDj
+	Ac5FI1DXthQus4HpEnLW5BK6/GWg3SngXrXJ1g4T6LYihh/XNpMthfjPY0nbB3J3246JD6oiguj
+	Q8j5nWiYQ2iDpYT3HygruXG/O842H/QjUdbRXpWeDsD5gGYNoF5eYeqBbd3Q=
+X-Google-Smtp-Source: AGHT+IF7lhgraIEZne1R07aHDNiashgUX3OLKnLVOYNWqiOXUViqaulI2cy9J+869DjhJFfG+OsmvSe2oBaneMtwEF4i3nfPHVMw
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:1ca9:b0:659:9a49:8deb with SMTP id
+ 006d021491bc7-65d0eb1f7demr14140369eaf.45.1766995881818; Mon, 29 Dec 2025
+ 00:11:21 -0800 (PST)
+Date: Mon, 29 Dec 2025 00:11:21 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <695237a9.a70a0220.c527.001d.GAE@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Dec 2025)
+From: syzbot <syzbot+list59be5123a1c329b3c5e0@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-When processing valid within the range [valid : pos), if valid cannot
-be retrieved correctly, for example, if the retrieved valid value is
-always the same, this can trigger a potential infinite loop, similar
-to the hung problem reported by syzbot [1].
+Hello ntfs3 maintainers/developers,
 
-Adding a check for the valid value within the loop body, and terminating
-the loop and returning -EINVAL if the value is the same as the current
-value, can prevent this.
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-[1]
-INFO: task syz.4.21:6056 blocked for more than 143 seconds.
-Call Trace:
- rwbase_write_lock+0x14f/0x750 kernel/locking/rwbase_rt.c:244
- inode_lock include/linux/fs.h:1027 [inline]
- ntfs_file_write_iter+0xe6/0x870 fs/ntfs3/file.c:1284
+During the period, 3 new issues were detected and 0 were fixed.
+In total, 28 issues are still open and 74 have already been fixed.
 
-Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-Reported-by: syzbot+bcf9e1868c1a0c7e04f1@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=bcf9e1868c1a0c7e04f1
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  22243   Yes   KMSAN: uninit-value in longest_match_std (2)
+                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
+<2>  8893    Yes   possible deadlock in run_unpack_ex
+                   https://syzkaller.appspot.com/bug?extid=731b27ee9413ba859499
+<3>  5565    Yes   possible deadlock in ntfs_read_folio
+                   https://syzkaller.appspot.com/bug?extid=8ef76b0b1f86c382ad37
+<4>  5410    Yes   possible deadlock in ntfs_fiemap
+                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
+<5>  3847    Yes   possible deadlock in mark_as_free_ex (2)
+                   https://syzkaller.appspot.com/bug?extid=8df514c431bd240c5644
+<6>  3394    Yes   possible deadlock in attr_data_get_block (2)
+                   https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+<7>  512     Yes   possible deadlock in ntfs_fallocate
+                   https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
+<8>  407     Yes   possible deadlock in mi_read (2)
+                   https://syzkaller.appspot.com/bug?extid=17f812893d5906837f33
+<9>  129     Yes   INFO: task hung in do_unlinkat (5)
+                   https://syzkaller.appspot.com/bug?extid=08b113332e19a9378dd5
+<10> 122     Yes   memory leak in ntfs_init_fs_context (2)
+                   https://syzkaller.appspot.com/bug?extid=23aee7afc440fe803545
+
 ---
- fs/ntfs3/file.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 2e7b2e566ebe..04292674f889 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -1077,8 +1077,12 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
- 			goto out;
- 
- 		if (lcn == SPARSE_LCN) {
--			ni->i_valid = valid =
--				frame_vbo + ((u64)clen << sbi->cluster_bits);
-+			valid = frame_vbo + ((u64)clen << sbi->cluster_bits);
-+			if (ni->i_valid == valid) {
-+				err = -EINVAL;
-+				goto out;
-+			}
-+			ni->i_valid = valid;
- 			continue;
- 		}
- 
--- 
-2.43.0
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
