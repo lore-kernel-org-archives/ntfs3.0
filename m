@@ -1,97 +1,143 @@
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B36238C1B
-	for <ntfs3@lists.linux.dev>; Mon, 29 Dec 2025 08:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738F62C0F7C;
+	Wed, 31 Dec 2025 20:12:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766995884; cv=none; b=VlvZx8FB60SD+NB9+eNNgTaSi4z6+FEITAq2Z9zQ5AhDAGqDCVHd66uI6Yr5XICwgV8BbgTrOggZUwHjvozL65+s3V1Ij93KCzqslpolr1J1k46GL7JMMPOrSKG6bNnhAFmRi2YtWfKnlrxzHZFk7bXxHRbuiX28N9TFXrEHctM=
+	t=1767211938; cv=none; b=fZ4dgEq/QHy1EKc9TcALAlqF5Xeev7jWUIdxYaIWRgQjLbpHa2ECGdnuWWOOeEvoNBCuQi6vdLYKRhUYDt6VZlCQMJjUW3PFUE74l+OZ8VvoaPPX/tBVsTjFoDKPNgedrQXMvXIEziQGLczPluJeBZkSmO9ElJh1Dsx/waAjjCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766995884; c=relaxed/simple;
-	bh=063dUptcDxQbArr4zPwTVjTjKa2jyhOamrOLFZyQKOU=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=d627oevHV0PPDdOFAxoH0iZgsFWnpjS4H/Ht5rizjkIm5Fhz0SLYroSn5/CbLW12s6rub5bA2jiQlc4xEf/g0E3sPUQiFNWyZ3sjahiP4Pd46XwJVMNMDTHMf0K75kLnxX971IY9Rp8f3ue04Ykzxn1DSsUBoTY6ZBwKSfRqw9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-7c705ffd76fso10216197a34.3
-        for <ntfs3@lists.linux.dev>; Mon, 29 Dec 2025 00:11:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766995882; x=1767600682;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uKzKeLK+ZicVVZfQETdO8/QeJ1600PSojCROCKq/rYQ=;
-        b=G4iUruCrt7fLl73Z8lnv/24VKBUrrZ1aKbOV5Vwm+s+22ROeAbJBGLt8IqpeMwMLTx
-         WmdabU/nm6yfl5nLrZ8/p4DAjovgaWmN0h1G710obkMFRn1rO1NBVg7X6WBmWUv3Irxu
-         xzfb/rM3zyQSEwhZ7EgaEcO48v5hyNLgGikQb00mGYDHrncrZIOIBVjJWr5Hnjd+66M8
-         K72f0RnhoQ6kAeR6RxkItbxBA5eT+B4O0A/qqjn0Lmee0QFtnIC1LouqOkLWf/f/+yK4
-         CaS1MCAyngjS+c9z0la77u8/uBD2KSL7fe9uezWGtiJmVRV3nxzC/5V+1Gx/WOFINbpK
-         +yjw==
-X-Forwarded-Encrypted: i=1; AJvYcCXKhSisG0DOWkzmkNAUFVPQduUP0Z9D1fbP1SR/UjEaumvHzOaucrO7MxExvOcwM9O0oKSYjQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTa8uF0RCAaAAtjafLsT7A7zgVTk3seZMcEL4NjWj0Nt8THoDj
-	Ac5FI1DXthQus4HpEnLW5BK6/GWg3SngXrXJ1g4T6LYihh/XNpMthfjPY0nbB3J3246JD6oiguj
-	Q8j5nWiYQ2iDpYT3HygruXG/O842H/QjUdbRXpWeDsD5gGYNoF5eYeqBbd3Q=
-X-Google-Smtp-Source: AGHT+IF7lhgraIEZne1R07aHDNiashgUX3OLKnLVOYNWqiOXUViqaulI2cy9J+869DjhJFfG+OsmvSe2oBaneMtwEF4i3nfPHVMw
+	s=arc-20240116; t=1767211938; c=relaxed/simple;
+	bh=rtcpSlV4otllEvszA0uCP33efmeDHNTuJFf2xC4IG6g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HEyue8UUIuSwHqsukomocwM8OJdPM50M/XBwGj5KqKnWF2OGiVRIBzMJR5sJrHlxO6eAU/P4BMDFPen6eXZj1+Rmx1FYSSZS4QwsG3iyttdQ2ylMGK0zgExSrULS420rC2fTnitl/NPUET+dlR5eyYmSToNCY2llJ+tA9xlFGUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CBWwSM4q; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CBWwSM4q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767211937; x=1798747937;
+  h=date:from:to:cc:subject:message-id;
+  bh=rtcpSlV4otllEvszA0uCP33efmeDHNTuJFf2xC4IG6g=;
+  b=CBWwSM4qWd6k+EYs6QtvotAP0egfADDTqmZEaM4SeNkDGKyp1ziMrPbr
+   Sy2ytzp//wqbuEMiie110LP3isJBJUiRtzrmHwQjfRxyFiP0qYW5jY5sg
+   HNa27QkBAf2b3Qu+tlZnueZAEho4XOnGPMN12YZUnn7435KxSVZiRGmDU
+   IBcl4uQIR3tyxE0vhejsU29bntRoOZbzXBVymCEsKMF+6iJnofLCh9zgC
+   aE+G2sxdNXk4snALyyfgzC7YngDG3irtcfxwZq/BZ6NO3XezBNr7D5KYR
+   nN/CYibmnRkpixyDx3nSHZAJ2s0waH+6YPyJ6TmFQXIUyQ+RHNzKlCsaw
+   A==;
+X-CSE-ConnectionGUID: 7xIduURrRBmlJJ+HCOdrYg==
+X-CSE-MsgGUID: RU0ZGk9NQxe1AsaTTsa6XQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="68844591"
+X-IronPort-AV: E=Sophos;i="6.21,193,1763452800"; 
+   d="scan'208";a="68844591"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 12:12:16 -0800
+X-CSE-ConnectionGUID: ZOdCzR3mQGaP/h7JRHVVng==
+X-CSE-MsgGUID: E3DvLC77S8+UvF3N8Y+LJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,193,1763452800"; 
+   d="scan'208";a="205984439"
+Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 31 Dec 2025 12:12:14 -0800
+Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vb2YF-000000001ST-3DOY;
+	Wed, 31 Dec 2025 20:12:11 +0000
+Date: Thu, 01 Jan 2026 04:12:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ ntfs3@lists.linux.dev
+Subject: [paragon-software-group-ntfs3:master 16/16]
+ fs/ntfs3/inode.c:1021:6: warning: variable 'folio' is used uninitialized
+ whenever 'if' condition is true
+Message-ID: <202601010644.FIhOXy6Y-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1ca9:b0:659:9a49:8deb with SMTP id
- 006d021491bc7-65d0eb1f7demr14140369eaf.45.1766995881818; Mon, 29 Dec 2025
- 00:11:21 -0800 (PST)
-Date: Mon, 29 Dec 2025 00:11:21 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <695237a9.a70a0220.c527.001d.GAE@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Dec 2025)
-From: syzbot <syzbot+list59be5123a1c329b3c5e0@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello ntfs3 maintainers/developers,
+tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git master
+head:   099ef9ab9203dff327f2d61e44773f9acbc01f13
+commit: 099ef9ab9203dff327f2d61e44773f9acbc01f13 [16/16] fs/ntfs3: implement iomap-based file operations
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260101/202601010644.FIhOXy6Y-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260101/202601010644.FIhOXy6Y-lkp@intel.com/reproduce)
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601010644.FIhOXy6Y-lkp@intel.com/
 
-During the period, 3 new issues were detected and 0 were fixed.
-In total, 28 issues are still open and 74 have already been fixed.
+All warnings (new ones prefixed by >>):
 
-Some of the still happening issues:
+>> fs/ntfs3/inode.c:1021:6: warning: variable 'folio' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    1021 |         if (is_resident(ni)) {
+         |             ^~~~~~~~~~~~~~~
+   fs/ntfs3/inode.c:1024:48: note: uninitialized use occurs here
+    1024 |                 while ((folio = writeback_iter(mapping, wbc, folio, &err)))
+         |                                                              ^~~~~
+   fs/ntfs3/inode.c:1021:2: note: remove the 'if' if its condition is always false
+    1021 |         if (is_resident(ni)) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+    1022 |                 struct folio *folio;
+         |                 ~~~~~~~~~~~~~~~~~~~~
+    1023 | 
+    1024 |                 while ((folio = writeback_iter(mapping, wbc, folio, &err)))
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1025 |                         err = ntfs_resident_writepage(folio, wbc);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1026 | 
+    1027 |                 return err;
+         |                 ~~~~~~~~~~~
+    1028 |         }
+         |         ~
+   fs/ntfs3/inode.c:1022:22: note: initialize the variable 'folio' to silence this warning
+    1022 |                 struct folio *folio;
+         |                                    ^
+         |                                     = NULL
+   1 warning generated.
 
-Ref  Crashes Repro Title
-<1>  22243   Yes   KMSAN: uninit-value in longest_match_std (2)
-                   https://syzkaller.appspot.com/bug?extid=08d8956768c96a2c52cf
-<2>  8893    Yes   possible deadlock in run_unpack_ex
-                   https://syzkaller.appspot.com/bug?extid=731b27ee9413ba859499
-<3>  5565    Yes   possible deadlock in ntfs_read_folio
-                   https://syzkaller.appspot.com/bug?extid=8ef76b0b1f86c382ad37
-<4>  5410    Yes   possible deadlock in ntfs_fiemap
-                   https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
-<5>  3847    Yes   possible deadlock in mark_as_free_ex (2)
-                   https://syzkaller.appspot.com/bug?extid=8df514c431bd240c5644
-<6>  3394    Yes   possible deadlock in attr_data_get_block (2)
-                   https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
-<7>  512     Yes   possible deadlock in ntfs_fallocate
-                   https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
-<8>  407     Yes   possible deadlock in mi_read (2)
-                   https://syzkaller.appspot.com/bug?extid=17f812893d5906837f33
-<9>  129     Yes   INFO: task hung in do_unlinkat (5)
-                   https://syzkaller.appspot.com/bug?extid=08b113332e19a9378dd5
-<10> 122     Yes   memory leak in ntfs_init_fs_context (2)
-                   https://syzkaller.appspot.com/bug?extid=23aee7afc440fe803545
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+vim +1021 fs/ntfs3/inode.c
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+  1001	
+  1002	static int ntfs_writepages(struct address_space *mapping,
+  1003				   struct writeback_control *wbc)
+  1004	{
+  1005		int err;
+  1006		struct inode *inode = mapping->host;
+  1007		struct ntfs_inode *ni = ntfs_i(inode);
+  1008		struct iomap_writepage_ctx wpc = {
+  1009			.inode = mapping->host,
+  1010			.wbc = wbc,
+  1011			.ops = &ntfs_writeback_ops,
+  1012		};
+  1013	
+  1014		/* Avoid any operation if inode is bad. */
+  1015		if (unlikely(is_bad_ni(ni)))
+  1016			return -EINVAL;
+  1017	
+  1018		if (unlikely(ntfs3_forced_shutdown(inode->i_sb)))
+  1019			return -EIO;
+  1020	
+> 1021		if (is_resident(ni)) {
+  1022			struct folio *folio;
+  1023	
+  1024			while ((folio = writeback_iter(mapping, wbc, folio, &err)))
+  1025				err = ntfs_resident_writepage(folio, wbc);
+  1026	
+  1027			return err;
+  1028		}
+  1029	
+  1030		return iomap_writepages(&wpc);
+  1031	}
+  1032	
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
