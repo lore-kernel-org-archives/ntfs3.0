@@ -1,143 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738F62C0F7C;
-	Wed, 31 Dec 2025 20:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650A821D3E4
+	for <ntfs3@lists.linux.dev>; Fri,  2 Jan 2026 04:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767211938; cv=none; b=fZ4dgEq/QHy1EKc9TcALAlqF5Xeev7jWUIdxYaIWRgQjLbpHa2ECGdnuWWOOeEvoNBCuQi6vdLYKRhUYDt6VZlCQMJjUW3PFUE74l+OZ8VvoaPPX/tBVsTjFoDKPNgedrQXMvXIEziQGLczPluJeBZkSmO9ElJh1Dsx/waAjjCg=
+	t=1767329946; cv=none; b=E5xP36dxYUAnNCyTTC8/S74QzePZ6UQOhmfI8aXRA5xBML/JHwIdhW855QmzakUZxZi6gz0UC3q2a80S0nW1c/5Wgm15ana9dvSRQQ/6ilYuSHFzVW67XeHbb2dK5/Y/zBc/MGLhDrXsUiAZI9BnXMYU2Ab1EryzDUukZu4ZqGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767211938; c=relaxed/simple;
-	bh=rtcpSlV4otllEvszA0uCP33efmeDHNTuJFf2xC4IG6g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HEyue8UUIuSwHqsukomocwM8OJdPM50M/XBwGj5KqKnWF2OGiVRIBzMJR5sJrHlxO6eAU/P4BMDFPen6eXZj1+Rmx1FYSSZS4QwsG3iyttdQ2ylMGK0zgExSrULS420rC2fTnitl/NPUET+dlR5eyYmSToNCY2llJ+tA9xlFGUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CBWwSM4q; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CBWwSM4q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767211937; x=1798747937;
-  h=date:from:to:cc:subject:message-id;
-  bh=rtcpSlV4otllEvszA0uCP33efmeDHNTuJFf2xC4IG6g=;
-  b=CBWwSM4qWd6k+EYs6QtvotAP0egfADDTqmZEaM4SeNkDGKyp1ziMrPbr
-   Sy2ytzp//wqbuEMiie110LP3isJBJUiRtzrmHwQjfRxyFiP0qYW5jY5sg
-   HNa27QkBAf2b3Qu+tlZnueZAEho4XOnGPMN12YZUnn7435KxSVZiRGmDU
-   IBcl4uQIR3tyxE0vhejsU29bntRoOZbzXBVymCEsKMF+6iJnofLCh9zgC
-   aE+G2sxdNXk4snALyyfgzC7YngDG3irtcfxwZq/BZ6NO3XezBNr7D5KYR
-   nN/CYibmnRkpixyDx3nSHZAJ2s0waH+6YPyJ6TmFQXIUyQ+RHNzKlCsaw
-   A==;
-X-CSE-ConnectionGUID: 7xIduURrRBmlJJ+HCOdrYg==
-X-CSE-MsgGUID: RU0ZGk9NQxe1AsaTTsa6XQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="68844591"
-X-IronPort-AV: E=Sophos;i="6.21,193,1763452800"; 
-   d="scan'208";a="68844591"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 12:12:16 -0800
-X-CSE-ConnectionGUID: ZOdCzR3mQGaP/h7JRHVVng==
-X-CSE-MsgGUID: E3DvLC77S8+UvF3N8Y+LJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,193,1763452800"; 
-   d="scan'208";a="205984439"
-Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 31 Dec 2025 12:12:14 -0800
-Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vb2YF-000000001ST-3DOY;
-	Wed, 31 Dec 2025 20:12:11 +0000
-Date: Thu, 01 Jan 2026 04:12:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- ntfs3@lists.linux.dev
-Subject: [paragon-software-group-ntfs3:master 16/16]
- fs/ntfs3/inode.c:1021:6: warning: variable 'folio' is used uninitialized
- whenever 'if' condition is true
-Message-ID: <202601010644.FIhOXy6Y-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1767329946; c=relaxed/simple;
+	bh=MBOje/xYkrAFiRDonh/YjmAHO8oMKM+i0qoKKYV75xA=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=apiIDw/U8sjzh8gmyUK9oDVeYPBdTgRyRgb7DzKV2Go+InqdfITh662uX4DgiOCO0qDgjFeVRCmmkZSF76vWbP/+kXR2tvSPbap3sMTrf/YzKArRyjRPV6vli8XuKK8/rQLQ1Y9SGAig2p3S/8X8swH0QXCEE5Pwk1NwV7taTSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-459ae2f7d41so10787246b6e.3
+        for <ntfs3@lists.linux.dev>; Thu, 01 Jan 2026 20:59:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767329943; x=1767934743;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=O+AmQB/qRhVQmFyRyvwyMexTVCJAt6poo+xGp2Hku+Q=;
+        b=R9qcBCu7Z/h7kLHEq2E/jrLpih4bTWqp7EbyweBW1nkI9dvLmKuLpMK3/wl+xxanKr
+         0fX2rdAKtNa81l9KRPIgLjaiyidZgbbXn4uRbAvWPaPsw3LTejKtn2FG2TL7g0txe9Rn
+         HjuQxq+bnayh1dghkmcfAUVrkxtYP4LhIE9ee8cJKqpX5UZYGPfHTV9Llfntm24+SpZF
+         bIdNF26f1ESL16B6bx/YZ48gf0QYhpV1xCqzf7xnj7+TxMA1gnbJxn34gORQEOkOVHMd
+         gp/T51px8INs+K05bb+8lpjQWUbiHuTeNCgrx1cLbHNMOw/ouDPwsLCgHwgYtazj3i/O
+         DAuw==
+X-Forwarded-Encrypted: i=1; AJvYcCWdsP1rANy8cQ//GGN8WPXMqBVabsFU1z2hfckc/KLf7/i0IZA6d6v5rbF4ySXBAqMnceREXA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yww/tfOMr+Q6Acigcb6AMdBZi9kc5erCdnBtc8WTpuTHZw+jczD
+	NOhOFL5mZCIqn4Ub6ROLhdN8pBO9c4XG/K7ZleNKCVcW7tn01pNT9LmA0Png0bv4q3gdsOnQSk5
+	RwX3vTrglIyXj/czP7uvcx9XZf5NezDyk4xoQ/PLq5fSzJUE/yx9dOIoBr8o=
+X-Google-Smtp-Source: AGHT+IEJOgw+s7C7AFHLDe3b3IkHaaHTh3029SB8ead8YTreFqPPvVrzrv1UEJCmDyn+ROr5A06dXci3QJIZd1diC5oXY2KitSLw
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-Received: by 2002:a05:6820:2229:b0:659:9a49:9026 with SMTP id
+ 006d021491bc7-65d0eb10455mr18137360eaf.83.1767329943245; Thu, 01 Jan 2026
+ 20:59:03 -0800 (PST)
+Date: Thu, 01 Jan 2026 20:59:03 -0800
+In-Reply-To: <68ed7606.a70a0220.b3ac9.001f.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69575097.050a0220.a1b6.034e.GAE@google.com>
+Subject: Re: [syzbot] [ntfs3?] INFO: trying to register non-static key in ntfs_setattr
+From: syzbot <syzbot+3e58a7dc1a8c00243999@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, dan.carpenter@linaro.org, 
+	eadavis@qq.com, kartikey406@gmail.com, linux-kernel@vger.kernel.org, 
+	lkp@intel.com, ntfs3@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	oe-kbuild@lists.linux.dev, penguin-kernel@i-love.sakura.ne.jp, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git master
-head:   099ef9ab9203dff327f2d61e44773f9acbc01f13
-commit: 099ef9ab9203dff327f2d61e44773f9acbc01f13 [16/16] fs/ntfs3: implement iomap-based file operations
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260101/202601010644.FIhOXy6Y-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260101/202601010644.FIhOXy6Y-lkp@intel.com/reproduce)
+syzbot suspects this issue was fixed by commit:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601010644.FIhOXy6Y-lkp@intel.com/
+commit be99c62ac7e7af514e4b13f83c891a3cccefaa48
+Author: Edward Adam Davis <eadavis@qq.com>
+Date:   Tue Sep 16 05:50:13 2025 +0000
 
-All warnings (new ones prefixed by >>):
+    ntfs3: init run lock for extend inode
 
->> fs/ntfs3/inode.c:1021:6: warning: variable 'folio' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    1021 |         if (is_resident(ni)) {
-         |             ^~~~~~~~~~~~~~~
-   fs/ntfs3/inode.c:1024:48: note: uninitialized use occurs here
-    1024 |                 while ((folio = writeback_iter(mapping, wbc, folio, &err)))
-         |                                                              ^~~~~
-   fs/ntfs3/inode.c:1021:2: note: remove the 'if' if its condition is always false
-    1021 |         if (is_resident(ni)) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-    1022 |                 struct folio *folio;
-         |                 ~~~~~~~~~~~~~~~~~~~~
-    1023 | 
-    1024 |                 while ((folio = writeback_iter(mapping, wbc, folio, &err)))
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1025 |                         err = ntfs_resident_writepage(folio, wbc);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1026 | 
-    1027 |                 return err;
-         |                 ~~~~~~~~~~~
-    1028 |         }
-         |         ~
-   fs/ntfs3/inode.c:1022:22: note: initialize the variable 'folio' to silence this warning
-    1022 |                 struct folio *folio;
-         |                                    ^
-         |                                     = NULL
-   1 warning generated.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=113ff222580000
+start commit:   98906f9d850e Merge tag 'rtc-6.18' of git://git.kernel.org/..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=af9170887d81dea1
+dashboard link: https://syzkaller.appspot.com/bug?extid=3e58a7dc1a8c00243999
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14f4e542580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16e5e9e2580000
 
+If the result looks correct, please mark the issue as fixed by replying with:
 
-vim +1021 fs/ntfs3/inode.c
+#syz fix: ntfs3: init run lock for extend inode
 
-  1001	
-  1002	static int ntfs_writepages(struct address_space *mapping,
-  1003				   struct writeback_control *wbc)
-  1004	{
-  1005		int err;
-  1006		struct inode *inode = mapping->host;
-  1007		struct ntfs_inode *ni = ntfs_i(inode);
-  1008		struct iomap_writepage_ctx wpc = {
-  1009			.inode = mapping->host,
-  1010			.wbc = wbc,
-  1011			.ops = &ntfs_writeback_ops,
-  1012		};
-  1013	
-  1014		/* Avoid any operation if inode is bad. */
-  1015		if (unlikely(is_bad_ni(ni)))
-  1016			return -EINVAL;
-  1017	
-  1018		if (unlikely(ntfs3_forced_shutdown(inode->i_sb)))
-  1019			return -EIO;
-  1020	
-> 1021		if (is_resident(ni)) {
-  1022			struct folio *folio;
-  1023	
-  1024			while ((folio = writeback_iter(mapping, wbc, folio, &err)))
-  1025				err = ntfs_resident_writepage(folio, wbc);
-  1026	
-  1027			return err;
-  1028		}
-  1029	
-  1030		return iomap_writepages(&wpc);
-  1031	}
-  1032	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
