@@ -1,102 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0C7230BE9;
-	Mon,  5 Jan 2026 19:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CC62FF143
+	for <ntfs3@lists.linux.dev>; Tue,  6 Jan 2026 06:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767640637; cv=none; b=RhONbA+mmAQx/bKZzHhlhkiTlaeqUGJLLhzX4bXH9RU2olAm+1/mco1KLKMMqb+yXinOO3qcdloWVPh0eey7jgbxNuWmqiYNZdfxLP4b/Bc5Dmxq/gnXEwA4ayW0OG7rxOH7sW8WQ3Y9SG6c9r5BFeB/bffcTNXg8gngef+Ej6M=
+	t=1767681287; cv=none; b=GUECMRHXAJAWdJN5Fhe1TFgRGk+Yk+diplHO0CTQB7BtjHt4XQWpmnM2CpM9fB9aRW6fnPV5M43JOTdKvrFkbXPHJDs3nqCQ6SlX0MKknTM/PNsQh7Y4sNA+U9ky0s1jN95am28lPkQ7Z/h3W9AzVyqbed9K2EE6jVtivq0mc90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767640637; c=relaxed/simple;
-	bh=tja02UDzBs7wICK3Voj6Ot/znyUDcV2n437uw4TqOgo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=D9SuOTLDv4um2TJOmkY9gBD1ax40LQSdIRLDKn7X66MQfrwi7Q7E2jUL+UwnBbQihpIJUiGIo+EWgJlxwGr5WoMvexZR9QqKOwm/PiTaDBSxysSeCWSrSjQmyRSDiNhLBVYS0j5NHSnAxRHzLgqu3OZjAfREpp8q1tDf/qGLNzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BsC/zPsF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767681287; c=relaxed/simple;
+	bh=qAujgxuvz22xtId+T8badd5jE4qbkpwtHhq3zMRd1Bw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=b7op9L0ZQ2/W0E8+Rza/AP3EYpRXTB9N6B4/pKwbz2V7nTcbuj8emws3HgC7voQGSP41b+/UKSm2iYBiw298vBcIA+O7w+SCVJ5+lGybfM/KxiWGVF6HGM2jZwgrJ9Pzg93QFDbADd8sdCu302mXxTSluQP9d326i4GAOBDB0kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=aL8wi/vE; arc=none smtp.client-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BsC/zPsF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D2AC116D0;
-	Mon,  5 Jan 2026 19:17:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767640637;
-	bh=tja02UDzBs7wICK3Voj6Ot/znyUDcV2n437uw4TqOgo=;
-	h=From:Date:Subject:To:Cc:From;
-	b=BsC/zPsFahMr0nL2HRpqZQRNz+sfUcLnA1ZzzZYLKO+hrdFzvq42QbFYhFvNSU83K
-	 gN/QmHqqRB8RexqhxwYbKKYMl7SgZysb0wm8d4kjBtHl6Ztlrh7sCDrd8qUjyIxGMI
-	 ZcIQ8NZuKAkBqEX/ZXg5iCvvunh8wjrvZeMG161q3g8wop7GulT4HBKFSdCgd+Rg9k
-	 +vQ6k/eWJwp5IjJW/EHvLVVCV2/63KqVz3Tsx3/pZ4gLwq70ntTPF9/41J7cF1nLIV
-	 noJuxtr+UaV7tgl6bmE9xT6s9a7OyqVGekfI4PXMIXcYcQU/qNrgWqKcP/W8VMmfEn
-	 3xhb0+UG0z5bA==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Mon, 05 Jan 2026 12:17:10 -0700
-Subject: [PATCH] ntfs3: Restore NULL folio initialization in
- ntfs_writepages()
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="aL8wi/vE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=PT
+	Vs61JKD90xPO+mqTN0EEm8SNKLyC2z3JaXMRzrLcU=; b=aL8wi/vET/ZRl2vueW
+	/ZKNs+huvpYPywV/oFcBV8u4o/gig36NY/aNRlg5yFDBsC+WEaM6HWevUaj5DxGZ
+	clstfKcp9QSwVHEKPuiGHfphXmQxwFcmFdJwcRHqjS2ygByslW6ngFfeFx9tmsfj
+	KpoK49o/RqjSuRNzhkQJioE2s=
+Received: from liubaolin-VMware-Virtual-Platform.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wBnRLnzrFxpdSTBEg--.5124S2;
+	Tue, 06 Jan 2026 14:34:29 +0800 (CST)
+From: Baolin Liu <liubaolin12138@163.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	Baolin Liu <liubaolin@kylinos.cn>
+Subject: [PATCH v1] ntfs3: Refactor duplicate kmemdup pattern in do_action()
+Date: Tue,  6 Jan 2026 14:34:25 +0800
+Message-Id: <20260106063425.155939-1-liubaolin12138@163.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260105-ntfs3-restore-null-folio-init-v1-1-432093703dfd@kernel.org>
-X-B4-Tracking: v=1; b=H4sIADUOXGkC/yXMwQrCMAwA0F8ZORtoN9zAXxEPc0k1UlJJOhHG/
- t2qx3d5GzibsMOp28D4JS5FG+Khg+U+641RqBn60I8hhiNqTT6gsddijLrmjKlkKSgqFXmgaZ5
- oJAoR2vE0TvL+/efL375eH7zUbwr7/gF/gjjLgQAAAA==
-X-Change-ID: 20260105-ntfs3-restore-null-folio-init-e3d7a7d6dd01
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, kernel test robot <lkp@intel.com>, 
- Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1695; i=nathan@kernel.org;
- h=from:subject:message-id; bh=tja02UDzBs7wICK3Voj6Ot/znyUDcV2n437uw4TqOgo=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDJkxfNbPI/K3mDHsn/Lixs+4K/9vtKlH7Dq46+GFQ4GFN
- itudvks7ihlYRDjYpAVU2Spfqx63NBwzlnGG6cmwcxhZQIZwsDFKQATUb/N8M9EM4Z1zf1CoSPH
- W+8nHlmqYhEYmVDSqh491fXf7N3bt/gxMhx02fGj9qnz7EUXxcMn/Uwt/RC43uc44/6KPs3NXL+
- sX7ADAA==
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wBnRLnzrFxpdSTBEg--.5124S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJF4kGF48AFWUZry7tFWDJwb_yoW5GryfpF
+	s3C3Z7J347Xa17Xrs3Xan8u39a93WxtFyUGrW2yw4fAr1Yqwn7Kryrt348WrWkJrykCr4U
+	XFn0vF43Wr4xur7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UDManUUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbCwhbZpGlcrPZozAAA3i
 
-Clang warns (or errors with CONFIG_WERROR=y):
+From: Baolin Liu <liubaolin@kylinos.cn>
 
-  fs/ntfs3/inode.c:1021:6: error: variable 'folio' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
-   1021 |         if (is_resident(ni)) {
-        |             ^~~~~~~~~~~~~~~
-  fs/ntfs3/inode.c:1024:48: note: uninitialized use occurs here
-   1024 |                 while ((folio = writeback_iter(mapping, wbc, folio, &err)))
-        |                                                              ^~~~~
+Extract the repeated pattern of duplicating attribute and updating
+OpenAttr into a helper function to reduce code duplication and improve
+maintainability.
 
-folio should be initialized to NULL for the first iteration of
-writeback_iter() to start the loop properly. Restore the NULL
-initialization of folio that was lost in the recent iomap conversion to
-clear up the warning.
-
-Fixes: 099ef9ab9203 ("fs/ntfs3: implement iomap-based file operations")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202601010644.FIhOXy6Y-lkp@intel.com/
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
 ---
- fs/ntfs3/inode.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/ntfs3/fslog.c | 54 ++++++++++++++++++++++++------------------------
+ 1 file changed, 27 insertions(+), 27 deletions(-)
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index b969ad7c3258..438d468f28ba 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -1019,7 +1019,7 @@ static int ntfs_writepages(struct address_space *mapping,
- 		return -EIO;
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index 38934e6978ec..d9d24e0cb0e3 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -3028,6 +3028,26 @@ static struct ATTRIB *attr_create_nonres_log(struct ntfs_sb_info *sbi,
+ 	return attr;
+ }
  
- 	if (is_resident(ni)) {
--		struct folio *folio;
-+		struct folio *folio = NULL;
++/*
++ * update_oa_attr - Synchronize OpenAttr's attribute pointer with modified attribute
++ * @oa2: OpenAttr structure in memory that needs to be updated
++ * @attr: Modified attribute from MFT record to duplicate
++ *
++ * Returns true on success, false on allocation failure.
++ */
++static bool update_oa_attr(struct OpenAttr *oa2, struct ATTRIB *attr)
++{
++	void *p2;
++
++	p2 = kmemdup(attr, le32_to_cpu(attr->size), GFP_NOFS);
++	if (p2) {
++		kfree(oa2->attr);
++		oa2->attr = p2;
++		return true;
++	}
++	return false;
++}
++
+ /*
+  * do_action - Common routine for the Redo and Undo Passes.
+  * @rlsn: If it is NULL then undo.
+@@ -3251,15 +3271,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 			le16_add_cpu(&rec->hard_links, 1);
  
- 		while ((folio = writeback_iter(mapping, wbc, folio, &err)))
- 			err = ntfs_resident_writepage(folio, wbc);
-
----
-base-commit: 099ef9ab9203dff327f2d61e44773f9acbc01f13
-change-id: 20260105-ntfs3-restore-null-folio-init-e3d7a7d6dd01
-
-Best regards,
---  
-Nathan Chancellor <nathan@kernel.org>
+ 		oa2 = find_loaded_attr(log, attr, rno_base);
+-		if (oa2) {
+-			void *p2 = kmemdup(attr, le32_to_cpu(attr->size),
+-					   GFP_NOFS);
+-			if (p2) {
+-				// run_close(oa2->run1);
+-				kfree(oa2->attr);
+-				oa2->attr = p2;
+-			}
+-		}
++		if (oa2)
++			update_oa_attr(oa2, attr);
+ 
+ 		mi->dirty = true;
+ 		break;
+@@ -3318,16 +3331,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 			memmove(Add2Ptr(attr, aoff), data, dlen);
+ 
+ 		oa2 = find_loaded_attr(log, attr, rno_base);
+-		if (oa2) {
+-			void *p2 = kmemdup(attr, le32_to_cpu(attr->size),
+-					   GFP_NOFS);
+-			if (p2) {
+-				// run_close(&oa2->run0);
+-				oa2->run1 = &oa2->run0;
+-				kfree(oa2->attr);
+-				oa2->attr = p2;
+-			}
+-		}
++		if (oa2 && update_oa_attr(oa2, attr))
++			oa2->run1 = &oa2->run0;
+ 
+ 		mi->dirty = true;
+ 		break;
+@@ -3377,14 +3382,9 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 			attr->nres.total_size = new_sz->total_size;
+ 
+ 		oa2 = find_loaded_attr(log, attr, rno_base);
+-		if (oa2) {
+-			void *p2 = kmemdup(attr, le32_to_cpu(attr->size),
+-					   GFP_NOFS);
+-			if (p2) {
+-				kfree(oa2->attr);
+-				oa2->attr = p2;
+-			}
+-		}
++		if (oa2)
++			update_oa_attr(oa2, attr);
++
+ 		mi->dirty = true;
+ 		break;
+ 
+-- 
+2.39.2
 
