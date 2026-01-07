@@ -1,37 +1,39 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CC62FF143
-	for <ntfs3@lists.linux.dev>; Tue,  6 Jan 2026 06:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D802848BA
+	for <ntfs3@lists.linux.dev>; Wed,  7 Jan 2026 07:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767681287; cv=none; b=GUECMRHXAJAWdJN5Fhe1TFgRGk+Yk+diplHO0CTQB7BtjHt4XQWpmnM2CpM9fB9aRW6fnPV5M43JOTdKvrFkbXPHJDs3nqCQ6SlX0MKknTM/PNsQh7Y4sNA+U9ky0s1jN95am28lPkQ7Z/h3W9AzVyqbed9K2EE6jVtivq0mc90=
+	t=1767771490; cv=none; b=t7RxTF8zblL5/lVPBtrggGWMvlzmg+3cdyKbA/plSc9fQp0B2Y29VVG+cEUwNCrJwrs+UJ0ONjwNQkCxVvQSiA5G95a2xBFRGqkc8tSU03F5dxc+fvcg6p37dldFZ6cuGGHLFD3wDebsNxE/H0zPkzMLNXc7iJkz0BXiXIwoONw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767681287; c=relaxed/simple;
-	bh=qAujgxuvz22xtId+T8badd5jE4qbkpwtHhq3zMRd1Bw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=b7op9L0ZQ2/W0E8+Rza/AP3EYpRXTB9N6B4/pKwbz2V7nTcbuj8emws3HgC7voQGSP41b+/UKSm2iYBiw298vBcIA+O7w+SCVJ5+lGybfM/KxiWGVF6HGM2jZwgrJ9Pzg93QFDbADd8sdCu302mXxTSluQP9d326i4GAOBDB0kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=aL8wi/vE; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1767771490; c=relaxed/simple;
+	bh=MTPMVvXUa/M3zwhmJUT8/ZdE1VwbpEWTUDMeXd/NEbw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aRfIK/AFN28i6zsFju1TlPq3z03YJBXIM4FfJbjEDEXWr3xgbrEkNx5FrH9IvEIbP5d6jm5EaXc8iCfCX13TR/dH1y6p84RgNPhR2DYSFYenr9+V08nQbOjwwDEfFQca6FcGnri8WnUAtLlWWoLtWeLE/AIxfaFwFBlvK77tgU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Mht5kngv; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="aL8wi/vE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=PT
-	Vs61JKD90xPO+mqTN0EEm8SNKLyC2z3JaXMRzrLcU=; b=aL8wi/vET/ZRl2vueW
-	/ZKNs+huvpYPywV/oFcBV8u4o/gig36NY/aNRlg5yFDBsC+WEaM6HWevUaj5DxGZ
-	clstfKcp9QSwVHEKPuiGHfphXmQxwFcmFdJwcRHqjS2ygByslW6ngFfeFx9tmsfj
-	KpoK49o/RqjSuRNzhkQJioE2s=
-Received: from liubaolin-VMware-Virtual-Platform.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wBnRLnzrFxpdSTBEg--.5124S2;
-	Tue, 06 Jan 2026 14:34:29 +0800 (CST)
-From: Baolin Liu <liubaolin12138@163.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Mht5kngv"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1767771483;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=GRPMgsrUQ7Ow/V2nUgNghG4HqhRTPmD+dsCI1mKYKuI=;
+	b=Mht5kngvv+4m8Be1cYHXsLwlHCkS/F0NaZrSgQm2uUcvSvsSU9Cpowzscaar7Mvzk79XiP
+	Vpjz1NnTsqezlG1c+618uUeQ0kidHrstBnto800CxGA/lgadeiHSN6C9G79H0KEdMBCE/p
+	aBzeAL/9xeI/bETn5loaPR+U91KOl0o=
+From: sunliming@linux.dev
 To: almaz.alexandrovich@paragon-software.com
 Cc: ntfs3@lists.linux.dev,
-	Baolin Liu <liubaolin@kylinos.cn>
-Subject: [PATCH v1] ntfs3: Refactor duplicate kmemdup pattern in do_action()
-Date: Tue,  6 Jan 2026 14:34:25 +0800
-Message-Id: <20260106063425.155939-1-liubaolin12138@163.com>
-X-Mailer: git-send-email 2.39.2
+	linux-kernel@vger.kernel.org,
+	sunliming <sunliming@kylinos.cn>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] fs/ntfs3: make ntfs_writeback_ops static
+Date: Wed,  7 Jan 2026 15:37:09 +0800
+Message-Id: <20260107073709.106071-1-sunliming@linux.dev>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -39,110 +41,34 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBnRLnzrFxpdSTBEg--.5124S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxJF4kGF48AFWUZry7tFWDJwb_yoW5GryfpF
-	s3C3Z7J347Xa17Xrs3Xan8u39a93WxtFyUGrW2yw4fAr1Yqwn7Kryrt348WrWkJrykCr4U
-	XFn0vF43Wr4xur7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UDManUUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbCwhbZpGlcrPZozAAA3i
+X-Migadu-Flow: FLOW_OUT
 
-From: Baolin Liu <liubaolin@kylinos.cn>
+From: sunliming <sunliming@kylinos.cn>
 
-Extract the repeated pattern of duplicating attribute and updating
-OpenAttr into a helper function to reduce code duplication and improve
-maintainability.
+Fix below sparse warnings:
+fs/ntfs3/inode.c:972:34: sparse: sparse: symbol 'ntfs_writeback_ops' was not declared.
+Should it be static?
 
-Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601061424.nbKLNwC5-lkp@intel.com/
+Signed-off-by: sunliming <sunliming@kylinos.cn>
 ---
- fs/ntfs3/fslog.c | 54 ++++++++++++++++++++++++------------------------
- 1 file changed, 27 insertions(+), 27 deletions(-)
+ fs/ntfs3/inode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 38934e6978ec..d9d24e0cb0e3 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -3028,6 +3028,26 @@ static struct ATTRIB *attr_create_nonres_log(struct ntfs_sb_info *sbi,
- 	return attr;
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index b969ad7c3258..636aa77e20e4 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -969,7 +969,7 @@ static ssize_t ntfs_writeback_range(struct iomap_writepage_ctx *wpc,
  }
  
-+/*
-+ * update_oa_attr - Synchronize OpenAttr's attribute pointer with modified attribute
-+ * @oa2: OpenAttr structure in memory that needs to be updated
-+ * @attr: Modified attribute from MFT record to duplicate
-+ *
-+ * Returns true on success, false on allocation failure.
-+ */
-+static bool update_oa_attr(struct OpenAttr *oa2, struct ATTRIB *attr)
-+{
-+	void *p2;
-+
-+	p2 = kmemdup(attr, le32_to_cpu(attr->size), GFP_NOFS);
-+	if (p2) {
-+		kfree(oa2->attr);
-+		oa2->attr = p2;
-+		return true;
-+	}
-+	return false;
-+}
-+
- /*
-  * do_action - Common routine for the Redo and Undo Passes.
-  * @rlsn: If it is NULL then undo.
-@@ -3251,15 +3271,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 			le16_add_cpu(&rec->hard_links, 1);
  
- 		oa2 = find_loaded_attr(log, attr, rno_base);
--		if (oa2) {
--			void *p2 = kmemdup(attr, le32_to_cpu(attr->size),
--					   GFP_NOFS);
--			if (p2) {
--				// run_close(oa2->run1);
--				kfree(oa2->attr);
--				oa2->attr = p2;
--			}
--		}
-+		if (oa2)
-+			update_oa_attr(oa2, attr);
- 
- 		mi->dirty = true;
- 		break;
-@@ -3318,16 +3331,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 			memmove(Add2Ptr(attr, aoff), data, dlen);
- 
- 		oa2 = find_loaded_attr(log, attr, rno_base);
--		if (oa2) {
--			void *p2 = kmemdup(attr, le32_to_cpu(attr->size),
--					   GFP_NOFS);
--			if (p2) {
--				// run_close(&oa2->run0);
--				oa2->run1 = &oa2->run0;
--				kfree(oa2->attr);
--				oa2->attr = p2;
--			}
--		}
-+		if (oa2 && update_oa_attr(oa2, attr))
-+			oa2->run1 = &oa2->run0;
- 
- 		mi->dirty = true;
- 		break;
-@@ -3377,14 +3382,9 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 			attr->nres.total_size = new_sz->total_size;
- 
- 		oa2 = find_loaded_attr(log, attr, rno_base);
--		if (oa2) {
--			void *p2 = kmemdup(attr, le32_to_cpu(attr->size),
--					   GFP_NOFS);
--			if (p2) {
--				kfree(oa2->attr);
--				oa2->attr = p2;
--			}
--		}
-+		if (oa2)
-+			update_oa_attr(oa2, attr);
-+
- 		mi->dirty = true;
- 		break;
- 
+-const struct iomap_writeback_ops ntfs_writeback_ops = {
++static const struct iomap_writeback_ops ntfs_writeback_ops = {
+ 	.writeback_range = ntfs_writeback_range,
+ 	.writeback_submit = iomap_ioend_writeback_submit,
+ };
 -- 
-2.39.2
+2.25.1
 
