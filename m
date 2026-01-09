@@ -1,55 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADA72D0615
-	for <ntfs3@lists.linux.dev>; Thu,  8 Jan 2026 22:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1E71F1534
+	for <ntfs3@lists.linux.dev>; Fri,  9 Jan 2026 05:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767912444; cv=none; b=uussVmgW6AyRtVDLkBOkLyjfdkk4gcSHpxwxOXZW7Syvlz4LPb40ba1etW24jvDvf1xVAkcSRvjilOXmH42O4kThmbQgN6NBcQiwHj9KzdDqi1wqpKh/wWKLcFrpCrOXO10J7bJdznKU3VJXrczULzzZowwXZPwyYqZUsiprPH4=
+	t=1767936385; cv=none; b=FoBAQmnvS6OuRHYr8KvDSgyM0ntcPz5umePEv+1sadhtU7yCPpS1ZwaT+qvllCVicYlHUfpeHoxfl9DgBMQ9ODpD5rtzq7mZxMKzLnFdARgJS56AN+2mBnsCNzrBerDJeP861PTHW1ZDPZ13hk+ItNGID12T/MR0Z+9Eafi2wjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767912444; c=relaxed/simple;
-	bh=bpLucB2OVlqnpdSgR5fVsT/9lEifzVxq4+Kg3z371KE=;
+	s=arc-20240116; t=1767936385; c=relaxed/simple;
+	bh=SMlm1Zj+VPtmhO+U2BlswVGk3VmIYNq8C/pi+eNGgFU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=InbWlMumVhzOj2xKE22xfe97dWydgDbz0Tv8jO9t3g3YZGE/PWQV9Mj2TBtKudqMsBUAkcANRs/JIJuBea+mBYIRh3qlzGVDc30KloYYYFBFxx88QZwkUYd5D3bmkoucVPoFirhVPglpI8NIoNUrvPRl2SL+TkB23yOWVktRcUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kNZ/y6ld; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=nvN749WA9semtUY8U8R4YqU8NjiT7yDIMhrNYsUQ73TgLN9iFPI+wBqJe91F5ahKtWsRmuFMPL2fGlykYV+JKdJoMbSwSNT2lHAhuHfV7hwrwOMv+gJWzKYL+RibdnO40aUrWRpdsdlZhM8okN5Im6oyKG7qVRK399xwzXq2DCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LtHQgioF; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kNZ/y6ld"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CB5FC19425
-	for <ntfs3@lists.linux.dev>; Thu,  8 Jan 2026 22:47:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767912444;
-	bh=bpLucB2OVlqnpdSgR5fVsT/9lEifzVxq4+Kg3z371KE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=kNZ/y6ld9T/Ac6XqHUpuWQ8PCKoHqDZK4KRIN0fR0qhZUAZgmdbhls/DOYhiAGX7z
-	 lKJXMbj5kAIa3yPHcJzWdDqHLZWZUws36K4s8WUtTHBy0kZ1G+0Jbjoh7BgoGMTVB0
-	 EHN+7t2qxXK5Wg9JwteHTuHVEx86cGwPSYmACkxAaR6cPMp9ZisNCP6MINj41SffBs
-	 rGpQYrIDRH61Pi646aQVZ+ZmxyNbNF5rChS8TKq0svn+ns7GoUEV1FIGJpWNhiL7jz
-	 wNVHZ83G97Pf5PZFUJN8TAkCmyWsi/CmvHe4Mf70Y4ziokGk5SSSZrPhqGGZMeQCS4
-	 YWE8KQUzoe6Nw==
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b8010b8f078so592893166b.0
-        for <ntfs3@lists.linux.dev>; Thu, 08 Jan 2026 14:47:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX8hooOfAHv88L65xPhNAHeKPdB/5LnpMoqeRjlSeKsmXsOQpW+4ycyNbB6E9fgyHuUeinvxA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwDKRr3vc7k+jhckTno1wxoz/tIKJ0CM/hZSsd4ac3ozdQC+huf
-	eLHcPTkpK8kjTd4FVZp729AWeYIFt5sLLyWBeLzRWNOlyuWvX7NUqRTfiXNCUmVjzm9x3HrgTZi
-	YhBXzpuo6GEPJ2Fd4Tcf2fhl+U9ewAjg=
-X-Google-Smtp-Source: AGHT+IHRRvrZk+LJHsAd5/mP4TyTtkU5XrZgqXx3MfUuP0vWFtvlehE6tE5BFAh0/XFz8o1ILqvfmo203M6g5zkxlKk=
-X-Received: by 2002:a17:907:c1e:b0:b72:c261:3ad2 with SMTP id
- a640c23a62f3a-b84451dab67mr854015966b.50.1767912442100; Thu, 08 Jan 2026
- 14:47:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LtHQgioF"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-38305d006faso18161321fa.3
+        for <ntfs3@lists.linux.dev>; Thu, 08 Jan 2026 21:26:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767936380; x=1768541180; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EEF8CAf2dAOD+neWtLdI+w7NxCIZ2WohswMXxqPrdck=;
+        b=LtHQgioFhnkioP10mRkdyRtZzSEdSS3H5WowxOyYx7Y3c9dCCRkpwxI1ehJzJ59tsz
+         m7Ic8PqRIcIHXYRf2+2uo7mLM25t/GVr5/tgOwiNUlyJKyqQVJJz+guqOvPryak/lxjU
+         tCO6q+J2FqId4snoHsLu4m7ccBAbZdOsyRTeeU1ySEHr11IuogM4NGyu5WN//RdTqYH9
+         vbNOfu1nXcrNeP/vxMTWI9+P9VknImnv5hZgKp8VWlUaTYQpAxFbxqSlx/xbFqozxbXC
+         cZeUVXIXcVOMJtKyLcCne0/XUekwOZIbjOwcnRnNxnhfVi0du3QRdWw5JlIlvVNCTKYM
+         W7EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767936380; x=1768541180;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EEF8CAf2dAOD+neWtLdI+w7NxCIZ2WohswMXxqPrdck=;
+        b=SM1CX8/htRantElrOgW+AQcSsIyuH9ILHc5cenqJo3uvX0KAXVFgePFV4hds2un99L
+         pTgMX9EZeaUjKwNSWiHEACl0gRGsbIbbXXiqu8dA1g6sQOM7TDdXR6uADepsB4Z/OecI
+         e12lX0v6cAwgsn4B3wbuJk8EO5CH0TSUl/ftxUmd2ptypbhKwOEP3n4J43oN1XP+Wb1w
+         QjkDzbPkgjdcHus5Lw/w7kyNnhFf3OlIArlLZi8zfPhXBLpwr5qFSN+88+wFAbALG+i/
+         IOpk9AKaAUS+eIaKsSkBhIRqCm9Jr0LyG9KRfwdAYPLNrV2hwJ4d7JsRR3l1Id4c8lIb
+         mp/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWCFv7a3kf0g0KX15OlIB1Gg5LdVC6xw7XE4QX58gJsMnllZtUgA37RXTX/G3xwtw5dVaAvXA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YygHnUOSxYxjfKi1/eT6PwDC9qigoDBayxvMVIIfDI/ZKle2SzG
+	hDUDFeEjbpuhSCXF5SRsqd/y6jjeg++ud1Xu0LD9pEqpV6GX2IAi+oCS6FWF7Ti2LiO2d9+pT8l
+	kkAUki50GkAWSpbX/WnjOvEDjd8dVWhg=
+X-Gm-Gg: AY/fxX6v73Pru7rHRa8nJEja7H7Kdwa6vvPDJzDRMXTxDjgcEuBBi8+oADAhzjVXtUM
+	zRKpHyKHttzkQlpakUTyPxN7Vo58PDgXLUoB6CIusS6i6Lbbx10WehbgTNPJAL5hh+Br6bwOyjH
+	uvjHXr8F5qwlXKmukMJaXCc9BTfRgWSSLZdY/BK1cwCAQmu+KudBW7zNr586TlZ/o/QQAlLog3X
+	3m5b1k3Oij2YZv/uetr3D2Wv8n2tybladphLeZdiAeOXL0FptZAmGIFrtd9iAGl4NfI1kgY
+X-Google-Smtp-Source: AGHT+IFacKbx/HloTRDyL3KNE+dISSFeSIeO5gnLVmi9ry+Gc3uB4ma+c7Q9oZoxnNZINjg1j054MzA1urN4ujLkRdE=
+X-Received: by 2002:a05:651c:419b:b0:378:e3f9:2d26 with SMTP id
+ 38308e7fff4ca-382ff823bdamr21702801fa.39.1767936379607; Thu, 08 Jan 2026
+ 21:26:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org> <20260108-setlease-6-20-v1-7-ea4dec9b67fa@kernel.org>
-In-Reply-To: <20260108-setlease-6-20-v1-7-ea4dec9b67fa@kernel.org>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Fri, 9 Jan 2026 07:47:09 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-JTE+233AwpvrXTsbfrbY+U_pvyUTQQSwz0mXh43jt=A@mail.gmail.com>
-X-Gm-Features: AQt7F2q41Fu16p_9dWtEjvrFao8uwKCSAe9mKCbLxMeS3Ih2bsPKkzatUTosKic
-Message-ID: <CAKYAXd-JTE+233AwpvrXTsbfrbY+U_pvyUTQQSwz0mXh43jt=A@mail.gmail.com>
-Subject: Re: [PATCH 07/24] exfat: add setlease file operation
+References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org> <20260108-setlease-6-20-v1-13-ea4dec9b67fa@kernel.org>
+In-Reply-To: <20260108-setlease-6-20-v1-13-ea4dec9b67fa@kernel.org>
+From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date: Fri, 9 Jan 2026 14:26:03 +0900
+X-Gm-Features: AQt7F2pmUKGJKWpVwxhIrI-U32G4ALuqYGKPCGsBpfUc51GGTfk1sxJMQ_5a6zs
+Message-ID: <CAKFNMok9FG=hhzr8YrHYws5z3jTWOf2TXtFWvSfYbNy6+XLHxw@mail.gmail.com>
+Subject: Re: [PATCH 13/24] nilfs2: add setlease file operation
 To: Jeff Layton <jlayton@kernel.org>
 Cc: Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
 	Nicolas Pitre <nico@fluxnic.net>, Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>, 
@@ -61,24 +78,25 @@ Cc: Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>
 	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
 	Jaegeuk Kim <jaegeuk@kernel.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
 	David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, 
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, 
 	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
 	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, 
 	Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
 	Phillip Lougher <phillip@squashfs.org.uk>, Carlos Maiolino <cem@kernel.org>, 
 	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
-	Yuezhang Mo <yuezhang.mo@sony.com>, Chuck Lever <chuck.lever@oracle.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Andreas Gruenbacher <agruenba@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
-	Dominique Martinet <asmadeus@codewreck.org>, Christian Schoenebeck <linux_oss@crudebyte.com>, 
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>, 
-	Paulo Alcantara <pc@manguebit.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
-	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
-	Bharath SM <bharathsm@microsoft.com>, Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	Chuck Lever <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Eric Van Hensbergen <ericvh@kernel.org>, 
+	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
+	Christian Schoenebeck <linux_oss@crudebyte.com>, Xiubo Li <xiubli@redhat.com>, 
+	Ilya Dryomov <idryomov@gmail.com>, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, 
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
+	Tom Talpey <tom@talpey.com>, Bharath SM <bharathsm@microsoft.com>, 
+	Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org, 
 	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
 	linux-f2fs-devel@lists.sourceforge.net, linux-mtd@lists.infradead.org, 
@@ -91,15 +109,71 @@ Cc: Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 9, 2026 at 2:14=E2=80=AFAM Jeff Layton <jlayton@kernel.org> wro=
-te:
+On Fri, Jan 9, 2026 at 2:15=E2=80=AFAM Jeff Layton wrote:
 >
-> Add the setlease file_operation to exfat_file_operations and
-> exfat_dir_operations, pointing to generic_setlease.  A future patch
+> Add the setlease file_operation to nilfs_file_operations and
+> nilfs_dir_operations, pointing to generic_setlease.  A future patch
 > will change the default behavior to reject lease attempts with -EINVAL
 > when there is no setlease file operation defined. Add generic_setlease
 > to retain the ability to set leases on this filesystem.
 >
 > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-Acked-by: Namjae Jeon <linkinjeon@kernel.org>
-Thanks!
+
+Looks good, Thanks!
+
+Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+
+Ryusuke Konishi
+
+> ---
+>  fs/nilfs2/dir.c  | 3 ++-
+>  fs/nilfs2/file.c | 2 ++
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/nilfs2/dir.c b/fs/nilfs2/dir.c
+> index 6ca3d74be1e16d5bc577e2520f1e841287a2511f..b243199036dfa1ab2299efaaa=
+5bdf5da2d159ff2 100644
+> --- a/fs/nilfs2/dir.c
+> +++ b/fs/nilfs2/dir.c
+> @@ -30,6 +30,7 @@
+>   */
+>
+>  #include <linux/pagemap.h>
+> +#include <linux/filelock.h>
+>  #include "nilfs.h"
+>  #include "page.h"
+>
+> @@ -661,5 +662,5 @@ const struct file_operations nilfs_dir_operations =3D=
+ {
+>         .compat_ioctl   =3D nilfs_compat_ioctl,
+>  #endif /* CONFIG_COMPAT */
+>         .fsync          =3D nilfs_sync_file,
+> -
+> +       .setlease       =3D generic_setlease,
+>  };
+> diff --git a/fs/nilfs2/file.c b/fs/nilfs2/file.c
+> index 1b8d754db44d44d25dcd13f008d266ec83c74d3f..f93b68c4877c5ed369e90b723=
+517e117142335de 100644
+> --- a/fs/nilfs2/file.c
+> +++ b/fs/nilfs2/file.c
+> @@ -8,6 +8,7 @@
+>   */
+>
+>  #include <linux/fs.h>
+> +#include <linux/filelock.h>
+>  #include <linux/mm.h>
+>  #include <linux/writeback.h>
+>  #include "nilfs.h"
+> @@ -150,6 +151,7 @@ const struct file_operations nilfs_file_operations =
+=3D {
+>         .fsync          =3D nilfs_sync_file,
+>         .splice_read    =3D filemap_splice_read,
+>         .splice_write   =3D iter_file_splice_write,
+> +       .setlease       =3D generic_setlease,
+>  };
+>
+>  const struct inode_operations nilfs_file_inode_operations =3D {
+>
+> --
+> 2.52.0
+>
