@@ -1,116 +1,187 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D136271A71
-	for <ntfs3@lists.linux.dev>; Fri, 16 Jan 2026 13:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768571180; cv=none; b=lONq+tYqfs5HzkAhmxMl3/pjPR1ZYnhmtOkcwdTUygyGDEGqBx2/gW0JSmBS3cuVFd/sFQvLhNnWyey+j99d90GWGCJ0lyjc/MSUc9nkHKiTr+pRIEJC9LS9XD7D1j7FCtcBE/M+cBZmqcIWzaZDIkNgJ1yjXGFwp7F8WWR10To=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768571180; c=relaxed/simple;
-	bh=1yZMZFYr6KbXJmK//WAV7JgwpTNWTtHywzR2W7BQjLk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=iHRcA4CbFWL9Mb5zIiRv41ID5PBmFnwJNLBwdAC+vcWuVDpKkLgLjWAuJEci/E5pPt87zXHfSpcO4ji8JivoFXg1Ep+jBHAGPYkI9Sqi93Xd8yGTgsiJ1q5Dd+LoEsIF5Hg+meyZlG9xad+wqy/JsdaJoQlt+9TXekHhY5o7dsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=L9z5oTiy; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A5C399A51
+	for <ntfs3@lists.linux.dev>; Fri, 16 Jan 2026 14:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768574827; cv=pass; b=ia+UNue+7FDvrtvpD0zZNJeCMF5psqCMufsdD8uUWgEwSmQuhi7ei1bdgeNNiPF3aC1DGhsHIvbWO/V3zVVdiO6k5XLRwf2DPW0mpx56nL3RFZyyURN3JB84j6n1qq41qOxnnha7vzIy20FSdOqJzIepO9GsntGHm7WYa+ACupk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768574827; c=relaxed/simple;
+	bh=roiUOgMNh/uHT7xq/Ufc65Xx1gVdLlGNv2hq3QwsGUQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LPbFpS6lYzPzsgItPtFeFQRgDzVhgVFVgTQO6kDrWC/569xEzQ4F/7+WSD54hGooOTaTEqNPsrB3lhtYrqy/EpPT9vXHLHJiRcW6RypH2PPRyWTuYi8wrN0D+B9dw/yplLY8Uh+lJ4bLQPeGYx85s/fmMZ9w7VmH3T8H775jOIo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GId/cctv; arc=pass smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="L9z5oTiy"
-Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 9425D1D77;
-	Fri, 16 Jan 2026 13:38:15 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=L9z5oTiy;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id DDED6219B;
-	Fri, 16 Jan 2026 13:40:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GId/cctv"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b8765b7f4c0so354027666b.0
+        for <ntfs3@lists.linux.dev>; Fri, 16 Jan 2026 06:47:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768574823; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ASUA0CoXZ0xcXt22EOYYX0blaWqtUbKABfPCa2NFsrJpSLQP/VUIHubRRGEe6kRbLj
+         N1y3Rbuy8glyGGKMz9O9aFv2uXVKemmDUqolSUXT/qCGw/T+AkM8EShG206L/sDAP/h9
+         YSa+7Y10YmD87zKoVbhHaNleljpmFa7ZJo9ikWCUDQzXLy77nB3TqFLO9Drj1QUPFEU8
+         F08aJv+XgxDxVatKMYUYlbZI53ZGTF2HJ/3jdU+cxybbcwo2goRh6UOuASKEodmY3zbT
+         xtPkqy3u9WcDCyapX5hkUuPej1C7wjFoITwZmtFBdTsVdN8K9FCWjqs+u8sp92nCO1EC
+         s5hQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rWCEzzwQTN3Jcqg8Pr6svjg3sqJRK7qADI0E/O11arI=;
+        fh=kIUgkk3s7BlCYeJTMD+wXCxBJ3rtAxu4TaALr3FTWhM=;
+        b=PYxueza3WkZoh2jODSW2xzMLTIId6tMpsaaYuqWR/6RX8OT5NJ5kkr2q9hWQY33U6a
+         TEdrrY5oP04gPPfAMnUfKee+YhQa3WnkZlWYi7xOmIVxg2Q5JGMjrA8Dj6rnN8cb0ca6
+         x9DX1S9uzFk7CjfL4OTKD2LhPV7kCgtcQtMHFUxgMlnIyJvSPin+ca0qHI5QAogcSiqk
+         mZZQVqMJ7MTo95mRw3Es2aZHSO9aflXuB/vped0nkOAml1Y54c6oAgiCwD34l8jcxBQm
+         Z05n4MG8MCQxEFu7I5wPRyNNUYhm/28fcFS8P0hYwO07rTgreMe8Z139QyU3rJ7cs0D7
+         GTUw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1768570853;
-	bh=YXDXoJMMgtVuEp5U1e0l4NdrP69t8fuRn9yRvxghLds=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=L9z5oTiyblfTBx0387Kw2rTyRs3yuh15lq+C8Qc6FFV4Le/tUOfKVYREufZZYCkJT
-	 6szg39vwS1Jb8baGpWWaY8H1ctFxD/K0U25y36WyM4JAR2yow+LyTGV0W+ObxAmf8M
-	 sY9zGiWTNkjWQGcMOoKO5hwVnYRCOnw3D8cGUkQU=
-Received: from [192.168.95.128] (172.30.20.155) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 16 Jan 2026 16:40:52 +0300
-Message-ID: <032f7f9d-d92d-4b11-aa18-21eb62a4d2ab@paragon-software.com>
-Date: Fri, 16 Jan 2026 14:40:51 +0100
+        d=gmail.com; s=20230601; t=1768574823; x=1769179623; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rWCEzzwQTN3Jcqg8Pr6svjg3sqJRK7qADI0E/O11arI=;
+        b=GId/cctv73AaW+rDv6+X7nkHUMrQblqaqRg1uQP/xd+NbsxW+3exblHqWnYDQ2u01h
+         Dn9/469/0X4YOzYYOeG4UHDkUYMd6CUkqh5L1hKf/EZgDRYo+C9tTxx+bibHYUH73CpG
+         Sy0DYgKygAYDUd9aH+ue6gayfp7YFWbum+2585ZLDsJBf09IN7NRXde55WIChvWNDWfG
+         wAe9hsmZFaAVhSZ3BuxmD+psnR7iGv2d9c2wCrY9T43tFDC402T9hlqBdTl6NhgjexRQ
+         PE1RukJeFU0CGQKfWkBSgooo+xtXMxqtG/ODeG78idW2EXpJdQ9L5xYtc3l2YGYSoCNW
+         Rw4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768574823; x=1769179623;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rWCEzzwQTN3Jcqg8Pr6svjg3sqJRK7qADI0E/O11arI=;
+        b=aFHY7Dg2ffWKW+SPHFCox5T6hy28wPDrVdVKlRVY0dUEA0WKs+RQFj6nN+6pdcdjNt
+         FARD4WXdgVSbfc2XsyaVmdR3zLVhXcTWmFPfdoIaXk/FjPesonaMTuosbJwNIMX+k10B
+         aSMYEszgBVT8IOMoTG0SxY+SwBsJ4nbKnuWic6Sv0TKVlT9oTT3FXgkPpYGy6rbzFgaY
+         Sj5N2auSXC3gQMFqO5cHfQdJCh7bPRSo8UMgBGqLOnXdOKCjLZXDCTsRDBIsEKO2MMOE
+         kNQ2xG9/Q4yIJbLQykOT3L0PEfY65O36xtmRIJMm7QsjZiaNvdFxveLRP63J6tHJYzRT
+         TfCw==
+X-Forwarded-Encrypted: i=1; AJvYcCWJrbXppfI40nRISxtK+D4CPigg8UWzsa+AlDIE/dFLfEclEHv+HkoMsRQLcHRaS7iGPjWi5w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx700V2CiwsoCKk/L2Ro3jSMAzhFKFkxIALLOAXeSxru8fHYRTj
+	8Xc8c5KcRV15gB1XWv24mPxuyEcmi1BctbVxxa2/gYpRKDug0ARbnmyrPho47YyAC2EZg18jJaG
+	2AdV7VHOkBTAqeJO4eHg0SEscFwP4Hig=
+X-Gm-Gg: AY/fxX7koxcKmzKPy8lr5TRn+CfvMbFFwZIGomLP2A/5INbhWt7WmSjnbhxNYhNTxWi
+	a6aUGe4OvCs4gigKD30zTrnxBHmBLooBtFAEjxXr6HSNCdXODjlwvnDD0TbT0j5Vr6HpNngpDYi
+	djFhQQjqpXnvHSvCFewkWpXZtCmFyxg76aem1l7T7Gr0e/bYtqq0NU93ycEFolxn70MxXKssi7a
+	vL/WI6Gnr/9nsOSA9IRxNNTj4tHXbIPU0P5DNQ8Qp5Sz8YwxD7hzzSUxFJ0XLolM2fWWWMyMAqc
+	+NAd1hLXvASxKwuKYPUWfDcNxGCSWg==
+X-Received: by 2002:a17:906:7305:b0:b72:a899:169f with SMTP id
+ a640c23a62f3a-b8792d6cf8amr335795366b.4.1768574823087; Fri, 16 Jan 2026
+ 06:47:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ntfs3: fix circular locking dependency in run_unpack_ex
-To: Szymon Wilczek <swilczek.lx@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<syzbot+d27edf9f96ae85939222@syzkaller.appspotmail.com>
-References: <20251227144307.8966-1-swilczek.lx@gmail.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20251227144307.8966-1-swilczek.lx@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+References: <20260115-exportfs-nfsd-v1-0-8e80160e3c0c@kernel.org>
+ <20260115-exportfs-nfsd-v1-29-8e80160e3c0c@kernel.org> <CAOQ4uxg304=s1Uoeayy3rm1e154Nf7ScOgseJHThw4uQjKwk0A@mail.gmail.com>
+ <8e4c3df4828351c677186bf018061f2b1fd1b48e.camel@kernel.org>
+In-Reply-To: <8e4c3df4828351c677186bf018061f2b1fd1b48e.camel@kernel.org>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 16 Jan 2026 15:46:50 +0100
+X-Gm-Features: AZwV_QiRcITYtWxbtRpeIxfeQr9ho0AGFQM_8wESdHA53c49E-5t7eaX1T9rC3o
+Message-ID: <CAOQ4uxhkZNueydP0tTCAj6tuzKWPTYB7=JR_hb4gaavSKQ8C2w@mail.gmail.com>
+Subject: Re: [PATCH 29/29] nfsd: only allow filesystems that set EXPORT_OP_STABLE_HANDLES
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Theodore Ts'o" <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, Gao Xiang <xiang@kernel.org>, 
+	Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
+	Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
+	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, 
+	Carlos Maiolino <cem@kernel.org>, Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, 
+	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
+	Phillip Lougher <phillip@squashfs.org.uk>, Steve French <sfrench@samba.org>, 
+	Paulo Alcantara <pc@manguebit.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+	Shyam Prasad N <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Mike Marshall <hubcap@omnibond.com>, 
+	Martin Brandenburg <martin@omnibond.com>, Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+	Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>, Dave Kleikamp <shaggy@kernel.org>, 
+	David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, Jan Kara <jack@suse.cz>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, Christoph Hellwig <hch@infradead.org>, linux-nfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-ext4@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
+	linux-xfs@vger.kernel.org, ceph-devel@vger.kernel.org, 
+	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	samba-technical@lists.samba.org, linux-unionfs@vger.kernel.org, 
+	devel@lists.orangefs.org, ocfs2-devel@lists.linux.dev, ntfs3@lists.linux.dev, 
+	linux-nilfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net, 
+	linux-mtd@lists.infradead.org, gfs2@lists.linux.dev, 
+	linux-f2fs-devel@lists.sourceforge.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/27/25 15:43, Szymon Wilczek wrote:
+On Fri, Jan 16, 2026 at 1:36=E2=80=AFPM Jeff Layton <jlayton@kernel.org> wr=
+ote:
+>
+> On Thu, 2026-01-15 at 20:23 +0100, Amir Goldstein wrote:
+> > On Thu, Jan 15, 2026 at 6:51=E2=80=AFPM Jeff Layton <jlayton@kernel.org=
+> wrote:
+> > >
+> > > Some filesystems have grown export operations in order to provide
+> > > filehandles for local usage. Some of these filesystems are unsuitable
+> > > for use with nfsd, since their filehandles are not persistent across
+> > > reboots.
+> > >
+> > > In __fh_verify, check whether EXPORT_OP_STABLE_HANDLES is set
+> > > and return nfserr_stale if it isn't.
+> > >
+> > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > > ---
+> > >  fs/nfsd/nfsfh.c | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/fs/nfsd/nfsfh.c b/fs/nfsd/nfsfh.c
+> > > index ed85dd43da18e6d4c4667ff14dc035f2eacff1d6..da9d5fb2e6613c2707195=
+da2e8678b3fcb3d444d 100644
+> > > --- a/fs/nfsd/nfsfh.c
+> > > +++ b/fs/nfsd/nfsfh.c
+> > > @@ -334,6 +334,10 @@ __fh_verify(struct svc_rqst *rqstp,
+> > >         dentry =3D fhp->fh_dentry;
+> > >         exp =3D fhp->fh_export;
+> > >
+> > > +       error =3D nfserr_stale;
+> > > +       if (!(dentry->d_sb->s_export_op->flags & EXPORT_OP_STABLE_HAN=
+DLES))
+> > > +               goto out;
+> > > +
+> > >         trace_nfsd_fh_verify(rqstp, fhp, type, access);
+> > >
+> >
+> > IDGI. Don't you want  to deny the export of those fs in check_export()?
+> > By the same logic that check_export() checks for can_decode_fh()
+> > not for can_encode_fh().
+> >
+>
+> It certainly won't hurt to add a check for this to check_export(), and
+> I've gone ahead and done so. To be clear, doing that won't prevent the
+> filesystem from being exported, but you will get a warning like this
+> when you try:
+>
+>     exportfs: /sys/fs/cgroup does not support NFS export
+>
+> That export will still show up in mountd though, so this is just a
+> warning. Trying to mount it though will fail.
+>
 
-> Syzbot reported a circular locking dependency between wnd->rw_lock
-> (sbi->used.bitmap) and ni->file.run_lock.
->
-> The deadlock scenario:
-> 1. ntfs_extend_mft() takes ni->file.run_lock then wnd->rw_lock.
-> 2. run_unpack_ex() takes wnd->rw_lock then tries to acquire
->     ni->file.run_lock inside ntfs_refresh_zone().
->
-> This creates an AB-BA deadlock.
->
-> Fix this by using down_read_trylock() instead of down_read() when
-> acquiring run_lock in run_unpack_ex(). If the lock is contended,
-> skip ntfs_refresh_zone() - the MFT zone will be refreshed on the
-> next MFT operation. This breaks the circular dependency since we
-> never block waiting for run_lock while holding wnd->rw_lock.
->
-> Reported-by: syzbot+d27edf9f96ae85939222@syzkaller.appspotmail.com
-> Tested-by: syzbot+d27edf9f96ae85939222@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=d27edf9f96ae85939222
-> Signed-off-by: Szymon Wilczek <swilczek.lx@gmail.com>
-> ---
->   fs/ntfs3/run.c | 13 ++++++++-----
->   1 file changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
-> index 395b20492525..dc59cad4fa37 100644
-> --- a/fs/ntfs3/run.c
-> +++ b/fs/ntfs3/run.c
-> @@ -1131,11 +1131,14 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
->   			struct rw_semaphore *lock =
->   				is_mounted(sbi) ? &sbi->mft.ni->file.run_lock :
->   						  NULL;
-> -			if (lock)
-> -				down_read(lock);
-> -			ntfs_refresh_zone(sbi);
-> -			if (lock)
-> -				up_read(lock);
-> +			if (lock) {
-> +				if (down_read_trylock(lock)) {
-> +					ntfs_refresh_zone(sbi);
-> +					up_read(lock);
-> +				}
-> +			} else {
-> +				ntfs_refresh_zone(sbi);
-> +			}
->   		}
->   		up_write(&wnd->rw_lock);
->   		if (err)
+Oh, I did not know. What an odd user experience.
+Anyway, better than no warning at all.
 
-Thanks for the patch. It is applied.
-
-Regards,
-Konstantin
-
+Thanks,
+Amir.
