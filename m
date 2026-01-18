@@ -1,63 +1,63 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCD62248AF
-	for <ntfs3@lists.linux.dev>; Sun, 18 Jan 2026 18:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5252F1EF0B0
+	for <ntfs3@lists.linux.dev>; Sun, 18 Jan 2026 19:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768762662; cv=none; b=rPP4/p1/kABm9iIuT4yUzmeodWduQdV+HhCnW9uGprsTw1ktxckNJKCrPr+kBtFHMtbupLh+dHv9yyNMYOiHouB+zMukHyxpaLJp8YCxu5W2IZ47xThevaf5csg9G98AGC+5LMkHgVxJs29ct5S3fBgRPNkqN8Aw9/LzsM4kH1Q=
+	t=1768762915; cv=none; b=pPo3JJRm6wuy0tOSa05A73Nbt5E8iyTaUBZrfamd+qnHRObDq5lriSybOx1vNoTURXNi51EGIpBMoAYyB9sXR5DbGiEAriTz42SHn6nSZ+s2cT6ZQ/Fzd1unboZDurZe6Bmq2wKlamdBMTIKDIl8WlksXgaecAxRhwyWPjstvbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768762662; c=relaxed/simple;
-	bh=uEH6tkrhwnjKM1uvdiIJIJXExMuu7hcx+AmXyWxFOOA=;
+	s=arc-20240116; t=1768762915; c=relaxed/simple;
+	bh=nMNE6iEfpLstIa10M3kB5FyebBEQOg86SBYePsQerOs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lmzAxrU9a1hVc5EF5dOzUHiiIrb+3nmoScMdSHZpwhd0+uFvBSI/DyfNgJU8i6yVQKfMwT618+u3Hhpcz/m01ZzoLX99aNZ36xQXxRKckr+XrQcMmwQ0wmF1Ybd4QCTqEMKi1EpHwuHAz2xvlT6VauUuU4i9/iUIqNps4g1orRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PnB9E+iS; arc=none smtp.client-ip=209.85.210.49
+	 MIME-Version; b=Vp0MTjfrdAy0qNWpoXRS/jFKY/xzJtr46PFMroSdTukebBpn1/UF1y0Xpt+wWUA8TK7EZNHvW6hEX0tz66VCbQ/zhOJvGUb1qO+RcG98kxoHPKJPlzS3BZ2wruoWtMjtrvkDENlKb7ISbbE1omjLnxkjX/Gxrdv64PFQORwJqBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gMnnOo/l; arc=none smtp.client-ip=209.85.160.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PnB9E+iS"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7cfd2423793so2579119a34.2
-        for <ntfs3@lists.linux.dev>; Sun, 18 Jan 2026 10:57:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gMnnOo/l"
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-404308dd5d6so1516111fac.1
+        for <ntfs3@lists.linux.dev>; Sun, 18 Jan 2026 11:01:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768762660; x=1769367460; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768762913; x=1769367713; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sIn7kPGIfDc+QhgxXADc8Eo2fOwVdn5dCfxtYkZG0x8=;
-        b=PnB9E+iSnL3SrMhFUQh8kYBhitri+1P2HbWigKTeJ2mO6thxMW3KxsaaguwdfqM8uf
-         HWRDUEHyPyA+Wdx22eSvObBLmvgBwgaxhhJJoxRYxp6WUIZEk4uI3lF6VDa9Ey9aGf0K
-         PSiLxSXJTqJeJ+8+g4sd0METZon7fotA+O10BXVAoAusPV32W0Yz4vJ3kFnO1f0133V8
-         v9wit71CTxrg8rQySG+g4DIC2ihcId6p6KLYZbFU/MBonmkcND6csDA/3n9l+Io9JE47
-         FJEfnVSILQIAYAcs0acbvOtVxgxZ5wP/UrneN6TVXYMMfJbi1sOo3gCxHj/cHKEPUffL
-         9GRA==
+        bh=hNjMslMWG3mKls0Rz/DOZ4WWtAb1rKfHE/u7ZXd1FlU=;
+        b=gMnnOo/lW+t2j87XPdTkGkfgMjLkPeV8NV3+dirB1L6C+xnR9YFV6iXmAFFV9/ygn3
+         GIORJ1FAvZ48h+yDh2FtcX4oGEuVlhKFFnrqMUln7Lu/+5B0U4vt4DNrT/WZ8JKGtOoG
+         07pYoVtFwAcJ0wyClBifK1Z6e7PZbOh9ehAwTUbYnajkOIfwpiyZ+NAtGiImcp6p27Gb
+         4UHy21hDAEiWICgBjq5hx5FmrA34FwI5Gze3YM0yjpVNYjdtKCH1Ohakghv/xKMatUDH
+         S2RVYFw9eIT2cxtaCn34Ff/zvhPti00qIHji+XtlM0C9ZXGpH8R4MipnBe08o2stB3Tc
+         3OZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768762660; x=1769367460;
+        d=1e100.net; s=20230601; t=1768762913; x=1769367713;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=sIn7kPGIfDc+QhgxXADc8Eo2fOwVdn5dCfxtYkZG0x8=;
-        b=p1EjhkSPX1QqhTm3o37g8xR0tc5wlEdgVY4mPXUKEeYD7QmIwoI0cmnHKZu4ca2Xtg
-         Glq2RHIG3g6RxLitvMD/I4LSqxwP+NMaAwW+sh0A7oxwTNEaFnP1CO/7JxktAWzGDHjV
-         itVf+a4Tpv8A1pNWkXRbheTSvW+VitNnW8NUjYIwK3EM+qfgI2JQ3bXdQMBQXyzccgFt
-         lgECwYv+q3NiF3fsWTMvC/7jiZkUNDmwJChcpW7r8Y09f6lXehRNJEXAHo5H0IynKCBW
-         +4iw80naX4murRxJjpglrLJFPui0wLuh/QiMGoehnaXKERROY/QAPcDlxyFukuTJ+yB+
-         tXPA==
-X-Forwarded-Encrypted: i=1; AJvYcCVGG5eILzznvBZGxrODjI+BBk3LHkqDc/nCw73CXC4lWkugvfAV095ji7V4Y2/Bl1D1RB+3ag==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNhRvSWTOD7MoD3x/D7xkUzt5F9/qZVNH4id2jvcK9TYwrk4ii
-	XsiIKRRK8IwQm8GEnRqIVgEzCzjNXqLmJi55v4BELN5FzRZ9RP+GcOaD
-X-Gm-Gg: AY/fxX7cp8dGQjuwG4Fz7YNclOv/7gYN0npfVdH5Ay95IR19a6Km5BeRpYlGJSrKHED
-	MzRo1ESgI1bPUY6rL5g5fsGyugylf1DNsr4n4Kvz0MQ0kGZYAaJig/sLa9MIOBevTRmBqKemoqZ
-	Si4zMldBzPZHCjJVWKsv4JPM6cq/BdKPcdLfVp3MoosPYaMUzL2nXSPmi+dUru1uSP5XWw3Lgzg
-	gpg4dw7XbX+z7K4quV/QAsAu5wPxRyokloVX5bne9HZXFDtyXhb4qmIx2oprrKzG1mN/vPOXTez
-	9ndMx3JaQTxB2ge5c+viy5ofMiV2u7gEGsDs7lCpS9SZRBfemP0VxbX/g4x2USplBfvRGiFCLKv
-	Zc8kOFI7asu+sKhxI+2OaStvYksT6m0uQgSnK3LQ8EkYAnq2TPvezGabBFPPmczs5rRRQ9RUk0v
-	Oheb31Jjgz40Laf7YPZoyfK9dfNiPgd+9pqah07zJLuFg=
-X-Received: by 2002:a05:6820:490c:b0:660:fd8d:954e with SMTP id 006d021491bc7-661179cc735mr3331882eaf.42.1768762659937;
-        Sun, 18 Jan 2026 10:57:39 -0800 (PST)
+        bh=hNjMslMWG3mKls0Rz/DOZ4WWtAb1rKfHE/u7ZXd1FlU=;
+        b=cxEz/YwgqbLUzZRnsfs1Q5PIeLvikHiA84i9S3TsFZ9kavH8JbLAmsfv01zalC/n4J
+         uOHOkMUKvPDkVs0yWNAJKYHyIAd9Nqa5twMZVDsFjDQsyM7rTRzoLzUsz5F9L7FD+I7y
+         ZKErPCyoymwehDxNIbv9bQxSHCp3awjZCrrYh83Kxa0bFSxI9YjguJ45EpGtBj9bhvSQ
+         UMI3F/H+xyRyYl/+OZRcWXvUZaYOUGs4TMctQe2f6oqi7gQiGvkIHwTLIQrg5cX89tE+
+         dKDNXglrg6kbEZ8Scw5+ANO/ncbtuR0Q8cMJoy+gGfNCyViRMQY2VA5OjROCq3Qz/Lnl
+         4vAw==
+X-Forwarded-Encrypted: i=1; AJvYcCV2QzIfjGI8hyywM/2cB0vOvxhBJi92TM8P5gboQwAoXnlLdvq1jrdnttyvEAhXziYF6lA6Vw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJyjZtwbIknCKKHFjg8YlV16SF1Q4hrGgw6HFhLcEgkUBsUOD+
+	/20cnrs8vNM+AA7EXtIozTNreTomNf0iHgfuO8iekoI9nTMzDcKV6XW6
+X-Gm-Gg: AY/fxX7baH0hmrKHJRvg4O54QFtZrKeimjGSkOTlhGboPS6UbyuWgSWaVJ7bGoIP8Qm
+	eklGV/LJOLDB+APwJrgRo/CojG2o0i73psdw3YuJOxlISH29LKGPfTL72U4RV/J9U0xvZytWmF8
+	wwaYGNi4G6HG5jsBmwrqR+SSAIKg3U0ZI17zc92/Dc4ERUR+ksgieBTzHaHODEjauBccFcx0SkD
+	7y0h+knjZPv4w+QjFOVbEeqdIK3ZnQxlqgvzA9yS3xPapjlccbx73C5fnnCQTlFrhTz4cEgrHf+
+	Ste7g76HK4oUBXo4hbNX/0sQk/QVg2Ygc6vyMgP7IhsuJADpA69SOM06sFywW74/xPX4jND/ibZ
+	+gIOct5aX8Lc8QXAA9UAS9H+vKyhcfzueE2//Ac0ymYLcwhzRwT0vphHmgp5p1HPR1JG9I0U2YB
+	f0ioy7ZFNfWjWuvjk563tU5m9f6r+Pxn5IUmH4BFJIL/I=
+X-Received: by 2002:a05:6871:3319:b0:2e8:f5d6:2247 with SMTP id 586e51a60fabf-4044cfc720cmr4766960fac.32.1768762908380;
+        Sun, 18 Jan 2026 11:01:48 -0800 (PST)
 Received: from newman.cs.purdue.edu ([128.10.127.250])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-661187820a5sm3867685eaf.10.2026.01.18.10.57.38
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4044bd14883sm5530224fac.12.2026.01.18.11.01.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 10:57:39 -0800 (PST)
+        Sun, 18 Jan 2026 11:01:47 -0800 (PST)
 From: Jiasheng Jiang <jiashengjiangcool@gmail.com>
 To: markus.elfring@web.de
 Cc: almaz.alexandrovich@paragon-software.com,
@@ -65,12 +65,12 @@ Cc: almaz.alexandrovich@paragon-software.com,
 	linux-kernel@vger.kernel.org,
 	ntfs3@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v2] fs/ntfs3: Fix memory and resource leak in indx_find_sort
-Date: Sun, 18 Jan 2026 18:57:36 +0000
-Message-Id: <20260118185736.41529-1-jiashengjiangcool@gmail.com>
+Subject: [PATCH v2] fs/ntfs3: Fix infinite loop in hdr_find_split due to zero-sized entry
+Date: Sun, 18 Jan 2026 19:01:45 +0000
+Message-Id: <20260118190145.41997-1-jiashengjiangcool@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <17914287-640d-4500-b519-5f3d3aed2878@web.de>
-References: <17914287-640d-4500-b519-5f3d3aed2878@web.de>
+In-Reply-To: <65bf90b1-8806-4f8c-b7e7-d90193d28e88@web.de>
+References: <65bf90b1-8806-4f8c-b7e7-d90193d28e88@web.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -79,18 +79,18 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function indx_find_sort() incorrectly uses kfree(n) to cleanup the
-'struct indx_node' instance in error paths.
+The function hdr_find_split iterates over index entries to calculate a
+split point. The loop increments the offset 'o' by 'esize', which is
+derived directly from the on-disk 'e->size' field.
 
-The 'struct indx_node' is a container that manages internal allocations
-(n->index) and holds a reference to a buffer head (n->nb). Using kfree()
-directly on the node pointer only frees the container itself, resulting
-in a memory leak of the index buffer and a resource leak of the buffer
-head reference.
+If a corrupted or malicious filesystem image contains an index entry
+with a size of 0, the variable 'o' will fail to advance. This results
+in an infinite loop if the condition 'o < used_2' remains true, causing
+a kernel hang (Denial of Service).
 
-This patch replaces the incorrect kfree(n) calls with the specialized
-helper put_indx_node(n), which correctly releases the internal resources
-and the buffer head, consistent with other functions like indx_find_raw().
+This patch adds a sanity check to ensure 'esize' is at least the size
+of the NTFS_DE structure, consistent with validation logic in sibling
+functions like hdr_find_e.
 
 Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
 Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
@@ -101,40 +101,23 @@ v1 -> v2:
 
 1. Add a Fixes tag.
 ---
- fs/ntfs3/index.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ fs/ntfs3/index.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index 7157cfd70fdc..c598b4b2f454 100644
+index 7157cfd70fdc..da6927e6d360 100644
 --- a/fs/ntfs3/index.c
 +++ b/fs/ntfs3/index.c
-@@ -1248,7 +1248,7 @@ int indx_find_sort(struct ntfs_index *indx, struct ntfs_inode *ni,
- 		    sizeof(struct NTFS_DE) + sizeof(u64)) {
- 			if (n) {
- 				fnd_pop(fnd);
--				kfree(n);
-+				put_indx_node(n);
- 			}
- 			return -EINVAL;
- 		}
-@@ -1261,7 +1261,7 @@ int indx_find_sort(struct ntfs_index *indx, struct ntfs_inode *ni,
- 		/* Try next level. */
- 		e = hdr_first_de(&n->index->ihdr);
- 		if (!e) {
--			kfree(n);
-+			put_indx_node(n);
- 			return -EINVAL;
- 		}
+@@ -577,6 +577,9 @@ static const struct NTFS_DE *hdr_find_split(const struct INDEX_HDR *hdr)
+ 			return p;
  
-@@ -1281,7 +1281,7 @@ int indx_find_sort(struct ntfs_index *indx, struct ntfs_inode *ni,
- 		/* Pop one level. */
- 		if (n) {
- 			fnd_pop(fnd);
--			kfree(n);
-+			put_indx_node(n);
- 		}
+ 		esize = le16_to_cpu(e->size);
++
++		if (esize < sizeof(struct NTFS_DE))
++			return NULL;
+ 	}
  
- 		level = fnd->level;
+ 	return e;
 -- 
 2.25.1
 
