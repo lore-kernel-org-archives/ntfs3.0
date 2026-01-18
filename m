@@ -1,121 +1,140 @@
-Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583062836E;
-	Sun, 18 Jan 2026 15:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCD62248AF
+	for <ntfs3@lists.linux.dev>; Sun, 18 Jan 2026 18:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768750972; cv=none; b=N6twlM4sdEiC3uFg//W8O4TNfVMEjiC90O2bzUI43YodnkYkU8TqYPl5AJ45bNN1lWMqyxE/wibvmWORAjsXYSqJYl4OrzGtccZfnGGyAGqp5eeYVTvcs5UnE8gfcm5pscpoqgl6fMb2F4fPvnZUf8jbCcITK2DKtEPL/VJsL5U=
+	t=1768762662; cv=none; b=rPP4/p1/kABm9iIuT4yUzmeodWduQdV+HhCnW9uGprsTw1ktxckNJKCrPr+kBtFHMtbupLh+dHv9yyNMYOiHouB+zMukHyxpaLJp8YCxu5W2IZ47xThevaf5csg9G98AGC+5LMkHgVxJs29ct5S3fBgRPNkqN8Aw9/LzsM4kH1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768750972; c=relaxed/simple;
-	bh=7o8IJfB7ac3jZiXayX/iEYSCvbbdHx+mVAVSDEiNdGc=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=NF8Wv//SqjtS+KWwtNPh8gxW/3OM3evMiHpg/ZPMrhk/D/Xwbn3SrCQRuFOPXVxLppZL7DZk0uKc5xXbVTDsEma0XtuWZQKcc4CDaYIWT0em/bDpqRt0BKKXtUR7gy8A/m/UmMxlIHPWIiwAFCksm3BOI3/WrEsZFFZvp0qC4Zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 5FD812918DC;
-	Sun, 18 Jan 2026 16:36:05 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id 8m1VPN69EFg3; Sun, 18 Jan 2026 16:36:04 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 9E0B129859E;
-	Sun, 18 Jan 2026 16:36:04 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id Qm1VWoKnABQg; Sun, 18 Jan 2026 16:36:04 +0100 (CET)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 04C202918DC;
-	Sun, 18 Jan 2026 16:36:04 +0100 (CET)
-Date: Sun, 18 Jan 2026 16:36:03 +0100 (CET)
-From: Richard Weinberger <richard@nod.at>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	chuck lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
-	Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Amir Goldstein <amir73il@gmail.com>, hughd <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, tytso <tytso@mit.edu>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
-	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
-	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
-	Sandeep Dhavale <dhavale@google.com>, 
-	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, 
-	Carlos Maiolino <cem@kernel.org>, Ilya Dryomov <idryomov@gmail.com>, 
-	Alex Markuze <amarkuze@redhat.com>, 
-	Viacheslav Dubeyko <slava@dubeyko.com>, Chris Mason <clm@fb.com>, 
-	David Sterba <dsterba@suse.com>, 
-	Luis de Bethencourt <luisbg@kernel.org>, 
-	Salah Triki <salah.triki@gmail.com>, 
-	Phillip Lougher <phillip@squashfs.org.uk>, 
-	Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
-	Shyam <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, 
-	Mike Marshall <hubcap@omnibond.com>, 
-	Martin Brandenburg <martin@omnibond.com>, 
-	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
-	Joseph Qi <joseph.qi@linux.alibaba.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
-	Trond Myklebust <trondmy@kernel.org>, anna <anna@kernel.org>, 
-	Dave Kleikamp <shaggy@kernel.org>, 
-	David Woodhouse <dwmw2@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Andreas Gruenbacher <agruenba@redhat.com>, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, 
-	Christoph Hellwig <hch@infradead.org>, 
-	linux-nfs <linux-nfs@vger.kernel.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, 
-	linux-ext4 <linux-ext4@vger.kernel.org>, 
-	linux-erofs <linux-erofs@lists.ozlabs.org>, 
-	linux-xfs <linux-xfs@vger.kernel.org>, 
-	ceph-devel <ceph-devel@vger.kernel.org>, 
-	linux-btrfs <linux-btrfs@vger.kernel.org>, 
-	linux-cifs <linux-cifs@vger.kernel.org>, 
-	samba-technical <samba-technical@lists.samba.org>, 
-	linux-unionfs <linux-unionfs@vger.kernel.org>, 
-	devel <devel@lists.orangefs.org>, 
-	ocfs2-devel <ocfs2-devel@lists.linux.dev>, 
-	ntfs3 <ntfs3@lists.linux.dev>, 
-	linux-nilfs <linux-nilfs@vger.kernel.org>, 
-	jfs-discussion <jfs-discussion@lists.sourceforge.net>, 
-	linux-mtd <linux-mtd@lists.infradead.org>, 
-	gfs2 <gfs2@lists.linux.dev>, 
-	linux-f2fs-devel <linux-f2fs-devel@lists.sourceforge.net>
-Message-ID: <2119146172.135240.1768750563673.JavaMail.zimbra@nod.at>
-In-Reply-To: <20260115-exportfs-nfsd-v1-23-8e80160e3c0c@kernel.org>
-References: <20260115-exportfs-nfsd-v1-0-8e80160e3c0c@kernel.org> <20260115-exportfs-nfsd-v1-23-8e80160e3c0c@kernel.org>
-Subject: Re: [PATCH 23/29] jffs2: add EXPORT_OP_STABLE_HANDLES flag to
- export operations
+	s=arc-20240116; t=1768762662; c=relaxed/simple;
+	bh=uEH6tkrhwnjKM1uvdiIJIJXExMuu7hcx+AmXyWxFOOA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=lmzAxrU9a1hVc5EF5dOzUHiiIrb+3nmoScMdSHZpwhd0+uFvBSI/DyfNgJU8i6yVQKfMwT618+u3Hhpcz/m01ZzoLX99aNZ36xQXxRKckr+XrQcMmwQ0wmF1Ybd4QCTqEMKi1EpHwuHAz2xvlT6VauUuU4i9/iUIqNps4g1orRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PnB9E+iS; arc=none smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PnB9E+iS"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7cfd2423793so2579119a34.2
+        for <ntfs3@lists.linux.dev>; Sun, 18 Jan 2026 10:57:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768762660; x=1769367460; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sIn7kPGIfDc+QhgxXADc8Eo2fOwVdn5dCfxtYkZG0x8=;
+        b=PnB9E+iSnL3SrMhFUQh8kYBhitri+1P2HbWigKTeJ2mO6thxMW3KxsaaguwdfqM8uf
+         HWRDUEHyPyA+Wdx22eSvObBLmvgBwgaxhhJJoxRYxp6WUIZEk4uI3lF6VDa9Ey9aGf0K
+         PSiLxSXJTqJeJ+8+g4sd0METZon7fotA+O10BXVAoAusPV32W0Yz4vJ3kFnO1f0133V8
+         v9wit71CTxrg8rQySG+g4DIC2ihcId6p6KLYZbFU/MBonmkcND6csDA/3n9l+Io9JE47
+         FJEfnVSILQIAYAcs0acbvOtVxgxZ5wP/UrneN6TVXYMMfJbi1sOo3gCxHj/cHKEPUffL
+         9GRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768762660; x=1769367460;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sIn7kPGIfDc+QhgxXADc8Eo2fOwVdn5dCfxtYkZG0x8=;
+        b=p1EjhkSPX1QqhTm3o37g8xR0tc5wlEdgVY4mPXUKEeYD7QmIwoI0cmnHKZu4ca2Xtg
+         Glq2RHIG3g6RxLitvMD/I4LSqxwP+NMaAwW+sh0A7oxwTNEaFnP1CO/7JxktAWzGDHjV
+         itVf+a4Tpv8A1pNWkXRbheTSvW+VitNnW8NUjYIwK3EM+qfgI2JQ3bXdQMBQXyzccgFt
+         lgECwYv+q3NiF3fsWTMvC/7jiZkUNDmwJChcpW7r8Y09f6lXehRNJEXAHo5H0IynKCBW
+         +4iw80naX4murRxJjpglrLJFPui0wLuh/QiMGoehnaXKERROY/QAPcDlxyFukuTJ+yB+
+         tXPA==
+X-Forwarded-Encrypted: i=1; AJvYcCVGG5eILzznvBZGxrODjI+BBk3LHkqDc/nCw73CXC4lWkugvfAV095ji7V4Y2/Bl1D1RB+3ag==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNhRvSWTOD7MoD3x/D7xkUzt5F9/qZVNH4id2jvcK9TYwrk4ii
+	XsiIKRRK8IwQm8GEnRqIVgEzCzjNXqLmJi55v4BELN5FzRZ9RP+GcOaD
+X-Gm-Gg: AY/fxX7cp8dGQjuwG4Fz7YNclOv/7gYN0npfVdH5Ay95IR19a6Km5BeRpYlGJSrKHED
+	MzRo1ESgI1bPUY6rL5g5fsGyugylf1DNsr4n4Kvz0MQ0kGZYAaJig/sLa9MIOBevTRmBqKemoqZ
+	Si4zMldBzPZHCjJVWKsv4JPM6cq/BdKPcdLfVp3MoosPYaMUzL2nXSPmi+dUru1uSP5XWw3Lgzg
+	gpg4dw7XbX+z7K4quV/QAsAu5wPxRyokloVX5bne9HZXFDtyXhb4qmIx2oprrKzG1mN/vPOXTez
+	9ndMx3JaQTxB2ge5c+viy5ofMiV2u7gEGsDs7lCpS9SZRBfemP0VxbX/g4x2USplBfvRGiFCLKv
+	Zc8kOFI7asu+sKhxI+2OaStvYksT6m0uQgSnK3LQ8EkYAnq2TPvezGabBFPPmczs5rRRQ9RUk0v
+	Oheb31Jjgz40Laf7YPZoyfK9dfNiPgd+9pqah07zJLuFg=
+X-Received: by 2002:a05:6820:490c:b0:660:fd8d:954e with SMTP id 006d021491bc7-661179cc735mr3331882eaf.42.1768762659937;
+        Sun, 18 Jan 2026 10:57:39 -0800 (PST)
+Received: from newman.cs.purdue.edu ([128.10.127.250])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-661187820a5sm3867685eaf.10.2026.01.18.10.57.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Jan 2026 10:57:39 -0800 (PST)
+From: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+To: markus.elfring@web.de
+Cc: almaz.alexandrovich@paragon-software.com,
+	jiashengjiangcool@gmail.com,
+	linux-kernel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH v2] fs/ntfs3: Fix memory and resource leak in indx_find_sort
+Date: Sun, 18 Jan 2026 18:57:36 +0000
+Message-Id: <20260118185736.41529-1-jiashengjiangcool@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <17914287-640d-4500-b519-5f3d3aed2878@web.de>
+References: <17914287-640d-4500-b519-5f3d3aed2878@web.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF146 (Linux)/8.8.12_GA_3809)
-Thread-Topic: jffs2: add EXPORT_OP_STABLE_HANDLES flag to export operations
-Thread-Index: pUsbo+Kg1d9ytlyubsob1wi+Ql8B0A==
+Content-Transfer-Encoding: 8bit
 
------ Urspr=C3=BCngliche Mail -----
-> Add the EXPORT_OP_STABLE_HANDLES flag to jffs2 export operations to indic=
-ate
-> that this filesystem can be exported via NFS.
->=20
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
-> fs/jffs2/super.c | 1 +
-> 1 file changed, 1 insertion(+)
+The function indx_find_sort() incorrectly uses kfree(n) to cleanup the
+'struct indx_node' instance in error paths.
 
-Acked-by: Richard Weinberger <richard@nod.at>
+The 'struct indx_node' is a container that manages internal allocations
+(n->index) and holds a reference to a buffer head (n->nb). Using kfree()
+directly on the node pointer only frees the container itself, resulting
+in a memory leak of the index buffer and a resource leak of the buffer
+head reference.
 
-Thanks,
-//richard
+This patch replaces the incorrect kfree(n) calls with the specialized
+helper put_indx_node(n), which correctly releases the internal resources
+and the buffer head, consistent with other functions like indx_find_raw().
+
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+---
+Changelog:
+
+v1 -> v2:
+
+1. Add a Fixes tag.
+---
+ fs/ntfs3/index.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 7157cfd70fdc..c598b4b2f454 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -1248,7 +1248,7 @@ int indx_find_sort(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 		    sizeof(struct NTFS_DE) + sizeof(u64)) {
+ 			if (n) {
+ 				fnd_pop(fnd);
+-				kfree(n);
++				put_indx_node(n);
+ 			}
+ 			return -EINVAL;
+ 		}
+@@ -1261,7 +1261,7 @@ int indx_find_sort(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 		/* Try next level. */
+ 		e = hdr_first_de(&n->index->ihdr);
+ 		if (!e) {
+-			kfree(n);
++			put_indx_node(n);
+ 			return -EINVAL;
+ 		}
+ 
+@@ -1281,7 +1281,7 @@ int indx_find_sort(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 		/* Pop one level. */
+ 		if (n) {
+ 			fnd_pop(fnd);
+-			kfree(n);
++			put_indx_node(n);
+ 		}
+ 
+ 		level = fnd->level;
+-- 
+2.25.1
+
