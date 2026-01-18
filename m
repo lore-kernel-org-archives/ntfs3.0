@@ -1,123 +1,200 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5252F1EF0B0
-	for <ntfs3@lists.linux.dev>; Sun, 18 Jan 2026 19:01:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C59231A06F;
+	Sun, 18 Jan 2026 23:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768762915; cv=none; b=pPo3JJRm6wuy0tOSa05A73Nbt5E8iyTaUBZrfamd+qnHRObDq5lriSybOx1vNoTURXNi51EGIpBMoAYyB9sXR5DbGiEAriTz42SHn6nSZ+s2cT6ZQ/Fzd1unboZDurZe6Bmq2wKlamdBMTIKDIl8WlksXgaecAxRhwyWPjstvbA=
+	t=1768778619; cv=none; b=Ip4g7gNd2LGcGFgQ+bbdAjvgf8bcL+561Hcw+U5iGAFTobdtGvOoz1upZnRooXupXYrr9TonjElsrG4st0F0G6QLfYceW+ORIjUNCTguKuNb8x7km7GWon7OqPVxUwzCcXz5Wbjq08r9l+lyglFxDAyb4iuFTsHZs4AAJEaJdAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768762915; c=relaxed/simple;
-	bh=nMNE6iEfpLstIa10M3kB5FyebBEQOg86SBYePsQerOs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Vp0MTjfrdAy0qNWpoXRS/jFKY/xzJtr46PFMroSdTukebBpn1/UF1y0Xpt+wWUA8TK7EZNHvW6hEX0tz66VCbQ/zhOJvGUb1qO+RcG98kxoHPKJPlzS3BZ2wruoWtMjtrvkDENlKb7ISbbE1omjLnxkjX/Gxrdv64PFQORwJqBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gMnnOo/l; arc=none smtp.client-ip=209.85.160.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768778619; c=relaxed/simple;
+	bh=kQYT0dhmcYLmmCpMOddqhdpNEHl1L6rhEo00nl7FDLA=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=asJzyGmDotWzEBDAjQj9mg+Vll681KATwhow3Zgo2L2QEw/wgpWnDJEuf3G/w1iDps5ne8GKjDZ1Y1UdwhxrxS66GhC4nFrPRDKPSHLwmJdJUq+CCsmXAUjbqXDdWFnekR6mKOW5/Locp8zAvJkAPqI+WgSd3rYEOlMa5kdTZes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Dmw+pxT+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IGTmerXN; arc=none smtp.client-ip=103.168.172.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gMnnOo/l"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-404308dd5d6so1516111fac.1
-        for <ntfs3@lists.linux.dev>; Sun, 18 Jan 2026 11:01:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768762913; x=1769367713; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hNjMslMWG3mKls0Rz/DOZ4WWtAb1rKfHE/u7ZXd1FlU=;
-        b=gMnnOo/lW+t2j87XPdTkGkfgMjLkPeV8NV3+dirB1L6C+xnR9YFV6iXmAFFV9/ygn3
-         GIORJ1FAvZ48h+yDh2FtcX4oGEuVlhKFFnrqMUln7Lu/+5B0U4vt4DNrT/WZ8JKGtOoG
-         07pYoVtFwAcJ0wyClBifK1Z6e7PZbOh9ehAwTUbYnajkOIfwpiyZ+NAtGiImcp6p27Gb
-         4UHy21hDAEiWICgBjq5hx5FmrA34FwI5Gze3YM0yjpVNYjdtKCH1Ohakghv/xKMatUDH
-         S2RVYFw9eIT2cxtaCn34Ff/zvhPti00qIHji+XtlM0C9ZXGpH8R4MipnBe08o2stB3Tc
-         3OZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768762913; x=1769367713;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hNjMslMWG3mKls0Rz/DOZ4WWtAb1rKfHE/u7ZXd1FlU=;
-        b=cxEz/YwgqbLUzZRnsfs1Q5PIeLvikHiA84i9S3TsFZ9kavH8JbLAmsfv01zalC/n4J
-         uOHOkMUKvPDkVs0yWNAJKYHyIAd9Nqa5twMZVDsFjDQsyM7rTRzoLzUsz5F9L7FD+I7y
-         ZKErPCyoymwehDxNIbv9bQxSHCp3awjZCrrYh83Kxa0bFSxI9YjguJ45EpGtBj9bhvSQ
-         UMI3F/H+xyRyYl/+OZRcWXvUZaYOUGs4TMctQe2f6oqi7gQiGvkIHwTLIQrg5cX89tE+
-         dKDNXglrg6kbEZ8Scw5+ANO/ncbtuR0Q8cMJoy+gGfNCyViRMQY2VA5OjROCq3Qz/Lnl
-         4vAw==
-X-Forwarded-Encrypted: i=1; AJvYcCV2QzIfjGI8hyywM/2cB0vOvxhBJi92TM8P5gboQwAoXnlLdvq1jrdnttyvEAhXziYF6lA6Vw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJyjZtwbIknCKKHFjg8YlV16SF1Q4hrGgw6HFhLcEgkUBsUOD+
-	/20cnrs8vNM+AA7EXtIozTNreTomNf0iHgfuO8iekoI9nTMzDcKV6XW6
-X-Gm-Gg: AY/fxX7baH0hmrKHJRvg4O54QFtZrKeimjGSkOTlhGboPS6UbyuWgSWaVJ7bGoIP8Qm
-	eklGV/LJOLDB+APwJrgRo/CojG2o0i73psdw3YuJOxlISH29LKGPfTL72U4RV/J9U0xvZytWmF8
-	wwaYGNi4G6HG5jsBmwrqR+SSAIKg3U0ZI17zc92/Dc4ERUR+ksgieBTzHaHODEjauBccFcx0SkD
-	7y0h+knjZPv4w+QjFOVbEeqdIK3ZnQxlqgvzA9yS3xPapjlccbx73C5fnnCQTlFrhTz4cEgrHf+
-	Ste7g76HK4oUBXo4hbNX/0sQk/QVg2Ygc6vyMgP7IhsuJADpA69SOM06sFywW74/xPX4jND/ibZ
-	+gIOct5aX8Lc8QXAA9UAS9H+vKyhcfzueE2//Ac0ymYLcwhzRwT0vphHmgp5p1HPR1JG9I0U2YB
-	f0ioy7ZFNfWjWuvjk563tU5m9f6r+Pxn5IUmH4BFJIL/I=
-X-Received: by 2002:a05:6871:3319:b0:2e8:f5d6:2247 with SMTP id 586e51a60fabf-4044cfc720cmr4766960fac.32.1768762908380;
-        Sun, 18 Jan 2026 11:01:48 -0800 (PST)
-Received: from newman.cs.purdue.edu ([128.10.127.250])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4044bd14883sm5530224fac.12.2026.01.18.11.01.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 11:01:47 -0800 (PST)
-From: Jiasheng Jiang <jiashengjiangcool@gmail.com>
-To: markus.elfring@web.de
-Cc: almaz.alexandrovich@paragon-software.com,
-	jiashengjiangcool@gmail.com,
-	linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH v2] fs/ntfs3: Fix infinite loop in hdr_find_split due to zero-sized entry
-Date: Sun, 18 Jan 2026 19:01:45 +0000
-Message-Id: <20260118190145.41997-1-jiashengjiangcool@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <65bf90b1-8806-4f8c-b7e7-d90193d28e88@web.de>
-References: <65bf90b1-8806-4f8c-b7e7-d90193d28e88@web.de>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Dmw+pxT+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IGTmerXN"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailflow.phl.internal (Postfix) with ESMTP id 044C21380091;
+	Sun, 18 Jan 2026 18:23:37 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Sun, 18 Jan 2026 18:23:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1768778616; x=1768785816; bh=cLWfoPH86LevLJ5dEarcfR/PsriG4IfSU/3
+	wyLJz+qM=; b=Dmw+pxT+mC6s44HDc9ViDXhGQeEmMpmNYRhtbA86QNG09PG/Ljt
+	hV85ad3/pbmWWoao3arxAaxDpjTC5inzso+nDbFp9L/ocC8FvAlBD0K6BSqaNtKf
+	C3km6dpzlK9Qvfbi4RlAOZVQRcgXUx6BbC4NNZXExiSaEBKuKkrscbvke30TKEj0
+	X3c26YUO2IvjIKJetsMrJSw+w98guonRsqk3c5wy7tRYCBiBKWCThYgKRu77I56g
+	W/jQbAZlq9qtSmpdQFd+C0/rLGEaY2+/6NIHoLbGsxK4GkDCFlahWHWTEoSSJrS/
+	k5ZW9JDwUgtzyYMplQwMaStWlBzRHOxECQQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1768778616; x=
+	1768785816; bh=cLWfoPH86LevLJ5dEarcfR/PsriG4IfSU/3wyLJz+qM=; b=I
+	GTmerXNj37QbHVnwq2oYiiWRj3dNMRiwAfGv/vxfYmuPEFFfJjUyW8ruiPn+ZUTw
+	y96Ysjc5jkE+PfgCaUfHrNzF77vJ+CHZGj8ZZyFQniCqqNBHAWqccBt7S/bU1BV3
+	Xnstc4VvhfH6RZxhRpoHiUxWSmJT21A47932/vgOnE5bxUOTfBJmpqxFnE86OITm
+	uIg7MLSy3DGOcBFTzEd5fbzcCQYBFRkQDDO9qGFEXh5IfaJ//ctGtwtYx+/A3prw
+	KJ8U8PGheh+G3smkjCFKvnDL2ddcVu2iicAyBab5Q6myVEkn0CxZuzyjCejBBwJF
+	S/bm6s4tkRpP23BkNvcHg==
+X-ME-Sender: <xms:dGttaT6YTMF6Fa6OlzcaAnM6fKqB4-4u0PRgZNSqPeyFmRns3uNnWw>
+    <xme:dGttaZPm2B1Iaa5cFSjo7JQ9nDmVsbYtDSTRFdNHBicQ-lkECLbL66rkbZK2MZehf
+    _rCs8HRq47ygqgxsOGTs2CMA0vWt7_AzG555MqfdnDHw6XZXQ>
+X-ME-Received: <xmr:dGttaV5f0odFoTqo9Cm-3bXwUWdDQe8OS_nESoDmZC33EUUTmsf8jTlPE6SJiNhWOG4bTHrmA205RC8BAhr3cbUxrYEQhQL_108cgTPUPoLg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddufeeitddtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
+    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    epvdeuteelkeejkeevteetvedtkeegleduieeftdeftefgtddtleejgfelgfevffeinecu
+    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggp
+    rhgtphhtthhopeejfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvhhirhhose
+    iivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehguhhotghhuhhnhhgr
+    ihesvhhivhhordgtohhmpdhrtghpthhtoheplhhinhhugidqgihfshesvhhgvghrrdhkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhunhhiohhnfhhssehvghgvrhdr
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqnhhilhhfshesvhhgvghrrd
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhnfhhssehvghgvrhdrkhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghr
+    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgvgihtgeesvhhgvghrrd
+    hkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:dGttaek4FCMZRAxWF6ejfvNQASS42yuMJmNL6Qr_VSzT2alP2kiMEQ>
+    <xmx:dGttacMnrF3MIVkqtagaBM_OFbr4viUT9Quj4YPA_rDrR6FZMQe15g>
+    <xmx:dGttaRUgcJhZGcX_B2l09umj3yAF-qAbVHXccqpyubd6rn2m6D7nYA>
+    <xmx:dGttaVutjkDk_cSqIw9p5HdrWWt8-J_WTU_-yJ8LgZsJLx3q9gD8ew>
+    <xmx:eGttab3JlD-dDEAYvGFUDpoqKXPgn7EN1IPurNldS43-2K0UKJSizYjm>
+Feedback-ID: iab3e480c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 18 Jan 2026 18:23:15 -0500 (EST)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: NeilBrown <neilb@ownmail.net>
+To: "Jeff Layton" <jlayton@kernel.org>
+Cc: "Amir Goldstein" <amir73il@gmail.com>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Chuck Lever" <chuck.lever@oracle.com>,
+ "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Hugh Dickins" <hughd@google.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Theodore Ts'o" <tytso@mit.edu>,
+ "Andreas Dilger" <adilger.kernel@dilger.ca>, "Jan Kara" <jack@suse.com>,
+ "Gao Xiang" <xiang@kernel.org>, "Chao Yu" <chao@kernel.org>,
+ "Yue Hu" <zbestahu@gmail.com>, "Jeffle Xu" <jefflexu@linux.alibaba.com>,
+ "Sandeep Dhavale" <dhavale@google.com>,
+ "Hongbo Li" <lihongbo22@huawei.com>, "Chunhai Guo" <guochunhai@vivo.com>,
+ "Carlos Maiolino" <cem@kernel.org>, "Ilya Dryomov" <idryomov@gmail.com>,
+ "Alex Markuze" <amarkuze@redhat.com>,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>, "Chris Mason" <clm@fb.com>,
+ "David Sterba" <dsterba@suse.com>,
+ "Luis de Bethencourt" <luisbg@kernel.org>,
+ "Salah Triki" <salah.triki@gmail.com>,
+ "Phillip Lougher" <phillip@squashfs.org.uk>,
+ "Steve French" <sfrench@samba.org>, "Paulo Alcantara" <pc@manguebit.org>,
+ "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
+ "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Bharath SM" <bharathsm@microsoft.com>,
+ "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Mike Marshall" <hubcap@omnibond.com>,
+ "Martin Brandenburg" <martin@omnibond.com>,
+ "Mark Fasheh" <mark@fasheh.com>, "Joel Becker" <jlbec@evilplan.org>,
+ "Joseph Qi" <joseph.qi@linux.alibaba.com>,
+ "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>,
+ "Ryusuke Konishi" <konishi.ryusuke@gmail.com>,
+ "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Dave Kleikamp" <shaggy@kernel.org>,
+ "David Woodhouse" <dwmw2@infradead.org>,
+ "Richard Weinberger" <richard@nod.at>, "Jan Kara" <jack@suse.cz>,
+ "Andreas Gruenbacher" <agruenba@redhat.com>,
+ "OGAWA Hirofumi" <hirofumi@mail.parknet.co.jp>,
+ "Jaegeuk Kim" <jaegeuk@kernel.org>,
+ "Christoph Hellwig" <hch@infradead.org>, linux-nfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-ext4@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, linux-xfs@vger.kernel.org,
+ ceph-devel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+ linux-unionfs@vger.kernel.org, devel@lists.orangefs.org,
+ ocfs2-devel@lists.linux.dev, ntfs3@lists.linux.dev,
+ linux-nilfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
+ linux-mtd@lists.infradead.org, gfs2@lists.linux.dev,
+ linux-f2fs-devel@lists.sourceforge.net
+Subject: Re: [PATCH 00/29] fs: require filesystems to explicitly opt-in to
+ nfsd export support
+In-reply-to: <9c99197dde2eafa55a1b55dce2f0d4d02c77340a.camel@kernel.org>
+References: <20260115-exportfs-nfsd-v1-0-8e80160e3c0c@kernel.org>,
+ <CAOQ4uxjOJMwv_hRVTn3tJHDLMQHbeaCGsdLupiZYcwm7M2rm3g@mail.gmail.com>,
+ <9c99197dde2eafa55a1b55dce2f0d4d02c77340a.camel@kernel.org>
+Date: Mon, 19 Jan 2026 10:23:13 +1100
+Message-id: <176877859306.16766.15009835437490907207@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-The function hdr_find_split iterates over index entries to calculate a
-split point. The loop increments the offset 'o' by 'esize', which is
-derived directly from the on-disk 'e->size' field.
+On Fri, 16 Jan 2026, Jeff Layton wrote:
+> On Thu, 2026-01-15 at 19:17 +0100, Amir Goldstein wrote:
+> > On Thu, Jan 15, 2026 at 6:48=E2=80=AFPM Jeff Layton <jlayton@kernel.org> =
+wrote:
+> > >=20
+> > > In recent years, a number of filesystems that can't present stable
+> > > filehandles have grown struct export_operations. They've mostly done
+> > > this for local use-cases (enabling open_by_handle_at() and the like).
+> > > Unfortunately, having export_operations is generally sufficient to make
+> > > a filesystem be considered exportable via nfsd, but that requires that
+> > > the server present stable filehandles.
+> >=20
+> > Where does the term "stable file handles" come from? and what does it mea=
+n?
+> > Why not "persistent handles", which is described in NFS and SMB specs?
+> >=20
+> > Not to mention that EXPORT_OP_PERSISTENT_HANDLES was Acked
+> > by both Christoph and Christian:
+> >=20
+> > https://lore.kernel.org/linux-fsdevel/20260115-rundgang-leihgabe-12018e93=
+c00c@brauner/
+> >=20
+> > Am I missing anything?
+> >=20
+>=20
+> This was Chuck's suggested name. His point was that STABLE means that
+> the FH's don't change during the lifetime of the file.
+>=20
+> I don't much care about the flag name, so if everyone likes PERSISTENT
+> better I'll roll with that.
 
-If a corrupted or malicious filesystem image contains an index entry
-with a size of 0, the variable 'o' will fail to advance. This results
-in an infinite loop if the condition 'o < used_2' remains true, causing
-a kernel hang (Denial of Service).
+I don't like PERSISTENT.
+I'd rather call a spade a spade.
 
-This patch adds a sanity check to ensure 'esize' is at least the size
-of the NTFS_DE structure, consistent with validation logic in sibling
-functions like hdr_find_e.
+  EXPORT_OP_SUPPORTS_NFS_EXPORT
+or
+  EXPORT_OP_NOT_NFS_COMPATIBLE
 
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
----
-Changelog:
+The issue here is NFS export and indirection doesn't bring any benefits.
 
-v1 -> v2:
+NeilBrown
 
-1. Add a Fixes tag.
----
- fs/ntfs3/index.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index 7157cfd70fdc..da6927e6d360 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -577,6 +577,9 @@ static const struct NTFS_DE *hdr_find_split(const struct INDEX_HDR *hdr)
- 			return p;
- 
- 		esize = le16_to_cpu(e->size);
-+
-+		if (esize < sizeof(struct NTFS_DE))
-+			return NULL;
- 	}
- 
- 	return e;
--- 
-2.25.1
+>=20
+> Also, on the ovl patch: will fix...
+>=20
+> Thanks for the review!
+> --=20
+> Jeff Layton <jlayton@kernel.org>
+>=20
 
