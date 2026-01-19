@@ -1,155 +1,252 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE57356A3F
-	for <ntfs3@lists.linux.dev>; Mon, 19 Jan 2026 10:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE22329E43;
+	Mon, 19 Jan 2026 12:30:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768816846; cv=none; b=Y+qpJdbWyZ+4pY/GOprwKTcaEAjfRHEc90R4g5Cn67s0kK8CXcXydzc/2yuS5b8NOZLw+Q3N4JISn0t0grQP+hl4Ga7Hb5JIKU/HGRQVMgg4HDu1JSORyw5hwY0XURPMW6XR02vmAHcxB5jy5M6xbHeE6F+P6mZn1tHAjwcdqWw=
+	t=1768825811; cv=none; b=EuXVmHD4BHvVWqgliXxlqEiQnNaRijjOPBzPR/OArvrDdzq80vCNhUOJIhUE+nhKxgrk6Ok8pWgOh34Dk5Ffj50M4DwSJcoY2s7WTtWAk6VSpjfn6ZeLde/T3d+g0/9YC0bQuYAfmLLDdRaYb99eZtn+n5kpb+d/4dS/cknyoSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768816846; c=relaxed/simple;
-	bh=rg1wqdyrE+ErQL7lxrfVd7J/BU2JGGpQKMIOGFEZhsY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cHyhfzOO9UkBn9YUL1rWcn2STr7a77/qBT5T1PfvT7nLLhTPuiyuLkN8QGoV4rDCNUjAXpO1M+VWzDa+o4VQUSP/Y2NqLqV6xkADfrLnXdtTExoPihpukR9jBHcluZUbTnPHfQZkxtEFUbzq8P9kqPpBBLMZcRJYVHnGJeLXCss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=c5lRzYTS; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1768825811; c=relaxed/simple;
+	bh=RtY/9HsvsbQ43gxyokWK1eA4XLPwg28gpyJ6yeklrHA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=QR/B7xwMDtwtBIbGUXMSwL9jyfinNZOGbI0vtwX62t1L84tRD1RzI+5uRenq6R+hiqy6M8elEs0/nJhuPlZYh12VGdedwR/+ZB7I4KnNPgsVFKRID5GmdL9s8TdCmVxUJYHp61a9oxCa25vwC26fvRnJTOw60kuNYlEXDOQgkEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pp+0oHTy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="c5lRzYTS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1768816836; x=1769421636; i=markus.elfring@web.de;
-	bh=uSPrSjXDkEs4ba/d5D83v7doFkckOY/XFSqib1yGazM=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=c5lRzYTSeHzXX+Rz6cqfWMlMPuwmFJhz5wefpTN/GsyRYeaL7bErexYVAcf/+MKV
-	 pcnrcCy9T2Heizha07WlHbOSOSoSPhs1y+uNrWc3AA3K82PgdeIN6qeA3L5u8dVHO
-	 eomg8WWLHZ58c9mnWfWIMgLqqmYAi75aKjDv2yqE9RlywLFzjUoDrFMYl8rNFuUbI
-	 b1pJtIFCPV1JqWA4Kq7oNHNbjKziJRnemjM1o9Ct9QAYiMZtnXNZrSLX1Aau9S7AH
-	 OKlzKlXluVe/Mad6k5HJ6XkUyoa1NVh7igr2MWG/52y82jcJwUK9tbALdnxbjMjke
-	 wPLjr7YPP+fcb2Hdng==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.178]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MFaui-1vZaji1KjG-00H6Hq; Mon, 19
- Jan 2026 11:00:36 +0100
-Message-ID: <2f70230a-2bb2-405c-9a44-793964da630f@web.de>
-Date: Mon, 19 Jan 2026 11:00:35 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pp+0oHTy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDFBBC116C6;
+	Mon, 19 Jan 2026 12:30:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768825811;
+	bh=RtY/9HsvsbQ43gxyokWK1eA4XLPwg28gpyJ6yeklrHA=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=pp+0oHTy4cEhiZOObpsf2aYf1ExFvc8XLitDob6luVYaxmtTLIkENwaClVxplN4qA
+	 yh8iZqlkWyxe5krLs80mgdeLygmdXRb4e4p0sdPzzthaPgVukqNHkIIumJhMsZ0JNU
+	 VrluA2lM6pwVcquf6xKUFaaTp9RiTax+p82P9xJXDSychteaqHvvoSIfbIhkE+FCHG
+	 oj70jwgAubWNpL0YmUijpecHU0kuqRhBxYP87tWrTzg9hJ83T4B+Wblk0Usht1yD8T
+	 ZJXtsK8R3lHJSXlrbZQlUzIth36pN+jQcyTm/koQCbCCC53raFMHDKC/EoJNBCHIh5
+	 SNIGKhT/ql1Kw==
+Message-ID: <9fdf7a8c04861306b453a78233f4bd6004c465f4.camel@kernel.org>
+Subject: Re: [PATCH 00/29] fs: require filesystems to explicitly opt-in to
+ nfsd export support
+From: Jeff Layton <jlayton@kernel.org>
+To: NeilBrown <neil@brown.name>, Christoph Hellwig <hch@infradead.org>
+Cc: Amir Goldstein <amir73il@gmail.com>, Christian Brauner
+ <brauner@kernel.org>,  Alexander Viro <viro@zeniv.linux.org.uk>, Chuck
+ Lever <chuck.lever@oracle.com>, Olga Kornievskaia	 <okorniev@redhat.com>,
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,  Hugh Dickins
+ <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew
+ Morton	 <akpm@linux-foundation.org>, Theodore Ts'o <tytso@mit.edu>, Andreas
+ Dilger	 <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, Gao Xiang
+ <xiang@kernel.org>,  Chao Yu <chao@kernel.org>, Yue Hu
+ <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,  Sandeep
+ Dhavale <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>, Chunhai
+ Guo <guochunhai@vivo.com>,  Carlos Maiolino	 <cem@kernel.org>, Ilya Dryomov
+ <idryomov@gmail.com>, Alex Markuze	 <amarkuze@redhat.com>, Viacheslav
+ Dubeyko <slava@dubeyko.com>, Chris Mason	 <clm@fb.com>, David Sterba
+ <dsterba@suse.com>, Luis de Bethencourt	 <luisbg@kernel.org>, Salah Triki
+ <salah.triki@gmail.com>, Phillip Lougher	 <phillip@squashfs.org.uk>, Steve
+ French <sfrench@samba.org>, Paulo Alcantara	 <pc@manguebit.org>, Ronnie
+ Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N	
+ <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, Miklos
+ Szeredi	 <miklos@szeredi.hu>, Mike Marshall <hubcap@omnibond.com>, Martin
+ Brandenburg	 <martin@omnibond.com>, Mark Fasheh <mark@fasheh.com>, Joel
+ Becker	 <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Ryusuke
+ Konishi <konishi.ryusuke@gmail.com>,  Trond Myklebust <trondmy@kernel.org>,
+ Anna Schumaker <anna@kernel.org>, Dave Kleikamp <shaggy@kernel.org>, David
+ Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, Jan
+ Kara <jack@suse.cz>,  Andreas Gruenbacher	 <agruenba@redhat.com>, OGAWA
+ Hirofumi <hirofumi@mail.parknet.co.jp>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-ext4@vger.kernel.org, 	linux-erofs@lists.ozlabs.org,
+ linux-xfs@vger.kernel.org, 	ceph-devel@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, 	linux-cifs@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, 	devel@lists.orangefs.org,
+ ocfs2-devel@lists.linux.dev, ntfs3@lists.linux.dev, 
+	linux-nilfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net, 
+	linux-mtd@lists.infradead.org, gfs2@lists.linux.dev, 
+	linux-f2fs-devel@lists.sourceforge.net
+Date: Mon, 19 Jan 2026 07:30:03 -0500
+In-Reply-To: <176880736225.16766.4203157325432990313@noble.neil.brown.name>
+References: <20260115-exportfs-nfsd-v1-0-8e80160e3c0c@kernel.org>
+	, <CAOQ4uxjOJMwv_hRVTn3tJHDLMQHbeaCGsdLupiZYcwm7M2rm3g@mail.gmail.com>
+	, <9c99197dde2eafa55a1b55dce2f0d4d02c77340a.camel@kernel.org>
+	, <176877859306.16766.15009835437490907207@noble.neil.brown.name>
+	, <aW3SAKIr_QsnEE5Q@infradead.org>
+	 <176880736225.16766.4203157325432990313@noble.neil.brown.name>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] fs/ntfs3: Fix memory and resource leak in
- indx_find_sort
-To: Jiasheng Jiang <jiashengjiangcool@gmail.com>, ntfs3@lists.linux.dev
-Cc: stable@vger.kernel.org, kernel-janitors@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-References: <17914287-640d-4500-b519-5f3d3aed2878@web.de>
- <20260118185736.41529-1-jiashengjiangcool@gmail.com>
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260118185736.41529-1-jiashengjiangcool@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:jPM5XMq+Far808kKh3ZKLl1GwgjWL9MmJjiy8B7UcJTEvTk7gm/
- qc+zQlQRK9nv+RG/p8u1vLd1mZbImMy0Ew9ZQKLsVUzCtDPPLB+koFv2k6/PyyRha6MvMSP
- nm6SCDlo0dSIjtU47hVUAYj2F9BeuhNxqNUFUP9ASSJ6HTYvtArz5Qnp0lHSyr6cLWR0jev
- skaiZLYDMWz6uLy3XBwHw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:yBvViGVhqjo=;+7cO1+alQfH3TS87VZacV1PGbXl
- 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
- UzbBIM3tUh+sAb/sW+CFxZzU0Ui2T
 
-=E2=80=A6
+On Mon, 2026-01-19 at 18:22 +1100, NeilBrown wrote:
+> On Mon, 19 Jan 2026, Christoph Hellwig wrote:
+> > On Mon, Jan 19, 2026 at 10:23:13AM +1100, NeilBrown wrote:
+> > > > This was Chuck's suggested name. His point was that STABLE means th=
+at
+> > > > the FH's don't change during the lifetime of the file.
+> > > >=20
+> > > > I don't much care about the flag name, so if everyone likes PERSIST=
+ENT
+> > > > better I'll roll with that.
+> > >=20
+> > > I don't like PERSISTENT.
+> > > I'd rather call a spade a spade.
+> > >=20
+> > >   EXPORT_OP_SUPPORTS_NFS_EXPORT
+> > > or
+> > >   EXPORT_OP_NOT_NFS_COMPATIBLE
+> > >=20
+> > > The issue here is NFS export and indirection doesn't bring any benefi=
+ts.
+> >=20
+> > No, it absolutely is not.  And the whole concept of calling something
+> > after the initial or main use is a recipe for a mess.
+>=20
+> We are calling it for it's only use.  If there was ever another use, we
+> could change the name if that made sense.  It is not a public name, it
+> is easy to change.
+>=20
+> >=20
+> > Pick a name that conveys what the flag is about, and document those
+> > semantics well.  This flag is about the fact that for a given file,
+> > as long as that file exists in the file system the handle is stable.
+> > Both stable and persistent are suitable for that, nfs is everything
+> > but.
+>=20
+> My understanding is that kernfs would not get the flag.
+> kernfs filehandles do not change as long as the file exist.
+> But this is not sufficient for the files to be usefully exported.
+>=20
+> I suspect kernfs does re-use filehandles relatively soon after the
+> file/object has been destroyed.  Maybe that is the real problem here:
+> filehandle reuse, not filehandle stability.
+>=20
+> Jeff: could you please give details (and preserve them in future cover
+> letters) of which filesystems are known to have problems and what
+> exactly those problems are?
+>=20
 
-> This patch replaces the incorrect kfree(n) calls =E2=80=A6
+The only one I'm aware of at the moment is cgroupfs. sb->s_export_op
+gets populated on that fs, so it's exportable via nfsd.
 
-Thanks for another contribution.
+Its fs does not show up under the v4 pseudoroot, but you can mount
+/sys/fs/cgroup with v3 if it's specifically exported. Directories seem
+to work properly (I can ls and cd around in there), but the files all
+come back empty when read. I didn't play around with trying to write to
+any of them.
 
-* Under which circumstances would you take the usage of imperative mood
-  better into account for an improved change description?
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
-Documentation/process/submitting-patches.rst?h=3Dv6.19-rc5#n94
+I didn't do a lot of investigation here, since I didn't actually expect
+it to work properly.
 
-* Can it be helpful to append parentheses to function names
-  (also in the summary phrase)?
+> >=20
+> > Remember nfs also support volatile file handles, and other applications
+> > might rely on this (I know of quite a few user space applications that
+> > do, but they are kinda hardwired to xfs anyway).
+>=20
+> The NFS protocol supports volatile file handles.  knfsd does not.
+> So maybe
+>   EXPORT_OP_NOT_NFSD_COMPATIBLE
+> might be better.  or EXPORT_OP_NOT_LINUX_NFSD_COMPATIBLE.
+> (I prefer opt-out rather than opt-in because nfsd export was the
+> original purpose of export_operations, but it isn't something
+> I would fight for)
+>=20
 
+The whole point of this is to make nfsd export an opt-in in. Exporting
+via NFS is something that filesystem developers need to consider
+carefully.
 
-Regards,
-Markus
+cgroupfs is not that big a worry. My bigger concern is new filesystems
+being added that do add this for local access and become exportable
+without vetting that they will actually work correctly (well, that and
+FUSE exportability, which is a bigger can of worms).
+
+There is another approach we could consider: We could move the
+export_operations that are needed for local filehandle access into a
+new struct filehandle_operations or something. It does mean adding an
+extra pointer to the super_block for the new operations vector, but it
+might be more intuitive.
+--=20
+Jeff Layton <jlayton@kernel.org>
