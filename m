@@ -1,301 +1,382 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from flow-a3-smtp.messagingengine.com (flow-a3-smtp.messagingengine.com [103.168.172.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8F9285CA3;
-	Tue, 20 Jan 2026 16:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768927862; cv=fail; b=lXoiUZnqedmEJhXUanOlHn6cOqecUOE6S+KbIO9eRvYdw31jpUYpcf3CxMldF4sLD1oea5t5iPdhc6WjBygcIy+xW0904NJGLC2jLCoi7hiHAj2iNmD2l8FmRqbj4R9e6RHVsCGLSg5+F01QLKobVL0vgvujZNO6Lxt5jULbqpk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768927862; c=relaxed/simple;
-	bh=+/HM9TCs0iLS5chnF+7fbi2Rz6y373790A285XJ3ZZ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=TT/XBG8nug7/xkeO53wxu2uKRgvsTGwdfKfnul/CzR02Zwt1CTVQrJO90Yi+0+LfPkdZXFCeEvYKjieAjKGpvycB3qEiADcTPQiQonlEgc0sXttKvqvmja0q18fGjPlFJD8/+NiUPRIwRUQ5rG/iakhX4c6qrcMXRDPu3evNhzs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=NLUjnCFg; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=iOdZUzSO; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8338F365A13;
+	Wed, 21 Jan 2026 03:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768967940; cv=none; b=ga7OXfsk8F+Ja10rOk9MC8FS1JUnyoDJ145nTr6dxZXoDaC9rAi2Y+OYxlSs9imXaoZlXbPNQ+BvsA502eChgflBxc9Jvwi1yNA3bs9+PqxekStFm2KiRmpsAy9w4OnzapX06+Ar1cyI9+DAe2kjrxUsugmovOZd6YXC13w1u1A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768967940; c=relaxed/simple;
+	bh=1DJQUEOUnj9KAwbZv2Hc+tLIGvXute4oJWQnX3cNwrY=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=AVRaec2HM9uz71T/Yl4qVzSje53lpBXI/a6gL0i3Y45i7CLpALdZrOVHee974pkqxiz6aEV6BoDO28Ut5Bp7gZIn/MrMJR1prVy+69OfITZgBrfmSo/yxiC9q9/lcsggAaUv/8wJM0BsbpjlACUB8ezmSkA5oHEjqfi4MYnTv5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=YYEr2VjW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Y4kSyYfn; arc=none smtp.client-ip=103.168.172.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NLUjnCFg";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="iOdZUzSO"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60K7upR43028845;
-	Tue, 20 Jan 2026 16:50:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=dWPsAKWWNqF0UmUQSy
-	aKlT6iCFPV5OdFrD+24wSbB3I=; b=NLUjnCFgoTwIfDqxD70C87YCtG+DWTDTM/
-	b4W2ZN8MJG1gorLu0lhpC6bL91gtFJozJutmVmtAylgWn9HTG7GY9WZ2SWq/ZE26
-	cYCzYQln5Jy9NQ9/p6CenVU0IHGOMBYKneKVD1UrxtkeenCE2+BXr4xGrtGdKl3/
-	MfOU8JRSk6gYEEu/+FLcigIbZTZviNBLwD4qGZ5aKAlDw6o6erP7lwJVVRkRlk7K
-	yYtU9QvRaS4QvNS7usIygElYrWh8CYYZ4f3ylGdpS+MrtJZ4WcUFJcVM0ptnVNYc
-	iXyzdPJwQ9O1UswbIejjIdtaEBGvRsCEuwJZRYJsEb1DB7VpqEeQ==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4br10vv06c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 20 Jan 2026 16:50:30 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60KGjHSP039561;
-	Tue, 20 Jan 2026 16:50:30 GMT
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012005.outbound.protection.outlook.com [52.101.48.5])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4br0v9wmym-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 20 Jan 2026 16:50:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GynYXTq7dohvWOlkGi0giYjTrXgBFgb5ekj9O8NqUSaQWeWEXMqHcqs5IigycXSK0oJDhQUygHQBlKrnFg6BmUckNAyqS9Bx5puyLtK0NNr0t193EF88qoQ2Q1KngQihEKgeh3RRbomArFB8VLG+njfsovaS4Czs0t/vyfCrNccLubejkHgbYaKloG1RgespLE05LaIGwE/NQPOJLS4QfTyWhT7J47Db+tA64UAPsvEaIpbJOAAII/POwf+hS5zrEB1LfiPr7uBYDBWPNgcGgREFPE41xdqWsTzCUayA2Os3fFAig8ixCobVB85ZtcvjNiWgdXmVdehLKZz5nAgmgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dWPsAKWWNqF0UmUQSyaKlT6iCFPV5OdFrD+24wSbB3I=;
- b=oXO7W3tYZFN+w1F9b6Fl97lI3FkaLV4XqErxl8+GF9Kj7AfscXHyBYc6TAKVbovoNfmMM5fSEpAWQTPdfQV1g4JxgfOezO3gmPPNESIaHOJ0nv6lVFX9d+x2bb1Cx4RgseSW6KbSXWg0p8Hm0Hy4bYQLyMam6hKuR5o/++hGOFDks9nJY2b1jfkMZ7n/2jl09VU8p9gn4pqgwz9aFRdRvxthMAAOzieAkMUTTb04a/vf6VsphZF0XVwkPQFeG9VS9P4JLn2FBOcRrJXD6OByJvpbL2vPPYZaNN1+qBiDdoBArxkzR6wHkGZb/7acpjhyr5QKNr6H/OfH2v3Wh8UQLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dWPsAKWWNqF0UmUQSyaKlT6iCFPV5OdFrD+24wSbB3I=;
- b=iOdZUzSOWVmzAG1YxnAxdqTDbNDhj6cZ+v3/u6O/pnpHdo0vO3Hbjwd2svLReGabJ9tt7y8x4PcgfxHMZu8GQnVIkKOcnCTmpc3hpmzH/6ICnpEub5vsb0oH8IcAVZjmbRLtYqf6/T4wIHGnyMYa7GLzQ9tU+vJe8DF1ZZZRUw8=
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
- by SA1PR10MB6663.namprd10.prod.outlook.com (2603:10b6:806:2ba::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Tue, 20 Jan
- 2026 16:50:18 +0000
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Tue, 20 Jan 2026
- 16:50:18 +0000
-Date: Tue, 20 Jan 2026 16:50:21 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        Benjamin LaHaise <bcrl@kvack.org>, Gao Xiang <xiang@kernel.org>,
-        Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
-        Jeffle Xu <jefflexu@linux.alibaba.com>,
-        Sandeep Dhavale <dhavale@google.com>,
-        Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        "David Hildenbrand (Red Hat)" <david@kernel.org>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Mike Marshall <hubcap@omnibond.com>,
-        Martin Brandenburg <martin@omnibond.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
-        Babu Moger <babu.moger@amd.com>, Carlos Maiolino <cem@kernel.org>,
-        Damien Le Moal <dlemoal@kernel.org>,
-        Naohiro Aota <naohiro.aota@wdc.com>,
-        Johannes Thumshirn <jth@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Hugh Dickins <hughd@google.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>,
-        Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-        Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>,
-        Pedro Falcato <pfalcato@suse.de>, David Howells <dhowells@redhat.com>,
-        Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Yury Norov <yury.norov@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-sgx@vger.kernel.org,
-        linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
-        linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
-        linux-aio@kvack.org, linux-erofs@lists.ozlabs.org,
-        linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
-        devel@lists.orangefs.org, linux-xfs@vger.kernel.org,
-        keyrings@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH RESEND 09/12] mm: make vm_area_desc utilise vma_flags_t
- only
-Message-ID: <7ac64213-26f9-470c-bf6a-abd1c0f6c83d@lucifer.local>
-References: <cover.1768857200.git.lorenzo.stoakes@oracle.com>
- <baac396f309264c6b3ff30465dba0fbd63f8479c.1768857200.git.lorenzo.stoakes@oracle.com>
- <20260119231403.GS1134360@nvidia.com>
- <36abc616-471b-4c7b-82f5-db87f324d708@lucifer.local>
- <20260120133619.GZ1134360@nvidia.com>
- <488a0fd8-5d64-4907-873b-60cefee96979@lucifer.local>
- <1617ac60-6261-483d-aeb5-13aba5f477af@app.fastmail.com>
- <44461883-a75c-466b-a278-97c4ab46b461@lucifer.local>
- <9ff58468-a72d-4984-95f4-d0a60554705d@app.fastmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ff58468-a72d-4984-95f4-d0a60554705d@app.fastmail.com>
-X-ClientProxiedBy: LO6P123CA0051.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:310::7) To BL4PR10MB8229.namprd10.prod.outlook.com
- (2603:10b6:208:4e6::14)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="YYEr2VjW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Y4kSyYfn"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id 59F6C1380787;
+	Tue, 20 Jan 2026 22:58:51 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Tue, 20 Jan 2026 22:58:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1768967931; x=1768975131; bh=HPgiNusZcZTF/ZTl66piD/9BsmWo5Gc2+jA
+	KaL+zbjo=; b=YYEr2VjWIaKtDqIQ9vfEWExooQB7WdoWCHPbIyCUEJI6BAxeQcQ
+	Lbk8vsbd4GXH0kYHJaGcChinGdfj9GfFjBP2dVOEb1g7c0vP40XWPDTq6qbmdX+f
+	q8U4adtBeg5EFoL6E5HUF62j7hOUy4j8XFCT0i4fYg4se8kZH51qgrZqOSAUlTga
+	rl7CFzO8J+PeDJ7M2JSUWHisN0sDH8S0NMXRz8qdtkwm9W98zD3C3gklDbkWIXrK
+	vRegxtY4BxrRjprMIjBdoVNMCKrXQqfmvm/+rjsgzuPUZ23gzBTcc6UXYC33cLAY
+	vFj8n0R7qJgD5zcyYlJT/0wZ8oNx4to8Sng==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1768967931; x=
+	1768975131; bh=HPgiNusZcZTF/ZTl66piD/9BsmWo5Gc2+jAKaL+zbjo=; b=Y
+	4kSyYfnUGNoNeVLU3ka40YnKW2sl+45SitUqyg7vTCZpQcxFqZev1sh8sHAo4DzB
+	LJJuIPm7kr1a2T2O/jCPPqyfpx1RyAZnMeJxrzQuzh0MJ2v9HwC0x1U/ypjUALTY
+	LkBS/sHDc8LkvX0vZjnTUcBNoleBEEaONsgjyNXSYbPCsyTNNhNqwnjeRYEYWhC0
+	Keyf4hXJLJ2uIP8nM1JZTI64DK90fYZcMdZmLKhtCiDOLF6zK0pOuLIFL3efcAnh
+	U7QNK8cCXtqL4iHqmwf38GI0o4feHmUs9gVmK1fgy3LCnOLy087fTAjf+2UjG0tL
+	Zxk2nmIhddHGej/ASyZkw==
+X-ME-Sender: <xms:9k5waa6xGMlhNWG7OiNFHfIpLvabWA1DAPtyEn94taKAb8B-mUoW7w>
+    <xme:9k5waRR7ItrMgf6WBso9qWSvOzTjS1gqDa4US3nP2_YPOGpBhCwjdwQRddvH-EWFV
+    V57p5_-4xzEl4CNusEssTAjoVs4ZFelbrYFxoXbJ50yHbQn>
+X-ME-Received: <xmr:9k5waeoZsLXtAC9WGWMpKfuL6jcuFf0eBU9OKagBSlfpxrmBa-z1UpdKQRgAi22TvEjMRNRptGtFkHbPbhda8VF8Vv99_8wlEjUQv-qrj4y4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugedvvdeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
+    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    epleejtdefgeeukeeiteduveehudevfeffvedutefgteduhfegvdfgtdeigeeuudejnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsg
+    esohifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepjedvpdhmohguvgepshhmthhp
+    ohhuthdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpd
+    hrtghpthhtohepghhuohgthhhunhhhrghisehvihhvohdrtghomhdprhgtphhtthhopehl
+    ihhnuhigqdigfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
+    hugidquhhnihhonhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
+    ihhnuhigqdhnihhlfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
+    hinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhn
+    uhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
+    hnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    lhhinhhugidqvgigthegsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:9k5waUhf0LUODlL_PQYsCPf5h1Hz9YtKoS8AL4OAL0YUoX9vGv32rg>
+    <xmx:905waSCsyLL7f6fuPyvb6LM-a8AMULf8pIsT5TNPUcN888plxn2vJQ>
+    <xmx:905waT9XbBSmLAgfzGT6kRdfvn_ApgSn62i1cNhe3-zAYtSYAOgBDQ>
+    <xmx:905waTEUm6W92v2m08NAsDI3Dm--lHbflm-x_CKDQ7Y36cOw-DiEBA>
+    <xmx:-05waa7eNM5AFWgAvsYRXTN-gn5rTHGxvGEPMtNHM76v4SM6_x2afNUS>
+Feedback-ID: iab3e480c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 20 Jan 2026 22:58:29 -0500 (EST)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|SA1PR10MB6663:EE_
-X-MS-Office365-Filtering-Correlation-Id: 599f77b5-bc63-4e25-b92c-08de5843fe65
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?e0JgHC2OyT45OYyD+FXSSGS7riDFC4SWESYimzU8AxBki3MAtKO6/DM/rjc/?=
- =?us-ascii?Q?00bdEhr3vFO0dWj9HgB+4GnK5DB0mkgerJnnxO8W1CVZpUBjhRJn++Zlbyhu?=
- =?us-ascii?Q?YMd5MvEXmOeGfaDnbhB1YLFBECsXrkrMFImh3/zS+xqs1yC4jj1ysVZhe9bs?=
- =?us-ascii?Q?UerQBPnF4lfhjJ3QgaQY9A+sRYbHjlrI5qEBQWDjSw93bWWvn3krWZIr5FNA?=
- =?us-ascii?Q?MUEudHw4ZAIZwU+Cjq+YU6kRfVZUCh4Ir1vrtjWjPgoHF+mD3QPilZ/2Vhhd?=
- =?us-ascii?Q?Vvh/AmbF0nU2ikUX8g1KLuj9yloSkFiVvMh00E0VCzAzM//H/Vgp8ODE0dkf?=
- =?us-ascii?Q?v788oSmL7aSv+oRbmAtI5MUfrkw/xWYnQdWyctvPnFTiky9Y2WEfuKCqqe7z?=
- =?us-ascii?Q?TLswWkV8VwnvtvmR8YBbwRA2C31k/DFCkUJ1vL2y3daJ0ZWsEqFg/7/2B5Nk?=
- =?us-ascii?Q?A2iYi7cVLW1eOxoTO48y/YkGI+xjTnR9dzmuiZMqd8PW5N4N2WF6HZvyyp8A?=
- =?us-ascii?Q?de9Rj3Ov/EAl/B43SftpqMA/aifccxFl3TAPaM9CJj1/eLOOdAOAn6LmXP9U?=
- =?us-ascii?Q?Ms2avF35pTKiZNJbEC2SEI4iu9hTgvNLMX0fIIGbKP0tYMAgdBNdFGHdF5pj?=
- =?us-ascii?Q?FV1oGVZE5YYs8NWJcrTZ9S53dNegwLMXIgEgkDwmr2GPrT+1gO0f024JrlhN?=
- =?us-ascii?Q?viqJfc2DztDSnpnFpc4M5xyrLzkSNzW2qcbjGjNgi9VDAyHu9gqnI44XxsYt?=
- =?us-ascii?Q?7ucsWdO8n0IBw4Xebj0hp1yEvi10MuFxvv/JZqdrtj234+XsT2VbqSnlOVpH?=
- =?us-ascii?Q?u3IyWIW++mwzi2kyyblRMK/Eov75uzYzD7l4Pttgh6psKAqhwcZADLVtG75N?=
- =?us-ascii?Q?8mW/KXwfh2D7d/6AY4t5qwqjiKuTQDoB3wjhjZG58+UkTUuEJrNEcJWG3o0J?=
- =?us-ascii?Q?WLKgfQ1/lh5wA4lIdmI2iQAuCUhMJO5xTjV2RWeWxG14cORDLLS521W4U5p5?=
- =?us-ascii?Q?AcoWGQyQ8Hf7sdQDwgn+WCLO7g67kTIECjvjSU1KS10V+uvW6hEFImhZ+NqE?=
- =?us-ascii?Q?7gHANNxgoZ1Vx5eyBVt9hcnyruHfejlaIBiBntd3yxXueHbPiTLV8Nq0WH3N?=
- =?us-ascii?Q?76NAa+i0SFBszYwT8eAgqZ0LszVlVpabLiWIyQARq6Q2evWN4E6qZS4C71je?=
- =?us-ascii?Q?U/nLKXvjXFSHyUuJbcYG2MlmDapiz6UaZcXG+2uVnQZf4sNAYJc0WLv/dos1?=
- =?us-ascii?Q?U618To41Zgxz8Q30GwikRyO74h5ryLgBNcHlIEqnVOeb1EZz7NShjJwb4Apa?=
- =?us-ascii?Q?YpCHowRlqwGuSrNU6YM8y6v6PojxnJqiiEppFeLIYYfkDfm9Z1CuhaS1g/zW?=
- =?us-ascii?Q?kWRA4a3CzV3HWUKX7AcoFgmSqK+9y66G9i9INAdtJQ6LrVjPqBT+ax+pdx0d?=
- =?us-ascii?Q?zC+gV2UpbzsPJLoRNieL5OQIp75GfMLT//N9CyJpHtKcD0c0MK7yxJBKsp23?=
- =?us-ascii?Q?yGAGQwe32xMxMcCA9/SByp/BgKCW8CSmQ8J6ILk4L/4f18+8240T9nAJIzuC?=
- =?us-ascii?Q?QhNaL8W0AGV1PrLhMjM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ZrXPCfaeXhU5byniXN+09zmc/WT9fhj+QwXCuyIcVZLxveS8e5j6PXAddEYE?=
- =?us-ascii?Q?QKW0PsZUTqLG9goUjphAdY/tBaMVIX+wJ9J0kzRnMCoOXSe4X7yFZ3Dj52sm?=
- =?us-ascii?Q?QhEcQlI8ohgw2x7YOzHzRk9btjYcOcyuibOAMYRL9QXjQrX/fETXwocFgQne?=
- =?us-ascii?Q?Gyji80AzaBrSiAD2VqZmywtobV2Q+BrXWHGj1f+Y7/mq0JjPuxWYnQaU9Wg8?=
- =?us-ascii?Q?PpOnxQk1TA2H1VJCmLtePriTb5GBuOPPmJRYP1CHur4nZgdRQCc7mKGF2qoG?=
- =?us-ascii?Q?bss/EPNjyKFx2SB/tjKbrebsmIOn/PZoU6JwzbJS5FjUwOyN2btEfXXZ/+7t?=
- =?us-ascii?Q?GFdwEEE+/jYwkthGjIoXIIViyljDpdv9Ko1dvxkYp+ljcm+ydxjdq3ZO+GVk?=
- =?us-ascii?Q?ZzSiF4jWt8yuqZIfSP8AgLqawd4ovTrV+yYuDmVI0Ee9VMob9ZpYZgIPLXXo?=
- =?us-ascii?Q?kikfd+bWM1uUKgfkwgqDv72a6lNqlvtlPykRhjulcealkKil0pf4rmeY8QE6?=
- =?us-ascii?Q?Ey42anuVHKQvQqOuDV4z8jfT1vHL9857Aehtxui3Ks4qQTQ+aU30fJ7hNGu3?=
- =?us-ascii?Q?4y4U5o1vyXHUidpw+Ha0/8N6VmINbZRG/AnCFIaQQFq5XikH3rP24s3r/+/1?=
- =?us-ascii?Q?wNxFHh+zsRdB1LPv1qIpXJbcZksQ2VYyspYKSUkKy7gXSNjajRJ44BHZVmYN?=
- =?us-ascii?Q?2N2FOqHBd8zr7vibbIbFo88TZHffVrNBBeOTvGBo8VjVJRjuKcXeJYArMOWf?=
- =?us-ascii?Q?oEjWajJcrqJajHRXiIv3tTvqBAuyiBcdYdC5Vbk8WkgtjWtge2y7k/tANk4I?=
- =?us-ascii?Q?H5BURgP5VX8J6a3HXQyRTNb8fDyvKFzpk9Aa1zpI97fKEl7cLa8jGLsIFd/x?=
- =?us-ascii?Q?aCS+Ib+HVYaiSOWOx361fxVHC4ORl8FvJ5VORSarvmLRc8WMD5R7EOO2/+kX?=
- =?us-ascii?Q?Qx83mA/dWlfAyYoT+eCGzW6Gf/FLWSus2W+nDJ0rm6u/Gom8NxOlQUZoCvYq?=
- =?us-ascii?Q?RljKOVii75+cNzV3um12baRBngDGM4gVopmDqmXbucwwR/55PG5uWvP8cnnS?=
- =?us-ascii?Q?cTKFEp+uNUlzTD1iUoVQ4fd4NPc9n9aNy7HD4QtkELUyj+R0IHHBOModUlHy?=
- =?us-ascii?Q?pexU4pWAX83os6+817wS7M2ocx7GvicbfCUXkZiL7WJefWmtTVmObrkLkWne?=
- =?us-ascii?Q?9fZXVZ6hmol14NhXcCMGtrmCbQ80AKzwjLJ8ZcM6SgLxj5mHCYm+WOgfBP09?=
- =?us-ascii?Q?ep7JMipcba7evk/tvoAzdu+mUUrzdoKa2OOMvLsAQCQuboOCSwahYPDzyDEy?=
- =?us-ascii?Q?vUmh4IeYY5/YOP8Wje2xCM8dTRXRTFQnMiLjXgzI7N7UkEPUFuEUL5iGxg6F?=
- =?us-ascii?Q?4byEvQ+ovJMG8Io0ni0lDQ1Ize7Pul+f3GAw3MsNwrOz6CBb9K59Mle1kmNJ?=
- =?us-ascii?Q?XBbFY+m7iw3lEy8Q1yEJbP9Zo01eplm5DEFc18Nk8szxNXj7vuHU6g3Wv7gT?=
- =?us-ascii?Q?4/728QHf/0H/KVuk033L+eJv181BUbyU5xRuc+eZbdXUET9mjSy5wzmWU6aH?=
- =?us-ascii?Q?nVQ210owjoHQK1v2RSUk+DW2rBikp2ho/oXXRJxYa54zpjQ8Er9JoMwFyhQ8?=
- =?us-ascii?Q?1+xnJpP3dSpkLngPQFjlMfifxfhMo7wMcwcBGmwlf9zyIEU/VOgXT658ny3z?=
- =?us-ascii?Q?l8TiW9/v6Friz3nOtSZn4JTSc3fFWmffxbB54OPUU7kDYv5rApMorvprOGyk?=
- =?us-ascii?Q?Q2S7fFaPjmgUYlOvigYgUwMHMTCwL4U=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	chOOwHhUu4AZbdz9DlMTarn+aXBnCVKBIfhLiyV7Aeyurn9PM5C9ibp44xavTtaa9GQlV5C7Gr+mq93vPYOqt2q6K8T2wDbjUr4QAdLCLQt1cMWfZ2MOvXpmypKV5j6+Jb7NnQ+1aY/FjcX7bjCApeDwHQP4yWMcFW7TYNk7GGlaeMNzLg2Tk6E7j2t2PLpIZGcxO2xqeNZrNw3ZzhB/cDQPfPRK7lOuS4YRgFPVwm3w1UxJGsQKcXpI+EaPcN6+VjyCZ9AqFmS8NhCBs79QrTewgTsA8Eg0hufpHPOPfKfa4liwJ4s56spnwS0/+Uc7mVr/qnEYQADUV9H4VBprmH7Rz6oglHBjwh5RrKxB0n4pin0v8CFkZwshfEx0VHcHT0ONk047ncRNceEFPMXVEmANrL9NxfsJLkiFv3KINJegtvN3H3YV96clcl2pEV+MiAXjI1T9HUU6oB1tE3JoZ+pq2IYm+pxxzJSUBI5T/1sG9MN/e9n/fPxjDESzK6Jjl+83VVnBob6M0IwHWOcEloXUbmxcEpeay3XCvykW3qAeTpHfoddvJDo3eYC/wyvfpiQmPvKl/6qWVk3LFpvg46fiyslJ/xK+P5tHHeYHvL0=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 599f77b5-bc63-4e25-b92c-08de5843fe65
-X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 16:50:18.8080
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gKFdNKqerOo0hwzGfEp3cX2jdHVPncpMAMD73eY5egQFeCSy6L0sktwc8juQat5YONUKj41onxqITId2tNXTICM/hX/i3D3aQpbgiiBsHMM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB6663
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-20_04,2026-01-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 phishscore=0
- malwarescore=0 adultscore=0 mlxlogscore=999 suspectscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
- definitions=main-2601200140
-X-Authority-Analysis: v=2.4 cv=H4nWAuYi c=1 sm=1 tr=0 ts=696fb256 b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=90Ukn_98quSV7Lvi1P0A:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: VYQO6K5M5jh5JHmBNwhXW7mvnKN5BzTC
-X-Proofpoint-ORIG-GUID: VYQO6K5M5jh5JHmBNwhXW7mvnKN5BzTC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDE0MCBTYWx0ZWRfX74WuK404jhOp
- gd2cOrrAocNqLKIWCimOzcFCkoyn6sA97wP43VtIZ9D3nmtgdD8GdT0b3kacqF/rh9sKaAvgtFx
- 0bba/vbsi7pp/JTOlrb0hbNnvjjLjSj7MVM5QknuKl+JSeO096lzhOmnlc+/vmsnLFZdEWWfZNa
- oYgb59SBQFKZFoIKjIUq6SNeVP0WvTl6ch6GakemgsF9THqtl5NWA0hlPeh4HgNDhZA6WZNhfsq
- 9en/Jf+ptQ7w2RHAKeD+Qt7+UIaCgsyeZb8pnzFEHMYcxFHEcDasPknVw8G6V0Y67M0TFk+Wh0D
- X0xO/A3Oo8WAtCfzjNn/JnFszI6pi+VfDaj18DdXotSqCnmFQ/vm0uOcZU3A+XgLjIMfSbBB6F+
- ksA8kvM2ORZ0pgvW4787jGDTdLML3gZ+aOr8a+mpYRApz67uYr3wboPg700wXfQd6yBZ1t2yojZ
- Vr833GWhxDH6AsDJRJA==
+From: NeilBrown <neilb@ownmail.net>
+To: "Jeff Layton" <jlayton@kernel.org>
+Cc: "Christian Brauner" <brauner@kernel.org>,
+ "Christoph Hellwig" <hch@infradead.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Chuck Lever" <chuck.lever@oracle.com>,
+ "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Hugh Dickins" <hughd@google.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Theodore Ts'o" <tytso@mit.edu>,
+ "Andreas Dilger" <adilger.kernel@dilger.ca>, "Jan Kara" <jack@suse.com>,
+ "Gao Xiang" <xiang@kernel.org>, "Chao Yu" <chao@kernel.org>,
+ "Yue Hu" <zbestahu@gmail.com>, "Jeffle Xu" <jefflexu@linux.alibaba.com>,
+ "Sandeep Dhavale" <dhavale@google.com>,
+ "Hongbo Li" <lihongbo22@huawei.com>, "Chunhai Guo" <guochunhai@vivo.com>,
+ "Carlos Maiolino" <cem@kernel.org>, "Ilya Dryomov" <idryomov@gmail.com>,
+ "Alex Markuze" <amarkuze@redhat.com>,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>, "Chris Mason" <clm@fb.com>,
+ "David Sterba" <dsterba@suse.com>,
+ "Luis de Bethencourt" <luisbg@kernel.org>,
+ "Salah Triki" <salah.triki@gmail.com>,
+ "Phillip Lougher" <phillip@squashfs.org.uk>,
+ "Steve French" <sfrench@samba.org>, "Paulo Alcantara" <pc@manguebit.org>,
+ "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
+ "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Bharath SM" <bharathsm@microsoft.com>,
+ "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Mike Marshall" <hubcap@omnibond.com>,
+ "Martin Brandenburg" <martin@omnibond.com>,
+ "Mark Fasheh" <mark@fasheh.com>, "Joel Becker" <jlbec@evilplan.org>,
+ "Joseph Qi" <joseph.qi@linux.alibaba.com>,
+ "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>,
+ "Ryusuke Konishi" <konishi.ryusuke@gmail.com>,
+ "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Dave Kleikamp" <shaggy@kernel.org>,
+ "David Woodhouse" <dwmw2@infradead.org>,
+ "Richard Weinberger" <richard@nod.at>, "Jan Kara" <jack@suse.cz>,
+ "Andreas Gruenbacher" <agruenba@redhat.com>,
+ "OGAWA Hirofumi" <hirofumi@mail.parknet.co.jp>,
+ "Jaegeuk Kim" <jaegeuk@kernel.org>, linux-nfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-ext4@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, linux-xfs@vger.kernel.org,
+ ceph-devel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ linux-cifs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+ devel@lists.orangefs.org, ocfs2-devel@lists.linux.dev,
+ ntfs3@lists.linux.dev, linux-nilfs@vger.kernel.org,
+ jfs-discussion@lists.sourceforge.net, linux-mtd@lists.infradead.org,
+ gfs2@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net
+Subject: Re: [PATCH 00/29] fs: require filesystems to explicitly opt-in to
+ nfsd export support
+In-reply-to: <a35ac736d9ebc6c92a6e7d61aeb5198234102442.camel@kernel.org>
+References: <20260115-exportfs-nfsd-v1-0-8e80160e3c0c@kernel.org>,
+ <CAOQ4uxjOJMwv_hRVTn3tJHDLMQHbeaCGsdLupiZYcwm7M2rm3g@mail.gmail.com>,
+ <9c99197dde2eafa55a1b55dce2f0d4d02c77340a.camel@kernel.org>,
+ <176877859306.16766.15009835437490907207@noble.neil.brown.name>,
+ <aW3SAKIr_QsnEE5Q@infradead.org>,
+ <176880736225.16766.4203157325432990313@noble.neil.brown.name>,
+ <20260119-kanufahren-meerjungfrau-775048806544@brauner>,
+ <176885553525.16766.291581709413217562@noble.neil.brown.name>,
+ <20260120-entmilitarisieren-wanken-afd04b910897@brauner>,
+ <176890211061.16766.16354247063052030403@noble.neil.brown.name>,
+ <20260120-hacken-revision-88209121ac2c@brauner>,
+ <a35ac736d9ebc6c92a6e7d61aeb5198234102442.camel@kernel.org>
+Date: Wed, 21 Jan 2026 14:58:25 +1100
+Message-id: <176896790525.16766.11792073987699294594@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Tue, Jan 20, 2026 at 05:44:29PM +0100, Arnd Bergmann wrote:
-> On Tue, Jan 20, 2026, at 17:22, Lorenzo Stoakes wrote:
-> > On Tue, Jan 20, 2026 at 05:00:28PM +0100, Arnd Bergmann wrote:
-> >> On Tue, Jan 20, 2026, at 16:10, Lorenzo Stoakes wrote:
-> >> >
-> >> > It strikes me that the key optimisation here is the inlining, now if the issue
-> >> > is that ye olde compiler might choose not to inline very small functions (seems
-> >> > unlikely) we could always throw in an __always_inline?
-> >>
-> >> I can think of three specific things going wrong with structures passed
-> >> by value:
-> >
-> > I mean now you seem to be talking about it _in general_ which, _in theory_,
-> > kills the whole concept of bitmap VMA flags _altogether_ really, or at
-> > least any workable version of them.
->
-> No, what I'm saying is "understand what the pitfalls are", not
-> "don't do it". I think that is what Jason was also getting at.
->
->      Arnd
+On Tue, 20 Jan 2026, Jeff Layton wrote:
+> On Tue, 2026-01-20 at 11:31 +0100, Christian Brauner wrote:
+> > On Tue, Jan 20, 2026 at 08:41:50PM +1100, NeilBrown wrote:
+> > > On Tue, 20 Jan 2026, Christian Brauner wrote:
+> > > > On Tue, Jan 20, 2026 at 07:45:35AM +1100, NeilBrown wrote:
+> > > > > On Mon, 19 Jan 2026, Christian Brauner wrote:
+> > > > > > On Mon, Jan 19, 2026 at 06:22:42PM +1100, NeilBrown wrote:
+> > > > > > > On Mon, 19 Jan 2026, Christoph Hellwig wrote:
+> > > > > > > > On Mon, Jan 19, 2026 at 10:23:13AM +1100, NeilBrown wrote:
+> > > > > > > > > > This was Chuck's suggested name. His point was that STABL=
+E means that
+> > > > > > > > > > the FH's don't change during the lifetime of the file.
+> > > > > > > > > >=20
+> > > > > > > > > > I don't much care about the flag name, so if everyone lik=
+es PERSISTENT
+> > > > > > > > > > better I'll roll with that.
+> > > > > > > > >=20
+> > > > > > > > > I don't like PERSISTENT.
+> > > > > > > > > I'd rather call a spade a spade.
+> > > > > > > > >=20
+> > > > > > > > >   EXPORT_OP_SUPPORTS_NFS_EXPORT
+> > > > > > > > > or
+> > > > > > > > >   EXPORT_OP_NOT_NFS_COMPATIBLE
+> > > > > > > > >=20
+> > > > > > > > > The issue here is NFS export and indirection doesn't bring =
+any benefits.
+> > > > > > > >=20
+> > > > > > > > No, it absolutely is not.  And the whole concept of calling s=
+omething
+> > > > > > > > after the initial or main use is a recipe for a mess.
+> > > > > > >=20
+> > > > > > > We are calling it for it's only use.  If there was ever another=
+ use, we
+> > > > > > > could change the name if that made sense.  It is not a public n=
+ame, it
+> > > > > > > is easy to change.
+> > > > > > >=20
+> > > > > > > >=20
+> > > > > > > > Pick a name that conveys what the flag is about, and document=
+ those
+> > > > > > > > semantics well.  This flag is about the fact that for a given=
+ file,
+> > > > > > > > as long as that file exists in the file system the handle is =
+stable.
+> > > > > > > > Both stable and persistent are suitable for that, nfs is ever=
+ything
+> > > > > > > > but.
+> > > > > > >=20
+> > > > > > > My understanding is that kernfs would not get the flag.
+> > > > > > > kernfs filehandles do not change as long as the file exist.
+> > > > > > > But this is not sufficient for the files to be usefully exporte=
+d.
+> > > > > > >=20
+> > > > > > > I suspect kernfs does re-use filehandles relatively soon after =
+the
+> > > > > > > file/object has been destroyed.  Maybe that is the real problem=
+ here:
+> > > > > > > filehandle reuse, not filehandle stability.
+> > > > > > >=20
+> > > > > > > Jeff: could you please give details (and preserve them in futur=
+e cover
+> > > > > > > letters) of which filesystems are known to have problems and wh=
+at
+> > > > > > > exactly those problems are?
+> > > > > > >=20
+> > > > > > > >=20
+> > > > > > > > Remember nfs also support volatile file handles, and other ap=
+plications
+> > > > > > > > might rely on this (I know of quite a few user space applicat=
+ions that
+> > > > > > > > do, but they are kinda hardwired to xfs anyway).
+> > > > > > >=20
+> > > > > > > The NFS protocol supports volatile file handles.  knfsd does no=
+t.
+> > > > > > > So maybe
+> > > > > > >   EXPORT_OP_NOT_NFSD_COMPATIBLE
+> > > > > > > might be better.  or EXPORT_OP_NOT_LINUX_NFSD_COMPATIBLE.
+> > > > > > > (I prefer opt-out rather than opt-in because nfsd export was the
+> > > > > > > original purpose of export_operations, but it isn't something
+> > > > > > > I would fight for)
+> > > > > >=20
+> > > > > > I prefer one of the variants you proposed here but I don't partic=
+ularly
+> > > > > > care. It's not a hill worth dying on. So if Christoph insists on =
+the
+> > > > > > other name then I say let's just go with it.
+> > > > > >=20
+> > > > >=20
+> > > > > This sounds like you are recommending that we give in to bullying.
+> > > > > I would rather the decision be made based on the facts of the case,=
+ not
+> > > > > the opinions that are stated most bluntly.
+> > > > >=20
+> > > > > I actually think that what Christoph wants is actually quite differ=
+ent
+> > > > > from what Jeff wants, and maybe two flags are needed.  But I don't =
+yet
+> > > > > have a clear understanding of what Christoph wants, so I cannot be =
+sure.
+> > > >=20
+> > > > I've tried to indirectly ask whether you would be willing to compromi=
+se
+> > > > here or whether you want to insist on your alternative name. Apparent=
+ly
+> > > > that didn't come through.
+> > >=20
+> > > This would be the "not a hill worthy dying on" part of your statement.
+> > > I think I see that implication now.
+> > > But no, I don't think compromise is relevant.  I think the problem
+> > > statement as originally given by Jeff is misleading, and people have
+> > > been misled to an incorrect name.
+> > >=20
+> > > >=20
+> > > > I'm unclear what your goal is in suggesting that I recommend "we" give
+> > > > into bullying. All it achieved was to further derail this thread.
+> > > >=20
+> > >=20
+> > > The "We" is the same as the "us" in "let's just go with it".
+> > >=20
+> > >=20
+> > > > I also think it's not very helpful at v6 of the discussion to start
+> > > > figuring out what the actual key rift between Jeff's and Christoph's
+> > > > position is. If you've figured it out and gotten an agreement and this
+> > > > is already in, send a follow-up series.
+> > >=20
+> > > v6?  v2 was posted today.  But maybe you are referring the some other
+> > > precursors.
+> > >=20
+> > > The introductory statement in v2 is
+> > >=20
+> > >    This patchset adds a flag that indicates whether the filesystem supp=
+orts
+> > >    stable filehandles (i.e. that they don't change over the life of the
+> > >    file). It then makes any filesystem that doesn't set that flag
+> > >    ineligible for nfsd export.
+> > >=20
+> > > Nobody else questioned the validity of that.  I do.
+> > > No evidence was given that there are *any* filesystems that don't
+> > > support stable filehandles.  The only filesystem mentioned is cgroups
+> > > and it DOES provide stable filehandles.
+> >=20
+>=20
+> Across reboot? Not really.
 
-Ack sure and your input is appreciated :) It's important to kick the tyres
-and be aware of possible issues.
+Across reboot all the files are deleted and then new ones are created.
+So there is nothing that needs to be stable.
 
-Actually I think now I understand where Jason's coming from - the by-value
-cases will be const value for the most part - which should make life MUCH
-easier for the compiler and avoid a lot of the issues you raised.
+>=20
+> It's quite possible that we may end up with the same "id" numbers in
+> cgroupfs on a new incarnation of the filesystem after a reboot. The
+> files in there are not the same ones as the ones before, but their
+> filehandles may match because kernfs doesn't factor in an i_generation
+> number.
 
-So _hopefully_ we're mitigated. Again as I said, in cases where we might
-not be, I will take action to figure out workarounds.
+That is is about filehandle re-use, not about filehandle stability.
 
-I'm excited by the proposed approach in general (+ again thanks to Jason to
-opening my eyes to the possibility in the first place), so perhaps a
-_little_ defensive, as it allows for a like-for-like replacement generally
-which should HUGELY speed up + simplify the transition :)
+>=20
+> Could we fix it by adding a random i_generation value or something?
+> Possibly, but there really isn't a good use-case that I can see for
+> allowing cgroupfs to be exported via nfsd. Best to disallow it until
+> someone comes up with one.
 
-Cheers, Lorenzo
+100% agree.
+
+>=20
+> > Oh yes we did. And this is a merry-go-round.
+> >=20
+> > It is very much fine for a filesystems to support file handles without
+> > wanting to support exporting via NFS. That is especially true for
+> > in-kernel pseudo filesystems.
+> >=20
+> > As I've said before multiple times I want a way to allow filesystems
+> > such as pidfs and nsfs to use file handles without supporting export.
+> > Whatever that fscking flag is called at this point I fundamentally don't
+> > care. And we are reliving the same arguments over and over.
+> >=20
+> > I will _hard NAK_ anything that starts mandating that export of
+> > filesystems must be allowed simply because their file handles fit export
+> > criteria. I do not care whether pidfs or nsfs file handles fit the bill.
+> > They will not be exported.
+>=20
+> I don't really care what we call the flag. I do care a little about
+> what its semantics are, but the effect should be to ensure that fs
+> maintainers make a conscious decision about whether nfsd export should
+> be allowed on the filesystem.=C2=A0
+
+Why do you need a conscious decision so much that you want to try to
+force it.
+Of course we want conscious decisions and hope they are always made, but
+trying to manipulate people to doing things often fails.  How sure are
+you that fs developers won't just copy-paste some other implementation
+and not think about the implications of the flag?
+
+What is the down side?  What is the harm from allowing export (should the
+admin attempt it)?
+If there were serious security concerns - then sure, make it harder to
+do the dangerous thing.
+But if it is just "it doesn't make sense", then there is no harm in
+letting people get away with not reading the documentation, and fixing
+things later as complaints arrive.  That is generally how the process
+works.
+
+But if you really really want to set this new flag on almost every
+export_operations, can I ask that you please set it on EVERY export
+operations, then allow maintainers to remove it as they see fit.
+I think that approach would be much easier to review.
+
+With your current series it is non-trivial to determine which
+export_operations you have chosen not to set the flag on.  If you had
+one patch that set it everywhere, then individual patches to remove it,
+that would be a lot easier to review.
+
+Thanks,
+NeilBrown
+
+
+>=20
+> At this point, maybe we should just go with Neil's=20
+> EXPORT_OP_SUPPORTS_NFS_EXPORT or something. It's much more arbitrary,
+> than trying to base this on criteria about filehandle stability, but it
+> would give us the effect we want.
+>=20
+> --=20
+> Jeff Layton <jlayton@kernel.org>
+>=20
+
