@@ -1,186 +1,124 @@
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+Received: from n169-113.mail.139.com (n169-113.mail.139.com [120.232.169.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B12371043;
-	Fri, 23 Jan 2026 06:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC3D33D6C2;
+	Fri, 23 Jan 2026 06:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=120.232.169.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769149271; cv=none; b=GW3SYfJY3UGgypnYVZarCFvjlUPi4RSh8yv3MugfvAMVDQHnCYtl6gVMBU0L4TNfwyuqrdoFegW4v432LqDIS9kO2AFBxbcyNinYiEr8g0csFpEZ5UXsI85dQtn6M4up+ujGu5UmGeNyvfGUtcddl/yEJ2Ok7zbMDmTow3LpG28=
+	t=1769151483; cv=none; b=VY1G9JUGih/nx7ro5ZB2+aLj7HLXKiacOMT58mXBy4odNxO0kiFi/TUJELA/NU9/f5jrDy4irPUQMHck9fnsjvk4za8MBw4iNxdCtv7+aKQAI6OUepC+KG7t6Xxpdnx1V4ILv3jIcLjSahHEvAC/u5zMvsHvRpGqm87i13QDuRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769149271; c=relaxed/simple;
-	bh=4qLfl1EKnef/GzUW0bVZNp7SUilauqiMWE77LRDXaXQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MPkSYT+u4WEWL/d034nHD5l3rCCapnHAXrEysncprFphV8BsWLpjnlsC4icdnveZjHVAf80/VhI8w83cPLix1/LDT65xX7xNU/PCNDDFHwCxs57jQxPMmQxwj7rO8WVfYWOeWOLxybGWbigdpRetw145VoRMqDL2DiFC1FEORFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=OONc+Hz4; arc=none smtp.client-ip=115.124.30.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1769151483; c=relaxed/simple;
+	bh=BR7+cfJEaBNBYHwMCXGwidYW7SMy5OOv9HfA+Plaiok=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ku+hy3nyrBpc3QvvPaqpL615EcSNqEs25SwIpaJzk8RozTgSJNzeCmym2qjZ3OZgnQcS+YS7WJKGJT6cKFa49cpmc5Z1mMht+QGutcjWUys7Uo4fnSTuziwXSCU+Udi+M4zhMtMYi+0mGfzblmdBua77dWQ8vJwAgqvmTTg+Rtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com; spf=pass smtp.mailfrom=139.com; dkim=pass (1024-bit key) header.d=139.com header.i=@139.com header.b=tNF99gqV; arc=none smtp.client-ip=120.232.169.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=139.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="OONc+Hz4"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1769149255; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=1870OwY7Yt3wtHMS4Kw5+Uzzq7JdVz48VXgwCaXXTJw=;
-	b=OONc+Hz4lqc1HP74NtQusaU9uk/dcEZsCk52r2ESR4HBF9cIXsmU0KMm8jv1P0jB5096JAHEtML2Qgaqa+XP+adb6qIZpbtghlWD/Iu80rKb5FeQV2HR2YKl8Cp3S9Nn/aRLUSxCWnIp17SLWzv5twcC/C9IC25lv1ZbLsGjZr4=
-Received: from 30.74.144.120(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WxemimV_1769149254 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 23 Jan 2026 14:20:54 +0800
-Message-ID: <7ccc3447-3a39-4206-95c5-a6cd00e2bda6@linux.alibaba.com>
-Date: Fri, 23 Jan 2026 14:20:51 +0800
+	dkim=pass (1024-bit key) header.d=139.com header.i=@139.com header.b="tNF99gqV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=139.com; s=dkim; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=tNF99gqV7Ead5GG0tXIcuitu6lPBiSKpU+UVEf0L3q3CShaUVn58h76+wWj84ok1aMv5xRGXRfNeZ
+	 zJ/CiyUITbHQgbfrMcyLraYJ0ih+9Ds9zyFBEGOadadE9I//yDOEhGOChYP3rM2QHUh+ErjnWydBvR
+	 ceVyNeFSFXNRTtbQ=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM:                                                                                        
+X-RM-SPAM-FLAG:00000000
+Received:from NTT-kernel-dev (unknown[60.247.85.88])
+	by rmsmtp-lg-appmail-32-12046 (RichMail) with SMTP id 2f0e69731be8c88-01caf;
+	Fri, 23 Jan 2026 14:57:46 +0800 (CST)
+X-RM-TRANSID:2f0e69731be8c88-01caf
+From: Li hongliang <1468888505@139.com>
+To: gregkh@linuxfoundation.org,
+	stable@vger.kernel.org,
+	kubik.bartlomiej@gmail.com
+Cc: patches@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	khalid@kernel.org,
+	almaz.alexandrovich@paragon-software.com,
+	ntfs3@lists.linux.dev
+Subject: [PATCH 6.6.y] fs/ntfs3: Initialize allocated memory before use
+Date: Fri, 23 Jan 2026 14:57:53 +0800
+Message-Id: <20260123065753.4067735-1-1468888505@139.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/13] mm: update shmem_[kernel]_file_*() functions to
- use vma_flags_t
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: x86@kernel.org, linux-sgx@vger.kernel.org, linux-kernel@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-fsdevel@vger.kernel.org, linux-aio@kvack.org,
- linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
- linux-mm@kvack.org, ntfs3@lists.linux.dev, devel@lists.orangefs.org,
- linux-xfs@vger.kernel.org, keyrings@vger.kernel.org,
- linux-security-module@vger.kernel.org
-References: <cover.1769097829.git.lorenzo.stoakes@oracle.com>
- <736febd280eb484d79cef5cf55b8a6f79ad832d2.1769097829.git.lorenzo.stoakes@oracle.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <736febd280eb484d79cef5cf55b8a6f79ad832d2.1769097829.git.lorenzo.stoakes@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
 
+[ Upstream commit a8a3ca23bbd9d849308a7921a049330dc6c91398 ]
 
-On 1/23/26 12:06 AM, Lorenzo Stoakes wrote:
-> In order to be able to use only vma_flags_t in vm_area_desc we must adjust
-> shmem file setup functions to operate in terms of vma_flags_t rather than
-> vm_flags_t.
-> 
-> This patch makes this change and updates all callers to use the new
-> functions.
-> 
-> No functional changes intended.
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+KMSAN reports: Multiple uninitialized values detected:
 
-(reduced distribution list too)
+- KMSAN: uninit-value in ntfs_read_hdr (3)
+- KMSAN: uninit-value in bcmp (3)
 
-Thanks. The shmem part looks good to me with some nits below.
+Memory is allocated by __getname(), which is a wrapper for
+kmem_cache_alloc(). This memory is used before being properly
+cleared. Change kmem_cache_alloc() to kmem_cache_zalloc() to
+properly allocate and clear memory before use.
 
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Fixes: 78ab59fee07f ("fs/ntfs3: Rework file operations")
+Tested-by: syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com
+Reported-by: syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=332bd4e9d148f11a87dc
 
-> ---
->   arch/x86/kernel/cpu/sgx/ioctl.c           |  2 +-
->   drivers/gpu/drm/drm_gem.c                 |  5 +-
->   drivers/gpu/drm/i915/gem/i915_gem_shmem.c |  2 +-
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c   |  3 +-
->   drivers/gpu/drm/i915/gt/shmem_utils.c     |  3 +-
->   drivers/gpu/drm/ttm/tests/ttm_tt_test.c   |  2 +-
->   drivers/gpu/drm/ttm/ttm_backup.c          |  3 +-
->   drivers/gpu/drm/ttm/ttm_tt.c              |  2 +-
->   fs/xfs/scrub/xfile.c                      |  3 +-
->   fs/xfs/xfs_buf_mem.c                      |  2 +-
->   include/linux/shmem_fs.h                  |  8 ++-
->   ipc/shm.c                                 |  6 +--
->   mm/memfd.c                                |  2 +-
->   mm/memfd_luo.c                            |  2 +-
->   mm/shmem.c                                | 59 +++++++++++++----------
->   security/keys/big_key.c                   |  2 +-
->   16 files changed, 57 insertions(+), 49 deletions(-)
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Fixes: 78ab59fee07f ("fs/ntfs3: Rework file operations")
+Tested-by: syzbot+0399100e525dd9696764@syzkaller.appspotmail.com
+Reported-by: syzbot+0399100e525dd9696764@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=0399100e525dd9696764
 
-[snip]
+Reviewed-by: Khalid Aziz <khalid@kernel.org>
+Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Signed-off-by: Li hongliang <1468888505@139.com>
+---
+ fs/ntfs3/inode.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
->   	inode->i_flags |= i_flags;
-> @@ -5864,9 +5869,10 @@ static struct file *__shmem_file_setup(struct vfsmount *mnt, const char *name,
->    *	checks are provided at the key or shm level rather than the inode.
->    * @name: name for dentry (to be seen in /proc/<pid>/maps)
->    * @size: size to be set for the file
-> - * @flags: VM_NORESERVE suppresses pre-accounting of the entire object size
-> + * @vma_flags: VMA_NORESERVE_BIT suppresses pre-accounting of the entire object size
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 76326299ba36..ce381eafd084 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -1327,7 +1327,7 @@ struct inode *ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
+ 		fa |= FILE_ATTRIBUTE_READONLY;
+ 
+ 	/* Allocate PATH_MAX bytes. */
+-	new_de = __getname();
++	new_de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
+ 	if (!new_de) {
+ 		err = -ENOMEM;
+ 		goto out1;
+@@ -1756,10 +1756,9 @@ int ntfs_link_inode(struct inode *inode, struct dentry *dentry)
+ 	struct NTFS_DE *de;
+ 
+ 	/* Allocate PATH_MAX bytes. */
+-	de = __getname();
++	de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
+ 	if (!de)
+ 		return -ENOMEM;
+-	memset(de, 0, PATH_MAX);
+ 
+ 	/* Mark rw ntfs as dirty. It will be cleared at umount. */
+ 	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
+@@ -1795,7 +1794,7 @@ int ntfs_unlink_inode(struct inode *dir, const struct dentry *dentry)
+ 		return -EINVAL;
+ 
+ 	/* Allocate PATH_MAX bytes. */
+-	de = __getname();
++	de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
+ 	if (!de)
+ 		return -ENOMEM;
+ 
+-- 
+2.34.1
 
-nit: s/vma_flags/flags
-
->    */
-> -struct file *shmem_kernel_file_setup(const char *name, loff_t size, unsigned long flags)
-> +struct file *shmem_kernel_file_setup(const char *name, loff_t size,
-> +				     vma_flags_t flags)
->   {
->   	return __shmem_file_setup(shm_mnt, name, size, flags, S_PRIVATE);
->   }
-> @@ -5878,7 +5884,7 @@ EXPORT_SYMBOL_GPL(shmem_kernel_file_setup);
->    * @size: size to be set for the file
->    * @flags: VM_NORESERVE suppresses pre-accounting of the entire object size
-
-nit: s/VM_NORESERVE/VMA_NORESERVE_BIT
-
->    */
-> -struct file *shmem_file_setup(const char *name, loff_t size, unsigned long flags)
-> +struct file *shmem_file_setup(const char *name, loff_t size, vma_flags_t flags)
->   {
->   	return __shmem_file_setup(shm_mnt, name, size, flags, 0);
->   }
-> @@ -5889,16 +5895,17 @@ EXPORT_SYMBOL_GPL(shmem_file_setup);
->    * @mnt: the tmpfs mount where the file will be created
->    * @name: name for dentry (to be seen in /proc/<pid>/maps)
->    * @size: size to be set for the file
-> - * @flags: VM_NORESERVE suppresses pre-accounting of the entire object size
-> + * @flags: VMA_NORESERVE_BIT suppresses pre-accounting of the entire object size
->    */
->   struct file *shmem_file_setup_with_mnt(struct vfsmount *mnt, const char *name,
-> -				       loff_t size, unsigned long flags)
-> +				       loff_t size, vma_flags_t flags)
->   {
->   	return __shmem_file_setup(mnt, name, size, flags, 0);
->   }
->   EXPORT_SYMBOL_GPL(shmem_file_setup_with_mnt);
->   
-> -static struct file *__shmem_zero_setup(unsigned long start, unsigned long end, vm_flags_t vm_flags)
-> +static struct file *__shmem_zero_setup(unsigned long start, unsigned long end,
-> +		vma_flags_t flags)
->   {
->   	loff_t size = end - start;
->   
-> @@ -5908,7 +5915,7 @@ static struct file *__shmem_zero_setup(unsigned long start, unsigned long end, v
->   	 * accessible to the user through its mapping, use S_PRIVATE flag to
->   	 * bypass file security, in the same way as shmem_kernel_file_setup().
->   	 */
-> -	return shmem_kernel_file_setup("dev/zero", size, vm_flags);
-> +	return shmem_kernel_file_setup("dev/zero", size, flags);
->   }
->   
->   /**
-> @@ -5918,7 +5925,7 @@ static struct file *__shmem_zero_setup(unsigned long start, unsigned long end, v
->    */
->   int shmem_zero_setup(struct vm_area_struct *vma)
->   {
-> -	struct file *file = __shmem_zero_setup(vma->vm_start, vma->vm_end, vma->vm_flags);
-> +	struct file *file = __shmem_zero_setup(vma->vm_start, vma->vm_end, vma->flags);
->   
->   	if (IS_ERR(file))
->   		return PTR_ERR(file);
-> @@ -5939,7 +5946,7 @@ int shmem_zero_setup(struct vm_area_struct *vma)
->    */
->   int shmem_zero_setup_desc(struct vm_area_desc *desc)
->   {
-> -	struct file *file = __shmem_zero_setup(desc->start, desc->end, desc->vm_flags);
-> +	struct file *file = __shmem_zero_setup(desc->start, desc->end, desc->vma_flags);
->   
->   	if (IS_ERR(file))
->   		return PTR_ERR(file);
-> diff --git a/security/keys/big_key.c b/security/keys/big_key.c
-> index d46862ab90d6..268f702df380 100644
-> --- a/security/keys/big_key.c
-> +++ b/security/keys/big_key.c
-> @@ -103,7 +103,7 @@ int big_key_preparse(struct key_preparsed_payload *prep)
->   					 0, enckey);
->   
->   		/* save aligned data to file */
-> -		file = shmem_kernel_file_setup("", enclen, 0);
-> +		file = shmem_kernel_file_setup("", enclen, EMPTY_VMA_FLAGS);
->   		if (IS_ERR(file)) {
->   			ret = PTR_ERR(file);
->   			goto err_enckey;
 
