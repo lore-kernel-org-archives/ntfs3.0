@@ -1,124 +1,183 @@
-Received: from n169-113.mail.139.com (n169-113.mail.139.com [120.232.169.113])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC3D33D6C2;
-	Fri, 23 Jan 2026 06:57:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=120.232.169.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922632BDC1B;
+	Fri, 23 Jan 2026 07:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769151483; cv=none; b=VY1G9JUGih/nx7ro5ZB2+aLj7HLXKiacOMT58mXBy4odNxO0kiFi/TUJELA/NU9/f5jrDy4irPUQMHck9fnsjvk4za8MBw4iNxdCtv7+aKQAI6OUepC+KG7t6Xxpdnx1V4ILv3jIcLjSahHEvAC/u5zMvsHvRpGqm87i13QDuRc=
+	t=1769154413; cv=none; b=gMq6OAX/FzGAJORcDzj2ejiZm7srzpD9h6CbhZBBtPqRUa10L8i9Wha8ZPu8Qk2rVtsZkRx7u/wXGTqx/grvBoCkN1IEb1t5V4YtComWr+xnrV1Cg+ytks4dhknjrhk48gWBvxiYgU/xWuFcZSw7fQ7c0C1gTSMjwzSZrH8bcBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769151483; c=relaxed/simple;
-	bh=BR7+cfJEaBNBYHwMCXGwidYW7SMy5OOv9HfA+Plaiok=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ku+hy3nyrBpc3QvvPaqpL615EcSNqEs25SwIpaJzk8RozTgSJNzeCmym2qjZ3OZgnQcS+YS7WJKGJT6cKFa49cpmc5Z1mMht+QGutcjWUys7Uo4fnSTuziwXSCU+Udi+M4zhMtMYi+0mGfzblmdBua77dWQ8vJwAgqvmTTg+Rtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com; spf=pass smtp.mailfrom=139.com; dkim=pass (1024-bit key) header.d=139.com header.i=@139.com header.b=tNF99gqV; arc=none smtp.client-ip=120.232.169.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=139.com
+	s=arc-20240116; t=1769154413; c=relaxed/simple;
+	bh=OAD/ygUEOD88K+ggqyDG4ngV41XfzkifYu+rUan4UmY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f7fe9qBPwBmgdGKDSdPzs6ixdsvDG4ucH3Z2IHUI7V0c+1EzrgoDsD0HN6RGm7YpkufLXsV6iOcxHZOOFimZduM6RkFuytE/mBGBahTJs+Xhgy8izVlPnWjXCquia1M7/yEv9yC5B/DtThqYmVJGC8BisqRfPBs2KxnP2U6rDIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gKjzE7cq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=139.com header.i=@139.com header.b="tNF99gqV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=139.com; s=dkim; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=tNF99gqV7Ead5GG0tXIcuitu6lPBiSKpU+UVEf0L3q3CShaUVn58h76+wWj84ok1aMv5xRGXRfNeZ
-	 zJ/CiyUITbHQgbfrMcyLraYJ0ih+9Ds9zyFBEGOadadE9I//yDOEhGOChYP3rM2QHUh+ErjnWydBvR
-	 ceVyNeFSFXNRTtbQ=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM:                                                                                        
-X-RM-SPAM-FLAG:00000000
-Received:from NTT-kernel-dev (unknown[60.247.85.88])
-	by rmsmtp-lg-appmail-32-12046 (RichMail) with SMTP id 2f0e69731be8c88-01caf;
-	Fri, 23 Jan 2026 14:57:46 +0800 (CST)
-X-RM-TRANSID:2f0e69731be8c88-01caf
-From: Li hongliang <1468888505@139.com>
-To: gregkh@linuxfoundation.org,
-	stable@vger.kernel.org,
-	kubik.bartlomiej@gmail.com
-Cc: patches@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	khalid@kernel.org,
-	almaz.alexandrovich@paragon-software.com,
-	ntfs3@lists.linux.dev
-Subject: [PATCH 6.6.y] fs/ntfs3: Initialize allocated memory before use
-Date: Fri, 23 Jan 2026 14:57:53 +0800
-Message-Id: <20260123065753.4067735-1-1468888505@139.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gKjzE7cq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CD45C4CEF1;
+	Fri, 23 Jan 2026 07:46:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769154413;
+	bh=OAD/ygUEOD88K+ggqyDG4ngV41XfzkifYu+rUan4UmY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gKjzE7cqDXZweQuGHrMLnfOMSZf3lh7HGxajgtU/lt8kCe+JBtiVTH7cLgHlNYZDq
+	 /xkI+t4I2UXrUC62zmbj0vZUsBgJVNWHf2u/IB5rVWQ0M92qWVFNAn+aHpwjmatIJJ
+	 42HGEvas39c7oPcKIUvmKiwxdWG6F7op09dvqSnaEPXJxDYV8uNaZg5zuYpCGbPOV2
+	 uECZnk5jJ2EcGxljpENkS6fEZ1z6XTrmkHHGu/DMNaJHL0zQj3FpdgRCKBYhPwGr8Q
+	 PcpeqEt3bPSuwM7nEePid0sJHAvbYps2rpINdGvyHw/B3l0OhLkXuPNse9MoBWxRVu
+	 vChCTt8SYWz8g==
+Date: Thu, 22 Jan 2026 23:46:52 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Huang Rui <ray.huang@amd.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Benjamin LaHaise <bcrl@kvack.org>, Gao Xiang <xiang@kernel.org>,
+	Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
+	Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Sandeep Dhavale <dhavale@google.com>,
+	Hongbo Li <lihongbo22@huawei.com>,
+	Chunhai Guo <guochunhai@vivo.com>, Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Dave Martin <Dave.Martin@arm.com>,
+	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>,
+	Carlos Maiolino <cem@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Naohiro Aota <naohiro.aota@wdc.com>,
+	Johannes Thumshirn <jth@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Zi Yan <ziy@nvidia.com>, Nico Pache <npache@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+	David Howells <dhowells@redhat.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E . Hallyn" <serge@hallyn.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	linux-sgx@vger.kernel.org, linux-kernel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	linux-fsdevel@vger.kernel.org, linux-aio@kvack.org,
+	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+	linux-mm@kvack.org, ntfs3@lists.linux.dev, devel@lists.orangefs.org,
+	linux-xfs@vger.kernel.org, keyrings@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 08/13] mm: update shmem_[kernel]_file_*() functions to
+ use vma_flags_t
+Message-ID: <20260123074652.GW5945@frogsfrogsfrogs>
+References: <cover.1769097829.git.lorenzo.stoakes@oracle.com>
+ <736febd280eb484d79cef5cf55b8a6f79ad832d2.1769097829.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <736febd280eb484d79cef5cf55b8a6f79ad832d2.1769097829.git.lorenzo.stoakes@oracle.com>
 
-From: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+On Thu, Jan 22, 2026 at 04:06:17PM +0000, Lorenzo Stoakes wrote:
+> In order to be able to use only vma_flags_t in vm_area_desc we must adjust
+> shmem file setup functions to operate in terms of vma_flags_t rather than
+> vm_flags_t.
+> 
+> This patch makes this change and updates all callers to use the new
+> functions.
+> 
+> No functional changes intended.
+> 
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> ---
+>  arch/x86/kernel/cpu/sgx/ioctl.c           |  2 +-
+>  drivers/gpu/drm/drm_gem.c                 |  5 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_shmem.c |  2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c   |  3 +-
+>  drivers/gpu/drm/i915/gt/shmem_utils.c     |  3 +-
+>  drivers/gpu/drm/ttm/tests/ttm_tt_test.c   |  2 +-
+>  drivers/gpu/drm/ttm/ttm_backup.c          |  3 +-
+>  drivers/gpu/drm/ttm/ttm_tt.c              |  2 +-
+>  fs/xfs/scrub/xfile.c                      |  3 +-
+>  fs/xfs/xfs_buf_mem.c                      |  2 +-
+>  include/linux/shmem_fs.h                  |  8 ++-
+>  ipc/shm.c                                 |  6 +--
+>  mm/memfd.c                                |  2 +-
+>  mm/memfd_luo.c                            |  2 +-
+>  mm/shmem.c                                | 59 +++++++++++++----------
+>  security/keys/big_key.c                   |  2 +-
+>  16 files changed, 57 insertions(+), 49 deletions(-)
+> 
 
-[ Upstream commit a8a3ca23bbd9d849308a7921a049330dc6c91398 ]
+<snip to xfs>
 
-KMSAN reports: Multiple uninitialized values detected:
+> diff --git a/fs/xfs/scrub/xfile.c b/fs/xfs/scrub/xfile.c
+> index c753c79df203..fe0584a39f16 100644
+> --- a/fs/xfs/scrub/xfile.c
+> +++ b/fs/xfs/scrub/xfile.c
+> @@ -61,7 +61,8 @@ xfile_create(
+>  	if (!xf)
+>  		return -ENOMEM;
+>  
+> -	xf->file = shmem_kernel_file_setup(description, isize, VM_NORESERVE);
+> +	xf->file = shmem_kernel_file_setup(description, isize,
+> +					   mk_vma_flags(VMA_NORESERVE_BIT));
 
-- KMSAN: uninit-value in ntfs_read_hdr (3)
-- KMSAN: uninit-value in bcmp (3)
+Seems fine, macro sorcery aside...
 
-Memory is allocated by __getname(), which is a wrapper for
-kmem_cache_alloc(). This memory is used before being properly
-cleared. Change kmem_cache_alloc() to kmem_cache_zalloc() to
-properly allocate and clear memory before use.
+>  	if (IS_ERR(xf->file)) {
+>  		error = PTR_ERR(xf->file);
+>  		goto out_xfile;
+> diff --git a/fs/xfs/xfs_buf_mem.c b/fs/xfs/xfs_buf_mem.c
+> index dcbfa274e06d..fd6f0a5bc0ea 100644
+> --- a/fs/xfs/xfs_buf_mem.c
+> +++ b/fs/xfs/xfs_buf_mem.c
+> @@ -62,7 +62,7 @@ xmbuf_alloc(
+>  	if (!btp)
+>  		return -ENOMEM;
+>  
+> -	file = shmem_kernel_file_setup(descr, 0, 0);
+> +	file = shmem_kernel_file_setup(descr, 0, EMPTY_VMA_FLAGS);
 
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Fixes: 78ab59fee07f ("fs/ntfs3: Rework file operations")
-Tested-by: syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com
-Reported-by: syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=332bd4e9d148f11a87dc
+...but does mk_vma_flags() produce the same result?
 
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Fixes: 78ab59fee07f ("fs/ntfs3: Rework file operations")
-Tested-by: syzbot+0399100e525dd9696764@syzkaller.appspotmail.com
-Reported-by: syzbot+0399100e525dd9696764@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=0399100e525dd9696764
+--D
 
-Reviewed-by: Khalid Aziz <khalid@kernel.org>
-Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Signed-off-by: Li hongliang <1468888505@139.com>
----
- fs/ntfs3/inode.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 76326299ba36..ce381eafd084 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -1327,7 +1327,7 @@ struct inode *ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
- 		fa |= FILE_ATTRIBUTE_READONLY;
- 
- 	/* Allocate PATH_MAX bytes. */
--	new_de = __getname();
-+	new_de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
- 	if (!new_de) {
- 		err = -ENOMEM;
- 		goto out1;
-@@ -1756,10 +1756,9 @@ int ntfs_link_inode(struct inode *inode, struct dentry *dentry)
- 	struct NTFS_DE *de;
- 
- 	/* Allocate PATH_MAX bytes. */
--	de = __getname();
-+	de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
- 	if (!de)
- 		return -ENOMEM;
--	memset(de, 0, PATH_MAX);
- 
- 	/* Mark rw ntfs as dirty. It will be cleared at umount. */
- 	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
-@@ -1795,7 +1794,7 @@ int ntfs_unlink_inode(struct inode *dir, const struct dentry *dentry)
- 		return -EINVAL;
- 
- 	/* Allocate PATH_MAX bytes. */
--	de = __getname();
-+	de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
- 	if (!de)
- 		return -ENOMEM;
- 
--- 
-2.34.1
-
-
+>  	if (IS_ERR(file)) {
+>  		error = PTR_ERR(file);
+>  		goto out_free_btp;
