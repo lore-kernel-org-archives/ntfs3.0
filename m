@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F18A3C1981;
-	Tue,  3 Feb 2026 15:59:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18843D1CBB;
+	Tue,  3 Feb 2026 16:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770134374; cv=none; b=cSRt6ClPqFtsnmDh2mpK+9erOTn9ok6966mUjjB2MzPTpRRA9Io4FmwNi8Yt8gdL9upS9J902CDymNCwQ9hgks1ZHhZnp8tbqykq3FLmK6TUq9gRkhP0H9dPvlNyt5MOHfHdEgWmpEaY0v8IoKXVui3zxHO7d3B+XjbIQf15wiA=
+	t=1770136201; cv=none; b=KX/QvrByr1pUWl936xdC2RzrSGQK6/y4g2BM4bmuKaoEYfIpr/0QcmPpKlFujSbM1EEaKgHf14XKLffJ6KdVT205uS60Exf4Z+PNsTYF3rQ/IAYTg8yVoChpSQUP/orB4Sz6fruolbHH5jhyd2CTcq7SflNnhgGsG7BVDon+3WA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770134374; c=relaxed/simple;
-	bh=QoKf8sgDmEMVcEPGsTpZW7+qhA+Z2AKxzdPgL2BCNOc=;
+	s=arc-20240116; t=1770136201; c=relaxed/simple;
+	bh=sdLmQLcnydUHstsDBoGkNnn6uT6GvcElNsNHBQUkxpQ=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=NNIYCLW946Kv7oaEPlarrn1/cJqJzXDMqB/cFNoWO9uA2SvQuCCswBNK8iyBEJcTPV+PdaAnCJVCDZfCzhrnSXL1u9dxgZT3GiDB6gsBAORsUrNrDWHmObLSwBtl1RkRkSUTbQTzaOK2zMVqGuwCoZTpj2/f8hDJ12lq6nNBdus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OfZxO49J; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type; b=OBaz/q8uaMThKYIpgFOKR6QVak/R6xdgm3zq+nyHAlkZxV5XTJRzCd98SsOYxavLvtrtUOH1YjVZ70aeg3aChQTheXJb7yqVac8G3stPuOtZrMlHmiO/Xt9lkN1dxwYJG+YrwgOkdp7dR/xd3yiyU1Lvm6k/Fd4sKfKFWy+SAck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=siAcbDV0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OfZxO49J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE23FC16AAE;
-	Tue,  3 Feb 2026 15:59:33 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="siAcbDV0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23684C19421;
+	Tue,  3 Feb 2026 16:29:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770134374;
-	bh=QoKf8sgDmEMVcEPGsTpZW7+qhA+Z2AKxzdPgL2BCNOc=;
+	s=korg; t=1770136200;
+	bh=sdLmQLcnydUHstsDBoGkNnn6uT6GvcElNsNHBQUkxpQ=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:From;
-	b=OfZxO49JsiZ0kId0admiOBrKd7iYdjKPDrJyS9virL07IrUNti2FzglhsK9a+g6p8
-	 x4dLgfN/jRQT6VyVhNcR1NDoKrQdplmhKW3wuZB1r6SR/mNV/Rzu1LfF4CQwnsFi/b
-	 2Ym0cqGLeEwjhSIyShoL5pgjUiXJnGCQwjVK9bQU=
-Subject: Patch "fs/ntfs3: Initialize allocated memory before use" has been added to the 6.1-stable tree
+	b=siAcbDV0CseK8cC9D2O+Ad74sbhLyEP+ISS/zlhX6/v3pzu2mTEnIDF9ohDMrOv0j
+	 T7zKxEEek8OklhxJWVCchvdmg3JLZ1lQ6/mcCZCrixo5J4JWBM2FvhQWp7jm/oDs5d
+	 RnWOqzOVLK4FBnoDSk945lp0GvTUGFXKJ6ev5MmI=
+Subject: Patch "fs/ntfs3: Initialize allocated memory before use" has been added to the 5.15-stable tree
 To: 1468888505@139.com,almaz.alexandrovich@paragon-software.com,gregkh@linuxfoundation.org,khalid@kernel.org,kubik.bartlomiej@gmail.com,ntfs3@lists.linux.dev,patches@lists.linux.dev,syzbot+0399100e525dd9696764@syzkaller.appspotmail.com,syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Tue, 03 Feb 2026 16:59:08 +0100
-In-Reply-To: <20260126061933.1206836-1-1468888505@139.com>
-Message-ID: <2026020308-librarian-shining-4257@gregkh>
+Date: Tue, 03 Feb 2026 17:29:22 +0100
+In-Reply-To: <20260126061956.1206899-1-1468888505@139.com>
+Message-ID: <2026020322-imbecile-revivable-e02f@gregkh>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -46,24 +46,24 @@ This is a note to let you know that I've just added the patch titled
 
     fs/ntfs3: Initialize allocated memory before use
 
-to the 6.1-stable tree which can be found at:
+to the 5.15-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      fs-ntfs3-initialize-allocated-memory-before-use.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-5.15 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From stable+bounces-211512-greg=kroah.com@vger.kernel.org Mon Jan 26 07:21:17 2026
+From 1468888505@139.com Mon Jan 26 07:20:00 2026
 From: Li hongliang <1468888505@139.com>
-Date: Mon, 26 Jan 2026 14:19:33 +0800
+Date: Mon, 26 Jan 2026 14:19:56 +0800
 Subject: fs/ntfs3: Initialize allocated memory before use
 To: gregkh@linuxfoundation.org, stable@vger.kernel.org, kubik.bartlomiej@gmail.com
 Cc: patches@lists.linux.dev, linux-kernel@vger.kernel.org, almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev, khalid@kernel.org
-Message-ID: <20260126061933.1206836-1-1468888505@139.com>
+Message-ID: <20260126061956.1206899-1-1468888505@139.com>
 
 From: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
 
@@ -102,7 +102,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/fs/ntfs3/inode.c
 +++ b/fs/ntfs3/inode.c
-@@ -1294,7 +1294,7 @@ struct inode *ntfs_create_inode(struct u
+@@ -1298,7 +1298,7 @@ struct inode *ntfs_create_inode(struct u
  		fa |= FILE_ATTRIBUTE_READONLY;
  
  	/* Allocate PATH_MAX bytes. */
@@ -111,8 +111,8 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	if (!new_de) {
  		err = -ENOMEM;
  		goto out1;
-@@ -1698,10 +1698,9 @@ int ntfs_link_inode(struct inode *inode,
- 	struct NTFS_DE *de;
+@@ -1694,10 +1694,9 @@ int ntfs_link_inode(struct inode *inode,
+ 	struct ATTR_FILE_NAME *de_name;
  
  	/* Allocate PATH_MAX bytes. */
 -	de = __getname();
@@ -123,7 +123,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	/* Mark rw ntfs as dirty. It will be cleared at umount. */
  	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
-@@ -1737,7 +1736,7 @@ int ntfs_unlink_inode(struct inode *dir,
+@@ -1742,7 +1741,7 @@ int ntfs_unlink_inode(struct inode *dir,
  		return -EINVAL;
  
  	/* Allocate PATH_MAX bytes. */
@@ -136,10 +136,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from 1468888505@139.com are
 
-queue-6.1/vhost-scsi-fix-handling-of-multiple-calls-to-vhost_scsi_set_endpoint.patch
-queue-6.1/fs-ntfs3-initialize-allocated-memory-before-use.patch
-queue-6.1/drm-radeon-delete-radeon_fence_process-in-is_signaled-no-deadlock.patch
-queue-6.1/ksmbd-fix-race-condition-in-rpc-handle-list-access.patch
-queue-6.1/ksmbd-fix-use-after-free-in-ksmbd_session_rpc_open.patch
-queue-6.1/drm-amdgpu-replace-mutex-with-spinlock-for-rlcg-register-access-to-avoid-priority-inversion-in-sriov.patch
-queue-6.1/sctp-linearize-cloned-gso-packets-in-sctp_rcv.patch
+queue-5.15/fs-ntfs3-initialize-allocated-memory-before-use.patch
