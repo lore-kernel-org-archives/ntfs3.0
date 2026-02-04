@@ -1,139 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18843D1CBB;
-	Tue,  3 Feb 2026 16:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0980F21767D
+	for <ntfs3@lists.linux.dev>; Wed,  4 Feb 2026 00:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770136201; cv=none; b=KX/QvrByr1pUWl936xdC2RzrSGQK6/y4g2BM4bmuKaoEYfIpr/0QcmPpKlFujSbM1EEaKgHf14XKLffJ6KdVT205uS60Exf4Z+PNsTYF3rQ/IAYTg8yVoChpSQUP/orB4Sz6fruolbHH5jhyd2CTcq7SflNnhgGsG7BVDon+3WA=
+	t=1770165893; cv=none; b=qXZoHs3hQDEAdwKQPtQ0NF/4W1GnJP+waxXzGZG6yqAcsfekzQoTgoYDNa6rd0xGa32lM2w2lmpj9HqrR5rhLddGAYZ4j+EnauqYZIpfEHUhZvEKMMgOui8u3abf3zCD8AjtJtW1WJvvRodf18lUDh15iojhoWEcbZuAO76b7yU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770136201; c=relaxed/simple;
-	bh=sdLmQLcnydUHstsDBoGkNnn6uT6GvcElNsNHBQUkxpQ=;
-	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=OBaz/q8uaMThKYIpgFOKR6QVak/R6xdgm3zq+nyHAlkZxV5XTJRzCd98SsOYxavLvtrtUOH1YjVZ70aeg3aChQTheXJb7yqVac8G3stPuOtZrMlHmiO/Xt9lkN1dxwYJG+YrwgOkdp7dR/xd3yiyU1Lvm6k/Fd4sKfKFWy+SAck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=siAcbDV0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770165893; c=relaxed/simple;
+	bh=QbfZH5q6w4OI8YF3vuMiRli6CPe498AdBlcIsEP9usY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KD54HysBd3y6LsYrI2orElSN4/dVv4SbzEdE9r7BlaaRi5QgjgU85Ky6BiEO9cmhf8kOWw/7doLXwWuP+kdenUmfDLxQcV3Se3eXSKuPRWjbbBUggsity7YVma/gnQL5sc6WQUM/onKKbFIhTUPmQJ9hiLLjk6zJwMC1LFLUnZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=XJalUroZ; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="siAcbDV0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23684C19421;
-	Tue,  3 Feb 2026 16:29:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770136200;
-	bh=sdLmQLcnydUHstsDBoGkNnn6uT6GvcElNsNHBQUkxpQ=;
-	h=Subject:To:Cc:From:Date:In-Reply-To:From;
-	b=siAcbDV0CseK8cC9D2O+Ad74sbhLyEP+ISS/zlhX6/v3pzu2mTEnIDF9ohDMrOv0j
-	 T7zKxEEek8OklhxJWVCchvdmg3JLZ1lQ6/mcCZCrixo5J4JWBM2FvhQWp7jm/oDs5d
-	 RnWOqzOVLK4FBnoDSk945lp0GvTUGFXKJ6ev5MmI=
-Subject: Patch "fs/ntfs3: Initialize allocated memory before use" has been added to the 5.15-stable tree
-To: 1468888505@139.com,almaz.alexandrovich@paragon-software.com,gregkh@linuxfoundation.org,khalid@kernel.org,kubik.bartlomiej@gmail.com,ntfs3@lists.linux.dev,patches@lists.linux.dev,syzbot+0399100e525dd9696764@syzkaller.appspotmail.com,syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Tue, 03 Feb 2026 17:29:22 +0100
-In-Reply-To: <20260126061956.1206899-1-1468888505@139.com>
-Message-ID: <2026020322-imbecile-revivable-e02f@gregkh>
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="XJalUroZ"
+Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 3543C241;
+	Wed,  4 Feb 2026 00:42:31 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=XJalUroZ;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E3891244;
+	Wed,  4 Feb 2026 00:44:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1770165884;
+	bh=hf7RcZpOtGky+43DdWAzHuxOmZiJPotKax5NzbNOBAs=;
+	h=From:To:CC:Subject:Date;
+	b=XJalUroZu/DUy9WtoA8r8wSZh6mxX7gYclCh3CASxlNSRYnHC0z535vsrDysAHxAp
+	 woD/ScSswxIG1P9VEDjnQfz5Qeov2fRwMPA+HEqiG0Tzir8u/4nCJazBu7M0It5Edn
+	 2Y02Keo2dyynvqPJGAU3GgYWFRwzh4DH+cM40YQM=
+Received: from localhost.localdomain (172.30.20.133) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 4 Feb 2026 03:44:43 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH] fs/ntfs3: allow explicit boolean acl/prealloc mount options
+Date: Wed, 4 Feb 2026 01:44:34 +0100
+Message-ID: <20260204004434.7998-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
+This patch improves mount option parsing by allowing explicit boolean
+values for acl and prealloc. Previously those options were exposed only
+as presence/absence flags.
 
-This is a note to let you know that I've just added the patch titled
-
-    fs/ntfs3: Initialize allocated memory before use
-
-to the 5.15-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     fs-ntfs3-initialize-allocated-memory-before-use.patch
-and it can be found in the queue-5.15 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 1468888505@139.com Mon Jan 26 07:20:00 2026
-From: Li hongliang <1468888505@139.com>
-Date: Mon, 26 Jan 2026 14:19:56 +0800
-Subject: fs/ntfs3: Initialize allocated memory before use
-To: gregkh@linuxfoundation.org, stable@vger.kernel.org, kubik.bartlomiej@gmail.com
-Cc: patches@lists.linux.dev, linux-kernel@vger.kernel.org, almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev, khalid@kernel.org
-Message-ID: <20260126061956.1206899-1-1468888505@139.com>
-
-From: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-
-[ Upstream commit a8a3ca23bbd9d849308a7921a049330dc6c91398 ]
-
-KMSAN reports: Multiple uninitialized values detected:
-
-- KMSAN: uninit-value in ntfs_read_hdr (3)
-- KMSAN: uninit-value in bcmp (3)
-
-Memory is allocated by __getname(), which is a wrapper for
-kmem_cache_alloc(). This memory is used before being properly
-cleared. Change kmem_cache_alloc() to kmem_cache_zalloc() to
-properly allocate and clear memory before use.
-
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Fixes: 78ab59fee07f ("fs/ntfs3: Rework file operations")
-Tested-by: syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com
-Reported-by: syzbot+332bd4e9d148f11a87dc@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=332bd4e9d148f11a87dc
-
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Fixes: 78ab59fee07f ("fs/ntfs3: Rework file operations")
-Tested-by: syzbot+0399100e525dd9696764@syzkaller.appspotmail.com
-Reported-by: syzbot+0399100e525dd9696764@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=0399100e525dd9696764
-
-Reviewed-by: Khalid Aziz <khalid@kernel.org>
-Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Signed-off-by: Li hongliang <1468888505@139.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- fs/ntfs3/inode.c |    7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ fs/ntfs3/super.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -1298,7 +1298,7 @@ struct inode *ntfs_create_inode(struct u
- 		fa |= FILE_ATTRIBUTE_READONLY;
- 
- 	/* Allocate PATH_MAX bytes. */
--	new_de = __getname();
-+	new_de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
- 	if (!new_de) {
- 		err = -ENOMEM;
- 		goto out1;
-@@ -1694,10 +1694,9 @@ int ntfs_link_inode(struct inode *inode,
- 	struct ATTR_FILE_NAME *de_name;
- 
- 	/* Allocate PATH_MAX bytes. */
--	de = __getname();
-+	de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
- 	if (!de)
- 		return -ENOMEM;
--	memset(de, 0, PATH_MAX);
- 
- 	/* Mark rw ntfs as dirty. It will be cleared at umount. */
- 	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
-@@ -1742,7 +1741,7 @@ int ntfs_unlink_inode(struct inode *dir,
- 		return -EINVAL;
- 
- 	/* Allocate PATH_MAX bytes. */
--	de = __getname();
-+	de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
- 	if (!de)
- 		return -ENOMEM;
- 
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 5c104991b067..4f423d3a248c 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -264,8 +264,10 @@ enum Opt {
+ 	Opt_windows_names,
+ 	Opt_showmeta,
+ 	Opt_acl,
++	Opt_acl_bool,
+ 	Opt_iocharset,
+ 	Opt_prealloc,
++	Opt_prealloc_bool,
+ 	Opt_nocase,
+ 	Opt_err,
+ };
+@@ -285,9 +287,11 @@ static const struct fs_parameter_spec ntfs_fs_parameters[] = {
+ 	fsparam_flag("hide_dot_files",	Opt_hide_dot_files),
+ 	fsparam_flag("windows_names",	Opt_windows_names),
+ 	fsparam_flag("showmeta",	Opt_showmeta),
+-	fsparam_flag_no("acl",		Opt_acl),
++	fsparam_flag("acl",		Opt_acl),
++	fsparam_bool("acl",		Opt_acl_bool),
+ 	fsparam_string("iocharset",	Opt_iocharset),
+-	fsparam_flag_no("prealloc",	Opt_prealloc),
++	fsparam_flag("prealloc",	Opt_prealloc),
++	fsparam_bool("prealloc",	Opt_prealloc_bool),
+ 	fsparam_flag("nocase",		Opt_nocase),
+ 	{}
+ };
+@@ -379,15 +383,16 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
+ 	case Opt_showmeta:
+ 		opts->showmeta = 1;
+ 		break;
+-	case Opt_acl:
+-		if (!result.negated)
++	case Opt_acl_bool:
++		if (result.boolean) {
++		case Opt_acl:
+ #ifdef CONFIG_NTFS3_FS_POSIX_ACL
+ 			fc->sb_flags |= SB_POSIXACL;
+ #else
+ 			return invalf(
+ 				fc, "ntfs3: Support for ACL not compiled in!");
+ #endif
+-		else
++		} else
+ 			fc->sb_flags &= ~SB_POSIXACL;
+ 		break;
+ 	case Opt_iocharset:
+@@ -396,7 +401,10 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
+ 		param->string = NULL;
+ 		break;
+ 	case Opt_prealloc:
+-		opts->prealloc = !result.negated;
++		opts->prealloc = 1;
++		break;
++	case Opt_prealloc_bool:
++		opts->prealloc = result.boolean;
+ 		break;
+ 	case Opt_nocase:
+ 		opts->nocase = 1;
+-- 
+2.43.0
 
-
-Patches currently in stable-queue which might be from 1468888505@139.com are
-
-queue-5.15/fs-ntfs3-initialize-allocated-memory-before-use.patch
