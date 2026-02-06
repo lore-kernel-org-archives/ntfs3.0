@@ -1,67 +1,122 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F163E95BB
-	for <ntfs3@lists.linux.dev>; Fri,  6 Feb 2026 13:41:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2964360741
+	for <ntfs3@lists.linux.dev>; Fri,  6 Feb 2026 17:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770385273; cv=none; b=HorJ3QTLSyujqRBXAHDhrdH5rbmoQaUlFGN9okHJSUVEhyTW2pEnyUiTqYXvrQ2WVLlN89pfWcUv4o1ou8TIQuw1SW9jXNg7VPbytp2xcZToN2ZlIWM2JoNTM9VhbXxQfDh8HK3p27i3VrfD+4Nl4Phb7WjSbzfMhEorfhOW+hk=
+	t=1770397379; cv=none; b=pBvxYTVFP/xHm5bRle7IivLRXMCjvBQP85DmuhnBK4ayCTroqdNPrKdzSBpn6/TxgAMPpUKehPm0MzlwFpGuYL13bl7IQUHEBF39i/6Y33moTM/DuD4YM549Cm2OcTI3Gv2iYVGuxyXDqzSHoBgzvZWUe8VY+Asi1/KDrsUJ78w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770385273; c=relaxed/simple;
-	bh=Se16SYw9UiWsxHmQcuBrF07X4CTaRKCkJsXTeMmSFXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=e1mRQcprjHNrCeIqRon80Cxe6eAiBZ2lDoGRC3RlSNQniemEEzg6hGYTpzePgbHqxZF9jOAreNJIMIK+S00dBMv60CfxJZ33S6oELKNaYua2rloXOjUpV2+ZKpMS2RlfEWZfUhYRb2vWeyCZkV43wGsNt98DAFSBlFmw0r4ksWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qPEpDmV0; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770397379; c=relaxed/simple;
+	bh=GUyoVBXr3Q1xsOquqRPXnYNTv4HpgxlmloxWIZh6WO8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l2vce8UFhMntg4xr80Nni6MoGSF1sO19VcrcXw2sbinXowhg0aVtqJA642USESnmnE3KOocr8t1/6ttkbuG7U/dQuviCuAdTN2P5QnGIeMYPW/9gfL6mj5QbEZnBJgVvckEMfc7QrrRAkgFdfEVq+FGkERIDJL8LBI2sJL4JuOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=orkqlvE9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EE5crKCo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=P0Te8zeS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rMULjRcu; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qPEpDmV0"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-48327b8350dso4260705e9.1
-        for <ntfs3@lists.linux.dev>; Fri, 06 Feb 2026 05:41:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770385271; x=1770990071; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kekx2xManmHxMH6vefZuXzCtRIfQAxhdGEAPx9mSs6k=;
-        b=qPEpDmV0eAeUWhHT8UojAX79qdOuI6j15o6gS5rZF2qa3oJX4CEj5Cu045syd9yacr
-         QwIyxR7E0HS3I+KCAIf8N64qfjbngoUJb/qce9f9vizR8c8TlqS5VA162GXDL1zFMtLu
-         QZAd6VxhYQZE80Wsl8lRxKs8/ppvBA0l9IQDJeiDFlIyaVIKg/fsFw1h68IBlIqvO7Lk
-         JLxMjAGHFI58u+iAQSH1+2LIRUxZiA1kPuEOvgJgcJ72nSLhyqazk7l+68/j7VY1aRUq
-         nbO8Iwg1V0QN7tVDiei2B07ONgrClThBsSj9F6bnwcQS9dnfZir93qRMT0oedGmdjYS3
-         wLUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770385271; x=1770990071;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kekx2xManmHxMH6vefZuXzCtRIfQAxhdGEAPx9mSs6k=;
-        b=QzT24xo8rBaqSi76OJdjPfUoN84Bx3aIcCaJ2WwiF8ZIpYB9fdqwkUCtzZix0+Deun
-         ch43Y7v6Y2xxCVT1YC3wETtiOq1d5iJxFLMH5Wtp6X2FJKffsyLXDQ8748XJR0SSKNVd
-         rCt52COL1ur4vhiNQx3uDlsIysaY5DIfpaSGU4ibcm/cnWeatQcgQTrMasWubDguVf17
-         pfRhcWr6LVvkZwkNjushDGpap7TJefz+0GVY08Xb9En9PboRCMNk0q9g+BXHPpJfA3hr
-         +tnulWdeQ+KJSkfwVg/BP40MGkGXxSpaSSIgLv2Oivl/HrJ92n5ngryEdmxwffA5TwgI
-         WLxA==
-X-Gm-Message-State: AOJu0YyIXWX8f71+SiInKCpAk9WFG2mv/aRd/cXe9CtUl5rc/W38UzxU
-	1PybjV30hWLteU65ZBbgyq9oCQvwKX9HEyZgmvPg+yztZDe7OyC3GkEEcMvk3Uio9Co=
-X-Gm-Gg: AZuq6aL4Sf9l7pvAWA+ZsuGPYwCqzgIZUIqGZLtTswUVO83/irzFj60ej1aiz6NZZhY
-	Y/btzudYVuMbOKHSAh9Cg6tEsV5JYD+zCvPIyKIMKyWYezVsj+l/F5LGEPulvpXHcQ97KWiWLHG
-	8U/Gd2ZIz6iyTqzaepNkZho0/giQdAcMiKCRSruVsntUXMv8ZqBDNwFuxLT0roTERLymzPWXdAv
-	YE5qAgLHPdCTckVD1tl1XUwmSMAxMRhhR3eUD36Wm9SZuSXq+Zvc0PHL/XXZ5ej9H/v0ENpV/dJ
-	f6PtGF1tozMacutCa2KirQaQp0W0Z8j3p9HOpUQQKe17RefEpK6L/ekJOTAqBh7DCPKbN42Nq78
-	36AQedrNmIv6qL+JRB7RU1Ys9A3koHe9p2vQS0RIBsAUSZ0P+HYhs3rS0q7E7pNo8j/K45ff/QV
-	FHXMaQTkKCh+alnu9b
-X-Received: by 2002:a05:600c:c16a:b0:477:7b16:5f9f with SMTP id 5b1f17b1804b1-4832021d98dmr38444515e9.31.1770385271129;
-        Fri, 06 Feb 2026 05:41:11 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48323c0296dsm42310065e9.1.2026.02.06.05.41.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 05:41:10 -0800 (PST)
-Date: Fri, 6 Feb 2026 16:41:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>
-Subject: [bug report] fs/ntfs3: Add initialization of super block
-Message-ID: <aYXvc_N3LzX3Ef7Q@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="orkqlvE9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EE5crKCo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P0Te8zeS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rMULjRcu"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E4EAF5BCE3;
+	Fri,  6 Feb 2026 17:02:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770397377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CUYqtP7ZgHQdQC5vBnzVZXDXwlg+QpNEKhaQm5ovGbg=;
+	b=orkqlvE9SwTuzg1vUY/b9kRBRSLpHcoYbkm9JOzNPXV3xUCu71jskW4VC6PYgISH5dAKeQ
+	GnxkepJWMc9d5s492frW0onGpnHzB+rf+OT0PoaQHLS9zG/MfhCdsTS6jTxddG2endGtrJ
+	1XF6Cbi3kAHbaCBgf/9/TTJmGw1Khg4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770397377;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CUYqtP7ZgHQdQC5vBnzVZXDXwlg+QpNEKhaQm5ovGbg=;
+	b=EE5crKCoft9WjyIsphFaJSVj0dj3WisFlTa44mrS3a0w9C5UIZO139v5AfnUvd8wFoAV/1
+	ijvnduHOW12+fhAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770397373; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CUYqtP7ZgHQdQC5vBnzVZXDXwlg+QpNEKhaQm5ovGbg=;
+	b=P0Te8zeSLjKAlYkAT+2RbICPhrTFBetL7skyodk5FaxxibOH9vtxvMRNfPFjuWF/D3BvCO
+	Twi7tlKa2WiGRW6KQFw0PMJvt9zlPkCAmXE9SqS2hBuQwUn90qdevnQOf1MeWIHxKS8xjC
+	uYOazmxOURU4PzyXqg1pSF2T4sjAbr4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770397373;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CUYqtP7ZgHQdQC5vBnzVZXDXwlg+QpNEKhaQm5ovGbg=;
+	b=rMULjRculEo3SDhtOcqpmQ/l0s6TQHipK7lfBzjVqqjjFBs2ZAH89Z4OkmL0BIHHr2y7hh
+	+YBebsQbhnf9GdDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B86A13EA63;
+	Fri,  6 Feb 2026 17:02:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dUHUKbgehmmudQAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Fri, 06 Feb 2026 17:02:48 +0000
+Date: Fri, 6 Feb 2026 17:02:47 +0000
+From: Pedro Falcato <pfalcato@suse.de>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Christian Koenig <christian.koenig@amd.com>, 
+	Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
+	Matthew Brost <matthew.brost@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Benjamin LaHaise <bcrl@kvack.org>, 
+	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
+	Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
+	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mike Marshall <hubcap@omnibond.com>, 
+	Martin Brandenburg <martin@omnibond.com>, Tony Luck <tony.luck@intel.com>, 
+	Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, 
+	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>, 
+	Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
+	Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>, 
+	David Howells <dhowells@redhat.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, 
+	Yury Norov <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	linux-sgx@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	linux-fsdevel@vger.kernel.org, linux-aio@kvack.org, linux-erofs@lists.ozlabs.org, 
+	linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev, 
+	devel@lists.orangefs.org, linux-xfs@vger.kernel.org, keyrings@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 01/13] mm/vma: remove __private sparse decoration from
+ vma_flags_t
+Message-ID: <e3qrulshyfrqkpihfb7prx2xyp5sn37aobccihw6r7vwwj2zm2@fh56mijhhk3c>
+References: <cover.1769097829.git.lorenzo.stoakes@oracle.com>
+ <64fa89f416f22a60ae74cfff8fd565e7677be192.1769097829.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -70,158 +125,44 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <caa37f28-a2e8-4e0a-a9ce-a365ce805e4b@stanley.mountain>
+In-Reply-To: <64fa89f416f22a60ae74cfff8fd565e7677be192.1769097829.git.lorenzo.stoakes@oracle.com>
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,linux.intel.com,redhat.com,alien8.de,zytor.com,arndb.de,linuxfoundation.org,intel.com,suse.de,gmail.com,ffwll.ch,ursulin.net,amd.com,zeniv.linux.org.uk,suse.cz,kvack.org,linux.alibaba.com,google.com,huawei.com,vivo.com,mit.edu,dilger.ca,linux.dev,paragon-software.com,omnibond.com,arm.com,wdc.com,infradead.org,oracle.com,suse.com,nvidia.com,paul-moore.com,namei.org,hallyn.com,rasmusvillemoes.dk,vger.kernel.org,lists.linux.dev,lists.freedesktop.org,lists.ozlabs.org,lists.orangefs.org];
+	R_RATELIMIT(0.00)[to_ip_from(RLkbg1q7eokc4zfw9e5dipwr46)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[93];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-[ Smatch checking is paused while we raise funding.  #SadFace
-  https://lore.kernel.org/all/aTaiGSbWZ9DJaGo7@stanley.mountain/ -dan ]
+On Thu, Jan 22, 2026 at 04:06:10PM +0000, Lorenzo Stoakes wrote:
+> We need to pass around these values and access them in a way that sparse
+> does not allow, as __private implies noderef, i.e. disallowing dereference
+> of the value, which manifests as sparse warnings even when passed around
+> benignly.
+> 
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-Hello Konstantin Komarov,
+Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
-Commit 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-from Aug 13, 2021 (linux-next), leads to the following Smatch static
-checker warning:
-
-fs/ntfs3/fsntfs.c:1260 ntfs_read_run_nb_ra() error: we previously assumed 'run' could be null (see line 1178)
-fs/ntfs3/fsntfs.c:1259 ntfs_read_run_nb_ra() error: uninitialized symbol 'clen'.
-fs/ntfs3/fsntfs.c:1260 ntfs_read_run_nb_ra() error: uninitialized symbol 'idx'.
-
-fs/ntfs3/fsntfs.c
-    1161 int ntfs_read_run_nb_ra(struct ntfs_sb_info *sbi, const struct runs_tree *run,
-    1162                         u64 vbo, void *buf, u32 bytes, struct ntfs_buffers *nb,
-    1163                         struct file_ra_state *ra)
-    1164 {
-    1165         int err;
-    1166         struct super_block *sb = sbi->sb;
-    1167         struct address_space *mapping = sb->s_bdev->bd_mapping;
-    1168         u32 blocksize = sb->s_blocksize;
-    1169         u8 cluster_bits = sbi->cluster_bits;
-    1170         u32 off = vbo & sbi->cluster_mask;
-    1171         u32 nbh = 0;
-    1172         CLST vcn_next, vcn = vbo >> cluster_bits;
-    1173         CLST lcn, clen;
-    1174         u64 lbo, len;
-    1175         size_t idx;
-    1176         struct buffer_head *bh;
-    1177 
-    1178         if (!run) {
-    1179                 /* First reading of $Volume + $MFTMirr + $LogFile goes here. */
-    1180                 if (vbo > MFT_REC_VOL * sbi->record_size) {
-    1181                         err = -ENOENT;
-    1182                         goto out;
-    1183                 }
-    1184 
-    1185                 /* Use absolute boot's 'MFTCluster' to read record. */
-    1186                 lbo = vbo + sbi->mft.lbo;
-    1187                 len = sbi->record_size;
-
-If run is NULL then "clen" is uninitialized.
-
-    1188         } else if (!run_lookup_entry(run, vcn, &lcn, &clen, &idx)) {
-    1189                 err = -ENOENT;
-    1190                 goto out;
-    1191         } else {
-    1192                 if (lcn == SPARSE_LCN) {
-    1193                         err = -EINVAL;
-    1194                         goto out;
-    1195                 }
-    1196 
-    1197                 lbo = ((u64)lcn << cluster_bits) + off;
-    1198                 len = ((u64)clen << cluster_bits) - off;
-    1199         }
-    1200 
-    1201         off = lbo & (blocksize - 1);
-    1202         if (nb) {
-    1203                 nb->off = off;
-    1204                 nb->bytes = bytes;
-    1205         }
-    1206 
-    1207         if (ra && !ra->ra_pages)
-    1208                 file_ra_state_init(ra, mapping);
-    1209 
-    1210         for (;;) {
-    1211                 u32 len32 = len >= bytes ? bytes : len;
-    1212                 sector_t block = lbo >> sb->s_blocksize_bits;
-    1213 
-    1214                 if (ra) {
-    1215                         pgoff_t index = lbo >> PAGE_SHIFT;
-    1216                         if (!ra_has_index(ra, index)) {
-    1217                                 page_cache_sync_readahead(mapping, ra, NULL,
-    1218                                                           index, 1);
-    1219                                 ra->prev_pos = (loff_t)index << PAGE_SHIFT;
-    1220                         }
-    1221                 }
-    1222 
-    1223                 do {
-    1224                         u32 op = blocksize - off;
-    1225 
-    1226                         if (op > len32)
-    1227                                 op = len32;
-    1228 
-    1229                         bh = ntfs_bread(sb, block);
-    1230                         if (!bh) {
-    1231                                 err = -EIO;
-    1232                                 goto out;
-    1233                         }
-    1234 
-    1235                         if (buf) {
-    1236                                 memcpy(buf, bh->b_data + off, op);
-    1237                                 buf = Add2Ptr(buf, op);
-    1238                         }
-    1239 
-    1240                         if (!nb) {
-    1241                                 put_bh(bh);
-    1242                         } else if (nbh >= ARRAY_SIZE(nb->bh)) {
-    1243                                 err = -EINVAL;
-    1244                                 goto out;
-    1245                         } else {
-    1246                                 nb->bh[nbh++] = bh;
-    1247                                 nb->nbufs = nbh;
-    1248                         }
-    1249 
-    1250                         bytes -= op;
-    1251                         if (!bytes)
-    1252                                 return 0;
-    1253                         len32 -= op;
-    1254                         block += 1;
-    1255                         off = 0;
-    1256 
-    1257                 } while (len32);
-    1258 
---> 1259                 vcn_next = vcn + clen;
-                                          ^^^^
-Used uninitalized here.
-
-    1260                 if (!run_get_entry(run, ++idx, &vcn, &lcn, &clen) ||
-
-But also if we pass a NULL run to run_get_entry() it will crash.  I'm
-a bit confused by this code.
-
-    1261                     vcn != vcn_next) {
-    1262                         err = -ENOENT;
-    1263                         goto out;
-    1264                 }
-    1265 
-    1266                 if (lcn == SPARSE_LCN) {
-    1267                         err = -EINVAL;
-    1268                         goto out;
-    1269                 }
-    1270 
-    1271                 lbo = ((u64)lcn << cluster_bits);
-    1272                 len = ((u64)clen << cluster_bits);
-    1273         }
-    1274 
-    1275 out:
-    1276         if (!nbh)
-    1277                 return err;
-    1278 
-    1279         while (nbh) {
-    1280                 put_bh(nb->bh[--nbh]);
-    1281                 nb->bh[nbh] = NULL;
-    1282         }
-    1283 
-    1284         nb->nbufs = 0;
-    1285         return err;
-    1286 }
-
-regards,
-dan carpenter
+-- 
+Pedro
