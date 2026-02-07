@@ -1,332 +1,304 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868962E62C4;
-	Fri,  6 Feb 2026 20:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770408157; cv=fail; b=Se+XqqI9MC06/SAqmuRQyVWmGjx6Gl5G8KyIExjEuE8+0LOCioEAC4SO2ddOeFRkJaR8cxbCOedW8KttuISsB+k3yPYdFSox+6a8vxUNfVjL0StFW8IQtLoaamqq2jG/drk0rUqyVw32mLijh/LAZsH5Xmsuor1uvsO0gE3uRRA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770408157; c=relaxed/simple;
-	bh=0RErPAhVbGAMrLI8oTOEgW2gDceNVDchy+hsI4HgJV0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=L/ih2AQyy+FBfk9LGK7L1xKBpFe5n4vfq1uSijPGljxLmtJOR0iJ5bvZsAInVTENWmMOBAoK+9YWwUPr0Nw+M5/vF9rovipmONFUCWjXkhtoVZx0KUf/cQKt/Maf7/EXE6R2a1bcAD4oAZRLAQxwbigX0XlrNSiTxnLp/TLtx5o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=j1D1lOHr; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ysMRiNJ0; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398132EB847;
+	Sat,  7 Feb 2026 11:58:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770465525; cv=none; b=arOSMtS/wjCg/OPWAdkROaDl7Bgksg4mF/0Hu4C7Voiurbxx7005H0fewrkQ5JLvm4GbZpZmDuhrh2Nfe1mX8DMvBh9rVVU5YYYSOkmH0NuvCRTi4l5ihv06/79Qvp5E0C97Ey2sMKySKoMrCEXbpjL6Sr7DQ0pwcmWlnNxUaiY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770465525; c=relaxed/simple;
+	bh=FF1sbfrM3WtpdzouaAQ0ZjD5rGQQUGXqjI8uixDR5UU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lCJbfkOZXJKw3fl6uzH5CjjQx6S3hYvkUgfky/F0as5hkZZWttbmnfDrGIETJUf2L2enX3aB1h7UqQ75pBq7dquevTN6Sk42mm3qwuIGKKrlZjeaEs+9w4U9+2jXP+aD5P7b2fSPTHfUQPjrv4WB9YSCz2BAqpaOfrghKaoz7tE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UD1KRL4F; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="j1D1lOHr";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ysMRiNJ0"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 616JuPO8790774;
-	Fri, 6 Feb 2026 20:01:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=IIkdhKlounf8LNIOKu
-	57WvWnowqLrOAc6ssJmhwgASI=; b=j1D1lOHr+K7D2iLzkIVS6kNZ3pHKwbrygo
-	nabhbYjqsoyNWhCYPqKheYP1rl1smCSyVy5bwlul5n7wVeweVfrxt0GLbE9ioH+f
-	vMO1NxVC/eunTPEgphwByAJbAQO0JwBv04ciEiQI/nAcKzGeLrELMHaNvhRfUSpB
-	tDJjem8ulMVG18jLTnrY+0ziGQZ7ZKz/FnrnMcw2ZcIgb0SkGdxVLM1Qoueg6UU0
-	78lpH8s6ZP5gGr33e6y8+9EsBFE/HdPOzmHwDX0q2VcbQOnkLWU0q5qEbbztCkZL
-	NVZlrCpdCKmIQWx8lWjZNlAensS7IvFZwPupnz1uxTRzZQTEHAcg==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4c3jsqp49t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 06 Feb 2026 20:01:56 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 616IE24h036938;
-	Fri, 6 Feb 2026 20:01:55 GMT
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013046.outbound.protection.outlook.com [40.93.201.46])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4c186f1820-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 06 Feb 2026 20:01:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZuT56QyxkT/9rUu9Um1AjvmlDL2JZ+qNmD+5PdOVU0hOWfohsXmzNklf2e4OV5FQXH8kb1MwEYjqY0DFWDUtOpJvKXDnIx8g07aP8wW8hNjTuaOwD4n9LR57EI4AUqusyGhZ6reXZRJTeJUKzYGfb5NnlSnywNW/tnWlqlLijBMD2sBUROnDJzQNA4lQMQPL+HM2HQ3LKJvM14oV4TUwK8GiaD3iGRcA8PId3ftbFw9zK3Kc8KIei4mPNEo8RysBDnRgTuRDAihO0igYYc6QavJw+u8ToHBCPfw+bSiGOcWCAat/liYktSJfL4rFACRGtNp0mT/3X7pshfRdHiRK8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IIkdhKlounf8LNIOKu57WvWnowqLrOAc6ssJmhwgASI=;
- b=x/RnQFV/B9ZA5lShY9tyr1byAZarISlHknEeTgpsQirV0kBvfT+topsTuLvmiPmxOywbIn0SBUTpWx9v6A1XJY0r8KuDkPUwZffmuSl00drLe1KtNguzEDh6ckF3EGl0gojvKDNnk9GV6DVPlw8wzfred75YedgdRfpVYNAO+SCRelJz5TFgzaAvAAr7k1yhHwZ+QYWH2Yn6oOkAM/aNRFIoovjZgnwWnvX1MoRSs8UsWJ3gzB8z4U1GtFUA53i87LFI+bOw2K2jHPtv/RJgtqI3uPUd89WHMEqn4P1O+LPIsD/UgHXNl587xzdBHuy6stx9sRJWmewsxKn21iG+VA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IIkdhKlounf8LNIOKu57WvWnowqLrOAc6ssJmhwgASI=;
- b=ysMRiNJ0cbZInAI588n+QogfqnoBzrKNmznHr2gvRRfw6tqt/6zmwU1H56IrSjkTnO7s4wvaAPFpnJoFVygzRWjXCRLBU7a9wD2m8OVF+7+3HA0fhvoCpyetz+nl1T4OnXfcpvI0n9M7O5IVJiWqQsrs/aAEIbqxi9Wzo6RmqT0=
-Received: from DS0PR10MB8223.namprd10.prod.outlook.com (2603:10b6:8:1ce::20)
- by CH3PR10MB8215.namprd10.prod.outlook.com (2603:10b6:610:1f5::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.8; Fri, 6 Feb
- 2026 20:01:47 +0000
-Received: from DS0PR10MB8223.namprd10.prod.outlook.com
- ([fe80::b4a4:94e3:f0bc:f4c9]) by DS0PR10MB8223.namprd10.prod.outlook.com
- ([fe80::b4a4:94e3:f0bc:f4c9%5]) with mapi id 15.20.9520.006; Fri, 6 Feb 2026
- 20:01:47 +0000
-Date: Fri, 6 Feb 2026 20:01:46 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Pedro Falcato <pfalcato@suse.de>, Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        Benjamin LaHaise <bcrl@kvack.org>, Gao Xiang <xiang@kernel.org>,
-        Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
-        Jeffle Xu <jefflexu@linux.alibaba.com>,
-        Sandeep Dhavale <dhavale@google.com>,
-        Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@kernel.org>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Mike Marshall <hubcap@omnibond.com>,
-        Martin Brandenburg <martin@omnibond.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
-        Babu Moger <babu.moger@amd.com>, Carlos Maiolino <cem@kernel.org>,
-        Damien Le Moal <dlemoal@kernel.org>,
-        Naohiro Aota <naohiro.aota@wdc.com>,
-        Johannes Thumshirn <jth@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Hugh Dickins <hughd@google.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>,
-        Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-        Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>,
-        David Howells <dhowells@redhat.com>, Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Yury Norov <yury.norov@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-sgx@vger.kernel.org,
-        linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
-        linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
-        linux-aio@kvack.org, linux-erofs@lists.ozlabs.org,
-        linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
-        devel@lists.orangefs.org, linux-xfs@vger.kernel.org,
-        keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
-        Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v2 09/13] mm: update all remaining mmap_prepare users to
- use vma_flags_t
-Message-ID: <d55a0ba8-46a3-49d4-ba76-aa9658e1e8be@lucifer.local>
-References: <cover.1769097829.git.lorenzo.stoakes@oracle.com>
- <fb1f55323799f09fe6a36865b31550c9ec67c225.1769097829.git.lorenzo.stoakes@oracle.com>
- <hmc2or77xnhrdlncfzjsljljwljnp6zztqsvmgxspfilmzkyty@czxpjpdm66ov>
- <20260206113153.c443545459474cdef6dfd7ea@linux-foundation.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260206113153.c443545459474cdef6dfd7ea@linux-foundation.org>
-X-ClientProxiedBy: LO4P123CA0674.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:351::6) To DS0PR10MB8223.namprd10.prod.outlook.com
- (2603:10b6:8:1ce::20)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UD1KRL4F"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770465524; x=1802001524;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FF1sbfrM3WtpdzouaAQ0ZjD5rGQQUGXqjI8uixDR5UU=;
+  b=UD1KRL4FpIvFWhewn3UHPzzqSe/0CLHbIObAOc1kCv7zkO51+tlEPPNJ
+   MxvPGGTCqnUVSXhXtzIJ0kGAf+JA6c4O4ROkrk/BgBVzjd6EUX+ghG3O9
+   0V3F378zLdaI4NHIS7QMz4rEjv15eLiOV3MRogllPcaVTZoL4gdkZUA9K
+   NYsoxyx4uRGvYBuXHTjliHfMbYfQ4qUPPSl4OAUxBD/lyOom0UgbjJwQs
+   BzAwWal3CqKaquAQfEPU2PzXj5zI77odyoB5eh2tx9fC/9w4X0EhRMAkm
+   hdwMVziQHx1GNtt2i4fpBG13VnkVo/geZc+AmDhBQ7Vlo9o7+GvHpu1GF
+   g==;
+X-CSE-ConnectionGUID: /95lzlUTR1C3miKpCPRDXA==
+X-CSE-MsgGUID: PHmxO92LRjOnroFRAfsrQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="71692717"
+X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
+   d="scan'208";a="71692717"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 03:58:44 -0800
+X-CSE-ConnectionGUID: YayeY2k7QZaoUWK2jbqY4Q==
+X-CSE-MsgGUID: allr2OQTTtan4duMqKX2Sw==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 07 Feb 2026 03:58:42 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vogxT-00000000lcq-3HXY;
+	Sat, 07 Feb 2026 11:58:39 +0000
+Date: Sat, 7 Feb 2026 19:58:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sun Jian <sun.jian.kdev@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Sun Jian <sun.jian.kdev@gmail.com>
+Subject: Re: [PATCH] fs/ntfs3: return folios from ntfs_lock_new_page()
+Message-ID: <202602071921.nGIiI1J5-lkp@intel.com>
+References: <20260205094934.10500-1-sun.jian.kdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR10MB8223:EE_|CH3PR10MB8215:EE_
-X-MS-Office365-Filtering-Correlation-Id: e5ef8c73-bce5-48e9-d95b-08de65ba8f5f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?n9zJSU9Pf54JdVbwxsbDpmdk3jELo/jV7oFwPywMzYWnub0II9PVoW5EzrFj?=
- =?us-ascii?Q?eEusQXBpIXTIoIJzKSfZA2JCTqR7gFq6VHwIYekCyRxt8b3GtIp4gNSe7vYG?=
- =?us-ascii?Q?kIiU79eGzK0Pmu2rwN8U8nr1RAjGX8ePB2fy5ZeImK4ezhCzCpQ60Blmf8+E?=
- =?us-ascii?Q?eVvVvGKwjGp2RaXYtzYDYHOZ1Fctwm8FKT+HzMFg/I70UIzT6Zztkv1MZLQT?=
- =?us-ascii?Q?TGD+dfo8BkUTBpdigjsWeVC6Ogz1x1oM16nW20Ns8bsdFMOErjBgRGqUH2pZ?=
- =?us-ascii?Q?svaJXYIv/7CgSCm/RsPs2C0BafhToU45elzfeYTk+Fxgq/GJCOshENHvau44?=
- =?us-ascii?Q?pob9UOepxBkhji839ikYFL3+p5OCzxwOKPkqrxRTc6ZRAROAG3b3x+EyUvEW?=
- =?us-ascii?Q?gjl4VZFTNKLVIfcZRYDKIKO80oKAqDk84pU7YFn4R+xRh1m0g8Du2SmkQQTT?=
- =?us-ascii?Q?6r7Se9QtJW7PyjAhad8RjBV4goXNDs7LSu+8GyNB1g0yTJ1N/v629ggKTxuc?=
- =?us-ascii?Q?GWLvO/KMBqOIKv+fs/TfrPPW4phNhCW2nTPrqv/kFUB3IfA1XD0VOofzxR0f?=
- =?us-ascii?Q?w1PGNQgOl8bejdt2gWxpb3x7R8345Uo12RcXxJXU0F0c0i0FRY/tZUxg8L/R?=
- =?us-ascii?Q?qfSKpwCvrNOifzMl1X/ej9YA/kVvnxLmcp2GwitBa2Xc7GXKtZ9VbmCUGYV6?=
- =?us-ascii?Q?DEOtCcc4xuBhaZ7rkTKVNDtxoitiM8ShzVLZawOf1saLnCOe5233BVlvW2/q?=
- =?us-ascii?Q?xNOnLpfGfgGgv0b82GsU7604KDRrGxU4bT+WjMH4V2/avobWiv/kTPXPHojC?=
- =?us-ascii?Q?3pCtjNTsM5nWhg3DN8l7+16jjC6sBFEIOB6kwFyxt8XX3p5XiFsrTnHNcEFm?=
- =?us-ascii?Q?RCUPlFBluVpYM2McCfy61zViDLpUcbMc1hTbq3HRl7MPw9AqKJFbUlpldlOr?=
- =?us-ascii?Q?lnHDdiYMDgLICXzI5ObDEClMMEgjOIszY4JsIaKevTZAkU9XNg+2w2ydCocd?=
- =?us-ascii?Q?aWf+kortpXqim2OikfyzO4F33VKqVLx1mtnsZWTIBbgn266307HNpOKTjAVv?=
- =?us-ascii?Q?z+oMkIMFyQBt9TFFckpm8TSfc1VMNuZ2AX9LEDtT8j0moBo0EW8oa8MQwV5m?=
- =?us-ascii?Q?6P/e2vHIWvnv4I53/0k45S5qCga655BDelV/QEtmRCUpZyLzHZo1otiA2nen?=
- =?us-ascii?Q?vvhS2gpVLhFfVtoMwDOgpTVP9NQPwXPjobh1Vi7UkWpIL80mrLYR+NlMLlxn?=
- =?us-ascii?Q?IW5COWpAko91nGx/DrUMc5XXJdYdMXMAlZMU5kmZM7brc2Xw6Bv05dC+mYr+?=
- =?us-ascii?Q?X0ZpFCr65z5X1MUIM7tCiBqBN3ihAyNd/ZMVqCWDeGqcfvd2lvgbD7CkCC5t?=
- =?us-ascii?Q?qDM49/EuevQtX8IXpH4AdTeBZDuV5yE4aKbBX3jZLct2B4I22GChnM/deKHS?=
- =?us-ascii?Q?UiJcsISO0jXZtJINkYVJxZ1M53uEb6qtBTr6P0alSGDcxTcizFaeimfKwFBR?=
- =?us-ascii?Q?cQuGGCh9zSmrRfsFhN6ctlCxC82g0LtBat1OWm8UYtpWHFhMDPVG96wE+pHC?=
- =?us-ascii?Q?PoPJmxq2oS2nEm6Npos=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR10MB8223.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?5fiS3hEI71s1mZtg7XEvgdeYlW7y5BVQPk1UWGYhSM5V9XeX+3Dqkgwn5pxH?=
- =?us-ascii?Q?UTmCZEBn5pLqEOdvb0ufe4JpF+viYTaP5w/5VeenB6yyhyavG3YyMs7b2REj?=
- =?us-ascii?Q?FH4rt6mn+a+fqSOx5gtM+cAiL8Jb8sCivRABfVIgFA+cYbd1kdcca3yf/EaT?=
- =?us-ascii?Q?yNN5bWrAdoVYnDc5C/mlrqmkO5MrHAJXm2EoZweOfmp+FDXSMxJglp2iFnOm?=
- =?us-ascii?Q?wlAHD7YEypWMiMKdnk4q81VMbVnI8X1HQYIoAVhOgwK2w4vQOkEv56gVl4zb?=
- =?us-ascii?Q?ilkFXyKGhMZvffKMg81vZlhPKxgpcUFom8w6EsdkQp5E6y3DXB6aKOpQmxt5?=
- =?us-ascii?Q?t21CfwTZhl8tr6PzoASpG3ahQC/FlUARO2UqBL87KZHOKophUROEd6FFHyvc?=
- =?us-ascii?Q?lKLMpRTGz+TUgM/e0dOcroni/hFvcAk9BD78Uixby9U2yzzDpwoWq77PseJl?=
- =?us-ascii?Q?wRt8phf+x56oRNfRoI/cJoQ6Fo56F1NCKbb/HVbZ7t2t/I4q8QnO+n2Sgz8O?=
- =?us-ascii?Q?KpiKLLzuirkhrmRqGL9HI5xDBjVFVAh3GWq0Vp/g8xvn0W3vae2Sc5MrbTZQ?=
- =?us-ascii?Q?ijRoShOpTm96Hj2czGMk/3zvq6IB9AxNUZnR16aDnGbVaNA5KDYFZhbRzKDB?=
- =?us-ascii?Q?w2E171nz6PpqXizzc791gIaDqv8QvF5NhnCMdyhPlchqeTkCAawRkcNQRSPX?=
- =?us-ascii?Q?8rGSTWlEwD/YUMcEyYskFlmCSQImIKC7Q3YuizOWUbkYhQwMFx3I6V1L7Ps6?=
- =?us-ascii?Q?NUYuVg6lZClU5dbwozMF4s7JgmRtlBTCqEv9hRYywim3TwzIVDrvdpQOb/E8?=
- =?us-ascii?Q?ntL2lIY3DxyiG92hRjPf0R2IOyAZk0PQ92off0CjON5R0FoouLfGaCEdeBGd?=
- =?us-ascii?Q?6yvntKH1d0WZ4qxZorMyoKPB5iLIXFw8C9NQth0otYvwryJJIB1aR+P4HcMX?=
- =?us-ascii?Q?jAWYGHHIk8NXTvKtbdRbw4R6PqpCSMTPnysfEeIgAUkv2FQiOsTIByJpkufL?=
- =?us-ascii?Q?o0FhPobPERKh+O6nYSZTe22qjFQDeRTVNynHIBpKNk4CMxCKETYhFEiFabpV?=
- =?us-ascii?Q?vKOzXY0Xzbm0CU5LRY8qDtV24V6phdEJ5jTwPTU2wKrPUhUYwfXwT4rvrLDV?=
- =?us-ascii?Q?y5++nL3ZgQavsSWU1bPEoGyC9Te7nKCqzyMqZke/trwwWqjmwsKKU4CWKpZK?=
- =?us-ascii?Q?IL1CdzARJ/rVWACs5M9dtMi3coEbPYbH2KssoQMUcn1dkGtT8AS66OG9N/Y7?=
- =?us-ascii?Q?8N0q0Zd5WNtSRaIwvP44uXp7ZsEF2qRaemtNNIUImwT0yw28Dv0KMjRelh0A?=
- =?us-ascii?Q?cZG+fEZsXRgvmCr4cg62jfTl9JW20gl3neoEisE6ZzVGq+roBo81Y978xrfg?=
- =?us-ascii?Q?TnnlpF6eZK7cszPOwYLejd8tKVDTWp1nr/r2MFopOnn1S6lxr6muBEyO0++b?=
- =?us-ascii?Q?242QHcMUbRO1nAYp5+WjLos85bBpSXJswxQmEAZlDECBrWW+KQ9NbpOhngIl?=
- =?us-ascii?Q?Ejf1oO8/6aV03DuGhcNgHiuuVFeMo1BIQ0+dXVOpfcQmpFANPKufXuxXsfz6?=
- =?us-ascii?Q?j+b5eelrZ8THRSB6dhjxHhOgY2CKXu7n11cxFiG+ld5VB5Q9zdYpAYugQVUV?=
- =?us-ascii?Q?tCpyUvWF95ClRO+BkAhv+mBIu0C1TCANXdqN+u/rM4W0ckYEiHtBkA1dIG44?=
- =?us-ascii?Q?p05UQD9pWpfX/gwocYCUaBRpCLVJ0+k/TvSApu/yWEi1Ippag33RWfLsAitj?=
- =?us-ascii?Q?chEaGlQISwCNdmX1dokZGc81CQQIa/k=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	gRg3zfjEgoOb1pzNIRFIXMWmV8OXJnUZaMmG6lvdJCjgyhIxVtbIxtf1Zp3Al32t9c/Pk3CYjW4DEMLnq1LsAccIiqyqxP2gZ6doz0aBxDeZhVu8rQLTr1btGmRvwHxVSVxrI7rkF+3H17cMTaKqX32gDRwfd5UDza/50OPTp8OrJJyOrPS4rXLr12Rzi1lqrz2O2LpU0qwPXq33MPsIlTF0+CZoSxQPmDvtO69bAgtYbCTBn3jjgQvGgAzJ4wWMWbpabKZUV0wzce6MH57tV+RGjBPBcbBfdmYy5dNzGI+RC78sqLhIr56ChK6lkczO4+CYIUKbbzZ8f2Nu77FwrWUezwk+ONjhUHdbg6q0RN+OlJGImQcJ9dF1TS77B2uXZ4f2CIJZ0b1cBWyyCMpxv9UkiZyPwktQnZi3cCnTJiJD5XJfd3PVLiuADSvLnE3MZg+hOIYewhtaeIA4GgHWAEA/A9+qjW93cCY/9HkZkGfFlHOBU779y5Jt4Ix9semlDlFFsbwP+8cDu8mS4hWTEs1kNrQM/9OkO1RYWI1h5xVJc1aVNfW+Sbebpl0LZKJ9tdvrDo36lH4nA/8ZFB7IlZv2F/KGLwU8Rf3iJMIxwIk=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5ef8c73-bce5-48e9-d95b-08de65ba8f5f
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB8223.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 20:01:47.8662
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oE39J1tHGB6bCnlJ/MGiyJii+EVqj8rNF1mWtGn6pSRB1D/mGKZRsUd+AILfS1PyHJNo6440Vad2sXrf7k1j5soyBWRtgo8gMXOA8qz8SdI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB8215
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-06_05,2026-02-05_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=921 suspectscore=0
- mlxscore=0 adultscore=0 phishscore=0 bulkscore=0 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2601150000 definitions=main-2602060147
-X-Authority-Analysis: v=2.4 cv=Db0aa/tW c=1 sm=1 tr=0 ts=698648b4 cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=HzLeVaNsDn8A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=se1DkVxXpihIbOsVGb0A:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: db6m_is3Yv0tbcwjkkKt16lvjfSadZc6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA2MDE0OCBTYWx0ZWRfX3AAS7Oqt7MxT
- iH0ONPvWZqHXXd4hieWMZH+5gm0UHlxSyQGndI4Vb9KZTZkwPSgJmEdASxIXYTMrEVShLhixhwg
- pW4IAyyfo6bYi7ydIh1PCVuXnru10qq5lZHiFmo2Lu1Vct0d0mLWCCN0vTMh9O2y4LbXjP0zzwt
- dxtb9mwbP0pgBmCVhPRePEnINuu/DcK9r/YrxMojiR31bIICsk9B5zDXKZCu13YEReG9cSmg856
- aL59JIWRwQWHrdS3BfKXtWi09pBJJbiOycP4hqGvgsZ8IXR8XSh5jVC04pj77H6vvqxL4/GUkEc
- AT19EmxlEwCJBtFnqHhh0GtoKKCrCoMxhacOxl4HEOv0bDOvrcpAVx/+vcTF9Qk9/WDT14hnsyN
- sfzfRppVGQHbDxUX55yyg+uLy+vfrwz8LMgobEYsonjsmtRK4JQbqVlAJe8wqlgf/3Bdfq2DOtE
- S+mQt3DUHzFPM3goSsA==
-X-Proofpoint-GUID: db6m_is3Yv0tbcwjkkKt16lvjfSadZc6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205094934.10500-1-sun.jian.kdev@gmail.com>
 
-On Fri, Feb 06, 2026 at 11:31:53AM -0800, Andrew Morton wrote:
-> On Fri, 6 Feb 2026 17:46:36 +0000 Pedro Falcato <pfalcato@suse.de> wrote:
->
-> > > -#define VM_REMAP_FLAGS (VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP)
-> > > +#define VMA_REMAP_FLAGS mk_vma_flags(VMA_IO_BIT, VMA_PFNMAP_BIT,	\
-> > > +				     VMA_DONTEXPAND_BIT, VMA_DONTDUMP_BIT)
-> >
-> > as a sidenote, these flags are no longer constant expressions and thus
-> >
-> > static vma_flags_t flags = VMA_REMAP_FLAGS;
+Hi Sun,
 
-I mean this would be a code smell anyway :) but point taken.
+kernel test robot noticed the following build errors:
 
-> >
-> > can't compile.
->
-> Yup, that isn't nice.  An all-caps thing with no () is a compile-time
-> constant.
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.19-rc8]
+[cannot apply to next-20260205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-There is precedence for this, e.g. TASK_SIZE_MAX and other arch defines like
-that:
+url:    https://github.com/intel-lab-lkp/linux/commits/Sun-Jian/fs-ntfs3-return-folios-from-ntfs_lock_new_page/20260205-175053
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260205094934.10500-1-sun.jian.kdev%40gmail.com
+patch subject: [PATCH] fs/ntfs3: return folios from ntfs_lock_new_page()
+config: i386-randconfig-013-20260207 (https://download.01.org/0day-ci/archive/20260207/202602071921.nGIiI1J5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602071921.nGIiI1J5-lkp@intel.com/reproduce)
 
- error: initializer element is not a compile-time constant
- 3309 | static unsigned long task_max = TASK_SIZE_MAX;
-      |                                 ^~~~~~~~~~~~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602071921.nGIiI1J5-lkp@intel.com/
 
-And this will almost certainly (and certainly in everything I tested) become a
-compile-time constant via the optimiser so to all intents and purposes it _is_
-essentially compile-time.
+All errors (new ones prefixed by >>):
 
-But the point of doing it this way is to maintain, as much as possible,
-one-to-one translation between the previous approach and the new with as little
-noise/friction as possible.
+   fs/ntfs3/frecord.c: In function 'ni_decompress_file':
+>> fs/ntfs3/frecord.c:2200:28: error: assignment to 'struct page *' from incompatible pointer type 'struct folio *' [-Werror=incompatible-pointer-types]
+    2200 |                         pg = ntfs_lock_new_page(mapping, index, gfp_mask);
+         |                            ^
+   cc1: some warnings being treated as errors
 
-Making this a function makes things really horrible honestly.
 
-Because vma_remap_flags() suddenly because a vague thing - I'd assume this was a
-function doing something. So now do we call it get_vma_remap_flags()? Suddenly
-something nice-ish like:
+vim +2200 fs/ntfs3/frecord.c
 
-	if (vma_flags_test(flags, VMA_REMAP_FLAGS)) {
-		...
-	}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2133  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2134  #ifdef CONFIG_NTFS3_LZX_XPRESS
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2135  /*
+e8b8e97f91b80f Kari Argillander        2021-08-03  2136   * ni_decompress_file - Decompress LZX/Xpress compressed file.
+e8b8e97f91b80f Kari Argillander        2021-08-03  2137   *
+e8b8e97f91b80f Kari Argillander        2021-08-03  2138   * Remove ATTR_DATA::WofCompressedData.
+e8b8e97f91b80f Kari Argillander        2021-08-03  2139   * Remove ATTR_REPARSE.
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2140   */
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2141  int ni_decompress_file(struct ntfs_inode *ni)
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2142  {
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2143  	struct ntfs_sb_info *sbi = ni->mi.sbi;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2144  	struct inode *inode = &ni->vfs_inode;
+4fd6c08a16d7f1 Konstantin Komarov      2024-01-26  2145  	loff_t i_size = i_size_read(inode);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2146  	struct address_space *mapping = inode->i_mapping;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2147  	gfp_t gfp_mask = mapping_gfp_mask(mapping);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2148  	struct page **pages = NULL;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2149  	struct ATTR_LIST_ENTRY *le;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2150  	struct ATTRIB *attr;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2151  	CLST vcn, cend, lcn, clen, end;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2152  	pgoff_t index;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2153  	u64 vbo;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2154  	u8 frame_bits;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2155  	u32 i, frame_size, pages_per_frame, bytes;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2156  	struct mft_inode *mi;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2157  	int err;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2158  
+e8b8e97f91b80f Kari Argillander        2021-08-03  2159  	/* Clusters for decompressed data. */
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2160  	cend = bytes_to_cluster(sbi, i_size);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2161  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2162  	if (!i_size)
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2163  		goto remove_wof;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2164  
+e8b8e97f91b80f Kari Argillander        2021-08-03  2165  	/* Check in advance. */
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2166  	if (cend > wnd_zeroes(&sbi->used.bitmap)) {
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2167  		err = -ENOSPC;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2168  		goto out;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2169  	}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2170  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2171  	frame_bits = ni_ext_compress_bits(ni);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2172  	frame_size = 1u << frame_bits;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2173  	pages_per_frame = frame_size >> PAGE_SHIFT;
+345482bc431f64 Kari Argillander        2021-08-24  2174  	pages = kcalloc(pages_per_frame, sizeof(struct page *), GFP_NOFS);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2175  	if (!pages) {
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2176  		err = -ENOMEM;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2177  		goto out;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2178  	}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2179  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2180  	/*
+e8b8e97f91b80f Kari Argillander        2021-08-03  2181  	 * Step 1: Decompress data and copy to new allocated clusters.
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2182  	 */
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2183  	index = 0;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2184  	for (vbo = 0; vbo < i_size; vbo += bytes) {
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2185  		bool new;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2186  
+f35590ee26f572 Konstantin Komarov      2025-10-14  2187  		bytes = vbo + frame_size > i_size ? (i_size - vbo) : frame_size;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2188  		end = bytes_to_cluster(sbi, vbo + bytes);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2189  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2190  		for (vcn = vbo >> sbi->cluster_bits; vcn < end; vcn += clen) {
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2191  			err = attr_data_get_block(ni, vcn, cend - vcn, &lcn,
+c380b52f6c5702 Konstantin Komarov      2022-10-07  2192  						  &clen, &new, false);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2193  			if (err)
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2194  				goto out;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2195  		}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2196  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2197  		for (i = 0; i < pages_per_frame; i++, index++) {
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2198  			struct page *pg;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2199  
+68f6bd128e75a0 Matthew Wilcox (Oracle  2025-07-18 @2200) 			pg = ntfs_lock_new_page(mapping, index, gfp_mask);
+68f6bd128e75a0 Matthew Wilcox (Oracle  2025-07-18  2201) 			if (IS_ERR(pg)) {
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2202  				while (i--) {
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2203  					unlock_page(pages[i]);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2204  					put_page(pages[i]);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2205  				}
+68f6bd128e75a0 Matthew Wilcox (Oracle  2025-07-18  2206) 				err = PTR_ERR(pg);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2207  				goto out;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2208  			}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2209  			pages[i] = pg;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2210  		}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2211  
+f35590ee26f572 Konstantin Komarov      2025-10-14  2212  		err = ni_read_frame(ni, vbo, pages, pages_per_frame, 1);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2213  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2214  		for (i = 0; i < pages_per_frame; i++) {
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2215  			unlock_page(pages[i]);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2216  			put_page(pages[i]);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2217  		}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2218  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2219  		if (err)
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2220  			goto out;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2221  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2222  		cond_resched();
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2223  	}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2224  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2225  remove_wof:
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2226  	/*
+e8b8e97f91b80f Kari Argillander        2021-08-03  2227  	 * Step 2: Deallocate attributes ATTR_DATA::WofCompressedData
+e8b8e97f91b80f Kari Argillander        2021-08-03  2228  	 * and ATTR_REPARSE.
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2229  	 */
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2230  	attr = NULL;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2231  	le = NULL;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2232  	while ((attr = ni_enum_attr_ex(ni, attr, &le, NULL))) {
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2233  		CLST svcn, evcn;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2234  		u32 asize, roff;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2235  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2236  		if (attr->type == ATTR_REPARSE) {
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2237  			struct MFT_REF ref;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2238  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2239  			mi_get_ref(&ni->mi, &ref);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2240  			ntfs_remove_reparse(sbi, 0, &ref);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2241  		}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2242  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2243  		if (!attr->non_res)
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2244  			continue;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2245  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2246  		if (attr->type != ATTR_REPARSE &&
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2247  		    (attr->type != ATTR_DATA ||
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2248  		     attr->name_len != ARRAY_SIZE(WOF_NAME) ||
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2249  		     memcmp(attr_name(attr), WOF_NAME, sizeof(WOF_NAME))))
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2250  			continue;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2251  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2252  		svcn = le64_to_cpu(attr->nres.svcn);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2253  		evcn = le64_to_cpu(attr->nres.evcn);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2254  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2255  		if (evcn + 1 <= svcn)
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2256  			continue;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2257  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2258  		asize = le32_to_cpu(attr->size);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2259  		roff = le16_to_cpu(attr->nres.run_off);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2260  
+6db620863f8528 Edward Lo               2022-08-06  2261  		if (roff > asize) {
+6db620863f8528 Edward Lo               2022-08-06  2262  			err = -EINVAL;
+6db620863f8528 Edward Lo               2022-08-06  2263  			goto out;
+6db620863f8528 Edward Lo               2022-08-06  2264  		}
+6db620863f8528 Edward Lo               2022-08-06  2265  
+e8b8e97f91b80f Kari Argillander        2021-08-03  2266  		/*run==1  Means unpack and deallocate. */
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2267  		run_unpack_ex(RUN_DEALLOCATE, sbi, ni->mi.rno, svcn, evcn, svcn,
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2268  			      Add2Ptr(attr, roff), asize - roff);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2269  	}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2270  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2271  	/*
+e8b8e97f91b80f Kari Argillander        2021-08-03  2272  	 * Step 3: Remove attribute ATTR_DATA::WofCompressedData.
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2273  	 */
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2274  	err = ni_remove_attr(ni, ATTR_DATA, WOF_NAME, ARRAY_SIZE(WOF_NAME),
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2275  			     false, NULL);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2276  	if (err)
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2277  		goto out;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2278  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2279  	/*
+e8b8e97f91b80f Kari Argillander        2021-08-03  2280  	 * Step 4: Remove ATTR_REPARSE.
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2281  	 */
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2282  	err = ni_remove_attr(ni, ATTR_REPARSE, NULL, 0, false, NULL);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2283  	if (err)
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2284  		goto out;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2285  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2286  	/*
+e8b8e97f91b80f Kari Argillander        2021-08-03  2287  	 * Step 5: Remove sparse flag from data attribute.
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2288  	 */
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2289  	attr = ni_find_attr(ni, NULL, NULL, ATTR_DATA, NULL, 0, NULL, &mi);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2290  	if (!attr) {
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2291  		err = -EINVAL;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2292  		goto out;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2293  	}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2294  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2295  	if (attr->non_res && is_attr_sparsed(attr)) {
+d3624466b56dd5 Konstantin Komarov      2021-08-31  2296  		/* Sparsed attribute header is 8 bytes bigger than normal. */
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2297  		struct MFT_REC *rec = mi->mrec;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2298  		u32 used = le32_to_cpu(rec->used);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2299  		u32 asize = le32_to_cpu(attr->size);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2300  		u16 roff = le16_to_cpu(attr->nres.run_off);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2301  		char *rbuf = Add2Ptr(attr, roff);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2302  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2303  		memmove(rbuf - 8, rbuf, used - PtrOffset(rec, rbuf));
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2304  		attr->size = cpu_to_le32(asize - 8);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2305  		attr->flags &= ~ATTR_FLAG_SPARSED;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2306  		attr->nres.run_off = cpu_to_le16(roff - 8);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2307  		attr->nres.c_unit = 0;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2308  		rec->used = cpu_to_le32(used - 8);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2309  		mi->dirty = true;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2310  		ni->std_fa &= ~(FILE_ATTRIBUTE_SPARSE_FILE |
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2311  				FILE_ATTRIBUTE_REPARSE_POINT);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2312  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2313  		mark_inode_dirty(inode);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2314  	}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2315  
+e8b8e97f91b80f Kari Argillander        2021-08-03  2316  	/* Clear cached flag. */
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2317  	ni->ni_flags &= ~NI_FLAG_COMPRESSED_MASK;
+c091354d6bf60e Matthew Wilcox (Oracle  2024-04-22  2318) 	if (ni->file.offs_folio) {
+c091354d6bf60e Matthew Wilcox (Oracle  2024-04-22  2319) 		folio_put(ni->file.offs_folio);
+c091354d6bf60e Matthew Wilcox (Oracle  2024-04-22  2320) 		ni->file.offs_folio = NULL;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2321  	}
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2322  	mapping->a_ops = &ntfs_aops;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2323  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2324  out:
+195c52bdd5d5ec Kari Argillander        2021-08-24  2325  	kfree(pages);
+c12df45ee69011 Konstantin Komarov      2022-07-13  2326  	if (err)
+c12df45ee69011 Konstantin Komarov      2022-07-13  2327  		_ntfs_bad_inode(inode);
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2328  
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2329  	return err;
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2330  }
+4342306f0f0d5f Konstantin Komarov      2021-08-13  2331  
 
-Become:
-
-	if (vma_flags_test(flags, get_vma_remap_flags())) {
-		...
-	}
-
-And now it's SUPER ambiguous as to what you're doing there. I'd assume right
-away that get_vma_remap_flags() was going off and doing something or referencing
-a static variable or something.
-
-Given the compile will treat the former _exactly_ as if it were a compile-time
-constant it's just adding unnecessary ambiguity.
-
-So is it something we can live with?
-
-If it looks like a duck, walks like a duck and quacks like a duck, but isn't
-there when the pond is first dug out, can we still call it a duck? ;)
-
->
-> It looks like we can make this a nice inlined (commented!) lower-cased
-> C function as a little low-priority cleanup.
->
-> > Rest LGTM though.
-> >
-> > Acked-by: Pedro Falcato <pfalcato@suse.de>
->
-> Great, thanks.
-
-Cheers, Lorenzo
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
