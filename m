@@ -1,192 +1,153 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D22211A14
-	for <ntfs3@lists.linux.dev>; Tue, 17 Feb 2026 21:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF08377556;
+	Tue, 17 Feb 2026 21:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771362450; cv=none; b=b9/t0MtTP4AM3E4iXi/LBDvXj5d1zeOgnjV5XpSe8XeByklndPPwPoIldG2H1oUmiF9RNrWz1mtFdCoqe38WfdPg+127L9joNwip33s8amqVLo9jQowneWmluFW82CKn5x/0+IToHfse355+pLfX3HG5gfzxAVcS/NKdEoT3xjk=
+	t=1771362878; cv=none; b=I1cE0czN/JqrzwCyYagf5KFZu2o2M3/tomV5KpJ3m76vgxobOJgTM0cEsY8zprq11QsGUJNYWVld+2V7PuI2Ho0eHbUunAz6fN6oTrIsrYwPc/Ses21IHJztjbV7AbtH/IUbJpTrIQkT7PrrYtAnLgPVv52tTi8pTqUqiDuJvQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771362450; c=relaxed/simple;
-	bh=o96IP32jKboGEJjdyNl8aupkU6gPlTLCcy9U85ulj08=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
-	 In-Reply-To:Content-Type; b=lxrHASqw7w9SYaPCoeNgpKKsadKkvVelNKA0p5kHYmvpu33iu7zBCxiLJFhETld8snXxDPmYZBHmaCeH62KvJ7hVacUnqtvmTD5h06HOa8EPVtozoRQUNoQ2MMZrDiLBNeziFScdaYIQKUpEIEdzrEcJ5157caKXljsISPF81m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=SeIhmMaI; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1771362878; c=relaxed/simple;
+	bh=SWr3Pg6zIeu2S3Z6UDsk8BzZU6tf527GPJ41POMlghM=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=qf73RQTBW78Pcv6J9dBKvzNX/FNGJgXVTmVVoigvinF0CjnwPfK0iR0uj8VK38XoiI6cVmH64K4TLto6Y3pEc02dtB225HrR8fIR/RV3h6mqzIvUGnbdLlsk8MLaVaquaRd2p/sYT+3a1y5N6U27AF7NGxXcL3SWTYAmHp7+jO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qME5lVPC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="SeIhmMaI"
-Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id F0EA61D29;
-	Tue, 17 Feb 2026 21:05:29 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=SeIhmMaI;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id AC23421DA;
-	Tue, 17 Feb 2026 21:07:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1771362446;
-	bh=aV46JmNaVjTrWtGbQrw71SO+thEjZT6SGdF6M4ILplw=;
-	h=Date:Subject:From:To:CC:References:In-Reply-To;
-	b=SeIhmMaI8h/BDnrNhVGJdqdQhVy0+MeBQ4ec62x+6xYr0DDjL46BKnUUfacl8+Wbw
-	 P81zqS09xlWRdU5+JxsmfNoC1LIv4f8OM/O/WUJAIqy2Vc+gplVWsYLcCnmLYEGOpr
-	 lOG/0r6bbxVLbayozorcB4jt42wqtFwRbQrVuRCA=
-Received: from [192.168.95.128] (172.30.20.181) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 18 Feb 2026 00:07:24 +0300
-Message-ID: <a4d17661-4a75-46e2-a338-cc90d36f0b70@paragon-software.com>
-Date: Tue, 17 Feb 2026 22:07:22 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qME5lVPC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05413C19421;
+	Tue, 17 Feb 2026 21:14:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771362878;
+	bh=SWr3Pg6zIeu2S3Z6UDsk8BzZU6tf527GPJ41POMlghM=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=qME5lVPCgbs75GtVkYDVSedStUuy5Pu7iKCY4IKu3xqN3EcQE+Oh5yA77hoZy7VyU
+	 +0wZZYMpZQVXM9oVuFBmRCNz9ULENuT2B5em0ouDg88Yb0OXaPujVB/GBPkgNNMpHr
+	 EhgPO+uLpu1WI515RTCnoSYcSuoUoWHPdRcl280BUTS4HjHiimnSyoFiD+9+NmEu7s
+	 4m0WVXB/a1C6i48qotqtPrvf49sFdMixg5MNCldkNycO7JhTW+IJtnP0WEfZw+8dYi
+	 1uYBY6iDz7huxRyc2w6LATusfRgMkVW0RAKYcp9Uufer3E7jADONKO2Apo8cM0wFiU
+	 pB1OIFY+N5Jzg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 0B1123806667;
+	Tue, 17 Feb 2026 21:14:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] ntfs3: changes for 7.0
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-References: <20260217190630.19176-1-almaz.alexandrovich@paragon-software.com>
-Content-Language: en-US
-In-Reply-To: <20260217190630.19176-1-almaz.alexandrovich@paragon-software.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Transfer-Encoding: 8bit
+Subject: Re: [f2fs-dev] [PATCH 00/24] vfs: require filesystems to explicitly
+ opt-in to lease support
+From: patchwork-bot+f2fs@kernel.org
+Message-Id: 
+ <177136286957.643511.1991968143318289235.git-patchwork-notify@kernel.org>
+Date: Tue, 17 Feb 2026 21:14:29 +0000
+References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
+In-Reply-To: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: luisbg@kernel.org, salah.triki@gmail.com, nico@fluxnic.net,
+ hch@infradead.org, jack@suse.cz, al@alarsen.net, viro@zeniv.linux.org.uk,
+ brauner@kernel.org, dsterba@suse.com, clm@fb.com, xiang@kernel.org,
+ chao@kernel.org, zbestahu@gmail.com, jefflexu@linux.alibaba.com,
+ dhavale@google.com, lihongbo22@huawei.com, guochunhai@vivo.com,
+ jack@suse.com, tytso@mit.edu, adilger.kernel@dilger.ca, jaegeuk@kernel.org,
+ hirofumi@mail.parknet.co.jp, dwmw2@infradead.org, richard@nod.at,
+ shaggy@kernel.org, konishi.ryusuke@gmail.com, slava@dubeyko.com,
+ almaz.alexandrovich@paragon-software.com, mark@fasheh.com,
+ jlbec@evilplan.org, joseph.qi@linux.alibaba.com, hubcap@omnibond.com,
+ martin@omnibond.com, miklos@szeredi.hu, amir73il@gmail.com,
+ phillip@squashfs.org.uk, cem@kernel.org, hughd@google.com,
+ baolin.wang@linux.alibaba.com, akpm@linux-foundation.org,
+ linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com,
+ chuck.lever@oracle.com, alex.aring@gmail.com, agruenba@redhat.com,
+ corbet@lwn.net, willy@infradead.org, ericvh@kernel.org, lucho@ionkov.net,
+ asmadeus@codewreck.org, linux_oss@crudebyte.com, xiubli@redhat.com,
+ idryomov@gmail.com, trondmy@kernel.org, anna@kernel.org, sfrench@samba.org,
+ pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com,
+ tom@talpey.com, bharathsm@microsoft.com, hansg@kernel.org,
+ jfs-discussion@lists.sourceforge.net, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, gfs2@lists.linux.dev, linux-mm@kvack.org,
+ linux-mtd@lists.infradead.org, linux-cifs@vger.kernel.org,
+ linux-nilfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+ devel@lists.orangefs.org, ocfs2-devel@lists.linux.dev,
+ ceph-devel@vger.kernel.org, linux-nfs@vger.kernel.org, v9fs@lists.linux.dev,
+ samba-technical@lists.samba.org, linux-unionfs@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
+ linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org
 
-On 2/17/26 20:06, Konstantin Komarov wrote:
+Hello:
 
-> Regards,
-> Konstantin
->
-> ----------------------------------------------------------------
-> The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
->
->    Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
->
-> are available in the Git repository at:
->
->    https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.0
->
-> for you to fetch changes up to 10d7c95af043b45a85dc738c3271bf760ff3577e:
->
->    fs/ntfs3: add delayed-allocation (delalloc) support (2026-02-16 17:23:51 +0100)
->
-> ----------------------------------------------------------------
-> Changes for 7.0-rc1
->
-> Added:
->          improve readahead for bitmap initialization and large directory scans
-> 	fsync files by syncing parent inodes
-> 	drop of preallocated clusters for sparse and compressed files
-> 	zero-fill folios beyond i_valid in ntfs_read_folio()
-> 	implement llseek SEEK_DATA/SEEK_HOLE by scanning data runs
-> 	implement iomap-based file operations
-> 	allow explicit boolean acl/prealloc mount options
-> 	a fall-through between switch labels
-> 	a delayed-allocation (delalloc) support
->
-> Fixed:
->          check return value of indx_find to avoid infinite loop
-> 	initialize new folios before use
-> 	an infinite loop in attr_load_runs_range on inconsistent metadata
-> 	an infinite loop triggered by zero-sized ATTR_LIST
-> 	ntfs_mount_options leak in ntfs_fill_super()
-> 	a deadlock in ni_read_folio_cmpr
-> 	a circular locking dependency in run_unpack_ex
-> 	prevent infinite loops caused by the next valid being the same
-> 	restore NULL folio initialization in ntfs_writepages()
-> 	a slab-out-of-bounds read in DeleteIndexEntryRoot
->
-> Changed:
->          allow readdir() to finish after directory mutations without rewinddir()
-> 	handle attr_set_size() errors when truncating files
-> 	make ntfs_writeback_ops static
-> 	refactor duplicate kmemdup pattern in do_action()
-> 	avoid calling run_get_entry() when run == NULL in ntfs_read_run_nb_ra()
->
-> Replaced:
-> 	use wait_on_buffer() directly
-> 	rename ni_readpage_cmpr into ni_read_folio_cmpr
->
-> ----------------------------------------------------------------
-> Baokun Li (1):
->        fs/ntfs3: fix ntfs_mount_options leak in ntfs_fill_super()
->
-> Baolin Liu (1):
->        ntfs3: Refactor duplicate kmemdup pattern in do_action()
->
-> Bartlomiej Kubik (1):
->        fs/ntfs3: Initialize new folios before use
->
-> Edward Adam Davis (1):
->        fs/ntfs3: prevent infinite loops caused by the next valid being the same
->
-> Jaehun Gou (3):
->        fs: ntfs3: check return value of indx_find to avoid infinite loop
->        fs: ntfs3: fix infinite loop in attr_load_runs_range on inconsistent metadata
->        fs: ntfs3: fix infinite loop triggered by zero-sized ATTR_LIST
->
-> Jiasheng Jiang (1):
->        fs/ntfs3: Fix slab-out-of-bounds read in DeleteIndexEntryRoot
->
-> Konstantin Komarov (13):
->        fs/ntfs3: rename ni_readpage_cmpr into ni_read_folio_cmpr
->        fs/ntfs3: improve readahead for bitmap initialization and large directory scans
->        fs/ntfs3: allow readdir() to finish after directory mutations without rewinddir()
->        fs/ntfs3: fsync files by syncing parent inodes
->        fs/ntfs3: drop preallocated clusters for sparse and compressed files
->        fs/ntfs3: handle attr_set_size() errors when truncating files
->        fs/ntfs3: zero-fill folios beyond i_valid in ntfs_read_folio()
->        fs/ntfs3: implement llseek SEEK_DATA/SEEK_HOLE by scanning data runs
->        fs/ntfs3: implement iomap-based file operations
->        fs/ntfs3: allow explicit boolean acl/prealloc mount options
->        fs/ntfs3: add fall-through between switch labels
->        fs/ntfs3: avoid calling run_get_entry() when run == NULL in ntfs_read_run_nb_ra()
->        fs/ntfs3: add delayed-allocation (delalloc) support
->
-> Lalit Shankar Chowdhury (1):
->        fs/ntfs3: Use wait_on_buffer() directly
->
-> Nathan Chancellor (1):
->        ntfs3: Restore NULL folio initialization in ntfs_writepages()
->
-> Szymon Wilczek (2):
->        fs/ntfs3: fix deadlock in ni_read_folio_cmpr
->        ntfs3: fix circular locking dependency in run_unpack_ex
->
-> sunliming (1):
->        fs/ntfs3: make ntfs_writeback_ops static
->
->   fs/ntfs3/attrib.c   | 412 ++++++++++++++++++---------
->   fs/ntfs3/attrlist.c |  17 +-
->   fs/ntfs3/bitmap.c   |  17 ++
->   fs/ntfs3/dir.c      | 108 ++++---
->   fs/ntfs3/file.c     | 599 ++++++++++++++++++++++-----------------
->   fs/ntfs3/frecord.c  | 382 +++++++++++++------------
->   fs/ntfs3/fslog.c    |  65 +++--
->   fs/ntfs3/fsntfs.c   | 112 +++++---
->   fs/ntfs3/index.c    |  49 ++--
->   fs/ntfs3/inode.c    | 800 ++++++++++++++++++++++++++++------------------------
->   fs/ntfs3/ntfs.h     |   4 +
->   fs/ntfs3/ntfs_fs.h  | 153 +++++++---
->   fs/ntfs3/run.c      | 163 ++++++++++-
->   fs/ntfs3/super.c    |  73 +++--
->   fs/ntfs3/xattr.c    |   2 +-
->   15 files changed, 1822 insertions(+), 1134 deletions(-)
->
-My apologies - the opening line of my previous message was accidentally
-cut. For clarity:
+This series was applied to jaegeuk/f2fs.git (dev)
+by Christian Brauner <brauner@kernel.org>:
 
-Please pull this branch containing ntfs3 code for 7.0.
+On Thu, 08 Jan 2026 12:12:55 -0500 you wrote:
+> Yesterday, I sent patches to fix how directory delegation support is
+> handled on filesystems where the should be disabled [1]. That set is
+> appropriate for v6.19. For v7.0, I want to make lease support be more
+> opt-in, rather than opt-out:
+> 
+> For historical reasons, when ->setlease() file_operation is set to NULL,
+> the default is to use the kernel-internal lease implementation. This
+> means that if you want to disable them, you need to explicitly set the
+> ->setlease() file_operation to simple_nosetlease() or the equivalent.
+> 
+> [...]
 
-Everything else (the patches, commit messages, and Signed-off-by / trailers)
-is unchanged.
+Here is the summary with links:
+  - [f2fs-dev,01/24] fs: add setlease to generic_ro_fops and read-only filesystem directory operations
+    https://git.kernel.org/jaegeuk/f2fs/c/ca4388bf1d9e
+  - [f2fs-dev,02/24] affs: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/663cdef61a27
+  - [f2fs-dev,03/24] btrfs: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/f9688474e413
+  - [f2fs-dev,04/24] erofs: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/f8902d3df893
+  - [f2fs-dev,05/24] ext2: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/ccdc2e0569f5
+  - [f2fs-dev,06/24] ext4: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/20747a2a29c6
+  - [f2fs-dev,07/24] exfat: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/b8ca02667552
+  - [f2fs-dev,08/24] f2fs: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/9e2ac6ddb397
+  - [f2fs-dev,09/24] fat: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/a9acc8422ffb
+  - [f2fs-dev,10/24] gfs2: add a setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/3b514c333390
+  - [f2fs-dev,11/24] jffs2: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/c275e6e7c085
+  - [f2fs-dev,12/24] jfs: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/7dd596bb35e5
+  - [f2fs-dev,13/24] nilfs2: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/f46bb13dc5d9
+  - [f2fs-dev,14/24] ntfs3: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/6aaa1d6337b5
+  - [f2fs-dev,15/24] ocfs2: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/f15d3150279d
+  - [f2fs-dev,16/24] orangefs: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/136b43aa4b16
+  - [f2fs-dev,17/24] overlayfs: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/94a3f60af5dc
+  - [f2fs-dev,18/24] squashfs: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/dfd8676efe43
+  - [f2fs-dev,19/24] tmpfs: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/f5a3446be277
+  - [f2fs-dev,20/24] udf: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/dbe8d57d1483
+  - [f2fs-dev,21/24] ufs: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/545b4144d804
+  - [f2fs-dev,22/24] xfs: add setlease file operation
+    https://git.kernel.org/jaegeuk/f2fs/c/6163b5da2f5e
+  - [f2fs-dev,23/24] filelock: default to returning -EINVAL when ->setlease operation is NULL
+    https://git.kernel.org/jaegeuk/f2fs/c/2b10994be716
+  - [f2fs-dev,24/24] fs: remove simple_nosetlease()
+    https://git.kernel.org/jaegeuk/f2fs/c/51e49111c00b
 
-Regards,
-Konstantin
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
