@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC570344025;
-	Fri, 20 Feb 2026 12:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F228E3451D7;
+	Fri, 20 Feb 2026 12:38:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771591093; cv=none; b=XBad5nv0FBQP7PPnqKquJi2Y4SX4nMbdFpQKWUHp4hKk4v1GRjLf6gwIENDTvXd8TKsNUB03J8zEd6MJsJ64xVGIigIuMpAWjOKe5NepEQCb/jbiy/kj2di1zwV/IJR4XykzyPlEpZAt7yY+t7N0b/pmKL/i1w1skov1lqu0DNw=
+	t=1771591096; cv=none; b=FoL0JuI6Ld+9J+9xh49hOMEqAyK4HUcGYHFLbdEUOKvgVS0WE+xsi9WgJUOdNcR1nsiHa2+un2VU0jsEUmMeNsGfYAXNJmTx9vy9+K1q+beJDmPDJ9yF+1eeLpTo87iUwu7MhWvUs9jpEhxHZx/6KB4AvqCEi/FKG9tOGxGvVMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771591093; c=relaxed/simple;
-	bh=JCQIO+38b7kX1zydRreP6mW2WWXVI7BBpn3fdnoMbuM=;
+	s=arc-20240116; t=1771591096; c=relaxed/simple;
+	bh=tzvL8dU6MqNQWZTHv5gFQ2d3Y3+gb4kIrR5EOchILO0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NTZ77KACos50dyyHK0v6E3iAfjYF8lG8pVQW+SbJXOfC5duZzwCLGfFLWTObSi/g5Ymj/Pg7VuEiHXFrJDAHz66+pW9MeWJ6TICsp5HDf3idCzbbcFiAXPooUrGCH2fUvt1Yt+TrerMGgWq3Dhk9oAP6D5pOg3IRQzEN6qfMZuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikNDpmg/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=GyQBQJzGcKFz3mLHIci3g2kntFgbO67HEhRw5zGVm86Y7TjI0fZZyFLEkbQ73pRjlBKaonJpMRfa+EramRJ1ug6qv+ZgsnUKP8tNTL6xzTJUu/6Kj1HA8XlWAVQTPVTqkHy0Fz118qajsNQ63HU+44X5XhINOTHVTueDkhEwlf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SRC+1om3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikNDpmg/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C13D2C2BC9E;
-	Fri, 20 Feb 2026 12:38:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRC+1om3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEE92C19425;
+	Fri, 20 Feb 2026 12:38:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771591092;
-	bh=JCQIO+38b7kX1zydRreP6mW2WWXVI7BBpn3fdnoMbuM=;
+	s=k20201202; t=1771591095;
+	bh=tzvL8dU6MqNQWZTHv5gFQ2d3Y3+gb4kIrR5EOchILO0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ikNDpmg/gq/YNDltyErzZHefhMs3k2HAnKrel3Oouz2tcqPpqzCwG8VuP6wG80mWa
-	 V4qlcmf58QO5WyLN2t+Oy5Zz4jzbxkxLeE4qhqrNwBi9Kv8YuGh4XB5/lz7KkRSJ0n
-	 p/+nVf+owsuhCeEPxyemV8HfkQ5T/4G08gboSC7bAkVDCdju1/ulRYEfiVVqCiiV1E
-	 Raceb8YO4TMEQEvwqh0mx/FdbhcTUpgDQg3UDwxc/PTWVwfhaGiNNH45GB7O0TCRkk
-	 bUQsM4Sfv9BT2WioAnKBOcSRQt6YaHHJzOGcvJAucKVNbJBR1m8n3PH3n5FyTHgU+6
-	 9ygYMtjAQz16Q==
+	b=SRC+1om3rx9+Zhob6+tZoQUNyQocD1J7t9uG3/JpmDNYO0kyHeoODlIBoVBWZnEfF
+	 l9ITfhvI+JVaRfLILMYfOs6XrvkuGCLSnPiAL/HfpwyQUEu9VAS34Dl8+b+GvJ5KjV
+	 /unNHn/txYcKn0Jd7ZwyfyfHfJju88N+r4U+acfPNDbvnQFaI4KO/OTOh0HpDP2z+0
+	 lWgIWiGNNtS2cpX9tDefWEeRGFGQndfuCtYMd1+vpoxi5Jg+QKmmu/hESTLF8mUZt6
+	 45/s4rZ0GSIy1tJiMMHqyGkz1iy5gz/1f6OJTOS2lBjGzERIJX+dZ3wHUiTVfvYQLp
+	 TjRWFiA5skUjg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Jaehun Gou <p22gone@gmail.com>,
-	Seunghun Han <kkamagui@gmail.com>,
-	Jihoon Kwon <kjh010315@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	kernel test robot <lkp@intel.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-5.15] fs: ntfs3: check return value of indx_find to avoid infinite loop
-Date: Fri, 20 Feb 2026 07:37:53 -0500
-Message-ID: <20260220123805.3371698-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-5.15] fs/ntfs3: avoid calling run_get_entry() when run == NULL in ntfs_read_run_nb_ra()
+Date: Fri, 20 Feb 2026 07:37:55 -0500
+Message-ID: <20260220123805.3371698-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260220123805.3371698-1-sashal@kernel.org>
 References: <20260220123805.3371698-1-sashal@kernel.org>
@@ -54,158 +53,152 @@ X-stable-base: Linux 6.19.3
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Jaehun Gou <p22gone@gmail.com>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-[ Upstream commit 1732053c8a6b360e2d5afb1b34fe9779398b072c ]
+[ Upstream commit c5226b96c08a010ebef5fdf4c90572bcd89e4299 ]
 
-We found an infinite loop bug in the ntfs3 file system that can lead to a
-Denial-of-Service (DoS) condition.
+When ntfs_read_run_nb_ra() is invoked with run == NULL the code later
+assumes run is valid and may call run_get_entry(NULL, ...), and also
+uses clen/idx without initializing them. Smatch reported uninitialized
+variable warnings and this can lead to undefined behaviour. This patch
+fixes it.
 
-A malformed dentry in the ntfs3 filesystem can cause the kernel to hang
-during the lookup operations. By setting the HAS_SUB_NODE flag in an
-INDEX_ENTRY within a directory's INDEX_ALLOCATION block and manipulating the
-VCN pointer, an attacker can cause the indx_find() function to repeatedly
-read the same block, allocating 4 KB of memory each time. The kernel lacks
-VCN loop detection and depth limits, causing memory exhaustion and an OOM
-crash.
-
-This patch adds a return value check for fnd_push() to prevent a memory
-exhaustion vulnerability caused by infinite loops. When the index exceeds the
-size of the fnd->nodes array, fnd_push() returns -EINVAL. The indx_find()
-function checks this return value and stops processing, preventing further
-memory allocation.
-
-Co-developed-by: Seunghun Han <kkamagui@gmail.com>
-Signed-off-by: Seunghun Han <kkamagui@gmail.com>
-Co-developed-by: Jihoon Kwon <kjh010315@gmail.com>
-Signed-off-by: Jihoon Kwon <kjh010315@gmail.com>
-Signed-off-by: Jaehun Gou <p22gone@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/202512230646.v5hrYXL0-lkp@intel.com/
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is the original ntfs3 driver introduction commit (v5.15-rc1 era).
-The bug has been present since ntfs3 was first added.
-
-Now let me verify what happens when `fnd_push` fails but its return
-value is ignored:
-
-When `fnd_push` returns `-EINVAL` (because `fnd->level >=
-ARRAY_SIZE(fnd->nodes)`, i.e., >= 20), the current code at line 1193
-ignores this return value. The loop continues iterating:
-1. `fnd_push` fails — the node is NOT added to the `fnd->nodes` array,
-   so `fnd->level` stays at 20
-2. The loop continues, reading more index blocks via `indx_read`,
-   allocating memory each time
-3. Since the node isn't tracked in `fnd->nodes`, it's never freed
-   (memory leak)
-4. A crafted filesystem with circular VCN references will cause an
-   infinite loop, each iteration allocating 4KB, leading to OOM
-
-This is a clear DoS vulnerability via crafted filesystem.
+Now I have all the information needed for a thorough analysis.
 
 ## Analysis
 
-### 1. COMMIT MESSAGE ANALYSIS
-- **Clear bug description**: Infinite loop in ntfs3 leading to DoS / OOM
-  crash
-- **Attack vector**: Malformed NTFS filesystem image with manipulated
-  VCN pointers and HAS_SUB_NODE flag
-- **Mechanism**: `fnd_push()` return value is ignored; when array is
-  full, the node is leaked and the loop continues infinitely
-- **Severity**: DoS / memory exhaustion / OOM kill — this is a security-
-  relevant bug
+### 1. Commit Message Analysis
 
-### 2. CODE CHANGE ANALYSIS
-The fix is minimal and surgical:
-- Changes `fnd_push(fnd, node, e);` to `err = fnd_push(fnd, node, e);`
-- Adds error checking: if `fnd_push` fails, properly cleans up
-  (`put_indx_node(node)`) and returns the error
-- Only 5 lines of new code added (plus removal of 1 line)
-- No functional changes beyond the error handling
+The commit clearly describes a bug fix: when `ntfs_read_run_nb()`
+(renamed to `ntfs_read_run_nb_ra()` in the commit being analyzed) is
+invoked with `run == NULL`, the code can later call `run_get_entry(NULL,
+...)` and use uninitialized variables `clen` and `idx`. This was
+reported by the kernel test robot and Dan Carpenter (a well-known static
+analysis expert using Smatch).
 
-### 3. CLASSIFICATION
-- **Bug fix**: Yes — fixes an infinite loop / memory exhaustion
-  vulnerability
-- **Security**: Yes — DoS via crafted filesystem (mountable by
-  unprivileged user in many configs, e.g., USB automount)
-- **Stable criteria met**: Obviously correct, fixes a real bug, small
-  and contained, no new features
+### 2. Code Change Analysis
 
-### 4. SCOPE AND RISK
-- **Lines changed**: ~6 lines net
-- **Files changed**: 1 (fs/ntfs3/index.c)
-- **Risk**: Extremely low — the only behavioral change is that an
-  already-defined error path is now properly taken instead of being
-  silently ignored
-- **Could break something**: No — `fnd_push` already returned an error;
-  it was just ignored. Now that error propagates correctly.
+**The bug mechanism:**
 
-### 5. USER IMPACT
-- Affects any system that can mount NTFS filesystems (common for USB
-  drives, dual-boot systems)
-- A crafted USB drive could trigger OOM on any system with ntfs3 enabled
-- Impact: System hang / OOM kill — HIGH severity
+At `fs/ntfs3/fsntfs.c:1186-1207`, when `run == NULL`, the function uses
+the absolute boot MFT location:
+- `lbo` and `len` are set from boot info (lines 1194-1195)
+- **But `clen`, `idx`, and `vcn` are NOT initialized** — they are only
+  set via `run_lookup_entry()` on the `run != NULL` path (line 1196)
 
-### 6. STABILITY
-- Signed off by the ntfs3 maintainer (Konstantin Komarov)
-- The fix pattern (check return value, propagate error) is a well-
-  understood and safe pattern
+The function then enters a `for(;;)` loop (line 1215) containing an
+inner `do { } while (len32)` loop. If the requested `bytes` exceeds the
+initial `len` (i.e., the read spans more than one record), the inner
+loop completes, and execution falls through to line 1255 where:
 
-### 7. DEPENDENCY CHECK
-- `fnd_push()` already returns `int` with proper bounds checking since
-  it was introduced
-- The fix only adds the return value check in the caller — no
-  dependencies on other commits
-- The affected code (`indx_find` and `fnd_push`) has been present since
-  ntfs3 was first merged (commit 82cae269cfa95, v5.15-rc1)
-- This fix applies cleanly to all stable trees that have ntfs3 (5.15+)
+1. `vcn_next = vcn + clen;` — **uses uninitialized `clen`** (undefined
+   behavior)
+2. `run_get_entry(run, ++idx, ...)` — **dereferences NULL `run`** (crash
+   at `run->count` in `run.c:608`)
+3. `++idx` — **uses uninitialized `idx`** (undefined behavior)
 
-### Verification
+**What `run_get_entry()` does with NULL:**
+Looking at `fs/ntfs3/run.c:608`, the very first thing it does is `if
+(index >= run->count)`, which immediately dereferences the NULL pointer
+→ **kernel oops/panic**.
 
-- **git blame** confirmed the vulnerable code at line 1193 has been
-  present since commit 82cae269cfa95 ("fs/ntfs3: Add initialization of
-  super block") — the original ntfs3 introduction
-- **Read of fnd_push()** at lines 673-684 confirms it already returns
-  `-EINVAL` when `i >= ARRAY_SIZE(fnd->nodes)` (which is 20), verifying
-  the commit message's claim
-- **Read of struct ntfs_fnd** (from agent exploration) confirms
-  `nodes[20]` — hardcoded array of 20 entries, so the depth limit is
-  real
-- **Current code at lines 1173-1198** confirms `fnd_push` return value
-  is currently ignored on line 1193 (the bug)
-- **git log history** shows no prior fix for this specific issue (no
-  `fnd_push` return value check commits found)
+**The fix:** Adds a simple `if (!run)` check before reaching the
+`run_get_entry()` call, returning `-EINVAL` and going to error cleanup.
+This is exactly 4 lines of code and is obviously correct — if we entered
+the loop via the `run == NULL` path and need another fragment, we can't
+get one, so returning an error is the right behavior.
 
-This is a textbook stable backport candidate: a small, obviously correct
-fix for a security-relevant DoS vulnerability in a filesystem accessible
-from user space, present in all stable trees with ntfs3 support.
+### 3. Classification
+
+This is a **bug fix** that prevents:
+- NULL pointer dereference (crash/oops)
+- Use of uninitialized variables (undefined behavior, potential data
+  corruption)
+
+### 4. Scope and Risk
+
+- **Lines changed:** 4 lines of actual code added (NULL check + goto)
+- **Files touched:** 1 (`fs/ntfs3/fsntfs.c`)
+- **Risk:** Extremely low — adds a defensive check that can only trigger
+  on an error path, returning `-EINVAL` which callers already handle
+- **No behavioral change** for the normal case where `run != NULL`
+
+### 5. User Impact
+
+NTFS3 is used by anyone mounting NTFS filesystems on Linux (common for
+dual-boot systems, external drives). While the `run == NULL` path is
+specific to early MFT reading during mount, the uninitialized variable
+use means the code is technically invoking undefined behavior, which
+compilers can exploit in unexpected ways.
+
+### 6. Stability Indicators
+
+- Reported by kernel test robot and Dan Carpenter (Smatch static
+  analysis) — two highly reputable sources
+- The fix is authored by the NTFS3 maintainer (Konstantin Komarov)
+- Extremely small and contained change
+
+### 7. Dependency Check
+
+The fix is self-contained — it just adds a NULL check. It applies to the
+existing `ntfs_read_run_nb()` function which has been in the kernel
+since NTFS3 was merged in v5.15.
+
+## Verification
+
+- **Read `ntfs_read_run_nb()` at fsntfs.c:1171-1282**: Confirmed `clen`,
+  `idx` are only initialized via `run_lookup_entry()` on line 1196,
+  which is skipped when `run == NULL`
+- **Read `run_get_entry()` at run.c:603-623**: Confirmed line 608
+  immediately dereferences `run->count`, which would crash if `run ==
+  NULL`
+- **Searched callers of `ntfs_read_run_nb()`**: Found 12 call sites; the
+  `run == NULL` path is designed for early MFT reading (per comment at
+  line 1187)
+- **Checked `oa->run1` initialization in fslog.c**: All paths through
+  `fake_attr` (line 4749) and normal flow (line 4801) set `oa->run1`, so
+  the fslog caller is unlikely to pass NULL — but the function's design
+  explicitly handles `run == NULL` at its entry
+- **Confirmed ntfs3 present since v5.15**: The filesystem was merged in
+  Linux 5.15, present in all active stable trees
+- **git log confirmed recent ntfs3 activity**: Active maintenance by the
+  NTFS3 maintainer
+
+This is a textbook stable backport candidate: small, surgical fix for a
+NULL pointer dereference and uninitialized variable use, authored by the
+subsystem maintainer, reported by trusted automated tools.
 
 **YES**
 
- fs/ntfs3/index.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ fs/ntfs3/fsntfs.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index 7157cfd70fdcb..75b94beac1613 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -1190,7 +1190,12 @@ int indx_find(struct ntfs_index *indx, struct ntfs_inode *ni,
- 			return -EINVAL;
- 		}
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index 5f138f7158357..ac99c5613284a 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -1252,6 +1252,12 @@ int ntfs_read_run_nb(struct ntfs_sb_info *sbi, const struct runs_tree *run,
  
--		fnd_push(fnd, node, e);
-+		err = fnd_push(fnd, node, e);
-+
-+		if (err) {
-+			put_indx_node(node);
-+			return err;
+ 		} while (len32);
+ 
++		if (!run) {
++			err = -EINVAL;
++			goto out;
 +		}
- 	}
- 
- 	*entry = e;
++
++		/* Get next fragment to read. */
+ 		vcn_next = vcn + clen;
+ 		if (!run_get_entry(run, ++idx, &vcn, &lcn, &clen) ||
+ 		    vcn != vcn_next) {
 -- 
 2.51.0
 
