@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F228E3451D7;
-	Fri, 20 Feb 2026 12:38:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263FE344D86;
+	Fri, 20 Feb 2026 12:38:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771591096; cv=none; b=FoL0JuI6Ld+9J+9xh49hOMEqAyK4HUcGYHFLbdEUOKvgVS0WE+xsi9WgJUOdNcR1nsiHa2+un2VU0jsEUmMeNsGfYAXNJmTx9vy9+K1q+beJDmPDJ9yF+1eeLpTo87iUwu7MhWvUs9jpEhxHZx/6KB4AvqCEi/FKG9tOGxGvVMU=
+	t=1771591099; cv=none; b=vGf17CFso6th7JlWT+YZ/vvdYTVg0EiQxjNzUfV99e/VSfYtQecJQ5qIUTSDCQdeSrRcCTbqTr4f8sgC+lMJljDU4gwHpgNuz4uM2fQ5DU8wSNgBIaS++0CBJL/AMTGoYw8uUl0Xd3jcvyDvCvxCcCiCqB7akFWU+mHq8GZxoSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771591096; c=relaxed/simple;
-	bh=tzvL8dU6MqNQWZTHv5gFQ2d3Y3+gb4kIrR5EOchILO0=;
+	s=arc-20240116; t=1771591099; c=relaxed/simple;
+	bh=LElftox2x5jV9I/EfuAroS8I55lWSr4HdGo97oTqbsk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GyQBQJzGcKFz3mLHIci3g2kntFgbO67HEhRw5zGVm86Y7TjI0fZZyFLEkbQ73pRjlBKaonJpMRfa+EramRJ1ug6qv+ZgsnUKP8tNTL6xzTJUu/6Kj1HA8XlWAVQTPVTqkHy0Fz118qajsNQ63HU+44X5XhINOTHVTueDkhEwlf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SRC+1om3; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=idD+qACrxncd9RdCqrNwbV1bFW/ciz7bjFGieLu6uoOXMuRewk47mYavkNR3sqF/yZmPrtoea1dET36qtrTd7XhBnE8I5dEcTwppcE9xHSAJvoqql+ImoS1KQHwaMk31uswBxSXv6cXClnvuDUufqsAS7nS1I97JPHQAbNPYs8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hS+WDXfq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRC+1om3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEE92C19425;
-	Fri, 20 Feb 2026 12:38:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hS+WDXfq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 298C9C116C6;
+	Fri, 20 Feb 2026 12:38:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771591095;
-	bh=tzvL8dU6MqNQWZTHv5gFQ2d3Y3+gb4kIrR5EOchILO0=;
+	s=k20201202; t=1771591098;
+	bh=LElftox2x5jV9I/EfuAroS8I55lWSr4HdGo97oTqbsk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SRC+1om3rx9+Zhob6+tZoQUNyQocD1J7t9uG3/JpmDNYO0kyHeoODlIBoVBWZnEfF
-	 l9ITfhvI+JVaRfLILMYfOs6XrvkuGCLSnPiAL/HfpwyQUEu9VAS34Dl8+b+GvJ5KjV
-	 /unNHn/txYcKn0Jd7ZwyfyfHfJju88N+r4U+acfPNDbvnQFaI4KO/OTOh0HpDP2z+0
-	 lWgIWiGNNtS2cpX9tDefWEeRGFGQndfuCtYMd1+vpoxi5Jg+QKmmu/hESTLF8mUZt6
-	 45/s4rZ0GSIy1tJiMMHqyGkz1iy5gz/1f6OJTOS2lBjGzERIJX+dZ3wHUiTVfvYQLp
-	 TjRWFiA5skUjg==
+	b=hS+WDXfqL5R9YvbCnFNCEiqLUW3XPeFoKUJcoIdWnHYTjEVMD2MqrrCbXuW6EPoSL
+	 eYKdHsiXav+u+j74Ib09GSVai7AuhnzZYPxhPeTRoPuG9HgXT/GrEHD7y9P1DVcJ9b
+	 vk540HFA4KvcO2sQsHv8eb3ifxsM2Hs0kjaKplCgaFQz22YiIloIII4Fs+YjP0rEjz
+	 GXvczNY8kYzadz+zy1mS1tRv0zcDv4sCo/U5ZqSvv6VxMVYKTA/kAmubcVBOK1jv0J
+	 tspybAJzqI14k+KNkhytH3p8ADGJhe64yD2H/0uaKtbNcsV72uU9lQBpGc4A/BIG4T
+	 a3Lbn4Ny9E0Hg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
 Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	kernel test robot <lkp@intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-5.15] fs/ntfs3: avoid calling run_get_entry() when run == NULL in ntfs_read_run_nb_ra()
-Date: Fri, 20 Feb 2026 07:37:55 -0500
-Message-ID: <20260220123805.3371698-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19] fs/ntfs3: handle attr_set_size() errors when truncating files
+Date: Fri, 20 Feb 2026 07:37:57 -0500
+Message-ID: <20260220123805.3371698-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260220123805.3371698-1-sashal@kernel.org>
 References: <20260220123805.3371698-1-sashal@kernel.org>
@@ -55,150 +53,183 @@ Content-Transfer-Encoding: 8bit
 
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-[ Upstream commit c5226b96c08a010ebef5fdf4c90572bcd89e4299 ]
+[ Upstream commit 576248a34b927e93b2fd3fff7df735ba73ad7d01 ]
 
-When ntfs_read_run_nb_ra() is invoked with run == NULL the code later
-assumes run is valid and may call run_get_entry(NULL, ...), and also
-uses clen/idx without initializing them. Smatch reported uninitialized
-variable warnings and this can lead to undefined behaviour. This patch
-fixes it.
+If attr_set_size() fails while truncating down, the error is silently
+ignored and the inode may be left in an inconsistent state.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/r/202512230646.v5hrYXL0-lkp@intel.com/
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have all the information needed for a thorough analysis.
+Now I have a clear picture of the bug. Let me analyze it:
 
 ## Analysis
 
-### 1. Commit Message Analysis
+### 1. COMMIT MESSAGE ANALYSIS
 
-The commit clearly describes a bug fix: when `ntfs_read_run_nb()`
-(renamed to `ntfs_read_run_nb_ra()` in the commit being analyzed) is
-invoked with `run == NULL`, the code can later call `run_get_entry(NULL,
-...)` and use uninitialized variables `clen` and `idx`. This was
-reported by the kernel test robot and Dan Carpenter (a well-known static
-analysis expert using Smatch).
+The commit message is clear: "handle attr_set_size() errors when
+truncating files." It states that if `attr_set_size()` fails while
+truncating down, the error is silently ignored and the inode may be left
+in an inconsistent state. The author is Konstantin Komarov, the NTFS3
+maintainer.
 
-### 2. Code Change Analysis
+### 2. CODE CHANGE ANALYSIS
 
-**The bug mechanism:**
+**The bug:** In the original `ntfs_truncate()` function (line 504-554 of
+`fs/ntfs3/file.c`), `attr_set_size()` is called at line 531-533 and its
+return value is stored in `err`. However, after `ni_unlock(ni)`, the
+code does **not** check `err` — it proceeds to modify the inode metadata
+(setting FILE_ATTRIBUTE_ARCHIVE, updating timestamps) and then either:
+- Sets `dirty = 1` and later calls `mark_inode_dirty()`, OR
+- Calls `ntfs_sync_inode()` which **overwrites** `err` (line 545-546)
 
-At `fs/ntfs3/fsntfs.c:1186-1207`, when `run == NULL`, the function uses
-the absolute boot MFT location:
-- `lbo` and `len` are set from boot info (lines 1194-1195)
-- **But `clen`, `idx`, and `vcn` are NOT initialized** — they are only
-  set via `run_lookup_entry()` on the `run != NULL` path (line 1196)
+In both paths, the original error from `attr_set_size()` is lost. The
+function returns `0` (line 554) even when the underlying attribute size
+change failed.
 
-The function then enters a `for(;;)` loop (line 1215) containing an
-inner `do { } while (len32)` loop. If the requested `bytes` exceeds the
-initial `len` (i.e., the read spans more than one record), the inner
-loop completes, and execution falls through to line 1255 where:
+**The fix adds** (after line 539, after `ni_unlock(ni)`):
+```c
+if (unlikely(err))
+    return err;
+```
 
-1. `vcn_next = vcn + clen;` — **uses uninitialized `clen`** (undefined
-   behavior)
-2. `run_get_entry(run, ++idx, ...)` — **dereferences NULL `run`** (crash
-   at `run->count` in `run.c:608`)
-3. `++idx` — **uses uninitialized `idx`** (undefined behavior)
+This ensures that if `attr_set_size()` failed, the error is propagated
+to the caller immediately, before marking the inode dirty with
+potentially inconsistent metadata.
 
-**What `run_get_entry()` does with NULL:**
-Looking at `fs/ntfs3/run.c:608`, the very first thing it does is `if
-(index >= run->count)`, which immediately dereferences the NULL pointer
-→ **kernel oops/panic**.
+**Additional cleanup:** The `dirty` variable is removed and
+`mark_inode_dirty()` is called directly in the `!IS_DIRSYNC` branch,
+which is a trivial simplification.
 
-**The fix:** Adds a simple `if (!run)` check before reaching the
-`run_get_entry()` call, returning `-EINVAL` and going to error cleanup.
-This is exactly 4 lines of code and is obviously correct — if we entered
-the loop via the `run == NULL` path and need another fragment, we can't
-get one, so returning an error is the right behavior.
+### 3. IMPACT ASSESSMENT
 
-### 3. Classification
+**The caller** (`ntfs_setattr` at line 851) checks the return value of
+`ntfs_truncate()`:
+```c
+err = ntfs_truncate(inode, newsize);
+...
+if (err)
+    goto out;
+```
 
-This is a **bug fix** that prevents:
-- NULL pointer dereference (crash/oops)
-- Use of uninitialized variables (undefined behavior, potential data
-  corruption)
+So if `attr_set_size()` fails (e.g., due to disk I/O error, out of
+space, corrupted MFT records), the old code would:
+1. Silently ignore the failure
+2. Proceed to update inode metadata as if truncation succeeded
+3. Return success to the VFS layer
 
-### 4. Scope and Risk
+This means the in-memory inode state (already updated by
+`truncate_setsize()`) could diverge from the on-disk NTFS attribute
+state, leading to **filesystem inconsistency**. The inode would think
+the file is the new size while the NTFS data attribute still has the old
+size.
 
-- **Lines changed:** 4 lines of actual code added (NULL check + goto)
-- **Files touched:** 1 (`fs/ntfs3/fsntfs.c`)
-- **Risk:** Extremely low — adds a defensive check that can only trigger
-  on an error path, returning `-EINVAL` which callers already handle
-- **No behavioral change** for the normal case where `run != NULL`
+This is a **data corruption** bug. On an NTFS filesystem, this could
+lead to:
+- Stale data being visible after truncation
+- Incorrect file sizes reported
+- Further I/O errors when accessing the inconsistent inode
 
-### 5. User Impact
+### 4. SCOPE AND RISK
 
-NTFS3 is used by anyone mounting NTFS filesystems on Linux (common for
-dual-boot systems, external drives). While the `run == NULL` path is
-specific to early MFT reading during mount, the uninitialized variable
-use means the code is technically invoking undefined behavior, which
-compilers can exploit in unexpected ways.
+- **2 lines of actual logic change** (the `if (unlikely(err)) return
+  err;` check), plus trivial cleanup of the `dirty` variable
+- Affects only the NTFS3 truncate path
+- Very low risk of regression — it only changes behavior when
+  `attr_set_size()` already failed
+- The code has existed since the initial NTFS3 commit `4342306f0f0d5f`
+  (v5.15, 2021-08-13), so this bug affects all stable trees containing
+  NTFS3
 
-### 6. Stability Indicators
+### 5. STABLE CRITERIA
 
-- Reported by kernel test robot and Dan Carpenter (Smatch static
-  analysis) — two highly reputable sources
-- The fix is authored by the NTFS3 maintainer (Konstantin Komarov)
-- Extremely small and contained change
+- **Obviously correct**: The fix simply checks an already-captured error
+  return value that was being silently ignored
+- **Fixes a real bug**: Silently ignoring errors from `attr_set_size()`
+  can lead to filesystem inconsistency
+- **Important issue**: Filesystem data corruption/inconsistency
+- **Small and contained**: ~5 lines changed, single file, single
+  function
+- **No new features**: Pure error handling fix
 
-### 7. Dependency Check
+### Verification
 
-The fix is self-contained — it just adds a NULL check. It applies to the
-existing `ntfs_read_run_nb()` function which has been in the kernel
-since NTFS3 was merged in v5.15.
+- `git blame` confirmed the buggy code (missing error check after
+  `attr_set_size()`) has been present since commit `4342306f0f0d5f`
+  (Konstantin Komarov, 2021-08-13), which is the initial NTFS3 import in
+  v5.15
+- Verified the caller `ntfs_setattr` at line 851 checks
+  `ntfs_truncate()` return value — so propagating the error has
+  meaningful effect
+- Verified that line 554 (`return 0`) means the error is unconditionally
+  discarded in the original code — confirmed by reading lines 539-554
+- Verified `attr_set_size()` can return errors (e.g., `-ENOENT` at line
+  430, propagated errors from `attr_set_size_res` at line 437)
+- Verified the `dirty` variable removal is safe — `mark_inode_dirty()`
+  is now called directly in the `!IS_DIRSYNC` branch, which is
+  functionally identical
+- Could NOT verify whether this specific patch has been discussed on
+  lore.kernel.org (not checked via WebFetch), but the author is the
+  NTFS3 maintainer which provides confidence
 
-## Verification
-
-- **Read `ntfs_read_run_nb()` at fsntfs.c:1171-1282**: Confirmed `clen`,
-  `idx` are only initialized via `run_lookup_entry()` on line 1196,
-  which is skipped when `run == NULL`
-- **Read `run_get_entry()` at run.c:603-623**: Confirmed line 608
-  immediately dereferences `run->count`, which would crash if `run ==
-  NULL`
-- **Searched callers of `ntfs_read_run_nb()`**: Found 12 call sites; the
-  `run == NULL` path is designed for early MFT reading (per comment at
-  line 1187)
-- **Checked `oa->run1` initialization in fslog.c**: All paths through
-  `fake_attr` (line 4749) and normal flow (line 4801) set `oa->run1`, so
-  the fslog caller is unlikely to pass NULL — but the function's design
-  explicitly handles `run == NULL` at its entry
-- **Confirmed ntfs3 present since v5.15**: The filesystem was merged in
-  Linux 5.15, present in all active stable trees
-- **git log confirmed recent ntfs3 activity**: Active maintenance by the
-  NTFS3 maintainer
-
-This is a textbook stable backport candidate: small, surgical fix for a
-NULL pointer dereference and uninitialized variable use, authored by the
-subsystem maintainer, reported by trusted automated tools.
+This is a clear, small, obviously-correct error handling fix for a
+filesystem data consistency bug that has existed since NTFS3 was first
+introduced. It meets all stable kernel criteria.
 
 **YES**
 
- fs/ntfs3/fsntfs.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ fs/ntfs3/file.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-index 5f138f7158357..ac99c5613284a 100644
---- a/fs/ntfs3/fsntfs.c
-+++ b/fs/ntfs3/fsntfs.c
-@@ -1252,6 +1252,12 @@ int ntfs_read_run_nb(struct ntfs_sb_info *sbi, const struct runs_tree *run,
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 2e7b2e566ebe1..362396968ab69 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -505,8 +505,8 @@ static int ntfs_truncate(struct inode *inode, loff_t new_size)
+ {
+ 	struct super_block *sb = inode->i_sb;
+ 	struct ntfs_inode *ni = ntfs_i(inode);
+-	int err, dirty = 0;
+ 	u64 new_valid;
++	int err;
  
- 		} while (len32);
+ 	if (!S_ISREG(inode->i_mode))
+ 		return 0;
+@@ -522,7 +522,6 @@ static int ntfs_truncate(struct inode *inode, loff_t new_size)
+ 	}
  
-+		if (!run) {
-+			err = -EINVAL;
-+			goto out;
-+		}
-+
-+		/* Get next fragment to read. */
- 		vcn_next = vcn + clen;
- 		if (!run_get_entry(run, ++idx, &vcn, &lcn, &clen) ||
- 		    vcn != vcn_next) {
+ 	new_valid = ntfs_up_block(sb, min_t(u64, ni->i_valid, new_size));
+-
+ 	truncate_setsize(inode, new_size);
+ 
+ 	ni_lock(ni);
+@@ -536,20 +535,19 @@ static int ntfs_truncate(struct inode *inode, loff_t new_size)
+ 		ni->i_valid = new_valid;
+ 
+ 	ni_unlock(ni);
++	if (unlikely(err))
++		return err;
+ 
+ 	ni->std_fa |= FILE_ATTRIBUTE_ARCHIVE;
+ 	inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode));
+ 	if (!IS_DIRSYNC(inode)) {
+-		dirty = 1;
++		mark_inode_dirty(inode);
+ 	} else {
+ 		err = ntfs_sync_inode(inode);
+ 		if (err)
+ 			return err;
+ 	}
+ 
+-	if (dirty)
+-		mark_inode_dirty(inode);
+-
+ 	return 0;
+ }
+ 
 -- 
 2.51.0
 
