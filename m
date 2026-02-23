@@ -1,137 +1,152 @@
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com [209.85.160.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FC5364E88
-	for <ntfs3@lists.linux.dev>; Mon, 23 Feb 2026 11:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E749A1C84D7;
+	Mon, 23 Feb 2026 13:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771847789; cv=none; b=HRU8SvqiT4Mgs8ws/vSZgvIB1eMs5Bj1MFHIMyaA4zN0Kbo0IWZn5K7+1m5s9eUYno1VZYsqTH5SXit97Y7GLIuqgFmBUlOHyXSGRsER56gfuqe87ELjXwT5V9MY4PTy4lKebhWRZcIsRd9nSmD5YOJsPL53r9ORJO/23aAvn2c=
+	t=1771852840; cv=none; b=cU9oVo/Bf3yO2SIr0B9f1Cf6ZnECPuiSaWMRNzBk1wx/m8jH/gLbtMumylNu/FUuQwLa3lJGHWvGB0Tjkjtd3OZsAlxgb7gOJ69svQSUGiXZVDODI6pPDdUgFUFWWSj6NJn15Ha1bXc1YRobBEOv8RAoFk6qnyu6gpUBIOjwekM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771847789; c=relaxed/simple;
-	bh=6Ia6VCShM6zzdP+XuTgyLmPwnvM3zKsEwiVe8TQr/5c=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=jS0a9aYrRfksxEeJq3yTrRmCEfRhUC2jUNfeELLRYyuPUnXErAZCrDg8QjTV5D2QxvJWCxUoUfrWxomyLUd7Oo/GJWPW/UE6KQOxCgOIQ9Kt8X8/gYRScr1PXP6n3KXYCSnl9p6IyT1XyzCBFV/3AII5FZkKxRsKG6LVud9/eUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-40ea48ccbd2so14309822fac.3
-        for <ntfs3@lists.linux.dev>; Mon, 23 Feb 2026 03:56:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771847787; x=1772452587;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Uw9xuxJextOFxLva+oppEd4d/3TepxRPQw3dGBKGEBg=;
-        b=gA3/3f5NCFEsvkUu1pNo1IYHGxJcbNuFbH/YcfYMxwSxgq0Jmb5bpnNhF89soDk7gR
-         9r7/d25RyLSpmHPm7zpoHodoDi/G7tm+C9XyWFE1muA1SUP1X3HidFKYjrDoFiFifzz1
-         y4GK6Y7BW0YEkIBdAsl/L2GOpk7AkTIh5EmYes4/EnkqmZOql0WYd+0DZGjM+vvwnuRQ
-         /rGhDf3ZMECLbVW9GC7QyhmIEVjc/s9awyp/shfXPw/H7YJEepZuT7BGJaAxrNNkc2tr
-         hW99rorBXesIRlnpkr18+uDc5ScABTcdLQWN00yZ52K1dLAP5yAZPFVu18qp0R7Le2D1
-         XW1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUMpa+ZZ2rBuFkRjYTt2H5rRRmacPIo5bU7cOdbtB6NLqRRawAbBYs6ubA6/lkXf3Gm4qDGlg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMUNFTh0HWu2oBeII9vchG1seRXhAvhDZx4pNjHauY2kv2edjA
-	xa7LBL0XyT7g9Rb5Iv6tmLhlJLb380UZvDDfGNj7E5D1BGm0lxxg1y1sN9Wi3r4tpGV4nA+rli5
-	ZwDsi4Mf0cTJEqaT6DG35CMB4zpFzuMP3OVnphqvJ5A5+3fQf7aJaml6q+sY=
+	s=arc-20240116; t=1771852840; c=relaxed/simple;
+	bh=wiZjs4v8gJ9qb+ySXKyqn1kStfxgQlvWUlJKcikBJNI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ufhAEZvAHOFC0kOa2Jo8ZyGc46m5r7iquYmxFPsB4rBuXoWTevNNH4Y1vUgQBqr+9ONnJRd/MuLCuimf1qLNDAtfO3juF8ho8zuuSigHYmMXrVh5lvqNJuFlRsTiii2vPSuOXEAzuhTOF73KOI/U0ym3qLQWTXlRicVVg49EBJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=44FgDVOn; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="44FgDVOn"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=9LEW1BEDa8UyoT689FSHYJ1pNzmSIggfa/UKGjrsmls=; b=44FgDVOnLwyLQidGnNJunPPqsc
+	p+x65Ofo3DMcuxf/MOe7ZM/3YO2R+43dwBaWoJgceRT4PNua/Ro4YV6cCwFZEOxkPkirvaQ6VK/SB
+	V4I3D+K6OQXGjejUMSJpH5tKUhEWAb6tguIHIK0MtMbmk7oxkeI6PtGwFthTws/xMuO3Ceuv/pvJi
+	dBvzVRgqSxgvIF7Dkn52OVqOA2jwhmcgPu9ubIFSKhXFTv7tS7MH+nADbHYIuIR82xbrcC0WPTIaU
+	4FJvUf5OXBpwDwvMqQ1BCR34udi1Qv+OJ2E7ExbMZx8a82QLSm6my3nxcl402/lmmU8z3ZwTCZnHK
+	NT7bj+8Q==;
+Received: from [94.156.175.41] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vuVrW-00000000Ls3-2SRc;
+	Mon, 23 Feb 2026 13:20:35 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org
+Subject: support file system generated / verified integrity information v4
+Date: Mon, 23 Feb 2026 05:20:00 -0800
+Message-ID: <20260223132021.292832-1-hch@lst.de>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:c82:b0:662:f8a9:9f7 with SMTP id
- 006d021491bc7-679c44d0e46mr4209287eaf.37.1771847787279; Mon, 23 Feb 2026
- 03:56:27 -0800 (PST)
-Date: Mon, 23 Feb 2026 03:56:27 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <699c406b.050a0220.1876f9.0002.GAE@google.com>
-Subject: [syzbot] [ntfs3?] WARNING in attr_data_get_block_locked
-From: syzbot <syzbot+c1e9aedbd913fadad617@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hello,
+Hi all,
 
-syzbot found the following issue on:
+this series adds support to generate and verify integrity information
+(aka T10 PI) in the file system, instead of the automatic below the
+covers support that is currently used.
 
-HEAD commit:    956b9cbd7f15 Merge tag 'kbuild-fixes-7.0-1' of git://git.k..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=148bb15a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=65722f41f7edc17e
-dashboard link: https://syzkaller.appspot.com/bug?extid=c1e9aedbd913fadad617
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14f61ffa580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15833b3a580000
+There two reasons for this:
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-956b9cbd.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f0b3757a15ed/vmlinux-956b9cbd.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c564e8613b4e/bzImage-956b9cbd.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/30f6900c6fc3/mount_0.gz
+  a) to increase the protection enveloped.  Right now this is just a
+     minor step from the bottom of the block layer to the file system,
+     but it is required to support io_uring integrity data passthrough in
+     the file system similar to the currently existing support for block
+     devices, which will follow next.  It also allows the file system to
+     directly see the integrity error and act upon in, e.g. when using
+     RAID either integrated (as in btrfs) or by supporting reading
+     redundant copies through the block layer.
+  b) to make the PI processing more efficient.  This is primarily a
+     concern for reads, where the block layer auto PI has to schedule a
+     work item for each bio, and the file system them has to do it again
+     for bounce buffering.  Additionally the current iomap post-I/O
+     workqueue handling is a lot more efficient by supporting merging and
+     avoiding workqueue scheduling storms.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c1e9aedbd913fadad617@syzkaller.appspotmail.com
+The implementation is based on refactoring the existing block layer PI
+code to be reusable for this use case, and then adding relatively small
+wrappers for the file system use case.  These are then used in iomap
+to implement the semantics, and wired up in XFS with a small amount of
+glue code.
 
-------------[ cut here ]------------
-1
-WARNING: fs/ntfs3/attrib.c:1222 at attr_data_get_block_locked+0x174a/0x22a0 fs/ntfs3/attrib.c:1222, CPU#0: syz.0.17/5462
-Modules linked in:
-CPU: 0 UID: 0 PID: 5462 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:attr_data_get_block_locked+0x174a/0x22a0 fs/ntfs3/attrib.c:1222
-Code: 89 ee 49 89 d6 e8 d6 19 a6 fe 4d 89 f2 44 89 ac 24 bc 00 00 00 45 29 ea 73 1e e8 01 18 a6 fe e9 47 f9 ff ff e8 f7 17 a6 fe 90 <0f> 0b 90 41 bf ea ff ff ff e9 d6 fa ff ff 48 b8 00 00 00 00 00 fc
-RSP: 0018:ffffc900049079c0 EFLAGS: 00010293
-RAX: ffffffff831f83a9 RBX: 00000000ffffffff RCX: ffff888000ea0000
-RDX: 0000000000000000 RSI: 00000000ffffffff RDI: 00000000ffffffff
-RBP: ffffc90004907be8 R08: 0000000000000000 R09: 1ffff11002487041
-R10: dffffc0000000000 R11: ffffed1002487042 R12: 0000000000000002
-R13: dffffc0000000000 R14: 0000000000002000 R15: 0000000000000007
-FS:  000055558ba85500(0000) GS:ffff88808ca5b000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fd19d7909c0 CR3: 0000000012819000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- attr_data_get_block+0x250/0x310 fs/ntfs3/attrib.c:982
- ntfs_fallocate+0xfac/0x1220 fs/ntfs3/file.c:677
- vfs_fallocate+0x669/0x7e0 fs/open.c:340
- ksys_fallocate fs/open.c:364 [inline]
- __do_sys_fallocate fs/open.c:369 [inline]
- __se_sys_fallocate fs/open.c:367 [inline]
- __x64_sys_fallocate+0xc0/0x110 fs/open.c:367
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f1e3d39c629
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fffbfb65448 EFLAGS: 00000246 ORIG_RAX: 000000000000011d
-RAX: ffffffffffffffda RBX: 00007f1e3d615fa0 RCX: 00007f1e3d39c629
-RDX: 0000000000007351 RSI: 0000000000000000 RDI: 0000000000000006
-RBP: 00007f1e3d432b39 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000008001 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f1e3d615fac R14: 00007f1e3d615fa0 R15: 00007f1e3d615fa0
- </TASK>
+Compared to the baseline (iomap-bounce branch), this does not change
+performance for writes, but increases read performance up to 15% for 4k
+I/O, with the benefit decreasing with larger I/O sizes as even the
+baseline maxes out the device quickly on my older enterprise SSD.
 
+Anuj Gupta also measured a large decrease in QD1 latency on an Intel
+Optane device for small I/O sizes, but also an increase for very large
+ones.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Note that the upcoming XFS fsverity support also depends on some
+infrastructure in this series.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Git tree:
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+    git://git.infradead.org/users/hch/misc.git iomap-pi
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Gitweb:
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+    https://git.infradead.org/?p=users/hch/misc.git;a=shortlog;h=refs/heads/iomap-pi
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+Changes since v3:
+ - fix the mess than the ntfs3 tree cause in 6.19
+ - rebase to 7.0-rc1
 
-If you want to undo deduplication, reply with:
-#syz undup
+Changes since v2:
+ - rebased to current linus tree
+ - use folio->mapping instead of file->f_mapping to support the upcoming
+   fsverity use case
+ - rename and slightly refactor the xfs iomap read ops to better addres
+   that this will be used by fsverity as well.
+
+Changes since v1:
+ - document usage of BI_ACT_*
+ - return the action from fs_bio_integrity_alloc and use it in
+   fs_bio_integrity_generation to be safe from misuse
+ - use the newly added BIO_MAX_SIZE
+ - rename bio_read_ops to xfs_bio_read_ops
+ - fix commit message and comment typos
+
+Diffstat:
+ block/Makefile                |    2 
+ block/bio-integrity-auto.c    |   80 +++---------------------
+ block/bio-integrity-fs.c      |   81 +++++++++++++++++++++++++
+ block/bio-integrity.c         |   64 +++++++++++++++++++
+ block/bio.c                   |   17 +++--
+ block/blk-mq.c                |    6 +
+ block/blk-settings.c          |   13 ----
+ block/blk.h                   |    6 +
+ block/t10-pi.c                |   12 +--
+ drivers/nvdimm/btt.c          |    6 +
+ fs/fuse/file.c                |    5 -
+ fs/iomap/bio.c                |  135 ++++++++++++++++++++++++++++--------------
+ fs/iomap/buffered-io.c        |    8 +-
+ fs/iomap/direct-io.c          |   15 ++++
+ fs/iomap/internal.h           |   14 ++++
+ fs/iomap/ioend.c              |   28 +++++++-
+ fs/ntfs3/inode.c              |   57 +----------------
+ fs/xfs/xfs_aops.c             |   47 +++++++++++++-
+ fs/xfs/xfs_iomap.c            |    9 +-
+ include/linux/bio-integrity.h |   12 ++-
+ include/linux/bio.h           |    2 
+ include/linux/blk-integrity.h |   28 +++++++-
+ include/linux/blkdev.h        |   34 ++++++++--
+ include/linux/iomap.h         |   20 +++++-
+ 24 files changed, 469 insertions(+), 232 deletions(-)
