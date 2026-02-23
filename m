@@ -1,138 +1,124 @@
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4347478
-	for <ntfs3@lists.linux.dev>; Sun, 22 Feb 2026 11:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8BD35972
+	for <ntfs3@lists.linux.dev>; Mon, 23 Feb 2026 08:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771760014; cv=none; b=O1UIkGJK6unpNX/UIctNWuu2CNxpPtjrYNOx7D09Xkri3GIXkKpiLFX4mzfsgrym9BOOV/cn8rCz9wALanSC/MHvUvmqY+gMfNAaNssQU+77ZezIBUKiz9PxEOSsiO8ssNO1OdvE7R4S7wj1NQ9xTGNGcnUNdt4DgX8rVWNRtJw=
+	t=1771833688; cv=none; b=ojitf08OpalW+qD61sCVwV3GtNhdWghAs2+NM22t45RkcSzFRvie/YPEeISoAY1r0zam7Vk0whwlZtu0uqrEmaqGJWBP1LWywYJVAXQzxjYMH21E0+9rLeF+wYK8Aga8Sl8F6b1nUNhFzp2R2lxxP6NoQWTjMLRYAYc11bkJRjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771760014; c=relaxed/simple;
-	bh=nKQqtmGdxJX5nKIF58On0KpBmHuoSv/PRRCuDLAMKiw=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Sb9bAWKnWavU9lajsyUKqO/GrlOeDYjDwBs+O1tgddMAAdFmcG4bwoSNhU9NJ2qMCC0Gbq7M08/oSXoBGwb+99twgUaPqqcoToBDK4w234MFHkYLibeeu9l/jhMhF7LLcFETbUNdPHAmkuofaYwxZW7JgE7PKzYWCoDic6sINxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-463a018f61bso14913820b6e.3
-        for <ntfs3@lists.linux.dev>; Sun, 22 Feb 2026 03:33:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771760012; x=1772364812;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YYoBAW/MPVGCjYQSshvx0sQlu2SigvEiHv5kTHYQJFw=;
-        b=IRzeURrPtr1GRfdph9FadBWWpCaFSPpKu3Pr5fw9CDgWPT7s+CtQ0+7W2wk0Jnz0Sg
-         sDYNQYSjdwXzeZlFYpujTEAegXa8Fr6AroKwzbarosEXfVo59BB5pH9s6GgMSZjbn5vu
-         5bwOyIvrPBVVsgMQuSjK+XozTPJPMOJOtIohS+L6hKFPFeuiocP9cMVbZVI8IOOGrQUn
-         mN1mbUMdmprC3a/tlWGHkMlhDq6BfL/2OoBEIug/QwjmAbn/9F3ZVUXN/tYIgZ58e0zt
-         r9YC1igL9MBLXal+RsDi+Bt7mhDB5ofOI67SL7UsmBCv3CKsuwEf++JThrGF0lDQ21Dh
-         BQdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXjwUg3jyeTvG2tOXKDHVmEB0uD2maSXRx5JE+blvw3xUgVVf5HGqOTHnrAPHiDtP7UfAdF3Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yza707mqaoag7zoKDj2dvDlLjkH4fwT3FKjUiZDDgENUBhGH2SR
-	w6Un29B0e3DTVtv3rYrQDhlKYe0vySzWSBl9bNSfmD27JByMeZOjcb0++d+ChO28zz1e6hgz1Os
-	XBXa1X9aLzdA3p7jWaoYcUtmx1vrAk0C18pLHQSvrreThERqUWyxHivyojU8=
+	s=arc-20240116; t=1771833688; c=relaxed/simple;
+	bh=eeNMf+1v2/DdwoX20intrYpI/JVD+VHxMrru33XVD/o=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=pCwbVdtm5U372rb4bR45iEE2kDfPtiWyHmLTq4CF0zMnEW68rrz62OYOtE4Qf03AR2/5EWBU4kKn/vQqBTrBJZyV+8z/CcR5Ma6XDeG+eskUFwQ4lqOgdctGZuxnoAl9+/flYTMGMZPQaiSlu4P87MY0hGXu6TZh9fhOZIqXpp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=jp8n2hlH; arc=none smtp.client-ip=162.62.57.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="jp8n2hlH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1771833674; bh=tmuJKZp+863DIJamI/7WtrkZIq0L3gc+hphOBQNDvcA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=jp8n2hlHLIszvsi3YfNQqxDOADCB66YDzxN3BtsTWq55Xbykutq9wcD7v0/64HzI0
+	 OnBfq1oI2uH4zFvUX6gicgYp+od5sWEuU5gxeQ+wFCl67UsBQziyNdDM9zxuJG7H0F
+	 PQ83nZHOWDTosdOdo7KMKVebSivXStr8Dsb3JyVs=
+Received: from lxu-ped-host.. ([114.244.57.237])
+	by newxmesmtplogicsvrszc41-0.qq.com (NewEsmtp) with SMTP
+	id 4C3CEB5; Mon, 23 Feb 2026 16:01:12 +0800
+X-QQ-mid: xmsmtpt1771833672tegc25294
+Message-ID: <tencent_24B18DF3926D5DB85DAA195F4FBD0D8E2507@qq.com>
+X-QQ-XMAILINFO: OEUhVsHQax4MC61P/jurb6jQfwtFFRnv1XBLy9rj7rp+ZGTrQcLXOMAUjVoVPI
+	 1sk47FCaCfg/lQ/IRqg3AmwI0Cq2uP79zZ1pQpDvzJNudmGPFv887WuULNmRpssjGCKtVeytQMjU
+	 EsagUSjH9GkW+qr6yMLwJ5zAgv8iNtRFsqF23gHfz+lZEj6CFFHk7wPJs2vD8pL1aLtLxo1ULLb5
+	 ygXCCgfwUZ3ITBDeQsevInmZ4QC8dEJPWYpxGqZ9x0anfZA1gsEVy0ak50IvARDyLClULBpv1cpW
+	 fV8zhskAQ6kUrn+WKaYX6+0otpDlQel+FaeE1PDPzCiv2c9XuYZirL9+bdDx8mGT48Nl2FD6MivC
+	 ipe0NViKn/71IM9QRlP+LCZCiLRBNTZNSgHaIE2EweX7dcbvYWUVJMlYUuCbvHn1h46lbvqZ96a4
+	 T6cVJyfwseWz1Z2cpLp+epEOmnucR5c2KOha7Dj9hHlCNqr9ds+H51pYvjEhuwBkKcMoK+hVQs2o
+	 27bfB7qYhKNrtUjjF5fTIaA7O8Qt5dKkaiaZnYUAaJQMGHpeKf5N+hgN4I9vKqzv0/4mWkMHOPzn
+	 oyQ9xixffa7qh9sRWaaSUd6RETekdXnQcFQFymJ1+LYWQBhgy4uwmxiVEW3N87i1+FSC94XWB90L
+	 K0Ns1C61Uuid7qFd2LT2F/YG+0a45k6yap6cgI5jGN4A46GQwNB9zGgaqhVpH7MUzHEOY7MU+Gih
+	 wSk5/XK+S2RNH8kNnm785+IK/KL9UXsq3kCm+3k4Q3ty9pZI3w1Jrxwtybx9Vz6QJDba29SKG8FU
+	 en0SF+rlGofNmIiKAkcQxYdEyudgxYudxyirsrr4IT6dP+YCgtTOzZmV4zlr3ZgJSI5TkbTvde8T
+	 t1IXn7Ug/XaRZdmbf3frQrkAridCHN0/vWMKYluU/Dj3Rf2Gsn3e92OyvaI4C6wucK95/XKZgK3m
+	 DOOpYAYWiLIYXGQDbe4juY35joI1ERi3noHuZ5tXyVPPndn5oIgK76xzea85ZFGUekD4fTl417WZ
+	 HOV2U81BvNcKMcPqea
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+7be88937363ac7ab7bb0@syzkaller.appspotmail.com
+Cc: almaz.alexandrovich@paragon-software.com,
+	linux-kernel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] fs/ntfs3: prevent uninitialized lcn caused by zero len
+Date: Mon, 23 Feb 2026 16:01:13 +0800
+X-OQ-MSGID: <20260223080112.32239-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <699ae98b.050a0220.340abe.0d30.GAE@google.com>
+References: <699ae98b.050a0220.340abe.0d30.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:2290:b0:662:c6f1:9231 with SMTP id
- 006d021491bc7-679c424cd4amr3009829eaf.4.1771760011921; Sun, 22 Feb 2026
- 03:33:31 -0800 (PST)
-Date: Sun, 22 Feb 2026 03:33:31 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <699ae98b.050a0220.340abe.0d30.GAE@google.com>
-Subject: [syzbot] [ntfs3?] KMSAN: uninit-value in ntfs_iomap_begin
-From: syzbot <syzbot+7be88937363ac7ab7bb0@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+syzbot reported a uninit-value in ntfs_iomap_begin [1].
 
-syzbot found the following issue on:
+Since runs was not touched yet, run_lookup_entry() immediately fails
+and returns false, which makes the value of "*len" 0.
+Simultaneously, the new value and err value are also 0, causing the
+logic in attr_data_get_block_locked() to jump directly to ok, ultimately
+resulting in *lcn being triggered before it is set [1].
 
-HEAD commit:    d79526b89571 Merge tag 'spi-fix-v7.0-merge-window' of git:..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=17c90006580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e9e76fdaa4072fa5
-dashboard link: https://syzkaller.appspot.com/bug?extid=7be88937363ac7ab7bb0
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1016255a580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16197c02580000
+In ntfs_iomap_begin(), the check for a 0 value in clen is moved forward
+to before updating lcn to avoid this [1].
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/9632d1edcebe/disk-d79526b8.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/c9f69df31226/vmlinux-d79526b8.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/54f77eae730c/bzImage-d79526b8.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/62ad4352d8b0/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7be88937363ac7ab7bb0@syzkaller.appspotmail.com
-
-loop0: detected capacity change from 0 to 4096
-ntfs3(loop0): Different NTFS sector size (2048) and media sector size (512).
-=====================================================
+[1]
 BUG: KMSAN: uninit-value in ntfs_iomap_begin+0x8c0/0x1460 fs/ntfs3/inode.c:825
  ntfs_iomap_begin+0x8c0/0x1460 fs/ntfs3/inode.c:825
  iomap_iter+0x9b7/0x1540 fs/iomap/iter.c:110
- iomap_read_folio+0x262/0x750 fs/iomap/buffered-io.c:587
- ntfs_read_folio+0x74a/0x770 fs/ntfs3/inode.c:697
- filemap_read_folio mm/filemap.c:2496 [inline]
- do_read_cache_folio+0x993/0x1470 mm/filemap.c:4096
- do_read_cache_page mm/filemap.c:4162 [inline]
- read_cache_page+0x63/0x1e0 mm/filemap.c:4171
- read_mapping_page include/linux/pagemap.h:1022 [inline]
- inode_read_data+0xb3/0x6b0 fs/ntfs3/inode.c:1116
- ntfs_fill_super+0x6a24/0x7e50 fs/ntfs3/super.c:1549
- get_tree_bdev_flags+0x6e6/0x920 fs/super.c:1694
- get_tree_bdev+0x38/0x50 fs/super.c:1717
- ntfs_fs_get_tree+0x35/0x40 fs/ntfs3/super.c:1788
- vfs_get_tree+0xb3/0x5d0 fs/super.c:1754
- fc_mount fs/namespace.c:1193 [inline]
- do_new_mount_fc fs/namespace.c:3760 [inline]
- do_new_mount+0x885/0x1dd0 fs/namespace.c:3836
- path_mount+0x7a2/0x20b0 fs/namespace.c:4146
- do_mount fs/namespace.c:4159 [inline]
- __do_sys_mount fs/namespace.c:4348 [inline]
- __se_sys_mount+0x704/0x7f0 fs/namespace.c:4325
- __x64_sys_mount+0xe4/0x150 fs/namespace.c:4325
- x64_sys_call+0x39f0/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:166
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x134/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
 Local variable lcn created at:
  ntfs_iomap_begin+0x15d/0x1460 fs/ntfs3/inode.c:786
- iomap_iter+0x9b7/0x1540 fs/iomap/iter.c:110
 
-CPU: 1 UID: 0 PID: 6051 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2026
-=====================================================
-
-
+Fixes: 10d7c95af043 ("fs/ntfs3: add delayed-allocation (delalloc) support")
+Reported-by: syzbot+7be88937363ac7ab7bb0@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=7be88937363ac7ab7bb0
+Tested-by: syzbot+7be88937363ac7ab7bb0@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/inode.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 6e65066ebcc1..eac421cf98a8 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -822,6 +822,11 @@ static int ntfs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+ 		return err;
+ 	}
+ 
++	if (!clen) {
++		/* broken file? */
++		return -EINVAL;
++	}
++
+ 	if (lcn == EOF_LCN) {
+ 		/* request out of file. */
+ 		if (flags & IOMAP_REPORT) {
+@@ -855,11 +860,6 @@ static int ntfs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+ 		return 0;
+ 	}
+ 
+-	if (!clen) {
+-		/* broken file? */
+-		return -EINVAL;
+-	}
+-
+ 	iomap->bdev = inode->i_sb->s_bdev;
+ 	iomap->offset = offset;
+ 	iomap->length = ((loff_t)clen << cluster_bits) - off;
+-- 
+2.43.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
