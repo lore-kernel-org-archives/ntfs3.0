@@ -1,167 +1,266 @@
-Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C930F3451CF
-	for <ntfs3@lists.linux.dev>; Wed, 25 Feb 2026 22:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=148.163.135.74
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772059393; cv=pass; b=S02NjT6PRVN5SVANDJoo4ZFAo7kaon7x9VoR6H33tk4RAxOXdYCl+zw6/QRSqmE00xblJUDtbiTBaFAOWpcM11jdt7rbtHwR4nwlkisDZmLzlOjFuzkW6ljSlYWYNKzgrB/BxTB0gRN2fkjHdfw/SfHXD5BoVmDFotCrsen1vSg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772059393; c=relaxed/simple;
-	bh=pDtBt1IUvockGTD9sAkNQUVYnZ2xavhQA7l7ZDVpiZY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KzwjqhoTBS3aFWBT9+cR1snhvxhb6+t+xpLK2LAjeG20+MhhAStp7H+0zFTveBC3ke06te23eWBhGRs4YEOFvmiLQSdSo5d123Xm5RGrZ7M+J2yPzhdS3KQTVp3xCkHKttw2MHWOYHxh2AEV35QLpPD7CkwI1Cq99yshQnR17LY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=nsrj0T6H; arc=pass smtp.client-ip=148.163.135.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB77B36656F
+	for <ntfs3@lists.linux.dev>; Wed, 25 Feb 2026 22:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772059968; cv=none; b=spslQ0pBCb8wBsSxIB8anaMXPvO2hLeUpbN8xaQKx8VDGAnYAvcsHrDESXzwbsDGcLlYPtGMZhq35csg3p4M5KuUwHYEUiLaDhmyHbrcfhYJ2QZUlg3mwnipSNYfT0+zKWkvchJ6Auo5MJRhkqCGucDQRX071auEmEoWX8+ueIE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772059968; c=relaxed/simple;
+	bh=wl1g8RbugLIpEDcyc9u4uEv7Y6gAeD6SXR7a/OTVtKg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GiucQYI3GtshiXcovydrOYS5juOTjNSVAyy9ESMBC5B/PyWRXjwnCC3T+Rg48qyLsyykpVPip+Pkcb4Umf4nB3y1AiR4PU9U+Dzi0xY/dkEHuJNQXWTsqJy7sW3tD9NPXkjosUifMSBQACLhBepXVbC0ULnJLxJnjzXB3AJrTSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=G4JN7R24; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="nsrj0T6H"
-Received: from pps.filterd (m0167071.ppops.net [127.0.0.1])
-	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61PMg6jm1355312
-	for <ntfs3@lists.linux.dev>; Wed, 25 Feb 2026 17:43:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=pDtB
-	t1IUvockGTD9sAkNQUVYnZ2xavhQA7l7ZDVpiZY=; b=nsrj0T6HCt6fbehQN3aM
-	mCW3EK4O0E/cM/Qy7KmXDptiP9Si3inQNFYIQScWj2MSnIVqk1bh6Ulf2iHVeiyG
-	jOkKvI97CiUm8nbFeOE8ZSU6uEg9o21CwOqyT0zDJZaulMCy+81avk/zmfLBGPpH
-	8zS2au6AvembXSGV6xYbFUcUF5MKKn8LhyrXp7Sf7rQ/fIjdSv01VirEFwBfgwbZ
-	WZtyfKQt0yCgnh9sFSfrI9pnPAcpLvFJNu3YOATmrfvTleq6h4woEObun258q4a+
-	8GChmZaWdoX1h6JiicGPjWZ3UYKC3TK6vAzSf9/FhEcslwYYazjWijqQesgqf0ma
-	CA==
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com [209.85.128.198])
-	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4cj116dc44-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <ntfs3@lists.linux.dev>; Wed, 25 Feb 2026 17:43:12 -0500 (EST)
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-797dad61de0so2928437b3.0
-        for <ntfs3@lists.linux.dev>; Wed, 25 Feb 2026 14:43:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772059391; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZCtnMuVMDe2f1s7qYuANgAwlF/Sf+QkffdcViiyyKaMpcbHS7gJbos+H4kWttSFloG
-         jTpv03Cg4LuTDF2+NERrcQuUPooSznaT7MeuS7oUzvNN3QF96msgxQ4LijzQBIBaEtOh
-         Pa4C1MGGTmRFd9gDVJIoALBY6VEZz1pLQsTdQJ+3Z9Xhpa2x5L0GtViLUEMRr3Pz3Ff7
-         4QBlketWicCkyuPkcqeXWLEl7FB0/GRiC601KpZ5XQQ+aLYqimKfjmHiRGqbdWfpBigB
-         gO8Xzz6zKPtdCJUjYTQ8VnwO/Tn1JoBH1dbZckOFotJ4Com0/y2WLjZWDItEnfgt92eT
-         pinQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=pDtBt1IUvockGTD9sAkNQUVYnZ2xavhQA7l7ZDVpiZY=;
-        fh=OleQEONysVrU/u/3sPS6J8N0CyjAFwpy9/PD33Q6kQ0=;
-        b=fhzVVlNKh1e7zoN9imFSxsEmlhbP/rjLehlsyx/8zXtzdTL6YAvmNtp7TxwlLp5oi2
-         Pv3mSR6xf6nmpU/m0okgCBIj3S12AKaN/pVgjJ1M30k/+reIk4L+t6gJbIPpfZ3sgRGB
-         3J4M9pVUQQKQFKoSFM4OSf0j1C76U3v15Gt60UKzT2s2lSaVM/riXo1Cjjcvc77rTc5s
-         z1FYm3fIpR65+x/FZ3sbpt9jKWxEzR8KNF7gZCm8HsLI/+jbiFaa84BwAizJlo4on0Sp
-         hCK7L1N3sxuX3t7zGF6aKEk1I28x/8udiqw9iBSGGSZSxKIUk8Ql9OPcGbpJYX5HE2fY
-         sJIg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="G4JN7R24"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8cbae8f69cbso8440385a.0
+        for <ntfs3@lists.linux.dev>; Wed, 25 Feb 2026 14:52:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1772059965; x=1772664765; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lV5yfIvdQy795zXZiEFYEcuoFYVuQqyybCf8AopsVu4=;
+        b=G4JN7R24WoNQ5KoSFYguGo/4JLiEj+Ua8G3SmKYHeuPh+K86ZuovgkZ5VfsxLVowpk
+         dFOeQIML0qftckso2aR/7Iz8AkezM4UkjSI1vErSb/srmkdpYdyKWCtf+utvMTAhqbj7
+         ZXuyZZQ3yeYcOSfW9dnZ7/aglwAypsZQtulTl/R72tqjFEx77Tc9dr0loeju80Ld1Ndu
+         XeRzimconDgX9sXgwaqvThTJ76Vq0pKI0kLCkEjscR4eejtwMLOaOSCcqODWJBo6RzWM
+         gRLbV+NxTxgkMe7EA6fhVlw29EBDztJcHmRmwWi3U7WHeM4Fa0esJ4u06kyd7aScS5YR
+         2q7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772059391; x=1772664191;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pDtBt1IUvockGTD9sAkNQUVYnZ2xavhQA7l7ZDVpiZY=;
-        b=KhvoyxZcKg8hEXakKEs9EhKT2exuRrb5KTAe+Ei81H1OcozSCPk6DIf9F2PPWvqZLW
-         s69H5tbZFarN6zRXb2Jc2nlFECHoLZ8OkLhlgOa/c3Xev5fcyLfZJUrjIyjJKv3Z64hb
-         g6fGbOPz6KkVHre1FEIp8iOXku4MllV8l9FOMU0r4QzKE1TaPsN/RA5Ry+668oLUxBnn
-         ldrx9RM0vx4oEIoc5BnT7gK8QXnkjgbVV5Cdz05+T5Jgye8PisBS0jaTHGXQV3jKCkHc
-         ilooqjFIO8nx0VlrXSUcldb3l6dlQWYJCdi+ykE6DQaM5h6JEDF1SLMgNcMDD6slwZ1S
-         MY1g==
-X-Forwarded-Encrypted: i=1; AJvYcCX0ajqfeA1xWQ5XE88DR6434zV075JBYaqt7gNsWbdMtdEOaUKsDdl/0VJV1pQIZErMY7Qlyg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy10VYU9VDPGgeC7IrGyOHlCYryQ36ilG0Aq3nRQyNzai7IQ/8h
-	Jypba4pvNBcvW8fbjWVfq44O2fnRNGf1GxCD+gWqOyp+DYSlSWyCLZE1uGWaw3vRyxwh4Hmam8s
-	OamPQHwMfbnhy2SgIrDih5U2CwHiFT14qCefIFBfKx+NVqTuB+iKnPqBiRTs2z0PqzWaL09oa3+
-	QoBhonKtFY2B3OXPNo7yhX1O38s7E=
-X-Gm-Gg: ATEYQzxn3y6fSXHZkAZjnTseILoiWCjA0kIDFdnEH0GhVUukFFysMIIQI6Y9OfrTTmB
-	/tr8GV7zQ5VwybrLbGbEzdbSL5srPLziTEZZCWhsv8twzldL2XsZaRPlf6fb1ZOKkP7oTQat/vm
-	dl3lYPnrmkfsOY90k49JIeYFGnHB3wPc6u39cqO3q+wgcNWFP8lb78yMjqqdcjgI/1Es4qRLntK
-	xXwwNkX
-X-Received: by 2002:a05:690c:4d8a:b0:794:e72a:f664 with SMTP id 00721157ae682-7986ff6368dmr23925797b3.60.1772059391045;
-        Wed, 25 Feb 2026 14:43:11 -0800 (PST)
-X-Received: by 2002:a05:690c:4d8a:b0:794:e72a:f664 with SMTP id
- 00721157ae682-7986ff6368dmr23925517b3.60.1772059390662; Wed, 25 Feb 2026
- 14:43:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772059965; x=1772664765;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lV5yfIvdQy795zXZiEFYEcuoFYVuQqyybCf8AopsVu4=;
+        b=cBqVjBhcX9VL8zu6rVp5z4jjoXF+ylAaJ/HQgcbyKQYZwHVLBRARKjzjeAWu99BtSg
+         1uoRsK7H8iCfj5kJHApLn8QxYAXnfmKcb++pmoRu3Ic1ZIiHEYBckMWRHiYqPPY8h1kv
+         efY8wPHcqpxQHX7y6bRH8a5YPJBwVuzz6hsFc4nLfJnlPvREav999VEc5zhQEyRBhCdb
+         2dz+O7Sw4NuG/0tpdpb0MaQX6wgn3Bc06IN+5D1phfp5hCqXGbnzM0lRALZudvg9ICbf
+         wo21iTH6vFd3xJ7yYR45EZu6eSeR9azDGV4nJ/WV+OzNV6GyEjCIxTALtZwO8OjefHf2
+         g+uw==
+X-Forwarded-Encrypted: i=1; AJvYcCXsUdkKvRMylD2mxU/baFYE7BPOVsO2ZPIYYA+CF9a2H5KAuxoxFe+kS5qh/V5E3xQ1t/Akog==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz42idqwWPn7XBuUaftqty3+yxtA6Nn+i+bB0dWq5GFAkwEZYEK
+	tGCE0FC7vwbvepPIC1kI6y4zzWpLNe53M4X/rGATl76Fp+rHMY+W8gguNT/SsmDymTo=
+X-Gm-Gg: ATEYQzx0J66NZ5t8GSDEYUzAlFYqwBKAyLjstU8VBRch7+u3IVWq5SrzQKxexEt5t9A
+	6bGTGLgfbCQWRpRjnaoNfZ30bqD0YuhTN0+D63b0f/4EO6YNLXfigmU9a+dkifHYG0Gz89pzf32
+	3EY1+OzYQ+mQHXP+y9kEC1e+m1oxWBA/mF/rXcZck0m6vtVVtSpKxixrv747iBHFNBhLcongMOa
+	2XYQBmdGM8r/dXl1L1KA5gz+WzLCPA0lI1LdC1uxeYc7jwsE8bppErJJtQmxJWD96gONqBAgDnO
+	NSKqsExImwdVggErrT28Jhsiel5MxvohVbdwOkbhC7vZoS8p+el6P/OOWdYMthMsyQHg6t1TQFm
+	xu7pyP+/08vYWXUWTIWW6NxAJd5VHsHl/vWT6wVhynh9/srEeyIHffgN0GjylWPPM+LJINaSynr
+	1xZh+PtpWXsbUz936ix2Z0BSIv4U0N9e14mIau2+JiqHGehwKq6NZY+eQLoW5U6Eu9jwv4CeMM6
+	a8h87pQ
+X-Received: by 2002:a05:620a:2807:b0:8cb:2b1f:99e4 with SMTP id af79cd13be357-8cbbf3cf398mr113515285a.34.1772059964616;
+        Wed, 25 Feb 2026 14:52:44 -0800 (PST)
+Received: from [192.168.1.102] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cbbf652bb6sm51863585a.4.2026.02.25.14.52.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Feb 2026 14:52:44 -0800 (PST)
+Message-ID: <c8078a80-f801-4f8a-b3cd-e2ccbfca1def@kernel.dk>
+Date: Wed, 25 Feb 2026 15:52:41 -0700
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260218-blk-dontcache-v1-1-fad6675ef71f@columbia.edu> <35866783-2312-4e31-904d-3746510eaf56@kernel.dk>
-In-Reply-To: <35866783-2312-4e31-904d-3746510eaf56@kernel.dk>
-From: Tal Zussman <tz2294@columbia.edu>
-Date: Wed, 25 Feb 2026 17:42:59 -0500
-X-Gm-Features: AaiRm51munUdTrnZZ7c7FkAWOz4juVf_xR9vg2o7Xlz46s_YpnQLMylaXhWKvd8
-Message-ID: <CAKha_so5z7S6vD-betDLr=GREewxnWxeK9qawhZq8yKt=TD2XA@mail.gmail.com>
-Subject: Re: [PATCH RFC] block: enable RWF_DONTCACHE for block devices
-To: Jens Axboe <axboe@kernel.dk>
-Cc: "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        Namjae Jeon <linkinjeon@kernel.org>,
-        Sungjong Seo <sj1557.seo@samsung.com>,
-        Yuezhang Mo <yuezhang.mo@sony.com>, Dave Kleikamp <shaggy@kernel.org>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Viacheslav Dubeyko <slava@dubeyko.com>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Bob Copeland <me@bobcopeland.com>, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
-        linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
-        linux-karma-devel@lists.sourceforge.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDIxNyBTYWx0ZWRfX1UKv8kAXrhiP
- ufGytK0F3DlNDZ5DjttNVPeJcO0w9kKg84kzZwch/b6IyXJxnfPVUUB/E3/5dshb1FEBy2iCT9K
- mbUl/TvAGpA/8/I9BUU5+EeGW7wTrrZ2aTmcTR9v0lUdBaXU8pcZetWUiU+/eI9qQxcSg116P+H
- BkM49kEb2WQ+Nfg46kEqTcLEI6sSTWzIr/PSeAfyXwGXQnWJcZvKgFi5Mux9kiVhbMGCYtx0se+
- v+oNEN6QXM4vm0E4yIzy34WlkLo72EE+4KecOTDbZVGL5ulWNEy4o4Am+oyxmjEGjGK6eNxCRjh
- mU8+/wpGFlTYt5r2oT3JJ5/eELYDV2ajK+XDsZCWlRq060N+bq4eyerk6nbL7DCABfZ7EHBHvQ8
- u6U0G6d/iRl18aM1LRIYc6TTuCbQHdGVmQWGuh62kI5fabDjJlJVSoorfvDGbP5kn5ZHlJr32r0
- +6HvzdReW73nsbZoLmA==
-X-Authority-Analysis: v=2.4 cv=cYjfb3DM c=1 sm=1 tr=0 ts=699f7b00 cx=c_pps
- a=g1v0Z557R90hA0UpD/5Yag==:117 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
- a=x7bEGLp0ZPQA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22
- a=79PYxaXUQd1wl-QFWJnA:22 a=VwQbUJbxAAAA:8 a=VNoZ5ujv9kIkDPz7VAoA:9
- a=QEXdDO2ut3YA:10 a=MFSWADHSvvjO3QEy5MdX:22
-X-Proofpoint-GUID: SdQVp3GXFaL4-abNIWW60OxGZ8-6t72p
-X-Proofpoint-ORIG-GUID: SdQVp3GXFaL4-abNIWW60OxGZ8-6t72p
-X-Proofpoint-Virus-Version: vendor=nai engine=6800 definitions=11712
- signatures=596818
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=10
- impostorscore=10 adultscore=0 bulkscore=10 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602250217
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 1/2] filemap: defer dropbehind invalidation from
+ IRQ context
+To: Tal Zussman <tz2294@columbia.edu>,
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>,
+ Yuezhang Mo <yuezhang.mo@sony.com>, Dave Kleikamp <shaggy@kernel.org>,
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ Viacheslav Dubeyko <slava@dubeyko.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Bob Copeland <me@bobcopeland.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
+ ntfs3@lists.linux.dev, linux-karma-devel@lists.sourceforge.net,
+ linux-mm@kvack.org
+References: <20260225-blk-dontcache-v2-0-70e7ac4f7108@columbia.edu>
+ <20260225-blk-dontcache-v2-1-70e7ac4f7108@columbia.edu>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20260225-blk-dontcache-v2-1-70e7ac4f7108@columbia.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 19, 2026 at 10:24=E2=80=AFAM Jens Axboe <axboe@kernel.dk> wrote=
-:
-> On 2/18/26 2:13 PM, Tal Zussman wrote:
-> > Block device buffered reads and writes already pass through
-> > filemap_read() and iomap_file_buffered_write() respectively, both of
-> > which handle IOCB_DONTCACHE. Enable RWF_DONTCACHE for block device file=
-s
-> > by setting FOP_DONTCACHE in def_blk_fops.
-> >
-> > For CONFIG_BUFFER_HEAD paths, thread the kiocb through
-> > block_write_begin() so that buffer_head-based I/O can use DONTCACHE
-> > behavior as well. Callers without a kiocb context (e.g. nilfs2 recovery=
-)
-> > pass NULL, which preserves the existing behavior.
-> >
-> > This support is useful for databases that operate on raw block devices,
-> > among other userspace applications.
->
-> OOO right now so I'll take a real look when I'm back, but when I
-> originally did this work, it's not the issue side that's the issue. It's
-> the pruning done from completion context, and you need to ensure that's
-> sane context for that (non-irq).
+On 2/25/26 3:40 PM, Tal Zussman wrote:
+> folio_end_dropbehind() is called from folio_end_writeback(), which can
+> run in IRQ context through buffer_head completion.
+> 
+> Previously, when folio_end_dropbehind() detected !in_task(), it skipped
+> the invalidation entirely. This meant that folios marked for dropbehind
+> via RWF_DONTCACHE would remain in the page cache after writeback when
+> completed from IRQ context, defeating the purpose of using it.
+> 
+> Fix this by deferring the dropbehind invalidation to a work item.  When
+> folio_end_dropbehind() is called from IRQ context, the folio is added to
+> a global folio_batch and the work item is scheduled. The worker drains
+> the batch, locking each folio and calling filemap_end_dropbehind(), and
+> re-drains if new folios arrived while processing.
+> 
+> This unblocks enabling RWF_UNCACHED for block devices and other
+> buffer_head-based I/O.
+> 
+> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+> ---
+>  mm/filemap.c | 84 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 79 insertions(+), 5 deletions(-)
+> 
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index ebd75684cb0a..6263f35c5d13 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -1085,6 +1085,8 @@ static const struct ctl_table filemap_sysctl_table[] = {
+>  	}
+>  };
+>  
+> +static void __init dropbehind_init(void);
+> +
+>  void __init pagecache_init(void)
+>  {
+>  	int i;
+> @@ -1092,6 +1094,7 @@ void __init pagecache_init(void)
+>  	for (i = 0; i < PAGE_WAIT_TABLE_SIZE; i++)
+>  		init_waitqueue_head(&folio_wait_table[i]);
+>  
+> +	dropbehind_init();
+>  	page_writeback_init();
+>  	register_sysctl_init("vm", filemap_sysctl_table);
+>  }
+> @@ -1613,23 +1616,94 @@ static void filemap_end_dropbehind(struct folio *folio)
+>   * If folio was marked as dropbehind, then pages should be dropped when writeback
+>   * completes. Do that now. If we fail, it's likely because of a big folio -
+>   * just reset dropbehind for that case and latter completions should invalidate.
+> + *
+> + * When called from IRQ context (e.g. buffer_head completion), we cannot lock
+> + * the folio and invalidate. Defer to a workqueue so that callers like
+> + * end_buffer_async_write() that complete in IRQ context still get their folios
+> + * pruned.
+>   */
+> +static DEFINE_SPINLOCK(dropbehind_lock);
+> +static struct folio_batch dropbehind_fbatch;
+> +static struct work_struct dropbehind_work;
+> +
+> +static void dropbehind_work_fn(struct work_struct *w)
+> +{
+> +	struct folio_batch fbatch;
+> +
+> +again:
+> +	spin_lock_irq(&dropbehind_lock);
+> +	fbatch = dropbehind_fbatch;
+> +	folio_batch_reinit(&dropbehind_fbatch);
+> +	spin_unlock_irq(&dropbehind_lock);
+> +
+> +	for (int i = 0; i < folio_batch_count(&fbatch); i++) {
+> +		struct folio *folio = fbatch.folios[i];
+> +
+> +		if (folio_trylock(folio)) {
+> +			filemap_end_dropbehind(folio);
+> +			folio_unlock(folio);
+> +		}
+> +		folio_put(folio);
+> +	}
+> +
+> +	/* Drain folios that were added while we were processing. */
+> +	spin_lock_irq(&dropbehind_lock);
+> +	if (folio_batch_count(&dropbehind_fbatch)) {
+> +		spin_unlock_irq(&dropbehind_lock);
+> +		goto again;
+> +	}
+> +	spin_unlock_irq(&dropbehind_lock);
+> +}
+> +
+> +static void __init dropbehind_init(void)
+> +{
+> +	folio_batch_init(&dropbehind_fbatch);
+> +	INIT_WORK(&dropbehind_work, dropbehind_work_fn);
+> +}
+> +
+> +static void folio_end_dropbehind_irq(struct folio *folio)
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&dropbehind_lock, flags);
+> +
+> +	/* If there is no space in the folio_batch, skip the invalidation. */
+> +	if (!folio_batch_space(&dropbehind_fbatch)) {
+> +		spin_unlock_irqrestore(&dropbehind_lock, flags);
+> +		return;
+> +	}
+> +
+> +	folio_get(folio);
+> +	folio_batch_add(&dropbehind_fbatch, folio);
+> +	spin_unlock_irqrestore(&dropbehind_lock, flags);
+> +
+> +	schedule_work(&dropbehind_work);
+> +}
 
-Thanks for taking a look! That was very helpful feedback.
-I sent out a v2 hopefully addressing that here:
-https://lore.kernel.org/lkml/20260225-blk-dontcache-v2-0-70e7ac4f7108@colum=
-bia.edu/
+How well does this scale? I did a patch basically the same as this, but
+not using a folio batch though. But the main sticking point was
+dropbehind_lock contention, to the point where I left it alone and
+thought "ok maybe we just do this when we're done with the awful
+buffer_head stuff". What happens if you have N threads doing IO at the
+same time to N block devices? I suspect it'll look absolutely terrible,
+as each thread will be banging on that dropbehind_lock.
 
-> --
-> Jens Axboe
+One solution could potentially be to use per-cpu lists for this. If you
+have N threads working on separate block devices, they will tend to be
+sticky to their CPU anyway.
+
+tldr - I don't believe the above will work well enough to scale
+appropriately.
+
+Let me know if you want me to test this on my big box, it's got a bunch
+of drives and CPUs to match.
+
+I did a patch exactly matching this, youc an probably find it 
+
+>  void folio_end_dropbehind(struct folio *folio)
+>  {
+>  	if (!folio_test_dropbehind(folio))
+>  		return;
+>  
+>  	/*
+> -	 * Hitting !in_task() should not happen off RWF_DONTCACHE writeback,
+> -	 * but can happen if normal writeback just happens to find dirty folios
+> -	 * that were created as part of uncached writeback, and that writeback
+> -	 * would otherwise not need non-IRQ handling. Just skip the
+> -	 * invalidation in that case.
+> +	 * Hitting !in_task() can happen for IO completed from IRQ contexts or
+> +	 * if normal writeback just happens to find dirty folios that were
+> +	 * created as part of uncached writeback, and that writeback would
+> +	 * otherwise not need non-IRQ handling.
+>  	 */
+>  	if (in_task() && folio_trylock(folio)) {
+>  		filemap_end_dropbehind(folio);
+>  		folio_unlock(folio);
+> +		return;
+>  	}
+> +
+> +	/*
+> +	 * In IRQ context we cannot lock the folio or call into the
+> +	 * invalidation path. Defer to a workqueue. This happens for
+> +	 * buffer_head-based writeback which runs from bio IRQ context.
+> +	 */
+> +	if (!in_task())
+> +		folio_end_dropbehind_irq(folio);
+>  }
+
+Ideally we'd have the caller be responsible for this, rather than put it
+inside folio_end_dropbehind().
+
+-- 
+Jens Axboe
