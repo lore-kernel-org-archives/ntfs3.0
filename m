@@ -1,67 +1,67 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8D037107C
-	for <ntfs3@lists.linux.dev>; Thu, 26 Feb 2026 03:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D769385507
+	for <ntfs3@lists.linux.dev>; Thu, 26 Feb 2026 03:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772075477; cv=none; b=MmdpisVyU25D8EPnfR4Iu2D3Bc6PCYpOkOikuUXMf3sbBpYX7A2vJ3DO/scSbIFnPuBJ9yFcZ8OEiNjA7NMklL+d0RkLZlhp1t1ANRAVmZWwM0tzKWnz6hT/sQyNfpTnIB+xQKiQhdHO2LydCA1853q5LO3E6+epy69U1cXgISU=
+	t=1772075733; cv=none; b=iJDdrwkPk+lqWratICrhi3Fli9aLD6mKl2vBpV+P/rexz0xVdy+J3MPv505+rVLbr7VlzJNfNNMf+B2ZcU6TTv2Ee7/mdJIIYHTsUDqL2ALqpS/nVGggUOKpPemezdpNz6sOkjAobEfFaI4tSIQHnExxX7vkoib8TGTTkCNKGPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772075477; c=relaxed/simple;
-	bh=4YqDnd/Zva/45rCNPYD9mgaYDLej8jBWZYeGVx4Z7ok=;
+	s=arc-20240116; t=1772075733; c=relaxed/simple;
+	bh=3Uj98JRcjkXg45L932sgBQ4jyAOkKnrA4eVXq0Mc2RQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kcQhFKiR3U7th2q9VOMeHIOen65KPMk2QYJF9bIWmFm/f3rd3hXQxjlU6CANWFcoxVy9J10hsn1YKtcXf7rhbpiGPaQB77Wy9qOp3kO6yhAKTcrDdmgxxVxdJWvm82o5o85VeLWw6cmVD4cec65H6Ls3t3ZFMOBB23WijOJTAdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=cAIWrnLn; arc=none smtp.client-ip=209.85.167.171
+	 In-Reply-To:Content-Type; b=iT1aEv/XURsa5QOIexzww8RSBXljwHfKJd204Ha/6f0RvPgCKT5XbMN4+Fasoi18+6gFJUHQmBhrobWoZgzMM1EHuo0lm8gJk8Fx4GJ4QWeVTsaGZzBGn23qj8fkNRxzs6ajU/FH9Lu6S9BMMGFHapjOzD+IabNpBglkAoTViCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=WViX4r7F; arc=none smtp.client-ip=209.85.167.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="cAIWrnLn"
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-4638fe85a7eso160025b6e.2
-        for <ntfs3@lists.linux.dev>; Wed, 25 Feb 2026 19:11:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="WViX4r7F"
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-46398742245so161560b6e.1
+        for <ntfs3@lists.linux.dev>; Wed, 25 Feb 2026 19:15:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1772075473; x=1772680273; darn=lists.linux.dev;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1772075731; x=1772680531; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=2aeYTgjykkTytqAP0zVL+KvrFyKRcfVgTb0o5/+caF4=;
-        b=cAIWrnLnMUS/16BySKpt6KW1QDM0XbJbFbGBh72TGUdUQwF94qQIQx99y3WUrLnfpR
-         en8xePaIpjHN2ymreI7lFIYzYR4XY8Dd/SrBFAwy0AYzazx4YD3rxNPHaR1Oi+WQFw83
-         KPefweVREupBLbemYEQvgFE4pm2bXq37UxtymIJ3Vd/PQ32pOU73kgRbhvfgpaDRRE9l
-         nVr/pnoIryFivtR2M/Kl1oH2wAwlpz5gGFzodcyiKjVa4WF3TFIiYoB+zdUIOGBEydJ4
-         xsAqcTTQoBYduGXMhMmnLTMLmOL0CzYzh9/uQS1f1/GGWRXcxahWt7R+ZM7bMWbFBwPj
-         tFrg==
+        bh=myOpzKKufRrzTXzkKkTioHHnRh1Fxba9oHbsZ8bSehI=;
+        b=WViX4r7FvoC7omNtqrMHfrvgcu5QN9l8QNA8qwWHZokqZvGow6/Cjy+KowV1GO+/R+
+         ZBFJhu9YtI8Xt/6m1r7dqIUxiaO+Z4aIfY3Zrt9iLxi5HZ1XDq1ZOX0/2RwlXOC5Q/qb
+         ktkQxluIvZs3vVsPfuc6TyaJDoqTgQuMArRupHq84jB/xyEsYJdOvAimnWAB5e8i3Tyt
+         RIpdPPZC8MYEuzDr73TNjNFeMls1xtlfLlgFsBTFP0xM1BZMoRJlyjjaOz89bTgLLMLm
+         go2XLWAf1ccvtegZPtACMxMJQV5399hAByy634t5ylkyyNvPdtywDPWzQ176JJb/L+H8
+         Gb0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772075473; x=1772680273;
+        d=1e100.net; s=20230601; t=1772075731; x=1772680531;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2aeYTgjykkTytqAP0zVL+KvrFyKRcfVgTb0o5/+caF4=;
-        b=Y+AJGe+2KmfVv6v8aBvIw58thbopmkfWusOxjbOqExlUa6OOJ6QkTLlTwWUx3/KwOK
-         gacxi232U99aLt5FLUh5EilS6ehGumjwVYHi5CsJd9m+mHcpBrax7R4+ybmyfit3r4gd
-         9u9YQqEv9cHEQ+0PtWxfkYpdQ2jfAE9F2gITng2nzJboiikzFixodpWJB6z1jHq5fbw8
-         qgj3Z/D+/xh/+uFmlz3bEN18t8BDC4YNBitrMA7db//U715v7U+Aej7dqzL/WA7NCGV0
-         XSjYaP49y08T4aTiS/ZjxADaSYI8+Oij0YhK2uls/e3LaeOJlv/Y65+w5eEQyubMKmkA
-         q37A==
-X-Forwarded-Encrypted: i=1; AJvYcCVmLwpqNKVlJlgtnMsKqbd8l47+iAbtlp3T+PocNJJJ6ZwFh956Lopr2uFEgXwHrpn8fbkHpA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzmMeJcsv6y/jbg8nUDpHU3OH/H6DRoVb1RrATjt153Z7HetfBE
-	3MflUK7lvUrRWv+3nAqRy5q67meBr/+Dolhx8UFpl7pZQGs5EcCgPi6IfFVHMETqy/k=
-X-Gm-Gg: ATEYQzyWqoxeOJiU06x7fTsWbKL7cjGDmNmXbpUwiNoAipUrPnHLvmGNGBdeXLukH5s
-	qqx0RMXHo6CV/vx3PTpDt+hFGAPgHOYA5CZv5Q0UUB4aIN6lxJfLIrkQ4TEIC8O+oVQtO/jrPzk
-	ZE1r0m/m6fonMHTyS+RbR7hpsrZFjVk+HoQk9SLCztbUjWrLhKNEcMMMK67iHfmantMMxGIlR9a
-	s7MTrYvFvMeh/ZMh4OGznDeukdBqhsHZuOhX0p9oKckSz2Ir6G+J7sDSPlJh4uaHiYbgcQwxTGb
-	jhgGwFc3N7Gwb9FhQTmwJqSGnYAVVPdruXfZKY/0B4z8kwXJnpmnhahNw76ghmZdbme5PI919kE
-	1GzDZ4mcvP7uaH+AkpQ+20nQoGJJNYvCp/hlKp2NOItrO35RyohT6S6+mHQ3Y1+XmFyf1/hVv/3
-	yBCGRXrnUojNFB1qzAnq4IWehSBM9JMcom6tHwLQwo5E//AbtYppgqk0uLm9BHNrct+be7SmkGp
-	F8HNLu0XA==
-X-Received: by 2002:a05:6808:4fd4:b0:45e:dbda:add6 with SMTP id 5614622812f47-464463e38fbmr8708984b6e.57.1772075473379;
-        Wed, 25 Feb 2026 19:11:13 -0800 (PST)
+        bh=myOpzKKufRrzTXzkKkTioHHnRh1Fxba9oHbsZ8bSehI=;
+        b=Mm6W0wYdJDbTghBI6/8HOZ1lHgV+s5wPU3yo6F6DBKop7R3et8Rz7tv1e5hGbZBAcY
+         rvGg8+0JPox1loXeENqoKoJ1KaHfz0yWz5pqQHbX3kdlnNl2lXtyrjK5VLDGfuCcJbQr
+         QLPi3MAoHLsubnrZpwyAqb/P3J0l8nLQgEpnzjdN6X6MwQ6osSzhmDCm891mHEkblzYq
+         1onWDqF7dtPKGqkLdrZNsKyvFZwnul1Rc+Iq9672WCdy/IrsklyHUN7Bv9BBM+jV5fZQ
+         z98So+6N8YUYoHuZkIGs0yJauVHXF3BHyL8/jY++tc36rI3BdKTC9UF3uZ3vPtazEd7O
+         VK2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXgPx9fOj0jl/xoBaY0n7SM74K0SqKXBtoHByiFgV4QVZiOu1HDypINBMbri3s9jHJvOqG7Cg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyRL9Z9lUkqUb9ffGJqYHgrPLfVr+wCrEOB9vIgxjJS7X3QfSI0
+	6rTt7DABfWmhQIDlVa8cullDD4r9V2/gK3SdH5ehCxXpSrKYnkkoALPo2MT/roy3sNA=
+X-Gm-Gg: ATEYQzwI0cUEbqX71EgQzViioKySUgpis4zDW3cFPre2I+geWI1+BGJWcfEPAbSeR2o
+	UUM24qmAlTMANnOiE7RRNAFklrcyrsMk0aUsM0mNlqaZuC+JytPHJeTwM6Y6Nl7F7yL6dasVBt9
+	0xQzAd5gSeBpgYBfEnCLT+14CXMao5mYpkrSCdED2xlWTARUlG06ZILho2FlUTCwG/7Agr1ti3+
+	BK6tnZZLhehbOcusKAF17EKisYmRlwT1oct5dGPEtzgGIdMKMu8goF0Y3sCVTcMUjC7BWv/k5wd
+	53cH6cddA2Y9b/HJtfWzhTAPWh29zgyNRVqgCYrdu+lSbcSGky/74RnqP96Cx7O83BLLGzumhiT
+	klbCpK8skR7n3NmSgrZVGUSIpnZpuXjOWr2ESqOX6KaZRM2fuhcrD9H22Jg1wpau/VhdngNU6yr
+	SH7l0JcyUVJktOaja1uzpz4FV/q4G43IvDuhi5RW19f6dfsKJhm1Cu71nRGKT+I5qAlnNMrFA8n
+	/PGsiVqEQ==
+X-Received: by 2002:a05:6808:320b:b0:462:d9a2:84e1 with SMTP id 5614622812f47-464463ef61fmr8794809b6e.60.1772075731397;
+        Wed, 25 Feb 2026 19:15:31 -0800 (PST)
 Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4644a1f6333sm10281996b6e.19.2026.02.25.19.11.11
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4160cf9b240sm786090fac.8.2026.02.25.19.15.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Feb 2026 19:11:12 -0800 (PST)
-Message-ID: <2e919e7b-1e75-4e57-b6f1-cdf3da4c0424@kernel.dk>
-Date: Wed, 25 Feb 2026 20:11:04 -0700
+        Wed, 25 Feb 2026 19:15:30 -0800 (PST)
+Message-ID: <44e3e9ea-350b-4357-ba50-726e506feab5@kernel.dk>
+Date: Wed, 25 Feb 2026 20:15:28 -0700
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -71,8 +71,9 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH RFC v2 1/2] filemap: defer dropbehind invalidation from
  IRQ context
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Tal Zussman <tz2294@columbia.edu>,
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
  Alexander Viro <viro@zeniv.linux.org.uk>,
  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
  Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>,
@@ -80,137 +81,25 @@ Cc: "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
  Ryusuke Konishi <konishi.ryusuke@gmail.com>,
  Viacheslav Dubeyko <slava@dubeyko.com>,
  Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Bob Copeland <me@bobcopeland.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-block@vger.kernel.org,
+ Bob Copeland <me@bobcopeland.com>, Andrew Morton
+ <akpm@linux-foundation.org>, linux-block@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
  linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
- linux-karma-devel@lists.sourceforge.net, linux-mm@kvack.org
+ linux-karma-devel@lists.sourceforge.net, linux-mm@kvack.org,
+ "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
 References: <20260225-blk-dontcache-v2-0-70e7ac4f7108@columbia.edu>
  <20260225-blk-dontcache-v2-1-70e7ac4f7108@columbia.edu>
  <c8078a80-f801-4f8a-b3cd-e2ccbfca1def@kernel.dk>
- <CAKha_srSdS46FM8K-RKaiinP0y6kx_MhxnHjZ0KKP1NOAL+STA@mail.gmail.com>
+ <aZ-2G_6lDZePLSyx@casper.infradead.org>
 Content-Language: en-US
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <CAKha_srSdS46FM8K-RKaiinP0y6kx_MhxnHjZ0KKP1NOAL+STA@mail.gmail.com>
+In-Reply-To: <aZ-2G_6lDZePLSyx@casper.infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 2/25/26 6:38 PM, Tal Zussman wrote:
-> On Wed, Feb 25, 2026 at 5:52?PM Jens Axboe <axboe@kernel.dk> wrote:
->> On 2/25/26 3:40 PM, Tal Zussman wrote:
->>> folio_end_dropbehind() is called from folio_end_writeback(), which can
->>> run in IRQ context through buffer_head completion.
->>>
->>> Previously, when folio_end_dropbehind() detected !in_task(), it skipped
->>> the invalidation entirely. This meant that folios marked for dropbehind
->>> via RWF_DONTCACHE would remain in the page cache after writeback when
->>> completed from IRQ context, defeating the purpose of using it.
->>>
->>> Fix this by deferring the dropbehind invalidation to a work item.  When
->>> folio_end_dropbehind() is called from IRQ context, the folio is added to
->>> a global folio_batch and the work item is scheduled. The worker drains
->>> the batch, locking each folio and calling filemap_end_dropbehind(), and
->>> re-drains if new folios arrived while processing.
->>>
->>> This unblocks enabling RWF_UNCACHED for block devices and other
->>> buffer_head-based I/O.
->>>
->>> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
->>> ---
->>>  mm/filemap.c | 84 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
->>>  1 file changed, 79 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/mm/filemap.c b/mm/filemap.c
->>> index ebd75684cb0a..6263f35c5d13 100644
->>> --- a/mm/filemap.c
->>> +++ b/mm/filemap.c
->>> @@ -1085,6 +1085,8 @@ static const struct ctl_table filemap_sysctl_table[] = {
->>>   }
->>>  };
->>>
->>> +static void __init dropbehind_init(void);
->>> +
->>>  void __init pagecache_init(void)
->>>  {
->>>   int i;
->>> @@ -1092,6 +1094,7 @@ void __init pagecache_init(void)
->>>   for (i = 0; i < PAGE_WAIT_TABLE_SIZE; i++)
->>>   init_waitqueue_head(&folio_wait_table[i]);
->>>
->>> + dropbehind_init();
->>>   page_writeback_init();
->>>   register_sysctl_init("vm", filemap_sysctl_table);
->>>  }
->>> @@ -1613,23 +1616,94 @@ static void filemap_end_dropbehind(struct folio *folio)
->>>   * If folio was marked as dropbehind, then pages should be dropped when writeback
->>>   * completes. Do that now. If we fail, it's likely because of a big folio -
->>>   * just reset dropbehind for that case and latter completions should invalidate.
->>> + *
->>> + * When called from IRQ context (e.g. buffer_head completion), we cannot lock
->>> + * the folio and invalidate. Defer to a workqueue so that callers like
->>> + * end_buffer_async_write() that complete in IRQ context still get their folios
->>> + * pruned.
->>>   */
->>> +static DEFINE_SPINLOCK(dropbehind_lock);
->>> +static struct folio_batch dropbehind_fbatch;
->>> +static struct work_struct dropbehind_work;
->>> +
->>> +static void dropbehind_work_fn(struct work_struct *w)
->>> +{
->>> + struct folio_batch fbatch;
->>> +
->>> +again:
->>> + spin_lock_irq(&dropbehind_lock);
->>> + fbatch = dropbehind_fbatch;
->>> + folio_batch_reinit(&dropbehind_fbatch);
->>> + spin_unlock_irq(&dropbehind_lock);
->>> +
->>> + for (int i = 0; i < folio_batch_count(&fbatch); i++) {
->>> + struct folio *folio = fbatch.folios[i];
->>> +
->>> + if (folio_trylock(folio)) {
->>> + filemap_end_dropbehind(folio);
->>> + folio_unlock(folio);
->>> + }
->>> + folio_put(folio);
->>> + }
->>> +
->>> + /* Drain folios that were added while we were processing. */
->>> + spin_lock_irq(&dropbehind_lock);
->>> + if (folio_batch_count(&dropbehind_fbatch)) {
->>> + spin_unlock_irq(&dropbehind_lock);
->>> + goto again;
->>> + }
->>> + spin_unlock_irq(&dropbehind_lock);
->>> +}
->>> +
->>> +static void __init dropbehind_init(void)
->>> +{
->>> + folio_batch_init(&dropbehind_fbatch);
->>> + INIT_WORK(&dropbehind_work, dropbehind_work_fn);
->>> +}
->>> +
->>> +static void folio_end_dropbehind_irq(struct folio *folio)
->>> +{
->>> + unsigned long flags;
->>> +
->>> + spin_lock_irqsave(&dropbehind_lock, flags);
->>> +
->>> + /* If there is no space in the folio_batch, skip the invalidation. */
->>> + if (!folio_batch_space(&dropbehind_fbatch)) {
->>> + spin_unlock_irqrestore(&dropbehind_lock, flags);
->>> + return;
->>> + }
->>> +
->>> + folio_get(folio);
->>> + folio_batch_add(&dropbehind_fbatch, folio);
->>> + spin_unlock_irqrestore(&dropbehind_lock, flags);
->>> +
->>> + schedule_work(&dropbehind_work);
->>> +}
->>
+On 2/25/26 7:55 PM, Matthew Wilcox wrote:
+> On Wed, Feb 25, 2026 at 03:52:41PM -0700, Jens Axboe wrote:
 >> How well does this scale? I did a patch basically the same as this, but
 >> not using a folio batch though. But the main sticking point was
 >> dropbehind_lock contention, to the point where I left it alone and
@@ -222,41 +111,35 @@ On 2/25/26 6:38 PM, Tal Zussman wrote:
 >> One solution could potentially be to use per-cpu lists for this. If you
 >> have N threads working on separate block devices, they will tend to be
 >> sticky to their CPU anyway.
->>
->> tldr - I don't believe the above will work well enough to scale
->> appropriately.
->>
->> Let me know if you want me to test this on my big box, it's got a bunch
->> of drives and CPUs to match.
->>
->> I did a patch exactly matching this, youc an probably find it
 > 
-> Yep, that makes sense. I think a per-cpu folio_batch, spinlock, and
-> work_struct would solve this (assuming that's what you meant by
-> per-cpu lists) and would be simple enough to implement. I can put that
-> together and send it tomorrow. I'll see if I can find your patch too.
+> Back in 2021, I had Vishal look at switching the page cache from using
+> hardirq-disabling locks to softirq-disabling locks [1].  Some of the
+> feedback (which doesn't seem to be entirely findable on the lists ...)
+> was that we'd be better off punting writeback completion from interrupt
+> context to task context and going from spin_lock_irq() to spin_lock()
+> rather than going to spin_lock_bh().
+> 
+> I recently saw something (possibly XFS?) promoting this idea again.
+> And now there's this.  Perhaps the time has come to process all
+> write-completions in task context, rather than everyone coming up with
+> their own workqueues to solve their little piece of the problem?
 
-Was just looking for my patch as well... I don't think I ever posted it,
-because I didn't like it very much. It's probably sitting in my git tree
-somewhere.
+Perhaps, even though the punting tends to suck... One idea I toyed with
+but had to abandon due to fs freezeing was letting callers that process
+completions in task context anyway just do the necessary work at that
+time. There's literally nothing worse than having part of a completion
+happen in IRQ, then punt parts of that to a worker, and need to wait for
+the worker to finish whatever it needs to do - only to then wake the
+target task. We can trivially do this in io_uring, as the actual
+completion is posted from the task itself anyway. We just need to have
+the task do the bottom half of the completion as well, rather than some
+unrelated kthread worker.
 
-But it looks very much the same as yours, modulo the folio batching.
-
-One thing to keep in mind with per-cpu lists and then a per-cpu work
-item is that you will potentially have all of them running. Hopefully
-they can do that without burning too much CPU. However, might be more
-useful to have one per node or something like that, provided it can keep
-up, and just have that worker iterate the lists in that node. But we can
-experiment with that, I'd say just do the naive version first which is
-basically this patch but turned into a per-cpu collection of
-lock/list/work_item.
-
-> Any testing you can do on that version would be very appreciated! I'm
-> unfortunately disk-limited for the moment...
-
-No problem - I've got 32 drives in that box, and can hit about
-230-240GB/sec of bandwidth off those drives. It'll certainly spot any
-issues with scaling this and having many threads running uncached IO.
+I'd be worried a generic solution would be the worst of all worlds, as
+it prevents optimizations that happen in eg iomap and other spots, where
+only completions that absolutely need to happen in task context get
+punted. There's a big difference between handling a completion inline vs
+needing a round-trip to some worker to do it.
 
 -- 
 Jens Axboe
