@@ -1,278 +1,247 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578CB328B53
-	for <ntfs3@lists.linux.dev>; Thu, 26 Feb 2026 13:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616C73E95B3
+	for <ntfs3@lists.linux.dev>; Thu, 26 Feb 2026 14:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772112121; cv=none; b=GtWLIRCEyNoRyPUp7poDXg4ZepaAjzuPCvCJj1WEQJew0rlwGTaMb//9/MpRgl6FfRm6W8HrTCDPrKXhM5KNu2xA09qcxujiK4EPRUjqS/QzznDWf4TOrDeJEAWqzJfR8SvCcEHdSPaZ+b+JBmdHhvIt3VWR2T+Kz/1vx6oeHVQ=
+	t=1772116194; cv=none; b=Y449mwYupKAvBw+6+ztlDhVizmOimBSIBwwS3eNxvfz/xyLA7Uqd84XZTZOYDBpj3fIj1WHgui+KxlCtxT1koP4SfTS8vvhlDiTHvcnsBejkggN1f4kICu6Q2wJHGuYVCHtwyEC65IF+/X1/G2TCK62s09cz4P/2bKVotzcJImM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772112121; c=relaxed/simple;
-	bh=5yGsS82X0SeiBMdHwqt+M5j0u+wrH/Ac6+KtEN7Bj3A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sIMxk2QWNGOSRjGHmXpn6A3VNBVOEQ8BuDLXdgXWRC8m63nWOj008UJwVAsBWg7Mfg28siILu5LjZ9c/aIgcdpZtyMXvELuIu7nn0Aou+H8wBHYioMVmwvJSUXis1QcR29oiVZS05uKOeDwvI9iowdvoFNyfBSF9vVIyGnERUA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PBiBvZ97; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=yKJKpq1w; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PBiBvZ97; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=yKJKpq1w; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1772116194; c=relaxed/simple;
+	bh=09Rjq9YUiTCfdOZtaVDiYYUcU1HlVXywZdVoE4L+UrI=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=aflo6MT0c7/EtOL17OuBU9M4VoSAMozDX07DS4TBu2GCRM037BVORzL53G/jSH2nXhqD9OCrqP2yLDmoNf3cc0d/aXgoAOPxU77OL6duYF/ZhrkirK28rLmOQjxDMfPPVbbpkRrHhWG5i0ENYSaHM00DvJTnObMWZ15wQdqNWcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xptgD2FT; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PBiBvZ97";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="yKJKpq1w";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PBiBvZ97";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="yKJKpq1w"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 903213FD91;
-	Thu, 26 Feb 2026 13:21:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1772112117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6fDaSkVhy0E33BiFULWhZdEJNcGyrApfeqESCYAmwD8=;
-	b=PBiBvZ97kx3nE8Sx3Iqr2jG5qsX80nZ2QZEXA7XtGku+vlcy2CmVQufsvmFLIxPxb6R1o+
-	VNcFM/i1N7uvIMZ63qlWZj58vjqkIC6cLtuo7yRQmA94JTf46RvXW3UqZaRhz2rU5qYpm5
-	5uC0hdfRgvc4icWc/ipstowyGMbsuZY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1772112117;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6fDaSkVhy0E33BiFULWhZdEJNcGyrApfeqESCYAmwD8=;
-	b=yKJKpq1wn5G35h25U8MPNWJFk0Rth71l9BQh2uX7wTyWNc7We7QYgoCHRktLaHztRqM8kO
-	HbJyGRl/FuICxXDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1772112117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6fDaSkVhy0E33BiFULWhZdEJNcGyrApfeqESCYAmwD8=;
-	b=PBiBvZ97kx3nE8Sx3Iqr2jG5qsX80nZ2QZEXA7XtGku+vlcy2CmVQufsvmFLIxPxb6R1o+
-	VNcFM/i1N7uvIMZ63qlWZj58vjqkIC6cLtuo7yRQmA94JTf46RvXW3UqZaRhz2rU5qYpm5
-	5uC0hdfRgvc4icWc/ipstowyGMbsuZY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1772112117;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6fDaSkVhy0E33BiFULWhZdEJNcGyrApfeqESCYAmwD8=;
-	b=yKJKpq1wn5G35h25U8MPNWJFk0Rth71l9BQh2uX7wTyWNc7We7QYgoCHRktLaHztRqM8kO
-	HbJyGRl/FuICxXDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F8F23EA62;
-	Thu, 26 Feb 2026 13:21:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yNo1G/VIoGn1UQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 26 Feb 2026 13:21:57 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 234ABA0A27; Thu, 26 Feb 2026 14:21:57 +0100 (CET)
-Date: Thu, 26 Feb 2026 14:21:57 +0100
-From: Jan Kara <jack@suse.cz>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: linux-mm@kvack.org, Jiayuan Chen <jiayuan.chen@shopee.com>, 
-	syzbot+6880f676b265dbd42d63@syzkaller.appspotmail.com, Theodore Ts'o <tytso@mit.edu>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Jan Kara <jack@suse.cz>, linux-ext4@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v1] mm: annotate data race of f_ra.prev_pos
-Message-ID: <2xzc3lp6ehtjwbzip4i5muh4g6oep4l72zh3j6sablfghbvbau@kh7famgorzrh>
-References: <20260226084020.163720-1-jiayuan.chen@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xptgD2FT"
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260226084020.163720-1-jiayuan.chen@linux.dev>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TAGGED_RCPT(0.00)[6880f676b265dbd42d63];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1772116185;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AAX4WJ2Ss7mjZl94h6x1hLn056hNxjHN1j/COBhWBBI=;
+	b=xptgD2FTlKgBhNODGcIrRBp5blA/GA2rw0WiznS6TETnPB6o8qUhsVJg7xmMni+6JRIITy
+	GfcBPBhdnXx+9cHUaLcfBCHSLjGA/YNS/kr/PSdgC4DD2iinr47MB0lewbNYLKnnWWgaIm
+	ttz9L60EnqKSXm99wwPsa0f42GEZLTw=
+Date: Thu, 26 Feb 2026 14:29:36 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Jiayuan Chen" <jiayuan.chen@linux.dev>
+Message-ID: <655d0b2af1814312929e9e094854dd3ab029d094@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH v1] mm: annotate data race of f_ra.prev_pos
+To: "Jan Kara" <jack@suse.cz>
+Cc: linux-mm@kvack.org, "Jiayuan Chen" <jiayuan.chen@shopee.com>,
+ syzbot+6880f676b265dbd42d63@syzkaller.appspotmail.com, "Theodore Ts'o"
+ <tytso@mit.edu>, "Andreas Dilger" <adilger.kernel@dilger.ca>, "Konstantin
+ Komarov" <almaz.alexandrovich@paragon-software.com>, "Steven Rostedt"
+ <rostedt@goodmis.org>, "Masami Hiramatsu" <mhiramat@kernel.org>, "Mathieu
+ Desnoyers" <mathieu.desnoyers@efficios.com>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, "Andrew Morton" <akpm@linux-foundation.org>, "Hugh
+ Dickins" <hughd@google.com>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Jan Kara" <jack@suse.cz>,
+ linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+ ntfs3@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+In-Reply-To: <2xzc3lp6ehtjwbzip4i5muh4g6oep4l72zh3j6sablfghbvbau@kh7famgorzrh>
+References: <20260226084020.163720-1-jiayuan.chen@linux.dev>
+ <2xzc3lp6ehtjwbzip4i5muh4g6oep4l72zh3j6sablfghbvbau@kh7famgorzrh>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu 26-02-26 16:40:07, Jiayuan Chen wrote:
-> From: Jiayuan Chen <jiayuan.chen@shopee.com>
-> 
-> KCSAN reports a data race when concurrent readers access the same
-> struct file:
-> 
->   BUG: KCSAN: data-race in filemap_read / filemap_splice_read
-> 
->   write to 0xffff88811a6f8228 of 8 bytes by task 10061 on cpu 0:
->    filemap_splice_read+0x523/0x780 mm/filemap.c:3125
->    ...
-> 
->   write to 0xffff88811a6f8228 of 8 bytes by task 10066 on cpu 1:
->    filemap_read+0x98d/0xa10 mm/filemap.c:2873
->    ...
-> 
-> Both filemap_read() and filemap_splice_read() update f_ra.prev_pos
-> without synchronization. This is a benign race since prev_pos is only
-> used as a hint for readahead heuristics in page_cache_sync_ra(), and a
-> stale or torn value merely results in a suboptimal readahead decision,
-> not a correctness issue.
-> 
-> Use WRITE_ONCE/READ_ONCE to annotate all accesses to prev_pos across
-> the tree for consistency and silence KCSAN.
-> 
-> Reported-by: syzbot+6880f676b265dbd42d63@syzkaller.appspotmail.com
-> Link: https://syzkaller.appspot.com/bug?extid=6880f676b265dbd42d63
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
+February 26, 2026 at 21:21, "Jan Kara" <jack@suse.cz mailto:jack@suse.cz?=
+to=3D%22Jan%20Kara%22%20%3Cjack%40suse.cz%3E > wrote:
 
-Given this, I think it would be much less intrusive and also more
-explanatory to just mark prev_pos with __data_racy with appropriate reason
-you're mentioning in the changelog.
 
-								Honza
+>=20
+>=20On Thu 26-02-26 16:40:07, Jiayuan Chen wrote:
+>=20
+>=20>=20
+>=20> From: Jiayuan Chen <jiayuan.chen@shopee.com>
+> >=20=20
+>=20>  KCSAN reports a data race when concurrent readers access the same
+> >  struct file:
+> >=20=20
+>=20>  BUG: KCSAN: data-race in filemap_read / filemap_splice_read
+> >=20=20
+>=20>  write to 0xffff88811a6f8228 of 8 bytes by task 10061 on cpu 0:
+> >  filemap_splice_read+0x523/0x780 mm/filemap.c:3125
+> >  ...
+> >=20=20
+>=20>  write to 0xffff88811a6f8228 of 8 bytes by task 10066 on cpu 1:
+> >  filemap_read+0x98d/0xa10 mm/filemap.c:2873
+> >  ...
+> >=20=20
+>=20>  Both filemap_read() and filemap_splice_read() update f_ra.prev_pos
+> >  without synchronization. This is a benign race since prev_pos is onl=
+y
+> >  used as a hint for readahead heuristics in page_cache_sync_ra(), and=
+ a
+> >  stale or torn value merely results in a suboptimal readahead decisio=
+n,
+> >  not a correctness issue.
+> >=20=20
+>=20>  Use WRITE_ONCE/READ_ONCE to annotate all accesses to prev_pos acro=
+ss
+> >  the tree for consistency and silence KCSAN.
+> >=20=20
+>=20>  Reported-by: syzbot+6880f676b265dbd42d63@syzkaller.appspotmail.com
+> >  Link: https://syzkaller.appspot.com/bug?extid=3D6880f676b265dbd42d63
+> >  Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
+> >=20
+>=20Given this, I think it would be much less intrusive and also more
+> explanatory to just mark prev_pos with __data_racy with appropriate rea=
+son
+> you're mentioning in the changelog.
 
-> ---
->  fs/ext4/dir.c                    | 2 +-
->  fs/ntfs3/fsntfs.c                | 2 +-
->  include/trace/events/readahead.h | 2 +-
->  mm/filemap.c                     | 6 +++---
->  mm/readahead.c                   | 4 ++--
->  mm/shmem.c                       | 2 +-
->  6 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/fs/ext4/dir.c b/fs/ext4/dir.c
-> index 28b2a3deb954..1ddf7acce5ca 100644
-> --- a/fs/ext4/dir.c
-> +++ b/fs/ext4/dir.c
-> @@ -200,7 +200,7 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
->  					sb->s_bdev->bd_mapping,
->  					&file->f_ra, file, index,
->  					1 << EXT4_SB(sb)->s_min_folio_order);
-> -			file->f_ra.prev_pos = (loff_t)index << PAGE_SHIFT;
-> +			WRITE_ONCE(file->f_ra.prev_pos, (loff_t)index << PAGE_SHIFT);
->  			bh = ext4_bread(NULL, inode, map.m_lblk, 0);
->  			if (IS_ERR(bh)) {
->  				err = PTR_ERR(bh);
-> diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-> index 0df2aa81d884..d1232fc03c08 100644
-> --- a/fs/ntfs3/fsntfs.c
-> +++ b/fs/ntfs3/fsntfs.c
-> @@ -1239,7 +1239,7 @@ int ntfs_read_run_nb_ra(struct ntfs_sb_info *sbi, const struct runs_tree *run,
->  			if (!ra_has_index(ra, index)) {
->  				page_cache_sync_readahead(mapping, ra, NULL,
->  							  index, 1);
-> -				ra->prev_pos = (loff_t)index << PAGE_SHIFT;
-> +				WRITE_ONCE(ra->prev_pos, (loff_t)index << PAGE_SHIFT);
->  			}
->  		}
->  
-> diff --git a/include/trace/events/readahead.h b/include/trace/events/readahead.h
-> index 0997ac5eceab..63d8df6c2983 100644
-> --- a/include/trace/events/readahead.h
-> +++ b/include/trace/events/readahead.h
-> @@ -101,7 +101,7 @@ DECLARE_EVENT_CLASS(page_cache_ra_op,
->  		__entry->async_size = ra->async_size;
->  		__entry->ra_pages = ra->ra_pages;
->  		__entry->mmap_miss = ra->mmap_miss;
-> -		__entry->prev_pos = ra->prev_pos;
-> +		__entry->prev_pos = READ_ONCE(ra->prev_pos);
->  		__entry->req_count = req_count;
->  	),
->  
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 63f256307fdd..d3e2d4b826b9 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -2771,7 +2771,7 @@ ssize_t filemap_read(struct kiocb *iocb, struct iov_iter *iter,
->  	int i, error = 0;
->  	bool writably_mapped;
->  	loff_t isize, end_offset;
-> -	loff_t last_pos = ra->prev_pos;
-> +	loff_t last_pos = READ_ONCE(ra->prev_pos);
->  
->  	if (unlikely(iocb->ki_pos < 0))
->  		return -EINVAL;
-> @@ -2870,7 +2870,7 @@ ssize_t filemap_read(struct kiocb *iocb, struct iov_iter *iter,
->  	} while (iov_iter_count(iter) && iocb->ki_pos < isize && !error);
->  
->  	file_accessed(filp);
-> -	ra->prev_pos = last_pos;
-> +	WRITE_ONCE(ra->prev_pos, last_pos);
->  	return already_read ? already_read : error;
->  }
->  EXPORT_SYMBOL_GPL(filemap_read);
-> @@ -3122,7 +3122,7 @@ ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
->  			len -= n;
->  			total_spliced += n;
->  			*ppos += n;
-> -			in->f_ra.prev_pos = *ppos;
-> +			WRITE_ONCE(in->f_ra.prev_pos, *ppos);
->  			if (pipe_is_full(pipe))
->  				goto out;
->  		}
-> diff --git a/mm/readahead.c b/mm/readahead.c
-> index 7b05082c89ea..de49b35b0329 100644
-> --- a/mm/readahead.c
-> +++ b/mm/readahead.c
-> @@ -142,7 +142,7 @@ void
->  file_ra_state_init(struct file_ra_state *ra, struct address_space *mapping)
->  {
->  	ra->ra_pages = inode_to_bdi(mapping->host)->ra_pages;
-> -	ra->prev_pos = -1;
-> +	WRITE_ONCE(ra->prev_pos, -1);
->  }
->  EXPORT_SYMBOL_GPL(file_ra_state_init);
->  
-> @@ -584,7 +584,7 @@ void page_cache_sync_ra(struct readahead_control *ractl,
->  	}
->  
->  	max_pages = ractl_max_pages(ractl, req_count);
-> -	prev_index = (unsigned long long)ra->prev_pos >> PAGE_SHIFT;
-> +	prev_index = (unsigned long long)READ_ONCE(ra->prev_pos) >> PAGE_SHIFT;
->  	/*
->  	 * A start of file, oversized read, or sequential cache miss:
->  	 * trivial case: (index - prev_index) == 1
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index 5e7dcf5bc5d3..03569199baf4 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -3642,7 +3642,7 @@ static ssize_t shmem_file_splice_read(struct file *in, loff_t *ppos,
->  		len -= n;
->  		total_spliced += n;
->  		*ppos += n;
-> -		in->f_ra.prev_pos = *ppos;
-> +		WRITE_ONCE(in->f_ra.prev_pos, *ppos);
->  		if (pipe_is_full(pipe))
->  			break;
->  
-> -- 
-> 2.43.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+
+Thanks for the suggestion. I'm fine either way =E2=80=94 __data_racy is i=
+ndeed
+cleaner and less intrusive for a purely heuristic field like this.
+
+I'll wait a bit to see if Andrew or other mm folks have a preference
+before resending. Happy to go with whichever approach they prefer.
+
+>  Honza
+>=20
+>=20>=20
+>=20> ---
+> >  fs/ext4/dir.c | 2 +-
+> >  fs/ntfs3/fsntfs.c | 2 +-
+> >  include/trace/events/readahead.h | 2 +-
+> >  mm/filemap.c | 6 +++---
+> >  mm/readahead.c | 4 ++--
+> >  mm/shmem.c | 2 +-
+> >  6 files changed, 9 insertions(+), 9 deletions(-)
+> >=20=20
+>=20>  diff --git a/fs/ext4/dir.c b/fs/ext4/dir.c
+> >  index 28b2a3deb954..1ddf7acce5ca 100644
+> >  --- a/fs/ext4/dir.c
+> >  +++ b/fs/ext4/dir.c
+> >  @@ -200,7 +200,7 @@ static int ext4_readdir(struct file *file, struc=
+t dir_context *ctx)
+> >  sb->s_bdev->bd_mapping,
+> >  &file->f_ra, file, index,
+> >  1 << EXT4_SB(sb)->s_min_folio_order);
+> >  - file->f_ra.prev_pos =3D (loff_t)index << PAGE_SHIFT;
+> >  + WRITE_ONCE(file->f_ra.prev_pos, (loff_t)index << PAGE_SHIFT);
+> >  bh =3D ext4_bread(NULL, inode, map.m_lblk, 0);
+> >  if (IS_ERR(bh)) {
+> >  err =3D PTR_ERR(bh);
+> >  diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+> >  index 0df2aa81d884..d1232fc03c08 100644
+> >  --- a/fs/ntfs3/fsntfs.c
+> >  +++ b/fs/ntfs3/fsntfs.c
+> >  @@ -1239,7 +1239,7 @@ int ntfs_read_run_nb_ra(struct ntfs_sb_info *s=
+bi, const struct runs_tree *run,
+> >  if (!ra_has_index(ra, index)) {
+> >  page_cache_sync_readahead(mapping, ra, NULL,
+> >  index, 1);
+> >  - ra->prev_pos =3D (loff_t)index << PAGE_SHIFT;
+> >  + WRITE_ONCE(ra->prev_pos, (loff_t)index << PAGE_SHIFT);
+> >  }
+> >  }
+> >=20=20
+>=20>  diff --git a/include/trace/events/readahead.h b/include/trace/even=
+ts/readahead.h
+> >  index 0997ac5eceab..63d8df6c2983 100644
+> >  --- a/include/trace/events/readahead.h
+> >  +++ b/include/trace/events/readahead.h
+> >  @@ -101,7 +101,7 @@ DECLARE_EVENT_CLASS(page_cache_ra_op,
+> >  __entry->async_size =3D ra->async_size;
+> >  __entry->ra_pages =3D ra->ra_pages;
+> >  __entry->mmap_miss =3D ra->mmap_miss;
+> >  - __entry->prev_pos =3D ra->prev_pos;
+> >  + __entry->prev_pos =3D READ_ONCE(ra->prev_pos);
+> >  __entry->req_count =3D req_count;
+> >  ),
+> >=20=20
+>=20>  diff --git a/mm/filemap.c b/mm/filemap.c
+> >  index 63f256307fdd..d3e2d4b826b9 100644
+> >  --- a/mm/filemap.c
+> >  +++ b/mm/filemap.c
+> >  @@ -2771,7 +2771,7 @@ ssize_t filemap_read(struct kiocb *iocb, struc=
+t iov_iter *iter,
+> >  int i, error =3D 0;
+> >  bool writably_mapped;
+> >  loff_t isize, end_offset;
+> >  - loff_t last_pos =3D ra->prev_pos;
+> >  + loff_t last_pos =3D READ_ONCE(ra->prev_pos);
+> >=20=20
+>=20>  if (unlikely(iocb->ki_pos < 0))
+> >  return -EINVAL;
+> >  @@ -2870,7 +2870,7 @@ ssize_t filemap_read(struct kiocb *iocb, struc=
+t iov_iter *iter,
+> >  } while (iov_iter_count(iter) && iocb->ki_pos < isize && !error);
+> >=20=20
+>=20>  file_accessed(filp);
+> >  - ra->prev_pos =3D last_pos;
+> >  + WRITE_ONCE(ra->prev_pos, last_pos);
+> >  return already_read ? already_read : error;
+> >  }
+> >  EXPORT_SYMBOL_GPL(filemap_read);
+> >  @@ -3122,7 +3122,7 @@ ssize_t filemap_splice_read(struct file *in, l=
+off_t *ppos,
+> >  len -=3D n;
+> >  total_spliced +=3D n;
+> >  *ppos +=3D n;
+> >  - in->f_ra.prev_pos =3D *ppos;
+> >  + WRITE_ONCE(in->f_ra.prev_pos, *ppos);
+> >  if (pipe_is_full(pipe))
+> >  goto out;
+> >  }
+> >  diff --git a/mm/readahead.c b/mm/readahead.c
+> >  index 7b05082c89ea..de49b35b0329 100644
+> >  --- a/mm/readahead.c
+> >  +++ b/mm/readahead.c
+> >  @@ -142,7 +142,7 @@ void
+> >  file_ra_state_init(struct file_ra_state *ra, struct address_space *m=
+apping)
+> >  {
+> >  ra->ra_pages =3D inode_to_bdi(mapping->host)->ra_pages;
+> >  - ra->prev_pos =3D -1;
+> >  + WRITE_ONCE(ra->prev_pos, -1);
+> >  }
+> >  EXPORT_SYMBOL_GPL(file_ra_state_init);
+> >=20=20
+>=20>  @@ -584,7 +584,7 @@ void page_cache_sync_ra(struct readahead_contr=
+ol *ractl,
+> >  }
+> >=20=20
+>=20>  max_pages =3D ractl_max_pages(ractl, req_count);
+> >  - prev_index =3D (unsigned long long)ra->prev_pos >> PAGE_SHIFT;
+> >  + prev_index =3D (unsigned long long)READ_ONCE(ra->prev_pos) >> PAGE=
+_SHIFT;
+> >  /*
+> >  * A start of file, oversized read, or sequential cache miss:
+> >  * trivial case: (index - prev_index) =3D=3D 1
+> >  diff --git a/mm/shmem.c b/mm/shmem.c
+> >  index 5e7dcf5bc5d3..03569199baf4 100644
+> >  --- a/mm/shmem.c
+> >  +++ b/mm/shmem.c
+> >  @@ -3642,7 +3642,7 @@ static ssize_t shmem_file_splice_read(struct f=
+ile *in, loff_t *ppos,
+> >  len -=3D n;
+> >  total_spliced +=3D n;
+> >  *ppos +=3D n;
+> >  - in->f_ra.prev_pos =3D *ppos;
+> >  + WRITE_ONCE(in->f_ra.prev_pos, *ppos);
+> >  if (pipe_is_full(pipe))
+> >  break;
+> >=20=20
+>=20>  --=20
+>=20>  2.43.0
+> >=20
+>=20--=20
+>=20Jan Kara <jack@suse.com>
+> SUSE Labs, CR
+>
