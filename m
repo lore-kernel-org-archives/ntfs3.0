@@ -1,145 +1,204 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D769385507
-	for <ntfs3@lists.linux.dev>; Thu, 26 Feb 2026 03:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D97395241
+	for <ntfs3@lists.linux.dev>; Thu, 26 Feb 2026 08:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772075733; cv=none; b=iJDdrwkPk+lqWratICrhi3Fli9aLD6mKl2vBpV+P/rexz0xVdy+J3MPv505+rVLbr7VlzJNfNNMf+B2ZcU6TTv2Ee7/mdJIIYHTsUDqL2ALqpS/nVGggUOKpPemezdpNz6sOkjAobEfFaI4tSIQHnExxX7vkoib8TGTTkCNKGPo=
+	t=1772095253; cv=none; b=Gj5s/QAv12cO10HcDUvFxeykF1e6raM+mogiIOEm2B2/SNuv9GQlpPORGOAJC/xjLTHHWN4kYe8gvBI9d6Fxq776wbN/wpAQ20kXtfiEXMWOlML15iyJbiuVnFuxx0R6Yz+31b2UeCmU+wvkDO9Ad0rin2jedRbJCe7dGINWtds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772075733; c=relaxed/simple;
-	bh=3Uj98JRcjkXg45L932sgBQ4jyAOkKnrA4eVXq0Mc2RQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iT1aEv/XURsa5QOIexzww8RSBXljwHfKJd204Ha/6f0RvPgCKT5XbMN4+Fasoi18+6gFJUHQmBhrobWoZgzMM1EHuo0lm8gJk8Fx4GJ4QWeVTsaGZzBGn23qj8fkNRxzs6ajU/FH9Lu6S9BMMGFHapjOzD+IabNpBglkAoTViCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=WViX4r7F; arc=none smtp.client-ip=209.85.167.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1772095253; c=relaxed/simple;
+	bh=dwrTDGeh95iZKaCEtAc0YWQ6wKjI5cJcO3Vg+xhvHkQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S1gi8DWcEBAPgl6/dyw7RipFFdOwKqbSXuLybaRn+GZVl0/lQckuQ1lPVzVmP1LztRVayL9ZCpchJIVyWGCdBHOpYZQ4MlGrL+XKyCam8rrE2BkSwEEUVdJdk32TprIgMQpB+Idb6BgFC8Ux6ni6dIijkrjmO75fqtQPxg1PPC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=T5K+2bTN; arc=none smtp.client-ip=95.215.58.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="WViX4r7F"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-46398742245so161560b6e.1
-        for <ntfs3@lists.linux.dev>; Wed, 25 Feb 2026 19:15:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1772075731; x=1772680531; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=myOpzKKufRrzTXzkKkTioHHnRh1Fxba9oHbsZ8bSehI=;
-        b=WViX4r7FvoC7omNtqrMHfrvgcu5QN9l8QNA8qwWHZokqZvGow6/Cjy+KowV1GO+/R+
-         ZBFJhu9YtI8Xt/6m1r7dqIUxiaO+Z4aIfY3Zrt9iLxi5HZ1XDq1ZOX0/2RwlXOC5Q/qb
-         ktkQxluIvZs3vVsPfuc6TyaJDoqTgQuMArRupHq84jB/xyEsYJdOvAimnWAB5e8i3Tyt
-         RIpdPPZC8MYEuzDr73TNjNFeMls1xtlfLlgFsBTFP0xM1BZMoRJlyjjaOz89bTgLLMLm
-         go2XLWAf1ccvtegZPtACMxMJQV5399hAByy634t5ylkyyNvPdtywDPWzQ176JJb/L+H8
-         Gb0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772075731; x=1772680531;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=myOpzKKufRrzTXzkKkTioHHnRh1Fxba9oHbsZ8bSehI=;
-        b=Mm6W0wYdJDbTghBI6/8HOZ1lHgV+s5wPU3yo6F6DBKop7R3et8Rz7tv1e5hGbZBAcY
-         rvGg8+0JPox1loXeENqoKoJ1KaHfz0yWz5pqQHbX3kdlnNl2lXtyrjK5VLDGfuCcJbQr
-         QLPi3MAoHLsubnrZpwyAqb/P3J0l8nLQgEpnzjdN6X6MwQ6osSzhmDCm891mHEkblzYq
-         1onWDqF7dtPKGqkLdrZNsKyvFZwnul1Rc+Iq9672WCdy/IrsklyHUN7Bv9BBM+jV5fZQ
-         z98So+6N8YUYoHuZkIGs0yJauVHXF3BHyL8/jY++tc36rI3BdKTC9UF3uZ3vPtazEd7O
-         VK2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXgPx9fOj0jl/xoBaY0n7SM74K0SqKXBtoHByiFgV4QVZiOu1HDypINBMbri3s9jHJvOqG7Cg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRL9Z9lUkqUb9ffGJqYHgrPLfVr+wCrEOB9vIgxjJS7X3QfSI0
-	6rTt7DABfWmhQIDlVa8cullDD4r9V2/gK3SdH5ehCxXpSrKYnkkoALPo2MT/roy3sNA=
-X-Gm-Gg: ATEYQzwI0cUEbqX71EgQzViioKySUgpis4zDW3cFPre2I+geWI1+BGJWcfEPAbSeR2o
-	UUM24qmAlTMANnOiE7RRNAFklrcyrsMk0aUsM0mNlqaZuC+JytPHJeTwM6Y6Nl7F7yL6dasVBt9
-	0xQzAd5gSeBpgYBfEnCLT+14CXMao5mYpkrSCdED2xlWTARUlG06ZILho2FlUTCwG/7Agr1ti3+
-	BK6tnZZLhehbOcusKAF17EKisYmRlwT1oct5dGPEtzgGIdMKMu8goF0Y3sCVTcMUjC7BWv/k5wd
-	53cH6cddA2Y9b/HJtfWzhTAPWh29zgyNRVqgCYrdu+lSbcSGky/74RnqP96Cx7O83BLLGzumhiT
-	klbCpK8skR7n3NmSgrZVGUSIpnZpuXjOWr2ESqOX6KaZRM2fuhcrD9H22Jg1wpau/VhdngNU6yr
-	SH7l0JcyUVJktOaja1uzpz4FV/q4G43IvDuhi5RW19f6dfsKJhm1Cu71nRGKT+I5qAlnNMrFA8n
-	/PGsiVqEQ==
-X-Received: by 2002:a05:6808:320b:b0:462:d9a2:84e1 with SMTP id 5614622812f47-464463ef61fmr8794809b6e.60.1772075731397;
-        Wed, 25 Feb 2026 19:15:31 -0800 (PST)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4160cf9b240sm786090fac.8.2026.02.25.19.15.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Feb 2026 19:15:30 -0800 (PST)
-Message-ID: <44e3e9ea-350b-4357-ba50-726e506feab5@kernel.dk>
-Date: Wed, 25 Feb 2026 20:15:28 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="T5K+2bTN"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1772095248;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=r6ok+REfdEcAEOyYdN8mpwOjfAi6PmuRiNBeuWg5TUU=;
+	b=T5K+2bTNXbyiZNubyfIgKzDWc7n++7B7nePN71sU4f09J1Z1zIXlbtNc+/wUPPFZr90CyP
+	WGRtf1eL2ccboUEI1sH532tb4YN/k/NZBD/VWOkRmOeKLQR6AWkjAVuuyOzUIdv48y05/E
+	r/+dWZ9KNUA0tglW3MTUw+5KWgo1dkU=
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: linux-mm@kvack.org
+Cc: jiayuan.chen@linux.dev,
+	Jiayuan Chen <jiayuan.chen@shopee.com>,
+	syzbot+6880f676b265dbd42d63@syzkaller.appspotmail.com,
+	"Theodore Ts'o" <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Jan Kara <jack@suse.cz>,
+	linux-ext4@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v1] mm: annotate data race of f_ra.prev_pos
+Date: Thu, 26 Feb 2026 16:40:07 +0800
+Message-ID: <20260226084020.163720-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 1/2] filemap: defer dropbehind invalidation from
- IRQ context
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Tal Zussman <tz2294@columbia.edu>,
- "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>,
- Yuezhang Mo <yuezhang.mo@sony.com>, Dave Kleikamp <shaggy@kernel.org>,
- Ryusuke Konishi <konishi.ryusuke@gmail.com>,
- Viacheslav Dubeyko <slava@dubeyko.com>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Bob Copeland <me@bobcopeland.com>, Andrew Morton
- <akpm@linux-foundation.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
- linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
- linux-karma-devel@lists.sourceforge.net, linux-mm@kvack.org,
- "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-References: <20260225-blk-dontcache-v2-0-70e7ac4f7108@columbia.edu>
- <20260225-blk-dontcache-v2-1-70e7ac4f7108@columbia.edu>
- <c8078a80-f801-4f8a-b3cd-e2ccbfca1def@kernel.dk>
- <aZ-2G_6lDZePLSyx@casper.infradead.org>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <aZ-2G_6lDZePLSyx@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 2/25/26 7:55 PM, Matthew Wilcox wrote:
-> On Wed, Feb 25, 2026 at 03:52:41PM -0700, Jens Axboe wrote:
->> How well does this scale? I did a patch basically the same as this, but
->> not using a folio batch though. But the main sticking point was
->> dropbehind_lock contention, to the point where I left it alone and
->> thought "ok maybe we just do this when we're done with the awful
->> buffer_head stuff". What happens if you have N threads doing IO at the
->> same time to N block devices? I suspect it'll look absolutely terrible,
->> as each thread will be banging on that dropbehind_lock.
->>
->> One solution could potentially be to use per-cpu lists for this. If you
->> have N threads working on separate block devices, they will tend to be
->> sticky to their CPU anyway.
-> 
-> Back in 2021, I had Vishal look at switching the page cache from using
-> hardirq-disabling locks to softirq-disabling locks [1].  Some of the
-> feedback (which doesn't seem to be entirely findable on the lists ...)
-> was that we'd be better off punting writeback completion from interrupt
-> context to task context and going from spin_lock_irq() to spin_lock()
-> rather than going to spin_lock_bh().
-> 
-> I recently saw something (possibly XFS?) promoting this idea again.
-> And now there's this.  Perhaps the time has come to process all
-> write-completions in task context, rather than everyone coming up with
-> their own workqueues to solve their little piece of the problem?
+From: Jiayuan Chen <jiayuan.chen@shopee.com>
 
-Perhaps, even though the punting tends to suck... One idea I toyed with
-but had to abandon due to fs freezeing was letting callers that process
-completions in task context anyway just do the necessary work at that
-time. There's literally nothing worse than having part of a completion
-happen in IRQ, then punt parts of that to a worker, and need to wait for
-the worker to finish whatever it needs to do - only to then wake the
-target task. We can trivially do this in io_uring, as the actual
-completion is posted from the task itself anyway. We just need to have
-the task do the bottom half of the completion as well, rather than some
-unrelated kthread worker.
+KCSAN reports a data race when concurrent readers access the same
+struct file:
 
-I'd be worried a generic solution would be the worst of all worlds, as
-it prevents optimizations that happen in eg iomap and other spots, where
-only completions that absolutely need to happen in task context get
-punted. There's a big difference between handling a completion inline vs
-needing a round-trip to some worker to do it.
+  BUG: KCSAN: data-race in filemap_read / filemap_splice_read
 
+  write to 0xffff88811a6f8228 of 8 bytes by task 10061 on cpu 0:
+   filemap_splice_read+0x523/0x780 mm/filemap.c:3125
+   ...
+
+  write to 0xffff88811a6f8228 of 8 bytes by task 10066 on cpu 1:
+   filemap_read+0x98d/0xa10 mm/filemap.c:2873
+   ...
+
+Both filemap_read() and filemap_splice_read() update f_ra.prev_pos
+without synchronization. This is a benign race since prev_pos is only
+used as a hint for readahead heuristics in page_cache_sync_ra(), and a
+stale or torn value merely results in a suboptimal readahead decision,
+not a correctness issue.
+
+Use WRITE_ONCE/READ_ONCE to annotate all accesses to prev_pos across
+the tree for consistency and silence KCSAN.
+
+Reported-by: syzbot+6880f676b265dbd42d63@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=6880f676b265dbd42d63
+Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
+---
+ fs/ext4/dir.c                    | 2 +-
+ fs/ntfs3/fsntfs.c                | 2 +-
+ include/trace/events/readahead.h | 2 +-
+ mm/filemap.c                     | 6 +++---
+ mm/readahead.c                   | 4 ++--
+ mm/shmem.c                       | 2 +-
+ 6 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/fs/ext4/dir.c b/fs/ext4/dir.c
+index 28b2a3deb954..1ddf7acce5ca 100644
+--- a/fs/ext4/dir.c
++++ b/fs/ext4/dir.c
+@@ -200,7 +200,7 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
+ 					sb->s_bdev->bd_mapping,
+ 					&file->f_ra, file, index,
+ 					1 << EXT4_SB(sb)->s_min_folio_order);
+-			file->f_ra.prev_pos = (loff_t)index << PAGE_SHIFT;
++			WRITE_ONCE(file->f_ra.prev_pos, (loff_t)index << PAGE_SHIFT);
+ 			bh = ext4_bread(NULL, inode, map.m_lblk, 0);
+ 			if (IS_ERR(bh)) {
+ 				err = PTR_ERR(bh);
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index 0df2aa81d884..d1232fc03c08 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -1239,7 +1239,7 @@ int ntfs_read_run_nb_ra(struct ntfs_sb_info *sbi, const struct runs_tree *run,
+ 			if (!ra_has_index(ra, index)) {
+ 				page_cache_sync_readahead(mapping, ra, NULL,
+ 							  index, 1);
+-				ra->prev_pos = (loff_t)index << PAGE_SHIFT;
++				WRITE_ONCE(ra->prev_pos, (loff_t)index << PAGE_SHIFT);
+ 			}
+ 		}
+ 
+diff --git a/include/trace/events/readahead.h b/include/trace/events/readahead.h
+index 0997ac5eceab..63d8df6c2983 100644
+--- a/include/trace/events/readahead.h
++++ b/include/trace/events/readahead.h
+@@ -101,7 +101,7 @@ DECLARE_EVENT_CLASS(page_cache_ra_op,
+ 		__entry->async_size = ra->async_size;
+ 		__entry->ra_pages = ra->ra_pages;
+ 		__entry->mmap_miss = ra->mmap_miss;
+-		__entry->prev_pos = ra->prev_pos;
++		__entry->prev_pos = READ_ONCE(ra->prev_pos);
+ 		__entry->req_count = req_count;
+ 	),
+ 
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 63f256307fdd..d3e2d4b826b9 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -2771,7 +2771,7 @@ ssize_t filemap_read(struct kiocb *iocb, struct iov_iter *iter,
+ 	int i, error = 0;
+ 	bool writably_mapped;
+ 	loff_t isize, end_offset;
+-	loff_t last_pos = ra->prev_pos;
++	loff_t last_pos = READ_ONCE(ra->prev_pos);
+ 
+ 	if (unlikely(iocb->ki_pos < 0))
+ 		return -EINVAL;
+@@ -2870,7 +2870,7 @@ ssize_t filemap_read(struct kiocb *iocb, struct iov_iter *iter,
+ 	} while (iov_iter_count(iter) && iocb->ki_pos < isize && !error);
+ 
+ 	file_accessed(filp);
+-	ra->prev_pos = last_pos;
++	WRITE_ONCE(ra->prev_pos, last_pos);
+ 	return already_read ? already_read : error;
+ }
+ EXPORT_SYMBOL_GPL(filemap_read);
+@@ -3122,7 +3122,7 @@ ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
+ 			len -= n;
+ 			total_spliced += n;
+ 			*ppos += n;
+-			in->f_ra.prev_pos = *ppos;
++			WRITE_ONCE(in->f_ra.prev_pos, *ppos);
+ 			if (pipe_is_full(pipe))
+ 				goto out;
+ 		}
+diff --git a/mm/readahead.c b/mm/readahead.c
+index 7b05082c89ea..de49b35b0329 100644
+--- a/mm/readahead.c
++++ b/mm/readahead.c
+@@ -142,7 +142,7 @@ void
+ file_ra_state_init(struct file_ra_state *ra, struct address_space *mapping)
+ {
+ 	ra->ra_pages = inode_to_bdi(mapping->host)->ra_pages;
+-	ra->prev_pos = -1;
++	WRITE_ONCE(ra->prev_pos, -1);
+ }
+ EXPORT_SYMBOL_GPL(file_ra_state_init);
+ 
+@@ -584,7 +584,7 @@ void page_cache_sync_ra(struct readahead_control *ractl,
+ 	}
+ 
+ 	max_pages = ractl_max_pages(ractl, req_count);
+-	prev_index = (unsigned long long)ra->prev_pos >> PAGE_SHIFT;
++	prev_index = (unsigned long long)READ_ONCE(ra->prev_pos) >> PAGE_SHIFT;
+ 	/*
+ 	 * A start of file, oversized read, or sequential cache miss:
+ 	 * trivial case: (index - prev_index) == 1
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 5e7dcf5bc5d3..03569199baf4 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -3642,7 +3642,7 @@ static ssize_t shmem_file_splice_read(struct file *in, loff_t *ppos,
+ 		len -= n;
+ 		total_spliced += n;
+ 		*ppos += n;
+-		in->f_ra.prev_pos = *ppos;
++		WRITE_ONCE(in->f_ra.prev_pos, *ppos);
+ 		if (pipe_is_full(pipe))
+ 			break;
+ 
 -- 
-Jens Axboe
+2.43.0
+
