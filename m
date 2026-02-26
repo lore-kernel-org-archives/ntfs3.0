@@ -1,36 +1,36 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397393A1E82;
-	Thu, 26 Feb 2026 21:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6507A2F12AF;
+	Thu, 26 Feb 2026 22:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772140345; cv=none; b=Z3d5vS9JQOeS1xtl7n8viGXhI6FlwrjDBRCpCNH2sfeIH3LdzrT5dqVclsibosdYvYGZrJB3X/ci4vXM6hue8XaxTE/IP53kvo/9Wq9PhyE/p4w6HeBB/2xalftpC2cYj/8IJHYLQ0dXV6iQAOj2gIkNtScGGBlKbXTd9HCvm+g=
+	t=1772143460; cv=none; b=jAqpfvgy1kILr/dc+/TBbLW+lYz8ciFhh/kbjd4dDOnZR+ZsaeA1VPI05xWdX/Tp5LMNYzwqfC2eQ+KKpBv+mgVmMTbIRdv31qhHa1OwNbQayuGmUTuB3X59B5njD4tJ4hjMvC/JSqzRvPbKEIwO1K7tSmpsCdYHQMIesVuYb0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772140345; c=relaxed/simple;
-	bh=h/eCq6uk34O9sRVEPL6UJ9Eruk+vrXSzn2fekqThhV4=;
+	s=arc-20240116; t=1772143460; c=relaxed/simple;
+	bh=soc/yo1tEWGXbBjVrQ/VMOQ1ekNyzhkHjV9HavtUPDo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dZHnnEtPDQbk9Q4PaKb/IjzJDhEVKNM8A4v6IE04aBVWmBD/u/6wvA3H2Czdr64Gxz3VGMlZTZyRFIA4tg3OoB+RvMUMK2TZnKDLlQ57gc8fEspn7k/SzTIlj5IV/wTj2fUe0K2J5Ks0F9E9kaZtgrfPa1iMvzAJfynvwCsmyp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lgkspXoZ; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y/3VBj96qbkRsl3PM+iTSKy71ieI36JdUVGnH24djezgZS/2MDgUnBpr44Mz3ucGIyMpjMT0AAgPY9x19Tx66FwqygqQxUiS9olbMJ00W//xf0ena1v8IFDym8YArvDTithKcRTmxMA63n6+nsAuZOcSUfL4aN3NgAmAN3SNxBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bmFMChbe; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lgkspXoZ"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bmFMChbe"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=cxjFK2I1rFqs+rF+S3xFy7UtO9xYKfa9VhNCsIXi0UM=; b=lgkspXoZtskd+nEFTO7IHEtKtY
-	QTWQeCvLBoCUJsiEPlwCe6SWhlX4OpH4sfIcf973/D/KHKtxmL7cdhI6EVPhq+88YezeXjnYeF9/k
-	lTBC4JUAHiw0PjPxqQDKyXesl0LB4Vk4iaFTKfzl2Tl3I2RHXTu5RqbQRomZRKajicLkxk1Zc3Cgl
-	EA9AE9Aq8Dj+/BUR9USybQncuYrIbgeNeLca3LgZvkDQDBJlBeBiGdrYoUnF5XrvaNGooNpTfJR43
-	oaTeNczWoFDSM88QQWW6khDtS0804E+RmfZTXk4WzycI+T/ry+ky6kMNEO4z3lOlB81Jk2mHVpBQg
-	Mtjq8aOQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vviec-00000003Sxg-0gjd;
-	Thu, 26 Feb 2026 21:12:14 +0000
-Date: Thu, 26 Feb 2026 21:12:13 +0000
-From: Matthew Wilcox <willy@infradead.org>
+	bh=5bu012TDyQPUO/wvA+hw2yCZC4iVJmbX0faG8R4aVOY=; b=bmFMChbeXAKmL9O3h8bmg/4rBu
+	So6ch1NZnvPbScRns188h7F/rGcpYLcQKPAND1O3tIhaTGfhesfRyaEMSiOck1t/7GJsgSW8By+oe
+	I+6h8JlmxarQ7tRM8QL1c2VrCrvGumCicDKwneDLTqcbq1r6v3CDKHoyLopBGteCJSC60/gK3Y1Yk
+	MRRGFix+j8wkBUHPxiSbKO/MbA5YC5+uJtdTB0P2eoY48gBiPsdaoS5Qu4rfUdcP7hGztuzf9N5u4
+	12HyGuT1qf4DoCAjblkVAff52JDrreI7lolCOWuTuFqA/U3Nt/x3bhEUV4uHKYQsn6JOd0Y6uf9QB
+	Nm0hpEWQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vvjSr-00000007HXz-3kME;
+	Thu, 26 Feb 2026 22:04:09 +0000
+Date: Thu, 26 Feb 2026 14:04:09 -0800
+From: Christoph Hellwig <hch@infradead.org>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Tal Zussman <tz2294@columbia.edu>,
 	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
@@ -44,21 +44,19 @@ Cc: Tal Zussman <tz2294@columbia.edu>,
 	Viacheslav Dubeyko <slava@dubeyko.com>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Bob Copeland <me@bobcopeland.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
 	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
 	ntfs3@lists.linux.dev, linux-karma-devel@lists.sourceforge.net,
-	linux-mm@kvack.org,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+	linux-mm@kvack.org, "Darrick J. Wong" <djwong@kernel.org>
 Subject: Re: [PATCH RFC v2 1/2] filemap: defer dropbehind invalidation from
  IRQ context
-Message-ID: <aaC3LUFa1Jz2ahk3@casper.infradead.org>
+Message-ID: <aaDDWQ3gc4BWH2d_@infradead.org>
 References: <20260225-blk-dontcache-v2-0-70e7ac4f7108@columbia.edu>
  <20260225-blk-dontcache-v2-1-70e7ac4f7108@columbia.edu>
  <c8078a80-f801-4f8a-b3cd-e2ccbfca1def@kernel.dk>
- <aZ-2G_6lDZePLSyx@casper.infradead.org>
- <44e3e9ea-350b-4357-ba50-726e506feab5@kernel.dk>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -67,48 +65,19 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <44e3e9ea-350b-4357-ba50-726e506feab5@kernel.dk>
+In-Reply-To: <c8078a80-f801-4f8a-b3cd-e2ccbfca1def@kernel.dk>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Wed, Feb 25, 2026 at 08:15:28PM -0700, Jens Axboe wrote:
-> On 2/25/26 7:55 PM, Matthew Wilcox wrote:
-> > I recently saw something (possibly XFS?) promoting this idea again.
-> > And now there's this.  Perhaps the time has come to process all
-> > write-completions in task context, rather than everyone coming up with
-> > their own workqueues to solve their little piece of the problem?
-> 
-> Perhaps, even though the punting tends to suck... One idea I toyed with
-> but had to abandon due to fs freezeing was letting callers that process
-> completions in task context anyway just do the necessary work at that
-> time. There's literally nothing worse than having part of a completion
-> happen in IRQ, then punt parts of that to a worker, and need to wait for
-> the worker to finish whatever it needs to do - only to then wake the
-> target task. We can trivially do this in io_uring, as the actual
-> completion is posted from the task itself anyway. We just need to have
-> the task do the bottom half of the completion as well, rather than some
-> unrelated kthread worker.
-> 
-> I'd be worried a generic solution would be the worst of all worlds, as
-> it prevents optimizations that happen in eg iomap and other spots, where
-> only completions that absolutely need to happen in task context get
-> punted. There's a big difference between handling a completion inline vs
-> needing a round-trip to some worker to do it.
+On Wed, Feb 25, 2026 at 03:52:41PM -0700, Jens Axboe wrote:
+> One solution could potentially be to use per-cpu lists for this. If you
+> have N threads working on separate block devices, they will tend to be
+> sticky to their CPU anyway.
 
-I spoke a little hastily when I said "all write completions".  What I
-really meant was something like:
+Having per-cpu lists would be nice, but I'd really love to have them
+in iomap, as we have quite a few iomap features that would benefit
+from generic offload to user context on completion.  Right now we
+only have code for that in XFS, and that's because the list is anchored
+in the inode.  Based on the commit message in cb357bf3d105f that's
+intentional for the write completions there, but for all other
+completions a generic per-cpu list would probably work fine.
 
-+++ b/block/bio.c
-@@ -1788,7 +1788,9 @@ void bio_endio(struct bio *bio)
-        }
- #endif
-
--       if (bio->bi_end_io)
-+       if (!in_task() && bio_flagged(bio, BIO_COMPLETE_IN_TASK_CONTEXT))
-+               bio_queue_completion(bio);
-+       else if (bio->bi_end_io)
-                bio->bi_end_io(bio);
- }
- EXPORT_SYMBOL(bio_endio);
-
-and then the submitter (ie writeback) would choose to set
-BIO_COMPLETE_IN_TASK_CONTEXT.  And maybe others (eg fscrypt) would
-want to do the same.
