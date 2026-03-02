@@ -1,90 +1,131 @@
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA8227AC48
-	for <ntfs3@lists.linux.dev>; Sun,  1 Mar 2026 06:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5A233A70A;
+	Mon,  2 Mar 2026 10:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772346153; cv=none; b=g+FU/GSLvWW4UeueMmklIl5trssMFCQuUoN1ejafjQcvXkf5x8yAiirFM23VgiNLgcj221pV7w3OnuAlH38taXfOT434x4ClEJMy1c9Yi3CCD9ZNHnUUt98xSXU1x5Ek+cPSNSBrHzlnm52ReIRap6hpKUR6K4IYd1KsRlFmnwY=
+	t=1772446300; cv=none; b=nPu549YXIsK6jgxVochzSARXVEmZcgaDFFKB61XjZou01OB56Vt8t5S4OOFINzPcz7euPTAO0Q4u0i5INZqUZk2gbKThmXRowCa/Q+XO/xaZythWz3n/QsQoSrBxXeE4pAwmK9AwkWtTZtGla0XC5dLIcljEDnJlqS+h4aUtt5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772346153; c=relaxed/simple;
-	bh=7iKmwYUWG0zWaCDLOWao0VHaqoX/0qxKhneKkxQLUfg=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=J3rnFvJ0PJa+AMhm1TCzfJ1zjfuFyodSft+SJCfqL58VT7h2t3ZRm7uZhzMLwc5xlg+od85oO7EQMAVpSAr4Le3xHq6DcTx1i3Fjt+J5IVs3OR6sRQbqWZdhzRfL4KIhq24f/HmnrdAGL/m/Mp1wVbO8nvMstKK9ftZzmdPF8eA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-679e5688b33so27358350eaf.3
-        for <ntfs3@lists.linux.dev>; Sat, 28 Feb 2026 22:22:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772346151; x=1772950951;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HGaiMLZ4GbcIgUiQ0AVGiAJy8W09VEQCYkUBaQ2moiw=;
-        b=ruWbVa/fpohL5p09zewkLDxWF6WEFjRToFG/xIkqhj95jBo2hwtaRu4NSSEn5S2qAI
-         z35dDjr0SwcO0pH1ZXmOemIQTFzKObaHafgNBUF/uviyo3C2GBcvIzmfzs9pUkX/59+/
-         NKOxbxNR0ocfTXjAP+SwqTngFjdhOoQ0th0sRYWZtzzlIGhR2yWmSczq2Ec3RunZJOfa
-         0oWmjP+bQ9oZXkEODnQKi7+Ht5tyHJRFxhgU8835CHdp9/rkFig7G4nZvnOgyHDfK5Ya
-         rhXPrXT4Q0Dm0VeuGobbCYvgm9MLPth8isswLaR6aA8nwsZxfPfmfq3pv77TL4/vdgQU
-         47eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWtPLnrnBIbNeHvMh+4nlxh58SVBVmalBxfAiqVxneYAXO9c+dVLmlRy3IcdCV04DFA70uUSA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxbWmjSeOWaE8GWz2oNc/BVP5r/gBGDJyRkDzhi+HonjBY+isky
-	0FPnAlfc6SKIJaJAMgiHFSpyZ9cOjsRf8BXEzgAKjzJDFVU4Qbzy6DmLgWglXG5FT08KYS0LNct
-	79Zk/MYXA2l1eFJb0Y+GGX78IsQ00lMgz9x1nOhcKbV7IqBcJM4Nz42mBerk=
+	s=arc-20240116; t=1772446300; c=relaxed/simple;
+	bh=kUc0farZiGjD/n/ZNvbtXOu1ZJEABLXUI1WRJsXmbXM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g/rAMOFtQmWwICYCJWX1z8ZmVZi9TQxFlXVYawg1t+UGd2JbYnP9zqIrUxdecPT/LcWTmqizTdl+PdtCVTQeUbCTaKtNZGEkYZz418sP8eNGsRKIkBtZsD8ugTZ8Hsz4oX7WKrx1t/GzO5Xcp60guOyxF9KZ/h7dSDEyLd3TKkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ld0iTfc0; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ld0iTfc0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C359C19423;
+	Mon,  2 Mar 2026 10:11:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772446299;
+	bh=kUc0farZiGjD/n/ZNvbtXOu1ZJEABLXUI1WRJsXmbXM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ld0iTfc0cwdtiAlPMEakYAevL8IA888m/oSGOWsZW9Vt/zRCmvQ4Uc2DLU421l8Ep
+	 FeEfp7BAVN3Md4S7xoDs560NSkIPqpAgGZjI8duIgTUDUN4ffC/n9jlqR9mSdh7DOK
+	 i+fwYRegrrDbqO2zS5LTbG0RJJekRLaCqvE4GMYHd2g6AqdC5IbN1o6ybzmA2KYMQj
+	 H8/+Z0X4Lskdq25zp26NlH+MAudrmt8Ze01H0WanxEKFuUQOsSeWHdU+ioNIsSNDJn
+	 l1yOC6qj/LVeXnfey1eygn3X+LetUHp/cr/wpE8fSTUC2ZAQM12IfB/Z06v2wfSFCz
+	 rcqnAPVmF3txA==
+From: Christian Brauner <brauner@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>
+Subject: Re: support file system generated / verified integrity information v4
+Date: Mon,  2 Mar 2026 11:11:22 +0100
+Message-ID: <20260302-legehennen-musizieren-08d0e3caa674@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260223132021.292832-1-hch@lst.de>
+References: <20260223132021.292832-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:826:b0:679:c549:203b with SMTP id
- 006d021491bc7-679fae14edamr4816565eaf.25.1772346151101; Sat, 28 Feb 2026
- 22:22:31 -0800 (PST)
-Date: Sat, 28 Feb 2026 22:22:31 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69a3db27.050a0220.3a55be.0051.GAE@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Mar 2026)
-From: syzbot <syzbot+list84373195a560045a1095@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3749; i=brauner@kernel.org; h=from:subject:message-id; bh=kUc0farZiGjD/n/ZNvbtXOu1ZJEABLXUI1WRJsXmbXM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQuTQr5LTEvM/FaGJOD/CtL7fimM5MvX52/7GFUWNlF5 gnPizyZOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZyO4zhf+nviJw1/T92tyfF 9+oxcPcx3b+kpPDy0xazm+GSsTvXxDMyTOuLZW/sZO/YaLDhx4U9+x7ZqCtYeCwNmqqhk85+08S cAwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-Hello ntfs3 maintainers/developers,
+On Mon, 23 Feb 2026 05:20:00 -0800, Christoph Hellwig wrote:
+> this series adds support to generate and verify integrity information
+> (aka T10 PI) in the file system, instead of the automatic below the
+> covers support that is currently used.
+> 
+> There two reasons for this:
+> 
+>   a) to increase the protection enveloped.  Right now this is just a
+>      minor step from the bottom of the block layer to the file system,
+>      but it is required to support io_uring integrity data passthrough in
+>      the file system similar to the currently existing support for block
+>      devices, which will follow next.  It also allows the file system to
+>      directly see the integrity error and act upon in, e.g. when using
+>      RAID either integrated (as in btrfs) or by supporting reading
+>      redundant copies through the block layer.
+>   b) to make the PI processing more efficient.  This is primarily a
+>      concern for reads, where the block layer auto PI has to schedule a
+>      work item for each bio, and the file system them has to do it again
+>      for bounce buffering.  Additionally the current iomap post-I/O
+>      workqueue handling is a lot more efficient by supporting merging and
+>      avoiding workqueue scheduling storms.
+> 
+> [...]
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+Applied to the vfs-7.1.verity branch of the vfs/vfs.git tree.
+Patches in the vfs-7.1.verity branch should appear in linux-next soon.
 
-During the period, 2 new issues were detected and 1 were fixed.
-In total, 20 issues are still open and 88 have already been fixed.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-Some of the still happening issues:
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-Ref Crashes Repro Title
-<1> 9729    Yes   possible deadlock in run_unpack_ex
-                  https://syzkaller.appspot.com/bug?extid=731b27ee9413ba859499
-<2> 5669    Yes   possible deadlock in ntfs_fiemap
-                  https://syzkaller.appspot.com/bug?extid=96cee7d33ca3f87eee86
-<3> 3708    Yes   possible deadlock in attr_data_get_block (2)
-                  https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
-<4> 522     Yes   possible deadlock in ntfs_fallocate
-                  https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
-<5> 135     Yes   WARNING in ni_rename (2)
-                  https://syzkaller.appspot.com/bug?extid=4d8e30dbafb5c1260479
-<6> 14      Yes   WARNING in wnd_add_free_ext (4)
-                  https://syzkaller.appspot.com/bug?extid=323f07d372f692a127b3
-<7> 5       Yes   WARNING in attr_data_get_block_locked
-                  https://syzkaller.appspot.com/bug?extid=c1e9aedbd913fadad617
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.1.verity
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+[01/16] block: factor out a bio_integrity_action helper
+        https://git.kernel.org/vfs/vfs/c/08163237c7be
+[02/16] block: factor out a bio_integrity_setup_default helper
+        https://git.kernel.org/vfs/vfs/c/32d5010c428f
+[03/16] block: add a bdev_has_integrity_csum helper
+        https://git.kernel.org/vfs/vfs/c/840b166bef09
+[04/16] block: prepare generation / verification helpers for fs usage
+        https://git.kernel.org/vfs/vfs/c/179c2a24466b
+[05/16] block: make max_integrity_io_size public
+        https://git.kernel.org/vfs/vfs/c/1b9353e52c31
+[06/16] block: add fs_bio_integrity helpers
+        https://git.kernel.org/vfs/vfs/c/e539fc923425
+[07/16] block: pass a maxlen argument to bio_iov_iter_bounce
+        https://git.kernel.org/vfs/vfs/c/fc9fc9482061
+[08/16] iomap: refactor iomap_bio_read_folio_range
+        https://git.kernel.org/vfs/vfs/c/9701407ec63e
+[09/16] iomap: pass the iomap_iter to ->submit_read
+        https://git.kernel.org/vfs/vfs/c/f11d7d3307f4
+[10/16] iomap: only call into ->submit_read when there is a read_ctx
+        https://git.kernel.org/vfs/vfs/c/46441138b832
+[11/16] iomap: allow file systems to hook into buffered read bio submission
+        https://git.kernel.org/vfs/vfs/c/04c2cc5bb77b
+[12/16] ntfs3: remove copy and pasted iomap code
+        https://git.kernel.org/vfs/vfs/c/4c3906772536
+[13/16] iomap: add a bioset pointer to iomap_read_folio_ops
+        https://git.kernel.org/vfs/vfs/c/c1dec831dd53
+[14/16] iomap: support ioends for buffered reads
+        https://git.kernel.org/vfs/vfs/c/9c617c91f801
+[15/16] iomap: support T10 protection information
+        https://git.kernel.org/vfs/vfs/c/fa1758bda166
+[16/16] xfs: support T10 protection information
+        https://git.kernel.org/vfs/vfs/c/330cc116c7a0
