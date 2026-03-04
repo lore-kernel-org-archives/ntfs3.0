@@ -1,139 +1,99 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000E33988E2
-	for <ntfs3@lists.linux.dev>; Wed,  4 Mar 2026 09:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4020C396593
+	for <ntfs3@lists.linux.dev>; Wed,  4 Mar 2026 09:54:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772616641; cv=none; b=rDeStaOugAVelBrA1q7nolkDLQ+g1IS7yZZwuKX8uG+MXTfoGE2g+tANz2W+zJaRspTKLYEx2LCSQiSlvmbcQVr4MfKbbBepuA6l0S7dDmutmJBp1FEuCVAQ70VTTaUdWI0vloG8sCAtuazmhUj5rHijGB23PNTZELQ/6+zKBTQ=
+	t=1772618059; cv=none; b=ik8CiyHL5pzOC0tfsMOftmg9noNPRHK2zOCduvOSnMn6yEbZ9toL346BcR/gXPQeOwqAfC6Y4o7GghEdAofIc6T+dEj5PFfYyyegmr40SJVHECosU5+okpWfUytpzJauL5eL4xuy44DIM/AJB+Zs2pgovuc5JhmLUoqKrDzjY2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772616641; c=relaxed/simple;
-	bh=qyvL/iXE6+TakoKVVxVCaopqm1BpX+f7Q05dx5gBHDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HDPr1OfTBfEcrwDuczZC8CdfD0X5RNhHccT7x0TQK26K1nH92n70iWFqAbUtQ/XNwi1eBgSHHxpSGlmraDPEj8jygOCOGtB4txkkqXediCY6VOEx22t1lVZ337M+v47H2gLV4YQ+QwVPaUYociOSoH9tazQe+WVe62CEQ6s+elQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VXBfZ85W; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772618059; c=relaxed/simple;
+	bh=KoeP/sSndgk3hzd/1RyRofRtko5Fxip2FmW++HU6Fbg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ylp1En99UYT01CF3QaZR5x7BtOqr592s2bVAfOb5b0kZPgMApxSjjgVDYaRuvwo/PTbkOamTwGv/1fHaOOfoOAK8VIFgX5RPo69Oan1uXzKl+0G54KISNTlMb4+ya+I1hdlLq2ES96E0FNt8AvkjT/2TwrzseF0kOfrPEYwEw2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=jE4b8F8B; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VXBfZ85W"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48371bb515eso99247665e9.1
-        for <ntfs3@lists.linux.dev>; Wed, 04 Mar 2026 01:30:37 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="jE4b8F8B"
+Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 4117E1D40;
+	Wed,  4 Mar 2026 09:52:30 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=jE4b8F8B;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 3B870455;
+	Wed,  4 Mar 2026 09:53:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772616636; x=1773221436; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BUzQoESoh9/PqMSFbMpuw4Pmh5IPXiGP/qvOjxX4wwo=;
-        b=VXBfZ85WCNnS1YA4riE7WlgmBU7lDNyYyUkse0B+ZqjOYf4uij3TO0G0VIVlItsoyQ
-         zAisFncEc0hzAiz4WVTGvlxd7IlvTOo6yMyx5qxCLP66yZzaTWPAyJdNuH1ivv4Bjtph
-         hWFMcdVn3En92NYldPlrnVGr70YURQO569q9dc9Mnt68sMQBldt9RLTXIQyR37Rg4oze
-         GdeM6Es1wjdG5iCUgXW5efpFfJApVOOw9ZFt7aTzcxg7OoXctaJXnzHzyA6zs59BdHgJ
-         5tx48GMwBIkyqIWAJ4dlLGO+IKeKjfX749jXPLP1dr4XWtMiVmSdXK1+slJu3yWNQHtU
-         pb8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772616636; x=1773221436;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BUzQoESoh9/PqMSFbMpuw4Pmh5IPXiGP/qvOjxX4wwo=;
-        b=fI42TwhfYG0UEvAdO1S2bqIER3maVUl8OkOHEhMXoCb5fa8K917Fwf0lmp7JpK8h1Z
-         pvDbGSeJegztMh8hHcMfD7quOxyGLrQZM/ditfrpYw5gCAT29IdAd8KL4UItZZ1lpMEq
-         WQSS5Dw3akwr0w7ROl/KJTxluid+O2fkJc/w4IDX5C8oHahlmDvOlM9vvxINbO7rg2D5
-         LmF7cbUismPf76KyGWVgcPGYp6941H27ecPre01s0atL6m6OphuClrCEmWNp9CRZtjr5
-         zZVQYSTF6SgpPSbpgK20ra++uqGomFgggAjPy1AXxFyhe2rfIewT/W1GZVqe4sF+fUTb
-         9KyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWYifZpfvQFi54+1Nc5sP+aDA9rQTUep56gM98nI6R8LuGqoUxy8SP1/M1NVIKLneaaLw+kfQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwFtnIjnx+pTWeExEIbvCx5CIVV5SmxXLnQp0rGbrv8ZVrRpl8i
-	hwMtCvDEM9T3y8M05MzB2mqYGEyigRkOxNtJmVQD86Nbr7acWQNaRpw7
-X-Gm-Gg: ATEYQzx7zM21Hdm/PFvG9F/r6aYLbJPBRszjmhS/Tvo3Wk25EtYjSVEMQmJVW491YKu
-	DqphTAGNpg2B3xQdts2rdy9LTfRR8dGAHkJEHH5ooVC0HwUUiS/CnWUVk4VzlKc1RMa7snAJ6KX
-	/LoAEXd3k+hV3WOrQSAJ25/rseM2S7l/MXossLcquDSXuOMw0v0TwGBg3LL6ZLuPLHTaiCSui6E
-	S8ljN4UY5q1Eu+mgDfI9wZQL5avEg3BF6i+aSNRkX/ef5STfTRV0S50yXvq2ufjGNvdRphGCAPe
-	JAd6QbcRt5ERQ9V6HMAUtnxTLq7BzokeaAu18jZxkbUjbi/N03jH5mbF50H0kgOXvsNmqf9YbRM
-	asfJq967+yGi7RUDOE3YchqSbcIw0dkl2vbl6lKHPWxGJJ+K7NigXVT1A8PEWyVgnCkH8m+vVo+
-	rLbDJ1tkKnDss1Rux7Y1a7MLwZcjkdlh6meeWVIJ9uznTuKbZjncU3zun5D+R96VD2
-X-Received: by 2002:a05:600c:8b53:b0:483:498f:7963 with SMTP id 5b1f17b1804b1-4851989024emr19550785e9.26.1772616636117;
-        Wed, 04 Mar 2026 01:30:36 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851884225asm38972555e9.6.2026.03.04.01.30.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 01:30:35 -0800 (PST)
-Date: Wed, 4 Mar 2026 09:30:33 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: NeilBrown <neilb@ownmail.net>
-Cc: "Jeff Layton" <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- nvdimm@lists.linux.dev, fsverity@lists.linux.dev, linux-mm@kvack.org,
- netfs@lists.linux.dev, linux-ext4@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
- linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
- linux-nilfs@vger.kernel.org, v9fs@lists.linux.dev,
- linux-afs@lists.infradead.org, autofs@vger.kernel.org,
- ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu,
- ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org,
- jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev,
- ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org,
- linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com,
- linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
- selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org,
- linux-x25@vger.kernel.org, audit@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, linux-can@vger.kernel.org,
- linux-sctp@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 000/110] vfs: change inode->i_ino from unsigned long
- to u64
-Message-ID: <20260304092559.554ac9a9@pumpkin>
-In-Reply-To: <177260561903.7472.14075475865748618717@noble.neil.brown.name>
-References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
-	<1787281.1772535332@warthog.procyon.org.uk>
-	<1c28e34c7167acf4e20c3e201476504135aa44e8.camel@kernel.org>
-	<177260561903.7472.14075475865748618717@noble.neil.brown.name>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	d=paragon-software.com; s=mail; t=1772618026;
+	bh=QPPOmNDtA7oQx0JJ46Y5RIxEj2nWDwbzb2bdPOKzOy0=;
+	h=From:To:CC:Subject:Date;
+	b=jE4b8F8Bw6jNMNKPmAoluPRBkPhBp11CL9DK45pQYaTF3DIQUOZI6ak9AOk+qpGVy
+	 764s1CLDNZPAHvDvLv09xFl3t4OXvh03MI1h5Lk4WxLONX2y/KXD+3TrFpjNPhVz2z
+	 i14H8VuCUrQs+QXQYzsXtZzFYljcCChVFpqHR04M=
+Received: from localhost.localdomain (172.30.20.150) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 4 Mar 2026 12:53:44 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH] fs/ntfs3: add a subset of W=1 warnings for stricter checks
+Date: Wed, 4 Mar 2026 10:53:34 +0100
+Message-ID: <20260304095334.4254-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On Wed, 04 Mar 2026 17:26:59 +1100
-NeilBrown <neilb@ownmail.net> wrote:
+Enable a subset of W=1-style compiler warnings for the ntfs3 tree so we
+catch small bugs early (unused symbols, missing declarations/prototypes,
+possible uninitialized/mis-sized uses, etc).
 
-> On Tue, 03 Mar 2026, Jeff Layton wrote:
-> > On Tue, 2026-03-03 at 10:55 +0000, David Howells wrote:  
-> > > Jeff Layton <jlayton@kernel.org> wrote:
-> > >   
-> > > > This version splits the change up to be more bisectable. It first adds a
-> > > > new kino_t typedef and a new "PRIino" macro to hold the width specifier
-> > > > for format strings. The conversion is done, and then everything is
-> > > > changed to remove the new macro and typedef.  
-> > > 
-> > > Why remove the typedef?  It might be better to keep it.
-> > >   
-> > 
-> > Why? After this change, internel kernel inodes will be u64's -- full
-> > stop. I don't see what the macro or typedef will buy us at that point.  
-> 
-> Implicit documentation?
-> ktime_t is (now) always s64, but we still keep the typedef;
-> 
-> It would be cool if we could teach vsprintf to understand some new
-> specifier to mean "kinode_t" or "ktime_t" etc.  But that would trigger
-> gcc warnings.
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+---
+ fs/ntfs3/Makefile | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-A more interesting one would be something that made gcc re-write the
-format with the correct 'length modifier' for the parameter.
-
-That would save a lot of effort!
-
-	David
-
-> 
-> NeilBrown
-> 
+diff --git a/fs/ntfs3/Makefile b/fs/ntfs3/Makefile
+index 279701b62bbe..53bf2c17ac28 100644
+--- a/fs/ntfs3/Makefile
++++ b/fs/ntfs3/Makefile
+@@ -3,6 +3,26 @@
+ # Makefile for the ntfs3 filesystem support.
+ #
+ 
++# Subset of W=1 warnings
++subdir-ccflags-y += -Wextra -Wunused -Wno-unused-parameter
++subdir-ccflags-y += -Wmissing-declarations
++subdir-ccflags-y += -Wmissing-format-attribute
++subdir-ccflags-y += -Wmissing-prototypes
++subdir-ccflags-y += -Wold-style-definition
++subdir-ccflags-y += -Wmissing-include-dirs
++condflags := \
++	$(call cc-option, -Wunused-but-set-variable)		\
++	$(call cc-option, -Wunused-const-variable)		\
++	$(call cc-option, -Wpacked-not-aligned)			\
++	$(call cc-option, -Wstringop-truncation)		\
++	$(call cc-option, -Wmaybe-uninitialized)
++subdir-ccflags-y += $(condflags)
++# The following turn off the warnings enabled by -Wextra
++subdir-ccflags-y += -Wno-missing-field-initializers
++subdir-ccflags-y += -Wno-sign-compare
++subdir-ccflags-y += -Wno-type-limits
++subdir-ccflags-y += -Wno-shift-negative-value
++
+ # to check robot warnings
+ ccflags-y += -Wint-to-pointer-cast \
+ 	$(call cc-option,-Wunused-but-set-variable,-Wunused-const-variable) \
+-- 
+2.43.0
 
