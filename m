@@ -1,132 +1,176 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D694C3D1CB4
-	for <ntfs3@lists.linux.dev>; Mon,  9 Mar 2026 14:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6160117A2F6;
+	Mon,  9 Mar 2026 17:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773067960; cv=none; b=MBGW77SoD5SpUEtt/gp89g9tMG4Twse5BgU/wIPO+Y2ye4UDCH7+mWWD36tqqmoswoyV9/qIt520zEJfLZoDD+Pho/2do2hp1zg4GMe7miIO3U/r91OJZGmcSZYWIp1XoMv5vZTNr9dtF/oe8MnNaP3qYRdeqYolWlIoQ6gNJ5M=
+	t=1773078449; cv=none; b=lWG7BKwboMeYkJzdquQkLVDQ8pkrGo9JB04zChuY20rGuNP9u6Xh7dWQo/2Xvbz6SXfmHPqYvxPVUFnE0FUWe3/GlOkZLavLP3D64MzOfy9fWM3oIrrfKvUHbOtOVgdPFUVQxk80IMpZo2S3zzBN+i00WS88gDuA2Zt/hjqUMpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773067960; c=relaxed/simple;
-	bh=njW+dpSk10SuO1AcbH5tukD81vdWuhIyIPazhF2qfvk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=V20fPD8ZW6PUZ6EFU+dQS9DHr5wLr9CtyWk95F55htSB72xbBMWBKi/i/BxrBKFxYOA+ntA78YyUYFkYjmpijXhuurgRfYXujchUqBjku4HZjHDgWbY2g9jdpmSisqpFyI8Xw81h1EVNOMApvNLxpmLPr5y9Pm7qTSPpAJg0deY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=rCfPz1ys; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1773078449; c=relaxed/simple;
+	bh=lgfykUqPjgDxE5127M/CRcYsCPDM1g1nEUgEbLyv9aM=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=QA8BA7udR62EIQgHZjGwHfR7bUAMbDJlas/XEsT7yO+RCUrqu3H5cg8Q2a6WEZFeIxh1M41+K7LHbJ4YKWqWMIeMlKoJMHHYDK2jbDblCzC/l8gKziUns6YbLUZXQ8l7J7hG3NCy1A0jzlAEv2PYbuJj550UMJycNKT26c7Vvdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=O46FAzGv; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="rCfPz1ys"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-509217e84a3so4406331cf.3
-        for <ntfs3@lists.linux.dev>; Mon, 09 Mar 2026 07:52:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1773067958; x=1773672758; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M362llShL/olgkvofrhnarltpI/bzDs+ZoXPZquhvi8=;
-        b=rCfPz1ysbjFoYMFoxa6XjrQS+GUoa/mYJNm4tsh+hCMnXn1haGC8U+bJC/VjdNeyI0
-         h0HoAurJY+aocgenR0tqq9bhnYCWmXqDemsoRB7B8gLeTOsc8/rJAvoGBHJK0LiSl6N4
-         91Inf+x69DKpzA+sgHV3N/wP543KG8fQOxg7RnhCIDpaOYnK/JtHBBFkiWyVfuEsfWBK
-         i0tAP+ov1uuVPpcDFGbhIsDJiYkq9ttRXJ1ZxqNAEuE7EhushQrs0weVU32VpT1P4JdL
-         wTZwpcvdNN8z3RiT1tLih0llDuA1wmZlI9dbX6NQyY/r0nXARDVPEx02ZbHSxaxi393M
-         r0Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773067958; x=1773672758;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=M362llShL/olgkvofrhnarltpI/bzDs+ZoXPZquhvi8=;
-        b=vvzMAXjl5fD9FUIUi6b9sASfODgeNSbVx281rEiSyC4rj5LevKq5gn9UTBxZynJ54a
-         oMEIIBhbrZu5It5Fp/ak4oouGIkJaAzpsXb9+a8uk3ADDo96h4nC82J8fbtb7MPb4W6j
-         k0HDCtPsCliPs0S1iCOc8GNuaANScwBpOk+FQwR3uOeTiXBd6Vy8PWTVQ7zVRmCKipJU
-         TGBbDJ9yrfxy2tlcRJ1lEu8tt0u8bxUlVjPRvj2OJPJT3Z5aJ49lZ4iRdKKnd3LIH01I
-         Bg0FIlcSF0gTchvBaaSBduCsYvJNF4yY44MZ0DmOpP3X7HQWpaR4nn91KpSU3Q1hFz41
-         VdtA==
-X-Forwarded-Encrypted: i=1; AJvYcCVO6pPPkV2aUVeYP8nqjfchu9RMPg/IE1O55aWd1TqZgsZPqXK/SAdYWjrIQnwr7iPZhvzLpQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwjLzwH6aLk3Cz09jllkCvAfzfnEfxgV7zFoYYhk3ej7CWKsDVj
-	ZEMqmBD8Tw0EIYOzBEuwHEar2A01f3Jvavljtx8UjUXN2RnY8pyYs9XWkWUoYRYs2/Y=
-X-Gm-Gg: ATEYQzzIyfpN5oM1Oh/eW1UKS/9p2oAFKfq8ofSxgbdQMb4YsouvmMLUoBZ2ELvVRcn
-	ZHyukyDeCrGvvg7XMftO/3YsJE58nc3EDPnZpCWMfTyE/VNfCgHYXAGWdfsTPeyKgpayoBHbKHF
-	jZF+lZsoIT8ce1i23W5OXz0aOltQ0X9vvrGqUkFGve2nFAlHlXqJURFTKgtg5xTqGokY4nGky4S
-	JXqtINrqP9SVlC2Aanzeo6ANh7n01WqmqbPCSJaYq0emxToglqEI8QhvZMXsuD/PIW20z+CcCzi
-	WAm2n24M00BL7oQcDpT1QBNogEDbkSoiw6sAaa9i534iDSFIUZcelS8FtnUUF8LPKhRvEdpjBE2
-	VBh9PjsHUnjqCtWJwnzBUVyynl0jgQPNCXUkik2HeElRXU6CZjU/Ns84uHNunPQjHc4kV+79acw
-	lHbxys8iii7+GaG9WHg1tIn2iSuTbgr2jEE8GldAQyXtvx6s4=
-X-Received: by 2002:ac8:5fd6:0:b0:4f4:de66:5901 with SMTP id d75a77b69052e-508f46c9079mr149938371cf.5.1773067957796;
-        Mon, 09 Mar 2026 07:52:37 -0700 (PDT)
-Received: from [127.0.0.1] ([99.196.133.212])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-508f651440dsm65793431cf.5.2026.03.09.07.52.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 07:52:36 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Anuj Gupta <anuj20.g@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- ntfs3@lists.linux.dev, linux-block@vger.kernel.org, nvdimm@lists.linux.dev, 
- linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
-In-Reply-To: <20260223132021.292832-1-hch@lst.de>
-References: <20260223132021.292832-1-hch@lst.de>
-Subject: Re: (subset) support file system generated / verified integrity
- information v4
-Message-Id: <177306794392.32482.9164747646721806111.b4-ty@kernel.dk>
-Date: Mon, 09 Mar 2026 08:52:23 -0600
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="O46FAzGv"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 629F7to91275175;
+	Mon, 9 Mar 2026 17:47:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=k/HLlQ
+	fqfXVQs+Pamcq/LePEaOpgjPTSxe75E2LQHmw=; b=O46FAzGvsE2YmZ6439UqTH
+	f//oqGS2NuJoB8xY2lcg12hMD2aNtQ4ID9XxubauhUUNB5XWruUCNbrIED9U/sy2
+	gQV+VyjgSVjVmAG4Kam45dqeg/cEF7wexHdqP7q6amhZ86wA+YW4+a7JvMwqNGHX
+	K+CR1szr/+ThnSfgYQtyXM8JHrNaKlVVJxj2UpO9B9nfw7GY0lpUaQgYj3FXUBhW
+	hCYFfYxjosdklAtClo/CAOyDK0Kz8Ak4d419uQhCeU81c/npAiEGpAq1IaGDP95R
+	6czGdohxtpKDTNPNp0U2JdVL6ApX0w6YBruEMYsSerjEZYuw8x9syT1jr4FLueng
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4crcvr7huu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Mar 2026 17:47:15 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 629FqYI5015725;
+	Mon, 9 Mar 2026 17:47:14 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cs121wp59-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Mar 2026 17:47:14 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 629HlDVJ60162522
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 9 Mar 2026 17:47:13 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5E5775805A;
+	Mon,  9 Mar 2026 17:47:13 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4442758054;
+	Mon,  9 Mar 2026 17:47:09 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.72.80])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  9 Mar 2026 17:47:09 +0000 (GMT)
+Message-ID: <05b5d55c49b5a1bbc43a5315e3c84872e7e634b3.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 00/12] vfs: change inode->i_ino from unsigned long
+ to u64
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+        fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+        samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org,
+        v9fs@lists.linux.dev, linux-afs@lists.infradead.org,
+        autofs@vger.kernel.org, ceph-devel@vger.kernel.org,
+        codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
+        linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
+        ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+        devel@lists.orangefs.org, linux-unionfs@vger.kernel.org,
+        apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
+        linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        netdev@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-hams@vger.kernel.org, linux-x25@vger.kernel.org,
+        audit@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-can@vger.kernel.org, linux-sctp@vger.kernel.org,
+        bpf@vger.kernel.org
+In-Reply-To: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
+References: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Mar 2026 13:47:08 -0400
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDE1OCBTYWx0ZWRfX4MWriKER56jj
+ FHMwPduc6Ya80ytljBjcJCflJZJQpLHypO90MyIljV3F+YGnUEWqD2zkjjI4tBlT1Isyk88nQqD
+ Bxsi6y6lZ0wNsui73O82C4s92lOeLYZxoPRW/EZDUOjQSMymQTWQJKaIWTXxL4ETx9VAdofRsxH
+ 1pntH+n6NhQwxXW3M12fPcKiL5ADcuXldDKiDw4m+7ix+qwvBlo3nspOLghaJ2LE6mxrOiKA5Lh
+ GMTERNprgwZauxVcqC/p8dLI9p6C/LOkJmscaf6mdPih3AOPO2LV5vS62FSOrim10LguG5ezUsF
+ rdAkmDzMNpwcB3l0gkLlsufFyGUR7bS4yrPNzNHAbiSDJiUdpsUzX7AZ0qjMDEeQhvmbO0coQJz
+ 4Dc1QnM6RvCUkwZGaB0uRcWv6crLl/+68sTOTDKRYLJY7AFXUTAN+lczmFotg9pSQAz65D+NPWn
+ mWAaXfwB8yIBs0IZagQ==
+X-Proofpoint-GUID: k-5kS7gQwSwb7EbHSrKEnUBgm0EngagK
+X-Proofpoint-ORIG-GUID: k-5kS7gQwSwb7EbHSrKEnUBgm0EngagK
+X-Authority-Analysis: v=2.4 cv=QoFTHFyd c=1 sm=1 tr=0 ts=69af07a3 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VwQbUJbxAAAA:8
+ a=x61hcHDQ_TxU8J0rBBAA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-09_04,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1011 malwarescore=0 suspectscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2603090158
 
+[ I/O socket time out.  Trimming the To list.]
 
-On Mon, 23 Feb 2026 05:20:00 -0800, Christoph Hellwig wrote:
-> this series adds support to generate and verify integrity information
-> (aka T10 PI) in the file system, instead of the automatic below the
-> covers support that is currently used.
-> 
-> There two reasons for this:
-> 
->   a) to increase the protection enveloped.  Right now this is just a
->      minor step from the bottom of the block layer to the file system,
->      but it is required to support io_uring integrity data passthrough in
->      the file system similar to the currently existing support for block
->      devices, which will follow next.  It also allows the file system to
->      directly see the integrity error and act upon in, e.g. when using
->      RAID either integrated (as in btrfs) or by supporting reading
->      redundant copies through the block layer.
->   b) to make the PI processing more efficient.  This is primarily a
->      concern for reads, where the block layer auto PI has to schedule a
->      work item for each bio, and the file system them has to do it again
->      for bounce buffering.  Additionally the current iomap post-I/O
->      workqueue handling is a lot more efficient by supporting merging and
->      avoiding workqueue scheduling storms.
-> 
-> [...]
+On Wed, 2026-03-04 at 10:32 -0500, Jeff Layton wrote:
+> This version squashes all of the format-string changes and the i_ino
+> type change into the same patch. This results in a giant 600+ line patch
+> at the end of the series, but it does remain bisectable.  Because the
+> patchset was reorganized (again) some of the R-b's and A-b's have been
+> dropped.
+>=20
+> The entire pile is in the "iino-u64" branch of my tree, if anyone is
+> interested in testing this.
+>=20
+>     https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git/
+>=20
+> Original cover letter follows:
+>=20
+> ----------------------8<-----------------------
+>=20
+> Christian said [1] to "just do it" when I proposed this, so here we are!
+>=20
+> For historical reasons, the inode->i_ino field is an unsigned long,
+> which means that it's 32 bits on 32 bit architectures. This has caused a
+> number of filesystems to implement hacks to hash a 64-bit identifier
+> into a 32-bit field, and deprives us of a universal identifier field for
+> an inode.
+>=20
+> This patchset changes the inode->i_ino field from an unsigned long to a
+> u64. This shouldn't make any material difference on 64-bit hosts, but
+> 32-bit hosts will see struct inode grow by at least 4 bytes. This could
+> have effects on slabcache sizes and field alignment.
+>=20
+> The bulk of the changes are to format strings and tracepoints, since the
+> kernel itself doesn't care that much about the i_ino field. The first
+> patch changes some vfs function arguments, so check that one out
+> carefully.
+>=20
+> With this change, we may be able to shrink some inode structures. For
+> instance, struct nfs_inode has a fileid field that holds the 64-bit
+> inode number. With this set of changes, that field could be eliminated.
+> I'd rather leave that sort of cleanups for later just to keep this
+> simple.
+>=20
+> Much of this set was generated by LLM, but I attributed it to myself
+> since I consider this to be in the "menial tasks" category of LLM usage.
+>=20
+> [1]: https://lore.kernel.org/linux-fsdevel/20260219-portrait-winkt-959070=
+cee42f@brauner/
+>=20
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-Applied, thanks!
+Jeff, missing from this patch set is EVM.  In hmac_add_misc() EVM copies th=
+e
+i_ino and calculates either an HMAC or file meta-data hash, which is then
+signed.=20
 
-[01/16] block: factor out a bio_integrity_action helper
-        commit: 7ea25eaad5ae3a6c837a3df9bdb822194f002565
-[02/16] block: factor out a bio_integrity_setup_default helper
-        commit: a936655697cd8d1bab2fd5189e2c33dd6356a266
-[03/16] block: add a bdev_has_integrity_csum helper
-        commit: 7afe93946dff63aa57c6db81f5eb43ac8233364e
-[04/16] block: prepare generation / verification helpers for fs usage
-        commit: 3f00626832a9f85fc5a04b25898157a6d43cb236
-[05/16] block: make max_integrity_io_size public
-        commit: 8c56ef10150ed7650cf4105539242c94c156148c
-[06/16] block: add fs_bio_integrity helpers
-        commit: 0bde8a12b5540572a7fd6d2867bee6de15e4f289
-[07/16] block: pass a maxlen argument to bio_iov_iter_bounce
-        commit: a9aa6045abde87b94168c3ba034b953417e27272
-
-Best regards,
--- 
-Jens Axboe
-
-
-
+Mimi
