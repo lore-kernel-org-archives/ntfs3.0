@@ -1,146 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A574396D23;
-	Fri,  6 Mar 2026 13:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D694C3D1CB4
+	for <ntfs3@lists.linux.dev>; Mon,  9 Mar 2026 14:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772803779; cv=none; b=bHVQ+V5PTK0pYwGFyQJlb5nMQ2j8qNrFiQZ3GpRzUauHXuVGalWyO0kyfKMvVRjw7xEMWviWzbioqD49yn25vH0cHikd11Q5Ge/TN/Y4K3dnXwV8LDcIp2iZo4xhQXeGuh8UWE88MDs3nvfFY5rDFtenD1y6w/EpEByDXK/bIH8=
+	t=1773067960; cv=none; b=MBGW77SoD5SpUEtt/gp89g9tMG4Twse5BgU/wIPO+Y2ye4UDCH7+mWWD36tqqmoswoyV9/qIt520zEJfLZoDD+Pho/2do2hp1zg4GMe7miIO3U/r91OJZGmcSZYWIp1XoMv5vZTNr9dtF/oe8MnNaP3qYRdeqYolWlIoQ6gNJ5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772803779; c=relaxed/simple;
-	bh=1ukMkvLDsKaYNY9i0ldkaZ4BWaGkqbXWQ5bDJd35Ruo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O8ECYL/mlkEN5X6SL+0/TK3d66hXWVCkmg0O2HHuDVZn+bsj2/k8LR6uM9UTUpyZKawpZFqopyAsD2d09VY7cJJAUkSHdnQ8NTKxdRtNV0B9LFyQziJ6nxME3qCUh31Xxo0x27oJI1hZqmvM1cbr1lV8ORBBfb3q9146+tAVWMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hc2G5bkz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773067960; c=relaxed/simple;
+	bh=njW+dpSk10SuO1AcbH5tukD81vdWuhIyIPazhF2qfvk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=V20fPD8ZW6PUZ6EFU+dQS9DHr5wLr9CtyWk95F55htSB72xbBMWBKi/i/BxrBKFxYOA+ntA78YyUYFkYjmpijXhuurgRfYXujchUqBjku4HZjHDgWbY2g9jdpmSisqpFyI8Xw81h1EVNOMApvNLxpmLPr5y9Pm7qTSPpAJg0deY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=rCfPz1ys; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hc2G5bkz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B1A5C4CEF7;
-	Fri,  6 Mar 2026 13:29:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772803778;
-	bh=1ukMkvLDsKaYNY9i0ldkaZ4BWaGkqbXWQ5bDJd35Ruo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hc2G5bkzknQkHbaZAs4y3XyfPC7tq6CC483Y2FuPeJaJ/Ep5xih+Tc66Fpb+BwZ7W
-	 Bez8ORwfCmhbe6g0HU6oZVMi4gDWQhsfbyaFq+cVejhoWgnukuID/RZMSHViAcCVrw
-	 MjS/lDOASjuhPRZUMZ9AR3PHB2ay8/WfzKkLOdl1k1HLi42nbvUUTkPfv/+Yy3fjTm
-	 K+K4W0dOPAbSzctZ86TetwW6UIj7CcluN5pzHcCZKjAogO4Aasoss2NuBYwUN+09zw
-	 d8oApzr6/okXUUx7r5/Swj0z04/dBdcsRq0mcjW6ZaOab7H/RmnzywDdyIqKNlOri8
-	 PH0xKh9i2soEQ==
-Date: Fri, 6 Mar 2026 14:28:59 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
-	David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, Jaegeuk Kim <jaegeuk@kernel.org>, 
-	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
-	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Steve French <sfrench@samba.org>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Bharath SM <bharathsm@microsoft.com>, Alexander Aring <alex.aring@gmail.com>, 
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
-	Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
-	Dominique Martinet <asmadeus@codewreck.org>, Christian Schoenebeck <linux_oss@crudebyte.com>, 
-	David Sterba <dsterba@suse.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Ian Kent <raven@themaw.net>, Luis de Bethencourt <luisbg@kernel.org>, 
-	Salah Triki <salah.triki@gmail.com>, "Tigran A. Aivazian" <aivazian.tigran@gmail.com>, 
-	Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
-	Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, Nicolas Pitre <nico@fluxnic.net>, 
-	Tyler Hicks <code@tyhicks.com>, Amir Goldstein <amir73il@gmail.com>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, 
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, David Woodhouse <dwmw2@infradead.org>, 
-	Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
-	Joseph Qi <joseph.qi@linux.alibaba.com>, Mike Marshall <hubcap@omnibond.com>, 
-	Martin Brandenburg <martin@omnibond.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Anders Larsen <al@alarsen.net>, Zhihao Cheng <chengzhihao1@huawei.com>, 
-	Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, 
-	Johannes Thumshirn <jth@kernel.org>, John Johansen <john.johansen@canonical.com>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Eric Dumazet <edumazet@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Martin Schiller <ms@dev.tdt.de>, Eric Paris <eparis@redhat.com>, 
-	Joerg Reuter <jreuter@yaina.de>, Marcel Holtmann <marcel@holtmann.org>, 
-	Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Oliver Hartkopp <socketcan@hartkopp.net>, Marc Kleine-Budde <mkl@pengutronix.de>, 
-	David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
-	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Remi Denis-Courmont <courmisch@gmail.com>, Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
-	Xin Long <lucien.xin@gmail.com>, Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	nvdimm@lists.linux.dev, fsverity@lists.linux.dev, linux-mm@kvack.org, 
-	netfs@lists.linux.dev, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, v9fs@lists.linux.dev, 
-	linux-afs@lists.infradead.org, autofs@vger.kernel.org, ceph-devel@vger.kernel.org, 
-	codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev, 
-	devel@lists.orangefs.org, linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-fscrypt@vger.kernel.org, linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
-	linux-x25@vger.kernel.org, audit@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-can@vger.kernel.org, linux-sctp@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v3 01/12] vfs: widen inode hash/lookup functions to u64
-Message-ID: <20260306-klauen-aufruf-3f79ec9cd4cb@brauner>
-References: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
- <20260304-iino-u64-v3-1-2257ad83d372@kernel.org>
- <aamSFgXhrORAJLBC@infradead.org>
- <c1845a4b8d35d367953ac6cbfcf91ac36958ba51.camel@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="rCfPz1ys"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-509217e84a3so4406331cf.3
+        for <ntfs3@lists.linux.dev>; Mon, 09 Mar 2026 07:52:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1773067958; x=1773672758; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M362llShL/olgkvofrhnarltpI/bzDs+ZoXPZquhvi8=;
+        b=rCfPz1ysbjFoYMFoxa6XjrQS+GUoa/mYJNm4tsh+hCMnXn1haGC8U+bJC/VjdNeyI0
+         h0HoAurJY+aocgenR0tqq9bhnYCWmXqDemsoRB7B8gLeTOsc8/rJAvoGBHJK0LiSl6N4
+         91Inf+x69DKpzA+sgHV3N/wP543KG8fQOxg7RnhCIDpaOYnK/JtHBBFkiWyVfuEsfWBK
+         i0tAP+ov1uuVPpcDFGbhIsDJiYkq9ttRXJ1ZxqNAEuE7EhushQrs0weVU32VpT1P4JdL
+         wTZwpcvdNN8z3RiT1tLih0llDuA1wmZlI9dbX6NQyY/r0nXARDVPEx02ZbHSxaxi393M
+         r0Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773067958; x=1773672758;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=M362llShL/olgkvofrhnarltpI/bzDs+ZoXPZquhvi8=;
+        b=vvzMAXjl5fD9FUIUi6b9sASfODgeNSbVx281rEiSyC4rj5LevKq5gn9UTBxZynJ54a
+         oMEIIBhbrZu5It5Fp/ak4oouGIkJaAzpsXb9+a8uk3ADDo96h4nC82J8fbtb7MPb4W6j
+         k0HDCtPsCliPs0S1iCOc8GNuaANScwBpOk+FQwR3uOeTiXBd6Vy8PWTVQ7zVRmCKipJU
+         TGBbDJ9yrfxy2tlcRJ1lEu8tt0u8bxUlVjPRvj2OJPJT3Z5aJ49lZ4iRdKKnd3LIH01I
+         Bg0FIlcSF0gTchvBaaSBduCsYvJNF4yY44MZ0DmOpP3X7HQWpaR4nn91KpSU3Q1hFz41
+         VdtA==
+X-Forwarded-Encrypted: i=1; AJvYcCVO6pPPkV2aUVeYP8nqjfchu9RMPg/IE1O55aWd1TqZgsZPqXK/SAdYWjrIQnwr7iPZhvzLpQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjLzwH6aLk3Cz09jllkCvAfzfnEfxgV7zFoYYhk3ej7CWKsDVj
+	ZEMqmBD8Tw0EIYOzBEuwHEar2A01f3Jvavljtx8UjUXN2RnY8pyYs9XWkWUoYRYs2/Y=
+X-Gm-Gg: ATEYQzzIyfpN5oM1Oh/eW1UKS/9p2oAFKfq8ofSxgbdQMb4YsouvmMLUoBZ2ELvVRcn
+	ZHyukyDeCrGvvg7XMftO/3YsJE58nc3EDPnZpCWMfTyE/VNfCgHYXAGWdfsTPeyKgpayoBHbKHF
+	jZF+lZsoIT8ce1i23W5OXz0aOltQ0X9vvrGqUkFGve2nFAlHlXqJURFTKgtg5xTqGokY4nGky4S
+	JXqtINrqP9SVlC2Aanzeo6ANh7n01WqmqbPCSJaYq0emxToglqEI8QhvZMXsuD/PIW20z+CcCzi
+	WAm2n24M00BL7oQcDpT1QBNogEDbkSoiw6sAaa9i534iDSFIUZcelS8FtnUUF8LPKhRvEdpjBE2
+	VBh9PjsHUnjqCtWJwnzBUVyynl0jgQPNCXUkik2HeElRXU6CZjU/Ns84uHNunPQjHc4kV+79acw
+	lHbxys8iii7+GaG9WHg1tIn2iSuTbgr2jEE8GldAQyXtvx6s4=
+X-Received: by 2002:ac8:5fd6:0:b0:4f4:de66:5901 with SMTP id d75a77b69052e-508f46c9079mr149938371cf.5.1773067957796;
+        Mon, 09 Mar 2026 07:52:37 -0700 (PDT)
+Received: from [127.0.0.1] ([99.196.133.212])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-508f651440dsm65793431cf.5.2026.03.09.07.52.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 07:52:36 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Anuj Gupta <anuj20.g@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, 
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+ ntfs3@lists.linux.dev, linux-block@vger.kernel.org, nvdimm@lists.linux.dev, 
+ linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
+In-Reply-To: <20260223132021.292832-1-hch@lst.de>
+References: <20260223132021.292832-1-hch@lst.de>
+Subject: Re: (subset) support file system generated / verified integrity
+ information v4
+Message-Id: <177306794392.32482.9164747646721806111.b4-ty@kernel.dk>
+Date: Mon, 09 Mar 2026 08:52:23 -0600
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c1845a4b8d35d367953ac6cbfcf91ac36958ba51.camel@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Fri, Mar 06, 2026 at 07:03:15AM -0500, Jeff Layton wrote:
-> On Thu, 2026-03-05 at 06:24 -0800, Christoph Hellwig wrote:
-> > >  extern struct inode *ilookup5_nowait(struct super_block *sb,
-> > > -		unsigned long hashval, int (*test)(struct inode *, void *),
-> > > +		u64 hashval, int (*test)(struct inode *, void *),
-> > >  		void *data, bool *isnew);
-> > > -extern struct inode *ilookup5(struct super_block *sb, unsigned long hashval,
-> > > +extern struct inode *ilookup5(struct super_block *sb, u64 hashval,
-> > >  		int (*test)(struct inode *, void *), void *data);
-> > 
-> > ...
-> > 
-> > Can you please drop all these pointless externs while you're at it?
-> > 
-> 
-> I was planning to do that, but then Christian merged it!
-> 
-> I'll do a patch on top of this that does this in the range of fs.h that
-> the patch touches. Christian can throw it on top of the series, and
-> that shouldn't be too bad for backports.
 
-I can easily drop those so no need to resend for stuff like this as per
-the usual protocol.
+On Mon, 23 Feb 2026 05:20:00 -0800, Christoph Hellwig wrote:
+> this series adds support to generate and verify integrity information
+> (aka T10 PI) in the file system, instead of the automatic below the
+> covers support that is currently used.
+> 
+> There two reasons for this:
+> 
+>   a) to increase the protection enveloped.  Right now this is just a
+>      minor step from the bottom of the block layer to the file system,
+>      but it is required to support io_uring integrity data passthrough in
+>      the file system similar to the currently existing support for block
+>      devices, which will follow next.  It also allows the file system to
+>      directly see the integrity error and act upon in, e.g. when using
+>      RAID either integrated (as in btrfs) or by supporting reading
+>      redundant copies through the block layer.
+>   b) to make the PI processing more efficient.  This is primarily a
+>      concern for reads, where the block layer auto PI has to schedule a
+>      work item for each bio, and the file system them has to do it again
+>      for bounce buffering.  Additionally the current iomap post-I/O
+>      workqueue handling is a lot more efficient by supporting merging and
+>      avoiding workqueue scheduling storms.
+> 
+> [...]
+
+Applied, thanks!
+
+[01/16] block: factor out a bio_integrity_action helper
+        commit: 7ea25eaad5ae3a6c837a3df9bdb822194f002565
+[02/16] block: factor out a bio_integrity_setup_default helper
+        commit: a936655697cd8d1bab2fd5189e2c33dd6356a266
+[03/16] block: add a bdev_has_integrity_csum helper
+        commit: 7afe93946dff63aa57c6db81f5eb43ac8233364e
+[04/16] block: prepare generation / verification helpers for fs usage
+        commit: 3f00626832a9f85fc5a04b25898157a6d43cb236
+[05/16] block: make max_integrity_io_size public
+        commit: 8c56ef10150ed7650cf4105539242c94c156148c
+[06/16] block: add fs_bio_integrity helpers
+        commit: 0bde8a12b5540572a7fd6d2867bee6de15e4f289
+[07/16] block: pass a maxlen argument to bio_iov_iter_bounce
+        commit: a9aa6045abde87b94168c3ba034b953417e27272
+
+Best regards,
+-- 
+Jens Axboe
+
+
+
