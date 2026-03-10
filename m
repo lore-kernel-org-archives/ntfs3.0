@@ -1,30 +1,39 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.94])
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E064219ED;
-	Tue, 10 Mar 2026 11:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE2E421EEF;
+	Tue, 10 Mar 2026 11:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773143738; cv=none; b=UwICacWANhF6/piE89OMzaBkW238eVTYYn9/k9rLIFsW0VIiNFsrHuaVzCqhNeVB89ECs879HPzqwkxP334YyV58cPzbau05O+ZUyJHcAqfU7BVYe2Tav1EyYcwS1hWkwN7uEdqeJfRQ/GpB2eeGlKo8f0PO+OnsUVeBpqG37fQ=
+	t=1773143745; cv=none; b=XwLmNHgbX1CxbNp6G/wIoEiwI4oVAVZp8r8fWybQ8WwXPGCBOmqm3V3MaN+jOzHSt8C3Bn9E7A3Ifa0AbefDbGUN04XYmVhFoNb6IextHvOkmo/ZoH0k2ne75nXHGiw4Xwo45AaG/BY37cZujUZWiJTXD4bVlpYP8btnQrYzHCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773143738; c=relaxed/simple;
-	bh=50ahf3Ovo2xs3bKtWfsEny3TDWNoY4zAg8ay7QEz3LI=;
+	s=arc-20240116; t=1773143745; c=relaxed/simple;
+	bh=g4FFdRUzUDur+rKeacaiCQZ+hQh7tI9Z6NjRyFnQc8w=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UMJHu1tcFDFl9wJkksOA/kFeOOeWemF/VRWl47w67ZeDOr6O7AMhROJgUQ9zV17z3Z+mXBqgoXVubuvB3SFDvfYLIO75V1jwg4N8SvA0z4zE40yplOFqtRUDg2pSVUzZEWc7zFDcTUxy+khW8MhO3RRxl/L3UbTrAtnB8r2vD+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.94
+	 In-Reply-To:To:Cc; b=rKLLP+q7dqbjBKxJxzzUnaFvyOQgYkkVj7/BzhvOT5x+PFVGlaR+fCeSFlronxBX+ZaUicS8x1vjU3mbLt1n52aVJTwhZkk2IiVG4xY8elARarxqDo2US2ePJAC89X68Mzo/4al8D+kdXTMtyo907NxTiuPEC0lEMB9/UkQKOHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=rRX3stPQ; arc=none smtp.client-ip=212.42.244.120
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from [212.42.244.71] (helo=mail.avm.de)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="rRX3stPQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1773143726; bh=g4FFdRUzUDur+rKeacaiCQZ+hQh7tI9Z6NjRyFnQc8w=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=rRX3stPQMInmxRJPEzximgG0zMf53EmXskDxqUtsKeYEkVQ/dYQttdiJ1RwUnbcpz
+	 vUIyMp9GJewHbVUEmLcfea/7Tczz6UnxZqIBZpZCQjil3jUyfWJvjrL+lRSOeW+TzV
+	 m1ne+0b2SGo4W3cNeV9kwvYwa/se7AsaBn9ffb+U=
+Received: from [2001:bf0:244:244::71] (helo=mail.avm.de)
 	by mail.avm.de with ESMTP (eXpurgate 4.55.2)
 	(envelope-from <phahn-oss@avm.de>)
-	id 69b006ac-e21d-7f0000032729-7f000001d9c0-1
-	for <multiple-recipients>; Tue, 10 Mar 2026 12:55:24 +0100
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	id 69b006ad-b734-7f0000032729-7f000001c092-1
+	for <multiple-recipients>; Tue, 10 Mar 2026 12:55:25 +0100
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
 	by mail.avm.de (Postfix) with ESMTPS;
-	Tue, 10 Mar 2026 12:55:24 +0100 (CET)
+	Tue, 10 Mar 2026 12:55:25 +0100 (CET)
 From: Philipp Hahn <phahn-oss@avm.de>
-Date: Tue, 10 Mar 2026 12:48:37 +0100
-Subject: [PATCH 11/61] pstore: Prefer IS_ERR_OR_NULL over manual NULL check
+Date: Tue, 10 Mar 2026 12:49:05 +0100
+Subject: [PATCH 39/61] irqchip: Prefer IS_ERR_OR_NULL over manual NULL
+ check
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -33,7 +42,7 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-b4-is_err_or_null-v1-11-bd63b656022d@avm.de>
+Message-Id: <20260310-b4-is_err_or_null-v1-39-bd63b656022d@avm.de>
 References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
 In-Reply-To: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
 To: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com, 
@@ -63,22 +72,23 @@ To: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
  sched-ext@lists.linux.dev, target-devel@vger.kernel.org, 
  tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev, 
  Philipp Hahn <phahn-oss@avm.de>
-Cc: Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>, 
- "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=958; i=phahn-oss@avm.de;
- h=from:subject:message-id; bh=50ahf3Ovo2xs3bKtWfsEny3TDWNoY4zAg8ay7QEz3LI=;
- b=owEBbQGS/pANAwAKATQtBlPRrKzbAcsmYgBpsAX7sQcV3VwS+mx5jK1HizkW2meRfNqVaBq2u
- sez6firU+2JATMEAAEKAB0WIQQ5bPBtrWDUcDQCppg0LQZT0ays2wUCabAF+wAKCRA0LQZT0ays
- 2xq8B/0SUo4r3rxVq9RsANPcVwQvjAVIq5IHS3vrGpufO9mdcUCVswBYAGcqVWlGUWYhZ9D5Afm
- wOzPQKPaAOE+fY5h8prRvYwP+dSX3nADwI8Y6unKqygPjUrnO+GjcQ97MVfA906q0I9/A6k6cjF
- jRX1r++tFvKvjX46AZyTpQKZC7YoNaBrH37lhDan3ZiZqsJrJDSI+f2JPLEkh5ffnrBrT1NRvPO
- /GMhxFHqkXWNux7Q6NSnWc5GTjmQY/JD/+/V9BILGVpDvPcV2orOeVbtK+hA0s3T4ekXooFahFe
- 5VVhIFMEZXUHZMw53adA+fpwHBkKMznHg4ePWJsQNeHf/dyM
+Cc: Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, 
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1797; i=phahn-oss@avm.de;
+ h=from:subject:message-id; bh=g4FFdRUzUDur+rKeacaiCQZ+hQh7tI9Z6NjRyFnQc8w=;
+ b=owEBbQGS/pANAwAKATQtBlPRrKzbAcsmYgBpsAZajgCYubaE210ybXd9Qufza8n+eFtBCfTFO
+ oQVV6kxanqJATMEAAEKAB0WIQQ5bPBtrWDUcDQCppg0LQZT0ays2wUCabAGWgAKCRA0LQZT0ays
+ 28ISB/9piM+RbVSziEng1t7dun6orhPWKQV9naYfNjFW3SarwsnzmnBDz0nuaGgkwHFCge92/YT
+ C6PE2tX58vKdugSVIB0D9NRq5gq4thjVq3D0H2GAQlza/oKxurc4wdXC5dXInbYl5OUB2w09WQy
+ fMKAkwG0m3WFPKRgizEtCKM6l/9q3B4q2rnnpcRKQx0iNvhf+dUkY5BUPSwCcfQvJK7+4PoC/ZE
+ ddAoJcpror4/MCI0j47/BVNaHIB5K9WykFVMhov3BZvNavqXT9C64hKXxD2btf1UcwShvWKloSd
+ PxNXkra2HopfIdMjPOY9w4hG57NjkAcqg0vkRHvvtwjYvgsZ
 X-Developer-Key: i=phahn-oss@avm.de; a=openpgp;
  fpr=58AF7C2E007CDBE62C59E078F50EFDCF8AD04B1A
-X-purgate-ID: 149429::1773143724-9167EF2F-D7D1D994/0/0
+X-purgate-ID: 149429::1773143725-DB5DFA3D-FD67F9DA/0/0
 X-purgate-type: clean
-X-purgate-size: 960
+X-purgate-size: 1799
 X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
 X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
 X-purgate: clean
@@ -88,28 +98,45 @@ check.
 
 Change generated with coccinelle.
 
-To: Kees Cook <kees@kernel.org>
-To: Tony Luck <tony.luck@intel.com>
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+To: Marc Zyngier <maz@kernel.org>
+To: Thomas Gleixner <tglx@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+To: Gregory Clement <gregory.clement@bootlin.com>
+To: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
 ---
- fs/pstore/zone.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/irqchip/irq-gic-v3.c     | 2 +-
+ drivers/irqchip/irq-mvebu-odmi.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/pstore/zone.c b/fs/pstore/zone.c
-index a3b003f9a3a079c482b673f57023ce88fc290dbf..dce8403ca18566cc4a7a853ccdc7e1c165666fcb 100644
---- a/fs/pstore/zone.c
-+++ b/fs/pstore/zone.c
-@@ -1226,7 +1226,7 @@ static struct pstore_zone **psz_init_zones(enum pstore_type_id type,
+diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+index 20f13b686ab22faf722dd2b24faf96af636a4bbd..6dc9827357a21ae05dd838fb717871c73f3c7562 100644
+--- a/drivers/irqchip/irq-gic-v3.c
++++ b/drivers/irqchip/irq-gic-v3.c
+@@ -2252,7 +2252,7 @@ static int __init gic_of_init(struct device_node *node, struct device_node *pare
  
- 	for (i = 0; i < c; i++) {
- 		zone = psz_init_zone(type, off, record_size);
--		if (!zone || IS_ERR(zone)) {
-+		if (IS_ERR_OR_NULL(zone)) {
- 			pr_err("initialize zones %s failed\n", name);
- 			psz_free_zones(&zones, &i);
- 			return (void *)zone;
+ out_unmap_rdist:
+ 	for (i = 0; i < nr_redist_regions; i++)
+-		if (rdist_regs[i].redist_base && !IS_ERR(rdist_regs[i].redist_base))
++		if (!IS_ERR_OR_NULL(rdist_regs[i].redist_base))
+ 			iounmap(rdist_regs[i].redist_base);
+ 	kfree(rdist_regs);
+ out_unmap_dist:
+diff --git a/drivers/irqchip/irq-mvebu-odmi.c b/drivers/irqchip/irq-mvebu-odmi.c
+index b99ab9dcc14b3ba982876cf5525499d02bc1c997..94e7eda46e81833cfe0479b6fabba715bf4ef6b8 100644
+--- a/drivers/irqchip/irq-mvebu-odmi.c
++++ b/drivers/irqchip/irq-mvebu-odmi.c
+@@ -217,7 +217,7 @@ static int __init mvebu_odmi_init(struct device_node *node,
+ 	for (i = 0; i < odmis_count; i++) {
+ 		struct odmi_data *odmi = &odmis[i];
+ 
+-		if (odmi->base && !IS_ERR(odmi->base))
++		if (!IS_ERR_OR_NULL(odmi->base))
+ 			iounmap(odmis[i].base);
+ 	}
+ 	bitmap_free(odmis_bm);
 
 -- 
 2.43.0
