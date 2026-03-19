@@ -1,160 +1,138 @@
-Received: from flow-a3-smtp.messagingengine.com (flow-a3-smtp.messagingengine.com [103.168.172.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AAD139D;
-	Mon, 16 Mar 2026 22:10:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B982253EB
+	for <ntfs3@lists.linux.dev>; Thu, 19 Mar 2026 07:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773699059; cv=none; b=Tn4g6yuQsrdprb0Bsx8F7QrQOodEARd0OnKV3QjRfxK6J6YrJpd21lzvfIzHZRo1o3IGrzoIqfrCL5odl6666mwSYGyf2TFtnrcxxkYYBfEdL78vw6eMID7uyzE63Hoh3B1eN98qirDXQGROu9Dkndtspi1VLDFq3hf+3Do+P7w=
+	t=1773906356; cv=none; b=TD4FLTqKKDmbwuiatRR6OrfRhTVz3fHqBDwidmob9e3G0gAhjn66Am2wLXc3lkWU4HEYz6RTP6HcftRsFyFL8JfNhu5AdQCObZO7wq9vTPfurQWjuoB2IPOl0KJVS27BrjxjyaQvTmOxKPc8mdNe8mTXQwaZbH4AzftlZEg0hSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773699059; c=relaxed/simple;
-	bh=bR3l1XBxxG0Br6WPViaTYx4jBj801ByLeboUNggNeu4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IjPn0SMPb4DsgdJfGm14G8xAS4hIDAtI7biL4yhakfHBUxAM83Pb9JhZX6NCaMyu5mbB2wf3tY3MRXQ8FfTOra0ipiwzV1RyIYnPMOSih2WeYsp3aJ0L2Efs4UnUO6wffARmu+dFT2EulyYaRazBEVrfNw5FfnBiBlWhpKTr4LM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=eyO5nsRG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=guCypQjf; arc=none smtp.client-ip=103.168.172.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	s=arc-20240116; t=1773906356; c=relaxed/simple;
+	bh=m5zxzx1Q1dodJcrmXSaZ0da3wEIPfCjTqIUZL4EbOfs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JpX5BTIF3dp+BycJzQ7VoUmbApJ3PrBDNCmKLYv4W1++5wlBlJ4ME0eCepXt7V7tSCglw9piD39vjzJ5u/KDmU7M8Ks5Na1hXvGPIl0VxAEG3wWMqXH21S+bqTKgO7GrGHGfOMbjWqfUugVYakSlhYTlNLGW0ik8cepHgbxLj1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QgZOWcST; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="eyO5nsRG";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="guCypQjf"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.phl.internal (Postfix) with ESMTP id 96E81138028E;
-	Mon, 16 Mar 2026 18:10:56 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Mon, 16 Mar 2026 18:10:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1773699056;
-	 x=1773706256; bh=pZj8f0JboyjKt94J8KB7OLIiCOoml43GOZ4w8rDpLPA=; b=
-	eyO5nsRGgscBaSPTlSrjx8D8qsmxFZTD+YBT90C8JLtkSU+JG9otBsGP68/aDjfq
-	Ip8/CY7pDqj8uLfl6tk9PaoCLmHFx9BmC+OLDsgQIKz5wruWwvglBIFTzX8Bgo1G
-	D7tyDhfcq/yYvbxAZYbPlVlov+W1BUQwVVZx34myYfSzzczy+o0TvO2AJR+dEy1d
-	h9Fy4zA0IHy3AyAu2lJw7cTPeRVsoH7Q9DZJUhPGVmEq8IZ5byXvr46eUf3RwYLV
-	Pd21rN+O2sxo21UD0KoApMpHYwnhY5vI1CKlHqs6nb1Q0ON5mjBcz18/WvPyI4M2
-	g7ed/wORmv3aHNEvlM9NEQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773699056; x=
-	1773706256; bh=pZj8f0JboyjKt94J8KB7OLIiCOoml43GOZ4w8rDpLPA=; b=g
-	uCypQjfxr+Zi7JxdTC/p3wGQ4VV0q/Wv3rf4QuOSSvRwPZ4hwWoKXSQwRlJppx/A
-	eTD/kX8ytMBkqeeAHXi8QojGoDJPwhemKEl1A5BQyy+VTfQ0kjCklEhRU0D9TNU6
-	QzoouUhJdY7Fi24kVLMS4vkfF5Xif+sxcGuZ+ZH9bmNOAZhg/6jHFnuxjrIUYo4Y
-	sJAjmQ/c58h+MsTVokuL8c2t4xBbVGwnTgXIvKplEwnaY81NNzKXbPGa+zPU58N/
-	vwQ/zZfUYT5zYdyXfBWrfC5sZSkqzhpuD1WACxXIM/TD7Jh2N1ZXy8qS+O1DtSBY
-	h24uS6YuZ9c79L+rKNYRA==
-X-ME-Sender: <xms:73-4aYdtUUIQC679P0YPl8k6UZ10Tz8-qTD319yDZEtXusdBhZuXRA>
-    <xme:73-4aTUav9FvduIIOmc0jldmINr5W_MhUsWQFGzP1fBm1dpf8ggOxSMvCMHniLmCu
-    LbRPk360ujIo39hLA6fsP95YlnCLki5WcrUsiuRyEwh6NcxWlxF>
-X-ME-Received: <xmr:73-4aSY56rJyFtQwMFw-H9dfM29zbbMWxWkWrpi3kYaZ1kbqDyXdf5bHU5U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvleelheegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfgjfhfogggtgfesthejre
-    dtredtvdenucfhrhhomheptehlvgigucghihhllhhirghmshhonhcuoegrlhgvgiesshhh
-    rgiisghothdrohhrgheqnecuggftrfgrthhtvghrnhepvdekfeejkedvudfhudfhteekud
-    fgudeiteetvdeukedvheetvdekgfdugeevueeunecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomheprghlvgigsehshhgriigsohhtrdhorhhgpdhnsg
-    gprhgtphhtthhopeehhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepphhhrghh
-    nhdqohhsshesrghvmhdruggvpdhrtghpthhtoheprghmugdqghhfgieslhhishhtshdrfh
-    hrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrphhprghrmhhorheslhhishht
-    shdruhgsuhhnthhurdgtohhmpdhrtghpthhtohepsghpfhesvhhgvghrrdhkvghrnhgvlh
-    drohhrghdprhgtphhtthhopegtvghphhdquggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopegtohgttghisehinhhrihgrrdhfrhdprhgtphhtthhopegumh
-    dquggvvhgvlheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegurhhiqdgu
-    vghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepgh
-    hfshdvsehlihhsthhsrdhlihhnuhigrdguvghv
-X-ME-Proxy: <xmx:73-4aQltNdDVIdEqvCmz7Mlt0qW50NA4CHgJQUMNlacMN4MGiVKHfA>
-    <xmx:73-4acHdFw15OLpR73_B1AdIXJMG-pYssiD_C0T2dj2N-8ux7fVHFg>
-    <xmx:73-4aU6P6J2BtdvPwSPzfrUNjz9-qYacHOOWBucSAMlha23fXDTcIg>
-    <xmx:73-4aaO5YEqAXlnOLRO88GZx1RbxPW8QtXAeqZQNaqmxlgOL7PgFkQ>
-    <xmx:8H-4abIvs_QYur641c9BpnDuFQ6ssCC-7-o-rPLEHWyRxStBDxJEr6SL>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 Mar 2026 18:10:52 -0400 (EDT)
-Date: Mon, 16 Mar 2026 16:10:50 -0600
-From: Alex Williamson <alex@shazbot.org>
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
- bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
- dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
- gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
- kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
- sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
- alex@shazbot.org
-Subject: Re: [PATCH 46/61] vfio: Prefer IS_ERR_OR_NULL over manual NULL
- check
-Message-ID: <20260316161050.01c82973@shazbot.org>
-In-Reply-To: <20260310-b4-is_err_or_null-v1-46-bd63b656022d@avm.de>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
-	<20260310-b4-is_err_or_null-v1-46-bd63b656022d@avm.de>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QgZOWcST"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-35a1cc6e478so502314a91.0
+        for <ntfs3@lists.linux.dev>; Thu, 19 Mar 2026 00:45:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773906353; x=1774511153; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BgkktIwZcoieTkoYehpJq/teLEqXNGiFmKYcoE3ZX6Q=;
+        b=QgZOWcSTJrThvDZITm/T5NWpv5nZor3F3YPsXgtVU4AFjw67suG6K3x8it+95HRXed
+         3bfogRp4cgxjQs3C3wi4LjwSU87Hdb3Q4d9ORO2wjy3w2050pehiGvRHA5GCNCpf3RFZ
+         5VCmrKuWERBYjrRYDgE7Va6WFTKcv37epNBkw17TN/zXkpvDs0Tli5O1b8I1xRez962g
+         4ojbDqA4Wp3xelrd0W8saTevrZqAhNrRlUVGg4o9R+kD1pzISPzriPmjsxNjz8qThvDr
+         GWgDKkaSYz3jkGcybQl5luY0rwkrsNNEpreCW4mw4HbYBZcJ8mJH7HAFnkGYB1loMFRT
+         Wl6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773906353; x=1774511153;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BgkktIwZcoieTkoYehpJq/teLEqXNGiFmKYcoE3ZX6Q=;
+        b=tRGGKSwQ3Ul5FWiwbwhEv3a/D2KOrIg1BW7I0Yp52A6BJ/t2tMXuu47FN3C8uSnnYe
+         XEBsk7yiLHJsGy0jlkAK+CiJQzapp+oQ/hPw7+7KTgXEuAGlQ+Mvt9/XutadxBJFYVyG
+         78jLiIsA2tcbXsiWZjc6ynnmAxMJVsr6Z8wi7mwC8J2zdKeYDDb5WKHruAeBs9ZURJ7K
+         tkxLpGILTTVg1V7tl0xEs0RLOZfbHYQAgIv8F72HJXxw4Fd2SHbUdMqEPEKbQFlJt0M9
+         7SCCIDWKb1IkFsHg+7b6brmS4t0jDRYqFHWVk66/uwYHh6Dex52dwHsevQ4yLAZ0/V9e
+         puyA==
+X-Gm-Message-State: AOJu0YxSfX/Gs54B6Tw89WMrIwtFP+z6mlk1Uxa1PmevFnSyHCmxVIyL
+	n4f6Wtcxlx33f5mXS2VMsS7MB9zDeKK6oVQzUOnzSEwfsR9oFS7ep+MugReKYA==
+X-Gm-Gg: ATEYQzyhqoCKkS4pcXZ1qC/tX3VG52m7q3DTRk/bb0RmsLnXJqDj/ACAo8MU7ZaQUkt
+	/GS9vY8YkIAAoUJVds1veI/OvgzzkDymylx5o5eblM+ZbgUrgTdnGKarMNrYd0KZ9IE86opVcIt
+	vcCiVtmwXaDoyXr1aM5nuOVE33ul0MyA2fZte+hG3gFBnfaD0OID1Yakbtp2D+w8jCMxI9MIVUy
+	/79hEaIrIficY9rDB+A7FyjEhEBNPKLciNlM9NbKBcWsOpU0BVwpUf6e4NzT81zqpJOd9dytl24
+	qSu5RqwS0Ce0J6OcA3WCIiAaBXgrpSN0bJtGxgbBD3l4NXWZGJZjaxRmFvNjfrqp3BGM5yqaNL0
+	ZZ+20fiZ8kPNu0LDm6VOmF5msvehK1nU4lj24CKe7pYVlzd1QQ8Vko0CE8HrgOdpBq0zWaJHyMU
+	LDqfg09qA8+bl+ZmuIM3reogMIzKSz7nVom1KBsua/pflcNhdcJbyPNzcENqCw7/kfP/jzANDx8
+	dTwyuY=
+X-Received: by 2002:a17:90b:2687:b0:35b:90e7:c451 with SMTP id 98e67ed59e1d1-35bb9e8cfa7mr5292796a91.3.1773906353304;
+        Thu, 19 Mar 2026 00:45:53 -0700 (PDT)
+Received: from deepanshu-kernel-hacker.. ([2405:201:682f:389d:2136:a371:9567:156f])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bc5ff6789sm1893232a91.1.2026.03.19.00.45.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 00:45:52 -0700 (PDT)
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	syzbot+c1e9aedbd913fadad617@syzkaller.appspotmail.com,
+	Deepanshu Kartikey <Kartikey406@gmail.com>
+Subject: [PATCH] fs/ntfs3: fix missing run load for vcn0 in attr_data_get_block_locked()
+Date: Thu, 19 Mar 2026 13:15:46 +0530
+Message-ID: <20260319074546.1085187-1-kartikey406@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 10 Mar 2026 12:49:12 +0100
-Philipp Hahn <phahn-oss@avm.de> wrote:
+When a compressed or sparse attribute has its clusters frame-aligned,
+vcn is rounded down to the frame start using cmask, which can result
+in vcn != vcn0. In this case, vcn and vcn0 may reside in different
+attribute segments.
 
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
-> 
-> Change generated with coccinelle.
-> 
-> To: Alex Williamson <alex@shazbot.org>
-> Cc: kvm@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
-> ---
->  drivers/vfio/vfio_main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
-> index 742477546b15d4dbaf9ebcfb2e67627db71521e0..d71922dfde5885967398deddec3e9e04b05adfec 100644
-> --- a/drivers/vfio/vfio_main.c
-> +++ b/drivers/vfio/vfio_main.c
-> @@ -923,7 +923,7 @@ vfio_ioctl_device_feature_mig_device_state(struct vfio_device *device,
->  
->  	/* Handle the VFIO_DEVICE_FEATURE_SET */
->  	filp = device->mig_ops->migration_set_state(device, mig.device_state);
-> -	if (IS_ERR(filp) || !filp)
-> +	if (IS_ERR_OR_NULL(filp))
->  		goto out_copy;
->  
->  	return vfio_ioct_mig_return_fd(filp, arg, &mig);
-> 
+The code already handles the case where vcn is in a different segment
+by loading its runs before allocation. However, it fails to load runs
+for vcn0 when vcn0 resides in a different segment than vcn. This causes
+run_lookup_entry() to return SPARSE_LCN for vcn0 since its segment was
+never loaded into the in-memory run list, triggering the WARN_ON(1).
 
-As others have expressed in general, this doesn't seem to be cleaner
-and tends to mask that we consider IS_ERR() and NULL as separate cases
-in the goto.  This code looks like it could use some refactoring, and
-likely that refactoring should handle the IS_ERR() and NULL cases
-separately, but conflating them here is not an improvement.  Thanks,
+Fix this by adding a missing check for vcn0 after the existing vcn
+segment check. If vcn0 falls outside the current segment range
+[svcn, evcn1), find and load the attribute segment containing vcn0
+before performing the run lookup.
 
-Alex
+The following scenario triggers the bug:
+  attr_data_get_block_locked()
+    vcn = vcn0 & cmask        <- vcn != vcn0 after frame alignment
+    load runs for vcn segment <- vcn0 segment not loaded!
+    attr_allocate_clusters()  <- allocation succeeds
+    run_lookup_entry(vcn0)    <- vcn0 not in run -> SPARSE_LCN
+    WARN_ON(1)                <- bug fires here!
+
+Reported-by: syzbot+c1e9aedbd913fadad617@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c1e9aedbd913fadad617
+Fixes: c380b52f6c57 ("fs/ntfs3: Change new sparse cluster processing")
+Signed-off-by: Deepanshu Kartikey <Kartikey406@gmail.com>
+---
+ fs/ntfs3/attrib.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index 6cb9bc5d605c..6ef7db82a35d 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -1152,6 +1152,21 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
+ 			if (err)
+ 				goto out;
+ 		}
++
++		if (vcn0 < svcn || evcn1 <= vcn0) {
++			struct ATTRIB *attr2;
++
++			attr2 = ni_find_attr(ni, attr_b, &le_b, ATTR_DATA, NULL,
++					       0, &vcn0, &mi);
++			if (!attr2) {
++				err = -EINVAL;
++				goto out;
++			}
++			err = attr_load_runs(attr2, ni, run, NULL);
++			if (err)
++				goto out;
++		}
++
+ 		da = false; /* no delalloc for compressed file. */
+ 	}
+ 
+-- 
+2.43.0
+
