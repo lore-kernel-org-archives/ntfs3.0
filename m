@@ -1,173 +1,134 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51185314A77
-	for <ntfs3@lists.linux.dev>; Thu, 19 Mar 2026 14:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D85A28150F
+	for <ntfs3@lists.linux.dev>; Thu, 19 Mar 2026 23:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773929638; cv=none; b=B7ulg85MvZoGd6ZKljPg8IuEMBb3KdDKD49Z0bAK6gOM6BJazd3hMgRJAic0ADHxVxA0tFHTQBYNVgrHXt4PC76iocq4+4pBWIg1g46B4or+Utf85YnLSo9bWgVIWx98JstnAdSmVdzH5y8DigL6KBC1Q+/CvNAfgq2//WByKUY=
+	t=1773963669; cv=none; b=H1BeEqWETeXs/cxWsIsrqbR0B9379oFfzkL89C9y/R28h6UD7g7qh16iECqiEuzDvVvnoyFlpRWo4Dnb1y1gYGC/IUZkvtYJ2H9LhFaTglFgzBtvVSmcG3YTVUqjXzdRds+Lbu3YXNWyqrq3qBpBIR1MR9mz2RHrpYmUKwoPHzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773929638; c=relaxed/simple;
-	bh=4zAon2/wL1xkF183JwLxXVvEK05OvlwLI29zwOFhq2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gdX3TClzEJ7puoMJ8pSUzhn2Ungnpk6I+S/rth6U+x8XohFiY6vt6zIPDJpRwjulI7EYLUUJwotUMSnvDkbn2HNgQyizt9snvuOP6BS4TWIckfXGPmJIyC74MZ8XisGdMY1Pl0L9LjTSFUJEhrcNBvov42JnJRSOeR3jBZLpTbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qJFdgiFw; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=4jpB79yc; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OrcSAEzL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HXVk5/yP; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1773963669; c=relaxed/simple;
+	bh=TEJoBkOF1za3Xn01vDGH5YZEbnz7ADl2FfcXwlEHQlw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l2nt/3/26oKMxssx9YmGkXDwJJnJap6p/iWWv/bHU6SY9n1+/pDgy/xw4/dKjdCIUzO6i1Uq9NUlpqjde8svTCSid0/3qWiXMe6DIZEO6kcpePJO19vU+VEKHte5NV1lOwCsN5/wHtP+ImK1GF3ANELCyMTumUy16KlkRDhXeDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=PIyat76c; arc=none smtp.client-ip=54.252.183.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qJFdgiFw";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="4jpB79yc";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OrcSAEzL";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HXVk5/yP"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 233AB5BD4B;
-	Thu, 19 Mar 2026 14:13:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773929632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4fUFXPph0d+U/6GDmGbgLZ/FXBjYuxpYsgD69WTKZEc=;
-	b=qJFdgiFwZof840urwELAyJUPmqr5R5KSb1T4rwYuc7bb8XNbCm/kv+M5FkrKSBEOM1bZiu
-	/MGyuwm/OFnFKmJm/t/Uz/+GbEcAEAQCMtEWioCbgwKOh4DWZ0qNVZOg9g66xDY+m4U+fD
-	w9Xqoe30eNI+goFz62hSwZMzWorThdA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773929632;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4fUFXPph0d+U/6GDmGbgLZ/FXBjYuxpYsgD69WTKZEc=;
-	b=4jpB79ycXSQsxOkgtV3HKUa6Dm/vQ/wRir8pmFsiYnB6qgK3LbPe12RtulXb4tol7/E3ij
-	faYPra8B4GTfZjDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773929631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4fUFXPph0d+U/6GDmGbgLZ/FXBjYuxpYsgD69WTKZEc=;
-	b=OrcSAEzL/6c4UDB40dZmtUkHL2UKN/t418W/3/WLfRE3VUYtttdOTA1LBRs2LexriSZBXr
-	IUCLAcO9QxQoLCNXA0PSitgNb7BC5cuH9t+EXroQLbXGhfbC1mTChSWj64vc6V41FfYy8R
-	mio6pb/J12e+5TPnOnmBoDRex83ce1A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773929631;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4fUFXPph0d+U/6GDmGbgLZ/FXBjYuxpYsgD69WTKZEc=;
-	b=HXVk5/yPJtxIjyky0dtujMNvVHE9KONXRU8D1O6wb4LBxoqwDaKPYOnkGEkCrYDJmYyVOA
-	klxEA++oJw6AsaAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 14B714273B;
-	Thu, 19 Mar 2026 14:13:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TmUEBZ8EvGlPZwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 19 Mar 2026 14:13:51 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C850FA0B32; Thu, 19 Mar 2026 15:13:46 +0100 (CET)
-Date: Thu, 19 Mar 2026 15:13:46 +0100
-From: Jan Kara <jack@suse.cz>
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com, 
-	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr, 
-	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org, gfs2@lists.linux.dev, 
-	intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-media@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-mm@kvack.org, linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org, linux-phy@lists.infradead.org, 
-	linux-pm@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
-	samba-technical@lists.samba.org, sched-ext@lists.linux.dev, target-devel@vger.kernel.org, 
-	tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev, Jan Kara <jack@suse.com>
-Subject: Re: [PATCH 12/61] quota: Prefer IS_ERR_OR_NULL over manual NULL check
-Message-ID: <ol2d7c5z7yfyuwo5tyfxurgqedruhr6bzmuv37bx5phhrmmoyh@4zjspbtexid3>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
- <20260310-b4-is_err_or_null-v1-12-bd63b656022d@avm.de>
+	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="PIyat76c"
+Received: from embla.dev.snart.me (localhost [IPv6:::1])
+	by embla.dev.snart.me (Postfix) with ESMTP id DD9A41CBC0;
+	Thu, 19 Mar 2026 23:41:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me DD9A41CBC0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
+	t=1773963666; bh=TEJoBkOF1za3Xn01vDGH5YZEbnz7ADl2FfcXwlEHQlw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PIyat76cmgnsAhe8tUwv/7cUIJmVE+mq7OHLG9KT63trmLaFlM6t+vwkINNuOXKWQ
+	 fKune4mdI/+x5inSbJZNMKg10EL4QO1bo4pxPuHZsGsQvvo9wahSowcfo3YUMLimtz
+	 xjuEAcPyDrzQoMKCSZatEt26U/73s8C33BcbE36A=
+Received: from maya.d.snart.me ([182.226.25.243])
+	by embla.dev.snart.me with ESMTPSA
+	id /7wEIpCJvGk70wcA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Thu, 19 Mar 2026 23:41:04 +0000
+From: David Timber <dxdt@dev.snart.me>
+To: linkinjeon@kernel.org,
+	hyc.lee@gmail.com,
+	almaz.alexandrovich@paragon-software.com
+Cc: linux-fsdevel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	David Timber <dxdt@dev.snart.me>
+Subject: [PATCH] ntfs(3): export super block magic
+Date: Fri, 20 Mar 2026 08:40:47 +0900
+Message-ID: <20260319234047.43253-1-dxdt@dev.snart.me>
+X-Mailer: git-send-email 2.53.0.1.ga224b40d3f.dirty
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260310-b4-is_err_or_null-v1-12-bd63b656022d@avm.de>
-X-Spam-Score: -2.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLck44p98ib5bmd95s13xxw3gp)];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCPT_COUNT_GT_50(0.00)[55];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 
-On Tue 10-03-26 12:48:38, Philipp Hahn wrote:
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
-> 
-> Change generated with coccinelle.
-> 
-> To: Jan Kara <jack@suse.com>
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
+Export NTFS_SUPER_MAGIC and NTFS3_SUPER_MAGIC so that the NTFS
+implementation could be differentiated from userspace through
+fstatfs() and the coreutils comamnd `stat -f`.
 
-Thanks for the patch but frankly I find the original variant clearer wrt
-what is going on. So I prefer to keep the code as is.
+Signed-off-by: David Timber <dxdt@dev.snart.me>
+---
+ fs/ntfs/ntfs.h             | 1 -
+ fs/ntfs/super.c            | 4 ++--
+ fs/ntfs3/super.c           | 4 ++--
+ include/uapi/linux/magic.h | 2 ++
+ 4 files changed, 6 insertions(+), 5 deletions(-)
 
-								Honza
-
-> ---
->  fs/quota/quota.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/quota/quota.c b/fs/quota/quota.c
-> index 33bacd70758007129e0375bab44d7431195ec441..2e09fc247d0cf45b9e83a4f8a0be7ea694c8c2a1 100644
-> --- a/fs/quota/quota.c
-> +++ b/fs/quota/quota.c
-> @@ -965,7 +965,7 @@ SYSCALL_DEFINE4(quotactl, unsigned int, cmd, const char __user *, special,
->  	else
->  		drop_super_exclusive(sb);
->  out:
-> -	if (pathp && !IS_ERR(pathp))
-> +	if (!IS_ERR_OR_NULL(pathp))
->  		path_put(pathp);
->  	return ret;
->  }
-> 
-> -- 
-> 2.43.0
-> 
+diff --git a/fs/ntfs/ntfs.h b/fs/ntfs/ntfs.h
+index 45064dbcc2e4..c41be5fbff17 100644
+--- a/fs/ntfs/ntfs.h
++++ b/fs/ntfs/ntfs.h
+@@ -76,7 +76,6 @@
+ enum {
+ 	NTFS_BLOCK_SIZE		= 512,
+ 	NTFS_BLOCK_SIZE_BITS	= 9,
+-	NTFS_SB_MAGIC		= 0x5346544e,	/* 'NTFS' */
+ 	NTFS_MAX_NAME_LEN	= 255,
+ 	NTFS_MAX_LABEL_LEN	= 128,
+ };
+diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
+index 39a5c3b81001..e595a34619fa 100644
+--- a/fs/ntfs/super.c
++++ b/fs/ntfs/super.c
+@@ -2149,7 +2149,7 @@ static int ntfs_statfs(struct dentry *dentry, struct kstatfs *sfs)
+ 
+ 	ntfs_debug("Entering.");
+ 	/* Type of filesystem. */
+-	sfs->f_type   = NTFS_SB_MAGIC;
++	sfs->f_type   = NTFS_SUPER_MAGIC;
+ 	/* Optimal transfer block size. */
+ 	sfs->f_bsize = vol->cluster_size;
+ 	/* Fundamental file system block size, used as the unit. */
+@@ -2352,7 +2352,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	/* Initialize the cluster and mft allocators. */
+ 	ntfs_setup_allocators(vol);
+ 	/* Setup remaining fields in the super block. */
+-	sb->s_magic = NTFS_SB_MAGIC;
++	sb->s_magic = NTFS_SUPER_MAGIC;
+ 	/*
+ 	 * Ntfs allows 63 bits for the file size, i.e. correct would be:
+ 	 *	sb->s_maxbytes = ~0ULL >> 1;
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 47c11547c972..388d4c51f24b 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -731,7 +731,7 @@ static int ntfs_statfs(struct dentry *dentry, struct kstatfs *buf)
+ 	struct wnd_bitmap *wnd = &sbi->used.bitmap;
+ 	CLST da_clusters = ntfs_get_da(sbi);
+ 
+-	buf->f_type = sb->s_magic;
++	buf->f_type = NTFS3_SUPER_MAGIC;
+ 	buf->f_bsize = buf->f_frsize = sbi->cluster_size;
+ 	buf->f_blocks = wnd->nbits;
+ 
+@@ -1279,7 +1279,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	}
+ 	sbi->options = options;
+ 	sb->s_flags |= SB_NODIRATIME;
+-	sb->s_magic = 0x7366746e; // "ntfs"
++	sb->s_magic = NTFS3_SUPER_MAGIC;
+ 	sb->s_op = &ntfs_sops;
+ 	sb->s_export_op = &ntfs_export_ops;
+ 	sb->s_time_gran = NTFS_TIME_GRAN; // 100 nsec
+diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+index 4f2da935a76c..7bc8058c7108 100644
+--- a/include/uapi/linux/magic.h
++++ b/include/uapi/linux/magic.h
+@@ -54,6 +54,8 @@
+ #define QNX4_SUPER_MAGIC	0x002f		/* qnx4 fs detection */
+ #define QNX6_SUPER_MAGIC	0x68191122	/* qnx6 fs detection */
+ #define AFS_FS_MAGIC		0x6B414653
++#define NTFS_SUPER_MAGIC	0x5346544e	/* "NTFS" */
++#define NTFS3_SUPER_MAGIC	0x7366746e	/* "ntfs" */
+ 
+ 
+ #define REISERFS_SUPER_MAGIC	0x52654973	/* used by gcc */
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.53.0.1.ga224b40d3f.dirty
+
