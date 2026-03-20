@@ -1,182 +1,187 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C8F299920
-	for <ntfs3@lists.linux.dev>; Fri, 20 Mar 2026 13:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9289537BE6D
+	for <ntfs3@lists.linux.dev>; Fri, 20 Mar 2026 22:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774014108; cv=none; b=GZZRbH6cBoHe0DGcomNGObHPuf1jC44RJ5eE7hGEosijyernQrjW8aLEfrmmDFdZ/eaQgrlheSjPwaedZ5/rVPxmoJAiAokaSxvyZlX0egpEbE2iSiKxm+pd7qROHfSTvPg9ZZFnBr8iJE53bT3EE8CL0etSWHjkC0v3DIW1wp0=
+	t=1774047390; cv=none; b=acLOCCWRr/Xk7qMd5HxZt48Vx4hvTuhMpUBg2+yiC35dtkE5g4xJkoOm1fxq3Bw4/R/kW/Tw9ptIQU3BBIYUJTlzi3mQP9/io6yjbvPL+KkPzSKPtKyTX1hooq6YpKcts28puFW14s3CCZg27Ii0+KVLpfPYLJTwFgn5nvbXdcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774014108; c=relaxed/simple;
-	bh=P6pO8hqSDzDiUMeN+vj6yYZXJszgs6S2wwGl0XVS/3g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b1Mv6fIwYLDiCvNBRK5yuvoT2tv6rW9byhObtEyKiSKn99nDhRzzmx5HQN9AB4wANMBsLvMIy2Tmb8TL3mQivC6NwV1j/YySViYZ33QWKRpj+Xzr3sURGiCXBM6zEXZrqSWjRL47zBSHZOiAroSVnuNNdd4/gfOAU3C13dJMfls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=i3ZAuXwc; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=hY/DWDGm; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=i3ZAuXwc; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=hY/DWDGm; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="i3ZAuXwc";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="hY/DWDGm";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="i3ZAuXwc";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="hY/DWDGm"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C4FC15BDF1;
-	Fri, 20 Mar 2026 13:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774014104; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xEoAflJRM7Hd/KP30RTJ0C/33uYEsxXokECxD0i9oqc=;
-	b=i3ZAuXwc35r3TMofgZlHkAcNMsYqX3UQ6ZBVury6Imay3gTNNT6j82RPA0X0iSQCpDX1Ov
-	W5RySzJQEbpCl2x/sCjl02ZWQVkS0DHt8xiZNM9DTFGd7WUleohLO8D93jNVcSHncXtf2C
-	BQKsMIV6BzZlb0A3p+vtd/vvgLaejjI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774014104;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xEoAflJRM7Hd/KP30RTJ0C/33uYEsxXokECxD0i9oqc=;
-	b=hY/DWDGmRhA2OKmvbjkDIrnW32E5cQRzGV9LM+KdS3D+eBISnF93ZE08P00oecqeS5KMND
-	EJXz3DOEzwnI/AAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774014104; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xEoAflJRM7Hd/KP30RTJ0C/33uYEsxXokECxD0i9oqc=;
-	b=i3ZAuXwc35r3TMofgZlHkAcNMsYqX3UQ6ZBVury6Imay3gTNNT6j82RPA0X0iSQCpDX1Ov
-	W5RySzJQEbpCl2x/sCjl02ZWQVkS0DHt8xiZNM9DTFGd7WUleohLO8D93jNVcSHncXtf2C
-	BQKsMIV6BzZlb0A3p+vtd/vvgLaejjI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774014104;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xEoAflJRM7Hd/KP30RTJ0C/33uYEsxXokECxD0i9oqc=;
-	b=hY/DWDGmRhA2OKmvbjkDIrnW32E5cQRzGV9LM+KdS3D+eBISnF93ZE08P00oecqeS5KMND
-	EJXz3DOEzwnI/AAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC8334281A;
-	Fri, 20 Mar 2026 13:41:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /iWtKZhOvWlACQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 20 Mar 2026 13:41:44 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 69BAFA0B2E; Fri, 20 Mar 2026 14:41:44 +0100 (CET)
-From: Jan Kara <jack@suse.cz>
-To: <linux-fsdevel@vger.kernel.org>
-Cc: <linux-block@vger.kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@ZenIV.linux.org.uk>,
-	<linux-ext4@vger.kernel.org>,
-	Ted Tso <tytso@mit.edu>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	David Sterba <dsterba@suse.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	linux-mm@kvack.org,
-	linux-aio@kvack.org,
-	Benjamin LaHaise <bcrl@kvack.org>,
-	Jan Kara <jack@suse.cz>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Subject: [PATCH 03/41] ntfs3: Drop pointless sync_mapping_buffers() and invalidate_inode_buffers() calls
-Date: Fri, 20 Mar 2026 14:40:58 +0100
-Message-ID: <20260320134100.20731-44-jack@suse.cz>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260320131728.6449-1-jack@suse.cz>
-References: <20260320131728.6449-1-jack@suse.cz>
+	s=arc-20240116; t=1774047390; c=relaxed/simple;
+	bh=D86XXdQ5GPR6XTNos136618bB3pz9B1yi6lEnR3QRvc=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=lbxET+pR2ePGuro9fe5tW07uZ6rZEIOF+tKsFoN9dTVa9iRQluzO2RZvy0g2atAy+pdd8L9fbT9OrNZrwE1Aq/fgcPZ8XpEIgcizNZNA2Bzfh4oS5Z9qIzR/qkJ3CjZ84xgjngZZD6JIuUg45HOcYpIO7ADOp+PrZOskbZUSL+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-463ee33f9b2so7873877b6e.3
+        for <ntfs3@lists.linux.dev>; Fri, 20 Mar 2026 15:56:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774047387; x=1774652187;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+LH8QW4ALdNZBoFI/+Lkjaive+C+7Y/0oMYk4VOqADg=;
+        b=Ir1enm5K9/wH2NB1EjSfAlw6PtsvwWB0Ug+xWfBg1dEk4K7fapykI8WSodLZS9ofgV
+         vOz8G+xNZLHiaoKSSEiMwvxGKsCO/3MlqmQ9DQ8VAW7iTwZ+6c06GaczxowxhgR/aUIZ
+         LqVaEmmsXFwIpqZjHo9CH0HMJuRX+jIfoJPRz8HOsbh2/jTTMaoL1Y62aL9BAqMYDr4G
+         UOQ4L9Ma63EPNjR5AaXiRZyihwVGW8/h9x5b3tWOzm9JhMx7nCS6AEa+Go0w8+hjrsAr
+         Uvc8c5Is/b/JI3dL9rM7Ql2UOrKCYLaOEqY7NuR0y7fJThqElk7T2S4xOwXgP2BhDs2H
+         t6Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCVPl9FSVJjJgap/ZxdDloGIeLF0TUT1Q8HOQHOafJ6W9WBx4vfXniwiw2YW8lJPlKxxTb/lUw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzcm1Va74S5+BjWl784x8ROm1xmmQzzaeWKyrV6mFCkVntdzTuH
+	09RN9saUvQn/8T/FYATQNGif4mWiLBPS0CZ4gVl785cNSDswuwPGyJ721LaU03kx6oBeNsSRzQt
+	/X4TT23p8r8qsIiqsO6XQe0wdO/5w90gO78qeaXCcS9DKitwHLiFVxuUKe1g=
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1214; i=jack@suse.cz; h=from:subject; bh=P6pO8hqSDzDiUMeN+vj6yYZXJszgs6S2wwGl0XVS/3g=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpvU5uHEq4UQTZ1UrVhvgG+EYydxO1nRyNYrdsA +FUT3YdJO+JATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCab1ObgAKCRCcnaoHP2RA 2WvvB/0RJYZY+8sRCsZSDxp74cwUlJk3pSPEy6TOgUcor5WSx0fNWsU2RBKMR9lrW0nFZuGAYIE nZ80x+PYSJyIbz3wFzI7uEL92U24vHYHcIN2S1CEPaapKaX5HJshyeVQ6UgC/TBwcGYA6hdc//F xzOyybtQ3kRAgvcT4J2GX2rg07PbxzlH2Lo+E4tcn11rbOyLc/XbK+4Ys1LzsvUOwmYOwG7KCR3 V1O18HYdXkb/Fq6AGulchfOdl/QFKxjNpBYK4UysuSbb6Xxijc4KdoVb0UvbhXr4RLMuURijmFh +XPbvb7v4ubgG4Zhf784lhdxETYhNgSQT/EpvGQIt3NyqP6g
-X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-5.30 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,ZenIV.linux.org.uk,mit.edu,gmail.com,suse.com,mail.parknet.co.jp,linux.dev,suse.de,kvack.org,suse.cz,paragon-software.com,lists.linux.dev];
-	FROM_HAS_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	R_RATELIMIT(0.00)[to_ip_from(RLck8brw5hxmszoarioc7838it)];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Score: -5.30
-X-Spam-Level: 
+X-Received: by 2002:a05:6808:1392:b0:467:255a:7453 with SMTP id
+ 5614622812f47-467e5d9638fmr2543894b6e.14.1774047387599; Fri, 20 Mar 2026
+ 15:56:27 -0700 (PDT)
+Date: Fri, 20 Mar 2026 15:56:27 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69bdd09b.050a0220.3bf4de.0032.GAE@google.com>
+Subject: [syzbot] [ntfs3?] memory leak in run_add_entry (2)
+From: syzbot <syzbot+7adcddaeeb860e5d3f2f@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-ntfs3 never calls mark_buffer_dirty_inode() and thus its metadata
-buffers list is always empty. Drop the pointless sync_mapping_buffers()
-and invalidate_inode_buffers() calls.
+Hello,
 
-CC: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-CC: ntfs3@lists.linux.dev
-Signed-off-by: Jan Kara <jack@suse.cz>
+syzbot found the following issue on:
+
+HEAD commit:    0e4f8f1a3d08 Merge tag 'parisc-for-7.0-rc5' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=129f8cba580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e2bba615ee79faa5
+dashboard link: https://syzkaller.appspot.com/bug?extid=7adcddaeeb860e5d3f2f
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1716bada580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=169f8cba580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/022aea4aa8f7/disk-0e4f8f1a.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/2698fe956577/vmlinux-0e4f8f1a.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/49c3df9c1f67/bzImage-0e4f8f1a.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/f0d7b4f7d563/mount_0.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7adcddaeeb860e5d3f2f@syzkaller.appspotmail.com
+
+BUG: memory leak
+unreferenced object 0xffff88811e304200 (size 64):
+  comm "syz.0.17", pid 6098, jiffies 4294950427
+  hex dump (first 32 bytes):
+    00 00 00 00 01 00 00 00 1e 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 692543f4):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4543 [inline]
+    slab_alloc_node mm/slub.c:4866 [inline]
+    __do_kmalloc_node mm/slub.c:5259 [inline]
+    __kvmalloc_node_noprof+0x53d/0x770 mm/slub.c:6752
+    run_add_entry+0x108/0x730 fs/ntfs3/run.c:390
+    attr_allocate_clusters+0x15a/0x450 fs/ntfs3/attrib.c:199
+    indx_create_allocate fs/ntfs3/index.c:1449 [inline]
+    indx_insert_into_root+0x575/0xb20 fs/ntfs3/index.c:1705
+    indx_insert_entry+0x182/0x290 fs/ntfs3/index.c:1993
+    ni_add_name+0x1ab/0x2e0 fs/ntfs3/frecord.c:2764
+    ntfs_link_inode+0x95/0xc0 fs/ntfs3/inode.c:1794
+    ntfs_link+0xb4/0x180 fs/ntfs3/namei.c:146
+    vfs_link+0x270/0x5a0 fs/namei.c:5746
+    filename_linkat+0x262/0x3c0 fs/namei.c:5814
+    __do_sys_link fs/namei.c:5847 [inline]
+    __se_sys_link fs/namei.c:5843 [inline]
+    __x64_sys_link+0x4b/0x70 fs/namei.c:5843
+    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+    do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+BUG: memory leak
+unreferenced object 0xffff888105b7a380 (size 64):
+  comm "syz.0.18", pid 6114, jiffies 4294950436
+  hex dump (first 32 bytes):
+    00 00 00 00 01 00 00 00 1e 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 692543f4):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4543 [inline]
+    slab_alloc_node mm/slub.c:4866 [inline]
+    __do_kmalloc_node mm/slub.c:5259 [inline]
+    __kvmalloc_node_noprof+0x53d/0x770 mm/slub.c:6752
+    run_add_entry+0x108/0x730 fs/ntfs3/run.c:390
+    attr_allocate_clusters+0x15a/0x450 fs/ntfs3/attrib.c:199
+    indx_create_allocate fs/ntfs3/index.c:1449 [inline]
+    indx_insert_into_root+0x575/0xb20 fs/ntfs3/index.c:1705
+    indx_insert_entry+0x182/0x290 fs/ntfs3/index.c:1993
+    ni_add_name+0x1ab/0x2e0 fs/ntfs3/frecord.c:2764
+    ntfs_link_inode+0x95/0xc0 fs/ntfs3/inode.c:1794
+    ntfs_link+0xb4/0x180 fs/ntfs3/namei.c:146
+    vfs_link+0x270/0x5a0 fs/namei.c:5746
+    filename_linkat+0x262/0x3c0 fs/namei.c:5814
+    __do_sys_link fs/namei.c:5847 [inline]
+    __se_sys_link fs/namei.c:5843 [inline]
+    __x64_sys_link+0x4b/0x70 fs/namei.c:5843
+    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+    do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+BUG: memory leak
+unreferenced object 0xffff88810ea19a40 (size 64):
+  comm "syz.0.19", pid 6125, jiffies 4294950445
+  hex dump (first 32 bytes):
+    00 00 00 00 01 00 00 00 1e 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 692543f4):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4543 [inline]
+    slab_alloc_node mm/slub.c:4866 [inline]
+    __do_kmalloc_node mm/slub.c:5259 [inline]
+    __kvmalloc_node_noprof+0x53d/0x770 mm/slub.c:6752
+    run_add_entry+0x108/0x730 fs/ntfs3/run.c:390
+    attr_allocate_clusters+0x15a/0x450 fs/ntfs3/attrib.c:199
+    indx_create_allocate fs/ntfs3/index.c:1449 [inline]
+    indx_insert_into_root+0x575/0xb20 fs/ntfs3/index.c:1705
+    indx_insert_entry+0x182/0x290 fs/ntfs3/index.c:1993
+    ni_add_name+0x1ab/0x2e0 fs/ntfs3/frecord.c:2764
+    ntfs_link_inode+0x95/0xc0 fs/ntfs3/inode.c:1794
+    ntfs_link+0xb4/0x180 fs/ntfs3/namei.c:146
+    vfs_link+0x270/0x5a0 fs/namei.c:5746
+    filename_linkat+0x262/0x3c0 fs/namei.c:5814
+    __do_sys_link fs/namei.c:5847 [inline]
+    __se_sys_link fs/namei.c:5843 [inline]
+    __x64_sys_link+0x4b/0x70 fs/namei.c:5843
+    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+    do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
+
+
 ---
- fs/ntfs3/file.c  | 3 ---
- fs/ntfs3/inode.c | 1 -
- 2 files changed, 4 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 7eecf1e01f74..570c92fa7ee7 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -387,9 +387,6 @@ static int ntfs_extend(struct inode *inode, loff_t pos, size_t count,
- 		int err2;
- 
- 		err = filemap_fdatawrite_range(mapping, pos, end - 1);
--		err2 = sync_mapping_buffers(mapping);
--		if (!err)
--			err = err2;
- 		err2 = write_inode_now(inode, 1);
- 		if (!err)
- 			err = err2;
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 6e65066ebcc1..5d8f04dedcc8 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -1860,7 +1860,6 @@ void ntfs_evict_inode(struct inode *inode)
- {
- 	truncate_inode_pages_final(&inode->i_data);
- 
--	invalidate_inode_buffers(inode);
- 	clear_inode(inode);
- 
- 	ni_clear(ntfs_i(inode));
--- 
-2.51.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
