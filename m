@@ -1,187 +1,111 @@
-Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9289537BE6D
-	for <ntfs3@lists.linux.dev>; Fri, 20 Mar 2026 22:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9F92989B7
+	for <ntfs3@lists.linux.dev>; Sat, 21 Mar 2026 05:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774047390; cv=none; b=acLOCCWRr/Xk7qMd5HxZt48Vx4hvTuhMpUBg2+yiC35dtkE5g4xJkoOm1fxq3Bw4/R/kW/Tw9ptIQU3BBIYUJTlzi3mQP9/io6yjbvPL+KkPzSKPtKyTX1hooq6YpKcts28puFW14s3CCZg27Ii0+KVLpfPYLJTwFgn5nvbXdcU=
+	t=1774069311; cv=none; b=S/G8UW4F38YYsRF9dydpf4/wBTtdvfUxXhjPnTn33gzgP57n67JWJ9A3mggWnIiLYvvIkoL1vUt0ezNVHBM49usfR1xkhbmHwdv3K66d+PednMZCQWssw3vl5F71DASDCNrMyTbELcLKVY+CoOh10592su0+R9BxNOveSH6NsuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774047390; c=relaxed/simple;
-	bh=D86XXdQ5GPR6XTNos136618bB3pz9B1yi6lEnR3QRvc=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=lbxET+pR2ePGuro9fe5tW07uZ6rZEIOF+tKsFoN9dTVa9iRQluzO2RZvy0g2atAy+pdd8L9fbT9OrNZrwE1Aq/fgcPZ8XpEIgcizNZNA2Bzfh4oS5Z9qIzR/qkJ3CjZ84xgjngZZD6JIuUg45HOcYpIO7ADOp+PrZOskbZUSL+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-463ee33f9b2so7873877b6e.3
-        for <ntfs3@lists.linux.dev>; Fri, 20 Mar 2026 15:56:28 -0700 (PDT)
+	s=arc-20240116; t=1774069311; c=relaxed/simple;
+	bh=nkpfooB231w08yEuMmEI3pOCLhwFDkpkvgaj5ETgiwM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LmanstvsWsBG7hE8+mldDwXf41+c+w6IlRyVPA2A5/ScKsCEgEM2iF4Mq+AYZ4dfvXN03rviqgMFpRjeJz2QLHokW/v/iNjSZlg6qGL7DatqH+I9DiGHYeY8nI6dNUwzlinT+pcgg9dra8oBQw0sgapRffEu1pBe+0DsMOiT6M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LQVWS4uT; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LQVWS4uT"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-82ae379000fso566312b3a.1
+        for <ntfs3@lists.linux.dev>; Fri, 20 Mar 2026 22:01:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774069310; x=1774674110; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NanPiL1bkZBnaJPUdNrmZem0Ql51ml2Y45NTYmJIv+I=;
+        b=LQVWS4uTfS+SwiqqA1Kfkegz2YEi9IEHaU9VJx2B6MSQ4zznZUWllWlsQSoe8yrXF+
+         jFe7DGCKWVe5eOiIDYrWuAQ3ndJ05GQVNGt+yH0zhqPmucAKbXMiD6/GZ5czi5pwYgK6
+         B/Ets+oGxyxEz1qPJ9ITRQzEKwNiBRfe7aZl03oK6PQ1fwSDQVov1rhlbCNLQra1hMUD
+         WSiboe/f4KWQeBD4SGCAz59EF+guqoJRl8fi7xifKIqSBMnaX3Xrtr4W/KbGsczEt7Fg
+         gyxYGuv+GuxQV7dAsugDSncfo1fnbwlPZsw7RY6iuUeeE19Uq3tLizWt6HTKuuaJSqeG
+         S0Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774047387; x=1774652187;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+LH8QW4ALdNZBoFI/+Lkjaive+C+7Y/0oMYk4VOqADg=;
-        b=Ir1enm5K9/wH2NB1EjSfAlw6PtsvwWB0Ug+xWfBg1dEk4K7fapykI8WSodLZS9ofgV
-         vOz8G+xNZLHiaoKSSEiMwvxGKsCO/3MlqmQ9DQ8VAW7iTwZ+6c06GaczxowxhgR/aUIZ
-         LqVaEmmsXFwIpqZjHo9CH0HMJuRX+jIfoJPRz8HOsbh2/jTTMaoL1Y62aL9BAqMYDr4G
-         UOQ4L9Ma63EPNjR5AaXiRZyihwVGW8/h9x5b3tWOzm9JhMx7nCS6AEa+Go0w8+hjrsAr
-         Uvc8c5Is/b/JI3dL9rM7Ql2UOrKCYLaOEqY7NuR0y7fJThqElk7T2S4xOwXgP2BhDs2H
-         t6Aw==
-X-Forwarded-Encrypted: i=1; AJvYcCVPl9FSVJjJgap/ZxdDloGIeLF0TUT1Q8HOQHOafJ6W9WBx4vfXniwiw2YW8lJPlKxxTb/lUw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzcm1Va74S5+BjWl784x8ROm1xmmQzzaeWKyrV6mFCkVntdzTuH
-	09RN9saUvQn/8T/FYATQNGif4mWiLBPS0CZ4gVl785cNSDswuwPGyJ721LaU03kx6oBeNsSRzQt
-	/X4TT23p8r8qsIiqsO6XQe0wdO/5w90gO78qeaXCcS9DKitwHLiFVxuUKe1g=
+        d=1e100.net; s=20251104; t=1774069310; x=1774674110;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NanPiL1bkZBnaJPUdNrmZem0Ql51ml2Y45NTYmJIv+I=;
+        b=d8LqR1wN0F/5CQ6LBg+QJw0ngZKBf2ijEoAN97y98C5OB8IgQceYKy0Z44UtIdMCIe
+         5sgg5tiqrI+kCNj6VfUc9uHwtoe7Z0//fPneFtesa/0Oe2Wk9JGyrZpoNA85ZfeQFlJh
+         2YsKzIl9pKlacjGXtkltirJrc2KKjzSEr3DsMJ+OXO+QVzYNQ3R3APPWe73QQ5gvQGGZ
+         B2L7HLAXqZcgansK1a4M12AdHSqTUCKmVAY6LBOcZqffLZEbPFZRF6jsz3gFYVQwDjkU
+         Mh/Hvp72Qi1+475tnFv2Pre1BvM15oViOTM99k0fFOfTZ8HD2XHpnwewiB8TK7zNHyjC
+         qdZA==
+X-Gm-Message-State: AOJu0YxzuTllpmS/RD9zvgwP//RSJBcagDxB81SYv0BxBZAx+laJPd+1
+	cIeiRqoLhXYA3NkzVl87P/GDxcrj4ou0+ym6e8Cu1QKCS8XHqpap92UK
+X-Gm-Gg: ATEYQzyhbdDtUMnL5+8cF+aOH8Bbf+RunKvogrSl4lhoBjo+mlRTG3Ec5mhIhKtcPh/
+	XspjDuENsmGMKQw4t9rJEpbGBFAbD1Pv1PDxf9Tqig4tws1zSKCpz5tZ4REYPqht1nkTTM2TbfO
+	OvxPzF4EmdjgAyuonU4oo10S1ZzM5RllcDYM9PV2E0hrXYzQ/XR+F1lKB7y1O/RICMHl5MEjYcA
+	Cxvxx8zQL6hnG+T0qoVJ2FRFXiEyWPMvHk6KLcuurAhz5jHVPMa/PLtGsHBlm8j/mVoX+25jAmk
+	ySHgu1ArqytGYlHEFHCL9OJVRRX4ktKm2n+8yrXX+/RM+2AnDdOFXPR02YYC3dxISw+O2Keki67
+	kumY3+T3QSmSWtLZ2dTZGNYbD5OmaDQG7MKScPhF8PprMAs2M97krAo3ZdXK3GkfEo/1XJzTeyD
+	MJSyH/sHpm7HJU68raou9tqqB3FjWVwo8dKbTjlYagJlwsFqCshKhO515eFJRdchWZAsUfWhBGL
+	JLfU8I=
+X-Received: by 2002:a05:6a00:69b1:b0:82c:20f1:ea9d with SMTP id d2e1a72fcca58-82c20f1f47bmr1784126b3a.5.1774069310128;
+        Fri, 20 Mar 2026 22:01:50 -0700 (PDT)
+Received: from deepanshu-kernel-hacker.. ([2405:201:682f:389d:5c27:b800:7775:1147])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b03bbeff2sm3573925b3a.20.2026.03.20.22.01.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Mar 2026 22:01:49 -0700 (PDT)
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	syzbot+7adcddaeeb860e5d3f2f@syzkaller.appspotmail.com,
+	Deepanshu Kartikey <Kartikey406@gmail.com>
+Subject: [PATCH] ntfs3: fix memory leak in indx_create_allocate()
+Date: Sat, 21 Mar 2026 10:31:42 +0530
+Message-ID: <20260321050143.1117500-1-kartikey406@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1392:b0:467:255a:7453 with SMTP id
- 5614622812f47-467e5d9638fmr2543894b6e.14.1774047387599; Fri, 20 Mar 2026
- 15:56:27 -0700 (PDT)
-Date: Fri, 20 Mar 2026 15:56:27 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69bdd09b.050a0220.3bf4de.0032.GAE@google.com>
-Subject: [syzbot] [ntfs3?] memory leak in run_add_entry (2)
-From: syzbot <syzbot+7adcddaeeb860e5d3f2f@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+When indx_create_allocate() fails after
+attr_allocate_clusters() succeeds, run_deallocate()
+frees the disk clusters but never frees the memory
+allocated by run_add_entry() via kvmalloc() for the
+runs_tree structure.
 
-syzbot found the following issue on:
+Fix this by adding run_close() at the out: label to
+free the run.runs memory on all error paths. The
+success path is unaffected as it returns 0 directly
+without going through out:, transferring ownership
+of the run memory to indx->alloc_run via memcpy().
 
-HEAD commit:    0e4f8f1a3d08 Merge tag 'parisc-for-7.0-rc5' of git://git.k..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=129f8cba580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e2bba615ee79faa5
-dashboard link: https://syzkaller.appspot.com/bug?extid=7adcddaeeb860e5d3f2f
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1716bada580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=169f8cba580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/022aea4aa8f7/disk-0e4f8f1a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/2698fe956577/vmlinux-0e4f8f1a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/49c3df9c1f67/bzImage-0e4f8f1a.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/f0d7b4f7d563/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
 Reported-by: syzbot+7adcddaeeb860e5d3f2f@syzkaller.appspotmail.com
-
-BUG: memory leak
-unreferenced object 0xffff88811e304200 (size 64):
-  comm "syz.0.17", pid 6098, jiffies 4294950427
-  hex dump (first 32 bytes):
-    00 00 00 00 01 00 00 00 1e 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace (crc 692543f4):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kvmalloc_node_noprof+0x53d/0x770 mm/slub.c:6752
-    run_add_entry+0x108/0x730 fs/ntfs3/run.c:390
-    attr_allocate_clusters+0x15a/0x450 fs/ntfs3/attrib.c:199
-    indx_create_allocate fs/ntfs3/index.c:1449 [inline]
-    indx_insert_into_root+0x575/0xb20 fs/ntfs3/index.c:1705
-    indx_insert_entry+0x182/0x290 fs/ntfs3/index.c:1993
-    ni_add_name+0x1ab/0x2e0 fs/ntfs3/frecord.c:2764
-    ntfs_link_inode+0x95/0xc0 fs/ntfs3/inode.c:1794
-    ntfs_link+0xb4/0x180 fs/ntfs3/namei.c:146
-    vfs_link+0x270/0x5a0 fs/namei.c:5746
-    filename_linkat+0x262/0x3c0 fs/namei.c:5814
-    __do_sys_link fs/namei.c:5847 [inline]
-    __se_sys_link fs/namei.c:5843 [inline]
-    __x64_sys_link+0x4b/0x70 fs/namei.c:5843
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-BUG: memory leak
-unreferenced object 0xffff888105b7a380 (size 64):
-  comm "syz.0.18", pid 6114, jiffies 4294950436
-  hex dump (first 32 bytes):
-    00 00 00 00 01 00 00 00 1e 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace (crc 692543f4):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kvmalloc_node_noprof+0x53d/0x770 mm/slub.c:6752
-    run_add_entry+0x108/0x730 fs/ntfs3/run.c:390
-    attr_allocate_clusters+0x15a/0x450 fs/ntfs3/attrib.c:199
-    indx_create_allocate fs/ntfs3/index.c:1449 [inline]
-    indx_insert_into_root+0x575/0xb20 fs/ntfs3/index.c:1705
-    indx_insert_entry+0x182/0x290 fs/ntfs3/index.c:1993
-    ni_add_name+0x1ab/0x2e0 fs/ntfs3/frecord.c:2764
-    ntfs_link_inode+0x95/0xc0 fs/ntfs3/inode.c:1794
-    ntfs_link+0xb4/0x180 fs/ntfs3/namei.c:146
-    vfs_link+0x270/0x5a0 fs/namei.c:5746
-    filename_linkat+0x262/0x3c0 fs/namei.c:5814
-    __do_sys_link fs/namei.c:5847 [inline]
-    __se_sys_link fs/namei.c:5843 [inline]
-    __x64_sys_link+0x4b/0x70 fs/namei.c:5843
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-BUG: memory leak
-unreferenced object 0xffff88810ea19a40 (size 64):
-  comm "syz.0.19", pid 6125, jiffies 4294950445
-  hex dump (first 32 bytes):
-    00 00 00 00 01 00 00 00 1e 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace (crc 692543f4):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kvmalloc_node_noprof+0x53d/0x770 mm/slub.c:6752
-    run_add_entry+0x108/0x730 fs/ntfs3/run.c:390
-    attr_allocate_clusters+0x15a/0x450 fs/ntfs3/attrib.c:199
-    indx_create_allocate fs/ntfs3/index.c:1449 [inline]
-    indx_insert_into_root+0x575/0xb20 fs/ntfs3/index.c:1705
-    indx_insert_entry+0x182/0x290 fs/ntfs3/index.c:1993
-    ni_add_name+0x1ab/0x2e0 fs/ntfs3/frecord.c:2764
-    ntfs_link_inode+0x95/0xc0 fs/ntfs3/inode.c:1794
-    ntfs_link+0xb4/0x180 fs/ntfs3/namei.c:146
-    vfs_link+0x270/0x5a0 fs/namei.c:5746
-    filename_linkat+0x262/0x3c0 fs/namei.c:5814
-    __do_sys_link fs/namei.c:5847 [inline]
-    __se_sys_link fs/namei.c:5843 [inline]
-    __x64_sys_link+0x4b/0x70 fs/namei.c:5843
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
-
-
+Closes: https://syzkaller.appspot.com/bug?extid=7adcddaeeb860e5d3f2f
+Signed-off-by: Deepanshu Kartikey <Kartikey406@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/index.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 97f06c26fe1a..11f59d7b9ea4 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -1481,6 +1481,7 @@ static int indx_create_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 	run_deallocate(sbi, &run, false);
+ 
+ out:
++	run_close(&run);
+ 	return err;
+ }
+ 
+-- 
+2.43.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
