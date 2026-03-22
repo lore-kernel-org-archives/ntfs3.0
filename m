@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015A731F9B4;
-	Sun, 22 Mar 2026 04:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD8A36DA1F;
+	Sun, 22 Mar 2026 05:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774155471; cv=none; b=EoYSiZIsGOPMPSEaIZOg8t588D37rK3tTcOrlV9r6efc6uQOitCnhkjTazHIzz9RZKeRQh4k3cxui7/1ki+M6WvAUkaxBWXg5H7DTUIUg3Y1dCnfsgmEf6t6C5kcZPgi0MrMOe17bfWv7n9SfbbznHma+LBVQRvCfbUXAwyA5DQ=
+	t=1774158843; cv=none; b=bk3IzQKgmOZMRBSFglPpQUxUKvcINm/Kf9KiSCZfzqwvdLpPrdDGQESHc8h/RV7sXFelSk1+ycS6pcqdjkZSFwHpwhOSPLr6u8atAGq1hKbPuwbZONxVUtX0B5DurntBapQ50R7/Afi822HDfHqi8uNwPCeJVtT9cZISttcmqEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774155471; c=relaxed/simple;
-	bh=xtqrnCJm6t14Z7mzfS07Ibh37z0HHXxhh2O/rcdDmIA=;
+	s=arc-20240116; t=1774158843; c=relaxed/simple;
+	bh=Ugk/mZdnf4BBglsm37SaYfJeiv6BykBtxi1sFDjpmCk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=trTt6Nf5me+06kTDxE1cC84ShK4Hrt+fmnhlQt2XQ92j6qJGYu2HSH4GkZAFy2J/1LlMk3pwMNCemcB46whYhqerSp0fP17qKReEqm38fEwqm3Jm5T9eRD5sHBMPL+M7Lbxu3NfOev32Xez8+UlUMANsx7z03kk1TDVWMLAPlJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C1Bw9beM; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=FZX2a5irRqGrtjsDKYA+gF4IC+kuR6yglKG+e2lzY4M3wYg5i/g+PGcRIl/4MCy0Wtu+cG2m9+Q82SqyyD/fczdjGPe0EHgWr8Pr3lBaBAbjV00/GtDtYU0cVOfZrtLTDx4kFwWZOfXeNzw87+DxXwqm7b4BIqGMmeIPYaHxmJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W0SKarqo; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C1Bw9beM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0SKarqo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774155468; x=1805691468;
+  t=1774158840; x=1805694840;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xtqrnCJm6t14Z7mzfS07Ibh37z0HHXxhh2O/rcdDmIA=;
-  b=C1Bw9beMqSCYENbE7w5ap1HpWea7QdqupO667K+as0TCeasAsiwrPCbE
-   PkQX6ZnKOndgL1+MbGFxuPWA2PnJRVRH+bIq3mS/6dB/1ChXUG4+E9Rc1
-   VAhW83dfF5ZchrQ8QiDINaqjm65T9oTSnOe6ZBHsmkVnZAQlpwqMfN448
-   650XQC0qFuaHBVGYz54r58XycLmrvyoMBg1BsvgE3yNyIYHAic6l/02X5
-   NYKqO8PjTMc8bfvyWYzPl/6jIkMUx49xW7pKPwgCaT7v5ferX1EdLSW0W
-   bMpSMkgmGepDanvjqZ/J05RVRquP82VNjU7Yt4ZnFjaVABxdL3Wk3TFEe
-   A==;
-X-CSE-ConnectionGUID: SaGJVi0PRbqwn1Z4lpQ+dQ==
-X-CSE-MsgGUID: gCLKIV/xSlaBCMC8SZCtzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11736"; a="97813418"
+  bh=Ugk/mZdnf4BBglsm37SaYfJeiv6BykBtxi1sFDjpmCk=;
+  b=W0SKarqozI8pwvSXFSmQXot7Kcpirs31AXuREfcJj5we4rbwM2f2x/Ht
+   kH3CiAj589pKb3QhR3Zi5EeuY1337NwJkG12eg4IAv8gXCFMqXkF0ST95
+   zsNM1LteUyW+HE8GY180b9xiIfK3AUuxtN6ccC4kvv8YGAhXbhrlCgrSX
+   VpkCfVW9/cmVLO2oe7p25ecHnTl5/IXF1Qh87paY4/GqNT1FGNnf7FBQH
+   /UbkjqKwi+L4sSkOMS2SYGvdpMlEKurVZ92sktOoEEpmH41TBRp7JmqeQ
+   0RHFg2huuYgQYFn+5O5moH5s94+DK1GrvQPLg4/+iEC2SKUeQndS+WPD9
+   w==;
+X-CSE-ConnectionGUID: x+sCsW+ISZSCh4TlfGMJEw==
+X-CSE-MsgGUID: 5qG0/A4LQ7KzqpOs0CH1uw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11736"; a="75315466"
 X-IronPort-AV: E=Sophos;i="6.23,134,1770624000"; 
-   d="scan'208";a="97813418"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2026 21:57:47 -0700
-X-CSE-ConnectionGUID: JdrSJEvRTiiGeMdaUf5V0Q==
-X-CSE-MsgGUID: Tk/wszvZSgSey3/O+JoOgg==
+   d="scan'208";a="75315466"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2026 22:53:59 -0700
+X-CSE-ConnectionGUID: QmiY/CTFR1W97vIkOKwrAg==
+X-CSE-MsgGUID: KvbTIfw9TeWe6DrTOa4UvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,134,1770624000"; 
-   d="scan'208";a="261596861"
+   d="scan'208";a="220511544"
 Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 21 Mar 2026 21:57:45 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 21 Mar 2026 22:53:57 -0700
 Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4Ash-000000001ht-0dB1;
-	Sun, 22 Mar 2026 04:57:43 +0000
-Date: Sun, 22 Mar 2026 12:56:03 +0800
+	id 1w4Bka-000000001kr-0kHf;
+	Sun, 22 Mar 2026 05:53:32 +0000
+Date: Sun, 22 Mar 2026 13:53:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Timber <dxdt@dev.snart.me>, linkinjeon@kernel.org,
 	hyc.lee@gmail.com, almaz.alexandrovich@paragon-software.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	ntfs3@lists.linux.dev, David Timber <dxdt@dev.snart.me>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
+	David Timber <dxdt@dev.snart.me>
 Subject: Re: [PATCH] ntfs(3): export super block magic
-Message-ID: <202603221238.2Ua0cYgD-lkp@intel.com>
+Message-ID: <202603221308.oDwds9wL-lkp@intel.com>
 References: <20260319234047.43253-1-dxdt@dev.snart.me>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -80,36 +81,32 @@ url:    https://github.com/intel-lab-lkp/linux/commits/David-Timber/ntfs-3-expor
 base:   next-20260319
 patch link:    https://lore.kernel.org/r/20260319234047.43253-1-dxdt%40dev.snart.me
 patch subject: [PATCH] ntfs(3): export super block magic
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260322/202603221238.2Ua0cYgD-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260322/202603221238.2Ua0cYgD-lkp@intel.com/reproduce)
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260322/202603221308.oDwds9wL-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260322/202603221308.oDwds9wL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603221238.2Ua0cYgD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603221308.oDwds9wL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/ntfs/super.c: In function 'ntfs_statfs':
->> fs/ntfs/super.c:2152:25: error: 'NTFS_SUPER_MAGIC' undeclared (first use in this function)
+>> fs/ntfs/super.c:2152:18: error: use of undeclared identifier 'NTFS_SUPER_MAGIC'
     2152 |         sfs->f_type   = NTFS_SUPER_MAGIC;
-         |                         ^~~~~~~~~~~~~~~~
-   fs/ntfs/super.c:2152:25: note: each undeclared identifier is reported only once for each function it appears in
-   fs/ntfs/super.c: In function 'ntfs_fill_super':
-   fs/ntfs/super.c:2355:23: error: 'NTFS_SUPER_MAGIC' undeclared (first use in this function)
+         |                         ^
+   fs/ntfs/super.c:2355:16: error: use of undeclared identifier 'NTFS_SUPER_MAGIC'
     2355 |         sb->s_magic = NTFS_SUPER_MAGIC;
-         |                       ^~~~~~~~~~~~~~~~
+         |                       ^
+   2 errors generated.
 --
-   fs/ntfs3/super.c: In function 'ntfs_statfs':
->> fs/ntfs3/super.c:734:23: error: 'NTFS3_SUPER_MAGIC' undeclared (first use in this function)
+>> fs/ntfs3/super.c:734:16: error: use of undeclared identifier 'NTFS3_SUPER_MAGIC'
      734 |         buf->f_type = NTFS3_SUPER_MAGIC;
-         |                       ^~~~~~~~~~~~~~~~~
-   fs/ntfs3/super.c:734:23: note: each undeclared identifier is reported only once for each function it appears in
-   fs/ntfs3/super.c: In function 'ntfs_fill_super':
-   fs/ntfs3/super.c:1282:23: error: 'NTFS3_SUPER_MAGIC' undeclared (first use in this function)
+         |                       ^
+   fs/ntfs3/super.c:1282:16: error: use of undeclared identifier 'NTFS3_SUPER_MAGIC'
     1282 |         sb->s_magic = NTFS3_SUPER_MAGIC;
-         |                       ^~~~~~~~~~~~~~~~~
+         |                       ^
+   2 errors generated.
 
 
 vim +/NTFS_SUPER_MAGIC +2152 fs/ntfs/super.c
