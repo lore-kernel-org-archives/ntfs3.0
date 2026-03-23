@@ -1,91 +1,111 @@
-Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC1E36309D;
-	Sun, 22 Mar 2026 14:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5199289340
+	for <ntfs3@lists.linux.dev>; Mon, 23 Mar 2026 05:21:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774189436; cv=none; b=QbHj0Hx6RXkaZeXt7bPuGGrs+JbNssTxl3P40+JlU+pSDAovVaqHV9hdmEHfbUNxxp1Av4C/FBCtWId7nQnfWWjqK/el15eYe/OYK8wfCVAxMk+IiBI0+HHsMLNh8nqPhqqFspl92b6ynqqKZoQ4yCL3s5hIYcI3aZ+54TbZ7Ak=
+	t=1774243317; cv=none; b=LrAThMiM5dQ0WaoJrxSsnAwHYT1r8emNJU76wDm10K88IC78NVBnjXADE2Bav3+PMagRlYz4ZFaphtd28gMSeyhWz6xHxMICxUOtKSBs+yFpblfGdzaSErMyH5bQzptJdViKqNNXclV4LxjFYQUOCwCZKte7OXoolckDuIyagbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774189436; c=relaxed/simple;
-	bh=xU8g5/aGqy/DJRVQspIBHi2Cf/i5++0bg1BTBIgA9/E=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=UY4n0f+Na8Dn3buQkQo+I0YbWXbiVKpJ4HBoCZOHZGk4r+GYD2TN5Lwm3uxoTuxX+vNuQN1AK0XzQrjw//y02WnehS1kwYRQkDfJlayus78ogjrt/vguVDjIiwsqBUsXNxn34RaXuek52pwB4WtF8KY3gVT8MpURQFzA1atFxoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=xMmp4cGV; arc=none smtp.client-ip=54.252.183.203
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
+	s=arc-20240116; t=1774243317; c=relaxed/simple;
+	bh=nkpfooB231w08yEuMmEI3pOCLhwFDkpkvgaj5ETgiwM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HONU9iQmMVN2m8WA6TWAIAh3j48i/HQRwPIjj+VKxWJb9nTtm9WR7rHJMd2tuAk/7q0+F6W4n7lb9NQWvqCigh5C5hjmW9Ka+plPzk1XSvIQVyFtnJIfuvtXdlvlV9PKYZvNKAqwBgANpf7AoDcHCaA/A6KYkRrTJZPLdSKJzHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hpa3tYfn; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="xMmp4cGV"
-Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id 796831D490;
-	Sun, 22 Mar 2026 14:23:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me 796831D490
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
-	t=1774189432; bh=xU8g5/aGqy/DJRVQspIBHi2Cf/i5++0bg1BTBIgA9/E=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=xMmp4cGV2TKJUDnlcAsJn14bpTxhHBGW/2n+6S0x/bNa9Gu/RWlRASEVoEvoFTf4V
-	 modPyzoqXZke1xB/SjEZp8dCR7n8AhnNhApWOyUDYPqtCIxpy5MTrMoGXbcn57WoS5
-	 ZE4/w7LYQ+RPX++ULtaOGAPxecBeicsJhcnVvmIQ=
-Received: from [192.168.1.18] ([182.226.25.243])
-	by embla.dev.snart.me with ESMTPSA
-	id mBM0Cnf7v2kwyQgA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Sun, 22 Mar 2026 14:23:51 +0000
-Message-ID: <860c6266-394e-4fd9-88ed-f93b80e3aa13@dev.snart.me>
-Date: Sun, 22 Mar 2026 23:23:48 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hpa3tYfn"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2a871daa98fso20573925ad.1
+        for <ntfs3@lists.linux.dev>; Sun, 22 Mar 2026 22:21:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774243315; x=1774848115; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NanPiL1bkZBnaJPUdNrmZem0Ql51ml2Y45NTYmJIv+I=;
+        b=hpa3tYfn5OqTNQuS5/hX2xQCs22Ucyo9GoZE3JyAlPIwl4VJaPWwyZz6H820avJrVH
+         YMIQuiQQVEz/7lDMMydQQIEPqEZ5N78/jo509G/X2f1J7mbD+34X0mX8snT6inbrxIqq
+         8VAozw/q2nlQledodxrgsIWdb1CDnBHtMzRF1Nme9WkaS+FBRCslR50S80zx1yVvn5Ck
+         T6IlbZxk//mf7BzTbUCSq3gAJppkWcbrAV9yz9iBk0M0AVP5ltA+D1t8jbwUuNhD2ha6
+         3kgU0Ozk6uN67EZBY/H+8HWnsOlmylSI+gFmqo60l+iYe13XR0ZQtHQfv+05x2Spdz2h
+         A/rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774243315; x=1774848115;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NanPiL1bkZBnaJPUdNrmZem0Ql51ml2Y45NTYmJIv+I=;
+        b=r+9kXVq4VNb6csFf5ak+qcVdic/hfWc1cf+Xg/z8eKCYOOTL9D9Yq51urACg8xQNby
+         SHQo+2l9O5Ins+IFAUU+oOKXUPT43wO5NokC5xYNdu15Avqy4DHzLSlt39Yhc5HLNUIW
+         6RcG0OgcIpoisYfmup+RjYCOSWj2/4RyeLDoPQcEEtkpNeLfu1R9kV2GQzXIEVrJxO00
+         0WsFQc4Ciqh7nT53FiEhZ+fwGwYhuvEx7c6BzYHD/DbdKkOBfJXeAJujWd/NwhudPnDw
+         Bm9K+/GypMjShDZEvn3DiK8ewgnz6LpyLzmRQ3S7Id5SiHiUCono/X9jafF0dxkcQJjJ
+         X71A==
+X-Gm-Message-State: AOJu0YxPd9LiEWHST8VgDLyp/5Iy5UK4j9DkmlaRUz2cei5kjL8bJrgb
+	FS0YsHz+PuD/fCTtbWnK/j1iH44W4l5SIefTolcRaeH5XUxBWpXVBeUD
+X-Gm-Gg: ATEYQzxgzcncaJszE3/vx7Ncr3R6qrNnpms1g4EmSH3ZdH9NMdWwKqq2X5hl9dbBW2R
+	m75iTUbSvy9gEKdJJGc997dxXRq8QhbuYI7fwiPdQD4R1O6xrzlgXWzKGdO9cg45PCG5PJSj6aT
+	/qzXeKOxOEusaCmuhJfN+x8/jvCSTgTz85raAwAnqcBorLVL0EV3Hnbh62UWM+PYLUmcIwCANMU
+	2Kf19KqDHXw4/ZKjh0EseSN/5x8KzQZHNi2j5Wi5rem26Mtzcumc+gbE2zIYtaWFekY9jnPQGLA
+	11EGE7PTc35W/8B/0PWSHG/sCxXwZe3oCm11lS4jetTWJCCAvpdYNRSjiVJ7vsosMScf594iOgb
+	66+ogLJvZIy1v30nyXp0qpk8hhKtNm7QPz1RpBlYbB+sMUm1qcfk5QIxhZqaCOoBdHuoNLUSbzP
+	GOsNB1APkdcoEcWTusouQCndwVIQ7vIkha+136tzys52hsIZG1gRH9I8JJe6B1EU2Jojm22yrvK
+	iJcbA==
+X-Received: by 2002:a17:902:cf05:b0:2b0:665b:c7de with SMTP id d9443c01a7336-2b0827c1676mr102331455ad.40.1774243315196;
+        Sun, 22 Mar 2026 22:21:55 -0700 (PDT)
+Received: from deepanshu-kernel-hacker.. ([2405:201:682f:389d:b0b:762f:8715:d6ad])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b083655b45sm127608245ad.42.2026.03.22.22.21.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Mar 2026 22:21:54 -0700 (PDT)
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	syzbot+7adcddaeeb860e5d3f2f@syzkaller.appspotmail.com,
+	Deepanshu Kartikey <Kartikey406@gmail.com>
+Subject: [PATCH] ntfs3: fix memory leak in indx_create_allocate()
+Date: Mon, 23 Mar 2026 10:51:48 +0530
+Message-ID: <20260323052148.1239035-1-kartikey406@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: David Timber <dxdt@dev.snart.me>
-Subject: Re: [PATCH] ntfs(3): export super block magic
-To: kernel test robot <lkp@intel.com>, linkinjeon@kernel.org,
- hyc.lee@gmail.com, almaz.alexandrovich@paragon-software.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev
-References: <20260319234047.43253-1-dxdt@dev.snart.me>
- <202603221308.oDwds9wL-lkp@intel.com>
-Content-Language: en-US, ko
-Autocrypt: addr=dxdt@dev.snart.me; keydata=
- xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
- IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
- X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
- sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
- 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
- EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
- VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
- Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
-In-Reply-To: <202603221308.oDwds9wL-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/22/26 14:53, kernel test robot wrote:
-> Hi David,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on next-20260319]
-> [cannot apply to brauner-vfs/vfs.all linus/master v7.0-rc4 v7.0-rc3 v7.0-rc2 v7.0-rc4]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/David-Timber/ntfs-3-export-super-block-magic/20260320-181810
-> base:   next-20260319
-> patch link:    https://lore.kernel.org/r/20260319234047.43253-1-dxdt%40dev.snart.me
-> patch subject: [PATCH] ntfs(3): export super block magic
-> config: *hexagon*-allmodconfig (https://download.01.org/0day-ci/archive/20260322/202603221308.oDwds9wL-lkp@intel.com/config)
-On 3/22/26 13:56, kernel test robot wrote:
-> compiler: *sh4*-linux-gcc (GCC) 15.2.0
-Interesting.
+When indx_create_allocate() fails after
+attr_allocate_clusters() succeeds, run_deallocate()
+frees the disk clusters but never frees the memory
+allocated by run_add_entry() via kvmalloc() for the
+runs_tree structure.
 
-I didn't add #include <linux/magic.h> thinking that it's included in the
-chain somwhere so it's redundant. Apparently, I was wrong. I smell
-header hell situation here. Will investigate why these two arches don't
-include <magic.h>. In the meantime, if you're interested in my
-suggestion, let me know.
+Fix this by adding run_close() at the out: label to
+free the run.runs memory on all error paths. The
+success path is unaffected as it returns 0 directly
+without going through out:, transferring ownership
+of the run memory to indx->alloc_run via memcpy().
 
-Davo
+Reported-by: syzbot+7adcddaeeb860e5d3f2f@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=7adcddaeeb860e5d3f2f
+Signed-off-by: Deepanshu Kartikey <Kartikey406@gmail.com>
+---
+ fs/ntfs3/index.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 97f06c26fe1a..11f59d7b9ea4 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -1481,6 +1481,7 @@ static int indx_create_allocate(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 	run_deallocate(sbi, &run, false);
+ 
+ out:
++	run_close(&run);
+ 	return err;
+ }
+ 
+-- 
+2.43.0
 
