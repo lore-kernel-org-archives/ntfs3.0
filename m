@@ -1,105 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA0632470E;
-	Wed, 25 Mar 2026 19:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC373BE630
+	for <ntfs3@lists.linux.dev>; Thu, 26 Mar 2026 09:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774465907; cv=none; b=tpfHaqpnYudXQSqQcFHPdPOjjpZOrXk3KnBtKrqjyxG3Qkl7VS1sFkrqx3RlkMR/9pfCDqf29O9Pna/v3M8uO/0aOA7g12DpO7Pu8iYmxi0QVqtPfJntD2UQXi5k+ICgcdKPui9c+uLNmT7n8hqOwGs1MVhVTm7yhEUrCBkTqK0=
+	t=1774518900; cv=none; b=TzJgEDwd002bG2ZfK8jrcBIgjIoqPt21b+iSDcJr92zgE1KF03We305ItGURUjxKkxveoaE4TTR22hTypZSI3wiM0R3/gi2w+56rkFVkuWc2Jo1S1tJ1UaIRLDRUc46nTjvYz2wIjVGHsCJKnpZfHqzAy1HKK8JRiY2h6SbL/UM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774465907; c=relaxed/simple;
-	bh=R8trGOgutAbT9TZyCLIzQHNIqzASbQS+83BkcRfxwPk=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=ZTPY3+KTFHeYGuiL8i8Dt1jNORWDjJMhmZMEJmF03etMcCGttujkGBvEopiKRbrIvI03VTJXlLPQyxIvWY/XVjv/RPttbWt2FBz4vl5hXgfE4VndxGgTVg/wQEPpU4j11MnaTRpMRTB//90wdR1qAkuVVzlq9TkvEbEWQdtLdIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=n+B7jA29; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774518900; c=relaxed/simple;
+	bh=P6pO8hqSDzDiUMeN+vj6yYZXJszgs6S2wwGl0XVS/3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DlXlRT5gXEHjQMHxO8GJxbyTFdxiOQmnXqWbT94r69IJfeNpW7RLlqqF9fwGLWTQqsLaZT5Ns7l1PL9ETxJZF+MuOINobxULAuQi6zaQN9ggcMCFPswi01XYk8UPj2SKV3psei3RfwZYG38j1O7vGlZ9GfMx1l8PlLvBK1XD484=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Fg5zz6iJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oJbDjkUK; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tgBitcH7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GUNWPU2V; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="n+B7jA29"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F077C19423;
-	Wed, 25 Mar 2026 19:11:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1774465907;
-	bh=R8trGOgutAbT9TZyCLIzQHNIqzASbQS+83BkcRfxwPk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=n+B7jA29HYBmodMSUv0jabYWqYQkkzI25KIVUfzjjK3zF1RxFmsERQAksEeZZEv1h
-	 iDMFChCVfnLLUa7gKSv1HXmC8QYOQ2DoFFNevqSjWHHy7buMTrhvRcmzF6+Bru4h1/
-	 SBYFb48e+BEYOYgHK10JdqzPoTkS++h4SrH0RokU=
-Date: Wed, 25 Mar 2026 12:11:45 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Pedro Falcato <pfalcato@suse.de>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams
- <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
- Jiang <dave.jiang@intel.com>, Gao Xiang <xiang@kernel.org>, Chao Yu
- <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, Jeffle Xu
- <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, Hongbo
- Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, Muchun Song
- <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, David
- Hildenbrand <david@kernel.org>, Konstantin Komarov
- <almaz.alexandrovich@paragon-software.com>, Tony Luck
- <tony.luck@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, Dave
- Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>, Babu Moger
- <babu.moger@amd.com>, Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota
- <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, Matthew Wilcox
- <willy@infradead.org>, Jan Kara <jack@suse.cz>, "Liam R . Howlett"
- <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Mike
- Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
- Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Jann Horn <jannh@google.com>, Jason
- Gunthorpe <jgg@ziepe.ca>, linux-kernel@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
- linux-erofs@lists.ozlabs.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 3/6] mm: always inline __mk_vma_flags() and invoked
- functions
-Message-Id: <20260325121145.24f51861d9933f8577b7d6c7@linux-foundation.org>
-In-Reply-To: <1ae3915e-19ef-4be0-aa5f-fd66a2e18179@lucifer.local>
-References: <cover.1772704455.git.ljs@kernel.org>
-	<241f49c52074d436edbb9c6a6662a8dc142a8f43.1772704455.git.ljs@kernel.org>
-	<ndtnvnobevdymu5a5tdxdbi4tcsqshs3d6x2vnfgnuclxvgwok@bhbqkzilsets>
-	<d352055d-06fe-43b2-8ad3-b73ab99683d0@lucifer.local>
-	<20260325090949.795e06f48ec455053db9ae89@linux-foundation.org>
-	<959b34ea-69a7-4fda-a494-0b9a1773ec1d@lucifer.local>
-	<20260325112755.e62cd89508224f703239f03a@linux-foundation.org>
-	<1ae3915e-19ef-4be0-aa5f-fd66a2e18179@lucifer.local>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Fg5zz6iJ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oJbDjkUK";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tgBitcH7";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GUNWPU2V"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CE6985BD0A;
+	Thu, 26 Mar 2026 09:54:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774518897; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xEoAflJRM7Hd/KP30RTJ0C/33uYEsxXokECxD0i9oqc=;
+	b=Fg5zz6iJmRyHEh6qiH7+5WHnTRYylyOrE3kQl1PIQrb56ytIj+OgztDjLZOjnhjq4Q5yvU
+	4UY7PfrTk1dhtKlab7u48fTsbNcIMy7P1/1a7I6z0YbAaQ9YkxM1y55sTVoIsmdNcTA3Hd
+	VgIp8AG7Dk2jE5gDAVxrJj3WRZA/n3E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774518897;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xEoAflJRM7Hd/KP30RTJ0C/33uYEsxXokECxD0i9oqc=;
+	b=oJbDjkUK0z7SNcPYL20kKpL5l+AAfiXMXUQH5y2dSO6KUN3N4MSxc8G+pdEBzaRGOrVTVt
+	A+hsUAYOb776TlCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=tgBitcH7;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=GUNWPU2V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774518896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xEoAflJRM7Hd/KP30RTJ0C/33uYEsxXokECxD0i9oqc=;
+	b=tgBitcH7FdYoLfFpSjYftDRezmc3Lz836aO+H9qsVbpCAAAvIcd2GW8hfxZ6tu/JR1ybCb
+	hlK/zV51kNZ7mQcRvXLe2gsZ2SeD9WrA+5ULaOVmXqlnHyFJeKZvOMfx7U42ZYZTgjJFvv
+	PXBqVtfRAzH/GGFd770ZQEa/SM96CZ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774518896;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xEoAflJRM7Hd/KP30RTJ0C/33uYEsxXokECxD0i9oqc=;
+	b=GUNWPU2VmtfcnaXljrOqeEIMf2EsQqP3kks6SkQ82vTLD+rSSSPM/46ZN6Ar0q35ycIx7i
+	fo8sg0OsLiiVo2DA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BED6B4A0A8;
+	Thu, 26 Mar 2026 09:54:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id E/eQLnACxWmiYAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 26 Mar 2026 09:54:56 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 82CFAA0B5E; Thu, 26 Mar 2026 10:54:48 +0100 (CET)
+From: Jan Kara <jack@suse.cz>
+To: <linux-fsdevel@vger.kernel.org>
+Cc: <linux-block@vger.kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@ZenIV.linux.org.uk>,
+	<linux-ext4@vger.kernel.org>,
+	Ted Tso <tytso@mit.edu>,
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+	David Sterba <dsterba@suse.com>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	linux-mm@kvack.org,
+	linux-aio@kvack.org,
+	Benjamin LaHaise <bcrl@kvack.org>,
+	Jan Kara <jack@suse.cz>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Subject: [PATCH 03/42] ntfs3: Drop pointless sync_mapping_buffers() and invalidate_inode_buffers() calls
+Date: Thu, 26 Mar 2026 10:53:57 +0100
+Message-ID: <20260326095354.16340-45-jack@suse.cz>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260326082428.31660-1-jack@suse.cz>
+References: <20260326082428.31660-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1214; i=jack@suse.cz; h=from:subject; bh=P6pO8hqSDzDiUMeN+vj6yYZXJszgs6S2wwGl0XVS/3g=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpxQI0HEq4UQTZ1UrVhvgG+EYydxO1nRyNYrdsA +FUT3YdJO+JATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCacUCNAAKCRCcnaoHP2RA 2dHAB/0RMeWEePefP/TbmZY2WRYlfAyvOWDAUTFwJJGUTfii5CnecrOoG2HOl9Y7eZmiLuS7dXW VImegHi6JlrloqSQWBXc5xhjHbDmWgC/lK8hprruEjr5qkPZfaLYJ9IcDMWx7d6ACLjXRfChOw6 3+5A+UsimFNqezMkcpJLjAnpVLz5wkOaBXY/5vfSAGZxqHYg7SfEUio58YuHSudrGxsoEzx5yRR 0/uFG5hGTQmQv1k6khrglQ28AQ8RHvA4WDqAjt+Eha9cBci+Iq3hXA5zAHIHZPCFRgSxKG4kTd/ GDsq4cgIb0wnof8VmkgFan/qKGlhbDK84k0boDDDj+9tkJyV
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,linux.dev:email];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	R_RATELIMIT(0.00)[to_ip_from(RLhafujjw6m7bafrsz8p45s31g)];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,ZenIV.linux.org.uk,mit.edu,gmail.com,suse.com,mail.parknet.co.jp,linux.dev,suse.de,kvack.org,suse.cz,paragon-software.com,lists.linux.dev];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -1.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: CE6985BD0A
 
-On Wed, 25 Mar 2026 18:44:13 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
+ntfs3 never calls mark_buffer_dirty_inode() and thus its metadata
+buffers list is always empty. Drop the pointless sync_mapping_buffers()
+and invalidate_inode_buffers() calls.
 
-> > : Be explicit about __mk_vma_flags() (which is used by the mk_vma_flags()
-> > : macro) always being inline, as we rely on the compiler turning all
-> > : constants into compile-time ones.
-> >
-> 
-> Well I think that loses the meaning a bit.
-> 
-> Something like:
-> 
-> Be explicit about __mk_vma_flags() (which is used by the mk_vma_flags()
-> -macro) always being inline, as we rely on the compiler converting this
-> -function into meaningful.
-> +macro) always being inline, as we rely on the compiler to evaluate the
-> +loop in this function and determine that it can replace the code with the
-> +an equivalent constant value, e.g. that:
-> +
-> +__mk_vma_flags(2, (const vma_flag_t []){ VMA_WRITE_BIT, VMA_EXEC_BIT });
-> +
-> +Can be replaced with:
-> +
-> +(1UL << VMA_WRITE_BIT) | (1UL << VMA_EXEC_BIT)
-> +
-> += (1UL << 1) | (1UL << 2) = 6
-> +
-> +Most likely an 'inline' will suffice for this, but be explicit as we can
-> +be.
-> 
-> Should verbosely cover that off.
+CC: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+CC: ntfs3@lists.linux.dev
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/ntfs3/file.c  | 3 ---
+ fs/ntfs3/inode.c | 1 -
+ 2 files changed, 4 deletions(-)
 
-ok ;)
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 7eecf1e01f74..570c92fa7ee7 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -387,9 +387,6 @@ static int ntfs_extend(struct inode *inode, loff_t pos, size_t count,
+ 		int err2;
+ 
+ 		err = filemap_fdatawrite_range(mapping, pos, end - 1);
+-		err2 = sync_mapping_buffers(mapping);
+-		if (!err)
+-			err = err2;
+ 		err2 = write_inode_now(inode, 1);
+ 		if (!err)
+ 			err = err2;
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 6e65066ebcc1..5d8f04dedcc8 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -1860,7 +1860,6 @@ void ntfs_evict_inode(struct inode *inode)
+ {
+ 	truncate_inode_pages_final(&inode->i_data);
+ 
+-	invalidate_inode_buffers(inode);
+ 	clear_inode(inode);
+ 
+ 	ni_clear(ntfs_i(inode));
+-- 
+2.51.0
+
