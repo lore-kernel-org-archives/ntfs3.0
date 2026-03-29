@@ -1,68 +1,37 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.pv.icloud.com (p-west1-cluster4-host11-snip4-6.eps.apple.com [57.103.65.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED7119E819
-	for <ntfs3@lists.linux.dev>; Sat, 28 Mar 2026 16:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B79C35AC13
+	for <ntfs3@lists.linux.dev>; Sun, 29 Mar 2026 11:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.65.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774714685; cv=none; b=HGQoGKpx2rQc2B5tYajNz+OFtn1OqU9kqJSthihyeMi6g55LJoSg/MVhNOzP+rjaJLkf/k3evOivTEbu+q4EorCQkMwlEHqLPleW44SHSeI42RxHFNUmTPh+uzJiI4/suWc207IkVUGymUKIckfR1zzSOPzbV/9jba3zBA2/OTo=
+	t=1774783033; cv=none; b=oL/R+Ynxa+kFMUg6jQmjQXXI1Jamc9Qh5fihV8OWvpZLYnsLvJwPLwRQQWT2Zta/ShKMOe5jPemQAzCx3CzeuyuPfwIYCCh4hrCZK3TT8Eb2PVRRgYGSkkNW04hx/ef61IiEza/wN0G8N2dschubZaG4qWFOwfdAZYXPHvIeIV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774714685; c=relaxed/simple;
-	bh=5BL932Zh2vm98BBiIO2Rlj+2dxSJnrQPUAH++zgp2/E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h/de4FRGIkjx6oZnFY5Q21dnC2fjOweTS3AIrOXjuGj0DRNGcLnSVqYrL70IgxWvhPqn3pqqZE978t07joAStoosjxseo0Hkvks/zh59V8+O6JaDaNnrAaK7nLzekeRYMLYhq/QKp7ADCwZ3IMLvoZDmyiZdNmiyOAm8gGAaWvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NwZOAHox; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774783033; c=relaxed/simple;
+	bh=HDqBz5WEHQfMLl4Nx5oP0XhP8PxMU+MNQ7aQoI83584=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=riUKCIS2LBJlh5PtIRkTztPBRQESSUNXNJb0dFLWsf7jXkHW/eccgSBIoUmCYa2I+Sb+yQIebizhPeXuSnQQYl215CDosQkF3WN/pobT7juLdB3WZYM9UfUpP//lUtr4doEaddxVGyN2s3ZOugEKS2PQsAD1OqWTBJSap0pYojI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=me.com; spf=pass smtp.mailfrom=me.com; dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b=vZ79p8O0; arc=none smtp.client-ip=57.103.65.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=me.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=me.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NwZOAHox"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6634bb959a2so3709576a12.1
-        for <ntfs3@lists.linux.dev>; Sat, 28 Mar 2026 09:18:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774714682; x=1775319482; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3OJmNZZAHzKtCtuGtuf9MesXbqfb4cueg7/dAvpH6/0=;
-        b=NwZOAHoxyww1cd2KDNeJJhw/skgygrrhnA1MU9vyoac0adxqU/COtqF0Vbo7Gcy8Xv
-         DnlGPsiN9QLkWynnK8Yt1ePQK6nIQXX9Avq9jVmjC85JVYgf6APgdK8P+SMQLTBxYWZI
-         N8SBXZUZAxbbQ/Hu7Q9Tw2VTPxiwOJJ7SZ1xJVYwCXiBq1QMq7NliYyW3grd4+1/vOMd
-         sdkpg9WkKU5V6Dgp3uGtoH65K3GLDlGItlAODTEl11SEFHxX17O9Ic2KdQW7GKRP6/mW
-         x7fhEUKm+RHoz9vGCaD4zhUddyyPzcmcNmnGCCraP2qBwICun0yK3XGCAJiWzc8oCyJy
-         QM1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774714682; x=1775319482;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3OJmNZZAHzKtCtuGtuf9MesXbqfb4cueg7/dAvpH6/0=;
-        b=QOZRn+my5zbn36N3289geM4hSY0LuHxQB9CT7V2BG+3ZHlL7HtJ7HjfKZrZFnUO0nG
-         FmcFI8c0B3TXtJ66HxN8oc+Gc5ybdHhC+1MEExAMKng+jN4Bp8ZfXDtcLjPd6lqB4yIY
-         cUqDEzm+P5DdgiJsirmeEO4Z7RBSjLfmJN3iBQei3BmKz3VnAQvxCWO6wmhpM0xGdAWD
-         3RAtEBuAuYiVabbJNqgm91uA2M5hxgRc6oNaTFB+g952qf29nK7q6xhJjM3bMBoygf2p
-         YG3J5oCg6vVfaPteBzpdLyVuH35CCwxmKb/Ang+C3grf7JkwXDYO9mxJd8m/9yfj/iXB
-         BzGw==
-X-Gm-Message-State: AOJu0YxALbvxcI7+aAeyPHm4nda3uH1bhcy6JwP//1Jhj1zaXhkNma2f
-	1UnG9uBji7vo7xFqJ1RumXAjHV9UDJ2e1fWIODdGqI21QRObP9k3IVPcQL7ChPdf/FeFi3Xb
-X-Gm-Gg: ATEYQzw5Uswg4h06FoXwnlqt2SWqYaFlXqITrMj4lVgy14xK2JQsieIAX2d6xZiT7zH
-	P75zC468DgpdsB9sCZr8XgDZVjxEmiRnP3KeVH8Y8xpX/yc2xP4vUFtzg6FJ0m33bqIXVwn5MDU
-	ViAqpk8DqiHnVm6SNK076yE5SNGrosjKVu4vQd7v9UV568QjziA/b12aL3XERX5i6PETeo6RWIL
-	oU+swNWcw+hdJxXmrs3UNUCADLFOjZbdrFan07zzU3WZD3hEnwcK4RHhRsSK/hWS7AFx1c4oImo
-	ksPSs6dOc/uMxLhhMOnCzGDj/Ui401ORLiar4R7WzZwpxM73divotnoJTQIiSx3eDDPQyU4cL7v
-	UfPIO8mb37rd7LEe7yfsE1zcsvH+5CxI8qLBCmfpE2EtTrF/RG+AXUc8E389AuA63jHWOSsOURt
-	BdtXuwOshYvTiTXIE4
-X-Received: by 2002:a05:6000:200c:b0:439:abcd:b314 with SMTP id ffacd0b85a97d-43b9ea34bfcmr9551110f8f.18.1774695190350;
-        Sat, 28 Mar 2026 03:53:10 -0700 (PDT)
-Received: from pop-os.. ([94.190.180.59])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21eba4dsm4779725f8f.11.2026.03.28.03.53.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 03:53:09 -0700 (PDT)
-From: Ruslan Elishev <relishev@gmail.com>
-To: ntfs3@lists.linux.dev
-Cc: almaz.alexandrovich@paragon-software.com,
+	dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b="vZ79p8O0"
+Received: from outbound.pv.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-1a-60-percent-4 (Postfix) with ESMTPS id 7461C180012F;
+	Sun, 29 Mar 2026 11:17:10 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai; t=1774783031; x=1777375031; bh=P8jZfeKvtyoU7sMll426NVb+Ub63B74ie8+hAMe8W8o=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=vZ79p8O0NIuFlKrxIMzcayd46eJLRgRAErvf/czpLiKN/2FztZlrdGHVht2R1MmUYJqC/3TxsQ2d3cx7qzJ5eyEiv/qB7D+q0fpxgZxROWJe4dszG6r70vZQa15YAOcCI1lwdKa5QDSVhVgm+0YKcJ00DgQfzfjC+BTk+GlkA730at3cxQplGMqad/5kn5A9JyizCnUF34tlnOuw7z7Augd54Vnc3XYB9fMaCJSExw2//U10L014t8d9rNaCvLoEhJdwLw2p52dRY0EBlOJ9lno3dchCET9JJlunH4FMeCXxIb64lq4lKr5iDfq6i5fzqQZkIphBCbimhWaHo0D5WA==
+Received: from bimmer.. (unknown [17.56.9.36])
+	by p00-icloudmta-asmtp-us-west-1a-60-percent-4 (Postfix) with ESMTPSA id 5034D18003F2;
+	Sun, 29 Mar 2026 11:17:08 +0000 (UTC)
+From: tobgaertner <tob.gaertner@me.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Ruslan Elishev <relishev@gmail.com>
-Subject: [PATCH] ntfs3: fix mount failure on volumes with fragmented MFT bitmap
-Date: Sat, 28 Mar 2026 12:53:08 +0200
-Message-ID: <20260328105308.786150-1-relishev@gmail.com>
+	stable@vger.kernel.org,
+	security@kernel.org,
+	Tobias Gaertner <tob.gaertner@me.com>
+Subject: [PATCH 0/2] ntfs3: fix OOB read and integer overflow in run_unpack()
+Date: Sun, 29 Mar 2026 04:17:01 -0700
+Message-ID: <20260329111704.411449-1-tob.gaertner@me.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -71,96 +40,55 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Authority-Info-Out: v=2.4 cv=McRhep/f c=1 sm=1 tr=0 ts=69c90a36
+ cx=c_apl:c_pps:t_out a=azHRBMxVc17uSn+fyuI/eg==:117
+ a=azHRBMxVc17uSn+fyuI/eg==:17 a=Yq5XynenixoA:10 a=x7bEGLp0ZPQA:10
+ a=C3-SEi6G3EkA:10 a=VkNPw1HP01LnGYTKEx00:22 a=HHGDD-5mAAAA:8
+ a=wterkXhTeHrO-kwhCgEA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI5MDA4NyBTYWx0ZWRfX0mjZvIVb/78n
+ oc7PTYfWfPwUSJ8T/eQvD8QXYQWk2EwsJ0orxRWITQNGj57ZVC4s0bQz0kJpaO79fTVmkZzR1xB
+ 5HsErVZKAp8023aMhKVZ5NBWE1TiEGkB57taIQmiB2J2AzTivszje6XSh5kfRkd3pvrqSDIO14j
+ Gy5CjZu7/VIUmlQhLGJLtsvzLejsxJR8pnuw3A6+kcWTAfflLQXqdMDiCfCN5kVsJLIF/SnFqOw
+ KzXLfaNY+Gte3dPU4thH+BBefsKyk2V3cuDNQ4N4jdpKYKei2cdQZjlzLRtxIk4VSNSA4b6ZLMc
+ ZhEfeXNsiYBEH8f/c1t21OaBYMsVe6T5xa6iblNEal1yKZqa4LY2mxI8WJF71E=
+X-Proofpoint-GUID: YJHi_aX8l3JImBqmnsaizUWuuxM9ounT
+X-Proofpoint-ORIG-GUID: YJHi_aX8l3JImBqmnsaizUWuuxM9ounT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-29_03,2026-03-28_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ clxscore=1011 mlxscore=0 mlxlogscore=952 bulkscore=0 suspectscore=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 classifier=spam
+ authscore=0 adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2603290087
+X-Apple-Category-Label: Mjg5MDYwMTc4OiRjYXRlZ29yeSRfUGVyc29uYWws
 
-When the $MFT's $BITMAP attribute is fragmented across multiple MFT
-records (base record + extent records), ntfs_fill_super() fails with
--ENOENT during wnd_init() because the MFT bitmap's run list only
-contains runs from the base MFT record.
+From: Tobias Gaertner <tob.gaertner@me.com>
 
-The issue is that wnd_init() (which calls wnd_rescan()) is invoked
-before ni_load_all_mi(), so the extent MFT records containing
-additional $BITMAP runs have not been loaded yet. When wnd_rescan()
-tries to look up a VCN beyond the base record's runs, run_lookup_entry()
-fails and returns -ENOENT.
+Two bugs in run_unpack() found by fuzzing with a source-patched harness
+(LibAFL + QEMU ARM64 system-mode):
 
-This affects NTFS volumes with a large or heavily fragmented MFT, which
-is common on long-used Windows systems where the MFT bitmap's run list
-doesn't fit in the base MFT record and spills into extent records.
+Patch 1: run_unpack() checks `run_buf < run_last` at the loop top but
+then reads size_size and offset_size bytes via run_unpack_s64() without
+verifying they fit in the remaining buffer.  A crafted NTFS image with
+truncated run data triggers a heap OOB read of up to 15 bytes on mount.
 
-Fix this by:
-1. Moving ni_load_all_mi() before wnd_init() so all extent records
-   are available.
-2. After ni_load_all_mi(), iterating through the attribute list to
-   find any $BITMAP extent attributes and unpacking their runs into
-   sbi->mft.bitmap.run before wnd_init() is called.
+Patch 2: The volume boundary check `lcn + len > sbi->used.bitmap.nbits`
+uses raw addition that can wrap for large values, bypassing the
+validation.  CVE-2025-40068 added check_add_overflow() for adjacent
+arithmetic but missed this instance.
 
-Tested on a 664GB NTFS volume with 86 MFT bitmap runs spanning
-records 0 (VCN 0-105) and 17 (VCN 106-165). Before the fix, mount
-fails with -ENOENT. After the fix, mount succeeds and all read/write
-operations work correctly. Stress-tested with 8 test categories
-(large file integrity, 10K small files, copy, move, delete/recreate
-cycles, concurrent writes, deep directories, overwrite persistence).
+Both bugs are present since NTFS3 was merged in 5.15.
 
-Signed-off-by: Ruslan Elishev <relishev@gmail.com>
----
- fs/ntfs3/super.c | 39 +++++++++++++++++++++++++++++++++------
- 1 file changed, 33 insertions(+), 6 deletions(-)
+Could CVE IDs be assigned for these two issues?
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index abcdef..123456 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -1364,16 +1364,43 @@
- 	tt = inode->i_size >> sbi->record_bits;
- 	sbi->mft.next_free = MFT_REC_USER;
+tobgaertner (2):
+  ntfs3: add buffer boundary checks to run_unpack()
+  ntfs3: fix integer overflow in run_unpack() volume boundary check
 
--	err = wnd_init(&sbi->mft.bitmap, sb, tt);
--	if (err)
--		goto put_inode_out;
--
- 	err = ni_load_all_mi(ni);
- 	if (err) {
- 		ntfs_err(sb, "Failed to load $MFT's subrecords (%d).", err);
- 		goto put_inode_out;
- 	}
+ fs/ntfs3/run.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-+	/* Merge MFT bitmap runs from extent records loaded by ni_load_all_mi. */
-+	{
-+		struct ATTRIB *a = NULL;
-+		struct ATTR_LIST_ENTRY *le = NULL;
-+
-+		while ((a = ni_enum_attr_ex(ni, a, &le, NULL))) {
-+			CLST svcn, evcn;
-+			u16 roff;
-+
-+			if (a->type != ATTR_BITMAP || !a->non_res)
-+				continue;
-+
-+			svcn = le64_to_cpu(a->nres.svcn);
-+			if (!svcn)
-+				continue; /* Base record runs already loaded. */
-+
-+			evcn = le64_to_cpu(a->nres.evcn);
-+			roff = le16_to_cpu(a->nres.run_off);
-+
-+			err = run_unpack_ex(&sbi->mft.bitmap.run, sbi,
-+					    MFT_REC_MFT, svcn, evcn, svcn,
-+					    Add2Ptr(a, roff),
-+					    le32_to_cpu(a->size) - roff);
-+			if (err < 0) {
-+				ntfs_err(sb, "Failed to unpack $MFT bitmap extent (%d).", err);
-+				goto put_inode_out;
-+			}
-+			err = 0;
-+		}
-+	}
-+
-+	err = wnd_init(&sbi->mft.bitmap, sb, tt);
-+	if (err)
-+		goto put_inode_out;
-+
- 	sbi->mft.ni = ni;
-
- 	/* Load $Bitmap. */
---
+-- 
 2.43.0
+
