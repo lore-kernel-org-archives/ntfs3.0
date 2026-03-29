@@ -1,41 +1,69 @@
-Received: from outbound.pv.icloud.com (p-west1-cluster4-host1-snip4-10.eps.apple.com [57.103.65.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D6135B125
-	for <ntfs3@lists.linux.dev>; Sun, 29 Mar 2026 11:17:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.65.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC28C1397
+	for <ntfs3@lists.linux.dev>; Sun, 29 Mar 2026 11:58:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774783038; cv=none; b=O3DqCIjl25hK68h1q5aS5J/wZOtT9VFcxIATyBhqNsCSZbdcZCcIcgutXZfRn/jQRhQGQsJ9VD+NWaUs5IF+bQesojN5OeHZWYbt0hq9/nTpPAWyHnbJ+OpZgAJDxfblTqZ8n07vA5JqMneNNQSXIAbL60goOWsFT07oGQNMZ/A=
+	t=1774785518; cv=none; b=RGb0vp92dkw9IbR/y262SQdEdhcABH9G1uGZAEry/zlKeb6NeM7GyQ54LDOPSW1hS5QgSpCTGlYF0JgGqp5t/FNwzOrV5PTEFCRVzcnx5LwbH6jGsqS4VfBiVsqPe33OSn/sejYOhBd6fP/MrjPJNIdViKIb+5OOeqFkaimT12E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774783038; c=relaxed/simple;
-	bh=bklynfWm0VI4qNWvUOMPnNYVRhGPtQ9KmEkPZB98Hk4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fVtNzVw+YK3i/vEBNOOXrBYbGcjGhnaLx53BR3nbyOrKYIFNjfEQcQhkp33X+uxcR/JR4ZdzRcZvcMRUcHo4M7iTyzgwjym5dGiIUtJ7FL94hYBB15EbdIBipYF1lx/4+tGUjXZhYdZF21ph57kqi/N3FC4CkJSiUfZvmc33Iyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=me.com; spf=pass smtp.mailfrom=me.com; dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b=N7HlM4pq; arc=none smtp.client-ip=57.103.65.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=me.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=me.com
+	s=arc-20240116; t=1774785518; c=relaxed/simple;
+	bh=DJliuBZ2A79EJ/xCnwoawoH2ID8regYRbZg1ZAqhJ3I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n5o0npPvOQC09+0qkQGOFVlzK0WZcpqu4ntUtk6Av0JNcwcA4EtbmFmrLsfifjqhtIR4MPLJYJbVH2VBcoALopQZnZ+xWpY4/9znpUaibbAp06Jg5/oldHJwPmLEirLI+CpX8F8jRmdoOhgaxKcgaNPgSs2x5pv7655FTsMp8G8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aCf9WIPI; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b="N7HlM4pq"
-Received: from outbound.pv.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-1a-60-percent-4 (Postfix) with ESMTPS id D2A3D18000A4;
-	Sun, 29 Mar 2026 11:17:14 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai; t=1774783036; x=1777375036; bh=kmK9jSWqh5Q+e1AL7HMBVf8XSfWYxGXxUEPCqFex7SM=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=N7HlM4pqZD/UdvFZ4lRh7VwJu9+4Dr6RkWl4i1jY0/FNsZqs1DHcautOr1aLT+JtIELUacB43aLHrYmNSEebpMbBaa70DyityB49JdV4E6fuwYC7FceePzHu0iZPH7o4rJGjeaVs+jkoJJkZgfRhYWgmXymB6ntxl7Z5km+JDB0SS7ls77/4wteFBrcx6U4b6bJAM9edpI1eYdz7KFf8m+uspq8vCOQB3gSQYVTqjr6867pzaxlW92eoRimPxxYl/QqFzoFga/plB3Rku732OXDOlw1jyk+dmFU1EjGf1o3u2y9QjUor/rg8fuYtX8/DpGmbVallQSRRkgpgignt6g==
-Received: from bimmer.. (unknown [17.56.9.36])
-	by p00-icloudmta-asmtp-us-west-1a-60-percent-4 (Postfix) with ESMTPSA id D381D18000B7;
-	Sun, 29 Mar 2026 11:17:12 +0000 (UTC)
-From: tobgaertner <tob.gaertner@me.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aCf9WIPI"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b7cf4a975d2so455330066b.2
+        for <ntfs3@lists.linux.dev>; Sun, 29 Mar 2026 04:58:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774785515; x=1775390315; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aiI2qcTLk45LT12wJuyeGmrvH8z49mR2GG6hI2S4GS4=;
+        b=aCf9WIPIuJ84r/fyWNW3JZQdii+bhC+o1y12XLEfPUJ6NTvqdH1m5eaSDsFkq8CxFK
+         7gnDdFnxLn4bTGLe+F7qcB4gBEWm4enfD5OaJQTK3iJwSi3JfI67SQF+c3H97adQTGjC
+         Z/HiyFZBLkake4gmJJNqxN9fSUa9iy29EmyTB2ASFRbTQQqQfwtqUQBo0+h5StmV8O3e
+         LmVKUrmMCliHUyaynva9dCLTgUNV0nwOuXoQHMcQ4dKNzE/8g+K2n6vHfPDawsCy8zIy
+         qbAG+bzxW3X8QQNAQ3dm0kuWt0lyAHseUiYCWm7ISUDRV+kq+TzpYDFOyH9zi35HetYp
+         yfQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774785515; x=1775390315;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aiI2qcTLk45LT12wJuyeGmrvH8z49mR2GG6hI2S4GS4=;
+        b=BI4tULfshYqIT+pU7bi35ut7C6JHMViR2deU38mouyFzXzqwX+h7Avh7C/GvKvcOg8
+         IqkpiSHH6LQWP62onKCN2GUcdPgeQTpAhXF7anueVI773wR/LXLvWSdR17LnPhQve6cU
+         tg2fRqH8ImMxGnGn95/8aD5mztvZayPMI9RJwy74SBMOapANffqj7ktJpmSPu60Ud9fQ
+         R+c+aDwU24Xxqh1Q+1o0G+lbSv+7gCh98/5JBqmNYed2FrkD+0hr+tIX1o4UYFthZEBG
+         pRixiAnbgAZWDJojBdbOg3bH49Ilbr/3fVAWISfOHzpsfP17FyDttOKXTKE75zJshqrY
+         WSfQ==
+X-Gm-Message-State: AOJu0Yw0kvBjntHVr9Gtjhz5r/LLTl8CV9ji6tErE3Srl6XvpdXdOvZC
+	KTwzE9S5Q/3bix9zxLnZvqa/ua5wJMK5Fno8BZnupJpIB9axUVdJZ/hn
+X-Gm-Gg: ATEYQzwYGRm8nRRhzv7l5oova5b5PV48EV7MdmM8D8StH8/ozG92VWQuwH/YeqO4nPs
+	1fId0Jfl+OM1CP31yEg/TwPDqsjCXtMs2R9gNLc3EY7xgqd43HRR/HBjzycUzuIZx5BUnlLbLKr
+	t8PbRVb5ODF+kU3ruzHGKj3JDr066Jz7iwOK7FiYHSczlL886XULh2oQCQAepfnq20XS+W/IiM0
+	SdUpcxLwfp9kao1A5YXfJfvJPFK3FnL/yO4midQwwmhKFIsork0e2Hh6e+Gflbye5jkamr6s9Hk
+	yUHkJJGTuW4TCc/iUtPVYlZE+FR+CAdyfaDfZN4YvjGMMqP82VgGcivZZrsdx6yXPofOkfLQrg+
+	2jPPPVpTLNq+6ng77J6ugXpCpntWHZv1+izOmwNRCQCXzPcwHlcbvPhMkyAi/7XAfQD7U3EA/SH
+	QYvqFfOF+LpAI1w2mvipqsBB+8NF87GLkC/+72lhsCo92mR/Ldu7BsQxa3PVIJblWanXPkvw316
+	Q==
+X-Received: by 2002:a17:907:3f07:b0:b98:2d0d:fc00 with SMTP id a640c23a62f3a-b9b5035bf27mr541173066b.24.1774785514696;
+        Sun, 29 Mar 2026 04:58:34 -0700 (PDT)
+Received: from Mac.home (176-22-56-52-dynamic.dk.customer.tdc.net. [176.22.56.52])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b7ae24d6bsm164059966b.6.2026.03.29.04.58.33
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 29 Mar 2026 04:58:34 -0700 (PDT)
+From: 0xkato <0xkkato@gmail.com>
 To: almaz.alexandrovich@paragon-software.com
 Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	security@kernel.org,
-	Tobias Gaertner <tob.gaertner@me.com>
-Subject: [PATCH 2/2] ntfs3: fix integer overflow in run_unpack() volume boundary check
-Date: Sun, 29 Mar 2026 04:17:03 -0700
-Message-ID: <20260329111704.411449-3-tob.gaertner@me.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260329111704.411449-1-tob.gaertner@me.com>
-References: <20260329111704.411449-1-tob.gaertner@me.com>
+	0xkato <0xkkato@gmail.com>
+Subject: [PATCH] ntfs3: fix OOB write in attr_wof_frame_info()
+Date: Sun, 29 Mar 2026 13:57:57 +0200
+Message-ID: <20260329115757.66040-1-0xkkato@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -43,69 +71,83 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Info-Out: v=2.4 cv=GL4F0+NK c=1 sm=1 tr=0 ts=69c90a3b
- cx=c_apl:c_pps:t_out a=azHRBMxVc17uSn+fyuI/eg==:117
- a=azHRBMxVc17uSn+fyuI/eg==:17 a=Yq5XynenixoA:10 a=x7bEGLp0ZPQA:10
- a=C3-SEi6G3EkA:10 a=VkNPw1HP01LnGYTKEx00:22 a=HHGDD-5mAAAA:8 a=VwQbUJbxAAAA:8
- a=BXPtrl3ALzOmZKxukosA:9
-X-Proofpoint-ORIG-GUID: 7Nh9xqpvObeP_NucbXr3Pi6R0GacuMX6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI5MDA4NyBTYWx0ZWRfXwAcLnUm5gJD1
- KgWZpaYb2UkIZQ9uENI8anXlgJniwO03NG96CS3fckBWQm6SsZl+m9AzbybaK2GKr54i1WIU8Tt
- cD6/rSN2AGjiwyL66e82oxU5pXH+RZJhj9Ym5q49EbdbEvvNP1RuqYi09Ut2WcjFIXkCgTD+3u0
- saXF0kWbimLKi3hS0fgZhD+mBCaw3zTNiTJykVr3JRUX5eAqHkaNr9ZpHl8uHD6I7+8pTPGNAPw
- AEuFauBtIbU+1SZDR+rEQNQHN5aPT6LcVJMvVticO00mwmGoHURasAlQ86XvIOtOiqKg9m+uI4q
- xQDFvIHaw+IDihBOsQOA7PFz/GMoAyX8+2TOBR1CNR9XrF3TKRXL3TtzxVxQgY=
-X-Proofpoint-GUID: 7Nh9xqpvObeP_NucbXr3Pi6R0GacuMX6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-29_03,2026-03-28_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- clxscore=1015 adultscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
- malwarescore=0 bulkscore=0 lowpriorityscore=0 phishscore=0 classifier=spam
- authscore=0 adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2603290087
-X-Apple-Category-Label: Mjg5MDYwMTc4OiRjYXRlZ29yeSRfUGVyc29uYWws
 
-From: Tobias Gaertner <tob.gaertner@me.com>
+In attr_wof_frame_info(), the offset-table read range for a nonresident
+WofCompressedData stream is:
 
-The volume boundary check `lcn + len > sbi->used.bitmap.nbits` uses raw
-addition which can wrap around for large lcn and len values, bypassing
-the validation.  Use check_add_overflow() as is already done for the
-adjacent prev_lcn + dlcn and vcn64 + len checks added by commit
-3ac37e100385 ("ntfs3: Fix integer overflow in run_unpack()").
+    u64 from = vbo[i] & ~(u64)(PAGE_SIZE - 1);
+    u64 to   = min(from + PAGE_SIZE, wof_size);
+    ...
+    ntfs_read_run(sbi, run, addr, from, to - from);
 
-Found by fuzzing with a source-patched harness (LibAFL + QEMU).
+A crafted image sets WofCompressedData.nres.data_size to 0xfff while the
+file is large enough to request frame 1024 (offset 0x400000). This gives
+from=0x1000, to=0xfff. The unsigned (to - from) wraps to 0xffffffffffffffff
+and ntfs_read_write_run() overflows the single-page offs_folio via memcpy.
 
-Fixes: 82cae269cfa95 ("fs/ntfs3: Add initialization of super block")
-Cc: stable@vger.kernel.org
-Signed-off-by: Tobias Gaertner <tob.gaertner@me.com>
+Triggered by pread() on a mounted NTFS image. Depending on adjacent
+memory layout at the time of the overflow, KASAN reports this as
+slab-out-of-bounds, use-after-free, or slab-use-after-free all at
+ntfs_read_write_run(). Secondary corruption/panic paths were also observed.
+
+Reject the read when the offset-table page is outside the stream.
+
+Signed-off-by: 0xkato <0xkkato@gmail.com>
 ---
- fs/ntfs3/run.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Reproducer:
 
-diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
-index c3c6917fa..a68000bd4 100644
---- a/fs/ntfs3/run.c
-+++ b/fs/ntfs3/run.c
-@@ -1027,9 +1027,15 @@ int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
- 			return -EOPNOTSUPP;
- 		}
- #endif
--		if (lcn != SPARSE_LCN64 && lcn + len > sbi->used.bitmap.nbits) {
--			/* LCN range is out of volume. */
--			return -EINVAL;
-+		if (lcn != SPARSE_LCN64) {
-+			u64 lcn_end;
-+
-+			if (check_add_overflow(lcn, len, &lcn_end))
-+				return -EINVAL;
-+			if (lcn_end > sbi->used.bitmap.nbits) {
-+				/* LCN range is out of volume. */
-+				return -EINVAL;
-+			}
- 		}
+  Create the crafted NTFS image:
+    python3 create_wof_poc.py -o wof-poc.img
+
+  Mount it read-only with ntfs3:
+    sudo mount -t ntfs3 -o loop,ro wof-poc.img /mnt
+
+  Build the trigger:
+    cc -O2 -static wof_offset_table_read_trigger.c -o trigger
+
+  Trigger the bug:
+    ./trigger /mnt/poc.bin 0x400000 1
+
+KASAN report on 6.19.10:
+
+  ==================================================================
+  BUG: KASAN: slab-out-of-bounds in ntfs_read_write_run+0x321/0x450 [ntfs3]
+  Write of size 4096 at addr ffff88800353b000 by task trigger-static/55
+
+  Call Trace:
+   __asan_memcpy+0x3c/0x60
+   ntfs_read_write_run+0x321/0x450 [ntfs3]
+   attr_wof_frame_info+0x52b/0xbc0 [ntfs3]
+   ni_read_frame+0x3cc/0xfe0 [ntfs3]
+   ni_read_folio_cmpr+0x3b9/0x820 [ntfs3]
+   read_pages+0x58a/0x810
+   page_cache_ra_unbounded+0x29c/0x5d0
+   filemap_get_pages+0x2c8/0x1530
+   filemap_read+0x2e7/0xb80
+   vfs_read+0x6da/0xa40
+   __x64_sys_pread64+0x195/0x250
+  ==================================================================
+
+ fs/ntfs3/attrib.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index 6cb9bc5d6..89921e509 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -1576,6 +1576,12 @@ int attr_wof_frame_info(struct ntfs_inode *ni, struct ATTRIB *attr,
+ 			u64 from = vbo[i] & ~(u64)(PAGE_SIZE - 1);
+ 			u64 to = min(from + PAGE_SIZE, wof_size);
  
- 		if (!run)
++			if (from >= wof_size) {
++				_ntfs_bad_inode(&ni->vfs_inode);
++				err = -EINVAL;
++				goto out1;
++			}
++
+ 			err = attr_load_runs_range(ni, ATTR_DATA, WOF_NAME,
+ 						   ARRAY_SIZE(WOF_NAME), run,
+ 						   from, to);
 -- 
-2.43.0
+2.50.1 (Apple Git-155)
 
