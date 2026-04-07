@@ -1,127 +1,111 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2A1280318
-	for <ntfs3@lists.linux.dev>; Sat,  4 Apr 2026 15:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D593D34A0
+	for <ntfs3@lists.linux.dev>; Tue,  7 Apr 2026 17:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775316745; cv=none; b=XP68PYK7LRGnkLV7B/RQlHUUdM5syfEexR8mYvGs4iU2elIZ/XNSonKLebo12xTgipLS/3N4Y/UPYt7kc1KTY8tso0k6a1c0/6mgs2g0NplPVM6SSU/Ziz4170OvuJOz3EvJm6Sv9Z5sMhbWFOehFGSqTyiKp2+IWDMwhlilo5o=
+	t=1775582101; cv=none; b=s+z1gW6u71ckduEBDDh6Q9lipwwXMxfgus4rhi3mB8gJHmz1KFy6kFwmA+SQxK/2X2BBeZnIICFbU0ODw293ln/DE9AZHgJZCqHabM9MHZ8RnMI1EokUSgvGjfAnUIgSt3tC7QLkV9IGK/qvYCCjWKqX/SMFKJy2bxVlBeiTfuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775316745; c=relaxed/simple;
-	bh=K0Rv3do97vQH6+h73JJKlFvZhoa1z8XdurtnrxwcwQw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K3rCx3+ThOVy9ZzO7L1Uq8rtw4TOiMo/hdAFRM3yQ8EmQb2rvQ8/KQhWSbwC5rGpuKxYZ/AXETSN9U9wDmVOAXmJt++QwbNhEFm5y0Nv2FHAHsk+10KVUqOc8tvp6zSrr25Q8nBsuCaPKnjRh+wnTL9vijhdcfHiI9A7dkjWD6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H5BittBC; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775582101; c=relaxed/simple;
+	bh=BB83qX9K4XyislNDUI7cXzVjds8WBIjIEp4VVdb9rgc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=njduzL9rK4MatTn965TqTc9FgBmeP2LX4gikMbe5QVLCpzjW14vtzvoYijtBqEIS1h+FHKzIoYHkz01yFplAUAd6NM4WBKrLOnsHtmQTiFnI0p6Numf/2DOAVILFrbbwChZWwKv6ASkTLXYKvQWQDkx90KMV4SheqXBAsaAxsX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=Cf8Y2SXu; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H5BittBC"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3567e2b4159so1821983a91.0
-        for <ntfs3@lists.linux.dev>; Sat, 04 Apr 2026 08:32:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Cf8Y2SXu"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id E98D41D43;
+	Tue,  7 Apr 2026 17:15:08 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=Cf8Y2SXu;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id A6384213F;
+	Tue,  7 Apr 2026 17:14:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775316744; x=1775921544; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zsgNYGTYCqhAsQQh/h4UshxxcYRAvETUXuPdpkNTJE4=;
-        b=H5BittBCvThcAKo0fKG3sRufwDQBnSnbnSb41xtxjZ6GD999dnMFdqTW0T9pRBXsFR
-         x0ZK20ZTCvtu7qHNYZ0xFpWKiM7Mx/fnu6Wu793TC+1pprWfUkB3d6lWQvWhCCR9o5DF
-         KLkIluOpCjzHk2Z+zxUhw6pVaE6Sn1MXnSP6FIQjXEdCEqC9KKQHRK15SCmH+fdduAvP
-         0RMXQx4ZECut8+9TgwzyggmtP5r9bfAT2rMq0kI6PTwR/78MpSZxDL4F3TDzFceq32g6
-         E6BgUvZSRuOkc6J4VwQj4nSTi9F4Cl/Y4HVodC2I+WS++6RpOVzKy6Lg7E5kGvAeCvo1
-         1Fgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775316744; x=1775921544;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zsgNYGTYCqhAsQQh/h4UshxxcYRAvETUXuPdpkNTJE4=;
-        b=Ix8gJ2J1O0CCTDh0CXIWwGqS8lLBIs6Pg3/Qo5vgatDGxnEDES3zTT4IjMyPEOyDfS
-         kECuhIEFv9BPw1Fex7bYh2hD+iM5LDyCLL1eG+ESNmcvpUKEDg5EF/r2XreEwPr80Oqy
-         SiLZu4VhXw1LY6JpvBnfMPul2Kd2tCnsyZ1BZQREUV/7BMxhEsIipREUW7ncVitNtkdn
-         FcaEJOFCykRdyXHrVXfHS7waoCIGBh0X5CD5BPIvKcgfk9ROTTAibBdxqO9o4Gotqr6T
-         Agln845JsnKewzLRfANzpEbhRvGUGgqsBXh4sDv1gk+UgR5fCMc44A+pud/+IgBeCZiC
-         /67Q==
-X-Gm-Message-State: AOJu0Yw8kRM9ZxRLxsfN+UfH52pgtic5Zcz9toF+UWQ/Q6haHv6E+cHE
-	LHmc6h69Ve5nYpxCQHra03OOeMkfMbI6PjAZVm3lPoQHB6/mX1Ogchkf
-X-Gm-Gg: AeBDiesJpfwmShIgWayc1wLp0JPWgsFf3OVgWe35P/Q11JWpxJtPjky5NQ8JrS3DXHo
-	dPU5olW+nCxo6S8Sj7UXLZDJdcv882VtHeCHxFGG3Ddq6/EaJwrKA+Hk6oXxFgn1SP1B33sy2Ju
-	H5QD4WS1hRKGk15JvY23hiq+gxHnx1p6NGggNy/UKZLXPuCXz28ovpwn9bhDxpKb+42UwtLLvqy
-	o/4awwR44A3fxiTt+iKVoJNghfRQbwCloqxvhWKOYsX2cxtivwN33J0zYc85MB0AmP3c8mST/1c
-	E8RBJsdDI/UufMWjgiho72F9o9dzwDAMCg7b/OJpgiD4c7JpNKiuEmzzhMjhsqFdCprPNTXrFav
-	yFanrJAQfLQ3kNgBoSFisNAkrbSpNzSqJxN+Mad39hy/QwcilRpQIgYtjzttHlY1HQnA/iAMpNB
-	YL6UzZFlSFpChSaq9X2gXAb/DVFIMZmNLYM00VeN3pYWeEsLIFBtl5PKldkSBBBXU5n+GG449g6
-	hcNwks=
-X-Received: by 2002:a17:90b:48c6:b0:35d:a22b:80cb with SMTP id 98e67ed59e1d1-35de68ec484mr5939194a91.16.1775316743944;
-        Sat, 04 Apr 2026 08:32:23 -0700 (PDT)
-Received: from deepanshu-kernel-hacker.. ([2405:201:682f:389d:d481:74d0:f27a:b799])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35dd35e360bsm8143603a91.3.2026.04.04.08.32.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Apr 2026 08:32:23 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	syzbot+5f6ca38579a76e303c1c@syzkaller.appspotmail.com
-Subject: [PATCH] ntfs3: fix deadlock in ntfs_force_shutdown
-Date: Sat,  4 Apr 2026 21:02:13 +0530
-Message-ID: <20260404153213.365836-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	d=paragon-software.com; s=mail; t=1775582096;
+	bh=n7IDM326IZDpukqALn/wyJdaOFkZ2Eey80fBH/J12y8=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=Cf8Y2SXu9/S/AfLQn4pDZM/XJFUwYLRJvvyEtdopz2iSs8M3fr3gbfWgleuA8veup
+	 nQ5xgCBCdZyBwtOhYwrcVe7JG5CFhhU0lQCqOYx0LxM124EaE3JA6zTXR8mmeHJ/I/
+	 /SngEZHhFE4FKrO/oyf3nT3Nt2T0+269S7eJbB3o=
+Received: from [192.168.95.128] (172.30.20.204) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 7 Apr 2026 20:14:55 +0300
+Message-ID: <fe332d91-fd72-4499-9997-94593aabe786@paragon-software.com>
+Date: Tue, 7 Apr 2026 19:14:54 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs/ntfs3: terminate the cached volume label after UTF-8
+ conversion
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20260327061955.46242-1-pengpeng@iscas.ac.cn>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20260327061955.46242-1-pengpeng@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-ntfs_force_shutdown() calls bdev_freeze() which internally calls
-freeze_super(). freeze_super() calls sb_wait_write() which waits
-for all active sb_writers holders to finish.
+On 3/27/26 07:19, Pengpeng Hou wrote:
 
-However active writers (ntfs_compress_write) can be stuck waiting
-for ni->file.run_lock while holding the sb_writers read lock
-acquired via file_start_write() in the VFS layer. This creates
-a deadlock where freeze_super() waits for writers that can never
-complete because they are blocked on run_lock contention.
+> [You don't often get email from pengpeng@iscas.ac.cn. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> ntfs_fill_super() loads the on-disk volume label with utf16s_to_utf8s()
+> and stores the result in sbi->volume.label. The converted label is later
+> exposed through ntfs3_label_show() using %s, but utf16s_to_utf8s() only
+> returns the number of bytes written and does not add a trailing NUL.
+>
+> If the converted label fills the entire fixed buffer,
+> ntfs3_label_show() can read past the end of sbi->volume.label while
+> looking for a terminator.
+>
+> Terminate the cached label explicitly after a successful conversion and
+> clamp the exact-full case to the last byte of the buffer.
+>
+> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+> ---
+>   fs/ntfs3/super.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+> index 174a7cb202a0..9ed485f9efba 100644
+> --- a/fs/ntfs3/super.c
+> +++ b/fs/ntfs3/super.c
+> @@ -1339,8 +1339,13 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>                                        le32_to_cpu(attr->res.data_size) >> 1,
+>                                        UTF16_LITTLE_ENDIAN, sbi->volume.label,
+>                                        sizeof(sbi->volume.label));
+> -               if (err < 0)
+> +               if (err < 0) {
+>                          sbi->volume.label[0] = 0;
+> +               } else if (err >= sizeof(sbi->volume.label)) {
+> +                       sbi->volume.label[sizeof(sbi->volume.label) - 1] = 0;
+> +               } else {
+> +                       sbi->volume.label[err] = 0;
+> +               }
+>          } else {
+>                  /* Should we break mounting here? */
+>                  //err = -EINVAL;
+> --
+> 2.50.1 (Apple Git-155)
+>
+Hello,
 
-Fix by removing bdev_freeze/bdev_thaw entirely. The shutdown bit
-NTFS_FLAGS_SHUTDOWN_BIT is already checked at entry of all ntfs3
-write paths (file.c, inode.c, namei.c, frecord.c, fsntfs.c,
-super.c, xattr.c) and causes them to return errors immediately,
-making further writes impossible without risking a deadlock.
+Applied, thanks for the patch.
 
-Reported-by: syzbot+5f6ca38579a76e303c1c@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=5f6ca38579a76e303c1c
-Tested-by: syzbot+5f6ca38579a76e303c1c@syzkaller.appspotmail.com
-Fixes: ae91dfe38966 ("fs/ntfs3: implement NTFS3_IOC_SHUTDOWN ioctl")
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
----
- fs/ntfs3/file.c | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 7eecf1e01f74..cbbc7d81875f 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -118,18 +118,12 @@ static int ntfs_ioctl_set_volume_label(struct ntfs_sb_info *sbi, u8 __user *buf)
-  */
- static int ntfs_force_shutdown(struct super_block *sb, u32 flags)
- {
--	int err;
- 	struct ntfs_sb_info *sbi = sb->s_fs_info;
- 
- 	if (unlikely(ntfs3_forced_shutdown(sb)))
- 		return 0;
- 
--	/* No additional options yet (flags). */
--	err = bdev_freeze(sb->s_bdev);
--	if (err)
--		return err;
- 	set_bit(NTFS_FLAGS_SHUTDOWN_BIT, &sbi->flags);
--	bdev_thaw(sb->s_bdev);
- 	return 0;
- }
- 
--- 
-2.43.0
+Regards,
+Konstantin
 
