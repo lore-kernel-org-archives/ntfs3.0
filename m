@@ -1,149 +1,116 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D984633262F
-	for <ntfs3@lists.linux.dev>; Tue,  7 Apr 2026 17:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4243C3BE17F;
+	Thu,  9 Apr 2026 14:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775582417; cv=none; b=Pm7oQ1igWcYxqOEpjk4Z0gzurk8kNWsJDqtkcCGRk+YvukS2hLL5Kf5kf/Y6XCI9fA2Ll1I5rAWdMQgeooUid63jKr3NObXpCuQywdg7pAE2aaSI2lC1yCxEtEXIQJpCwoTjrK42i+F6Eh1qdHOt1AzdilksTJO0pUY42XIj0nY=
+	t=1775745440; cv=none; b=A/nB4ovs1HbYKfO6AGajENd7ob+nEB/yBTkPtCiatvCIDOjIJpbdOwLlOFPIz9CmCuyUTkTEMQHkfyW+FwKSy5Mnxwlljk9UtDNWSH2VTveq28ij0aWMcUtMYni4kkg+4Q6vVyzqV4llbj2tzmmuY7amAHNo4la5W1XY26Xr5rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775582417; c=relaxed/simple;
-	bh=9UOn9bzYGUusyvhF20IpOTCGX21Ydd4GSzvv/GexCjU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=F52GbvWVfbE61VFqw2jO0mXLgfpsrq8b+4ZNbNuYjJ6/yPw2Tcjy2ZdqRgi7eQBDhRzau9+F0Iuvspmde3jwqwiA66avqgpVuiEo5UYITsXf9l5gPHjcArCcw5FKwYeWRg4SkX6snqBxIv8AWBPlr7vnbSCx9DOT/14X/zCLxZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=VrdQypTg; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1775745440; c=relaxed/simple;
+	bh=MJxNbTMCH0ezXiLcWQ+WBoX650y/sOmvOn2oJAqHK7k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u1er02Pa18u2W1+Gf8WMvzjAJRXpqmngKAgAeu/efl1xw2Vj+Wg0F/tDVUlnixVe7jsidDsHe2as8Qg2WFMTs+dCY7cFTvtY6kKELzotpmt67T4gHd5nI9r5FlrIL/qHk00SqigbJUga6XAhP5IRKMOTldaa2qIZasCCqEsxUuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KjaGM6p2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="VrdQypTg"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 408F11D43;
-	Tue,  7 Apr 2026 17:20:26 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=VrdQypTg;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E5ACB244;
-	Tue,  7 Apr 2026 17:20:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1775582409;
-	bh=PO495k2t8Wq8b5MjoVpMrySezR1EuBzDb+txhlPQe54=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=VrdQypTgUWQ0nGxjUoKRwwBtIpsPclgvDRDSmJkRZypUobUZHVsDZYuATxIwBtCip
-	 +gLxaWk6iBPArdIwOcHXdbl1V+ND6TuuaJz4s8nwm6RzpzvY3OIkwf0/g/EwaxVIgc
-	 k4Hcynt/j8NWhvuQzVj8vG9+rvIWObVqDuSCPpKo=
-Received: from [192.168.95.128] (172.30.20.204) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 7 Apr 2026 20:20:09 +0300
-Message-ID: <3d346545-11c0-495c-80dc-647ca7540e0b@paragon-software.com>
-Date: Tue, 7 Apr 2026 19:20:07 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KjaGM6p2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE7EDC4CEF7;
+	Thu,  9 Apr 2026 14:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1775745440;
+	bh=MJxNbTMCH0ezXiLcWQ+WBoX650y/sOmvOn2oJAqHK7k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KjaGM6p2l3vLLagFlCKKtt5GBEspXeCKUzZIRAL+idxDSya6xP7FMDVoR1bvfy5+0
+	 t3C2nnZ3qYu9YkoyU7IVFfcVAnHfTVNOBY8Hztc3AuItgJBfwqkbCzoeIuHl6g4Nqg
+	 P0Y9FdMm/GD2ONVVrt5LbOkA35CIqYlQyjSsZaHA=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: ntfs3@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	stable <stable@kernel.org>
+Subject: [PATCH] fs/ntfs3: validate rec->used in journal-replay file record check
+Date: Thu,  9 Apr 2026 16:37:15 +0200
+Message-ID: <2026040914-overbid-spherical-ac2e@gregkh>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ntfs3: fix OOB write in attr_wof_frame_info()
-To: 0xkato <0xkkato@gmail.com>
-CC: <ntfs3@lists.linux.dev>
-References: <20260329115757.66040-1-0xkkato@gmail.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260329115757.66040-1-0xkkato@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2761; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=MJxNbTMCH0ezXiLcWQ+WBoX650y/sOmvOn2oJAqHK7k=; b=owGbwMvMwCRo6H6F97bub03G02pJDJnXd85uzkoL6Y3P2yG3zZJTOjkwfMt2CQ/mfVuqjvO8e 7GiVf1SRywLgyATg6yYIsuXbTxH91ccUvQytD0NM4eVCWQIAxenAEwkpp9hfumnb1td+kILA9NZ ltqYOy5OOdH8n2F+/JsLMdcdHx7fsmmPaNmCN0UM4acOAgA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On 3/29/26 13:57, 0xkato wrote:
+check_file_record() validates rec->total against the record size but
+never validates rec->used.  The do_action() journal-replay handlers read
+rec->used from disk and use it to compute memmove lengths:
 
-> [You don't often get email from 0xkkato@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> In attr_wof_frame_info(), the offset-table read range for a nonresident
-> WofCompressedData stream is:
->
->      u64 from = vbo[i] & ~(u64)(PAGE_SIZE - 1);
->      u64 to   = min(from + PAGE_SIZE, wof_size);
->      ...
->      ntfs_read_run(sbi, run, addr, from, to - from);
->
-> A crafted image sets WofCompressedData.nres.data_size to 0xfff while the
-> file is large enough to request frame 1024 (offset 0x400000). This gives
-> from=0x1000, to=0xfff. The unsigned (to - from) wraps to 0xffffffffffffffff
-> and ntfs_read_write_run() overflows the single-page offs_folio via memcpy.
->
-> Triggered by pread() on a mounted NTFS image. Depending on adjacent
-> memory layout at the time of the overflow, KASAN reports this as
-> slab-out-of-bounds, use-after-free, or slab-use-after-free all at
-> ntfs_read_write_run(). Secondary corruption/panic paths were also observed.
->
-> Reject the read when the offset-table page is outside the stream.
->
-> Signed-off-by: 0xkato <0xkkato@gmail.com>
-> ---
-> Reproducer:
->
->    Create the crafted NTFS image:
->      python3 create_wof_poc.py -o wof-poc.img
->
->    Mount it read-only with ntfs3:
->      sudo mount -t ntfs3 -o loop,ro wof-poc.img /mnt
->
->    Build the trigger:
->      cc -O2 -static wof_offset_table_read_trigger.c -o trigger
->
->    Trigger the bug:
->      ./trigger /mnt/poc.bin 0x400000 1
->
-> KASAN report on 6.19.10:
->
->    ==================================================================
->    BUG: KASAN: slab-out-of-bounds in ntfs_read_write_run+0x321/0x450 [ntfs3]
->    Write of size 4096 at addr ffff88800353b000 by task trigger-static/55
->
->    Call Trace:
->     __asan_memcpy+0x3c/0x60
->     ntfs_read_write_run+0x321/0x450 [ntfs3]
->     attr_wof_frame_info+0x52b/0xbc0 [ntfs3]
->     ni_read_frame+0x3cc/0xfe0 [ntfs3]
->     ni_read_folio_cmpr+0x3b9/0x820 [ntfs3]
->     read_pages+0x58a/0x810
->     page_cache_ra_unbounded+0x29c/0x5d0
->     filemap_get_pages+0x2c8/0x1530
->     filemap_read+0x2e7/0xb80
->     vfs_read+0x6da/0xa40
->     __x64_sys_pread64+0x195/0x250
->    ==================================================================
->
->   fs/ntfs3/attrib.c | 6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-> index 6cb9bc5d6..89921e509 100644
-> --- a/fs/ntfs3/attrib.c
-> +++ b/fs/ntfs3/attrib.c
-> @@ -1576,6 +1576,12 @@ int attr_wof_frame_info(struct ntfs_inode *ni, struct ATTRIB *attr,
->                          u64 from = vbo[i] & ~(u64)(PAGE_SIZE - 1);
->                          u64 to = min(from + PAGE_SIZE, wof_size);
->
-> +                       if (from >= wof_size) {
-> +                               _ntfs_bad_inode(&ni->vfs_inode);
-> +                               err = -EINVAL;
-> +                               goto out1;
-> +                       }
-> +
->                          err = attr_load_runs_range(ni, ATTR_DATA, WOF_NAME,
->                                                     ARRAY_SIZE(WOF_NAME), run,
->                                                     from, to);
-> --
-> 2.50.1 (Apple Git-155)
->
-Hello,
+  DeleteAttribute:    memmove(attr, ..., used - asize - roff)
+  CreateAttribute:    memmove(..., attr, used - roff)
+  change_attr_size:   memmove(..., used - PtrOffset(rec, next))
 
-Your patch is applied. Thank you.
+When rec->used is smaller than the offset of a validated attribute, or
+larger than the record size, these subtractions can underflow allowing
+us to copy huge amounts of memory in to a 4kb buffer, generally
+considered a bad idea overall.
 
-Regards,
-Konstantin
+This requires a corrupted filesystem, which isn't a threat model the
+kernel really needs to worry about, but checking for such an obvious
+out-of-bounds value is good to keep things robust, especially on journal
+replay
+
+Fix this up by bounding rec->used correctly.
+
+This is much like commit b2bc7c44ed17 ("fs/ntfs3: Fix slab-out-of-bounds
+read in DeleteIndexEntryRoot") which checked different values in this
+same switch statement.
+
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+Cc: stable <stable@kernel.org>
+Assisted-by: gregkh_clanker_t1000
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ fs/ntfs3/fslog.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index 272e45276143..037df47fa9f3 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -2791,13 +2791,14 @@ static inline bool check_file_record(const struct MFT_REC *rec,
+ 	u16 fn = le16_to_cpu(rec->rhdr.fix_num);
+ 	u16 ao = le16_to_cpu(rec->attr_off);
+ 	u32 rs = sbi->record_size;
++	u32 used = le32_to_cpu(rec->used);
+ 
+ 	/* Check the file record header for consistency. */
+ 	if (rec->rhdr.sign != NTFS_FILE_SIGNATURE ||
+ 	    fo > (SECTOR_SIZE - ((rs >> SECTOR_SHIFT) + 1) * sizeof(short)) ||
+ 	    (fn - 1) * SECTOR_SIZE != rs || ao < MFTRECORD_FIXUP_OFFSET_1 ||
+ 	    ao > sbi->record_size - SIZEOF_RESIDENT || !is_rec_inuse(rec) ||
+-	    le32_to_cpu(rec->total) != rs) {
++	    le32_to_cpu(rec->total) != rs || used > rs || used < ao) {
+ 		return false;
+ 	}
+ 
+@@ -2809,6 +2810,15 @@ static inline bool check_file_record(const struct MFT_REC *rec,
+ 		return false;
+ 	}
+ 
++	/*
++	 * The do_action() handlers compute memmove lengths as
++	 * "rec->used - <offset of validated attr>", which underflows when
++	 * rec->used is smaller than the attribute walk reached.  At this
++	 * point attr is the ATTR_END marker; rec->used must cover it.
++	 */
++	if (used < PtrOffset(rec, attr) + sizeof(attr->type))
++		return false;
++
+ 	return true;
+ }
+ 
+-- 
+2.53.0
 
