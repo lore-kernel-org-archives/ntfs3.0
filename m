@@ -1,94 +1,156 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0483DA7E6
-	for <ntfs3@lists.linux.dev>; Fri, 10 Apr 2026 15:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775834366; cv=none; b=HGmln5yJjHZ/lJhwxfYkjMpdlSlFELV+jnn2CWvFG69Dm949D6qZWrTiQ4Lq0o7lQcFFk+PJyFVZT6FCD0PIDzaie92JHdQXjdNNHsClxr4LLjm5QVPZMvp73PXV6XoLaN9dSEgXOk4RTRjVoSSYNkeyoppOR00lmrkqxCuJJKk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775834366; c=relaxed/simple;
-	bh=2PJcapuxUWWHQgHKuYh+AB0Bg9+uWPE8WWtuj/kl/pY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JFVd9HZuODqP+PhsZMoUmc3KYAI478sD/8lxyM1dPbgQ5vHTMF5lAgJEYm9zkJUmHy7xPo2A7gB/WychJl23VvmMW5HrA4rZ1M0ydYqrz6x1aY25gzchwLM13Ujxbl5nk6YbTP7XVqGTd8HFgqaoPOUenouTusNTZfQJgm8ClCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=VM9pR3FU; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D489727A123
+	for <ntfs3@lists.linux.dev>; Sat, 11 Apr 2026 05:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775885018; cv=pass; b=mvy0VeHt6F3Xvwuy9mPHRJlK3WlarPgtMtP0FDmMquE/kq857G1kuVxHw5+amVUD1N0CQcsVZyzYr8qCqTjO3q8vIi3gfwnQ5Bs7VyulMKX7lvkxIEvpOQlFCGPuItMU3hInScRIAUcirh1SMNygkEJVkiGLXJj5T2gwzzuD8uI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775885018; c=relaxed/simple;
+	bh=Lo+2GA/uQIyjQAxhYTMZi050jp6falMFjCEcZgCg2To=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L48vKSk1B4ThnvWaShebpNNs7tgF5gaEfbxxxX1Y28vzuHuGmvqVNVnWvkY6qvsOVGpcuKMj6phygh5viHsPopu0QsDhDxRlsjvaw6+EN4aXYhhJBoY9jkKNCuKC9HRBs+4uZrW7xw3Ioe5ye2Z1xMDtzyWh7ymHRt/uoMT357M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XAsLJcFs; arc=pass smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="VM9pR3FU"
-Received: from trampoline.thunk.org (pool-173-48-116-90.bstnma.fios.verizon.net [173.48.116.90])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 63AFIonm015842
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Apr 2026 11:18:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1775834338; bh=eTlXD+fEi5OyNbu4TxRTwpDmEzFd2ThBwniicSqJG9M=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=VM9pR3FUqiyu4dGQLYjxtn5fwtIzfU7ySZMp0abbH18xV6/gDABRi9uB743lXz8hh
-	 DLg+D58JGiw6cmfTe96qrNZsfI1LrX8CH4Z4SZsryjUI4LnJNSYnME68kmTAWN0bac
-	 +APmObxjmRctPfSGmHJbriSXfrkN55pWYIbiVRfu2y0ECqpOPHSJun6K+BHM+LkVI2
-	 DM7T+QYmlRWbU/sqPlO03FdXluf2F9iRmmuiDmCsbPLwL4U9izV2zs90P/AyWnNi7/
-	 WJE2W3FtW9KojAgen2wKI5w3YJJGh4CS8IuF5T47bMgUta6WPQzUW9F7QaunmIRgXz
-	 enYXQQPwNnobw==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 0D7462E00E1; Fri, 10 Apr 2026 11:18:48 -0400 (EDT)
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
-        bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
-        dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
-        gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-mm@kvack.org,
-        linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-        linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
-        sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
-        Philipp Hahn <phahn-oss@avm.de>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>
-Subject: Re: [PATCH 04/61] ext4: Prefer IS_ERR_OR_NULL over manual NULL check
-Date: Fri, 10 Apr 2026 11:18:40 -0400
-Message-ID: <177583430870.2758959.6171961359325912353.b4-ty@b4>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260310-b4-is_err_or_null-v1-4-bd63b656022d@avm.de>
-References: <20260310-b4-is_err_or_null-v1-4-bd63b656022d@avm.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XAsLJcFs"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-79ab3e26cceso27175937b3.3
+        for <ntfs3@lists.linux.dev>; Fri, 10 Apr 2026 22:23:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775885016; cv=none;
+        d=google.com; s=arc-20240605;
+        b=X+BzcEgVPou0+rrNzdop9EiB67EtntcefcxGozHXj7C2L4W+6moaBRPMDQ93s8Nw4A
+         lr8QDeW4euCRpNduhE1kDwzmI8eSqscnMTnZr8TOD8VIeB2/WkmqrE7534TqT4mK+OgG
+         oyWJBAni3PdaksVH4+piXpWH998DqQEJo3OU+VNAXttDseGv1Trv+sqbAG19KIu9bpaL
+         7g9+E8yz7/45wCx/uFLGyQt5wjF9DzCCGBeGcMlyF070TuWU/Yx/DsZWDeLK3O3O3Hrv
+         7Q5zqeAUs1mxxCZ6unJDXe30Ncxn3m4EKuGzbLCRyLj96E3+0GAUuA9f/pLEpIe3hXLh
+         z0zA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8SZ4oUkNp8WAjJbG/dIWyJhIm/Zmr4q/EjqXuxcT9qQ=;
+        fh=M6XUUFH3lEF8HGjA0dGmtDjMapfhsvAYcdHhbMwJTEk=;
+        b=d5HOunpsIGmjlSmdaOIs+4RUsWd3ul3wlTJnUgI1KHEJTM5iwK0iVMZL+TtJ3n1NL8
+         Ab1Eg7yaPyErg0Xu8jM8gZwPoBOMx7o81OgLSbHFTsoO0gsClBphrtEEgZDKGLSKx5wV
+         GGOnNPaNpPByHJhRq6DVwAbOfKCrqjDFvklvo/7s9ub/hGLapIOxOl2KydQ2oKyS624g
+         P2UepYXXvgyZv8LH3t8LfCcbSdXT0Pp9WEQtef5eqwENXs0cFySq/jeCW0qaOjlMAyg4
+         dQM3YukMXTbCzlOg421HOeI1D9WOsetofJspPntnc5hwYMAeU/0NCFSaIJB076sxKdeU
+         0ofQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775885016; x=1776489816; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8SZ4oUkNp8WAjJbG/dIWyJhIm/Zmr4q/EjqXuxcT9qQ=;
+        b=XAsLJcFsnwESEZyALHWW1niO4dZaz+moSV+dxht3bEwv93JZiIhzHSWkO9LS0/Ou6A
+         Gi6Lo2POdUMjgQG5CfquiIoPvpxamn03TKjlSYzx8uSXvy/ryO07LKQ7FSaZUTyQtjxa
+         37JJn84OOPzkZkwje2znQaY50BpAiFfQrR19Cu809iiMaJrdBNT0/9MBNyZJ6scAnRgP
+         4QbXMnhJcfUrKkVRkfTMBBbJLz6IjDqqq3qqqeojO1uciOonyEDT85o84Zhn5SboeFuw
+         VEa1o4sBy6RoCqve8cpCTpaP6XePKuyrgvvnz7TcLTyj61QD+DADA+H7n+WN6sx5U78O
+         i3ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775885016; x=1776489816;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8SZ4oUkNp8WAjJbG/dIWyJhIm/Zmr4q/EjqXuxcT9qQ=;
+        b=RAwFBxn0BC6pDHQbQ8O3SJjSqsT2wFRrOLTT866YtKqtmM6MI+Oy+St4/IBQ3pbEQI
+         7wAgA7d0CZG4wfCKUFVB2p5hgc/vGSUrES9IpxzY7edaq4liQuKXcaoBQ0uuzdtt/f7n
+         bR+UrnOGV+1Acwnw6QwRnO+pC/xxo65zqjs29tYV+ZLnpwpx4mwkkY98eInSCmosc/h9
+         GR/Z0KUUpenxXGVhs2zLiY0OyW9xEI1sBBNrv6JTiUaCcD24f6lreFrsOBwcSi4KBLDV
+         oeGBQzYOQvyt+sA7WAhQmqvRMajWvWue1qOVFzwwS7+cc3+fbXQwzOgkeE/VN0IXVJG/
+         hnjw==
+X-Gm-Message-State: AOJu0YwPiCr0yTqqYGoytU2FG8a4uyS0UAMPvvz1uxkbvXFSScym5TCt
+	XG2DPKr3HQqVbA0tZ+Y0z1r9jrEAwGPTmJDvme+VIg+crWTk2ENODuYZ40tr67yD1Hmi3BEIvMP
+	gC/1svQLeoCKECtBWRRE6XOjedXjBtD8=
+X-Gm-Gg: AeBDietM/f90SqGxW6aN3AH3l4v3QCC3C3jW7AYUiRmufGaYgf9WmzUiPwddcIYGYDs
+	GC1H7o5hgsYkxt3Cdn9DohNzKoCqWIJ03Nprqx7eQE/PJWR6XznRtx+sCM8tnvAJ1jMp0NwMa/f
+	OsSZqU0nwuHqCoAtSGUDIA6SyoHc0zQxTiygzxEek4kU15SkDyZqdZmBuhPvY8BgGwX+cU94NjY
+	/lNlS6aZwPu7ByDyrT4Lyc/HA5YgKjJIOpCdUhsqhQu1fv2DbY1bZSk7y4sOdsfq/ybfzfgkBo8
+	/3u9YctMfKECz2O0l8QG898ZdStMhMK0qPYXQVmBZKi8b19C81o0MdfKiLubXX5mSjIPhRRw
+X-Received: by 2002:a05:690c:dd4:b0:79f:3b8c:a7fc with SMTP id
+ 00721157ae682-7af7204386amr67162567b3.39.1775885015850; Fri, 10 Apr 2026
+ 22:23:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20260404153213.365836-1-kartikey406@gmail.com>
+In-Reply-To: <20260404153213.365836-1-kartikey406@gmail.com>
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+Date: Sat, 11 Apr 2026 10:53:24 +0530
+X-Gm-Features: AQROBzBEiJ_dvh-3y9ryJTjTjHx81o7oYO1A_z698rZF7_pMsBoqjck0LHYNtm0
+Message-ID: <CADhLXY7xWU5+QSAR1r2KfSyTm2v05hyVxeU5SH9FoHC2H4QgZA@mail.gmail.com>
+Subject: Re: [PATCH] ntfs3: fix deadlock in ntfs_force_shutdown
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	syzbot+5f6ca38579a76e303c1c@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, Apr 4, 2026 at 9:02=E2=80=AFPM Deepanshu Kartikey <kartikey406@gmai=
+l.com> wrote:
+>
+> ntfs_force_shutdown() calls bdev_freeze() which internally calls
+> freeze_super(). freeze_super() calls sb_wait_write() which waits
+> for all active sb_writers holders to finish.
+>
+> However active writers (ntfs_compress_write) can be stuck waiting
+> for ni->file.run_lock while holding the sb_writers read lock
+> acquired via file_start_write() in the VFS layer. This creates
+> a deadlock where freeze_super() waits for writers that can never
+> complete because they are blocked on run_lock contention.
+>
+> Fix by removing bdev_freeze/bdev_thaw entirely. The shutdown bit
+> NTFS_FLAGS_SHUTDOWN_BIT is already checked at entry of all ntfs3
+> write paths (file.c, inode.c, namei.c, frecord.c, fsntfs.c,
+> super.c, xattr.c) and causes them to return errors immediately,
+> making further writes impossible without risking a deadlock.
+>
+> Reported-by: syzbot+5f6ca38579a76e303c1c@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D5f6ca38579a76e303c1c
+> Tested-by: syzbot+5f6ca38579a76e303c1c@syzkaller.appspotmail.com
+> Fixes: ae91dfe38966 ("fs/ntfs3: implement NTFS3_IOC_SHUTDOWN ioctl")
+> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+> ---
+>  fs/ntfs3/file.c | 6 ------
+>  1 file changed, 6 deletions(-)
+>
+> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+> index 7eecf1e01f74..cbbc7d81875f 100644
+> --- a/fs/ntfs3/file.c
+> +++ b/fs/ntfs3/file.c
+> @@ -118,18 +118,12 @@ static int ntfs_ioctl_set_volume_label(struct ntfs_=
+sb_info *sbi, u8 __user *buf)
+>   */
+>  static int ntfs_force_shutdown(struct super_block *sb, u32 flags)
+>  {
+> -       int err;
+>         struct ntfs_sb_info *sbi =3D sb->s_fs_info;
+>
+>         if (unlikely(ntfs3_forced_shutdown(sb)))
+>                 return 0;
+>
+> -       /* No additional options yet (flags). */
+> -       err =3D bdev_freeze(sb->s_bdev);
+> -       if (err)
+> -               return err;
+>         set_bit(NTFS_FLAGS_SHUTDOWN_BIT, &sbi->flags);
+> -       bdev_thaw(sb->s_bdev);
+>         return 0;
+>  }
+>
+> --
+> 2.43.0
+>
 
-On Tue, 10 Mar 2026 12:48:30 +0100, Philipp Hahn wrote:
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
-> 
-> Change generated with coccinelle.
+Gentle ping on this patch. Please let me know the status of this patch.
 
-Applied, thanks!
+Thanks
 
-[04/61] ext4: Prefer IS_ERR_OR_NULL over manual NULL check
-        commit: 1d749e110277ce4103f27bd60d6181e52c0cc1e3
-
-Best regards,
--- 
-Theodore Ts'o <tytso@mit.edu>
+Deepanshu
