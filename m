@@ -1,156 +1,179 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D489727A123
-	for <ntfs3@lists.linux.dev>; Sat, 11 Apr 2026 05:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775885018; cv=pass; b=mvy0VeHt6F3Xvwuy9mPHRJlK3WlarPgtMtP0FDmMquE/kq857G1kuVxHw5+amVUD1N0CQcsVZyzYr8qCqTjO3q8vIi3gfwnQ5Bs7VyulMKX7lvkxIEvpOQlFCGPuItMU3hInScRIAUcirh1SMNygkEJVkiGLXJj5T2gwzzuD8uI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775885018; c=relaxed/simple;
-	bh=Lo+2GA/uQIyjQAxhYTMZi050jp6falMFjCEcZgCg2To=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L48vKSk1B4ThnvWaShebpNNs7tgF5gaEfbxxxX1Y28vzuHuGmvqVNVnWvkY6qvsOVGpcuKMj6phygh5viHsPopu0QsDhDxRlsjvaw6+EN4aXYhhJBoY9jkKNCuKC9HRBs+4uZrW7xw3Ioe5ye2Z1xMDtzyWh7ymHRt/uoMT357M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XAsLJcFs; arc=pass smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C133CD8BC
+	for <ntfs3@lists.linux.dev>; Mon, 13 Apr 2026 13:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776087089; cv=none; b=KMFd8UG98S0deQbFGwBgBoHKjUyT3wgY00LKnmCi80zcHl/m0in+tfYogTaSIGZqFNfk54/FuThaN/xI0qzuL1lkJs/9tnchthsgptAu0ZF1ypRiHke8K4XhhTscr28l3mJIjWBowq2F03khOW3jO6KDXurrLnH6vWlZ7BrQy/A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776087089; c=relaxed/simple;
+	bh=NNF0oOpx6c/FbSF7aZoqGXm3gmeZfZbf1NphjvuVR20=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Pb3g6bFHW9WxKKqBvvBdkz27AwaxhIG2z/nHBd49N+G9tXWh2qTayGWgWjH8oPDvZzt8mdFtPTaziie6oiM71T7k7NRtNlqXpygHGedtCZJa99NwEhuV4PVBirbGkyX+ZMNIAL1NaLNznIsoHDpmdfMTT37zQhdvp7Bep7Mi1FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=altvFmgA; arc=none smtp.client-ip=209.85.222.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XAsLJcFs"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-79ab3e26cceso27175937b3.3
-        for <ntfs3@lists.linux.dev>; Fri, 10 Apr 2026 22:23:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775885016; cv=none;
-        d=google.com; s=arc-20240605;
-        b=X+BzcEgVPou0+rrNzdop9EiB67EtntcefcxGozHXj7C2L4W+6moaBRPMDQ93s8Nw4A
-         lr8QDeW4euCRpNduhE1kDwzmI8eSqscnMTnZr8TOD8VIeB2/WkmqrE7534TqT4mK+OgG
-         oyWJBAni3PdaksVH4+piXpWH998DqQEJo3OU+VNAXttDseGv1Trv+sqbAG19KIu9bpaL
-         7g9+E8yz7/45wCx/uFLGyQt5wjF9DzCCGBeGcMlyF070TuWU/Yx/DsZWDeLK3O3O3Hrv
-         7Q5zqeAUs1mxxCZ6unJDXe30Ncxn3m4EKuGzbLCRyLj96E3+0GAUuA9f/pLEpIe3hXLh
-         z0zA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8SZ4oUkNp8WAjJbG/dIWyJhIm/Zmr4q/EjqXuxcT9qQ=;
-        fh=M6XUUFH3lEF8HGjA0dGmtDjMapfhsvAYcdHhbMwJTEk=;
-        b=d5HOunpsIGmjlSmdaOIs+4RUsWd3ul3wlTJnUgI1KHEJTM5iwK0iVMZL+TtJ3n1NL8
-         Ab1Eg7yaPyErg0Xu8jM8gZwPoBOMx7o81OgLSbHFTsoO0gsClBphrtEEgZDKGLSKx5wV
-         GGOnNPaNpPByHJhRq6DVwAbOfKCrqjDFvklvo/7s9ub/hGLapIOxOl2KydQ2oKyS624g
-         P2UepYXXvgyZv8LH3t8LfCcbSdXT0Pp9WEQtef5eqwENXs0cFySq/jeCW0qaOjlMAyg4
-         dQM3YukMXTbCzlOg421HOeI1D9WOsetofJspPntnc5hwYMAeU/0NCFSaIJB076sxKdeU
-         0ofQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="altvFmgA"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8c70b5594f4so428830885a.1
+        for <ntfs3@lists.linux.dev>; Mon, 13 Apr 2026 06:31:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775885016; x=1776489816; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8SZ4oUkNp8WAjJbG/dIWyJhIm/Zmr4q/EjqXuxcT9qQ=;
-        b=XAsLJcFsnwESEZyALHWW1niO4dZaz+moSV+dxht3bEwv93JZiIhzHSWkO9LS0/Ou6A
-         Gi6Lo2POdUMjgQG5CfquiIoPvpxamn03TKjlSYzx8uSXvy/ryO07LKQ7FSaZUTyQtjxa
-         37JJn84OOPzkZkwje2znQaY50BpAiFfQrR19Cu809iiMaJrdBNT0/9MBNyZJ6scAnRgP
-         4QbXMnhJcfUrKkVRkfTMBBbJLz6IjDqqq3qqqeojO1uciOonyEDT85o84Zhn5SboeFuw
-         VEa1o4sBy6RoCqve8cpCTpaP6XePKuyrgvvnz7TcLTyj61QD+DADA+H7n+WN6sx5U78O
-         i3ZA==
+        d=gmail.com; s=20251104; t=1776087087; x=1776691887; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9cvX/3YS2hK9kgzlNtYASfb57GVegxtYM6rMLbYciK8=;
+        b=altvFmgAGtnpbrGWEUAiXMzhYyoOppfpZ1JXo+HmaAThXtJ4GqXCVoS65KzX4Lcf5u
+         S7IvAH/25oLRiLlN2qzkUbTuJ+W65pURmWUUUw6ZnASe14EKzWdOIg+IBJJYCSSJuQsI
+         VEmP5kjuxFkEU0Lcd7SCkZDs2ALwbqKwAHi5dXayDQAhduiOIPdZ6S8PSkZh7WZh8oXA
+         Ji25Sp8es+BPYWFbIxGFOUB9Q/95QaZNnukGAeRJWvORpdNfXalmOKKkM13E5A6vqeq+
+         ++2BPX3nyeel7jvWN19ZE2qE+pOpDpsFA+osq5AgrsFV2Kyt/6iu6YH/mu1h4y8gHZLl
+         1Hrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775885016; x=1776489816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8SZ4oUkNp8WAjJbG/dIWyJhIm/Zmr4q/EjqXuxcT9qQ=;
-        b=RAwFBxn0BC6pDHQbQ8O3SJjSqsT2wFRrOLTT866YtKqtmM6MI+Oy+St4/IBQ3pbEQI
-         7wAgA7d0CZG4wfCKUFVB2p5hgc/vGSUrES9IpxzY7edaq4liQuKXcaoBQ0uuzdtt/f7n
-         bR+UrnOGV+1Acwnw6QwRnO+pC/xxo65zqjs29tYV+ZLnpwpx4mwkkY98eInSCmosc/h9
-         GR/Z0KUUpenxXGVhs2zLiY0OyW9xEI1sBBNrv6JTiUaCcD24f6lreFrsOBwcSi4KBLDV
-         oeGBQzYOQvyt+sA7WAhQmqvRMajWvWue1qOVFzwwS7+cc3+fbXQwzOgkeE/VN0IXVJG/
-         hnjw==
-X-Gm-Message-State: AOJu0YwPiCr0yTqqYGoytU2FG8a4uyS0UAMPvvz1uxkbvXFSScym5TCt
-	XG2DPKr3HQqVbA0tZ+Y0z1r9jrEAwGPTmJDvme+VIg+crWTk2ENODuYZ40tr67yD1Hmi3BEIvMP
-	gC/1svQLeoCKECtBWRRE6XOjedXjBtD8=
-X-Gm-Gg: AeBDietM/f90SqGxW6aN3AH3l4v3QCC3C3jW7AYUiRmufGaYgf9WmzUiPwddcIYGYDs
-	GC1H7o5hgsYkxt3Cdn9DohNzKoCqWIJ03Nprqx7eQE/PJWR6XznRtx+sCM8tnvAJ1jMp0NwMa/f
-	OsSZqU0nwuHqCoAtSGUDIA6SyoHc0zQxTiygzxEek4kU15SkDyZqdZmBuhPvY8BgGwX+cU94NjY
-	/lNlS6aZwPu7ByDyrT4Lyc/HA5YgKjJIOpCdUhsqhQu1fv2DbY1bZSk7y4sOdsfq/ybfzfgkBo8
-	/3u9YctMfKECz2O0l8QG898ZdStMhMK0qPYXQVmBZKi8b19C81o0MdfKiLubXX5mSjIPhRRw
-X-Received: by 2002:a05:690c:dd4:b0:79f:3b8c:a7fc with SMTP id
- 00721157ae682-7af7204386amr67162567b3.39.1775885015850; Fri, 10 Apr 2026
- 22:23:35 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776087087; x=1776691887;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9cvX/3YS2hK9kgzlNtYASfb57GVegxtYM6rMLbYciK8=;
+        b=NHu35wpZ6oqRzNPgsODgpmmMj8WBbAWJ5TccPTxCrEym+0ALPFpxVUse/H1xsde6qv
+         h1hN7hUKOTtfvXWFR/5VNKsOvBSOlS1ZVN2ci3nxKfHds4qBZ/WJ/7Mq5JX2gujUbMO2
+         J4NcPys0Ume5SqxwwJRwPLFhHbN09irAhC1s4K09Vb6nUzQAYz+C8BZxuJ2J74VSZgi/
+         Ku3D1pwlgimXVpXRsfQQ1g8mj8uac68NYc0JOPZc2MCvbc48Hnl4ZS/Fbjwag6rfSKjd
+         BrJuqcBF79YHe8j5MfPtymM6j4tkBB2sv3Tvc+M0Sw2EJdPEI+tuG6DjgWX9DOBjbwmr
+         4Vfw==
+X-Gm-Message-State: AOJu0YxUOGkj/F1dLoCum0D8v8rSB1m9umnSa7quqnS/qDqG0if03tGp
+	1WMBGDisSEGdxazi5AEcgTsyJW1uhNnzzPBmZwY9Bzp0nlp+ye48mETtmK/6uQ==
+X-Gm-Gg: AeBDiesW+ku3jVQcb8Kkz/c1fTYdlwuyyHoAD9PpeW13yWE9+aaJhGIZ6PIT+WTUnY7
+	Mo2K7jW34iwa3KBPwRz1Rx0x11r6CjrGTsaNbgvL04Tk86JWNiaU5Li2xoO9j/XUdXRrAnS9C0g
+	K6IhnSbcTx+IssDvdd4iGwjwxTmiN3D8gUn2oONK4HD2jfGLDlSR0vuJidgQ2WVitLx1wDxMyi7
+	xZiChK8FYxJfghU1BS38mG74CdV8EyffRhndYhDPte4kdSTDN6yzOxR4cHCe+pNCmsly+mv6dx8
+	uYYVKVErQKOzWpw/O5CoL25+LN224I9UZlJEpqiRWE7w4LDREDaUA9o8B20a9FXvqMNm6FGhMYq
+	jXAbJh5yEiu6V4Xz36dd/KOPYT5iv/EtbhzBndmUoC9WR92PE7QiKcw0vonA94WiL0jWQ6CEo+h
+	+XEifWA0iqUcR9NUuHIFMXZ7si3CAeC+CGMpSyWliAoXM24volkIZi00GOfaM0H9X1J3HQfHiu5
+	3qjbWT9oAQbzi+cwEkU
+X-Received: by 2002:a05:620a:2892:b0:8d8:ed00:5a90 with SMTP id af79cd13be357-8dc45d29b5bmr2298150385a.23.1776087086763;
+        Mon, 13 Apr 2026 06:31:26 -0700 (PDT)
+Received: from server0 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8de6553c460sm852666385a.43.2026.04.13.06.31.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 06:31:26 -0700 (PDT)
+From: Michael Bommarito <michael.bommarito@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: add depth limit to indx_find_buffer to prevent stack overflow
+Date: Mon, 13 Apr 2026 09:31:17 -0400
+Message-ID: <20260413133117.3687677-1-michael.bommarito@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260404153213.365836-1-kartikey406@gmail.com>
-In-Reply-To: <20260404153213.365836-1-kartikey406@gmail.com>
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-Date: Sat, 11 Apr 2026 10:53:24 +0530
-X-Gm-Features: AQROBzBEiJ_dvh-3y9ryJTjTjHx81o7oYO1A_z698rZF7_pMsBoqjck0LHYNtm0
-Message-ID: <CADhLXY7xWU5+QSAR1r2KfSyTm2v05hyVxeU5SH9FoHC2H4QgZA@mail.gmail.com>
-Subject: Re: [PATCH] ntfs3: fix deadlock in ntfs_force_shutdown
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	syzbot+5f6ca38579a76e303c1c@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Apr 4, 2026 at 9:02=E2=80=AFPM Deepanshu Kartikey <kartikey406@gmai=
-l.com> wrote:
->
-> ntfs_force_shutdown() calls bdev_freeze() which internally calls
-> freeze_super(). freeze_super() calls sb_wait_write() which waits
-> for all active sb_writers holders to finish.
->
-> However active writers (ntfs_compress_write) can be stuck waiting
-> for ni->file.run_lock while holding the sb_writers read lock
-> acquired via file_start_write() in the VFS layer. This creates
-> a deadlock where freeze_super() waits for writers that can never
-> complete because they are blocked on run_lock contention.
->
-> Fix by removing bdev_freeze/bdev_thaw entirely. The shutdown bit
-> NTFS_FLAGS_SHUTDOWN_BIT is already checked at entry of all ntfs3
-> write paths (file.c, inode.c, namei.c, frecord.c, fsntfs.c,
-> super.c, xattr.c) and causes them to return errors immediately,
-> making further writes impossible without risking a deadlock.
->
-> Reported-by: syzbot+5f6ca38579a76e303c1c@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D5f6ca38579a76e303c1c
-> Tested-by: syzbot+5f6ca38579a76e303c1c@syzkaller.appspotmail.com
-> Fixes: ae91dfe38966 ("fs/ntfs3: implement NTFS3_IOC_SHUTDOWN ioctl")
-> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
-> ---
->  fs/ntfs3/file.c | 6 ------
->  1 file changed, 6 deletions(-)
->
-> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-> index 7eecf1e01f74..cbbc7d81875f 100644
-> --- a/fs/ntfs3/file.c
-> +++ b/fs/ntfs3/file.c
-> @@ -118,18 +118,12 @@ static int ntfs_ioctl_set_volume_label(struct ntfs_=
-sb_info *sbi, u8 __user *buf)
->   */
->  static int ntfs_force_shutdown(struct super_block *sb, u32 flags)
->  {
-> -       int err;
->         struct ntfs_sb_info *sbi =3D sb->s_fs_info;
->
->         if (unlikely(ntfs3_forced_shutdown(sb)))
->                 return 0;
->
-> -       /* No additional options yet (flags). */
-> -       err =3D bdev_freeze(sb->s_bdev);
-> -       if (err)
-> -               return err;
->         set_bit(NTFS_FLAGS_SHUTDOWN_BIT, &sbi->flags);
-> -       bdev_thaw(sb->s_bdev);
->         return 0;
->  }
->
-> --
-> 2.43.0
->
+indx_find_buffer() recursively descends the B+ tree index with no depth
+limit.  A crafted NTFS image with circular index node references causes
+unbounded recursion, overflowing the kernel stack and panicking the
+system.
 
-Gentle ping on this patch. Please let me know the status of this patch.
+This is reachable by mounting a malicious NTFS filesystem (e.g. from a
+USB drive via desktop automount) and deleting a file whose index entry
+triggers the rebalancing fallback path in indx_delete_entry().
 
-Thanks
+Add a depth parameter and bail out with -EINVAL when it reaches the
+fnd->nodes array bound, matching the constraint already enforced by
+fnd_push() in indx_find().
 
-Deepanshu
+The related function indx_find() was previously patched for a similar
+infinite-loop issue (commit 1732053c8a6b), but indx_find_buffer() was
+missed.
+
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-4-6
+Assisted-by: Codex:gpt-5-4
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+---
+Found during a broader arch/um/ and filesystem security audit.
+This is the same class of bug as the one fixed by commit
+1732053c8a6b ("fs: ntfs3: check return value of indx_find to
+avoid infinite loop"), which added a depth limit to indx_find()
+but missed indx_find_buffer().
+
+Reproduced on UML (ARCH=um) with a crafted NTFS image containing
+a circular B+ tree directory index. Mounting the image and
+deleting a specific file triggers indx_delete_entry() ->
+indx_find_buffer() -> unbounded recursion -> stack overflow:
+
+  Kernel panic - not syncing: Kernel tried to access user memory
+    at addr 0x606128c4, ip 0x6012907e
+  Call Trace:
+   [<60611ec2>] ? indx_read_ra+0x0/0x677
+
+At 168+ bytes per frame, ~97 recursions overflow the 16KB kernel
+stack. Desktop automount (udisks2 + ntfs3) means a crafted USB
+drive can trigger this without privilege.
+
+Note: the pre-existing indx_node allocated by indx_read() during
+the DFS is leaked when the new depth limit fires. This is a
+pre-existing issue (the node was also leaked on any other error
+return from indx_find_buffer); fixing it cleanly requires
+restructuring the node ownership model and is left for a
+follow-up patch.
+
+Reproducer script and crafted image builder available on request.
+
+ fs/ntfs3/index.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 97f06c26fe1a..2c43e7c27861 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -2013,13 +2013,21 @@ int indx_insert_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
+ static struct indx_node *indx_find_buffer(struct ntfs_index *indx,
+ 					  struct ntfs_inode *ni,
+ 					  const struct INDEX_ROOT *root,
+-					  __le64 vbn, struct indx_node *n)
++					  __le64 vbn, struct indx_node *n,
++					  int depth)
+ {
+ 	int err;
+ 	const struct NTFS_DE *e;
+ 	struct indx_node *r;
+ 	const struct INDEX_HDR *hdr = n ? &n->index->ihdr : &root->ihdr;
+ 
++	/*
++	 * Limit recursion depth to prevent stack overflow from crafted
++	 * images.  Use the same bound as the fnd->nodes array (20).
++	 */
++	if (depth > ARRAY_SIZE(((struct ntfs_fnd *)NULL)->nodes))
++		return ERR_PTR(-EINVAL);
++
+ 	/* Step 1: Scan one level. */
+ 	for (e = hdr_first_de(hdr);; e = hdr_next_de(hdr, e)) {
+ 		if (!e)
+@@ -2040,7 +2048,8 @@ static struct indx_node *indx_find_buffer(struct ntfs_index *indx,
+ 			if (err)
+ 				return ERR_PTR(err);
+ 
+-			r = indx_find_buffer(indx, ni, root, vbn, n);
++			r = indx_find_buffer(indx, ni, root, vbn, n,
++					     depth + 1);
+ 			if (r)
+ 				return r;
+ 		}
+@@ -2446,7 +2455,7 @@ int indx_delete_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 
+ 		fnd_clear(fnd);
+ 
+-		in = indx_find_buffer(indx, ni, root, sub_vbn, NULL);
++		in = indx_find_buffer(indx, ni, root, sub_vbn, NULL, 0);
+ 		if (IS_ERR(in)) {
+ 			err = PTR_ERR(in);
+ 			goto out;
+-- 
+2.53.0
+
