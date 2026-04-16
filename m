@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AC830FC1F
-	for <ntfs3@lists.linux.dev>; Wed, 15 Apr 2026 16:00:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AE878F39
+	for <ntfs3@lists.linux.dev>; Thu, 16 Apr 2026 08:39:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776268843; cv=none; b=aLwb5TjtuljmxEq42JZQzDT5z9xj2uvftSmqPh8Tfpmk3bDsrHSsAtFC/1PMHfeZaMhATt0L+1vrW7qMu/VhKzx67+G1zp3G2tYXjPFLsFsdbp/IoC1+A+YCMAJfhamvPIPnUSSiSwhYQtH89Qr5Ds8LuozPb1j4EAH8EBKoDZE=
+	t=1776328764; cv=none; b=Wln688bG1FxH60zRULw25qaCX1qghzYkXHYG6f679Kj73kcGYOs3fJPuNuR4z7HxegwpWXRT9ELt1ALod9/5VAV07oILCj8m5OEYtFWL5UV9HXqL1yUe1nwRfND2jIuf7yMzRUdqKv6AXBAFXgCtZ/RC80wIU7qEnh1qyy4/Lmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776268843; c=relaxed/simple;
-	bh=iJ0UpLkmeG7hXu0wuL0rWBHSVJnVz/hLmItoBSa4xwk=;
+	s=arc-20240116; t=1776328764; c=relaxed/simple;
+	bh=FQ0PVOc1YVqYceryIuSjfWLCzcMiASV6DBS1GlJ93GQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=RmcCkkhaJ37PxQzWicmsKqQ0LTMhiWt8s0m6P99ZInukfbyI05KVQoVe2Ab4WVlUuzm/xQHaPoCQ7+SIHI7ZGQJLpEjB09iswzxd2Of/7LKlu007U9k9gYxQrYfsu4WympBz7UUNBGcvuP+eT7sdpsw4yPDZ9zB3tscvcK6MkMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=RM4bz+Ex; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=onomBIrVKyWfk73Ec2d2eK8fSK5YM1WQ/25prjvzWmkWVZ7EKae6v42vps8SN0IaTVVyYu3qr7T9lgk2a5sAE/aFa6KS7AfHqZg4U9QEOzXOoO4KQoRjJRwsab8347XIolB5J+oryYRbZUTb/Bj4gMSFh7zsNQYFoVieSJAG/SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=nDMdWUy0; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="RM4bz+Ex"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="nDMdWUy0"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 7A6DC241;
-	Wed, 15 Apr 2026 16:00:51 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id B0FCC1D42;
+	Thu, 16 Apr 2026 08:39:30 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=RM4bz+Ex;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=nDMdWUy0;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 86A0E216B;
-	Wed, 15 Apr 2026 16:00:40 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 202F32182;
+	Thu, 16 Apr 2026 08:39:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1776268840;
-	bh=G7MkMKlw/Tx00hkOFYTWXCDXqsRiyj94Mm+6mqp8sBo=;
+	d=paragon-software.com; s=mail; t=1776328760;
+	bh=owulkjfScGtJLen8Q/CPKS8STXYatVeuNFM6i7+ml+Q=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=RM4bz+ExQ5ifZuIXSDvM+dejUKKrIPfV3+f6VbeTLuvP2fxf6G8I1gptXKL00mKQ1
-	 qvFt1xB/2+a66cQ14Sdl3ohAn6lmk2DA7wtJbkkKRvfAWB7Av0rbe9wB3qYzFuYTKP
-	 xrzpxCQALIgK7bQBbbefwZDMKoQbYqlwYSMtcT0c=
-Received: from [192.168.95.128] (172.30.20.171) by
+	b=nDMdWUy0bxu1fepVBkVSKjatqj0mNKVIaEBP7M9I/C6CuLyYjMVVuny+g3kZQ5kJP
+	 X6tkwq1Lz08ytMaMvwOSL2/uNSg5t6Cgbf+RQ3/QdORTiXI92wjim8WGXPNwsk4d2Y
+	 2zaGlqmEoiwluNQVuYmYgR9lStm3jxnSPwqo8LvA=
+Received: from [192.168.95.128] (172.30.20.197) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 15 Apr 2026 19:00:39 +0300
-Message-ID: <bef2feea-86fe-4bb3-b749-4b65956ff865@paragon-software.com>
-Date: Wed, 15 Apr 2026 18:00:38 +0200
+ 15.1.2375.7; Thu, 16 Apr 2026 11:39:18 +0300
+Message-ID: <d99b33f2-4052-42ff-9b65-b892f6e3ef12@paragon-software.com>
+Date: Thu, 16 Apr 2026 10:39:16 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,72 +45,73 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [bug report] fs/ntfs3: Add attrib operations
-To: Dan Carpenter <error27@gmail.com>
-CC: <ntfs3@lists.linux.dev>
-References: <adjNvTr_3bZmmPfJ@stanley.mountain>
+Subject: Re: [PATCH] ntfs3: fix deadlock in ntfs_force_shutdown
+To: Deepanshu Kartikey <kartikey406@gmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<syzbot+5f6ca38579a76e303c1c@syzkaller.appspotmail.com>
+References: <20260404153213.365836-1-kartikey406@gmail.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <adjNvTr_3bZmmPfJ@stanley.mountain>
+In-Reply-To: <20260404153213.365836-1-kartikey406@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 4/10/26 12:15, Dan Carpenter wrote:
+On 4/4/26 17:32, Deepanshu Kartikey wrote:
 
-> Hello Konstantin Komarov,
+> ntfs_force_shutdown() calls bdev_freeze() which internally calls
+> freeze_super(). freeze_super() calls sb_wait_write() which waits
+> for all active sb_writers holders to finish.
 >
-> Commit be71b5cba2e6 ("fs/ntfs3: Add attrib operations") from Aug 13,
-> 2021 (linux-next), leads to the following Smatch static checker
-> warning:
+> However active writers (ntfs_compress_write) can be stuck waiting
+> for ni->file.run_lock while holding the sb_writers read lock
+> acquired via file_start_write() in the VFS layer. This creates
+> a deadlock where freeze_super() waits for writers that can never
+> complete because they are blocked on run_lock contention.
 >
-> 	fs/ntfs3/attrib.c:176 attr_allocate_clusters()
-> 	error: we previously assumed 'pre_alloc' could be null (see line 167)
+> Fix by removing bdev_freeze/bdev_thaw entirely. The shutdown bit
+> NTFS_FLAGS_SHUTDOWN_BIT is already checked at entry of all ntfs3
+> write paths (file.c, inode.c, namei.c, frecord.c, fsntfs.c,
+> super.c, xattr.c) and causes them to return errors immediately,
+> making further writes impossible without risking a deadlock.
 >
-> fs/ntfs3/attrib.c
->      160 int attr_allocate_clusters(struct ntfs_sb_info *sbi, struct runs_tree *run,
->      161                            struct runs_tree *run_da, CLST vcn, CLST lcn,
->      162                            CLST len, CLST *pre_alloc, enum ALLOCATE_OPT opt,
->      163                            CLST *alen, const size_t fr, CLST *new_lcn,
->      164                            CLST *new_len)
->      165 {
->      166         int err;
->      167         CLST flen, vcn0 = vcn, pre = pre_alloc ? *pre_alloc : 0;
->      168         size_t cnt = run->count;
->      169
->      170         for (;;) {
->      171                 err = ntfs_look_for_free_space(sbi, lcn, len + pre, &lcn, &flen,
->      172                                                opt);
->      173
->      174                 if (err == -ENOSPC && pre) {
->      175                         pre = 0;
-> --> 176                         if (*pre_alloc)
+> Reported-by: syzbot+5f6ca38579a76e303c1c@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=5f6ca38579a76e303c1c
+> Tested-by: syzbot+5f6ca38579a76e303c1c@syzkaller.appspotmail.com
+> Fixes: ae91dfe38966 ("fs/ntfs3: implement NTFS3_IOC_SHUTDOWN ioctl")
+> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+> ---
+>   fs/ntfs3/file.c | 6 ------
+>   1 file changed, 6 deletions(-)
 >
-> I'm not sure why warnings from 2021 are showing up as new warnings but
-> presumably this should be:
->
-> 	if (pre_alloc)
-> 		*pre_alloc = 0;
->
->      177                                 *pre_alloc = 0;
->      178                         continue;
->      179                 }
->      180
->      181                 if (err == -ENOSPC && new_len && vcn - vcn0) {
->      182                         /* Keep already allocated clusters. */
->      183                         *alen = vcn - vcn0;
->
-> This email is a free service from the Smatch-CI project [smatch.sf.net].
->
-> regards,
-> dan carpenter
+> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+> index 7eecf1e01f74..cbbc7d81875f 100644
+> --- a/fs/ntfs3/file.c
+> +++ b/fs/ntfs3/file.c
+> @@ -118,18 +118,12 @@ static int ntfs_ioctl_set_volume_label(struct ntfs_sb_info *sbi, u8 __user *buf)
+>    */
+>   static int ntfs_force_shutdown(struct super_block *sb, u32 flags)
+>   {
+> -	int err;
+>   	struct ntfs_sb_info *sbi = sb->s_fs_info;
+>   
+>   	if (unlikely(ntfs3_forced_shutdown(sb)))
+>   		return 0;
+>   
+> -	/* No additional options yet (flags). */
+> -	err = bdev_freeze(sb->s_bdev);
+> -	if (err)
+> -		return err;
+>   	set_bit(NTFS_FLAGS_SHUTDOWN_BIT, &sbi->flags);
+> -	bdev_thaw(sb->s_bdev);
+>   	return 0;
+>   }
+>   
 
-Hello,
-
-Thanks. The warning was fixed in the patch:
-https://lore.kernel.org/ntfs3/20260415155413.26884-1-almaz.alexandrovich@paragon-software.com/
-
-Regards,
-Konstantin
+Hello, I missed this before, but internal testing shows that this patch 
+causes several failures. I will not include it in the pull request for 
+now. I am looking into the root cause and will reply with details once I 
+have them. If the fix turns out to be straightforward, I will send an 
+updated patch as soon as possible. Regards, Konstantin
 
