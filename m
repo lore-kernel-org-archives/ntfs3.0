@@ -1,70 +1,70 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E562DFA3A
-	for <ntfs3@lists.linux.dev>; Fri, 17 Apr 2026 22:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23A5199D8
+	for <ntfs3@lists.linux.dev>; Fri, 17 Apr 2026 23:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776466649; cv=none; b=Mh7dNRvmQ6ONY/MOBn6vuowzIG9retJsgOoRVOPoXL+42MEg89Ya8jYhYXXwVd1nvGAmiV1/OPB21+x2Txu00MkbZ7Ts9qZoWu0Zwab8u+sQs1ES1YdmWgrw202YVbZ0lqo2zG7VYo4czT7ss1IK0o+mpuDz43b8H0hYHUr1r4o=
+	t=1776468790; cv=none; b=IX0mxLBIIeF2pQg4JX9uYU034QFybhxxikdM16yvBNre7ooa46oKsR1MrrW+Uvs8em1x+0sK8cp3XfsLFIYajm/u+OMN1CDzmNGepFoEKw9uolQor09A7StSYFg64natDep5zElRYNYooSaaKkzUU8hW+1d6+f4YkFraj9G40x4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776466649; c=relaxed/simple;
-	bh=sPqyP5bAWRLVQUQ1xHjl8LHnserzJPjwHB0RoAyAe1A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NKMId4OGWJ3xZ1KUGgsBBQwQjMvoRPgMlxZ0AQwk3W/cs5oxYtb0MHBcbxpMhMrADqkrQoNWu8LORQTroKPlOygnRHUFDm754lbeHEQg5hC2Trh4RdoRvNs6WKixLvOMbadjHZM61KIhXFwDUZN2a26l4FXXyxyeN4hYSsrfcGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LuU2L8F3; arc=none smtp.client-ip=209.85.219.44
+	s=arc-20240116; t=1776468790; c=relaxed/simple;
+	bh=ZEi/cXh1iFeFEuzHRRsXi1pBdEeLdy+9xs/YHLYCT44=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RCv4Jc3S36Neezm870oiTZ9k64Zy3ubBEvudvrhWFHdPpeJ58C/eO7Qg8cBapgWgqnvt1gbxTbccEkyhk2NXPB7ypJYjzsemPeLLxjdLn4N23UV0YMWtrz8OSN1/LohLlMG5ddh7pjFVa+etojhz+dMNrGliidFUJICgUAs6Ob4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GaslzxHK; arc=none smtp.client-ip=209.85.219.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LuU2L8F3"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8acae26e564so12832916d6.2
-        for <ntfs3@lists.linux.dev>; Fri, 17 Apr 2026 15:57:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GaslzxHK"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-899a9f445cbso13969566d6.0
+        for <ntfs3@lists.linux.dev>; Fri, 17 Apr 2026 16:33:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776466646; x=1777071446; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776468788; x=1777073588; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=F8lfDYWV8wgoMG9u/N/hKMSAzR1cznOubbXPV8IlRC8=;
-        b=LuU2L8F3vDl7/NKKIRC0Puez9z/4C/yUUD9GWmy33vEJW0BiVx0XwNyp6AFuntzqOq
-         U/GCOuc/R9GIZTZsxEj8E1QpcYOKBxmhLCFvmRl/Xku+xavuxkpeqUKAbSjcPrpxLney
-         G3DHuKswZFTUA7ihptm5jJMwpU6Ks4ikou0+cMfX5d7boExP2y0FNV4bYF77ho0mka8Y
-         pivjwbbk3wHw06iy53NlfTh0CjNWl0fnRUYTGHQaD2SRVrWrppMjdPbXYHnh2qOxXpPS
-         0rSRTqzmKShTVb6gbluEDyEAGOEFELouY6c2bxZ1JPwbMTH13Gp9G3/Sw5xeaN0bU4so
-         q3/Q==
+        bh=kWzyw9UpnNiqz+F9Ms8EKKcgZP/weNGJV02JLocqn4U=;
+        b=GaslzxHKsxDM1IlvG5zdoD/tPPl8Xj35eI0Lha2VKnPGLK5YiPdxuHTZiDaRwnfBdh
+         +U4WWS9/2lOXZx4/K6JlCFL7E/OR603SHuIUizK1g3mSRKuxzUWJi0M/FF6MqlqcCFnj
+         xmKPVAodocL89DBw/BypzmpX0Zj78/PRTcsUVPokZj3pS1CMl5MAwGKUHjSG57WCmD40
+         uevSZATRFlccpOlZrfqDkjiLXnq//eZtDSl0PogcUJ4vzOfC1pRlrXEWLKKnWb20+EXZ
+         uezJ7PfggY586RPiuPNjCI3P9/MxueF9wKJXBOoWUBPAdxPsSdNYIgdzFrmyNZCBjAwy
+         LmKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776466646; x=1777071446;
+        d=1e100.net; s=20251104; t=1776468788; x=1777073588;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F8lfDYWV8wgoMG9u/N/hKMSAzR1cznOubbXPV8IlRC8=;
-        b=ZsnQ0pK1A0P4w4eZyOJRO7Lg0oNq1e6lUHd6LGRF0HaX4T0VK62NNBjH7tbJDg7Jrx
-         sLpEB5RWgTJXQkJ8MHZp3ldC/RKtR8455rjLEc3M6TEaDcdfs5SW33MITKhgByYemZRb
-         m33xZ3TIjbo9U4uQZuiHjI50gdYs4inLpbqULQGJmwdCSifx+ShGhHQv5835mflTSfeS
-         0VhwQ7YiSpeM3sJ4pI+7JN4lFdXh7thoCehk4LHpW42d8stKrKfPj0/je2EvO3aJdjAl
-         023ySxI77PRjzOKw4gqqWeASBgbJbUQcuQBQLLYYboXiHQYYFxPA/qcFoqEr0eajHdXj
-         M+JA==
-X-Gm-Message-State: AOJu0YyOSSv+6Ur48E7wmkI/AXRIwnFq/SHeIYFtPNN3R7sY9upRnSrg
-	mOlaYezJYYblLytHf3QGJV3CsI7iJOUR7P7Nzua74xtdVIvwUzGHoEYh
-X-Gm-Gg: AeBDieudVQeAIqTv/g3E4HFiE1zmB+bjRD5rP8SW3sBMH+20OtDPXEl3E+M0qF16Ns0
-	p+m8V6lcUaJ3rcvdsoAUUU5kHifH3pqGeOqAvuVrweRjr3x7TcPFEBNu/RYfVIFB6DnHJo+Kzx6
-	27yvRQF1420HyMhtu23xMSZTi+aMk1pcM8wCjkL0sFt1L5ZpQ+/sNaKlJTQ/DphD6A54MEw0NL9
-	nxzJyiAznPmLQsEQTQ9g0RF0RDMgvsKQI2X6CT479eQ5gYgy116Ww7qRDPTJ9HH/Fgyhd/+7dU/
-	oZDiQ8O8sm2q7CepLPzddO7PvAODx/HRSN6WE5dutH5pBYk7nNlF5JhT8LeYdMWKhd3OUJXwFK3
-	3qDXL0a1vyA1GgfQHF+PT82JDLVrb6qTDuXebzoEjj+zgJ3/znQNcn+6MH0IeslhGPstO4E2XT9
-	5Y5qwXUcpy0aWNtCXYrwoRjB7xYvqy9UEgZQ9/RCFjqpzlBlcXWPK4lP1smdxjRCv7pzhJK5gte
-	VEIGdr4t/URm+tKCOWc2Cx216ZnS2H/GZMqwfRciYzqyYsspyvJRuQJQYLaWnLZ
-X-Received: by 2002:a05:6214:4019:b0:89c:da2b:4903 with SMTP id 6a1803df08f44-8b02822c9cfmr76690446d6.46.1776466645910;
-        Fri, 17 Apr 2026 15:57:25 -0700 (PDT)
+        bh=kWzyw9UpnNiqz+F9Ms8EKKcgZP/weNGJV02JLocqn4U=;
+        b=B3wDa9gGmGawX8wMyRy3jEvTbdGjoCKqVFm4XnLyTUFq+4OZwBuT2Kkfhx0JTw0xYg
+         YgpTvPTqQhrTC7PzSNL89MTkXfnXozRJn7Q+xiGq9Lhqs2+CISGokNoI0kX+5atmA0GE
+         1WbZZae/Q6OtKce5k2gTfFnWw6lHU237pQqRm99cb6zYnj1SjtCw8asTa6Y8l9EOFzb3
+         QKM+XpWIOvCmPvRHJOLLyE6xrlrI1CEInlXymjS2E+SB87AF1jeYmYHxhggvNMs01sdM
+         2mwbXPDjHscDvkQqF90GDDxNyUZu/tHssZ52R4bweEodbl05ac9pi3zyV73pwjtpTsDM
+         BbaQ==
+X-Gm-Message-State: AOJu0YzwALH2OV1H+ZRTsWSVQGS2KBrXxohp7kgLeyoClJIN+I6M9wEW
+	lu70OnIfhYPDBBJLnb0d+UnEA4nQj+UtztsSl3XkExIQEMWP63LbHyfy
+X-Gm-Gg: AeBDiesokrjtS9OhE5RgmAxBuzFL/Vo/ml1Yihmh4QIUO4ycoWXY2ID0WBu1F+P3hKV
+	7IgyyExALyzhuN0IQ9Qzzj7HVNAT80ONjdFP/woALLUFHfiyWu6MPNr6L0H+PlJFFu+xxMcGY1o
+	6oZhtc8/4cUJNiodnSdS34gzmZXoHNFlgnNvyNg2r2rcjF9EnT+a8swj4JaHSAIiwPjefqhN+W+
+	EvuL0rHaX1kOSbP8psV3gZjN41GXzfw5V6kfm0Hs2Ens0+outXVVzHt7Qq0qcQFVHAx+tS1i9N1
+	nl6FxJuOIBEftyzPqHPEvysTsfDOt2fX1ORRBBe1+ton+p5ZwaF89Y5u2iV/Nm73V2Yp4lbCA92
+	M5LZIF1XRRvERlL66OpY+dyD0j6mBktmbYgid7EVMmem6coAafvaN2bKW7puW4vYhuSizpbutsM
+	pkrqVtE9JEcEMxtlul9RRGOvqnusNjL6h3i7XyS5xOwcd6nA8zvv+r+KLSW4Qfzs/C2Sam5a6e0
+	hDBbZlUFhJDUW+lO8GSd3sKJd+zPBGWz39dnfv/8V6KyUKrgsQYsg==
+X-Received: by 2002:a05:6214:8085:b0:8ac:a2f6:fbf7 with SMTP id 6a1803df08f44-8b02812ba4amr64724626d6.40.1776468787802;
+        Fri, 17 Apr 2026 16:33:07 -0700 (PDT)
 Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02ae5c4b9sm28948896d6.28.2026.04.17.15.57.24
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02ac429e9sm21701246d6.3.2026.04.17.16.33.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 15:57:25 -0700 (PDT)
+        Fri, 17 Apr 2026 16:33:07 -0700 (PDT)
 From: Michael Bommarito <michael.bommarito@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: ntfs3@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH] ntfs3: validate split-point offset in indx_insert_into_buffer
-Date: Fri, 17 Apr 2026 18:57:12 -0400
-Message-ID: <20260417225712.1736320-1-michael.bommarito@gmail.com>
+Subject: [PATCH] ntfs3: bound to_move in indx_insert_into_root before hdr_insert_head
+Date: Fri, 17 Apr 2026 19:33:05 -0400
+Message-ID: <20260417233305.1787096-1-michael.bommarito@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -74,87 +74,91 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-indx_insert_into_buffer() computes
+indx_insert_into_root() promotes a full resident $INDEX_ROOT into
+$INDEX_ALLOCATION and copies all non-last resident root entries into
+a newly allocated INDEX_BUFFER via hdr_insert_head(). The source
+byte count 'to_move' is summed from the on-disk resident entry sizes
+and is independent of the destination buffer size, which comes from
+root->index_block_size (via indx->index_bits).
 
-    used = used1 - to_copy - sp_size;
-    memmove(de_t, Add2Ptr(sp, sp_size), used - le32_to_cpu(hdr1->de_off));
+A crafted NTFS image that keeps a valid, full resident root but
+shrinks root->index_block_size down to 512 after the root has been
+populated makes hdr_insert_head() memcpy attacker-controlled resident
+entry bytes past the end of the kmalloc(1u << indx->index_bits)
+allocation returned by indx_new(). For a 512-byte destination and a
+resident root whose non-last entries total 560 bytes, the memcpy
+overruns by 120 bytes and a following memmove extends the highest
+written offset to 136 bytes past the allocation. The overflow bytes
+are a direct copy of on-disk entries (via kmemdup), so they are
+fully attacker-controlled.
 
-where sp and sp_size come from hdr_find_split().  hdr_find_split()
-walks entries by le16_to_cpu(e->size) without validating that each
-step stays within hdr->used or that the size field is at least
-sizeof(struct NTFS_DE).  index_hdr_check(), the on-load gatekeeper,
-only validates header-level fields (used, total, de_off) and does
-not walk per-entry sizes.
+The write is reachable from unprivileged open(O_CREAT) on a mounted
+crafted NTFS image: a single sufficiently long create in a directory
+whose resident root is already full forces root promotion and
+triggers the copy.
 
-A crafted NTFS image whose leaf INDEX_HDR reports used == total but
-contains one interior NTFS_DE with size = 0xFFF0 therefore passes
-validation, descends to indx_insert_into_buffer() through the
-ntfs_create() -> indx_insert_entry() path, and makes hdr_find_split()
-return an sp whose sp_size (0xFFF0) greatly exceeds the remaining
-bytes in the buffer.  The u32 subtraction underflows and the memmove
-count becomes a near-4-GiB value, producing an out-of-bounds kernel
-write that corrupts adjacent allocations and panics the kernel.
+This is a controlled out-of-bounds write of 120-136 bytes past a
+kmalloc(index_block_size) allocation, with attacker-controlled
+content. It is a bounded adjacent-heap corruption primitive; it is
+not an arbitrary-address write. Successful exploitation into a named
+victim object depends on the surrounding slab layout.
 
-Reproduced on 7.0.0-rc7 with UML + KASAN via a crafted image and a
-single 'touch' inside the mounted directory; crash site resolves to
-fs/ntfs3/index.c at the memmove.  Trigger requires only local mount
-of an attacker-supplied filesystem image (USB, loopback, or removable
-media auto-mount).
-
-Reject the split whenever the chosen sp plus its declared size
-already extends past hdr1->used.  This is the minimal fix; it
-preserves the existing hdr_find_split() contract and relies on the
-same out: cleanup path as the pre-existing error returns.
-
-A prior OOB read in the very same indx_insert_into_buffer() memmove
-was fixed in commit b8c44949044e ("fs/ntfs3: Fix OOB read in
-indx_insert_into_buffer") by tightening hdr_find_e(), but that fix
-does not cover the split-point size field path addressed here: sp is
-returned by hdr_find_split(), not hdr_find_e(), and the underflow is
-driven by sp->size rather than hdr->used exceeding hdr->total.
+Reject the copy at the sink. The destination's INDEX_HDR already
+reports hdr_total (the payload capacity of the new buffer) and
+hdr_used (the bytes already consumed by the terminal END entry
+installed by indx_new()); require that to_move fits in the remaining
+payload before calling hdr_insert_head(). On mismatch, fail with
+-EINVAL and mark the filesystem as having a detected on-disk
+inconsistency, which is the same behaviour as the surrounding
+validation in this function.
 
 Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
 Cc: stable@vger.kernel.org
-Reported-by: Michael Bommarito <michael.bommarito@gmail.com>
-Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
 Assisted-by: Claude:claude-opus-4-7
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
 ---
 
- - FYI, I have a larger refactor variant that migrates
-   hdr_find_split() to the validated hdr_next_de() helper and closes
-   the whole per-entry size-read class for that walker.  Happy to
-   send it as v2 if you prefer the wider change; otherwise this
-   minimal guard is scoped to the actual memmove underflow site and
-   is easier to backport.
+ - FYI, like the sp_size patch, I have a larger refactor that might
+   make this easier to avoid long term.  It's a mount-time variant
+   that adds the cross-check between root->index_block_size and
+   the resident root attribute size to indx_init() instead of the
+   sink, closing the whole "root entries do not fit declared
+   index_block_size" class for any future caller that reaches
+   hdr_insert_head from elsewhere.  Happy to send it as v2 if
+   you prefer the wider change;  otherwise, this minimal guard is
+   scoped to the minimal memcpy overrun site and is easier to
+   backport.
 
- fs/ntfs3/index.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ fs/ntfs3/index.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index 2c43e7c27861..24add048b4b5 100644
+index 2c43e7c27861..b7633b721d19 100644
 --- a/fs/ntfs3/index.c
 +++ b/fs/ntfs3/index.c
-@@ -1844,6 +1844,20 @@ indx_insert_into_buffer(struct ntfs_index *indx, struct ntfs_inode *ni,
- 	memcpy(up_e, sp, sp_size);
+@@ -1740,6 +1740,22 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 	hdr_used = le32_to_cpu(hdr->used);
+ 	hdr_total = le32_to_cpu(hdr->total);
  
- 	used1 = le32_to_cpu(hdr1->used);
-+
 +	/*
-+	 * hdr_find_split does not validate per-entry sizes, so a crafted
-+	 * NTFS_DE whose le16 size field is out of range can place sp such
-+	 * that (PtrOffset(hdr1, sp) + sp_size) exceeds used1. Without this
-+	 * guard the u32 'used = used1 - to_copy - sp_size' underflows and
-+	 * the subsequent memmove count becomes a near-4-GiB value,
-+	 * triggering an out-of-bounds kernel write.
++	 * The destination INDEX_BUFFER has 'hdr_total' bytes of payload
++	 * available after the header, of which 'hdr_used' are already
++	 * consumed by the single terminal END entry installed by
++	 * indx_new(). A crafted image can present a resident root whose
++	 * non-last entries (summing to 'to_move') exceed what fits in
++	 * this buffer; copying them unchecked would overrun the
++	 * kmalloc(1u << indx->index_bits) allocation backing the new
++	 * buffer. Reject the copy in that case.
 +	 */
-+	if (PtrOffset(hdr1, sp) + sp_size > used1) {
++	if (to_move > hdr_total - hdr_used) {
 +		err = -EINVAL;
-+		goto out;
++		ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
++		goto out_put_n;
 +	}
 +
- 	hdr1_saved = kmemdup(hdr1, used1, GFP_NOFS);
- 	if (!hdr1_saved) {
- 		err = -ENOMEM;
+ 	/* Copy root entries into new buffer. */
+ 	hdr_insert_head(hdr, re, to_move);
+ 
 -- 
 2.53.0
 
