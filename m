@@ -1,69 +1,54 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36DBB33F582
-	for <ntfs3@lists.linux.dev>; Sat, 18 Apr 2026 13:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FBC27A123
+	for <ntfs3@lists.linux.dev>; Mon, 20 Apr 2026 15:08:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776517883; cv=none; b=WAEsh3bn9NwM+KF9cGaqMu58f4DczpWXotHfHCh/0KXH4BOp95kZ+pdonpMh9g21GIRe0daFX5RfF2FGsiLtX8I/QZI5zCzhl92o3jKOlqk2Z2/TDS3mXdQ27MSdxC2NUtGmm4aUxSaTj4FZ5LgaZaIyfBRxRIvE2+EAxnJaxQU=
+	t=1776697696; cv=none; b=RLqbTq1k06eJ3vJNZtF+H8djsKSuFbHczRkH9d+Zv0t5FEs4yUukCwao9IGDSeyTtYGj0MR3FTIY2QhpYHP4K5zrl2oS74fnaTU5cMCOqB/BZbZC1DbWu7N7+XmjLVjJnueh2Ex5JG3UJc0Y5eomcS7FZGLbXLge0eUqc5a7M8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776517883; c=relaxed/simple;
-	bh=Pw7KGEUKhUdedwptQ7WoiwVyDYLoy54O/AX3prGQi0E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bNBKVpkDq4U1msblQffYXiIlZZFnJHS0hKeUysQLWIksSMc7hAjgtQbCEbGTWIWDN009vkCZGJU6H8m0QEqiz5LvWAIr9ixkAP7zNVqbqI0DIk7xKkG8lNrHOXlcpHJ2t3YzKY4DL1lK1m3qA5J4Y6ZUpy9LjRYBehqIfaxShoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SqUC5NtK; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776697696; c=relaxed/simple;
+	bh=UvQOoLe2BqaTbJEaNvc2TaTpD8cCUZraZvH4CdwoXzU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=D/E4vDJaZdTyXEFaiERycI5fSbN8NbRwXbIGxGKcF4KHqzKcyj7FRs2VRkweBc7XtlWZHMOQLsVkoiuyUL7c5jD3qz6UaSOb31lM/7JlqImS9n/fHwuiRaW99t74pMzl61n1CL54VrSRFR13qKJwyf2puMvZF66JUNXt6Q9R8fA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=hl2VBGFC; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SqUC5NtK"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488a041eae5so9953115e9.1
-        for <ntfs3@lists.linux.dev>; Sat, 18 Apr 2026 06:11:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="hl2VBGFC"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 2AB311D3B;
+	Mon, 20 Apr 2026 15:08:17 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=hl2VBGFC;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 5BA8421C0;
+	Mon, 20 Apr 2026 15:08:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776517881; x=1777122681; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QB2Lzt5nJ7BYS4NIOtL6sS9VhTgTIpFR8HzjB/zp3KY=;
-        b=SqUC5NtKMM4olqANy3EgFUp8XrHef5HOxgKCfpQFzhPBbYxQmX53zSbHO1lx9voaaI
-         TIIg3KtP86JxY/XbnJzFt73BVQM1nIkvDBRSiK3wfrQ97xtiTNROj8A8tmu9i7mRS94X
-         zM9ziHqLvdf5oIpqUCLKCCw/liTLcyIjAkb7J0nPwj6dEPX6fjj4JqQlOGh+9wUjI2lz
-         PoEiJ20Z6kkj/ycHTjsPiaTqvcPJybGSZ+5QX+TJcgq/KK96Z+PzacdlqVfHpv14ikg2
-         LPG1yRkDcnqa7fjQ7NMdPR1tshVkVLW5vvJjHCB5WBlDY7mVF/e0nCT5r11VcrS7inGJ
-         mvHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776517881; x=1777122681;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QB2Lzt5nJ7BYS4NIOtL6sS9VhTgTIpFR8HzjB/zp3KY=;
-        b=abAapR7PaZgpqdvds7i9y1P/QE1Jlupfzel1VozoW49km4VVyGyszNwC2inIj4q58z
-         vurMjEfgoUVHaoxbuwz1sQtr9Ig+l02qW1fkxh0hrrWi/W5jkj/AX700YMLT/2WH0vPV
-         T+Gm2KfbYLGOajd5rEEFrzyJXTt7JLW3aDSSwYCd4zsc91japB30gEIFL2dMsX2zNd5G
-         NOJFDwYHAeF6j2yFgQnVQrw/KxUtMH2sAUvMEbvO1vpPGweT/7W5ZvwNKD0gk+aBf/Y+
-         lZSuZ0qy/0EWHwwAhYhqQ0dgEMkpo14vE11YAX7O4wSnIdCer/pbMEkXwrntzbUnvnG8
-         DBHA==
-X-Gm-Message-State: AOJu0Yw+/D+Ws8NjP8FTH1IwGf0QdnO+9Ch+ZXTTi9lUxqRS8RTpi1Js
-	bUVwEGe4LYyqyDpOASlYa9l10ok30MevO/L8lIAyPSwaT0Wf1Fcd1RisUHr9CPc=
-X-Gm-Gg: AeBDiet8xRD7Jgch2dyUXmL93SF/1HLZCA1vh2spyQXES0xRJaZruXS3lyb2rR1v8bV
-	wYRkEkqxt0bzxyoEeclbq/HnVa9CcTtp95dTpsAQK6SCCqwXHOWwjXLikq0x2hZb0XM0YxTrzEC
-	7zg2WbCgJGnM13NH4l7RcA4u5UVEGtJGo5Xzin9/gTHVJzXkoQv6zv6nkGv7zPWaBlmms/DmrVK
-	69EaNYUS/uzwCcMslB5dEnuCwBbiVs7xcm5zlwmFWyfBO3toHwYag+GIneiEkKW51VlTiiH3RKI
-	9nup11zhdXpWpnWL76dZSZMVlh9kEUJAhE5aW+uXPBDTGQfoLNHhQpuzxyLKxxucA44jnezjBaA
-	cMlTJrjJ39662wIFry1uMtr2iJpDsGn1lvHiPEhbGtM4BIf+NEpHJJq4bYLpZa3ZGG5Mk6SDAT5
-	N7gJw=
-X-Received: by 2002:a05:600c:c167:b0:488:be21:54b9 with SMTP id 5b1f17b1804b1-488fb747f8cmr100796545e9.8.1776517880573;
-        Sat, 18 Apr 2026 06:11:20 -0700 (PDT)
-Received: from debian.. ([2001:41d0:303:db6b::])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc0f8188sm138816905e9.2.2026.04.18.06.11.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 06:11:18 -0700 (PDT)
-From: Tristan Madani <tristmd@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	syzbot+39b2fb0f2638669008ec@syzkaller.appspotmail.com
-Subject: [PATCH] ntfs3: fix out-of-bounds read in decompress_lznt
-Date: Sat, 18 Apr 2026 13:11:18 +0000
-Message-ID: <20260418131118.1063963-1-tristmd@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	d=paragon-software.com; s=mail; t=1776697687;
+	bh=SB6LUTEqMncDh3uvpRdPIDV7S9YL0GkgEewDBnsBhOI=;
+	h=From:To:CC:Subject:Date;
+	b=hl2VBGFCIrxK4lKyvcKrEKVjtsSbDxmAGUnXwSIOs5Q0Emapl508rB+CZd4zgsVz8
+	 28dt7uaLsyJ4ObsKNaJI/ksxer2STMk2Fxix+mDV5ZAWNNprO8mjuNUy8eBdR9+zaI
+	 A40TFcKfBcs4+1vu1YPofCgIN34eLwChhEZK5d0M=
+Received: from localhost.localdomain (172.30.20.147) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Mon, 20 Apr 2026 18:08:05 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <torvalds@linux-foundation.org>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, 0xkato <0xkkato@gmail.com>, Adarsh Das
+	<adarshdas950@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Deepanshu Kartikey
+	<kartikey406@gmail.com>, Edward Adam Davis <eadavis@qq.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Pengpeng Hou
+	<pengpeng@iscas.ac.cn>, Sun Jian <sun.jian.kdev@gmail.com>, Tobias Gaertner
+	<tob.gaertner@me.com>, Zhan Xusheng <zhanxusheng1024@gmail.com>, Ziyi Guo
+	<n7l8m4@u.northwestern.edu>
+Subject: [GIT PULL] ntfs3: bugfixes for 7.1
+Date: Mon, 20 Apr 2026 17:07:56 +0200
+Message-ID: <20260420150756.6058-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -71,35 +56,109 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-From: Tristan Madani <tristan@talencesecurity.com>
+Hello, please pull this branch containing ntfs3 code for 7.1.
 
-decompress_lznt() does not validate array index bounds before accessing
-the decompression table. A corrupted NTFS3 image with invalid compressed
-data can trigger an out-of-bounds read.
+Regards,
+Konstantin
 
-Add index bounds checking to prevent the OOB access.
+----------------------------------------------------------------
+The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
 
-Reported-by: syzbot+39b2fb0f2638669008ec@syzkaller.appspotmail.com
-Cc: stable@vger.kernel.org
-Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
----
- fs/ntfs3/lznt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
 
-diff --git a/fs/ntfs3/lznt.c b/fs/ntfs3/lznt.c
-index fdc9b2ebf3410..f818d97850049 100644
---- a/fs/ntfs3/lznt.c
-+++ b/fs/ntfs3/lznt.c
-@@ -240,7 +240,7 @@ static inline ssize_t decompress_chunk(u8 *unc, u8 *unc_end, const u8 *cmpr,
- 		if (up - unc > LZNT_CHUNK_SIZE)
- 			return -EINVAL;
- 		/* Correct index */
--		while (unc + s_max_off[index] < up)
-+		while (index < ARRAY_SIZE(s_max_off) - 1 && unc + s_max_off[index] < up)
- 			index += 1;
- 
- 		/* Check the current flag for zero. */
--- 
-2.47.3
+are available in the Git repository at:
 
+  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.1
+
+for you to fetch changes up to 819bd270abf9de3b7f306e233054b85a07c47820:
+
+  fs/ntfs3: fix Smatch warnings (2026-04-16 10:28:32 +0200)
+
+----------------------------------------------------------------
+Changes for 7.1-rc1
+
+Added:
+    reject inodes with zero non-DOS link count
+    return folios from ntfs_lock_new_page()
+    subset of W=1 warnings for stricter checks
+    work around -Wmaybe-uninitialized warnings
+    buffer boundary checks to run_unpack()
+    terminate the cached volume label after UTF-8 conversion
+
+Fixed:
+    check return value of indx_find to avoid infinite loop
+    prevent uninitialized lcn caused by zero len
+    increase CLIENT_REC name field size to prevent buffer overflow
+    missing run load for vcn0 in attr_data_get_block_locked()
+    memory leak in indx_create_allocate()
+    OOB write in attr_wof_frame_info()
+    mount failure on volumes with fragmented MFT bitmap
+    integer overflow in run_unpack() volume boundary check
+    validate rec->used in journal-replay file record check
+
+Changed:
+    resolve compare function in public index APIs
+    $LXDEV xattr lookup
+    potential double iput on d_make_root() failure
+    initialize err in ni_allocate_da_blocks_locked()
+    correct the pre_alloc condition in attr_allocate_clusters()
+
+----------------------------------------------------------------
+0xkato (1):
+      ntfs3: fix OOB write in attr_wof_frame_info()
+
+Adarsh Das (1):
+      fs/ntfs3: resolve compare function in public index APIs
+
+Arnd Bergmann (1):
+      ntfs3: work around false-postive -Wmaybe-uninitialized warnings
+
+Deepanshu Kartikey (2):
+      fs/ntfs3: fix missing run load for vcn0 in attr_data_get_block_locked()
+      ntfs3: fix memory leak in indx_create_allocate()
+
+Edward Adam Davis (1):
+      fs/ntfs3: prevent uninitialized lcn caused by zero len
+
+Greg Kroah-Hartman (1):
+      fs/ntfs3: validate rec->used in journal-replay file record check
+
+Konstantin Komarov (4):
+      fs/ntfs3: add a subset of W=1 warnings for stricter checks
+      fs/ntfs3: increase CLIENT_REC name field size
+      ntfs3: fix mount failure on volumes with fragmented MFT bitmap
+      fs/ntfs3: fix Smatch warnings
+
+Pengpeng Hou (1):
+      fs/ntfs3: terminate the cached volume label after UTF-8 conversion
+
+Sun Jian (1):
+      fs/ntfs3: return folios from ntfs_lock_new_page()
+
+Tobias Gaertner (2):
+      ntfs3: add buffer boundary checks to run_unpack()
+      ntfs3: fix integer overflow in run_unpack() volume boundary check
+
+Zhan Xusheng (2):
+      fs/ntfs3: fix $LXDEV xattr lookup
+      fs/ntfs3: fix potential double iput on d_make_root() failure
+
+Ziyi Guo (1):
+      ntfs3: reject inodes with zero non-DOS link count
+
+ fs/ntfs3/Makefile  | 20 ++++++++++++++
+ fs/ntfs3/attrib.c  | 23 +++++++++++++++-
+ fs/ntfs3/frecord.c | 49 ++++++++++++++++++----------------
+ fs/ntfs3/fslog.c   | 16 +++++++++---
+ fs/ntfs3/fsntfs.c  |  4 +--
+ fs/ntfs3/index.c   | 77 +++++++++++++++++++++++++++++++++++-------------------
+ fs/ntfs3/inode.c   | 15 +++++++----
+ fs/ntfs3/ntfs_fs.h |  3 ---
+ fs/ntfs3/run.c     | 18 ++++++++++---
+ fs/ntfs3/super.c   | 48 +++++++++++++++++++++++++++++-----
+ fs/ntfs3/xattr.c   |  2 +-
+ 11 files changed, 202 insertions(+), 73 deletions(-)
