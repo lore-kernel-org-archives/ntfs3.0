@@ -1,180 +1,250 @@
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801053D6CCD
-	for <ntfs3@lists.linux.dev>; Tue, 21 Apr 2026 14:11:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2F73A257C
+	for <ntfs3@lists.linux.dev>; Tue, 21 Apr 2026 14:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776780713; cv=none; b=YM4pnoMfZ5rpjq3L8n8IveDedh9doHMGtN7tAROenCWXuTdqnXWgFtmPstYRtsUU8d27jmKvwENT8KS3+yC2R0qLFz6Hik39NbvlbVYZw2QESq8kHIxVmxpMtHL+/oI84lMAAK1vsG2etB0m4eNRaUsT2ndUgrJewLupW2wL7YI=
+	t=1776783483; cv=none; b=Q5bKG419U6j+D0eNVd4HWzmo8axUSwlwE8sFDFnh3rMffKUwOPLFbn0HZa2wztwgN3cPP4pyS1NLNdxsOWCowVX3m/meCZZht0q4CTF0hm+kLjT2qE0oGNFP7urfzDNyN7h8HLmK6W942G8IM/sm1XBoNddu63jXaPmtquEia7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776780713; c=relaxed/simple;
-	bh=UlfTdO+YsryuqWPCCxdEpeNCsmxL7wYXMVvelqAdrQI=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=ldgYLfnAieLyuG2kmTlyygjLYWhRIABr7qu1oCqRgcorElC/eK8fJGW2H8OrY3CzogjXj7ytMAjx2edPbBu9H0fiBcI9CMNAK4j/au8uW1w/HIc7/49e0HM2LH1aAI94QgYV+sdaTRJoNXTQOeaV7byZyuLRZ0SyPOKJSn9fI0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=WAqN5y25; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Gy9QYMoE; arc=none smtp.client-ip=202.12.124.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1776783483; c=relaxed/simple;
+	bh=2cS8DG+1F7Stl1YCx+/6ZIvwSKe91xs628vO96RnGdA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=sLduhCKKMZZ3lcAajeCNps0DKmDk8qtIRUyNOtUYJrpnoRfOfZfEgHFBFh1CPDArgH/tTA727KYoIpxs4XsHe2iQ1BfWkHliKBUbjmVMmUHk9yzMc9mN6NhbxU1KW0rjrhN3Ps7QbIfKbfEYCMNKduz9yVZsQJ2qBY/tmVz7KDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ty2729dv; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="WAqN5y25";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Gy9QYMoE"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id A842C1D00111;
-	Tue, 21 Apr 2026 10:11:49 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Tue, 21 Apr 2026 10:11:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1776780709;
-	 x=1776867109; bh=e7iiQBpUlRP4z08trzvyDoUfZDq3kiCCk46x9wcbd2k=; b=
-	WAqN5y253I4TXyUwYUImZ5uF1WSjqE75Vw7ZfyY2BdfoAeueHn8UJuWh1GwyxIzA
-	//Ob5Keec0HSmPqF5Jkhy245tEiMXjbq35MBz5g/AuYb66ZjSbd0iPop87LN2VwD
-	+oXQpnRg4UUGC8EPmQzjScDEexsi1jXvZp+xthY3cQQSEGwLZlkxweHCm6fkAH5r
-	fc2yPYehZdEGX6ITSTJ3v/jszSigid11kL1Z0ZVLNb/FBndw0N2VyEyATBIZqsbZ
-	K/W5oXcnSEe/1JpFhY/2o5aJrx321YSucLVHbnw1M7jnbsEv8R0NwfxyawREld1l
-	H1Rw2dhRdDoWpzGSKDz5hg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776780709; x=
-	1776867109; bh=e7iiQBpUlRP4z08trzvyDoUfZDq3kiCCk46x9wcbd2k=; b=G
-	y9QYMoE5x1FsI/9/LquC1KA+j8jx+I1UPF1i77WprvjBYyYb8Em0aOiSZTo6m1ki
-	4AhDTIH3TXTbJ4FDg+pdNHOnHRm1D2EuiE5dLKSSW1pLLAwxSYAM4iVSeasihcqk
-	zyBe8eaeBlttRwpYRdzIf06BIeN7DHUCeVfYx0dHDMdeWLDcZY0oom1G1MHANAoG
-	XXmbeRZDmn+hWNDPoGkrHrQdA9JDZw/G/mo5E9YMcyG39oekYeiMZ2DT2T59v4xi
-	oPHhMNbMRkTbWkAjapMnVSm5aGimU5J4AfWljOPc4kpsRQKiewM/iQhHWKROvUe/
-	KcDtmB2XHSkV4L4y9gQmA==
-X-ME-Sender: <xms:pYXnaf2jLpeafL22NcWNp38HB3D_1cNp32OMnCmsAhMgfH4mtPy6Sw>
-    <xme:pYXnaY70-7Rjsgbv1bq7X9FnNw_SOY8-0vJXGec7Z3Z6QfQLy9D-mUj98NIbGTxg9
-    8hsQRDIfE6CNclSiaXVuIHV-timnpn0oPeQJXNOFX8pCinjG_74qKo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeiudeitdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
-    hnpeevueejtdfgtdejudeltddttdevffdvledugffhtdfgueekgfekhffgfeelkeeijeen
-    ucffohhmrghinhepghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthho
-    peeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeguvhihuhhkohhvsehgohhogh
-    hlvgdrtghomhdprhgtphhtthhopegvlhhvvghrsehgohhoghhlvgdrtghomhdprhgtphht
-    thhopehkrghsrghnqdguvghvsehgohhoghhlvghgrhhouhhpshdrtghomhdprhgtphhtth
-    hopehnthhfshefsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheprghlmhgr
-    iidrrghlvgigrghnughrohhvihgthhesphgrrhgrghhonhdqshhofhhtfigrrhgvrdgtoh
-    hmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdho
-    rhhg
-X-ME-Proxy: <xmx:pYXnaUU-5ljfDNPAsRKPCWdhKCyBZGPuTmZE9Hl32zfbQFw0nSnG8g>
-    <xmx:pYXnaTigxoK6M0TbmShBhV4WvOj2IJc9Uyg2grl0-pnp1zT6pNC2qw>
-    <xmx:pYXnaXb-LHSvXKfPTr5XLr-0Q4Rp7Myo7jPsqVkz5KZmH3wNm-Rq7A>
-    <xmx:pYXnaYpgXMvq-6nBKpDtjrsC7SDUQQPwLQBhvyg8VTawAxCs85wGjw>
-    <xmx:pYXnacSmscmnQBc9TNGhUyB-DtguRK9Z_fKWg8dqdpiI-Wlr-ZLLx3UZ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 1DA59700069; Tue, 21 Apr 2026 10:11:49 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ty2729dv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776783481;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F6DE3OT5oYYorchGLGDGJ06r2J8ji/lw/OrmVm4cspM=;
+	b=Ty2729dvljPLvr8hlb36cfRBdK1o0tQMEkH6TG43WbJAYCtWr22SQ9DxRTTEdLH8j6pdOM
+	9pDz9mIy8uzfaXlqDFHAgOrJAObv3YcKfB3WOzmzz3hzbLblEYmyYB6NqNtjFZJNdh4upE
+	TokF+bTTutYH9nwiSbswWQQzf5vWmsM=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-648-bXfI62PGO8ShbQ4GsVJonQ-1; Tue,
+ 21 Apr 2026 10:57:54 -0400
+X-MC-Unique: bXfI62PGO8ShbQ4GsVJonQ-1
+X-Mimecast-MFC-AGG-ID: bXfI62PGO8ShbQ4GsVJonQ_1776783473
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DAF3E1800454;
+	Tue, 21 Apr 2026 14:57:52 +0000 (UTC)
+Received: from bfoster (unknown [10.22.88.73])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 785981956095;
+	Tue, 21 Apr 2026 14:57:50 +0000 (UTC)
+Date: Tue, 21 Apr 2026 10:57:43 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: syzbot <syzbot+9a51b5f7b9b484c57dd1@syzkaller.appspotmail.com>
+Cc: brauner@kernel.org, djwong@kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Subject: Re: [syzbot] [iomap?] WARNING in iomap_zero_range
+Message-ID: <aeeQZ6EiEUB3G1Gb@bfoster>
+References: <69e24438.050a0220.1de265.0026.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: ANrvNuJesXKZ
-Date: Tue, 21 Apr 2026 16:11:19 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Marco Elver" <elver@google.com>
-Cc: "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>,
- "Dmitry Vyukov" <dvyukov@google.com>, ntfs3@lists.linux.dev,
- linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Message-Id: <6eac698f-da35-4efc-b227-b54de5d1decb@app.fastmail.com>
-In-Reply-To: <aed5LYnQvjgWm5Rc@elver.google.com>
-References: <5da10cca-875b-418d-b54e-6be3ea32c266@app.fastmail.com>
- <CANpmjNP8aUnZxO6e6ww7Q-8YiJLzww2YAy6Qi9dH5npHtfxSSQ@mail.gmail.com>
- <28064669-bb57-4dab-bac5-cc1027bafaa3@app.fastmail.com>
- <CANpmjNOY20G7w3AB=XfwSAQ0EVfM+sOqj1kTq6NnkPiB8Fx11Q@mail.gmail.com>
- <0df31031-23d4-49cf-8643-f605561bf7fb@app.fastmail.com>
- <aed5LYnQvjgWm5Rc@elver.google.com>
-Subject: Re: kcsan -Wmaybe-uninitialized warning in ntfs3
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <69e24438.050a0220.1de265.0026.GAE@google.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-MFC-PROC-ID: 6E3uz03NuakNo51OZOFN_6E-8A56_zKpxHrjTNESu5g_1776783473
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Apr 21, 2026, at 15:18, Marco Elver wrote:
-> On Tue, Apr 21, 2026 at 02:28PM +0200, Arnd Bergmann wrote:
->
-> There appear to be 2 options to fix, see patch below:
->
-> 1. __kcsan_nodiag wrapper to disable warnings for the kcsan_check
->    helpers. Tested and seems to work in this case.
->
-> 2. __attribute__((access(none, 1))) per 
-> https://gcc.gnu.org/onlinedocs/gcc/Common-Attributes.html:
->    "The access attribute enables the detection of invalid or unsafe
->    accesses by functions or their callers, as well as write-only
->    accesses to objects that are never read from. Such accesses may be
->    diagnosed by warnings such as -Wstringop-overflow, -Wuninitialized,
->    -Wunused, and others."
->
-> Option #2 seems a lot simpler. While KCSAN does read the accessed
-> memory, for the purpose of diagnostics hiding this fact from the
-> compiler is perfectly fine as it's not part of "normal" kernel code.
->
-> Preferences?
+cc Konstantin, ntfs3 list
 
-To me, 2 makes more sense. The attribute requires gcc-11 or higher,
-so you need to wrap that in a compiler version specific macro,
-but since I only saw the warning with gcc-12 and higher, that
-should be fine.
-
-I assume that gcc would be allowed to reorder code like
-
-     int i = 1;
-     __kcsan_check_write(&i, sizeof(i));
-
-to defer the initialization until after the check with
-the attribute((access(none, 1))) annotation. Is that a
-problem for kcsan?
-
-Looking through your change I also see
-
-> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-> index b041639ab406..088412189f16 100644
-> --- a/fs/ntfs3/file.c
-> +++ b/fs/ntfs3/file.c
-> @@ -73,6 +73,7 @@ static int ntfs_ioctl_fitrim(struct ntfs_sb_info 
-> *sbi, unsigned long arg)
->  	if (!bdev_max_discard_sectors(dev))
->  		return -EOPNOTSUPP;
+On Fri, Apr 17, 2026 at 07:31:20AM -0700, syzbot wrote:
+> Hello,
 > 
-> +	kcsan_check_write(&range, sizeof(range));
->  	user_range = (struct fstrim_range __user *)arg;
+> syzbot found the following issue on:
+> 
+> HEAD commit:    028ef9c96e96 Linux 7.0
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=11db9036580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=d46eab0cfd31c214
+> dashboard link: https://syzkaller.appspot.com/bug?extid=9a51b5f7b9b484c57dd1
+> compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+> 
+> Unfortunately, I don't have any reproducer for this issue yet.
+> 
+> Downloadable assets:
+> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-028ef9c9.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/f7fbf6f85efa/vmlinux-028ef9c9.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/2bc3ef5a9e1b/bzImage-028ef9c9.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+9a51b5f7b9b484c57dd1@syzkaller.appspotmail.com
+> 
+> loop0: detected capacity change from 0 to 4096
+> ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
+> ------------[ cut here ]------------
+> folio_pos(folio) > iter->inode->i_size
+> WARNING: fs/iomap/buffered-io.c:1561 at iomap_zero_iter fs/iomap/buffered-io.c:1561 [inline], CPU#0: syz.0.0/5326
+> WARNING: fs/iomap/buffered-io.c:1561 at iomap_zero_range+0x8cf/0xd00 fs/iomap/buffered-io.c:1669, CPU#0: syz.0.0/5326
 
-This was probably not meant to be there.
+FYI this warning basically means we're attempting to zero a folio that
+starts beyond EOF. It warns because if the folio starts beyond EOF,
+writeback may throw it away instead of submitting I/O, making the
+zeroing ineffective.
 
-> @@ -273,7 +283,7 @@ static inline void __kcsan_disable_current(void) { }
->   * @ptr: address of access
->   * @size: size of access
->   */
-> -#define __kcsan_check_read(ptr, size) __kcsan_check_access(ptr, size, 
-> 0)
-> +#define __kcsan_check_read(ptr, size) 
-> __kcsan_nodiag(__kcsan_check_access(ptr, size, 0))
+> Modules linked in:
+> CPU: 0 UID: 0 PID: 5326 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> RIP: 0010:iomap_zero_iter fs/iomap/buffered-io.c:1561 [inline]
+> RIP: 0010:iomap_zero_range+0x8cf/0xd00 fs/iomap/buffered-io.c:1669
+> Code: 5d ff 4d 29 e6 4d 39 f7 4d 0f 42 f7 4c 89 74 24 78 4d 85 f6 0f 84 5a 02 00 00 e8 ec ee 5d ff e9 78 fc ff ff e8 e2 ee 5d ff 90 <0f> 0b 90 e9 41 fd ff ff e8 d4 ee 5d ff 90 0f 0b 90 e9 97 fd ff ff
+> RSP: 0018:ffffc9000e05f8e0 EFLAGS: 00010287
+> RAX: ffffffff8267f47e RBX: ffffea00015643c0 RCX: 0000000000100000
+> RDX: ffffc9000eb52000 RSI: 000000000000021a RDI: 000000000000021b
+> RBP: ffffc9000e05fc28 R08: ffffea00015643c7 R09: 1ffffd40002ac878
+> R10: dffffc0000000000 R11: fffff940002ac879 R12: 0000000000000008
+> R13: 1ffffd40002ac87c R14: ffffea00015643e0 R15: 0000000000001000
+> FS:  00007f1ef11d66c0(0000) GS:ffff88808ca49000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f1ef05ec2e0 CR3: 0000000044745000 CR4: 0000000000352ef0
+> Call Trace:
+>  <TASK>
+>  ntfs_extend_initialized_size+0xcc/0x170 fs/ntfs3/file.c:236
+>  ntfs_fallocate+0xf21/0x1220 fs/ntfs3/file.c:668
+>  vfs_fallocate+0x669/0x7e0 fs/open.c:340
+>  ksys_fallocate fs/open.c:364 [inline]
+>  __do_sys_fallocate fs/open.c:369 [inline]
+>  __se_sys_fallocate fs/open.c:367 [inline]
+>  __x64_sys_fallocate+0xc0/0x110 fs/open.c:367
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-I don't think we need to do anything about the read and read_write
-code paths: if the compiler can see that the data passed here
-is uninitialized, warning about this is better than not warning.
- 
-The problem I see was specifically for __kcsan_check_write()
-with an uninitialized pointer
+I was poking through the code a bit out of curiosity and playing with
+Claude and I think it was able to come up with a reproducer. I don't
+know if this is the same circumstance as syzbot (we'll see if it
+eventually spits out its own reproducer), but it relies on formatting
+with a larger cluster size than page size.
 
-> @@ -282,7 +292,7 @@ static inline void __kcsan_disable_current(void) { }
->   * @size: size of access
->   */
->  #define __kcsan_check_write(ptr, size)                                 
->         \
-> -	__kcsan_check_access(ptr, size, KCSAN_ACCESS_WRITE)
-> +	__kcsan_nodiag(__kcsan_check_access(ptr, size, KCSAN_ACCESS_WRITE))
+Basically what it's doing is creating a non-cluster aligned i_valid size
+based on completing some writes, a slightly larger also unaligned
+i_size, and then running fallocate up to the full i_size. AFAICS this
+means the falloc will leave i_size alone and fall into the
+is_supported_holes block, which will call into
+ntfs_extend_initialized_size() using the rounded up cluster end to zero
+the range from i_valid to the end of the cluster. If say the cluster
+size is 16k and i_size is not in the last 4k of the EOF cluster, then I
+suppose we're going to end up trying to zero a folio that starts beyond
+i_size. I'll append the script that Claude came up with that reproduces
+the warning for me.
 
-So if we end up using __diag_ignore(), it should be sufficient to
-add it here directly, instead of another indirection.
+I'm not totally sure what the best fix is here. It seems like this is
+already playing games with i_size to handle the KEEP_SIZE case, so
+perhaps a quick hack might be to coopt that to handle this case as well.
+Maybe another option is to split the zeroing to only iomap zero through
+the end of the EOF folio and use another mechanism to zero the rest of
+the cluster, or zero it earlier at alloc time, etc. But anyways, I
+suspect NTFS3 developers will have a better handle on this than I..
 
-      Arnd
+Brian
+
+--- 8< ---
+
+Claude generated reproducer script:
+
+#!/bin/bash
+#
+# NTFS3 fallocate bug reproducer
+#
+# Tests whether ntfs_fallocate() tries to zero folios beyond i_size
+# when using sparse files with cluster_size > PAGE_SIZE
+#
+
+set -e
+
+IMG=./ntfs_test.img
+MOUNT=/mnt
+FILE=$MOUNT/testfile
+
+echo "=== NTFS3 Fallocate Bug Test ==="
+echo ""
+
+# Check if running as root
+if [ "$EUID" -ne 0 ]; then
+    echo "ERROR: Must run as root"
+    exit 1
+fi
+
+# Check for mkfs.ntfs
+if ! command -v mkfs.ntfs &> /dev/null; then
+    echo "ERROR: mkfs.ntfs not found (install ntfs-3g)"
+    exit 1
+fi
+
+# Clear WARN_ON_ONCE state so we can see warnings on repeated runs
+echo "[1] Clearing WARN_ON_ONCE state..."
+if [ -f /sys/kernel/debug/clear_warn_once ]; then
+    echo 1 > /sys/kernel/debug/clear_warn_once
+    echo "    Cleared"
+else
+    echo "    /sys/kernel/debug/clear_warn_once not found (debugfs not mounted?)"
+fi
+
+# Create image file
+echo "[2] Creating 100M image file..."
+truncate -s 100M $IMG
+
+# Setup loop device
+echo "[3] Setting up loop device..."
+DEV=$(losetup -f)
+losetup $DEV $IMG
+echo "    Using $DEV"
+
+# Format
+echo "[4] Formatting with 16K clusters..."
+mkfs.ntfs -f -c 16384 -q $DEV
+
+# Mount
+echo "[5] Mounting with -o sparse to /mnt..."
+mount -t ntfs3 -o sparse $DEV $MOUNT
+
+# Create test file
+echo "[6] Creating file with i_valid=4995, i_size=4995..."
+dd if=/dev/urandom of=$FILE bs=999 count=1 seek=4 conv=notrunc status=none 2>/dev/null
+sync
+
+echo "[7] Extending i_size to 5000 (i_valid stays at 4995)..."
+truncate -s 5000 $FILE
+
+echo "[8] Running: fallocate -l 5000 $FILE"
+echo ""
+echo "Bug trigger: This should try to zero up to cluster boundary (16384)"
+echo "while i_size=5000, causing iomap to process folios at 8192 and 12288"
+echo "which start beyond EOF."
+echo ""
+
+if fallocate -l 5000 $FILE 2>&1; then
+    echo "-> fallocate completed"
+else
+    echo "-> fallocate failed: $?"
+fi
+
+# Cleanup
+echo ""
+echo "[9] Cleaning up..."
+umount $MOUNT
+losetup -d $DEV
+rm -f $IMG
+
+echo ""
+echo "Done. Check 'dmesg | tail' for kernel warnings."
+
