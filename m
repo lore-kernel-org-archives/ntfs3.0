@@ -1,159 +1,135 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854903C5539
-	for <ntfs3@lists.linux.dev>; Tue, 21 Apr 2026 12:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776774421; cv=pass; b=pXlIs4j1GGPpsXhIUqe47e7UYwnIpJRej4YINIlN8sIpBCtAo3AroWjuVkLAoMSTQ7Ll8l4OQf6Tuaq2Qk40i5oBfJ24X2EGdzi3jw4g/F5Ag0kJ5+wpwYZIvpPJ5TYakLCHHXUfAxLFyOyMXKs+sCEoa0gMrPAFKV2clSkuIqA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776774421; c=relaxed/simple;
-	bh=5WEtuP4GQnSa1tba0cRCgiRFKFXCLDdWnqLm9MtMlI0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tQLtQwxuGDHb2MKkoC+nBAB1d8djg1vO9ea0whzgBiHwkwuqpFG+XTKOm6j5d7ibAT7KVqwQYLpK9CcAj1UI9/+qM9JyMAk0fKJh9Idc99oJbnRPXAOqYdGycDjGl8ksJz9/60Oq550xzGHslxNkQ6ve4yfGvAkWshMRsh+fMlA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RWdKYKMf; arc=pass smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066DD3C661C
+	for <ntfs3@lists.linux.dev>; Tue, 21 Apr 2026 12:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776774534; cv=none; b=f/s54Ljn1mPsnQ3cxNIZvcE7mvtRnRRgatwC8GksesBdb71FgV2EfqN953/84layRov6RI2sjBOnVkaKGVCbtQrpkcpi1u5riJZT5eZa1ZeBDYsXGPv8Cf8X6ugl2rI+MueMzCZLyP29Sp6lpObh+IXU8fCNsdKfpPJNaNF5tzE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776774534; c=relaxed/simple;
+	bh=E/To18PLKyBUMTtmPNqJnYXGQERQJ33zKyGE56k8wVI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ffW7uiqhfAmeiAMsKWmbTieQreb9DrFvC0rAp3E6PwqSYQ76RYy+w6PNZau29Tm0bYV/1kKYWoUbe3uiahak9HLNYp1Qy/hi3YzKZGJTLGYNZDF81bcmAqAF1YkB1datxzfN4AhHWkgoqLhH8cyXU5VZH70jEPj8X36tjGPW5+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Js8JbC4t; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nPJDEz4C; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RWdKYKMf"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12db63c6df4so327167c88.1
-        for <ntfs3@lists.linux.dev>; Tue, 21 Apr 2026 05:26:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776774412; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HeFqWRUiUKf7IXTONxJ8ouP6d/JRox3bU+0vAmJ9KVUtfug6Sma04oaEUPOeglbiBJ
-         mp5HOK5h5IkGS3IStXvmewOOD9KtueTPCrNpHmHU7JwSpDmEP/ccd9KLtrldU6mz/75q
-         gSaUbHI6vSvXiEjzNt6D8siUrskGhkQn8KEK2Awck6E+oXyKTVzoVPWeRwg//FinttfB
-         zkYoSJNiipa+P/+ZzVNkm+EvNSMJQdwZfjGtfltCcD6RQmZlQFWkxSZ25ZT5uFZXyTms
-         X05ZVB63wr+eSzN0Dv1c3KEqxU+soiEXdqmfPJCc/t/PbaH3PV57t8j80ukIkd8o7PvD
-         /ylA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=5WEtuP4GQnSa1tba0cRCgiRFKFXCLDdWnqLm9MtMlI0=;
-        fh=8sCwY5ZfbjoRpOQGMUZ1UFeoAWwfmHgc3fQp2eE4feI=;
-        b=Eh0hFzcdQZwPhpb7qLpopWkO2PuFYBFgkWNnoJk2YwEcNFTrOJ0O93oeuM1/JspkRP
-         INV7e74bztnLwCeY8PUVZX9oy5yIiCS7wCgvWm/ItjhMYqFikTBM6OvqiKbco+pUStjQ
-         whk+EMBFEowU7gpAj3wdL9jMtmbhHxHWnyM0xXOe6OsCHKEvMISZzJIKD4PTyz9bsjak
-         5vBRHhncvXXBiNxDxim3rCxCuQUNM7fSYr+lQCeEvVGkoqyCzapJcdNxchzaUzsucndd
-         ikmxEEVZ6qNReLLXjFnuP7w+exV2xVHfauNmi8kS3d+sYHfgjAG2t+neogCnMKG1M3fN
-         1OgA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1776774412; x=1777379212; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5WEtuP4GQnSa1tba0cRCgiRFKFXCLDdWnqLm9MtMlI0=;
-        b=RWdKYKMf5ww/ast2fQngmimRLrsQlOGojmrVppxA57Kwk7NileBJGdVQlXPcoXIGvg
-         JLTC96GTouOR+y3kMQxOnzr34kwb0u4ZzAQaDxlOYzqRE9m3SG50XVvUM4wNHo9nnSrs
-         IBhHPkROQViKylUql7y/sKMvCXOs04H3CMeK5r9pgWzMxzLEkQFFAJSxiBx4Gkm9dKCM
-         P6vWiZPyuJvRlmjM7IJT4OPG8fHSO6xk5Jzakip2Y5NedcKN1T87W1o0IhrMKf/vJrDf
-         K75frERmUkDOD4okFNLEC5MUBu7qrZSHQI9OzaRd5WxnIvJtK7jwAx5ubtmRyeYWq7Ev
-         nu2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776774412; x=1777379212;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5WEtuP4GQnSa1tba0cRCgiRFKFXCLDdWnqLm9MtMlI0=;
-        b=ol06RtSwOtaRScAhezyvoG0m3yUiWNifvlpBId+UL9uwTJxP+RiZDJ/SjVVAIEoldn
-         0DLvYLo0sNNDL2Klzkc+TKKoTGrEbzp/xf1SJw56ukQ9yj82gcsNuaE4b/hm1ybVNyd0
-         6InNTBmnZyr5YhtF1XTCu/bNT+zl7ff2YDwJ74NrylZY0C13y1+1pBEarlqj5WuoHvMG
-         fJfyovwV5TP6YGwoIGtLGW+3mLNGlur+C2qydJ/mTLLzAzu+nsY17Jpme+Kg5QVucky9
-         zRlvSO9cpatmGQCjxdqoNiqrNjd22WoVNpEddtCmhVHmlsE8z5C5+kpunH7KkmZqPxKS
-         pKXg==
-X-Forwarded-Encrypted: i=1; AFNElJ/+MxiKCWAHYe+myd0zwIGgF1B6icThw/g39t6wm1UvQzZ2me34sTHqw5iiw5qlx/QG5goaSA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVToVumW57KGtX2E2YesEiGe4QZbAqH/r3LF5sTDuPGjUILEaK
-	cxSYkGIZnGtztOuipvcllpFARurRjPHZmwwDEaaDFJaEAqxltYFedRNg/0nG5wA41aQSzdCb3K0
-	GeGoCHN2SAh3U/lK89G8TZ4YM6XU3brQYkj7sZ7WQ
-X-Gm-Gg: AeBDietIBOglzXeo1HawrzfpGriuwGE2RSvuckp52ljD1Cy7bP5Q2TDZeZqIhMPxWp3
-	TA7rWmpQ1SswNoBLY/lQrcMHODrojvyj5KUEpW2Fj/0ad+LIy7SdfbjAobkrIV+OXbmexnT78sl
-	i09y+ruz8VA7BSQcBvQt6EZb7MK8wSrMEzkJRMGJKNJC6jQwpedKj/u83MHqhl/L4o5jgB7BMZZ
-	U0LVF4ZTjSqU2FwNL4qmvWvGVKPKCPGx94OfdqUOmOhZnrv2UDHgpyXMh4GDFcXIdDIhBBTs7Iz
-	WYApp622DkZybOjlgkrnTfwO53WVasv/1COh68xlONr7hT4QiaHaJoOPwMXq
-X-Received: by 2002:a05:7022:6725:b0:12b:fa3d:e03c with SMTP id
- a92af1059eb24-12c73f70e92mr8385153c88.8.1776774411649; Tue, 21 Apr 2026
- 05:26:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Js8JbC4t";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nPJDEz4C"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 009501D002B5;
+	Tue, 21 Apr 2026 08:28:44 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Tue, 21 Apr 2026 08:28:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1776774524;
+	 x=1776860924; bh=5J/VMLp9yx28PS7xsT3n8prm1Nndfw47rnmcpT8UasQ=; b=
+	Js8JbC4tWhO0uHIIoXGncOFyqycO5yCfZYgF8JNXgdMRUaNXacZ8OoMdpiJb+/dz
+	XPUBdKaNL6O//r8DaYVIr2DibloOknQ9O5I0Kau0GCmD558zEifRAA8ZsEBq5gQ0
+	b3Fj0DNvonN3mLpC6npdpNbZmyUtAK+bJwji1dJPaY8RWSvDzw5ub1jpxGERhF/o
+	dUcCrvGsoFf3GjltTNuFDrnIyxIVedCE7ubVGowuWjPHXyaD2NuRZqThnTjD1lMC
+	PpW3ymw5heLi4VsuLc+uQ+v9+KR9vkD8lf7c/Uza8Sg59tMW8WoPqgoVEQirGMXJ
+	Yp0jTX3SejP8QRtDMKBKmA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776774524; x=
+	1776860924; bh=5J/VMLp9yx28PS7xsT3n8prm1Nndfw47rnmcpT8UasQ=; b=n
+	PJDEz4CcLwErRgGBK4mzprHcNKK03BHn0+t4REXHd2OXqfkLDSEwVcMX8WfFWGos
+	eX5o5zgneslOT0vPKSVU63Cn7cRzuK9acH1WKiq0/5xMGGqT7xU+cqpOWXeC8Dbm
+	Q2em5CMsGrWkWmNTxlkeXAR09BfGX9mO0YQKQlo2vpaj1VZ3Fni1mHnIq63wmLec
+	mnnf0ol4q5ZtUdGck2l1CTsIGh+O8unVEY8Y5/7uju0XTooHR/hAhJryYmVo/rg+
+	yxgOqVi6pbc+iqCoNkqzVv4bWAAL8FQ0E1HgrJARCVDJWrv7V2Tp/ApaQcuFi6Hw
+	Ce24/XYzkegQzWB9zy6wg==
+X-ME-Sender: <xms:fG3nablLzYCKFGnn0MFrfzUMqzv2nWMBu8Y3H3tekgD0_nOXMYszJw>
+    <xme:fG3naZpHjGHW9ajRh0pfXEnJVgiYcJYY2ZLRDxGqXyaT0OfoMt6-ud6Ou45Uo7Pf5
+    B94hzvOrK_7tiFlhO4i567THqAsIX1zA2FZG5Phi-g9l1fQMrRf748>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeiudeflecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopeguvhihuhhkohhvsehgohhoghhlvgdrtghomhdprhgtphhtthhopegvlh
+    hvvghrsehgohhoghhlvgdrtghomhdprhgtphhtthhopehkrghsrghnqdguvghvsehgohho
+    ghhlvghgrhhouhhpshdrtghomhdprhgtphhtthhopehnthhfshefsehlihhsthhsrdhlih
+    hnuhigrdguvghvpdhrtghpthhtoheprghlmhgriidrrghlvgigrghnughrohhvihgthhes
+    phgrrhgrghhonhdqshhofhhtfigrrhgvrdgtohhmpdhrtghpthhtoheplhhinhhugidqkh
+    gvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:fG3naeFH3mlv5la9o08NGPxll5Ve-U68EhFoDaMP7ypHw6LmE3dM6Q>
+    <xmx:fG3naaTf1Li6u_GNzWzfB2FRzko_4lE5zXrJ5b6M98YB5AzBtEbfnQ>
+    <xmx:fG3naXIHyWQxShBOWM2hOa5yxcO1UhaXkS9qxnD024l7-R2lRgZhfw>
+    <xmx:fG3nadabLj5Gzmux4BHLJVrQuHKukxEE2CtKS6yGyWkKgaZvj8exwQ>
+    <xmx:fG3naTAy6x4DiYWB776oPALc18gblOG6jSb2ZqmZghO2VIVW423l1sr1>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 8EC6A70006A; Tue, 21 Apr 2026 08:28:44 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-ThreadId: ANrvNuJesXKZ
+Date: Tue, 21 Apr 2026 14:28:21 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Marco Elver" <elver@google.com>
+Cc: "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>,
+ "Dmitry Vyukov" <dvyukov@google.com>, ntfs3@lists.linux.dev,
+ linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
+Message-Id: <0df31031-23d4-49cf-8643-f605561bf7fb@app.fastmail.com>
+In-Reply-To: 
+ <CANpmjNOY20G7w3AB=XfwSAQ0EVfM+sOqj1kTq6NnkPiB8Fx11Q@mail.gmail.com>
 References: <5da10cca-875b-418d-b54e-6be3ea32c266@app.fastmail.com>
- <CANpmjNP8aUnZxO6e6ww7Q-8YiJLzww2YAy6Qi9dH5npHtfxSSQ@mail.gmail.com> <28064669-bb57-4dab-bac5-cc1027bafaa3@app.fastmail.com>
-In-Reply-To: <28064669-bb57-4dab-bac5-cc1027bafaa3@app.fastmail.com>
-From: Marco Elver <elver@google.com>
-Date: Tue, 21 Apr 2026 14:26:15 +0200
-X-Gm-Features: AQROBzCYZY4hk2WxZwz1Jm1UajDCjj-RyW2oeh3AQ0mXg_S_ZZ9SfUTCTw3f8vE
-Message-ID: <CANpmjNOpiaBX=CRQHP1-SY+9McCYphAVsg=OJ5v+Fwha++mQRQ@mail.gmail.com>
+ <CANpmjNP8aUnZxO6e6ww7Q-8YiJLzww2YAy6Qi9dH5npHtfxSSQ@mail.gmail.com>
+ <28064669-bb57-4dab-bac5-cc1027bafaa3@app.fastmail.com>
+ <CANpmjNOY20G7w3AB=XfwSAQ0EVfM+sOqj1kTq6NnkPiB8Fx11Q@mail.gmail.com>
 Subject: Re: kcsan -Wmaybe-uninitialized warning in ntfs3
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Tue, 21 Apr 2026 at 12:21, Arnd Bergmann <arnd@arndb.de> wrote:
+On Tue, Apr 21, 2026, at 13:35, Marco Elver wrote:
+> On Tue, 21 Apr 2026 at 12:21, Arnd Bergmann <arnd@arndb.de> wrote:
+>>
+>> I ran into this during randconfig testing, I have attached a
+>> reproducer .config here, but have not tried to narrow down the
+>> configuration options that are required for triggering it.
 >
-> On Tue, Apr 21, 2026, at 11:33, Marco Elver wrote:
-> > On Tue, 21 Apr 2026 at 09:54, Arnd Bergmann <arnd@arndb.de> wrote:
-> >> What happens here is that copy_from_user() is used in a very
-> >> normal way to copy a user space structure into a previously
-> >> uninitialized on-stack buffer. With KCSAN enabled, this passes
-> >> the pointer to that buffer into __kcsan_check_access(), which
-> >> takes a 'const volatile void *' pointer. Gcc correctly notices
-> >> that there is no way to access the data behind this pointer
-> >> when it hasn't been initialized yet, as both read and write
-> >> would cause undefined behavior.
-> >>
-> >> I'm not sure what a good solution would be to avoid this,
-> >> but I assume this should be fixed in the kcsan instrumentation.
-> >> I tried changing that code to pass non-const pointers for
-> >> any instrument_write variant, which does avoid the warning,
-> >> but also adds a bit of complexity, see below.
-> >>
-> >> Any other ideas?
-> >
-> > Indeed, the below is rather complex, and seems unnecessary to me just
-> > to suppress this warning which not even the whole kernel enables.
-> >
-> > How can I reproduce this? GCC version? .config? I can't seem to with
-> > an x86 defconfig + CONFIG_NTFS3_FS + KCSAN config + GCC on linux-next
-> > (20260420).
->
-> I ran into this during randconfig testing, I have attached a
-> reproducer .config here, but have not tried to narrow down the
-> configuration options that are required for triggering it.
->
-> The compiler I used is a recent gcc-16.0.1 snapshot, but
-> the same config produces the warning using earlier compilers
-> as well, I see this with gcc-12.5 but not with gcc-11.5 or
-> earlier.
->
-> > There's likely a simpler option (attribute or warning suppression
-> > around these functions) I want to try.
->
-> I tried the 'unused' and 'uninitialized' attributes on the
-> argument without success.
->
-> I'm a bit worried that just using __diag_ignore() around the
-> call would still leave the problem that gcc warns about, in case
-> the compiler decides that this is undefined behavior and do
-> something we don't want.
+> The attached .config is a KASAN config, still can't reproduce.
 
-The warning is "maybe-uninitialized". GCC cannot prove what the called
-function does with the argument; if it were to miscompile based on
-wild assumptions around what a function does with a const-pointer,
-that's a compiler bug.
+Odd, this is what I see in the attached file:
 
-I think diag_ignore() is the right thing here.
+CONFIG_ARM64=y
+CONFIG_KCSAN=y
+CONFIG_KCSAN_SELFTEST=y
+CONFIG_KCSAN_EARLY_ENABLE=y
+CONFIG_KCSAN_NUM_WATCHPOINTS=64
+CONFIG_KCSAN_UDELAY_TASK=80
+CONFIG_KCSAN_UDELAY_INTERRUPT=20
+# CONFIG_KCSAN_DELAY_RANDOMIZE is not set
+CONFIG_KCSAN_SKIP_WATCH=4000
+# CONFIG_KCSAN_SKIP_WATCH_RANDOMIZE is not set
+CONFIG_KCSAN_INTERRUPT_WATCHER=y
+CONFIG_KCSAN_REPORT_ONCE_IN_MS=3000
+CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=y
+CONFIG_KCSAN_STRICT=y
+# CONFIG_KASAN is not set
+CONFIG_HAVE_ARCH_KFENCE=y
+# CONFIG_KFENCE is not set
+# end of Memory Debugging
 
-> Changing the type of the 'ptr' argument in the internal
-> __kcsan_check_access() call to 'unsigned long' or perhaps
-> a non-const pointer should avoid the warning.
+I forgot to mention that the reproducer was on arm64, if you
+tried building for x86, that may have messed up the config.
 
-non-const doesn't work for read (const) accesses.
+I've reverted my workaround in the randconfig tree now to see if
+I can find a reproducer for x86 as well, in case that is easier.
 
-I still cannot reproduce it - I've tried various permutations and
-compiler versions.
+      Arnd
