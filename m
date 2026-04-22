@@ -1,79 +1,79 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8F03AA187
-	for <ntfs3@lists.linux.dev>; Wed, 22 Apr 2026 08:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7AD3264DC
+	for <ntfs3@lists.linux.dev>; Wed, 22 Apr 2026 11:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776846260; cv=pass; b=mZGSZLm6uy0Snlz6AVGEHFtCG7LIYzcA/PaLnFauad1HK2PMog5aEEqgp1JyA5ctAWMkJhVvE0hUrtFWCT9kg3RAUAbNIQa4Ru/Uf+hhqo3Ka5100n9ebeeRYsqpIttxEfvCWUU03IR1d97jNtiVzruiW6m6+V6KmAa1R09LOMU=
+	t=1776857753; cv=pass; b=BoztbWi0uggh+dQ4gX7yOxtF38Y3+rToD6YwCPGzvTLPviD3ts1GsQCsErEMTNgX+Oj1gEFAPNIcqCvfnEy5JNRXYcP/OViLRXpJX4VHdDuFPzGav63Qa8zve53MYxK1lVWhL3hvt6p98INVxiSZY6Te4u6NAswB9hFHD1yt5pM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776846260; c=relaxed/simple;
-	bh=9gmNX4h+B9ZSKv7TRUPCmIcbU0aM+kAUvHB5mSjCLRI=;
+	s=arc-20240116; t=1776857753; c=relaxed/simple;
+	bh=T2UoZZMlBFW7epRMNh0OLTaLvytzxCJoKyPYy31zmAg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=euMuFmzkAnRiOYrE+I5LF9q59+2Rj/tGHgU5054Jb4eVZf21vyM+BuhrgM1NYhYrkNF2cXnKkxy+T/7yjKHp+Ny9ptqD5Jex7utUcYtI0KW2mfmYsIUn74+yRHPq5UQe5tY6dzIgoPRpzPYm6dIpxp+goDyTnaPZT/AD4y61oGc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NJ5+sTyF; arc=pass smtp.client-ip=74.125.82.48
+	 To:Cc:Content-Type; b=F9kL10taap4SVL1H+RYTaLUNznV51tjRpBsSurCjeG61p5fV6kDcgcPzTEr5/LeHau+Cj8suTCazrtqEeLT9bFPBLaXXzneVSWC2xYajXvhzHz2o/KxAVXuCdK39FD0DTn3WavI45AHi1HBWbrjRT06op5Q1LOyNB82isTd0SgQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qa0HEB2W; arc=pass smtp.client-ip=74.125.82.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NJ5+sTyF"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12713e56abdso3538277c88.1
-        for <ntfs3@lists.linux.dev>; Wed, 22 Apr 2026 01:24:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776846258; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qa0HEB2W"
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-12c8cc7a77eso2099175c88.1
+        for <ntfs3@lists.linux.dev>; Wed, 22 Apr 2026 04:35:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776857751; cv=none;
         d=google.com; s=arc-20240605;
-        b=EbsrTFFzcDhtzEKQ25/PxYZebBBikUByCMZJnUJU6D42ir+eXQn/oqTKQU4KrBZoyV
-         Hg+jzbuED9cbpL1jZiFumnhHLqMh9W3dOtjP719RMyzGR5R4GDsoaUzJdkSLTr+2Soeq
-         Qm+P+PXOTGoxZgzCvpnqO9S4CxA8ReJ/kOScR+loHYpphDhxC1ON6f2Kcww0gB01X72J
-         sYw0iGj1IlbDO3QEJ9YTcqMOIVwN0TAVLNsxQn9F9mRmas5BpGHGxQ/xccRHJ6vWAD7G
-         xRc1rSApeJrO9wE3rO4RGLKw3P0Un8XOvoPbI7HBaRiOC2/NpUPn44kqWYwm8VUVTNS5
-         3h2Q==
+        b=jqgt6eEb56RG1KUPIBV6riPQxEnNjGxWrw/NfKQBs7Y9+FNLecONW+fQvxn8EMEfBx
+         HU5V101yte0/tAhk0zOw7rgt5uO/9CkuJgSViLaC7VUb5AmUxGmPCBtEgy/Ztk/6Z3vp
+         lB5NHNSIM58hrtB+CwahlS5ryHfvNYYzRST0tZPCchUelz5MuUgRHY2e839bxdEfMgCu
+         zDwCuTC3Wm2qDzuwef3zO9ZnU/lrpcQWqg+fdgzgjZmaHQCCqJwu3sbk0coq5+hp5+S+
+         XfFzoWWWamvuwOaN4pyWG8L6iGghzqdRKDF2WDv8+EiSiwI2xdSOhGQOj/qHAauWqD34
+         Eg6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=9gmNX4h+B9ZSKv7TRUPCmIcbU0aM+kAUvHB5mSjCLRI=;
-        fh=waqYO11+I1+OTp2/lQr7wfEg63uiTnL+fxvuUK/qXD0=;
-        b=O22rrWEZ9djPBdDJ96sZHKhQ1SMDBHW2JtiI0Z1sJ+i4sYEwJSayeHGgwJHRmMJTjS
-         AXb0jhPiLp0bSKMgRzZY7CIpACljXsfT99LRPLiRQwvHA+Z4xyUkDTUn2/hLg7ZBtFbM
-         cyHq81+pJKPC5a2E4GMJYMiJWsCFkB3eLzPjHnjPACztQA+ayF4ZKXA4howIkfdb3MOL
-         iEyJ9UkiRCj7c/0Q2P1cPaA7W4JTx1T6qUNQ0aLAERaA7qjTO438t4Z7RCtqFIrVv90G
-         Ex6LRjbpIGCQGuzxwOK+XEkLq1DWxZuILaCSKiGSo+5RXTCqavMi7HP8MoRgVYnlPs3I
-         SUCQ==;
+        bh=T2UoZZMlBFW7epRMNh0OLTaLvytzxCJoKyPYy31zmAg=;
+        fh=y1GhHRvgDFcMVyEyopSr8kJMYNvdjM+qLRl03N03D24=;
+        b=GCBsF4x4LKKlEXYX1pIOhqWQfsf7YR2qPh/Py07y5Y+kl3IC8BG31n7k/DsK2tW4JG
+         3OUFho+l/vkCyLvnGgoBXEgqdZdT7hP/Zhmo8NZZyAmy5RtU4Nb/lKDXyaVyddp9Aw+w
+         l7yun5LKtBvNWyhuR8HGj+Cnpry66j0Zaf/yxMjCDPELcWFa1pOTm8QsHYXmZxMBW4PS
+         GBBRHt066mgzkd5eAwOZ9n398ehhnG/81uCN1af8s1RV/kA8asbnCfxI1Wq5Uy4K1ANY
+         0uPhYf7JD7D07BUSCykGhDlwvWRjN/7LJznezHb7VQ6PtVQjdUuyGyy5zB+l4JvmN/qw
+         RerQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1776846258; x=1777451058; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1776857751; x=1777462551; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9gmNX4h+B9ZSKv7TRUPCmIcbU0aM+kAUvHB5mSjCLRI=;
-        b=NJ5+sTyFdNKP3B7VZH0NeyvBL+E2xiRjxZ7sTICaYBPE8QkuB5NacUZyMp1mUSv0Rq
-         bfbnc1n1aLQ9AFSk1i5wPONb/7aV0VpTzOybcor8hBu9gdLuagkblRfFoz/bQVpZjhx/
-         fZL/VYT17bhY3Ng0VTJe/wS8OKvIcB3zHjDWqS53U0gDtrsJp8jm9smnyG/LBdYp8h4r
-         2Gw782iMeqEFOHzH5pX5LzspHDBFlrWztYorY1YIefv8JEhAuAmxJLZO/kLyFYrfKsKN
-         df7n5sLSFOvU2SEbKKjq9OrS6lx4qPtXwmkSFD1ONe1FlISqst0oM4QmEZdS1pQdH3iO
-         0R/w==
+        bh=T2UoZZMlBFW7epRMNh0OLTaLvytzxCJoKyPYy31zmAg=;
+        b=qa0HEB2W79PMfCGDTkAS0LZBJvye43zn8DtSQhgkiOkOF3A9uUo1PX/Pf6I+eRbAwj
+         RoNWXGCv8M0iUbJBNGXRjzgDSUWUEtmk+xkAzKMMXfWjO0CUWsC9zgEZzG8rI7pTXUxb
+         YIEiaLaEl5DGj5q6nn8VFly0Diaj8d8q37E0066fZ/Q8P9Z6pgNAqNqp1bP07k4e8s+p
+         vJfErSPbNwrOQIm3rNZc/csqyv4g0yp3R5FaJEcUCZyw3UkR2Vd4VmMXOkxcjGNNAHiG
+         P1c9WtOHcCypxYxf3Ha32dbTvxhbvfVBkd6k/2jqEnvJZ4xw0eb596V4gXBPv3/5uIix
+         U5tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776846258; x=1777451058;
+        d=1e100.net; s=20251104; t=1776857751; x=1777462551;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9gmNX4h+B9ZSKv7TRUPCmIcbU0aM+kAUvHB5mSjCLRI=;
-        b=emPmSQx+APttinVpWiKgc8ociqlru6VOySn9ViEQAHHQdNKezR0xdwxh0/wddHyqxw
-         CJ1wfEXDRoqniqOmyLKpCye/tbOH3TJng4sPXstmVTsm0Ur7mEtcEOnlZkYksUiwFTwu
-         ZxwirzN0Ihvmp+AyTGEBMyzFe4oCMY3VuYuzg1tHRTg0NAOaunOXFo4tmfijN0YZh8Vv
-         nJyl79JXgOgA3ebf8PKWre5j/0p0p5L3s1zFFbmuj70BtvUmgOMrvI4yuXRsHyHaRVlt
-         zpZHoA7gPcGpgTzUSmf54Od/cQBY2z2GL4J4Loa0RTNcLpWZvcZKyqm3Bmzgk+zhKjC9
-         AckA==
-X-Forwarded-Encrypted: i=1; AFNElJ8Xm3wsUOb7NSdZIxIWM8NxK5Q28P8vlENGo2QJS50F4cwf0FeCV5jUduapAzkixggoSLNpDA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwfMwZ5nRr+0gL+gw5l5HTD00LHmD8KCQAa6TlW/WNBCuv1rOqJ
-	jpor4g/YYjOCXaevxt8zxc++Z3S6wRYmizozilZXb65ybe5viC5QB6ekPRhCM9++OxaL7UanJed
-	pTgRVYsYVsX66q4qjCquRSo1j/OoO0D8ZDEy3ICb9
-X-Gm-Gg: AeBDiesX3VkDEKADLsiW20lUMMOoEyy9UM55gFjpGQnCr4y3au+yfKBnjC0ZHOm44ie
-	N0odLwZ9niv2AAwmOvnbiHjhlHTGudnYHXrz+dKW2lb865jO9Dg2wjg4Bpn/IxAbZSNqnO7AVMC
-	7jZyOwFKXxkJitN3fpf2bKpoC564NFAzdEvWJGToLApWJypcVGbKmMt3yF6ULmVPc7gTr/i65ps
-	CsPGuBt4+07hJB29hLAnlEV7R634Iw9PMfCsGsIgDcTrMrv63XimWGoG3eE52qmbJyupYJM26Mi
-	4/lMU9UqnJjRzWNRpzH+dl3D8nO8C6SfLNMKQGRp2NK2JgzY/MZYFVKYAMbJRQpSGlWxp7g=
-X-Received: by 2002:a05:7022:fa2:b0:12c:11d4:61dd with SMTP id
- a92af1059eb24-12c73b39a41mr9220220c88.18.1776846257744; Wed, 22 Apr 2026
- 01:24:17 -0700 (PDT)
+        bh=T2UoZZMlBFW7epRMNh0OLTaLvytzxCJoKyPYy31zmAg=;
+        b=nN6UxgOQj324bBcycNx26JWzwVL0hL30rFDIICjE22iGs6MWb6F4u05Ht+FoEKCNfQ
+         Xkw5rfsTR47GqPxqT2/DE+uOKz7XzmMpzRB3Uckp7gQ7DYdC3Qwk/g1Yw9IvSM3M8WBY
+         3WAUJDQ+yCRoJEGFa+6x1WSX5l6XS8r7nvF/TrkjAEa+H9DFBaN877CtRpvhb5LbIHiX
+         eOUdVa9p/zrATSiAWELwJCJ2trM7/USAlqGLlVHmvtvK0yX4TOQP6boTOZeOLSr9dHZQ
+         cXSWazY2314iK9+hAG0LTVYs+in8Mwp8rIqBaRn6fDpBuVmx76p8N0yXp1AEJlHU2+gZ
+         T6Vw==
+X-Forwarded-Encrypted: i=1; AFNElJ8zgaomMip0FBES1IQ81PrxaLv3eBj091aR0DIS9Cv8bZuEf9d1eSEw+qGoC09vSEdF0BrRmQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxje65hAIdKFl31D51tSCaeZST4E2uO5JfhKrYFkx9nUrNm8nQb
+	5gGjPugwRtMv99ObPcLcrwNmfsVHOvZsxUOSRYBkij4RJlCkRfqzZVfDFxfrgdwfEOisBndi/ne
+	ttthgpDVc14VIfk1G8ymntW3qWuqLaKy8NNl/Q6Yh
+X-Gm-Gg: AeBDieuUDOm481RbN4PXFcx0HMwAx2112yHh2cH1M07YiEWYoBhYWfgbaLj5eU+seFN
+	ZvWcDz1/bFpk+v8iHfPXBmWCp7uT+7NvSGYZ8gXk2Fw4H7U+hdHuZGaXKX7M/+tZVfDWp5xIqdf
+	csf1YiGL5sf9ENQyhC2xLuOgpLgHOZMlRdxwAioVK+L0yExSaZHPYbX+BFz2yXPYZKVNecZMrdp
+	LQ0/yf/HlB+V390l+wjlslzO28ZOGArPs5Jo7S6tOkLNPjkV+D/Vtd/i/uBSwWLYgO7JxMFw0qO
+	+V7pQyl7hwJAI2pffkaRpcWBkf5WnSjxKqeBSONi0hSj81FoHUudmHq/NlP9HVyT82Dt+w==
+X-Received: by 2002:a05:7022:6289:b0:12c:6ec9:3f1 with SMTP id
+ a92af1059eb24-12c73b4b076mr9387046c88.21.1776857750821; Wed, 22 Apr 2026
+ 04:35:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -87,11 +87,12 @@ References: <5da10cca-875b-418d-b54e-6be3ea32c266@app.fastmail.com>
  <6eac698f-da35-4efc-b227-b54de5d1decb@app.fastmail.com> <CANpmjNMibzTir07m87gNEERP7jrGnO7jN-TbTP+d7KggP5vZZw@mail.gmail.com>
  <CANpmjNMM5+OEHZ9cvnTUithC-dvSq5Co=ZqsYnPMZD_RirDGoQ@mail.gmail.com>
  <49780769-461a-4a09-a7df-c34a2e839e45@app.fastmail.com> <4b36f629-9338-40e0-b114-ee37aaad9cf3@app.fastmail.com>
-In-Reply-To: <4b36f629-9338-40e0-b114-ee37aaad9cf3@app.fastmail.com>
+ <CANpmjNN8J=cFnsQpj+_VXuoswsc500jRV=mKDBSntZw0Xvib4w@mail.gmail.com>
+In-Reply-To: <CANpmjNN8J=cFnsQpj+_VXuoswsc500jRV=mKDBSntZw0Xvib4w@mail.gmail.com>
 From: Marco Elver <elver@google.com>
-Date: Wed, 22 Apr 2026 10:23:40 +0200
-X-Gm-Features: AQROBzDlaWUEBpTyox_lDWaNw-ln5et1eKiz_WG0YIQ6UODShVXjU-XD2wd_rUc
-Message-ID: <CANpmjNN8J=cFnsQpj+_VXuoswsc500jRV=mKDBSntZw0Xvib4w@mail.gmail.com>
+Date: Wed, 22 Apr 2026 13:35:12 +0200
+X-Gm-Features: AQROBzCwY9MW04GUljn6gOnIbHfclBOshUTh-SNwfzwzCjf3XU3L8Mkl578PeDI
+Message-ID: <CANpmjNNcGgqoA02QGCXcvDwkjcnk8BgCo6yTKu-B0VBVBJd4UA@mail.gmail.com>
 Subject: Re: kcsan -Wmaybe-uninitialized warning in ntfs3
 To: Arnd Bergmann <arnd@arndb.de>
 Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
@@ -99,27 +100,32 @@ Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 22 Apr 2026 at 10:00, Arnd Bergmann <arnd@arndb.de> wrote:
+On Wed, 22 Apr 2026 at 10:23, Marco Elver <elver@google.com> wrote:
 >
-> On Tue, Apr 21, 2026, at 21:12, Arnd Bergmann wrote:
-> > On Tue, Apr 21, 2026, at 21:06, Marco Elver wrote:
-> >> On Tue, 21 Apr 2026 at 17:26, Marco Elver <elver@google.com> wrote:
-> >> [...]
-> >>> > To me, 2 makes more sense. The attribute requires gcc-11 or higher,
-> >>> > so you need to wrap that in a compiler version specific macro,
-> >>> > but since I only saw the warning with gcc-12 and higher, that
-> >>> > should be fine.
-> >>
-> >> Kindly test if you can:
-> >> https://lore.kernel.org/all/20260421190351.1976329-1-elver@google.com/
+> On Wed, 22 Apr 2026 at 10:00, Arnd Bergmann <arnd@arndb.de> wrote:
 > >
-> > Applied to my randconfig tree and verified that this fixes the
-> > known warning (only one out of about 200 random configs). I'll
-> > let you know if something comes up by tomorrow.
+> > On Tue, Apr 21, 2026, at 21:12, Arnd Bergmann wrote:
+> > > On Tue, Apr 21, 2026, at 21:06, Marco Elver wrote:
+> > >> On Tue, 21 Apr 2026 at 17:26, Marco Elver <elver@google.com> wrote:
+> > >> [...]
+> > >>> > To me, 2 makes more sense. The attribute requires gcc-11 or higher,
+> > >>> > so you need to wrap that in a compiler version specific macro,
+> > >>> > but since I only saw the warning with gcc-12 and higher, that
+> > >>> > should be fine.
+> > >>
+> > >> Kindly test if you can:
+> > >> https://lore.kernel.org/all/20260421190351.1976329-1-elver@google.com/
+> > >
+> > > Applied to my randconfig tree and verified that this fixes the
+> > > known warning (only one out of about 200 random configs). I'll
+> > > let you know if something comes up by tomorrow.
+> >
+> > Unfortunately, there are new warnings after your patches using
+> > gcc-11. In 500 randconfig builds with that compiler, I saw 7
+> > configurations failing with one of these four messages:
 >
-> Unfortunately, there are new warnings after your patches using
-> gcc-11. In 500 randconfig builds with that compiler, I saw 7
-> configurations failing with one of these four messages:
+> Looks like a compiler bug to me; can you check gcc-12+ ? Maybe we need
+> to allow the __access attribute only for later GCC versions.
 
-Looks like a compiler bug to me; can you check gcc-12+ ? Maybe we need
-to allow the __access attribute only for later GCC versions.
+I can also see this warning with later GCC - so I'll give up on the
+__attribute__((access)) version and instead suppress warnings.
