@@ -1,138 +1,258 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F5F3EF0C0
-	for <ntfs3@lists.linux.dev>; Thu, 23 Apr 2026 13:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18992361DD0
+	for <ntfs3@lists.linux.dev>; Thu, 23 Apr 2026 15:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776949578; cv=none; b=ZR1xbRdvRhkECt7eNRy7im2055/2ThzBavJwIDn+n9gHIDXYdQZQBb/KCzJ2GumUGLyfclVk1Pwq+XCUBnGsmj490OM4Y2G/43tEeAZIQy0+fnwP0Fj9ocGdl60sUuogbmSLZ2GnQ6/fvh6hTA4sNUN10gdtFbzj3IEbrIK+YOo=
+	t=1776957259; cv=none; b=mlcdrQUx7aKhmUpxUuZ/ZzAM2orrBzFCZmpurP6zL21aMH8w9ZTJUcvL2PQ/PU/fXr5sw4ztS2OHsnURzpho3HJAgEdM58vyuJheHR3ex6oFhll5ponPsufRU8/PBd4x4uudJAMyY+fWO0pJLd7GZ48UjKiBAHt1s+qzyJVZoq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776949578; c=relaxed/simple;
-	bh=a07u/h/DFxnIT8CA8KZAmxUm47K/feDZx0GWQAH24U0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uiS8F1mj+4Ej40t8R7lAzQ+tFclXfXPpzUNRzPX/456sxrQij1U+pK1/osuLPEJXSgZ5Dg3pWsaXcGFJ86laCQsGJd4QCZ1cBXjVfDMoxGgUCnePCxV5WVBq24hyPgazFNmVHMu5XP5aTv6bATr9qvx9J3vCpy8fX7TKVdT8l2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gn19dfiq; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776957259; c=relaxed/simple;
+	bh=au8BNLD5HjUZ5sFz0v3n007bPhbpfCg/t3Ct0YUVMjs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=PcOUpbkKRdrs1Nfq2RSo1S/S9a8gT8nxs79/ubQj52r38HafWKHIGxne5zYEGvNbWEM2lf7slwdP4W1gckelDNGVCu3/zzmlkvoZsPIUOQF6JllaQSNciHBCH0XBCsYA9HAP2/m7mB0QJv9gPXCZ2sEiyD673cuenvFt3/yVcO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=Kcki+cbH; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gn19dfiq"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43cff5dafc3so5393940f8f.1
-        for <ntfs3@lists.linux.dev>; Thu, 23 Apr 2026 06:06:16 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Kcki+cbH"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id BD84B1D38;
+	Thu, 23 Apr 2026 15:14:18 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=Kcki+cbH;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 8FE9A217E;
+	Thu, 23 Apr 2026 15:14:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776949575; x=1777554375; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7W6wCJvvd3w5bemRCbvVqU4AXXtyRVKRO3lOAIo4u64=;
-        b=gn19dfiq3iQhVAu4KMLwRgHQxfh6GTZ7uFzjHvTITl2bXoHYsldeRK4tpU+C0wgkYj
-         k5tYQHjim1x1xMP3mg1BcsSNEM92PTdCe7f5iWykLCarb4ba3l+6gMDz5TNQpGA62d6m
-         JWrlgHc0ImfWV+K+m214yE4vNAA9YcqO5w61Quk8JuPyD0rmC08Ae48JvJQRugd/yzVy
-         IjQuFZcwAvgLSMmQRqMIfilo7C4bACvnGQ4UDaPVrD/mPCkYOrvKX6Mvz59jQ3FRKBT0
-         K7WOSCCsD/bFVpxAappijE8yWJlN5FSRTzVEPOpGXY2FAWfSosfsT2uRtwl0kFy0b7Qt
-         ZRhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776949575; x=1777554375;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7W6wCJvvd3w5bemRCbvVqU4AXXtyRVKRO3lOAIo4u64=;
-        b=SqTKvI/R6n34qJlFNZUNiz+33YTgZalWONhbjU6UVoaXspmevXbHmDjFT4inOBisdG
-         Q1qHiMjwSETpvn+gHDeJLGukNT896M+EAaDuJBdkBysZ0+yYDbI1HhWVquYy9B+eKcZB
-         FXNX0Js7lgWNqGNbHpBiit8omwKzSv4uDt5hOExV0t+FC2Le3fGGgqOUtk8DfQYU3GTX
-         ujT1SMHjFPaPANtkHEKED3knLAhZKxq+ACkDKeEfjRypoaRft69WdbshIzTnmydxs0ZK
-         HLKyU1AUSjvFcOtc9KL1nW63ZLx6zODYD62Qw3KbxzLj1zE+Shc6tOhXyUsf0SLzi83H
-         6cJQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/0Jv48mXDl3yhO80xlNQTTFjdCzJqmQikMGfcKzw7K2F9kEqbV50VE2WZN+Tk5sKE30P4v0A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzgqU7Kf3cgtKvwsyqdqUmIn+UxbtGOx2gBAasFBuaaFBkkzKIe
-	Uuhd8XtUs6S5T5Lsgo3zlrNwOS0sn2ZzQcPEORwuBnXgsV/fwMWCqxE3
-X-Gm-Gg: AeBDievpI8E72nH8YJQyQaoetCZdLjoXfdRs7yfUy8mallhr1+97SFhdfnnw6J+XutA
-	Sh/SIReF30YSue41H5X7lLV8cfTjz6hj6BU9VM2zU+7lMlpNwRFWqOpYHBs9+qydyCmQ4NcrabS
-	v4e8hNH0K+dawBT/g3P/g5N/22v9rqPjkpa6yy0Pbz/mcNsaEaNjNs8C0G+mom+Rm/eob/u3zMw
-	xE+obgKLlteOAVPzyaOBAGN0oIDTswmdcuCpnjgA6T2PANAzO7LffPEpxEDjkFq9uBmjZzfSFGS
-	8z1DuxsAbn8P0dIKzlbtKcaxmyqwJeAWmsxnrZHdUawbpElwNLflsRD9uelv2x37M90PBxSAoDk
-	goQdR1EwX5q0FXUTV3oVH8W7VsgLSnE9lLZgbG7in1IN3ZZp2r1Ma2bB6BwT//cc7U+vuCRvBbq
-	J727wiC1Viv1xHwG5TwMF1ZFDaLC77Z+WG3qZTUJl69DJ0Oa7+kbwVJjmt7aSULEg1nsi0n/HdZ
-	tc=
-X-Received: by 2002:a05:6000:2902:b0:439:b8b2:fad0 with SMTP id ffacd0b85a97d-43fe3dc81a7mr42752149f8f.5.1776949575075;
-        Thu, 23 Apr 2026 06:06:15 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cb1176sm54479709f8f.3.2026.04.23.06.06.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 06:06:14 -0700 (PDT)
-Date: Thu, 23 Apr 2026 14:06:12 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Marco Elver <elver@google.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Konstantin Komarov
- <almaz.alexandrovich@paragon-software.com>, Dmitry Vyukov
- <dvyukov@google.com>, ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com
-Subject: Re: kcsan -Wmaybe-uninitialized warning in ntfs3
-Message-ID: <20260423140612.46df8b78@pumpkin>
-In-Reply-To: <CANpmjNOzsu8fqEr-qfE8LZbVUUUdoqjBojxoXjiOoR7Pzr+zyg@mail.gmail.com>
-References: <5da10cca-875b-418d-b54e-6be3ea32c266@app.fastmail.com>
-	<CANpmjNP8aUnZxO6e6ww7Q-8YiJLzww2YAy6Qi9dH5npHtfxSSQ@mail.gmail.com>
-	<28064669-bb57-4dab-bac5-cc1027bafaa3@app.fastmail.com>
-	<CANpmjNOY20G7w3AB=XfwSAQ0EVfM+sOqj1kTq6NnkPiB8Fx11Q@mail.gmail.com>
-	<0df31031-23d4-49cf-8643-f605561bf7fb@app.fastmail.com>
-	<aed5LYnQvjgWm5Rc@elver.google.com>
-	<6eac698f-da35-4efc-b227-b54de5d1decb@app.fastmail.com>
-	<CANpmjNMibzTir07m87gNEERP7jrGnO7jN-TbTP+d7KggP5vZZw@mail.gmail.com>
-	<CANpmjNMM5+OEHZ9cvnTUithC-dvSq5Co=ZqsYnPMZD_RirDGoQ@mail.gmail.com>
-	<49780769-461a-4a09-a7df-c34a2e839e45@app.fastmail.com>
-	<4b36f629-9338-40e0-b114-ee37aaad9cf3@app.fastmail.com>
-	<CANpmjNN8J=cFnsQpj+_VXuoswsc500jRV=mKDBSntZw0Xvib4w@mail.gmail.com>
-	<f6e38fc0-7732-42f4-90a3-5cd495440d1c@app.fastmail.com>
-	<CANpmjNPLozCUhARwskJgA48OCGBaSsHFhoRpgmfCmnOZcY+mNw@mail.gmail.com>
-	<20260423091246.7ffa38c4@pumpkin>
-	<CANpmjNOzsu8fqEr-qfE8LZbVUUUdoqjBojxoXjiOoR7Pzr+zyg@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	d=paragon-software.com; s=mail; t=1776957249;
+	bh=wfliO748I7UZBXmFt0WyX5ZOZ+VU8PgVTlgPqtv59XU=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=Kcki+cbHXRKYEFVOOg1zNsPem90RuKrOxiI0Rpeno0CeNC68K/TW6PfYewmuhJLkD
+	 yVkjReYdjAqdyS6okvnRBXparbQyJXERccPYkz4IA65yK2m2GhmXrce+HErnAyWQdn
+	 hYqjvKig0MzfsRO6Y4brtmBQoEGeI+10N6gHhExM=
+Received: from [192.168.95.128] (172.30.20.153) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Thu, 23 Apr 2026 18:14:08 +0300
+Message-ID: <003a8f01-9e6f-4db2-9ed6-7601a5276251@paragon-software.com>
+Date: Thu, 23 Apr 2026 17:14:05 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [iomap?] WARNING in iomap_zero_range
+To: Brian Foster <bfoster@redhat.com>, syzbot
+	<syzbot+9a51b5f7b9b484c57dd1@syzkaller.appspotmail.com>
+CC: <brauner@kernel.org>, <djwong@kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-xfs@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>,
+	<ntfs3@lists.linux.dev>
+References: <69e24438.050a0220.1de265.0026.GAE@google.com>
+ <aeeQZ6EiEUB3G1Gb@bfoster>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <aeeQZ6EiEUB3G1Gb@bfoster>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On Thu, 23 Apr 2026 13:35:09 +0200
-Marco Elver <elver@google.com> wrote:
+On 4/21/26 16:57, Brian Foster wrote:
 
-> On Thu, 23 Apr 2026 at 10:12, David Laight <david.laight.linux@gmail.com> wrote:
-> > On Wed, 22 Apr 2026 23:50:22 +0200
-> > Marco Elver <elver@google.com> wrote:
-> >  
-> > > Which means the simplest fix is probably the absolute_pointer() one.  
-> >
-> > I'm not sure that using absolute_pointer() is right, it is normally used
-> > for special conversions in low level boot code.
-> >
-> > Here it might just be best to explicitly use (void *)(long)addr.  
-> 
-> That didn't work - tried, and warnings still there (GCC seems to see
-> through it).
+> cc Konstantin, ntfs3 list
+>
+> On Fri, Apr 17, 2026 at 07:31:20AM -0700, syzbot wrote:
+>> Hello,
+>>
+>> syzbot found the following issue on:
+>>
+>> HEAD commit:    028ef9c96e96 Linux 7.0
+>> git tree:       upstream
+>> console output: https://syzkaller.appspot.com/x/log.txt?x=11db9036580000
+>> kernel config:  https://syzkaller.appspot.com/x/.config?x=d46eab0cfd31c214
+>> dashboard link: https://syzkaller.appspot.com/bug?extid=9a51b5f7b9b484c57dd1
+>> compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+>>
+>> Unfortunately, I don't have any reproducer for this issue yet.
+>>
+>> Downloadable assets:
+>> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-028ef9c9.raw.xz
+>> vmlinux: https://storage.googleapis.com/syzbot-assets/f7fbf6f85efa/vmlinux-028ef9c9.xz
+>> kernel image: https://storage.googleapis.com/syzbot-assets/2bc3ef5a9e1b/bzImage-028ef9c9.xz
+>>
+>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+>> Reported-by: syzbot+9a51b5f7b9b484c57dd1@syzkaller.appspotmail.com
+>>
+>> loop0: detected capacity change from 0 to 4096
+>> ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
+>> ------------[ cut here ]------------
+>> folio_pos(folio) > iter->inode->i_size
+>> WARNING: fs/iomap/buffered-io.c:1561 at iomap_zero_iter fs/iomap/buffered-io.c:1561 [inline], CPU#0: syz.0.0/5326
+>> WARNING: fs/iomap/buffered-io.c:1561 at iomap_zero_range+0x8cf/0xd00 fs/iomap/buffered-io.c:1669, CPU#0: syz.0.0/5326
+> FYI this warning basically means we're attempting to zero a folio that
+> starts beyond EOF. It warns because if the folio starts beyond EOF,
+> writeback may throw it away instead of submitting I/O, making the
+> zeroing ineffective.
+>
+>> Modules linked in:
+>> CPU: 0 UID: 0 PID: 5326 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full)
+>> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+>> RIP: 0010:iomap_zero_iter fs/iomap/buffered-io.c:1561 [inline]
+>> RIP: 0010:iomap_zero_range+0x8cf/0xd00 fs/iomap/buffered-io.c:1669
+>> Code: 5d ff 4d 29 e6 4d 39 f7 4d 0f 42 f7 4c 89 74 24 78 4d 85 f6 0f 84 5a 02 00 00 e8 ec ee 5d ff e9 78 fc ff ff e8 e2 ee 5d ff 90 <0f> 0b 90 e9 41 fd ff ff e8 d4 ee 5d ff 90 0f 0b 90 e9 97 fd ff ff
+>> RSP: 0018:ffffc9000e05f8e0 EFLAGS: 00010287
+>> RAX: ffffffff8267f47e RBX: ffffea00015643c0 RCX: 0000000000100000
+>> RDX: ffffc9000eb52000 RSI: 000000000000021a RDI: 000000000000021b
+>> RBP: ffffc9000e05fc28 R08: ffffea00015643c7 R09: 1ffffd40002ac878
+>> R10: dffffc0000000000 R11: fffff940002ac879 R12: 0000000000000008
+>> R13: 1ffffd40002ac87c R14: ffffea00015643e0 R15: 0000000000001000
+>> FS:  00007f1ef11d66c0(0000) GS:ffff88808ca49000(0000) knlGS:0000000000000000
+>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> CR2: 00007f1ef05ec2e0 CR3: 0000000044745000 CR4: 0000000000352ef0
+>> Call Trace:
+>>   <TASK>
+>>   ntfs_extend_initialized_size+0xcc/0x170 fs/ntfs3/file.c:236
+>>   ntfs_fallocate+0xf21/0x1220 fs/ntfs3/file.c:668
+>>   vfs_fallocate+0x669/0x7e0 fs/open.c:340
+>>   ksys_fallocate fs/open.c:364 [inline]
+>>   __do_sys_fallocate fs/open.c:369 [inline]
+>>   __se_sys_fallocate fs/open.c:367 [inline]
+>>   __x64_sys_fallocate+0xc0/0x110 fs/open.c:367
+>>   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>>   do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
+>>   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> I was poking through the code a bit out of curiosity and playing with
+> Claude and I think it was able to come up with a reproducer. I don't
+> know if this is the same circumstance as syzbot (we'll see if it
+> eventually spits out its own reproducer), but it relies on formatting
+> with a larger cluster size than page size.
+>
+> Basically what it's doing is creating a non-cluster aligned i_valid size
+> based on completing some writes, a slightly larger also unaligned
+> i_size, and then running fallocate up to the full i_size. AFAICS this
+> means the falloc will leave i_size alone and fall into the
+> is_supported_holes block, which will call into
+> ntfs_extend_initialized_size() using the rounded up cluster end to zero
+> the range from i_valid to the end of the cluster. If say the cluster
+> size is 16k and i_size is not in the last 4k of the EOF cluster, then I
+> suppose we're going to end up trying to zero a folio that starts beyond
+> i_size. I'll append the script that Claude came up with that reproduces
+> the warning for me.
+>
+> I'm not totally sure what the best fix is here. It seems like this is
+> already playing games with i_size to handle the KEEP_SIZE case, so
+> perhaps a quick hack might be to coopt that to handle this case as well.
+> Maybe another option is to split the zeroing to only iomap zero through
+> the end of the EOF folio and use another mechanism to zero the rest of
+> the cluster, or zero it earlier at alloc time, etc. But anyways, I
+> suspect NTFS3 developers will have a better handle on this than I..
+>
+> Brian
+>
+> --- 8< ---
+>
+> Claude generated reproducer script:
+>
+> #!/bin/bash
+> #
+> # NTFS3 fallocate bug reproducer
+> #
+> # Tests whether ntfs_fallocate() tries to zero folios beyond i_size
+> # when using sparse files with cluster_size > PAGE_SIZE
+> #
+>
+> set -e
+>
+> IMG=./ntfs_test.img
+> MOUNT=/mnt
+> FILE=$MOUNT/testfile
+>
+> echo "=== NTFS3 Fallocate Bug Test ==="
+> echo ""
+>
+> # Check if running as root
+> if [ "$EUID" -ne 0 ]; then
+>      echo "ERROR: Must run as root"
+>      exit 1
+> fi
+>
+> # Check for mkfs.ntfs
+> if ! command -v mkfs.ntfs &> /dev/null; then
+>      echo "ERROR: mkfs.ntfs not found (install ntfs-3g)"
+>      exit 1
+> fi
+>
+> # Clear WARN_ON_ONCE state so we can see warnings on repeated runs
+> echo "[1] Clearing WARN_ON_ONCE state..."
+> if [ -f /sys/kernel/debug/clear_warn_once ]; then
+>      echo 1 > /sys/kernel/debug/clear_warn_once
+>      echo "    Cleared"
+> else
+>      echo "    /sys/kernel/debug/clear_warn_once not found (debugfs not mounted?)"
+> fi
+>
+> # Create image file
+> echo "[2] Creating 100M image file..."
+> truncate -s 100M $IMG
+>
+> # Setup loop device
+> echo "[3] Setting up loop device..."
+> DEV=$(losetup -f)
+> losetup $DEV $IMG
+> echo "    Using $DEV"
+>
+> # Format
+> echo "[4] Formatting with 16K clusters..."
+> mkfs.ntfs -f -c 16384 -q $DEV
+>
+> # Mount
+> echo "[5] Mounting with -o sparse to /mnt..."
+> mount -t ntfs3 -o sparse $DEV $MOUNT
+>
+> # Create test file
+> echo "[6] Creating file with i_valid=4995, i_size=4995..."
+> dd if=/dev/urandom of=$FILE bs=999 count=1 seek=4 conv=notrunc status=none 2>/dev/null
+> sync
+>
+> echo "[7] Extending i_size to 5000 (i_valid stays at 4995)..."
+> truncate -s 5000 $FILE
+>
+> echo "[8] Running: fallocate -l 5000 $FILE"
+> echo ""
+> echo "Bug trigger: This should try to zero up to cluster boundary (16384)"
+> echo "while i_size=5000, causing iomap to process folios at 8192 and 12288"
+> echo "which start beyond EOF."
+> echo ""
+>
+> if fallocate -l 5000 $FILE 2>&1; then
+>      echo "-> fallocate completed"
+> else
+>      echo "-> fallocate failed: $?"
+> fi
+>
+> # Cleanup
+> echo ""
+> echo "[9] Cleaning up..."
+> umount $MOUNT
+> losetup -d $DEV
+> rm -f $IMG
+>
+> echo ""
+> echo "Done. Check 'dmesg | tail' for kernel warnings."
+>
+Hello,
 
-The only difference is the extra local - unless the '+ 0' matters.
+Thanks for the detailed analysis and the reproducer.
 
-OPTIMIZE_HIDE_VAR() should work, but is annoying to use in a function call.
-You sort of need:
-#define OPTIMIZER_HIDE_VAL(x) {(	\
-	auto _x = x;			\
-	asm ("", "+r" (_x));		\
-	_x;				\
-)}
+I will test the script and investigate the zeroing logic in
+ntfs_extend_initialized_size(). I will follow up with findings and
+post a fix for the issue.
 
-(also useful for 'lying' to snprintf())
-
-	David
-
-> 
-> So that leaves:
-> - absolute_pointer()
-> - __diag_ignore_all wrapper (mentioned elsewhere in thread)
-> 
-> Preferences?
-> 
-> Thanks,
-> -- Marco
+Regards,
+Konstantin
 
