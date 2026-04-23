@@ -1,188 +1,113 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8B23D348E
-	for <ntfs3@lists.linux.dev>; Thu, 23 Apr 2026 07:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFC7351C22
+	for <ntfs3@lists.linux.dev>; Thu, 23 Apr 2026 08:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776927733; cv=none; b=No7rNrgv0gr+5+ajkGwgJV1sr+DK9H7NE/50j+SNx5a1MXY2L9wZHD8PHxl3fgyyfI8ziDvGTt/JVcUBPa6/MjMqGM2J3tinDiWRn2EcJySV9fUat80EA86txWd/npjfxZQDVSId2HIGQnnVT8ovCEogU9kvC4HpHgsenBDp3DI=
+	t=1776931971; cv=none; b=fH6n+t8690XPQcV3fBcOXij8IpqzuKehVTv/zJkhjzJS+twODBMgEHNn4f7YGQc/WXU4uEKotfXHYVULWAyRVqQTYOco6DEKcS9orxiFwICPNOaaWzvpFsrE02XMnN3pxqCEUkgiX+jbMSNMwohkWXDNGxo6YY9K0PJ/IW3dTfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776927733; c=relaxed/simple;
-	bh=NKyRsoHy8+u6GlWkxqR0tmoYRU16SzCWFRaiDfvxP/c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=j2GIu9BozL4ToY/faQbq5lBjDnSVX1pN8wNNlmFULbEcVip0SZjlk2ElkmQkqAULYnCgSUGMbuI8S7uWEqTSDZPxHV1ce6lQ7AiqX4uwFMOxBUBouQL/Con5hxD/cZ1suYPmu0aPLkkSculvXSS10f+knWcAcP0rUix1Jvn7eZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=pkJ6PgbO; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1776931971; c=relaxed/simple;
+	bh=0HN/Tu4zYgMBLIl0YAkCouRtizkaCrsBW0EkrddUlFY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rCkahVzeLMkoLfWDClC0piZBbJj6aQrDikl+L/MveTUyCT1Chim83S6+EeGyENFWU6vCc5nfugoUCk5vkv/cXKNwE7sGaStoTH7AgVtNdcihQluMv+nCrcd43pcrID+HCvnJijmyglwnVHcHheHCyC+mab9juLmxNqhjWZDozm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=elh9+5R6; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="pkJ6PgbO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=UP
-	ZREBmoHaCiqhO8OolVXNN5y0f1XjeBuqwVCXDbkrg=; b=pkJ6PgbOdCCsONPAJ8
-	GeV6i5qPQCvaasIQ1nvrMUBTsioxsYQCUc6ztilZgVDZgp4kL+hdHM0NWBqu+inc
-	n8PYKPZf2E29smLs+Hts6WxaGv9DEbKdh76pVwb8+uEJVJD5LYtVWPvwlaIyAf60
-	FI3JVexxZ6HulxWF9OvRhlZ2E=
-Received: from pek-lpg-core5.wrs.com (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wCnlSbnw+lpIysTBQ--.5955S2;
-	Thu, 23 Apr 2026 15:01:59 +0800 (CST)
-From: Robert Garcia <rob_garcia@163.com>
-To: stable@vger.kernel.org,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	Robert Garcia <rob_garcia@163.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 5.15.y] fs/ntfs3: Add more attributes checks in mi_enum_attr()
-Date: Thu, 23 Apr 2026 15:01:59 +0800
-Message-Id: <20260423070159.3246415-1-rob_garcia@163.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="elh9+5R6"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43cf8d550bdso5568414f8f.0
+        for <ntfs3@lists.linux.dev>; Thu, 23 Apr 2026 01:12:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776931969; x=1777536769; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nIitABbzFrBo+jI0TZjBOkCfwx3fb9iN9G0AiTd8KVM=;
+        b=elh9+5R6Jxd2G04iRXspChndRlNCUlp84tahdu6tEQc0T+8m0vOvomhNi1J04/VUQ3
+         ogJ6T5A0ZZXL229RBy92U5QB0TYPsycmtdA1IQdO9A9jOdy9zie6IElrn13OnC73aTfe
+         HVn5HNyFjl3CB6Mtwl4tMTD6Hjp5nKNoDvMBbOK6Al9xQQ6XBeF77yFq5WAgvGwwlOpJ
+         nn2Hjgo7KbqsOcXSuUYdfZ8jwlUemoue+Y0ZAaLrMTbr7DTPcfkT6rmNbzrvvSaaqG89
+         yhToogfv896w6ytWmtIxHCNOUEC2kwX2vz/WrezFiJ3tU32xk0NdDn3k/O4PtU3v4gVf
+         xT2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776931969; x=1777536769;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=nIitABbzFrBo+jI0TZjBOkCfwx3fb9iN9G0AiTd8KVM=;
+        b=prMMhlXcjSYrlGUzUgPcNZ0njiFDUx4x8dqD2ShoGEVt14Lpmrdwr+f5+3OVeUFav7
+         1XsVwtUWM1kMCxmbnBxZ/7s8yW26SdSl47G8PX8z0ZSoDjJDsgpDaijzyihQqWk7R06P
+         YFCRTi8GfP5pEHrhJc30N+Bzzv2fy6D1tOi7XYYXmUit44raQiVqfqUT54xCHcNIvo20
+         pTlfX0BHIO1vZHHVLEecjhX5Fua+qgYl203mq/OlX4jgsR9mG+zDBwGGEvWnj8/dyilM
+         LGBHXMGJIX4eUp1oae9LYiS2Zg1mqbl7FIlGKkX139riZLQ2tXIqdu2SnO7TODkOLyjO
+         PlWA==
+X-Forwarded-Encrypted: i=1; AFNElJ9gm/iozIORFbfYNIpKfsB17ssOJnRpxguiX1p6iWs90P3Vg7QhtEVMHNZByW6FoymNlEytlQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyxWCmhKa7XHDMfZ3JYTHCDImY/juYdRBXpq4s3fKweFees+eUR
+	Ggu4ai2G9OYBhgVaerr7MUeQj1retL3LMWo4OixjvTJlrwdsw8V2cZXT
+X-Gm-Gg: AeBDieum0pdbL9xL4USxkcyMjzEqJLU5DYi1XIrzvOpLrE//GorWcZRGZ0pJPlFpHC+
+	qaodmlAe+k5knzRFXMFeMZUldxaeuga9jBs71jng1q0jOIPaZWkOqNKG+8jNUHxoYpurRnRSZvK
+	2sb7/k1uGCU7unmGC3lLezNOBkqFVNGv9df+O/178mzRp7ydKPXBemLeHUgHLnvWA8CBloRwEf7
+	lR7bFLwGTyNG2nmDuyDp0Z7+NiAMg70s7vFdCjTirAm1rhCBhi7a8uHq0qmhGchu68OizVwrTLT
+	BiqeKTD8aAPIGRmdvO9eOjqsfRxNdhsIPXqx/Vek2yqVQ0yuipPugqvWmjoxsbLHYkxfGcn4uF4
+	Jbvfwj/o7oa7OjKxKEsDF5xr0Dx5E+UI2Giy479v54kfttdcpTbvdMpaFs8sQF98qUYrquXPexg
+	bpUd9CqQdPydote82Qc2J79721p56dSOAL+NbXL9CMSdY8laVMm1H6KbtsrzJaAsplyvA+fHJyQ
+	SU=
+X-Received: by 2002:a05:6000:2389:b0:43d:7a97:78ac with SMTP id ffacd0b85a97d-43fe3e153a6mr37830279f8f.40.1776931968154;
+        Thu, 23 Apr 2026 01:12:48 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4c221cdsm53083138f8f.0.2026.04.23.01.12.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2026 01:12:47 -0700 (PDT)
+Date: Thu, 23 Apr 2026 09:12:46 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Marco Elver <elver@google.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Konstantin Komarov
+ <almaz.alexandrovich@paragon-software.com>, Dmitry Vyukov
+ <dvyukov@google.com>, ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com
+Subject: Re: kcsan -Wmaybe-uninitialized warning in ntfs3
+Message-ID: <20260423091246.7ffa38c4@pumpkin>
+In-Reply-To: <CANpmjNPLozCUhARwskJgA48OCGBaSsHFhoRpgmfCmnOZcY+mNw@mail.gmail.com>
+References: <5da10cca-875b-418d-b54e-6be3ea32c266@app.fastmail.com>
+	<CANpmjNP8aUnZxO6e6ww7Q-8YiJLzww2YAy6Qi9dH5npHtfxSSQ@mail.gmail.com>
+	<28064669-bb57-4dab-bac5-cc1027bafaa3@app.fastmail.com>
+	<CANpmjNOY20G7w3AB=XfwSAQ0EVfM+sOqj1kTq6NnkPiB8Fx11Q@mail.gmail.com>
+	<0df31031-23d4-49cf-8643-f605561bf7fb@app.fastmail.com>
+	<aed5LYnQvjgWm5Rc@elver.google.com>
+	<6eac698f-da35-4efc-b227-b54de5d1decb@app.fastmail.com>
+	<CANpmjNMibzTir07m87gNEERP7jrGnO7jN-TbTP+d7KggP5vZZw@mail.gmail.com>
+	<CANpmjNMM5+OEHZ9cvnTUithC-dvSq5Co=ZqsYnPMZD_RirDGoQ@mail.gmail.com>
+	<49780769-461a-4a09-a7df-c34a2e839e45@app.fastmail.com>
+	<4b36f629-9338-40e0-b114-ee37aaad9cf3@app.fastmail.com>
+	<CANpmjNN8J=cFnsQpj+_VXuoswsc500jRV=mKDBSntZw0Xvib4w@mail.gmail.com>
+	<f6e38fc0-7732-42f4-90a3-5cd495440d1c@app.fastmail.com>
+	<CANpmjNPLozCUhARwskJgA48OCGBaSsHFhoRpgmfCmnOZcY+mNw@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wCnlSbnw+lpIysTBQ--.5955S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWr17KFWUtFW8JF48tFWUurg_yoWrJw1kpF
-	4Yy3y3A3yY9FnFkrsrKF4rZayft34fKFyUGFy2vrnIkF1aqr17Wr98trW0vryfuw4DGFZY
-	krs0ka1fAwnrJr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zMg4S9UUUUU=
-X-CM-SenderInfo: 5uresw5dufxti6rwjhhfrp/xtbC5ggAa2npw+gqLAAA3o
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+On Wed, 22 Apr 2026 23:50:22 +0200
+Marco Elver <elver@google.com> wrote:
 
-[ Upstream commit 013ff63b649475f0ee134e2c8d0c8e65284ede50 ]
+> Which means the simplest fix is probably the absolute_pointer() one.
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-[ Overflow check deleted to keep context consistent. ]
-Signed-off-by: Robert Garcia <rob_garcia@163.com>
----
- fs/ntfs3/record.c | 63 +++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 50 insertions(+), 13 deletions(-)
+I'm not sure that using absolute_pointer() is right, it is normally used
+for special conversions in low level boot code.
 
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index cef53583f9a1..7965bea0b2c8 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -193,8 +193,9 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- {
- 	const struct MFT_REC *rec = mi->mrec;
- 	u32 used = le32_to_cpu(rec->used);
--	u32 t32, off, asize;
-+	u32 t32, off, asize, prev_type;
- 	u16 t16;
-+	u64 data_size, alloc_size, tot_size;
- 
- 	if (!attr) {
- 		u32 total = le32_to_cpu(rec->total);
-@@ -213,6 +214,7 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 		if (!is_rec_inuse(rec))
- 			return NULL;
- 
-+		prev_type = 0;
- 		attr = Add2Ptr(rec, off);
- 	} else {
- 		/* Check if input attr inside record. */
-@@ -226,6 +228,7 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 			return NULL;
- 		}
- 
-+		prev_type = le32_to_cpu(attr->type);
- 		attr = Add2Ptr(attr, asize);
- 		off += asize;
- 	}
-@@ -245,7 +248,11 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 
- 	/* 0x100 is last known attribute for now. */
- 	t32 = le32_to_cpu(attr->type);
--	if ((t32 & 0xf) || (t32 > 0x100))
-+	if (!t32 || (t32 & 0xf) || (t32 > 0x100))
-+		return NULL;
-+
-+	/* attributes in record must be ordered by type */
-+	if (t32 < prev_type)
- 		return NULL;
- 
- 	/* Check overflow and boundary. */
-@@ -254,16 +261,15 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 
- 	/* Check size of attribute. */
- 	if (!attr->non_res) {
-+		/* Check resident fields. */
- 		if (asize < SIZEOF_RESIDENT)
- 			return NULL;
- 
- 		t16 = le16_to_cpu(attr->res.data_off);
--
- 		if (t16 > asize)
- 			return NULL;
- 
--		t32 = le32_to_cpu(attr->res.data_size);
--		if (t16 + t32 > asize)
-+		if (t16 + le32_to_cpu(attr->res.data_size) > asize)
- 			return NULL;
- 
- 		if (attr->name_len &&
-@@ -274,21 +280,52 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 		return attr;
- 	}
- 
--	/* Check some nonresident fields. */
--	if (attr->name_len &&
--	    le16_to_cpu(attr->name_off) + sizeof(short) * attr->name_len >
--		    le16_to_cpu(attr->nres.run_off)) {
-+	/* Check nonresident fields. */
-+	if (attr->non_res != 1)
-+		return NULL;
-+
-+	t16 = le16_to_cpu(attr->nres.run_off);
-+	if (t16 > asize)
-+		return NULL;
-+
-+	t32 = sizeof(short) * attr->name_len;
-+	if (t32 && le16_to_cpu(attr->name_off) + t32 > t16)
-+		return NULL;
-+
-+	/* Check start/end vcn. */
-+	if (le64_to_cpu(attr->nres.svcn) > le64_to_cpu(attr->nres.evcn) + 1)
-+		return NULL;
-+
-+	data_size = le64_to_cpu(attr->nres.data_size);
-+	if (le64_to_cpu(attr->nres.valid_size) > data_size)
- 		return NULL;
--	}
- 
--	if (attr->nres.svcn || !is_attr_ext(attr)) {
-+	alloc_size = le64_to_cpu(attr->nres.alloc_size);
-+	if (data_size > alloc_size)
-+		return NULL;
-+
-+	t32 = mi->sbi->cluster_mask;
-+	if (alloc_size & t32)
-+		return NULL;
-+
-+	if (!attr->nres.svcn && is_attr_ext(attr)) {
-+		/* First segment of sparse/compressed attribute */
-+		if (asize + 8 < SIZEOF_NONRESIDENT_EX)
-+			return NULL;
-+
-+		tot_size = le64_to_cpu(attr->nres.total_size);
-+		if (tot_size & t32)
-+			return NULL;
-+
-+		if (tot_size > alloc_size)
-+			return NULL;
-+	} else {
- 		if (asize + 8 < SIZEOF_NONRESIDENT)
- 			return NULL;
- 
- 		if (attr->nres.c_unit)
- 			return NULL;
--	} else if (asize + 8 < SIZEOF_NONRESIDENT_EX)
--		return NULL;
-+	}
- 
- 	return attr;
- }
--- 
-2.34.1
+Here it might just be best to explicitly use (void *)(long)addr.
+
+	David
+
+
+> 
+> Thanks,
+> -- Marco
+> 
 
