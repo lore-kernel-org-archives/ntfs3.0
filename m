@@ -1,258 +1,272 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18992361DD0
-	for <ntfs3@lists.linux.dev>; Thu, 23 Apr 2026 15:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E283A2C21F1
+	for <ntfs3@lists.linux.dev>; Fri, 24 Apr 2026 03:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776957259; cv=none; b=mlcdrQUx7aKhmUpxUuZ/ZzAM2orrBzFCZmpurP6zL21aMH8w9ZTJUcvL2PQ/PU/fXr5sw4ztS2OHsnURzpho3HJAgEdM58vyuJheHR3ex6oFhll5ponPsufRU8/PBd4x4uudJAMyY+fWO0pJLd7GZ48UjKiBAHt1s+qzyJVZoq0=
+	t=1777002469; cv=none; b=ognYKuW5kJbqZrJrrMucwPypo2TiUUbwOysgT9x6mGjORE+SzslILSX96VR9T5XvpYdgtRpk6MqIVqGYoXWOjZfk7ozFPGRdZziB8i/E9N+3VqzGYi3wCJ3+HlTdgFExr3yh2daPgRu5QCxqc6qbRGkTXMIiP7CHAFkqbic7Ubs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776957259; c=relaxed/simple;
-	bh=au8BNLD5HjUZ5sFz0v3n007bPhbpfCg/t3Ct0YUVMjs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=PcOUpbkKRdrs1Nfq2RSo1S/S9a8gT8nxs79/ubQj52r38HafWKHIGxne5zYEGvNbWEM2lf7slwdP4W1gckelDNGVCu3/zzmlkvoZsPIUOQF6JllaQSNciHBCH0XBCsYA9HAP2/m7mB0QJv9gPXCZ2sEiyD673cuenvFt3/yVcO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=Kcki+cbH; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1777002469; c=relaxed/simple;
+	bh=PBBirlauToFaoElrfWH3WRoR82zAWI3rESzMDPUurj0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WlGUeS29GycllqKxQb+lrmYyXPWTNKB0B4YZXFNJTZx9r5tEJ3cWUPmIlp8+8Yb6N3VBgcVfTw5BCrVaJszZz9zwslRZZ7Sbst9yOnP+lwk9hZ+e135WV4rW48K7hdcUYYXy0ay0yhRIyxkI+ebzTcKctUOIpPbAlqYdTtqINpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GunMFToY; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Kcki+cbH"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id BD84B1D38;
-	Thu, 23 Apr 2026 15:14:18 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=Kcki+cbH;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 8FE9A217E;
-	Thu, 23 Apr 2026 15:14:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GunMFToY"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-358e3cc5e7eso4386707a91.0
+        for <ntfs3@lists.linux.dev>; Thu, 23 Apr 2026 20:47:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1776957249;
-	bh=wfliO748I7UZBXmFt0WyX5ZOZ+VU8PgVTlgPqtv59XU=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=Kcki+cbHXRKYEFVOOg1zNsPem90RuKrOxiI0Rpeno0CeNC68K/TW6PfYewmuhJLkD
-	 yVkjReYdjAqdyS6okvnRBXparbQyJXERccPYkz4IA65yK2m2GhmXrce+HErnAyWQdn
-	 hYqjvKig0MzfsRO6Y4brtmBQoEGeI+10N6gHhExM=
-Received: from [192.168.95.128] (172.30.20.153) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 23 Apr 2026 18:14:08 +0300
-Message-ID: <003a8f01-9e6f-4db2-9ed6-7601a5276251@paragon-software.com>
-Date: Thu, 23 Apr 2026 17:14:05 +0200
+        d=gmail.com; s=20251104; t=1777002467; x=1777607267; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9R0BaFnb3nh1LLGnzayjWCHAhXdxGea45vvjoN1ngig=;
+        b=GunMFToY0dWBKSdoeF/jvrVColGzjLadiNoXXEH1/zyMTiTaR5+dVoUIO+eM2Ccm6v
+         Hfth55blBl8pj+MAz28a01dj53u7IjJjBrKSVfz2Z/CynoqpfxfoinhJbA6XxQKQKE+q
+         uHMXDCv5AjiDkm05UQeWjDV4ggMLWEFuSXS5yGpXZJNtBZNxmD3FkQlxTDvmb4QrK+hy
+         Poz9DaTJiHEmhcoz8A3UANDeQRnwcESKipjxb4i11SuTDTYx86ajA2Kej6WO43+UO1aD
+         q5+LbEoetweXgAg0ifJVNmpOmKEOds+wQjFX1qrLR79aq4aJ2VMDwazpA4tJRe+9xVT8
+         sJEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777002467; x=1777607267;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9R0BaFnb3nh1LLGnzayjWCHAhXdxGea45vvjoN1ngig=;
+        b=NS8ccTuXwEhyOcXstYxy4oHbL6TYNiAqKbvIVm2dXkG7rxCJW+P7OATtsGc4vlLnoR
+         cQBuK8OY+thYiNP+12h6ZGfmPOFsLu2mZ+EfE1VlLyCOAa4tqeISSzYRMsNxYvCFDzej
+         HhHHZUvxie0reSpP23fRqDV9uubcWaLMiYhlD+xdbXlC5/DKKffM6YXhMNIhRqdc+SUx
+         4h8dPKVrn7LYDzDBrSULbkM2/RHb8E4dz50RoFEDCMLL+bNiZ4RkHeDRkGsllTjOg6FN
+         WMMXcq52iGS+eQG0axdRIA9pvaS1AGZx44kYDAgFJ8agyxt7BaUT8LfvVFBgZAAKv8E8
+         SVKw==
+X-Gm-Message-State: AOJu0YylY2KUV9INxx1neECTJbbo6bHSWc4A6FCTbOo3965VE3FkqdRE
+	YVGa4mnFeAlBuzXb6sxR7/j9KG5+Tz5EOhSXUmEDcgUMlqCaI/qxC/m9
+X-Gm-Gg: AeBDieuw/kimxwSdcWz/BrxYOKOwq00hXeKlVm5ELKTmlHxdBdXEpYs8lhfRbT8GDd3
+	8X/7B3EGcOUIzKSDHsexSX+mCfGUIOAUPkeGM/KArfFqcnFuZ9JMg8u+PJOMy/S7HyLfbaJ7c8T
+	Oo5lrsucuQjaSBJfagoMkUe4TfpwCUovGQteEEqpUti7hF/NsjiJ3+8jxL2Ue5/g4dVPnqlc2i6
+	IhRWzeO/LZxLiQc9p1SElA/gYuqLIuNU8ViSXqW5+Ue9LIg26PmeCP7hVRIFsQUB/rSoaiz/jtJ
+	7OBg9lf1/LiMGgFJF/cQrKpF6s0wsBb8yYuxpEMpBrlKFjFFZcPvcYRBpcAEhK4oBV4mHVRLR9S
+	wi6LB+OeWEGmzNxzSfGQLN5JOmpp6IU8+Yh37d3rNLK+j8AZjYiFKS0iI3B8/mWEIlNicFHHrI/
+	ZChTqEcmo1L6uxuWrElmzYnMEQPbTWm+kztdyrmGIxYfIQb9340WiNP2lvl5ZgMzpQXzcPtmoNc
+	hv8p2Cp+J9WuQ9En6Y5
+X-Received: by 2002:a17:90b:37cb:b0:35e:5ae3:299d with SMTP id 98e67ed59e1d1-36140411fd9mr27953032a91.11.1777002466983;
+        Thu, 23 Apr 2026 20:47:46 -0700 (PDT)
+Received: from kernel-fuzz.. ([103.172.182.26])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36140edb04dsm21832382a91.0.2026.04.23.20.47.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2026 20:47:46 -0700 (PDT)
+From: ZhengYuan Huang <gality369@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	r33s3n6@gmail.com,
+	zzzccc427@gmail.com,
+	ZhengYuan Huang <gality369@gmail.com>
+Subject: [PATCH] fs/ntfs3: validate index entry key bounds
+Date: Fri, 24 Apr 2026 11:47:36 +0800
+Message-ID: <20260424034736.1975025-1-gality369@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [iomap?] WARNING in iomap_zero_range
-To: Brian Foster <bfoster@redhat.com>, syzbot
-	<syzbot+9a51b5f7b9b484c57dd1@syzkaller.appspotmail.com>
-CC: <brauner@kernel.org>, <djwong@kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-xfs@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>,
-	<ntfs3@lists.linux.dev>
-References: <69e24438.050a0220.1de265.0026.GAE@google.com>
- <aeeQZ6EiEUB3G1Gb@bfoster>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <aeeQZ6EiEUB3G1Gb@bfoster>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Transfer-Encoding: 8bit
 
-On 4/21/26 16:57, Brian Foster wrote:
+[BUG]
+A malformed NTFS directory index entry can advertise a key_size larger
+than the bytes actually present in its NTFS_DE payload. Directory lookup
+then passes that malformed key to cmp_fnames(), which can read past the
+end of the kmalloc'ed index buffer.
 
-> cc Konstantin, ntfs3 list
->
-> On Fri, Apr 17, 2026 at 07:31:20AM -0700, syzbot wrote:
->> Hello,
->>
->> syzbot found the following issue on:
->>
->> HEAD commit:    028ef9c96e96 Linux 7.0
->> git tree:       upstream
->> console output: https://syzkaller.appspot.com/x/log.txt?x=11db9036580000
->> kernel config:  https://syzkaller.appspot.com/x/.config?x=d46eab0cfd31c214
->> dashboard link: https://syzkaller.appspot.com/bug?extid=9a51b5f7b9b484c57dd1
->> compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
->>
->> Unfortunately, I don't have any reproducer for this issue yet.
->>
->> Downloadable assets:
->> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-028ef9c9.raw.xz
->> vmlinux: https://storage.googleapis.com/syzbot-assets/f7fbf6f85efa/vmlinux-028ef9c9.xz
->> kernel image: https://storage.googleapis.com/syzbot-assets/2bc3ef5a9e1b/bzImage-028ef9c9.xz
->>
->> IMPORTANT: if you fix the issue, please add the following tag to the commit:
->> Reported-by: syzbot+9a51b5f7b9b484c57dd1@syzkaller.appspotmail.com
->>
->> loop0: detected capacity change from 0 to 4096
->> ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
->> ------------[ cut here ]------------
->> folio_pos(folio) > iter->inode->i_size
->> WARNING: fs/iomap/buffered-io.c:1561 at iomap_zero_iter fs/iomap/buffered-io.c:1561 [inline], CPU#0: syz.0.0/5326
->> WARNING: fs/iomap/buffered-io.c:1561 at iomap_zero_range+0x8cf/0xd00 fs/iomap/buffered-io.c:1669, CPU#0: syz.0.0/5326
-> FYI this warning basically means we're attempting to zero a folio that
-> starts beyond EOF. It warns because if the folio starts beyond EOF,
-> writeback may throw it away instead of submitting I/O, making the
-> zeroing ineffective.
->
->> Modules linked in:
->> CPU: 0 UID: 0 PID: 5326 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full)
->> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
->> RIP: 0010:iomap_zero_iter fs/iomap/buffered-io.c:1561 [inline]
->> RIP: 0010:iomap_zero_range+0x8cf/0xd00 fs/iomap/buffered-io.c:1669
->> Code: 5d ff 4d 29 e6 4d 39 f7 4d 0f 42 f7 4c 89 74 24 78 4d 85 f6 0f 84 5a 02 00 00 e8 ec ee 5d ff e9 78 fc ff ff e8 e2 ee 5d ff 90 <0f> 0b 90 e9 41 fd ff ff e8 d4 ee 5d ff 90 0f 0b 90 e9 97 fd ff ff
->> RSP: 0018:ffffc9000e05f8e0 EFLAGS: 00010287
->> RAX: ffffffff8267f47e RBX: ffffea00015643c0 RCX: 0000000000100000
->> RDX: ffffc9000eb52000 RSI: 000000000000021a RDI: 000000000000021b
->> RBP: ffffc9000e05fc28 R08: ffffea00015643c7 R09: 1ffffd40002ac878
->> R10: dffffc0000000000 R11: fffff940002ac879 R12: 0000000000000008
->> R13: 1ffffd40002ac87c R14: ffffea00015643e0 R15: 0000000000001000
->> FS:  00007f1ef11d66c0(0000) GS:ffff88808ca49000(0000) knlGS:0000000000000000
->> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> CR2: 00007f1ef05ec2e0 CR3: 0000000044745000 CR4: 0000000000352ef0
->> Call Trace:
->>   <TASK>
->>   ntfs_extend_initialized_size+0xcc/0x170 fs/ntfs3/file.c:236
->>   ntfs_fallocate+0xf21/0x1220 fs/ntfs3/file.c:668
->>   vfs_fallocate+0x669/0x7e0 fs/open.c:340
->>   ksys_fallocate fs/open.c:364 [inline]
->>   __do_sys_fallocate fs/open.c:369 [inline]
->>   __se_sys_fallocate fs/open.c:367 [inline]
->>   __x64_sys_fallocate+0xc0/0x110 fs/open.c:367
->>   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->>   do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
->>   entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> I was poking through the code a bit out of curiosity and playing with
-> Claude and I think it was able to come up with a reproducer. I don't
-> know if this is the same circumstance as syzbot (we'll see if it
-> eventually spits out its own reproducer), but it relies on formatting
-> with a larger cluster size than page size.
->
-> Basically what it's doing is creating a non-cluster aligned i_valid size
-> based on completing some writes, a slightly larger also unaligned
-> i_size, and then running fallocate up to the full i_size. AFAICS this
-> means the falloc will leave i_size alone and fall into the
-> is_supported_holes block, which will call into
-> ntfs_extend_initialized_size() using the rounded up cluster end to zero
-> the range from i_valid to the end of the cluster. If say the cluster
-> size is 16k and i_size is not in the last 4k of the EOF cluster, then I
-> suppose we're going to end up trying to zero a folio that starts beyond
-> i_size. I'll append the script that Claude came up with that reproduces
-> the warning for me.
->
-> I'm not totally sure what the best fix is here. It seems like this is
-> already playing games with i_size to handle the KEEP_SIZE case, so
-> perhaps a quick hack might be to coopt that to handle this case as well.
-> Maybe another option is to split the zeroing to only iomap zero through
-> the end of the EOF folio and use another mechanism to zero the rest of
-> the cluster, or zero it earlier at alloc time, etc. But anyways, I
-> suspect NTFS3 developers will have a better handle on this than I..
->
-> Brian
->
-> --- 8< ---
->
-> Claude generated reproducer script:
->
-> #!/bin/bash
-> #
-> # NTFS3 fallocate bug reproducer
-> #
-> # Tests whether ntfs_fallocate() tries to zero folios beyond i_size
-> # when using sparse files with cluster_size > PAGE_SIZE
-> #
->
-> set -e
->
-> IMG=./ntfs_test.img
-> MOUNT=/mnt
-> FILE=$MOUNT/testfile
->
-> echo "=== NTFS3 Fallocate Bug Test ==="
-> echo ""
->
-> # Check if running as root
-> if [ "$EUID" -ne 0 ]; then
->      echo "ERROR: Must run as root"
->      exit 1
-> fi
->
-> # Check for mkfs.ntfs
-> if ! command -v mkfs.ntfs &> /dev/null; then
->      echo "ERROR: mkfs.ntfs not found (install ntfs-3g)"
->      exit 1
-> fi
->
-> # Clear WARN_ON_ONCE state so we can see warnings on repeated runs
-> echo "[1] Clearing WARN_ON_ONCE state..."
-> if [ -f /sys/kernel/debug/clear_warn_once ]; then
->      echo 1 > /sys/kernel/debug/clear_warn_once
->      echo "    Cleared"
-> else
->      echo "    /sys/kernel/debug/clear_warn_once not found (debugfs not mounted?)"
-> fi
->
-> # Create image file
-> echo "[2] Creating 100M image file..."
-> truncate -s 100M $IMG
->
-> # Setup loop device
-> echo "[3] Setting up loop device..."
-> DEV=$(losetup -f)
-> losetup $DEV $IMG
-> echo "    Using $DEV"
->
-> # Format
-> echo "[4] Formatting with 16K clusters..."
-> mkfs.ntfs -f -c 16384 -q $DEV
->
-> # Mount
-> echo "[5] Mounting with -o sparse to /mnt..."
-> mount -t ntfs3 -o sparse $DEV $MOUNT
->
-> # Create test file
-> echo "[6] Creating file with i_valid=4995, i_size=4995..."
-> dd if=/dev/urandom of=$FILE bs=999 count=1 seek=4 conv=notrunc status=none 2>/dev/null
-> sync
->
-> echo "[7] Extending i_size to 5000 (i_valid stays at 4995)..."
-> truncate -s 5000 $FILE
->
-> echo "[8] Running: fallocate -l 5000 $FILE"
-> echo ""
-> echo "Bug trigger: This should try to zero up to cluster boundary (16384)"
-> echo "while i_size=5000, causing iomap to process folios at 8192 and 12288"
-> echo "which start beyond EOF."
-> echo ""
->
-> if fallocate -l 5000 $FILE 2>&1; then
->      echo "-> fallocate completed"
-> else
->      echo "-> fallocate failed: $?"
-> fi
->
-> # Cleanup
-> echo ""
-> echo "[9] Cleaning up..."
-> umount $MOUNT
-> losetup -d $DEV
-> rm -f $IMG
->
-> echo ""
-> echo "Done. Check 'dmesg | tail' for kernel warnings."
->
-Hello,
+BUG: KASAN: slab-out-of-bounds in fname_full_size fs/ntfs3/ntfs.h:590 [inline]
+BUG: KASAN: slab-out-of-bounds in cmp_fnames+0x1ea/0x230 fs/ntfs3/index.c:46
+Read of size 1 at addr ffff88801c313018 by task syz.6.3365/9279
 
-Thanks for the detailed analysis and the reproducer.
+Call Trace:
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0xbe/0x130 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xd1/0x650 mm/kasan/report.c:482
+ kasan_report+0xfb/0x140 mm/kasan/report.c:595
+ __asan_report_load1_noabort+0x14/0x30 mm/kasan/report_generic.c:378
+ fname_full_size fs/ntfs3/ntfs.h:590 [inline]
+ cmp_fnames+0x1ea/0x230 fs/ntfs3/index.c:46
+ hdr_find_e.isra.0+0x3ed/0x670 fs/ntfs3/index.c:762
+ indx_find+0x4b5/0x900 fs/ntfs3/index.c:1186
+ dir_search_u+0x2c0/0x460 fs/ntfs3/dir.c:254
+ ntfs_lookup+0x1cc/0x2a0 fs/ntfs3/namei.c:85
+ __lookup_slow+0x241/0x450 fs/namei.c:1816
+ lookup_slow fs/namei.c:1833 [inline]
+ walk_component+0x31c/0x570 fs/namei.c:2151
+ link_path_walk+0x592/0xd60 fs/namei.c:2519
+ path_lookupat+0x138/0x660 fs/namei.c:2675
+ filename_lookup+0x1f3/0x560 fs/namei.c:2705
+ filename_setxattr+0xad/0x1c0 fs/xattr.c:660
+ path_setxattrat+0x1d8/0x280 fs/xattr.c:713
+ __do_sys_lsetxattr fs/xattr.c:754 [inline]
+ __se_sys_lsetxattr fs/xattr.c:750 [inline]
+ __x64_sys_lsetxattr+0xd0/0x150 fs/xattr.c:750
+ ...
 
-I will test the script and investigate the zeroing logic in
-ntfs_extend_initialized_size(). I will follow up with findings and
-post a fix for the issue.
+Allocated by task 9279:
+ kasan_save_stack+0x39/0x70 mm/kasan/common.c:56
+ kasan_save_track+0x14/0x40 mm/kasan/common.c:77
+ kasan_save_alloc_info+0x37/0x60 mm/kasan/generic.c:573
+ poison_kmalloc_redzone mm/kasan/common.c:400 [inline]
+ __kasan_kmalloc+0xc3/0xd0 mm/kasan/common.c:417
+ kasan_kmalloc include/linux/kasan.h:262 [inline]
+ __do_kmalloc_node mm/slub.c:5650 [inline]
+ __kmalloc_noprof+0x2bd/0x900 mm/slub.c:5662
+ kmalloc_noprof include/linux/slab.h:961 [inline]
+ indx_read+0x41d/0xad0 fs/ntfs3/index.c:1059
+ indx_find+0x447/0x900 fs/ntfs3/index.c:1179
+ dir_search_u+0x2c0/0x460 fs/ntfs3/dir.c:254
+ ntfs_lookup+0x1cc/0x2a0 fs/ntfs3/namei.c:85
+ __lookup_slow+0x241/0x450 fs/namei.c:1816
+ lookup_slow fs/namei.c:1833 [inline]
+ walk_component+0x31c/0x570 fs/namei.c:2151
+ link_path_walk+0x592/0xd60 fs/namei.c:2519
+ path_lookupat+0x138/0x660 fs/namei.c:2675
+ filename_lookup+0x1f3/0x560 fs/namei.c:2705
+ filename_setxattr+0xad/0x1c0 fs/xattr.c:660
+ path_setxattrat+0x1d8/0x280 fs/xattr.c:713
+ __do_sys_lsetxattr fs/xattr.c:754 [inline]
+ __se_sys_lsetxattr fs/xattr.c:750 [inline]
+ __x64_sys_lsetxattr+0xd0/0x150 fs/xattr.c:750
+ ...
 
-Regards,
-Konstantin
+[CAUSE]
+The index-header validators only validated INDEX_HDR-level geometry.
+They did not walk each NTFS_DE to verify entry alignment, subnode
+layout, or that key_size fit inside the entry payload. They also
+allowed a last sentinel entry to carry a non-zero key_size.
 
+[FIX]
+Walk every NTFS_DE in ntfs3's index-header validators and reject
+entries with invalid layout, mismatched subnode state, oversized
+key_size, or non-zero sentinel keys before lookup or log replay can
+consume them.
+
+Signed-off-by: ZhengYuan Huang <gality369@gmail.com>
+---
+fs/ntfs3/fslog.c | 26 ++++++++++++++++++++------
+fs/ntfs3/index.c | 37 ++++++++++++++++++++++++++++++++++++-
+2 files changed, 56 insertions(+), 7 deletions(-)
+
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index acfa18b84401..ff8e2a808d12 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -2599,11 +2599,12 @@ static int read_next_log_rec(struct ntfs_log *log, struct lcb *lcb, u64 *lsn)
+ 
+ bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
+ {
++	const bool has_subnode = hdr_has_subnode(hdr);
+ 	__le16 mask;
+ 	u32 min_de, de_off, used, total;
+ 	const struct NTFS_DE *e;
+ 
+-	if (hdr_has_subnode(hdr)) {
++	if (has_subnode) {
+ 		min_de = sizeof(struct NTFS_DE) + sizeof(u64);
+ 		mask = NTFS_IE_HAS_SUBNODES;
+ 	} else {
+@@ -2620,20 +2621,33 @@ bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
+ 		return false;
+ 	}
+ 
+-	e = Add2Ptr(hdr, de_off);
++	e = (const struct NTFS_DE *)((const u8 *)hdr + de_off);
+ 	for (;;) {
+ 		u16 esize = le16_to_cpu(e->size);
+-		struct NTFS_DE *next = Add2Ptr(e, esize);
++		u16 key_size = le16_to_cpu(e->key_size);
++		u16 data_size;
+ 
+-		if (esize < min_de || PtrOffset(hdr, next) > used ||
++		if (!IS_ALIGNED(esize, 8) || esize < min_de ||
+ 		    (e->flags & NTFS_IE_HAS_SUBNODES) != mask) {
+ 			return false;
+ 		}
+ 
+-		if (de_is_last(e))
++		if (size_add(de_off, esize) > used)
++			return false;
++
++		if (de_is_last(e)) {
++			if (key_size)
++				return false;
++
+ 			break;
++		}
++
++		data_size = esize - min_de;
++		if (key_size > data_size)
++			return false;
+ 
+-		e = next;
++		de_off += esize;
++		e = (const struct NTFS_DE *)((const u8 *)hdr + de_off);
+ 	}
+ 
+ 	return true;
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 5344b29b0577..faedfadf6335 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -611,16 +611,51 @@ static const struct NTFS_DE *hdr_insert_head(struct INDEX_HDR *hdr,
+  */
+ static bool index_hdr_check(const struct INDEX_HDR *hdr, u32 bytes)
+ {
++	const bool has_subnode = hdr_has_subnode(hdr);
++	const u16 min_size = sizeof(struct NTFS_DE) +
++			     (has_subnode ? sizeof(u64) : 0);
+ 	u32 end = le32_to_cpu(hdr->used);
+ 	u32 tot = le32_to_cpu(hdr->total);
+ 	u32 off = le32_to_cpu(hdr->de_off);
++	const struct NTFS_DE *e;
+ 
+ 	if (!IS_ALIGNED(off, 8) || tot > bytes || end > tot ||
+-	    size_add(off, sizeof(struct NTFS_DE)) > end) {
++	    size_add(off, min_size) > end) {
+ 		/* incorrect index buffer. */
+ 		return false;
+ 	}
+ 
++	/* Ensure every key stays inside its entry before lookup walks it. */
++	e = (const struct NTFS_DE *)((const u8 *)hdr + off);
++	for (;;) {
++		u16 e_size = le16_to_cpu(e->size);
++		u16 key_size = le16_to_cpu(e->key_size);
++		u16 data_size;
++
++		if (!IS_ALIGNED(e_size, 8) || e_size < min_size ||
++		    de_has_vcn(e) != has_subnode) {
++			/* incorrect index entry. */
++			return false;
++		}
++
++		if (size_add(off, e_size) > end)
++			return false;
++
++		if (de_is_last(e)) {
++			if (key_size)
++				return false;
++
++			break;
++		}
++
++		data_size = e_size - min_size;
++		if (key_size > data_size)
++			return false;
++
++		off += e_size;
++		e = (const struct NTFS_DE *)((const u8 *)hdr + off);
++	}
++
+ 	return true;
+ }
