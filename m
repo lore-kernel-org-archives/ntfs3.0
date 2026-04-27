@@ -1,143 +1,143 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA0335F196
-	for <ntfs3@lists.linux.dev>; Fri, 24 Apr 2026 10:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777025073; cv=pass; b=A/1KFRmxJwz4GiatyQDD1shoavgLcEZFo8uLSIwA62aI2LzDtBLscYNUhrm4gSto5H5DFkfJ0kC2b+/dZ7a27Yo+4baHg0bsB6LpzAciLxR0XHFG0dZK15RqXzAuedHLG46JD13x8z7WHuRg62Tko7sPGvtMg4/W2tKhWGL4ld4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777025073; c=relaxed/simple;
-	bh=5mkhBXp2/JLCmigiaPuJFecz+El79KE1Lh6YXo/ZcJk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XBAGWsaFSOcBLB0d7gKGD4fUX768MpJ2ftDI/nyJYJi2nrqPtrrLXL5+DZUkZQuF0FwJ9UFvnV0c3UW0zVBHgMl3uffuKyIfxwjO0J9WFZx3H0WkrZJDs2jMxBB50n9VfUdD5ORZrxoAHWH9iKkCsYFdxjXOxFEvqgcK+oAiDKA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WF53q+o5; arc=pass smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215FF355F25
+	for <ntfs3@lists.linux.dev>; Mon, 27 Apr 2026 03:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777260270; cv=none; b=V9JLAG7u7W/cASIcafowZr91q5cMaW8VeCljlGTS3xkIEsv773Tj5AdD1pnNGbhm3+FKI2IQKiU/Rs4MLAdUlFige/c2YJmG7l8aIHfMNwQusffAmoyWTxrJuGzy7BXDe7DFANyFBD4am0DOopc08a2xpFPWzcXinibrtanCKCI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777260270; c=relaxed/simple;
+	bh=MshlRyZc9nReFxORmXYZB9BQUuNzDnlEiEalF0SARIU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dzl8TTHJyQhFdTT2BrR1ZquCGjTPc2UmriaFoiRRi0FAjxaZyGftnMrBW6g2ZRh/w7aYZDBX4Hva3utDMEr54uNwVWl/hkVl9g12RIQJZHiM1x1ly23xBkNCaLVGUC0azprRvvSV6rDbRfrGSt0Dtj2fPHDqUXW2TN3AOI86gkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ddnhGZ7M; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WF53q+o5"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12c6df0b9bbso3783179c88.1
-        for <ntfs3@lists.linux.dev>; Fri, 24 Apr 2026 03:04:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777025072; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UrL9mB+fYmrUKdy9bMl1eTt4ESQp3FJGnSFUvX8jHg0ZpseyFF517Wn/UACHviIOk9
-         sLz8zpuLTiRAyduk088RP/btdQ1Q39hclsKf0M2gjLihKc2BOVvJqR6leAUHoChiuoL7
-         vAkc21pE3uu3IfsYvrqMvDohOJgxOcggLUUVIvvBgZGNPmK6qY7Dr4E4HP1yYsVKItA4
-         RSUJ/xkY9qO+/Wok2GU3VJ223kRFTwOfHOMD2cnP0pEayu5H0v2B/ksWoWVGQO6agPoh
-         9Uyimz80KgMfHEzf3XILSbosiEN0CnCzgNar9Xw3AdqH6C3QxHrRG25lhs9U1LCk5lz5
-         RrSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=kWUb3CEOUE31J0ttoLJRjo5JnvpDxDzQbT41EaqVfiI=;
-        fh=VOyiCHcD3i8En4YomhRxoVEE4fpzZl1LJREJ09L1TNU=;
-        b=K5h2BfPL2D3voONvuK+FhykGluE8Enywy09rT4BLK8Rt0XomJhG7X1C04OaSvMJaq3
-         D2a6oOkYlGSNiCu9iyLiz3IJ8lODxxCmg4L5UrF3x8BGl4S0lVjs3rZrooDmJVWywoxq
-         7V1AJRn0wR+3TKme2INlZ3tlg0Y3l2baWqTAt/pAMJeuotTVkcoIX83E1VQtOXWnQmh1
-         BxgTjdAyeW3S7ylYpCVpN/DtpNtkX3VEkViBHGmPb1yosWt6ESNC3of8VPEOfpDvrRwJ
-         znEON7SSwMQ4EA6rA9z8mVit1la4Vr9mlOOxxpaNTgX4x/paik3cIFTqKU8Q6VQ+Bmwd
-         WpQg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ddnhGZ7M"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2b24fcc2b5dso60372095ad.1
+        for <ntfs3@lists.linux.dev>; Sun, 26 Apr 2026 20:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777025072; x=1777629872; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kWUb3CEOUE31J0ttoLJRjo5JnvpDxDzQbT41EaqVfiI=;
-        b=WF53q+o5sBLhJ9sYgWVKorPXH0I6b7wKr1z3VASjFAs5en1Mg3vNsVuljmNa3Lmlp8
-         4DuD4yBW/j7RWcsgN5vMADtefyBj3BxG1fc0M5JXb79FXy2giaTLN0D+Qkd1U4wPE8/O
-         GVumhV+jAplM4qjblGLeADaWVs0MHXEJkDCo7KYyYDctEAf9P0EinYerYmQM39IX+Ldg
-         z/vvmX8sxMZKZbxnZ8K6B/s5lRGkUqz3aP6hIQSgNBLaQpqO3R1SUyHMQXdbDUux7gQL
-         ZU45uhbfkwKXIqYSfpioWIT7yWsox/xt1jLpZ5b/kzC9gSl5CTSULQoC/g/b2cWrbxSO
-         Q6fg==
+        d=gmail.com; s=20251104; t=1777260268; x=1777865068; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Be08TqqMlVR30uYZffn/3RWGNk1ha7qfswkNP+Y0VdM=;
+        b=ddnhGZ7MC0dipaOthv0IDfKMWiReM+dT+qBCBZIPbfCJpgFIPYuXTdrNSnI8ntl9K6
+         a3xsd402qs9dI72oNiFkBGjJ4B4SAqA0JxmznHlTTpK56iUpHUddl+SGFF/H/a0sVvx/
+         x8Y6j7zMAwgiQSWLJrFTpDwwiGTFM6PQBRfdb2msZQAbZNXh7lX8j3VzK5ml8eC5Z8ac
+         Mw5N7Yg6Qu+b9iOjOQ7pj2Ic6c1GZVWIV/i53eiOHqUsIHxiB9uTtxOdS0qVmmk/8Rpy
+         4K+DbWP+rp8zT/7E4FBQ9B727a/Gr8Y6iAt2Jvf+ITRZTc4RuvIva2M7CVAJEtCIUVOh
+         FVYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777025072; x=1777629872;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1777260268; x=1777865068;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kWUb3CEOUE31J0ttoLJRjo5JnvpDxDzQbT41EaqVfiI=;
-        b=VTq6/drfLFOyhdHLCgBooQKVS6jjsBLpTl6Y5BVv7Ujc6DQxFLgYkz7d5RrgbUGQUb
-         GY9V43zNTaN0h5iyxXJiGvuRpzDoIiFSN7t7TWGkCkpGRP2Po3pI/Bc/UePhUrZNtNLd
-         CNX02vOYBIou7+uuYkNWiJkO9L3TVf73eij8R2X64TbSkejn6LhTaS/A1RO3G45zjk95
-         3Ngj+we2zwKzGJDzlRoPhHFijBowqkbnLRCD8ICKtBGFx0jQwsTMl4x/eaoKzf9fRWnX
-         ZTtSRUVExqWwv7aYYiuaBkqn5PHcCpDG1uCIms09wMB//W3/hkOWABTcPETp4diOcYw9
-         TGKg==
-X-Forwarded-Encrypted: i=1; AFNElJ+7Zj4fJ1Fdz/2OggBYy9ay4UosgkPmATAEiRTePkxb06GFWQBlCn1husfFjw59oqviiRYflw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyK77B2z9wSZMnocl0BxiCiE47nmNy+0Z45dY45BItDKNUVXJFJ
-	lwNyb72wFuLjP0cBcX5+CLXkhZRGe++Bx2YsKI81RJz7E776uNB40cyp5LbQIwsF+TlFD/yJm4V
-	7hCmRJMXo/eVkCMRACpZtKDsUeT4YEajwqEU3le/E
-X-Gm-Gg: AeBDieu5Skb/UXab8sGek2Kwkd8bdB3UaQiAvjy7GcoLus9ceZ3W3ARHBxZDyN+Bvjp
-	tP+AOuCr3W4IuazrkAPOgOzHxfclnYbRnSenBuT0GTLhRPTP4bggTy32nO1RlRYOzLxnLjUinD/
-	cO/Q/CzK/wITn+KduCipGXy29HPxGiJ3cdtOvVoK8DBsUDGodHkdFy8saCFF4zc+zS3IQ0ljls1
-	CjOnJo5E56YdVm56U8QM/I5qm76buFSROoZs4lxEtoLd2oeAy9OuVp3NziIrFEZ5meY48wAPxnN
-	41+OKEStmvUCt3avKblvM0cQw3Psdk3I27cMUANjy5sn+ddj79FXIcJqZA4=
-X-Received: by 2002:a05:7022:1282:b0:128:d4be:7428 with SMTP id
- a92af1059eb24-12c73f97463mr15685876c88.19.1777025070954; Fri, 24 Apr 2026
- 03:04:30 -0700 (PDT)
+        bh=Be08TqqMlVR30uYZffn/3RWGNk1ha7qfswkNP+Y0VdM=;
+        b=L/CkLSsd+SGmIOHI8WKp2+yUS8f5nu59BPJcToABBPUoIqDrWM56hyMdHOolt76NU2
+         XjlsYHXbbcchYCnRLDmYvAbkq8BRLA7yzz0kwTJ7x4VBFIZD/bOoh+MBzF3IP6b7Lx/A
+         JCS/PW9P2vEeonR4DXLtUlkfntNVo858YiyPK2FX4ByP3bJC9kJP3hjk5GCtsCkqpulQ
+         qKiNYy2ibi5icZJaYC4VTQKm30ExBZLIUiN/DjbuCOEarcIdQ7KXGxv8kEclueJgt0OE
+         JkFfkoyX4nrvSOczbVwst0WWmC6pmDggIL6Bd85PhPG0z9Vr7n5Gx+1WJD2HJBkuTG+a
+         pQ8A==
+X-Gm-Message-State: AOJu0YzFWO7u4MsP0k1+KVYTK1D51bTG+sFZsuM1fMWbgjGZqLxxJN7D
+	n9WIY9ZPGGqYsPIdKpcz3jBE0ZYbOg8z2djh91oDRZh1VoWSSJacYzop
+X-Gm-Gg: AeBDiev4A7BgbU2x9a/TaGsKXrB+0Qxknou9Px6XS2UG5F0kHTn8dMRhAo+ORvrnrg4
+	xxJu3gmmDEPTbJBUBvJ0nrZCtvrLy2VU29uICOr8zfxPD44jV7EvKWfrqOdQ3I24vx7DXsEY9fi
+	LVyg5uE5NYA2tbDSklhPX4MuwZ0RlehPBQKcmBlpzuhjXLTYDgSGMg5OPYATWsQoudx8DQKYvrd
+	sNenNzfjY5h5Ips7kvC1WgUqAkcX6y3DBoRrlIKLUNsgHS+yMuGJXIqCHSWOgxzdiuwG6fpPtDn
+	10C+78gbLNAW2G3D4cR00bukEbggwxHbVsrQgfxVFwFj9ZiKojcVc0jSpZ+RSZHeOdHOkJ52Q15
+	wXcsFOCvaU1yiu2NnVNCr0lYWRqOYYni+vFOBlyiPIUVxUwoBua70K1Sa8w+D9I7EicONCYhCm9
+	p1dM39Vp/AmcmcL9IpYpXWWQ7ppwXb4dLbAvzvdL0GxdT7heXMlZPAlmGeqavluib/c8piZL7Sj
+	6ROMThQLg==
+X-Received: by 2002:a17:903:b8f:b0:2b2:5857:583e with SMTP id d9443c01a7336-2b5f9fc0641mr416551845ad.31.1777260267948;
+        Sun, 26 Apr 2026 20:24:27 -0700 (PDT)
+Received: from kernel-fuzz.. ([103.172.182.26])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab0db13sm309463525ad.53.2026.04.26.20.24.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Apr 2026 20:24:27 -0700 (PDT)
+From: ZhengYuan Huang <gality369@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	r33s3n6@gmail.com,
+	zzzccc427@gmail.com,
+	ZhengYuan Huang <gality369@gmail.com>
+Subject: [PATCH] fs/ntfs3: preserve non-DOS attribute bits in system.dos_attrib
+Date: Mon, 27 Apr 2026 11:24:18 +0800
+Message-ID: <20260427032418.2678198-1-gality369@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <5da10cca-875b-418d-b54e-6be3ea32c266@app.fastmail.com>
- <CANpmjNP8aUnZxO6e6ww7Q-8YiJLzww2YAy6Qi9dH5npHtfxSSQ@mail.gmail.com>
- <28064669-bb57-4dab-bac5-cc1027bafaa3@app.fastmail.com> <CANpmjNOY20G7w3AB=XfwSAQ0EVfM+sOqj1kTq6NnkPiB8Fx11Q@mail.gmail.com>
- <0df31031-23d4-49cf-8643-f605561bf7fb@app.fastmail.com> <aed5LYnQvjgWm5Rc@elver.google.com>
- <6eac698f-da35-4efc-b227-b54de5d1decb@app.fastmail.com> <CANpmjNMibzTir07m87gNEERP7jrGnO7jN-TbTP+d7KggP5vZZw@mail.gmail.com>
- <CANpmjNMM5+OEHZ9cvnTUithC-dvSq5Co=ZqsYnPMZD_RirDGoQ@mail.gmail.com>
- <49780769-461a-4a09-a7df-c34a2e839e45@app.fastmail.com> <4b36f629-9338-40e0-b114-ee37aaad9cf3@app.fastmail.com>
- <CANpmjNN8J=cFnsQpj+_VXuoswsc500jRV=mKDBSntZw0Xvib4w@mail.gmail.com>
- <f6e38fc0-7732-42f4-90a3-5cd495440d1c@app.fastmail.com> <CANpmjNPLozCUhARwskJgA48OCGBaSsHFhoRpgmfCmnOZcY+mNw@mail.gmail.com>
- <20260423091246.7ffa38c4@pumpkin> <CANpmjNOzsu8fqEr-qfE8LZbVUUUdoqjBojxoXjiOoR7Pzr+zyg@mail.gmail.com>
- <20260423140612.46df8b78@pumpkin>
-In-Reply-To: <20260423140612.46df8b78@pumpkin>
-From: Marco Elver <elver@google.com>
-Date: Fri, 24 Apr 2026 12:03:54 +0200
-X-Gm-Features: AQROBzATlA__njZCHcz7dRCOlVMNE0O9lx628-DfQ3xgcfI4oyKUqAYbQSTdd7Q
-Message-ID: <CANpmjNMcpzujcetavChq+7QTQDy9iiP4khAyeQwT99VZ8mwtOw@mail.gmail.com>
-Subject: Re: kcsan -Wmaybe-uninitialized warning in ntfs3
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 23 Apr 2026 at 15:06, David Laight <david.laight.linux@gmail.com> wrote:
->
-> On Thu, 23 Apr 2026 13:35:09 +0200
-> Marco Elver <elver@google.com> wrote:
->
-> > On Thu, 23 Apr 2026 at 10:12, David Laight <david.laight.linux@gmail.com> wrote:
-> > > On Wed, 22 Apr 2026 23:50:22 +0200
-> > > Marco Elver <elver@google.com> wrote:
-> > >
-> > > > Which means the simplest fix is probably the absolute_pointer() one.
-> > >
-> > > I'm not sure that using absolute_pointer() is right, it is normally used
-> > > for special conversions in low level boot code.
-> > >
-> > > Here it might just be best to explicitly use (void *)(long)addr.
-> >
-> > That didn't work - tried, and warnings still there (GCC seems to see
-> > through it).
->
-> The only difference is the extra local - unless the '+ 0' matters.
->
-> OPTIMIZE_HIDE_VAR() should work, but is annoying to use in a function call.
-> You sort of need:
-> #define OPTIMIZER_HIDE_VAL(x) {(        \
->         auto _x = x;                    \
->         asm ("", "+r" (_x));            \
->         _x;                             \
-> )}
->
-> (also useful for 'lying' to snprintf())
+[BUG]
+A corrupted ntfs3 image can hit a NULL function pointer call in
+generic_perform_write() after toggling system.ntfs_attrib and then
+overwriting system.dos_attrib on the same file.
 
-Isn't that effectively what RELOC_HIDE (and absolute_pointer) is
-supposed to do? I don't see the need to add another similar macro, we
-already have too many horrible macros like this. And in this case it's
-not necessarily the optimizer we're trying to hide this wrong, but
-from the semantic analyzer that gives us these false positive
-diagnostics.
+BUG: kernel NULL pointer dereference, address: 0000000000000000
+\#PF: supervisor instruction fetch in kernel mode
+\#PF: error_code(0x0010) - not-present page
+PGD bed5067 P4D bed5067 PUD 0 
+Oops: Oops: 0010 [#1] SMP KASAN NOPTI
+RIP: 0010:0x0
+Code: Unable to access opcode bytes at 0xffffffffffffffd6.
+RSP: 0018:ffff88801025f988 EFLAGS: 00010246
+Call Trace:
+ generic_perform_write+0x409/0x8c0 mm/filemap.c:4255
+ __generic_file_write_iter+0x1bb/0x200 mm/filemap.c:4372
+ ntfs_file_write_iter+0xcd9/0x1c20 fs/ntfs3/file.c:1253
+ new_sync_write fs/read_write.c:593 [inline]
+ vfs_write+0x63b/0xf70 fs/read_write.c:686
+ ksys_write+0x133/0x250 fs/read_write.c:738
+ __do_sys_write fs/read_write.c:749 [inline]
+ __se_sys_write fs/read_write.c:746 [inline]
+ __x64_sys_write+0x77/0xc0 fs/read_write.c:746
+ ...
+
+[CAUSE]
+system.ntfs_attrib updates ATTR_DATA flags via ni_new_attr_flags()
+and switches i_mapping->a_ops to ntfs_aops_cmpr when
+FILE_ATTRIBUTE_COMPRESSED is set. system.dos_attrib then overwrites
+ni->std_fa from a one-byte DOS attribute value, clearing the compression
+bit without updating ATTR_DATA or the mapping operations.
+
+Old buffered writes use is_compressed(ni) to choose
+__generic_file_write_iter(). That leaves generic_perform_write() calling
+a NULL write_begin callback from ntfs_aops_cmpr.
+
+[FIX]
+Treat system.dos_attrib as a low-byte DOS attribute update and preserve the
+existing non-DOS attribute bits in ni->std_fa. This keeps compressed and
+sparse state consistent with ATTR_DATA and the mapping operations while
+keeping the existing DOS attribute semantics intact.
+
+Signed-off-by: ZhengYuan Huang <gality369@gmail.com>
+---
+ fs/ntfs3/xattr.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index 9eeac0a..7e51182 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -867,7 +867,9 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
+ 	if (!strcmp(name, SYSTEM_DOS_ATTRIB)) {
+ 		if (sizeof(u8) != size)
+ 			goto out;
+-		new_fa = cpu_to_le32(*(u8 *)value);
++		/* system.dos_attrib only covers the low DOS attribute byte. */
++		new_fa = (ni->std_fa & ~cpu_to_le32(0xff)) |
++			 cpu_to_le32(*(u8 *)value);
+ 		goto set_new_fa;
+ 	}
+ 
+-- 
+2.43.0
+
