@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDFA3F54D2;
-	Tue, 28 Apr 2026 10:41:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790363FB06F;
+	Tue, 28 Apr 2026 10:42:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777372907; cv=none; b=nXkVo1xewnHRzPddOZGMu01sDudmxNI6V3AkbuYWIA8dtEUDZtUjOa9HL2wlHTCmqkow9zln/mkq/vpru/BEChHOqf/mmDGfhw3DeI37S33ZE/CCbMD0KMdx8/RYtee41F/i2oJYGbfaZynkcA/ah4EyaQNIc3IdewjdGJAQB8E=
+	t=1777372923; cv=none; b=RnTGZqUPZGH6bCDhUAaTnIbKDTlQvnKTsmRFWNxAd9KEs5L66xCmIUvN2g3/bvKcUD6/pftDDO+W//0vjiKBB6kUFCneb+V1DDqyYeo99xatuzO6/krBueMr6pLsgE1wZcYji8g9zPxXWJsDS+9IjQF6R25bpCwPx6Nx4TISv2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777372907; c=relaxed/simple;
-	bh=AXRho5msvG4K0H7cOuH6JUNxG4lakdUdkAW5p2Ev8Wg=;
+	s=arc-20240116; t=1777372923; c=relaxed/simple;
+	bh=IWgk6c08JwxdVMmPxZP98UUe6irZGszbjLSjSALOJ2o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pWRr7oQs0p2F/S1BWsDc3Q91eIoMVqSFC2euNMwl3qk/vELoDM4HJ5Ugv+9/kgPIaIc53xaMq4m14C70A0C73xVoUkRrUrHQz0vnvtzeV+977MyEmNjxqhvIz+v0zQNPc2j2gxX2ix0f5zZEkRS9pGDXpQO8zpgHAdFaFMq/t6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+cfoIHt; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=UZeM3M7xb6oSeMFX4ZZm9hwsfvs7SGeZK+KWMC+ZG44ZUPzD+JleNWAvJT1jzA1hxyvsZ/79o0yfIS67YOrsCmzYt9i4oOC1W5KgRWM4qR58L01KFO3E0nvbw/FWyO7jg5gtDBj9voga/hCb2mplVRURIlhAs7hMO/xwlNmWGY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ou+ugdfp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+cfoIHt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9B6CC2BCB8;
-	Tue, 28 Apr 2026 10:41:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ou+ugdfp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F41AC2BCB9;
+	Tue, 28 Apr 2026 10:42:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777372906;
-	bh=AXRho5msvG4K0H7cOuH6JUNxG4lakdUdkAW5p2Ev8Wg=;
+	s=k20201202; t=1777372923;
+	bh=IWgk6c08JwxdVMmPxZP98UUe6irZGszbjLSjSALOJ2o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=p+cfoIHtvecBMv7Kjvlf/0p8d2z5V822Dngvw/R8zjzBtnUAS8kKAvlH7RzuMaFQc
-	 leGkyls1jpabW7e1RarjtHXWF6sQbGVHe1SprhIPe61H0cT/vfEvxnuWDWMHRLxkuM
-	 zK782OvQM/8kt7VDbSxyQZAbkcpaZykDVYrQeqVQOiinxJ04HxswxjGQQGenDQ5hNY
-	 Eju0gXPb40gVS6iVLucDuL6J6IivCus/0FD9UGyEl9UVGZ2xhrvlQczP9oUJlshg/Z
-	 L58ODFpX5yP/JV0x2ao8A8jHwoI97lXnT7hxK2mM7G7FkWIxe8X/Magvd9UA7EAB6Z
-	 vpjtbHUDYbbvg==
+	b=Ou+ugdfp/kyNvBP/KfzN9p3B7XmADKNnIViOMxNkBc2SkWuD1mQbciolHctqaixkz
+	 X0SHx2twYixbBBdO6Ha990nKpo9ObYfxtsBpRNLUNbOCCaa25GChq0wbLp7Zl0yb4I
+	 tFUiQZwDrfv1gYQJHQhzN/y/9usbXP66lo3nVCoI0kB2e4rrmgebEvst5jClB2/SMq
+	 V5pkU4xfHXRsvJH3hBCzpkb6Vu7XsP4evX6BwpBFgz7OavPVDXRiM5VCl9JTmcgyaa
+	 p+nmv3+D0nbzUhfRppSwexyQk0VEuldr9n7SItut0yNur/thMqxiwyZj8iuvXJFEOB
+	 KR7eRtQJNk3tg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	rtm@csail.mit.edu,
+Cc: Zhan Xusheng <zhanxusheng1024@gmail.com>,
+	Zhan Xusheng <zhanxusheng@xiaomi.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.15] fs/ntfs3: increase CLIENT_REC name field size
-Date: Tue, 28 Apr 2026 06:40:20 -0400
-Message-ID: <20260428104133.2858589-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-5.15] fs/ntfs3: fix potential double iput on d_make_root() failure
+Date: Tue, 28 Apr 2026 06:40:32 -0400
+Message-ID: <20260428104133.2858589-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260428104133.2858589-1-sashal@kernel.org>
 References: <20260428104133.2858589-1-sashal@kernel.org>
@@ -52,402 +53,368 @@ X-stable-base: Linux 7.0.2
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+From: Zhan Xusheng <zhanxusheng1024@gmail.com>
 
-[ Upstream commit 81ad9e67eccc0b094a6eef55a19ee56c761416dc ]
+[ Upstream commit d1062683bf6b560b31f287eb0ebde4841bc72376 ]
 
-This patch increases the size of the CLIENT_REC name field from 32 utf-16
-chars to 64 utf-16 chars. It fixes the buffer overflow problem in
-log_replay() reported by Robbert Morris.
+d_make_root() consumes the reference to the passed inode: it either
+attaches it to the newly created dentry on success, or drops it via
+iput() on failure.
 
-Reported-by: <rtm@csail.mit.edu>
+In the error path, the code currently does:
+    sb->s_root = d_make_root(inode);
+    if (!sb->s_root)
+        goto put_inode_out;
+
+which leads to a second iput(inode) in put_inode_out. This results in
+a double iput and may trigger a use-after-free if the inode gets freed
+after the first iput().
+
+Fix this by jumping directly to the common cleanup path, avoiding the
+extra iput(inode).
+
+Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Based on my investigation, let me compose the full analysis.
+Now I have enough information to complete a comprehensive analysis.
 
----
+# Phase-by-Phase Analysis
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-**Step 1.1 - Subject line parsing:**
-Record: Subsystem `fs/ntfs3`; action verb "increase" (which supports a
-fix per body text); summary: enlarges CLIENT_REC.name to fix a buffer
-overflow in log_replay().
+**Step 1.1 — Subject line parsing**
+Record: subsystem = `fs/ntfs3`; action verb = `fix`; summary = "fix
+potential double iput on d_make_root() failure".
 
-**Step 1.2 - Tags:**
+**Step 1.2 — All commit message tags**
 Record:
-- `Reported-by: <rtm@csail.mit.edu>` — Robert (Robbert) Morris, MIT
-  CSAIL; a researcher who regularly reports filesystem memory-safety
-  bugs (he has multiple previous ntfs3 reports landed: `1b7dd28e14c47`
-  and `652cfeb43d6b9`, both credited to him).
-- `Signed-off-by: Konstantin Komarov <...paragon-software.com>` — author
-  is the ntfs3 subsystem maintainer.
-- No Fixes:, no Cc: stable (expected — that's why we review).
+- No `Fixes:` tag (absence is expected — reason for manual review).
+- No `Reported-by:` / `Tested-by:` / `Reviewed-by:` / `Acked-by:`.
+- No `Link:`.
+- No `Cc: stable`.
+- `Signed-off-by:` Zhan Xusheng (author) and Konstantin Komarov (ntfs3
+  maintainer who applied it).
 
-**Step 1.3 - Body analysis:**
-Record: Bug description is explicit — "fixes the buffer overflow problem
-in log_replay()". Failure mode: memory corruption when mounting a
-malicious NTFS image (confirmed by KASAN). The on-disk Windows
-`$LogFile` CLIENT_REC truly has `name[64]` (not 32); Linux's undersized
-struct causes the size check in `is_rst_area_valid()` to under-reject a
-crafted restart area.
+**Step 1.3 — Commit body**
+Record: Author describes the VFS contract for `d_make_root()` — it
+consumes the inode reference on both success and failure (on failure it
+calls `iput()` internally). The ntfs3 error path jumps to the
+`put_inode_out` label, which calls `iput(inode)` again, giving a double
+`iput`. Consequence: "may trigger a use-after-free if the inode gets
+freed after the first iput()". Root cause is a misunderstanding of
+`d_make_root()` semantics.
 
-**Step 1.4 - Hidden fix detection:**
-Record: Not hidden — commit message openly says "buffer overflow". No
-disguise.
-
----
+**Step 1.4 — Hidden bug fix detection**
+Record: Not hidden — explicitly "fix". Author correctly identifies the
+VFS-API contract violation.
 
 ## PHASE 2: DIFF ANALYSIS
 
-**Step 2.1 - Inventory:**
-Record: 1 file (`fs/ntfs3/fslog.c`), +2/-2 lines. Only `struct
-CLIENT_REC` and the `static_assert` on its size change. Scope: single-
-file surgical fix.
+**Step 2.1 — Inventory**
+Record: Single file `fs/ntfs3/super.c`, one function
+`ntfs_fill_super()`, one line changed (`goto put_inode_out` → `goto
+out`). Net diff: 1 insertion, 1 deletion. Scope: surgical single-line
+fix.
 
-**Step 2.2 - Code-flow change:**
+**Step 2.2 — Code flow change**
 Record:
-- Before: `__le16 name[32]` → `sizeof(CLIENT_REC) == 0x60`.
-- After: `__le16 name[64]` → `sizeof(CLIENT_REC) == 0xa0`.
+- BEFORE: if `d_make_root()` returns NULL, jump to `put_inode_out:`
+  which does `iput(inode);` then falls through to `out:`.
+- AFTER: if `d_make_root()` returns NULL, jump directly to `out:`,
+  skipping the extra `iput()`.
 
-The struct is used (1) as the on-disk client record stride in
-`$LogFile`, and (2) in the validator `is_rst_area_valid()` at
-`fs/ntfs3/fslog.c:487`:
+**Step 2.3 — Bug mechanism**
+Record: Category = (d) Memory safety / double-free. Verified
+`d_make_root()` semantics against `fs/dcache.c`:
 
-```464:529:fs/ntfs3/fslog.c
-        off = le16_to_cpu(ra->client_off);
-        if (!IS_ALIGNED(off, 8) || ro + off > SECTOR_SIZE -
-sizeof(short))
-                return false;
+```2042:2054:fs/dcache.c
+struct dentry *d_make_root(struct inode *root_inode)
+{
+        struct dentry *res = NULL;
 
-        off += cl * sizeof(struct CLIENT_REC);
-
-        if (off > sys_page)
-                return false;
-        ...
-        if (le16_to_cpu(rhdr->ra_off) + le16_to_cpu(ra->ra_len) >
-sys_page ||
-            off > le16_to_cpu(ra->ra_len)) {
-                return false;
+        if (root_inode) {
+                res = d_alloc_anon(root_inode->i_sb);
+                if (res)
+                        d_instantiate(res, root_inode);
+                else
+                        iput(root_inode);
         }
+        return res;
+}
 ```
 
-With the new size, malformed RAs that pack `client_off + cl*0x60 <=
-ra_len` but would still overflow the target buffer are now rejected
-(`off = client_off + cl*0xa0 > ra_len`).
+When `d_alloc_anon()` fails, `d_make_root()` calls `iput(root_inode)`
+and returns NULL. The caller must not call `iput()` again. The ntfs3
+code was violating this, producing a double `iput`.
 
-**Step 2.3 - Bug mechanism:**
-Record: Memory-safety fix (h: struct size / validation, with (d)
-downstream memory safety). Root cause: incorrect on-disk layout
-definition caused `is_rst_area_valid()` to under-validate, letting a
-crafted log file reach the overflowing `memcpy` in `log_replay()`:
-
-```4033:4048:fs/ntfs3/fslog.c
-        t16 = le16_to_cpu(ra2->client_off);
-        if (t16 == offsetof(struct RESTART_AREA, clients)) {
-                memcpy(ra, ra2, log->ra_size);
-        } else {
-                memcpy(ra, ra2, offsetof(struct RESTART_AREA, clients));
-                memcpy(ra->clients, Add2Ptr(ra2, t16),
-                       le16_to_cpu(ra2->ra_len) - t16);
-```
-
-Concretely (from the reporter's reproducer): attacker sets `ra_len=112,
-client_off=16, log_clients=1`. Old size: `16 + 1*0x60 = 112` not `>
-112`, check passes. Then the memcpy writes 64 + 96 = 160 bytes into a
-112-byte `ra`, smashing 48 bytes past it. New size: `16 + 1*0xa0 = 176 >
-112`, so `is_rst_area_valid()` rejects the RA; `ra2` becomes NULL
-(`fslog.c:3885–3888`) and `log_replay()` returns `-EINVAL` at line
-3919-3921 before the unsafe memcpy runs.
-
-**Step 2.4 - Fix quality:**
-Record: Very small, obviously correct structural change. Risk from the
-fix itself is low: `is_rst_area_valid()` becomes *stricter*; the only
-regression surface is rejecting a restart area formerly written by buggy
-Linux ntfs3 (which had `ra_len = 0x40 + 0x60 = 0xa0`). But that path is
-only hit when a log is *dirty* (`client_idx[1] != LFS_NO_CLIENT_LE`);
-cleanly unmounted volumes skip the memcpy path entirely
-(`fslog.c:3890-3916`). Windows-written logs already use 0xa0 records, so
-the new size matches the genuine on-disk format. This is a net positive.
-
----
+**Step 2.4 — Fix quality**
+Record: Obviously correct. Minimal. Zero regression risk: it only
+removes an extra `iput()` that is already performed inside
+`d_make_root()`. The only behavior change is replacing a guaranteed
+double-`iput`/UAF with the correct single release.
 
 ## PHASE 3: GIT HISTORY
 
-**Step 3.1 - Blame:**
-Record: The `name[32]` / `static_assert(... == 0x60)` lines were
-introduced by `b46acd6a6a627 ("fs/ntfs3: Add NTFS journal")` authored
-2021-08-13 by Konstantin Komarov. `git describe --contains` reports
-`v5.15-rc1~94^2~29`, i.e. present since v5.15 (the very commit that
-introduced ntfs3). Thus the bug affects every stable tree that ships
-ntfs3.
+**Step 3.1 — Blame**
+Record: The buggy `goto put_inode_out` on `d_make_root()` failure was
+introduced in `9b75450d6c580` ("fs/ntfs3: Fix memory leak if fill_super
+failed", 2021-09-28). `git describe --contains 9b75450d6c580` =
+`v5.15-rc6~33^2~6`, i.e., the bug has been present since the very first
+released kernel that contained ntfs3 (v5.15).
 
-**Step 3.2 - Fixes: tag:**
-Record: No explicit Fixes: tag, but by content the bug traces to
-`b46acd6a6a627` (v5.15).
+**Step 3.2 — Fixes: tag**
+Record: No `Fixes:` tag in the commit, but via `git log -L` I confirmed
+the buggy construct was introduced by `9b75450d6c580`. That commit is in
+v5.15 and therefore exists in every currently maintained stable tree.
 
-**Step 3.3 - File history:**
-Record: Other related security-hardening fixes in `fslog.c` from the
-same reporter (`rtm@csail.mit.edu`): `1b7dd28e14c47 ("fs/ntfs3: Correct
-function is_rst_area_valid")` and the journal-replay series. This commit
-is standalone; not part of a dependent series (confirmed by `b4 dig -a`:
-only v1, 1 patch).
+**Step 3.3 — Related changes in file**
+Record: `put_inode_out` was specifically reintroduced around the same
+timeframe and further exercised by `c1ca8ef0262b2` ("fs/ntfs3: Add null
+pointer check for inode operations", 2022). Not part of a series.
+Standalone fix.
 
-**Step 3.4 - Author:**
-Record: Konstantin Komarov is the ntfs3 maintainer; routinely lands
-fixes for rtm's reports. Strong authority signal.
+**Step 3.4 — Author**
+Record: Author Zhan Xusheng has several small fixes merged previously
+(timers, staging, sched/fair). Not the ntfs3 maintainer, but the
+maintainer (Konstantin Komarov) explicitly applied the patch.
 
-**Step 3.5 - Dependencies:**
-Record: None. Diff only changes a struct and a static_assert. No new
-functions referenced.
-
----
+**Step 3.5 — Dependencies**
+Record: None. Single-line edit inside pre-existing error handling. Self-
+contained.
 
 ## PHASE 4: MAILING LIST RESEARCH
 
-**Step 4.1 - b4 dig:**
-Record:
-- `b4 dig -c 81ad9e67eccc0` found: https://lore.kernel.org/all/202603191
-  35855.15200-1-almaz.alexandrovich@paragon-software.com/
-- `b4 dig -c ... -a`: single revision (v1), applied as-is.
-- Thread content (via mbox): plain PATCH, no review comments, went
-  straight into the maintainer tree.
+**Step 4.1 — Original patch discussion**
+Record: `b4 dig -c d1062683bf6b5` matched by patch-id to the single v1
+submission at `https://lore.kernel.org/all/20260326091232.92760-1-
+zhanxusheng@xiaomi.com/`. I downloaded the full thread to
+`/tmp/ntfs3_double_iput.mbox` and read it.
 
-**Step 4.2 - Recipients:**
-Record (b4 dig -w): `ntfs3@lists.linux.dev`, `linux-
-kernel@vger.kernel.org`, `linux-fsdevel@vger.kernel.org`,
-`rtm@csail.mit.edu`. Right lists, right reporter.
+Key review comments:
+- **Al Viro** (VFS maintainer) responded on 2026-04-04 confirming the
+  mechanism and went further: "Matter of fact, the whole `put_inode_out`
+  should go; if you *ever* get an inode with NULL ->i_op, it's a bug."
+  Al did NOT NAK the patch — he pointed at an additional, deeper problem
+  that is outside the scope of this fix.
+- **Konstantin Komarov** (ntfs3 maintainer) replied on 2026-04-07:
+  "Thanks for the patch. It was applied. I'm going to take a closer look
+  at this problem."
 
-**Step 4.3 - Bug report:**
-Record: Found original report at
-`https://lore.kernel.org/ntfs3/42774.1769379272@localhost/`
-(2026-01-25). It is a detailed reproducer with:
-- A downloadable crafted image
-  (`http://www.rtmrtm.org/rtm/ntfs30a.img.gz`)
-- A KASAN SLUB trace: "Right Redzone overwritten ... BUG kmalloc-128
-  (Not tainted): Object corrupt"
-- Exact pointer math matching `log_replay()`'s memcpy path.
+**Step 4.2 — Reviewers**
+Record: `b4 dig -w` shows recipients: Konstantin Komarov (ntfs3
+maintainer), linux-kernel, Zhan Xusheng. Review came from both the
+subsystem maintainer and Al Viro (VFS maintainer).
 
-Konstantin replied (Feb 9 2026) confirming he'd reproduce and fix. Patch
-appeared ~6 weeks later.
+**Step 4.3 — Bug report**
+Record: No linked syzbot / bugzilla report — the bug was found by code
+inspection of the `d_make_root()` contract.
 
-**Step 4.4 - Series context:**
-Record: Single-patch fix, not part of a larger series.
+**Step 4.4 — Related patches**
+Record: `b4 dig -a` shows only v1 applied. Standalone, not part of a
+multi-patch series.
 
-**Step 4.5 - Stable-specific discussion:**
-Record: Not found. Also on Apr 20 2026, Konstantin's `[GIT PULL] ntfs3:
-bugfixes for 7.1` explicitly lists this commit under **"Fixed: ...
-increase CLIENT_REC name field size to prevent buffer overflow"** — the
-maintainer classifies it as a bug fix.
-
----
+**Step 4.5 — Stable mailing list**
+Record: N/A (web access blocked by Anubis), but not needed — evidence
+from the lore thread is conclusive.
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1 - Key functions:** `struct CLIENT_REC` size (used by
-`is_rst_area_valid`, `log_replay`, `log_create_ra`, array indexing
-everywhere the stride appears).
+**Step 5.1 — Key functions**
+Record: Only `ntfs_fill_super()` is touched.
 
-**Step 5.2 - Callers / reachability:**
-Record: `log_replay()` is invoked during `ntfs_fill_super()` mount path
-(`fs/ntfs3/super.c`). Triggered on every `mount -t ntfs3` with a dirty
-log. Trigger condition: need CAP_SYS_ADMIN (or equivalent) to mount, but
-this is a common vector (auto-mount of USB drives, containers with mount
-caps, etc.).
+**Step 5.2 — Callers**
+Record: `ntfs_fill_super()` is the standard
+`fs_context_operations::get_tree` implementation, invoked through
+`get_tree_bdev()`, ultimately reachable from the `mount(2)` /
+`fsopen(2)` / `fsmount(2)` syscalls. Reachable from any privileged user
+(CAP_SYS_ADMIN) that can mount NTFS, plus increasingly from unprivileged
+contexts on some distro setups (e.g., mount helpers) and automounters
+handling removable NTFS media.
 
-**Step 5.3 - Callees:** `is_rst_area_valid()` is called from
-`log_read_rst()` before any RA data is trusted; with the new sizeof it
-now rejects the pathological `client_off + cl*sizeof` combinations.
+**Step 5.3 — Callees**
+Record: The affected branch is purely error-path cleanup:
+`d_make_root()` → (fails) → `iput(inode)` was being called twice. No
+locks held across the double `iput`.
 
-**Step 5.4 - Call chain:** `mount` → `ntfs_fill_super` → `log_replay` →
-`log_read_rst` → `is_rst_area_valid` / memcpy path. Entirely reachable
-from user-triggerable mount.
+**Step 5.4 — Reachability**
+Record: The failure path requires `d_make_root()` → `d_alloc_anon()` to
+return NULL, which happens under memory pressure (kmem allocation
+failure). Real, not theoretical; any fuzzer that injects allocation
+faults (fail_nth/FAULT_INJECTION) at mount time can hit it.
 
-**Step 5.5 - Similar patterns:** Several sibling checks
-(`is_client_area_valid`, `check_client_area`) also iterate with
-`sizeof(CLIENT_REC)` stride; the fix corrects all of them simultaneously
-because they all reference the same type.
+**Step 5.5 — Similar patterns**
+Record: A semantically identical fix was already applied to erofs back
+in 2019 (`94832d9399217` "staging: erofs: fix potential double iput in
+erofs_read_super()"). This confirms the pattern as a recognized,
+backport-worthy bug class.
 
----
+## PHASE 6: STABLE TREE ANALYSIS
 
-## PHASE 6: STABLE TREES
+**Step 6.1 — Does the buggy code exist in stable?**
+Record: Verified via `git show vTAG:fs/ntfs3/super.c` for v5.15, v6.1,
+v6.6, v6.12 — the exact `goto put_inode_out;` pattern on `d_make_root()`
+failure is present in all of them. ntfs3 did not exist before v5.15, so
+no older stable tree is affected.
 
-**Step 6.1 - Code presence:**
-Record: `git grep "name\[32\]" stable/linux-{5.15,6.1,6.6,6.12,6.19}.y
--- fs/ntfs3/fslog.c` confirms the buggy `__le16 name[32]` and
-`static_assert(... == 0x60)` are present in every active stable tree.
-ntfs3 was added in v5.15.
+**Step 6.2 — Backport complications**
+Record: The lines around the change are stable across the tags; the fix
+is a 1-line modification to an unchanged region of code. Should apply
+cleanly to all stable trees ≥5.15 with zero or trivial conflict
+resolution.
 
-**Step 6.2 - Backport complications:**
-Record: The 2-line struct edit applies cleanly to every stable branch. I
-verified the surrounding struct definition is byte-identical across
-5.15.y, 6.1.y, 6.6.y, 6.12.y, 6.19.y.
-
-**Step 6.3 - Existing stable fix?**
-Record: No prior fix for this bug exists in any stable branch (no
-`CLIENT_REC` commits on any of the stable branches checked).
-
----
+**Step 6.3 — Related fixes already in stable?**
+Record: None found. This is the first fix for this specific bug.
 
 ## PHASE 7: SUBSYSTEM CONTEXT
 
-**Step 7.1 - Subsystem/criticality:**
-Record: `fs/ntfs3` — IMPORTANT. Default NTFS driver since v5.15, used by
-countless distros to mount Windows-format media (USB drives, external
-disks, dual-boot partitions).
+**Step 7.1 — Subsystem**
+Record: `fs/ntfs3` = filesystem driver. Criticality = IMPORTANT (widely
+used by distros for NTFS support on removable media and dual-boot
+systems).
 
-**Step 7.2 - Activity:**
-Record: Active — many fixes land per cycle, and this commit is in the
-7.1 pull request alongside ~16 other ntfs3 fixes.
+**Step 7.2 — Activity**
+Record: Actively maintained (Konstantin Komarov regularly submits
+patches, per `git log`).
 
----
+## PHASE 8: IMPACT/RISK
 
-## PHASE 8: IMPACT AND RISK
+**Step 8.1 — Affected users**
+Record: Users mounting NTFS volumes with the ntfs3 driver under memory
+pressure, plus any fault-injection testing of the mount path. Stable
+users on 5.15.y / 6.1.y / 6.6.y / 6.12.y all affected.
 
-**Step 8.1 - Who is affected:**
-Record: Anyone mounting an untrusted NTFS image on a kernel with ntfs3
-compiled in. This includes desktop Linux, NAS devices, embedded systems,
-containers with mount privileges, and auto-mount frameworks that honor
-USB insertion.
+**Step 8.2 — Trigger conditions**
+Record: Requires `d_alloc_anon()` allocation failure during NTFS mount
+(memory pressure or fault injection). Rare in typical use but certainly
+reachable; also a reliable fuzzer target.
 
-**Step 8.2 - Trigger conditions:**
-Record: A single `mount -t ntfs3` of a crafted image is sufficient.
-Reporter supplied a working reproducer. Requires root/mount cap but this
-is a standard attack surface for local privilege escalation via
-malicious removable media.
+**Step 8.3 — Failure mode severity**
+Record: Double `iput()` → `iput_final()` → `evict()` on an already-freed
+inode → use-after-free / kernel crash / potential exploitation. Severity
+= HIGH (memory safety bug in privileged mount path).
 
-**Step 8.3 - Failure mode:**
-Record: CRITICAL — heap out-of-bounds write (48 bytes past a kmalloc-128
-slab object, as KASAN demonstrates). Consequences range from kernel
-panic to targeted memory corruption / potential privilege escalation
-depending on what sits next to that slab.
-
-**Step 8.4 - Risk/benefit:**
-Record:
-- Benefit: very high — closes a reachable heap buffer overflow with a
-  public reproducer in the default Linux NTFS driver.
-- Risk: very low — two-line struct-size change; only potential side
-  effect is stricter validation that can reject RA headers previously
-  written by the same buggy Linux driver on dirty logs, which is far
-  better than memory corruption.
-
----
+**Step 8.4 — Risk vs benefit**
+Record: BENEFIT = eliminate a real UAF on a clean reachable error path;
+also removes the only reviewer-identified memory-safety issue from that
+code. RISK = essentially zero: a single label change that removes an
+extra `iput()`, which is strictly correct per the VFS API contract.
+Endorsed implicitly by Al Viro. Excellent ratio.
 
 ## PHASE 9: SYNTHESIS
 
-**Step 9.1 - Evidence:**
-FOR:
-- KASAN-confirmed heap buffer overflow with a publicly reproducible
-  image.
-- Reported by an external security researcher; acknowledged and fixed by
-  the subsystem maintainer.
-- Bug exists in every active stable tree (5.15.y and later).
-- Maintainer's pull request explicitly labels this as "prevent buffer
-  overflow."
-- 2-line structural change, no dependencies.
+**Step 9.1 — Evidence**
+- FOR: real double-iput / UAF bug, present since v5.15 in all stable
+  trees, one-line surgical fix, correct per VFS contract (verified in
+  `fs/dcache.c`), applied by subsystem maintainer, acknowledged by VFS
+  maintainer Al Viro, same pattern previously backported for erofs,
+  reachable from the `mount(2)` syscall, no dependencies.
+- AGAINST: No `Fixes:` tag (expected for review); no `Cc: stable` tag
+  (expected for review); trigger is allocation failure in
+  `d_alloc_anon()` (rare but real). None of these are technical reasons
+  to reject.
 
-AGAINST: None of substance.
+**Step 9.2 — Stable rules**
+1. Obviously correct and tested: YES (trivially correct, applied
+   upstream, VFS-contract-conformant).
+2. Fixes a real bug: YES (double `iput` → UAF).
+3. Important issue: YES (memory safety).
+4. Small and contained: YES (1 line).
+5. No new features/APIs: YES.
+6. Applies to stable trees: YES (verified the surrounding code is
+   identical in 5.15/6.1/6.6/6.12).
 
-UNRESOLVED: Whether kernels written with old Linux ntfs3 will fail to
-replay a *dirty* log after upgrading. This edge case is (a) narrow
-(dirty logs only) and (b) acceptable given the severity of the bug.
+**Step 9.3 — Exception category**
+Not needed — this is a standard bug fix under criterion #3 (serious
+crash / memory safety).
 
-**Step 9.2 - Stable rules checklist:**
-1. Obviously correct and tested: yes — trivial struct size change,
-   upstream-tested, matches Windows on-disk layout.
-2. Real bug: yes — KASAN trace, public reproducer.
-3. Important: yes — heap OOB via mount.
-4. Small/contained: yes — +2/-2 in one file.
-5. No new features: yes — corrects existing layout.
-6. Applies to stable: yes — clean apply confirmed for 5.15.y through
-   6.19.y.
-
-**Step 9.3 - Exception category:** Not needed; this meets core stable-
-kernel-rules on its own merits (security / memory-corruption fix).
-
-**Step 9.4 - Decision:** YES.
+**Step 9.4 — Decision**
+All evidence supports backporting.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed tags from commit message: found `Reported-by:
-  rtm@csail.mit.edu`, `Signed-off-by: Konstantin Komarov`. Commit
-  message explicitly mentions "buffer overflow in log_replay()".
-- [Phase 2] Diff: +2/-2, changes only `CLIENT_REC.name[32]→[64]` and
-  `static_assert(==0x60)→(==0xa0)` in `fs/ntfs3/fslog.c`.
-- [Phase 2] Read `fs/ntfs3/fslog.c` lines 464-529 and 4026-4048 to trace
-  how the struct size feeds `is_rst_area_valid()` and the subsequent
-  memcpy; verified that the attacker-controlled `client_off` + `ra_len`
-  combination from the bug report passes the old check and fails the new
-  one.
-- [Phase 3] `git describe --contains b46acd6a6a627` returned
-  `v5.15-rc1~94^2~29`, confirming the bug has been present since ntfs3
-  was introduced in v5.15.
-- [Phase 3] `git log --grep="rtm@csail" -- fs/ntfs3` showed prior fixes
-  by the same maintainer for reports from this reporter
-  (`1b7dd28e14c47`, `652cfeb43d6b9`).
-- [Phase 4] `b4 dig -c 81ad9e67eccc0` resolved to https://lore.kernel.or
-  g/all/20260319135855.15200-1-almaz.alexandrovich@paragon-
-  software.com/.
-- [Phase 4] `b4 dig -c 81ad9e67eccc0 -a` shows only v1; patch applied
-  as-submitted.
-- [Phase 4] `b4 dig -c 81ad9e67eccc0 -w` showed correct recipients:
-  ntfs3@lists.linux.dev, linux-fsdevel, linux-kernel, rtm.
-- [Phase 4] Fetched and read original bug report at
-  `lore.kernel.org/ntfs3/42774.1769379272@localhost/raw`: KASAN "Right
-  Redzone overwritten" report, reproducer image URL, exact line-number
-  match with the memcpy overflow.
-- [Phase 4] Fetched maintainer reply at
-  `lore.kernel.org/ntfs3/f9e6330b-.../raw` confirming acknowledgment
-  (Feb 9, 2026).
-- [Phase 4] Fetched 7.1 pull request (`20260420150756.6058-1-...`):
-  commit listed under "Fixed: ... to prevent buffer overflow".
-- [Phase 6] `git grep` on each active stable branch (5.15.y, 6.1.y,
-  6.6.y, 6.12.y, 6.19.y) confirmed all still have `name[32]` and `sizeof
-  == 0x60`.
-- [Phase 6] `git log --grep="CLIENT_REC" -- fs/ntfs3/fslog.c` on each
-  stable branch returned empty — no prior fix in stable.
-- [Phase 7] Confirmed `fs/ntfs3` is the default NTFS driver since v5.15
-  (same commit that introduced the bug).
-- [Phase 8] Verified `log_replay()` is called from the mount path; the
-  `memcpy` overflow is reached on a *dirty* log with attacker-controlled
-  `client_off` and `ra_len`; reporter provided a working image.
-- UNVERIFIED: I did not personally run the provided malicious image
-  against pre-fix and post-fix kernels to independently confirm
-  behavior; I relied on the KASAN trace, the pointer arithmetic in the
-  public source, and the maintainer's agreement.
+- [Phase 1] Read commit message; no tags present other than two `Signed-
+  off-by:`. Verified no `Fixes:` / `Cc: stable` / `Reported-by:` tags.
+- [Phase 2] Inspected the diff — 1 insertion, 1 deletion, one label
+  change in error path.
+- [Phase 2] Verified `d_make_root()` consumes the inode reference on
+  failure by reading `fs/dcache.c:2042-2054` — it calls
+  `iput(root_inode)` when `d_alloc_anon()` returns NULL.
+- [Phase 2] Read `fs/ntfs3/super.c:1670-1717` to confirm the actual
+  `put_inode_out:` label does `iput(inode);` unconditionally, proving
+  the double-iput.
+- [Phase 3] `git log --oneline -S "put_inode_out" -- fs/ntfs3/super.c`
+  and `git log -L` on the changed code block identified `9b75450d6c580`
+  as the commit that introduced the buggy `goto put_inode_out`.
+- [Phase 3] `git describe --contains 9b75450d6c580` = `v5.15-rc6~33^2~6`
+  → bug lives in all stable trees from v5.15 onward.
+- [Phase 3] `git describe --contains 82cae269cfa95` =
+  `v5.15-rc1~94^2~34` — confirms ntfs3 first appeared in v5.15 (no
+  earlier stable affected).
+- [Phase 4] `b4 dig -c d1062683bf6b5` found single v1 submission at lore
+  URL `.../20260326091232.92760-1-zhanxusheng@xiaomi.com/`.
+- [Phase 4] `b4 dig -c d1062683bf6b5 -a` confirmed only one series
+  revision (v1).
+- [Phase 4] `b4 dig -c d1062683bf6b5 -w` confirmed original recipients
+  include maintainer Konstantin Komarov.
+- [Phase 4] Read the downloaded mbox `/tmp/ntfs3_double_iput.mbox`:
+  found Al Viro (VFS maintainer) acknowledging the bug mechanism and
+  Konstantin Komarov confirming "It was applied".
+- [Phase 5] Confirmed identical pattern was fixed for erofs in
+  `94832d9399217` — pre-existing backport precedent.
+- [Phase 6] Verified the buggy `goto put_inode_out;` on `d_make_root()`
+  failure is literally present at v5.15, v6.1, v6.6, v6.12 by `git show
+  vTAG:fs/ntfs3/super.c` on each tag.
+- [Phase 6] Confirmed fix applies cleanly — only a label change on an
+  unchanged surrounding block.
+- [Phase 8] Failure mode verified: `iput()` twice on the same inode
+  after the first may have dropped the last reference → UAF. Severity
+  HIGH.
+- UNVERIFIED: The exact frequency of `d_alloc_anon()` returning NULL in
+  the wild — not relevant to stable decision because fault-injection and
+  OOM paths can both trigger it.
 
-This is a small, obviously correct memory-corruption fix with a public
-reproducer and maintainer acknowledgement, affecting all stable trees
-that carry ntfs3. Textbook stable material.
+---
+
+## Decision rationale
+
+This is a textbook stable candidate:
+- 1-line, provably correct fix based directly on a well-known VFS API
+  contract.
+- Addresses a double-`iput`/UAF memory safety bug reachable from the
+  `mount(2)` syscall.
+- Bug present in every currently maintained stable tree (5.15.y, 6.1.y,
+  6.6.y, 6.12.y and newer).
+- Validated by the ntfs3 maintainer (applied it) and confirmed by VFS
+  maintainer Al Viro.
+- Identical pattern was previously treated as stable material in other
+  filesystems.
+- Zero regression risk — it removes an extra `iput` that is already
+  performed by `d_make_root()`.
 
 **YES**
 
- fs/ntfs3/fslog.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ fs/ntfs3/super.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 272e452761436..10dbe9922bf13 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -45,10 +45,10 @@ struct CLIENT_REC {
- 	__le16 seq_num;     // 0x14:
- 	u8 align[6];        // 0x16:
- 	__le32 name_bytes;  // 0x1C: In bytes.
--	__le16 name[32];    // 0x20: Name of client.
-+	__le16 name[64];    // 0x20: Name of client.
- };
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 174a7cb202a08..d0dad15076ca2 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -1673,7 +1673,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	sb->s_root = d_make_root(inode);
+ 	if (!sb->s_root) {
+ 		err = -ENOMEM;
+-		goto put_inode_out;
++		goto out;
+ 	}
  
--static_assert(sizeof(struct CLIENT_REC) == 0x60);
-+static_assert(sizeof(struct CLIENT_REC) == 0xa0);
- 
- /* Two copies of these will exist at the beginning of the log file */
- struct RESTART_AREA {
+ 	if (boot2) {
 -- 
 2.53.0
 
