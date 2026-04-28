@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790363FB06F;
-	Tue, 28 Apr 2026 10:42:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6EC3FCB21;
+	Tue, 28 Apr 2026 10:42:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777372923; cv=none; b=RnTGZqUPZGH6bCDhUAaTnIbKDTlQvnKTsmRFWNxAd9KEs5L66xCmIUvN2g3/bvKcUD6/pftDDO+W//0vjiKBB6kUFCneb+V1DDqyYeo99xatuzO6/krBueMr6pLsgE1wZcYji8g9zPxXWJsDS+9IjQF6R25bpCwPx6Nx4TISv2g=
+	t=1777372934; cv=none; b=JeahWS9r6MQeG3fZLyrj5xAdLinL8LXkbQFr0LwX2yHOCKy9AKBxjJdUNf8Othkc3dwClNMvz+BIlzyPCBIhS/zUByZYt0wezx0A4Fo95OsvuqfV2rhLEXHs7BHp82r4Rn/rcddS7kdngZRjJzhrSrFgBW2WCG7YFIs69LUhpAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777372923; c=relaxed/simple;
-	bh=IWgk6c08JwxdVMmPxZP98UUe6irZGszbjLSjSALOJ2o=;
+	s=arc-20240116; t=1777372934; c=relaxed/simple;
+	bh=gmKEEq+Q4TJt+EvN1ei9MyLA41JpySIjVno7v3Cfwp8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UZeM3M7xb6oSeMFX4ZZm9hwsfvs7SGeZK+KWMC+ZG44ZUPzD+JleNWAvJT1jzA1hxyvsZ/79o0yfIS67YOrsCmzYt9i4oOC1W5KgRWM4qR58L01KFO3E0nvbw/FWyO7jg5gtDBj9voga/hCb2mplVRURIlhAs7hMO/xwlNmWGY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ou+ugdfp; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ACvu6bDIH592gd9MVMnozRI9Wpk7DLU644dqOx6xQ/qXlm2MN7f/mAOsRskdO9cvjgcQa3AfGP9/cBp8wlTnDUgY/rUxTPMpsZZYN4VLV47EsHoECIuMKm01K9l6u9jZsa9P2qkOXsGjjzx62uwXbsBd5GjqnvnWvRO9WqLmqEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJLD1t5C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ou+ugdfp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F41AC2BCB9;
-	Tue, 28 Apr 2026 10:42:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJLD1t5C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79BB2C2BCF5;
+	Tue, 28 Apr 2026 10:42:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777372923;
-	bh=IWgk6c08JwxdVMmPxZP98UUe6irZGszbjLSjSALOJ2o=;
+	s=k20201202; t=1777372934;
+	bh=gmKEEq+Q4TJt+EvN1ei9MyLA41JpySIjVno7v3Cfwp8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ou+ugdfp/kyNvBP/KfzN9p3B7XmADKNnIViOMxNkBc2SkWuD1mQbciolHctqaixkz
-	 X0SHx2twYixbBBdO6Ha990nKpo9ObYfxtsBpRNLUNbOCCaa25GChq0wbLp7Zl0yb4I
-	 tFUiQZwDrfv1gYQJHQhzN/y/9usbXP66lo3nVCoI0kB2e4rrmgebEvst5jClB2/SMq
-	 V5pkU4xfHXRsvJH3hBCzpkb6Vu7XsP4evX6BwpBFgz7OavPVDXRiM5VCl9JTmcgyaa
-	 p+nmv3+D0nbzUhfRppSwexyQk0VEuldr9n7SItut0yNur/thMqxiwyZj8iuvXJFEOB
-	 KR7eRtQJNk3tg==
+	b=IJLD1t5COAuxzwqM5YRhQ1lk7jSvx6B2tExBF0qeRphAHrXaRmJcMpMsyLUwUhYM2
+	 eG6Ck2Mj3Mvdtps6o+pIeAm7RJurNV1oslP3afx9UIrdhIaIn0WCf7PooB1UBAwzpf
+	 ItcgFuB6MNxWozsKQj1gaXe7a/+R1MhL3jfA5ygsrrhVyuH3QlvV0H4X6Cr+pDA7fn
+	 cJBlLjDFEMae0oPCqajvDp0M881nrgKNbqfvm18BmkwrunVIXS/33aXbDIBABR0xXo
+	 o4O5nl4mcRiFq3uSlYQCPHZgC9yD7EXMCZYENU+fy3wlQeHCKT56YzEgcl7FtqlFE9
+	 QiqAyT3Yas74A==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Zhan Xusheng <zhanxusheng1024@gmail.com>,
-	Zhan Xusheng <zhanxusheng@xiaomi.com>,
+Cc: Ziyi Guo <n7l8m4@u.northwestern.edu>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.15] fs/ntfs3: fix potential double iput on d_make_root() failure
-Date: Tue, 28 Apr 2026 06:40:32 -0400
-Message-ID: <20260428104133.2858589-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-5.15] ntfs3: reject inodes with zero non-DOS link count
+Date: Tue, 28 Apr 2026 06:40:40 -0400
+Message-ID: <20260428104133.2858589-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260428104133.2858589-1-sashal@kernel.org>
 References: <20260428104133.2858589-1-sashal@kernel.org>
@@ -53,368 +52,357 @@ X-stable-base: Linux 7.0.2
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Zhan Xusheng <zhanxusheng1024@gmail.com>
+From: Ziyi Guo <n7l8m4@u.northwestern.edu>
 
-[ Upstream commit d1062683bf6b560b31f287eb0ebde4841bc72376 ]
+[ Upstream commit e10e72f69734a90c8719d160e8efb164ce5d9e26 ]
 
-d_make_root() consumes the reference to the passed inode: it either
-attaches it to the newly created dentry on success, or drops it via
-iput() on failure.
+ntfs_read_mft() counts file name attributes into two variables:
+names (all names including DOS 8.3) and links (non-DOS names
+only). The validation at line 424 checks names but set_nlink()
+at line 436 uses links. A corrupted NTFS image where all file
+name attributes have type FILE_NAME_DOS passes the names check
+but results in set_nlink(inode, 0).
 
-In the error path, the code currently does:
-    sb->s_root = d_make_root(inode);
-    if (!sb->s_root)
-        goto put_inode_out;
+When such an inode is loaded via a code path that passes name=NULL
+to ntfs_iget5() and the nlink=0 inode enters the VFS. The subsequent
+unlink, rmdir, or rename targeting this inode calls drop_nlink()
+which triggers WARN_ON(inode->i_nlink == 0) in fs/inode.c.
 
-which leads to a second iput(inode) in put_inode_out. This results in
-a double iput and may trigger a use-after-free if the inode gets freed
-after the first iput().
+An all-DOS-name MFT record cannot exist on a valid NTFS volume.
+Reject such records by checking for links == 0 before
+calling set_nlink().
 
-Fix this by jumping directly to the common cleanup path, avoiding the
-extra iput(inode).
-
-Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+Signed-off-by: Ziyi Guo <n7l8m4@u.northwestern.edu>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have enough information to complete a comprehensive analysis.
+Now I have enough information to write the analysis. Let me finalize my
+review.
 
-# Phase-by-Phase Analysis
+## Analysis
 
-## PHASE 1: COMMIT MESSAGE FORENSICS
+### PHASE 1: COMMIT MESSAGE FORENSICS
 
-**Step 1.1 — Subject line parsing**
-Record: subsystem = `fs/ntfs3`; action verb = `fix`; summary = "fix
-potential double iput on d_make_root() failure".
+**Step 1.1 — Subject line parse**
+Record: subsystem `ntfs3`, verb `reject`, intent: reject inodes with
+zero non-DOS link count (validation check).
 
-**Step 1.2 — All commit message tags**
-Record:
-- No `Fixes:` tag (absence is expected — reason for manual review).
-- No `Reported-by:` / `Tested-by:` / `Reviewed-by:` / `Acked-by:`.
-- No `Link:`.
-- No `Cc: stable`.
-- `Signed-off-by:` Zhan Xusheng (author) and Konstantin Komarov (ntfs3
-  maintainer who applied it).
+**Step 1.2 — Tags**
+Record: Only two SoBs (Ziyi Guo, Konstantin Komarov). No Fixes:, no Cc:
+stable, no Reported-by:, no Link:, no Reviewed-by:. Absence is expected
+per the rules.
 
-**Step 1.3 — Commit body**
-Record: Author describes the VFS contract for `d_make_root()` — it
-consumes the inode reference on both success and failure (on failure it
-calls `iput()` internally). The ntfs3 error path jumps to the
-`put_inode_out` label, which calls `iput(inode)` again, giving a double
-`iput`. Consequence: "may trigger a use-after-free if the inode gets
-freed after the first iput()". Root cause is a misunderstanding of
-`d_make_root()` semantics.
+**Step 1.3 — Body text**
+Record: Author explains a precise bug mechanism: `names` counts all file
+name attrs (incl. FILE_NAME_DOS) while `links` counts only non-DOS. The
+existing guard `if (!names)` can pass while `set_nlink(inode, links)`
+still sets nlink=0 when every ATTR_NAME is DOS-type. Subsequent
+unlink/rmdir/rename of such an inode hits `drop_nlink()` which fires
+`WARN_ON(inode->i_nlink == 0)` in `fs/inode.c`. Trigger:
+corrupted/malicious NTFS image; no version info given.
 
-**Step 1.4 — Hidden bug fix detection**
-Record: Not hidden — explicitly "fix". Author correctly identifies the
-VFS-API contract violation.
+**Step 1.4 — Hidden fix detection**
+Record: Explicitly a fix ("reject"). Not hidden.
 
-## PHASE 2: DIFF ANALYSIS
+### PHASE 2: DIFF ANALYSIS
 
 **Step 2.1 — Inventory**
-Record: Single file `fs/ntfs3/super.c`, one function
-`ntfs_fill_super()`, one line changed (`goto put_inode_out` → `goto
-out`). Net diff: 1 insertion, 1 deletion. Scope: surgical single-line
-fix.
+Record: 1 file `fs/ntfs3/inode.c`, +5/-0, one function
+`ntfs_read_mft()`. Single-file surgical fix.
 
-**Step 2.2 — Code flow change**
-Record:
-- BEFORE: if `d_make_root()` returns NULL, jump to `put_inode_out:`
-  which does `iput(inode);` then falls through to `out:`.
-- AFTER: if `d_make_root()` returns NULL, jump directly to `out:`,
-  skipping the extra `iput()`.
+**Step 2.2 — Code flow**
+Record: Before: after `names` validation, code falls through to
+`set_nlink(inode, links)`. After: additional `if (!links) { err =
+-EINVAL; goto out; }` short-circuits before `set_nlink` for records
+whose only names are DOS 8.3.
 
 **Step 2.3 — Bug mechanism**
-Record: Category = (d) Memory safety / double-free. Verified
-`d_make_root()` semantics against `fs/dcache.c`:
+Record: Category (g) Logic/correctness + defensive validation for on-
+disk corruption. Closes an inconsistency between the validator (`names`)
+and the consumer (`links`). Prevents VFS invariant violation
+(inode->i_nlink==0 for a living inode), which is what the WARN_ON in
+`drop_nlink()` guards.
 
-```2042:2054:fs/dcache.c
-struct dentry *d_make_root(struct inode *root_inode)
-{
-        struct dentry *res = NULL;
+**Step 2.4 — Quality**
+Record: Obviously correct; the branch targets the existing `out:` which
+does `iget_failed(inode)` and returns `ERR_PTR(err)`. Adds no lock
+changes, no allocation changes. Zero regression risk on valid NTFS
+(valid records have `links >= 1`, author states an all-DOS-name MFT
+record cannot exist on a valid NTFS volume).
 
-        if (root_inode) {
-                res = d_alloc_anon(root_inode->i_sb);
-                if (res)
-                        d_instantiate(res, root_inode);
-                else
-                        iput(root_inode);
-        }
-        return res;
-}
-```
-
-When `d_alloc_anon()` fails, `d_make_root()` calls `iput(root_inode)`
-and returns NULL. The caller must not call `iput()` again. The ntfs3
-code was violating this, producing a double `iput`.
-
-**Step 2.4 — Fix quality**
-Record: Obviously correct. Minimal. Zero regression risk: it only
-removes an extra `iput()` that is already performed inside
-`d_make_root()`. The only behavior change is replacing a guaranteed
-double-`iput`/UAF with the correct single release.
-
-## PHASE 3: GIT HISTORY
+### PHASE 3: GIT HISTORY INVESTIGATION
 
 **Step 3.1 — Blame**
-Record: The buggy `goto put_inode_out` on `d_make_root()` failure was
-introduced in `9b75450d6c580` ("fs/ntfs3: Fix memory leak if fill_super
-failed", 2021-09-28). `git describe --contains 9b75450d6c580` =
-`v5.15-rc6~33^2~6`, i.e., the bug has been present since the very first
-released kernel that contained ntfs3 (v5.15).
+Record: `git blame` on the area around the fix shows `set_nlink(inode,
+links)` was introduced by `110b24eb1a749b` ("fs/ntfs3: Taking DOS names
+into account during link counting", Apr 17 2024, Konstantin Komarov).
 
-**Step 3.2 — Fixes: tag**
-Record: No `Fixes:` tag in the commit, but via `git log -L` I confirmed
-the buggy construct was introduced by `9b75450d6c580`. That commit is in
-v5.15 and therefore exists in every currently maintained stable tree.
+**Step 3.2 — Fixes: target**
+Record: No Fixes: tag in the commit, but the root cause (splitting
+`names` vs `links` and using `links` for nlink while validating `names`)
+was introduced by `110b24eb1a749b`. That commit had `Cc:
+stable@vger.kernel.org` and `Fixes: 82cae269cfa95 ("fs/ntfs3: Add
+initialization of super block")`.
 
-**Step 3.3 — Related changes in file**
-Record: `put_inode_out` was specifically reintroduced around the same
-timeframe and further exercised by `c1ca8ef0262b2` ("fs/ntfs3: Add null
-pointer check for inode operations", 2022). Not part of a series.
-Standalone fix.
+**Step 3.3 — File history**
+Record: Standalone commit; not part of any series. Close neighbors in
+ntfs3 are independent fixes (e.g. `06909b2549d63`, `4b90f16e4bb56`
+handling corrupted metadata).
 
-**Step 3.4 — Author**
-Record: Author Zhan Xusheng has several small fixes merged previously
-(timers, staging, sched/fair). Not the ntfs3 maintainer, but the
-maintainer (Konstantin Komarov) explicitly applied the patch.
+**Step 3.4 — Author history**
+Record: Ziyi Guo has 17 commits in the tree, all small defensive
+validation / lock fixes across drivers (net, wifi, USB, ASoC, power) —
+typical profile of a researcher/fuzzer-finder. Not the subsystem
+maintainer, but the patch was applied by maintainer Konstantin Komarov.
 
 **Step 3.5 — Dependencies**
-Record: None. Single-line edit inside pre-existing error handling. Self-
-contained.
+Record: No dependency. Uses existing locals `links`/`names`, the
+existing `out:` label, and `err = -EINVAL`. Self-contained.
 
-## PHASE 4: MAILING LIST RESEARCH
+### PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-**Step 4.1 — Original patch discussion**
-Record: `b4 dig -c d1062683bf6b5` matched by patch-id to the single v1
-submission at `https://lore.kernel.org/all/20260326091232.92760-1-
-zhanxusheng@xiaomi.com/`. I downloaded the full thread to
-`/tmp/ntfs3_double_iput.mbox` and read it.
-
-Key review comments:
-- **Al Viro** (VFS maintainer) responded on 2026-04-04 confirming the
-  mechanism and went further: "Matter of fact, the whole `put_inode_out`
-  should go; if you *ever* get an inode with NULL ->i_op, it's a bug."
-  Al did NOT NAK the patch — he pointed at an additional, deeper problem
-  that is outside the scope of this fix.
-- **Konstantin Komarov** (ntfs3 maintainer) replied on 2026-04-07:
-  "Thanks for the patch. It was applied. I'm going to take a closer look
-  at this problem."
+**Step 4.1 — b4 dig / thread**
+Record: `b4 dig -c e10e72f69734a` → thread at `https://lore.kernel.org/a
+ll/20260210155634.380168-1-n7l8m4@u.northwestern.edu/`. Single revision
+(v1). Maintainer Konstantin Komarov replied Feb 24 2026: "Patch looks
+good — applied. Thanks." No NAK, no stable nomination, no concerns.
 
 **Step 4.2 — Reviewers**
-Record: `b4 dig -w` shows recipients: Konstantin Komarov (ntfs3
-maintainer), linux-kernel, Zhan Xusheng. Review came from both the
-subsystem maintainer and Al Viro (VFS maintainer).
+Record: `b4 dig -w` shows the patch was sent to Konstantin Komarov
+(maintainer), ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org.
+Appropriate recipients.
 
 **Step 4.3 — Bug report**
-Record: No linked syzbot / bugzilla report — the bug was found by code
-inspection of the `d_make_root()` contract.
+Record: No Reported-by:/Link: tags. The commit wording ("A corrupted
+NTFS image") and the author's fuzzer-style track record strongly suggest
+this was found via fuzzing, though not attributed to syzbot on the list.
 
 **Step 4.4 — Related patches**
-Record: `b4 dig -a` shows only v1 applied. Standalone, not part of a
-multi-patch series.
+Record: No series. Standalone.
 
-**Step 4.5 — Stable mailing list**
-Record: N/A (web access blocked by Anubis), but not needed — evidence
-from the lore thread is conclusive.
+**Step 4.5 — Stable discussion**
+Record: None found.
 
-## PHASE 5: CODE SEMANTIC ANALYSIS
+### PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1 — Key functions**
-Record: Only `ntfs_fill_super()` is touched.
+**Step 5.1 — Key function**
+Record: `ntfs_read_mft()`.
 
 **Step 5.2 — Callers**
-Record: `ntfs_fill_super()` is the standard
-`fs_context_operations::get_tree` implementation, invoked through
-`get_tree_bdev()`, ultimately reachable from the `mount(2)` /
-`fsopen(2)` / `fsmount(2)` syscalls. Reachable from any privileged user
-(CAP_SYS_ADMIN) that can mount NTFS, plus increasingly from unprivileged
-contexts on some distro setups (e.g., mount helpers) and automounters
-handling removable NTFS media.
+Record: `ntfs_read_mft` is only called from `ntfs_iget5()`. `ntfs_iget5`
+is called with `name=NULL` from many user-reachable paths:
+`fs/ntfs3/dir.c:265` (lookup via `indx_find`), `dir.c:337` (readdir /
+`ntfs_dir_emit`), `fs/ntfs3/namei.c:371` (`ntfs3_get_parent` — NFS
+export / open-by-handle), `fs/ntfs3/frecord.c:2945,3064`, plus super-
+block metadata loads. In particular the dir.c:337 readdir path and the
+namei.c:371 get_parent path exactly match the commit description's
+"name=NULL to ntfs_iget5()".
 
-**Step 5.3 — Callees**
-Record: The affected branch is purely error-path cleanup:
-`d_make_root()` → (fails) → `iput(inode)` was being called twice. No
-locks held across the double `iput`.
+**Step 5.3 — Callees affected by fix**
+Record: Only `set_nlink(inode, links)` is gated behind the new check.
+The `out:` path was already correct.
 
 **Step 5.4 — Reachability**
-Record: The failure path requires `d_make_root()` → `d_alloc_anon()` to
-return NULL, which happens under memory pressure (kmem allocation
-failure). Real, not theoretical; any fuzzer that injects allocation
-faults (fail_nth/FAULT_INJECTION) at mount time can hit it.
+Record: Reachable from userspace via mount + readdir/lookup on a crafted
+NTFS image. `drop_nlink()` path reachable via `ntfs_unlink()` and
+`ntfs3_rmdir()` in `fs/ntfs3/namei.c` / `fs/ntfs3/inode.c:1838`. End-to-
+end chain confirmed.
 
 **Step 5.5 — Similar patterns**
-Record: A semantically identical fix was already applied to erofs back
-in 2019 (`94832d9399217` "staging: erofs: fix potential double iput in
-erofs_read_super()"). This confirms the pattern as a recognized,
-backport-worthy bug class.
+Record: Many recent ntfs3 commits follow the same pattern of hardening
+against corrupted on-disk structures (`0dc7117da8f92`, `06909b2549d63`,
+`4b90f16e4bb56`, `1732053c8a6b3`, `7443753436620`). Community actively
+accepts and backports these.
 
-## PHASE 6: STABLE TREE ANALYSIS
+### PHASE 6: CROSS-REFERENCING AND STABLE TREE ANALYSIS
 
-**Step 6.1 — Does the buggy code exist in stable?**
-Record: Verified via `git show vTAG:fs/ntfs3/super.c` for v5.15, v6.1,
-v6.6, v6.12 — the exact `goto put_inode_out;` pattern on `d_make_root()`
-failure is present in all of them. ntfs3 did not exist before v5.15, so
-no older stable tree is affected.
+**Step 6.1 — Bug present in stable?**
+Record: The faulty `set_nlink(inode, links)` (without the `!links`
+guard) was backported to:
+- `stable/linux-5.15.y` as `7ab0c256964ef`
+- `stable/linux-6.1.y` as `df40783dc3773`
+- `stable/linux-6.6.y` as `e4fd2dce71fbd`
+- `stable/linux-6.12.y` as `110b24eb1a749` (same SHA)
+So the bug exists in 5.15+, 6.1+, 6.6+, 6.12+ stable trees.
 
 **Step 6.2 — Backport complications**
-Record: The lines around the change are stable across the tags; the fix
-is a 1-line modification to an unchanged region of code. Should apply
-cleanly to all stable trees ≥5.15 with zero or trivial conflict
-resolution.
+Record: Verified the code context in `stable/linux-5.15.y` and
+`stable/linux-6.6.y` — the surrounding lines (`names !=
+le16_to_cpu(rec->hard_links)` block and `set_nlink(inode, links)`) are
+identical to mainline. Patch applies cleanly; no rework expected for
+5.15.y/6.1.y/6.6.y/6.12.y and newer active LTS branches. Branches
+without 110b24eb's equivalent (older than 5.15 or before the April 2024
+backport) do not have the bug and do not need this fix.
 
-**Step 6.3 — Related fixes already in stable?**
-Record: None found. This is the first fix for this specific bug.
+**Step 6.3 — Existing related stable fixes**
+Record: None — no other "reject inodes with zero links" fix exists.
 
-## PHASE 7: SUBSYSTEM CONTEXT
+### PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-**Step 7.1 — Subsystem**
-Record: `fs/ntfs3` = filesystem driver. Criticality = IMPORTANT (widely
-used by distros for NTFS support on removable media and dual-boot
-systems).
+**Step 7.1 — Subsystem criticality**
+Record: `fs/ntfs3` — filesystem. IMPORTANT. Users of NTFS read-write
+support (Windows dual-boot, removable media), plus security surface for
+mountable filesystem images.
 
 **Step 7.2 — Activity**
-Record: Actively maintained (Konstantin Komarov regularly submits
-patches, per `git log`).
+Record: Very active. Multiple corruption-hardening fixes in every recent
+merge window.
 
-## PHASE 8: IMPACT/RISK
+### PHASE 8: IMPACT AND RISK ASSESSMENT
 
 **Step 8.1 — Affected users**
-Record: Users mounting NTFS volumes with the ntfs3 driver under memory
-pressure, plus any fault-injection testing of the mount path. Stable
-users on 5.15.y / 6.1.y / 6.6.y / 6.12.y all affected.
+Record: Users of ntfs3 who can mount attacker-controlled (or naturally
+corrupted) NTFS images. Also anyone who auto-mounts removable media.
+Filesystem-specific, not universal.
 
-**Step 8.2 — Trigger conditions**
-Record: Requires `d_alloc_anon()` allocation failure during NTFS mount
-(memory pressure or fault injection). Rare in typical use but certainly
-reachable; also a reliable fuzzer target.
+**Step 8.2 — Trigger**
+Record: Crafted NTFS image where an MFT record has only FILE_NAME_DOS
+attributes (and no non-DOS name). Valid NTFS never produces this, so the
+trigger requires a malformed image. On systems allowing unprivileged
+mounting (user namespaces + fuse-style setups, some distros' udisks
+configs) the trigger can be reached without root.
 
 **Step 8.3 — Failure mode severity**
-Record: Double `iput()` → `iput_final()` → `evict()` on an already-freed
-inode → use-after-free / kernel crash / potential exploitation. Severity
-= HIGH (memory safety bug in privileged mount path).
+Record: `WARN_ON(inode->i_nlink == 0)` → kernel warning with stack. On
+`panic_on_warn` systems (common in hardened / KASAN / fuzzing
+environments) it becomes a panic / DoS. Also a reliable way to trigger
+VFS invariants violation for further exploration. Severity: MEDIUM-HIGH
+(DoS via crafted FS image, security-relevant).
 
-**Step 8.4 — Risk vs benefit**
-Record: BENEFIT = eliminate a real UAF on a clean reachable error path;
-also removes the only reviewer-identified memory-safety issue from that
-code. RISK = essentially zero: a single label change that removes an
-extra `iput()`, which is strictly correct per the VFS API contract.
-Endorsed implicitly by Al Viro. Excellent ratio.
+**Step 8.4 — Risk/benefit**
+Record: Benefit: prevents a WARN/panic on malformed NTFS images, closes
+a small attack surface. Risk: extremely low — 5 additional lines on the
+error path, using the same `out:` cleanup already there; impossible to
+affect a valid NTFS volume per the filesystem semantics described.
 
-## PHASE 9: SYNTHESIS
+### PHASE 9: FINAL SYNTHESIS
 
-**Step 9.1 — Evidence**
-- FOR: real double-iput / UAF bug, present since v5.15 in all stable
-  trees, one-line surgical fix, correct per VFS contract (verified in
-  `fs/dcache.c`), applied by subsystem maintainer, acknowledged by VFS
-  maintainer Al Viro, same pattern previously backported for erofs,
-  reachable from the `mount(2)` syscall, no dependencies.
-- AGAINST: No `Fixes:` tag (expected for review); no `Cc: stable` tag
-  (expected for review); trigger is allocation failure in
-  `d_alloc_anon()` (rare but real). None of these are technical reasons
-  to reject.
+**Step 9.1 — Evidence compile**
 
-**Step 9.2 — Stable rules**
-1. Obviously correct and tested: YES (trivially correct, applied
-   upstream, VFS-contract-conformant).
-2. Fixes a real bug: YES (double `iput` → UAF).
-3. Important issue: YES (memory safety).
-4. Small and contained: YES (1 line).
-5. No new features/APIs: YES.
-6. Applies to stable trees: YES (verified the surrounding code is
-   identical in 5.15/6.1/6.6/6.12).
+FOR:
+- Small (5 lines), surgical, single-function, no lock/alloc churn.
+- Fixes a concrete bug mechanism with clear reachability from user-
+  triggerable paths (readdir, lookup, NFS get_parent).
+- Bug introduced by `110b24eb1a749b` (already in
+  5.15.y/6.1.y/6.6.y/6.12.y stable), so active LTS trees are vulnerable.
+- Maintainer applied it with explicit approval ("Patch looks good —
+  applied").
+- Same pattern (corrupted-FS validation) is standard stable material for
+  ntfs3.
+- Failure mode is a WARN (or panic with panic_on_warn), security-
+  relevant for mountable FS images.
+- Applies cleanly to stable branches (verified identical context in
+  5.15.y and 6.6.y).
 
-**Step 9.3 — Exception category**
-Not needed — this is a standard bug fix under criterion #3 (serious
-crash / memory safety).
+AGAINST:
+- No Fixes: / Cc: stable tags, no Reported-by:/Link:, no syzbot
+  attribution in message (absence of tags is expected per rules and not
+  a negative signal).
+
+**Step 9.2 — Stable rules checklist**
+1. Obviously correct & tested? Yes — maintainer-applied, trivial gate
+   check before existing code path.
+2. Real bug? Yes — WARN triggers on documented code path.
+3. Important? Yes — corrupted/malicious FS image → kernel WARN,
+   potential DoS; security-relevant.
+4. Small/contained? Yes — 5 LOC, one function.
+5. No new features/APIs? Correct.
+6. Applies to stable? Yes — verified identical context in 5.15.y /
+   6.6.y.
+
+**Step 9.3 — Exception**
+Record: Fits the "corruption hardening" pattern commonly accepted for
+filesystems.
 
 **Step 9.4 — Decision**
-All evidence supports backporting.
-
----
+The fix is an obvious, minimal validation that prevents a VFS invariant
+violation reachable via a crafted NTFS image on all LTS trees that have
+commit `110b24eb1a749b` backported (5.15, 6.1, 6.6, 6.12). Benefit
+clearly outweighs negligible risk.
 
 ## Verification
 
-- [Phase 1] Read commit message; no tags present other than two `Signed-
-  off-by:`. Verified no `Fixes:` / `Cc: stable` / `Reported-by:` tags.
-- [Phase 2] Inspected the diff — 1 insertion, 1 deletion, one label
-  change in error path.
-- [Phase 2] Verified `d_make_root()` consumes the inode reference on
-  failure by reading `fs/dcache.c:2042-2054` — it calls
-  `iput(root_inode)` when `d_alloc_anon()` returns NULL.
-- [Phase 2] Read `fs/ntfs3/super.c:1670-1717` to confirm the actual
-  `put_inode_out:` label does `iput(inode);` unconditionally, proving
-  the double-iput.
-- [Phase 3] `git log --oneline -S "put_inode_out" -- fs/ntfs3/super.c`
-  and `git log -L` on the changed code block identified `9b75450d6c580`
-  as the commit that introduced the buggy `goto put_inode_out`.
-- [Phase 3] `git describe --contains 9b75450d6c580` = `v5.15-rc6~33^2~6`
-  → bug lives in all stable trees from v5.15 onward.
-- [Phase 3] `git describe --contains 82cae269cfa95` =
-  `v5.15-rc1~94^2~34` — confirms ntfs3 first appeared in v5.15 (no
-  earlier stable affected).
-- [Phase 4] `b4 dig -c d1062683bf6b5` found single v1 submission at lore
-  URL `.../20260326091232.92760-1-zhanxusheng@xiaomi.com/`.
-- [Phase 4] `b4 dig -c d1062683bf6b5 -a` confirmed only one series
-  revision (v1).
-- [Phase 4] `b4 dig -c d1062683bf6b5 -w` confirmed original recipients
-  include maintainer Konstantin Komarov.
-- [Phase 4] Read the downloaded mbox `/tmp/ntfs3_double_iput.mbox`:
-  found Al Viro (VFS maintainer) acknowledging the bug mechanism and
-  Konstantin Komarov confirming "It was applied".
-- [Phase 5] Confirmed identical pattern was fixed for erofs in
-  `94832d9399217` — pre-existing backport precedent.
-- [Phase 6] Verified the buggy `goto put_inode_out;` on `d_make_root()`
-  failure is literally present at v5.15, v6.1, v6.6, v6.12 by `git show
-  vTAG:fs/ntfs3/super.c` on each tag.
-- [Phase 6] Confirmed fix applies cleanly — only a label change on an
-  unchanged surrounding block.
-- [Phase 8] Failure mode verified: `iput()` twice on the same inode
-  after the first may have dropped the last reference → UAF. Severity
-  HIGH.
-- UNVERIFIED: The exact frequency of `d_alloc_anon()` returning NULL in
-  the wild — not relevant to stable decision because fault-injection and
-  OOM paths can both trigger it.
+- [Phase 1] Parsed commit message and tags directly from the commit
+  body; confirmed no Fixes:/Cc: stable/Reported-by: tags. No hidden
+  framing — patch explicitly says "reject".
+- [Phase 2] Read the relevant portion of `fs/ntfs3/inode.c` (lines
+  140–230 and 400–500) to confirm `names` is incremented for every
+  ATTR_NAME, `links` only for non-DOS names, and the fix goto-targets
+  the existing `out:` handler.
+- [Phase 3] `git blame` on `fs/ntfs3/inode.c` lines 420–440:
+  `set_nlink(inode, links)` originates in `110b24eb1a749b` ("fs/ntfs3:
+  Taking DOS names into account during link counting", 2024-04-17); that
+  commit has `Cc: stable@vger.kernel.org` and `Fixes: 82cae269cfa95`.
+- [Phase 3] `git show 110b24eb1a749b`: confirmed the stable-tagged
+  commit that introduced the vulnerability pattern.
+- [Phase 3] `git log --author="Ziyi Guo"`: 17 small validation / locking
+  fixes across subsystems; not subsystem maintainer.
+- [Phase 4] `b4 dig -c e10e72f69734a`: found single-revision thread at `
+  https://lore.kernel.org/all/20260210155634.380168-1-
+  n7l8m4@u.northwestern.edu/`; saved mbox to `/tmp/thread.mbox` and read
+  the maintainer's "applied" reply.
+- [Phase 4] `b4 dig -c e10e72f69734a -w`: confirmed recipients
+  (Konstantin Komarov, ntfs3@lists.linux.dev, linux-
+  kernel@vger.kernel.org).
+- [Phase 4] Verified via spinics mirror that only one version was sent
+  and only one reply ("applied") was received.
+- [Phase 5] `rg ntfs_iget5` in `fs/ntfs3`: enumerated all callers and
+  confirmed multiple user-reachable paths pass `name=NULL` (dir.c:337,
+  namei.c:371, frecord.c:2945/3064).
+- [Phase 5] Read `drop_nlink()` at `fs/inode.c:416-422` to confirm the
+  exact `WARN_ON(inode->i_nlink == 0)` location.
+- [Phase 5] Located `drop_nlink(inode)` call sites in ntfs3
+  (`namei.c:155`, `inode.c:1838`), confirming user unlink/rmdir/rename →
+  `drop_nlink` chain.
+- [Phase 6] Queried each stable branch directly for the "Taking DOS
+  names" backport: found `7ab0c256964ef` in 5.15.y, `df40783dc3773` in
+  6.1.y, `e4fd2dce71fbd` in 6.6.y, `110b24eb1a749` in 6.12.y — the buggy
+  change is in those stables.
+- [Phase 6] `git show stable/linux-6.6.y:fs/ntfs3/inode.c` and
+  `stable/linux-5.15.y:fs/ntfs3/inode.c` around the target lines:
+  context is identical to mainline, confirming clean application.
+- [Phase 6] Searched each stable branch for the fix ("reject inodes" /
+  "non-DOS link" in inode.c); not present in any stable, so no
+  duplicate.
+- [Phase 7] File path identifies subsystem as `fs/ntfs3`; `git log
+  --oneline fs/ntfs3` shows active subsystem with frequent corruption-
+  hardening fixes.
+- [Phase 8] Failure mode verified by reading `drop_nlink()` source and
+  tracing the reachable ntfs3 call chain; severity assessed as MEDIUM-
+  HIGH (WARN → panic_on_warn).
+- UNVERIFIED: Whether a syzbot report specifically mentions this
+  signature (no Reported-by in the commit; could not confirm a direct
+  syzkaller report link). This does not affect the decision because the
+  mechanism is verified by code reading.
 
----
-
-## Decision rationale
-
-This is a textbook stable candidate:
-- 1-line, provably correct fix based directly on a well-known VFS API
-  contract.
-- Addresses a double-`iput`/UAF memory safety bug reachable from the
-  `mount(2)` syscall.
-- Bug present in every currently maintained stable tree (5.15.y, 6.1.y,
-  6.6.y, 6.12.y and newer).
-- Validated by the ntfs3 maintainer (applied it) and confirmed by VFS
-  maintainer Al Viro.
-- Identical pattern was previously treated as stable material in other
-  filesystems.
-- Zero regression risk — it removes an extra `iput` that is already
-  performed by `d_make_root()`.
+The fix is small, obviously correct, fixes a real reachable bug, is
+already applied by the maintainer, and applies cleanly to LTS trees that
+have the buggy precursor commit. It meets all stable-kernel criteria.
 
 **YES**
 
- fs/ntfs3/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/ntfs3/inode.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 174a7cb202a08..d0dad15076ca2 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -1673,7 +1673,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	sb->s_root = d_make_root(inode);
- 	if (!sb->s_root) {
- 		err = -ENOMEM;
--		goto put_inode_out;
-+		goto out;
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 6e65066ebcc1a..398913595a551 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -432,6 +432,11 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+ 		ni->mi.dirty = true;
  	}
  
- 	if (boot2) {
++	if (!links) {
++		err = -EINVAL;
++		goto out;
++	}
++
+ 	set_nlink(inode, links);
+ 
+ 	if (S_ISDIR(mode)) {
 -- 
 2.53.0
 
