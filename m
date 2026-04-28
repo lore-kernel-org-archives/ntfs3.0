@@ -1,265 +1,453 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8429A3914E8
-	for <ntfs3@lists.linux.dev>; Mon, 27 Apr 2026 07:27:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDFA3F54D2;
+	Tue, 28 Apr 2026 10:41:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777274865; cv=none; b=upkUHKpyz/cjmcG4Tsl3jqaspEZTGjYMEEHSUFg4qhLdetF/rXJEQN4pR5WtzfimTNds45z4ZQTeQjo7P6G7oKXUNuaGSgmyzQsSjQoUZsE8Di5xdIv2f7GNtb+V6lBNeO+RCAy4PxzHOevKR7miFIKFocKTm8v6bGp3xJKk+eM=
+	t=1777372907; cv=none; b=nXkVo1xewnHRzPddOZGMu01sDudmxNI6V3AkbuYWIA8dtEUDZtUjOa9HL2wlHTCmqkow9zln/mkq/vpru/BEChHOqf/mmDGfhw3DeI37S33ZE/CCbMD0KMdx8/RYtee41F/i2oJYGbfaZynkcA/ah4EyaQNIc3IdewjdGJAQB8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777274865; c=relaxed/simple;
-	bh=CMQlMHSC3uv1dRa4RA7puMZkgN0YHdjbwaPOaFgDfwE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cvre15IQjq1PmWYuq7P7i/xjWrn73ywxOAMCloCn9L2CU1B0FuW0EsoDySw1DVMjIe3B24RXz+sWPEt6xI50vj6nONarcZK5Kjd1v8CrPVqkZ+nI+Pe1b1x/6LfHtlRVWfNlpyvV+g+yA9jOoUhYj1qLnEJwBVmrBGl5b87UjCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JRBLDWqY; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777372907; c=relaxed/simple;
+	bh=AXRho5msvG4K0H7cOuH6JUNxG4lakdUdkAW5p2Ev8Wg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pWRr7oQs0p2F/S1BWsDc3Q91eIoMVqSFC2euNMwl3qk/vELoDM4HJ5Ugv+9/kgPIaIc53xaMq4m14C70A0C73xVoUkRrUrHQz0vnvtzeV+977MyEmNjxqhvIz+v0zQNPc2j2gxX2ix0f5zZEkRS9pGDXpQO8zpgHAdFaFMq/t6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+cfoIHt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JRBLDWqY"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-35fc2b18363so10629174a91.0
-        for <ntfs3@lists.linux.dev>; Mon, 27 Apr 2026 00:27:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777274864; x=1777879664; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fnKcWj3JQhYch7YywxlgqVZDg/k3uoslCS16Ilmax9I=;
-        b=JRBLDWqYC/mrQmceFFUv5oQ7LAzYSqNT9S8U+oVD6LDaW+5AfKp1gXeb19oiHtltVL
-         Cwfp6b0h5P/7W3vZZzgTSfvWU14qVLahJUG3NGsN9YTMt+k5rCllvxp93mOgdQztaWrX
-         +PN91K2Vs3xu8gXa0C9mqfZTGPmZpvucokD0vbuvHfL/Rnkg2DCBkg5DcmOZAGT/Oe0p
-         ZYVnvHRIgGNFlhaJkLKrEEE2+h6oMCRJdUa0QDTaRI5OWE73Ru49+JC8c6YJD0kHp8kX
-         Bn/A7s3gsowWVwnN/quJEHznUQqpwUotmRVGCIc7cmUG5isIpw4LC8RRyeh3+hg8DEK1
-         4VDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777274864; x=1777879664;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fnKcWj3JQhYch7YywxlgqVZDg/k3uoslCS16Ilmax9I=;
-        b=PdCFGIuPCyQCOrIfvUpiFSJPvHlOTYr/Qt+zhxGJA00b7B2Kl6Yi5FYfgUTt08pzQ7
-         EJV34PtAzNwaHRaKKkG5JhG/2DgpTJ1nwwCuNiGIbI+HsHnM68itlD5E5TayZZyo6plk
-         D6wKS0csOOI8yWN5fDs50mtgCgSxsvs0gBuck83OZinbSxx1dVZl6XJKVjj1ULc4/7qj
-         dRMDdjrizjWRXICNfkYFS9c560vV6FzPpAl8djUjf2FziLeY5tgye2jHnlyRUhrNLAzK
-         GlYJQgK2V2XLuBgfzo3gg5CZ9m4tjgGhXPJhiko408Io5Xm6WPhIKHAiwHvZ3+eXqg2k
-         IUeg==
-X-Gm-Message-State: AOJu0Ywb0SZ3XBAUbdFen0M8H7rNq51IK2+r5ErhQTJrcVUVvRUE5cON
-	Tddh0vIMUwQDnuFyg78Xv2Arzn7AOcJZ9ksX7aob94H6dkGzzS0jOCHb
-X-Gm-Gg: AeBDieu1JRwzbQY7ee9/vn8KqTwkf8ntm9hjz6p0lsSiaQJt5iTwHuDWw/tgEan6HSR
-	YrgKIyL/9Riw+1heamV+ktbgFSXLq3XSQdSw7mCwKWv1QC8XUzb1RUWMIOq+lV9Bejv8/MOxmZE
-	NySXQUhgmHDajBxa5LA80Hrfq5hewoUCQfb7gasqQPNUVi7TK0pS/gQoGO7IAK/8xKhaeV5eZv1
-	2Sft5CpI2VzSEVU8qpRp0P4gyaAIb12Yo6n/Dc8QEfDFKoRHvXvyGtfWsrcPyc2ptkBlX7+iRfw
-	X5rm9eOAoOoO6ipzFWLJFwAlZFd9Lq9JDx6ougLnOyu2fySoutleTL09EPe9Sjgq09ebnITqIQS
-	PYLWCNm/e6vwRlw5LplVLKp5lNEcVLnVshWRqcQF0tzi/7AV2U4cYFiekJkPkemO3/WzPKxrkTj
-	8xenLNEW+qBw8TR5EVMcjl5+0zv35gZ3O8uhMWuhK3yfuJaZ/5x4XM0gwx+Goa+zSj5sIMryKq8
-	JzQ8ICIam/NMC9TicCV
-X-Received: by 2002:a17:90b:4b87:b0:35b:e56e:a17e with SMTP id 98e67ed59e1d1-361404692b3mr43882399a91.17.1777274863690;
-        Mon, 27 Apr 2026 00:27:43 -0700 (PDT)
-Received: from kernel-fuzz.. ([103.172.182.26])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3613fb9b121sm16186974a91.5.2026.04.27.00.27.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 00:27:43 -0700 (PDT)
-From: ZhengYuan Huang <gality369@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	r33s3n6@gmail.com,
-	zzzccc427@gmail.com,
-	ZhengYuan Huang <gality369@gmail.com>
-Subject: [PATCH] fs/ntfs3: hold ni_lock across readdir metadata walk
-Date: Mon, 27 Apr 2026 15:26:50 +0800
-Message-ID: <20260427072650.300732-1-gality369@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+cfoIHt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9B6CC2BCB8;
+	Tue, 28 Apr 2026 10:41:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777372906;
+	bh=AXRho5msvG4K0H7cOuH6JUNxG4lakdUdkAW5p2Ev8Wg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=p+cfoIHtvecBMv7Kjvlf/0p8d2z5V822Dngvw/R8zjzBtnUAS8kKAvlH7RzuMaFQc
+	 leGkyls1jpabW7e1RarjtHXWF6sQbGVHe1SprhIPe61H0cT/vfEvxnuWDWMHRLxkuM
+	 zK782OvQM/8kt7VDbSxyQZAbkcpaZykDVYrQeqVQOiinxJ04HxswxjGQQGenDQ5hNY
+	 Eju0gXPb40gVS6iVLucDuL6J6IivCus/0FD9UGyEl9UVGZ2xhrvlQczP9oUJlshg/Z
+	 L58ODFpX5yP/JV0x2ao8A8jHwoI97lXnT7hxK2mM7G7FkWIxe8X/Magvd9UA7EAB6Z
+	 vpjtbHUDYbbvg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	rtm@csail.mit.edu,
+	Sasha Levin <sashal@kernel.org>,
+	ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 7.0-5.15] fs/ntfs3: increase CLIENT_REC name field size
+Date: Tue, 28 Apr 2026 06:40:20 -0400
+Message-ID: <20260428104133.2858589-9-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260428104133.2858589-1-sashal@kernel.org>
+References: <20260428104133.2858589-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 7.0.2
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-[BUG]
-KASAN reports a slab-use-after-free during getdents(2):
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-BUG: KASAN: slab-use-after-free in ntfs_read_mft fs/ntfs3/inode.c:79 [inline]
-BUG: KASAN: slab-use-after-free in ntfs_iget5+0x59b/0x3450 fs/ntfs3/inode.c:541
-Read of size 2 at addr ffff88800b7a5a4e by task syz.0.1061/2354
+[ Upstream commit 81ad9e67eccc0b094a6eef55a19ee56c761416dc ]
 
-Call Trace:
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0xbe/0x130 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0xd1/0x650 mm/kasan/report.c:482
- kasan_report+0xfb/0x140 mm/kasan/report.c:595
- __asan_report_load2_noabort+0x14/0x30 mm/kasan/report_generic.c:379
- ntfs_read_mft fs/ntfs3/inode.c:79 [inline]
- ntfs_iget5+0x59b/0x3450 fs/ntfs3/inode.c:541
- ntfs_dir_emit fs/ntfs3/dir.c:337 [inline]
- ntfs_read_hdr+0x714/0x930 fs/ntfs3/dir.c:385
- ntfs_readdir+0xaad/0x1010 fs/ntfs3/dir.c:458
- iterate_dir+0x276/0x9e0 fs/readdir.c:108
- __do_sys_getdents fs/readdir.c:326 [inline]
- __se_sys_getdents fs/readdir.c:312 [inline]
- __x64_sys_getdents+0x143/0x290 fs/readdir.c:312
- ...
+This patch increases the size of the CLIENT_REC name field from 32 utf-16
+chars to 64 utf-16 chars. It fixes the buffer overflow problem in
+log_replay() reported by Robbert Morris.
 
-Allocated by task 2160:
- kasan_save_stack+0x39/0x70 mm/kasan/common.c:56
- kasan_save_track+0x14/0x40 mm/kasan/common.c:77
- kasan_save_alloc_info+0x37/0x60 mm/kasan/generic.c:573
- poison_kmalloc_redzone mm/kasan/common.c:400 [inline]
- __kasan_kmalloc+0xc3/0xd0 mm/kasan/common.c:417
- kasan_kmalloc include/linux/kasan.h:262 [inline]
- __do_kmalloc_node mm/slub.c:5650 [inline]
- __kmalloc_noprof+0x2bd/0x900 mm/slub.c:5662
- kmalloc_noprof include/linux/slab.h:961 [inline]
- mi_init+0x9d/0x110 fs/ntfs3/record.c:105
- mi_format_new+0x6b/0x500 fs/ntfs3/record.c:422
- ni_add_subrecord+0x129/0x540 fs/ntfs3/frecord.c:321
- ntfs_look_free_mft+0x238/0xd90 fs/ntfs3/fsntfs.c:715
- ni_create_attr_list+0x8e6/0x1690 fs/ntfs3/frecord.c:826
- ni_ins_attr_ext+0x5ec/0x9d0 fs/ntfs3/frecord.c:924
- ni_insert_attr+0x2bf/0x830 fs/ntfs3/frecord.c:1091
- ni_insert_resident+0xec/0x3d0 fs/ntfs3/frecord.c:1475
- ni_add_name+0x4b2/0x8a0 fs/ntfs3/frecord.c:2987
- ni_rename+0xa6/0x160 fs/ntfs3/frecord.c:3026
- ntfs_rename+0xa19/0xe00 fs/ntfs3/namei.c:332
- vfs_rename+0xd42/0x1d50 fs/namei.c:5216
- do_renameat2+0x715/0xb60 fs/namei.c:5364
- __do_sys_rename fs/namei.c:5411 [inline]
- __se_sys_rename fs/namei.c:5409 [inline]
- __x64_sys_rename+0x83/0xb0 fs/namei.c:5409
- x64_sys_call+0x8c4/0x26a0 arch/x86/include/generated/asm/syscalls_64.h:83
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x93/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x76/0x7e
-
-Freed by task 85:
- kasan_save_stack+0x39/0x70 mm/kasan/common.c:56
- kasan_save_track+0x14/0x40 mm/kasan/common.c:77
- __kasan_save_free_info+0x3b/0x60 mm/kasan/generic.c:587
- kasan_save_free_info mm/kasan/kasan.h:406 [inline]
- poison_slab_object mm/kasan/common.c:252 [inline]
- __kasan_slab_free+0x6f/0xa0 mm/kasan/common.c:284
- kasan_slab_free include/linux/kasan.h:234 [inline]
- slab_free_hook mm/slub.c:2543 [inline]
- slab_free mm/slub.c:6642 [inline]
- kfree+0x2bf/0x6b0 mm/slub.c:6849
- mi_clear fs/ntfs3/ntfs_fs.h:1107 [inline]
- mi_put+0x10e/0x1a0 fs/ntfs3/record.c:97
- ni_write_inode+0x479/0x2a00 fs/ntfs3/frecord.c:3320
- ntfs3_write_inode+0x51/0x70 fs/ntfs3/inode.c:1042
- write_inode fs/fs-writeback.c:1564 [inline]
- __writeback_single_inode+0x8c9/0xc30 fs/fs-writeback.c:1784
- writeback_sb_inodes+0x5e6/0xf60 fs/fs-writeback.c:2015
- __writeback_inodes_wb+0x10c/0x2d0 fs/fs-writeback.c:2086
- wb_writeback+0x63f/0x900 fs/fs-writeback.c:2197
- wb_check_old_data_flush fs/fs-writeback.c:2301 [inline]
- wb_do_writeback fs/fs-writeback.c:2354 [inline]
- wb_workfn+0x8cc/0xd60 fs/fs-writeback.c:2382
- process_one_work+0x8e0/0x1980 kernel/workqueue.c:3263
- process_scheduled_works kernel/workqueue.c:3346 [inline]
- worker_thread+0x683/0xf80 kernel/workqueue.c:3427
- kthread+0x3f0/0x850 kernel/kthread.c:463
- ret_from_fork+0x50f/0x610 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-The faulting address sits 590 bytes inside a freed kmalloc-1k object
-allocated by ni_add_subrecord() and freed from ni_write_inode()
-writeback.
-
-[CAUSE]
-ntfs_readdir() loads all subrecords once, but then drops ni_lock()
-before it starts walking the directory metadata through ntfs_read_hdr().
-That leaves the current NTFS_DE pointer backed by parent-directory
-subrecord memory that concurrent writeback is still allowed to compact
-and free.
-
-The later ntfs_dir_emit() -> ntfs_iget5() call exposes the stale e->ref,
-but the lifetime bug starts earlier: readdir is still consuming
-parent-directory metadata after releasing the lock that protects it.
-
-[FIX]
-Keep ni_lock() held from the point where ntfs_readdir() starts
-consuming the directory metadata until the walk over root/index entries
-is finished.
-
-This closes the parent-directory lifetime hole directly and keeps the
-existing readdir d_type behaviour unchanged.
-
-Signed-off-by: ZhengYuan Huang <gality369@gmail.com>
+Reported-by: <rtm@csail.mit.edu>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/ntfs3/dir.c | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index d99ab086ef6f..a052ba9250e7 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -489,10 +489,17 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 			goto out;
- 	}
+LLM Generated explanations, may be completely bogus:
+
+Based on my investigation, let me compose the full analysis.
+
+---
+
+## PHASE 1: COMMIT MESSAGE FORENSICS
+
+**Step 1.1 - Subject line parsing:**
+Record: Subsystem `fs/ntfs3`; action verb "increase" (which supports a
+fix per body text); summary: enlarges CLIENT_REC.name to fix a buffer
+overflow in log_replay().
+
+**Step 1.2 - Tags:**
+Record:
+- `Reported-by: <rtm@csail.mit.edu>` — Robert (Robbert) Morris, MIT
+  CSAIL; a researcher who regularly reports filesystem memory-safety
+  bugs (he has multiple previous ntfs3 reports landed: `1b7dd28e14c47`
+  and `652cfeb43d6b9`, both credited to him).
+- `Signed-off-by: Konstantin Komarov <...paragon-software.com>` — author
+  is the ntfs3 subsystem maintainer.
+- No Fixes:, no Cc: stable (expected — that's why we review).
+
+**Step 1.3 - Body analysis:**
+Record: Bug description is explicit — "fixes the buffer overflow problem
+in log_replay()". Failure mode: memory corruption when mounting a
+malicious NTFS image (confirmed by KASAN). The on-disk Windows
+`$LogFile` CLIENT_REC truly has `name[64]` (not 32); Linux's undersized
+struct causes the size check in `is_rst_area_valid()` to under-reject a
+crafted restart area.
+
+**Step 1.4 - Hidden fix detection:**
+Record: Not hidden — commit message openly says "buffer overflow". No
+disguise.
+
+---
+
+## PHASE 2: DIFF ANALYSIS
+
+**Step 2.1 - Inventory:**
+Record: 1 file (`fs/ntfs3/fslog.c`), +2/-2 lines. Only `struct
+CLIENT_REC` and the `static_assert` on its size change. Scope: single-
+file surgical fix.
+
+**Step 2.2 - Code-flow change:**
+Record:
+- Before: `__le16 name[32]` → `sizeof(CLIENT_REC) == 0x60`.
+- After: `__le16 name[64]` → `sizeof(CLIENT_REC) == 0xa0`.
+
+The struct is used (1) as the on-disk client record stride in
+`$LogFile`, and (2) in the validator `is_rst_area_valid()` at
+`fs/ntfs3/fslog.c:487`:
+
+```464:529:fs/ntfs3/fslog.c
+        off = le16_to_cpu(ra->client_off);
+        if (!IS_ALIGNED(off, 8) || ro + off > SECTOR_SIZE -
+sizeof(short))
+                return false;
+
+        off += cl * sizeof(struct CLIENT_REC);
+
+        if (off > sys_page)
+                return false;
+        ...
+        if (le16_to_cpu(rhdr->ra_off) + le16_to_cpu(ra->ra_len) >
+sys_page ||
+            off > le16_to_cpu(ra->ra_len)) {
+                return false;
+        }
+```
+
+With the new size, malformed RAs that pack `client_off + cl*0x60 <=
+ra_len` but would still overflow the target buffer are now rejected
+(`off = client_off + cl*0xa0 > ra_len`).
+
+**Step 2.3 - Bug mechanism:**
+Record: Memory-safety fix (h: struct size / validation, with (d)
+downstream memory safety). Root cause: incorrect on-disk layout
+definition caused `is_rst_area_valid()` to under-validate, letting a
+crafted log file reach the overflowing `memcpy` in `log_replay()`:
+
+```4033:4048:fs/ntfs3/fslog.c
+        t16 = le16_to_cpu(ra2->client_off);
+        if (t16 == offsetof(struct RESTART_AREA, clients)) {
+                memcpy(ra, ra2, log->ra_size);
+        } else {
+                memcpy(ra, ra2, offsetof(struct RESTART_AREA, clients));
+                memcpy(ra->clients, Add2Ptr(ra2, t16),
+                       le16_to_cpu(ra2->ra_len) - t16);
+```
+
+Concretely (from the reporter's reproducer): attacker sets `ra_len=112,
+client_off=16, log_clients=1`. Old size: `16 + 1*0x60 = 112` not `>
+112`, check passes. Then the memcpy writes 64 + 96 = 160 bytes into a
+112-byte `ra`, smashing 48 bytes past it. New size: `16 + 1*0xa0 = 176 >
+112`, so `is_rst_area_valid()` rejects the RA; `ra2` becomes NULL
+(`fslog.c:3885–3888`) and `log_replay()` returns `-EINVAL` at line
+3919-3921 before the unsafe memcpy runs.
+
+**Step 2.4 - Fix quality:**
+Record: Very small, obviously correct structural change. Risk from the
+fix itself is low: `is_rst_area_valid()` becomes *stricter*; the only
+regression surface is rejecting a restart area formerly written by buggy
+Linux ntfs3 (which had `ra_len = 0x40 + 0x60 = 0xa0`). But that path is
+only hit when a log is *dirty* (`client_idx[1] != LFS_NO_CLIENT_LE`);
+cleanly unmounted volumes skip the memcpy path entirely
+(`fslog.c:3890-3916`). Windows-written logs already use 0xa0 records, so
+the new size matches the genuine on-disk format. This is a net positive.
+
+---
+
+## PHASE 3: GIT HISTORY
+
+**Step 3.1 - Blame:**
+Record: The `name[32]` / `static_assert(... == 0x60)` lines were
+introduced by `b46acd6a6a627 ("fs/ntfs3: Add NTFS journal")` authored
+2021-08-13 by Konstantin Komarov. `git describe --contains` reports
+`v5.15-rc1~94^2~29`, i.e. present since v5.15 (the very commit that
+introduced ntfs3). Thus the bug affects every stable tree that ships
+ntfs3.
+
+**Step 3.2 - Fixes: tag:**
+Record: No explicit Fixes: tag, but by content the bug traces to
+`b46acd6a6a627` (v5.15).
+
+**Step 3.3 - File history:**
+Record: Other related security-hardening fixes in `fslog.c` from the
+same reporter (`rtm@csail.mit.edu`): `1b7dd28e14c47 ("fs/ntfs3: Correct
+function is_rst_area_valid")` and the journal-replay series. This commit
+is standalone; not part of a dependent series (confirmed by `b4 dig -a`:
+only v1, 1 patch).
+
+**Step 3.4 - Author:**
+Record: Konstantin Komarov is the ntfs3 maintainer; routinely lands
+fixes for rtm's reports. Strong authority signal.
+
+**Step 3.5 - Dependencies:**
+Record: None. Diff only changes a struct and a static_assert. No new
+functions referenced.
+
+---
+
+## PHASE 4: MAILING LIST RESEARCH
+
+**Step 4.1 - b4 dig:**
+Record:
+- `b4 dig -c 81ad9e67eccc0` found: https://lore.kernel.org/all/202603191
+  35855.15200-1-almaz.alexandrovich@paragon-software.com/
+- `b4 dig -c ... -a`: single revision (v1), applied as-is.
+- Thread content (via mbox): plain PATCH, no review comments, went
+  straight into the maintainer tree.
+
+**Step 4.2 - Recipients:**
+Record (b4 dig -w): `ntfs3@lists.linux.dev`, `linux-
+kernel@vger.kernel.org`, `linux-fsdevel@vger.kernel.org`,
+`rtm@csail.mit.edu`. Right lists, right reporter.
+
+**Step 4.3 - Bug report:**
+Record: Found original report at
+`https://lore.kernel.org/ntfs3/42774.1769379272@localhost/`
+(2026-01-25). It is a detailed reproducer with:
+- A downloadable crafted image
+  (`http://www.rtmrtm.org/rtm/ntfs30a.img.gz`)
+- A KASAN SLUB trace: "Right Redzone overwritten ... BUG kmalloc-128
+  (Not tainted): Object corrupt"
+- Exact pointer math matching `log_replay()`'s memcpy path.
+
+Konstantin replied (Feb 9 2026) confirming he'd reproduce and fix. Patch
+appeared ~6 weeks later.
+
+**Step 4.4 - Series context:**
+Record: Single-patch fix, not part of a larger series.
+
+**Step 4.5 - Stable-specific discussion:**
+Record: Not found. Also on Apr 20 2026, Konstantin's `[GIT PULL] ntfs3:
+bugfixes for 7.1` explicitly lists this commit under **"Fixed: ...
+increase CLIENT_REC name field size to prevent buffer overflow"** — the
+maintainer classifies it as a bug fix.
+
+---
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+**Step 5.1 - Key functions:** `struct CLIENT_REC` size (used by
+`is_rst_area_valid`, `log_replay`, `log_create_ra`, array indexing
+everywhere the stride appears).
+
+**Step 5.2 - Callers / reachability:**
+Record: `log_replay()` is invoked during `ntfs_fill_super()` mount path
+(`fs/ntfs3/super.c`). Triggered on every `mount -t ntfs3` with a dirty
+log. Trigger condition: need CAP_SYS_ADMIN (or equivalent) to mount, but
+this is a common vector (auto-mount of USB drives, containers with mount
+caps, etc.).
+
+**Step 5.3 - Callees:** `is_rst_area_valid()` is called from
+`log_read_rst()` before any RA data is trusted; with the new sizeof it
+now rejects the pathological `client_off + cl*sizeof` combinations.
+
+**Step 5.4 - Call chain:** `mount` → `ntfs_fill_super` → `log_replay` →
+`log_read_rst` → `is_rst_area_valid` / memcpy path. Entirely reachable
+from user-triggerable mount.
+
+**Step 5.5 - Similar patterns:** Several sibling checks
+(`is_client_area_valid`, `check_client_area`) also iterate with
+`sizeof(CLIENT_REC)` stride; the fix corrects all of them simultaneously
+because they all reference the same type.
+
+---
+
+## PHASE 6: STABLE TREES
+
+**Step 6.1 - Code presence:**
+Record: `git grep "name\[32\]" stable/linux-{5.15,6.1,6.6,6.12,6.19}.y
+-- fs/ntfs3/fslog.c` confirms the buggy `__le16 name[32]` and
+`static_assert(... == 0x60)` are present in every active stable tree.
+ntfs3 was added in v5.15.
+
+**Step 6.2 - Backport complications:**
+Record: The 2-line struct edit applies cleanly to every stable branch. I
+verified the surrounding struct definition is byte-identical across
+5.15.y, 6.1.y, 6.6.y, 6.12.y, 6.19.y.
+
+**Step 6.3 - Existing stable fix?**
+Record: No prior fix for this bug exists in any stable branch (no
+`CLIENT_REC` commits on any of the stable branches checked).
+
+---
+
+## PHASE 7: SUBSYSTEM CONTEXT
+
+**Step 7.1 - Subsystem/criticality:**
+Record: `fs/ntfs3` — IMPORTANT. Default NTFS driver since v5.15, used by
+countless distros to mount Windows-format media (USB drives, external
+disks, dual-boot partitions).
+
+**Step 7.2 - Activity:**
+Record: Active — many fixes land per cycle, and this commit is in the
+7.1 pull request alongside ~16 other ntfs3 fixes.
+
+---
+
+## PHASE 8: IMPACT AND RISK
+
+**Step 8.1 - Who is affected:**
+Record: Anyone mounting an untrusted NTFS image on a kernel with ntfs3
+compiled in. This includes desktop Linux, NAS devices, embedded systems,
+containers with mount privileges, and auto-mount frameworks that honor
+USB insertion.
+
+**Step 8.2 - Trigger conditions:**
+Record: A single `mount -t ntfs3` of a crafted image is sufficient.
+Reporter supplied a working reproducer. Requires root/mount cap but this
+is a standard attack surface for local privilege escalation via
+malicious removable media.
+
+**Step 8.3 - Failure mode:**
+Record: CRITICAL — heap out-of-bounds write (48 bytes past a kmalloc-128
+slab object, as KASAN demonstrates). Consequences range from kernel
+panic to targeted memory corruption / potential privilege escalation
+depending on what sits next to that slab.
+
+**Step 8.4 - Risk/benefit:**
+Record:
+- Benefit: very high — closes a reachable heap buffer overflow with a
+  public reproducer in the default Linux NTFS driver.
+- Risk: very low — two-line struct-size change; only potential side
+  effect is stricter validation that can reject RA headers previously
+  written by the same buggy Linux driver on dirty logs, which is far
+  better than memory corruption.
+
+---
+
+## PHASE 9: SYNTHESIS
+
+**Step 9.1 - Evidence:**
+FOR:
+- KASAN-confirmed heap buffer overflow with a publicly reproducible
+  image.
+- Reported by an external security researcher; acknowledged and fixed by
+  the subsystem maintainer.
+- Bug exists in every active stable tree (5.15.y and later).
+- Maintainer's pull request explicitly labels this as "prevent buffer
+  overflow."
+- 2-line structural change, no dependencies.
+
+AGAINST: None of substance.
+
+UNRESOLVED: Whether kernels written with old Linux ntfs3 will fail to
+replay a *dirty* log after upgrading. This edge case is (a) narrow
+(dirty logs only) and (b) acceptable given the severity of the bug.
+
+**Step 9.2 - Stable rules checklist:**
+1. Obviously correct and tested: yes — trivial struct size change,
+   upstream-tested, matches Windows on-disk layout.
+2. Real bug: yes — KASAN trace, public reproducer.
+3. Important: yes — heap OOB via mount.
+4. Small/contained: yes — +2/-2 in one file.
+5. No new features: yes — corrects existing layout.
+6. Applies to stable: yes — clean apply confirmed for 5.15.y through
+   6.19.y.
+
+**Step 9.3 - Exception category:** Not needed; this meets core stable-
+kernel-rules on its own merits (security / memory-corruption fix).
+
+**Step 9.4 - Decision:** YES.
+
+---
+
+## Verification
+
+- [Phase 1] Parsed tags from commit message: found `Reported-by:
+  rtm@csail.mit.edu`, `Signed-off-by: Konstantin Komarov`. Commit
+  message explicitly mentions "buffer overflow in log_replay()".
+- [Phase 2] Diff: +2/-2, changes only `CLIENT_REC.name[32]→[64]` and
+  `static_assert(==0x60)→(==0xa0)` in `fs/ntfs3/fslog.c`.
+- [Phase 2] Read `fs/ntfs3/fslog.c` lines 464-529 and 4026-4048 to trace
+  how the struct size feeds `is_rst_area_valid()` and the subsequent
+  memcpy; verified that the attacker-controlled `client_off` + `ra_len`
+  combination from the bug report passes the old check and fails the new
+  one.
+- [Phase 3] `git describe --contains b46acd6a6a627` returned
+  `v5.15-rc1~94^2~29`, confirming the bug has been present since ntfs3
+  was introduced in v5.15.
+- [Phase 3] `git log --grep="rtm@csail" -- fs/ntfs3` showed prior fixes
+  by the same maintainer for reports from this reporter
+  (`1b7dd28e14c47`, `652cfeb43d6b9`).
+- [Phase 4] `b4 dig -c 81ad9e67eccc0` resolved to https://lore.kernel.or
+  g/all/20260319135855.15200-1-almaz.alexandrovich@paragon-
+  software.com/.
+- [Phase 4] `b4 dig -c 81ad9e67eccc0 -a` shows only v1; patch applied
+  as-submitted.
+- [Phase 4] `b4 dig -c 81ad9e67eccc0 -w` showed correct recipients:
+  ntfs3@lists.linux.dev, linux-fsdevel, linux-kernel, rtm.
+- [Phase 4] Fetched and read original bug report at
+  `lore.kernel.org/ntfs3/42774.1769379272@localhost/raw`: KASAN "Right
+  Redzone overwritten" report, reproducer image URL, exact line-number
+  match with the memcpy overflow.
+- [Phase 4] Fetched maintainer reply at
+  `lore.kernel.org/ntfs3/f9e6330b-.../raw` confirming acknowledgment
+  (Feb 9, 2026).
+- [Phase 4] Fetched 7.1 pull request (`20260420150756.6058-1-...`):
+  commit listed under "Fixed: ... to prevent buffer overflow".
+- [Phase 6] `git grep` on each active stable branch (5.15.y, 6.1.y,
+  6.6.y, 6.12.y, 6.19.y) confirmed all still have `name[32]` and `sizeof
+  == 0x60`.
+- [Phase 6] `git log --grep="CLIENT_REC" -- fs/ntfs3/fslog.c` on each
+  stable branch returned empty — no prior fix in stable.
+- [Phase 7] Confirmed `fs/ntfs3` is the default NTFS driver since v5.15
+  (same commit that introduced the bug).
+- [Phase 8] Verified `log_replay()` is called from the mount path; the
+  `memcpy` overflow is reached on a *dirty* log with attacker-controlled
+  `client_off` and `ra_len`; reporter provided a working image.
+- UNVERIFIED: I did not personally run the provided malicious image
+  against pre-fix and post-fix kernels to independently confirm
+  behavior; I relied on the KASAN trace, the pointer arithmetic in the
+  public source, and the maintainer's agreement.
+
+This is a small, obviously correct memory-corruption fix with a public
+reproducer and maintainer acknowledgement, affecting all stable trees
+that carry ntfs3. Textbook stable material.
+
+**YES**
+
+ fs/ntfs3/fslog.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index 272e452761436..10dbe9922bf13 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -45,10 +45,10 @@ struct CLIENT_REC {
+ 	__le16 seq_num;     // 0x14:
+ 	u8 align[6];        // 0x16:
+ 	__le32 name_bytes;  // 0x1C: In bytes.
+-	__le16 name[32];    // 0x20: Name of client.
++	__le16 name[64];    // 0x20: Name of client.
+ };
  
-+	/*
-+	 * Keep directory metadata stable for the whole walk. Loading subrecords
-+	 * once is not enough if concurrent writeback can still compact ATTR_LIST
-+	 * entries and free the record that ntfs_read_hdr() is currently walking.
-+	 */
-+	ni_lock(ni);
-+
- 	root = indx_get_root(&ni->dir, ni, NULL, NULL);
- 	if (!root) {
- 		err = -EINVAL;
--		goto out;
-+		goto out_unlock;
- 	}
+-static_assert(sizeof(struct CLIENT_REC) == 0x60);
++static_assert(sizeof(struct CLIENT_REC) == 0xa0);
  
- 	if (pos >= sbi->record_size) {
-@@ -503,7 +510,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 		 */
- 		err = ntfs_read_hdr(sbi, ni, &root->ihdr, 0, pos, name, ctx);
- 		if (err)
--			goto out;
-+			goto out_unlock;
- 		bit = 0;
- 	}
- 
-@@ -514,7 +521,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 		/* Get the next used index. */
- 		err = indx_used_bit(&ni->dir, ni, &bit);
- 		if (err)
--			goto out;
-+			goto out_unlock;
- 
- 		if (bit == MINUS_ONE_T) {
- 			/* no more used indexes. end of dir. */
-@@ -524,13 +531,13 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 		if (bit >= max_bit) {
- 			/* Corrupted directory. */
- 			err = -EINVAL;
--			goto out;
-+			goto out_unlock;
- 		}
- 
- 		err = indx_read_ra(&ni->dir, ni, bit << ni->dir.idx2vbn_bits,
- 				   &node, &file->f_ra);
- 		if (err)
--			goto out;
-+			goto out_unlock;
- 
- 		/*
- 		 * Add each name from index in 'ctx'.
-@@ -539,9 +546,12 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 				    ((u64)bit << index_bits) + sbi->record_size,
- 				    pos, name, ctx);
- 		if (err)
--			goto out;
-+			goto out_unlock;
- 	}
- 
-+out_unlock:
-+	ni_unlock(ni);
-+
- out:
- 	kfree(name);
- 	put_indx_node(node);
+ /* Two copies of these will exist at the beginning of the log file */
+ struct RESTART_AREA {
 -- 
-2.49.0
+2.53.0
+
