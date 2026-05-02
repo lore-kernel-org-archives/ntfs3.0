@@ -1,86 +1,100 @@
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF386311C15
-	for <ntfs3@lists.linux.dev>; Sat,  2 May 2026 12:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127F528643C
+	for <ntfs3@lists.linux.dev>; Sat,  2 May 2026 15:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777725154; cv=none; b=Famm6IAgrIRJMHvEXkFVZ96JLQDvG0NSSjmDuc6oY0FaFG8Jtv1cS7MWX74qCNRkjGRW9Ur5ZG8xLSXdY+/xZUsZzRAspHoZleCPzNMTQG+Sy6vEHjWAL2gKp/fV4Q1NZ/J++1BtEDloPSsyE7Ni2uyUryyK9b6e9smcqEgOL6Q=
+	t=1777734651; cv=none; b=sHzEbffMiyjG6T++ja4m3PJ+66q/num97KSgxV/an0eiqn9oNr0OQrYnNzjcxxw1yiL5xgPlYHVBoZxynf7He42I8LUMpBA39YdrI+9lz7xU5pUfViUWCoGgQ4Ieg7AHhOVO+C79aXRhSqs4hGuRS+Xfw3nfnXKpHv6EAJJc7HM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777725154; c=relaxed/simple;
-	bh=hSMQAtxQgVBLKGTyfxFu8GOweOuzYrGhCnJuz8hCkK4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=i1KT4VWhmG7VvIsNpS0NY+sDEZFhdQ3DgpNZCO+w1+wcJj0UDWR24bQP9cU+JCzMODBUiHDQ5wnFLvC0mwSmLwkB7L0Cka0Nz85f2Bh9f69ItCj0fvpx+TZ0NhrEYFln1HyqIilRkdVv3Xn0gu7NSaoH3j1TSvCAEyRBceMFdnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7dcd9f8dbe2so5324045a34.1
-        for <ntfs3@lists.linux.dev>; Sat, 02 May 2026 05:32:33 -0700 (PDT)
+	s=arc-20240116; t=1777734651; c=relaxed/simple;
+	bh=wrDoLB/gWauB8bVtkBsq+XmQYX2cFMmPQnW7FhVbJqQ=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=XgNfI1aULpLnlASqA2RxS0sk+2jjyUYGE2BsxJSg/vdsqIT52E+a7EOdLSCrI6r6KgUf9KM3WcEyRKzcgDFfDo89SOfTkr/lElbdTZaROgqoKNtjuYd85NA00Ub9M1ylQJ8tGUHERb9/p8FMeRRqb653vkU22qsN7WtkLcKQr8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qIVoezzS; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qIVoezzS"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-824c9da9928so1229191b3a.3
+        for <ntfs3@lists.linux.dev>; Sat, 02 May 2026 08:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777734649; x=1778339449; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wrDoLB/gWauB8bVtkBsq+XmQYX2cFMmPQnW7FhVbJqQ=;
+        b=qIVoezzS1YmLwWIJZxG4J7PaZwuJeCX+J2k2g96AkKRT5wjd7arFl5R6MJa1jk7gLN
+         8u0KlT1KwBdPVUHaiYUmHC/ziczsoYQjBeM4t7jHJyJ9fC+sN2Fo8J8dGqDJis3LBTD4
+         B++dPF4WgurVBdrvpWpOIbQrKL6Q4Ogt9dAkyxKBTnHiAVldMADUGPo9bLluLpdMREgE
+         Dbi/uL2sK1a7lhQia7B3/n0vHtycKMAogiIeXQXVq/wqJMGOu1g/WTzu+ox3Vl99bQ17
+         4XhjyqIh5gjvqk6SOvs769bmjaP1A96CDhUWjaOGlQbOuYDOhMYSTbBwpIkE7t/u94q5
+         VX0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777725153; x=1778329953;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+        d=1e100.net; s=20251104; t=1777734649; x=1778339449;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=oi+p3wDiJ4oYIZd6MWUTxOmnzNL+LlvSdXpDmXk00h4=;
-        b=BaU3ChuA80/NwV4n1G2QbznuTtTrWlVGGXuJxxQfAoJs5CF38kIRiwueimsKNm5LvY
-         j29CaqH1YXSyt4BqaL8L8NBH0/yLaMZzdqvmJpn4/39ums4dAkGVay4EQSEImnw7UsUt
-         1JF1F63eqW6LvOOxE0SwpGBJ4vaq0wD4V3wRlB6tNc8jsY8Dwcg5lM/srlWs51qj3CTV
-         AWLHge2MhvWlFNqHvOTkWhScfYpZ28e24w8/rSwB/joxmpBRJG+6sxP9tDeNqpMQ0eFX
-         JwYg19/aWpff3WHcYjvs2z+sOP4pHAGRoBwTfuBDPYShVWau/bQdpnAMvznHYfGM3LZz
-         V1wA==
-X-Forwarded-Encrypted: i=1; AFNElJ+FWea09lUYvkHibLytjc5VqIBs6lnNAjntx1pir20mB5Ijnpdbq0s0A+N4uZP2+t668t3UQA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+SkCoseidnVzokG0DnUtcGu7nths5Pqw89l1PmYJCLDvoh2QW
-	8+1isqyqkWb9Y8Zkd+5v28ah5MneAiaFiHCU1bEY1Ka4QRQjotp/Q8inUle5YWL8w/lQAgvDFAY
-	kE2GNj7OrmRpZEuckxK0DaRDmDwAn/Xg8OaWCJidgW4N4rtTdC9AsSe/bmKk=
+        bh=wrDoLB/gWauB8bVtkBsq+XmQYX2cFMmPQnW7FhVbJqQ=;
+        b=Vk7qbH50vJBJalO3MbjoM2u5OVUbS2PlmkzumxuniFdVMheveT+IbHD/gksY9DJU19
+         uO6hrn5ZvkXfG4mkEAE0l6G9HqAbXItvIprTgbkQQgMi4YL+Ziv8bRbb3pWgHT4lQlQK
+         neHb6bEkRDNdv8p8AqK77HD1fXLT3mS+o9AZl04uN9ZHDexgwc/+EbArNSx3mhfyfByz
+         TyYPUi+YcGUlWt1k8QcQefwzit97znXkS8ARin8H4z6lQvsH/96xlvW7NEwzIPOEm1Ld
+         DTtw9KW0Sy25eoLt9xi2/By3tRS092IL8IJL1Vua4XSs0SWQkdd2ojYrTQ3zr13/bXAC
+         LoEA==
+X-Gm-Message-State: AOJu0Yz4T4w6i2eCS4lZQUxfDCkpToLoWwcOYVXMhaI9J/gavjjhQbhN
+	ML/BhBKtVtaaDBznqI6yc25p4ae8gbEaILeTvXrUCFxvKAeHnK95zUvF/Vgv6owNTAM=
+X-Gm-Gg: AeBDievJW66VZTiAdH0GiAO3SNtq5sM+pGw3UwoFvSJGeiN+Fm28yuZ0MIgW6whezi8
+	USBqUeyxtH5w2F023feqx3jflDiUMlXCUPB5/jD+oYUATuc4aQHZnaoTOjfMqFKuRr3Nj9hBfo8
+	yAMca5zLbrFiVhX6h3K5Epv+6ELhJMwmkGA5pVqFidS74wZcLPWkaWSBTjiXhmpxeb7mtcC6pFX
+	BVLl1LJQAgr+CwOuny/kENUFT9TVoBaHpDROL65oyKVTuyc3QpDCOtbY3K9xERbo9A5XZR1as8U
+	pWEs8Y03Hgy9Uj+0ZbPzKPGPZnrTkwHfQQa3Sht1MI+4oh3SBpOScrRJGhnD6g61JykTH5YJfEl
+	ZYrCUqQ2G+MixPoO7TcCHQF/u5XVxDUNnWAqpAC42wOLWpKN9OWJ+nN5xLg4v+RlKiat5AC+6ys
+	2jnP6NlnYvfDq6tX54pTZz86zDmVl4gYnmeqBXvtxJNSjnhvG5rcNMBS3zHqeZskDWBtZlCIPcr
+	lB5ie+osj4We44/XctzygY//ZdRej1wJf8sEuDx9mSq8XWxad5VzwhOqt9AmrhJRpenjYvnxq96
+	GR60p/Bh7A==
+X-Received: by 2002:a05:6a00:2d92:b0:82f:1b1b:e166 with SMTP id d2e1a72fcca58-8352d24524cmr3297332b3a.33.1777734649326;
+        Sat, 02 May 2026 08:10:49 -0700 (PDT)
+Received: from ?IPV6:2001:b011:a400:bdfe:e2d5:5eff:fea6:463f? (2001-b011-a400-bdfe-e2d5-5eff-fea6-463f.dynamic-ip6.hinet.net. [2001:b011:a400:bdfe:e2d5:5eff:fea6:463f])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83515833ee3sm6082895b3a.11.2026.05.02.08.10.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 May 2026 08:10:49 -0700 (PDT)
+Message-ID: <76bc95e8-c758-4934-a68f-bb11e20b0d84@gmail.com>
+Date: Sat, 2 May 2026 23:10:46 +0800
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:2d4a:b0:696:924d:2959 with SMTP id
- 006d021491bc7-69697c2f8b9mr1312052eaf.16.1777725152916; Sat, 02 May 2026
- 05:32:32 -0700 (PDT)
-Date: Sat, 02 May 2026 05:32:32 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69f5eee0.050a0220.3cbe47.001a.GAE@google.com>
-Subject: [syzbot] Monthly ntfs3 report (May 2026)
-From: syzbot <syzbot+list414452509718ef501387@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: palapapa <palapapa93@gmail.com>
+Subject: [bug report] fs/ntfs3: mounting an ntfs filesystem accelerated by
+ intel optane memory causes data corruption
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello ntfs3 maintainers/developers,
+Hello Konstantin Komarov,
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+If an NTFS filesystem is set to be accelerated using Intel Optane Memory on
+Windows using the Intel Optane Memory and Storage Management app, mounting that
+filesystem on Linux will cause some files to be unreadable, presumably because
+the data for those files are stored on the Intel Optane SSD. This may be proven
+by the fact that cloning the NTFS drive in question to another drive causes
+Windows' chkdsk to report that drive as corrupted, while the original drive is
+perfectly readable. Writing the the NTFS drive in this state may cause data
+corruption.
 
-During the period, 0 new issues were detected and 0 were fixed.
-In total, 18 issues are still open and 91 have already been fixed.
+Listing the directories that contain unreadable files gives errors like "invalid
+argument" or "no such file or directory", and dmesg gives errors like "ntfs3:
+...: MFT: r=..., expect seq=... instead of ...!".
 
-Some of the still happening issues:
+Would it be possible to detect this case and prevent mounting the drive in this
+inconsistent state?
 
-Ref Crashes Repro Title
-<1> 3710    Yes   possible deadlock in attr_data_get_block (2)
-                  https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
-<2> 439     Yes   possible deadlock in mi_read (2)
-                  https://syzkaller.appspot.com/bug?extid=17f812893d5906837f33
-<3> 188     Yes   WARNING in ni_rename (2)
-                  https://syzkaller.appspot.com/bug?extid=4d8e30dbafb5c1260479
-<4> 27      Yes   WARNING in errseq_set (2)
-                  https://syzkaller.appspot.com/bug?extid=57f9327d593d301ce2a2
-<5> 2       No    KASAN: slab-use-after-free Read in ntfs_iget5
-                  https://syzkaller.appspot.com/bug?extid=4d48dcd9e88d37df77b3
+This is my first time reporting a kernel issue. Sorry if I have made a mistake.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+Kernel version: 6.18.25
+Distro: Gentoo
