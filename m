@@ -1,100 +1,141 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127F528643C
-	for <ntfs3@lists.linux.dev>; Sat,  2 May 2026 15:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE33381B1D
+	for <ntfs3@lists.linux.dev>; Sat,  2 May 2026 15:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777734651; cv=none; b=sHzEbffMiyjG6T++ja4m3PJ+66q/num97KSgxV/an0eiqn9oNr0OQrYnNzjcxxw1yiL5xgPlYHVBoZxynf7He42I8LUMpBA39YdrI+9lz7xU5pUfViUWCoGgQ4Ieg7AHhOVO+C79aXRhSqs4hGuRS+Xfw3nfnXKpHv6EAJJc7HM=
+	t=1777736607; cv=none; b=YjixcHgPrBx34IlBcbLWM4L1aVDjZoErfjNUjiW3nDjVS8NSERPloNxzrSnNjipFHF+HMSQpJQFWRmitWs1oaZhz1p/iTlkUBNYZx2PVBzJhAXvHiubrPOVnjRoELKIIoKI9Z3DAhfmrKbH20K8Y/4IQwplySpjPuBbcc3gi2U8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777734651; c=relaxed/simple;
-	bh=wrDoLB/gWauB8bVtkBsq+XmQYX2cFMmPQnW7FhVbJqQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=XgNfI1aULpLnlASqA2RxS0sk+2jjyUYGE2BsxJSg/vdsqIT52E+a7EOdLSCrI6r6KgUf9KM3WcEyRKzcgDFfDo89SOfTkr/lElbdTZaROgqoKNtjuYd85NA00Ub9M1ylQJ8tGUHERb9/p8FMeRRqb653vkU22qsN7WtkLcKQr8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qIVoezzS; arc=none smtp.client-ip=209.85.210.177
+	s=arc-20240116; t=1777736607; c=relaxed/simple;
+	bh=Qcqo8Bkv1OmcFLp2M409Xk+TJ506bXJtcrDPRa0OEk0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hpH4EkzIqBgyj5kpx/E9mk1tQWVLFr7ESL1y6FR/86Nn6MY3+V3JV4VgxA0RG03IfwwDlaAX5VgZHYSc6fHGneImRKuW0b1imUOnZsOJ62ZCnQY4M26I4A80P+deWSjYo46vZTquMCYAsampwwBCI1UHn1m3BU+ggjAWCaTuNgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GiDkPON5; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qIVoezzS"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-824c9da9928so1229191b3a.3
-        for <ntfs3@lists.linux.dev>; Sat, 02 May 2026 08:10:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GiDkPON5"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-364d13df3ccso397669a91.3
+        for <ntfs3@lists.linux.dev>; Sat, 02 May 2026 08:43:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777734649; x=1778339449; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:from:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wrDoLB/gWauB8bVtkBsq+XmQYX2cFMmPQnW7FhVbJqQ=;
-        b=qIVoezzS1YmLwWIJZxG4J7PaZwuJeCX+J2k2g96AkKRT5wjd7arFl5R6MJa1jk7gLN
-         8u0KlT1KwBdPVUHaiYUmHC/ziczsoYQjBeM4t7jHJyJ9fC+sN2Fo8J8dGqDJis3LBTD4
-         B++dPF4WgurVBdrvpWpOIbQrKL6Q4Ogt9dAkyxKBTnHiAVldMADUGPo9bLluLpdMREgE
-         Dbi/uL2sK1a7lhQia7B3/n0vHtycKMAogiIeXQXVq/wqJMGOu1g/WTzu+ox3Vl99bQ17
-         4XhjyqIh5gjvqk6SOvs769bmjaP1A96CDhUWjaOGlQbOuYDOhMYSTbBwpIkE7t/u94q5
-         VX0A==
+        d=gmail.com; s=20251104; t=1777736606; x=1778341406; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dPLhh/sYehPY6xGFGWFMg/n/yf/ziOgLoWmXDVIRRZ4=;
+        b=GiDkPON5xkzcylDv2PbK3v33WbObc49nRAfQy7LkUprrJ7CEFgfSThoRIPKNZNQW2Q
+         EyTVovirTChDyaknMaYOY1LR/1A9O695UVeC5+m1GXt4pauD2lp0oW8npm6FlEzg4NJg
+         cBtgUfSkoW9dvUYkVqeSsbOW/dygC2vD2Qxx0AOwkixzKPmSHnN1InajGhnMxpnUSF7Y
+         PJ4BdpQwyp0kRCYqjIERhxvc5yotvRzSwcqR5SAp9PS5h4gxaq8IBPyv/WnqBpJfAWGO
+         CCV7n1va3YitFaHSxPNOgE8O/TqhdjlWFLvpXnbMj80sPRU9VGXc81rQH9SK/vOObnH8
+         4lkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777734649; x=1778339449;
-        h=content-transfer-encoding:cc:to:subject:from:content-language
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wrDoLB/gWauB8bVtkBsq+XmQYX2cFMmPQnW7FhVbJqQ=;
-        b=Vk7qbH50vJBJalO3MbjoM2u5OVUbS2PlmkzumxuniFdVMheveT+IbHD/gksY9DJU19
-         uO6hrn5ZvkXfG4mkEAE0l6G9HqAbXItvIprTgbkQQgMi4YL+Ziv8bRbb3pWgHT4lQlQK
-         neHb6bEkRDNdv8p8AqK77HD1fXLT3mS+o9AZl04uN9ZHDexgwc/+EbArNSx3mhfyfByz
-         TyYPUi+YcGUlWt1k8QcQefwzit97znXkS8ARin8H4z6lQvsH/96xlvW7NEwzIPOEm1Ld
-         DTtw9KW0Sy25eoLt9xi2/By3tRS092IL8IJL1Vua4XSs0SWQkdd2ojYrTQ3zr13/bXAC
-         LoEA==
-X-Gm-Message-State: AOJu0Yz4T4w6i2eCS4lZQUxfDCkpToLoWwcOYVXMhaI9J/gavjjhQbhN
-	ML/BhBKtVtaaDBznqI6yc25p4ae8gbEaILeTvXrUCFxvKAeHnK95zUvF/Vgv6owNTAM=
-X-Gm-Gg: AeBDievJW66VZTiAdH0GiAO3SNtq5sM+pGw3UwoFvSJGeiN+Fm28yuZ0MIgW6whezi8
-	USBqUeyxtH5w2F023feqx3jflDiUMlXCUPB5/jD+oYUATuc4aQHZnaoTOjfMqFKuRr3Nj9hBfo8
-	yAMca5zLbrFiVhX6h3K5Epv+6ELhJMwmkGA5pVqFidS74wZcLPWkaWSBTjiXhmpxeb7mtcC6pFX
-	BVLl1LJQAgr+CwOuny/kENUFT9TVoBaHpDROL65oyKVTuyc3QpDCOtbY3K9xERbo9A5XZR1as8U
-	pWEs8Y03Hgy9Uj+0ZbPzKPGPZnrTkwHfQQa3Sht1MI+4oh3SBpOScrRJGhnD6g61JykTH5YJfEl
-	ZYrCUqQ2G+MixPoO7TcCHQF/u5XVxDUNnWAqpAC42wOLWpKN9OWJ+nN5xLg4v+RlKiat5AC+6ys
-	2jnP6NlnYvfDq6tX54pTZz86zDmVl4gYnmeqBXvtxJNSjnhvG5rcNMBS3zHqeZskDWBtZlCIPcr
-	lB5ie+osj4We44/XctzygY//ZdRej1wJf8sEuDx9mSq8XWxad5VzwhOqt9AmrhJRpenjYvnxq96
-	GR60p/Bh7A==
-X-Received: by 2002:a05:6a00:2d92:b0:82f:1b1b:e166 with SMTP id d2e1a72fcca58-8352d24524cmr3297332b3a.33.1777734649326;
-        Sat, 02 May 2026 08:10:49 -0700 (PDT)
-Received: from ?IPV6:2001:b011:a400:bdfe:e2d5:5eff:fea6:463f? (2001-b011-a400-bdfe-e2d5-5eff-fea6-463f.dynamic-ip6.hinet.net. [2001:b011:a400:bdfe:e2d5:5eff:fea6:463f])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83515833ee3sm6082895b3a.11.2026.05.02.08.10.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 May 2026 08:10:49 -0700 (PDT)
-Message-ID: <76bc95e8-c758-4934-a68f-bb11e20b0d84@gmail.com>
-Date: Sat, 2 May 2026 23:10:46 +0800
+        d=1e100.net; s=20251104; t=1777736606; x=1778341406;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dPLhh/sYehPY6xGFGWFMg/n/yf/ziOgLoWmXDVIRRZ4=;
+        b=ViSpKcGeprrgYD09Wf920h/wVC/2/3ZCkxVzL+XLDqWP6iGLQ/k+q0QfSR8HhO96Qh
+         jsNGeuhsTY3+QqptccVP+NrHBJ2M0sSktubN/CFnwDSjlKJ5LqzWVxexVjpSJ33KSpWi
+         sT1sNxgjhOuDE3qMq2P9QGl54C/BPeLhYv61Ua5BxHak/7YGD1i2v+ExAdDA+xVXb9ty
+         CCwwBT4U1O0+LSj2VpFSK+CpVCsq5eN+hx5m6yRsxC9K7qW2IKBjjp2sZQYHtGGtsR57
+         yUd4UI+4mhCKBUJeROeXUOSeNy2lBWAEP3HHsCkb83iS6OKKarZ3Hkt+1Fdvh5oJEPcP
+         PmuQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/U35U03/wJGziKbLKd49qIVJiN+bfUOZi24rXUAQ602yQS/Wp1Bu/sZFFTBRFpEAkQQFEFpA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YweNZOvp1qATEHxq/V2IshPd05nJ5bBAdAOzbiLe8EswoBYLxDj
+	b/mOB0a6xWM1iB5M5goyrJCSOb/ZgX5yfsjtvuv7EkZjIerDbp0IQaQv
+X-Gm-Gg: AeBDieuXdBVSNHWJ6qIinkMD09EL5EVdMM+ef+/qwvndKOwsSYllg8jrzMGrd00aS3f
+	CmuexAUdrH3Gihwav4gIW/ctxwQzInqH1dL33RG3NdNTsyT6encsiWQ8JJAOtcrdeUdXe3KIrvZ
+	6QyL/sSkPy2Z6dzqUzPDM+jSbetgq/i4/t/w9lX0am5MQ4UiodaORm8YbQUg9ro7lqupKqtxcMD
+	Xqm4aoatfERgFNjt9LsjwrsqrnTa7bldzwK8vqt3mlTFhRGjXaRTfatigY55klrCEkhzr/u/pmU
+	iYDhMlOWqN9IFW5tjC0D03SKXRVnRZp1ph+pLBzo/LQqDvvyBGXBVZLR/KTzcJJKL5ut+ukzoZ9
+	BaVriihEkExksn//sVqNUCAw4HZXfsjkEBGeWAPNseKx1sILcTwchkzUjf7qq+1BBqmdYv7HDw9
+	F5y/fthTjfXpYUsKclB7iP/ppSq5Kd
+X-Received: by 2002:a17:90a:d407:b0:362:be3b:c8d4 with SMTP id 98e67ed59e1d1-3650ce10197mr1847644a91.3.1777736605937;
+        Sat, 02 May 2026 08:43:25 -0700 (PDT)
+Received: from kali ([103.195.202.195])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9caaae29dsm52915385ad.19.2026.05.02.08.43.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 May 2026 08:43:25 -0700 (PDT)
+From: Pavitra Jha <jhapavitra98@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: linux-kernel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	stable@vger.kernel.org,
+	Pavitra Jha <jhapavitra98@gmail.com>
+Subject: [PATCH] fs/ntfs3: validate lcns_follow in log_replay conversion
+Date: Sat,  2 May 2026 11:42:51 -0400
+Message-ID: <20260502154252.164586-1-jhapavitra98@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-From: palapapa <palapapa93@gmail.com>
-Subject: [bug report] fs/ntfs3: mounting an ntfs filesystem accelerated by
- intel optane memory causes data corruption
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello Konstantin Komarov,
+log_replay() converts DIR_PAGE_ENTRY_32 records into DIR_PAGE_ENTRY
+records when replaying version 0 restart tables.
 
-If an NTFS filesystem is set to be accelerated using Intel Optane Memory on
-Windows using the Intel Optane Memory and Storage Management app, mounting that
-filesystem on Linux will cause some files to be unreadable, presumably because
-the data for those files are stored on the Intel Optane SSD. This may be proven
-by the fact that cloning the NTFS drive in question to another drive causes
-Windows' chkdsk to report that drive as corrupted, while the original drive is
-perfectly readable. Writing the the NTFS drive in this state may cause data
-corruption.
+During this conversion, the memmove() length is derived directly from
+the on-disk lcns_follow field:
 
-Listing the directories that contain unreadable files gives errors like "invalid
-argument" or "no such file or directory", and dmesg gives errors like "ntfs3:
-...: MFT: r=..., expect seq=... instead of ...!".
+	memmove(&dp->vcn, &dp0->vcn_low,
+		2 * sizeof(u64) +
+				le32_to_cpu(dp->lcns_follow) * sizeof(u64));
 
-Would it be possible to detect this case and prevent mounting the drive in this
-inconsistent state?
+check_rstbl() validates restart table structure, but does not constrain
+per-entry lcns_follow values relative to the entry size. A malformed
+filesystem image can provide an oversized lcns_follow value, causing
+the conversion memmove() to access memory beyond the bounds of the
+allocated restart table buffer.
 
-This is my first time reporting a kernel issue. Sorry if I have made a mistake.
+The same field is later used to bound iteration over page_lcns[],
+so validating lcns_follow during conversion also prevents downstream
+out-of-bounds access from the same malformed metadata.
 
-Kernel version: 6.18.25
-Distro: Gentoo
+Compute the maximum valid lcns_follow from the already-validated
+restart table entry size and reject entries that exceed this bound.
+Reuse the existing t16/t32 scratch variables already declared in
+log_replay() to avoid introducing new declarations.
+
+Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+Cc: stable@vger.kernel.org
+Signed-off-by: Pavitra Jha <jhapavitra98@gmail.com>
+---
+ fs/ntfs3/fslog.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index c0237f7d0..91dc2d503 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -4215,13 +4215,22 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+ 	if (rst->major_ver)
+ 		goto end_conv_1; /* reduce tab pressure. */
+ 
++	t16 = le16_to_cpu(dptbl->size);
++	if (t16 < sizeof(struct DIR_PAGE_ENTRY))
++		goto dirty_vol;
++
++	t32 = (t16 - sizeof(struct DIR_PAGE_ENTRY)) / sizeof(u64);
++
+ 	dp = NULL;
+ 	while ((dp = enum_rstbl(dptbl, dp))) {
+ 		struct DIR_PAGE_ENTRY_32 *dp0 = (struct DIR_PAGE_ENTRY_32 *)dp;
+-		// NOTE: Danger. Check for of boundary.
++		u32 lcns = le32_to_cpu(dp->lcns_follow);
++
++		if (lcns > t32)
++			goto dirty_vol;
++
+ 		memmove(&dp->vcn, &dp0->vcn_low,
+-			2 * sizeof(u64) +
+-				le32_to_cpu(dp->lcns_follow) * sizeof(u64));
++			2 * sizeof(u64) + lcns * sizeof(u64));
+ 	}
+ 
+ end_conv_1:
+-- 
+2.53.0
+
