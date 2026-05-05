@@ -1,62 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E69C36495E;
-	Tue,  5 May 2026 12:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BAB63EF650;
+	Tue,  5 May 2026 15:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777984014; cv=none; b=P7RIoQ/UKhfKAvK6HB3WbFDv83dYV9+IyyjftGTVzj2NAnHFcHaWfNllU2tFGn0eG2ZnCcMulEuLFlYOZGxPpr9qOS2ZLceKc5md1S7swYyUBdmZRRgjNi+hewMEe55YRrQh9zhD0hBYVeYUXfnzTvKb4MN9G/JloG9B202HV08=
+	t=1777995193; cv=none; b=MHQJL1e/ZE72W9xVWHDoC7dZDpD38T/bve2AxViizDRFWnZ4Z90BCx3NlBolK4IDhojg5+SDE89CYonG+N1fH0UI20Ap3GsVj67btlSsmC2+rFw4mqYKc5MMEm46IRjFlExQuliM0m9ch4sz3ALVv7Noch/jfpPSl/hKRDUneXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777984014; c=relaxed/simple;
-	bh=kTA55tKuy23MozNyDWkXQMbFnH6JyYys6X0NlNT+Sfc=;
+	s=arc-20240116; t=1777995193; c=relaxed/simple;
+	bh=W0wiUIxZJno9pMPSeje39j1q9FzXcM9EYwKAbF5ngEE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=adkhUHQpYPBzc4++PJY2QRnYpZBEpZZvlCr7uVFcznCN3XlFaC2VKHr+MlpgqpZKle6T68eZtL6ZQNPJ4HlvCfsQLvEOBMluJH+XgHv9mFx+Qs3SizUstbiEKzoGIZXF1R2hAF7eEZKHtgJNrAtIvyOdBS2CQivsB4vY0764xg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AN33F7mM; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=JXynUhUaspcsdbdQ2u4hiFbedmSXlsTok7RWq1Q8jCFZeDuSuXOke3N+jQE14SQfF04lVPYvgaJXqbTUJB0puzPSQ+DGvMSdJ6UxQwQceloA7IPmjVOesZW8Tu0j0Ma/YEJE62p8lOCcqVN5S8PHuSoC3ifBLCQSUdCLmW7cap8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mGYodk63; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AN33F7mM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGYodk63"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777984012; x=1809520012;
+  t=1777995191; x=1809531191;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kTA55tKuy23MozNyDWkXQMbFnH6JyYys6X0NlNT+Sfc=;
-  b=AN33F7mMQhT76pnR5fUY5M/ndQWD7PeLLkt8ybaHWGE+pqbmyvGrona/
-   K169w69P5u+eAIDHSlkX1kYbiW7mYTRYE1P5bMITaMNIh5bMpMAYfP1jA
-   UEIk3ekmEioflVTs1JNpPy2X/pjvAPqfhLgBDQ91fU4DRGlMKwURQETr+
-   P7LMwuYsc8CFRnxqS8xNkd1lgku+zhl4zefRgbQtPVlHYiNbbLZ4U5Vl3
-   RX91fmGnmiki0wevEBqCMYwFLqpo8aJtbxqs2Rw1+QO1tGdb9fMSMEjiN
-   LzMjK0jbpX0f1vYKXJPA5mX263TRBFLwvpXm4TWFTAKgQIs4rvyvQGJ3a
+  bh=W0wiUIxZJno9pMPSeje39j1q9FzXcM9EYwKAbF5ngEE=;
+  b=mGYodk63JXQa1mEHHZmJdhzW5Mfnc08rrZUxq778c1YxygaWG8nxgBCX
+   dyMhXjNS2unQDI7Nguaj/7UXqhEilt9lpkF2w9ndlHbJZckU9csRuYpZb
+   M91coFy74H8fLPj9Ly1lsIf133vmz+IpJq+iXnz4Wz+4k5G6XuyAt1pHu
+   Tvtf/wNr35R9C7iXC3FCwnMgSDX82WZK4IFC504RcK3sEQFTxUw0n+aVA
+   +NaT+IBvCyRCri6eGfW8Tg3AyYH9AYOpSp/1FrI1x1S7r0IBmsl/Owp9J
+   ff6pKzAoaoS4bUqqyFXOFkw9/zG+WlUHHXotP8LgdzpIszUTknKVodC2V
    Q==;
-X-CSE-ConnectionGUID: g2leJzsCSJ+qFqKvEtcYow==
-X-CSE-MsgGUID: k31mBfoDSkiPcvTpNIcJBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="78559243"
+X-CSE-ConnectionGUID: uKgWplc1SfCm9VZsmlcyrw==
+X-CSE-MsgGUID: 3OO7bJiZSC6Q0+kbd3mM9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="101537939"
 X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
-   d="scan'208";a="78559243"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 05:26:52 -0700
-X-CSE-ConnectionGUID: qT+/MYAKQzigpcTIQHkgbw==
-X-CSE-MsgGUID: ixtMUqKjQZu0m73LOr0rDQ==
+   d="scan'208";a="101537939"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 08:33:08 -0700
+X-CSE-ConnectionGUID: dFQ/aif3TceQ/fbiRIbZ5g==
+X-CSE-MsgGUID: qy/2uv4cQtWJg6U9XspOOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
-   d="scan'208";a="229315708"
+   d="scan'208";a="240826467"
 Received: from lkp-server01.sh.intel.com (HELO 9ec114424ce8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 05 May 2026 05:26:49 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 05 May 2026 08:33:05 -0700
 Received: from kbuild by 9ec114424ce8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wKErP-0000000007p-0DDY;
-	Tue, 05 May 2026 12:26:47 +0000
-Date: Tue, 5 May 2026 20:26:19 +0800
+	id 1wKHld-000000000E5-3spI;
+	Tue, 05 May 2026 15:33:01 +0000
+Date: Tue, 5 May 2026 23:32:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: Pavitra Jha <jhapavitra98@gmail.com>,
 	almaz.alexandrovich@paragon-software.com
-Cc: oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-	Pavitra Jha <jhapavitra98@gmail.com>, stable@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org, Pavitra Jha <jhapavitra98@gmail.com>,
+	stable@vger.kernel.org
 Subject: Re: [PATCH] fs/ntfs3: fix Out-Of-Bounds write in log_replay() via
  unvalidated data_off
-Message-ID: <202605052042.LmYa1Y0L-lkp@intel.com>
+Message-ID: <202605052342.pt9HemuX-lkp@intel.com>
 References: <20260502105008.21827-1-jhapavitra98@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -82,21 +83,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Pavitra-Jha/fs-ntfs3-fix-
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
 patch link:    https://lore.kernel.org/r/20260502105008.21827-1-jhapavitra98%40gmail.com
 patch subject: [PATCH] fs/ntfs3: fix Out-Of-Bounds write in log_replay() via unvalidated data_off
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20260505/202605052042.LmYa1Y0L-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605052042.LmYa1Y0L-lkp@intel.com/reproduce)
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260505/202605052342.pt9HemuX-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605052342.pt9HemuX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605052042.LmYa1Y0L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605052342.pt9HemuX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/ntfs3/fslog.c: In function 'do_action':
->> fs/ntfs3/fslog.c:3490:21: error: implicit declaration of function 'ntfs3_bad_de_range' [-Wimplicit-function-declaration]
+>> fs/ntfs3/fslog.c:3490:7: error: call to undeclared function 'ntfs3_bad_de_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     3490 |                 if (ntfs3_bad_de_range(e, dlen))
-         |                     ^~~~~~~~~~~~~~~~~~
+         |                     ^
+   1 error generated.
 
 
 vim +/ntfs3_bad_de_range +3490 fs/ntfs3/fslog.c
