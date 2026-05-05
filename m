@@ -1,381 +1,792 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3BC83D331A
-	for <ntfs3@lists.linux.dev>; Mon,  4 May 2026 12:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E69C36495E;
+	Tue,  5 May 2026 12:26:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777898231; cv=none; b=DfLfNUhuqx8rGiCPc9gymACy0v9vlIde1QYFbrId/B1w9rGn6iuW8rFvW6r7qvU3R/cBHnyWjuT3trw3ZH4yqqHAbJH1cEyB65mGZDxWBQFUgttyDHjo32yh0cQLg7Tl3E6h8n/l6mdmlusp/lRXl2x06rgGJoRInNljCREQ3zE=
+	t=1777984014; cv=none; b=P7RIoQ/UKhfKAvK6HB3WbFDv83dYV9+IyyjftGTVzj2NAnHFcHaWfNllU2tFGn0eG2ZnCcMulEuLFlYOZGxPpr9qOS2ZLceKc5md1S7swYyUBdmZRRgjNi+hewMEe55YRrQh9zhD0hBYVeYUXfnzTvKb4MN9G/JloG9B202HV08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777898231; c=relaxed/simple;
-	bh=YAV6HHon/xHh+oCjvjdEInspWStxuHBSNVfRlPsWwVg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sSu1Z3NTTNOWWpdn4jEBvQzbK9UQ+3mtT1taxcgmCjhiVxkuEYa8CNi8RbIbxVO9lII5MmRUTEeP3J2sU6cgWcVUH3BzVCxVwsUn8YX2AbNqeuzrpJ9zG1P9hPGqfeGVWjGg5tGLbc5juWFTaYzyZEBSLiO8Ay3LuQQ12/hUM94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr; spf=pass smtp.mailfrom=snu.ac.kr; dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b=zzX1hUbi; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snu.ac.kr
+	s=arc-20240116; t=1777984014; c=relaxed/simple;
+	bh=kTA55tKuy23MozNyDWkXQMbFnH6JyYys6X0NlNT+Sfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=adkhUHQpYPBzc4++PJY2QRnYpZBEpZZvlCr7uVFcznCN3XlFaC2VKHr+MlpgqpZKle6T68eZtL6ZQNPJ4HlvCfsQLvEOBMluJH+XgHv9mFx+Qs3SizUstbiEKzoGIZXF1R2hAF7eEZKHtgJNrAtIvyOdBS2CQivsB4vY0764xg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AN33F7mM; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b="zzX1hUbi"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-365312a27abso1188468a91.3
-        for <ntfs3@lists.linux.dev>; Mon, 04 May 2026 05:37:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snu.ac.kr; s=google; t=1777898226; x=1778503026; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JJ31SW234yvrLE11VH4WaS8hBNtlI8PVi6Jwwzl1440=;
-        b=zzX1hUbiLp77++YaVUTwjvc89N1AQ221zjP3avkdqH5VjNtez7a+GLXkHHfjO04YKu
-         o43G+zzsg3Gteyse324jirAjeCrZY90pWrUiT2X4y6u7TDx8x+el+B7uBjVxpBDNsaT/
-         7Z+A/fwMee4dU57sR4CLnAbUsfE7IClwIPQq0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777898226; x=1778503026;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JJ31SW234yvrLE11VH4WaS8hBNtlI8PVi6Jwwzl1440=;
-        b=ey265vQG71MrYjQX1VJ7e55v/OWzM72al3nju5+xsf3cqw64t9XXGmmPh4lsS8fnH5
-         KMalGAhbGT7FxVDAl0Mn7FxZrh85+QVfarZnrwzDNKvMdqoBJW3OYIhP/Z0XsSBjYd0D
-         zWy60coVaA9jYWPhlidZgL+Mhva/JjZ3eF+njiEhZdmYVUmeP+LK6xTn7vRwviYkkzrZ
-         ak8ap7pTv+1OjWpPcHvb3+ezW+Kcv3D1i4Aa6cYq3il5pM1WPscMhRMXnpD7zUgR4NoW
-         yIB5SGcjMZ1o9uPrKaXyINgbUWftZBOKcBGnKDYl4SXrKQV4wU0MSecbl+aVW0r+t8kE
-         vlhQ==
-X-Gm-Message-State: AOJu0YxVf+m26et60s+xqOq7A3xaeYSFRJtZvcJ7NKtRoRimINsMxs04
-	JgicKfE575q5ourXEM1A0pMrddqaiN6ZwGpSvin/Zz15nMPsgff37zM44TPYgEPgRQkTn5wfXJ9
-	nUhgfWywDkA==
-X-Gm-Gg: AeBDiev679RiYNUC26PgUSNEYGH14fkv1vxoLRn2cm16hBesI7/a4zLTE5Qa7fnz7IC
-	dVxqWoi8KJLhc4TExvDpfORHTXpi8JLaHWkzN+su+MYwjeppNyDqwEawJ8HLeOw9A5XCzsM/fln
-	PtFpWNj3M14PfvogMyFornA+cHFLBMR0qUonphe45i4V5JbeEIOfIuKm64PiPzIkaaNUVIv/tvF
-	h30bp/GVtiOztXWQmQdSjvLTHFUgr6Zouu7Z6lMmS8MoN76YrYI1wVj1KZeIcfxbOvx0qSygfc/
-	ny3Y21PYhGQvVXgxseO37D8+DgN1HP+uFPrQJncF1ZCGmaWkG8f9tGSwXpmKoKiTIwEyLwpyCZ1
-	+h0cG0uBbaHs+oZsRCkqDLE7jIazQiQzM1adQUTw1ZJoMG7TbFyp9JoLRc8w+gwcZDsCm5yyAft
-	mmgy48S3eMRIvBE4Z6PjW0B6Vhm7qThcmGcPV1dhXw6gxCXjniuE1Rnc5wLQb+UddilwhMc69aU
-	LvEXR2M1RIX
-X-Received: by 2002:a17:90b:1648:b0:364:ae19:f2eb with SMTP id 98e67ed59e1d1-3650cba3500mr9819233a91.0.1777898225879;
-        Mon, 04 May 2026 05:37:05 -0700 (PDT)
-Received: from eulgyu-desktop.localdomain ([147.46.174.223])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364bdf2aa41sm19261520a91.4.2026.05.04.05.37.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 05:37:05 -0700 (PDT)
-From: Eulgyu Kim <eulgyukim@snu.ac.kr>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	byoungyoung@snu.ac.kr,
-	jjy600901@snu.ac.kr
-Subject: [BUG] KASAN: slab-use-after-free Read in ntfs_show_options
-Date: Mon,  4 May 2026 21:37:00 +0900
-Message-ID: <20260504123700.32551-1-eulgyukim@snu.ac.kr>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AN33F7mM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777984012; x=1809520012;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kTA55tKuy23MozNyDWkXQMbFnH6JyYys6X0NlNT+Sfc=;
+  b=AN33F7mMQhT76pnR5fUY5M/ndQWD7PeLLkt8ybaHWGE+pqbmyvGrona/
+   K169w69P5u+eAIDHSlkX1kYbiW7mYTRYE1P5bMITaMNIh5bMpMAYfP1jA
+   UEIk3ekmEioflVTs1JNpPy2X/pjvAPqfhLgBDQ91fU4DRGlMKwURQETr+
+   P7LMwuYsc8CFRnxqS8xNkd1lgku+zhl4zefRgbQtPVlHYiNbbLZ4U5Vl3
+   RX91fmGnmiki0wevEBqCMYwFLqpo8aJtbxqs2Rw1+QO1tGdb9fMSMEjiN
+   LzMjK0jbpX0f1vYKXJPA5mX263TRBFLwvpXm4TWFTAKgQIs4rvyvQGJ3a
+   Q==;
+X-CSE-ConnectionGUID: g2leJzsCSJ+qFqKvEtcYow==
+X-CSE-MsgGUID: k31mBfoDSkiPcvTpNIcJBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="78559243"
+X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
+   d="scan'208";a="78559243"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 05:26:52 -0700
+X-CSE-ConnectionGUID: qT+/MYAKQzigpcTIQHkgbw==
+X-CSE-MsgGUID: ixtMUqKjQZu0m73LOr0rDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
+   d="scan'208";a="229315708"
+Received: from lkp-server01.sh.intel.com (HELO 9ec114424ce8) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 05 May 2026 05:26:49 -0700
+Received: from kbuild by 9ec114424ce8 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wKErP-0000000007p-0DDY;
+	Tue, 05 May 2026 12:26:47 +0000
+Date: Tue, 5 May 2026 20:26:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pavitra Jha <jhapavitra98@gmail.com>,
+	almaz.alexandrovich@paragon-software.com
+Cc: oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
+	Pavitra Jha <jhapavitra98@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] fs/ntfs3: fix Out-Of-Bounds write in log_replay() via
+ unvalidated data_off
+Message-ID: <202605052042.LmYa1Y0L-lkp@intel.com>
+References: <20260502105008.21827-1-jhapavitra98@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260502105008.21827-1-jhapavitra98@gmail.com>
 
-Hello,
+Hi Pavitra,
 
-We encountered a "KASAN: slab-use-after-free Read in ntfs_show_options"
-on kernel version v7.1.0-rc1.
+kernel test robot noticed the following build errors:
 
-As this issue was identified via fuzzing and we have limited background,
-we find it challenging to identify the exact root cause or propose a correct fix.
-Therefore, please consider the following analysis as a best-effort guess,
-which may still be incomplete or incorrect.
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v7.1-rc2 next-20260504]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The issue is that ntfs3 replaces sbi->options during reconfigure and
-leaves the old options object in fc->fs_private, where it is freed by
-the subsequent VFS fs_context cleanup path, while concurrent readers
-such as ntfs_show_options() can still hold and dereference the old pointer.
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavitra-Jha/fs-ntfs3-fix-Out-Of-Bounds-write-in-log_replay-via-unvalidated-data_off/20260505-085836
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260502105008.21827-1-jhapavitra98%40gmail.com
+patch subject: [PATCH] fs/ntfs3: fix Out-Of-Bounds write in log_replay() via unvalidated data_off
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20260505/202605052042.LmYa1Y0L-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605052042.LmYa1Y0L-lkp@intel.com/reproduce)
 
-The harmful sequence is:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605052042.LmYa1Y0L-lkp@intel.com/
 
-1. ntfs_show_options() is called while reading /proc/*/mounts.
+All errors (new ones prefixed by >>):
 
-2. It reads the current mount options pointer:
-    
-  struct ntfs_mount_options *opts = sbi->options;
-
-3. Before ntfs_show_options() finishes using opts,
-another thread reconfigures the same NTFS3 mount.
-
-4. ntfs_fs_reconfigure() installs a new options object by swapping pointers:
-
-  swap(sbi->options, fc->fs_private);
-
-5. After reconfigure succeeds, the VFS the VFS calls vfs_clean_context()
-to clean up the fs_context.
-
-6. During that cleanup, ntfs_fs_free() frees fc->fs_private,
-which is now the old sbi->options object.
-
-7. The first thread resumes inside ntfs_show_options() and
-continues reading fields from opts.
-
-8. But opts now points to freed memory, so KASAN reports a slab use-after-free.
-
-We have included the following items below:
-- C reproducer (~90 lines)
-- kernel delay patch
-- KASAN crash log
-
-To reliably trigger the race condition bug, we patched the kernel
-to inject a delay at a specific point. Also, our reproducer assumes that
-ntfs image already exists at `/tmp/ntfs.img`.
-
-The kernel config used is the same as the syzbot configuration.
-
-We hope this report helps address the issue. Please let us know
-if any further information is needed.
-
-Thank you.
-
-Best Regards,
-Eulgyu Kim
+   fs/ntfs3/fslog.c: In function 'do_action':
+>> fs/ntfs3/fslog.c:3490:21: error: implicit declaration of function 'ntfs3_bad_de_range' [-Wimplicit-function-declaration]
+    3490 |                 if (ntfs3_bad_de_range(e, dlen))
+         |                     ^~~~~~~~~~~~~~~~~~
 
 
+vim +/ntfs3_bad_de_range +3490 fs/ntfs3/fslog.c
 
-kernel delay patch:
-==================================================================
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 004f59937..dbfac1a44 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -68,6 +68,7 @@
- #include <linux/proc_fs.h>
- #include <linux/seq_file.h>
- #include <linux/statfs.h>
-+#include <linux/delay.h>
+  3052	
+  3053	/*
+  3054	 * do_action - Common routine for the Redo and Undo Passes.
+  3055	 * @rlsn: If it is NULL then undo.
+  3056	 */
+  3057	static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+  3058			     const struct LOG_REC_HDR *lrh, u32 op, void *data,
+  3059			     u32 dlen, u32 rec_len, const u64 *rlsn)
+  3060	{
+  3061		int err = 0;
+  3062		struct ntfs_sb_info *sbi = log->ni->mi.sbi;
+  3063		struct inode *inode = NULL, *inode_parent;
+  3064		struct mft_inode *mi = NULL, *mi2_child = NULL;
+  3065		CLST rno = 0, rno_base = 0;
+  3066		struct INDEX_BUFFER *ib = NULL;
+  3067		struct MFT_REC *rec = NULL;
+  3068		struct ATTRIB *attr = NULL, *attr2;
+  3069		struct INDEX_HDR *hdr;
+  3070		struct INDEX_ROOT *root;
+  3071		struct NTFS_DE *e, *e1, *e2;
+  3072		struct NEW_ATTRIBUTE_SIZES *new_sz;
+  3073		struct ATTR_FILE_NAME *fname;
+  3074		struct OpenAttr *oa, *oa2;
+  3075		u32 nsize, t32, asize, used, esize, off, bits;
+  3076		u16 id, id2;
+  3077		u32 record_size = sbi->record_size;
+  3078		u64 t64;
+  3079		u16 roff = le16_to_cpu(lrh->record_off);
+  3080		u16 aoff = le16_to_cpu(lrh->attr_off);
+  3081		u64 lco = 0;
+  3082		u64 cbo = (u64)le16_to_cpu(lrh->cluster_off) << SECTOR_SHIFT;
+  3083		u64 tvo = le64_to_cpu(lrh->target_vcn) << sbi->cluster_bits;
+  3084		u64 vbo = cbo + tvo;
+  3085		void *buffer_le = NULL;
+  3086		u32 bytes = 0;
+  3087		bool a_dirty = false;
+  3088		u16 data_off;
+  3089	
+  3090		oa = oe->ptr;
+  3091	
+  3092		/* Big switch to prepare. */
+  3093		switch (op) {
+  3094		/* ============================================================
+  3095		 * Process MFT records, as described by the current log record.
+  3096		 * ============================================================
+  3097		 */
+  3098		case InitializeFileRecordSegment:
+  3099		case DeallocateFileRecordSegment:
+  3100		case WriteEndOfFileRecordSegment:
+  3101		case CreateAttribute:
+  3102		case DeleteAttribute:
+  3103		case UpdateResidentValue:
+  3104		case UpdateMappingPairs:
+  3105		case SetNewAttributeSizes:
+  3106		case AddIndexEntryRoot:
+  3107		case DeleteIndexEntryRoot:
+  3108		case SetIndexEntryVcnRoot:
+  3109		case UpdateFileNameRoot:
+  3110		case UpdateRecordDataRoot:
+  3111		case ZeroEndOfFileRecord:
+  3112			rno = vbo >> sbi->record_bits;
+  3113			inode = ilookup(sbi->sb, rno);
+  3114			if (inode) {
+  3115				mi = &ntfs_i(inode)->mi;
+  3116			} else {
+  3117				/* Read from disk. */
+  3118				err = mi_get(sbi, rno, &mi);
+  3119				if (err && op == InitializeFileRecordSegment) {
+  3120					mi = kzalloc_obj(struct mft_inode, GFP_NOFS);
+  3121					if (!mi)
+  3122						return -ENOMEM;
+  3123					err = mi_format_new(mi, sbi, rno, 0, false);
+  3124				}
+  3125				if (err)
+  3126					return err;
+  3127			}
+  3128			rec = mi->mrec;
+  3129	
+  3130			if (op == DeallocateFileRecordSegment)
+  3131				goto skip_load_parent;
+  3132	
+  3133			if (rec->rhdr.sign == NTFS_BAAD_SIGNATURE)
+  3134				goto dirty_vol;
+  3135			if (!check_lsn(&rec->rhdr, rlsn))
+  3136				goto out;
+  3137			if (!check_file_record(rec, NULL, sbi))
+  3138				goto dirty_vol;
+  3139			attr = Add2Ptr(rec, roff);
+  3140	
+  3141			if (is_rec_base(rec) || InitializeFileRecordSegment == op) {
+  3142				rno_base = rno;
+  3143				goto skip_load_parent;
+  3144			}
+  3145	
+  3146			rno_base = ino_get(&rec->parent_ref);
+  3147			inode_parent = ntfs_iget5(sbi->sb, &rec->parent_ref, NULL);
+  3148			if (IS_ERR(inode_parent))
+  3149				goto skip_load_parent;
+  3150	
+  3151			if (is_bad_inode(inode_parent)) {
+  3152				iput(inode_parent);
+  3153				goto skip_load_parent;
+  3154			}
+  3155	
+  3156			if (ni_load_mi_ex(ntfs_i(inode_parent), rno, &mi2_child)) {
+  3157				iput(inode_parent);
+  3158			} else {
+  3159				if (mi2_child->mrec != mi->mrec)
+  3160					memcpy(mi2_child->mrec, mi->mrec,
+  3161					       sbi->record_size);
+  3162	
+  3163				if (inode)
+  3164					iput(inode);
+  3165				else
+  3166					mi_put(mi);
+  3167	
+  3168				inode = inode_parent;
+  3169				mi = mi2_child;
+  3170				rec = mi2_child->mrec;
+  3171				attr = Add2Ptr(rec, roff);
+  3172			}
+  3173	
+  3174	skip_load_parent:
+  3175			inode_parent = NULL;
+  3176			break;
+  3177	
+  3178		/*
+  3179		 * Process attributes, as described by the current log record.
+  3180		 */
+  3181		case UpdateNonresidentValue:
+  3182		case AddIndexEntryAllocation:
+  3183		case DeleteIndexEntryAllocation:
+  3184		case WriteEndOfIndexBuffer:
+  3185		case SetIndexEntryVcnAllocation:
+  3186		case UpdateFileNameAllocation:
+  3187		case SetBitsInNonresidentBitMap:
+  3188		case ClearBitsInNonresidentBitMap:
+  3189		case UpdateRecordDataAllocation:
+  3190			attr = oa->attr;
+  3191			bytes = UpdateNonresidentValue == op ? dlen : 0;
+  3192			lco = (u64)le16_to_cpu(lrh->lcns_follow) << sbi->cluster_bits;
+  3193	
+  3194			if (attr->type == ATTR_ALLOC) {
+  3195				t32 = le32_to_cpu(oe->bytes_per_index);
+  3196				if (bytes < t32)
+  3197					bytes = t32;
+  3198			}
+  3199	
+  3200			if (!bytes)
+  3201				bytes = lco - cbo;
+  3202	
+  3203			bytes += roff;
+  3204			if (attr->type == ATTR_ALLOC)
+  3205				bytes = (bytes + 511) & ~511; // align
+  3206	
+  3207			buffer_le = kmalloc(bytes, GFP_NOFS);
+  3208			if (!buffer_le)
+  3209				return -ENOMEM;
+  3210	
+  3211			err = ntfs_read_run_nb(sbi, oa->run1, vbo, buffer_le, bytes,
+  3212					       NULL);
+  3213			if (err)
+  3214				goto out;
+  3215	
+  3216			if (attr->type == ATTR_ALLOC && *(int *)buffer_le)
+  3217				ntfs_fix_post_read(buffer_le, bytes, false);
+  3218			break;
+  3219	
+  3220		default:
+  3221			WARN_ON(1);
+  3222		}
+  3223	
+  3224		/* Big switch to do operation. */
+  3225		switch (op) {
+  3226		case InitializeFileRecordSegment:
+  3227			if (roff + dlen > record_size)
+  3228				goto dirty_vol;
+  3229	
+  3230			memcpy(Add2Ptr(rec, roff), data, dlen);
+  3231			mi->dirty = true;
+  3232			break;
+  3233	
+  3234		case DeallocateFileRecordSegment:
+  3235			clear_rec_inuse(rec);
+  3236			le16_add_cpu(&rec->seq, 1);
+  3237			mi->dirty = true;
+  3238			break;
+  3239	
+  3240		case WriteEndOfFileRecordSegment:
+  3241			attr2 = (struct ATTRIB *)data;
+  3242			if (!check_if_attr(rec, lrh) || roff + dlen > record_size)
+  3243				goto dirty_vol;
+  3244	
+  3245			memmove(attr, attr2, dlen);
+  3246			rec->used = cpu_to_le32(ALIGN(roff + dlen, 8));
+  3247	
+  3248			mi->dirty = true;
+  3249			break;
+  3250	
+  3251		case CreateAttribute:
+  3252			attr2 = (struct ATTRIB *)data;
+  3253			asize = le32_to_cpu(attr2->size);
+  3254			used = le32_to_cpu(rec->used);
+  3255	
+  3256			if (!check_if_attr(rec, lrh) || dlen < SIZEOF_RESIDENT ||
+  3257			    !IS_ALIGNED(asize, 8) ||
+  3258			    Add2Ptr(attr2, asize) > Add2Ptr(lrh, rec_len) ||
+  3259			    dlen > record_size - used) {
+  3260				goto dirty_vol;
+  3261			}
+  3262	
+  3263			memmove(Add2Ptr(attr, asize), attr, used - roff);
+  3264			memcpy(attr, attr2, asize);
+  3265	
+  3266			rec->used = cpu_to_le32(used + asize);
+  3267			id = le16_to_cpu(rec->next_attr_id);
+  3268			id2 = le16_to_cpu(attr2->id);
+  3269			if (id <= id2)
+  3270				rec->next_attr_id = cpu_to_le16(id2 + 1);
+  3271			if (is_attr_indexed(attr))
+  3272				le16_add_cpu(&rec->hard_links, 1);
+  3273	
+  3274			oa2 = find_loaded_attr(log, attr, rno_base);
+  3275			if (oa2)
+  3276				update_oa_attr(oa2, attr);
+  3277	
+  3278			mi->dirty = true;
+  3279			break;
+  3280	
+  3281		case DeleteAttribute:
+  3282			asize = le32_to_cpu(attr->size);
+  3283			used = le32_to_cpu(rec->used);
+  3284	
+  3285			if (!check_if_attr(rec, lrh))
+  3286				goto dirty_vol;
+  3287	
+  3288			rec->used = cpu_to_le32(used - asize);
+  3289			if (is_attr_indexed(attr))
+  3290				le16_add_cpu(&rec->hard_links, -1);
+  3291	
+  3292			memmove(attr, Add2Ptr(attr, asize), used - asize - roff);
+  3293	
+  3294			mi->dirty = true;
+  3295			break;
+  3296	
+  3297		case UpdateResidentValue:
+  3298			nsize = aoff + dlen;
+  3299	
+  3300			if (!check_if_attr(rec, lrh))
+  3301				goto dirty_vol;
+  3302	
+  3303			asize = le32_to_cpu(attr->size);
+  3304			used = le32_to_cpu(rec->used);
+  3305	
+  3306			if (lrh->redo_len == lrh->undo_len) {
+  3307				if (nsize > asize)
+  3308					goto dirty_vol;
+  3309				goto move_data;
+  3310			}
+  3311	
+  3312			if (nsize > asize && nsize - asize > record_size - used)
+  3313				goto dirty_vol;
+  3314	
+  3315			nsize = ALIGN(nsize, 8);
+  3316			data_off = le16_to_cpu(attr->res.data_off);
+  3317	
+  3318			if (nsize < asize) {
+  3319				memmove(Add2Ptr(attr, aoff), data, dlen);
+  3320				data = NULL; // To skip below memmove().
+  3321			}
+  3322	
+  3323			memmove(Add2Ptr(attr, nsize), Add2Ptr(attr, asize),
+  3324				used - le16_to_cpu(lrh->record_off) - asize);
+  3325	
+  3326			rec->used = cpu_to_le32(used + nsize - asize);
+  3327			attr->size = cpu_to_le32(nsize);
+  3328			attr->res.data_size = cpu_to_le32(aoff + dlen - data_off);
+  3329	
+  3330	move_data:
+  3331			if (data)
+  3332				memmove(Add2Ptr(attr, aoff), data, dlen);
+  3333	
+  3334			oa2 = find_loaded_attr(log, attr, rno_base);
+  3335			if (oa2 && update_oa_attr(oa2, attr))
+  3336				oa2->run1 = &oa2->run0;
+  3337	
+  3338			mi->dirty = true;
+  3339			break;
+  3340	
+  3341		case UpdateMappingPairs:
+  3342			nsize = aoff + dlen;
+  3343			asize = le32_to_cpu(attr->size);
+  3344			used = le32_to_cpu(rec->used);
+  3345	
+  3346			if (!check_if_attr(rec, lrh) || !attr->non_res ||
+  3347			    aoff < le16_to_cpu(attr->nres.run_off) || aoff > asize ||
+  3348			    (nsize > asize && nsize - asize > record_size - used)) {
+  3349				goto dirty_vol;
+  3350			}
+  3351	
+  3352			nsize = ALIGN(nsize, 8);
+  3353	
+  3354			memmove(Add2Ptr(attr, nsize), Add2Ptr(attr, asize),
+  3355				used - le16_to_cpu(lrh->record_off) - asize);
+  3356			rec->used = cpu_to_le32(used + nsize - asize);
+  3357			attr->size = cpu_to_le32(nsize);
+  3358			memmove(Add2Ptr(attr, aoff), data, dlen);
+  3359	
+  3360			if (run_get_highest_vcn(le64_to_cpu(attr->nres.svcn),
+  3361						attr_run(attr), &t64)) {
+  3362				goto dirty_vol;
+  3363			}
+  3364	
+  3365			attr->nres.evcn = cpu_to_le64(t64);
+  3366			oa2 = find_loaded_attr(log, attr, rno_base);
+  3367			if (oa2 && oa2->attr->non_res)
+  3368				oa2->attr->nres.evcn = attr->nres.evcn;
+  3369	
+  3370			mi->dirty = true;
+  3371			break;
+  3372	
+  3373		case SetNewAttributeSizes:
+  3374			new_sz = data;
+  3375			if (!check_if_attr(rec, lrh) || !attr->non_res)
+  3376				goto dirty_vol;
+  3377	
+  3378			attr->nres.alloc_size = new_sz->alloc_size;
+  3379			attr->nres.data_size = new_sz->data_size;
+  3380			attr->nres.valid_size = new_sz->valid_size;
+  3381	
+  3382			if (dlen >= sizeof(struct NEW_ATTRIBUTE_SIZES))
+  3383				attr->nres.total_size = new_sz->total_size;
+  3384	
+  3385			oa2 = find_loaded_attr(log, attr, rno_base);
+  3386			if (oa2)
+  3387				update_oa_attr(oa2, attr);
+  3388	
+  3389			mi->dirty = true;
+  3390			break;
+  3391	
+  3392		case AddIndexEntryRoot:
+  3393			e = (struct NTFS_DE *)data;
+  3394			esize = le16_to_cpu(e->size);
+  3395			root = resident_data(attr);
+  3396			hdr = &root->ihdr;
+  3397			used = le32_to_cpu(hdr->used);
+  3398	
+  3399			if (!check_if_index_root(rec, lrh) ||
+  3400			    !check_if_root_index(attr, hdr, lrh) ||
+  3401			    Add2Ptr(data, esize) > Add2Ptr(lrh, rec_len) ||
+  3402			    esize > le32_to_cpu(rec->total) - le32_to_cpu(rec->used)) {
+  3403				goto dirty_vol;
+  3404			}
+  3405	
+  3406			e1 = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
+  3407	
+  3408			change_attr_size(rec, attr, le32_to_cpu(attr->size) + esize);
+  3409	
+  3410			memmove(Add2Ptr(e1, esize), e1,
+  3411				PtrOffset(e1, Add2Ptr(hdr, used)));
+  3412			memmove(e1, e, esize);
+  3413	
+  3414			le32_add_cpu(&attr->res.data_size, esize);
+  3415			hdr->used = cpu_to_le32(used + esize);
+  3416			le32_add_cpu(&hdr->total, esize);
+  3417	
+  3418			mi->dirty = true;
+  3419			break;
+  3420	
+  3421		case DeleteIndexEntryRoot:
+  3422			root = resident_data(attr);
+  3423			hdr = &root->ihdr;
+  3424			used = le32_to_cpu(hdr->used);
+  3425	
+  3426			if (!check_if_index_root(rec, lrh) ||
+  3427			    !check_if_root_index(attr, hdr, lrh)) {
+  3428				goto dirty_vol;
+  3429			}
+  3430	
+  3431			e1 = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
+  3432			esize = le16_to_cpu(e1->size);
+  3433			if (PtrOffset(e1, Add2Ptr(hdr, used)) < esize)
+  3434				goto dirty_vol;
+  3435	
+  3436			e2 = Add2Ptr(e1, esize);
+  3437	
+  3438			memmove(e1, e2, PtrOffset(e2, Add2Ptr(hdr, used)));
+  3439	
+  3440			le32_sub_cpu(&attr->res.data_size, esize);
+  3441			hdr->used = cpu_to_le32(used - esize);
+  3442			le32_sub_cpu(&hdr->total, esize);
+  3443	
+  3444			change_attr_size(rec, attr, le32_to_cpu(attr->size) - esize);
+  3445	
+  3446			mi->dirty = true;
+  3447			break;
+  3448	
+  3449		case SetIndexEntryVcnRoot:
+  3450			root = resident_data(attr);
+  3451			hdr = &root->ihdr;
+  3452	
+  3453			if (!check_if_index_root(rec, lrh) ||
+  3454			    !check_if_root_index(attr, hdr, lrh)) {
+  3455				goto dirty_vol;
+  3456			}
+  3457	
+  3458			e = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
+  3459	
+  3460			de_set_vbn_le(e, *(__le64 *)data);
+  3461			mi->dirty = true;
+  3462			break;
+  3463	
+  3464		case UpdateFileNameRoot:
+  3465			root = resident_data(attr);
+  3466			hdr = &root->ihdr;
+  3467	
+  3468			if (!check_if_index_root(rec, lrh) ||
+  3469			    !check_if_root_index(attr, hdr, lrh)) {
+  3470				goto dirty_vol;
+  3471			}
+  3472	
+  3473			e = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
+  3474			fname = (struct ATTR_FILE_NAME *)(e + 1);
+  3475			memmove(&fname->dup, data, sizeof(fname->dup)); //
+  3476			mi->dirty = true;
+  3477			break;
+  3478	
+  3479		case UpdateRecordDataRoot:
+  3480			root = resident_data(attr);
+  3481			hdr = &root->ihdr;
+  3482	
+  3483			if (!check_if_index_root(rec, lrh) ||
+  3484			    !check_if_root_index(attr, hdr, lrh)) {
+  3485				goto dirty_vol;
+  3486			}
+  3487	
+  3488			e = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
+  3489	
+> 3490			if (ntfs3_bad_de_range(e, dlen))
+  3491				goto dirty_vol;
+  3492	
+  3493			memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
+  3494	
+  3495			mi->dirty = true;
+  3496			break;
+  3497	
+  3498		case ZeroEndOfFileRecord:
+  3499			if (roff + dlen > record_size)
+  3500				goto dirty_vol;
+  3501	
+  3502			memset(attr, 0, dlen);
+  3503			mi->dirty = true;
+  3504			break;
+  3505	
+  3506		case UpdateNonresidentValue:
+  3507			if (lco < cbo + roff + dlen)
+  3508				goto dirty_vol;
+  3509	
+  3510			memcpy(Add2Ptr(buffer_le, roff), data, dlen);
+  3511	
+  3512			a_dirty = true;
+  3513			if (attr->type == ATTR_ALLOC)
+  3514				ntfs_fix_pre_write(buffer_le, bytes);
+  3515			break;
+  3516	
+  3517		case AddIndexEntryAllocation:
+  3518			ib = Add2Ptr(buffer_le, roff);
+  3519			hdr = &ib->ihdr;
+  3520			e = data;
+  3521			esize = le16_to_cpu(e->size);
+  3522			e1 = Add2Ptr(ib, aoff);
+  3523	
+  3524			if (is_baad(&ib->rhdr))
+  3525				goto dirty_vol;
+  3526			if (!check_lsn(&ib->rhdr, rlsn))
+  3527				goto out;
+  3528	
+  3529			used = le32_to_cpu(hdr->used);
+  3530	
+  3531			if (!check_index_buffer(ib, bytes) ||
+  3532			    !check_if_alloc_index(hdr, aoff) ||
+  3533			    Add2Ptr(e, esize) > Add2Ptr(lrh, rec_len) ||
+  3534			    used + esize > le32_to_cpu(hdr->total)) {
+  3535				goto dirty_vol;
+  3536			}
+  3537	
+  3538			memmove(Add2Ptr(e1, esize), e1,
+  3539				PtrOffset(e1, Add2Ptr(hdr, used)));
+  3540			memcpy(e1, e, esize);
+  3541	
+  3542			hdr->used = cpu_to_le32(used + esize);
+  3543	
+  3544			a_dirty = true;
+  3545	
+  3546			ntfs_fix_pre_write(&ib->rhdr, bytes);
+  3547			break;
+  3548	
+  3549		case DeleteIndexEntryAllocation:
+  3550			ib = Add2Ptr(buffer_le, roff);
+  3551			hdr = &ib->ihdr;
+  3552			e = Add2Ptr(ib, aoff);
+  3553			esize = le16_to_cpu(e->size);
+  3554	
+  3555			if (is_baad(&ib->rhdr))
+  3556				goto dirty_vol;
+  3557			if (!check_lsn(&ib->rhdr, rlsn))
+  3558				goto out;
+  3559	
+  3560			if (!check_index_buffer(ib, bytes) ||
+  3561			    !check_if_alloc_index(hdr, aoff)) {
+  3562				goto dirty_vol;
+  3563			}
+  3564	
+  3565			e1 = Add2Ptr(e, esize);
+  3566			nsize = esize;
+  3567			used = le32_to_cpu(hdr->used);
+  3568	
+  3569			memmove(e, e1, PtrOffset(e1, Add2Ptr(hdr, used)));
+  3570	
+  3571			hdr->used = cpu_to_le32(used - nsize);
+  3572	
+  3573			a_dirty = true;
+  3574	
+  3575			ntfs_fix_pre_write(&ib->rhdr, bytes);
+  3576			break;
+  3577	
+  3578		case WriteEndOfIndexBuffer:
+  3579			ib = Add2Ptr(buffer_le, roff);
+  3580			hdr = &ib->ihdr;
+  3581			e = Add2Ptr(ib, aoff);
+  3582	
+  3583			if (is_baad(&ib->rhdr))
+  3584				goto dirty_vol;
+  3585			if (!check_lsn(&ib->rhdr, rlsn))
+  3586				goto out;
+  3587			if (!check_index_buffer(ib, bytes) ||
+  3588			    !check_if_alloc_index(hdr, aoff) ||
+  3589			    aoff + dlen > offsetof(struct INDEX_BUFFER, ihdr) +
+  3590						  le32_to_cpu(hdr->total)) {
+  3591				goto dirty_vol;
+  3592			}
+  3593	
+  3594			hdr->used = cpu_to_le32(dlen + PtrOffset(hdr, e));
+  3595			memmove(e, data, dlen);
+  3596	
+  3597			a_dirty = true;
+  3598			ntfs_fix_pre_write(&ib->rhdr, bytes);
+  3599			break;
+  3600	
+  3601		case SetIndexEntryVcnAllocation:
+  3602			ib = Add2Ptr(buffer_le, roff);
+  3603			hdr = &ib->ihdr;
+  3604			e = Add2Ptr(ib, aoff);
+  3605	
+  3606			if (is_baad(&ib->rhdr))
+  3607				goto dirty_vol;
+  3608	
+  3609			if (!check_lsn(&ib->rhdr, rlsn))
+  3610				goto out;
+  3611			if (!check_index_buffer(ib, bytes) ||
+  3612			    !check_if_alloc_index(hdr, aoff)) {
+  3613				goto dirty_vol;
+  3614			}
+  3615	
+  3616			de_set_vbn_le(e, *(__le64 *)data);
+  3617	
+  3618			a_dirty = true;
+  3619			ntfs_fix_pre_write(&ib->rhdr, bytes);
+  3620			break;
+  3621	
+  3622		case UpdateFileNameAllocation:
+  3623			ib = Add2Ptr(buffer_le, roff);
+  3624			hdr = &ib->ihdr;
+  3625			e = Add2Ptr(ib, aoff);
+  3626	
+  3627			if (is_baad(&ib->rhdr))
+  3628				goto dirty_vol;
+  3629	
+  3630			if (!check_lsn(&ib->rhdr, rlsn))
+  3631				goto out;
+  3632			if (!check_index_buffer(ib, bytes) ||
+  3633			    !check_if_alloc_index(hdr, aoff)) {
+  3634				goto dirty_vol;
+  3635			}
+  3636	
+  3637			fname = (struct ATTR_FILE_NAME *)(e + 1);
+  3638			memmove(&fname->dup, data, sizeof(fname->dup));
+  3639	
+  3640			a_dirty = true;
+  3641			ntfs_fix_pre_write(&ib->rhdr, bytes);
+  3642			break;
+  3643	
+  3644		case SetBitsInNonresidentBitMap:
+  3645			off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
+  3646			bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
+  3647	
+  3648			if (cbo + (off + 7) / 8 > lco ||
+  3649			    cbo + ((off + bits + 7) / 8) > lco) {
+  3650				goto dirty_vol;
+  3651			}
+  3652	
+  3653			ntfs_bitmap_set_le(Add2Ptr(buffer_le, roff), off, bits);
+  3654			a_dirty = true;
+  3655			break;
+  3656	
+  3657		case ClearBitsInNonresidentBitMap:
+  3658			off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
+  3659			bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
+  3660	
+  3661			if (cbo + (off + 7) / 8 > lco ||
+  3662			    cbo + ((off + bits + 7) / 8) > lco) {
+  3663				goto dirty_vol;
+  3664			}
+  3665	
+  3666			ntfs_bitmap_clear_le(Add2Ptr(buffer_le, roff), off, bits);
+  3667			a_dirty = true;
+  3668			break;
+  3669	
+  3670		case UpdateRecordDataAllocation:
+  3671			ib = Add2Ptr(buffer_le, roff);
+  3672			hdr = &ib->ihdr;
+  3673			e = Add2Ptr(ib, aoff);
+  3674	
+  3675			if (is_baad(&ib->rhdr))
+  3676				goto dirty_vol;
+  3677	
+  3678			if (!check_lsn(&ib->rhdr, rlsn))
+  3679				goto out;
+  3680			if (!check_index_buffer(ib, bytes) ||
+  3681			    !check_if_alloc_index(hdr, aoff)) {
+  3682				goto dirty_vol;
+  3683			}
+  3684	
+  3685			if (ntfs3_bad_de_range(e, dlen))
+  3686				goto dirty_vol;
+  3687	
+  3688			memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
+  3689	
+  3690			a_dirty = true;
+  3691			ntfs_fix_pre_write(&ib->rhdr, bytes);
+  3692			break;
+  3693	
+  3694		default:
+  3695			WARN_ON(1);
+  3696		}
+  3697	
+  3698		if (rlsn) {
+  3699			__le64 t64 = cpu_to_le64(*rlsn);
+  3700	
+  3701			if (rec)
+  3702				rec->rhdr.lsn = t64;
+  3703			if (ib)
+  3704				ib->rhdr.lsn = t64;
+  3705		}
+  3706	
+  3707		if (mi && mi->dirty) {
+  3708			err = mi_write(mi, 0);
+  3709			if (err)
+  3710				goto out;
+  3711		}
+  3712	
+  3713		if (a_dirty) {
+  3714			attr = oa->attr;
+  3715			err = ntfs_sb_write_run(sbi, oa->run1, vbo, buffer_le, bytes,
+  3716						0);
+  3717			if (err)
+  3718				goto out;
+  3719		}
+  3720	
+  3721	out:
+  3722	
+  3723		if (inode)
+  3724			iput(inode);
+  3725		else if (mi != mi2_child)
+  3726			mi_put(mi);
+  3727	
+  3728		kfree(buffer_le);
+  3729	
+  3730		return err;
+  3731	
+  3732	dirty_vol:
+  3733		log->set_dirty = true;
+  3734		goto out;
+  3735	}
+  3736	
 
- #include "debug.h"
- #include "ntfs.h"
-@@ -757,6 +758,9 @@ static int ntfs_show_options(struct seq_file *m, struct dentry *root)
-        struct ntfs_mount_options *opts = sbi->options;
-        struct user_namespace *user_ns = seq_user_ns(m);
-
-+       if (!strcmp(current->comm, "slowme"))
-+               mdelay(2000);
-+
-        seq_printf(m, ",uid=%u", from_kuid_munged(user_ns, opts->fs_uid));
-        seq_printf(m, ",gid=%u", from_kgid_munged(user_ns, opts->fs_gid));
-        if (opts->dmask)
-==================================================================
-
-
-
-C reproducer:
-==================================================================
-#define _GNU_SOURCE
-
-#include <fcntl.h>
-#include <linux/loop.h>
-#include <pthread.h>
-#include <stdio.h>
-#include <sys/mount.h>
-#include <sys/prctl.h>
-#include <sys/syscall.h>
-#include <unistd.h>
-
-#ifndef __NR_fsconfig
-#define __NR_fsconfig 431
-#endif
-#ifndef __NR_fspick
-#define __NR_fspick 433
-#endif
-#ifndef FSCONFIG_SET_STRING
-#define FSCONFIG_SET_STRING 1
-#endif
-#ifndef FSCONFIG_CMD_RECONFIGURE
-#define FSCONFIG_CMD_RECONFIGURE 7
-#endif
-
-static const char *mntdir = "/tmp/ntfs-repro";
-static const char *imgpath = "/tmp/ntfs.img";
-static char loopdev[64];
-
-static void setup_loop(void)
-{
-	int img, ctl, lfd, nr;
-
-	img = syscall(SYS_openat, AT_FDCWD, imgpath, O_RDWR, 0);
-	ctl = syscall(SYS_openat, AT_FDCWD, "/dev/loop-control", O_RDWR, 0);
-	nr = syscall(SYS_ioctl, ctl, LOOP_CTL_GET_FREE);
-	syscall(SYS_close, ctl);
-
-	snprintf(loopdev, sizeof(loopdev), "/dev/loop%d", nr);
-	lfd = syscall(SYS_openat, AT_FDCWD, loopdev, O_RDWR, 0);
-	syscall(SYS_ioctl, lfd, LOOP_SET_FD, img);
-
-	syscall(SYS_close, img);
-	syscall(SYS_close, lfd);
-}
-
-static void mount_ntfs(void)
-{
-	syscall(SYS_mkdir, mntdir, 0700);
-	setup_loop();
-	syscall(SYS_mount, loopdev, mntdir, "ntfs3", 0, "force,iocharset=utf8");
-}
-
-static void reconfigure_once(void)
-{
-	int fd;
-
-	fd = syscall(__NR_fspick, AT_FDCWD, mntdir, 0);
-	syscall(__NR_fsconfig, fd, FSCONFIG_SET_STRING, "iocharset", "utf8", 0);
-	syscall(__NR_fsconfig, fd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0);
-}
-
-static void *thread_fn(void *arg)
-{
-	char buf[8192];
-	int fd;
-
-	syscall(SYS_prctl, PR_SET_NAME, "slowme", 0, 0, 0);
-	fd = syscall(SYS_openat, AT_FDCWD, "/proc/self/mounts", O_RDONLY, 0);
-	syscall(SYS_read, fd, buf, sizeof(buf));
-	return NULL;
-}
-
-int main(void)
-{
-	pthread_t thread;
-
-	mount_ntfs();
-
-	pthread_create(&thread, NULL, thread_fn, NULL);
-
-	sleep(1);
-	reconfigure_once();
-	return 0;
-}
-
-==================================================================
-
-
-
-KASAN crash log:
-==================================================================
-BUG: KASAN: slab-use-after-free in ntfs_show_options+0x637/0x7f0 fs/ntfs3/super.c:761
-Read of size 4 at addr ff110001135f4954 by task main/9519
-CPU: 5 UID: 0 PID: 9519 Comm: main Not tainted 7.1.0-rc1-gf1a5e78a55eb #12 PREEMPT(full)
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x64/0x70 mm/kasan/report.c:482
- kasan_report+0x118/0x150 mm/kasan/report.c:595
- ntfs_show_options+0x637/0x7f0 fs/ntfs3/super.c:761
- show_vfsmnt+0x61b/0x760 fs/proc_namespace.c:129
- seq_read_iter+0x9bb/0xe20 fs/seq_file.c:273
- new_sync_read fs/read_write.c:493 [inline]
- vfs_read+0x55a/0xa30 fs/read_write.c:574
- ksys_read+0x145/0x250 fs/read_write.c:717
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x16e/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x44b41c
-Code: ec 28 48 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 19 b0 02 00 48 8b 54 24 18 48 8b 74 24 10 41 89 c0 8b 7c 24 08 31 c0 0f 05 <48> 3d 00 f0 ff ff 77 34 44 89 c7 48 89 44 24 08 e8 5f b0 02 00 48
-RSP: 002b:00007f8fca2bb170 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-RAX: ffffffffffffffda RBX: 00007f8fca2bd640 RCX: 000000000044b41c
-RDX: 0000000000002000 RSI: 00007f8fca2bb1c0 RDI: 0000000000000003
-RBP: 00007f8fca2bd1d0 R08: 0000000000000000 R09: 00007ffce134fe1f
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f8fca2bd640
-R13: 0000000000000010 R14: 0000000000414ff0 R15: 00007f8fc9abd000
- </TASK>
-Allocated by task 9518:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x321/0x670 mm/slub.c:5415
- kmalloc_noprof include/linux/slab.h:950 [inline]
- kzalloc_noprof include/linux/slab.h:1188 [inline]
- ntfs_init_fs_context+0x58/0x590 fs/ntfs3/super.c:1858
- alloc_fs_context+0x9d6/0xd50 fs/fs_context.c:295
- __do_sys_fspick fs/fsopen.c:194 [inline]
- __se_sys_fspick+0x1bd/0x440 fs/fsopen.c:163
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x16e/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-Freed by task 9518:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2689 [inline]
- slab_free mm/slub.c:6246 [inline]
- kfree+0x1c7/0x650 mm/slub.c:6561
- vfs_clean_context+0xa9/0x220 fs/fs_context.c:538
- vfs_cmd_reconfigure fs/fsopen.c:275 [inline]
- vfs_fsconfig_locked+0x282/0x320 fs/fsopen.c:297
- __do_sys_fsconfig fs/fsopen.c:463 [inline]
- __se_sys_fsconfig+0x6bc/0x810 fs/fsopen.c:350
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x16e/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-The buggy address belongs to the object at ff110001135f4940
- which belongs to the cache kmalloc-32 of size 32
-The buggy address is located 20 bytes inside of
- freed 32-byte region [ff110001135f4940, ff110001135f4960)
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xff110001135f4f80 pfn:0x1135f4
-flags: 0x17ff00000000200(workingset|node=0|zone=2|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 017ff00000000200 ff11000100038780 ffd4000004aa8d10 ffd400000419c310
-raw: ff110001135f4f80 0000000800400037 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2800(GFP_NOWAIT|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5087, tgid 5087 (udevadm), ts 36737485715, free_ts 36575007430
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x23d/0x2a0 mm/page_alloc.c:1858
- prep_new_page mm/page_alloc.c:1866 [inline]
- get_page_from_freelist+0x24be/0x2540 mm/page_alloc.c:3946
- __alloc_frozen_pages_noprof+0x181/0x370 mm/page_alloc.c:5226
- alloc_slab_page mm/slub.c:3278 [inline]
- allocate_slab+0x77/0x680 mm/slub.c:3467
- new_slab mm/slub.c:3525 [inline]
- refill_objects+0x342/0x3d0 mm/slub.c:7251
- refill_sheaf mm/slub.c:2816 [inline]
- __pcs_replace_empty_main+0x323/0x730 mm/slub.c:4651
- alloc_from_pcs mm/slub.c:4749 [inline]
- slab_alloc_node mm/slub.c:4883 [inline]
- __kmalloc_cache_noprof+0x391/0x670 mm/slub.c:5410
- kmalloc_noprof include/linux/slab.h:950 [inline]
- slab_free_hook mm/slub.c:2641 [inline]
- slab_free mm/slub.c:6246 [inline]
- kmem_cache_free+0x158/0x660 mm/slub.c:6373
- fput_close_sync+0x113/0x220 fs/file_table.c:615
- __do_sys_close fs/open.c:1507 [inline]
- __se_sys_close fs/open.c:1492 [inline]
- __x64_sys_close+0x7f/0x110 fs/open.c:1492
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x16e/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-page last free pid 0 tgid 0 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- __free_pages_prepare mm/page_alloc.c:1402 [inline]
- __free_frozen_pages+0xbdb/0xd50 mm/page_alloc.c:2943
- __tlb_remove_table_free mm/mmu_gather.c:228 [inline]
- tlb_remove_table_rcu+0x85/0x100 mm/mmu_gather.c:291
- rcu_do_batch kernel/rcu/tree.c:2617 [inline]
- rcu_core+0x7bd/0x1060 kernel/rcu/tree.c:2869
- handle_softirqs+0x22b/0x850 kernel/softirq.c:622
- __do_softirq kernel/softirq.c:656 [inline]
- invoke_softirq kernel/softirq.c:496 [inline]
- __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:735
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1061 [inline]
- sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1061
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:697
-Memory state around the buggy address:
- ff110001135f4800: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
- ff110001135f4880: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
->ff110001135f4900: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
-                                                 ^
- ff110001135f4980: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
- ff110001135f4a00: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
-==================================================================
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
