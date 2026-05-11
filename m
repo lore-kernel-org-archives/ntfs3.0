@@ -1,146 +1,144 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DFB3D6479
-	for <ntfs3@lists.linux.dev>; Mon, 11 May 2026 17:19:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4FC47AF57
+	for <ntfs3@lists.linux.dev>; Mon, 11 May 2026 18:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778519950; cv=none; b=uIo2B5KXisQ2Wg+4uVpgrmGnWajFL098yGV7gokRr5Jml84SwO0oxCALeDGcGh+V/BF+cdXFkgP2lUzrcpRTtGOkArGyq6xSzqmVCfzSWGllxKdq0FbNjHGPByFYH9hnrVpVieQO+wSbMnDamI0WbgnnMxTUCHy6hYLX7tUpsho=
+	t=1778523383; cv=none; b=AFI3+HElcgp9tbaDyS6cTLP7zoEOiukaAopc9tAClI6MWjXrfsvQWcwKIvVICiBXAZoPR2xj7JJh97i0DswyweH2P81k+9gfL6z2zQsb86UiN+dYtERyNQKhftUg2i6FRu6jVQW+GS8TE7zw4y5Dh7MKayV8GRrz8S/+zE+fMJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778519950; c=relaxed/simple;
-	bh=zaR2jVq6IFi9mbvaeshZVhZzW+4wk7HanSdPaJAwk0M=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=rOEHBMWvjgQtX7hycVutuZtCoiYNRnVffo2CKA03X6DxglrTS/77HNX4rajZ9jcozp/0SjdXSgfYMkD/gMZ+sLvCWiDOPZugaZH7r5jmfl6mXQrstq7IX5o+8txLPRFpYh/I0jb+WL5ePmygiSdTdWxA0uR2TpCVzHDin/95TAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I9nc1pVW; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1778523383; c=relaxed/simple;
+	bh=/ePDKYvRy9DMjD6SCrcU3Xu8vaRvl6YIH1WPK0CW07U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fTUl6i8I2Vhuy6Xr4ujbi72kj3QOjxZ7wr26h/OYY4TOwqUEzLKqt/wZpVDOLoM9Q8p/rMJsUEcw9eiRl0kA8JXMrNvKWhj+GDrSeVYzl8hOb8ywFDb7whrUshV9KAZCnIpkD3vvjnr2bf9AurR2ecOU+KX57UkAhw5IDu0MHO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PZ2/vJ1E; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I9nc1pVW"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so28503735e9.3
-        for <ntfs3@lists.linux.dev>; Mon, 11 May 2026 10:19:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PZ2/vJ1E"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4891e5b9c1fso44162235e9.2
+        for <ntfs3@lists.linux.dev>; Mon, 11 May 2026 11:16:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778519947; x=1779124747; darn=lists.linux.dev;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U5YGkfJg6n4KiA/WQT6VRxvR8ouMJ6VVP5WZQs3IwGM=;
-        b=I9nc1pVW59wO+E8EFZ45wt+7VNnILW1mwxCYRbC2ePolq4yIun33wV2xNVpfMMsl1S
-         tqGR4JmkSJOYs4nh07ENir1CZnOSrgynOOv4h14rUS8qRBfwN6GGRH3vxGvLlPZ3hLBC
-         oXf8im8sFl8Yue9fGBW6Y3VrrjvqnoVgWFhQXH8ELarIGxBFgQhJPls126QyiMxWthDo
-         qb0z5h7Ogao7uBHuvJgHAHNFNDuJRl6KM0ym4dmuzEmjw0HhsSObNPIJgO8fagoqchyH
-         Itpjvo8zkuWgM5dvZTEmJKZzW106E9Pir1FVEfHgFRXDABWP9NWEpLiuX0FaReY3JE9c
-         zj+w==
+        d=gmail.com; s=20251104; t=1778523380; x=1779128180; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mbzWIIoT+Bw+pAGkNBdxls5iXss5yHMpdPL7pkQ74Ps=;
+        b=PZ2/vJ1EAHNtvLVC0uVt6b3UZQHhEszySGRNDDFIJmcgC/Em6k21rXUDAVy6A0xC/g
+         dj9dxNxloj85GBWYeGNgYy4yLEjW30ygGRPhk7ZbOyGWc7jo4fS8epS1yqiDnrZXAfjN
+         ++R12ziD8Gt3LFApgAr2GE4JuS3JY2KJQcsyjDcxSSFR6n+kqy/Xt1vXZTRkluklfjIV
+         lo774vtJUqprZZNFtKbZ/Om6ATpP9gne5+QN8ATz0/1yI7sVOA7s5eg7s34Pe9ryftFO
+         RJrN4QxHSmBdaqMSkgMszZY4QAZjxZh/SADku0iAhYxs/Ape1eNMm5X9nkBFLQafwATn
+         Jl7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778519947; x=1779124747;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U5YGkfJg6n4KiA/WQT6VRxvR8ouMJ6VVP5WZQs3IwGM=;
-        b=A/CiUGOibSObl21+Wsqv4e2BvwE1RYAF85uASK6Ze0p/5fwHKhiVZSaIzwl0CFwrEq
-         kU4NCQ7A0tnUJOsNPGuFe/N95rWhBKnG7J+yBGzC+L+PUO2dqyK6G6akdekYbR/1t6KF
-         gu6PrGTR0d/a9LZDS9kNoUblrhzMEUoFFDAs8Y7E7WUSpnHIH5eftVfnBliA8gXH8Soe
-         zxO1ni6+FFbgdoYloSZTX5HBkIPMJYkl4cME3c3q1vzfIiQ74eHzY5GPM3v6izQxwfs5
-         u9vDCbaXtuYhTAbCrgkC6O98jrD/qPqApvrJCzttxK9Zf7ZqW5BDfVBpFvj35kmzrhjE
-         fivA==
-X-Gm-Message-State: AOJu0YyTDjKr/tJf36ZlNr9M3bo0Pm8pU55nFUxp4j2SNtJp7TPB/7GG
-	03yuPiIMj2dxR6vuo0Xhzxo2I2q/F1q00tEFve5hENNU8EphukzLYQ1rPi7nydNu
-X-Gm-Gg: Acq92OHLmbnSvQ1aKAEr3hCB0I2XxjWyRVEyE5XJZ0DULiblpgy4boSoF7NvUGm9x11
-	rXh6qgbqW5WfW1ujpEl5XVMtri7fvuGcIMiDYqSp4jDi3SKyU618NzkbGhwi5izYM/xut5vD7Os
-	uyZDZiiW3wAabigzMjjMPCzwwT2TRwR+rN/ixidR64yCV1anPCgfcOVnolvKZUUPtZseasQSZYs
-	xcvroSaZxRPAOO2S9FU4e5yQJpV8eDjNyIMsmv0CXB5t8uBK5bB/lo7edJYAl+XHfHpu89epJO8
-	QhKAPlFtKDmUvh26LRKujBg45cGup9n31KAaO0pPVZBsQFMWFzV4irtk+rq56gfgzEywvMfgEj6
-	/PSz95e+i68h7WLlYTfvc5I0JS4CyGaKMU/ABQDH8KWdocD+AJfsLjcZm8yYAFNnIZHbpBP90Us
-	7JD+P8bnZUkYfOR4I5vLrOPpwtk5FK0l/8IyjQxLXa2agsCk+7Aic=
-X-Received: by 2002:a05:600c:1f89:b0:48e:8741:fd4d with SMTP id 5b1f17b1804b1-48e8741ffa3mr41691975e9.18.1778519946896;
-        Mon, 11 May 2026 10:19:06 -0700 (PDT)
-Received: from [192.168.0.112] ([5.12.125.163])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491f8d4c3sm26325902f8f.34.2026.05.11.10.19.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 May 2026 10:19:06 -0700 (PDT)
-Message-ID: <d3fd7e93-748c-4e51-ace9-a0f0a8346045@gmail.com>
-Date: Mon, 11 May 2026 20:19:04 +0300
+        d=1e100.net; s=20251104; t=1778523380; x=1779128180;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mbzWIIoT+Bw+pAGkNBdxls5iXss5yHMpdPL7pkQ74Ps=;
+        b=cjIDEgRoXLe4yObii6ueA61L/7ejL6jG+dB9TH9u15a5xJ0dp1+4RytuR50t/qMusu
+         dh2w10lb66O64bjX6kOmBKJsO/heTXkwEcRDZUwMrgvJVF0scp46euXCXWb50NLGtC7P
+         L/Jb6533vOPAPm2j2m9SALBE/Zr0zXS+3mxI5z2I4aDRK1jZ5KpWeV6+411OgL+9fMCw
+         iSe17+2hoKdcM6wg2MGduKG8hks5FEIyLd5Vykz+LOztsotzKkZ7Sb99f0Qh3buTBNl3
+         FsdgyT+Yd7nnbXnKWOFbR8K9bl+7FB90uqy/zV4LjtRqIBSbxcFVSYFnnHGhcLtZSk06
+         VWew==
+X-Gm-Message-State: AOJu0Yy7bDxhP3DUsIPfWsHbTNQlk64ZtF7C8dyYzsRZYYLpdYE+gfov
+	UmxSiuPs9wBLR0xMex5DkHKpOwNIpmEUcBRsRCPDpzspEMuIit/iu31Cqrj9lJrG
+X-Gm-Gg: Acq92OEkQ5NXz55CVDQiUb8aDZTlGMrrYrs/ClUKFvIk5fYRJiiaGh+LIBLguTJ1p+4
+	AySccf76629gsEjJ34SpG/004f0Aip5ARwH2YQ6laRvovrmTrx5OLJVVok2EB1rn5QtorxNAGpc
+	ULXdnE2GouZl4WQaagFl8pKnzvNGzuBYD8vucvBdVSrIq3ZykZW3w3B5+Cs0/cy4cJ30RQl9gGK
+	k2bHRG6BLeK1RTsHOc8OsrSpwAyv4bbHNAEvFrgRKrYsWpYUmGtUjhRgodPSLoIUVhTffMr3cEH
+	t59yEMWExYaVOsiqAD+FOnEgjCoX4AERupkxqOcraOctddtpMVcMOlpF+CtXEylrTs/IvyLNBm7
+	sWUFvDNJcdfUJZ1oZO0guiiyMMV4lnJPQCp+BN6fP6+nICZztNXr+JGLMeLwjiWzWP07P3ULHZa
+	/uJgsiOgm/HyygQKORg5LkpRt7yTk9ke7qe2HmTlRjjKVNPOYtkn6sDvkzqf46kprfDBkXSojcJ
+	qy8nji2/DuhuaWsYg==
+X-Received: by 2002:a05:600c:3f18:b0:48e:5990:9698 with SMTP id 5b1f17b1804b1-48e5990978bmr354079365e9.24.1778523379855;
+        Mon, 11 May 2026 11:16:19 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:827:3b28:500:4954:471e:9dc7:7f18])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6db1742asm68957235e9.31.2026.05.11.11.16.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 11:16:19 -0700 (PDT)
+From: Alessandro Schino <7991aleschino@gmail.com>
+To: ntfs3@lists.linux.dev
+Cc: almaz.alexandrovich@paragon-software.com,
+	linux-kernel@vger.kernel.org,
+	Alessandro Schino <7991aleschino@gmail.com>
+Subject: [PATCH] ntfs3: fix out-of-bounds read in ntfs_dir_emit() and hdr_find_e()
+Date: Mon, 11 May 2026 20:15:15 +0200
+Message-ID: <20260511181516.220-1-7991aleschino@gmail.com>
+X-Mailer: git-send-email 2.41.0.windows.3
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: almaz.alexandrovich@paragon-software.com, m.brodschi@gmail.com
-From: Mihai Brodschi <m.brodschi@gmail.com>
-Subject: [PATCH v3] ntfs3: Allocate iomap inline_data using alloc_page
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-This fixes a BUG reported in iomap_write_end_inline:
-iomap_inline_data_valid checks that the inline_data fits within
-a page. If the inline_data is allocated with kmemdup there's no
-guarantee that it's page-aligned, so the check sometimes fails.
-Allocate it with alloc_page to ensure it's page-aligned.
+The bounds check in ntfs_dir_emit() compares fname->name_len (a
+character count) against e->size (a byte count) without accounting
+for the 2-byte-per-character UTF-16LE encoding or the ATTR_FILE_NAME
+header size:
 
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221446
-Signed-off-by: Mihai Brodschi <m.brodschi@gmail.com>
-Fixes: 099ef9a ("fs/ntfs3: implement iomap-based file operations")
+  if (fname->name_len + sizeof(struct NTFS_DE) > le16_to_cpu(e->size))
+
+This computes: name_len + 16 > e_size
+
+The correct check must account for the ATTR_FILE_NAME header (66 bytes
+before the name) and the UTF-16LE character size (2 bytes each):
+
+  sizeof(NTFS_DE) + offsetof(ATTR_FILE_NAME, name) +
+  name_len * sizeof(short) > e_size
+
+Which computes: 16 + 66 + name_len * 2 > e_size
+
+The correct calculation already exists as fname_full_size() in ntfs.h
+and is used in cmp_fnames(), namei.c, and fslog.c, but was not used
+in the readdir path.
+
+A crafted NTFS image with an index entry containing a small e->size
+but large fname->name_len bypasses the current check, causing
+ntfs_utf16_to_nls() to read past the entry boundary.
+
+Additionally, add a key_size validation in hdr_find_e() to ensure the
+declared key_size does not exceed the available entry data, preventing
+comparison functions from reading past entry boundaries on the lookup
+path.
+
+Signed-off-by: Alessandro Schino <7991aleschino@gmail.com>
 ---
-V3: fix variable declaration
-V2: fix mail formatting
+ fs/ntfs3/dir.c   | 4 +++-
+ fs/ntfs3/index.c | 4 ++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
- fs/ntfs3/attrib.c | 10 +++++++---
- fs/ntfs3/inode.c  |  4 ++--
- 2 files changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index e61c5bf7e27e..ff0bf4575948 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -1004,6 +1004,7 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
- 	struct ATTRIB *attr, *attr_b;
- 	struct ATTR_LIST_ENTRY *le, *le_b;
- 	struct mft_inode *mi, *mi_b;
-+	struct page *page;
- 	CLST hint, svcn, to_alloc, evcn1, next_svcn, asize, end, vcn0;
- 	CLST alloc, evcn;
- 	unsigned fr;
-@@ -1042,10 +1043,13 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
- 		*lcn = RESIDENT_LCN;
- 		*len = data_size;
- 		if (res && data_size) {
--			*res = kmemdup(resident_data(attr_b), data_size,
--				       GFP_KERNEL);
--			if (!*res)
-+			page = alloc_page(GFP_KERNEL);
-+			if (!page) {
- 				err = -ENOMEM;
-+			} else {
-+				*res = page_address(page);
-+				memcpy(*res, resident_data(attr_b), data_size);
-+			}
- 		}
- 		goto out;
- 	}
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 42af1abe17f8..031f85fd53d4 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -801,7 +801,7 @@ static int ntfs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+index d99ab086..6cd66ce0 100644
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -305,7 +305,9 @@ static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
+ 	if (sbi->options->nohidden && (fname->dup.fa & FILE_ATTRIBUTE_HIDDEN))
+ 		return true;
  
- 	if (lcn == RESIDENT_LCN) {
- 		if (offset >= clen) {
--			kfree(res);
-+			__free_page(virt_to_page(res));
- 			if (flags & IOMAP_REPORT) {
- 				/* special code for report. */
- 				return -ENOENT;
-@@ -921,7 +921,7 @@ static int ntfs_iomap_end(struct inode *inode, loff_t pos, loff_t length,
+-	if (fname->name_len + sizeof(struct NTFS_DE) > le16_to_cpu(e->size))
++	if (sizeof(struct NTFS_DE) +
++	    offsetof(struct ATTR_FILE_NAME, name) +
++	    fname->name_len * sizeof(short) > le16_to_cpu(e->size))
+ 		return true;
  
- out:
- 	if (iomap->type == IOMAP_INLINE) {
--		kfree(iomap->private);
-+		__free_page(virt_to_page(iomap->private));
- 		iomap->private = NULL;
- 	}
+ 	name_len = ntfs_utf16_to_nls(sbi, fname->name, fname->name_len, name,
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 5344b29b..46dc7642 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -754,6 +754,10 @@ static struct NTFS_DE *hdr_find_e(const struct ntfs_index *indx,
+ binary_search:
+ 	e_key_len = le16_to_cpu(e->key_size);
  
++	/* Validate key_size fits within the entry data area. */
++	if (e_key_len > le16_to_cpu(e->size) - sizeof(struct NTFS_DE))
++		return NULL;
++
+ 	diff2 = (*cmp)(key, key_len, e + 1, e_key_len, ctx);
+ 	if (diff2 > 0) {
+ 		if (found) {
 -- 
-2.53.0
+2.43.0
 
