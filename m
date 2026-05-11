@@ -1,164 +1,146 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACB5426EB3
-	for <ntfs3@lists.linux.dev>; Mon, 11 May 2026 16:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DFB3D6479
+	for <ntfs3@lists.linux.dev>; Mon, 11 May 2026 17:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778515863; cv=none; b=n14BVc+ZQO8LcOe6cQ+7jaOUSjEvQ6nNJKlM+1R34Z7q0kpsxbThFUyuRvdce2gmpEJOP8ZAmopBRFVDHTw3xQcToe8cTaKMjsIiawXrsdYhfdgHh1/Vr/svxv98P/VXDxsmh8p0NFWQ/tfro+oD5iX1KeVBUrPYa5Fkf2YcQ98=
+	t=1778519950; cv=none; b=uIo2B5KXisQ2Wg+4uVpgrmGnWajFL098yGV7gokRr5Jml84SwO0oxCALeDGcGh+V/BF+cdXFkgP2lUzrcpRTtGOkArGyq6xSzqmVCfzSWGllxKdq0FbNjHGPByFYH9hnrVpVieQO+wSbMnDamI0WbgnnMxTUCHy6hYLX7tUpsho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778515863; c=relaxed/simple;
-	bh=a7NmzoyWqFhHkhmmoBDHE5Fupy2NSpDMzOj0EAcKe48=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g8KSHqgJ0lOhOmu6kRqaWdZhYEBFyBRoXCnfImuhUfz03q5efi+Odtlclt6adKkKdJI0IeclWpcLlcYBK0pWckl1y80zSa/st8RXhPIo2eblrECqmhJUmMl1fR20x/p02Qt2QbFTH7DiqyOTHCp6VHyOrSJPJLyk+kbTF0z86cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TR+qanZ3; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Uvna0LcX; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=K1fxEjGa; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XM5wuyMk; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1778519950; c=relaxed/simple;
+	bh=zaR2jVq6IFi9mbvaeshZVhZzW+4wk7HanSdPaJAwk0M=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=rOEHBMWvjgQtX7hycVutuZtCoiYNRnVffo2CKA03X6DxglrTS/77HNX4rajZ9jcozp/0SjdXSgfYMkD/gMZ+sLvCWiDOPZugaZH7r5jmfl6mXQrstq7IX5o+8txLPRFpYh/I0jb+WL5ePmygiSdTdWxA0uR2TpCVzHDin/95TAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I9nc1pVW; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TR+qanZ3";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Uvna0LcX";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="K1fxEjGa";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XM5wuyMk"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BD1C65F68F;
-	Mon, 11 May 2026 16:10:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778515860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dHCereSCwPGtptXFhJTG+je6AuNNbQ1TCMrEuoURpQA=;
-	b=TR+qanZ3H8T0Xm6bUC+iCc7tjZVhTFgq9mtogNd2kbyuyewzr02s2JrgZRWtp+Sq9WuuIR
-	OYzkjLxE7HP0eQejWc4bRexvXq+aRAcxWjgaslRD8HjvZ9LtTG1fVoEkaSRvMJj02G8wYi
-	dXe59UaCySeQ+ofgNjgD7YjDGcZG+o0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778515860;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dHCereSCwPGtptXFhJTG+je6AuNNbQ1TCMrEuoURpQA=;
-	b=Uvna0LcXPhiLO/wdSCpFCHPAxKjhTd+D/ROXQ4uGsNTJ/bNsresyYhr1bCv6oFIQ91rS4l
-	T9qkVOZdD+vjFEBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778515859; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dHCereSCwPGtptXFhJTG+je6AuNNbQ1TCMrEuoURpQA=;
-	b=K1fxEjGaewNJbqrvrkQodS1dBdFh+aSsKcxt24Ho3VMyPWcbfMXtEHwnr6np3G/gnb0HIH
-	Bns2Otbd9/NkM6IVXW16fbbdfY6+TPEAtsOxE139KE+reOCGqb2CHV7kSx1IA7qNSM3wdg
-	rUFMTPa2+pZAnOaxJiPHG7XG7KsXyF4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778515859;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dHCereSCwPGtptXFhJTG+je6AuNNbQ1TCMrEuoURpQA=;
-	b=XM5wuyMkE+1w7amC4q0f3Jt7Nyi/OEyzUUi1hO3LvJh1a0FCugpccAZqroTUzBpRFdEwhT
-	8ZGaukEahlk1OLCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D1D8593A3;
-	Mon, 11 May 2026 16:10:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Lue4FpP/AWrISwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 11 May 2026 16:10:59 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 03AC1A079E; Mon, 11 May 2026 18:10:59 +0200 (CEST)
-Date: Mon, 11 May 2026 18:10:58 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Sterba <dsterba@suse.com>, 
-	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
-	Dave Kleikamp <shaggy@kernel.org>, Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Bob Copeland <me@bobcopeland.com>, Anders Larsen <al@alarsen.net>, linux-fsdevel@vger.kernel.org, 
-	jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, linux-karma-devel@lists.sourceforge.net
-Subject: Re: [PATCH 01/10] bfs: handle set_blocksize failures
-Message-ID: <xhrhv2me7xqmem6x3u4aoh2crkdveencprsoovpy2yuj6npos3@tu325ohquuyj>
-References: <20260511071701.2456211-1-hch@lst.de>
- <20260511071701.2456211-2-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I9nc1pVW"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so28503735e9.3
+        for <ntfs3@lists.linux.dev>; Mon, 11 May 2026 10:19:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778519947; x=1779124747; darn=lists.linux.dev;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U5YGkfJg6n4KiA/WQT6VRxvR8ouMJ6VVP5WZQs3IwGM=;
+        b=I9nc1pVW59wO+E8EFZ45wt+7VNnILW1mwxCYRbC2ePolq4yIun33wV2xNVpfMMsl1S
+         tqGR4JmkSJOYs4nh07ENir1CZnOSrgynOOv4h14rUS8qRBfwN6GGRH3vxGvLlPZ3hLBC
+         oXf8im8sFl8Yue9fGBW6Y3VrrjvqnoVgWFhQXH8ELarIGxBFgQhJPls126QyiMxWthDo
+         qb0z5h7Ogao7uBHuvJgHAHNFNDuJRl6KM0ym4dmuzEmjw0HhsSObNPIJgO8fagoqchyH
+         Itpjvo8zkuWgM5dvZTEmJKZzW106E9Pir1FVEfHgFRXDABWP9NWEpLiuX0FaReY3JE9c
+         zj+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778519947; x=1779124747;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=U5YGkfJg6n4KiA/WQT6VRxvR8ouMJ6VVP5WZQs3IwGM=;
+        b=A/CiUGOibSObl21+Wsqv4e2BvwE1RYAF85uASK6Ze0p/5fwHKhiVZSaIzwl0CFwrEq
+         kU4NCQ7A0tnUJOsNPGuFe/N95rWhBKnG7J+yBGzC+L+PUO2dqyK6G6akdekYbR/1t6KF
+         gu6PrGTR0d/a9LZDS9kNoUblrhzMEUoFFDAs8Y7E7WUSpnHIH5eftVfnBliA8gXH8Soe
+         zxO1ni6+FFbgdoYloSZTX5HBkIPMJYkl4cME3c3q1vzfIiQ74eHzY5GPM3v6izQxwfs5
+         u9vDCbaXtuYhTAbCrgkC6O98jrD/qPqApvrJCzttxK9Zf7ZqW5BDfVBpFvj35kmzrhjE
+         fivA==
+X-Gm-Message-State: AOJu0YyTDjKr/tJf36ZlNr9M3bo0Pm8pU55nFUxp4j2SNtJp7TPB/7GG
+	03yuPiIMj2dxR6vuo0Xhzxo2I2q/F1q00tEFve5hENNU8EphukzLYQ1rPi7nydNu
+X-Gm-Gg: Acq92OHLmbnSvQ1aKAEr3hCB0I2XxjWyRVEyE5XJZ0DULiblpgy4boSoF7NvUGm9x11
+	rXh6qgbqW5WfW1ujpEl5XVMtri7fvuGcIMiDYqSp4jDi3SKyU618NzkbGhwi5izYM/xut5vD7Os
+	uyZDZiiW3wAabigzMjjMPCzwwT2TRwR+rN/ixidR64yCV1anPCgfcOVnolvKZUUPtZseasQSZYs
+	xcvroSaZxRPAOO2S9FU4e5yQJpV8eDjNyIMsmv0CXB5t8uBK5bB/lo7edJYAl+XHfHpu89epJO8
+	QhKAPlFtKDmUvh26LRKujBg45cGup9n31KAaO0pPVZBsQFMWFzV4irtk+rq56gfgzEywvMfgEj6
+	/PSz95e+i68h7WLlYTfvc5I0JS4CyGaKMU/ABQDH8KWdocD+AJfsLjcZm8yYAFNnIZHbpBP90Us
+	7JD+P8bnZUkYfOR4I5vLrOPpwtk5FK0l/8IyjQxLXa2agsCk+7Aic=
+X-Received: by 2002:a05:600c:1f89:b0:48e:8741:fd4d with SMTP id 5b1f17b1804b1-48e8741ffa3mr41691975e9.18.1778519946896;
+        Mon, 11 May 2026 10:19:06 -0700 (PDT)
+Received: from [192.168.0.112] ([5.12.125.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491f8d4c3sm26325902f8f.34.2026.05.11.10.19.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 10:19:06 -0700 (PDT)
+Message-ID: <d3fd7e93-748c-4e51-ace9-a0f0a8346045@gmail.com>
+Date: Mon, 11 May 2026 20:19:04 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511071701.2456211-2-hch@lst.de>
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,suse.com,gmail.com,artax.karlin.mff.cuni.cz,paragon-software.com,bobcopeland.com,alarsen.net,vger.kernel.org,lists.sourceforge.net,lists.linux.dev];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: almaz.alexandrovich@paragon-software.com, m.brodschi@gmail.com
+From: Mihai Brodschi <m.brodschi@gmail.com>
+Subject: [PATCH v3] ntfs3: Allocate iomap inline_data using alloc_page
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon 11-05-26 09:16:46, Christoph Hellwig wrote:
-> bfs uses buffer_heads, which don't handle block size > PAGE_SIZE well.
-> Without this, mounting will hit the
-> 
-> 	BUG_ON(offset >= folio_size(folio));
-> 
-> in folio_set_bh on the first __bread_gfp call.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+This fixes a BUG reported in iomap_write_end_inline:
+iomap_inline_data_valid checks that the inline_data fits within
+a page. If the inline_data is allocated with kmemdup there's no
+guarantee that it's page-aligned, so the check sometimes fails.
+Allocate it with alloc_page to ensure it's page-aligned.
 
-Looks good. Feel free to add:
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221446
+Signed-off-by: Mihai Brodschi <m.brodschi@gmail.com>
+Fixes: 099ef9a ("fs/ntfs3: implement iomap-based file operations")
+---
+V3: fix variable declaration
+V2: fix mail formatting
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+ fs/ntfs3/attrib.c | 10 +++++++---
+ fs/ntfs3/inode.c  |  4 ++--
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
-								Honza
-
-> ---
->  fs/bfs/inode.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/bfs/inode.c b/fs/bfs/inode.c
-> index 19e49c8cf750..9c3e90390824 100644
-> --- a/fs/bfs/inode.c
-> +++ b/fs/bfs/inode.c
-> @@ -346,7 +346,8 @@ static int bfs_fill_super(struct super_block *s, struct fs_context *fc)
->  	s->s_time_min = 0;
->  	s->s_time_max = U32_MAX;
->  
-> -	sb_set_blocksize(s, BFS_BSIZE);
-> +	if (!sb_set_blocksize(s, BFS_BSIZE))
-> +		goto out;
->  
->  	sbh = sb_bread(s, 0);
->  	if (!sbh)
-> -- 
-> 2.53.0
-> 
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index e61c5bf7e27e..ff0bf4575948 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -1004,6 +1004,7 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
+ 	struct ATTRIB *attr, *attr_b;
+ 	struct ATTR_LIST_ENTRY *le, *le_b;
+ 	struct mft_inode *mi, *mi_b;
++	struct page *page;
+ 	CLST hint, svcn, to_alloc, evcn1, next_svcn, asize, end, vcn0;
+ 	CLST alloc, evcn;
+ 	unsigned fr;
+@@ -1042,10 +1043,13 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
+ 		*lcn = RESIDENT_LCN;
+ 		*len = data_size;
+ 		if (res && data_size) {
+-			*res = kmemdup(resident_data(attr_b), data_size,
+-				       GFP_KERNEL);
+-			if (!*res)
++			page = alloc_page(GFP_KERNEL);
++			if (!page) {
+ 				err = -ENOMEM;
++			} else {
++				*res = page_address(page);
++				memcpy(*res, resident_data(attr_b), data_size);
++			}
+ 		}
+ 		goto out;
+ 	}
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 42af1abe17f8..031f85fd53d4 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -801,7 +801,7 @@ static int ntfs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+ 
+ 	if (lcn == RESIDENT_LCN) {
+ 		if (offset >= clen) {
+-			kfree(res);
++			__free_page(virt_to_page(res));
+ 			if (flags & IOMAP_REPORT) {
+ 				/* special code for report. */
+ 				return -ENOENT;
+@@ -921,7 +921,7 @@ static int ntfs_iomap_end(struct inode *inode, loff_t pos, loff_t length,
+ 
+ out:
+ 	if (iomap->type == IOMAP_INLINE) {
+-		kfree(iomap->private);
++		__free_page(virt_to_page(iomap->private));
+ 		iomap->private = NULL;
+ 	}
+ 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.53.0
+
