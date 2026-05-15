@@ -1,75 +1,42 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552BF3FA5C2
-	for <ntfs3@lists.linux.dev>; Fri, 15 May 2026 08:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96BF42B72A;
+	Fri, 15 May 2026 09:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778833394; cv=none; b=rMHUx2fABo1SWszqLcUNKMheYx1fxhFeWTHbrXJAVGXWxQJ5kU6if9jeDuQGHMFnfSoCfSNBilM/nWsfFPo904lO0hZVqrnGEg4Y1pYaKJyUu9t9j2QvladJmqfnodBlD1EMT0ju9+TIFMKJRzqjF+fkso6PunUPpG982b1L6tQ=
+	t=1778836201; cv=none; b=WC+lqdE1nxknSc04r8hAAFqqDCtm6jJ7nMxIVvxq/Gx8fNZSYGuTqrFk5rtA9W7wFJup7MsvEUPCfdI3fRaObKGjws1jywyZRYKbuFOCeZOsqfFrYk+MhHcwSOi46lV1/16U4AHliEtUIu4w36jc3lkhpZjMHyqDd9RCk39qh00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778833394; c=relaxed/simple;
-	bh=kf0TrrJpgVAYeBXNpY6fNQGA/hm8ajYhClup86nat0E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KiaLlQTonK4F2oWtRxh2odpDRyy0kMxgn34trEbiCgnZYu/CuWBBm4cE5B7dG0Ci/MdfKBePG9sZ86S1OgIFVjFbN0vXx3I2hiuog6jcprMkeXtM88x6Sow2/MjSfhHV0Gucbk7k68sx2O9fFzasCa+8cYa2Yl+i8vnGhTq0pHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a/Lgtz4Z; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778836201; c=relaxed/simple;
+	bh=QDgcpFDyCTOQ6HI7OM9nD/w1wuw88odgysDsig3R1Hk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PtP/pKxteTnaN2uUVNUN6eEBgJ+TEKFVblVkSkWV7YjXu/IBz1H2OAz+L1+/+HeZcygTL/bvgDNUi5Tr+u7xN8rFYPY3GRyjfpzggBGO6hr1T3LVxx8/FVxgcxCzCADJHlpfaDUa8V+oVvfdAiADEE/1ecdiQDwWBvMwg23RFZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QX7gp0Pm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a/Lgtz4Z"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-835386ff122so8552097b3a.3
-        for <ntfs3@lists.linux.dev>; Fri, 15 May 2026 01:23:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778833392; x=1779438192; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DDJhfoHAUgZQanl3xvd/N6+ekkXj0jZn5bqMRuYYEWM=;
-        b=a/Lgtz4Z1Ut49JtCGZIvC6MzPxbgitqq5IqzZ9F+DpXBR2U7+QGRJr5pb58TwsaW6w
-         MkAeRdu1aZaoIOLLovAxfPg18IBPhIZPrCopyrw4q2LQffG5MWGL/u6ko07G/dDAgUlH
-         +8qhPMPYVc8P5i/Kbz4FRTmslPxI76Ra38Jj/BB4ol3bVOniZc+89aG2bhaptluSw2LW
-         1HzVVOVpfO/yNZP/KjwD49ytdnF2oCJnoTRzvisHU+zJdFlYJH0JOjUtP3C7CSF8Nc1y
-         Zjm43J6tKduc8Dh95EyeZDZk9Qs5HxjJjFbZwNifWqGb+NJSISHK6pmYtURckBPSZNP+
-         E1oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778833392; x=1779438192;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DDJhfoHAUgZQanl3xvd/N6+ekkXj0jZn5bqMRuYYEWM=;
-        b=IsFLcpiEhB1Pf+4TgNI1x/Aruu+36/aON/jd9DFVIFPzLNp6419yUW9nrPOrjBQZqc
-         7qbJyLNqC5Z6gXT4AlT9ZVH5dfuN7DkxV9Rj3rt4qlv8x3XUdS7piTtdQ2f/WJpn81VI
-         m10UF2RIIKdcXnRSOIKKNVYXc2g4yMpMvzwWvk498YN64mSty0iH2nMNxzQsyZwBAM40
-         g6vfksLEXU3y1nNE4DigD+ABEhmXL8T0DgJJpClot+RaeCGJkFSK2d7yCM8gEQwOVqAg
-         dE23lmKmLVBZeSnZo59aHauwDjbPLKzfV4psb+iPr9ClvJU0lahfDlsbCmhlsgUOCtC/
-         MltQ==
-X-Gm-Message-State: AOJu0YwrGswD/Prhn1FzCY3ptvYPQHfZJ9GFvGWzZx42O/nU3Yhnc5Vq
-	VJJIpwwiwePLBz7qWJI1paUJ5lYEshjdkbFPrfBIkCIVRS3MntCfeVuk
-X-Gm-Gg: Acq92OGiH9gvzp37pGiMAX6Sun6PCYwfx1Di2OuRMbEIjRkzq5XJDGZSezEhMB3SoYh
-	37STsJaoSS45b9B9ZvYpHQ1M7HcE63+VdjjEiwI6uZAogBgjL+WxV2Vx/SStfDdMQThDr2pEiri
-	5sXlynpr63cIgPCHRc6VaKGCC8SxcNnEumJ/zzX9tO4rDzPYB5nD3+kqVvY+MpNxQgfDEY7TqYY
-	O9SUPN3jQMjYleQ6VqbrsWWiBxNmWuQQZ1QkH5ZF7d2KFRSvE1nmLm/4AlGaiVZkYM9dd7kshWK
-	XF7TrV0S2HvO009xgcjZcVTQNmnUFepbcnRiT9H4x7KhZMILTj8HSFTSYV9+oJ4NwDqfeCsEp12
-	xmRfMw5Z4n1jnAP0zsK9WJlHbvLHwRSuLum9YSR4sEFcf8D6gzkrXETqVqwPZdeVMRUP1puNMWu
-	O+zmzxghkpqGU3vmw+go9w4q3+JU/+ePKdnGaRxg==
-X-Received: by 2002:a05:6a00:a22a:b0:82a:65fa:cecf with SMTP id d2e1a72fcca58-83f33aebd61mr3456119b3a.4.1778833392367;
-        Fri, 15 May 2026 01:23:12 -0700 (PDT)
-Received: from DESKTOP-MOQC9AF.mioffice.cn ([43.224.245.246])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19775c97sm5318589b3a.15.2026.05.15.01.23.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 01:23:11 -0700 (PDT)
-From: fra-build <zhanxusheng1024@gmail.com>
-X-Google-Original-From: fra-build <fra@build.local>
-To: almaz.alexandrovich@paragon-software.com,
-	david.laight.linux@gmail.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	zhanxusheng@xiaomi.com
-Subject: [PATCH v4] fs/ntfs3: reject out-of-range evcn in mi_enum_attr()
-Date: Fri, 15 May 2026 16:23:05 +0800
-Message-ID: <20260515082305.54624-1-fra@build.local>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260427035025.38158-1-zhanxusheng@xiaomi.com>
-References: <20260427035025.38158-1-zhanxusheng@xiaomi.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QX7gp0Pm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09681C2BCB0;
+	Fri, 15 May 2026 09:09:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778836200;
+	bh=QDgcpFDyCTOQ6HI7OM9nD/w1wuw88odgysDsig3R1Hk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QX7gp0Pm0N8yShKvOesmpkn4k4T6oNIIOa9/PfuiSfKmQR1RXyUVcp7NJdjd6lpnm
+	 cAS3A7MBNR2Fz7KjgsDOHFNFsjz9eAJ4NaQcE6aM4VBxd18j5v2w0EHmnZkptZOp7R
+	 ilM8fVea42cFlJvk5Lc+IiTNQeib6J+yqZmEGXObEfLsewVv+lX1sOTJ0n56fbUu8+
+	 81V6e5ZXe4belW7ttQX5nkQcpNdsESNfS/VWv9cM2pMMJ6k6m9Bxf6LiVAx8fMDd0j
+	 Ks7FrPQo4rfO4DD3y1k+bBOizJVxy6JlQk/lepVPHGQvEIwzH1OPxXoVpivd1+Wsi6
+	 uIdnbsUjgwOXQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Edward Adam Davis <eadavis@qq.com>,
+	Sun Jian <sun.jian.kdev@gmail.com>,
+	ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ntfs3: avoid another -Wmaybe-uninitialized warning
+Date: Fri, 15 May 2026 11:09:50 +0200
+Message-Id: <20260515090956.512083-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -78,66 +45,45 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
+From: Arnd Bergmann <arnd@arndb.de>
 
-In mi_enum_attr(), the start/end VCN validation for non-resident
-attributes is:
+The ntfs3 specific -Wmaybe-uninitialized flag found one more false-postive,
+this time with gcc-10 on s390:
 
-	if (svcn > evcn + 1) goto out;
+fs/ntfs3/frecord.c: In function 'ni_expand_list':
+fs/ntfs3/frecord.c:1370:16: error: 'ins_attr' may be used uninitialized in this function [-Werror=maybe-uninitialized]
 
-When evcn is U64_MAX the "evcn + 1" expression wraps to 0 and any
-svcn passes the check.  For evcn values close to U64_MAX (but not
-equal to it) the right-hand side is still a meaningless near-wrap
-upper bound, so a malformed on-disk attribute with svcn == 0 and
-evcn near U64_MAX can pass mi_enum_attr() unrejected.
+Add an explicit NULL pointer check before using the pointer, and
+initialize it to NULL.
 
-VCN (virtual cluster number) is a cluster index, so any valid evcn
-is bounded by the volume's total cluster count, which ntfs3 holds
-in sbi->used.bitmap.nbits (set up in ntfs_init_from_boot() before
-any caller of mi_enum_attr() runs).  Reject evcn values that fall
-outside this range; this rejects all out-of-range evcn values,
-not just U64_MAX, and as a side effect prevents the "evcn + 1"
-wraparound entirely.
-
-Fixes: 013ff63b6494 ("fs/ntfs3: Add more attributes checks in mi_enum_attr()")
-Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+Fixes: 48d9b57b169f ("fs/ntfs3: add a subset of W=1 warnings for stricter checks")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- fs/ntfs3/record.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ fs/ntfs3/frecord.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index 32bdb034c2a3..4379446bcf96 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -202,7 +202,7 @@ struct ATTRIB *mi_enum_attr(struct ntfs_inode *ni, struct mft_inode *mi,
- 	u32 used = le32_to_cpu(rec->used);
- 	u32 t32, off, asize, prev_type;
- 	u16 t16;
--	u64 data_size, alloc_size, tot_size;
-+	u64 svcn, evcn, data_size, alloc_size, tot_size;
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 7b035da63c12..d2c0b836b1bd 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -1330,7 +1330,7 @@ int ni_expand_list(struct ntfs_inode *ni)
+ {
+ 	int err = 0;
+ 	u32 asize, done = 0;
+-	struct ATTRIB *attr, *ins_attr;
++	struct ATTRIB *attr, *ins_attr = NULL;
+ 	struct ATTR_LIST_ENTRY *le;
+ 	bool is_mft = ni->mi.rno == MFT_REC_MFT;
+ 	struct MFT_REF ref;
+@@ -1363,7 +1363,7 @@ int ni_expand_list(struct ntfs_inode *ni)
+ 				      le16_to_cpu(attr->name_off), true,
+ 				      &ins_attr, NULL, NULL);
  
- 	if (!attr) {
- 		u32 total = le32_to_cpu(rec->total);
-@@ -310,8 +310,17 @@ struct ATTRIB *mi_enum_attr(struct ntfs_inode *ni, struct mft_inode *mi,
- 	if (t32 && le16_to_cpu(attr->name_off) + t32 > t16)
- 		goto out;
+-		if (err)
++		if (err || !ins_attr)
+ 			goto out;
  
--	/* Check start/end vcn. */
--	if (le64_to_cpu(attr->nres.svcn) > le64_to_cpu(attr->nres.evcn) + 1)
-+	/*
-+	 * Check start/end vcn.  evcn must be a valid cluster index, i.e.
-+	 * less than the volume's total cluster count (sbi->used.bitmap.nbits);
-+	 * rejecting it here also keeps "svcn > evcn + 1" meaningful, since
-+	 * evcn == U64_MAX would wrap "evcn + 1" to 0.  svcn does not need
-+	 * its own bound: once evcn < nbits, "svcn > evcn + 1" implies
-+	 * svcn <= nbits.
-+	 */
-+	svcn = le64_to_cpu(attr->nres.svcn);
-+	evcn = le64_to_cpu(attr->nres.evcn);
-+	if (evcn >= mi->sbi->used.bitmap.nbits || svcn > evcn + 1)
- 		goto out;
- 
- 	data_size = le64_to_cpu(attr->nres.data_size);
+ 		memcpy(ins_attr, attr, asize);
 -- 
-2.43.0
+2.39.5
 
