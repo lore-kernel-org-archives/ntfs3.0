@@ -1,157 +1,283 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from n169-114.mail.139.com (n169-114.mail.139.com [120.232.169.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86CA31F9AD
-	for <ntfs3@lists.linux.dev>; Sun, 17 May 2026 23:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32DA13DBA0;
+	Mon, 18 May 2026 04:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=120.232.169.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779061318; cv=none; b=MHA020KLVUzv1n5/D3mjGMM/lrz+W5b4aPPRLf1rQXrReHEHGcAFXDazm9YwdcraorsUoMAJc4/UA+53QhSLquZ6weksQM6/JbReSpnf843qCir8vIDd77BjnGyYJliapsFNi3Oc/jg8UONkOSwkdjTMAP1zjbcfoc3QB4dD0jk=
+	t=1779078105; cv=none; b=OdZszhvb8KGvk1j/N6f1Pu8GntJjpo1RY35OCKDHRi5jdKwQeo4G8r2b5Z77b7440wCB7U4BIAoXzsnwjGkniceaTQPemJDCb7i/5VJ5fj6j7pJvu77jhTlAWN7ApWKnWh0lbCS3DwoEa0ySs4jB1turjB/E1rXNdlCj1M5aORU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779061318; c=relaxed/simple;
-	bh=zhs2bnGbv4pg0dju1W5cpnVZBrNI+0HxWWMGZQUAOQA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HOlLGYdbbAjLQsYBK4cmX7zrXRaEL+GvJvAQzNWnh4wcN7T3+m2dQ0TrLrr8TUtP2H3LMiEIXH2VUzMVsK/Yuy8d+oNbjYdx8bMwQn9EOAdWACrcaybVh88CIW4UCvTy841WGrliaIw6HJNOTtrDlz6lOhNcrIP//jJg6EuUCa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rZqhmah2; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779078105; c=relaxed/simple;
+	bh=8aXYRl//JGNCU2h37QhnEWAcwTENSu3Si3q7xsFzPhw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=d3sLyTKIiWIlZpg/C4DXRmghQIb4SCF5ZDBR1kaJMDvhiSh0xoTR/jVphLZdpqnyihDqeCQaWS+wM+lRz6xrshAH2S9VhlQIXIzsN3JqQPssdH/fuffFMDsUerCNDR/CQVfcsDTTHEoJ1fyKj7+KqQWXI3NuWGxfcI/ZpuzKxJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com; spf=pass smtp.mailfrom=139.com; dkim=pass (1024-bit key) header.d=139.com header.i=@139.com header.b=LFU+w16i; arc=none smtp.client-ip=120.232.169.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=139.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rZqhmah2"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-90fbf21d9d3so347589585a.1
-        for <ntfs3@lists.linux.dev>; Sun, 17 May 2026 16:41:56 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=139.com header.i=@139.com header.b="LFU+w16i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779061316; x=1779666116; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dcSrMq+0NUzVSUcdssHmirp8ahVv/yZU4js8kmI7fz8=;
-        b=rZqhmah2LiwKrnVDkMwuJXF8x6xuevNomNayYeIRRRAC7gT6S5bxSTzl9UiJ8Zl3vH
-         1GNVCBtf9Msmpnp5T48tLeYIgnTOY8HGTDltvwebDVFoVydQX9Cw/qFf+Yfi5tPJuDfg
-         BGieh3XumKydHEdbRK6tf45lKLWaC2dRQBCpsHKThjxWI7OZQgF+2RCGiyyHAoejAwDw
-         RQBKspBEMhZpjjjyEE3nHZXbYpRUs2Ols6ximtrrO9WPw/XJKaUC9ujr8bQgcCM60rpX
-         3Guq7gH6Xfyc47HFcDFnFcUF7dBrPucaGjyZr5xjvYoAsBqRn9X2VIEI3UxVaQCTXZ6x
-         WMMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779061316; x=1779666116;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dcSrMq+0NUzVSUcdssHmirp8ahVv/yZU4js8kmI7fz8=;
-        b=avCg/XhKAoKEXOuapTJDs2D3XqxQf0UkYwh0Bagfa1CVmoTYVo7j1ED2NYQVrGzJmc
-         WHzjavGqnxEnIEeHOLJNYXEDI3npRldWW0qf8w5S79SmeQ5Fxbcmuk64kNMjFSUMJaGX
-         8/qnPl5QW615xaYk1FzweqaAGJD86sqXV3EUzWF31DPsqXTZjsWc/rV+oNpkru/PehEC
-         OAwHHUlsQ/+BbUsgkpwUlfbX89FuV8fMDvY+7e0AiXn5JGjVb1GsB7Oqsa86Pxf4dwyl
-         KNQCUrYko2r5vsWdXbeHTaFcGsBldq3KLkl+BboZZhgHWyw8f+/NUBjxYTKqvntoo9D9
-         auFQ==
-X-Gm-Message-State: AOJu0YwCoo3eCbx1vc6ASyTKI+YMmPRki7s4cGR3tPKbTVdwQOO6yF+S
-	jzfFaR9dzGMDkFSqDA7WqE5XelnvHPqJJR1mDVojYyymhT6BTlveizrR
-X-Gm-Gg: Acq92OHtC/5eLHgHMS/bMLw6n7K8/xwiC0jmkvSiG09sFT5TxMu1pmODk0sXekl781X
-	BdUT/fU6AWe6QKlrpPRCzgBxkakUzanO+gRo9QLOvHpn9TMuqk4l7OWEMaNJZgKdBGoiGmozkaY
-	u4txj39mFWZcPyK58+VQq9Pbk6CrxC90jvyWhF/9WD9XDXjKj1Vl3K0cbzP37YnmOLwGFrZ6TvL
-	eMCHyPT6oyVCBewgksZfRrXk66AI6NuSEOD7hYLDZrW+mRt2qyCzM1gxvQWvTYgQv0q5ROxPOo7
-	bmUZSLXHPQ2DaMhpT5VJiKNh6SN86r+kHj6xt39Ybqya5nLACf11ejTVeS1zQnGhk65K223PWKU
-	sBHLAAon5s1EqYQ9CWIxZFntFRM3KFYPIFZphT8+5rZCVmDcSNymMZyrhn1WM8CPmn6RZ4NN+en
-	D5s82XcTSFZRtfcJex1yKvxoEquPXutzLglebw0kQu0Y6Xnc+dcTA+7Jbz2JBi7yV0h3eB8xS3Q
-	lmglbfeQnPi7ifTBaMAKR/h9t+2RRWeqk0faf+UZ1s=
-X-Received: by 2002:a05:620a:7017:b0:90f:e60e:d4b7 with SMTP id af79cd13be357-911cdc42b1amr1928746485a.37.1779061315765;
-        Sun, 17 May 2026 16:41:55 -0700 (PDT)
-Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-91435ca2855sm199148085a.40.2026.05.17.16.41.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 16:41:55 -0700 (PDT)
-From: Michael Bommarito <michael.bommarito@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ntfs3: cap RESTART_TABLE free-chain walker at rt->used
-Date: Sun, 17 May 2026 19:41:40 -0400
-Message-ID: <20260517234140.1261718-1-michael.bommarito@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	d=139.com; s=dkim; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=LFU+w16iKWArwZ/IR/xbuS6WW2XIRnICRpluGJKHbY2F7tZ1fYp6A8aC9V4g89UGVTo5VUi6P/6LB
+	 cLdMFVXGQmB8F0UdY4aCxJh2q1iJKJaTHcyvy3tFTch+Y6afOT6PFjtusEu/hq6kBIEmEcRUfQe8iO
+	 dN3iA9to0JB9OoVQ=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM:                                                                                        
+X-RM-SPAM-FLAG:00000000
+Received:from NTT-kernel-dev (unknown[60.247.85.88])
+	by rmsmtp-lg-appmail-40-12054 (RichMail) with SMTP id 2f166a0a93c86e1-006ea;
+	Mon, 18 May 2026 12:21:32 +0800 (CST)
+X-RM-TRANSID:2f166a0a93c86e1-006ea
+From: Li hongliang <1468888505@139.com>
+To: gregkh@linuxfoundation.org,
+	stable@vger.kernel.org,
+	viro@zeniv.linux.org.uk
+Cc: patches@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	almaz.alexandrovich@paragon-software.com,
+	ntfs3@lists.linux.dev
+Subject: [PATCH 6.12.y] ntfs: ->d_compare() must not block
+Date: Mon, 18 May 2026 12:21:30 +0800
+Message-Id: <20260518042130.489507-1-1468888505@139.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-A crafted NTFS3 disk image triggers an in-kernel infinite loop at
-mount time, hanging the mounting thread and firing the soft-lockup
-watchdog within ~22s on multi-CPU hosts (panic with
-kernel.softlockup_panic=1).  The bug is reachable from desktop USB
-auto-mount on distributions where udisks2 routes the NTFS signature
-to the in-tree ntfs3 driver (Arch family and an increasing fraction
-of Fedora / openSUSE / RHEL deployments); CAP_SYS_ADMIN-class manual
-mount elsewhere.
+From: Al Viro <viro@zeniv.linux.org.uk>
 
-check_rstbl()'s second walker iterates the free-entry singly-linked
-list headed by rt->first_free with no upper bound on iteration count:
+[ Upstream commit ca2a04e84af79596e5cd9cfe697d5122ec39c8ce ]
 
-  for (off = ff; off;) {
-      if (off == RESTART_ENTRY_ALLOCATED)
-          return false;
-      off = le32_to_cpu(*(__le32 *)Add2Ptr(rt, off));
-      if (off > ts - sizeof(__le32))
-          return false;
-  }
+... so don't use __getname() there.  Switch it (and ntfs_d_hash(), while
+we are at it) to kmalloc(PATH_MAX, GFP_NOWAIT).  Yes, ntfs_d_hash()
+almost certainly can do with smaller allocations, but let ntfs folks
+deal with that - keep the allocation size as-is for now.
 
-The existing guards cover three exits: end-of-list (off == 0), the
-in-use marker (off == RESTART_ENTRY_ALLOCATED), and out-of-bounds
-(off > ts - sizeof(__le32)).  None of the three prevents an
-in-bounds cycle.
+Stop abusing names_cachep in ntfs, period - various uses of that thing
+in there have nothing to do with pathnames; just use k[mz]alloc() and
+be done with that.  For now let's keep sizes as-in, but AFAICS none of
+the users actually want PATH_MAX.
 
-A crafted on-disk RESTART_TABLE whose free chain contains a
-self-loop or A->B->A cycle whose offsets satisfy:
-
-  - in range [sizeof(struct RESTART_TABLE), ts - sizeof(__le32)]
-  - (off - sizeof(struct RESTART_TABLE)) % rsize == 0
-
-passes all existing guards and spins the mount-time thread forever.
-Reproduced in UML by hand-forging a 2 MB NTFS3 image whose journal
-RESTART_TABLE first_free = 0x18 and whose entry at offset 0x18
-stores 0x18 as its next pointer; mount of the forged image with
-the in-tree ntfs3 driver never returns.
-
-Bound the walker by rt->used.  Each entry on a legitimate free
-chain is unique, and the total slot count is ne = le16_to_cpu
-(rt->used).  A traversal that visits more than ne slots is by
-construction malformed; reject it as a corrupt RESTART_TABLE.
-
-After this patch, mount of the forged image returns with -EINVAL
-and a log_replay failure message, and mkntfs-produced legitimate
-images mount cleanly (verified in the same UML harness).
-
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Cc: stable@vger.kernel.org
-Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
-Assisted-by: Claude:claude-opus-4-7
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Li hongliang <1468888505@139.com>
 ---
- fs/ntfs3/fslog.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ fs/ntfs3/dir.c    |  5 ++---
+ fs/ntfs3/fsntfs.c |  4 ++--
+ fs/ntfs3/inode.c  | 13 ++++++-------
+ fs/ntfs3/namei.c  | 17 ++++++++---------
+ fs/ntfs3/xattr.c  |  5 ++---
+ 5 files changed, 20 insertions(+), 24 deletions(-)
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index acfa18b84401e..d3d808d644dbf 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -764,8 +764,19 @@ static bool check_rstbl(const struct RESTART_TABLE *rt, size_t bytes)
- 	/*
- 	 * Walk through the list headed by the first entry to make
- 	 * sure none of the entries are currently being used.
-+	 *
-+	 * Bound traversal by ne (rt->used) to defeat a crafted on-disk
-+	 * cycle in the free chain.  Each entry in a legitimate free
-+	 * list is unique, so a chain that visits more than ne slots
-+	 * is malformed.  Without this guard, an attacker-controlled
-+	 * RESTART_TABLE with a self-loop or A->B->A cycle whose
-+	 * offsets satisfy the existing alignment + in-bounds guards
-+	 * spins forever at mount time.
- 	 */
--	for (off = ff; off;) {
-+	for (off = ff, i = 0; off; i++) {
-+		if (i > ne)
-+			return false;
-+
- 		if (off == RESTART_ENTRY_ALLOCATED)
- 			return false;
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+index 600e66035c1b..522ebc14b1fb 100644
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -425,8 +425,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ 	if (!dir_emit_dots(file, ctx))
+ 		return 0;
  
+-	/* Allocate PATH_MAX bytes. */
+-	name = __getname();
++	name = kmalloc(PATH_MAX, GFP_KERNEL);
+ 	if (!name)
+ 		return -ENOMEM;
+ 
+@@ -504,7 +503,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ 
+ out:
+ 
+-	__putname(name);
++	kfree(name);
+ 	put_indx_node(node);
+ 
+ 	if (err == 1) {
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index 37c5d9a1f77b..5972f160e566 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -2670,7 +2670,7 @@ int ntfs_set_label(struct ntfs_sb_info *sbi, u8 *label, int len)
+ 	u32 uni_bytes;
+ 	struct ntfs_inode *ni = sbi->volume.ni;
+ 	/* Allocate PATH_MAX bytes. */
+-	struct cpu_str *uni = __getname();
++	struct cpu_str *uni = kmalloc(PATH_MAX, GFP_KERNEL);
+ 
+ 	if (!uni)
+ 		return -ENOMEM;
+@@ -2714,6 +2714,6 @@ int ntfs_set_label(struct ntfs_sb_info *sbi, u8 *label, int len)
+ 		err = _ni_write_inode(&ni->vfs_inode, 0);
+ 
+ out:
+-	__putname(uni);
++	kfree(uni);
+ 	return err;
+ }
+\ No newline at end of file
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 8113d47b0ceb..b50c9dff327d 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -1301,7 +1301,7 @@ int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
+ 		fa |= FILE_ATTRIBUTE_READONLY;
+ 
+ 	/* Allocate PATH_MAX bytes. */
+-	new_de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
++	new_de = kzalloc(PATH_MAX, GFP_KERNEL);
+ 	if (!new_de) {
+ 		err = -ENOMEM;
+ 		goto out1;
+@@ -1713,7 +1713,7 @@ int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
+ 	ntfs_mark_rec_free(sbi, ino, false);
+ 
+ out2:
+-	__putname(new_de);
++	kfree(new_de);
+ 	kfree(rp);
+ 
+ out1:
+@@ -1734,7 +1734,7 @@ int ntfs_link_inode(struct inode *inode, struct dentry *dentry)
+ 	struct NTFS_DE *de;
+ 
+ 	/* Allocate PATH_MAX bytes. */
+-	de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
++	de = kzalloc(PATH_MAX, GFP_KERNEL);
+ 	if (!de)
+ 		return -ENOMEM;
+ 
+@@ -1748,7 +1748,7 @@ int ntfs_link_inode(struct inode *inode, struct dentry *dentry)
+ 
+ 	err = ni_add_name(ntfs_i(d_inode(dentry->d_parent)), ni, de);
+ out:
+-	__putname(de);
++	kfree(de);
+ 	return err;
+ }
+ 
+@@ -1771,8 +1771,7 @@ int ntfs_unlink_inode(struct inode *dir, const struct dentry *dentry)
+ 	if (ntfs_is_meta_file(sbi, ni->mi.rno))
+ 		return -EINVAL;
+ 
+-	/* Allocate PATH_MAX bytes. */
+-	de = kmem_cache_zalloc(names_cachep, GFP_KERNEL);
++	de = kzalloc(PATH_MAX, GFP_KERNEL);
+ 	if (!de)
+ 		return -ENOMEM;
+ 
+@@ -1808,7 +1807,7 @@ int ntfs_unlink_inode(struct inode *dir, const struct dentry *dentry)
+ 
+ out:
+ 	ni_unlock(ni);
+-	__putname(de);
++	kfree(de);
+ 	return err;
+ }
+ 
+diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
+index 71a5a959a48c..fa4f7d9f3845 100644
+--- a/fs/ntfs3/namei.c
++++ b/fs/ntfs3/namei.c
+@@ -68,7 +68,7 @@ static struct dentry *ntfs_lookup(struct inode *dir, struct dentry *dentry,
+ 				  u32 flags)
+ {
+ 	struct ntfs_inode *ni = ntfs_i(dir);
+-	struct cpu_str *uni = __getname();
++	struct cpu_str *uni = kmalloc(PATH_MAX, GFP_KERNEL);
+ 	struct inode *inode;
+ 	int err;
+ 
+@@ -85,7 +85,7 @@ static struct dentry *ntfs_lookup(struct inode *dir, struct dentry *dentry,
+ 			inode = dir_search_u(dir, uni, NULL);
+ 			ni_unlock(ni);
+ 		}
+-		__putname(uni);
++		kfree(uni);
+ 	}
+ 
+ 	/*
+@@ -287,8 +287,7 @@ static int ntfs_rename(struct mnt_idmap *idmap, struct inode *dir,
+ 			return err;
+ 	}
+ 
+-	/* Allocate PATH_MAX bytes. */
+-	de = __getname();
++	de = kmalloc(PATH_MAX, GFP_KERNEL);
+ 	if (!de)
+ 		return -ENOMEM;
+ 
+@@ -333,7 +332,7 @@ static int ntfs_rename(struct mnt_idmap *idmap, struct inode *dir,
+ 	ni_unlock(ni);
+ 	ni_unlock(dir_ni);
+ out:
+-	__putname(de);
++	kfree(de);
+ 	return err;
+ }
+ 
+@@ -391,7 +390,7 @@ static int ntfs_d_hash(const struct dentry *dentry, struct qstr *name)
+ 	/*
+ 	 * Try slow way with current upcase table
+ 	 */
+-	uni = kmem_cache_alloc(names_cachep, GFP_NOWAIT);
++	uni = kmalloc(PATH_MAX, GFP_NOWAIT);
+ 	if (!uni)
+ 		return -ENOMEM;
+ 
+@@ -413,7 +412,7 @@ static int ntfs_d_hash(const struct dentry *dentry, struct qstr *name)
+ 	err = 0;
+ 
+ out:
+-	kmem_cache_free(names_cachep, uni);
++	kfree(uni);
+ 	return err;
+ }
+ 
+@@ -452,7 +451,7 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
+ 	 * Try slow way with current upcase table
+ 	 */
+ 	sbi = dentry->d_sb->s_fs_info;
+-	uni1 = __getname();
++	uni1 = kmalloc(PATH_MAX, GFP_NOWAIT);
+ 	if (!uni1)
+ 		return -ENOMEM;
+ 
+@@ -482,7 +481,7 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
+ 	ret = !ntfs_cmp_names_cpu(uni1, uni2, sbi->upcase, false) ? 0 : 1;
+ 
+ out:
+-	__putname(uni1);
++	kfree(uni1);
+ 	return ret;
+ }
+ 
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index e0055dcf8fe3..6861c09d66d7 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -552,8 +552,7 @@ struct posix_acl *ntfs_get_acl(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	int err;
+ 	void *buf;
+ 
+-	/* Allocate PATH_MAX bytes. */
+-	buf = __getname();
++	buf = kmalloc(PATH_MAX, GFP_KERNEL);
+ 	if (!buf)
+ 		return ERR_PTR(-ENOMEM);
+ 
+@@ -584,7 +583,7 @@ struct posix_acl *ntfs_get_acl(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	if (!IS_ERR(acl))
+ 		set_cached_acl(inode, type, acl);
+ 
+-	__putname(buf);
++	kfree(buf);
+ 
+ 	return acl;
+ }
 -- 
-2.53.0
+2.34.1
+
 
