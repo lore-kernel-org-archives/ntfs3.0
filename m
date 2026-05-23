@@ -1,95 +1,145 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82EF47886E
-	for <ntfs3@lists.linux.dev>; Fri, 22 May 2026 15:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E67121CFEF
+	for <ntfs3@lists.linux.dev>; Sat, 23 May 2026 15:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779464476; cv=none; b=IJ1cPD9skP3cM2lTkqF7OgFtEEXCQ+yEm6Nd6yP7TADaB8PENGsLm/DD5Uejb0GJyoEt6IzRHdpxwfJtF8skR1TcEuKmH2YGig1/2dSpfGy5hJSTRPKpD7sIRonUD3/DS+VBDY/V6yLOAG1TDKafom+7mCB6zwG3mHM9jfo+vGs=
+	t=1779550432; cv=none; b=MMUJ+NQIeJmYBpLy7hKcEzw2KnE8dT9ZKl6O48elzp5BjlQ70Ya1PjiFDME8IWpakYKn8XvF6f6RhZhma7k+5HNCPFgkQ0kNM19PR4CYuzOiRwD3db1hwGta1hyc0PeWC2CEChmjh+wLzKzHU3YWuTrJgN9G2BAVFmg7bi0LyTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779464476; c=relaxed/simple;
-	bh=WgvKZwWcbNev9RIuiWi8nxiGkRPq0aUQyRtDgeqYngA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=nBboJoKCajM5Cdxa9vBbYusfVT7annqGO9ye9LopPivk6xTNg5CgJdlx6L6NWPt1VBwGtLYA3hkPMgmrc1HwoZJBShB6cGx3imgpIFMElAsL5i5M1HQakmHwwD7NKRF+ogknlSSe5ufc3osGLXE1Gu5QkfNvFWPLMj8iaQ0UyAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=MycvJpTR; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1779550432; c=relaxed/simple;
+	bh=eYOJqtCi/ycCUApWgZyAwLckP2zfH2rW5J8Q6wiQzEA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YkV7WHUOvnIxb3k46i7lpqTuCiTOnJYCRrh/rDeQFrh0tR7efunXG0chlx8sqnsWGACgsQTzYVYMHwYRirxU+Muv5YkxN0f6hBq5m8CVv/4HSYYIqCinNeSBtsKV4mp1AivNV2bRJgyJKYFcuT1tSsyMo8Qn6QdJm2N3MSUlXo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pRThBwlD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7YrUoGJV; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Zpzbkzgl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cKy6GzIY; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="MycvJpTR"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 855E81D3E;
-	Fri, 22 May 2026 15:41:14 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=MycvJpTR;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 0834A35D;
-	Fri, 22 May 2026 15:41:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1779464467;
-	bh=WgvKZwWcbNev9RIuiWi8nxiGkRPq0aUQyRtDgeqYngA=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=MycvJpTRV1hFKoInsX+V5crOTsInaS2G15WmYhdHmPCvpdV8T4ue4Rw9e8Q6L/ev3
-	 Ymxkt5iyn3kMfvl8X/tBpqAoGXs6L8hVZzUoVvQpou2bYgwzby99o+2DHpHbqI8FVP
-	 ePu8HENTjCgr777QBBw7o53KwzRUy1Pji6G2tHIU=
-Received: from [192.168.95.128] (172.30.20.156) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 22 May 2026 18:41:06 +0300
-Message-ID: <93164f52-ec5b-4186-94e9-2e91429a5ad9@paragon-software.com>
-Date: Fri, 22 May 2026 17:41:05 +0200
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pRThBwlD";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7YrUoGJV";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Zpzbkzgl";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cKy6GzIY"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 94C4468431;
+	Sat, 23 May 2026 15:33:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779550429;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rGKQxEAwH4dlJ8onElX39ZhZhqI3pOsZmNd7bQ1rR3I=;
+	b=pRThBwlDw4t6O/pzqIU7KaJWg1QG0qm7L1vLlxZG3k9CPYRk/AuoWY664FTNMwyCLgYxie
+	lQCtwM9IljTMU90h6SemQw33FTwIERSLqUcvPVeXT1qhjBr6ptTc63g3EluYDWmlZImbt3
+	P56a/nB53R2cC7dx65aJkRX9PdWX/AE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779550429;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rGKQxEAwH4dlJ8onElX39ZhZhqI3pOsZmNd7bQ1rR3I=;
+	b=7YrUoGJV+61dftzRMXkXp/OydunTAOPE8TjBQC1FJxUP1NPCcxEPbYMagU4Unr5Xa9LXNz
+	ymAQ+Zk1jEWQQXBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779550428;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rGKQxEAwH4dlJ8onElX39ZhZhqI3pOsZmNd7bQ1rR3I=;
+	b=ZpzbkzglrgVGRLfPMAAw6Hic17jiUsPEWRMEHTUVi5T3yk4HBNWYCD7jUtVkq3gGUu5DWw
+	WKX8SDApe6iJAfGETt+fhE/hTeyGAHj2NTMbWZBQRDRg1i1q8k+p5zIge4q+jyfaWgYPY7
+	r+ruV02L9ZnpCoF4a+7/xnlIb4i1bhU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779550428;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rGKQxEAwH4dlJ8onElX39ZhZhqI3pOsZmNd7bQ1rR3I=;
+	b=cKy6GzIYYdhSW5PmQVpqa8xMFZIg2bSC4LXkHnBZYFG7aHOnkFj2yD7cdu2TUtca6f815j
+	D0N+AZBdvf9gC/Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6BDB9593A8;
+	Sat, 23 May 2026 15:33:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xYY6GdzIEWoGbgAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Sat, 23 May 2026 15:33:48 +0000
+Date: Sat, 23 May 2026 17:33:43 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	David Sterba <dsterba@suse.com>,
+	Luis de Bethencourt <luisbg@kernel.org>,
+	Salah Triki <salah.triki@gmail.com>,
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+	Dave Kleikamp <shaggy@kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Bob Copeland <me@bobcopeland.com>, Anders Larsen <al@alarsen.net>,
+	linux-fsdevel@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
+	ntfs3@lists.linux.dev, linux-karma-devel@lists.sourceforge.net
+Subject: Re: [PATCH 06/10] affs: handle set_blocksize failures
+Message-ID: <20260523153343.GE183694@suse.cz>
+Reply-To: dsterba@suse.cz
+References: <20260511071701.2456211-1-hch@lst.de>
+ <20260511071701.2456211-7-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [bug report] fs/ntfs3: mounting an ntfs filesystem accelerated by
- intel optane memory causes data corruption
-To: palapapa <palapapa93@gmail.com>
-CC: <ntfs3@lists.linux.dev>
-References: <76bc95e8-c758-4934-a68f-bb11e20b0d84@gmail.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <76bc95e8-c758-4934-a68f-bb11e20b0d84@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260511071701.2456211-7-hch@lst.de>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Score: -2.50
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.50 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,suse.com,gmail.com,artax.karlin.mff.cuni.cz,paragon-software.com,bobcopeland.com,alarsen.net,vger.kernel.org,lists.sourceforge.net,lists.linux.dev];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	MID_RHS_MATCH_FROM(0.00)[];
+	internal_greylist_whitelist(0.00)[10.150.64.97];
+	TAGGED_RCPT(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:mid,suse.cz:replyto,lst.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
 
-On 5/2/26 17:10, palapapa wrote:
+On Mon, May 11, 2026 at 09:16:51AM +0200, Christoph Hellwig wrote:
+> affs uses buffer_heads, which don't handle block size > PAGE_SIZE well.
+> Without this, mounting we will hit the
+> 
+>         BUG_ON(offset >= folio_size(folio));
+> 
+> in folio_set_bh on the first __bread_gfp call.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-> [You don't often get email from palapapa93@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> Hello Konstantin Komarov,
->
-> If an NTFS filesystem is set to be accelerated using Intel Optane Memory on
-> Windows using the Intel Optane Memory and Storage Management app, mounting that
-> filesystem on Linux will cause some files to be unreadable, presumably because
-> the data for those files are stored on the Intel Optane SSD. This may be proven
-> by the fact that cloning the NTFS drive in question to another drive causes
-> Windows' chkdsk to report that drive as corrupted, while the original drive is
-> perfectly readable. Writing the the NTFS drive in this state may cause data
-> corruption.
->
-> Listing the directories that contain unreadable files gives errors like "invalid
-> argument" or "no such file or directory", and dmesg gives errors like "ntfs3:
-> ...: MFT: r=..., expect seq=... instead of ...!".
->
-> Would it be possible to detect this case and prevent mounting the drive in this
-> inconsistent state?
->
-> This is my first time reporting a kernel issue. Sorry if I have made a mistake.
->
-> Kernel version: 6.18.25
-> Distro: Gentoo
-
-Hello,
-
-Yes, sure, I'll look into this issue and follow up
-with the results.
-
-Regards,
-Konstantin
-
+Acked-by: David Sterba <dsterba@suse.com>
