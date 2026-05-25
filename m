@@ -1,145 +1,132 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-oo1-f77.google.com (mail-oo1-f77.google.com [209.85.161.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E67121CFEF
-	for <ntfs3@lists.linux.dev>; Sat, 23 May 2026 15:33:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FB93E0752
+	for <ntfs3@lists.linux.dev>; Mon, 25 May 2026 09:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779550432; cv=none; b=MMUJ+NQIeJmYBpLy7hKcEzw2KnE8dT9ZKl6O48elzp5BjlQ70Ya1PjiFDME8IWpakYKn8XvF6f6RhZhma7k+5HNCPFgkQ0kNM19PR4CYuzOiRwD3db1hwGta1hyc0PeWC2CEChmjh+wLzKzHU3YWuTrJgN9G2BAVFmg7bi0LyTE=
+	t=1779699745; cv=none; b=tuyWjqLfybp6g8xWlA7hA3gkUZvGPyMGIdq28zEOgHSargb6Y96kJSxvALLScQ3KawzgcnmB83ndT/tE6WvmA8Uh1AbApOg8wKxieSB++pa5p7+7WdTPxDjevDPx3Dau7IHtA5OYG2UNIPDnZI9ztVoIdpeekSF9oo+ZBhFE/3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779550432; c=relaxed/simple;
-	bh=eYOJqtCi/ycCUApWgZyAwLckP2zfH2rW5J8Q6wiQzEA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YkV7WHUOvnIxb3k46i7lpqTuCiTOnJYCRrh/rDeQFrh0tR7efunXG0chlx8sqnsWGACgsQTzYVYMHwYRirxU+Muv5YkxN0f6hBq5m8CVv/4HSYYIqCinNeSBtsKV4mp1AivNV2bRJgyJKYFcuT1tSsyMo8Qn6QdJm2N3MSUlXo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pRThBwlD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7YrUoGJV; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Zpzbkzgl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cKy6GzIY; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pRThBwlD";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7YrUoGJV";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Zpzbkzgl";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cKy6GzIY"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 94C4468431;
-	Sat, 23 May 2026 15:33:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779550429;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rGKQxEAwH4dlJ8onElX39ZhZhqI3pOsZmNd7bQ1rR3I=;
-	b=pRThBwlDw4t6O/pzqIU7KaJWg1QG0qm7L1vLlxZG3k9CPYRk/AuoWY664FTNMwyCLgYxie
-	lQCtwM9IljTMU90h6SemQw33FTwIERSLqUcvPVeXT1qhjBr6ptTc63g3EluYDWmlZImbt3
-	P56a/nB53R2cC7dx65aJkRX9PdWX/AE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779550429;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rGKQxEAwH4dlJ8onElX39ZhZhqI3pOsZmNd7bQ1rR3I=;
-	b=7YrUoGJV+61dftzRMXkXp/OydunTAOPE8TjBQC1FJxUP1NPCcxEPbYMagU4Unr5Xa9LXNz
-	ymAQ+Zk1jEWQQXBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779550428;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rGKQxEAwH4dlJ8onElX39ZhZhqI3pOsZmNd7bQ1rR3I=;
-	b=ZpzbkzglrgVGRLfPMAAw6Hic17jiUsPEWRMEHTUVi5T3yk4HBNWYCD7jUtVkq3gGUu5DWw
-	WKX8SDApe6iJAfGETt+fhE/hTeyGAHj2NTMbWZBQRDRg1i1q8k+p5zIge4q+jyfaWgYPY7
-	r+ruV02L9ZnpCoF4a+7/xnlIb4i1bhU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779550428;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rGKQxEAwH4dlJ8onElX39ZhZhqI3pOsZmNd7bQ1rR3I=;
-	b=cKy6GzIYYdhSW5PmQVpqa8xMFZIg2bSC4LXkHnBZYFG7aHOnkFj2yD7cdu2TUtca6f815j
-	D0N+AZBdvf9gC/Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6BDB9593A8;
-	Sat, 23 May 2026 15:33:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xYY6GdzIEWoGbgAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Sat, 23 May 2026 15:33:48 +0000
-Date: Sat, 23 May 2026 17:33:43 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	David Sterba <dsterba@suse.com>,
-	Luis de Bethencourt <luisbg@kernel.org>,
-	Salah Triki <salah.triki@gmail.com>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Bob Copeland <me@bobcopeland.com>, Anders Larsen <al@alarsen.net>,
-	linux-fsdevel@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
-	ntfs3@lists.linux.dev, linux-karma-devel@lists.sourceforge.net
-Subject: Re: [PATCH 06/10] affs: handle set_blocksize failures
-Message-ID: <20260523153343.GE183694@suse.cz>
-Reply-To: dsterba@suse.cz
-References: <20260511071701.2456211-1-hch@lst.de>
- <20260511071701.2456211-7-hch@lst.de>
+	s=arc-20240116; t=1779699745; c=relaxed/simple;
+	bh=waJpbtuuy7G0ghHTkmCmLI/oKincT720zLLXnw2x8BQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=pPbhtaI/kDqkTw6UBO5ofrKsSxnkmxaQMGIx1B6Lr3xLETxU6hams8Gj9I6eN2BMnMBDU1J7HmXuPmHv/zWcyUq4/WWIEsID01WkOEUjStv64i30EbiJJz6xZ+UqifxxWUH+O4mRfeIyUytM8b6qaYChemOWIkTK46l0P7r6BBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f77.google.com with SMTP id 006d021491bc7-69d6b83becaso5896369eaf.2
+        for <ntfs3@lists.linux.dev>; Mon, 25 May 2026 02:02:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779699743; x=1780304543;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MRF27zDyCFPw6ZPNE+LysAfTntSGp6L1qvIgmzw+6yo=;
+        b=VQHXlfT7FrzORWs4knQk0iFGOoQ5pWpXcHbG9K9ZhpnjkpdRec1UQPuE/6+bn0D5Mx
+         HKNLsMdz23chLFyIXWNZ4WqNRsqgvaDPGrx7aIU1APFQvsZ5gxPQhg7W+obCZg19LFQg
+         8PYwn0NSRJKD4ZnG1PvQIXFsSkowzZVITCM6doK/ifW8E2KJ6XvdCqbcxDXudRBsaiW6
+         PRtPgLK7d84QZHnmZYyTm790VX2f5154TKJ6sTBH1g8XmrwA4zmpdmY575HN3YMRtTzN
+         mGA++XlBdtEaS+FWjdFIoDmxkflPvmX1D3GPE65aRGyoLUUwCbLx7mjALKX0y4NKhOxC
+         yKVA==
+X-Forwarded-Encrypted: i=1; AFNElJ/vsvdYIJraGuuFXQG7AsuQTbt4vWR3MztNjLGtj/Y+uez8eUvYBe1/6m473wr0N8ED6A/4QA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwOVSrNWRfkPchFU4d2oT7OfpQlH+KfyVbQfgyjsMRTDI2Z3c/V
+	wyNy1Cr51TthEo2vdwyK3tRfjVtkhptrjo32gQpCdV/BW6BKGuv8zUW+mvyYkguMxI1pZu7b5ol
+	kR8GzBtL3pNgr9MmtdOByypL9JxkaI1GMpKuoQwp94wy75fP5f+AHsNoi/vw=
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511071701.2456211-7-hch@lst.de>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spam-Score: -2.50
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.50 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,suse.com,gmail.com,artax.karlin.mff.cuni.cz,paragon-software.com,bobcopeland.com,alarsen.net,vger.kernel.org,lists.sourceforge.net,lists.linux.dev];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	MID_RHS_MATCH_FROM(0.00)[];
-	internal_greylist_whitelist(0.00)[10.150.64.97];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:mid,suse.cz:replyto,lst.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
+X-Received: by 2002:a05:6820:a06:b0:69b:3fff:1407 with SMTP id
+ 006d021491bc7-69d7ece5ae0mr7712470eaf.54.1779699743175; Mon, 25 May 2026
+ 02:02:23 -0700 (PDT)
+Date: Mon, 25 May 2026 02:02:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a14101f.050a0220.2385e8.0011.GAE@google.com>
+Subject: [syzbot] [ntfs3?] WARNING in attr_data_get_block_locked (2)
+From: syzbot <syzbot+7be6ad5cb228286af3e3@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, May 11, 2026 at 09:16:51AM +0200, Christoph Hellwig wrote:
-> affs uses buffer_heads, which don't handle block size > PAGE_SIZE well.
-> Without this, mounting we will hit the
-> 
->         BUG_ON(offset >= folio_size(folio));
-> 
-> in folio_set_bh on the first __bread_gfp call.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+Hello,
 
-Acked-by: David Sterba <dsterba@suse.com>
+syzbot found the following issue on:
+
+HEAD commit:    6a97c4d5262d Merge tag 'for-linus' of git://git.kernel.org..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1526c673980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=84d8d0173345cb21
+dashboard link: https://syzkaller.appspot.com/bug?extid=7be6ad5cb228286af3e3
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-6a97c4d5.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/adcb671bf9d3/vmlinux-6a97c4d5.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/26cd02552fc3/bzImage-6a97c4d5.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7be6ad5cb228286af3e3@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+1
+WARNING: fs/ntfs3/attrib.c:1237 at attr_data_get_block_locked+0x194c/0x2590 fs/ntfs3/attrib.c:1237, CPU#0: syz.0.0/5337
+Modules linked in:
+CPU: 0 UID: 0 PID: 5337 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:attr_data_get_block_locked+0x194c/0x2590 fs/ntfs3/attrib.c:1237
+Code: 44 89 f7 44 89 e6 e8 83 fc a1 fe 45 29 e6 0f 83 c1 00 00 00 e8 b5 fa a1 fe 41 bf ea ff ff ff e9 6b fa ff ff e8 a5 fa a1 fe 90 <0f> 0b 90 41 bf ea ff ff ff e9 57 fa ff ff 48 8b 84 24 c8 00 00 00
+RSP: 0018:ffffc9000e4e79a0 EFLAGS: 00010293
+RAX: ffffffff8323cacb RBX: 00000000ffffffff RCX: ffff888000fe8000
+RDX: 0000000000000000 RSI: 00000000ffffffff RDI: 00000000ffffffff
+RBP: ffffc9000e4e7be8 R08: 0000000000000000 R09: 1ffff11006b3c840
+R10: dffffc0000000000 R11: ffffed1006b3c841 R12: ffff8880479e4fd8
+R13: dffffc0000000000 R14: 0000000000000000 R15: 0000000000000000
+FS:  00007f56995736c0(0000) GS:ffff88808c87b000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 000000003e796000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ attr_data_get_block+0x250/0x310 fs/ntfs3/attrib.c:982
+ ntfs_fallocate+0xfac/0x1220 fs/ntfs3/file.c:674
+ vfs_fallocate+0x669/0x7e0 fs/open.c:338
+ ksys_fallocate fs/open.c:362 [inline]
+ __do_sys_fallocate fs/open.c:367 [inline]
+ __se_sys_fallocate fs/open.c:365 [inline]
+ __x64_sys_fallocate+0xc0/0x110 fs/open.c:365
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0x560 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f569879ce59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f5699572fe8 EFLAGS: 00000246 ORIG_RAX: 000000000000011d
+RAX: ffffffffffffffda RBX: 00007f5698a16090 RCX: 00007f569879ce59
+RDX: 0000000000080000 RSI: 0000000000000000 RDI: 0000000000000008
+RBP: 00007f5698832d6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000004 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f5698a16128 R14: 00007f5698a16090 R15: 00007fff784160b8
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
