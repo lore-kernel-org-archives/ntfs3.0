@@ -1,51 +1,45 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from n169-114.mail.139.com (n169-114.mail.139.com [120.232.169.114])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395AC3FCB09
-	for <ntfs3@lists.linux.dev>; Tue, 26 May 2026 13:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70325533D6;
+	Wed, 27 May 2026 00:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=120.232.169.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779803380; cv=none; b=J+kt1CJYV3Sx8o5dO5zW8k+EDP11/KJ+M1oI3ZUQQ0WjFC3g+JbE1v1HmmDKlZTGwQhc2SsjbqGntzP7ToLObxAbKep/idgtkl5LCPR1EicoHba0ZXwGzbdPqXdnWrPxc3VAbC2WQCwPWckjReBvdUM6l7FdGyQevRaIR2qRGeQ=
+	t=1779843324; cv=none; b=IWaSRiwGmUgyZR0naYaVOkIbLrkcHiebcKoY23uFi03rf2m2i7m77g7d+hCe9dGnvESyCL65f7atWuPCRhaGavYk4osyJFdZ/MVNv/0uxuxfwHL26SL6fC9TRET4f6/1+RXIwQPwMtRn6y5a7pXPcLqsF4RWEQPYijDLZw4Ffwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779803380; c=relaxed/simple;
-	bh=et8wV0+Dbpjc2PWdiG74EPolYrWNCm3p+kN/uSHQpxs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dEp0uTJEJMDSs1Rmn8DODV+nKyiBetVeUgPo058DaIgA+w2BMFbOKQwx0FokxVdUj/1qFAf/eIKDrzdNGce5Ipu6OktXlIiixaFadf+oTIC/8ml+++43KxdlrED7VKK2EA/OkFVIDnKDriYRTQWI+XQp30qzDl04yhkdYI9fMJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=MUYleGbA; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1779843324; c=relaxed/simple;
+	bh=yLP+fe59YbWjNozdB0J6vFtGFhRB5cE6vJY5r0Mz1gE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=g5ibONmY8rwSABKSOe0saAOw+oy+VW7E+q7gjDOxxo08IIa8BF98PYi3rq3ZUGyWGUkEVO58x8niLW5qD63wVWjIOOlFdcd+Hn9+e5Bu5p2OUaWOeT/i/iR4eIXvjX6/0MDinMGbMvQNcBugdSKQYd/jwVEI50iv3SA+tizkWuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com; spf=pass smtp.mailfrom=139.com; dkim=pass (1024-bit key) header.d=139.com header.i=@139.com header.b=wEH7cCJQ; arc=none smtp.client-ip=120.232.169.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=139.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="MUYleGbA"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 257AF1D40;
-	Tue, 26 May 2026 13:49:40 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=MUYleGbA;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 642611E07;
-	Tue, 26 May 2026 13:49:33 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=139.com header.i=@139.com header.b="wEH7cCJQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1779803373;
-	bh=yBaQf8E1u4/5HLFmn2hNEFmldxSLk3zJlkLM3MEVQUA=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=MUYleGbAKlFpfi2kPa4Z17BvsK9c5Bwh0xZRl+YgM+H8+Bnxp3043YdKh8p51jbcu
-	 y+4lQxZJa7939YKI0mnbwb9vTqwCHUOzjCwICEkCRrmLw42PYRSgtZY/SYq8GtXnj+
-	 b9JThA0j38p4XSxtwj7gsejftIeqqPuCz9LpNtB0=
-Received: from localhost.localdomain (172.30.20.153) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 26 May 2026 16:49:32 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH 5/6] fs/ntfs3: force waiting for direct I/O completion
-Date: Tue, 26 May 2026 15:49:06 +0200
-Message-ID: <20260526134907.11402-6-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260526134907.11402-1-almaz.alexandrovich@paragon-software.com>
-References: <20260526134907.11402-1-almaz.alexandrovich@paragon-software.com>
+	d=139.com; s=dkim; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=wEH7cCJQxJOCzSi1qEjTgWBHgJIztKCZS+SA3bOe+o9lws3V057qbSlTFdON7PWIDUJfYrnOlx442
+	 EKhaAupkswkFFuO3xnuyKDEMsokMyP2ceeMh36vO+h6WAcZyHl9R7JAJhPcnzc0cHn437PNcakBLs5
+	 wug85vZ67djEVNjo=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM:                                                                                        
+X-RM-SPAM-FLAG:00000000
+Received:from NTT-kernel-dev (unknown[60.247.85.88])
+	by rmsmtp-lg-appmail-45-12076 (RichMail) with SMTP id 2f2c6a1640ed8c6-008d3;
+	Wed, 27 May 2026 08:55:10 +0800 (CST)
+X-RM-TRANSID:2f2c6a1640ed8c6-008d3
+From: Li hongliang <1468888505@139.com>
+To: gregkh@linuxfoundation.org,
+	stable@vger.kernel.org
+Cc: patches@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	almaz.alexandrovich@paragon-software.com,
+	ntfs3@lists.linux.dev
+Subject: [PATCH 6.1.y] fs/ntfs3: validate rec->used in journal-replay file record check
+Date: Wed, 27 May 2026 08:55:09 +0800
+Message-Id: <20260527005509.3175451-1-1468888505@139.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -53,34 +47,83 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-It makes ntfs3 wait for direct I/O completion before returning to the
-caller, instead of allowing the write path to complete asynchronously.
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-The issue was discovered during internal tests.
+[ Upstream commit 0ca0485e4b2e837ebb6cbd4f2451aba665a03e4b ]
 
+check_file_record() validates rec->total against the record size but
+never validates rec->used.  The do_action() journal-replay handlers read
+rec->used from disk and use it to compute memmove lengths:
+
+  DeleteAttribute:    memmove(attr, ..., used - asize - roff)
+  CreateAttribute:    memmove(..., attr, used - roff)
+  change_attr_size:   memmove(..., used - PtrOffset(rec, next))
+
+When rec->used is smaller than the offset of a validated attribute, or
+larger than the record size, these subtractions can underflow allowing
+us to copy huge amounts of memory in to a 4kb buffer, generally
+considered a bad idea overall.
+
+This requires a corrupted filesystem, which isn't a threat model the
+kernel really needs to worry about, but checking for such an obvious
+out-of-bounds value is good to keep things robust, especially on journal
+replay
+
+Fix this up by bounding rec->used correctly.
+
+This is much like commit b2bc7c44ed17 ("fs/ntfs3: Fix slab-out-of-bounds
+read in DeleteIndexEntryRoot") which checked different values in this
+same switch statement.
+
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+Cc: stable <stable@kernel.org>
+Assisted-by: gregkh_clanker_t1000
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Signed-off-by: Li hongliang <1468888505@139.com>
 ---
- fs/ntfs3/file.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/ntfs3/fslog.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 2d1de3739ffe..26bec5be248e 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -1398,7 +1398,8 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 			goto out;
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index 7e6937e7d471..99bd7a06b2bc 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -2792,13 +2792,14 @@ static inline bool check_file_record(const struct MFT_REC *rec,
+ 	u16 fn = le16_to_cpu(rec->rhdr.fix_num);
+ 	u16 ao = le16_to_cpu(rec->attr_off);
+ 	u32 rs = sbi->record_size;
++	u32 used = le32_to_cpu(rec->used);
+ 
+ 	/* Check the file record header for consistency. */
+ 	if (rec->rhdr.sign != NTFS_FILE_SIGNATURE ||
+ 	    fo > (SECTOR_SIZE - ((rs >> SECTOR_SHIFT) + 1) * sizeof(short)) ||
+ 	    (fn - 1) * SECTOR_SIZE != rs || ao < MFTRECORD_FIXUP_OFFSET_1 ||
+ 	    ao > sbi->record_size - SIZEOF_RESIDENT || !is_rec_inuse(rec) ||
+-	    le32_to_cpu(rec->total) != rs) {
++	    le32_to_cpu(rec->total) != rs || used > rs || used < ao) {
+ 		return false;
  	}
  
--	ret = iomap_dio_rw(iocb, from, &ntfs_iomap_ops, NULL, 0, NULL, 0);
-+	ret = iomap_dio_rw(iocb, from, &ntfs_iomap_ops, NULL,
-+			   IOMAP_DIO_FORCE_WAIT, NULL, 0);
+@@ -2810,6 +2811,15 @@ static inline bool check_file_record(const struct MFT_REC *rec,
+ 		return false;
+ 	}
  
- 	if (ret == -ENOTBLK) {
- 		/* Returns -ENOTBLK in case of a page invalidation failure for writes.*/
++	/*
++	 * The do_action() handlers compute memmove lengths as
++	 * "rec->used - <offset of validated attr>", which underflows when
++	 * rec->used is smaller than the attribute walk reached.  At this
++	 * point attr is the ATTR_END marker; rec->used must cover it.
++	 */
++	if (used < PtrOffset(rec, attr) + sizeof(attr->type))
++		return false;
++
+ 	return true;
+ }
+ 
 -- 
-2.43.0
+2.34.1
+
 
