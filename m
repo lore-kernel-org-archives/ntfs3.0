@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC824270575
-	for <ntfs3@lists.linux.dev>; Thu, 28 May 2026 13:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BE9270575
+	for <ntfs3@lists.linux.dev>; Thu, 28 May 2026 13:50:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779976142; cv=none; b=oLc0MxPcniAep0kejxPZdQ3SoAlurxzPSq0Jq/zc+gKgFmvO6AV8f9Nf6y09BOK3ScTEoKWzS/XO2vA5GkkKuZCREoxcbZGbLpxKuS6vBDYJWkkeoDyHtYSi1dw/Bi6MqqA7+lqT76zzoI+Pw1WF+vOvj7Pjsaw2D77aMns7UeI=
+	t=1779976217; cv=none; b=d+xTpmaB9MiFu4QA6DUy44mEstlEq/cmEpirHmBtNtFPBc6kzkq+3uZkWY3fW5793VMcqWS/i2bQ7H0Fbj6MMD0P2bQYJLAM/mv0IpEtP+gv/Gwb8+AhpUOKFu43YrIzRFRFIt2krnTo+DqA7aAtl6QrX1a8ZPlqo++8/H9InOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779976142; c=relaxed/simple;
-	bh=klRtw59F+Tl/gK82bNXbRFEOAJTHA4uLCbz17H5Yc34=;
+	s=arc-20240116; t=1779976217; c=relaxed/simple;
+	bh=fWzXAWHszR2b5OEPL4sndEautD7R+kMA6CG3g9XHJSc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=mcFgg4unNxaWe8yVA6J0faGDaAW6dVJrVMl6+wCE2amwpMrydeYUW1nzrpFQ0fEAmOibJejxOAqbHMgKa1AVJ3eoFeb23pEmVM1R/cdIKEWNmp96yAPpnBjE2BmUNt362FDgPYAHp8WiqnOkRxFUpSpGM0zmFlAR1KszMQNvZ4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=KEuwUEK8; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=NxXSI7pz+9iE5eipxDuqqfdQYUKYy3HbSezIdxapcHlPk4+l6gQOx9eZ34GO/7qAu9ORYgr7YU2F7s6PvwsUDtBQOaJPGKafgMdvqJ1D9kGGRPZo+pglTAuedwOGnZ2QCodG4ZIn7fe8OltNXKEbuQbOW7Xpk8u6BnJzl5jjYXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=bqOppMyg; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="KEuwUEK8"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="bqOppMyg"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 61E6E26;
-	Thu, 28 May 2026 13:49:01 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 0517E26;
+	Thu, 28 May 2026 13:50:16 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=KEuwUEK8;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=bqOppMyg;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 0D23E1D44;
-	Thu, 28 May 2026 13:48:55 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 978441D44;
+	Thu, 28 May 2026 13:50:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1779976135;
-	bh=aVV8WiKac27Pcc8ldXRt1Egwfmb8Jk67bBRNMbXJhd4=;
+	d=paragon-software.com; s=mail; t=1779976213;
+	bh=xTFAsC8Zn1VtBDH+N0QLrTFT7H21Yp+uRFoacmhZjm4=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=KEuwUEK8WWOVc9fRqsEMWHpyz/sG0MOQSsKh/66CKP3yYecxbvmDipfIRC+/Vd1x9
-	 Hh7Hu89ybsoE1MZqGxauoO9nIOZ8FQOOg+B8gU+ioPvS8Y2PM7sbeaZzuSoDxE0wI2
-	 bTKHCgI6JQIpCcV6qFgBu/NJpKCtFvinw6xgIcG4=
+	b=bqOppMygU7i7moQ6zV6KHBDbMgZNSUvrdfPkJtZPgtkkIN0fISHKWD/HvvTLV8X7V
+	 nxBwqfohigWdFgad5ocOdGwyp/o4fu+PuamStkGyy+AmOWzfRAEw4lNZtPu9mrxZOb
+	 SIbptUybgFad2mWFyEVbgGBZycJDF1Lquam6Thk4=
 Received: from [192.168.95.128] (172.30.20.180) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 28 May 2026 16:48:53 +0300
-Message-ID: <201d0fa6-80b7-46d5-bf2c-01acfa8c8f34@paragon-software.com>
-Date: Thu, 28 May 2026 15:48:52 +0200
+ 15.1.2375.7; Thu, 28 May 2026 16:50:12 +0300
+Message-ID: <a2da973e-def0-4136-b6ee-07791e101fb9@paragon-software.com>
+Date: Thu, 28 May 2026 15:50:11 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,67 +45,84 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ntfs3: avoid another -Wmaybe-uninitialized warning
-To: Arnd Bergmann <arnd@kernel.org>
-CC: Arnd Bergmann <arnd@arndb.de>, "Matthew Wilcox (Oracle)"
-	<willy@infradead.org>, Edward Adam Davis <eadavis@qq.com>, Sun Jian
-	<sun.jian.kdev@gmail.com>, <ntfs3@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-References: <20260515090956.512083-1-arnd@kernel.org>
+Subject: Re: [PATCH RESEND] fs/ntfs3: fix mount failure on 64K page-size
+ kernels
+To: Jamie Nguyen <jamien@nvidia.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Matthew R .
+ Ochs" <mochs@nvidia.com>
+References: <20260424203111.77214-1-jamien@nvidia.com>
+ <20260519194220.58114-1-jamien@nvidia.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260515090956.512083-1-arnd@kernel.org>
+In-Reply-To: <20260519194220.58114-1-jamien@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
+On 5/19/26 21:42, Jamie Nguyen wrote:
 
-On 5/15/26 11:09, Arnd Bergmann wrote:
-
-> From: Arnd Bergmann <arnd@arndb.de>
+> On 64K page-size kernels, mounting NTFS volumes smaller than ~650 MB
+> fails with EINVAL. The issue is in log_replay(): the initial log page
+> size probe uses PAGE_SIZE (65536) instead of DefaultLogPageSize (4096)
+> when PAGE_SIZE exceeds DefaultLogPageSize * 2.
 >
-> The ntfs3 specific -Wmaybe-uninitialized flag found one more false-postive,
-> this time with gcc-10 on s390:
+> This makes norm_file_page() require the $LogFile to be at least
+> 50 * 65536 = 3.2 MB, but mkfs.ntfs creates a $LogFile of only ~1.5 MB
+> for a typical 300 MB volume. norm_file_page() returns 0 and the mount
+> is rejected with EINVAL.
 >
-> fs/ntfs3/frecord.c: In function 'ni_expand_list':
-> fs/ntfs3/frecord.c:1370:16: error: 'ins_attr' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> On 4K kernels the #if guard evaluates to true, so use_default=true is
+> passed and DefaultLogPageSize (4096) is used, requiring only ~200 KB.
+> This path works fine.
 >
-> Add an explicit NULL pointer check before using the pointer, and
-> initialize it to NULL.
+> Fix this by always passing use_default=true, which forces the initial
+> probe to use DefaultLogPageSize regardless of the kernel's PAGE_SIZE.
+> This is safe because, after reading the on-disk restart area, log_replay()
+> already re-adjusts log->page_size to match the volume's actual
+> sys_page_size.
 >
-> Fixes: 48d9b57b169f ("fs/ntfs3: add a subset of W=1 warnings for stricter checks")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Also fix read_log_page() to pass log->page_size instead of PAGE_SIZE to
+> ntfs_fix_post_read(), matching the actual buffer size.
+>
+> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+> Signed-off-by: Jamie Nguyen <jamien@nvidia.com>
+> Tested-by: Matthew R. Ochs <mochs@nvidia.com>
 > ---
->   fs/ntfs3/frecord.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   fs/ntfs3/fslog.c | 6 +-----
+>   1 file changed, 1 insertion(+), 5 deletions(-)
 >
-> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-> index 7b035da63c12..d2c0b836b1bd 100644
-> --- a/fs/ntfs3/frecord.c
-> +++ b/fs/ntfs3/frecord.c
-> @@ -1330,7 +1330,7 @@ int ni_expand_list(struct ntfs_inode *ni)
->   {
->   	int err = 0;
->   	u32 asize, done = 0;
-> -	struct ATTRIB *attr, *ins_attr;
-> +	struct ATTRIB *attr, *ins_attr = NULL;
->   	struct ATTR_LIST_ENTRY *le;
->   	bool is_mft = ni->mi.rno == MFT_REC_MFT;
->   	struct MFT_REF ref;
-> @@ -1363,7 +1363,7 @@ int ni_expand_list(struct ntfs_inode *ni)
->   				      le16_to_cpu(attr->name_off), true,
->   				      &ins_attr, NULL, NULL);
->   
-> -		if (err)
-> +		if (err || !ins_attr)
->   			goto out;
->   
->   		memcpy(ins_attr, attr, asize);
-
+> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+> index 38934e6978ec..4a6cfa3441d9 100644
+> --- a/fs/ntfs3/fslog.c
+> +++ b/fs/ntfs3/fslog.c
+> @@ -1170,7 +1170,7 @@ static int read_log_page(struct ntfs_log *log, u32 vbo,
+>                  goto out;
+>
+>          if (page_buf->rhdr.sign != NTFS_FFFF_SIGNATURE)
+> -               ntfs_fix_post_read(&page_buf->rhdr, PAGE_SIZE, false);
+> +               ntfs_fix_post_read(&page_buf->rhdr, log->page_size, false);
+>
+>          if (page_buf != *buffer)
+>                  memcpy(*buffer, Add2Ptr(page_buf, page_off), bytes);
+> @@ -3782,11 +3782,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+>          log->l_size = log->orig_file_size = ni->vfs_inode.i_size;
+>
+>          /* Get the size of page. NOTE: To replay we can use default page. */
+> -#if PAGE_SIZE >= DefaultLogPageSize && PAGE_SIZE <= DefaultLogPageSize * 2
+>          log->page_size = norm_file_page(PAGE_SIZE, &log->l_size, true);
+> -#else
+> -       log->page_size = norm_file_page(PAGE_SIZE, &log->l_size, false);
+> -#endif
+>          if (!log->page_size) {
+>                  err = -EINVAL;
+>                  goto out;
+> --
+> 2.43.0
+>
 Hello,
 
-Applied, thanks for the patch.
+Queued for the next merge window, thanks.
 
 Regards,
 Konstantin
