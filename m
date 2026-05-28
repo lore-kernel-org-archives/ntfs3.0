@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F24239567
-	for <ntfs3@lists.linux.dev>; Thu, 28 May 2026 13:47:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC824270575
+	for <ntfs3@lists.linux.dev>; Thu, 28 May 2026 13:49:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779976077; cv=none; b=HqOpWH30Z7MrihVRlV7uamsI8ZxbGmul1V39ZyQXPnaNpQBm8dyeUWN2Z+hitrU1jPI8wsv7vrBisfQw0z3eAVIKDx4gw9zaNKwlrgCvbt9eykKt87NDTxatBZUAa3ndPJ+asDBH+drxYPQZKpvIigqVBM+CXEfXT1DGAxfp9js=
+	t=1779976142; cv=none; b=oLc0MxPcniAep0kejxPZdQ3SoAlurxzPSq0Jq/zc+gKgFmvO6AV8f9Nf6y09BOK3ScTEoKWzS/XO2vA5GkkKuZCREoxcbZGbLpxKuS6vBDYJWkkeoDyHtYSi1dw/Bi6MqqA7+lqT76zzoI+Pw1WF+vOvj7Pjsaw2D77aMns7UeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779976077; c=relaxed/simple;
-	bh=FMjHWyeFVE1hBGtYWpX7tpjM6vYIUHQpV710RBu442w=;
+	s=arc-20240116; t=1779976142; c=relaxed/simple;
+	bh=klRtw59F+Tl/gK82bNXbRFEOAJTHA4uLCbz17H5Yc34=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=XB5Ymbm4zXS5G8RBrMRm1dOqWYWdLDt/4cXZqOHOChCNh3CjMkFtU4dIvtfw9EpY5KRNbI9oAQVuOU+/NPXbinFLqvMOdNnboH76CGTTlOUMFX7yWB7ZNMEnM0gulrqudSNy2HJOTaOvlETtbzBp464SJFP6keBjKLMt5gpDwW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=VEX1t12L; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=mcFgg4unNxaWe8yVA6J0faGDaAW6dVJrVMl6+wCE2amwpMrydeYUW1nzrpFQ0fEAmOibJejxOAqbHMgKa1AVJ3eoFeb23pEmVM1R/cdIKEWNmp96yAPpnBjE2BmUNt362FDgPYAHp8WiqnOkRxFUpSpGM0zmFlAR1KszMQNvZ4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=KEuwUEK8; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="VEX1t12L"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="KEuwUEK8"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 3B08D26;
-	Thu, 28 May 2026 13:47:56 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 61E6E26;
+	Thu, 28 May 2026 13:49:01 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=VEX1t12L;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=KEuwUEK8;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id DF92E1D44;
-	Thu, 28 May 2026 13:47:53 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 0D23E1D44;
+	Thu, 28 May 2026 13:48:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1779976073;
-	bh=vbO1/9DaSO08NTc/fjz7NgKSNkH/Bkgt5EmSceLEdMo=;
+	d=paragon-software.com; s=mail; t=1779976135;
+	bh=aVV8WiKac27Pcc8ldXRt1Egwfmb8Jk67bBRNMbXJhd4=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=VEX1t12LDU8SbLiANQR0EUFfq6qPnxc0GKQiV23BREvhW2WHKAlmEAEGYkJpZmlz2
-	 0gCTWQfj1+7Dzd42giSEh5NDLWfjQOMVntwx2uiuV4u5WVvJljuTBrM6zdOAErYbzX
-	 dcbgBP+nask0yi0UPE+dUOLv0Z/xwXg2M26lqErU=
+	b=KEuwUEK8WWOVc9fRqsEMWHpyz/sG0MOQSsKh/66CKP3yYecxbvmDipfIRC+/Vd1x9
+	 Hh7Hu89ybsoE1MZqGxauoO9nIOZ8FQOOg+B8gU+ioPvS8Y2PM7sbeaZzuSoDxE0wI2
+	 bTKHCgI6JQIpCcV6qFgBu/NJpKCtFvinw6xgIcG4=
 Received: from [192.168.95.128] (172.30.20.180) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 28 May 2026 16:47:52 +0300
-Message-ID: <ca07eb43-d758-4c7c-8879-9b097a3514b7@paragon-software.com>
-Date: Thu, 28 May 2026 15:47:51 +0200
+ 15.1.2375.7; Thu, 28 May 2026 16:48:53 +0300
+Message-ID: <201d0fa6-80b7-46d5-bf2c-01acfa8c8f34@paragon-software.com>
+Date: Thu, 28 May 2026 15:48:52 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,95 +45,67 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ntfs3: fix out-of-bounds read in ntfs_dir_emit() and
- hdr_find_e()
-To: Alessandro Schino <7991aleschino@gmail.com>, <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>
-References: <20260511181516.220-1-7991aleschino@gmail.com>
+Subject: Re: [PATCH] ntfs3: avoid another -Wmaybe-uninitialized warning
+To: Arnd Bergmann <arnd@kernel.org>
+CC: Arnd Bergmann <arnd@arndb.de>, "Matthew Wilcox (Oracle)"
+	<willy@infradead.org>, Edward Adam Davis <eadavis@qq.com>, Sun Jian
+	<sun.jian.kdev@gmail.com>, <ntfs3@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+References: <20260515090956.512083-1-arnd@kernel.org>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260511181516.220-1-7991aleschino@gmail.com>
+In-Reply-To: <20260515090956.512083-1-arnd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 5/11/26 20:15, Alessandro Schino wrote:
 
-> [You don't often get email from 7991aleschino@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+On 5/15/26 11:09, Arnd Bergmann wrote:
+
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> The bounds check in ntfs_dir_emit() compares fname->name_len (a
-> character count) against e->size (a byte count) without accounting
-> for the 2-byte-per-character UTF-16LE encoding or the ATTR_FILE_NAME
-> header size:
+> The ntfs3 specific -Wmaybe-uninitialized flag found one more false-postive,
+> this time with gcc-10 on s390:
 >
->    if (fname->name_len + sizeof(struct NTFS_DE) > le16_to_cpu(e->size))
+> fs/ntfs3/frecord.c: In function 'ni_expand_list':
+> fs/ntfs3/frecord.c:1370:16: error: 'ins_attr' may be used uninitialized in this function [-Werror=maybe-uninitialized]
 >
-> This computes: name_len + 16 > e_size
+> Add an explicit NULL pointer check before using the pointer, and
+> initialize it to NULL.
 >
-> The correct check must account for the ATTR_FILE_NAME header (66 bytes
-> before the name) and the UTF-16LE character size (2 bytes each):
->
->    sizeof(NTFS_DE) + offsetof(ATTR_FILE_NAME, name) +
->    name_len * sizeof(short) > e_size
->
-> Which computes: 16 + 66 + name_len * 2 > e_size
->
-> The correct calculation already exists as fname_full_size() in ntfs.h
-> and is used in cmp_fnames(), namei.c, and fslog.c, but was not used
-> in the readdir path.
->
-> A crafted NTFS image with an index entry containing a small e->size
-> but large fname->name_len bypasses the current check, causing
-> ntfs_utf16_to_nls() to read past the entry boundary.
->
-> Additionally, add a key_size validation in hdr_find_e() to ensure the
-> declared key_size does not exceed the available entry data, preventing
-> comparison functions from reading past entry boundaries on the lookup
-> path.
->
-> Signed-off-by: Alessandro Schino <7991aleschino@gmail.com>
+> Fixes: 48d9b57b169f ("fs/ntfs3: add a subset of W=1 warnings for stricter checks")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->   fs/ntfs3/dir.c   | 4 +++-
->   fs/ntfs3/index.c | 4 ++++
->   2 files changed, 7 insertions(+), 1 deletion(-)
+>   fs/ntfs3/frecord.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-> index d99ab086..6cd66ce0 100644
-> --- a/fs/ntfs3/dir.c
-> +++ b/fs/ntfs3/dir.c
-> @@ -305,7 +305,9 @@ static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
->          if (sbi->options->nohidden && (fname->dup.fa & FILE_ATTRIBUTE_HIDDEN))
->                  return true;
->
-> -       if (fname->name_len + sizeof(struct NTFS_DE) > le16_to_cpu(e->size))
-> +       if (sizeof(struct NTFS_DE) +
-> +           offsetof(struct ATTR_FILE_NAME, name) +
-> +           fname->name_len * sizeof(short) > le16_to_cpu(e->size))
->                  return true;
->
->          name_len = ntfs_utf16_to_nls(sbi, fname->name, fname->name_len, name,
-> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-> index 5344b29b..46dc7642 100644
-> --- a/fs/ntfs3/index.c
-> +++ b/fs/ntfs3/index.c
-> @@ -754,6 +754,10 @@ static struct NTFS_DE *hdr_find_e(const struct ntfs_index *indx,
->   binary_search:
->          e_key_len = le16_to_cpu(e->key_size);
->
-> +       /* Validate key_size fits within the entry data area. */
-> +       if (e_key_len > le16_to_cpu(e->size) - sizeof(struct NTFS_DE))
-> +               return NULL;
-> +
->          diff2 = (*cmp)(key, key_len, e + 1, e_key_len, ctx);
->          if (diff2 > 0) {
->                  if (found) {
-> --
-> 2.43.0
->
+> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+> index 7b035da63c12..d2c0b836b1bd 100644
+> --- a/fs/ntfs3/frecord.c
+> +++ b/fs/ntfs3/frecord.c
+> @@ -1330,7 +1330,7 @@ int ni_expand_list(struct ntfs_inode *ni)
+>   {
+>   	int err = 0;
+>   	u32 asize, done = 0;
+> -	struct ATTRIB *attr, *ins_attr;
+> +	struct ATTRIB *attr, *ins_attr = NULL;
+>   	struct ATTR_LIST_ENTRY *le;
+>   	bool is_mft = ni->mi.rno == MFT_REC_MFT;
+>   	struct MFT_REF ref;
+> @@ -1363,7 +1363,7 @@ int ni_expand_list(struct ntfs_inode *ni)
+>   				      le16_to_cpu(attr->name_off), true,
+>   				      &ins_attr, NULL, NULL);
+>   
+> -		if (err)
+> +		if (err || !ins_attr)
+>   			goto out;
+>   
+>   		memcpy(ins_attr, attr, asize);
+
 Hello,
 
-Your patch was applied, thank you.
+Applied, thanks for the patch.
 
 Regards,
 Konstantin
