@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BE9270575
-	for <ntfs3@lists.linux.dev>; Thu, 28 May 2026 13:50:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D642E2852
+	for <ntfs3@lists.linux.dev>; Thu, 28 May 2026 14:03:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779976217; cv=none; b=d+xTpmaB9MiFu4QA6DUy44mEstlEq/cmEpirHmBtNtFPBc6kzkq+3uZkWY3fW5793VMcqWS/i2bQ7H0Fbj6MMD0P2bQYJLAM/mv0IpEtP+gv/Gwb8+AhpUOKFu43YrIzRFRFIt2krnTo+DqA7aAtl6QrX1a8ZPlqo++8/H9InOM=
+	t=1779976999; cv=none; b=L/JeWi6oQXl3bQd1OFmos/ayJNs3Idrdkgv6aiLdp2zH/qnkxIO9oJj53DvodE5S0A+D8lPRP7Dru2jSrtA1B4LU4EwwLUgj8RUhwucRtgkYg2sQJ5sdBe/groMRs1FS6wG0xX/gySzX6TOagRkiPbRtlZC6rj+9hYJLrZAeuK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779976217; c=relaxed/simple;
-	bh=fWzXAWHszR2b5OEPL4sndEautD7R+kMA6CG3g9XHJSc=;
+	s=arc-20240116; t=1779976999; c=relaxed/simple;
+	bh=aLAoOS3eSCbGlFJXm0E02lp+fcweaZUG+J76HCW0jvE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NxXSI7pz+9iE5eipxDuqqfdQYUKYy3HbSezIdxapcHlPk4+l6gQOx9eZ34GO/7qAu9ORYgr7YU2F7s6PvwsUDtBQOaJPGKafgMdvqJ1D9kGGRPZo+pglTAuedwOGnZ2QCodG4ZIn7fe8OltNXKEbuQbOW7Xpk8u6BnJzl5jjYXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=bqOppMyg; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=Equmr/ob75JRVHbK5nf1cc7Gn1h00uo+Rs5kdbt8cCrf7v2gxxJyTRLqa0AsVwJY0tH3FSIMebWccM0tJ3hzfOZWaKieWD9T9R2leI4XGSiyI6pNOXROWwann5NjCBdliXvL4cp15VjehTKkX3wYeG8DJIoek255JwuiXqjnUpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=OeZFBcDg; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="bqOppMyg"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="OeZFBcDg"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 0517E26;
-	Thu, 28 May 2026 13:50:16 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 3DA7E26;
+	Thu, 28 May 2026 14:03:18 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=bqOppMyg;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=OeZFBcDg;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 978441D44;
-	Thu, 28 May 2026 13:50:13 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E0C201D44;
+	Thu, 28 May 2026 14:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1779976213;
-	bh=xTFAsC8Zn1VtBDH+N0QLrTFT7H21Yp+uRFoacmhZjm4=;
+	d=paragon-software.com; s=mail; t=1779976995;
+	bh=FbSpeyDe76XdZEgVbC4mDjj5knCEy+ahsGDVLbayXcU=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=bqOppMygU7i7moQ6zV6KHBDbMgZNSUvrdfPkJtZPgtkkIN0fISHKWD/HvvTLV8X7V
-	 nxBwqfohigWdFgad5ocOdGwyp/o4fu+PuamStkGyy+AmOWzfRAEw4lNZtPu9mrxZOb
-	 SIbptUybgFad2mWFyEVbgGBZycJDF1Lquam6Thk4=
+	b=OeZFBcDgH+AkC2S4bW5rK9vY/7/QSL2YAmVD3zzeu8uBTeZe3Msl7h9ouGpQZ9Uqc
+	 XhD0L4MnBHPIT1Ee248CyQ+NemGvL0Mclrd78hGpNAL46i5UVBStDOqCr22Gh1jjjJ
+	 0LaVNREwvjBCwQEZGBk/I6WyrkLBZB3rgfkP9shk=
 Received: from [192.168.95.128] (172.30.20.180) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 28 May 2026 16:50:12 +0300
-Message-ID: <a2da973e-def0-4136-b6ee-07791e101fb9@paragon-software.com>
-Date: Thu, 28 May 2026 15:50:11 +0200
+ 15.1.2375.7; Thu, 28 May 2026 17:03:14 +0300
+Message-ID: <71e5333c-bb8a-4886-bfa1-e1b4cb8ea451@paragon-software.com>
+Date: Thu, 28 May 2026 16:03:13 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,84 +45,96 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] fs/ntfs3: fix mount failure on 64K page-size
- kernels
-To: Jamie Nguyen <jamien@nvidia.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Matthew R .
- Ochs" <mochs@nvidia.com>
-References: <20260424203111.77214-1-jamien@nvidia.com>
- <20260519194220.58114-1-jamien@nvidia.com>
+Subject: Re: [PATCH v4] fs/ntfs3: reject out-of-range evcn in mi_enum_attr()
+To: fra-build <zhanxusheng1024@gmail.com>, <david.laight.linux@gmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<zhanxusheng@xiaomi.com>
+References: <20260427035025.38158-1-zhanxusheng@xiaomi.com>
+ <20260515082305.54624-1-fra@build.local>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260519194220.58114-1-jamien@nvidia.com>
+In-Reply-To: <20260515082305.54624-1-fra@build.local>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 5/19/26 21:42, Jamie Nguyen wrote:
+On 5/15/26 10:23, fra-build wrote:
 
-> On 64K page-size kernels, mounting NTFS volumes smaller than ~650 MB
-> fails with EINVAL. The issue is in log_replay(): the initial log page
-> size probe uses PAGE_SIZE (65536) instead of DefaultLogPageSize (4096)
-> when PAGE_SIZE exceeds DefaultLogPageSize * 2.
+> From: Zhan Xusheng <zhanxusheng@xiaomi.com>
 >
-> This makes norm_file_page() require the $LogFile to be at least
-> 50 * 65536 = 3.2 MB, but mkfs.ntfs creates a $LogFile of only ~1.5 MB
-> for a typical 300 MB volume. norm_file_page() returns 0 and the mount
-> is rejected with EINVAL.
+> In mi_enum_attr(), the start/end VCN validation for non-resident
+> attributes is:
 >
-> On 4K kernels the #if guard evaluates to true, so use_default=true is
-> passed and DefaultLogPageSize (4096) is used, requiring only ~200 KB.
-> This path works fine.
+> 	if (svcn > evcn + 1) goto out;
 >
-> Fix this by always passing use_default=true, which forces the initial
-> probe to use DefaultLogPageSize regardless of the kernel's PAGE_SIZE.
-> This is safe because, after reading the on-disk restart area, log_replay()
-> already re-adjusts log->page_size to match the volume's actual
-> sys_page_size.
+> When evcn is U64_MAX the "evcn + 1" expression wraps to 0 and any
+> svcn passes the check.  For evcn values close to U64_MAX (but not
+> equal to it) the right-hand side is still a meaningless near-wrap
+> upper bound, so a malformed on-disk attribute with svcn == 0 and
+> evcn near U64_MAX can pass mi_enum_attr() unrejected.
 >
-> Also fix read_log_page() to pass log->page_size instead of PAGE_SIZE to
-> ntfs_fix_post_read(), matching the actual buffer size.
+> VCN (virtual cluster number) is a cluster index, so any valid evcn
+> is bounded by the volume's total cluster count, which ntfs3 holds
+> in sbi->used.bitmap.nbits (set up in ntfs_init_from_boot() before
+> any caller of mi_enum_attr() runs).  Reject evcn values that fall
+> outside this range; this rejects all out-of-range evcn values,
+> not just U64_MAX, and as a side effect prevents the "evcn + 1"
+> wraparound entirely.
 >
-> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> Signed-off-by: Jamie Nguyen <jamien@nvidia.com>
-> Tested-by: Matthew R. Ochs <mochs@nvidia.com>
+> Fixes: 013ff63b6494 ("fs/ntfs3: Add more attributes checks in mi_enum_attr()")
+> Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
 > ---
->   fs/ntfs3/fslog.c | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
+>   fs/ntfs3/record.c | 15 ++++++++++++---
+>   1 file changed, 12 insertions(+), 3 deletions(-)
 >
-> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index 38934e6978ec..4a6cfa3441d9 100644
-> --- a/fs/ntfs3/fslog.c
-> +++ b/fs/ntfs3/fslog.c
-> @@ -1170,7 +1170,7 @@ static int read_log_page(struct ntfs_log *log, u32 vbo,
->                  goto out;
->
->          if (page_buf->rhdr.sign != NTFS_FFFF_SIGNATURE)
-> -               ntfs_fix_post_read(&page_buf->rhdr, PAGE_SIZE, false);
-> +               ntfs_fix_post_read(&page_buf->rhdr, log->page_size, false);
->
->          if (page_buf != *buffer)
->                  memcpy(*buffer, Add2Ptr(page_buf, page_off), bytes);
-> @@ -3782,11 +3782,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
->          log->l_size = log->orig_file_size = ni->vfs_inode.i_size;
->
->          /* Get the size of page. NOTE: To replay we can use default page. */
-> -#if PAGE_SIZE >= DefaultLogPageSize && PAGE_SIZE <= DefaultLogPageSize * 2
->          log->page_size = norm_file_page(PAGE_SIZE, &log->l_size, true);
-> -#else
-> -       log->page_size = norm_file_page(PAGE_SIZE, &log->l_size, false);
-> -#endif
->          if (!log->page_size) {
->                  err = -EINVAL;
->                  goto out;
-> --
-> 2.43.0
->
+> diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
+> index 32bdb034c2a3..4379446bcf96 100644
+> --- a/fs/ntfs3/record.c
+> +++ b/fs/ntfs3/record.c
+> @@ -202,7 +202,7 @@ struct ATTRIB *mi_enum_attr(struct ntfs_inode *ni, struct mft_inode *mi,
+>   	u32 used = le32_to_cpu(rec->used);
+>   	u32 t32, off, asize, prev_type;
+>   	u16 t16;
+> -	u64 data_size, alloc_size, tot_size;
+> +	u64 svcn, evcn, data_size, alloc_size, tot_size;
+>   
+>   	if (!attr) {
+>   		u32 total = le32_to_cpu(rec->total);
+> @@ -310,8 +310,17 @@ struct ATTRIB *mi_enum_attr(struct ntfs_inode *ni, struct mft_inode *mi,
+>   	if (t32 && le16_to_cpu(attr->name_off) + t32 > t16)
+>   		goto out;
+>   
+> -	/* Check start/end vcn. */
+> -	if (le64_to_cpu(attr->nres.svcn) > le64_to_cpu(attr->nres.evcn) + 1)
+> +	/*
+> +	 * Check start/end vcn.  evcn must be a valid cluster index, i.e.
+> +	 * less than the volume's total cluster count (sbi->used.bitmap.nbits);
+> +	 * rejecting it here also keeps "svcn > evcn + 1" meaningful, since
+> +	 * evcn == U64_MAX would wrap "evcn + 1" to 0.  svcn does not need
+> +	 * its own bound: once evcn < nbits, "svcn > evcn + 1" implies
+> +	 * svcn <= nbits.
+> +	 */
+> +	svcn = le64_to_cpu(attr->nres.svcn);
+> +	evcn = le64_to_cpu(attr->nres.evcn);
+> +	if (evcn >= mi->sbi->used.bitmap.nbits || svcn > evcn + 1)
+>   		goto out;
+>   
+>   	data_size = le64_to_cpu(attr->nres.data_size);
+
 Hello,
 
-Queued for the next merge window, thanks.
+This patch doesn't apply as-is - during internal testing it caused a
+number of failures.
+
+I believe the cause is empty non-resident attributes, which are
+legitimately encoded with svcn=0 and evcn=U64_MAX (a -1 sentinel for no
+allocated clusters). The new evcn >= sbi->used.bitmap.nbits check rejects
+those valid attributes. The U64_MAX wraparound you're guarding against is
+real, but it needs to be handled without rejecting the empty-attribute
+sentinel.
+
+Not applied yet. Thanks.
 
 Regards,
 Konstantin
