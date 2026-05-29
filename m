@@ -1,141 +1,293 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f196.google.com (mail-yw1-f196.google.com [209.85.128.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D642E2852
-	for <ntfs3@lists.linux.dev>; Thu, 28 May 2026 14:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779976999; cv=none; b=L/JeWi6oQXl3bQd1OFmos/ayJNs3Idrdkgv6aiLdp2zH/qnkxIO9oJj53DvodE5S0A+D8lPRP7Dru2jSrtA1B4LU4EwwLUgj8RUhwucRtgkYg2sQJ5sdBe/groMRs1FS6wG0xX/gySzX6TOagRkiPbRtlZC6rj+9hYJLrZAeuK0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779976999; c=relaxed/simple;
-	bh=aLAoOS3eSCbGlFJXm0E02lp+fcweaZUG+J76HCW0jvE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Equmr/ob75JRVHbK5nf1cc7Gn1h00uo+Rs5kdbt8cCrf7v2gxxJyTRLqa0AsVwJY0tH3FSIMebWccM0tJ3hzfOZWaKieWD9T9R2leI4XGSiyI6pNOXROWwann5NjCBdliXvL4cp15VjehTKkX3wYeG8DJIoek255JwuiXqjnUpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=OeZFBcDg; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C551D555
+	for <ntfs3@lists.linux.dev>; Fri, 29 May 2026 01:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.196
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780017691; cv=pass; b=VtZ+jqLnMknyDqmayTCGRHN9xTD32KBOFjysqPSg2WRgJxChOviYIz9IPACZdJMxo3rZt6Zt3TwimIhaf8bRAR2ljtZSnGQRxDacQVJWOjWnoJL1Gt2CRTEqYlT9tRQ9wLOOAM3imwX7cuNlTrSqPJ9CBVfCrj+oVEkl3wdhzew=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780017691; c=relaxed/simple;
+	bh=fb305mPoGdl91MiyVMO/vwOrMJtSmTAe2ZfE1RPu50w=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=DgkbE/t8sM7DMX3oDDLXwTKtgZIrodE9UNvGKY253uuijQwMH/IT1kGLPNud3ZAH3dNybv7pfm4uDTPPrPjTV7s+0kBxpE2If4n0YDqNtRdMEtDaSXrZj0snQxCx0dlwAEFL6PqH5zRQ89zXD9Csni5ZvjyNgQ4R9ECLTxLLn24=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=neEvtG0o; arc=pass smtp.client-ip=209.85.128.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="OeZFBcDg"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 3DA7E26;
-	Thu, 28 May 2026 14:03:18 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=OeZFBcDg;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E0C201D44;
-	Thu, 28 May 2026 14:03:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="neEvtG0o"
+Received: by mail-yw1-f196.google.com with SMTP id 00721157ae682-7dccb5f4b1cso13137347b3.3
+        for <ntfs3@lists.linux.dev>; Thu, 28 May 2026 18:21:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780017688; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TGJkocMakeS/dyHGIWeN7cVcm2DRTz9qE/+9YQl4UCD2JNPhPK6isL/JYvr3THLQyb
+         9GJzQ1ThZyRRFmI12TQWz8nO7cpRy+5mEpKExjhvvs1kOuvnEdr8KZiQ+YkLIBUJ+KKp
+         gGV8r+Haw4voC8JGq8qa96ez9kY1h9BjJFcwFGAui4trU3KNQplk4QLEP95YPHciU+Vj
+         G7GAsViElcpd2ZCdbFvGGNEWOGa8bhpJtd1SRoHwMGZZjNWi3Urhv5rNTQ2n8d/DPK1P
+         U1z3zpfYxv+o0UhCKyvTFo6VKfceVeWnH8dsVrcxjIPB+CezjPLXPM/fU1T09uoP24+o
+         q9nQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=Fe8zE+dpPh29YAG5M8eMRic0J7+vQkzE5mM+7P3zS84=;
+        fh=kaetnVdK6olOWqU3hsFT5a+mHBGKiE/Q0Zx4pepDjVU=;
+        b=IJoev7YTVR1IoVNv/a9q8YwsaPp8IFbOc+3oLK3JoBTIZrIIAubwj0W3q4bnNjyV5V
+         +k4kCbLkXnzASU3Snej/tqir+C+b0pa1ZIodx3vDctKIWRGES6tyNT942nwJcGiBaJCF
+         H+TEmdF/791btAuNBc2M/wbYMCbyoaVb4JJFKRQClUumq+wBbLjhiB7h3TDRn20Y4yBy
+         OFDbuzz9JD+RJmflN9HlffmTwpn+SOYBAKOzwa8GSd6AL6BOAKhXCLkmJdUmb2iONcNS
+         Gnyh78AOGsOgIomHaZArTvrxCFHQ5KvZQWHv++TH3pFYW6y4INof2gqoFbeqWLzU/ONk
+         D55A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1779976995;
-	bh=FbSpeyDe76XdZEgVbC4mDjj5knCEy+ahsGDVLbayXcU=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=OeZFBcDgH+AkC2S4bW5rK9vY/7/QSL2YAmVD3zzeu8uBTeZe3Msl7h9ouGpQZ9Uqc
-	 XhD0L4MnBHPIT1Ee248CyQ+NemGvL0Mclrd78hGpNAL46i5UVBStDOqCr22Gh1jjjJ
-	 0LaVNREwvjBCwQEZGBk/I6WyrkLBZB3rgfkP9shk=
-Received: from [192.168.95.128] (172.30.20.180) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 28 May 2026 17:03:14 +0300
-Message-ID: <71e5333c-bb8a-4886-bfa1-e1b4cb8ea451@paragon-software.com>
-Date: Thu, 28 May 2026 16:03:13 +0200
+        d=berkeley.edu; s=google; t=1780017688; x=1780622488; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Fe8zE+dpPh29YAG5M8eMRic0J7+vQkzE5mM+7P3zS84=;
+        b=neEvtG0oXvBjf/U+iFJjBdgj9GMknE02FuHOL3vrac4MgVa/c8cWllaqmGTbXH/ms/
+         dIXkaNg8G10r9yUtNtE1P2r/nd4BmhbNRZAx42LxvoEDTh2MWjuWm2Q+du9HbqSgzO0y
+         mTL4BJjmiw1LEOjLmpdTJ1ujBpPbP0AFKAS/SGuL8lGjdVy+iY60AWzrx5pUdG7sqxyt
+         wqfe6Yzlk75MYM+zTVaM8A3pLRIXh5vkSa5JZe+X7jQYwiqf5ENhUOx15HL1xyk7gY5i
+         Wrry7x5xPL+WExlJ7QeuGg80xcnrUyrc2ieFxYbgQpyvSnVpv0U9bFWfpvTroHEBc/vH
+         6ywA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780017688; x=1780622488;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fe8zE+dpPh29YAG5M8eMRic0J7+vQkzE5mM+7P3zS84=;
+        b=SQJzuk4teboqQIZH+IFeBG4a18WZj0kXEdIp1fSkQDpLjoGodHtptU+TXdEdBdRnzM
+         IQW1kLp3Ny/eCkVYYWW1FY5EmHm9rjzGB3sd+4kbHLRC9zb+DalbmGWhlDTXYMvZobBY
+         uGHtzmdJKo7+m+7eSbU0/34Pe85MoiggLAN9Rto040lLbCVr6yvaSg5v8F3BuVtvpErb
+         7kvsgON+pYkMGSabH2gx3Eqd7Lh9ZMjze+C72VgzBn3bK1zlWdh2Q8PUAWLqLLfg50nM
+         Ms8JB86O3jTK5kr8M7wUDijnSbYatYozOS73P8CPlPybtRiRbnVKTReOwLPPaD6hYYg7
+         HeNg==
+X-Forwarded-Encrypted: i=1; AFNElJ8i++DN2kiNLy0HvlbY0MRMFDvPWoRuwbO7GZBvW9doR5syTxUzKHumAB9892cgIkNJIo7AKg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAk6GefcSHY77+bbfq7OaHxf11rpDHSMutCrct+edKuSSzobA/
+	EkA6vDEGOJsH11RKcYLaoULpmasNPZHx7eUgVzIMT4aQcpafrnVpqwUzjjxOJHXNY6pUwg2KSCb
+	tfhAOI1uOBHrI+yM6aGqFFx+RBgQ464I7AILUWp+v
+X-Gm-Gg: Acq92OE50OhxqpEqaglreVfE1KRfSxLbkPKY0e2/9MxGKHverCFYYuwiChdKW+d1pic
+	8G2LtZMSKjtuTlB8MBcuZd8ojQNIZfpGmDtBOLX9ozACYPQ5Dv3M2SrYhXrms0Iva10Oxs9KjCq
+	HC6SU59bXlDszazwvIAC5AhnA/pdAGikEu5dX1smwQvQZI4CVvYAptuL3sZfu7ppJSu2qbplvFG
+	1bhvYx1YD9yb1pFXA2/d+jmxiegOG49w+N8gCK9mGhGd9FZbYdgVNZ1YBgDC+O9t61gU4sW2Yxl
+	UNB/hR+9g8MujOTMtg==
+X-Received: by 2002:a05:690c:6ac3:b0:7bb:712:a74f with SMTP id
+ 00721157ae682-7de466e677bmr6656097b3.17.1780017687137; Thu, 28 May 2026
+ 18:21:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] fs/ntfs3: reject out-of-range evcn in mi_enum_attr()
-To: fra-build <zhanxusheng1024@gmail.com>, <david.laight.linux@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<zhanxusheng@xiaomi.com>
-References: <20260427035025.38158-1-zhanxusheng@xiaomi.com>
- <20260515082305.54624-1-fra@build.local>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260515082305.54624-1-fra@build.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+From: Farhad Alemi <farhad.alemi@berkeley.edu>
+Date: Thu, 28 May 2026 18:21:16 -0700
+X-Gm-Features: AVHnY4LIbRQLFr81rNrT85a9zdMYwUVGuWhgvdOEvcWQuyighA9jlyxnEpIh3wE
+Message-ID: <CA+0ovCjz41uwDy6qDE73=bg3tTuEqiHMZ2xFnHC8+TiXDPR0YQ@mail.gmail.com>
+Subject: [BUG] ntfs3: KASAN null-ptr-deref in ntfs_iget5 (fs/ntfs3/inode.c:543)
+ on mount
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: falemi@asu.edu, Tiffany Bao <tbao@asu.edu>, =?UTF-8?Q?Adam_Doup=C3=A9?= <doupe@asu.edu>, 
+	Fish Wang <fishw@asu.edu>, Yan Shoshitaishvili <yans@asu.edu>, ntfs3@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="000000000000f099050652eaa936"
 
-On 5/15/26 10:23, fra-build wrote:
+--000000000000f099050652eaa936
+Content-Type: text/plain; charset="UTF-8"
 
-> From: Zhan Xusheng <zhanxusheng@xiaomi.com>
->
-> In mi_enum_attr(), the start/end VCN validation for non-resident
-> attributes is:
->
-> 	if (svcn > evcn + 1) goto out;
->
-> When evcn is U64_MAX the "evcn + 1" expression wraps to 0 and any
-> svcn passes the check.  For evcn values close to U64_MAX (but not
-> equal to it) the right-hand side is still a meaningless near-wrap
-> upper bound, so a malformed on-disk attribute with svcn == 0 and
-> evcn near U64_MAX can pass mi_enum_attr() unrejected.
->
-> VCN (virtual cluster number) is a cluster index, so any valid evcn
-> is bounded by the volume's total cluster count, which ntfs3 holds
-> in sbi->used.bitmap.nbits (set up in ntfs_init_from_boot() before
-> any caller of mi_enum_attr() runs).  Reject evcn values that fall
-> outside this range; this rejects all out-of-range evcn values,
-> not just U64_MAX, and as a side effect prevents the "evcn + 1"
-> wraparound entirely.
->
-> Fixes: 013ff63b6494 ("fs/ntfs3: Add more attributes checks in mi_enum_attr()")
-> Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
-> ---
->   fs/ntfs3/record.c | 15 ++++++++++++---
->   1 file changed, 12 insertions(+), 3 deletions(-)
->
-> diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-> index 32bdb034c2a3..4379446bcf96 100644
-> --- a/fs/ntfs3/record.c
-> +++ b/fs/ntfs3/record.c
-> @@ -202,7 +202,7 @@ struct ATTRIB *mi_enum_attr(struct ntfs_inode *ni, struct mft_inode *mi,
->   	u32 used = le32_to_cpu(rec->used);
->   	u32 t32, off, asize, prev_type;
->   	u16 t16;
-> -	u64 data_size, alloc_size, tot_size;
-> +	u64 svcn, evcn, data_size, alloc_size, tot_size;
->   
->   	if (!attr) {
->   		u32 total = le32_to_cpu(rec->total);
-> @@ -310,8 +310,17 @@ struct ATTRIB *mi_enum_attr(struct ntfs_inode *ni, struct mft_inode *mi,
->   	if (t32 && le16_to_cpu(attr->name_off) + t32 > t16)
->   		goto out;
->   
-> -	/* Check start/end vcn. */
-> -	if (le64_to_cpu(attr->nres.svcn) > le64_to_cpu(attr->nres.evcn) + 1)
-> +	/*
-> +	 * Check start/end vcn.  evcn must be a valid cluster index, i.e.
-> +	 * less than the volume's total cluster count (sbi->used.bitmap.nbits);
-> +	 * rejecting it here also keeps "svcn > evcn + 1" meaningful, since
-> +	 * evcn == U64_MAX would wrap "evcn + 1" to 0.  svcn does not need
-> +	 * its own bound: once evcn < nbits, "svcn > evcn + 1" implies
-> +	 * svcn <= nbits.
-> +	 */
-> +	svcn = le64_to_cpu(attr->nres.svcn);
-> +	evcn = le64_to_cpu(attr->nres.evcn);
-> +	if (evcn >= mi->sbi->used.bitmap.nbits || svcn > evcn + 1)
->   		goto out;
->   
->   	data_size = le64_to_cpu(attr->nres.data_size);
+Hello Konstantin and the ntfs3 team,
 
-Hello,
+I am reporting a mount-time KASAN null-ptr-deref in ntfs_iget5() found
+by syzkaller while mounting a crafted NTFS image, as part of research
+at the SEFCOM Lab at ASU.
 
-This patch doesn't apply as-is - during internal testing it caused a
-number of failures.
+Summary:
+The crash trips at fs/ntfs3/inode.c:543, which is the second branch of
+the iget5_locked() result handling in ntfs_iget5():
 
-I believe the cause is empty non-resident attributes, which are
-legitimately encoded with svcn=0 and evcn=U64_MAX (a -1 sentinel for no
-allocated clusters). The new evcn >= sbi->used.bitmap.nbits check rejects
-those valid attributes. The U64_MAX wraparound you're guarding against is
-real, but it needs to be handled without rejecting the empty-attribute
-sentinel.
+  struct inode *ntfs_iget5(struct super_block *sb, const struct MFT_REF *ref,
+                           const struct cpu_str *name)
+  {
+          struct inode *inode;
 
-Not applied yet. Thanks.
+          inode = iget5_locked(sb, ino_get(ref), ntfs_test_inode,
+ntfs_set_inode,
+                               (void *)ref);
+          if (unlikely(!inode))
+                  return ERR_PTR(-ENOMEM);
+
+          /* If this is a freshly allocated inode, need to read it now. */
+          if (inode_state_read_once(inode) & I_NEW)
+                  inode = ntfs_read_mft(inode, name, ref);
+          else if (ref->seq != ntfs_i(inode)->mi.mrec->seq) {   <-- :543
+                  ...
+          }
+
+The dereference chain at line 543 is ntfs_i(inode)->mi.mrec->seq.
+KASAN reports a null-ptr-deref in range
+[0x0000000000000210-0x0000000000000217] (see crash-report.txt).
+
+The call chain to this site in the observed crash is:
+
+  __se_sys_mount               fs/namespace.c:4360
+  do_new_mount                 fs/namespace.c:3834
+  vfs_get_tree                 fs/super.c:1754
+  get_tree_bdev_flags          fs/super.c:1694
+  ntfs_fill_super              fs/ntfs3/super.c:1686
+  ntfs_iget5                   fs/ntfs3/inode.c:543
+
+Observed on:
+- Linux 7.1.0-rc3-00200-g70eda68668d1-dirty, x86_64, QEMU Q35
+- KASAN enabled (SMP KASAN NOPTI per crash header)
+- The only local dirty file in my tree is drivers/tty/serial/serial_core.c,
+  containing a local ttyS0 console guard for the fuzzing harness. It is
+  unrelated to fs/ntfs3/.
+- Image trigger: just before the crash the kernel prints
+  "ntfs3(loop6): Different NTFS sector size (4096) and media sector size
+  (512)." -- i.e. the mounted image declares a 4 KiB NTFS sector while
+  the loop device has 512-byte sectors.
+- Source inspection of linus/master at commit e8c2f9fdadee
+  (v7.1-rc4-754-ge8c2f9fdadee) shows the buggy line is unchanged:
+  fs/ntfs3/inode.c:543 still does `else if (ref->seq !=
+  ntfs_i(inode)->mi.mrec->seq)` with no NULL/IS_ERR check on
+  ntfs_i(inode)->mi.mrec before the load. As no reproducer is available
+  for this seed, I have not re-run the against e8c2f9fdadee.
+
+Impact:
+A mount(2) of the crafted image kills the kernel with a general
+protection fault; the trapping RIP is
+ntfs_iget5+0x161/0x38e0 at fs/ntfs3/inode.c:543.
+
+Expected behavior:
+Either the chain `ntfs_i(inode)->mi.mrec->seq` at line 543 needs to be
+guarded against the case where any of the intermediate pointers is
+NULL/uninitialised, or ntfs_iget5() should not be reached with such an
+inode in the cache in the first place. The maintainer is best placed
+to choose which side of the contract owns the guard.
+
+Novelty check:
+I searched the syzbot dashboard's upstream open and fixed namespaces,
+and the ntfs3 subsystem filter, for "ntfs_iget5" and "fs/ntfs3/inode.c:543".
+The only existing ntfs_iget5 ticket is extid 4d48dcd9e88d37df77b3,
+"KASAN: slab-use-after-free Read in ntfs_iget5", first reported
+2026-03-31, still open.
+
+That ticket is a different code path in the same function:
+
+  syzbot 4d48dcd9: ntfs_iget5+0x33a3/0x38f0 fs/ntfs3/inode.c:542
+                   post-mount KASAN slab-use-after-free Read
+                   reached via ntfs_file_fsync -> ni_write_parents
+
+  This report:     ntfs_iget5+0x161/0x38e0  fs/ntfs3/inode.c:543
+                   mount-time KASAN null-ptr-deref in range [0x210,0x217]
+                   reached via __se_sys_mount -> ntfs_fill_super
+
+I am sending this as a separate report because the two appear to
+be distinct root causes, but please feel free to close as a dup of
+4d48dcd9 if you'd prefer them tracked together.
+
+A NULL-pointer dereference at the same condition
+`else if (ref->seq != ntfs_i(inode)->mi.mrec->seq)` (then at
+fs/ntfs3/inode.c:519, now at :543; the condition line is byte-
+identical across both versions) was reported to lkml by Dipanjan
+Das on 2023-02-18 for kernel 6.2.0-rc5:
+
+  Subject:    BUG: unable to handle kernel NULL pointer dereference in
+ntfs_iget5
+  Mirror:     https://lkml.iu.edu/hypermail/linux/kernel/2302.2/02508.html
+
+Per `git log linus/master -L 540,560:fs/ntfs3/inode.c`, no null-guard
+on ntfs_i(inode)->mi.mrec at this site has been merged since.
+
+
+I appreciate your time and consideration, and I'm grateful for your
+work on this subsystem. I'd be glad to test any candidate patches.
 
 Regards,
-Konstantin
 
+--000000000000f099050652eaa936
+Content-Type: text/plain; charset="US-ASCII"; name="crash-report.txt"
+Content-Disposition: attachment; filename="crash-report.txt"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mpq8jzjw0>
+X-Attachment-Id: f_mpq8jzjw0
+
+bG9vcDY6IGRldGVjdGVkIGNhcGFjaXR5IGNoYW5nZSBmcm9tIDAgdG8gODE5MgpudGZzMyhsb29w
+Nik6IERpZmZlcmVudCBOVEZTIHNlY3RvciBzaXplICg0MDk2KSBhbmQgbWVkaWEgc2VjdG9yIHNp
+emUgKDUxMikuCk9vcHM6IGdlbmVyYWwgcHJvdGVjdGlvbiBmYXVsdCwgcHJvYmFibHkgZm9yIG5v
+bi1jYW5vbmljYWwgYWRkcmVzcyAweGRmZmZmYzAwMDAwMDAwNDI6IDAwMDAgWyMxXSBTTVAgS0FT
+QU4gTk9QVEkKS0FTQU46IG51bGwtcHRyLWRlcmVmIGluIHJhbmdlIFsweDAwMDAwMDAwMDAwMDAy
+MTAtMHgwMDAwMDAwMDAwMDAwMjE3XQpDUFU6IDAgVUlEOiAwIFBJRDogNTI5NjcgQ29tbTogc3l6
+LjYuNTY2MCBOb3QgdGFpbnRlZCA3LjEuMC1yYzMtMDAyMDAtZzcwZWRhNjg2NjhkMS1kaXJ0eSAj
+MSBQUkVFTVBUKGZ1bGwpIApIYXJkd2FyZSBuYW1lOiBRRU1VIFN0YW5kYXJkIFBDIChRMzUgKyBJ
+Q0g5LCAyMDA5KSwgQklPUyAxLjE2LjMtZGViaWFuLTEuMTYuMy0yIDA0LzAxLzIwMTQKUklQOiAw
+MDEwOm50ZnNfaWdldDUrMHgxNjEvMHgzOGUwIGZzL250ZnMzL2lub2RlLmM6NTQzCkNvZGU6IDgx
+IGMzIGUwIGZkIGZmIGZmIDQ4IDg5IGQ4IDQ4IGMxIGU4IDAzIDQyIDgwIDNjIDI4IDAwIDc0IDA4
+IDQ4IDg5IGRmIGU4IDBkIDkzIDRkIGZmIDRjIDhiIDNiIDQ5IDgzIGM3IDEwIDRjIDg5IGY4IDQ4
+IGMxIGU4IDAzIDw0Mj4gMGYgYjYgMDQgMjggODQgYzAgMGYgODUgZDQgMzEgMDAgMDAgNDEgMGYg
+YjcgMWYgNDUgMGYgYjcgZmMgNDQKUlNQOiAwMDE4OmZmZmZjOTAwMDFiZGY2NjAgRUZMQUdTOiAw
+MDAxMDIwNgpSQVg6IDAwMDAwMDAwMDAwMDAwNDIgUkJYOiBmZmZmODg4MTJiYmRlODQwIFJDWDog
+MDAwMDAwMDAwMDAwMDAwMgpSRFg6IGZmZmY4ODgxNjhkZjRhMDAgUlNJOiAwMDAwMDAwMDAwMDAw
+MDAwIFJESTogMDAwMDAwMDAwMDAwMDAwMApSQlA6IGZmZmZjOTAwMDFiZGY4YjAgUjA4OiBmZmZm
+ZmZmZjg3YzE0OTAzIFIwOTogMWZmZmZmZmZmMGY4MjkyMApSMTA6IGRmZmZmYzAwMDAwMDAwMDAg
+UjExOiBmZmZmZmJmZmYwZjgyOTIxIFIxMjogMDAwMDAwMDAwMDAwMDAwNQpSMTM6IGRmZmZmYzAw
+MDAwMDAwMDAgUjE0OiAxZmZmZjkyMDAwMzdiZWZjIFIxNTogMDAwMDAwMDAwMDAwMDIxMApGUzog
+IDAwMDA3ZjExOTRkMzc2YzAoMDAwMCkgR1M6ZmZmZjg4ODJhYjZiNjAwMCgwMDAwKSBrbmxHUzow
+MDAwMDAwMDAwMDAwMDAwCkNTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAw
+ODAwNTAwMzMKQ1IyOiAwMDAwN2Y5N2U3ZTc4Njg0IENSMzogMDAwMDAwMDExYjE3NzAwMCBDUjQ6
+IDAwMDAwMDAwMDA3NTBlZjAKRFIwOiAwMDAwMDAwMDAwMDAwMDAwIERSMTogMDAwMDAwMDAwMDAw
+MDAwMCBEUjI6IDAwMDAwMDAwMDAwMDAwMDAKRFIzOiAwMDAwMDAwMDAwMDAwMDAwIERSNjogMDAw
+MDAwMDBmZmZmMGZmMCBEUjc6IDAwMDAwMDAwMDAwMDA2MDAKUEtSVTogODAwMDAwMDAKQ2FsbCBU
+cmFjZToKIDxUQVNLPgogbnRmc19maWxsX3N1cGVyKzB4NDI5OS8weDQ1OTAgZnMvbnRmczMvc3Vw
+ZXIuYzoxNjg2CiBnZXRfdHJlZV9iZGV2X2ZsYWdzKzB4NDM2LzB4NTAwIGZzL3N1cGVyLmM6MTY5
+NAogdmZzX2dldF90cmVlKzB4OTcvMHgyYjAgZnMvc3VwZXIuYzoxNzU0CiBmY19tb3VudCBmcy9u
+YW1lc3BhY2UuYzoxMTkzIFtpbmxpbmVdCiBkb19uZXdfbW91bnRfZmMgZnMvbmFtZXNwYWNlLmM6
+Mzc1OCBbaW5saW5lXQogZG9fbmV3X21vdW50KzB4MzQ2LzB4ZDMwIGZzL25hbWVzcGFjZS5jOjM4
+MzQKIGRvX21vdW50IGZzL25hbWVzcGFjZS5jOjQxNjcgW2lubGluZV0KIF9fZG9fc3lzX21vdW50
+IGZzL25hbWVzcGFjZS5jOjQzODMgW2lubGluZV0KIF9fc2Vfc3lzX21vdW50KzB4MzIyLzB4NDIw
+IGZzL25hbWVzcGFjZS5jOjQzNjAKIGRvX3N5c2NhbGxfeDY0IGFyY2gveDg2L2VudHJ5L3N5c2Nh
+bGxfNjQuYzo2MyBbaW5saW5lXQogZG9fc3lzY2FsbF82NCsweDE1Zi8weDU2MCBhcmNoL3g4Ni9l
+bnRyeS9zeXNjYWxsXzY0LmM6OTQKIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDc3
+LzB4N2YKUklQOiAwMDMzOjB4N2YxMTk2MmU5MWJlCkNvZGU6IDBmIDFmIDQwIDAwIDQ4IGM3IGMy
+IGIwIGZmIGZmIGZmIGY3IGQ4IDY0IDg5IDAyIGI4IGZmIGZmIGZmIGZmIGMzIDY2IDBmIDFmIDQ0
+IDAwIDAwIGYzIDBmIDFlIGZhIDQ5IDg5IGNhIGI4IGE1IDAwIDAwIDAwIDBmIDA1IDw0OD4gM2Qg
+MDEgZjAgZmYgZmYgNzMgMDEgYzMgNDggYzcgYzEgYjAgZmYgZmYgZmYgZjcgZDggNjQgODkgMDEg
+NDgKUlNQOiAwMDJiOjAwMDA3ZjExOTRkMzZlMjggRUZMQUdTOiAwMDAwMDI0NiBPUklHX1JBWDog
+MDAwMDAwMDAwMDAwMDBhNQpSQVg6IGZmZmZmZmZmZmZmZmZmZGEgUkJYOiAwMDAwN2YxMTk0ZDM2
+ZWMwIFJDWDogMDAwMDdmMTE5NjJlOTFiZQpSRFg6IDAwMDAyMDAwMDAwMjBiYzAgUlNJOiAwMDAw
+MjAwMDAwMDIwYzAwIFJESTogMDAwMDdmMTE5NGQzNmU4MApSQlA6IDAwMDAyMDAwMDAwMjBiYzAg
+UjA4OiAwMDAwN2YxMTk0ZDM2ZWMwIFIwOTogMDAwMDAwMDAwMDAwMDAwMApSMTA6IDAwMDAwMDAw
+MDAwMDAwMDAgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIxMjogMDAwMDIwMDAwMDAyMGMwMApSMTM6
+IDAwMDA3ZjExOTRkMzZlODAgUjE0OiAwMDAwMDAwMDAwMDIwYjhjIFIxNTogMDAwMDIwMDAwMDAy
+MGM0MAogPC9UQVNLPgpNb2R1bGVzIGxpbmtlZCBpbjoKLS0tWyBlbmQgdHJhY2UgMDAwMDAwMDAw
+MDAwMDAwMCBdLS0tClJJUDogMDAxMDpudGZzX2lnZXQ1KzB4MTYxLzB4MzhlMCBmcy9udGZzMy9p
+bm9kZS5jOjU0MwpDb2RlOiA4MSBjMyBlMCBmZCBmZiBmZiA0OCA4OSBkOCA0OCBjMSBlOCAwMyA0
+MiA4MCAzYyAyOCAwMCA3NCAwOCA0OCA4OSBkZiBlOCAwZCA5MyA0ZCBmZiA0YyA4YiAzYiA0OSA4
+MyBjNyAxMCA0YyA4OSBmOCA0OCBjMSBlOCAwMyA8NDI+IDBmIGI2IDA0IDI4IDg0IGMwIDBmIDg1
+IGQ0IDMxIDAwIDAwIDQxIDBmIGI3IDFmIDQ1IDBmIGI3IGZjIDQ0ClJTUDogMDAxODpmZmZmYzkw
+MDAxYmRmNjYwIEVGTEFHUzogMDAwMTAyMDYKUkFYOiAwMDAwMDAwMDAwMDAwMDQyIFJCWDogZmZm
+Zjg4ODEyYmJkZTg0MCBSQ1g6IDAwMDAwMDAwMDAwMDAwMDIKUkRYOiBmZmZmODg4MTY4ZGY0YTAw
+IFJTSTogMDAwMDAwMDAwMDAwMDAwMCBSREk6IDAwMDAwMDAwMDAwMDAwMDAKUkJQOiBmZmZmYzkw
+MDAxYmRmOGIwIFIwODogZmZmZmZmZmY4N2MxNDkwMyBSMDk6IDFmZmZmZmZmZjBmODI5MjAKUjEw
+OiBkZmZmZmMwMDAwMDAwMDAwIFIxMTogZmZmZmZiZmZmMGY4MjkyMSBSMTI6IDAwMDAwMDAwMDAw
+MDAwMDUKUjEzOiBkZmZmZmMwMDAwMDAwMDAwIFIxNDogMWZmZmY5MjAwMDM3YmVmYyBSMTU6IDAw
+MDAwMDAwMDAwMDAyMTAKRlM6ICAwMDAwN2YxMTk0ZDM3NmMwKDAwMDApIEdTOmZmZmY4ODgyYWI2
+YjYwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAwMApDUzogIDAwMTAgRFM6IDAwMDAgRVM6
+IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCkNSMjogMDAwMDdmNzU2YWI4MTAwMCBDUjM6IDAw
+MDAwMDAxMWIxNzcwMDAgQ1I0OiAwMDAwMDAwMDAwNzUwZWYwCkRSMDogMDAwMDAwMDAwMDAwMDAw
+MCBEUjE6IDAwMDAwMDAwMDAwMDAwMDAgRFIyOiAwMDAwMDAwMDAwMDAwMDAwCkRSMzogMDAwMDAw
+MDAwMDAwMDAwMCBEUjY6IDAwMDAwMDAwZmZmZjBmZjAgRFI3OiAwMDAwMDAwMDAwMDAwNjAwClBL
+UlU6IDgwMDAwMDAwCi0tLS0tLS0tLS0tLS0tLS0KQ29kZSBkaXNhc3NlbWJseSAoYmVzdCBndWVz
+cyk6CiAgIDA6CTgxIGMzIGUwIGZkIGZmIGZmICAgIAlhZGQgICAgJDB4ZmZmZmZkZTAsJWVieAog
+ICA2Ogk0OCA4OSBkOCAgICAgICAgICAgICAJbW92ICAgICVyYngsJXJheAogICA5Ogk0OCBjMSBl
+OCAwMyAgICAgICAgICAJc2hyICAgICQweDMsJXJheAogICBkOgk0MiA4MCAzYyAyOCAwMCAgICAg
+ICAJY21wYiAgICQweDAsKCVyYXgsJXIxMywxKQogIDEyOgk3NCAwOCAgICAgICAgICAgICAgICAJ
+amUgICAgIDB4MWMKICAxNDoJNDggODkgZGYgICAgICAgICAgICAgCW1vdiAgICAlcmJ4LCVyZGkK
+ICAxNzoJZTggMGQgOTMgNGQgZmYgICAgICAgCWNhbGwgICAweGZmNGQ5MzI5CiAgMWM6CTRjIDhi
+IDNiICAgICAgICAgICAgIAltb3YgICAgKCVyYngpLCVyMTUKICAxZjoJNDkgODMgYzcgMTAgICAg
+ICAgICAgCWFkZCAgICAkMHgxMCwlcjE1CiAgMjM6CTRjIDg5IGY4ICAgICAgICAgICAgIAltb3Yg
+ICAgJXIxNSwlcmF4CiAgMjY6CTQ4IGMxIGU4IDAzICAgICAgICAgIAlzaHIgICAgJDB4MywlcmF4
+CiogMmE6CTQyIDBmIGI2IDA0IDI4ICAgICAgIAltb3Z6YmwgKCVyYXgsJXIxMywxKSwlZWF4IDwt
+LSB0cmFwcGluZyBpbnN0cnVjdGlvbgogIDJmOgk4NCBjMCAgICAgICAgICAgICAgICAJdGVzdCAg
+ICVhbCwlYWwKICAzMToJMGYgODUgZDQgMzEgMDAgMDAgICAgCWpuZSAgICAweDMyMGIKICAzNzoJ
+NDEgMGYgYjcgMWYgICAgICAgICAgCW1vdnp3bCAoJXIxNSksJWVieAogIDNiOgk0NSAwZiBiNyBm
+YyAgICAgICAgICAJbW92endsICVyMTJ3LCVyMTVkCiAgM2Y6CTQ0ICAgICAgICAgICAgICAgICAg
+IAlyZXguUgoKPDw8PDw8PDw8PDw8PDw8IHRhaWwgcmVwb3J0ID4+Pj4+Pj4+Pj4+Pj4+PgoK
+--000000000000f099050652eaa936--
