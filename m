@@ -1,293 +1,279 @@
-Received: from mail-yw1-f196.google.com (mail-yw1-f196.google.com [209.85.128.196])
+Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C551D555
-	for <ntfs3@lists.linux.dev>; Fri, 29 May 2026 01:21:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.196
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780017691; cv=pass; b=VtZ+jqLnMknyDqmayTCGRHN9xTD32KBOFjysqPSg2WRgJxChOviYIz9IPACZdJMxo3rZt6Zt3TwimIhaf8bRAR2ljtZSnGQRxDacQVJWOjWnoJL1Gt2CRTEqYlT9tRQ9wLOOAM3imwX7cuNlTrSqPJ9CBVfCrj+oVEkl3wdhzew=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780017691; c=relaxed/simple;
-	bh=fb305mPoGdl91MiyVMO/vwOrMJtSmTAe2ZfE1RPu50w=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=DgkbE/t8sM7DMX3oDDLXwTKtgZIrodE9UNvGKY253uuijQwMH/IT1kGLPNud3ZAH3dNybv7pfm4uDTPPrPjTV7s+0kBxpE2If4n0YDqNtRdMEtDaSXrZj0snQxCx0dlwAEFL6PqH5zRQ89zXD9Csni5ZvjyNgQ4R9ECLTxLLn24=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=neEvtG0o; arc=pass smtp.client-ip=209.85.128.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="neEvtG0o"
-Received: by mail-yw1-f196.google.com with SMTP id 00721157ae682-7dccb5f4b1cso13137347b3.3
-        for <ntfs3@lists.linux.dev>; Thu, 28 May 2026 18:21:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780017688; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TGJkocMakeS/dyHGIWeN7cVcm2DRTz9qE/+9YQl4UCD2JNPhPK6isL/JYvr3THLQyb
-         9GJzQ1ThZyRRFmI12TQWz8nO7cpRy+5mEpKExjhvvs1kOuvnEdr8KZiQ+YkLIBUJ+KKp
-         gGV8r+Haw4voC8JGq8qa96ez9kY1h9BjJFcwFGAui4trU3KNQplk4QLEP95YPHciU+Vj
-         G7GAsViElcpd2ZCdbFvGGNEWOGa8bhpJtd1SRoHwMGZZjNWi3Urhv5rNTQ2n8d/DPK1P
-         U1z3zpfYxv+o0UhCKyvTFo6VKfceVeWnH8dsVrcxjIPB+CezjPLXPM/fU1T09uoP24+o
-         q9nQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=Fe8zE+dpPh29YAG5M8eMRic0J7+vQkzE5mM+7P3zS84=;
-        fh=kaetnVdK6olOWqU3hsFT5a+mHBGKiE/Q0Zx4pepDjVU=;
-        b=IJoev7YTVR1IoVNv/a9q8YwsaPp8IFbOc+3oLK3JoBTIZrIIAubwj0W3q4bnNjyV5V
-         +k4kCbLkXnzASU3Snej/tqir+C+b0pa1ZIodx3vDctKIWRGES6tyNT942nwJcGiBaJCF
-         H+TEmdF/791btAuNBc2M/wbYMCbyoaVb4JJFKRQClUumq+wBbLjhiB7h3TDRn20Y4yBy
-         OFDbuzz9JD+RJmflN9HlffmTwpn+SOYBAKOzwa8GSd6AL6BOAKhXCLkmJdUmb2iONcNS
-         Gnyh78AOGsOgIomHaZArTvrxCFHQ5KvZQWHv++TH3pFYW6y4INof2gqoFbeqWLzU/ONk
-         D55A==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=berkeley.edu; s=google; t=1780017688; x=1780622488; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Fe8zE+dpPh29YAG5M8eMRic0J7+vQkzE5mM+7P3zS84=;
-        b=neEvtG0oXvBjf/U+iFJjBdgj9GMknE02FuHOL3vrac4MgVa/c8cWllaqmGTbXH/ms/
-         dIXkaNg8G10r9yUtNtE1P2r/nd4BmhbNRZAx42LxvoEDTh2MWjuWm2Q+du9HbqSgzO0y
-         mTL4BJjmiw1LEOjLmpdTJ1ujBpPbP0AFKAS/SGuL8lGjdVy+iY60AWzrx5pUdG7sqxyt
-         wqfe6Yzlk75MYM+zTVaM8A3pLRIXh5vkSa5JZe+X7jQYwiqf5ENhUOx15HL1xyk7gY5i
-         Wrry7x5xPL+WExlJ7QeuGg80xcnrUyrc2ieFxYbgQpyvSnVpv0U9bFWfpvTroHEBc/vH
-         6ywA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB0D3A63F2
+	for <ntfs3@lists.linux.dev>; Fri, 29 May 2026 22:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780092211; cv=none; b=i0TUxmXEuAjx1jwG2+/ngfWnznGAslnSarweIxhGFRougzWmZOvesTx641L0u2uQpfCW5OuCWcrSYZc35wtRqh3uNQslWnxxxiFaOBDrOKLhq8hxj3bMmgXf0soLgE8gT4Qw4n7dAGZGqNgiSJzitEDzzZbALFvuV1OuShQATBE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780092211; c=relaxed/simple;
+	bh=pqz3PAf8Qlp/I2JeoBy4a7vjqh2JqNkrYFX1VLsK9g8=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=rpN0gYT2W2oeI2bNK3GhAD8pgTjD1IPxSlv6mm1YN0GgVqZdo7BZRSHcMFPZfZMQfIUPqVg4Z85KoHZMEDwCBBL8dNNZioiSS3LYblC0nHfs2lWGLCRqOYS4Vq+AJXH5EGDHSENTkLWANw3CLun30GTanNgBsumARdPWavxPrd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-69d6c45e2aeso3671184eaf.2
+        for <ntfs3@lists.linux.dev>; Fri, 29 May 2026 15:03:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780017688; x=1780622488;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fe8zE+dpPh29YAG5M8eMRic0J7+vQkzE5mM+7P3zS84=;
-        b=SQJzuk4teboqQIZH+IFeBG4a18WZj0kXEdIp1fSkQDpLjoGodHtptU+TXdEdBdRnzM
-         IQW1kLp3Ny/eCkVYYWW1FY5EmHm9rjzGB3sd+4kbHLRC9zb+DalbmGWhlDTXYMvZobBY
-         uGHtzmdJKo7+m+7eSbU0/34Pe85MoiggLAN9Rto040lLbCVr6yvaSg5v8F3BuVtvpErb
-         7kvsgON+pYkMGSabH2gx3Eqd7Lh9ZMjze+C72VgzBn3bK1zlWdh2Q8PUAWLqLLfg50nM
-         Ms8JB86O3jTK5kr8M7wUDijnSbYatYozOS73P8CPlPybtRiRbnVKTReOwLPPaD6hYYg7
-         HeNg==
-X-Forwarded-Encrypted: i=1; AFNElJ8i++DN2kiNLy0HvlbY0MRMFDvPWoRuwbO7GZBvW9doR5syTxUzKHumAB9892cgIkNJIo7AKg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxAk6GefcSHY77+bbfq7OaHxf11rpDHSMutCrct+edKuSSzobA/
-	EkA6vDEGOJsH11RKcYLaoULpmasNPZHx7eUgVzIMT4aQcpafrnVpqwUzjjxOJHXNY6pUwg2KSCb
-	tfhAOI1uOBHrI+yM6aGqFFx+RBgQ464I7AILUWp+v
-X-Gm-Gg: Acq92OE50OhxqpEqaglreVfE1KRfSxLbkPKY0e2/9MxGKHverCFYYuwiChdKW+d1pic
-	8G2LtZMSKjtuTlB8MBcuZd8ojQNIZfpGmDtBOLX9ozACYPQ5Dv3M2SrYhXrms0Iva10Oxs9KjCq
-	HC6SU59bXlDszazwvIAC5AhnA/pdAGikEu5dX1smwQvQZI4CVvYAptuL3sZfu7ppJSu2qbplvFG
-	1bhvYx1YD9yb1pFXA2/d+jmxiegOG49w+N8gCK9mGhGd9FZbYdgVNZ1YBgDC+O9t61gU4sW2Yxl
-	UNB/hR+9g8MujOTMtg==
-X-Received: by 2002:a05:690c:6ac3:b0:7bb:712:a74f with SMTP id
- 00721157ae682-7de466e677bmr6656097b3.17.1780017687137; Thu, 28 May 2026
- 18:21:27 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780092208; x=1780697008;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g3QZ4LDNogZyvvjKpF+1JgfzLiOgydLe1QkXvFibWnU=;
+        b=iotwTBInRKg3kFTn7JswGzswAVcfjzFKHihetHccI4Wps+4GfmG6g/VF4AW1Dfot9h
+         XSxo0T6osSGk9kZck0UVm2jtGXRo4I2lycylmsvjvmtA/9piFRkWYR0G5JttwqLWclar
+         9STpSIQRw9ERqX6Wrtn2sBI8MKsyN91ds/XkdQRmvFSBXeyty75KGt/pyN3RXLk2Y4ax
+         +anMXvkD7AKu3iHZGRqp83xD06UUdvtMiIRBbIy90WnNp14ZIOFYRZWbLDH2x068vvMr
+         LhsqbFbbLjasUfMJPFg/5XgvyygH6LkxVlRCkQXtuk3TfXbxsmK73s6Kx1mwrsMOJKqH
+         pxFA==
+X-Forwarded-Encrypted: i=1; AFNElJ8NdEFmtzFl9nmN7E8Qvn1ird2iXu+EfkC2n8wYneREcYGKXqaZxDnc3V2Nfw5zztDdtb3HkA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxefKeEqqfAqfUDL8RwCEvpTOuHkIiOxPtsf+HGCIFY8/VqztCf
+	xyteRAw+ZP8rf4aBv5zNpgu+0pcQn1fkBCs7MFKz6PFkgIjOByzdEvdFg/rCIoHeWZ0kcSpxN9g
+	RztA2qr/8JX/oRFEkFEmLvKouBA3wgjvcB1zazBG+9KsG/SvIRiz0whl4nRk=
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Farhad Alemi <farhad.alemi@berkeley.edu>
-Date: Thu, 28 May 2026 18:21:16 -0700
-X-Gm-Features: AVHnY4LIbRQLFr81rNrT85a9zdMYwUVGuWhgvdOEvcWQuyighA9jlyxnEpIh3wE
-Message-ID: <CA+0ovCjz41uwDy6qDE73=bg3tTuEqiHMZ2xFnHC8+TiXDPR0YQ@mail.gmail.com>
-Subject: [BUG] ntfs3: KASAN null-ptr-deref in ntfs_iget5 (fs/ntfs3/inode.c:543)
- on mount
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: falemi@asu.edu, Tiffany Bao <tbao@asu.edu>, =?UTF-8?Q?Adam_Doup=C3=A9?= <doupe@asu.edu>, 
-	Fish Wang <fishw@asu.edu>, Yan Shoshitaishvili <yans@asu.edu>, ntfs3@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000f099050652eaa936"
-
---000000000000f099050652eaa936
+X-Received: by 2002:a05:6820:1351:b0:69d:9c7d:3346 with SMTP id
+ 006d021491bc7-69e102a809bmr748095eaf.12.1780092208616; Fri, 29 May 2026
+ 15:03:28 -0700 (PDT)
+Date: Fri, 29 May 2026 15:03:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a1a0d30.0a9e871e.332604.0008.GAE@google.com>
+Subject: [syzbot] [ntfs3?] INFO: task hung in attr_data_get_block (2)
+From: syzbot <syzbot+ca081116e9150ecfe495@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hello Konstantin and the ntfs3 team,
+Hello,
 
-I am reporting a mount-time KASAN null-ptr-deref in ntfs_iget5() found
-by syzkaller while mounting a crafted NTFS image, as part of research
-at the SEFCOM Lab at ASU.
+syzbot found the following issue on:
 
-Summary:
-The crash trips at fs/ntfs3/inode.c:543, which is the second branch of
-the iget5_locked() result handling in ntfs_iget5():
+HEAD commit:    d60ec36cab33 Merge tag 'mm-hotfixes-stable-2026-05-25-16-2..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=148deda6580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6200d9adbee6a664
+dashboard link: https://syzkaller.appspot.com/bug?extid=ca081116e9150ecfe495
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=110b4da6580000
 
-  struct inode *ntfs_iget5(struct super_block *sb, const struct MFT_REF *ref,
-                           const struct cpu_str *name)
-  {
-          struct inode *inode;
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/69826ca0b031/disk-d60ec36c.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/388e56b2f77c/vmlinux-d60ec36c.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d637d763a451/bzImage-d60ec36c.xz
+mounted in repro #1: https://storage.googleapis.com/syzbot-assets/ecf7e117711f/mount_0.gz
+mounted in repro #2: https://storage.googleapis.com/syzbot-assets/f5a1010f1495/mount_7.gz
 
-          inode = iget5_locked(sb, ino_get(ref), ntfs_test_inode,
-ntfs_set_inode,
-                               (void *)ref);
-          if (unlikely(!inode))
-                  return ERR_PTR(-ENOMEM);
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+ca081116e9150ecfe495@syzkaller.appspotmail.com
 
-          /* If this is a freshly allocated inode, need to read it now. */
-          if (inode_state_read_once(inode) & I_NEW)
-                  inode = ntfs_read_mft(inode, name, ref);
-          else if (ref->seq != ntfs_i(inode)->mi.mrec->seq) {   <-- :543
-                  ...
-          }
+INFO: task syz.3.191:6522 blocked in I/O wait for more than 143 seconds.
+      Not tainted syzkaller #0
+"echo 0 > /proc/sys/kerne[  576.688556][   T37] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz.3.191       state:D stack:23608 pid:6522  tgid:6520  ppid:5792   task_flags:0x400140 flags:0x00080002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5388 [inline]
+ __schedule+0x16ec/0x5620 kernel/sched/core.c:7189
+ __schedule_loop kernel/sched/core.c:7268 [inline]
+ schedule+0x164/0x360 kernel/sched/core.c:7283
+ io_schedule+0x7f/0xd0 kernel/sched/core.c:8110
+ folio_wait_bit_common+0x6dd/0xbc0 mm/filemap.c:1324
+ __folio_lock mm/filemap.c:1705 [inline]
+ folio_lock include/linux/pagemap.h:1159 [inline]
+ __filemap_get_folio_mpol+0x16d/0xa50 mm/filemap.c:1960
+ __filemap_get_folio include/linux/pagemap.h:763 [inline]
+ attr_make_nonresident+0x87e/0xbc0 fs/ntfs3/attrib.c:322
+ attr_set_size_res fs/ntfs3/attrib.c:401 [inline]
+ attr_set_size_ex+0x20db/0x2e50 fs/ntfs3/attrib.c:466
+ attr_set_size fs/ntfs3/ntfs_fs.h:463 [inline]
+ ntfs_set_size+0x169/0x240 fs/ntfs3/inode.c:699
+ ntfs_extend+0x13e/0x540 fs/ntfs3/file.c:370
+ ntfs_setattr+0x2eb/0x9a0 fs/ntfs3/file.c:753
+ notify_change+0xc18/0xf60 fs/attr.c:556
+ do_truncate+0x1c2/0x250 fs/open.c:68
+ vfs_truncate+0x4b7/0x540 fs/open.c:118
+ ksys_truncate+0xf3/0x1c0 fs/open.c:142
+ __do_sys_truncate fs/open.c:154 [inline]
+ __se_sys_truncate fs/open.c:152 [inline]
+ __x64_sys_truncate+0x5b/0x70 fs/open.c:152
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0x560 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f8aaa04ce59
+RSP: 002b:00007f8aa96ae028 EFLAGS: 00000246 ORIG_RAX: 000000000000004c
+RAX: ffffffffffffffda RBX: 00007f8aaa2c5fa0 RCX: 00007f8aaa04ce59
+RDX: 0000000000000000 RSI: 0000000000008da6 RDI: 0000200000000940
+RBP: 00007f8aaa0e2d6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f8aaa2c6038 R14: 00007f8aaa2c5fa0 R15: 00007ffe497fe3d8
+ </TASK>
+INFO: task syz.3.191:6530 blocked for more than 143 seconds.
+      Not tainted syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz.3.191       state:D stack:22160 pid:6530  tgid:6520  ppid:5792   task_flags:0x400140 flags:0x00080002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5388 [inline]
+ __schedule+0x16ec/0x5620 kernel/sched/core.c:7189
+ __schedule_loop kernel/sched/core.c:7268 [inline]
+ rt_mutex_schedule+0x76/0xf0 kernel/sched/core.c:7564
+ rt_mutex_slowlock_block kernel/locking/rtmutex.c:1662 [inline]
+ __rt_mutex_slowlock kernel/locking/rtmutex.c:1739 [inline]
+ __rt_mutex_slowlock_locked+0x1f28/0x2550 kernel/locking/rtmutex.c:1779
+ __rwbase_read_lock+0xc3/0x180 kernel/locking/rwbase_rt.c:114
+ rwbase_read_lock kernel/locking/rwbase_rt.c:147 [inline]
+ __down_read kernel/locking/rwsem.c:1496 [inline]
+ down_read+0x132/0x200 kernel/locking/rwsem.c:1570
+ attr_data_get_block+0xc5/0x310 fs/ntfs3/attrib.c:964
+ ntfs_iomap_begin+0x55b/0xfd0 fs/ntfs3/inode.c:774
+ iomap_iter+0x600/0xf90 fs/iomap/iter.c:110
+ iomap_read_folio+0x361/0x680 fs/iomap/buffered-io.c:600
+ ntfs_read_folio+0x3f0/0x4b0 fs/ntfs3/inode.c:653
+ filemap_read_folio+0x137/0x3b0 mm/filemap.c:2502
+ filemap_create_folio mm/filemap.c:2640 [inline]
+ filemap_get_pages+0xc4e/0x1e70 mm/filemap.c:2702
+ filemap_read+0x44a/0x1240 mm/filemap.c:2806
+ __kernel_read+0x50d/0x9c0 fs/read_write.c:532
+ integrity_kernel_read+0x89/0xd0 security/integrity/iint.c:28
+ ima_calc_file_hash_tfm security/integrity/ima/ima_crypto.c:222 [inline]
+ ima_calc_file_hash+0x452/0x870 security/integrity/ima/ima_crypto.c:280
+ ima_collect_measurement+0x523/0x9d0 security/integrity/ima/ima_api.c:300
+ process_measurement+0x12d9/0x1c90 security/integrity/ima/ima_main.c:425
+ ima_file_check+0xe1/0x130 security/integrity/ima/ima_main.c:685
+ security_file_post_open+0xb3/0x260 security/security.c:2755
+ do_open fs/namei.c:4701 [inline]
+ path_openat+0x2e88/0x38a0 fs/namei.c:4858
+ do_file_open+0x23e/0x4a0 fs/namei.c:4887
+ do_sys_openat2+0x113/0x200 fs/open.c:1364
+ do_sys_open fs/open.c:1370 [inline]
+ __do_sys_openat fs/open.c:1386 [inline]
+ __se_sys_openat fs/open.c:1381 [inline]
+ __x64_sys_openat+0x138/0x170 fs/open.c:1381
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0x560 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f8aaa04ce59
+RSP: 002b:00007f8aa966c028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f8aaa2c6180 RCX: 00007f8aaa04ce59
+RDX: 0000000000000042 RSI: 0000200000000040 RDI: ffffffffffffff9c
+RBP: 00007f8aaa0e2d6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f8aaa2c6218 R14: 00007f8aaa2c6180 R15: 00007ffe497fe3d8
+ </TASK>
 
-The dereference chain at line 543 is ntfs_i(inode)->mi.mrec->seq.
-KASAN reports a null-ptr-deref in range
-[0x0000000000000210-0x0000000000000217] (see crash-report.txt).
+Showing all locks held in the system:
+1 lock held by khungtaskd/37:
+ #0: ffffffff8dfc80c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #0: ffffffff8dfc80c0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:838 [inline]
+ #0: ffffffff8dfc80c0 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x2e/0x180 kernel/locking/lockdep.c:6775
+2 locks held by kworker/1:2/821:
+2 locks held by getty/5350:
+ #0: ffff8880294be0a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
+ #1: ffffc90003cb62e0 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x462/0x13a0 drivers/tty/n_tty.c:2211
+1 lock held by syz-executor/5783:
+ #0: ffff88805a6da480 (sb_writers#5){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:493
+1 lock held by udevd/5884:
+ #0: ffff888025b44480 (sb_writers#5){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:493
+4 locks held by udevd/6066:
+1 lock held by udevd/6089:
+ #0: ffff888025b44480 (sb_writers#5){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:493
+6 locks held by kworker/u8:11/6125:
+4 locks held by syz.3.191/6522:
+ #0: ffff88803fc8a480 (sb_writers#12){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:493
+ #1: ffff888045ffb8d0 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: inode_lock_killable include/linux/fs.h:1034 [inline]
+ #1: ffff888045ffb8d0 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: do_truncate+0x18f/0x250 fs/open.c:63
+ #2: ffff888045ffb618 (&ni->ni_lock/5){+.+.}-{4:4}, at: ni_lock fs/ntfs3/ntfs_fs.h:1212 [inline]
+ #2: ffff888045ffb618 (&ni->ni_lock/5){+.+.}-{4:4}, at: ntfs_set_size+0x134/0x240 fs/ntfs3/inode.c:696
+ #3: ffff888045ffb6b8 (&ni->file.run_lock#3){++++}-{4:4}, at: ntfs_set_size+0x143/0x240 fs/ntfs3/inode.c:697
+3 locks held by syz.3.191/6530:
+ #0: ffff88802d48e558 (&ima_iint_mutex_key[depth]){+.+.}-{4:4}, at: process_measurement+0x7fd/0x1c90 security/integrity/ima/ima_main.c:319
+ #1: ffff888045ffbaa0 (mapping.invalidate_lock#3){++++}-{4:4}, at: filemap_invalidate_lock_shared include/linux/fs.h:1094 [inline]
+ #1: ffff888045ffbaa0 (mapping.invalidate_lock#3){++++}-{4:4}, at: filemap_create_folio mm/filemap.c:2631 [inline]
+ #1: ffff888045ffbaa0 (mapping.invalidate_lock#3){++++}-{4:4}, at: filemap_get_pages+0xb39/0x1e70 mm/filemap.c:2702
+ #2: ffff888045ffb6b8 (&ni->file.run_lock#3){++++}-{4:4}, at: attr_data_get_block+0xc5/0x310 fs/ntfs3/attrib.c:964
+1 lock held by udevd/6655:
+ #0: ffff888025b44480 (sb_writers#5){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:493
+5 locks held by udevd/6658:
+1 lock held by syz.4.832/8056:
+1 lock held by syz.0.835/8065:
 
-The call chain to this site in the observed crash is:
+=============================================
 
-  __se_sys_mount               fs/namespace.c:4360
-  do_new_mount                 fs/namespace.c:3834
-  vfs_get_tree                 fs/super.c:1754
-  get_tree_bdev_flags          fs/super.c:1694
-  ntfs_fill_super              fs/ntfs3/super.c:1686
-  ntfs_iget5                   fs/ntfs3/inode.c:543
-
-Observed on:
-- Linux 7.1.0-rc3-00200-g70eda68668d1-dirty, x86_64, QEMU Q35
-- KASAN enabled (SMP KASAN NOPTI per crash header)
-- The only local dirty file in my tree is drivers/tty/serial/serial_core.c,
-  containing a local ttyS0 console guard for the fuzzing harness. It is
-  unrelated to fs/ntfs3/.
-- Image trigger: just before the crash the kernel prints
-  "ntfs3(loop6): Different NTFS sector size (4096) and media sector size
-  (512)." -- i.e. the mounted image declares a 4 KiB NTFS sector while
-  the loop device has 512-byte sectors.
-- Source inspection of linus/master at commit e8c2f9fdadee
-  (v7.1-rc4-754-ge8c2f9fdadee) shows the buggy line is unchanged:
-  fs/ntfs3/inode.c:543 still does `else if (ref->seq !=
-  ntfs_i(inode)->mi.mrec->seq)` with no NULL/IS_ERR check on
-  ntfs_i(inode)->mi.mrec before the load. As no reproducer is available
-  for this seed, I have not re-run the against e8c2f9fdadee.
-
-Impact:
-A mount(2) of the crafted image kills the kernel with a general
-protection fault; the trapping RIP is
-ntfs_iget5+0x161/0x38e0 at fs/ntfs3/inode.c:543.
-
-Expected behavior:
-Either the chain `ntfs_i(inode)->mi.mrec->seq` at line 543 needs to be
-guarded against the case where any of the intermediate pointers is
-NULL/uninitialised, or ntfs_iget5() should not be reached with such an
-inode in the cache in the first place. The maintainer is best placed
-to choose which side of the contract owns the guard.
-
-Novelty check:
-I searched the syzbot dashboard's upstream open and fixed namespaces,
-and the ntfs3 subsystem filter, for "ntfs_iget5" and "fs/ntfs3/inode.c:543".
-The only existing ntfs_iget5 ticket is extid 4d48dcd9e88d37df77b3,
-"KASAN: slab-use-after-free Read in ntfs_iget5", first reported
-2026-03-31, still open.
-
-That ticket is a different code path in the same function:
-
-  syzbot 4d48dcd9: ntfs_iget5+0x33a3/0x38f0 fs/ntfs3/inode.c:542
-                   post-mount KASAN slab-use-after-free Read
-                   reached via ntfs_file_fsync -> ni_write_parents
-
-  This report:     ntfs_iget5+0x161/0x38e0  fs/ntfs3/inode.c:543
-                   mount-time KASAN null-ptr-deref in range [0x210,0x217]
-                   reached via __se_sys_mount -> ntfs_fill_super
-
-I am sending this as a separate report because the two appear to
-be distinct root causes, but please feel free to close as a dup of
-4d48dcd9 if you'd prefer them tracked together.
-
-A NULL-pointer dereference at the same condition
-`else if (ref->seq != ntfs_i(inode)->mi.mrec->seq)` (then at
-fs/ntfs3/inode.c:519, now at :543; the condition line is byte-
-identical across both versions) was reported to lkml by Dipanjan
-Das on 2023-02-18 for kernel 6.2.0-rc5:
-
-  Subject:    BUG: unable to handle kernel NULL pointer dereference in
-ntfs_iget5
-  Mirror:     https://lkml.iu.edu/hypermail/linux/kernel/2302.2/02508.html
-
-Per `git log linus/master -L 540,560:fs/ntfs3/inode.c`, no null-guard
-on ntfs_i(inode)->mi.mrec at this site has been merged since.
+NMI backtrace for cpu 0
+CPU: 0 UID: 0 PID: 37 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ nmi_cpu_backtrace+0x274/0x2d0 lib/nmi_backtrace.c:113
+ nmi_trigger_cpumask_backtrace+0x17a/0x300 lib/nmi_backtrace.c:62
+ trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
+ __sys_info lib/sys_info.c:157 [inline]
+ sys_info+0x135/0x170 lib/sys_info.c:165
+ check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
+ watchdog+0xfd3/0x1030 kernel/hung_task.c:561
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Sending NMI from CPU 0 to CPUs 1:
+NMI backtrace for cpu 1
+CPU: 1 UID: 0 PID: 821 Comm: kworker/1:2 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
+Workqueue: events_power_efficient wg_ratelimiter_gc_entries
+RIP: 0010:reacquire_held_locks+0xbf/0x190 kernel/locking/lockdep.c:5386
+Code: 77 af fd 02 85 c0 74 1c 83 3d f0 8b e8 0d 00 75 13 48 8d 3d 63 ab eb 0d 48 c7 c6 b3 b7 71 8d 67 48 0f b9 3a 90 31 c0 4c 89 e7 <8b> 70 58 41 8b 46 fc 89 c2 c1 ea 0f 83 e2 01 89 c1 c1 e9 10 83 e1
+RSP: 0000:ffffc9000536f9b8 EFLAGS: 00000002
+RAX: ffffffff9313cbc8 RBX: ffffc9000536fa0c RCX: ffffc9000536fa0c
+RDX: 0000000000000003 RSI: 0000000000000004 RDI: ffffffff8dfc80c0
+RBP: 00000000ffffffff R08: ffffffff8b1fd920 R09: ffffffff8dfc80c0
+R10: dffffc0000000000 R11: fffffbfff1f1223f R12: 0000000000000003
+R13: 0000000000000003 R14: ffff888025fb8c94 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff888126270000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f3589994000 CR3: 000000005ba8c000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ __lock_release kernel/locking/lockdep.c:5574 [inline]
+ lock_release+0x199/0x3c0 kernel/locking/lockdep.c:5889
+ rt_spin_unlock+0x29/0x200 kernel/locking/spinlock_rt.c:80
+ spin_unlock include/linux/spinlock_rt.h:109 [inline]
+ wg_ratelimiter_gc_entries+0x3a8/0x480 drivers/net/wireguard/ratelimiter.c:76
+ process_one_work kernel/workqueue.c:3314 [inline]
+ process_scheduled_works+0xb5d/0x1860 kernel/workqueue.c:3397
+ worker_thread+0xa53/0xfc0 kernel/workqueue.c:3478
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
 
 
-I appreciate your time and consideration, and I'm grateful for your
-work on this subsystem. I'd be glad to test any candidate patches.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Regards,
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
---000000000000f099050652eaa936
-Content-Type: text/plain; charset="US-ASCII"; name="crash-report.txt"
-Content-Disposition: attachment; filename="crash-report.txt"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mpq8jzjw0>
-X-Attachment-Id: f_mpq8jzjw0
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-bG9vcDY6IGRldGVjdGVkIGNhcGFjaXR5IGNoYW5nZSBmcm9tIDAgdG8gODE5MgpudGZzMyhsb29w
-Nik6IERpZmZlcmVudCBOVEZTIHNlY3RvciBzaXplICg0MDk2KSBhbmQgbWVkaWEgc2VjdG9yIHNp
-emUgKDUxMikuCk9vcHM6IGdlbmVyYWwgcHJvdGVjdGlvbiBmYXVsdCwgcHJvYmFibHkgZm9yIG5v
-bi1jYW5vbmljYWwgYWRkcmVzcyAweGRmZmZmYzAwMDAwMDAwNDI6IDAwMDAgWyMxXSBTTVAgS0FT
-QU4gTk9QVEkKS0FTQU46IG51bGwtcHRyLWRlcmVmIGluIHJhbmdlIFsweDAwMDAwMDAwMDAwMDAy
-MTAtMHgwMDAwMDAwMDAwMDAwMjE3XQpDUFU6IDAgVUlEOiAwIFBJRDogNTI5NjcgQ29tbTogc3l6
-LjYuNTY2MCBOb3QgdGFpbnRlZCA3LjEuMC1yYzMtMDAyMDAtZzcwZWRhNjg2NjhkMS1kaXJ0eSAj
-MSBQUkVFTVBUKGZ1bGwpIApIYXJkd2FyZSBuYW1lOiBRRU1VIFN0YW5kYXJkIFBDIChRMzUgKyBJ
-Q0g5LCAyMDA5KSwgQklPUyAxLjE2LjMtZGViaWFuLTEuMTYuMy0yIDA0LzAxLzIwMTQKUklQOiAw
-MDEwOm50ZnNfaWdldDUrMHgxNjEvMHgzOGUwIGZzL250ZnMzL2lub2RlLmM6NTQzCkNvZGU6IDgx
-IGMzIGUwIGZkIGZmIGZmIDQ4IDg5IGQ4IDQ4IGMxIGU4IDAzIDQyIDgwIDNjIDI4IDAwIDc0IDA4
-IDQ4IDg5IGRmIGU4IDBkIDkzIDRkIGZmIDRjIDhiIDNiIDQ5IDgzIGM3IDEwIDRjIDg5IGY4IDQ4
-IGMxIGU4IDAzIDw0Mj4gMGYgYjYgMDQgMjggODQgYzAgMGYgODUgZDQgMzEgMDAgMDAgNDEgMGYg
-YjcgMWYgNDUgMGYgYjcgZmMgNDQKUlNQOiAwMDE4OmZmZmZjOTAwMDFiZGY2NjAgRUZMQUdTOiAw
-MDAxMDIwNgpSQVg6IDAwMDAwMDAwMDAwMDAwNDIgUkJYOiBmZmZmODg4MTJiYmRlODQwIFJDWDog
-MDAwMDAwMDAwMDAwMDAwMgpSRFg6IGZmZmY4ODgxNjhkZjRhMDAgUlNJOiAwMDAwMDAwMDAwMDAw
-MDAwIFJESTogMDAwMDAwMDAwMDAwMDAwMApSQlA6IGZmZmZjOTAwMDFiZGY4YjAgUjA4OiBmZmZm
-ZmZmZjg3YzE0OTAzIFIwOTogMWZmZmZmZmZmMGY4MjkyMApSMTA6IGRmZmZmYzAwMDAwMDAwMDAg
-UjExOiBmZmZmZmJmZmYwZjgyOTIxIFIxMjogMDAwMDAwMDAwMDAwMDAwNQpSMTM6IGRmZmZmYzAw
-MDAwMDAwMDAgUjE0OiAxZmZmZjkyMDAwMzdiZWZjIFIxNTogMDAwMDAwMDAwMDAwMDIxMApGUzog
-IDAwMDA3ZjExOTRkMzc2YzAoMDAwMCkgR1M6ZmZmZjg4ODJhYjZiNjAwMCgwMDAwKSBrbmxHUzow
-MDAwMDAwMDAwMDAwMDAwCkNTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAw
-ODAwNTAwMzMKQ1IyOiAwMDAwN2Y5N2U3ZTc4Njg0IENSMzogMDAwMDAwMDExYjE3NzAwMCBDUjQ6
-IDAwMDAwMDAwMDA3NTBlZjAKRFIwOiAwMDAwMDAwMDAwMDAwMDAwIERSMTogMDAwMDAwMDAwMDAw
-MDAwMCBEUjI6IDAwMDAwMDAwMDAwMDAwMDAKRFIzOiAwMDAwMDAwMDAwMDAwMDAwIERSNjogMDAw
-MDAwMDBmZmZmMGZmMCBEUjc6IDAwMDAwMDAwMDAwMDA2MDAKUEtSVTogODAwMDAwMDAKQ2FsbCBU
-cmFjZToKIDxUQVNLPgogbnRmc19maWxsX3N1cGVyKzB4NDI5OS8weDQ1OTAgZnMvbnRmczMvc3Vw
-ZXIuYzoxNjg2CiBnZXRfdHJlZV9iZGV2X2ZsYWdzKzB4NDM2LzB4NTAwIGZzL3N1cGVyLmM6MTY5
-NAogdmZzX2dldF90cmVlKzB4OTcvMHgyYjAgZnMvc3VwZXIuYzoxNzU0CiBmY19tb3VudCBmcy9u
-YW1lc3BhY2UuYzoxMTkzIFtpbmxpbmVdCiBkb19uZXdfbW91bnRfZmMgZnMvbmFtZXNwYWNlLmM6
-Mzc1OCBbaW5saW5lXQogZG9fbmV3X21vdW50KzB4MzQ2LzB4ZDMwIGZzL25hbWVzcGFjZS5jOjM4
-MzQKIGRvX21vdW50IGZzL25hbWVzcGFjZS5jOjQxNjcgW2lubGluZV0KIF9fZG9fc3lzX21vdW50
-IGZzL25hbWVzcGFjZS5jOjQzODMgW2lubGluZV0KIF9fc2Vfc3lzX21vdW50KzB4MzIyLzB4NDIw
-IGZzL25hbWVzcGFjZS5jOjQzNjAKIGRvX3N5c2NhbGxfeDY0IGFyY2gveDg2L2VudHJ5L3N5c2Nh
-bGxfNjQuYzo2MyBbaW5saW5lXQogZG9fc3lzY2FsbF82NCsweDE1Zi8weDU2MCBhcmNoL3g4Ni9l
-bnRyeS9zeXNjYWxsXzY0LmM6OTQKIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDc3
-LzB4N2YKUklQOiAwMDMzOjB4N2YxMTk2MmU5MWJlCkNvZGU6IDBmIDFmIDQwIDAwIDQ4IGM3IGMy
-IGIwIGZmIGZmIGZmIGY3IGQ4IDY0IDg5IDAyIGI4IGZmIGZmIGZmIGZmIGMzIDY2IDBmIDFmIDQ0
-IDAwIDAwIGYzIDBmIDFlIGZhIDQ5IDg5IGNhIGI4IGE1IDAwIDAwIDAwIDBmIDA1IDw0OD4gM2Qg
-MDEgZjAgZmYgZmYgNzMgMDEgYzMgNDggYzcgYzEgYjAgZmYgZmYgZmYgZjcgZDggNjQgODkgMDEg
-NDgKUlNQOiAwMDJiOjAwMDA3ZjExOTRkMzZlMjggRUZMQUdTOiAwMDAwMDI0NiBPUklHX1JBWDog
-MDAwMDAwMDAwMDAwMDBhNQpSQVg6IGZmZmZmZmZmZmZmZmZmZGEgUkJYOiAwMDAwN2YxMTk0ZDM2
-ZWMwIFJDWDogMDAwMDdmMTE5NjJlOTFiZQpSRFg6IDAwMDAyMDAwMDAwMjBiYzAgUlNJOiAwMDAw
-MjAwMDAwMDIwYzAwIFJESTogMDAwMDdmMTE5NGQzNmU4MApSQlA6IDAwMDAyMDAwMDAwMjBiYzAg
-UjA4OiAwMDAwN2YxMTk0ZDM2ZWMwIFIwOTogMDAwMDAwMDAwMDAwMDAwMApSMTA6IDAwMDAwMDAw
-MDAwMDAwMDAgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIxMjogMDAwMDIwMDAwMDAyMGMwMApSMTM6
-IDAwMDA3ZjExOTRkMzZlODAgUjE0OiAwMDAwMDAwMDAwMDIwYjhjIFIxNTogMDAwMDIwMDAwMDAy
-MGM0MAogPC9UQVNLPgpNb2R1bGVzIGxpbmtlZCBpbjoKLS0tWyBlbmQgdHJhY2UgMDAwMDAwMDAw
-MDAwMDAwMCBdLS0tClJJUDogMDAxMDpudGZzX2lnZXQ1KzB4MTYxLzB4MzhlMCBmcy9udGZzMy9p
-bm9kZS5jOjU0MwpDb2RlOiA4MSBjMyBlMCBmZCBmZiBmZiA0OCA4OSBkOCA0OCBjMSBlOCAwMyA0
-MiA4MCAzYyAyOCAwMCA3NCAwOCA0OCA4OSBkZiBlOCAwZCA5MyA0ZCBmZiA0YyA4YiAzYiA0OSA4
-MyBjNyAxMCA0YyA4OSBmOCA0OCBjMSBlOCAwMyA8NDI+IDBmIGI2IDA0IDI4IDg0IGMwIDBmIDg1
-IGQ0IDMxIDAwIDAwIDQxIDBmIGI3IDFmIDQ1IDBmIGI3IGZjIDQ0ClJTUDogMDAxODpmZmZmYzkw
-MDAxYmRmNjYwIEVGTEFHUzogMDAwMTAyMDYKUkFYOiAwMDAwMDAwMDAwMDAwMDQyIFJCWDogZmZm
-Zjg4ODEyYmJkZTg0MCBSQ1g6IDAwMDAwMDAwMDAwMDAwMDIKUkRYOiBmZmZmODg4MTY4ZGY0YTAw
-IFJTSTogMDAwMDAwMDAwMDAwMDAwMCBSREk6IDAwMDAwMDAwMDAwMDAwMDAKUkJQOiBmZmZmYzkw
-MDAxYmRmOGIwIFIwODogZmZmZmZmZmY4N2MxNDkwMyBSMDk6IDFmZmZmZmZmZjBmODI5MjAKUjEw
-OiBkZmZmZmMwMDAwMDAwMDAwIFIxMTogZmZmZmZiZmZmMGY4MjkyMSBSMTI6IDAwMDAwMDAwMDAw
-MDAwMDUKUjEzOiBkZmZmZmMwMDAwMDAwMDAwIFIxNDogMWZmZmY5MjAwMDM3YmVmYyBSMTU6IDAw
-MDAwMDAwMDAwMDAyMTAKRlM6ICAwMDAwN2YxMTk0ZDM3NmMwKDAwMDApIEdTOmZmZmY4ODgyYWI2
-YjYwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAwMApDUzogIDAwMTAgRFM6IDAwMDAgRVM6
-IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCkNSMjogMDAwMDdmNzU2YWI4MTAwMCBDUjM6IDAw
-MDAwMDAxMWIxNzcwMDAgQ1I0OiAwMDAwMDAwMDAwNzUwZWYwCkRSMDogMDAwMDAwMDAwMDAwMDAw
-MCBEUjE6IDAwMDAwMDAwMDAwMDAwMDAgRFIyOiAwMDAwMDAwMDAwMDAwMDAwCkRSMzogMDAwMDAw
-MDAwMDAwMDAwMCBEUjY6IDAwMDAwMDAwZmZmZjBmZjAgRFI3OiAwMDAwMDAwMDAwMDAwNjAwClBL
-UlU6IDgwMDAwMDAwCi0tLS0tLS0tLS0tLS0tLS0KQ29kZSBkaXNhc3NlbWJseSAoYmVzdCBndWVz
-cyk6CiAgIDA6CTgxIGMzIGUwIGZkIGZmIGZmICAgIAlhZGQgICAgJDB4ZmZmZmZkZTAsJWVieAog
-ICA2Ogk0OCA4OSBkOCAgICAgICAgICAgICAJbW92ICAgICVyYngsJXJheAogICA5Ogk0OCBjMSBl
-OCAwMyAgICAgICAgICAJc2hyICAgICQweDMsJXJheAogICBkOgk0MiA4MCAzYyAyOCAwMCAgICAg
-ICAJY21wYiAgICQweDAsKCVyYXgsJXIxMywxKQogIDEyOgk3NCAwOCAgICAgICAgICAgICAgICAJ
-amUgICAgIDB4MWMKICAxNDoJNDggODkgZGYgICAgICAgICAgICAgCW1vdiAgICAlcmJ4LCVyZGkK
-ICAxNzoJZTggMGQgOTMgNGQgZmYgICAgICAgCWNhbGwgICAweGZmNGQ5MzI5CiAgMWM6CTRjIDhi
-IDNiICAgICAgICAgICAgIAltb3YgICAgKCVyYngpLCVyMTUKICAxZjoJNDkgODMgYzcgMTAgICAg
-ICAgICAgCWFkZCAgICAkMHgxMCwlcjE1CiAgMjM6CTRjIDg5IGY4ICAgICAgICAgICAgIAltb3Yg
-ICAgJXIxNSwlcmF4CiAgMjY6CTQ4IGMxIGU4IDAzICAgICAgICAgIAlzaHIgICAgJDB4MywlcmF4
-CiogMmE6CTQyIDBmIGI2IDA0IDI4ICAgICAgIAltb3Z6YmwgKCVyYXgsJXIxMywxKSwlZWF4IDwt
-LSB0cmFwcGluZyBpbnN0cnVjdGlvbgogIDJmOgk4NCBjMCAgICAgICAgICAgICAgICAJdGVzdCAg
-ICVhbCwlYWwKICAzMToJMGYgODUgZDQgMzEgMDAgMDAgICAgCWpuZSAgICAweDMyMGIKICAzNzoJ
-NDEgMGYgYjcgMWYgICAgICAgICAgCW1vdnp3bCAoJXIxNSksJWVieAogIDNiOgk0NSAwZiBiNyBm
-YyAgICAgICAgICAJbW92endsICVyMTJ3LCVyMTVkCiAgM2Y6CTQ0ICAgICAgICAgICAgICAgICAg
-IAlyZXguUgoKPDw8PDw8PDw8PDw8PDw8IHRhaWwgcmVwb3J0ID4+Pj4+Pj4+Pj4+Pj4+PgoK
---000000000000f099050652eaa936--
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
