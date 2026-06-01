@@ -1,50 +1,50 @@
-Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
+Received: from mail-oa1-f79.google.com (mail-oa1-f79.google.com [209.85.160.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB0D3A63F2
-	for <ntfs3@lists.linux.dev>; Fri, 29 May 2026 22:03:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9530514A619
+	for <ntfs3@lists.linux.dev>; Mon,  1 Jun 2026 20:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780092211; cv=none; b=i0TUxmXEuAjx1jwG2+/ngfWnznGAslnSarweIxhGFRougzWmZOvesTx641L0u2uQpfCW5OuCWcrSYZc35wtRqh3uNQslWnxxxiFaOBDrOKLhq8hxj3bMmgXf0soLgE8gT4Qw4n7dAGZGqNgiSJzitEDzzZbALFvuV1OuShQATBE=
+	t=1780344751; cv=none; b=IrhPf+zH20Or/Xh6D0O8VPBosuRwYknZM0s+oAsoXlacSinHBHuM272Kb0v/Fj1vRjIfwnDE1HwSr1qNtx5q8oqAoMFMBb24cDENLsS+OIicXl9TPGbkIt/UoyiCk1rfSQFjJl3QVJmn+MFVkTLiatpzeEJ+nSz4eN9B5qTcTN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780092211; c=relaxed/simple;
-	bh=pqz3PAf8Qlp/I2JeoBy4a7vjqh2JqNkrYFX1VLsK9g8=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=rpN0gYT2W2oeI2bNK3GhAD8pgTjD1IPxSlv6mm1YN0GgVqZdo7BZRSHcMFPZfZMQfIUPqVg4Z85KoHZMEDwCBBL8dNNZioiSS3LYblC0nHfs2lWGLCRqOYS4Vq+AJXH5EGDHSENTkLWANw3CLun30GTanNgBsumARdPWavxPrd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
+	s=arc-20240116; t=1780344751; c=relaxed/simple;
+	bh=wrmm7xq4SE56Yyuu3heuTrajDerVW1jtI42NrKuAWzQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Kg78t0RHk2DUEtSnxh/Z/U0FhzrKOGSYYurueq/YWJv0G0/X+jUEZdFV/aJbu+O3OhFy0bkyxte1kzFvnzhDijH7YJd5C224oPOkNnA91v5sYdNL7wMA3DeqMkkjXWwyQ4kZ4WMt2fzGZ9RgQYkB4PO8vmhgBrnWpoaUAI8lw20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.79
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-69d6c45e2aeso3671184eaf.2
-        for <ntfs3@lists.linux.dev>; Fri, 29 May 2026 15:03:29 -0700 (PDT)
+Received: by mail-oa1-f79.google.com with SMTP id 586e51a60fabf-43b7aa790e1so13721000fac.0
+        for <ntfs3@lists.linux.dev>; Mon, 01 Jun 2026 13:12:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780092208; x=1780697008;
+        d=1e100.net; s=20251104; t=1780344748; x=1780949548;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=g3QZ4LDNogZyvvjKpF+1JgfzLiOgydLe1QkXvFibWnU=;
-        b=iotwTBInRKg3kFTn7JswGzswAVcfjzFKHihetHccI4Wps+4GfmG6g/VF4AW1Dfot9h
-         XSxo0T6osSGk9kZck0UVm2jtGXRo4I2lycylmsvjvmtA/9piFRkWYR0G5JttwqLWclar
-         9STpSIQRw9ERqX6Wrtn2sBI8MKsyN91ds/XkdQRmvFSBXeyty75KGt/pyN3RXLk2Y4ax
-         +anMXvkD7AKu3iHZGRqp83xD06UUdvtMiIRBbIy90WnNp14ZIOFYRZWbLDH2x068vvMr
-         LhsqbFbbLjasUfMJPFg/5XgvyygH6LkxVlRCkQXtuk3TfXbxsmK73s6Kx1mwrsMOJKqH
-         pxFA==
-X-Forwarded-Encrypted: i=1; AFNElJ8NdEFmtzFl9nmN7E8Qvn1ird2iXu+EfkC2n8wYneREcYGKXqaZxDnc3V2Nfw5zztDdtb3HkA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxefKeEqqfAqfUDL8RwCEvpTOuHkIiOxPtsf+HGCIFY8/VqztCf
-	xyteRAw+ZP8rf4aBv5zNpgu+0pcQn1fkBCs7MFKz6PFkgIjOByzdEvdFg/rCIoHeWZ0kcSpxN9g
-	RztA2qr/8JX/oRFEkFEmLvKouBA3wgjvcB1zazBG+9KsG/SvIRiz0whl4nRk=
+        bh=z0iHOZK+uaiWX3bIe5dxVncfzUpjPmCGHQdWD35vIZY=;
+        b=tIMoCzWb87R8A5a01JY/3MKDvveV7RIJkl1NgyAPP0X43xi2avorPoLzAnCV8a5LSI
+         tr5kpflf26XbWcCRroWD3ypPxpd07WTMaRoz2XISKx0C0Ao+waqTWP+aPdtH8po/OFEI
+         vVvIjIIpES6FF/hUYJxzTMzFxJXVZdFjaSn93QrfepGAp+T4KOoLWRg74h2OYVp3UMMW
+         XNbu7hyyAkw2l2QFcSqOYgLlWQD6sGrKPXLByPmD0Hh2AD/k5Pp/ekfncEz3opbuWFn3
+         +0MwtGpC5ctErm131vkTrmwzwcqmv54LYgVL5dJWN+aJ+YXfIHWFIKo4BRz1JE1Vkt5N
+         mPjQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9/u7YbmGHW41Xspl5oH1zQ8+hrQ/xy1N3WdgX1RIoUmGeLuD6rDMXrcUEjCmL2JVD3Q4h7+Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPf9Y4Ye22ZiVyEq7c+JqezvgiyPLpretsriH2QhP+SZ3gL6Hu
+	kX9Z8mYFwZhbpJSorxj0UCGSUiYv/cKCnUQp/rymseX5P1D220szxn2Ur1z1tk+KSb8O2SEVSGP
+	ubI0X5Xog60u/JuY0GOFFARctxKDaLJb8PYNrBZbM6lDoKCbWQsNiHKcvI4w=
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1351:b0:69d:9c7d:3346 with SMTP id
- 006d021491bc7-69e102a809bmr748095eaf.12.1780092208616; Fri, 29 May 2026
- 15:03:28 -0700 (PDT)
-Date: Fri, 29 May 2026 15:03:28 -0700
+X-Received: by 2002:a05:6820:1791:b0:696:8e8b:2097 with SMTP id
+ 006d021491bc7-69e102b59b0mr6638812eaf.21.1780344748532; Mon, 01 Jun 2026
+ 13:12:28 -0700 (PDT)
+Date: Mon, 01 Jun 2026 13:12:28 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a1a0d30.0a9e871e.332604.0008.GAE@google.com>
-Subject: [syzbot] [ntfs3?] INFO: task hung in attr_data_get_block (2)
-From: syzbot <syzbot+ca081116e9150ecfe495@syzkaller.appspotmail.com>
+Message-ID: <6a1de7ac.b43a32fa.142f43.0003.GAE@google.com>
+Subject: [syzbot] [ntfs3?] KASAN: slab-use-after-free Read in ntfs_read_hdr
+From: syzbot <syzbot+233bcd55d51543e76e99@syzkaller.appspotmail.com>
 To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
 	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -53,204 +53,198 @@ Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    d60ec36cab33 Merge tag 'mm-hotfixes-stable-2026-05-25-16-2..
+HEAD commit:    df685633c3db Merge tag 'rcu-fixes.v7.1-20260519a' of git:/..
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=148deda6580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6200d9adbee6a664
-dashboard link: https://syzkaller.appspot.com/bug?extid=ca081116e9150ecfe495
+console output: https://syzkaller.appspot.com/x/log.txt?x=14d17fba580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7f195f6be48c12ec
+dashboard link: https://syzkaller.appspot.com/bug?extid=233bcd55d51543e76e99
 compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=110b4da6580000
+
+Unfortunately, I don't have any reproducer for this issue yet.
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/69826ca0b031/disk-d60ec36c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/388e56b2f77c/vmlinux-d60ec36c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d637d763a451/bzImage-d60ec36c.xz
-mounted in repro #1: https://storage.googleapis.com/syzbot-assets/ecf7e117711f/mount_0.gz
-mounted in repro #2: https://storage.googleapis.com/syzbot-assets/f5a1010f1495/mount_7.gz
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-df685633.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0d8ce459af2e/vmlinux-df685633.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/5f8a4c255465/bzImage-df685633.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ca081116e9150ecfe495@syzkaller.appspotmail.com
+Reported-by: syzbot+233bcd55d51543e76e99@syzkaller.appspotmail.com
 
-INFO: task syz.3.191:6522 blocked in I/O wait for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kerne[  576.688556][   T37] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz.3.191       state:D stack:23608 pid:6522  tgid:6520  ppid:5792   task_flags:0x400140 flags:0x00080002
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5388 [inline]
- __schedule+0x16ec/0x5620 kernel/sched/core.c:7189
- __schedule_loop kernel/sched/core.c:7268 [inline]
- schedule+0x164/0x360 kernel/sched/core.c:7283
- io_schedule+0x7f/0xd0 kernel/sched/core.c:8110
- folio_wait_bit_common+0x6dd/0xbc0 mm/filemap.c:1324
- __folio_lock mm/filemap.c:1705 [inline]
- folio_lock include/linux/pagemap.h:1159 [inline]
- __filemap_get_folio_mpol+0x16d/0xa50 mm/filemap.c:1960
- __filemap_get_folio include/linux/pagemap.h:763 [inline]
- attr_make_nonresident+0x87e/0xbc0 fs/ntfs3/attrib.c:322
- attr_set_size_res fs/ntfs3/attrib.c:401 [inline]
- attr_set_size_ex+0x20db/0x2e50 fs/ntfs3/attrib.c:466
- attr_set_size fs/ntfs3/ntfs_fs.h:463 [inline]
- ntfs_set_size+0x169/0x240 fs/ntfs3/inode.c:699
- ntfs_extend+0x13e/0x540 fs/ntfs3/file.c:370
- ntfs_setattr+0x2eb/0x9a0 fs/ntfs3/file.c:753
- notify_change+0xc18/0xf60 fs/attr.c:556
- do_truncate+0x1c2/0x250 fs/open.c:68
- vfs_truncate+0x4b7/0x540 fs/open.c:118
- ksys_truncate+0xf3/0x1c0 fs/open.c:142
- __do_sys_truncate fs/open.c:154 [inline]
- __se_sys_truncate fs/open.c:152 [inline]
- __x64_sys_truncate+0x5b/0x70 fs/open.c:152
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x15f/0x560 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f8aaa04ce59
-RSP: 002b:00007f8aa96ae028 EFLAGS: 00000246 ORIG_RAX: 000000000000004c
-RAX: ffffffffffffffda RBX: 00007f8aaa2c5fa0 RCX: 00007f8aaa04ce59
-RDX: 0000000000000000 RSI: 0000000000008da6 RDI: 0000200000000940
-RBP: 00007f8aaa0e2d6f R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f8aaa2c6038 R14: 00007f8aaa2c5fa0 R15: 00007ffe497fe3d8
- </TASK>
-INFO: task syz.3.191:6530 blocked for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz.3.191       state:D stack:22160 pid:6530  tgid:6520  ppid:5792   task_flags:0x400140 flags:0x00080002
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5388 [inline]
- __schedule+0x16ec/0x5620 kernel/sched/core.c:7189
- __schedule_loop kernel/sched/core.c:7268 [inline]
- rt_mutex_schedule+0x76/0xf0 kernel/sched/core.c:7564
- rt_mutex_slowlock_block kernel/locking/rtmutex.c:1662 [inline]
- __rt_mutex_slowlock kernel/locking/rtmutex.c:1739 [inline]
- __rt_mutex_slowlock_locked+0x1f28/0x2550 kernel/locking/rtmutex.c:1779
- __rwbase_read_lock+0xc3/0x180 kernel/locking/rwbase_rt.c:114
- rwbase_read_lock kernel/locking/rwbase_rt.c:147 [inline]
- __down_read kernel/locking/rwsem.c:1496 [inline]
- down_read+0x132/0x200 kernel/locking/rwsem.c:1570
- attr_data_get_block+0xc5/0x310 fs/ntfs3/attrib.c:964
- ntfs_iomap_begin+0x55b/0xfd0 fs/ntfs3/inode.c:774
- iomap_iter+0x600/0xf90 fs/iomap/iter.c:110
- iomap_read_folio+0x361/0x680 fs/iomap/buffered-io.c:600
- ntfs_read_folio+0x3f0/0x4b0 fs/ntfs3/inode.c:653
- filemap_read_folio+0x137/0x3b0 mm/filemap.c:2502
- filemap_create_folio mm/filemap.c:2640 [inline]
- filemap_get_pages+0xc4e/0x1e70 mm/filemap.c:2702
- filemap_read+0x44a/0x1240 mm/filemap.c:2806
- __kernel_read+0x50d/0x9c0 fs/read_write.c:532
- integrity_kernel_read+0x89/0xd0 security/integrity/iint.c:28
- ima_calc_file_hash_tfm security/integrity/ima/ima_crypto.c:222 [inline]
- ima_calc_file_hash+0x452/0x870 security/integrity/ima/ima_crypto.c:280
- ima_collect_measurement+0x523/0x9d0 security/integrity/ima/ima_api.c:300
- process_measurement+0x12d9/0x1c90 security/integrity/ima/ima_main.c:425
- ima_file_check+0xe1/0x130 security/integrity/ima/ima_main.c:685
- security_file_post_open+0xb3/0x260 security/security.c:2755
- do_open fs/namei.c:4701 [inline]
- path_openat+0x2e88/0x38a0 fs/namei.c:4858
- do_file_open+0x23e/0x4a0 fs/namei.c:4887
- do_sys_openat2+0x113/0x200 fs/open.c:1364
- do_sys_open fs/open.c:1370 [inline]
- __do_sys_openat fs/open.c:1386 [inline]
- __se_sys_openat fs/open.c:1381 [inline]
- __x64_sys_openat+0x138/0x170 fs/open.c:1381
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x15f/0x560 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f8aaa04ce59
-RSP: 002b:00007f8aa966c028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007f8aaa2c6180 RCX: 00007f8aaa04ce59
-RDX: 0000000000000042 RSI: 0000200000000040 RDI: ffffffffffffff9c
-RBP: 00007f8aaa0e2d6f R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f8aaa2c6218 R14: 00007f8aaa2c6180 R15: 00007ffe497fe3d8
- </TASK>
+loop0: detected capacity change from 0 to 4096
+ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
+ntfs3(loop0): Mark volume as dirty due to NTFS errors
+==================================================================
+BUG: KASAN: slab-use-after-free in ntfs_read_hdr+0x938/0xc80 fs/ntfs3/dir.c:368
+Read of size 2 at addr ffff888037a69300 by task syz.0.0/5321
 
-Showing all locks held in the system:
-1 lock held by khungtaskd/37:
- #0: ffffffff8dfc80c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffffffff8dfc80c0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:838 [inline]
- #0: ffffffff8dfc80c0 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x2e/0x180 kernel/locking/lockdep.c:6775
-2 locks held by kworker/1:2/821:
-2 locks held by getty/5350:
- #0: ffff8880294be0a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
- #1: ffffc90003cb62e0 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x462/0x13a0 drivers/tty/n_tty.c:2211
-1 lock held by syz-executor/5783:
- #0: ffff88805a6da480 (sb_writers#5){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:493
-1 lock held by udevd/5884:
- #0: ffff888025b44480 (sb_writers#5){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:493
-4 locks held by udevd/6066:
-1 lock held by udevd/6089:
- #0: ffff888025b44480 (sb_writers#5){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:493
-6 locks held by kworker/u8:11/6125:
-4 locks held by syz.3.191/6522:
- #0: ffff88803fc8a480 (sb_writers#12){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:493
- #1: ffff888045ffb8d0 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: inode_lock_killable include/linux/fs.h:1034 [inline]
- #1: ffff888045ffb8d0 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: do_truncate+0x18f/0x250 fs/open.c:63
- #2: ffff888045ffb618 (&ni->ni_lock/5){+.+.}-{4:4}, at: ni_lock fs/ntfs3/ntfs_fs.h:1212 [inline]
- #2: ffff888045ffb618 (&ni->ni_lock/5){+.+.}-{4:4}, at: ntfs_set_size+0x134/0x240 fs/ntfs3/inode.c:696
- #3: ffff888045ffb6b8 (&ni->file.run_lock#3){++++}-{4:4}, at: ntfs_set_size+0x143/0x240 fs/ntfs3/inode.c:697
-3 locks held by syz.3.191/6530:
- #0: ffff88802d48e558 (&ima_iint_mutex_key[depth]){+.+.}-{4:4}, at: process_measurement+0x7fd/0x1c90 security/integrity/ima/ima_main.c:319
- #1: ffff888045ffbaa0 (mapping.invalidate_lock#3){++++}-{4:4}, at: filemap_invalidate_lock_shared include/linux/fs.h:1094 [inline]
- #1: ffff888045ffbaa0 (mapping.invalidate_lock#3){++++}-{4:4}, at: filemap_create_folio mm/filemap.c:2631 [inline]
- #1: ffff888045ffbaa0 (mapping.invalidate_lock#3){++++}-{4:4}, at: filemap_get_pages+0xb39/0x1e70 mm/filemap.c:2702
- #2: ffff888045ffb6b8 (&ni->file.run_lock#3){++++}-{4:4}, at: attr_data_get_block+0xc5/0x310 fs/ntfs3/attrib.c:964
-1 lock held by udevd/6655:
- #0: ffff888025b44480 (sb_writers#5){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:493
-5 locks held by udevd/6658:
-1 lock held by syz.4.832/8056:
-1 lock held by syz.0.835/8065:
-
-=============================================
-
-NMI backtrace for cpu 0
-CPU: 0 UID: 0 PID: 37 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
+CPU: 0 UID: 0 PID: 5321 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
 Call Trace:
  <TASK>
  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- nmi_cpu_backtrace+0x274/0x2d0 lib/nmi_backtrace.c:113
- nmi_trigger_cpumask_backtrace+0x17a/0x300 lib/nmi_backtrace.c:62
- trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
- __sys_info lib/sys_info.c:157 [inline]
- sys_info+0x135/0x170 lib/sys_info.c:165
- check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
- watchdog+0xfd3/0x1030 kernel/hung_task.c:561
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ ntfs_read_hdr+0x938/0xc80 fs/ntfs3/dir.c:368
+ ntfs_readdir+0x6f4/0xe40 fs/ntfs3/dir.c:504
+ iterate_dir+0x399/0x570 fs/readdir.c:110
+ __do_sys_getdents64 fs/readdir.c:399 [inline]
+ __se_sys_getdents64+0xf1/0x280 fs/readdir.c:384
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f777759ce59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f7778502fe8 EFLAGS: 00000246 ORIG_RAX: 00000000000000d9
+RAX: ffffffffffffffda RBX: 00007f7777815fa0 RCX: 00007f777759ce59
+RDX: 0000000000001020 RSI: 0000200000003cc0 RDI: 0000000000000004
+RBP: 00007f7777632d6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f7777816038 R14: 00007f7777815fa0 R15: 00007ffd4e630e18
  </TASK>
-Sending NMI from CPU 0 to CPUs 1:
-NMI backtrace for cpu 1
-CPU: 1 UID: 0 PID: 821 Comm: kworker/1:2 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
-Workqueue: events_power_efficient wg_ratelimiter_gc_entries
-RIP: 0010:reacquire_held_locks+0xbf/0x190 kernel/locking/lockdep.c:5386
-Code: 77 af fd 02 85 c0 74 1c 83 3d f0 8b e8 0d 00 75 13 48 8d 3d 63 ab eb 0d 48 c7 c6 b3 b7 71 8d 67 48 0f b9 3a 90 31 c0 4c 89 e7 <8b> 70 58 41 8b 46 fc 89 c2 c1 ea 0f 83 e2 01 89 c1 c1 e9 10 83 e1
-RSP: 0000:ffffc9000536f9b8 EFLAGS: 00000002
-RAX: ffffffff9313cbc8 RBX: ffffc9000536fa0c RCX: ffffc9000536fa0c
-RDX: 0000000000000003 RSI: 0000000000000004 RDI: ffffffff8dfc80c0
-RBP: 00000000ffffffff R08: ffffffff8b1fd920 R09: ffffffff8dfc80c0
-R10: dffffc0000000000 R11: fffffbfff1f1223f R12: 0000000000000003
-R13: 0000000000000003 R14: ffff888025fb8c94 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff888126270000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f3589994000 CR3: 000000005ba8c000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- __lock_release kernel/locking/lockdep.c:5574 [inline]
- lock_release+0x199/0x3c0 kernel/locking/lockdep.c:5889
- rt_spin_unlock+0x29/0x200 kernel/locking/spinlock_rt.c:80
- spin_unlock include/linux/spinlock_rt.h:109 [inline]
- wg_ratelimiter_gc_entries+0x3a8/0x480 drivers/net/wireguard/ratelimiter.c:76
+
+Allocated by task 5321:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __do_kmalloc_node mm/slub.c:5295 [inline]
+ __kmalloc_noprof+0x35c/0x760 mm/slub.c:5307
+ kmalloc_noprof include/linux/slab.h:954 [inline]
+ mi_init+0x76/0xe0 fs/ntfs3/record.c:105
+ ntfs_read_mft fs/ntfs3/inode.c:55 [inline]
+ ntfs_iget5+0x36a/0x38e0 fs/ntfs3/inode.c:542
+ dir_search_u+0x1fd/0x2e0 fs/ntfs3/dir.c:265
+ ntfs_lookup+0x100/0x1d0 fs/ntfs3/namei.c:85
+ __lookup_slow+0x2b7/0x410 fs/namei.c:1915
+ lookup_slow+0x53/0x70 fs/namei.c:1932
+ walk_component fs/namei.c:2278 [inline]
+ lookup_last fs/namei.c:2785 [inline]
+ path_lookupat+0x3f5/0x8c0 fs/namei.c:2809
+ filename_lookup+0x256/0x5d0 fs/namei.c:2838
+ do_fchownat+0xfa/0x250 fs/open.c:800
+ __do_sys_chown fs/open.c:824 [inline]
+ __se_sys_chown fs/open.c:822 [inline]
+ __x64_sys_chown+0x82/0xa0 fs/open.c:822
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 68:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2689 [inline]
+ slab_free mm/slub.c:6250 [inline]
+ kfree+0x1c5/0x640 mm/slub.c:6565
+ ni_try_remove_attr_list+0xd78/0xf30 fs/ntfs3/frecord.c:-1
+ ni_write_inode+0xa27/0xff0 fs/ntfs3/frecord.c:3191
+ write_inode fs/fs-writeback.c:1584 [inline]
+ __writeback_single_inode+0x75a/0x10e0 fs/fs-writeback.c:1827
+ writeback_sb_inodes+0x979/0x19d0 fs/fs-writeback.c:2056
+ __writeback_inodes_wb+0x111/0x240 fs/fs-writeback.c:2132
+ wb_writeback+0x459/0xb00 fs/fs-writeback.c:2243
+ wb_check_start_all fs/fs-writeback.c:2369 [inline]
+ wb_do_writeback fs/fs-writeback.c:2395 [inline]
+ wb_workfn+0x921/0xf10 fs/fs-writeback.c:2428
  process_one_work kernel/workqueue.c:3314 [inline]
  process_scheduled_works+0xb5d/0x1860 kernel/workqueue.c:3397
  worker_thread+0xa53/0xfc0 kernel/workqueue.c:3478
- kthread+0x388/0x470 kernel/kthread.c:436
+ kthread+0x389/0x470 kernel/kthread.c:436
  ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
+
+The buggy address belongs to the object at ffff888037a69000
+ which belongs to the cache kmalloc-1k of size 1024
+The buggy address is located 768 bytes inside of
+ freed 1024-byte region [ffff888037a69000, ffff888037a69400)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x37a68
+head: order:2 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0x4fff00000000040(head|node=1|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 04fff00000000040 ffff88801ac41dc0 dead000000000122 0000000000000000
+raw: 0000000000000000 0000000800080008 00000000f5000000 0000000000000000
+head: 04fff00000000040 ffff88801ac41dc0 dead000000000122 0000000000000000
+head: 0000000000000000 0000000800080008 00000000f5000000 0000000000000000
+head: 04fff00000000002 ffffffffffffff01 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000004
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 2, migratetype Unmovable, gfp_mask 0xd2040(__GFP_IO|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5321, tgid 5320 (syz.0.0), ts 85676669454, free_ts 85638163486
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x22d/0x280 mm/page_alloc.c:1858
+ prep_new_page mm/page_alloc.c:1866 [inline]
+ get_page_from_freelist+0x24ba/0x2540 mm/page_alloc.c:3946
+ __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5226
+ alloc_slab_page mm/slub.c:3278 [inline]
+ allocate_slab+0x77/0x660 mm/slub.c:3467
+ new_slab mm/slub.c:3525 [inline]
+ refill_objects+0x339/0x3d0 mm/slub.c:7271
+ refill_sheaf mm/slub.c:2816 [inline]
+ __pcs_replace_empty_main+0x321/0x720 mm/slub.c:4651
+ alloc_from_pcs mm/slub.c:4749 [inline]
+ slab_alloc_node mm/slub.c:4883 [inline]
+ __do_kmalloc_node mm/slub.c:5294 [inline]
+ __kmalloc_noprof+0x474/0x760 mm/slub.c:5307
+ kmalloc_noprof include/linux/slab.h:954 [inline]
+ mi_init+0x76/0xe0 fs/ntfs3/record.c:105
+ ntfs_read_mft fs/ntfs3/inode.c:55 [inline]
+ ntfs_iget5+0x36a/0x38e0 fs/ntfs3/inode.c:542
+ dir_search_u+0x1fd/0x2e0 fs/ntfs3/dir.c:265
+ ntfs_extend_init+0x247/0x500 fs/ntfs3/fsntfs.c:250
+ ntfs_fill_super+0x41ec/0x4580 fs/ntfs3/super.c:1661
+ get_tree_bdev_flags+0x431/0x4f0 fs/super.c:1694
+ vfs_get_tree+0x92/0x2a0 fs/super.c:1754
+ fc_mount fs/namespace.c:1193 [inline]
+ do_new_mount_fc fs/namespace.c:3758 [inline]
+ do_new_mount+0x341/0xd30 fs/namespace.c:3834
+ do_mount fs/namespace.c:4167 [inline]
+ __do_sys_mount fs/namespace.c:4383 [inline]
+ __se_sys_mount+0x31d/0x420 fs/namespace.c:4360
+page last free pid 5321 tgid 5320 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ __free_pages_prepare mm/page_alloc.c:1402 [inline]
+ __free_frozen_pages+0xbc7/0xd30 mm/page_alloc.c:2943
+ stack_depot_save_flags+0x40e/0x810 lib/stackdepot.c:735
+ kasan_save_stack mm/kasan/common.c:58 [inline]
+ kasan_save_track+0x4f/0x80 mm/kasan/common.c:78
+ unpoison_slab_object mm/kasan/common.c:340 [inline]
+ __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:366
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4569 [inline]
+ slab_alloc_node mm/slub.c:4898 [inline]
+ kmem_cache_alloc_lru_noprof+0x2b8/0x640 mm/slub.c:4917
+ ntfs_alloc_inode+0x28/0x80 fs/ntfs3/super.c:631
+ alloc_inode+0x6a/0x1b0 fs/inode.c:345
+ iget5_locked+0x4a/0xa0 fs/inode.c:1382
+ ntfs_iget5+0xc1/0x38e0 fs/ntfs3/inode.c:535
+ ntfs_fill_super+0x3e5a/0x4580 fs/ntfs3/super.c:1615
+ get_tree_bdev_flags+0x431/0x4f0 fs/super.c:1694
+ vfs_get_tree+0x92/0x2a0 fs/super.c:1754
+ fc_mount fs/namespace.c:1193 [inline]
+ do_new_mount_fc fs/namespace.c:3758 [inline]
+ do_new_mount+0x341/0xd30 fs/namespace.c:3834
+ do_mount fs/namespace.c:4167 [inline]
+ __do_sys_mount fs/namespace.c:4383 [inline]
+ __se_sys_mount+0x31d/0x420 fs/namespace.c:4360
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Memory state around the buggy address:
+ ffff888037a69200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888037a69280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff888037a69300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                   ^
+ ffff888037a69380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888037a69400: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
 
 
 ---
@@ -263,10 +257,6 @@ https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
 If the report is already addressed, let syzbot know by replying with:
 #syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
 
 If you want to overwrite report's subsystems, reply with:
 #syz set subsystems: new-subsystem
