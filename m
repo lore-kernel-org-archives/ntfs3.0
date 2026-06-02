@@ -1,68 +1,91 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8EA389DE3
-	for <ntfs3@lists.linux.dev>; Tue,  2 Jun 2026 14:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13872192F9
+	for <ntfs3@lists.linux.dev>; Tue,  2 Jun 2026 20:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780410777; cv=none; b=grQr+aWvp5pXsULIwu6q+irWby++rcGpry+H4g5he8HVzyfYevIzrsJaO/H5IQf0qUyNX12M9I2NmvGJ5+VocALbLHX70b+Ln0Uk/r9WS/iP+6xmksw1UqnlW4XTXmPd6VJwl5Itsd8GRpWW1NaRuyNFv8Posyii7fyMdCfBe9A=
+	t=1780432349; cv=none; b=V2EzJAAMT1y8d4FuqdHEgk2bzOjByJpGNEbmtA2HYnP37+uRDNua31F1I5rF6R6YFpFMYMNVELN1x6f02Ay+gGUkcM89D2LD7F+yG9nSgOQPlN3YbPc1G4/18nf81ZfllFI78vO+5bzwj0c4T1EU33jRbG1WSC/MEODxDFWKwWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780410777; c=relaxed/simple;
-	bh=5pB2vNZK7No3uIx0vJd7QJ49I/YOs4WbGsnMVTlnHmg=;
-	h=Message-ID:Date:MIME-Version:To:CC:From:Subject:Content-Type; b=sZ1e7LVr/5zO7WuQTjVq9Wfia925941wHpMY8TC4PNs2nt0kmVBa++P4vWSTCvwKl1QSoC1Ud1eWtYmLpkMoDGi9QuVx9KdqkkDg1zhllhW4Vb3E6B86IPBCh065EBHKIf6s8bKRKXqKEndQco0+Lo7mFU5EpSuKhwJWfFmiB1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=G2V8GmnD; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="G2V8GmnD"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 353081D3F;
-	Tue,  2 Jun 2026 14:32:55 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=G2V8GmnD;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id BD4A41D26;
-	Tue,  2 Jun 2026 14:32:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1780410773;
-	bh=5pB2vNZK7No3uIx0vJd7QJ49I/YOs4WbGsnMVTlnHmg=;
-	h=Date:To:CC:Reply-To:From:Subject;
-	b=G2V8GmnDpiv1wP6blSoG0/4YzPOhb+q9r47AyVtHl/tkiFuVZlv9NPpO8cnXqsIgl
-	 dB08TqFRVJ3m7am74o46qQeQr1ep/KlyP4ph/n1EuMegdlawGaBFXwXR0hRluYzSIx
-	 tEVUJvTHUcZ5tZ9vJ0OQWmQZqllIGdS0px1dpdDA=
-Received: from [192.168.95.128] (172.30.20.149) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 2 Jun 2026 17:32:53 +0300
-Message-ID: <75b58d74-24c8-41bc-8e20-7704ee287f08@paragon-software.com>
-Date: Tue, 2 Jun 2026 16:32:51 +0200
+	s=arc-20240116; t=1780432349; c=relaxed/simple;
+	bh=HMnZNs+d9R7Tgc3HE7c5SW9sQVVlHC7wvRIo6JYgkU0=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=rnMN7UaXZuDDRvqQudzlCc9uc8JuUqRSPLwDXBpnXppcjb0j/SUBgkuFwtjfizhoHVYUZOwr3+fazy8i28xwsUBcKRs2Rv4bbIHRbEo/4G6mMDllU5r54O/Mdajz+45zZRGEn6h3NesOzrMgTLSJoaeFkQ84D/H7yK6mdPuFFzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-69e45c65b5eso650466eaf.2
+        for <ntfs3@lists.linux.dev>; Tue, 02 Jun 2026 13:32:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780432347; x=1781037147;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=drx1GfcGrZibJxFfCokStljH63Tsy2tWkatIme3Dhl8=;
+        b=PNg61ZNtLeztVfigMcpgQ9r5xbbnZV0BHqsQX1eBizxrbPWSagTLPISvW3atfCyxoL
+         eE6rGrQNkHFthl4qHJPIAQPiYHQAkJXU+G/E+QRKEI2GrG/6fdygNUewQoKMgBgHCfJi
+         djYwf8aakps6FE9dcTGb2ByW8oQlcbKgts4jQOvq9Vpw8ak66zA6bcxaK9aBtWv8OeJv
+         KW+DW/eRwDUulbr15B7FPobbMKHI7fWEC5OU+CutbQwFb/4iSaZNVJwuAmTh1YyyeBrN
+         7EdFiY5P9j3pEk9qAzYDuXSm98jkTb+A67X4bLqJm02L/k7Ngi1RFGzkVmXS9LLWEyqg
+         9A/g==
+X-Forwarded-Encrypted: i=1; AFNElJ/5PG9MFN8xkQdd/3T/8m9y8osUta+BYfv2Ut28nJR1qfSd/95itdJpBLbv/7UO4/9IOGgspA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUxqlFsCEByE0cqbRcZfAM6cxNd6fnbIj62R81CU4bptWu9dEn
+	vSxwTOT+irrmygh3kR2fGU3ixacqAOvjyv5glkyZNrEkiWLwEaRSAdtozWrQegSkZtf7gAqS6Gj
+	erQULi+8H54N376Lfk/W6r23pu/OHvU8MDR8JbifVTMEpE+h7B26jnJ7yjlI=
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: <saarthal@libero.it>
-CC: Ntfs3 <ntfs3@lists.linux.dev>
-Reply-To: <2020820791.1843094.1777717495048@mail1.libero.it>
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: File operations on NTFS drives causes kernel BUG at
- fs/iomap/buffered-io.c:1061
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Received: by 2002:a4a:d1ab:0:b0:69d:d865:92b1 with SMTP id
+ 006d021491bc7-69e47ed51cbmr300218eaf.25.1780432347214; Tue, 02 Jun 2026
+ 13:32:27 -0700 (PDT)
+Date: Tue, 02 Jun 2026 13:32:27 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a1f3ddb.7b89b7e1.205e57.0008.GAE@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Jun 2026)
+From: syzbot <syzbot+list013626ba288e4441207f@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Hello ntfs3 maintainers/developers,
 
-Thanks for the report. ntfs3 has had several changes in the buffered-write
-path recently - one of those may already address this. The changes aren't
-in mainline yet, but they're queued for the 7.2 merge window. Could you try
-7.2-rc1 once it's out and follow up on whether the problem still reproduces?
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-Regards,
-Konstantin
+During the period, 3 new issues were detected and 0 were fixed.
+In total, 15 issues are still open and 91 have already been fixed.
+There are also 2 low-priority issues.
 
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 3711    Yes   possible deadlock in attr_data_get_block (2)
+                  https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+<2> 523     Yes   possible deadlock in ntfs_fallocate
+                  https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
+<3> 39      Yes   WARNING in errseq_set (2)
+                  https://syzkaller.appspot.com/bug?extid=57f9327d593d301ce2a2
+<4> 8       No    KASAN: slab-use-after-free Read in ntfs_iget5
+                  https://syzkaller.appspot.com/bug?extid=4d48dcd9e88d37df77b3
+<5> 6       Yes   INFO: task hung in attr_data_get_block (2)
+                  https://syzkaller.appspot.com/bug?extid=ca081116e9150ecfe495
+<6> 2       No    KASAN: slab-use-after-free Read in ntfs_read_hdr
+                  https://syzkaller.appspot.com/bug?extid=233bcd55d51543e76e99
+<7> 2       No    WARNING in attr_data_get_block_locked (2)
+                  https://syzkaller.appspot.com/bug?extid=7be6ad5cb228286af3e3
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
