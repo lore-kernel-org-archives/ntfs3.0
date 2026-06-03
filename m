@@ -1,91 +1,133 @@
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13872192F9
-	for <ntfs3@lists.linux.dev>; Tue,  2 Jun 2026 20:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E30397691
+	for <ntfs3@lists.linux.dev>; Wed,  3 Jun 2026 14:40:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780432349; cv=none; b=V2EzJAAMT1y8d4FuqdHEgk2bzOjByJpGNEbmtA2HYnP37+uRDNua31F1I5rF6R6YFpFMYMNVELN1x6f02Ay+gGUkcM89D2LD7F+yG9nSgOQPlN3YbPc1G4/18nf81ZfllFI78vO+5bzwj0c4T1EU33jRbG1WSC/MEODxDFWKwWI=
+	t=1780497629; cv=none; b=OERIoRuDIrnwOVE/E9sioRuJGy111Wsb5zoEsNbJzAI9pYLukvVa9UWsQGs7bejTeGeRUkVTk5yVFt6BmNY+rCsFC6cOsfvlDbTy+cEAGuXTqdiAdCO8t66rgYlD0M4EpkFeiF2pgGY5iAEka2nPwFu5cqk4tkgXs9SYfq8QFdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780432349; c=relaxed/simple;
-	bh=HMnZNs+d9R7Tgc3HE7c5SW9sQVVlHC7wvRIo6JYgkU0=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=rnMN7UaXZuDDRvqQudzlCc9uc8JuUqRSPLwDXBpnXppcjb0j/SUBgkuFwtjfizhoHVYUZOwr3+fazy8i28xwsUBcKRs2Rv4bbIHRbEo/4G6mMDllU5r54O/Mdajz+45zZRGEn6h3NesOzrMgTLSJoaeFkQ84D/H7yK6mdPuFFzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-69e45c65b5eso650466eaf.2
-        for <ntfs3@lists.linux.dev>; Tue, 02 Jun 2026 13:32:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780432347; x=1781037147;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=drx1GfcGrZibJxFfCokStljH63Tsy2tWkatIme3Dhl8=;
-        b=PNg61ZNtLeztVfigMcpgQ9r5xbbnZV0BHqsQX1eBizxrbPWSagTLPISvW3atfCyxoL
-         eE6rGrQNkHFthl4qHJPIAQPiYHQAkJXU+G/E+QRKEI2GrG/6fdygNUewQoKMgBgHCfJi
-         djYwf8aakps6FE9dcTGb2ByW8oQlcbKgts4jQOvq9Vpw8ak66zA6bcxaK9aBtWv8OeJv
-         KW+DW/eRwDUulbr15B7FPobbMKHI7fWEC5OU+CutbQwFb/4iSaZNVJwuAmTh1YyyeBrN
-         7EdFiY5P9j3pEk9qAzYDuXSm98jkTb+A67X4bLqJm02L/k7Ngi1RFGzkVmXS9LLWEyqg
-         9A/g==
-X-Forwarded-Encrypted: i=1; AFNElJ/5PG9MFN8xkQdd/3T/8m9y8osUta+BYfv2Ut28nJR1qfSd/95itdJpBLbv/7UO4/9IOGgspA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUxqlFsCEByE0cqbRcZfAM6cxNd6fnbIj62R81CU4bptWu9dEn
-	vSxwTOT+irrmygh3kR2fGU3ixacqAOvjyv5glkyZNrEkiWLwEaRSAdtozWrQegSkZtf7gAqS6Gj
-	erQULi+8H54N376Lfk/W6r23pu/OHvU8MDR8JbifVTMEpE+h7B26jnJ7yjlI=
+	s=arc-20240116; t=1780497629; c=relaxed/simple;
+	bh=QCvezOOFem8vSjdh7KRvh9+XQIHIrK1N1KJUb7V0KJE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=bEf+zqgiVYHVdQ1Kvm0YUnlxb2uZuPL8KbvdJUdiG2CLrF37OporcYSLbPVuw5yNZ3+fPXIGCK436utHFiCnAP+lhP4JAuC0L8B4xK4i6R6DGOzuihRWbAc8tT1yHTFCTfPMwKk+wHTtxAXr28A6MuZRrqIzRqDYyPK3bqVKdM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=pxmSsQ+7; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="pxmSsQ+7"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 1A9DC1D40;
+	Wed,  3 Jun 2026 14:40:21 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=pxmSsQ+7;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id D2EF6223E;
+	Wed,  3 Jun 2026 14:40:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1780497619;
+	bh=ZvLSfeUx87wEYCxwP7qXNOB4NvHqMJCSpqJa7Jnbzzw=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=pxmSsQ+7RbrgsDuJU87BRjyT7i84Nf7Vq2qIZK9aHmstAsdrJTv2ixPfCt3zrhU8x
+	 g8fKZJ/R19zC9BM8WLDAH+TyIx6vWCqYaI1auinJUjdsfzary3AMT1NyepDyWTalUD
+	 BzOHIB6anXEHXLheVQPcx/C+99C854nLsd0Uot5U=
+Received: from [192.168.95.128] (172.30.20.205) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 3 Jun 2026 17:40:18 +0300
+Message-ID: <f67c98bc-88de-48e9-a510-1542a76e6c41@paragon-software.com>
+Date: Wed, 3 Jun 2026 16:40:17 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a4a:d1ab:0:b0:69d:d865:92b1 with SMTP id
- 006d021491bc7-69e47ed51cbmr300218eaf.25.1780432347214; Tue, 02 Jun 2026
- 13:32:27 -0700 (PDT)
-Date: Tue, 02 Jun 2026 13:32:27 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a1f3ddb.7b89b7e1.205e57.0008.GAE@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Jun 2026)
-From: syzbot <syzbot+list013626ba288e4441207f@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs/ntfs3: validate lcns_follow in log_replay conversion
+To: Pavitra Jha <jhapavitra98@gmail.com>
+CC: <linux-kernel@vger.kernel.org>, <ntfs3@lists.linux.dev>,
+	<stable@vger.kernel.org>
+References: <20260502154252.164586-1-jhapavitra98@gmail.com>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20260502154252.164586-1-jhapavitra98@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hello ntfs3 maintainers/developers,
+On 5/2/26 17:42, Pavitra Jha wrote:
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+> log_replay() converts DIR_PAGE_ENTRY_32 records into DIR_PAGE_ENTRY
+> records when replaying version 0 restart tables.
+>
+> During this conversion, the memmove() length is derived directly from
+> the on-disk lcns_follow field:
+>
+> 	memmove(&dp->vcn, &dp0->vcn_low,
+> 		2 * sizeof(u64) +
+> 				le32_to_cpu(dp->lcns_follow) * sizeof(u64));
+>
+> check_rstbl() validates restart table structure, but does not constrain
+> per-entry lcns_follow values relative to the entry size. A malformed
+> filesystem image can provide an oversized lcns_follow value, causing
+> the conversion memmove() to access memory beyond the bounds of the
+> allocated restart table buffer.
+>
+> The same field is later used to bound iteration over page_lcns[],
+> so validating lcns_follow during conversion also prevents downstream
+> out-of-bounds access from the same malformed metadata.
+>
+> Compute the maximum valid lcns_follow from the already-validated
+> restart table entry size and reject entries that exceed this bound.
+> Reuse the existing t16/t32 scratch variables already declared in
+> log_replay() to avoid introducing new declarations.
+>
+> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Pavitra Jha <jhapavitra98@gmail.com>
+> ---
+>   fs/ntfs3/fslog.c | 15 ++++++++++++---
+>   1 file changed, 12 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+> index c0237f7d0..91dc2d503 100644
+> --- a/fs/ntfs3/fslog.c
+> +++ b/fs/ntfs3/fslog.c
+> @@ -4215,13 +4215,22 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+>   	if (rst->major_ver)
+>   		goto end_conv_1; /* reduce tab pressure. */
+>   
+> +	t16 = le16_to_cpu(dptbl->size);
+> +	if (t16 < sizeof(struct DIR_PAGE_ENTRY))
+> +		goto dirty_vol;
+> +
+> +	t32 = (t16 - sizeof(struct DIR_PAGE_ENTRY)) / sizeof(u64);
+> +
+>   	dp = NULL;
+>   	while ((dp = enum_rstbl(dptbl, dp))) {
+>   		struct DIR_PAGE_ENTRY_32 *dp0 = (struct DIR_PAGE_ENTRY_32 *)dp;
+> -		// NOTE: Danger. Check for of boundary.
+> +		u32 lcns = le32_to_cpu(dp->lcns_follow);
+> +
+> +		if (lcns > t32)
+> +			goto dirty_vol;
+> +
+>   		memmove(&dp->vcn, &dp0->vcn_low,
+> -			2 * sizeof(u64) +
+> -				le32_to_cpu(dp->lcns_follow) * sizeof(u64));
+> +			2 * sizeof(u64) + lcns * sizeof(u64));
+>   	}
+>   
+>   end_conv_1:
 
-During the period, 3 new issues were detected and 0 were fixed.
-In total, 15 issues are still open and 91 have already been fixed.
-There are also 2 low-priority issues.
+Hello,
 
-Some of the still happening issues:
+Sorry for the delay.
+Your patch was applied, thank you.
 
-Ref Crashes Repro Title
-<1> 3711    Yes   possible deadlock in attr_data_get_block (2)
-                  https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
-<2> 523     Yes   possible deadlock in ntfs_fallocate
-                  https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
-<3> 39      Yes   WARNING in errseq_set (2)
-                  https://syzkaller.appspot.com/bug?extid=57f9327d593d301ce2a2
-<4> 8       No    KASAN: slab-use-after-free Read in ntfs_iget5
-                  https://syzkaller.appspot.com/bug?extid=4d48dcd9e88d37df77b3
-<5> 6       Yes   INFO: task hung in attr_data_get_block (2)
-                  https://syzkaller.appspot.com/bug?extid=ca081116e9150ecfe495
-<6> 2       No    KASAN: slab-use-after-free Read in ntfs_read_hdr
-                  https://syzkaller.appspot.com/bug?extid=233bcd55d51543e76e99
-<7> 2       No    WARNING in attr_data_get_block_locked (2)
-                  https://syzkaller.appspot.com/bug?extid=7be6ad5cb228286af3e3
+Regards,
+Konstantin
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
