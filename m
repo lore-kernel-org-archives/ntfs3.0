@@ -1,120 +1,139 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F7C23EAB8
-	for <ntfs3@lists.linux.dev>; Sat,  6 Jun 2026 11:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A76A4071C6
+	for <ntfs3@lists.linux.dev>; Sun,  7 Jun 2026 02:33:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780743912; cv=none; b=dIU/WvI+YApN3hcP/jNlk31b3rXizejbq9mfgeNV96Hs1h3XP28YyaN+5pd2TGWMotw4fh+uoyWBORpqOTh3Ec6e1sthL52BalVWAdVjEmTyMU0aQOhitFeAT3pM9ATXIr2XTcuxtP7zG8E3gXpXOJmphdpCNH+uyKNVKlwxUuA=
+	t=1780799630; cv=none; b=ElNWV71YxsHh7MLHXemqwjmHFUqPEeLOFwkSsYGhNQXd0+RkLStFb9RVfn6Rqp9FYF/u4+d1KOXR3ttSenqVMmUKfb0J+4on/ZKjfz2nYOAw2hqEwi6lE4GP6GGUfuGcxfpVFIpVGv5lfVI0qeDDtGMcj+DDqQ/SuR78IdJxHQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780743912; c=relaxed/simple;
-	bh=rrZb6Ta4c7i2Oflor+d3spOg4ZD2PUkEHagIDH4s3Yo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dbAQrZeA+jntr/sWt/O2OIXTtIilfOBLtLRvYz80nkrwci/h4xMrvpZpQjiieAH2L1lm24xnRkGXI5ChWl45nMwdx7fKtgPkzdf3NAwnugK/7jK2RNflLK1i4d/S8GnZZyIIVeEnDI4If0NmZNNt2daRZCkUnhglUOfLgXwFDbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=NYC7E//e; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1780799630; c=relaxed/simple;
+	bh=TYRFTol04DcTPCQsfZGY9eXn4uQ6nAvd6tpADfLwihE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=j5Qg4ivsROXvjMO1ryZk0zIzlYeQ/2QSS8EfW/ynZmYfwOKBpCBol3W8VfxGkXYcv5RnpqAmA6u0hhaELUas15XkVOfcC/4SW/H38gfXk/Hn2csjZ1cNzCQbQvVG8eg7ih/vs+3Uq8UdMQcX+g7t1vhgnkVP1bgza+RZ473nuJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iTtPsIu3; arc=none smtp.client-ip=209.85.214.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="NYC7E//e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1780743907; bh=zD5XM3vbE38TnGRFFZ49dxmzWsjnLL8sJOiSHEOoav8=;
-	h=From:Message-ID:From;
-	b=NYC7E//e0NrC6Z3gKFZO23oIv9cbKY63ju6DYB4vceShrxNVdHwx7lC4btThe3k+A
-	 hdTgOQ3kDwHpnXIlzTW9NCC4Ktb/lc3Xl4Py+rmJqmETquugDNbRWxZ7zs6x4tT9g/
-	 I69JrlS/m5b16YvyzYz4/lFAtm4mAojO22iEGZoE=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id AEB0BC0A3C;
-	Sat, 06 Jun 2026 13:05:07 +0200 (CEST)
-Date: Sat, 6 Jun 2026 13:05:07 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: sdj asj <sdjasjbuaa@gmail.com>
-Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [SECURITY] ntfs3: direct $LX* xattr writes can create a root
- SUID file
-Message-ID: <aiP-42fhOyMGK8Yg@1wt.eu>
-References: <CAFTRC0=MDbnsNtb4-p7v4Hy9P-U4PsJuWv7s4MX0aEZcMxDVHw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iTtPsIu3"
+Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-2bf1f074a12so33328475ad.0
+        for <ntfs3@lists.linux.dev>; Sat, 06 Jun 2026 19:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780799628; x=1781404428; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sf8jhK6nc/0IRduDkKHSSZmTS2M+HMVohcyT9/mAbFY=;
+        b=iTtPsIu3NZhOE94hYVfy6E3RQZ10ema6g30/A9jUr7plKkXEJSeHmy2QcVGqsIvBF+
+         vPs1mr8TCmicEtb4KBaKM4xCdaRiOBHYVptUK1YWTsdJw0UGpCavka1iBLg+BDjehBim
+         gVClXjZW3jtHPcYZmGyLjJWCsc/2USqx7f1lU1UfDB8BcGOgHSEotbgiWdnDxQPNBub2
+         WNmerAZ8FemRNU5QvFzaNHiAIeHsMl1mPLu6883RsUyyiFrQPEbgEuB4QERg4UPgRadg
+         8ts/E8/NotXJ2lSJbnBlGfUCyEQeoHXLFBglMGiQzsXlnnCb0XEr6yYBJwo4XbO7auMW
+         PdDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780799628; x=1781404428;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sf8jhK6nc/0IRduDkKHSSZmTS2M+HMVohcyT9/mAbFY=;
+        b=o/xtDUgDtvrhACE18mVeZxF74bKH2VI4curq0y3yzGJ2zNlozJEOa1n3ZSG57ko0F3
+         dTU6rqemXrp3LwVBjk8MvylMmP1RvLcFs5UUyJoTTS7IKUxVU52ACWTjAg4WGSnq5MVn
+         MqQ0htmXHEuEB6fxPlCPNCbt1erfTaaTX2lgFz4zvYuaRCHfT+PLGbQCxTQY3eGqFks6
+         Q00rDnUKoXMQyh9KFh6gQlw6v+eZzPL7pBH0rVFklS89eqY8E768aXYpY6lMUL6ppPRG
+         VXDGI807EgIt6/pCVI7lDA57WycjCql3c64uqEt7KaRs39jTdxXTGBAeIFxmfL2xmQsi
+         uQeA==
+X-Gm-Message-State: AOJu0YxGjKipzYJ40OTGpbKYmtot+ehMvREytyyap6I7+0XHIZTYR2uf
+	Z9Y6gwCplIScd/dXmOD84wTswEg5wfctRtPkfcQpYYAY53vWUXDOaksV
+X-Gm-Gg: Acq92OFecqeut8IMv4ulnBl5rzC1O4GDu4/Y5nYjHWy+pzDLOYOBVMzId3ypZb42KBA
+	c4NWw1VxJbae0sOuoeHVO7P6oN4BdRDPuj529vXhJzQBV4Tt3AasQyrJQ+0WPC7YKX/Z4Wk+aEF
+	yoNoyq4agv1XNY+OhUzFeN7iiefohimlaOlJM6iQ5cZynD3hbLThVasUIYb0rp9PmoSSc6vZZkS
+	YWYo8MCoSh4R1n5eB2aiJVI1ZwTl63PRz+WAZRzDyiP15hSnoK1Mz3BgOqzd5h7Uf+u92Z1XKQG
+	0foo8OFLqRxfSGgLPxykNduo4xWUnZMlR2ptFZgSvJ3+yA0HCgrHBCFMG2EnYg5AEszjFo1t4DD
+	sF8qrVLfBEQI964oJGKBeGe5o/o87qT5tclC+pt7HxDV/J9zk5kOQxnIlHNXnbCS5DKWEdS2WCu
+	ah7FqgB+AX5fgVhlY4lTaay/mLmcyV6pEcPUl63G0tXei47IrZeeJozclTY4DKrK0=
+X-Received: by 2002:a17:903:22c9:b0:2bf:2015:5b93 with SMTP id d9443c01a7336-2c1e82125f8mr106857595ad.11.1780799628294;
+        Sat, 06 Jun 2026 19:33:48 -0700 (PDT)
+Received: from LAPTOP-F6NHKUER.antgroup-inc.local ([8.141.222.131])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609e636sm137611035ad.51.2026.06.06.19.33.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Jun 2026 19:33:47 -0700 (PDT)
+From: Zhen Yan <sdjasjbuaa@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ntfs3: reject direct userspace writes to reserved $LX* xattrs
+Date: Sun,  7 Jun 2026 10:33:39 +0800
+Message-Id: <20260607023339.6728-1-sdjasjbuaa@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <aiP-42fhOyMGK8Yg@1wt.eu>
+References: <aiP-42fhOyMGK8Yg@1wt.eu>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFTRC0=MDbnsNtb4-p7v4Hy9P-U4PsJuWv7s4MX0aEZcMxDVHw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hello,
+NTFS3 uses $LXUID, $LXGID, $LXMOD and $LXDEV as internal WSL
+permission metadata and reloads them into i_uid, i_gid and i_mode
+from ntfs_get_wsl_perm().
 
-[moved the security list to bcc since the message was sent to public lists]
+Because the empty-prefix xattr handler also lets file owners call
+setxattr() on these names directly, an unprivileged writer on a
+writable ntfs3 mount can plant root ownership and S_ISUID on their own
+file and gain euid 0 after inode reload.
 
-Comments below anyway.
+Reject direct userspace writes to the reserved $LX* names. Internal
+ntfs3 metadata updates are unchanged because ntfs_save_wsl_perm()
+writes them via ntfs_set_ea() directly.
 
-On Sat, Jun 06, 2026 at 06:57:01PM +0800, sdj asj wrote:
-> PoC
-> 
-> The core userspace trigger is just direct setxattr() on $LXUID/$LXGID/$LXMOD
-> followed by inode reload. The following is copy/paste runnable on a vulnerable
-> kernel if /mnt/ntfs3 is a writable NTFS3 mount:
-(...)
+Signed-off-by: Zhen Yan <sdjasjbuaa@gmail.com>
+---
+Willy, thanks for the review. Replying to your points:
 
-It's usually not a good idea to send proof of concepts to public lists
-as it tends to add pressure to maintainers who feel like they need to
-apply an urgent fix.
+ - Tested on v7.1-rc5: builds clean (W=1, no warnings), checkpatch
+   clean, and the original reproducer no longer triggers -- the
+   setxattr() calls now return -EPERM and uid/gid/mode survive an
+   inode reload. Internal WSL metadata is unaffected:
+   ntfs_save_wsl_perm() writes via ntfs_set_ea(), not ntfs_setxattr().
+ - Resent via git format-patch / git send-email so whitespace is no
+   longer mangled, with no PoC in the body and security@ dropped.
 
-> Proposed fix:
+ fs/ntfs3/xattr.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Was this tested ?
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index 9eeac0ab2..0bc633025 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -851,6 +851,14 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
+ 	return err;
+ }
+ 
++static bool ntfs_is_reserved_lxattr(const char *name)
++{
++	return !strcmp(name, "$LXUID") ||
++	       !strcmp(name, "$LXGID") ||
++	       !strcmp(name, "$LXMOD") ||
++	       !strcmp(name, "$LXDEV");
++}
++
+ /*
+  * ntfs_setxattr - inode_operations::setxattr
+  */
+@@ -955,6 +963,11 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
+ 		goto out;
+ 	}
+ 
++	if (ntfs_is_reserved_lxattr(name)) {
++		err = -EPERM;
++		goto out;
++	}
++
+ 	/* Deal with NTFS extended attribute. */
+ 	err = ntfs_set_ea(inode, name, strlen(name), value, size, flags, 0,
+ 			  NULL);
+-- 
+2.25.1
 
-> [PATCH] ntfs3: reject direct userspace writes to reserved $LX* xattrs
-> 
-> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-> index 9eeac0ab2..0bc633025 100644
-> --- a/fs/ntfs3/xattr.c
-> +++ b/fs/ntfs3/xattr.c
-> @@ -851,6 +851,14 @@ static int ntfs_getxattr(const struct
-> xattr_handler *handler, struct dentry *de,
->   return err;
->  }
-> 
-> +static bool ntfs_is_reserved_lxattr(const char *name)
-> +{
-> + return !strcmp(name, "$LXUID") ||
-> +        !strcmp(name, "$LXGID") ||
-> +        !strcmp(name, "$LXMOD") ||
-> +        !strcmp(name, "$LXDEV");
-> +}
-> +
->  /*
->   * ntfs_setxattr - inode_operations::setxattr
->   */
-> @@ -955,6 +963,11 @@ static noinline int ntfs_setxattr(const struct
-> xattr_handler *handler,
->     goto out;
->   }
-> 
-> + if (ntfs_is_reserved_lxattr(name)) {
-> +   err = -EPERM;
-> +   goto out;
-> + }
-> +
->   /* Deal with NTFS extended attribute. */
->   err = ntfs_set_ea(inode, name, strlen(name), value, size, flags, 0,
->         NULL);
-
-Please see Documentation/process/submitting-patches.rst to see how to
-turn this into a real patch that can be applied, which if accepted, will
-get you credit for finding and fixing this bug.
-
-Also please check Documentation/process/email-clients.rst to find how to
-fix your mailer which mangled spaces and tabs as you can see above.
-
-> This report was prepared with AI assistance, so I am treating it as public
-> per Documentation/process/security-bugs.rst.
-
-Thanks! Please note that the doc asks not to share PoCs with public
-lists, and suggests not to Cc security@ in this case either. It also
-asks to provide a tested patch.
-
-Thanks,
-Willy
