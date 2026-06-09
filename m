@@ -1,149 +1,77 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from forward102b.mail.yandex.net (forward102b.mail.yandex.net [178.154.239.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595F83DD503
-	for <ntfs3@lists.linux.dev>; Tue,  9 Jun 2026 07:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F49E3FFF80
+	for <ntfs3@lists.linux.dev>; Tue,  9 Jun 2026 12:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780991899; cv=none; b=W9jW1ZSZ6QbGXT/qrXv9Iy/8RMoaSFwdsJ13Hav9jHy+/9QNC6cYEogciexBFdVpU+sfOAnoEdUbgJZr3Dx/g4jWOlOS/uyiWnwqoOo5Ua5nxTfay9keWgO/V+n4K1ah1tqIC28MX2Naig/Ddk/wuRXRF03mqCRzglkcIGLTE98=
+	t=1781008790; cv=none; b=VgI3KJrdCXU+nLP/Q7QEfA62tHeNjlxfBg49Tu7W/F3DB6SbZO4Z5CVlWo1kyvqKiJ5gDja/lpD2lWV9mcCP0PtGX1HQap9H+JWa25KTYDRtUTRpHkfCxdHbgfh5flyzmM00zsXiUgfVoaB5sPa6BjNA/nDW2QP1aXKlaX/Watk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780991899; c=relaxed/simple;
-	bh=RDOcPn/xU2uPRQtL5VHOkXLvrUydkW8frKscEXMzVRc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=KOgN8jTAfidYNIoh94KXfShjfHwUtnLUY6yMYfJhouZ4q4s7tzhfBlrozsTnnuiILmFQdOv4lzb4h7kYxC4Mi8q2Z+kQrVgRP3GSS9pOSuePdx7rMwYsnZntuwDM/znS0QeJXXSvNUW40BdMN+7vzpZ+MSswlGNVysHq20dWlMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=rlPT9NW7; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1781008790; c=relaxed/simple;
+	bh=BLSsBptSpjjSNayMxsbaiKpo9MlgZu2gvXX/u6Kgkqw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eXmw/JMonKgrO8nzU1i0baydyoqNL3PXLLeKniPAJYa1BY3TYvk3MpI7db7MXWei0yWswpR6rScgAQIL574shIJ1Tzez4RKd81LuZS8HeQLOSDL59uOUDFzKyr/uK1bCQWa6h17YzOYYvSsS86QMVyyjp3Bb7WhzxUd3obT7Txs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=IXIelmgb; arc=none smtp.client-ip=178.154.239.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="rlPT9NW7"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 8656B1D47;
-	Tue,  9 Jun 2026 07:58:16 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=rlPT9NW7;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 675281D11;
-	Tue,  9 Jun 2026 07:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1780991892;
-	bh=t/1lqggVdh0EtgxqEJPZrNDXyANk06hSIIRq/QhQmpk=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=rlPT9NW7ZdrIC1YDzz+x3z475bvkDcMSiYLQvtmc0mkcaF2x/V0IPF34ZuPMaVt/e
-	 pJIMc8BVVTcr/Za2kxW4mvr3PudxvYK9P6t4enLS2DKEK7vKWV5tpcCzdAZMlM39ZD
-	 zxjniuXKGEJ0J0VROMZ0ucUn6a9OAnwBiK5agLws=
-Received: from [192.168.95.128] (172.30.20.172) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 9 Jun 2026 10:58:11 +0300
-Message-ID: <09b96f47-bf57-4af3-b2b9-265dd5ab59a8@paragon-software.com>
-Date: Tue, 9 Jun 2026 09:58:09 +0200
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="IXIelmgb"
+Received: from mail-nwsmtp-smtp-production-main-73.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-73.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:f85:0:640:673a:0])
+	by forward102b.mail.yandex.net (Yandex) with ESMTPS id 15312C00F9;
+	Tue, 09 Jun 2026 15:39:45 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-73.sas.yp-c.yandex.net (smtp) with ESMTPSA id gdIrOg9dJuQ0-hTGYciVn;
+	Tue, 09 Jun 2026 15:39:44 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1781008784; bh=c7YLS0X+q/iPWjbCX66LMm3KWEfMTakCN8s6/J0HmaY=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=IXIelmgbc/vwaos172GdAILy1XfcBjuhF9k+R2lU9gjKHThG/gF0INSJZo762EtIq
+	 U73TupmnmgjQQFyU6Hy70MGmPC97WxP+b8+ODCJLErSAS3cMdRXgnFz31aPKqmDeAq
+	 23MxSx+tv0H5M2olC7cY4f8zbiKBW+LH4xD9oESA=
+Authentication-Results: mail-nwsmtp-smtp-production-main-73.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+From: Dmitry Antipov <dmantipov@yandex.ru>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>,
+	ntfs3@lists.linux.dev,
+	lvc-project@linuxtesting.org,
+	Dmitry Antipov <dmantipov@yandex.ru>,
+	syzbot+905d785c4923bea2c1db@syzkaller.appspotmail.com
+Subject: [PATCH] ntfs3: fix info-leak in ntfs_rename()
+Date: Tue,  9 Jun 2026 15:36:18 +0300
+Message-ID: <20260609123618.712961-1-dmantipov@yandex.ru>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ntfs3: cap RESTART_TABLE free-chain walker at rt->used
-To: Michael Bommarito <michael.bommarito@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-References: <20260517234140.1261718-1-michael.bommarito@gmail.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260517234140.1261718-1-michael.bommarito@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Transfer-Encoding: 8bit
 
-On 5/18/26 01:41, Michael Bommarito wrote:
+In 'ntfs_rename()', buffer passed to 'fill_name_de()' should
+be allocated with 'kzalloc()' to avoid exposing contents of
+an uninitialized kernel memory via 'copy_to_user_iter()'.
 
-> A crafted NTFS3 disk image triggers an in-kernel infinite loop at
-> mount time, hanging the mounting thread and firing the soft-lockup
-> watchdog within ~22s on multi-CPU hosts (panic with
-> kernel.softlockup_panic=1).  The bug is reachable from desktop USB
-> auto-mount on distributions where udisks2 routes the NTFS signature
-> to the in-tree ntfs3 driver (Arch family and an increasing fraction
-> of Fedora / openSUSE / RHEL deployments); CAP_SYS_ADMIN-class manual
-> mount elsewhere.
->
-> check_rstbl()'s second walker iterates the free-entry singly-linked
-> list headed by rt->first_free with no upper bound on iteration count:
->
->    for (off = ff; off;) {
->        if (off == RESTART_ENTRY_ALLOCATED)
->            return false;
->        off = le32_to_cpu(*(__le32 *)Add2Ptr(rt, off));
->        if (off > ts - sizeof(__le32))
->            return false;
->    }
->
-> The existing guards cover three exits: end-of-list (off == 0), the
-> in-use marker (off == RESTART_ENTRY_ALLOCATED), and out-of-bounds
-> (off > ts - sizeof(__le32)).  None of the three prevents an
-> in-bounds cycle.
->
-> A crafted on-disk RESTART_TABLE whose free chain contains a
-> self-loop or A->B->A cycle whose offsets satisfy:
->
->    - in range [sizeof(struct RESTART_TABLE), ts - sizeof(__le32)]
->    - (off - sizeof(struct RESTART_TABLE)) % rsize == 0
->
-> passes all existing guards and spins the mount-time thread forever.
-> Reproduced in UML by hand-forging a 2 MB NTFS3 image whose journal
-> RESTART_TABLE first_free = 0x18 and whose entry at offset 0x18
-> stores 0x18 as its next pointer; mount of the forged image with
-> the in-tree ntfs3 driver never returns.
->
-> Bound the walker by rt->used.  Each entry on a legitimate free
-> chain is unique, and the total slot count is ne = le16_to_cpu
-> (rt->used).  A traversal that visits more than ne slots is by
-> construction malformed; reject it as a corrupt RESTART_TABLE.
->
-> After this patch, mount of the forged image returns with -EINVAL
-> and a log_replay failure message, and mkntfs-produced legitimate
-> images mount cleanly (verified in the same UML harness).
->
-> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
-> Assisted-by: Claude:claude-opus-4-7
-> ---
->   fs/ntfs3/fslog.c | 13 ++++++++++++-
->   1 file changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index acfa18b84401e..d3d808d644dbf 100644
-> --- a/fs/ntfs3/fslog.c
-> +++ b/fs/ntfs3/fslog.c
-> @@ -764,8 +764,19 @@ static bool check_rstbl(const struct RESTART_TABLE *rt, size_t bytes)
->   	/*
->   	 * Walk through the list headed by the first entry to make
->   	 * sure none of the entries are currently being used.
-> +	 *
-> +	 * Bound traversal by ne (rt->used) to defeat a crafted on-disk
-> +	 * cycle in the free chain.  Each entry in a legitimate free
-> +	 * list is unique, so a chain that visits more than ne slots
-> +	 * is malformed.  Without this guard, an attacker-controlled
-> +	 * RESTART_TABLE with a self-loop or A->B->A cycle whose
-> +	 * offsets satisfy the existing alignment + in-bounds guards
-> +	 * spins forever at mount time.
->   	 */
-> -	for (off = ff; off;) {
-> +	for (off = ff, i = 0; off; i++) {
-> +		if (i > ne)
-> +			return false;
-> +
->   		if (off == RESTART_ENTRY_ALLOCATED)
->   			return false;
->   
+Reported-by: syzbot+905d785c4923bea2c1db@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=905d785c4923bea2c1db
+Fixes: ca2a04e84af7 ("ntfs: ->d_compare() must not block")
+Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+---
+ fs/ntfs3/namei.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hello,
-
-Your patch was applied, thank you.
-
-Regards,
-Konstantin
+diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
+index b2af8f695e60..74fe002214f3 100644
+--- a/fs/ntfs3/namei.c
++++ b/fs/ntfs3/namei.c
+@@ -303,7 +303,7 @@ static int ntfs_rename(struct mnt_idmap *idmap, struct inode *dir,
+ 			return err;
+ 	}
+ 
+-	de = kmalloc(PATH_MAX, GFP_KERNEL);
++	de = kzalloc(PATH_MAX, GFP_KERNEL);
+ 	if (!de)
+ 		return -ENOMEM;
+ 
+-- 
+2.54.0
 
