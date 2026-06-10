@@ -1,112 +1,142 @@
-Received: from forward500b.mail.yandex.net (forward500b.mail.yandex.net [178.154.239.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA6435A3A9
-	for <ntfs3@lists.linux.dev>; Wed, 10 Jun 2026 11:18:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37473F8EDA
+	for <ntfs3@lists.linux.dev>; Wed, 10 Jun 2026 11:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781090337; cv=none; b=N+CBSWZ9DpVcQnxS3RZSw5MlJ1cgSUCaAnPTXB9p0JIH3L8rkQBxqdvsxMvdGlLJunPBh4CV5H5QjyuJlREA2fkB1v+2RR2Bcd50c9XpLd2+Q21n+MbCaNouVDt87BtVkOu9xS2kFt/wzsR0Kli1xvhHozoEz6CqOeoK3XNQyLs=
+	t=1781092675; cv=none; b=KiNaysLEm/IpNtKmnaEMNf1zwewWpLMnkFXdgWXxuun3D59N3sXs9X02mwDKTn1upPl1TqSek4NedA+dS8erDT9uSwaCMcnqH5TCrUroNlnW5TS3Retx0wQT4OtUeBXkgLCvoZSdyyWQeRpzuuKJqpzLLcGu2yychjN0X/xSpew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781090337; c=relaxed/simple;
-	bh=/xJAU+Vh44qtZKeEaAzE3XWLaRlhsMTeKzzUgjCMd5A=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=tfn6dBGmLaqQVdVlEHjJVci836dW1E8fJwR8By838ZgHPdLu4B4mgHZKnfF8r1QpOIWYUl5KPgZ2oMXg3fRRFZO3lV3kg8T1aSHVjzbGw7BZBG+ByZaDRM03E7kOjza7zB9ZAd+TBsmpexULPdVC5gEt2jARzGGNsVH9h/gJbAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=lTN0HxSQ; arc=none smtp.client-ip=178.154.239.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+	s=arc-20240116; t=1781092675; c=relaxed/simple;
+	bh=E1gf/cK0eXaYUala4re8eqJWzK8pok2qz6inJc5Q9b0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hf6qF/v8GtVX+at8lrvcA0cEi+lCD2SXe4uy+tg4tflhjSke49jMewAAwLkVVjQOF/J9Q6PMJco4YxsOS4hMb/s/uAfWM8TNOeETisNKfAV6sOwZu+/3Ok9B/my35g18e6PGoFwx8lQvWi5jn1BYWU7/q+K24Wg4MKpVGKTBrIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UuG3GLtB; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="lTN0HxSQ"
-Received: from mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:1199:0:640:2d84:0])
-	by forward500b.mail.yandex.net (Yandex) with ESMTPS id 00358C16C7;
-	Wed, 10 Jun 2026 14:13:32 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (smtp) with ESMTPSA id TDI1H0McHSw0-8MyCV688;
-	Wed, 10 Jun 2026 14:13:31 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1781090011; bh=sJEPv4dDqxTCwq4tGbEbaYF+Ira2gudaFsRz+ABSryo=;
-	h=References:Date:In-Reply-To:Cc:To:From:Subject:Message-ID;
-	b=lTN0HxSQPLlVd03Fp+QWnE2Q6WOJ4tl2ZoAXLqEmWEBJHDXLDKhoseTDkFoKPKZ1d
-	 KHHjjEcKPtWR+TNJFA4zBAUrIDLz6ZsVYJSnppX7LneLaXHNFQAOGZObL4GX5mSwAb
-	 PfEeGkVPJOniya0hVr4Ep6T0ylnHdd7OG9210GJE=
-Authentication-Results: mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-Message-ID: <8c04f27f7572b4a5d675286de4878bf5b1612bfa.camel@yandex.ru>
-Subject: Re: [PATCH] ntfs3: fix info-leak in ntfs_rename()
-From: Dmitry Antipov <dmantipov@yandex.ru>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	ntfs3@lists.linux.dev, lvc-project@linuxtesting.org, 
-	syzbot+905d785c4923bea2c1db@syzkaller.appspotmail.com
-Date: Wed, 10 Jun 2026 14:12:59 +0300
-In-Reply-To: <20260609230842.GA3766471@ZenIV>
-References: <20260609123618.712961-1-dmantipov@yandex.ru>
-	 <20260609201948.GK2636677@ZenIV> <20260609230842.GA3766471@ZenIV>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UuG3GLtB"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2c0c2c7e0c5so44528265ad.1
+        for <ntfs3@lists.linux.dev>; Wed, 10 Jun 2026 04:57:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781092674; x=1781697474; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WI6Jo9PJbir9yuEY2m2j5zC+fMIlRWudCHlrzG9V0QY=;
+        b=UuG3GLtBeGyYQts1d0JSeWr9ZoXwVi9lfiEQJVnS0aUV2affUldmNmkjZWOwEu9/vn
+         RO1TwdwsL4/fXNdNCvDR5+kmxmyhmUHzpPPND+ybJBsa+Tbl9xyq0980XZ06lMoYl6xp
+         Gf5eV4G2Y7zeuukw8LhKM4VCK9uYwOWWCHn60NgjJLK698TVykqEw85o6y1lo9QujhNt
+         J1K9/ZdAuy2U8t+inyR9MaeES8HskJo6KLMZIYE5c+h77mXqeq2M/cN4fAq/36TmgJRB
+         rPdkR9a8Ca82MB0pl6Uxj5iLCBpsJ+vhVsnZ2IwVIjr2VNGg43KNMeInZT0vZ8gIxsgW
+         PpZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781092674; x=1781697474;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WI6Jo9PJbir9yuEY2m2j5zC+fMIlRWudCHlrzG9V0QY=;
+        b=W5/G/VaI9yRJDyiD8nXNx6rBvC2JGkRovqNNQE2gqcpAN4+cNxp0BSDmUdwkHMv8rF
+         gKfJxxkAmp7zfZrgbnk9Gth8Mu2rg8NHNnGm+4wF+5yjYfNDS36H8CM5jqw2n/QaYLJ4
+         O0L8beO6LU7yn8bqq2vChzaPzFGK4v9ABjnHf+Y7KmO5/ytLvabi7RGEZLllnhSUSQ4U
+         DigHZ17uJiBEEVX8y4qgCs6TlaYeTjycXV3DOzsx6QNUifnn7lbdftgNmf3ELDmnD7dJ
+         Tkx0pBQD5C8sBFZ6s/XxYxprHAZhQfdY+GOXNd8MjDXj1MWq91q5nOahJkei2I72+VIr
+         H4+g==
+X-Gm-Message-State: AOJu0YzmL6fNZ4sSvHKeLH/q+nJIX4w9bzleky7nqb3jH4qzC+2tvdEt
+	YNDFuo2qlFgd6tXye1BN0+n7q06mVuU5fdsPFBcxQ1efAjk5gXYaGM2o
+X-Gm-Gg: Acq92OEaL08p44iyLj9hxShX9XIA26+Yj1ig/jCWyINr+Agi6zJf0I0qzouB4QOXqN3
+	SyVS9/s1+SBqvV6sGqvXjHyo/LLcDjM7ZjYs7ifmMvCSX0jz/j/viKzeyU7Sn/UfnTcCbW6jdVD
+	8bAf5Q6RrsKCWrtBE1IN2pMGNYnx5WHFCPNU2xwoHZmvhZye4VmxgMbdKgA2YPHumZJVCWi0aK8
+	zAyW/CRaKTrXt8qzUiK/gk1qMAYHr4yFhWm9EGiBFvhP6BcSlciA0XT04FtMa9xIfBb4pqqtKI7
+	9+0DRphQ4oveyUGmek1q9UcYWQE5ZEXq62QO6Ix/PvgsNKXXCmpqws1DueKoIwJUZdxwDdmZvRS
+	D8INR3361rQADed8XlQBqHbE3IXvREpPlhvXQ+LPyN7WXJU1QRYiPNW4/jr95nArHksIVw7vk+b
+	2lGtUluHmY+avxvk4g7Ho/7Q6z9+Kr9fYYzgW3IeSx986aqqUjcubDiaaHIgQPlJP9mnWWNYWEk
+	mdU1QyrKNeN9CiJ7qdyyhF24dGEC+rFCQ==
+X-Received: by 2002:a17:903:22d2:b0:2bd:8395:fedd with SMTP id d9443c01a7336-2c2a1cb92f6mr82753155ad.37.1781092674045;
+        Wed, 10 Jun 2026 04:57:54 -0700 (PDT)
+Received: from SLSGDTSWING002.tail0ac356.ts.net ([129.126.109.177])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16629d240sm258026025ad.58.2026.06.10.04.57.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2026 04:57:53 -0700 (PDT)
+From: Weiming Shi <bestswngs@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Xiang Mei <xmei5@asu.edu>,
+	Weiming Wu <weiming3@asu.edu>,
+	Weiming Shi <bestswngs@gmail.com>
+Subject: [PATCH] fs/ntfs3: fix out-of-bounds read of INDEX_ROOT in reparse/objid init
+Date: Wed, 10 Jun 2026 19:57:25 +0800
+Message-ID: <20260610115724.1813176-2-bestswngs@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2026-06-10 at 00:08 +0100, Al Viro wrote:
+From: Weiming Wu <weiming3@asu.edu>
 
-> From the syzkaller spew it would appear that data (filename converted
-> to unicode, AFAICS) somehow gets returned by read(2).=C2=A0 If that is
-> accurate, I would suggest that the things are already FUBAR and zeroing
-> is not going to fix whatever underlying bug you've got there (metadata
-> bh left around after the corresponding on-disk block got freed and
-> reused for regular file, perhaps?)
+ntfs_reparse_init() and ntfs_objid_init() parse the index root of the
+$Extend/$Reparse and $Extend/$ObjId metafiles (the INDEX_ROOT attributes
+named $R and $O). They read its type and rule fields through
+resident_data(), which does not check that the resident attribute is
+large enough to hold them.
 
-Hard to say about copy_to_user_iter(), but at least the first splat
-looks correct. At the end of fill_name_de(), data layout is:
+mi_enum_attr() accepts a resident attribute with data_off == asize and
+data_size == 0. For such an attribute placed last in its MFT record,
+resident_data() returns a pointer to the end of the record_size buffer,
+so reading root->type / root->rule reads past the allocation.
 
-struct NTFS_DE *e =3D buf;
-...
+Use resident_data_ex(attr, sizeof(struct INDEX_ROOT)) and bail out when
+it returns NULL, as ntfs_security_init() already does for $SDH / $SII.
 
-    |<- data_size + sizeof(struct NTFS_DE) ->|<- XXX ->|
-buf |-----------------------------------------------------------
-    |<- ALIGN(data_size, 8) + sizeof(struct NTFS_DE) ->|   ;; e->size
+The attribute is only parsed while mounting a crafted image, so this
+needs CAP_SYS_ADMIN.
 
-If 'buf' was allocated with kmalloc(), XXX remains uninitialized and
-passed as such to memcpy() called from hdr_insert_de().
+ BUG: KASAN: slab-out-of-bounds in ntfs_reparse_init (fs/ntfs3/fsntfs.c:2306)
+ Read of size 4 at addr ffff88801219dc00 by task mount
+  ntfs_reparse_init (fs/ntfs3/fsntfs.c:2306)
+  ntfs_fill_super (fs/ntfs3/super.c:1604)
+  get_tree_bdev_flags (fs/super.c:1703)
+  vfs_get_tree (fs/super.c:1758)
+  path_mount (fs/namespace.c:4131)
+  __x64_sys_mount (fs/namespace.c:4360)
 
-So using kzalloc() for all buffers passed to fill_name_de() looks
-the simplest and most safe solution. OTOH if someone would have
-said that an overhead of PAGE_SIZE'd memset() is too large, more
-fine-granted solution is to memset() XXX only, i.e.:
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Reported-by: Xiang Mei <xmei5@asu.edu>
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Weiming Shi <bestswngs@gmail.com>
+---
+ fs/ntfs3/fsntfs.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
-index b2af8f695e60..21e4a2a34389 100644
---- a/fs/ntfs3/namei.c
-+++ b/fs/ntfs3/namei.c
-@@ -22,7 +22,7 @@ int fill_name_de(struct ntfs_sb_info *sbi, void *buf, con=
-st struct qstr *name,
- {
-        int err;
-        struct NTFS_DE *e =3D buf;
--       u16 data_size;
-+       u16 data_size, real_size, aligned_size;
-        struct ATTR_FILE_NAME *fname =3D (struct ATTR_FILE_NAME *)(e + 1);
-=20
- #ifndef CONFIG_NTFS3_64BIT_CLUSTER
-@@ -53,7 +53,12 @@ int fill_name_de(struct ntfs_sb_info *sbi, void *buf, co=
-nst struct qstr *name,
-        fname->type =3D FILE_NAME_POSIX;
-        data_size =3D fname_full_size(fname);
-=20
--       e->size =3D cpu_to_le16(ALIGN(data_size, 8) + sizeof(struct NTFS_DE=
-));
-+       real_size =3D data_size + sizeof(struct NTFS_DE);
-+       aligned_size =3D ALIGN(data_size, 8) + sizeof(struct NTFS_DE);
-+       if (aligned_size > real_size)
-+               memset((char *)buf + real_size, 0, aligned_size - real_size=
-);
-+
-+       e->size =3D cpu_to_le16(aligned_size);
-        e->key_size =3D cpu_to_le16(data_size);
-        e->flags =3D 0;
-        e->res =3D 0;
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index d0434756029b6..42493a2da24ef 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -2302,8 +2302,8 @@ int ntfs_reparse_init(struct ntfs_sb_info *sbi)
+ 		goto out;
+ 	}
+ 
+-	root_r = resident_data(attr);
+-	if (root_r->type != ATTR_ZERO ||
++	root_r = resident_data_ex(attr, sizeof(struct INDEX_ROOT));
++	if (!root_r || root_r->type != ATTR_ZERO ||
+ 	    root_r->rule != NTFS_COLLATION_TYPE_UINTS) {
+ 		err = -EINVAL;
+ 		goto out;
+@@ -2340,8 +2340,8 @@ int ntfs_objid_init(struct ntfs_sb_info *sbi)
+ 		goto out;
+ 	}
+ 
+-	root = resident_data(attr);
+-	if (root->type != ATTR_ZERO ||
++	root = resident_data_ex(attr, sizeof(struct INDEX_ROOT));
++	if (!root || root->type != ATTR_ZERO ||
+ 	    root->rule != NTFS_COLLATION_TYPE_UINTS) {
+ 		err = -EINVAL;
+ 		goto out;
+-- 
+2.43.0
 
-Dmitry
