@@ -1,123 +1,112 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from forward500b.mail.yandex.net (forward500b.mail.yandex.net [178.154.239.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD943F6618
-	for <ntfs3@lists.linux.dev>; Wed, 10 Jun 2026 10:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA6435A3A9
+	for <ntfs3@lists.linux.dev>; Wed, 10 Jun 2026 11:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781088224; cv=none; b=Dmk4rPItotuwXz8FuSY8U5NdvHJs+s1ol5Mn6CNMxxhiEAdKN+qJFCMhI5A9ET7SfAZk3DmdEm8/1uA9Zfz2lbIvIZQSzqk2KwoL9NGewGYaUkeqQBajEiqSNFIJGOcgWsgoiQwJqD8sLZhx5fty0Jh2zFM18xlQDt+xVT5eegk=
+	t=1781090337; cv=none; b=N+CBSWZ9DpVcQnxS3RZSw5MlJ1cgSUCaAnPTXB9p0JIH3L8rkQBxqdvsxMvdGlLJunPBh4CV5H5QjyuJlREA2fkB1v+2RR2Bcd50c9XpLd2+Q21n+MbCaNouVDt87BtVkOu9xS2kFt/wzsR0Kli1xvhHozoEz6CqOeoK3XNQyLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781088224; c=relaxed/simple;
-	bh=7mcxoAyA88UV+cTgyrzAYNuLhK3NfbPzaSFarMxGLIk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NaIUIsVHGFDbL9URFUgc8DRl55KNd0dKvb0e5/Vi8ERLGfyJcWtZZj72Umwdsh+O3hG2qnXWY3cJ+XNDtZVcpzCRRHnkHb3RjXXmC7GUNX4J8Ypy1BxYoXGWXk/EelL0jrEC3pkHmUnZibPpm1mkD8difeDZcqjD8LTg0wdJcIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=tTLaRYPZ; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1781090337; c=relaxed/simple;
+	bh=/xJAU+Vh44qtZKeEaAzE3XWLaRlhsMTeKzzUgjCMd5A=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tfn6dBGmLaqQVdVlEHjJVci836dW1E8fJwR8By838ZgHPdLu4B4mgHZKnfF8r1QpOIWYUl5KPgZ2oMXg3fRRFZO3lV3kg8T1aSHVjzbGw7BZBG+ByZaDRM03E7kOjza7zB9ZAd+TBsmpexULPdVC5gEt2jARzGGNsVH9h/gJbAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=lTN0HxSQ; arc=none smtp.client-ip=178.154.239.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="tTLaRYPZ"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 698E11D44;
-	Wed, 10 Jun 2026 10:43:39 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=tTLaRYPZ;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 83A221E0F;
-	Wed, 10 Jun 2026 10:43:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1781088219;
-	bh=D6obsJz71NYK4JLwwwEe9V63laATjw56y5Wd231syIo=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=tTLaRYPZigWDlP56wCN+z0CmzcRfiuow+tdNzZ6NZ8wC3L6Pr5YhSACGoGCsEHWsh
-	 jUE91d3cHwHh46Al/HAKPSbDSRy2KHuQ0iYZc+vd0fPtEqDhd2PbMwm/j+a6v8O8py
-	 fhJKNDLiEAesHvF4oDTxMkJxDWOnQGfkxThDnUW4=
-Received: from [192.168.95.128] (172.30.20.172) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 10 Jun 2026 13:43:38 +0300
-Message-ID: <c9d18431-b328-4920-8c4e-c336b24c72a8@paragon-software.com>
-Date: Wed, 10 Jun 2026 12:43:36 +0200
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="lTN0HxSQ"
+Received: from mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:1199:0:640:2d84:0])
+	by forward500b.mail.yandex.net (Yandex) with ESMTPS id 00358C16C7;
+	Wed, 10 Jun 2026 14:13:32 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (smtp) with ESMTPSA id TDI1H0McHSw0-8MyCV688;
+	Wed, 10 Jun 2026 14:13:31 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1781090011; bh=sJEPv4dDqxTCwq4tGbEbaYF+Ira2gudaFsRz+ABSryo=;
+	h=References:Date:In-Reply-To:Cc:To:From:Subject:Message-ID;
+	b=lTN0HxSQPLlVd03Fp+QWnE2Q6WOJ4tl2ZoAXLqEmWEBJHDXLDKhoseTDkFoKPKZ1d
+	 KHHjjEcKPtWR+TNJFA4zBAUrIDLz6ZsVYJSnppX7LneLaXHNFQAOGZObL4GX5mSwAb
+	 PfEeGkVPJOniya0hVr4Ep6T0ylnHdd7OG9210GJE=
+Authentication-Results: mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+Message-ID: <8c04f27f7572b4a5d675286de4878bf5b1612bfa.camel@yandex.ru>
+Subject: Re: [PATCH] ntfs3: fix info-leak in ntfs_rename()
+From: Dmitry Antipov <dmantipov@yandex.ru>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	ntfs3@lists.linux.dev, lvc-project@linuxtesting.org, 
+	syzbot+905d785c4923bea2c1db@syzkaller.appspotmail.com
+Date: Wed, 10 Jun 2026 14:12:59 +0300
+In-Reply-To: <20260609230842.GA3766471@ZenIV>
+References: <20260609123618.712961-1-dmantipov@yandex.ru>
+	 <20260609201948.GK2636677@ZenIV> <20260609230842.GA3766471@ZenIV>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: prevent potential lcn remains uninitialized
-To: Edward Adam Davis <eadavis@qq.com>,
-	<syzbot+c2cfe997245202e46f10@syzkaller.appspotmail.com>
-CC: <linux-kernel@vger.kernel.org>, <ntfs3@lists.linux.dev>,
-	<syzkaller-bugs@googlegroups.com>
-References: <6a150a09.820a0220.e7972.0005.GAE@google.com>
- <tencent_76C985EEDDAEE04C8627DE86D9D2DC467906@qq.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <tencent_76C985EEDDAEE04C8627DE86D9D2DC467906@qq.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 5/26/26 10:08, Edward Adam Davis wrote:
+On Wed, 2026-06-10 at 00:08 +0100, Al Viro wrote:
 
-> The target VCN being sought was not found within runs[0], causing
-> run_lookup() to return false. This causes run_lookup_entry() to return
-> false, which in turn results in a len value of 0, and the new parameter
-> passed to attr_data_get_block() is NULL. Collectively, these factors
-> ultimately cause attr_data_get_block_locked() to exit prematurely without
-> initializing lcn, thereby triggering [1].
->
-> To prevent [1], the clen check within ni_seek_data_or_hole() has been
-> moved to occur before the lcn check.
->
-> [1]
-> BUG: KMSAN: uninit-value in ni_seek_data_or_hole+0x24f/0x5f0 fs/ntfs3/frecord.c:2862
->   ni_seek_data_or_hole+0x24f/0x5f0 fs/ntfs3/frecord.c:2862
->   ntfs_llseek+0x22a/0x4a0 fs/ntfs3/file.c:1530
->   vfs_llseek fs/read_write.c:391 [inline]
->
-> Fixes: c61326967728 ("fs/ntfs3: implement llseek SEEK_DATA/SEEK_HOLE by scanning data runs")
-> Reported-by: syzbot+c2cfe997245202e46f10@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=c2cfe997245202e46f10
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> ---
->   fs/ntfs3/frecord.c | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-> index 7b035da63c12..d511b6a75ae8 100644
-> --- a/fs/ntfs3/frecord.c
-> +++ b/fs/ntfs3/frecord.c
-> @@ -2859,6 +2859,11 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni, loff_t offset, bool data)
->   			return err;
->   		}
->   
-> +		if (!clen) {
-> +			/* Corrupted file. */
-> +			return -EINVAL;
-> +		}
-> +
->   		if (lcn == RESIDENT_LCN) {
->   			/* clen - resident size in bytes. clen == ni->vfs_inode.i_size */
->   			if (offset >= clen) {
-> @@ -2909,10 +2914,6 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni, loff_t offset, bool data)
->   			}
->   		}
->   
-> -		if (!clen) {
-> -			/* Corrupted file. */
-> -			return -EINVAL;
-> -		}
->   	}
->   }
->   
+> From the syzkaller spew it would appear that data (filename converted
+> to unicode, AFAICS) somehow gets returned by read(2).=C2=A0 If that is
+> accurate, I would suggest that the things are already FUBAR and zeroing
+> is not going to fix whatever underlying bug you've got there (metadata
+> bh left around after the corresponding on-disk block got freed and
+> reused for regular file, perhaps?)
 
-Hello,
+Hard to say about copy_to_user_iter(), but at least the first splat
+looks correct. At the end of fill_name_de(), data layout is:
 
-The patch was applied, thank you.
+struct NTFS_DE *e =3D buf;
+...
 
-Regards,
-Konstantin
+    |<- data_size + sizeof(struct NTFS_DE) ->|<- XXX ->|
+buf |-----------------------------------------------------------
+    |<- ALIGN(data_size, 8) + sizeof(struct NTFS_DE) ->|   ;; e->size
 
+If 'buf' was allocated with kmalloc(), XXX remains uninitialized and
+passed as such to memcpy() called from hdr_insert_de().
+
+So using kzalloc() for all buffers passed to fill_name_de() looks
+the simplest and most safe solution. OTOH if someone would have
+said that an overhead of PAGE_SIZE'd memset() is too large, more
+fine-granted solution is to memset() XXX only, i.e.:
+
+diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
+index b2af8f695e60..21e4a2a34389 100644
+--- a/fs/ntfs3/namei.c
++++ b/fs/ntfs3/namei.c
+@@ -22,7 +22,7 @@ int fill_name_de(struct ntfs_sb_info *sbi, void *buf, con=
+st struct qstr *name,
+ {
+        int err;
+        struct NTFS_DE *e =3D buf;
+-       u16 data_size;
++       u16 data_size, real_size, aligned_size;
+        struct ATTR_FILE_NAME *fname =3D (struct ATTR_FILE_NAME *)(e + 1);
+=20
+ #ifndef CONFIG_NTFS3_64BIT_CLUSTER
+@@ -53,7 +53,12 @@ int fill_name_de(struct ntfs_sb_info *sbi, void *buf, co=
+nst struct qstr *name,
+        fname->type =3D FILE_NAME_POSIX;
+        data_size =3D fname_full_size(fname);
+=20
+-       e->size =3D cpu_to_le16(ALIGN(data_size, 8) + sizeof(struct NTFS_DE=
+));
++       real_size =3D data_size + sizeof(struct NTFS_DE);
++       aligned_size =3D ALIGN(data_size, 8) + sizeof(struct NTFS_DE);
++       if (aligned_size > real_size)
++               memset((char *)buf + real_size, 0, aligned_size - real_size=
+);
++
++       e->size =3D cpu_to_le16(aligned_size);
+        e->key_size =3D cpu_to_le16(data_size);
+        e->flags =3D 0;
+        e->res =3D 0;
+
+Dmitry
