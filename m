@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C97402B96
-	for <ntfs3@lists.linux.dev>; Wed, 10 Jun 2026 10:42:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DF72D3A7C
+	for <ntfs3@lists.linux.dev>; Wed, 10 Jun 2026 10:43:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781088170; cv=none; b=WPl5BcfHDqhbIKBreoZThRVfQr4tK2aij8TZ92Z26rih1czuuvcy+doJmkKOQxY9mwlkAog7KDS6l98mPDgPQm+bHGBDgRa1+kPgadnA/c1Wsyxn9HXbhOUpiMfnMraqu/2YarhNeagSEQbN9LG0HnJhSC6FnfJv3vHr7T+/Yps=
+	t=1781088189; cv=none; b=OOAyfwsYNzz/Lc8qVgPVzCJEi1uqMgX7LN+hf65Kklkz0jSsKUVa49tc/vRP2nT3aOe+mLoY0Kj3CMjiEQQPkP2BOm/vipX8SRzkLcEkE6dznV3mBCIIthH1xtcAtdf7HBRcvdYMY//X4h0Asi3fEb24/4Vs/n25LQ6QR4Jhzyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781088170; c=relaxed/simple;
-	bh=/ojnyA8zMv2FXADu9HUEkgyOtH29xHb9VQDsGnkKzwg=;
+	s=arc-20240116; t=1781088189; c=relaxed/simple;
+	bh=NsdrF1VkEiftfitOo+j50BklSMQbt5IaQHJ/XkndWMg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=F54QaVFXIqAPDutH7tN5lUcwCkmOt6faFB/T52DOYFcMfa+udu/Krp6HhYFm2iWskN35ST2ShFKvGPuLEZZ1lTYGNQ+NwXF03qSg8uRgOIsQynLhZOAWPAbEEQVbB/q4l0jY45a7MyPGhbMmVA66S0Kp4ptkaImkRRkLAThWmq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=VrzFQYj6; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=s9blEq+x5LbcFT93GT1RAaaTNYtj0+TzGge2UsAvUJnU2s8NT9PzkkLfZ1u0vOCiWsqqCS53aKsHDOu71euhthkkRr4ZJyd/pjC04U+jo3jBDuaepdL95iPwL/xFV9WoNOj3JERoB1aCHq3o5thu3B+h1kwtO2z7TfE2qeAVN0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=ZRgqaorz; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="VrzFQYj6"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="ZRgqaorz"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 93B6F1D44;
-	Wed, 10 Jun 2026 10:42:36 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 71DDF1D44;
+	Wed, 10 Jun 2026 10:43:05 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=VrzFQYj6;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=ZRgqaorz;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id B19211E0F;
-	Wed, 10 Jun 2026 10:42:32 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 9EB801E0F;
+	Wed, 10 Jun 2026 10:43:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1781088152;
-	bh=4DNVFJKdEUULyP/x7BrDJy5Ao0lPnouyi/n9WfsGULI=;
+	d=paragon-software.com; s=mail; t=1781088185;
+	bh=0aYf5uNgD1gLxYGYFqzKDnXxsm5lWO9MhiT5dx0VHUo=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=VrzFQYj6YsjuROVbVk2iAyAoG3FXme0Qeb47C6HgOspJ/LPN/UQXCnF7q+SEvcbwg
-	 LMUtg5NrAGvwramCx9/BjKD2RI++nfXX9uI0ig5GefGsaIFNo9JZoHMu5aWKfYPSja
-	 VOQdgL8x9IQ2kPfWh0NG3uL/VLVD3e2V4Wt15Sgw=
+	b=ZRgqaorzXYDGeOnN4B7JYTL/32YN6cvmxIVpLgmG1i0WRfZENmYrALI33qLHodcP6
+	 4CdUHhdWxc19gKJeX2GHvhYkPVGcA96fUuwtdo/Op+SCA45XNuyhNpYLbqfDeUqH8k
+	 0Z2FMUlltXpsX5Cx/NLyEMFmz73316a7oW47KtPk=
 Received: from [192.168.95.128] (172.30.20.172) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 10 Jun 2026 13:42:31 +0300
-Message-ID: <c506bdba-5c76-4769-b2e5-17ee9fae490a@paragon-software.com>
-Date: Wed, 10 Jun 2026 12:42:30 +0200
+ 15.1.2375.7; Wed, 10 Jun 2026 13:43:03 +0300
+Message-ID: <590578d7-22b9-46cb-b100-89e1bc4d95e1@paragon-software.com>
+Date: Wed, 10 Jun 2026 12:43:01 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,88 +45,101 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ntfs3: reject direct userspace writes to reserved $LX*
- xattrs
-To: Zhen Yan <sdjasjbuaa@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-References: <aiP-42fhOyMGK8Yg@1wt.eu>
- <20260607023339.6728-1-sdjasjbuaa@gmail.com>
+Subject: Re: [PATCH] fs/ntfs3: resize log->one_page_buf when adopting on-disk
+ page size
+To: Jamie Nguyen <jamien@nvidia.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Carol L Soto
+	<csoto@nvidia.com>
+References: <20260605041930.68817-1-jamien@nvidia.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260607023339.6728-1-sdjasjbuaa@gmail.com>
+In-Reply-To: <20260605041930.68817-1-jamien@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 6/7/26 04:33, Zhen Yan wrote:
+On 6/5/26 06:19, Jamie Nguyen wrote:
 
-> NTFS3 uses $LXUID, $LXGID, $LXMOD and $LXDEV as internal WSL
-> permission metadata and reloads them into i_uid, i_gid and i_mode
-> from ntfs_get_wsl_perm().
+> log_replay() allocates log->one_page_buf using the page size that was
+> chosen from the host PAGE_SIZE:
 >
-> Because the empty-prefix xattr handler also lets file owners call
-> setxattr() on these names directly, an unprivileged writer on a
-> writable ntfs3 mount can plant root ownership and S_ISUID on their own
-> file and gain euid 0 after inode reload.
+>          log->one_page_buf = kmalloc(log->page_size, GFP_NOFS);
 >
-> Reject direct userspace writes to the reserved $LX* names. Internal
-> ntfs3 metadata updates are unchanged because ntfs_save_wsl_perm()
-> writes them via ntfs_set_ea() directly.
+> Later, when a restart area is found, the log page size recorded on disk
+> is adopted:
 >
-> Signed-off-by: Zhen Yan <sdjasjbuaa@gmail.com>
-> ---
-> Willy, thanks for the review. Replying to your points:
->
->   - Tested on v7.1-rc5: builds clean (W=1, no warnings), checkpatch
->     clean, and the original reproducer no longer triggers -- the
->     setxattr() calls now return -EPERM and uid/gid/mode survive an
->     inode reload. Internal WSL metadata is unaffected:
->     ntfs_save_wsl_perm() writes via ntfs_set_ea(), not ntfs_setxattr().
->   - Resent via git format-patch / git send-email so whitespace is no
->     longer mangled, with no PoC in the body and security@ dropped.
->
->   fs/ntfs3/xattr.c | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
->
-> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-> index 9eeac0ab2..0bc633025 100644
-> --- a/fs/ntfs3/xattr.c
-> +++ b/fs/ntfs3/xattr.c
-> @@ -851,6 +851,14 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
->          return err;
->   }
->
-> +static bool ntfs_is_reserved_lxattr(const char *name)
-> +{
-> +       return !strcmp(name, "$LXUID") ||
-> +              !strcmp(name, "$LXGID") ||
-> +              !strcmp(name, "$LXMOD") ||
-> +              !strcmp(name, "$LXDEV");
-> +}
-> +
->   /*
->    * ntfs_setxattr - inode_operations::setxattr
->    */
-> @@ -955,6 +963,11 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
->                  goto out;
+>          t32 = le32_to_cpu(log->rst_info.r_page->sys_page_size);
+>          if (log->page_size != t32) {
+>                  log->l_size = log->orig_file_size;
+>                  log->page_size = norm_file_page(t32, &log->l_size,
+>                                                  t32 == DefaultLogPageSize);
 >          }
 >
-> +       if (ntfs_is_reserved_lxattr(name)) {
-> +               err = -EPERM;
-> +               goto out;
-> +       }
+> If the on-disk page size is larger than the size used for the initial
+> allocation, log->page_size grows but one_page_buf is left at its
+> original, smaller size. A subsequent unaligned read_log_page() then
+> reads log->page_size bytes into the undersized scratch buffer:
+>
+>          page_buf = page_off ? log->one_page_buf : *buffer;
+>          err = ntfs_read_run_nb_ra(ni->mi.sbi, &ni->file.run, page_vbo, page_buf,
+>                                    log->page_size, NULL, &log->read_ahead);
+>
+> overflowing the allocation. This is reachable when mounting a dirty
+> NTFS volume whose log was formatted with a page size larger than the
+> buffer initially allocated on the mounting host (for example a 64K-log
+> volume mounted on a host that allocated a 4K scratch buffer).
+>
+> Grow one_page_buf when the adopted on-disk page size exceeds the size
+> used for the initial allocation. On krealloc() failure the original
+> buffer is left intact and freed by the existing error path.
+>
+> Fixes: b46acd6a6a627 ("fs/ntfs3: Add NTFS journal")
+> Reported-by: Carol L Soto <csoto@nvidia.com>
+> Signed-off-by: Jamie Nguyen <jamien@nvidia.com>
+> ---
+>   fs/ntfs3/fslog.c | 19 +++++++++++++++++++
+>   1 file changed, 19 insertions(+)
+>
+> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+> index 95e1cdb47..b44bcfd31 100644
+> --- a/fs/ntfs3/fslog.c
+> +++ b/fs/ntfs3/fslog.c
+> @@ -3976,9 +3976,28 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+>           */
+>          t32 = le32_to_cpu(log->rst_info.r_page->sys_page_size);
+>          if (log->page_size != t32) {
+> +               u32 old_page_size = log->page_size;
 > +
->          /* Deal with NTFS extended attribute. */
->          err = ntfs_set_ea(inode, name, strlen(name), value, size, flags, 0,
->                            NULL);
+>                  log->l_size = log->orig_file_size;
+>                  log->page_size = norm_file_page(t32, &log->l_size,
+>                                                  t32 == DefaultLogPageSize);
+> +
+> +               /*
+> +                * If the adopted on-disk page size is larger than the size used
+> +                * to allocate one_page_buf above, grow the scratch buffer so a
+> +                * later read_log_page() cannot overflow it.
+> +                */
+> +               if (log->page_size > old_page_size) {
+> +                       void *buf;
+> +
+> +                       buf = krealloc(log->one_page_buf, log->page_size,
+> +                                      GFP_NOFS);
+> +                       if (!buf) {
+> +                               err = -ENOMEM;
+> +                               goto out;
+> +                       }
+> +                       log->one_page_buf = buf;
+> +               }
+>          }
+>
+>          if (log->page_size != t32 ||
 > --
-> 2.25.1
+> 2.43.0
 >
 Hello,
 
-Your patch was applied with small modifications - added a check on non
-privileged users in if-statement. Thanks for the patch.
+Your patch was applied, thank you.
 
 Regards,
 Konstantin
