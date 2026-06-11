@@ -1,68 +1,68 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D261367B63
-	for <ntfs3@lists.linux.dev>; Thu, 11 Jun 2026 21:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF213314C4
+	for <ntfs3@lists.linux.dev>; Thu, 11 Jun 2026 21:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781213590; cv=none; b=rzGl+vBzvz8jDLeKecyd/yNrzebQ57r9ErlArG2qAF4hxSPWyVa2aeWXzWVFuuyvRxqFdtatCbiznpQxAVZH8YNWSj0biaZBp0hR/e5a/NQjdXdTFtHU3eyAj8QtWBMf/HhH5CaHcB+8A2pTWsDEGeraC6uTJGWKFHp8bFdZtX4=
+	t=1781213618; cv=none; b=IELPprx60O863qvJWjaKG9JgDuuD6GGu9Fg1ttKMP4F0CxDouRNnZ3fFjenlUD8aK/lXFEuBT8GeR8oiI8/sA1MQPs0O+XTKFcCYvL0v385r/zAzblts/zBsdcpz1WuTfoq9BM1GwhbQc2bMNe6Hfb4C+Xte4QRUep5Z/8psySw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781213590; c=relaxed/simple;
-	bh=lh3HK6R1DoAVzBu90GhUAqLKTV8x5/+or6ifAKGlGtw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UJihuXxC9DcGa8D/NzdDImSTMXCbhWpChsCAJuvNj/aQ2wfkFg3quE4aI7IriTclM+boDEqmfQY9u2yIFh8Ew+LNfdItxaYoEgrP+o9EN1OXF0eBCYdRfd5PjaxDV0n2J6FVfx9qMSzJlwzrS8ZT/lbmJUPZgFQQaeyfXvjhuLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com; spf=pass smtp.mailfrom=openai.com; dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b=Lqy6N8xv; arc=none smtp.client-ip=209.85.222.179
+	s=arc-20240116; t=1781213618; c=relaxed/simple;
+	bh=mT8kNUEDIcc/xJe/GoAWK7HRYZZ5fog7EKo6wCAye9s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mmMwNQiEHGmig161nkNRCixbKJEkxT6agVWdjcVhsLEq0y/XSBNU52FQE2ZKK0m4ACGuzHLpVUsjn/1/rQFIlzKFIxW9FkYgNu1OY+2CHgWkPWLxVpVPFj8oP8suyNsFZaVyxb7LFVKnmvuNEwKdNkotBpp1weJ7gwaj3O7Z30c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com; spf=pass smtp.mailfrom=openai.com; dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b=TcH+hdHl; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openai.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b="Lqy6N8xv"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-9159da9bba5so24911285a.1
-        for <ntfs3@lists.linux.dev>; Thu, 11 Jun 2026 14:33:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b="TcH+hdHl"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-9157b94a07aso34656585a.0
+        for <ntfs3@lists.linux.dev>; Thu, 11 Jun 2026 14:33:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=openai.com; s=google; t=1781213588; x=1781818388; darn=lists.linux.dev;
+        d=openai.com; s=google; t=1781213616; x=1781818416; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p04G+PCpwT9vL1o2A8fD6xEdLkQoStt4tP7ytz6vMg0=;
-        b=Lqy6N8xv0ijalguUBLyoLS0F5ogExj3okOiwWkmny7K4k2n+sUhpMJ+EgKRsuPN3d7
-         DrFdjSSgufAgtNjxPxUScgk6VCpcttZJjGer6wJu5Bxqt+myDKHwK8pThiqY8Z1ePe9x
-         oqTrBjdwGKO4Ss/5w7g0FDyhZ4h6lHVaA2SVE=
+        bh=mKga1ggz6sdNzSSWK/KwEajXdsMF2aeCFFV+bSkqv7s=;
+        b=TcH+hdHlu90Xz9liEaB6MUnuquLHVhUWTVRlNqbnHesuuSMWXGfy4eqo2CGKWLp1KP
+         xUYp9xHswLU0/7QhCOChpYLJMdMpu2XY2HCKn/f2YPSsAKo61/QmYrvIhbB0av9/JCLK
+         kaa8hZA3+qVzjen8M7gqvSm8Cv7dOCxwQsKKg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781213588; x=1781818388;
+        d=1e100.net; s=20251104; t=1781213616; x=1781818416;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p04G+PCpwT9vL1o2A8fD6xEdLkQoStt4tP7ytz6vMg0=;
-        b=ko8p9dml3k1sfrvmiYDnQTJ+vxZjuuAg8cOOskmnweedRdYJM8ml9Gmu3mDXaETblv
-         dsjyFw/PyZheGsJTY8iTIONX9NLH3xhfON5SQNHtFDhCYZWvn6H5S2j2N+Mmw8Q/y/ms
-         yrETH8D2uySifCnBXDPSZDFQPukkEfF85YHQ1T769KgeiXJYidaX4qhzL9N9k4ZkVZS5
-         TVp4jxDggai/x9V3WfRUYNWHvczdUIFQI5kXXj4gnfrMN5dRn/6XkbjddbLxS38VE8Is
-         wIvWKoQjH7lbVzYmI+mDzux9w1qQau+Q/6v9l8NQDzrVr5/nIYHBwuU3TpG5pSJBRfNk
-         mh9w==
-X-Gm-Message-State: AOJu0YxWzy6Y2Qyyodek3tb7CJFjXFpP6bEIKp1T7oeZog72bzjF5DrB
-	CN3RPvmjWKgl0508+N9sBS6blmoGMsKty/ycbj5I0xW2bmULDZTGafjvHyXUpaNVSyRF8gH4HEW
-	sLQ94zvc=
-X-Gm-Gg: Acq92OHIFAkxV+k0BY0teUumGwDyf6uoxKtxWtEz7OjSqnL/E61CWTvmif+9GIp/ATh
-	L9us0GOod74cvSI9Z7KfJ/WK86BoMOFzbulCfXvxfZ/1WVa/Uouvx4+Vq37lp+uA1H3voe/fpML
-	jkA0O+nqPa/UBY5KYp9HoIyj5793a1hjktHYm1Nq7ZmLMzHf4CMRxqziywuQlgoEyB4pCJFNHqi
-	d5yqwswINhwJ08jFVKN4AjlfewGG6XoEOhU9PPrFSmt6n1/ZAcnQiTYQNywCznr5xjZN7FliUFV
-	QoqRBCUzAcoNXa4nUCKv8MN6iZ/vEnSLfFsAsNObvdiBTHbzF6EhFAbWA2Lnwh/8DLG4UicjqN6
-	8T93WcTaSwz7R966TSC73QFlCdZwQekP6zvVeYpnGrsZEWtMGgUDy1BRVX1LFRHBmMVLIyQVgAo
-	3KkO+sRDexLxGDaFMKEElHfsTFvl5jz0KDpgvyEHLpuECa5tz52vjqw1xHOPb6uPVA3eu6pgz3O
-	J2tbNfwBBZPpl873I6p3fH4JP9TmNoF6dE=
-X-Received: by 2002:a05:620a:f0c:b0:915:a101:48d with SMTP id af79cd13be357-9160ad93320mr721143085a.56.1781213588300;
-        Thu, 11 Jun 2026 14:33:08 -0700 (PDT)
+        bh=mKga1ggz6sdNzSSWK/KwEajXdsMF2aeCFFV+bSkqv7s=;
+        b=C7HJM/3k6zCbrHll8hZGfhaJttL8/cdEgIHbCvomvHKfWG5AzOHDMExZriU3sqvaKA
+         VwQUBZUiZ8omU8cFfIQ0hlXfaEejS+2RHjpx7OnyilN8s3BVcSTw2hRnF8PRCaFbhvHi
+         qV+tCsoAPOYYjTML6LZSVgTF+/vfdHx2ObVAhUzNszTTQrnvWu578UGX0ZVE/iMOYF3D
+         gFFkAYLHFIW/aAqgdtD9gwSJx1MUbhHAmE5z5g/cp8tZ2w8jPQ2ELplw8DIOdfpEZeyj
+         1WSkC67TVI1DTEnuLZYTVnOslJEMNSvnO7zG2gbmyvQcSJZ21DyexKdrO3VxTCSEsaYm
+         B/6Q==
+X-Gm-Message-State: AOJu0YyC8cONgG60JG2umva07Jb857sC4NnXrz1lW0rxkYcbVUDlmmFJ
+	DEty+YNXiLd+xPFbUsx9kf6g9BquXNq2oW4g/oW4WVIKzp7/SNAI3qsr9lqNJpBMOfZzaYClQ1o
+	Ghkfzy6c=
+X-Gm-Gg: Acq92OGkwxUUOg2NocMcDRUBykzA6BaxSGz0xWhLqBoQge8dxbVjyM+Ux3sBJ5l1CyO
+	IIvvjnQQzcTVYDlWsBjUK2+XV4NmolzNCEsCZh3Zaxqh/LLg9VBHH/WJ5+8AFqqDg3ysTvadE2o
+	urhZU2L9Pp6MB63A8rnBgKKtVUINnqXAt8y4p4w34tgciePOnc4GivbWC/bMUOwAkfq55cmB4mv
+	A+jAh1Vdx0QEK2pWZ0HU+V2roT+Cb6GORksnALOVuwF8/xs4jWj7mA82K28h7X2pAN/1vXAtj7Y
+	DAWuU2h61kcws3fVMJ03R/fFKYG+Z98/bkR7Ja+Hh0R5E8++oGdX4I3upIMirA6qssigtQfdShI
+	bcD9cLDeyomrBN/sVtkl5b/5rzrGwjaDd3l6ms6f68xmRxeYKV+40Yw2pKXd2Yp/8SA34dCaa4R
+	2Ofwh6Ur0JBNJ6p6xws3F/KxOaaiF+VuTdNObEiDB2hGuh2G1vhVyTiJgj2MTjMgJKkTZgoGiaL
+	PN7rAErQd4LadTm5EYjHJd2e4LgjSEdj2k=
+X-Received: by 2002:a05:620a:c4b:b0:915:e12d:19ce with SMTP id af79cd13be357-9160b030a68mr742279285a.47.1781213615629;
+        Thu, 11 Jun 2026 14:33:35 -0700 (PDT)
 Received: from com-75606.node.ndb.openai.org ([209.249.37.146])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9161a006ef0sm26666385a.24.2026.06.11.14.33.07
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9161a006e50sm26861285a.29.2026.06.11.14.33.34
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 11 Jun 2026 14:33:08 -0700 (PDT)
+        Thu, 11 Jun 2026 14:33:35 -0700 (PDT)
 From: Kyle Zeng <kylebot@openai.com>
 To: ntfs3@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	outbounddisclosures@openai.com,
 	Kyle Zeng <kylebot@openai.com>
-Subject: [PATCH] fs/ntfs3: validate dirty page table entry sizes
-Date: Thu, 11 Jun 2026 14:33:04 -0700
-Message-ID: <20260611213304.16654-1-kylebot@openai.com>
+Subject: [PATCH] fs/ntfs3: reserve NUL byte when converting UTF-16 names
+Date: Thu, 11 Jun 2026 14:33:31 -0700
+Message-ID: <20260611213331.16763-1-kylebot@openai.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -72,148 +72,41 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The generic restart table check only verifies the table header and
-free-list shape.  Dirty Page Table entries also carry an entry-local
-LCN array whose length is controlled by lcns_follow, and replay later
-trusts that value when converting version-0 entries and when copying
-LCNs from log records.
+ntfs_utf16_to_nls() appends a trailing NUL to the converted output,
+but it passes the caller-supplied size directly to the conversion loop.
+For the UTF-8 path, utf16s_to_utf8s() can legitimately fill all
+buf_len bytes and return buf_len, after which ntfs_utf16_to_nls()
+writes the terminator one byte past the end of the destination buffer.
 
-A malformed $LogFile can provide a Dirty Page Table dump whose generic
-restart table is valid but whose entry is too small for the declared
-lcns_follow count.  log_replay() can then run the version-0 conversion
-memmove() past the kmemdup() allocation, or later copy/read past
-dp->page_lcns when a log record spans beyond the matched DPT entry.
+The same contract problem exists for the NLS path when a converted
+character consumes the last available byte.
 
-Add Dirty Page Table-specific validation before copying the table:
-require entries to be large enough for the typed DPT layout, require
-the old version-0 source layout to fit before conversion, and require
-lcns_follow to fit within the restart table entry.  Also validate each
-log record's LCN span against the matched DPT entry before touching
-dp->page_lcns.
+Reserve one byte for the terminator before doing either conversion.
+The function continues to return the number of converted bytes,
+excluding the NUL terminator.
 
 Assisted-by: Codex:gpt-5.5
 Signed-off-by: Kyle Zeng <kylebot@openai.com>
 ---
- fs/ntfs3/fslog.c | 61 +++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 55 insertions(+), 6 deletions(-)
+ fs/ntfs3/dir.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index acfa18b84401..1fc9d04806b5 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -647,6 +647,23 @@ static inline void *enum_rstbl(struct RESTART_TABLE *t, void *c)
- 	return NULL;
- }
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+index d99ab086ef6f..e8892cd94e04 100644
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -25,6 +25,11 @@ int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const __le16 *name, u32 len,
  
-+static inline bool dptbl_lcns_in_range(const struct DIR_PAGE_ENTRY *dp,
-+				       u64 vcn, u16 lcns_follow)
-+{
-+	u64 dp_vcn = le64_to_cpu(dp->vcn);
-+	u32 dp_lcns = le32_to_cpu(dp->lcns_follow);
-+	u64 off;
-+
-+	if (vcn < dp_vcn)
-+		return false;
-+
-+	off = vcn - dp_vcn;
-+	if (off > dp_lcns)
-+		return false;
-+
-+	return lcns_follow <= dp_lcns - (u32)off;
-+}
-+
- /*
-  * find_dp - Search for a @vcn in Dirty Page Table.
-  */
-@@ -657,12 +674,8 @@ static inline struct DIR_PAGE_ENTRY *find_dp(struct RESTART_TABLE *dptbl,
- 	struct DIR_PAGE_ENTRY *dp = NULL;
+ 	static_assert(sizeof(wchar_t) == sizeof(__le16));
  
- 	while ((dp = enum_rstbl(dptbl, dp))) {
--		u64 dp_vcn = le64_to_cpu(dp->vcn);
--
--		if (dp->target_attr == ta && vcn >= dp_vcn &&
--		    vcn < dp_vcn + le32_to_cpu(dp->lcns_follow)) {
-+		if (dp->target_attr == ta && dptbl_lcns_in_range(dp, vcn, 1))
- 			return dp;
--		}
- 	}
- 	return NULL;
- }
-@@ -778,6 +791,37 @@ static bool check_rstbl(const struct RESTART_TABLE *rt, size_t bytes)
- 	return true;
- }
- 
-+static bool check_dptbl(const struct RESTART_TABLE *rt, bool is_restart_v0)
-+{
-+	u16 rsize = le16_to_cpu(rt->size);
-+	struct DIR_PAGE_ENTRY *dp = NULL;
++	if (buf_len <= 0)
++		return -EINVAL;
 +
-+	if (rsize < sizeof(struct DIR_PAGE_ENTRY))
-+		return false;
++	buf_len -= 1;
 +
-+	if (is_restart_v0 && rsize < sizeof(struct DIR_PAGE_ENTRY_32))
-+		return false;
-+
-+	while ((dp = enum_rstbl((struct RESTART_TABLE *)rt, dp))) {
-+		u32 lcns_follow = le32_to_cpu(dp->lcns_follow);
-+		size_t bytes;
-+
-+		bytes = struct_size(dp, page_lcns, lcns_follow);
-+		if (bytes > rsize)
-+			return false;
-+
-+		if (!is_restart_v0)
-+			continue;
-+
-+		bytes = size_add(offsetof(struct DIR_PAGE_ENTRY_32, page_lcns_low),
-+				 array_size(lcns_follow, sizeof(u64)));
-+		if (bytes > rsize)
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
- /*
-  * free_rsttbl_idx - Free a previously allocated index a Restart Table.
-  */
-@@ -4204,7 +4248,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 	t32 = rec_len - t16;
- 
- 	/* Now check that this is a valid restart table. */
--	if (!check_rstbl(rt, t32)) {
-+	if (!check_rstbl(rt, t32) || !check_dptbl(rt, !rst->major_ver)) {
- 		err = -EINVAL;
- 		goto out;
- 	}
-@@ -4547,9 +4591,13 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 		 * whole routine a loop, case Lcns do not fit below.
- 		 */
- 		t16 = le16_to_cpu(lrh->lcns_follow);
-+		if (!dptbl_lcns_in_range(dp, t64, t16)) {
-+			err = -EINVAL;
-+			goto out;
-+		}
-+
- 		for (i = 0; i < t16; i++) {
--			size_t j = (size_t)(le64_to_cpu(lrh->target_vcn) -
--					    le64_to_cpu(dp->vcn));
-+			size_t j = (size_t)(t64 - le64_to_cpu(dp->vcn));
- 			dp->page_lcns[j + i] = lrh->page_lcns[i];
- 		}
- 
-@@ -4928,6 +4976,12 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 	if (!dp)
- 		goto read_next_log_do_action;
- 
-+	t16 = le16_to_cpu(lrh->lcns_follow);
-+	if (!dptbl_lcns_in_range(dp, t64, t16)) {
-+		err = -EINVAL;
-+		goto out;
-+	}
-+
- 	if (rec_lsn < le64_to_cpu(dp->oldest_lsn))
- 		goto read_next_log_do_action;
- 
+ 	if (!nls) {
+ 		/* UTF-16 -> UTF-8 */
+ 		ret = utf16s_to_utf8s((wchar_t *)name, len, UTF16_LITTLE_ENDIAN,
 -- 
 2.43.0
+
