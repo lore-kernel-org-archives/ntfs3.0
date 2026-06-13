@@ -1,112 +1,76 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail132.mailersend.net (mail132.mailersend.net [212.11.79.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF213314C4
-	for <ntfs3@lists.linux.dev>; Thu, 11 Jun 2026 21:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBED11F5821
+	for <ntfs3@lists.linux.dev>; Sat, 13 Jun 2026 20:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.11.79.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781213618; cv=none; b=IELPprx60O863qvJWjaKG9JgDuuD6GGu9Fg1ttKMP4F0CxDouRNnZ3fFjenlUD8aK/lXFEuBT8GeR8oiI8/sA1MQPs0O+XTKFcCYvL0v385r/zAzblts/zBsdcpz1WuTfoq9BM1GwhbQc2bMNe6Hfb4C+Xte4QRUep5Z/8psySw=
+	t=1781381891; cv=none; b=jKLvBUcV6jWZrOcgr3O6wXoNdQLKeGF72wR1452KrJi/n/x28LySYgDHLP2z5Cx6CHZoaefHl+nE5mzzLbu8/KVi7LwC0N2g89m3MQCumY/M5HbVM2E8goK1SKXo21sGb0FAJPr8z7G8QrBwBBFAYc01URUBpkfeAwn6rl7rnRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781213618; c=relaxed/simple;
-	bh=mT8kNUEDIcc/xJe/GoAWK7HRYZZ5fog7EKo6wCAye9s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mmMwNQiEHGmig161nkNRCixbKJEkxT6agVWdjcVhsLEq0y/XSBNU52FQE2ZKK0m4ACGuzHLpVUsjn/1/rQFIlzKFIxW9FkYgNu1OY+2CHgWkPWLxVpVPFj8oP8suyNsFZaVyxb7LFVKnmvuNEwKdNkotBpp1weJ7gwaj3O7Z30c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com; spf=pass smtp.mailfrom=openai.com; dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b=TcH+hdHl; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openai.com
+	s=arc-20240116; t=1781381891; c=relaxed/simple;
+	bh=IsPnnkcStKwn/MBO4rst1iWYTEgBoCltqXe+kYqebD0=;
+	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=XczU9xUDhwHx9ucrlWEOKenyN4htLHZzO1AQNTvx9RcZxgO3iCXCDQPwTAP27T4txfyH0y0vMRhwg8g6ZMkMP09fIrrBfrzKLiEqRu5oyC28CP36hl9tF69JPM5E/9IuWMMgSOopFwxrE5uprGPyf/4Az3djESO+bDjABAi5irI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hatchling.org; spf=pass smtp.mailfrom=mta.hatchling.org; dkim=pass (1024-bit key) header.d=hatchling.org header.i=@hatchling.org header.b=jbI8yoES; dkim=pass (1024-bit key) header.d=mailersend.net header.i=@mailersend.net header.b=Kkqtu4KX; arc=none smtp.client-ip=212.11.79.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hatchling.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mta.hatchling.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b="TcH+hdHl"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-9157b94a07aso34656585a.0
-        for <ntfs3@lists.linux.dev>; Thu, 11 Jun 2026 14:33:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=openai.com; s=google; t=1781213616; x=1781818416; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mKga1ggz6sdNzSSWK/KwEajXdsMF2aeCFFV+bSkqv7s=;
-        b=TcH+hdHlu90Xz9liEaB6MUnuquLHVhUWTVRlNqbnHesuuSMWXGfy4eqo2CGKWLp1KP
-         xUYp9xHswLU0/7QhCOChpYLJMdMpu2XY2HCKn/f2YPSsAKo61/QmYrvIhbB0av9/JCLK
-         kaa8hZA3+qVzjen8M7gqvSm8Cv7dOCxwQsKKg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781213616; x=1781818416;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mKga1ggz6sdNzSSWK/KwEajXdsMF2aeCFFV+bSkqv7s=;
-        b=C7HJM/3k6zCbrHll8hZGfhaJttL8/cdEgIHbCvomvHKfWG5AzOHDMExZriU3sqvaKA
-         VwQUBZUiZ8omU8cFfIQ0hlXfaEejS+2RHjpx7OnyilN8s3BVcSTw2hRnF8PRCaFbhvHi
-         qV+tCsoAPOYYjTML6LZSVgTF+/vfdHx2ObVAhUzNszTTQrnvWu578UGX0ZVE/iMOYF3D
-         gFFkAYLHFIW/aAqgdtD9gwSJx1MUbhHAmE5z5g/cp8tZ2w8jPQ2ELplw8DIOdfpEZeyj
-         1WSkC67TVI1DTEnuLZYTVnOslJEMNSvnO7zG2gbmyvQcSJZ21DyexKdrO3VxTCSEsaYm
-         B/6Q==
-X-Gm-Message-State: AOJu0YyC8cONgG60JG2umva07Jb857sC4NnXrz1lW0rxkYcbVUDlmmFJ
-	DEty+YNXiLd+xPFbUsx9kf6g9BquXNq2oW4g/oW4WVIKzp7/SNAI3qsr9lqNJpBMOfZzaYClQ1o
-	Ghkfzy6c=
-X-Gm-Gg: Acq92OGkwxUUOg2NocMcDRUBykzA6BaxSGz0xWhLqBoQge8dxbVjyM+Ux3sBJ5l1CyO
-	IIvvjnQQzcTVYDlWsBjUK2+XV4NmolzNCEsCZh3Zaxqh/LLg9VBHH/WJ5+8AFqqDg3ysTvadE2o
-	urhZU2L9Pp6MB63A8rnBgKKtVUINnqXAt8y4p4w34tgciePOnc4GivbWC/bMUOwAkfq55cmB4mv
-	A+jAh1Vdx0QEK2pWZ0HU+V2roT+Cb6GORksnALOVuwF8/xs4jWj7mA82K28h7X2pAN/1vXAtj7Y
-	DAWuU2h61kcws3fVMJ03R/fFKYG+Z98/bkR7Ja+Hh0R5E8++oGdX4I3upIMirA6qssigtQfdShI
-	bcD9cLDeyomrBN/sVtkl5b/5rzrGwjaDd3l6ms6f68xmRxeYKV+40Yw2pKXd2Yp/8SA34dCaa4R
-	2Ofwh6Ur0JBNJ6p6xws3F/KxOaaiF+VuTdNObEiDB2hGuh2G1vhVyTiJgj2MTjMgJKkTZgoGiaL
-	PN7rAErQd4LadTm5EYjHJd2e4LgjSEdj2k=
-X-Received: by 2002:a05:620a:c4b:b0:915:e12d:19ce with SMTP id af79cd13be357-9160b030a68mr742279285a.47.1781213615629;
-        Thu, 11 Jun 2026 14:33:35 -0700 (PDT)
-Received: from com-75606.node.ndb.openai.org ([209.249.37.146])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9161a006e50sm26861285a.29.2026.06.11.14.33.34
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 11 Jun 2026 14:33:35 -0700 (PDT)
-From: Kyle Zeng <kylebot@openai.com>
+	dkim=pass (1024-bit key) header.d=hatchling.org header.i=@hatchling.org header.b="jbI8yoES";
+	dkim=pass (1024-bit key) header.d=mailersend.net header.i=@mailersend.net header.b="Kkqtu4KX"
+DKIM-Signature: a=rsa-sha256; bh=5AQtSs1N99XVv55ur6IoSIyJIMJiny1kmWPnaLkE11Y=;
+ c=relaxed/relaxed; d=hatchling.org;
+ h=DKIM-Signature:X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
+ s=mlsend2; t=1781381773; v=1;
+ b=jbI8yoESmB2aaSWe21jLLbyzf+/4bmN96CISzE8RdKVM91aHtf8xcpQOhbhFu437WlUorr8s
+ cXbncH5lupnI4eDuLyZDX/xgy5T0ZXy6UAitdcGCJ9GwPQpHNjmwjwqDwEdkH6wBJ3EegEKJe4e
+ 70gHLlzcvk1sHJChd60Dn3kU=
+DKIM-Signature: a=rsa-sha256; bh=5AQtSs1N99XVv55ur6IoSIyJIMJiny1kmWPnaLkE11Y=;
+ c=relaxed/relaxed; d=mailersend.net;
+ h=X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
+ s=mlsend; t=1781381773; v=1;
+ b=Kkqtu4KXCQpCRXkVM4TVTcXabzQTosT7vdBU01e6m3YqwUJovAYCTyuMjDjU4CS4lIUOHvNX
+ gQiRBdLcnrPXS6XJMNNH7Q38Ss7jYZURzzHip640UBWFhdCnjjremusVN2uf8oPVp+paXuEiaAu
+ /GNUDddZgcnyQkF3aJEy8w1o=
+X-Mailer-Info: 10.AZlZWY1xGd.AZlZWY1xGd0MTN5UzN.uRnZzNDQsl2c0NnLslmb1hnLkVmd.
+ gNhJDOmFWM0IGOmZjYhVzY2MmYjVDO4gzK0MTN5UzN....
+Subject: [PATCH v2 0/2] fs/ntfs3: two fixes for large NTFS volumes
+From: Senjin <senjin@hatchling.org>
 To: ntfs3@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	outbounddisclosures@openai.com,
-	Kyle Zeng <kylebot@openai.com>
-Subject: [PATCH] fs/ntfs3: reserve NUL byte when converting UTF-16 names
-Date: Thu, 11 Jun 2026 14:33:31 -0700
-Message-ID: <20260611213331.16763-1-kylebot@openai.com>
-X-Mailer: git-send-email 2.54.0
+Cc: almaz.alexandrovich@paragon-software.com,
+ linux-kernel@vger.kernel.org
+Date: 13 Jun 2026 20:16:13 -0000
+Received: from 10.32.22.247 by 10.132.0.99 with http; 13 Jun 2026 20:16:13 +0000
+Message-ID: <6a2dba8d1b6e7397b139b1e6@mailersend.net>
+X-MailerSend-RecipientID: 6a2dba8d1b6e7397b139b1e6;6a28fa14b8f6ba5c6cbc5888;r9084zv9678gw63d
+Feedback-ID: r9084zv9678gw63d:MailerSend
+X-MailerSend-MessageID: 6a2dba8dd6f973735d98941f
+Reply-To: senjin@hatchling.org
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-ntfs_utf16_to_nls() appends a trailing NUL to the converted output,
-but it passes the caller-supplied size directly to the conversion loop.
-For the UTF-8 path, utf16s_to_utf8s() can legitimately fill all
-buf_len bytes and return buf_len, after which ntfs_utf16_to_nls()
-writes the terminator one byte past the end of the destination buffer.
+Both patches were found on a 16 TB NTFS volume with 0xFFFFFEFF total
+clusters, compiled with CONFIG_NTFS3_64BIT_CLUSTER=3Dy.
 
-The same contract problem exists for the NLS path when a converted
-character consumes the last available byte.
+Patch 1 is v2 of the previously submitted MFT bitmap fix, correcting
+a malformed hunk header in the diff. No code change from v1.
 
-Reserve one byte for the terminator before doing either conversion.
-The function continues to return the number of converted bytes,
-excluding the NUL terminator.
+Patch 2 is a new fix: sbi->maxbytes_sparse is assigned -1 in the
+CONFIG_NTFS3_64BIT_CLUSTER path. As a signed loff_t, -1 is the most
+negative value, causing vfs_setpos() to return -EINVAL for every seek
+on sparse or compressed files on such a volume. Sequential reads work
+correctly; random access does not. Fix assigns MAX_LFS_FILESIZE
+instead, consistent with the other two limits in the same block.
 
-Assisted-by: Codex:gpt-5.5
-Signed-off-by: Kyle Zeng <kylebot@openai.com>
----
- fs/ntfs3/dir.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Senjin (2):
+  fs/ntfs3: load ATTR_BITMAP run extents from $MFT extension records
+  fs/ntfs3: fix lseek EINVAL on sparse/compressed files with 64-bit clus=
+ters
 
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index d99ab086ef6f..e8892cd94e04 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -25,6 +25,11 @@ int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const __le16 *name, u32 len,
- 
- 	static_assert(sizeof(wchar_t) == sizeof(__le16));
- 
-+	if (buf_len <= 0)
-+		return -EINVAL;
-+
-+	buf_len -= 1;
-+
- 	if (!nls) {
- 		/* UTF-16 -> UTF-8 */
- 		ret = utf16s_to_utf8s((wchar_t *)name, len, UTF16_LITTLE_ENDIAN,
--- 
-2.43.0
-
+ fs/ntfs3/inode.c | 10 +++++++---
+ fs/ntfs3/super.c |  2 +-
+ 2 files changed, 8 insertions(+), 4 deletions(-)
