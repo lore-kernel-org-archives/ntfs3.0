@@ -1,54 +1,48 @@
-Received: from mail135.mailersend.net (mail135.mailersend.net [212.11.79.135])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from libero.it (smtp-17.italiaonline.it [213.209.10.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890B4125A0
-	for <ntfs3@lists.linux.dev>; Sat, 13 Jun 2026 20:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.11.79.135
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D930B3BFAF2
+	for <ntfs3@lists.linux.dev>; Mon, 15 Jun 2026 08:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.209.10.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781382454; cv=none; b=G9ScBbGB0+TBp7vBXuV+QqBhdZmp2cBu1Fg4VpfMhgQIXgIYM0/qoHot2TW/L1Cqg3rBASLQ/Nr3NDasmwiOVXuJ/mb02Uk6dGxGXoqYroPyJubpHPRUQtZD1yX5uHIXPdaXdpc9z6aoHUnk7WDQZ+ctQNRs8BrBtO3zg+daMYQ=
+	t=1781511823; cv=none; b=KiWOIf4ytFWN6yjfQ7yqmZuFanJrG+TopdU4asffS6ejAPm5zqqCZW1ulIasZIKW9DgkvDWa6URjQuoZoI4qjmda7/UqYe8lFH2X5lkN2ZSaQYYkM1vavY21bKQS/QWJyfGs+SGzg7b3D/wYVaGZ/IECJV6knbrqHe7CaScwLnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781382454; c=relaxed/simple;
-	bh=F/0JDouk4PENmZ8o64R9b66o0Hto6t5zNsBLb6ZPjKQ=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UEUVW9lry3FzaZhoz0OoAV1bUBiOAnc9gHcRZ7d/opH+NL5mq9UHqQj3QjhaUJ3LkXEST/HEUm9QOUIxglVvzAo4XLHGP6yikt6n9T0TCygIBG57vWFbMM9ob/5e6EkmsJNm55U8qr2SZMK4FEly434J84qdUoPTqudaRIzvmY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hatchling.org; spf=pass smtp.mailfrom=mta.hatchling.org; dkim=pass (1024-bit key) header.d=hatchling.org header.i=@hatchling.org header.b=tLcaL47/; dkim=pass (1024-bit key) header.d=mailersend.net header.i=@mailersend.net header.b=vcN/Wgai; arc=none smtp.client-ip=212.11.79.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hatchling.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mta.hatchling.org
+	s=arc-20240116; t=1781511823; c=relaxed/simple;
+	bh=JtLOY+R7sgJ7JpPIhG90Gmbe/+zE4+GWe9E18ac/+SU=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=pG1nC5nMJlDbJgmHXVYgY7qzL/TNb1gUYRFwywsDEODisC1elLkuCEN9japVF9Ht+g/wnzRsw49uIhnuhrRfQjun5CmF6TpXSHtlWP/7gSPJu6+Z8M3na3Ob/c8yS6+JsyegNpGsSnHPjsu6dxvWGthNAV5B73kuPLJfrMx3omw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=libero.it; spf=pass smtp.mailfrom=libero.it; dkim=pass (2048-bit key) header.d=libero.it header.i=@libero.it header.b=jQFuJr/l; arc=none smtp.client-ip=213.209.10.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=libero.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=libero.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hatchling.org header.i=@hatchling.org header.b="tLcaL47/";
-	dkim=pass (1024-bit key) header.d=mailersend.net header.i=@mailersend.net header.b="vcN/Wgai"
-DKIM-Signature: a=rsa-sha256; bh=49bFjSlCo/o5F3zHV/tFWlrPZavNvphqtp+i1jaWXDM=;
- c=relaxed/relaxed; d=hatchling.org;
- h=DKIM-Signature:X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:In-Reply-To:References:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
- s=mlsend2; t=1781381773; v=1;
- b=tLcaL47/8klNqpFPbvZ66fOx2XOQNzmn9aQjenV5d51IbDW2p12nD8ILC+ICjNQAPBthDVIb
- Q42wj1UMQpoi4qiPGpcnq5H8qv0+N8ZGKmiFLpHeRoQ9W/2uaF/2A9P+GFiWM8YUf3TDWi5IN1C
- Zg6fktSQ1FhaGOeUvmjaZdQE=
-DKIM-Signature: a=rsa-sha256; bh=49bFjSlCo/o5F3zHV/tFWlrPZavNvphqtp+i1jaWXDM=;
- c=relaxed/relaxed; d=mailersend.net;
- h=X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:In-Reply-To:References:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
- s=mlsend; t=1781381773; v=1;
- b=vcN/Wgaitpgtiake917PC8uYt7ZN+HdYh2NB4dHse/4UZn3Wxis4mGkzewY+yW9lfyGJ2r3o
- mMG56FQU32bblHI52tpgWR66JeqG3kw5BbtL4JrRwf95PrgMIcO340UZN0ejySafkVDcZ7FVsZL
- qPqZVM4X5e183k2Rj03YrCHQ=
-X-Mailer-Info: 10.AZlZWY1xGd.AZlZWY1xGd0MTN5UzN.uRnZzNDQsl2c0NnLslmb1hnLkVmd.
- gNhJDOmFWM0IGOmZjYhVzY2MmYjVDO4gzK0MTN5UzN....
-Subject: [PATCH v2 1/2] fs/ntfs3: load ATTR_BITMAP run extents from $MFT
- extension records
-From: Senjin <senjin@hatchling.org>
-To: ntfs3@lists.linux.dev
-Cc: almaz.alexandrovich@paragon-software.com,
- linux-kernel@vger.kernel.org,
- Senjin <senjin@hatchling.org>
-Date: 13 Jun 2026 20:16:13 -0000
-Received: from 10.32.22.250 by 10.132.0.99 with http; 13 Jun 2026 20:16:13 +0000
-Message-ID: <6a2dba8dda547d28f51dc46a@mailersend.net>
-X-MailerSend-RecipientID: 6a2dba8dda547d28f51dc46a;6a28fa14b8f6ba5c6cbc5888;r9084zv9678gw63d
-Feedback-ID: r9084zv9678gw63d:MailerSend
-X-MailerSend-MessageID: 6a2dba8d0035a2e1bf48c954
-In-Reply-To: <20260613201610.14467-1-senjin@hatchling.org>
-References: <20260613201610.14467-1-senjin@hatchling.org>
-Reply-To: senjin@hatchling.org
+	dkim=pass (2048-bit key) header.d=libero.it header.i=@libero.it header.b="jQFuJr/l"
+Received: from oxapps-33-147.iol.local ([10.101.8.193])
+	by smtp-17.iol.local with ESMTPA
+	id Z2Z4w3IK3DxRGZ2Z4wIPyj; Mon, 15 Jun 2026 10:21:03 +0200
+x-libjamoibt: 1601
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2021;
+	t=1781511663; bh=Suna0Gp9nTPkvM063rl4tr6cw+V8Y9unXkZocMQou0g=;
+	h=From;
+	b=jQFuJr/lMyLfxM0hp+wXcw4I4OSsPah9QIe4yag6AKVIx35lQ8Xd2jIugf7rX7qao
+	 CCBdFyneOi5siK+WIOWBWAz9HnEU/bjdz7uDuDnVLKhlBrXx+cWmet1KoLQ6/AfwmU
+	 kWMQSoPz0kRBNbk4F4u+cMgPaIs/AP7bqN43IlO25pklFu/coieLH3w5//WToa0fg+
+	 8sXheOrFQ9t899Q7rxeVTtrtl4VT1TWYwzFW7RgQFglwdqhdRpoaR8zLI7KWSfQO28
+	 RIg+x3n9BN7V/x6+K/Y3SrFaBXmsAmcKUxowxSEgJnBSMRWPZu5aTG5sDa0hS0iKsF
+	 YJxMsfwUfZByA==
+X-CNFS-Analysis: v=2.4 cv=JoLBas4C c=1 sm=1 tr=0 ts=6a2fb5ef cx=a_exe
+ a=vzpMTk4oe8B86+hI6mE1Jg==:117 a=j6NflhPgxWoA:10 a=IkcTkHD0fZMA:10
+ a=GFCt93a2AAAA:8 a=NQ3AX_1mPBHL7o3MFk4A:9 a=QEXdDO2ut3YA:10
+ a=pnEVf3y3OfjpgmdsDARm:22 a=0UNspqPZPZo5crgNHNjb:22
+Date: Mon, 15 Jun 2026 10:21:02 +0200 (CEST)
+From: saarthal@libero.it
+To: 2020820791.1843094.1777717495048@mail1.libero.it,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: Ntfs3 <ntfs3@lists.linux.dev>
+Message-ID: <1793072274.389678.1781511662762@mail1.libero.it>
+In-Reply-To: <75b58d74-24c8-41bc-8e20-7704ee287f08@paragon-software.com>
+References: <75b58d74-24c8-41bc-8e20-7704ee287f08@paragon-software.com>
+Subject: Re: File operations on NTFS drives causes kernel BUG at
+ fs/iomap/buffered-io.c:1061
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -56,56 +50,34 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.6-Rev87
+X-Originating-Client: open-xchange-appsuite
+x-libjamsun: TsWL6WnLD+2S8+RfCtvlaGhQe+vE4jBZ
+x-libjamv: GIh2ObQrco4=
+X-CMAE-Envelope: MS4xfFWd0wd4LMYkx/uID+kHBsXVQ82yFL/5ST8sfiIyBOlztcLoj/ibnDdY3Hz/J5u4GMcb7UUBzzE8Ipyxf9PNJL0axyWAGVAmXijy/vHjUR7Wq+yPClkS
+ CmaSRkOdP3OCxga/Z8RXngybZrRzw9Q4lMBa7CeFIq7XD5/W/dWWr2sVIWOI+gc0ZimPDp9XI51/5SwEJ/rC3LdT6Dty1Ng2EJPUN5ESsZrFl8ll+jRH57Qp
+ zQ1iDAStuJqQmlwJHxHSydh9IFV/lkbB7W5a/Havt3Wz3J1CMGbjBl/VMFZFWPF/TlZQB8ntF0IqgH4mDOTytjYtQB7I/XURkt9IqsMiKE4=
 
-v2: fix malformed hunk header in patch (no code change)
+Hello Konstantin,
 
-When $MFT's ATTR_BITMAP attribute is heavily fragmented, its run list
-can span multiple MFT extension records (attribute list entries with
-vcn > 0). The non-primary segment handler in ntfs_read_mft() only
-processed ATTR_DATA extension segments for MFT_REC_MFT, silently
-skipping any ATTR_BITMAP segments. This left sbi->mft.bitmap.run
-incomplete, causing wnd_init() to fail with -ENOENT when wnd_rescan()
-tried to look up a VCN not covered by the truncated run list.
+with kernel 7.1 I've been unable to reproduce the bug for several days, so I think it's fixed.
 
-Observed on a 16 TB NTFS volume (0xFFFFFEFF total clusters) whose MFT
-bitmap run list was split across 97 extents in extension records.
-wnd_rescan() successfully looked up VCNs 0-122 from the runs loaded
-from the base record, then failed at VCN 123 (the last cluster of the
-bitmap) whose run was only present in an extension record.
+Thanks,
 
-Fix by extending the MFT_REC_MFT special case to also handle
-ATTR_BITMAP extension segments, storing their runs into
-sbi->mft.bitmap.run the same way the primary segment does.
+raoul
 
-Signed-off-by: Senjin <senjin@hatchling.org>
----
- fs/ntfs3/inode.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index XXXXXXX..XXXXXXX 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -127,10 +127,16 @@ static struct inode *ntfs_read_mft(struct inode *i=
-node,
-
- 	if (le && le->vcn) {
- 		/* This is non primary attribute segment. Ignore if not MFT. */
--		if (ino !=3D MFT_REC_MFT || attr->type !=3D ATTR_DATA)
-+		if (ino !=3D MFT_REC_MFT)
- 			goto next_attr;
-
--		run =3D &ni->file.run;
-+		if (attr->type =3D=3D ATTR_DATA)
-+			run =3D &ni->file.run;
-+		else if (attr->type =3D=3D ATTR_BITMAP)
-+			run =3D &sbi->mft.bitmap.run;
-+		else
-+			goto next_attr;
-+
- 		asize =3D le32_to_cpu(attr->size);
- 		goto attr_unpack_run;
- 	}
---
-2.x
+> Il 02/06/2026 16:32 CEST Konstantin Komarov <almaz.alexandrovich@paragon-software.com> ha scritto:
+> 
+>  
+> Hello,
+> 
+> Thanks for the report. ntfs3 has had several changes in the buffered-write
+> path recently - one of those may already address this. The changes aren't
+> in mainline yet, but they're queued for the 7.2 merge window. Could you try
+> 7.2-rc1 once it's out and follow up on whether the problem still reproduces?
+> 
+> Regards,
+> Konstantin
