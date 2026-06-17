@@ -1,174 +1,183 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762673B1006
-	for <ntfs3@lists.linux.dev>; Wed, 17 Jun 2026 23:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781738034; cv=none; b=KYAAk9mRjK4kTpDEYfbJtOKDSLp04qKEqEgNRTYIQomUKJoUb0QjP5CPgM4pQoSbPwx+oG9G1WLTbRM5bkMmIMcJ3FA8upr5ehPvkefB/43rZDhKo1RqU4EqHHAktt8k/TrPoYcRoVOmaL8Sdl6dGsQ/r3D6rZW1BPIG/82kohA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781738034; c=relaxed/simple;
-	bh=Kj0TBfxEicM57cvRUBFcrL1W+6OHe2oDpqZXrRZ/o3c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iZmmZI4vz847bQyZOW4SXSqA9rX3eKUKaMIoHUumBzLqWhkVQ5NKXkOjmsSIQO11Ki+ahUR6SaItHE5DTyIUzI42aVitlbNbNxkVqnBvbZ07kNiHAxA0glop4zcJx76TKBV5odq56QoqiE27VDjdGNrhSyBEkn0FJrVyb9m5abg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=DKad2/LE; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1202F38F24F
+	for <ntfs3@lists.linux.dev>; Wed, 17 Jun 2026 23:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781738398; cv=pass; b=OGNAAjPENdNMAV5knCXV+xnLFuEPRsFlSmBbJKtJCBQ6LK4dj6+On3COUadAYBefWRIvWHuM9kE1IVeJoSgw18ZGsw0/kYawVgBUiAkqhF9YQVonzREURIwPQkpaibrAwi021ARqpj1nyaoGedAp7hfLa7lQcX+VKifhBccY/qA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781738398; c=relaxed/simple;
+	bh=C2uIgO4GKMDb/V8hGe2dDq7ICL4NIxLXZI42+/B5/VI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qym0ZXj+xTdlocpBwXYCXomtMG3qPJy+Lu87RMx7FTNDPsoJxY0c/NvZn/WIxQtbENqJlKxz/bsAFQe7MG0X/O8p46ezx+31lGOBqAp4dbUNL11Xd9FAxhkSde2MXU3lC7b95q/BmPCVZkVVHtAtYX4gt/aYHUMRs2q3W/t/YIU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=VsxLBEqd; arc=pass smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="DKad2/LE"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-84231305a80so140983b3a.0
-        for <ntfs3@lists.linux.dev>; Wed, 17 Jun 2026 16:13:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="VsxLBEqd"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c85a297d2d2so242740a12.0
+        for <ntfs3@lists.linux.dev>; Wed, 17 Jun 2026 16:19:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781738396; cv=none;
+        d=google.com; s=arc-20240605;
+        b=H2MbJEIeyGm/hlX6bZwH6qeoy8NnjvSJxTfuX/2qNAa55Ma4boit/32njQQ4TAN7yU
+         N42s+cumLuOL/B2oxi4Pl184ErKEjunEsFe/4yrevIc9XX5KyRyf6JG5Ev8338NXjj4c
+         63aBRQyRsvCapzXFMQhr0e7q4T441NzRFxCbjmPFE+iwP6tzNaZ2kAX3tC8cM0fnZkU2
+         aSatow14/LEO/CLb52KFp6Iivzux+fJoYH7e0yZb8jICzyD/+ODiLWiKqC/jUSYLaoDm
+         JdiLvNSW17U70HeFFodujbKHlTd0Au9IKdgqyhN4+RStnZcUe5dia7I0GD3gOCtpkaVP
+         6H3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=zqCA+PokS+2/wNFc4bObFUUjwikCsKrkjdH/0a6K8Gk=;
+        fh=XZm3QxHmr5C8P86qhzOirxHgkn0yssSNKkQHPVTDSVE=;
+        b=CY4fvNPewmIk13VREDsO58budpoijqSXC+6lcy4kSBmBxop9xXP1vXgNe5JkpZWW8q
+         oubr8aT6lu9J4hQMY3AexLODV4cIhStHwAjqJy30lAkRV+/86fNgSzf8OllY3D/upuf0
+         NRhM4P5H3io3xd09I7d1puafBtGlmq5fKYEKMswWNqdidkDg9KN+++HsYiUq1ME4r3na
+         IY4aB5xADQyGFtzud6RyQJjSU2Pt0Rfe1pE9O4sH/Iqb4XfUKkfMPCbTsM7jXCXdUG53
+         23bI+LM4N8zgSpF9aEFhv5mRx1cwnfXC8pMyhvduLuF4pRd+A870DNxm3/ITS97MSXEm
+         +cOA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asu.edu; s=google; t=1781738033; x=1782342833; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=asu.edu; s=google; t=1781738396; x=1782343196; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4jtRzExnB/EeGtbnZ2qJXWTojvkZFyWJwa+IXv5Dkx4=;
-        b=DKad2/LEzsKVBRnUPRbfGH9MFrrOFih9Lb6qI/1WHf3NHGQRYjXja+Rw0MxG4txmK3
-         3fu6BDf0vY1o+H/5bSit0cBpWU/GPu28gIRF0VcaR9dpBwKDNFfVZRRleHbVzHUbXKyq
-         sb/ydSe1dAHw/qYtG2ZztCqPJf/XQErwEJJolVXLauZbY4xSAzCmXWE8sbkznIUZHnE7
-         47Q/KvkQWooVanAIxueBx+J8tXGth2h9jocd6L8sbfEX5RqHv55ffMg97cmbZLCnGmFy
-         VhkJ4LAzDx2/uVjykYx1W/TmdBjoEa5KYYg7mPu75i/tNARmhcPnjknSK/whb6EbME9d
-         P1iA==
+        bh=zqCA+PokS+2/wNFc4bObFUUjwikCsKrkjdH/0a6K8Gk=;
+        b=VsxLBEqdKK4FClpO2XjQfNcwD39ZYCREJWRN2JuXFLqFEVIrjVHaLS2Ss7z7ehTzOb
+         LwscBQIDx0wHw460mUD8rRYtHn2/iDmwZz9kFWhCTok/hjzQBQggTci8X60XxwljGQRh
+         dGaW6N95n4XrO8HIOOtDf/XWezFHgYFbmoqSUBYe5cg2P2iGuPWv9fP37n9i7NWswXd1
+         /bim3qsFh+slNELHFwJI+AmSyl5E0bPWlouOTjEKk2YUINa7HvWuv/Vubk6c4INUqn2M
+         6R3MfFJ/5o0FHgDBY3tuREQFxiNUuUYutjfkIGqQBDBYJAH8wybqEJIHWT6ShB+Wvksh
+         Uqyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781738033; x=1782342833;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1781738396; x=1782343196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=4jtRzExnB/EeGtbnZ2qJXWTojvkZFyWJwa+IXv5Dkx4=;
-        b=D062CUpQGdsd3meL8mBn4KflNOr4NJLvV7tUTQwIpEw9QOxwTSmr6IMLRjeGOPbxlQ
-         x0yeYT1nPJeQQyZpvFWOmpaiir3acL0y7X/zDOgqca1EqjVIfTH1G1TIH74zgenVsmRi
-         8eHeAPXLsfAirOsa78I8aDHXfyUsqZk6nm7D3Gab5ZcpSZbYE5z1EgyclFraIsBMGoGi
-         X/FHVZpLQwXfGMjxwXEvw7WRlmt786x+qwSuaPQl6gtQVq89abYCOBJS2znEHkUrUWzM
-         LxGGfXnH4rPKvs3zmrJRuV8HyU8A8KS7fvfA89ZbxUdkXVRHakGQSImsgm+pyHLourdg
-         h00A==
-X-Gm-Message-State: AOJu0YwK1Y2VS2TD/8cFhwcaUZsTQffWKC+6ZoAgG/lTU70564mBtKfE
-	gYyFGR2G9crA6sJ4xds3Xg8bgRitW/WHmtLM+Gjriq4N7JF/rnpcQdu2JnOVCODJOOQfvVypg5v
-	LhMCINA==
-X-Gm-Gg: AfdE7cm1kzZaQdSLp66rHwQgoEKjusdtOfN7DlkWpgjxBlG1557N14gMM/Hdc5Gu0Gq
-	gXMJSqJCEYcwGgSQQJ3gLwTjdu3H8vzx/ZeZSmYzARwZopc6WZ7Ke1ngvohGqwx+2wtMAilgffC
-	JqRZc9eBhGgdJX6ph81C9osOVL3DraegKDp9CSJF5vODwR3nontC3tk92ZLQbpUjXjBaJGoQCcb
-	gT7XF+ldqO2Xz6iDQLo3DI3MoFnGvPdDlMRIIXn+qXHJIMX1C35ZwrKRxNn1EV07xNsqurd18wo
-	/yg2L4LhHTBZ0/MywPtF42kmsYn762PV3C46/jrKRiDy0SVxoCZNa4T19P1oVEK0oyeO2WHoiKl
-	OrMYpUlo1iRCo281iL+Ila1RvbkelkwViXIxbBD4yFPMs4bgZFUKQSLcfkXNfDPYQ9+onYZO9hA
-	==
-X-Received: by 2002:a05:6a00:1709:b0:842:377a:4dcd with SMTP id d2e1a72fcca58-8453b27ecd1mr853640b3a.43.1781738032748;
-        Wed, 17 Jun 2026 16:13:52 -0700 (PDT)
-Received: from p1.. ([2607:fb90:ec29:4018:2b5d:3e92:f9ad:889c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434acf4b5csm21073427b3a.23.2026.06.17.16.13.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 16:13:52 -0700 (PDT)
-From: Xiang Mei <xmei5@asu.edu>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Weiming Shi <bestswngs@gmail.com>,
-	Xiang Mei <xmei5@asu.edu>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 2/2] fs/ntfs3: bound page_lcns[] index by the log record
-Date: Wed, 17 Jun 2026 16:13:43 -0700
-Message-ID: <20260617231343.403432-3-xmei5@asu.edu>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260617231343.403432-1-xmei5@asu.edu>
-References: <20260617231343.403432-1-xmei5@asu.edu>
+        bh=zqCA+PokS+2/wNFc4bObFUUjwikCsKrkjdH/0a6K8Gk=;
+        b=cK9479B2UMnyZqyuzu4BmZtAbdNTyjj/f7zN/+HsV23L8fdeTyQSoiwybItppiWegW
+         DPXi7VaQlGwFqaVBrii3gVfLrbfDG4BpIp8Ib+alyci5Mll0iZn4m5xX5GDDkY/ieJDn
+         N7mRKMGMpq/vCiZDjUIWt947jHc2C01H+1PpTM0aJsfwPjsdhDQv5EhsGuxzWp3UqTU1
+         b2X1c8LQOYuLeFntqiuwmIWr/9Rp/3vIITnB5J73wDLZZf1B9sDTDsMj54rVVSOEtf/Z
+         G/CYHYK6DWazaCshmxwbOv+qAYk8ihtNyMpH2ULIyclUDHm1ziS9m31/3AXyVjgq0wsB
+         oWJQ==
+X-Gm-Message-State: AOJu0YwOgcFKcRbp1R8zMY7fswdH+1eyEUwVeFSuNNGEIvrQgqboVi8e
+	zKvLjuwvl0FwSaF6/pZp6nGGfhwHaMQ6THpjlNuWkYCLSQX3V9uHfSRZO7whU8+KPZ6tXKLaPbu
+	IY9zY8jMLdemj40f5a0PGsG/TdI2jB2Lp/1QF6k3/
+X-Gm-Gg: Acq92OEl+IZaU/3/vr2MzC7RoAUXC+8gAQhnnszN/GDQgUKwP2V0VgPehQpCgR0bQ3f
+	jBMzOr0BQrvi0pYgBbHCTHlnmesXVw7AEQ9DltDRprVftBQhZh334/09+nxBFSmhafvikKRJbRB
+	9j9Q+c3hiMzIuoR1paHgn1xvxYLCc0xyokqcAcG7/0aO0VcPBWwHRtIW8NvVvDCWxTayGAKx/zH
+	V71qEAmkMmrUwq0Uawmva2w5VR8vz8f3snTR/UHtosoTaCy4OE7M+DP1qhpqgTLcybUfg3hNtoZ
+	sv4t124b3djUrvejjw+wPMWuwXpt
+X-Received: by 2002:a05:6a21:e083:b0:3a2:d838:bfdb with SMTP id
+ adf61e73a8af0-3b8b76e78cemr6620170637.29.1781738396452; Wed, 17 Jun 2026
+ 16:19:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260617231343.403432-1-xmei5@asu.edu>
+In-Reply-To: <20260617231343.403432-1-xmei5@asu.edu>
+From: Xiang Mei <xmei5@asu.edu>
+Date: Wed, 17 Jun 2026 16:19:45 -0700
+X-Gm-Features: AVVi8CeUYZZnz1sG3al02pUouG8W0SMwKcgXJUwT8LMhc2xdHPmIadta1baKGVY
+Message-ID: <CAPpSM+RNyi9mwzpa_QNeFS2PmAw=pdHzaOAj4MrBdY75chDRrQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] fs/ntfs3: fix out-of-bounds page_lcns[] access on
+ log replay
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Weiming Shi <bestswngs@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The copy_lcns loop and the redo shorten loop index page_lcns[] at j + i,
-where i runs up to the log record's lcns_follow. That count is checked only
-against the record's own length, not the target entry, so check_dp_table()
-(which validates the entry's lcns_follow) does not cover it: the copy_lcns
-entry may even be freshly allocated after that check, and find_dp() bounds j
-but not i. A crafted record thus overflows page_lcns[] of an otherwise valid
-entry.
+Considering the vulnerability is exploitable, we don't post the poc
+publicly. If you need the corresponding poc triggering the issues, we
+would like to DM and share the payload image, poc.c and steps to
+reproduce the bugs.
 
-Add dp_range_ok() and reject, before each loop, any record whose run does
-not fit the entry. These are the only two page_lcns[] accesses indexed by
-the record rather than the entry, so together with the entry validation
-every access is now bounded.
+Thanks,
+Xiang
 
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Cc: stable@vger.kernel.org
-Reported-by: Weiming Shi <bestswngs@gmail.com>
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Xiang Mei <xmei5@asu.edu>
----
-v2: resend to public mailing list
-
- fs/ntfs3/fslog.c | 25 +++++++++++++++++++++----
- 1 file changed, 21 insertions(+), 4 deletions(-)
-
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index b1ca84d83de5..1cc7402fdc2c 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -647,6 +647,14 @@ static inline void *enum_rstbl(struct RESTART_TABLE *t, void *c)
- 	return NULL;
- }
- 
-+/*
-+ * dp_range_ok - true if [j, j + count) fits in a page_lcns[cap] array.
-+ */
-+static inline bool dp_range_ok(size_t j, u32 count, u32 cap)
-+{
-+	return j < cap && count <= cap - j;
-+}
-+
- /*
-  * find_dp - Search for a @vcn in Dirty Page Table.
-  */
-@@ -3801,6 +3809,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 	u64 t64;
- 	u16 t16;
- 	u32 t32;
-+	size_t j;
- 
- 	log = kzalloc_obj(struct ntfs_log, GFP_NOFS);
- 	if (!log)
-@@ -4566,9 +4575,12 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 		 * whole routine a loop, case Lcns do not fit below.
- 		 */
- 		t16 = le16_to_cpu(lrh->lcns_follow);
-+		j = le64_to_cpu(lrh->target_vcn) - le64_to_cpu(dp->vcn);
-+		if (!dp_range_ok(j, t16, le32_to_cpu(dp->lcns_follow))) {
-+			err = -EINVAL;
-+			goto out;
-+		}
- 		for (i = 0; i < t16; i++) {
--			size_t j = (size_t)(le64_to_cpu(lrh->target_vcn) -
--					    le64_to_cpu(dp->vcn));
- 			dp->page_lcns[j + i] = lrh->page_lcns[i];
- 		}
- 
-@@ -4985,8 +4997,14 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 	/* Shorten length by any Lcns which were deleted. */
- 	saved_len = dlen;
- 
-+	j = le64_to_cpu(lrh->target_vcn) - le64_to_cpu(dp->vcn);
-+	if (!dp_range_ok(j, le16_to_cpu(lrh->lcns_follow),
-+			 le32_to_cpu(dp->lcns_follow))) {
-+		err = -EINVAL;
-+		goto out;
-+	}
-+
- 	for (i = le16_to_cpu(lrh->lcns_follow); i; i--) {
--		size_t j;
- 		u32 alen, voff;
- 
- 		voff = le16_to_cpu(lrh->record_off) +
-@@ -4994,7 +5012,6 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 		voff += le16_to_cpu(lrh->cluster_off) << SECTOR_SHIFT;
- 
- 		/* If the Vcn question is allocated, we can just get out. */
--		j = le64_to_cpu(lrh->target_vcn) - le64_to_cpu(dp->vcn);
- 		if (dp->page_lcns[j + i - 1])
- 			break;
- 
--- 
-2.43.0
-
+On Wed, Jun 17, 2026 at 4:13=E2=80=AFPM Xiang Mei <xmei5@asu.edu> wrote:
+>
+> While mounting a crafted NTFS image, log_replay() can index a dirty page
+> entry's page_lcns[] array out of bounds. The array length is the on-disk
+> lcns_follow field, which is never validated against the space actually
+> available, so several replay paths read and write past the entry. There a=
+re
+> two independent ways the index goes out of range, so the fix is split int=
+o
+> two patches:
+>
+>   1/2 - The entry's own lcns_follow (from the on-disk dirty page table) i=
+s
+>         not bounded against the entry size. check_dp_table() rejects any
+>         such entry once, right after check_rstbl(), so every consumer can
+>         trust lcns_follow as the real capacity. This closes the HotFix st=
+ore
+>         and the v0->v1 conversion memmove:
+>
+>           BUG: KASAN: slab-use-after-free in log_replay+0x55be/0xbbd0
+>           Read of size 8 at addr ffff88800dbb28b8 by task mount
+>           Call Trace:
+>            kasan_report+0xce/0x100
+>            log_replay+0x55be/0xbbd0
+>            ntfs_loadlog_and_replay+0x4a4/0x5c0
+>            ntfs_fill_super+0x2252/0x4570
+>            get_tree_bdev_flags+0x373/0x5f0
+>            vfs_get_tree+0x91/0x360
+>            path_mount+0x75a/0x2120
+>            __x64_sys_mount+0x298/0x310
+>
+>   2/2 - In the copy_lcns loop and the redo shorten loop the index is driv=
+en
+>         by the *log record's* lcns_follow, which is checked only against =
+the
+>         record length, not the target entry. dp_range_ok() bounds the run
+>         against the entry before each loop:
+>
+>           BUG: KASAN: slab-out-of-bounds in log_replay+0xb7e0/0xbbe0
+>           Write of size 8 at addr ffff88800fff1518 by task mount
+>           Call Trace:
+>            kasan_report+0xce/0x100
+>            log_replay+0xb7e0/0xbbe0
+>            ntfs_loadlog_and_replay+0x4a4/0x5c0
+>            ntfs_fill_super+0x2252/0x4570
+>            get_tree_bdev_flags+0x373/0x5f0
+>            vfs_get_tree+0x91/0x360
+>            path_mount+0x75a/0x2120
+>            __x64_sys_mount+0x298/0x310
+>           The buggy address is 0 bytes to the right of a kmalloc-2k objec=
+t.
+>
+> Both are present since ntfs3 was first added (v5.15) and are reachable fr=
+om
+> an unprivileged mount of a removable device on systems that allow it.
+>
+> The two patches address distinct untrusted inputs (entry capacity vs. log
+> record count): 1/2 alone does not cover the record-driven loops fixed in
+> 2/2. Verified with two KASAN reproducers that mount a malformed image, on=
+e
+> per patch:
+>
+>   reproducer   without fix   1/2 only   1/2 + 2/2
+>   ----------   -----------   --------   ---------
+>   hotfix       crash         fixed      fixed
+>   copy_lcns    crash         crash      fixed
+>
+> The reproducers and crash logs will be sent as a follow up email.
+>
+> Xiang Mei (2):
+>   fs/ntfs3: validate dirty page table on log replay
+>   fs/ntfs3: bound page_lcns[] index by the log record
+>
+>  fs/ntfs3/fslog.c | 44 ++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 40 insertions(+), 4 deletions(-)
+>
+> --
+> 2.43.0
+>
