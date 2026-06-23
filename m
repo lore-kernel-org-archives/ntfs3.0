@@ -1,188 +1,135 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C618F30C60F
-	for <ntfs3@lists.linux.dev>; Tue, 23 Jun 2026 17:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782235810; cv=pass; b=RAHvGvdXikRwcrGTdS7QZcVxxzxCRqQS74aHyAQPfNl+cm4thZI4gOZJTbvggPT70XK8mH+KhB1lXsSzDYsldnG6Swk5YlCMRpO1Fyf4D64QY2qG1fMTw273s9tWWnA5lh1yF5Rlf/uDeO2Hys+wkAU1cZd+6lmHj9wPls6cboA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782235810; c=relaxed/simple;
-	bh=1XpXzTFHWJsw8C2JyfoXebC5Ni6jg74rJbCKW4Yfwc8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eBua06NS6EKsOkMbJxHUJiMrxstYnEBJ+Vczcn4sSKVYzP1KJkjtTiH10af+ji2OCEhpOjJwibau96Egm1D3uX3hE45R1al1Dis/Iag6fiLVeAyiMndiFalyAamW0MnjRbICKVwXHQTa5vWf+EAcD25reX/TpipY/baArmFe3s4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Spi1dBK/; arc=pass smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D69208D0
+	for <ntfs3@lists.linux.dev>; Tue, 23 Jun 2026 19:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782241287; cv=none; b=tjpWLYmaHQGKcRW+hShf/Qf7dZGpaaoLO4ckUUy+6rjyCGI7hSo2mBK40iUJU7wn7THrO/SroUnXy53g2BjyIN6ReIG2vfBHG17/kV3TmsSxUQ7WEocHcq03aXm/aP6FT2G0tX9E9M6ix1AGsxjZkkeYtz2y8ByQ6s8tcZVg4h4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782241287; c=relaxed/simple;
+	bh=4yrM/lNVgM5LIoBfkpB20Vgsf3QetxdGNQ5Zx0bQu3A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fRGXDJFJBxjZhGU44riLMLw8AqtJk/4gpZSi//2x1Eu4ONnYwYvgDw9odxONuQVm4oDRjSZEPayJObTNYnaU2Vdsr5bhBlEVPfepYv2hKhE73lGHyYJ2Pr63GWMTpa9Gue8A3MFSEPRhz1X57nOuJQcMtc5mxMphPc7ZI69hiQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io; spf=pass smtp.mailfrom=bynar.io; dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b=XXu4DD8a; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bynar.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Spi1dBK/"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-45ef6565cfdso82438f8f.0
-        for <ntfs3@lists.linux.dev>; Tue, 23 Jun 2026 10:30:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782235807; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TJ3DQzMe4+jL5GbZIgg8Ixm8C48u71J4WHizXxYPmBGB3OBukPRz600hM/XCQCxvNl
-         3rpNiqmB5eGVVV3/566q4EOwajtvAXOggLlqwp/CfWo02eFx3gqY//M0x3tYyHRYsamq
-         eJZ4kGaKeGtSqYqkaQasWJuBL/l6iZyvdbiJLce+f6kfqfm7kUTppSuiMDt0foDgcblK
-         0Y7xfPuMLwRe4p0O5WKcEKQPT2Y43Y/Wdb0X7/zlcGi5MAmannFzbETc7K/OeSs8Yjk3
-         CKRQjIDMAQidPxjyWDdiCc9+tGXwiiLYbL19sgM/ygZZI9+B0fmCqXFpalS6o4aYQcvl
-         vqbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RzrzEGZb0ltwNCVmNPEJth41Ktgi1EiQYCAOhqDS73Y=;
-        fh=OrT0+44pb65OGitkZVyuP5zeJ0l+5z5d3C/AY1miAQo=;
-        b=YquH6+yrzrrucbOeMo/QQ9StasmVEhe+vscTMQcEADeQrULOpzWs8VA9XEOh2Gj9US
-         gKif55eievLgMysfoy0DYB2wr5wyXHllp0kMjY9ZHCc6nh6SlaHhfoQay943soQMl64L
-         2WAFPXOM4faEiLksCIhKFmgpUo3WZl7MYV4ZbZ6GX8LrqbN6UUdTmesqo2hc+THKvOq4
-         WtfAOVjL8WGHCUNIaUHFGhMPV37zohsU4k2PId3fgeJEfSqaUtNBcBDrdSG7xkehaTkc
-         cupAgtTbhC7dLN6Kjw5Tig6AFWbNpRPGwXSFsmdyeifltV7Lj/OMsmW7zvHW/JWdINEk
-         Sb1A==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b="XXu4DD8a"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-693c51a8a19so268500a12.3
+        for <ntfs3@lists.linux.dev>; Tue, 23 Jun 2026 12:01:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782235807; x=1782840607; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RzrzEGZb0ltwNCVmNPEJth41Ktgi1EiQYCAOhqDS73Y=;
-        b=Spi1dBK/V5mVgZ63YgmZ+zZsM/274Vpk5nOUHEpByNpTKtklSW3/gDtwNkXoIfAT+v
-         CxJopNJbb/dPFKn2qzyX2MhqaYvxzWMW5Z/imZEVtGIMHIpCsKpeV1Q9ezF5J/eWfMgh
-         a9vthVHUhcL9AROJDM046L/MT2WEpD6+CL/9l91IJq7/kS7yBIVv0xPEQ8D+/Vyg8c9o
-         Gpm/HOE/JisPVhuQPtknfBxv8VPSbrE0anr8j+pfmoqNO28a6aSe328/h1Rh3QNCaxXp
-         /tEmTxO/TNEV2/9bws2ReDDU1Nt+5KXryPM1EelXeJ/eHdGcazAfQf+pJCeHluXGhGKO
-         nK7A==
+        d=bynar.io; s=google; t=1782241283; x=1782846083; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UzaFu7BlwLWbtc/9j40eBRy8RDI637d1HOGn/0S/MlI=;
+        b=XXu4DD8aZ+5/a+eJB2GPAqSLwiDzfV8ph6JLkXEn3dUJS2LoxN0d32aqWAp21vj5mk
+         AG/LTN+mGlJ76fusL9EONNN8507UPsGZ4z9Q5MhPrtgILaH8edC7Xn7Fz69bNTn8YKH/
+         h3/AIOfJjbfxN6EKvLlYPP+z2UoMo9CFHRrAunQSILAZQIqjBkIQZSss2gYWsXu4zovo
+         WIUICPXH19RvsOmSRC/Y4GyQx8jBnEc9/ssU4QuBTNWn6/HO1nmNnC/a28SxOu4CBeiG
+         TlKQA3Yah25wc0sFw5CMihiLLNfhvRvVvUNFj8jf1Ki631DzajPtyxpDYU6/uPrOcJi2
+         MZhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782235807; x=1782840607;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RzrzEGZb0ltwNCVmNPEJth41Ktgi1EiQYCAOhqDS73Y=;
-        b=PNjnmHEUj/zspShvgSsqEdRA4lliDw4E0Hk9OlrRi8z4uIG3PXfdSx8dbUuXr7c1ow
-         vhSm+z6qkyTOxJ1yNOmJhxoMYfKFSM8hv4p60zcTJTB2zeuv74izOXwWt2vZywWbGtzl
-         h0i3m1T1yInL0WqlGZ6t9LbfOCJ5aijAQPFwgXR+ggDghj4RWynSKQn5rsSIcgkvl3yY
-         j4dd83DCHFA85b6tmP/KB9Q8OGyd82eXtO2ymGaxujcK7/qTQ0EVYmSdi4/AL9YP3zfl
-         GLxGEiYcOo/LWk0OpmZkWfZwSKNxE9J2jY3OqhXYHP16nnMrN41mxxxZMahjZ5WZ7EQW
-         xduw==
-X-Forwarded-Encrypted: i=1; AHgh+RpINAw5uZLY9Qmg3d/trKajVa9+Z1GAMopmBRX2JVS0NUTBIElVMC0pHpbee327tktb7n4HRA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQZulCTdi9bvl10Dms2KEreZb0ZYAAYAnwC3FyUmSqRgKiEbCV
-	jYoe1IkXSNpLaTYwtZh+z8FvdhV39veMPAo5eDqH9aXKVWYD/JYE2bmEtME53rMYyV+8XCjPm+x
-	Hd439GTNvFWzU9Gq7kVcsTtcfaos5ts4=
-X-Gm-Gg: AfdE7ckQrAPsXaoWM+Dzu+yL4owemu86m1cKBpFzi4xcemkIBQJz6iJq90Ge9DwboaR
-	/MQy0HxIllAfVARLcH4P4SBsAqL5T7E3RAravxCFFcOz1Z/PW5ohsgI369haaAMo7oQQfi6ltL+
-	w+OztugJnMZl3z9oGwHfQmkPeCUIyttW0i/1uZCGzIx6q1k0ERRIbqxYHKOYukdMD6CrgDJ++xJ
-	xl7QKSReQDH3GwIUGoa8jFZgyaRsFvdmzEIzkkSxIVAUgpmydfKMF4jHcyFTxXF5irmnf3ynyV2
-	02f9Lf9HFFF2QCYJ4SqudL9fdnEfD53OCoIWdF+VWYOfze9x9XHo
-X-Received: by 2002:a05:6000:22c6:b0:460:3233:beed with SMTP id
- ffacd0b85a97d-4666348bb1dmr24453136f8f.41.1782235807180; Tue, 23 Jun 2026
- 10:30:07 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782241283; x=1782846083;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UzaFu7BlwLWbtc/9j40eBRy8RDI637d1HOGn/0S/MlI=;
+        b=swzMqt+kRF2530a7OsBnmDaB7WFuTGG96984pbYXk0GplllFhHfnaWxDBoeGhBrDOU
+         FRzSuD6wEW8RYRNRPwHlC+tTylZ70eVtfnCiv4ZrnHt2YwFC5Ar33ykkBRyZjLiOCU/y
+         TD9ueiHKKqnxGgn1ioh4S3mVLC0VnloAIuUwujnWo5Jtg5u+TBVZi5cOtPICXHZCoclx
+         MjqYuYQf3eCkWcOyCEe8oBQkfHvYnBpDXgY+HIamMriHYf5R4wtbVOxBrNFsUVH35l1I
+         TRhA+f/DSchsfLvV+be6svUZFFskQnUJnENDdN5ZPcT5bNK28H9hBf9GEQNDgNp89vqO
+         zdIA==
+X-Gm-Message-State: AOJu0YxnaJMazOMqysJtgdVTAug05eaQLIzJKVonW9TB5wTxLiVKYcbY
+	/aZ962q1jTefFlDkTr07CUY1zEbhf8u9byZEL6RrG9UB0Kiv/82F9PE/nSRCsAjNJXeY
+X-Gm-Gg: AfdE7cnCaccaCnk51zZSUuGpIRfOmxGAsyxhjbnzXjcDizRRFzkmpzSu5sOYAlqvuX3
+	8/tpZG0N3oas+HFsHMSn9oERYBbIv12NRBKxVSroaNBHuuElFScItfho+e+2mXI+lXCypYgBQjs
+	uXvwQJIPnlXbz5FM9neyJ2X9WBjl842b278gpw1otY9BS+CIhLp68RpCoVNVE2NEyFqBuN7szOy
+	gAfFJvotxGA3X6riv7uIumZQPpOe7V6J3q8mHR9devsUZMFV3Ur41lTKoiNHQ0OGb4ZWBRyhevq
+	ZAa3HTbticmpApjLKOauwDHl6EgU8tYQEzgvPIrNeYf8R7l8g6ef1ub8K6rIKdLpWgeKsQRMQmb
+	UneTE3dZwb64pGyzz5aWR0pH7h8Rftev5WrDDDFH1R/qMk+jbVtNSKI6snmv2glxiUinuUS9ChU
+	ZEWuxbcgEDFgo=
+X-Received: by 2002:a05:6402:a50b:10b0:697:decc:7f87 with SMTP id 4fb4d7f45d1cf-697decc81a5mr1341344a12.9.1782241282426;
+        Tue, 23 Jun 2026 12:01:22 -0700 (PDT)
+Received: from localhost ([2a06:61c2:d427:0:b321:1c7a:b072:326e])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-697eff91889sm20475a12.6.2026.06.23.12.01.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 12:01:21 -0700 (PDT)
+From: Samuel Page <sam@bynar.io>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: fix info-leak on partial LZNT decompress in ni_read_frame()
+Date: Tue, 23 Jun 2026 21:00:57 +0200
+Message-ID: <20260623190057.12351-1-sam@bynar.io>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260623135208.1812933-1-hch@lst.de> <20260623135208.1812933-3-hch@lst.de>
-In-Reply-To: <20260623135208.1812933-3-hch@lst.de>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 23 Jun 2026 10:29:54 -0700
-X-Gm-Features: AVVi8Ccm_eFaYYj-vQlgAXEMOrnUjeoeLhiRjoMn01eUhrTiB_xWHROB6LeYb7s
-Message-ID: <CAJnrk1agx-qUizNzCnzvZ6Marf7u-K4EtKOak4c2MQN1sJfgNA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] iomap: submit read bio after each extent
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, Kelu Ye <yekelu1@huawei.com>, 
-	Yifan Zhao <zhaoyifan28@huawei.com>, Ritesh Harjani <ritesh.list@gmail.com>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
-	Hyunchul Lee <hyc.lee@gmail.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, ntfs3@lists.linux.dev, 
-	linux-erofs@lists.ozlabs.org, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 23, 2026 at 6:52=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
-e:
->
-> Currently the iomap buffered read path tries to build up read context
-> (i.e. bios for the typical block based case) over multiple iomaps as
-> long as the sector matches.  This does not take into account files
-> that can map to multiple different devices.  While this could be fixed
-> by a bdev check in iomap_bio_read_folio_range, the building up of I/O
-> over iomaps actually was a problem for the not yet merged ext2 iomap
-> port, as that does want to send out I/O at the end of an indirect
-> block mapped range.
->
-> So instead of adding more checks move over to a model where a bio only
-> spans a single iomap.  Change ->submit_read to be called after each
-> iteration, and pass a force argument to indicate that the bio must
-> be submitted set on the last iteration.  Switch the bio based users
-> to always submit, while keeping the single submit for fuse.
->
-> Fixes: dfeab2e95a75 ("erofs: add multiple device support")
-> Reported-by: Kelu Ye <yekelu1@huawei.com>
-> Reported-by: Yifan Zhao <zhaoyifan28@huawei.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  fs/exfat/iomap.c       |  4 ++--
->  fs/fuse/file.c         |  6 +++++-
->  fs/iomap/bio.c         | 11 +++++++----
->  fs/iomap/buffered-io.c | 23 +++++++++++++++--------
->  fs/ntfs/aops.c         |  4 ++--
->  fs/ntfs3/inode.c       |  4 ++--
->  fs/xfs/xfs_aops.c      |  5 +++--
->  include/linux/iomap.h  |  5 +++--
->  8 files changed, 39 insertions(+), 23 deletions(-)
->
-> diff --git a/fs/iomap/bio.c b/fs/iomap/bio.c
-> index 0f31e35567b4..f71aaaf60301 100644
-> --- a/fs/iomap/bio.c
-> +++ b/fs/iomap/bio.c
-> @@ -79,7 +79,8 @@ u32 iomap_finish_ioend_buffered_read(struct iomap_ioend=
- *ioend)
->  }
->
->  void iomap_bio_submit_read_endio(const struct iomap_iter *iter,
-> -               struct iomap_read_folio_ctx *ctx, bio_end_io_t end_io)
-> +               struct iomap_read_folio_ctx *ctx, bool force,
+ni_read_frame() decompresses an LZNT $DATA frame into the vmapped target
+pages and then trusts decompress_lznt()'s return value:
 
-nit: might simplify things to drop the unused force arg
+  unc_size = decompress_lznt(frame_ondisk, ondisk_size, frame_mem,
+                             frame_size);
+  if ((ssize_t)unc_size < 0)        err = unc_size;
+  else if (!unc_size || unc_size > frame_size)  err = -EINVAL;
 
-> +               bio_end_io_t end_io)
->  {
->         struct bio *bio =3D ctx->read_ctx;
->
-> @@ -87,13 +88,15 @@ void iomap_bio_submit_read_endio(const struct iomap_i=
-ter *iter,
->         if (iter->iomap.flags & IOMAP_F_INTEGRITY)
->                 fs_bio_integrity_alloc(bio);
->         submit_bio(bio);
-> +
-> +       ctx->read_ctx =3D NULL;
->  }
->  EXPORT_SYMBOL_GPL(iomap_bio_submit_read_endio);
->
->
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index 8d4806dc46d4..06a216d37548 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
->
-> @@ -642,12 +649,12 @@ void iomap_read_folio(const struct iomap_ops *ops,
->                 fsverity_readahead(ctx->vi, folio->index,
->                                    folio_nr_pages(folio));
->
-> -       while ((ret =3D iomap_iter(&iter, ops)) > 0)
-> +       while ((ret =3D iomap_iter(&iter, ops)) > 0) {
-> +               iomap_submit_read(&iter, ctx, false);
->                 iter.status =3D iomap_read_folio_iter(&iter, ctx,
->                                 &bytes_submitted);
+decompress_lznt() stops as soon as the compressed stream is exhausted
+(e.g. a zero chunk header) and returns the number of bytes it actually
+wrote, which may be far less than frame_size. The bytes between unc_size
+and frame_size are never written. The only memset() that follows zeroes
+the region beyond i_valid; when the frame lies entirely within the file's
+valid size that memset() does not run, so the gap retains whatever was in
+the just-vmapped pages. All pages are then marked uptodate and returned
+to userspace, disclosing uninitialized (recently-freed) kernel page
+memory. A crafted compressed file whose stream decompresses to only a few
+bytes leaks the remainder of every frame on a plain read(2), which is
+enough to recover kernel pointers and defeat KASLR.
 
-should the submit_read happen after the iomap_read_folio_iter() /
-iomap_readahead_iter() instaed of before? From what I see, it looks
-like iomap_submit_read() would hold the iter state of the next
-mapping. It seems like in iomap_bio_submit_read_endio(), the
-iter->iomap.flags would be the next extent's flags instead of the one
-that needs to be submitted?
+Zero the [unc_size, frame_size) tail immediately after a successful LZNT
+decompress so the remainder reads back as zero.
 
-Thanks,
-Joanne
+Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+Cc: stable@vger.kernel.org
+Assisted-by: Bynario AI
+Signed-off-by: Samuel Page <sam@bynar.io>
+---
+Reproduced on a non-KASAN, KASLR-enabled arm64 guest: a crafted file whose
+64 KiB LZNT frames each decompress to 8 bytes leaks the [8, 65536) tail of
+every frame on a plain read(2) - up to ~3.3 MiB of uninitialized page memory,
+including kernel-text return addresses from freed VMAP_STACK pages, from
+which the KASLR base was recovered and verified vs /proc/kallsyms. With the
+patch the same read returns zeroes; a zeroed control image (valid_size
+truncated so the existing memset runs) leaks nothing, isolating the cause.
+
+ fs/ntfs3/frecord.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 7b035da63c12..cd11df75bdbc 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -2443,6 +2443,15 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
+ 			err = unc_size;
+ 		else if (!unc_size || unc_size > frame_size)
+ 			err = -EINVAL;
++		else if (unc_size < frame_size) {
++			/*
++			 * Partial decompress: zero the [unc_size, frame_size)
++			 * tail.  decompress_lznt() leaves it untouched, so
++			 * without this the freshly vmapped pages would expose
++			 * uninitialized kernel memory to userspace.
++			 */
++			memset(frame_mem + unc_size, 0, frame_size - unc_size);
++		}
+ 	}
+ 	if (!err && valid_size < frame_vbo + frame_size) {
+ 		size_t ok = valid_size - frame_vbo;
+-- 
+2.54.0
+
