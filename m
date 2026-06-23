@@ -1,124 +1,134 @@
-Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
+Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29F8261B9C
-	for <ntfs3@lists.linux.dev>; Tue, 23 Jun 2026 03:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22DA3BF684
+	for <ntfs3@lists.linux.dev>; Tue, 23 Jun 2026 06:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782183691; cv=none; b=TJA0NptvkOmbW2EQTeghtI587oY7dYHQAKaFn7VWoVGqitY1YLr0hl2NwzZD4871uyh6bE+vYTVkXz010s/2/n7hwxb/IpGJbssng4qEUJXu7aGmA+N9W3hvRqXRa5TySWY8QLx79doMLHcNRIam8YLVDvvQIAY9IGo4/h3J2yE=
+	t=1782195784; cv=none; b=QXJIfB4icPxWlGv/aAWzCPcXfb5XLhCJRI9K4dCrcjDk1ci68n3nO25KYMgxmzTx8uI2tRsMmWGS2VT/O4Kgo0EzBaw33awFshY5Kek4E5DHpaYOHTlzZyBJyCJ+5ytYklPiP7pdZifxOMO72X914i/zxZ9HGtURtlCLKZYF+qM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782183691; c=relaxed/simple;
-	bh=AtfGsO2YgOoLZ9BbKUlUiPafF+8rZx56OX5K80auQBM=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=K3RV0XHiAH3BYkNOUdnof08AfogtSm1zjuyj6fPSMEKZ18D16FN9rKqmCg7vlYKqzjc8No+RiXRSy3oia8MKPsGwskUj8TVE3JYsYZIq2OBUumfEGNPYQ3V6/vK7zMABZ8qFuHNC15jhhvdhm9A545jXXdqhxZzZNJZ/p/UhSPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-48e5de5a23cso1503372b6e.0
-        for <ntfs3@lists.linux.dev>; Mon, 22 Jun 2026 20:01:29 -0700 (PDT)
+	s=arc-20240116; t=1782195784; c=relaxed/simple;
+	bh=h2GiLVpsi59JQOStQBTzHQuFKkm/p6zC/3WNnykOkas=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pjM7oOEgxS1/vMMPEgjhhymT62DCMMpDUDWJHjZUrokfWBsl9tJDFoT7Iror6TWM3p4Vextjh79W62qDHb0OcbwNaxN10Qc78U9W2Apqe31fL6s+giIxw1R+a/YkGaiR8mUeiMLh8jmknkR+ZWTDG7vsVtgUcFegN2iRO4IC2Z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c3tSNWI2; arc=none smtp.client-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c3tSNWI2"
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-1390f75d8bbso5220142c88.0
+        for <ntfs3@lists.linux.dev>; Mon, 22 Jun 2026 23:23:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782195781; x=1782800581; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DcONxe5c96Wykb/9Kuf+4ZAJsC3OiG9uaaEBTU56N3k=;
+        b=c3tSNWI2pFHVHBZz57tTC/IrmeQyfYGFq6zqH9xnztucXGDRqknDQcvg1HXgti6g2i
+         OWBhBlHtydCRNWLfneXgtYw4mG/qXQ4u/QYI0vRUS0s7yFrKpfuEtAV+PINwIKLrv2t4
+         nYBw91cgFIeh5r+qwaABPEdQNO2JAs7HaUI7/5qLD2EAQZYhsYYjJqxPVXyMx0N/hp56
+         w0Hui970XStsvr9+UFbYoA3UifGFwH/pomkwwWMOM354WMRAhPFApUYM3KnyPaKj67/S
+         MVUFS3EGC9z4pOzDQ5+S9eG9o86bvoxRH+uW56rmV6JxPMuheuCBgl31QdjyFIYAwhTu
+         OrzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782183689; x=1782788489;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SEV3A/55SmqgO3F+72x5NaSc2BBwlk6KFyIUEu1aVro=;
-        b=LPAURwGCYrcsiQGz+B5hvy9m2Ng8sEsTDXUweMwUjIUjQR+sVPWOoYvCT/sqnz4QL0
-         Wz3hHJCG3NIu8q2xtc97Rmj2tgxu8m2NBlyjNF1aAMmVh8JxXHqFeddq+7p4TftSEnWf
-         jjmF72SbQupBVMf4149kvSunh+UTl0afUKuPZ99g2NFK99EKPgUUPpyRJyAt9tyXFQVT
-         TyNndskFXCE+bUeKfRVtg1dZwfEJp9kB9cvfQV1S0oThZT6BoA1Wz1ArTlyYlwl08uLs
-         71ZSh9R9B7c6VrSmerpx1u+dd7BoHZaDttMLnZks7QBacuAfXZEhPQ/83pOpHsglz8w+
-         ztfg==
-X-Forwarded-Encrypted: i=1; AFNElJ+9zGUHlB8ipK48OGfPqHDR/O6/Dj1BdcaSil+AbgmE0EDIt2xAJX8PRvaESAjJNWpKIwyAOg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzILE7Kh6TlEHQslAeU5yXHTIgldJj1LAeWmn+/xq2TxaR8HqEU
-	l7GBizYwDs9BWDqQrgQEV+pGsaYePuCmhK2rlCVfFsABPBdsxJs2uBW5lDDwdYM/u2CSh+i1x5y
-	3oJf5xVqxavKIuk41zk2xmyVkylobp7wKEYs6j16OrH48DiG2lUw3Qqqrzlc=
+        d=1e100.net; s=20251104; t=1782195781; x=1782800581;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DcONxe5c96Wykb/9Kuf+4ZAJsC3OiG9uaaEBTU56N3k=;
+        b=kzl0G7SHjDe6Vo/u3cENaOwRYJuhlgyLg6Cb3dAoIWvu//NYKCsOr4pd/BVYVIhX8y
+         Rb02uwQuWJzE1PqyPYJ5EqW1Z5HizLaY3dXm/uxOofVTUUr18bdmIgjRAPeAHbprYWst
+         kZ6OABvBHfhb72d7u2U0p3Ih0H9+XFjDFl7bRoy4XXWXSfxveYLAM7eB8ldPyGxMPZ1z
+         PEM1tnGy9uAEYwjMtDkElgq+eCvLOeFAuvwV7/YbgaaXpmCBGs/tXZ37YB6Q/W3gHCi0
+         r2HFIqmbVksjOu1fvrVygxKP1GQXakmIt97Y5uoYGhZBX271tMSfAXTwiie4qqEJHE2a
+         T1jA==
+X-Forwarded-Encrypted: i=1; AFNElJ/cjgG0PntA6hezYd8EFb7Rb1+VJdJnHWzlLXaf6Jy3kUvA+0CQZ8qrnxv2c0UnnI+C4MGzZg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0FkeXrfrjkXsmQL3CmwS6JGsZ9zu9qvYiPyHtXla5XI4zFFec
+	U84QyR0LtHW1Iz7NbMDfZWw/TzFYe8ouOaWONBchgwyyEbQ4O4w1NMHi
+X-Gm-Gg: AfdE7cnQcJF94mD0p/fWp3L0gFYurx0hU33Y4Wp/vSR0sVEiGLbAKHK2RkrB55TbGMI
+	aYgPZaoAtiyP+Z3VZs/hJNRJBmP5CL3Zu4Id9SSv1g3jsh4Er8ZvDiexuJD8SLzbIKH4L/FMLPD
+	LJFaQPWDu4xKORQF2d5h8KsOt+sQTWx5K0G6/qMZa6ZD1rGbRm8g8hiJs3Xfq8g49cWqco73XiK
+	btXsMU4DgARvlnXYCXCbooVbL/RJZGmq+teufNdqBqbPy0UJ9OcY/lXczSyjgKbvW0u/7itg0on
+	qWG8N17LE2wYd/NKecHPq75J2N49BEYU6CFNOR/5yuF5ZyWMN+jhKpRPV+yBjmTHj/8YPZBd9A0
+	/ZuKLkGAL0oKSr6IUrgLKWEbrolwqvp85TbSbm64qcpBWUQsveyE8GlIkrQqymeGKCqfmuf+pAz
+	Fpr4iO8DPjQ/8fiLMDEr4oe3m9W+L8Zifz2uK0CyCefj5jOGPKtPuko/gd7g==
+X-Received: by 2002:a05:7022:609d:b0:12d:b993:c68f with SMTP id a92af1059eb24-139c5ce08c3mr1053598c88.4.1782195780581;
+        Mon, 22 Jun 2026 23:23:00 -0700 (PDT)
+Received: from fx.tailc0aff1.ts.net ([206.206.192.132])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-139adcb7a94sm11091538c88.4.2026.06.22.23.22.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2026 23:23:00 -0700 (PDT)
+From: Weiming Shi <bestswngs@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Xiang Mei <xmei5@asu.edu>,
+	Weiming Shi <bestswngs@gmail.com>
+Subject: [PATCH] fs/ntfs3: fix out-of-bounds read in read_log_rec_buf()
+Date: Mon, 22 Jun 2026 23:22:31 -0700
+Message-ID: <20260623062230.1236506-2-bestswngs@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:444b:b0:46c:e542:cc3e with SMTP id
- 5614622812f47-48f2753377amr902862b6e.6.1782183688913; Mon, 22 Jun 2026
- 20:01:28 -0700 (PDT)
-Date: Mon, 22 Jun 2026 20:01:28 -0700
-In-Reply-To: <6a14101f.050a0220.2385e8.0011.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a39f708.ac26f6c2.9a9c4.0004.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] WARNING in attr_data_get_block_locked (2)
-From: syzbot <syzbot+7be6ad5cb228286af3e3@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-syzbot has found a reproducer for the following issue on:
+read_log_rec_buf() copies a log record into a caller buffer starting at
 
-HEAD commit:    1dc18801be29 Merge tag 'i2c-7.2-part2' of git://git.kernel..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=17ecdb7a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=94d9c5c9d8d33570
-dashboard link: https://syzkaller.appspot.com/bug?extid=7be6ad5cb228286af3e3
-compiler:       Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=101cdb7a580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17dea7a1580000
+	u32 off = lsn_to_page_off(log, lsn) + log->record_header_len;
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/2b813bcdd826/disk-1dc18801.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/42eb0df4dd35/vmlinux-1dc18801.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/5e2abf42fb92/bzImage-1dc18801.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/217841d6611e/mount_0.gz
+log->record_header_len (and log->data_off, used for the following pages)
+comes verbatim from the on-disk restart area and is only checked for
+8-byte alignment in is_rst_area_valid(), so off can exceed
+log->page_size. "tail = log->page_size - off" then underflows and
+memcpy() reads past the page_size-sized buffer returned by
+read_log_page(), spilling adjacent slab memory into the replay buffer.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7be6ad5cb228286af3e3@syzkaller.appspotmail.com
+This is reachable by mounting a crafted NTFS image:
 
-WARNING: The mand mount option has been deprecated and
-         and is ignored by this kernel. Remove the mand
-         option from the mount to silence this warning.
-=======================================================
-ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
-ntfs3(loop0): Failed to load $Extend (-22).
-ntfs3(loop0): Failed to initialize $Extend.
-------------[ cut here ]------------
-1
-WARNING: fs/ntfs3/attrib.c:1237 at attr_data_get_block_locked+0x1936/0x2610 fs/ntfs3/attrib.c:1237, CPU#1: syz.0.17/5827
-Modules linked in:
-CPU: 1 UID: 0 PID: 5827 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
-RIP: 0010:attr_data_get_block_locked+0x1936/0x2610 fs/ntfs3/attrib.c:1237
-Code: b0 b1 a7 fe 89 9c 24 90 00 00 00 41 29 dc 0f 83 cc 00 00 00 e8 ab af a7 fe 41 bf ea ff ff ff e9 7c fa ff ff e8 9b af a7 fe 90 <0f> 0b 90 41 bf ea ff ff ff e9 68 fa ff ff 48 8b 84 24 d8 00 00 00
-RSP: 0018:ffffc9000476f9a0 EFLAGS: 00010293
-RAX: ffffffff831d47f5 RBX: 00000000ffffffff RCX: ffff888036b38000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc9000476fbe8 R08: 0000000000000000 R09: 0000000000000000
-R10: dffffc0000000000 R11: fffffbfff1f1385f R12: ffff88804c3010e8
-R13: dffffc0000000000 R14: 0000000000000000 R15: 0000000000000000
-FS:  00005555611e4500(0000) GS:ffff888126242000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000001b32863fff CR3: 000000003f434000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- attr_data_get_block+0x250/0x310 fs/ntfs3/attrib.c:982
- ntfs_fallocate+0x1048/0x12d0 fs/ntfs3/file.c:702
- vfs_fallocate+0x663/0x7f0 fs/open.c:338
- ksys_fallocate fs/open.c:362 [inline]
- __do_sys_fallocate fs/open.c:367 [inline]
- __se_sys_fallocate fs/open.c:365 [inline]
- __x64_sys_fallocate+0xbf/0x110 fs/open.c:365
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7ff0d001ce59
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffc29a8c788 EFLAGS: 00000246 ORIG_RAX: 000000000000011d
-RAX: ffffffffffffffda RBX: 00007ff0d0295fa0 RCX: 00007ff0d001ce59
-RDX: 0000000000080000 RSI: 0000000000000000 RDI: 0000000000000004
-RBP: 00007ff0d00b2e6f R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000004 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007ff0d0295fac R14: 00007ff0d0295fa0 R15: 00007ff0d0295fa0
- </TASK>
+ BUG: KASAN: slab-out-of-bounds in read_log_rec_buf+0x216/0x580
+ Read of size 64 at addr ffff88800a877ff8 by task exploit/127
+  read_log_rec_buf fs/ntfs3/fslog.c:2299
+  log_replay fs/ntfs3/fslog.c:4216
+  ntfs_loadlog_and_replay fs/ntfs3/fsntfs.c:324
+  ntfs_fill_super fs/ntfs3/super.c:1392
+  get_tree_bdev_flags fs/super.c:1694
+  __x64_sys_mount fs/namespace.c:4360
+ The buggy address is located 4088 bytes to the right of
+ the 4096-byte region [ffff88800a876000, ffff88800a877000)
 
+Reject an in-page offset outside the current page before the copy.
 
+Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+Assisted-by: Claude:claude-opus-4-8
+Reported-by: Xiang Mei <xmei5@asu.edu>
+Signed-off-by: Weiming Shi <bestswngs@gmail.com>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+ fs/ntfs3/fslog.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index f038c799e7ac..ee413dc80d3a 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -2276,7 +2276,15 @@ static int read_log_rec_buf(struct ntfs_log *log,
+ 	 */
+ 	for (;;) {
+ 		bool usa_error;
+-		u32 tail = log->page_size - off;
++		u32 tail;
++
++		/* off comes from the on-disk restart area; bound it. */
++		if (off >= log->page_size) {
++			err = -EINVAL;
++			goto out;
++		}
++
++		tail = log->page_size - off;
+ 
+ 		if (tail >= data_len)
+ 			tail = data_len;
+-- 
+2.43.0
+
