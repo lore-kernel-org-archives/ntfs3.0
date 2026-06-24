@@ -1,197 +1,77 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0843911AD
-	for <ntfs3@lists.linux.dev>; Wed, 24 Jun 2026 06:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3412218DB2A;
+	Wed, 24 Jun 2026 07:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782283609; cv=none; b=r8Z8Ef6p4S0/fy/TZfdQNsGQapIaV9ItzD3YwBmsf0TOrh2rhQHbBCBL4cWl0M6JSPqNQuKZyKdXxzpsq5lna/HxmPlvdLQCLIkRMnDMkEXk3BBGnMN6fhius2IcOxUIteVsGWAZH53FSoRihxHdWj1UtAlUOtdcTrvaaurmuxY=
+	t=1782286491; cv=none; b=CPKTpjy0WVEtIkoEJGAgrZ98CgC36L2kUAfKMraF+XHCjcc3LFJbUtkXmoBsrhDjU/VGUw8Rqwx9foYQnf2mbqWspmrTKO7TZCNnbKMSCEiV+NhNmokfGCttESr8CqwzaQhDm2I9QLTRC7q7x0quu60giwB8DhdipflFeKeM5GQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782283609; c=relaxed/simple;
-	bh=nwRkIG1D7sHKv4NHd0HMuT5kiLtb9PZpcIa3nzgNehc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G8lNYNfBotBCmnhuHbPJVdEU+voIKK0J7ITZ4dQqTWZeqVoPWIOlEgtyn1gtYr/XjBWAoTNr5KiihaaRbjbh0uBWiyWMBvpfV1kIfI5sS6rHERt71UN/JI+FV/Hzh3MHlUQW0OnzpcB4iCMQUkKbQRwD6ZggydT+ZRcHRZ3/qNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=pHg/bxLA; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="pHg/bxLA"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id F28B932C;
-	Wed, 24 Jun 2026 06:37:50 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=pHg/bxLA;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id DF8BD2141;
-	Wed, 24 Jun 2026 06:37:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1782283073;
-	bh=7IcY48b5jFfuxu5UTqcZ9wz6LByK6SxWL34gP1XzfYE=;
-	h=From:To:CC:Subject:Date;
-	b=pHg/bxLABiz2Qj+igxxt3W1R2vL/o5WY3iloYqkRcJEdSVM1vPGoPhDJvoNYiw3i+
-	 CvcJpbzrtl0fgkF1xP2Il4P3KY/pDPUYK+tO6BMD5VIEug2PrUEJIMuuX5T4sUQWtm
-	 Psw6sC12QlSNnTLTultctNYrw/7yd1vxyZIqMU28=
-Received: from localhost.localdomain (172.30.20.193) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 24 Jun 2026 09:37:50 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Alessandro Schino <7991aleschino@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Edward Adam Davis <eadavis@qq.com>, Helen
- Koike <koike@igalia.com>, Jamie Nguyen <jamien@nvidia.com>, Konstantin
- Komarov <almaz.alexandrovich@paragon-software.com>, Michael Bommarito
-	<michael.bommarito@gmail.com>, Mihai Brodschi <m.brodschi@gmail.com>, Tristan
- Madani <tristan@talencesecurity.com>, Yunpeng Tian <shionthanatos@gmail.com>,
-	Zhan Xusheng <zhanxusheng1024@gmail.com>, ZhengYuan Huang
-	<gality369@gmail.com>
-Subject: [GIT PULL] ntfs3: changes for 7.2
-Date: Wed, 24 Jun 2026 09:37:25 +0300
-Message-ID: <20260624063725.5151-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1782286491; c=relaxed/simple;
+	bh=1NRoBEdgPXWTcz3r0lu8OmTVYDfqthhYb1hNVfakD1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cqkzkN6+ZctoBfzNnYPgtbDDx2JvaLLBmwIDeoABRGu3qnkVkytcv0xf3Kt499YUHb/Ie4VVbyLhz5Ueiu7xV6EncXJOrBaFRtRPvop0HDkw+hatpFpIT8V/wRitYnJNcNJCgt6WeD4kFjIfk2A0zLJAnPr1aDTs1t9AtlbszSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id EBD9E68BEB; Wed, 24 Jun 2026 09:34:45 +0200 (CEST)
+Date: Wed, 24 Jun 2026 09:34:45 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>, Kelu Ye <yekelu1@huawei.com>,
+	Yifan Zhao <zhaoyifan28@huawei.com>,
+	Ritesh Harjani <ritesh.list@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev,
+	ntfs3@lists.linux.dev, linux-erofs@lists.ozlabs.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/2] iomap: submit read bio after each extent
+Message-ID: <20260624073445.GA12359@lst.de>
+References: <20260623135208.1812933-1-hch@lst.de> <20260623135208.1812933-3-hch@lst.de> <CAJnrk1agx-qUizNzCnzvZ6Marf7u-K4EtKOak4c2MQN1sJfgNA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJnrk1agx-qUizNzCnzvZ6Marf7u-K4EtKOak4c2MQN1sJfgNA@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Hello, please pull this branch containing ntfs3 code for 7.2.
- 
-Regards,
-Konstantin
- 
-----------------------------------------------------------------
-The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
- 
-  Linux 7.1-rc1 (2026-04-26 14:19:00 -0700)
- 
-are available in the Git repository at:
- 
-https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.2
- 
-for you to fetch changes up to 5b08dccecf825cbf905f348bc6ccb497507e28e2:
- 
-  ntfs3: reject direct userspace writes to reserved $LX* xattrs (2026-06-10 12:37:10 +0200)
- 
-----------------------------------------------------------------
-Changes for 7.2-rc1
- 
-Added:
-    depth limit to indx_find_buffer() to prevent stack overflow
-    validate split-point offset in indx_insert_into_buffer()
-    bounds check to run_get_highest_vcn()
-    fileattr_get() and fileattr_set() support
-    zero stale pagecache beyond valid data length
-    handle delayed allocation overlap in run lookup
-    validate lcns_follow in log_replay() conversion
-    cap RESTART_TABLE free-chain walker at rt->used
-    resize log->one_page_buf when adopting on-disk page size
-    reject direct userspace writes to reserved $LX* xattrs
- 
-Fixed:
-    out-of-bounds read in decompress_lznt()
-    avoid -Wmaybe-uninitialized warnings
-    hold ni_lock across readdir metadata walk
-    preserve non-DOS attribute bits in system.dos_attrib
-    validate index entry key bounds
-    syncing wrong inode on DIRSYNC cross-directory rename
-    validate Dirty Page Table capacity in log_replay() copy_lcns
-    wrong LCN in run_remove_range() when splitting a run
-    allocate iomap inline_data using alloc_page
-    mount failure on 64K page-size kernels
-    out-of-bounds read in ntfs_dir_emit() and hdr_find_e()
-    bound attr_off in UpdateResidentValue against data_off
-    bound DeleteIndexEntryAllocation memmove length
-    bound copy_lcns dp->page_lcns[] index in analysis pass
-    bound NTFS_DE view.data_off in UpdateRecordData{Root,Allocation}
-    prevent potential lcn remains uninitialized
- 
-Changed:
-    bound to_move in indx_insert_into_root() before hdr_insert_head()
-    call _ntfs_bad_inode() when failing to rename
-    fold resident writeback into writepages loop
-    force waiting for direct I/O completion
-    fold file size handling into ntfs_set_size()
-    reject SEEK_DATA and SEEK_HOLE past EOF early
-    format code, add descriptive comments and remove non-useful
- 
-----------------------------------------------------------------
-Alessandro Schino (1):
-      ntfs3: fix out-of-bounds read in ntfs_dir_emit() and hdr_find_e()
- 
-Arnd Bergmann (2):
-      ntfs3: avoid -Wmaybe-uninitialized warning
-      ntfs3: avoid another -Wmaybe-uninitialized warning
- 
-Edward Adam Davis (1):
-      fs/ntfs3: prevent potential lcn remains uninitialized
- 
-Helen Koike (1):
-      fs/ntfs3: call _ntfs_bad_inode() when failing to rename
- 
-Jamie Nguyen (2):
-      fs/ntfs3: fix mount failure on 64K page-size kernels
-      fs/ntfs3: resize log->one_page_buf when adopting on-disk page size
- 
-Konstantin Komarov (13):
-      fs/ntfs3: add bounds check to run_get_highest_vcn()
-      fs/ntfs3: add fileattr support
-      fs/ntfs3: zero stale pagecache beyond valid data length
-      fs/ntfs3: handle delayed allocation overlap in run lookup
-      fs/ntfs3: fold resident writeback into writepages loop
-      fs/ntfs3: force waiting for direct I/O completion
-      fs/ntfs3: fold file size handling into ntfs_set_size()
-      fs/ntfs3: reject SEEK_DATA and SEEK_HOLE past EOF early
-      fs/ntfs3: format code, deal with comments
-      fs/ntfs3: bound attr_off in UpdateResidentValue against data_off
-      fs/ntfs3: bound DeleteIndexEntryAllocation memmove length
-      fs/ntfs3: validate lcns_follow in log_replay conversion
-      ntfs3: reject direct userspace writes to reserved $LX* xattrs
- 
-Michael Bommarito (6):
-      fs/ntfs3: add depth limit to indx_find_buffer to prevent stack overflow
-      ntfs3: bound to_move in indx_insert_into_root before hdr_insert_head
-      ntfs3: validate split-point offset in indx_insert_into_buffer
-      fs/ntfs3: bound copy_lcns dp->page_lcns[] index in analysis pass
-      fs/ntfs3: bound NTFS_DE view.data_off in UpdateRecordData{Root,Allocation}
-      ntfs3: cap RESTART_TABLE free-chain walker at rt->used
- 
-Mihai Brodschi (1):
-      ntfs3: Allocate iomap inline_data using alloc_page
- 
-Tristan Madani (1):
-      ntfs3: fix out-of-bounds read in decompress_lznt
- 
-Yunpeng Tian (1):
-      fs/ntfs3: validate Dirty Page Table capacity in log_replay copy_lcns
- 
-Zhan Xusheng (2):
-      fs/ntfs3: fix syncing wrong inode on DIRSYNC cross-directory rename
-      fs/ntfs3: fix wrong LCN in run_remove_range() when splitting a run
- 
-ZhengYuan Huang (3):
-      fs/ntfs3: hold ni_lock across readdir metadata walk
-      fs/ntfs3: preserve non-DOS attribute bits in system.dos_attrib
-      fs/ntfs3: validate index entry key bounds
- 
-fs/ntfs3/attrib.c  |  29 +++--
-fs/ntfs3/dir.c     |  26 +++--
-fs/ntfs3/file.c    | 304 +++++++++++++++++++++++++++--------------------------
-fs/ntfs3/frecord.c |  38 ++++---
-fs/ntfs3/fslog.c   | 157 +++++++++++++++++++++++----
-fs/ntfs3/fsntfs.c  |   1 -
-fs/ntfs3/index.c   | 119 +++++++++++++++++----
-fs/ntfs3/inode.c   |  78 ++++++--------
-fs/ntfs3/lznt.c    |   2 +-
-fs/ntfs3/namei.c   |   6 +-
-fs/ntfs3/ntfs_fs.h |  12 ++-
-fs/ntfs3/run.c     |  75 ++++++++++++-
-fs/ntfs3/xattr.c   |  16 ++-
-13 files changed, 589 insertions(+), 274 deletions(-)
+On Tue, Jun 23, 2026 at 10:29:54AM -0700, Joanne Koong wrote:
+> >  void iomap_bio_submit_read_endio(const struct iomap_iter *iter,
+> > -               struct iomap_read_folio_ctx *ctx, bio_end_io_t end_io)
+> > +               struct iomap_read_folio_ctx *ctx, bool force,
+> 
+> nit: might simplify things to drop the unused force arg
+
+I guess this is not directly used as a method, so we could.
+
+> >
+> > -       while ((ret = iomap_iter(&iter, ops)) > 0)
+> > +       while ((ret = iomap_iter(&iter, ops)) > 0) {
+> > +               iomap_submit_read(&iter, ctx, false);
+> >                 iter.status = iomap_read_folio_iter(&iter, ctx,
+> >                                 &bytes_submitted);
+> 
+> should the submit_read happen after the iomap_read_folio_iter() /
+> iomap_readahead_iter() instaed of before? From what I see, it looks
+> like iomap_submit_read() would hold the iter state of the next
+> mapping. It seems like in iomap_bio_submit_read_endio(), the
+> iter->iomap.flags would be the next extent's flags instead of the one
+> that needs to be submitted?
+
+Yeah, the iter state would be wrong here if anyone actually used it.
+But the only thing we actually ever use from it is the inode in XFS.
+
+So I'm tempted to instead just adopt the signature to not pass the
+iter, as nothing should rely on it.  The only interesting thing I could
+think of for the future would be to pass on private data, but that's
+probably better left for when we actually need it.
 
