@@ -1,70 +1,74 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94D130C179
-	for <ntfs3@lists.linux.dev>; Wed, 24 Jun 2026 03:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC850215075
+	for <ntfs3@lists.linux.dev>; Wed, 24 Jun 2026 03:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782272503; cv=none; b=YCjN2lC0N8uxtC13joZUXvUAO/bgBpAJ0i6wlGRDbtOAyilU3FjDV1Z09txrxnWseYryUaUQ4hs9fqqKY0WEihG4grGMmmXrqk3nNJtO/nbE5Hke5RKONaOKtLsGQkfiRfxqZo/puB7QwtBTxVCIRMl5507uNkBBe+7D3Jy7XrQ=
+	t=1782272677; cv=none; b=TAQ/Jx52PVHf1FkyCeMy1X97SqveXOpydQfI20mE0ATAWh6yAjHzdaGMOP4nmWnxKvH2DKRiytv/QRjsom2NFOVztccHcrx06eJLyhA3zI4VT5cT49Ur7+MAMsZDcQ/ZIkj1JdTAXeYLY/RHo5Grv4a81eIzg8V8fOHtNXrgGP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782272503; c=relaxed/simple;
-	bh=CY+tNU7GMtSGXkZAry8HH0JrKZdkesTI/8rov5D0NHg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b+oUg65draSO9ppRArNqscUsbxqdNsKCs6Tg8VD/8ZnGy4eJq5BJ+NmiDxLx11RX+dgz1GfQamZqCAZ1UcbIgbT5DDAaMGej6B+XmftubnSDMmOKQgLtrHDbrp6CoaBknfozSZTzHDCfL5ifoEbkyrUqjiog2mIZqJj8H1o2mUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZeT1cpDl; arc=none smtp.client-ip=209.85.215.181
+	s=arc-20240116; t=1782272677; c=relaxed/simple;
+	bh=q25iHf+CTLzOTtX70p4T5EsLMPiZX1/QhXL5i3mo6es=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WODwkfqHBeL1Smb3LB+Jm3z3vSOJfgS1rAuoerQVYjujdGonMDm6EZ8cMrQ90fu6hkML0/sE2GO10cPcOHW8trJlQ8IpPZlmBXOVHL21dXNZBYRWn7po0TVORLFSrRmHhh0Yk0R80HdOUcLlEPW0WJdIgMiiJrfwUWi60DhNWf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gJp/2GBg; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZeT1cpDl"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c88a4d79ba5so369678a12.2
-        for <ntfs3@lists.linux.dev>; Tue, 23 Jun 2026 20:41:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gJp/2GBg"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-37de8c6a2b6so4906a91.0
+        for <ntfs3@lists.linux.dev>; Tue, 23 Jun 2026 20:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782272500; x=1782877300; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=beN+/tmi2yavCBr4937vYEbhqn8BZbwpQDA/8eL/t4Q=;
-        b=ZeT1cpDl7COA0jP8OWDoLA+s3qj12iaz9O0jm7RkTuIibaEQXK22qSn45r3mK+SRig
-         G8H4PZmloEHTnN/z8Ht5WWIMdlOxGv8R0DnFgvWJW6KPGAu9s1jhKNLbC6XPrRNJmn2x
-         QlRI9bPhMHbvVzhWKs/jmVOsRWcnHXE25/6PJILg0XqqkbQ3BNdlZ5NBLilRAw0hyXrK
-         MqvtsAVIPx1iF8RFRVUArIurZHDKNCUgQNd8q9E49t96QMAMc8UrE/9bHvs6dCHBY9LE
-         wX6LrpjTXPKzy/jCMb34rhB1o0KEpuahkSUdK4XHNGvSaOH3TtbXqkwx/Y8EdMboF+6F
-         0ZBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782272500; x=1782877300;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782272676; x=1782877476; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=beN+/tmi2yavCBr4937vYEbhqn8BZbwpQDA/8eL/t4Q=;
-        b=Rnoa/FiDQ2h+A5i4HS+NcJDg3KyB46kBrMjo4hG5R/iWlx0elaFRCM9xSE5TaSK8Wt
-         bezR1NCedUnhvXHupoVocaLjy4xa+sl9ljAdfhGbRDKIGRv92Pe2cR3riFZVMPGY9fw/
-         h2XC7ACxudC4QO+4/fB4u3QlCnhD+pHSJZUgEBt1hvEWGcWegWaS9ELxX8XYJc+BIlhJ
-         HnedXmd43tli8u1IPMzBUR43Rv0Kp73FpOhfbeoZJL7FQg3NEqgYonFqQ9FKKXdGECkE
-         b46ro3ZEQXRKgd6WLdrNOckK/YxDnvzRWZSLThRhKRI9dOKs4lEjJSWubdKMtqtnaynq
-         5lKA==
-X-Gm-Message-State: AOJu0YzNEsu0AKtot9ZiI8QBGTWGDTremPjHcJ2FuqXA4CM1ICqM3QKx
-	O/90RkPARGXm+UAd42dMwWl7o3M/ISX3xDzmXUn8BYPNaUHNrWovyqjJ
-X-Gm-Gg: AfdE7cnhjO2yQbZcxez4FOOTBOVfbWYe7Z6HdROBP0HbHzxl9ftOcy00mjJU4di3dA+
-	9+/BUIzYudoEdxolEzsWIhdxkhq2Gq4fotANWDvqnB8WfhIGvi59cmNtbzYN4zrdluJCH57RpIW
-	7Y+zYF2QrJtPOA0wDXroRTGeG5TtBb3UMF2pMN/XL13jHme98G1edIzqPnMjzAXtPoUtWIwcpEL
-	PIehARAUlA4rVEwyPCJ7H9TA5ke/rWwL67kwl+LumCOb8ie+TdELq3F6T5rwaZNq2CcgHPN7xuc
-	JOVNL6msntlM3juhyOt52nW5adApImZ7rj8xonuDp6KFbMdw/IW8E/69gS1gZxFY/qknXhCOe8T
-	+oMKP37rhynKCyV4yDFr2BiO3nEt4TO1qYcTkVqiPC7Qb3Uyw6EjGLLA7OMCcTDvqG/VKkpcXVi
-	fbnXMG2vemnQy8QaRQ9RaDTnw=
-X-Received: by 2002:a05:6a20:e211:b0:3b4:8fb2:a34b with SMTP id adf61e73a8af0-3bd14f2e765mr7359013637.11.1782272499998;
-        Tue, 23 Jun 2026 20:41:39 -0700 (PDT)
+        bh=jot/AQTs3wic1cTjRFa2JPwvqng3r+y2tF1TTKTrEdE=;
+        b=gJp/2GBgtRktTyxXubyJ9UiYga+4VYa2sETlLqkhJ0ySW2JQRNqmyszWTCXh0A+VWC
+         PBmAJSpmNEmSyabt8QjKG8eI3hNTAaXLgd8osc3REsCYdvH4LNL3MGCL+rEU/EMRJo6J
+         a0sweNYqyrYZ/cQIUgOJVpoEFvP6GjvxuOodxD+6n219gr8TpvUQBSZ2o6OL+BV5Shm9
+         z2CHHyQDksH8SlqboaeQtPTyfPj6GmA5Igt7Fd1CXq9cTleboMCyDQ6SgteDMwGw3sPU
+         D0EM8l0hbaKBZcVLSQDENB4wKDdTCFUTNhHVYOTRHRDXKxscRIQat5EzTjwrk/kwxPnT
+         XM4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782272676; x=1782877476;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jot/AQTs3wic1cTjRFa2JPwvqng3r+y2tF1TTKTrEdE=;
+        b=Kvtq34K2mMOfve65txdQlTQexuTMKucb/Q8QqrwFXfwr+uH8Ah5NlucdAeR3FkTfJi
+         dr5UQbGOfjeJbe1ks9+1K6kVhz63dkZ5SWUXNKgYK9LhuB8w7nzaTfp7IvRPPupGsaWH
+         limY8GfafOEaSzUYK1pur0d7uc44r6bY6/NrJpI3usRaQXXINY7tdrKE7lFagTdbXgy+
+         IFH5OShCu+S9XBW2pxsYU82tbJlZ5+wQZqYUgK3XSB74A9Z+kSMJsFN8nAqVNxIvIVSd
+         06aZnjbvAU3rh1D99FU/lvXqsOEAqoTiq0b2XAN/J58XhnjfPugHOEmVMt964kLZtxz3
+         yuvw==
+X-Gm-Message-State: AOJu0YxkzxBUDP/7zp6BDz3bP+sCqwPoW3DgrOjDz5G5xeOavAVMGKCM
+	9bKeNEUa4QPg1cWdR5Bu5CQXaYf9Gxye4JiwKkDftoBKOVS0NeS6hjOV
+X-Gm-Gg: AfdE7cn92Ad8h6L8iJPdl7vTNawYctzA5LJCXsaAIbUSTo3rLIBG0S/2MEc5YLiXxT7
+	EGk4A+CywWQX7b8OulV/lwc+I1e2Zt4JcfuBV+ZburAypdbhW+lZJiRPlfLIwqUlb0dheGfZd/A
+	J07AemrYJKj0eVpK+LrfcSxcnCQfuoGGYg+1UAV6nlQZgm6cvVBgktw4MrSuKkvzHBUtHRY6CfJ
+	0e6Q3AirTtn3APblBSD9rASyZtCpVEtNSi3be8MPi/Exu5hlPwic0eTw8whgbxXAj3yji79uyVu
+	K8DM05OfN2mrfJOLUj7WvUlCXMJsKKeHIU+vKGhqx7v/HiuRs1a7WkHvQGZKEcWzm+zaFa3jqpo
+	nEAPTCpqsz9LbXABTyd/6BumE1OojTmMhxqvsfN0urWcrirdjZCmfqQytJqkF98qSj5HTMgmpM6
+	uUqXpHh4OP9wJmF5GzowsYxD/fOJ0fbuqj5Q==
+X-Received: by 2002:a05:6a21:6e97:b0:3b4:b259:6965 with SMTP id adf61e73a8af0-3bd2d099307mr1922286637.11.1782272675940;
+        Tue, 23 Jun 2026 20:44:35 -0700 (PDT)
 Received: from osman.mioffice.cn ([43.224.245.178])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-845a412e5e9sm658494b3a.54.2026.06.23.20.41.38
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8bc326c487sm11233637a12.12.2026.06.23.20.44.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 20:41:39 -0700 (PDT)
+        Tue, 23 Jun 2026 20:44:35 -0700 (PDT)
 From: Zhan Xusheng <zhanxusheng1024@gmail.com>
 X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Zhan Xusheng <zhanxusheng@xiaomi.com>
-Subject: [PATCH] fs/ntfs3: fix integer overflow in MFT cluster validation
-Date: Wed, 24 Jun 2026 11:41:33 +0800
-Message-ID: <20260624034133.57049-1-zhanxusheng@xiaomi.com>
+Subject: [PATCH v5] fs/ntfs3: reject out-of-range evcn in mi_enum_attr()
+Date: Wed, 24 Jun 2026 11:44:30 +0800
+Message-ID: <20260624034430.58214-1-zhanxusheng@xiaomi.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <71e5333c-bb8a-4886-bfa1-e1b4cb8ea451@paragon-software.com>
+References: <71e5333c-bb8a-4886-bfa1-e1b4cb8ea451@paragon-software.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -73,86 +77,78 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In ntfs_init_from_boot(), the boot sector's MFT cluster numbers are
-validated against the volume size with:
+In mi_enum_attr(), the start/end VCN validation for non-resident
+attributes is:
 
-	if (mlcn  * sct_per_clst >= sectors ||
-	    mlcn2 * sct_per_clst >= sectors)
-		goto out;
+	if (svcn > evcn + 1) goto out;
 
-mlcn and mlcn2 are u64 fields read directly from the boot sector.
-sct_per_clst is bounded above by 4096 (true_sectors_per_clst() plus
-the is_power_of_2() check below it), but the multiplication is done
-in u64 and wraps when mlcn (or mlcn2) is large enough -- e.g. mlcn
-near 2^62 with sct_per_clst == 4 wraps to 0, which compares below
-any non-zero 'sectors', so the check is bypassed and the malformed
-record is accepted.
+When evcn is U64_MAX the "evcn + 1" expression wraps to 0 and any svcn
+passes the check. For evcn values close to U64_MAX (but not equal to it)
+the right-hand side is still a meaningless near-wrap upper bound, so a
+malformed on-disk attribute with svcn == 0 and evcn near U64_MAX can pass
+mi_enum_attr() unrejected.
 
-The accepted mlcn is then used unchanged in
+VCN (virtual cluster number) is a cluster index, so any valid evcn is
+bounded by the volume's total cluster count, which ntfs3 holds in
+sbi->used.bitmap.nbits (set up in ntfs_init_from_boot() before any caller
+of mi_enum_attr() runs). Reject evcn values that fall outside this range.
 
-	sbi->mft.lbo = mlcn << cluster_bits;
+However, an empty non-resident attribute (no allocated clusters) is
+legitimately encoded with svcn == 0 and evcn == -1 (U64_MAX), e.g. via
+attr->nres.evcn = cpu_to_le64((u64)vcn - 1) with vcn == 0. That sentinel
+must keep passing, so exclude evcn == U64_MAX from the range check. The
+existing "svcn > evcn + 1" test still tolerates the sentinel ("0 > 0" is
+false) and continues to require svcn == 0 for it, while the range check
+rejects every other out-of-range evcn and thereby also defuses the
+"evcn + 1" wraparound.
 
-In practice the resulting reads fail at the block layer (sb_bread()
-returns NULL via grow_buffers()'s check_mul_overflow() guard), so
-today this manifests as mount failing in odd places rather than as
-something more dangerous, but the validation step is still wrong
-and there is no reason for callers to rely on the block layer to
-catch a value that should never have been accepted in the first
-place.
+svcn does not need its own bound: once evcn < nbits, "svcn > evcn + 1"
+implies svcn <= nbits.
 
-Use check_mul_overflow() to compute the two sector positions and
-fail the mount if either multiplication wraps; this preserves the
-existing semantics (mlcn * sct_per_clst >= sectors) instead of
-switching to division (mlcn >= sectors / sct_per_clst), which
-would tighten the check at edge cases where 'sectors' is not a
-multiple of sct_per_clst.  The check_*_overflow() style is the
-one ntfs3 already uses for similar on-disk arithmetic in
-fs/ntfs3/run.c.
-
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Fixes: 013ff63b6494 ("fs/ntfs3: Add more attributes checks in mi_enum_attr()")
 Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
 ---
- fs/ntfs3/super.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ fs/ntfs3/record.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 3305fe406cb2..4205a212154b 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -65,6 +65,7 @@
- #include <linux/minmax.h>
- #include <linux/module.h>
- #include <linux/nls.h>
-+#include <linux/overflow.h>
- #include <linux/proc_fs.h>
- #include <linux/seq_file.h>
- #include <linux/statfs.h>
-@@ -957,7 +958,7 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
- 	struct ntfs_sb_info *sbi = sb->s_fs_info;
- 	int err;
- 	u32 mb, gb, boot_sector_size, sct_per_clst, record_size;
--	u64 sectors, clusters, mlcn, mlcn2, dev_size0;
-+	u64 sectors, clusters, mlcn, mlcn2, mft_pos, mft2_pos, dev_size0;
- 	struct NTFS_BOOT *boot;
- 	struct buffer_head *bh;
- 	struct MFT_REC *rec;
-@@ -1026,7 +1027,15 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
- 	mlcn2 = le64_to_cpu(boot->mft2_clst);
- 	sectors = le64_to_cpu(boot->sectors_per_volume);
+diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
+index 32bdb034c2a3..d6ca4ac35a45 100644
+--- a/fs/ntfs3/record.c
++++ b/fs/ntfs3/record.c
+@@ -202,7 +202,7 @@ struct ATTRIB *mi_enum_attr(struct ntfs_inode *ni, struct mft_inode *mi,
+ 	u32 used = le32_to_cpu(rec->used);
+ 	u32 t32, off, asize, prev_type;
+ 	u16 t16;
+-	u64 data_size, alloc_size, tot_size;
++	u64 svcn, evcn, data_size, alloc_size, tot_size;
  
--	if (mlcn * sct_per_clst >= sectors || mlcn2 * sct_per_clst >= sectors) {
+ 	if (!attr) {
+ 		u32 total = le32_to_cpu(rec->total);
+@@ -310,8 +310,22 @@ struct ATTRIB *mi_enum_attr(struct ntfs_inode *ni, struct mft_inode *mi,
+ 	if (t32 && le16_to_cpu(attr->name_off) + t32 > t16)
+ 		goto out;
+ 
+-	/* Check start/end vcn. */
+-	if (le64_to_cpu(attr->nres.svcn) > le64_to_cpu(attr->nres.evcn) + 1)
 +	/*
-+	 * Convert mlcn/mlcn2 to sector positions before comparing with
-+	 * 'sectors'.  All three are u64 values that come from the boot
-+	 * sector, so use check_mul_overflow() to keep a wraparound from
-+	 * silently bypassing the comparison.
++	 * Check start/end vcn.  svcn == 0 with evcn == -1 (U64_MAX) is the
++	 * sentinel for an empty non-resident attribute (no allocated
++	 * clusters) and must be accepted: "svcn > evcn + 1" tolerates it,
++	 * since "(u64)-1 + 1" is 0 and "0 > 0" is false.
++	 *
++	 * For a non-empty attribute evcn is a cluster index and must lie
++	 * within the volume (sbi->used.bitmap.nbits, set up in
++	 * ntfs_init_from_boot() before any caller of mi_enum_attr() runs).
++	 * Bounding evcn also prevents a malformed value close to U64_MAX
++	 * from slipping through the near-wrap "evcn + 1" upper bound.
 +	 */
-+	if (check_mul_overflow(mlcn, (u64)sct_per_clst, &mft_pos) ||
-+	    check_mul_overflow(mlcn2, (u64)sct_per_clst, &mft2_pos) ||
-+	    mft_pos >= sectors || mft2_pos >= sectors) {
- 		ntfs_err(
- 			sb,
- 			"%s: start of MFT 0x%llx (0x%llx) is out of volume 0x%llx.",
++	svcn = le64_to_cpu(attr->nres.svcn);
++	evcn = le64_to_cpu(attr->nres.evcn);
++	if (svcn > evcn + 1 ||
++	    (evcn != U64_MAX && evcn >= mi->sbi->used.bitmap.nbits))
+ 		goto out;
+ 
+ 	data_size = le64_to_cpu(attr->nres.data_size);
 -- 
 2.43.0
 
