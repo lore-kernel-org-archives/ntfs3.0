@@ -1,155 +1,88 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F74225416
-	for <ntfs3@lists.linux.dev>; Thu, 25 Jun 2026 04:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3034537C0F6;
+	Thu, 25 Jun 2026 07:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782360073; cv=none; b=M9wGoTQKZ/ZgtV7UWVvcpNVXQIVfJAqqsjILg4WPZ66Tujjj7+PhcNC50r5iFNY3lJuSGfOqEENj0jajxc0c8biXSg+ZMWzPPRSllVlSCYdW7vZ2z3E3X8G2tQJXkxgdwnTzsoDU/B0w1Wf4XUZ2hTArpnAkgjv7dGpUHjDkR90=
+	t=1782373432; cv=none; b=ui1jmWR9e6mu96fQtxsc5NidcyQsdCpnsoaCYraVsrT61haejY2ZQGtE3aFiCi11QLefXZ2qxPiLngKS8iyv73kX/W703GI4WUp/7jzxMnVuJ2PuDcqDK7FCrXVQhKwN7ISXH4a3Ttw7k9wcpWP4TvAumBMEQjMwLQaqgyP/mB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782360073; c=relaxed/simple;
-	bh=8lgjXnHC+R8rd6QvlTlcWKmTiAZkvg82N1eDc85A4Os=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IufUGqWWN+s1D+CcjzCMWzqfQrqFMY0I/k+/Pq4BUGhlqzVxILHze2IT3jpDVhUNJKBLdcvAZGKNmOcpZj4VBgJ49IEogI2hCLYb8JDz1RdfExog98aQVG1tqrsmcf974hOenZMk5uFuNQbyCGvdmpkuNvtKn3/FHmX6W+J/XFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bK66AgEt; arc=none smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782373432; c=relaxed/simple;
+	bh=8Kpmnt6rJqz2IYsinEtKGnJv3u35NDT4GQMZZcBwYSk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=EjugSoSJygLLcSUWFqEl8Se2RDY2SZbbvQjTmcBKQhqw6CH++80WsIwnwptVnj+lbI9PHzP9dsubDWJ58z6Gs6TfrR3Of7teJ0nrhEpt1vLZsqeEK1yl6fhPf4w4Lue6E/+XZ5EDvHtCGIAwVuH+hobt2nZ7CsYEbScy6yr3PyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h98B5iTc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bK66AgEt"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-30c6c8d7503so4014710eec.0
-        for <ntfs3@lists.linux.dev>; Wed, 24 Jun 2026 21:01:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782360071; x=1782964871; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rvXshwkE2Fi1VZ/yJhFDR9Y1t/o2CZ9mT65d7Nkx+jo=;
-        b=bK66AgEtDzE4199JRmYyYerFQTCkXrk2ykxMGcyoDMEVVnf7OHl8F+hvCH6L15MGKv
-         gF2hy4lMfb5I+/WPRxrDjXmvjvp7nh6dMTL1vTzB2s4Ur+IDK/lFSgFKNMg46Gl43vEj
-         lofE+F32DL93WrCX+/hVkbi5+j3/ZZQs6E3OMaitp09b/2guOeFyTaX3NlCHzx5IoJQ+
-         X6vfCBpAOJWjPHGXw2P9iywucT/Slq8IblWScqEyLeX7f0ac6RsMizPRZva4MMMyuP8n
-         jdAyjI8biGjZZ3LQcMp/0qceO8ctqt7UvI9DXg8lDK5avG7Ok/DJZUX6mJuLbN2qM4VI
-         66Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782360071; x=1782964871;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rvXshwkE2Fi1VZ/yJhFDR9Y1t/o2CZ9mT65d7Nkx+jo=;
-        b=DMj4yYxYc2G849mVZEVjDV/PQllZ4edRHNl9snBaBd9lnHatsQnI/X9MAg2Bpi3+GP
-         VBl1sroYPOxCTgPTDTl5MO6hbzzwOXMPFn33POs8Z4EtnOU6MDAfZKfjtdgGNscBeamK
-         nvFUUKcdg4gc0x+EbZXLSiRYIicOibsvj3WMW+vuJcK6dkqHgqDjtH14Rp3oZ4OTIlz/
-         uElA4bcD6chdd9f8sQHOOWpwfznXeZcr/VyhnRweLUNzCGi5pf3vkwEZb3vCzCVypzAJ
-         +2BsVkM7nXVtezsufAhm/Gb8QTm3AEIwQRjNbYMN2tY5xrIslc9ohUUPXrbUUWfUInFr
-         9n2A==
-X-Forwarded-Encrypted: i=1; AHgh+Rq9vjbXXLfrelvKG9ed+hFGNQ6HtbIiB0XVymYUw1JJ83DT8IM0rwkvqaB4vTSarYcgAiM6Pg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YylTp4uqblWm5tHZmvJUQXRYhgzp2JgTNqg8vBn/tkLp39e1D/x
-	TepwJaAAL8oElZdFm5Hus4ff6E4M1lcTY5e/5a1KCqPrulBm5qY8SbNz
-X-Gm-Gg: AfdE7ckUfvfAECZrTlLt6VhuSpw6oBvbtEbgvUl16yrYlpUAb9JU8rlyNbs/2gyw44P
-	4Gt9MZFQIu8OWwvgkGZOwWSR0zdg2e+mGMTvEHb/fb7LpWWg8qK3x9LpDIhfKgsaF3I4vsg30Ez
-	YGDvqKoNeo0oGbcf+wC6M+129IKROURizFWxwZEsQ04JEBXIQmaGVzsV9BC1cBtgLB5NVCMtrYa
-	aUM+JKesqMA/bjoQweXCSeBwHjdU7BuPz9lXAaIm1ofB1kxjfv54vvcA+AzRoHOzatcvcBA9By7
-	ic7oVBb9xWBzMJkiqdLcFgWd2kE8/3JsLkSUUFGK16J7Fr8ZCdYAflpPwr2ZvC2EiWYyYYV+JKc
-	xbhhv8DbOH5GFNixq6GRYp+MsRpjQueWDAQpWsWqWn+F/lwbDnxSiLGM8Yo6IeBPeBRhi+wWRTg
-	LX8DVzcWAtfaydA/XEiryDPz24cYiwfRgNG7EzYeyKZgodjo8CaBmajd7Q7A==
-X-Received: by 2002:a05:7300:1824:b0:2ea:5057:a304 with SMTP id 5a478bee46e88-30c84d9e27emr928042eec.2.1782360071356;
-        Wed, 24 Jun 2026 21:01:11 -0700 (PDT)
-Received: from fx.tailc0aff1.ts.net ([206.206.192.132])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c4c9dafsm4627340eec.1.2026.06.24.21.01.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 21:01:10 -0700 (PDT)
-From: Weiming Shi <bestswngs@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Xiang Mei <xmei5@asu.edu>,
-	Weiming Shi <bestswngs@gmail.com>
-Subject: [PATCH] fs/ntfs3: validate ef->size covers the record's name and value
-Date: Wed, 24 Jun 2026 21:00:38 -0700
-Message-ID: <20260625040036.996396-3-bestswngs@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h98B5iTc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B4B1F000E9;
+	Thu, 25 Jun 2026 07:43:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782373430;
+	bh=KNUZd9Y0cWzbb8WiacdB9j4WHVQiN9fbNdDWbtWpD9w=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=h98B5iTc/JTwSLIvhTpbNoVneCn2xTlBFmheR7eiwEPrC42gGG7SSnLPVEXW/LTsK
+	 d+AgQ/JiHxywcwAQG8vL0aBL2UNqQ47gvfL5BXrbs9GRnoqZiLUt/CUiXZNFC1jkaR
+	 K9K5O4h2SkrcUgQAS4bP9CYwu7hyUBOcRIG3Au4Jx7CDoh1jAVRQxk2kX5zI1hM4/y
+	 sgZCZC5J3vu5Z1Af4DxMF3vXUmAVxQbiydk80uNuo+z30wUNJLhgnZ4G4pU1ktoqNP
+	 xNHK3Gk+ofOFf1n2nhTfEz/P+XTAXWp/2+AJ5ZuzEK0kfnv5CZCECINSEbKfdKEiSK
+	 sN7BENl0wYk9A==
+From: Christian Brauner <brauner@kernel.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
+ Yuezhang Mo <yuezhang.mo@sony.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+ Andreas Gruenbacher <agruenba@redhat.com>, Hyunchul Lee <hyc.lee@gmail.com>, 
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+ Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
+ Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-block@vger.kernel.org, fuse-devel@lists.linux.dev, 
+ gfs2@lists.linux.dev, ntfs3@lists.linux.dev
+In-Reply-To: <20260624174228.2015893-1-willy@infradead.org>
+References: <20260624174228.2015893-1-willy@infradead.org>
+Subject: Re: [PATCH] iomap: Remove FGP_NOFS from iomap_get_folio()
+Message-Id: <20260625-anwesen-allumfassend-konfrontieren-769e406acb07@brauner>
+Date: Thu, 25 Jun 2026 09:43:18 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-d9d01
+X-Developer-Signature: v=1; a=openpgp-sha256; l=938; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=8Kpmnt6rJqz2IYsinEtKGnJv3u35NDT4GQMZZcBwYSk=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTZ3DGSWK8/NXu6nd7dLJ/Fz5nLfLakrMo7u8llUf7yY
+ +G/fVnXdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwk4SHDXxEXT92oXWt/97xd
+ 8r9XMSR/1/EFi16v1nn1SNL8spRLjxYjw6KnRltcdqo4RU5dbP1Q7kVdm5x/M0+97at7Rve2PGT
+ awAEA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-When an EA record has a non-zero ef->size, ntfs_read_ea() only checks
-that the record fits in the remaining buffer (ea_size > bytes), not that
-ef->size is large enough to hold the record's own name_len + 1 + elength.
+On Wed, 24 Jun 2026 18:42:26 +0100, Matthew Wilcox (Oracle) wrote:
+> iomap: Remove FGP_NOFS from iomap_get_folio()
 
-A crafted image can pass validation with, e.g., ef->size = 24 but
-elength = 0xffff. ntfs_get_ea() then trusts elength and copies it out of
-the undersized record, reading past the kmalloc(info->size) allocation
-and leaking heap memory to userspace via getxattr():
+Moving into -next so we see fallout...
 
- BUG: KASAN: slab-out-of-bounds in ntfs_get_ea (fs/ntfs3/xattr.c:302)
- Read of size 65535 at addr ffff888100794550 by task exploit
-  __asan_memcpy (mm/kasan/shadow.c:105)
-  ntfs_get_ea (fs/ntfs3/xattr.c:302)
-  ntfs_getxattr (fs/ntfs3/xattr.c:848)
-  __vfs_getxattr (fs/xattr.c:441)
-  vfs_getxattr (fs/xattr.c:474)
-  do_getxattr (fs/xattr.c:800)
-  path_getxattrat (fs/xattr.c:868)
-  do_syscall_64 (arch/x86/entry/syscall_64.c:94)
-
- The buggy address is located 80 bytes inside of
-  allocated 84-byte region in cache kmalloc-96
-
-Compute the size the record needs and require ef->size to cover it.
-
-Fixes: 0e8235d28f3a ("fs/ntfs3: Check fields while reading")
-Reported-by: Xiang Mei <xmei5@asu.edu>
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Weiming Shi <bestswngs@gmail.com>
 ---
- fs/ntfs3/xattr.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 9eeac0ab2b71..9097ded7d7dc 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -146,26 +146,29 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
- 	for (off = 0; off < size; off += ea_size) {
- 		const struct EA_FULL *ef = Add2Ptr(ea_p, off);
- 		u32 bytes = size - off;
-+		size_t need;
- 
- 		/* Check if we can use field ea->size. */
- 		if (bytes < sizeof(ef->size))
- 			goto out1;
- 
-+		/* Check if we can use fields ef->name_len and ef->elength. */
-+		if (bytes < offsetof(struct EA_FULL, name))
-+			goto out1;
-+
-+		/* Size needed to hold this record's name and value. */
-+		need = struct_size(ef, name,
-+				   1 + ef->name_len + le16_to_cpu(ef->elength));
-+
- 		if (ef->size) {
- 			ea_size = le32_to_cpu(ef->size);
--			if (ea_size > bytes)
-+			/* ef->size must fit the list and cover the record. */
-+			if (ea_size > bytes || ea_size < need)
- 				goto out1;
- 			continue;
- 		}
- 
--		/* Check if we can use fields ef->name_len and ef->elength. */
--		if (bytes < offsetof(struct EA_FULL, name))
--			goto out1;
--
--		ea_size = ALIGN(struct_size(ef, name,
--					    1 + ef->name_len +
--						    le16_to_cpu(ef->elength)),
--				4);
-+		ea_size = ALIGN(need, 4);
- 		if (ea_size > bytes)
- 			goto out1;
- 	}
--- 
-2.43.0
+Applied to the vfs-7.3.iomap branch of the vfs/vfs.git tree.
+Patches in the vfs-7.3.iomap branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.3.iomap
+
+[1/1] iomap: Remove FGP_NOFS from iomap_get_folio()
+      https://git.kernel.org/vfs/vfs/c/ec17795fb797
 
