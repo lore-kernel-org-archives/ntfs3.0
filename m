@@ -1,111 +1,135 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DCF30D3FA
-	for <ntfs3@lists.linux.dev>; Fri, 26 Jun 2026 13:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782479490; cv=none; b=EARFFlxDSaEfb/Zg93QHOifW1xojXkN6Sh60eE1gUwjR9kya6mH+Ex5PWRZ+oalM6ajEcXpxzEdU2aJuu+GBNK7JA90KNd04uAt8yTtasSFQvQioFan94Mc6KXVd3KU4Ix9sOQ2K8RfusVG3/kk09vyKdYuNhSQfpyLlCxcAzsw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782479490; c=relaxed/simple;
-	bh=lJ+OBwpSmNxu05yOr9PmGJPJWDTMt0GEFw3mqTdUhs8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gXYzCCwh292lsCG9mRZp+3UFf+p+km/y0Ks9fSWb7JCc4c+5Z23O/xClWccXp2QNjeaUBxphFsAphGkRKCOAJ54Br1sYK4xICfA2Jw8pEZ2UXUKX7WWRM6mqKB/0/SeDwTOLXM7ajMB0bVWogJMuBPylIpuQTRSB2dWHaa5yJQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MV8uFVy+; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E10282F2C
+	for <ntfs3@lists.linux.dev>; Fri, 26 Jun 2026 14:51:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782485495; cv=pass; b=Wmln8EfuR4vJ9EGXndAKBIWkJL0woSo4GYFVHlViidTIfRBmCC/yZe0+oY9l6tLGvTYqWMt1FHgPAVjJky2IXpyW0y3YmvEbrTUnDMqxJkUTCda5GOA3ccOZ5LNdWEOuRlMyAndyuUP4RW70cuYhSgCFtuRhcSxwOWOaF0Sv3kc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782485495; c=relaxed/simple;
+	bh=F/vTTa+gFZE1/PfB4U5xRpdZYv0DcxHltEmaOMRgRKU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GGRPKdkTbs+GWncm0kaNkoKKU3WBkYAXcMv5GYlMSqH7G2ZTCP7BJnlO/i8kWALr69CgROHu+rsHQE2oTdfNJsPBE+vRpNoPj/c2yfolpkCJ+M57Vq5hIpPGk9+Kv8ZxICuBDR9z7/nNw+VPtlOcmCNCxlTpqwe6uRWe+j+KV40=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TE/sSLn9; arc=pass smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MV8uFVy+"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-84536e2857eso434666b3a.0
-        for <ntfs3@lists.linux.dev>; Fri, 26 Jun 2026 06:11:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TE/sSLn9"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-46caaa805b2so677523f8f.0
+        for <ntfs3@lists.linux.dev>; Fri, 26 Jun 2026 07:51:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782485491; cv=none;
+        d=google.com; s=arc-20260327;
+        b=spOmJsEY0s72Kr72tWSQo2uak0YjJQFXDG3EM7d6fs0SIUAv+8w5A21+A06Fz0ilwb
+         y+eOr48uvMHILlKc1MwhoN7/eL0g1E77NWp74RhlZAf+qGnZo6oe0mXV8jEP+ea21p9V
+         0EeaPZsFnCwIpM3m6HZCoamYbkioWPf0EVjwswRbf3K7n+piIJyc/x4s0okfePdU8k2R
+         seJYO/R4Z6ilyJ+bHAi9TedHp1mneaWV8oNGYRixE2WOavbk6ZDn9qTpzlQ1bWLDjojq
+         DVObvJYg1f8NZzXBPmrlhnRDyYPeagZ4Z4hBFqss5DmHo18UCFV/qcI0Ost04qUCw3hG
+         9U3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=qEFu/GsLUdYzJ5HEI3yfKh2VsiakBP97CsT9SHwpvI8=;
+        fh=f+X2w/irc+AXWpjv1f3X/34hskqnFkH0AmlPXerYpy4=;
+        b=Q/xPi/OlQ3mFKSaRZXoZoRte0N3kalNAqfM5PumxEO0TnHdHMA3swb3pAYEAYy8YeV
+         TP+6vEKp9oKcDoQ9/4iP32vAKVlBbNs374NXiZKQbP/imjFDmzYqyFWux/nPgEeQ2Q/d
+         kGcTGxKwCN07406rDUIrrRN5tsNdKGlbfjvzJbOlSogVXTLig9BEyWBe/gDOSjaHJy+Y
+         p9jXGpypzdpXcXvtALb1VzQMsZLj+clYPMoWo2SY8XuJf/gkKJwgekJpV1uYdfMloam8
+         gOkB2E7K8x71NK6GgS8He+QJ6VF6SQxbhqIt7tKHcCcWv5Vs6mUi6vFf6a7/U0FRxyoo
+         9GHQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782479489; x=1783084289; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782485491; x=1783090291; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KjcfW/YArfhSkjN/lzs+Iq6KU+eSjbr3oJOOoEG0Y+s=;
-        b=MV8uFVy+bLL+VPEmviAQWajUO3MmPLSeY1daezndF9V1SngUniY//S1fqfuonKrIQo
-         fbPnhlm2lEzdUxbRE/RDF/7mN3fv+/eRpCz31lyI+DmaGQuw2d0bOAHjkLRrpbhtZTzB
-         FUVPnJDQ3fWtETKGfZtcdGx4r0ZLQtrTKsNBj8s5KOjrR+i8U4U3PrU4Xvl51Gv+xrTG
-         h9ecCNgrD7CYi6wtlYwqihPqxTsGVeDN+HoK//q4ROhwZi3JRK65FJfWC++k4rASPu9u
-         zzQG8N77v/40Rg+dumO/OFIoSfgfSK7hIvnjpr4hZgq2WsGQ5E8rfcEM1r9cGnMsBzcy
-         sHnQ==
+        bh=qEFu/GsLUdYzJ5HEI3yfKh2VsiakBP97CsT9SHwpvI8=;
+        b=TE/sSLn9rhUsmECMVsJbwYP4y3lNLdSg2+jKJUm7n48Surz1PjGQVbQCoOuHzmncE+
+         fZixXoJVekOw4+/crlWnoyCKz6Y62+FxGcAtlbmonJw1xJ6T28PJYP/ETb/vRDTbDKRl
+         go5DxYEXe1bWEBRXyEo+AOVLtnp4iBuTBTDY2JWHvfqvj0YjSTmc2nCbP+AJ+HT1e8TJ
+         se8pjOq6sl24mH8lZsfM20W4X1CAhU449zXh111Lt6t55m4pv2lPlE67p8Jd2WrnYz4L
+         i3/FgFt6ouhrIWstd/YfUGA9HShmNEpXexjwczuolfV5gCad0xsb7/VizkjY991vwPQt
+         eDtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782479489; x=1783084289;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1782485491; x=1783090291;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=KjcfW/YArfhSkjN/lzs+Iq6KU+eSjbr3oJOOoEG0Y+s=;
-        b=COcksnTrSj6gn0EkcG475ZNdCO2yh24TFI7oSnRBArgFjb/21l9mclIvOfgUM/Q4WU
-         KwTlY5tdpR3Wut/w4I/8rW7+uMD1ps4WeyTeE1ObA3KoGVtFMWGpC4lMywbMIM8yMVNG
-         YtC6E9k/0LmmgU8eQPLg3B42a1GqV1UA3dlfFsH1Jj/9wOFNm+QQfLK+F5N6qq/KIOyB
-         9zMHHKRHicWBSmlMqfz63try9Cib7R18ddPMO1woj8W/vFVGtqR3UUcq2pDKNrqYo0aF
-         dwDhODYbT+Lzb3nF+tuJH8cg4gma/XEtWbuBAEx+PwGUK8a1d9radZH/dC+PdAe65Ewq
-         YfIQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9T/qtgWDM3hqZI5Th/RBXEKwkFHqIYm3UeZPbi70jfja09KCgOD61Df3esW9wrCLtBzJvWvg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwE818gjM3MGXYRbx6AD/zIe3nI1XxYRCr8lA6UwhYDwYmcmWf1
-	Pwy+QdhOblkVg5HyZ/KUPmiIIHFrJcQoNivfgAMUiCv+/HNjjIZQGNxJ
-X-Gm-Gg: AfdE7ckO7gNmIvh+K6nVFIeOGpCIoUnWXZbG9N3jqe3KWd26GcxjlIYHZlQmnxMiinA
-	HLHqFjaHc0M54a80Uefo4ZlNEqEl0sNSspoI64ju/UNlwfWyt1El3ZPC9QwnESljMEDrr50twM8
-	XiQHAYEf1xlCJKgYYv+AF4ECirzpqL0x6Byx+SY2UeyWMQPcTUCZIXh9pmDsf2qLChdSzavukd5
-	HRy597r3+nredGufmFA3ntoH72Oe3jjrXyatLKHeKZwD/onMCWDjoSLR9S9f7v89nHuTpLJ6cRh
-	VucqirvkNTIxD3A8MMiVrTttBilTBKyPq5NHjFBaUQQFnH/5tP+1nFqO2WbCURP1Nimg08epOcE
-	dBr4IeTq4daK3Q+kQNXBn1mDhXlH0L1D7IZNAnZaqOfzaAwl1vSteU7/SZmSrXSBhpnssjIRp0G
-	B9fpI0PMWok3lqbIdHrDofXfGTUUbaTVKT20nJvFsXlg6+RcuCDcFl1nZKWhD0pHFjkuo4b30C
-X-Received: by 2002:a05:6a00:22d4:b0:845:4679:4a3 with SMTP id d2e1a72fcca58-845b3aed31emr7700824b3a.19.1782479488475;
-        Fri, 26 Jun 2026 06:11:28 -0700 (PDT)
-Received: from localhost.localdomain (211-20-143-81.hinet-ip.hinet.net. [211.20.143.81])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-845a40d234esm7104461b3a.29.2026.06.26.06.11.26
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 26 Jun 2026 06:11:28 -0700 (PDT)
-From: hewei-gikaku <skyexpoc@gmail.com>
-To: Weiming Shi <bestswngs@gmail.com>
-Cc: Xiang Mei <xmei5@asu.edu>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fs/ntfs3: fix out-of-bounds write in ni_create_attr_list()
-Date: Fri, 26 Jun 2026 22:11:22 +0900
-Message-ID: <20260626131122.1341-1-skyexpoc@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260624053008.4885-2-xmei5@asu.edu>
-References: <20260624053008.4885-2-xmei5@asu.edu>
+        bh=qEFu/GsLUdYzJ5HEI3yfKh2VsiakBP97CsT9SHwpvI8=;
+        b=hKLU/HVqGBg2ndah2NmzCEu1RPE/XtApvgd2HH8k/dAghghyaSJGRkbsf3DNTsmMW7
+         /FxJMVvmibbvezr6up9J6TGeGcg8bLcJvgYvXVRbECb/Omc8PTyA0tcbBkawctCNYOIc
+         lg9N0FTA+023m1J15aUylsUCQbKPd1rID9qbPLqwhBqolfyF8N9jXfjS+ax5iYk62iDF
+         415gSft4ZGRuA4J1Af3mLj1DpRySOsvtbiHIO4xSz5csFB5JEXAWJkskLgDvUnC9Gbmi
+         7WP4tWRwSKzpL31dCtoaW/eouoUYWaexqGMzVFFCdw0/8cXf7LPhitjDWzHDY5l3buRn
+         EoWQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrbBYkyH4OmPE3p5yBI1yZuPfW8Gwi0mZFJkDETwp4hIzVeiFG+ULEej+QLY3iVnCGV8a7XCg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yws2pJuyj9tzNSvaV5edMeKFVfVPBCITRvXP5MQpYtgD19MFfZW
+	wf3YXtDvPyinmF4+OYZ5rcueP+wXyvOyAmzWlo5GzjTAYV3iqr06kGBQtLJpZRP0gMgD3QNTQrz
+	q9sJFISSkQ6nM8hS/fncfPCTuUlVcQpM=
+X-Gm-Gg: AfdE7cmqmtmOXhJNQn1uOPNf58zjJSvCLqBDm12OpLSFH80+ex1ATKX1fhqzpYb5DjC
+	aQCe9ejTtsHCsqp6so3MPPfprXNIun8mvvORaIArCBLOLnNcz2bqBIcUXzbHc2sCgzD35iqvr/I
+	Xs/MIa2fCtdk7AD4muZ3GcVew38oXFV6SSmh7J/wV4P8RrJrsDY8//w31pkxpeF6LBISCQFBUJA
+	2U/aveVDaUzjy/kyeol5w9py0Se843p8u5G66dS6ve5eiSLL1P7FXLZB46wXtmSDGTwRVx+5Nsv
+	jX3q3F5ppFCO5YiYgHxKJu7ldiTn4nXh9Yz//fsWpLxXQsk7o0HQb5MVSQNqDmo=
+X-Received: by 2002:a05:6000:4b1b:b0:469:3037:37d6 with SMTP id
+ ffacd0b85a97d-46dbed361c5mr11889497f8f.2.1782485490511; Fri, 26 Jun 2026
+ 07:51:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260625120803.2462291-1-hch@lst.de> <20260625120803.2462291-3-hch@lst.de>
+ <20260625174758.GE6078@frogsfrogsfrogs> <CAJnrk1YFeirQ4g7qcVsda-8qPLeAtoiyW6ZBuJb2qDsGpxi-tg@mail.gmail.com>
+ <20260626043319.GC8078@lst.de> <20260626061637.GA10337@lst.de>
+In-Reply-To: <20260626061637.GA10337@lst.de>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 26 Jun 2026 07:51:18 -0700
+X-Gm-Features: AVVi8CdX3YEuehBm4GMevCFp3lRCSJHGYeePQFfRezoeBrVyeHAViWscCz8GoDk
+Message-ID: <CAJnrk1aJbQ0092f=wcTu8v62rdxZ7-NxyF-1vp2e42oSEo6LBA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] iomap: submit read bio after each extent
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Christian Brauner <brauner@kernel.org>, Kelu Ye <yekelu1@huawei.com>, 
+	Yifan Zhao <zhaoyifan28@huawei.com>, Ritesh Harjani <ritesh.list@gmail.com>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
+	Hyunchul Lee <hyc.lee@gmail.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, ntfs3@lists.linux.dev, 
+	linux-erofs@lists.ozlabs.org, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Weiming, Xiang,
+On Thu, Jun 25, 2026 at 11:16=E2=80=AFPM Christoph Hellwig <hch@lst.de> wro=
+te:
+>
+> On Fri, Jun 26, 2026 at 06:33:19AM +0200, Christoph Hellwig wrote:
+> > On Thu, Jun 25, 2026 at 11:32:40AM -0700, Joanne Koong wrote:
+> > > Yes, that works. I think that's a good idea. fuse only needs
+> > > submit_read logic for readahead. The change would just be:
+> >
+> > A nice, I'll fold that in.
+>
+> Btw, can I get a signoff from you for this?  It looks like splitting
+> this into a separate patch actually works better.  If you have a
+> preferred commit log I'd take that as well instead of mine.
+>
+> This is what I'm currently testing:
+>
+> https://git.infradead.org/?p=3Dusers/hch/misc.git;a=3Dshortlog;h=3Drefs/h=
+eads/iomap-read-submit-bio
 
-I posted a fix for this exact ni_create_attr_list() out-of-bounds write
-two weeks before this patch, to the same list and CC'ing the same
-maintainer:
+The submit_read logic is only needed for readahead. We can remove the
 
-  v1 (2026-06-10): https://lore.kernel.org/all/20260610002929.51765-1-skyexpoc@gmail.com/
-  v2 (2026-06-25): https://lore.kernel.org/all/20260625031932.9412-1-skyexpoc@gmail.com/
++       if (data.ia)
++               fuse_send_readpages(data.ia, data.file, data.nr_bytes,
++                                   data.fc->async_read);
 
-Same root cause, same Fixes: tag.  The two patches differ in how they fix
-it, and the difference matters:
+change to fuse_read_folio().
 
-  - This patch keeps the fixed al_aligned(record_size) buffer and returns
-    -EINVAL as soon as an entry would cross the buffer end.  Because each
-    ATTR_LIST_ENTRY (le_size(0) = 0x20) is larger than the minimum resident
-    attribute it represents (SIZEOF_RESIDENT = 0x18), the list can grow past
-    a single record_size for a sufficiently full base record, so this can
-    fail a normal setxattr/file operation with -EINVAL instead of handling
-    it.
-
-  - My v2 computes the exact list size from the attributes first and
-    allocates accordingly, closing the overflow without introducing that
-    regression.
-
-Given the earlier posting and that v2 fixes the bug without rejecting
-otherwise-valid records, I'd suggest taking v2.  I'm happy to rebase it or
-adjust to whatever Konstantin prefers.
+Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 
 Thanks,
-HE WEI
+Joanne
