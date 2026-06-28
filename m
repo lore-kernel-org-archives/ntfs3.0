@@ -1,70 +1,70 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C722771E
-	for <ntfs3@lists.linux.dev>; Sun, 28 Jun 2026 00:19:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E31351C2F
+	for <ntfs3@lists.linux.dev>; Sun, 28 Jun 2026 09:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782605992; cv=none; b=PDdjdWVWr+WfsuGQ4SbvhZnQiIEugUDgWvnU7VCb7U4TcDEF5+JDxEV0qUAQRiP/Toq5KYVQV6oXhRPF5wJQj/vvi+K32cqLyM0GqO5ZIpb/cVBh3uTDclzpWEW4OMEURF0rVF5/Lnv2iyqRgzjfZ72InErpIrCDofv9emq0N+E=
+	t=1782640621; cv=none; b=I6svrwQiAYtl+Rxrv+Nn8uPFHodp+xZCJak8xyBeM9qyUgWEQZLExss95/Mg035MbdKxjO9/HRCT0OSgiMzQ3pYSZE3SE1jVw8QkACu4STh2w3f96B0FYWDV1bLbpH3yz0+Cxp8Uu0owP1np1K8AKTK+H21uSKTpdrGiIiUzTtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782605992; c=relaxed/simple;
-	bh=BZES6Vu+87PSEiXIou4+9wu7I0xf5hQoKPcuveWQTos=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=scYO6Y6KO/iHazjlH4nfumnU7hRPE4gTvf4vkJe0k/M6CBNlOsPFr1biQgDaX1vCpkZk+rHQnEC2tOPvW184itr9IRTjobfVxgzYM57KGeL6KDcBvkveNFXqX5XkNDedc5kNBF3dKqhAgBWiw4eZpUXRjmd03WvEVjUBPp5vQ6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FHCBZEOq; arc=none smtp.client-ip=74.125.224.50
+	s=arc-20240116; t=1782640621; c=relaxed/simple;
+	bh=iI6UpRpfUgXDkri4EcJW5TuLXyA/5MefvjbCl/LO6PE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lEmXspQBbuGOh75SLlnBsyo6jeZY63hVVatd2NWmoSZm94oqbO22NLePofuUZQ7AvfR6qJczdlKFe+fLKNjWOjeQWcjKMM74vfVQ4v/Ikad0FPl3y5mn74MW/nFv1tgO+6dy5uDcZ/Lkf0rtyUZaiU0FvUb0m6/+WQlm4QsCs9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sM+lKGx/; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FHCBZEOq"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-664b3831a20so1181503d50.3
-        for <ntfs3@lists.linux.dev>; Sat, 27 Jun 2026 17:19:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sM+lKGx/"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-472a14c9965so338272f8f.1
+        for <ntfs3@lists.linux.dev>; Sun, 28 Jun 2026 02:56:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782605989; x=1783210789; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782640617; x=1783245417; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QCBjOduh7mJd8MUykpzCDwwBD7x40iz6urrs4/3NtAg=;
-        b=FHCBZEOqbGrJd2+0wzOruiE3FwdtojXbsTl1I1oPbW85iYnIv6GS7VOPuGTppaPXTa
-         kIyiJ73tGa0I6ms1CGleUBh+qiFBcCJp3+XCibwfg6PH3IHusGrkH8gX6zqnIQtaGr+g
-         hC8REy9EIbuwL5HvaejTwHy0o7vL7MI3t6c0kIupJQKgzF1oyWHG1yP+/3xcU2mIDnQl
-         HXPJ5Xa590SoMPmtzeJYA5dwJifeLo+h6I50Qk6InVC0wepslC2MUWX2aY++9yIxY9oC
-         E0kSw+/N1QiiJdHKA51HYFTFVW3cQF+cteEODTa8f2m57z9OtwEFnoqKkllf4Ncrxtl7
-         DjhQ==
+        bh=Jg43f+XEb4q5xqiQSXTBL+eF+ouBz+XEK14Aa67BdH8=;
+        b=sM+lKGx/YatYzXibDf0Dsl7y5kfH/ImEDDogF8MV9qEtXEqxEsA/K6G4kuSNKCk75C
+         AI82SLz+jrMw6+5ovd1UpqGJlh3EkwLv36zv5bbyDm7uVRgyxE2ZwhDi/0gsici7N34I
+         TGC4UU2LFG4Jj8ooPZa+6jSuE1Jou7A9dV5oUzMPdsgFHFcyRRIRnVxBC0jV95MB4wGZ
+         XPSq//tnazClpbE9h289R3V9KMVseO2i5wUWrB1S08sS8FBu48UjWMOTVbrxJWPrGCAE
+         UDFDAVdI+iatXQOkhjv4aaXYRN7qBlEKmsv3ISCXKrA8lSQO+fUWBR2r+Nz/yX1Bmcjv
+         Px9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782605989; x=1783210789;
+        d=1e100.net; s=20251104; t=1782640617; x=1783245417;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QCBjOduh7mJd8MUykpzCDwwBD7x40iz6urrs4/3NtAg=;
-        b=aRuObE/qNT+dRHvmd+sdWGpolneMJ3qjKWeJVBm1IOAT5nr0hotzHM5oMxVUvP4Ir5
-         qajKv3hKlwBM4jj4YAm3BxvVRh07QChuafZ1Fk/EhZUFRG1/g+mrbXvqa9hDrcjdmgQY
-         O5dxj9UCxdVbRiXsxWZJ3Nnd4vHzu7fIQ4RmJP26/D7hCMa8XMzPh09qYC1Kkag12sAs
-         YZ5MY2ho0IOdti1ZJXoX+f7ycs5+9nxbV5uxshqJqwPpJiARfIItkPoHT9EXuGBIC5CW
-         pwUi0N3+xMRyK/ftb/0D10wH+98uI05Re1PY+udqht3i+BDEJoV9bh0cl/BEwcq/JDMW
-         DVKg==
-X-Gm-Message-State: AOJu0YxkM/u6lj1EkD2nfVJDUgr8rkvrtjv+ZtWpXGxgdVYPh8WtvCV8
-	BOSQzGeHx6evE57PDGq1Iu6s5Unfg5XE2VNT5jldtI55KpHo/uJkyFF+
-X-Gm-Gg: AfdE7clqJHiiDW/JN/Dk6hsed8P8Q39WRPODnv/44GOmy4P92scgrI6Y5TH6jXm7Ja8
-	2tPb+Fq1MF5T6M/F1JSqugf/4jO11w389OXIa3kC0V0FYc2wRiJMSaEv3OTGo8Rbjb+DkbusJk3
-	/hGC4FuKkLhvPN88bPPaUEtXIbPbHu8uztCZoVCpYPwn9RFTY5n+5OBio3qm1uwatznk7uaIG14
-	eL1qbiRU0bKIDJB4yS6roiH0qPWE8DDAyh3cTANgNbyZJSECzGi0uwVKjR+6YLbCwVw0ET3z90k
-	Y5Bn7o7ZD4rIpc7hzgXhJB4H9SshivcIFXJkEB0jhYfVy0h0fI/0lWW3N9CUoV58vf1VbNf1d5W
-	PlQPsh37iZ4wA/VRvXGRtJ9NcBteKMubUoHB+ZgLp9Kifz4wjncW3faW8PYYJbRfLDeKr6IsVUf
-	y8xhXi4nKfs9zWCmUI9j0YbaOZcciURInAnSJg
-X-Received: by 2002:a05:690c:e36c:b0:7fe:1413:f6b7 with SMTP id 00721157ae682-80a6b4a3649mr113536277b3.48.1782605989094;
-        Sat, 27 Jun 2026 17:19:49 -0700 (PDT)
+        bh=Jg43f+XEb4q5xqiQSXTBL+eF+ouBz+XEK14Aa67BdH8=;
+        b=P6FbIosegRxB8Od7HGSicPGSnyr2BiFi2WbNJQY+AkB950RK6ZGHNzThl8+ooA3gRG
+         Pn/WvIswbYN/Uyeix3zIAtzISmhvj0RvsyNi96YttHWqifI2USy8y2HqwirWsh1q3gfA
+         WdRZEjgHMAA7sb+K6LaT+50MKQa3Dc+UouU/0/ljFMRTUed1E3oqnwnKyWf8XFTl9isP
+         J5XcypeT2od7m4+KsxP3J4Td1qUMdO+2umpfDZdndzMOVQ+Bl7zolfmGUCA9f3BCLvUE
+         J10QSBv65sdBg8jszWR/GpMTWoZluhXML9R824cZjwtvoK2UEQ6+9RuI5ICZdJlonGG3
+         /30Q==
+X-Gm-Message-State: AOJu0YxqrxtLkA1gDC4o0/jgq3hXZgZWiJPbgY8jHoUdcw5a9FfzBiyp
+	KjfRsuFTTRqGVERzUPXsf0jJdyA50SDE+jeIg+PvJ/P16UNx489Uw7Tq
+X-Gm-Gg: AfdE7cmhvxwVxG/1Kur4pqfUYKoj8OK5dRHpuEULy7ywgLNKi7MMZhPYFkY/y9cO2b7
+	2EZT/74ewKyMqVovGLeTBTOb396TJskCPQDsFA46R901EAqZbqfnhL3kcULqzq/xrsefHukZXHF
+	be2B97qwqcsTLrhr88p1uuQSbfWgOmH5CI3Vv7UoJ4IoR77WbYxuaUt6OHirHxmxcV6lpmsO+Hz
+	NnntufiU1WvA25VoJn128UcAQ3PLilxliyJM2DND/8zEc7Bhjuu7qVy1lntfO7VP+NpTMsweSTx
+	ffFumZZjxHfgc1ts4M9Ov78dqQ0rdXKmSKsSPhKDKVfbSdSEEJenSCSn3g/Gy+UhWaK5+Vu6Uni
+	YDlRHiw1ObNimPRaHTEx/Z5ufcH+v1Q6BEocZ8rJ3NkcaN54k9rOYuxFxXjOhKIPRqstNhk1aon
+	w7VA03VKeDIb7ocYCu6vRsoiqb0dsbsmyLmbxr
+X-Received: by 2002:a05:6000:4286:b0:45e:e9ac:42e8 with SMTP id ffacd0b85a97d-46dc0839ffbmr20802510f8f.18.1782640617140;
+        Sun, 28 Jun 2026 02:56:57 -0700 (PDT)
 Received: from Dev-Null-MSI ([2a0d:3344:52ac:a808:98a4:4381:be45:536f])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-80d0f574c7bsm11589827b3.40.2026.06.27.17.19.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47327c47122sm2959694f8f.34.2026.06.28.02.56.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jun 2026 17:19:48 -0700 (PDT)
+        Sun, 28 Jun 2026 02:56:56 -0700 (PDT)
 From: Yousef Alhouseen <alhouseenyousef@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
-	syzbot+33e764e33338f7b46952@syzkaller.appspotmail.com,
+	syzbot+45ef5a8d661162757547@syzkaller.appspotmail.com,
 	Yousef Alhouseen <alhouseenyousef@gmail.com>
-Subject: [PATCH] ntfs3: serialize readdir against MFT record updates
-Date: Sun, 28 Jun 2026 02:19:31 +0200
-Message-ID: <20260628001931.21861-1-alhouseenyousef@gmail.com>
+Subject: [PATCH] ntfs3: bound index head insertions by buffer capacity
+Date: Sun, 28 Jun 2026 11:55:59 +0200
+Message-ID: <20260628095559.47891-1-alhouseenyousef@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -74,61 +74,61 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ntfs_readdir() walks the directory index root and resident bitmap directly
-from the inode MFT record without holding ni_lock. Writeback takes ni_lock
-but may remove the attribute list and replace or free that record while the
-directory walk is using pointers into it.
+hdr_insert_head() shifts the existing index entries by ins_bytes without
+checking that the resulting used size fits within hdr->total. A directory
+index root larger than the newly allocated index buffer can therefore make
+the memmove write beyond the buffer.
 
-In particular, ntfs_dir_emit() can pass an MFT_REF from the resident index
-to iget5_locked(), which may sleep before its set callback dereferences the
-reference. This leaves a use-after-free window against writeback.
+Reject insertions whose size would exceed the index header capacity and
+make both split callers unwind the new node when that happens.
 
-Hold ni_lock across the directory walk so resident record pointers remain
-stable. The index run semaphore is already designed to nest below ni_lock.
-
-Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-Reported-by: syzbot+33e764e33338f7b46952@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=33e764e33338f7b46952
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Reported-by: syzbot+45ef5a8d661162757547@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=45ef5a8d661162757547
 Cc: stable@vger.kernel.org
 Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
 ---
- fs/ntfs3/dir.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ fs/ntfs3/index.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index d99ab086ef6f..a6861f1b1b99 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -472,19 +472,18 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 	if (!name)
- 		return -ENOMEM;
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 5344b29b0577..64e1be9b7aca 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -594,6 +594,8 @@ static const struct NTFS_DE *hdr_insert_head(struct INDEX_HDR *hdr,
  
-+	ni_lock(ni);
-+
- 	if (!ni->mi_loaded && ni->attr_list.size) {
- 		/*
--		 * Directory inode is locked for read.
- 		 * Load all subrecords to avoid 'write' access to 'ni' during
- 		 * directory reading.
- 		 */
--		ni_lock(ni);
- 		if (!ni->mi_loaded && ni->attr_list.size) {
- 			err = ni_load_all_mi(ni);
- 			if (!err)
- 				ni->mi_loaded = true;
- 		}
--		ni_unlock(ni);
- 		if (err)
- 			goto out;
- 	}
-@@ -543,6 +542,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 	}
+ 	if (!e)
+ 		return NULL;
++	if (size_add(used, ins_bytes) > le32_to_cpu(hdr->total))
++		return NULL;
  
- out:
-+	ni_unlock(ni);
- 	kfree(name);
- 	put_indx_node(node);
+ 	/* Now we just make room for the inserted entries and jam it in. */
+ 	to_move = used - le32_to_cpu(hdr->de_off);
+@@ -1743,7 +1745,10 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 	hdr_total = le32_to_cpu(hdr->total);
  
+ 	/* Copy root entries into new buffer. */
+-	hdr_insert_head(hdr, re, to_move);
++	if (!hdr_insert_head(hdr, re, to_move)) {
++		err = -EINVAL;
++		goto out_put_n;
++	}
+ 
+ 	/* Update bitmap attribute. */
+ 	indx_mark_used(indx, ni, new_vbn >> indx->idx2vbn_bits);
+@@ -1881,7 +1886,11 @@ indx_insert_into_buffer(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 	/* Copy all the entries <= sp into the new buffer. */
+ 	de_t = hdr_first_de(hdr1);
+ 	to_copy = PtrOffset(de_t, sp);
+-	hdr_insert_head(hdr2, de_t, to_copy);
++	if (!hdr_insert_head(hdr2, de_t, to_copy)) {
++		err = -EINVAL;
++		put_indx_node(n2);
++		goto out;
++	}
+ 
+ 	/* Remove all entries (sp including) from hdr1. */
+ 	used = used1 - to_copy - sp_size;
 -- 
 2.54.0
 
