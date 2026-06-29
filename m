@@ -1,71 +1,55 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E31351C2F
-	for <ntfs3@lists.linux.dev>; Sun, 28 Jun 2026 09:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58073FFFAB;
+	Mon, 29 Jun 2026 12:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782640621; cv=none; b=I6svrwQiAYtl+Rxrv+Nn8uPFHodp+xZCJak8xyBeM9qyUgWEQZLExss95/Mg035MbdKxjO9/HRCT0OSgiMzQ3pYSZE3SE1jVw8QkACu4STh2w3f96B0FYWDV1bLbpH3yz0+Cxp8Uu0owP1np1K8AKTK+H21uSKTpdrGiIiUzTtQ=
+	t=1782735492; cv=none; b=EqtdDLYyBElKvogGkCDce9JxtJ/CJvwSMj+b1XvUsJwR2AREiQHCGgoZ/dSjw2DhfNX9RbAYldAfdSu5RDAs8VHmnXKRcg4KFlU8lAK4A6iQ5EOnm81aSINO7/O62FvDhfG+eE2zRYJkdRfUOun7xgAM1XXny63DjlzP9rUK5XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782640621; c=relaxed/simple;
-	bh=iI6UpRpfUgXDkri4EcJW5TuLXyA/5MefvjbCl/LO6PE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lEmXspQBbuGOh75SLlnBsyo6jeZY63hVVatd2NWmoSZm94oqbO22NLePofuUZQ7AvfR6qJczdlKFe+fLKNjWOjeQWcjKMM74vfVQ4v/Ikad0FPl3y5mn74MW/nFv1tgO+6dy5uDcZ/Lkf0rtyUZaiU0FvUb0m6/+WQlm4QsCs9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sM+lKGx/; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782735492; c=relaxed/simple;
+	bh=zAaeXvZX876NW4HBdu2eZaW/2BA59HGZK9czOxtwzCg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QeR1NetzOalmfFBS4HG2p2INtDR41i/B+8yj54UoIVmKFegz6MjuZWr4vewjd45LR8J3cHjKeEVmjjakhdfldMMSQTycxuAU0agqoPFXcEvDOPQqcMQc041OTwvVfr00dq3IsPCxs942KLBRnfpbK7fjZOilF+tEXt6PPXW9CmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Xa/6fOwI; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sM+lKGx/"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-472a14c9965so338272f8f.1
-        for <ntfs3@lists.linux.dev>; Sun, 28 Jun 2026 02:56:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782640617; x=1783245417; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jg43f+XEb4q5xqiQSXTBL+eF+ouBz+XEK14Aa67BdH8=;
-        b=sM+lKGx/YatYzXibDf0Dsl7y5kfH/ImEDDogF8MV9qEtXEqxEsA/K6G4kuSNKCk75C
-         AI82SLz+jrMw6+5ovd1UpqGJlh3EkwLv36zv5bbyDm7uVRgyxE2ZwhDi/0gsici7N34I
-         TGC4UU2LFG4Jj8ooPZa+6jSuE1Jou7A9dV5oUzMPdsgFHFcyRRIRnVxBC0jV95MB4wGZ
-         XPSq//tnazClpbE9h289R3V9KMVseO2i5wUWrB1S08sS8FBu48UjWMOTVbrxJWPrGCAE
-         UDFDAVdI+iatXQOkhjv4aaXYRN7qBlEKmsv3ISCXKrA8lSQO+fUWBR2r+Nz/yX1Bmcjv
-         Px9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782640617; x=1783245417;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jg43f+XEb4q5xqiQSXTBL+eF+ouBz+XEK14Aa67BdH8=;
-        b=P6FbIosegRxB8Od7HGSicPGSnyr2BiFi2WbNJQY+AkB950RK6ZGHNzThl8+ooA3gRG
-         Pn/WvIswbYN/Uyeix3zIAtzISmhvj0RvsyNi96YttHWqifI2USy8y2HqwirWsh1q3gfA
-         WdRZEjgHMAA7sb+K6LaT+50MKQa3Dc+UouU/0/ljFMRTUed1E3oqnwnKyWf8XFTl9isP
-         J5XcypeT2od7m4+KsxP3J4Td1qUMdO+2umpfDZdndzMOVQ+Bl7zolfmGUCA9f3BCLvUE
-         J10QSBv65sdBg8jszWR/GpMTWoZluhXML9R824cZjwtvoK2UEQ6+9RuI5ICZdJlonGG3
-         /30Q==
-X-Gm-Message-State: AOJu0YxqrxtLkA1gDC4o0/jgq3hXZgZWiJPbgY8jHoUdcw5a9FfzBiyp
-	KjfRsuFTTRqGVERzUPXsf0jJdyA50SDE+jeIg+PvJ/P16UNx489Uw7Tq
-X-Gm-Gg: AfdE7cmhvxwVxG/1Kur4pqfUYKoj8OK5dRHpuEULy7ywgLNKi7MMZhPYFkY/y9cO2b7
-	2EZT/74ewKyMqVovGLeTBTOb396TJskCPQDsFA46R901EAqZbqfnhL3kcULqzq/xrsefHukZXHF
-	be2B97qwqcsTLrhr88p1uuQSbfWgOmH5CI3Vv7UoJ4IoR77WbYxuaUt6OHirHxmxcV6lpmsO+Hz
-	NnntufiU1WvA25VoJn128UcAQ3PLilxliyJM2DND/8zEc7Bhjuu7qVy1lntfO7VP+NpTMsweSTx
-	ffFumZZjxHfgc1ts4M9Ov78dqQ0rdXKmSKsSPhKDKVfbSdSEEJenSCSn3g/Gy+UhWaK5+Vu6Uni
-	YDlRHiw1ObNimPRaHTEx/Z5ufcH+v1Q6BEocZ8rJ3NkcaN54k9rOYuxFxXjOhKIPRqstNhk1aon
-	w7VA03VKeDIb7ocYCu6vRsoiqb0dsbsmyLmbxr
-X-Received: by 2002:a05:6000:4286:b0:45e:e9ac:42e8 with SMTP id ffacd0b85a97d-46dc0839ffbmr20802510f8f.18.1782640617140;
-        Sun, 28 Jun 2026 02:56:57 -0700 (PDT)
-Received: from Dev-Null-MSI ([2a0d:3344:52ac:a808:98a4:4381:be45:536f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47327c47122sm2959694f8f.34.2026.06.28.02.56.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 02:56:56 -0700 (PDT)
-From: Yousef Alhouseen <alhouseenyousef@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+45ef5a8d661162757547@syzkaller.appspotmail.com,
-	Yousef Alhouseen <alhouseenyousef@gmail.com>
-Subject: [PATCH] ntfs3: bound index head insertions by buffer capacity
-Date: Sun, 28 Jun 2026 11:55:59 +0200
-Message-ID: <20260628095559.47891-1-alhouseenyousef@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Xa/6fOwI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=v898+QkB1UDAKWiTlcnqdkDW1C2WbAo9fOIytjJGE+U=; b=Xa/6fOwIwXnUiihMQCuFbBCt1l
+	LpE+6eJtf9J9rUjXsdqp/TyDk9l+UMjKFhyiR7+feG1+zLWMmIcL34TdcZT5hai0zCepUx7yepQJo
+	qBjiMd9vE7vLxOEKVmG7z0AAzhohqY4dsUDfSS3f9hx4gGrN8iil0CCpM7qYTUIlfvfQKjegwXYfc
+	m1fEO120AVKanyGRkZJzZ5hf12yrWyTjPBEA0Uvfx9RUZNcGsgk68qJNDqAKTS6Q5AZcog0yJC1X1
+	FkziMp68z/OvI8z43NZ36VNCqkc08xZm5Jv0uzi2lEuAUx1VsR3DPiTgNMzCtfx/FTcAMV4ytIEA3
+	XxcngfRw==;
+Received: from clnet-b08-202.ikbnet.co.at ([83.175.123.202] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1weAw0-0000000EWzb-1HZn;
+	Mon, 29 Jun 2026 12:17:56 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Cc: Kelu Ye <yekelu1@huawei.com>,
+	Yifan Zhao <zhaoyifan28@huawei.com>,
+	Ritesh Harjani <ritesh.list@gmail.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	fuse-devel@lists.linux.dev,
+	ntfs3@lists.linux.dev,
+	linux-erofs@lists.ozlabs.org,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: don't build bios/contexts over multiple iomaps v3
+Date: Mon, 29 Jun 2026 14:17:37 +0200
+Message-ID: <20260629121750.3392300-1-hch@lst.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -73,62 +57,24 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-hdr_insert_head() shifts the existing index entries by ins_bytes without
-checking that the resulting used size fits within hdr->total. A directory
-index root larger than the newly allocated index buffer can therefore make
-the memmove write beyond the buffer.
+Hi all,
 
-Reject insertions whose size would exceed the index header capacity and
-make both split callers unwind the new node when that happens.
+this patch changes how iomap submits bios for reads.  The old behavior
+to build up bios across iomap was already considered problematic for
+a while, but we now ran into a erofs bug because of it, so it's time
+to finally fix it.
 
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Reported-by: syzbot+45ef5a8d661162757547@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=45ef5a8d661162757547
-Cc: stable@vger.kernel.org
-Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
----
- fs/ntfs3/index.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+It would be great to get the fix into 7.2 as the fixed bug can be
+triggered by users.
 
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index 5344b29b0577..64e1be9b7aca 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -594,6 +594,8 @@ static const struct NTFS_DE *hdr_insert_head(struct INDEX_HDR *hdr,
- 
- 	if (!e)
- 		return NULL;
-+	if (size_add(used, ins_bytes) > le32_to_cpu(hdr->total))
-+		return NULL;
- 
- 	/* Now we just make room for the inserted entries and jam it in. */
- 	to_move = used - le32_to_cpu(hdr->de_off);
-@@ -1743,7 +1745,10 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
- 	hdr_total = le32_to_cpu(hdr->total);
- 
- 	/* Copy root entries into new buffer. */
--	hdr_insert_head(hdr, re, to_move);
-+	if (!hdr_insert_head(hdr, re, to_move)) {
-+		err = -EINVAL;
-+		goto out_put_n;
-+	}
- 
- 	/* Update bitmap attribute. */
- 	indx_mark_used(indx, ni, new_vbn >> indx->idx2vbn_bits);
-@@ -1881,7 +1886,11 @@ indx_insert_into_buffer(struct ntfs_index *indx, struct ntfs_inode *ni,
- 	/* Copy all the entries <= sp into the new buffer. */
- 	de_t = hdr_first_de(hdr1);
- 	to_copy = PtrOffset(de_t, sp);
--	hdr_insert_head(hdr2, de_t, to_copy);
-+	if (!hdr_insert_head(hdr2, de_t, to_copy)) {
-+		err = -EINVAL;
-+		put_indx_node(n2);
-+		goto out;
-+	}
- 
- 	/* Remove all entries (sp including) from hdr1. */
- 	used = used1 - to_copy - sp_size;
--- 
-2.54.0
+Changes since v2:
+ - drop an unused argument
+ - make sure we submit for the same iteration to not leave a landmine
+   for future changes
 
+Changes since v1:
+ - don't submit fuse context after each iteration
+ - consolidate some code to support the above
+ - fix a bug in the fs PI support found while doing the above
