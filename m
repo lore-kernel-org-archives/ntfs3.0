@@ -1,122 +1,102 @@
-Received: from mail-ed2-f2.google.com (mail-ed2-f2.google.com [74.125.228.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046E148A2AF
-	for <ntfs3@lists.linux.dev>; Wed,  1 Jul 2026 12:25:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782908738; cv=pass; b=evmmI/MGGPhhyaiHeaN0QIiLQbw/cs9s1h5U+sq29DskEbquNx67Y8Q1pD8a0zdgML7mLA037u0eGNJQ2kl1GFmDxtfXgrmDZl02uaGFaDtatdEPNJ+wcAtPhohr+jXJNG53DKf4vOlY/sRa1SrI3eXgIM8Pkrpt2S1B7wt+9vs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782908738; c=relaxed/simple;
-	bh=gKEugolkMnTPV+ZSXAHUz/DmmfW/0pCogkat6PL2lfE=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=FMTISkxX1LQ2Ws6GdOldz6E6j5Fv5ymkvbycYyf8rdWx+//DO6cMmiC0i5N++5dQq2XJ2D8xLyuToh80C4T8OQgmB5L3VYwuw3tfYGAiIszhSasm9pWtQY/tSA2CoqzbZer1ZK0nsj5HOjrEbploDow71/IJXpCw5pugcqJVld4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ap0oroaP; arc=pass smtp.client-ip=74.125.228.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10CE1A275;
+	Wed,  1 Jul 2026 13:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782912485; cv=none; b=bM8VbOVqzJCOElfebLPsBKvRf6t+0W9Q+MjfFdNmxrP/kBMcVsjnvaVML4biZ2dGjfiWqUmWoKS7a4dZpboBYVvfDXymUidQxKF26qUA1Fo6b/c3RMGWHYXdrgS75d5IOeHWsuYILarL3zagv0gx2N5sKKKPrC99B5fXfYwnoKc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782912485; c=relaxed/simple;
+	bh=iKscDZQfy0MtN4T97LK36aJevrKA4UAXQeqiSYbMIyY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mriY/hXyIuc+k6nE+gG/NmqbVQJO4C0wfVSAGBTK44UPRXC74RuqQVQ/casTKjpb7L0rHFK/iHtW1F5wHP92NCeWAcTdws6Jz+BEu+r/YX3tDYqPbPEHXkZcVmZ7CvUL3E3h21YipxmHYLaffliz/wcQI6Pd6QzZudac11atzL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QBkIcOoi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ap0oroaP"
-Received: by mail-ed2-f2.google.com with SMTP id 4fb4d7f45d1cf-698736e9dadso259616a12.1
-        for <ntfs3@lists.linux.dev>; Wed, 01 Jul 2026 05:25:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782908735; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QwC62Mc5lehjDfI9SkfdcCTS5Hbe62p+p+Z21pLDtMURYVIskgb2KCxwK1Hh9i5S1V
-         afo473sMbT+vQ/0umrqRf/1EUyt+RJSuY46t44SIlogGjOnISIwI8OwObnG0ZhPcP/IQ
-         lFWTF05ko/ZIRhug5cpx3XRzIxzRmqiZK0SERVhhre3zWpaNdodoZ3hsojbm7gsa6+qE
-         vlnkPYFAJ+zrINbTx2yYVBO6IjgKcsa2jNn4GnRyeN9eUpEJGaJivJcF7OrLQiRBGtaK
-         5eMxob31pc8sb6xJ5pEdN20eEvefsIOMNa0vPpzONxbmY0lmeFl192XfFyOryckQDfzu
-         A/ZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=gKEugolkMnTPV+ZSXAHUz/DmmfW/0pCogkat6PL2lfE=;
-        fh=Ay0fIimQmWlyJmDyAAsLaFCsFv5MDSVjAUZ0oAHksSw=;
-        b=gFRItGdN+7iwyw8S+ISNfxR2mPaKqlFWJcMCtGJHaiL1A0mTgRCOn8Lrnc86Gp/CY6
-         PiNHdVewX39PnTWW5+Bfc9DXeR4l/embqM6VvNYjyaPGSWS33FvZER6tPqlxMYO6hT19
-         NcqpdLxYaXv4+pnNiyAvesbNrsV+GXryUz63CZytJAg6jJeAzf0z/gNG2h0f5cRBARLL
-         qjc2FXxyrdiCW+Yfy5PmF12sDjVEtcHqDD1NiAWQp4yDF/TYSY6GHSQOxx7CD4OLAZtl
-         AWYtCBaSaSHasOtBQNTRXBajJEwQljKRIkETHei9Dng9+qyo3cjE9zslaqZGlZjV96Gv
-         vqIg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782908735; x=1783513535; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gKEugolkMnTPV+ZSXAHUz/DmmfW/0pCogkat6PL2lfE=;
-        b=ap0oroaPZheKPW4ampWYfUljGfCmdDmNAYotpYnMJ+FKmnzUBUx1aLAP2HStIt5BO9
-         FumkWD4OD8GlYV/DlSihJbaBo479XRiSXZrjjvIHllz/VMOUHmpAYpG3+pxCf6KLVr1h
-         q+vXBKg3xufc7jE3xDe76X6VS4B921CtfqakQ5bRuKrhrQB/niu4FD3dUHTwshdYyuvd
-         U74+aUNh2DuzezXEIZxfSGrWBMshqjF4tu+rYv//dSzvii1nfvbGQ3Tyjz/oHULhNSVX
-         eb8FjkBog8Uk98CSjoLEmeyE/I4vQqzZWiWKYPP/sgbJrLHX9tdcbO21TApqlgS3VMFs
-         fDjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782908735; x=1783513535;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gKEugolkMnTPV+ZSXAHUz/DmmfW/0pCogkat6PL2lfE=;
-        b=o7rNBkGnUalos+2/9YSiiyvX2SgPDrmJJVqqumBlf0CmuwY9kftcRgq3XKZZw76MQT
-         KYoigQ0a9H9ev3CNVx1QlP8/zMYLK1g05Qa/bLsqzX3ukRwI/ljs/LM64wzkNFY7LBt1
-         9wDjz/aN8u4UpkRHT0DXKwdgrxwAfIB/98b6bP2LfBWEyVZk4dsLjqDbvvQa3Ut6DXhu
-         VkQcGiJL4rmBqqNNTsIpmx847BmBOeukpPhdpqKmIZ0fO/ghUSAOdy79c7xFt+TECaia
-         PUPTV5cC1Rxb+sSu0hT3gmXI2MfaiuWXcdJbVD8FDVYMcNadDxqhcM9A27LS/yWACJIP
-         v2Sg==
-X-Gm-Message-State: AOJu0YziXaGG3WrWqF6dzywBoPd1dX5zj1ehIYPt3RNNjoGCcp4ycV04
-	6dXjdbx+c71kXokPNTKnwXUSwZFGjKAhOSDPYwOr8DvRFM+R+X2IC1HbCN/0VMasvyVpWIxcLP0
-	nFrUhBFKEFmSLibPcUUsYsWv0WRgvOTrKf527930k7w==
-X-Gm-Gg: AfdE7cnGxVkBehJHBcAIdrGGLVZpQYiIZl9CfLLXmDYswNn8rPQSraU05RW/Eg/vX9l
-	rLmG1AjUh7uodu70+grjeHq1jZwmdY89I/sxZtMYUj6e4XhglB/qVqk5LKGot9Qfhrc+CLJhqJd
-	IGhcIL1mHHzUkTiJtKSpNbI6YR/21KhdzkiBknC766AVscZNDBeX989BukSi5bEfdWTgERS+PrP
-	efyWZP+0eBPFswneK72leifejuQgj6oLLb2JnWuF1sKNnoQGGAwbmA4Ys4uySqPjTQU4fb03DOy
-	WLE+2UI0
-X-Received: by 2002:a17:907:3d02:b0:c12:764e:326 with SMTP id
- a640c23a62f3a-c12a9da169amr65688866b.27.1782908735156; Wed, 01 Jul 2026
- 05:25:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QBkIcOoi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE62B1F000E9;
+	Wed,  1 Jul 2026 13:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782912484;
+	bh=S/ir4WC1F7FyETK8VqjWLb5Y+h//+o4RHG1aeGMPGPI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=QBkIcOoiSZQuYYK7QffAwCNm8VaK++eXTg9AS9VzPGwSsZmNe721QfD5tLz0b5Ljb
+	 ERybIPZ7UuKg70udSUh9Q7eOo7zB8AJYJB13RW0B0gKO+zjDFlqE1pfKCrU+V6INxn
+	 TlEjtN0MBdNs7Feqv9TDr/7CiYC0dt+iiVMhTx+dNJQMW8Ld8IphDTJDZjDp7Umn5F
+	 M2rvGjzuDP/DBJUpfAARQoQ8IeDuScYB4VkDJwESKSuVGxquOomHKsPgr+z5851UJb
+	 FNRZI4ms/t9yiUs2jrV1bdlAXEQSYynE3g4laKriuldFn2wUzcnPKXLr3Prazk95Xv
+	 ZeHqosXQ2hpXQ==
+From: Christian Brauner <brauner@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>,
+	Christoph Hellwig <hch@lst.de>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Kelu Ye <yekelu1@huawei.com>,
+	Yifan Zhao <zhaoyifan28@huawei.com>,
+	Ritesh Harjani <ritesh.list@gmail.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	fuse-devel@lists.linux.dev,
+	ntfs3@lists.linux.dev,
+	linux-erofs@lists.ozlabs.org,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/3] iomap: consolidate bio submission
+Date: Wed,  1 Jul 2026 15:27:40 +0200
+Message-ID: <20260701-davon-kniegelenk-gedehnt-96476b242a09@brauner>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260629121750.3392300-2-hch@lst.de>
+References: <20260629121750.3392300-2-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: sdj asj <sdjasjbuaa@gmail.com>
-Date: Wed, 1 Jul 2026 20:27:36 +0800
-X-Gm-Features: AVVi8Cdqf7juqn_CbSlS62fGyCkuNpOQ4kTHWhZbn8nJt1Q8Y0TWcyUL1baHDaU
-Message-ID: <CAFTRC0=hdHvug9=JyiZ=XYowdpqp9TAgXbq0YpDOEnzmQUWxzQ@mail.gmail.com>
-Subject: [stable] Please backport ntfs3: reject direct userspace writes to
- reserved $LX* xattrs
-To: stable@vger.kernel.org
-Cc: ntfs3@lists.linux.dev, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1819; i=brauner@kernel.org; h=from:subject:message-id; bh=iKscDZQfy0MtN4T97LK36aJevrKA4UAXQeqiSYbMIyY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5it7RsWDc2sutssqLV0pi/oIv7G6tQj4SdWfS564sN 1S5YvS9o5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCK3IhgZXn05sNjoiK6LmpzZ kcUpV9dIfso4M2nzmZJgzb9SPNb6lgz/9Pi6PGc+u+HOtq8gTdxvdnHqPs1ItmXMtw7+cZHdLbG KGQA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-Hello stable team,
+On Mon, 29 Jun 2026 14:17:38 +0200, Christoph Hellwig wrote:
+> Add a iomap_bio_submit_read_endio helper factored out of
+> iomap_bio_submit_read to that all ->submit_read implementations for
+> iomap_read_ops that use iomap_bio_read_folio_range can shared the
+> logic.
+> 
+> Right now that logic is mostly trivial, but already has a bug for XFS
+> because the XFS version is too trivial:  file system integrity validation
+> needs a workqueue context and thus can't happen from the default iomap
+> bi_end_io I/O handler.  Unfortunately the iomap refactoring just before
+> fs integrity landed moved code around here and the call go misplaced,
+> meaning it never got called.  The PI information still is verified by
+> the block layer, but the offloading is less efficient (and the future
+> userspace interface can't get at it).
+> 
+> [...]
 
-Please consider picking up the following upstream commit for supported
-stable trees where it applies:
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-5b08dccecf825cbf905f348bc6ccb497507e28e2
-ntfs3: reject direct userspace writes to reserved $LX* xattrs
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-Reason for stable:
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-This fixes a user-visible security issue in ntfs3. Before this change,
-the empty-prefix xattr handler allowed an unprivileged file owner on a
-writable ntfs3 mount to set the reserved $LXUID, $LXGID and $LXMOD
-extended attributes directly. These attributes are later trusted by
-ntfs_get_wsl_perm() during inode reload and used to populate i_uid,
-i_gid and i_mode.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-As a result, an unprivileged user can create a file that becomes
-root-owned and SUID after inode reload. The issue is reproducible
-using normal syscalls only and does not require a malformed filesystem
-image.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
 
-The upstream fix prevents non-privileged users from directly writing
-these reserved $LX* attributes, while keeping internal ntfs3 metadata
-updates working.
-
-The original issue no longer reproduces with the upstream fix applied.
-
-Please apply this to supported stable branches that contain the
-vulnerable ntfs3 code.
-
-Thanks,
-Zhen
+[1/3] iomap: consolidate bio submission
+      https://git.kernel.org/vfs/vfs/c/044472d5ee7d
+[2/3] fuse: call fuse_send_readpages explicitly from fuse_readahead
+      https://git.kernel.org/vfs/vfs/c/3372eb0384b7
+[3/3] iomap: submit read bio after each extent
+      https://git.kernel.org/vfs/vfs/c/c1fb97d31782
