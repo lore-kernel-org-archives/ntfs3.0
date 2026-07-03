@@ -1,124 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC913161A4;
-	Fri,  3 Jul 2026 10:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571BF233938
+	for <ntfs3@lists.linux.dev>; Fri,  3 Jul 2026 21:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783075048; cv=none; b=NBkBuqmD3Z5C6dTQsW77a+YcJFPPOziPoA3ob4nzYFi0JXEIw8x2g9QYDQmozRLcLVEA0UJGuHjbeCObklCztB8zGF1djZxm3mAj3mTlR9BmgBVbwzmjfhW2VoAYsaSveP50I99WnYb+0O/azEyB85v2gFiRxUEHMbc4w5uyiCk=
+	t=1783115677; cv=none; b=bdOhgTI5aXd9i3aiC3jrhlx2qBuuMMB30oXlMxD02g8pHxjqDRYUpqagLZrQqDQKo+f5gjzc8v3F/f8i9W4w7r24xifI3+QSnNYJp1HBgf53yVpi7PG5mfL1hXViIZjVFF8wmHAUU0HZNUqRkBwNAlU4LBNX6CRKPERbQDNkITQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783075048; c=relaxed/simple;
-	bh=d4s4dMLniDIuK4LTsTNvbrHzQ5sC7wrFJBhb2lMg/u0=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=hzO8GDLQc6WIhHSjeerGPh7k8fUjKV3P+oVBPa2o1gs+zNEJx+gYtkqBlQQ5HUpwLj+7mv44jiOXvB/4BAY5MGZeeyRc4VvUXBxU5NC1yv16WkrII7ia2zP+UU3CK1ipCkODCRnJj6SEesA7ax/OBI8S6aVfKX1GgUs4K/JiFvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W8LzFtRD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783115677; c=relaxed/simple;
+	bh=x1EGwe9OWNv6GJQxJAcEXjNxhlsCTdMZzxoblkGcTGY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AmxZ8NdIML+CGzh6MP7iG+nnr8z1VbJC9qn3ZwWPUadtm3AOMvqEGOQRGKWZUYyjjoL2cGL9Nln6IwiaAeaKYEzCcQVqY8Z3dgp/fe3dD/umpuRpsEkqLEROG7kjK+a1+O4bu3Na2ekbeXt65EV2ngtHHqAdSYExy6ragWYZ2rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=iwLZM9IQ; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W8LzFtRD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6CFA1F000E9;
-	Fri,  3 Jul 2026 10:37:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783075047;
-	bh=ibq5yGoOYYUKiAiXchC0WA0gL3l+/26cw0R84LkFjaY=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=W8LzFtRDEJ+LA4ga+f6QzIP5wIjhPrvbgSkeN5H9fdUp8ldRpYac+VP2pbFWqLIaZ
-	 VOZRYcIErzh7ZZVI1opgKNPyPdXZNYzLlXZRZvIfpIEGsP8CRSvmh6dp1f1DUAQ8eT
-	 REmssNKn6FgP95Nylwk1jyDskOejoq/ZtxJV6+SZMcueW6AmnmkTRlSc0afIY2ZaY4
-	 0j6EQgUmekHKxLsbkP1RtsOiATrm0qsMc/rLKl6p2+xyg60HQXm8THGcRmHmGEbsA5
-	 +KIVTrOUxI8EdD77tZ08aAlBNDaVgctnhdPNMu6u++MTrLUeeidjuDh4Pwu7QdGwKu
-	 L34A4eoQ9xeiA==
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="iwLZM9IQ"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3811074a8c5so722892a91.1
+        for <ntfs3@lists.linux.dev>; Fri, 03 Jul 2026 14:54:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=asu.edu; s=google; t=1783115674; x=1783720474; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FBm+rN7FiRf19d3r1j1j1FGGiBV8PU79hN3KFt/7WGA=;
+        b=iwLZM9IQ0a9vI6UJhkh2UKWkSFGam4QG4myCmaRXkBBtAkOmB29ICYyOvfRO4buckH
+         AdTF7zRTZxbBToEQFrHqNNIgXY1Jh7mZH6cXUU0jL2DXmREbw9wYxNKETyLLVR4F7ts6
+         t9AnKm9Qvj1B1p/yKsfXC9rvCg7h30p3KiVTHciGL2SOmI/JG9NaQPCHa/ug/67CIVYE
+         fk3B94M3BLc03dRkOAiN7XVIK+sGJMt1RFnJGt0kLeT/igJzBtSBT3gXtp+QnIwicyzV
+         32T+UwIhY9GWjenAW9TCS9ftu2X+3y57Ig7TuF03x1X8HCxMZy8D8Nhj3zGVHbg2lKF/
+         Ox8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783115674; x=1783720474;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FBm+rN7FiRf19d3r1j1j1FGGiBV8PU79hN3KFt/7WGA=;
+        b=UmzR6CLiyyp4YltVmCEivkB9QG2TwuA04+uowF6txjKRDyUMDL69VEm9ooVtdaW4//
+         fjoMnH8OFzxdZmmUTDmtTjAjNzD6lYstti+J2yQaVBO6TT6DyqzdFPNOjkexFRh56Eoo
+         6rTOBzXeHt3r4xbYB3l7oqziS11jNW0lJJkqfJqV4DSP6y+An7cz3CZyX/uL8+YRJ4is
+         RNEUTUt3P/kj793xZWLy+LjiSNi0+M98H2Zu9c7FV8+YkOwwlS+vjRoL9wOZsuFI/Fxz
+         RC2RrWK/wllxbsUM5ciQoZyjnXTnbdYEwbiOn/b1dHKw1vT7CAXDSl/4k/XE//Cmb77B
+         i8FQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrDuweumXtMF4fmm+TqF47opotoXj6R+1U1aJYijgRFxQiGBlaBhQxDEvisJRP6nbqzN9eIag==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfwRPGVFvYWKSj+fv2FvzDvl6QrItvd1N7GpwGNLl4id9Bx60e
+	JetdGK9SqyaGDl3QHZtMyyIsLKXDFTCycMJvrrt1Nik3dT+rL4OYxu28+37IKImFfw==
+X-Gm-Gg: AfdE7cnXK+fmvLaLy0BQxsGBmkKp7tTZ1PMpr0Z7EHhGstgihfM1AAJtEOPYx3X54co
+	cCZwFDbF/9hg3WoF2B+X7/YgEO6jO7J1Qjww8cXDznOxjkEZDDf5WhbIzHjL0+lRArx5IYozn35
+	98SWyDXcnEuqHrdczH6ip+i9C45dmv4MKU3oBijN4EYqxKij2rXWnL9ezqRdR6PqZu1+iiyX1ds
+	nHJSG23eCV3WTJOwRTdc1dZvBcWHj4xvIOZreDXawU4FLAeIkNnnwMaYc16tiyv7V7Y/N+PLxGb
+	wrjBsP262VzEF6SMh8d2Hsf+Tdmupy9lRnatymS4oRS7o95Ll/8xDjRXj7SEWyvamgAO3qSxdgS
+	7xd+XbaYsKmgEXjCsITQAkcObaLx6KaGPM67dgWpbMEmKWDFt3Ux2W7OCtfEQCxGr6a6IYTaL
+X-Received: by 2002:a17:90a:c2c7:b0:381:228e:ba20 with SMTP id 98e67ed59e1d1-3829f101e13mr976974a91.24.1783115674446;
+        Fri, 03 Jul 2026 14:54:34 -0700 (PDT)
+Received: from p1.. ([2607:fb91:1556:80f:d8fb:4ffa:b012:f769])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-381071a5f60sm1287207a91.0.2026.07.03.14.54.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 14:54:33 -0700 (PDT)
+From: Xiang Mei <xmei5@asu.edu>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Weiming Shi <bestswngs@gmail.com>,
+	Xiang Mei <xmei5@asu.edu>
+Subject: [PATCH ntfs3] fs/ntfs3: validate $SDH entry size in ntfs_insert_security
+Date: Fri,  3 Jul 2026 14:54:31 -0700
+Message-ID: <20260703215431.73681-1-xmei5@asu.edu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 17/18] iomap: pass iomap_next_fn directly instead of
- struct iomap_ops
-From: Christian Brauner <brauner@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Christoph Hellwig <hch@lst.de>, 
- brauner@kernel.org, willy@infradead.org, hsiangkao@linux.alibaba.com, 
- linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, 
- Jens Axboe <axboe@kernel.dk>, Chris Mason <clm@fb.com>, 
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Jan Kara <jack@suse.cz>, Dan Williams <djbw@kernel.org>, 
- Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
- Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
- Sandeep Dhavale <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>, 
- Chunhai Guo <guochunhai@vivo.com>, Namjae Jeon <linkinjeon@kernel.org>, 
- Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
- Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
- Baokun Li <libaokun@linux.alibaba.com>, 
- Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
- Zhang Yi <yi.zhang@huawei.com>, Jaegeuk Kim <jaegeuk@kernel.org>, 
- Miklos Szeredi <miklos@szeredi.hu>, 
- Andreas Gruenbacher <agruenba@redhat.com>, 
- Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
- Hyunchul Lee <hyc.lee@gmail.com>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
- Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
- "open list:BLOCK LAYER" <linux-block@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>, 
- "open list:BTRFS FILE SYSTEM" <linux-btrfs@vger.kernel.org>, 
- "open list:FILESYSTEM DIRECT ACCESS (DAX)" <nvdimm@lists.linux.dev>, 
- "open list:EROFS FILE SYSTEM" <linux-erofs@lists.ozlabs.org>, 
- "open list:EXT2 FILE SYSTEM" <linux-ext4@vger.kernel.org>, 
- "open list:F2FS FILE SYSTEM" <linux-f2fs-devel@lists.sourceforge.net>, 
- "open list:FUSE FILESYSTEM [CORE]" <fuse-devel@lists.linux.dev>, 
- "open list:GFS2 FILE SYSTEM" <gfs2@lists.linux.dev>, 
- "open list:NTFS3 FILESYSTEM" <ntfs3@lists.linux.dev>
-In-Reply-To: <CAJnrk1b8j5WHtbHOWNXc4=QBFOxde1f2QxTOeui7Ta8O-xWcTA@mail.gmail.com>
-References: <20260701000949.1666714-1-joannelkoong@gmail.com>
- <20260701000949.1666714-18-joannelkoong@gmail.com>
- <20260702140705.GE21339@lst.de> <20260702165117.GK9392@frogsfrogsfrogs>
- <CAJnrk1b8j5WHtbHOWNXc4=QBFOxde1f2QxTOeui7Ta8O-xWcTA@mail.gmail.com>
-Date: Fri, 03 Jul 2026 12:37:14 +0200
-Message-Id: <20260703-nachrangig-gegeben-befestigen-8219a53648c7@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1636; i=brauner@kernel.org;
- h=from:subject:message-id; bh=d4s4dMLniDIuK4LTsTNvbrHzQ5sC7wrFJBhb2lMg/u0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5T7iz7fS6t1kzwm8fcparv3KDyXRbpMKKF15fNPbwT
- dVe5OMk1lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRtgxGhmMbHf76zT147eA7
- nZiMnzu9Q+v+PNtl5pjYUP6f6/XP/z8YGe7siubVVw14xJBz7G+cn2VOrNK0S08/rfgQ3Ddj8wq
- eCi4A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-07-02 18:47 -0700, Joanne Koong wrote:
-> On Thu, Jul 2, 2026 at 9:51 AM Darrick J. Wong <djwong@kernel.org> wrote:
-> >
-> > On Thu, Jul 02, 2026 at 04:07:05PM +0200, Christoph Hellwig wrote:
-> > > Looks good:
-> > >
-> > > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > >
-> > > In terms of merge logistics, I wonder if we should delay this and
-> > > the previous patch to the next merge window so that we can minimize the
-> > > cross-subsystem merge pain with more file system iomap conversion.
-> > > If none of them actually happen until rc6 or so, orif  the merges aren't
-> > > painful we could still pick them up late in the merge window.
-> >
-> > I'd say everything but this patch should go in during the merge window
-> > for 7.3, along with clear instructions to brauner/torvalds to expect
-> > this patch to appear right before 7.3-rc1 gets tagged, to clean up all
-> > the other changes that come in.
-> 
-> Just to clarify, did you mean this patch and the previous one? If i'm
-> interpreting Christoph's concern correctly, I think he's worried about
-> other filesystems converting to iomap using the ->iomap_begin() /
-> ->iomap_end() functions still? That sounds like a good plan to me, for
-> v3 I'll submit everything but this patch and the last one and then
+ntfs_insert_security() walks the $Secure::$SDH index and reads
+e->sec_hdr.size for every entry returned by indx_find()/indx_find_sort().
+Those only guarantee the NTFS_DE envelope (e->size), so a crafted $SDH
+entry shorter than a full NTFS_DE_SDH at the tail of an index buffer makes
+the read of e->sec_hdr.size run past the allocation. Triggerable by an
+unprivileged setxattr(2) on a crafted NTFS image.
 
-Ok, so we'll do the prep for vfs-7.3.iomap (aka to be merged in the
-v7.3-rc1 cycle)...
+  BUG: KASAN: slab-out-of-bounds in ntfs_insert_security (fs/ntfs3/fsntfs.c:2148)
+  Read of size 4 at addr ffff88800fa1de00 by task exploit/142
+   ntfs_insert_security (fs/ntfs3/fsntfs.c:2148)
+   ntfs_setxattr (fs/ntfs3/xattr.c:947)
+   __vfs_setxattr (fs/xattr.c:223)
+   __vfs_setxattr_noperm (fs/xattr.c:257)
+   vfs_setxattr (fs/xattr.c:344)
+   filename_setxattr (fs/xattr.c:690)
+   path_setxattrat (fs/xattr.c:734)
+   __x64_sys_setxattr (fs/xattr.c:764)
+   [...]
+  The buggy address is located 0 bytes to the right of
+   allocated 512-byte region [ffff88800fa1dc00, ffff88800fa1de00)
 
-> submit these patches (and any cleanup ones that become necessary) to
-> Christian right before 7.3-rc1 gets tagged (which as I understand it,
-> is when the merge window is about to close).
+Stop the scan when an entry is too small to hold a SECURITY_HDR.
 
-and merge these _after_ v7.3-rc1 has been tagged...
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Reported-by: Weiming Shi <bestswngs@gmail.com>
+Signed-off-by: Xiang Mei <xmei5@asu.edu>
+---
+ fs/ntfs3/fsntfs.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index bc7469d0a34d..6d81ae6c1f11 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -2145,6 +2145,9 @@ int ntfs_insert_security(struct ntfs_sb_info *sbi,
+ 		goto out;
+ 
+ 	while (e) {
++		if (le16_to_cpu(e->de.size) < SIZEOF_SDH_DIRENTRY)
++			break;
++
+ 		if (le32_to_cpu(e->sec_hdr.size) == new_sec_size) {
+ 			err = ntfs_read_run_nb(sbi, &ni->file.run,
+ 					       le64_to_cpu(e->sec_hdr.off),
+-- 
+2.43.0
 
