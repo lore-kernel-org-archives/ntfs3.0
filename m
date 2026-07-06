@@ -1,224 +1,166 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50DA3A75B6
-	for <ntfs3@lists.linux.dev>; Mon,  6 Jul 2026 04:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278A93C4161;
+	Mon,  6 Jul 2026 06:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.141.245
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783312820; cv=pass; b=XuNGoxPGcaOJUJRl3lZvLODCUU8BwJ1fGKZtu1HYaVpF90GAXzS0kT04gzoKAOSvgO0qeJ6SeeQx8GKhjXSRKvx5btxBX8/bIPics1Kywm13WMOQdhE6bN2pVZjW8qzsiX1Vu+X+SuXgGiF3UuK7bQP3mbaTXE+awdOlWDIFpzM=
+	t=1783319407; cv=fail; b=rTvfv5N/qmGnGGCmE31tfzZiXi6cmFyaKTmVz9j8DHt8oA/wso/MfPyclTYTS7IoWnoNTb6z4xb8uT8f+HSLJq2qq23GCeMXMI1LhNUHCTHPCqSZyAY0mHrNZ16F6G1xkWqJyveJptSEU1N0bQhGStV59/gXvL3baSaj3LVHhuY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783312820; c=relaxed/simple;
-	bh=D8AkvWV8LRM0dC6Ir9apda1Q/tm0zhoQFQDn1KfjrmQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eV5QVoXl3OcBC24wh4UtSZxOFV5vqWsdNP5dewgRz4O9CzyBJIttg/RxUlyvMLA3okptEkVxFXL6qE9wLly5bquYqDouDCfKwpZRgYYPoApCOmy54aIbS+z/zhP9PafKvkkdHzQS3Z9fPM1pXxtBOO79YWc6V6SJJmbSlAD+HwQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g4MPZXO7; arc=pass smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783319407; c=relaxed/simple;
+	bh=vz0oHVhrPccbsqdRtm8A+143zZ+gEZVxLGetXk9U6eg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=BCaP0UA4GSqsuEMzAXETK2uWzPt+nwbCZoPLsLDKrbgVUBwFXJ2UdLGJrGrJEtpaznf84IaPwGubFwBWxfywrJPDUVbO6CLVNWX75+M+L2sSLVZFzLnzX8YqUlTcA0mEOXTyvj7EpVK8Kk2JBR8algbvw4FBWiNdje4zfK4RyZ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com; spf=pass smtp.mailfrom=wdc.com; dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b=owdh9T2I; dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b=ObBuLps3; arc=fail smtp.client-ip=68.232.141.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wdc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g4MPZXO7"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-8114a4542b2so38745747b3.1
-        for <ntfs3@lists.linux.dev>; Sun, 05 Jul 2026 21:40:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783312818; cv=none;
-        d=google.com; s=arc-20260327;
-        b=MD4nQ//qgpY8Ef59X/knas9b7WsZW5d2LQdaYMcoIO0FauYjm/FHcWVh6soUOpbGWx
-         OcFLmDGeP+5IGImNqJj216uhFjnzanZtf5xn1yIINRbiZtS3lMr/rcZqOro9PlknP+Z3
-         vDBnSxuyBqQYnEeV8IgSZb4wlmqobHWCcsWqvJB6l8IYSvgmg61+V8J0xExJuQyqmck2
-         MJ1Rbru+voE8PMnV4o6voh21IOqYDTC9w/z+d9eERK0hjlRWJNx8iUjF0c7BGO/I7llB
-         Ie23O/xlvODqBrdNEuctRY8EfIjEBypaRXjxJr7VMtB9oivTf2n5BFpStvGKZIag8udx
-         Gmeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=zOnXzH4IyieCY63L0SRNfR4gFdrJzI9y1M82tOjINV4=;
-        fh=6Nl+VAwrqvY93pqCKWTJKguKO10G9y+vHTbHq3sAjw8=;
-        b=euzphSGVoS3u5ZYYmTDRZ6m2htyfaJQrM58zkAJJO9k6cgJqv5DnGbFqU8Y3x8lblq
-         P/Cq/L3Erm7m1HM0GT4JT3wk3MGkFv/KiKKPGJ1BlRrxxCnSzsG+DwZ+udSSrooaxf99
-         QN6/kjK3Y6Xl/osMBwz2n223MmfiQOwuj25zn1XIXhMJ0G8k/bFpZIqv6Y7VuTjxjzEe
-         WHZwwhrEdDHcq3G/6el3Px17pny0xlIFh6/xYf7hh9yzwAljCYyIVg0QuXtd72aoEl4b
-         OHcKtDCnV4j8hBoUA5rCJLdYKfKUW+yNRT/cyX4GHXoR1e5g1QX0QNGlkEE/Nsg6Ta7g
-         scpw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="owdh9T2I";
+	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="ObBuLps3"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1783319401; x=1814855401;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=vz0oHVhrPccbsqdRtm8A+143zZ+gEZVxLGetXk9U6eg=;
+  b=owdh9T2Igwz6sW6pbwIat93j8FOGYnSn3NAyv82/oo2evVBgtmA6ihk9
+   EZd5u5zme/cCspZWz/WMupUJdnJgMgbvK+zx2Y1GyQUni/zF4Vz9qbDud
+   7U57SIxv0M0lD6a9tJuz8M6vZypeHHTvh/CuGslI9dGAg5Fd/wmfUUVi2
+   EW8Ztn8ehiJoDwu9Uq2O7GJk8li669iTBKAXYZ5kP9jLdwf5LAvV1ha3a
+   aT+PieLGeNWMigYQYEBlkKBgVnqwLJDffiCD04Y+HR+y47/aXRmp+88X/
+   vSCc2DOMfodby+b0JMIHZ9wWlUdrNIJ8I/oxyGsEMR+t9ZE0+DvKS/0i/
+   g==;
+X-CSE-ConnectionGUID: bYWWxOloQtyjpXJPVgB9sw==
+X-CSE-MsgGUID: QUL15jWKQVu7rvy+t8fKIA==
+X-IronPort-AV: E=Sophos;i="6.25,149,1779120000"; 
+   d="scan'208";a="150138768"
+Received: from mail-eastusazon11012013.outbound.protection.outlook.com (HELO BL0PR03CU003.outbound.protection.outlook.com) ([52.101.53.13])
+  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 Jul 2026 14:29:49 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xQQ+xqePzw0y0GzGKKBGkL2w73j+FRtcttUp1Y9rwOE56AMtpqaomYydw5zcN7s98sebQ2Cd+/Yr5AlVJNCVriMVIbu7IqjdxjPqgXGbSRQU0zPYL8PXjZFJaP7mamHot/SQO0ZrPo1itJEfaGzBu2enOG3GX2X8i4CqjDXBrMA4VMK5rqSoQIAhPdhNiAt/Ls4/amcqSgpSAff+GPNxwRCznKHgEpzHPTgwkV/2Kff+wi7uartZnm8gzSK7Esz9mfwYbvIISkzrNP0b9TwDzlDiU1mma2sXd1Hh3Fx/xxyi/Ln0vXnR6era9PDZX/odj8YPzWXiwUDMWYCo+NUY/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9bHW7ZuSWCE1rUh5CXe1113OZldCAC5J4eHnZzb9Hes=;
+ b=htVWkPwQb6vH7F/cY4B+tvDfTlaipYjNVI1OE9URJ0IcNOev9DnWQYDxGMU6OCG5OrJcw9t46e2Dy81eur6YZOVaE4PDGMiibDKtN7ICSzm6AaZ3OTVqZ+Gg+a/TVoNNrN4E4j+Qs79aVy4c792RR6S3eFxtmx67sZWoZGoody+CNsm6gkLPB1dFDWWQ/eSGLlow3I/pskkCAh6tV12vRa2lEdmpiB1wFc9fSWHNZbFOF+/5FOa7wkX/XKdjmPKmMOARAu0QsX5IvYMpG/uGyaFDm0Rz9n27MpfsYuxTSxydnkxUVk0Nv8Ck72LQisnffezgwr60VyF/u71kRD1F7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783312818; x=1783917618; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zOnXzH4IyieCY63L0SRNfR4gFdrJzI9y1M82tOjINV4=;
-        b=g4MPZXO7385q9l6iNq2oAY8gc307tkag85AjZ0j/VORwF3/KktkRmDC2FYUrk10TtZ
-         EppODsfbceyxug2dfUIgaom8azHZ/iZwKJWPYn/iEeC3JdJY/xf6BEMC2IdrMQ5yCFQw
-         9H1Cl4YuTszUSgHvH8nkZjKCVGEMW+4N59bguxH4vygf7+KZe+/Uto5oC9GHDmVG6TGo
-         c77PB/5pYiLErdaymd1AkA/Rs9SS2yxS1skmn+NceXZdqfqcq/x/xoQPvxol6QFLRv3/
-         dLLWudvqAaJKX/QO+W2kS4aN2NSe1Q4P3O1wcjeqEcWtFFOFEt2u/rbw0dnsXf7/+P4x
-         mIPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783312818; x=1783917618;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zOnXzH4IyieCY63L0SRNfR4gFdrJzI9y1M82tOjINV4=;
-        b=HyqPlmm2mQ6jAmBSQ2EcDudj4lxorvl/HFxkwMYAGkK9YmMbyMLDQY7dnRwOWIFvMM
-         UWrUL9SyNMQ/iYFgqXJBXMA2zysqh08EC91prKJKQYZ1xhMzAXvMg9w5IB1lEk2dAN+E
-         QduQ5XXl98xBEsPLYSi6wKlMZisdepXtgXxccjOLTov1I8DstGwTB2kx8jB3NXsf49fc
-         stEK1Lwa5CBkleIWm8ik/TT4can6wiI3DknaEL12RLFbrEBglieapzTZBxD5uClJiasP
-         gaXSDm0ON4nzDFPrzVxe0kJRV43zt+/mbMvtQxEHYao2CsHPl6qsP4cIi1lgotLglnLg
-         bm6A==
-X-Gm-Message-State: AOJu0Yz4LK1lWfDlMWg+tyjJaOypPEQg/QXMArh1S+Gjp8NMPwAPgWjg
-	j4O006LVBdFKNNg9xGirhpcURFh9AAm3thFx5/2ow0xAVHvH4hjyjraQLXlFRc1qBpBEsvAJ35p
-	/iYekQcMnUCv+HdabSU4l3Vd4HVlsDq4=
-X-Gm-Gg: AfdE7cnXDHAUUWV80KOl9GJoLBBdn3mG2eJN35hKy9FFigjW6w/AmAmj7qToTaws/ls
-	m00EDsWacD6T+0TVC0sVpnCMKkLB5V9WgtisP/BvYNpjhGiXPCGDuGXB6EHMLhl3Pz0nMr4dr4U
-	oZvSwUVY1HPtzUYygoGHPMkus4Yhe2ArSbei2RDtWhoqkaa8C7IX97ICqhenRfUDSEGxQvYzOek
-	UJYvvvRPweI4UT4JU3yu/puIhE4ghJ/gHHvpCaPXEuyOvEVECjIBdieVGBZtyH+G/wdDPYpleJS
-	Lq/xx+MOLCEgZ2Q=
-X-Received: by 2002:a05:690c:730a:b0:80f:9998:e614 with SMTP id
- 00721157ae682-8173861628amr91069697b3.28.1783312817771; Sun, 05 Jul 2026
- 21:40:17 -0700 (PDT)
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9bHW7ZuSWCE1rUh5CXe1113OZldCAC5J4eHnZzb9Hes=;
+ b=ObBuLps373psav1oRH4L6R8eLCNdjvdCen/3Wv+Q0l8JI20rycguID1QZ9RUAjmt+CQSWbjo+aiZ5I2jmKIGW3X2kOeScHPZHNN0XXt8J7uFdXZI/PsxAVY5vSifY9K5PXkNUi5P3XTpWLxlC9tuYzBjEeZ5jCfup59OgNvmG5U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14) by CH2PR04MB6808.namprd04.prod.outlook.com
+ (2603:10b6:610:98::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Mon, 6 Jul
+ 2026 06:29:46 +0000
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85%6]) with mapi id 15.21.0181.009; Mon, 6 Jul 2026
+ 06:29:46 +0000
+Date: Mon, 6 Jul 2026 15:29:39 +0900
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
+	Yuezhang Mo <yuezhang.mo@sony.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, Hyunchul Lee <hyc.lee@gmail.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Carlos Maiolino <cem@kernel.org>, 
+	Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, 
+	Johannes Thumshirn <jth@kernel.org>, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-block@vger.kernel.org, fuse-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	ntfs3@lists.linux.dev
+Subject: Re: [PATCH] iomap: Remove FGP_NOFS from iomap_get_folio()
+Message-ID: <aktK-gWJcef1W0So@shinmob>
+References: <20260624174228.2015893-1-willy@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260624174228.2015893-1-willy@infradead.org>
+X-ClientProxiedBy: TY4P286CA0022.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:2b0::18) To SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260625031932.9412-1-skyexpoc@gmail.com>
-In-Reply-To: <20260625031932.9412-1-skyexpoc@gmail.com>
-From: =?UTF-8?B?SEUgV0VJ77yI44Ku44Kr44Kv77yJ?= <skyexpoc@gmail.com>
-Date: Mon, 6 Jul 2026 13:40:06 +0900
-X-Gm-Features: AVVi8Ce43FfU1cKW-FBAZHSrlCukoxXFF6_BDnfgxzzWAyZckTsskWpZDHXvtdQ
-Message-ID: <CAOC0qyLj55itFPEurfNddWpzzcPJ4j3bvDxfWBRev_GzPLL+mw@mail.gmail.com>
-Subject: Re: [PATCH v2] fs/ntfs3: fix slab-out-of-bounds write in ni_create_attr_list()
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|CH2PR04MB6808:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7563a91e-fafa-4e70-8a31-08dedb27f941
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|19092799006|11063799006|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	mBw4PWWpx8eVaeUs2NPWTyfpc/nQ+GrVfPzjqmCAnHNJkC44tekrNwDRF/VWN6vJn4ea3lWVA6oOW2+L4oX7GFKH/iAQMPSNVoxj3g4lzrskjBUrlgvEh7pBFRazylSuAgk/H4esk7QSmP7d5Giqpg4GSt5sYM33in2vju17Y98jJk9qWKB7aKNqzxvvm71y7RejaUyfBNPjH5QGVMUsVEtsCjCSj/kZJAH3Vz3gInicf0VzqJhuJN3nc+h/Dti2ORv9GiHgxwclOeR+8xC1rPdii6r9sf/d3qD5VbP0rsUyT32G7dWsKZ2K46hSvNFxVeHywKOKzaEzKxeKoLOxs0+XP8Lhwdm9XUSBOMEiYk8EJlt4jDzFeei6Qb6nJ/hj2I4N1Om4glpCqSSiiwk0/KPy6jwtNscdheE8c99sb3PJSMZuuNWq2Nl7Z7hBmPqkfbZnMRi1cNnOXRUhyNMxKRKCm3skte61zXsCjnfg/Mfz7KwxiAWf7vlmr2+4qq6P5rRNTKnQ9VMPnNYyX3nf0NyqRti4ujlQuKSRjrTehbAcPb9SMONShwjf82mj8JPbqLucnDhR8YY0/wsylyZZ6wuiWmUcWerkjlZRvmoWWmZdQDuknlmVSCWdV2iF+sdEDss3Bwfv5lSKnMD0Ylc6DKQbmK5koj1EZWdeT60JHss=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(19092799006)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?oFlyTCv6k1z3IL5DuWBqDbdtPMK9HXuD0Q3FYaRV/mzgZYHzUw83u5hoXxa+?=
+ =?us-ascii?Q?KXPB0e+noMA+pZjPS+wpZa9U9TUwOf/fa2WNDsGGq3H34KYaBvLRsEM6fzuM?=
+ =?us-ascii?Q?MBUj7TeI2o99WD1B6ggolrZ4qFSupRGxpMI651x7K63/xk2o6FMWjR+15nGe?=
+ =?us-ascii?Q?Cj/RHZl65UkyzN94r9tGtBDtEVpeCck1tm3PQDXvjN7ePjbeK+PhXpXbZfNq?=
+ =?us-ascii?Q?/ZhtqtPdV1NlEMImcGK5EjzVBdFFMzAM8WmItUKbRw46SHmM3V0h58lL+bhK?=
+ =?us-ascii?Q?RZJziuSq9E0I11HDOXQdX+ht7YwDyjhb/kMeweFEqHsKD475IVejOQJaa9XR?=
+ =?us-ascii?Q?rUWxOEPNX3TQPvpZSj7GxBZWZkyNFHS5wCglTYnnnStDSqF5dBo8po6aq/uT?=
+ =?us-ascii?Q?A4DdxbKXy/7bu9T+EHGV+9rFfbZEQ2BWJb341Ka0z6zFPlG8uzxcx2tIG8Gn?=
+ =?us-ascii?Q?1Ag1rN/6zqQKJ9i0nTgFk0LiA2YUeLbvW4OsQVDgVthkhbDh9deIXXdW7Fjt?=
+ =?us-ascii?Q?AU+U7M3MjOiPb8oLoT4yrmIzfNnGqYnouiZ08WEM57YCYhhVd1spqxAgrxFH?=
+ =?us-ascii?Q?8nNvdTuH3R8+j9b1t4el2bKyq0jwC18iRui9dxnzeaoxPL1S1MJjk8sb1EZ+?=
+ =?us-ascii?Q?r85bWd9OttMgmRLvBazmgc8KfnBLrDQHvxpyA1T8XYpskDiEZ27q9SIWaA3v?=
+ =?us-ascii?Q?mrCHamxbOg9z5RluJDWcwGSec1TL3L6Sx6YWsxo8SIVi3Pe0p3qgu/7o2K/q?=
+ =?us-ascii?Q?069BjmcJPfKvR7AddNvUHt220FQia+B8HiBk6ux7ZgZ5VIBfOdypHGMSQ+9P?=
+ =?us-ascii?Q?ihiLA1TaTW7JA3K5cEKAEg3RiwiyiTHzpA7VobqeBV+5GjhpJJ7MP1IMtYKu?=
+ =?us-ascii?Q?vSwTQHMKByk3f9jxVk5RXNzIH40OUBphnxqyoBoJOwLu8ME2p8psktYAv5Ck?=
+ =?us-ascii?Q?sYFc3tT0lG8RSFFTcuv/Akdjp0Xvz2E7YClsNDc+autf4MSESnTt990Eyok4?=
+ =?us-ascii?Q?CWAYYzl3WO4ce4Cp/YBM4QqdG9U6T1MdjAiVr8ZdglK2X07ZlgX2DhpWyQvk?=
+ =?us-ascii?Q?y8u01zoAUI8KD6Nr4KNg3CUWD588kXJY3MhpKUhzSpv+jKpK/KBoGIUOI2md?=
+ =?us-ascii?Q?Am39Qi6aNUZFdfHLBpeE5oSbNzsoSlPKXd0dtbOsBUATFUuqVyVFUUEJPRoD?=
+ =?us-ascii?Q?pvwmbs3MF4BQlAVDjEF5m0GZB/36AHMCNS8vpWORQdKk3u5sUpodXqBWr9cN?=
+ =?us-ascii?Q?U8dUwo+2Ns7MsbedXjCgzRkUgKj619xMmiLW+pWL/xFtnEwjIKXk8I0uEIR/?=
+ =?us-ascii?Q?HlMcwf1spWyq69ZifQMQEbkrI/dURgmiasX/DcKm1rC4Cqi3sieLaHq5h+tZ?=
+ =?us-ascii?Q?4N5CxYN+CIv9cipPFYOsg0y8kssr2VwaedULu5JYrOK9JsQQszHbykpksIFr?=
+ =?us-ascii?Q?mhiOYPh2tRgfCJMe5f22k57S+AAki8Ay9igecFatkFKE1EIcGStW4im4AksR?=
+ =?us-ascii?Q?ZVrcsXYajuk/a4XefK7bnxCcFuFspYvzuWPGhlGEzukcG2wewZro4aOFl4UT?=
+ =?us-ascii?Q?iLprOKPgoodC7fF7iGYH38XJNXkilv3NZyd7c9cXZBfuuaZHQXtbvqC6ZUwL?=
+ =?us-ascii?Q?5qXQHcsSeeZc2dXrzrkQU+fy5iNxyjKmg7zPPD0aG8V6oTqpJs08Z9wKiMIz?=
+ =?us-ascii?Q?CwrCDMybbkXOZP20k1AkRBqFx9+LE7B1aJ39Mr/wO8btKdy+sw3erL4JkYB5?=
+ =?us-ascii?Q?eE09TYPgPSsU33wxBFlsr66iJPj40OQ=3D?=
+X-Exchange-RoutingPolicyChecked:
+	XZkudOC0Rjuy1oiowRSROWVbXLal9S2sGPPZEaNaDD61/3POFeki1rLJPgPEY3PudmqXnKmcS1k/tWlieIZxFzcIuUOrrcDrbJot+xMD5R/D4Q7L4oHvYkLBHclExKy3PYVuO4Tb9vG7QgM5aa8DmXojiRJ+90s8Uo/kI9E3ybtkgIlO09QzklkH5tujpvg/XYSgddsQdyj2en+n1qSsMzPN6MvMMXJgOW2W9A+H1JBhY4BPhf2Ft7wPDp2/7FSvusnD4DJ7nWNLQR+ehF77YCrzRagpHs2jzeGRxndV9U6b7bi3GJvH4IL9bIlTuzk1WVXWnMTrlCmCAWj17Iuv4Q==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	v6nJRSEeLCEa1V7UpIGhi+k1pt9PcEl1ujsNPmS3qdI9dmKmM07w8k1mXXPeTDu4vYHbnSnAWC0Zb9Gc2EJRf/p+RGD5RyJuq5/iQCObFDnMdgiXFLDnEzFcP4UPYAs7wsVbyulMQCpzkldPJIpo6vZLiSIHoaKcN4tc0J5zMd/QCFqqzf21oL4uQ8Bopq+SBb4UDVXAi19+2k/9vO3T/Kr0n7+4sfzcFs78pfU86NFiCn9lWKfLTh0ZrFiURSI25h2N7mHkYxj0FUfQZr3CNYxd331AeHpChJc/WnlszknHmBRznL1ViEKMV3w7Ef3WZHsxkX7MnYsZDropy8lz92U4NR/RoKjUnw96OmQW9aarcZ43IGiawU5DSNNOdVMN5SrD9ZLIPnHFCr4uMYWJ8goYOaQzhzAQSZI1SkCs21l/NRuoLjZCqxV/RM0CaPwp15TBuC+HuxeitQHrQ22FMIM9jRT7+Ov9aD65c4D3URrfBTP22tgGoarm5h1ZRdSWuKzw4Latu1EJKxZ/+22wkceS1SA1Ao+KYwgtD8LGqmSgHCMn8R7an/ZZYz75VjZfFelVyzaP1yEcFU1W3Wb74HXnW4iCyPna93qgsX0rCkKunP64f9gylyUFyWxVrmA+
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7563a91e-fafa-4e70-8a31-08dedb27f941
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 06:29:46.6114
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NXt1fIS/up+PELokBaFAz/W+wTzjrauHW7z+Uup0zV5VYTTw357pZxXFLFzqQwF8NQy9uDajrVattcm7fZz6WTBstnCe5YFHhLf0U6Lxzqw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR04MB6808
 
-Hi Konstantin,
+On Jun 24, 2026 / 18:42, Matthew Wilcox (Oracle) wrote:
+> FGP_NOFS is legacy; filesystems should be using memalloc_nofs_save/restore
+> instead.  We have it here in iomap because it was buried in
+> grab_cache_page_write_begin() and we didn't want to change this behaviour
+> as part of the folio transition.
+> 
+> I have tested this with XFS and see no issues.  Other filesystems (cc'd)
+> may need to make adjustments.  Please test with lockdep enabled.
 
-Gentle ping on this v2. It's an attacker-controlled on-disk image heap
-out-of-bounds write in ni_create_attr_list(),
-reachable via setxattr on a crafted, loop-mounted NTFS image (KASAN
-trace is in the commit message), which is why it's Cc'd to stable.
+I applied this patch on top of v7.2-rc1 kernel, and ran my zonefs test set.
+I observed no failure. Good from zonefs point of view:
 
-For the record, the fix was first posted as v1 on 2026-06-10:
-https://lore.kernel.org/ntfs3/20260610002929.51765-1-skyexpoc@gmail.com/
-This v2 (2026-06-25) only adds Cc: stable and widens review to
-linux-fsdevel; the fix itself is unchanged from v1.
-
-Could you let me know if you'd like any changes, or whether it can be
-queued for a future bugfix pull? I'm happy to rebase or adjust as
-needed.
-
-Thanks,
-HE WEI (=E3=82=AE=E3=82=AB=E3=82=AF)
-
-hewei-gikaku <skyexpoc@gmail.com> =E4=BA=8E2026=E5=B9=B46=E6=9C=8825=E6=97=
-=A5=E5=91=A8=E5=9B=9B 12:19=E5=86=99=E9=81=93=EF=BC=9A
->
-> From: HE WEI (=E3=82=AE=E3=82=AB=E3=82=AF) <skyexpoc@gmail.com>
->
-> ni_create_attr_list() allocates a fixed buffer of al_aligned(record_size)
-> (=3D=3D record_size) bytes and then walks every attribute of the primary =
-MFT
-> record, writing one ATTR_LIST_ENTRY per attribute and advancing the curso=
-r
-> by le_size(name_len), with no check against the end of the buffer; the
-> total size is only computed after the loop.
->
-> A minimum-size resident attribute occupies SIZEOF_RESIDENT (0x18 =3D 24)
-> bytes on disk, but an unnamed attribute expands to le_size(0) (0x20 =3D 3=
-2)
-> bytes in the list.  Because the number of attributes in a record is not
-> bounded (mi_enum_attr() accepts arbitrarily many equal-type, nameless
-> minimum-size attributes), a crafted record packed with such attributes
-> produces a list larger than record_size and overflows the heap buffer.
->
-> This is reachable from a crafted, loop-mounted NTFS image: opening the fi=
-le
-> and adding an attribute (e.g. via setxattr) drives ntfs_set_ea() ->
-> ni_insert_resident() -> ni_insert_attr() -> ni_ins_attr_ext() ->
-> ni_create_attr_list().
->
->   BUG: KASAN: slab-out-of-bounds in ni_create_attr_list+0xc48/0x1058
->   Write of size 4 at addr ffff000008984c00 by task setfattr/345
->    ni_create_attr_list+0xc48/0x1058
->    ni_ins_attr_ext+0x510/0x7c0
->    ni_insert_attr+0x3f8/0x70c
->    ni_insert_resident+0xc8/0x3b0
->    ntfs_set_ea+0x66c/0xd28
->    ntfs_setxattr+0x4d8/0x5b0
->    __arm64_sys_setxattr+0xa4/0x124
->   Allocated by task 345:
->    ni_create_attr_list+0x188/0x1058
->   The buggy address belongs to the cache kmalloc-1k of size 1024
->   (the write lands at object+1024).
->
-> Size the buffer from the actual attributes instead of assuming a single
-> record_size is always enough.
->
-> Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: HE WEI (=E3=82=AE=E3=82=AB=E3=82=AF) <skyexpoc@gmail.com>
-> ---
-> v2:
->  - Add Cc: stable@vger.kernel.org: this is an attacker-controlled on-disk
->    image heap out-of-bounds write and should be backported.
->  - No functional change from v1; widening Cc (linux-fsdevel, VFS) for
->    review, as the v1 posting received no response.
->  - Drop a redundant self Reported-by.
->
-> v1: https://lore.kernel.org/all/20260610002929.51765-1-skyexpoc@gmail.com=
-/
-> ---
->  fs/ntfs3/frecord.c | 20 ++++++++++++++++----
->  1 file changed, 16 insertions(+), 4 deletions(-)
->
-> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-> index 2e901d073fe9..6488d7a415c0 100644
-> --- a/fs/ntfs3/frecord.c
-> +++ b/fs/ntfs3/frecord.c
-> @@ -768,10 +768,23 @@ int ni_create_attr_list(struct ntfs_inode *ni)
->         rs =3D sbi->record_size;
->
->         /*
-> -        * Skip estimating exact memory requirement.
-> -        * Looks like one record_size is always enough.
-> +        * Compute the exact size of the attribute list.  Each attribute =
-in the
-> +        * record yields one ATTR_LIST_ENTRY of le_size(name_len) bytes. =
- The
-> +        * minimum on-disk attribute is SIZEOF_RESIDENT (0x18) bytes, but=
- an
-> +        * unnamed one expands to le_size(0) (0x20) here, so a record cra=
-fted
-> +        * with many such attributes needs more than a single record_size=
-; the
-> +        * previous fixed kzalloc(record_size) could therefore be overflo=
-wed by
-> +        * an attacker-controlled record.
->          */
-> -       le =3D kzalloc(al_aligned(rs), GFP_NOFS);
-> +       lsize =3D 0;
-> +       attr =3D NULL;
-> +       while ((attr =3D mi_enum_attr(ni, &ni->mi, attr)))
-> +               lsize +=3D le_size(attr->name_len);
-> +
-> +       if (!lsize)
-> +               return -EINVAL;
-> +
-> +       le =3D kzalloc(al_aligned(lsize), GFP_NOFS);
->         if (!le)
->                 return -ENOMEM;
->
-> @@ -781,7 +794,6 @@ int ni_create_attr_list(struct ntfs_inode *ni)
->         attr =3D NULL;
->         nb =3D 0;
->         free_b =3D 0;
-> -       attr =3D NULL;
->
->         for (; (attr =3D mi_enum_attr(ni, &ni->mi, attr)); le =3D Add2Ptr=
-(le, sz)) {
->                 sz =3D le_size(attr->name_len);
-> --
-> 2.43.0
+Tested-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
