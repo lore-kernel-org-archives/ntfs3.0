@@ -1,160 +1,126 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5653CCFDB
-	for <ntfs3@lists.linux.dev>; Thu,  9 Jul 2026 07:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC42F349CE0
+	for <ntfs3@lists.linux.dev>; Thu,  9 Jul 2026 22:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783582090; cv=none; b=PsiXQRcSdKa2KNXx4RDyF4jtYNf4mn1nHh0+O/6w7bw0TeEp2isSF7pvcAIqR02O+Wj4LXbbOoq8hNYRWkblLhLADdnXQJCyLexME0lJ60uSvjIjQtBxGu6zrKa51dCP/tGB6sR8RPktJwiJ9SG6ecH3ABGpVvfrPQ4DkuccylY=
+	t=1783634706; cv=none; b=dnaELQ2EDSsP8SMg6d5D6Ahw/N6/nFXUmRCDoE3ZKE7gxp46awQIQxu1Rf/Q2+ssUolgrnlbMZKJfApuV73DKH39sPO26c05QmrWCK5jKGMX1/8ZgRF26mNEOEJJgNzuZITHsGEKkbPTbfn/yY0NkT/JXYbCcIt7yRplk/ssLjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783582090; c=relaxed/simple;
-	bh=IROkr6oC6m4doasNPCg5Brgtn0J79IpB4BpDWWSYUrs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GMkuvr9nkaagI3yQwT0ws9DVPJ/yxG6HsqY2nalZQCb156nV77KU6ES8alwUTiCy2dqc5TRLaC93R18NvU09Mwfsdx3J6h2ddSQnJqUvBaGHCd2L/MFHHaY0vsjbcwzKxO+YM0QpadgCDDiwDvznVw4Yre/VRA8cnZ3W+KZ1oVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=oGkaY9zR; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1783634706; c=relaxed/simple;
+	bh=GWzCqgBdnzrCXDuGs1zCJaaPEipz38yup9Q20fHT26o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a8rTzh0zGtzSkAN+kw9ILxchyE+AuS51Mpm1fZbYWY0rO8uAxJGKipkdlD3dn7ycxQjKz2xCWQEk5bSGRt2xIwXQrQLNQbPNNWqTaRmbOu8nkDsQ69YTQsUiQ6bJmy00zy6JAtlDa3IQkvIxJ+VoydjJ0PaDGt1jl5uGFSIBqxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=tEoHvnVO; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="oGkaY9zR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=sRwZgJgH3KDXnPJ6foAkWkk/at0twjpIzZRNJ3SilJY=;
-	b=oGkaY9zRPxrldPIE8RYMroSNXv5NlO9RsEA4KQRrOP9uXUmjf0G9C8NDKmakUB
-	zDk52MbyDdhd5xxanSP6b+hejUMho9L9z/Yz4UGwQgwlSVn2en1TLlb7Dk+soxLX
-	Z6+wXa8P5n+C4vfLpK5njWrilJg9ceEhk81cYpXoRP3w8=
-Received: from [IPV6:2409:8900:1a86:861a:61e0:cbb5:235:300b] (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgDX6+d_TU9q83OXGQ--.19759S2;
-	Thu, 09 Jul 2026 15:28:00 +0800 (CST)
-Message-ID: <13bc7bcc-7072-401d-8187-1c3d8b064234@163.com>
-Date: Thu, 9 Jul 2026 15:27:59 +0800
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="tEoHvnVO"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c96b08cdd1cso222911a12.0
+        for <ntfs3@lists.linux.dev>; Thu, 09 Jul 2026 15:05:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=asu.edu; s=google; t=1783634704; x=1784239504; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Rb6RDuAYsdeez60Ddc+s7DNRi0KrVtOV9l66vIIUTlg=;
+        b=tEoHvnVOTXb6ROiCSEWRdXPE6TnraIvtcHPFM8J5ZIW+aaAGbE7l02AKtU93lETjCP
+         JCijqhcIrnwtfEbgwvQvTATHaQjwq7ZK6jajswEFZKSZUJ1eivcQ8Khn3dAjdIKgpKVt
+         z6as3saYxMq9F3LsaOUlbkSKwhmoXUKfQmw/fQs9QJ1QL5rcx320XmgYsL7OrKUtF+jB
+         Fa2hJAd9n6OMv7zwa+wNNoagxi8m+l2+DcdBJOuuDwBL4NHF2CoxZyg0UVMO2CiWjbUH
+         VCHul/0V/uprsprWWuKRkDO93Ql8DpmvxH+S7ff3/ElU1DxqYM3Fyy/qO/ByxiYPcWQD
+         ifDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783634704; x=1784239504;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Rb6RDuAYsdeez60Ddc+s7DNRi0KrVtOV9l66vIIUTlg=;
+        b=hoZSXbD0WICNAQrF8+RukypM0QAZPkzc3xe6qUz1MpHW+XUw/h0C5I6rH8b6zfBuvp
+         2mydLi0Q8SkjzrQTLUqpbWpu8bRjrMCYpZKTLztAj+vgmOVrWfG8HW3kKTG0/IfiDpx9
+         Qxwl08U3dWrUFtnmGcHoLrPwytn2fgZwdlEG+0Hg8KL3UyfuFudnzZ0thC6ui6fdDpHO
+         ISwcNvSNxPDrqQ7qX03IyIpYdWQNF8E0PMBG1KScTJYD+csaeLRsUQz+7mSf5m6RSrBB
+         2xxqYJ5MhZM0+mZ4UqocP+O2CUhau/zUapYpQLTIV3S/dBOayMHcybxO1L1WdBH2kGYo
+         prjg==
+X-Gm-Message-State: AOJu0YxuQLosjMFek9BHJEnfRBrDZV/gJ+wkG6TALbbbSOcIT64H4cdv
+	1/Jxr/Jwk6qjSNgR5iUZFDxDTH+ma2xfz9r4YV1kAGyeGsUpe5PP0xK9AfSmVQpyQQ==
+X-Gm-Gg: AfdE7cksuVXx9mz7wDy7wY0/VTCDLZFJaM8VUwv11FDHhkmZt1bl52GE8ca9SE8AGpD
+	fjIS8nqSpL+Vi2ms7bzK7V7DmhrfHT4rHTSknP3jMKk7gYEbQZVG03PyK5UCDs1a7d+rmJmwCl+
+	Wl6ZOJ8/Jl78gGzHIRdSg6Ak2xVUzEc89T8o98tXTbajLbX9xOUQy9p9fC1MqzjNP7kZwDnHzwu
+	NodUJIDGpNkC5PgP6z80cDQcMiM6McUxzNA04E4FcPwZHo5CML6DiD/mXM3Ya0O+qEXJZogyMLN
+	hjLPIlaJhu2BmERuZopRw5mGNiYpScQYmuPZ1llROCyT9hGYsQpM212V0Khm+97vXeZFPOXT2QI
+	FIdYRL7Zmm3HTOge/8l6dCHGoZ/vrVVFrJG1ZL2ap9Ta5xs8M8yRJRWuCGkV1wRSh3RDCB6c+p9
+	Z2ePIDG4DySuPq8e9qUQ==
+X-Received: by 2002:a05:6a20:918e:b0:3b4:731e:6f95 with SMTP id adf61e73a8af0-3c0bd206d33mr9703927637.39.1783634704083;
+        Thu, 09 Jul 2026 15:05:04 -0700 (PDT)
+Received: from xiang.tailc0aff1.ts.net ([20.171.14.70])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b659d8da9sm57229945c88.14.2026.07.09.15.05.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 15:05:03 -0700 (PDT)
+From: "Xiang Mei (Microsoft)" <xmei5@asu.edu>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	AutonomousCodeSecurity@microsoft.com,
+	tgopinath@linux.microsoft.com,
+	kys@microsoft.com,
+	"Xiang Mei (Microsoft)" <xmei5@asu.edu>
+Subject: [PATCH ntfs] fs/ntfs3: fix slab-out-of-bounds write in attr_insert_range()
+Date: Thu,  9 Jul 2026 22:05:01 +0000
+Message-ID: <20260709220501.395659-1-xmei5@asu.edu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: return -ERANGE for short xattr buffers
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
- liubaolin12138@gmail.com, Baolin Liu <liubaolin@kylinos.cn>
-References: <20260709071849.2558133-1-liubaolin12138@163.com>
-Content-Language: en-US
-From: liubaolin <liubaolin12138@163.com>
-In-Reply-To: <20260709071849.2558133-1-liubaolin12138@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgDX6+d_TU9q83OXGQ--.19759S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAFyrKFWfZF4kXr4xJFWUurg_yoW5tF1kpF
-	ZIka13Jr45Jr1UJr9FkF4qvw18urs8JryUGrWj9r1fA3W5Jw1Iqry5Kw18Xr1Ivryqywnx
-	Jw1vgrW5Zrn8Z3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U2iiDUUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6QDhrGpPTYDgTgAA3i
 
-Dear maintainer,
-    I found an issue where `ntfs3` returns the wrong errno when reading 
-`system.ntfs_attrib` with a buffer that is too small.
-When the user buffer is too small, `ntfs3` currently returns `-ENODATA`.
-However, `system.ntfs_attrib` does exist in this case, and the failure 
-is only caused by the user buffer being too small.
-A more appropriate return value here is `-ERANGE`, not `-ENODATA`, which 
-normally indicates that the xattr does not exist.
+When fallocate(FALLOC_FL_INSERT_RANGE) grows a still-resident ntfs3
+attribute, attr_insert_range() shifts the inline data using the insert
+length 'bytes' as both the destination offset and the copy size:
 
-To reproduce this issue, I wrote a simple test program, 
-`ntfs3_xattr_smallbuf.c`.
+  memmove(data + bytes, data, bytes);
 
-First, build the test program:
-         gcc -O2 -Wall -o ntfs3_xattr_smallbuf ntfs3_xattr_smallbuf.c
+Both are wrong: the shift must start at the insertion point 'vbo' and
+move only the data past it (data_size - vbo). When bytes > data_size the
+memmove runs off the end of the data_size + bytes buffer and overflows
+the adjacent slab object.
 
-Then reproduce it with the following steps:
-         truncate -s 128M /tmp/ntfs3.img
-         mkntfs -F -q /tmp/ntfs3.img
-         mkdir -p /tmp/ntfs3-mnt
-         mount -o loop -t ntfs3 /tmp/ntfs3.img /tmp/ntfs3-mnt
-         touch /tmp/ntfs3-mnt/testfile
-         ./ntfs3_xattr_smallbuf /tmp/ntfs3-mnt/testfile
+Since vbo < data_size is already enforced above, the reworked offsets stay
+within the data_size + bytes buffer and cannot under/overflow.
 
-On the unpatched kernel, I see the following result:
-         $ ./ntfs3_xattr_smallbuf /tmp/ntfs3-mnt/testfile
-         getxattr failed: errno=61 (No data available)
-         `system.ntfs_attrib` does exist, but when the buffer is too 
-small it returns `ENODATA`.
+  BUG: KASAN: slab-out-of-bounds in attr_insert_range (fs/ntfs3/attrib.c:2581)
+  Write of size 512 at addr ffff8880135e8b10 by task exploit/142
+   ...
+   __asan_memmove (mm/kasan/shadow.c:95)
+   attr_insert_range (fs/ntfs3/attrib.c:2581)
+   ntfs_fallocate (fs/ntfs3/file.c:618)
+   vfs_fallocate (fs/open.c:338)
+   __x64_sys_fallocate (fs/open.c:362)
+   ...
 
-With this patch applied, the same test gives:
-         $ ./ntfs3_xattr_smallbuf /tmp/ntfs3-mnt/testfile
-         getxattr failed: errno=34 (Numerical result out of range)
-         In this case, it returns `ERANGE`.
+Fixes: 9256ec35359f ("fs/ntfs3: Refactoring attr_insert_range to restore after errors")
+Reported-by: AutonomousCodeSecurity@microsoft.com
+Signed-off-by: Xiang Mei (Microsoft) <xmei5@asu.edu>
+---
+ fs/ntfs3/attrib.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Best regards,
-Baolin
-
-***********************************************************************************************
-ntfs3_xattr_smallbuf.c:
-#define _GNU_SOURCE
-#include <errno.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/xattr.h>
-
-int main(int argc, char *argv[])
-{
-         const char *path = argc > 1 ? argv[1] : "/tmp/ntfs3-mnt/testfile";
-         char buf[1];
-         ssize_t ret;
-
-         ret = getxattr(path, "system.ntfs_attrib", buf, sizeof(buf));
-         if (ret < 0) {
-                 printf("getxattr failed: errno=%d (%s)\n", errno, 
-strerror(errno));
-                 return 1;
-         }
-
-         printf("getxattr succeeded: ret=%zd\n", ret);
-         return 0;
-}
-**********************************************************************************************
-
-在 2026/7/9 15:18, Baolin Liu 写道:
-> From: Baolin Liu <liubaolin@kylinos.cn>
-> 
-> ntfs3 currently returns -ENODATA when the xattr exists
-> but the user buffer is too small.
-> Return -ERANGE instead.
-> 
-> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
-> ---
->   fs/ntfs3/xattr.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-> index 9743a63a152e..0a19668e970d 100644
-> --- a/fs/ntfs3/xattr.c
-> +++ b/fs/ntfs3/xattr.c
-> @@ -781,7 +781,7 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
->   		if (!buffer) {
->   			err = sizeof(u8);
->   		} else if (size < sizeof(u8)) {
-> -			err = -ENODATA;
-> +			err = -ERANGE;
->   		} else {
->   			err = sizeof(u8);
->   			*(u8 *)buffer = le32_to_cpu(ni->std_fa);
-> @@ -795,7 +795,7 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
->   		if (!buffer) {
->   			err = sizeof(u32);
->   		} else if (size < sizeof(u32)) {
-> -			err = -ENODATA;
-> +			err = -ERANGE;
->   		} else {
->   			err = sizeof(u32);
->   			*(u32 *)buffer = le32_to_cpu(ni->std_fa);
-> @@ -835,7 +835,7 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
->   		if (!buffer) {
->   			err = sd_size;
->   		} else if (size < sd_size) {
-> -			err = -ENODATA;
-> +			err = -ERANGE;
->   		} else {
->   			err = sd_size;
->   			memcpy(buffer, sd, sd_size);
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index c621a4c582f9..a9a2c2104fd6 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -2578,8 +2578,8 @@ int attr_insert_range(struct ntfs_inode *ni, u64 vbo, u64 bytes)
+ 			char *data = Add2Ptr(attr_b,
+ 					     le16_to_cpu(attr_b->res.data_off));
+ 
+-			memmove(data + bytes, data, bytes);
+-			memset(data, 0, bytes);
++			memmove(data + vbo + bytes, data + vbo, data_size - vbo);
++			memset(data + vbo, 0, bytes);
+ 			goto done;
+ 		}
+ 
+-- 
+2.43.0
 
