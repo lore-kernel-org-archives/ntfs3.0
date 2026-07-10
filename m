@@ -1,151 +1,93 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357632D7393
-	for <ntfs3@lists.linux.dev>; Fri, 10 Jul 2026 02:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCD0423A7C
+	for <ntfs3@lists.linux.dev>; Fri, 10 Jul 2026 11:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783650662; cv=none; b=HgPmkssoE7AJuuL9Bk8fSqEIp1ktvjDWfw18ZKE5y2g3zQ+qTtEt1mmKP4jvFfkn4k0JWkqkPug9yY5KDEW96noXq5IA/9/Z4aAgRU0DmiiDXY+KnjMNnj6tzjUEWNgW9gejggDFvPgffqXCvTPJQWdtIgzjIEcHnhqb5r5HRfc=
+	t=1783683643; cv=none; b=MGtGFG39pjEG8hdE5xOFuqtSKLzHD3dqbxVTBRj9Y7FKROMyf474RJTOd/Aj9JJqX2tTMslgxMxhrDpyHR8tCqMuTuSPio4nVx1VNAovTpdwnOCP21Xx4QeX/gF8G8/v7Wv4oIn7QshJazlVryZ22wN17RzwYaTpna/pdfk5/6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783650662; c=relaxed/simple;
-	bh=46IHW5kOXqyiB5yT1qHGgFEZCMXtxEsKIeHLPwqmOc0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XJ7obIYysm6HPJG9YdoRuu0GCMNrt0CxsfBYW+uAqyvfcJ9bz7iFx4nwwjf8cUt0/Soz1GQLmf8ufi8dZPO4fJSjaY/xSZ5voRWq1rqV7LU4zOwPkbf1DaWIG9Kvx5ZAorWF285bDsh0PTw1xwNZ7JcJvnLm19+0eXcKHODtwWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hvuYzAzX; arc=none smtp.client-ip=209.85.222.169
+	s=arc-20240116; t=1783683643; c=relaxed/simple;
+	bh=miOil+xxJFCIgjRTftVKJ15xaMaf8REijFU6jkaMko4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NR/oiGBKU2IGscWXmbeD4MN5oe3lJ8HlQrs7uCZjg/GDrzClJYCdcu7Ycb8uSSzMDgwhom0+Eg0/uX81tdGkqx1DBB63942eGt+bjU7zFn7Vp2GBVwGxUWCX9t9tuWhT54XkDSgNvXbvj1ln6YzAIggKgq+97VtkrYnDlxS6ax0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o6u06UMf; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hvuYzAzX"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-9217d13c276so18346185a.1
-        for <ntfs3@lists.linux.dev>; Thu, 09 Jul 2026 19:31:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o6u06UMf"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-475881b9a4bso814178f8f.3
+        for <ntfs3@lists.linux.dev>; Fri, 10 Jul 2026 04:40:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783650660; x=1784255460; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jcg048O+IxpZhUZpV0edccOsRb7Kf/SXUV8o+WElGKg=;
-        b=hvuYzAzXvOHm/8Tp5wJUueovocZTYzXNhaoDvTxzNIBUqkxMvQx6A8DTK9i4e66sRB
-         m5dP8TrEtIOir2Y0vL+Zv1ElngN+YI/dkVSUur+c5MLT/xHAamEDsr6NlplAF+XH0bVK
-         xsib7ueXclMvd/ummQvk5tq95vjUInHIcBcm+YBla9AH6oxAAdYXbzuM/TsMvaCYl8DM
-         f+4ex3w8xOCkdTOACojqFbgXOJPbLa1TswHPdepBQRDsPe49tIJAm+s3K6VvQ/P7m9oW
-         6SBh/nqt48W14esd8yp4oLvmoPE1uYRDHNtH6uvjzhSSyOLG/lHXJx2rx2FTdMZFPSYE
-         Gojw==
+        d=gmail.com; s=20251104; t=1783683620; x=1784288420; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=miOil+xxJFCIgjRTftVKJ15xaMaf8REijFU6jkaMko4=;
+        b=o6u06UMfy9PqJi22lRtFQ3/pjtZIPWKoTsqyPTVHr76549Bj/vfJP0HA3iG854L3W+
+         L3YvRNJy0kssQGkmfoGyh3aD2ZQDg4EHK/k8oVAYxaoAYaMZ6Yd4WU2BUcSdNZVUs0g8
+         CcFtU7mAzNOOnH/lvT2ZiwetrHIQ7SzwKrBoeMBMz/z2q+bApCPK3J11KKl0N9U6vTqM
+         ujNQl2uyMEiD8F5qTjYeOGj6jZVocB6Fs5XJXIQ3GJz+9QO5ezgG2a40A8yiAoiVulsQ
+         pjYwTFgUs7YuYR/Mgyr6drCg7X33yaNn0yihquMlHRFcrY9IJZP9UrRdMhq7rDJerJjI
+         K1Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783650660; x=1784255460;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1783683620; x=1784288420;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=jcg048O+IxpZhUZpV0edccOsRb7Kf/SXUV8o+WElGKg=;
-        b=MgqvikeVP/wdW96No6jqUSI7sMui2ACVnSll/RdB+K1lCo5Ev6Yn0uKBC5F4YT8pkB
-         ULSyBDr4dvoQMOBAxH9/QSBoFjevRevKxLcOyWb1vDrVB8JDG9QZRuWmlOBs3E8pdiOp
-         POyO6VWb0hK6VZ/rMUhi4hHbeCRPzQgvI/b1OEYe0WBXdo3aGC8XHkMCX5pw2pOM5yBv
-         5poagitu6lINUiGvfgtPo8yjCeHKkVX06Uana9lmlboOUQVHDzKFnjUy/ECKO5GEu4mk
-         UlTy1zheqCkeRnNeyVamQ7pJ0zLOm03dwa5Qe56mosT7HYJlDzI0UA/uZs779KfST3zw
-         JE0Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rp/kZ5WeyG488xVSrZQviVXOtkJhSFt8O0k0M4rvea0C060Mb/2AaCL6APfbAueJeArY4nZjw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwRy/wToVjgvWKZ30hqTW5Lpp3a7Iw+r7k+udzVekUQ8wAo+Hl/
-	Q/Dmqo9oSb203fatsyXdGUPZ6mkjzCLYoxZFNAPpBu1ldlDezgCOIEit
-X-Gm-Gg: AfdE7cmdKAuDmKIi90UjmTg6OesNUeKOy3dnf3SAxK3dp7IYuIe2gRRnKjpi4vqyXIT
-	mfbkoCYFxJwOnzHiU8DBvr0Y7m7JIQTAmdmTngZzKNLDplk7R1dWKR/edTaMhW36olxch+Y2R3b
-	qcqtsR+igl8e5IFX0U6HoVSXcBWrkXiE7yCH5jD4CraqjRzZqZb8YhBluIdMOx954CP585thRhT
-	grGD9my7trjDwrFpLiHSUnVhRnEMpZdSkWi0Ig17yDJwzXQqBhfJ34hEdOln9VoJd8l5tsNObXt
-	uj85KUIaNL+/XP62iPKsMlgiFKb7COZ2cl58phGIHkTn9Ya7BX2OSA5hKR2shWRCl2itW9dCI+f
-	FtEv1yhizRbLKp4x2bBjG/QiDMbWqpEka7qlRlNYaTtwyq02CNtLvWA0300oQt0drG5Su/6N4fq
-	yFE27N+dfe8L+QLEsbRsLaHFdqQmcpOealK7WYujDiCZxk+JwFsReBZuvSNgvPnNIFd44iZJUlp
-	jMrx/7uKgYZqXNrvnpPswyVA4ATxh2PdQIOFH2/cm8=
-X-Received: by 2002:a05:622a:a591:b0:509:3cd:b22f with SMTP id d75a77b69052e-51c8b2e2428mr106477241cf.23.1783650659833;
-        Thu, 09 Jul 2026 19:30:59 -0700 (PDT)
-Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51caae24d04sm6804331cf.18.2026.07.09.19.30.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 19:30:59 -0700 (PDT)
-From: Michael Bommarito <michael.bommarito@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Cc: Mihai Brodschi <m.brodschi@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: reject an oversized resident attribute on the inline iomap path
-Date: Thu,  9 Jul 2026 22:30:54 -0400
-Message-ID: <20260710023055.3746252-1-michael.bommarito@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=miOil+xxJFCIgjRTftVKJ15xaMaf8REijFU6jkaMko4=;
+        b=WIqJcXG5Cm7JzDdZFBCkYX6iB4EvHMwn4lSU09YyTKdbT8YDFMs3PqjNrBLRPi+1q2
+         MS/liwqc95Izl3pXGpfS82LKVdWBkfCwzCbwAlavgpjZI8w2Xs2eJ8e31uGM5a4Nn1o4
+         8Z6YQb74/g+8h3NfThpOG73aG65i9mry4U90+A80LXByzPZb55I3ILDXRi+yDvBoP9iN
+         7RyWRZrIV6hInZj4CxF8q3zcwL24tPAOSnrBA1sKhP4CkGKu1pdmcguEXzRoH/1NMDwr
+         ho764b7egVFCVrEYBuu5libnX+Nl5Spre2MNbcHcZeGzaQlAiVcg6XTuf2mY+IauqYHh
+         UMYQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rqj8TSv86u45mTqWLGcAzr+lmy4vRu4AWBb6AIY5lL0Ho5BmoIdQRmfjQtYxJTwNHKXHNctmg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNWVdV99kgTPNQ0ZtT+UFk8Eyppd+WY74PGGvP8yRVK7ZPGFrk
+	EpXNZKWp3MnbLPh7p4Qi5lKkOonfnLjqe3DaP29gmxqzkTE3xMed97QE
+X-Gm-Gg: AfdE7cnoaxedKisOLuR6ttbOXBd3fsf+Jv1dHjmZwmC+Vw6nKyf5Ld7C18T/mVU6zGh
+	W02VxlJ9umuZ+UBXQD4rMz7tq7Giv6uRO+NZIeUAsfPmocrptnHm31enfgbaxfnaazKPA45AJ6S
+	61DtoQhvAee6DXNuqyrEezcyOyrAp62+XBexRd9d6xqRrp2f/tK+SObr7JehmwGmLwur0PgVk8A
+	AhhqaWTOJ0fQEjUCxHN6AL0MPPbeQuepRGtv1ev3fOX68TY/vUPtkSbnd9lXnkOSRtCIg4ORz/s
+	a8+amOBePD91cuGLbOLRiFNBCCheTCRngY+G+PmrlhLVIFNkm2Cp34jr2OlLUCZ1j95kFwXHTV6
+	wL4EmO252pr8362M/mBn52OKSPoikNHtHw8OC7vfD4umvMH3X8+6xoDV7GMvrB5277po5iYriWh
+	XB+gVmrlzG/z2kuLpDD6MBqXJiCJVXfEZmcg==
+X-Received: by 2002:a05:6000:2382:b0:473:1706:7efe with SMTP id ffacd0b85a97d-47df073076amr11663574f8f.24.1783683619755;
+        Fri, 10 Jul 2026 04:40:19 -0700 (PDT)
+Received: from [192.168.15.197] ([84.239.26.237])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47df6a31dd5sm13988073f8f.16.2026.07.10.04.40.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jul 2026 04:40:18 -0700 (PDT)
+Message-ID: <b077f226-8bff-489c-a260-32cbba9ae7c8@gmail.com>
+Date: Fri, 10 Jul 2026 14:40:16 +0300
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs/ntfs3: reject an oversized resident attribute on the
+ inline iomap path
+To: Michael Bommarito <michael.bommarito@gmail.com>
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ stable@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260710023055.3746252-1-michael.bommarito@gmail.com>
+Content-Language: en-US
+From: Mihai Brodschi <m.brodschi@gmail.com>
+In-Reply-To: <20260710023055.3746252-1-michael.bommarito@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-attr_data_get_block_locked() maps a resident attribute as an IOMAP_INLINE
-extent using the resident value length taken straight from the on-disk
-attribute, without checking that it fits within the single page that backs
-an inline extent.  mi_enum_attr() only bounds that length against the MFT
-record size, so a corrupted volume with MFT records larger than a page can
-present a resident $DATA whose length exceeds PAGE_SIZE; on a buffered
-write the inline extent then fails the page-fit invariant and
-iomap_write_end_inline() trips BUG_ON(!iomap_inline_data_valid()).
+Hi Michael,
 
-Impact: writing to a resident file on a mounted crafted NTFS volume whose
-MFT records are larger than a page oopses the kernel at
-fs/iomap/buffered-io.c:1061.
+Agree on the code change.
+However, the iomap_inline_data_valid() bug check was removed in 7.2-rc1.
+Maybe the comment should be reworded.
 
-Reject such an attribute in attr_data_get_block_locked(), before the inline
-buffer is allocated and the size reaches the iomap core.
-
-Fixes: 099ef9ab9203 ("fs/ntfs3: implement iomap-based file operations")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
----
-
-The oops on current mainline (the inline buffer is kmemdup()ed), reproduced
-on 7.1.0-rc4 with KASAN by writing to a resident file on a crafted volume
-whose resident $DATA value length exceeds PAGE_SIZE (reachable only with MFT
-records >= 8 KiB):
-
-  kernel BUG at fs/iomap/buffered-io.c:1061!
-  RIP: 0010:iomap_write_end+0x48e/0x5c0
-   iomap_file_buffered_write
-   ntfs_file_write_iter
-   vfs_write
-
-This also matters for the queued "ntfs3: Allocate iomap inline_data using
-alloc_page" change: there the same oversized data_size makes
-memcpy(page_address(page), resident_data(attr_b), data_size) write past the
-single alloc_page() page.  Bounding data_size here prevents both.
-
-With this patch the offending write returns -EINVAL; normal resident and
-non-resident writes are unaffected.
-
- fs/ntfs3/attrib.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index e61c5bf7e27e4..d41ca930daebc 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -1039,6 +1039,21 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
- 
- 	if (!attr_b->non_res) {
- 		u32 data_size = le32_to_cpu(attr_b->res.data_size);
-+
-+		/*
-+		 * A resident attribute is mapped as an IOMAP_INLINE extent,
-+		 * which must fit within a single page: iomap_write_end_inline()
-+		 * asserts iomap_inline_data_valid(), and the inline buffer is a
-+		 * single page.  mi_enum_attr() only bounds the resident value
-+		 * length against the MFT record size, so a corrupted volume with
-+		 * records larger than a page can report data_size > PAGE_SIZE.
-+		 * Reject it here, before it overflows the inline page or trips
-+		 * the iomap BUG_ON.
-+		 */
-+		if (data_size > PAGE_SIZE) {
-+			err = -EINVAL;
-+			goto out;
-+		}
- 		*lcn = RESIDENT_LCN;
- 		*len = data_size;
- 		if (res && data_size) {
--- 
-2.53.0
+Best Regards,
+Mihai Brodschi
 
