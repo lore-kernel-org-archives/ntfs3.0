@@ -1,168 +1,121 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9062C08C8
-	for <ntfs3@lists.linux.dev>; Sat, 11 Jul 2026 15:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371AF39A061
+	for <ntfs3@lists.linux.dev>; Sun, 12 Jul 2026 13:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783783609; cv=none; b=KjuKuRs8PgCZeKTl1ATBmYHEq+1sNR53GT2ownTwf5VOh5CXd2oGkMDd5WpknIt10aZPdDwDNVDxYl4NeWHANxppYUJMvoAwG7pfwO1m2gDQf186+u0GsWYqi0JfVJYc0g8vXVzqiXxT2+E9hi3+4FOjXHcT37awr2zK7nP0prQ=
+	t=1783863288; cv=none; b=BcUJzpgs1yfZaGcMVU6CDlBiG3wcQMCnG5vlHuBVjeQM0JjPRDWSghIYexpPIfZxdtGRU3rvG1+5U7BiW1o8ExKiAIe9zSDAtMQAtK2rV8XUSH29ytI/3du7C85EuXlCJNSSAvjBuortowO/00u/e945BPjMlAhgAxahJl3R1s8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783783609; c=relaxed/simple;
-	bh=qu2LqjVG3gwCwIWPHQe2SrI7PA5vY7y+JJc4s9CiPJ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dWLR651xfJQIWiivVu+HAwFCV6axcxFRQPI6QCfMrFy4WU1yivLPGkg2YJlWeA3HYCsRpT0ykPXNQ8E47xU/e8sc9MwnRW3L3alY5KzvnjmpNSv9I1K/1V96X2BysNoIGVwtIB8lSjW5O9ExS5r/xiQZhbn+IPikRu6ZG0Ab6cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f0pTojBw; arc=none smtp.client-ip=209.85.222.174
+	s=arc-20240116; t=1783863288; c=relaxed/simple;
+	bh=SRX9mHeiwzKQkz+Dne4S1XGxWnRHLWPmixGyWmOgWHI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gEPsx3mRZ/iipR/PzPgO7zY6mFaFnXx3Jytc0bsHEMD0ricq2bbpyxOp2SZtXFtJ+rDt759+SEUygvpcXlEe5P6vlSAOQWYeNGwWDX0AKptUrtxj/DbSTe/i8+0QpQXGZgk+g3WyBE9STfyIZad7FhEIhmCQkoUEppLxjTlmqOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CmVpeWD/; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f0pTojBw"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-92efc443c61so21857785a.2
-        for <ntfs3@lists.linux.dev>; Sat, 11 Jul 2026 08:26:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CmVpeWD/"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38125cebfdaso3048523a91.1
+        for <ntfs3@lists.linux.dev>; Sun, 12 Jul 2026 06:34:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783783607; x=1784388407; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783863286; x=1784468086; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OGvjcggjuRHrVJRozwL5aIcsoUIst8NdaqhwI9EK350=;
-        b=f0pTojBwzZymx7KatomklpoiiutH9026tPAgh9eodiJBt9w9xLZQej5ecSSC8rotmW
-         CuqZsEH7NDuV8egAzeLO1S30iW05wsCdWhcFstNJBMo232Yd41E0a2h2y0Cz3VIHyiO7
-         wgYbisd7+CEQQK3egU+v+LXwnPf5uhuwTszSh+RMXpImoUFkor+84zWstcK7wdaape3s
-         C2zRRIJYoigHqWwOMhaZebHR9EOeRBpJCTFsF8XwRWObEhOt+ktjwZqj7URE/ITMzWEj
-         rzfJ7UGRIBQHeZzfMM5ub37lX1js3INBQar+qtPpng8rkKzKjjCT4tWlSYKq6Z2YEr5i
-         oaUg==
+        bh=Tonu3RNgJXI3ufg6NmZZ2X740hE2BOXsOBfoXwm3l2o=;
+        b=CmVpeWD/WDssKeFQjU8xBqEonkossCcmEhq8hF4WJWICHez9yNb2lhIYYZxNexqJHN
+         lAx1TIpTkXQ1rAxBaGhn5S8b70n4CWOmjvZ4G80kdiePZbg3JjaeFqDGd6Ix6m92adEB
+         VKq4rS3j9nLaO3pbFoSw9yD4MRHorxv0QyFp4Fz2h99nmRL3eplu01GeguYW0fMwvE/d
+         sotJ3lgpBx0Ed635INaxIXBeoG4TtgMhwujWkteyueFQf4FCZ0DCoWVntDQAhgNPv1/E
+         mC/ulKbp1soOJJSKFa0c5YUtA5TxdlsvHNfev0Rjlup4LsSQN3OtAzn0hYikIr0IrzI/
+         1g0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783783607; x=1784388407;
+        d=1e100.net; s=20251104; t=1783863286; x=1784468086;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OGvjcggjuRHrVJRozwL5aIcsoUIst8NdaqhwI9EK350=;
-        b=IXTBsypfV8FFCVhfLPX9XK4S2J1yJGPW+SKLa2unPzXkwhirXbrbfBMBiq7KILtOHw
-         H05c1p8WtS0E3grorV/aexyEmYby886OG+ukJBGDQYhlGMiIT3Fsnf6xMEFuzzjQeqKn
-         mgzAxfoKc0lECCtX0J+XOFDcY8o1C82BNMwqpF0IJDxoGjqar9Lb+eyMKRlUJ1kqiKHA
-         mKmL1uTD1yT8WMdiZC9KfKK1XleKemu6h7Xm/cFp08xnCgE99cvF+BmFlBz7nlPx0F3v
-         qCjNdMmKjR+zEPhTxkbPSCmA4Wij+008dcq9zwhbUbHHBvXWGxKN1sCdgSYz5gX9rj2R
-         /DPw==
-X-Forwarded-Encrypted: i=1; AHgh+RqhFO0zFDKJONvptdP5krpjL7lIzlliCGwj23AXIeG63OzrDl15nSIFrvcwqkUueZLsaQXN8w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzigH4wadPnDVPdqVWaXZSEMAk6k8DDss4U/GGyWSULOA0XKCCF
-	Prpdg5ggFbXL05xFwWG3HNJ+0EUSguDkxEX7L69ZtjwJMpCHdYktPXeC
-X-Gm-Gg: AfdE7ckHZC6fe+q1JZtVxucoIDOzDWLnUMTRLilPG6FgAIXMl2gyD5R6abEofvWjA8b
-	7+9zhciP/EFYj/uJ/iKcox0LT9cDeDXgzN30aV5lw4hK6Bw4dj6jPMkx8mzvEIVvvbV5XdqULt3
-	4W2scU/EyOf/KAU79SLZBfVm7g8TM7R8GlzUxyuuklGfGzoEZmE+BVXqnsXjo912BuYSALd+35X
-	p9EttycizkEBxf/kF+t+slqgd3kKAhPvDjZBZ4HysaL5KiPoSw2hN0jcSDXB5tZsHDd/5SYpYw4
-	UjnbMH7ciWlctISSYHJ5bOlE9X2pwgcJTC/U8URIO/lr99BKb2WVsKjPfMR4ztdqxzzr2MDeSxz
-	IrxOTrWjZiL4QCGs5DxtL1jWaQC5CsA8HUpTyXOxICQEfXZfDN47jNHWUWvuYq7ApichNn9wUQ8
-	qhFFFQgwkVWMeaTk+Z65Z1ZgWsi8eVI3Tiz2uh8ge45SNkxiVx15ld2ViWaXpvp32U4W1fEQO4Z
-	ZH1nD1rHQ==
-X-Received: by 2002:a05:620a:2245:10b0:92e:51fc:3f1a with SMTP id af79cd13be357-92ef2c844demr268665485a.67.1783783606862;
-        Sat, 11 Jul 2026 08:26:46 -0700 (PDT)
-Received: from server0 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5b492ebsm468641285a.9.2026.07.11.08.26.45
+        bh=Tonu3RNgJXI3ufg6NmZZ2X740hE2BOXsOBfoXwm3l2o=;
+        b=Y6E1+DlP3raiXd8SoeTtr0qVYd4to3yzlJXiIgj0ybI83jPk4ugUtHO+jyUgOpONOl
+         cPcyk9IFW6xjkCBAioFJHDsy6pxoms1IFh4VXc1L0hvJRzgs1ftsTyoN+GNi4wF9U2fU
+         cUoULjgjbGgwhhvnQAY8tZtg2lY1f/rvs70jBCvjTiiGA4dCFwNLDja6Twol4zaFGlpZ
+         5ebojZtHdH1RrP0+GxS93kG7Rb9FURccwJFhk8tMOkJDf708Jbmp+oA00JBPlBZHetks
+         60sfwAeDAa200oyJBeX9R2Sdz4kEyljQ00AZcWlPe6k4kW9G/FpzUN7R3eQF/asJWUVd
+         lSRQ==
+X-Gm-Message-State: AOJu0YxfVmTaUC+31yc37wKAZXfWHd6+sAAsdSWCrQ5cJr6qNzajNyFo
+	a4wkmJ2lEH1uE5KVSTCcaDsAxLOYkI3JJ36l8Tis/aupu+ps0RyqjD97
+X-Gm-Gg: AfdE7cnft8sLUcxNug9XZxkNU7u/MvKipIpvMum0ZxIVsu9y16/1C0NxGLLeOJpHQR5
+	eATzNr8I4PwQMvnYWJgzhwJedtYIpk4dj7Hop4GFGnBYQHuAvegA6n5DJL3OtnfF/W6l9CyEgI+
+	6LdlfMYBWWIMpx7C4qU3jY7NlyvYqL4ricMZEwbfg3JBTNY6BfvDbpU9vYtQOxuJynT34TEQgC1
+	xNLcpDqTnlw6aMBw8EG4UXrvLvzS+O21/ppB9zdfoD7FwcgG/YiN+8o8T6xHlH+BJsh5ogfDAHy
+	1/jQ2fG7Mkmrm9fsMlYfzszqCth2KwHVQ4UMQQAn3cd+AcqVGkYo/J/1cdAIGqJ802PY937cdDH
+	BjD8DZUO0bp5zRcEPh+5vIx5131UAJ/Jd4gcC6burqlBgM8iCQvDGAIXS/lmuZe7vxaWomHq8xW
+	VE0zhp0m8RToooVsoMUJhA3rvEuQ3QIbo9Z1VW6TWR6jus8GpdLUAXpnuWpmug+GZhYgty
+X-Received: by 2002:a17:90b:2641:b0:387:e0db:3fab with SMTP id 98e67ed59e1d1-38dc7776ec1mr5836853a91.36.1783863286514;
+        Sun, 12 Jul 2026 06:34:46 -0700 (PDT)
+Received: from fx.tailc0aff1.ts.net ([206.206.192.132])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-313b9ca880fsm19813101eec.23.2026.07.12.06.34.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 08:26:46 -0700 (PDT)
-From: Michael Bommarito <michael.bommarito@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Cc: Mihai Brodschi <m.brodschi@gmail.com>,
+        Sun, 12 Jul 2026 06:34:45 -0700 (PDT)
+From: Weiming Shi <bestswngs@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] fs/ntfs3: reject an oversized resident attribute on the inline iomap path
-Date: Sat, 11 Jul 2026 11:26:30 -0400
-Message-ID: <20260711152630.2975127-1-michael.bommarito@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	linux-kernel@vger.kernel.org,
+	Xiang Mei <xmei5@asu.edu>,
+	Weiming Shi <bestswngs@gmail.com>
+Subject: [PATCH] fs/ntfs3: do not mark frame pages uptodate on read error
+Date: Sun, 12 Jul 2026 06:34:26 -0700
+Message-ID: <20260712133427.435377-2-bestswngs@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-attr_data_get_block_locked() maps a resident attribute as a one-page
-IOMAP_INLINE extent: it allocates a single page, copies the resident
-value into it with memcpy(), and hands that page to ntfs_iomap_begin()
-as the inline data.  The copy length is the on-disk resident value
-length (res.data_size), and mi_enum_attr() only bounds that length
-against the MFT record size.  A corrupted volume with MFT records larger
-than a page can therefore present a resident $DATA whose length exceeds
-PAGE_SIZE, and the memcpy() then writes past the single destination page.
+ni_read_frame() ends with a loop that marks every page of a compressed
+frame uptodate regardless of whether the read succeeded:
 
-Impact: reading or writing a resident file on a mounted crafted NTFS
-volume whose MFT records are larger than a page overflows the one-page
-inline buffer in attr_data_get_block_locked() with attacker-controlled
-bytes.
+	out:
+		for (i = 0; i < pages_per_frame; i++) {
+			pg = pages[i];
+			SetPageUptodate(pg);
+		}
 
-Reject such an attribute in attr_data_get_block_locked(), before the
-page is allocated and the copy is made.
+Non-critical frame pages come from __filemap_get_folio(FGP_CREAT) and are
+not zeroed. On an error path that reaches out: before frame_mem is
+written, these pages keep uninitialized page-allocator contents but are
+still marked uptodate. A later read() is then served from the page cache
+and returns that stale kernel memory to user space.
 
-Fixes: 099ef9ab9203 ("fs/ntfs3: implement iomap-based file operations")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+For an unprivileged user mounting a crafted NTFS image this is a
+repeatable kernel memory disclosure.
+
+Mark the pages uptodate only on success; on error leave them !uptodate so
+the read path re-reads them or reports the error.
+
+Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+Reported-by: Xiang Mei <xmei5@asu.edu>
+Signed-off-by: Weiming Shi <bestswngs@gmail.com>
 ---
-Changes since v1:
-- Reworded the code comment and changelog.  The oversized resident length
-  overflows the single alloc_page() page that attr_data_get_block_locked()
-  copies the resident value into; v1 described the older
-  iomap_write_end_inline() BUG_ON(!iomap_inline_data_valid()), which was
-  removed in 7.2-rc1.  Thanks to Mihai Brodschi for catching the stale
-  reference.  The fix itself is unchanged.
+ fs/ntfs3/frecord.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-The unbounded resident length dates to the iomap conversion; only the
-manifestation changed when the inline buffer became a single alloc_page():
-  - 7.2-rc: the memcpy() into the one-page buffer overflows the page
-    (out-of-bounds write, below).
-  - 7.0..7.1: the buffer was kmemdup()ed at the real size and the oversized
-    length instead tripped BUG_ON(!iomap_inline_data_valid()) in
-    iomap_write_end_inline() (a denial of service).
-The same data_size > PAGE_SIZE check prevents both, so it is the correct fix
-across the stable range.
-
-Reproduced under QEMU + KASAN on 7.2-rc2.  A resident $DATA value length
-above PAGE_SIZE, as a volume with MFT records larger than a page presents,
-was supplied while the alloc_page() + memcpy() path ran unchanged; the stock
-kernel faults with a KASAN out-of-bounds write in
-attr_data_get_block_locked():
-
-  BUG: KASAN: out-of-bounds in attr_data_get_block_locked
-  Write of size <data_size> by task ...
-   __asan_memcpy
-   attr_data_get_block_locked
-   attr_data_get_block
-   ntfs_iomap_begin
-   iomap_iter
-   iomap_file_buffered_write
-
-With the patch the same access returns -EINVAL and does not fault.  An
-in-bounds resident file (control) and a non-resident file are unaffected on
-both the stock and patched kernels.
- fs/ntfs3/attrib.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index c621a4c582f9e..2f73714a2db97 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -1034,6 +1034,21 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 2d2644d80017..862baafb80e3 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -2467,7 +2467,8 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
+ out:
+ 	for (i = 0; i < pages_per_frame; i++) {
+ 		pg = pages[i];
+-		SetPageUptodate(pg);
++		if (!err)
++			SetPageUptodate(pg);
+ 	}
  
- 	if (!attr_b->non_res) {
- 		u32 data_size = le32_to_cpu(attr_b->res.data_size);
-+
-+		/*
-+		 * A resident attribute is copied into a single page below
-+		 * (alloc_page() + memcpy()) and mapped as a one-page
-+		 * IOMAP_INLINE extent by ntfs_iomap_begin().  mi_enum_attr()
-+		 * only bounds the resident value length against the MFT record
-+		 * size, so a corrupted volume whose records are larger than a
-+		 * page can report data_size > PAGE_SIZE; copying that many bytes
-+		 * would overflow the single destination page.  Reject it.
-+		 */
-+		if (data_size > PAGE_SIZE) {
-+			err = -EINVAL;
-+			goto out;
-+		}
-+
- 		*lcn = RESIDENT_LCN;
- 		*len = data_size;
- 		if (res && data_size) {
+ 	return err;
 -- 
-2.53.0
+2.43.0
 
