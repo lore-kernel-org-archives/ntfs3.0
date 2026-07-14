@@ -1,73 +1,48 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1EA34A796
-	for <ntfs3@lists.linux.dev>; Mon, 13 Jul 2026 17:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739323BCD29
+	for <ntfs3@lists.linux.dev>; Tue, 14 Jul 2026 16:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783965084; cv=none; b=PnnkayfD4eeH8lvh33kttIMg4famTiXrUB2YSrRveQvJXDWOYK9QF1J+ERc1cGvEYA7myEZDm6LRGjIwbkYxPBi6E0TWXn/tqcwcpBRaCA9sPiUIXi6K3t0MZQW9STzFIHdFQoOqk89NXF/96WmrpJ7RapZUCqNxcdStrkHzJQ8=
+	t=1784047218; cv=none; b=avhJZ1pkoDqgnh23Jwtuq+tqCIqcY00tmZ7fYznMLoDsQTB0CmMqMYtZjMD467zn1Cbg7DBD6MJN7dckwGH1tIqxFopx820dVAYeq2t8FggQyXRXn8m/m47siaubCxBEzYe0YeF1FOgbQAe2BHYCSmTCkkrkfsvxfiY7ESrd3DY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783965084; c=relaxed/simple;
-	bh=lIuSLdLFUMYHYIkQND+5ezv/2Gm5SAaNrjxK7kuHO+s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cZGWpOYtOJU+Rr7qQ6xVqJPAHz/215hx7Q9u8w05CztTjPQzNN3nGhGuU1GgKX85VAQr0w+V7ilxBN3j/PSDgvhRVeiOKrpulhkeCZ2EjKMf60s9zosS5Wd2bhoSIlam1gRlQXJTLbvQ+RbuQlYHY/ThE/3KSJ+eZZ6phV/2p3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HTnoiAQI; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784047218; c=relaxed/simple;
+	bh=0kpiHS21gt9uQfaRwA899Pldq3HylqxldT34Bp2ck3g=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=j3jq/Y4bbf6X8pwNaROsKbCX6SkReKDf7pf6bq+kvTRWwmZ/sGciMTlCupDAdzp0wfn+eylHE1kvCWMARyUi158XGWYIMiZ9HVzG4MA4oKeJ6pYStt0omo6rYfqxslwQmCMrqbyOotfcVbF4NJgXHpINjumaCKnfPo9AjAsbGn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=Sc1/a5gX; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HTnoiAQI"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-388b404ea89so154717a91.0
-        for <ntfs3@lists.linux.dev>; Mon, 13 Jul 2026 10:51:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Sc1/a5gX"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id AC4CB1D37;
+	Tue, 14 Jul 2026 16:40:22 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=Sc1/a5gX;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 411A11F9F;
+	Tue, 14 Jul 2026 16:40:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783965083; x=1784569883; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7b5s+xdKt531buNfoF0W/b2tSHU/H/fnzI1QXPkyZpQ=;
-        b=HTnoiAQI+hfpVL3o+r91CCnTd6mnKXr/3hXMUQUAxqr22ZZFWx5tAqEkj1z1Iu0gV/
-         6jLQKRy2I8YsAI25REco02dF0I5v1GHuwFdTeYRg1cixTisOyLa2H2o0+8xhDmMe8baB
-         u7rTWNWYA5NZc1m5Ppx1e1b5UKOIfFhlzSWIilMStOl8Ml3qODGr+JyQfDBPcZtWEo10
-         DC1OZxWNVM4SBAxbnZCOO3WQ5e6lRjHf6lb+5dT+siObsntDjN9jDlwEIc0/RXnPRf2w
-         cBKjItmSX/pw7q93eCU9zFxo2VMEtzWMkQe5e4MLVtBAcWf+axbmxCwWBC77wjOmXpoa
-         Jf5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783965083; x=1784569883;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7b5s+xdKt531buNfoF0W/b2tSHU/H/fnzI1QXPkyZpQ=;
-        b=fqj9vb2rWOcmyhRyAGUiWbjf260qYoYiDXMj6Tl1e6aQJNR1pG94eMVtyBdmt+S1Bi
-         2PnJDDraj8jL+ForbEssYdKl1SK5HxKxAyVooUzu6ytxTVqFK+LtGfXffeFOm9zDDiyV
-         Q3YbFGEmlZa+UipBD6DIjPet7fJpVmU8cnDeU78PFZiqX8VUfp5PKB3RxjIweo0wNyTV
-         953DDJOeJOoW4XJBzFPMmy3DHUcg2iTlEoIVwZXuQVubuckpeAhXmcioF4HBoEZJliCJ
-         q7pBqG5TfM2056jmkvXrns9Lmjwjtmg9KHA5UL8xm3xEfKtRByCT9jVqNFFtNp7HO4d0
-         Bpmg==
-X-Gm-Message-State: AOJu0YxhGwmSeKwvz3TbRzb2jtCenya5BSksNw7MFlwWnMsaWNigizmj
-	VvzVed6rSQqAbBJ38+qK/7+Div7QDcJJWrdd2ASrjEEf/XomXKgjC8Vp
-X-Gm-Gg: AfdE7cnVbu0ctLKDAcCmKxo7y06V6/tslBnRM+BFJvNSYRRL9cKACPH8dwMx6XGh0Kz
-	DH4Gk02RzPxFAV7pby1YBCQtUqBkJOmtaW763mQat+L8SHUs25/audGzBTu7ni6ICTDQCb/qwt+
-	q7jtI/soyxfhJh5BHE/APXvafTm2lEQJHgBjyf7fbmtbCk4viZrIj0TX/oKrYFuyEZmocmx6eUw
-	BBA6bDLlmuQsgehmplvd2cSO9JUJyncfZ8G8Qv9fft3VU6dCXBfH+ZU612RzCWP3VVjcCdNClnE
-	SM/At48OdBti2Ytdef+8LcF2edicGSPU9LC2FnR4jgKBstlI/VQXNaHIzYyKNx8PkXipnJux2KQ
-	DPEZ8LluXGG9JjFCoz4Do/50rlKIR6VnxjEA232a2bi/3PUXoKIXw8vNPXX8+QpoJOj4fre7stT
-	fofM54MeU2KTm/dXElJkBckVQaqcysONa0COaoB9o=
-X-Received: by 2002:a17:90b:2548:b0:36b:4d63:4a93 with SMTP id 98e67ed59e1d1-38d15364030mr14878803a91.13.1783965082598;
-        Mon, 13 Jul 2026 10:51:22 -0700 (PDT)
-Received: from primary ([223.181.22.8])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311747f596asm72354027eec.2.2026.07.13.10.51.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 10:51:22 -0700 (PDT)
-From: Vidhu Sarwal <vidhu.linux@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Vidhu Sarwal <vidhu.linux@gmail.com>,
-	syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com
-Subject: [RFC PATCH] fs/ntfs3: prevent positive E_NTFS_NONRESIDENT from reaching writeback error handling
-Date: Mon, 13 Jul 2026 14:11:40 +0530
-Message-ID: <20260713084140.249515-1-vidhu.linux@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	d=paragon-software.com; s=mail; t=1784047212;
+	bh=HEE+ecgOXTcpcYexNAdvZP87CBen8tyuXt9xvtkDW/Y=;
+	h=From:To:CC:Subject:Date;
+	b=Sc1/a5gXbDsPSxhuWHIRiHmYLRLqZapeDsW5FRdPMFlLf1lZLaVb8I0P9/RW6OQmX
+	 M1u6KIXtz6r7wqWh89XWS36ETKfxJr7SfsZAv9BjDaleoVv0gVIzSDeZMZcR57i6il
+	 uRJ44OUMwB4deDpiQUs0pmM3JpgVOZSg90x4xl9g=
+Received: from localhost.localdomain (172.30.20.173) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 14 Jul 2026 19:40:11 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH] fs/ntfs3: cosmetic fixes and improvements
+Date: Tue, 14 Jul 2026 18:40:03 +0200
+Message-ID: <20260714164003.32096-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -75,61 +50,316 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-attr_data_write_resident() returns the internal positive status code
-E_NTFS_NONRESIDENT when the DATA attribute becomes non-resident.
-ntfs_writepages() propagates this value into generic writeback error
-handling, which expects a standard negative errno and triggers
-WARN_ON_ONCE(err > 0).
+Get rid of unnecessary duplications, improve readability, clang-format
+the code.
 
-Translate positive E_NTFS_* status codes to -EIO before recording
-the writeback error. This prevents positive internal status codes from
-reaching generic writeback code while preserving the existing behaviour
-of treating this path as a writeback error.
-
-Reported-by: syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=57f9327d593d301ce2a2
-Signed-off-by: Vidhu Sarwal <vidhu.linux@gmail.com>
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
-RFC:
+ fs/ntfs3/dir.c     |  6 +++---
+ fs/ntfs3/file.c    |  2 +-
+ fs/ntfs3/frecord.c |  1 -
+ fs/ntfs3/fslog.c   | 21 ++++++++-------------
+ fs/ntfs3/index.c   |  7 +++----
+ fs/ntfs3/inode.c   |  4 +++-
+ fs/ntfs3/lznt.c    |  4 +++-
+ fs/ntfs3/ntfs_fs.h |  6 +++---
+ fs/ntfs3/run.c     |  9 +++++----
+ fs/ntfs3/super.c   |  9 +++++----
+ fs/ntfs3/xattr.c   |  1 -
+ 11 files changed, 34 insertions(+), 36 deletions(-)
 
-I'd appreciate guidance on whether -EIO is the appropriate errno here.
-
-E_NTFS_NONRESIDENT indicates that the DATA attribute became
-non-resident during writeback. Translating it to -EIO prevents the
-positive internal status code from reaching generic writeback code and
-preserves the existing behaviour of treating this path as a writeback
-error.
-
-However, if the intended behaviour is to retry the write using the
-non-resident path instead of failing it, then the correct solution would
-be more than a simple errno translation. The proposed change assumes the
-current terminal-error behaviour is intentional.
- fs/ntfs3/inode.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+index 1a96289a1b94..2816490993ec 100644
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -305,9 +305,9 @@ static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
+ 	if (sbi->options->nohidden && (fname->dup.fa & FILE_ATTRIBUTE_HIDDEN))
+ 		return true;
+ 
+-	if (sizeof(struct NTFS_DE) +
+-	    offsetof(struct ATTR_FILE_NAME, name) +
+-	    fname->name_len * sizeof(short) > le16_to_cpu(e->size))
++	if (sizeof(struct NTFS_DE) + offsetof(struct ATTR_FILE_NAME, name) +
++		    fname->name_len * sizeof(short) >
++	    le16_to_cpu(e->size))
+ 		return true;
+ 
+ 	name_len = ntfs_utf16_to_nls(sbi, fname->name, fname->name_len, name,
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index d601f088618c..fa8e2e56ff3f 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -894,7 +894,7 @@ static ssize_t ntfs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 
+ out:
+ 	inode_unlock_shared(inode);
+-	file_accessed(iocb->ki_filp);
++	file_accessed(file);
+ 	return err;
+ }
+ 
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 9b979e55adf8..547c8ab1b6b8 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -2919,7 +2919,6 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni, loff_t offset, bool data)
+ 				break;
+ 			}
+ 		}
+-
+ 	}
+ 
+ 	vbo = (u64)vcn << cluster_bits;
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index f038c799e7ac..cc24c23e4db9 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -2613,7 +2613,6 @@ bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
+ 	const bool has_subnode = hdr_has_subnode(hdr);
+ 	__le16 mask;
+ 	u32 min_de, de_off, used, total;
+-	const struct NTFS_DE *e;
+ 
+ 	if (has_subnode) {
+ 		min_de = sizeof(struct NTFS_DE) + sizeof(u64);
+@@ -2632,8 +2631,8 @@ bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
+ 		return false;
+ 	}
+ 
+-	e = (const struct NTFS_DE *)((const u8 *)hdr + de_off);
+ 	for (;;) {
++		const struct NTFS_DE *e = Add2Ptr(hdr, de_off);
+ 		u16 esize = le16_to_cpu(e->size);
+ 		u16 key_size = le16_to_cpu(e->key_size);
+ 		u16 data_size;
+@@ -2649,7 +2648,6 @@ bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
+ 		if (de_is_last(e)) {
+ 			if (key_size)
+ 				return false;
+-
+ 			break;
+ 		}
+ 
+@@ -2658,7 +2656,6 @@ bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
+ 			return false;
+ 
+ 		de_off += esize;
+-		e = (const struct NTFS_DE *)((const u8 *)hdr + de_off);
+ 	}
+ 
+ 	return true;
+@@ -3544,8 +3541,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 		 * bound here so the memmove cannot reach past the entry.
+ 		 */
+ 		if (le16_to_cpu(e->view.data_off) > le16_to_cpu(e->size) ||
+-		    le16_to_cpu(e->view.data_off) + dlen >
+-			    le16_to_cpu(e->size))
++		    le16_to_cpu(e->view.data_off) + dlen > le16_to_cpu(e->size))
+ 			goto dirty_vol;
+ 
+ 		memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
+@@ -3756,8 +3752,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 
+ 		/* See UpdateRecordDataRoot for the rationale. */
+ 		if (le16_to_cpu(e->view.data_off) > le16_to_cpu(e->size) ||
+-		    le16_to_cpu(e->view.data_off) + dlen >
+-			    le16_to_cpu(e->size))
++		    le16_to_cpu(e->view.data_off) + dlen > le16_to_cpu(e->size))
+ 			goto dirty_vol;
+ 
+ 		memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
+@@ -4653,11 +4648,11 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+ 		}
+ 
+ 		/*
+-         * find_dp() only validates that target_vcn is the first
+-         * cluster covered by dp.  The walk through lrh->lcns_follow
+-         * further entries must stay within the allocated
+-         * dp->page_lcns[] array, which is sized by dp->lcns_follow.
+-         */
++		 * find_dp() only validates that target_vcn is the first
++		 * cluster covered by dp.  The walk through lrh->lcns_follow
++		 * further entries must stay within the allocated
++		 * dp->page_lcns[] array, which is sized by dp->lcns_follow.
++		 */
+ 		if (le64_to_cpu(lrh->target_vcn) - le64_to_cpu(dp->vcn) + t16 >
+ 		    le32_to_cpu(dp->lcns_follow)) {
+ 			err = -EINVAL;
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 2b439ac04356..4afacfc6ff89 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -612,8 +612,8 @@ static const struct NTFS_DE *hdr_insert_head(struct INDEX_HDR *hdr,
+ static bool index_hdr_check(const struct INDEX_HDR *hdr, u32 bytes)
+ {
+ 	const bool has_subnode = hdr_has_subnode(hdr);
+-	const u16 min_size = sizeof(struct NTFS_DE) +
+-			     (has_subnode ? sizeof(u64) : 0);
++	const u16 min_size =
++		sizeof(struct NTFS_DE) + (has_subnode ? sizeof(u64) : 0);
+ 	u32 end = le32_to_cpu(hdr->used);
+ 	u32 tot = le32_to_cpu(hdr->total);
+ 	u32 off = le32_to_cpu(hdr->de_off);
+@@ -2131,8 +2131,7 @@ static struct indx_node *indx_find_buffer(struct ntfs_index *indx,
+ 			if (err)
+ 				return ERR_PTR(err);
+ 
+-			r = indx_find_buffer(indx, ni, root, vbn, n,
+-					     depth + 1);
++			r = indx_find_buffer(indx, ni, root, vbn, n, depth + 1);
+ 			if (r)
+ 				return r;
+ 		}
 diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 0c9bd669117d..9458867c6b0b 100644
+index 666addbd808e..15bf7044e5aa 100644
 --- a/fs/ntfs3/inode.c
 +++ b/fs/ntfs3/inode.c
-@@ -1019,6 +1019,15 @@ static int ntfs_writepages(struct address_space *mapping,
+@@ -606,7 +606,7 @@ static void ntfs_iomap_read_end_io(struct bio *bio)
+ }
  
- 			folio_unlock(folio);
- 			if (err2) {
-+				/*
-+				 * attr_data_write_resident() can return the
-+				 * positive internal code E_NTFS_NONRESIDENT;
-+				 * both mapping_set_error() and writeback_iter()
-+				 * need a negative errno and warn on a positive
-+				 * value.
-+				 */
-+				if (err2 > 0)
-+					err2 = -EIO;
- 				mapping_set_error(mapping, err2);
- 				if (!err)
- 					err = err2;
-
-base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+ static void ntfs_iomap_bio_submit_read(const struct iomap_iter *iter,
+-		struct iomap_read_folio_ctx *ctx)
++				       struct iomap_read_folio_ctx *ctx)
+ {
+ 	struct bio *bio = ctx->read_ctx;
+ 
+@@ -614,10 +614,12 @@ static void ntfs_iomap_bio_submit_read(const struct iomap_iter *iter,
+ 	submit_bio(bio);
+ }
+ 
++// clang-format off
+ static const struct iomap_read_ops ntfs_iomap_bio_read_ops = {
+ 	.read_folio_range	= iomap_bio_read_folio_range,
+ 	.submit_read		= ntfs_iomap_bio_submit_read,
+ };
++// clang-format on
+ 
+ static int ntfs_read_folio(struct file *file, struct folio *folio)
+ {
+diff --git a/fs/ntfs3/lznt.c b/fs/ntfs3/lznt.c
+index f818d9785004..5dcb7674790c 100644
+--- a/fs/ntfs3/lznt.c
++++ b/fs/ntfs3/lznt.c
+@@ -240,8 +240,10 @@ static inline ssize_t decompress_chunk(u8 *unc, u8 *unc_end, const u8 *cmpr,
+ 		if (up - unc > LZNT_CHUNK_SIZE)
+ 			return -EINVAL;
+ 		/* Correct index */
+-		while (index < ARRAY_SIZE(s_max_off) - 1 && unc + s_max_off[index] < up)
++		while (index < ARRAY_SIZE(s_max_off) - 1 &&
++		       unc + s_max_off[index] < up) {
+ 			index += 1;
++		}
+ 
+ 		/* Check the current flag for zero. */
+ 		if (!(ch & (1 << bit))) {
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index d98d7e474476..6bd1a439e92f 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -401,7 +401,7 @@ struct ntfs_inode {
+ 			struct rw_semaphore run_lock;
+ 			/* Unpacked runs from just one record. */
+ 			struct runs_tree run;
+-			/* 
++			/*
+ 			 * Pairs [vcn, len] for all delay allocated clusters.
+ 			 * Normal file always contains delayed clusters in one fragment.
+ 			 * TODO: use 2 CLST per pair instead of 3.
+@@ -886,8 +886,8 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+ #else
+ #define run_unpack_ex run_unpack
+ #endif
+-int run_get_highest_vcn(CLST vcn, const u8 *run_buf, size_t run_buf_size, 
+-		       u64 *highest_vcn);
++int run_get_highest_vcn(CLST vcn, const u8 *run_buf, size_t run_buf_size,
++			u64 *highest_vcn);
+ int run_clone(const struct runs_tree *run, struct runs_tree *new_run);
+ bool run_remove_range(struct runs_tree *run, CLST vcn, CLST len, CLST *done);
+ CLST run_len(const struct runs_tree *run);
+diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
+index 3ebf0154eda3..6e3ef89fc666 100644
+--- a/fs/ntfs3/run.c
++++ b/fs/ntfs3/run.c
+@@ -1265,8 +1265,8 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+  * Return the highest vcn from a mapping pairs array
+  * it used while replaying log file.
+  */
+-int run_get_highest_vcn(CLST vcn, const u8 *run_buf, size_t run_buf_size, 
+-		       u64 *highest_vcn)
++int run_get_highest_vcn(CLST vcn, const u8 *run_buf, size_t run_buf_size,
++			u64 *highest_vcn)
+ {
+ 	const u8 *run_last = run_buf + run_buf_size;
+ 	u64 vcn64 = vcn;
+@@ -1279,7 +1279,7 @@ int run_get_highest_vcn(CLST vcn, const u8 *run_buf, size_t run_buf_size,
+ 		if (size_size > 8 || offset_size > 8)
+ 			return -EINVAL;
+ 
+-		if (run_buf + size_size + offset_size > run_last) 
++		if (run_buf + size_size + offset_size > run_last)
+ 			return -EINVAL;
+ 
+ 		len = run_unpack_s64(run_buf, size_size, 0);
+@@ -1357,7 +1357,8 @@ bool run_remove_range(struct runs_tree *run, CLST vcn, CLST len, CLST *done)
+ 		if (r_end > end) {
+ 			/* Remove a middle part, split. */
+ 			CLST tail_lcn = r->lcn == SPARSE_LCN ?
+-					SPARSE_LCN : (r->lcn + (end - r->vcn));
++						SPARSE_LCN :
++						(r->lcn + (end - r->vcn));
+ 
+ 			*done += len;
+ 			r->len = d;
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 3305fe406cb2..446b37f0de79 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -1458,7 +1458,10 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 					    Add2Ptr(a, roff),
+ 					    le32_to_cpu(a->size) - roff);
+ 			if (err < 0) {
+-				ntfs_err(sb, "Failed to unpack $MFT bitmap extent (%d).", err);
++				ntfs_err(
++					sb,
++					"Failed to unpack $MFT bitmap extent (%d).",
++					err);
+ 				goto put_inode_out;
+ 			}
+ 			err = 0;
+@@ -1866,8 +1869,7 @@ static int ntfs_init_fs_context(struct fs_context *fc)
+ 	/* Default options. */
+ 	opts->fs_uid = current_uid();
+ 	opts->fs_gid = current_gid();
+-	opts->fs_fmask_inv = ~current_umask();
+-	opts->fs_dmask_inv = ~current_umask();
++	opts->fs_fmask_inv = opts->fs_dmask_inv = ~current_umask();
+ 	opts->prealloc = 1;
+ 
+ #ifdef CONFIG_NTFS3_FS_POSIX_ACL
+@@ -1928,7 +1930,6 @@ static struct file_system_type ntfs_fs_type = {
+ 	.kill_sb		= ntfs3_kill_sb,
+ 	.fs_flags		= FS_REQUIRES_DEV | FS_ALLOW_IDMAP,
+ };
+-
+ // clang-format on
+ 
+ static int __init init_ntfs_fs(void)
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index 04814dd29375..7a81369a1173 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -660,7 +660,6 @@ static noinline int ntfs_set_acl_ex(struct mnt_idmap *idmap,
+ 			inode->i_mode = old_mode;
+ 			goto out;
+ 		}
+-		inode->i_mode = mode;
+ 	}
+ 	set_cached_acl(inode, type, acl);
+ 	inode_set_ctime_current(inode);
 -- 
-2.53.0
+2.43.0
 
