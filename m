@@ -1,151 +1,187 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3AA28469A
-	for <ntfs3@lists.linux.dev>; Tue, 14 Jul 2026 16:47:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784047680; cv=none; b=n6DzYubk3PmIiSyH41V0NUYDmpxJEUUyatK9cF7iR6hahx3E7tSr8YRbTPFvRPQFzT+b8pVtrHK0Vw73xMesW1TNR8LRhaVoNcHwJlsruGkokYskaiSiv0KGZrFtpOAA9jhkibeu8CCZqA9kr5/Mux/Oi2C5VJE10AAwtAgXUAA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784047680; c=relaxed/simple;
-	bh=Vhe901sVkBiogG7QJjr+75wBCw+Stl59oG9fOaQ2L3o=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YPzUm3tdpZOU/dEWnXmf9jpzHhovUlRbc9u3ZDK7TSpojHxPRu6bjYIJpEECOu9Rx2GOiA/8LqxCNxjiQCL+JVXJ6frHe+L3CbS/U9IFxe00+/73fpRAmlJn7O82WjX2V8z3Q4iE2Z0QYm/iqLdE1pae4hEjlXhHXAoX/oitK1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=IkroXJpo; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0331835838A
+	for <ntfs3@lists.linux.dev>; Tue, 14 Jul 2026 16:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784047727; cv=pass; b=dzkU1Ta5cgj+OnwN8B59WP3B7Bkwdj+RMJTfLQ47jyE7gMSPPS3lH0J0y1WdpWZ2qPr14CPyylmDLQ3W9QmqXvCpAiCJBMYSMqG15fIYQrfHn/rnRK+YcB3HAW/bGKYxhyZ06KymTPSvcYEezAcbVjWs+FHhVcOMtzxrE9wOd/o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784047727; c=relaxed/simple;
+	bh=BS4boYoiJjX3OX4CPOG5Phed58mFotGn87y51WO8XBg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AJF13GV+L/v8wfUzNQaF27Yn6Lx92n1QtFnlz+X5l7711Sdnzl1TekOs0Hboq5HD8L8DepsuilfPPzvJElRL3eRXgQ9edHkqF9N8R/uY0OeXbz+MLHl18xvI6yEI9eHQsEBXsPd5nDRF732CqRTlTPVcoy0sxNvrHV5N7H/vcqY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AY7E0m+0; arc=pass smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="IkroXJpo"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 44D8B42B;
-	Tue, 14 Jul 2026 16:39:11 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=IkroXJpo;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 08B3B1F9F;
-	Tue, 14 Jul 2026 16:39:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AY7E0m+0"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c15d47266baso153970866b.3
+        for <ntfs3@lists.linux.dev>; Tue, 14 Jul 2026 09:48:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784047724; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bIvtRF+O6Fz8kZZeNH3DEPl2KtTAyXLVoDG9qm0LfK9MEgTgQTqSGuQvlJtXSlECA+
+         +i+JY53Uimg4JF90zG8zTBqWC6Y5RL6t3KwYb3Tu6ofrQ+nyhM9vpmlOs6l0kn+we6+l
+         5xLXKNsVI6yUoiNrdRUKhtXCWItwQSd7Qi0jcA/7IuKiY4FYqJ4o3fjJ2HVvpq3sRZMq
+         O9v8rnwMXYs2YBzCi4lZqSOgH74Pz32Py91flh0Bhx0rIeXCvFkIqyqk1pVRXZQjDTA7
+         pKB+xPEX7ifI60NTOvrus8nLW6Cs78fSj9YgxYDVNbQqG5wZB6Iu22V8EtdhARh7r8Bz
+         aoVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vcMD+yaUtO11IDD0ibJv6TowSU+/X/sSHSBr5UyokQc=;
+        fh=PjqF1eC7Vdxw3OOCce++/AKdG0mYrX1Dzew7yGpR8eM=;
+        b=agOQ9Q4EU2obDnCuutSoA26k2DVQWLzzuaMI8k+l7x+fDpdIjifVHS7881WLtY11Ww
+         VUpqSZrFZ0joDnZA4cbo1vu13VptTKEB3Fd2wcrZ4KO/NZBMaCOhwkZ+W9KCIS9vo81F
+         I8MdQARLuA5voB5qf+5o+n5eXkuDgHSy4ruXxKHhmbUPA//F0fuUsXJ6yILN1BJldBWN
+         G76moEXbdRZ1ywODKs6VR+D2xtvAcwSp3QN6MGraN1XZ4W5MawALAek9M5FNT6LgK6lt
+         DVuIrXT2XnojB0kn3DbPCctBlnSht4MVMIg70xVZdlntekmoBIIT7hsgtYYwNdJbdAw/
+         r9+Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1784047142;
-	bh=JyYeSKzJorI4gF7RGPUhdxBHqeZQSfWh+GW1OI+PBmk=;
-	h=From:To:CC:Subject:Date;
-	b=IkroXJpoL6yf/b8DZL1AOExy70hMsflyTbQY+jzvaBDK2pOOcFu9kIDrU382eklU5
-	 8b1Et+3I7NaSL+Bl5LSwXBTOw2rVEuK1g30SVNBbNOAl/Mce/WCEVoQH4sxdXk9/Xm
-	 c2aOyG5tSfeCwo75m9ibhDuYXxrGt0ImRVQVLLNE=
-Received: from localhost.localdomain (172.30.20.173) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 14 Jul 2026 19:39:00 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH] fs/ntfs3: widen inode/record number storage to u64
-Date: Tue, 14 Jul 2026 18:38:50 +0200
-Message-ID: <20260714163850.32007-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
+        d=gmail.com; s=20251104; t=1784047724; x=1784652524; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vcMD+yaUtO11IDD0ibJv6TowSU+/X/sSHSBr5UyokQc=;
+        b=AY7E0m+0daIZBD1mTqH2Xjicjys+1UL0WNtHYWgcVqyiHg+EiZNqWgMpbqEPFTpJ8l
+         vvakq7TAd0vai8USMA+BhMknOqTieejpgB/CI+bbbD53IIaq6M0JLWxGeRbGhi3TRjnF
+         xBVj5sXqa3KvCL46alHtBp/Zf1pkCcJRCBgOLqha3QKdBqqSH9Xrwi78oVCfFNeM46jB
+         bgteRV/Ul7zogBvk6lVlZulsgaLz1pbsnLuaq1h1HHTeYTIkrjhZSg57brMC/NVJyRXP
+         UDnWFChY/HiCBE4GC0Y1fhr85UdyWYTy1W2XQVSbDG5wz8qU24bsRoLqWqsLq0AJq0Or
+         gUCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784047724; x=1784652524;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vcMD+yaUtO11IDD0ibJv6TowSU+/X/sSHSBr5UyokQc=;
+        b=r+UOfGPUELOblDf7S8obcklsKPoJJ+yhdRRHaYMNJnCOmPZfZSH8Vdio05k0MgEyoM
+         GcmZ9tw76DcXJ9ezPyjYDh6K+Kf927gdU1x4ZsPFc9+YroBmvfma81pCD7+CuzngZizw
+         2tgWu+kZ2hnlej5gHN0kSaXcbt91tIwPcDMciaedvDrr8GaES/4F76db73g6W9/R0JEN
+         VOeXGt3XP0vJqXkwLvax2Rt5aK10ruaMHrnQg9Xt2okWuv63xLTFm+I8VRhYCLIBcg3y
+         yW4rt6ivCFzmKMbR8cd9Sny9O6bkAji9w0x1q59WnQ9i2a2fOwBDHxAwuPW35wNfWtNC
+         aefw==
+X-Gm-Message-State: AOJu0YylZrB58o2AXJfcTeRn72pGbQNnpWmXCeHhh/mnK1Z7UM4CilQa
+	gmxATmavKWBBY3KCu6DglXEmTvOcF6z64wOckYHUVS7XBKS9loKRvtEFYV0vR+JLDiWJO9zmfvr
+	h2/a1f7R3fDwWcTnThS3qXBTDnYwUDZc=
+X-Gm-Gg: AfdE7cn68blkMHGv9bkm9C480V0gTvfCAlk6D2MJ1zFuryU90GNViOrB0smrGIZuT66
+	Jg8sG/AfwfidyZLMfFW2ARCxOtPUVEoZBQGunaUxvFODnbLR3IBfRPX2zeC4PJNrSh9EB2IrFcE
+	RtoLDsqTED3ikQzr21hw/wIiDfzFZJybte6Vg06lWuZXAu3RtR84ZCglu6D1ozj8NU+aDCI/4wE
+	6Zreuv4SAiFKz0MUijooOTI6uAfkMUWnkRGzMYj+UR236bneC61SKNemRraXSP6R4wP1hL0oFtc
+	ICcLqNV83dpHk5AofkDD89Vm4vQg
+X-Received: by 2002:a17:907:7211:b0:c16:2e4f:a372 with SMTP id
+ a640c23a62f3a-c162e4fb897mr583423366b.13.1784047724051; Tue, 14 Jul 2026
+ 09:48:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+References: <20260610115724.1813176-2-bestswngs@gmail.com> <f58b55f3-e8c1-4af0-901a-16ef6f05af48@paragon-software.com>
+In-Reply-To: <f58b55f3-e8c1-4af0-901a-16ef6f05af48@paragon-software.com>
+From: Weiming Shi <bestswngs@gmail.com>
+Date: Wed, 15 Jul 2026 00:48:03 +0800
+X-Gm-Features: AUfX_my-z2TWN-8K3HOskDW0igAgl_klWN7tXdwHhLTFf2o3r9MQK47o8BlorME
+Message-ID: <CANgPUi2q9JyNDn5PLxEaQ+LKNM_wbtuwNONFw61rZiFEohHO7A@mail.gmail.com>
+Subject: Re: [PATCH] fs/ntfs3: fix out-of-bounds read of INDEX_ROOT in
+ reparse/objid init
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Xiang Mei <xmei5@asu.edu>, Weiming Wu <weiming3@asu.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-NTFS inode and MFT record numbers are inherently 64-bit values, but
-several places stored them in 'unsigned long' (or CLST, a u32). On 32-bit
-architectures 'unsigned long' is only 32 bits wide, so the upper bits of
-a record reference are truncated. Store these values in u64 and update
-the associated format specifiers (%lx -> %llx) accordingly.
+Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+=E4=BA=8E2026=E5=B9=B47=E6=9C=8815=E6=97=A5=E5=91=A8=E4=B8=89 00:45=E5=86=
+=99=E9=81=93=EF=BC=9A
+>
+> On 6/10/26 13:57, Weiming Shi wrote:
+>
+> > From: Weiming Wu <weiming3@asu.edu>
+> >
+> > ntfs_reparse_init() and ntfs_objid_init() parse the index root of the
+> > $Extend/$Reparse and $Extend/$ObjId metafiles (the INDEX_ROOT attribute=
+s
+> > named $R and $O). They read its type and rule fields through
+> > resident_data(), which does not check that the resident attribute is
+> > large enough to hold them.
+> >
+> > mi_enum_attr() accepts a resident attribute with data_off =3D=3D asize =
+and
+> > data_size =3D=3D 0. For such an attribute placed last in its MFT record=
+,
+> > resident_data() returns a pointer to the end of the record_size buffer,
+> > so reading root->type / root->rule reads past the allocation.
+> >
+> > Use resident_data_ex(attr, sizeof(struct INDEX_ROOT)) and bail out when
+> > it returns NULL, as ntfs_security_init() already does for $SDH / $SII.
+> >
+> > The attribute is only parsed while mounting a crafted image, so this
+> > needs CAP_SYS_ADMIN.
+> >
+> >   BUG: KASAN: slab-out-of-bounds in ntfs_reparse_init (fs/ntfs3/fsntfs.=
+c:2306)
+> >   Read of size 4 at addr ffff88801219dc00 by task mount
+> >    ntfs_reparse_init (fs/ntfs3/fsntfs.c:2306)
+> >    ntfs_fill_super (fs/ntfs3/super.c:1604)
+> >    get_tree_bdev_flags (fs/super.c:1703)
+> >    vfs_get_tree (fs/super.c:1758)
+> >    path_mount (fs/namespace.c:4131)
+> >    __x64_sys_mount (fs/namespace.c:4360)
+> >
+> > Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+> > Reported-by: Xiang Mei <xmei5@asu.edu>
+> > Assisted-by: Claude:claude-opus-4-8
+> > Signed-off-by: Weiming Shi <bestswngs@gmail.com>
+> > ---
+> >   fs/ntfs3/fsntfs.c | 8 ++++----
+> >   1 file changed, 4 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+> > index d0434756029b6..42493a2da24ef 100644
+> > --- a/fs/ntfs3/fsntfs.c
+> > +++ b/fs/ntfs3/fsntfs.c
+> > @@ -2302,8 +2302,8 @@ int ntfs_reparse_init(struct ntfs_sb_info *sbi)
+> >                  goto out;
+> >          }
+> >
+> > -       root_r =3D resident_data(attr);
+> > -       if (root_r->type !=3D ATTR_ZERO ||
+> > +       root_r =3D resident_data_ex(attr, sizeof(struct INDEX_ROOT));
+> > +       if (!root_r || root_r->type !=3D ATTR_ZERO ||
+> >              root_r->rule !=3D NTFS_COLLATION_TYPE_UINTS) {
+> >                  err =3D -EINVAL;
+> >                  goto out;
+> > @@ -2340,8 +2340,8 @@ int ntfs_objid_init(struct ntfs_sb_info *sbi)
+> >                  goto out;
+> >          }
+> >
+> > -       root =3D resident_data(attr);
+> > -       if (root->type !=3D ATTR_ZERO ||
+> > +       root =3D resident_data_ex(attr, sizeof(struct INDEX_ROOT));
+> > +       if (!root || root->type !=3D ATTR_ZERO ||
+> >              root->rule !=3D NTFS_COLLATION_TYPE_UINTS) {
+> >                  err =3D -EINVAL;
+> >                  goto out;
+> > --
+> > 2.43.0
+> >
+> Hello,
+>
+> Very sorry for the delay.
+> Your patch was applied, thank you.
+>
+> Regards,
+> Konstantin
+>
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
----
- fs/ntfs3/dir.c     |  4 ++--
- fs/ntfs3/frecord.c | 10 +++++-----
- fs/ntfs3/inode.c   |  4 ++--
- 3 files changed, 9 insertions(+), 9 deletions(-)
+Hi Konstantin,
 
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index 873d52233003..1a96289a1b94 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -281,7 +281,7 @@ static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
- 				 u8 *name, struct dir_context *ctx)
- {
- 	const struct ATTR_FILE_NAME *fname;
--	unsigned long ino;
-+	u64 ino;
- 	int name_len;
- 	u32 dt_type;
- 
-@@ -313,7 +313,7 @@ static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
- 	name_len = ntfs_utf16_to_nls(sbi, fname->name, fname->name_len, name,
- 				     PATH_MAX);
- 	if (name_len <= 0) {
--		ntfs_warn(sbi->sb, "failed to convert name for inode %lx.",
-+		ntfs_warn(sbi->sb, "failed to convert name for inode %llx.",
- 			  ino);
- 		return true;
- 	}
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 2b49bc077558..9b979e55adf8 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -169,7 +169,7 @@ int ni_load_mi_ex(struct ntfs_inode *ni, CLST rno, struct mft_inode **mi)
- int ni_load_mi(struct ntfs_inode *ni, const struct ATTR_LIST_ENTRY *le,
- 	       struct mft_inode **mi)
- {
--	CLST rno;
-+	u64 rno;
- 
- 	if (!le) {
- 		*mi = &ni->mi;
-@@ -2961,8 +2961,8 @@ int ni_write_parents(struct ntfs_inode *ni, int sync)
- 		if (IS_ERR(dir)) {
- 			ntfs_inode_warn(
- 				&ni->vfs_inode,
--				"failed to open parent directory r=%lx to write",
--				(long)ino_get(&fname->home));
-+				"failed to open parent directory r=%llx to write",
-+				(u64)ino_get(&fname->home));
- 			continue;
- 		}
- 
-@@ -3081,8 +3081,8 @@ static bool ni_update_parent(struct ntfs_inode *ni, struct NTFS_DUP_INFO *dup,
- 		if (IS_ERR(dir)) {
- 			ntfs_inode_warn(
- 				&ni->vfs_inode,
--				"failed to open parent directory r=%lx to update",
--				(long)ino_get(&fname->home));
-+				"failed to open parent directory r=%llx to update",
-+				(u64)ino_get(&fname->home));
- 			continue;
- 		}
- 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index c43101cc064d..666addbd808e 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -36,7 +36,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
- 	bool is_match = false;
- 	bool is_root = false;
- 	bool is_dir;
--	unsigned long ino = inode->i_ino;
-+	u64 ino = inode->i_ino;
- 	u32 rp_fa = 0, asize, t32;
- 	u16 roff, rsize, names = 0, links = 0;
- 	const struct ATTR_FILE_NAME *fname = NULL;
-@@ -79,7 +79,7 @@ static struct inode *ntfs_read_mft(struct inode *inode,
- 		;
- 	} else if (ref->seq != rec->seq) {
- 		err = -EINVAL;
--		ntfs_err(sb, "MFT: r=%lx, expect seq=%x instead of %x!", ino,
-+		ntfs_err(sb, "MFT: r=%llx, expect seq=%x instead of %x!", ino,
- 			 le16_to_cpu(ref->seq), le16_to_cpu(rec->seq));
- 		goto out;
- 	} else if (!is_rec_inuse(rec)) {
--- 
-2.43.0
+Thank you for the update and for applying the patch.
 
+Best regards,
+Weiming Shi
