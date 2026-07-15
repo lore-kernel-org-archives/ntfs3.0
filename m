@@ -1,112 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA4344C67C;
-	Wed, 15 Jul 2026 12:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37EE83AEF2A
+	for <ntfs3@lists.linux.dev>; Wed, 15 Jul 2026 17:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784118579; cv=none; b=pvkqBxmFjVnjQO9V4EGvnxxJ7NF/E/j1+K5L/3/9ATnnzZ8Vxah/yUB1TkkCbWp0YlO3/RLvVrjES18G+LjZZyrLx1v6M54lLGLDgF+UdTC/2XSmkpDT6EMIfVjrnv7AUEHwM28qUYGVtqWYpjEuX/msDpws0UpsusWb1yM88z8=
+	t=1784134966; cv=none; b=ApsNn6A9Xk7YEHV9sx7sIIJohpyFUcafxN83yl6kEFE+pempiKXKGMrPTl+0x8dxaKYHwx0iPhmTgXqMNFkvXyIbw4erjMaNpD91HP4KruZi/+EhvpGrlevRMTrTIErUS3UAcVV2a/xI2uJdbu8jR7hatiVXcmM9GJM5MwQcjeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784118579; c=relaxed/simple;
-	bh=MUr9Gaaz4FUrLGgxoNJWXy2bynlshrKbu+RliG76WpE=;
-	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=IEHWHs0QyJL+ztR2gavGhJPVsYB395kYokqJJU0C2OIbdrWxtRcgH0nfdNY7o62bpZlx9FIQ2LDi90lwNhFgsWVWOhX3lrZW/ln5jfOjU1OT7PndJQGTVBhfZlzmjvhDr+Wiy9yKhZxBUXtVlhu/PKDoctL6fRaOTW4dOIew5PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4We6+xO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784134966; c=relaxed/simple;
+	bh=BI0XhsLqSJe08rHVtij805zW0T1v14CvZ2CQT4FDKZM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=sbanFkkJkSw+YIAIpXDTIxgNVOWMAIcNl9IAW/4MI0RO72+9cVUQUYG4/vK6BPM9nYmR3hfC7rLhFP26x/AhgD6lOoJc52F8BumIGgbhuVLZP79wvxIqySBCJCHgyfPUJwJ6ePLfJf4xaIR7icniWjej6Qx+/LS4UgOdg7lbDxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=PD0wBZY8; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4We6+xO"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C119E1F00A3F;
-	Wed, 15 Jul 2026 12:29:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784118575;
-	bh=VxgyX43ll6PZid2/mZ07zFd4BnHMmz2/F+QfUAioERY=;
-	h=From:To:Cc:Subject:Date;
-	b=H4We6+xOP/LLuH6Khdub3AmojnFUuYx5bFyXZ1LWJuelmITg6UeLs+jXi5kKgqTD5
-	 cqpX7i1rCVpleuCR//nVqFHSX223+jXyL2t+fdbL+XLl00stRlxGyf5+Btopew3VXd
-	 TuL0WpuLV24QLovnqulqH0KjCi7922vQr14kgIE3RZ455d4CtJgZu+LRSEY+lSLcGI
-	 YFL3UuQ0dCaDUDVebJanWCr54LmWz+/19FJyGZgdVxo5hTXCzJI9Ij9NRpuxA4/B7d
-	 5fbrCDxiCwWJJtf01j1XYJZfQxXPlYkP6sqcEnMsu577aCes6ED6qIYkEwb+DSFeIA
-	 cewdqHxxPnoZQ==
-From: "syzbot" <syzbot@kernel.org>
-To: syzkaller-bugs@googlegroups.com, Slawomir Stepien <sst@poczta.fm>, "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>, <ntfs3@lists.linux.dev>
-Cc: linux-kernel@vger.kernel.org, syzbot@lists.linux.dev, syzkaller-upstream-moderation@googlegroups.com
-Subject: [PATCH] fs/ntfs3: handle partial allocation in attr_data_get_block_locked()
-Message-ID: <8fc44517-e231-4539-a353-3dd47045a203@mail.kernel.org>
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="PD0wBZY8"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id AEE0F3AC;
+	Wed, 15 Jul 2026 17:02:53 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=PD0wBZY8;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 494B41D36;
+	Wed, 15 Jul 2026 17:02:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1784134959;
+	bh=e7jgMcGfquDye3jeEmCCvgV+Xy1UJVgDIKa3mWiGdqM=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=PD0wBZY8FxZ1hGGWCkRT5FLNSVIMXfA+fEI7jXnt76d33Hb9JrCgUvC3cFQesN8On
+	 IKcczh1y5tD4fOHmaSrLlx7s5R34O8NYeD5+iZVrcPGcv7ueMU8xGf3R5Hi7tXSqAS
+	 J4hwqIqLQ7ZhUY3/tfvcEMljALy3vYAviQpsjlC4=
+Received: from [192.168.95.128] (172.30.20.151) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 15 Jul 2026 20:02:38 +0300
+Message-ID: <8ae7b6fe-bb13-4019-9e13-c60a5bb2f3f8@paragon-software.com>
+Date: Wed, 15 Jul 2026 19:02:37 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Date: Wed, 15 Jul 2026 12:29:34 +0000 (UTC)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs/ntfs3: load ATTR_BITMAP run extents from $MFT
+ extension records
+To: <senjin@hatchling.org>, <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>
+References: <6a28fa14873307c15d283e52@mailersend.net>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <6a28fa14873307c15d283e52@mailersend.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-From: Slawomir Stepien <sst@poczta.fm>
+On 6/10/26 07:45, Senjin wrote:
 
-When allocating clusters for a sparse or compressed attribute in
-attr_data_get_block_locked(), the requested virtual cluster number (vcn0)
-is aligned down to a frame boundary (vcn). The function then attempts to
-allocate a full frame of clusters.
+> When $MFT's ATTR_BITMAP attribute is heavily fragmented, its run list
+> can span multiple MFT extension records (attribute list entries with
+> vcn > 0). The non-primary segment handler in ntfs_read_mft() only
+> processed ATTR_DATA extension segments for MFT_REC_MFT, silently
+> skipping any ATTR_BITMAP segments. This left sbi->mft.bitmap.run
+> incomplete, causing wnd_init() to fail with -ENOENT when wnd_rescan()
+> tried to look up a VCN not covered by the truncated run list.
+>
+> Observed on a 16 TB NTFS volume (0xFFFFFEFF total clusters) whose MFT
+> bitmap run list was split across 97 extents in extension records.
+> wnd_rescan() successfully looked up VCNs 0-122 from the runs loaded
+> from the base record, then failed at VCN 123 (the last cluster of the
+> bitmap) whose run was only present in an extension record.
+>
+> Fix by extending the MFT_REC_MFT special case to also handle
+> ATTR_BITMAP extension segments, storing their runs into
+> sbi->mft.bitmap.run the same way the primary segment does.
+>
+> Signed-off-by: Senjin <senjin@hatchling.org>
+> ---
+>   fs/ntfs3/inode.c | 10 +++++++---
+>   1 file changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index XXXXXXX..XXXXXXX 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -128,11 +128,16 @@ static struct inode *ntfs_read_mft(struct inode *inode,
+>
+>          if (le && le->vcn) {
+>                  /* This is non primary attribute segment. Ignore if not MFT. */
+> -               if (ino != MFT_REC_MFT || attr->type != ATTR_DATA)
+> +               if (ino != MFT_REC_MFT)
+>                          goto next_attr;
+>
+> -               run = &ni->file.run;
+> +               if (attr->type == ATTR_DATA)
+> +                       run = &ni->file.run;
+> +               else if (attr->type == ATTR_BITMAP)
+> +                       run = &sbi->mft.bitmap.run;
+> +               else
+> +                       goto next_attr;
+> +
+>                  asize = le32_to_cpu(attr->size);
+>                  goto attr_unpack_run;
+>          }
+> --
+> 2.x
 
-If the disk is nearly full and highly fragmented, attr_allocate_clusters()
-might only manage to allocate a small fragment and return success with a
-partial allocation length. If this partial allocation is so small that it
-does not even reach the originally requested vcn0 (i.e., end <= vcn0), vcn0
-remains unallocated (a sparse hole).
+Hello,
 
-When the code subsequently calls run_lookup_entry() for vcn0, it finds the
-original SPARSE_LCN entry, which triggers a WARN_ON(1).
+Very sorry for the delay.
+Your patch is applied, thanks.
 
-Fix this by adding a check to verify if the partial allocation reached
-vcn0. If it did not (vcn0 >= end), treat this as an -ENOSPC failure and
-jump to the undo1 label. This safely rolls back the partial allocation,
-restores the original size, and repacks the runs, leaving the inode in a
-consistent state before returning the error to the caller.
+Regards,
+Konstantin
 
-WARNING: fs/ntfs3/attrib.c:1236 at attr_data_get_block_locked+0x1980/0x25d0
-fs/ntfs3/attrib.c:1236
-RIP: 0010:attr_data_get_block_locked+0x1980/0x25d0 fs/ntfs3/attrib.c:1236
-Call Trace:
- <TASK>
- attr_data_get_block+0x1f1/0x2a0 fs/ntfs3/attrib.c:979
- ntfs_fallocate+0xd3d/0xf70 fs/ntfs3/file.c:670
- vfs_fallocate+0x663/0x7f0 fs/open.c:338
- ksys_fallocate fs/open.c:362 [inline]
- __do_sys_fallocate fs/open.c:367 [inline]
- __se_sys_fallocate fs/open.c:365 [inline]
- __x64_sys_fallocate+0xbf/0x110 fs/open.c:365
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
- </TASK>
-
-Fixes: 099ef9ab9203 ("fs/ntfs3: implement iomap-based file operations")
-Assisted-by: Gemini:gemini-3.1-pro-preview Gemini:gemini-3-flash-preview syzbot
-Reported-by: syzbot+7be6ad5cb228286af3e3@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=7be6ad5cb228286af3e3
-Link: https://syzkaller.appspot.com/ai_job?id=3c9dee6e-001d-4972-8bf6-f6c960708246
-Signed-off-by: Slawomir Stepien <sst@poczta.fm>
-
----
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index c621a4c58..786fd0ec0 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -1227,6 +1227,10 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
- 	total_size = total_size0 + ((u64)*len << cluster_bits);
- 
- 	if (vcn != vcn0) {
-+		if (vcn0 >= end) {
-+			err = -ENOSPC;
-+			goto undo1;
-+		}
- 		if (!run_lookup_entry(run, vcn0, lcn, len, NULL)) {
- 			err = -EINVAL;
- 			goto out;
-
-
-base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
--- 
-See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
-You can comment on the patch as usual, syzbot will try to address
-the comments and send a new version of the patch if necessary.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
