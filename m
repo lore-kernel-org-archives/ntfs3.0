@@ -1,187 +1,133 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0331835838A
-	for <ntfs3@lists.linux.dev>; Tue, 14 Jul 2026 16:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC301A304A
+	for <ntfs3@lists.linux.dev>; Wed, 15 Jul 2026 00:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.174
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784047727; cv=pass; b=dzkU1Ta5cgj+OnwN8B59WP3B7Bkwdj+RMJTfLQ47jyE7gMSPPS3lH0J0y1WdpWZ2qPr14CPyylmDLQ3W9QmqXvCpAiCJBMYSMqG15fIYQrfHn/rnRK+YcB3HAW/bGKYxhyZ06KymTPSvcYEezAcbVjWs+FHhVcOMtzxrE9wOd/o=
+	t=1784075123; cv=pass; b=NUSF2CsqYC1QzMIzgWUn2yX51FrhfdKSihTubrlRmaly+y2HiPk+PUU6Y2QQ6J80qtYmgmWo9zr/y9j036L3pSY9X/fQrSlOEc5eK3q9OYdlwPaYFwJh33a9mhrW9oD3O4Rn/7tJeEGMdgJnKg64xEGzBhUsJx7Kcn3snvBntvw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784047727; c=relaxed/simple;
-	bh=BS4boYoiJjX3OX4CPOG5Phed58mFotGn87y51WO8XBg=;
+	s=arc-20240116; t=1784075123; c=relaxed/simple;
+	bh=XfhPUbrymiVdSnM6B/pu7i6w1MHoki5738DqM32vVhI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AJF13GV+L/v8wfUzNQaF27Yn6Lx92n1QtFnlz+X5l7711Sdnzl1TekOs0Hboq5HD8L8DepsuilfPPzvJElRL3eRXgQ9edHkqF9N8R/uY0OeXbz+MLHl18xvI6yEI9eHQsEBXsPd5nDRF732CqRTlTPVcoy0sxNvrHV5N7H/vcqY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AY7E0m+0; arc=pass smtp.client-ip=209.85.218.50
+	 To:Cc:Content-Type; b=kxYAQmm8x1YPB/8ToZ8nVoelwoQ77AlzemdOvOi3UphojdR0GyLGt3HunE5OhyEDk8qJSg8IZPtK+WrQDLgWcuT4WKHnGMMQP/sm+7uGmh74icbBgyziBRY8bQbOINg7KT9Cnqvl5en4V7ITdxr2U/yJ/aYGZcNC4AEn7kFiPdA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J54kwc0N; arc=pass smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AY7E0m+0"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c15d47266baso153970866b.3
-        for <ntfs3@lists.linux.dev>; Tue, 14 Jul 2026 09:48:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784047724; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J54kwc0N"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2cac59f8b64so55048855ad.0
+        for <ntfs3@lists.linux.dev>; Tue, 14 Jul 2026 17:25:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784075121; cv=none;
         d=google.com; s=arc-20260327;
-        b=bIvtRF+O6Fz8kZZeNH3DEPl2KtTAyXLVoDG9qm0LfK9MEgTgQTqSGuQvlJtXSlECA+
-         +i+JY53Uimg4JF90zG8zTBqWC6Y5RL6t3KwYb3Tu6ofrQ+nyhM9vpmlOs6l0kn+we6+l
-         5xLXKNsVI6yUoiNrdRUKhtXCWItwQSd7Qi0jcA/7IuKiY4FYqJ4o3fjJ2HVvpq3sRZMq
-         O9v8rnwMXYs2YBzCi4lZqSOgH74Pz32Py91flh0Bhx0rIeXCvFkIqyqk1pVRXZQjDTA7
-         pKB+xPEX7ifI60NTOvrus8nLW6Cs78fSj9YgxYDVNbQqG5wZB6Iu22V8EtdhARh7r8Bz
-         aoVw==
+        b=Lz/KDrm4tAWHoap6XZZPCH4/LjC7W4W8RixaRLIvGbre9ZVqQqJYc0Nb1zOsZQNcS8
+         cKiCt1F26cLLoejoU88X+QhWLrztaPgGQhSHXCfW2bsWg9mo5GgOPdQ9gNb6tCkn1hAo
+         mN1ihz3HyNt0suJPFRL0oJk4y7doCNIquJiPxQr5P7VWUZ8CPoXpCTqPqwlbg9Z138eU
+         CBXT783xOX4g2v2ilDJ1Ipu6vXGGAuzDkvNGNAw3bHxwKCKxPPFLCzgyiDbBdEUwcZq8
+         B4kA1Fa8IpucYNsmOA0WLk3BibFteKP1VgxNZ5yndP49VrVmQ1utr17SKw+Qc0ijtbiR
+         2R7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=vcMD+yaUtO11IDD0ibJv6TowSU+/X/sSHSBr5UyokQc=;
-        fh=PjqF1eC7Vdxw3OOCce++/AKdG0mYrX1Dzew7yGpR8eM=;
-        b=agOQ9Q4EU2obDnCuutSoA26k2DVQWLzzuaMI8k+l7x+fDpdIjifVHS7881WLtY11Ww
-         VUpqSZrFZ0joDnZA4cbo1vu13VptTKEB3Fd2wcrZ4KO/NZBMaCOhwkZ+W9KCIS9vo81F
-         I8MdQARLuA5voB5qf+5o+n5eXkuDgHSy4ruXxKHhmbUPA//F0fuUsXJ6yILN1BJldBWN
-         G76moEXbdRZ1ywODKs6VR+D2xtvAcwSp3QN6MGraN1XZ4W5MawALAek9M5FNT6LgK6lt
-         DVuIrXT2XnojB0kn3DbPCctBlnSht4MVMIg70xVZdlntekmoBIIT7hsgtYYwNdJbdAw/
-         r9+Q==;
+        bh=XfhPUbrymiVdSnM6B/pu7i6w1MHoki5738DqM32vVhI=;
+        fh=PDwEMmYbeKQdVGyrAAm0UXv0X4d3z/9WZPeZg+TNITQ=;
+        b=Y4K2zQHbfhFAPYZC6MJ99iKk1woWIjp9agYLb/KIYvZgypV9zwxcGLlCa1Ugr8jYzc
+         4zo9VcxAa4s8x4GnpshCcI8G+iMU1d0yJrCdQWiL33cbBQFLIbuC3A+E9TMsIS7n16Cy
+         8lU0kejTkNgcC9RPjYvTthmctAtX4wyDrGAxIxgyCndSnUWoVm7/5mPL42Ok3pvVAufv
+         If3hkpL1ccDZPbX0IMpDaKmHMkEsX5ERHbmdEUGKku39XxP/4Wt1i6DzZjbggH6/fxdI
+         e6T4EcliD8CrZXjd9E8BdE0LZaeSbmv+S+DydpKBPTs4LOXw0xFrlDmJ3jpQVnNLgKhi
+         pfZA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784047724; x=1784652524; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784075121; x=1784679921; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=vcMD+yaUtO11IDD0ibJv6TowSU+/X/sSHSBr5UyokQc=;
-        b=AY7E0m+0daIZBD1mTqH2Xjicjys+1UL0WNtHYWgcVqyiHg+EiZNqWgMpbqEPFTpJ8l
-         vvakq7TAd0vai8USMA+BhMknOqTieejpgB/CI+bbbD53IIaq6M0JLWxGeRbGhi3TRjnF
-         xBVj5sXqa3KvCL46alHtBp/Zf1pkCcJRCBgOLqha3QKdBqqSH9Xrwi78oVCfFNeM46jB
-         bgteRV/Ul7zogBvk6lVlZulsgaLz1pbsnLuaq1h1HHTeYTIkrjhZSg57brMC/NVJyRXP
-         UDnWFChY/HiCBE4GC0Y1fhr85UdyWYTy1W2XQVSbDG5wz8qU24bsRoLqWqsLq0AJq0Or
-         gUCw==
+        bh=XfhPUbrymiVdSnM6B/pu7i6w1MHoki5738DqM32vVhI=;
+        b=J54kwc0NGMcpBIFAGH3FIGxSAbWD8v/O+zYzIK4bXfr2fm+/kDTW3T5KOmY5fGJ2+W
+         XPKAMK2zeFW2nG/S/x5xQLCQH6fs6Ngp6Vh5prLaIGdEOLubuaFD9khnZPxSFmyN21GB
+         xciLU3ne7Ghs8eyZbETLv0dAwZgw+RSxPmT96mdjIYeUXr4/iMPC3dPI6v48P2U/F0PK
+         2FUDyaInsmE8lN6j9cfR+ZTrZaboCy3Ij6DDGJUQEIYaLqMGSTYxR8l35VjsZQawtaKs
+         0D7BRXgWiaDZf1FxurXqWfpSkFRm3syof9w90sSSARnqVHDo78EDb4fJ/cI9O/UNxuMu
+         UuIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784047724; x=1784652524;
+        d=1e100.net; s=20251104; t=1784075121; x=1784679921;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=vcMD+yaUtO11IDD0ibJv6TowSU+/X/sSHSBr5UyokQc=;
-        b=r+UOfGPUELOblDf7S8obcklsKPoJJ+yhdRRHaYMNJnCOmPZfZSH8Vdio05k0MgEyoM
-         GcmZ9tw76DcXJ9ezPyjYDh6K+Kf927gdU1x4ZsPFc9+YroBmvfma81pCD7+CuzngZizw
-         2tgWu+kZ2hnlej5gHN0kSaXcbt91tIwPcDMciaedvDrr8GaES/4F76db73g6W9/R0JEN
-         VOeXGt3XP0vJqXkwLvax2Rt5aK10ruaMHrnQg9Xt2okWuv63xLTFm+I8VRhYCLIBcg3y
-         yW4rt6ivCFzmKMbR8cd9Sny9O6bkAji9w0x1q59WnQ9i2a2fOwBDHxAwuPW35wNfWtNC
-         aefw==
-X-Gm-Message-State: AOJu0YylZrB58o2AXJfcTeRn72pGbQNnpWmXCeHhh/mnK1Z7UM4CilQa
-	gmxATmavKWBBY3KCu6DglXEmTvOcF6z64wOckYHUVS7XBKS9loKRvtEFYV0vR+JLDiWJO9zmfvr
-	h2/a1f7R3fDwWcTnThS3qXBTDnYwUDZc=
-X-Gm-Gg: AfdE7cn68blkMHGv9bkm9C480V0gTvfCAlk6D2MJ1zFuryU90GNViOrB0smrGIZuT66
-	Jg8sG/AfwfidyZLMfFW2ARCxOtPUVEoZBQGunaUxvFODnbLR3IBfRPX2zeC4PJNrSh9EB2IrFcE
-	RtoLDsqTED3ikQzr21hw/wIiDfzFZJybte6Vg06lWuZXAu3RtR84ZCglu6D1ozj8NU+aDCI/4wE
-	6Zreuv4SAiFKz0MUijooOTI6uAfkMUWnkRGzMYj+UR236bneC61SKNemRraXSP6R4wP1hL0oFtc
-	ICcLqNV83dpHk5AofkDD89Vm4vQg
-X-Received: by 2002:a17:907:7211:b0:c16:2e4f:a372 with SMTP id
- a640c23a62f3a-c162e4fb897mr583423366b.13.1784047724051; Tue, 14 Jul 2026
- 09:48:44 -0700 (PDT)
+        bh=XfhPUbrymiVdSnM6B/pu7i6w1MHoki5738DqM32vVhI=;
+        b=NwuP2R6hMTcfoqQPIe7zquJzLbmQjqvI5prfEQ5uKo2RY2wRTvXRqWcs6Tro/LduVa
+         ikR+IMiO7BK1fAeKq/Ss6CMGCQCvrqCCAN/agYVEIeEU85Or6xQpjtcM5bF7EO9w+iM1
+         0OZ3T83nsWZpTX1DqxyYAWkT0TGy9zXGOckMb8X/9viJhfbCoME3g0Untr3OMZxTJ/1P
+         yF2pfAaPpv38Ge42c85+xKbCh10GhImJHMFuATAx1ndlCk06LWnAYjNTesDdOX6xEKuR
+         HpJnwyTsW6a+UT8q6ZbBSu5Ki1jJFxJMLShNYt6a0XpzSFq8lVd24MyuYm/ZtF3aQj8H
+         di/A==
+X-Gm-Message-State: AOJu0YzgYaEsAERsgVNdGW3cru3ltqhLNeoYLSAO8Cvf6O9YDyMM8FJk
+	5iMfriLFxS+501k18BdZDJqc9XdHeO4zrRJ8N6lrNRWRpXOpoEavOOFPdLwDX0hKZasz4WE71dG
+	ObyDxNDcX+IjS7vTMLW0TYNOA/IoNFNxl
+X-Gm-Gg: AfdE7ckoHQk6fOlf0cqpBp7T7uIx1myC2cbplQIUI0CW5AnVWsS5IQpldgG4wn89V95
+	2NZ09OSDz9wXOZ4yrGWzNeCUTUPfKEM3eGEc6YcGZHtHXgRJpCUg4uocdjk49TMR/O5SPFcpzTM
+	H2LI8R+WGYntqswtJvs3OVoBu+I9OTn2HD/87F2EfiXxUOK0LTEnU/o4UlrIagiZd2xCe51UHri
+	gbSYkTsS9COYWrRPZnD2INvsyFjlto3yDyJq7smpioB9vLqGYdMbuyOufN7Uh28tHjcxoRq
+X-Received: by 2002:a05:690e:4401:b0:667:ef19:6705 with SMTP id
+ 956f58d0204a3-668132bc04amr496695d50.12.1784074774586; Tue, 14 Jul 2026
+ 17:19:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260610115724.1813176-2-bestswngs@gmail.com> <f58b55f3-e8c1-4af0-901a-16ef6f05af48@paragon-software.com>
-In-Reply-To: <f58b55f3-e8c1-4af0-901a-16ef6f05af48@paragon-software.com>
-From: Weiming Shi <bestswngs@gmail.com>
-Date: Wed, 15 Jul 2026 00:48:03 +0800
-X-Gm-Features: AUfX_my-z2TWN-8K3HOskDW0igAgl_klWN7tXdwHhLTFf2o3r9MQK47o8BlorME
-Message-ID: <CANgPUi2q9JyNDn5PLxEaQ+LKNM_wbtuwNONFw61rZiFEohHO7A@mail.gmail.com>
-Subject: Re: [PATCH] fs/ntfs3: fix out-of-bounds read of INDEX_ROOT in
- reparse/objid init
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Xiang Mei <xmei5@asu.edu>, Weiming Wu <weiming3@asu.edu>
+References: <CAOSSAUCpS7SqevJ9hnSbLHFK14ijnrKM0_RihO=1hmDD2n9-uw@mail.gmail.com>
+ <949338905.4535069.1784017399327@mail1.libero.it>
+In-Reply-To: <949338905.4535069.1784017399327@mail1.libero.it>
+From: "J. Ortega O." <jorortega@gmail.com>
+Date: Tue, 14 Jul 2026 20:19:08 -0400
+X-Gm-Features: AUfX_mwv6yIJD05ig0DKDy8HB-ODZtRgd8CuF-QpDaiKWdi5cMgOvPcL_soZxS0
+Message-ID: <CAOSSAUDME=eD1E2QS8rAuX=AEbYCD_6zTEOaYbtuhGiUyewuYg@mail.gmail.com>
+Subject: Re: File operations on NTFS drives causes kernel BUG at fs/iomap/buffered-io.c:1061
+To: ntfs3@lists.linux.dev
+Cc: almaz.alexandrovich@paragon-software.com, saarthal@libero.it
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-=E4=BA=8E2026=E5=B9=B47=E6=9C=8815=E6=97=A5=E5=91=A8=E4=B8=89 00:45=E5=86=
-=99=E9=81=93=EF=BC=9A
+Ok,
+
+In the end, for some reason, the drive accesed in 7.2RC1 became
+corrupted. No message error generated, but the Dirty Flag was keep
+permanent. On windows, trying to use chkdsk didn't worked (As
+administrator, run chkdsk d: /f), neither chkntfs worked to remove the
+flag, and neither Linux utilities worked on the case.
+
+In the end, i just reformatted the drive.
+
+Not touching this thing with a 12 foot pole for now.
+
+
+El mar, 14 jul 2026 a la(s) 4:23=E2=80=AFa.m., <saarthal@libero.it> escribi=
+=C3=B3:
 >
-> On 6/10/26 13:57, Weiming Shi wrote:
+> I don't know why your message doesn't seem to appear in the mailing list =
+https://lore.kernel.org/ntfs3/2020820791.1843094.1777717495048@mail1.libero=
+.it/T/#u
 >
-> > From: Weiming Wu <weiming3@asu.edu>
-> >
-> > ntfs_reparse_init() and ntfs_objid_init() parse the index root of the
-> > $Extend/$Reparse and $Extend/$ObjId metafiles (the INDEX_ROOT attribute=
-s
-> > named $R and $O). They read its type and rule fields through
-> > resident_data(), which does not check that the resident attribute is
-> > large enough to hold them.
-> >
-> > mi_enum_attr() accepts a resident attribute with data_off =3D=3D asize =
-and
-> > data_size =3D=3D 0. For such an attribute placed last in its MFT record=
-,
-> > resident_data() returns a pointer to the end of the record_size buffer,
-> > so reading root->type / root->rule reads past the allocation.
-> >
-> > Use resident_data_ex(attr, sizeof(struct INDEX_ROOT)) and bail out when
-> > it returns NULL, as ntfs_security_init() already does for $SDH / $SII.
-> >
-> > The attribute is only parsed while mounting a crafted image, so this
-> > needs CAP_SYS_ADMIN.
-> >
-> >   BUG: KASAN: slab-out-of-bounds in ntfs_reparse_init (fs/ntfs3/fsntfs.=
-c:2306)
-> >   Read of size 4 at addr ffff88801219dc00 by task mount
-> >    ntfs_reparse_init (fs/ntfs3/fsntfs.c:2306)
-> >    ntfs_fill_super (fs/ntfs3/super.c:1604)
-> >    get_tree_bdev_flags (fs/super.c:1703)
-> >    vfs_get_tree (fs/super.c:1758)
-> >    path_mount (fs/namespace.c:4131)
-> >    __x64_sys_mount (fs/namespace.c:4360)
-> >
-> > Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> > Reported-by: Xiang Mei <xmei5@asu.edu>
-> > Assisted-by: Claude:claude-opus-4-8
-> > Signed-off-by: Weiming Shi <bestswngs@gmail.com>
-> > ---
-> >   fs/ntfs3/fsntfs.c | 8 ++++----
-> >   1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
-> > index d0434756029b6..42493a2da24ef 100644
-> > --- a/fs/ntfs3/fsntfs.c
-> > +++ b/fs/ntfs3/fsntfs.c
-> > @@ -2302,8 +2302,8 @@ int ntfs_reparse_init(struct ntfs_sb_info *sbi)
-> >                  goto out;
-> >          }
-> >
-> > -       root_r =3D resident_data(attr);
-> > -       if (root_r->type !=3D ATTR_ZERO ||
-> > +       root_r =3D resident_data_ex(attr, sizeof(struct INDEX_ROOT));
-> > +       if (!root_r || root_r->type !=3D ATTR_ZERO ||
-> >              root_r->rule !=3D NTFS_COLLATION_TYPE_UINTS) {
-> >                  err =3D -EINVAL;
-> >                  goto out;
-> > @@ -2340,8 +2340,8 @@ int ntfs_objid_init(struct ntfs_sb_info *sbi)
-> >                  goto out;
-> >          }
-> >
-> > -       root =3D resident_data(attr);
-> > -       if (root->type !=3D ATTR_ZERO ||
-> > +       root =3D resident_data_ex(attr, sizeof(struct INDEX_ROOT));
-> > +       if (!root || root->type !=3D ATTR_ZERO ||
-> >              root->rule !=3D NTFS_COLLATION_TYPE_UINTS) {
-> >                  err =3D -EINVAL;
-> >                  goto out;
-> > --
-> > 2.43.0
-> >
-> Hello,
+> maybe because ntfs3@lists.linux.dev is in Cc: instead of To:
 >
-> Very sorry for the delay.
-> Your patch was applied, thank you.
+> 08/07/2026 18:34 CEST J. Ortega O. <jorortega@gmail.com> wrote:
 >
-> Regards,
-> Konstantin
+>
+> Seems to be fixed in 7.2-RC2, but now replaced by keeping the filesystem =
+in a dirty state all the time.
+>
+> Even a clean umount will leave the ntfs filesystem dirty, including when =
+no data has been read/written to it, only mounting seems to make it dirty. =
+(windows always repair the filesystem in the next windows boot).
 >
 
-Hi Konstantin,
 
-Thank you for the update and for applying the patch.
 
-Best regards,
-Weiming Shi
+--=20
+Atentamente,
+J. Ortega O.
