@@ -1,133 +1,112 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC301A304A
-	for <ntfs3@lists.linux.dev>; Wed, 15 Jul 2026 00:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784075123; cv=pass; b=NUSF2CsqYC1QzMIzgWUn2yX51FrhfdKSihTubrlRmaly+y2HiPk+PUU6Y2QQ6J80qtYmgmWo9zr/y9j036L3pSY9X/fQrSlOEc5eK3q9OYdlwPaYFwJh33a9mhrW9oD3O4Rn/7tJeEGMdgJnKg64xEGzBhUsJx7Kcn3snvBntvw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784075123; c=relaxed/simple;
-	bh=XfhPUbrymiVdSnM6B/pu7i6w1MHoki5738DqM32vVhI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kxYAQmm8x1YPB/8ToZ8nVoelwoQ77AlzemdOvOi3UphojdR0GyLGt3HunE5OhyEDk8qJSg8IZPtK+WrQDLgWcuT4WKHnGMMQP/sm+7uGmh74icbBgyziBRY8bQbOINg7KT9Cnqvl5en4V7ITdxr2U/yJ/aYGZcNC4AEn7kFiPdA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J54kwc0N; arc=pass smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA4344C67C;
+	Wed, 15 Jul 2026 12:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784118579; cv=none; b=pvkqBxmFjVnjQO9V4EGvnxxJ7NF/E/j1+K5L/3/9ATnnzZ8Vxah/yUB1TkkCbWp0YlO3/RLvVrjES18G+LjZZyrLx1v6M54lLGLDgF+UdTC/2XSmkpDT6EMIfVjrnv7AUEHwM28qUYGVtqWYpjEuX/msDpws0UpsusWb1yM88z8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784118579; c=relaxed/simple;
+	bh=MUr9Gaaz4FUrLGgxoNJWXy2bynlshrKbu+RliG76WpE=;
+	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=IEHWHs0QyJL+ztR2gavGhJPVsYB395kYokqJJU0C2OIbdrWxtRcgH0nfdNY7o62bpZlx9FIQ2LDi90lwNhFgsWVWOhX3lrZW/ln5jfOjU1OT7PndJQGTVBhfZlzmjvhDr+Wiy9yKhZxBUXtVlhu/PKDoctL6fRaOTW4dOIew5PQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4We6+xO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J54kwc0N"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2cac59f8b64so55048855ad.0
-        for <ntfs3@lists.linux.dev>; Tue, 14 Jul 2026 17:25:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784075121; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Lz/KDrm4tAWHoap6XZZPCH4/LjC7W4W8RixaRLIvGbre9ZVqQqJYc0Nb1zOsZQNcS8
-         cKiCt1F26cLLoejoU88X+QhWLrztaPgGQhSHXCfW2bsWg9mo5GgOPdQ9gNb6tCkn1hAo
-         mN1ihz3HyNt0suJPFRL0oJk4y7doCNIquJiPxQr5P7VWUZ8CPoXpCTqPqwlbg9Z138eU
-         CBXT783xOX4g2v2ilDJ1Ipu6vXGGAuzDkvNGNAw3bHxwKCKxPPFLCzgyiDbBdEUwcZq8
-         B4kA1Fa8IpucYNsmOA0WLk3BibFteKP1VgxNZ5yndP49VrVmQ1utr17SKw+Qc0ijtbiR
-         2R7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=XfhPUbrymiVdSnM6B/pu7i6w1MHoki5738DqM32vVhI=;
-        fh=PDwEMmYbeKQdVGyrAAm0UXv0X4d3z/9WZPeZg+TNITQ=;
-        b=Y4K2zQHbfhFAPYZC6MJ99iKk1woWIjp9agYLb/KIYvZgypV9zwxcGLlCa1Ugr8jYzc
-         4zo9VcxAa4s8x4GnpshCcI8G+iMU1d0yJrCdQWiL33cbBQFLIbuC3A+E9TMsIS7n16Cy
-         8lU0kejTkNgcC9RPjYvTthmctAtX4wyDrGAxIxgyCndSnUWoVm7/5mPL42Ok3pvVAufv
-         If3hkpL1ccDZPbX0IMpDaKmHMkEsX5ERHbmdEUGKku39XxP/4Wt1i6DzZjbggH6/fxdI
-         e6T4EcliD8CrZXjd9E8BdE0LZaeSbmv+S+DydpKBPTs4LOXw0xFrlDmJ3jpQVnNLgKhi
-         pfZA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784075121; x=1784679921; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XfhPUbrymiVdSnM6B/pu7i6w1MHoki5738DqM32vVhI=;
-        b=J54kwc0NGMcpBIFAGH3FIGxSAbWD8v/O+zYzIK4bXfr2fm+/kDTW3T5KOmY5fGJ2+W
-         XPKAMK2zeFW2nG/S/x5xQLCQH6fs6Ngp6Vh5prLaIGdEOLubuaFD9khnZPxSFmyN21GB
-         xciLU3ne7Ghs8eyZbETLv0dAwZgw+RSxPmT96mdjIYeUXr4/iMPC3dPI6v48P2U/F0PK
-         2FUDyaInsmE8lN6j9cfR+ZTrZaboCy3Ij6DDGJUQEIYaLqMGSTYxR8l35VjsZQawtaKs
-         0D7BRXgWiaDZf1FxurXqWfpSkFRm3syof9w90sSSARnqVHDo78EDb4fJ/cI9O/UNxuMu
-         UuIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784075121; x=1784679921;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XfhPUbrymiVdSnM6B/pu7i6w1MHoki5738DqM32vVhI=;
-        b=NwuP2R6hMTcfoqQPIe7zquJzLbmQjqvI5prfEQ5uKo2RY2wRTvXRqWcs6Tro/LduVa
-         ikR+IMiO7BK1fAeKq/Ss6CMGCQCvrqCCAN/agYVEIeEU85Or6xQpjtcM5bF7EO9w+iM1
-         0OZ3T83nsWZpTX1DqxyYAWkT0TGy9zXGOckMb8X/9viJhfbCoME3g0Untr3OMZxTJ/1P
-         yF2pfAaPpv38Ge42c85+xKbCh10GhImJHMFuATAx1ndlCk06LWnAYjNTesDdOX6xEKuR
-         HpJnwyTsW6a+UT8q6ZbBSu5Ki1jJFxJMLShNYt6a0XpzSFq8lVd24MyuYm/ZtF3aQj8H
-         di/A==
-X-Gm-Message-State: AOJu0YzgYaEsAERsgVNdGW3cru3ltqhLNeoYLSAO8Cvf6O9YDyMM8FJk
-	5iMfriLFxS+501k18BdZDJqc9XdHeO4zrRJ8N6lrNRWRpXOpoEavOOFPdLwDX0hKZasz4WE71dG
-	ObyDxNDcX+IjS7vTMLW0TYNOA/IoNFNxl
-X-Gm-Gg: AfdE7ckoHQk6fOlf0cqpBp7T7uIx1myC2cbplQIUI0CW5AnVWsS5IQpldgG4wn89V95
-	2NZ09OSDz9wXOZ4yrGWzNeCUTUPfKEM3eGEc6YcGZHtHXgRJpCUg4uocdjk49TMR/O5SPFcpzTM
-	H2LI8R+WGYntqswtJvs3OVoBu+I9OTn2HD/87F2EfiXxUOK0LTEnU/o4UlrIagiZd2xCe51UHri
-	gbSYkTsS9COYWrRPZnD2INvsyFjlto3yDyJq7smpioB9vLqGYdMbuyOufN7Uh28tHjcxoRq
-X-Received: by 2002:a05:690e:4401:b0:667:ef19:6705 with SMTP id
- 956f58d0204a3-668132bc04amr496695d50.12.1784074774586; Tue, 14 Jul 2026
- 17:19:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4We6+xO"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C119E1F00A3F;
+	Wed, 15 Jul 2026 12:29:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784118575;
+	bh=VxgyX43ll6PZid2/mZ07zFd4BnHMmz2/F+QfUAioERY=;
+	h=From:To:Cc:Subject:Date;
+	b=H4We6+xOP/LLuH6Khdub3AmojnFUuYx5bFyXZ1LWJuelmITg6UeLs+jXi5kKgqTD5
+	 cqpX7i1rCVpleuCR//nVqFHSX223+jXyL2t+fdbL+XLl00stRlxGyf5+Btopew3VXd
+	 TuL0WpuLV24QLovnqulqH0KjCi7922vQr14kgIE3RZ455d4CtJgZu+LRSEY+lSLcGI
+	 YFL3UuQ0dCaDUDVebJanWCr54LmWz+/19FJyGZgdVxo5hTXCzJI9Ij9NRpuxA4/B7d
+	 5fbrCDxiCwWJJtf01j1XYJZfQxXPlYkP6sqcEnMsu577aCes6ED6qIYkEwb+DSFeIA
+	 cewdqHxxPnoZQ==
+From: "syzbot" <syzbot@kernel.org>
+To: syzkaller-bugs@googlegroups.com, Slawomir Stepien <sst@poczta.fm>, "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>, <ntfs3@lists.linux.dev>
+Cc: linux-kernel@vger.kernel.org, syzbot@lists.linux.dev, syzkaller-upstream-moderation@googlegroups.com
+Subject: [PATCH] fs/ntfs3: handle partial allocation in attr_data_get_block_locked()
+Message-ID: <8fc44517-e231-4539-a353-3dd47045a203@mail.kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAOSSAUCpS7SqevJ9hnSbLHFK14ijnrKM0_RihO=1hmDD2n9-uw@mail.gmail.com>
- <949338905.4535069.1784017399327@mail1.libero.it>
-In-Reply-To: <949338905.4535069.1784017399327@mail1.libero.it>
-From: "J. Ortega O." <jorortega@gmail.com>
-Date: Tue, 14 Jul 2026 20:19:08 -0400
-X-Gm-Features: AUfX_mwv6yIJD05ig0DKDy8HB-ODZtRgd8CuF-QpDaiKWdi5cMgOvPcL_soZxS0
-Message-ID: <CAOSSAUDME=eD1E2QS8rAuX=AEbYCD_6zTEOaYbtuhGiUyewuYg@mail.gmail.com>
-Subject: Re: File operations on NTFS drives causes kernel BUG at fs/iomap/buffered-io.c:1061
-To: ntfs3@lists.linux.dev
-Cc: almaz.alexandrovich@paragon-software.com, saarthal@libero.it
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Date: Wed, 15 Jul 2026 12:29:34 +0000 (UTC)
 
-Ok,
+From: Slawomir Stepien <sst@poczta.fm>
 
-In the end, for some reason, the drive accesed in 7.2RC1 became
-corrupted. No message error generated, but the Dirty Flag was keep
-permanent. On windows, trying to use chkdsk didn't worked (As
-administrator, run chkdsk d: /f), neither chkntfs worked to remove the
-flag, and neither Linux utilities worked on the case.
+When allocating clusters for a sparse or compressed attribute in
+attr_data_get_block_locked(), the requested virtual cluster number (vcn0)
+is aligned down to a frame boundary (vcn). The function then attempts to
+allocate a full frame of clusters.
 
-In the end, i just reformatted the drive.
+If the disk is nearly full and highly fragmented, attr_allocate_clusters()
+might only manage to allocate a small fragment and return success with a
+partial allocation length. If this partial allocation is so small that it
+does not even reach the originally requested vcn0 (i.e., end <= vcn0), vcn0
+remains unallocated (a sparse hole).
 
-Not touching this thing with a 12 foot pole for now.
+When the code subsequently calls run_lookup_entry() for vcn0, it finds the
+original SPARSE_LCN entry, which triggers a WARN_ON(1).
+
+Fix this by adding a check to verify if the partial allocation reached
+vcn0. If it did not (vcn0 >= end), treat this as an -ENOSPC failure and
+jump to the undo1 label. This safely rolls back the partial allocation,
+restores the original size, and repacks the runs, leaving the inode in a
+consistent state before returning the error to the caller.
+
+WARNING: fs/ntfs3/attrib.c:1236 at attr_data_get_block_locked+0x1980/0x25d0
+fs/ntfs3/attrib.c:1236
+RIP: 0010:attr_data_get_block_locked+0x1980/0x25d0 fs/ntfs3/attrib.c:1236
+Call Trace:
+ <TASK>
+ attr_data_get_block+0x1f1/0x2a0 fs/ntfs3/attrib.c:979
+ ntfs_fallocate+0xd3d/0xf70 fs/ntfs3/file.c:670
+ vfs_fallocate+0x663/0x7f0 fs/open.c:338
+ ksys_fallocate fs/open.c:362 [inline]
+ __do_sys_fallocate fs/open.c:367 [inline]
+ __se_sys_fallocate fs/open.c:365 [inline]
+ __x64_sys_fallocate+0xbf/0x110 fs/open.c:365
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+ </TASK>
+
+Fixes: 099ef9ab9203 ("fs/ntfs3: implement iomap-based file operations")
+Assisted-by: Gemini:gemini-3.1-pro-preview Gemini:gemini-3-flash-preview syzbot
+Reported-by: syzbot+7be6ad5cb228286af3e3@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=7be6ad5cb228286af3e3
+Link: https://syzkaller.appspot.com/ai_job?id=3c9dee6e-001d-4972-8bf6-f6c960708246
+Signed-off-by: Slawomir Stepien <sst@poczta.fm>
+
+---
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index c621a4c58..786fd0ec0 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -1227,6 +1227,10 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
+ 	total_size = total_size0 + ((u64)*len << cluster_bits);
+ 
+ 	if (vcn != vcn0) {
++		if (vcn0 >= end) {
++			err = -ENOSPC;
++			goto undo1;
++		}
+ 		if (!run_lookup_entry(run, vcn0, lcn, len, NULL)) {
+ 			err = -EINVAL;
+ 			goto out;
 
 
-El mar, 14 jul 2026 a la(s) 4:23=E2=80=AFa.m., <saarthal@libero.it> escribi=
-=C3=B3:
->
-> I don't know why your message doesn't seem to appear in the mailing list =
-https://lore.kernel.org/ntfs3/2020820791.1843094.1777717495048@mail1.libero=
-.it/T/#u
->
-> maybe because ntfs3@lists.linux.dev is in Cc: instead of To:
->
-> 08/07/2026 18:34 CEST J. Ortega O. <jorortega@gmail.com> wrote:
->
->
-> Seems to be fixed in 7.2-RC2, but now replaced by keeping the filesystem =
-in a dirty state all the time.
->
-> Even a clean umount will leave the ntfs filesystem dirty, including when =
-no data has been read/written to it, only mounting seems to make it dirty. =
-(windows always repair the filesystem in the next windows boot).
->
-
-
-
---=20
-Atentamente,
-J. Ortega O.
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+-- 
+See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
+You can comment on the patch as usual, syzbot will try to address
+the comments and send a new version of the patch if necessary.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
