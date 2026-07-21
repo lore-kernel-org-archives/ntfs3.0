@@ -1,73 +1,79 @@
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1A22E737C
-	for <ntfs3@lists.linux.dev>; Sun, 19 Jul 2026 20:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EFC335C6A1
+	for <ntfs3@lists.linux.dev>; Tue, 21 Jul 2026 21:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784492794; cv=none; b=Jr4MrnR5TaN90dzbTz47Zkc4pOj3u7yFC4aMgdXd4oKWK0xPR0/8rLFw9ZHLSRnSCOgnKEUMM/+7+Ieo/3YrV4Jv3pObqTldOKHTOsJAXG1kQX6XjteHven5mvkwvG2x5sautpbN0KWeAklO7Thb5e/5G6ohSEcBFnfYDJiU2rw=
+	t=1784668179; cv=none; b=gAufiLOjoYM0mAmIuRbuQuN0KBAlW7TnlPE2v2wdkQ4/xMKGVMAjFi3Gl6YNqRTqfwrqx/uutTW5T15vBOjr6SlrS8aFphpMaK2Q97YhMmUVEkuWCjhi0xC54nSvp1p4wbsm19tLeF2c25YE43iPbWarxrsCG7o3WbnGzbBSz1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784492794; c=relaxed/simple;
-	bh=n3YcEGQ3D378pIJ7BISfebbLE6VYIfh+S6sfLSHcUWQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tCnhWCOD1xXIKJmBjc70Ug34zEZHJ2FuSE2s3uleWp7ausSNQO4ae4Is6Ymc1HPTd1flnJjYmvtxF5C/3RdeoBNLCyZ+hRm3eLOBkEEwWUlzF4rSOUmsQKGoCBrAjJCoCrdnVeTOa5efDp8CLiFDKrmphm6FfDJQ6O25M85Ac68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=kR6V/F/Y; arc=none smtp.client-ip=83.149.199.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="kR6V/F/Y"
-Received: from regular-pc (unknown [78.36.183.128])
-	by mail.ispras.ru (Postfix) with ESMTPSA id E200845FB468;
-	Sun, 19 Jul 2026 20:26:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru E200845FB468
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
-	s=default; t=1784492783;
-	bh=O0gHKyVSPz1rpov3LSHBjZwZRR/IJYkc7WZ6wnBJ64U=;
-	h=From:To:Cc:Subject:Date:From;
-	b=kR6V/F/YU5rtAHt5oSIqezEdRj8bkWBNogxEiS/4zrNvqaPfTi4HQYubqdlU30Sb5
-	 Dk4h/XRM3twDyknrH3Ro44iAcLrUtdLiBDX2aE7rL1fFeNhSYikbBnJlcof/LS0o62
-	 X4Mc03zVgLY4gWi3dM2dUBRVdkVU/FMZajjimt1U=
-From: Matvey Kovalev <matvey.kovalev@ispras.ru>
-To: matvey.kovalev@ispras.ru,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH] fs/ntfs3: remove redundant if-block in check_attr()
-Date: Sun, 19 Jul 2026 23:25:16 +0300
-Message-ID: <20260719202534.2942-1-matvey.kovalev@ispras.ru>
-X-Mailer: git-send-email 2.54.0
+	s=arc-20240116; t=1784668179; c=relaxed/simple;
+	bh=Ss0d/FtXt7qY2/K6XKwqXa2A1+8puGqwQg1fmKpIEHU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Cn19GsZ/9phaCj2+SBFEjd6JxMNKKmM7MS1/t4G12oyed/362nOEv81aq4AZZYzPGqNzethVz971EdM8NEJnMACy8fAUpe8JEPXc9Ah3rsIbO2f+TsnMtuVbvvtPbT/5bsI4MxKqIkGDIXoICqUY7XbP/TgObd/xsd1GxfdBplE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf14.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id DCD0DC02A6;
+	Tue, 21 Jul 2026 21:09:35 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf14.hostedemail.com (Postfix) with ESMTPA id 8967630;
+	Tue, 21 Jul 2026 21:09:33 +0000 (UTC)
+Date: Tue, 21 Jul 2026 17:09:52 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Baolin Liu <liubaolin12138@163.com>
+Cc: almaz.alexandrovich@paragon-software.com, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
+ ntfs3@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+ liubaolin12138@gmail.com, Baolin Liu <liubaolin@kylinos.cn>
+Subject: Re: [PATCH v1 v1 2/7] ntfs3: add namei tracepoints
+Message-ID: <20260721170952.26f79352@gandalf.local.home>
+In-Reply-To: <20260717032248.3318208-3-liubaolin12138@163.com>
+References: <20260717032248.3318208-1-liubaolin12138@163.com>
+	<20260717032248.3318208-3-liubaolin12138@163.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 8967630
+X-Stat-Signature: qojtcy4gzn5wrs17ydnuuimi48pyqbaf
+X-Rspamd-Server: rspamout07
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+tdfwZucz7oE5JLsF8N7x3CVcm/ofxZrs=
+X-HE-Tag: 1784668173-947541
+X-HE-Meta: U2FsdGVkX1/cC9ZmsEmqJ+zFElRipQF0/VCSqjaJA78e3OQ+ACEGOf0XB2xuNGcaNstQMrs47YLDmf7fVH5toZTZDBuDqCgJQnob0JMV/3f6kr12rQQ6dI5829u5q1coXVZ9k38EpYQKaW58uiZB9PUkvDTMJKJa/onodpcB9ALVmtPD0s5HgDdH6JX8FYWQW8q24fNNKEeHFPUqyIGWKAtLBqq0w313pZmAeBANLB374/mU1KTQlXrBeH12zYn/0W3CKWOONqpeh0M9Y0HdFDnmuAokepoeQtVHU3mObnQdagLsjYyjsec32CZhlbK8aE9EgX2y2KdDztnmA7meL2MyGeFmwCzU
 
-Condition of this if-block repeats another one from if-block above. So,
-condition is always false.
+On Fri, 17 Jul 2026 11:22:43 +0800
+Baolin Liu <liubaolin12138@163.com> wrote:
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> +TRACE_EVENT(ntfs3_lookup,
+> +	TP_PROTO(struct inode *dir, struct dentry *dentry),
+> +	TP_ARGS(dir, dentry),
+> +	TP_STRUCT__entry(
+> +		__field(dev_t, dev)
+> +		__field(unsigned long, parent_ino)
+> +		__string(name, dentry->d_name.name)
+> +		__field(unsigned int, name_len)
+> +	),
+> +	TP_fast_assign(
+> +		__entry->dev = dir->i_sb->s_dev;
+> +		__entry->parent_ino = dir->i_ino;
+> +		__assign_str(name);
+> +		__entry->name_len = dentry->d_name.len;
 
-Signed-off-by: Matvey Kovalev <matvey.kovalev@ispras.ru>
----
- fs/ntfs3/fslog.c | 3 ---
- 1 file changed, 3 deletions(-)
+Is dentry->d_name.len not equal to strlen(dentry->d_name.name) + 1 ?
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index f038c799e7ac..7c40eff69959 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -2753,9 +2753,6 @@ static inline bool check_attr(const struct MFT_REC *rec,
- 			return false;
- 		}
- 
--		if (run_off > asize)
--			return false;
--
- 		if (run_unpack(NULL, sbi, 0, svcn, evcn, svcn,
- 			       Add2Ptr(attr, run_off), asize - run_off) < 0) {
- 			return false;
--- 
-2.54.0
+-- Steve
 
+
+> +	),
+> +	TP_printk("dev=(%d,%d) parent=%lu name=%s len=%u",
+> +		  MAJOR(__entry->dev), MINOR(__entry->dev),
+> +		  __entry->parent_ino, __get_str(name),
+> +		  __entry->name_len)
+> +);
