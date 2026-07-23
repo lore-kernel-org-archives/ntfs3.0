@@ -1,79 +1,100 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EFC335C6A1
-	for <ntfs3@lists.linux.dev>; Tue, 21 Jul 2026 21:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FE9421256
+	for <ntfs3@lists.linux.dev>; Thu, 23 Jul 2026 09:31:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784668179; cv=none; b=gAufiLOjoYM0mAmIuRbuQuN0KBAlW7TnlPE2v2wdkQ4/xMKGVMAjFi3Gl6YNqRTqfwrqx/uutTW5T15vBOjr6SlrS8aFphpMaK2Q97YhMmUVEkuWCjhi0xC54nSvp1p4wbsm19tLeF2c25YE43iPbWarxrsCG7o3WbnGzbBSz1A=
+	t=1784799069; cv=none; b=Q1JXQ4VDKB0waWpMmjG/XUNiUiqc5mzNTaRO7Ds53miXq6fGNAA64IZg9ZifuPcOnZRdr5BzhChlxp++VLD0Z+fb/hzEZ/UP6hoJGQ4Psr3RQ6zfyUhWCIpL8ASbpFcN05kXbtDnTG7qZtYZ9uwtS69Rj900NhsRkN0cL2FJjms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784668179; c=relaxed/simple;
-	bh=Ss0d/FtXt7qY2/K6XKwqXa2A1+8puGqwQg1fmKpIEHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Cn19GsZ/9phaCj2+SBFEjd6JxMNKKmM7MS1/t4G12oyed/362nOEv81aq4AZZYzPGqNzethVz971EdM8NEJnMACy8fAUpe8JEPXc9Ah3rsIbO2f+TsnMtuVbvvtPbT/5bsI4MxKqIkGDIXoICqUY7XbP/TgObd/xsd1GxfdBplE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf14.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id DCD0DC02A6;
-	Tue, 21 Jul 2026 21:09:35 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf14.hostedemail.com (Postfix) with ESMTPA id 8967630;
-	Tue, 21 Jul 2026 21:09:33 +0000 (UTC)
-Date: Tue, 21 Jul 2026 17:09:52 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Baolin Liu <liubaolin12138@163.com>
-Cc: almaz.alexandrovich@paragon-software.com, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
- ntfs3@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
- liubaolin12138@gmail.com, Baolin Liu <liubaolin@kylinos.cn>
-Subject: Re: [PATCH v1 v1 2/7] ntfs3: add namei tracepoints
-Message-ID: <20260721170952.26f79352@gandalf.local.home>
-In-Reply-To: <20260717032248.3318208-3-liubaolin12138@163.com>
-References: <20260717032248.3318208-1-liubaolin12138@163.com>
-	<20260717032248.3318208-3-liubaolin12138@163.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1784799069; c=relaxed/simple;
+	bh=3wF2GIKEwwPuUv65bAunVjhRzzgAOmMY9KHOdkd/TX4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VPRVlT3qM9yPZ1AGYgibaDVq1VXLEksw7qeaBBIhVZ8fSF9JAcGBUEDho5wXp+mfdrGqoVHIpX5eJ0fOfOoHZnRSdZU4jPgrJ0iTYkC5XGElK3vkRkDQ8WJiKCmqdWAK/sxFoWOK+rFqF1ks9yMz477vO3J0xq1qf79rlP3qi2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=nvM17/PJ; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="nvM17/PJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=pQbtYu93HgzvAOkimpaqcjShK9zGePFCFy0Jr7kZ8yk=;
+	b=nvM17/PJSYinGkKEKaVwPYHFHDJNcvnpaI8xaB+FU4Im1DV2hM851ttDfnCPwW
+	ULAa0LlXjgKtYZzWc+aXSBAtE8fdGUG44PIBkU8ENJVg3uC1/bM47ds2GkQsWKU/
+	Z9g30ZW1+KFITZ3Q4kOjdPu2LXjwKv9yBulcK4Ey58Xk0=
+Received: from [IPV6:2409:8900:1ee3:1304:86b9:38f0:10e1:f1dc] (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wCncGc632FqLxgOKw--.29997S2;
+	Thu, 23 Jul 2026 17:30:36 +0800 (CST)
+Message-ID: <a36a7376-d750-4f07-a626-e916fe77ff77@163.com>
+Date: Thu, 23 Jul 2026 17:30:33 +0800
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 8967630
-X-Stat-Signature: qojtcy4gzn5wrs17ydnuuimi48pyqbaf
-X-Rspamd-Server: rspamout07
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+tdfwZucz7oE5JLsF8N7x3CVcm/ofxZrs=
-X-HE-Tag: 1784668173-947541
-X-HE-Meta: U2FsdGVkX1/cC9ZmsEmqJ+zFElRipQF0/VCSqjaJA78e3OQ+ACEGOf0XB2xuNGcaNstQMrs47YLDmf7fVH5toZTZDBuDqCgJQnob0JMV/3f6kr12rQQ6dI5829u5q1coXVZ9k38EpYQKaW58uiZB9PUkvDTMJKJa/onodpcB9ALVmtPD0s5HgDdH6JX8FYWQW8q24fNNKEeHFPUqyIGWKAtLBqq0w313pZmAeBANLB374/mU1KTQlXrBeH12zYn/0W3CKWOONqpeh0M9Y0HdFDnmuAokepoeQtVHU3mObnQdagLsjYyjsec32CZhlbK8aE9EgX2y2KdDztnmA7meL2MyGeFmwCzU
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 v1 2/7] ntfs3: add namei tracepoints
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: almaz.alexandrovich@paragon-software.com, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
+ ntfs3@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+ liubaolin12138@gmail.com, Baolin Liu <liubaolin@kylinos.cn>,
+ liubaolin12138@163.com
+References: <20260717032248.3318208-1-liubaolin12138@163.com>
+ <20260717032248.3318208-3-liubaolin12138@163.com>
+ <20260721170952.26f79352@gandalf.local.home>
+Content-Language: en-US
+From: liubaolin <liubaolin12138@163.com>
+In-Reply-To: <20260721170952.26f79352@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wCncGc632FqLxgOKw--.29997S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WryrGrykAFWkXw1fuF4kWFg_yoW8Jry8pF
+	1qyFW0ga97Jr40kw4Fvws5ta1Sv39Ygr15Kry7Wa48Crsavr1Dtrs2grsFv34rAws09w1f
+	XFWjv3sYgw15Ja7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JU_8n8UUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbCwRz5xGph3zxuVgAA3w
 
-On Fri, 17 Jul 2026 11:22:43 +0800
-Baolin Liu <liubaolin12138@163.com> wrote:
+Dear Steve,
+    dentry->d_name.len is the qstr length and does not include the 
+trailing NUL, so it corresponds to strlen(dentry->d_name.name), rather 
+than strlen(dentry->d_name.name) + 1.
+If you think the extra name_len field here is unnecessary, I can submit 
+a v2 patch to drop it. Looking forward to your feedback.
 
-> +TRACE_EVENT(ntfs3_lookup,
-> +	TP_PROTO(struct inode *dir, struct dentry *dentry),
-> +	TP_ARGS(dir, dentry),
-> +	TP_STRUCT__entry(
-> +		__field(dev_t, dev)
-> +		__field(unsigned long, parent_ino)
-> +		__string(name, dentry->d_name.name)
-> +		__field(unsigned int, name_len)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->dev = dir->i_sb->s_dev;
-> +		__entry->parent_ino = dir->i_ino;
-> +		__assign_str(name);
-> +		__entry->name_len = dentry->d_name.len;
-
-Is dentry->d_name.len not equal to strlen(dentry->d_name.name) + 1 ?
-
--- Steve
+Best regards,
+Baolin
 
 
-> +	),
-> +	TP_printk("dev=(%d,%d) parent=%lu name=%s len=%u",
-> +		  MAJOR(__entry->dev), MINOR(__entry->dev),
-> +		  __entry->parent_ino, __get_str(name),
-> +		  __entry->name_len)
-> +);
+在 2026/7/22 05:09, Steven Rostedt 写道:
+> On Fri, 17 Jul 2026 11:22:43 +0800
+> Baolin Liu <liubaolin12138@163.com> wrote:
+> 
+>> +TRACE_EVENT(ntfs3_lookup,
+>> +	TP_PROTO(struct inode *dir, struct dentry *dentry),
+>> +	TP_ARGS(dir, dentry),
+>> +	TP_STRUCT__entry(
+>> +		__field(dev_t, dev)
+>> +		__field(unsigned long, parent_ino)
+>> +		__string(name, dentry->d_name.name)
+>> +		__field(unsigned int, name_len)
+>> +	),
+>> +	TP_fast_assign(
+>> +		__entry->dev = dir->i_sb->s_dev;
+>> +		__entry->parent_ino = dir->i_ino;
+>> +		__assign_str(name);
+>> +		__entry->name_len = dentry->d_name.len;
+> 
+> Is dentry->d_name.len not equal to strlen(dentry->d_name.name) + 1 ?
+> 
+> -- Steve
+> 
+> 
+>> +	),
+>> +	TP_printk("dev=(%d,%d) parent=%lu name=%s len=%u",
+>> +		  MAJOR(__entry->dev), MINOR(__entry->dev),
+>> +		  __entry->parent_ino, __get_str(name),
+>> +		  __entry->name_len)
+>> +);
+
