@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6E443BDB9
-	for <ntfs3@lists.linux.dev>; Thu, 23 Jul 2026 14:27:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1610476CE4
+	for <ntfs3@lists.linux.dev>; Thu, 23 Jul 2026 14:33:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784816857; cv=none; b=AD1o8Dd8h1OswMuWC+6tPt+R0u5hftdxUCnEHE+jRiisQSd5ut2qxD3qfNy+OpTiQsbxdYauGcTGLBd7qoztjQuLEAi6TTjWyU2FCWaEdDuuoiygECRQuV5dPSAB+XVppon1AtJr0xjR9tdO8IrwToxYVZT5c+EVxHoBxRa0L4U=
+	t=1784817223; cv=none; b=F+8c9wWZBo49/V3zypisG3sPo0OtqRrl+y5vDQ4J/11hv4btEDFj4gCql4qewRB+rauEb1RoysdaoBWuhVY9hfcmee4UiTyNKD3jMvZ0OiiSC0f7ESOTEoTULPzWjViimzv6VepQja8wTBWUI9mRr2pbg2NN7BUYKpDKLRyBp7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784816857; c=relaxed/simple;
-	bh=+rO4woQsJQo01j2oI+s8+ALhZfkSDr9CnJTRoKs9Oiw=;
+	s=arc-20240116; t=1784817223; c=relaxed/simple;
+	bh=9li4KixI6tS0MLwMPKld/Zbo+cN5+M0tEcvim83Ayvo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=prIof9K/GeuxBAfywqJ4IuQZzK9dajkvcNLhwQdxrJSZAcjPiwAeMxiHhzaqr8Ali+au/gkfNxpSTIBB7vwf3QxtY/F44gCF+4mAWo8nGLywW2geBjs4T+yCpMGnFfm2lQrEF6HSwmySCiI6vAoDns8lzeuwOIFUm2nmWFCZjRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=OllOTUs+; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=QnsBniq7NzRzyV6XOaSf0RsJ7ToEqb1TVfXoPWXMBhdSTaJF+QAOD/HNNlKw5PXr56MOXtkHkeNa9xW/adP71oiMu1cYO6hUsREmUho2YWNBJXKuZphxM1F3jFKRUeXVFZL+0PNU3kdpuhQ4ax/DAdM2XY9dxdfz7mCQHHpr/Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=HQZkbcME; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="OllOTUs+"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="HQZkbcME"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 4295B1D3E;
-	Thu, 23 Jul 2026 14:27:53 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id F37C01D3A;
+	Thu, 23 Jul 2026 14:26:10 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=OllOTUs+;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=HQZkbcME;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id D318221D8;
-	Thu, 23 Jul 2026 14:27:33 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 8FAE921D8;
+	Thu, 23 Jul 2026 14:25:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1784816853;
-	bh=Uk5Sn35pm8vUnLtKdgRNGxjhbg8trNqdjJJThjG9kEg=;
+	d=paragon-software.com; s=mail; t=1784816751;
+	bh=6/++EgYhL0J9ZPPGXWanf5jDn23soNt6uHRhjmCxtNw=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=OllOTUs+YxbMYutDNjdfj6tg9rg5X1A4Etq41FhN0wh6OCQMH5fAcE7LIsHXy9DnA
-	 OuwMTt3VQLNar8kXD0UEt4ZlHn0H1LxBpMKJMFrYRzTPtbWPnaxCeFevnpazBFgv+C
-	 JwiZ4xSSVw5PCFB2sJGpVTlOAJzdg9DH0zMauOR0=
+	b=HQZkbcME0omo9YLyKli1rWntDtSRSlv0S6HNDRAueb+zT0BEpV4MHkMHWmobotXOq
+	 A0+gybG9wVmIm+kSx6aDopLDNbislqGdHFZvNvw9LRwMAIS66wPA8q5H+c0jq1cRNL
+	 G1jo39pZrmWZkr6FVUld7qC7oTOe85BfS3YVaPkM=
 Received: from [192.168.95.128] (172.30.20.182) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 23 Jul 2026 17:27:33 +0300
-Message-ID: <7639573a-0fee-4c80-a933-934209d0f20b@paragon-software.com>
-Date: Thu, 23 Jul 2026 16:27:31 +0200
+ 15.1.2375.7; Thu, 23 Jul 2026 17:25:50 +0300
+Message-ID: <818d721a-5faf-4399-86db-60da0585cf6f@paragon-software.com>
+Date: Thu, 23 Jul 2026 16:25:48 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,69 +45,170 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] fs/ntfs3: fix lseek EINVAL on sparse/compressed
- files with 64-bit clusters
-To: <senjin@hatchling.org>, <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>
-References: <20260613201610.14467-1-senjin@hatchling.org>
- <6a2dba8e080686532f1bf560@mailersend.net>
+Subject: Re: [PATCH] fs/ntfs3: validate dirty page table entry sizes
+To: Kyle Zeng <kylebot@openai.com>, <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <outbounddisclosures@openai.com>
+References: <20260611213304.16654-1-kylebot@openai.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <6a2dba8e080686532f1bf560@mailersend.net>
+In-Reply-To: <20260611213304.16654-1-kylebot@openai.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 6/13/26 22:16, Senjin wrote:
+On 6/11/26 23:33, Kyle Zeng wrote:
 
-> When CONFIG_NTFS3_64BIT_CLUSTER is enabled, sbi->maxbytes_sparse is set
-> to -1. As a signed loff_t this is -1LL, the most negative value. Any
-> lseek on a sparse or compressed file passes this as maxsize to
-> vfs_setpos(), which returns -EINVAL whenever offset > maxsize, and
-> since -1LL is less than any non-negative offset, every seek fails,
-> including lseek(fd, 0, SEEK_SET).
+> The generic restart table check only verifies the table header and
+> free-list shape.  Dirty Page Table entries also carry an entry-local
+> LCN array whose length is controlled by lcns_follow, and replay later
+> trusts that value when converting version-0 entries and when copying
+> LCNs from log records.
 >
-> The intent of -1 here appears to be "no limit" (matching the spirit of
-> MAX_LFS_FILESIZE assigned to sbi->maxbytes and sb->s_maxbytes in the
-> same block), but the signed type makes it the minimum instead of the
-> maximum.
+> A malformed $LogFile can provide a Dirty Page Table dump whose generic
+> restart table is valid but whose entry is too small for the declared
+> lcns_follow count.  log_replay() can then run the version-0 conversion
+> memmove() past the kmemdup() allocation, or later copy/read past
+> dp->page_lcns when a log record spans beyond the matched DPT entry.
 >
-> Fix by assigning MAX_LFS_FILESIZE to sbi->maxbytes_sparse in the
-> 64-bit cluster path, consistent with the other two limits set there.
+> Add Dirty Page Table-specific validation before copying the table:
+> require entries to be large enough for the typed DPT layout, require
+> the old version-0 source layout to fit before conversion, and require
+> lcns_follow to fit within the restart table entry.  Also validate each
+> log record's LCN span against the matched DPT entry before touching
+> dp->page_lcns.
 >
-> Observed on a 16 TB NTFS volume with 0xFFFFFEFF total clusters compiled
-> with CONFIG_NTFS3_64BIT_CLUSTER=y. Sequential reads via dd/cp worked
-> correctly; any lseek call on sparse files returned EINVAL, preventing
-> archive managers and other tools from random-accessing files on the
-> volume. The non-64-bit-cluster path correctly sets maxbytes_sparse to
-> (1ull << (cluster_bits + 32)) - 1, a large positive value.
->
-> Signed-off-by: Senjin <senjin@hatchling.org>
+> Assisted-by: Codex:gpt-5.5
+> Signed-off-by: Kyle Zeng <kylebot@openai.com>
 > ---
->   fs/ntfs3/super.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   fs/ntfs3/fslog.c | 61 +++++++++++++++++++++++++++++++++++++++++++-----
+>   1 file changed, 55 insertions(+), 6 deletions(-)
 >
-> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-> index XXXXXXX..XXXXXXX 100644
-> --- a/fs/ntfs3/super.c
-> +++ b/fs/ntfs3/super.c
-> @@ -1193,7 +1193,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
->   #ifdef CONFIG_NTFS3_64BIT_CLUSTER
->          if (clusters >= (1ull << (64 - cluster_bits)))
->                  sbi->maxbytes = -1;
-> -       sbi->maxbytes_sparse = -1;
-> +       sbi->maxbytes_sparse = MAX_LFS_FILESIZE;
->          sb->s_maxbytes = MAX_LFS_FILESIZE;
->   #else
->          /* Maximum size for sparse file. */
+> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+> index acfa18b84401..1fc9d04806b5 100644
+> --- a/fs/ntfs3/fslog.c
+> +++ b/fs/ntfs3/fslog.c
+> @@ -647,6 +647,23 @@ static inline void *enum_rstbl(struct RESTART_TABLE *t, void *c)
+>          return NULL;
+>   }
+>
+> +static inline bool dptbl_lcns_in_range(const struct DIR_PAGE_ENTRY *dp,
+> +                                      u64 vcn, u16 lcns_follow)
+> +{
+> +       u64 dp_vcn = le64_to_cpu(dp->vcn);
+> +       u32 dp_lcns = le32_to_cpu(dp->lcns_follow);
+> +       u64 off;
+> +
+> +       if (vcn < dp_vcn)
+> +               return false;
+> +
+> +       off = vcn - dp_vcn;
+> +       if (off > dp_lcns)
+> +               return false;
+> +
+> +       return lcns_follow <= dp_lcns - (u32)off;
+> +}
+> +
+>   /*
+>    * find_dp - Search for a @vcn in Dirty Page Table.
+>    */
+> @@ -657,12 +674,8 @@ static inline struct DIR_PAGE_ENTRY *find_dp(struct RESTART_TABLE *dptbl,
+>          struct DIR_PAGE_ENTRY *dp = NULL;
+>
+>          while ((dp = enum_rstbl(dptbl, dp))) {
+> -               u64 dp_vcn = le64_to_cpu(dp->vcn);
+> -
+> -               if (dp->target_attr == ta && vcn >= dp_vcn &&
+> -                   vcn < dp_vcn + le32_to_cpu(dp->lcns_follow)) {
+> +               if (dp->target_attr == ta && dptbl_lcns_in_range(dp, vcn, 1))
+>                          return dp;
+> -               }
+>          }
+>          return NULL;
+>   }
+> @@ -778,6 +791,37 @@ static bool check_rstbl(const struct RESTART_TABLE *rt, size_t bytes)
+>          return true;
+>   }
+>
+> +static bool check_dptbl(const struct RESTART_TABLE *rt, bool is_restart_v0)
+> +{
+> +       u16 rsize = le16_to_cpu(rt->size);
+> +       struct DIR_PAGE_ENTRY *dp = NULL;
+> +
+> +       if (rsize < sizeof(struct DIR_PAGE_ENTRY))
+> +               return false;
+> +
+> +       if (is_restart_v0 && rsize < sizeof(struct DIR_PAGE_ENTRY_32))
+> +               return false;
+> +
+> +       while ((dp = enum_rstbl((struct RESTART_TABLE *)rt, dp))) {
+> +               u32 lcns_follow = le32_to_cpu(dp->lcns_follow);
+> +               size_t bytes;
+> +
+> +               bytes = struct_size(dp, page_lcns, lcns_follow);
+> +               if (bytes > rsize)
+> +                       return false;
+> +
+> +               if (!is_restart_v0)
+> +                       continue;
+> +
+> +               bytes = size_add(offsetof(struct DIR_PAGE_ENTRY_32, page_lcns_low),
+> +                                array_size(lcns_follow, sizeof(u64)));
+> +               if (bytes > rsize)
+> +                       return false;
+> +       }
+> +
+> +       return true;
+> +}
+> +
+>   /*
+>    * free_rsttbl_idx - Free a previously allocated index a Restart Table.
+>    */
+> @@ -4204,7 +4248,7 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+>          t32 = rec_len - t16;
+>
+>          /* Now check that this is a valid restart table. */
+> -       if (!check_rstbl(rt, t32)) {
+> +       if (!check_rstbl(rt, t32) || !check_dptbl(rt, !rst->major_ver)) {
+>                  err = -EINVAL;
+>                  goto out;
+>          }
+> @@ -4547,9 +4591,13 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+>                   * whole routine a loop, case Lcns do not fit below.
+>                   */
+>                  t16 = le16_to_cpu(lrh->lcns_follow);
+> +               if (!dptbl_lcns_in_range(dp, t64, t16)) {
+> +                       err = -EINVAL;
+> +                       goto out;
+> +               }
+> +
+>                  for (i = 0; i < t16; i++) {
+> -                       size_t j = (size_t)(le64_to_cpu(lrh->target_vcn) -
+> -                                           le64_to_cpu(dp->vcn));
+> +                       size_t j = (size_t)(t64 - le64_to_cpu(dp->vcn));
+>                          dp->page_lcns[j + i] = lrh->page_lcns[i];
+>                  }
+>
+> @@ -4928,6 +4976,12 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+>          if (!dp)
+>                  goto read_next_log_do_action;
+>
+> +       t16 = le16_to_cpu(lrh->lcns_follow);
+> +       if (!dptbl_lcns_in_range(dp, t64, t16)) {
+> +               err = -EINVAL;
+> +               goto out;
+> +       }
+> +
+>          if (rec_lsn < le64_to_cpu(dp->oldest_lsn))
+>                  goto read_next_log_do_action;
+>
 > --
-> 2.x
+> 2.43.0
 
 Hello,
 
 Sorry for the delay.
-Your patch is applied, thank you.
+Your patch was applied, thank you.
 
 Regards,
 Konstantin
