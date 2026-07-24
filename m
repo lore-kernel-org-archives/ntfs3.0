@@ -1,95 +1,82 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A666BB5B
-	for <ntfs3@lists.linux.dev>; Fri, 24 Jul 2026 02:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0682F429CC7
+	for <ntfs3@lists.linux.dev>; Fri, 24 Jul 2026 11:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784858675; cv=none; b=jAXU8wworeV7qgTNN5aJQpt6WaUOjD5OVSJ00p/ke0kfYeH0NrLKUjN58nw6QLNpuJayuQRixe38E6nVLEyAzNk5otEPQQPr7J3xN818yvP8mDamvd5ipcTL8rq3GCNT6wAv77StKV1VYtIC/rtcIFHtkz+NHh4zMj9pl+gttCM=
+	t=1784891697; cv=none; b=kK1AdAKr+vMoXqBp3gtynAOJO0r8zB9sV+YmUti/X2g1JUnW2rB7n5opc8Z2wycfaZsRrAo4HPLatAPb2mf+s2IK8dzj6g6HXSNtzSVzX3KwVnUCaSUNGrKEY/mikeH3bABHOPdC/fIleYbEah7oAuEim8TE+pnPfX760PjzXGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784858675; c=relaxed/simple;
-	bh=fxkngOquKnwzmLxA+WH20uQ8WVHX0viy5+wF5zLThyw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tlXkTCQHvLjj9Y/HmmfzYzEfTdxfuvRMwEdkzPtuMm0I+uJe+zqsXTNOvtO1UEpZYtOhwdT2lBgQxCIVSBzY7NiJ2BRD7sE3jF/0LBHDmPy+ChsJgEPPwbNV7T8xmbCQMvB/A+y9t0i/2XAqsc3J7zHv/DTOGZPeVRX+dDNLYdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=KCG4IJoq; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1784891697; c=relaxed/simple;
+	bh=rCKRoZaVAvYBfidfA6J+WP837/BYIESWmT/BdCHWs90=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Z+4SL4WwUapcw0rhOE7cFC2G28mijEUU6m2s3xLSiN+RFLBMiU7xYUARmg+KnuJ6Hje1nQTDevBJMLRF56433K/jphXUyuAcZAMQnSWaRNZ673VU/ZmLDAaez4PMhSf+HB6du8FO1D3ngQsw51yHZhBE59V/qA54Y74ldtbfz2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=uz8ZFwwo; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="KCG4IJoq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=MsgL0Q2uA/2BsO/i1EgQmsGeMwRxKmjwvE2ROxymKKE=;
-	b=KCG4IJoqcEOiOMN0iN8kGWI4VxccrQyJkMMk+S0h6YNaq3Jvw3G5i0WiwPeNH9
-	xXOedDuBoJcLcB2ftdn4MfRmBYI0vABmR5ihV+hUDph7JtXaQv77CK7cqqMqeC8+
-	uZc49b0p7tRgyFOBNgFUQbwNwXW/u5nIeyZk16Qk24GY8=
-Received: from [IPV6:2409:8900:1ee3:1304:2999:ced2:9b83:997] (unknown [])
-	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wAXVG7+x2Jq6LUIKw--.62461S2;
-	Fri, 24 Jul 2026 10:03:45 +0800 (CST)
-Message-ID: <565bbfaa-ac7b-488c-9819-34f522d094e0@163.com>
-Date: Fri, 24 Jul 2026 10:03:42 +0800
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="uz8ZFwwo"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id C051E241;
+	Fri, 24 Jul 2026 11:15:12 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=uz8ZFwwo;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 5977637;
+	Fri, 24 Jul 2026 11:14:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1784891692;
+	bh=+X30ns/DHvn0q/g9YrdFO1eRmQb4aM9ivnaZPK3pBLw=;
+	h=From:To:CC:Subject:Date;
+	b=uz8ZFwwotVPYQ8ygSR4b2ybvmzgQ2x/ufnCBsLjE+k6Csv4vKtGQmCWoa9Q+DCNRn
+	 GWaFHOyrSzMJsCSr7kh+j3FF5odBL6J+07BrbG7B28se5oJdfJrI4LtN9Ob/Kia1Kl
+	 1lFDqC5sKftkkUaIX90ZwgwtTttGcsLYqilNAmFg=
+Received: from localhost.localdomain (172.30.20.208) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Fri, 24 Jul 2026 14:14:51 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH] fs/ntfs3: Fix memory leak in indx_find_sort()
+Date: Fri, 24 Jul 2026 13:14:43 +0200
+Message-ID: <20260724111443.14728-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 v1 2/7] ntfs3: add namei tracepoints
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: almaz.alexandrovich@paragon-software.com, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
- ntfs3@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
- liubaolin12138@gmail.com, Baolin Liu <liubaolin@kylinos.cn>
-References: <20260717032248.3318208-1-liubaolin12138@163.com>
- <20260717032248.3318208-3-liubaolin12138@163.com>
- <20260721170952.26f79352@gandalf.local.home>
- <a36a7376-d750-4f07-a626-e916fe77ff77@163.com>
- <20260723101735.377f355c@gandalf.local.home>
-Content-Language: en-US
-From: liubaolin <liubaolin12138@163.com>
-In-Reply-To: <20260723101735.377f355c@gandalf.local.home>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wAXVG7+x2Jq6LUIKw--.62461S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7XF4rGF1fGr1UCFy5tw4UXFb_yoWktFg_XF
-	4qvrZ7GanrXFnrGF43C3yUtFsI9r48JryUGry09r97X3s0vFn8Can5GrsIqrW5Kws5trn0
-	krnxZ3y0kry3ujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_6wZDUUUUU==
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6QFlMGpiyAEf5QAA3G
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Dear Steve,
-    Thanks for the review. I added name_len so the filename length could 
-be shown directly in the trace output.
-    However, it now seems redundant, since for a dynamic string field 
-like __string(name, ...), the length information is already maintained 
-by the trace event framework.
-    I will update the patch to remove name_len and send a v2 as soon as 
-possible. Thank you for the suggestion.
+When popping a level from the index lookup stack, indx_find_sort() frees
+the struct indx_node but not the index buffer it owns. Every call that
+descends and then pops a level leaks that allocation.
 
-Best regards,
-Baolin
+Free n->index before freeing the node itself.
 
-在 2026/7/23 22:17, Steven Rostedt 写道:
-> On Thu, 23 Jul 2026 17:30:33 +0800
-> liubaolin <liubaolin12138@163.com> wrote:
-> 
->> Dear Steve,
->>      dentry->d_name.len is the qstr length and does not include the
->> trailing NUL, so it corresponds to strlen(dentry->d_name.name), rather
->> than strlen(dentry->d_name.name) + 1.
-> 
-> But it is still tightly coupled with the actual length of the name.
-> 
->> If you think the extra name_len field here is unnecessary, I can submit
->> a v2 patch to drop it. Looking forward to your feedback.
-> 
-> I'm wondering what the purpose of it is for. The length of the string is
-> also stored in part of the meta data of the event which can be retrieved
-> via:
-> 
->    __get_dynnamic_array_len(name)
-> 
-> Although that will be strlen(name) + 1.
-> 
-> -- Steve
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+---
+ fs/ntfs3/index.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index 4afacfc6ff89..689712d3463d 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -1325,6 +1325,7 @@ int indx_find_sort(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 		/* Pop one level. */
+ 		if (n) {
+ 			fnd_pop(fnd);
++			kfree(n->index);
+ 			kfree(n);
+ 		}
+ 
+-- 
+2.43.0
 
