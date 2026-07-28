@@ -1,149 +1,132 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B568F41D13B
-	for <ntfs3@lists.linux.dev>; Tue, 28 Jul 2026 09:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757BF400969
+	for <ntfs3@lists.linux.dev>; Tue, 28 Jul 2026 09:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785231963; cv=none; b=cLBaxImxh8P0WtrLTEMjTdIkjatDVAVqa4WGkvwX3lnXvbzKK3V2h29b1YchDwTO2KGpQrJ2dMPJ2AVY9J+cpc1uH/EV5JUL51zUfpAepTNM9x9BMUM22HUAuwu9oQ3a9mutjFdiv7RM19sZoNuvVhdNNw6YiJYHvQ8cjiyz5zs=
+	t=1785232406; cv=none; b=J0ncYIkP6LBh3nmZG/t5oVLIq0gSWKRNJK9XI/vtI5F7Og/ab+yT7liHnkDyMSV3ctIeYamhFqPm4MOk/Vgecr35sPYFIA02GZ25zX0iozNAVZ2M2gFKAwUl/xWl2eEDHzOuHFFXvgfnZtE4rR3hBGN2thG2iGu1spVG40+gvwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785231963; c=relaxed/simple;
-	bh=DOjpgsZDVyNsW66tc84P7qjjDxgi2ndz+ZJ15TnDnbE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FZIGHXNFpvIzjkoZrmyYv+kwaIsgtaEt/PByUVsDIF8qZIQ7jYfQbBxib6xkRdrFUE4PUKWNs4vDgvRnn89VHG5PSntAsdDy1DeE3tGkNqvg/Lt9A8sBN+qOhM/dQGiKzBVwJBoWdz/lKHbwSUZPDL5e1Xk0INOg8q4PmOGXHfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=BajbDuH0; arc=none smtp.client-ip=117.135.210.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1785232406; c=relaxed/simple;
+	bh=iGmBhhbi7mZycY7vp6CmShlRBAX+4vQyykfwBmHjEQQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=A1D86J8I4kGGhFcYq2b/Hl22MqgW5IJjN9W4GBlFzs8LG6I+pCiOshlwcCwUQWRI9iZsVrLgDlrSbIplzK/skZOOc1YUXjS2qxDYIdPRfxyecqjTA4OB43pZ0MJXyj43BpUZ1UIpV/EVs4BbELdwqeOVtGNT6vUJdZgD0/bkSbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=Y9eV6xy3; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="BajbDuH0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=RF
-	QWwS/8e3Q2aB3AWo85Aty7oicZz9zXNtJaPxQ+aVg=; b=BajbDuH0CvP4aWGRpD
-	EYfQux58qGYLJVOm3yPL1I9DminFprLmYHzMNH4xFvzy5GsaCd9MjrtsgMVdVacN
-	JB+TRozx56ANOQ7WAdrZGwz3Xh7gdWGWw//JoreGCGnP3Wcmv2eP87TH+5Bsilcw
-	t1nF449a0+gB0utpHVhWc4l5Q=
-Received: from liubaolin-ThinkPad-E15-Gen-2 (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgDXFzUiemhq86rAJQ--.13303S9;
-	Tue, 28 Jul 2026 17:45:31 +0800 (CST)
-From: Baolin Liu <liubaolin12138@163.com>
-To: almaz.alexandrovich@paragon-software.com,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com
-Cc: linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org,
-	liubaolin12138@163.com,
-	liubaolin12138@gmail.com,
-	Baolin Liu <liubaolin@kylinos.cn>
-Subject: [PATCH v2 v2 7/7] ntfs3: add file I/O tracepoints
-Date: Tue, 28 Jul 2026 17:44:26 +0800
-Message-ID: <20260728094426.749482-8-liubaolin12138@163.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260728094426.749482-1-liubaolin12138@163.com>
-References: <20260728094426.749482-1-liubaolin12138@163.com>
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Y9eV6xy3"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 02FDC1D27;
+	Tue, 28 Jul 2026 09:53:42 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=Y9eV6xy3;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 17AEF21A9;
+	Tue, 28 Jul 2026 09:53:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1785232397;
+	bh=FvLnGtxR5TWNkshfIS3OwKTZcBwjJdEBI/lRxHziMh0=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=Y9eV6xy3Y84Vlk5mCZOLYyJMZ04Pxzy8DXRS4v+MLc1gVEbglv28pfnbh4aGQo7Xl
+	 C3ofncUvk6FfTyueLath21wHOdO8ZPWSNhkqIaJPqHITJ2tcCfAKkqJn4ciTt7KbHd
+	 JytDsbHWhj91D7VgmJKxpPoeNoo6GB/z4E8WZkHE=
+Received: from [192.168.95.128] (172.30.20.199) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 28 Jul 2026 12:53:16 +0300
+Message-ID: <b73b306e-965f-4091-a27c-9a3b2af3c217@paragon-software.com>
+Date: Tue, 28 Jul 2026 11:53:14 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgDXFzUiemhq86rAJQ--.13303S9
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGr18XF1ktw1kJr45ZFy3twb_yoW5XF47pF
-	nIyasxWrWxJ3y2gws3GF4DXa1rua1xCrWUJry7W3W3Ar1xJrn3JanFgF1j93Z5ArWqyw1a
-	g3Z0934DG34UXr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRBMKZUUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbCwhxiLWpoejyhLgAA3a
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs/ntfs3: fix info-leak on partial LZNT decompress in
+ ni_read_frame()
+To: Samuel Page <sam@bynar.io>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20260623190057.12351-1-sam@bynar.io>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20260623190057.12351-1-sam@bynar.io>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-From: Baolin Liu <liubaolin@kylinos.cn>
+On 6/23/26 21:00, Samuel Page wrote:
 
-Add ntfs3 tracepoints for file I/O operations.
+> ni_read_frame() decompresses an LZNT $DATA frame into the vmapped target
+> pages and then trusts decompress_lznt()'s return value:
+>
+>    unc_size = decompress_lznt(frame_ondisk, ondisk_size, frame_mem,
+>                               frame_size);
+>    if ((ssize_t)unc_size < 0)        err = unc_size;
+>    else if (!unc_size || unc_size > frame_size)  err = -EINVAL;
+>
+> decompress_lznt() stops as soon as the compressed stream is exhausted
+> (e.g. a zero chunk header) and returns the number of bytes it actually
+> wrote, which may be far less than frame_size. The bytes between unc_size
+> and frame_size are never written. The only memset() that follows zeroes
+> the region beyond i_valid; when the frame lies entirely within the file's
+> valid size that memset() does not run, so the gap retains whatever was in
+> the just-vmapped pages. All pages are then marked uptodate and returned
+> to userspace, disclosing uninitialized (recently-freed) kernel page
+> memory. A crafted compressed file whose stream decompresses to only a few
+> bytes leaks the remainder of every frame on a plain read(2), which is
+> enough to recover kernel pointers and defeat KASLR.
+>
+> Zero the [unc_size, frame_size) tail immediately after a successful LZNT
+> decompress so the remainder reads back as zero.
+>
+> Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Bynario AI
+> Signed-off-by: Samuel Page <sam@bynar.io>
+> ---
+> Reproduced on a non-KASAN, KASLR-enabled arm64 guest: a crafted file whose
+> 64 KiB LZNT frames each decompress to 8 bytes leaks the [8, 65536) tail of
+> every frame on a plain read(2) - up to ~3.3 MiB of uninitialized page memory,
+> including kernel-text return addresses from freed VMAP_STACK pages, from
+> which the KASLR base was recovered and verified vs /proc/kallsyms. With the
+> patch the same read returns zeroes; a zeroed control image (valid_size
+> truncated so the existing memset runs) leaks nothing, isolating the cause.
+>
+>   fs/ntfs3/frecord.c | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+>
+> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+> index 7b035da63c12..cd11df75bdbc 100644
+> --- a/fs/ntfs3/frecord.c
+> +++ b/fs/ntfs3/frecord.c
+> @@ -2443,6 +2443,15 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
+>                          err = unc_size;
+>                  else if (!unc_size || unc_size > frame_size)
+>                          err = -EINVAL;
+> +               else if (unc_size < frame_size) {
+> +                       /*
+> +                        * Partial decompress: zero the [unc_size, frame_size)
+> +                        * tail.  decompress_lznt() leaves it untouched, so
+> +                        * without this the freshly vmapped pages would expose
+> +                        * uninitialized kernel memory to userspace.
+> +                        */
+> +                       memset(frame_mem + unc_size, 0, frame_size - unc_size);
+> +               }
+>          }
+>          if (!err && valid_size < frame_vbo + frame_size) {
+>                  size_t ok = valid_size - frame_vbo;
+> --
+> 2.54.0
+>
+Hello,
 
-This adds trace events for ntfs_file_read_iter() and
-ntfs_file_write_iter() to help observe file read and
-write activity.
+Sorry for the delay.
+Your patch was applied, thank you.
 
-Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
----
- fs/ntfs3/file.c              |  5 +++++
- include/trace/events/ntfs3.h | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
-
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index d601f088618c..a260a57ebd65 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -20,6 +20,7 @@
- #include "debug.h"
- #include "ntfs.h"
- #include "ntfs_fs.h"
-+#include <trace/events/ntfs3.h>
- 
- /*
-  * cifx, btrfs, exfat, ext4, f2fs use this constant.
-@@ -822,6 +823,8 @@ static ssize_t ntfs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
- 	unsigned int dio_flags;
- 	ssize_t err;
- 
-+	trace_ntfs3_file_read_iter(iocb, iter);
-+
- 	err = check_read_restriction(inode);
- 	if (err)
- 		return err;
-@@ -1225,6 +1228,8 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 	loff_t vbo, endbyte;
- 	ssize_t ret, err;
- 
-+	trace_ntfs3_file_write_iter(iocb, from);
-+
- 	if (!inode_trylock(inode)) {
- 		if (iocb->ki_flags & IOCB_NOWAIT)
- 			return -EAGAIN;
-diff --git a/include/trace/events/ntfs3.h b/include/trace/events/ntfs3.h
-index e41cadd4fd4c..cc496582e8cc 100644
---- a/include/trace/events/ntfs3.h
-+++ b/include/trace/events/ntfs3.h
-@@ -351,6 +351,39 @@ TRACE_EVENT(ntfs3_iomap_end,
- 		  __entry->written, __entry->flags)
- );
- 
-+DECLARE_EVENT_CLASS(ntfs3_file_class,
-+	TP_PROTO(struct kiocb *iocb, struct iov_iter *iter),
-+	TP_ARGS(iocb, iter),
-+	TP_STRUCT__entry(
-+		__field(dev_t, dev)
-+		__field(unsigned long, ino)
-+		__field(loff_t, size)
-+		__field(loff_t, offset)
-+		__field(size_t, count)
-+	),
-+	TP_fast_assign(
-+		__entry->dev = file_inode(iocb->ki_filp)->i_sb->s_dev;
-+		__entry->ino = file_inode(iocb->ki_filp)->i_ino;
-+		__entry->size = i_size_read(file_inode(iocb->ki_filp));
-+		__entry->offset = iocb->ki_pos;
-+		__entry->count = iov_iter_count(iter);
-+	),
-+	TP_printk("dev=(%d,%d) ino=%lu size=%lld pos=%lld bytecount=%zu",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->size, __entry->offset,
-+		  __entry->count)
-+);
-+
-+DEFINE_EVENT(ntfs3_file_class, ntfs3_file_read_iter,
-+	TP_PROTO(struct kiocb *iocb, struct iov_iter *iter),
-+	TP_ARGS(iocb, iter)
-+);
-+
-+DEFINE_EVENT(ntfs3_file_class, ntfs3_file_write_iter,
-+	TP_PROTO(struct kiocb *iocb, struct iov_iter *iter),
-+	TP_ARGS(iocb, iter)
-+);
-+
- #endif /* _TRACE_NTFS3_H */
- 
- #include <trace/define_trace.h>
--- 
-2.51.0
+Regards,
+Konstantin
 
