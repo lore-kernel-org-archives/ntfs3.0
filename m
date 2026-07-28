@@ -1,94 +1,251 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0007339386
-	for <ntfs3@lists.linux.dev>; Sat, 25 Jul 2026 18:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DC3374E55
+	for <ntfs3@lists.linux.dev>; Tue, 28 Jul 2026 09:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785003917; cv=none; b=d+bYD8VzxtQKMyvATOf/dr2aGT0B+yMMjUwHJXN+g99VWRsYcF8+zG0S2B4zEACbG+MLOSBungLBCRwyQF+77jsuDfBFFzCOJWxvNNenB+9HEZP33PWWkUGcat4KSVpqhyzkg1ZS5e7pmHQDuArMxpPYPvUw+1WUppxbC05R5pw=
+	t=1785231949; cv=none; b=V84Lr7RzmXIFwWucQ3FzQDSfTSpuVuTwyBihmBV1w59tuZ1mFh0v/Z2FaMerUBS7gay1bmWrX2rfq75nJiL4hAs7uemp9DXqEvsBAezMp3YTg4egnpWhg4ECt3T++yUcQVkXnGHtvmdUaFZABXd2QNPm5cODgEMSuO16R2elk34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785003917; c=relaxed/simple;
-	bh=P+xUPhmKoc6D3GMEdZVYLKx5KNHXvNgwLU8vxitnYuE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rRuQ3IrmlwBfyHpYlW+Q+TyzmGtoJSE8zVZ6sVyL27DDut8kK0CZQFyJMWC5oaTAOHegtDgTvQfkF1N9Ib+sf4qOym7FBi3hHLEjBA82snNMZil351NWus7q1MGqM7LMk8/koZnsFRiWF0LIcCxTHm9eVZe8GiYIYpurB4nuUKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com; spf=pass smtp.mailfrom=openai.com; dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b=YDD0YukD; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openai.com
+	s=arc-20240116; t=1785231949; c=relaxed/simple;
+	bh=8IjNPX3b9oDtA7ccWW/FuqBcdCMi6fZbSFVSS8ClaG4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PP8TOgi7u4kwHmcP3fq9v2MKiadWaLHQXteY6Wy9ObroJiNfx+q8SOez0gDIX54adKCEAOSIWvysNGGXi/4RF1VoKmR3owxnAuQ4SNJD0H2GBUjfNyKUrfKIG+T1QgNoz1D1/zqK80o8RCS+f2aOkxybsl+ZFPXDKfuPBktgRL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=j2axcgzL; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b="YDD0YukD"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cea3004256so16411515ad.0
-        for <ntfs3@lists.linux.dev>; Sat, 25 Jul 2026 11:25:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=openai.com; s=google; t=1785003916; x=1785608716; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yEqULPTvgsDVfCC+5IwdXvQF8BpiZkzD9RJBIUZnmDc=;
-        b=YDD0YukDsi4y1Z4P2dWysYAaSq/o4JD2rSeRFmiWrW/MZXZe6luablhdB7A/A8pke/
-         5d7X7Dtz9bMxb2nFbk2mPNGQZYl+fDruJGulcRXkYHgKOBjV4Y+LBVDZvYC70SDq/l6a
-         72XXttjTf5fj5KPqcgWIgRUsvwXwSR1Ew32Yg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785003916; x=1785608716;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yEqULPTvgsDVfCC+5IwdXvQF8BpiZkzD9RJBIUZnmDc=;
-        b=AWSYxDL2QffPPXu6HYyNqlWfSdysRTmDu6ygkrSBz2IfAUzm8E3v1RKIPLGztjDzKM
-         6anKPgvhnG2Tx51MV+YGZWVHxLeCyoNFrIJk7zoG5pQW6BmbNgFCSB29gQ+1scluxBjg
-         vZOt/wZwuFt2PggOzkhoMp1isUtOHfdlDXIOxJ0K1j3S3p9YZNDTvI+g7RlgYAgLtI/G
-         4zq4LDdVkTpvYQ9CjkBY+rMbODLWkOhwNBqU2d5faaGifFpEFOjJzM1Bp32Ktf43eSV2
-         uSl+NLxWa1gEbz4GCUUNiwXsdoHsQx1FigVi8r9FdiHRoFDPWrSJoreg9gjrCadtY1fN
-         m/Sw==
-X-Gm-Message-State: AOJu0Yxd0QJP1+Jiu68qgvd6HWAmFr4be+uqGFqiGol52pLykDPUuH5x
-	d5CgnsibBH2NQXAVa5+i0Tv3rVXqXo5Ihkoo3ATYIuAlEfmOKU8ToWbnLkDWeFJiH+w=
-X-Gm-Gg: AR+sD10s3BrWUbXXK6hMefNAUj+sOfgqyAL3tWYLHCA8fjfIbryR6e/ngE8RFwlBI4J
-	GmvScdpQOD06pvGwRatfMEt43OBKP7qWpl4TpYqTdvHXpHBPsljjd79ILHjcC7jiTOFtljVh6A/
-	69QB3J8Z4YOJNeX4vuun1+BTU2OPtUGQuKbM30KYf7o8mL8rOLKQl2T0NHbOlL4avGanfTRjZJG
-	7bNd1LmNrII5RYJVMp5Loy5s3iFjDQKAN7mW/s85+tVGMCpe4YTbzHJdSLnteGFGJUcQ5p954zk
-	pytdArv8R+v4cLK0XwdU/D+av4kVVGw0gJJMTC+V2fnwNEQqbIHDmt6twEdZhirg0bl0qS91YQf
-	HEG1l8mQvRBCUQ1YlvfPY+UlfDzf8pDbg/SRwEvi+iqELQ5k7V1u0Gk2ZUJeNchGcR1tOVKUH09
-	pvA5t97YTXskNdE2bQFE/RxJ7jt9Of38ENb7iRxpEBLea+DbKQtUu0h8jnvgPrvoTlLXf8
-X-Received: by 2002:a17:902:d491:b0:2cf:8131:75e8 with SMTP id d9443c01a7336-2cfde797028mr30650195ad.13.1785003916073;
-        Sat, 25 Jul 2026 11:25:16 -0700 (PDT)
-Received: from com-75606 ([104.241.0.233])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc584433sm11781009eec.23.2026.07.25.11.25.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2026 11:25:15 -0700 (PDT)
-Date: Sat, 25 Jul 2026 11:25:13 -0700
-From: Kyle Zeng <kylebot@openai.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outbounddisclosures@openai.com
-Subject: Re: [PATCH] fs/ntfs3: validate dirty page table entry sizes
-Message-ID: <amT_iV4roArHh_Vx@com-75606>
-References: <20260611213304.16654-1-kylebot@openai.com>
- <26836018-9333-440d-9c3b-ae626148bfae@paragon-software.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="j2axcgzL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=V2
+	K8udpr/JM17a3K/bdp2bYKyLJGsmIq/DwkSIsPTHc=; b=j2axcgzLqEJYbNbCfa
+	y/MNwpM/7BrmTu5NlVophV8NSKyUBZ/DucBIcpn11yM5C9A0JLy4quMznfs0d7JC
+	ljirRiUwRPeMnkzXjKzOyP6eGCR2M7sDpukLzCHnTiJqBy/MARK6/WRBu9mjclpY
+	DH4dgPQoQBDt6nndLCYMBLeSE=
+Received: from liubaolin-ThinkPad-E15-Gen-2 (unknown [])
+	by gzsmtp5 (Coremail) with SMTP id QCgvCgDXFzUiemhq86rAJQ--.13303S3;
+	Tue, 28 Jul 2026 17:45:14 +0800 (CST)
+From: Baolin Liu <liubaolin12138@163.com>
+To: almaz.alexandrovich@paragon-software.com,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com
+Cc: linux-kernel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	liubaolin12138@163.com,
+	liubaolin12138@gmail.com,
+	Baolin Liu <liubaolin@kylinos.cn>
+Subject: [PATCH v2 v2 1/7] ntfs3: add mount and log replay tracepoints
+Date: Tue, 28 Jul 2026 17:44:20 +0800
+Message-ID: <20260728094426.749482-2-liubaolin12138@163.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260728094426.749482-1-liubaolin12138@163.com>
+References: <20260728094426.749482-1-liubaolin12138@163.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <26836018-9333-440d-9c3b-ae626148bfae@paragon-software.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:QCgvCgDXFzUiemhq86rAJQ--.13303S3
+X-Coremail-Antispam: 1Uf129KBjvJXoW3GF4xAF4ktw4fury7ur4DJwb_yoWxJryrpF
+	nrAFs3G3yktrWj9ws3tw1Sqr4rZa48uF4Utry3W347Ars7tr1kJr4DtrW8CFZ5ArZ0k3sa
+	q3Z0v390kw15Wr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zNhFcUUUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6QtdKGpoeivXlQAA3G
 
-> Hello,
-> 
-> I didn't hit anything at first, but during internal testing journal
-> replay now fails on one of our images.
-> 
-> I can provide an image where the problem reproduces if that helps.
-> 
-> Regards,
-> Konstantin
-> 
+From: Baolin Liu <liubaolin@kylinos.cn>
 
-Hi,
+Add ntfs3 tracepoints for mount and log replay paths.
 
-Can you provide the image and the test that triggers the issue?
-Preferrably if the test can be made minimal.
+This adds trace events for ntfs_fill_super(), ntfs_init_from_boot(),
+and log_replay() to help observe mount setup, boot sector parsing,
+and $LogFile replay results.
 
-Thanks,
-Kyle
+Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
+---
+ MAINTAINERS                  |  1 +
+ fs/ntfs3/fslog.c             |  3 ++
+ fs/ntfs3/super.c             | 11 ++++-
+ include/trace/events/ntfs3.h | 85 ++++++++++++++++++++++++++++++++++++
+ 4 files changed, 99 insertions(+), 1 deletion(-)
+ create mode 100644 include/trace/events/ntfs3.h
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 15011f5752a9..05d815243cb8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19293,6 +19293,7 @@ W:	http://www.paragon-software.com/
+ T:	git https://github.com/Paragon-Software-Group/linux-ntfs3.git
+ F:	Documentation/filesystems/ntfs3.rst
+ F:	fs/ntfs3/
++F:	include/trace/events/ntfs3.h
+ 
+ NTSYNC SYNCHRONIZATION PRIMITIVE DRIVER
+ M:	Elizabeth Figura <zfigura@codeweavers.com>
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index f038c799e7ac..5020da7e72f1 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -13,6 +13,7 @@
+ #include "debug.h"
+ #include "ntfs.h"
+ #include "ntfs_fs.h"
++#include <trace/events/ntfs3.h>
+ 
+ /*
+  * LOG FILE structs
+@@ -5362,6 +5363,8 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+ 	else if (log->set_dirty)
+ 		ntfs_set_state(sbi, NTFS_DIRTY_ERROR);
+ 
++	trace_ntfs3_log_replay(&ni->vfs_inode, *initialized, err);
++
+ 	kfree(log);
+ 
+ 	return err;
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 3305fe406cb2..7034ef257452 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -76,6 +76,9 @@
+ #include "lib/lib.h"
+ #endif
+ 
++#define CREATE_TRACE_POINTS
++#include <trace/events/ntfs3.h>
++
+ #ifdef CONFIG_PRINTK
+ /*
+  * ntfs_printk - Trace warnings/notices/errors.
+@@ -956,7 +959,7 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+ {
+ 	struct ntfs_sb_info *sbi = sb->s_fs_info;
+ 	int err;
+-	u32 mb, gb, boot_sector_size, sct_per_clst, record_size;
++	u32 mb, gb, boot_sector_size = 0, sct_per_clst, record_size;
+ 	u64 sectors, clusters, mlcn, mlcn2, dev_size0;
+ 	struct NTFS_BOOT *boot;
+ 	struct buffer_head *bh;
+@@ -1216,6 +1219,8 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+ 	}
+ 
+ out:
++	trace_ntfs3_init_from_boot(sb, sector_size, boot_sector_size,
++				 !!boot_block, err);
+ 	brelse(bh);
+ 
+ 	if (err == -EINVAL && !boot_block && dev_size0 > PAGE_SHIFT) {
+@@ -1731,12 +1736,16 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	}
+ 
+ 	ntfs_create_procdir(sb);
++	trace_ntfs3_fill_super(sb, ro, sbi->cluster_size, sbi->record_size,
++			      sbi->index_size, 0);
+ 
+ 	return 0;
+ 
+ put_inode_out:
+ 	iput(inode);
+ out:
++	trace_ntfs3_fill_super(sb, ro, sbi->cluster_size, sbi->record_size,
++			      sbi->index_size, err);
+ 	/* sbi->options == options */
+ 	if (options) {
+ 		put_mount_options(sbi->options);
+diff --git a/include/trace/events/ntfs3.h b/include/trace/events/ntfs3.h
+new file mode 100644
+index 000000000000..d00f66e42ba8
+--- /dev/null
++++ b/include/trace/events/ntfs3.h
+@@ -0,0 +1,85 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM ntfs3
++
++#if !defined(_TRACE_NTFS3_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_NTFS3_H
++
++#include <linux/fs.h>
++#include <linux/tracepoint.h>
++
++TRACE_EVENT(ntfs3_fill_super,
++	TP_PROTO(struct super_block *sb, bool ro, u32 cluster_size,
++		 u32 record_size, u32 index_size, int err),
++	TP_ARGS(sb, ro, cluster_size, record_size, index_size, err),
++	TP_STRUCT__entry(
++		__field(dev_t, dev)
++		__field(bool, ro)
++		__field(u32, cluster_size)
++		__field(u32, record_size)
++		__field(u32, index_size)
++		__field(int, err)
++	),
++	TP_fast_assign(
++		__entry->dev = sb->s_bdev->bd_dev;
++		__entry->ro = ro;
++		__entry->cluster_size = cluster_size;
++		__entry->record_size = record_size;
++		__entry->index_size = index_size;
++		__entry->err = err;
++	),
++	TP_printk("dev=(%d,%d) ro=%d cluster=%u record=%u index=%u err=%d",
++		  MAJOR(__entry->dev), MINOR(__entry->dev), __entry->ro,
++		  __entry->cluster_size, __entry->record_size,
++		  __entry->index_size, __entry->err)
++);
++
++TRACE_EVENT(ntfs3_init_from_boot,
++	TP_PROTO(struct super_block *sb, u32 media_sector_size,
++		 u32 boot_sector_size, bool used_alt_boot, int err),
++	TP_ARGS(sb, media_sector_size, boot_sector_size, used_alt_boot, err),
++	TP_STRUCT__entry(
++		__field(dev_t, dev)
++		__field(u32, media_sector_size)
++		__field(u32, boot_sector_size)
++		__field(bool, used_alt_boot)
++		__field(int, err)
++	),
++	TP_fast_assign(
++		__entry->dev = sb->s_bdev->bd_dev;
++		__entry->media_sector_size = media_sector_size;
++		__entry->boot_sector_size = boot_sector_size;
++		__entry->used_alt_boot = used_alt_boot;
++		__entry->err = err;
++	),
++	TP_printk("dev=(%d,%d) media_sector=%u boot_sector=%u alt_boot=%d err=%d",
++		  MAJOR(__entry->dev), MINOR(__entry->dev),
++		  __entry->media_sector_size, __entry->boot_sector_size,
++		  __entry->used_alt_boot, __entry->err)
++);
++
++TRACE_EVENT(ntfs3_log_replay,
++	TP_PROTO(struct inode *inode, bool initialized, int err),
++	TP_ARGS(inode, initialized, err),
++	TP_STRUCT__entry(
++		__field(dev_t, dev)
++		__field(unsigned long, ino)
++		__field(loff_t, size)
++		__field(bool, initialized)
++		__field(int, err)
++	),
++	TP_fast_assign(
++		__entry->dev = inode->i_sb->s_dev;
++		__entry->ino = inode->i_ino;
++		__entry->size = i_size_read(inode);
++		__entry->initialized = initialized;
++		__entry->err = err;
++	),
++	TP_printk("dev=(%d,%d) ino=%lu size=%lld initialized=%d err=%d",
++		  MAJOR(__entry->dev), MINOR(__entry->dev), __entry->ino,
++		  __entry->size, __entry->initialized, __entry->err)
++);
++
++#endif /* _TRACE_NTFS3_H */
++
++#include <trace/define_trace.h>
+-- 
+2.51.0
+
