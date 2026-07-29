@@ -1,177 +1,124 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpo49.interia.pl (smtpo49.interia.pl [217.74.67.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6C53C8C7D
-	for <ntfs3@lists.linux.dev>; Tue, 28 Jul 2026 10:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785234632; cv=pass; b=W+B3surXuE3XI2qgEjYBsp3GHpDAFWiWOJuDgHowmcVj1SCv4KUcnHztOlOTj3ie9EYg5VUZLhQ+3zKCqLykKOmRmM8haGm8hRc+iJ7CT9uUBqUpMs5hA2PB63PnQRkS4AiDCP5tA2lvbcB/vB8E3f6N9nWSyDknCnuGY42AbBM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785234632; c=relaxed/simple;
-	bh=5s+G1nZkZRAUd4M2imOXMt1AB/QYzg+ZZiRVg10Nvww=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VJts/YNq+41hlTsLEt7mliZDKTEp81SUIEr9eg2Jg1kaT6ghnLtVMn5wfsBtTILZHbLtuX+o6IHaRSFvEDeOddMljqJ8lG2VWoW68mfNiTRJxZKkLWrbrqlAhWPVVW4/YQgoAEF5MVE63JtohsS89d++t/NjUm1EwSBUrq1ZJ3o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iz6nLMAj; arc=pass smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A963A8722
+	for <ntfs3@lists.linux.dev>; Wed, 29 Jul 2026 06:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.74.67.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785306461; cv=none; b=Or3PZhI7D/cjTztg7xmfJ9WZSqUoUkScI1pd3gkcx3X/8oyLv4I66mBhBu9VlGWDdJhnkkUAroqygHCgLVhhEpS/oY8FJpXD3YcFnIk3u7M/jjZ+obdJxKCdJwOQ1RwdbYRnPxdRxCvgf1ENX7wkpBgTVA7Dag/h4gpvKR1S55M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785306461; c=relaxed/simple;
+	bh=uIRzJUwbnnVLfYe80kfu9mSrm0yIsrjovjMGvshunls=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KMvpyz8L5JWDVR98BZJ+FTtW0K9mRLtpJ9ucgJq/9VylPtxiT7fHfYglajoLJJPtBijCYFvX4x+aEKdDVfgKQ56bLvSDxY/qRJGGDoTPgr52RikpBzz0BKYEB2jE7cknn9gUak8+N43TyD64YYhKs1l6JlCt0KSDrMmLJn4XyZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=poczta.fm; spf=pass smtp.mailfrom=poczta.fm; dkim=pass (1024-bit key) header.d=poczta.fm header.i=@poczta.fm header.b=TlvKdnkX; arc=none smtp.client-ip=217.74.67.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=poczta.fm
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=poczta.fm
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iz6nLMAj"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-69fab5a852cso5308583a12.0
-        for <ntfs3@lists.linux.dev>; Tue, 28 Jul 2026 03:30:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785234629; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZzINZZ1HzPaHFrrZWANqduuPA+/qNXkraFn75PAYlsERGOvwvhkrNauiI3GhiJi2cq
-         d5Hg7ZWmaEgVatJI8Ex5rvvPtXOknDTY6eH1T7ZI7dY4xvBtw4xarP2lhgqhuv5F8LgU
-         AmWSSzbbAXzFFr1m74AZrYx0HeB/U7gy4aveSuHILs/DCYIupwvKfK69G03+3B4P0DzC
-         Xj+lszWyvI5V/49dM5uYtWcnFTaMjsPIgdBpMV7hmqsheESBcpwV0R2NL/8gIWu4qxRK
-         f7qLyigeRR1gVhNc6zljlaVsrBgT/WtiB+lwRZ07/qJLEkaGKHmrpugn7HkAit87Br2+
-         Vmbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=uS+u7+h8g5rIJjpZWBmxPQ/8eUDEPVVagQjlIixQW20=;
-        fh=rvunzd7vg9X6zQJhtfmq4ovUv1GOHSPth4FHqfpOg5M=;
-        b=qcgJ/5ErYquN05cpRd65kdWiV5hAnf3R3+jBgNLNmx0AeFsPOBBCpqANw4QQNEQ0op
-         f9l+oD4bcFyFjp8P8gSvNJKb0CI7qbRDgBPaawjNOusDaC9nNVVeXB8EwwNdaz91Han2
-         k0Z2LJLYph0qGhRnsigatuiDy0JIrIVYifmyo0zUL3eCCO1MpNRQXSSii2jiWpesNd5O
-         KefoAAjFpjhPhZUf7+I7oODa5OkZGcD5I06tKWAZUTkzTzrqpsqaphU48SiYUx38kYcD
-         a4uBrwXfuQLsP4j9ds8HVHfpoO1IIsh9dnsxK60DtTJvzKmko4/prE6iicwW5PwZwq0u
-         GXIQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785234629; x=1785839429; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uS+u7+h8g5rIJjpZWBmxPQ/8eUDEPVVagQjlIixQW20=;
-        b=Iz6nLMAjV23rZ0BGXrdzk5gWYII25lpEE2i5209kWz8zMJLgY7kAwPlEe0xHnxRu+z
-         bSILZvzF6z/r2frC2cm03d/wIySp/BP8qR8mbmUukkKTO9qj2f7c4SsDfS8y4N5SjP51
-         AYCySW+5di9OPnc2hEQP0lt8UpPCEwBqkQhRbX53d7PrSMcDAEVM6srCB+5mf+WPn+9e
-         d8DnIczW5Uzgmc3D1LeSDvLOe8fK5YklGwdvfqEod48D5lfEDfLROw3dQcyu46b9Jnku
-         n59EBsBqgeQRGRktHXsY5eQ813ZDP6/HyMEe/IzJyovFZBNM9BvHNXRb/yvJBDtYGgx2
-         HJGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785234629; x=1785839429;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uS+u7+h8g5rIJjpZWBmxPQ/8eUDEPVVagQjlIixQW20=;
-        b=LyL8M3YFbL404wbaT7JA9NXXg5KtDTc99EaEIN1PnDZjanz2/SHbIF3TAcAwUOcNS0
-         mz7lEUAUoYhcdPTf0u8PKilz1pfAuyDBLQsyX41MQc58oBXDOQpVF3i2m2MIOOCy9mAa
-         d4V+hvXGE1skF7QmeR9oFkrRQGmGGMHZWdL0fNyuUrEdFUHUSe4vTfnFbmUvdChulk2K
-         fO+WgnUxKdNbLb8FBVAmfU0pBxm06TGz0m07kx2zZ5oygAcKY3c4hUcsFCzLE1/ivXCa
-         +4bNqGMJuK6KRG6ZaMBC8mKeZ9j7nTuFjXU/0fb19wEXEZ8oYS+uIYh0NaCqyw4fq9J3
-         WXLw==
-X-Gm-Message-State: AOJu0YwoeWQmqvkyqqJKoHD43vPcLQlPKM9u0fxlzelFN0RHlS8pcSen
-	yHaB6c5u3/5XTRF7mAO14QTBLq6ojffmNnXKtdcr8fcHjOtNXkc1OUQaVVXzqTFH5kt5OJKVkQy
-	nJY2fqScc28TiXzWKvgmlYYlttk2bDBU=
-X-Gm-Gg: AR+sD101bGULFZ9iSXC/UQqn7TWupFNrUvfPvoF3Gzg5dijMVch0XCVBjvnSuhyqEeh
-	89F+PI1w+eOuqWcLwOo4XkpuTcELxJNB15qv6FMlBnM31VEDAcUng+dLjq60rf0xW9+Oo8EDYRw
-	rHNwAtAwWAU5K6koun3/Lvq74xdgMyMG4S6p9ljlqpsB+F0IitmcAQNnDVsoHLxsEfFWVtkGUY/
-	5N55e4jidpAs0sEea6eG2RfAgsDMaBiCauECrZBsKM4GW8yXVksqA2WzLMq8Ro4VZPYN/muqSlh
-	tpwjN+Gl2mReJdxiTOEFp6fo4w==
-X-Received: by 2002:a17:907:8b87:b0:c1f:304a:9a45 with SMTP id
- a640c23a62f3a-c1f72222977mr91471766b.38.1785234629067; Tue, 28 Jul 2026
- 03:30:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=poczta.fm header.i=@poczta.fm header.b="TlvKdnkX"
+Received: from nr200 (unknown [80.68.231.31])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by poczta.interia.pl (INTERIA.PL) with ESMTPSA;
+	Wed, 29 Jul 2026 08:27:35 +0200 (CEST)
+Date: Wed, 29 Jul 2026 08:27:32 +0200
+From: Slawomir Stepien <sst@poczta.fm>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: syzbot <syzbot@kernel.org>, syzkaller-bugs@googlegroups.com,
+	linux-kernel@vger.kernel.org, syzbot@lists.linux.dev,
+	syzkaller-upstream-moderation@googlegroups.com
+Subject: Re: [PATCH] fs/ntfs3: handle partial allocation in
+ attr_data_get_block_locked()
+Message-ID: <ammdVFSsD9cP8eYU@nr200>
+References: <8fc44517-e231-4539-a353-3dd47045a203@mail.kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260623101434.1321291-2-bestswngs@gmail.com> <ab6feb90-2a8b-438e-b49b-cd30cf9ebecc@paragon-software.com>
-In-Reply-To: <ab6feb90-2a8b-438e-b49b-cd30cf9ebecc@paragon-software.com>
-From: Weiming Shi <bestswngs@gmail.com>
-Date: Tue, 28 Jul 2026 18:29:52 +0800
-X-Gm-Features: AUfX_mwKjJ4s_wbdD8qDyJbpOyjmmPaamfaewxPwAze3K5-6hNt_43S-JgywGT8
-Message-ID: <CANgPUi0SOji931jMNnkA0Q4VqoyLb1dt+CMi6Myf0TUUCh-aBg@mail.gmail.com>
-Subject: Re: [PATCH] fs/ntfs3: reject restart table growth beyond U16_MAX entries
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, Xiang Mei <xmei5@asu.edu>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8fc44517-e231-4539-a353-3dd47045a203@mail.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poczta.fm; s=dk;
+	t=1785306456; bh=j71uMXwnOK6KYMsp07xsuBtAPsDk19Ch/WVHo7qdZGo=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	b=TlvKdnkXl0dGl+OaMVf5m0kea2CCouriNQCOJ6i7PLBBecZA0BJpQd/rsCKozaeup
+	 E27wVyMZCIYNT9UOlzr7gVWsVyZupcOaRuX5JbCx0C4vfXNTIpbxCh9DHWVJz20Nfp
+	 TMMcobVekCQcXBII2cqn9I9Kia08f0WQCxnFElxo=
 
-Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-=E4=BA=8E2026=E5=B9=B47=E6=9C=8828=E6=97=A5=E5=91=A8=E4=BA=8C 17:54=E5=86=
-=99=E9=81=93=EF=BC=9A
->
-> On 6/23/26 12:14, Weiming Shi wrote:
->
-> > During $LogFile replay, log_replay() indexes the transaction table by t=
-he
-> > transact_id taken from the log record header.  check_log_rec() only
-> > verifies that transact_id is non-zero and properly aligned, not its
-> > magnitude, so a crafted image can request an arbitrarily large index.
-> >
-> > alloc_rsttbl_from_idx() grows the table to cover that index via
-> > extend_rsttbl(), which passes the new entry count to init_rsttbl():
-> >
-> >          rt =3D init_rsttbl(esize, used + add);
-> >
-> > used + add is computed as u32 but init_rsttbl() takes a u16, and the
-> > count is stored in struct RESTART_TABLE as a __le16.  When used + add
-> > exceeds U16_MAX it is truncated, init_rsttbl() allocates a table far
-> > smaller than the index requires, and alloc_rsttbl_from_idx() then
-> > dereferences and writes at the original, untruncated offset -- an
-> > out-of-bounds access past the allocation, reachable by mounting a
-> > crafted NTFS image.
-> >
-> >   BUG: KASAN: use-after-free in alloc_rsttbl_from_idx (fs/ntfs3/fslog.c=
-:950)
-> >   Read of size 4 at addr ffff8880327ffff8 by task exploit
-> >    alloc_rsttbl_from_idx (fs/ntfs3/fslog.c:950)
-> >    log_replay (fs/ntfs3/fslog.c:4562)
-> >    ntfs_loadlog_and_replay (fs/ntfs3/fsntfs.c:324)
-> >    ntfs_fill_super (fs/ntfs3/super.c:1393)
-> >    get_tree_bdev_flags
-> >    vfs_get_tree
-> >    path_mount
-> >    __x64_sys_mount
-> >
-> > A restart table is limited to U16_MAX entries by its __le16 count, so a
-> > larger growth request is invalid input.  Reject it in extend_rsttbl();
-> > all callers already handle a NULL return.
-> >
-> > Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> > Reported-by: Xiang Mei <xmei5@asu.edu>
-> > Assisted-by: Claude:claude-opus-4-8
-> > Signed-off-by: Weiming Shi <bestswngs@gmail.com>
-> > ---
-> >   fs/ntfs3/fslog.c | 3 +++
-> >   1 file changed, 3 insertions(+)
-> >
-> > diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> > index f038c799e7ac..78f34442aaaa 100644
-> > --- a/fs/ntfs3/fslog.c
-> > +++ b/fs/ntfs3/fslog.c
-> > @@ -853,6 +853,9 @@ static inline struct RESTART_TABLE *extend_rsttbl(s=
-truct RESTART_TABLE *tbl,
-> >          u32 used =3D le16_to_cpu(tbl->used);
-> >          struct RESTART_TABLE *rt;
-> >
-> > +       if (used + add > U16_MAX)
-> > +               return NULL;
-> > +
-> >          rt =3D init_rsttbl(esize, used + add);
-> >          if (!rt)
-> >                  return NULL;
-> > --
-> > 2.43.0
-> >
-> Hello,
->
-> Sorry for the delay.
-> Your patch was applied, thank you.
->
-> Regards,
-> Konstantin
->
+Hello
 
-Hi Konstantin,
+A gentle reminder about this PATCH.
 
-Thank you for the update and for applying the patch.
+On lip 15, 2026 12:29, syzbot wrote:
+> From: Slawomir Stepien <sst@poczta.fm>
+> 
+> When allocating clusters for a sparse or compressed attribute in
+> attr_data_get_block_locked(), the requested virtual cluster number (vcn0)
+> is aligned down to a frame boundary (vcn). The function then attempts to
+> allocate a full frame of clusters.
+> 
+> If the disk is nearly full and highly fragmented, attr_allocate_clusters()
+> might only manage to allocate a small fragment and return success with a
+> partial allocation length. If this partial allocation is so small that it
+> does not even reach the originally requested vcn0 (i.e., end <= vcn0), vcn0
+> remains unallocated (a sparse hole).
+> 
+> When the code subsequently calls run_lookup_entry() for vcn0, it finds the
+> original SPARSE_LCN entry, which triggers a WARN_ON(1).
+> 
+> Fix this by adding a check to verify if the partial allocation reached
+> vcn0. If it did not (vcn0 >= end), treat this as an -ENOSPC failure and
+> jump to the undo1 label. This safely rolls back the partial allocation,
+> restores the original size, and repacks the runs, leaving the inode in a
+> consistent state before returning the error to the caller.
+> 
+> WARNING: fs/ntfs3/attrib.c:1236 at attr_data_get_block_locked+0x1980/0x25d0
+> fs/ntfs3/attrib.c:1236
+> RIP: 0010:attr_data_get_block_locked+0x1980/0x25d0 fs/ntfs3/attrib.c:1236
+> Call Trace:
+>  <TASK>
+>  attr_data_get_block+0x1f1/0x2a0 fs/ntfs3/attrib.c:979
+>  ntfs_fallocate+0xd3d/0xf70 fs/ntfs3/file.c:670
+>  vfs_fallocate+0x663/0x7f0 fs/open.c:338
+>  ksys_fallocate fs/open.c:362 [inline]
+>  __do_sys_fallocate fs/open.c:367 [inline]
+>  __se_sys_fallocate fs/open.c:365 [inline]
+>  __x64_sys_fallocate+0xbf/0x110 fs/open.c:365
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>  </TASK>
+> 
+> Fixes: 099ef9ab9203 ("fs/ntfs3: implement iomap-based file operations")
+> Assisted-by: Gemini:gemini-3.1-pro-preview Gemini:gemini-3-flash-preview syzbot
+> Reported-by: syzbot+7be6ad5cb228286af3e3@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=7be6ad5cb228286af3e3
+> Link: https://syzkaller.appspot.com/ai_job?id=3c9dee6e-001d-4972-8bf6-f6c960708246
+> Signed-off-by: Slawomir Stepien <sst@poczta.fm>
+> 
+> ---
+> diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+> index c621a4c58..786fd0ec0 100644
+> --- a/fs/ntfs3/attrib.c
+> +++ b/fs/ntfs3/attrib.c
+> @@ -1227,6 +1227,10 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
+>  	total_size = total_size0 + ((u64)*len << cluster_bits);
+>  
+>  	if (vcn != vcn0) {
+> +		if (vcn0 >= end) {
+> +			err = -ENOSPC;
+> +			goto undo1;
+> +		}
+>  		if (!run_lookup_entry(run, vcn0, lcn, len, NULL)) {
+>  			err = -EINVAL;
+>  			goto out;
+> 
+> 
+> base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
 
-Best regards,
-Weiming Shi
+-- 
+Slawomir Stepien
