@@ -1,110 +1,162 @@
-Received: from mail132.mailersend.net (mail132.mailersend.net [212.11.79.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cvsmtppost03.nm.naver.com (cvsmtppost03.nm.naver.com [114.111.35.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D4F199920
-	for <ntfs3@lists.linux.dev>; Fri, 31 Jul 2026 01:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.11.79.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00924322EC
+	for <ntfs3@lists.linux.dev>; Fri, 31 Jul 2026 14:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785462538; cv=none; b=te2gtLoDN4IBDzSj/nD+pKmUnMLrIHXc/tpicy7naAkhiVKOHdboNWP5MGMwHp+97nEQQJf79d0x8rt5tOXJZkEds7huutDgYfjSwxTZCRZSvxvmrPImw8cASpC7HXPVD7zTCzAihqRa76OShZ5ldDhRpv2GRF32tvkMYCAmDsM=
+	t=1785507902; cv=none; b=DRpB1NcKsQycIpltwYkmr6HSXf9Aiy3Gu7soJYkPHXxjiEmX3OPj/0IlXkKts88P0UrkmokCZImHI1c26Rojb7JZbk0tOIej6q2oYSAGw+3CUVtBd4VMIyp1H0ASKh/tdvaBhWTb4WlRrKmvPDMLZTUf0/rYGK/XQq1vt4DXN/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785462538; c=relaxed/simple;
-	bh=b+XddcyceE3Vx5mRfg1OwLj1luiST11CO9ZnW7OYxWk=;
-	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=t7sdHDLpSgn8qqjc+49oOsKOl1kS16ookru4qIiRw0JVAKqGq5crSpkk70hvozY2+ZYaN2/gn5PfZXj4wl3FJAzavOzvAeQRsU2Gd57qs8KPPkw9hDL0oi6FV6/cXih1TRCIpMJ5dSUu8WmtrcVzt5YdK9V9CBchKytt71zm5fE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hatchling.org; spf=pass smtp.mailfrom=mta.hatchling.org; dkim=pass (1024-bit key) header.d=hatchling.org header.i=@hatchling.org header.b=h+svnuB2; dkim=pass (1024-bit key) header.d=mailersend.net header.i=@mailersend.net header.b=jDax4pO4; arc=none smtp.client-ip=212.11.79.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hatchling.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mta.hatchling.org
+	s=arc-20240116; t=1785507902; c=relaxed/simple;
+	bh=a7eSvM2JHbOvQCUTR4TaiBdpKKZS4wqzFVkZje62WEI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oQ6jnY8y/ZEoRJwFeqsQ39IIwbRIth+M3Yv7wCIAPnEDjrcV5wo7SXrgvRvyG6dL9VWx94a+oyeR5FvLEC/hObqcv07ZuQdGJLumPdkwPkphvVadesrSnTmLq1U7epX0BU5p+VqOFGI1hx4p8+0h8hou21SfqIF5VhE38cIHaxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=Gmf7jD2P; arc=none smtp.client-ip=114.111.35.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hatchling.org header.i=@hatchling.org header.b="h+svnuB2";
-	dkim=pass (1024-bit key) header.d=mailersend.net header.i=@mailersend.net header.b="jDax4pO4"
-DKIM-Signature: a=rsa-sha256; bh=TG9Tv2idfL7EeCxHWXgFV/cAOqB0FkzFxCzyZRgOapU=;
- c=relaxed/relaxed; d=hatchling.org;
- h=DKIM-Signature:X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
- s=mlsend2; t=1785462340; v=1;
- b=h+svnuB2Fzv6kBmIcqtH/7abEDMRUCemWOhznoQg81c0vx6+iAFpkuZis6cOVfROcXNla1nP
- bzMT4Cynx5YfVs1ffAl2ieo8E+2rxyEpYV1Yh+T6Brw+KnIfLV+TZGDozYEK4eVeCQvKJV0jQa6
- Zw+CHqNsCO2VvQqElyyD0Ttc=
-DKIM-Signature: a=rsa-sha256; bh=TG9Tv2idfL7EeCxHWXgFV/cAOqB0FkzFxCzyZRgOapU=;
- c=relaxed/relaxed; d=mailersend.net;
- h=X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
- s=mlsend; t=1785462340; v=1;
- b=jDax4pO4/l8LCw/cvp0sbXvU8fI//6P9chnLrLuIqCKiKWy1aMXmr86dME/EDuodzgJLx5J3
- Aov1Odmt3BRRvtLOsPMz/ifYLEu/R+0FzEGIbcbpfuSU8GzHpoLP/xgiNO/jixDlb47VO4I+fYn
- V2FpK7RNC1nhLT1GnXhj9Jb8=
-X-Mailer-Info: 10.AZlZWY1xGd.AZlZWY1xGd0MTN5UzN.uRnZzNDQsl2c0NnLslmb1hnLkVmd.
- gNhJDOmFWM0IGOmZjYhVzY2MmYjVDO4gzK0MTN5UzN....
-Subject: fs/ntfs3: possible redundant MFT bitmap extent merging (ntfs_fill_super
- vs ntfs_read_mft)
-From: "senjin@hatchling.org" <senjin@hatchling.org>
-To: ntfs3@lists.linux.dev
-Cc: almaz.alexandrovich@paragon-software.com,
- linux-kernel@vger.kernel.org,
- Ruslan Elishev <relishev@gmail.com>
-Date: 31 Jul 2026 01:45:40 -0000
-Received: from 10.32.6.204 by 10.132.0.99 with http; 31 Jul 2026 01:45:40 +0000
-Message-ID: <6a6bfe44c36dda3a13e38dca@mailersend.net>
-X-MailerSend-RecipientID: 6a6bfe44c36dda3a13e38dca;6a28fa14b8f6ba5c6cbc5888;r9084zv9678gw63d
-Feedback-ID: r9084zv9678gw63d:MailerSend
-X-MailerSend-MessageID: 6a6bfe4491fb42e1ebb9efdd
-Reply-To: senjin@hatchling.org
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="Gmf7jD2P"
+Received: from cvsendbo022.nm ([10.112.20.47])
+  by cvsmtppost03.nm.naver.com with ESMTP id Ytv75SXCQRCtlsZM5t4B8A
+  for <ntfs3@lists.linux.dev>;
+  Fri, 31 Jul 2026 14:14:50 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1785507290; bh=a7eSvM2JHbOvQCUTR4TaiBdpKKZS4wqzFVkZje62WEI=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=Gmf7jD2PqWEjVgNdBEcvv1dmtsgvckmdU5jfDMCnxZ5q9ddo6IYhX8cQZyrYCRPd2
+	 X+OfzbYofqD1saQFDXZdLvLaz91b9WE/r4RW0UmIhqCbXMg6W+mh+xbCt9CuwOSB4F
+	 RSTWjZxSZ3MASNCBiweiK7w2xd9OEFGha4RhROZZnhwlmNzuZZNM+bNRePmSjXJY34
+	 1bBFt8C9xE/QQxa3wT6Gzfk1O4ayTW6NMYfMnQ/37Iewna8pbTq546+H3kEwcAknSM
+	 XbKnuK7zsVWmbckn8tCvUCLj7Y521JtOACd0Qy2ju09i8V+GeTY4H5AscOLe5KlHj/
+	 D96JGLuAdZRtQ==
+X-Session-ID: W5waVQ3hRKmKzzf0kMVAqw
+X-Works-Send-Opt: rle8W4eXjHwYKBm9FAF9FHmwKo2mKqErKqb/jJIFjAJYKg==
+X-Works-Smtp-Source: gdbXFAE/FqJZ+Hmmax2d+6E=
+Received: from localhost.localdomain ([211.41.193.194])
+  by cvnsmtp002.nm.naver.com with ESMTP id W5waVQ3hRKmKzzf0kMVAqw
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Fri, 31 Jul 2026 14:14:50 -0000
+From: Hyeontae Lee <wonju345@naver.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Hyeontae Lee <wonju345@naver.com>
+Subject: [PATCH] fs/ntfs3: bound CreateAttribute asize against record_size in do_action
+Date: Fri, 31 Jul 2026 23:14:40 +0900
+Message-ID: <20260731141440.52168-1-wonju345@naver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Konstantin, Hi Ruslan,
+In do_action()'s CreateAttribute case (fslog.c:3286), attr2 points into
+the on-disk log record and asize = le32_to_cpu(attr2->size) is therefore
+attacker-controlled on mount.  The guard bounds asize only against the
+log record itself,
 
-I don't have any filesystem or kernel background, so please excuse me
-if I'm misreading something here. I just happened to notice this
-while looking back at my own small "load ATTR_BITMAP run extents from
-$MFT extension records" patch out of curiosity, and wanted to flag it
-rather than assume it's already known.
+	Add2Ptr(attr2, asize) > Add2Ptr(lrh, rec_len)
 
-Ruslan's patch (which I found here, I wasn't otherwise aware of it:
-https://lkml.iu.edu/hypermail/linux/kernel/2603.3/10383.html) looks
-like it fixes the same underlying issue mine does: fragmented $MFT
-bitmap runs causing wnd_init()/wnd_rescan() to fail with -ENOENT. It
-does this through a different code path though, and both now seem to
-be present at the same time:
+where rec_len is the client data length, and separately bounds dlen
+against the MFT record.  Nothing bounds asize against record_size, but
+all three writes that follow are into rec, a kmalloc(sbi->record_size)
+buffer allocated by mi_init() (record.c:105):
 
-1. My patch extends the existing non-primary attribute segment
-   handling in ntfs_read_mft() (inode.c) so that ATTR_BITMAP
-   extension segments (not just the existing ATTR_DATA case) get
-   routed into sbi->mft.bitmap.run. This happens as part of the
-   normal $MFT inode read.
+	memmove(Add2Ptr(attr, asize), attr, used - roff);
+	memcpy(attr, attr2, asize);
+	rec->used = cpu_to_le32(used + asize);
 
-2. Ruslan's patch adds a separate loop in ntfs_fill_super()
-   (super.c), just before wnd_init(), that walks the attribute list
-   via ni_enum_attr_ex() looking for ATTR_BITMAP extents with
-   svcn > 0 and calls run_unpack_ex() to merge them into
-   sbi->mft.bitmap.run directly.
+With record_size 0x400, roff 0x38, used 0x160 and asize 0x800 the memcpy
+writes 2048 bytes at rec + 0x38, 0x438 bytes past the allocation, and
+rec->used is left at 0x960.  dlen is 0x18 here, so the existing
+dlen check passes: dlen bounds nothing about the size of the copy.
 
-As far as I can tell, ntfs_fill_super() has to read $MFT's own inode
-before it can walk its attribute list at all, so by the time Ruslan's
-loop runs, ntfs_read_mft() (with my change) would already have merged
-those same extension-record runs into sbi->mft.bitmap.run once
-already. If I'm reading that right, every mount of a volume with a
-fragmented MFT bitmap would now unpack and merge the same ATTR_BITMAP
-extents twice.
+The equivalent non-replay path already refuses this.  mi_insert_attr()
+performs the same insert and starts with (record.c:488):
 
-I looked at run_add_entry() and it seems to merge/consolidate
-overlapping ranges rather than reject them, so I don't think this
-causes any actual corruption. Both passes would be unpacking the same
-VCN/LCN data, so the second pass should just reconfirm the same thing
-and consolidate back down harmlessly. But I could easily be missing
-something, since I'm genuinely just someone who ran into this bug on
-my own drive and patched the one function I could see was wrong. I
-have no real experience with the rest of the driver or with how these
-two changes are supposed to interact.
+	if (used + asize > sbi->record_size)
+		return NULL;
 
-Apologies if this is already known or if I've misunderstood how the
-two pieces fit together. Just didn't want to assume it had been
-noticed. Happy to help however's useful, including sending a
-follow-up patch if it turns out one of the two paths should be
-removed.
+Apply the same bound, spelled as a subtraction to match the neighbouring
+clause.  used <= record_size holds here because check_file_record()
+validates it (fslog.c:2826) and is called on this record at fslog.c:3172;
+roff <= used - 4 follows from check_if_attr() together with the ATTR_END
+check at fslog.c:2844, so bounding used + asize bounds both copies.
 
-Thanks,
-Senjin
+The sibling WriteEndOfFileRecordSegment case does the equivalent check
+against record_size at fslog.c:3277.
+
+Reproduced by mounting a crafted image on v7.2-rc5 under KASAN:
+
+  BUG: KASAN: slab-out-of-bounds in do_action.isra.0+0x41f6/0x83a0
+  Write of size 2048 at addr ffff888005c74838 by task mount/69
+
+  CPU: 0 UID: 0 PID: 69 Comm: mount Not tainted 7.2.0-rc5-00300-g8ba098e6b6ff #2
+  Call Trace:
+   kasan_report+0xce/0x100
+   kasan_check_range+0x105/0x1b0
+   __asan_memcpy+0x3c/0x60
+   do_action.isra.0+0x41f6/0x83a0
+   log_replay+0x920a/0xd300
+   ntfs_loadlog_and_replay+0x3ef/0x510
+   ntfs_fill_super+0x1d23/0x4550
+   get_tree_bdev_flags+0x2ef/0x550
+   vfs_get_tree+0x82/0x2f0
+   fc_mount+0x10/0x1b0
+   path_mount+0x517/0x1df0
+   __x64_sys_mount+0x20b/0x270
+   do_syscall_64+0xf9/0x540
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+  Allocated by task 69:
+   __kasan_kmalloc+0x8f/0xa0
+   __kmalloc_noprof+0x1b4/0x460
+   mi_init+0x81/0x110
+   mi_get+0x6a/0x220
+   do_action.isra.0+0x1db4/0x83a0
+   log_replay+0x920a/0xd300
+   ntfs_loadlog_and_replay+0x3ef/0x510
+   ntfs_fill_super+0x1d23/0x4550
+
+  The buggy address belongs to the object at ffff888005c74800
+   which belongs to the cache kmalloc-1k of size 1024
+  The buggy address is located 56 bytes inside of
+   allocated 1024-byte region [ffff888005c74800, ffff888005c74c00)
+
+Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Hyeontae Lee <wonju345@naver.com>
+---
+ fs/ntfs3/fslog.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index f038c799e7ac..2230a4a77872 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -3288,10 +3288,15 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 		asize = le32_to_cpu(attr2->size);
+ 		used = le32_to_cpu(rec->used);
+ 
++		/*
++		 * attr2->size is taken from the log record and is bounded only
++		 * by the log record length, not by the MFT record.  Refuse an
++		 * attribute that does not fit, as mi_insert_attr() does.
++		 */
+ 		if (!check_if_attr(rec, lrh) || dlen < SIZEOF_RESIDENT ||
+ 		    !IS_ALIGNED(asize, 8) ||
+ 		    Add2Ptr(attr2, asize) > Add2Ptr(lrh, rec_len) ||
+-		    dlen > record_size - used) {
++		    dlen > record_size - used || asize > record_size - used) {
+ 			goto dirty_vol;
+ 		}
+ 
+-- 
+2.43.0
+
