@@ -1,147 +1,110 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail132.mailersend.net (mail132.mailersend.net [212.11.79.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBED3A8753
-	for <ntfs3@lists.linux.dev>; Wed, 29 Jul 2026 18:25:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D4F199920
+	for <ntfs3@lists.linux.dev>; Fri, 31 Jul 2026 01:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.11.79.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785349554; cv=none; b=Gmgg/Gz27YA6PUPPIKYWbzL/LRjbmu/owIDASYDJm9emmL57UCTJlDFlsUEdj2NIbz6PEvUYsAIV5AX8o2sPV0ShSVWq5gEKF4VjItqNxIxoRi1v71bEcAc7oQmma9feo0pkqUrrjlej62kYQxmo9ZF2rP7m1IJZYEERX9siACg=
+	t=1785462538; cv=none; b=te2gtLoDN4IBDzSj/nD+pKmUnMLrIHXc/tpicy7naAkhiVKOHdboNWP5MGMwHp+97nEQQJf79d0x8rt5tOXJZkEds7huutDgYfjSwxTZCRZSvxvmrPImw8cASpC7HXPVD7zTCzAihqRa76OShZ5ldDhRpv2GRF32tvkMYCAmDsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785349554; c=relaxed/simple;
-	bh=gZn8M6iN6qVLvcFu0jl/ynWIAVW1eVZ8xMa8AGW0qgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D+VZDarXqUveTXdjwCE2XPfKglk0IHa/Dmv/iOd/TXmpJoFNm24x+CgFmXO+PRif5oNJ8BVTevxbhjXPo2JbXWcMzuV/ttblsDeM6C7wpLlfLXwGqxApbwBiMuS1ghS/ic9Of7WIbSdY0h7NVekHe2tUcqNI4QcjVGB9lXc1fMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf08.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay01.hostedemail.com (Postfix) with ESMTP id 02DD01C0AE2;
-	Wed, 29 Jul 2026 18:25:48 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf08.hostedemail.com (Postfix) with ESMTPA id 02BFA20025;
-	Wed, 29 Jul 2026 18:25:46 +0000 (UTC)
-Date: Wed, 29 Jul 2026 14:26:22 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Baolin Liu <liubaolin12138@163.com>
-Cc: almaz.alexandrovich@paragon-software.com, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
- ntfs3@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
- liubaolin12138@gmail.com, Baolin Liu <liubaolin@kylinos.cn>
-Subject: Re: [PATCH v2 v2 2/7] ntfs3: add namei tracepoints
-Message-ID: <20260729142622.73d7ef18@gandalf.local.home>
-In-Reply-To: <20260728094426.749482-3-liubaolin12138@163.com>
-References: <20260728094426.749482-1-liubaolin12138@163.com>
-	<20260728094426.749482-3-liubaolin12138@163.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1785462538; c=relaxed/simple;
+	bh=b+XddcyceE3Vx5mRfg1OwLj1luiST11CO9ZnW7OYxWk=;
+	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=t7sdHDLpSgn8qqjc+49oOsKOl1kS16ookru4qIiRw0JVAKqGq5crSpkk70hvozY2+ZYaN2/gn5PfZXj4wl3FJAzavOzvAeQRsU2Gd57qs8KPPkw9hDL0oi6FV6/cXih1TRCIpMJ5dSUu8WmtrcVzt5YdK9V9CBchKytt71zm5fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hatchling.org; spf=pass smtp.mailfrom=mta.hatchling.org; dkim=pass (1024-bit key) header.d=hatchling.org header.i=@hatchling.org header.b=h+svnuB2; dkim=pass (1024-bit key) header.d=mailersend.net header.i=@mailersend.net header.b=jDax4pO4; arc=none smtp.client-ip=212.11.79.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hatchling.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mta.hatchling.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=hatchling.org header.i=@hatchling.org header.b="h+svnuB2";
+	dkim=pass (1024-bit key) header.d=mailersend.net header.i=@mailersend.net header.b="jDax4pO4"
+DKIM-Signature: a=rsa-sha256; bh=TG9Tv2idfL7EeCxHWXgFV/cAOqB0FkzFxCzyZRgOapU=;
+ c=relaxed/relaxed; d=hatchling.org;
+ h=DKIM-Signature:X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
+ s=mlsend2; t=1785462340; v=1;
+ b=h+svnuB2Fzv6kBmIcqtH/7abEDMRUCemWOhznoQg81c0vx6+iAFpkuZis6cOVfROcXNla1nP
+ bzMT4Cynx5YfVs1ffAl2ieo8E+2rxyEpYV1Yh+T6Brw+KnIfLV+TZGDozYEK4eVeCQvKJV0jQa6
+ Zw+CHqNsCO2VvQqElyyD0Ttc=
+DKIM-Signature: a=rsa-sha256; bh=TG9Tv2idfL7EeCxHWXgFV/cAOqB0FkzFxCzyZRgOapU=;
+ c=relaxed/relaxed; d=mailersend.net;
+ h=X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
+ s=mlsend; t=1785462340; v=1;
+ b=jDax4pO4/l8LCw/cvp0sbXvU8fI//6P9chnLrLuIqCKiKWy1aMXmr86dME/EDuodzgJLx5J3
+ Aov1Odmt3BRRvtLOsPMz/ifYLEu/R+0FzEGIbcbpfuSU8GzHpoLP/xgiNO/jixDlb47VO4I+fYn
+ V2FpK7RNC1nhLT1GnXhj9Jb8=
+X-Mailer-Info: 10.AZlZWY1xGd.AZlZWY1xGd0MTN5UzN.uRnZzNDQsl2c0NnLslmb1hnLkVmd.
+ gNhJDOmFWM0IGOmZjYhVzY2MmYjVDO4gzK0MTN5UzN....
+Subject: fs/ntfs3: possible redundant MFT bitmap extent merging (ntfs_fill_super
+ vs ntfs_read_mft)
+From: "senjin@hatchling.org" <senjin@hatchling.org>
+To: ntfs3@lists.linux.dev
+Cc: almaz.alexandrovich@paragon-software.com,
+ linux-kernel@vger.kernel.org,
+ Ruslan Elishev <relishev@gmail.com>
+Date: 31 Jul 2026 01:45:40 -0000
+Received: from 10.32.6.204 by 10.132.0.99 with http; 31 Jul 2026 01:45:40 +0000
+Message-ID: <6a6bfe44c36dda3a13e38dca@mailersend.net>
+X-MailerSend-RecipientID: 6a6bfe44c36dda3a13e38dca;6a28fa14b8f6ba5c6cbc5888;r9084zv9678gw63d
+Feedback-ID: r9084zv9678gw63d:MailerSend
+X-MailerSend-MessageID: 6a6bfe4491fb42e1ebb9efdd
+Reply-To: senjin@hatchling.org
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 02BFA20025
-X-Stat-Signature: njo39d879d3ik3y5s57zorda9h9rjm5j
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18gcG7z8+xe5CuRgGFrOaYPY1PVKe37xwY=
-X-HE-Tag: 1785349546-384304
-X-HE-Meta: U2FsdGVkX18AnuatEIIupAkEe65+nsGYSVe80nIsYwDv0eFlMvWG2VbM8gZmqo6RBi4cDGTSJVhjgKmfNQxHSAflr0yAfzDNrYIYLshzXtawPhj0EdPZEWiW5BV1rLbUSsZpbWlZpf+XsB78ZeIi2EQIaXzPllNfsLxiIJgbykUmsAug/tDV/LOLUCpACyqRyf1BmW7Q86BCm7HL+xSz9QD3UcKZvK7x5vjK8qLXk4S/qJvXRimuvM7041qjTQ+AKrkynL1h19Nbd29x48PmQiK2FTIOTuWqKxr4FFIe5hNrwyYHVU82yXkdaz0sLkWP3BbAzg+xrKwUp6vkVT4KeOX+QLGsRNIq
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 28 Jul 2026 17:44:21 +0800
-Baolin Liu <liubaolin12138@163.com> wrote:
+Hi Konstantin, Hi Ruslan,
 
-> diff --git a/include/trace/events/ntfs3.h b/include/trace/events/ntfs3.h
-> index d00f66e42ba8..041455edec76 100644
-> --- a/include/trace/events/ntfs3.h
-> +++ b/include/trace/events/ntfs3.h
-> @@ -80,6 +80,50 @@ TRACE_EVENT(ntfs3_log_replay,
->  		  __entry->size, __entry->initialized, __entry->err)
->  );
->  
-> +TRACE_EVENT(ntfs3_lookup,
-> +	TP_PROTO(struct inode *dir, struct dentry *dentry),
-> +	TP_ARGS(dir, dentry),
-> +	TP_STRUCT__entry(
-> +		__field(dev_t, dev)
+I don't have any filesystem or kernel background, so please excuse me
+if I'm misreading something here. I just happened to notice this
+while looking back at my own small "load ATTR_BITMAP run extents from
+$MFT extension records" patch out of curiosity, and wanted to flag it
+rather than assume it's already known.
 
-dev_t is 4 bytes, you should move it after parent_ino as on 64 bit
-machines, it will waste 4 bytes of space here.
+Ruslan's patch (which I found here, I wasn't otherwise aware of it:
+https://lkml.iu.edu/hypermail/linux/kernel/2603.3/10383.html) looks
+like it fixes the same underlying issue mine does: fragmented $MFT
+bitmap runs causing wnd_init()/wnd_rescan() to fail with -ENOENT. It
+does this through a different code path though, and both now seem to
+be present at the same time:
 
-> +		__field(unsigned long, parent_ino)
-> +		__string(name, dentry->d_name.name)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->dev = dir->i_sb->s_dev;
-> +		__entry->parent_ino = dir->i_ino;
-> +		__assign_str(name);
-> +	),
-> +	TP_printk("dev=(%d,%d) parent=%lu name=%s",
-> +		  MAJOR(__entry->dev), MINOR(__entry->dev),
-> +		  __entry->parent_ino, __get_str(name))
-> +);
-> +
-> +TRACE_EVENT(ntfs3_rename,
-> +	TP_PROTO(struct inode *dir, struct dentry *dentry,
-> +		 struct inode *new_dir, struct dentry *new_dentry),
-> +	TP_ARGS(dir, dentry, new_dir, new_dentry),
-> +	TP_STRUCT__entry(
-> +		__field(dev_t, dev)
+1. My patch extends the existing non-primary attribute segment
+   handling in ntfs_read_mft() (inode.c) so that ATTR_BITMAP
+   extension segments (not just the existing ATTR_DATA case) get
+   routed into sbi->mft.bitmap.run. This happens as part of the
+   normal $MFT inode read.
 
-Same here.
+2. Ruslan's patch adds a separate loop in ntfs_fill_super()
+   (super.c), just before wnd_init(), that walks the attribute list
+   via ni_enum_attr_ex() looking for ATTR_BITMAP extents with
+   svcn > 0 and calls run_unpack_ex() to merge them into
+   sbi->mft.bitmap.run directly.
 
-In fact, you should audit the rest of your tracepoints to see where you can
-make the sizes more condensed.
+As far as I can tell, ntfs_fill_super() has to read $MFT's own inode
+before it can walk its attribute list at all, so by the time Ruslan's
+loop runs, ntfs_read_mft() (with my change) would already have merged
+those same extension-record runs into sbi->mft.bitmap.run once
+already. If I'm reading that right, every mount of a volume with a
+fragmented MFT bitmap would now unpack and merge the same ATTR_BITMAP
+extents twice.
 
-~# cat /sys/kernel/tracing/events/ntfs3/ntfs3_rename/format 
-name: ntfs3_rename
-ID: 1923
-format:
-        field:unsigned short common_type;       offset:0;       size:2; signed:0;
-        field:unsigned char common_flags;       offset:2;       size:1; signed:0;
-        field:unsigned char common_preempt_count;       offset:3;       size:1; signed:0;
-        field:int common_pid;   offset:4;       size:4; signed:1;
+I looked at run_add_entry() and it seems to merge/consolidate
+overlapping ranges rather than reject them, so I don't think this
+causes any actual corruption. Both passes would be unpacking the same
+VCN/LCN data, so the second pass should just reconfirm the same thing
+and consolidate back down harmlessly. But I could easily be missing
+something, since I'm genuinely just someone who ran into this bug on
+my own drive and patched the one function I could see was wrong. I
+have no real experience with the rest of the driver or with how these
+two changes are supposed to interact.
 
-        field:dev_t dev;        offset:8;       size:4; signed:0;
-        field:unsigned long dir_ino;    offset:16;      size:8; signed:0;
-        field:unsigned long new_dir_ino;        offset:24;      size:8; signed:0;
-        field:unsigned long ino;        offset:32;      size:8; signed:0;
-        field:__data_loc char[] old_name;       offset:40;      size:4; signed:0;
-        field:__data_loc char[] new_name;       offset:44;      size:4; signed:0;
+Apologies if this is already known or if I've misunderstood how the
+two pieces fit together. Just didn't want to assume it had been
+noticed. Happy to help however's useful, including sending a
+follow-up patch if it turns out one of the two paths should be
+removed.
 
-
-Notice that dev is at offset 8 and size 4, where as dir_ino is at offset
-16. That means there's 4 bytes between dev and dir_ino.
-
-Please look at your other trace events and see if there are other gaps you
-can close. I'm not going to audit all your tracepoints.
-
-Note that __string() is a 4 byte meta data, so have them act like 4 byte
-fields.
-
--- Steve
-
-
-
-> +		__field(unsigned long, dir_ino)
-> +		__field(unsigned long, new_dir_ino)
-> +		__field(unsigned long, ino)
-> +		__string(old_name, dentry->d_name.name)
-> +		__string(new_name, new_dentry->d_name.name)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->dev = dir->i_sb->s_dev;
-> +		__entry->dir_ino = dir->i_ino;
-> +		__entry->new_dir_ino = new_dir->i_ino;
-> +		__entry->ino = d_inode(dentry)->i_ino;
-> +		__assign_str(old_name);
-> +		__assign_str(new_name);
-> +	),
-> +	TP_printk("dev=(%d,%d) dir=%lu new_dir=%lu ino=%lu old=%s new=%s",
-> +		  MAJOR(__entry->dev), MINOR(__entry->dev),
-> +		  __entry->dir_ino, __entry->new_dir_ino, __entry->ino,
-> +		  __get_str(old_name), __get_str(new_name))
-> +);
-> +
->  #endif /* _TRACE_NTFS3_H */
->  
+Thanks,
+Senjin
