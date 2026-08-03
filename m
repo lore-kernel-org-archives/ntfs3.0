@@ -1,70 +1,52 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cvsmtppost10.nm.naver.com (cvsmtppost10.nm.naver.com [114.111.35.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECEF2EA498
-	for <ntfs3@lists.linux.dev>; Mon,  3 Aug 2026 04:34:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEA92931D0
+	for <ntfs3@lists.linux.dev>; Mon,  3 Aug 2026 05:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785731679; cv=none; b=hp6J2d0nXbZe9iEksgXgZZS4mkzwEfT03VK57hQCKTbCDqypi57nX+lgqtwRyye1N9g1K1buletShUpnPR3lP5P35iVR+0SySSZwYJNWdDSb8ZFntIlDCIR80xH+32WTL225iZIcEpZ4QWinFFd6IXH8O4BiMX6ljNUPW1Y9ubM=
+	t=1785735120; cv=none; b=J6zQS23wqYcLUnQ+4uvgB+I+G1esQ+xlrwq/czqJ5bWrBpp1pcvm2Ls4KU7Pjf64lU/bzMTnJdc7l6b6cjLzT7U5wBpyM5pBNltwo7n6xLVizijk+ztQTDe45+a/DMjAGfE3Pypzbxmrlry4xgKWLCKZjJv3iOfmMSvaUUr3UME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785731679; c=relaxed/simple;
-	bh=6MaiF08US6EBABB8rzhXICVg0DKE/Axy9oSPVxG0dZk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mCaVwL2ISKpIUGxLu21G8NFHdpRVwRZsF4zWiuV+LS2Ua/l4WD2w4UV3v2tMJ7YsxCPcG17oCE+I5lXhm5djMNftMlSNii4qGvtS2fRFw74py3HzU9kGlIyvdW3iigyZpdy11hmAUo2u6e6xut7fIm0+ANJIA+aLi5wkknlenH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EteCaC9s; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785735120; c=relaxed/simple;
+	bh=Odm4bgUe5yiGB1PQFAXlnF8TGTM0tTyU/1kX3aDHpWI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ADb/R4UfEt11pBkjtiBrUswBwxmZdgeIA7ORJYm61H3JMnwo5eeQ6DAXllDvX2e8o9euZuOI9DIet3b0jLlTPCKrAA2j9yOYRCsd+hUoe4ltn9wc9VoLgjiPTND+W4jtBJg2uaZT42uKIq3WoJXXxc8Z7OGhktE8aMMLw2Syhu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=CApIy78F; arc=none smtp.client-ip=114.111.35.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EteCaC9s"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cc97653887so30919955ad.1
-        for <ntfs3@lists.linux.dev>; Sun, 02 Aug 2026 21:34:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785731678; x=1786336478; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yhmhEpINn+raFaWrTltRP0P5bFP6jSqRDnD8vpTuVFs=;
-        b=EteCaC9sKhL2dZHPvY+uFL24I/DaK9hvEj89Ot1DiOR023aZG9wqxpYYE8kGCB2eWy
-         BNzvXeofmx/aVkfJz9kx/TmUohx2c9CcyH6tsm8xS4tFzW3m6ee87WBUSlasqJRQd5Jy
-         ZBKq/f3atlj90izfBnoaCAejGY8QgTJLpvKRrXUKgStgAKQPd5R1ZSrtzJITSfbgVfDe
-         3qDj5Fet19PyBqQ+rVftAcyzVIkuQ2D7m/8D3d4fTPQDaoo4PhqopHHDkw09TwZvwtdG
-         oqIyhchg9+oxT0KQN/UvdzDNDzYDuzl/WU6q5PMO+BhrxX9Z59zviU34g+VtXRJZPRMA
-         CsOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785731678; x=1786336478;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yhmhEpINn+raFaWrTltRP0P5bFP6jSqRDnD8vpTuVFs=;
-        b=OpAseujGitpo3qBX6NxdY3mrmLlr4stSjoOCP1/9a+TPVPOs79/rZWPDzxQmtsUlVL
-         /niiTBRilPqoQoua3SqieewjBSNgICWkS/qD64c/DCxOu57lW7TjbmwnfDBidN/2olC+
-         dBiO39D1lJTl5hpWRCxdS13sYgH1m8+wIlVU6tv4BMTyfpqPdHZ1uf2U8fHoEbKrehkX
-         fM6PwSd+nFh439aBg0KxoJF8FUIeOaTATNM9hRWhbPe5XnnpOB99Jb2E7OW/fJvTJcBm
-         H2aBerfSpdCN/M86r0NTnnBw5RaQbb3TM9Byaa9R3pTPFu/g7pPsHyGQRms0F9q4C99S
-         DJXA==
-X-Gm-Message-State: AOJu0Yxa8CsS44yN/QnloL0ufNYB1LtEc71YJlsjateWfxsKuBkqeN4s
-	Y3MJC9i0wSm5EIbvniZM2US4Mmx4HGcQmtbJQwk6Vg9ncdnpWDAiAuug
-X-Gm-Gg: AR+sD10q07ypdr4FWfVP0cI6CLUEeg6DdpOucAhLxhDWGluZ/jAxk380D380AMEGPKf
-	B/EuXVsAovpSQbm6RLhT3ue3PyYG3d+KRlsYYPBIOanoVau+UH6cL0O3OSb2lEYVD/f+lj6XYU+
-	fRJd5DVb0WkB7rE4JbfiKz3c/oyuCM8GUg6ObuMIE3WWuufBz4gneaCQX3vLMfZqIu45ZSke0Cy
-	W8tu0qjm4bX8+b4UZiGwmer4bgD5tJ3WH1VaqYommqKRNVDpPFArt03k1Wa6Yc/lifYzKlhnvRS
-	O8fCE/Z/BKS9yorMBcEY7po+kDchGUIgTIUr2b1sU3t61RIO2cffRdCfhlJbV6m8Q3R58gK18sk
-	MkVttw69/+EqULgR6c9Tibmf2mtdkuOhuyPOlvj3+psLHKnAycY0ONKFIuQhCOjKi9H+edmWe3s
-	sG1bWomm7jllvsGXhFZZcwY+S+nHlDMkwQMiEDy7w3vcmYPygZZ2qVG1IL088htEnv877HwoH7T
-	VDMo2J8tgKMpA==
-X-Received: by 2002:a17:902:f60a:b0:2c8:2808:3ec4 with SMTP id d9443c01a7336-2d05246ee7cmr89005425ad.24.1785731677604;
-        Sun, 02 Aug 2026 21:34:37 -0700 (PDT)
-Received: from localhost.localdomain ([113.23.46.216])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153ddda5d9sm39302243eec.13.2026.08.02.21.34.34
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 02 Aug 2026 21:34:36 -0700 (PDT)
-From: Yuejie Shi <syjcnss@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: validate the EA value length in ntfs_read_ea()
-Date: Mon,  3 Aug 2026 12:34:32 +0800
-Message-ID: <20260803043432.94886-1-syjcnss@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="CApIy78F"
+Received: from cvsendbo026.nm ([10.112.20.48])
+  by cvsmtppost10.nm.naver.com with ESMTP id xafRoOOBSHqbo+J5qARv0Q
+  for <ntfs3@lists.linux.dev>;
+  Mon, 03 Aug 2026 05:21:48 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1785734508; bh=Odm4bgUe5yiGB1PQFAXlnF8TGTM0tTyU/1kX3aDHpWI=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=CApIy78FiC+hxk0kQn++GlULR9pInsVQL3vbsWoDP58Bk94R1xSVaCA8EROzRfE1E
+	 fVc2woqg6bmslEH9+2wnDkzwrWNmQtmM6xL88gl8t555afqjEAMTcK4vZxAZiswWd4
+	 Qx31MSMflefisTg22LGyCV5pJE7XzAsDS8kf6eQUACuAfS4gUsuxViN80rRFNu0f1R
+	 jnvHnQsjtFIoJFh0KJ7TvBGb6hG2Qe3EbJgHea41q+jMoK2CNNc8EnZUJZ84GZdybV
+	 6PhMaHcEF37TLtqp2JQcgiqA7SRjAiUbZJYhQPg8LeIfCqQp4j9Hhtepgnq8NyUIhV
+	 fcPbpB1Q3H0XQ==
+X-Session-ID: 2Llb3e00Q4Ooir7Ie8einA
+X-Works-Send-Opt: rle8W4eXjHwYKBm9FAF9FHmwKo2mKqErKqb/jJIFjAJYKg==
+X-Works-Smtp-Source: YwnmFqE/FqJZ+HmXKAuZ+6E=
+Received: from localhost.localdomain ([125.131.91.97])
+  by cvnsmtp009.nm.naver.com with ESMTP id 2Llb3e00Q4Ooir7Ie8einA
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Mon, 03 Aug 2026 05:21:47 -0000
+From: Hyeontae Lee <wonju345@naver.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Hyeontae Lee <wonju345@naver.com>
+Subject: [PATCH] fs/ntfs3: bound DeleteAttribute asize against rec->used in do_action
+Date: Mon,  3 Aug 2026 14:21:45 +0900
+Message-ID: <20260803052145.71949-1-wonju345@naver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -73,138 +55,148 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ntfs_read_ea() checks the $EA list for consistency, but it only
-recomputes the packed size of an entry when the entry's own size field is
-zero:
+In do_action()'s DeleteAttribute case (fslog.c:3316), attr is
+Add2Ptr(rec, roff) with roff taken from the on-disk lrh->record_off, and
+asize = le32_to_cpu(attr->size) is read straight out of the MFT record:
 
-	for (off = 0; off < size; off += ea_size) {
-		const struct EA_FULL *ef = Add2Ptr(ea_p, off);
-		u32 bytes = size - off;
-		...
-		if (ef->size) {
-			ea_size = le32_to_cpu(ef->size);
-			if (ea_size > bytes)
-				goto out1;
-			continue;              /* <- elength never checked */
-		}
-		...
-		ea_size = ALIGN(struct_size(ef, name,
-					    1 + ef->name_len +
-						    le16_to_cpu(ef->elength)),
-				4);
-		if (ea_size > bytes)
-			goto out1;
-	}
+	asize = le32_to_cpu(attr->size);
+	used  = le32_to_cpu(rec->used);
 
-ef->size is non-zero for every entry except the last one, and it is what
-ntfs3 itself writes (ntfs_set_ea() stores exactly that aligned packed
-size), so in practice elength is not validated at all.  find_ea() then
-uses unpacked_ea_size(), which also prefers ea->size when it is set, so
-it agrees and hands the entry back.
-
-ntfs_get_ea() copies elength bytes with no further bound of its own:
-
-	len = le16_to_cpu(ea->elength);
+	if (!check_if_attr(rec, lrh))
+		goto dirty_vol;
 	...
-	if (len > size) {              /* size is the *caller's* buffer */
-		err = -ERANGE;
-		...
-	}
-	memcpy(buffer, ea->name + ea->name_len + 1, len);
+	memmove(attr, Add2Ptr(attr, asize), used - asize - roff);
 
-so a caller that supplies a large enough buffer receives up to 64 KiB of
-whatever follows the small $EA allocation -- straight to userspace via
-getxattr(2).
+check_if_attr() (fslog.c:2869) walks the attribute chain from
+rec->attr_off and returns o == ro.  Its loop breaks on ATTR_END, so ro may
+legitimately equal the offset of the ATTR_END marker; that is exactly how
+CreateAttribute appends to a record.  But check_file_record()'s walk
+(fslog.c:2831) also stops at ATTR_END, so check_attr() never inspects the
+bytes there.  When roff is the ATTR_END offset, those never-validated bytes
+are what gets read as attr->size, and used - asize - roff underflows.
 
-Compute the packed size unconditionally and require it to fit in the
-entry.  Hoist the "bytes < offsetof(struct EA_FULL, name)" test above the
-ef->size branch as well: name_len and elength were being read there
-without it, which is itself a small over-read of the kmalloc'd buffer
-when fewer than 8 bytes are left.  The old "bytes < sizeof(ef->size)"
-test is subsumed by it.
+The read itself is also unbounded: roff is a u16 and attr->size is
+dereferenced at fslog.c:3317, before check_if_attr() has constrained roff
+at all, so it can be up to ~64K past a record_size-sized object.
 
-  # mkntfs image; create /mnt/ntfs/poc with user.ntfs6 set, then rewrite
-  # that EA_FULL's elength from 0xf to 0xff00 on the raw device
-  mount -t ntfs3 -o ro /dev/vda /mnt/ntfs
-  getxattr("/mnt/ntfs/poc", "user.ntfs6", buf, 128 * 1024);
+Commit 0ca0485e4b2e ("fs/ntfs3: validate rec->used in journal-replay file
+record check") added at fslog.c:2844
 
-  BUG: KASAN: slab-out-of-bounds in ntfs_get_ea+0x294/0x3e0
-  Read of size 65280 at addr ffff0000cca53acf by task xattr_probe/142
-   __asan_memcpy+0x3c/0xa0
-   ntfs_get_ea+0x294/0x3e0
-   ntfs_getxattr+0x284/0x318
-   __vfs_getxattr+0x104/0x160
-   vfs_getxattr+0x1b4/0x1e0
-   do_getxattr+0xcc/0x230
-   path_getxattrat+0x184/0x270
-   __arm64_sys_getxattr+0x64/0x80
-  Allocated by task 142:
-   __kmalloc_noprof+0x294/0x668
-   ntfs_read_ea+0x1e4/0x420
-   ntfs_get_ea+0x2c8/0x3e0
-  The buggy address belongs to the object at ffff0000cca53a80
-   which belongs to the cache kmalloc-96 of size 96
+	if (used < PtrOffset(rec, attr) + sizeof(attr->type))
+		return false;
 
-The object being over-read is the one ntfs_read_ea() just allocated, and
-it is 96 bytes.
+and its changelog names this very memmove.  It bounds rec->used against the
+ATTR_END offset; it does not bound asize.  With record_size 0x400,
+attr_off 0x38, a valid three-attribute chain ending in ATTR_END at 0x158
+and used 0x160, a record whose four bytes at 0x15c read 0x100 gives
 
-Entries written by ntfs3 and by Windows set size to the aligned packed
-size, so the new test does not reject anything a working filesystem
-produces.
+	used - asize - roff = 0x160 - 0x100 - 0x158 = 0xffffff08
 
-Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
+i.e. a ~4 GiB memmove whose source and destination both run off the end of
+rec, a kmalloc(sbi->record_size) object (record.c:105).
+
+The equivalent non-replay path already refuses this.  mi_remove_attr()
+performs the same removal and starts with (record.c:548):
+
+	if (aoff + asize > used)
+		return false;
+
+Apply the same bound, spelled as a subtraction to match the neighbouring
+cases, and move the attr->size read after check_if_attr() so that the
+header is known to lie inside the record before it is dereferenced.
+Requiring roff + SIZEOF_RESIDENT <= used rejects the ATTR_END offset
+without rejecting any real attribute: for an attribute the walk validated,
+roff + asize <= off(ATTR_END) <= used - 4, and any attribute a
+DeleteAttribute record can legitimately name carries a full resident
+header, so roff + SIZEOF_RESIDENT <= roff + asize <= used - 4.
+check_attr() itself imposes no lower bound on asize, so a crafted
+sub-header asize can still pass the first test; the second test then
+bounds it and the memmove stays inside the record.
+
+Reproduced by mounting a crafted image on v7.2-rc5, which already contains
+0ca0485e4b2e, under KASAN.  The image is an ordinary mkfs.ntfs volume with
+four bytes of one MFT record changed and a crafted $LogFile:
+
+  BUG: KASAN: slab-out-of-bounds in do_action.isra.0+0x3211/0x83c0
+  Read of size 4294967048 at addr ffff888002423258 by task mount/66
+
+  CPU: 1 UID: 0 PID: 66 Comm: mount Not tainted 7.2.0-rc5 #3
+  Call Trace:
+   kasan_report+0xce/0x100
+   kasan_check_range+0x105/0x1b0
+   __asan_memmove+0x23/0x60
+   do_action.isra.0+0x3211/0x83c0
+   log_replay+0x920a/0xd300
+   ntfs_loadlog_and_replay+0x3ef/0x510
+   ntfs_fill_super+0x1d23/0x4550
+   get_tree_bdev_flags+0x2ef/0x550
+   vfs_get_tree+0x82/0x2f0
+   fc_mount+0x10/0x1b0
+   path_mount+0x517/0x1df0
+   __x64_sys_mount+0x20b/0x270
+   do_syscall_64+0xf9/0x540
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+  Allocated by task 66:
+   __kasan_kmalloc+0x8f/0xa0
+   __kmalloc_noprof+0x1b4/0x460
+   mi_init+0x81/0x110
+   mi_get+0x6a/0x220
+   do_action.isra.0+0x1dbf/0x83c0
+   log_replay+0x920a/0xd300
+   ntfs_loadlog_and_replay+0x3ef/0x510
+   ntfs_fill_super+0x1d23/0x4550
+
+  The buggy address belongs to the object at ffff888002423000
+   which belongs to the cache kmalloc-1k of size 1024
+  The buggy address is located 600 bytes inside of
+   allocated 1024-byte region [ffff888002423000, ffff888002423400)
+
+KASAN reports the source side because __asan_memmove()
+(mm/kasan/shadow.c:94) validates src before dest and returns without
+copying.  Both ends are out of bounds, and on a kernel built without
+KASAN the copy is performed.
+
+rec->used is also left at used - asize by fslog.c:3323 before the memmove,
+so the record stays inconsistent even when the copy is suppressed; the same
+mount goes on to report "ino=1a, mi_enum_attr" and marks the volume dirty.
+
+Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
 Cc: stable@vger.kernel.org
-Signed-off-by: Yuejie Shi <syjcnss@gmail.com>
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Hyeontae Lee <wonju345@naver.com>
 ---
- fs/ntfs3/xattr.c | 27 ++++++++++++++++-----------
- 1 file changed, 16 insertions(+), 11 deletions(-)
+ fs/ntfs3/fslog.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 04814dd29375..e67a1100d0cd 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -146,26 +146,31 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct 
- 	for (off = 0; off < size; off += ea_size) {
- 		const struct EA_FULL *ef = Add2Ptr(ea_p, off);
- 		u32 bytes = size - off;
-+		u32 packed_size;
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index f038c799e7ac..f415785c60f9 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -3314,10 +3314,21 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 		break;
  
--		/* Check if we can use field ea->size. */
--		if (bytes < sizeof(ef->size))
-+		/* Check if we can use fields ef->name_len and ef->elength. */
-+		if (bytes < offsetof(struct EA_FULL, name))
- 			goto out1;
+ 	case DeleteAttribute:
+-		asize = le32_to_cpu(attr->size);
+ 		used = le32_to_cpu(rec->used);
  
+-		if (!check_if_attr(rec, lrh))
 +		/*
-+		 * The name and the value have to fit in the entry whether or
-+		 * not ef->size is set, because ntfs_get_ea() copies elength
-+		 * bytes out of this buffer and checks them only against the
-+		 * caller supplied buffer size.
++		 * check_if_attr() accepts a record_off that points at the
++		 * ATTR_END marker, which is how CreateAttribute appends.  The
++		 * bytes there are not an attribute and check_attr() never
++		 * validated them, so refuse an offset that cannot hold a
++		 * resident header before reading attr->size, and then bound it
++		 * as mi_remove_attr() does.
 +		 */
-+		packed_size = ALIGN(struct_size(ef, name,
-+						1 + ef->name_len +
-+							le16_to_cpu(ef->elength)),
-+				    4);
++		if (!check_if_attr(rec, lrh) || roff + SIZEOF_RESIDENT > used)
++			goto dirty_vol;
 +
- 		if (ef->size) {
- 			ea_size = le32_to_cpu(ef->size);
--			if (ea_size > bytes)
-+			if (ea_size > bytes || packed_size > ea_size)
- 				goto out1;
- 			continue;
- 		}
++		asize = le32_to_cpu(attr->size);
++		if (asize > used - roff)
+ 			goto dirty_vol;
  
--		/* Check if we can use fields ef->name_len and ef->elength. */
--		if (bytes < offsetof(struct EA_FULL, name))
--			goto out1;
--
--		ea_size = ALIGN(struct_size(ef, name,
--					    1 + ef->name_len +
--						    le16_to_cpu(ef->elength)),
--				4);
-+		ea_size = packed_size;
- 		if (ea_size > bytes)
- 			goto out1;
- 	}
---
-2.51.0
+ 		rec->used = cpu_to_le32(used - asize);
+-- 
+2.43.0
+
