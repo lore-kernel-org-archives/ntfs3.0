@@ -1,165 +1,210 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558182EEE78
-	for <ntfs3@lists.linux.dev>; Mon,  3 Aug 2026 01:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECEF2EA498
+	for <ntfs3@lists.linux.dev>; Mon,  3 Aug 2026 04:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785721876; cv=none; b=mNotKwqZGTWWuUlXoUIDiCGF1Z7U/UEShxIayi74A6F/pJCStaGY8Xo9dxn3cwBWcaMYWs2p8KTSxWvXXQpQXDM2T5CR5eXfTnFJ/+fTNa+Z48ERg2jAtLV73d4CsYk5t/umhLKrV592iYxv9wyLEwOeUpLLM4LFA+F32oS+dG4=
+	t=1785731679; cv=none; b=hp6J2d0nXbZe9iEksgXgZZS4mkzwEfT03VK57hQCKTbCDqypi57nX+lgqtwRyye1N9g1K1buletShUpnPR3lP5P35iVR+0SySSZwYJNWdDSb8ZFntIlDCIR80xH+32WTL225iZIcEpZ4QWinFFd6IXH8O4BiMX6ljNUPW1Y9ubM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785721876; c=relaxed/simple;
-	bh=9KRSe9v2lM5ZfdnJllQn1tQtTy50IrZNYP0cqrpTbV0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LcK4l2meyaIUDUuCqSVABnYYAI53ZD+gIG3B6Ksnaw9LvzHjsqpKs5+9w4kW/mWRZv389riYXgfsBHK9uEX9JKLN3wW/chE0qdUDEzOrWdE1m8ZON7L17eDXVF8ImOphwBHqISJndkPeMR7lHQnSzPp6mWkFpptIirz0COtIIfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=MYaYIczQ; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1785731679; c=relaxed/simple;
+	bh=6MaiF08US6EBABB8rzhXICVg0DKE/Axy9oSPVxG0dZk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mCaVwL2ISKpIUGxLu21G8NFHdpRVwRZsF4zWiuV+LS2Ua/l4WD2w4UV3v2tMJ7YsxCPcG17oCE+I5lXhm5djMNftMlSNii4qGvtS2fRFw74py3HzU9kGlIyvdW3iigyZpdy11hmAUo2u6e6xut7fIm0+ANJIA+aLi5wkknlenH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EteCaC9s; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="MYaYIczQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=PbJC3Px+DglQjkUzry32ufdSX8YSNA4WkwOYuIElaYQ=;
-	b=MYaYIczQS3sLTcJJOIkH8MCY8tmgZJaF68S+OYd2s2ZtuV1Ux7tV/0/MEuHbMk
-	5Y0N+bN1EKQgco1rM/KTl8x0H0weku+esz5LigWyVhqnQvB0YLgPA9URTvlSGdgv
-	Im+DNJVYL7i5uSBxSr/P+c+wzMHfQr0sDpSONCemTi85A=
-Received: from [IPV6:2409:8900:1fc4:92f1:96e3:5113:7872:40a8] (unknown [])
-	by gzsmtp2 (Coremail) with SMTP id PSgvCgDXRPPn829qOps5Jg--.34710S2;
-	Mon, 03 Aug 2026 09:50:33 +0800 (CST)
-Message-ID: <52e968d3-b691-44de-b860-6431e2001c11@163.com>
-Date: Mon, 3 Aug 2026 09:50:30 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EteCaC9s"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cc97653887so30919955ad.1
+        for <ntfs3@lists.linux.dev>; Sun, 02 Aug 2026 21:34:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785731678; x=1786336478; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yhmhEpINn+raFaWrTltRP0P5bFP6jSqRDnD8vpTuVFs=;
+        b=EteCaC9sKhL2dZHPvY+uFL24I/DaK9hvEj89Ot1DiOR023aZG9wqxpYYE8kGCB2eWy
+         BNzvXeofmx/aVkfJz9kx/TmUohx2c9CcyH6tsm8xS4tFzW3m6ee87WBUSlasqJRQd5Jy
+         ZBKq/f3atlj90izfBnoaCAejGY8QgTJLpvKRrXUKgStgAKQPd5R1ZSrtzJITSfbgVfDe
+         3qDj5Fet19PyBqQ+rVftAcyzVIkuQ2D7m/8D3d4fTPQDaoo4PhqopHHDkw09TwZvwtdG
+         oqIyhchg9+oxT0KQN/UvdzDNDzYDuzl/WU6q5PMO+BhrxX9Z59zviU34g+VtXRJZPRMA
+         CsOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785731678; x=1786336478;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yhmhEpINn+raFaWrTltRP0P5bFP6jSqRDnD8vpTuVFs=;
+        b=OpAseujGitpo3qBX6NxdY3mrmLlr4stSjoOCP1/9a+TPVPOs79/rZWPDzxQmtsUlVL
+         /niiTBRilPqoQoua3SqieewjBSNgICWkS/qD64c/DCxOu57lW7TjbmwnfDBidN/2olC+
+         dBiO39D1lJTl5hpWRCxdS13sYgH1m8+wIlVU6tv4BMTyfpqPdHZ1uf2U8fHoEbKrehkX
+         fM6PwSd+nFh439aBg0KxoJF8FUIeOaTATNM9hRWhbPe5XnnpOB99Jb2E7OW/fJvTJcBm
+         H2aBerfSpdCN/M86r0NTnnBw5RaQbb3TM9Byaa9R3pTPFu/g7pPsHyGQRms0F9q4C99S
+         DJXA==
+X-Gm-Message-State: AOJu0Yxa8CsS44yN/QnloL0ufNYB1LtEc71YJlsjateWfxsKuBkqeN4s
+	Y3MJC9i0wSm5EIbvniZM2US4Mmx4HGcQmtbJQwk6Vg9ncdnpWDAiAuug
+X-Gm-Gg: AR+sD10q07ypdr4FWfVP0cI6CLUEeg6DdpOucAhLxhDWGluZ/jAxk380D380AMEGPKf
+	B/EuXVsAovpSQbm6RLhT3ue3PyYG3d+KRlsYYPBIOanoVau+UH6cL0O3OSb2lEYVD/f+lj6XYU+
+	fRJd5DVb0WkB7rE4JbfiKz3c/oyuCM8GUg6ObuMIE3WWuufBz4gneaCQX3vLMfZqIu45ZSke0Cy
+	W8tu0qjm4bX8+b4UZiGwmer4bgD5tJ3WH1VaqYommqKRNVDpPFArt03k1Wa6Yc/lifYzKlhnvRS
+	O8fCE/Z/BKS9yorMBcEY7po+kDchGUIgTIUr2b1sU3t61RIO2cffRdCfhlJbV6m8Q3R58gK18sk
+	MkVttw69/+EqULgR6c9Tibmf2mtdkuOhuyPOlvj3+psLHKnAycY0ONKFIuQhCOjKi9H+edmWe3s
+	sG1bWomm7jllvsGXhFZZcwY+S+nHlDMkwQMiEDy7w3vcmYPygZZ2qVG1IL088htEnv877HwoH7T
+	VDMo2J8tgKMpA==
+X-Received: by 2002:a17:902:f60a:b0:2c8:2808:3ec4 with SMTP id d9443c01a7336-2d05246ee7cmr89005425ad.24.1785731677604;
+        Sun, 02 Aug 2026 21:34:37 -0700 (PDT)
+Received: from localhost.localdomain ([113.23.46.216])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153ddda5d9sm39302243eec.13.2026.08.02.21.34.34
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 02 Aug 2026 21:34:36 -0700 (PDT)
+From: Yuejie Shi <syjcnss@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: validate the EA value length in ntfs_read_ea()
+Date: Mon,  3 Aug 2026 12:34:32 +0800
+Message-ID: <20260803043432.94886-1-syjcnss@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 v2 2/7] ntfs3: add namei tracepoints
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: almaz.alexandrovich@paragon-software.com, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
- ntfs3@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
- liubaolin12138@gmail.com, Baolin Liu <liubaolin@kylinos.cn>,
- liubaolin12138@163.com
-References: <20260728094426.749482-1-liubaolin12138@163.com>
- <20260728094426.749482-3-liubaolin12138@163.com>
- <20260729142622.73d7ef18@gandalf.local.home>
-Content-Language: en-US
-From: liubaolin <liubaolin12138@163.com>
-In-Reply-To: <20260729142622.73d7ef18@gandalf.local.home>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PSgvCgDXRPPn829qOps5Jg--.34710S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCF4DArWDXw1Dtry8ur48WFg_yoWrJr47pF
-	4jy3W09a97Jr1UKwn5Z3Z3XF4rZr4v9r1UKFWa9342yrn2qFn7trZFgw1qva4UArsY9wnF
-	qayav398uF45XFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JU_8n8UUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6gmteGpv8+n9xwAA3T
 
-Dear Steve,
-    Thank you for your review. I will carefully recheck and modify all 
-patches according to your feedback, and submit the v3 version patch as 
-soon as possible. Thank you again for your feedback.
+ntfs_read_ea() checks the $EA list for consistency, but it only
+recomputes the packed size of an entry when the entry's own size field is
+zero:
 
-Best regards,
-Baolin
+	for (off = 0; off < size; off += ea_size) {
+		const struct EA_FULL *ef = Add2Ptr(ea_p, off);
+		u32 bytes = size - off;
+		...
+		if (ef->size) {
+			ea_size = le32_to_cpu(ef->size);
+			if (ea_size > bytes)
+				goto out1;
+			continue;              /* <- elength never checked */
+		}
+		...
+		ea_size = ALIGN(struct_size(ef, name,
+					    1 + ef->name_len +
+						    le16_to_cpu(ef->elength)),
+				4);
+		if (ea_size > bytes)
+			goto out1;
+	}
 
-在 2026/7/30 02:26, Steven Rostedt 写道:
-> On Tue, 28 Jul 2026 17:44:21 +0800
-> Baolin Liu <liubaolin12138@163.com> wrote:
-> 
->> diff --git a/include/trace/events/ntfs3.h b/include/trace/events/ntfs3.h
->> index d00f66e42ba8..041455edec76 100644
->> --- a/include/trace/events/ntfs3.h
->> +++ b/include/trace/events/ntfs3.h
->> @@ -80,6 +80,50 @@ TRACE_EVENT(ntfs3_log_replay,
->>   		  __entry->size, __entry->initialized, __entry->err)
->>   );
->>   
->> +TRACE_EVENT(ntfs3_lookup,
->> +	TP_PROTO(struct inode *dir, struct dentry *dentry),
->> +	TP_ARGS(dir, dentry),
->> +	TP_STRUCT__entry(
->> +		__field(dev_t, dev)
-> 
-> dev_t is 4 bytes, you should move it after parent_ino as on 64 bit
-> machines, it will waste 4 bytes of space here.
-> 
->> +		__field(unsigned long, parent_ino)
->> +		__string(name, dentry->d_name.name)
->> +	),
->> +	TP_fast_assign(
->> +		__entry->dev = dir->i_sb->s_dev;
->> +		__entry->parent_ino = dir->i_ino;
->> +		__assign_str(name);
->> +	),
->> +	TP_printk("dev=(%d,%d) parent=%lu name=%s",
->> +		  MAJOR(__entry->dev), MINOR(__entry->dev),
->> +		  __entry->parent_ino, __get_str(name))
->> +);
->> +
->> +TRACE_EVENT(ntfs3_rename,
->> +	TP_PROTO(struct inode *dir, struct dentry *dentry,
->> +		 struct inode *new_dir, struct dentry *new_dentry),
->> +	TP_ARGS(dir, dentry, new_dir, new_dentry),
->> +	TP_STRUCT__entry(
->> +		__field(dev_t, dev)
-> 
-> Same here.
-> 
-> In fact, you should audit the rest of your tracepoints to see where you can
-> make the sizes more condensed.
-> 
-> ~# cat /sys/kernel/tracing/events/ntfs3/ntfs3_rename/format
-> name: ntfs3_rename
-> ID: 1923
-> format:
->          field:unsigned short common_type;       offset:0;       size:2; signed:0;
->          field:unsigned char common_flags;       offset:2;       size:1; signed:0;
->          field:unsigned char common_preempt_count;       offset:3;       size:1; signed:0;
->          field:int common_pid;   offset:4;       size:4; signed:1;
-> 
->          field:dev_t dev;        offset:8;       size:4; signed:0;
->          field:unsigned long dir_ino;    offset:16;      size:8; signed:0;
->          field:unsigned long new_dir_ino;        offset:24;      size:8; signed:0;
->          field:unsigned long ino;        offset:32;      size:8; signed:0;
->          field:__data_loc char[] old_name;       offset:40;      size:4; signed:0;
->          field:__data_loc char[] new_name;       offset:44;      size:4; signed:0;
-> 
-> 
-> Notice that dev is at offset 8 and size 4, where as dir_ino is at offset
-> 16. That means there's 4 bytes between dev and dir_ino.
-> 
-> Please look at your other trace events and see if there are other gaps you
-> can close. I'm not going to audit all your tracepoints.
-> 
-> Note that __string() is a 4 byte meta data, so have them act like 4 byte
-> fields.
-> 
-> -- Steve
-> 
-> 
-> 
->> +		__field(unsigned long, dir_ino)
->> +		__field(unsigned long, new_dir_ino)
->> +		__field(unsigned long, ino)
->> +		__string(old_name, dentry->d_name.name)
->> +		__string(new_name, new_dentry->d_name.name)
->> +	),
->> +	TP_fast_assign(
->> +		__entry->dev = dir->i_sb->s_dev;
->> +		__entry->dir_ino = dir->i_ino;
->> +		__entry->new_dir_ino = new_dir->i_ino;
->> +		__entry->ino = d_inode(dentry)->i_ino;
->> +		__assign_str(old_name);
->> +		__assign_str(new_name);
->> +	),
->> +	TP_printk("dev=(%d,%d) dir=%lu new_dir=%lu ino=%lu old=%s new=%s",
->> +		  MAJOR(__entry->dev), MINOR(__entry->dev),
->> +		  __entry->dir_ino, __entry->new_dir_ino, __entry->ino,
->> +		  __get_str(old_name), __get_str(new_name))
->> +);
->> +
->>   #endif /* _TRACE_NTFS3_H */
->>   
+ef->size is non-zero for every entry except the last one, and it is what
+ntfs3 itself writes (ntfs_set_ea() stores exactly that aligned packed
+size), so in practice elength is not validated at all.  find_ea() then
+uses unpacked_ea_size(), which also prefers ea->size when it is set, so
+it agrees and hands the entry back.
 
+ntfs_get_ea() copies elength bytes with no further bound of its own:
+
+	len = le16_to_cpu(ea->elength);
+	...
+	if (len > size) {              /* size is the *caller's* buffer */
+		err = -ERANGE;
+		...
+	}
+	memcpy(buffer, ea->name + ea->name_len + 1, len);
+
+so a caller that supplies a large enough buffer receives up to 64 KiB of
+whatever follows the small $EA allocation -- straight to userspace via
+getxattr(2).
+
+Compute the packed size unconditionally and require it to fit in the
+entry.  Hoist the "bytes < offsetof(struct EA_FULL, name)" test above the
+ef->size branch as well: name_len and elength were being read there
+without it, which is itself a small over-read of the kmalloc'd buffer
+when fewer than 8 bytes are left.  The old "bytes < sizeof(ef->size)"
+test is subsumed by it.
+
+  # mkntfs image; create /mnt/ntfs/poc with user.ntfs6 set, then rewrite
+  # that EA_FULL's elength from 0xf to 0xff00 on the raw device
+  mount -t ntfs3 -o ro /dev/vda /mnt/ntfs
+  getxattr("/mnt/ntfs/poc", "user.ntfs6", buf, 128 * 1024);
+
+  BUG: KASAN: slab-out-of-bounds in ntfs_get_ea+0x294/0x3e0
+  Read of size 65280 at addr ffff0000cca53acf by task xattr_probe/142
+   __asan_memcpy+0x3c/0xa0
+   ntfs_get_ea+0x294/0x3e0
+   ntfs_getxattr+0x284/0x318
+   __vfs_getxattr+0x104/0x160
+   vfs_getxattr+0x1b4/0x1e0
+   do_getxattr+0xcc/0x230
+   path_getxattrat+0x184/0x270
+   __arm64_sys_getxattr+0x64/0x80
+  Allocated by task 142:
+   __kmalloc_noprof+0x294/0x668
+   ntfs_read_ea+0x1e4/0x420
+   ntfs_get_ea+0x2c8/0x3e0
+  The buggy address belongs to the object at ffff0000cca53a80
+   which belongs to the cache kmalloc-96 of size 96
+
+The object being over-read is the one ntfs_read_ea() just allocated, and
+it is 96 bytes.
+
+Entries written by ntfs3 and by Windows set size to the aligned packed
+size, so the new test does not reject anything a working filesystem
+produces.
+
+Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yuejie Shi <syjcnss@gmail.com>
+---
+ fs/ntfs3/xattr.c | 27 ++++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
+
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index 04814dd29375..e67a1100d0cd 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -146,26 +146,31 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct 
+ 	for (off = 0; off < size; off += ea_size) {
+ 		const struct EA_FULL *ef = Add2Ptr(ea_p, off);
+ 		u32 bytes = size - off;
++		u32 packed_size;
+ 
+-		/* Check if we can use field ea->size. */
+-		if (bytes < sizeof(ef->size))
++		/* Check if we can use fields ef->name_len and ef->elength. */
++		if (bytes < offsetof(struct EA_FULL, name))
+ 			goto out1;
+ 
++		/*
++		 * The name and the value have to fit in the entry whether or
++		 * not ef->size is set, because ntfs_get_ea() copies elength
++		 * bytes out of this buffer and checks them only against the
++		 * caller supplied buffer size.
++		 */
++		packed_size = ALIGN(struct_size(ef, name,
++						1 + ef->name_len +
++							le16_to_cpu(ef->elength)),
++				    4);
++
+ 		if (ef->size) {
+ 			ea_size = le32_to_cpu(ef->size);
+-			if (ea_size > bytes)
++			if (ea_size > bytes || packed_size > ea_size)
+ 				goto out1;
+ 			continue;
+ 		}
+ 
+-		/* Check if we can use fields ef->name_len and ef->elength. */
+-		if (bytes < offsetof(struct EA_FULL, name))
+-			goto out1;
+-
+-		ea_size = ALIGN(struct_size(ef, name,
+-					    1 + ef->name_len +
+-						    le16_to_cpu(ef->elength)),
+-				4);
++		ea_size = packed_size;
+ 		if (ea_size > bytes)
+ 			goto out1;
+ 	}
+--
+2.51.0
