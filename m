@@ -1,91 +1,88 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9FA225791
-	for <ntfs3@lists.linux.dev>; Tue,  4 Aug 2026 01:16:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C131E34B1A5
+	for <ntfs3@lists.linux.dev>; Tue,  4 Aug 2026 12:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785806176; cv=none; b=ZUW6l0quk0G1MhHP4dJFPq+DomvMF+Nub3vZJKS9klFC7AxFDCKOLxyKBvpXvk0+pBzrT2gZmyDSqImLF2Zfq3JSZPNQ8PcKcRMSEpPItHnOx9GtonV4jFqoRg3hiKM63XjEZipGsB2a3NfLesPcgomzRcMPMIhrsx+HQ4kbyTo=
+	t=1785846747; cv=none; b=luAKMOKWkYuf3A0uLBeKvX2qBiWo1e66YY1PhhfkDOGy9it7Kf0W7qiH9BsxCgYtwHcHeEyimZeG+79Q9LQeKcJ4Wfbq87MI4NX1fl1eUUI/2mR6ROjVgqEV+X3LkdX0i9ihyt8c1ONJRY8PuREnm+gzeD2A/rW34OX29QQ5wlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785806176; c=relaxed/simple;
-	bh=ZhT8kCTl+yVER7vOcySEA+J/owQ3UWzqu9Cgd2ZKuyQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W8unJK+65SkWZTwyw0nrDi3s1gWGlBU8v23grDjybiKFGJ28bkBpQnFtbPopWkXsxjOnFKOI9Zp373EvYNz+YfMgxGyskTfCP18Rvp+dLeK+H9HlIYMZuSQd+uqEiF2Wajfi9Y1aU3m5pPB+BlGAIlVNYnXFeP6st+hhPqtaAq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com; spf=pass smtp.mailfrom=openai.com; dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b=WgYx4rP2; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openai.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b="WgYx4rP2"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8f18d92172aso41632876d6.2
-        for <ntfs3@lists.linux.dev>; Mon, 03 Aug 2026 18:16:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=openai.com; s=google; t=1785806174; x=1786410974; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZhT8kCTl+yVER7vOcySEA+J/owQ3UWzqu9Cgd2ZKuyQ=;
-        b=WgYx4rP2N5+UPWvWyyJFCdA65hbqIO7XBsoInT2tMiEsF2OZehntlteupJGQiQA+2s
-         c2lAfZ8GfcMRBFjgnEdCnjSvjfsvJZjwB8lYMboAjGFQoH7CrLJQTiAnYubyACdKCnuU
-         1Ig8afbdYJMjjnpuajB5wkzhDdfDWQSHhIV9g=
+	s=arc-20240116; t=1785846747; c=relaxed/simple;
+	bh=6fcWMBYlw8FI67w89gByjkjLCLLL+iPpYxS0kXpmUKM=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=LqTVVReV8UC2GsmpQ88H9mv6jRnOdpW0Guq0kVjF9jiJbnICTp+QGVsKNffCIYwHV1QIARO3idaVQms4QtiGKuaymkBnjZ8lPswAvbb1wWL/851psW07mucWO8xPh8f2Q85wlflFApGw/JYuFLP5psrCYe3//nhgh136ziU4yQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4ab4f652f9bso2937501b6e.0
+        for <ntfs3@lists.linux.dev>; Tue, 04 Aug 2026 05:32:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785806174; x=1786410974;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1785846745; x=1786451545;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZhT8kCTl+yVER7vOcySEA+J/owQ3UWzqu9Cgd2ZKuyQ=;
-        b=F3qsE5g8EGWjI6l0hOOlQHOVEF012mHSEH35uNAIGGqLTvVeeAyr6+wL6kXSt5z1p4
-         aPKt1WM7vF50Q1YCW/WRibCjSEG9wakQlgmxUIEfl0Xv0TYQI0n0UQ6beKIYUtwA9yBe
-         T2XQqVZ1kKolVsE+sPRTNMLOJORIzlhXxEJQwkVF6UPkrvRCeDp0fIL9ylFdKGpZRA3o
-         eUfNBycwlbEl/nG8UphGZYnQKP+4CXuL640EBP5hiBJe639O5CQ9yubZzzhW4mkXe4Gy
-         IUXqmRFqbwyXlOgj4/cJ6odz6E809+a6LxycFL4ctT4ccWX0Fdh8EYDb/72bz5mTV73l
-         vClw==
-X-Gm-Message-State: AOJu0Yxuh85y9+CNJJt0OKCEI98N+0rygwu7MnlUUFh1Jj5bXBYVoDZG
-	djUeIX44TJ+ygxSPuwTojDfVMfF4T2ZZVf5R8DPl8lgS7BHQrDhiycF+NqfGKYlSk3o=
-X-Gm-Gg: AR+sD11iVkRzNCVDlLhZM0P53XZYxStDRB1VyTtfpfutgekRoFVy3MWyeJ4MxwBm37M
-	3Pd2AMxEHQyiak+dYvCceFTLzklQ06/InUtmPb+zwXjyclTI3DpY+RYKTo4KRnJfprgmKiYX+0h
-	eeQjFa2YIgqBMJpGRofJ+M0dzCnREOeyYzVdGEeNdpwARGVoObGE2ol/16Q1uGAPsn65BWL2hLU
-	BxCQiUynN+KwhqcstWzoCWLffS72/pVBgZQx1Vgr0zHpfr7XTQAzVt4D76jnwSqkaLWhMX33olE
-	Z5j+AEJsV2rsyjtmSCBW4JPQZTcGWmJUTvkDTAQwH6eZL8rk1FaksWes6dAW33RUyRKDe4n3AcD
-	sDjDfSeNofqt/jITpG4iRN0MRtVUpOFaP87z9c5a13rIbo83baSjOfhS+/inG+8Ok94SgucTfYf
-	Hf2HezwxG9vMNSh8ph+uDBIUL+ENjEEeZFMRjoYtzm0Wmte7Mi7oJfEFqA0iL21lV/RgMHK3FqM
-	NtAjwaPg0m3RUtVoDIlTMgbg2BzV+UEMoDj4gS1qBA=
-X-Received: by 2002:a05:620a:a419:20b0:914:afc1:c66d with SMTP id af79cd13be357-934a077c4b1mr1833525485a.11.1785806173660;
-        Mon, 03 Aug 2026 18:16:13 -0700 (PDT)
-Received: from com-75606 ([199.47.143.7])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9349c207e64sm793702585a.47.2026.08.03.18.16.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 18:16:13 -0700 (PDT)
-Date: Mon, 3 Aug 2026 18:16:10 -0700
-From: Kyle Zeng <kylebot@openai.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outbounddisclosures@openai.com
-Subject: Re: [PATCH] fs/ntfs3: validate dirty page table entry sizes
-Message-ID: <anE9WhCkRSUa6l66@com-75606>
-References: <20260611213304.16654-1-kylebot@openai.com>
- <26836018-9333-440d-9c3b-ae626148bfae@paragon-software.com>
- <amT_iV4roArHh_Vx@com-75606>
- <9755258b-11f1-410f-815b-4d32abf3d5a3@paragon-software.com>
+        bh=8uEoBozZsqnzBPZ31Q468sqh1wODcS2ujTl+uq7P3kY=;
+        b=Kiwy757LQHpSo7dz+cUCWn9RNwR2BVbiM7WBTDofyfJo/5nSPysECvuqUz82YH5VgP
+         F8Hul9glt8f70j8ufNqMRz0Sl5UHBhsngMMIst+NOKdY9MeGw6KrwBfaX65G8ufwqCbp
+         hLtBhWDyd6JEyvcGQ5XJM/+ssU9p4dNgKxh8Q9Nd0i1pynlZClHqdsdA+yV86FnslsvB
+         T1BIfxKtITn2rVK09PxZjPxwtqI7GdQ72VSqUqxyt8vh/Q4KhICEAYKBauNteEOvf7DC
+         6SsywQJSLY8dZBMnUD38Q3qMyJ4USdr+CDDefbKYmcbF+dMQZmcc8e3B/kw9FKNeU5cD
+         zphw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr9JhTRMgYmrpYtGyOHv/9ULv2t+WUXxgG7F02KM7ay6C2a4e0dKy3nWWHD7pz2UABzInNXcg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwBEsYbOzsphyzCur29KCozeoqCMMe/JlPWXuzHs0NeKSwa3SNA
+	YEwKuT6fomIoomxzbB49LpP/gpG3eJIusKWHDWGu8oSgmWqc3+u17WnWB0OoLPVn4C24EYOJaMK
+	pTCpVnrlkEznMpUjE0q2pyFQk6H0KOOBJAdwnV1ZuV8AIQNbV0tW1m7W9gD8=
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9755258b-11f1-410f-815b-4d32abf3d5a3@paragon-software.com>
+X-Received: by 2002:a05:6808:251a:b0:4a4:744:a4ff with SMTP id
+ 5614622812f47-4af5dffbce4mr24563042b6e.4.1785846744648; Tue, 04 Aug 2026
+ 05:32:24 -0700 (PDT)
+Date: Tue, 04 Aug 2026 05:32:24 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a71dbd8.13623e66.bdc14.0012.GAE@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Aug 2026)
+From: syzbot <syzbot+list5aa916e227d3aa5f306b@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Konstantin,
+Hello ntfs3 maintainers/developers,
 
-I tried to mount this image after the patch using the following command
-and it works (I adapted the patch for the master branch).
-~~~
-mount -t ntfs3 -o loop,ro image /tmp/test
-~~~
-Can you share your setup (tree, commit, command) so I can reproduce and
-fix the issue?
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-Best,
-Kyle
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 18 issues are still open and 94 have already been fixed.
+There is also 1 low-priority issue.
+
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 3769    Yes   possible deadlock in attr_data_get_block (2)
+                  https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+<2> 571     Yes   possible deadlock in mi_read (2)
+                  https://syzkaller.appspot.com/bug?extid=17f812893d5906837f33
+<3> 525     Yes   possible deadlock in ntfs_fallocate
+                  https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
+<4> 82      No    KMSAN: uninit-value in ntfs_iomap_begin (2)
+                  https://syzkaller.appspot.com/bug?extid=4b4ec878e25fafefa70f
+<5> 19      Yes   WARNING in wnd_add_free_ext (4)
+                  https://syzkaller.appspot.com/bug?extid=323f07d372f692a127b3
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
