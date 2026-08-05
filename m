@@ -1,48 +1,39 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0DC3DDB12
-	for <ntfs3@lists.linux.dev>; Wed,  5 Aug 2026 06:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CE13E3152
+	for <ntfs3@lists.linux.dev>; Wed,  5 Aug 2026 07:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785912374; cv=none; b=UFQrjcyrmzs7rkr+phVo3yFskTbE81//Pgfg08iTj0IDSOfSyHZVZ8ZFyQHFQ33UjSi+i8O4So4vI2mzr9zs0266T9taHLm6vb2GaRpHeY977VpWHx0FTgQhfyShTIolrEZOnIav5rLo7L2V9kl33fgVTZagNBmrFJDcY/HJ0v4=
+	t=1785915355; cv=none; b=LlWuf/F00mglGX9eM625/XRWNBiW1uh6alNLr11vcrvqqUkGDlO4FZdBj6tISPx2r8e8LBRqtdrCI9qityQxfKmSjQyD0yGeBry/vYW0K1UekKfRyLH4WXVe6adjGKhYOcn0T4ojx0wKK5IA55tKSJus7OjDNe3qqZ7ToY5cLqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785912374; c=relaxed/simple;
-	bh=EZzVDRZlm0r9mXg1kJE5fBb4EwmvJ4LhXh5cy9MTw+Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=k89RcratFXXhAoAzbIq0jXHT5WNgwAvvuCJRrACAF7jSVZip+m+BMrM/t4/pnYghZ9rNWy5KcZnGS/+UtmGFe57M4xcwv76LClN0Kj2t6CjUMWtcwusrpux31zdv9YFuBxlZPh9KrbsYkMumarZJHxLoaR7lIJJG/pS/CkuvWTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 540fb074909911f1aa26b74ffac11d73-20260805
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:0735a918-af37-4926-9645-e4db56151539,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:5a1aa0cdd6cbcd26617290f0d5efd721,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
-	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
-	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 540fb074909911f1aa26b74ffac11d73-20260805
-X-User: zenghongling@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zenghongling@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 196308775; Wed, 05 Aug 2026 14:46:03 +0800
-From: Hongling Zeng <zenghongling@kylinos.cn>
+	s=arc-20240116; t=1785915355; c=relaxed/simple;
+	bh=z7jxl+e8jm06YnFJ7ulXVe01RvsrUZ9KccYhJgKrkFo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dMKJemipNlrsHaocbvmfqJfc6RsOZR4IbJwUqlR2l+b+HOEuYthnXCsRD76Z+I0TjeSIiUB3cxbSCnYN49euQ+eefrNLDbQdOCHC+jtU5P5AN8HtTHHbO10kFXqdyGwaJgmoxdpGC9hb8BEqwc/GdvwQYyQDGuBcbZmh/XoLhY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=l/eU8euy; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="l/eU8euy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=qj
+	5zTRFYCHrbHIr5mSW+KX7DKQUhqYyAxwN+L12YP6M=; b=l/eU8euyk1d+ifnEuc
+	3L4QdUwkTabWrFwhJcHKMOqvy/wiXpAJqSPZwqfi9/cY1rrZSurO3VXMMm8JzQ+D
+	hJ+4iu2d3PWOBbtCvzCoT+AB0oDWnzrezksL8Eqr/qH05vGQyGBgPbFXR4yQ8OnU
+	PoWylrgTCyHIUt2Mom0IW+2Kk=
+Received: from liubaolin-ThinkPad-E15-Gen-2 (unknown [])
+	by gzsmtp4 (Coremail) with SMTP id PygvCgD3fyzL53JqTdA7Kw--.16788S2;
+	Wed, 05 Aug 2026 15:35:41 +0800 (CST)
+From: Baolin Liu <liubaolin12138@163.com>
 To: almaz.alexandrovich@paragon-software.com
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	zhongling0719@126.com,
-	Hongling Zeng <zenghongling@kylinos.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] ntfs3: fix mapping pairs bounds check for alignment
-Date: Wed,  5 Aug 2026 14:45:59 +0800
-Message-Id: <20260805064559.53060-1-zenghongling@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	liubaolin12138@gmail.com,
+	Baolin Liu <liubaolin@kylinos.cn>
+Subject: [PATCH] fs/ntfs3: check wnd_set_used() in ntfs_look_free_mft()
+Date: Wed,  5 Aug 2026 15:35:37 +0800
+Message-ID: <20260805073537.2044570-1-liubaolin12138@163.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -50,37 +41,53 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PygvCgD3fyzL53JqTdA7Kw--.16788S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKF1xJw1rtFy5Cry8Jw4xZwb_yoWkuFX_Ja
+	4xC3WfA345AFnI9aykWrWa9rW7X3y8twn8Wayxta4SkrWDu3Z8AFZ5Aw45tFW8W3yUJa4r
+	A3srGrWrJr1ayjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbg_-tUUUUU==
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbCwQ5kL2py586-3QAA3X
 
-In the UpdateMappingPairs action, the expansion check compares the
-unaligned new attribute size with the available record space. The new
-size is aligned to an 8-byte boundary before the mapping pairs are
-updated, so the check can underestimate the required space by up to
-seven bytes.
+From: Baolin Liu <liubaolin@kylinos.cn>
 
-Use the aligned size in the expansion check to ensure that the
-subsequent update cannot exceed the available record space.
+wnd_set_used() can fail, but ntfs_look_free_mft() ignored
+the error and could return success after leaving the MFT
+bitmap unmarked.
 
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+Check the return value and unwind the new subrecord on failure.
+
+Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
 ---
- fs/ntfs3/fslog.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/ntfs3/fsntfs.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index cc24c23e4db9..3440212ecb12 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -3388,7 +3388,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index d0434756029b..ab9e03156cce 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -741,10 +741,19 @@ int ntfs_look_free_mft(struct ntfs_sb_info *sbi, CLST *rno, bool mft,
+ 	}
  
- 		if (!check_if_attr(rec, lrh) || !attr->non_res ||
- 		    aoff < le16_to_cpu(attr->nres.run_off) || aoff > asize ||
--		    (nsize > asize && nsize - asize > record_size - used)) {
-+		    (nsize > asize &&
-+		     ALIGN(nsize, 8) - asize > record_size - used)) {
- 			goto dirty_vol;
- 		}
+ 	/* We have found a record that are not reserved for next MFT. */
+-	if (*rno >= MFT_REC_FREE)
+-		wnd_set_used(wnd, *rno, 1);
+-	else if (*rno >= MFT_REC_RESERVED && sbi->mft.reserved_bitmap_inited)
++	if (*rno >= MFT_REC_FREE) {
++		err = wnd_set_used(wnd, *rno, 1);
++		if (err) {
++			if (ni) {
++				ni_remove_mi(ni, *mi);
++				mi_put(*mi);
++				*mi = NULL;
++			}
++			goto out;
++		}
++	} else if (*rno >= MFT_REC_RESERVED && sbi->mft.reserved_bitmap_inited) {
+ 		__set_bit(*rno - MFT_REC_RESERVED, &sbi->mft.reserved_bitmap);
++	}
  
+ out:
+ 	if (!mft)
 -- 
-2.25.1
+2.51.0
 
