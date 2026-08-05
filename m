@@ -1,38 +1,39 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CE13E3152
-	for <ntfs3@lists.linux.dev>; Wed,  5 Aug 2026 07:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB5D358363
+	for <ntfs3@lists.linux.dev>; Wed,  5 Aug 2026 07:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785915355; cv=none; b=LlWuf/F00mglGX9eM625/XRWNBiW1uh6alNLr11vcrvqqUkGDlO4FZdBj6tISPx2r8e8LBRqtdrCI9qityQxfKmSjQyD0yGeBry/vYW0K1UekKfRyLH4WXVe6adjGKhYOcn0T4ojx0wKK5IA55tKSJus7OjDNe3qqZ7ToY5cLqc=
+	t=1785915389; cv=none; b=eu+I8tqMeQHRs8FtZEGNVrRKDM96muMZ741tUqXFIai4txS7Qd1LF/VH2zaTpc6LH6Bx8iS+YvlYPDnxT3vb/1MUJ4V0x+NvorUdwUARp13LzeAforCEo8FSDsvL53fcMNJ4fhHpHUCmAlo3GNAIVLF0ATgEqdrBGeaOFXffsp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785915355; c=relaxed/simple;
+	s=arc-20240116; t=1785915389; c=relaxed/simple;
 	bh=z7jxl+e8jm06YnFJ7ulXVe01RvsrUZ9KccYhJgKrkFo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dMKJemipNlrsHaocbvmfqJfc6RsOZR4IbJwUqlR2l+b+HOEuYthnXCsRD76Z+I0TjeSIiUB3cxbSCnYN49euQ+eefrNLDbQdOCHC+jtU5P5AN8HtTHHbO10kFXqdyGwaJgmoxdpGC9hb8BEqwc/GdvwQYyQDGuBcbZmh/XoLhY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=l/eU8euy; arc=none smtp.client-ip=117.135.210.4
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e3Hj/HWsDz6GDQ411YseCwGYyBqaNeZRr2lmztaVXs7BAlVOlN2ElN1vbaTnXBNQIYwmjwp3a9fHTbzTe5oUSkI2pyW3V/5RdnWWHTkGbpWIEzmKHHYr/B3MeOCvecy5gn4MgUkV8MzJR/aIrOBvMRbjKTvAD6/eEGZZ4tbMvzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=JYgFlNZc; arc=none smtp.client-ip=117.135.210.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="l/eU8euy"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="JYgFlNZc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
 	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=qj
-	5zTRFYCHrbHIr5mSW+KX7DKQUhqYyAxwN+L12YP6M=; b=l/eU8euyk1d+ifnEuc
-	3L4QdUwkTabWrFwhJcHKMOqvy/wiXpAJqSPZwqfi9/cY1rrZSurO3VXMMm8JzQ+D
-	hJ+4iu2d3PWOBbtCvzCoT+AB0oDWnzrezksL8Eqr/qH05vGQyGBgPbFXR4yQ8OnU
-	PoWylrgTCyHIUt2Mom0IW+2Kk=
+	5zTRFYCHrbHIr5mSW+KX7DKQUhqYyAxwN+L12YP6M=; b=JYgFlNZcBRv4Lg62E8
+	x07oGNQ0OkgW0GQK9HvwFmbyfhPVnpyzXgZBvronuPzjbLtNV+Sm+w6uW8KSTfCB
+	dQkcv73vjZ/Jd1GSCsDqfjSOXq1a50wncurCdZ14FXZF+oITTyauNcQcuW2odJYI
+	lLmlO8+CDDu0SfQj52I1iQPG4=
 Received: from liubaolin-ThinkPad-E15-Gen-2 (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgD3fyzL53JqTdA7Kw--.16788S2;
-	Wed, 05 Aug 2026 15:35:41 +0800 (CST)
+	by gzsmtp5 (Coremail) with SMTP id QCgvCgD3nyfw53JqU334Kg--.15929S2;
+	Wed, 05 Aug 2026 15:36:17 +0800 (CST)
 From: Baolin Liu <liubaolin12138@163.com>
 To: almaz.alexandrovich@paragon-software.com
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	liubaolin12138@gmail.com,
+	liubaolin12138@163.com,
 	Baolin Liu <liubaolin@kylinos.cn>
 Subject: [PATCH] fs/ntfs3: check wnd_set_used() in ntfs_look_free_mft()
-Date: Wed,  5 Aug 2026 15:35:37 +0800
-Message-ID: <20260805073537.2044570-1-liubaolin12138@163.com>
+Date: Wed,  5 Aug 2026 15:36:15 +0800
+Message-ID: <20260805073615.2044614-1-liubaolin12138@163.com>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -41,12 +42,12 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgD3fyzL53JqTdA7Kw--.16788S2
+X-CM-TRANSID:QCgvCgD3nyfw53JqU334Kg--.15929S2
 X-Coremail-Antispam: 1Uf129KBjvdXoWrKF1xJw1rtFy5Cry8Jw4xZwb_yoWkuFX_Ja
 	4xC3WfA345AFnI9aykWrWa9rW7X3y8twn8Wayxta4SkrWDu3Z8AFZ5Aw45tFW8W3yUJa4r
 	A3srGrWrJr1ayjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbg_-tUUUUU==
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbCwQ5kL2py586-3QAA3X
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRiApn7UUUUU==
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbCwhFtOGpy5-HptQAA3U
 
 From: Baolin Liu <liubaolin@kylinos.cn>
 
