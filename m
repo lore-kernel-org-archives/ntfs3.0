@@ -1,88 +1,86 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C131E34B1A5
-	for <ntfs3@lists.linux.dev>; Tue,  4 Aug 2026 12:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0DC3DDB12
+	for <ntfs3@lists.linux.dev>; Wed,  5 Aug 2026 06:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785846747; cv=none; b=luAKMOKWkYuf3A0uLBeKvX2qBiWo1e66YY1PhhfkDOGy9it7Kf0W7qiH9BsxCgYtwHcHeEyimZeG+79Q9LQeKcJ4Wfbq87MI4NX1fl1eUUI/2mR6ROjVgqEV+X3LkdX0i9ihyt8c1ONJRY8PuREnm+gzeD2A/rW34OX29QQ5wlk=
+	t=1785912374; cv=none; b=UFQrjcyrmzs7rkr+phVo3yFskTbE81//Pgfg08iTj0IDSOfSyHZVZ8ZFyQHFQ33UjSi+i8O4So4vI2mzr9zs0266T9taHLm6vb2GaRpHeY977VpWHx0FTgQhfyShTIolrEZOnIav5rLo7L2V9kl33fgVTZagNBmrFJDcY/HJ0v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785846747; c=relaxed/simple;
-	bh=6fcWMBYlw8FI67w89gByjkjLCLLL+iPpYxS0kXpmUKM=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=LqTVVReV8UC2GsmpQ88H9mv6jRnOdpW0Guq0kVjF9jiJbnICTp+QGVsKNffCIYwHV1QIARO3idaVQms4QtiGKuaymkBnjZ8lPswAvbb1wWL/851psW07mucWO8xPh8f2Q85wlflFApGw/JYuFLP5psrCYe3//nhgh136ziU4yQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4ab4f652f9bso2937501b6e.0
-        for <ntfs3@lists.linux.dev>; Tue, 04 Aug 2026 05:32:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785846745; x=1786451545;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8uEoBozZsqnzBPZ31Q468sqh1wODcS2ujTl+uq7P3kY=;
-        b=Kiwy757LQHpSo7dz+cUCWn9RNwR2BVbiM7WBTDofyfJo/5nSPysECvuqUz82YH5VgP
-         F8Hul9glt8f70j8ufNqMRz0Sl5UHBhsngMMIst+NOKdY9MeGw6KrwBfaX65G8ufwqCbp
-         hLtBhWDyd6JEyvcGQ5XJM/+ssU9p4dNgKxh8Q9Nd0i1pynlZClHqdsdA+yV86FnslsvB
-         T1BIfxKtITn2rVK09PxZjPxwtqI7GdQ72VSqUqxyt8vh/Q4KhICEAYKBauNteEOvf7DC
-         6SsywQJSLY8dZBMnUD38Q3qMyJ4USdr+CDDefbKYmcbF+dMQZmcc8e3B/kw9FKNeU5cD
-         zphw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr9JhTRMgYmrpYtGyOHv/9ULv2t+WUXxgG7F02KM7ay6C2a4e0dKy3nWWHD7pz2UABzInNXcg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBEsYbOzsphyzCur29KCozeoqCMMe/JlPWXuzHs0NeKSwa3SNA
-	YEwKuT6fomIoomxzbB49LpP/gpG3eJIusKWHDWGu8oSgmWqc3+u17WnWB0OoLPVn4C24EYOJaMK
-	pTCpVnrlkEznMpUjE0q2pyFQk6H0KOOBJAdwnV1ZuV8AIQNbV0tW1m7W9gD8=
+	s=arc-20240116; t=1785912374; c=relaxed/simple;
+	bh=EZzVDRZlm0r9mXg1kJE5fBb4EwmvJ4LhXh5cy9MTw+Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=k89RcratFXXhAoAzbIq0jXHT5WNgwAvvuCJRrACAF7jSVZip+m+BMrM/t4/pnYghZ9rNWy5KcZnGS/+UtmGFe57M4xcwv76LClN0Kj2t6CjUMWtcwusrpux31zdv9YFuBxlZPh9KrbsYkMumarZJHxLoaR7lIJJG/pS/CkuvWTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 540fb074909911f1aa26b74ffac11d73-20260805
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:0735a918-af37-4926-9645-e4db56151539,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:5a1aa0cdd6cbcd26617290f0d5efd721,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
+	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 540fb074909911f1aa26b74ffac11d73-20260805
+X-User: zenghongling@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zenghongling@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 196308775; Wed, 05 Aug 2026 14:46:03 +0800
+From: Hongling Zeng <zenghongling@kylinos.cn>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] ntfs3: fix mapping pairs bounds check for alignment
+Date: Wed,  5 Aug 2026 14:45:59 +0800
+Message-Id: <20260805064559.53060-1-zenghongling@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:251a:b0:4a4:744:a4ff with SMTP id
- 5614622812f47-4af5dffbce4mr24563042b6e.4.1785846744648; Tue, 04 Aug 2026
- 05:32:24 -0700 (PDT)
-Date: Tue, 04 Aug 2026 05:32:24 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a71dbd8.13623e66.bdc14.0012.GAE@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Aug 2026)
-From: syzbot <syzbot+list5aa916e227d3aa5f306b@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello ntfs3 maintainers/developers,
+In the UpdateMappingPairs action, the expansion check compares the
+unaligned new attribute size with the available record space. The new
+size is aligned to an 8-byte boundary before the mapping pairs are
+updated, so the check can underestimate the required space by up to
+seven bytes.
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+Use the aligned size in the expansion check to ensure that the
+subsequent update cannot exceed the available record space.
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 18 issues are still open and 94 have already been fixed.
-There is also 1 low-priority issue.
-
-Some of the still happening issues:
-
-Ref Crashes Repro Title
-<1> 3769    Yes   possible deadlock in attr_data_get_block (2)
-                  https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
-<2> 571     Yes   possible deadlock in mi_read (2)
-                  https://syzkaller.appspot.com/bug?extid=17f812893d5906837f33
-<3> 525     Yes   possible deadlock in ntfs_fallocate
-                  https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
-<4> 82      No    KMSAN: uninit-value in ntfs_iomap_begin (2)
-                  https://syzkaller.appspot.com/bug?extid=4b4ec878e25fafefa70f
-<5> 19      Yes   WARNING in wnd_add_free_ext (4)
-                  https://syzkaller.appspot.com/bug?extid=323f07d372f692a127b3
-
+Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/fslog.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index cc24c23e4db9..3440212ecb12 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -3388,7 +3388,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 
+ 		if (!check_if_attr(rec, lrh) || !attr->non_res ||
+ 		    aoff < le16_to_cpu(attr->nres.run_off) || aoff > asize ||
+-		    (nsize > asize && nsize - asize > record_size - used)) {
++		    (nsize > asize &&
++		     ALIGN(nsize, 8) - asize > record_size - used)) {
+ 			goto dirty_vol;
+ 		}
+ 
+-- 
+2.25.1
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
