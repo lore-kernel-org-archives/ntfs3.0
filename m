@@ -1,107 +1,96 @@
-Received: from mail-10625.protonmail.ch (mail-10625.protonmail.ch [79.135.106.25])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC7A37FF7A
-	for <ntfs3@lists.linux.dev>; Thu,  6 Aug 2026 16:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B2A2264A7
+	for <ntfs3@lists.linux.dev>; Fri,  7 Aug 2026 01:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786035530; cv=none; b=TUJpgJNSj8jRMjxyTywzZKQvUAfNGDdJkaOK05UNeLOeCQZtPyzzUbniEPDQ+80Phc9tiy8/hU88YkJihyyhqTsetPmjLFwODaL9eEfoFNAHd6CaLvGZxRQ4EsY9SJHdgonQ3xSXDyL/2MOUdEiJHnXQ+pslQnmRt+Pgh+K4FyQ=
+	t=1786064672; cv=none; b=GxTUACdNQCe8fp606J3IsWm9MT5EdLwEVUrXt6LtKFxkWn+ZjLDCb4o47UoyEbF/4TTrkdESj7HiKjMRw/twAlGSZf/VE4/lQB/uzo7UPMadr51rPM1wttYQ/FIV0twq1l+t45hAl2866Nt2LBzY8zi666HSuEBOQFhbwnziUBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786035530; c=relaxed/simple;
-	bh=zDjR74WGb5cEe4crVD8tms/rTlSv7BcEL4nYLlKDgqk=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rqcSrDMosUI84cdC2iEgHFwDKQaIVlzBKhaAWIQ0uMVmR9ofdjNFkheeYiA8cjtxh1SDMWp0YGOT/1KtCXGH1VZyN1rdfq1s8skbnhEpnVPLVSz5/LFOEY4EveQE1lXQtuh62OpQlCB+rZmlVR7pZabjGB4qzL0teRiE2/WZglw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lukasldc.fr; spf=pass smtp.mailfrom=lukasldc.fr; dkim=pass (2048-bit key) header.d=lukasldc.fr header.i=@lukasldc.fr header.b=D+rW87GF; arc=none smtp.client-ip=79.135.106.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lukasldc.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lukasldc.fr
+	s=arc-20240116; t=1786064672; c=relaxed/simple;
+	bh=ISd204hZbiZN0T7rQwA9J2aGTXNSnXWYw8ww/TClxYA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZlMAYYjf4+HK/Ju36XlnWvi8i+6Q3uH1smNdNatbVt1GkB66q5dUfQEqXh0ry9bgnBzEmfxngIs6fB8rb0KgModniECOcF6bjAMAsZWQKT5qeWcTJaETKSOiWWGePpy7Tvj+rA3nvYDsFmjnG6dGBlKtZXbH1l/6oqVpNNNDq8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=HNExABj/; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lukasldc.fr header.i=@lukasldc.fr header.b="D+rW87GF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lukasldc.fr;
-	s=protonmail3; t=1786035517; x=1786294717;
-	bh=zDjR74WGb5cEe4crVD8tms/rTlSv7BcEL4nYLlKDgqk=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=D+rW87GFXmg73GfEEq7Arf+n5JMN+3KbIgD6lKmgv7hyYmoRVoFQ4pooWkEOSY9hC
-	 cbBx0vx3an3mcae0ewTU728tDCnwGFgi7Fq/Ehi+js/UBwIHb82liNqWx3KbuLMPGJ
-	 1UUWat1lfuA7xJHATOxH2W1D3UnmFOvVydbUXfxELYBHsRvV2tcaypOpLRaGJ8r+LB
-	 j3p4DSCCrhSgaZSpjpstdqYzM9kDvq9u3FZo7Q9hnJIB6lR7SYYWmykqih7QYEv1SD
-	 K5gpGGNgs7B+2IJER+1dPSUhdPxVhYjSNm8dK39te3FLJePcVDgUpoawOD3gTDhNCh
-	 e2P0gxOa8YuYw==
-Date: Thu, 06 Aug 2026 16:58:32 +0000
-To: Mihai Brodschi <m.brodschi@gmail.com>
-From: Lukas LOPES DA CONCEICAO <contact@lukasldc.fr>
-Cc: linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev
-Subject: Re : Re: [BUG] ntfs3: IOMAP_INLINE mapping exceeds its page - BUG_ON in iomap
-Message-ID: <KVTyVEuJVJ64fthW0XFP0keHPuRYrmTizNV-YBxUEf0UTRjuC9YiY5KUMfNC5Oo8q4AcM90C8ZqQQ33EbO2W8inK6oaBN5ZJCKgnbpYuekw=@lukasldc.fr>
-In-Reply-To: <6659036b-2f4d-44c0-bd1b-3d76b87a8476@gmail.com>
-References: <4_qSHDGTzev3i2hKqtp_9TpB7p5JWTBKwOucZ49wWdoLB9TphDDLl-QsnEjjPLerlfuk-xS9J_qL7TQefUZxd3qW9MttPZT-UgBWJW9B_eE=@lukasldc.fr> <6659036b-2f4d-44c0-bd1b-3d76b87a8476@gmail.com>
-Feedback-ID: 100544131:user:proton
-X-Pm-Message-ID: c3a450ba51ac5215466c2c09f912f777d96166ea
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="HNExABj/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Tr
+	SmgPK/iKYopYkshvdX6gxgIvX9ARM61c0Feb3kP2g=; b=HNExABj/tD3X/dkKcX
+	jEQaO1xTwYgLD9eOBmizvQ+xGIT2IPZinFgV5DzMZfeK1mqO/SrMfXZIzRRpYao4
+	iO+fOHtfVQwryee8Q6cfHC0gLajLgCRPlVxTZsY/UnTluA5nXbDugCMfQcKKnMJ7
+	lZwnvFsz0ZiAv2cd78A9fEO+E=
+Received: from liubaolin-ThinkPad-E15-Gen-2 (unknown [])
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wAnpYn9LnVqp7BkOQ--.32974S2;
+	Fri, 07 Aug 2026 09:03:59 +0800 (CST)
+From: Baolin Liu <liubaolin12138@163.com>
+To: almaz.alexandrovich@paragon-software.com,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com
+Cc: linux-kernel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	liubaolin12138@163.com,
+	liubaolin12138@gmail.com,
+	Baolin Liu <liubaolin@kylinos.cn>
+Subject: [PATCH v3 v3 0/7] ntfs3: add tracepoints for core filesystem paths
+Date: Fri,  7 Aug 2026 09:03:47 +0800
+Message-ID: <20260807010354.2277156-1-liubaolin12138@163.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha512; boundary="------a8e902d9eaec74bed9784c221c39b56b40578f40b1f3dd86653d25bb7f64b244"; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wAnpYn9LnVqp7BkOQ--.32974S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7JrW8Kw13Zr17XF48Cr4fAFb_yoWDZFb_Ga
+	4xGa95tryUWFn2qa9xCw17JrZ29w4SgryDtFyftF17XrZ8XF4rJFnYqr43Xr4Ig3WYqFn5
+	AryfJF18Xr13ujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRM189JUUUUU==
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6R-CjWp1Lv-kQQAA3S
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------a8e902d9eaec74bed9784c221c39b56b40578f40b1f3dd86653d25bb7f64b244
-Content-Type: multipart/mixed;boundary=---------------------640155ef14d6b4ed0056e13a43d7bdd8
+From: Baolin Liu <liubaolin@kylinos.cn>
 
------------------------640155ef14d6b4ed0056e13a43d7bdd8
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;charset=utf-8
+This series adds an initial set of tracepoints for ntfs3 core paths.
 
-> Hi Lukas,
-> =
+The tracepoints cover:
+   - mount and log replay
+   - namei operations
+   - directory index operations
+   - allocation and block mapping
+   - iomap operations
+   - file I/O entry points
 
+Changes in v3:
+   - Reorder tracepoint fields across the series to reduce padding on
+     64-bit systems
 
-> This bug has been reported multiple times.
-> It was fixed in v7.2-rc1 and recently in stable v7.1.5 as well.
-> However, there are still other issues which cause fs corruption
-> with Steam.
-> =
+Baolin Liu (7):
+  ntfs3: add mount and log replay tracepoints
+  ntfs3: add namei tracepoints
+  ntfs3: add create inode tracepoint
+  ntfs3: add directory index tracepoints
+  ntfs3: add allocation tracepoints
+  ntfs3: add iomap tracepoints
+  ntfs3: add file I/O tracepoints
 
+ MAINTAINERS                  |   1 +
+ fs/ntfs3/attrib.c            |   9 +
+ fs/ntfs3/dir.c               |   3 +
+ fs/ntfs3/file.c              |   5 +
+ fs/ntfs3/fslog.c             |   3 +
+ fs/ntfs3/index.c             |   8 +
+ fs/ntfs3/inode.c             |   7 +
+ fs/ntfs3/namei.c             |   5 +
+ fs/ntfs3/super.c             |  11 +-
+ include/trace/events/ntfs3.h | 389 +++++++++++++++++++++++++++++++++++
+ 10 files changed, 440 insertions(+), 1 deletion(-)
+ create mode 100644 include/trace/events/ntfs3.h
 
-> Regards,
-> Mihai Brodschi
-
-Hi Mihai,
-
-Good news, thanks for the info !
-
-Regards,
-Lukas
------------------------640155ef14d6b4ed0056e13a43d7bdd8--
-
---------a8e902d9eaec74bed9784c221c39b56b40578f40b1f3dd86653d25bb7f64b244
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wsG5BAEBCgBtBYJqdL0rCRDuBpvbNc2xoEUUAAAAAAAcACBzYWx0QG5vdGF0
-aW9ucy5vcGVucGdwanMub3Jn3InUOO1IshihUOR3uFTyJJm3q7gE2G8JnEtb
-By5hheUWIQTaXN155Azon7TFONPuBpvbNc2xoAAAGMQQAIBWrfCKqJoHn0c3
-6CEFH/p9wO+WXLpPHrpNPiC8QtyVnwfEQglJCUv+W6BzJJ2amgqGqCReVQ0n
-a62iAtf9NqAkzwxxVU9/Rq1HSEpLQZdNoWIFfLBY3XVt+oXrB2PkUBEs0I3j
-RU5QQeXjQJAlffdxHorLIfyJq+j1aydahToJVrY0o764WjIXioV8RlTv439l
-M4/zA/iyME+x1LGMWPabN5Tm8iT70OBzlTxNjlSIzScmNwpNIM/Ymn38Wbg1
-/5ih7jB1zKzp2YuuIVoNHN5k78g9tqsMPcSyv8bYGISJRx2Ic1lqN4LeC+6O
-v/zoS57P8pFG3QJxFA5pcH76MwpTX0v4LHcI7z39eevI+a6qR/CIXs4CS8Sn
-MXI8iv8/1HQEBYsJd5VcT+gkYF+7MZAxcQ8L3vQQJ49Mp7N6MEHd7wRfLhHP
-gVYydOEKXVgfvJnx0t5KgMaFznS3NdIvdmsUEmhNm+ZAexZ3rsT1MFGeLz0C
-A3CpM9Tll7/AdDRc9uLyVI6D88M8hVmombNpG6CC2spfbyflhzaX5CzxvKPW
-MU2H6ROZRYnciSLPlcyxORL8ak+97k6KtbRrac3rLldEISd5FCnoAKeE6YQ2
-IA9ylTKB7Y3FJT2duyXIXJXRyO2p5WEhnPD5C5GUtzzrHljksarUHWMKPPfK
-8WUvKJWf
-=bwPq
------END PGP SIGNATURE-----
-
-
---------a8e902d9eaec74bed9784c221c39b56b40578f40b1f3dd86653d25bb7f64b244--
+-- 
+2.51.0
 
