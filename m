@@ -1,30 +1,30 @@
 Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080CD1DE894
-	for <ntfs3@lists.linux.dev>; Fri,  7 Aug 2026 01:04:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13C01DE894
+	for <ntfs3@lists.linux.dev>; Fri,  7 Aug 2026 01:04:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786064674; cv=none; b=LyCzRiGbbhPpk2PEMU8ClaDHppmyFxr9/b9Q56nOn5OBXFXaheHzIXqx89y2o5yDigLMdNpGa/KXkoZXalqqyuK/palhKdRXHgGnUym3IyPwTeipe5b9pRCLgsznX9pMjQl/OuLZi/2lUoL6HqHJClX+R4bGxyAb+kVA9h0MhfQ=
+	t=1786064677; cv=none; b=AHkU4iBLsB3M2m8XbjRE697VbHJPArPqTBEVVwO2qAXoEX41KLtqZ9rYj7uqFHNF19w/uUaG2npyhLEpJ2xVMvoKhXB7stAD1qD8/D7JDiZYSroT7lQSkYsdlRbPkwkrJEWBQG2KpFADuzg8oD+qF6JLuaAEEkV3pAxILIvWSQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786064674; c=relaxed/simple;
-	bh=ipFRiEZb3eOzbms77cPdggMuTdTP/tuAsuPcoOcd3hw=;
+	s=arc-20240116; t=1786064677; c=relaxed/simple;
+	bh=Yfao+oSjMPGe4+QuHnl5HAxHcnC/rs73XaioxJf/86s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e8RTZX1R3dUvCn0HgiBoUSTMzGmSRC70U5dD1exvBNoAoMmKDS16PhM5iNzRtBqqJv/qm4+vVWrgo123UBhXZatWXUehZaChoPhWL0pWtv89h7rNUXxEUtUqO6VPOx9JTrbamLmlVzdhlDvFdWOXmFd+B04LCDxa7az2LQw7jss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=GRtvyrGv; arc=none smtp.client-ip=220.197.31.5
+	 MIME-Version; b=AbV0HMeuDEE8avDXvE72A2PedTnHRxPvpKDvzcW9vYC9mAakbjZyk8HYGRU7Gp1hQ3O5Zil3LMla+TzDG0tSMihlYBjJNmjSGnLW8s62GQzwM1BL8zI9OOwEIYXDVMdQTkU1j37qs6njzLEvzzaWjiQMoD7ZxHMtd+Rs7fiMeZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=fzsECu6f; arc=none smtp.client-ip=220.197.31.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="GRtvyrGv"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="fzsECu6f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=UV
-	C2ktW37UcDCI11yFCHJYewa7WGv3t7Z5otXeKijXo=; b=GRtvyrGvepRYtG/sLq
-	zcpWHyGADt4klLVB9FrUlI3711XJNgiiHYSNRC1iSepNmOp1LUxDQh8BrJTgCBpM
-	vvzSlSiA2r4O/AlM+eCoDJucxy2SQkBc0FPPRr7OGpJ4Yp/8XA6nZ29/+7MeD0z/
-	jBTsYpifmUwVbdGbPg0IUdj2g=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=E0
+	b/N/mkFze6dmVbf5O0lbNgI3WDQMXE76TxPFcP1Kw=; b=fzsECu6fKNMc55xQhl
+	7d9FTqytcCs92M+wMRJ3+GFX6t9yjbiEzlL4pKhOXeRpIAJc3Mlz53NKLztt7J3R
+	0xr9oP4MARAZ+W9QgwIgUXrh83E1cUeJIOUV+SxK73P1Dlh63Ar9fd35AeBTxy+D
+	W/V3LzPti7sfRrHdFNWlaRino=
 Received: from liubaolin-ThinkPad-E15-Gen-2 (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wAnpYn9LnVqp7BkOQ--.32974S6;
-	Fri, 07 Aug 2026 09:04:11 +0800 (CST)
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wAnpYn9LnVqp7BkOQ--.32974S9;
+	Fri, 07 Aug 2026 09:04:17 +0800 (CST)
 From: Baolin Liu <liubaolin12138@163.com>
 To: almaz.alexandrovich@paragon-software.com,
 	rostedt@goodmis.org,
@@ -36,9 +36,9 @@ Cc: linux-kernel@vger.kernel.org,
 	liubaolin12138@163.com,
 	liubaolin12138@gmail.com,
 	Baolin Liu <liubaolin@kylinos.cn>
-Subject: [PATCH v3 v3 4/7] ntfs3: add directory index tracepoints
-Date: Fri,  7 Aug 2026 09:03:51 +0800
-Message-ID: <20260807010354.2277156-5-liubaolin12138@163.com>
+Subject: [PATCH v3 v3 7/7] ntfs3: add file I/O tracepoints
+Date: Fri,  7 Aug 2026 09:03:54 +0800
+Message-ID: <20260807010354.2277156-8-liubaolin12138@163.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260807010354.2277156-1-liubaolin12138@163.com>
 References: <20260807010354.2277156-1-liubaolin12138@163.com>
@@ -49,176 +49,96 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wAnpYn9LnVqp7BkOQ--.32974S6
-X-Coremail-Antispam: 1Uf129KBjvJXoW3GF47WF47Aw4UJFW3Jw1rXrb_yoW7Xr43pF
-	nrCrZxK397JrZFkwsaya1Fyr4ava95ur4Dtry3W342yw4Iqr18tF4DKr1jvr95ArWF9ryf
-	WF4Y9a4DG3WUWr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pE_-PUUUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6QvFkGp1Lwvl5gAA3P
+X-CM-TRANSID:_____wAnpYn9LnVqp7BkOQ--.32974S9
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGr18XF1ktw1kJr45ZFy3twb_yoW5XF47pF
+	nIyasxWrWxJ3y7Kws3CF4DXa1rua1xCrWUJry7W3W3Ar1xJrn7JanFgF1jk3Z5ArWqyw1a
+	g3Z093s8G34UXr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRBMKZUUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6hHHkmp1LxG+gQAA3w
 
 From: Baolin Liu <liubaolin@kylinos.cn>
 
-Add ntfs3 tracepoints for directory index operations.
+Add ntfs3 tracepoints for file I/O operations.
 
-This adds trace events for dir_search_u(), indx_find(),
-indx_insert_entry(), and indx_delete_entry() to help observe
-directory index lookup, insert, and delete activity.
+This adds trace events for ntfs_file_read_iter() and
+ntfs_file_write_iter() to help observe file read and
+write activity.
 
 Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
 ---
- fs/ntfs3/dir.c               |  3 ++
- fs/ntfs3/index.c             |  8 ++++
- include/trace/events/ntfs3.h | 81 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 92 insertions(+)
+ fs/ntfs3/file.c              |  5 +++++
+ include/trace/events/ntfs3.h | 33 +++++++++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
 
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index 873d52233003..eb10e7ff45bc 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -14,6 +14,7 @@
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index d601f088618c..a260a57ebd65 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -20,6 +20,7 @@
  #include "debug.h"
  #include "ntfs.h"
  #include "ntfs_fs.h"
 +#include <trace/events/ntfs3.h>
  
- /* Convert little endian UTF-16 to NLS string. */
- int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const __le16 *name, u32 len,
-@@ -243,6 +244,8 @@ struct inode *dir_search_u(struct inode *dir, const struct cpu_str *uni,
- 	struct inode *inode = NULL;
- 	struct ntfs_fnd *fnd_a = NULL;
+ /*
+  * cifx, btrfs, exfat, ext4, f2fs use this constant.
+@@ -822,6 +823,8 @@ static ssize_t ntfs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 	unsigned int dio_flags;
+ 	ssize_t err;
  
-+	trace_ntfs3_dir_search_u(dir, uni ? uni->len : 0);
++	trace_ntfs3_file_read_iter(iocb, iter);
 +
- 	if (!fnd) {
- 		fnd_a = fnd_get();
- 		if (!fnd_a) {
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index 2b439ac04356..d4ca7b1bb524 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -13,6 +13,7 @@
- #include "debug.h"
- #include "ntfs.h"
- #include "ntfs_fs.h"
-+#include <trace/events/ntfs3.h>
- 
- static const struct INDEX_NAMES {
- 	const __le16 *name;
-@@ -1179,6 +1180,8 @@ int indx_find(struct ntfs_index *indx, struct ntfs_inode *ni,
- 	if (!root)
- 		root = indx_get_root(&ni->dir, ni, NULL, NULL);
- 
-+	trace_ntfs3_indx_find(&ni->vfs_inode, indx->type, key_len);
-+
- 	if (!root) {
- 		/* Should not happen. */
- 		return -EINVAL;
-@@ -2051,6 +2054,9 @@ int indx_insert_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
- 		return -EINVAL;
- 	}
- 
-+	trace_ntfs3_indx_insert_entry(&ni->vfs_inode, indx->type,
-+				      le16_to_cpu(new_de->key_size), undo);
-+
- 	if (fnd_is_empty(fnd)) {
- 		/*
- 		 * Find the spot the tree where we want to
-@@ -2409,6 +2415,8 @@ int indx_delete_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
- 		return -EINVAL;
- 	}
- 
-+	trace_ntfs3_indx_delete_entry(&ni->vfs_inode, indx->type, key_len);
-+
- 	/* Locate the entry to remove. */
- 	err = indx_find(indx, ni, root, key, key_len, ctx, &diff, &e, fnd);
+ 	err = check_read_restriction(inode);
  	if (err)
+ 		return err;
+@@ -1225,6 +1228,8 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 	loff_t vbo, endbyte;
+ 	ssize_t ret, err;
+ 
++	trace_ntfs3_file_write_iter(iocb, from);
++
+ 	if (!inode_trylock(inode)) {
+ 		if (iocb->ki_flags & IOCB_NOWAIT)
+ 			return -EAGAIN;
 diff --git a/include/trace/events/ntfs3.h b/include/trace/events/ntfs3.h
-index 67a2bde0266d..4ac05ed29e49 100644
+index 7a94c2788295..c76fe265fb79 100644
 --- a/include/trace/events/ntfs3.h
 +++ b/include/trace/events/ntfs3.h
-@@ -142,6 +142,87 @@ TRACE_EVENT(ntfs3_create_inode,
- 		  __entry->parent_ino, __get_str(name))
+@@ -351,6 +351,39 @@ TRACE_EVENT(ntfs3_iomap_end,
+ 		  __entry->written, __entry->flags)
  );
  
-+TRACE_EVENT(ntfs3_dir_search_u,
-+	TP_PROTO(struct inode *dir, unsigned int name_len),
-+	TP_ARGS(dir, name_len),
++DECLARE_EVENT_CLASS(ntfs3_file_class,
++	TP_PROTO(struct kiocb *iocb, struct iov_iter *iter),
++	TP_ARGS(iocb, iter),
 +	TP_STRUCT__entry(
-+		__field(unsigned long, dir_ino)
-+		__field(dev_t, dev)
-+		__field(unsigned int, name_len)
-+	),
-+	TP_fast_assign(
-+		__entry->dir_ino = dir->i_ino;
-+		__entry->dev = dir->i_sb->s_dev;
-+		__entry->name_len = name_len;
-+	),
-+	TP_printk("dev=(%d,%d) dir=%lu name_len=%u",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->dir_ino, __entry->name_len)
-+);
-+
-+TRACE_EVENT(ntfs3_indx_find,
-+	TP_PROTO(struct inode *inode, u8 type, size_t key_len),
-+	TP_ARGS(inode, type, key_len),
-+	TP_STRUCT__entry(
-+		__field(unsigned long, ino)
-+		__field(size_t, key_len)
-+		__field(dev_t, dev)
-+		__field(u8, type)
-+	),
-+	TP_fast_assign(
-+		__entry->ino = inode->i_ino;
-+		__entry->key_len = key_len;
-+		__entry->dev = inode->i_sb->s_dev;
-+		__entry->type = type;
-+	),
-+	TP_printk("dev=(%d,%d) ino=%lu type=%u key_len=%zu",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->type, __entry->key_len)
-+);
-+
-+TRACE_EVENT(ntfs3_indx_insert_entry,
-+	TP_PROTO(struct inode *inode, u8 type, u16 key_len, bool undo),
-+	TP_ARGS(inode, type, key_len, undo),
-+	TP_STRUCT__entry(
++		__field(loff_t, size)
++		__field(loff_t, offset)
++		__field(size_t, count)
 +		__field(unsigned long, ino)
 +		__field(dev_t, dev)
-+		__field(u16, key_len)
-+		__field(u8, type)
-+		__field(bool, undo)
 +	),
 +	TP_fast_assign(
-+		__entry->ino = inode->i_ino;
-+		__entry->dev = inode->i_sb->s_dev;
-+		__entry->key_len = key_len;
-+		__entry->type = type;
-+		__entry->undo = undo;
++		__entry->size = i_size_read(file_inode(iocb->ki_filp));
++		__entry->offset = iocb->ki_pos;
++		__entry->count = iov_iter_count(iter);
++		__entry->ino = file_inode(iocb->ki_filp)->i_ino;
++		__entry->dev = file_inode(iocb->ki_filp)->i_sb->s_dev;
 +	),
-+	TP_printk("dev=(%d,%d) ino=%lu type=%u key_len=%u undo=%d",
++	TP_printk("dev=(%d,%d) ino=%lu size=%lld pos=%lld bytecount=%zu",
 +		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->type, __entry->key_len,
-+		  __entry->undo)
++		  __entry->ino, __entry->size, __entry->offset,
++		  __entry->count)
 +);
 +
-+TRACE_EVENT(ntfs3_indx_delete_entry,
-+	TP_PROTO(struct inode *inode, u8 type, u32 key_len),
-+	TP_ARGS(inode, type, key_len),
-+	TP_STRUCT__entry(
-+		__field(unsigned long, ino)
-+		__field(u32, key_len)
-+		__field(dev_t, dev)
-+		__field(u8, type)
-+	),
-+	TP_fast_assign(
-+		__entry->ino = inode->i_ino;
-+		__entry->key_len = key_len;
-+		__entry->dev = inode->i_sb->s_dev;
-+		__entry->type = type;
-+	),
-+	TP_printk("dev=(%d,%d) ino=%lu type=%u key_len=%u",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->type, __entry->key_len)
++DEFINE_EVENT(ntfs3_file_class, ntfs3_file_read_iter,
++	TP_PROTO(struct kiocb *iocb, struct iov_iter *iter),
++	TP_ARGS(iocb, iter)
++);
++
++DEFINE_EVENT(ntfs3_file_class, ntfs3_file_write_iter,
++	TP_PROTO(struct kiocb *iocb, struct iov_iter *iter),
++	TP_ARGS(iocb, iter)
 +);
 +
  #endif /* _TRACE_NTFS3_H */
