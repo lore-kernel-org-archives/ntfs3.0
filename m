@@ -1,174 +1,132 @@
-Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1493A254B
-	for <ntfs3@lists.linux.dev>; Sat,  8 Aug 2026 20:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A53F38E12B
+	for <ntfs3@lists.linux.dev>; Sun,  9 Aug 2026 06:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786219774; cv=none; b=i+oTna1YKBRrjgx4R5NRDA3fC0BjaPIzjnqy+H+4Oiw0O5PJHG+Hr18CizRjNJRP3l3kaS7Gdf92f34JDZnNaNfeRpSOi6xzX39RUEzIaZhHjkS2fN7rdgp+rT8WumjdoEwdTIlQuTDBewziDKCLsVxAQPnti1svfAsQPFvZ8Aw=
+	t=1786255634; cv=none; b=AKd02Ts4G+zs4n6f2l0OXQxVi6cd6p0pwIHtTbC5zlEwXjSlTUhU0ZwXzHh7bT8upw2qT5gm7BMyaTBYzUPBzsjRyp40ttSw391bDRr0/tos66+Z8QpgVh9AzSE/GSB0q+xhtqyLw/euW67BfhlnPY1elo/UrhH+bpDiQW8S17o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786219774; c=relaxed/simple;
-	bh=lkhj2oP/pTeFK5rVfv2KYrcKKiEIi19Itvb/+q9WXFw=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ZK+FZEIh4scGVAZ99mzUQZ9+LodHIqwYmr7SO7sLvc/jebBwDhuC5L8EAflJnqXtf7JjWDgUeZRJce/+VfHyixFYtP7ptj0H22bjnk9+5iqCpf9BAN8HuOXCIKebItT9zL2c8AcvrDYsKv/5+1839wSdaA6liS8qBPJ7W+dInSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-4ab8b4887d4so452791b6e.1
-        for <ntfs3@lists.linux.dev>; Sat, 08 Aug 2026 13:09:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786219772; x=1786824572;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JJcJVmnsJEN3y6VIkxkg0kqvdT3DmKUnaXDFVwRrtXU=;
-        b=qE4Oy/4jOrh6Xx1usG/+CP5/1xF+9gi7WsTY1F09PPkcfUG7FqIA6/Li+8fqbfMutZ
-         ZVABKa1Fh7rK9obnHkh6kGFRZhTDpYur6ujEtM4Z3Q8VIzBYBcz+pHMLsWrMCCHAWyi/
-         v2ORmLVBt+M7AdKFs+kqZCER6sfrqN3Bqc59cqRo+0p0l+G8Jl2M4O3vxAbFdW7IeeJT
-         ByqT4U6TFEROOabTz87kOaMAM/Ns7/Eq+sYO+hhRkta0wNcrh1AiPGcOXKzKyHRy4oGl
-         SzMl677ARjZCttc9HmGNfo+K2lvzG/nDiA3OerRP85hN3rtefcx73MTe3TjaAyJRHCUR
-         +EIQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrcwcIcA5pVJG6/h3+IAeezYQdoi2MeqRNoJs5oiV4Q0P/Vl5ODVoi3rBeLBvlgwFKPILyAzQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWH94sd0+D8tHvTx8mtf0L+uGLokW00gnnXIOvI2Xy4oLop8Gj
-	+LRIwC9+YrYeOuDkLTMk5QUuPe809QYVBmGL9xOmsflx0pUj81wFQjoySTfaj/kfDfJBLoz1hAF
-	9c9N5otfauy+C51yYXBhWdyeML321vbwGHn0WiZJ078XOTP3RnYbO4Ay8AKQ=
+	s=arc-20240116; t=1786255634; c=relaxed/simple;
+	bh=Vkbo0FQlB1W0mJWcOF0uB7ytrqgJJ+SScvipnq2reuk=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=q+ttU2t0TiL7VsQZ3Tdpg3Mnyg6ml2Gr8KaUJSpDTudJhfERePIeR/g5q5xS8/udKf1qBTw5XCsw830jDIKe0GTj2nP35EYlNTofFUBp7lLgCW+wjMnxG74RS7aBojmgz93tZYomGT4r+TH+WJAA8cYHeenmNdt8e41l1Yz+w5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=h2QxeeiA; arc=none smtp.client-ip=43.163.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="h2QxeeiA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1786255626; bh=8zSH2AzluL6FSBpC7B7ZDsjfmuqyXlEZH2k9LWVIJmA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=h2QxeeiA2s9uzChOSNqz2jtzaAKgZAatNooeW4MUjk7s/Y8nqwShqwCvNMWhIG7p6
+	 kQeK6E0aHE20+r0FT3Jf6o8di+NLs031J86YXKuvBllP7cDVmn1xhLLrRElwGEG+3J
+	 z1vxm5OCGQbSOMG/Kq0N8V4kCEGNFp3rdqA+WRtM=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
+	id 1C39A6C2; Sun, 09 Aug 2026 14:07:03 +0800
+X-QQ-mid: xmsmtpt1786255623tegpyeu6d
+Message-ID: <tencent_1C66CE3D8B3704962236124B067405761909@qq.com>
+X-QQ-XMAILINFO: NbgegmlEc3JuLmCtP6lT0ijgG6ZVn+4Oa4EvRUjCPgDBHSZ8XZpnRP+TxY1i4s
+	 CIL5T1U34UaN3j4wkdC/u2fUajEjcLRvzykT/F/nsKpaSWr7ec08FLRXa0F88uqKa0OvcGmjERlE
+	 9vtHNxroP8WILmlFymOoyz3cI6bG0FEsFBNFpqjllttpj8FnOIYINYkY4tnAOIFhSXt7xNHGcR2y
+	 Cx8b8vqTLbhcL5E0YkP67JoKO+1o/jLaiMgv9gSd44rLDkPQ69RsYRANnM4BEkw4VM4GKdVsIriA
+	 EhOP0GKjKAtWO17HtEOuoTUzIPdDHu6X78jRmQBuvH2oLAn/pF+2UJdChenPC7begjmgjg+s5a5H
+	 dtDfcupq9iq6ydOl/VSeISrJVDPrBKpE5k0TIe20LsWKUsi+Zvw4Evd9/srgzv+17mXalLubEuiV
+	 gvm67thSekW5s62F7O7WjCfWbRDL20Sto/HE8N6AxIerftgRSNHNqxgOvqgYSwg1+3xXcjRuloMz
+	 UIkr2vmUUtEoH4QmAT+iEoR3/28JIbk+otWKJ94/bX74QxAjxCxp4ViPUmOppGhpK47xA6BBvHiI
+	 XeVFSufYCdcdo+3umLX2jr8r3BJVXGt4wdSZ2/xo/5OO58qjNcXzxsDsga0jvTkoZqYDkPGIMuuw
+	 BFuhCGNroCEj+nhvzXBg1XwGHNl9Vt1LxnDq2pekdlmW581y8Esfg3fJXGfWMl7c/Blwj5ozwJWm
+	 wNxpgYv59fTlm1Oy+W//Hj+/OsmBqhyH8wR2cQzi4QMzuD5AzX5MgREZvAQAALKJ5DhAx2BKvYIJ
+	 gnqiqzxKlREjDYCk9Hl22NhMarGJ2ODmytg7BnDhfSQzkWzLaGwAU8EPaH0Fiz458vbhY/al+SIb
+	 E3iVAgf0osXzqrGrA5BtqydpasMwGeYANaEGPZcE0LIjClxmjo4yLqbHGdjp8XxA6dHztfRIsdXs
+	 0IuWzJAdRAa891+WsQSMkV1fiWlwvI2Elb8ZJ23fnajScPVNtNb4eknrZAGLDRJaF+WQWQC7x9gq
+	 FAun10KyJeOIHC+TuZML3EQ7fLdv3HVmw15k6FuAleYwF30BChHxLM84qs52U=
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+4c22f022eb39c86b9d19@syzkaller.appspotmail.com
+Cc: almaz.alexandrovich@paragon-software.com,
+	ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] ntfs3: Update only the member values without replacing the opts pointer
+Date: Sun,  9 Aug 2026 14:07:04 +0800
+X-OQ-MSGID: <20260809060703.28714-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <6a778cc0.01d0871a.3a0d52.006c.GAE@google.com>
+References: <6a778cc0.01d0871a.3a0d52.006c.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:514a:b0:49b:33c8:4b75 with SMTP id
- 5614622812f47-4b1ab7a68ebmr5334264b6e.5.1786219771938; Sat, 08 Aug 2026
- 13:09:31 -0700 (PDT)
-Date: Sat, 08 Aug 2026 13:09:31 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a778cfb.9c11d2ce.289b96.00b8.GAE@google.com>
-Subject: [syzbot] [ntfs3?] general protection fault in al_destroy
-From: syzbot <syzbot+04cf7b83f6dd2c3a54c8@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+There is a potential race condition when accessing options during remount
+and read operations. This would trigger a uaf [1].
 
-syzbot found the following issue on:
+CPU0: remount				CPU1: read options
+==================================	==================
+do_remount()
+reconfigure_super()
+ ntfs_fs_reconfigure()
+  sbi->options = fc->fs_private
+put_fs_context()
+ ntfs_fs_free()
+  put_mount_options()			ntfs_show_options()
+   kfree(sbi->options)			 opts = sbi->options
+				         opts->dmask //trigger uaf
 
-HEAD commit:    6b8c8af514d7 Add linux-next specific files for 20260807
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=13210149580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6d343b54cc50df0f
-dashboard link: https://syzkaller.appspot.com/bug?extid=04cf7b83f6dd2c3a54c8
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1284c2c6580000
+The fix involves not updating the sbi->options pointer during
+reconfiguration, but instead using fc->fs_private to update the
+corresponding member values.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/71ff4edcb608/disk-6b8c8af5.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/1f5fa331d8f2/vmlinux-6b8c8af5.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/f993558ec63b/bzImage-6b8c8af5.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/f8133373f34e/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+04cf7b83f6dd2c3a54c8@syzkaller.appspotmail.com
-
-         option from the mount to silence this warning.
-=======================================================
-ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000042: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000210-0x0000000000000217]
-CPU: 1 UID: 0 PID: 5838 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-RIP: 0010:run_close fs/ntfs3/ntfs_fs.h:1034 [inline]
-RIP: 0010:al_destroy+0x49/0xc0 fs/ntfs3/attrlist.c:33
-Code: 02 00 00 48 89 d8 48 c1 e8 03 42 80 3c 38 00 74 08 48 89 df e8 58 8d 08 ff 48 8b 1b 4c 8d b3 10 02 00 00 4c 89 f0 48 c1 e8 03 <42> 80 3c 38 00 74 08 4c 89 f7 e8 38 8d 08 ff 48 8b bb 10 02 00 00
-RSP: 0018:ffffc9000348f960 EFLAGS: 00010206
-RAX: 0000000000000042 RBX: 0000000000000000 RCX: ffff88802ac23e80
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: ffff88805a8d7810
-RBP: 0000000000000001 R08: ffffffff9058fb7f R09: 1ffffffff20b1f6f
-R10: dffffc0000000000 R11: fffffbfff20b1f70 R12: ffff88805a8d7a60
-R13: dffffc0000000000 R14: 0000000000000210 R15: dffffc0000000000
-FS:  000055555d771500(0000) GS:ffff88812500c000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f6813d4c000 CR3: 000000007270e000 CR4: 00000000003526f0
+[1]
+BUG: KASAN: slab-use-after-free in ntfs_show_options+0x656/0x800 fs/ntfs3/super.c:762
 Call Trace:
- <TASK>
- ni_clear+0x5d/0x630 fs/ntfs3/frecord.c:110
- evict+0x624/0xb50 fs/inode.c:822
- ntfs_new_inode+0x8c/0x120 fs/ntfs3/fsntfs.c:1719
- ntfs_create_inode+0x6e7/0x3420 fs/ntfs3/inode.c:1520
- ntfs_mkdir+0x37/0x50 fs/ntfs3/namei.c:234
- vfs_mkdir+0x40c/0x620 fs/namei.c:5410
- filename_mkdirat+0x285/0x510 fs/namei.c:5443
- __do_sys_mkdirat fs/namei.c:5464 [inline]
- __se_sys_mkdirat+0x35/0x150 fs/namei.c:5461
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x510 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f057a79cf47
-Code: 00 66 90 48 89 f2 b9 00 01 00 00 48 89 fe bf 9c ff ff ff e9 db f7 ff ff 66 2e 0f 1f 84 00 00 00 00 00 90 b8 02 01 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff0d960bd8 EFLAGS: 00000246 ORIG_RAX: 0000000000000102
-RAX: ffffffffffffffda RBX: 00007fff0d960c60 RCX: 00007f057a79cf47
-RDX: 00000000000001ff RSI: 00002000000000c0 RDI: 00000000ffffff9c
-RBP: 00002000000002c0 R08: 00002000000007c0 R09: 0000000000000000
-R10: 00002000000002c0 R11: 0000000000000246 R12: 00002000000000c0
-R13: 00007fff0d960c20 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:run_close fs/ntfs3/ntfs_fs.h:1034 [inline]
-RIP: 0010:al_destroy+0x49/0xc0 fs/ntfs3/attrlist.c:33
-Code: 02 00 00 48 89 d8 48 c1 e8 03 42 80 3c 38 00 74 08 48 89 df e8 58 8d 08 ff 48 8b 1b 4c 8d b3 10 02 00 00 4c 89 f0 48 c1 e8 03 <42> 80 3c 38 00 74 08 4c 89 f7 e8 38 8d 08 ff 48 8b bb 10 02 00 00
-RSP: 0018:ffffc9000348f960 EFLAGS: 00010206
-RAX: 0000000000000042 RBX: 0000000000000000 RCX: ffff88802ac23e80
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: ffff88805a8d7810
-RBP: 0000000000000001 R08: ffffffff9058fb7f R09: 1ffffffff20b1f6f
-R10: dffffc0000000000 R11: fffffbfff20b1f70 R12: ffff88805a8d7a60
-R13: dffffc0000000000 R14: 0000000000000210 R15: dffffc0000000000
-FS:  000055555d771500(0000) GS:ffff88812500c000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f6813d4c000 CR3: 000000007270e000 CR4: 00000000003526f0
-----------------
-Code disassembly (best guess):
-   0:	02 00                	add    (%rax),%al
-   2:	00 48 89             	add    %cl,-0x77(%rax)
-   5:	d8 48 c1             	fmuls  -0x3f(%rax)
-   8:	e8 03 42 80 3c       	call   0x3c804210
-   d:	38 00                	cmp    %al,(%rax)
-   f:	74 08                	je     0x19
-  11:	48 89 df             	mov    %rbx,%rdi
-  14:	e8 58 8d 08 ff       	call   0xff088d71
-  19:	48 8b 1b             	mov    (%rbx),%rbx
-  1c:	4c 8d b3 10 02 00 00 	lea    0x210(%rbx),%r14
-  23:	4c 89 f0             	mov    %r14,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1) <-- trapping instruction
-  2f:	74 08                	je     0x39
-  31:	4c 89 f7             	mov    %r14,%rdi
-  34:	e8 38 8d 08 ff       	call   0xff088d71
-  39:	48 8b bb 10 02 00 00 	mov    0x210(%rbx),%rdi
+ ntfs_show_options+0x656/0x800 fs/ntfs3/super.c:762
+ show_vfsmnt+0x637/0x780 fs/proc_namespace.c:129
+ seq_read_iter+0x8d6/0xcb0 fs/seq_file.c:273
+ new_sync_read fs/read_write.c:493 [inline]
+ vfs_read+0x59e/0xa90 fs/read_write.c:574
 
+Allocated by task 6027:
+ ntfs_init_fs_context+0x55/0x570 fs/ntfs3/super.c:1862
+ alloc_fs_context+0x9a3/0xd00 fs/fs_context.c:295
+ do_remount fs/namespace.c:3392 [inline]
+ path_mount+0xc5e/0x1040 fs/namespace.c:4153
+ do_mount fs/namespace.c:4174 [inline]
 
+Freed by task 6026:
+ kfree+0x1c5/0x6c0 mm/slub.c:6692
+ put_fs_context+0x123/0xb00 fs/fs_context.c:498
+ do_remount fs/namespace.c:3419 [inline]
+ path_mount+0xef9/0x1040 fs/namespace.c:4153
+ do_mount fs/namespace.c:4174 [inline]
+
+Fixes: cd39981fb92a ("fs/ntfs3: Fix double free on remount")
+Reported-by: syzbot+4c22f022eb39c86b9d19@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=4c22f022eb39c86b9d19
+Tested-by: syzbot+4c22f022eb39c86b9d19@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/super.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 3305fe406cb2..58540491e68b 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -461,7 +461,7 @@ static int ntfs_fs_reconfigure(struct fs_context *fc)
+ 	}
+ 
+ 	sync_filesystem(sb);
+-	swap(sbi->options, fc->fs_private);
++	memcpy(sbi->options, fc->fs_private, sizeof(*sbi->options));
+ 
+ 	return 0;
+ }
+-- 
+2.43.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
