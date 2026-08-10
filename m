@@ -1,132 +1,77 @@
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A53F38E12B
-	for <ntfs3@lists.linux.dev>; Sun,  9 Aug 2026 06:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE1F43634F
+	for <ntfs3@lists.linux.dev>; Mon, 10 Aug 2026 18:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786255634; cv=none; b=AKd02Ts4G+zs4n6f2l0OXQxVi6cd6p0pwIHtTbC5zlEwXjSlTUhU0ZwXzHh7bT8upw2qT5gm7BMyaTBYzUPBzsjRyp40ttSw391bDRr0/tos66+Z8QpgVh9AzSE/GSB0q+xhtqyLw/euW67BfhlnPY1elo/UrhH+bpDiQW8S17o=
+	t=1786386904; cv=none; b=HHd30LMbIkeTjye5ORL5mDhZYOjU6Xe0I5XwcpsiSQBo9g1icZL9uGtx4lU5ZIlA4hXLMW5KY7Yj+GWKZsLYG1BXnPiFtEvaJZiOCEgRaNe9VlfarexmGIPZaFerHVr3V7skiN2gpIMRF8MckqFSOntfwR6XY5xmDnvn9A3sreA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786255634; c=relaxed/simple;
-	bh=Vkbo0FQlB1W0mJWcOF0uB7ytrqgJJ+SScvipnq2reuk=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=q+ttU2t0TiL7VsQZ3Tdpg3Mnyg6ml2Gr8KaUJSpDTudJhfERePIeR/g5q5xS8/udKf1qBTw5XCsw830jDIKe0GTj2nP35EYlNTofFUBp7lLgCW+wjMnxG74RS7aBojmgz93tZYomGT4r+TH+WJAA8cYHeenmNdt8e41l1Yz+w5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=h2QxeeiA; arc=none smtp.client-ip=43.163.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="h2QxeeiA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1786255626; bh=8zSH2AzluL6FSBpC7B7ZDsjfmuqyXlEZH2k9LWVIJmA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=h2QxeeiA2s9uzChOSNqz2jtzaAKgZAatNooeW4MUjk7s/Y8nqwShqwCvNMWhIG7p6
-	 kQeK6E0aHE20+r0FT3Jf6o8di+NLs031J86YXKuvBllP7cDVmn1xhLLrRElwGEG+3J
-	 z1vxm5OCGQbSOMG/Kq0N8V4kCEGNFp3rdqA+WRtM=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
-	id 1C39A6C2; Sun, 09 Aug 2026 14:07:03 +0800
-X-QQ-mid: xmsmtpt1786255623tegpyeu6d
-Message-ID: <tencent_1C66CE3D8B3704962236124B067405761909@qq.com>
-X-QQ-XMAILINFO: NbgegmlEc3JuLmCtP6lT0ijgG6ZVn+4Oa4EvRUjCPgDBHSZ8XZpnRP+TxY1i4s
-	 CIL5T1U34UaN3j4wkdC/u2fUajEjcLRvzykT/F/nsKpaSWr7ec08FLRXa0F88uqKa0OvcGmjERlE
-	 9vtHNxroP8WILmlFymOoyz3cI6bG0FEsFBNFpqjllttpj8FnOIYINYkY4tnAOIFhSXt7xNHGcR2y
-	 Cx8b8vqTLbhcL5E0YkP67JoKO+1o/jLaiMgv9gSd44rLDkPQ69RsYRANnM4BEkw4VM4GKdVsIriA
-	 EhOP0GKjKAtWO17HtEOuoTUzIPdDHu6X78jRmQBuvH2oLAn/pF+2UJdChenPC7begjmgjg+s5a5H
-	 dtDfcupq9iq6ydOl/VSeISrJVDPrBKpE5k0TIe20LsWKUsi+Zvw4Evd9/srgzv+17mXalLubEuiV
-	 gvm67thSekW5s62F7O7WjCfWbRDL20Sto/HE8N6AxIerftgRSNHNqxgOvqgYSwg1+3xXcjRuloMz
-	 UIkr2vmUUtEoH4QmAT+iEoR3/28JIbk+otWKJ94/bX74QxAjxCxp4ViPUmOppGhpK47xA6BBvHiI
-	 XeVFSufYCdcdo+3umLX2jr8r3BJVXGt4wdSZ2/xo/5OO58qjNcXzxsDsga0jvTkoZqYDkPGIMuuw
-	 BFuhCGNroCEj+nhvzXBg1XwGHNl9Vt1LxnDq2pekdlmW581y8Esfg3fJXGfWMl7c/Blwj5ozwJWm
-	 wNxpgYv59fTlm1Oy+W//Hj+/OsmBqhyH8wR2cQzi4QMzuD5AzX5MgREZvAQAALKJ5DhAx2BKvYIJ
-	 gnqiqzxKlREjDYCk9Hl22NhMarGJ2ODmytg7BnDhfSQzkWzLaGwAU8EPaH0Fiz458vbhY/al+SIb
-	 E3iVAgf0osXzqrGrA5BtqydpasMwGeYANaEGPZcE0LIjClxmjo4yLqbHGdjp8XxA6dHztfRIsdXs
-	 0IuWzJAdRAa891+WsQSMkV1fiWlwvI2Elb8ZJ23fnajScPVNtNb4eknrZAGLDRJaF+WQWQC7x9gq
-	 FAun10KyJeOIHC+TuZML3EQ7fLdv3HVmw15k6FuAleYwF30BChHxLM84qs52U=
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+4c22f022eb39c86b9d19@syzkaller.appspotmail.com
-Cc: almaz.alexandrovich@paragon-software.com,
-	ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] ntfs3: Update only the member values without replacing the opts pointer
-Date: Sun,  9 Aug 2026 14:07:04 +0800
-X-OQ-MSGID: <20260809060703.28714-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <6a778cc0.01d0871a.3a0d52.006c.GAE@google.com>
-References: <6a778cc0.01d0871a.3a0d52.006c.GAE@google.com>
+	s=arc-20240116; t=1786386904; c=relaxed/simple;
+	bh=x+fWtxlNaiJvjuYVYcXM4gnB1taPeu7t7BSZ9JkbVzA=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=laWW6/2FAkxgqL1BE8YoXqtsPukLh/cvdFAEU+aB5r28IKCeGdNsSFF0U07FJbsw9U+3xhzpFO1peSEyDtghwJPapbdsNquaP+xaDi7UwpwV9Cb+2qX2HIxIHnynSidZXUhT0xO3Qq1CQhJCuLqZkQWn7nl0j99WBE/D76HvyXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4a485034d01so3279385b6e.3
+        for <ntfs3@lists.linux.dev>; Mon, 10 Aug 2026 11:35:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786386902; x=1786991702;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=K7uKpe4M8mbcOSEAL2qZIxK+YA+YklNLgZvtiAydeSc=;
+        b=DXuT0QR4RcTbA/WWk5t5fOv2+dGIbmk0EJuLWB2UVi3pTrORNnYxT3A4DEJAZUvSVs
+         hQre1b8kn7ZcWKgT0r0NfRKKteONl1QLe/l1CdG/JvTWz6hlAaH7j6QBT/SxTBf13i3D
+         WDI+m3H3ZOyZjerMGpMyumk6ibTxFp0CHeMRHVOncezUhUfEmquB3QyKPawYvp3z42Wb
+         Bo6qHWZp2dAJTekOx8Et6KuGG4ovQRJVQUyuFVRExukb9kelqO+mV2sTi5G/oaj0OEs6
+         dB4Rd96VbHM4tX8TNNY5Gmg6RM2VCEsnqhCAt2t6WaGKAZDlWcYaGd8T/AFGgROH9Wig
+         VEow==
+X-Forwarded-Encrypted: i=1; AHgh+RrGnIsweovS/zHHceEUrJPcE22efZ/4V0/Wy/nkTADfovnYv3LwPNdu355eoypbUnKDKklCQw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhIi9vv/1sAKNTyfgwSzegQ7WtN9ul6Yemu/0vyGydcnhZyNG+
+	Krc1SsXADyGXCeaNB+e1qq+qfMX+heiSYwapyUrWjr4vynO7QB7g0maArXlub4y+f422wOORC3W
+	eDerFIQsG7OgxpIlkEx6ePODXkptpDVsFVe7Ui0P3QAYZ2QxuGcNxfYhz7d8=
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:6703:b0:496:a36:b5e5 with SMTP id
+ 5614622812f47-4b1ab9e3c75mr12458498b6e.17.1786386902031; Mon, 10 Aug 2026
+ 11:35:02 -0700 (PDT)
+Date: Mon, 10 Aug 2026 11:35:02 -0700
+In-Reply-To: <68dea1d7.050a0220.25d7ab.07bc.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7a19d6.b50370da.49fe0.0058.GAE@google.com>
+Subject: Re: [syzbot] [jfs?] general protection fault in rtlock_slowlock_locked
+From: syzbot <syzbot+08df3e4c9b304b37cb04@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, axboe@kernel.dk, 
+	dave.kleikamp@oracle.com, eadavis@qq.com, hdanton@sina.com, 
+	jfs-discussion@lists.sourceforge.net, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	ntfs3@lists.linux.dev, shaggy@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-There is a potential race condition when accessing options during remount
-and read operations. This would trigger a uaf [1].
+syzbot suspects this issue was fixed by commit:
 
-CPU0: remount				CPU1: read options
-==================================	==================
-do_remount()
-reconfigure_super()
- ntfs_fs_reconfigure()
-  sbi->options = fc->fs_private
-put_fs_context()
- ntfs_fs_free()
-  put_mount_options()			ntfs_show_options()
-   kfree(sbi->options)			 opts = sbi->options
-				         opts->dmask //trigger uaf
+commit b15e4310633f90072d66cc9b6692acbf6b4d7d00
+Author: Edward Adam Davis <eadavis@qq.com>
+Date:   Tue Dec 16 13:57:51 2025 +0000
 
-The fix involves not updating the sbi->options pointer during
-reconfiguration, but instead using fc->fs_private to update the
-corresponding member values.
+    jfs: Set the lbmDone flag at the end of lbmIODone
 
-[1]
-BUG: KASAN: slab-use-after-free in ntfs_show_options+0x656/0x800 fs/ntfs3/super.c:762
-Call Trace:
- ntfs_show_options+0x656/0x800 fs/ntfs3/super.c:762
- show_vfsmnt+0x637/0x780 fs/proc_namespace.c:129
- seq_read_iter+0x8d6/0xcb0 fs/seq_file.c:273
- new_sync_read fs/read_write.c:493 [inline]
- vfs_read+0x59e/0xa90 fs/read_write.c:574
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17b1a079580000
+start commit:   6bd9ed02871f Merge tag 'cgroup-for-6.19-rc8-fixes' of git:..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=151a39927f1e10b4
+dashboard link: https://syzkaller.appspot.com/bug?extid=08df3e4c9b304b37cb04
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16ad7322580000
 
-Allocated by task 6027:
- ntfs_init_fs_context+0x55/0x570 fs/ntfs3/super.c:1862
- alloc_fs_context+0x9a3/0xd00 fs/fs_context.c:295
- do_remount fs/namespace.c:3392 [inline]
- path_mount+0xc5e/0x1040 fs/namespace.c:4153
- do_mount fs/namespace.c:4174 [inline]
+If the result looks correct, please mark the issue as fixed by replying with:
 
-Freed by task 6026:
- kfree+0x1c5/0x6c0 mm/slub.c:6692
- put_fs_context+0x123/0xb00 fs/fs_context.c:498
- do_remount fs/namespace.c:3419 [inline]
- path_mount+0xef9/0x1040 fs/namespace.c:4153
- do_mount fs/namespace.c:4174 [inline]
+#syz fix: jfs: Set the lbmDone flag at the end of lbmIODone
 
-Fixes: cd39981fb92a ("fs/ntfs3: Fix double free on remount")
-Reported-by: syzbot+4c22f022eb39c86b9d19@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=4c22f022eb39c86b9d19
-Tested-by: syzbot+4c22f022eb39c86b9d19@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
- fs/ntfs3/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 3305fe406cb2..58540491e68b 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -461,7 +461,7 @@ static int ntfs_fs_reconfigure(struct fs_context *fc)
- 	}
- 
- 	sync_filesystem(sb);
--	swap(sbi->options, fc->fs_private);
-+	memcpy(sbi->options, fc->fs_private, sizeof(*sbi->options));
- 
- 	return 0;
- }
--- 
-2.43.0
-
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
