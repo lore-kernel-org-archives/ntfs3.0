@@ -1,102 +1,57 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com [209.85.160.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D62B4519A2
-	for <ntfs3@lists.linux.dev>; Thu, 13 Aug 2026 09:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE45495028
+	for <ntfs3@lists.linux.dev>; Thu, 13 Aug 2026 16:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786614109; cv=none; b=qhSMgY/gms3N1fYyjWAeohp58MVTUiFErMZBO+i7VM99/0lKDv9BedshkOVQjVnzpH9nxV3hjHDs/RN2sbJr1YJJM8+XDS6zlnMyUW9dq1BWBuAW0+epDnzhvtklpxV5wE4rox2n0SFAPQZ02OEFL6rjL5u///xTrWWwOrxs5rs=
+	t=1786637785; cv=none; b=H1rxNK7uwnSGYFaaiyy6zp2LuvJvkF4GxHzQzyDU5OGG17DMEqASylat1sG79IM0iYsk/82HVusz4lNXw2GESKbX5o5JhzYoSxn/5uXo7rqHdu2fvFjwVzGfZ/Y7seerXiBiT7TgroC3ellqpSKP1zTCuOcM20AeHx9ZD84eHIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786614109; c=relaxed/simple;
-	bh=lYbxm2sxqB5dmU88548SlO7/BNEpx7RGWcVvtAaPdQM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jMz2zkBYZFfC1v59hUsgTK0wgxMVZO0s6GHZMc3YvEfGv+plmi4JJ9/2PCddKxCXjS9Edyslxe3paT/T73DwkDecVKIWv9w/EN6HNE268jUNcWYp6AzhOMxcRjURw14LDy0ugt0+8mrRiiXtXdF+QF7EQMogJi/L7Z5nt2qPu7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 2be2944696fb11f1aa26b74ffac11d73-20260813
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:511f3c6c-18c2-4676-8f59-1c2e8c8e9c5a,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:f30c9d9a1f25e945f2811947f4e1d45a,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
-	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
-	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 2be2944696fb11f1aa26b74ffac11d73-20260813
-X-User: zenghongling@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zenghongling@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 85195721; Thu, 13 Aug 2026 17:41:34 +0800
-From: Hongling Zeng <zenghongling@kylinos.cn>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	zhongling0719@126.com,
-	Hongling Zeng <zenghongling@kylinos.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] ntfs3: fix buffer overflow in CreateAttribute validation
-Date: Thu, 13 Aug 2026 17:41:29 +0800
-Message-Id: <20260813094129.1366996-1-zenghongling@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1786637785; c=relaxed/simple;
+	bh=fHKEKHdPjoZhYVJRZoCAKKckDq3mCm+7VXF61UEPMbE=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=sTSWlVhKJvQ2OY8ACym7JQbUuBIPwU9n07DAnG0h3bx25ySwG46qYUb4DdeDH0Gsj7acCGYPFEeDbWbA9yZUmGkmdiFgaK50HBxtfQDiQm22KgkSAlvgXxOt20f4YRc6y84rxXv9W1z+N0v0Gr6+NMCraCiIZMfPHCAohtMrd3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-45952ce9ee0so67870fac.1
+        for <ntfs3@lists.linux.dev>; Thu, 13 Aug 2026 09:16:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786637782; x=1787242582;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=fHKEKHdPjoZhYVJRZoCAKKckDq3mCm+7VXF61UEPMbE=;
+        b=EFRFIkjwId5bqg+MIRJUjeEQtkTrx6D+J6nYvLzAOGvET8wn02NQfgO/3nxI+8BCif
+         8bWy8CVSOWlBzqgztfUHuGJBHDFOwLQ/PGwpvzuTEJsXDrXT4PYPRBOxACn4bLHzLHxx
+         xfBNH9GWPj192RGMZkPW4vihgBJdxpWthDnFbaKxaMcNtEaHP8Z4670Mk030AswtQ0GF
+         qRlVfQO6DJkXgpG06jHhcAchDPeRwSnJZfsRFMEeJmu1Gxaz44DGhvvIBgA4vQZ6Xvic
+         dZJFVJw/KBVrYtwz2HHWk7igRRxQP+NNItI/BoPIJOTjJypABtbQBcREH8dUEmT+EQMY
+         uW8A==
+X-Forwarded-Encrypted: i=1; AHgh+RqI36Zj37u0q3UsYeYPxKQkCehLNiJBV8Lr/t8FbV+e1/F5TZtgzK2JCw4zhzso7/ML8dxung==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwCXAFGL/tiD+t/VRlYeT5mLqh3QSOeay6B0dQS1E1lGpkdkeFC
+	EyjOteTBE2cRWCVSu1BljXyh7laXcE9yPcpHap/HlYJKX329sESXNjqSzCEeHHU8s6Dr60qWmJy
+	m8NJllr9fhCxQLHQj0hT1bSKUfNAsGH9JHXw84f1RwVo9Boqj6pgR0KDE4qg=
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:6ae7:b0:6a3:d631:b460 with SMTP id
+ 006d021491bc7-6b0c4355736mr5894410eaf.19.1786637782326; Thu, 13 Aug 2026
+ 09:16:22 -0700 (PDT)
+Date: Thu, 13 Aug 2026 09:16:22 -0700
+In-Reply-To: <6a0c8e02.050a0220.3bec29.0001.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7dedd6.bc649fcc.f9e73.014d.GAE@google.com>
+Subject: Re: [moderation] KASAN: slab-out-of-bounds Write in hdr_insert_head
+From: syzbot <syzbot+45ef5a8d661162757547@syzkaller.appspotmail.com>
+To: alhouseenyousef@gmail.com, almaz.alexandrovich@paragon-software.com, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, stable@vger.kernel.org, 
+	syzkaller-upstream-moderation@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-In the CreateAttribute action, the validation checks whether dlen
-fits within the available MFT record space, but the actual memcpy
-uses asize (the attribute size from the log record) as the copy length.
-
-A malicious NTFS journal record can set a small dlen to pass the
-validation while setting a large asize that exceeds the MFT record
-buffer size, causing a buffer overflow when memcpy copies asize bytes
-into the destination buffer.
-
-The validation must use the same size that is later passed to memcpy().
-
-Fix this by using asize in the bounds check instead of dlen, since
-asize is the actual length used by memcpy. The source buffer boundary
-is already validated by the existing check:
-      Add2Ptr(attr2, asize) > Add2Ptr(lrh, rec_len)
-
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
----
-Change in v2:
- Also fix the lower bound check to use asize instead of dlen. A malicious
- log record with dlen >= 24 (passing dlen < SIZE_OF_RESIDENT check) but
- asize < 24 could allocate insufficient memory and trigger OOB accesses
- in subsequent operations.
----
- fs/ntfs3/fslog.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 3440212ecb12..e15f7621863e 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -3285,10 +3285,10 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 		asize = le32_to_cpu(attr2->size);
- 		used = le32_to_cpu(rec->used);
- 
--		if (!check_if_attr(rec, lrh) || dlen < SIZEOF_RESIDENT ||
-+		if (!check_if_attr(rec, lrh) || asize < SIZEOF_RESIDENT ||
- 		    !IS_ALIGNED(asize, 8) ||
- 		    Add2Ptr(attr2, asize) > Add2Ptr(lrh, rec_len) ||
--		    dlen > record_size - used) {
-+		    asize > record_size - used) {
- 			goto dirty_vol;
- 		}
- 
--- 
-2.25.1
-
+Auto-closing this bug as obsolete.
+Crashes did not happen for a while, no reproducer and no activity.
