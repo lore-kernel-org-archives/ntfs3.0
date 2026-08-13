@@ -1,114 +1,102 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6780735E93B
-	for <ntfs3@lists.linux.dev>; Tue, 11 Aug 2026 20:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D62B4519A2
+	for <ntfs3@lists.linux.dev>; Thu, 13 Aug 2026 09:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786479681; cv=none; b=ayV+CnKmUS/RpiNRRz0LxWRqU+BNmEnfGf5bfLsstVcesHDrKdyXedViFSGLvUwq5/L5aw8QPacXURIqlitT/bo7mWcF3FEMhPayRJf8pNnNvAUIc8jbN7bUbYNeGJgEqLC/cz6AfJ2mgk9dgXEBaTawMRWN+tlBbOnRuUun6JM=
+	t=1786614109; cv=none; b=qhSMgY/gms3N1fYyjWAeohp58MVTUiFErMZBO+i7VM99/0lKDv9BedshkOVQjVnzpH9nxV3hjHDs/RN2sbJr1YJJM8+XDS6zlnMyUW9dq1BWBuAW0+epDnzhvtklpxV5wE4rox2n0SFAPQZ02OEFL6rjL5u///xTrWWwOrxs5rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786479681; c=relaxed/simple;
-	bh=j5vSuUlMpsm5RdxJT6qJSOQz9ajuzeV2Y3eY8G0ywRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lKtekBrBRkPe73+Edvvgrwe2Q55HyBgvNb/yX9KhHJs2iOHT722rsSozm2DFRtEJVbmaINibKRM49jPtwv0Ew5vCmbxWMqiK3PeDF+AU2sFLDTizajY9xBNga9fl0FmpmcspyzMI1/AJES1HAqTULOAkwJqv0iQryZzTzC4D7r0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf15.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id 472ED12020D;
-	Tue, 11 Aug 2026 20:21:17 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf15.hostedemail.com (Postfix) with ESMTPA id 2B58617;
-	Tue, 11 Aug 2026 20:21:15 +0000 (UTC)
-Date: Tue, 11 Aug 2026 16:21:27 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Baolin Liu <liubaolin12138@163.com>
-Cc: almaz.alexandrovich@paragon-software.com, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
- ntfs3@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
- liubaolin12138@gmail.com, Baolin Liu <liubaolin@kylinos.cn>
-Subject: Re: [PATCH v3 v3 5/7] ntfs3: add allocation tracepoints
-Message-ID: <20260811162127.5f98eadb@gandalf.local.home>
-In-Reply-To: <20260807010354.2277156-6-liubaolin12138@163.com>
-References: <20260807010354.2277156-1-liubaolin12138@163.com>
-	<20260807010354.2277156-6-liubaolin12138@163.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1786614109; c=relaxed/simple;
+	bh=lYbxm2sxqB5dmU88548SlO7/BNEpx7RGWcVvtAaPdQM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jMz2zkBYZFfC1v59hUsgTK0wgxMVZO0s6GHZMc3YvEfGv+plmi4JJ9/2PCddKxCXjS9Edyslxe3paT/T73DwkDecVKIWv9w/EN6HNE268jUNcWYp6AzhOMxcRjURw14LDy0ugt0+8mrRiiXtXdF+QF7EQMogJi/L7Z5nt2qPu7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 2be2944696fb11f1aa26b74ffac11d73-20260813
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:511f3c6c-18c2-4676-8f59-1c2e8c8e9c5a,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:e7bac3a,CLOUDID:f30c9d9a1f25e945f2811947f4e1d45a,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
+	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 2be2944696fb11f1aa26b74ffac11d73-20260813
+X-User: zenghongling@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zenghongling@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 85195721; Thu, 13 Aug 2026 17:41:34 +0800
+From: Hongling Zeng <zenghongling@kylinos.cn>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] ntfs3: fix buffer overflow in CreateAttribute validation
+Date: Thu, 13 Aug 2026 17:41:29 +0800
+Message-Id: <20260813094129.1366996-1-zenghongling@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 2B58617
-X-Stat-Signature: ocjs9nwgno1du4p8cgdsbye7n7pmtnyh
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/VU1IovNUTnpcMeB6DOZ3dU/YGtDrMiPc=
-X-HE-Tag: 1786479675-313721
-X-HE-Meta: U2FsdGVkX18Vc6VeKMEkbAlF3WmEe58w7Dt8nBcaBp42q4QsW6Nl1xAF53wEIuyX4osdtK915C/jAE7BTDU1uIQQvW0RTczlxoirvGf7cuw//knGnJKI89t7k9MISFvggTR7Jofwem9n790ur1xmHMaeVEna/rKqJd/mG3hB2u8RTTfHmK81sMLquY6XG2erVb92se9voSuA7MIRoQHslIMg0H3n1qoxvYIIWQAbioHWA2Q9JNi4XKq9len1K+ZRjg4zStkA18fRVoQSiRaKROSkIOUIXyhmg2mhd8yYALzFBiwHJUDbIw5tI2FAD7EK0xJYFApOEd5XTTviGdOm6106Un37yOB4WLXaqbDPOfgLtEY1KcijBWpdW4qd9K/FV482v3h8OMW7DK1UgS+JXQ==
+Content-Transfer-Encoding: 8bit
 
-Also Sashiko had something to say about this patch: https://sashiko.dev/#/patchset/20260807010354.2277156-8-liubaolin12138%40163.com
+In the CreateAttribute action, the validation checks whether dlen
+fits within the available MFT record space, but the actual memcpy
+uses asize (the attribute size from the log record) as the copy length.
 
-> --- Patch [5]: [PATCH v3 v3 5/7] ntfs3: add allocation tracepoints ---
-> commit 0592c540bc564c346cb524c624f6ee4a5768406b
-> Author: Baolin Liu <liubaolin@kylinos.cn>
-> 
-> ntfs3: add allocation tracepoints
-> 
-> This commit adds trace events for ntfs3 allocation operations. It introduces
-> events for attr_allocate_clusters, attr_set_size_ex, and attr_data_get_block
-> to help observe cluster allocation, size changes, and block mapping activity.
-> 
-> > diff --git a/include/trace/events/ntfs3.h b/include/trace/events/ntfs3.h
-> > index 4ac05ed29e49d..d16dd127ff2e5 100644
-> > --- a/include/trace/events/ntfs3.h
-> > +++ b/include/trace/events/ntfs3.h
-> [ ... ]
-> > +TRACE_EVENT(ntfs3_attr_set_size_ex,
-> > +	TP_PROTO(struct inode *inode, u32 type, u64 new_size, bool keep_prealloc,
-> > +		 bool no_da),
-> > +	TP_ARGS(inode, type, new_size, keep_prealloc, no_da),
-> > +	TP_STRUCT__entry(
-> > +		__field(loff_t, old_size)
-> > +		__field(u64, new_size)
-> > +		__field(unsigned long, ino)
-> > +		__field(dev_t, dev)
-> > +		__field(u32, type)
-> > +		__field(bool, keep_prealloc)
-> > +		__field(bool, no_da)
-> > +	),
-> > +	TP_fast_assign(
-> > +		__entry->old_size = i_size_read(inode);
-> 
-> Will this actually record the previous size during truncate operations?
-> 
-> When an application truncates a file, the VFS size is often updated before 
-> calling into the filesystem. For instance, looking at how ntfs_setattr()
-> handles this:
-> 
-> fs/ntfs3/file.c:ntfs_setattr() {
->         ...
->         truncate_setsize(inode, newsize);
->         
->         err = ntfs_set_size(inode, newsize);
->         ...
-> }
-> 
-> Since truncate_setsize() updates the VFS inode size before attr_set_size_ex()
-> and this tracepoint are reached, won't i_size_read(inode) just return the
-> newly truncated size, resulting in old_size equaling new_size?
-> 
-> Could the actual old size be passed as an explicit parameter to the 
-> tracepoint instead of sampling it here?
-> 
-> > +		__entry->new_size = new_size;
-> > +		__entry->ino = inode->i_ino;
-> > +		__entry->dev = inode->i_sb->s_dev;
-> > +		__entry->type = type;
-> > +		__entry->keep_prealloc = keep_prealloc;
-> > +		__entry->no_da = no_da;
-> > +	),
-> [ ... ]
+A malicious NTFS journal record can set a small dlen to pass the
+validation while setting a large asize that exceeds the MFT record
+buffer size, causing a buffer overflow when memcpy copies asize bytes
+into the destination buffer.
 
--- Steve
+The validation must use the same size that is later passed to memcpy().
+
+Fix this by using asize in the bounds check instead of dlen, since
+asize is the actual length used by memcpy. The source buffer boundary
+is already validated by the existing check:
+      Add2Ptr(attr2, asize) > Add2Ptr(lrh, rec_len)
+
+Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+---
+Change in v2:
+ Also fix the lower bound check to use asize instead of dlen. A malicious
+ log record with dlen >= 24 (passing dlen < SIZE_OF_RESIDENT check) but
+ asize < 24 could allocate insufficient memory and trigger OOB accesses
+ in subsequent operations.
+---
+ fs/ntfs3/fslog.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index 3440212ecb12..e15f7621863e 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -3285,10 +3285,10 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 		asize = le32_to_cpu(attr2->size);
+ 		used = le32_to_cpu(rec->used);
+ 
+-		if (!check_if_attr(rec, lrh) || dlen < SIZEOF_RESIDENT ||
++		if (!check_if_attr(rec, lrh) || asize < SIZEOF_RESIDENT ||
+ 		    !IS_ALIGNED(asize, 8) ||
+ 		    Add2Ptr(attr2, asize) > Add2Ptr(lrh, rec_len) ||
+-		    dlen > record_size - used) {
++		    asize > record_size - used) {
+ 			goto dirty_vol;
+ 		}
+ 
+-- 
+2.25.1
+
