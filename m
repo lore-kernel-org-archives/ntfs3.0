@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B82F3D7D7E
-	for <ntfs3@lists.linux.dev>; Fri, 14 Aug 2026 06:54:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0A8372ECB
+	for <ntfs3@lists.linux.dev>; Fri, 14 Aug 2026 06:55:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786690487; cv=none; b=uv/0fjtsOz+IsT/MAoFin0C4ljzJTGto4MyYlmKWdjHZcW7QHXQnI9Wa0qjb8ierJjT397nmKZIPVtPJams4vR0kJrRjX2h9j2hS+i6il/v2bLTf2V3etsVuiUptGmw+SBF9CIDLjWI8PDUxHEQ7Hs7RuMsB/haiLzeFljY3Qww=
+	t=1786690529; cv=none; b=oKqqbHH3O/m7lOhKJdO+xoiEft3Vm39tpItIZqKynf+YabMeocCYsAy5HRVXmUCTkbXJqUQ5q6XfM3M1lzU2jGvpCk+kuSIlNe5lGhbpqBTOygFdeeyVYQDVS8no0huShvPzqB9xyeNe7XInhgwhypjNSky9uZ8L1Lmf9b3+vUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786690487; c=relaxed/simple;
-	bh=fL1J4zANU8qGbZoIes1gJDvH5j5nF4nYJUIBvKeg/zs=;
+	s=arc-20240116; t=1786690529; c=relaxed/simple;
+	bh=B0L+WlDagP/HdLud1+hXMQ6A8oqOmfUcdwP1aDvFYds=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=tNXRr6TNGiEpuQ+gScmIte+wlh4HMxmL6qU5ARLCif3+Vv5VRsN6zB9qOVMpNgLyW46Wz8IVyHLBbtbXL6SakL5iLPO68FDLIoHlS98IBNCvyBI0NMvdHTzE60QoD0zLk1YmIumt/MQjMtC7TzItLqoolP5tvsggkTAmJv+RE/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=Bsuj5G5y; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=Afas5bE10yDDs/XVJDiVf39ibLZQeJD2DikcY52vaBAuiJrOcUlTXlIu6do62levwtpUSz/rkdJzNhitceIE+3LSc0fJrh8XRa6qwGMubge0kr2TC5V7vGu7Mjqzii2H05AsOqfe1Hb6jfw6LEf2JgNOk/XrBMavK3LQ2UB4RCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=lTXd4RBp; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Bsuj5G5y"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="lTXd4RBp"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 40C8E31;
-	Fri, 14 Aug 2026 06:55:27 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 5ED3131;
+	Fri, 14 Aug 2026 06:56:10 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=Bsuj5G5y;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=lTXd4RBp;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id C37A61E0A;
-	Fri, 14 Aug 2026 06:54:41 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 14DB71E0A;
+	Fri, 14 Aug 2026 06:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1786690481;
-	bh=VsH60Egb6D60pSD6PasVM2TUFA54EXsqVxcRBLPoTME=;
+	d=paragon-software.com; s=mail; t=1786690526;
+	bh=0PHrz7CXykyIP5coCCUHmLucifYC8REpCd/7AnC7Vj4=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=Bsuj5G5y6hHW31KCOjrHZIIVR8Jft+Hz+mZRK9N2u3nzRklB+v7hYiCPagJuZIkVW
-	 Sg5zbIF2AW06VRQ66WgAumz9fOgMbor4sMVNQg4TR4ozTJE9RgNM/eMWDVvnQSImpk
-	 4pTduI+rxRmjTppNyIcKZgSv/2PCGKQ5BSbkP8LQ=
+	b=lTXd4RBp4kTVBVucNYnLq08fUJOSpgapds1f/G1LQd0aVctojW0VCobvkqxuwOcWV
+	 B2k66+4LCe+TKJGkSYx9yOrz9UVvm6H3liy2qjVRiKU0yuZ2bE/S5bRnPrp/Z7Nh9d
+	 ZuEsAWunQJGsaAMHI1eG9JIgDs4YFzEAiz5cEMoA=
 Received: from [192.168.95.128] (172.30.20.208) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 14 Aug 2026 09:54:40 +0300
-Message-ID: <b79286e5-05ef-4bff-bcfc-ed33c15ede43@paragon-software.com>
-Date: Fri, 14 Aug 2026 08:54:39 +0200
+ 15.1.2375.7; Fri, 14 Aug 2026 09:55:25 +0300
+Message-ID: <0c29897d-3f80-4223-978c-019411bd7b7e@paragon-software.com>
+Date: Fri, 14 Aug 2026 08:55:23 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,84 +45,106 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: fix out-of-bounds read in read_log_rec_buf()
-To: Weiming Shi <bestswngs@gmail.com>, <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, Xiang Mei <xmei5@asu.edu>
-References: <20260623062230.1236506-2-bestswngs@gmail.com>
+Subject: Re: [PATCH] fs/ntfs3: fix integer overflow in MFT cluster validation
+To: Zhan Xusheng <zhanxusheng1024@gmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Zhan Xusheng
+	<zhanxusheng@xiaomi.com>
+References: <20260624034133.57049-1-zhanxusheng@xiaomi.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260623062230.1236506-2-bestswngs@gmail.com>
+In-Reply-To: <20260624034133.57049-1-zhanxusheng@xiaomi.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 6/23/26 08:22, Weiming Shi wrote:
+On 6/24/26 05:41, Zhan Xusheng wrote:
 
-> [You don't often get email from bestswngs@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> In ntfs_init_from_boot(), the boot sector's MFT cluster numbers are
+> validated against the volume size with:
 >
-> read_log_rec_buf() copies a log record into a caller buffer starting at
+> 	if (mlcn  * sct_per_clst >= sectors ||
+> 	    mlcn2 * sct_per_clst >= sectors)
+> 		goto out;
 >
->          u32 off = lsn_to_page_off(log, lsn) + log->record_header_len;
+> mlcn and mlcn2 are u64 fields read directly from the boot sector.
+> sct_per_clst is bounded above by 4096 (true_sectors_per_clst() plus
+> the is_power_of_2() check below it), but the multiplication is done
+> in u64 and wraps when mlcn (or mlcn2) is large enough -- e.g. mlcn
+> near 2^62 with sct_per_clst == 4 wraps to 0, which compares below
+> any non-zero 'sectors', so the check is bypassed and the malformed
+> record is accepted.
 >
-> log->record_header_len (and log->data_off, used for the following pages)
-> comes verbatim from the on-disk restart area and is only checked for
-> 8-byte alignment in is_rst_area_valid(), so off can exceed
-> log->page_size. "tail = log->page_size - off" then underflows and
-> memcpy() reads past the page_size-sized buffer returned by
-> read_log_page(), spilling adjacent slab memory into the replay buffer.
+> The accepted mlcn is then used unchanged in
 >
-> This is reachable by mounting a crafted NTFS image:
+> 	sbi->mft.lbo = mlcn << cluster_bits;
 >
->   BUG: KASAN: slab-out-of-bounds in read_log_rec_buf+0x216/0x580
->   Read of size 64 at addr ffff88800a877ff8 by task exploit/127
->    read_log_rec_buf fs/ntfs3/fslog.c:2299
->    log_replay fs/ntfs3/fslog.c:4216
->    ntfs_loadlog_and_replay fs/ntfs3/fsntfs.c:324
->    ntfs_fill_super fs/ntfs3/super.c:1392
->    get_tree_bdev_flags fs/super.c:1694
->    __x64_sys_mount fs/namespace.c:4360
->   The buggy address is located 4088 bytes to the right of
->   the 4096-byte region [ffff88800a876000, ffff88800a877000)
+> In practice the resulting reads fail at the block layer (sb_bread()
+> returns NULL via grow_buffers()'s check_mul_overflow() guard), so
+> today this manifests as mount failing in odd places rather than as
+> something more dangerous, but the validation step is still wrong
+> and there is no reason for callers to rely on the block layer to
+> catch a value that should never have been accepted in the first
+> place.
 >
-> Reject an in-page offset outside the current page before the copy.
+> Use check_mul_overflow() to compute the two sector positions and
+> fail the mount if either multiplication wraps; this preserves the
+> existing semantics (mlcn * sct_per_clst >= sectors) instead of
+> switching to division (mlcn >= sectors / sct_per_clst), which
+> would tighten the check at edge cases where 'sectors' is not a
+> multiple of sct_per_clst.  The check_*_overflow() style is the
+> one ntfs3 already uses for similar on-disk arithmetic in
+> fs/ntfs3/run.c.
 >
-> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> Assisted-by: Claude:claude-opus-4-8
-> Reported-by: Xiang Mei <xmei5@asu.edu>
-> Signed-off-by: Weiming Shi <bestswngs@gmail.com>
+> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+> Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
 > ---
->   fs/ntfs3/fslog.c | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
+>   fs/ntfs3/super.c | 13 +++++++++++--
+>   1 file changed, 11 insertions(+), 2 deletions(-)
 >
-> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index f038c799e7ac..ee413dc80d3a 100644
-> --- a/fs/ntfs3/fslog.c
-> +++ b/fs/ntfs3/fslog.c
-> @@ -2276,7 +2276,15 @@ static int read_log_rec_buf(struct ntfs_log *log,
->           */
->          for (;;) {
->                  bool usa_error;
-> -               u32 tail = log->page_size - off;
-> +               u32 tail;
-> +
-> +               /* off comes from the on-disk restart area; bound it. */
-> +               if (off >= log->page_size) {
-> +                       err = -EINVAL;
-> +                       goto out;
-> +               }
-> +
-> +               tail = log->page_size - off;
->
->                  if (tail >= data_len)
->                          tail = data_len;
-> --
-> 2.43.0
+> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+> index 3305fe406cb2..4205a212154b 100644
+> --- a/fs/ntfs3/super.c
+> +++ b/fs/ntfs3/super.c
+> @@ -65,6 +65,7 @@
+>   #include <linux/minmax.h>
+>   #include <linux/module.h>
+>   #include <linux/nls.h>
+> +#include <linux/overflow.h>
+>   #include <linux/proc_fs.h>
+>   #include <linux/seq_file.h>
+>   #include <linux/statfs.h>
+> @@ -957,7 +958,7 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+>   	struct ntfs_sb_info *sbi = sb->s_fs_info;
+>   	int err;
+>   	u32 mb, gb, boot_sector_size, sct_per_clst, record_size;
+> -	u64 sectors, clusters, mlcn, mlcn2, dev_size0;
+> +	u64 sectors, clusters, mlcn, mlcn2, mft_pos, mft2_pos, dev_size0;
+>   	struct NTFS_BOOT *boot;
+>   	struct buffer_head *bh;
+>   	struct MFT_REC *rec;
+> @@ -1026,7 +1027,15 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+>   	mlcn2 = le64_to_cpu(boot->mft2_clst);
+>   	sectors = le64_to_cpu(boot->sectors_per_volume);
+>   
+> -	if (mlcn * sct_per_clst >= sectors || mlcn2 * sct_per_clst >= sectors) {
+> +	/*
+> +	 * Convert mlcn/mlcn2 to sector positions before comparing with
+> +	 * 'sectors'.  All three are u64 values that come from the boot
+> +	 * sector, so use check_mul_overflow() to keep a wraparound from
+> +	 * silently bypassing the comparison.
+> +	 */
+> +	if (check_mul_overflow(mlcn, (u64)sct_per_clst, &mft_pos) ||
+> +	    check_mul_overflow(mlcn2, (u64)sct_per_clst, &mft2_pos) ||
+> +	    mft_pos >= sectors || mft2_pos >= sectors) {
+>   		ntfs_err(
+>   			sb,
+>   			"%s: start of MFT 0x%llx (0x%llx) is out of volume 0x%llx.",
 
 Hello,
 
 Sorry for the delay.
-Your patch was applied, thanks.
+Your patch was applied, thank you.
 
 Regards,
 Konstantin
