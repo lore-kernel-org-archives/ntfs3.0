@@ -1,151 +1,171 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A03372ECB
-	for <ntfs3@lists.linux.dev>; Fri, 14 Aug 2026 06:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786690620; cv=none; b=lPxYjU2W+u1/SHVfdWevlMWSM1EC4rqZh284WCFwV1R+1z+ky/w9yAAZLhDRrm4eFA/8BcImrsrhrtw/PAWyk4mJmgKL4ryCpUhHXX0+GQ03J2cDPGSPBS8N9HMOxQBFjAWGRyyWEjYkYwMgJxAX3u/JWFppjU9PvKq9Y5FrPWc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786690620; c=relaxed/simple;
-	bh=0c6k4nsV4T9x8MqRFFtgsLfZlAF2qI3QZvFUdIl1jjg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=uQQ4EQiBuvZgnJEUm53kNZpIpwYoTiApyBy3OrESzv55v2tK+8FG9zsn7C+PevD8xJXbPihsy78mtSpwldCaUBt8rpzUfl0rxObboBn7Wfmxe/O6qoFgcaoAOyfRo+KmKfeb1IfOyP6pDFxzVfx4SMcD7zLr+jrJthu7Nv411sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=RrLAUukt; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF6A40B11A
+	for <ntfs3@lists.linux.dev>; Sat, 15 Aug 2026 07:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786779875; cv=pass; b=Dfn/TlfBTKuLisXMR3c7ApZkwMrHjBS8x7BtPGAkQAl6USmZzSsT4waBMVKqjpo5+vzy8c093qKTcyYl59u5byGuVSLUPjAghDPLikJ3Koxo+rZbDjgmpFETNolk1kD8Ty8UZbu8mwozPUtn26mILb4ZAFXHqU8d+RqWFwdxHJA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786779875; c=relaxed/simple;
+	bh=obWPTrndnwQziSdveHckuhHMF9sUE9gDeJ0HAv51tCw=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=ZbLObpUav2jHgAXBv1bCREPScIOkzl9qX/pvMCE0xs+CrSQh6xQ7nl/zuNkaOHspmb6gASbkx89/02kQUXqxWvR26wgHsp/xVUQhzpstojRuD9x0KbjT3DfvMl813eFOPE+kq/P0ekDhs+nZ0zuEeekSUy8pk5H7+8cjbDMo9ww=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=breachx.ai; spf=pass smtp.mailfrom=breachx.ai; dkim=pass (2048-bit key) header.d=breachx.ai header.i=@breachx.ai header.b=hK6iEs/H; arc=pass smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=breachx.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=breachx.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="RrLAUukt"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 57DE131;
-	Fri, 14 Aug 2026 06:57:41 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=RrLAUukt;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 0E7A71E0A;
-	Fri, 14 Aug 2026 06:56:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=breachx.ai header.i=@breachx.ai header.b="hK6iEs/H"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c966b9ee9cbso1098443a12.1
+        for <ntfs3@lists.linux.dev>; Sat, 15 Aug 2026 00:44:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786779873; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bqypa6OnghOzvOy+xKJkAI+SYZrMZqoqjNG8HCoOMlcFN+qz6p14lnP/Af5DcqJgef
+         c66XsrugZho9UmY1i/XCZGJMWEQQ56oxeE98YAIzz2zVu6Fa44YBj3onHJDf2a3e58uk
+         KauhkCgxuy8aiunxqN8Z2Ogno9aRowPguWlBxpZwejcwWXx9mEzr2W0Atu8Nvsr7pmoX
+         Du0NTKIUVgS2b8C9Vbao6WwidtUxfw6pxaxb5QnlQO/7z4OZO28HPL7BnbotSPITlABO
+         2ijORM+WPTwch/LQZBKiIWTGgZi0NSrxPavllcAG0SFyef849SntTLJJgMkmmZAjpiBF
+         Sg3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=6E5bZO0QtG5GwP+ZYRPrGDTckZtMS40lPNJEkc15IRc=;
+        fh=ACxbD7eYziYYlF+ZzwFCeniDSWZP8rLNApJHwGjD1BY=;
+        b=Arv/4KVFHScINPWVqCtWpIVAeuqSpbsrhv0xt0BaPBMrYBFC48iu+HHooVW1jJylNn
+         qKqu5SfF5izmYY6LwAu6feDoubTpdBWPptzwvjWSk3v3z0TQTrRZ+SdvPkl1Rm79t06b
+         AtwyFaIG23WPzVr1MTcKI7/ev3s6QsRF/ne1eop9c7oGd0ImHvvGvow/oL6PC94PLGeK
+         8x+xnCMoVbqmS8wWCH7B8Uz3CE3eMD1SaMIcGs5U7493dVkr2qdLc8sv6KvmPZQnuYRG
+         Tr0q9y9UvILNjjTu+lb+wySj6igRDPR986wJiVPtSQAqQqJbZvydY3BC1byNSisbYHTN
+         e7kg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1786690617;
-	bh=czEAR8YkX8BbUy2QHzSDlaJji3AjACiXCJSxSMPlS5g=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=RrLAUukthAcJXifd3XR439Jp4UyFG0iMbZnJHPWl4UX+SMde4kAas/fLkvcBx+Lje
-	 aEug55ru2yC35SLsbzJRXofl093Dwkx4oP2dzzrDvuDN6K6Fz9mMNivqkf5ntZGX+8
-	 ECUIutwU//eQFsHFjzd29wW6uHRYcg5f/iNHpXsI=
-Received: from [192.168.95.128] (172.30.20.208) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 14 Aug 2026 09:56:56 +0300
-Message-ID: <18b02c9a-5754-4588-a91c-e60b91815117@paragon-software.com>
-Date: Fri, 14 Aug 2026 08:56:54 +0200
+        d=breachx.ai; s=google; t=1786779873; x=1787384673; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6E5bZO0QtG5GwP+ZYRPrGDTckZtMS40lPNJEkc15IRc=;
+        b=hK6iEs/HYQb1f9mODTQnwLn+qJmcTdDkocHwcqvNJ6mdKsr+eyrjXFIBVB6OYyKd0V
+         Af5vy1gLbyPG3nUJAYR2WzGFmELPFFGqiYkL4SAen8cbyXwHzs5I7vBO4YWy5dIb03To
+         zFcmHK3Xy5H7R3N9He9VvnRRvSpxRu0Oy1zpn6Dn6EeIJON3H1Sr60HL9FJKa0B5IAWx
+         CTlFsA4p3vdpraMzZBHPSgaYCPpl0AexzIOynjSzpIYUB8GTnNMvo4xipp58z29B9pG7
+         D/dfMhskEg0gnp9nk3ZPOwci8O/6TwSBL7UyEH/XmSFjEZCsuJLSwz0j6MqrnvE1etvx
+         ox9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786779873; x=1787384673;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=6E5bZO0QtG5GwP+ZYRPrGDTckZtMS40lPNJEkc15IRc=;
+        b=tKD2gDgSqfT37CTIvBfKRNfzCN4F15ASm/UidnE/NxnVZSY79X67HtfTci0Z8yOL0N
+         cUXVgrKATGtsEaJ0bIvCUlZQDwp4p3QREF5CSux97rrHcCaJq9dlzpU8ugnK888xvniQ
+         T8fmN+Rm96VSpt1GW0zQg5bzWJFqgsoOPtcLXAK+ESi4Zz7oeh97PZbpFenxNHL4x1pT
+         fj3j56W7DP9dooc4LX5dPeM7BTSsrzOrqvKOF9jsJK2toGrkHmWrhS1Qf5lKtNfqgfVN
+         U9XTbYNchNuyXA+WU7APQabWpzpnfioYUYaxFYKRVh1QY034Rv2pBIWVwRnzu7uuC+V9
+         iNCg==
+X-Gm-Message-State: AOJu0YwPVru6kyJe6jHh7qwhSpdeFA20hoIFE1upH6RiovTXCNLb64IP
+	/5rCxmj0gTf0de+YJv/4bG9qW0Dt6nvUP3153gawc7hV1owvpxGuZhO/c7/oCo7+yBhm9PHMzMN
+	50Up6FX6Q4LMlLVkwjNVR+0XiLXDGZNhRliXjp//qB6Q=
+X-Gm-Gg: AR+sD13hU/Q3RQSxhIMnw8tfonU0UaSIrpTFNmdAsCWUodlgFwhia5gHISS5YwwnwWN
+	djLsgQ4Ni27Rp/fIFzVbtbVus6stWsjlrFcU7qFL2x8YchStgvLWz7bp/MznZ6gIaIpwzrRgNfA
+	Jx+g840QhzUiqqEFv4vu1uOzECsx3ktChS8hEPTdnhqztEvxeA3DKfig4lQ3vFs5rZWD9+wBMny
+	zH8ukGGaZWxONbIwtalvO64D4+KUiw11vVGm1DKxPKocVAoWhWsF7DjXaknSf8yvd1n/QVqxpin
+	JMWyUq4IQVjWsgrT4bgKewDQNnrU8HgTpeaXadE9L555P6ZvVkTQBn8NsuKRi0rNg+vunWGNQum
+	NmOIGFWsVVjPqxpYZxuk4RDA2NWeC97Lct3nFmnLoAlGrvzr0agR5xMQquZuVB5BE8UmInuk=
+X-Received: by 2002:a05:6a20:6f04:b0:3bf:6e72:68f9 with SMTP id
+ adf61e73a8af0-3cc720e1af9mr13924036637.38.1786779873000; Sat, 15 Aug 2026
+ 00:44:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: validate ef->size covers the record's name and
- value
-To: Weiming Shi <bestswngs@gmail.com>, <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, Xiang Mei <xmei5@asu.edu>
-References: <20260625040036.996396-3-bestswngs@gmail.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260625040036.996396-3-bestswngs@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+From: Vivek Parikh <vivek.parikh@breachx.ai>
+Date: Sat, 15 Aug 2026 13:14:21 +0530
+X-Gm-Features: AUfX_mymDEBssOtnPxTrVt4a0TjDimv-TSZ3DQ5FSvcKAHRGkTDHgyYah7fs0mw
+Message-ID: <CABYdpihXucDUdmj402-rOjRUuCXPaxe8a=XoBoJ8wbvAnsAu9g@mail.gmail.com>
+Subject: ntfs3: no permission check on system.ntfs_security and
+ system.ntfs_attrib xattrs
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 6/25/26 06:00, Weiming Shi wrote:
+Hi,
 
-> [You don't often get email from bestswngs@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> When an EA record has a non-zero ef->size, ntfs_read_ea() only checks
-> that the record fits in the remaining buffer (ea_size > bytes), not that
-> ef->size is large enough to hold the record's own name_len + 1 + elength.
->
-> A crafted image can pass validation with, e.g., ef->size = 24 but
-> elength = 0xffff. ntfs_get_ea() then trusts elength and copies it out of
-> the undersized record, reading past the kmalloc(info->size) allocation
-> and leaking heap memory to userspace via getxattr():
->
->   BUG: KASAN: slab-out-of-bounds in ntfs_get_ea (fs/ntfs3/xattr.c:302)
->   Read of size 65535 at addr ffff888100794550 by task exploit
->    __asan_memcpy (mm/kasan/shadow.c:105)
->    ntfs_get_ea (fs/ntfs3/xattr.c:302)
->    ntfs_getxattr (fs/ntfs3/xattr.c:848)
->    __vfs_getxattr (fs/xattr.c:441)
->    vfs_getxattr (fs/xattr.c:474)
->    do_getxattr (fs/xattr.c:800)
->    path_getxattrat (fs/xattr.c:868)
->    do_syscall_64 (arch/x86/entry/syscall_64.c:94)
->
->   The buggy address is located 80 bytes inside of
->    allocated 84-byte region in cache kmalloc-96
->
-> Compute the size the record needs and require ef->size to cover it.
->
-> Fixes: 0e8235d28f3a ("fs/ntfs3: Check fields while reading")
-> Reported-by: Xiang Mei <xmei5@asu.edu>
-> Assisted-by: Claude:claude-opus-4-8
-> Signed-off-by: Weiming Shi <bestswngs@gmail.com>
-> ---
->   fs/ntfs3/xattr.c | 21 ++++++++++++---------
->   1 file changed, 12 insertions(+), 9 deletions(-)
->
-> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-> index 9eeac0ab2b71..9097ded7d7dc 100644
-> --- a/fs/ntfs3/xattr.c
-> +++ b/fs/ntfs3/xattr.c
-> @@ -146,26 +146,29 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
->          for (off = 0; off < size; off += ea_size) {
->                  const struct EA_FULL *ef = Add2Ptr(ea_p, off);
->                  u32 bytes = size - off;
-> +               size_t need;
->
->                  /* Check if we can use field ea->size. */
->                  if (bytes < sizeof(ef->size))
->                          goto out1;
->
-> +               /* Check if we can use fields ef->name_len and ef->elength. */
-> +               if (bytes < offsetof(struct EA_FULL, name))
-> +                       goto out1;
-> +
-> +               /* Size needed to hold this record's name and value. */
-> +               need = struct_size(ef, name,
-> +                                  1 + ef->name_len + le16_to_cpu(ef->elength));
-> +
->                  if (ef->size) {
->                          ea_size = le32_to_cpu(ef->size);
-> -                       if (ea_size > bytes)
-> +                       /* ef->size must fit the list and cover the record. */
-> +                       if (ea_size > bytes || ea_size < need)
->                                  goto out1;
->                          continue;
->                  }
->
-> -               /* Check if we can use fields ef->name_len and ef->elength. */
-> -               if (bytes < offsetof(struct EA_FULL, name))
-> -                       goto out1;
-> -
-> -               ea_size = ALIGN(struct_size(ef, name,
-> -                                           1 + ef->name_len +
-> -                                                   le16_to_cpu(ef->elength)),
-> -                               4);
-> +               ea_size = ALIGN(need, 4);
->                  if (ea_size > bytes)
->                          goto out1;
->          }
-> --
-> 2.43.0
+In fs/ntfs3, the system.ntfs_security, system.ntfs_attrib,
+system.ntfs_attrib_be and system.dos_attrib xattrs have no permission
+check. Any local user who can path-walk to a file can read and replace
+its Windows security descriptor and NTFS attributes, including on a file
+owned by root with mode 000.
 
-Hello,
+The VFS deliberately leaves system.* to the filesystem (fs/xattr.c:
+"No restriction for security.* and system.* from the VFS. Decision on
+these is left to the underlying filesystem"), and may_write_xattr()
+checks only immutable/append/unmapped-id. ntfs3 then checks nothing for
+these four names. It does gate the WSL names:
 
-Sorry for the delay.
-The patch was applied, thanks.
+  fs/ntfs3/xattr.c:967
+    if (ntfs_is_reserved_lxattr(name) && !capable(CAP_SYS_ADMIN))
+
+That is the only capability check in the file, so $LXUID is protected
+and the Windows security descriptor is not.
+
+Affected
+  fs/ntfs3, present since ntfs3 was merged in 5.15.
+  Verified on v7.2-rc7 (11028ab62899) and on Ubuntu 24.04
+  6.17.0-1019-aws with the in-tree ntfs3.ko.
+
+Reproduction
+  On an ntfs3 mount whose directories are traversable by other users
+  (mode 755), with a target file owned by root, mode 000:
+
+    getxattr(path, "system.ntfs_security", ...)   succeeds
+    setxattr(path, "system.ntfs_security", sd, ...) succeeds
+    setxattr(path, "system.$LXUID", ...)          EACCES
+    open(path, O_RDONLY)                          EACCES
+
+  Measured as uid 1002: GET returned 80 bytes, SET of a descriptor
+  granting Everyone full control returned 0, the read-back matched, and
+  the value survived umount/mount. The $LXUID line above is the same
+  user and the same file in the same run, which is what shows the
+  inconsistency rather than a general lack of checks.
+
+  A reproducer exists and is not attached, per the security-bugs.rst
+  guidance for reports that go to a public list. Happy to send it on
+  request.
+
+Impact
+  An unprivileged user cannot read the file's contents through Linux DAC
+  -- open() still fails -- but can rewrite the file's stored access
+  control metadata. Where the volume is later mounted by Windows, the
+  descriptor is honoured there; on our test volume the resulting
+  descriptor was O:WD G:WD D:P(A;;FA;;;WD), that is, owner Everyone and
+  full access to Everyone.
+
+  Not claimed: this is not a Linux privilege escalation, is not remotely
+  reachable, and does not bypass Linux file permissions.
+
+  Exposure depends on the mount. A per-user udisks mount is not
+  affected because other users cannot traverse it. The case that matters
+  is a shared or dual-boot mount that is traversable by several local
+  users.
+
+Fix direction
+  Apply the permission the VFS would apply for user.* before handling
+  these four names: inode_permission(idmap, inode, MAY_READ) on get and
+  MAY_WRITE on set, in ntfs_getxattr()/ntfs_setxattr(). Optionally
+  inode_owner_or_capable() for the descriptor write, matching chmod.
+
+  We have a sketch of this but have not tested it, so we are not sending
+  it as a patch.
+
+This was found with AI assistance and we are treating it as public
+accordingly. It was verified against the source and reproduced before
+sending. If it is already known or you do not consider it a security
+issue, please say so and we will record that.
 
 Regards,
-Konstantin
 
+Vivek Parikh
+Lead Researcher - Zero-Day Research Labs
+BreachX
+security@breachx.ai
+Alternate email: viv0411.parikh@gmail.com
