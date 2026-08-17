@@ -1,150 +1,194 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from oss.cyber.gouv.fr (oss.cyber.gouv.fr [51.159.188.251])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED24D4B04B6
-	for <ntfs3@lists.linux.dev>; Sun, 16 Aug 2026 17:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158A837EFFC
+	for <ntfs3@lists.linux.dev>; Mon, 17 Aug 2026 20:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.188.251
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786901838; cv=none; b=jCeICjoWcKmuBzMwZDPfTmHwUdwnDT6XUj2sxncv7V2tOg6qDEJR3xS863tUZ5EZp1YUYzL2Lb8rdgiTLyOxzqh2v+L7oeaTKErjOrlbOqDyCNcuF2MQyg/YeiuqV0FWVXDuLnNeuiaYXiCFDYhb7x7NMMDU5ugijltSJiDc1GU=
+	t=1786998655; cv=none; b=KpvxngfbkWCnjO3wQeE1UquP4fMdSZgQcXBDlXaqF50W3tKQV+vXNKXRR5KjyGY7dm93iP/HF1VmXLhl2cnl3rg4d4G8T98KNoObDKbzSglzYP9xXPor+6hkcVDZNoXgXuxIW+iyYcZ/+H2hD5Jl8mBX6vwghi19y1OiLUNx5+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786901838; c=relaxed/simple;
-	bh=MbHSlyDWkiwWoNtZsFY4lusG9W3piH9eUQmLhq3SiuY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Itlejx8dYbzAD6U+30TROUspqioo1NDCpLIRrK9fyy9u7A6hIIYzl2E+B649XygOcY1YRVUbVeyyJaI024hNFK9i5LhduRqVqY8FFjoSwIHXHiFpDMDyQXerc5Txqo5fM88O2MYWjYN9G17sl9ig0/upRZaNGYCos22vEuly/gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FWbYcj8O; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786998655; c=relaxed/simple;
+	bh=VH/yuiTyhpYn5Mi7rWcew3j11Zwcbs6RudhYrF5PCYk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=POY9bdW4zzSr0baaJ0H4YMR1sRIgC+ne6hqnkFy2VaSeMSoDk3kzYJBH333x2HSAk7YuUbylvptAzO94rxrgYVJaKF7/QI/3B9IZFd0czIzvP/psM17COqQ0a+hom4kI/hoPRpewm/farp8FrA53875cvTIVUzqnN+TtCOEaB2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.cyber.gouv.fr; spf=pass smtp.mailfrom=oss.cyber.gouv.fr; dkim=pass (2048-bit key) header.d=oss.cyber.gouv.fr header.i=@oss.cyber.gouv.fr header.b=IXbVuEhM; arc=none smtp.client-ip=51.159.188.251
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.cyber.gouv.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.cyber.gouv.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FWbYcj8O"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-836c8bde2dcso33820177b3.0
-        for <ntfs3@lists.linux.dev>; Sun, 16 Aug 2026 10:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786901836; x=1787506636; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oj6R0l0UjLr20BQL47faiZR3FmjRiGpl/wUyh6ZLEfA=;
-        b=FWbYcj8OWNrC0+B6wa9PAfVDxtoQhk/llljXYJEY5C73f7tw6XuOOtIDDtlaEENYQc
-         8Bbpwz8ZNKy4NXsqFXhR7Z8uerOHzm2U3MgHCZRwmKHtWrwXRbKeG1DRxF/iwrcbki3y
-         CEPzVF2L8s+KEtcGAmolwQt7BFKKyWXs7FEH+TxvFaAOn/PqBlLbwLxeGDp2TnRuLcPL
-         CaVdGv27LNDZGZpCgZXWdA+B6H8DJsJuX6UEmRkRVigmgYYKs9QJWcSAfUFBlPWGWiza
-         ZDQJSizEG1m0oH6JncDH1Rw911h3kpo5WL5mxqtkp67WeEiWH3gIsPLkrkrYLHu+3LJV
-         IZPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786901836; x=1787506636;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=oj6R0l0UjLr20BQL47faiZR3FmjRiGpl/wUyh6ZLEfA=;
-        b=UcaE7dDReNIbeMKtO7XvGNJMUmeqINX4MLK8BSxMPgWqW6NwEcMghpwlVm2twU0j+8
-         wVFnTyPq/8TFaQ5RqjfTNaftvP9291flmFwNSEONjtsk2vzVvHug26RzPNpp9JWvO5lv
-         Liyb7fNnRmDC5FkI8blC+OjHBn/JQgXRbyO36pQIaSALMHmwE0TvHhV+p0pSdy8X37AS
-         LX2WHqja/IBT+8Hj7Ef2Qg57y8yNYdqb9FJT41LDlkhPJu36qVVPkiCd2w72JtTy+e9m
-         Ydk9S3Uwq89P8wH6uHHtQhlmzoK5EmfD2TH9GRRsK8hjY8i5Y0nkEGceZQOWWq91ATSH
-         3zvA==
-X-Gm-Message-State: AOJu0Yyz+8i1gEQt7qKReldeVC+0MLZKPeB4Vzyp4nwgk0mIx2Ub4a/j
-	7RETR5gN8aqyVQ5rNJblOgcgzUiFLWq6p0o7fFpoING7TmTKtyb3S1DA
-X-Gm-Gg: AR+sD13EqBJrP58pirlp55v+XeMZ//eeFAP7RkL3thUKkkvOV0fSqJJNm5WGrgEMIvF
-	Ri+ejbmjRa73qFXNecR3KEyvcnKjt3JOjKBvCQ8nYBwPwg8fiktbd/zDzOCAQDOxwbJbwgktfVR
-	hhM7ciJSS/DkJqYqjKvq5pc0gTuxIOfKDjzJ+kbD+rRJV208C9KH9wZXBFG4YQp7GrG6/bRgWZw
-	Z6cfbpNm6/sV/FPLpV5/6A4mozzJNE/zuaoR+is0RDvGdKg6nO67cElWU9EL4UqWZlf/fc7wrbR
-	BIbC049l3vQwGeT128qXFMe8ddzfwaloihzgkGqL51iTItNcxYXBDCgFX949a/zpXz4wHsbCtCw
-	/5ywltOyWgP5uXWH8txkUQDffTlrWlRZ6lsGxZaUuoC60gF4wxhrEdmi6+eXclTgkhT8ZBSTeAs
-	PqsD8QSgyoZo3SHh37ieJWq3uCHaDhy9T6RuWC6JyRZXXJEapi0Yi3ep9HZZxGv7U9hd8=
-X-Received: by 2002:a05:690c:e64c:10b0:80d:964f:88fd with SMTP id 00721157ae682-8370c265cb1mr53004147b3.5.1786901835851;
-        Sun, 16 Aug 2026 10:37:15 -0700 (PDT)
-Received: from mac.lan ([136.55.173.105])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-836bc2a1ef4sm37839627b3.14.2026.08.16.10.37.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Aug 2026 10:37:15 -0700 (PDT)
-From: "Cen Zhang (Microsoft)" <blbllhy@gmail.com>
+	dkim=pass (2048-bit key) header.d=oss.cyber.gouv.fr header.i=@oss.cyber.gouv.fr header.b="IXbVuEhM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=oss.cyber.gouv.fr; s=default; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=lx3S+Urq6M5BDZmS8au3VXetBoK/wh9IuHtyskv7EuE=; b=IXbVuEhMgv8853h87wUtl9S49r
+	rEEyq4ukBwS1tuCjwmIICnnKrkzy/XVDttUTrDJvwwv3jpuG57rDIwPgRz1avbbhEmCEAYIqCw3cu
+	5Y8JHzOVRFCwh8lnGyw0dCmWssOU4/3LmdYstUbtz6mBEAtOgm13womJhnOeWU267YvBdYElIK+6X
+	BlG+fZQPHHkQoWTDKba8VYCMMvIcUEFgheuMzepjdiKqI8dFzjIv0qDyOrVLXOCtw2daIaoOI8o8I
+	nSgV+kfsENCRNCorVKW4CGV1WjLSbvbZU0y32Dhbfp8y7KSu13/oLgxAhw8cLsih6+YKyxAdh0e52
+	zpT9Y9ng==;
+Received: from [151.115.150.205] (port=41500 helo=gepetto..)
+	by pf-012.whm.fr-par.scw.cloud with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.5)
+	(envelope-from <Jeremy.Jean@oss.cyber.gouv.fr>)
+	id 1ww3yt-0000000CZEG-18an;
+	Mon, 17 Aug 2026 22:30:50 +0200
+From: =?UTF-8?q?J=C3=A9r=C3=A9my=20Jean?= <Jeremy.Jean@oss.cyber.gouv.fr>
 To: almaz.alexandrovich@paragon-software.com
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	AutonomousCodeSecurity@microsoft.com,
-	tgopinath@linux.microsoft.com,
-	kys@microsoft.com,
-	blbllhy@gmail.com,
-	"Xiang Mei (Microsoft)" <xmei5@asu.edu>
-Subject: [PATCH] fs/ntfs3: prevent attribute-list pointer underflow
-Date: Sun, 16 Aug 2026 13:37:13 -0400
-Message-ID: <20260816173713.28998-1-blbllhy@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	=?UTF-8?q?J=C3=A9r=C3=A9my=20Jean?= <Jeremy.Jean@oss.cyber.gouv.fr>
+Subject: [PATCH] fs/ntfs3: validate log replay bitmap buffer spans
+Date: Mon, 17 Aug 2026 20:29:42 +0000
+Message-ID: <20260817202941.1635505-2-Jeremy.Jean@oss.cyber.gouv.fr>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - pf-012.whm.fr-par.scw.cloud
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - oss.cyber.gouv.fr
+X-Get-Message-Sender-Via: pf-012.whm.fr-par.scw.cloud: authenticated_id: jeremy.jean@oss.cyber.gouv.fr
+X-Authenticated-Sender: pf-012.whm.fr-par.scw.cloud: jeremy.jean@oss.cyber.gouv.fr
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-attr_set_size_ex() and attr_collapse_range() use the on-disk size of a
-removed ATTR_LIST_ENTRY to step a pointer backward. A crafted entry whose
-size exceeds its offset from the attribute-list buffer start underflows the
-pointer, and the next entry dereference reads outside the allocation.
+do_action() derives the read buffer size for bitmap replay records from
+lrh->lcns_follow in u64, then stores it in u32 bytes. A log record that
+covers more than U32_MAX bytes therefore allocates and reads only the
+truncated tail while the bitmap range checks still compare against the
+full u64 span. ntfs_bitmap_{set,clear}_le() can then access past
+buffer_le.
 
-BUG: KASAN: slab-out-of-bounds in attr_set_size_ex
-  attr_set_size_ex fs/ntfs3/attrib.c:847
-  ntfs_file_release fs/ntfs3/file.c:1427
-  __fput fs/file_table.c:512
-  __x64_sys_close fs/open.c:1496
+Keep the span in u64 until the read size has been validated against the
+u32 ntfs_read_run_nb() interface. Also validate bitmap ranges in u64 and
+reject lengths that cannot be represented by the helpers' int len
+parameter, so crafted bitmap_off/bits values cannot wrap the existing
+u32 arithmetic before the bounds check.
 
-Before each backward step, reject an entry whose on-disk size exceeds its
-offset from the attribute-list buffer start. This prevents pointer
-underflow in both the shrink and collapse-range paths while preserving
-their existing fail-stop error handling.
-
-Commit be71b5cba2e6 ("fs/ntfs3: Add attrib operations") introduced the
-vulnerable implementation. Commit 12dad495eaab ("fs/ntfs3: Add Kconfig,
-Makefile and doc") added the local build files. Commit 6e5be40d32fb
-("fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile") wired them into
-the top-level build, making NTFS3 triggerable in standard kernels.
-
-Fixes: 6e5be40d32fb ("fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile")
-Reported-by: AutonomousCodeSecurity@microsoft.com
-Reported-by: Xiang Mei (Microsoft) <xmei5@asu.edu>
-Reported-by: Cen Zhang (Microsoft) <blbllhy@gmail.com>
-Signed-off-by: Cen Zhang (Microsoft) <blbllhy@gmail.com>
+Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+Signed-off-by: Jérémy Jean <Jeremy.Jean@oss.cyber.gouv.fr>
+Assisted-by: Codex:gpt-5
 ---
- fs/ntfs3/attrib.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ fs/ntfs3/fslog.c | 53 +++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 41 insertions(+), 12 deletions(-)
 
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index c621a4c582f9..562bfcf3561f 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -779,12 +779,15 @@ int attr_set_size_ex(struct ntfs_inode *ni, enum ATTR_TYPE type,
- 			u16 le_sz = le16_to_cpu(le->size);
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index f038c799e7ac..21d89de96ba1 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -7,6 +7,8 @@
  
- 			/*
--			 * NOTE: List entries for one attribute are always
--			 * the same size. We deal with last entry (vcn==0)
--			 * and it is not first in entries array
--			 * (list entry for std attribute always first).
--			 * So it is safe to step back.
-+			 * List entries for one attribute are expected to have
-+			 * the same size. Validate the on-disk size before using
-+			 * it to step back.
- 			 */
-+			if (le_sz > PtrOffset(ni->attr_list.le, le)) {
-+				err = -EINVAL;
-+				goto bad_inode;
-+			}
-+
- 			mi_remove_attr(NULL, mi, attr);
+ #include <linux/blkdev.h>
+ #include <linux/fs.h>
++#include <linux/limits.h>
++#include <linux/overflow.h>
+ #include <linux/random.h>
+ #include <linux/slab.h>
  
- 			if (!al_remove_le(ni, le)) {
-@@ -2216,6 +2219,12 @@ int attr_collapse_range(struct ntfs_inode *ni, u64 vbo, u64 bytes)
- 				}
- 				continue;
- 			}
+@@ -2967,6 +2969,35 @@ static inline bool check_if_alloc_index(const struct INDEX_HDR *hdr,
+ 	return o == attr_off;
+ }
+ 
++static inline bool calc_log_buffer_size(u32 min_bytes, u64 data_bytes,
++					u16 roff, bool align, u32 *bytes)
++{
++	u64 bytes64 = min_bytes ? min_bytes : data_bytes;
 +
-+			if (le_sz > PtrOffset(ni->attr_list.le, le)) {
-+				err = -EINVAL;
-+				goto out;
-+			}
++	if (check_add_overflow(bytes64, (u64)roff, &bytes64))
++		return false;
 +
- 			le = (struct ATTR_LIST_ENTRY *)((u8 *)le - le_sz);
++	if (align) {
++		if (check_add_overflow(bytes64, 511ULL, &bytes64))
++			return false;
++		bytes64 &= ~511ULL;
++	}
++
++	if (bytes64 > U32_MAX)
++		return false;
++
++	*bytes = bytes64;
++	return true;
++}
++
++static inline bool check_if_bitmap_range(u64 bytes, u32 off, u32 bits)
++{
++	u64 start = ((u64)off + 7) / 8;
++	u64 end = ((u64)off + bits + 7) / 8;
++
++	return bits <= S32_MAX && start <= bytes && end <= bytes;
++}
++
+ static inline void change_attr_size(struct MFT_REC *rec, struct ATTRIB *attr,
+ 				    u32 nsize)
+ {
+@@ -3114,6 +3145,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 	u16 roff = le16_to_cpu(lrh->record_off);
+ 	u16 aoff = le16_to_cpu(lrh->attr_off);
+ 	u64 lco = 0;
++	u64 data_bytes = 0;
+ 	u64 cbo = (u64)le16_to_cpu(lrh->cluster_off) << SECTOR_SHIFT;
+ 	u64 tvo = le64_to_cpu(lrh->target_vcn) << sbi->cluster_bits;
+ 	u64 vbo = cbo + tvo;
+@@ -3225,6 +3257,10 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 		attr = oa->attr;
+ 		bytes = UpdateNonresidentValue == op ? dlen : 0;
+ 		lco = (u64)le16_to_cpu(lrh->lcns_follow) << sbi->cluster_bits;
++		if (lco < cbo)
++			goto dirty_vol;
++
++		data_bytes = lco - cbo;
+ 
+ 		if (attr->type == ATTR_ALLOC) {
+ 			t32 = le32_to_cpu(oe->bytes_per_index);
+@@ -3232,12 +3268,9 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 				bytes = t32;
  		}
  
+-		if (!bytes)
+-			bytes = lco - cbo;
+-
+-		bytes += roff;
+-		if (attr->type == ATTR_ALLOC)
+-			bytes = (bytes + 511) & ~511; // align
++		if (!calc_log_buffer_size(bytes, data_bytes, roff,
++					  attr->type == ATTR_ALLOC, &bytes))
++			goto dirty_vol;
+ 
+ 		buffer_le = kmalloc(bytes, GFP_NOFS);
+ 		if (!buffer_le)
+@@ -3717,10 +3750,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 		off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
+ 		bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
+ 
+-		if (cbo + (off + 7) / 8 > lco ||
+-		    cbo + ((off + bits + 7) / 8) > lco) {
++		if (!check_if_bitmap_range(data_bytes, off, bits))
+ 			goto dirty_vol;
+-		}
+ 
+ 		ntfs_bitmap_set_le(Add2Ptr(buffer_le, roff), off, bits);
+ 		a_dirty = true;
+@@ -3730,10 +3761,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 		off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
+ 		bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
+ 
+-		if (cbo + (off + 7) / 8 > lco ||
+-		    cbo + ((off + bits + 7) / 8) > lco) {
++		if (!check_if_bitmap_range(data_bytes, off, bits))
+ 			goto dirty_vol;
+-		}
+ 
+ 		ntfs_bitmap_clear_le(Add2Ptr(buffer_le, roff), off, bits);
+ 		a_dirty = true;
 -- 
-2.52.0
+2.47.3
 
