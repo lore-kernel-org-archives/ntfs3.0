@@ -1,171 +1,167 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from mail-106102.protonmail.ch (mail-106102.protonmail.ch [79.135.106.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B36F3C9893
-	for <ntfs3@lists.linux.dev>; Tue, 18 Aug 2026 12:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9ED73B27F7
+	for <ntfs3@lists.linux.dev>; Tue, 18 Aug 2026 18:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787055692; cv=none; b=bRiGKhL+ivQdf0hy11O9ZHFByZ3h6oJqwU8tlISND3N/Pu5R0wWrfcP3CzVvOzm9qU/lim6ZKAzS5FbHoXosDvz1+KOwgeTPX3OduAnajMl1XrZ8ztpdaUR+4dtnbgXBzvxb8kJBbpd3j0NXPkkvaSsKKJDXw8P1lfcyzGli5Co=
+	t=1787078101; cv=none; b=btJaIvBWhCjbXWik+MD2OS/MZhfXIODsDvp7VUOrXjHmbo1qIwheWcrT9bHf7P4CFKcyx3ODAO/x34FaOB25D1qTwibw6K8Dy4qS1T7ho7FVo4kv13v9NFndLvp4cNdCE4hpw1Em1EjAbGwOpHIz4tWArYZ/g7LPpYSoh5cWgRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787055692; c=relaxed/simple;
-	bh=Gf2rSQ6n/22wl6Tsvb6bhAtD3MU0szXJScoUwLmKEoo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jrU5uaz8sV/fMJyqPU6Ml2xeAz7652Nnx7q6qwIqt3yZpnMwPdPI6CENIEcL149b1P37xricMPIHjwN4/C6lwHwMjOq1owMDtWCEz47Z8UtBXqAtzsv2b6WRF5DPyhSSV8zOu5nV/jB5BIfPa6ZmDe8Y1MgmPQQjWXArx5sUW1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=M7kZX+F9; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1787078101; c=relaxed/simple;
+	bh=BxBF+8x9UjMh3E8ulq8bv8YVwNO01tkfCeLGtzpVrt0=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=oUMZrty3j/8Fp0lCOlBUx1ThGJjdwjQfgYJebsx1gy5fyajk3LXfpFwLP24HP4Vn3XNnE1f4Lp736VTkJLCAgG39HlpwTjqFXZG3NO8tdHsbLi4e5pvDkHnmDHLodzDkXXV0zXxJHghCA3S2SEbgR90ovjaA2ogVBKuGt3Hmv/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=SSjpF1ZF; arc=none smtp.client-ip=79.135.106.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="M7kZX+F9"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 029861D2F;
-	Tue, 18 Aug 2026 12:22:13 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=M7kZX+F9;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id CB5D01D99;
-	Tue, 18 Aug 2026 12:21:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1787055683;
-	bh=Gw/pU8kOBaahxBGBQYamTKScx0sYad3gegHjlLNv49o=;
-	h=From:To:CC:Subject:Date;
-	b=M7kZX+F9gBIwJgppFccb8p29ezeAwhYoKEQmXj1W3Aa1YiCdYKblxiuijXkUwKuL+
-	 hGbCiA8nuiXza1HpchE8xz7rKAY6ud2v79xwsmNNpJxxcfnYoxD59RaBkoFsaOtRih
-	 DSQ5gkTDE2CXkXEAEXI8RTzJeK1Svj+IJcpzmDcI=
-Received: from localhost.localdomain (172.30.20.186) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 18 Aug 2026 15:21:20 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	=?UTF-8?q?HE=20WEI=EF=BC=88=E3=82=AE=E3=82=AB=E3=82=AF=EF=BC=89?=
-	<skyexpoc@gmail.com>, Konstantin Komarov
-	<almaz.alexandrovich@paragon-software.com>, Kyle Zeng <kylebot@openai.com>,
-	Ruoyu Wang <ruoyuw560@gmail.com>, Samuel Page <sam@bynar.io>, Senjin
-	<senjin@hatchling.org>, Weiming Shi <bestswngs@gmail.com>, Weiming Wu
-	<weiming3@asu.edu>, Xiang Mei <xmei5@asu.edu>, Zhan Xusheng
-	<zhanxusheng1024@gmail.com>
-Subject: [GIT PULL] ntfs3: changes for 7.3
-Date: Tue, 18 Aug 2026 14:21:03 +0200
-Message-ID: <20260818122105.24094-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="SSjpF1ZF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=fe33qhirgjagpips26zuc7st2q.protonmail; t=1787078089; x=1787337289;
+	bh=fF63kDyzTdoN6R0ErWEKjamAUkeyxeEPuv9iE9nTwqw=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=SSjpF1ZF9LUVFrpP+Z1ESol26QhgEcS9Utxy/l0FiQc33h2DhlNv5hC3iMRkXz6D7
+	 v+wfJlz2fxbCYxLWFKNJSRCLkgoK7VixMJgXPzIOCVa9clUISE8pMaX6M/cdYjF84j
+	 mblWyFd2A5p9JOxPYkR+AAVuqXM5RDgMrWz+B3QpnPOP33KO/ltG12Xn+S9x1Ft/jH
+	 NdtjXCH6I9R4g75HYBacST9pira/QJJ7J3sOTksX0otWbyzzFDZ34ytDwiP0/bzGcY
+	 WX5L5dwE3WJfC+p2vd+Hh8uK2jc2sE8sP7qxCsAyoI5QyRmjJU5YDl2i129spKB5It
+	 hmTQPCHMIewMg==
+Date: Tue, 18 Aug 2026 18:34:47 +0000
+To: almaz.alexandrovich@paragon-software.com
+From: k3rn3lbr3ach3r@proton.me
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] ntfs3: fix out-of-bounds access in log replay and ni_remove_name
+Message-ID: <o4ztNNNkpdDLI2xt81YfrL6QXaRJyrorsj6ouTqr1_uStTBnW4siOIZeDlmIUiznHvfghwWtTK4piK6rgE23Kr6w9XwxpfiMM7THLMcfsRQ=@proton.me>
+Feedback-ID: 121670605:user:proton
+X-Pm-Message-ID: be47016830ab11438c700ac7c8121f7006ca6be8
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello, please pull this branch containing ntfs3 code for 7.3.
- 
-Regards,
-Konstantin
+Thanks for the feedback :)
 
-----------------------------------------------------------------
-The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
 
-  Linux 7.2-rc1 (2026-06-28 12:01:31 -0700)
+Here are the two fixes as proper patches, one per finding.
 
-are available in the Git repository at:
+Patch 1: Adds bounds check in UpdateFileNameRoot and
+UpdateFileNameAllocation to prevent 56-byte memmove from overflowing
+when e->size is too small.
 
-  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.3
+Patch 2: Validates fname_full_size() against the attribute's actual
+res.data_size in ni_remove_name() before copying.
 
-for you to fetch changes up to c22f91d82cb9a29d22bdffdce6c803467984ad0c:
+Both pass checkpatch with zero errors and zero warnings.
 
-  fs/ntfs3: validate ef->size covers the record's name and value (2026-08-18 10:35:39 +0200)
+KRISH JAIN
 
-----------------------------------------------------------------
-Changes for 7.3-rc1
 
-Added:
-    load ATTR_BITMAP run extents from $MFT extension records
-    initialize err in attr_wof_frame_info
-    reserve NUL byte when converting UTF-16 names
-    reject restart table growth beyond U16_MAX entries
-    validate dirty page table on log replay
-    basic support for alternative data streams
-    validate ef->size covers the record's name and value
+From ffc37dbfd48020558f278a2fef6fd03dbe117339 Mon Sep 17 00:00:00 2001
+From: KRISH JAIN <k3rn3lbr3ach3r@proton.me>
+Date: Tue, 18 Aug 2026 23:39:59 +0530
+Subject: [PATCH 1/2] ntfs3: add bounds check to prevent oob write in
+ UpdateFileNameRoot
 
-Fixed:
-    slab-out-of-bounds write in ni_create_attr_list()
-    out-of-bounds read of INDEX_ROOT in reparse/objid init
-    boundary check in ntfs_dir_count()
-    info-leak in ntfs_rename()
-    lseek EINVAL on sparse/compressed files with 64-bit clusters
-    info-leak on partial LZNT decompress in ni_read_frame()
-    bound page_lcns[] index by the log record
-    memory leak in indx_find_sort()
-    integer overflow in MFT cluster validation
-    reject out-of-range evcn in mi_enum_attr()
-    out-of-bounds read in read_log_rec_buf()
+The UpdateFileNameRoot and UpdateFileNameAllocation handlers in
+do_action() perform a 56-byte memmove into an index entry's embedded
+ATTR_FILE_NAME structure without verifying that the entry is large
+enough to contain the write. If e->size is smaller than the required
+80 bytes (sizeof(NTFS_DE) + offsetof(ATTR_FILE_NAME, dup) +
+sizeof(NTFS_DUP_INFO)), the memmove overflows into adjacent slab
+objects in kmalloc-1024.
 
-Changed:
-    widen inode/record number storage to u64
-    cosmetic fixes and improvements
-    rename 'err' to 'ret' in read paths
+Add a bounds check before both memmove calls to validate that e->size
+is sufficient, marking the volume dirty and aborting replay if not.
 
-----------------------------------------------------------------
-HE WEI（ギカク） (1):
-      fs/ntfs3: fix slab-out-of-bounds write in ni_create_attr_list()
+Fixes: 8d3ae59288f1 ("Linux 7.2")
+Signed-off-by: KRISH JAIN <k3rn3lbr3ach3r@proton.me>
+Assisted-by: Claude:Opus4.6
+---
+ fs/ntfs3/fslog.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-Konstantin Komarov (10):
-      fs/ntfs3: widen inode/record number storage to u64
-      fs/ntfs3: cosmetic fixes and improvements
-      ntfs3: fix boundary check in ntfs_dir_count()
-      ntfs3: fix info-leak in ntfs_rename()
-      fs/ntfs3: load ATTR_BITMAP run extents from $MFT extension records
-      fs/ntfs3: bound page_lcns[] index by the log record
-      fs/ntfs3: Fix memory leak in indx_find_sort()
-      fs/ntfs3: Rename 'err' to 'ret' in read paths
-      fs/ntfs3: Add basic support for alternative data streams
-      fs/ntfs3: fix out-of-bounds read in read_log_rec_buf()
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index f038c799e..c32b59f4e 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -3520,8 +3520,13 @@ static int do_action(struct ntfs_log *log, struct OP=
+EN_ATTR_ENRTY *oe,
+              }
 
-Kyle Zeng (1):
-      fs/ntfs3: reserve NUL byte when converting UTF-16 names
+              e =3D Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
++             if (le16_to_cpu(e->size) <
++                 sizeof(struct NTFS_DE) +
++                         offsetof(struct ATTR_FILE_NAME, dup) +
++                         sizeof(fname->dup))
++                     goto dirty_vol;
+              fname =3D (struct ATTR_FILE_NAME *)(e + 1);
+-             memmove(&fname->dup, data, sizeof(fname->dup)); //
++             memmove(&fname->dup, data, sizeof(fname->dup));
+              mi->dirty =3D true;
+              break;
 
-Ruoyu Wang (1):
-      ntfs3: initialize err in attr_wof_frame_info
+@@ -3706,6 +3711,11 @@ static int do_action(struct ntfs_log *log, struct OP=
+EN_ATTR_ENRTY *oe,
+                      goto dirty_vol;
+              }
 
-Samuel Page (1):
-      fs/ntfs3: fix info-leak on partial LZNT decompress in ni_read_frame()
++             if (le16_to_cpu(e->size) <
++                 sizeof(struct NTFS_DE) +
++                         offsetof(struct ATTR_FILE_NAME, dup) +
++                         sizeof(fname->dup))
++                     goto dirty_vol;
+              fname =3D (struct ATTR_FILE_NAME *)(e + 1);
+              memmove(&fname->dup, data, sizeof(fname->dup));
 
-Senjin (1):
-      fs/ntfs3: fix lseek EINVAL on sparse/compressed files with 64-bit clusters
+--
+2.53.0
 
-Weiming Shi (2):
-      fs/ntfs3: reject restart table growth beyond U16_MAX entries
-      fs/ntfs3: validate ef->size covers the record's name and value
 
-Weiming Wu (1):
-      fs/ntfs3: fix out-of-bounds read of INDEX_ROOT in reparse/objid init
+From df143212211876f87a7253b555cee28435575431 Mon Sep 17 00:00:00 2001
+From: KRISH JAIN <k3rn3lbr3ach3r@proton.me>
+Date: Tue, 18 Aug 2026 23:40:10 +0530
+Subject: [PATCH 2/2] ntfs3: validate fname size against resident data in
+ ni_remove_name
 
-Xiang Mei (1):
-      fs/ntfs3: validate dirty page table on log replay
+In ni_remove_name(), fname_full_size() computes the copy length from
+the untrusted on-disk name_len field, which can be up to 255 (yielding
+576 bytes). If name_len is larger than the attribute's actual resident
+data size, the subsequent memcpy reads past the end of the attribute
+buffer.
 
-Zhan Xusheng (2):
-      fs/ntfs3: fix integer overflow in MFT cluster validation
-      fs/ntfs3: reject out-of-range evcn in mi_enum_attr()
+Add a check that fname_full_size() does not exceed the attribute's
+res.data_size before performing the copy.
 
- fs/ntfs3/attrib.c   | 159 +++++++++++++++++-----------
- fs/ntfs3/attrlist.c |  15 ++-
- fs/ntfs3/dir.c      | 132 ++++++++++++++++-------
- fs/ntfs3/file.c     |  66 ++++++++----
- fs/ntfs3/frecord.c  | 199 +++++++++++++++++++++++++++++------
- fs/ntfs3/fslog.c    |  68 +++++++++---
- fs/ntfs3/fsntfs.c   |  34 ++++--
- fs/ntfs3/index.c    |   8 +-
- fs/ntfs3/inode.c    | 298 +++++++++++++++++++++++++++++++++++++++++++++-------
- fs/ntfs3/lznt.c     |   4 +-
- fs/ntfs3/namei.c    |  64 +++++++----
- fs/ntfs3/ntfs.h     |   3 +-
- fs/ntfs3/ntfs_fs.h  |  51 ++++++---
- fs/ntfs3/record.c   |  34 +++++-
- fs/ntfs3/run.c      |   9 +-
- fs/ntfs3/super.c    |  38 +++++--
- fs/ntfs3/xattr.c    |  22 ++--
- 17 files changed, 922 insertions(+), 282 deletions(-)
+Fixes: 8d3ae59288f1 ("Linux 7.2")
+Signed-off-by: KRISH JAIN <k3rn3lbr3ach3r@proton.me>
+Assisted-by: Claude:Opus4.6
+---
+ fs/ntfs3/frecord.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 2b49bc077..42627a5f2 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -2653,6 +2653,10 @@ int ni_remove_name(struct ntfs_inode *dir_ni, struct=
+ ntfs_inode *ni,
+      fname =3D ni_fname_type(ni, name_type, &mi, &le);
+      if (fname) {
+              u16 de2_key_size =3D fname_full_size(fname);
++             struct ATTRIB *attr =3D attr_from_name(fname);
++
++             if (de2_key_size > le32_to_cpu(attr->res.data_size))
++                     return -EINVAL;
+
+              *de2 =3D Add2Ptr(de, 1024);
+              (*de2)->key_size =3D cpu_to_le16(de2_key_size);
+--
+2.53.0
+
+---
+
+
