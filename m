@@ -1,194 +1,171 @@
-Received: from oss.cyber.gouv.fr (oss.cyber.gouv.fr [51.159.188.251])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158A837EFFC
-	for <ntfs3@lists.linux.dev>; Mon, 17 Aug 2026 20:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.188.251
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B36F3C9893
+	for <ntfs3@lists.linux.dev>; Tue, 18 Aug 2026 12:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786998655; cv=none; b=KpvxngfbkWCnjO3wQeE1UquP4fMdSZgQcXBDlXaqF50W3tKQV+vXNKXRR5KjyGY7dm93iP/HF1VmXLhl2cnl3rg4d4G8T98KNoObDKbzSglzYP9xXPor+6hkcVDZNoXgXuxIW+iyYcZ/+H2hD5Jl8mBX6vwghi19y1OiLUNx5+A=
+	t=1787055692; cv=none; b=bRiGKhL+ivQdf0hy11O9ZHFByZ3h6oJqwU8tlISND3N/Pu5R0wWrfcP3CzVvOzm9qU/lim6ZKAzS5FbHoXosDvz1+KOwgeTPX3OduAnajMl1XrZ8ztpdaUR+4dtnbgXBzvxb8kJBbpd3j0NXPkkvaSsKKJDXw8P1lfcyzGli5Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786998655; c=relaxed/simple;
-	bh=VH/yuiTyhpYn5Mi7rWcew3j11Zwcbs6RudhYrF5PCYk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=POY9bdW4zzSr0baaJ0H4YMR1sRIgC+ne6hqnkFy2VaSeMSoDk3kzYJBH333x2HSAk7YuUbylvptAzO94rxrgYVJaKF7/QI/3B9IZFd0czIzvP/psM17COqQ0a+hom4kI/hoPRpewm/farp8FrA53875cvTIVUzqnN+TtCOEaB2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.cyber.gouv.fr; spf=pass smtp.mailfrom=oss.cyber.gouv.fr; dkim=pass (2048-bit key) header.d=oss.cyber.gouv.fr header.i=@oss.cyber.gouv.fr header.b=IXbVuEhM; arc=none smtp.client-ip=51.159.188.251
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.cyber.gouv.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.cyber.gouv.fr
+	s=arc-20240116; t=1787055692; c=relaxed/simple;
+	bh=Gf2rSQ6n/22wl6Tsvb6bhAtD3MU0szXJScoUwLmKEoo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jrU5uaz8sV/fMJyqPU6Ml2xeAz7652Nnx7q6qwIqt3yZpnMwPdPI6CENIEcL149b1P37xricMPIHjwN4/C6lwHwMjOq1owMDtWCEz47Z8UtBXqAtzsv2b6WRF5DPyhSSV8zOu5nV/jB5BIfPa6ZmDe8Y1MgmPQQjWXArx5sUW1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=M7kZX+F9; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oss.cyber.gouv.fr header.i=@oss.cyber.gouv.fr header.b="IXbVuEhM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=oss.cyber.gouv.fr; s=default; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=lx3S+Urq6M5BDZmS8au3VXetBoK/wh9IuHtyskv7EuE=; b=IXbVuEhMgv8853h87wUtl9S49r
-	rEEyq4ukBwS1tuCjwmIICnnKrkzy/XVDttUTrDJvwwv3jpuG57rDIwPgRz1avbbhEmCEAYIqCw3cu
-	5Y8JHzOVRFCwh8lnGyw0dCmWssOU4/3LmdYstUbtz6mBEAtOgm13womJhnOeWU267YvBdYElIK+6X
-	BlG+fZQPHHkQoWTDKba8VYCMMvIcUEFgheuMzepjdiKqI8dFzjIv0qDyOrVLXOCtw2daIaoOI8o8I
-	nSgV+kfsENCRNCorVKW4CGV1WjLSbvbZU0y32Dhbfp8y7KSu13/oLgxAhw8cLsih6+YKyxAdh0e52
-	zpT9Y9ng==;
-Received: from [151.115.150.205] (port=41500 helo=gepetto..)
-	by pf-012.whm.fr-par.scw.cloud with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.5)
-	(envelope-from <Jeremy.Jean@oss.cyber.gouv.fr>)
-	id 1ww3yt-0000000CZEG-18an;
-	Mon, 17 Aug 2026 22:30:50 +0200
-From: =?UTF-8?q?J=C3=A9r=C3=A9my=20Jean?= <Jeremy.Jean@oss.cyber.gouv.fr>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?J=C3=A9r=C3=A9my=20Jean?= <Jeremy.Jean@oss.cyber.gouv.fr>
-Subject: [PATCH] fs/ntfs3: validate log replay bitmap buffer spans
-Date: Mon, 17 Aug 2026 20:29:42 +0000
-Message-ID: <20260817202941.1635505-2-Jeremy.Jean@oss.cyber.gouv.fr>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="M7kZX+F9"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 029861D2F;
+	Tue, 18 Aug 2026 12:22:13 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=M7kZX+F9;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id CB5D01D99;
+	Tue, 18 Aug 2026 12:21:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1787055683;
+	bh=Gw/pU8kOBaahxBGBQYamTKScx0sYad3gegHjlLNv49o=;
+	h=From:To:CC:Subject:Date;
+	b=M7kZX+F9gBIwJgppFccb8p29ezeAwhYoKEQmXj1W3Aa1YiCdYKblxiuijXkUwKuL+
+	 hGbCiA8nuiXza1HpchE8xz7rKAY6ud2v79xwsmNNpJxxcfnYoxD59RaBkoFsaOtRih
+	 DSQ5gkTDE2CXkXEAEXI8RTzJeK1Svj+IJcpzmDcI=
+Received: from localhost.localdomain (172.30.20.186) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 18 Aug 2026 15:21:20 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <torvalds@linux-foundation.org>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	=?UTF-8?q?HE=20WEI=EF=BC=88=E3=82=AE=E3=82=AB=E3=82=AF=EF=BC=89?=
+	<skyexpoc@gmail.com>, Konstantin Komarov
+	<almaz.alexandrovich@paragon-software.com>, Kyle Zeng <kylebot@openai.com>,
+	Ruoyu Wang <ruoyuw560@gmail.com>, Samuel Page <sam@bynar.io>, Senjin
+	<senjin@hatchling.org>, Weiming Shi <bestswngs@gmail.com>, Weiming Wu
+	<weiming3@asu.edu>, Xiang Mei <xmei5@asu.edu>, Zhan Xusheng
+	<zhanxusheng1024@gmail.com>
+Subject: [GIT PULL] ntfs3: changes for 7.3
+Date: Tue, 18 Aug 2026 14:21:03 +0200
+Message-ID: <20260818122105.24094-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - pf-012.whm.fr-par.scw.cloud
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - oss.cyber.gouv.fr
-X-Get-Message-Sender-Via: pf-012.whm.fr-par.scw.cloud: authenticated_id: jeremy.jean@oss.cyber.gouv.fr
-X-Authenticated-Sender: pf-012.whm.fr-par.scw.cloud: jeremy.jean@oss.cyber.gouv.fr
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-do_action() derives the read buffer size for bitmap replay records from
-lrh->lcns_follow in u64, then stores it in u32 bytes. A log record that
-covers more than U32_MAX bytes therefore allocates and reads only the
-truncated tail while the bitmap range checks still compare against the
-full u64 span. ntfs_bitmap_{set,clear}_le() can then access past
-buffer_le.
+Hello, please pull this branch containing ntfs3 code for 7.3.
+ 
+Regards,
+Konstantin
 
-Keep the span in u64 until the read size has been validated against the
-u32 ntfs_read_run_nb() interface. Also validate bitmap ranges in u64 and
-reject lengths that cannot be represented by the helpers' int len
-parameter, so crafted bitmap_off/bits values cannot wrap the existing
-u32 arithmetic before the bounds check.
+----------------------------------------------------------------
+The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
 
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Signed-off-by: Jérémy Jean <Jeremy.Jean@oss.cyber.gouv.fr>
-Assisted-by: Codex:gpt-5
----
- fs/ntfs3/fslog.c | 53 +++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 41 insertions(+), 12 deletions(-)
+  Linux 7.2-rc1 (2026-06-28 12:01:31 -0700)
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index f038c799e7ac..21d89de96ba1 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -7,6 +7,8 @@
- 
- #include <linux/blkdev.h>
- #include <linux/fs.h>
-+#include <linux/limits.h>
-+#include <linux/overflow.h>
- #include <linux/random.h>
- #include <linux/slab.h>
- 
-@@ -2967,6 +2969,35 @@ static inline bool check_if_alloc_index(const struct INDEX_HDR *hdr,
- 	return o == attr_off;
- }
- 
-+static inline bool calc_log_buffer_size(u32 min_bytes, u64 data_bytes,
-+					u16 roff, bool align, u32 *bytes)
-+{
-+	u64 bytes64 = min_bytes ? min_bytes : data_bytes;
-+
-+	if (check_add_overflow(bytes64, (u64)roff, &bytes64))
-+		return false;
-+
-+	if (align) {
-+		if (check_add_overflow(bytes64, 511ULL, &bytes64))
-+			return false;
-+		bytes64 &= ~511ULL;
-+	}
-+
-+	if (bytes64 > U32_MAX)
-+		return false;
-+
-+	*bytes = bytes64;
-+	return true;
-+}
-+
-+static inline bool check_if_bitmap_range(u64 bytes, u32 off, u32 bits)
-+{
-+	u64 start = ((u64)off + 7) / 8;
-+	u64 end = ((u64)off + bits + 7) / 8;
-+
-+	return bits <= S32_MAX && start <= bytes && end <= bytes;
-+}
-+
- static inline void change_attr_size(struct MFT_REC *rec, struct ATTRIB *attr,
- 				    u32 nsize)
- {
-@@ -3114,6 +3145,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 	u16 roff = le16_to_cpu(lrh->record_off);
- 	u16 aoff = le16_to_cpu(lrh->attr_off);
- 	u64 lco = 0;
-+	u64 data_bytes = 0;
- 	u64 cbo = (u64)le16_to_cpu(lrh->cluster_off) << SECTOR_SHIFT;
- 	u64 tvo = le64_to_cpu(lrh->target_vcn) << sbi->cluster_bits;
- 	u64 vbo = cbo + tvo;
-@@ -3225,6 +3257,10 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 		attr = oa->attr;
- 		bytes = UpdateNonresidentValue == op ? dlen : 0;
- 		lco = (u64)le16_to_cpu(lrh->lcns_follow) << sbi->cluster_bits;
-+		if (lco < cbo)
-+			goto dirty_vol;
-+
-+		data_bytes = lco - cbo;
- 
- 		if (attr->type == ATTR_ALLOC) {
- 			t32 = le32_to_cpu(oe->bytes_per_index);
-@@ -3232,12 +3268,9 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 				bytes = t32;
- 		}
- 
--		if (!bytes)
--			bytes = lco - cbo;
--
--		bytes += roff;
--		if (attr->type == ATTR_ALLOC)
--			bytes = (bytes + 511) & ~511; // align
-+		if (!calc_log_buffer_size(bytes, data_bytes, roff,
-+					  attr->type == ATTR_ALLOC, &bytes))
-+			goto dirty_vol;
- 
- 		buffer_le = kmalloc(bytes, GFP_NOFS);
- 		if (!buffer_le)
-@@ -3717,10 +3750,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 		off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
- 		bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
- 
--		if (cbo + (off + 7) / 8 > lco ||
--		    cbo + ((off + bits + 7) / 8) > lco) {
-+		if (!check_if_bitmap_range(data_bytes, off, bits))
- 			goto dirty_vol;
--		}
- 
- 		ntfs_bitmap_set_le(Add2Ptr(buffer_le, roff), off, bits);
- 		a_dirty = true;
-@@ -3730,10 +3761,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 		off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
- 		bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
- 
--		if (cbo + (off + 7) / 8 > lco ||
--		    cbo + ((off + bits + 7) / 8) > lco) {
-+		if (!check_if_bitmap_range(data_bytes, off, bits))
- 			goto dirty_vol;
--		}
- 
- 		ntfs_bitmap_clear_le(Add2Ptr(buffer_le, roff), off, bits);
- 		a_dirty = true;
--- 
-2.47.3
+are available in the Git repository at:
 
+  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.3
+
+for you to fetch changes up to c22f91d82cb9a29d22bdffdce6c803467984ad0c:
+
+  fs/ntfs3: validate ef->size covers the record's name and value (2026-08-18 10:35:39 +0200)
+
+----------------------------------------------------------------
+Changes for 7.3-rc1
+
+Added:
+    load ATTR_BITMAP run extents from $MFT extension records
+    initialize err in attr_wof_frame_info
+    reserve NUL byte when converting UTF-16 names
+    reject restart table growth beyond U16_MAX entries
+    validate dirty page table on log replay
+    basic support for alternative data streams
+    validate ef->size covers the record's name and value
+
+Fixed:
+    slab-out-of-bounds write in ni_create_attr_list()
+    out-of-bounds read of INDEX_ROOT in reparse/objid init
+    boundary check in ntfs_dir_count()
+    info-leak in ntfs_rename()
+    lseek EINVAL on sparse/compressed files with 64-bit clusters
+    info-leak on partial LZNT decompress in ni_read_frame()
+    bound page_lcns[] index by the log record
+    memory leak in indx_find_sort()
+    integer overflow in MFT cluster validation
+    reject out-of-range evcn in mi_enum_attr()
+    out-of-bounds read in read_log_rec_buf()
+
+Changed:
+    widen inode/record number storage to u64
+    cosmetic fixes and improvements
+    rename 'err' to 'ret' in read paths
+
+----------------------------------------------------------------
+HE WEI（ギカク） (1):
+      fs/ntfs3: fix slab-out-of-bounds write in ni_create_attr_list()
+
+Konstantin Komarov (10):
+      fs/ntfs3: widen inode/record number storage to u64
+      fs/ntfs3: cosmetic fixes and improvements
+      ntfs3: fix boundary check in ntfs_dir_count()
+      ntfs3: fix info-leak in ntfs_rename()
+      fs/ntfs3: load ATTR_BITMAP run extents from $MFT extension records
+      fs/ntfs3: bound page_lcns[] index by the log record
+      fs/ntfs3: Fix memory leak in indx_find_sort()
+      fs/ntfs3: Rename 'err' to 'ret' in read paths
+      fs/ntfs3: Add basic support for alternative data streams
+      fs/ntfs3: fix out-of-bounds read in read_log_rec_buf()
+
+Kyle Zeng (1):
+      fs/ntfs3: reserve NUL byte when converting UTF-16 names
+
+Ruoyu Wang (1):
+      ntfs3: initialize err in attr_wof_frame_info
+
+Samuel Page (1):
+      fs/ntfs3: fix info-leak on partial LZNT decompress in ni_read_frame()
+
+Senjin (1):
+      fs/ntfs3: fix lseek EINVAL on sparse/compressed files with 64-bit clusters
+
+Weiming Shi (2):
+      fs/ntfs3: reject restart table growth beyond U16_MAX entries
+      fs/ntfs3: validate ef->size covers the record's name and value
+
+Weiming Wu (1):
+      fs/ntfs3: fix out-of-bounds read of INDEX_ROOT in reparse/objid init
+
+Xiang Mei (1):
+      fs/ntfs3: validate dirty page table on log replay
+
+Zhan Xusheng (2):
+      fs/ntfs3: fix integer overflow in MFT cluster validation
+      fs/ntfs3: reject out-of-range evcn in mi_enum_attr()
+
+ fs/ntfs3/attrib.c   | 159 +++++++++++++++++-----------
+ fs/ntfs3/attrlist.c |  15 ++-
+ fs/ntfs3/dir.c      | 132 ++++++++++++++++-------
+ fs/ntfs3/file.c     |  66 ++++++++----
+ fs/ntfs3/frecord.c  | 199 +++++++++++++++++++++++++++++------
+ fs/ntfs3/fslog.c    |  68 +++++++++---
+ fs/ntfs3/fsntfs.c   |  34 ++++--
+ fs/ntfs3/index.c    |   8 +-
+ fs/ntfs3/inode.c    | 298 +++++++++++++++++++++++++++++++++++++++++++++-------
+ fs/ntfs3/lznt.c     |   4 +-
+ fs/ntfs3/namei.c    |  64 +++++++----
+ fs/ntfs3/ntfs.h     |   3 +-
+ fs/ntfs3/ntfs_fs.h  |  51 ++++++---
+ fs/ntfs3/record.c   |  34 +++++-
+ fs/ntfs3/run.c      |   9 +-
+ fs/ntfs3/super.c    |  38 +++++--
+ fs/ntfs3/xattr.c    |  22 ++--
+ 17 files changed, 922 insertions(+), 282 deletions(-)
