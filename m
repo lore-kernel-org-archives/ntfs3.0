@@ -1,48 +1,44 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BBE3BE156
-	for <ntfs3@lists.linux.dev>; Thu, 20 Aug 2026 08:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480DD3D3306
+	for <ntfs3@lists.linux.dev>; Thu, 20 Aug 2026 09:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787216140; cv=none; b=sNvk6R3Iq0b8wqt00ZK4enmbyKrQ1qc5OpDAwPyp6cP/bplibXD0tJjrKuSzCEnf+dOj55v0ZiMF7/6QmwNUydCnOdsmHKlegljDb0jvKHDhcNxohIWwCSCETOhcVL+ZjmUiwhyRO25CnpOOyBtBghNuRDbUv7wR+i650cxxGDY=
+	t=1787216807; cv=none; b=st5td0u/JDWVMf4qcCCp+jKlv4r/wp4v0Xh3gBcihdE3kILTCxi1Blb8MXv3qWVUBBJR3s2tHQG65nT8VrHif0mDBRxO/1d5pKYZlmmeXPxys1yJfMk4Dr7o3yN9+MrJPYyXGr6DqfsclPKawxDojmJSjCxScjaUecPCLsXcSXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787216140; c=relaxed/simple;
-	bh=UihTdHI6l9UbD3yGyq9GDngt/s1heLl9kIX6GK1Ady0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VboJABSntLjJF6vgoAmA8aGdtUi/X5zN6yL6sHv14hii8VRfOLMCNKbk9skYyfk3ZFLOqkd34du1j8xyGP0cGiFzQw+5qyTknlvCmjA2KIoNp37ENHekq/xflifiHg/MKyPZEAt4ADF4l6Iiw3Xkw2naAhVUJ04hyZhFLd9TKMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: e586b99e9c7411f19a56ed5b684f684d-20260820
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:d7a9de21-bb99-4eb0-aafa-0ce9b53b145f,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:38c983c4a0b25c0e6a7507c1e3a04a15,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50,EDM:-3,IP:n
-	il,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LE
-	S:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: e586b99e9c7411f19a56ed5b684f684d-20260820
-X-User: zenghongling@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zenghongling@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 611031109; Thu, 20 Aug 2026 16:55:30 +0800
-From: Hongling Zeng <zenghongling@kylinos.cn>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	zhongling0719@126.com,
-	Hongling Zeng <zenghongling@kylinos.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] ntfs3: add permission checks for NTFS system attributes
-Date: Thu, 20 Aug 2026 16:55:26 +0800
-Message-Id: <20260820085526.169144-1-zenghongling@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1787216807; c=relaxed/simple;
+	bh=HNcE/9s9LtJMh5rBQOJS6vBoWQ25dpqvvyeJYb4J7gE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GCoKcjRKPkwGj2yEh33Dz/cETHy/gT93Weub/RwjgBubdHReZ7R7jDwcbo9YO52nBzah2pR6dHHdn1ZLoxkFtY8fGi0LrUScrr82do3Ea8O9BjiTxnhA7ULXN6PvW8Q/evlCnygLmM6y0Ahv7TnNsqPvHwyvpjibTC8e4v+Vc3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=WdqToVQw; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="WdqToVQw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=en
+	rVbB0tlzxo2AvUQofyVixrsreHIn5CuB6ineVLbss=; b=WdqToVQwsq4up69vvq
+	ytwUWacsznvtzMJPqfxSMgvp4foGpuDAypo93b1KT1GxG50fzpwKfl90dSmMskzJ
+	ybmsRmOwbBbDVL9GX64VhkV+RV+AvtUKk0DlK6IV1am0yX2SgL6MBkT7CVY2I1hA
+	kOG25K/jPT/Whi77FQsiNqfKs=
+Received: from liubaolin-ThinkPad-E15-Gen-2 (unknown [])
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wAHFld6w4ZqIRluPA--.45482S2;
+	Thu, 20 Aug 2026 17:06:05 +0800 (CST)
+From: Baolin Liu <liubaolin12138@163.com>
+To: almaz.alexandrovich@paragon-software.com,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com
+Cc: linux-kernel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	liubaolin12138@163.com,
+	liubaolin12138@gmail.com,
+	Baolin Liu <liubaolin@kylinos.cn>
+Subject: [PATCH v4 0/7] ntfs3: add tracepoints for core filesystem paths
+Date: Thu, 20 Aug 2026 17:04:57 +0800
+Message-ID: <20260820090504.950475-1-liubaolin12138@163.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -50,52 +46,60 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wAHFld6w4ZqIRluPA--.45482S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tw4DCF1fur18urykZr15CFg_yoW8Ww1rpr
+	ZxCrs3Kwn8JrW2ywnavF4DAF1F9ay8C34Ut34a9ry3AryFqr1xGry7Ka40qF48ArWDX347
+	XFn0kr4UGFWUZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piJGYdUUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbCwR1MF2qGw30oFgAA3r
 
-ntfs3_setxattr() allows system.dos_attrib, system.ntfs_attrib, and
-system.ntfs_attrib_be to update NTFS file attributes without permission
-checks. These attributes affect the inode mode because the READONLY flag
-is mapped to write permission bits, allowing unprivileged users to bypass
-file access controls.
+From: Baolin Liu <liubaolin@kylinos.cn>
 
-system.ntfs_security allows modifying NTFS security descriptors which
-control access control. Similar to POSIX ACLs where file owners can
-modify access permissions, require inode owner or CAP_FOWNER for these
-NTFS system attributes.
+This series adds an initial set of tracepoints for ntfs3 core paths.
 
-Fixes: 4534a70b7056 ("fs/ntfs3: Add headers and misc files")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
----
- fs/ntfs3/xattr.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+The tracepoints cover:
+   - mount and log replay
+   - namei operations
+   - directory index operations
+   - allocation and block mapping
+   - iomap operations
+   - file I/O entry points
 
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 7a81369a1173..4e41aca0d5c7 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -868,6 +868,22 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
- 	struct ntfs_inode *ni = ntfs_i(inode);
- 	enum FILE_ATTRIBUTE new_fa;
- 
-+	/*
-+	 * system.dos_attrib and system.ntfs_attrib affect file permissions
-+	 * because the READONLY flag is mapped to write permission bits.
-+	 * system.ntfs_security controls NTFS security descriptors.
-+	 *
-+	 * Require the caller to own the inode or hold CAP_FOWNER before allowing
-+	 * these NTFS system attributes to be changed.
-+	 */
-+	if (!strcmp(name, SYSTEM_DOS_ATTRIB) ||
-+	    !strcmp(name, SYSTEM_NTFS_ATTRIB) ||
-+	    !strcmp(name, SYSTEM_NTFS_ATTRIB_BE) ||
-+	    !strcmp(name, SYSTEM_NTFS_SECURITY)) {
-+		if (!inode_owner_or_capable(idmap, inode))
-+			return -EPERM;
-+	}
-+
- 	/* Dispatch request. */
- 	if (!strcmp(name, SYSTEM_DOS_ATTRIB)) {
- 		if (sizeof(u8) != size)
+Changes in v4 (both addressing review comments on patch 5):
+   - ntfs3_attr_data_get_block: pass the "new" pointer to the trace
+     event directly and move the "new != NULL" check into
+     TP_fast_assign(), keeping that logic out of the call site and only
+     executed when the event is enabled
+   - ntfs3_attr_set_size_ex: stop sampling the old size with
+     i_size_read() in TP_fast_assign() - on the truncate path
+     truncate_setsize() has already updated i_size to the new value, so
+     the recorded old_size always equaled new_size. Read the actual old
+     size from the on-disk attribute record and pass it as an explicit
+     parameter; move the call site after the attribute lookup so both
+     resident and non-resident attributes are covered
+
+Baolin Liu (7):
+  ntfs3: add mount and log replay tracepoints
+  ntfs3: add namei tracepoints
+  ntfs3: add create inode tracepoint
+  ntfs3: add directory index tracepoints
+  ntfs3: add allocation tracepoints
+  ntfs3: add iomap tracepoints
+  ntfs3: add file I/O tracepoints
+
+ MAINTAINERS                  |   1 +
+ fs/ntfs3/attrib.c            |  12 ++
+ fs/ntfs3/dir.c               |   3 +
+ fs/ntfs3/file.c              |   5 +
+ fs/ntfs3/fslog.c             |   3 +
+ fs/ntfs3/index.c             |   8 +
+ fs/ntfs3/inode.c             |   7 +
+ fs/ntfs3/namei.c             |   5 +
+ fs/ntfs3/super.c             |  11 +-
+ include/trace/events/ntfs3.h | 389 +++++++++++++++++++++++++++++++++++
+ 10 files changed, 443 insertions(+), 1 deletion(-)
+ create mode 100644 include/trace/events/ntfs3.h
+
 -- 
-2.25.1
+2.51.0
 
