@@ -1,30 +1,30 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD693D3306
-	for <ntfs3@lists.linux.dev>; Thu, 20 Aug 2026 09:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814513E00B5
+	for <ntfs3@lists.linux.dev>; Thu, 20 Aug 2026 09:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787216820; cv=none; b=JdhGH2KWWz1oOoYV/LT+G/3rsZqd6istlHrmf9TaW8mFra/sic3DeM8VmSaekUsjultMJXM35Gr4OB0l2kA/YdkEtcw5ORWqfWcHI1X+By1j90+hz3Au5xWEst1MLMjWTpmrbwSSbHQq486TGULR3wISJ2PvFZqxZpVCzRrScPM=
+	t=1787216820; cv=none; b=M+0F55VH6pIr8zbaq5P4LNenLsjBDgLB5Z4dDsqIvh3/BXDWMe2e+CesL55HkC9PfQeTLxnQsip/F47UIS06bkxphLD0kiM7PbueTG5T4i3YE0TwtsBSAa624sFHGjTB84ikuowRFbGXoRiqk0IUI2VQYwzDnSgoMquYQPod+sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1787216820; c=relaxed/simple;
-	bh=3YrGN2r3o4zxkKUcthMdwznjPnpl3mbm4YiZNIESras=;
+	bh=FH77Z4Tyi6l79sLP04scPPmahnqB8vKdTTxzhy1lFBM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Cu3aIrOejm1czArN3xLmSOXKTne0WUAgOWi5cksPYxdjPfcnGrwQbEn4es8XoXvBoLWTZH9sLvzedkWKBv++amxKJDNXzgH/O6WB630/m3oeF3kSbOibL+/+LDqJP5Ex3FbWDmF4L7WtFTA7xl7/enD17OG5ixxKtCAm0eRjZ/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=qGSCN5CD; arc=none smtp.client-ip=117.135.210.2
+	 MIME-Version; b=L6Xta/0Ltap2REnTAMRT4FDPLSYFhhCo4Fwm/psMbVgOilr6hh/6YNDkEqGeytR20u/CKSv21LbiZRqFpTgI2O/om4ZQbvbgTad3ku/x/6aRl4/chHQadPEYBbk14MiN1zoA5Q3fjloAALmMUDxuWbFiHYQ1jMfTGHcIV/Zus2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=bcGejpP6; arc=none smtp.client-ip=117.135.210.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="qGSCN5CD"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="bcGejpP6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=iG
-	om8Epilwi6V2126R3wVx/l/gkYFTDyDJNaMaHfR+M=; b=qGSCN5CDbI9SY5Ts8W
-	1G2x+prduxUqt9WcZx+zfWxh0q0ogbizoM/jVPC3Bn917FiRNFlvj5h9awmZL6GJ
-	Cp+3LEoKKSpv/2A/w0FvquKLOF6VQl2O0pUYdFnwcvIGRvAC8RZhpyjxsADkR932
-	iDKoMjMa/W/nbPeYem8HNc7K8=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=ET
+	9N/9vZDeZEA2twROTaEvCeOy2JTOq+VTonny2bnZQ=; b=bcGejpP67eF/odowCS
+	Mhyo+nsBoNTegsUAs8SqlzrhElVuBN2G/32G0pfD364wNe3j6cQQVFGREwfDjFGv
+	fyrzQ9aNTIM9OU+YraUqO7Zj2NSWwf4KyORa/l+tKSy+aTX0HLMUark/kJnMS706
+	7YPPfa/7Vtv61HTAuIEYEGAG8=
 Received: from liubaolin-ThinkPad-E15-Gen-2 (unknown [])
-	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wAHFld6w4ZqIRluPA--.45482S4;
-	Thu, 20 Aug 2026 17:06:22 +0800 (CST)
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wAHFld6w4ZqIRluPA--.45482S8;
+	Thu, 20 Aug 2026 17:06:33 +0800 (CST)
 From: Baolin Liu <liubaolin12138@163.com>
 To: almaz.alexandrovich@paragon-software.com,
 	rostedt@goodmis.org,
@@ -36,9 +36,9 @@ Cc: linux-kernel@vger.kernel.org,
 	liubaolin12138@163.com,
 	liubaolin12138@gmail.com,
 	Baolin Liu <liubaolin@kylinos.cn>
-Subject: [PATCH v4 2/7] ntfs3: add namei tracepoints
-Date: Thu, 20 Aug 2026 17:04:59 +0800
-Message-ID: <20260820090504.950475-3-liubaolin12138@163.com>
+Subject: [PATCH v4 6/7] ntfs3: add iomap tracepoints
+Date: Thu, 20 Aug 2026 17:05:03 +0800
+Message-ID: <20260820090504.950475-7-liubaolin12138@163.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260820090504.950475-1-liubaolin12138@163.com>
 References: <20260820090504.950475-1-liubaolin12138@163.com>
@@ -49,106 +49,104 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wAHFld6w4ZqIRluPA--.45482S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGr18Aw4xZF15uw18JrWUArb_yoW5Cr47pF
-	nFyFZ8W393JrsxKwnava15Zr4rZay8ur1Utry29347Ar1IqF1xtrs2gr4DAr95AFWFk347
-	WFWYv3s8Cw15Xr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRbo7_UUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbCwg5QG2qGw447iQAA3U
+X-CM-TRANSID:_____wAHFld6w4ZqIRluPA--.45482S8
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGr18XF1rWF4DtF1rAryxXwb_yoW5CFWxpa
+	sFyFZxGa97JrW29wsayw4FqF4ava4xur4UKr17Wryay3Wxt3W7KF4vgFyjvw18AF1jkr1I
+	gF90vryUG3WUXr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRBMKZUUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbCwhlTHmqGw5k8ygAA3W
 
 From: Baolin Liu <liubaolin@kylinos.cn>
 
-Add ntfs3 tracepoints for namei operations.
+Add ntfs3 tracepoints for iomap operations.
 
-This adds trace events for ntfs_lookup() and ntfs_rename()
-to help observe directory lookup and rename activity.
+This adds trace events for ntfs_iomap_begin() and
+ntfs_iomap_end() to help observe iomap mapping activity.
 
 Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
 ---
- fs/ntfs3/namei.c             |  5 ++++
- include/trace/events/ntfs3.h | 44 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
+ fs/ntfs3/inode.c             |  4 +++
+ include/trace/events/ntfs3.h | 50 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 54 insertions(+)
 
-diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
-index c59de5f2fa97..c1523decee32 100644
---- a/fs/ntfs3/namei.c
-+++ b/fs/ntfs3/namei.c
-@@ -13,6 +13,7 @@
- #include "debug.h"
- #include "ntfs.h"
- #include "ntfs_fs.h"
-+#include <trace/events/ntfs3.h>
- 
- /*
-  * fill_name_de - Format NTFS_DE in @buf.
-@@ -72,6 +73,8 @@ static struct dentry *ntfs_lookup(struct inode *dir, struct dentry *dentry,
- 	struct inode *inode;
- 	int err;
- 
-+	trace_ntfs3_lookup(dir, dentry);
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 4c427ed69272..54bf5225fa47 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -741,6 +741,8 @@ static int ntfs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+ 	bool new_clst = false;
+ 	bool no_da;
+ 	bool zero = false;
 +
- 	if (!uni)
- 		inode = ERR_PTR(-ENOMEM);
- 	else {
-@@ -275,6 +278,8 @@ static int ntfs_rename(struct mnt_idmap *idmap, struct inode *dir,
- 	if (unlikely(ntfs3_forced_shutdown(sb)))
++	trace_ntfs3_iomap_begin(inode, offset, length, flags);
+ 	if (unlikely(ntfs3_forced_shutdown(sbi->sb)))
  		return -EIO;
  
-+	trace_ntfs3_rename(dir, dentry, new_dir, new_dentry);
-+
- 	if (flags & ~RENAME_NOREPLACE)
- 		return -EINVAL;
+@@ -879,6 +881,8 @@ static int ntfs_iomap_end(struct inode *inode, loff_t pos, loff_t length,
+ 	struct ntfs_inode *ni = ntfs_i(inode);
+ 	loff_t endbyte = pos + written;
  
++	trace_ntfs3_iomap_end(inode, pos, length, written, flags);
++
+ 	if ((flags & IOMAP_WRITE) || (flags & IOMAP_ZERO)) {
+ 		if (iomap->type == IOMAP_INLINE) {
+ 			u32 data_size;
 diff --git a/include/trace/events/ntfs3.h b/include/trace/events/ntfs3.h
-index a45f919cb33e..a1e4bdb6ec59 100644
+index e39765bc062f..e0c0c44ce318 100644
 --- a/include/trace/events/ntfs3.h
 +++ b/include/trace/events/ntfs3.h
-@@ -80,6 +80,50 @@ TRACE_EVENT(ntfs3_log_replay,
- 		  __entry->size, __entry->initialized, __entry->err)
+@@ -301,6 +301,56 @@ TRACE_EVENT(ntfs3_attr_data_get_block,
+ 		  __entry->zero, __entry->no_da)
  );
  
-+TRACE_EVENT(ntfs3_lookup,
-+	TP_PROTO(struct inode *dir, struct dentry *dentry),
-+	TP_ARGS(dir, dentry),
++TRACE_EVENT(ntfs3_iomap_begin,
++	TP_PROTO(struct inode *inode, loff_t offset, loff_t length,
++		 unsigned int flags),
++	TP_ARGS(inode, offset, length, flags),
 +	TP_STRUCT__entry(
-+		__field(unsigned long, parent_ino)
++		__field(unsigned long, ino)
++		__field(loff_t, offset)
++		__field(loff_t, length)
 +		__field(dev_t, dev)
-+		__string(name, dentry->d_name.name)
++		__field(unsigned int, flags)
 +	),
 +	TP_fast_assign(
-+		__entry->parent_ino = dir->i_ino;
-+		__entry->dev = dir->i_sb->s_dev;
-+		__assign_str(name);
++		__entry->ino = inode->i_ino;
++		__entry->offset = offset;
++		__entry->length = length;
++		__entry->dev = inode->i_sb->s_dev;
++		__entry->flags = flags;
 +	),
-+	TP_printk("dev=(%d,%d) parent=%lu name=%s",
++	TP_printk("dev=(%d,%d) ino=%lu offset=%lld length=%lld flags=0x%x",
 +		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->parent_ino, __get_str(name))
++		  __entry->ino, __entry->offset, __entry->length,
++		  __entry->flags)
 +);
 +
-+TRACE_EVENT(ntfs3_rename,
-+	TP_PROTO(struct inode *dir, struct dentry *dentry,
-+		 struct inode *new_dir, struct dentry *new_dentry),
-+	TP_ARGS(dir, dentry, new_dir, new_dentry),
++TRACE_EVENT(ntfs3_iomap_end,
++	TP_PROTO(struct inode *inode, loff_t pos, loff_t length,
++		 ssize_t written, unsigned int flags),
++	TP_ARGS(inode, pos, length, written, flags),
 +	TP_STRUCT__entry(
-+		__field(unsigned long, dir_ino)
-+		__field(unsigned long, new_dir_ino)
 +		__field(unsigned long, ino)
++		__field(loff_t, pos)
++		__field(loff_t, length)
++		__field(ssize_t, written)
 +		__field(dev_t, dev)
-+		__string(old_name, dentry->d_name.name)
-+		__string(new_name, new_dentry->d_name.name)
++		__field(unsigned int, flags)
 +	),
 +	TP_fast_assign(
-+		__entry->dir_ino = dir->i_ino;
-+		__entry->new_dir_ino = new_dir->i_ino;
-+		__entry->ino = d_inode(dentry)->i_ino;
-+		__entry->dev = dir->i_sb->s_dev;
-+		__assign_str(old_name);
-+		__assign_str(new_name);
++		__entry->ino = inode->i_ino;
++		__entry->pos = pos;
++		__entry->length = length;
++		__entry->written = written;
++		__entry->dev = inode->i_sb->s_dev;
++		__entry->flags = flags;
 +	),
-+	TP_printk("dev=(%d,%d) dir=%lu new_dir=%lu ino=%lu old=%s new=%s",
++	TP_printk("dev=(%d,%d) ino=%lu pos=%lld length=%lld written=%zd flags=0x%x",
 +		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->dir_ino, __entry->new_dir_ino, __entry->ino,
-+		  __get_str(old_name), __get_str(new_name))
++		  __entry->ino, __entry->pos, __entry->length,
++		  __entry->written, __entry->flags)
 +);
 +
  #endif /* _TRACE_NTFS3_H */
