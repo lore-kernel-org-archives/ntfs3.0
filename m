@@ -1,149 +1,102 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3EB13B776A
-	for <ntfs3@lists.linux.dev>; Thu, 20 Aug 2026 09:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBFD3BAD9C
+	for <ntfs3@lists.linux.dev>; Thu, 20 Aug 2026 19:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787216823; cv=none; b=Y73LIOZf7bLvntEkaU4Xu0ZjAIEYm/fhzo1JQmWYuoDVUOohUertyWjd+NtIi8WdEm4KU/rTaym8Aui8biHsMA2eomb82RVUxNJ30A72dqDhgerBwHyHWUFiSB9+Qf+P0UaxGkEyE6JvwynnxMr/DNiiFCZUQoPUI1W+kFlvjBY=
+	t=1787254589; cv=none; b=tcQGjw7PggUgE2pniA2tarJ/3A5SXsKWUDPfdWSIt1XjZdDG8A6xsX85pOmUcnug816k4zv8jhkPNDd3MXxkZde2CNC73FVRoeUBJUXm1byd9AOi0WLFV6fFdDbDO/41zT76Jgg4LUirkkmMhx8zqglcqtKM0g6KNm9ufh1/UPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787216823; c=relaxed/simple;
-	bh=kE07+3FrjG/f4QgPwya8iFimstZ6XTrjDf/FRCnDtw8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ilVdtA42of3ybKL8lUS/3wh5dMoOCl0go5M8o4XgpvqKkDRFEGXe0uBGEx3ePvMVBnP8/LN/uiMzfbGK2mgxYZnbpsmJDBQhF/pqVbi/ahXpHPctykUWVHjhAKaEGpUtbb4Fa6KS57VeWG9R9hPTbjAhmNP9w2wgv7cWF7ltqog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=kn9uj1z/; arc=none smtp.client-ip=117.135.210.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1787254589; c=relaxed/simple;
+	bh=NqtCt7tTXkI7IiVJN5UO1oCrux3916VNVcmvRkYd6IA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EM8G8nuHtSozeV24Gq0s6BTHG9izZx4QIKoCeB4UlYkjLaVKjMa7n+sGTN5pcKy9Fc0PpgyXccPshfe3jgszpBztd6v9ZX7ADPyy9hHpp1uYE26GPuQW1KYpLb6alwI7W/xZsszzzVsmL5X2bnWQer1BcyJdSUG66Q2C7olkH8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=JgAelrBf; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="kn9uj1z/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=zv
-	25wQESxnTXv+VplXCMpYdVf6Py4StgSKQIpJ5dTsg=; b=kn9uj1z/4A1DLwGA8L
-	rbt9Dh3nkPSAs6ygAucYn4HsAewN/b5Zhmi7AhmTgc6LCk38TywgQhEmOl/Meleh
-	wc19HflYJJ7n9qOVbRJshFwP9VSHVEyb1Ziw1UDv24N5A2ihGOPM++uDB5eDg5F3
-	m0Qqdn3S12AlIt6WyEHEv9Z0c=
-Received: from liubaolin-ThinkPad-E15-Gen-2 (unknown [])
-	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wAHFld6w4ZqIRluPA--.45482S9;
-	Thu, 20 Aug 2026 17:06:39 +0800 (CST)
-From: Baolin Liu <liubaolin12138@163.com>
-To: almaz.alexandrovich@paragon-software.com,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com
-Cc: linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org,
-	liubaolin12138@163.com,
-	liubaolin12138@gmail.com,
-	Baolin Liu <liubaolin@kylinos.cn>
-Subject: [PATCH v4 7/7] ntfs3: add file I/O tracepoints
-Date: Thu, 20 Aug 2026 17:05:04 +0800
-Message-ID: <20260820090504.950475-8-liubaolin12138@163.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260820090504.950475-1-liubaolin12138@163.com>
-References: <20260820090504.950475-1-liubaolin12138@163.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="JgAelrBf"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6a3e145e1bfso405264a12.1
+        for <ntfs3@lists.linux.dev>; Thu, 20 Aug 2026 12:36:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1787254585; x=1787859385; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dwKU+8hQ/jzVRueQ7P7JAPyUHB9wlZKPojFGbqXXjhk=;
+        b=JgAelrBfc4zwk+rwP8bJwf2yfekyM6lFYo+EsJ9aSWUxuYsBUqoQsShKulDEqQcSR1
+         89YyIPAE/gcDsG0JizsYlZt1qY50XEBpEuO4jBs2/HBl3KdMgBjWgpJlBD/2H+Y78Y1r
+         P/H3UQCN4UeI4OpftUzyPXUWU/uV2WCuhPbN8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787254585; x=1787859385;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=dwKU+8hQ/jzVRueQ7P7JAPyUHB9wlZKPojFGbqXXjhk=;
+        b=l0HLJOUUiJzAfjY383hcLIxCLYmZxcbeVX7Hol4wT6U4FDuz6Mn6faf/AGqD47DTcK
+         CaLZ/x88SVwmsYm29buXyWP1+/WlwqMc6u99H0A800rjyV/nUCNdi3gRzvgm4kTIO1er
+         eB3+MESLT6X1Rw2TCQEUTRwvbC9BpK0el6DHc841AvOn6/0i3dGFvgwzjZ22nX0giWd6
+         rkJUHR1XMbMSj3HGNnG4g7tCZ/aas39bamnnOM72LGmvUyhfV49y+nsyZNXcD/k28wTJ
+         iEfHFscC29ulIdBCeYTmjfzrCPJmRiIMCPTWgX3YAhEiyyVSSXrSQiHV1PMAFUvHkDuD
+         3htw==
+X-Gm-Message-State: AFuF++k23B3mgW8mHr0Z6Qy6m61CZtUG8GZo2m9bGiTmUdH2p0bckKTu
+	m8hA477/QYj4hXgcTUifHuWy+tuKc3EzzBl2vVflbO8Chxh3CDvMgAE0irpd1agLwjUHrLHZjd2
+	HeGdYmUU=
+X-Gm-Gg: AR+sD1319JpB3DcNVOFB7vsUaSEqivJdoS0tFRFX95XPf3Ay0oS8t6PeKNC1Nw72syT
+	X415aEPz0URNNOB3nH3xk+17tyzWa6kWHEWda0rHcugWb+v/k/nIqixNAixx9qXJr1to3r2T1jN
+	TY001JcbqfwpAUi9SBNaWvN5Qpc9HIIXT5LKweR71Don3INvAY7yvO+h/XdEldVwChBRg6bxWja
+	vrvEIBybne/135TNDcnzLRN8PLbDgCRnnSxBD2DhxvL5+vTQVQr6UUOxVGlejsUV6+OEwtK65x4
+	3eMe7RmFgUvCbUsc6BmnNsRCYYy4nXcprziYsIkTBafw2zZuwf+WB9otK4zu8TOPU69M5OWN8Du
+	B6htMVSL87ilEcl+p/ZO+ReC9BX+OCAf1ilooSevez/Qo1SVd7rRGWzdB4rByEIWdKkXCSDWKD2
+	/8kh2eP2aXPbA1z2j8wGunxaL9+rYBmm97cjTeeyAvweLJuqFhz+Ruor5J5CiR4xlGGM9Nho96/
+	D/cDB4CkEnTpwL/kxOU+qxr34Op8QFAW7o0+w==
+X-Received: by 2002:a05:6402:52d5:b0:6a3:691a:9d69 with SMTP id 4fb4d7f45d1cf-6a42f16595amr768303a12.4.1787254585412;
+        Thu, 20 Aug 2026 12:36:25 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com. [209.85.218.53])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff156811sm2468647a12.19.2026.08.20.12.36.23
+        for <ntfs3@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Aug 2026 12:36:23 -0700 (PDT)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c15f020a223so33937866b.1
+        for <ntfs3@lists.linux.dev>; Thu, 20 Aug 2026 12:36:23 -0700 (PDT)
+X-Received: by 2002:a17:907:3d0a:b0:c20:74db:50c7 with SMTP id
+ a640c23a62f3a-c246a697ac4mr83093666b.13.1787254582846; Thu, 20 Aug 2026
+ 12:36:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wAHFld6w4ZqIRluPA--.45482S9
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGr18XF1ktw1kJr45ZFy3twb_yoW5XF47pF
-	nIyasxurZ7J3y7Kws3CF4DXa1rua1xCrWUJry7W3W3Ar1xtrn3JanFgF1jk3Z5ArWqyw1a
-	g3Z093s8G34UXw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRBMKZUUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6h9UH2qGw591wQAA36
+References: <20260818122105.24094-1-almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20260818122105.24094-1-almaz.alexandrovich@paragon-software.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 20 Aug 2026 12:36:06 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgjN68GNSK+Pz4ZPSYHhcQjURkoOZ+4ndiamnGSbptocQ@mail.gmail.com>
+X-Gm-Features: AcwNN1XcPmEshjPw9BTcH6FCDKMwwlDL0rRFFQfx65fk1d7wMtPMsWnz4a9Gvho
+Message-ID: <CAHk-=wgjN68GNSK+Pz4ZPSYHhcQjURkoOZ+4ndiamnGSbptocQ@mail.gmail.com>
+Subject: Re: [GIT PULL] ntfs3: changes for 7.3
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, =?UTF-8?B?SEUgV0VJ77yI44Ku44Kr44Kv77yJ?= <skyexpoc@gmail.com>, 
+	Kyle Zeng <kylebot@openai.com>, Ruoyu Wang <ruoyuw560@gmail.com>, Samuel Page <sam@bynar.io>, 
+	Senjin <senjin@hatchling.org>, Weiming Shi <bestswngs@gmail.com>, 
+	Weiming Wu <weiming3@asu.edu>, Xiang Mei <xmei5@asu.edu>, 
+	Zhan Xusheng <zhanxusheng1024@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Baolin Liu <liubaolin@kylinos.cn>
+On Tue, 18 Aug 2026 at 05:21, Konstantin Komarov
+<almaz.alexandrovich@paragon-software.com> wrote:
+>
+> Added:
+>     load ATTR_BITMAP run extents from $MFT extension records
+ [..]
 
-Add ntfs3 tracepoints for file I/O operations.
+Please try to write some overview summary of that the noticeable
+issues are. This "just list the commits" isn't useful for outsiders.
 
-This adds trace events for ntfs_file_read_iter() and
-ntfs_file_write_iter() to help observe file read and
-write activity.
+I've taken it as-is, but I'd really like these merges to have some
+useful "these are the bigger issues" explanations for people who don't
+know the code intimately (ie me, but pretty much everybody else too)
 
-Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
----
- fs/ntfs3/file.c              |  5 +++++
- include/trace/events/ntfs3.h | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
-
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index d601f088618c..a260a57ebd65 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -20,6 +20,7 @@
- #include "debug.h"
- #include "ntfs.h"
- #include "ntfs_fs.h"
-+#include <trace/events/ntfs3.h>
- 
- /*
-  * cifx, btrfs, exfat, ext4, f2fs use this constant.
-@@ -822,6 +823,8 @@ static ssize_t ntfs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
- 	unsigned int dio_flags;
- 	ssize_t err;
- 
-+	trace_ntfs3_file_read_iter(iocb, iter);
-+
- 	err = check_read_restriction(inode);
- 	if (err)
- 		return err;
-@@ -1225,6 +1228,8 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 	loff_t vbo, endbyte;
- 	ssize_t ret, err;
- 
-+	trace_ntfs3_file_write_iter(iocb, from);
-+
- 	if (!inode_trylock(inode)) {
- 		if (iocb->ki_flags & IOCB_NOWAIT)
- 			return -EAGAIN;
-diff --git a/include/trace/events/ntfs3.h b/include/trace/events/ntfs3.h
-index e0c0c44ce318..750300068984 100644
---- a/include/trace/events/ntfs3.h
-+++ b/include/trace/events/ntfs3.h
-@@ -351,6 +351,39 @@ TRACE_EVENT(ntfs3_iomap_end,
- 		  __entry->written, __entry->flags)
- );
- 
-+DECLARE_EVENT_CLASS(ntfs3_file_class,
-+	TP_PROTO(struct kiocb *iocb, struct iov_iter *iter),
-+	TP_ARGS(iocb, iter),
-+	TP_STRUCT__entry(
-+		__field(loff_t, size)
-+		__field(loff_t, offset)
-+		__field(size_t, count)
-+		__field(unsigned long, ino)
-+		__field(dev_t, dev)
-+	),
-+	TP_fast_assign(
-+		__entry->size = i_size_read(file_inode(iocb->ki_filp));
-+		__entry->offset = iocb->ki_pos;
-+		__entry->count = iov_iter_count(iter);
-+		__entry->ino = file_inode(iocb->ki_filp)->i_ino;
-+		__entry->dev = file_inode(iocb->ki_filp)->i_sb->s_dev;
-+	),
-+	TP_printk("dev=(%d,%d) ino=%lu size=%lld pos=%lld bytecount=%zu",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->size, __entry->offset,
-+		  __entry->count)
-+);
-+
-+DEFINE_EVENT(ntfs3_file_class, ntfs3_file_read_iter,
-+	TP_PROTO(struct kiocb *iocb, struct iov_iter *iter),
-+	TP_ARGS(iocb, iter)
-+);
-+
-+DEFINE_EVENT(ntfs3_file_class, ntfs3_file_write_iter,
-+	TP_PROTO(struct kiocb *iocb, struct iov_iter *iter),
-+	TP_ARGS(iocb, iter)
-+);
-+
- #endif /* _TRACE_NTFS3_H */
- 
- #include <trace/define_trace.h>
--- 
-2.51.0
-
+            Linus
