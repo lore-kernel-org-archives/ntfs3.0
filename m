@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A96503BDF;
-	Mon, 31 Aug 2026 13:42:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C89581252;
+	Mon, 31 Aug 2026 13:49:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183727; cv=none; b=YaRGQ0+xM82J1YyanRqZg99EkpVZG5TUG9h15Vbn9rbYr0r5Fmofz0z6Ddt4CzIJvF3w06vTsyiGWHPR8i2HSojSEx0Ds/9BhHYrzuhG7wyz4X0SQTxwV435LT7Lj2djeXhj7+7Q1KnFvRpdWDq59aA8aRwMXx5OaEg7nFpLMig=
+	t=1788184192; cv=none; b=Ca8najd0VnvP7N2exzz6MdCge/YpZhhPG9ghviPNayutoYtqyx4IA93ttkcy4SwlXRTV/nNmLkaFErSmrGkEPUD/kJLGWar5CEG8fMX0LzcGXbDIByyoSZwNsXWIIi6xDrrPme+OGBZgdvipxFBc7hSTOMWg+Z+tzKSN3t+o9Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183727; c=relaxed/simple;
-	bh=ErK8VEajhzGycChOxhSNwg67bkKQ1CqjODyFYK6rvao=;
+	s=arc-20240116; t=1788184192; c=relaxed/simple;
+	bh=3rVMO+1l3g7xklmBAuPt3uj9YNlTPFwa8bHpqgSrX5c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=POWqxRJfBUmFZYQljm+OnFP08u7hJj6SEK0bypZw4xkUV7nvjC9el9dptqMfLUamSDg24W9jhxn2hzIvaHPe55TiL+OS8N92GQM4JvovlQnBTipcdpPzB/whRVIcOOI8UprzHDozYc2Vo7FJ1pzj6SDVMgN87vE2rFsXvwsOMc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CEevhqv9; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=WEyDn5WronoQYRLfR1+Dsmyq8CxoguUJ1pfRYlvb9NiENShMO13VHhNBXbkf7iZVt7lqqxtCb5ec0pbrUfQZCJDlvTeK6c0GZRzEMDsQRUNuimuybV8XBzivSoJ+fpf+W0vjKK8N9J/3kwv2z6BYTpFoO0i8JsYPpaiyqPEuka8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ycpp7BsU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CEevhqv9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE3C1F00A3E;
-	Mon, 31 Aug 2026 13:42:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ycpp7BsU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F6731F000E9;
+	Mon, 31 Aug 2026 13:49:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183723;
-	bh=6bkSnFuT4z0ZDgVR+dCP91I857eDaDQj4JMTa1PfVzE=;
+	s=k20260515; t=1788184189;
+	bh=N6fURMI7uBvTjM8tKOZYWgJgAFkJWInlkr0MoI+eQD8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=CEevhqv9fM89GIp85XFA22TkS9TQRtCOhiH3Ip+pLMiilItAOGk1NmnUbIM4yV30z
-	 weBHBWRKm3Gqv82cNCtBJHVHBN3+GIZseqCO3Y/EYK/dWRkCe4EqwpP3+pJDJijMng
-	 P1qBKjE4f5ywTsdQFGgMfdW3hYShwuXFGnmR2UNMQVZRMhPIasRdhazr/WCPEUS8DW
-	 yy37k8tXz67MA+JnraYurEVspbHSiP/q42kpuU1CQib55smIaOISoZQikAgf7RLMdc
-	 +/UIQWeKax/iKVEpRsNvTFrUpF8jjMmjFpItdEh8g7kH9We+SLL2peLYhYshxNIwsw
-	 kBZ4CBMMHdSVg==
+	b=Ycpp7BsUTesX9qh8csWYLF7dgJqtfCqt7uWGg9QP1woR2iF1Jhl76s+WuhxLHso2p
+	 VYlLUCLsBDYQ4ycSTokBQAj5cJt6Vy9uTO/KP8lhrGwuWZLWpZ35gRVh6WQbqXdzbc
+	 hnHAwE/rpZdIp8qI5CYWEtSyXh7N+buoZJb7nOrQMPId8eylXwRJsiifATSICn6WT6
+	 hwAx/2qSm2+CuME4Gwl1cHZQdOD4fYzEVTHRW02cr1UqJUM2xSmbJ3BVa1ze2bSqKr
+	 vBTHNYqX3sbXJdgMT08BWdSM5f8dU6GxauOD+vtFWR8I3W9UMBGGflUxX5L3scqF5c
+	 Kq8HhfORZ911A==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -34,9 +34,9 @@ Cc: ZhengYuan Huang <gality369@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.15] fs/ntfs3: validate index entry key bounds
-Date: Mon, 31 Aug 2026 09:24:54 -0400
-Message-ID: <20260831133314.4125787-266-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.15] fs/ntfs3: preserve non-DOS attribute bits in system.dos_attrib
+Date: Mon, 31 Aug 2026 09:29:33 -0400
+Message-ID: <20260831133314.4125787-545-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -54,82 +54,49 @@ Content-Transfer-Encoding: 8bit
 
 From: ZhengYuan Huang <gality369@gmail.com>
 
-[ Upstream commit 98d6e5d9dc1d34dcffc61549617581a5fe1ef807 ]
+[ Upstream commit b1c1101067d9536bcb0fe023b96ee2dde5535959 ]
 
 [BUG]
-A malformed NTFS directory index entry can advertise a key_size larger
-than the bytes actually present in its NTFS_DE payload. Directory lookup
-then passes that malformed key to cmp_fnames(), which can read past the
-end of the kmalloc'ed index buffer.
+A corrupted ntfs3 image can hit a NULL function pointer call in
+generic_perform_write() after toggling system.ntfs_attrib and then
+overwriting system.dos_attrib on the same file.
 
-BUG: KASAN: slab-out-of-bounds in fname_full_size fs/ntfs3/ntfs.h:590 [inline]
-BUG: KASAN: slab-out-of-bounds in cmp_fnames+0x1ea/0x230 fs/ntfs3/index.c:46
-Read of size 1 at addr ffff88801c313018 by task syz.6.3365/9279
-
+BUG: kernel NULL pointer dereference, address: 0000000000000000
+\#PF: supervisor instruction fetch in kernel mode
+\#PF: error_code(0x0010) - not-present page
+PGD bed5067 P4D bed5067 PUD 0
+Oops: Oops: 0010 [#1] SMP KASAN NOPTI
+RIP: 0010:0x0
+Code: Unable to access opcode bytes at 0xffffffffffffffd6.
+RSP: 0018:ffff88801025f988 EFLAGS: 00010246
 Call Trace:
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0xbe/0x130 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0xd1/0x650 mm/kasan/report.c:482
- kasan_report+0xfb/0x140 mm/kasan/report.c:595
- __asan_report_load1_noabort+0x14/0x30 mm/kasan/report_generic.c:378
- fname_full_size fs/ntfs3/ntfs.h:590 [inline]
- cmp_fnames+0x1ea/0x230 fs/ntfs3/index.c:46
- hdr_find_e.isra.0+0x3ed/0x670 fs/ntfs3/index.c:762
- indx_find+0x4b5/0x900 fs/ntfs3/index.c:1186
- dir_search_u+0x2c0/0x460 fs/ntfs3/dir.c:254
- ntfs_lookup+0x1cc/0x2a0 fs/ntfs3/namei.c:85
- __lookup_slow+0x241/0x450 fs/namei.c:1816
- lookup_slow fs/namei.c:1833 [inline]
- walk_component+0x31c/0x570 fs/namei.c:2151
- link_path_walk+0x592/0xd60 fs/namei.c:2519
- path_lookupat+0x138/0x660 fs/namei.c:2675
- filename_lookup+0x1f3/0x560 fs/namei.c:2705
- filename_setxattr+0xad/0x1c0 fs/xattr.c:660
- path_setxattrat+0x1d8/0x280 fs/xattr.c:713
- __do_sys_lsetxattr fs/xattr.c:754 [inline]
- __se_sys_lsetxattr fs/xattr.c:750 [inline]
- __x64_sys_lsetxattr+0xd0/0x150 fs/xattr.c:750
- ...
-
-Allocated by task 9279:
- kasan_save_stack+0x39/0x70 mm/kasan/common.c:56
- kasan_save_track+0x14/0x40 mm/kasan/common.c:77
- kasan_save_alloc_info+0x37/0x60 mm/kasan/generic.c:573
- poison_kmalloc_redzone mm/kasan/common.c:400 [inline]
- __kasan_kmalloc+0xc3/0xd0 mm/kasan/common.c:417
- kasan_kmalloc include/linux/kasan.h:262 [inline]
- __do_kmalloc_node mm/slub.c:5650 [inline]
- __kmalloc_noprof+0x2bd/0x900 mm/slub.c:5662
- kmalloc_noprof include/linux/slab.h:961 [inline]
- indx_read+0x41d/0xad0 fs/ntfs3/index.c:1059
- indx_find+0x447/0x900 fs/ntfs3/index.c:1179
- dir_search_u+0x2c0/0x460 fs/ntfs3/dir.c:254
- ntfs_lookup+0x1cc/0x2a0 fs/ntfs3/namei.c:85
- __lookup_slow+0x241/0x450 fs/namei.c:1816
- lookup_slow fs/namei.c:1833 [inline]
- walk_component+0x31c/0x570 fs/namei.c:2151
- link_path_walk+0x592/0xd60 fs/namei.c:2519
- path_lookupat+0x138/0x660 fs/namei.c:2675
- filename_lookup+0x1f3/0x560 fs/namei.c:2705
- filename_setxattr+0xad/0x1c0 fs/xattr.c:660
- path_setxattrat+0x1d8/0x280 fs/xattr.c:713
- __do_sys_lsetxattr fs/xattr.c:754 [inline]
- __se_sys_lsetxattr fs/xattr.c:750 [inline]
- __x64_sys_lsetxattr+0xd0/0x150 fs/xattr.c:750
+ generic_perform_write+0x409/0x8c0 mm/filemap.c:4255
+ __generic_file_write_iter+0x1bb/0x200 mm/filemap.c:4372
+ ntfs_file_write_iter+0xcd9/0x1c20 fs/ntfs3/file.c:1253
+ new_sync_write fs/read_write.c:593 [inline]
+ vfs_write+0x63b/0xf70 fs/read_write.c:686
+ ksys_write+0x133/0x250 fs/read_write.c:738
+ __do_sys_write fs/read_write.c:749 [inline]
+ __se_sys_write fs/read_write.c:746 [inline]
+ __x64_sys_write+0x77/0xc0 fs/read_write.c:746
  ...
 
 [CAUSE]
-The index-header validators only validated INDEX_HDR-level geometry.
-They did not walk each NTFS_DE to verify entry alignment, subnode
-layout, or that key_size fit inside the entry payload. They also
-allowed a last sentinel entry to carry a non-zero key_size.
+system.ntfs_attrib updates ATTR_DATA flags via ni_new_attr_flags()
+and switches i_mapping->a_ops to ntfs_aops_cmpr when
+FILE_ATTRIBUTE_COMPRESSED is set. system.dos_attrib then overwrites
+ni->std_fa from a one-byte DOS attribute value, clearing the compression
+bit without updating ATTR_DATA or the mapping operations.
+
+Old buffered writes use is_compressed(ni) to choose
+__generic_file_write_iter(). That leaves generic_perform_write() calling
+a NULL write_begin callback from ntfs_aops_cmpr.
 
 [FIX]
-Walk every NTFS_DE in ntfs3's index-header validators and reject
-entries with invalid layout, mismatched subnode state, oversized
-key_size, or non-zero sentinel keys before lookup or log replay can
-consume them.
+Treat system.dos_attrib as a low-byte DOS attribute update and preserve the
+existing non-DOS attribute bits in ni->std_fa. This keeps compressed and
+sparse state consistent with ATTR_DATA and the mapping operations while
+keeping the existing DOS attribute semantics intact.
 
 Signed-off-by: ZhengYuan Huang <gality369@gmail.com>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
@@ -138,496 +105,345 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 
 LLM Generated explanations, may be completely bogus:
 
-# Stable Backport Analysis: `fs/ntfs3: validate index entry key bounds`
+## Phase 1: Commit Message Forensics
 
-**Local tree:** `v6.18.44-1-gef4bf62bccf3c` (Linux **6.18.44**)
+### Step 1.1: Subject Line
+**Record:** `[fs/ntfs3]` `[preserve]` — preserve non-DOS attribute bits
+when updating `system.dos_attrib` xattr.
 
----
-
-## PHASE 1: COMMIT MESSAGE FORENSICS
-
-### Step 1.1: Parse the Subject Line
-**Record:** `[fs/ntfs3]` `[validate]` — Add validation of per-entry
-`key_size` bounds in NTFS directory index headers before lookup/log
-replay consumes them.
-
-### Step 1.2: Parse All Commit Message Tags
+### Step 1.2: Commit Message Tags
 **Record:**
 - **Fixes:** — not present (expected for manual review)
-- **Reported-by:** — not in message body (but KASAN stack trace
-  identifies syzbot task `syz.6.3365/9279`)
-- **Tested-by:** — none
-- **Reviewed-by:** — none
-- **Acked-by:** — none
-- **Link:** — none
-- **Cc: stable:** — none (expected)
-- **Signed-off-by:** ZhengYuan Huang, Konstantin Komarov (ignore
-  pipeline SOB)
+- **Reported-by:** — not present
+- **Tested-by:** — not present
+- **Reviewed-by:** — not present
+- **Acked-by:** — not present
+- **Link:** — not present
+- **Cc: stable@vger.kernel.org** — not present (expected)
+- **Signed-off-by:** ZhengYuan Huang `<gality369@gmail.com>`, Konstantin
+  Komarov `<almaz.alexandrovich@paragon-software.com>`
 
-**Notable pattern:** Full KASAN slab-out-of-bounds report with syscall
-reachability (`__x64_sys_lsetxattr`).
+Notable: maintainer (Komarov) Signed-off-by present; no syzbot report,
+but commit includes full KASAN oops stack trace.
 
-### Step 1.3: Analyze Commit Body
+### Step 1.3: Commit Body Analysis
 **Record:**
-- **Bug:** Malformed `NTFS_DE` index entry can advertise `key_size`
-  larger than bytes available in the entry payload.
-- **Symptom:** `cmp_fnames()` → `fname_full_size()` reads past the end
-  of the kmalloc'd index buffer; KASAN slab-out-of-bounds.
-- **Root cause:** `index_hdr_check()` and `check_index_header()` only
-  validated INDEX_HDR-level geometry, not per-entry `key_size` fit; last
-  sentinel entry could have non-zero `key_size`.
-- **Version info:** Not specified; bug is in long-standing validation
-  code.
+- **Bug:** NULL function pointer dereference in
+  `generic_perform_write()` after setting `system.ntfs_attrib` then
+  `system.dos_attrib` on the same file.
+- **Symptom:** Kernel oops — `#PF: supervisor instruction fetch`, `RIP:
+  0x0`, call chain through `ntfs_file_write_iter` →
+  `__generic_file_write_iter` → `generic_perform_write`.
+- **Root cause:** `system.ntfs_attrib` sets compression via
+  `ni_new_attr_flags()` and switches `i_mapping->a_ops` to
+  `ntfs_aops_cmpr`. `system.dos_attrib` then replaces all of
+  `ni->std_fa` with a 1-byte DOS value, clearing
+  `FILE_ATTRIBUTE_COMPRESSED` without updating ATTR_DATA or `a_ops`.
+  `is_compressed(ni)` becomes false, so buffered writes use
+  `__generic_file_write_iter()`, but `a_ops` remains `ntfs_aops_cmpr`
+  which has no `write_begin` → NULL deref.
+- **Fix:** Mask-merge: preserve upper bits of `ni->std_fa`, only update
+  low DOS byte.
 
-### Step 1.4: Detect Hidden Bug Fixes
-**Record:** Not disguised — explicitly labeled `[BUG]` with KASAN trace.
-This is a memory-safety validation fix, not cleanup.
+### Step 1.4: Hidden Bug Fix Detection
+**Record:** Not disguised — explicitly labeled `[BUG]` with stack trace
+and root-cause analysis. This is a clear correctness/crash fix, not
+cleanup.
 
 ---
 
-## PHASE 2: DIFF ANALYSIS
+## Phase 2: Diff Analysis
 
-### Step 2.1: Inventory the Changes
+### Step 2.1: Change Inventory
 **Record:**
-| File | Change | Functions |
-|------|--------|-----------|
-| `fs/ntfs3/fslog.c` | ~+35 / -10 lines | `check_index_header()` |
-| `fs/ntfs3/index.c` | ~+35 / -3 lines | `index_hdr_check()` |
+- **Files:** `fs/ntfs3/xattr.c` only (+3 lines, -1 line)
+- **Function:** `ntfs_setxattr()`
+- **Scope:** Single-file surgical fix in xattr handler
 
-**Scope:** Two-file, surgical validation enhancement (~70 lines total).
-No new functions or APIs.
-
-### Step 2.2: Code Flow Change (per hunk)
-
-**`check_index_header()` (fslog.c):**
-- **Before:** Walked entries checking `esize >= min_de`, end offset, and
-  subnode flag mask; did not validate `key_size`.
-- **After:** Also checks 8-byte alignment, cumulative offset bounds via
-  `size_add()`, rejects non-last entries with `key_size > data_size`,
-  rejects last sentinel with non-zero `key_size`.
-
-**`index_hdr_check()` (index.c):**
-- **Before:** Only checked header fields (`off`, `tot`, `end`, minimum
-  first-entry size); returned true without walking entries.
-- **After:** Full entry walk with same per-entry validations as above,
-  using `de_has_vcn(e) != has_subnode`.
+### Step 2.2: Code Flow Change
+**Record:**
+- **Before:** `SYSTEM_DOS_ATTRIB` setxattr: `new_fa = cpu_to_le32(*(u8
+  *)value)` — full 32-bit replace from 1-byte input.
+- **After:** `new_fa = (ni->std_fa & ~cpu_to_le32(0xff)) |
+  cpu_to_le32(*(u8 *)value)` — merge low byte only.
+- **Path affected:** `setxattr("system.dos_attrib", ...)` on regular
+  files, then `set_new_fa` label updates `ni->std_fa` without calling
+  `ni_new_attr_flags()`.
 
 ### Step 2.3: Bug Mechanism
-**Record:**
-- **Category:** Buffer overflow / out-of-bounds read (memory safety)
-- **Mechanism:** `hdr_find_e()` at line 760–762 reads `e_key_len =
-  le16_to_cpu(e->key_size)` and passes it to `cmp_fnames(key, key_len, e
-  + 1, e_key_len, ctx)`. With inflated `key_size`, `cmp_fnames()` calls
-  `fname_full_size(f2)` which reads `fname->name_len` beyond the kmalloc
-  buffer boundary.
+**Record:** **Logic/correctness + NULL pointer dereference.**
+Inconsistent inode state: `a_ops` says compressed, `std_fa` says not.
+`ntfs_file_write_iter()` at line 1252 branches on `is_compressed(ni)`
+(checks `std_fa`), not on `a_ops`. Mismatch leads to
+`generic_perform_write()` calling NULL `write_begin` from
+`ntfs_aops_cmpr`.
 
-```760:762:fs/ntfs3/index.c
-        e_key_len = le16_to_cpu(e->key_size);
+Verified: `ntfs_aops_cmpr` (inode.c:2116-2121) has no `write_begin`;
+`ntfs_aops` (2105-2114) does.
 
-        diff2 = (*cmp)(key, key_len, e + 1, e_key_len, ctx);
-```
-
-```46:48:fs/ntfs3/index.c
-        fsize2 = fname_full_size(f2);
-        if (l2 < fsize2)
-                return -1;
-```
-
-### Step 2.4: Fix Quality Assessment
-**Record:** Fix is obviously correct — standard on-disk structure
-validation. Minimal regression risk: only rejects already-malformed data
-that would cause OOB reads. Uses existing helpers (`size_add`,
-`IS_ALIGNED`, `de_is_last`, `de_has_vcn`). No locking changes.
+### Step 2.4: Fix Quality
+**Record:** Obviously correct. `ntfs_getxattr()` for `SYSTEM_DOS_ATTRIB`
+already returns only the low byte (`*(u8 *)buffer =
+le32_to_cpu(ni->std_fa)` at xattr.c:781), so set/get semantics are now
+symmetric. Minimal change, no API changes, very low regression risk.
 
 ---
 
-## PHASE 3: GIT HISTORY INVESTIGATION
+## Phase 3: Git History Investigation
 
-### Step 3.1: Blame Changed Lines
-**Record:**
-- `index_hdr_check()` introduced in `0e8235d28f3a0e` (Konstantin
-  Komarov, 2022-10-10) — always lacked per-entry `key_size` validation.
-- `check_index_header()` core loop from `b46acd6a6a627d` (2021-08-13) —
-  walked entries but never checked `key_size`.
-- Bug present since ntfs3 driver introduction; affects all 6.18.y users
-  with CONFIG_NTFS3.
+### Step 3.1: Blame
+**Record:** Buggy line `new_fa = cpu_to_le32(*(u8 *)value)` introduced
+in `be71b5cba2e648` (Konstantin Komarov, 2021-08-13, "fs/ntfs3: Add
+attrib operations"). `SYSTEM_DOS_ATTRIB` strcmp dispatch added in
+`d45da67caedacd` (2022-09-24). Bug present since ntfs3 xattr support was
+added.
 
-### Step 3.2: Follow Fixes: Tag
-**Record:** No `Fixes:` tag present — N/A.
+### Step 3.2: Fixes: Tag
+**Record:** No `Fixes:` tag. N/A.
 
-### Step 3.3: File History for Related Changes
-**Record:** Recent ntfs3 hardening series in this tree from same author
-(ZhengYuan Huang):
-- `50b5e83384e7f` — bound `attr_off` in UpdateResidentValue
-- `09fddd52c1b0c` — bound DeleteIndexEntryAllocation memmove
-- `be306b8d9143a` — bound NTFS_DE view.data_off
-- `908c9243ba309` — depth limit in indx_find_buffer
+### Step 3.3: Related File History
+**Record:** Recent ntfs3 activity in this tree is heavy on
+fuzzer/corruption fixes (OOB reads, bounds checks). No prior fix for
+this dos_attrib inconsistency. Standalone 1-patch series (b4 dig shows
+only v1).
 
-This commit is standalone; same validation-hardening theme but no series
-dependency.
+### Step 3.4: Author Context
+**Record:** ZhengYuan Huang is a contributor (not maintainer).
+Konstantin Komarov (ntfs3 maintainer) Signed-off-by and queued for merge
+per lore reply.
 
-### Step 3.4: Author's Other Commits
-**Record:** ZhengYuan Huang is an active ntfs3 hardening contributor.
-Konstantin Komarov is original ntfs3 author/maintainer. Both are
-credible subsystem contributors.
-
-### Step 3.5: Prerequisites
-**Record:** No prerequisites. Uses `size_add`, `IS_ALIGNED`,
-`de_has_vcn`, `hdr_has_subnode` — all present in this tree. Patch
-applies cleanly against current code (verified: pre-patch functions
-match diff context exactly).
+### Step 3.5: Dependencies
+**Record:** No dependencies. Uses existing `ni->std_fa`, `cpu_to_le32`,
+and `set_new_fa` path. `git apply --check` on commit `b1c1101067d9536`
+succeeds cleanly against local tree.
 
 ---
 
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+## Phase 4: Mailing List and External Research
 
-### Step 4.1: Original Patch Discussion
-**Record:** Commit not in local tree; `b4 dig -c` not possible. Subject
-search via `b4 dig` returned no match. **UNVERIFIED:** Could not
-retrieve lore.kernel.org thread (Anubis bot protection blocked fetch).
+### Step 4.1: Original Discussion
+**Record:** `b4 dig -c b1c1101067d9536bcb0fe023b96ee2dde5535959` →
+https://patch.msgid.link/20260427032418.2678198-1-gality369@gmail.com.
+Single v1 patch (2026-04-27). Komarov replied 2026-05-22: "Queued for
+the next merge window, thank you." No NAKs found.
 
 ### Step 4.2: Reviewers
-**Record:** **UNVERIFIED** — could not access mailing list recipients.
+**Record:** `b4 dig -w`: To Komarov; Cc ntfs3@lists.linux.dev, linux-
+kernel@vger.kernel.org, co-authors. Maintainer engaged.
 
 ### Step 4.3: Bug Report
-**Record:** KASAN report embedded in commit message. Trigger path:
-`lsetxattr` → `path_lookupat` → `ntfs_lookup` → `dir_search_u` →
-`indx_find` → `hdr_find_e` → `cmp_fnames` → OOB. Syzbot task name in
-trace (`syz.6.3365`). Severity: reproducible slab OOB from syscall path
-on mounted NTFS.
+**Record:** Stack trace embedded in commit message (KASAN oops). No
+external bugzilla/syzbot link. Reproducible via setxattr sequence +
+write syscall.
 
-### Step 4.4: Related Patches/Series
-**Record:** Part of ongoing ntfs3 on-disk validation hardening;
-standalone fix, not "patch X/Y".
+### Step 4.4: Series Context
+**Record:** Standalone patch, not part of multi-patch series.
 
-### Step 4.5: Stable Mailing List
-**Record:** **UNVERIFIED** — lore stable list search blocked.
+### Step 4.5: Stable List
+**Record:** No stable@vger.kernel.org nomination found in available
+thread content. Not a negative signal.
 
 ---
 
-## PHASE 5: CODE SEMANTIC ANALYSIS
+## Phase 5: Code Semantic Analysis
 
 ### Step 5.1: Key Functions
-**Record:** `index_hdr_check()`, `check_index_header()` (validators);
-`hdr_find_e()`, `cmp_fnames()` (vulnerable consumers).
+**Record:** `ntfs_setxattr()`, `ni_new_attr_flags()`, `is_compressed()`,
+`ntfs_file_write_iter()`, `generic_perform_write()`.
 
 ### Step 5.2: Callers
-**Record:**
-- `index_hdr_check()` ← `index_buf_check()` ← `indx_read()` (every index
-  block read) and `indx_init()` (root at mount)
-- `check_index_header()` ← `check_index_buffer()`, `check_index_root()`
-  (log replay), `hdr_delete_de()` (index delete path)
-- `hdr_find_e()` ← `indx_find()` ← `dir_search_u()` ← `ntfs_lookup()`
-  and other directory operations
+**Record:** `ntfs_setxattr` registered as `.set` in
+`ntfs_other_xattr_handler` (xattr.c:1054-1058), reachable from VFS
+`setxattr`/`fsetxattr` syscalls. `ntfs_file_write_iter` reachable from
+`write()`/`pwrite()` syscalls.
 
 ### Step 5.3: Callees
-**Record:** Validators use `le16_to_cpu`, `le32_to_cpu`, `size_add`,
-`de_is_last`, `de_has_vcn`, `hdr_has_subnode`. No allocation in
-validator loops.
+**Record:** `system.ntfs_attrib` path calls `ni_new_attr_flags()` which
+sets `i_mapping->a_ops`. `system.dos_attrib` path skips that and goes
+directly to `set_new_fa`.
 
-### Step 5.4: Call Chain / Reachability
-**Record:**
-```
-userspace syscall (lsetxattr/lookup/open/...)
-  → VFS path walk
-    → ntfs_lookup()
-      → dir_search_u()
-        → indx_find()
-          → hdr_find_e()  [uses unvalidated key_size]
-            → cmp_fnames() → fname_full_size() [OOB read]
-```
-**Userspace-reachable:** YES — any path lookup on a mounted NTFS with
-malformed index data triggers this.
-
-**Gap in current validation:** `indx_read()` calls `index_buf_check()` →
-weak `index_hdr_check()` at line 1096, which currently passes malformed
-entries through to subsequent `hdr_find_e()` calls.
+### Step 5.4: Reachability
+**Record:** **Userspace-reachable.** Any file owner on a writable ntfs3
+mount can set `system.ntfs_attrib` and `system.dos_attrib` (no
+`CAP_SYS_ADMIN` check for these names; only `$LX*` xattrs are restricted
+at xattr.c:958-962). Then `write()` triggers the crash.
 
 ### Step 5.5: Similar Patterns
-**Record:** Multiple prior slab-OOB fixes in ntfs3 backported to stable
-in this tree (`731ab1f982880` ntfs_listxattr OOB, `ab84eee4c7ab9`
-hdr_delete_de OOB, `b8c44949044e5` indx_insert_into_buffer OOB). Same
-bug class, same subsystem, same treatment.
+**Record:** `system.ntfs_attrib` path correctly calls
+`ni_new_attr_flags()` for regular files. Only `system.dos_attrib`
+bypasses it while being able to clear non-DOS bits — the inconsistency
+is unique to this code path.
 
 ---
 
-## PHASE 6: CROSS-REFERENCE AGAINST LOCAL TREE
+## Phase 6: Cross-Reference Against Local Tree
 
-### Step 6.1: Does Buggy Code Exist?
-**Record:** **YES.** Current `index_hdr_check()` (lines 614–627) returns
-true after only header-level checks — no entry walk. Current
-`check_index_header()` (lines 2609–2649) walks entries but does not
-validate `key_size`. Fix is **not** present (`key_size > data_size` grep
-returns no matches).
+### Step 6.1: Buggy Code Present?
+**Record:** **YES.** Local tree is **6.18.44** (`git describe HEAD` →
+`v6.18.44-1-gef4bf62bccf3c`). Buggy code at xattr.c:870: `new_fa =
+cpu_to_le32(*(u8 *)value)`. Fix commit `b1c1101067d9536` is NOT an
+ancestor of HEAD (`git merge-base --is-ancestor` exit 1). ntfs3
+subsystem fully present.
 
 ### Step 6.2: Backport Complications
-**Record:** Expected **clean apply**. Pre-patch code matches diff
-context exactly. No structural refactoring since introduction. Two
-functions, same pattern in both files.
+**Record:** **Clean apply.** `git apply --check` on the upstream diff
+succeeds with no conflicts. Line numbers match (867-872 region).
 
 ### Step 6.3: Related Fixes Already Present?
-**Record:** No duplicate fix for this specific `key_size` validation
-gap. Related but distinct hardening commits are present (depth limits,
-memmove bounds, etc.).
+**Record:** No existing fix for this issue found via `git log --grep`.
+Recent ntfs3 stable fixes address other corruption paths but not this
+xattr inconsistency.
 
 ---
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+## Phase 7: Subsystem Context
 
 ### Step 7.1: Subsystem Criticality
-**Record:** `fs/ntfs3` — filesystem driver. **IMPORTANT** for NTFS3
-users; not universal core, but security-relevant when CONFIG_NTFS3_FS is
-enabled.
+**Record:** **fs/ntfs3** — filesystem driver. **IMPORTANT** (not
+universal like VFS core, but any ntfs3 mount user is affected; crash is
+kernel-wide once triggered).
 
-### Step 7.2: Subsystem Activity
-**Record:** Actively maintained with frequent validation fixes (10+
-syzbot-related ntfs3 commits in this tree's history).
+### Step 7.2: Activity
+**Record:** Highly active — 20+ recent ntfs3 fixes in this tree for
+corruption/crash issues, indicating ongoing hardening of a relatively
+young driver.
 
 ---
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+## Phase 8: Impact and Risk Assessment
 
 ### Step 8.1: Who Is Affected
-**Record:** Users who mount NTFS volumes with CONFIG_NTFS3_FS (built-in
-or module). Includes anyone mounting untrusted/corrupt NTFS images.
+**Record:** Users with ntfs3 mounted read-write (CONFIG_NTFS3). File
+owners who can set xattrs on their files.
 
 ### Step 8.2: Trigger Conditions
-**Record:** Malformed NTFS directory index with `key_size` exceeding
-entry payload, followed by any directory lookup (open, stat, xattr,
-etc.). Triggerable by mounting a crafted image. **Unprivileged users**
-can trigger via syscalls on mounted filesystem.
+**Record:**
+1. `setxattr("system.ntfs_attrib", FILE_ATTRIBUTE_COMPRESSED)` on empty
+   regular file
+2. `setxattr("system.dos_attrib", <byte without compression bit>)`
+3. Buffered `write()` to the file
 
-### Step 8.3: Failure Mode Severity
-**Record:** Slab out-of-bounds read — **HIGH** severity (memory safety,
-potential info leak or further exploitation depending on adjacent slab
-content; KASAN-detected).
+Also triggerable by corrupted on-disk metadata that sets the same
+inconsistent state. Unprivileged local user can trigger via syscalls.
+
+### Step 8.3: Failure Mode
+**Record:** **NULL pointer dereference → kernel oops** (supervisor
+instruction fetch at address 0). Severity: **CRITICAL** (system crash /
+local DoS).
 
 ### Step 8.4: Risk-Benefit
 **Record:**
-- **Benefit:** HIGH — closes userspace-reachable OOB on common
-  filesystem operation path
-- **Risk:** VERY LOW — ~70 lines of defensive validation, rejects only
-  corrupt data
+- **Benefit:** HIGH — prevents reproducible kernel crash from common
+  syscall path
+- **Risk:** VERY LOW — 3-line mask-merge, matches existing getxattr
+  semantics
 - **Ratio:** Strongly favors backport
 
 ---
 
-## PHASE 9: FINAL SYNTHESIS
+## Phase 9: Final Synthesis
 
-### Step 9.1: Evidence Compilation
+### Step 9.1: Evidence Summary
 
 **FOR backport:**
-- Real KASAN slab-out-of-bounds bug with full stack trace
-- Userspace-reachable via path lookup syscalls on mounted NTFS
-- Syzbot-reproducible (task name in trace)
-- Long-standing bug since ntfs3 validation was introduced (2021–2022)
-- Small, surgical, obviously correct fix
-- No new APIs or features
-- Buggy code confirmed present in 6.18.44 tree; fix not yet applied
-- Consistent with numerous prior ntfs3 OOB fixes already in stable
-- Applies cleanly
+- Real NULL pointer dereference with documented KASAN stack trace
+- Userspace-triggerable on writable ntfs3 mounts (setxattr + write)
+- Bug present since 2021 in code that exists in 6.18.44
+- Tiny, obviously correct fix; applies cleanly
+- Semantically aligns setxattr with getxattr (low byte only for
+  dos_attrib)
+- Maintainer reviewed and signed off
+- ntfs3 driver actively maintained in stable with similar crash fixes
 
 **AGAINST backport:**
-- Only affects CONFIG_NTFS3_FS users (not all kernel users)
-- No independent runtime testing evidence beyond KASAN report in commit
-  message
+- Commit not yet merged to this tree (candidate evaluation — that's the
+  point)
+- Affects only ntfs3 users (not all kernel users) — but crash severity
+  outweighs narrow scope
+- No syzbot/bugzilla report (but stack trace and code analysis confirm
+  the bug)
 
-**UNRESOLVED:**
-- Mailing list review discussion (lore blocked)
-- Whether reviewers explicitly nominated for stable
+**Unresolved:** None material to the decision.
 
 ### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **PASS** — logic is straightforward;
-   KASAN provides concrete repro
-2. Fixes real bug affecting users? **PASS** — OOB on directory lookup
-3. Important issue? **PASS** — memory safety, userspace-triggerable
-4. Small and contained? **PASS** — ~70 lines, 2 files
-5. No new features/APIs? **PASS** — validation only
-6. Can apply to local tree? **PASS** — code exists, clean apply expected
+1. Obviously correct and tested? **PASS** — logic verified against code;
+   maintainer SOB; KASAN trace confirms failure mode
+2. Fixes a real bug? **PASS** — state inconsistency → NULL deref on
+   write
+3. Important issue? **PASS** — kernel oops / local DoS (CRITICAL)
+4. Small and contained? **PASS** — 3 lines, 1 file
+5. No new features/APIs? **PASS** — corrects existing xattr semantics
+6. Can apply to local tree? **PASS** — clean `git apply --check`
 
 ### Step 9.3: Exception Categories
-**Record:** Not a device-ID/quirk/DT/doc fix. Standard
-security/stability bug fix.
+**Record:** Not applicable (not device ID, quirk, DT, build, or docs).
+Standard bug-fix category.
 
 ### Step 9.4: Decision Rationale
-
-For Linux **6.18.44**, the vulnerable validation code is present and the
-fix is absent. A malformed NTFS index entry with an oversized `key_size`
-can cause `hdr_find_e()` to pass an invalid length to `cmp_fnames()`,
-resulting in a slab out-of-bounds read on any directory lookup —
-reachable from unprivileged syscalls on a mounted NTFS volume. This is
-the same class of bug that has been repeatedly backported for ntfs3. The
-fix is minimal, self-contained, and closes the validation gap in both
-the runtime path (`index_hdr_check`) and log-replay path
-(`check_index_header`).
+This commit fixes a long-standing inconsistency in ntfs3 xattr handling
+that leaves `i_mapping->a_ops` and `ni->std_fa` out of sync, causing a
+NULL `write_begin` dereference on buffered writes. The bug exists in the
+local 6.18.44 tree, the fix is minimal and correct, and the crash is
+reachable from userspace. This meets all stable kernel criteria.
 
 ---
 
 ## Verification
 
-- **[Phase 1]** Parsed commit message: KASAN slab-OOB,
-  `[BUG]`/`[CAUSE]`/`[FIX]` sections, authors Huang/Komarov
-- **[Phase 2]** Read diff and current source: 2 files, `index_hdr_check`
-  + `check_index_header`, ~70 lines
-- **[Phase 2]** Confirmed OOB path: `hdr_find_e:760-762` →
-  `cmp_fnames:46-48` → `fname_full_size`
-- **[Phase 3]** `git describe HEAD`: v6.18.44-1-gef4bf62bccf3c
-- **[Phase 3]** `git blame`: `index_hdr_check` from 0e8235d28f3a0e
-  (2022); `check_index_header` loop from b46acd6a6a627d (2021)
-- **[Phase 3]** `git log --oneline -20 -- fs/ntfs3/index.c`: related
-  Huang hardening commits present; this fix absent
-- **[Phase 3]** `git log --grep='validate index entry key bounds'`: no
-  match — commit not in tree
-- **[Phase 4]** `b4 dig` subject search: no match
-- **[Phase 4]** WebFetch lore.kernel.org: blocked by Anubis —
-  **UNVERIFIED**
-- **[Phase 5]** Traced callers:
-  `indx_read→index_buf_check→index_hdr_check`,
-  `indx_init→index_hdr_check`, `indx_find→hdr_find_e`
-- **[Phase 5]** Traced userspace path:
-  `ntfs_lookup→dir_search_u→indx_find` (namei.c:85, dir.c:254)
-- **[Phase 6]** Grep `key_size > data_size` in fs/ntfs3: no matches —
-  fix not applied
-- **[Phase 6]** Read current `index_hdr_check` (614-627) and
-  `check_index_header` (2609-2649): buggy code confirmed
-- **[Phase 6]** Pre-patch code matches provided diff context — clean
-  apply expected
-- **[Phase 7]** CONFIG_NTFS3_FS present in fs/ntfs3/Kconfig
-- **[Phase 8]** `git log --grep='syzbot' -- fs/ntfs3/`: extensive prior
-  syzbot OOB fixes backported to this tree
+- **[Phase 1]** Parsed subject, tags, body; no Fixes/Reported-
+  by/Cc:stable tags
+- **[Phase 1]** Identified explicit [BUG] with KASAN oops stack trace
+- **[Phase 2]** Diff: 3 lines in `ntfs_setxattr()` SYSTEM_DOS_ATTRIB
+  path
+- **[Phase 2]** Verified `ntfs_aops_cmpr` lacks `write_begin`
+  (inode.c:2116-2121)
+- **[Phase 2]** Verified `ntfs_aops` has `write_begin` (inode.c:2107)
+- **[Phase 2]** Verified `is_compressed()` checks `ni->std_fa`
+  (ntfs_fs.h:1034-1037)
+- **[Phase 2]** Verified `ntfs_file_write_iter()` branches on
+  `is_compressed(ni)` (file.c:1252-1253)
+- **[Phase 2]** Verified `generic_perform_write()` calls
+  `a_ops->write_begin` unconditionally (filemap.c:4266-4267)
+- **[Phase 3]** `git blame`: buggy line from `be71b5cba2e648`
+  (2021-08-13)
+- **[Phase 3]** `git log -20 -- fs/ntfs3/xattr.c`: no prior dos_attrib
+  fix
+- **[Phase 3]** `git apply --check` on b1c1101067d9536 diff: **clean
+  apply**
+- **[Phase 4]** `b4 dig -c b1c1101067d9536`: lore thread found
+- **[Phase 4]** `b4 dig -a`: single v1 patch only
+- **[Phase 4]** `b4 dig -w`: Komarov (maintainer) in To, ntfs3 list Cc'd
+- **[Phase 4]** Openwall lore: Komarov queued for merge, no objections
+- **[Phase 5]** Verified xattr handler has no CAP_SYS_ADMIN gate for
+  system.* names (xattr.c:867-891 vs 958-962)
+- **[Phase 5]** Verified getxattr returns only low byte for dos_attrib
+  (xattr.c:781)
+- **[Phase 6]** `git describe HEAD`: v6.18.44-1-gef4bf62bccf3c (6.18.y
+  tree)
+- **[Phase 6]** `git merge-base --is-ancestor b1c1101067d9536 HEAD`:
+  exit 1 (fix NOT in tree)
+- **[Phase 6]** Buggy code confirmed at xattr.c:870 in local checkout
+- **[Phase 8]** Failure mode: NULL deref kernel oops, CRITICAL severity
 
-**YES**The background searches finished and match the earlier analysis:
+**YES**
 
-- **Commit search:** `validate index entry key bounds` is **not** in
-  this 6.18.44 tree. Recent `fs/ntfs3/index.c` history shows related
-  hardening (depth limits, memmove bounds, etc.), but not this fix.
-- **Author search:** ZhengYuan Huang’s commits here are mostly other
-  subsystems (ocfs2, btrfs, raid5). The targeted ntfs3 search did find
-  his validation work in this tree (`bound attr_off`, `bound
-  DeleteIndexEntryAllocation`, etc.).
+ fs/ntfs3/xattr.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-**Verdict unchanged:** backport **YES** — the vulnerable
-`index_hdr_check()` / `check_index_header()` code is present, the fix is
-absent, and it closes a userspace-reachable slab OOB on NTFS directory
-lookup.
-
- fs/ntfs3/fslog.c | 26 ++++++++++++++++++++------
- fs/ntfs3/index.c | 37 ++++++++++++++++++++++++++++++++++++-
- 2 files changed, 56 insertions(+), 7 deletions(-)
-
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index a0503a3344237..a23683f2b95fb 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -2608,11 +2608,12 @@ static int read_next_log_rec(struct ntfs_log *log, struct lcb *lcb, u64 *lsn)
- 
- bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
- {
-+	const bool has_subnode = hdr_has_subnode(hdr);
- 	__le16 mask;
- 	u32 min_de, de_off, used, total;
- 	const struct NTFS_DE *e;
- 
--	if (hdr_has_subnode(hdr)) {
-+	if (has_subnode) {
- 		min_de = sizeof(struct NTFS_DE) + sizeof(u64);
- 		mask = NTFS_IE_HAS_SUBNODES;
- 	} else {
-@@ -2629,20 +2630,33 @@ bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
- 		return false;
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index d719e1073dbb1..b6f365849272e 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -867,7 +867,9 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
+ 	if (!strcmp(name, SYSTEM_DOS_ATTRIB)) {
+ 		if (sizeof(u8) != size)
+ 			goto out;
+-		new_fa = cpu_to_le32(*(u8 *)value);
++		/* system.dos_attrib only covers the low DOS attribute byte. */
++		new_fa = (ni->std_fa & ~cpu_to_le32(0xff)) |
++			 cpu_to_le32(*(u8 *)value);
+ 		goto set_new_fa;
  	}
- 
--	e = Add2Ptr(hdr, de_off);
-+	e = (const struct NTFS_DE *)((const u8 *)hdr + de_off);
- 	for (;;) {
- 		u16 esize = le16_to_cpu(e->size);
--		struct NTFS_DE *next = Add2Ptr(e, esize);
-+		u16 key_size = le16_to_cpu(e->key_size);
-+		u16 data_size;
- 
--		if (esize < min_de || PtrOffset(hdr, next) > used ||
-+		if (!IS_ALIGNED(esize, 8) || esize < min_de ||
- 		    (e->flags & NTFS_IE_HAS_SUBNODES) != mask) {
- 			return false;
- 		}
- 
--		if (de_is_last(e))
-+		if (size_add(de_off, esize) > used)
-+			return false;
-+
-+		if (de_is_last(e)) {
-+			if (key_size)
-+				return false;
-+
- 			break;
-+		}
-+
-+		data_size = esize - min_de;
-+		if (key_size > data_size)
-+			return false;
- 
--		e = next;
-+		de_off += esize;
-+		e = (const struct NTFS_DE *)((const u8 *)hdr + de_off);
- 	}
- 
- 	return true;
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index a9c5dcc23a5ce..dd54c966babca 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -613,16 +613,51 @@ static const struct NTFS_DE *hdr_insert_head(struct INDEX_HDR *hdr,
-  */
- static bool index_hdr_check(const struct INDEX_HDR *hdr, u32 bytes)
- {
-+	const bool has_subnode = hdr_has_subnode(hdr);
-+	const u16 min_size = sizeof(struct NTFS_DE) +
-+			     (has_subnode ? sizeof(u64) : 0);
- 	u32 end = le32_to_cpu(hdr->used);
- 	u32 tot = le32_to_cpu(hdr->total);
- 	u32 off = le32_to_cpu(hdr->de_off);
-+	const struct NTFS_DE *e;
- 
- 	if (!IS_ALIGNED(off, 8) || tot > bytes || end > tot ||
--	    size_add(off, sizeof(struct NTFS_DE)) > end) {
-+	    size_add(off, min_size) > end) {
- 		/* incorrect index buffer. */
- 		return false;
- 	}
- 
-+	/* Ensure every key stays inside its entry before lookup walks it. */
-+	e = (const struct NTFS_DE *)((const u8 *)hdr + off);
-+	for (;;) {
-+		u16 e_size = le16_to_cpu(e->size);
-+		u16 key_size = le16_to_cpu(e->key_size);
-+		u16 data_size;
-+
-+		if (!IS_ALIGNED(e_size, 8) || e_size < min_size ||
-+		    de_has_vcn(e) != has_subnode) {
-+			/* incorrect index entry. */
-+			return false;
-+		}
-+
-+		if (size_add(off, e_size) > end)
-+			return false;
-+
-+		if (de_is_last(e)) {
-+			if (key_size)
-+				return false;
-+
-+			break;
-+		}
-+
-+		data_size = e_size - min_size;
-+		if (key_size > data_size)
-+			return false;
-+
-+		off += e_size;
-+		e = (const struct NTFS_DE *)((const u8 *)hdr + off);
-+	}
-+
- 	return true;
- }
  
 -- 
 2.53.0
