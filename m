@@ -1,65 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13A5367B65;
-	Wed,  2 Sep 2026 05:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC42D377ABF
+	for <ntfs3@lists.linux.dev>; Thu,  3 Sep 2026 03:44:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788328444; cv=none; b=ToNKsxvzOht4d3zcnL/t/QJVF0CnHbQgpIn8DsrO0UPwxgPzQnNGXaJgLlrJrJ+55JamV448o66LdPWZAIWvq9YoXP+CsjfJOb7CjX8aZuhkvyQ9j7MYhI+5dlgB1V/CGndzZzOKh/m/RP6lkpnqyEzdkJgb3rskKaU5/g5hj5w=
+	t=1788407050; cv=none; b=sdXpNeiwUlE8F3C6yd/ui3Yb6cKMWixJptFHRh4SUrbm8mL5fLeor/1hYUrTZOHMoKUctrsYxn8peSNm9XDTXcVGph+hnzd199yFBFYrFLHxp1jIhPMQO4DTbGjhMQm4BhyDou1/aQNL6UHpotu/2i5RVb99cI71VNRQykbMrWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788328444; c=relaxed/simple;
-	bh=yeMVtIz8UUQKft9gRFxSjvPCVmPHSr7YvCj+PSfmwYw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tD/q1OV6OgHX8KXU+ULnRMqeqJt2JFlOeDs5nV9sJHBNNKanauiCEvfIXwCEPec369vL5UhTXGIOUYJF64kppqW8WRspD3R6JJCfYwBbhAKejGrDXU+3hE+uOl6xNzNosDWWgv3/DEVKjW5LAP2XwS3FFyY/2A9xuJ7ktbMQdw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wMG7GcCk; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wMG7GcCk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C97B21F000E9;
-	Wed,  2 Sep 2026 05:54:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788328442;
-	bh=Kcxm313tBTZkBtttm3jkBxq622U7zwO4gbFDRZ2/uJg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=wMG7GcCkDCSGvGszseFg4D99JcLVmKP/0qPSl3C8ShxDWDGkgi9oAmTA4DNZW8fkI
-	 iUBEAUx99VSBGUwWpoy1gN3Mfc/rYCGBKHsniesy1VwkGQOFyYNxB6cjPdlVGcpZz/
-	 q5c0Wx01J1QbYDZ4k4KVplQqDSSA7j7n3RwpB3Mo=
-Date: Wed, 2 Sep 2026 07:53:58 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Cen Zhang (Microsoft Security FORGE Labs)" <cenzhang@linux.microsoft.com>
-Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	AutonomousCodeSecurity@microsoft.com, xmei5@asu.edu,
-	tgopinath@linux.microsoft.com, kys@microsoft.com
-Subject: Re: [PATCH] fs/ntfs3: validate target_attr in log_replay()
-Message-ID: <2026090243-wilt-suds-f499@gregkh>
-References: <20260901174934.6275-1-cenzhang@linux.microsoft.com>
+	s=arc-20240116; t=1788407050; c=relaxed/simple;
+	bh=MekaC/bw2J5PJbLFjiERstmDR+FFIcFUa33PSS6gzWI=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=TPJcdjaEeSFUSmnBzGX3IRW4ZLd9V1p9uwXOjg47EYpMOTLnt24dCtBfrh1fB6cKhbDPSHImVOJS7GjP6jsAfuIN0u1bJCWmLTZf2zPjUyIuAijyLpi3qdedMM3IORK1wPMNihLlem9cJSDs52IdM1jEWjz7W0QyxTIlqJy0QOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-6b1478e3546so1237395eaf.0
+        for <ntfs3@lists.linux.dev>; Wed, 02 Sep 2026 20:44:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788407043; x=1789011843;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=bLwrttdEjO5xigp5FT8QRJJDoTnvI7kbhsn3pgHXw+4=;
+        b=if5jxpCIluu6FQixxSC395zyU7aN97ogRmFRusuwh4XAYGwSTbcklleTrqqpbYGKZR
+         bZwoCW+ftcFpiu0xOFvgUBTsTdFyyeSuQAiQCzxfwLhd136v98OO6vGEZ+0NCSZV7Ssr
+         MH/ZKr5jXSVEJFVtzSaJKLfOpROxdHPxg2zZOxJmkq9Cug4S2/nEUW7/ayaHSy1jY68S
+         L+sdyxopHaH7YVr2+1WGi76eu8gQKMB55yW0ALP7KAgZg52s+8mRTlLxVLTHSKQoPH0H
+         +7Oh/QxxD87COSPoE+/XWcK18nP1aFe91UiP7/yDAEq989eow/dWMHn5JK0DxT1DH3Rr
+         KEhg==
+X-Forwarded-Encrypted: i=1; AKwUvBwU1v2ugzvAuUZfOOmcHAn0yRVGvW3KWQvEAWewL3ktyFIFE24lTxb1IPkimkip9TWed5g5Gg==@lists.linux.dev
+X-Gm-Message-State: AFuF++l/gP2gGvXHvAEqkVlu1oj/8k1ntcT4qpWtf0tGW0jA+DPqTy2V
+	0KDScd++dab6WT0pT1HcLFJT5+qUeAOR8AjCJSIYfkvgAAQ5Sg+v51JcjBOqm5WpC1r1RhUkrzN
+	UGXbagZfsS5MxrixjnimMnayQuSluxrO1gMPwJPuO4RSxLum+p7CFyarKgwQ=
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260901174934.6275-1-cenzhang@linux.microsoft.com>
+X-Received: by 2002:a05:6820:198c:b0:6aa:de29:651 with SMTP id
+ 006d021491bc7-6b48102ea96mr8177101eaf.16.1788407043559; Wed, 02 Sep 2026
+ 20:44:03 -0700 (PDT)
+Date: Wed, 02 Sep 2026 20:44:03 -0700
+In-Reply-To: <6a778cfb.9c11d2ce.289b96.00b8.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a98ed03.2e567484.299ffc.0006.GAE@google.com>
+Subject: Re: [syzbot] [ntfs3?] general protection fault in al_destroy
+From: syzbot <syzbot+04cf7b83f6dd2c3a54c8@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, eadavis@sina.com, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 01, 2026 at 01:49:34PM -0400, Cen Zhang (Microsoft Security FORGE Labs) wrote:
-> log_replay() treats lrh->target_attr as a byte offset to an
-> OPEN_ATTR_ENRTY in the open-attribute restart table. A valid offset is
-> the table header size plus an integral number of entries. The redo
-> lookup checks only target_attr < bytes_per_rt(oatbl); its earlier
-> alignment check subtracts the header size without first checking the
-> lower bound, so the subtraction can wrap.
-> 
-> The undo lookup has no table-bound check, and its earlier alignment
-> check is skipped when lcns_follow is zero. Unlike the redo lookup, it
-> also does not reject unallocated entries or NULL entry pointers.
-> 
-> A crafted $LogFile can therefore point into the table header, the middle
-> of an entry, or past the table and trigger an out-of-bounds access.
+syzbot has bisected this issue to:
 
-Why not fix the userspace fsck tool instead?
+commit be310476e8868ebe7a2ce8fb0e7b229535723963
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Thu Jul 30 08:47:44 2026 +0000
 
-thanks,
+    fs/ntfs3: Add basic support for alternative data streams
 
-greg k-h
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17621f79580000
+start commit:   73e3f0710014 Merge tag 'nfs-for-7.3-1' of git://git.linux-..
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=14e21f79580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=10e21f79580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9efed59cf70d6280
+dashboard link: https://syzkaller.appspot.com/bug?extid=04cf7b83f6dd2c3a54c8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1391859e580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11417415580000
+
+Reported-by: syzbot+04cf7b83f6dd2c3a54c8@syzkaller.appspotmail.com
+Fixes: be310476e886 ("fs/ntfs3: Add basic support for alternative data streams")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
