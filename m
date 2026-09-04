@@ -1,70 +1,71 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569CB400DE8
-	for <ntfs3@lists.linux.dev>; Fri,  4 Sep 2026 06:16:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCFC41DEC9
+	for <ntfs3@lists.linux.dev>; Fri,  4 Sep 2026 06:54:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788502564; cv=none; b=Mq9E4vUe7GKldpt0gOfA40k3kB6rHUHNPL002JBkNZNzlaogEf3vd5zFTbjHD4mevZo2xXce9M6u9UQM90SCQTSDE4iJABeEXiCWDfkbaOip8my1sxQxy5HWp2N/kDebNLH9qouFT87E6DPUWGOYQGtMKw7UB/t8N4rmLax0kRE=
+	t=1788504886; cv=none; b=FLozFDrnYlqVFjheTP8JZCWoByBdps3oZX9MIEnBhgJjl7q+YgeCqlYN4J70M+tezDL+Ji39mXvUNOzDqznZXpF/Sryd3bCOdUHb7k+stQp30h9bVDzWGzwrUYEri037zoQiVGVnYkfKACXOrFtFUlSQM2yF9DQ2WeUfr7e21kQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788502564; c=relaxed/simple;
-	bh=d+XQMxfmtF37dFBwLnZYYwWxlVcCUb15+TV0NlBbmF4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bbUGFmMFfJPwI94AJsDW0T7X7HVXBNDd8rBZ72cttov5km52hspg0W/KlI+1X/X27t7oQkbCy6xEF+KI5GiYFQ0jr8A1g++LsIjsXVmUxanEDw44NIzr7jOMRSPKvkjhQ10yINAa6NiHnIzrm1I9IKglKkK1Pc59ZF3eacHyCz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BpEdjfT8; arc=none smtp.client-ip=209.85.210.170
+	s=arc-20240116; t=1788504886; c=relaxed/simple;
+	bh=No/tqeKhj5vhBbZ9eGGNy9XM2YinBvrbqfjqRNEzjNk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VFiMruWSRGsF/Qz3tGKcA6CQ979LzZFRy1BSX5du6D5KxT8+7ep/odwS0hE/m0MhgEifugNhk04fPLq1whPNjx1pWahA1NL0NYJHDwliLsTnO0l3rmWJfKNdF2sVEc+xwAxTMyBB2dUQAvr1MlBbF1hk5oJI5f3FLvZWqlp/HCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sjS8k5Ax; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BpEdjfT8"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-84f3ab8750cso517755b3a.0
-        for <ntfs3@lists.linux.dev>; Thu, 03 Sep 2026 23:16:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sjS8k5Ax"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38ea87caafeso537916a91.3
+        for <ntfs3@lists.linux.dev>; Thu, 03 Sep 2026 23:54:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788502562; x=1789107362; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788504884; x=1789109684; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KbzS92DGnEavUtbT3swzYfSA4NDGZ/nU8LrjJMa9/B4=;
-        b=BpEdjfT8uhulXgJ4N/LME3+KqVyayPQiA8TMdIRJ+RNjA06ywwxOp8RXmvGsHMuG5h
-         oJQTLnF1sjX9ycXvdQ0sShK4D48VYPdDMdV3Lmhcbh+3tPzSJ0oWwhxYNQ+Zxb5g4XkH
-         zRH2Wu8hhcboRtd0BFAYbNbZCxnTbSQgltRhHx4WUbmfcyrKeKoqYeniGyKOP5tzv2L8
-         UQUgv1dOg/cNGntcRZn4qCC9iO2dmmblbuKJy8DI9WVIO0mPvy7JRExkPGqE5qrSXUmI
-         RRJvXHBTaAscdmu9tvOjuu2hqZ7IncvlrfxnggXPMC9X8GNUwd6LiiKRMF/edcjBJrYD
-         EqmA==
+        bh=B1Y9JGeTBz9J0cSMx8uNBI7PYHW5JuoK9tu5YHKCsSU=;
+        b=sjS8k5AxNGaTSwoNf0Arf3qMFiEM5JPmK3H9Ym6eDUNE2hWmIZZxcgNQNuASyTMewt
+         X3+Z34hTCyNuYOUzqAuVMkfrQrqgwdS8yijDyH4Lyp/Bp101FT7NzhC82M4FOvUcijBI
+         kdJrgdyHbqFzpmy+QuToonB7VjG1B5euQiIN5aumVfP6KLXsUE4Q3DhuibGHxCWcbBzR
+         cVY+ndqUU5wUoNqGB9X/OLAdr/jYca5ux4Xdz1mutKd0eEgiviW5zlHfzWG2uo0HZIKx
+         L1f1Rt+de1LGjMINCPYNqQC96ghmVoN+VNuaRQkG9GqkyHgxxyeHDlupB/VteeHWjIcy
+         5Vtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788502562; x=1789107362;
+        d=1e100.net; s=20251104; t=1788504884; x=1789109684;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KbzS92DGnEavUtbT3swzYfSA4NDGZ/nU8LrjJMa9/B4=;
-        b=Pc239LcUpf2KFyzwo3ksYQ91ytl7r7tpv9agGt27xdMSipnCfrw4kotc1BhwlM8sm0
-         DczEW5DxN8cVSgMjpBbLaNpMEWDXc25WRkWtyi8bx/abCNEx6s8LvauJGtPAI6voMs2h
-         upNgmxtPj2Ja7wSTgfvfQMP4gy6v0GLEITwUzYyx363lV/qgi2DKQ0Yte2FR8w1rhoLW
-         xGSsIqQKbkXZ2J1bTe/X85iBWQrFdZA1cCT5R0VBlk3FmeSAXJfqqeNxdjIXJgsRPQ8y
-         AvII4MXaB0bhxiso5JI8sg0yThv8uKwM2ALY4buimh7c7v8bGiuiFasiaFfugFppvhjx
-         1kRw==
-X-Gm-Message-State: AFuF++k/4f7X5zS3M9Yd5AtPWEMFrN/vgDs6nW1K0ph7K5Xkklwap10C
-	k72WtgP3lEgGzHJh4611X3iprK9tNnuxyDUhndd1/sN8hrBM5HLmw734
-X-Gm-Gg: AYBFou2Thymd/jsgZqiXdyZbzfNSlLVqZMcXU8mOaXTiOIvhUYAOzVHFhmZPVNMOV6v
-	j/QAxtYlY83dBCiBt3XnCtnt+ptoddPSd93JAn21XYXE/jPIozeqDCP+tmlPfzJntOzMEYnC1tw
-	yaI+P488k2ViJhtebDbLMnt4HRwku/V2TkfxMnfjFV6/Vb+OiFbuUBLXV0b40+pNm3OZUih44Wx
-	0GphIEfGzjNuiplfw2XcXhUhZAx2pzlgFeFT8tu8IRuh9eQSNVLEEuCqNy+X5RBXwn7PilVDOdb
-	Uhkz+faeXKI1nTrSnewq/XU5kw9IPVwhPvzT5VlqPQKGzZ4NXQ90eSpHZ7LggyKq1pf7Eo9l/nM
-	WB9wcAkcHWN6/wkyDwPcri/6prkweHzEoxcSIM8CedgFRtcE+ojWr82PYK1FYphHyWrXYXxbpaL
-	j2KkUwwPFt77P8f46iS3AR7xSkEFi673OVNVFG8D62KzAIuAQCup98h96ZGAtvdyx0w3em0+75n
-	o97T2E7O3c=
-X-Received: by 2002:a05:6a00:10c9:b0:845:363e:12d9 with SMTP id d2e1a72fcca58-861660e3dacmr5209555b3a.3.1788502562476;
-        Thu, 03 Sep 2026 23:16:02 -0700 (PDT)
+        bh=B1Y9JGeTBz9J0cSMx8uNBI7PYHW5JuoK9tu5YHKCsSU=;
+        b=MSa/5N1VXcZe0qSO8zL5oaSRCVA3O5JCeRNlLMFLvyW5kwIz/PcHJ+KyoTVLPRlAoW
+         KkAkNLYZT01+AOHxbAwQlChh9OV4pbz27PsHcPgA9T0vz0VBrW8Ur/oHNIUHBB1ckboi
+         0GQOZDSCsfJEQYm4Lt1lj/i048OMLBofQQ/H3ileyK1ZNbu7pPNbLifJk5JQdhf8zEkI
+         SVyuPveTXZRs9HGIK5F9xh6T4fDbKIe++GnNqsRTZhzaQBhK0CBoWRt/jy/uMOJ+TprW
+         bxOD0smFNRRANvjVneQyAaAZwmySwHLOuDgk0z8BkSKULQS4zdA7c+Jw6/J9VRL39/2g
+         dm8g==
+X-Gm-Message-State: AFuF++nApdsz0q0X41+MwiGBtxL4b9KZ7FwiPvZFlLbaAfAxWEKTEnGi
+	vyMyTfl26JQ3j8zySPNoB2HuV9O+XcRfS9hcqxjIroBYJExRw0AFNu2V
+X-Gm-Gg: AYBFou29zgWGbw3sW1jYAXtOVpS2EKqnN9SxFFeCeZ9gHFEK/nVYH7RF4PusrOd0ISE
+	wx5HLBi0PnESgJCCegna3pepJ2HR2AUIIWZhWELX+z7tltnMKBjISdau5YRi9QWKxTL0t8dGpTF
+	/DlrGcQSrBROA7r1vFAX7AZANs3ayfv7BV6oufUoA2uYOElVVeXu7E1AHXuJrXoF9PLUawufJO3
+	yAUovwqfmz/aY6sq/G08bv2WKLQUmFVEH/OcAZ9FibuQUoITFrngzZ3IL6yE8L2kSzXrfIEh4UL
+	kxn6qh8lGx0nG5CoJKY+tlrkNlJQcEYa7BbXHbZ0dqdWucVAVXbZlBfWpQVNR/ZZbci8pFuip3m
+	0FjKwT9eoXmj65hr9GGLk8It8tsPu83kQtdThQwbj979ZzBJpl2v+asJKvzSM+G0fDdCcGTnfqp
+	+PA75Bqdb65szvf5NODpToRi7gneVvIEFOwLHtO5hrsQZ7NlB9Sa+eRymCIopnAHNFT+fPiqXmv
+	Z0f7mJ1M8g=
+X-Received: by 2002:a17:90a:c10e:b0:398:c3ca:1ebc with SMTP id 98e67ed59e1d1-39b2622b3afmr6273154a91.18.1788504884500;
+        Thu, 03 Sep 2026 23:54:44 -0700 (PDT)
 Received: from osman.mioffice.cn ([43.224.245.178])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8615332dbdfsm753216b3a.42.2026.09.03.23.16.00
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b2612d3f1sm2845086a91.13.2026.09.03.23.54.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 23:16:02 -0700 (PDT)
+        Thu, 03 Sep 2026 23:54:43 -0700 (PDT)
 From: Zhan Xusheng <zhanxusheng1024@gmail.com>
 X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
 To: almaz.alexandrovich@paragon-software.com
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	zhanxusheng@xiaomi.com
-Subject: [PATCH RESEND] fs/ntfs3: fix valid_size not being updated in attr_allocate_frame()
-Date: Fri,  4 Sep 2026 14:15:56 +0800
-Message-ID: <20260904061556.939195-1-zhanxusheng@xiaomi.com>
+	zhanxusheng@xiaomi.com,
+	stable@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: bound asize by SIZEOF_NONRESIDENT in check_attr()
+Date: Fri,  4 Sep 2026 14:54:37 +0800
+Message-ID: <20260904065437.957677-1-zhanxusheng@xiaomi.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -74,55 +75,54 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-At the end of attr_allocate_frame() the on-disk valid_size is meant to be
-updated to the value passed in via @new_valid:
+check_attr() validates a file record attribute during log replay.  Its
+non-resident branch reads through attr->nres.valid_size, which ends
+SIZEOF_NONRESIDENT bytes into the attribute, but only checks that the
+attribute fits the record, not that it is long enough to hold those
+fields.  check_file_record() admits an attribute starting as late as
+record_size - SIZEOF_RESIDENT, so one placed there with non_res set reads
+up to 40 bytes past mi->mrec, a kmalloc(record_size) buffer.  The later
+"run_off >= asize" rejection is too late: data_size, svcn, evcn and
+valid_size have already been read.  Nothing earlier covers it, mi_read()
+checks only rec->total, and do_action() gets here for the ordinary
+record-modifying operations, so a crafted volume reaches it through
+normal replay.
 
-	valid_size = le64_to_cpu(attr_b->nres.valid_size);
-	if (new_valid != valid_size) {
-		attr_b->nres.valid_size = cpu_to_le64(valid_size);
-		mi_b->dirty = true;
-	}
+Reject an attribute that leaves fewer than SIZEOF_NONRESIDENT bytes in the
+record, as mi_enum_attr() already does outside the log path.  A real
+non-resident attribute cannot be smaller than its own header, so nothing
+that mounts today is rejected.
 
-but it writes back the old valid_size that was just read instead of
-new_valid, so the field is never actually changed even though the record
-is marked dirty -- the intended update is a no-op.
-
-ni_update_parent() spells the same read-compare-write out correctly a few
-hundred lines away, storing the newly derived value:
-
-	valid_le = cpu_to_le64(new_valid);
-	if (valid_le != attr->nres.valid_size) {
-		attr->nres.valid_size = valid_le;
-
-In practice that path, reached from ni_write_inode(), re-derives
-nres.valid_size from ni->i_valid on inode write-back, which normally masks
-this, so the visible impact is limited.  The assignment here is still
-wrong though; store @new_valid as intended.
-
-Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
+Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+Cc: stable@vger.kernel.org
 Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
 ---
-No changes; the fix is still needed on v7.3-rc1 and on the ntfs3 devel
-branch, which currently points at v7.3-rc1 as well.
+Reproduced with ASAN in a userspace replica of the layout and of
+check_attr()'s bounds: an attribute at record_size - SIZEOF_RESIDENT
+gives "READ of size 8 ... located 24 bytes after 1024-byte region",
+and is rejected once the guard is added.
 
-v1: https://lore.kernel.org/ntfs3/20260701061451.385659-1-zhanxusheng@xiaomi.com/
+I did not craft a volume, so there is no mount-level reproducer and no
+KASAN splat from a real replay; the reachability above comes from
+reading do_action(), mi_read() and ntfs_fix_post_read().
 
- fs/ntfs3/attrib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/ntfs3/fslog.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index b1c315206ffa..792838676352 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -1995,7 +1995,7 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+index ed50c1d0c23e..034d72929ac0 100644
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -2772,6 +2772,9 @@ static inline bool check_attr(const struct MFT_REC *rec,
+ 		break;
  
- 		valid_size = le64_to_cpu(attr_b->nres.valid_size);
- 		if (new_valid != valid_size) {
--			attr_b->nres.valid_size = cpu_to_le64(valid_size);
-+			attr_b->nres.valid_size = cpu_to_le64(new_valid);
- 			mi_b->dirty = true;
- 		}
- 	}
+ 	case 1:
++		if (asize < SIZEOF_NONRESIDENT)
++			return false;
++
+ 		dsize = le64_to_cpu(attr->nres.data_size);
+ 		svcn = le64_to_cpu(attr->nres.svcn);
+ 		evcn = le64_to_cpu(attr->nres.evcn);
 
 base-commit: a500db7819c50db59e55f1b4fa1c3baa5a2616f3
 -- 
