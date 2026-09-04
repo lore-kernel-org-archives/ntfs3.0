@@ -1,130 +1,130 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCFC41DEC9
-	for <ntfs3@lists.linux.dev>; Fri,  4 Sep 2026 06:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F4B3EC826
+	for <ntfs3@lists.linux.dev>; Fri,  4 Sep 2026 09:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788504886; cv=none; b=FLozFDrnYlqVFjheTP8JZCWoByBdps3oZX9MIEnBhgJjl7q+YgeCqlYN4J70M+tezDL+Ji39mXvUNOzDqznZXpF/Sryd3bCOdUHb7k+stQp30h9bVDzWGzwrUYEri037zoQiVGVnYkfKACXOrFtFUlSQM2yF9DQ2WeUfr7e21kQ=
+	t=1788513151; cv=none; b=ixDdT848EzHCaq20e6cTwkyRwxLbcnlSRSZTT2nq4npEhlEwT7pj2bqKeyz0w2xHCXTcV3G/r608L5VLEvnZ68a1Zh14Ziy/aZ1mNOG03P5+3CovJwkIZURvRZZCEGBSon/Hq+1qivSbM70A9PtJ8N+S6N5lCHh2ruuq+zlUWcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788504886; c=relaxed/simple;
-	bh=No/tqeKhj5vhBbZ9eGGNy9XM2YinBvrbqfjqRNEzjNk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VFiMruWSRGsF/Qz3tGKcA6CQ979LzZFRy1BSX5du6D5KxT8+7ep/odwS0hE/m0MhgEifugNhk04fPLq1whPNjx1pWahA1NL0NYJHDwliLsTnO0l3rmWJfKNdF2sVEc+xwAxTMyBB2dUQAvr1MlBbF1hk5oJI5f3FLvZWqlp/HCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sjS8k5Ax; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1788513151; c=relaxed/simple;
+	bh=F1zepebgNPnfi3e3NPKagzy1JV/VWdxKlaar6/23C6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KppFvM4AEXbx0Gp+Yt1C0t/ZaRo1z54ZDOQpkTCcbzf3W5L8Z7XT98f1SPIdyVaJxussBf5+L6+vSpd+94QRGaNZRGZZV5T8Ge3eMyHzm+OK8hHxRPyKSF5zMEWB/qnp67dnpV9z+BeRc9Kyt1Mp7FNXx/f9cDnOW+O2vr0LQ0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vvoi/ArV; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sjS8k5Ax"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38ea87caafeso537916a91.3
-        for <ntfs3@lists.linux.dev>; Thu, 03 Sep 2026 23:54:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vvoi/ArV"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4843f205a5bso493025f8f.1
+        for <ntfs3@lists.linux.dev>; Fri, 04 Sep 2026 02:12:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788504884; x=1789109684; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=B1Y9JGeTBz9J0cSMx8uNBI7PYHW5JuoK9tu5YHKCsSU=;
-        b=sjS8k5AxNGaTSwoNf0Arf3qMFiEM5JPmK3H9Ym6eDUNE2hWmIZZxcgNQNuASyTMewt
-         X3+Z34hTCyNuYOUzqAuVMkfrQrqgwdS8yijDyH4Lyp/Bp101FT7NzhC82M4FOvUcijBI
-         kdJrgdyHbqFzpmy+QuToonB7VjG1B5euQiIN5aumVfP6KLXsUE4Q3DhuibGHxCWcbBzR
-         cVY+ndqUU5wUoNqGB9X/OLAdr/jYca5ux4Xdz1mutKd0eEgiviW5zlHfzWG2uo0HZIKx
-         L1f1Rt+de1LGjMINCPYNqQC96ghmVoN+VNuaRQkG9GqkyHgxxyeHDlupB/VteeHWjIcy
-         5Vtw==
+        d=gmail.com; s=20251104; t=1788513148; x=1789117948; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=LyM2dDVsIs4gNBkgpufM53paS3aQIrobm71GlbtzGBc=;
+        b=Vvoi/ArV8zuFjAHkA8CncCa7pPSHLzn4wwQRwqFwSM+Z1CA+wpOD1zSRlzxxMNIJcu
+         agYIHs3V7kkg3tjxEhbXKOHbLVsionwOzfS/ABwcr21ezHNndxObD3IY1ZihYc9R/rad
+         v/zgnKS3qPuFd8HTDKBVgx3TwN1UOwUVSMNQS9tRIqVc/cR+5VucIQO5Ikqe5EKebWSL
+         DsSLwRIp9sy4G/x+KfvoefnpnCgtcRNi3zesR8cNWuCw+B2Gb1HGQA1+GlqmUlfsNCBn
+         ge7Wnvx5zWEOzSTP5wKGIDozWfbkfQHsneYKcUMm76a3I0JR7N9KoDZOW5WpCNgYbofQ
+         NNxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788504884; x=1789109684;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=B1Y9JGeTBz9J0cSMx8uNBI7PYHW5JuoK9tu5YHKCsSU=;
-        b=MSa/5N1VXcZe0qSO8zL5oaSRCVA3O5JCeRNlLMFLvyW5kwIz/PcHJ+KyoTVLPRlAoW
-         KkAkNLYZT01+AOHxbAwQlChh9OV4pbz27PsHcPgA9T0vz0VBrW8Ur/oHNIUHBB1ckboi
-         0GQOZDSCsfJEQYm4Lt1lj/i048OMLBofQQ/H3ileyK1ZNbu7pPNbLifJk5JQdhf8zEkI
-         SVyuPveTXZRs9HGIK5F9xh6T4fDbKIe++GnNqsRTZhzaQBhK0CBoWRt/jy/uMOJ+TprW
-         bxOD0smFNRRANvjVneQyAaAZwmySwHLOuDgk0z8BkSKULQS4zdA7c+Jw6/J9VRL39/2g
-         dm8g==
-X-Gm-Message-State: AFuF++nApdsz0q0X41+MwiGBtxL4b9KZ7FwiPvZFlLbaAfAxWEKTEnGi
-	vyMyTfl26JQ3j8zySPNoB2HuV9O+XcRfS9hcqxjIroBYJExRw0AFNu2V
-X-Gm-Gg: AYBFou29zgWGbw3sW1jYAXtOVpS2EKqnN9SxFFeCeZ9gHFEK/nVYH7RF4PusrOd0ISE
-	wx5HLBi0PnESgJCCegna3pepJ2HR2AUIIWZhWELX+z7tltnMKBjISdau5YRi9QWKxTL0t8dGpTF
-	/DlrGcQSrBROA7r1vFAX7AZANs3ayfv7BV6oufUoA2uYOElVVeXu7E1AHXuJrXoF9PLUawufJO3
-	yAUovwqfmz/aY6sq/G08bv2WKLQUmFVEH/OcAZ9FibuQUoITFrngzZ3IL6yE8L2kSzXrfIEh4UL
-	kxn6qh8lGx0nG5CoJKY+tlrkNlJQcEYa7BbXHbZ0dqdWucVAVXbZlBfWpQVNR/ZZbci8pFuip3m
-	0FjKwT9eoXmj65hr9GGLk8It8tsPu83kQtdThQwbj979ZzBJpl2v+asJKvzSM+G0fDdCcGTnfqp
-	+PA75Bqdb65szvf5NODpToRi7gneVvIEFOwLHtO5hrsQZ7NlB9Sa+eRymCIopnAHNFT+fPiqXmv
-	Z0f7mJ1M8g=
-X-Received: by 2002:a17:90a:c10e:b0:398:c3ca:1ebc with SMTP id 98e67ed59e1d1-39b2622b3afmr6273154a91.18.1788504884500;
-        Thu, 03 Sep 2026 23:54:44 -0700 (PDT)
-Received: from osman.mioffice.cn ([43.224.245.178])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b2612d3f1sm2845086a91.13.2026.09.03.23.54.41
+        d=1e100.net; s=20251104; t=1788513148; x=1789117948;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LyM2dDVsIs4gNBkgpufM53paS3aQIrobm71GlbtzGBc=;
+        b=q630OlrapmKOWC5NzDh8bqxHW8WsnTsC7wG43bXX2qBm5cHkgpUVTv0Ax9ZvJ8Huvq
+         qS0z21RbKX2WABfv4pIiwDsxaO7FwzCG790xVrKM6K5sWz1AnaHEqlaScboU8IFjP8zO
+         SMmkAE8N/fEpEKO30dknlNgaHFxWQN8SbAxoXGloh5/V1YLLzfhKJGds47uK36Wsd+Cb
+         qoxvLkxxZ9mORoegzbGh1uboetCmkRgYjOCI4hDKMK9QLUlZXcTIrshuHH7pYtFNp5i3
+         QaUmzxEd/U6Zf4WBSpRZna7VOZ1XrpyRw1382tGa0H/EdhnrRYL9KMfDGYh4d0ukqk1K
+         /5+A==
+X-Forwarded-Encrypted: i=1; AKwUvBx7Ui7pxxKaBZYXxCS+sNwYQBf1NE/WjsrLu1GvvHC56rF0gnhUMymn1wRrVKTLoe2pUbWJMQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++lhmrHKDO9j8mvCCnlxdhPPLpzFjR1+xGuxtMDFPZItoz2UX+I3
+	mtmWmLXBg0U8/L+DeQuQk6pwyk9uzewwR1ILpeZv15SOhIftyJGB8QDC
+X-Gm-Gg: AYBFou0zvSI0UBF3azvwovey+GtyHL2qF9wudsSYJ3eKVMsicw4A/xRJM2hb825Ij17
+	UJJGeaa8PY1FMZT7JrxTqYcJKnOhPyFodY5xv4atJFHdwyuWDuj7VBH6z1jI2QUNks76JVf/C6B
+	E7MY8UL1GvK2n7v7zBukmGVQ2MxTMTsBXDeepA2+ZaXHPhue/iLNBsIUfY7mDX1FsCJnYm63lwq
+	BopvUqchTnOg7TMiTA+54U5zaqKnSGapLfk1A+eP0Tf32KuItWkGEwmLA+shvPYuNTZHuJe2f3v
+	dY+FIW7JsQdbRvV/tPbS9U49ED4j8wC0a4LBcsvR/MuqFSd4/p7hZkgbQkGNizWYEtbrrFYRis8
+	h5vGpceEyEIo8wMuavVLRWPlnlS6j6m48aOWQwxfah46mMl4z/Xa9RwsOnZ0jEdHo0foOnBUE68
+	kv3IlDlMfvSQzJGURy+PTIx0TPFH4bHW16wqOQ0TLhHEpCebBuTazD9cho+9HJLa7mhdFiUsXJ4
+	YLVwCCc+3Mvb1OaoiTA/zk=
+X-Received: by 2002:a05:6000:490e:b0:485:8a46:b3bc with SMTP id ffacd0b85a97d-4858a46b4b8mr3125770f8f.36.1788513148015;
+        Fri, 04 Sep 2026 02:12:28 -0700 (PDT)
+Received: from eldamar.lan (c-82-192-247-196.customer.ggaweb.ch. [82.192.247.196])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883959f0sm5239412f8f.10.2026.09.04.02.12.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 23:54:43 -0700 (PDT)
-From: Zhan Xusheng <zhanxusheng1024@gmail.com>
-X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	zhanxusheng@xiaomi.com,
-	stable@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: bound asize by SIZEOF_NONRESIDENT in check_attr()
-Date: Fri,  4 Sep 2026 14:54:37 +0800
-Message-ID: <20260904065437.957677-1-zhanxusheng@xiaomi.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 04 Sep 2026 02:12:27 -0700 (PDT)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+Received: by eldamar.lan (Postfix, from userid 1000)
+	id 2B821BE2DE0; Fri, 04 Sep 2026 11:12:26 +0200 (CEST)
+Date: Fri, 4 Sep 2026 11:12:26 +0200
+From: Salvatore Bonaccorso <carnil@debian.org>
+To: vova tokarev <vladimirelitokarev@gmail.com>
+Cc: almaz.alexandrovich@paragon-software.com, security@kernel.org,
+	ntfs3@lists.linux.dev
+Subject: Re: Fwd: InjectionBunny: NTFS3 SUID injection leading to local
+ privilege escalation
+Message-ID: <apqLejWrecEZkyhw@eldamar.lan>
+References: <CAGBKPgMqBMsBH4mm2fwggA8rJZ3R15nPxuEh0emOeVpX2kgHPA@mail.gmail.com>
+ <CAGBKPgPiXyKWtjgYSACnugmG1XPs=mPg-Zu-xQziUZ1k921+qA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGBKPgPiXyKWtjgYSACnugmG1XPs=mPg-Zu-xQziUZ1k921+qA@mail.gmail.com>
 
-check_attr() validates a file record attribute during log replay.  Its
-non-resident branch reads through attr->nres.valid_size, which ends
-SIZEOF_NONRESIDENT bytes into the attribute, but only checks that the
-attribute fits the record, not that it is long enough to hold those
-fields.  check_file_record() admits an attribute starting as late as
-record_size - SIZEOF_RESIDENT, so one placed there with non_res set reads
-up to 40 bytes past mi->mrec, a kmalloc(record_size) buffer.  The later
-"run_off >= asize" rejection is too late: data_size, svcn, evcn and
-valid_size have already been read.  Nothing earlier covers it, mi_read()
-checks only rec->total, and do_action() gets here for the ordinary
-record-modifying operations, so a crafted volume reaches it through
-normal replay.
+Hi Vladimir,
 
-Reject an attribute that leaves fewer than SIZEOF_NONRESIDENT bytes in the
-record, as mi_enum_attr() already does outside the log path.  A real
-non-resident attribute cannot be smaller than its own header, so nothing
-that mounts today is rejected.
+On Fri, Aug 07, 2026 at 01:39:35PM +0300, vova tokarev wrote:
+> Hi,
+> 
+> It's been almost two months since I reported this, and I haven't heard
+> back. I recently learned I should reach out to the subsystem maintainer
+> directly, so forwarding this to you.
+> 
+> I noticed that CVE-2026-63833 (commit f8d420949b33) was assigned and
+> merged for a related issue -- blocking setxattr() writes to $LX*
+> names. However, this only fixes one of the two attack vectors I
+> reported. The primary vector in my original report remains open:
+> 
+> A pre-crafted NTFS image (e.g. USB drive) with $LXUID=0, $LXGID=0,
+> $LXMOD=0104755 already in the MFT produces a setuid-root binary the
+> moment the volume is mounted. No setxattr() is involved -- the EAs
+> are on disk. The -EPERM check doesn't help.
+> 
+> The root cause is still at fs/ntfs3/xattr.c:1022:
+> 
+>     inode->i_mode = le32_to_cpu(value[2]);
+> 
+> This loads S_ISUID/S_ISGID directly from untrusted on-disk data.
+> Desktop automounters (udisks) mount NTFS with suid by default, so
+> plugging in a crafted USB gives any local user euid=0.
+> 
+> Suggested one-line fix:
+> 
+> -   inode->i_mode = le32_to_cpu(value[2]);
+> +   inode->i_mode = le32_to_cpu(value[2]) & ~(S_ISUID | S_ISGID);
+> 
+> I have a full PoC and working demo (included in my original report
+> below). Would love to hear your thoughts.
 
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Cc: stable@vger.kernel.org
-Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
----
-Reproduced with ASAN in a userspace replica of the layout and of
-check_attr()'s bounds: an attribute at record_size - SIZEOF_RESIDENT
-gives "READ of size 8 ... located 24 bytes after 1024-byte region",
-and is rejected once the guard is added.
+AFAICS, this did not got a patch yet. Would you mind submitting a
+patch to Konstantin? I'm adding Konstantin Komarov explicitly to this
+thread.
 
-I did not craft a volume, so there is no mount-level reproducer and no
-KASAN splat from a real replay; the reachability above comes from
-reading do_action(), mi_read() and ntfs_fix_post_read().
+Konstantin, context from
+https://lore.kernel.org/ntfs3/CAGBKPgPiXyKWtjgYSACnugmG1XPs=mPg-Zu-xQziUZ1k921+qA@mail.gmail.com/
+.
 
- fs/ntfs3/fslog.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index ed50c1d0c23e..034d72929ac0 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -2772,6 +2772,9 @@ static inline bool check_attr(const struct MFT_REC *rec,
- 		break;
- 
- 	case 1:
-+		if (asize < SIZEOF_NONRESIDENT)
-+			return false;
-+
- 		dsize = le64_to_cpu(attr->nres.data_size);
- 		svcn = le64_to_cpu(attr->nres.svcn);
- 		evcn = le64_to_cpu(attr->nres.evcn);
-
-base-commit: a500db7819c50db59e55f1b4fa1c3baa5a2616f3
--- 
-2.43.0
-
+Regards,
+Salvatore
