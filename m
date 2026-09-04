@@ -1,102 +1,90 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70405473C8B
-	for <ntfs3@lists.linux.dev>; Fri,  4 Sep 2026 10:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3393476078
+	for <ntfs3@lists.linux.dev>; Fri,  4 Sep 2026 12:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788519583; cv=none; b=GK3nnXVjEIzk4aLi2WeT0VlWvq6Hx75Mh66WcK0gdaQIRr/V16lQ1BXRYdKd0e0O3CdN4p9uBqWUr5XnE5ibbi/1UczkpMnWm3WGE3R1TDqDZKojWTaCmC9/Ko1CsJj8SnqF2Q1XnuTth/ctsgJLHU9T+JLlFGqTufCbUTJyZac=
+	t=1788525211; cv=none; b=bIghe6elv4yRbxCKBicUUxoNNNkF0p3+QAjwEDvKJg3oPikTnd8MBjExHZR4+mC99W3bgRvOSGFlsC5PE3cdyGL9imoC/vnIegDFylpelJ9p9Ri4JHucfg6qqIueE4zFOSQSt6g+JTJnusnK57k1AsbQS66WciUT18F4MGhhEVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788519583; c=relaxed/simple;
-	bh=vV1T58b8s1+tve3cVZAubxq64Ua4qR2tbUc3dMYC5Z4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Xvd9RI10cFbgp2xhhFb77vCB6i73xImbHd7Nu3hzHOJAe5BLoDz4o/PmL9qeU4zhli3tjaykqhvzRL0WKL1qY43pdCeMatFXvPO0AzRCkseO5JVi5t4VnOthxfYKCcAFmCH1HWL7i2x9yV+mqfJpCpD2S9TfsK3S3HDGKBcvgRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=rS+1pSfo; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="rS+1pSfo"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 9B0511B5;
-	Fri,  4 Sep 2026 11:00:36 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=rS+1pSfo;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 58D9D2205;
-	Fri,  4 Sep 2026 10:59:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1788519576;
-	bh=5otnK8lKNv0CFrblr8NbQa/JL5FxxysDmPvRmnxoP4c=;
-	h=From:To:CC:Subject:Date;
-	b=rS+1pSfoHbgsl4i7OYPA49Ow6606g9dyOnT/2pHbrE4V7Cbt+wJ7iUFlsdIAskd46
-	 Oir+0XY2PXfXPtSthtOHPJLxOzGT/Rejil6QS4btMDjfUAqIkhYhkq7fJGQp3Ab57f
-	 pr48qgySY4IOnE+WiPBx6o6hq5h+lw/763E0N2cc=
-Received: from localhost.localdomain (172.30.20.203) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 4 Sep 2026 13:59:35 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH] fs/ntfs3: document ads, nocase, and delalloc
-Date: Fri, 4 Sep 2026 12:59:25 +0200
-Message-ID: <20260904105925.11058-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1788525211; c=relaxed/simple;
+	bh=XpNXi1xH2DOV/XtZTlBnCCrc1J7S/a5D05nOmI3eWBQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ok7iaCZku6u3dpphyCU4AdqR4L+RCiXoTli2XfU+BpXg9zp78u/XEwhWqbAigOWIVMYbvLXr7gjPeB/drH5Q3nS0GsxPxptuVPUhr/r48V2yXXud/SP5Kc82BT5NgGrUCJmxgsUUyLaA2zfL1NFB2wY0SMtcXmOQN7EmSwWxEug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-6b1abf73d1fso551635eaf.3
+        for <ntfs3@lists.linux.dev>; Fri, 04 Sep 2026 05:33:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788525208; x=1789130008;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PChFQ1uJwWrgo/iDvaB7Cf3epUdPSjK9Uf6XBaEekNU=;
+        b=JlOQFZ/tgfPfe2gzP87Ryq0dXcFrGSTdubxoxL4csdGZGzbebGQiq198i07d8zlrn9
+         yU5IVEic/NiL7qa6lQ+S/+ZjKR4tA9XX/Vkxrb+G6DTTjwXfIw/AlNP+QaLGh3GH8mmb
+         fA5fmehqN6qjvmGhrv8qoOEEfHAoEbfJBnY9xOxvBzQxuaP1uBR4wu8ZgC0TH98Y6niD
+         FTasb7Vz7yFzcERncFjK5u8YwFd10OGYkbbzNpcRDDJ2YU/SeAMMmHumoYL52sGUxsaK
+         niECTCQLiBN17dMmZeUtjRw2bZK7BK8uJoBHFVOW7Tzke3BcIwWQ+LoaEWMt/Rq0bR/M
+         3V0w==
+X-Forwarded-Encrypted: i=1; AKwUvBzardqoDVMoPRX5ahlcxuU9oSdarqH/nom8JjxOXaONAAkgGSqLntr0tlAaUnbtKxRJdz6DRQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++ns0io1Jgux4M1NhD5/AKH2LS+ilFBt8D0nwp04L5JBpfkN2nWD
+	L5dOaQzGL3rIBDf4Mv4pUQoUtbxwvtbbnY3hv9mHEDZKGFcFpMuaAwkSVRGXbJXIH/RPRh7fW8S
+	roopa6+ye3Ubs0l3I34qSqcelacWduDcROwRZbfoXs40yfYyPFuMqGZv7Xs4=
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Received: by 2002:a05:6820:217:b0:6b7:8396:f3d2 with SMTP id
+ 006d021491bc7-6b78396f8a2mr1596711eaf.52.1788525208741; Fri, 04 Sep 2026
+ 05:33:28 -0700 (PDT)
+Date: Fri, 04 Sep 2026 05:33:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a9aba98.efa90033.8a9e.0001.GAE@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Sep 2026)
+From: syzbot <syzbot+listd4ec4791a83e9272b425@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-The 'ads', 'nocase', and 'delalloc' mount options are accepted by the
-parser and reported by ntfs_show_options(), but were never added to the
-mount option table in the documentation. Document them.
+Hello ntfs3 maintainers/developers,
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
+
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 18 issues are still open and 94 have already been fixed.
+There is also 1 low-priority issue.
+
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 3780    Yes   possible deadlock in attr_data_get_block (2)
+                  https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+<2> 616     Yes   possible deadlock in mi_read (2)
+                  https://syzkaller.appspot.com/bug?extid=17f812893d5906837f33
+<3> 528     Yes   possible deadlock in ntfs_fallocate
+                  https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
+<4> 138     No    KMSAN: uninit-value in ntfs_iomap_begin (2)
+                  https://syzkaller.appspot.com/bug?extid=4b4ec878e25fafefa70f
+<5> 79      Yes   possible deadlock in ntfs_readdir
+                  https://syzkaller.appspot.com/bug?extid=cfc6e8106bec1c524f7d
+<6> 61      Yes   WARNING in errseq_set (2)
+                  https://syzkaller.appspot.com/bug?extid=57f9327d593d301ce2a2
+
 ---
- Documentation/filesystems/ntfs3.rst | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/Documentation/filesystems/ntfs3.rst b/Documentation/filesystems/ntfs3.rst
-index 2b86a9b3a6de..e1d86dcc3316 100644
---- a/Documentation/filesystems/ntfs3.rst
-+++ b/Documentation/filesystems/ntfs3.rst
-@@ -109,6 +109,29 @@ this table marked with no it means default is without **no**.
-        Kernel. Not to be confused with NTFS ACLs. The option specified as acl
-        enables support for POSIX ACLs.
- 
-+   * - ads
-+     - Enable access to alternate data streams, i.e. named $DATA
-+       attributes. A stream is addressed by appending a colon and the
-+       stream name to the file name. Reading the pseudo-stream
-+       ``query_streams`` returns the names of the streams attached to a
-+       file, one per line::
-+
-+         cat file:query_streams   # list stream names
-+         cat file:ads1            # read a stream
-+         touch file:ads2          # create a stream on an existing file
-+         rm file:ads1             # remove a stream
-+
-+       Creating a file together with a stream in a single call, and
-+       renaming a stream, are not supported. Enabled by default.
-+
-+   * - nocase
-+     - Perform file name lookups case-insensitively.
-+
-+   * - delalloc
-+     - Delay block allocation for buffered writes until writeback,
-+       rather than allocating as each write is issued. This lets the
-+       driver allocate larger contiguous runs and reduces fragmentation.
-+
- Todo list
- =========
- - Full journaling support over JBD. Currently journal replaying is supported
--- 
-2.43.0
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
