@@ -1,130 +1,188 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F4B3EC826
-	for <ntfs3@lists.linux.dev>; Fri,  4 Sep 2026 09:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1859D480DD9
+	for <ntfs3@lists.linux.dev>; Fri,  4 Sep 2026 10:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788513151; cv=none; b=ixDdT848EzHCaq20e6cTwkyRwxLbcnlSRSZTT2nq4npEhlEwT7pj2bqKeyz0w2xHCXTcV3G/r608L5VLEvnZ68a1Zh14Ziy/aZ1mNOG03P5+3CovJwkIZURvRZZCEGBSon/Hq+1qivSbM70A9PtJ8N+S6N5lCHh2ruuq+zlUWcw=
+	t=1788519178; cv=none; b=UbMJ6wQIXQmK7Fy1AMghV1x5oH6bXZt+lCZXVnBGsEZ+UOCEnFUlNudF9q8A6evhV9nO2rIONlk+nUlR4VzhAHOESzDHx7Ehr1dykrXho0Jw1zMR0WN7srosMw5oRKcfzPfFcIvSCFsIZpGEtrrrRc6tRpDW4GaXCPK0Zqcgltg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788513151; c=relaxed/simple;
-	bh=F1zepebgNPnfi3e3NPKagzy1JV/VWdxKlaar6/23C6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KppFvM4AEXbx0Gp+Yt1C0t/ZaRo1z54ZDOQpkTCcbzf3W5L8Z7XT98f1SPIdyVaJxussBf5+L6+vSpd+94QRGaNZRGZZV5T8Ge3eMyHzm+OK8hHxRPyKSF5zMEWB/qnp67dnpV9z+BeRc9Kyt1Mp7FNXx/f9cDnOW+O2vr0LQ0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vvoi/ArV; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788519178; c=relaxed/simple;
+	bh=Alrr5L7q88NEL8Szn4wVstpVZHeCBflFtA7F3yDieCg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=FXTkHAf8/1jNVdMOLNMTEsh0zRbpqZpx/W7c8kv2W2b16QJifQjhI/zpdRVSb4G97979WwwDDN4OOH/0PBefosiOvWvrGnD47vCU1A0sOXOfhLIqhljxErdJn618O+xfVUHX365IOGszK2BGi4ENjCUeudjw/mBiqmklrDLiIoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=SGuM5PWv; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vvoi/ArV"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4843f205a5bso493025f8f.1
-        for <ntfs3@lists.linux.dev>; Fri, 04 Sep 2026 02:12:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="SGuM5PWv"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 183CE1B5;
+	Fri,  4 Sep 2026 10:53:43 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=SGuM5PWv;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E08762205;
+	Fri,  4 Sep 2026 10:52:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788513148; x=1789117948; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=LyM2dDVsIs4gNBkgpufM53paS3aQIrobm71GlbtzGBc=;
-        b=Vvoi/ArV8zuFjAHkA8CncCa7pPSHLzn4wwQRwqFwSM+Z1CA+wpOD1zSRlzxxMNIJcu
-         agYIHs3V7kkg3tjxEhbXKOHbLVsionwOzfS/ABwcr21ezHNndxObD3IY1ZihYc9R/rad
-         v/zgnKS3qPuFd8HTDKBVgx3TwN1UOwUVSMNQS9tRIqVc/cR+5VucIQO5Ikqe5EKebWSL
-         DsSLwRIp9sy4G/x+KfvoefnpnCgtcRNi3zesR8cNWuCw+B2Gb1HGQA1+GlqmUlfsNCBn
-         ge7Wnvx5zWEOzSTP5wKGIDozWfbkfQHsneYKcUMm76a3I0JR7N9KoDZOW5WpCNgYbofQ
-         NNxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788513148; x=1789117948;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LyM2dDVsIs4gNBkgpufM53paS3aQIrobm71GlbtzGBc=;
-        b=q630OlrapmKOWC5NzDh8bqxHW8WsnTsC7wG43bXX2qBm5cHkgpUVTv0Ax9ZvJ8Huvq
-         qS0z21RbKX2WABfv4pIiwDsxaO7FwzCG790xVrKM6K5sWz1AnaHEqlaScboU8IFjP8zO
-         SMmkAE8N/fEpEKO30dknlNgaHFxWQN8SbAxoXGloh5/V1YLLzfhKJGds47uK36Wsd+Cb
-         qoxvLkxxZ9mORoegzbGh1uboetCmkRgYjOCI4hDKMK9QLUlZXcTIrshuHH7pYtFNp5i3
-         QaUmzxEd/U6Zf4WBSpRZna7VOZ1XrpyRw1382tGa0H/EdhnrRYL9KMfDGYh4d0ukqk1K
-         /5+A==
-X-Forwarded-Encrypted: i=1; AKwUvBx7Ui7pxxKaBZYXxCS+sNwYQBf1NE/WjsrLu1GvvHC56rF0gnhUMymn1wRrVKTLoe2pUbWJMQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++lhmrHKDO9j8mvCCnlxdhPPLpzFjR1+xGuxtMDFPZItoz2UX+I3
-	mtmWmLXBg0U8/L+DeQuQk6pwyk9uzewwR1ILpeZv15SOhIftyJGB8QDC
-X-Gm-Gg: AYBFou0zvSI0UBF3azvwovey+GtyHL2qF9wudsSYJ3eKVMsicw4A/xRJM2hb825Ij17
-	UJJGeaa8PY1FMZT7JrxTqYcJKnOhPyFodY5xv4atJFHdwyuWDuj7VBH6z1jI2QUNks76JVf/C6B
-	E7MY8UL1GvK2n7v7zBukmGVQ2MxTMTsBXDeepA2+ZaXHPhue/iLNBsIUfY7mDX1FsCJnYm63lwq
-	BopvUqchTnOg7TMiTA+54U5zaqKnSGapLfk1A+eP0Tf32KuItWkGEwmLA+shvPYuNTZHuJe2f3v
-	dY+FIW7JsQdbRvV/tPbS9U49ED4j8wC0a4LBcsvR/MuqFSd4/p7hZkgbQkGNizWYEtbrrFYRis8
-	h5vGpceEyEIo8wMuavVLRWPlnlS6j6m48aOWQwxfah46mMl4z/Xa9RwsOnZ0jEdHo0foOnBUE68
-	kv3IlDlMfvSQzJGURy+PTIx0TPFH4bHW16wqOQ0TLhHEpCebBuTazD9cho+9HJLa7mhdFiUsXJ4
-	YLVwCCc+3Mvb1OaoiTA/zk=
-X-Received: by 2002:a05:6000:490e:b0:485:8a46:b3bc with SMTP id ffacd0b85a97d-4858a46b4b8mr3125770f8f.36.1788513148015;
-        Fri, 04 Sep 2026 02:12:28 -0700 (PDT)
-Received: from eldamar.lan (c-82-192-247-196.customer.ggaweb.ch. [82.192.247.196])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883959f0sm5239412f8f.10.2026.09.04.02.12.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 02:12:27 -0700 (PDT)
-Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
-Received: by eldamar.lan (Postfix, from userid 1000)
-	id 2B821BE2DE0; Fri, 04 Sep 2026 11:12:26 +0200 (CEST)
-Date: Fri, 4 Sep 2026 11:12:26 +0200
-From: Salvatore Bonaccorso <carnil@debian.org>
-To: vova tokarev <vladimirelitokarev@gmail.com>
-Cc: almaz.alexandrovich@paragon-software.com, security@kernel.org,
-	ntfs3@lists.linux.dev
-Subject: Re: Fwd: InjectionBunny: NTFS3 SUID injection leading to local
- privilege escalation
-Message-ID: <apqLejWrecEZkyhw@eldamar.lan>
-References: <CAGBKPgMqBMsBH4mm2fwggA8rJZ3R15nPxuEh0emOeVpX2kgHPA@mail.gmail.com>
- <CAGBKPgPiXyKWtjgYSACnugmG1XPs=mPg-Zu-xQziUZ1k921+qA@mail.gmail.com>
+	d=paragon-software.com; s=mail; t=1788519164;
+	bh=vefyIiQtac2+EOvQfCttqEQxxQyjgqS4+yO7HGAhC2Q=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=SGuM5PWvpE/F/J0lyuPm9C5cfvM62eWe+Vlgbqv2KrjEHuK/q+mjapy9TW++p2YF1
+	 GPOE7qGZ8wFZNbPB5lZI4mYHzSCCHuKYrKxuaB++sUEQej0LnQq6BOlkkD9+IY3uaK
+	 mFplFmv6778EDheMyXAUfEvrM3iGWUA1jd2FnKwU=
+Received: from [192.168.95.128] (172.30.20.203) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Fri, 4 Sep 2026 13:52:43 +0300
+Message-ID: <8d28e6a2-ff75-426b-9971-b8a0e9371bfe@paragon-software.com>
+Date: Fri, 4 Sep 2026 12:52:42 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGBKPgPiXyKWtjgYSACnugmG1XPs=mPg-Zu-xQziUZ1k921+qA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fs/ntfs3: fix slab-out-of-bounds write in
+ ni_create_attr_list()
+To: =?UTF-8?B?SEUgV0VJ77yI44Ku44Kr44Kv77yJ?= <skyexpoc@gmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>, Christian
+ Brauner <brauner@kernel.org>, <linux-kernel@vger.kernel.org>,
+	<stable@vger.kernel.org>
+References: <20260625031932.9412-1-skyexpoc@gmail.com>
+ <CAOC0qyLj55itFPEurfNddWpzzcPJ4j3bvDxfWBRev_GzPLL+mw@mail.gmail.com>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <CAOC0qyLj55itFPEurfNddWpzzcPJ4j3bvDxfWBRev_GzPLL+mw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hi Vladimir,
+On 7/6/26 06:40, HE WEI（ギカク） wrote:
 
-On Fri, Aug 07, 2026 at 01:39:35PM +0300, vova tokarev wrote:
-> Hi,
-> 
-> It's been almost two months since I reported this, and I haven't heard
-> back. I recently learned I should reach out to the subsystem maintainer
-> directly, so forwarding this to you.
-> 
-> I noticed that CVE-2026-63833 (commit f8d420949b33) was assigned and
-> merged for a related issue -- blocking setxattr() writes to $LX*
-> names. However, this only fixes one of the two attack vectors I
-> reported. The primary vector in my original report remains open:
-> 
-> A pre-crafted NTFS image (e.g. USB drive) with $LXUID=0, $LXGID=0,
-> $LXMOD=0104755 already in the MFT produces a setuid-root binary the
-> moment the volume is mounted. No setxattr() is involved -- the EAs
-> are on disk. The -EPERM check doesn't help.
-> 
-> The root cause is still at fs/ntfs3/xattr.c:1022:
-> 
->     inode->i_mode = le32_to_cpu(value[2]);
-> 
-> This loads S_ISUID/S_ISGID directly from untrusted on-disk data.
-> Desktop automounters (udisks) mount NTFS with suid by default, so
-> plugging in a crafted USB gives any local user euid=0.
-> 
-> Suggested one-line fix:
-> 
-> -   inode->i_mode = le32_to_cpu(value[2]);
-> +   inode->i_mode = le32_to_cpu(value[2]) & ~(S_ISUID | S_ISGID);
-> 
-> I have a full PoC and working demo (included in my original report
-> below). Would love to hear your thoughts.
+> Hi Konstantin,
+>
+> Gentle ping on this v2. It's an attacker-controlled on-disk image heap
+> out-of-bounds write in ni_create_attr_list(),
+> reachable via setxattr on a crafted, loop-mounted NTFS image (KASAN
+> trace is in the commit message), which is why it's Cc'd to stable.
+>
+> For the record, the fix was first posted as v1 on 2026-06-10:
+> https://lore.kernel.org/ntfs3/20260610002929.51765-1-skyexpoc@gmail.com/
+> This v2 (2026-06-25) only adds Cc: stable and widens review to
+> linux-fsdevel; the fix itself is unchanged from v1.
+>
+> Could you let me know if you'd like any changes, or whether it can be
+> queued for a future bugfix pull? I'm happy to rebase or adjust as
+> needed.
+>
+> Thanks,
+> HE WEI (ギカク)
+>
+> hewei-gikaku <skyexpoc@gmail.com> 于2026年6月25日周四 12:19写道：
+>> From: HE WEI (ギカク) <skyexpoc@gmail.com>
+>>
+>> ni_create_attr_list() allocates a fixed buffer of al_aligned(record_size)
+>> (== record_size) bytes and then walks every attribute of the primary MFT
+>> record, writing one ATTR_LIST_ENTRY per attribute and advancing the cursor
+>> by le_size(name_len), with no check against the end of the buffer; the
+>> total size is only computed after the loop.
+>>
+>> A minimum-size resident attribute occupies SIZEOF_RESIDENT (0x18 = 24)
+>> bytes on disk, but an unnamed attribute expands to le_size(0) (0x20 = 32)
+>> bytes in the list.  Because the number of attributes in a record is not
+>> bounded (mi_enum_attr() accepts arbitrarily many equal-type, nameless
+>> minimum-size attributes), a crafted record packed with such attributes
+>> produces a list larger than record_size and overflows the heap buffer.
+>>
+>> This is reachable from a crafted, loop-mounted NTFS image: opening the file
+>> and adding an attribute (e.g. via setxattr) drives ntfs_set_ea() ->
+>> ni_insert_resident() -> ni_insert_attr() -> ni_ins_attr_ext() ->
+>> ni_create_attr_list().
+>>
+>>    BUG: KASAN: slab-out-of-bounds in ni_create_attr_list+0xc48/0x1058
+>>    Write of size 4 at addr ffff000008984c00 by task setfattr/345
+>>     ni_create_attr_list+0xc48/0x1058
+>>     ni_ins_attr_ext+0x510/0x7c0
+>>     ni_insert_attr+0x3f8/0x70c
+>>     ni_insert_resident+0xc8/0x3b0
+>>     ntfs_set_ea+0x66c/0xd28
+>>     ntfs_setxattr+0x4d8/0x5b0
+>>     __arm64_sys_setxattr+0xa4/0x124
+>>    Allocated by task 345:
+>>     ni_create_attr_list+0x188/0x1058
+>>    The buggy address belongs to the cache kmalloc-1k of size 1024
+>>    (the write lands at object+1024).
+>>
+>> Size the buffer from the actual attributes instead of assuming a single
+>> record_size is always enough.
+>>
+>> Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: HE WEI (ギカク) <skyexpoc@gmail.com>
+>> ---
+>> v2:
+>>   - Add Cc: stable@vger.kernel.org: this is an attacker-controlled on-disk
+>>     image heap out-of-bounds write and should be backported.
+>>   - No functional change from v1; widening Cc (linux-fsdevel, VFS) for
+>>     review, as the v1 posting received no response.
+>>   - Drop a redundant self Reported-by.
+>>
+>> v1: https://lore.kernel.org/all/20260610002929.51765-1-skyexpoc@gmail.com/
+>> ---
+>>   fs/ntfs3/frecord.c | 20 ++++++++++++++++----
+>>   1 file changed, 16 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+>> index 2e901d073fe9..6488d7a415c0 100644
+>> --- a/fs/ntfs3/frecord.c
+>> +++ b/fs/ntfs3/frecord.c
+>> @@ -768,10 +768,23 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+>>          rs = sbi->record_size;
+>>
+>>          /*
+>> -        * Skip estimating exact memory requirement.
+>> -        * Looks like one record_size is always enough.
+>> +        * Compute the exact size of the attribute list.  Each attribute in the
+>> +        * record yields one ATTR_LIST_ENTRY of le_size(name_len) bytes.  The
+>> +        * minimum on-disk attribute is SIZEOF_RESIDENT (0x18) bytes, but an
+>> +        * unnamed one expands to le_size(0) (0x20) here, so a record crafted
+>> +        * with many such attributes needs more than a single record_size; the
+>> +        * previous fixed kzalloc(record_size) could therefore be overflowed by
+>> +        * an attacker-controlled record.
+>>           */
+>> -       le = kzalloc(al_aligned(rs), GFP_NOFS);
+>> +       lsize = 0;
+>> +       attr = NULL;
+>> +       while ((attr = mi_enum_attr(ni, &ni->mi, attr)))
+>> +               lsize += le_size(attr->name_len);
+>> +
+>> +       if (!lsize)
+>> +               return -EINVAL;
+>> +
+>> +       le = kzalloc(al_aligned(lsize), GFP_NOFS);
+>>          if (!le)
+>>                  return -ENOMEM;
+>>
+>> @@ -781,7 +794,6 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+>>          attr = NULL;
+>>          nb = 0;
+>>          free_b = 0;
+>> -       attr = NULL;
+>>
+>>          for (; (attr = mi_enum_attr(ni, &ni->mi, attr)); le = Add2Ptr(le, sz)) {
+>>                  sz = le_size(attr->name_len);
+>> --
+>> 2.43.0
 
-AFAICS, this did not got a patch yet. Would you mind submitting a
-patch to Konstantin? I'm adding Konstantin Komarov explicitly to this
-thread.
+Hello,
 
-Konstantin, context from
-https://lore.kernel.org/ntfs3/CAGBKPgPiXyKWtjgYSACnugmG1XPs=mPg-Zu-xQziUZ1k921+qA@mail.gmail.com/
-.
+Sorry for the delay. Sure, the patch is not applied yet but I'll inform
+you as soon as it will be.
 
 Regards,
-Salvatore
+Konstantin
+
