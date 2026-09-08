@@ -1,76 +1,164 @@
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com [209.85.160.71])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6B4384CE5
-	for <ntfs3@lists.linux.dev>; Sat,  5 Sep 2026 23:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.71
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788651544; cv=none; b=KIaVhWKoNo6gNT2c8AKqN2XHm6+IK0aRMy7Wn8IZtYbb1yisGBJ4p9W1TlDLEQW8S8AZ4Y+xyS4jNV6tRBhURQAIQUCgktDUwF66RCThI+/ufUNaNN/nQPUin3/VFi8hmLl0IhxLXWw0WLiweNlKPsTkOTWP7pLliQVZYIjsDJM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788651544; c=relaxed/simple;
-	bh=w6esUUNPu8BpPol/KRZXiWuoZ2jzAQ93b3hbqEc5MEk=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=hzS3npyTPNs4EM4rKht5yEI/fGS3XNxsKhjAr5DQFdBtMSN3chF/0Bq/56LNjhgrNsNeF5z5NikH1IMQ0bpVPjkOfRm4sCq8fc+oz28mtBpDkR8HY/DUk2MWz+Rcfx7SxKyZqgumlxYZRfJSA3/45tdtyM7rcPbni77hwfta9N4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-45a07949855so3433869fac.2
-        for <ntfs3@lists.linux.dev>; Sat, 05 Sep 2026 16:39:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F8634F24C
+	for <ntfs3@lists.linux.dev>; Tue,  8 Sep 2026 05:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788844163; cv=pass; b=UaSnVGaqmCFqZW9CMs0Ee7oRwvOIBpSnVTzVlQ1obbKBpwOhLd723J2TnBJzLhgdBi9zhHX70a+07f5kwoTAhBcxNtax9efdJjGhjfVrKEqtqhgIN5ws+zXVd3CUHKrVpnx3pSdN1A7JsRysXa/YR3DSjX+qjjoj69nY6lLEmxo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788844163; c=relaxed/simple;
+	bh=vk08/TQ5Emf5sWq6Ld161egmYeby6hZszTZdM/m/mXc=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=KKu7NdIjawwabrl1YH4t2ueE7tzCaz0YprFAKBYzBLctN3d8PVh6QeD3zMXHVaHEdF6Lp7YZURQU2m1xVZg/tGSXi8ZjUP009RsiXbvy44J1tB9w1VgbpHhZz2E6VI4MQorByUXH9e1OLWQmN5ISbkBYscKIkKzYrUhoEb0cpjY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NaEDqsTs; arc=pass smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NaEDqsTs"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6a68ca482e2so5194089a12.0
+        for <ntfs3@lists.linux.dev>; Mon, 07 Sep 2026 22:09:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788844159; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Z/Lag7fE42r1Mo3yNQv4DI2eMhUcd0GYUTZUb/ehgdWypuqLmIsMSITaNR7hBSmpgO
+         1EzGlTXf0NQsXrXtDwugmiNYEqNcXXtVbGWVWmK2jAogcdGa7rLu4XURWFBQj52LCzzb
+         RO/detEmYQEm5MIl19sGrFce93t/+Dxi0BQexWCwqyX+ErivMAvHbP6/GbzR3Rpb2isD
+         Mmm6550KcIYa4EAcdcme+2XLqqeth47eI4OxNdR348GSV65Vf1yc2R0Ys3wXHha2LMwf
+         IVsI96Qk9gXOifC4KpYPw4fOXEakUg3wzW75O/u2y0j3Sn1Y1cO6nVDH6jDaUJP/zFhW
+         CtWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=vk08/TQ5Emf5sWq6Ld161egmYeby6hZszTZdM/m/mXc=;
+        fh=0bRT8HPoic60sr2LTjGC2O4LbhSFGfL/vKZQ7OtnWYc=;
+        b=BcFqWir9gq/k4rnRBzLy5C75a9haEtoS747M2+MBQAApMuRUVOv9YBauK9hJf46jR2
+         duNpNzKolBXzsvey9rto1qNRogb6EZ7Y4FmXPw93L+tCiwcdRG2xALSjyeW8TrClUEQW
+         fnANieihOd/bqCTNPDGDjHXYPy/N0uuty4b1XsAE5n8KV5xlOo3DRGpnYTmmr9AEUOi9
+         1lIu+tCsMTDF0gwCm9qaMp2JsWz3bG1v6EfBn8ujzReFZqSBSKsWS74iXIN/SRGIMi2u
+         oZtNGyTbRE3vHN8qLIn9CwTXmF9bl2uG3xOG923/w5r4OrNLcVR84TM7WgwlSW6N4vvo
+         EJ1Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788844159; x=1789448959; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vk08/TQ5Emf5sWq6Ld161egmYeby6hZszTZdM/m/mXc=;
+        b=NaEDqsTsh9hyMbQ5u00ZYPulKfF6wM4OUDIQ0HCJ6aXzyKMPLxbkVe+yDNYYpSCS/k
+         MoMM+ghxLvEqP6RnLV+K/J3STJb2btIvEBHJQxsZJOmorl+3+4rVSWVIF7mZfIRtMV1p
+         TTGPbFFbT1ADTlxVfPl5AFrlaKDVlZKGe8BAEf4hioHbYhqfpUEIPgvl80pkRt8Ficj7
+         YEpD48/2Y3YQ9cGgkucL52WNalfROI5Bf3HPQOM8+xfOKYPpDVV5Tr8LZC3kFUrltVjv
+         b4fa85aIao7qGZWhvdEq1FVc4ApNq4TLCbjDfiIG5P+uiQpEcWrfCKOipR4wFQ1nAuIQ
+         TL7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788651541; x=1789256341;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20251104; t=1788844159; x=1789448959;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=OKXoibRSw/wOsrV5a7d8BhV7hWNdQ7b1sUhe44l++gQ=;
-        b=T07dvRrxY0AuteqeUxTeSlAEqieUSpKuR3zQW38fgcNWC12YX0tTVKxKSu+80lHuYf
-         mlGsiWbOzENGBUC3zhRXkivYVAKaxmg2l+2f5dusNYQ9Qmph4W85mox5zTlCG7T8riry
-         Ay9PDzoQwNgmUMy/374aL9/6WihHTU2FzIbenRgzymbuOf3JkRUagyCP3/ma8Ov42MQz
-         YSQ90wcTvwuywRUivgljrbiVbg3N9MLUr7rPU1r5M4oDGAmZLuexahLyNqtOtlfcVRBR
-         cwxBn0/Fk472G0mkcZZhtweZ+xpKyx/FT52+noh8Su2JCVHKk8ghM1Z9R2UqPcEngE3U
-         IvRQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwDOoq5/V8IyBk6JYsLm+ClqW7IA8taonIsps+8etFZ2/cQSCQdL8shKZ2DsQ2VqigJZRdmzQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++neQe/Y2oU/H/Req1YLDeU42Iu+I1rQw5jcrU8/7/MMZMoD212h
-	Tw52NXxGiFC+1FQBaHr+BSYQy0tEo9wkr2CE4dRVsDeSSH5ya0zh2dTEt1ZM+z3WGWePbgPoIhX
-	bRQFTbx783uuAdAZYu1VHWLQJm7WqSU5I8vQPFZT4RzjT8mHoi3QspeCf2ek=
+        bh=vk08/TQ5Emf5sWq6Ld161egmYeby6hZszTZdM/m/mXc=;
+        b=HODU5N6I8sj48uvBUn8s92/KqyBqoK2Q7UrbwR9hDvQHZ89kN6f8MxvKUlXukAahqu
+         t6Ua5Ereyf+Y6x+vKiM11l3MBOdyyc7dg8s2H0GXsAxWg5V/2FoEcyupN2oMU2BdyjFn
+         ebreJYMytadOpMrYYVAO1hKuuaDQ0kLRZYFnqBDpEk0a47zmjuvPQ65HiXIlCospFzbL
+         RxGexx7vwJi8kcVkbn8vNACxjenpLtp/j0zlItZQApXBqWX+mM3ZnDC7+9wrw4kov0+z
+         /PuBac2i6wlQUT1PNpTt1LEWjgB2APmOg3B7CuXDJ826eWUiMFMjm6uoloptLHkJosbG
+         Ju5Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxBEnxgKUS2/q1Z1oVjqUKv9sMwHB7SCZmnKqkGbTKMnFh02w4aoaPj3Yj0+5tY884lroBMGA==@lists.linux.dev
+X-Gm-Message-State: AFuF++lEhkJRp6Ga+35hPIGcSI/OyilVYrziTlJH9kjC52mSFRvSfpGh
+	ZZqaGrkgpx22/L2XBAZvBctUP07H4V4N01M7Q6b0vpqQccHio6ZU99SQS+4eaU8T4M/aecwFEHc
+	QQ6MHsVnDGTmjFaf4CsR8PX+e5v8ILmg=
+X-Gm-Gg: AYBFou1ILpP1dv7XKzw92euN8FJWc/BYnsbOT0Xy//cnGR8py/EsPoSe5/aqIRuQlQL
+	Dwvt7dbX1UOZv/2dPMJ9bNXS5Bv8F9sLvol6ZVh9Ep5H8b9J2f2123Qhvy2Hj/upRPH/8pxMZbW
+	I6Zcsxfj11VcjBA3u6Gu4yUMlIgkoC+82aiFhwaUhSh8Gsbxmi8XVF1HIQchMCTum1yoO4X9jlv
+	hRsoiUrssYVHRvvMnMK/9oD26ZqABl421wKc4oC7VCxRUe9Qeph/m7+WRILuHjBrU8miiaSDhpV
+	q7Fj86n1hWTLUrZW5rpNrmCyCmc2DYOvdD/f3gJGSf//y7WNPeXkHA5D5m7G0mBECsurdzeQpUT
+	FKQ==
+X-Received: by 2002:a05:6402:4544:b0:6a1:c4f:3153 with SMTP id
+ 4fb4d7f45d1cf-6a7e8d37360mr14074028a12.2.1788844159005; Mon, 07 Sep 2026
+ 22:09:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:201b:b0:6b7:46fc:1d0 with SMTP id
- 006d021491bc7-6b746fc0280mr8338537eaf.47.1788651541499; Sat, 05 Sep 2026
- 16:39:01 -0700 (PDT)
-Date: Sat, 05 Sep 2026 16:39:01 -0700
-In-Reply-To: <6a42cfca.9dc7bc9d.3393b4.0008.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a9ca815.2e659fcc.61e1a.0009.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] possible deadlock in ntfs_readdir
-From: syzbot <syzbot+cfc6e8106bec1c524f7d@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, gality369@gmail.com, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
+From: Akiyoshi Kurita <akito5623@gmail.com>
+Date: Tue, 8 Sep 2026 14:09:03 +0900
+X-Gm-Features: AcwNN1XnCpyMZopb-kqDztzY7G18b3mbs0ElXQp_21v9sLllCT1OG_y8kZdVA7U
+Message-ID: <CALytvNseAEDuMt+7Yv8kTcaOV2xJtSJdAZKwTMsiG4ksfb50tQ@mail.gmail.com>
+Subject: [SECURITY] NTFS3: potential SUID injection via pre-crafted $LX*
+ on-disk metadata
+To: almaz.alexandrovich@paragon-software.com
+Cc: security@kernel.org, ntfs3@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-syzbot has bisected this issue to:
+Hello,
 
-commit d62cf685d12e95cc0a4122c43cd9f0eb8bba0b4c
-Author: ZhengYuan Huang <gality369@gmail.com>
-Date:   Mon Apr 27 07:26:50 2026 +0000
+I would like to report a potential local privilege escalation issue in
+the Linux kernel NTFS3 filesystem implementation involving pre-crafted
+on-disk $LX* metadata.
 
-    fs/ntfs3: hold ni_lock across readdir metadata walk
+This issue has already been publicly discussed on the NTFS3 mailing
+list and a working PoC has been publicly disclosed.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1376eb49580000
-start commit:   02dc699f83d0 Merge tag 'kbuild-fixes-7.2-1' of git://git.k..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=10f6eb49580000
-console output: https://syzkaller.appspot.com/x/log.txt?x=1776eb49580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cb17729fb04b1e3a
-dashboard link: https://syzkaller.appspot.com/bug?extid=cfc6e8106bec1c524f7d
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=107a8db9580000
+Public references:
 
-Reported-by: syzbot+cfc6e8106bec1c524f7d@syzkaller.appspotmail.com
-Fixes: d62cf685d12e ("fs/ntfs3: hold ni_lock across readdir metadata walk")
+NTFS3 mailing list:
+https://lore.kernel.org/ntfs3/?q=InjectionBunny
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Thread:
+"Fwd: InjectionBunny: NTFS3 SUID injection leading to local privilege
+escalation"
+
+Phoronix:
+https://www.phoronix.com/news/NTFS3-Vulnerability-For-Root
+
+This is related to, but may not be fully addressed by,
+CVE-2026-63833.
+
+CVE-2026-63833 prevents unprivileged users from directly writing the
+reserved $LXUID, $LXGID, $LXMOD and $LXDEV attributes via setxattr().
+
+However, the potentially remaining attack vector involves a
+pre-crafted NTFS filesystem where these attributes are already present
+in the on-disk MFT metadata before the filesystem is mounted.
+
+ntfs_get_wsl_perm() loads this metadata and assigns $LXMOD to the
+inode mode:
+
+inode->i_mode = le32_to_cpu(value[2]);
+
+Therefore, a crafted filesystem containing metadata equivalent to:
+
+$LXUID=0
+$LXGID=0
+$LXMOD=0104755
+
+may expose an attacker-controlled executable as setuid-root when the
+filesystem is mounted without nosuid.
+
+This does not require setxattr() to be called on the target system,
+because the malicious $LX* metadata is already present in the
+filesystem image.
+
+The proposed hardening discussed publicly is effectively:
+
+- inode->i_mode = le32_to_cpu(value[2]);
++ inode->i_mode = le32_to_cpu(value[2]) & ~(S_ISUID | S_ISGID);
+
+I would like to confirm whether the existing CVE-2026-63833 fix is
+considered sufficient for this pre-crafted filesystem attack vector,
+or whether additional validation/hardening is required when loading
+$LXMOD from disk.
+
+The issue is also currently being investigated by Red Hat Product
+Security under:
+
+PSIRTSUPT-22323
+"Potential NTFS3 SUID injection / LPE via crafted on-disk $LX* metadata"
+
+I have not identified an upstream fix specifically addressing the
+pre-crafted on-disk metadata vector at this time.
+
+Please let me know if additional testing or version-specific
+verification is required.
+
+Best regards,
+Akiyoshi Kurita
