@@ -1,238 +1,147 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDD753444D;
-	Wed,  9 Sep 2026 11:13:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D03F569F27
+	for <ntfs3@lists.linux.dev>; Wed,  9 Sep 2026 13:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788952406; cv=none; b=BC2y73qUBeOo+uhQKT233Whotg8A3yFjNVZBv6ckq3OMTJBkD9ye7vJuvSFiTt1Zq8EJpbSnzbZrblUMRlw2prVccei46lr2OgbmvD9MsUYoiteGZD6aKUAV1BwcWB9E6PyItQbVL1+yhwK73ENcguIZ1J+6TRsJ+AYQtQ573QQ=
+	t=1788960849; cv=none; b=t4Pw+nCjduFqSGw66JvhFKIKDgWWA8Fr6KPWFXZpX7xQoZv7QA5noVejy5wRlPkly91665tE6TiDWREaFjRnB7eUFv/sFNG2FSykxudjfouf+RBBwDmbvsY+Jui3WV8kMjZk/oLDzytoh5lNEWGL1Tokt+5SDLOLiaWcfCi2cZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788952406; c=relaxed/simple;
-	bh=Z1ZvfQTCP9miJZUJrg2PhIgqafneuXFxguvQNrM6Ouk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W9xT1lf4jaYz7XxY+upztNbJlC7w84+fYGT0W/pLo4/7AN/X8rofsqXPvNFJy8p/VltTl/6NrtqpS5Q4YzgvVyicJz0RKqwBXSdTV+s6u1rYFO9DP6wN9n7ypK1600YKbynMfRtgz/qTz/uBRiN7tLdrEfcndd44gyxRKb+5Vcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kTzbP3mg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=t205eAep; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=aDR46n9V; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7EltjWLF; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1788960849; c=relaxed/simple;
+	bh=4su4DqQYMnVIN5ctUhNBs87iw5tUTSE0DpJpve2mjgM=;
+	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=djo0OdDOyUh6IQNVu6xqu5UhvPHbdPM/vu8Cx4+dObceBT3nF4vfxwejKOloG8XP1ckrikwZlxEJZmtyMjLTpkXp7aDEYRUQ4cPg6hqYgxMfmgEwPSY+oGBLlSLtdR2NXGJQAYAeKtJ54NdMcXs6vz828QIbwBMlkx5LhVKyU/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=hxDamS79; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kTzbP3mg";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="t205eAep";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="aDR46n9V";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7EltjWLF"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C1925223A2;
-	Wed,  9 Sep 2026 11:13:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788952392; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fIzu71Kacz/rjBQc2Rxx6ElSm2DVRC+o904X8TAJwRA=;
-	b=kTzbP3mg4YSr+PuY8NwUS8DMeBCaobqcsHplbhgNV+ziDTpAKSQv8pxPCb+8mowhs6eqqu
-	YYHKShTKYGEBM8mMALYLxayiNo7GaNgCkM28zgdy7h7SJamOWV6gAFpqFa/WXwfNo2xK/D
-	1qp+8RcfD+OWfHbNWky1hVOGosF9nXY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788952392;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fIzu71Kacz/rjBQc2Rxx6ElSm2DVRC+o904X8TAJwRA=;
-	b=t205eAepGhpjwttuPrUE/wcjUM83Zcq/8dtqAA6Vwm6PPvOonF/RxmX/R/tNGuIKpmIxpr
-	TjbJO4AVBZvFS5CA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788952387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fIzu71Kacz/rjBQc2Rxx6ElSm2DVRC+o904X8TAJwRA=;
-	b=aDR46n9V26MJxlJLA7szhUPyb0VkjhT1Ktj+8UN2YUtuz2VIPvJiWAs7FOZ3EGG0MwMp+u
-	FI67lrA8FaPRtIhdkEhrafdPR5oHwA6xSpD2JI7LrvTW4WCcNs4AssHh1tj5xuQyvJuxYb
-	yB0oWsrUPnyfZmI62TQxA12Hcib0Xsg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788952387;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fIzu71Kacz/rjBQc2Rxx6ElSm2DVRC+o904X8TAJwRA=;
-	b=7EltjWLFGqsO58yv3jieM39o4c2LrIU/gMfLVRPPKs380u0yjrsVJRrHQVfaq9lcfGPfb1
-	SyzlKccfMCD+bkCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0BA871347F;
-	Wed,  9 Sep 2026 11:12:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6kifCTA/oWpMXAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 09 Sep 2026 11:12:17 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C9C95A13AC; Wed, 09 Sep 2026 13:11:18 +0200 (CEST)
-Date: Wed, 9 Sep 2026 13:11:18 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, jack@suse.cz, 
-	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk, ntfs3@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, stable@vger.kernel.org, 
-	syzbot+2a13ad6914e6fcec716c@syzkaller.appspotmail.com
-Subject: Re: [PATCH] fs/ntfs3: use d_instantiate_new() in ntfs_create_inode()
- and murder syzbot's "WARNING in do_new_mount" saga
-Message-ID: <wb2nqwn5fbrlp37u252gqptbtigphwjd3dceecebidbgmm6o2s@u74tm6ckvro7>
-References: <20260909-work-ntfs3-d_instantiate_new-v1-1-2db697162ce8@kernel.org>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="hxDamS79"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=4su4DqQYMnVIN5ctUhNBs87iw5tUTSE0DpJpve2mjgM=; b=h
+	xDamS79YF1fJgpFnCy9h6D0b1fLtT4bFtAXvmWsLjCAf7fm5aLZpYIcEszR2VoFo
+	WAsOUxebUbWM4KQThCGpyk0Xd+FFV1KBX9ofe+B+mGfSBlq0Q+ntBQps44QvL1YM
+	EPy4fE3kHRMyMB84Z/bmykkyJ+BKPEWQ2zSDViUG2c=
+Date: Wed, 9 Sep 2026 21:33:58 +0800 (CST)
+From: Shawn <shawnq1@163.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: reject short restart table entries
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
+X-NTES-SC: AL_Qu2TCvWdv0Ao7iGcY+kdmEgXg+s9XsSysvog1YZXc+sEpgL39SAKRXtcJmHHycOKFhyotSCKbT1r68FafodJA/+iCU/1lvn7DZlrehsoXA==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260909-work-ntfs3-d_instantiate_new-v1-1-2db697162ce8@kernel.org>
-X-Spam-Level: 
-X-Spam-Score: -2.30
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[2a13ad6914e6fcec716c];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,suse.com:email,suse.cz:email]
+Message-ID: <72bf4f2c.9eb3.1a08660120d.Coremail.shawnq1@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:ZCgvCgD3Px1GYKFqw1xDAA--.9709W
+X-CM-SenderInfo: pvkd40jtr6il2tof0z/xtbCzwYsOmqhYEbXmAAA39
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-On Wed 09-09-26 11:03:18, Christian Brauner wrote:
-> ntfs_create_inode() creates a new inode via ntfs_new_inode(). It hashes
-> it with insert_inode_locked() and so it's marked as I_NEW until
-> unlock_new_inode().
-> 
-> ntfs 3 calls d_instantiate() in between though... Since the dentry was
-> already hashed by the lookup before the create any path walk finds it
-> without touching the parent's i_rwsem and so can lock the inode.
-> 
-> If the inode is a directory unlock_new_inode() calls
-> lockdep_annotate_inode_mutex_key() and marks i_rwsem with the
-> i_mutex_dir_key class.
-> 
-> That resets the count and the owner of a lock somebody else may already
-> hold by now...
-> 
-> syzbot has been spamming us with the same godforsaken bug
-> 
->   "WARNING in do_new_mount"
-> 
-> since 2023. I can't take it anymore so I went looking. Afaict, syzbot's
-> executor chdirs into a freshly mounted ntfs3 image, creates a
-> directory and then mounts some pseudofs on it. Everytime the mkdir()
-> takes longer than syzbot waits mount() runs concurrently:
-> 
->   mkdir("./sys")                        mount(NULL, "./sys", "sysfs")
->   ntfs_create_inode()
->     d_instantiate()
->                                         user_path_at() finds the dentry
->                                         do_lock_mount()
->                                           inode_lock(inode)
->                                           namespace_lock()
->     unlock_new_inode()
->       lockdep_annotate_inode_mutex_key()
->         init_rwsem(&inode->i_rwsem)
->                                         unlock_mount()
->                                           inode_unlock(inode)
-> 
-> The mount side then releases a lock that according to the rwsem nobody
-> holds:
-> 
->   DEBUG_RWSEMS_WARN_ON((rwsem_owner(sem) != current) && ...):
->   count = 0x0, magic = 0xffff888043a854e8, owner = 0x0,
->   curr 0xffff888000244880, list empty
->   WARNING: CPU: 0 PID: 5346 at kernel/locking/rwsem.c:1368 __up_write
->   Call Trace:
->    inode_unlock include/linux/fs.h:877 [inline]
->    unlock_mount fs/namespace.c:2892 [inline]
->    do_new_mount_fc fs/namespace.c:3828 [inline]
->    do_new_mount+0x777/0xa40 fs/namespace.c:3887
-> 
-> On PREEMPT_RT the same thing shows up as
-> 
->   DEBUG_LOCKS_WARN_ON(rt_mutex_owner(lock) != current)
->   WARNING: kernel/locking/rtmutex_common.h:193 at rt_mutex_slowunlock
-> 
-> The up_write() underflows the reset count. A following inode_lock() on
-> that directory then never returns. A path walk into the new directory
-> racing with the mkdir() corrupts the lock the same way via
-> inode_lock_shared() in lookup_slow().
-> 
-> Switch to d_instantiate_new() and drop the trailing unlock_new_inode().
-> All error paths bail out before that point with I_NEW still set and
-> keep using discard_new_inode().
-> 
-> May we never see this fscking bug report again.
-> 
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> Cc: stable@vger.kernel.org # v5.15+
-> Reported-by: syzbot+2a13ad6914e6fcec716c@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/6a9beced.a5e650b3.26d8a.000b.GAE@google.com
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/ntfs3/inode.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index 56b4f6469a28..4ac26c80bd34 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -1866,10 +1866,10 @@ int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
->  		goto out6;
->  
->  	/*
-> -	 * Call 'd_instantiate' after inode->i_op is set
-> +	 * Call 'd_instantiate_new' after inode->i_op is set
->  	 * but before finish_open.
->  	 */
-> -	d_instantiate(dentry, inode);
-> +	d_instantiate_new(dentry, inode);
->  
->  	/* Set original time. inode times (i_ctime) may be changed in ntfs_init_acl. */
->  	inode_set_atime_to_ts(inode, ni->i_crtime);
-> @@ -1917,9 +1917,6 @@ int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
->  	if (!fnd)
->  		ni_unlock(dir_ni);
->  
-> -	if (!err)
-> -		unlock_new_inode(inode);
-> -
->  	return err;
->  }
->  
-> 
-> ---
-> base-commit: 893e11787f78e43b534e252249ac3fff4d1333f8
-> change-id: 20260909-work-ntfs3-d_instantiate_new-814ad31dea82
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+SGVsbG8sCgpjaGVja19yc3RibCgpIGluIGZzL250ZnMzL2ZzbG9nLmMgYWNjZXB0cyBhIHJlc3Rh
+cnQtdGFibGUgZW50cnkgc2l6ZSBzbWFsbGVyCnRoYW4gdGhlIGZvdXIgYnl0ZXMgaXQgdW5jb25k
+aXRpb25hbGx5IHJlYWRzIGZvciBldmVyeSBlbnRyeS4gIEEgY3JhZnRlZCBOVEZTCiRMb2dGaWxl
+IGNhbiB0aGVyZWZvcmUgY2F1c2UgYSBrZXJuZWwgaGVhcCBvdXQtb2YtYm91bmRzIHJlYWQgd2hp
+bGUgbW91bnRpbmcgYQpyZWFkLW9ubHkgZmlsZXN5c3RlbSBpbWFnZS4KClRoaXMgaXMgYSBtYW51
+YWxseSBjb25zdHJ1Y3RlZCByZXByb2R1Y2VyIGFuZCBkb2VzIG5vdCB1c2Ugc3l6a2FsbGVyLgoK
+SEVBRCBjb21taXQ6ICAgIDk0MGRlNTkwYjgzOWY3MWQ2ZGM4NDYxNjA1MzRiZjIwMjQwMWI4YjcK
+Z2l0IHRyZWU6ICAgICAgIHVwc3RyZWFtIExpbnV4IGNoZWNrb3V0LCBsb2NhbCBicmFuY2ggbWFz
+dGVyCnNvdXJjZSB2ZXJzaW9uOiBMaW51eCA3LjMuMC1yYzEtMDAxMDEtZzk0MGRlNTkwYjgzOQpj
+b21waWxlcjogICAgICAgZ2NjIChVYnVudHUgMTEuNC4wLTF1YnVudHUxfjIyLjA0LjMpLCBHTlUg
+bGQgMi4zOAoKY29uc29sZSBvdXRwdXQ6Cmh0dHBzOi8vZ2lzdC5naXRodWJ1c2VyY29udGVudC5j
+b20vc2hhb3MyNi9hNzM4MmQ5NmQyYTg2YzUxYzI3OWZkOTk0ZDlhMmExYy9yYXcvNmRjZTY2MGQ5
+OWUyNDQyNzVkY2M4N2VmNzkzOTFlMTBhYjY2YjlmMy9jb25zb2xlLW91dHB1dC50eHQKa2VybmVs
+IGNvbmZpZzoKaHR0cHM6Ly9naXN0LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zaGFvczI2L2E3Mzgy
+ZDk2ZDJhODZjNTFjMjc5ZmQ5OTRkOWEyYTFjL3Jhdy82ZGNlNjYwZDk5ZTI0NDI3NWRjYzg3ZWY3
+OTM5MWUxMGFiNjZiOWYzL2tlcm5lbC1jb25maWcudHh0CnJlcHJvZHVjZXI6Cmh0dHBzOi8vZ2lz
+dC5naXRodWJ1c2VyY29udGVudC5jb20vc2hhb3MyNi9hNzM4MmQ5NmQyYTg2YzUxYzI3OWZkOTk0
+ZDlhMmExYy9yYXcvNmRjZTY2MGQ5OWUyNDQyNzVkY2M4N2VmNzkzOTFlMTBhYjY2YjlmMy9wb2Mu
+YwoKVGhlIGV4cGVyaW1lbnQgdXNlcyBRRU1VIFRDRyBvbmx5LiAgTm8gaGFyZHdhcmUsIGtlcm5l
+bCBtb2R1bGUsIGtwcm9iZSwKYWRkcmVzcyBsZWFrLCBvciBtb2RpZmllZCBrZXJuZWwgY29kZSBp
+cyByZXF1aXJlZCBmb3IgdGhlIHRyaWdnZXIuCgpUbyByZXByb2R1Y2UsIGNyZWF0ZSBhIGNsZWFu
+IE5URlMgaW1hZ2Ugb24gdGhlIGhvc3QgYW5kIGFwcGx5IHRoZSBvbi1kaXNrIGxvZwptdXRhdGlv
+biB3aXRoIHBvYy5jOgoKICAgIGNjIC1PMiAtV2FsbCAtV2V4dHJhIC1vIG50ZnMzX21ha2VfcmVz
+dGFydCBwb2MuYwogICAgdHJ1bmNhdGUgLXMgMzJNIG50ZnMzLWNhbmRpZGF0ZS1iYXNlLmltZwog
+ICAgbWtudGZzIC1GIC1RIG50ZnMzLWNhbmRpZGF0ZS1iYXNlLmltZwogICAgY3AgbnRmczMtY2Fu
+ZGlkYXRlLWJhc2UuaW1nIG50ZnMzLWNhbmRpZGF0ZS5pbWcKICAgIC4vbnRmczNfbWFrZV9yZXN0
+YXJ0IG50ZnMzLWNhbmRpZGF0ZS5pbWcgLS1jYW5kaWRhdGUKCkJvb3QgdGhlIHVucGF0Y2hlZCBL
+QVNBTiBrZXJuZWwgaW4gYSBkaXNwb3NhYmxlIFFFTVUgZ3Vlc3QsIHBhc3MKbnRmczMtY2FuZGlk
+YXRlLmltZyBhcyBhIHJlYWQtb25seSBzZWNvbmQgdmlydGlvIGRpc2ssIGFuZCBydW46CgogICAg
+bW91bnQgLXQgcHJvYyBwcm9jIC9wcm9jCiAgICBtb3VudCAtdCB0bXBmcyB0bXBmcyAvdG1wCiAg
+ICBta2RpciAtcCAvdG1wL250ZnMKICAgIG1vdW50IC1vIHJvIC10IG50ZnMzIC9kZXYvdmRiIC90
+bXAvbnRmcwoKVXNlIHRoZSBmb2xsb3dpbmcgUUVNVSBjb21tYW5kIGZvciB0aGUgZGlzcG9zYWJs
+ZSBndWVzdDoKCiAgICBxZW11LWltZyBjcmVhdGUgLWYgcWNvdzIgLUYgcmF3IFwKICAgICAgLWIg
+PGJ1aWxkcm9vdC1iYXNlLWltYWdlPiAvdG1wL250ZnMzLXJlcHJvLXJvb3QucWNvdzIKCiAgICBx
+ZW11LXN5c3RlbS14ODZfNjQgLW0gMkcgLXNtcCAxIFwKICAgICAgLWtlcm5lbCA8bGludXgtdHJl
+ZT4vYXJjaC94ODYvYm9vdC9iekltYWdlIFwKICAgICAgLWFwcGVuZCAncXVpZXQgbG9nbGV2ZWw9
+MSBhY3BpPW9mZiBjb25zb2xlPXR0eVMwIHJvb3Q9L2Rldi92ZGExIGluaXQ9L2Jpbi9zaCcgXAog
+ICAgICAtZHJpdmUgZmlsZT0vdG1wL250ZnMzLXJlcHJvLXJvb3QucWNvdzIsZm9ybWF0PXFjb3cy
+LGlmPXZpcnRpbyBcCiAgICAgIC1kcml2ZSBmaWxlPS90bXAvbnRmczMtY2FuZGlkYXRlLmltZyxm
+b3JtYXQ9cmF3LGlmPXZpcnRpbyxyZWFkb25seT1vbiBcCiAgICAgIC1ub2dyYXBoaWMgLW1vbml0
+b3Igbm9uZSAtbWFjaGluZSBwYyAtbm8tcmVib290IFwKICAgICAgLXZpcnRmcyBsb2NhbCxwYXRo
+PTxyZXNlYXJjaC1yb290Pixtb3VudF90YWc9cmVzZWFyY2gsc2VjdXJpdHlfbW9kZWw9bm9uZQoK
+UmVwbGFjZSA8YnVpbGRyb290LWJhc2UtaW1hZ2U+LCA8bGludXgtdHJlZT4sIGFuZCA8cmVzZWFy
+Y2gtcm9vdD4gd2l0aCBsb2NhbApwYXRocy4gIFRoZSBzZWNvbmQgdmlydGlvIGRpc2sgaXMgL2Rl
+di92ZGIgaW4gdGhlIGd1ZXN0LgoKVGhlIHZ1bG5lcmFibGUga2VybmVsIHJlcG9ydHM6CgogICAg
+QlVHOiBLQVNBTjogc2xhYi1vdXQtb2YtYm91bmRzIGluIGxvZ19yZXBsYXkrMHg2ZmM4LzB4ZjI5
+MAogICAgUmVhZCBvZiBzaXplIDQgYXQgYWRkciBmZmZmODg4MDJhNWNmZWM0IGJ5IHRhc2sgbW91
+bnQvNDkxNAogICAgQ2FsbCBUcmFjZToKICAgICAgbG9nX3JlcGxheQogICAgICBudGZzX2xvYWRs
+b2dfYW5kX3JlcGxheQogICAgICBudGZzX2ZpbGxfc3VwZXIKICAgICAgZ2V0X3RyZWVfYmRldl9m
+bGFncwogICAgICB2ZnNfZ2V0X3RyZWUKICAgICAgcGF0aF9tb3VudAogICAgICBfX3g2NF9zeXNf
+bW91bnQKICAgIFRoZSBidWdneSBhZGRyZXNzIGJlbG9uZ3MgdG8gdGhlIGNhY2hlIGttYWxsb2Mt
+NjQgb2Ygc2l6ZSA2NAogICAgVGhlIGJ1Z2d5IGFkZHJlc3MgaXMgbG9jYXRlZCA0IGJ5dGVzIHRv
+IHRoZSByaWdodCBvZgogICAgYWxsb2NhdGVkIDY0LWJ5dGUgcmVnaW9uCgpUaGUgYWNjZXNzIGlz
+IHJlYWNoZWQgdGhyb3VnaCB0aGUgbm9ybWFsIG1vdW50IHBhdGg6CgogICAgbW91bnQoMikKICAg
+ICAgLT4gbnRmc19maWxsX3N1cGVyKCkKICAgICAgLT4gbnRmc19sb2FkbG9nX2FuZF9yZXBsYXko
+KQogICAgICAtPiBsb2dfcmVwbGF5KCkKICAgICAgLT4gcmVhZF9sb2dfcmVjX2xjYigpCiAgICAg
+IC0+IGZpbmRfbG9nX3JlYygpCiAgICAgIC0+IGNoZWNrX3JzdGJsKCkKICAgICAgLT4gNC1ieXRl
+IG91dC1vZi1ib3VuZHMgcmVhZAoKVGhlIGNyYWZ0ZWQgRFBUIHJlc3RhcnQgdGFibGUgaGFzIHRo
+ZXNlIHJlbGV2YW50IGZpZWxkczoKCiAgICBjbGllbnRfZGF0YV9sZW4gPSAweDQwCiAgICByZXN0
+YXJ0LXRhYmxlIGJ5dGVzID0gMHgyMAogICAgcmVzdGFydC10YWJsZSBzaXplID0gMQogICAgcmVz
+dGFydC10YWJsZSB1c2VkID0gOAogICAgcmVzdGFydC10YWJsZSB0b3RhbCA9IDgKICAgIGVudHJp
+ZXMgPSAweGZmIHggOAoKY2hlY2tfcnN0YmwoKSBjb21wdXRlczoKCiAgICB0cyA9IDEgKiA4ICsg
+c2l6ZW9mKHN0cnVjdCBSRVNUQVJUX1RBQkxFKSA9IDB4MjAKClRoZSBleGlzdGluZyBjaGVja3Mg
+cmVqZWN0IHNpemUgPT0gMCwgYnV0IGFjY2VwdCBzaXplID09IDEuICBUaGUgbG9vcCB0aGVuCmFk
+dmFuY2VzIGJ5IG9uZSBieXRlIHdoaWxlIGxvYWRpbmcgYSBfX2xlMzIgZnJvbSBlYWNoIGVudHJ5
+LiAgRm9yIHRoZSBmaW5hbAplbnRyeSwgdGhlIGZvdXItYnl0ZSBsb2FkIGV4dGVuZHMgYmV5b25k
+IHRoZSBhbGxvY2F0ZWQga21hbGxvYy02NCBvYmplY3QuCgpUaGlzIGlzIGRpc3RpbmN0IGZyb20g
+dGhlIGV4aXN0aW5nIHJlc3RhcnQtdGFibGUgZ3Jvd3RoIGFuZCBEUFQtc3BlY2lmaWMKcGFnZV9s
+Y25zW10gY2FwYWNpdHkgY2hlY2tzOiB0aGUgZ2VuZXJpYyBjaGVja19yc3RibCgpIGZvdXItYnl0
+ZSBsb2FkIGhhcHBlbnMKYmVmb3JlIHRob3NlIGxhdGVyIHZhbGlkYXRpb25zLgoKSW1wYWN0IGFu
+ZCBwcml2aWxlZ2UgYm91bmRhcnk6CgpUaGlzIGlzIGEga2VybmVsIGhlYXAgb3V0LW9mLWJvdW5k
+cyByZWFkIGNhdXNlZCBieSBhIG1hbGljaW91cyBOVEZTIGZpbGVzeXN0ZW0KaW1hZ2UuICBBIHJl
+YWQtb25seSBtb3VudCBpcyBzdWZmaWNpZW50OyB0aGUgaW1hZ2UgZG9lcyBub3QgbmVlZCB0byBi
+ZQp3cml0YWJsZSBhbmQgbm8gc3BlY2lhbCBoYXJkd2FyZSBpcyByZXF1aXJlZC4gIFRoZSBjdXJy
+ZW50IHJlcHJvZHVjZXIgdXNlZApyb290L0NBUF9TWVNfQURNSU4gaW4gdGhlIGRpc3Bvc2FibGUg
+Z3Vlc3QgdG8gYXR0YWNoIHRoZSBibG9jayBpbWFnZSBhbmQgbW91bnQKaXQuICBBbiB1bnByaXZp
+bGVnZWQgZGlyZWN0IG1vdW50IHBhdGggaGFzIG5vdCBiZWVuIGVzdGFibGlzaGVkLiAgTm8gcHJp
+dmlsZWdlCmVzY2FsYXRpb24sIGluZm9ybWF0aW9uIGRpc2Nsb3N1cmUsIG9yIGNvZGUgZXhlY3V0
+aW9uIGhhcyBiZWVuIGRlbW9uc3RyYXRlZC4KClJlamVjdCByZXN0YXJ0LXRhYmxlIGVudHJ5IHNp
+emVzIHNtYWxsZXIgdGhhbiB0aGUgd2lkdGggdXNlZCBieSB0aGUgdmFsaWRhdGlvbgpsb29wOgoK
+Rml4ZXM6IGI0NmFjZDZhNmE2MiAoImZzL250ZnMzOiBBZGQgTlRGUyBqb3VybmFsIikKQ2M6IHN0
+YWJsZUB2Z2VyLmtlcm5lbC5vcmcKU2lnbmVkLW9mZi1ieTogc2hhb3MgPFlPVVJfRU1BSUw+Ci0t
+LQogZnMvbnRmczMvZnNsb2cuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
+KSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2ZzL250ZnMzL2ZzbG9nLmMgYi9mcy9udGZz
+My9mc2xvZy5jCmluZGV4IGVkNTBjMWQwYzIzZTMuLmMyNGEwNzEzYjg1OTkgMTAwNjQ0Ci0tLSBh
+L2ZzL250ZnMzL2ZzbG9nLmMKKysrIGIvZnMvbnRmczMvZnNsb2cuYwpAQCAtNzQ1LDcgKzc0NSw3
+IEBAIHN0YXRpYyBib29sIGNoZWNrX3JzdGJsKGNvbnN0IHN0cnVjdCBSRVNUQVJUX1RBQkxFICpy
+dCwgc2l6ZV90IGJ5dGVzKQogCiAgICB0cyA9IHJzaXplICogbmUgKyBzaXplb2Yoc3RydWN0IFJF
+U1RBUlRfVEFCTEUpOwogCi0gICBpZiAoIXJzaXplIHx8IHJzaXplID4gYnl0ZXMgfHwKKyAgIGlm
+IChyc2l6ZSA8IHNpemVvZihfX2xlMzIpIHx8IHJzaXplID4gYnl0ZXMgfHwKICAgICAgICByc2l6
+ZSArIHNpemVvZihzdHJ1Y3QgUkVTVEFSVF9UQUJMRSkgPiBieXRlcyB8fCBieXRlcyA8IHRzIHx8
+CiAgICAgICAgbGUxNl90b19jcHUocnQtPnRvdGFsKSA+IG5lIHx8IGZmID4gdHMgLSBzaXplb2Yo
+X19sZTMyKSB8fAogICAgICAgIGxmID4gdHMgLSBzaXplb2YoX19sZTMyKSB8fAoKVmFsaWRhdGlv
+biByZXN1bHRzOgoKICAgIHVuZml4ZWQgS0FTQU4ga2VybmVsOiAgMS8xIHRyaWdnZXIsIEtBU0FO
+IHNsYWItb3V0LW9mLWJvdW5kcwogICAgdW5maXhlZCBzdGFiaWxpdHk6ICAgICAyMC8yMCBtb3Vu
+dC91bW91bnQgZW50cmllcyBjb21wbGV0ZWQ7IG9uZSBzYW1lLXNpdGUgS0FTQU4gcmVwb3J0CiAg
+ICBmaXhlZCBLQVNBTiBrZXJuZWw6ICAgICAxLzEgQS9CIHJ1biwgbW91bnRfZXhpdD0wLCBubyBL
+QVNBTi9PT0IvQlVHIHJlcG9ydAoKVGhlIDIwLzIwIGZpZ3VyZSBpcyB0aGUgc3VjY2Vzc2Z1bCBt
+b3VudC91bW91bnQgZW50cnkgY291bnQsIG5vdCAyMAppbmRlcGVuZGVudCBLQVNBTiByZXBvcnRz
+OyBLQVNBTiBzdXBwcmVzc2VzIHJlcGVhdGVkIHJlcG9ydHMgZnJvbSB0aGUgc2FtZQpzaXRlLgoK
+VGhhbmtzLAoKc2hhb3MK
