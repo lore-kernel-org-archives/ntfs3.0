@@ -1,147 +1,83 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D03F569F27
-	for <ntfs3@lists.linux.dev>; Wed,  9 Sep 2026 13:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA173C3F7C;
+	Thu, 10 Sep 2026 07:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788960849; cv=none; b=t4Pw+nCjduFqSGw66JvhFKIKDgWWA8Fr6KPWFXZpX7xQoZv7QA5noVejy5wRlPkly91665tE6TiDWREaFjRnB7eUFv/sFNG2FSykxudjfouf+RBBwDmbvsY+Jui3WV8kMjZk/oLDzytoh5lNEWGL1Tokt+5SDLOLiaWcfCi2cZk=
+	t=1789024943; cv=none; b=bhyLUQNXkzSGVA8zBus4tdKdqT4QT58ClOigWKFDZbF2w3ED6cPB5Vz5bOOQrLbkYtXGmpnwl4PPHIdJFijuF4PBem0ePmVTqewyvqs3vTPGclrMIzDwW/r1rQex3WiA3lxhkUIgPyiExjTt40Hbmqw4EwtvhBFqvZNp4MGmlNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788960849; c=relaxed/simple;
-	bh=4su4DqQYMnVIN5ctUhNBs87iw5tUTSE0DpJpve2mjgM=;
-	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=djo0OdDOyUh6IQNVu6xqu5UhvPHbdPM/vu8Cx4+dObceBT3nF4vfxwejKOloG8XP1ckrikwZlxEJZmtyMjLTpkXp7aDEYRUQ4cPg6hqYgxMfmgEwPSY+oGBLlSLtdR2NXGJQAYAeKtJ54NdMcXs6vz828QIbwBMlkx5LhVKyU/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=hxDamS79; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1789024943; c=relaxed/simple;
+	bh=M/1WWSkETfqoyY1iNz5Z3vXCWfB413XOrMNZIKu+EKU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=IwyD9osDb4T7i5zwCYK+pL6MavWgj+IG7yLHNWnXfOsODPs20MCadyjq8sPoy1JN59roF1enIlL83trxr0b7j4iTqcgxFQyGcMHjJTsaY1Cpi2G0GsU8mcM/+WtUXjf6r7lV+28YAcyZV3sfptS3tMlLMoYkr9aNdcAJLU7Jcw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJOH2bZB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="hxDamS79"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=4su4DqQYMnVIN5ctUhNBs87iw5tUTSE0DpJpve2mjgM=; b=h
-	xDamS79YF1fJgpFnCy9h6D0b1fLtT4bFtAXvmWsLjCAf7fm5aLZpYIcEszR2VoFo
-	WAsOUxebUbWM4KQThCGpyk0Xd+FFV1KBX9ofe+B+mGfSBlq0Q+ntBQps44QvL1YM
-	EPy4fE3kHRMyMB84Z/bmykkyJ+BKPEWQ2zSDViUG2c=
-Date: Wed, 9 Sep 2026 21:33:58 +0800 (CST)
-From: Shawn <shawnq1@163.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: reject short restart table entries
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
-X-NTES-SC: AL_Qu2TCvWdv0Ao7iGcY+kdmEgXg+s9XsSysvog1YZXc+sEpgL39SAKRXtcJmHHycOKFhyotSCKbT1r68FafodJA/+iCU/1lvn7DZlrehsoXA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJOH2bZB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 361261F000FF;
+	Thu, 10 Sep 2026 07:22:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789024940;
+	bh=s83Rm25xPXSOYy1Iwg12cDHiV8jbFWg/wF6f3Gu1nxY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=ZJOH2bZBjXlVlzSH+hbwUF75W60ezWzbLM8RQkYlRSedWHZubjL7f8FNPZ8s9dBwM
+	 9pdovSq3xfH1NWHnOqQweMdS9MhappwswRFSfVx5zl+ziBJRb9amgTtVJN+AU/b/fb
+	 xi5r1hJ1ChWpgO39G433AwNEwAyfqq9kE4T5xNK0EMxZqXzrF7fGFhx0uhRpFDqdy1
+	 hn2swoa1Va9jyis0u76fp3lccQHszOVVovxamXmUBzZ0Dwxr42dPtKBjVK1IbKOqBi
+	 l4/0HNts5m99fK5V9tIqaEfhqeX+eBUFdl11Klj8RD5r4fPRpCVA3iGeF2r60vWBxA
+	 Z8ksgQIouoV9w==
+From: Christian Brauner <brauner@kernel.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, linux-fsdevel@vger.kernel.org, 
+ Christian Brauner <brauner@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, jack@suse.cz, 
+ syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk, 
+ ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, stable@vger.kernel.org, 
+ syzbot+2a13ad6914e6fcec716c@syzkaller.appspotmail.com
+In-Reply-To: <20260909-work-ntfs3-d_instantiate_new-v1-1-2db697162ce8@kernel.org>
+References: <20260909-work-ntfs3-d_instantiate_new-v1-1-2db697162ce8@kernel.org>
+Subject: Re: [PATCH] fs/ntfs3: use d_instantiate_new() in
+ ntfs_create_inode() and murder syzbot's "WARNING in do_new_mount" saga
+Message-Id: <20260910-erbsen-beurteilen-affront-6a121821c172@brauner>
+Date: Thu, 10 Sep 2026 09:22:11 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <72bf4f2c.9eb3.1a08660120d.Coremail.shawnq1@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:ZCgvCgD3Px1GYKFqw1xDAA--.9709W
-X-CM-SenderInfo: pvkd40jtr6il2tof0z/xtbCzwYsOmqhYEbXmAAA39
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=995; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=M/1WWSkETfqoyY1iNz5Z3vXCWfB413XOrMNZIKu+EKU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtilrOcMH5x5/y6YHPinTPxJXobf05TeXKrfKyrvJLl
+ 2JmNH1c0FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJrAhXJwCMJHHEowM82MfK0mscfUV3rVQ
+ 9YPXp3kWqXFHf/6Zcvz2r9MP1swvWcnIsP+Pmcurm0VTKjb7cBXtlEldwn/jsP9d9eR5KY9YmKa
+ 3MQEA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-SGVsbG8sCgpjaGVja19yc3RibCgpIGluIGZzL250ZnMzL2ZzbG9nLmMgYWNjZXB0cyBhIHJlc3Rh
-cnQtdGFibGUgZW50cnkgc2l6ZSBzbWFsbGVyCnRoYW4gdGhlIGZvdXIgYnl0ZXMgaXQgdW5jb25k
-aXRpb25hbGx5IHJlYWRzIGZvciBldmVyeSBlbnRyeS4gIEEgY3JhZnRlZCBOVEZTCiRMb2dGaWxl
-IGNhbiB0aGVyZWZvcmUgY2F1c2UgYSBrZXJuZWwgaGVhcCBvdXQtb2YtYm91bmRzIHJlYWQgd2hp
-bGUgbW91bnRpbmcgYQpyZWFkLW9ubHkgZmlsZXN5c3RlbSBpbWFnZS4KClRoaXMgaXMgYSBtYW51
-YWxseSBjb25zdHJ1Y3RlZCByZXByb2R1Y2VyIGFuZCBkb2VzIG5vdCB1c2Ugc3l6a2FsbGVyLgoK
-SEVBRCBjb21taXQ6ICAgIDk0MGRlNTkwYjgzOWY3MWQ2ZGM4NDYxNjA1MzRiZjIwMjQwMWI4YjcK
-Z2l0IHRyZWU6ICAgICAgIHVwc3RyZWFtIExpbnV4IGNoZWNrb3V0LCBsb2NhbCBicmFuY2ggbWFz
-dGVyCnNvdXJjZSB2ZXJzaW9uOiBMaW51eCA3LjMuMC1yYzEtMDAxMDEtZzk0MGRlNTkwYjgzOQpj
-b21waWxlcjogICAgICAgZ2NjIChVYnVudHUgMTEuNC4wLTF1YnVudHUxfjIyLjA0LjMpLCBHTlUg
-bGQgMi4zOAoKY29uc29sZSBvdXRwdXQ6Cmh0dHBzOi8vZ2lzdC5naXRodWJ1c2VyY29udGVudC5j
-b20vc2hhb3MyNi9hNzM4MmQ5NmQyYTg2YzUxYzI3OWZkOTk0ZDlhMmExYy9yYXcvNmRjZTY2MGQ5
-OWUyNDQyNzVkY2M4N2VmNzkzOTFlMTBhYjY2YjlmMy9jb25zb2xlLW91dHB1dC50eHQKa2VybmVs
-IGNvbmZpZzoKaHR0cHM6Ly9naXN0LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zaGFvczI2L2E3Mzgy
-ZDk2ZDJhODZjNTFjMjc5ZmQ5OTRkOWEyYTFjL3Jhdy82ZGNlNjYwZDk5ZTI0NDI3NWRjYzg3ZWY3
-OTM5MWUxMGFiNjZiOWYzL2tlcm5lbC1jb25maWcudHh0CnJlcHJvZHVjZXI6Cmh0dHBzOi8vZ2lz
-dC5naXRodWJ1c2VyY29udGVudC5jb20vc2hhb3MyNi9hNzM4MmQ5NmQyYTg2YzUxYzI3OWZkOTk0
-ZDlhMmExYy9yYXcvNmRjZTY2MGQ5OWUyNDQyNzVkY2M4N2VmNzkzOTFlMTBhYjY2YjlmMy9wb2Mu
-YwoKVGhlIGV4cGVyaW1lbnQgdXNlcyBRRU1VIFRDRyBvbmx5LiAgTm8gaGFyZHdhcmUsIGtlcm5l
-bCBtb2R1bGUsIGtwcm9iZSwKYWRkcmVzcyBsZWFrLCBvciBtb2RpZmllZCBrZXJuZWwgY29kZSBp
-cyByZXF1aXJlZCBmb3IgdGhlIHRyaWdnZXIuCgpUbyByZXByb2R1Y2UsIGNyZWF0ZSBhIGNsZWFu
-IE5URlMgaW1hZ2Ugb24gdGhlIGhvc3QgYW5kIGFwcGx5IHRoZSBvbi1kaXNrIGxvZwptdXRhdGlv
-biB3aXRoIHBvYy5jOgoKICAgIGNjIC1PMiAtV2FsbCAtV2V4dHJhIC1vIG50ZnMzX21ha2VfcmVz
-dGFydCBwb2MuYwogICAgdHJ1bmNhdGUgLXMgMzJNIG50ZnMzLWNhbmRpZGF0ZS1iYXNlLmltZwog
-ICAgbWtudGZzIC1GIC1RIG50ZnMzLWNhbmRpZGF0ZS1iYXNlLmltZwogICAgY3AgbnRmczMtY2Fu
-ZGlkYXRlLWJhc2UuaW1nIG50ZnMzLWNhbmRpZGF0ZS5pbWcKICAgIC4vbnRmczNfbWFrZV9yZXN0
-YXJ0IG50ZnMzLWNhbmRpZGF0ZS5pbWcgLS1jYW5kaWRhdGUKCkJvb3QgdGhlIHVucGF0Y2hlZCBL
-QVNBTiBrZXJuZWwgaW4gYSBkaXNwb3NhYmxlIFFFTVUgZ3Vlc3QsIHBhc3MKbnRmczMtY2FuZGlk
-YXRlLmltZyBhcyBhIHJlYWQtb25seSBzZWNvbmQgdmlydGlvIGRpc2ssIGFuZCBydW46CgogICAg
-bW91bnQgLXQgcHJvYyBwcm9jIC9wcm9jCiAgICBtb3VudCAtdCB0bXBmcyB0bXBmcyAvdG1wCiAg
-ICBta2RpciAtcCAvdG1wL250ZnMKICAgIG1vdW50IC1vIHJvIC10IG50ZnMzIC9kZXYvdmRiIC90
-bXAvbnRmcwoKVXNlIHRoZSBmb2xsb3dpbmcgUUVNVSBjb21tYW5kIGZvciB0aGUgZGlzcG9zYWJs
-ZSBndWVzdDoKCiAgICBxZW11LWltZyBjcmVhdGUgLWYgcWNvdzIgLUYgcmF3IFwKICAgICAgLWIg
-PGJ1aWxkcm9vdC1iYXNlLWltYWdlPiAvdG1wL250ZnMzLXJlcHJvLXJvb3QucWNvdzIKCiAgICBx
-ZW11LXN5c3RlbS14ODZfNjQgLW0gMkcgLXNtcCAxIFwKICAgICAgLWtlcm5lbCA8bGludXgtdHJl
-ZT4vYXJjaC94ODYvYm9vdC9iekltYWdlIFwKICAgICAgLWFwcGVuZCAncXVpZXQgbG9nbGV2ZWw9
-MSBhY3BpPW9mZiBjb25zb2xlPXR0eVMwIHJvb3Q9L2Rldi92ZGExIGluaXQ9L2Jpbi9zaCcgXAog
-ICAgICAtZHJpdmUgZmlsZT0vdG1wL250ZnMzLXJlcHJvLXJvb3QucWNvdzIsZm9ybWF0PXFjb3cy
-LGlmPXZpcnRpbyBcCiAgICAgIC1kcml2ZSBmaWxlPS90bXAvbnRmczMtY2FuZGlkYXRlLmltZyxm
-b3JtYXQ9cmF3LGlmPXZpcnRpbyxyZWFkb25seT1vbiBcCiAgICAgIC1ub2dyYXBoaWMgLW1vbml0
-b3Igbm9uZSAtbWFjaGluZSBwYyAtbm8tcmVib290IFwKICAgICAgLXZpcnRmcyBsb2NhbCxwYXRo
-PTxyZXNlYXJjaC1yb290Pixtb3VudF90YWc9cmVzZWFyY2gsc2VjdXJpdHlfbW9kZWw9bm9uZQoK
-UmVwbGFjZSA8YnVpbGRyb290LWJhc2UtaW1hZ2U+LCA8bGludXgtdHJlZT4sIGFuZCA8cmVzZWFy
-Y2gtcm9vdD4gd2l0aCBsb2NhbApwYXRocy4gIFRoZSBzZWNvbmQgdmlydGlvIGRpc2sgaXMgL2Rl
-di92ZGIgaW4gdGhlIGd1ZXN0LgoKVGhlIHZ1bG5lcmFibGUga2VybmVsIHJlcG9ydHM6CgogICAg
-QlVHOiBLQVNBTjogc2xhYi1vdXQtb2YtYm91bmRzIGluIGxvZ19yZXBsYXkrMHg2ZmM4LzB4ZjI5
-MAogICAgUmVhZCBvZiBzaXplIDQgYXQgYWRkciBmZmZmODg4MDJhNWNmZWM0IGJ5IHRhc2sgbW91
-bnQvNDkxNAogICAgQ2FsbCBUcmFjZToKICAgICAgbG9nX3JlcGxheQogICAgICBudGZzX2xvYWRs
-b2dfYW5kX3JlcGxheQogICAgICBudGZzX2ZpbGxfc3VwZXIKICAgICAgZ2V0X3RyZWVfYmRldl9m
-bGFncwogICAgICB2ZnNfZ2V0X3RyZWUKICAgICAgcGF0aF9tb3VudAogICAgICBfX3g2NF9zeXNf
-bW91bnQKICAgIFRoZSBidWdneSBhZGRyZXNzIGJlbG9uZ3MgdG8gdGhlIGNhY2hlIGttYWxsb2Mt
-NjQgb2Ygc2l6ZSA2NAogICAgVGhlIGJ1Z2d5IGFkZHJlc3MgaXMgbG9jYXRlZCA0IGJ5dGVzIHRv
-IHRoZSByaWdodCBvZgogICAgYWxsb2NhdGVkIDY0LWJ5dGUgcmVnaW9uCgpUaGUgYWNjZXNzIGlz
-IHJlYWNoZWQgdGhyb3VnaCB0aGUgbm9ybWFsIG1vdW50IHBhdGg6CgogICAgbW91bnQoMikKICAg
-ICAgLT4gbnRmc19maWxsX3N1cGVyKCkKICAgICAgLT4gbnRmc19sb2FkbG9nX2FuZF9yZXBsYXko
-KQogICAgICAtPiBsb2dfcmVwbGF5KCkKICAgICAgLT4gcmVhZF9sb2dfcmVjX2xjYigpCiAgICAg
-IC0+IGZpbmRfbG9nX3JlYygpCiAgICAgIC0+IGNoZWNrX3JzdGJsKCkKICAgICAgLT4gNC1ieXRl
-IG91dC1vZi1ib3VuZHMgcmVhZAoKVGhlIGNyYWZ0ZWQgRFBUIHJlc3RhcnQgdGFibGUgaGFzIHRo
-ZXNlIHJlbGV2YW50IGZpZWxkczoKCiAgICBjbGllbnRfZGF0YV9sZW4gPSAweDQwCiAgICByZXN0
-YXJ0LXRhYmxlIGJ5dGVzID0gMHgyMAogICAgcmVzdGFydC10YWJsZSBzaXplID0gMQogICAgcmVz
-dGFydC10YWJsZSB1c2VkID0gOAogICAgcmVzdGFydC10YWJsZSB0b3RhbCA9IDgKICAgIGVudHJp
-ZXMgPSAweGZmIHggOAoKY2hlY2tfcnN0YmwoKSBjb21wdXRlczoKCiAgICB0cyA9IDEgKiA4ICsg
-c2l6ZW9mKHN0cnVjdCBSRVNUQVJUX1RBQkxFKSA9IDB4MjAKClRoZSBleGlzdGluZyBjaGVja3Mg
-cmVqZWN0IHNpemUgPT0gMCwgYnV0IGFjY2VwdCBzaXplID09IDEuICBUaGUgbG9vcCB0aGVuCmFk
-dmFuY2VzIGJ5IG9uZSBieXRlIHdoaWxlIGxvYWRpbmcgYSBfX2xlMzIgZnJvbSBlYWNoIGVudHJ5
-LiAgRm9yIHRoZSBmaW5hbAplbnRyeSwgdGhlIGZvdXItYnl0ZSBsb2FkIGV4dGVuZHMgYmV5b25k
-IHRoZSBhbGxvY2F0ZWQga21hbGxvYy02NCBvYmplY3QuCgpUaGlzIGlzIGRpc3RpbmN0IGZyb20g
-dGhlIGV4aXN0aW5nIHJlc3RhcnQtdGFibGUgZ3Jvd3RoIGFuZCBEUFQtc3BlY2lmaWMKcGFnZV9s
-Y25zW10gY2FwYWNpdHkgY2hlY2tzOiB0aGUgZ2VuZXJpYyBjaGVja19yc3RibCgpIGZvdXItYnl0
-ZSBsb2FkIGhhcHBlbnMKYmVmb3JlIHRob3NlIGxhdGVyIHZhbGlkYXRpb25zLgoKSW1wYWN0IGFu
-ZCBwcml2aWxlZ2UgYm91bmRhcnk6CgpUaGlzIGlzIGEga2VybmVsIGhlYXAgb3V0LW9mLWJvdW5k
-cyByZWFkIGNhdXNlZCBieSBhIG1hbGljaW91cyBOVEZTIGZpbGVzeXN0ZW0KaW1hZ2UuICBBIHJl
-YWQtb25seSBtb3VudCBpcyBzdWZmaWNpZW50OyB0aGUgaW1hZ2UgZG9lcyBub3QgbmVlZCB0byBi
-ZQp3cml0YWJsZSBhbmQgbm8gc3BlY2lhbCBoYXJkd2FyZSBpcyByZXF1aXJlZC4gIFRoZSBjdXJy
-ZW50IHJlcHJvZHVjZXIgdXNlZApyb290L0NBUF9TWVNfQURNSU4gaW4gdGhlIGRpc3Bvc2FibGUg
-Z3Vlc3QgdG8gYXR0YWNoIHRoZSBibG9jayBpbWFnZSBhbmQgbW91bnQKaXQuICBBbiB1bnByaXZp
-bGVnZWQgZGlyZWN0IG1vdW50IHBhdGggaGFzIG5vdCBiZWVuIGVzdGFibGlzaGVkLiAgTm8gcHJp
-dmlsZWdlCmVzY2FsYXRpb24sIGluZm9ybWF0aW9uIGRpc2Nsb3N1cmUsIG9yIGNvZGUgZXhlY3V0
-aW9uIGhhcyBiZWVuIGRlbW9uc3RyYXRlZC4KClJlamVjdCByZXN0YXJ0LXRhYmxlIGVudHJ5IHNp
-emVzIHNtYWxsZXIgdGhhbiB0aGUgd2lkdGggdXNlZCBieSB0aGUgdmFsaWRhdGlvbgpsb29wOgoK
-Rml4ZXM6IGI0NmFjZDZhNmE2MiAoImZzL250ZnMzOiBBZGQgTlRGUyBqb3VybmFsIikKQ2M6IHN0
-YWJsZUB2Z2VyLmtlcm5lbC5vcmcKU2lnbmVkLW9mZi1ieTogc2hhb3MgPFlPVVJfRU1BSUw+Ci0t
-LQogZnMvbnRmczMvZnNsb2cuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2ZzL250ZnMzL2ZzbG9nLmMgYi9mcy9udGZz
-My9mc2xvZy5jCmluZGV4IGVkNTBjMWQwYzIzZTMuLmMyNGEwNzEzYjg1OTkgMTAwNjQ0Ci0tLSBh
-L2ZzL250ZnMzL2ZzbG9nLmMKKysrIGIvZnMvbnRmczMvZnNsb2cuYwpAQCAtNzQ1LDcgKzc0NSw3
-IEBAIHN0YXRpYyBib29sIGNoZWNrX3JzdGJsKGNvbnN0IHN0cnVjdCBSRVNUQVJUX1RBQkxFICpy
-dCwgc2l6ZV90IGJ5dGVzKQogCiAgICB0cyA9IHJzaXplICogbmUgKyBzaXplb2Yoc3RydWN0IFJF
-U1RBUlRfVEFCTEUpOwogCi0gICBpZiAoIXJzaXplIHx8IHJzaXplID4gYnl0ZXMgfHwKKyAgIGlm
-IChyc2l6ZSA8IHNpemVvZihfX2xlMzIpIHx8IHJzaXplID4gYnl0ZXMgfHwKICAgICAgICByc2l6
-ZSArIHNpemVvZihzdHJ1Y3QgUkVTVEFSVF9UQUJMRSkgPiBieXRlcyB8fCBieXRlcyA8IHRzIHx8
-CiAgICAgICAgbGUxNl90b19jcHUocnQtPnRvdGFsKSA+IG5lIHx8IGZmID4gdHMgLSBzaXplb2Yo
-X19sZTMyKSB8fAogICAgICAgIGxmID4gdHMgLSBzaXplb2YoX19sZTMyKSB8fAoKVmFsaWRhdGlv
-biByZXN1bHRzOgoKICAgIHVuZml4ZWQgS0FTQU4ga2VybmVsOiAgMS8xIHRyaWdnZXIsIEtBU0FO
-IHNsYWItb3V0LW9mLWJvdW5kcwogICAgdW5maXhlZCBzdGFiaWxpdHk6ICAgICAyMC8yMCBtb3Vu
-dC91bW91bnQgZW50cmllcyBjb21wbGV0ZWQ7IG9uZSBzYW1lLXNpdGUgS0FTQU4gcmVwb3J0CiAg
-ICBmaXhlZCBLQVNBTiBrZXJuZWw6ICAgICAxLzEgQS9CIHJ1biwgbW91bnRfZXhpdD0wLCBubyBL
-QVNBTi9PT0IvQlVHIHJlcG9ydAoKVGhlIDIwLzIwIGZpZ3VyZSBpcyB0aGUgc3VjY2Vzc2Z1bCBt
-b3VudC91bW91bnQgZW50cnkgY291bnQsIG5vdCAyMAppbmRlcGVuZGVudCBLQVNBTiByZXBvcnRz
-OyBLQVNBTiBzdXBwcmVzc2VzIHJlcGVhdGVkIHJlcG9ydHMgZnJvbSB0aGUgc2FtZQpzaXRlLgoK
-VGhhbmtzLAoKc2hhb3MK
+On Wed, 09 Sep 2026 11:03:18 +0200, Christian Brauner wrote:
+> fs/ntfs3: use d_instantiate_new() in ntfs_create_inode() and murder syzbot's "WARNING in do_new_mount" saga
+
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/1] fs/ntfs3: use d_instantiate_new() in ntfs_create_inode() and murder syzbot's "WARNING in do_new_mount" saga
+      https://git.kernel.org/vfs/vfs/c/1abd643f3783
+
