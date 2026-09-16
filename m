@@ -1,123 +1,129 @@
-Received: from mail-10696.protonmail.ch (mail-10696.protonmail.ch [79.135.106.96])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4373B7760
-	for <ntfs3@lists.linux.dev>; Mon, 14 Sep 2026 21:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.96
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8DF4EBAF4
+	for <ntfs3@lists.linux.dev>; Wed, 16 Sep 2026 11:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789420604; cv=none; b=a1zruKEkhYUKnMWvsPw03YIl59sH4QtY/MZbIoqKUCilDZxA0d2MppR8CBZL3VUlofSsv0M6ZMBScl/a7/TMea0y1Vo91CBGJe9YKUUIpcaVW8tMwM7Os0Y4Eqb9rmE9Pqj3Bcf2eor7T0OAg3Br4k29sInHDMKlENGv4FZRJcY=
+	t=1789556936; cv=none; b=SKWvtwYPaZcjewy8S8NurfIHmhnrOLA+eHwblFK3IyAbNr7IJZrsv3EW10Zr/4ELajcQTlcCSpecDhdg6npu6iAUGA9CToszTi1E/F3ebkorRbNO94hgfweiyz8CZvPGV6DXAPuRdYit/KvtUZOQULjs21HZuG2YRlHG3IncJGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789420604; c=relaxed/simple;
-	bh=W+JE7JPVt6/Na9NslGoDRa2gEJpyxJc+zuyfzIaEVJA=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Tf1Pj3fnaRsXuOpqRYSf7iJ12LA9q94+PBt8Zzc3LfildyWYXhmDlom0Fb8pvcL9nkBJKyzh68R9ago/4vUx8PpsCcQOCvYntuPRcXUfN0WXEsy34TM5ZiCOKWlVeKKR0BH5iA83L1TKxoDWr5ZGAL5/WEvcd1yzUzjN/CpFQP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=Ymovneyy; arc=none smtp.client-ip=79.135.106.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1789556936; c=relaxed/simple;
+	bh=jEnWy80E7lHIXQzMor6J5G9w/M4dWH8O8hHqSAnqygI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=W7esxq+mEUCocE2HwMQtyqkY68Mpc0HKxkq8JMR8Nb9mcaE5P6GCqN6cvvPhOtegAwewNwv+Slh/Vbj9U1vkrCRsQfgGm6MDHyheLsIP8B0zJNYOXNHAHtt1gia1SJZUGRbTqfLFXanSWpfS4rBHdNfIpC9VGUGPBSgIdhUTBmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=gpglgaET; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Ymovneyy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1789420590; x=1789679790;
-	bh=+WPtYFMqE1Vfo/MLjZF9A1KgMfZ28NL+WJVeQ5x0+gY=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=YmovneyynssoFLUw4gW01/RlIktj7gZXtd8P9QN4Z+5flgrG6VRR049SfgykTipuc
-	 ZYK/rj7aB7yUSCk6R6IrYEYRDIG45hJwOhA4u4CCShQmTPCtGO20W95oZ2RnwBDWGe
-	 RXDFKsoRXjyMaxZkVbqeWKktRmaFs2ssEsydySh6ieWcjG2t6plOm9u6/Kt39Vv7Zz
-	 ZBrE41CnqRJHZSFM/VqGpeOZfGuxMdP9ncKwhoD/chvhfVG8F85XtlyYfG936X0x4+
-	 2/xVroBatW9uQB0Mw2MZb/a0iWI8lTY3oVEa6Q25OkNmy0Rj80Q7WYbr4Fipqss6AT
-	 S0s+rqwuzPvFw==
-Date: Mon, 14 Sep 2026 21:16:26 +0000
-To: "almaz.alexandrovich@paragon-software.com" <almaz.alexandrovich@paragon-software.com>
-From: sulamufor <sulamufor@proton.me>
-Cc: "ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: ntfs3: lookup with nocase returns ENOENT when name case differs from $FILE_NAME and inode is not cached
-Message-ID: <b-QfpgeIM7Dlb6u4_o6qJhNO7ulaAq_u3NdHYuIPiRICddaT6UipUPJOH7p1W9o4OQStfgJzX2sn3uQYdkygel1cEM5QlXo4TnCdSbsEgsc=@proton.me>
-Feedback-ID: 221793378:user:proton
-X-Pm-Message-ID: ac861e46777dc6f8b96c6bb7d84115f56222292a
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="gpglgaET"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 986071D42;
+	Wed, 16 Sep 2026 11:09:29 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=gpglgaET;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id CE63D21F5;
+	Wed, 16 Sep 2026 11:08:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1789556913;
+	bh=uzbLqvO1VBUa7r1AIhCHMOEL+lyZM1vXjq7ZEuwSGTQ=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=gpglgaETRTa4oi6ro7lfJABgBwpwH0SmeslgktrWOPBAriUFVeW2+cOWG4XnGKge6
+	 dUSN+mjqk1lP0LItvzGoN4oaK/pr6iPwxT1RNAJwbJhaos2rhSgab9OPfWyLHEMt0k
+	 rn36dw7365SMBinWfWXt8pNbo94jLClLT+CH4qkI=
+Received: from [192.168.95.128] (172.30.20.192) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 16 Sep 2026 14:08:32 +0300
+Message-ID: <bbf5c349-86d4-44ec-8023-66f406d3d703@paragon-software.com>
+Date: Wed, 16 Sep 2026 13:08:31 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ntfs3: bound index head insertions by buffer capacity
+To: Yousef Alhouseen <alhouseenyousef@gmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<stable@vger.kernel.org>,
+	<syzbot+45ef5a8d661162757547@syzkaller.appspotmail.com>
+References: <20260628095559.47891-1-alhouseenyousef@gmail.com>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20260628095559.47891-1-alhouseenyousef@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hi,
+On 6/28/26 11:55, Yousef Alhouseen wrote:
 
-with ntfs3 mounted with the `nocase` option, looking up a file whose name d=
-iffers only in case from the
-on-disk name fails with ENOENT as long as the inode is not yet in the inode=
- cache. Once the inode has been
-loaded by some other path (e.g. readdir), the same lookup succeeds.
+> hdr_insert_head() shifts the existing index entries by ins_bytes without
+> checking that the resulting used size fits within hdr->total. A directory
+> index root larger than the newly allocated index buffer can therefore make
+> the memmove write beyond the buffer.
+>
+> Reject insertions whose size would exceed the index header capacity and
+> make both split callers unwind the new node when that happens.
+>
+> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+> Reported-by: syzbot+45ef5a8d661162757547@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=45ef5a8d661162757547
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+> ---
+>   fs/ntfs3/index.c | 13 +++++++++++--
+>   1 file changed, 11 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+> index 5344b29b0577..64e1be9b7aca 100644
+> --- a/fs/ntfs3/index.c
+> +++ b/fs/ntfs3/index.c
+> @@ -594,6 +594,8 @@ static const struct NTFS_DE *hdr_insert_head(struct INDEX_HDR *hdr,
+>
+>          if (!e)
+>                  return NULL;
+> +       if (size_add(used, ins_bytes) > le32_to_cpu(hdr->total))
+> +               return NULL;
+>
+>          /* Now we just make room for the inserted entries and jam it in. */
+>          to_move = used - le32_to_cpu(hdr->de_off);
+> @@ -1743,7 +1745,10 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
+>          hdr_total = le32_to_cpu(hdr->total);
+>
+>          /* Copy root entries into new buffer. */
+> -       hdr_insert_head(hdr, re, to_move);
+> +       if (!hdr_insert_head(hdr, re, to_move)) {
+> +               err = -EINVAL;
+> +               goto out_put_n;
+> +       }
+>
+>          /* Update bitmap attribute. */
+>          indx_mark_used(indx, ni, new_vbn >> indx->idx2vbn_bits);
+> @@ -1881,7 +1886,11 @@ indx_insert_into_buffer(struct ntfs_index *indx, struct ntfs_inode *ni,
+>          /* Copy all the entries <= sp into the new buffer. */
+>          de_t = hdr_first_de(hdr1);
+>          to_copy = PtrOffset(de_t, sp);
+> -       hdr_insert_head(hdr2, de_t, to_copy);
+> +       if (!hdr_insert_head(hdr2, de_t, to_copy)) {
+> +               err = -EINVAL;
+> +               put_indx_node(n2);
+> +               goto out;
+> +       }
+>
+>          /* Remove all entries (sp including) from hdr1. */
+>          used = used1 - to_copy - sp_size;
+> --
+> 2.54.0
 
-Kernel: 7.2.5 (CachyOS build, unmodified fs/ntfs3). The relevant code is id=
-entical in current mainline and
-in the Paragon linux-ntfs3 tree. Without `nocase` the same lookup fails con=
-sistently (as expected), so the
-inconsistency is specific to the `nocase` option.
+Hello,
 
-Minimal reproducer (fresh image, no special content):
+Sorry for the delay.
+Your patch was applied, thank you.
 
-    #!/bin/sh
-    set -e
-    IMG=3D$(mktemp /tmp/ntfs3-XXXX.img); MNT=3D$(mktemp -d /tmp/ntfs3-mnt-X=
-XXX)
-    truncate -s 64M "$IMG"
-    mkfs.ntfs -F -q "$IMG" >/dev/null
-    mount -t ntfs3 -o loop,nocase "$IMG" "$MNT"
-    : > "$MNT/Foo.TXT"
-    umount "$MNT"
-    mount -t ntfs3 -o loop,nocase "$IMG" "$MNT"
-    stat -c '%n ino=3D%i' "$MNT/foo.txt"   # -> ENOENT
-    stat -c '%n ino=3D%i' "$MNT/Foo.TXT"   # exact case: OK, loads the inod=
-e
-    stat -c '%n ino=3D%i' "$MNT/foo.txt"   # -> now OK, same inode
-    cat "$MNT/FOO.txt"                   # -> works
+Regards,
+Konstantin
 
-Output on 7.2.5:
-
-    stat: cannot statx '/mnt/foo.txt': No such file or directory
-    /mnt/Foo.TXT ino=3D27
-    /mnt/foo.txt ino=3D27
-    hello
-
-Listing the directory (`ls`) instead of the exact-case access has the same =
-effect.
-
-The same happens on a long-running mount whenever the inode gets evicted (o=
-bserved with a large read-only
-game asset tree accessed by a Windows application under Wine: after a reboo=
-t or under memory pressure a
-subset of files that the application references with different casing than =
-on disk "disappears", and
-listing the directory makes them come back).
-
-Analysis:
-
-The directory index lookup itself honours `nocase`: `cmp_fnames()` in fs/nt=
-fs3/index.c compares with
-`sbi->upcase` and `both_case =3D ... && !sbi->options->nocase`, so `dir_sea=
-rch_u()` finds the entry and
-calls `ntfs_iget5_flags(sb, &e->ref, uni, ...)` with the *caller-supplied* =
-name.
-
-If the inode is not cached, `ntfs_read_mft()` in fs/ntfs3/inode.c then walk=
-s the $FILE_NAME attributes
-and compares each against that name with
-
-    if (name && name->len =3D=3D fname->name_len &&
-        !ntfs_cmp_names_cpu(name, (struct le_str *)&fname->name_len,
-                            NULL, false))
-            is_match =3D true;
-
-`ntfs_cmp_names_cpu()` with `upcase =3D=3D NULL` never takes the case-insen=
-sitive path, so this comparison is
-always case-sensitive regardless of the mount option. `is_match` stays fals=
-e and the function returns
--ENOENT (`if (!is_match && name) { err =3D -ENOENT; ... }`).
-
-If the inode is already cached, `iget5_locked()` returns it without calling=
- `ntfs_read_mft()`, hence the
-lookup succeeds =E2=80=94 which is why readdir (which loads the inodes) or =
-an exact-case access appears to "fix" it.
