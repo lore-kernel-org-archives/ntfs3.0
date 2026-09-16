@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8DF4EBAF4
-	for <ntfs3@lists.linux.dev>; Wed, 16 Sep 2026 11:08:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1E04F55A8
+	for <ntfs3@lists.linux.dev>; Wed, 16 Sep 2026 11:09:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789556936; cv=none; b=SKWvtwYPaZcjewy8S8NurfIHmhnrOLA+eHwblFK3IyAbNr7IJZrsv3EW10Zr/4ELajcQTlcCSpecDhdg6npu6iAUGA9CToszTi1E/F3ebkorRbNO94hgfweiyz8CZvPGV6DXAPuRdYit/KvtUZOQULjs21HZuG2YRlHG3IncJGQ=
+	t=1789556969; cv=none; b=XN4T00RSq2HvhEmzBY4x2qRNUjNYCBWQ9+HtTCGRLhe5DgunSyo4mR0UlWSzvIdFTrIb1DxtKs/dyRRGEB/n/6FyzoEXqI/U0D/Rd0SiuH/rN7d1eYzOMa/STJAiokJuXm+0Rx7w13dg/hfL4dbRjsn2CW7w0rLMR9Wl/968LtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789556936; c=relaxed/simple;
-	bh=jEnWy80E7lHIXQzMor6J5G9w/M4dWH8O8hHqSAnqygI=;
+	s=arc-20240116; t=1789556969; c=relaxed/simple;
+	bh=CXDNaQ4q3pAVmjG5kYN7kkPTRXFon4QPOH2TjFi5GC0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=W7esxq+mEUCocE2HwMQtyqkY68Mpc0HKxkq8JMR8Nb9mcaE5P6GCqN6cvvPhOtegAwewNwv+Slh/Vbj9U1vkrCRsQfgGm6MDHyheLsIP8B0zJNYOXNHAHtt1gia1SJZUGRbTqfLFXanSWpfS4rBHdNfIpC9VGUGPBSgIdhUTBmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=gpglgaET; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=slGeeuA4PQZuYnQ71tgS9kSmC7fRZaLRhK5lt8PUPJ896Jvaw7cD10rMLInsDoFqbkhhSG8yHo3Yi6sttGq9AvrnhgM92HuDK4yRY07RXj+S8IUffor0SUpE0D2V1XRBsSxQGlapUtjSasi7NQT01JegogSleL5KbSzCJYjduAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=S5VsupJ0; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="gpglgaET"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="S5VsupJ0"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 986071D42;
-	Wed, 16 Sep 2026 11:09:29 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id C38B91D42;
+	Wed, 16 Sep 2026 11:10:01 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=gpglgaET;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=S5VsupJ0;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id CE63D21F5;
-	Wed, 16 Sep 2026 11:08:33 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 0633A21F5;
+	Wed, 16 Sep 2026 11:09:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1789556913;
-	bh=uzbLqvO1VBUa7r1AIhCHMOEL+lyZM1vXjq7ZEuwSGTQ=;
+	d=paragon-software.com; s=mail; t=1789556946;
+	bh=BZ+LmVveHc4cy75Ioi9FehzwdIlyLwd0p7KK/3cT5JQ=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=gpglgaETRTa4oi6ro7lfJABgBwpwH0SmeslgktrWOPBAriUFVeW2+cOWG4XnGKge6
-	 dUSN+mjqk1lP0LItvzGoN4oaK/pr6iPwxT1RNAJwbJhaos2rhSgab9OPfWyLHEMt0k
-	 rn36dw7365SMBinWfWXt8pNbo94jLClLT+CH4qkI=
+	b=S5VsupJ0hPgGpZUvO9ASjdq0lGBWNYQo1mBp2gbP8fVjnqErk0lcoFBVIADxNbiRF
+	 dSi4CMMhK9yJggnwudehH+E8KzkHpudAvdAeDlWr90QqiVdCsgF+4glygganaNqLpS
+	 Ui0cUQG58PYlxBXhUT+Scz9dhvYEA+3o4FDbxHbQ=
 Received: from [192.168.95.128] (172.30.20.192) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 16 Sep 2026 14:08:32 +0300
-Message-ID: <bbf5c349-86d4-44ec-8023-66f406d3d703@paragon-software.com>
-Date: Wed, 16 Sep 2026 13:08:31 +0200
+ 15.1.2375.7; Wed, 16 Sep 2026 14:09:03 +0300
+Message-ID: <d7d933d4-11ad-43db-88e8-659f4c98afc9@paragon-software.com>
+Date: Wed, 16 Sep 2026 13:09:01 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,84 +45,53 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ntfs3: bound index head insertions by buffer capacity
-To: Yousef Alhouseen <alhouseenyousef@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<stable@vger.kernel.org>,
-	<syzbot+45ef5a8d661162757547@syzkaller.appspotmail.com>
-References: <20260628095559.47891-1-alhouseenyousef@gmail.com>
+Subject: Re: [PATCH] fs/ntfs3: reject FS_IOC_SETFSLABEL on readonly mounts
+To: Baolin Liu <liubaolin12138@163.com>, <ethan.ferguson@zetier.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Baolin Liu
+	<liubaolin@kylinos.cn>
+References: <20260630005955.1374688-1-liubaolin12138@163.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260628095559.47891-1-alhouseenyousef@gmail.com>
+In-Reply-To: <20260630005955.1374688-1-liubaolin12138@163.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 6/28/26 11:55, Yousef Alhouseen wrote:
+On 6/30/26 02:59, Baolin Liu wrote:
 
-> hdr_insert_head() shifts the existing index entries by ins_bytes without
-> checking that the resulting used size fits within hdr->total. A directory
-> index root larger than the newly allocated index buffer can therefore make
-> the memmove write beyond the buffer.
+> From: Baolin Liu <liubaolin@kylinos.cn>
 >
-> Reject insertions whose size would exceed the index header capacity and
-> make both split callers unwind the new node when that happens.
+> FS_IOC_SETFSLABEL does not check for readonly mounts and
+> can report success without persisting the label change.
 >
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> Reported-by: syzbot+45ef5a8d661162757547@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=45ef5a8d661162757547
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+> Return -EROFS on readonly mounts.
+>
+> Fixes: 21dc07ac9c25 ("ntfs3: add FS_IOC_SETFSLABEL ioctl")
+> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
 > ---
->   fs/ntfs3/index.c | 13 +++++++++++--
->   1 file changed, 11 insertions(+), 2 deletions(-)
+>   fs/ntfs3/file.c | 3 +++
+>   1 file changed, 3 insertions(+)
 >
-> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-> index 5344b29b0577..64e1be9b7aca 100644
-> --- a/fs/ntfs3/index.c
-> +++ b/fs/ntfs3/index.c
-> @@ -594,6 +594,8 @@ static const struct NTFS_DE *hdr_insert_head(struct INDEX_HDR *hdr,
->
->          if (!e)
->                  return NULL;
-> +       if (size_add(used, ins_bytes) > le32_to_cpu(hdr->total))
-> +               return NULL;
->
->          /* Now we just make room for the inserted entries and jam it in. */
->          to_move = used - le32_to_cpu(hdr->de_off);
-> @@ -1743,7 +1745,10 @@ static int indx_insert_into_root(struct ntfs_index *indx, struct ntfs_inode *ni,
->          hdr_total = le32_to_cpu(hdr->total);
->
->          /* Copy root entries into new buffer. */
-> -       hdr_insert_head(hdr, re, to_move);
-> +       if (!hdr_insert_head(hdr, re, to_move)) {
-> +               err = -EINVAL;
-> +               goto out_put_n;
-> +       }
->
->          /* Update bitmap attribute. */
->          indx_mark_used(indx, ni, new_vbn >> indx->idx2vbn_bits);
-> @@ -1881,7 +1886,11 @@ indx_insert_into_buffer(struct ntfs_index *indx, struct ntfs_inode *ni,
->          /* Copy all the entries <= sp into the new buffer. */
->          de_t = hdr_first_de(hdr1);
->          to_copy = PtrOffset(de_t, sp);
-> -       hdr_insert_head(hdr2, de_t, to_copy);
-> +       if (!hdr_insert_head(hdr2, de_t, to_copy)) {
-> +               err = -EINVAL;
-> +               put_indx_node(n2);
-> +               goto out;
-> +       }
->
->          /* Remove all entries (sp including) from hdr1. */
->          used = used1 - to_copy - sp_size;
-> --
-> 2.54.0
+> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+> index b041639ab406..f43baa46ec5c 100644
+> --- a/fs/ntfs3/file.c
+> +++ b/fs/ntfs3/file.c
+> @@ -105,6 +105,9 @@ static int ntfs_ioctl_set_volume_label(struct ntfs_sb_info *sbi, u8 __user *buf)
+>   	if (!capable(CAP_SYS_ADMIN))
+>   		return -EPERM;
+>   
+> +	if (sb_rdonly(sbi->sb))
+> +		return -EROFS;
+> +
+>   	if (copy_from_user(user, buf, FSLABEL_MAX))
+>   		return -EFAULT;
+>   
 
 Hello,
 
 Sorry for the delay.
-Your patch was applied, thank you.
+Your patch was applied, thanks.
 
 Regards,
 Konstantin
