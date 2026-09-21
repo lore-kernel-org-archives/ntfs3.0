@@ -1,133 +1,118 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f41.google.com (mail-pz2-f41.google.com [74.125.228.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7318481238
-	for <ntfs3@lists.linux.dev>; Mon, 21 Sep 2026 10:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2891D489865
+	for <ntfs3@lists.linux.dev>; Mon, 21 Sep 2026 17:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789988128; cv=none; b=ifoCGOWKAv564AZ+aGldvvqLKtDsolHESAQLEQ1CdFrH5SKGmaubgFnh2tSS2cKgyqVkUtKJ++BLIhM1dfz3hXXP9X86WH/fmtdgZ04Eetcwe1XyklQMSIEGeCBg9I9Nu8xh6/LKsP6HWbjjc53Bt+gm9TDLrYBoCukX/UsN6dA=
+	t=1790011501; cv=none; b=gdxjC+sxTmDRPEFN1S6R1/GPnhH7ZCBn2DpBDhYwa+X/OLT9EAe0V7Q0RTMPYqgD8V/mddsVx+oRD05TmR8Lg4pzB78l0dJY4FZJSumGDWBphHHkHhViynv7UJJRVvZyXANQn7B52QCXRiW1MnzAzl/eqJ6zJxHrppmkVevBXLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789988128; c=relaxed/simple;
-	bh=s5cmHaiP+c725pWs9K8HabYM5f7rZ8sldnF7whvKZnU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=CjkwsTxCTT1+EYsxXLdHkH/g6CdVWKTebymPpqH6QtwneSAFMnUGhMUBGd1vTuoGLRjuZzWbxWoE+urB1s7sTcbZuA9DXSCPVC3JaTC7RRnc6sLf1+dR6xlWGhFhlHArB38DK/P2b19iCxV7seTgq5Nbf1M79x3sTEGj1OG4Lkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=g0FqEh0j; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1790011501; c=relaxed/simple;
+	bh=NEAbhKq9B35n7+FNn2ULNfgK7+O3WofJ+tpENtrfo9Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NAuXVpm9Yb/183fz6HPch8bPHvWyTXdgAGvf4UWHxvULRlY3dGnZx72veHj1kIK5TJ8H6ttfyyfz6QwBkrTW+wMzh7E+ozkzJ6GIygR8lbyTu4Y5zGdd2iP/R54yFDcLCRS6rBUOH21gBEm837I7xZsXqm9dXVXyj6/sxeUsfaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XkjUNZMR; arc=none smtp.client-ip=74.125.228.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="g0FqEh0j"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id D50301D09;
-	Mon, 21 Sep 2026 10:56:19 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=g0FqEh0j;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 023F92135;
-	Mon, 21 Sep 2026 10:55:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XkjUNZMR"
+Received: by mail-pz2-f41.google.com with SMTP id 41be03b00d2f7-cc50d1b048eso2582025a12.1
+        for <ntfs3@lists.linux.dev>; Mon, 21 Sep 2026 10:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1789988125;
-	bh=7Lu8Tt4KmrI7x8rygslVMM2EIDyJkSCFHg6IgTzXuLU=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=g0FqEh0j74/WJjrwhLzr6s3BPUOOpfHR9ryeK33KOkbN3Dig++LWVSxH5AT/xopWj
-	 tTapwT2QGb2liz79tzBj4n3SAzRO9lM90TluSVV8OqTF3JmV1BvvtEQacUTTU7atZ4
-	 4gcnOo3VnAjFFC/eykLbYzRZCoTRvS6vQkxOpGQ8=
-Received: from [192.168.95.128] (172.30.20.147) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Mon, 21 Sep 2026 13:55:23 +0300
-Message-ID: <58801f27-bf38-474e-be74-c74d3473d446@paragon-software.com>
-Date: Mon, 21 Sep 2026 12:55:22 +0200
+        d=gmail.com; s=20251104; t=1790011499; x=1790616299; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=U5YxojVaNbADO1FA9MJ9tqVVm0PhiUslwtmGv+Sh0is=;
+        b=XkjUNZMRoty1z3dHWqvOxBUaCI2HnauYl1PGOX6DpC5BFknRB57cH2zpEkWx4loPQ0
+         9OPNleGHYpoc3g0JA9RkBK2eR1aV8ZN3wmGL/E9+z/lY9PmHt7ny7+B5h5d/7vLDYcDh
+         qKZd25MChSylBBkF2s99c/MHHPsrANuo4DgQoyll+3pQ+PhNiADynQVrEUYqzsVoaGLv
+         FeZZos3pHSOyE/pzSjubLXVKZIEowR7WGFY/2oitLfXzZbp90KZ7rss2eR3r9GmdEJxS
+         9Ct8FULRX4n8Kxsql2aqEwo9oTG3DIqMrYRN/7j1iH8eyX5l0HTgNKKjtU1GMI9Rvjtn
+         vV3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790011499; x=1790616299;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=U5YxojVaNbADO1FA9MJ9tqVVm0PhiUslwtmGv+Sh0is=;
+        b=2HTykFyZHAAtLLdby714o2qmYZ2s35NemNCLBaFsi5vQzD38buQY39l79pRlw04mrh
+         i4pp/t5/l+CfdH5rNv0LKaOUYODVxjG9griD5fjotdd//wZv0QK9tnAt/p0RtXptoCdd
+         RPnPpHEc+0mgrOVr0KYDwQtsV2sDYYwr8NUOo753plpRGh32gZFL2rGSuuTi1aZyPkRS
+         EtuZk7qSPuMZZ3CxV28EbSF/0r56f5qAmT+QuublIyL2hg35Y1Tfd4rjvR6hHyY8eZ0d
+         gpoybJabqLXwKv9w3a3ukQe0Uy3xd6VoAnjP9anzJsThLO+Cw0PEBAOloSpilbYKJvTb
+         +ItA==
+X-Gm-Message-State: AFuF++lw1fQC6qWwBjfnNu+aE4FW2joZkjKI/AbY47bQPF0114972kTx
+	UlHxrd0AaqMomvVNsKz4T/tMwMTeJ4btqUMdY4wQr3+cu/56nHlV5yBC
+X-Gm-Gg: AYBFou23vyQUfvg8uLJQPRCiBrTUbKxUWjEKMRPs5d4qoYlUkRH9hdkQ3C7xbE6JpOm
+	KMQoER9pfLzXrzSiBp2d/BRtEppRj98xIQIS+Q8F1/wkGGCZ+s2jfDD4K1WXtiAS3BIEsLofxLA
+	otj1sYm0S4oSQs1xNhvoCh1aWCSlWOXFT9YMwV+Gmaq1ASS0W6Er8KPcPVjH9UFyGv8RjiFr2/F
+	jkYqbjmQSXW3DkiTfrBmgMaZB0HZ1q/2wMpuQoXlX4bYN6ES5IBkJ4pA8MUp17BYxRx2c3DHZH/
+	6Bk+CApBkIrkBBQ/xkywEf8HPfw5ZkED9nw4VPSOGyB0NxDSxQdD05UtCrEVhHtkx4sy5r+kDnQ
+	3uh7YeTCkmT4Ts3O6HjNg8rZAtfcmQ0vdAssdBCXBvzXnVd0fNSWg/8YdyXAQQXgDCJBgKUkc9v
+	biG7niRNajwUR7iKBIRFfrkQ53MsFNXS/iK2i7bzjSMxe2Eun2n2M1h0h1It1iOaaTGb5zgfM=
+X-Received: by 2002:a05:6a20:438d:b0:3dd:a196:69ea with SMTP id adf61e73a8af0-3dda1967817mr11917831637.69.1790011499166;
+        Mon, 21 Sep 2026 10:24:59 -0700 (PDT)
+Received: from archlinux ([103.208.68.53])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc749028e5bsm1464399a12.9.2026.09.21.10.24.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 10:24:58 -0700 (PDT)
+From: Adarsh Das <adarshdas950@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	syzbot+3db654d91b471c4d7a7d@syzkaller.appspotmail.com,
+	Adarsh Das <adarshdas950@gmail.com>
+Subject: [PATCH] ntfs3: sync uptodate with iomap folio state in read_folio
+Date: Mon, 21 Sep 2026 22:54:51 +0530
+Message-ID: <20260921172451.121701-1-adarshdas950@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <6aab8055.71f81b7d.278072.0016.GAE@google.com>
+References: <6aab8055.71f81b7d.278072.0016.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: check INDEX_ROOT resident size before use in
- ntfs_read_mft()
-To: "Xiang Mei (Microsoft)" <xmei5@asu.edu>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<AutonomousCodeSecurity@microsoft.com>, <tgopinath@linux.microsoft.com>,
-	<kys@microsoft.com>
-References: <20260707015440.3420673-1-xmei5@asu.edu>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260707015440.3420673-1-xmei5@asu.edu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Transfer-Encoding: 8bit
 
-On 7/7/26 03:54, Xiang Mei (Microsoft) wrote:
+ntfs3 registers iomap page-cache helpers for its regular files.  When
+the filesystem block size is smaller than the folio size, folios are
+backed by iomap_folio_state with a per-block uptodate bitmap in addition
+to PG_uptodate.
 
-> When ntfs_read_mft() parses an ATTR_ROOT attribute it computes
->
-> 	root = Add2Ptr(attr, roff);
->
-> using the on-disk resident data offset (roff = attr->res.data_off) and
-> then dereferences root->type and root->rule, and later passes root on to
-> indx_init(). Unlike the ATTR_STD and ATTR_NAME cases, which validate that
-> the resident data is large enough (asize >= sizeof(struct X) + roff and
-> rsize >= sizeof(struct X)) before accessing it, the ATTR_ROOT case has no
-> such check.
->
-> mi_enum_attr() only guarantees data_off + data_size <= attribute size, so
-> a crafted image can set data_off such that root lands at (or past) the end
-> of the MFT record's slab allocation while still passing that check (e.g.
-> data_size == 0). The subsequent read of root->type is then a
-> slab-out-of-bounds read, reported by KASAN when mounting the image:
->
->    BUG: KASAN: slab-out-of-bounds in ntfs_iget5 (fs/ntfs3/inode.c:283)
->    Read of size 4 at addr ffff88800c06a400 by task exploit/142
->    Call Trace:
->     ...  [KASAN report internals]
->     ntfs_iget5 (fs/ntfs3/inode.c:283 fs/ntfs3/inode.c:542)
->     ntfs_fill_super (fs/ntfs3/super.c:1690)
->     get_tree_bdev_flags (fs/super.c:1634)
->     vfs_get_tree (fs/super.c:1694)
->     fc_mount (fs/namespace.c:1198)
->     path_mount (fs/namespace.c:3765 ...)
->     __x64_sys_mount (fs/namespace.c:4174 ...)
->     do_syscall_64 (arch/x86/entry/syscall_64.c:63)
->     entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)
->    The buggy address is located 0 bytes to the right of
->     allocated 1024-byte region [ffff88800c06a000, ffff88800c06a400)
->     which belongs to the cache kmalloc-1k of size 1024
->
-> Validate the resident data size in the ATTR_ROOT case the same way the
-> neighbouring cases do, so that a truncated or mis-offset INDEX_ROOT is
-> rejected before root is dereferenced.
->
-> Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-> Reported-by: AutonomousCodeSecurity@microsoft.com
-> Signed-off-by: Xiang Mei (Microsoft) <xmei5@asu.edu>
-> ---
->   fs/ntfs3/inode.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index c43101cc064d..efb6a855c5ad 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -271,7 +271,9 @@ static struct inode *ntfs_read_mft(struct inode *inode,
->   		break;
->   
->   	case ATTR_ROOT:
-> -		if (attr->non_res)
-> +		if (attr->non_res ||
-> +		    asize < sizeof(struct INDEX_ROOT) + roff ||
-> +		    rsize < sizeof(struct INDEX_ROOT))
->   			goto out;
->   
->   		root = Add2Ptr(attr, roff);
+The i_valid <= vbo early exit in ntfs_read_folio() zeroes folios past
+valid data and marks them uptodate with folio_mark_uptodate(), updating
+only the folio flag.  That leaves the iomap bitmap out of sync and
+ifs_free() WARNs during evict when the folio is torn down.
 
-Hello,
+Use iomap_folio_mark_uptodate() to update both the folio uptodate state
+and the iomap uptodate bitmap.
 
-Sorry for the delay.
-Your patch was applied, thank you.
+Reported-by: syzbot+3db654d91b471c4d7a7d@syzkaller.appspotmail.com
+Link: https://lore.kernel.org/all/6aab8055.71f81b7d.278072.0016.GAE@google.com/
+Tested-by: syzbot+3db654d91b471c4d7a7d@syzkaller.appspotmail.com
+Assisted-by: LLM
+Signed-off-by: Adarsh Das <adarshdas950@gmail.com>
+---
+ fs/ntfs3/inode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Konstantin
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 56b4f6469a28..a9b4e288ca20 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -842,7 +842,7 @@ static int ntfs_read_folio(struct file *file, struct folio *folio)
+ 
+ 	if (ni->i_valid <= vbo) {
+ 		folio_zero_range(folio, 0, folio_size(folio));
+-		folio_mark_uptodate(folio);
++		iomap_folio_mark_uptodate(folio);
+ 		folio_unlock(folio);
+ 		return 0;
+ 	}
+-- 
+2.55.0
 
