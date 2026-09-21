@@ -1,70 +1,70 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+Received: from mail-ej2-f43.google.com (mail-ej2-f43.google.com [74.125.228.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227C8383304
-	for <ntfs3@lists.linux.dev>; Mon, 21 Sep 2026 19:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9FA3859CE
+	for <ntfs3@lists.linux.dev>; Mon, 21 Sep 2026 19:22:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790018553; cv=none; b=nUQ9luu1BROjQ7jmoPfvbBzMEUkdsBmYDURLIDHx2F1E3FBXKYlrXDl5gglhyosaJ8EYgOGKfzZYA3DK28wLTBMf5c//282w75xP5BoIx6+E4meC+8kMdIQNPyB+W75mpP8d8Etz5LywjbXrPy8ewAgucBuh2uSvuufy94/8/LE=
+	t=1790018554; cv=none; b=kDzo2wFjV2OZLIZ5OHpnSjkHsf510+WbummPnuafpUbWdk/XxiRMMFxRIZvfJLikxvh72yfqpKjak8nIuhRY6sKcFNqwlYyc1i74Ddz0z8G/KORaNzwcmz7bYgbdX/z+oUrWoBYqaQkEhQu2TUV9cLIsBaRI8oHQS7BkvV+d2EI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790018553; c=relaxed/simple;
-	bh=NgErlbLUKaTbV82GyCOv0H7r7vbemZOfW2qhNTDcQU4=;
+	s=arc-20240116; t=1790018554; c=relaxed/simple;
+	bh=DK9/H7hX+pru8m1l06zVYRmh9mh18UWQ0oNg5FaI1GI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NNB3GPm/XJFZsTa8tLRKVVBNk+8kyalUlqFIqEP24GB2wrlSeReayhLkKC380kmWa53pJWCAGaTq2g+MZi2BkrMpkjpIUKZ8uBx0Nxcc5fH9kY+PAvnBq/GTaMnGAgqRwlF07R9nyGmo597WBHYtlq1iXNT3Jo7Gn448XeZNNsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io; spf=pass smtp.mailfrom=bynar.io; dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b=fctKBg/i; arc=none smtp.client-ip=74.125.228.140
+	 MIME-Version; b=oz6kYaOwtb44nbNsxS1fGcgEwV2qOdbMX6u8e3lr+aGmfwtERDiWO+6IUg2a+2j20QUtYkoCNNoH0jtqb1QSpAX0YWtmIYpsVAu0T63H7Y6anadysRBUm+A9XpYXtiCa/Kr5ZhpUjpLLa+df/jktZiOyF0Flo55XNquz0648Hl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io; spf=pass smtp.mailfrom=bynar.io; dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b=k4SfFqJ8; arc=none smtp.client-ip=74.125.228.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bynar.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b="fctKBg/i"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f9f7db0so414154866b.3
-        for <ntfs3@lists.linux.dev>; Mon, 21 Sep 2026 12:22:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b="k4SfFqJ8"
+Received: by mail-ej2-f43.google.com with SMTP id a640c23a62f3a-c2a4fbc5586so266933366b.2
+        for <ntfs3@lists.linux.dev>; Mon, 21 Sep 2026 12:22:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bynar.io; s=google; t=1790018544; x=1790623344; darn=lists.linux.dev;
+        d=bynar.io; s=google; t=1790018547; x=1790623347; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=znjZZmXp9qS1UAlr/gd4YJ/jtvWf7HtdoU4GR7qfmoY=;
-        b=fctKBg/ikDNNSwxCXAKP2jHoUp6LhT3Abnc/2wtz0cUdPQ5All48kS9fZOFtirLmSQ
-         KzGJc6RsY0PEpeXpx7Ji3NyzxMA6S1B/4Uar9X7N+7EcxM31yD5uxfMrBwZgRmVCQ+7O
-         ubhPIv26dIRgGaV/9sItXJMtKvZ+F7SFcGnVQtQ9eSNUHcCjGQufO62+1ujnGIxZQIdM
-         b//dtpsrVXWtjfTRnjWvY6yib+/iHwY/ISkDzRFBapAyx0WnjmwIFY9QkSn053q8jlOB
-         GBgsqsLYgX0sNYlMa4b1vxmZ7oP0K+EcXKXiwEt8u457xt07rHJtOngnYat9P0ucApsg
-         H5Qw==
+        bh=HL+2RvScf1wUse1sj5lMjJEzeH15N+fw/R86yhvN+Co=;
+        b=k4SfFqJ81T9QVDvnD6x9uwsjE4ZsBmfizR199bbVk3OZvu/U4HvTLfel5hHGK304x2
+         bIXe8dRWeHz46/H0nx+P5KwNZ+fAaChWMUEz5pOARVub5+M15otTVvi4GG1AcHehFVlE
+         56aL5HnegcCXCflDEfbLhCtEnqw0Hcl0X7/azwBWA5K1efQxJ1wL2ApIkkvztbuV2Wot
+         CoJdg4kP8wUJgZe9tzihSMw+1h71Giim8XxrLMZ8M5CW7QpMXbTGFWCr/w7ZzWGRJZ9n
+         /xPmb2j1B/kVzaCzePB2Q/wSJxN9X6YtIV0uY4z34HMJh8cu+AHRmY7cVdHBRMDRnsHs
+         FACQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790018544; x=1790623344;
+        d=1e100.net; s=20260707; t=1790018547; x=1790623347;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=znjZZmXp9qS1UAlr/gd4YJ/jtvWf7HtdoU4GR7qfmoY=;
-        b=mHeuBlxpz5rGAEoLZ9CKmciZh/rG5agRnIip1nyPSfBN6vOR4QfbnXw84zyvivDdYB
-         i51ODIq7YkKAqI7/REeFazIb/+hS6yEG0LbYkrWOWx1R7bfuo5Oe8pE7aehOcMfn0jWK
-         x3OPTwc86vnS+0lJwq0gxsYmaNKxiqpFSpXqTyzSRLNO0iy9QIODK3degOSAKH4UCsRG
-         wzWwk10YP9b3vl7f7ANv13TZsUaENcG9r8EjDfdbBEVD6DpK3f+HmpKcW5Bwy8aWxeA5
-         5F9HizxKpIZ/2RJW6YInXXGGnbs13CIClmW2q116YNMzdeHx6g5zkfRN2glFaSp1c90N
-         0boA==
-X-Gm-Message-State: AFuF++n9rKRl+HkqAyMDUL59N1O4ncFw73Ez8Fq1J2ft4PVtiDtfVXEo
-	JLZ/WAPCO3P318SJFZtj9SQ+gEcopnNohHW5uf5oJKUtlWMkenFw3p2IGlhZg02skuFF
-X-Gm-Gg: AYBFou0XF5da/sPXWfFFkMnKABNaV0N5vLLruDhdJ4mRi+B8gSd/e1vqjvzVl7fFVBG
-	oXd739w8ji4b6EFCMybVEwlQHbXNI8FTASd5gDAWWVKcEjdF3YuWeHyVSTfH5mRP17fDXlZGzyP
-	SIOdHDKTFmedLEpueS7qY+CiiwO/2Tq007R0LT2/uSuAhWqGm5ori/Px02RVt0KRLCvr8mvEcvx
-	A3LhgFJRkr+86Ps/gFUHPrIvQHwUmFXIvBUhL4ridZEsfo2wDpLIh7kY22PzRmyBs54ewLz6dWb
-	sLHT0fX/8JVIwbQJ9Nu4EiFWi202H7U89dbdOjUIWx9rRNTATcVKbtDCPlW5bMEl6x5FY1+kIGm
-	MeNL6M/eZHlAXRgsgKO89UWIe2ATDAyDUxWGQAF9IickcTcp7km81dAHS90TRTQtqQoWSuIT0mh
-	mTksx/cyTMXLOFhOyY+Swi+mnr4DGEWJhGUvh1ayvCjAyKdeMq
-X-Received: by 2002:a17:907:8e86:b0:c26:306f:289b with SMTP id a640c23a62f3a-c2a156d56d1mr881253966b.13.1790018544407;
-        Mon, 21 Sep 2026 12:22:24 -0700 (PDT)
+        bh=HL+2RvScf1wUse1sj5lMjJEzeH15N+fw/R86yhvN+Co=;
+        b=W9w4OOSEtImWggO7+9IT6KZI3hxR3X9rPlefdMADZEsSO/InU/BEeHZFnJYun+jSR1
+         HdjYtDUegAsNCvgNPao5whpzWVhKBgS/ESwk2LhJr6cRwgf3NfCzMUWQSKHDX1jC29Rr
+         02GxdzjrfriXQ9qUK7fNNShcxEQKQxFKd8krik/nU/3W/M+W3/zoDDNTqISTwcxTSKzb
+         05Ag4Onu+iV1GaEUygWvl+dA0OrFDnPSRIPkrFTbUe/Arms1wPsk5hy9cZY4mhJjNNWU
+         uGtgSJ9a1C7iJLcLJ10sj/8U42w1NVqM+bokyd92MokcvQ0oX8x2tYeh4kk2+p1PBz1J
+         74yg==
+X-Gm-Message-State: AFuF++nB77ooF02kR1JtTtG9epO9gR+W3x1ECSIArxWL5NBaAFAGY2VM
+	etCDrg8nRAbSg95xFcZRkbcwDF1pbeP+YM3Hz7JNcaiVOeCKmyr4E1xfXuqh1Ul6cyZH
+X-Gm-Gg: AYBFou1M9NTbL4XkQUZHwVSjrJvWcEmeSVC5meSHdxlyfMEEL3s/3fS2hl9Y6KgohQd
+	KZ4wIrGq6ndH6UK9FM1+Dyz8x3aos0/RU0xrsToRnmvqx7Yk08vr24h1pucn1lQ7YJSVVamCvZS
+	xeRibKOjvxcgVokayhf0spS3yLRBxN2lRNNLEhp1E3htW2P3We/a+N5JvBzJDsCcOWkC1/gUat/
+	fJq3mUc6QzD+4Ux4EdQ6PoLOUPwHweXR3zRciku+SxT3aoC0tf0iKxXxKyhFQ14oX/HyeaiV0jI
+	KtXB/4sPXFu9oMXgYoicWH6oCDlD7vVLRpwP2mPYQyhQplSyzBLpkrahnWP7QAAg/CRQUR97xoj
+	pAIle/fH3o+8d1i33mOkE5DSKEpbawlQnPrIAo2fXBDy4PQ/yu0IpXN+fHcb1q2b/4epvCqv929
+	EXeGlnLBGuKaMauLGtYTGMM2B4yr8kbPzADYkr
+X-Received: by 2002:a17:906:99c4:b0:c29:f5d8:9c82 with SMTP id a640c23a62f3a-c2a15ad760bmr961056466b.49.1790018547221;
+        Mon, 21 Sep 2026 12:22:27 -0700 (PDT)
 Received: from cachyos ([151.38.78.32])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2a358868e1sm341089066b.47.2026.09.21.12.22.22
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2a358868e1sm341089066b.47.2026.09.21.12.22.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 12:22:23 -0700 (PDT)
+        Mon, 21 Sep 2026 12:22:26 -0700 (PDT)
 From: Giulia Aloia <giulia@bynar.io>
 To: almaz.alexandrovich@paragon-software.com
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	cenzhang@linux.microsoft.com
-Subject: [PATCH 2/4] fs/ntfs3: validate restart table offsets in log records
-Date: Mon, 21 Sep 2026 21:21:37 +0200
-Message-ID: <20260921192157.102738-3-giulia@bynar.io>
+Subject: [PATCH 3/4] fs/ntfs3: validate on-disk restart tables before use
+Date: Mon, 21 Sep 2026 21:21:38 +0200
+Message-ID: <20260921192157.102738-4-giulia@bynar.io>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260921192157.102738-1-giulia@bynar.io>
 References: <20260921192157.102738-1-giulia@bynar.io>
@@ -76,132 +76,103 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-check_log_rec() validates transact_id and target_attr by subtracting the
-24-byte restart-table header size, sizeof(struct RESTART_TABLE), and then
-checking entry alignment. This is unsafe for offsets that point inside
-the header. For example, offset 8 is below the header size, so the
-unsigned subtraction wraps and the wrapped value can still pass the
-alignment check.
+log_replay() locates restart-table dumps using redo_off and passes the
+remaining record length to check_rstbl(). However, check_log_rec() does
+not ensure that redo_off leaves room for a complete RESTART_TABLE
+header. check_rstbl() reads the header fields before validating the
+table size, so a truncated dump or an offset beyond the record can
+cause an out-of-bounds read.
 
-The driver uses transact_id as an offset into the transaction table
-when it looks up or allocates entries during journal analysis. This
-happens even on read-only mounts, before replay stops for read-only
-mode, so the offset must be checked at this stage too. If a forged
-transact_id points into the restart-table header, analysis first reads
-header bytes as tr->next. If those bytes do not look allocated, it can
-then ask alloc_rsttbl_from_idx() to allocate an offset inside the
-header. With crafted table metadata, that can make replay overwrite
-restart-table header bytes and later treat those bytes as a
-TRANSACTION_ENTRY.
+Before passing an on-disk restart table to check_rstbl(), require
+redo_off to leave enough bytes in the log record for a complete
+RESTART_TABLE header. Apply this to the transaction, dirty-page and
+open-attribute table dumps.
 
-The attribute-offset check is also skipped when lcns_follow is zero.
-However, lcns_follow only describes page_lcns[] payload. It does not
-mean target_attr is unused. OpenNonresidentAttribute can have no LCN
-payload but still uses target_attr to choose or create an open-attribute
-entry. Header and misaligned offsets can therefore reach the
-open-attribute allocator unchecked.
+For the open-attribute table, also require the table entry size to be
+at least as large as the expected entry size for the restart-area
+version. This ensures that each slot is large enough for the entry
+format used when converting and initializing the table.
 
-For offset 8, the subtraction wraps on both 32-bit and 64-bit systems.
-The wrapped value is divisible by 40, sizeof(struct TRANSACTION_ENTRY),
-on both, so the transaction-ID check can accept it. The same wrapped
-value is also divisible by the 40-byte v1 open-attribute entry size and,
-on 64-bit systems, by 44, SIZEOF_OPENATTRIBUTEENTRY0, so the
-attribute-offset check can accept it too.
-
-For target_attr, replay can then interpret the restart table header as an
-open-attribute entry. With crafted on-disk values, the interpreted entry
-can contain a NULL open_attr pointer, which log_replay() later
-dereferences.
+check_rstbl() also accepts transaction tables whose entry size differs
+from sizeof(struct TRANSACTION_ENTRY). check_log_rec() aligns transact_id
+to that structure size, not the on-disk entry size. Accessing smaller
+entries can read or write past their end. Larger entries can make an
+accepted offset point into the middle of a slot and leave too little
+space for the transaction fields. Require the entry size to equal
+sizeof(struct TRANSACTION_ENTRY) when loading the table. This also
+protects accesses to existing transaction entries, which bypass
+alloc_rsttbl_from_idx().
 
 This is reachable by mounting the crafted image on an x86-64 KASAN
 kernel before this fix:
 
- KASAN: null-ptr-deref in range
-        [0x0000000000000008-0x000000000000000f]
- RIP: 0010:log_replay+0xca58/0xe690
- Call Trace:
-  ntfs_loadlog_and_replay+0x3e0/0x500
-  ntfs_fill_super+0x1fd3/0x4510
-  ...
-
-Reject offsets that point inside the restart-table header before
-subtracting the header size, so the subtraction cannot wrap. Validate
-nonzero target_attr values even when lcns_follow is zero. Preserve zero
-target_attr for records that require neither an attribute nor LCN work.
-Do not impose a table upper bound in check_log_rec(): valid records can
-require the analysis pass to grow the table.
-
-Before OpenNonresidentAttribute grows the open attribute table or selects
-an entry, validate target_attr against the actual oatbl->size as well.
-Alignment to the version-specific entry size used by check_log_rec() does
-not guarantee alignment to the slots used by the current table when the
-on-disk table size differs. Allow aligned offsets beyond the current
-table so valid records can still grow it.
-
-Cen Zhang described the target_attr underflow in the linked patch and
-proposed checks at the redo and undo lookups. Validate the offsets in
-check_log_rec() itself, including transact_id and records without LCNs.
+KASAN: slab-out-of-bounds in log_replay+0x8094/0xe690
+    Write of size 8 at addr ffff888101107680 by task mount/67
+Call Trace:
+ log_replay+0x8094/0xe690
+ ntfs_loadlog_and_replay+0x3e0/0x500
+ ntfs_fill_super+0x1fd3/0x4510
+ ...
 
 Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
 Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/all/20260901174934.6275-1-cenzhang@linux.microsoft.com/
 Assisted-by: Bynario AI
 Signed-off-by: Giulia Aloia <giulia@bynar.io>
 ---
- fs/ntfs3/fslog.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ fs/ntfs3/fslog.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 8ac0dbd2f07f..8dd233ec7d2f 100644
+index 8dd233ec7d2f..e3b5a19f0e30 100644
 --- a/fs/ntfs3/fslog.c
 +++ b/fs/ntfs3/fslog.c
-@@ -697,7 +697,7 @@ static bool check_log_rec(const struct LOG_REC_HDR *lr, u32 bytes, u32 tr,
+@@ -4274,12 +4274,17 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+ 	}
  
- 	if (bytes < sizeof(struct LOG_REC_HDR))
- 		return false;
--	if (!tr)
-+	if (tr < sizeof(struct RESTART_TABLE))
- 		return false;
+ 	t16 = le16_to_cpu(lrh->redo_off);
++	if (t16 > rec_len || rec_len - t16 < sizeof(*rt)) {
++		err = -EINVAL;
++		goto out;
++	}
  
- 	if ((tr - sizeof(struct RESTART_TABLE)) %
-@@ -711,7 +711,7 @@ static bool check_log_rec(const struct LOG_REC_HDR *lr, u32 bytes, u32 tr,
- 		return false;
+ 	rt = Add2Ptr(lrh, t16);
+ 	t32 = rec_len - t16;
  
- 	if (lr->target_attr)
--		goto check_lcns;
-+		goto check_target;
+ 	/* Now check that this is a valid restart table. */
+-	if (!check_rstbl(rt, t32)) {
++	if (le16_to_cpu(rt->size) != sizeof(struct TRANSACTION_ENTRY) ||
++	    !check_rstbl(rt, t32)) {
+ 		err = -EINVAL;
+ 		goto out;
+ 	}
+@@ -4314,6 +4319,10 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+ 	}
  
- 	if (is_target_required(le16_to_cpu(lr->redo_op)))
- 		return false;
-@@ -719,12 +719,13 @@ static bool check_log_rec(const struct LOG_REC_HDR *lr, u32 bytes, u32 tr,
- 	if (is_target_required(le16_to_cpu(lr->undo_op)))
- 		return false;
+ 	t16 = le16_to_cpu(lrh->redo_off);
++	if (t16 > rec_len || rec_len - t16 < sizeof(*rt)) {
++		err = -EINVAL;
++		goto out;
++	}
  
--check_lcns:
--	if (!lr->lcns_follow)
-+check_target:
-+	if (!lr->lcns_follow && !lr->target_attr)
- 		goto check_length;
+ 	rt = Add2Ptr(lrh, t16);
+ 	t32 = rec_len - t16;
+@@ -4441,11 +4450,16 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+ 	}
  
- 	t16 = le16_to_cpu(lr->target_attr);
--	if ((t16 - sizeof(struct RESTART_TABLE)) % bytes_per_attr_entry)
-+	if (t16 < sizeof(struct RESTART_TABLE) ||
-+	    (t16 - sizeof(struct RESTART_TABLE)) % bytes_per_attr_entry)
- 		return false;
+ 	t16 = le16_to_cpu(lrh->redo_off);
++	if (t16 > rec_len || rec_len - t16 < sizeof(*rt)) {
++		err = -EINVAL;
++		goto out;
++	}
  
- check_length:
-@@ -4737,6 +4738,12 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+ 	rt = Add2Ptr(lrh, t16);
+ 	oatbl_bytes = rec_len - t16;
  
- 	case OpenNonresidentAttribute:
- 		t16 = le16_to_cpu(lrh->target_attr);
-+		if (t16 < sizeof(*oatbl) ||
-+		    (t16 - sizeof(*oatbl)) % le16_to_cpu(oatbl->size)) {
-+			err = -EINVAL;
-+			goto out;
-+		}
-+
- 		if (t16 >= bytes_per_rt(oatbl)) {
- 			/*
- 			 * Compute how big the table needs to be.
+-	if (!check_rstbl(rt, oatbl_bytes)) {
++	if (le16_to_cpu(rt->size) < bytes_per_attr_entry ||
++	    !check_rstbl(rt, oatbl_bytes)) {
+ 		err = -EINVAL;
+ 		goto out;
+ 	}
 -- 
 2.55.0
