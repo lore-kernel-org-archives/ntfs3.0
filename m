@@ -1,75 +1,69 @@
-Received: from mail-pz2-f41.google.com (mail-pz2-f41.google.com [74.125.228.41])
+Received: from mail-ed2-f34.google.com (mail-ed2-f34.google.com [74.125.228.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2891D489865
-	for <ntfs3@lists.linux.dev>; Mon, 21 Sep 2026 17:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51A5383992
+	for <ntfs3@lists.linux.dev>; Mon, 21 Sep 2026 19:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790011501; cv=none; b=gdxjC+sxTmDRPEFN1S6R1/GPnhH7ZCBn2DpBDhYwa+X/OLT9EAe0V7Q0RTMPYqgD8V/mddsVx+oRD05TmR8Lg4pzB78l0dJY4FZJSumGDWBphHHkHhViynv7UJJRVvZyXANQn7B52QCXRiW1MnzAzl/eqJ6zJxHrppmkVevBXLw=
+	t=1790018539; cv=none; b=e3ngn+y6l9Cxruk1KTAhKAHR6hAi6jtq07zBTo2rLgm7Q/AIl6dF8CxuMRSlZblxuHGPjXHAsVnuYb3iszUPh0KHCtTGbyrCQXTFVp3P9zTtk9Rbwmtp3uF/LSGkae+SWNu6XXfGaE+hov8Qk/LhMfewwxAph8zLuJxinNCz3g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790011501; c=relaxed/simple;
-	bh=NEAbhKq9B35n7+FNn2ULNfgK7+O3WofJ+tpENtrfo9Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NAuXVpm9Yb/183fz6HPch8bPHvWyTXdgAGvf4UWHxvULRlY3dGnZx72veHj1kIK5TJ8H6ttfyyfz6QwBkrTW+wMzh7E+ozkzJ6GIygR8lbyTu4Y5zGdd2iP/R54yFDcLCRS6rBUOH21gBEm837I7xZsXqm9dXVXyj6/sxeUsfaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XkjUNZMR; arc=none smtp.client-ip=74.125.228.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790018539; c=relaxed/simple;
+	bh=e3sIKtRpbFRf5PL2S0UghV7GT9zAOdrng4XZYq+Guws=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YfroVYzsb67KZ2ljPwfEjnxyrP048/yOY6nPabvt5ub2et3I5evRIQ7OlXM0ynqM+Y1jOJzTEPQgN078YG+NXRGWjHVubL9yMzWxgujTa8i/IbXA+DIsWzEKhxuWYlb5Rsc4eOOLErVe+Jiam42WqCPmyrfKztnL6mFVJnAfv1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io; spf=pass smtp.mailfrom=bynar.io; dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b=F7oFrIuv; arc=none smtp.client-ip=74.125.228.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bynar.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XkjUNZMR"
-Received: by mail-pz2-f41.google.com with SMTP id 41be03b00d2f7-cc50d1b048eso2582025a12.1
-        for <ntfs3@lists.linux.dev>; Mon, 21 Sep 2026 10:24:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b="F7oFrIuv"
+Received: by mail-ed2-f34.google.com with SMTP id 4fb4d7f45d1cf-6a9dfe4dfc0so4983670a12.0
+        for <ntfs3@lists.linux.dev>; Mon, 21 Sep 2026 12:22:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790011499; x=1790616299; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=U5YxojVaNbADO1FA9MJ9tqVVm0PhiUslwtmGv+Sh0is=;
-        b=XkjUNZMRoty1z3dHWqvOxBUaCI2HnauYl1PGOX6DpC5BFknRB57cH2zpEkWx4loPQ0
-         9OPNleGHYpoc3g0JA9RkBK2eR1aV8ZN3wmGL/E9+z/lY9PmHt7ny7+B5h5d/7vLDYcDh
-         qKZd25MChSylBBkF2s99c/MHHPsrANuo4DgQoyll+3pQ+PhNiADynQVrEUYqzsVoaGLv
-         FeZZos3pHSOyE/pzSjubLXVKZIEowR7WGFY/2oitLfXzZbp90KZ7rss2eR3r9GmdEJxS
-         9Ct8FULRX4n8Kxsql2aqEwo9oTG3DIqMrYRN/7j1iH8eyX5l0HTgNKKjtU1GMI9Rvjtn
-         vV3w==
+        d=bynar.io; s=google; t=1790018533; x=1790623333; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4bk7JZc4hNA76VOHfcQArIGuYp8mR4aUxSNBec+E39o=;
+        b=F7oFrIuvVr5VyyKMEGEJQbWUNybBZ6EJfa1Gd3IC4ksmU/X3eQynZ3+xD14+YCx2oB
+         wf5T0/FXvOvS3MFNyXvc7eVAZhwvIdPAs1TZXSpxD5PRHV7wH/tAruWrQBb8RxR36i5x
+         94z5UamwbEUXz/vDH35rrOhvi0ljF/E0m4v+3/cNnSndGIHo0npKgxS9aNDqO7H2H+1e
+         3ldawcKxyx6E2/SzfM9dSxgVINIilGuP3k9PMozx8TCTP/HfczbUi+m5idkr6yQsRN3s
+         yI8+4jajBnxlZoCRnHJBXjYeDGGfURqjw8ISh3C0646Htm2q9+ZhCDzLrdyliG5PNxkl
+         iLxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790011499; x=1790616299;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=U5YxojVaNbADO1FA9MJ9tqVVm0PhiUslwtmGv+Sh0is=;
-        b=2HTykFyZHAAtLLdby714o2qmYZ2s35NemNCLBaFsi5vQzD38buQY39l79pRlw04mrh
-         i4pp/t5/l+CfdH5rNv0LKaOUYODVxjG9griD5fjotdd//wZv0QK9tnAt/p0RtXptoCdd
-         RPnPpHEc+0mgrOVr0KYDwQtsV2sDYYwr8NUOo753plpRGh32gZFL2rGSuuTi1aZyPkRS
-         EtuZk7qSPuMZZ3CxV28EbSF/0r56f5qAmT+QuublIyL2hg35Y1Tfd4rjvR6hHyY8eZ0d
-         gpoybJabqLXwKv9w3a3ukQe0Uy3xd6VoAnjP9anzJsThLO+Cw0PEBAOloSpilbYKJvTb
-         +ItA==
-X-Gm-Message-State: AFuF++lw1fQC6qWwBjfnNu+aE4FW2joZkjKI/AbY47bQPF0114972kTx
-	UlHxrd0AaqMomvVNsKz4T/tMwMTeJ4btqUMdY4wQr3+cu/56nHlV5yBC
-X-Gm-Gg: AYBFou23vyQUfvg8uLJQPRCiBrTUbKxUWjEKMRPs5d4qoYlUkRH9hdkQ3C7xbE6JpOm
-	KMQoER9pfLzXrzSiBp2d/BRtEppRj98xIQIS+Q8F1/wkGGCZ+s2jfDD4K1WXtiAS3BIEsLofxLA
-	otj1sYm0S4oSQs1xNhvoCh1aWCSlWOXFT9YMwV+Gmaq1ASS0W6Er8KPcPVjH9UFyGv8RjiFr2/F
-	jkYqbjmQSXW3DkiTfrBmgMaZB0HZ1q/2wMpuQoXlX4bYN6ES5IBkJ4pA8MUp17BYxRx2c3DHZH/
-	6Bk+CApBkIrkBBQ/xkywEf8HPfw5ZkED9nw4VPSOGyB0NxDSxQdD05UtCrEVhHtkx4sy5r+kDnQ
-	3uh7YeTCkmT4Ts3O6HjNg8rZAtfcmQ0vdAssdBCXBvzXnVd0fNSWg/8YdyXAQQXgDCJBgKUkc9v
-	biG7niRNajwUR7iKBIRFfrkQ53MsFNXS/iK2i7bzjSMxe2Eun2n2M1h0h1It1iOaaTGb5zgfM=
-X-Received: by 2002:a05:6a20:438d:b0:3dd:a196:69ea with SMTP id adf61e73a8af0-3dda1967817mr11917831637.69.1790011499166;
-        Mon, 21 Sep 2026 10:24:59 -0700 (PDT)
-Received: from archlinux ([103.208.68.53])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc749028e5bsm1464399a12.9.2026.09.21.10.24.55
+        d=1e100.net; s=20260707; t=1790018533; x=1790623333;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4bk7JZc4hNA76VOHfcQArIGuYp8mR4aUxSNBec+E39o=;
+        b=EIFxMezWfseSY4OvX02s/07grBVFHeC2bbHqMhJLR9jT/V6dUoe7mMTkKfK1uB7Qf0
+         E22VjLElebC9Sh69n/GNei2hqntz3ObqWrBFws0azJNDjYkdm0xbD6SISuL92HKjSwnR
+         4qRQVwjiAoEKFY8dLKF6rj+mjBPLOLtsLbHyynkeQ1a8WXodQeGL9NazCorquNgLesKh
+         7lus6Zv7xb/5Vm0TMDhzx/CKSGUvp6MWuKVbq+3fUJUDJzKeabCzoR9z6oUugEadwKVp
+         QyUyKbg72g/vu2AgpbGtnAGcTdcFqbxhrGr0s92v2JZjuwB8tJ8deDlDcG92oFVOUK2d
+         29Dg==
+X-Gm-Message-State: AFuF++m4a/OjKW1r3VrXarI50Avz64qZie+754wHP5ohEd/Jv9SzlPV9
+	XbP0uZezIZqevsw1o1aW2K/JBZhVmqQEcxeEnpxm75F26NN9CDgHpGFt1VMVMR5OARv3
+X-Gm-Gg: AYBFou0nhVyRjCkfubkXxofpyfMpTRTUP/mvfJjN81Zx8iqac2ZpO64Hf3tWvx9meEB
+	B6L4nlVLUGCswKRhQRYd+7axgdWe0/JuhTGYTQISEqVMU3hEni8nLbkJHiQ7FPjPf3o+tHWKdkm
+	MhuPapCTxtwk3+e2KckGGYpQxdkY+cXEqlfqQ+uLHo4GGB6dJkaviVFONwTS307ehZ3Vk6ep+zz
+	cBtZqrjZff7XORxdTZXd6S+/zbG7mVQklEw/DVz4BVEfUFq3X7VjLabQs8n0WQV8hixe9YIYL+C
+	aWb67BGbQJkqu94LRfEsiRhUKtDmTb4e2SgM7avDsC2F4OGmjgi4f6SYvy+tgVFBBQTulwcffYa
+	/YPklWcx+Xonl35wfHrngab1KDuxi3WKR+zklSB5SYYvtoZYfNJ1l4BFzVqz2+U1OifooD9q27V
+	XnmprrvmriuNCH8iCgvJgq2UMvGe7eYXB5vub1
+X-Received: by 2002:a17:906:478d:b0:c25:5faf:b207 with SMTP id a640c23a62f3a-c2a1565b58bmr937608966b.3.1790018532498;
+        Mon, 21 Sep 2026 12:22:12 -0700 (PDT)
+Received: from cachyos ([151.38.78.32])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2a358868e1sm341089066b.47.2026.09.21.12.22.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 10:24:58 -0700 (PDT)
-From: Adarsh Das <adarshdas950@gmail.com>
+        Mon, 21 Sep 2026 12:22:09 -0700 (PDT)
+From: Giulia Aloia <giulia@bynar.io>
 To: almaz.alexandrovich@paragon-software.com
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	syzbot+3db654d91b471c4d7a7d@syzkaller.appspotmail.com,
-	Adarsh Das <adarshdas950@gmail.com>
-Subject: [PATCH] ntfs3: sync uptodate with iomap folio state in read_folio
-Date: Mon, 21 Sep 2026 22:54:51 +0530
-Message-ID: <20260921172451.121701-1-adarshdas950@gmail.com>
+	cenzhang@linux.microsoft.com
+Subject: [PATCH 0/4] fs/ntfs3: tighten restart-table offset validation
+Date: Mon, 21 Sep 2026 21:21:35 +0200
+Message-ID: <20260921192157.102738-1-giulia@bynar.io>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <6aab8055.71f81b7d.278072.0016.GAE@google.com>
-References: <6aab8055.71f81b7d.278072.0016.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -78,41 +72,53 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ntfs3 registers iomap page-cache helpers for its regular files.  When
-the filesystem block size is smaller than the folio size, folios are
-backed by iomap_folio_state with a per-block uptodate bitmap in addition
-to PG_uptodate.
+This series makes NTFS3 journal replay safer when the on-disk restart
+tables contain inconsistent offsets.
 
-The i_valid <= vbo early exit in ntfs_read_folio() zeroes folios past
-valid data and marks them uptodate with folio_mark_uptodate(), updating
-only the folio flag.  That leaves the iomap bitmap out of sync and
-ifs_free() WARNs during evict when the folio is torn down.
+Patch 1 checks open attribute offsets in the dirty-page walk. Patch 2
+checks transaction and attribute offsets in check_log_rec(), including
+nonzero attribute offsets in records without LCNs, and validates
+allocator offsets against the on-disk open-attribute table entry size.
+Patch 3 rejects restart-table dumps without a complete header, rejects
+short open-attribute entries, and requires the transaction-table entry
+size to match TRANSACTION_ENTRY.
+Patch 4 bounds the free-list walk used when allocating a specific
+restart table entry.
 
-Use iomap_folio_mark_uptodate() to update both the folio uptodate state
-and the iomap uptodate bitmap.
+Cen Zhang's earlier patch [1] checks target_attr at the redo and undo
+lookups. This series adds checks in the dirty-page walk, in log record
+validation, and in the restart table allocator. It can be applied
+independently of [1], but [1] is still needed for the additional
+validation at the redo and undo lookups.
 
-Reported-by: syzbot+3db654d91b471c4d7a7d@syzkaller.appspotmail.com
-Link: https://lore.kernel.org/all/6aab8055.71f81b7d.278072.0016.GAE@google.com/
-Tested-by: syzbot+3db654d91b471c4d7a7d@syzkaller.appspotmail.com
-Assisted-by: LLM
-Signed-off-by: Adarsh Das <adarshdas950@gmail.com>
----
- fs/ntfs3/inode.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Greg KH asked on that thread why this should be fixed in the kernel
+rather than in userspace fsck. Checking and repairing a filesystem
+before mounting it remains the administrator's responsibility. These
+patches serve a narrower purpose: if journal replay encounters an
+invalid offset, it should return an error instead of accessing invalid
+memory. They do not repair the filesystem or replace fsck. I am
+proposing them as robustness improvements, consistent with the kernel
+threat model [2].
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 56b4f6469a28..a9b4e288ca20 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -842,7 +842,7 @@ static int ntfs_read_folio(struct file *file, struct folio *folio)
- 
- 	if (ni->i_valid <= vbo) {
- 		folio_zero_range(folio, 0, folio_size(folio));
--		folio_mark_uptodate(folio);
-+		iomap_folio_mark_uptodate(folio);
- 		folio_unlock(folio);
- 		return 0;
- 	}
+Each patch includes a KASAN trace captured using a crafted image before
+the fix. With the series applied, those images were re-mounted on the
+same x86-64 KASAN build with no reports. The series builds clean with
+W=1 after each patch and passes checkpatch.pl --strict with
+GIT_COMMIT_ID ignored for the KASAN addresses.
+
+[1] https://lore.kernel.org/all/20260901174934.6275-1-cenzhang@linux.microsoft.com/
+[2] https://docs.kernel.org/process/threat-model.html
+
+Giulia Aloia (4):
+  fs/ntfs3: validate dirty page open attribute offsets
+  fs/ntfs3: validate restart table offsets in log records
+  fs/ntfs3: validate on-disk restart tables before use
+  fs/ntfs3: fix out-of-bounds access in alloc_rsttbl_from_idx()
+
+ fs/ntfs3/fslog.c | 110 +++++++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 70 insertions(+), 40 deletions(-)
+
+
+base-commit: 238650ef6c7c7cca08e032527329424c9fbd70e5
 -- 
 2.55.0
-
