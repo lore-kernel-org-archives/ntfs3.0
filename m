@@ -1,135 +1,124 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0209149892B
-	for <ntfs3@lists.linux.dev>; Fri, 25 Sep 2026 11:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609ED145B27
+	for <ntfs3@lists.linux.dev>; Sat, 26 Sep 2026 13:43:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790335001; cv=none; b=bSuG5Xy+MS0lG1w/9TIgaPuvv9SBQBh8hrHZkl4LQRD+VM07g+zFhiwmFjeuy8QziGQEcy/1aJss8174mFU8nvV2+E5C6St4trTg5Vt3aJmFOocdGFQkZAMv6v23QxqxXll2nLOq1qVtiLYOWab4JojVKBfOK0h8o4XFzU5PS+I=
+	t=1790430231; cv=none; b=f7oRqCjO36dBr3eCIFYvdIAQoOCWJq9HGCVsK6z78HzzwXhMh6NsG4fmxiA78Ncud6Pg8+xFJklDUhF0ww3DSaNv/Fb2wN7j7LD2FZw++2MFBKskDzIY0peEfdBgA2gzrDk6U+69GD1W8Mcgsk9mdMKBUg6Dtte/glyeujLmsOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790335001; c=relaxed/simple;
-	bh=5ZujRSyQJregJPMUymk/yiSTpGUWq/0YVKoOx5Zs1Aw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ncQhCVfZLzxDY7x00TTXti894Hw4VrQdQzWDKaOMMafEhkB8zEH16dUMzK2SPHjzY9nNbTFQCR3llRRC7R8iNiMnjMDdL++3NpjAdaTF4Ln9l6ZinHamFGVZvDoQWD7DifXz72ozeI0x0J/N+VN2pQ+ypcMVjVJYzimIBEqoaNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io; spf=pass smtp.mailfrom=bynar.io; dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b=gPXMK1Bf; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bynar.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bynar.io
+	s=arc-20240116; t=1790430231; c=relaxed/simple;
+	bh=7Bp7LBTc8yVH8ZU9J3yVkFWhoJolyTcB/LHKig653C0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QKtowADQr3dxXmxRZblf5sZc7wc7D2+TKOqTCIHzCTUHZEvtomL2Z5QCymsWk1LaFgbkDXbfqyrJJMBGPdI0U7OxUfJPzGRbB07L+8tsjJH3W9xvfAX+DkRsq7cL3vgP9j6veRD/oQ4DccfC0KdiMQvjdpQtgRpT5cIgMtcOlMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ek6fhKmR; arc=none smtp.client-ip=74.125.225.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bynar.io header.i=@bynar.io header.b="gPXMK1Bf"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49cd38e0f79so4478305e9.3
-        for <ntfs3@lists.linux.dev>; Fri, 25 Sep 2026 04:16:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ek6fhKmR"
+Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4887f690df6so1067562f8f.1
+        for <ntfs3@lists.linux.dev>; Sat, 26 Sep 2026 06:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bynar.io; s=google; t=1790334998; x=1790939798; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dXXodn/Gz9EuJ+FWpPi+CnP7LgY7X1c9rtJL7VC41Io=;
-        b=gPXMK1Bf9m+22X7vXdhpSMApik0aN+XIz8yCXzUcIdbdaF2azmBNEVzbcFZ5ixokQ5
-         QPYMlvXZNNnt010/uYhGfM/S9rPYLnQbayMBhD/gl6h84i4VNeYtQrbI4lY/u3nPc1cU
-         GDB8dHua38pfk+o3EYYsU6hdRqcdIsJeBzNb0rWV1+EFEvUF/UL3xQoc2jrMuhKFa2cT
-         b7H+QyGpSEx2RDrsC/jeraD1uvDlPmYMpxHGYsZKchjYS75mfjyFEjHAsrMdoOBVP07k
-         XCd5AqBjhyj/eskyK1py79pLAqktU1syEPAd4+xgkdpIMr6iNohZYpSHzR314MGBX0Rv
-         8nLw==
+        d=gmail.com; s=20251104; t=1790430229; x=1791035029; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hAhNw2BBzIiF8PFIH+O8m/y4aYCMQt+xp6nqV5oRqKk=;
+        b=ek6fhKmRaP87+5MPVrmQmHLCJt7ks8FsTCc00xsk3ufS9LFvRTW/yGv9XcWFBkzUJT
+         9+Vvx/Cl4yAIpI8uvhH/roYRRoISQ9JQFFPaLqAYMGElLHrtqhQ89ajyTzdStEr8QPB5
+         2cIvlS6dgLA9vYOy9vn/Te+FFBTZ8vAE0mfgIiW1cBOS6B9lN8N6i+Ub6qEpoS8CP4MZ
+         jD9C1mZbypKuHsaDRdARMY+GbnvIzJiljP1aK982KtRSoTmthakVJA5gZpknNjTlmulZ
+         n/OXRyhscWgH9kl7Tog6WZpodb3ja3HzVG7faG8PYZwyRit4ck/y/0mXywCCuNa66tzc
+         0REQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790334998; x=1790939798;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dXXodn/Gz9EuJ+FWpPi+CnP7LgY7X1c9rtJL7VC41Io=;
-        b=yWUrGNdUYY7AUvVqpnnIajA5OoE6s0Fzq2fLr1ze3mSDSyU/0dW5gt/nkxK5DIU87K
-         jdka3j3spEvjtpqiJoQ7aFwIKy1b16bHRQR1+PdOEKU+8zh0LXyrTk/xYpmCLfcLEHY+
-         UR22iJRw5Eyo+K8asvi9iCj38IOpLoU95jt9igGzcIdwX5WqTf1asLd5UORicRuWbAEJ
-         BANFNRd4FyDNmFicKV7gxNw0ut8AP/4pt2bWQ1W2x83ZLpM5AMT1a+LpXsOQa4C08hG3
-         fJXGxLK1WuDdG9DoluSSgL3EM2Cl1R/N3Da/G3wrR4HfqUPf6RddgucwDzlva6T0yQ8d
-         QoqQ==
-X-Gm-Message-State: AFuF++ntZa37d2wAkcHpyepojYbrxegUcvvEmsXh2cY/Q6M4T6i/1Qre
-	qd5zEWtK9tOsowjv3QVgeP4XcOEYWBJvbquYjply4vc8XVYFiu/5VDFGkfZStJI5SyNgPwApMrq
-	x9n7wN5Tvuoxlkw==
-X-Gm-Gg: AYBFou1ed4fmpjebRbdQLtEAQ4AogIWyIEyE/Q98Nf/CcAvu01injZA2okytgDV4pZz
-	kqWH0ZGxbd+ctBNXe/wpKJ3jEG5O6F0+pi6Aqe8/Ew9WXDy3q3dzxOfhsTnv+ObetEKqkBb7c0K
-	FhJU222oQ/Qpab6QkpsCf8FsXBBdHaAoD/Oqrn6qEQaswfC0u6zN3AdxHWEuczANP9iJIQEkBE8
-	WdaUnsB2wiGYIuKNW2E5QzosGTZ4z2L4SUAxVHA7+bZrXzr8o9X4kGWFdaDXWtMVhCI/8iECA3E
-	tFa96gIKqKfH31fmg1nUCZpNCzE4LEKB0zYphZTTMSi5QfjsnOdE8D5jDTXlUbYxAInHTSvWW/9
-	YHmEKg/7XUJUCsF3ITXOtdlnAOt2Lx+Iw7jrjJoYNb9wMViRt1RPLZAjBDVGGmXwv31bQvM/iO5
-	iljFPy8PEGUTSUInEPDRxUINsCS3iESkMgQbSEWY8=
-X-Received: by 2002:a05:600c:3b1b:b0:49f:e4d4:dd70 with SMTP id 5b1f17b1804b1-49fe6705bd7mr95338555e9.31.1790334998062;
-        Fri, 25 Sep 2026 04:16:38 -0700 (PDT)
-Received: from cachyos ([151.36.34.128])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ff06cbd2dsm50237695e9.12.2026.09.25.04.16.36
+        d=1e100.net; s=20260707; t=1790430229; x=1791035029;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hAhNw2BBzIiF8PFIH+O8m/y4aYCMQt+xp6nqV5oRqKk=;
+        b=pHt6C1Bni1DP8PDVhg+a9+lbZEKY2Q5xfw/eIgkTbbbFXyIBfdvkSqB5677UPTwlZv
+         RGA2G4hIvkwN6IHs/sfAymrwwDMFe6sr4Ez+Z8fbjqqAsShh1P2lowk1R4jrqrof8MIn
+         9G+80kYkrr0JjHlLQpK0/GwQLtKikv+Y8/eFsGmLulAAil71xFIIPDXKzd5njbab0fFu
+         HeHFdPXBD8pQdu0Cb07ld3SQeLok6xaXYub06IFe7yEqCLTvY/O4/QVLmwXVp9LlYVf6
+         z+J3wSupmb3minMlH8UIeV/B9kC8dgASAgLDHaKK6nJK228gfUvrM83zBJsQHvamIGcT
+         ONuQ==
+X-Gm-Message-State: AFuF++k7WVbAkMxLv4fjNNB3HwhMaMQgn1arUxq9gtoY6WXhOmvMxQWq
+	paSdtioc4SgthsQ5BkCNJUUAfTPdzI5BJG1vTmzkWedcuA1WpZ79NYDgFkOwFCtnIfRQtw==
+X-Gm-Gg: AYBFou3yip3U/FqKAfJt2vxawKnpp+qGJ8bXPTGUDQp7kypWiHTIk9tnPkSp8mIQLp7
+	psoW5jquqPn0FzxG7vG5rjgJJwqKl1zW3SvidOXeLxk9F64I0d2TqshhvE9OwVCL2ql0Krp+0a6
+	xmkjCcy5IT7I8XcjGQKQmok9jCKHVmg2CTLsE9V9NFmoS7R83Nb1VAaFC4Td39bFAaGJIlKxhru
+	oZRUkzwifko5+QyujWI6yw99T7vy+Lcpu0IRjElxSDRaxhlW+/6OyeZGFFy2eR9mG6Z6HrLni/u
+	U1bKgZ356VK/3sQgYVsPN62MLjZ+k64Y1pPdDHdEC8xVjQFW76jNIyuCTzn5pWzzc+KPYhx3k0g
+	L9yOjq4j8CnYRpfz6BcWMaI+kfxxxdgoNRC5sb9qagCP9EJOokqfvaJeoaztWQjUitLGfP/s3oL
+	v6TxLOCv9ZwAtJ4Pj1fyECwDzt7bePif5S6DqWNRObVF5gSME9e3dBEUTOVfCuRGuFpH8=
+X-Received: by 2002:a05:600c:4685:b0:49f:fd2d:23c7 with SMTP id 5b1f17b1804b1-49ffd2d25bcmr25030915e9.27.1790430228608;
+        Sat, 26 Sep 2026 06:43:48 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ff069d071sm161807295e9.5.2026.09.26.06.43.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 04:16:37 -0700 (PDT)
-From: Giulia Aloia <giulia@bynar.io>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] fs/ntfs3: validate SetNewAttributeSizes payload length
-Date: Fri, 25 Sep 2026 13:16:14 +0200
-Message-ID: <20260925111619.68345-3-giulia@bynar.io>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260925111619.68345-1-giulia@bynar.io>
-References: <20260925111619.68345-1-giulia@bynar.io>
+        Sat, 26 Sep 2026 06:43:47 -0700 (PDT)
+Date: Sat, 26 Sep 2026 16:43:44 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Alexandro Calo <alexandro.calo@nozominetworks.com>
+Cc: ntfs3@lists.linux.dev
+Subject: [bug report] fs/ntfs3: Fix OOB write if ret == buf_len in
+ ntfs_utf16_to_nls()
+Message-ID: <arfMEEmsxD5mcZAd@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-do_action() handles SetNewAttributeSizes by reading alloc_size,
-valid_size and data_size from the redo or undo payload. It only treats
-total_size as optional, but it does not first check that the payload is
-large enough for the three fields it always consumes.
+Hello Alexandro Calo,
 
-For LOG_RECORD_MULTI_PAGE records, find_log_rec() allocates exactly
-client_data_len bytes. A crafted SetNewAttributeSizes undo record can keep
-the undo payload within client_data_len while setting undo_len too small
-for the fields read by do_action(), causing an out-of-bounds read.
+Commit eff11b5a1eac ("fs/ntfs3: Fix OOB write if ret == buf_len in
+ntfs_utf16_to_nls()") from Jul 7, 2026 (linux-next), leads to the
+following Smatch static checker warning:
 
-Before this fix, mounting the crafted image on a KASAN build produced:
+	fs/ntfs3/dir.c:37 ntfs_utf16_to_nls()
+	warn: inconsistent indenting
 
-  BUG: KASAN: slab-out-of-bounds in do_action+0x7640/0x89e0
-  Read of size 8 at addr ff11000101d94ed0 by task mount/61
-  Call Trace:
-   do_action+0x7640/0x89e0
-   log_replay+0xcd38/0xe690
-   ntfs_loadlog_and_replay+0x3e0/0x500
-   ntfs_fill_super+0x1fd3/0x4510
+fs/ntfs3/dir.c
+    19 int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const __le16 *name, u32 len,
+    20                       u8 *buf, int buf_len)
+    21 {
+    22         int ret, warn;
+    23         u8 *op;
+    24         struct nls_table *nls = sbi->options->nls;
+    25 
+    26         static_assert(sizeof(wchar_t) == sizeof(__le16));
+    27 
+    28         if (buf_len <= 0)
+    29                 return -EINVAL;
+    30 
+    31         buf_len -= 1;
 
-The same report showed the object came from find_log_rec():
+buf_len represents the sizeof buf - 1.
 
-  Allocated by task 61:
-   find_log_rec+0x17d/0x5f0
-  The buggy address is located 0 bytes to the right of
-   allocated 80-byte region [ff11000101d94e80, ff11000101d94ed0)
+    32 
+    33         if (!nls) {
+    34                 /* UTF-16 -> UTF-8 */
+    35                 ret = utf16s_to_utf8s((wchar_t *)name, len, UTF16_LITTLE_ENDIAN,
+    36                                       buf, buf_len);
+--> 37         if (ret >= buf_len) {
+    38             ret = buf_len-1;
+    39         }
 
-Reject SetNewAttributeSizes payloads that do not contain the three
-fields it always reads. Keep the existing total_size check unchanged,
-because that field is optional in the current replay code.
+So this is wrong because we're now putting a NULL in buf[len - 2].
+This patch should just be reverted.  The original was correct and
+the new code is buggy.
 
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Cc: stable@vger.kernel.org
-Assisted-by: Bynario AI
-Signed-off-by: Giulia Aloia <giulia@bynar.io>
----
- fs/ntfs3/fslog.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+    40                 buf[ret] = '\0';
+    41                 return ret;
+    42         }
+    43 
+    44         op = buf;
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 88bd6ef98467..c5de4ebcc7ec 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -3463,7 +3463,9 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 
- 	case SetNewAttributeSizes:
- 		new_sz = data;
--		if (!check_if_attr(rec, lrh) || !attr->non_res)
-+		if (!check_if_attr(rec, lrh) || !attr->non_res ||
-+		    dlen < offsetof(struct NEW_ATTRIBUTE_SIZES, data_size) +
-+				   sizeof(new_sz->data_size))
- 			goto dirty_vol;
- 
- 		attr->nres.alloc_size = new_sz->alloc_size;
--- 
-2.55.0
+This email is a free service from the Smatch-CI project [smatch.sf.net].
 
+regards,
+dan carpenter
