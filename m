@@ -1,124 +1,99 @@
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
+Received: from mail-pj2-f8.google.com (mail-pj2-f8.google.com [74.125.227.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609ED145B27
-	for <ntfs3@lists.linux.dev>; Sat, 26 Sep 2026 13:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893F93DD879
+	for <ntfs3@lists.linux.dev>; Sun, 27 Sep 2026 18:06:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790430231; cv=none; b=f7oRqCjO36dBr3eCIFYvdIAQoOCWJq9HGCVsK6z78HzzwXhMh6NsG4fmxiA78Ncud6Pg8+xFJklDUhF0ww3DSaNv/Fb2wN7j7LD2FZw++2MFBKskDzIY0peEfdBgA2gzrDk6U+69GD1W8Mcgsk9mdMKBUg6Dtte/glyeujLmsOA=
+	t=1790532398; cv=none; b=UVfsYVhFLfSnfIHnbCFcJpjRF4yYQyWMA10Bw4/jxe834HZiErSn0SRdo3TVmkzYuaiADIuPbl76Yjg7gPvsYbmFVkKMy83ojQQxG7gTZ0At5JbsIJqB2BJb9wHviNAD909jIX9CY+zd39O/cDS6NN6HLZZ6D3rAv5PUumxzAj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790430231; c=relaxed/simple;
-	bh=7Bp7LBTc8yVH8ZU9J3yVkFWhoJolyTcB/LHKig653C0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QKtowADQr3dxXmxRZblf5sZc7wc7D2+TKOqTCIHzCTUHZEvtomL2Z5QCymsWk1LaFgbkDXbfqyrJJMBGPdI0U7OxUfJPzGRbB07L+8tsjJH3W9xvfAX+DkRsq7cL3vgP9j6veRD/oQ4DccfC0KdiMQvjdpQtgRpT5cIgMtcOlMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ek6fhKmR; arc=none smtp.client-ip=74.125.225.99
+	s=arc-20240116; t=1790532398; c=relaxed/simple;
+	bh=Xpcikl8sIKFn87EfW0CcMDwz7ssIH+kvLFmMk6RHr1Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QVTZqa3g0MPwTsd5nQRwMWwnmGu73iqwJaWZxASyN4SyaXXiYcLBWfKl5jRuWtnNO5w2uz9W4JaL8rFH3y24jvL+Y7UOW00Rlac72o45aNAX38TTu+VNU2CVffjKnNJRPkmvDVbXNFZdnlLg9uSEVQ3zVRF70I0tPTJbKIzGLxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EUOBeTBU; arc=none smtp.client-ip=74.125.227.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ek6fhKmR"
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4887f690df6so1067562f8f.1
-        for <ntfs3@lists.linux.dev>; Sat, 26 Sep 2026 06:43:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EUOBeTBU"
+Received: by mail-pj2-f8.google.com with SMTP id 98e67ed59e1d1-398b9f722abso1411043a91.0
+        for <ntfs3@lists.linux.dev>; Sun, 27 Sep 2026 11:06:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790430229; x=1791035029; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hAhNw2BBzIiF8PFIH+O8m/y4aYCMQt+xp6nqV5oRqKk=;
-        b=ek6fhKmRaP87+5MPVrmQmHLCJt7ks8FsTCc00xsk3ufS9LFvRTW/yGv9XcWFBkzUJT
-         9+Vvx/Cl4yAIpI8uvhH/roYRRoISQ9JQFFPaLqAYMGElLHrtqhQ89ajyTzdStEr8QPB5
-         2cIvlS6dgLA9vYOy9vn/Te+FFBTZ8vAE0mfgIiW1cBOS6B9lN8N6i+Ub6qEpoS8CP4MZ
-         jD9C1mZbypKuHsaDRdARMY+GbnvIzJiljP1aK982KtRSoTmthakVJA5gZpknNjTlmulZ
-         n/OXRyhscWgH9kl7Tog6WZpodb3ja3HzVG7faG8PYZwyRit4ck/y/0mXywCCuNa66tzc
-         0REQ==
+        d=gmail.com; s=20251104; t=1790532397; x=1791137197; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Hrm+Ev4VQJgRD6C6jxGrjXc6kFhErDTiXeP9w+0nxiQ=;
+        b=EUOBeTBUmqe2fEqopHfjsQkQa25LWzkTC+asHBn7nsJpXSM/BRBeGlcMAJLA94DW12
+         Z/m36gZWly4pNEEkIBLpgrgn3imY/v0WKFEjmXpDFDU8FbvYA/DPklhV9ONOyrWsJyJK
+         5dFBJz/U6Zr8PiFDpSjbhzTKeDXunnyUQor8cph14UGq/C3eH/eiFmMkgC4waNXjGXFk
+         u9S0H5BN2pLUWlP3goC/Xy7ELjQsIkeL55YxdtK4gB7S3QMTCz3u2ODk3nIXpbt2KLO6
+         xtbNs2MOLIxkIrYBw34yqABZd1fxlHpvCVMtNXAbR1yE5SVwzUQfIletIgPIFdIdZhSa
+         9XCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790430229; x=1791035029;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1790532397; x=1791137197;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=hAhNw2BBzIiF8PFIH+O8m/y4aYCMQt+xp6nqV5oRqKk=;
-        b=pHt6C1Bni1DP8PDVhg+a9+lbZEKY2Q5xfw/eIgkTbbbFXyIBfdvkSqB5677UPTwlZv
-         RGA2G4hIvkwN6IHs/sfAymrwwDMFe6sr4Ez+Z8fbjqqAsShh1P2lowk1R4jrqrof8MIn
-         9G+80kYkrr0JjHlLQpK0/GwQLtKikv+Y8/eFsGmLulAAil71xFIIPDXKzd5njbab0fFu
-         HeHFdPXBD8pQdu0Cb07ld3SQeLok6xaXYub06IFe7yEqCLTvY/O4/QVLmwXVp9LlYVf6
-         z+J3wSupmb3minMlH8UIeV/B9kC8dgASAgLDHaKK6nJK228gfUvrM83zBJsQHvamIGcT
-         ONuQ==
-X-Gm-Message-State: AFuF++k7WVbAkMxLv4fjNNB3HwhMaMQgn1arUxq9gtoY6WXhOmvMxQWq
-	paSdtioc4SgthsQ5BkCNJUUAfTPdzI5BJG1vTmzkWedcuA1WpZ79NYDgFkOwFCtnIfRQtw==
-X-Gm-Gg: AYBFou3yip3U/FqKAfJt2vxawKnpp+qGJ8bXPTGUDQp7kypWiHTIk9tnPkSp8mIQLp7
-	psoW5jquqPn0FzxG7vG5rjgJJwqKl1zW3SvidOXeLxk9F64I0d2TqshhvE9OwVCL2ql0Krp+0a6
-	xmkjCcy5IT7I8XcjGQKQmok9jCKHVmg2CTLsE9V9NFmoS7R83Nb1VAaFC4Td39bFAaGJIlKxhru
-	oZRUkzwifko5+QyujWI6yw99T7vy+Lcpu0IRjElxSDRaxhlW+/6OyeZGFFy2eR9mG6Z6HrLni/u
-	U1bKgZ356VK/3sQgYVsPN62MLjZ+k64Y1pPdDHdEC8xVjQFW76jNIyuCTzn5pWzzc+KPYhx3k0g
-	L9yOjq4j8CnYRpfz6BcWMaI+kfxxxdgoNRC5sb9qagCP9EJOokqfvaJeoaztWQjUitLGfP/s3oL
-	v6TxLOCv9ZwAtJ4Pj1fyECwDzt7bePif5S6DqWNRObVF5gSME9e3dBEUTOVfCuRGuFpH8=
-X-Received: by 2002:a05:600c:4685:b0:49f:fd2d:23c7 with SMTP id 5b1f17b1804b1-49ffd2d25bcmr25030915e9.27.1790430228608;
-        Sat, 26 Sep 2026 06:43:48 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ff069d071sm161807295e9.5.2026.09.26.06.43.47
+        bh=Hrm+Ev4VQJgRD6C6jxGrjXc6kFhErDTiXeP9w+0nxiQ=;
+        b=b+8KUtWI8TyunQreNqzdKaSzRVGJsCudbzElPk6gxdh0UMCvhSu6bmbUfAHsA4k3j0
+         Z+7w4uHiOGeUM8slkn9koyuCzX6Qf1l7YUiAmPPJI89aeyMnHAY8eaVA/q7GWtcL9Ma0
+         k3Qazh2NCb68N8pxA+KwbxCCIiisz/0dOKvFvPL/HOb1u1/RHq8cfE4aQa+wDS1fp3RA
+         b/fe5AbJbJOt37f+Yr4sPrsXCjhfgtuDj4lnHWIaOxcPZ3Jcz0+tn1lJJaKDI7SW8mfz
+         eStYXnpPE5Uz5zV878bWcOghHYl1ahiJU7tPUbfeicqeCcn3LXxY1Bp/Oo1MvQraTQjE
+         4zbA==
+X-Forwarded-Encrypted: i=1; AKwUvBzcPkfhdSlKhNcaoqShZ7wCLS2HB1yf+XaPluzz2SUwiz0z83LbKl6ST0GQGXP4aZHeVURGhA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIXZidCtI0FTvlWDJPTHO6eYsps8fJj2ce9Lg1xfGOYHzcAWz+i
+	XdZAJ9uRbI2mnireQtBMzipczQkh5WzdnkAvx72jzYMIBbJzKYYNRH8O
+X-Gm-Gg: AYBFou0uML7dw5Gh2t43gyRa+DVHVMvgitSDie5P8EuCtxaM0HJ83Ja/rboXTlbRpxK
+	El8UMs5SzzjHG80tUkL4rvDVEY6Bb9zTmFpdV5tARZygqjjVT+x64MBJYpPbV3riQ/1PcAVD97X
+	NoQK3H7Qgls04eo05xW1+p41Wh2VeGu3Xm7yD/dYcYrwNmUIYUN38Wh6Bw+qGbdK2KC9udv10QE
+	LMAbW2VFP899BMTTW000CAvDexbXU440AYRxvdaBuhxuuaPcAA1hSXLSEbgWPw+KhcmOP7plUy6
+	d2bLMysaoNswQdkbL+TibN2Li5JDLeD+6gFKO56Sqp7/79kHCgNpqntWDSkVE9CO+Mj365WTWpP
+	6ZCUWg3evESN/Gx+Rex+nILWzKH+M7y7uO6euRs2xGQi5Ju9iSaWiML/lhkh7fbBWxSte9DJvcI
+	5HJ0/0InSodKgVA4npKFMWuZ3J2OBFKNBCi8o1WF/79AZacw==
+X-Received: by 2002:a17:90b:2fc4:b0:39e:6c6a:4b64 with SMTP id 98e67ed59e1d1-3a098dfb087mr8670029a91.46.1790532396580;
+        Sun, 27 Sep 2026 11:06:36 -0700 (PDT)
+Received: from huawei-w510 ([2401:1fe0:5::3b7])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0ba31f408sm5225385a91.3.2026.09.27.11.06.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 06:43:47 -0700 (PDT)
-Date: Sat, 26 Sep 2026 16:43:44 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Alexandro Calo <alexandro.calo@nozominetworks.com>
-Cc: ntfs3@lists.linux.dev
-Subject: [bug report] fs/ntfs3: Fix OOB write if ret == buf_len in
- ntfs_utf16_to_nls()
-Message-ID: <arfMEEmsxD5mcZAd@stanley.mountain>
+        Sun, 27 Sep 2026 11:06:36 -0700 (PDT)
+From: Zhenyan Wang <maximwang110@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhenyan Wang <maximwang110@gmail.com>
+Subject: [PATCH 0/2] fs/ntfs3: fixes for directory permission and symlink consistency
+Date: Sun, 27 Sep 2026 18:03:57 +0000
+Message-ID: <20260927180359.3867508-1-maximwang110@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hello Alexandro Calo,
+This patch series fixes two instances of non-compliance with POSIX
+specifications.
 
-Commit eff11b5a1eac ("fs/ntfs3: Fix OOB write if ret == buf_len in
-ntfs_utf16_to_nls()") from Jul 7, 2026 (linux-next), leads to the
-following Smatch static checker warning:
+Patch 1 clears FILE_ATTRIBUTE_READONLY when the argument 'mode' of mkdir
+contains write permission.
 
-	fs/ntfs3/dir.c:37 ntfs_utf16_to_nls()
-	warn: inconsistent indenting
+Patch 2 leaves the symlink target unchanged in PrintName, avoiding
+conversion from '\' to '/' in readlink.
 
-fs/ntfs3/dir.c
-    19 int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const __le16 *name, u32 len,
-    20                       u8 *buf, int buf_len)
-    21 {
-    22         int ret, warn;
-    23         u8 *op;
-    24         struct nls_table *nls = sbi->options->nls;
-    25 
-    26         static_assert(sizeof(wchar_t) == sizeof(__le16));
-    27 
-    28         if (buf_len <= 0)
-    29                 return -EINVAL;
-    30 
-    31         buf_len -= 1;
+The patched code is compiled and tested in qemu. Everything works well.
 
-buf_len represents the sizeof buf - 1.
+Zhenyan Wang (2):
+  fs/ntfs3: clear FILE_ATTRIBUTE_READONLY bit when argument 'mode'
+    contains write permission
+  fs/ntfs3: keep PrintName not changed when creating symlink
 
-    32 
-    33         if (!nls) {
-    34                 /* UTF-16 -> UTF-8 */
-    35                 ret = utf16s_to_utf8s((wchar_t *)name, len, UTF16_LITTLE_ENDIAN,
-    36                                       buf, buf_len);
---> 37         if (ret >= buf_len) {
-    38             ret = buf_len-1;
-    39         }
+ fs/ntfs3/inode.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-So this is wrong because we're now putting a NULL in buf[len - 2].
-This patch should just be reverted.  The original was correct and
-the new code is buggy.
+-- 
+2.53.0
 
-    40                 buf[ret] = '\0';
-    41                 return ret;
-    42         }
-    43 
-    44         op = buf;
-
-This email is a free service from the Smatch-CI project [smatch.sf.net].
-
-regards,
-dan carpenter
