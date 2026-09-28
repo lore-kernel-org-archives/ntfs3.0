@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E214EE87A
-	for <ntfs3@lists.linux.dev>; Mon, 28 Sep 2026 17:22:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26E34EB87C
+	for <ntfs3@lists.linux.dev>; Mon, 28 Sep 2026 17:23:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790616189; cv=none; b=uS8/u5+aR0JLmVKEa/PzANBGD+fRmqZrOQZ8OruaxcuwcYQLHfkMYne8UZcyOeQip/k+rMeK1up4sHc1CpChsP5+A6AoxXih+KoCPdiHIxTupvTjuaBOJV5wZCjJx756y/ZI/MgkYRxCgi/qvsVOdOxZloVUSNnmPb8PU7NBrwI=
+	t=1790616218; cv=none; b=RA2IJKImkhzMTPdRCBfjJzNhi653TWfNNArIpM/5sdXBOVLEC4RrqPkvdv0y7uu9ZqCGnRPgSRFxJqXwusBu1DHxGGwtMfYr6XpFrEspZgO8vKxE+f8ooI7XCzPOSKQaWIOEU7m5e86vjQDo68PubTL7LgvEPUXpmBE2cZd2Rs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790616189; c=relaxed/simple;
-	bh=JsepccZaoDRsqiHr2im6NhlFZl/G+qeEROO6uXcLmK4=;
+	s=arc-20240116; t=1790616218; c=relaxed/simple;
+	bh=vqrAPG2a5N24mPZyIlZ1ZZFFpPG47RYaI2AKAjMgvjE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=TBCrGnpRsWXoMOM+SPFPpPBWLCdjwL41py9Ly6V9Jjaw6nIUgbkP766GL9aL4EiIKloas6XtlLvLOhzeK8l/4akLI84MkjGfIhShn+wDf3uVlBBHO9VdH+w7hL+Hmct/ksewC1vcWwsnIwSoWWMusjuAHonFztRoQGMzUwFojJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=R9NYcvAI; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=X57rXveUmhpM5tVMnAiIl/X5PI9fegEvc13g8tyVHBuRyaa5FhYuAnPeV1PE6102JDl+IRynjTa+qLyc3clR59FKgviruiWcjSo3e+yW1cZRUCfJEBWEmoNWQ6DqSxmctaYJ8OJzKijsSDoKXes/1GRlfbMd1Tg0hX7Ryqp6p2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=HjsXUBw/; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="R9NYcvAI"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="HjsXUBw/"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 942B332C;
-	Mon, 28 Sep 2026 17:23:45 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 7C26A32C;
+	Mon, 28 Sep 2026 17:24:19 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=R9NYcvAI;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=HjsXUBw/;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 2D7F92187;
-	Mon, 28 Sep 2026 17:22:52 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 08BF22187;
+	Mon, 28 Sep 2026 17:23:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1790616172;
-	bh=IeUgEUphtSH/VtUd2ipH6B2zIMwBdGWMiZtne0L9HAI=;
+	d=paragon-software.com; s=mail; t=1790616206;
+	bh=8wK+Mt7wxK/GvFsTbwxSYIH31MdufPxWj27TEn5fYbA=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=R9NYcvAIiNLn5yJiemRmPsMDu7wLxIG16qg6TOzXCuPKpLU+9NsQe0UyB19bATxjk
-	 8ziEVWnPiGPhWfOEciCvhYPggFZG4ZFTR4MDFqgRii/4JZ9Mbr0Iy0IbA7bs0ivYzl
-	 52WQXpsNAdZ5WkQ4gANAzvJRqpBtBZjNuHSrYh5E=
+	b=HjsXUBw/YXO5O8K+I54jGtFOzvJewiIbPkFX0dckgswm0nWog1gw7divhg3Ryq3DD
+	 ONNPEtumiKSA3gJl4Ti4D4D11jY1lQ2Z4sQuzZBlLExBQH6eVgVe2Zxh3ZgvWgdwR8
+	 5zj9UOeAj91erCnA1rQTZYSBT/+B+5HBbu4Pc9rQ=
 Received: from [192.168.95.128] (172.30.20.196) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Mon, 28 Sep 2026 20:22:51 +0300
-Message-ID: <830f54cf-1e10-47c5-8d7b-7076dd8ac026@paragon-software.com>
-Date: Mon, 28 Sep 2026 19:22:49 +0200
+ 15.1.2375.7; Mon, 28 Sep 2026 20:23:24 +0300
+Message-ID: <e7aa6fe8-1284-4b5b-b6e7-ffff610466fc@paragon-software.com>
+Date: Mon, 28 Sep 2026 19:23:23 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,67 +45,113 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: return -ERANGE for short xattr buffers
-To: Baolin Liu <liubaolin12138@163.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<liubaolin12138@gmail.com>, Baolin Liu <liubaolin@kylinos.cn>
-References: <20260709071849.2558133-1-liubaolin12138@163.com>
+Subject: Re: [PATCH v2] fs/ntfs3: reject an oversized resident attribute on
+ the inline iomap path
+To: Michael Bommarito <michael.bommarito@gmail.com>, <ntfs3@lists.linux.dev>
+CC: Mihai Brodschi <m.brodschi@gmail.com>, <linux-fsdevel@vger.kernel.org>,
+	<stable@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20260711152630.2975127-1-michael.bommarito@gmail.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260709071849.2558133-1-liubaolin12138@163.com>
+In-Reply-To: <20260711152630.2975127-1-michael.bommarito@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 7/9/26 09:18, Baolin Liu wrote:
+On 7/11/26 17:26, Michael Bommarito wrote:
 
-> From: Baolin Liu <liubaolin@kylinos.cn>
+> attr_data_get_block_locked() maps a resident attribute as a one-page
+> IOMAP_INLINE extent: it allocates a single page, copies the resident
+> value into it with memcpy(), and hands that page to ntfs_iomap_begin()
+> as the inline data.  The copy length is the on-disk resident value
+> length (res.data_size), and mi_enum_attr() only bounds that length
+> against the MFT record size.  A corrupted volume with MFT records larger
+> than a page can therefore present a resident $DATA whose length exceeds
+> PAGE_SIZE, and the memcpy() then writes past the single destination page.
 >
-> ntfs3 currently returns -ENODATA when the xattr exists
-> but the user buffer is too small.
-> Return -ERANGE instead.
+> Impact: reading or writing a resident file on a mounted crafted NTFS
+> volume whose MFT records are larger than a page overflows the one-page
+> inline buffer in attr_data_get_block_locked() with attacker-controlled
+> bytes.
 >
-> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
+> Reject such an attribute in attr_data_get_block_locked(), before the
+> page is allocated and the copy is made.
+>
+> Fixes: 099ef9ab9203 ("fs/ntfs3: implement iomap-based file operations")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-4-8
+> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
 > ---
->   fs/ntfs3/xattr.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+> Changes since v1:
+> - Reworded the code comment and changelog.  The oversized resident length
+>    overflows the single alloc_page() page that attr_data_get_block_locked()
+>    copies the resident value into; v1 described the older
+>    iomap_write_end_inline() BUG_ON(!iomap_inline_data_valid()), which was
+>    removed in 7.2-rc1.  Thanks to Mihai Brodschi for catching the stale
+>    reference.  The fix itself is unchanged.
 >
-> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-> index 9743a63a152e..0a19668e970d 100644
-> --- a/fs/ntfs3/xattr.c
-> +++ b/fs/ntfs3/xattr.c
-> @@ -781,7 +781,7 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
->   		if (!buffer) {
->   			err = sizeof(u8);
->   		} else if (size < sizeof(u8)) {
-> -			err = -ENODATA;
-> +			err = -ERANGE;
->   		} else {
->   			err = sizeof(u8);
->   			*(u8 *)buffer = le32_to_cpu(ni->std_fa);
-> @@ -795,7 +795,7 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
->   		if (!buffer) {
->   			err = sizeof(u32);
->   		} else if (size < sizeof(u32)) {
-> -			err = -ENODATA;
-> +			err = -ERANGE;
->   		} else {
->   			err = sizeof(u32);
->   			*(u32 *)buffer = le32_to_cpu(ni->std_fa);
-> @@ -835,7 +835,7 @@ static int ntfs_getxattr(const struct xattr_handler *handler, struct dentry *de,
->   		if (!buffer) {
->   			err = sd_size;
->   		} else if (size < sd_size) {
-> -			err = -ENODATA;
-> +			err = -ERANGE;
->   		} else {
->   			err = sd_size;
->   			memcpy(buffer, sd, sd_size);
+> The unbounded resident length dates to the iomap conversion; only the
+> manifestation changed when the inline buffer became a single alloc_page():
+>    - 7.2-rc: the memcpy() into the one-page buffer overflows the page
+>      (out-of-bounds write, below).
+>    - 7.0..7.1: the buffer was kmemdup()ed at the real size and the oversized
+>      length instead tripped BUG_ON(!iomap_inline_data_valid()) in
+>      iomap_write_end_inline() (a denial of service).
+> The same data_size > PAGE_SIZE check prevents both, so it is the correct fix
+> across the stable range.
+>
+> Reproduced under QEMU + KASAN on 7.2-rc2.  A resident $DATA value length
+> above PAGE_SIZE, as a volume with MFT records larger than a page presents,
+> was supplied while the alloc_page() + memcpy() path ran unchanged; the stock
+> kernel faults with a KASAN out-of-bounds write in
+> attr_data_get_block_locked():
+>
+>    BUG: KASAN: out-of-bounds in attr_data_get_block_locked
+>    Write of size <data_size> by task ...
+>     __asan_memcpy
+>     attr_data_get_block_locked
+>     attr_data_get_block
+>     ntfs_iomap_begin
+>     iomap_iter
+>     iomap_file_buffered_write
+>
+> With the patch the same access returns -EINVAL and does not fault.  An
+> in-bounds resident file (control) and a non-resident file are unaffected on
+> both the stock and patched kernels.
+>   fs/ntfs3/attrib.c | 15 +++++++++++++++
+>   1 file changed, 15 insertions(+)
+>
+> diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+> index c621a4c582f9e..2f73714a2db97 100644
+> --- a/fs/ntfs3/attrib.c
+> +++ b/fs/ntfs3/attrib.c
+> @@ -1034,6 +1034,21 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
+>   
+>   	if (!attr_b->non_res) {
+>   		u32 data_size = le32_to_cpu(attr_b->res.data_size);
+> +
+> +		/*
+> +		 * A resident attribute is copied into a single page below
+> +		 * (alloc_page() + memcpy()) and mapped as a one-page
+> +		 * IOMAP_INLINE extent by ntfs_iomap_begin().  mi_enum_attr()
+> +		 * only bounds the resident value length against the MFT record
+> +		 * size, so a corrupted volume whose records are larger than a
+> +		 * page can report data_size > PAGE_SIZE; copying that many bytes
+> +		 * would overflow the single destination page.  Reject it.
+> +		 */
+> +		if (data_size > PAGE_SIZE) {
+> +			err = -EINVAL;
+> +			goto out;
+> +		}
+> +
+>   		*lcn = RESIDENT_LCN;
+>   		*len = data_size;
+>   		if (res && data_size) {
 
 Hello,
 
-Your patch was applied, thank you.
+The patch was applied, thanks.
 
 Regards,
 Konstantin
