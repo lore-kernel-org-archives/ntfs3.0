@@ -1,94 +1,117 @@
-Received: from mail-pj2-f1.google.com (mail-pj2-f1.google.com [74.125.227.129])
+Received: from mail-pz2-f38.google.com (mail-pz2-f38.google.com [74.125.228.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3D71A6836
-	for <ntfs3@lists.linux.dev>; Sun, 27 Sep 2026 20:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB80369997
+	for <ntfs3@lists.linux.dev>; Mon, 28 Sep 2026 07:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790541031; cv=none; b=ElbXYYr61n1uOztT7L6dNcNKl+giYOgPssIjKYe91aJk96cgCJnlPmwOZSo5ZQ/iWWzfaUjrgbo0iyhjAF9+yvXFu8zxIdo1TWLGgTtImY+eYsAxRFvuiNZ9GCrLNAhAsxAUqIBMRcrJAuD8Ix9rCe475+buhazIdyqopdi1JU4=
+	t=1790580493; cv=none; b=MV2ZnsWEyM4RFrKjfXOqZDblHn8r8l40bL7ScC0l1GtxFfyIB0GlP8udkl+7O/DzI5Pw5PHLgOI2F+K+/lhuEgPkUyTUAL4VqAD/1FUjd7+e1y94a8Ks2y0IDGYXA4/tJ13lKhMENdkzG9V1zWCHKbcQ9+ApImJsct5gGHQWHWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790541031; c=relaxed/simple;
-	bh=o6cflNN+5uNq6lgPY1cP17X/raP7e0k7d2gKzGJf18I=;
-	h=Message-ID:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DeFC6bS93UQyGLKOVs/IKtpRpIaT4x8ney02VZmXG0vOdVVjAj1RL2f3YccM+i8E9wEP2c6bMQCFkPebRyFl66y5GoUnT1JLsvanEPFI1TZLED8ZFnbJvmi7YyZ6xomR/ckHZQETZBozC98NZge+OBsljud0K4tc23NS4E5sRHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YIGdXDte; arc=none smtp.client-ip=74.125.227.129
+	s=arc-20240116; t=1790580493; c=relaxed/simple;
+	bh=DZEBm7AqqCnArM9eNi1XRjIHVWMaI8eGfrCgZqmx5vI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KLwZyFs9WepAlhZZrSBmZW3+KmfxO/d9LSN4S0boBM2hMabXW1MAluoPDk6u6dtoTQTth0kA+DKgYAd3zN3DYBkYtiCA6QlUxTXbjnEnFEi9qKymrk2snQ9XixH4aO3rwR7iZ+oLVXrVM635Uq7e811vw6F2Iy1EbmSvX6Vtcqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oz0u2az5; arc=none smtp.client-ip=74.125.228.38
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YIGdXDte"
-Received: by mail-pj2-f1.google.com with SMTP id 98e67ed59e1d1-39e59dca659so726310a91.1
-        for <ntfs3@lists.linux.dev>; Sun, 27 Sep 2026 13:30:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oz0u2az5"
+Received: by mail-pz2-f38.google.com with SMTP id 41be03b00d2f7-cc79a5bdf9fso225864a12.1
+        for <ntfs3@lists.linux.dev>; Mon, 28 Sep 2026 00:28:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790541029; x=1791145829; darn=lists.linux.dev;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=o6cflNN+5uNq6lgPY1cP17X/raP7e0k7d2gKzGJf18I=;
-        b=YIGdXDtet1g/NLcxLoLNH2MgCbfPLdukU18YMDEPLIhn9BSYXywRN2oJ0AVZMc+2Pp
-         hz7bXNXT0fozafNo0RHOvAITyXJQScU+PCiIpEeMQ6BSAg0whbQfablcZBB6tc/KestE
-         vA9uv/8traKmTloZaH41MwyKFDx3HU0T0t8/N135yGplZoMM28hb60plRqRFKiy8Ap8B
-         ZIEsHRe4lqMCvkDX5fdlf67NYPGQWBW2ancZ6tU91nEewIzDzgENJP7RXX264s8gReu9
-         ru3SwiX+xDLKu1VXolOtbYPaiBAs4ivb7ccv7SHjpCQUZq5FoF546bBwdaHuXXm3qgBu
-         IDJA==
+        d=gmail.com; s=20251104; t=1790580489; x=1791185289; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Bye6SXDJtZqYyoJ8pMJ9LL8Wd0RgcztWGshO/EITHjg=;
+        b=Oz0u2az5G+FR9UdHgUZoAdkvzPZhX4U7q16i0DpiCRYbSaf2NK/lRJxJ/C6OMOTvNQ
+         aOlUjwsobxYdDZaeo+Xz4xVc02l+zohQ/yl5ea75s+fe5zgl3S9+E7RriUqAzUXmhmrg
+         qDPx75hugcFYdpsLhr2jDPhb3vAf+M0BxARQLMxjpaVu9cPrrdXlfI/S+7zyxwDQU6DO
+         ftevDweLgGJqLKyAj88ISihppe8uNdray1H17MBVZPRnQeLRhPsZkPvaMqaL6RCiPG5S
+         ZbIbsNbGQ3ld9fjN/+t6+5gA27i8qh0iPGAi+5w2qj7GNvMhfWxEEx5pb1Qy6dYNmxNI
+         1hNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790541029; x=1791145829;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=o6cflNN+5uNq6lgPY1cP17X/raP7e0k7d2gKzGJf18I=;
-        b=omq8X8lu19ArRkucNRpnfHE53uU6cZEvuwXjurfy/D3Z1sF4Xsz6F7zrYwqidyxu2h
-         Rzf/evMfHnGE23dxJrqY/DKdfjWZBX/sAOZeWdcQbkNh8pJnbHZDhWDxXLYuDUc/4+3M
-         HwcY9m5SwHqfvwpe01HAdZy0mpqO8wCQuUjgVdbV2zyOWgaX0+zRwKgMiTijO8nbVrfP
-         TZ2+mY14V8RCAh9LqOtkXjClpu180V5Gm1yAxX5kA3BHdg9FlPydQ0tdUTa/y1m4rFSv
-         aaA1yut8Wl9RuENyE3vvFf6No6J7vXrdo0iv42g0MyxQ13UuyPK/bV4gXOAoNkstE6qT
-         goBg==
-X-Forwarded-Encrypted: i=1; AKwUvBxtoNzTAPD+Tf75v1re0TTF0vLevMW4WVfgCzBLTGp+lDU2NRDhGg6AdSaixhFWs4Wj4Jc7bA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIVGSeuuRR+kyPLSoQJuvls7FO/XA9I42blGw8Ef4oYWASF2Muc
-	VOxXKHTVhZcCPHC3GGxyE3QPaRE51eeYLRffrDv8OLInXn5O0VwKTFwx
-X-Gm-Gg: AYBFou2/z5eCbcdUpXvYCe231PqnG8JlWe37TI2vKG789KQfMLjJDGwIfjYPH18WXGO
-	ZvZfM4gyxsOdISYbFsQLmSyUjBnv8phUXx6I4i8G775sP5+wRkGApChZxRfZyVpm+ThWGnqtC3H
-	f5PWtQm8czX5jpY3/8/7BrDAiGpNnje2/4FdKNpjBra+jJjpNmjqBrFlmuOwn1QqcLeqwB1TqMl
-	H/WJK9lIkxrctdR4wDccDJgssOFlYVO1Jo+2Sdjr5orR5z+FyP0kheIr8ALlUAPY/pp8bo1bm2x
-	5IeKGYfLgiVk1GVJzII+7tdHFJP37ua82H+zx9AlgecBxIW+yUD2bE8OBnOsvjwg7zQ3YOXSYbp
-	KECQc4LwhabLqcXtN+brZc/K3W+kR3rIg4vNXAjqi0tdDkZFEJ7CCmi8G3Ud3x77CPqbOeRV5wh
-	9rLlIVjvi2Os46xLfNmu3F5V3HgqW8nhTK77ioviW34MRyLw==
-X-Received: by 2002:a17:90b:384b:b0:3a0:c360:a562 with SMTP id 98e67ed59e1d1-3a0c360bd58mr5153407a91.14.1790541029308;
-        Sun, 27 Sep 2026 13:30:29 -0700 (PDT)
-Received: from [127.0.1.1] ([2401:1fe0:5::3b7])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b898cabesm16824473a91.0.2026.09.27.13.30.26
+        d=1e100.net; s=20260707; t=1790580489; x=1791185289;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Bye6SXDJtZqYyoJ8pMJ9LL8Wd0RgcztWGshO/EITHjg=;
+        b=jy8GGaiRdUsSOtaSPK29vvZJNJXUOIBBqYBYItAgNZJfyKsKPhh5Nnpn7K/pKJ2e3m
+         S6OonuWxwv3ty3EZ02SEe9NgtonKv7BvkDFG1nl497mwBrHvpRaVsIw6T0hrIUmvXs7a
+         OasHbwPdjcX5isL4dAM91b4nchSuUIyHLJzdW2fUOiJ12Cgfo4kbN+u1jtEQNP3ST7ug
+         62bmJnlCqj+rlovaLWI3mzqdHqyvkv5OIplAqCwKQTu1xsW0ydTA9aHPEppzXoXnXMJW
+         PNbhc3l8Yq4D3Pt6rh++2bAaOQUr2dyHTVTEBAj21Zyoe/rzDNKku4Q+gvhWMf+mE+VQ
+         /kKQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzj/LVMGA86ocuU7H3nPya9DtPEZHCwfjIYaBYhgGnR/PzIGgUB8kDidCJqH1cLa78opVDhXg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLClmOwNZoHNX8SBL4El2LIolQiPdzfI/kzmora7uYa99duJ4V5
+	8QarC5szw4Y23EH6Hl/GB2qAXiB6/Jv1DzN8ar6tsR7E5+j8VybAnmPJ
+X-Gm-Gg: AYBFou3G7pQHUYFhbHpl033DjDhsAfLv7Oq257if0/6jHYPLLgDKCyZdkIv90vm5RR6
+	A0WCitbUPsIe5uSbDzD4f2JTuBuVw/6VgnkH1mGZ2q2+KJIvN/hPveKXN/zh9J4uoOeX7PoHUzo
+	ofp644Pmtjld0DwJV+MnT+JAaWVqWPIT+axIfY686Np3bAFk0QvLDHLGTuJPnz8Hpbbi9P/JiRB
+	UJ0WehdLXbjwlUIuZ/GJXy/T9z+TuUmuf3h/ieBgUfDJphQONLbcafjbuLmhGCjie+SpJGokTyZ
+	kKg8TBIpdykmTrvHhz8CiLFSgjPOm/ADL1v2JmelcPRc2Rf2cFVFr+xKnC6ejk1detkLMuqJupR
+	JHAUBu0A81RPnR8ZttwtwnqFoq5SzhFBCe+OScRFlABe0CKpC/YvXElU9egN98Mztry2EiKxb2o
+	Hdf5x9+HmIG7xpjgzl7DMrgWDg1J2dYHOKVabJnkRAUtLUAsBm0f+UmFevEXAwF1tXl98avzQUJ
+	b1yg9qJK0s=
+X-Received: by 2002:a17:90b:5247:b0:39e:6c68:fd8f with SMTP id 98e67ed59e1d1-3a098b628d9mr7264933a91.36.1790580488646;
+        Mon, 28 Sep 2026 00:28:08 -0700 (PDT)
+Received: from osman.mioffice.cn ([43.224.245.178])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0974ec5dfsm25102399a91.3.2026.09.28.00.28.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 13:30:28 -0700 (PDT)
-Message-ID: <6ab97ce4.a24da115.4bfe6.0f74@mx.google.com>
-Date: Sun, 27 Sep 2026 13:30:28 -0700 (PDT)
-From: Zhenyan Wang <maximwang110@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: Christian Brauner <brauner@kernel.org>, ntfs3@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Zhenyan Wang <maximwang110@gmail.com>
-Subject: Re: [PATCH 0/2] fs/ntfs3: fixes for directory permission and symlink
- consistency
-In-Reply-To: <20260927180359.3867508-1-maximwang110@gmail.com>
-References: <20260927180359.3867508-1-maximwang110@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        Mon, 28 Sep 2026 00:28:08 -0700 (PDT)
+From: Zhan Xusheng <zhanxusheng1024@gmail.com>
+X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
+To: Zhenyan Wang <maximwang110@gmail.com>
+Cc: Zhan Xusheng <zhanxusheng@xiaomi.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Christian Brauner <brauner@kernel.org>,
+	ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] fs/ntfs3: keep PrintName not changed when creating symlink
+Date: Mon, 28 Sep 2026 15:28:00 +0800
+Message-ID: <20260928072801.13714-1-zhanxusheng@xiaomi.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260927180359.3867508-3-maximwang110@gmail.com>
+References: <20260927180359.3867508-1-maximwang110@gmail.com> <20260927180359.3867508-3-maximwang110@gmail.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-After analysis, I found that Patch 2 introduces a regression. The
-readlink function treats backslashes in symlinks as literal characters
-but they're path separators on Windows so symlinks created under
-Windows cannot be traversed.
+On Sun, Sep 27, 2026 at 06:03:59PM +0000, Zhenyan Wang wrote:
+> -	/* Translate Windows '\' into Linux '/'. */
+> -	for (i = 0; i < err; i++) {
+> -		if (buffer[i] == '\\')
+> -			buffer[i] = '/';
+> -	}
 
-There is a partial way to fix. Since symlinks created under Windows
-wouldn't contain '/', in the readlink function, we may only convert
-symlinks without '/' to cover all Windows-created symlinks while
-keeping some of Linux-created symlinks shaped like 'a\b/c' unchanged.
-But the 'a\b' problem is back again - it isn't fixed because we cannot
-distinguish it from Windows-created ones.
+ntfs_readlink_hlp() reads PrintName, for both tags:
 
-So I'm dropping Patch 2/2. Patch 1/2 is unaffected.
+	case IO_REPARSE_TAG_MOUNT_POINT:
+		... MountPointReparseBuffer.PrintNameOffset ...
+	case IO_REPARSE_TAG_SYMLINK:
+		... SymbolicLinkReparseBuffer.PrintNameOffset ...
+
+On a volume written by Windows that PrintName is the display form, so
+its separator is '\' - "C:\Users\foo".  Without this loop readlink()
+hands that back verbatim and the whole string becomes one component.
+The loop is after the switch, so junctions and mount points lose it too.
+
+Keeping it, the first hunk alone already fixes the '/' case:
+
+	symlink target   PrintName   readlink
+	a/b              a/b         a/b
+	a\b              a\b         a/b
+
+The second row cannot be fixed this way.  A '\' in PrintName is either a
+Windows separator or a literal character from Linux, and nothing in the
+buffer tells them apart, so a round trip for the literal one needs a
+different encoding, not a missing conversion.
+
+Also, after the first hunk the is_absolute block still decorates through
+rp_name while the copy is at sub_name; both point into the same buffer,
+which is easy to get wrong later.
