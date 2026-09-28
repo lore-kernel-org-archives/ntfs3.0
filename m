@@ -1,92 +1,172 @@
-Received: from mail-pz2-f9.google.com (mail-pz2-f9.google.com [74.125.228.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78293BED7A
-	for <ntfs3@lists.linux.dev>; Mon, 28 Sep 2026 08:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA864F93AF
+	for <ntfs3@lists.linux.dev>; Mon, 28 Sep 2026 17:22:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790582609; cv=none; b=Oj50t1oJKYZb+v39iHY0SsQerlrQNwwuvj1eewrK7jK9xMeb/UQDfjz2y/+z95DQ3RdLGprMYf9+alBv1mguqq+srewkIUzjbjYbVFy1igGtUUhpQuLQuQWpAs2CyYrgLVQMgFSlnfYnA9JzY7rwJz8AuUVF6m9NIFz9+f7XZRw=
+	t=1790616128; cv=none; b=iahiWLnXj768CJq8ab17nlXDMcg2Hl9SiwJoI0G2bf/xGPvmuFZK3i6bQXwt8E4krwF25yOTfnHye/RxgEIZWySetoEqjiig7WRCj1tV4h0EeTXTYdL7a7JuLj+iYQPwBPOVvU0B3eAoqLgeQX7igqKJW2qHB5kwF6BcLy13ql4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790582609; c=relaxed/simple;
-	bh=wg4j50qd+HyVvZop+xqKTij/lmOTb61oW3LmpcIetd0=;
-	h=Message-ID:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=l0+6oMtSK2dvf7YEnOAg33MfPpESI+LrzHTqbuInw22n6B0VMVb+Qz9wm2mgwpL13A3ZLfBdqAGi3Ge+73gQQrGi27AWs9tquLu1EEswKZNb0Y+ASYi9wttbaUeu6BJ2skQk6EoH3HwhDcH54hyRxVhDJNr/oejVJgaS5JcdjuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YQVpn9bc; arc=none smtp.client-ip=74.125.228.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790616128; c=relaxed/simple;
+	bh=5RvctZUCAf0FL3NxVqZcjM6pEbtTPWL0VQnh4iXuH+0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=aGa/6MYcVGXmuoHpHwPGZnZ8tiDERdZdftOG4LnI1HAw3FOsCdcft0R44X7VMkGujc4VfGLrSJjS0XEkhEISUBb3WkLl1arHlbkiWJF3GbHEtHOk5qlU59k2LfWxmhAlMqCEcc9gTQ+Gz65g75Hc07hMF/JthxqbqTi6c61NLCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=i0Ea0Jti; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YQVpn9bc"
-Received: by mail-pz2-f9.google.com with SMTP id 41be03b00d2f7-cc150711112so138884a12.0
-        for <ntfs3@lists.linux.dev>; Mon, 28 Sep 2026 01:03:27 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="i0Ea0Jti"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 474B032C;
+	Mon, 28 Sep 2026 17:22:48 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=i0Ea0Jti;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E181C2187;
+	Mon, 28 Sep 2026 17:21:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790582607; x=1791187407; darn=lists.linux.dev;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=wg4j50qd+HyVvZop+xqKTij/lmOTb61oW3LmpcIetd0=;
-        b=YQVpn9bcPq15tNOrcBewI0qEOgaVW63VsUkvo4Wlk9Y66a2JxSYsaNfMqE04pzUlDC
-         o3f9cThqiGbwv7ioF/GsLPt8m4IM22s33kpEAB0IyhN/CpOaYTwI1iWGKHrURsleBsiU
-         UFWJ617F0YpbeOEyEnHwLDzCM373m7DHk764mUCSwkShD88urojWx4iBIcElDhThGPM8
-         /Xpb+kQmBH7pxCdaygAXYXgei3lqUOD1rdup4ZGRNQf5/Zf8HlsAXA2CnDtk98Tg17BT
-         psSX0PU++1NpB1O7IH2QkdH08BloMEkVwbD0d8v/fJCDuqz3W30SxemDo1U+4JDk7LN5
-         mwGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790582607; x=1791187407;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wg4j50qd+HyVvZop+xqKTij/lmOTb61oW3LmpcIetd0=;
-        b=AjPTaGDl7dpkLACND9PWXtT9zJ5D4u7Ab5CDlX2DMh2LG7sUhD8hsqba2sx+m+H+/G
-         yDe6LhwOY7H3kIDXO2xVdDq3/rKpTb04m7dbgZkfJ+1funSqMRpt8x4UBxUMHHZLc0pu
-         OcbubFI1Ntz+kxRu5ckEV609K2ngP/ZTolu2k33AOO22cNTvF902A40cK501cggytELv
-         OaJEBKjZBSlMvP/nMlFA53PO+sUVvtf6OPKQLFgldl4X+GO2gXbFmk4NQkFpAYFM1YwO
-         CnKuYHlsYMPEbyyEzaBmmr01Ez0W4qBkb+r+USbjwTXxMy6V9+8RGMWyTVKXEgQiFldf
-         1hTA==
-X-Forwarded-Encrypted: i=1; AKwUvBwaDMjbopHFG1GAu2ib5frvS7fE4yHXbZkiLPFuJ++4oLKjX/jvaDOjGD8XW+0An9iwAXJf9g==@lists.linux.dev
-X-Gm-Message-State: AFuF++mwOSkOdJfCz60h8YkHu7yz5dqAtNAPjic9cxC4sJfebL0rmAl5
-	xfgdgARTyFoyttQ221vRb9h+NV5zla5axW64gK2JOqgh00zl9DhaqdU5bV4K/eFp6QN0Yj/17S8
-	=
-X-Gm-Gg: AYBFou31y+wdoguX0/hmZF7sb4UNTHVU4qJ//uDJTOGr8+LWb0IrEv3pwzN/Ny48ZuD
-	mkb6S6DGKkyidUvZno2aukPhS/WA8/j+5WnW31fxFgK9BJiS+1fXxcR9KPkgYQnFNqaGG8bP9VQ
-	an/nN9EjnI+EErI+U1Zf/CGVlXSeJF+D3aJPxUSX/VL2eJlMHNeFfq2EMl/0UiJvTdHzh0Z57NO
-	1jSvZJf1Ry4uOlbHwYhNTlf5zonne6i+Gm3LUfWubXad0M0ft2JuzNxvWndoXXFprEXvSLd8Zti
-	kOo0vqgZpOrehKd9UrtR5i8K/wJsnvlLAtOMKOsniuTo27fmZwZPPdor8YgFseSnh/MrxT2MyQ0
-	G9kPE8DJ9igT8jX95Rt5xQdpG9Mhf3QOcYhMzhr7Qpa5t1fGHjK+AXewiCXazdPt5iVMMx3sMW4
-	C7CSkwScp+RSe+WOad87F7RGPxu+oxOfUCdVtDVRoez7KIizEBo5mA1DKL
-X-Received: by 2002:a05:6a00:348a:b0:881:fa65:d4fb with SMTP id d2e1a72fcca58-881fa65e5acmr3366523b3a.56.1790582606929;
-        Mon, 28 Sep 2026 01:03:26 -0700 (PDT)
-Received: from [127.0.1.1] ([2401:1fe0:5::3b7])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87fea19030bsm3775258b3a.11.2026.09.28.01.03.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 01:03:26 -0700 (PDT)
-Message-ID: <6aba1f4e.85d8e643.73376.7e2b@mx.google.com>
-Date: Mon, 28 Sep 2026 01:03:26 -0700 (PDT)
-From: Zhenyan Wang <maximwang110@gmail.com>
-To: Zhan Xusheng <zhanxusheng1024@gmail.com>
-Cc: Zhan Xusheng <zhanxusheng@xiaomi.com>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Christian Brauner <brauner@kernel.org>, ntfs3@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Zhenyan Wang <maximwang110@gmail.com>
-Subject:
- Re: [PATCH 2/2] fs/ntfs3: keep PrintName not changed when creating symlink
-In-Reply-To: <20260928072801.13714-1-zhanxusheng@xiaomi.com>
-References: <20260927180359.3867508-1-maximwang110@gmail.com>
- <20260927180359.3867508-3-maximwang110@gmail.com>
- <20260928072801.13714-1-zhanxusheng@xiaomi.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	d=paragon-software.com; s=mail; t=1790616114;
+	bh=igqSE9WbsAuz84abPqqeKEyX2eYBhV8g04lvS+mTwlY=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=i0Ea0JtiWMbn+Avk+U9Uze5gRhKzKQFL9TYG8rKrh7lzQjFvxbFVkWIZOGU42qeaZ
+	 e5cvOu/NQSde8Vh5VSALwwaqqZoIwEuIij7uK1Pv2gdduSGxL3C+5WwNpWmVwoAluZ
+	 uSMDLEtfzzb8v+EaiKrykCNffdny06U07qmsTPu8=
+Received: from [192.168.95.128] (172.30.20.196) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Mon, 28 Sep 2026 20:21:53 +0300
+Message-ID: <7feaa304-022b-4e50-b20a-de72fb16fd9a@paragon-software.com>
+Date: Mon, 28 Sep 2026 19:21:52 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs/ntfs3: fix integer overflow in find_log_rec() causing
+ OOB read
+To: Ibrahim Hashimov <security@auditcode.ai>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<stable@vger.kernel.org>
+References: <20260708224618.1328-1-security@auditcode.ai>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20260708224618.1328-1-security@auditcode.ai>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-I noticed this regression shortly after submitting and I've already
-dropped Patch 2/2 in the cover letter thread.
+On 7/9/26 00:46, Ibrahim Hashimov wrote:
 
-Link: https://lore.kernel.org/all/6ab97ce4.a24da115.4bfe6.0f74@mx.google.com/
+> find_log_rec() validates the on-disk LFS_RECORD_HDR.client_data_len
+> field (`len`, a raw u32 read straight from a mounted $LogFile page)
+> against the log's total available space:
+>
+>      len = le32_to_cpu(rh->client_data_len);
+>      rec_len = len + log->record_header_len;
+>      if (rec_len >= log->total_avail)
+>              return -EINVAL;
+>
+> The addition is unchecked. For len in [0xffffffd0, 0xffffffff] (i.e.
+> log->record_header_len away from UINT_MAX), `rec_len` wraps to a small
+> u32 value that trivially clears the `rec_len >= log->total_avail`
+> guard, so a record whose declared length is actually ~4 GiB is
+> reported as valid and in-page.
+>
+> Because find_log_rec() wrongly accepts the record, its caller
+> read_log_rec_lcb() hands it back to log_replay() as good. On the
+> transaction-table replay leg, log_replay() re-derives the record
+> length directly from the same raw, still-unclamped client_data_len
+> field and uses it to size the restart-table blob:
+>
+>      rec_len = le32_to_cpu(frh->client_data_len);   /* ~0xffffffff */
+>      ...
+>      t16 = le16_to_cpu(lrh->redo_off);
+>      rt  = Add2Ptr(lrh, t16);
+>      t32 = rec_len - t16;                            /* still ~4 GiB */
+>      if (!check_rstbl(rt, t32))
+>              return -EINVAL;
+>
+> check_rstbl()'s own `bytes < ts` bounds guard is defeated because the
+> caller-supplied `bytes` (t32) is itself the poisoned ~4 GiB value, so
+> the guard can never trigger. The subsequent entry-validation loop then
+> walks `rt->used` (also attacker-controlled) entries of
+> sizeof(struct RESTART_TABLE) == 0x18 bytes each straight past the end
+> of the kmalloc(log->page_size) log-page buffer allocated in
+> read_log_page(), producing an out-of-bounds read that is reachable
+> simply by mounting a crafted $LogFile (no genuine dirty-page /
+> crash-recovery state is required). Confirmed via KASAN as a
+> slab-out-of-bounds read in check_rstbl(), called from log_replay() ->
+> ntfs_loadlog_and_replay() -> ntfs_fill_super() -> mount(2).
+>
+> Fix the root cause instead of hardening every downstream consumer of
+> the poisoned length: make the addition in find_log_rec() overflow-safe
+> with check_add_overflow(), mirroring the pattern fs/ntfs3/run.c
+> already uses to validate other attacker-controlled on-disk
+> length/offset arithmetic decoded from MAPPING_PAIRS runs, e.g.:
+>
+>      if (check_add_overflow(vcn64, len, &next_vcn))
+>              return -EINVAL;
+>      ...
+>      if (check_add_overflow(lcn, len, &lcn_end))
+>              return -EINVAL;
+>
+> (fs/ntfs3/run.c, run_unpack()).
+>
+> With the overflow rejected instead of silently wrapped, `rec_len` is
+> only ever a true, non-wrapped sum, so the existing
+> `rec_len >= log->total_avail` check now correctly rejects any
+> oversized record up front. log_replay()'s transaction-table leg then
+> never gets a chance to re-read the poisoned client_data_len, and
+> check_rstbl() is never invoked with an attacker-inflated `bytes` for
+> this path.
+>
+> Verified on a v6.19 KASAN build: mounting a crafted $LogFile whose
+> client_data_len overflows trips a KASAN slab-out-of-bounds-read
+> report in check_rstbl() before this fix; with check_add_overflow()
+> applied, the same image is cleanly rejected during log replay and no
+> KASAN report fires.
+>
+> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Ibrahim Hashimov <security@auditcode.ai>
+> Assisted-by: AuditCode-AI:2026.07
+> ---
+>   fs/ntfs3/fslog.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+> index f038c799e7ac..e5b63a02b827 100644
+> --- a/fs/ntfs3/fslog.c
+> +++ b/fs/ntfs3/fslog.c
+> @@ -7,6 +7,7 @@
+>
+>   #include <linux/blkdev.h>
+>   #include <linux/fs.h>
+> +#include <linux/overflow.h>
+>   #include <linux/random.h>
+>   #include <linux/slab.h>
+>
+> @@ -2424,7 +2425,8 @@ static int find_log_rec(struct ntfs_log *log, u64 lsn, struct lcb *lcb)
+>           * Check that the length field isn't greater than the total
+>           * available space the log file.
+>           */
+> -       rec_len = len + log->record_header_len;
+> +       if (check_add_overflow(len, log->record_header_len, &rec_len))
+> +               return -EINVAL;
+>          if (rec_len >= log->total_avail)
+>                  return -EINVAL;
+>
+> --
+> 2.50.1 (Apple Git-155)
 
-Thanks.
+Hello,
+
+Your patch was applied, thanks.
+
+Regards,
+Konstantin
+
