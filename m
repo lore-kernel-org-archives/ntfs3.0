@@ -1,68 +1,68 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3832E39A7E7
-	for <ntfs3@lists.linux.dev>; Tue, 29 Sep 2026 07:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C484A4E73B8
+	for <ntfs3@lists.linux.dev>; Tue, 29 Sep 2026 09:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790666652; cv=none; b=OoVKsUc3fL3FufJzSptnSGvlhayqrr4NR2pIrzNkKLxNYv0f/wa2O4NJFovu4tF8beEJu6ak0D/JRr2XaQKtabS46skR9b9o8J7K2b1zC+GGupI69QbanFPvzsUIUcij6O0oq/G8eez2PpuzHNtcDJginvzTfxAq/8pAx2qymA8=
+	t=1790672712; cv=none; b=X6N3+okZnwEmlGMV2Cbd7u4FiOlDaU6FoQVVcfKmfRgSTohdlwdqqvGppdU/6VF3SWPP+fE6Rb3ColhvzKxvmThIlrDBbuo8WBMvMo3V0ZOy+Z+zuXxpYDelNYjzsRVEhXn8HbUY0AvimNXycNvQa+Isye1/P+MRAt684GG6LHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790666652; c=relaxed/simple;
-	bh=9w6nTAHB8G5P+NtmTJepYiRl0Ypkzk1jCmGQQ79jht4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i+D5u3YAZ2hTdJplcBdU9E5822pEDn3lrY2RF7zX0r1sGJWwIqlAiz2jyUnCSjo9Zk6OVawH63DKQKiQ1URE6JyhGJaffbfqF1SuFIoOHAcmb8IZfEBwL1Iv65ZGNqycHlxC25AUlDd3ImPqnXjdV/61sVIRm+x/01Ugtlpvr3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o7W7fDF/; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1790672712; c=relaxed/simple;
+	bh=FiEp6acjtn9ALhNmIcpqBLTXpX9E8ix+zetdX0cVGG8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UskZYjwLJhb23ioQ9AapfsauLn/hQESL0hqf3hA5VMR7b+IFq8D4QZ+daX7U1uQAGsKhdCT7pB3cYc7NNXVgDjhjT+PaeUj6K27fuVlWvkCi3T8WVpL8FyjZgmm6Df7wjq4GpTi465f5vOEHSNbDvyvFuNAM9oeJBbF9xNoSLhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SlvFQg47; arc=none smtp.client-ip=74.125.228.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o7W7fDF/"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-881269371acso292338b3a.0
-        for <ntfs3@lists.linux.dev>; Tue, 29 Sep 2026 00:24:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SlvFQg47"
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85f0fc1fd8eso1941728b3a.1
+        for <ntfs3@lists.linux.dev>; Tue, 29 Sep 2026 02:05:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790666650; x=1791271450; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790672699; x=1791277499; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jh7IxIMeGWVcAIbqfyHopn8hAOw8pMEoVf8MFSMNyOc=;
-        b=o7W7fDF/cd/cwY4MDnU/kNLHmap2RHeHAZ029pEUz3nfugn4oZpoo5l9bAfa/XhiQZ
-         0C5bUz9NxEE1+CcEgdSRh2lwXPspJXg8UVKjR4UGOdp9kTqgArFyIymeAVe604OUW01A
-         n/YOKXzLMxhT6GbAISW+AFz72LMdiN3s/NhsMHHTpH00It2RfDzta/Hz9hm6H2I1iymJ
-         DXl3Cd6REAvuB7hColoUbrf9r/Wxey2BHOwFhOmKaI4XVR4W/AUhVZNQFK4LNsXetS0T
-         uiUq8YASidyi47q7f9ll0Rj4m/ASEVMiBH+Bc1agzDDShxqAsC5XRRW2c6z9ojUWWM9D
-         yYpw==
+        bh=csdBaSA1RBXlbCQfI6nEWA/gudC+45f46pCBbw4ADqA=;
+        b=SlvFQg47gm/FSEXiD6xvKZ+jbtKyYRxQqndsUniz9PKXxLNpwHIM4Pgj5FNw653A3O
+         jOQl264xPD6CnKKNg98U/zaHm79ARYD+9KvYlBKrBupohs+5lELqxVCJhY3BOZ7GvZNZ
+         ufcwxmPaSFlh9kl6wFKhg7mBCGWn0+Ivxfj9nFmUv5UBGdX1kYYhMut9WLF58+CGHRXb
+         CqrGXhW2dbEyDnEzM6i+T2Yau5/LUq+yNzMULMzMlLyezIbqsb/b8eudQdFvLhNpwDd5
+         ehkbBv45yeUpHjtUj+5UGwCHBc1LUlwxA+NQImKvHTPvqzFEOZ58CzsG7elCwbof9KPq
+         f5fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790666650; x=1791271450;
+        d=1e100.net; s=20260707; t=1790672699; x=1791277499;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=jh7IxIMeGWVcAIbqfyHopn8hAOw8pMEoVf8MFSMNyOc=;
-        b=lY+nE2l+1/snOToURXkbYIE9TwpcwnfWoMinOhcXfVByoEOQWT4reBj9FYk9j73kEY
-         ldwaUKlVC9biwK37aMOhs6oQ7PuGojUigyq439O5PuSkcqm7Zvoi2jymZfyGlVKlX5pK
-         CnpsuFUrQ5lrwb5P/0ZNN0kNabeKyPqCFiSJhZOGjYZ/kV+ZSYIxek2deaCEIGu+j5ad
-         aWGVh1qlQ6ZACl81uIaTRGyogrxy4MRdApxyXoTQb/YKxX+eWzIdRGlnR4QoMfuGYTE6
-         RWKfaWtmPjqIv/dhvm6KBzQXIDa5p8+OrbzFV7VskQQ0cKkUySrXgdYSXuJOWu8AUnCN
-         D1gw==
-X-Gm-Message-State: AFuF++mH7H+/HNiQ3VF2oEwKN+xpuRwv2qu93IaIoF3Nk52rvCuy5Y+O
-	+sgZL6uevlMYSxXonsEBhk0OAsP+BCBiv1PdwN1ObnW9Poi8zsbkNKEs
-X-Gm-Gg: AYBFou0MTornf++ZTZ/p8qh7RHKY/gkz3SaKOUarAUKCj3wB1LZM82Lb5LbYcLKD7t7
-	63hn+RH71XMIE2lr1jUClYfS8AxhrQcox99VLBkYyB7SSRThSWjLYIBYlyhHW//5scRV9Dn7itg
-	WqH2DxVejpMvoRDy54D1RJu4scGrEA6UyMCsSxGlhWlN7Hft8MQr7jmp84p71jmoJINtLH7BQWy
-	ExTNGVdwkplXEw3cEu31ZKKK8L/kn2uo5dDsZznE+KX9nDFVFvMGiMNNOmZBqzLt9xeiY1LwodD
-	Fnrld0ODWboY1hhcf9oXhkzJcfngSRb6gtLbLFqIFZLM46H7JrJJ3rfi7Oa2RJlGzXsdiZgxIk6
-	0zIvtZwA8LUcaGKNn5vPPk9h9pOAAvABTcN16rCjZu1MU754SJ98ZRb7CcqKSTxZANMGLQ8UlPV
-	lroRe6wCYDIws29YBEUbndUab/Vik4O8XBaQjIXIoOTARQe1nMVJT9T/PYF5t6YFsLllTBpw==
-X-Received: by 2002:a05:6a20:a104:b0:3dd:85ba:acd with SMTP id adf61e73a8af0-3de7ce947a7mr1379360637.32.1790666650250;
-        Tue, 29 Sep 2026 00:24:10 -0700 (PDT)
-Received: from gmail.com ([106.16.239.60])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc7a4b03082sm3483547a12.11.2026.09.29.00.24.07
+        bh=csdBaSA1RBXlbCQfI6nEWA/gudC+45f46pCBbw4ADqA=;
+        b=jz4mUpB6g7l+/HSEoEXFtOLaMZyoz9xGVqj+jPbRubEiA1W0tz8jItWNaKHaDTTkcf
+         k953lVZdEzqNbiKCHukReXKJN32FIQlMXXyTgtRk5iwsPbsAYwhXSkVX9S/2vGAgatus
+         2jPYgOsv2mirH6e8fuCbzXjrjVj7U0OlHF5yFl9ZgbBq7pQiXpPupaTl4IB6EK+SXkYr
+         1q+4ksGRfUNfMFN9cuUewGwfWldCV5158rL2VU68Of0SZJHzohMvaKMd+UnSTlIsfQp7
+         Y4LfWwD5iBmSEh/dZv+aBJS+NanjuCnZMivlXreXzXpK0VVKTsFqXaezldzov7EWVsIV
+         E2+Q==
+X-Gm-Message-State: AFuF++k+McRgbnbXEnt2Si8xqHjW3C2pbzfzaFAfOG9LFNiTtNz2sR3M
+	SBt1z053DnEMX/U7mT8OEiJzX/aLaFXaf7LOfSQtIzhR26RD17pUNBfQ
+X-Gm-Gg: AYBFou3dajT8SnYwcAPAhcFcWmHKMs8+fYOXSKMp7ISl8Bs5HPqFm+QbMB7DE4dtEZi
+	E6p5J81O8o2GWtQoQyigRcSyzufa7K7Kp0V2Re6JFLK7hxLv0bSWDMD8HiNKmZd0UUbj6HUIv0e
+	russkCXW3cFxFGOQuZpouitPE26rwk200ig1BG+Ckjq1kWwwm/jC3RbJ0af9fImek1HRbcBwU3j
+	M5TKY8ct5bfCCmTdBD2skSlqP1QhdS8/AWIhhIvcBKXiVhKMLxVFXP9eEDrhT+O6E0M+wGt927d
+	XBK39GoBnWJdt3fA1XNwA+1lOD6dLdX1vjtKTuWK5IKnHrfNtFzJarG0sSrWGiPSCw+atYM8WUS
+	xSTbgBb/VParJsDmbwW2MS/EidMBby3Q//dsB4hbFQpeMzmGhq+v27elnpENFBYrxJXuoczUK21
+	OQs8QGWrJp0jypQnyvOTf+L3u4qJoUfNGjSa9PoHQPyB2v8LM6pG30QRp3Xi7szbBAcN1r
+X-Received: by 2002:a05:6a00:b44:b0:885:153:c3e9 with SMTP id d2e1a72fcca58-8850153d764mr2838568b3a.50.1790672699503;
+        Tue, 29 Sep 2026 02:04:59 -0700 (PDT)
+Received: from gmail.com ([111.55.96.98])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-885e163d39bsm460270b3a.21.2026.09.29.02.04.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 00:24:09 -0700 (PDT)
+        Tue, 29 Sep 2026 02:04:59 -0700 (PDT)
 From: Xue Boyang <fuchen.dust@gmail.com>
 To: almaz.alexandrovich@paragon-software.com
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Xue Boyang <fuchen.dust@gmail.com>
-Subject: [PATCH ntfs] fs/ntfs3: fix out-of-bounds read in check_log_rec()
-Date: Tue, 29 Sep 2026 02:24:05 -0500
-Message-ID: <20260929072405.61860-1-fuchen.dust@gmail.com>
+Subject: [PATCH ntfs] fs/ntfs3: fix out-of-bounds write in UpdateFileName replay
+Date: Tue, 29 Sep 2026 04:04:52 -0500
+Message-ID: <20260929090452.224281-1-fuchen.dust@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
@@ -72,75 +72,73 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-During $LogFile replay, check_log_rec() validates the alignment of
-redo_off/undo_off and that the record holds the fixed header, but never
-checks that the declared data window fits inside the record:
+During $LogFile replay, do_action()'s UpdateFileNameRoot and
+UpdateFileNameAllocation cases write sizeof(NTFS_DUP_INFO) = 0x38 bytes
+into the ATTR_FILE_NAME structure that follows the target index entry:
 
-	if (le16_to_cpu(lr->redo_off) & 7)
-		return false;
-	if (le16_to_cpu(lr->undo_off) & 7)
-		return false;
-	...
-check_length:
-	if (bytes < lrh_length(lr))
-		return false;
+	e = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
+	fname = (struct ATTR_FILE_NAME *)(e + 1);
+	memmove(&fname->dup, data, sizeof(fname->dup));
 
-Every consumer of the window reads from (lrh + redo_off, redo_len) with
-no source-side bound: the analysis-pass OpenNonresidentAttribute handler
-memcpy()s bytes_per_attr_entry from lrh + redo_off into the open
-attribute table, and the redo/undo passes feed the same pair to all
-do_action() memmove()/memcpy() sources. Since redo_off is a raw u16
-taken from disk, a crafted log record makes the kernel read up to ~64K
-past the kmalloc(log->page_size) page buffer holding the record.
+The gates that run before the write (check_if_index_root and
+check_if_root_index) only validate that the record and entry offsets
+land on boundaries.  Neither checks that the entry's key_size is large
+enough to hold a struct ATTR_FILE_NAME, whose minimum size is
+SIZEOF_ATTRIBUTE_FILENAME (0x44).  de_get_fname() applies exactly this
+check at every other call site; the replay path omits it.
 
-The destination side of do_action()'s UpdateNonresidentValue already
-applies the equivalent bound (lco >= cbo + roff + dlen), so the
-invariant exists at other call sites; check_log_rec() is the omission.
+With a crafted $LogFile whose UpdateFileNameRoot record points at a
+16-byte entry with key_size = 0 placed at the end of a crafted $I30
+INDEX_ROOT, the write lands past the end of the kmalloc(record_size)
+MFT record allocation:
 
-Reproduced deterministically on rw mount of a hand-crafted $LogFile
-(QEMU x86_64, v7.3-rc4-0094-gf49a343b305c, CONFIG_KASAN=y): a single
-RCRD page with an LfsClientRestart record followed by an
-OpenNonresidentAttribute record with redo_off=0xFFF8, redo_len=0x28
-triggers the read on every mount, no race. Multiple records with
-different redo_off values were verified to select the read offset.
-The KASAN report of the triggering record:
-
-  BUG: KASAN: use-after-free in log_replay.cold+0x3b12/0x4251
-  Read of size 40 at addr ffff88800420a028 by task mount/71
+  BUG: KASAN: slab-out-of-bounds in do_action+0x14af/0x1d35
+  Write of size 56 at addr ffff888004046be8 by task mount/71
    ...
-   __asan_memcpy+0x23/0x60
-   log_replay.cold+0x3b12/0x4251
+   __asan_memmove+0x3c/0x60
+   do_action+0x14af/0x1d35
+   log_replay (fs/ntfs3/fslog.c)
    ntfs_loadlog_and_replay+0x2cb/0x300
    ntfs_fill_super+0x1375/0x22d0
    ...
 
-Both operands are u16 so the sum cannot overflow u32; with the checks
-in place every consumer reads inside the record buffer itself.
+The write content is fully attacker-controlled (redo data from the log
+record) and the trigger is deterministic on every rw mount, no race.
+
+Reject the operation when key_size is below SIZEOF_ATTRIBUTE_FILENAME
+in both cases, matching de_get_fname().
 
 Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS3 filesystem")
 Assisted-by: GLM:zhipu-coding-plan/glm-5.3
 Signed-off-by: Xue Boyang <fuchen.dust@gmail.com>
 ---
- fs/ntfs3/fslog.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ fs/ntfs3/fslog.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index ed50c1d0c23e..498f63da2b96 100644
+index 498f63da2b96..ba61767cab3f 100644
 --- a/fs/ntfs3/fslog.c
 +++ b/fs/ntfs3/fslog.c
-@@ -710,6 +710,13 @@ static bool check_log_rec(const struct LOG_REC_HDR *lr, u32 bytes, u32 tr,
- 	if (le16_to_cpu(lr->undo_off) & 7)
- 		return false;
+@@ -3557,8 +3557,10 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 		}
  
-+	/* The declared data window must fit inside the record itself. */
-+	if (le16_to_cpu(lr->redo_off) + le16_to_cpu(lr->redo_len) > bytes)
-+		return false;
-+
-+	if (le16_to_cpu(lr->undo_off) + le16_to_cpu(lr->undo_len) > bytes)
-+		return false;
-+
- 	if (lr->target_attr)
- 		goto check_lcns;
+ 		e = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
++		if (le16_to_cpu(e->key_size) < SIZEOF_ATTRIBUTE_FILENAME)
++			goto dirty_vol;
+ 		fname = (struct ATTR_FILE_NAME *)(e + 1);
+-		memmove(&fname->dup, data, sizeof(fname->dup)); //
++		memmove(&fname->dup, data, sizeof(fname->dup));
+ 		mi->dirty = true;
+ 		break;
+ 
+@@ -3742,6 +3744,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+ 			goto dirty_vol;
+ 		}
+ 
++		if (le16_to_cpu(e->key_size) < SIZEOF_ATTRIBUTE_FILENAME)
++			goto dirty_vol;
+ 		fname = (struct ATTR_FILE_NAME *)(e + 1);
+ 		memmove(&fname->dup, data, sizeof(fname->dup));
  
 -- 
 2.53.0
