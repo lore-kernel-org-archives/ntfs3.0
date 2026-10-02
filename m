@@ -1,251 +1,127 @@
-Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49DA3E49D3
-	for <ntfs3@lists.linux.dev>; Fri,  2 Oct 2026 06:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790922969; cv=pass; b=tx9PSm+WHM3VGd1uI7qYOhwMdHBTcrdyFnkxkGzjG36BtHFU9T3WN3gk0hn45pMkPA8AHvlryKpeAjnQ230a5Q0eBDLkwlU8lNf34Y2XUa9+Ivwe6MYu7WWvdbRvgHVo3+oBJ62LqS8Q9HhnJd7uq8gZ6/RFg9TE+NTwg087I2I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790922969; c=relaxed/simple;
-	bh=3S1uZs1hII2pWOKPYQNkil7Fn4cNrtQ1UC0K0UrYm/g=;
-	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=mBZcoWe5DIZnJUwNOd0aI8qeOsUQeeUoNXDVQxTkpFkZU2Hzs9+e04OUSA65INoccFO/esZnisjz/48WnS5nvsUq8t8xkERp2k56ER0rw23xsgUdG0Zo5HLThiC/ziKDJ0C2gBo4cGu7JJZLSpv22XTKVWSJL1fWbsiCtUVa5gU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fgNKFn9M; arc=pass smtp.client-ip=74.125.230.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fgNKFn9M"
-Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-9104e54b1abso85451496d6.1
-        for <ntfs3@lists.linux.dev>; Thu, 01 Oct 2026 23:36:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790922967; cv=none;
-        d=google.com; s=arc-20260327;
-        b=SO88oofiM1UI9yIfKlZdDFRpUONCnxHj0dD+lzPlx8VT0bf1dk7XEeDayK0XKhlM66
-         dEyKPei6IRhxwAoKZRkc5rZJ2SfNA3egWB2cGXOPjYvmE+xFdXGgThNfGifCAM4nHEqI
-         gmhLcxUZ/3eLfMiNbXRpu8KiHPVNdQaPFE5ZcF8cGfMxzX/NnvyUFqrypMFtPV0EChsi
-         MgkjZlS0cpK3akG3CIlXX8IQpw168KLC26QYEjCxe/Tykltmis8CYsKnP5LDL4XO14dB
-         bCH0F/Difut470qmdrrc0PPNJC+UAQnAOkBQv7Xvlg/4nJRRNBultb7ADqLYSl+VuTyk
-         Pr6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
-        bh=XEUnD7DqqTtUtcDjYvQugZu8ealQJ2hIum6Bu4MZjiI=;
-        fh=a/EVjOPzb8sma4cUEAuHW8ypFO6KEpmq9UXPcWLcWwM=;
-        b=O3E04ycydyG1BUlGs2Pml40IrAFuCu9Sld1OhKSnig4SVz9oFq6jO2DWd2EcK/MkeU
-         dR2YWc274XsjJx5hqKz1wWzZuR+u0kof9s22dlemxe3ydlYFwm0uqoOkZWhWrVyPJa0y
-         QNm3MGn4AUdr+rj1j1f0JWUYOdRYZWUn2SUDcL/bLmLArhqfEts0JU0FrMs4HS8gJQl/
-         oCUM4MsaaTfBe10xPmJy+PouNxW3bpJgsXJqYo7oOweEr0NsMupQT0JmcTF+R0A9HVZs
-         YiyQ8palgzIKgscl3dWMTy//AgJh6LD9IPl8o5+HaOtaT4yPwZpKiO7wYeHEI5+zQScX
-         T4jw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790922967; x=1791527767; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XEUnD7DqqTtUtcDjYvQugZu8ealQJ2hIum6Bu4MZjiI=;
-        b=fgNKFn9MEgI9J9i0HfjIy54Dv9nDgmm0iBhh3TGtMCdazC4BfKvJEt7kuSivBMnySF
-         qSUS7EDFQnPWTHqU6GrVQ8oJSDcybygKqiSPHh0W+Dq2jPbwUHC2lcOIdPMzcoS8Lt5m
-         wrC/2pU/t8cROfh0/PBExFHAn0WuTDYFT8lm0UV+DkdxeW2nxxiVjiSocBDaOMP4oUXb
-         z47KOHjgUwb8UeG343W3ar22KVE4+Ai27/Rh67oiboaZEp1NWNxvRT7qF/At9DNfMcvP
-         AZRC45/phAf+QOoPbcTI7qN5ev51shR3JWOKqagomySmf13aZUkohwQSO66PyL4Y+33V
-         EE1Q==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3960345C6FB
+	for <ntfs3@lists.linux.dev>; Fri,  2 Oct 2026 08:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790930084; cv=none; b=XlqAav1k9gBxwzdM2UjW6Y4GQuX6foHTE5VRDnJzbFhD+oN9FB+fZgYUw0NpD+gnVqq4mtVZpBmCPvSTQDuECBC8wEhJDT5xi4gF8UPVuR7uSoWzNTXd63Fs4gs5xPTs7RjA1RwB1VU0xFCuqB7I09q1ZrdYBLpGDccIA8uWW5A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790930084; c=relaxed/simple;
+	bh=gp6tTt/2AsFlbEcXVh3ymB17Cd6Yx0SW78nb0mvhW0I=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=N/xJgR3AxrSVIdo69ticEObZfxw/snPVH9qQmognRu138KIxA/i+G94WByqBxU0vMp1MY6I+XICFFTLv95QF7oA5mgyi5Pm1dPKY1FIG/pwRqcTJN2abUiCWNdzeMYYhYoKUCJOvwpd3KLFjXOnM1Jbtd4DjYm0VCKhTSmZC21M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4b2d1eb484aso11810851b6e.2
+        for <ntfs3@lists.linux.dev>; Fri, 02 Oct 2026 01:34:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790922967; x=1791527767;
-        h=content-type:cc:to:subject:message-id:date:mime-version:from
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20260707; t=1790930081; x=1791534881;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=XEUnD7DqqTtUtcDjYvQugZu8ealQJ2hIum6Bu4MZjiI=;
-        b=YHwDW/J9ax27IKeTMvqDhlCJ05uAlnFaQLFTNf/hOcZ+N8KcRFjIjNxL2Zlo0ZP1Jz
-         Y9yAKHb0cl8uwImrHN8oNCjgo1rE9HPo/IHmATBZA79Bxz2DEhLJ8Tuf5aAB80JcHRqW
-         Ma8CHUKXtTle/nDiCPWDN4lym4TIXIu1R5C1vr+/6W2clx/vdogeRLyDP5mHfXb33FqE
-         b077PfNwymE7PmpcwMGb+IQRWzEBUacrHKf6JvnohkArVCDsBW+gVschmEK1THk9ghR7
-         Q0LqC6y2qCbxNKiJSDaK4WJRAZLCAtm+Jp8KdRNpuVtt2e6BNG0wdPCPzqGULdPWGYPi
-         F2Og==
-X-Gm-Message-State: AFq9FYLxiXp0THvvDVHAnxdaXjyVoEaM3QCT/EQMIcrd3cgxKVPEZsQ3
-	IqpMgv6PkCMuOzcqjZVIYXGdWl1rnb+DNEmQTbWi8VpCTHVl6KcuJw8jAQelGiS3llhp2dVH9t6
-	+KJNRfAWVdnApzyLOrJiWqsCswTj/3yM=
-X-Gm-Gg: AYBFou23Vww8PqndfRMZE3fm7jF340/7s++e786P5f83PvL5VGFZrjYDzdgwCBt3Vyg
-	mbPGx0YdChC8BsrhkISLt6+SBdUvOcXyN4V3/DpcjhwobYW5GDB6fWk7Rrt4a7GiLB2kY38FLf9
-	T/hjabN44QE0hgHRMHIiHtQZeJ8pM+RQ8+N2cap+otrguejOA2dNvkxRPjOCiokgPxcNE7RMKYd
-	1+gCNEt5AumW1DXykVFnEkGB8zxetu8W1ULD3BuErNLw3pnF6g7oMvLZXbHai2+U1NwYg2WoN46
-	3DLnkYuB2QsK8Dlis31aQ/1NQ+w/kVSHbFcteEeRGz9NRgYSm0VsaS017Vr6m1N5D3dVlcJkwX1
-	xLxTguJE=
-X-Received: by 2002:a05:6214:250b:b0:917:9407:ebe6 with SMTP id
- 6a1803df08f44-917c01f8f37mr34918186d6.45.1790922966450; Thu, 01 Oct 2026
- 23:36:06 -0700 (PDT)
-Received: from 313336824172 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 2 Oct 2026 01:36:05 -0500
-Received: from 313336824172 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 2 Oct 2026 01:36:05 -0500
-From: aljojobypls@gmail.com
+        bh=L55zhFUQ/zR0FXxQ/DUi+hgQ/HbwY1hRO/ys5NezLiE=;
+        b=lX7ziWlM39mmVCnlE3e9tv269bJxti7oMVVYA4tNE0HsLms4orsifT+Cwzdzwhtsh2
+         JDRtE2cX2q/9efyUtThj74BX9g6FbdLD+fKdolqs1Q3UgF9pLvPEQVAjFJBnxxv0pBJK
+         LcB72KesGrL6QZjJ7lL1cxiweAep9KI3se5wvHmmtoNbqvUD2vzvhP7qey143U0Q5Qo9
+         Njowt8VSWWBfs5W1WWnXTsMxyONDrwmxzB/unIgG972d5f0O+3KJX8uVP4RNmJxh30/d
+         qU9QyULrs1U6LNRzkV4oIppJ6JoIV7A0a5r2gy8DKki/J7q2Z2Uq/iQcMVLJYlEWt50E
+         HJhg==
+X-Forwarded-Encrypted: i=1; AKwUvBwjQxSb21WHbyT4PwRv0JtbD2wFrBlvceUUr4m4R2z2zF2/suG7ccxy+OCogHlV6NJgPLmjbw==@lists.linux.dev
+X-Gm-Message-State: AFuF++mipmEO0MzRPrG3BnYu5cskrQsB8qo2PxgjDwd3NT50QlP30lDL
+	7MfIlEKWE57sL/x/5eHXG2gU5JQ8g0TxJaN+HXyGccpZZmFvMj8Sbin7zNm2dTSAFLo+d07ByW2
+	Frx03if9S9UnLlt9163JG9+SuTW0vR5CuCPK6wL1Ai/n9klMw1iF+6vcE9iE=
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Fri, 2 Oct 2026 01:36:05 -0500
-X-Gm-Features: AclHuK-eOHG-KjrKk1EnhSAW8Anv2gpdAShX7kyS6osGEORvuk9-xVyj6NCHZdM
-Message-ID: <CAPNiJxAHw90Ndv_NoEi5PeqO4mRnw9S9vx-es3F0NNt2nbV2cw@mail.gmail.com>
-Subject: [PATCH] ntfs3: do not trust setuid and device nodes from WSL metadata
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
+X-Received: by 2002:a05:6808:c1ed:b0:4e7:8e25:37e5 with SMTP id
+ 5614622812f47-4f528de2927mr1375772b6e.17.1790930080991; Fri, 02 Oct 2026
+ 01:34:40 -0700 (PDT)
+Date: Fri, 02 Oct 2026 01:34:40 -0700
+In-Reply-To: <6abc1c9e.00649fcc.35d151.00e6.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6abf6ca0.9b478af7.e8d7a.0008.GAE@google.com>
+Subject: Re: [syzbot] [ntfs3?] WARNING in truncate_setsize
+From: syzbot <syzbot+0e70362e1726b5a7502e@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-ntfs_get_wsl_perm() copies $LXMOD over the inode mode, including the
-file type, setuid, setgid and the sticky bit, and $LXDEV supplies a
-device number. Those attributes are stored on the volume.
+syzbot has found a reproducer for the following issue on:
 
-A crafted NTFS image can therefore present a setuid-root binary or a
-device node. cp -a and rsync -a copy that mode onto a normal Linux
-filesystem. The nosuid,nodev flags on the ntfs3 mount do not travel
-with the copy.
+HEAD commit:    ce1e0223d8ad Merge tag 'devicetree-fixes-for-7.3-2' of git..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=128a2bf5580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=718e346eb0b8f38
+dashboard link: https://syzkaller.appspot.com/bug?extid=0e70362e1726b5a7502e
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=143da725580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=113236c9580000
 
-Keep the stored owner and the rwx bits. Keep the file type already
-derived from the MFT, and drop setuid, setgid, the sticky bit and
-device nodes. -o permissions restores the previous behavior for a
-volume the operator trusts, such as a WSL disk that really contains
-setuid binaries.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/4167e1ad25c1/disk-ce1e0223.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a0a74c8dec59/vmlinux-ce1e0223.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f6caa72edd70/bzImage-ce1e0223.xz
+mounted in repro #1: https://storage.googleapis.com/syzbot-assets/ce7727430629/mount_0.gz
+mounted in repro #2: https://storage.googleapis.com/syzbot-assets/3c66bb202e74/mount_15.gz
+  fsck result: failed (log: https://syzkaller.appspot.com/x/fsck.log?x=166d9b15580000)
 
-Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
-Cc: stable@vger.kernel.org
-Signed-off-by: Aljo Joby <aljojobypls@gmail.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0e70362e1726b5a7502e@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+ifs_is_fully_uptodate(folio, ifs) != folio_test_uptodate(folio)
+WARNING: fs/iomap/buffered-io.c:295 at ifs_free+0x34a/0x410 fs/iomap/buffered-io.c:294, CPU#0: syz.2.150/6677
+Modules linked in:
+CPU: 0 UID: 0 PID: 6677 Comm: syz.2.150 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:ifs_free+0x34a/0x410 fs/iomap/buffered-io.c:294
+Code: 41 5f 5d e9 88 60 c1 ff e8 23 45 61 ff 90 0f 0b 90 e9 d5 fe ff ff e8 15 45 61 ff 90 0f 0b 90 e9 12 ff ff ff e8 07 45 61 ff 90 <0f> 0b 90 eb c7 44 89 e1 80 e1 07 80 c1 03 38 c1 0f 8c 08 fe ff ff
+RSP: 0018:ffffc900067676f8 EFLAGS: 00010293
+RAX: ffffffff82659269 RBX: 0000000000000008 RCX: ffff88802f4d1f40
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000082661001 R08: 0000000000000000 R09: 0000000000000000
+R10: dffffc0000000000 R11: fffff940003198e9 R12: ffff88802b6f6b84
+R13: ffff88802b6f6b00 R14: ffffea00018cc740 R15: 0000000000000000
+FS:  00007f882fd2c6c0(0000) GS:ffff888125bc3000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb4d045cd58 CR3: 00000000349ee000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ folio_invalidate mm/truncate.c:140 [inline]
+ truncate_cleanup_folio+0xcb/0x190 mm/truncate.c:160
+ truncate_inode_pages_range+0x2c4/0xd80 mm/truncate.c:404
+ truncate_inode_pages mm/truncate.c:485 [inline]
+ truncate_pagecache mm/truncate.c:798 [inline]
+ truncate_setsize+0xcf/0xf0 mm/truncate.c:823
+ ntfs_setattr+0x267/0x590 fs/ntfs3/file.c:739
+ notify_change+0xbb8/0xec0 fs/attr.c:556
+ do_truncate+0x1c2/0x250 fs/open.c:68
+ vfs_truncate+0x4b7/0x540 fs/open.c:118
+ ksys_truncate+0xf3/0x1c0 fs/open.c:142
+ __do_sys_truncate fs/open.c:154 [inline]
+ __se_sys_truncate fs/open.c:152 [inline]
+ __x64_sys_truncate+0x5b/0x70 fs/open.c:152
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f883070e159
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f882fd2c028 EFLAGS: 00000246 ORIG_RAX: 000000000000004c
+RAX: ffffffffffffffda RBX: 00007f8830996180 RCX: 00007f883070e159
+RDX: 0000000000000000 RSI: 0000000000008da7 RDI: 0000200000000940
+RBP: 00007f88307a506b R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f8830996218 R14: 00007f8830996180 R15: 00007ffcdd2b2178
+ </TASK>
+
+
 ---
- Documentation/filesystems/ntfs3.rst |  9 ++++++++
- fs/ntfs3/ntfs_fs.h                  |  1 +
- fs/ntfs3/super.c                    |  7 ++++++
- fs/ntfs3/xattr.c                    | 35 +++++++++++++++++++++++------
- 4 files changed, 45 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/filesystems/ntfs3.rst
-b/Documentation/filesystems/ntfs3.rst
-index 2b86a9b3a..260f73228 100644
---- a/Documentation/filesystems/ntfs3.rst
-+++ b/Documentation/filesystems/ntfs3.rst
-@@ -109,6 +109,15 @@ this table marked with no it means default is
-without **no**.
-        Kernel. Not to be confused with NTFS ACLs. The option specified as acl
-        enables support for POSIX ACLs.
-
-+   * - permissions
-+     - Trust the WSL metadata stored in \$LXUID, \$LXGID, \$LXMOD and \$LXDEV.
-+       This includes the owner, setuid, setgid, the sticky bit and device
-+       nodes. Without this option the driver still applies the stored owner
-+       and the rwx bits, but it keeps the file type it read from the MFT and
-+       drops setuid, setgid, the sticky bit and device nodes. Mount a volume
-+       with this option only when you trust it, for example a WSL disk that
-+       legitimately contains setuid binaries.
-+
- Todo list
- =========
- - Full journaling support over JBD. Currently journal replaying is supported
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index 5811d89d6..267d980f7 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -111,6 +111,7 @@ struct ntfs_mount_options {
- 	unsigned nocase : 1; /* case insensitive. */
- 	unsigned delalloc : 1; /* delay allocation. */
- 	unsigned ads : 1; /* ads support. */
-+	unsigned permissions : 1; /* Trust on-disk WSL uid, mode, devices. */
- };
-
- /* Special value to unpack and deallocate. */
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index f4a42a0c7..863126e87 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -275,6 +275,7 @@ enum Opt {
- 	Opt_delalloc_bool,
- 	Opt_ads,
- 	Opt_ads_bool,
-+	Opt_permissions,
- 	Opt_err,
- };
-
-@@ -303,6 +304,7 @@ static const struct fs_parameter_spec
-ntfs_fs_parameters[] = {
- 	fsparam_bool("delalloc",	Opt_delalloc_bool),
- 	fsparam_flag("ads",		Opt_ads),
- 	fsparam_bool("ads",		Opt_ads_bool),
-+	fsparam_flag("permissions",	Opt_permissions),
- 	{}
- };
- // clang-format on
-@@ -432,6 +434,9 @@ static int ntfs_fs_parse_param(struct fs_context *fc,
- 	case Opt_ads_bool:
- 		opts->ads = result.boolean;
- 		break;
-+	case Opt_permissions:
-+		opts->permissions = 1;
-+		break;
- 	default:
- 		/* Should not be here unless we forget add case. */
- 		return -EINVAL;
-@@ -805,6 +810,8 @@ static int ntfs_show_options(struct seq_file *m,
-struct dentry *root)
- 		seq_puts(m, ",delalloc");
- 	if (opts->ads)
- 		seq_puts(m, ",ads");
-+	if (opts->permissions)
-+		seq_puts(m, ",permissions");
-
- 	return 0;
- }
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 594ef6860..5db154513 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -1036,6 +1036,8 @@ void ntfs_get_wsl_perm(struct inode *inode)
- {
- 	size_t sz;
- 	__le32 value[3];
-+	struct ntfs_sb_info *sbi = inode->i_sb->s_fs_info;
-+	umode_t disk_mode, type;
-
- 	if (ntfs_get_ea(inode, "$LXUID", sizeof("$LXUID") - 1, &value[0],
- 			sizeof(value[0]), &sz) == sizeof(value[0]) &&
-@@ -1043,15 +1045,34 @@ void ntfs_get_wsl_perm(struct inode *inode)
- 			sizeof(value[1]), &sz) == sizeof(value[1]) &&
- 	    ntfs_get_ea(inode, "$LXMOD", sizeof("$LXMOD") - 1, &value[2],
- 			sizeof(value[2]), &sz) == sizeof(value[2])) {
--		i_uid_write(inode, (uid_t)le32_to_cpu(value[0]));
--		i_gid_write(inode, (gid_t)le32_to_cpu(value[1]));
--		inode->i_mode = le32_to_cpu(value[2]);
-+		disk_mode = le32_to_cpu(value[2]);
-
--		if (ntfs_get_ea(inode, "$LXDEV", sizeof("$LXDEV") - 1,
--				&value[0], sizeof(value),
--				&sz) == sizeof(value[0])) {
--			inode->i_rdev = le32_to_cpu(value[0]);
-+		/*
-+		 * $LXUID/$LXGID/$LXMOD/$LXDEV are stored on the volume.
-+		 * A crafted image can claim to be a setuid-root binary or
-+		 * a device node. Those bits are copied onto a trusted
-+		 * filesystem by cp -a and rsync -a, even when this mount
-+		 * itself is nosuid,nodev. Trust them only with -o permissions.
-+		 */
-+		if (sbi->options->permissions) {
-+			i_uid_write(inode, (uid_t)le32_to_cpu(value[0]));
-+			i_gid_write(inode, (gid_t)le32_to_cpu(value[1]));
-+			inode->i_mode = disk_mode;
-+
-+			if (S_ISCHR(disk_mode) || S_ISBLK(disk_mode)) {
-+				if (ntfs_get_ea(inode, "$LXDEV",
-+						sizeof("$LXDEV") - 1, &value[0],
-+						sizeof(value[0]),
-+						&sz) == sizeof(value[0]))
-+					inode->i_rdev = le32_to_cpu(value[0]);
-+			}
-+			return;
- 		}
-+
-+		i_uid_write(inode, (uid_t)le32_to_cpu(value[0]));
-+		i_gid_write(inode, (gid_t)le32_to_cpu(value[1]));
-+		type = inode->i_mode & S_IFMT;
-+		inode->i_mode = type | (disk_mode & 0777);
- 	}
- }
-
--- 
-2.53.0
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
