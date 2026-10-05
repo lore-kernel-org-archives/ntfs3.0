@@ -1,99 +1,92 @@
-Received: from cvsmtppost13.nm.naver.com (cvsmtppost13.nm.naver.com [114.111.35.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com [209.85.160.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E4544E66D
-	for <ntfs3@lists.linux.dev>; Sun,  4 Oct 2026 12:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123773921F6
+	for <ntfs3@lists.linux.dev>; Mon,  5 Oct 2026 20:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791118017; cv=none; b=NcMQBP6alhDdPz4CkTlxBFVH7giymT2jLUjzz63KpVUgVw/zxPoOmrUZUoBwpGkazESADJ2KFG9Rgotd+tzHiIrPspK2M7iU+WCKE9DH9mCk1dtNelgxAoydHWskY06lMe6UACCOuhMs8udhzT3n0zCsg4AFC8f5fHlDA6f9l9M=
+	t=1791232421; cv=none; b=AqiLfcQqhar1+y4lcmcrPRleoR8MlVFz6nTIh87HpfbXHaP7ERYN9VJg5zfFUrH2DxRMMMW/f2S+QFI8SBbNY6mtq4rGXjd0XqXAQL8YcuCJsCJRLCR/Lqh3E+TMzWcQ0Vs717CqkIOI75nlt6vrlsz97vPWMFxrtCmgtpDPsu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791118017; c=relaxed/simple;
-	bh=0M4OSaWXsNitp5wK8fWnunOhHj1CeMqi0Xt7wewH9os=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rx23bEz7HHiG9F4+diNGhRRp4aGmXkUktp6hwfiQ4rKVSEN8KjWpjet2oa5ZatH6wjf9gEnB87IaqXvF/O1FqdgO3CKkH8SIzooW8/6oJFCCXA5n4Aa1PylKHEXp7A/8FYSlrhVsWr8wK2/sjJOmYxgPMdjz9XaYyUKEbxFPacc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=nkUwkIfZ; arc=none smtp.client-ip=114.111.35.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="nkUwkIfZ"
-Received: from cvsendbo009.nm ([10.112.18.55])
-  by cvsmtppost13.nm.naver.com with ESMTP id EoXkhRNxQzme42w+FmtbaQ
-  for <ntfs3@lists.linux.dev>;
-  Sun, 04 Oct 2026 12:36:47 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1791117407; bh=0M4OSaWXsNitp5wK8fWnunOhHj1CeMqi0Xt7wewH9os=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=nkUwkIfZ6SGXK5r/yBmZTGRVfpvhz60b7fvw0+6wcNcKJIzT0erKWEk00FsKzMSB4
-	 5VtPVSGgpiFsQTp9bL3s8DAdQVcYbzGIFf1R7TnR0rBK5L/Xei8qvOxysGrSNn2MPp
-	 EfaXg0E/HohZg4AnDrJY9VbZa4y1IbaUUuWN61otpWWEk8gBNduBAcsTngokp0gsrh
-	 hTvrPFB+L5z/id6c4PMkbhULTH7zz80pd51/xMdAqg3SFbgZA4j2NGtXuTn1lw9dbJ
-	 fWP9KliOrnR0TQlhZyy7N2xBrxrPlQyZqQUzHqMdWXe46Jy7QXRq7c1HTL7snnQ4Ti
-	 GMQzzR+GkUsRw==
-X-Session-ID: nbejRPm0TuKm4bdkDC0lvQ
-X-Works-Send-Opt: OlewpzGdjHmdKHFOMr39Ko3YKHmqjAudFqM9KqMqFxIYkEljxBmwjAg=
-X-Works-Smtp-Source: PwY/KAulFqJZ+HmrKAg9+6E=
-Received: from localhost.localdomain ([115.136.205.4])
-  by cvnsmtp005.nm.naver.com with ESMTP id nbejRPm0TuKm4bdkDC0lvQ
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Sun, 04 Oct 2026 12:36:46 -0000
-From: sungbyeongchan <tjdqudcks0424@naver.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: reject overflowing replay bitmap ranges
-Date: Sun,  4 Oct 2026 21:36:37 +0900
-Message-ID: <20261004123637.587015-1-tjdqudcks0424@naver.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1791232421; c=relaxed/simple;
+	bh=Wn+dezwOG1k7TtTfi67rlSmNqRy3ScRlO1oloc7xTiM=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=s2czQKAsA+oyamo+HOFZV+mnt+tX+IqxVJ5t0RVkHJZd28jIgT7RUIkPyp40vYJyuQGFSZDYZ5xi7kcIFO5RcbLj0rs0xFrcxm8I2ssf9yjr+ZfqmSL2K8gZHSE0HQW0iMy2XEaaj/SIbEowPFtSfTM4o+BrTVTnqHfup9tJ4X4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-46524220c5aso2343395fac.0
+        for <ntfs3@lists.linux.dev>; Mon, 05 Oct 2026 13:33:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791232417; x=1791837217;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NtIEXTPSdkYP5S5A4G+u9IsP3J/p10TykbRmGowqaqw=;
+        b=o4TpC7+8VlMr033p00iOcJ21BFYHpz4VeT5q+oJ9EG+yUeTr/COV6p4jdpP7Sd5WDN
+         AkBzEeT6ofYjL1LAc59nwvaKkN/lI4pL+x/wBQNH88qGOhXq+0o2yyA1j/XWCZqMi1JC
+         FWICThUo2ohcA5O6Fwr9Zw+sbZSycdEQTj6cgLAbCwgtSbOoUDbCppzGXIvK8oU76O5N
+         ndHJ5JowUJBI6GWgPY3JATlL0CsA9S5RU6u9rPzTsIrqsxxTcdvRd1cgTScGSjPl87oa
+         nOV+iY+a7gwNLQbr5GhPHW5eookS+RMWvMF5f8K0QNrcm9MSR4XOWV3E6o9WHt2reRS6
+         FSuA==
+X-Forwarded-Encrypted: i=1; AKwUvBzLR9z9yOzzofbyBXtuhDc2sOYWzDg55IxW2/tiYrx78xh5FQ5EVoZo2220LT4FoUxG71R6CQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++l6+M3mKH/XgazmelHLbuGqxpOZZ0W4IXBqWL4XmwR1qXKS8bsf
+	+2ZJGxQj/PJq5/w6RpEcVOJZwoBCDI7Y1KK+MUIpzFjGv2RjEqEwzGeacvQ2pPqzwB5MrI5IAeE
+	zAmgq+K1Wxk5t3J6BxP0nRMm3Z0CHJSr82BVKN/mM2zhSy09a29aBzTlwCPA=
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:221c:b0:4d6:92f4:d684 with SMTP id
+ 5614622812f47-4f67b96ee05mr9364527b6e.63.1791232417116; Mon, 05 Oct 2026
+ 13:33:37 -0700 (PDT)
+Date: Mon, 05 Oct 2026 13:33:37 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ac409a1.ae2c267a.265a6c.0006.GAE@google.com>
+Subject: [syzbot] Monthly ntfs3 report (Oct 2026)
+From: syzbot <syzbot+list5c1b0e54ec58a24b17ce@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-The BITMAP_RANGE bounds checks perform off + 7 and off + bits + 7 in
-u32.  Crafted journal values can wrap both checks and make the bitmap
-helper perform a word-sized read-modify-write outside the replay buffer.
+Hello ntfs3 maintainers/developers,
 
-Check every addition before byte rounding for both set and clear actions.
+This is a 31-day syzbot report for the ntfs3 subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/ntfs3
 
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Signed-off-by: sungbyeongchan <tjdqudcks0424@naver.com>
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 13 issues are still open and 94 have already been fixed.
+There are also 2 low-priority issues.
+
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 2417    Yes   general protection fault in al_destroy
+                  https://syzkaller.appspot.com/bug?extid=04cf7b83f6dd2c3a54c8
+<2> 666     Yes   possible deadlock in mi_read (2)
+                  https://syzkaller.appspot.com/bug?extid=17f812893d5906837f33
+<3> 530     Yes   possible deadlock in ntfs_fallocate
+                  https://syzkaller.appspot.com/bug?extid=adacb2b0c896bc427962
+<4> 104     Yes   possible deadlock in ntfs_readdir
+                  https://syzkaller.appspot.com/bug?extid=cfc6e8106bec1c524f7d
+<5> 68      Yes   WARNING in errseq_set (2)
+                  https://syzkaller.appspot.com/bug?extid=57f9327d593d301ce2a2
+<6> 21      Yes   WARNING in wnd_add_free_ext (4)
+                  https://syzkaller.appspot.com/bug?extid=323f07d372f692a127b3
+<7> 14      Yes   WARNING in attr_data_get_block_locked (2)
+                  https://syzkaller.appspot.com/bug?extid=7be6ad5cb228286af3e3
+
 ---
- fs/ntfs3/fslog.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index ed50c1d0c23e..38873c02d30d 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -3746,8 +3746,10 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 		off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
- 		bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
- 
--		if (cbo + (off + 7) / 8 > lco ||
--		    cbo + ((off + bits + 7) / 8) > lco) {
-+		if (check_add_overflow(off, 7u, &nsize) ||
-+		    check_add_overflow(off, bits, &t32) ||
-+		    check_add_overflow(t32, 7u, &t32) ||
-+		    cbo + nsize / 8 > lco || cbo + t32 / 8 > lco) {
- 			goto dirty_vol;
- 		}
- 
-@@ -3759,8 +3761,10 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 		off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
- 		bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
- 
--		if (cbo + (off + 7) / 8 > lco ||
--		    cbo + ((off + bits + 7) / 8) > lco) {
-+		if (check_add_overflow(off, 7u, &nsize) ||
-+		    check_add_overflow(off, bits, &t32) ||
-+		    check_add_overflow(t32, 7u, &t32) ||
-+		    cbo + nsize / 8 > lco || cbo + t32 / 8 > lco) {
- 			goto dirty_vol;
- 		}
- 
--- 
-2.43.0
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
