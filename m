@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F62E3F44EC
-	for <ntfs3@lists.linux.dev>; Wed,  7 Oct 2026 21:34:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628993E7630
+	for <ntfs3@lists.linux.dev>; Wed,  7 Oct 2026 21:38:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791408878; cv=none; b=qOcU1VQIqWKB+jCg6rxcRqtHw/pC0JMBMdYC/d5G5aXAzwOfEovTs2EsImvNgXGExkaCAvpoixqsxt7MHxGDZPfEzDdn9mm6IQDzm3kPi1obY2mm6oZHpE465VsX/GTUkCbVJz4URJmJ/S9aqqFsw5jtBrAE2Lwqs9qeoy8QM3A=
+	t=1791409133; cv=none; b=RMFsy/2i7x5LEqN36QzqtF+Qskj5cx5W2MpkRo0/hov3ILCTZSEl0+78qq1IG4Vik5pMfdzM6gFF2+GGqc/OjjKmEimz3PEh/thDmy9lO1XGQw4hteI3i3QEHHBfM89zHweqaKKRyfw04uXXW/KDTBH1xhCgueF1qCU3iD5N8E0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791408878; c=relaxed/simple;
-	bh=4yBSJJszorsqsinK0VDsbss1s/GSDZc7dNtTQNUBfp4=;
+	s=arc-20240116; t=1791409133; c=relaxed/simple;
+	bh=GkUIrRr1ppBry+WpUtDYU+DIKizszRyQMXBou7OYEvw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=UnfdcD2sHVN/LROjzbDbXnvDa0/VCt5Gzeb1sx4ZE3ncS+p2Ro99y7Cp/bWmifCb+yFt0zox0/qcx0YHmZ2hj3Urscoj19TSRJHhUfJe0bUSf9AWzpC/FGfvPBy5BnHNMrQRzcEICfquCHrMgTpFEoXi2YVhQig2El73I+rBgCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=WhHlZgX8; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=PLVmLFGkBfj1ylbdaO2BWZNmxoUu/1+cq3v4joyqc/UqL4zcoiCfwRtg5vIuDzojy1mYzViltQhEwQ0thNITUbCr/EbVYiQkgAkTfheeXE2hllWZk89+Od/j4jpbX/O0DY1Pu0+opvnC4PCtJUCJXaKructjAhbdugVOCBBOS+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=QcLFVHu1; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="WhHlZgX8"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="QcLFVHu1"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 3BAD61D60;
-	Wed,  7 Oct 2026 21:35:27 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 93ABE32C;
+	Wed,  7 Oct 2026 21:33:10 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=WhHlZgX8;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=QcLFVHu1;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 95AD321D8;
-	Wed,  7 Oct 2026 21:34:35 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E6F7621D9;
+	Wed,  7 Oct 2026 21:32:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1791408875;
-	bh=3ax5YoLjUmErqO3if/gSysdbbVp273Gay8qujDIizcY=;
+	d=paragon-software.com; s=mail; t=1791408738;
+	bh=QwUzb8TDVEWRLuySkAhiKAopW46J6Jzx0gohNV2JJ7A=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=WhHlZgX8QGYCiYUrWwuO7dZV2mheyZ5ls39vw1SFT7WsXv7PRrc+DexGgfhs50auk
-	 nbtQuG5HoYl5OyUKy6jD1W8PGbZDH+tcfPBy67K4lN8BAWZ+szZls2cRmbCMnQYmqR
-	 MgJ4FyXZRAtkZ8BOybpTwvDySm0E+1JnqMbAMCDc=
+	b=QcLFVHu1To/MD+JaRxrK61im3FaIw67Kg8JATNoiZ5davwIhQy9sHe75gZLSkWi1T
+	 uH/4tVqdrap/I+QgT+hJEgmdKS2C/QxVTOK2DquyM4f3qcJlPG+TfEoRou7soFTjP0
+	 a9Q1xMOjfZh1xmqR+wL1OYiBTXBsMspII1DXWCs4=
 Received: from [192.168.95.128] (172.30.20.178) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 8 Oct 2026 00:34:34 +0300
-Message-ID: <0364b9ec-f3bc-4a91-9f73-81d61be90895@paragon-software.com>
-Date: Wed, 7 Oct 2026 23:34:33 +0200
+ 15.1.2375.7; Thu, 8 Oct 2026 00:32:17 +0300
+Message-ID: <33847e79-7ac8-4e96-95d2-4b8a3cda14b6@paragon-software.com>
+Date: Wed, 7 Oct 2026 23:32:16 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,63 +45,97 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: do not mark frame pages uptodate on read error
-To: Weiming Shi <bestswngs@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Xiang Mei <xmei5@asu.edu>
-References: <20260712133427.435377-2-bestswngs@gmail.com>
+Subject: Re: [PATCH] fs/ntfs3: validate that EA entry size covers its name and
+ value
+To: Your Name <qwe.aldo@gmail.com>, <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+References: <20260723221045.529665-1-you@example.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260712133427.435377-2-bestswngs@gmail.com>
+In-Reply-To: <20260723221045.529665-1-you@example.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 7/12/26 15:34, Weiming Shi wrote:
+On 7/24/26 00:10, Your Name wrote:
 
-> ni_read_frame() ends with a loop that marks every page of a compressed
-> frame uptodate regardless of whether the read succeeded:
+> From: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
 >
-> 	out:
-> 		for (i = 0; i < pages_per_frame; i++) {
-> 			pg = pages[i];
-> 			SetPageUptodate(pg);
-> 		}
+> ntfs_read_ea() walks the on-disk $EA attribute and checks each EA_FULL
+> entry for consistency.  For an entry with a non-zero ef->size (the
+> offset to the next entry) the loop only verifies that this stride fits
+> in the remaining buffer, and then continues:
 >
-> Non-critical frame pages come from __filemap_get_folio(FGP_CREAT) and are
-> not zeroed. On an error path that reaches out: before frame_mem is
-> written, these pages keep uninitialized page-allocator contents but are
-> still marked uptodate. A later read() is then served from the page cache
-> and returns that stale kernel memory to user space.
+>          if (ef->size) {
+>                  ea_size = le32_to_cpu(ef->size);
+>                  if (ea_size > bytes)
+>                          goto out1;
+>                  continue;
+>          }
 >
-> For an unprivileged user mounting a crafted NTFS image this is a
-> repeatable kernel memory disclosure.
+> It never verifies that the entry's own name (ef->name_len) and value
+> (ef->elength) actually fit inside ef->size.  A later reader trusts
+> ef->elength unconditionally; ntfs_get_ea() does:
 >
-> Mark the pages uptodate only on success; on error leave them !uptodate so
-> the read path re-reads them or reports the error.
+>          len = le16_to_cpu(ea->elength);         /* up to 0xffff */
+>          ...
+>          if (len > size)                         /* size is the user buffer */
+>                  return -ERANGE;
+>          memcpy(buffer, ea->name + ea->name_len + 1, len);
 >
-> Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-> Reported-by: Xiang Mei <xmei5@asu.edu>
-> Signed-off-by: Weiming Shi <bestswngs@gmail.com>
+> A crafted image with a small but valid ef->size (e.g. 24) and
+> ef->elength == 0xffff therefore passes validation, and a getxattr()
+> with a large enough user buffer copies up to 64 KiB starting just past
+> the short entry -- an out-of-bounds read of the ea_all allocation that
+> leaks adjacent kernel heap memory to userspace.
+>
+>    BUG: KASAN: slab-out-of-bounds in ntfs_get_ea+0x2b8/0x3f0
+>    Read of size 65535 ...
+>     ntfs_get_ea -> ntfs_getxattr -> vfs_getxattr -> do_getxattr
+>
+> The zero-ef->size branch already computes the same struct_size() to
+> derive the stride; mirror that in the non-zero branch and reject the
+> entry when its declared size cannot hold the name and value.
+>
+> Fixes: 0e8235d28f3a ("fs/ntfs3: Check fields while reading")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
 > ---
->   fs/ntfs3/frecord.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   fs/ntfs3/xattr.c | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
 >
-> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-> index 2d2644d80017..862baafb80e3 100644
-> --- a/fs/ntfs3/frecord.c
-> +++ b/fs/ntfs3/frecord.c
-> @@ -2467,7 +2467,8 @@ int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
->   out:
->   	for (i = 0; i < pages_per_frame; i++) {
->   		pg = pages[i];
-> -		SetPageUptodate(pg);
-> +		if (!err)
-> +			SetPageUptodate(pg);
->   	}
->   
->   	return err;
+> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+> index 04814dd29375..57114fb726f7 100644
+> --- a/fs/ntfs3/xattr.c
+> +++ b/fs/ntfs3/xattr.c
+> @@ -155,6 +155,24 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
+>                          ea_size = le32_to_cpu(ef->size);
+>                          if (ea_size > bytes)
+>                                  goto out1;
+> +
+> +                       /* Check if we can use fields ef->name_len and ef->elength. */
+> +                       if (bytes < offsetof(struct EA_FULL, name))
+> +                               goto out1;
+> +
+> +                       /*
+> +                        * The declared entry size (ef->size) must be large
+> +                        * enough to hold the name and value.  Otherwise a later
+> +                        * reader such as ntfs_get_ea() copies ef->elength bytes
+> +                        * starting past the entry, reading out of bounds of the
+> +                        * ea buffer and leaking adjacent heap memory to
+> +                        * userspace via getxattr().
+> +                        */
+> +                       if (struct_size(ef, name,
+> +                                       1 + ef->name_len +
+> +                                               le16_to_cpu(ef->elength)) >
+> +                           ea_size)
+> +                               goto out1;
+>                          continue;
+>                  }
+>
+> --
+> 2.43.0
 
 Hello,
 
