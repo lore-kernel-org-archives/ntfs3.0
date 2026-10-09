@@ -1,48 +1,48 @@
-Received: from pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com [34.218.115.239])
+Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E252C4E1C98
-	for <ntfs3@lists.linux.dev>; Fri,  9 Oct 2026 13:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.218.115.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261E0360ED6
+	for <ntfs3@lists.linux.dev>; Fri,  9 Oct 2026 13:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.35.192.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791554095; cv=none; b=Z3HqG2dvkiCoyk3r5wBD/zN6dJuZhOqCplQbA6giN30LbNDBaTFouBmGDJ/yCbF0bAM6ZXEvYXW8tWXOY/sYNG4TJcb+sYGANqJIiibtBYtSYoxiSD/o622XnhwhxuTfWm1vgyeLO5ZEB1ZoPva3wtA8JEiJaNQeIGUjoJtJvnQ=
+	t=1791554096; cv=none; b=YtFV27fFB/HShdQ7Dlw33erhcAjlw1WAiVeRp1u8s6rtslHLQO4x2SD3Y5aFOIrU6fRhWTyXysuNLtb6R2/E3R4HUFx0/zI7yj0jgJocsv9DdnQWbrLgKFMzwwWWExQLp3qlbMNs1S2hqph799sFeaUs64c++2WxXv30h2OiuTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791554095; c=relaxed/simple;
-	bh=h2TG/datiDtZD+aY8qm92gWYyH/kHIEvLXPka6LuiRA=;
+	s=arc-20240116; t=1791554096; c=relaxed/simple;
+	bh=3576nKO5NiuQ5i2Jw+4CtNQ7xmTo3PzbBVFLp/Rv6JA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i4Ha8ywghvwswRT8l+VYmwQGW++04ZhA14SmHrgFvpHZet6L3pJPDNIy0VnzE3CzMsL9mNadsK84BQs2PS5Z6Y0T0eEVIc71F485tZeBj6cJzlGCOhpbvhA7A5bAZYfl+vlP2Q8iWjSg9zd/GdOINoOAbT/mwf3auOpAxY/OEeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=fEWPH8FS; arc=none smtp.client-ip=34.218.115.239
+	 MIME-Version:Content-Type; b=iAzynPkCq/UXxi9fCoOS2V/FR/1kUmfxTLE5TS/VkKt6NLg0G8tRiHERAEVQJrshvSK47LfjksCoPfBfi2RJ9daWVkH223Kp3kb55VBOht3jwMRw6O/1hxJA3jbwvPksTi4AQ2fw4uMS67UBRgg14xitG6Dzw/mA2RMH+cQSMWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=kt1EGzOM; arc=none smtp.client-ip=52.35.192.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="fEWPH8FS"
+	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="kt1EGzOM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
-  t=1791554091; x=1823090091;
+  t=1791554095; x=1823090095;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=M3pBSUI4IT6lCTtq4GcKaLHdG1S2Qw5b0Iqj4BF09bg=;
-  b=fEWPH8FSB36IyhBKkAR5W53Dq11o4geMqejjOUP1SgJmCoBY4STqyU5X
-   M3UApbJVosv5MmPGeYMQAO0pw9nxLlqc/wIee0MRmbu65gRyjwvxxT2tH
-   2+QGM6I9cBaOx4L6zNZ8KGN4RmuLaLN/IfU79uhQyRD7y9z+awQLTykvi
-   R8RT3zXWETiWojtrvsUaTYrE48NlAe0g6uHfX1iMFgLuc7NusK4/U7fyk
-   b6bUc1gXHuQkpPJayneB8Geq6gyFZOhGRe6/MA6r+32UHHREqsnAWgv5g
-   8EWxarICgHeC1O09P6XcuzL2O7gJigFYL719HBgmLqQF9mRIubylcOf59
+  bh=nfiX4F5Lo1fmzmU808ne3EPfejKbtSgBMbK0l0IPFqQ=;
+  b=kt1EGzOMns+pXoTpr/tfgJeGFyg8qQzN3Ap935ksQ5O4e/tkG74aVG+4
+   Z1nBxEQ9yjzaOVogKd2sqjaEWGaQGv2EfkGAK4U4OXgBwf55EqyOJ59cI
+   1tSyxT6p2aq+NTHs5gWu07tVDHO5zA2Z+UwiWY/K/TqTRnkjno61MMdWp
+   x82wWWhmWhrOdnVKsBx0gduWsWq4/Lw3Uf9KbylNev40uVsGrLcDeC6nw
+   L5obw4RrszrseINmwMWFM2l+CMhoSVzUZiGdKJp2YEN4x0aXOVqURDrNw
+   s6g3Ogp9lzNj8FNYsOJl1jhFGV/JMPU4/5mkzPopam0ts3foIDC82ZmEt
    w==;
-X-CSE-ConnectionGUID: Qkr2VIfNQ1i6cWkPB8RUFA==
-X-CSE-MsgGUID: xFF3ydQCT1WO42O0466dTw==
+X-CSE-ConnectionGUID: EkURN3wXRKmCElcol5PLUw==
+X-CSE-MsgGUID: DIWS334PQjaukb+liziEfA==
 X-IronPort-AV: E=Sophos;i="6.27,148,1787011200"; 
-   d="scan'208";a="30615507"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 13:54:49 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:29640]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.34.82:2525] with esmtp (Farcaster)
- id 5d7aa8f5-9a4b-453e-8e06-76113e6cd374; Fri, 9 Oct 2026 13:54:49 +0000 (UTC)
-X-Farcaster-Flow-ID: 5d7aa8f5-9a4b-453e-8e06-76113e6cd374
+   d="scan'208";a="30602260"
+Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
+  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 13:54:49 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:22667]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.24.153:2525] with esmtp (Farcaster)
+ id 150b3868-ecb8-455f-8a07-9796f850417b; Fri, 9 Oct 2026 13:54:49 +0000 (UTC)
+X-Farcaster-Flow-ID: 150b3868-ecb8-455f-8a07-9796f850417b
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
- Fri, 9 Oct 2026 13:54:48 +0000
+ Fri, 9 Oct 2026 13:54:49 +0000
 Received: from dev-dsk-nagornyi-2b-f14a9408.us-west-2.amazon.com
  (10.153.215.117) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
  Microsoft SMTP Server (version=TLS1_2,
@@ -52,10 +52,11 @@ From: Nikita Nagornyi <nagornyi@amazon.de>
 To: <stable@vger.kernel.org>, Konstantin Komarov
 	<almaz.alexandrovich@paragon-software.com>, <ntfs3@lists.linux.dev>,
 	<linux-kernel@vger.kernel.org>
-CC: Sasha Levin <sashal@kernel.org>, lei lu <llfamsec@gmail.com>
-Subject: [PATCH 6.1.y v2 1/4] fs/ntfs3: Add more checks in mi_enum_attr (part 2)
-Date: Fri, 9 Oct 2026 13:54:12 +0000
-Message-ID: <20261009135415.850568-2-nagornyi@amazon.de>
+CC: Sasha Levin <sashal@kernel.org>, Nirbhay Sharma <nirbhay.lkd@gmail.com>,
+	<syzbot+83c9dd5c0dcf6184fdbf@syzkaller.appspotmail.com>
+Subject: [PATCH 6.1.y v2 3/4] fs/ntfs3: fix KMSAN uninit-value in ni_create_attr_list
+Date: Fri, 9 Oct 2026 13:54:14 +0000
+Message-ID: <20261009135415.850568-4-nagornyi@amazon.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20261009135415.850568-1-nagornyi@amazon.de>
 References: <20261009135415.850568-1-nagornyi@amazon.de>
@@ -70,66 +71,47 @@ Content-Type: text/plain
 X-ClientProxiedBy: EX19D031UWC004.ant.amazon.com (10.13.139.246) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
 
-[ Upstream commit a8f659ce14f8f734894227ba2c5ca78c8451501e ]
+[ Upstream commit 5f33da04e6ceee849e76e6592cc283c72fef7af9 ]
 
-Add offset check before access to attr->non_res field as mentioned in [1].
+The call to kmalloc() to allocate the attribute list buffer is given a
+size of al_aligned(rs). This size can be larger than the data
+subsequently copied into the buffer, leaving trailing bytes uninitialized.
 
-[1] https://lore.kernel.org/ntfs3/20241010110005.42792-1-llfamsec@gmail.com/
+This can trigger a KMSAN "uninit-value" warning if that memory is
+later accessed.
 
-Suggested-by: lei lu <llfamsec@gmail.com>
+Fix this by using kzalloc() instead, which ensures the entire
+allocated buffer is zero-initialized, preventing the warning.
+
+Reported-by: syzbot+83c9dd5c0dcf6184fdbf@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=83c9dd5c0dcf6184fdbf
+Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+
+[ Backport to 6.1.y: only kmalloc -> kzalloc applied; 6.1.y lacks
+  14f527d44de6 ("fs/ntfs3: Correct checking while generating attr_list")
+  error-path rework. ]
+
 Signed-off-by: Nikita Nagornyi <nagornyi@amazon.de>
 ---
- fs/ntfs3/record.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ fs/ntfs3/frecord.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/record.c b/fs/ntfs3/record.c
-index bfb1f4c2f271b..d8d43f6a96fd0 100644
---- a/fs/ntfs3/record.c
-+++ b/fs/ntfs3/record.c
-@@ -206,7 +206,7 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 			return NULL;
- 
- 		if (off >= used || off < MFTRECORD_FIXUP_OFFSET_1 ||
--		    !IS_ALIGNED(off, 4)) {
-+		    !IS_ALIGNED(off, 8)) {
- 			return NULL;
- 		}
- 
-@@ -230,8 +230,11 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 		off += asize;
- 	}
- 
--	/* Can we use the first field (attr->type). */
--	/* NOTE: this code also checks attr->size availability. */
-+	/*
-+	 * Can we use the first fields:
-+	 * attr->type,
-+	 * attr->size
-+	 */
- 	if (off + 8 > used) {
- 		static_assert(ALIGN(sizeof(enum ATTR_TYPE), 8) == 8);
- 		return NULL;
-@@ -253,10 +256,17 @@ struct ATTRIB *mi_enum_attr(struct mft_inode *mi, struct ATTRIB *attr)
- 
- 	asize = le32_to_cpu(attr->size);
- 
-+	if (!IS_ALIGNED(asize, 8))
-+		return NULL;
-+
- 	/* Check overflow and boundary. */
- 	if (off + asize < off || off + asize > used)
- 		return NULL;
- 
-+	/* Can we use the field attr->non_res. */
-+	if (off + 9 > used)
-+		return NULL;
-+
- 	/* Check size of attribute. */
- 	if (!attr->non_res) {
- 		/* Check resident fields. */
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 17559fca5984c..c9d0947651c4e 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -819,7 +819,7 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+ 	 * Skip estimating exact memory requirement.
+ 	 * Looks like one record_size is always enough.
+ 	 */
+-	le = kmalloc(al_aligned(rs), GFP_NOFS);
++	le = kzalloc(al_aligned(rs), GFP_NOFS);
+ 	if (!le) {
+ 		err = -ENOMEM;
+ 		goto out;
 -- 
 2.50.1
 
