@@ -1,65 +1,71 @@
-Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261E0360ED6
-	for <ntfs3@lists.linux.dev>; Fri,  9 Oct 2026 13:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.35.192.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D97CBA45
+	for <ntfs3@lists.linux.dev>; Fri,  9 Oct 2026 14:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791554096; cv=none; b=YtFV27fFB/HShdQ7Dlw33erhcAjlw1WAiVeRp1u8s6rtslHLQO4x2SD3Y5aFOIrU6fRhWTyXysuNLtb6R2/E3R4HUFx0/zI7yj0jgJocsv9DdnQWbrLgKFMzwwWWExQLp3qlbMNs1S2hqph799sFeaUs64c++2WxXv30h2OiuTU=
+	t=1791556308; cv=none; b=HLHbvXxkWecgAOP/85ZXhp/qRRSmh2Gbo4G0dh9Lr/IYA5UU0JOSiz0ashyodpRaaFgUGAbUHiXAGZk5PRwxoqR3AXY2DrxpGYP6jNCPl/k85jvugWPrC38OTk/zGhLEms6/kc9VkurubV9t7XyzZTMFvOh0azkPAVxgR9+K6fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791554096; c=relaxed/simple;
-	bh=3576nKO5NiuQ5i2Jw+4CtNQ7xmTo3PzbBVFLp/Rv6JA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iAzynPkCq/UXxi9fCoOS2V/FR/1kUmfxTLE5TS/VkKt6NLg0G8tRiHERAEVQJrshvSK47LfjksCoPfBfi2RJ9daWVkH223Kp3kb55VBOht3jwMRw6O/1hxJA3jbwvPksTi4AQ2fw4uMS67UBRgg14xitG6Dzw/mA2RMH+cQSMWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=kt1EGzOM; arc=none smtp.client-ip=52.35.192.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	s=arc-20240116; t=1791556308; c=relaxed/simple;
+	bh=qez0UEh6M+IFb72yqVOvMsLU/1AHABWlHDztBFNWu14=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UqRRSE13NHRswpKlc61t+zPF81cmQ/sY20YRzJMsFH69LB00Kjaq1uzoBErW3cRCCeyOGxCIwne0GQR2/Z8HFWs66nsgdLzxAfwhUzTcPyX5QvLEWpGNE9Ia2uCO+zJ9S1lXC3CDUeBhTQeowk6sW6y4s7ssceNlQWRAfDEQ1qU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mZUU8z9Z; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="kt1EGzOM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mZUU8z9Z"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3a4b9732d5aso3727377a91.3
+        for <ntfs3@lists.linux.dev>; Fri, 09 Oct 2026 07:31:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
-  t=1791554095; x=1823090095;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=nfiX4F5Lo1fmzmU808ne3EPfejKbtSgBMbK0l0IPFqQ=;
-  b=kt1EGzOMns+pXoTpr/tfgJeGFyg8qQzN3Ap935ksQ5O4e/tkG74aVG+4
-   Z1nBxEQ9yjzaOVogKd2sqjaEWGaQGv2EfkGAK4U4OXgBwf55EqyOJ59cI
-   1tSyxT6p2aq+NTHs5gWu07tVDHO5zA2Z+UwiWY/K/TqTRnkjno61MMdWp
-   x82wWWhmWhrOdnVKsBx0gduWsWq4/Lw3Uf9KbylNev40uVsGrLcDeC6nw
-   L5obw4RrszrseINmwMWFM2l+CMhoSVzUZiGdKJp2YEN4x0aXOVqURDrNw
-   s6g3Ogp9lzNj8FNYsOJl1jhFGV/JMPU4/5mkzPopam0ts3foIDC82ZmEt
-   w==;
-X-CSE-ConnectionGUID: EkURN3wXRKmCElcol5PLUw==
-X-CSE-MsgGUID: DIWS334PQjaukb+liziEfA==
-X-IronPort-AV: E=Sophos;i="6.27,148,1787011200"; 
-   d="scan'208";a="30602260"
-Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
-  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 13:54:49 +0000
-Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:22667]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.24.153:2525] with esmtp (Farcaster)
- id 150b3868-ecb8-455f-8a07-9796f850417b; Fri, 9 Oct 2026 13:54:49 +0000 (UTC)
-X-Farcaster-Flow-ID: 150b3868-ecb8-455f-8a07-9796f850417b
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
- Fri, 9 Oct 2026 13:54:49 +0000
-Received: from dev-dsk-nagornyi-2b-f14a9408.us-west-2.amazon.com
- (10.153.215.117) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49; Fri, 9 Oct 2026
- 13:54:48 +0000
-From: Nikita Nagornyi <nagornyi@amazon.de>
-To: <stable@vger.kernel.org>, Konstantin Komarov
-	<almaz.alexandrovich@paragon-software.com>, <ntfs3@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-CC: Sasha Levin <sashal@kernel.org>, Nirbhay Sharma <nirbhay.lkd@gmail.com>,
-	<syzbot+83c9dd5c0dcf6184fdbf@syzkaller.appspotmail.com>
-Subject: [PATCH 6.1.y v2 3/4] fs/ntfs3: fix KMSAN uninit-value in ni_create_attr_list
-Date: Fri, 9 Oct 2026 13:54:14 +0000
-Message-ID: <20261009135415.850568-4-nagornyi@amazon.de>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20261009135415.850568-1-nagornyi@amazon.de>
-References: <20261009135415.850568-1-nagornyi@amazon.de>
+        d=gmail.com; s=20251104; t=1791556306; x=1792161106; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Oa9Plq0/6IqSumf3BKrxs90q5c+V2qXVjg7vmpPOXsI=;
+        b=mZUU8z9ZMUHmXgYkVjpDkgcAYuLWf9VtdrwPbPm6MOjGjGWht9W5mIFZ8KjmAWPhyu
+         I059EIqWfV3K7bTpKCrSefrldef4J8OH7ipiUN6yPcg4gMtzV+Kr39OBW4oek31AczvV
+         0CF50D9aGdGYnTZZTgdVSsQiW9eDsPYkOVUhol+RJMkYO1v9L3kS3hbxs2P11zjbTU8G
+         zL1CWKzS2+XMw0HvtP0MF68oA3WL6iX5xAUmAFIvuMT1Y6evFt20h/osOIycm1QY9YgK
+         Rvllw3B8Mjj+PlyGa/0NikeL+RNZbw3UKgMx3GkEcUaKPSAzEDVQsqZCzr9k2dY4+Y0P
+         x64w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791556306; x=1792161106;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Oa9Plq0/6IqSumf3BKrxs90q5c+V2qXVjg7vmpPOXsI=;
+        b=07tPD48cv0GmOXQBbvw6kh2+Y44r7U+7CQA4JensGI3KXHTUc2J4VRGkc55NT+5vz+
+         w6vl3TWXeXxqvP8b+IMNu78YsH3nUGiGM9XL9aK3QB63QHhVKfrtmQow1i5I864nYUi6
+         86sgLtjYsgU3zyuOTwSppT876L5YIBV+cP7MkjCUn9TtARSVIdz/PNodaMruMlLQUDOM
+         3SZ4x2pUHMnfcQOFn0/VQIUegDSKfV1GStg8JrvsrrUfWcy9b44mculwxzYv1N2rJLYI
+         4STfYDHlrHjhjGR5IHYrn3r+jwVYCTUmBazd37oiHqAQ3KpIRWvfFDP5MKqK7Pa3z8lu
+         g8iQ==
+X-Gm-Message-State: AFq9FYJVTMqnJsecibHRwuktBmVtg3840JK+qFmB5MNZ9uR95/AiaptH
+	xjXW9PIUm/nvL4VMm10KVoJKrCRhvsHvZQZLkgVAhSU9EX4dzIouEqrO
+X-Gm-Gg: AYBFou3KYufmib6RM6icrJTziyA021ongImNVnShUnKfm32XrrbnRpY9cLlvQRZyjED
+	3+v1gB2iOQZpjkBB32OlXPjEfhqhgMNdJJFAmY4NTkOPpbqYLaTufHxsfqdPzZGY9PS08HqcXOc
+	Z/udBlGPByodfYeMbi5/86/y+1sPAP1JfJNXYD3c/5qai8rvWEDn/e2ClOFndm53TFijbk1lZzS
+	vrD6PN9muyJHpWcIm9u++ngy9fbE0YP3+tWMrgCxKvcm5+0vBELHz57Q4y12wANamuTXTyj0zsB
+	QNN83BrTkRFpKji5QyGOms706/ANjz+vCCgEWargg0o88BIcmSjksMoVxCIjoXr9SATIy8Qz+Io
+	BwpvDyYykhRAt4eePOpgwcGgSVLvzlOkOLNAzcw8QcDHBUETB4YhGcmUGW+AM42Lex8UFH487O7
+	B8moVdPT/xTzp2wisxn1eHQwVODaGt4G7h9Tsz5rnZjzNwwCzVJXQKZ2VZkQktDnN5MsXXBj5kg
+	Q3NU6w5OYYkcALcSXD+Lw==
+X-Received: by 2002:a17:90b:3143:b0:3a6:e99b:bbdb with SMTP id 98e67ed59e1d1-3ab3ac718f2mr2195103a91.50.1791556306130;
+        Fri, 09 Oct 2026 07:31:46 -0700 (PDT)
+Received: from osman.mioffice.cn ([43.224.245.178])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab36f4737esm3907735a91.7.2026.10.09.07.31.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2026 07:31:45 -0700 (PDT)
+From: Zhan Xusheng <zhanxusheng1024@gmail.com>
+X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Zhan Xusheng <zhanxusheng@xiaomi.com>
+Subject: [PATCH] fs/ntfs3: widen wnd_bitmap::free_bits to u32
+Date: Fri,  9 Oct 2026 22:31:38 +0800
+Message-ID: <20261009143138.3197828-1-zhanxusheng@xiaomi.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -67,51 +73,103 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWC004.ant.amazon.com (10.13.139.246) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
+free_bits[] holds, per bitmap window, the number of free bits in that
+window.  A window is one block, so the value ranges over
+[0, 8 * sb->s_blocksize], but the array element type is u16.
 
-[ Upstream commit 5f33da04e6ceee849e76e6592cc283c72fef7af9 ]
+ntfs_init_from_boot() picks the block size as
 
-The call to kmalloc() to allocate the attribute list buffer is given a
-size of al_aligned(rs). This size can be larger than the data
-subsequently copied into the buffer, leaving trailing bytes uninitialized.
+	sb_set_blocksize(sb, min_t(u32, sbi->cluster_size, PAGE_SIZE));
 
-This can trigger a KMSAN "uninit-value" warning if that memory is
-later accessed.
+and ntfs3 accepts cluster sizes up to 2 MB, as true_sectors_per_clst()
+and the comment above it describe.  Nothing rejects a block size above
+4096.  So on a kernel with PAGE_SIZE >= 8192 (arm64 with 16K or 64K
+pages, powerpc with 64K pages) mounting a volume whose cluster size is
+at least 8192, the block size is at least 8192 and a window holds at
+least 65536 bits, one more than u16 can represent.
 
-Fix this by using kzalloc() instead, which ensures the entire
-allocated buffer is zero-initialized, preventing the warning.
+A completely free window therefore stores 0, and five sites read 0 as
+"this window has no free bits":
 
-Reported-by: syzbot+83c9dd5c0dcf6184fdbf@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=83c9dd5c0dcf6184fdbf
-Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+  bitmap.c:533   wnd_rescan()    treats it as all ones and skips it
+  bitmap.c:950   wnd_is_used()   skips the on-disk check, returns true
+  bitmap.c:1155  wnd_find()      skips the window when looking for space
+  bitmap.c:1243  wnd_find()      the "window is empty" path never fires
+  bitmap.c:1450  ntfs_trim_fs()  skips the window when discarding
 
-[ Backport to 6.1.y: only kmalloc -> kzalloc applied; 6.1.y lacks
-  14f527d44de6 ("fs/ntfs3: Correct checking while generating attr_list")
-  error-path rework. ]
+The free space in such a window is then never allocated and never
+trimmed, while total_zeroes, which is size_t, still counts it, so statfs
+advertises space that cannot be used.  wnd_is_used() reporting a free
+range as used also costs mark_as_free_ex() its per-cluster check and
+ntfs_mark_rec_free() its already-free detection.
 
-Signed-off-by: Nikita Nagornyi <nagornyi@amazon.de>
+bits_last, declared two lines below free_bits, is u32 and holds a value
+from the same domain.  Make free_bits u32 as well.  The array grows from
+2 to 4 bytes per block of bitmap; for a 1 TB volume with 4K clusters
+that is 32 KB instead of 16 KB.
+
+Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+Fixes: 4534a70b7056 ("fs/ntfs3: Add headers and misc files")
 ---
- fs/ntfs3/frecord.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/ntfs3/bitmap.c  | 10 +++++-----
+ fs/ntfs3/ntfs_fs.h |  2 +-
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 17559fca5984c..c9d0947651c4e 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -819,7 +819,7 @@ int ni_create_attr_list(struct ntfs_inode *ni)
- 	 * Skip estimating exact memory requirement.
- 	 * Looks like one record_size is always enough.
- 	 */
--	le = kmalloc(al_aligned(rs), GFP_NOFS);
-+	le = kzalloc(al_aligned(rs), GFP_NOFS);
- 	if (!le) {
- 		err = -ENOMEM;
- 		goto out;
+diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
+index 60b362f388d96..41ea3fad99af0 100644
+--- a/fs/ntfs3/bitmap.c
++++ b/fs/ntfs3/bitmap.c
+@@ -677,7 +677,7 @@ int wnd_init(struct wnd_bitmap *wnd, struct super_block *sb, size_t nbits)
+ 		wnd->bits_last = wbits;
+ 
+ 	wnd->free_bits =
+-		kvmalloc_array(wnd->nwnd, sizeof(u16), GFP_KERNEL | __GFP_ZERO);
++		kvmalloc_array(wnd->nwnd, sizeof(u32), GFP_KERNEL | __GFP_ZERO);
+ 
+ 	if (!wnd->free_bits)
+ 		return -ENOMEM;
+@@ -1330,7 +1330,7 @@ int wnd_extend(struct wnd_bitmap *wnd, size_t new_bits)
+ 	u32 b0, new_last;
+ 	size_t bits, iw, new_wnd;
+ 	size_t old_bits = wnd->nbits;
+-	u16 *new_free;
++	u32 *new_free;
+ 
+ 	if (new_bits <= old_bits)
+ 		return -EINVAL;
+@@ -1342,13 +1342,13 @@ int wnd_extend(struct wnd_bitmap *wnd, size_t new_bits)
+ 		new_last = wbits;
+ 
+ 	if (new_wnd != wnd->nwnd) {
+-		new_free = kmalloc_array(new_wnd, sizeof(u16), GFP_NOFS);
++		new_free = kmalloc_array(new_wnd, sizeof(u32), GFP_NOFS);
+ 		if (!new_free)
+ 			return -ENOMEM;
+ 
+-		memcpy(new_free, wnd->free_bits, wnd->nwnd * sizeof(short));
++		memcpy(new_free, wnd->free_bits, wnd->nwnd * sizeof(u32));
+ 		memset(new_free + wnd->nwnd, 0,
+-		       (new_wnd - wnd->nwnd) * sizeof(short));
++		       (new_wnd - wnd->nwnd) * sizeof(u32));
+ 		kvfree(wnd->free_bits);
+ 		wnd->free_bits = new_free;
+ 	}
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 5811d89d67b39..6f05b1bbb565a 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -152,7 +152,7 @@ struct wnd_bitmap {
+ 	size_t nbits;
+ 
+ 	size_t total_zeroes; // Total number of free bits.
+-	u16 *free_bits; // Free bits in each window.
++	u32 *free_bits; // Free bits in each window.
+ 	size_t nwnd;
+ 	u32 bits_last; // Bits in last window.
+ 
+
+base-commit: 6c377d19d4a5116d9bec5203aa3c6c11523e7898
 -- 
-2.50.1
+2.43.0
 
