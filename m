@@ -1,249 +1,155 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900673D9531
-	for <ntfs3@lists.linux.dev>; Fri,  9 Oct 2026 17:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E977E36F8E9;
+	Fri,  9 Oct 2026 21:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791566271; cv=none; b=imi4RllZgh17hjPqy5SNgcx6G8PTeCdcz++nJWUy/jHMIMVwygBoiZaprBhjnnPc73xVqr7l3gKc0PFVThgW+pBzI3xPV0I3AoYp1UY2Nz/Foxafgdza9asLkirvpObiVZFYZ1j6RJofl0VSI5aY2Ps0GPztelOJ76S4xqpvvTk=
+	t=1791582723; cv=none; b=hsihU/IseoDYGriPl8qU+jEVCXFTBHH5eHBVgHH/OUMOJfgqctV4S/qFQvsV1a653GNjagjjJVTWM9K9KdThdl3xCccQjOZ3mgxfXemqzukljExFT74+9HoMcaN079OfDeoAqp6vlSyT2sTbmH/LvSD+UKuIVyMucchjfZ2eJnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791566271; c=relaxed/simple;
-	bh=+qM3b5oxHoWu610qHJf4r6M+GwLJBJWIf8bDwhOxdxQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ErXmrUOmAfzYZXNMJFFLUmCAf1v5oeVs7jOYoZZy5OwZMd7TPSYSsrf2S5Sre+LJgu+WbhS5vPozWgSo0YYeSq9GqQw9urwdsT9MryT/Qf0GIYnuO0ntoytlykSfw3lRwHuhK3mIYFv8zb8qZ1Ala70+TtdyWRYRrweNh+5mlVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=XkuykikU; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1791582723; c=relaxed/simple;
+	bh=vu8cOwyOk4KK0gZmnTmkJ8oYIw2D6BN4tZqdQhojPPs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=O+lfOL3DliAkmGQQDC2qSW/LN/yhuN8230MOdOKSIGnVqP+2u9Vgoh7GH7VhWVkkSfKm00KQKp19MzxBGeOyXyAneEQC90K0s7W06PNf3g45nvYt30OLX0TDZgidH3I8xwkSc3+FkCAhsb03wT0w1XH3U4UOr2zOtQnw+UIx818=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EeV+xn7N; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="XkuykikU"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 004181D60;
-	Fri,  9 Oct 2026 17:18:39 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=XkuykikU;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id B6E4421AD;
-	Fri,  9 Oct 2026 17:17:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1791566264;
-	bh=AP7BO+WZjKz2CxLk2K061kr8jiua275jMWfkPrCEMJY=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=XkuykikUOXrvB5p6KC4iYQTILhYfVj7G+itQnqIxrx58GKsJKQlPL1evd2T5fXuTh
-	 u1DenGWoj57cMiWUGqaPA67IlXSPsjJ8NOiA9kJvx8+vPces3RllGEvqVln0Gu8G1t
-	 yQpRzVU4tbcfBPLxNGzU69iKl7XYDEFFVsVq6zR0=
-Received: from localhost.localdomain (172.30.20.199) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 9 Oct 2026 20:17:43 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH 11/11] fs/ntfs3: fix stale attr_b in attr_allocate_frame()
-Date: Fri, 9 Oct 2026 19:17:04 +0200
-Message-ID: <20261009171704.11379-12-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261009171704.11379-1-almaz.alexandrovich@paragon-software.com>
-References: <20261009171704.11379-1-almaz.alexandrovich@paragon-software.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EeV+xn7N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AEBA1F000FF;
+	Fri,  9 Oct 2026 21:51:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791582721;
+	bh=sGLkDmS4T9oMQexkKZv2PBhHBcGIaE3bzm/FwVFzgYY=;
+	h=From:Subject:Date:To:Cc;
+	b=EeV+xn7NGKwKc+NJj1IWDajbyBMTndMURPSqIuBYj2Q1b4YZU3nunvNMYF6I9eSCA
+	 CO+tM5fdJfkyxxA0vvpfP65o7O7IgCT6fHGEHBytaSrEDbz5swA1ipZ+iF0vCVrR6y
+	 6tXbAOSZGSGc94TjMM1+IIA4VLKasGQCERyhZjUjWlsCpr8oT5UHR5zfCFOp6Ntizc
+	 1PhHSSPRZYn30qjIGmxaheZ47NhYeDDGOUZ+Yh4c8H2t5dURuzMILecSufDYOk88An
+	 u8EwiTTNASCC02I9lNcRyaHePwo6/1tZhiFXsVzuFM36mVzKHno59OCmi5MqPnB7ju
+	 uvI4NhXE5G3Bg==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/8] fs: fix a range of UAFs during rcu pathwalk caused by
+ non-rcu frees
+Date: Fri, 09 Oct 2026 23:51:50 +0200
+Message-Id: <20261009-work-fixes-rcu-v1-0-7446d2d335e6@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMQQ7CMAwEv1L5jKOkh6LwFcQhcQ0NSCmyKSBV/
+ TtOOY7XMysoS2GFU7eC8LtomatBOHRAU6o3xjIaQ+/7IXgf8TPLA6/ly4pCC9IYKTCTPw4RTHo
+ K76M558ufdcl3plertI+clDFLqjS1U+u5XXHWc22FbfsBCilr75gAAAA=
+X-Change-ID: 20261009-work-fixes-rcu-cd9c1eec0769
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ linux-ext4@vger.kernel.org, linux-afs@lists.infradead.org, 
+ v9fs@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+ ntfs3@lists.linux.dev, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.17-dev-3d1b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4343; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=vu8cOwyOk4KK0gZmnTmkJ8oYIw2D6BN4tZqdQhojPPs=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSdTPzjJfzfcKXh+pN7NCY+KF+w78OdSUdM8jNmCOgtd
+ Zg8u4ZpY0cpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBErp9hZHgmf/Ww/SQXjZ8n
+ UjM5FoVOsjJrmsp8VGHtqilXb7JN7hFmZFi8OY131Y2y6+/De5Um/I9j+mrf3DvB58mkZV+niF4
+ u42IEAA==
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-ni_insert_nonresident() can create an attribute list and move the base
-$DATA attribute to another MFT record, which invalidates attr_b and
-mi_b. attr_allocate_frame() kept using the stale pointers afterwards
-to update valid_size, writing into a record that no longer holds the
-attribute. The same situation is already handled in
-attr_data_get_block_locked(), which re-reads the base attribute after
-the layout changes.
+While working on eliding the grace period in namespace_unlock() I went
+through what filesystems free when they're shut down and what a pathwalk
+in rcu mode can still read at that point. Since 66a97c2ec953's rcu
+pathwalk fixes that's the filesystem's job. Whatever ->permission(),
+->d_revalidate(), ->get_link(), ->d_hash() and ->d_compare() look at in
+rcu mode has to be freed after a grace period. A few filesystems don't
+do that.
 
-Look up attr_b again after the insertion, and read valid_size from the
-attribute before the layout can change.
+Most of it is hidden by umount(2). namespace_unlock() waits for a grace
+period before it drops the mounts, so a walker that was inside the
+filesystem is gone by the time the filesystem is shut down.
 
-While here, flatten the 'if (attr)' block in attr_allocate_frame() by
-returning early to ins_ext, and simplify an empty-bodied if in
-attr_data_get_block_locked().
+But the last reference to a mount doesn't have to go away in umount(2).
+A chdir() out of a lazily unmounted directory or the close() of the last
+file on it drops it without a grace period. A walker can then still be
+in the filesystem while ->put_super() and ->kill_sb() free what it
+reads.
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+With KASAN on vfs.fixes:
+
+- ext4_get_link() reads sb->s_fs_info and the extent status counters in
+  rcu mode for a symlink that keeps its target in a data block.
+
+  ext4_put_super() destroys the counters, clears s_fs_info and frees the
+  sbi right away. That's a NULL dereference, a use-after-free of the sbi
+  or a fault on a destroyed percpu counter, depending on where the
+  walker sits.
+
+- The unicode map of casefolded ext4, f2fs and tmpfs is freed from
+  ->put_super() while generic_ci_d_hash() and generic_ci_d_compare() use
+  it.
+
+- ntfs3 with nocase frees its sbi and mount options under ntfs_d_hash()
+  and ntfs_d_compare(). A remount frees the old mount options right away
+  too, that one needs no unmount at all.
+
+- eventfs frees an eventfs_inode after an SRCU grace period only, but
+  tracefs_d_revalidate() reads it under rcu_read_lock(). No unmount
+  needed either.
+
+The ipc patch is a different kind of bug. create_ipc_ns() leaks the
+mqueue mount and its superblock when it fails after mq_init_ns(). I ran
+into it while looking at the kern_unmount() users.
+
+afs and 9p look just as broken but nothing can reach it today. Both
+have a private bdi, and generic_shutdown_super() calls bdi_unregister(),
+which waits for a grace period before ->kill_sb() frees their private
+data. That grace period is there for the rcu readers of bdi_list and
+covers afs and 9p by accident. I don't want them to depend on that, so
+they free their private data after a grace period of their own as well.
+
+I appended the reproducers. The race reproducers hold a pathwalk inside
+the filesystem's callback for two seconds with a kprobe while the other
+side frees what it reads. For the ntfs3 remount the window is a single
+load and its dereference, so that one needs an mdelay() in the kernel.
+ext4 with a journal needs a kernel without lockdep since
+jbd2_journal_destroy() calls lockdep_unregister_key(), which waits for a
+grace period too.
+
+Clean this all up.
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/ntfs3/attrib.c | 109 ++++++++++++++++++++++++----------------------
- 1 file changed, 57 insertions(+), 52 deletions(-)
+Christian Brauner (8):
+      ext4: free the sbi after a grace period
+      afs: free the super info after a grace period
+      9p: free the session after a grace period
+      eventfs: free the eventfs_inode after an rcu grace period too
+      ipc: drop the mqueue mount with kern_unmount() on setup failure
+      unicode: free the map after a grace period
+      ntfs3: free the sbi after a grace period
+      ntfs3: free replaced mount options after a grace period
 
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index 928c91b57da5..922134cabb05 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -1019,11 +1019,8 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
- 	int step;
- 
- again:
--	if (run_lookup_entry_da(run, da ? &ni->file.run_da : NULL, vcn, lcn,
--				len)) {
--	} else {
-+	if (!run_lookup_entry_da(run, da ? run_da : NULL, vcn, lcn, len))
- 		*len = 0;
--	}
- 
- 	if (*len) {
- 		if (*lcn != SPARSE_LCN || !new)
-@@ -1812,7 +1809,7 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
- 	struct ATTR_LIST_ENTRY *le, *le_b;
- 	struct mft_inode *mi, *mi_b;
- 	CLST svcn, evcn1, next_svcn, len;
--	CLST vcn, end, clst_data;
-+	CLST vcn, end, clst_data, alloc, evcn;
- 	u64 total_size, valid_size, data_size;
- 
- 	le_b = NULL;
-@@ -1830,6 +1827,7 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
- 	svcn = le64_to_cpu(attr_b->nres.svcn);
- 	evcn1 = le64_to_cpu(attr_b->nres.evcn) + 1;
- 	data_size = le64_to_cpu(attr_b->nres.data_size);
-+	valid_size = le64_to_cpu(attr_b->nres.valid_size);
- 
- 	if (svcn <= vcn && vcn < evcn1) {
- 		attr = attr_b;
-@@ -1949,63 +1947,63 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
- 	attr = ni_find_attr(ni, attr, &le, ATTR_DATA, ni->file.ads.name,
- 			    ni->file.ads.len, &svcn, &mi);
- 
--	if (attr) {
--		CLST alloc = bytes_to_cluster(
--			sbi, le64_to_cpu(attr_b->nres.alloc_size));
--		CLST evcn = le64_to_cpu(attr->nres.evcn);
--
--		if (end < next_svcn)
--			end = next_svcn;
--		while (end > evcn) {
--			/* Remove segment [svcn : evcn). */
--			mi_remove_attr(NULL, mi, attr);
--
--			if (!al_remove_le(ni, le)) {
--				err = -EINVAL;
--				goto out;
--			}
-+	if (!attr)
-+		goto ins_ext;
- 
--			if (evcn + 1 >= alloc) {
--				/* Last attribute segment. */
--				evcn1 = evcn + 1;
--				goto ins_ext;
--			}
-+	alloc = bytes_to_cluster(sbi, le64_to_cpu(attr_b->nres.alloc_size));
-+	evcn = le64_to_cpu(attr->nres.evcn);
- 
--			if (ni_load_mi(ni, le, &mi)) {
--				attr = NULL;
--				goto out;
--			}
-+	if (end < next_svcn)
-+		end = next_svcn;
-+	while (end > evcn) {
-+		/* Remove segment [svcn : evcn). */
-+		mi_remove_attr(NULL, mi, attr);
- 
--			attr = mi_find_attr(ni, mi, NULL, ATTR_DATA,
--					    ni->file.ads.name, ni->file.ads.len,
--					    &le->id);
--			if (!attr) {
--				err = -EINVAL;
--				goto out;
--			}
--			svcn = le64_to_cpu(attr->nres.svcn);
--			evcn = le64_to_cpu(attr->nres.evcn);
-+		if (!al_remove_le(ni, le)) {
-+			err = -EINVAL;
-+			goto out;
- 		}
- 
--		if (end < svcn)
--			end = svcn;
-+		if (evcn + 1 >= alloc) {
-+			/* Last attribute segment. */
-+			evcn1 = evcn + 1;
-+			goto ins_ext;
-+		}
- 
--		err = attr_load_runs(attr, ni, run, &end);
--		if (err)
-+		if (ni_load_mi(ni, le, &mi)) {
-+			attr = NULL;
- 			goto out;
-+		}
- 
--		evcn1 = evcn + 1;
--		attr->nres.svcn = cpu_to_le64(next_svcn);
--		err = mi_pack_runs(mi, attr, run, evcn1 - next_svcn);
--		if (err)
-+		attr = mi_find_attr(ni, mi, NULL, ATTR_DATA, ni->file.ads.name,
-+				    ni->file.ads.len, &le->id);
-+		if (!attr) {
-+			err = -EINVAL;
- 			goto out;
-+		}
-+		svcn = le64_to_cpu(attr->nres.svcn);
-+		evcn = le64_to_cpu(attr->nres.evcn);
-+	}
- 
--		le->vcn = cpu_to_le64(next_svcn);
--		ni->attr_list.dirty = true;
--		mi->dirty = true;
-+	if (end < svcn)
-+		end = svcn;
-+
-+	err = attr_load_runs(attr, ni, run, &end);
-+	if (err)
-+		goto out;
-+
-+	evcn1 = evcn + 1;
-+	attr->nres.svcn = cpu_to_le64(next_svcn);
-+	err = mi_pack_runs(mi, attr, run, evcn1 - next_svcn);
-+	if (err)
-+		goto out;
-+
-+	le->vcn = cpu_to_le64(next_svcn);
-+	ni->attr_list.dirty = true;
-+	mi->dirty = true;
-+
-+	next_svcn = le64_to_cpu(attr->nres.evcn) + 1;
- 
--		next_svcn = le64_to_cpu(attr->nres.evcn) + 1;
--	}
- ins_ext:
- 	if (evcn1 > next_svcn) {
- 		err = ni_insert_nonresident(ni, ATTR_DATA, ni->file.ads.name,
-@@ -2014,6 +2012,14 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
- 					    &attr, &mi, NULL);
- 		if (err)
- 			goto out;
-+		/* Layout of records is changed. */
-+		attr_b = ni_find_attr(ni, NULL, NULL, ATTR_DATA,
-+				      ni->file.ads.name, ni->file.ads.len, NULL,
-+				      &mi_b);
-+		if (!attr_b) {
-+			err = -EINVAL;
-+			goto out;
-+		}
- 	}
- ok:
- 	run_truncate_around(run, vcn);
-@@ -2022,7 +2028,6 @@ int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
- 		if (new_valid > data_size)
- 			new_valid = data_size;
- 
--		valid_size = le64_to_cpu(attr_b->nres.valid_size);
- 		if (new_valid != valid_size) {
- 			attr_b->nres.valid_size = cpu_to_le64(new_valid);
- 			mi_b->dirty = true;
--- 
-2.43.0
+ fs/9p/v9fs.h             |  1 +
+ fs/9p/vfs_super.c        |  4 ++--
+ fs/afs/internal.h        |  2 ++
+ fs/afs/super.c           |  2 +-
+ fs/ext4/ext4.h           |  2 ++
+ fs/ext4/extents-test.c   |  2 ++
+ fs/ext4/extents.c        |  1 +
+ fs/ext4/extents_status.c |  7 ++++++-
+ fs/ext4/extents_status.h |  1 +
+ fs/ext4/super.c          | 13 +++++++++++--
+ fs/ntfs3/dir.c           | 13 +++++++++++--
+ fs/ntfs3/ntfs_fs.h       |  3 +++
+ fs/ntfs3/super.c         | 49 +++++++++++++++++++++++++++++++++++-------------
+ fs/tracefs/event_inode.c | 10 +++++++++-
+ fs/unicode/utf8-core.c   | 21 +++++++++++++++++----
+ include/linux/unicode.h  |  1 +
+ ipc/namespace.c          |  2 +-
+ 17 files changed, 107 insertions(+), 27 deletions(-)
+---
+base-commit: 3d399224425573875b6f6f1181bd8cf9a28cc7d1
+change-id: 20261009-work-fixes-rcu-cd9c1eec0769
 
