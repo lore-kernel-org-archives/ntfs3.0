@@ -1,132 +1,75 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D120B3128DF
-	for <ntfs3@lists.linux.dev>; Sat, 10 Oct 2026 04:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E576345D5FC;
+	Sat, 10 Oct 2026 12:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791607964; cv=none; b=kdvRzyc7s18IKVmiZe2ugVoWDcbuh24j9t+y++OFChCD103bcm1zXDDWZr1z90qAomf2YfFyPhUhQKM5WPQ+2c6sX4q87/dxm5LyAkWoj7XxwTLZyHgVDdH7qGqBO7ru3Rz+EYutFC5M36P1yAZL5BLyBfvF4FKBCrTWEqXFVSg=
+	t=1791636875; cv=none; b=oPGwWpLgynDJrLI02N3v17Jcors6zcy1WbY2Ee8vsDaNiIJMLY3p+qaHi/c5i3iDLUJrSUY7azVRu78ae+/SaguKOSVkPzNjE8WBEISnv1pPZwQzW7ocVGkAnMz3p4JwTuBDIoCN0hlExBFrsgnkeJwy2JB/AQo0g6ACv/duV9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791607964; c=relaxed/simple;
-	bh=indP8u5ErlDBlEbDJ73E7lpccIOnRAgGO3JQCr6tKuQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ALYhP4N8FTi4nSZqxWW9+j8HkDqTI9ogT+ORYFUIzhkgPbwFjqjXSIKpbPvGtaTGHgfmWZeaIZwbQQ/rObE9WnEJ+9OUtA2tV8PPVHo+88FNQytr1jrEheT2OIWUJLaT6wDq99jq34EnyLCV8cIVUeihF9aMrfF+V/xb0Oc9K4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu; spf=pass smtp.mailfrom=cs.unc.edu; dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b=gKt8yG9K; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
+	s=arc-20240116; t=1791636875; c=relaxed/simple;
+	bh=ZcrCwafbniEewCzWv1MZiFYJQ5X4fHmk7ltpbIe8dVg=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SfUIvd64DRqWjDZliuNyNgandJFnIc+L1S5Rx99qTyt/CLI7GczJFeO4/iwJFsZ4KMDBoP+A1XNEWX4s4OicjXX3hPkJtjg2IvOoXMCOELjkWP008BqHkKMGhdxLtxCOwy7ggJNgjPN+n9IH0jlI4E4KeQ6XOnlydraH8TDBPSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q/qQqSlf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b="gKt8yG9K"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-53512cd2f85so4727651cf.1
-        for <ntfs3@lists.linux.dev>; Fri, 09 Oct 2026 21:52:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google; t=1791607962; x=1792212762; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6dcJoubrr5zFEKtQA78Ir1Mu8Xuoy77V/79B9yY3I7o=;
-        b=gKt8yG9KpUtfio+9povSKrB5k6fXkzK+0aQl7Cucczb/+1g5wjzJRB1Vn91++TBEj0
-         oOQKh8B8WMH/er7duZ2iRlcaAg2MH5YC7/NysIfZyKZA317ss1LOYrip5ctG2bbaDnam
-         J8FQ0I+jd/Mha9A5pZ/IeSwqgbQNwn9U+TXM/iGWackrjPKLpf1ILazY2lkN+I2GxL4E
-         /2aMpk/kt58tO34DrHAtfGL5qY4Wftk8SQZIUmKaZKWL1f+LBj2ITMYAH6KybJbFZ0Gj
-         rEOeVZXCgW5DRM8RDs+gtqkvaVbn2i6OLvtFJsYYX6M3TkuH3Gijx0BoM3MAmSg/yC+K
-         zygA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791607962; x=1792212762;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6dcJoubrr5zFEKtQA78Ir1Mu8Xuoy77V/79B9yY3I7o=;
-        b=1PcfQs5XIa3oL3HD+3Y78xMF+DU77LK8NjnGt0kTI8gDwOl2RkYkAb9idZbFffEYjl
-         nz1cKagbyxbXzQ0F4dnH9osVfZ/XYPKh1NU1/3B2A/OXLkwkzDm27nLvxEMF16Www64X
-         camTKsg590owOLkYcJocSbJKNvovWi3INxgsPGPky+swlE7o+ktonto1a3a5bbMS7Rah
-         lhsbsNnnjxbJSuGEQKKK6NYMjynH+IZDtSTaz7Zfnjo/12nc0WCavMkwRtqf6wi2maI5
-         HvGUPq0LukAa3OWRAefNc2D4IgYlnpEr9EKMVqo0NTEkJmFKQGDRvuPifGdaTZyPSmJ9
-         zgvw==
-X-Gm-Message-State: AFq9FYKGP4dIV/zlqkjxW2ZI+pC3jlnKlwsC8TOQF6Wr52EcOrHxLuji
-	X+HOLEUY6pf7ZgpJ0vs+7HiLL2dqSH0krVwJfn/lk0PRdLyPikr+VE65kkCzL0S88say2qv+BVv
-	GHSQOMw==
-X-Gm-Gg: AYBFou3C0GoF/B/6lWKd9mxpeoTEfH9EIzgG6xzx+96DtHp1JuVCYw+jjE+UHaOS3Bl
-	sN6PthV5D/HWMrRSEaVfDMqlqO8By3CfMRXKqazqgOu64X4LFV91yU6GezLfdbQVcC8rf2VBKH5
-	ZI/gxe6jxj136uTAF34RRLO2IY2tWs8Ct7WY5LIy7DkDb1Bcqw/NFYHgfDhMKMw/qPpQ7uqlVJe
-	N6VHPA3ZOWSJ+wbR5oBntfvCMrQJzXSHHed3LSvOYeaLfzoqx48UmgPwPd1qDjy7vxhdFxQkdpw
-	5mekLJS9uDPrFiwDSCqCEEF0D0K87te9ssAfRP1NwNsCzeOVKUfIFDoEV8Ui7SLP2Ay78PQ1dN0
-	VmxfaZiTiPR43l1jhNGxp4C5hmGCtxEi0//V8bQQ7beMJ56wcVuTpDzeWWKn5gcbll9w+vWd90F
-	3NDycNtosfIPI0SWzX5oM1r3twu2tDygz/asTQQAQoxUWCzL1nTnV2bfnmUm7svVoUqC6Xda320
-	JrxUCAoJd/qKxQ88fyTLA==
-X-Received: by 2002:ac8:5f49:0:b0:535:1a66:d406 with SMTP id d75a77b69052e-5359fb31582mr72152881cf.29.1791607961694;
-        Fri, 09 Oct 2026 21:52:41 -0700 (PDT)
-Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91b5501750fsm36208786d6.14.2026.10.09.21.52.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 21:52:41 -0700 (PDT)
-From: Hengyu Liang <hengyul@cs.unc.edu>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: restore the file size when fallocate() fails on a sparse file
-Date: Sat, 10 Oct 2026 00:52:06 -0400
-Message-ID: <20261010045206.4051041-1-hengyul@cs.unc.edu>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q/qQqSlf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 471BF1F000FF;
+	Sat, 10 Oct 2026 12:54:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791636874;
+	bh=ZcrCwafbniEewCzWv1MZiFYJQ5X4fHmk7ltpbIe8dVg=;
+	h=Date:From:To:Subject:References:In-Reply-To;
+	b=Q/qQqSlf62cH1TJxDffYqyRk2dfWWBuMJBUm95IE6dEYWjB0axS+ihRYUasmWweGl
+	 kByE5DMqaoLj4kmSHAdISzmsb53vUnuwpnmxfuD41Z5+QL5JwmOKaVuSUWqk+iwZnQ
+	 ya6PPttk0FvmkFsj/u3msXE0HMqDCdqJ6u1WrG0QACvNAgDiwCox9XMee34k6/5VxV
+	 u8JbnFICrG9XPafeKuBva/4ZZV0RJC9tXtEnKFpT7G8B/p2xji89qFlJQdR2xhlVIc
+	 9te2vVIj/v29TkuIlZPqBhaOKDE7j4qsdGKAKj9z+qkjwhX71k97zczQ91IDlIYiWS
+	 rAEX2VNwQRMQA==
+Date: Sat, 10 Oct 2026 14:54:29 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: sashiko-reviews@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-ext4@vger.kernel.org, 
+	linux-afs@lists.infradead.org, v9fs@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, tytso@mit.edu, stable@vger.kernel.org
+Subject: Re: [PATCH 2/8] afs: free the super info after a grace period
+Message-ID: <20261010-veranda-allemal-frivol-5ee6b359d2c8@brauner>
+References: <20261009-work-fixes-rcu-v1-0-7446d2d335e6@kernel.org>
+ <20261009-work-fixes-rcu-v1-2-7446d2d335e6@kernel.org>
+ <sashiko-outbox-166125@kernel.org>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <sashiko-outbox-166125@kernel.org>
 
-For a sparse file, ntfs_fallocate() first extends the file with
-ntfs_set_size() and then allocates the clusters of the range.
+On Fri, Oct 09, 2026 at 10:07:58PM +0000, sashiko-bot@kernel.org wrote:
+> Does this regression introduce a TOCTOU race in afs_atcell_get_link() that
+> can cause a NULL dereference?
+>
+> By leaving put_net() executing before the RCU grace period, afs_net_exit() can
+> tear down the namespace while pathwalks are still active. If cleanup_net()
+> calls afs_cell_purge(), it replaces net->ws_cell with NULL.
 
-However, when this allocation fails, the function returns without
-putting the size back. As of now, a fallocate() that fails with ENOSPC
-still leaves the file at the requested size, with a part of the range
-allocated.
+No. This patch doesn't touch put_net(). It's called in the same place
+as before.
 
-The issue can be reproduced on a volume mounted with the sparse option:
+The only place that sets net->ws_cell to NULL is afs_cell_purge() from
+afs_net_exit(). The superblock pins the network namespace via
+as->net_ns and once the last reference is gone cleanup_net() does a
+synchronize_rcu() before it calls any ->exit() method. So
+afs_cell_purge() can't run while a pathwalk is still in
+afs_atcell_get_link() in rcu mode.
 
-    truncate -s 16M img
-    mkntfs -F -q img
-    mount -t ntfs3 -o loop,sparse img /mnt
-    dd if=/dev/zero of=/mnt/hole bs=512k count=1
-    dd if=/dev/zero of=/mnt/fill bs=4k
-    sync
-    rm /mnt/hole
-    sync
-    fallocate -l 1M /mnt/f
-    ls -l /mnt/f
-    df -k /mnt
+The double load of net->ws_cell is a bit sloppy but it's harmless.
 
-The fallocate command fails with "No space left on device". Before this
-patch, /mnt/f is then 1048576 bytes long and the available space has
-dropped from 912K to 400K. After this patch, /mnt/f is empty and the
-available space is still 912K.
+> Can net->ws_cell be cleared to NULL before the lock is acquired, causing a
+> NULL dereference here as well?
 
-This patch will set the size back when the allocation fails, with the
-call that FALLOC_FL_KEEP_SIZE already uses.
-
-Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
----
- fs/ntfs3/file.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 95dfe6878860..98fb4116031b 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -673,8 +673,12 @@ static long ntfs_fallocate(struct file *file, int mode, loff_t vbo, loff_t len)
- 				err = attr_data_get_block(ni, vcn, cend - vcn,
- 							  &lcn, &clen, &new,
- 							  true, NULL, false);
--				if (err)
-+				if (err) {
-+					/* Do not leave the file extended. */
-+					if (new_size > i_size)
-+						ntfs_set_size(inode, i_size);
- 					goto out;
-+				}
- 			}
- 		}
- 
--- 
-2.53.0
-
+No. Without rcu the caller holds references to the dentry and the
+mount. So the superblock and with it the network namespace can't go
+away underneath it.
