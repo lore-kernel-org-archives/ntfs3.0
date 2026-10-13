@@ -1,350 +1,235 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E71543CEF3;
-	Tue, 13 Oct 2026 12:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCC24EB862
+	for <ntfs3@lists.linux.dev>; Tue, 13 Oct 2026 12:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791893822; cv=none; b=YdmALe0o73KM0agORzHEDsa9rkQDalSenIZ0yYZYNn0KlprFHZUAMFzE+kLpVLHDMd9W8JrarI6kQ9yRYc6uXrI/UN/aCB1/zlSj6uIzDVX4Qye7JonE+y+MGHE57pcs87GetobDuvYG5MXONsNfmfsGOeUlvoRHau06kwPUmD0=
+	t=1791895130; cv=none; b=TPyidoYz8/PCdUDD6HAzUV1nr9y86jiJlTR+H3yp8x1sR5ZoUK5X0wrFca4ZlAKo6CpZ/7fh2WLZ8ukomQxrss1kKZwITX5CsxX4nB+DIrhtr8f4qHwNl0xMGj8WrLNc1BAMS2zm4AYnyDdpqV4M9mmsd4IZh5lzOcydSYfElb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791893822; c=relaxed/simple;
-	bh=G8PGqIrQ5k77evT2wG7WUTBFPlNbw5frBEVT5qJlGVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ofaQ2vqMZKOtash2gi7UKYSPocONZeG8a1gP8knkfmfeWTLh5Ih8NghYH9Mwq+4ttiMdcXFBFurUU85dcEFfYuiJSizTePD9T3WMd96hSk5kzSS8Grt68Urrtp9OgnaHP0+QutVuaQAX3uK5UWOfdyMZt40MNa4LQLLc+PMuO3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0sKq94An; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6p47P9iC; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0sKq94An; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6p47P9iC; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1791895130; c=relaxed/simple;
+	bh=yK3BXt5odIAuw+y92WkRm4qEoTv7WyPBWcnH1zLvc0M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QLj4MdKR3n6cqcl68bfC4uQ+LA0IEt7WbC9LbB2NIjmI67nXNp4KARi1ob8ItjnzByy2HbycXgdiCmPeJw71gjsYm1X1dgx1oI0QWNRdJzYHN9ZqTKiSmP8iOK+qowHthfaGTAk6KvGoQetmRwwq9+f6rw/v1twbW0FPTzmUhmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MVOshXbt; arc=none smtp.client-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0sKq94An";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6p47P9iC";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0sKq94An";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6p47P9iC"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 38DB51F452;
-	Tue, 13 Oct 2026 12:16:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791893819; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PIWtiPrsYf/toAj2P9j+sTaCeU3Ul60tHOhLtN5agvw=;
-	b=0sKq94AnOavcl7gDRZOyLluSHmY5g71LY5JROosKZsO1N1IdLZlZBrRfVzCXSFJQOBTuN3
-	w9hKyDiEaoNm/F8NtqM9TT018p4WsZRQe8/4iA7QLDAqvxDqi+o3U0+3gwS4TgI26JZhLv
-	fFN6wG9dXmft+KkzK2+FPGchHHt8dPM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791893819;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PIWtiPrsYf/toAj2P9j+sTaCeU3Ul60tHOhLtN5agvw=;
-	b=6p47P9iCrndYpS5aCQ79HN/DuH3C4+9dKrkHYxNlLiQk0K6p8z9D4Jwwo1wlBB5G/l1AOE
-	lglU1CzvRYmwp6Bw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791893819; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PIWtiPrsYf/toAj2P9j+sTaCeU3Ul60tHOhLtN5agvw=;
-	b=0sKq94AnOavcl7gDRZOyLluSHmY5g71LY5JROosKZsO1N1IdLZlZBrRfVzCXSFJQOBTuN3
-	w9hKyDiEaoNm/F8NtqM9TT018p4WsZRQe8/4iA7QLDAqvxDqi+o3U0+3gwS4TgI26JZhLv
-	fFN6wG9dXmft+KkzK2+FPGchHHt8dPM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791893819;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PIWtiPrsYf/toAj2P9j+sTaCeU3Ul60tHOhLtN5agvw=;
-	b=6p47P9iCrndYpS5aCQ79HN/DuH3C4+9dKrkHYxNlLiQk0K6p8z9D4Jwwo1wlBB5G/l1AOE
-	lglU1CzvRYmwp6Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 10B7813341;
-	Tue, 13 Oct 2026 12:16:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6fCqNzohzmoPIwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 13 Oct 2026 12:16:59 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 940F0A1407; Tue, 13 Oct 2026 14:16:54 +0200 (CEST)
-Date: Tue, 13 Oct 2026 14:16:54 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-ext4@vger.kernel.org, 
-	linux-afs@lists.infradead.org, v9fs@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH 6/8] unicode: free the map after a grace period
-Message-ID: <ytvtvt4ejwcfm63jcmrqz7hdktsmp4tg55ddliwnrgvotuwngm@wljc272orwac>
-References: <20261009-work-fixes-rcu-v1-0-7446d2d335e6@kernel.org>
- <20261009-work-fixes-rcu-v1-6-7446d2d335e6@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MVOshXbt"
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-170135e43c7so170574c88.0
+        for <ntfs3@lists.linux.dev>; Tue, 13 Oct 2026 05:38:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791895127; x=1792499927; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1wEUTczWGQjblvkN8sYOGLSfksGZhzK2JwbCezGvYkA=;
+        b=MVOshXbtoXR/FWZQP7kDsnhYRS+YVwMBgDrtZGa7H57U9afAPmUXFoHbqV+ArObXyM
+         beAvh05jbB+oQ7wkHBETnNc6amLd7S5kdXevpt6A9MhTdTWOMOCSv19RdJmhw2RZDqG1
+         1YbCAhNzLXE2/ty1S8FOBI6mMxhNUYx7850pXU2zuPxGpRY/DMTTcDDBV1OJ1QrmPNXB
+         FxV38G3N9M6W5SddeBPAx/Y171sXXhUwLsz0vjfwqVpK+Ew7mEbnoPovhHn/SuwJUHGr
+         ugGFhdGgW26BuatdM34I42qRwrQkDP/pcgSQgRF6bGR47/tExCxsOWB71328SUvu+Qte
+         niTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791895127; x=1792499927;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1wEUTczWGQjblvkN8sYOGLSfksGZhzK2JwbCezGvYkA=;
+        b=Pi26VfzpYFKsv9sRMasPy9a1jxtfrl8XqFe3Dk+ayUJwCw/wbG546HHZA0HKqNbhUS
+         QckmLKYmy3HlP9pDvX7wDwo8GG1P1f94sA7aG9Feo2oRomZjxVhg6hWE6AXD2q3qra51
+         CSY7ljcyKidB8JHE3JE9Prntsq5JsdFzU8pU8ekqRVzpXmjIqokeCvyfVHrac70jFppE
+         4vPYFKR3r2QZE8stgCP1dF0J6ccaf8Ygl2RPMpocCtdHFeIAjBUeP4dz82250LqDmWs3
+         SWE9IQHUSDGywhjccjNVMfikdperHP/LPWv6t+gnYS2Cu3fKAIIdjFuddnC32MU4h33a
+         ykGA==
+X-Gm-Message-State: AFq9FYILkl7Nifs4JiaSDwke56FoIQGJbzGaw4J9RLMnxqRjDu8KT6UI
+	JfqV7b9osJLTsfqP3Nqyr5JkCgA0ez/z72Axvqv3Gvuz4TmSULUxX3apcGrYmgAI
+X-Gm-Gg: AYBFou3JriRUm+byO5Va6E1ggZY3224eQNFMFSFrhOSxD4kqwrPgjZJWggv+snHmFmy
+	n8fCv5PamH0j1HORu+ErORIpT42BP1V4Pvop2PhwkubtVTJ+xDxTUIbC1ql1q9XFB+vg3ei6S/j
+	uxM7mVQEaGymyLj2JfSb5w+8nIyPJOos9st4uPMV3wCexRVoCQpw4wGwTrJe9TwWUqDdQoxiOsm
+	zko9SvoNKnj5B/u70klx/QSEucMM3XDBlOPvJPUQXNgN1A3Nh73+rBVEz3LtIyObA83+WWNy51+
+	ArF8sf6Cuf7UaQIKKzhUqXi5N0Mlt/TEeM0zw2x+6Ji+SfIv2zAQhrp2miAHJXXD/n62t8L7zia
+	LrGDvMbXMEIkM/mNvm2EN+8LfUTKQZadZaWNGxqz6dRZOmggyWIxjXt4drg8MAX75yyq8DqhP2a
+	44ATAE4nd2YyHkXQG9oO/nvMKXI2Iw5pQ2I7OrT33sfQkz7LbU1somRaRMC86E0sqyvlb18Q==
+X-Received: by 2002:a05:701b:4306:20b0:154:e9d2:d741 with SMTP id a92af1059eb24-16a6187e53bmr16594727c88.8.1791895126588;
+        Tue, 13 Oct 2026 05:38:46 -0700 (PDT)
+Received: from nillco.localdomain ([2600:3c01::f03c:93ff:fe96:ad75])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1698de65af7sm42383843c88.0.2026.10.13.05.38.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Oct 2026 05:38:45 -0700 (PDT)
+From: Rong Zhang <ulin0208@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Rong Zhang <ulin0208@gmail.com>
+Subject: [PATCH] ntfs3: replace the extend_data member with a union data structure
+Date: Tue, 13 Oct 2026 20:38:10 +0800
+Message-ID: <20261013123810.20020-1-ulin0208@gmail.com>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261009-work-fixes-rcu-v1-6-7446d2d335e6@kernel.org>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_THREE(0.00)[3];
-	URIBL_BLOCKED(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email]
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 
-On Fri 09-10-26 23:51:56, Christian Brauner wrote:
-> generic_ci_d_hash() and generic_ci_d_compare() read sb->s_encoding and
-> dereference the unicode map while a pathwalk in rcu mode holds nothing
-> but rcu_read_lock(). The filesystems that use them, ext4, f2fs and
-> tmpfs, drop the map with utf8_unload() from ->put_super(), which runs
-> when the last reference to the mount goes away. A lookup that is still
-> inside such a filesystem at that point reads a freed map.
-> 
-> With a pathwalk held up in utf8_casefold_hash() while the last reference
-> to a casefolded tmpfs goes away:
-> 
->   BUG: KASAN: slab-use-after-free in utf8nlookup+0x74c/0x950
->   Read of size 8 at addr ff110001030fe658 by task walker/98
->   Call Trace:
->    <TASK>
->    utf8nlookup+0x74c/0x950
->    utf8byte+0x160/0x1560
->    utf8_casefold_hash+0x167/0x230
->    generic_ci_d_hash+0xdd/0x1c0
->    link_path_walk+0x11ad/0x1d30
->    path_lookupat+0x63/0xb00
->    filename_lookup+0x1f1/0x5b0
->    vfs_statx+0xd7/0x3b0
->   [...]
->   Allocated by task 94:
->    __kmalloc_cache_noprof+0x249/0x560
->    utf8_load+0x4e/0x570
->    shmem_parse_opt_casefold.isra.0+0x92/0x270
->   [...]
->   Freed by task 97:
->    kfree+0x1db/0x5b0
->    shmem_put_super+0x72/0x170
->    generic_shutdown_super+0x14c/0x530
->    kill_anon_super+0x3a/0x60
->    deactivate_locked_super+0x9c/0xf0
->    cleanup_mnt+0x9f/0x130
-> 
-> So far that has been hard to hit. umount(2) waits for a grace period
-> in namespace_unlock() before it drops the mount, so only a mount whose
-> last reference goes away elsewhere, like the close of a file or a chdir
-> out of a lazily unmounted directory, can race a walker. So it is
-> reachable.
-> 
-> Delay the free until a grace period has passed. The map and the data
-> table it holds a reference to then outlive any pathwalk that found the
-> superblock before the mount went away. The reference on the data table
-> module is dropped from the rcu callback as well. utf8-core is built in
-> whenever CONFIG_UNICODE is set, so there is no module exit that would
-> have to wait for the callbacks.
-> 
-> Overlayfs points the s_encoding of an overlay at the map of its first
-> layer without taking a reference of its own. That stays correct. The
-> layer is held by the overlay, so its map is dropped only after the
-> overlay is gone.
-> 
-> Fixes: b886ee3e778e ("ext4: Support case-insensitive file name lookups")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Replace the extend_data member of struct NTFS_DUP_INFO with a union data
+structure.
 
-Looks good. Feel free to add:
+This patch makes the code more robust.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Fixes: 8df35e16a92c ("fs/ntfs3: fix symlinks cannot be handled correctly")
+Signed-off-by: Rong Zhang <ulin0208@gmail.com>
+---
+ fs/ntfs3/dir.c     |  4 +++-
+ fs/ntfs3/frecord.c |  6 +++---
+ fs/ntfs3/inode.c   |  6 +++---
+ fs/ntfs3/ntfs.h    | 10 +++++++++-
+ fs/ntfs3/ntfs_fs.h |  2 +-
+ fs/ntfs3/xattr.c   |  6 +++---
+ 6 files changed, 22 insertions(+), 12 deletions(-)
 
-								Honza
-
-> ---
-> Reproducer: delay.c holds a task named walker in utf8_casefold_hash() in
-> rcu pathwalk mode for two seconds and repro.c drops the last reference
-> to a lazily unmounted casefolded tmpfs meanwhile.
-> 
->     mount -t tmpfs -o casefold tmpfs /mnt
->     chattr +F /mnt
->     echo hello > /mnt/Foo
->     insmod delay.ko
->     ./repro
-> 
-> Without this patch that gives the splat above, with it it runs clean.
-> 
-> delay.c:
-> 
->     #include <linux/delay.h>
->     #include <linux/kprobes.h>
->     #include <linux/module.h>
-> 
->     /* keep a task named "walker" in utf8_casefold_hash() in rcu pathwalk */
->     static int pre(struct kprobe *p, struct pt_regs *regs)
->     {
->     	if (!strcmp(current->comm, "walker"))
->     		mdelay(2000);
->     	return 0;
->     }
-> 
->     static struct kprobe kp = {
->     	.symbol_name	= "utf8_casefold_hash",
->     	.pre_handler	= pre,
->     };
-> 
->     static int __init delay_init(void)
->     {
->     	return register_kprobe(&kp);
->     }
-> 
->     static void __exit delay_exit(void)
->     {
->     	unregister_kprobe(&kp);
->     }
-> 
->     module_init(delay_init);
->     module_exit(delay_exit);
->     MODULE_LICENSE("GPL");
-> 
-> repro.c:
-> 
->     #define _GNU_SOURCE
->     #include <pthread.h>
->     #include <sched.h>
->     #include <string.h>
->     #include <sys/mman.h>
->     #include <sys/mount.h>
->     #include <sys/prctl.h>
->     #include <sys/stat.h>
->     #include <unistd.h>
-> 
->     static void pin(int cpu)
->     {
->     	cpu_set_t set;
-> 
->     	CPU_ZERO(&set);
->     	CPU_SET(cpu, &set);
->     	sched_setaffinity(0, sizeof(set), &set);
->     }
-> 
->     static void *walker(void *arg)
->     {
->     	struct stat st;
->     	char *p;
-> 
->     	/*
->     	 * The delay spins. Empty this cpu's lru batches so that an
->     	 * lru_add_drain_all() on the other side has no work to wait for here.
->     	 */
->     	pin(1);
->     	p = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
->     	memset(p, 1, 4096);
->     	madvise(p, 4096, MADV_COLD);
-> 
->     	prctl(PR_SET_NAME, "walker");
->     	stat("FOO", &st);
->     	return NULL;
->     }
-> 
->     int main(void)
->     {
->     	struct stat st;
->     	pthread_t t;
-> 
->     	pin(0);
->     	chdir("/mnt");
->     	stat("FOO", &st);
->     	/* the cwd now holds the last reference to the mount */
->     	umount2("/mnt", MNT_DETACH);
->     	pthread_create(&t, NULL, walker, NULL);
->     	sleep(1);
->     	/* drop it, ->kill_sb() runs before chdir() returns */
->     	chdir("/");
->     	pthread_join(t, NULL);
->     	return 0;
->     }
-> ---
->  fs/unicode/utf8-core.c  | 21 +++++++++++++++++----
->  include/linux/unicode.h |  1 +
->  2 files changed, 18 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/unicode/utf8-core.c b/fs/unicode/utf8-core.c
-> index f313532f5e80..74a74a48dd8b 100644
-> --- a/fs/unicode/utf8-core.c
-> +++ b/fs/unicode/utf8-core.c
-> @@ -3,6 +3,7 @@
->  #include <linux/kernel.h>
->  #include <linux/string.h>
->  #include <linux/slab.h>
-> +#include <linux/rcupdate.h>
->  #include <linux/parser.h>
->  #include <linux/errno.h>
->  #include <linux/stringhash.h>
-> @@ -183,12 +184,24 @@ struct unicode_map *utf8_load(unsigned int version)
->  }
->  EXPORT_SYMBOL(utf8_load);
->  
-> +static void utf8_unload_rcu(struct rcu_head *head)
-> +{
-> +	struct unicode_map *um = container_of(head, struct unicode_map, rcu);
-> +
-> +	symbol_put(utf8_data_table);
-> +	kfree(um);
-> +}
-> +
-> +/*
-> + * A pathwalk in rcu mode may still be in ->d_hash() or ->d_compare() of a
-> + * filesystem that is being torn down and read the map through its
-> + * superblock, so the map and the tables it points to have to outlive the
-> + * grace period.
-> + */
->  void utf8_unload(struct unicode_map *um)
->  {
-> -	if (um) {
-> -		symbol_put(utf8_data_table);
-> -		kfree(um);
-> -	}
-> +	if (um)
-> +		call_rcu(&um->rcu, utf8_unload_rcu);
->  }
->  EXPORT_SYMBOL(utf8_unload);
->  
-> diff --git a/include/linux/unicode.h b/include/linux/unicode.h
-> index 64fa44fe180c..3a8cb603eb93 100644
-> --- a/include/linux/unicode.h
-> +++ b/include/linux/unicode.h
-> @@ -53,6 +53,7 @@ struct unicode_map {
->  	unsigned int version;
->  	const struct utf8data *ntab[UTF8_NMAX];
->  	const struct utf8data_table *tables;
-> +	struct rcu_head rcu;
->  };
->  
->  int utf8_validate(const struct unicode_map *um, const struct qstr *str);
-> 
-> -- 
-> 2.53.0
-> 
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+index eb9152e9fa22..42222a82ca0f 100644
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -377,7 +377,9 @@ static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
+ 	 * It does additional locks/reads just to get the type of name.
+ 	 * Should we use additional mount option to enable branch below?
+ 	 */
+-	if (fname->dup.extend_data && ino != ni->mi.rno) {
++	if (((fname->dup.fa & FILE_ATTRIBUTE_REPARSE_POINT) ||
++	     fname->dup.ea.ea_size) &&
++	     ino != ni->mi.rno) {
+ 		struct inode *inode = ntfs_iget5(sbi->sb, &e->ref, NULL);
+ 		if (!IS_ERR_OR_NULL(inode)) {
+ 			dt_type = fs_umode_to_dtype(inode->i_mode);
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index bead01a953f3..066fe6aefcc4 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -3090,7 +3090,7 @@ static bool ni_update_parent(struct ntfs_inode *ni, struct NTFS_DUP_INFO *dup,
+ 		}
+ 	}
+ 
+-	dup->extend_data = 0;
++	dup->rp.reparse = 0;
+ 
+ 	if (dup->fa & FILE_ATTRIBUTE_REPARSE_POINT) {
+ 		attr = ni_find_attr(ni, NULL, NULL, ATTR_REPARSE, NULL, 0, NULL,
+@@ -3103,7 +3103,7 @@ static bool ni_update_parent(struct ntfs_inode *ni, struct NTFS_DUP_INFO *dup,
+ 					      sizeof(struct REPARSE_POINT));
+ 			/* If ATTR_REPARSE exists 'rp' can't be NULL. */
+ 			if (rp)
+-				dup->extend_data = rp->ReparseTag;
++				dup->rp.reparse = rp->ReparseTag;
+ 		}
+ 	} else if (ni->ni_flags & NI_FLAG_EA) {
+ 		attr = ni_find_attr(ni, attr, &le, ATTR_EA_INFO, NULL, 0, NULL,
+@@ -3114,7 +3114,7 @@ static bool ni_update_parent(struct ntfs_inode *ni, struct NTFS_DUP_INFO *dup,
+ 			info = resident_data_ex(attr, sizeof(struct EA_INFO));
+ 			/* If ATTR_EA_INFO exists 'info' can't be NULL. */
+ 			if (info)
+-				dup->extend_data = info->size;
++				dup->ea.ea_size = info->size_pack;
+ 		}
+ 	}
+ 
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 4ac26c80bd34..329650c87593 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -1594,7 +1594,7 @@ int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
+ 		fname->dup.a_time = std5->cr_time;
+ 	fname->dup.alloc_size = fname->dup.data_size = 0;
+ 	fname->dup.fa = std5->fa;
+-	fname->dup.extend_data = S_ISLNK(mode) ? IO_REPARSE_TAG_SYMLINK : 0;
++	fname->dup.rp.reparse =	S_ISLNK(mode) ? IO_REPARSE_TAG_SYMLINK : 0;
+ 
+ 	dsize = le16_to_cpu(new_de->key_size);
+ 	asize = ALIGN(SIZEOF_RESIDENT + dsize, 8);
+@@ -1837,7 +1837,7 @@ int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
+ 		 * The packed size of extended attribute is stored in direntry too.
+ 		 * 'fname' here points to inside new_de.
+ 		 */
+-		err = ntfs_save_wsl_perm(inode, &fname->dup.extend_data);
++		err = ntfs_save_wsl_perm(inode, &fname->dup.ea.ea_size);
+ 		if (err)
+ 			goto out6;
+ 
+@@ -1853,7 +1853,7 @@ int ntfs_create_inode(struct mnt_idmap *idmap, struct inode *dir,
+ 
+ 			fn = resident_data_ex(attr, SIZEOF_ATTRIBUTE_FILENAME);
+ 			if (fn)
+-				fn->dup.extend_data = fname->dup.extend_data;
++				fn->dup.ea.ea_size = fname->dup.ea.ea_size;
+ 		}
+ 	}
+ 
+diff --git a/fs/ntfs3/ntfs.h b/fs/ntfs3/ntfs.h
+index 4589b16329c9..bcef7ae02065 100644
+--- a/fs/ntfs3/ntfs.h
++++ b/fs/ntfs3/ntfs.h
+@@ -566,7 +566,15 @@ struct NTFS_DUP_INFO {
+ 	__le64 alloc_size;	// 0x20: Data attribute allocated size, multiple of cluster size.
+ 	__le64 data_size;	// 0x28: Data attribute size <= Dataalloc_size.
+ 	enum FILE_ATTRIBUTE fa;	// 0x30: Standard DOS attributes & more.
+-	__le32 extend_data;	// 0x34: Extended data.
++	union {
++		struct {
++			__le16 ea_size; // 0x34: Packed EAs.
++			__le16 reserved;
++		} ea;
++		struct {
++			__le32 reparse; // 0x34: Used by Reparse.
++		} rp;
++	};
+ 
+ }; // 0x38
+ 
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 5811d89d67b3..aa8be7b2379b 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -978,7 +978,7 @@ int ntfs_acl_chmod(struct mnt_idmap *idmap, struct dentry *dentry);
+ ssize_t ntfs_listxattr(struct dentry *dentry, char *buffer, size_t size);
+ extern const struct xattr_handler *const ntfs_xattr_handlers[];
+ 
+-int ntfs_save_wsl_perm(struct inode *inode, __le32 *ea_size);
++int ntfs_save_wsl_perm(struct inode *inode, __le16 *ea_size);
+ void ntfs_get_wsl_perm(struct inode *inode);
+ 
+ /* globals from lznt.c */
+diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
+index 594ef6860b93..46d83427f66c 100644
+--- a/fs/ntfs3/xattr.c
++++ b/fs/ntfs3/xattr.c
+@@ -316,7 +316,7 @@ static int ntfs_get_ea(struct inode *inode, const char *name, size_t name_len,
+ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+ 				size_t name_len, const void *value,
+ 				size_t val_size, int flags, bool locked,
+-				__le32 *ea_size)
++				__le16 *ea_size)
+ {
+ 	struct ntfs_inode *ni = ntfs_i(inode);
+ 	struct ntfs_sb_info *sbi = ni->mi.sbi;
+@@ -525,7 +525,7 @@ static noinline int ntfs_set_ea(struct inode *inode, const char *name,
+ 	if (ea_info.size_pack != size_pack)
+ 		ni->ni_flags |= NI_FLAG_UPDATE_PARENT;
+ 	if (ea_size)
+-		*ea_size = ea_info.size;
++		*ea_size = ea_info.size_pack;
+ 	mark_inode_dirty(&ni->vfs_inode);
+ 
+ out:
+@@ -987,7 +987,7 @@ static noinline int ntfs_setxattr(const struct xattr_handler *handler,
+  *
+  * save uid/gid/mode in xattr
+  */
+-int ntfs_save_wsl_perm(struct inode *inode, __le32 *ea_size)
++int ntfs_save_wsl_perm(struct inode *inode, __le16 *ea_size)
+ {
+ 	int err;
+ 	__le32 value;
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.56.0
+
