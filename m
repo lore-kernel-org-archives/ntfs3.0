@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4493FF886;
-	Tue, 13 Oct 2026 13:51:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070A7414410
+	for <ntfs3@lists.linux.dev>; Tue, 13 Oct 2026 13:52:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791899517; cv=none; b=cd6sEWKitrXj2NLbnZpHLBGrVWBlh376w8yN6gHKGGfbQDGHWhOr6u40JAD8EsooxfZGplOlcK/y2VXgWi3oTQPACI1j7oSIFzKgCvTzMc/pVB45nzFuHc7oYuNZFdk6K5t2FbZhQfWamgRmgUEA5/vcQV3gmI+ObUf5rSjoxiM=
+	t=1791899551; cv=none; b=aPXSIJGRKTUV9GI0NhYz/1Cxq1+HKwg3c2lZIlJB3JUXdc0u9EzNLtLNNTLNZI3hhAcJ3ht33Rcgl2EUKMnCHaDGsTcVcN91PNKi4GxVsBAAGT5eOq04s1bTGI01VwDDngVDCeFYUWxzmg5MrlyA/2DeMvH9QOrlJA7lfafNRWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791899517; c=relaxed/simple;
-	bh=bahVI3Ax/ZyEicmhpxPli+bgLsjnIUHODRWel3iO2tQ=;
+	s=arc-20240116; t=1791899551; c=relaxed/simple;
+	bh=LA/ON4mvnyL9qAtKe3djo6j1Tyb1KenG13AxLxTPEbY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=MwYNUj+Nq5yxVeuJ97V5g+T6xAY1epDphwS2RE2ZKyiv4lHjuEODJuc2lqz1T+eOPwmhEmfbOnNlLZk9hGj7xW7qnLddJZpK6QdKAn66J8WsagL/LCAWRrf6U0ZWNJfbYuIVS9l5uzsObirPJNP9i42zLFzUdu70V3VVZUZFM+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=AboGi5wF; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=PSpRosR/mvGSCnAEJVxrx0o2QwVYZKsaF1PTZBsl4BjaYo6wh/caoKyZ1I3PV+6WYlLquaQbSe2Zkv7DSBHf1JR9bpPf8AQd0NQaRfJ54GzBy7lXeVly6qPrYEBn6WPEXEyLR4v4/t0RF5SzvUwH2xyqLBgcDIEIkONCrePyf7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=K2nRsD6+; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="AboGi5wF"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="K2nRsD6+"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 966291D47;
-	Tue, 13 Oct 2026 13:52:43 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 88EE01D47;
+	Tue, 13 Oct 2026 13:53:18 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=AboGi5wF;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=K2nRsD6+;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 1ACCE215F;
-	Tue, 13 Oct 2026 13:51:53 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 15D62215F;
+	Tue, 13 Oct 2026 13:52:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1791899513;
-	bh=PmHM9vt9eDeZXXVo1fBMSVboaBjLr0ljMeJYoQzV7Gk=;
+	d=paragon-software.com; s=mail; t=1791899548;
+	bh=fGtOGmaltL4uCN70fvMQMib8tGEzluH/V6LmozaXO7s=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=AboGi5wFFB3NcSoRaLtOgXo2nxTneWVWqU3IjX1wb/lTRnLJixG2MGBhC8A/wqr5O
-	 6pZd5B6polbJ+vM+Tmb4ARhZaJSur83CfOj0xRmu80bp1MzUDL5ts9Bs2fZim1432P
-	 c+yXOJgCa2OpCqF6QZS6mP16dPrqUlp6hZw17pHU=
+	b=K2nRsD6+/auQPOdWmg+V00EeaJTqTC7gVQKQYv205jiKgJAfN5iYiXCMfhPcmYLn8
+	 uFj6ffwc4bcdrUNrWHz2ab4bhUDm0PZo+RjjO8tp+j2lUZtf9IN//LU2ayES16oy5Y
+	 G82vog6mX5iqrx+r2UobYQ6r1e4X/ypgk5BG+0NQ=
 Received: from [192.168.95.128] (172.30.20.169) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 13 Oct 2026 16:51:51 +0300
-Message-ID: <0ceff955-1b44-4162-b9b8-868af1b10b93@paragon-software.com>
-Date: Tue, 13 Oct 2026 15:51:49 +0200
+ 15.1.2375.7; Tue, 13 Oct 2026 16:52:27 +0300
+Message-ID: <3a3fbd98-8954-4fc5-998c-e32a1d298864@paragon-software.com>
+Date: Tue, 13 Oct 2026 15:52:25 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,85 +45,76 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] fs/ntfs3: prevent positive E_NTFS_NONRESIDENT from
- reaching writeback error handling
-To: Vidhu Sarwal <vidhu.linux@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <skhan@linuxfoundation.org>,
-	<linux-kernel-mentees@lists.linux.dev>,
-	<syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com>
-References: <20260713084140.249515-1-vidhu.linux@gmail.com>
+Subject: Re: [PATCH] fs/ntfs3: fix ntfs_fnd leak when compare function is
+ missing
+To: <dayou5941@163.com>
+CC: <ntfs3@lists.linux.dev>, liyouhong <liyouhong@kylinos.cn>
+References: <20260729064932.1104576-1-dayou5941@163.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260713084140.249515-1-vidhu.linux@gmail.com>
+In-Reply-To: <20260729064932.1104576-1-dayou5941@163.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 7/13/26 10:41, Vidhu Sarwal wrote:
+On 7/29/26 08:49, dayou5941@163.com wrote:
 
-> attr_data_write_resident() returns the internal positive status code
-> E_NTFS_NONRESIDENT when the DATA attribute becomes non-resident.
-> ntfs_writepages() propagates this value into generic writeback error
-> handling, which expects a standard negative errno and triggers
-> WARN_ON_ONCE(err > 0).
+> From: liyouhong <liyouhong@kylinos.cn>
 >
-> Translate positive E_NTFS_* status codes to -EIO before recording
-> the writeback error. This prevents positive internal status codes from
-> reaching generic writeback code while preserving the existing behaviour
-> of treating this path as a writeback error.
+> indx_insert_entry(), indx_delete_entry() and indx_update_dup() take a
+> finder via fnd_get() before calling get_cmp_func().  If no compare
+> function is available they return -EINVAL and never release the finder.
 >
-> Reported-by: syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=57f9327d593d301ce2a2
-> Signed-off-by: Vidhu Sarwal <vidhu.linux@gmail.com>
+> Jump to the existing out path so fnd_put() still runs.
+>
+> Fixes: 3a2141b2f1c3 ("fs/ntfs3: resolve compare function in public index APIs")
+> Signed-off-by: liyouhong <liyouhong@kylinos.cn>
 > ---
-> RFC:
+>   fs/ntfs3/index.c | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
 >
-> I'd appreciate guidance on whether -EIO is the appropriate errno here.
+> diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+> index 2b439ac04356..8e3cf28b5257 100644
+> --- a/fs/ntfs3/index.c
+> +++ b/fs/ntfs3/index.c
+> @@ -2048,7 +2048,8 @@ int indx_insert_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
+>          cmp = get_cmp_func(root);
+>          if (unlikely(!cmp)) {
+>                  WARN_ON_ONCE(1);
+> -               return -EINVAL;
+> +               err = -EINVAL;
+> +               goto out;
+>          }
 >
-> E_NTFS_NONRESIDENT indicates that the DATA attribute became
-> non-resident during writeback. Translating it to -EIO prevents the
-> positive internal status code from reaching generic writeback code and
-> preserves the existing behaviour of treating this path as a writeback
-> error.
+>          if (fnd_is_empty(fnd)) {
+> @@ -2406,7 +2407,8 @@ int indx_delete_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
+>          cmp = get_cmp_func(root);
+>          if (unlikely(!cmp)) {
+>                  WARN_ON_ONCE(1);
+> -               return -EINVAL;
+> +               err = -EINVAL;
+> +               goto out;
+>          }
 >
-> However, if the intended behaviour is to retry the write using the
-> non-resident path instead of failing it, then the correct solution would
-> be more than a simple errno translation. The proposed change assumes the
-> current terminal-error behaviour is intentional.
->   fs/ntfs3/inode.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
+>          /* Locate the entry to remove. */
+> @@ -2787,7 +2789,8 @@ int indx_update_dup(struct ntfs_inode *ni, struct ntfs_sb_info *sbi,
+>          cmp = get_cmp_func(root);
+>          if (unlikely(!cmp)) {
+>                  WARN_ON_ONCE(1);
+> -               return -EINVAL;
+> +               err = -EINVAL;
+> +               goto out;
+>          }
 >
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index 0c9bd669117d..9458867c6b0b 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -1019,6 +1019,15 @@ static int ntfs_writepages(struct address_space *mapping,
->
->                          folio_unlock(folio);
->                          if (err2) {
-> +                               /*
-> +                                * attr_data_write_resident() can return the
-> +                                * positive internal code E_NTFS_NONRESIDENT;
-> +                                * both mapping_set_error() and writeback_iter()
-> +                                * need a negative errno and warn on a positive
-> +                                * value.
-> +                                */
-> +                               if (err2 > 0)
-> +                                       err2 = -EIO;
->                                  mapping_set_error(mapping, err2);
->                                  if (!err)
->                                          err = err2;
->
-> base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+>          /* Find entry in directory. */
 > --
-> 2.53.0
+> 2.25.1
 
 Hello,
 
 Sorry for the delay.
-Your patch was applied, thanks.
+Your patch was applied, thank you.
 
 Regards,
 Konstantin
