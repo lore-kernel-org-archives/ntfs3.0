@@ -1,150 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB49B54145F;
-	Tue, 13 Oct 2026 19:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF0A533586;
+	Wed, 14 Oct 2026 13:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791920402; cv=none; b=qxeuMu5PPsOLSKbQamVIUgXvCocJXAGya1lxwk/o0elKSWRXUUQGWRG+KcNwzjGrGEwf2vyrn7tkYOnf+C+/wo/rnd7kGQz1Pel3pdGTApQnoaD9FQejl1kPEgWtZPblN6f0hsTW2af1xFdvaTvjFeWoRaVkConZOBnHPPwE/EY=
+	t=1791986034; cv=none; b=E4TPdtM1CmWfyIjppNITg/UAHmBh3tccIIrWwYDIfp6UpEw/V70X8CQ6YWg/EEQ1YFap8ykK87IVFxx+ApSUqg8lYG+8w4AC/aAnBEg22c6+yMxBVlHSYsgK+sSkWIoloWfAOQEj3jpEGUC55I/7BmizewF2TIWOfADW4+lSMzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791920402; c=relaxed/simple;
-	bh=MZg58M268Eh0VZqIkyS55G+P1rLcbo9ml1/whWRf554=;
-	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=sLKocZ7fUcZGdhkuVGyTC/iOcfm36d+xNiSZIy7k67z1hlvhqAbsGVcFjpkwYJ6sZ4IUx1MzzVYYy5RC/Sgf2IErm22b7rdzf6j7QKKFGbKbpETYOGzKdlv21Ki9XgylKEtC9f9WXl0BpPak+Gmh6/XmIh4ZNxIg7WdtsoP0YK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KJh8OY5d; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791986034; c=relaxed/simple;
+	bh=FY/Y1v2iphqNQXBdfxVM2bdNOoy2eFDzxycsgnfoaOI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ik49elISQpr5BiCwCpRYSQLjVa5rsqWzGETN1h41m0cmnnr/vbWlq+uehcaVSMNxeEzvPyXF2/dSq9SJlkbBvgEPkO698CvOuTJcEO+HbfwjFhIz1yt88RKwshvRAZHhGi7iopuVx/XDc45Oyz3q+NL5URLKlIQ4wM31w29V35k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ThH/PLvo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CEv0Vm+A; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ThH/PLvo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CEv0Vm+A; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KJh8OY5d"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 0109B1F000FF;
-	Tue, 13 Oct 2026 19:39:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791920400;
-	bh=2qwfRg5DXWganUmwiKbDvHA+hLYxjOJ4/zQ8YVt+nQc=;
-	h=From:To:Cc:Subject:Date;
-	b=KJh8OY5dsfrlTbt0uZJ/ZgQGpO/tCEXqLvPkvaMtVhFsS402ePkcQ0P/m91P0jtnL
-	 mU8rOj+SSPn8nTHhlls4+jy9HpL7NMS0pFQmooOiIaymZ0NZVUSsZ0RY3wbUXq3PvE
-	 GfeUjzCPG7a2PkxsE3dKQh4QURT/EOvCwJ4inqOFkShTvZp6ZiRUvs/H6EAFwhiWAK
-	 711Q7MIl66NZPQchto9gEL4vFkTtHRVqOIVXT68Om+PQ0+fsaD/SJj6GI15McWd+Dr
-	 mdgC4pyxhZhAT5oeH5ieb1yFgZUtEYVdv+sEqAppozHdY5YP7FyiAqoQWf308JUMqi
-	 VsVj5SwXECzEA==
-From: "syzbot" <syzbot@kernel.org>
-To: syzkaller-bugs@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>, <ntfs3@lists.linux.dev>, "ZhengYuan Huang" <gality369@gmail.com>
-Cc: linux-kernel@vger.kernel.org, syzbot@lists.linux.dev
-Subject: [PATCH] fs/ntfs3: use ni_lock_dir() in ntfs_readdir()
-Message-ID: <09f6cbed-aafb-4e5b-8b0f-36d55a248644@mail.kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ThH/PLvo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CEv0Vm+A";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ThH/PLvo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CEv0Vm+A"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2A3C01FB67;
+	Wed, 14 Oct 2026 13:53:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791986026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m33Hz2F8zGiBvESxxwsmonj/pJ1AncoCvKPtx51EwMU=;
+	b=ThH/PLvo9pUHVNc41lZOefyT+F8GPMeD5ZkPd1GDwn/YCn2uhBr+1YfaDv+2BOqu9gt0v7
+	3pIEJqBcEylfJItgi77Aw8rh3Yz5HyS4+AWCveSNFJBQ6NZBBxdeI6mcfAFr4fiVUwnCvT
+	jimWoXXktTfGczEYSrVuA1SIL+ObSKk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791986026;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m33Hz2F8zGiBvESxxwsmonj/pJ1AncoCvKPtx51EwMU=;
+	b=CEv0Vm+ASRNt9Zk7drNEtvyFSJ8owB/j/x9FvOVYNo4CwrqKnVQvUPAV4llmauSkt6Pxa4
+	HKw8SPD9y/TX/MDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="ThH/PLvo";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=CEv0Vm+A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1791986026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m33Hz2F8zGiBvESxxwsmonj/pJ1AncoCvKPtx51EwMU=;
+	b=ThH/PLvo9pUHVNc41lZOefyT+F8GPMeD5ZkPd1GDwn/YCn2uhBr+1YfaDv+2BOqu9gt0v7
+	3pIEJqBcEylfJItgi77Aw8rh3Yz5HyS4+AWCveSNFJBQ6NZBBxdeI6mcfAFr4fiVUwnCvT
+	jimWoXXktTfGczEYSrVuA1SIL+ObSKk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1791986026;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m33Hz2F8zGiBvESxxwsmonj/pJ1AncoCvKPtx51EwMU=;
+	b=CEv0Vm+ASRNt9Zk7drNEtvyFSJ8owB/j/x9FvOVYNo4CwrqKnVQvUPAV4llmauSkt6Pxa4
+	HKw8SPD9y/TX/MDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D61D2133F1;
+	Wed, 14 Oct 2026 13:53:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9hLHK2mJz2ppWAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 14 Oct 2026 13:53:45 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 7BB03A140F; Wed, 14 Oct 2026 15:53:36 +0200 (CEST)
+Date: Wed, 14 Oct 2026 15:53:36 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-ext4@vger.kernel.org, linux-afs@lists.infradead.org, 
+	v9fs@lists.linux.dev, linux-trace-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH 0/8] fs: fix a range of UAFs during rcu pathwalk caused
+ by non-rcu frees
+Message-ID: <mlo45jj5jwsdysv3jrh6vw64yqzfbrfjbyw4tu54i4gdlgi3qd@56ch32zakgt5>
+References: <20261009-work-fixes-rcu-v1-0-7446d2d335e6@kernel.org>
+ <r72foycb4ol4hywl5m2sj6h6yxee3nladaw7g2zdxhejmhrkgc@v24cfppcak2h>
+ <20261012-gaukeln-zeltlager-etikettieren-73ae50ccac01@brauner>
+ <voobrqryqulmrq7gyt5vdwuiqd3wrhsrgfcadszclcgs6smw64@qb7yne64airm>
+ <20261013-tante-unwiederholbar-summieren-de1079d8fb05@brauner>
+ <20261013-hektik-kommunal-zischen-f7e37ee3ddff@brauner>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Date: Tue, 13 Oct 2026 19:39:59 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261013-hektik-kommunal-zischen-f7e37ee3ddff@brauner>
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 2A3C01FB67
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
 
-From: Aleksandr Nogikh <nogikh@google.com>
+On Tue 13-10-26 21:25:55, Christian Brauner wrote:
+> On Tue, Oct 13, 2026 at 09:23:07PM +0200, Christian Brauner wrote:
+> > On Tue, Oct 13, 2026 at 12:47:58PM +0200, Jan Kara wrote:
+> > > On Mon 12-10-26 12:42:06, Christian Brauner wrote:
+> > > > On Mon, Oct 12, 2026 at 12:36:15PM +0200, Jan Kara wrote:
+> > > > > On Fri 09-10-26 23:51:50, Christian Brauner wrote:
+> > > > > > While working on eliding the grace period in namespace_unlock() I went
+> > > > > > through what filesystems free when they're shut down and what a pathwalk
+> > > > > > in rcu mode can still read at that point. Since 66a97c2ec953's rcu
+> > > > > > pathwalk fixes that's the filesystem's job. Whatever ->permission(),
+> > > > > > ->d_revalidate(), ->get_link(), ->d_hash() and ->d_compare() look at in
+> > > > > > rcu mode has to be freed after a grace period. A few filesystems don't
+> > > > > > do that.
+> > > > > > 
+> > > > > > Most of it is hidden by umount(2). namespace_unlock() waits for a grace
+> > > > > > period before it drops the mounts, so a walker that was inside the
+> > > > > > filesystem is gone by the time the filesystem is shut down.
+> > > > > > 
+> > > > > > But the last reference to a mount doesn't have to go away in umount(2).
+> > > > > > A chdir() out of a lazily unmounted directory or the close() of the last
+> > > > > > file on it drops it without a grace period. A walker can then still be
+> > > > > > in the filesystem while ->put_super() and ->kill_sb() free what it
+> > > > > > reads.
+> > > > > 
+> > > > > Good catches! But I find it very counter-intuitive that pathname lookups
+> > > > > can still be running against a filesystem while its ->put_super is called.
+> > > > > People will keep forgetting about that and as a result these UAF bugs will
+> > > > > be introduced again. Isn't it feasible we'd guarantee to the filesystem
+> > > > > ->put_super() gets called only after all lookups are done (i.e., after RCU
+> > > > > grace period expires)?
+> > > > > 
+> > > > > I understand this is a hairy bussiness because this has userspace visible
+> > > > > implications (like when filesystem's sysfs files disappear, when the bdev
+> > > > > really gets unused, etc.) but keeping all filesystems safe to run RCU
+> > > > > lookup after ->put_super() will be IMHO a headache.
+> > > > 
+> > > > I don't think delaying put_super() or freeing the superblock helps.
+> > > > That's not where the issue is. The issue is with sb->s_fs_info being
+> > > > available after a grace period and that can go away in different
+> > > > locations ->put_super() or ->kill_sb().
+> > > 
+> > > So my thinking was: Cannot we separate the teardown of mounts and the
+> > > teardown of the sb by an RCU grace period? Then by the time the filesystem
+> > > gets to any freeing of filesystem related structures all RCU lookups are
+> > > guaranteed to be done so there's no problem with them accessing possibly
+> > > freed structures pointed to by the sb.
+> > > 
+> > > But then I've read more of the changelogs and AFAIU getting rid of the RCU
+> > > grace period waiting in the unmount path is actually your point to speedup
+> > 
+> > So I prototyped your thing and all version I could see working end up
+> > penalizing umount and filesystem shutdown quite heavily. Maybe I'm not
+> > imagnative enough but everything involving synchronize_rcu* should be
+> > kicked in the n*ts. Because if you're going onto big machines your
+> > workloads will get said kick.
 
-A circular locking dependency warning is detected by lockdep between
-&ni->ni_lock and mapping.invalidate_lock when getdents64() writes into a
-memory-mapped buffer while an operation such as fallocate() runs
-concurrently on a regular file:
+Thanks for trying! I kind of expected that it won't be acceptable after
+reading all those changelogs.
 
- WARNING: possible circular locking dependency detected
- task is trying to acquire lock:
- ffff88819b6dbb20 (mapping.invalidate_lock#3){++++}-{4:4}, at:
- filemap_fault+0x6e0/0x13c0 mm/filemap.c:3585
- but task is already holding lock:
- ffff88819b6997e8 (&ni->ni_lock/5){+.+.}-{4:4}, at:
- ntfs_readdir+0x717/0xf70 fs/ntfs3/dir.c:541
- which lock already depends on the new lock.
+> And one thing I forgot to say: that requirement exists today. It is
+> entirely accidental that this wasn't an issue in the umount() path
+> because of the synchronize_rcu* in there. But said grace period doesn't
+> exist if you e.g., chdir() out of a mount and put the last reference
+> while still in lookup. Then said filesystems are fscked today because
+> that is a requirement. And various reproducers in this series illustrate
+> that.
 
- the existing dependency chain (in reverse order) is:
+Yeah, I understood that from your description. The RCU grace period delay
+would have to be somehow added to those cases as well.
 
-  -> #1 (&ni->ni_lock/5){+.+.}-{4:4}:
-        ni_lock fs/ntfs3/ntfs_fs.h:1247 [inline]
-        ntfs_fallocate+0x56a/0x1080 fs/ntfs3/file.c:535
-        vfs_fallocate+0x663/0x7f0 fs/open.c:338
-        ioctl_preallocate fs/ioctl.c:289 [inline]
-        file_ioctl+0x5db/0x7e0 fs/ioctl.c:332
-        do_vfs_ioctl+0xc2a/0x1550 fs/ioctl.c:576
-
-  -> #0 (mapping.invalidate_lock#3){++++}-{4:4}:
-        filemap_invalidate_lock_shared include/linux/fs.h:1089 [inline]
-        filemap_fault+0x6e0/0x13c0 mm/filemap.c:3585
-        __do_fault+0x138/0x2a0 mm/memory.c:5565
-        handle_pte_fault mm/memory.c:6558 [inline]
-        __handle_mm_fault mm/memory.c:6707 [inline]
-        handle_mm_fault+0x100a/0x28a0 mm/memory.c:6876
-        do_user_addr_fault+0x746/0x1340 arch/x86/mm/fault.c:1394
-        exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
-        filldir64+0x2bc/0x620 fs/readdir.c:-1
-        dir_emit include/linux/fs.h:3610 [inline]
-        ntfs_dir_emit fs/ntfs3/dir.c:388 [inline]
-        ntfs_read_hdr+0x8a7/0xc10 fs/ntfs3/dir.c:429
-        ntfs_readdir+0x9ab/0xf70 fs/ntfs3/dir.c:589
-        iterate_dir+0x3ea/0x8a0 fs/readdir.c:114
-        __do_sys_getdents64 fs/readdir.c:404 [inline]
-
-The warning occurs because ntfs_fallocate() on a regular file acquires
-mapping.invalidate_lock and then calls ni_lock(), which locks the regular
-file inode's ni_lock with the default subclass NTFS_INODE_MUTEX_NORMAL
-(subclass 5). Meanwhile, ntfs_readdir() on a directory inode also uses
-ni_lock() with subclass 5, and while holding the lock across directory
-traversal, calls dir_emit() to fill directory entries into the user buffer.
-If that buffer is backed by a memory-mapped file, writing to it triggers a
-page fault (filemap_fault()), which acquires the mapped file's
-mapping.invalidate_lock. Because lockdep sees mapping.invalidate_lock ->
-ni_lock (subclass 5) in fallocate and ni_lock (subclass 5) ->
-mapping.invalidate_lock in readdir, it flags a circular locking dependency.
-
-This is a false positive because the two operations involve distinct
-inodes: readdir holds the mutex of the directory inode, while the page
-fault acquires the invalidate_lock of the regular file whose pages back the
-user buffer, so an actual deadlock cannot occur.
-
-In ntfs3, directory inodes are intended to be locked with ni_lock_dir(),
-which uses the lockdep subclass NTFS_INODE_MUTEX_PARENT (subclass 6). This
-subclass hierarchy is already used by other directory operations like
-ntfs_lookup(), ntfs_create_inode(), ntfs_link(), ntfs_unlink(), and
-ntfs_rename(). Replace ni_lock() with ni_lock_dir() in ntfs_readdir() when
-loading subrecords and when traversing directory metadata. This changes the
-directory lock subclass to NTFS_INODE_MUTEX_PARENT (6), establishing the
-hierarchy ni_lock_dir (subclass 6) -> mapping.invalidate_lock -> ni_lock
-(subclass 5) and eliminating the false lockdep warning.
-
-Fixes: d62cf685d12e ("fs/ntfs3: hold ni_lock across readdir metadata walk")
-Assisted-by: Gemini:gemini-3.8-flash Gemini:gemini-3.1-pro-preview syzbot
-Reported-by: syzbot+7736960b837908f3a81d@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
-Link: https://syzkaller.appspot.com/ai_job?id=fae916f3-c2b4-47da-86b5-063a011b5c01
-Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
-
----
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index eb9152e9f..8bf62d2fb 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -522,7 +522,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 		 * Load all subrecords to avoid 'write' access to 'ni' during
- 		 * directory reading.
- 		 */
--		ni_lock(ni);
-+		ni_lock_dir(ni);
- 		if (!ni->mi_loaded && ni->attr_list.size) {
- 			err = ni_load_all_mi(ni);
- 			if (!err)
-@@ -538,7 +538,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 	 * once is not enough if concurrent writeback can still compact ATTR_LIST
- 	 * entries and free the record that ntfs_read_hdr() is currently walking.
- 	 */
--	ni_lock(ni);
-+	ni_lock_dir(ni);
- 
- 	root = indx_get_root(&ni->dir, ni, NULL, NULL);
- 	if (!root) {
-
-
-base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+								Honza
 -- 
-See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
-The person who has signed off on the patch is responsible for
-addressing comments.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
