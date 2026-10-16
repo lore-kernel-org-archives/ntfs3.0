@@ -1,233 +1,118 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E14C31AF14
-	for <ntfs3@lists.linux.dev>; Fri, 16 Oct 2026 01:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8EE43B3E2
+	for <ntfs3@lists.linux.dev>; Fri, 16 Oct 2026 14:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792115068; cv=none; b=PE1MbwVPOWZyvaWwDzEmoVyXxytQOwypJEYhNTXpsKTZEQGNkvXZswr1WIPiZJSFhaznb3PcAuKlSx/Chq6cXbpl8BYyT8dKkoqqaaHhyFUz7aqdFfM7X6qyi1V1ufbTMvaF7gIIbpZA/4Kj3nlfZurMWa+evg3o9skn/r0MBkM=
+	t=1792162058; cv=none; b=kZs0nx6RCU3i3pIvpA8/BGXrEOmTsuxR5JZ7oZRxfiCco1MXlbuJ1D344NLh+qLP60Lq2F24X/lv0MG2liahFXFyTrExj6qFwIbeNRP+PMVgkiYtCGZ1ss9feDrRe+/oMbS6otJJFgTHxJhPXZn1I94DUTfMs0YDA59i0dTS6Kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792115068; c=relaxed/simple;
-	bh=T52N405yvi/KiAwa9HNn6EVFkI4PXsuRjuaPvn/ceeo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mBrhaGaHCcwhpjpEuZHrILDa01dlM9pX+RwY25hk0/Imwnvk8b1qpkiJLyQUhP05+QfbycJM+zjBhmYot+pA45lbt5xZ41Imm+l4cY+vUtGWEH1u59TSKlOzlLFfgYC1x2sVAP+i2EIjfSB7cd/qu4htN6YYxBKfWRqteHdaX7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu; spf=pass smtp.mailfrom=cs.unc.edu; dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b=FivXKxs4; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
+	s=arc-20240116; t=1792162058; c=relaxed/simple;
+	bh=0eYAq26iIVtciEHX2DSVOJjAkKPQK9qaG5mIUMKR55U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=jMuqRwpD0f64ZlY42hkNwul4K4VStX3+34L3wdZ4ln09CLKuInKc0iwGY5nhDvuIQDDhMf/fWdk5tJ8vcTezH4uJXpeIoZRd3SByxNw/9E7Sso3ATKTn22ZTMurRiltlqz1zoccGhauFKRRbXOtVaKM14nkD6+eSEvoHNcKefPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=aRTNrOzV; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b="FivXKxs4"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-53391022dc0so66235531cf.2
-        for <ntfs3@lists.linux.dev>; Thu, 15 Oct 2026 18:44:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="aRTNrOzV"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 979AC1D1B;
+	Fri, 16 Oct 2026 14:48:17 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=aRTNrOzV;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id B864C1D4B;
+	Fri, 16 Oct 2026 14:47:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google; t=1792115065; x=1792719865; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=X7du5FcQla5Wc6+gmnjVbAOsmIOTMVLfgIeT70bTejk=;
-        b=FivXKxs4pJhB+n+wfH+2B9hxwEzMu5DbRdIa9AlUkL7xX5seM3FJNwi8qoqlE5Ndhx
-         EFjDN34zRovd12M6SYwmY6eG4G++pysHQFb416k8EL0Nj8cWvmP4bYP6kKOuaYj8krB/
-         gOa4/TgzLJ0CAUerKxsWC1lr4auXubsOb115SiwH+MJnteQWHZ6WNS4icZ5nBqrNpCVw
-         tXd0XcXf1HTewaHOeuQH/6GZeapq142PLeZWYvPBDKVkzVV/aNVyDQCG5psH3zPuY5yY
-         5HGpAPc3gzFjMiKsE2GwYFSjmdRiYOOv5xMLCztszMUM2hcc+Jm1xHJkaHUjU+EYa6PX
-         e02A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792115065; x=1792719865;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=X7du5FcQla5Wc6+gmnjVbAOsmIOTMVLfgIeT70bTejk=;
-        b=AFarOvzzNWaRRm3+tOjJzbEXwsFFUOfGUA88avFBPTOydZqI1l/TGSafq8QNZGxhPX
-         aVxd0CkotXDjkPv8g2MdZpYQPFOkD3im+/ER5XIWwK3du1BYUlF0qH+rJop3tSD4zVxQ
-         L1THhBLgSa2tX0xcKLIteKfPNHmrZlhLbTuJTETZS2irxm+hDOUlz4OSgApUkKqGg0c6
-         bDp6gfK8j8GDu4fv4wPyHf4PDzLvlQRU0osthrRB3Qx0gKgN3O4D4wGS5JHt2bEgHh0G
-         EIzjcbVc3lCQh56Um1hQnPoY9OaeO5DdW3wEKVt2hY6K/zr9bPOHqp0wF7Pwc8E9+NQo
-         JYaw==
-X-Gm-Message-State: AFq9FYKRnxdyDL9Lvs8mNhQMIXgJOmQv3ZnkNayf60FGrK32iUbNVnw0
-	PjujO8c1uVrFe7mtuOE/pPZnzsLuatA9N2OTd/9YNK3h34Q/KHQi7urLUP04FjcSqw==
-X-Gm-Gg: AYBFou2zkSFhCBnFBLc2HY+eOdaCtb2YviDzx3l0k+RGfoCsLZpvyq0KaAi0JZHp85d
-	hxA385fcVEWgINdk8u5OXfuT2w6KUGWSFg/kKQgePtvI4yE+dhTepfYHQNsQe0u0/Ij943verSG
-	Pk3fmjfoHrlyvQgoYToAsntOXmoETCdBjvjoVlTvKIk5i9Zikj8FBbrU31zZXAoSNGDIq0xnFh1
-	ELKPww6v+u2fe9KFeksu2ZiMwBq8TF03JVHfDAgtMNCORTe0GfPC1S3MJpMGnttRU6UTF21fKxi
-	LcJooWWDhmW8cXCe4K8oqt+7DBb1Yyn9XiGWTCIGM79mt3mZGEdK+RFG6FksCPYhlFvZpdkZ02O
-	b8oADgH6B1JhHDnWhigKmpKfwVBAOcrOJp45rJbGj8TO4Ju7J61uxZ6aR9/wr+Dr6JyLIrlkYQR
-	fJyaXgQKSEmqQKx8HYeoGVXn+nEpqmyLbYgEKMLExYzBMAdMEaYdErY6hFMR8BoTGZFknYUTn2C
-	1InMUBzafYbn+cVe7/4kA==
-X-Received: by 2002:a05:622a:906:b0:530:b2e4:d598 with SMTP id d75a77b69052e-5359fdd8736mr351907691cf.51.1792115064669;
-        Thu, 15 Oct 2026 18:44:24 -0700 (PDT)
-Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5362a8e5831sm9074711cf.10.2026.10.15.18.44.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 18:44:24 -0700 (PDT)
-From: Hengyu Liang <hengyul@cs.unc.edu>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: do not leave the file extended after a short write
-Date: Thu, 15 Oct 2026 21:44:23 -0400
-Message-ID: <20261016014423.2236260-1-hengyul@cs.unc.edu>
-X-Mailer: git-send-email 2.53.0
+	d=paragon-software.com; s=mail; t=1792162047;
+	bh=DvjT2Gj2UIKbNYOGUZeX2UqIeeYbC4C0qDY5UdUlqP0=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=aRTNrOzVYa3gengcQq1AdEoI1O4YsAXrEYGybzGZnjnLZH1LO2sDHsoR26/fiNvfE
+	 Zq+D+h2ed6dcVt65M6AQ27hxMOY653LLi9TT1YGbn3+zULHc2lpDQeK1wkuFXG3Akn
+	 Tj4EvhbEBFEyXEnUKlRjoVoaTqxNYcXcC2MaMHZk=
+Received: from [192.168.95.128] (172.30.20.132) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Fri, 16 Oct 2026 17:47:25 +0300
+Message-ID: <b271b809-b310-40f5-aaca-c4f43927cd68@paragon-software.com>
+Date: Fri, 16 Oct 2026 16:47:23 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/7] ntfs3: add tracepoints for core filesystem paths
+To: Baolin Liu <liubaolin12138@163.com>, <rostedt@goodmis.org>,
+	<mhiramat@kernel.org>, <mathieu.desnoyers@efficios.com>
+CC: <linux-kernel@vger.kernel.org>, <ntfs3@lists.linux.dev>,
+	<linux-trace-kernel@vger.kernel.org>, <liubaolin12138@gmail.com>, Baolin Liu
+	<liubaolin@kylinos.cn>
+References: <20260820090504.950475-1-liubaolin12138@163.com>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20260820090504.950475-1-liubaolin12138@163.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-ntfs_file_write_iter() sets the file size to the end of the request
-with ntfs_set_size() before it copies the data.
+On 8/20/26 11:04, Baolin Liu wrote:
 
-However, when fewer bytes are written, the function returns without
-putting the size back. As of now, a write() that runs out of space on a
-sparse file, or that stops at an unreadable part of the buffer, leaves
-the file as long as the whole request. The part that was not written
-reads as zeros.
+> From: Baolin Liu <liubaolin@kylinos.cn>
+>
+> This series adds an initial set of tracepoints for ntfs3 core paths.
+>
+> The tracepoints cover:
+>     - mount and log replay
+>     - namei operations
+>     - directory index operations
+>     - allocation and block mapping
+>     - iomap operations
+>     - file I/O entry points
+>
+> Changes in v4 (both addressing review comments on patch 5):
+>     - ntfs3_attr_data_get_block: pass the "new" pointer to the trace
+>       event directly and move the "new != NULL" check into
+>       TP_fast_assign(), keeping that logic out of the call site and only
+>       executed when the event is enabled
+>     - ntfs3_attr_set_size_ex: stop sampling the old size with
+>       i_size_read() in TP_fast_assign() - on the truncate path
+>       truncate_setsize() has already updated i_size to the new value, so
+>       the recorded old_size always equaled new_size. Read the actual old
+>       size from the on-disk attribute record and pass it as an explicit
+>       parameter; move the call site after the attribute lookup so both
+>       resident and non-resident attributes are covered
+>
+> Baolin Liu (7):
+>    ntfs3: add mount and log replay tracepoints
+>    ntfs3: add namei tracepoints
+>    ntfs3: add create inode tracepoint
+>    ntfs3: add directory index tracepoints
+>    ntfs3: add allocation tracepoints
+>    ntfs3: add iomap tracepoints
+>    ntfs3: add file I/O tracepoints
+>
+>   MAINTAINERS                  |   1 +
+>   fs/ntfs3/attrib.c            |  12 ++
+>   fs/ntfs3/dir.c               |   3 +
+>   fs/ntfs3/file.c              |   5 +
+>   fs/ntfs3/fslog.c             |   3 +
+>   fs/ntfs3/index.c             |   8 +
+>   fs/ntfs3/inode.c             |   7 +
+>   fs/ntfs3/namei.c             |   5 +
+>   fs/ntfs3/super.c             |  11 +-
+>   include/trace/events/ntfs3.h | 389 +++++++++++++++++++++++++++++++++++
+>   10 files changed, 443 insertions(+), 1 deletion(-)
+>   create mode 100644 include/trace/events/ntfs3.h
 
-The issue can be reproduced on a volume mounted with the sparse option:
+Hello,
 
-    truncate -s 16M img
-    mkntfs -F -q img
-    mount -t ntfs3 -o loop,sparse img /mnt
-    dd if=/dev/zero of=/mnt/hole bs=512k count=1
-    dd if=/dev/zero of=/mnt/fill bs=4k
-    sync
-    rm /mnt/hole
-    sync
-    dd if=/dev/zero of=/mnt/f bs=1M count=1
-    ls -l /mnt/f
+Your patches were applied, thank you.
 
-The last dd command fails with "No space left on device". Before this
-patch, /mnt/f is then 1048576 bytes long, although only 524288 bytes
-were written. After this patch, /mnt/f is 524288 bytes long.
-
-For non-compressed files, trim back to the end of the written data without
-shrinking below the old size, and restore the old size if no data was
-written. Reuse ntfs_setattr()'s shrink sequence and i_size rollback,
-recording cleanup errors for fsync while preserving the write result.
-
-Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
----
-Tested in KVM guests with KASAN enabled:
-- Short/failed writes and ENOSPC, including unmount/remount checks.
-- 78 focused cases across default, sparse, delalloc and prealloc=0
-  combinations, covering buffered/direct I/O, append and O_DSYNC.
-- 15 model runs (21,600 operations), with readback after remount.
-- 32 ENOMEM/EIO cases each with and without the new error handling,
-  using a test-only injection annotation at ntfs_set_size() entry.
-  Checked size rollback, data preservation and fsync/O_DSYNC errors.
-
-Compressed files and alternate data streams were not tested.
-
- fs/ntfs3/file.c | 42 +++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 37 insertions(+), 5 deletions(-)
-
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 95dfe6878860..bf9b39d00458 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -1236,6 +1236,33 @@ static int check_write_restriction(struct inode *inode)
- 	return 0;
- }
- 
-+/*
-+ * ntfs_write_trim - Cut the file back after a write that was not completed.
-+ *
-+ * ntfs_file_write_iter() sets the file size to the end of the request before
-+ * the data is copied. Keep what was written, or the old size if nothing was.
-+ */
-+static void ntfs_write_trim(struct kiocb *iocb, loff_t pos, loff_t oldsize)
-+{
-+	struct inode *inode = file_inode(iocb->ki_filp);
-+	loff_t isize = i_size_read(inode);
-+	loff_t newsize = oldsize;
-+	int err;
-+
-+	if (iocb->ki_pos > pos)
-+		newsize = max(newsize, iocb->ki_pos);
-+
-+	if (newsize < isize) {
-+		truncate_setsize(inode, newsize);
-+		err = ntfs_set_size(inode, newsize);
-+		if (err) {
-+			i_size_write(inode, isize);
-+			/* Preserve the write result; report the error on fsync. */
-+			mapping_set_error(inode->i_mapping, err);
-+		}
-+	}
-+}
-+
- /*
-  * ntfs_file_write_iter - file_operations::write_iter
-  */
-@@ -1244,7 +1271,7 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 	struct file *file = iocb->ki_filp;
- 	struct inode *inode = file_inode(file);
- 	struct ntfs_inode *ni = ntfs_i(inode);
--	loff_t vbo, endbyte;
-+	loff_t vbo, endbyte, pos, oldsize;
- 	ssize_t ret, err;
- 
- 	if (!inode_trylock(inode)) {
-@@ -1281,6 +1308,8 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 
- 	vbo = iocb->ki_pos;
- 	endbyte = vbo + ret;
-+	pos = vbo;
-+	oldsize = inode->i_size;
- 
- 	if (endbyte > inode->i_size) {
- 		/*
-@@ -1300,7 +1329,7 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 	if (vbo > ni->i_valid) {
- 		ret = ntfs_extend_initialized_size(file, ni, vbo);
- 		if (ret)
--			goto out;
-+			goto trim;
- 	}
- 
- 	/* Fallback to buffered I/O if the inode does not support direct I/O. */
-@@ -1310,6 +1339,7 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 
- 		ret = iomap_file_buffered_write(iocb, from, &ntfs_iomap_ops,
- 						&ntfs_iomap_folio_ops, NULL);
-+		ntfs_write_trim(iocb, pos, oldsize);
- 		inode_unlock(inode);
- 
- 		if (likely(ret > 0))
-@@ -1322,7 +1352,7 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 		/* Direct I/O is not compatible with delalloc. */
- 		ret = ni_allocate_da_blocks(ni);
- 		if (ret)
--			goto out;
-+			goto trim;
- 	}
- 
- 	ret = iomap_dio_rw(iocb, from, &ntfs_iomap_ops, NULL,
-@@ -1342,7 +1372,7 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 						&ntfs_iomap_folio_ops, NULL);
- 		if (err < 0) {
- 			ret = err;
--			goto out;
-+			goto trim;
- 		}
- 
- 		/*
-@@ -1358,13 +1388,15 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 						   endbyte);
- 		if (err) {
- 			ret = err;
--			goto out;
-+			goto trim;
- 		}
- 
- 		invalidate_mapping_pages(inode->i_mapping, vbo >> PAGE_SHIFT,
- 					 endbyte >> PAGE_SHIFT);
- 	}
- 
-+trim:
-+	ntfs_write_trim(iocb, pos, oldsize);
- out:
- 	inode_unlock(inode);
- 
--- 
-2.53.0
+Regards,
+Konstantin
 
