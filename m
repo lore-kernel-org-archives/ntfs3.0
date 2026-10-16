@@ -1,204 +1,233 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF0A533586;
-	Wed, 14 Oct 2026 13:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E14C31AF14
+	for <ntfs3@lists.linux.dev>; Fri, 16 Oct 2026 01:44:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791986034; cv=none; b=E4TPdtM1CmWfyIjppNITg/UAHmBh3tccIIrWwYDIfp6UpEw/V70X8CQ6YWg/EEQ1YFap8ykK87IVFxx+ApSUqg8lYG+8w4AC/aAnBEg22c6+yMxBVlHSYsgK+sSkWIoloWfAOQEj3jpEGUC55I/7BmizewF2TIWOfADW4+lSMzE=
+	t=1792115068; cv=none; b=PE1MbwVPOWZyvaWwDzEmoVyXxytQOwypJEYhNTXpsKTZEQGNkvXZswr1WIPiZJSFhaznb3PcAuKlSx/Chq6cXbpl8BYyT8dKkoqqaaHhyFUz7aqdFfM7X6qyi1V1ufbTMvaF7gIIbpZA/4Kj3nlfZurMWa+evg3o9skn/r0MBkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791986034; c=relaxed/simple;
-	bh=FY/Y1v2iphqNQXBdfxVM2bdNOoy2eFDzxycsgnfoaOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ik49elISQpr5BiCwCpRYSQLjVa5rsqWzGETN1h41m0cmnnr/vbWlq+uehcaVSMNxeEzvPyXF2/dSq9SJlkbBvgEPkO698CvOuTJcEO+HbfwjFhIz1yt88RKwshvRAZHhGi7iopuVx/XDc45Oyz3q+NL5URLKlIQ4wM31w29V35k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ThH/PLvo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CEv0Vm+A; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ThH/PLvo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CEv0Vm+A; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1792115068; c=relaxed/simple;
+	bh=T52N405yvi/KiAwa9HNn6EVFkI4PXsuRjuaPvn/ceeo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mBrhaGaHCcwhpjpEuZHrILDa01dlM9pX+RwY25hk0/Imwnvk8b1qpkiJLyQUhP05+QfbycJM+zjBhmYot+pA45lbt5xZ41Imm+l4cY+vUtGWEH1u59TSKlOzlLFfgYC1x2sVAP+i2EIjfSB7cd/qu4htN6YYxBKfWRqteHdaX7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu; spf=pass smtp.mailfrom=cs.unc.edu; dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b=FivXKxs4; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ThH/PLvo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CEv0Vm+A";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ThH/PLvo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CEv0Vm+A"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2A3C01FB67;
-	Wed, 14 Oct 2026 13:53:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791986026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m33Hz2F8zGiBvESxxwsmonj/pJ1AncoCvKPtx51EwMU=;
-	b=ThH/PLvo9pUHVNc41lZOefyT+F8GPMeD5ZkPd1GDwn/YCn2uhBr+1YfaDv+2BOqu9gt0v7
-	3pIEJqBcEylfJItgi77Aw8rh3Yz5HyS4+AWCveSNFJBQ6NZBBxdeI6mcfAFr4fiVUwnCvT
-	jimWoXXktTfGczEYSrVuA1SIL+ObSKk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791986026;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m33Hz2F8zGiBvESxxwsmonj/pJ1AncoCvKPtx51EwMU=;
-	b=CEv0Vm+ASRNt9Zk7drNEtvyFSJ8owB/j/x9FvOVYNo4CwrqKnVQvUPAV4llmauSkt6Pxa4
-	HKw8SPD9y/TX/MDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="ThH/PLvo";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=CEv0Vm+A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1791986026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m33Hz2F8zGiBvESxxwsmonj/pJ1AncoCvKPtx51EwMU=;
-	b=ThH/PLvo9pUHVNc41lZOefyT+F8GPMeD5ZkPd1GDwn/YCn2uhBr+1YfaDv+2BOqu9gt0v7
-	3pIEJqBcEylfJItgi77Aw8rh3Yz5HyS4+AWCveSNFJBQ6NZBBxdeI6mcfAFr4fiVUwnCvT
-	jimWoXXktTfGczEYSrVuA1SIL+ObSKk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1791986026;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m33Hz2F8zGiBvESxxwsmonj/pJ1AncoCvKPtx51EwMU=;
-	b=CEv0Vm+ASRNt9Zk7drNEtvyFSJ8owB/j/x9FvOVYNo4CwrqKnVQvUPAV4llmauSkt6Pxa4
-	HKw8SPD9y/TX/MDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D61D2133F1;
-	Wed, 14 Oct 2026 13:53:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9hLHK2mJz2ppWAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 14 Oct 2026 13:53:45 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 7BB03A140F; Wed, 14 Oct 2026 15:53:36 +0200 (CEST)
-Date: Wed, 14 Oct 2026 15:53:36 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-ext4@vger.kernel.org, linux-afs@lists.infradead.org, 
-	v9fs@lists.linux.dev, linux-trace-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH 0/8] fs: fix a range of UAFs during rcu pathwalk caused
- by non-rcu frees
-Message-ID: <mlo45jj5jwsdysv3jrh6vw64yqzfbrfjbyw4tu54i4gdlgi3qd@56ch32zakgt5>
-References: <20261009-work-fixes-rcu-v1-0-7446d2d335e6@kernel.org>
- <r72foycb4ol4hywl5m2sj6h6yxee3nladaw7g2zdxhejmhrkgc@v24cfppcak2h>
- <20261012-gaukeln-zeltlager-etikettieren-73ae50ccac01@brauner>
- <voobrqryqulmrq7gyt5vdwuiqd3wrhsrgfcadszclcgs6smw64@qb7yne64airm>
- <20261013-tante-unwiederholbar-summieren-de1079d8fb05@brauner>
- <20261013-hektik-kommunal-zischen-f7e37ee3ddff@brauner>
+	dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b="FivXKxs4"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-53391022dc0so66235531cf.2
+        for <ntfs3@lists.linux.dev>; Thu, 15 Oct 2026 18:44:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.unc.edu; s=google; t=1792115065; x=1792719865; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=X7du5FcQla5Wc6+gmnjVbAOsmIOTMVLfgIeT70bTejk=;
+        b=FivXKxs4pJhB+n+wfH+2B9hxwEzMu5DbRdIa9AlUkL7xX5seM3FJNwi8qoqlE5Ndhx
+         EFjDN34zRovd12M6SYwmY6eG4G++pysHQFb416k8EL0Nj8cWvmP4bYP6kKOuaYj8krB/
+         gOa4/TgzLJ0CAUerKxsWC1lr4auXubsOb115SiwH+MJnteQWHZ6WNS4icZ5nBqrNpCVw
+         tXd0XcXf1HTewaHOeuQH/6GZeapq142PLeZWYvPBDKVkzVV/aNVyDQCG5psH3zPuY5yY
+         5HGpAPc3gzFjMiKsE2GwYFSjmdRiYOOv5xMLCztszMUM2hcc+Jm1xHJkaHUjU+EYa6PX
+         e02A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792115065; x=1792719865;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=X7du5FcQla5Wc6+gmnjVbAOsmIOTMVLfgIeT70bTejk=;
+        b=AFarOvzzNWaRRm3+tOjJzbEXwsFFUOfGUA88avFBPTOydZqI1l/TGSafq8QNZGxhPX
+         aVxd0CkotXDjkPv8g2MdZpYQPFOkD3im+/ER5XIWwK3du1BYUlF0qH+rJop3tSD4zVxQ
+         L1THhBLgSa2tX0xcKLIteKfPNHmrZlhLbTuJTETZS2irxm+hDOUlz4OSgApUkKqGg0c6
+         bDp6gfK8j8GDu4fv4wPyHf4PDzLvlQRU0osthrRB3Qx0gKgN3O4D4wGS5JHt2bEgHh0G
+         EIzjcbVc3lCQh56Um1hQnPoY9OaeO5DdW3wEKVt2hY6K/zr9bPOHqp0wF7Pwc8E9+NQo
+         JYaw==
+X-Gm-Message-State: AFq9FYKRnxdyDL9Lvs8mNhQMIXgJOmQv3ZnkNayf60FGrK32iUbNVnw0
+	PjujO8c1uVrFe7mtuOE/pPZnzsLuatA9N2OTd/9YNK3h34Q/KHQi7urLUP04FjcSqw==
+X-Gm-Gg: AYBFou2zkSFhCBnFBLc2HY+eOdaCtb2YviDzx3l0k+RGfoCsLZpvyq0KaAi0JZHp85d
+	hxA385fcVEWgINdk8u5OXfuT2w6KUGWSFg/kKQgePtvI4yE+dhTepfYHQNsQe0u0/Ij943verSG
+	Pk3fmjfoHrlyvQgoYToAsntOXmoETCdBjvjoVlTvKIk5i9Zikj8FBbrU31zZXAoSNGDIq0xnFh1
+	ELKPww6v+u2fe9KFeksu2ZiMwBq8TF03JVHfDAgtMNCORTe0GfPC1S3MJpMGnttRU6UTF21fKxi
+	LcJooWWDhmW8cXCe4K8oqt+7DBb1Yyn9XiGWTCIGM79mt3mZGEdK+RFG6FksCPYhlFvZpdkZ02O
+	b8oADgH6B1JhHDnWhigKmpKfwVBAOcrOJp45rJbGj8TO4Ju7J61uxZ6aR9/wr+Dr6JyLIrlkYQR
+	fJyaXgQKSEmqQKx8HYeoGVXn+nEpqmyLbYgEKMLExYzBMAdMEaYdErY6hFMR8BoTGZFknYUTn2C
+	1InMUBzafYbn+cVe7/4kA==
+X-Received: by 2002:a05:622a:906:b0:530:b2e4:d598 with SMTP id d75a77b69052e-5359fdd8736mr351907691cf.51.1792115064669;
+        Thu, 15 Oct 2026 18:44:24 -0700 (PDT)
+Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5362a8e5831sm9074711cf.10.2026.10.15.18.44.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 18:44:24 -0700 (PDT)
+From: Hengyu Liang <hengyul@cs.unc.edu>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: do not leave the file extended after a short write
+Date: Thu, 15 Oct 2026 21:44:23 -0400
+Message-ID: <20261016014423.2236260-1-hengyul@cs.unc.edu>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261013-hektik-kommunal-zischen-f7e37ee3ddff@brauner>
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 2A3C01FB67
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+Content-Transfer-Encoding: 8bit
 
-On Tue 13-10-26 21:25:55, Christian Brauner wrote:
-> On Tue, Oct 13, 2026 at 09:23:07PM +0200, Christian Brauner wrote:
-> > On Tue, Oct 13, 2026 at 12:47:58PM +0200, Jan Kara wrote:
-> > > On Mon 12-10-26 12:42:06, Christian Brauner wrote:
-> > > > On Mon, Oct 12, 2026 at 12:36:15PM +0200, Jan Kara wrote:
-> > > > > On Fri 09-10-26 23:51:50, Christian Brauner wrote:
-> > > > > > While working on eliding the grace period in namespace_unlock() I went
-> > > > > > through what filesystems free when they're shut down and what a pathwalk
-> > > > > > in rcu mode can still read at that point. Since 66a97c2ec953's rcu
-> > > > > > pathwalk fixes that's the filesystem's job. Whatever ->permission(),
-> > > > > > ->d_revalidate(), ->get_link(), ->d_hash() and ->d_compare() look at in
-> > > > > > rcu mode has to be freed after a grace period. A few filesystems don't
-> > > > > > do that.
-> > > > > > 
-> > > > > > Most of it is hidden by umount(2). namespace_unlock() waits for a grace
-> > > > > > period before it drops the mounts, so a walker that was inside the
-> > > > > > filesystem is gone by the time the filesystem is shut down.
-> > > > > > 
-> > > > > > But the last reference to a mount doesn't have to go away in umount(2).
-> > > > > > A chdir() out of a lazily unmounted directory or the close() of the last
-> > > > > > file on it drops it without a grace period. A walker can then still be
-> > > > > > in the filesystem while ->put_super() and ->kill_sb() free what it
-> > > > > > reads.
-> > > > > 
-> > > > > Good catches! But I find it very counter-intuitive that pathname lookups
-> > > > > can still be running against a filesystem while its ->put_super is called.
-> > > > > People will keep forgetting about that and as a result these UAF bugs will
-> > > > > be introduced again. Isn't it feasible we'd guarantee to the filesystem
-> > > > > ->put_super() gets called only after all lookups are done (i.e., after RCU
-> > > > > grace period expires)?
-> > > > > 
-> > > > > I understand this is a hairy bussiness because this has userspace visible
-> > > > > implications (like when filesystem's sysfs files disappear, when the bdev
-> > > > > really gets unused, etc.) but keeping all filesystems safe to run RCU
-> > > > > lookup after ->put_super() will be IMHO a headache.
-> > > > 
-> > > > I don't think delaying put_super() or freeing the superblock helps.
-> > > > That's not where the issue is. The issue is with sb->s_fs_info being
-> > > > available after a grace period and that can go away in different
-> > > > locations ->put_super() or ->kill_sb().
-> > > 
-> > > So my thinking was: Cannot we separate the teardown of mounts and the
-> > > teardown of the sb by an RCU grace period? Then by the time the filesystem
-> > > gets to any freeing of filesystem related structures all RCU lookups are
-> > > guaranteed to be done so there's no problem with them accessing possibly
-> > > freed structures pointed to by the sb.
-> > > 
-> > > But then I've read more of the changelogs and AFAIU getting rid of the RCU
-> > > grace period waiting in the unmount path is actually your point to speedup
-> > 
-> > So I prototyped your thing and all version I could see working end up
-> > penalizing umount and filesystem shutdown quite heavily. Maybe I'm not
-> > imagnative enough but everything involving synchronize_rcu* should be
-> > kicked in the n*ts. Because if you're going onto big machines your
-> > workloads will get said kick.
+ntfs_file_write_iter() sets the file size to the end of the request
+with ntfs_set_size() before it copies the data.
 
-Thanks for trying! I kind of expected that it won't be acceptable after
-reading all those changelogs.
+However, when fewer bytes are written, the function returns without
+putting the size back. As of now, a write() that runs out of space on a
+sparse file, or that stops at an unreadable part of the buffer, leaves
+the file as long as the whole request. The part that was not written
+reads as zeros.
 
-> And one thing I forgot to say: that requirement exists today. It is
-> entirely accidental that this wasn't an issue in the umount() path
-> because of the synchronize_rcu* in there. But said grace period doesn't
-> exist if you e.g., chdir() out of a mount and put the last reference
-> while still in lookup. Then said filesystems are fscked today because
-> that is a requirement. And various reproducers in this series illustrate
-> that.
+The issue can be reproduced on a volume mounted with the sparse option:
 
-Yeah, I understood that from your description. The RCU grace period delay
-would have to be somehow added to those cases as well.
+    truncate -s 16M img
+    mkntfs -F -q img
+    mount -t ntfs3 -o loop,sparse img /mnt
+    dd if=/dev/zero of=/mnt/hole bs=512k count=1
+    dd if=/dev/zero of=/mnt/fill bs=4k
+    sync
+    rm /mnt/hole
+    sync
+    dd if=/dev/zero of=/mnt/f bs=1M count=1
+    ls -l /mnt/f
 
-								Honza
+The last dd command fails with "No space left on device". Before this
+patch, /mnt/f is then 1048576 bytes long, although only 524288 bytes
+were written. After this patch, /mnt/f is 524288 bytes long.
+
+For non-compressed files, trim back to the end of the written data without
+shrinking below the old size, and restore the old size if no data was
+written. Reuse ntfs_setattr()'s shrink sequence and i_size rollback,
+recording cleanup errors for fsync while preserving the write result.
+
+Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
+---
+Tested in KVM guests with KASAN enabled:
+- Short/failed writes and ENOSPC, including unmount/remount checks.
+- 78 focused cases across default, sparse, delalloc and prealloc=0
+  combinations, covering buffered/direct I/O, append and O_DSYNC.
+- 15 model runs (21,600 operations), with readback after remount.
+- 32 ENOMEM/EIO cases each with and without the new error handling,
+  using a test-only injection annotation at ntfs_set_size() entry.
+  Checked size rollback, data preservation and fsync/O_DSYNC errors.
+
+Compressed files and alternate data streams were not tested.
+
+ fs/ntfs3/file.c | 42 +++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 37 insertions(+), 5 deletions(-)
+
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 95dfe6878860..bf9b39d00458 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -1236,6 +1236,33 @@ static int check_write_restriction(struct inode *inode)
+ 	return 0;
+ }
+ 
++/*
++ * ntfs_write_trim - Cut the file back after a write that was not completed.
++ *
++ * ntfs_file_write_iter() sets the file size to the end of the request before
++ * the data is copied. Keep what was written, or the old size if nothing was.
++ */
++static void ntfs_write_trim(struct kiocb *iocb, loff_t pos, loff_t oldsize)
++{
++	struct inode *inode = file_inode(iocb->ki_filp);
++	loff_t isize = i_size_read(inode);
++	loff_t newsize = oldsize;
++	int err;
++
++	if (iocb->ki_pos > pos)
++		newsize = max(newsize, iocb->ki_pos);
++
++	if (newsize < isize) {
++		truncate_setsize(inode, newsize);
++		err = ntfs_set_size(inode, newsize);
++		if (err) {
++			i_size_write(inode, isize);
++			/* Preserve the write result; report the error on fsync. */
++			mapping_set_error(inode->i_mapping, err);
++		}
++	}
++}
++
+ /*
+  * ntfs_file_write_iter - file_operations::write_iter
+  */
+@@ -1244,7 +1271,7 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 	struct file *file = iocb->ki_filp;
+ 	struct inode *inode = file_inode(file);
+ 	struct ntfs_inode *ni = ntfs_i(inode);
+-	loff_t vbo, endbyte;
++	loff_t vbo, endbyte, pos, oldsize;
+ 	ssize_t ret, err;
+ 
+ 	if (!inode_trylock(inode)) {
+@@ -1281,6 +1308,8 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 
+ 	vbo = iocb->ki_pos;
+ 	endbyte = vbo + ret;
++	pos = vbo;
++	oldsize = inode->i_size;
+ 
+ 	if (endbyte > inode->i_size) {
+ 		/*
+@@ -1300,7 +1329,7 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 	if (vbo > ni->i_valid) {
+ 		ret = ntfs_extend_initialized_size(file, ni, vbo);
+ 		if (ret)
+-			goto out;
++			goto trim;
+ 	}
+ 
+ 	/* Fallback to buffered I/O if the inode does not support direct I/O. */
+@@ -1310,6 +1339,7 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 
+ 		ret = iomap_file_buffered_write(iocb, from, &ntfs_iomap_ops,
+ 						&ntfs_iomap_folio_ops, NULL);
++		ntfs_write_trim(iocb, pos, oldsize);
+ 		inode_unlock(inode);
+ 
+ 		if (likely(ret > 0))
+@@ -1322,7 +1352,7 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 		/* Direct I/O is not compatible with delalloc. */
+ 		ret = ni_allocate_da_blocks(ni);
+ 		if (ret)
+-			goto out;
++			goto trim;
+ 	}
+ 
+ 	ret = iomap_dio_rw(iocb, from, &ntfs_iomap_ops, NULL,
+@@ -1342,7 +1372,7 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 						&ntfs_iomap_folio_ops, NULL);
+ 		if (err < 0) {
+ 			ret = err;
+-			goto out;
++			goto trim;
+ 		}
+ 
+ 		/*
+@@ -1358,13 +1388,15 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 						   endbyte);
+ 		if (err) {
+ 			ret = err;
+-			goto out;
++			goto trim;
+ 		}
+ 
+ 		invalidate_mapping_pages(inode->i_mapping, vbo >> PAGE_SHIFT,
+ 					 endbyte >> PAGE_SHIFT);
+ 	}
+ 
++trim:
++	ntfs_write_trim(iocb, pos, oldsize);
+ out:
+ 	inode_unlock(inode);
+ 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.53.0
+
