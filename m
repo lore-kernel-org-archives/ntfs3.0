@@ -1,151 +1,152 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A44745C6E0
-	for <ntfs3@lists.linux.dev>; Fri, 16 Oct 2026 14:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685094E06F3
+	for <ntfs3@lists.linux.dev>; Fri, 16 Oct 2026 16:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792162121; cv=none; b=VIBhL36aM2B7p4xZs0RCuDKtyb5OP+Eq33A2Q6SWJ74bg1hr9uTxOdo1PsNFyW04tbm17MqPrDCPhnE9QTsbYxSZRDSpPIBd1aP2KxI0p507pNp2Ov1NNq8GulefQUTjcsEu+Gyb7mVZorFB14rPdqieluFcV6FmrK2XUQP1Ysw=
+	t=1792168373; cv=none; b=Ou0axL7NGkW8RQX2qJ5c6nLd8FNGKNmHJXcPK9CrmiJrDXcFqDzKpk0GXeS94D6dYi6n6M/DKnqnXq5vlJtb/LTbWR/q14p/vUosKSDKCSD6Nu4km81fBh9w3h3hcBY/ztrkd1l/1HGHxOmUqy2s7Y+T/XwNlMcet/1+khxYLRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792162121; c=relaxed/simple;
-	bh=zWjxExpRcmXnfH4W0/a3kgCxI30Kz06xgdyZ+mBp8Mg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=blxFcVOCp8nMUAxjkh71GhMl3Z8rVT2vDPCl88lbW3/xDTdLZ06jPFcJ4lOXqXk49dvyBmhYGnYa8xC+pECL1f9Mir9CpMCSWJSHL5NEpyYrN/nB1gNbhI3gGDOi5e2UPOb4dTM+OOYMxhWfNqvPY9TphcnO9b3u/ahlSrv8DSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=PI//JPS9; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1792168373; c=relaxed/simple;
+	bh=5+3ZyQcjnDR3yuuIMSCId2BZ/pAwcxAcqdilDYJeIKY=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=fccymRgswwpzsiGegR0IQW+8+Ywd6SdnQmNNs3z5qxy4tWk83rw08JdTNQJyqlKjAN7WcceeJLPQ7OAoIBYRxPX1XA5zJ4TiIUl4D36k/G4M02fRTyw+DXd3dhHkW832N3ZGspYcFlKyTfogNdmtZhp1FrA7SNwiBUNUqODqHrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=lZFRgCBX; arc=none smtp.client-ip=162.62.57.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="PI//JPS9"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id C053D1D1B;
-	Fri, 16 Oct 2026 14:49:26 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=PI//JPS9;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E62131D4B;
-	Fri, 16 Oct 2026 14:48:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1792162116;
-	bh=pZzLhAcgOU7x0UIdjwGa81ZV1jpNBedjJU1lz6UUG4k=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=PI//JPS9qdw6k3zCbizg5ceTvuKxV2Ff1Drk7nPRupXgb/iTllBVPm7FyLCQGdrG4
-	 OjXKegoyj1GnC4VWeRJJgAoxyI74p6dnrDvvi9ZMC4QSCHfdjpM5m7QRL771wSWnWn
-	 EmK2wlBeH+Bm6q8o/fHJIJ7AoFZ7FTjp/YTNtWzw=
-Received: from [192.168.95.128] (172.30.20.132) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 16 Oct 2026 17:48:35 +0300
-Message-ID: <d3279695-9c86-44c8-870d-dd71393a68ff@paragon-software.com>
-Date: Fri, 16 Oct 2026 16:48:32 +0200
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="lZFRgCBX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1792168360; bh=WW0pURbzdrk5T1uFlgXzBoltZ2WZpOYrXfpT0JNkh8I=;
+	h=From:To:Cc:Subject:Date;
+	b=lZFRgCBXOsnV/1dfaC7VXlRVxDGG/ieFLQ58h5LNzYF3609Bd0P+MdaUJWvh3oJDs
+	 6Q8ddTQg8iU+CZca6W+wyh6sTxLI5wmsHwdIutvIEeWUaoFcEBXfUQFzq9P6YLqXW5
+	 i3sd4OUvBpScFUgFKDf1QqI6qQxkgG0y7+yyd4Lo=
+Received: from [172.18.4.77] ([61.136.26.103])
+	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
+	id 7DD844A7; Sat, 17 Oct 2026 00:31:29 +0800
+X-QQ-mid: xmsmtpt1792168289t064c6x5k
+Message-ID: <tencent_46887DB8A24452C3BEAD474A9C664CDBA209@qq.com>
+X-QQ-XMAILINFO: Nwte6vbuj0Eq20mYrONgUTmBbxP1gH1TKg1QKTfwhBCOOs+hX9Skh6jFYI4EGQ
+	 hWiFnUxAGb1cijdqHkYqqNt81qiQGfVf2WMEFLhXGDuTm7kXU89BEmBK4n1d7GtPkokjvuMdMN//
+	 3/y1REwmBcUDuEiTWA4wG587wHiCx379aNfk/xRPtE52dbfGDVOViIjsXrx1gMg/eyNzjJcOwQaT
+	 ZB/4nUoIuWnKGJNEOxPOLqQlJFkk8dpfgUG8sLhgDD0MlGqAFy4gyifoe0iw3/LQizKW1CjHQU57
+	 2a4gpUNRUum+70dCZQN/scBYqhWUjDNG40yU54QD6RBozyHys93Ljhb2dczhyUMlzwVzPtkWtnSZ
+	 7yL5TY7YB1u45UAw75pDIRBo/eTNtkGTw+EYGIGHlJbnUIMks4pnTDOZHS6hRqvKJOvmz7Fa/VLG
+	 eReyTPIDyPkCwUpzfewNmSQIh1r1wJZMPCDlFIn3pSoyjCwR83p2Od63pPvu+FwyKVO9ka1QszC1
+	 HwY3W/7TwaRWaiATfpzmOmlEuyBTQj04EiuWNfqSkyftEVgXPOkUzSefD/tsEFgcHT3CPwjyMe9P
+	 dmKl/oN1xNcF+le46CxVmpT1ky/V6j2VQf96bW4G7659H5qq2CyH9XoZ8DfA1NN0b6pZHgl2QqdG
+	 JuuXZy7uQaedxZragudAH5+IbealPu0kc/oqkknO0K7yKYOSuUItNyALji+4KkBAHoXz8SC32PLY
+	 9ECUtZD+4kADUi9qhGpyo9tLN3NKDbZvRUa+/ons4IBktFaLLd1NWySwluVLPgPWt9GeocFmv+Yz
+	 XqmAiSfvxUHLidzQ4oMwdC2fGl8VGXVxMb7JpO8i83TiYTA50MhG8IDHhD+WOgscK0V0kG1ZZ1YP
+	 NSVtpfP6JKoqpOb3xwTQzGDzJvjQsPmYkZu0Sio1nQ23Z1G9xlVgG08acSSIOiwk4ekERl3QK4QL
+	 BeQQWAtNiUdVpnEOjw7FZ1UrBzW+enKnXQFMZzsKT8rpLaZd1otXwTzVMIJ/4+DuJsN4EbnAlIwh
+	 4lEJn41srvjZbANzuviCa/hvGu92s/cMyB/4a4qzJDFJwJ+TVW
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+From: Guikun Yang <yangguikun19@qq.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, stable@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: fix log replay index walkers running past the entry chain
+Date: Sat, 17 Oct 2026 00:31:29 +0800
+X-OQ-MSGID: <20261017003129.92048-ntfs3-walker-yangguikun19@qq.com>
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ntfs3: release ni_lock before dir_emit in
- ntfs_readdir to fix deadlocks
-To: Yun Zhou <yun.zhou@windriver.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-References: <20260701013049.3141386-1-yun.zhou@windriver.com>
- <20260701013049.3141386-3-yun.zhou@windriver.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260701013049.3141386-3-yun.zhou@windriver.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 7/1/26 03:30, Yun Zhou wrote:
+check_if_root_index() and check_if_alloc_index() walk the directory
+entry chain of an index header until the walk offset reaches
+lrh->attr_off, but they only re-check the buffer boundary at the top
+of each iteration.  The chain that check_index_header() validated ends
+at its NTFS_IE_LAST entry; the walkers ignore that flag and keep
+reading size fields from the gap between the end of the chain and
+hdr->used, which is still inside the validated buffer.  A crafted
+$LogFile can place a size field there that jumps the walk straight to
+an attr_off far outside the buffer, and the walker then reports
+success.
 
-> ntfs_readdir() holds ni_lock while calling ntfs_read_hdr(), which calls
-> dir_emit() to copy directory entries to userspace.  If the user buffer
-> triggers a page fault, the fault handler may need mmap_lock or
-> mapping->invalidate_lock, creating lock-order inversions with paths
-> that acquire those locks before ni_lock (e.g. ntfs_fallocate, mmap).
->
-> Fix by releasing ni_lock before calling ntfs_read_hdr():
->
-> - For non-root index nodes, indx_read_ra() returns data in a kmalloc'd
->    buffer (node->index) that remains valid after ni_unlock.
->
-> - For the root index header, the data lives in the main MFT record
->    whose lifetime is bound to the inode.  i_rwsem shared prevents
->    concurrent directory modifications, so it is safe to access after
->    ni_unlock.
->
-> Reported-by: syzbot+7736960b837908f3a81d@syzkaller.appspotmail.com
-> Reported-by: syzbot+262a71e9d2faf8747085@syzkaller.appspotmail.com
-> Reported-by: syzbot+cfc6e8106bec1c524f7d@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
-> Closes: https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
-> Closes: https://syzkaller.appspot.com/bug?extid=cfc6e8106bec1c524f7d
-> Fixes: d62cf685d12e ("fs/ntfs3: hold ni_lock across readdir metadata walk")
-> Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
-> ---
->   fs/ntfs3/dir.c | 22 ++++++++++++++++++++--
->   1 file changed, 20 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-> index 07de564a2c47..65883409689a 100644
-> --- a/fs/ntfs3/dir.c
-> +++ b/fs/ntfs3/dir.c
-> @@ -491,12 +491,22 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
->   	if (pos >= sbi->record_size) {
->   		bit = (pos - sbi->record_size) >> index_bits;
->   	} else {
-> +		/*
-> +		 * Release ni_lock before dir_emit (which may fault into
-> +		 * user pages).  root->ihdr lives in the main MFT record
-> +		 * whose lifetime is bound to the inode, and i_rwsem shared
-> +		 * prevents concurrent directory modifications.
-> +		 */
-> +		ni_unlock(ni);
-> +
->   		/*
->   		 * Add each name from root in 'ctx'.
->   		 */
->   		err = ntfs_read_hdr(sbi, ni, &root->ihdr, 0, pos, name, ctx);
->   		if (err)
-> -			goto out_unlock;
-> +			goto out;
-> +
-> +		ni_lock(ni);
->   		bit = 0;
->   	}
->   
-> @@ -525,6 +535,12 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
->   		if (err)
->   			goto out_unlock;
->   
-> +		/*
-> +		 * node->index is a kmalloc'd buffer, safe after ni_unlock.
-> +		 * Release lock before dir_emit to avoid lock-order issues.
-> +		 */
-> +		ni_unlock(ni);
-> +
->   		/*
->   		 * Add each name from index in 'ctx'.
->   		 */
-> @@ -532,7 +548,9 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
->   				    ((u64)bit << index_bits) + sbi->record_size,
->   				    pos, name, ctx);
->   		if (err)
-> -			goto out_unlock;
-> +			goto out;
-> +
-> +		ni_lock(ni);
->   	}
->   
->   out_unlock:
+The callers treat that result as "attr_off names a valid entry" and
+act on it:
 
-Hello,
+  - SetIndexEntryVcnRoot/Allocation write the 8-byte log payload at
+    attr/ib + attr_off,
+  - AddIndexEntry* compute PtrOffset(e1, hdr + used) with e1 beyond
+    that point, which underflows to a huge length,
+  - Update/DeleteIndexEntry* read entry fields at the same offset.
 
-The patch was applied, thanks.
+Mounting such an image read-write therefore performs an out-of-bounds
+write of controlled data at a controlled offset while replaying the
+log.  KASAN reports slab-out-of-bounds in log_replay() on v6.6; both
+walkers are unchanged since they were introduced in b46acd6a6a62.
 
-Regards,
-Konstantin
+Stop the walk at the NTFS_IE_LAST entry so the landing offset can no
+longer be driven past the end of the validated chain.
+
+Tested on v6.6.12 and on a v7.3-rc5 based linux-next tree, both with
+KASAN: with the crafted image the unpatched kernel reports
+slab-out-of-bounds (write of size 8) during mount, while the patched
+kernel rejects the record and the mount fails without touching memory
+outside the buffer.  An ordinary NTFS image still mounts read-write,
+accepts writes and is readable after remount.
+
+Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+Cc: stable@vger.kernel.org
+Signed-off-by: Guikun Yang <yangguikun19@qq.com>
+---
+ fs/ntfs3/fslog.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+--- a/fs/ntfs3/fslog.c
++++ b/fs/ntfs3/fslog.c
+@@ -2956,6 +2956,7 @@ static inline bool check_if_root_index(const struct ATTRIB *attr,
+ 
+ 	while (o < ao) {
+ 		u16 esize;
++		bool last;
+ 
+ 		if (o >= asize)
+ 			break;
+@@ -2964,8 +2965,13 @@ static inline bool check_if_root_index(const struct ATTRIB *attr,
+ 		if (!esize)
+ 			break;
+ 
++		last = de_is_last(e);
++
+ 		o += esize;
+ 		e = Add2Ptr(e, esize);
++
++		if (last)
++			break;
+ 	}
+ 
+ 	return o == ao;
+@@ -2981,6 +2987,7 @@ static inline bool check_if_alloc_index(const struct INDEX_HDR *hdr,
+ 
+ 	while (o < attr_off) {
+ 		u16 esize;
++		bool last;
+ 
+ 		if (de_off >= used)
+ 			break;
+@@ -2989,9 +2996,14 @@ static inline bool check_if_alloc_index(const struct INDEX_HDR *hdr,
+ 		if (!esize)
+ 			break;
+ 
++		last = de_is_last(e);
++
+ 		o += esize;
+ 		de_off += esize;
+ 		e = Add2Ptr(e, esize);
++
++		if (last)
++			break;
+ 	}
+ 
+ 	return o == attr_off;
+-- 
+2.39.5
 
