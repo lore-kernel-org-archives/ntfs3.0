@@ -1,43 +1,43 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52023955D1
-	for <ntfs3@lists.linux.dev>; Fri, 16 Oct 2026 14:48:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A44745C6E0
+	for <ntfs3@lists.linux.dev>; Fri, 16 Oct 2026 14:48:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792162084; cv=none; b=d5gGm3pVefOeKWt8cBU8Fk5GNttAwEs9bQZUWjv8pdpjKWj1sDotdcYyaliXakjknRWESfoYzsq5Lp4nZXQHCJaoei1My+Xkr91CKA2f39dXlvlaiMssQ6aZNwF6klaTYWv2/dYjWdO6kEpNTwr7U03L+vaMtkdJV4EriqQXnbI=
+	t=1792162121; cv=none; b=VIBhL36aM2B7p4xZs0RCuDKtyb5OP+Eq33A2Q6SWJ74bg1hr9uTxOdo1PsNFyW04tbm17MqPrDCPhnE9QTsbYxSZRDSpPIBd1aP2KxI0p507pNp2Ov1NNq8GulefQUTjcsEu+Gyb7mVZorFB14rPdqieluFcV6FmrK2XUQP1Ysw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792162084; c=relaxed/simple;
-	bh=AVfe8Mm5q2VVmCo8KEYkC0UPNhmmY/SXODvv1Glw114=;
+	s=arc-20240116; t=1792162121; c=relaxed/simple;
+	bh=zWjxExpRcmXnfH4W0/a3kgCxI30Kz06xgdyZ+mBp8Mg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=VjQ+McbPg1ulY1hXurFvogXofkEZmybFFl7XeVClA43VO5v0Jwg5tfJle2OWoQiIwDkRibuux4/C4bd1FrEjapqYLEBWn5bW2YsxMuS9VKCYmPN5T0YNI+Nw+X51FvrMkAZCezHniNmmBX1jGOXtHYyh6fO6T0N4qQJSuqMKZpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=bbfGVrNZ; arc=none smtp.client-ip=35.157.23.187
+	 In-Reply-To:Content-Type; b=blxFcVOCp8nMUAxjkh71GhMl3Z8rVT2vDPCl88lbW3/xDTdLZ06jPFcJ4lOXqXk49dvyBmhYGnYa8xC+pECL1f9Mir9CpMCSWJSHL5NEpyYrN/nB1gNbhI3gGDOi5e2UPOb4dTM+OOYMxhWfNqvPY9TphcnO9b3u/ahlSrv8DSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=PI//JPS9; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="bbfGVrNZ"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="PI//JPS9"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id C152B1D5D;
-	Fri, 16 Oct 2026 14:48:49 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id C053D1D1B;
+	Fri, 16 Oct 2026 14:49:26 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=bbfGVrNZ;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=PI//JPS9;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E0ADD2269;
-	Fri, 16 Oct 2026 14:47:59 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id E62131D4B;
+	Fri, 16 Oct 2026 14:48:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1792162079;
-	bh=DH6KUdMhhaLtiVKtHdzYz5Fr0kqhafTH3n1AYYvoUTo=;
+	d=paragon-software.com; s=mail; t=1792162116;
+	bh=pZzLhAcgOU7x0UIdjwGa81ZV1jpNBedjJU1lz6UUG4k=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=bbfGVrNZKSOJkOHNxBkEi85vXDxENY1snS6Fa7mQJUNnhD7v/WHAT0Fz75ikXaL2R
-	 9VyP0dsXGfqHCVtj/jTkyrWmTbVTCL7+iAQbel7D5Wo+iBttuKo/Cob9zYuM+hhenB
-	 gK9JQa2wHAOhOV3NRkCAB/L58RRtbHllEiRvodJQ=
+	b=PI//JPS9qdw6k3zCbizg5ceTvuKxV2Ff1Drk7nPRupXgb/iTllBVPm7FyLCQGdrG4
+	 OjXKegoyj1GnC4VWeRJJgAoxyI74p6dnrDvvi9ZMC4QSCHfdjpM5m7QRL771wSWnWn
+	 EmK2wlBeH+Bm6q8o/fHJIJ7AoFZ7FTjp/YTNtWzw=
 Received: from [192.168.95.128] (172.30.20.132) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 16 Oct 2026 17:47:58 +0300
-Message-ID: <2cb5b61a-f16b-4dcb-b7f2-73409da192df@paragon-software.com>
-Date: Fri, 16 Oct 2026 16:47:55 +0200
+ 15.1.2375.7; Fri, 16 Oct 2026 17:48:35 +0300
+Message-ID: <d3279695-9c86-44c8-870d-dd71393a68ff@paragon-software.com>
+Date: Fri, 16 Oct 2026 16:48:32 +0200
 Precedence: bulk
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -45,129 +45,106 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: bound CreateAttribute asize against record_size
- in do_action
-To: Hyeontae Lee <wonju345@naver.com>, <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-References: <20260731141440.52168-1-wonju345@naver.com>
+Subject: Re: [PATCH 2/2] ntfs3: release ni_lock before dir_emit in
+ ntfs_readdir to fix deadlocks
+To: Yun Zhou <yun.zhou@windriver.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20260701013049.3141386-1-yun.zhou@windriver.com>
+ <20260701013049.3141386-3-yun.zhou@windriver.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260731141440.52168-1-wonju345@naver.com>
+In-Reply-To: <20260701013049.3141386-3-yun.zhou@windriver.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 7/31/26 16:14, Hyeontae Lee wrote:
+On 7/1/26 03:30, Yun Zhou wrote:
 
-> In do_action()'s CreateAttribute case (fslog.c:3286), attr2 points into
-> the on-disk log record and asize = le32_to_cpu(attr2->size) is therefore
-> attacker-controlled on mount.  The guard bounds asize only against the
-> log record itself,
+> ntfs_readdir() holds ni_lock while calling ntfs_read_hdr(), which calls
+> dir_emit() to copy directory entries to userspace.  If the user buffer
+> triggers a page fault, the fault handler may need mmap_lock or
+> mapping->invalidate_lock, creating lock-order inversions with paths
+> that acquire those locks before ni_lock (e.g. ntfs_fallocate, mmap).
 >
->          Add2Ptr(attr2, asize) > Add2Ptr(lrh, rec_len)
+> Fix by releasing ni_lock before calling ntfs_read_hdr():
 >
-> where rec_len is the client data length, and separately bounds dlen
-> against the MFT record.  Nothing bounds asize against record_size, but
-> all three writes that follow are into rec, a kmalloc(sbi->record_size)
-> buffer allocated by mi_init() (record.c:105):
+> - For non-root index nodes, indx_read_ra() returns data in a kmalloc'd
+>    buffer (node->index) that remains valid after ni_unlock.
 >
->          memmove(Add2Ptr(attr, asize), attr, used - roff);
->          memcpy(attr, attr2, asize);
->          rec->used = cpu_to_le32(used + asize);
+> - For the root index header, the data lives in the main MFT record
+>    whose lifetime is bound to the inode.  i_rwsem shared prevents
+>    concurrent directory modifications, so it is safe to access after
+>    ni_unlock.
 >
-> With record_size 0x400, roff 0x38, used 0x160 and asize 0x800 the memcpy
-> writes 2048 bytes at rec + 0x38, 0x438 bytes past the allocation, and
-> rec->used is left at 0x960.  dlen is 0x18 here, so the existing
-> dlen check passes: dlen bounds nothing about the size of the copy.
->
-> The equivalent non-replay path already refuses this.  mi_insert_attr()
-> performs the same insert and starts with (record.c:488):
->
->          if (used + asize > sbi->record_size)
->                  return NULL;
->
-> Apply the same bound, spelled as a subtraction to match the neighbouring
-> clause.  used <= record_size holds here because check_file_record()
-> validates it (fslog.c:2826) and is called on this record at fslog.c:3172;
-> roff <= used - 4 follows from check_if_attr() together with the ATTR_END
-> check at fslog.c:2844, so bounding used + asize bounds both copies.
->
-> The sibling WriteEndOfFileRecordSegment case does the equivalent check
-> against record_size at fslog.c:3277.
->
-> Reproduced by mounting a crafted image on v7.2-rc5 under KASAN:
->
->    BUG: KASAN: slab-out-of-bounds in do_action.isra.0+0x41f6/0x83a0
->    Write of size 2048 at addr ffff888005c74838 by task mount/69
->
->    CPU: 0 UID: 0 PID: 69 Comm: mount Not tainted 7.2.0-rc5-00300-g8ba098e6b6ff #2
->    Call Trace:
->     kasan_report+0xce/0x100
->     kasan_check_range+0x105/0x1b0
->     __asan_memcpy+0x3c/0x60
->     do_action.isra.0+0x41f6/0x83a0
->     log_replay+0x920a/0xd300
->     ntfs_loadlog_and_replay+0x3ef/0x510
->     ntfs_fill_super+0x1d23/0x4550
->     get_tree_bdev_flags+0x2ef/0x550
->     vfs_get_tree+0x82/0x2f0
->     fc_mount+0x10/0x1b0
->     path_mount+0x517/0x1df0
->     __x64_sys_mount+0x20b/0x270
->     do_syscall_64+0xf9/0x540
->     entry_SYSCALL_64_after_hwframe+0x77/0x7f
->
->    Allocated by task 69:
->     __kasan_kmalloc+0x8f/0xa0
->     __kmalloc_noprof+0x1b4/0x460
->     mi_init+0x81/0x110
->     mi_get+0x6a/0x220
->     do_action.isra.0+0x1db4/0x83a0
->     log_replay+0x920a/0xd300
->     ntfs_loadlog_and_replay+0x3ef/0x510
->     ntfs_fill_super+0x1d23/0x4550
->
->    The buggy address belongs to the object at ffff888005c74800
->     which belongs to the cache kmalloc-1k of size 1024
->    The buggy address is located 56 bytes inside of
->     allocated 1024-byte region [ffff888005c74800, ffff888005c74c00)
->
-> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-opus-5
-> Signed-off-by: Hyeontae Lee <wonju345@naver.com>
+> Reported-by: syzbot+7736960b837908f3a81d@syzkaller.appspotmail.com
+> Reported-by: syzbot+262a71e9d2faf8747085@syzkaller.appspotmail.com
+> Reported-by: syzbot+cfc6e8106bec1c524f7d@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
+> Closes: https://syzkaller.appspot.com/bug?extid=262a71e9d2faf8747085
+> Closes: https://syzkaller.appspot.com/bug?extid=cfc6e8106bec1c524f7d
+> Fixes: d62cf685d12e ("fs/ntfs3: hold ni_lock across readdir metadata walk")
+> Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
 > ---
->   fs/ntfs3/fslog.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
+>   fs/ntfs3/dir.c | 22 ++++++++++++++++++++--
+>   1 file changed, 20 insertions(+), 2 deletions(-)
 >
-> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index f038c799e7ac..2230a4a77872 100644
-> --- a/fs/ntfs3/fslog.c
-> +++ b/fs/ntfs3/fslog.c
-> @@ -3288,10 +3288,15 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
->                  asize = le32_to_cpu(attr2->size);
->                  used = le32_to_cpu(rec->used);
->
-> +               /*
-> +                * attr2->size is taken from the log record and is bounded only
-> +                * by the log record length, not by the MFT record.  Refuse an
-> +                * attribute that does not fit, as mi_insert_attr() does.
-> +                */
->                  if (!check_if_attr(rec, lrh) || dlen < SIZEOF_RESIDENT ||
->                      !IS_ALIGNED(asize, 8) ||
->                      Add2Ptr(attr2, asize) > Add2Ptr(lrh, rec_len) ||
-> -                   dlen > record_size - used) {
-> +                   dlen > record_size - used || asize > record_size - used) {
->                          goto dirty_vol;
->                  }
->
-> --
-> 2.43.0
+> diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+> index 07de564a2c47..65883409689a 100644
+> --- a/fs/ntfs3/dir.c
+> +++ b/fs/ntfs3/dir.c
+> @@ -491,12 +491,22 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+>   	if (pos >= sbi->record_size) {
+>   		bit = (pos - sbi->record_size) >> index_bits;
+>   	} else {
+> +		/*
+> +		 * Release ni_lock before dir_emit (which may fault into
+> +		 * user pages).  root->ihdr lives in the main MFT record
+> +		 * whose lifetime is bound to the inode, and i_rwsem shared
+> +		 * prevents concurrent directory modifications.
+> +		 */
+> +		ni_unlock(ni);
+> +
+>   		/*
+>   		 * Add each name from root in 'ctx'.
+>   		 */
+>   		err = ntfs_read_hdr(sbi, ni, &root->ihdr, 0, pos, name, ctx);
+>   		if (err)
+> -			goto out_unlock;
+> +			goto out;
+> +
+> +		ni_lock(ni);
+>   		bit = 0;
+>   	}
+>   
+> @@ -525,6 +535,12 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+>   		if (err)
+>   			goto out_unlock;
+>   
+> +		/*
+> +		 * node->index is a kmalloc'd buffer, safe after ni_unlock.
+> +		 * Release lock before dir_emit to avoid lock-order issues.
+> +		 */
+> +		ni_unlock(ni);
+> +
+>   		/*
+>   		 * Add each name from index in 'ctx'.
+>   		 */
+> @@ -532,7 +548,9 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+>   				    ((u64)bit << index_bits) + sbi->record_size,
+>   				    pos, name, ctx);
+>   		if (err)
+> -			goto out_unlock;
+> +			goto out;
+> +
+> +		ni_lock(ni);
+>   	}
+>   
+>   out_unlock:
 
 Hello,
 
-Your patch was applied, thanks.
+The patch was applied, thanks.
 
 Regards,
 Konstantin
