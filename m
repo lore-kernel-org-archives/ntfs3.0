@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D4957EDBF;
-	Mon, 19 Oct 2026 13:59:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20985045BD;
+	Mon, 19 Oct 2026 14:00:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418379; cv=none; b=m0OqvVlSKMrKtF7ckYgIqbNrY0AuUiydxoGfwZ4fk8kwGmxN9QdjWKKl+IAbogWdjlDnQ5hcVHseia1Rs0XQDFTPjkTq9ZVQeHN8gmEkzQUys2MjhIKAozBfn//4r/rzeZFGq9JNNEb6bPOWmiohvnQy0gDspTB4eZpsiLN9QpU=
+	t=1792418404; cv=none; b=PAgbI9BMg56faZ9JheBzx/Nzd+f+Ko/0qAYA8sRU6lWv08i3CJ45x7BDDJVobYYizv8+NBr3T71jfXEjzdN2hXdT3YDKHIwcqvcPYVrK7FZkc+pVxif59OMVocMp8pNlXV3bU92u/dMIlK5XeA36K6fB4NsINddHclfrEPOBhXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418379; c=relaxed/simple;
-	bh=LKgIQ48AmDvXyXo9YRM5zua3D1bBio9qsOb4K6rBQ/A=;
+	s=arc-20240116; t=1792418404; c=relaxed/simple;
+	bh=eCpd0bciKuxFgznG6LMVfPYwxYpve4cdhZknkVTjqQo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GVX8Osv4PapY7mjmRlmiZWeuGh6h34FNyZgRhUPGHHJTT4lQqYGI7iYLWPc9wYvXnTYU/QDryuUPZKB7PsWrCVmy7rsRDpMMCKEkQdVq/oBgUOWIKGXc3oFpMdWgHp4lbYJLo1TT4MOzb9OMd5ImGv8vXRQ7tsnxhq/VRV8Obp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RlfsetLK; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=oZLtgx1A7Om0SZBsCF1IrRAsBwupengAQXmIfhqJ94SgLPOKbTSIwQ6H9yLGHM2GN/Q6n5c8DFZgiSF5YaBhBQMkhgFz6fzmzlKs7Hqrfi2EJUyfPWaWelDSKfL+j95RN6ctQCRgP+XVLxR2oVyU13URcQ/1hR5XzsKg12bZ6+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hobk8cfg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RlfsetLK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB8E71F000C7;
-	Mon, 19 Oct 2026 13:59:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hobk8cfg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04ED21F000C8;
+	Mon, 19 Oct 2026 14:00:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418376;
-	bh=2aiXacUqa3HJ0eFYiF3nQ9dTMRrcDK2sDMLYdQpdihU=;
+	s=k20260515; t=1792418401;
+	bh=jht7pw9u/wfie8PUcFFd5RpIB9cO4cBkWZiCGj/+V5I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=RlfsetLKZER58pXHKKzx4KFq7A52UIP+DnfWUdz0shG3T6Fw+v/u/asSIc1v/1iRP
-	 zt//Wyekns3gTICBnPhReyPhcGc6YtATjZqL88nvUfeFStNQzGCfhshiHwXpjM/DCt
-	 zFj1v2cSS0Ks9c/9CDc1uaatfkn6GAlFiGan/KZ98LYoE4MWYPiARqvimjGI3bDdzG
-	 uVAuL7gT2Q4vDqHKxjZ+ERtmfxPBPhFHc56cSlYQGlO5BtMQuRhLr8i7wESanfMR3j
-	 r8D9eASEfKsNzjAt78mfezCXN8I5//5AgNzaIPB7UBY+SbQhd1t8kLg2RXO2hfezSo
-	 gGDBukBXt5jlQ==
+	b=Hobk8cfgRJ0PXI5IenxTyrMvb6qMGWJ/LosUf96WPzte8JaGk29j2ifW+HXq9Bfzm
+	 tTjyNd92KXYGiqws980hYugsnX3Ba3L2ySFtMe4h9AfegITKEtbhJB8MyNzZWlktpL
+	 0Uu+QaFM80tWH6KhZO5qhT9xycNbsVRO2utV4hlCQV7xAiXrqXafFIweealCwqjGpA
+	 Mw7GL2SqWe/ygSixsnVJ5j1alp2eirM88KxDxCGXlNHubCYZOfN9YuB5ck8MKwIY5E
+	 nsS7t9hEtkRaT3XanetzeLEcCscMdiPn9BU8RL5AW9u5QX+ipif9qvpyowlHWbrUov
+	 zQ3b4gD4isX9g==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Kyle Zeng <kylebot@openai.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.15] fs/ntfs3: reserve NUL byte when converting UTF-16 names
-Date: Mon, 19 Oct 2026 09:48:16 -0400
-Message-ID: <20261019135441.1420968-205-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.15] fs/ntfs3: Fix memory leak in indx_find_sort()
+Date: Mon, 19 Oct 2026 09:48:35 -0400
+Message-ID: <20261019135441.1420968-224-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -52,76 +51,68 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Kyle Zeng <kylebot@openai.com>
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-[ Upstream commit 4871fedaabbfd574ac0a075b80e75afdd532e11e ]
+[ Upstream commit 194491be54e1c9e4d29d3ee777b05ff031c4b670 ]
 
-ntfs_utf16_to_nls() appends a trailing NUL to the converted output,
-but it passes the caller-supplied size directly to the conversion loop.
-For the UTF-8 path, utf16s_to_utf8s() can legitimately fill all
-buf_len bytes and return buf_len, after which ntfs_utf16_to_nls()
-writes the terminator one byte past the end of the destination buffer.
+When popping a level from the index lookup stack, indx_find_sort() frees
+the struct indx_node but not the index buffer it owns. Every call that
+descends and then pops a level leaks that allocation.
 
-The same contract problem exists for the NLS path when a converted
-character consumes the last available byte.
+Free n->index before freeing the node itself.
 
-Reserve one byte for the terminator before doing either conversion.
-The function continues to return the number of converted bytes,
-excluding the NUL terminator.
-
-Assisted-by: Codex:gpt-5.5
-Signed-off-by: Kyle Zeng <kylebot@openai.com>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local tree is **v7.3-rc4** (`7.3.0-rc4`). `ntfs_utf16_to_nls()` is
-present here, and the bug is a real one-byte heap overflow on long
-reparse/symlink conversion. Below is the full checklist.
+I have enough to decide: this is a one-line leak fix in
+`indx_find_sort()`, the buggy code is in this 7.3-rc4 tree, and it meets
+the stable rules.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-Record: **[fs/ntfs3] [reserve] reserve one NUL byte when converting
-UTF-16 names**
-- Subsystem: `fs/ntfs3`
-- Verb: “reserve” — a missing-safety-check fix (keep a terminator byte)
-- Intent: stop `ntfs_utf16_to_nls()` from writing `'\0'` one byte past
-  the caller buffer
+Record: **[fs/ntfs3] [fix] memory leak in `indx_find_sort()`** —
+subsystem `fs/ntfs3`, action verb **fix**, claimed intent is to stop
+leaking the index buffer when a lookup level is popped.
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-Record:
-- `Assisted-by: Codex:gpt-5.5` — LLM-assisted; still needs code review
-  (done below)
-- `Signed-off-by: Kyle Zeng <kylebot@openai.com>` — author
-- `Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-
-  software.com>` — ntfs3 maintainer
-- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
-  by:`, `Link:`, or `Cc: stable` (absence is expected for this review)
-- Ignore any pipeline `Signed-off-by: Sasha Levin` / `[Upstream commit
-  ...]` — none on this commit
+Commit `194491be54e1c9e4d29d3ee777b05ff031c4b670` (Author: Konstantin
+Komarov, 2026-07-30):
+
+- **Fixes:** none (expected for this review)
+- **Reported-by:** none
+- **Tested-by:** none
+- **Reviewed-by:** none
+- **Acked-by:** none
+- **Link:** none in the commit message
+- **Cc: stable:** none (expected)
+- **Signed-off-by:** Konstantin Komarov \<almaz.alexandrovich@paragon-
+  software.com\> (author/maintainer)
+
+No syzbot, no multi-user reports, no explicit stable nomination. Author
+is the NTFS3 maintainer.
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
 Record:
-- **Bug:** `ntfs_utf16_to_nls()` always stores a trailing NUL, but
-  passes the full caller `buf_len` into conversion.
-- **UTF-8 path:** `utf16s_to_utf8s()` may write `buf_len` bytes and
-  return `buf_len`; then `buf[ret] = '\0'` is one past the end.
-- **NLS path:** a converted character can consume the last byte; `*op =
-  '\0'` is then one past the end.
-- **Fix:** reject `buf_len <= 0`; do `buf_len -= 1` before conversion;
-  still return converted length **excluding** NUL.
-- **Symptom:** 1-byte heap buffer overflow (memory corruption / KASAN
-  slab-out-of-bounds write).
-- **Versions in the message:** none.
+- **Bug:** When popping a level from the index lookup stack,
+  `indx_find_sort()` frees `struct indx_node` but not the index buffer
+  it owns (`n->index`).
+- **Symptom:** Every call that descends into a child index block and
+  later pops that level leaks that allocation (typically a 4 KiB
+  `kmalloc` of `INDEX_BUFFER`).
+- **Failure mode:** kernel memory leak on NTFS3 `$SDH` index walks.
+- **Version info:** none in the message.
+- **Root cause (author):** `kfree(n)` without `kfree(n->index)`.
+- **Fix:** free `n->index` before freeing the node.
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not hidden. It is an explicit off-by-one / OOB write fix, not
-cleanup or a new feature.
+Record: Not disguised. Subject and body state a leak fix. It is a
+classic missing-`kfree` resource-leak fix, not cleanup-only.
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS - LINE BY LINE
@@ -129,46 +120,49 @@ PHASE 2: DIFF ANALYSIS - LINE BY LINE
 
 **Step 2.1: INVENTORY THE CHANGES**
 Record:
-- File: `fs/ntfs3/dir.c` — **+5 / −0**
-- Function: `ntfs_utf16_to_nls()`
-- Scope: single-function, surgical
+- File: `fs/ntfs3/index.c` — **+1 / −0**
+- Function: `indx_find_sort()`
+- Scope: **single-file surgical fix** (one line in the `pop_level` path)
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Record (pre-fix from `4871fedaabbfd^`):
-```
-ret = utf16s_to_utf8s(..., buf, buf_len);
-buf[ret] = '\0';
-return ret;
-```
-and NLS loop using full `buf_len`, then `*op = '\0'`.
-
-After: if `buf_len <= 0` → `-EINVAL`; else `buf_len -= 1`; conversion
-and NUL write use the reduced size. Return value is still converted
-bytes without the terminator.
+Record (before → after):
+- Before: `fnd_pop(fnd); kfree(n);` — node struct freed; `n->index` (and
+  buffer heads in `n->nb`) left allocated.
+- After: `fnd_pop(fnd); kfree(n->index); kfree(n);` — index buffer and
+  node struct freed.
+- Path: **normal** pop-level path when the current directory entry is
+  the last in that index block and the walk moves to the parent. Not
+  init-only.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record: **Memory safety — 1-byte out-of-bounds write.**
+Record: **[Memory leak / resource leak]**
+- `indx_read()` / `indx_read_ra()` allocates `struct indx_node` and
+  `in->index` (`kmalloc(bytes, GFP_NOFS)` where `bytes = 1u <<
+  indx->index_bits`, typically 4096).
+- Correct teardown is `put_indx_node()`: `kfree(in->index);
+  nb_put(&in->nb); kfree(in);`.
+- Sibling `indx_find_raw()` already does `fnd_pop()` +
+  `put_indx_node(n)`.
+- `indx_find_sort()` used `kfree(n)` only. This patch adds
+  `kfree(n->index)` on the pop path.
+- Mechanism: missing free of owned `kmalloc` buffer.
 
-Verified `utf16s_to_utf8s()` in `fs/nls/nls_base.c`: it loops `while
-(inlen > 0 && maxout > 0)` and for ASCII does `*op++ = ...; maxout--;`.
-It can write exactly `maxout` bytes and return that count. `buf[ret] =
-'\0'` is then OOB.
-
-NLS: `uni2char()` is called only when `buf_len >= NLS_MAX_CHARSET_SIZE`
-(6). If `charlen == buf_len`, remaining space becomes 0 and `*op = '\0'`
-is OOB. Same class of contract bug.
+Note (verified, not a reason to reject): the patch does **not** call
+`nb_put(&n->nb)`, so buffer_head refs can still leak on this path. Two
+other `kfree(n)` sites in the same function (invalid-entry error paths
+at the `de_has_vcn_ex` loop) are also unchanged.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
 Record:
-- Correct and minimal: reserve the byte the function already uses for
-  NUL.
-- Return contract unchanged (length without NUL) — matches
-  `ntfs_dir_emit()`, `ntfs_readlink_hlp()`, ADS listing.
-- Regression risk: **low**. Worst case is truncating one extra byte on a
-  max-length conversion instead of overflowing.
-- `buf_len <= 0` → `-EINVAL` is defensive; current callers pass
-  `PATH_MAX` or `PAGE_SIZE`.
-- No API/ABI/feature change.
+- Obviously correct for the stated leak: `kfree(n->index)` matches the
+  first action of `put_indx_node()`; `kfree(NULL)` is safe; `fnd_pop()`
+  NULLs the stack slot so later `fnd_clear()`/`put_indx_node()` will not
+  double-free.
+- Minimal: one line, no unrelated edits, no API change.
+- Regression risk: **very low**. Does not change lookup results,
+  locking, or on-disk layout.
+- Residual risk: incomplete vs `put_indx_node()` (BH leak remains). That
+  is an unfixed sibling leak, not a regression introduced by this line.
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
@@ -176,36 +170,35 @@ PHASE 3: GIT HISTORY INVESTIGATION
 
 **Step 3.1: BLAME THE CHANGED LINES**
 Record:
-- Unconditional `buf[ret] = '\0'` / `*op = '\0'` from
-  **`4342306f0f0d5`** (“fs/ntfs3: Add file operations and
-  implementation”, 2021-08-13).
-- Contained in **v5.15-rc1**.
-- UTF-8 call adjusted in `2c69078851b3d` (“Rework ntfs_utf16_to_nls”,
-  2021-10) but still passed full `buf_len`.
-- Bug is old (since ntfs3 landed), not last-month code.
+- Pop-level `kfree(n)` / `ntfs_free(n)` present since
+  **`82cae269cfa95`** (“fs/ntfs3: Add initialization of super block”,
+  2021-08-13) — NTFS3 introduction.
+- `ntfs_free(n)` → `kfree(n)` in **`195c52bdd5d5e`** (“Do not use driver
+  own alloc wrappers”, 2021-08-24); `ntfs_free` was just `kfree`, so the
+  leak is original, not introduced by that conversion.
+- This leak has existed for the entire life of NTFS3 in mainline (~5.15
+  onward).
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. Buggy code is the original function body from
-5.15, present in this tree’s ntfs3.
+Record: No `Fixes:` tag. Buggy code is the original `indx_find_sort()`
+implementation in `82cae269cfa95`, which **is an ancestor of HEAD**.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
 Record:
-- Same-class NUL bug: `a6cd43fe9b083` (“terminate the cached volume
-  label after UTF-8 conversion”) — `utf16s_to_utf8s()` does not NUL-
-  terminate; filling the buffer overruns `%s`.
-- Related bounds: `aa1bdbb39f49c` (OOB **read** of names in
-  `ntfs_dir_emit`) — different bug.
-- Later `be310476e8868` (ADS) adds a third caller; not a prerequisite.
-- Standalone 5-line fix, not patch X/Y.
+- Recent `fs/ntfs3/index.c` work is mostly bounds checks and cosmetics.
+- Related leak: `87ac077d6ea86` “ntfs3: fix memory leak in
+  indx_create_allocate()” — different function.
+- No later commit after `194491be54e1c` changes this site (`git log
+  194491be54e1c..HEAD -- fs/ntfs3/index.c` is empty).
+- Standalone 1-line patch, not “X/Y” of a series.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Only this ntfs3 commit from Kyle Zeng. Applied by **Konstantin
-Komarov** (ntfs3 maintainer) in the `ntfs3_for_7.3` pull
-(`dc83d18cdd904`).
+Record: Konstantin Komarov is the NTFS3 maintainer (Paragon). Many
+recent NTFS3 commits are his. Weight: high.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: None. Uses existing `utf16s_to_utf8s()` / NLS loop. Applies on
-top of the long-standing function.
+Record: None. The patch only uses existing `kfree`, `fnd_pop`, and
+`n->index`. Those exist in this tree. **Can apply standalone.**
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
@@ -213,73 +206,76 @@ PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
 Record:
-- `b4 dig -c 4871fedaabbfd` →
-  https://patch.msgid.link/20260611213331.16763-1-kylebot@openai.com
-- Only **v1** (`b4 dig -a`); that version was applied.
-- Lore HTTP fetch returned 403; full thread saved via `b4 dig -m
-  /tmp/ntfs3-nul.mbox`.
-- Maintainer (23 Jul 2026): “Your patch was applied, thank you.” **No
-  NAK.**
-- XIAO WU replied about a **different** remount/`sbi->options` UAF
-  (getdents vs remount). That is not this overflow and is not caused by
-  this patch. The nls load is unchanged.
+- `b4 dig -c 194491be54e1c` → https://patch.msgid.link/20260724111443.14
+  728-1-almaz.alexandrovich@paragon-software.com
+- `b4 dig -a`: single revision **v1** only (2026-07-24). Committed
+  version matches v1.
+- lore.kernel.org fetch returned 403; patch text confirmed via
+  Openwall/IU mirrors. No replies found on those archives (no NAK, no
+  Cc: stable in-thread).
+- Earlier independent patch (Jan 2026) from Jiasheng Jiang: “[PATCH v2]
+  fs/ntfs3: Fix memory and resource leak in indx_find_sort” replacing
+  **all three** `kfree(n)` with `put_indx_node(n)` and adding `Fixes:
+  82cae269cfa9`. That fuller patch was **not** merged; the maintainer
+  later landed this narrower 1-line version.
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): To `ntfs3@lists.linux.dev`; Cc maintainer
-Konstantin Komarov, LKML, `outbounddisclosures@openai.com`. Maintainer
-applied it. No extra `Reviewed-by`.
+Record (`b4 dig -w`): To/Cc: Konstantin Komarov,
+`ntfs3@lists.linux.dev`, `linux-kernel@vger.kernel.org`, `linux-
+fsdevel@vger.kernel.org`. No extra reviewer SOB on the commit.
+Maintainer self-applied.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: No syzbot/bugzilla/`Reported-by`. Bug is from code inspection.
-Reachability is from callers (Phase 5), not a public crash report.
+Record: No `Reported-by` / bugzilla / syzbot. Bug established from code
+(missing free vs `put_indx_node` / `indx_find_raw`). User-report count:
+**unverified / none found**.
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Standalone v1. Not part of a multi-patch series.
+Record: Jiang’s Jan 2026 patch is the more complete form of the same
+fix. This commit is a subset (pop path `n->index` only). No series
+dependency for applying this one line.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: lore.kernel.org/stable search via WebFetch → 403. No stable-list
-discussion in the saved mbox. **UNVERIFIED:** whether AUTOSEL already
-queued it for some -stable series (irrelevant to this tree’s technical
-decision).
+Record: lore.kernel.org/stable search was 403; web search did not turn
+up a stable-list thread for this subject. **No verified stable-list NAK
+or prior selection discussion.**
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
 **Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
-Record: `ntfs_utf16_to_nls()` only.
+Record: `indx_find_sort()` only.
 
 **Step 5.2: TRACE CALLERS**
-Record (this tree):
-1. **`ntfs_dir_emit()`** (`fs/ntfs3/dir.c`) — readdir/`getdents`. Buffer
-   `kmalloc(PATH_MAX)` (`PATH_MAX=4096`). `static_assert(NTFS_NAME_LEN *
-   4 < PATH_MAX)` (`NTFS_NAME_LEN=255` → max 1020 UTF-8 bytes). **This
-   caller cannot fill PATH_MAX**, so the NUL OOB does not fire on normal
-   filenames.
-2. **`ntfs_readlink_hlp()` / `ntfs_get_link()`** (`fs/ntfs3/inode.c`) —
-   `readlink`/`get_link`. Buffer `kmalloc(PAGE_SIZE)` passed as
-   `buflen`. Reparse payload allowed up to `sbi->reparse.max_size`
-   (comment **16K**, from `$AttrDef`). A UTF-16 path of ~4096 ASCII
-   units fills the page; then `buf[ret]='\0'` and the extra
-   `buffer[err]=0` in `ntfs_readlink_hlp()` are **one past the heap
-   object**.
-3. **ADS listing in `frecord.c`** — `PAGE_SIZE` and `name_len` is `u8`
-   (max 255). Same as filenames; **does not fill PAGE_SIZE**. Added
-   after this fix; not required for the bug.
+Record: Only caller in this tree is `ntfs_insert_security()` in
+`fs/ntfs3/fsntfs.c` (SDH index walk when inserting a security
+descriptor). That is called from:
+- `inode.c` file/inode create when a new default/dir security id must be
+  stored
+- `xattr.c` when setting a security descriptor xattr
+
+Not interrupt context. Process context, under `ni->ni_lock`. Finder is
+released with `fnd_put()` → `fnd_clear()` → `put_indx_node()` for
+**remaining** stack nodes; popped nodes are supposed to be freed in
+`indx_find_sort` itself.
 
 **Step 5.3: TRACE CALLEES**
-Record: `utf16s_to_utf8s()` / `utf32_to_utf8()`; NLS `uni2char()`.
-Conversion, then a terminator store. No new locks/allocs.
+Record: `fnd_pop`, `kfree`, `indx_read`/`hdr_first_de`/`de_is_last` on
+the surrounding path. `indx_read_ra` allocates node + index buffer +
+buffer_heads.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Userspace **`readlink(2)`** on an NTFS symlink/junction/reparse
-target. Unprivileged if the volume is mounted. Also reachable from a
-**crafted NTFS image** (USB, etc.). Readdir is a common path but, given
-PATH_MAX vs 255-char names, not the overflow trigger.
+Record: Userspace NTFS3 create/`setxattr` → `ntfs_insert_security` →
+`indx_find` then loop `indx_find_sort`. **Reachable from userspace** on
+a mounted ntfs3 volume. Not every I/O; triggered when inserting (or
+searching duplicate) security descriptors in `$Secure::$SDH`. If the SDH
+B-tree is deeper than root, pop_level runs and leaked before this fix.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Volume label (`a6cd43fe9b083`) is the same `utf16s_to_utf8s()` +
-missing terminator class. Confirms the contract bug is real in ntfs3.
+Record: Same function still has `kfree(n)` without `kfree(n->index)` on
+two **error** paths. `indx_find_raw` already uses `put_indx_node`.
+Pattern is systematic in `indx_find_sort`, only partly fixed here.
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
@@ -287,68 +283,73 @@ PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
 Record:
-- `git describe HEAD` → **`v7.3-rc4-27-gf0100363d8c37`**
-- `make kernelversion` / Makefile → **7.3.0-rc4**
-- `ntfs_utf16_to_nls()` exists in `fs/ntfs3/dir.c`; callers exist.
-- Bug introduced **v5.15**, well before this branch.
-- `git merge-base --is-ancestor 4871fedaabbfd HEAD` → commit is already
-  an ancestor (current file already has `buf_len -= 1`). That is **not**
-  used as “already selected for stable.”
-- Verdict is: this tree’s ntfs3 **has** the function and needed the fix.
+- Local tree: **`v7.3-rc4-27-gf0100363d8c37`**, `make kernelversion` =
+  **7.3.0-rc4**.
+- `fs/ntfs3/index.c` `indx_find_sort()` exists. Pre-image is `fnd_pop` +
+  `kfree(n)` without freeing `n->index`.
+- Bug introduced with NTFS3 in **`82cae269cfa95` (2021)**, present in
+  this tree (`git merge-base --is-ancestor 82cae269cfa95 HEAD`
+  succeeded).
+- This is not “new code after this branch point.”
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: Clean 5-line insert after `static_assert`. Surrounding function
-matches the pre-fix form from 5.15-era ntfs3. **Expected apply: clean**
-on a tree that still has the unfixed function.
+Record: **Clean apply.** Surrounding function text is the original
+structure; the hunk is one added line. No conflicting refactor of
+`indx_find_sort` in this tree. `put_indx_node()` already exists if a
+slightly richer backport were used, but this exact diff applies as-is.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: No other commit fixes this terminator OOB in
-`ntfs_utf16_to_nls()`. Label NUL fix is a sibling pattern, not a
-substitute.
+Record: No earlier alternative (Jiang `put_indx_node`) in this history.
+This commit **is** the fix that landed (`ntfs3_for_7.3` merge
+`dc83d18cdd904`). No competing fix for the same `kfree(n)` pop site.
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: **fs/ntfs3** — **IMPORTANT** (in-tree filesystem, not staging;
-`CONFIG_NTFS3_FS`). Not core VFS/mm, but used on removable NTFS volumes.
+Record: **[fs/ntfs3] [IMPORTANT]** — real RW filesystem
+(CONFIG_NTFS3_FS), not staging. Not core VFS/mm, but used on Windows
+volumes, dual-boot, and some appliances. Leak is in metadata index walk
+for `$Secure`.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Active (7.3 pull has many bounds/UAF/leak fixes). This
-particular helper has been stable since 5.15.
+Record: Active (many 7.3 NTFS3 fixes). The leak itself is old (2021),
+not a bug in brand-new code.
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: **Filesystem-specific / config-specific** — `CONFIG_NTFS3_FS`
-users, especially `readlink` on reparse/symlink. Default charset is
-UTF-8 (`nls` NULL), which is the clearer overflow path.
+Record: **filesystem-specific / config-specific** — `CONFIG_NTFS3_FS`
+users who insert security descriptors (file create with new/default SD,
+security xattr). Not universal.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
 Record:
-- Trigger: convert a UTF-16 string whose UTF-8 (or NLS) form uses the
-  **entire** destination, then write NUL.
-- **Common readdir:** unlikely (255-char names vs PATH_MAX).
-- **readlink of a long reparse target:** realistic on crafted or unusual
-  NTFS images; unprivileged if the fs is mounted.
-- Not a race.
+- Trigger: `indx_find_sort()` after a descent into an index allocation
+  block, then last-entry pop.
+- How common: not every syscall; **per unique-SD insert / SDH hash-chain
+  walk**, not a once-per-boot init-only leak. Repeated unique ACLs leak
+  repeatedly.
+- Unprivileged users: if they can create files or set security xattrs on
+  ntfs3, yes. Typical create after `def_security_id` is cached may not
+  re-enter insert; still reachable.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: **1-byte heap overflow** past `kmalloc(PAGE_SIZE)` in
-`ntfs_get_link()`. **Severity: HIGH** (memory corruption; crash and
-possible security impact). Not a panic on every boot, but it is a real
-memory-safety bug.
+Record: **[kernel memory leak of index buffers (and remaining BH refs)]
+[HIGH for the kmalloc leak on a live FS path; not panic/corruption].**
+Unbounded across many unique SD inserts; can contribute to memory
+pressure. Not a crash or data-corruption bug.
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
 Record:
-- **Benefit: HIGH** — closes a heap OOB on ntfs3 `readlink`, cheap and
-  correct.
-- **Risk: VERY LOW** — 5 lines, local, return contract unchanged, slight
-  extra truncation vs overflow.
-- **Ratio: strongly favors applying.**
+- **Benefit:** medium-high for ntfs3 users — stops a real leak on a used
+  lookup path; 4 KiB+ per popped level.
+- **Risk:** very low — 1 line, same pattern as `put_indx_node`’s first
+  free, no lock/API change.
+- **Ratio:** strongly in favor of taking the fix.
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
@@ -357,123 +358,129 @@ PHASE 9: FINAL SYNTHESIS
 **Step 9.1: COMPILE THE EVIDENCE**
 
 FOR:
-- Real off-by-one write: conversion may fill `buf_len`, then a NUL is
-  stored at `buf[buf_len]`.
-- Confirmed in `utf16s_to_utf8s()`; NLS path has the same contract hole.
-- Reachable from `ntfs_get_link()` (`readlink`, `PAGE_SIZE`, reparse up
-  to ~16K).
-- Small, obviously correct; return value still excludes NUL.
-- Maintainer applied v1; no NAK of the overflow fix.
-- Same `utf16s_to_utf8s()` terminator class already fixed for volume
-  labels.
-- Present in this tree’s ntfs3 since 5.15; no missing helpers.
+- Real leak: `kfree(n)` drops the node without freeing `n->index`
+  allocated in `indx_read_ra()`.
+- Normal pop path, not style-only.
+- 1 line, obviously correct, maintainer-authored.
+- Code and bug exist in this 7.3-rc4 tree since NTFS3 was added.
+- Applies cleanly; no prerequisites.
+- Same class as many stable leak fixes; sibling `indx_find_raw` already
+  frees via `put_indx_node()`.
+- Reachable from userspace ntfs3 create/xattr.
 
 AGAINST:
-- No syzbot/`Reported-by`/reproducer in the message.
-- Readdir/`PATH_MAX` cannot hit it for legal 255-char names.
-- LLM-assisted; one list reply was about an unrelated remount UAF.
-- No `Fixes:`/`Cc: stable` (not a negative for this review).
+- Not a crash, deadlock, or corruption issue.
+- Incomplete: no `nb_put()`, two error-path `kfree(n)` sites remain.
+- Single caller (`ntfs_insert_security`), not a hot readdir path.
+- No syzbot/user `Reported-by`, no in-commit tests.
 
 UNRESOLVED:
-- Stable-list AUTOSEL status (lore/stable HTTP 403).
-- Exact on-disk `$AttrDef` `$REPARSE_POINT` max on every volume (code
-  comments 16K; crafted images can still supply a long path).
+- Could not fetch lore.kernel.org (403) or confirm stable-list
+  discussion.
+- No public reply thread found on mirrors for the July v1 mail.
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — contract is clear;
-   maintainer merged it. No extra Tested-by, but the code change is
-   verifiable.
-2. Fixes a real bug that affects users? **PASS** — heap OOB on
-   `readlink` of a long NTFS reparse target.
-3. Important (crash/security/corruption/deadlock)? **PASS** — HIGH:
-   1-byte heap overflow / memory corruption.
-4. Small and contained? **PASS** — +5 lines, one function.
-5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — function and callers exist;
-   patch is a trivial insert.
+1. Obviously correct and tested? **PASS** — correctness is visible from
+   `put_indx_node()` / `indx_find_raw()`. Testing is only implied by
+   maintainer merge, not a Tested-by tag.
+2. Fixes a real bug that affects users? **PASS** — leaked kernel
+   allocations on ntfs3 SD insert/lookup.
+3. Important issue (crash, security, corruption, deadlock)? **PASS** —
+   memory leak on a live FS path (stable routinely takes these). Not
+   CRITICAL severity, but it is a real resource leak, not cosmetic.
+4. Small and contained? **PASS** — +1 line, one function.
+5. No new features or APIs? **PASS**.
+6. Can apply to the local tree? **PASS** — context matches; ntfs3 and
+   `indx_find_sort()` are present.
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: None (not an ID/quirk/DT/build/docs exception). It is a normal
-memory-safety fix.
+Record: Not a device-ID/quirk/DT/build/docs exception. It is a normal
+leak fix.
 
 **Step 9.4: MAKE YOUR DECISION**
-This tree is **7.3.0-rc4** with in-tree ntfs3. The helper has written a
-NUL past a full conversion buffer since v5.15. On this tree that is hit
-by `ntfs_get_link()` with a `PAGE_SIZE` buffer, not by readdir’s
-oversized `PATH_MAX` name buffer. The fix is five lines, preserves the
-return contract, and is the right way to implement “convert then
-terminate.” Benefit vs risk favors applying it here.
+This tree is **7.3.0-rc4**. The leak exists in `indx_find_sort()` here
+and has since NTFS3 landed. The patch is a one-line `kfree(n->index)` on
+pop, matching the node’s ownership. Residual BH/error-path leaks do not
+make this line wrong or risky. Benefit outweighs risk.
 
-### What it solves for this tree
-`ntfs_utf16_to_nls()` treated `buf_len` as conversion space **and**
-still stored a terminator. `utf16s_to_utf8s()` is allowed to use every
-byte. `ntfs_get_link()` then NUL-terminates again at `buffer[err]`. A
-long symlink/junction on a mounted NTFS image can corrupt one heap byte.
-That is a real, important bug, not a style change.
+===============================================================
+What problem this solves for this tree
+===============================================================
+`indx_find_sort()` walks the NTFS `$SDH` B-tree. After `indx_read()`
+fills a child `indx_node`, popping that level used to `kfree` only the
+node object. The owned index buffer stayed allocated for every descent-
+then-pop. NTFS3 users inserting security descriptors (file create /
+security xattr) leak that memory. This commit frees `n->index` first,
+which is the correct teardown for that allocation.
 
-### Stable rules
-Obviously correct, small, no new API, no extra dependencies. Meets the
-documented stable criteria for this checkout.
+It meets stable rules: obviously correct, real leak, small, no new API,
+applies here. Risk is a single `kfree` on a pointer the node exclusively
+owns after `fnd_pop()`.
 
-### Risk vs benefit
-Very low regression risk; high benefit on a memory-safety path used by
-`readlink`.
+Concerns: the fuller `put_indx_node()` replacement was proposed earlier
+and would also drop buffer heads and fix two error paths; this commit is
+a partial fix. That is acceptable for stable — it still plugs the main
+pop-path kmalloc leak without depending on other commits.
 
-### Concerns
-- Filename readdir is not the realistic trigger (`NTFS_NAME_LEN * 4 <
-  PATH_MAX`).
-- List discussion mixed in an unrelated remount UAF; this patch does not
-  fix or worsen that.
-- No fuzzer report; still verified from the conversion contract and
-  callers in this tree.
+===============================================================
+Verification
+===============================================================
+- [Phase 1] Parsed commit `194491be54e1c`: subject/body leak fix; tags =
+  author SOB only; no Fixes/Reported-by/Cc: stable.
+- [Phase 2] Diff: +1 line `kfree(n->index)` before `kfree(n)` in
+  `indx_find_sort()` pop_level; confirmed `put_indx_node()` does
+  `kfree(in->index); nb_put(); kfree(in)`.
+- [Phase 2] Confirmed `indx_read_ra()` `kmalloc`s `ib` and assigns
+  `in->index = ib`.
+- [Phase 2] Confirmed `indx_find_raw()` uses `put_indx_node(n)` after
+  `fnd_pop`.
+- [Phase 3] `git blame`: pop path from `82cae269cfa95` (2021);
+  `kfree(n)` from `195c52bdd5d5e`; this line from `194491be54e1c`.
+- [Phase 3] `git merge-base --is-ancestor 82cae269cfa95 HEAD` and
+  `194491be54e1c HEAD`: both true.
+- [Phase 3] `git log 194491be54e1c..HEAD -- fs/ntfs3/index.c`: no later
+  change to this file.
+- [Phase 3] No `Fixes:` tag to follow.
+- [Phase 4] `b4 dig -c 194491be54e1c`: lore msgid
+  `20260724111443.14728-1-almaz.alexandrovich@paragon-software.com`;
+  `-a` v1 only; `-w` ntfs3/fsdevel/lkml.
+- [Phase 4] Openwall/IU mirrors: patch text matches commit; no replies
+  found.
+- [Phase 4] Found unmerged Jan 2026 Jiasheng Jiang `put_indx_node` patch
+  (lkml.iu.edu / gnuweeb).
+- [Phase 4] lore.kernel.org WebFetch: 403. Stable-list hit:
+  **UNVERIFIED**.
+- [Phase 5] `git grep indx_find_sort`: only `ntfs_insert_security` +
+  declaration.
+- [Phase 5] `ntfs_insert_security` `out:` calls `fnd_put(fnd_sdh)`.
+- [Phase 6] `git describe HEAD` = `v7.3-rc4-27-gf0100363d8c37`; `make
+  kernelversion` = 7.3.0-rc4.
+- [Phase 6] Pre-fix source at `194491be54e1c^` still has `kfree(n)`
+  without `kfree(n->index)`.
+- [Phase 8] Failure mode: kmalloc leak of index buffers on SDH pop;
+  severity HIGH for leak class, not oops/corruption.
+- UNVERIFIED: whether any user actually hit OOM from this; mailing-list
+  review comments beyond the isolated patch mail.
 
-Verification:
-- [Phase 1] Subject/tags: overflow + reserve NUL; SOB Kyle Zeng +
-  Konstantin Komarov; Assisted-by Codex; no Fixes/Reported-by/Cc stable
-- [Phase 2] Diff: +5 in `ntfs_utf16_to_nls()`: `buf_len <= 0` →
-  `-EINVAL`, then `buf_len -= 1`
-- [Phase 2] `utf16s_to_utf8s()` (`fs/nls/nls_base.c:189-242`) can return
-  `maxout`; pre-fix `buf[ret] = '\0'` is OOB
-- [Phase 3] Blame: `4342306f0f0d5` (v5.15-rc1); rework `2c69078851b3d`
-  did not reserve NUL
-- [Phase 3] `git merge-base --is-ancestor 4871fedaabbfd HEAD` — commit
-  is in this history; not used as circular “already selected”
-- [Phase 3] No prerequisites; later ADS caller is independent
-- [Phase 4] `b4 dig -c 4871fedaabbfd` →
-  patch.msgid.link/20260611213331.16763-1-kylebot@openai.com; v1 only;
-  maintainer applied; XIAO WU UAF is a different bug
-- [Phase 4] WebFetch lore/stable: 403; thread recovered via `b4 dig -m`
-- [Phase 5] Callers: `ntfs_dir_emit` (PATH_MAX, cannot fill),
-  `ntfs_readlink_hlp`/`ntfs_get_link` (PAGE_SIZE, can fill), ADS
-  `PAGE_SIZE` (255-char names)
-- [Phase 6] `git describe HEAD` = v7.3-rc4-27-gf0100363d8c37;
-  `kernelversion` 7.3.0-rc4; ntfs3 and callers present
-- [Phase 7] fs/ntfs3, in-tree, not staging
-- [Phase 8] Failure: 1-byte heap write past `kmalloc(PAGE_SIZE)` on
-  `readlink`; HIGH
-- UNVERIFIED: AUTOSEL/stable-list queue status (HTTP 403)
+The fix is small, surgical, and meets the stable criteria for this tree.
 
 **YES**
 
- fs/ntfs3/dir.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ fs/ntfs3/index.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index 6e1d2ad8c12ea..6d588efaf9fdf 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -24,6 +24,11 @@ int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const __le16 *name, u32 len,
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index edfcd28573ef9..03ae5a817c1b4 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -1325,6 +1325,7 @@ int indx_find_sort(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 		/* Pop one level. */
+ 		if (n) {
+ 			fnd_pop(fnd);
++			kfree(n->index);
+ 			kfree(n);
+ 		}
  
- 	static_assert(sizeof(wchar_t) == sizeof(__le16));
- 
-+	if (buf_len <= 0)
-+		return -EINVAL;
-+
-+	buf_len -= 1;
-+
- 	if (!nls) {
- 		/* UTF-16 -> UTF-8 */
- 		ret = utf16s_to_utf8s((wchar_t *)name, len, UTF16_LITTLE_ENDIAN,
 -- 
 2.53.0
 
