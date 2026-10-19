@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB80D352009;
-	Mon, 19 Oct 2026 14:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542135D5DB7;
+	Mon, 19 Oct 2026 14:02:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418425; cv=none; b=YvlfY9tH92SZOVskq6GYUJNuDVm1UAoJiYQeBFL+TgJBpIp0XmlKleUh/p4SPmPLFNTsBr9ss4qg4HHgst7ULH2YXZxYqSy0+cTtJOJQsIfcB/UB/9V/mlnSRQZlpOfinoOJ9cXOB4c6qyNBFe54SRQqb5gaaszu/kmD2qKNs/4=
+	t=1792418523; cv=none; b=PsxawrTLTtbet76Ii6KR+9z2TZGgI18KjtWqkERvaW8PEiSzk7blJKJkkB7oueDkRuPbKfEnzvWrA6j/hNnKJNvq/3xJJGld8Pur0DakrTBhSO3cZNDFtiw//cPzVlMV9xmuXTugLtLwTe6hqKReuesYGZNPVP86f59xzNiYtBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418425; c=relaxed/simple;
-	bh=6PwSBrS2ZGfT06hFAOJC6dWaXblSkBfSl5CfCBq/Ec0=;
+	s=arc-20240116; t=1792418523; c=relaxed/simple;
+	bh=jFjoZje5kLn73JJIeD6nU3VHpkgdr+EoS63/2I4yVqA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gyVZwV9Sb14cwaYRKp/Sofzbl1eia7IW4wWUAktTJHZaaL0aeQ2jjfoMGh2tOb9vuIaTlktqqtZ857lnRVllCYfAFAAPrCFUbiXbR7+l/CM6S9hcUOddmcggQXGwzwBWlhTbVo/hcPpu2p2IGqWVMr35LTtIQYcwc8QDiXQF8Nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dlvTZ10o; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=uxGI4lbDeA8R6UuKepxwJjFhDfHAk4/LUwj/deSJn3D32mVfkrGWGmRgo8sybhWA/0ptLYXgFACHzFlLdXf+JmBfRQghlA9bvY2uiliMqZhdnG9EucnYwt2FR9/qCSBGfRP6/01caxY/BeZFxN7pOQ7ZZcC/hibRAVWTHkP2iuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jsQZLJj0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dlvTZ10o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 016821F000C4;
-	Mon, 19 Oct 2026 14:00:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jsQZLJj0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E89A1F000CD;
+	Mon, 19 Oct 2026 14:01:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418422;
-	bh=a/KgmAAZ3k/Z5sTWmZqE+o4FWT0QypiHnRzefYdkXpE=;
+	s=k20260515; t=1792418519;
+	bh=wbCfE7+0JL3bHLkZaRl4667sbctaeZUWcJ36KHksLU8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=dlvTZ10of5mqT7vWgBNJX2DZWrRI/SDJ0T4srfEt/0ZsJZLkAiyVlL5ZzsXOrs5zb
-	 Gq62nSE+6cPyitOVDbX7fh/f1G+FCiYvV/FzP0qa0PirkBl74WrcwCm1J9Nqqfpk1k
-	 ebNezwscN61pmQFAjZ6g6uzmfN21NFGufezyiu8oPUHArt3X1ic/cR+K7RKJH3lM5W
-	 WGYyX+0tthyOENa8Fq1U2con0rW2zQUVtSt8peImxmwHk9xojb9E7RF6nLDZx+Hws3
-	 HdxuomrQk9diiZI7tG1+n7qisGiNcMaG3wcPUjAuCCLfF1M/MgBJfzK/UynayM46rT
-	 zY8qvWT5WTxsQ==
+	b=jsQZLJj0Xzt6k5uslVbISviUURz0CZWLXYkK7bmWS/IpWACqArtJWN9Qc4CWlT1RO
+	 p0YV9t/V4qXnPxuVWRX6XE5nfUetvaWdp6elCxr7nKRU6E55xnJIHcon1GPL7pUdii
+	 sGoG+cLGfDxuiTRwUJsqrem74Otk6mNWt4DFXrzQnwOObc11TjN/cQiIOY9BqOwaML
+	 A/4IYqCeiT+CUVaSOIFoGKs563wXMqXOr4YHkD7Tm8mZ7c9hZBBT0kyPbTJsXYbJ9F
+	 beP89md4SVnJYYKTkY2M4nGhCy8vGhfOgJlC5o2UkCHtgxYO55hnlh6N/91rBDsut5
+	 9O7jng4C0Ja/w==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Senjin <senjin@hatchling.org>,
+Cc: Senjin <senjin@hatchling.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.15] fs/ntfs3: load ATTR_BITMAP run extents from $MFT extension records
-Date: Mon, 19 Oct 2026 09:48:49 -0400
-Message-ID: <20261019135441.1420968-238-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.15] fs/ntfs3: fix lseek EINVAL on sparse/compressed files with 64-bit clusters
+Date: Mon, 19 Oct 2026 09:49:57 -0400
+Message-ID: <20261019135441.1420968-306-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -52,27 +52,31 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+From: Senjin <senjin@hatchling.org>
 
-[ Upstream commit e31886cb6e0e14cf65e27da0bf1a422ff419d893 ]
+[ Upstream commit 789af83e41aef54c1ff1cee16adc27822e0a0d71 ]
 
-When $MFT's ATTR_BITMAP attribute is heavily fragmented, its run list
-can span multiple MFT extension records (attribute list entries with
-vcn > 0). The non-primary segment handler in ntfs_read_mft() only
-processed ATTR_DATA extension segments for MFT_REC_MFT, silently
-skipping any ATTR_BITMAP segments. This left sbi->mft.bitmap.run
-incomplete, causing wnd_init() to fail with -ENOENT when wnd_rescan()
-tried to look up a VCN not covered by the truncated run list.
+When CONFIG_NTFS3_64BIT_CLUSTER is enabled, sbi->maxbytes_sparse is set
+to -1. As a signed loff_t this is -1LL, the most negative value. Any
+lseek on a sparse or compressed file passes this as maxsize to
+vfs_setpos(), which returns -EINVAL whenever offset > maxsize, and
+since -1LL is less than any non-negative offset, every seek fails,
+including lseek(fd, 0, SEEK_SET).
 
-Observed on a 16 TB NTFS volume (0xFFFFFEFF total clusters) whose MFT
-bitmap run list was split across 97 extents in extension records.
-wnd_rescan() successfully looked up VCNs 0-122 from the runs loaded
-from the base record, then failed at VCN 123 (the last cluster of the
-bitmap) whose run was only present in an extension record.
+The intent of -1 here appears to be "no limit" (matching the spirit of
+MAX_LFS_FILESIZE assigned to sbi->maxbytes and sb->s_maxbytes in the
+same block), but the signed type makes it the minimum instead of the
+maximum.
 
-Fix by extending the MFT_REC_MFT special case to also handle
-ATTR_BITMAP extension segments, storing their runs into
-sbi->mft.bitmap.run the same way the primary segment does.
+Fix by assigning MAX_LFS_FILESIZE to sbi->maxbytes_sparse in the
+64-bit cluster path, consistent with the other two limits set there.
+
+Observed on a 16 TB NTFS volume with 0xFFFFFEFF total clusters compiled
+with CONFIG_NTFS3_64BIT_CLUSTER=y. Sequential reads via dd/cp worked
+correctly; any lseek call on sparse files returned EINVAL, preventing
+archive managers and other tools from random-accessing files on the
+volume. The non-64-bit-cluster path correctly sets maxbytes_sparse to
+(1ull << (cluster_bits + 32)) - 1, a large positive value.
 
 Signed-off-by: Senjin <senjin@hatchling.org>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
@@ -81,329 +85,267 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 
 LLM Generated explanations, may be completely bogus:
 
-I have enough to judge this: a real NTFS3 mount failure, a small first-
-pass run-list fix, and a related later `super.c` workaround already in
-this 7.3 tree. Writing the full 9-phase analysis next.
+This is a one-line NTFS3 correctness fix: with 64-bit clusters,
+sparse/compressed `lseek` was passing a signed `-1` limit into
+`vfs_setpos()`, so every nonnegative seek returned `-EINVAL`. The local
+tree is **7.3.0-rc4** (`v7.3-rc4-27-gf0100363d8c37`); the path and the
+bug both exist here.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-
-Record: **[fs/ntfs3] [load] load ATTR_BITMAP run extents from $MFT
-extension records**
-
-The verb is “load”, not “fix”, but the body describes a mount failure
-and a missing code path. Intent is a bug fix.
+Record: `[fs/ntfs3] [fix] [lseek returns EINVAL on sparse/compressed
+files when CONFIG_NTFS3_64BIT_CLUSTER is set]`
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-
-Commit: `e31886cb6e0e14cf65e27da0bf1a422ff419d893`
-
-Tags present:
-- `Signed-off-by: Senjin <senjin@hatchling.org>` (author of the fix)
+Record:
+- `Signed-off-by: Senjin <senjin@hatchling.org>` (author)
 - `Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-
-  software.com>` (ntfs3 maintainer)
-
-Tags absent (expected for this pipeline): `Fixes:`, `Cc: stable`,
-`Reported-by`, `Tested-by`, `Reviewed-by`, `Acked-by`, `Link:`.
-
-AuthorDate: 2026-07-02; CommitDate: 2026-07-24 (maintainer applied it).
+  software.com>` (NTFS3 maintainer; listed in MAINTAINERS)
+- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
+  by:`, `Link:`, or `Cc: stable@` (absence is expected for this review)
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-
 Record:
-- **Bug:** When `$MFT`’s `ATTR_BITMAP` is heavily fragmented, its run
-  list spans MFT extension records (`le->vcn > 0`). `ntfs_read_mft()`
-  only unpacked `ATTR_DATA` extension segments for `MFT_REC_MFT` and
-  skipped `ATTR_BITMAP` segments.
-- **Symptom:** `sbi->mft.bitmap.run` is truncated. `wnd_init()` →
-  `wnd_rescan()` → `run_lookup_entry()` returns `-ENOENT`. Mount fails.
-- **Evidence:** 16 TB volume (`0xFFFFFEFF` clusters). Bitmap run list
-  split across 97 extents. VCNs 0–122 found from the base record; VCN
-  123 (last bitmap cluster) only in an extension record.
-- **Root cause:** Non-primary segment handler too narrow (`ino !=
-  MFT_REC_MFT || attr->type != ATTR_DATA`).
-- **Fix:** Same special case also unpacks `ATTR_BITMAP` into
-  `sbi->mft.bitmap.run`.
-- **Versions:** None named in the message. Observation used
-  `CONFIG_NTFS3_64BIT_CLUSTER=y` (from the v2 cover letter).
+- **Bug:** With `CONFIG_NTFS3_64BIT_CLUSTER`, `sbi->maxbytes_sparse` is
+  set to `-1`. Used as signed `loff_t`, that is `-1LL`. `ntfs_llseek()`
+  passes it to `vfs_setpos()` / `generic_file_llseek_size()`, which
+  rejects any `offset > maxsize`.
+- **Symptom:** Every `lseek` on sparse/compressed files fails with
+  `EINVAL`, including `lseek(fd, 0, SEEK_SET)`. Sequential `dd`/`cp`
+  still work. Archive managers cannot random-access those files.
+- **Trigger:** Observed on a 16 TB NTFS volume (`0xFFFFFEFF` clusters)
+  with `CONFIG_NTFS3_64BIT_CLUSTER=y`.
+- **Root cause:** `-1` was meant as “no limit” (same idea as
+  `MAX_LFS_FILESIZE` for `sb->s_maxbytes`), but as a signed max it is
+  the minimum, not the maximum.
+- **Fix:** Assign `MAX_LFS_FILESIZE` instead, matching `sb->s_maxbytes`
+  in the same `#ifdef`.
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-
-Record: Not a disguised cleanup. Explicit mount-failure fix; “load” is
-the mechanism.
+Record: `[Not hidden]` — subject and body describe a real, reproduced
+functional bug.
 
 ---
 
-## PHASE 2: DIFF ANALYSIS
+## PHASE 2: DIFF ANALYSIS - LINE BY LINE
 
 **Step 2.1: INVENTORY THE CHANGES**
-
 Record:
-- File: `fs/ntfs3/inode.c` — **+8 / −2** (net +6)
-- Function: `ntfs_read_mft()`
-- Scope: **single-file surgical fix**
+- File: `fs/ntfs3/super.c` — 1 insertion, 1 deletion
+- Function: `ntfs_init_from_boot()`
+- Scope: single-file surgical one-liner
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-
-Before (parent `e31886cb6e0e1^`):
-
-```c
-if (le && le->vcn) {
-    /* non-primary segment */
-    if (ino != MFT_REC_MFT || attr->type != ATTR_DATA)
-        goto next_attr;
-    run = &ni->file.run;
-    ...
-    goto attr_unpack_run;
-}
-```
-
-After:
-
-```c
-if (le && le->vcn) {
-    if (ino != MFT_REC_MFT)
-        goto next_attr;
-    if (attr->type == ATTR_DATA)
-        run = &ni->file.run;
-    else if (attr->type == ATTR_BITMAP)
-        run = &sbi->mft.bitmap.run;
-    else
-        goto next_attr;
-    ...
-    goto attr_unpack_run;
-}
-```
-
-Record: Non-primary `$MFT` `ATTR_BITMAP` segments now take the same
-`attr_unpack_run` path the primary `ATTR_BITMAP` case already uses (`run
-= &sbi->mft.bitmap.run` around inode.c:323–333). Other inodes and other
-attribute types still skip non-primary segments.
+Record:
+- **Before:** `#ifdef CONFIG_NTFS3_64BIT_CLUSTER` always does
+  `sbi->maxbytes_sparse = -1`.
+- **After:** `sbi->maxbytes_sparse = MAX_LFS_FILESIZE`.
+- Path: superblock init at mount. Affects every later
+  `ntfs_get_maxbytes()` use for sparse/compressed inodes.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
+Record: `[Logic / type-signedness]`
 
-Record: **[Logic / correctness]** Incomplete run-list construction.
-Missing handling of `$MFT` `ATTR_BITMAP` extension segments left
-`sbi->mft.bitmap.run` short, so `wnd_rescan()` failed with `-ENOENT` at
-an uncovered VCN.
+Verified types and call path:
+- `maxbytes_sparse` is `u64` (`fs/ntfs3/ntfs_fs.h`). Assigning `-1`
+  stores `U64_MAX`.
+- `ntfs_get_maxbytes()` returns that as `loff_t`. `U64_MAX` → `-1LL`.
+- `ntfs_llseek()` (`fs/ntfs3/file.c`) passes that to
+  `generic_file_llseek_size()` / `vfs_setpos()`.
+- `vfs_setpos_cookie()` (`fs/read_write.c`) does `if (offset > maxsize)
+  return -EINVAL`. For `offset == 0` and `maxsize == -1`, `0 > -1` is
+  true.
+
+Same conversion also breaks `ntfs_iomap_begin()`’s `IOMAP_REPORT` check
+(`offset > ntfs_get_maxbytes(ni)`), so fiemap/bmap on those files can
+fail the same way.
+
+The `#else` path already uses a large positive `(1ull << (cluster_bits +
+32)) - 1`.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-
 Record:
-- Obviously correct: it mirrors the existing `ATTR_DATA` special case
-  and the primary `ATTR_BITMAP` assignment.
-- Minimal: one condition split, one extra branch.
-- Regression risk: low. `run_add_entry()` allows overlapping runs, so a
-  later second unpack is safe.
-- No API / locking / data-structure change.
+- Obviously correct: `MAX_LFS_FILESIZE` is `LLONG_MAX` on 64-bit
+  (`include/linux/fs.h`); this config is 64-bit-only (`#error` on
+  32-bit). Same constant is already assigned to `sb->s_maxbytes` in this
+  block.
+- Minimal: one assignment change, no API/struct change.
+- Regression risk: very low. Limit goes from “every seek fails” to the
+  VFS max file size. `ntfs_set_size()` / attrib insert compare against
+  `u64`; `LLONG_MAX` is still a huge positive cap and matches VFS, vs
+  the old `U64_MAX` which was accidentally unlimited on those u64
+  checks.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
 **Step 3.1: BLAME THE CHANGED LINES**
-
-Record: Buggy test `if (ino != MFT_REC_MFT || attr->type != ATTR_DATA)`
-comes from **`82cae269cfa953`** (“fs/ntfs3: Add initialization of super
-block”, 2021-08-13) — original ntfs3 merge. Present since **v5.15**.
+Record:
+- Buggy assignment introduced in `82cae269cfa95` (“fs/ntfs3: Add
+  initialization of super block”, 2021-08-13), first in **v5.15-rc1**.
+- Field has been `u64 maxbytes_sparse` since the original headers
+  (`4534a70b7056f`).
+- User-visible `lseek` breakage requires `ntfs_llseek()` using
+  `ntfs_get_maxbytes()`, added in `c613269677283` (“implement llseek
+  SEEK_DATA/SEEK_HOLE…”), contained in **v7.0-rc1**. Before that,
+  `.llseek = generic_file_llseek` used `sb->s_maxbytes`
+  (`MAX_LFS_FILESIZE` in this config), so SEEK_SET worked.
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-
-Record: No `Fixes:` tag. Introducer is `82cae269cfa953`, ancestor of
-HEAD (`git merge-base --is-ancestor` exit 0).
+Record: `[N/A — no Fixes: tag]`. Effective buggy commit for the reported
+symptom is `c613269677283` (in this tree). The `-1` store itself is from
+`82cae269cfa95` (also in this tree).
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-
-Record: Related commit already in this tree:
-
-**`6d979b64287fb`** — `ntfs3: fix mount failure on volumes with
-fragmented MFT bitmap` (2026-04-07, contained in **v7.1-rc1**).
-
-That patch:
-1. Moves `ni_load_all_mi()` before `wnd_init()`.
-2. Walks attributes and `run_unpack_ex()`s `$BITMAP` extents with `svcn
-   != 0`.
-
-Same symptom (`wnd_init` / `-ENOENT`), different site (`super.c` second
-pass vs `inode.c` first pass). `6d979b64287fb` is an ancestor of
-`e31886cb6e0e1`.
-
-Series context: mailing-list **v2 1/2**. Patch 2/2 is `789af83e41aef`
-(`lseek EINVAL` on 64-bit clusters) — independent, not a prerequisite.
+Record:
+- Candidate: `789af83e41aef` (2026-06-13 / committed 2026-07-24).
+- Merged to Linus in `dc83d18cdd904` (`ntfs3_for_7.3`, 2026-08-20);
+  present in **v7.3-rc1**. **Not** in v7.2 / v7.1 / v7.0.
+- Series sibling (v2 1/2): `e31886cb6e0e1` (ATTR_BITMAP extents) is the
+  git parent but touches `fs/ntfs3/inode.c` only. Independent of this
+  hunk.
+- No other `maxbytes_sparse` fix in this tree.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-
-Record: Applied by **Konstantin Komarov**, listed `M:` for NTFS3
-(`MAINTAINERS`: Supported). Senjin also authored the sibling lseek fix.
-Maintainer SOB is a strong quality signal.
+Record: Senjin has this plus the ATTR_BITMAP mount fix on the same 16 TB
+volume. Konstantin Komarov is the NTFS3 maintainer (`MAINTAINERS`:
+Supported) and committed both.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-
-Record: Standalone. Uses existing `attr_unpack_run`,
-`sbi->mft.bitmap.run`, and the `MFT_REC_MFT` special case from 2021. No
-new helpers. Patch 2/2 is unrelated.
+Record: Standalone. Needs only `CONFIG_NTFS3_64BIT_CLUSTER` and
+`MAX_LFS_FILESIZE`, both present since ntfs3 was added. Does not need
+patch 1/2.
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-
 Record:
-- `b4 dig -c e31886cb6e0e1` **failed**: lore.kernel.org returned errors.
-- Found via web search:
-  - v1: 2026-06-10, `[PATCH] fs/ntfs3: load ATTR_BITMAP run extents...`
-  - v2: 2026-06-13, `[PATCH v2 1/2]` — **hunk-header fix only, no code
-    change**
-  - Cover: `[PATCH v2 0/2] fs/ntfs3: two fixes for large NTFS volumes`
-  - Openwall: https://lists.openwall.net/linux-kernel/2026/06/13/668 and
-    `/669`
-- No NAKs found. Maintainer merged it into `ntfs3_for_7.3`.
-- Cover letter: both bugs seen on a 16 TB volume with
-  `CONFIG_NTFS3_64BIT_CLUSTER=y`.
+- `b4 dig -c 789af83e41aef`: `[PATCH v2 2/2]`,
+  https://patch.msgid.link/6a2dba8e030b48618aa54661@mailersend.net
+- `b4 dig -a`: v1 was only the ATTR_BITMAP patch (2026-06-10); v2 added
+  this as 2/2 (2026-06-13). Applied version is v2.
+- lore.kernel.org / patch.msgid.link returned **403**; spinics ntfs3
+  thread returned **500**. Patch text confirmed via LKML IU and Openwall
+  mirrors. Full reply thread: **UNVERIFIED**.
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-
-Record: `b4 dig -w` failed. Recipients from the archived mail:
-`ntfs3@lists.linux.dev`, `almaz.alexandrovich@paragon-software.com`,
-`linux-kernel@vger.kernel.org`. Maintainer was CC’d and later signed
-off. No other `Reviewed-by` on the commit.
+Record (`b4 dig -w`): `senjin@hatchling.org`, `ntfs3@lists.linux.dev`,
+`almaz.alexandrovich@paragon-software.com`, `linux-
+kernel@vger.kernel.org`. Maintainer list was CCed; maintainer signed off
+and merged. No NAK found in reachable archives.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-
-Record: Reporter is Senjin (author), with a concrete 16 TB / 97-extent
-case. No syzbot/bugzilla. Cover does not mention `6d979b64287fb`, so
-Senjin likely reproduced on a kernel without that later-pass workaround
-(UNVERIFIED which exact release they ran).
+Record: No syzbot/bugzilla link. Author reports a real 16 TB volume;
+sequential I/O worked, `lseek` did not. Same volume as the ATTR_BITMAP
+mount failure.
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-
-Record: v2 0/2 is two independent large-volume fixes. 2/2 is not
-required for 1/2.
+Record: v2 1/2 is a different mount bug (`inode.c`). This 2/2 is self-
+contained. Linus’s `ntfs3_for_7.3` pull lists “lseek EINVAL on
+sparse/compressed files with 64-bit clusters” under Fixed.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-
-Record: lore.kernel.org/stable search did not return discussion of this
-commit (403/irrelevant hits). No documented reason to keep it out of
-stable.
+Record: lore.kernel.org/stable search did not turn up this subject
+(403/unrelated hits). **UNVERIFIED** whether anyone already
+requested/rejected it for stable.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS**
-
-Record: `ntfs_read_mft()`; uses `ni_enum_attr_ex()`, `attr_unpack_run` →
-`run_unpack_ex()`. Failure path: `wnd_init()` → `wnd_rescan()` →
-`run_lookup_entry()`.
+**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
+Record: `ntfs_init_from_boot()` (assignment). Consumers:
+`ntfs_get_maxbytes()` → `ntfs_llseek()`, `ntfs_iomap_begin()`; also raw
+`sbi->maxbytes_sparse` in `ntfs_set_size()` and attrib insert.
 
 **Step 5.2: TRACE CALLERS**
-
 Record:
-- `ntfs_read_mft()` is static; only caller is `ntfs_iget5()` when
-  `I_NEW`.
-- Mount: `ntfs_fill_super()` → `ntfs_iget5($MFT)` → `ntfs_read_mft()`.
-- Not IRQ; mount/iget path.
+- `ntfs_init_from_boot()` — mount/fill_super.
+- `ntfs_llseek` — `file_operations.llseek` for regular ntfs3 files
+  (syscall `lseek`/`llseek`).
+- `ntfs_iomap_begin` — fiemap/bmap `IOMAP_REPORT`.
+- Directory `llseek` still uses `generic_file_llseek` (`dir.c`); not
+  this bug.
 
 **Step 5.3: TRACE CALLEES**
-
-Record: `ni_enum_attr_ex()` loads ATTR_LIST records via `ni_load_mi()`.
-Matching segments go to `run_unpack_ex()` into `sbi->mft.bitmap.run`.
-Later `wnd_init(&sbi->mft.bitmap)` scans that run list.
+Record: The changed line is an assignment. Downstream: `vfs_setpos()` /
+`generic_file_llseek_size()`.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-
-Record: `mount -t ntfs3` → `ntfs_fill_super` → load `$MFT` → incomplete
-bitmap runs → `wnd_init` fails → mount fails. **Userspace-reachable.**
-Unprivileged users cannot trigger it without mount rights; operators
-with NTFS volumes can. Volume is unusable until remounted with another
-driver.
+Record: Userspace `lseek` → `ntfs_llseek` → `ntfs_get_maxbytes` →
+`vfs_setpos`. Reachable from unprivileged processes with a file open.
+Confirmed in-tree.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-
-Record: Primary `ATTR_BITMAP` already sets `run = &sbi->mft.bitmap.run`.
-`6d979b64287fb` unpacks the same extents later in `ntfs_fill_super()`.
-`run_add_entry()` documents that new runs may overlap existing ones, so
-both paths together are safe.
+Record: `sbi->maxbytes = -1` remains in the overflow branch (`clusters
+>= 1ull << (64 - cluster_bits)`). Same signedness issue for *non-sparse*
+files, but that volume size is far beyond the reported 16 TB /
+`0xFFFFFEFF` clusters. Out of this patch’s scope.
 
 ---
 
 ## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-
-Record:
-- Local tree: **`v7.3-rc4-27-gf0100363d8c37`**, `make kernelversion` =
-  **7.3.0-rc4** (mainline-style checkout, detached HEAD).
-- Candidate **is already an ancestor of HEAD**.
-- Buggy skip has existed since `82cae269cfa953` (v5.15). Parent of this
-  commit still has it.
-- `6d979b64287fb` (v7.1-rc1) is also in this tree and tries to paper
-  over the same gap in `super.c`.
+Record: Yes. `fs/ntfs3/super.c`, `ntfs_llseek`,
+`CONFIG_NTFS3_64BIT_CLUSTER`, and `ntfs_get_maxbytes()` are all present.
+Current line is already the fixed assignment (`sbi->maxbytes_sparse =
+MAX_LFS_FILESIZE` at line 1214). Pre-fix `-1` is in `789af83e41aef^`.
+Bug introduction for lseek: v7.0; this checkout is 7.3-rc4.
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-
-Record: Expected apply: **clean** on any tree with the original
-`MFT_REC_MFT`/`ATTR_DATA` special case (all ntfs3 trees since 5.15).
-Hunk is isolated.
+Record: Clean apply. Surrounding `#ifdef CONFIG_NTFS3_64BIT_CLUSTER` /
+`sb->s_maxbytes = MAX_LFS_FILESIZE` matches the hunk. No conflicting
+refactor in this function.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-
-Record: `6d979b64287fb` is here. It is a second-pass unpack after
-`ni_load_all_mi()`, not a replacement for loading during
-`ntfs_read_mft()`. No later commit reverts or replaces `e31886cb6e0e1`.
-ADS/iomap commits after it do not touch this branch.
+Record: This commit *is* the fix (`789af83e41aef` is an ancestor of
+HEAD). No earlier substitute fix. That is origin-tree presence, not a
+reason to reject on merit.
 
 ---
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-
-Record: **fs/ntfs3** — **IMPORTANT** (supported RW Windows filesystem,
-not staging). Not core VFS/mm, but mount failure is serious for dual-
-boot, NAS, and large Windows volumes.
+Record: `[fs/ntfs3] [IMPORTANT]` — not core VFS, but a supported RW
+filesystem used for Windows/large volumes. Maintainer-supported.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-
-Record: Actively maintained (Paragon tree, multiple 7.x ntfs3 pulls).
-This is a targeted correctness fix, not drive-by churn.
+Record: Actively maintained (regular `ntfs3_for_*` pulls, many 7.3
+fixes). This is not staging.
 
 ---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-
-Record: **Filesystem-specific / config-specific.** Users of
-`CONFIG_NTFS3_FS` with a fragmented `$MFT` `$BITMAP` (large or long-
-lived NTFS). The 16 TB report also used `CONFIG_NTFS3_64BIT_CLUSTER`.
-Fragmentation itself is not limited to 64-bit clusters; `6d979b64287fb`
-reproduced on a 664 GB volume.
+Record: Config-specific (`CONFIG_NTFS3_64BIT_CLUSTER=y`, 64-bit,
+recommended N in Kconfig) **and** sparse or compressed files. That
+option exists specifically for 16T+ volumes with 4K clusters (Windows
+ntfs.sys is 32-bit cluster). Real users of large NTFS volumes.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-
-Record: Every mount of an affected volume. Not a race. Needs mount
-capability, not an unprivileged syscall gadget. Common on large/aged
-NTFS.
+Record: Any `lseek` (SEEK_SET/SEEK_END/nonzero SEEK_CUR) on a
+sparse/compressed file after mount. Common for archive tools, not rare
+error-path. Unprivileged if the user can open the file. Not a race.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-
-Record: **Mount failure (`-ENOENT`)** — volume cannot be mounted with
-ntfs3. **HIGH** (not a panic, but the filesystem is unusable).
+Record: `[Failure: all random access via lseek fails with EINVAL;
+sequential read still works] [Severity: HIGH]`. Not a panic/UAF, but the
+filesystem is unusable for a normal class of tools. Also breaks
+fiemap/bmap `IOMAP_REPORT` on those inodes.
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-
-Record:
-- **Benefit:** High for affected volumes (mount works). Completes the
-  `$MFT` parse the same way `ATTR_DATA` was always handled. Helps trees
-  that lack `6d979b64287fb`; on trees that have it, it is still the
-  right first-pass fix and is overlap-safe.
-- **Risk:** Very low (6 lines in one function, existing unpack helper).
-- **Ratio:** Strongly favors backport.
+Record: Benefit high for affected mounts (restores `lseek`). Risk very
+low (1 line, same constant already used for `s_maxbytes`). Ratio
+strongly favors backport.
 
 ---
 
@@ -412,153 +354,118 @@ Record:
 **Step 9.1: COMPILE THE EVIDENCE**
 
 **FOR:**
-- Real mount failure, observed on a 16 TB volume (97 extents; fail at
-  last VCN).
-- Independent 664 GB report of the same class (`6d979b64287fb`).
-- Bug in ntfs3 since v5.15.
-- 8-line, obviously correct extension of an existing special case.
-- Maintainer SOB; merged to `ntfs3_for_7.3`.
-- Standalone (series 2/2 is unrelated).
-- `run_add_entry()` allows overlap with the v7.1 second-pass unpack.
+- Real user-visible bug on a 16 TB volume; `lseek` always `EINVAL` on
+  sparse/compressed files.
+- Mechanism verified in this tree (`vfs_setpos` `offset > maxsize`,
+  signed `-1`).
+- One-line, obviously correct, matches existing `MAX_LFS_FILESIZE`
+  usage.
+- Maintainer signed off and merged.
+- Standalone; no new API/feature.
+- Call path is a normal syscall.
 
 **AGAINST:**
-- `6d979b64287fb` already in **this** 7.3 tree may already make mount
-  succeed via a later unpack.
-- No `Fixes:`/`Cc: stable` (not a negative in this pipeline).
-- Affects ntfs3 only, not all kernel users.
+- Option defaults to N; smaller population.
+- Not a crash/UAF/corruption.
+- Series labeled 2/2 (sibling is unrelated and not required).
+- Full lore review thread not readable (403/500).
 
-**UNRESOLVED:**
-- Whether Senjin’s 16 TB kernel included `6d979b64287fb` (cover letter
-  never mentions it).
-- lore.kernel.org was unreachable for `b4 dig` / WebFetch; discussion
-  recovered from Openwall/LKML mirrors.
+**UNRESOLVED:** Full reviewer comments; any stable@ discussion.
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-
-1. Obviously correct and tested? **PASS** — mirrors `ATTR_DATA`; tested
-   on a real 16 TB volume; maintainer applied it.
-2. Fixes a real bug that affects users? **PASS** — mount `-ENOENT` on
-   fragmented `$MFT` bitmap.
-3. Important issue? **PASS** — filesystem unmountable (HIGH).
-4. Small and contained? **PASS** — +8/−2, one function.
+1. Obviously correct and tested? **PASS** — type/`vfs_setpos` logic is
+   clear; author observed it on real hardware; maintainer merged.
+2. Fixes a real bug that affects users? **PASS** — reproduced; tools
+   cannot seek.
+3. Important issue? **PASS** — HIGH: filesystem random-access completely
+   broken for sparse/compressed files on this config (not a panic, but a
+   serious functional failure).
+4. Small and contained? **PASS** — 1 line, one file, one assignment.
 5. No new features or APIs? **PASS**.
-6. Can apply to the local tree? **PASS** — code and helpers are present;
-   hunk matches `ntfs_read_mft()`.
+6. Can apply to the local tree? **PASS** — hunk matches
+   `ntfs_init_from_boot()` here.
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
+Record: `[None]` — ordinary bugfix, not a device-ID/quirk/DT/build/doc
+exception.
 
-Record: None of the ID/quirk/DT/build/doc exceptions. It qualifies as a
-normal important bug fix.
-
-**Step 9.4: DECISION**
-
-This checkout is 7.3-rc4 and already contains the commit; the question
-is still whether that fix is stable material for this lineage. It is.
-
-`6d979b64287fb` is a later-pass workaround, not a reason to drop the
-first-pass unpack. Silently skipping `$MFT` `ATTR_BITMAP` extents in
-`ntfs_read_mft()` is a real bug. The patch is small, correct,
-maintainer-acked, and prevents a user-visible mount failure on
-large/fragmented NTFS volumes.
+**Step 9.4: MAKE YOUR DECISION**
+This tree has the ntfs3 64-bit-cluster init path and
+`ntfs_llseek()`/`ntfs_get_maxbytes()`. The signed `-1` max makes every
+sparse/compressed seek fail. Replacing it with `MAX_LFS_FILESIZE` is the
+right, minimal fix and meets stable rules.
 
 ---
 
-### What the commit solves
-
-`$MFT`’s bitmap run list can spill into extension records.
-`ntfs_read_mft()` unpacked only `ATTR_DATA` there, so
-`sbi->mft.bitmap.run` was truncated and `wnd_init()` failed with
-`-ENOENT`. Mount failed. The patch stores those bitmap extents the same
-way the primary segment already does.
+### What the commit solves and why it matters here
+On `CONFIG_NTFS3_64BIT_CLUSTER=y`, sparse/compressed files cannot be
+seeked at all. That breaks archive managers and any random-access reader
+while sequential copy still works. This checkout is 7.3, which already
+has the 7.0 `ntfs_llseek` path, so the bug is in this codebase.
 
 ### Stable rules
-
-Meets all six criteria: small, obviously correct, real important bug, no
-new API, applies here.
+Small, correct, user-reported functional failure, no new API, applies
+cleanly.
 
 ### Risk vs benefit
-
-Benefit: restores mount on affected NTFS volumes. Risk: very low;
-overlap with `6d979b64287fb` is handled by `run_add_entry()`.
+Very low risk, high benefit for large NTFS volumes built with 64-bit
+clusters.
 
 ### Concerns
-
-- Series 1/2: 2/2 is an unrelated lseek fix; not required.
-- `6d979b64287fb` already in this 7.3 tree: complementary, not a
-  blocker.
-- No extra prerequisites beyond original ntfs3 `MFT_REC_MFT` handling
-  (v5.15).
+Kconfig recommends N, so not every ntfs3 user. Patch 1/2 is not a
+dependency. Residual `sbi->maxbytes = -1` overflow branch is a separate
+edge case.
 
 ---
 
-## Verification
-
-- **[Phase 1]** Parsed `e31886cb6e0e1`: Senjin + Konstantin SOBs only;
-  no Fixes/stable/Reported-by.
-- **[Phase 2]** `git show e31886cb6e0e1`: +8/−2 in `ntfs_read_mft()`;
-  `ATTR_BITMAP` → `sbi->mft.bitmap.run`.
-- **[Phase 2]** Read `inode.c` ATTR_BITMAP primary case (lines 323–333)
-  and `attr_unpack_run` (399–414).
-- **[Phase 2]** Read `wnd_rescan()`: missing run → `err = -ENOENT`.
-- **[Phase 3]** `git blame` on parent: buggy line from `82cae269cfa953`
-  (2021-08-13).
-- **[Phase 3]** `git merge-base --is-ancestor 82cae269cfa953 HEAD` →
-  yes.
-- **[Phase 3]** Related fix `6d979b64287fb` in tree (`v7.1-rc1~76^2~6`);
-  ancestor of this commit.
-- **[Phase 3]** `git log --author=Konstantin Komarov -- fs/ntfs3/`:
-  maintainer.
-- **[Phase 4]** `b4 dig -c e31886cb6e0e1`: lore error; UNVERIFIED via
-  b4.
-- **[Phase 4]** Openwall v2 0/2 and 1/2: 16 TB repro; v2 is hunk-header
-  only; 2/2 independent.
-- **[Phase 4]** WebFetch spinics/lore: 500/403; used Openwall/LKML
-  mirrors.
-- **[Phase 4]** No stable@ discussion found.
-- **[Phase 5]** Only caller of `ntfs_read_mft`: `ntfs_iget5`
-  (mount/`I_NEW`).
-- **[Phase 5]** `run_add_entry()` documents overlap is allowed.
-- **[Phase 6]** `git describe HEAD` = `v7.3-rc4-27-gf0100363d8c37`;
-  `make kernelversion` = 7.3.0-rc4.
-- **[Phase 6]** Candidate is ancestor of HEAD; parent still has the
-  skip.
-- **[Phase 7]** `MAINTAINERS`: NTFS3 Supported, M: Konstantin Komarov.
-- **[Phase 8]** Failure mode: mount `-ENOENT`, severity HIGH.
-- **UNVERIFIED:** Exact kernel Senjin reproduced on; whether
-  `6d979b64287fb` alone would have mounted that 16 TB volume.
-
-The local tree has the ntfs3 code path, the bug dates to the original
-driver, the patch is a small contained mount fix, and it should be
-backported.
+Verification:
+- [Phase 1] Parsed commit `789af83e41aef`: SOB Senjin + maintainer
+  Komarov; no Fixes/Cc stable/Reported-by
+- [Phase 2] Diff: `sbi->maxbytes_sparse = -1` → `MAX_LFS_FILESIZE` in
+  `ntfs_init_from_boot()`; 1 line
+- [Phase 2] Confirmed `maxbytes_sparse` is `u64`; `ntfs_get_maxbytes()`
+  returns `loff_t`; `vfs_setpos_cookie()` rejects `offset > maxsize`
+- [Phase 2] Confirmed `ntfs_llseek()` and `ntfs_iomap_begin()` consume
+  that value
+- [Phase 3] `git blame`: `-1` from `82cae269cfa95` (v5.15-rc1);
+  `ntfs_llseek` from `c613269677283` (v7.0-rc1)
+- [Phase 3] `git merge-base --is-ancestor 789af83e41aef HEAD`: yes; in
+  v7.3-rc1; not in v7.2/v7.1/v7.0
+- [Phase 3] Series 1/2 `e31886cb6e0e1` touches `inode.c` only; not
+  required
+- [Phase 4] `b4 dig -c/-a/-w`: v2 2/2, maintainer+ntfs3 list CCed; lore
+  fetch 403
+- [Phase 4] LKML IU / Openwall: patch text matches; no NAK in those
+  copies
+- [Phase 4] UNVERIFIED: full lore thread, stable@ discussion
+- [Phase 5] Callers: `ntfs_llseek` (syscall), `ntfs_iomap_begin`
+  (fiemap)
+- [Phase 6] `git describe HEAD`: `v7.3-rc4-27-gf0100363d8c37`; `make
+  kernelversion`: 7.3.0-rc4; current `super.c:1214` already has the fix
+- [Phase 6] `CONFIG_NTFS3_64BIT_CLUSTER` in `fs/ntfs3/Kconfig`, 64-bit
+  only
+- [Phase 7] MAINTAINERS: Konstantin Komarov, Supported
+- [Phase 8] Failure: every sparse/compressed `lseek` → `-EINVAL`;
+  severity HIGH; trigger is normal userspace seek
 
 **YES**
 
- fs/ntfs3/inode.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ fs/ntfs3/super.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 120691bc71ee9..99fdba7b403cb 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -126,10 +126,16 @@ static struct inode *ntfs_read_mft(struct inode *inode,
- 
- 	if (le && le->vcn) {
- 		/* This is non primary attribute segment. Ignore if not MFT. */
--		if (ino != MFT_REC_MFT || attr->type != ATTR_DATA)
-+		if (ino != MFT_REC_MFT)
-+			goto next_attr;
-+
-+		if (attr->type == ATTR_DATA)
-+			run = &ni->file.run;
-+		else if (attr->type == ATTR_BITMAP)
-+			run = &sbi->mft.bitmap.run;
-+		else
- 			goto next_attr;
- 
--		run = &ni->file.run;
- 		asize = le32_to_cpu(attr->size);
- 		goto attr_unpack_run;
- 	}
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 346c52f952076..dcf14410c6621 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -1163,7 +1163,7 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+ #ifdef CONFIG_NTFS3_64BIT_CLUSTER
+ 	if (clusters >= (1ull << (64 - cluster_bits)))
+ 		sbi->maxbytes = -1;
+-	sbi->maxbytes_sparse = -1;
++	sbi->maxbytes_sparse = MAX_LFS_FILESIZE;
+ 	sb->s_maxbytes = MAX_LFS_FILESIZE;
+ #else
+ 	/* Maximum size for sparse file. */
 -- 
 2.53.0
 
