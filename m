@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542135D5DB7;
-	Mon, 19 Oct 2026 14:02:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F01621516;
+	Mon, 19 Oct 2026 14:04:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418523; cv=none; b=PsxawrTLTtbet76Ii6KR+9z2TZGgI18KjtWqkERvaW8PEiSzk7blJKJkkB7oueDkRuPbKfEnzvWrA6j/hNnKJNvq/3xJJGld8Pur0DakrTBhSO3cZNDFtiw//cPzVlMV9xmuXTugLtLwTe6hqKReuesYGZNPVP86f59xzNiYtBk=
+	t=1792418684; cv=none; b=fVp3XriJFX1UdjutMz/c64/ND4C34VYDLRKD2I//2NoXI+sbYYk9FMNjg+4R3w6X/nGmcBj/HVv9ocOlKkwrtXUX4qf+A4Gp8zMN+5axmsLSOyDDHv5K+h25cn/m720tHYFO9LvWor5LCMEirIiOPlNpG4qUWtd9wADvLTKsLYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418523; c=relaxed/simple;
-	bh=jFjoZje5kLn73JJIeD6nU3VHpkgdr+EoS63/2I4yVqA=;
+	s=arc-20240116; t=1792418684; c=relaxed/simple;
+	bh=m+RSTR09BlGt5wD4eoZ4CFruZ0+2Oa8TtInUWskHhE8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uxGI4lbDeA8R6UuKepxwJjFhDfHAk4/LUwj/deSJn3D32mVfkrGWGmRgo8sybhWA/0ptLYXgFACHzFlLdXf+JmBfRQghlA9bvY2uiliMqZhdnG9EucnYwt2FR9/qCSBGfRP6/01caxY/BeZFxN7pOQ7ZZcC/hibRAVWTHkP2iuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jsQZLJj0; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=RHn0M2UKKq21hqBqaFj+TuFuWfqETzQ7g1yedEpmL+rmucowm+fNZm2DUX7V6ssFTn1t57c70Z5hMo0y5mIZ1U7GHnYHWHkPfD0a4+Qimf14OM8S5/XKYSV0MzpXjUIXGOtYaJFtIZH5QEtRgrP4yGtasgEOzBuYjkvHplkxMmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z781MwwY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jsQZLJj0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E89A1F000CD;
-	Mon, 19 Oct 2026 14:01:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z781MwwY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA7AF1F000C6;
+	Mon, 19 Oct 2026 14:04:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418519;
-	bh=wbCfE7+0JL3bHLkZaRl4667sbctaeZUWcJ36KHksLU8=;
+	s=k20260515; t=1792418681;
+	bh=qs6PIHfEwxs6hrxo+YZEdqNmskDll6A50DsVfWY1k6g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jsQZLJj0Xzt6k5uslVbISviUURz0CZWLXYkK7bmWS/IpWACqArtJWN9Qc4CWlT1RO
-	 p0YV9t/V4qXnPxuVWRX6XE5nfUetvaWdp6elCxr7nKRU6E55xnJIHcon1GPL7pUdii
-	 sGoG+cLGfDxuiTRwUJsqrem74Otk6mNWt4DFXrzQnwOObc11TjN/cQiIOY9BqOwaML
-	 A/4IYqCeiT+CUVaSOIFoGKs563wXMqXOr4YHkD7Tm8mZ7c9hZBBT0kyPbTJsXYbJ9F
-	 beP89md4SVnJYYKTkY2M4nGhCy8vGhfOgJlC5o2UkCHtgxYO55hnlh6N/91rBDsut5
-	 9O7jng4C0Ja/w==
+	b=Z781MwwYHKfIUu4CpzI1qY39t6SleU/WomiUQdvw6rst1RxZZVXftMdGzHg71qUch
+	 gc5BloDOBJlSaXacfOn5Cyc3H57vkfvyG8Efv6xDcL8HMUAqdmyzV1ua0yONc2Vl9s
+	 X88Z75y53dKEcxt3vEDEXPX2NU1Obvd/3qM0/EsHluWf+qbvlWPsZCoGylDPKzXMBI
+	 QJs65l5GCsgGGf9FJSfno99zcITZ8AlCw5NB9KAJvWs+sgiiBeqhNAiGEeNFa2t3hH
+	 qOW4U50NE97SIZPLejrd6HJa43BgPmYLfhNlb0tkFaGOc7hk1Xj/LCw2vWChfPCmeK
+	 UJbA3KTUzdF9g==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Senjin <senjin@hatchling.org>,
+Cc: Ruoyu Wang <ruoyuw560@gmail.com>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.15] fs/ntfs3: fix lseek EINVAL on sparse/compressed files with 64-bit clusters
-Date: Mon, 19 Oct 2026 09:49:57 -0400
-Message-ID: <20261019135441.1420968-306-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] ntfs3: initialize err in attr_wof_frame_info
+Date: Mon, 19 Oct 2026 09:51:52 -0400
+Message-ID: <20261019135441.1420968-421-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -52,420 +52,411 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Senjin <senjin@hatchling.org>
+From: Ruoyu Wang <ruoyuw560@gmail.com>
 
-[ Upstream commit 789af83e41aef54c1ff1cee16adc27822e0a0d71 ]
+[ Upstream commit dd64afb32c4d8d3c934ae84df59a2e463d6fa43c ]
 
-When CONFIG_NTFS3_64BIT_CLUSTER is enabled, sbi->maxbytes_sparse is set
-to -1. As a signed loff_t this is -1LL, the most negative value. Any
-lseek on a sparse or compressed file passes this as maxsize to
-vfs_setpos(), which returns -EINVAL whenever offset > maxsize, and
-since -1LL is less than any non-negative offset, every seek fails,
-including lseek(fd, 0, SEEK_SET).
+attr_wof_frame_info() may reuse a cached offsets folio. In that case the
+loop can fill the output offsets without calling attr_load_runs_range()
+or ntfs_read_run(), leaving err uninitialized before the common return
+path. Initialize err to 0 for the successful cached path.
 
-The intent of -1 here appears to be "no limit" (matching the spirit of
-MAX_LFS_FILESIZE assigned to sbi->maxbytes and sb->s_maxbytes in the
-same block), but the signed type makes it the minimum instead of the
-maximum.
-
-Fix by assigning MAX_LFS_FILESIZE to sbi->maxbytes_sparse in the
-64-bit cluster path, consistent with the other two limits set there.
-
-Observed on a 16 TB NTFS volume with 0xFFFFFEFF total clusters compiled
-with CONFIG_NTFS3_64BIT_CLUSTER=y. Sequential reads via dd/cp worked
-correctly; any lseek call on sparse files returned EINVAL, preventing
-archive managers and other tools from random-accessing files on the
-volume. The non-64-bit-cluster path correctly sets maxbytes_sparse to
-(1ull << (cluster_bits + 32)) - 1, a large positive value.
-
-Signed-off-by: Senjin <senjin@hatchling.org>
+Signed-off-by: Ruoyu Wang <ruoyuw560@gmail.com>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is a one-line NTFS3 correctness fix: with 64-bit clusters,
-sparse/compressed `lseek` was passing a signed `-1` limit into
-`vfs_setpos()`, so every nonnegative seek returned `-EINVAL`. The local
-tree is **7.3.0-rc4** (`v7.3-rc4-27-gf0100363d8c37`); the path and the
-bug both exist here.
+The local checkout is **7.3.0-rc4** (`v7.3-rc4-27-gf0100363d8c37`). The
+change is a one-line init of `err` in `attr_wof_frame_info()` so a
+cached WOF offsets folio does not return stack garbage; that path is in
+this tree and is a real user-visible bug.
 
----
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
 
-## PHASE 1: COMMIT MESSAGE FORENSICS
+Step 1.1: PARSE THE SUBJECT LINE
+Record: **[ntfs3] [initialize] initialize `err` in
+`attr_wof_frame_info`**
+- Subsystem: `ntfs3` (NTFS3 filesystem)
+- Action verb: **initialize** (classic uninitialized-variable fix
+  language)
+- Claimed intent: set `err` so the cached-folio success path does not
+  return an uninitialized value
 
-**Step 1.1: PARSE THE SUBJECT LINE**
-Record: `[fs/ntfs3] [fix] [lseek returns EINVAL on sparse/compressed
-files when CONFIG_NTFS3_64BIT_CLUSTER is set]`
-
-**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
 Record:
-- `Signed-off-by: Senjin <senjin@hatchling.org>` (author)
-- `Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-
-  software.com>` (NTFS3 maintainer; listed in MAINTAINERS)
-- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
-  by:`, `Link:`, or `Cc: stable@` (absence is expected for this review)
+- **Signed-off-by: Ruoyu Wang** (author)
+- **Signed-off-by: Konstantin Komarov** (ntfs3 maintainer; applied the
+  patch)
+- **No Fixes:** tag (expected for this review pipeline)
+- **No Reported-by / Tested-by / Reviewed-by / Acked-by**
+- **No Link:** / **no syzbot**
+- **No Cc: stable** (expected; not a negative)
+- Ignore pipeline-added Sasha Levin SOB / Upstream markers (none present
+  on the real commit)
 
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+Step 1.3: ANALYZE THE COMMIT BODY TEXT
 Record:
-- **Bug:** With `CONFIG_NTFS3_64BIT_CLUSTER`, `sbi->maxbytes_sparse` is
-  set to `-1`. Used as signed `loff_t`, that is `-1LL`. `ntfs_llseek()`
-  passes it to `vfs_setpos()` / `generic_file_llseek_size()`, which
-  rejects any `offset > maxsize`.
-- **Symptom:** Every `lseek` on sparse/compressed files fails with
-  `EINVAL`, including `lseek(fd, 0, SEEK_SET)`. Sequential `dd`/`cp`
-  still work. Archive managers cannot random-access those files.
-- **Trigger:** Observed on a 16 TB NTFS volume (`0xFFFFFEFF` clusters)
-  with `CONFIG_NTFS3_64BIT_CLUSTER=y`.
-- **Root cause:** `-1` was meant as “no limit” (same idea as
-  `MAX_LFS_FILESIZE` for `sb->s_maxbytes`), but as a signed max it is
-  the minimum, not the maximum.
-- **Fix:** Assign `MAX_LFS_FILESIZE` instead, matching `sb->s_maxbytes`
-  in the same `#ifdef`.
+- **Bug:** `attr_wof_frame_info()` can reuse a cached offsets folio
+  (`ni->file.offs_folio`). On that path the loop fills `off[]` from the
+  cached page and never calls `attr_load_runs_range()` /
+  `ntfs_read_run()`, so `err` is never written.
+- **Symptom:** common `return err` then returns uninitialized stack
+  memory. Callers treat any non-zero as failure → spurious I/O errors on
+  WOF LZX/Xpress compressed files after the first cache hit.
+- **Version info:** none in the message. Code is present since ntfs3
+  introduction.
+- **Root cause:** `int i, err;` with `err` only assigned on I/O / alloc
+  / corruption paths, not on cache-hit success.
 
-**Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: `[Not hidden]` — subject and body describe a real, reproduced
-functional bug.
+Step 1.4: DETECT HIDDEN BUG FIXES
+Record: **Not disguised.** This is an explicit uninitialized-variable
+fix (`Initialize X`). Matches the KMSAN / uninit-use class even without
+a sanitizer tag.
 
----
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
 
-## PHASE 2: DIFF ANALYSIS - LINE BY LINE
-
-**Step 2.1: INVENTORY THE CHANGES**
+Step 2.1: INVENTORY THE CHANGES
 Record:
-- File: `fs/ntfs3/super.c` — 1 insertion, 1 deletion
-- Function: `ntfs_init_from_boot()`
-- Scope: single-file surgical one-liner
+- File: `fs/ntfs3/attrib.c` — **1 insertion, 1 deletion**
+- Function: `attr_wof_frame_info()`
+- Change: `int i, err;` → `int i, err = 0;`
+- Scope: **single-file surgical fix** (one local initializer)
 
-**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
+Record (verified in current `fs/ntfs3/attrib.c`):
+- Resident attribute path returns `0` directly; unaffected.
+- Non-resident path:
+  - Alloc fail: `err = -ENOMEM; goto out;`
+  - I/O / metadata fail: `err = ...; goto out1;`
+  - **Cache hit** (`index == folio->index`): loop reads offsets from the
+    cached folio, never assigns `err`, then falls through to `*vbo_data
+    += off[0]; *ondisk_size = off[1] - off[0];` and `return err;`
+- **Before:** cache-hit success returned uninitialized `err`
+- **After:** that path returns `0`
+
+Step 2.3: IDENTIFY THE BUG MECHANISM
 Record:
-- **Before:** `#ifdef CONFIG_NTFS3_64BIT_CLUSTER` always does
-  `sbi->maxbytes_sparse = -1`.
-- **After:** `sbi->maxbytes_sparse = MAX_LFS_FILESIZE`.
-- Path: superblock init at mount. Affects every later
-  `ntfs_get_maxbytes()` use for sparse/compressed inodes.
+- **Category:** (e) Initialization / uninitialized data use
+- **Mechanism:** stack `err` used as the function return value without
+  assignment on the cached-folio success path
+- **Not** a leak, race, refcount, or API change
 
-**Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record: `[Logic / type-signedness]`
-
-Verified types and call path:
-- `maxbytes_sparse` is `u64` (`fs/ntfs3/ntfs_fs.h`). Assigning `-1`
-  stores `U64_MAX`.
-- `ntfs_get_maxbytes()` returns that as `loff_t`. `U64_MAX` → `-1LL`.
-- `ntfs_llseek()` (`fs/ntfs3/file.c`) passes that to
-  `generic_file_llseek_size()` / `vfs_setpos()`.
-- `vfs_setpos_cookie()` (`fs/read_write.c`) does `if (offset > maxsize)
-  return -EINVAL`. For `offset == 0` and `maxsize == -1`, `0 > -1` is
-  true.
-
-Same conversion also breaks `ntfs_iomap_begin()`’s `IOMAP_REPORT` check
-(`offset > ntfs_get_maxbytes(ni)`), so fiemap/bmap on those files can
-fail the same way.
-
-The `#else` path already uses a large positive `(1ull << (cluster_bits +
-32)) - 1`.
-
-**Step 2.4: ASSESS THE FIX QUALITY**
+Step 2.4: ASSESS THE FIX QUALITY
 Record:
-- Obviously correct: `MAX_LFS_FILESIZE` is `LLONG_MAX` on 64-bit
-  (`include/linux/fs.h`); this config is 64-bit-only (`#error` on
-  32-bit). Same constant is already assigned to `sb->s_maxbytes` in this
-  block.
-- Minimal: one assignment change, no API/struct change.
-- Regression risk: very low. Limit goes from “every seek fails” to the
-  VFS max file size. `ntfs_set_size()` / attrib insert compare against
-  `u64`; `LLONG_MAX` is still a huge positive cap and matches VFS, vs
-  the old `U64_MAX` which was accidentally unlimited on those u64
-  checks.
+- **Obviously correct:** initializing `err = 0` is the right default;
+  every error path still overwrites `err` before return
+- **Minimal:** one token
+- **Regression risk: very low** — does not change locking, structures,
+  or successful I/O that already assigned `err`
+- **Red flags:** none
 
----
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
 
-## PHASE 3: GIT HISTORY INVESTIGATION
-
-**Step 3.1: BLAME THE CHANGED LINES**
+Step 3.1: BLAME THE CHANGED LINES
 Record:
-- Buggy assignment introduced in `82cae269cfa95` (“fs/ntfs3: Add
-  initialization of super block”, 2021-08-13), first in **v5.15-rc1**.
-- Field has been `u64 maxbytes_sparse` since the original headers
-  (`4534a70b7056f`).
-- User-visible `lseek` breakage requires `ntfs_llseek()` using
-  `ntfs_get_maxbytes()`, added in `c613269677283` (“implement llseek
-  SEEK_DATA/SEEK_HOLE…”), contained in **v7.0-rc1**. Before that,
-  `.llseek = generic_file_llseek` used `sb->s_maxbytes`
-  (`MAX_LFS_FILESIZE` in this config), so SEEK_SET worked.
+- Current line is the fix: `dd64afb32c4d8` (Ruoyu Wang, 2026-06-18)
+- Uninitialized `int i, err;` dates to **`be71b5cba2e648`** (“fs/ntfs3:
+  Add attrib operations”, 2021-08-13)
+- Contained in **`v5.15-rc1`** (`git describe --contains be71b5cba2e648`
+  → `v5.15-rc1~...`)
+- Folio conversion `c091354d6bf60e` (2024) kept the same uninit `err`;
+  it did not introduce the bug
+- The cached offsets page/`offs_folio` reuse path existed from day one
 
-**Step 3.2: FOLLOW THE FIXES: TAG**
-Record: `[N/A — no Fixes: tag]`. Effective buggy commit for the reported
-symptom is `c613269677283` (in this tree). The `-1` store itself is from
-`82cae269cfa95` (also in this tree).
+Step 3.2: FOLLOW THE FIXES: TAG
+Record: **No Fixes: tag.** Bug was in the original function, not a later
+regression commit.
 
-**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
+Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
 Record:
-- Candidate: `789af83e41aef` (2026-06-13 / committed 2026-07-24).
-- Merged to Linus in `dc83d18cdd904` (`ntfs3_for_7.3`, 2026-08-20);
-  present in **v7.3-rc1**. **Not** in v7.2 / v7.1 / v7.0.
-- Series sibling (v2 1/2): `e31886cb6e0e1` (ATTR_BITMAP extents) is the
-  git parent but touches `fs/ntfs3/inode.c` only. Independent of this
-  hunk.
-- No other `maxbytes_sparse` fix in this tree.
+- Nearby: `859d777646b56` (OOB write in same function), other ntfs3
+  bounds/init fixes
+- This commit is **standalone**, not “patch X/Y”
+- No prerequisite refactor required for the one-line init
 
-**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Senjin has this plus the ATTR_BITMAP mount fix on the same 16 TB
-volume. Konstantin Komarov is the NTFS3 maintainer (`MAINTAINERS`:
-Supported) and committed both.
-
-**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: Standalone. Needs only `CONFIG_NTFS3_64BIT_CLUSTER` and
-`MAX_LFS_FILESIZE`, both present since ntfs3 was added. Does not need
-patch 1/2.
-
----
-
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-
-**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
 Record:
-- `b4 dig -c 789af83e41aef`: `[PATCH v2 2/2]`,
-  https://patch.msgid.link/6a2dba8e030b48618aa54661@mailersend.net
-- `b4 dig -a`: v1 was only the ATTR_BITMAP patch (2026-06-10); v2 added
-  this as 2/2 (2026-06-13). Applied version is v2.
-- lore.kernel.org / patch.msgid.link returned **403**; spinics ntfs3
-  thread returned **500**. Patch text confirmed via LKML IU and Openwall
-  mirrors. Full reply thread: **UNVERIFIED**.
+- Ruoyu Wang: this is their only commit under `fs/ntfs3/` in this tree
+- Applied by **Konstantin Komarov** (ntfs3 maintainer) — maintainer-
+  accepted
 
-**Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): `senjin@hatchling.org`, `ntfs3@lists.linux.dev`,
-`almaz.alexandrovich@paragon-software.com`, `linux-
-kernel@vger.kernel.org`. Maintainer list was CCed; maintainer signed off
-and merged. No NAK found in reachable archives.
-
-**Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: No syzbot/bugzilla link. Author reports a real 16 TB volume;
-sequential I/O worked, `lseek` did not. Same volume as the ATTR_BITMAP
-mount failure.
-
-**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: v2 1/2 is a different mount bug (`inode.c`). This 2/2 is self-
-contained. Linus’s `ntfs3_for_7.3` pull lists “lseek EINVAL on
-sparse/compressed files with 64-bit clusters” under Fixed.
-
-**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: lore.kernel.org/stable search did not turn up this subject
-(403/unrelated hits). **UNVERIFIED** whether anyone already
-requested/rejected it for stable.
-
----
-
-## PHASE 5: CODE SEMANTIC ANALYSIS
-
-**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
-Record: `ntfs_init_from_boot()` (assignment). Consumers:
-`ntfs_get_maxbytes()` → `ntfs_llseek()`, `ntfs_iomap_begin()`; also raw
-`sbi->maxbytes_sparse` in `ntfs_set_size()` and attrib insert.
-
-**Step 5.2: TRACE CALLERS**
+Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
 Record:
-- `ntfs_init_from_boot()` — mount/fill_super.
-- `ntfs_llseek` — `file_operations.llseek` for regular ntfs3 files
-  (syscall `lseek`/`llseek`).
-- `ntfs_iomap_begin` — fiemap/bmap `IOMAP_REPORT`.
-- Directory `llseek` still uses `generic_file_llseek` (`dir.c`); not
-  this bug.
+- Diff assumes only `int err` in `attr_wof_frame_info()` — present since
+  v5.15
+- **Applies standalone.** No new helpers or struct changes.
 
-**Step 5.3: TRACE CALLEES**
-Record: The changed line is an assignment. Downstream: `vfs_setpos()` /
-`generic_file_llseek_size()`.
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
 
-**Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Userspace `lseek` → `ntfs_llseek` → `ntfs_get_maxbytes` →
-`vfs_setpos`. Reachable from unprivileged processes with a file open.
-Confirmed in-tree.
+Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
+Record:
+- `b4 dig -c dd64afb32c4d8` →
+  https://patch.msgid.link/20260617182227.965603-1-ruoyuw560@gmail.com
+- `b4 dig -a`: **v1 only** (no later revisions)
+- Thread (mbox via `b4 dig -m`):
+  - Patch submitted 2026-06-17 by Ruoyu Wang
+  - Maintainer reply 2026-07-23: “The patch was applied, thank you.”
+- **No NAK, no stable nomination, no reviewer risk flags**
+- lore.kernel.org HTTP fetch returned **403**; thread recovered via b4
+  mbox (verified)
 
-**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: `sbi->maxbytes = -1` remains in the overflow branch (`clusters
->= 1ull << (64 - cluster_bits)`). Same signedness issue for *non-sparse*
-files, but that volume size is far beyond the reported 16 TB /
-`0xFFFFFEFF` clusters. Out of this patch’s scope.
+Step 4.2: CHECK WHO REVIEWED THE PATCH
+Record (`b4 dig -w`):
+- To/Cc: Konstantin Komarov, ntfs3@lists.linux.dev, linux-
+  kernel@vger.kernel.org
+- Subsystem maintainer was the recipient and applied it
+- No extra Reviewed-by tags
 
----
+Step 4.3: SEARCH FOR THE BUG REPORT
+Record: **No Reported-by, no syzbot, no bugzilla.** Bug is from code
+inspection / static reasoning, confirmed by reading the cache-hit path.
+No user crash report found.
 
-## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
+Record: **Standalone v1 patch**, not part of a series.
 
-**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record: Yes. `fs/ntfs3/super.c`, `ntfs_llseek`,
-`CONFIG_NTFS3_64BIT_CLUSTER`, and `ntfs_get_maxbytes()` are all present.
-Current line is already the fixed assignment (`sbi->maxbytes_sparse =
-MAX_LFS_FILESIZE` at line 1214). Pre-fix `-1` is in `789af83e41aef^`.
-Bug introduction for lseek: v7.0; this checkout is 7.3-rc4.
+Step 4.5: CHECK STABLE MAILING LIST HISTORY
+Record: lore.kernel.org/stable HTTP search returned **403**.
+**UNVERIFIED** whether stable@ discussed this. b4 thread has no Cc:
+stable. Absence of stable discussion is not a negative here.
 
-**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: Clean apply. Surrounding `#ifdef CONFIG_NTFS3_64BIT_CLUSTER` /
-`sb->s_maxbytes = MAX_LFS_FILESIZE` matches the hunk. No conflicting
-refactor in this function.
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
 
-**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: This commit *is* the fix (`789af83e41aef` is an ancestor of
-HEAD). No earlier substitute fix. That is origin-tree presence, not a
-reason to reject on merit.
+Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
+Record: **`attr_wof_frame_info()`** only. Guarded by
+`CONFIG_NTFS3_LZX_XPRESS`.
 
----
+Step 5.2: TRACE CALLERS
+Record:
+- Sole caller: `ni_read_frame()` in `fs/ntfs3/frecord.c` (~2379), WOF
+  (Xpress/LZX) branch
+- `ni_read_frame()` callers:
+  - `ni_read_folio_cmpr()` (`frecord.c` ~1987) — compressed `read_folio`
+  - `ni_decompress_file()` (`frecord.c` ~2087) — decompress on
+    write/size change
+  - `ntfs_file_write_iter` path in `file.c` (~1056, ~1121) — extending
+    valid size / writing compressed files
+- `ntfs_read_folio()` (`inode.c` ~850) calls `ni_read_folio_cmpr()` when
+  `is_compressed(ni)`
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+Step 5.3: TRACE CALLEES
+Record (success cache path does not call these):
+`attr_load_runs_range()`, `ntfs_read_run()`, `folio_alloc()`, folio
+lock/unlock, `down_write`/`up_write` on `ni->file.run_lock`. Bug is
+return-value init, not those callees.
 
-**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: `[fs/ntfs3] [IMPORTANT]` — not core VFS, but a supported RW
-filesystem used for Windows/large volumes. Maintainer-supported.
+Step 5.4: FOLLOW THE CALL CHAIN
+Record:
+- Userspace `read()` → VFS `read_folio` → `ntfs_read_folio()` →
+  `ni_read_folio_cmpr()` → `ni_read_frame()` → `attr_wof_frame_info()`
+- **Reachable from userspace** on NTFS volumes with Windows 10+
+  `compact.exe` WOF files (`CONFIG_NTFS3_LZX_XPRESS`, Kconfig
+  “recommended Y”)
+- Cache is per-inode (`ni->file.offs_folio`); sequential reads of a
+  compressed file hit the uninit path **after the first frame on that
+  offsets page** (typical, not rare)
 
-**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Actively maintained (regular `ntfs3_for_*` pulls, many 7.3
-fixes). This is not staging.
+Step 5.5: SEARCH FOR SIMILAR PATTERNS
+Record: ntfs3 has many prior uninit fixes (`5f33da04e6cee` KMSAN,
+`a8a3ca23bbd9d`, `57ac2831c8e0f`, etc.). Same class of bug; this
+instance was missed until 2026.
 
----
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
+Record:
+- `git describe HEAD` = **v7.3-rc4-27-gf0100363d8c37**
+- `make kernelversion` = **7.3.0-rc4**
+- `attr_wof_frame_info()` is present; current code already has `int i,
+  err = 0;` (this commit is an ancestor of HEAD)
+- **Buggy pattern existed here** from v5.15 through parent of
+  `dd64afb32c4d8`
+- Bug was **not** introduced after this tree; it is native to this
+  lineage
 
-**Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: Config-specific (`CONFIG_NTFS3_64BIT_CLUSTER=y`, 64-bit,
-recommended N in Kconfig) **and** sparse or compressed files. That
-option exists specifically for 16T+ volumes with 4K clusters (Windows
-ntfs.sys is 32-bit cluster). Real users of large NTFS volumes.
+Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
+Record: **Clean apply.** One-line change to a declaration that has been
+`int i, err;` since 2021. Folio vs page rename does not affect this
+line.
 
-**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record: Any `lseek` (SEEK_SET/SEEK_END/nonzero SEEK_CUR) on a
-sparse/compressed file after mount. Common for archive tools, not rare
-error-path. Unprivileged if the user can open the file. Not a race.
+Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
+Record: This exact fix **is** commit `dd64afb32c4d8` in this checkout.
+No different competing fix for the same uninit `err`. Per instructions,
+that is not used as “already selected → skip”; it confirms the
+maintainer accepted the same one-line change.
 
-**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: `[Failure: all random access via lseek fails with EINVAL;
-sequential read still works] [Severity: HIGH]`. Not a panic/UAF, but the
-filesystem is unusable for a normal class of tools. Also breaks
-fiemap/bmap `IOMAP_REPORT` on those inodes.
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
 
-**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-Record: Benefit high for affected mounts (restores `lseek`). Risk very
-low (1 line, same constant already used for `s_maxbytes`). Ratio
-strongly favors backport.
+Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+Record:
+- **Subsystem:** `fs/ntfs3` (NTFS3 filesystem)
+- **Criticality:** **IMPORTANT** — not core VFS/mm, but a production
+  filesystem used for Windows volumes, dual-boot, and some distros.
+  Failure is I/O error / failed reads, not a global panic.
 
----
+Step 7.2: ASSESS SUBSYSTEM ACTIVITY
+Record: Active (regular `ntfs3_for_7.x` pulls, many 2026 fixes). This
+particular bug is **old** (2021), not a new-subsystem-only issue.
 
-## PHASE 9: FINAL SYNTHESIS
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
 
-**Step 9.1: COMPILE THE EVIDENCE**
+Step 8.1: DETERMINE WHO IS AFFECTED
+Record: **Filesystem-specific + config-specific:** `CONFIG_NTFS3_FS` +
+`CONFIG_NTFS3_LZX_XPRESS`, users reading WOF-compressed files (Windows
+10 `compact` xpress4k/8k/16k/lzx).
 
-**FOR:**
-- Real user-visible bug on a 16 TB volume; `lseek` always `EINVAL` on
-  sparse/compressed files.
-- Mechanism verified in this tree (`vfs_setpos` `offset > maxsize`,
-  signed `-1`).
-- One-line, obviously correct, matches existing `MAX_LFS_FILESIZE`
-  usage.
-- Maintainer signed off and merged.
-- Standalone; no new API/feature.
-- Call path is a normal syscall.
+Step 8.2: DETERMINE THE TRIGGER CONDITIONS
+Record:
+- Trigger: read (or decompress-on-write) of a **non-resident** WOF
+  compressed stream after `offs_folio` already holds the needed offsets
+  page
+- **Common** for sequential reads of a compressed file (page holds many
+  32/64-bit offsets)
+- **Unprivileged users** can trigger it if they can read such files
+- Not a race; deterministic once the folio is cached
+
+Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+Record:
+- Failure: return of uninitialized `err` to `ni_read_frame()` → `if
+  (err) goto out1;`
+- If stack garbage is non-zero: **read/decompress fails** (EIO-class
+  userspace error) despite successful offset decode
+- If garbage is zero: silent luck
+- C2 unsafety / KMSAN-class uninit use
+- **Severity: HIGH** (broken reads of compressed files; undefined
+  behavior). Not a guaranteed oops, not data corruption of written data.
+
+Step 8.4: CALCULATE RISK-BENEFIT RATIO
+Record:
+- **Benefit:** high for ntfs3+WOF users — fixes real false I/O failures
+  on a hot cached path
+- **Risk:** very low (one initializer)
+- **Ratio:** strongly favorable
+
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
+
+Step 9.1: COMPILE THE EVIDENCE
+
+**FOR backporting:**
+- Real uninitialized return on a realistic, common cache-hit path
+  (verified in source)
+- Userspace-reachable via normal reads of WOF-compressed NTFS files
+- One-line, obviously correct, maintainer-applied
+- Code present in this tree since v5.15; no missing prerequisites
+- Matches stable’s uninitialized-data / KMSAN class (even without a
+  sanitizer report)
 
 **AGAINST:**
-- Option defaults to N; smaller population.
-- Not a crash/UAF/corruption.
-- Series labeled 2/2 (sibling is unrelated and not required).
-- Full lore review thread not readable (403/500).
+- No crash/syzbot/CVE report; failure is typically spurious I/O error,
+  not panic
+- Limited to ntfs3 WOF (`CONFIG_NTFS3_LZX_XPRESS`), not all kernel users
+- No explicit Cc: stable (not a valid NO reason in this pipeline)
 
-**UNRESOLVED:** Full reviewer comments; any stable@ discussion.
+**UNRESOLVED:**
+- Could not HTTP-fetch lore.kernel.org (403); used b4 mbox instead
+- No stable@ thread verified
+- No KMSAN/syzbot report located for this exact function
 
-**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — type/`vfs_setpos` logic is
-   clear; author observed it on real hardware; maintainer merged.
-2. Fixes a real bug that affects users? **PASS** — reproduced; tools
-   cannot seek.
-3. Important issue? **PASS** — HIGH: filesystem random-access completely
-   broken for sparse/compressed files on this config (not a panic, but a
-   serious functional failure).
-4. Small and contained? **PASS** — 1 line, one file, one assignment.
-5. No new features or APIs? **PASS**.
-6. Can apply to the local tree? **PASS** — hunk matches
-   `ntfs_init_from_boot()` here.
+Step 9.2: APPLY THE STABLE RULES CHECKLIST
+1. Obviously correct and tested? **PASS** — one initializer; maintainer
+   applied it
+2. Fixes a real bug that affects users? **PASS** — uninit `err` on
+   cached WOF reads
+3. Important issue? **PASS** — HIGH: failed reads / UB on compressed
+   files (not a panic, but user-visible breakage)
+4. Small and contained? **PASS** — 1 line, 1 function
+5. No new features or APIs? **PASS**
+6. Can apply to the local tree? **PASS** — declaration exists; applies
+   cleanly
 
-**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: `[None]` — ordinary bugfix, not a device-ID/quirk/DT/build/doc
-exception.
+Step 9.3: CHECK FOR EXCEPTION CATEGORIES
+Record: Not a device-ID/quirk/DT/docs exception. It is a normal uninit
+bugfix.
 
-**Step 9.4: MAKE YOUR DECISION**
-This tree has the ntfs3 64-bit-cluster init path and
-`ntfs_llseek()`/`ntfs_get_maxbytes()`. The signed `-1` max makes every
-sparse/compressed seek fail. Replacing it with `MAX_LFS_FILESIZE` is the
-right, minimal fix and meets stable rules.
+Step 9.4: MAKE YOUR DECISION
+This tree contains `attr_wof_frame_info()` and the cached-folio path.
+The one-line init is a real, contained fix for returning uninitialized
+error codes on WOF compressed reads. It meets stable-kernel rules for
+this checkout.
 
----
+**What the commit solves:** On cache reuse, `err` was never set, so the
+function returned stack garbage. Callers abort the read. Initializing
+`err = 0` makes the successful cached path return success.
 
-### What the commit solves and why it matters here
-On `CONFIG_NTFS3_64BIT_CLUSTER=y`, sparse/compressed files cannot be
-seeked at all. That breaks archive managers and any random-access reader
-while sequential copy still works. This checkout is 7.3, which already
-has the 7.0 `ntfs_llseek` path, so the bug is in this codebase.
+**Risk vs benefit:** Benefit is fixing broken/undefined reads of WOF
+files; risk is a single local initializer.
 
-### Stable rules
-Small, correct, user-reported functional failure, no new API, applies
-cleanly.
-
-### Risk vs benefit
-Very low risk, high benefit for large NTFS volumes built with 64-bit
-clusters.
-
-### Concerns
-Kconfig recommends N, so not every ntfs3 user. Patch 1/2 is not a
-dependency. Residual `sbi->maxbytes = -1` overflow branch is a separate
-edge case.
-
----
+**Concerns:** None on dependencies or apply difficulty. Impact is
+ntfs3+WOF only, which is acceptable for a filesystem correctness fix.
 
 Verification:
-- [Phase 1] Parsed commit `789af83e41aef`: SOB Senjin + maintainer
-  Komarov; no Fixes/Cc stable/Reported-by
-- [Phase 2] Diff: `sbi->maxbytes_sparse = -1` → `MAX_LFS_FILESIZE` in
-  `ntfs_init_from_boot()`; 1 line
-- [Phase 2] Confirmed `maxbytes_sparse` is `u64`; `ntfs_get_maxbytes()`
-  returns `loff_t`; `vfs_setpos_cookie()` rejects `offset > maxsize`
-- [Phase 2] Confirmed `ntfs_llseek()` and `ntfs_iomap_begin()` consume
-  that value
-- [Phase 3] `git blame`: `-1` from `82cae269cfa95` (v5.15-rc1);
-  `ntfs_llseek` from `c613269677283` (v7.0-rc1)
-- [Phase 3] `git merge-base --is-ancestor 789af83e41aef HEAD`: yes; in
-  v7.3-rc1; not in v7.2/v7.1/v7.0
-- [Phase 3] Series 1/2 `e31886cb6e0e1` touches `inode.c` only; not
-  required
-- [Phase 4] `b4 dig -c/-a/-w`: v2 2/2, maintainer+ntfs3 list CCed; lore
-  fetch 403
-- [Phase 4] LKML IU / Openwall: patch text matches; no NAK in those
-  copies
-- [Phase 4] UNVERIFIED: full lore thread, stable@ discussion
-- [Phase 5] Callers: `ntfs_llseek` (syscall), `ntfs_iomap_begin`
-  (fiemap)
-- [Phase 6] `git describe HEAD`: `v7.3-rc4-27-gf0100363d8c37`; `make
-  kernelversion`: 7.3.0-rc4; current `super.c:1214` already has the fix
-- [Phase 6] `CONFIG_NTFS3_64BIT_CLUSTER` in `fs/ntfs3/Kconfig`, 64-bit
-  only
-- [Phase 7] MAINTAINERS: Konstantin Komarov, Supported
-- [Phase 8] Failure: every sparse/compressed `lseek` → `-EINVAL`;
-  severity HIGH; trigger is normal userspace seek
+- [Phase 1] Parsed tags: author + maintainer SOB only; no
+  Fixes/syzbot/Cc stable
+- [Phase 1] Subject/body: initialize `err` for cached offsets folio path
+- [Phase 2] Diff: 1 line in `attr_wof_frame_info()`, `int i, err` → `int
+  i, err = 0`
+- [Phase 2] Confirmed cache-hit loop skips
+  `attr_load_runs_range`/`ntfs_read_run` then `return err`
+- [Phase 3] `git blame`: uninit `err` from `be71b5cba2e648` (v5.15-rc1)
+- [Phase 3] Folio conversion `c091354d6bf60e` kept uninitialized `err`
+- [Phase 3] Author: one ntfs3 commit; applied by Konstantin Komarov
+- [Phase 3] Standalone; `git merge-base --is-ancestor dd64afb32c4d8
+  HEAD` is true
+- [Phase 4] `b4 dig -c`: lore msgid
+  20260617182227.965603-1-ruoyuw560@gmail.com
+- [Phase 4] `b4 dig -a`: v1 only
+- [Phase 4] `b4 dig -w`: maintainer + ntfs3 list + lkml
+- [Phase 4] mbox: maintainer “patch was applied”; no NAK
+- [Phase 4] lore HTTP 403 — discussion via b4 only
+- [Phase 5] Only caller `ni_read_frame()`; chain from `ntfs_read_folio`
+  / `ni_read_folio_cmpr`
+- [Phase 5] semcode MCP not available; used grep/read
+- [Phase 6] Local tree v7.3-rc4; function present; parent still had `int
+  i, err;`
+- [Phase 7] fs/ntfs3, IMPORTANT, actively maintained
+- [Phase 8] Trigger: cached WOF offset folio on compressed file read;
+  severity HIGH
+- UNVERIFIED: stable@ mailing list discussion (HTTP 403)
+- UNVERIFIED: no KMSAN/syzbot report found for this exact bug
 
 **YES**
 
- fs/ntfs3/super.c | 2 +-
+ fs/ntfs3/attrib.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 346c52f952076..dcf14410c6621 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -1163,7 +1163,7 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
- #ifdef CONFIG_NTFS3_64BIT_CLUSTER
- 	if (clusters >= (1ull << (64 - cluster_bits)))
- 		sbi->maxbytes = -1;
--	sbi->maxbytes_sparse = -1;
-+	sbi->maxbytes_sparse = MAX_LFS_FILESIZE;
- 	sb->s_maxbytes = MAX_LFS_FILESIZE;
- #else
- 	/* Maximum size for sparse file. */
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index 501f2ec153ab8..e500f7be8cc38 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -1410,7 +1410,7 @@ int attr_wof_frame_info(struct ntfs_inode *ni, struct ATTRIB *attr,
+ 	u8 bytes_per_off;
+ 	char *addr;
+ 	struct folio *folio;
+-	int i, err;
++	int i, err = 0;
+ 	__le32 *off32;
+ 	__le64 *off64;
+ 
 -- 
 2.53.0
 
