@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20985045BD;
-	Mon, 19 Oct 2026 14:00:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB80D352009;
+	Mon, 19 Oct 2026 14:00:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418404; cv=none; b=PAgbI9BMg56faZ9JheBzx/Nzd+f+Ko/0qAYA8sRU6lWv08i3CJ45x7BDDJVobYYizv8+NBr3T71jfXEjzdN2hXdT3YDKHIwcqvcPYVrK7FZkc+pVxif59OMVocMp8pNlXV3bU92u/dMIlK5XeA36K6fB4NsINddHclfrEPOBhXQ=
+	t=1792418425; cv=none; b=YvlfY9tH92SZOVskq6GYUJNuDVm1UAoJiYQeBFL+TgJBpIp0XmlKleUh/p4SPmPLFNTsBr9ss4qg4HHgst7ULH2YXZxYqSy0+cTtJOJQsIfcB/UB/9V/mlnSRQZlpOfinoOJ9cXOB4c6qyNBFe54SRQqb5gaaszu/kmD2qKNs/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418404; c=relaxed/simple;
-	bh=eCpd0bciKuxFgznG6LMVfPYwxYpve4cdhZknkVTjqQo=;
+	s=arc-20240116; t=1792418425; c=relaxed/simple;
+	bh=6PwSBrS2ZGfT06hFAOJC6dWaXblSkBfSl5CfCBq/Ec0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oZLtgx1A7Om0SZBsCF1IrRAsBwupengAQXmIfhqJ94SgLPOKbTSIwQ6H9yLGHM2GN/Q6n5c8DFZgiSF5YaBhBQMkhgFz6fzmzlKs7Hqrfi2EJUyfPWaWelDSKfL+j95RN6ctQCRgP+XVLxR2oVyU13URcQ/1hR5XzsKg12bZ6+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hobk8cfg; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=gyVZwV9Sb14cwaYRKp/Sofzbl1eia7IW4wWUAktTJHZaaL0aeQ2jjfoMGh2tOb9vuIaTlktqqtZ857lnRVllCYfAFAAPrCFUbiXbR7+l/CM6S9hcUOddmcggQXGwzwBWlhTbVo/hcPpu2p2IGqWVMr35LTtIQYcwc8QDiXQF8Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dlvTZ10o; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hobk8cfg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04ED21F000C8;
-	Mon, 19 Oct 2026 14:00:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dlvTZ10o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 016821F000C4;
+	Mon, 19 Oct 2026 14:00:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418401;
-	bh=jht7pw9u/wfie8PUcFFd5RpIB9cO4cBkWZiCGj/+V5I=;
+	s=k20260515; t=1792418422;
+	bh=a/KgmAAZ3k/Z5sTWmZqE+o4FWT0QypiHnRzefYdkXpE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Hobk8cfgRJ0PXI5IenxTyrMvb6qMGWJ/LosUf96WPzte8JaGk29j2ifW+HXq9Bfzm
-	 tTjyNd92KXYGiqws980hYugsnX3Ba3L2ySFtMe4h9AfegITKEtbhJB8MyNzZWlktpL
-	 0Uu+QaFM80tWH6KhZO5qhT9xycNbsVRO2utV4hlCQV7xAiXrqXafFIweealCwqjGpA
-	 Mw7GL2SqWe/ygSixsnVJ5j1alp2eirM88KxDxCGXlNHubCYZOfN9YuB5ck8MKwIY5E
-	 nsS7t9hEtkRaT3XanetzeLEcCscMdiPn9BU8RL5AW9u5QX+ipif9qvpyowlHWbrUov
-	 zQ3b4gD4isX9g==
+	b=dlvTZ10of5mqT7vWgBNJX2DZWrRI/SDJ0T4srfEt/0ZsJZLkAiyVlL5ZzsXOrs5zb
+	 Gq62nSE+6cPyitOVDbX7fh/f1G+FCiYvV/FzP0qa0PirkBl74WrcwCm1J9Nqqfpk1k
+	 ebNezwscN61pmQFAjZ6g6uzmfN21NFGufezyiu8oPUHArt3X1ic/cR+K7RKJH3lM5W
+	 WGYyX+0tthyOENa8Fq1U2con0rW2zQUVtSt8peImxmwHk9xojb9E7RF6nLDZx+Hws3
+	 HdxuomrQk9diiZI7tG1+n7qisGiNcMaG3wcPUjAuCCLfF1M/MgBJfzK/UynayM46rT
+	 zY8qvWT5WTxsQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
 Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Senjin <senjin@hatchling.org>,
 	Sasha Levin <sashal@kernel.org>,
 	ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.15] fs/ntfs3: Fix memory leak in indx_find_sort()
-Date: Mon, 19 Oct 2026 09:48:35 -0400
-Message-ID: <20261019135441.1420968-224-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.15] fs/ntfs3: load ATTR_BITMAP run extents from $MFT extension records
+Date: Mon, 19 Oct 2026 09:48:49 -0400
+Message-ID: <20261019135441.1420968-238-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -53,434 +54,511 @@ Content-Transfer-Encoding: 8bit
 
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-[ Upstream commit 194491be54e1c9e4d29d3ee777b05ff031c4b670 ]
+[ Upstream commit e31886cb6e0e14cf65e27da0bf1a422ff419d893 ]
 
-When popping a level from the index lookup stack, indx_find_sort() frees
-the struct indx_node but not the index buffer it owns. Every call that
-descends and then pops a level leaks that allocation.
+When $MFT's ATTR_BITMAP attribute is heavily fragmented, its run list
+can span multiple MFT extension records (attribute list entries with
+vcn > 0). The non-primary segment handler in ntfs_read_mft() only
+processed ATTR_DATA extension segments for MFT_REC_MFT, silently
+skipping any ATTR_BITMAP segments. This left sbi->mft.bitmap.run
+incomplete, causing wnd_init() to fail with -ENOENT when wnd_rescan()
+tried to look up a VCN not covered by the truncated run list.
 
-Free n->index before freeing the node itself.
+Observed on a 16 TB NTFS volume (0xFFFFFEFF total clusters) whose MFT
+bitmap run list was split across 97 extents in extension records.
+wnd_rescan() successfully looked up VCNs 0-122 from the runs loaded
+from the base record, then failed at VCN 123 (the last cluster of the
+bitmap) whose run was only present in an extension record.
 
+Fix by extending the MFT_REC_MFT special case to also handle
+ATTR_BITMAP extension segments, storing their runs into
+sbi->mft.bitmap.run the same way the primary segment does.
+
+Signed-off-by: Senjin <senjin@hatchling.org>
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-I have enough to decide: this is a one-line leak fix in
-`indx_find_sort()`, the buggy code is in this 7.3-rc4 tree, and it meets
-the stable rules.
+I have enough to judge this: a real NTFS3 mount failure, a small first-
+pass run-list fix, and a related later `super.c` workaround already in
+this 7.3 tree. Writing the full 9-phase analysis next.
 
-===============================================================
-PHASE 1: COMMIT MESSAGE FORENSICS
-===============================================================
+---
+
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-Record: **[fs/ntfs3] [fix] memory leak in `indx_find_sort()`** —
-subsystem `fs/ntfs3`, action verb **fix**, claimed intent is to stop
-leaking the index buffer when a lookup level is popped.
+
+Record: **[fs/ntfs3] [load] load ATTR_BITMAP run extents from $MFT
+extension records**
+
+The verb is “load”, not “fix”, but the body describes a mount failure
+and a missing code path. Intent is a bug fix.
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-Commit `194491be54e1c9e4d29d3ee777b05ff031c4b670` (Author: Konstantin
-Komarov, 2026-07-30):
 
-- **Fixes:** none (expected for this review)
-- **Reported-by:** none
-- **Tested-by:** none
-- **Reviewed-by:** none
-- **Acked-by:** none
-- **Link:** none in the commit message
-- **Cc: stable:** none (expected)
-- **Signed-off-by:** Konstantin Komarov \<almaz.alexandrovich@paragon-
-  software.com\> (author/maintainer)
+Commit: `e31886cb6e0e14cf65e27da0bf1a422ff419d893`
 
-No syzbot, no multi-user reports, no explicit stable nomination. Author
-is the NTFS3 maintainer.
+Tags present:
+- `Signed-off-by: Senjin <senjin@hatchling.org>` (author of the fix)
+- `Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-
+  software.com>` (ntfs3 maintainer)
+
+Tags absent (expected for this pipeline): `Fixes:`, `Cc: stable`,
+`Reported-by`, `Tested-by`, `Reviewed-by`, `Acked-by`, `Link:`.
+
+AuthorDate: 2026-07-02; CommitDate: 2026-07-24 (maintainer applied it).
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+
 Record:
-- **Bug:** When popping a level from the index lookup stack,
-  `indx_find_sort()` frees `struct indx_node` but not the index buffer
-  it owns (`n->index`).
-- **Symptom:** Every call that descends into a child index block and
-  later pops that level leaks that allocation (typically a 4 KiB
-  `kmalloc` of `INDEX_BUFFER`).
-- **Failure mode:** kernel memory leak on NTFS3 `$SDH` index walks.
-- **Version info:** none in the message.
-- **Root cause (author):** `kfree(n)` without `kfree(n->index)`.
-- **Fix:** free `n->index` before freeing the node.
+- **Bug:** When `$MFT`’s `ATTR_BITMAP` is heavily fragmented, its run
+  list spans MFT extension records (`le->vcn > 0`). `ntfs_read_mft()`
+  only unpacked `ATTR_DATA` extension segments for `MFT_REC_MFT` and
+  skipped `ATTR_BITMAP` segments.
+- **Symptom:** `sbi->mft.bitmap.run` is truncated. `wnd_init()` →
+  `wnd_rescan()` → `run_lookup_entry()` returns `-ENOENT`. Mount fails.
+- **Evidence:** 16 TB volume (`0xFFFFFEFF` clusters). Bitmap run list
+  split across 97 extents. VCNs 0–122 found from the base record; VCN
+  123 (last bitmap cluster) only in an extension record.
+- **Root cause:** Non-primary segment handler too narrow (`ino !=
+  MFT_REC_MFT || attr->type != ATTR_DATA`).
+- **Fix:** Same special case also unpacks `ATTR_BITMAP` into
+  `sbi->mft.bitmap.run`.
+- **Versions:** None named in the message. Observation used
+  `CONFIG_NTFS3_64BIT_CLUSTER=y` (from the v2 cover letter).
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not disguised. Subject and body state a leak fix. It is a
-classic missing-`kfree` resource-leak fix, not cleanup-only.
 
-===============================================================
-PHASE 2: DIFF ANALYSIS - LINE BY LINE
-===============================================================
+Record: Not a disguised cleanup. Explicit mount-failure fix; “load” is
+the mechanism.
+
+---
+
+## PHASE 2: DIFF ANALYSIS
 
 **Step 2.1: INVENTORY THE CHANGES**
+
 Record:
-- File: `fs/ntfs3/index.c` — **+1 / −0**
-- Function: `indx_find_sort()`
-- Scope: **single-file surgical fix** (one line in the `pop_level` path)
+- File: `fs/ntfs3/inode.c` — **+8 / −2** (net +6)
+- Function: `ntfs_read_mft()`
+- Scope: **single-file surgical fix**
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Record (before → after):
-- Before: `fnd_pop(fnd); kfree(n);` — node struct freed; `n->index` (and
-  buffer heads in `n->nb`) left allocated.
-- After: `fnd_pop(fnd); kfree(n->index); kfree(n);` — index buffer and
-  node struct freed.
-- Path: **normal** pop-level path when the current directory entry is
-  the last in that index block and the walk moves to the parent. Not
-  init-only.
+
+Before (parent `e31886cb6e0e1^`):
+
+```c
+if (le && le->vcn) {
+    /* non-primary segment */
+    if (ino != MFT_REC_MFT || attr->type != ATTR_DATA)
+        goto next_attr;
+    run = &ni->file.run;
+    ...
+    goto attr_unpack_run;
+}
+```
+
+After:
+
+```c
+if (le && le->vcn) {
+    if (ino != MFT_REC_MFT)
+        goto next_attr;
+    if (attr->type == ATTR_DATA)
+        run = &ni->file.run;
+    else if (attr->type == ATTR_BITMAP)
+        run = &sbi->mft.bitmap.run;
+    else
+        goto next_attr;
+    ...
+    goto attr_unpack_run;
+}
+```
+
+Record: Non-primary `$MFT` `ATTR_BITMAP` segments now take the same
+`attr_unpack_run` path the primary `ATTR_BITMAP` case already uses (`run
+= &sbi->mft.bitmap.run` around inode.c:323–333). Other inodes and other
+attribute types still skip non-primary segments.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record: **[Memory leak / resource leak]**
-- `indx_read()` / `indx_read_ra()` allocates `struct indx_node` and
-  `in->index` (`kmalloc(bytes, GFP_NOFS)` where `bytes = 1u <<
-  indx->index_bits`, typically 4096).
-- Correct teardown is `put_indx_node()`: `kfree(in->index);
-  nb_put(&in->nb); kfree(in);`.
-- Sibling `indx_find_raw()` already does `fnd_pop()` +
-  `put_indx_node(n)`.
-- `indx_find_sort()` used `kfree(n)` only. This patch adds
-  `kfree(n->index)` on the pop path.
-- Mechanism: missing free of owned `kmalloc` buffer.
 
-Note (verified, not a reason to reject): the patch does **not** call
-`nb_put(&n->nb)`, so buffer_head refs can still leak on this path. Two
-other `kfree(n)` sites in the same function (invalid-entry error paths
-at the `de_has_vcn_ex` loop) are also unchanged.
+Record: **[Logic / correctness]** Incomplete run-list construction.
+Missing handling of `$MFT` `ATTR_BITMAP` extension segments left
+`sbi->mft.bitmap.run` short, so `wnd_rescan()` failed with `-ENOENT` at
+an uncovered VCN.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-Record:
-- Obviously correct for the stated leak: `kfree(n->index)` matches the
-  first action of `put_indx_node()`; `kfree(NULL)` is safe; `fnd_pop()`
-  NULLs the stack slot so later `fnd_clear()`/`put_indx_node()` will not
-  double-free.
-- Minimal: one line, no unrelated edits, no API change.
-- Regression risk: **very low**. Does not change lookup results,
-  locking, or on-disk layout.
-- Residual risk: incomplete vs `put_indx_node()` (BH leak remains). That
-  is an unfixed sibling leak, not a regression introduced by this line.
 
-===============================================================
-PHASE 3: GIT HISTORY INVESTIGATION
-===============================================================
+Record:
+- Obviously correct: it mirrors the existing `ATTR_DATA` special case
+  and the primary `ATTR_BITMAP` assignment.
+- Minimal: one condition split, one extra branch.
+- Regression risk: low. `run_add_entry()` allows overlapping runs, so a
+  later second unpack is safe.
+- No API / locking / data-structure change.
+
+---
+
+## PHASE 3: GIT HISTORY INVESTIGATION
 
 **Step 3.1: BLAME THE CHANGED LINES**
-Record:
-- Pop-level `kfree(n)` / `ntfs_free(n)` present since
-  **`82cae269cfa95`** (“fs/ntfs3: Add initialization of super block”,
-  2021-08-13) — NTFS3 introduction.
-- `ntfs_free(n)` → `kfree(n)` in **`195c52bdd5d5e`** (“Do not use driver
-  own alloc wrappers”, 2021-08-24); `ntfs_free` was just `kfree`, so the
-  leak is original, not introduced by that conversion.
-- This leak has existed for the entire life of NTFS3 in mainline (~5.15
-  onward).
+
+Record: Buggy test `if (ino != MFT_REC_MFT || attr->type != ATTR_DATA)`
+comes from **`82cae269cfa953`** (“fs/ntfs3: Add initialization of super
+block”, 2021-08-13) — original ntfs3 merge. Present since **v5.15**.
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. Buggy code is the original `indx_find_sort()`
-implementation in `82cae269cfa95`, which **is an ancestor of HEAD**.
+
+Record: No `Fixes:` tag. Introducer is `82cae269cfa953`, ancestor of
+HEAD (`git merge-base --is-ancestor` exit 0).
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Record:
-- Recent `fs/ntfs3/index.c` work is mostly bounds checks and cosmetics.
-- Related leak: `87ac077d6ea86` “ntfs3: fix memory leak in
-  indx_create_allocate()” — different function.
-- No later commit after `194491be54e1c` changes this site (`git log
-  194491be54e1c..HEAD -- fs/ntfs3/index.c` is empty).
-- Standalone 1-line patch, not “X/Y” of a series.
+
+Record: Related commit already in this tree:
+
+**`6d979b64287fb`** — `ntfs3: fix mount failure on volumes with
+fragmented MFT bitmap` (2026-04-07, contained in **v7.1-rc1**).
+
+That patch:
+1. Moves `ni_load_all_mi()` before `wnd_init()`.
+2. Walks attributes and `run_unpack_ex()`s `$BITMAP` extents with `svcn
+   != 0`.
+
+Same symptom (`wnd_init` / `-ENOENT`), different site (`super.c` second
+pass vs `inode.c` first pass). `6d979b64287fb` is an ancestor of
+`e31886cb6e0e1`.
+
+Series context: mailing-list **v2 1/2**. Patch 2/2 is `789af83e41aef`
+(`lseek EINVAL` on 64-bit clusters) — independent, not a prerequisite.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Konstantin Komarov is the NTFS3 maintainer (Paragon). Many
-recent NTFS3 commits are his. Weight: high.
+
+Record: Applied by **Konstantin Komarov**, listed `M:` for NTFS3
+(`MAINTAINERS`: Supported). Senjin also authored the sibling lseek fix.
+Maintainer SOB is a strong quality signal.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: None. The patch only uses existing `kfree`, `fnd_pop`, and
-`n->index`. Those exist in this tree. **Can apply standalone.**
 
-===============================================================
-PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-===============================================================
+Record: Standalone. Uses existing `attr_unpack_run`,
+`sbi->mft.bitmap.run`, and the `MFT_REC_MFT` special case from 2021. No
+new helpers. Patch 2/2 is unrelated.
+
+---
+
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+
 Record:
-- `b4 dig -c 194491be54e1c` → https://patch.msgid.link/20260724111443.14
-  728-1-almaz.alexandrovich@paragon-software.com
-- `b4 dig -a`: single revision **v1** only (2026-07-24). Committed
-  version matches v1.
-- lore.kernel.org fetch returned 403; patch text confirmed via
-  Openwall/IU mirrors. No replies found on those archives (no NAK, no
-  Cc: stable in-thread).
-- Earlier independent patch (Jan 2026) from Jiasheng Jiang: “[PATCH v2]
-  fs/ntfs3: Fix memory and resource leak in indx_find_sort” replacing
-  **all three** `kfree(n)` with `put_indx_node(n)` and adding `Fixes:
-  82cae269cfa9`. That fuller patch was **not** merged; the maintainer
-  later landed this narrower 1-line version.
+- `b4 dig -c e31886cb6e0e1` **failed**: lore.kernel.org returned errors.
+- Found via web search:
+  - v1: 2026-06-10, `[PATCH] fs/ntfs3: load ATTR_BITMAP run extents...`
+  - v2: 2026-06-13, `[PATCH v2 1/2]` — **hunk-header fix only, no code
+    change**
+  - Cover: `[PATCH v2 0/2] fs/ntfs3: two fixes for large NTFS volumes`
+  - Openwall: https://lists.openwall.net/linux-kernel/2026/06/13/668 and
+    `/669`
+- No NAKs found. Maintainer merged it into `ntfs3_for_7.3`.
+- Cover letter: both bugs seen on a 16 TB volume with
+  `CONFIG_NTFS3_64BIT_CLUSTER=y`.
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): To/Cc: Konstantin Komarov,
-`ntfs3@lists.linux.dev`, `linux-kernel@vger.kernel.org`, `linux-
-fsdevel@vger.kernel.org`. No extra reviewer SOB on the commit.
-Maintainer self-applied.
+
+Record: `b4 dig -w` failed. Recipients from the archived mail:
+`ntfs3@lists.linux.dev`, `almaz.alexandrovich@paragon-software.com`,
+`linux-kernel@vger.kernel.org`. Maintainer was CC’d and later signed
+off. No other `Reviewed-by` on the commit.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: No `Reported-by` / bugzilla / syzbot. Bug established from code
-(missing free vs `put_indx_node` / `indx_find_raw`). User-report count:
-**unverified / none found**.
+
+Record: Reporter is Senjin (author), with a concrete 16 TB / 97-extent
+case. No syzbot/bugzilla. Cover does not mention `6d979b64287fb`, so
+Senjin likely reproduced on a kernel without that later-pass workaround
+(UNVERIFIED which exact release they ran).
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Jiang’s Jan 2026 patch is the more complete form of the same
-fix. This commit is a subset (pop path `n->index` only). No series
-dependency for applying this one line.
+
+Record: v2 0/2 is two independent large-volume fixes. 2/2 is not
+required for 1/2.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: lore.kernel.org/stable search was 403; web search did not turn
-up a stable-list thread for this subject. **No verified stable-list NAK
-or prior selection discussion.**
 
-===============================================================
-PHASE 5: CODE SEMANTIC ANALYSIS
-===============================================================
+Record: lore.kernel.org/stable search did not return discussion of this
+commit (403/irrelevant hits). No documented reason to keep it out of
+stable.
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
-Record: `indx_find_sort()` only.
+---
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+**Step 5.1: IDENTIFY KEY FUNCTIONS**
+
+Record: `ntfs_read_mft()`; uses `ni_enum_attr_ex()`, `attr_unpack_run` →
+`run_unpack_ex()`. Failure path: `wnd_init()` → `wnd_rescan()` →
+`run_lookup_entry()`.
 
 **Step 5.2: TRACE CALLERS**
-Record: Only caller in this tree is `ntfs_insert_security()` in
-`fs/ntfs3/fsntfs.c` (SDH index walk when inserting a security
-descriptor). That is called from:
-- `inode.c` file/inode create when a new default/dir security id must be
-  stored
-- `xattr.c` when setting a security descriptor xattr
 
-Not interrupt context. Process context, under `ni->ni_lock`. Finder is
-released with `fnd_put()` → `fnd_clear()` → `put_indx_node()` for
-**remaining** stack nodes; popped nodes are supposed to be freed in
-`indx_find_sort` itself.
+Record:
+- `ntfs_read_mft()` is static; only caller is `ntfs_iget5()` when
+  `I_NEW`.
+- Mount: `ntfs_fill_super()` → `ntfs_iget5($MFT)` → `ntfs_read_mft()`.
+- Not IRQ; mount/iget path.
 
 **Step 5.3: TRACE CALLEES**
-Record: `fnd_pop`, `kfree`, `indx_read`/`hdr_first_de`/`de_is_last` on
-the surrounding path. `indx_read_ra` allocates node + index buffer +
-buffer_heads.
+
+Record: `ni_enum_attr_ex()` loads ATTR_LIST records via `ni_load_mi()`.
+Matching segments go to `run_unpack_ex()` into `sbi->mft.bitmap.run`.
+Later `wnd_init(&sbi->mft.bitmap)` scans that run list.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Userspace NTFS3 create/`setxattr` → `ntfs_insert_security` →
-`indx_find` then loop `indx_find_sort`. **Reachable from userspace** on
-a mounted ntfs3 volume. Not every I/O; triggered when inserting (or
-searching duplicate) security descriptors in `$Secure::$SDH`. If the SDH
-B-tree is deeper than root, pop_level runs and leaked before this fix.
+
+Record: `mount -t ntfs3` → `ntfs_fill_super` → load `$MFT` → incomplete
+bitmap runs → `wnd_init` fails → mount fails. **Userspace-reachable.**
+Unprivileged users cannot trigger it without mount rights; operators
+with NTFS volumes can. Volume is unusable until remounted with another
+driver.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Same function still has `kfree(n)` without `kfree(n->index)` on
-two **error** paths. `indx_find_raw` already uses `put_indx_node`.
-Pattern is systematic in `indx_find_sort`, only partly fixed here.
 
-===============================================================
-PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-===============================================================
+Record: Primary `ATTR_BITMAP` already sets `run = &sbi->mft.bitmap.run`.
+`6d979b64287fb` unpacks the same extents later in `ntfs_fill_super()`.
+`run_add_entry()` documents that new runs may overlap existing ones, so
+both paths together are safe.
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
+
 Record:
 - Local tree: **`v7.3-rc4-27-gf0100363d8c37`**, `make kernelversion` =
-  **7.3.0-rc4**.
-- `fs/ntfs3/index.c` `indx_find_sort()` exists. Pre-image is `fnd_pop` +
-  `kfree(n)` without freeing `n->index`.
-- Bug introduced with NTFS3 in **`82cae269cfa95` (2021)**, present in
-  this tree (`git merge-base --is-ancestor 82cae269cfa95 HEAD`
-  succeeded).
-- This is not “new code after this branch point.”
+  **7.3.0-rc4** (mainline-style checkout, detached HEAD).
+- Candidate **is already an ancestor of HEAD**.
+- Buggy skip has existed since `82cae269cfa953` (v5.15). Parent of this
+  commit still has it.
+- `6d979b64287fb` (v7.1-rc1) is also in this tree and tries to paper
+  over the same gap in `super.c`.
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: **Clean apply.** Surrounding function text is the original
-structure; the hunk is one added line. No conflicting refactor of
-`indx_find_sort` in this tree. `put_indx_node()` already exists if a
-slightly richer backport were used, but this exact diff applies as-is.
+
+Record: Expected apply: **clean** on any tree with the original
+`MFT_REC_MFT`/`ATTR_DATA` special case (all ntfs3 trees since 5.15).
+Hunk is isolated.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: No earlier alternative (Jiang `put_indx_node`) in this history.
-This commit **is** the fix that landed (`ntfs3_for_7.3` merge
-`dc83d18cdd904`). No competing fix for the same `kfree(n)` pop site.
 
-===============================================================
-PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-===============================================================
+Record: `6d979b64287fb` is here. It is a second-pass unpack after
+`ni_load_all_mi()`, not a replacement for loading during
+`ntfs_read_mft()`. No later commit reverts or replaces `e31886cb6e0e1`.
+ADS/iomap commits after it do not touch this branch.
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: **[fs/ntfs3] [IMPORTANT]** — real RW filesystem
-(CONFIG_NTFS3_FS), not staging. Not core VFS/mm, but used on Windows
-volumes, dual-boot, and some appliances. Leak is in metadata index walk
-for `$Secure`.
+
+Record: **fs/ntfs3** — **IMPORTANT** (supported RW Windows filesystem,
+not staging). Not core VFS/mm, but mount failure is serious for dual-
+boot, NAS, and large Windows volumes.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Active (many 7.3 NTFS3 fixes). The leak itself is old (2021),
-not a bug in brand-new code.
 
-===============================================================
-PHASE 8: IMPACT AND RISK ASSESSMENT
-===============================================================
+Record: Actively maintained (Paragon tree, multiple 7.x ntfs3 pulls).
+This is a targeted correctness fix, not drive-by churn.
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: **filesystem-specific / config-specific** — `CONFIG_NTFS3_FS`
-users who insert security descriptors (file create with new/default SD,
-security xattr). Not universal.
+
+Record: **Filesystem-specific / config-specific.** Users of
+`CONFIG_NTFS3_FS` with a fragmented `$MFT` `$BITMAP` (large or long-
+lived NTFS). The 16 TB report also used `CONFIG_NTFS3_64BIT_CLUSTER`.
+Fragmentation itself is not limited to 64-bit clusters; `6d979b64287fb`
+reproduced on a 664 GB volume.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record:
-- Trigger: `indx_find_sort()` after a descent into an index allocation
-  block, then last-entry pop.
-- How common: not every syscall; **per unique-SD insert / SDH hash-chain
-  walk**, not a once-per-boot init-only leak. Repeated unique ACLs leak
-  repeatedly.
-- Unprivileged users: if they can create files or set security xattrs on
-  ntfs3, yes. Typical create after `def_security_id` is cached may not
-  re-enter insert; still reachable.
+
+Record: Every mount of an affected volume. Not a race. Needs mount
+capability, not an unprivileged syscall gadget. Common on large/aged
+NTFS.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: **[kernel memory leak of index buffers (and remaining BH refs)]
-[HIGH for the kmalloc leak on a live FS path; not panic/corruption].**
-Unbounded across many unique SD inserts; can contribute to memory
-pressure. Not a crash or data-corruption bug.
+
+Record: **Mount failure (`-ENOENT`)** — volume cannot be mounted with
+ntfs3. **HIGH** (not a panic, but the filesystem is unusable).
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-Record:
-- **Benefit:** medium-high for ntfs3 users — stops a real leak on a used
-  lookup path; 4 KiB+ per popped level.
-- **Risk:** very low — 1 line, same pattern as `put_indx_node`’s first
-  free, no lock/API change.
-- **Ratio:** strongly in favor of taking the fix.
 
-===============================================================
-PHASE 9: FINAL SYNTHESIS
-===============================================================
+Record:
+- **Benefit:** High for affected volumes (mount works). Completes the
+  `$MFT` parse the same way `ATTR_DATA` was always handled. Helps trees
+  that lack `6d979b64287fb`; on trees that have it, it is still the
+  right first-pass fix and is overlap-safe.
+- **Risk:** Very low (6 lines in one function, existing unpack helper).
+- **Ratio:** Strongly favors backport.
+
+---
+
+## PHASE 9: FINAL SYNTHESIS
 
 **Step 9.1: COMPILE THE EVIDENCE**
 
-FOR:
-- Real leak: `kfree(n)` drops the node without freeing `n->index`
-  allocated in `indx_read_ra()`.
-- Normal pop path, not style-only.
-- 1 line, obviously correct, maintainer-authored.
-- Code and bug exist in this 7.3-rc4 tree since NTFS3 was added.
-- Applies cleanly; no prerequisites.
-- Same class as many stable leak fixes; sibling `indx_find_raw` already
-  frees via `put_indx_node()`.
-- Reachable from userspace ntfs3 create/xattr.
+**FOR:**
+- Real mount failure, observed on a 16 TB volume (97 extents; fail at
+  last VCN).
+- Independent 664 GB report of the same class (`6d979b64287fb`).
+- Bug in ntfs3 since v5.15.
+- 8-line, obviously correct extension of an existing special case.
+- Maintainer SOB; merged to `ntfs3_for_7.3`.
+- Standalone (series 2/2 is unrelated).
+- `run_add_entry()` allows overlap with the v7.1 second-pass unpack.
 
-AGAINST:
-- Not a crash, deadlock, or corruption issue.
-- Incomplete: no `nb_put()`, two error-path `kfree(n)` sites remain.
-- Single caller (`ntfs_insert_security`), not a hot readdir path.
-- No syzbot/user `Reported-by`, no in-commit tests.
+**AGAINST:**
+- `6d979b64287fb` already in **this** 7.3 tree may already make mount
+  succeed via a later unpack.
+- No `Fixes:`/`Cc: stable` (not a negative in this pipeline).
+- Affects ntfs3 only, not all kernel users.
 
-UNRESOLVED:
-- Could not fetch lore.kernel.org (403) or confirm stable-list
-  discussion.
-- No public reply thread found on mirrors for the July v1 mail.
+**UNRESOLVED:**
+- Whether Senjin’s 16 TB kernel included `6d979b64287fb` (cover letter
+  never mentions it).
+- lore.kernel.org was unreachable for `b4 dig` / WebFetch; discussion
+  recovered from Openwall/LKML mirrors.
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — correctness is visible from
-   `put_indx_node()` / `indx_find_raw()`. Testing is only implied by
-   maintainer merge, not a Tested-by tag.
-2. Fixes a real bug that affects users? **PASS** — leaked kernel
-   allocations on ntfs3 SD insert/lookup.
-3. Important issue (crash, security, corruption, deadlock)? **PASS** —
-   memory leak on a live FS path (stable routinely takes these). Not
-   CRITICAL severity, but it is a real resource leak, not cosmetic.
-4. Small and contained? **PASS** — +1 line, one function.
+
+1. Obviously correct and tested? **PASS** — mirrors `ATTR_DATA`; tested
+   on a real 16 TB volume; maintainer applied it.
+2. Fixes a real bug that affects users? **PASS** — mount `-ENOENT` on
+   fragmented `$MFT` bitmap.
+3. Important issue? **PASS** — filesystem unmountable (HIGH).
+4. Small and contained? **PASS** — +8/−2, one function.
 5. No new features or APIs? **PASS**.
-6. Can apply to the local tree? **PASS** — context matches; ntfs3 and
-   `indx_find_sort()` are present.
+6. Can apply to the local tree? **PASS** — code and helpers are present;
+   hunk matches `ntfs_read_mft()`.
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: Not a device-ID/quirk/DT/build/docs exception. It is a normal
-leak fix.
 
-**Step 9.4: MAKE YOUR DECISION**
-This tree is **7.3.0-rc4**. The leak exists in `indx_find_sort()` here
-and has since NTFS3 landed. The patch is a one-line `kfree(n->index)` on
-pop, matching the node’s ownership. Residual BH/error-path leaks do not
-make this line wrong or risky. Benefit outweighs risk.
+Record: None of the ID/quirk/DT/build/doc exceptions. It qualifies as a
+normal important bug fix.
 
-===============================================================
-What problem this solves for this tree
-===============================================================
-`indx_find_sort()` walks the NTFS `$SDH` B-tree. After `indx_read()`
-fills a child `indx_node`, popping that level used to `kfree` only the
-node object. The owned index buffer stayed allocated for every descent-
-then-pop. NTFS3 users inserting security descriptors (file create /
-security xattr) leak that memory. This commit frees `n->index` first,
-which is the correct teardown for that allocation.
+**Step 9.4: DECISION**
 
-It meets stable rules: obviously correct, real leak, small, no new API,
-applies here. Risk is a single `kfree` on a pointer the node exclusively
-owns after `fnd_pop()`.
+This checkout is 7.3-rc4 and already contains the commit; the question
+is still whether that fix is stable material for this lineage. It is.
 
-Concerns: the fuller `put_indx_node()` replacement was proposed earlier
-and would also drop buffer heads and fix two error paths; this commit is
-a partial fix. That is acceptable for stable — it still plugs the main
-pop-path kmalloc leak without depending on other commits.
+`6d979b64287fb` is a later-pass workaround, not a reason to drop the
+first-pass unpack. Silently skipping `$MFT` `ATTR_BITMAP` extents in
+`ntfs_read_mft()` is a real bug. The patch is small, correct,
+maintainer-acked, and prevents a user-visible mount failure on
+large/fragmented NTFS volumes.
 
-===============================================================
-Verification
-===============================================================
-- [Phase 1] Parsed commit `194491be54e1c`: subject/body leak fix; tags =
-  author SOB only; no Fixes/Reported-by/Cc: stable.
-- [Phase 2] Diff: +1 line `kfree(n->index)` before `kfree(n)` in
-  `indx_find_sort()` pop_level; confirmed `put_indx_node()` does
-  `kfree(in->index); nb_put(); kfree(in)`.
-- [Phase 2] Confirmed `indx_read_ra()` `kmalloc`s `ib` and assigns
-  `in->index = ib`.
-- [Phase 2] Confirmed `indx_find_raw()` uses `put_indx_node(n)` after
-  `fnd_pop`.
-- [Phase 3] `git blame`: pop path from `82cae269cfa95` (2021);
-  `kfree(n)` from `195c52bdd5d5e`; this line from `194491be54e1c`.
-- [Phase 3] `git merge-base --is-ancestor 82cae269cfa95 HEAD` and
-  `194491be54e1c HEAD`: both true.
-- [Phase 3] `git log 194491be54e1c..HEAD -- fs/ntfs3/index.c`: no later
-  change to this file.
-- [Phase 3] No `Fixes:` tag to follow.
-- [Phase 4] `b4 dig -c 194491be54e1c`: lore msgid
-  `20260724111443.14728-1-almaz.alexandrovich@paragon-software.com`;
-  `-a` v1 only; `-w` ntfs3/fsdevel/lkml.
-- [Phase 4] Openwall/IU mirrors: patch text matches commit; no replies
-  found.
-- [Phase 4] Found unmerged Jan 2026 Jiasheng Jiang `put_indx_node` patch
-  (lkml.iu.edu / gnuweeb).
-- [Phase 4] lore.kernel.org WebFetch: 403. Stable-list hit:
-  **UNVERIFIED**.
-- [Phase 5] `git grep indx_find_sort`: only `ntfs_insert_security` +
-  declaration.
-- [Phase 5] `ntfs_insert_security` `out:` calls `fnd_put(fnd_sdh)`.
-- [Phase 6] `git describe HEAD` = `v7.3-rc4-27-gf0100363d8c37`; `make
-  kernelversion` = 7.3.0-rc4.
-- [Phase 6] Pre-fix source at `194491be54e1c^` still has `kfree(n)`
-  without `kfree(n->index)`.
-- [Phase 8] Failure mode: kmalloc leak of index buffers on SDH pop;
-  severity HIGH for leak class, not oops/corruption.
-- UNVERIFIED: whether any user actually hit OOM from this; mailing-list
-  review comments beyond the isolated patch mail.
+---
 
-The fix is small, surgical, and meets the stable criteria for this tree.
+### What the commit solves
+
+`$MFT`’s bitmap run list can spill into extension records.
+`ntfs_read_mft()` unpacked only `ATTR_DATA` there, so
+`sbi->mft.bitmap.run` was truncated and `wnd_init()` failed with
+`-ENOENT`. Mount failed. The patch stores those bitmap extents the same
+way the primary segment already does.
+
+### Stable rules
+
+Meets all six criteria: small, obviously correct, real important bug, no
+new API, applies here.
+
+### Risk vs benefit
+
+Benefit: restores mount on affected NTFS volumes. Risk: very low;
+overlap with `6d979b64287fb` is handled by `run_add_entry()`.
+
+### Concerns
+
+- Series 1/2: 2/2 is an unrelated lseek fix; not required.
+- `6d979b64287fb` already in this 7.3 tree: complementary, not a
+  blocker.
+- No extra prerequisites beyond original ntfs3 `MFT_REC_MFT` handling
+  (v5.15).
+
+---
+
+## Verification
+
+- **[Phase 1]** Parsed `e31886cb6e0e1`: Senjin + Konstantin SOBs only;
+  no Fixes/stable/Reported-by.
+- **[Phase 2]** `git show e31886cb6e0e1`: +8/−2 in `ntfs_read_mft()`;
+  `ATTR_BITMAP` → `sbi->mft.bitmap.run`.
+- **[Phase 2]** Read `inode.c` ATTR_BITMAP primary case (lines 323–333)
+  and `attr_unpack_run` (399–414).
+- **[Phase 2]** Read `wnd_rescan()`: missing run → `err = -ENOENT`.
+- **[Phase 3]** `git blame` on parent: buggy line from `82cae269cfa953`
+  (2021-08-13).
+- **[Phase 3]** `git merge-base --is-ancestor 82cae269cfa953 HEAD` →
+  yes.
+- **[Phase 3]** Related fix `6d979b64287fb` in tree (`v7.1-rc1~76^2~6`);
+  ancestor of this commit.
+- **[Phase 3]** `git log --author=Konstantin Komarov -- fs/ntfs3/`:
+  maintainer.
+- **[Phase 4]** `b4 dig -c e31886cb6e0e1`: lore error; UNVERIFIED via
+  b4.
+- **[Phase 4]** Openwall v2 0/2 and 1/2: 16 TB repro; v2 is hunk-header
+  only; 2/2 independent.
+- **[Phase 4]** WebFetch spinics/lore: 500/403; used Openwall/LKML
+  mirrors.
+- **[Phase 4]** No stable@ discussion found.
+- **[Phase 5]** Only caller of `ntfs_read_mft`: `ntfs_iget5`
+  (mount/`I_NEW`).
+- **[Phase 5]** `run_add_entry()` documents overlap is allowed.
+- **[Phase 6]** `git describe HEAD` = `v7.3-rc4-27-gf0100363d8c37`;
+  `make kernelversion` = 7.3.0-rc4.
+- **[Phase 6]** Candidate is ancestor of HEAD; parent still has the
+  skip.
+- **[Phase 7]** `MAINTAINERS`: NTFS3 Supported, M: Konstantin Komarov.
+- **[Phase 8]** Failure mode: mount `-ENOENT`, severity HIGH.
+- **UNVERIFIED:** Exact kernel Senjin reproduced on; whether
+  `6d979b64287fb` alone would have mounted that 16 TB volume.
+
+The local tree has the ntfs3 code path, the bug dates to the original
+driver, the patch is a small contained mount fix, and it should be
+backported.
 
 **YES**
 
- fs/ntfs3/index.c | 1 +
- 1 file changed, 1 insertion(+)
+ fs/ntfs3/inode.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index edfcd28573ef9..03ae5a817c1b4 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -1325,6 +1325,7 @@ int indx_find_sort(struct ntfs_index *indx, struct ntfs_inode *ni,
- 		/* Pop one level. */
- 		if (n) {
- 			fnd_pop(fnd);
-+			kfree(n->index);
- 			kfree(n);
- 		}
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 120691bc71ee9..99fdba7b403cb 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -126,10 +126,16 @@ static struct inode *ntfs_read_mft(struct inode *inode,
  
+ 	if (le && le->vcn) {
+ 		/* This is non primary attribute segment. Ignore if not MFT. */
+-		if (ino != MFT_REC_MFT || attr->type != ATTR_DATA)
++		if (ino != MFT_REC_MFT)
++			goto next_attr;
++
++		if (attr->type == ATTR_DATA)
++			run = &ni->file.run;
++		else if (attr->type == ATTR_BITMAP)
++			run = &sbi->mft.bitmap.run;
++		else
+ 			goto next_attr;
+ 
+-		run = &ni->file.run;
+ 		asize = le32_to_cpu(attr->size);
+ 		goto attr_unpack_run;
+ 	}
 -- 
 2.53.0
 
