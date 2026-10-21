@@ -1,71 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.11.79.132
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.11.79.129
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792558711;
-	b=HuvhI18O6V7rAkGZr+OGItvwENuaOhz8YxNtdornALPnu9tPMV8xt1uA64bQiykKEF/f
-	 C14YOG0qiW29fxBPOWyj9bYPST3DtpCcDNf641KbZT3USQvs3YxcZ9PWpCLCbRAQmc+jI
-	 Sw5YVaI9x8zQqhi7ykQyJEh6ZsVsmfyQ+MDCgGP/nMj//frNCnJEN6T8XLqNq3Y2kfvOM
-	 Kt2J9N4QSSVSRvmlg6vk/odHWujs3MvDUNcEu5/KwYllOh/rD4ws2SGLShTowKLCcuWA4
-	 SeddgqQb1wtpRnRiO2BlXnDQoV5vZZrkzrWV/4/GxlcBJAYmyMcBwQ2pROWxRDjaaWw==
+	t=1792558729;
+	b=raYMsdA69GUqexD9Pi5pDwEpySTH0bM+JoqHGQUr6vzt6NuvXXGeNMcAadOsX+V4by7M
+	 UenJ774qc6YIpOmEkK/6WgobZN08ww2L7dn/6qwvCs/kkspSO4lQztfjz72N2aMDAQClV
+	 XsvNQyf90wloAhdvrur7Rw7Q5mvr3XtxhNOMflji/QaxGLpuSHrOMs0SG5FzjvIljYPLz
+	 xglBUtpavHWLVA+f0Q6oVO9+NowyTkzjyrBJpBkxAG1drRRVcf33R/cG9P7XGVtY71woU
+	 KlRkEO9ntM7bEu9ZlHCwpRZob4OIwKtKDCUnEGHttov484YQiWTJPW9/ElDjIEl+BKA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792558711;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792558729;
 	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:X-Mailer-Info:Subject:
 	 From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:
-	 Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=GK5DYawV3fS7qH49Jxdk4PU9MufYHyEhVsSUc+gLqw4=;
-	b=G0c3RWpHdCaQnlHjO58LBzZf5KQxyxU5KfAHY1rvPYNRUZ5ThYV0QQxQ6CoOaXpG1t0b
-	 HAkig5Te434dItmKlhvOHI1fZsRJYxXzDdf+c9ZQZdGFLPdnmQvdwcRjB4eZ7H6xfxETn
-	 DlO++KpA6v4G9DZpJkQMcEoodRJz7HxZfOfjwC62kulZxUJ4c2wNHLN+7r1fmcgrs2qXd
-	 5NOckTFbpFk9YvUN62eEElbiFosSWOemJneDYG3Lo/ki5mndms09vbx0FTf8cBzq7eloF
-	 DGsXQ6sUy3B7d+fbxo7vEd0DqrUbN5YirbHWuBRehQ+VieTQA/iP9vLYxw8vrGI8mtw==
+	 Feedback-ID:X-MailerSend-MessageID:In-Reply-To:References:Reply-To:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=XNIiXMO9bfSyLcpPsK7ibpdKfu6r2xJzZLEZeW2Ur4U=;
+	b=j344Q1jr35p/BFjpLzNdxM2AecOjCa7YjHWAREAK/qW356W4Nt2sYSqLQ2m9OlCPsOI8
+	 e4NjCVYuQ63sh3hkiGnsampRgVhcnYwZpiTMzmG3vtHLlixy9eX8hln3XC7UUxTeV5Xuq
+	 MEdSy4faEjbsFK1cumyg9AzgkYrvbY8kGl/rnPufH4+f+CwujnH1y4aTEVCdk6vwyOCnk
+	 6Nyp5ickcN8J+3CAkeKljoQU4HmvegDyii0xEH20nrqoydxDIZ3zZn95r88csgG3+amqw
+	 PAgZXmKyFXKyq80i7KTYzoB/O92toPecM73Bc2Yk8z0p5Cvo4nqDXR6ZLYxgzl9z8zg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=hatchling.org;
 	spf=pass smtp.mailfrom=mta.hatchling.org;
-	dkim=pass header.d=hatchling.org header.i=@hatchling.org header.a=rsa-sha256 header.s=mlsend2 header.b=157vbEKJ;
-	dkim=pass header.d=mailersend.net header.i=@mailersend.net header.a=rsa-sha256 header.s=ms1 header.b=arvWccFh;
-	arc=none smtp.remote-ip=212.11.79.132
-Received: from mail132.mailersend.net (mail132.mailersend.net [212.11.79.132])
+	dkim=pass header.d=hatchling.org header.i=@hatchling.org header.a=rsa-sha256 header.s=mlsend2 header.b=FMMx9862;
+	dkim=pass header.d=mailersend.net header.i=@mailersend.net header.a=rsa-sha256 header.s=ms1 header.b=ZBvsTWbv;
+	arc=none smtp.remote-ip=212.11.79.129
+Received: from mail129.mailersend.net (mail129.mailersend.net [212.11.79.129])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3163606A319
-	for <ntfs3@lists.linux.dev>; Wed, 21 Oct 2026 04:58:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3163606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE57606A31A
+	for <ntfs3@lists.linux.dev>; Wed, 21 Oct 2026 04:58:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAE57606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hatchling.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mta.hatchling.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=hatchling.org header.i=@hatchling.org header.a=rsa-sha256 header.s=mlsend2 header.b=157vbEKJ;
-	dkim=pass (2048-bit key, unprotected) header.d=mailersend.net header.i=@mailersend.net header.a=rsa-sha256 header.s=ms1 header.b=arvWccFh
-DKIM-Signature: a=rsa-sha256; bh=GK5DYawV3fS7qH49Jxdk4PU9MufYHyEhVsSUc+gLqw4=;
+	dkim=pass (1024-bit key, unprotected) header.d=hatchling.org header.i=@hatchling.org header.a=rsa-sha256 header.s=mlsend2 header.b=FMMx9862;
+	dkim=pass (2048-bit key, unprotected) header.d=mailersend.net header.i=@mailersend.net header.a=rsa-sha256 header.s=ms1 header.b=ZBvsTWbv
+DKIM-Signature: a=rsa-sha256; bh=XNIiXMO9bfSyLcpPsK7ibpdKfu6r2xJzZLEZeW2Ur4U=;
  c=relaxed/relaxed; d=hatchling.org;
- h=DKIM-Signature:X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
- s=mlsend2; t=1792558699; v=1;
- b=157vbEKJLIF9UdUG+bV3I9T+CjnrCAaD/4cSt3lIyimeJmlEdP65HNFTy0vOyAV5rHgdxPlb
- KzTVdqSv2ifYcSFfkjiC9I2lqlbWfyenekrEOFza9+Oz0zp4Bml5f1seJ8JiTN+r8nVlDWgAGcx
- C6j8PfxEm6LjROnbd4Iyt7is=
-DKIM-Signature: a=rsa-sha256; bh=GK5DYawV3fS7qH49Jxdk4PU9MufYHyEhVsSUc+gLqw4=;
+ h=DKIM-Signature:X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:In-Reply-To:References:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
+ s=mlsend2; t=1792558718; v=1;
+ b=FMMx9862pOJ5jJRZev415nKJbdQSErLwYInxsKSYXf0OaIBvdEK0PROSyrjobRye+RGRgIfs
+ BUlV2QeJmGIKPlQVU55Ax1FB1HXhLG04mbTqqksJ4oNi6znkAmxgm8s79ecJ+xpV3/JIg8ZIk9m
+ A9QqOdyxXba/2xO+7GdcudqY=
+DKIM-Signature: a=rsa-sha256; bh=XNIiXMO9bfSyLcpPsK7ibpdKfu6r2xJzZLEZeW2Ur4U=;
  c=relaxed/relaxed; d=mailersend.net;
- h=X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
- s=ms1; t=1792558699; v=1;
- b=arvWccFhgCvWVcSp5mNvWBqIKgeSxzJRLzLhEzrdfYTF2TfRUr30lnLU0t1WOm0toWpZnHwh
- Ef0sj5FkySJpqbw6MpHyGLBnUifTOrfLhaISnXwk6P/HFFG1rISjjc8s0bOmn826VdKpN2QXura
- tpRMTkWP4LFUTxLaIefZOgip3//m72vB81xnVKGf32FxH3ZG2+LuUao+kUmxOWxNpGhnwGgm5iN
- 400ysXHG3gbY30crs4BpsTeUkIlc3MCgBjSp7VkUtzu5STuXwDATa7+uMdt6ch+cb/zU+uEw/Ei
- kKDZRJMMKZbjesSC7iFyRmLplv6fjND6megdXioYgCMzw==
+ h=X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:In-Reply-To:References:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
+ s=ms1; t=1792558718; v=1;
+ b=ZBvsTWbv5n2qW4MOL9uqL2YSZcNX7ESgDNfwKpQOfJi5lWgQaaGev/RJcP24cn8DsG+SWk49
+ qnWiz/Nddj8qxJvZkj/ORD0c7dX1FPCWTfhvM/2OYP0L58beFls1cMP2QLx4A97s7czlSQG3qAf
+ H+Y9xMEU+c0gv8nfKHR0snORTN/kvhvx8wPiHWm9H20ouHrJCgKooEyn0eBaBJCCXPlj71fgfby
+ CqUISN4FOINnGuvyWPIMkqR9lywY+KHaJXhtr4ilCTa7jmKjzwLYLSugczt1qy5g1x7BqHXhGzD
+ fjBzOnCys5Ww5OcCnnQo4M8exyR7Pp3inEOK0Rrcbqsyg==
 X-Mailer-Info: 10.AZlZWY1xGd.AZlZWY1xGd0MTN5UzN.uRnZzNDQsl2c0NnLslmb1hnLkVmd.
  gNhJDOmFWM0IGOmZjYhVzY2MmYjVDO4gzK0MTN5UzN....
-Subject: [PATCH 0/2] fs/ntfs3: fix silent corruption reading compressed files
+Subject: [PATCH 1/2] fs/ntfs3: map the right page of large folios in
+ ntfs_read_write_run()
 From: Senjin <senjin@hatchling.org>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: Senjin <senjin@hatchling.org>,
  ntfs3@lists.linux.dev,
- linux-fsdevel@vger.kernel.org
-Date: 21 Oct 2026 04:58:19 -0000
-Received: from 10.8.7.120 by 10.132.0.99 with http; 21 Oct 2026 04:58:19 +0000
-Message-ID: <6ad8466bbdf840d3275c3428@mailersend.net>
-X-MailerSend-RecipientID: 6ad8466bbdf840d3275c3428;6a28fa14b8f6ba5c6cbc5888;r9084zv9678gw63d
+ linux-fsdevel@vger.kernel.org,
+ stable@vger.kernel.org
+Date: 21 Oct 2026 04:58:38 -0000
+Received: from 10.8.12.114 by 10.132.0.99 with http; 21 Oct 2026 04:58:38 +0000
+Message-ID: <6ad8467eae24f98e92c2aef0@mailersend.net>
+X-MailerSend-RecipientID: 6ad8467eae24f98e92c2aef0;6a28fa14b8f6ba5c6cbc5888;r9084zv9678gw63d
 Feedback-ID: r9084zv9678gw63d:MailerSend
-X-MailerSend-MessageID: 6ad8466b0cd662f40ac3541c
+X-MailerSend-MessageID: 6ad8467e4b4189a79bb7fc2b
+In-Reply-To: <20261021045734.573753-1-senjin@hatchling.org>
+References: <20261021045734.573753-1-senjin@hatchling.org>
 Reply-To: senjin@hatchling.org
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
@@ -79,42 +83,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Reading WOF (LZX/XPRESS) compressed files on ntfs3 can silently return
-wrong data: zeroes or garbage, no error from read(), nothing in dmesg.
-The bad pages stay in the page cache until it is dropped.
+ntfs_read_write_run() reads and writes through the block device page
+cache. It looks up the folio that contains lbo with read_mapping_folio()=
+,
+but then maps offset 0 of that folio and only adds offset_in_page(lbo):
 
-It needs two bugs together:
+	folio =3D read_mapping_folio(mapping, lbo >> PAGE_SHIFT, NULL);
+	off =3D offset_in_page(lbo);
+	kaddr =3D kmap_local_folio(folio, 0);
+	memcpy(buf, kaddr + off, op);
 
-1. ntfs_read_write_run() maps page 0 of the block device folio it gets
-   from read_mapping_folio(), which is wrong for large folios. Those
-   appear when userspace has read the block device (e.g. ntfs-3g tools),=
+This is only correct for order-0 folios. If the folio is a large folio
+that starts before lbo, the data is copied from (or written to) the wron=
+g
+page, (index - folio->index) * PAGE_SIZE bytes before the intended
+position.
 
-   so the compressed input comes from the wrong 4 KiB page and the
-   decompressor fails. The same helper is used for compressed writes.
+ntfs3 itself populates the block device mapping with order-0 folios, so
+this goes unnoticed on a cold cache. But a userspace read of the block
+device (ntfs-3g tools such as ntfscat/ntfsinfo, probing tools, ...) fill=
+s
+the same mapping through readahead with large folios. After that,
+reading a WOF (LZX/XPRESS) compressed file passes garbage to the
+decompressor: on a test volume, lzx_decompress() failed for 33 of 35
+frames of a 1.1 MB file, and the compressed input it was given matched
+the real WofCompressedData stream shifted back by 4 KiB to 52 KiB.
 
-2. ni_read_frame() marks the frame's pages uptodate even when it fails,
-   so the failure is turned into silently wrong data.
+Reproducer (WOF-compressed file, e.g. made with "compact /c /exe:lzx"):
 
-Found while copying a Windows drive whose files had been compacted with
-"compact /exe:lzx". The data on disk is intact: decoding the
-WofCompressedData streams independently with wimlib gives the right
-contents, matching uncompressed copies of the same files.
+	echo 3 > /proc/sys/vm/drop_caches
+	ntfscat -f -a 0x80 -n WofCompressedData $DEV /path/file >/dev/null
+	md5sum /mnt/path/file    # wrong; correct without the ntfscat step
 
-Tested on 7.3 against 16,716 WOF-compressed files (LZX, 32K frames):
-the reproducer in patch 1 fails for 1,051 files without the series and
-for none with it. With only patch 2, the reproducer gets an error from
-read() instead of wrong data.
+On a corpus of 16,716 WOF-compressed files, reading each file right
+after ntfscat had read its stream gave wrong contents for 1,051 of them,=
 
-The bug was introduced in 6.19, hence the stable tags. Both patches
-apply to current master.
+nearly all files spanning more than a few 32 KiB frames. With this patch=
 
-Senjin (2):
-  fs/ntfs3: map the right page of large folios in ntfs_read_write_run()
-  fs/ntfs3: don't mark pages uptodate when ni_read_frame() fails
+all 16,716 read correctly, and plain reads with a cold cache were
+correct both before and after.
 
- fs/ntfs3/frecord.c | 12 ++++++++----
- fs/ntfs3/fsntfs.c  | 11 ++++++++---
- 2 files changed, 16 insertions(+), 7 deletions(-)
+The same helper is used for writes (ni_write_frame(), and
+ni_decompress_file() via ni_read_frame()), so on a read-write mount the
+data could be written to the wrong place on disk as well.
 
+Map the page that contains lbo. op is already limited to the end of that=
+
+page, so a single kmap_local_folio() mapping is enough.
+
+Fixes: f35590ee26f5 ("fs/ntfs3: remove ntfs_bio_pages and use page cache=
+ for compressed I/O")
+Cc: stable@vger.kernel.org # 6.19+
+Signed-off-by: Senjin <senjin@hatchling.org>
+---
+ fs/ntfs3/fsntfs.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index 97c04ab..3340e72 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -1557,12 +1557,17 @@ int ntfs_read_write_run(struct ntfs_sb_info *sbi=
+, const struct runs_tree *run,
+ 		if (op > bytes)
+ 			op =3D bytes;
+=20
+-		kaddr =3D kmap_local_folio(folio, 0);
++		/*
++		 * The folio may be a large folio that starts before
++		 * lbo (e.g. created by readahead on the block device),
++		 * so map the page that actually contains lbo.
++		 */
++		kaddr =3D kmap_local_folio(folio, offset_in_folio(folio, lbo));
+ 		if (wr) {
+-			memcpy(kaddr + off, buf, op);
++			memcpy(kaddr, buf, op);
+ 			folio_mark_dirty(folio);
+ 		} else {
+-			memcpy(buf, kaddr + off, op);
++			memcpy(buf, kaddr, op);
+ 			flush_dcache_folio(folio);
+ 		}
+ 		kunmap_local(kaddr);
 --=20
 2.56.0
