@@ -1,68 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.202
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.11.79.132
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792493548;
-	b=BfWgCRRIE7VX/FrsOS/ZR4drnKxJYvN1v87MIX4x5LCWpDvwAXrre8qDwMTf/MIRvKIM
-	 VhqgGshFcMpMP9rYZOrjp8IFAVP8FbtRJetcjhWVe63sb7dvHyHvFJ4WEiVe0m/Xnw/dh
-	 zWrXMjH2WdZEVzaKkYI7x+21nIexy+snpDSdiQwiZ8LGOTDy8Y84tE/EY1D6yPYdAd6nY
-	 ReuyyZiV0mPFGsAyPY+0uSezWH6JpqYfBvdXG2MWWKpbsntiLQexkTSghaG0wAREigUz/
-	 x4fHOyTeAfeh9KMCOparq/RjTm+NDNjxG729MhFygD2ATYLXPMP90pR0WcguegUyZkg==
+	t=1792558711;
+	b=HuvhI18O6V7rAkGZr+OGItvwENuaOhz8YxNtdornALPnu9tPMV8xt1uA64bQiykKEF/f
+	 C14YOG0qiW29fxBPOWyj9bYPST3DtpCcDNf641KbZT3USQvs3YxcZ9PWpCLCbRAQmc+jI
+	 Sw5YVaI9x8zQqhi7ykQyJEh6ZsVsmfyQ+MDCgGP/nMj//frNCnJEN6T8XLqNq3Y2kfvOM
+	 Kt2J9N4QSSVSRvmlg6vk/odHWujs3MvDUNcEu5/KwYllOh/rD4ws2SGLShTowKLCcuWA4
+	 SeddgqQb1wtpRnRiO2BlXnDQoV5vZZrkzrWV/4/GxlcBJAYmyMcBwQ2pROWxRDjaaWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792493548;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=ZHZs513fUIH8Uh9joScZ6/li+ZcM7NQZlH6DFjNrec4=;
-	b=UQ3PN5JO8HhDCIw/WMzLfs89Y0rThoG5ThHXSqCJsT7bWh2WU4i28BiTpOvi15Ic1l+7
-	 bKGMTR9SV/vuQ08J4NLp4ENpHSoPBLvzIMGomxNlcYAYhKNFRfH7Wv03BxwoUz9OOjJtC
-	 hNx3DHwvgytxf1fodDz+Ld+09WVObH177IY1goSs0sivCH0Ja/t6cp+7ieKmeLzm2/6oD
-	 0gbn2aYi1hwOV2pLg8SNrHV92Sc0MQY+18dYT54cwp5rJNHNJnpFPgYtbgn17fhp5zswm
-	 luJhrlrxAO0kF437V0cWY5k9/tkg9zqm2R2VrAHus3MMhG9n0kGb/YK44GCG9r8iT3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792558711;
+	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:X-Mailer-Info:Subject:
+	 From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:
+	 Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=GK5DYawV3fS7qH49Jxdk4PU9MufYHyEhVsSUc+gLqw4=;
+	b=G0c3RWpHdCaQnlHjO58LBzZf5KQxyxU5KfAHY1rvPYNRUZ5ThYV0QQxQ6CoOaXpG1t0b
+	 HAkig5Te434dItmKlhvOHI1fZsRJYxXzDdf+c9ZQZdGFLPdnmQvdwcRjB4eZ7H6xfxETn
+	 DlO++KpA6v4G9DZpJkQMcEoodRJz7HxZfOfjwC62kulZxUJ4c2wNHLN+7r1fmcgrs2qXd
+	 5NOckTFbpFk9YvUN62eEElbiFosSWOemJneDYG3Lo/ki5mndms09vbx0FTf8cBzq7eloF
+	 DGsXQ6sUy3B7d+fbxo7vEd0DqrUbN5YirbHWuBRehQ+VieTQA/iP9vLYxw8vrGI8mtw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	arc=none smtp.remote-ip=203.205.221.202
-Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=hatchling.org;
+	spf=pass smtp.mailfrom=mta.hatchling.org;
+	dkim=pass header.d=hatchling.org header.i=@hatchling.org header.a=rsa-sha256 header.s=mlsend2 header.b=157vbEKJ;
+	dkim=pass header.d=mailersend.net header.i=@mailersend.net header.a=rsa-sha256 header.s=ms1 header.b=arvWccFh;
+	arc=none smtp.remote-ip=212.11.79.132
+Received: from mail132.mailersend.net (mail132.mailersend.net [212.11.79.132])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1111606A331
-	for <ntfs3@lists.linux.dev>; Tue, 20 Oct 2026 10:52:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1111606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1792493539; bh=ZHZs513fUIH8Uh9joScZ6/li+ZcM7NQZlH6DFjNrec4=;
-	h=From:To:Cc:Subject:Date;
-	b=FHHMHqTc1K0mCfLO5Q+LueN+bAa65w8XhaI604sqByc9TLD8mmccWUZjj1OUI/Bxq
-	 XakUSdR+FkOPIrNjHVaacRB3oLcIcCCqdaDmLm307yMzvN+dZo6FeIu8XK51sp5ihj
-	 /qpPVjL9VeBu17tXboLOHSFZ7FfjdrW+uJ8Qp1dk=
-Received: from [172.18.4.77] ([61.136.26.103])
-	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
-	id D11BFAC6; Tue, 20 Oct 2026 18:52:17 +0800
-X-QQ-mid: xmsmtpt1792493537t9gdwfo3y
-Message-ID: <tencent_EC9DEFBD1157A73B5394A8051F96A8EE5407@qq.com>
-X-QQ-XMAILINFO: OATpkVjS499uhmQXXZDmt6BBCcw6fGYvSk87KgIqABlqe4Wz0JLsntHAGFW5jo
-	 8iq/PcSgyU7AfTo3mN5MKPJ4f6g65c1W0PMkrtjZQ+1wc6l6BhEug1AU+J9BUZLuwVPHu2YU5bO2
-	 doiIo8WVRLPJUXFZmm17aKZQf/nl8IyKZVCOh6iUL2NG53xa6614BKqQ6P0zHgjnAP/HyAzH5KgR
-	 OM5VPxnkuQVEWk93pgIcxnnnS4RCzBS1R/TKvT0wSk+Od6xtFEhpbKzScFxvGlA3kzK8E+Mk9N6T
-	 cissvt1oGVQ2E8QkiIK8ukHqD+Bdl03xvLvk4hX73NL3w4uBuIJy0vG13h6mZhqnHfgi2c4AyobW
-	 OftSa8MiK5Of23Pq/SWIERp7dRrVujFXxLlo6ITmPpkepoVLY4RMhdd2Xk2+QvJBQwBTnPCJl9m0
-	 yB1BrYOJhvQGXWrBQsPTIRge+68O/D3NiZBi+LdlGakpiv0sUHMaZfqL33vMU/XGghMk2om/WYBE
-	 f2xY/SbgBxRp+zl3TCPIzUnucaUAG5tAGhSeeq4ABiVMIsYs4AHgksG2ZdE18mW9sAI+FBNB5IZP
-	 o63YGVUAC6eg0vEAhjnj13wB0BZpoxFy7STnnVlbXJhbPnse/aHTgOr7kWuS7bphS08EufTVDtrZ
-	 czn49GRLjcDdiaPgGfgxbNe79JmtUe6IbU14LX3iuIVhwqdfMkoimfvNLw3JUD8xfS1Cw6SGJCK8
-	 okfWJMSEBozMxiHc03Cctt97zLDYS1nHM16oMII3e2UIMROfPFiwzjak9oFS+9WbNlunlw7yJU5U
-	 eKLGeIrn5cynsukDl6Zkx3JiLwEhhCOb9Uz8HJD2X+qFVs0VEkbeCOEJ07wraHN/48gRK8vqbdZh
-	 aEWF21V7uy2C1+KUH1YCNhoOPX82LB/ze9Y+aFt87mx2RVqf4vpTvaz666TBzWGPWezEGZnolxR5
-	 PI/DzHaeA0qzNozbZCB79N9oT40epcgDR9uC0jxdR25hUjYF06qGXuJ8TUUJZizh4DslAyOc2FsG
-	 7gP6fvDx7SBlW4eW7BwJeBwes2mlgnsO74MpRnT8T/VTs0FD22tFFXgkxqkEdD0j4JjcOHHkmXrH
-	 qgzY44
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-From: Guikun Yang <yangguikun19@qq.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3163606A319
+	for <ntfs3@lists.linux.dev>; Wed, 21 Oct 2026 04:58:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3163606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hatchling.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mta.hatchling.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=hatchling.org header.i=@hatchling.org header.a=rsa-sha256 header.s=mlsend2 header.b=157vbEKJ;
+	dkim=pass (2048-bit key, unprotected) header.d=mailersend.net header.i=@mailersend.net header.a=rsa-sha256 header.s=ms1 header.b=arvWccFh
+DKIM-Signature: a=rsa-sha256; bh=GK5DYawV3fS7qH49Jxdk4PU9MufYHyEhVsSUc+gLqw4=;
+ c=relaxed/relaxed; d=hatchling.org;
+ h=DKIM-Signature:X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
+ s=mlsend2; t=1792558699; v=1;
+ b=157vbEKJLIF9UdUG+bV3I9T+CjnrCAaD/4cSt3lIyimeJmlEdP65HNFTy0vOyAV5rHgdxPlb
+ KzTVdqSv2ifYcSFfkjiC9I2lqlbWfyenekrEOFza9+Oz0zp4Bml5f1seJ8JiTN+r8nVlDWgAGcx
+ C6j8PfxEm6LjROnbd4Iyt7is=
+DKIM-Signature: a=rsa-sha256; bh=GK5DYawV3fS7qH49Jxdk4PU9MufYHyEhVsSUc+gLqw4=;
+ c=relaxed/relaxed; d=mailersend.net;
+ h=X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
+ s=ms1; t=1792558699; v=1;
+ b=arvWccFhgCvWVcSp5mNvWBqIKgeSxzJRLzLhEzrdfYTF2TfRUr30lnLU0t1WOm0toWpZnHwh
+ Ef0sj5FkySJpqbw6MpHyGLBnUifTOrfLhaISnXwk6P/HFFG1rISjjc8s0bOmn826VdKpN2QXura
+ tpRMTkWP4LFUTxLaIefZOgip3//m72vB81xnVKGf32FxH3ZG2+LuUao+kUmxOWxNpGhnwGgm5iN
+ 400ysXHG3gbY30crs4BpsTeUkIlc3MCgBjSp7VkUtzu5STuXwDATa7+uMdt6ch+cb/zU+uEw/Ei
+ kKDZRJMMKZbjesSC7iFyRmLplv6fjND6megdXioYgCMzw==
+X-Mailer-Info: 10.AZlZWY1xGd.AZlZWY1xGd0MTN5UzN.uRnZzNDQsl2c0NnLslmb1hnLkVmd.
+ gNhJDOmFWM0IGOmZjYhVzY2MmYjVDO4gzK0MTN5UzN....
+Subject: [PATCH 0/2] fs/ntfs3: fix silent corruption reading compressed files
+From: Senjin <senjin@hatchling.org>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] fs/ntfs3: fix log replay index walkers running past the entry chain
-Date: Tue, 20 Oct 2026 18:52:16 +0800
-X-OQ-MSGID: <20261020185216.37136-ntfs3-yangguikun19@qq.com>
+Cc: Senjin <senjin@hatchling.org>,
+ ntfs3@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org
+Date: 21 Oct 2026 04:58:19 -0000
+Received: from 10.8.7.120 by 10.132.0.99 with http; 21 Oct 2026 04:58:19 +0000
+Message-ID: <6ad8466bbdf840d3275c3428@mailersend.net>
+X-MailerSend-RecipientID: 6ad8466bbdf840d3275c3428;6a28fa14b8f6ba5c6cbc5888;r9084zv9678gw63d
+Feedback-ID: r9084zv9678gw63d:MailerSend
+X-MailerSend-MessageID: 6ad8466b0cd662f40ac3541c
+Reply-To: senjin@hatchling.org
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -72,127 +76,45 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-check_if_root_index() and check_if_alloc_index() walk the directory
-entry chain of an index header until the walk offset reaches
-lrh->attr_off.  They only re-check the buffer boundary at the top of
-each iteration, and they do not stop at the NTFS_IE_LAST entry that
-check_index_header() treats as the end of the validated chain.
+Reading WOF (LZX/XPRESS) compressed files on ntfs3 can silently return
+wrong data: zeroes or garbage, no error from read(), nothing in dmesg.
+The bad pages stay in the page cache until it is dropped.
 
-The gap between the end of the validated chain and hdr->used is inside
-the buffer but is never validated as directory entries.  A crafted
-$LogFile can place a size field there that jumps the walk straight to
-an attr_off far outside the buffer, and the walker then reports
-success.
+It needs two bugs together:
 
-The callers treat that result as "attr_off names a valid entry":
+1. ntfs_read_write_run() maps page 0 of the block device folio it gets
+   from read_mapping_folio(), which is wrong for large folios. Those
+   appear when userspace has read the block device (e.g. ntfs-3g tools),=
 
-  - SetIndexEntryVcnRoot/Allocation write the 8-byte log payload at
-    attr/ib + attr_off,
-  - AddIndexEntry* compute PtrOffset(e1, hdr + used) with e1 beyond
-    that point, which underflows to a huge length,
-  - Update/DeleteIndexEntry* read entry fields at the same offset.
+   so the compressed input comes from the wrong 4 KiB page and the
+   decompressor fails. The same helper is used for compressed writes.
 
-Mounting such an image read-write therefore performs an out-of-bounds
-write of controlled data at a controlled offset while replaying the
-log.
+2. ni_read_frame() marks the frame's pages uptodate even when it fails,
+   so the failure is turned into silently wrong data.
 
-Observed on v6.6.12 with KASAN (kasan_multi_shot=1), mounting the
-crafted image read-write:
+Found while copying a Windows drive whose files had been compacted with
+"compact /exe:lzx". The data on disk is intact: decoding the
+WofCompressedData streams independently with wimlib gives the right
+contents, matching uncompressed copies of the same files.
 
-  BUG: KASAN: slab-out-of-bounds in log_replay+0x9744/0xe850
-  Write of size 8 at addr ffff88804b097f40 by task mount/8065
-  Call Trace:
-   kasan_report
-   log_replay
-   ntfs_loadlog_and_replay
-   ntfs_fill_super
+Tested on 7.3 against 16,716 WOF-compressed files (LZX, 32K frames):
+the reproducer in patch 1 fails for 1,051 files without the series and
+for none with it. With only patch 2, the reproducer gets an error from
+read() instead of wrong data.
 
-  The buggy address belongs to the object at ffff88804b097f00
-   which belongs to the cache kmalloc-64 of size 64
-  The buggy address is located 0 bytes to the right of
-   allocated 64-byte region [ffff88804b097f00, ffff88804b097f40)
+The bug was introduced in 6.19, hence the stable tags. Both patches
+apply to current master.
 
-  Allocated by task 8065:
-   kmemdup
-   log_replay+0x55bf/0xe850
+Senjin (2):
+  fs/ntfs3: map the right page of large folios in ntfs_read_write_run()
+  fs/ntfs3: don't mark pages uptodate when ni_read_frame() fails
 
-The write repeats at consecutive addresses while the same log record
-is replayed; 54 reports were collected in a single mount.  Without
-KASAN there is no message and the mount appears to succeed.
+ fs/ntfs3/frecord.c | 12 ++++++++----
+ fs/ntfs3/fsntfs.c  | 11 ++++++++---
+ 2 files changed, 16 insertions(+), 7 deletions(-)
 
-Stop the walk at the NTFS_IE_LAST entry so the landing offset can no
-longer be driven past the end of the validated chain.
-
-Tested on v6.6.12 and on a v7.3-rc5 based linux-next tree, both with
-KASAN: with the crafted image the unpatched kernel reports
-slab-out-of-bounds (write of size 8) during mount, while the patched
-kernel rejects the record ("failed to replay log file. Can't mount
-rw!") and no KASAN report is produced.  An ordinary NTFS image still
-mounts read-write, accepts writes and is readable after remount.
-
-The image is 63 MiB (197 KiB gzipped).  I can send it if you want to
-reproduce it, or it can be regenerated: the crafted image only rewrites
-the root directory index record and the $LogFile restart area of a stock
-NTFS volume created with mkntfs -s 512 -c 4096.
-
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Cc: stable@vger.kernel.org
-Signed-off-by: Guikun Yang <yangguikun19@qq.com>
----
- fs/ntfs3/fslog.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -2956,6 +2956,7 @@ static inline bool check_if_root_index(const struct ATTRIB *attr,
- 
- 	while (o < ao) {
- 		u16 esize;
-+		bool last;
- 
- 		if (o >= asize)
- 			break;
-@@ -2964,8 +2965,13 @@ static inline bool check_if_root_index(const struct ATTRIB *attr,
- 		if (!esize)
- 			break;
- 
-+		last = de_is_last(e);
-+
- 		o += esize;
- 		e = Add2Ptr(e, esize);
-+
-+		if (last)
-+			break;
- 	}
- 
- 	return o == ao;
-@@ -2981,6 +2987,7 @@ static inline bool check_if_alloc_index(const struct INDEX_HDR *hdr,
- 
- 	while (o < attr_off) {
- 		u16 esize;
-+		bool last;
- 
- 		if (de_off >= used)
- 			break;
-@@ -2989,9 +2996,14 @@ static inline bool check_if_alloc_index(const struct INDEX_HDR *hdr,
- 		if (!esize)
- 			break;
- 
-+		last = de_is_last(e);
-+
- 		o += esize;
- 		de_off += esize;
- 		e = Add2Ptr(e, esize);
-+
-+		if (last)
-+			break;
- 	}
- 
- 	return o == attr_off;
--- 
-2.39.5
-
+--=20
+2.56.0
