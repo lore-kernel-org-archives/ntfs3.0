@@ -1,89 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792686028;
-	b=MZU4FKrjXN0yDv5Aihoj2ZR5GATLmtYcXTzUlAkxYjKxnPhGkzkG+p0/nR/u3/CC/fKq
-	 QR/cLURmtOmcPvSM3X0eVO9vh/giJLs+T0pm1GEfAikjc14ewtyjnYe9kdrnwe6EZ15Lm
-	 M+Q4UwSfC96sOHcFub+dNqKL6znjmgPZjuT8V+0FPCxoWbIIBMTllWP/eY2DRhwN/2vu/
-	 QwDcb65Ir7HpsEFFLfkMkmZTvL1xwED5HHdwYfG7vq18spsCoeFOXRYk+dTbkli1qS4W6
-	 +p+6DXBew/VIz04L+u6nZLl6EbFezu6xFzxLlDdBsx4v4ItPlEQlhhPrHHWMT/ASkfQ==
+	t=1792722873;
+	b=lau9aBHBWeqwiGTGeiET75vpXHbuVhtJIH4JIuuBqOl1LzTzaFT0aKsK4dU4rOmlkREt
+	 MWTpKLq76VQinGUDobDqryfvD83BcyvNZ4Td0QPSRUUOFghskWzn1CHzAilLYtug1lpFe
+	 eNDT7WW2EUb/4tMQMnQ7c/ouXdmdrHBB/nRMXo42WdzSqu4GIpmMUEHK3pzJ+i+8vCJFV
+	 FOLx+R5m4AURgLklrWMqlBQUBJDDJVHNbsgbhiw0aOKDielrvjHvgkUZ3EOPE9o3IroRY
+	 3+aEPnJzSCJ4nYW4Ibbh6N8CNEOk0/ftXOswVBa5FXhagY7KkDgjANtEa6OzeLUUetQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792686028;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792722873;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=P83f4IprDp7e5obGVb5Vbzr+nVTtl7vkcsibamZws88=;
-	b=dp+nPtg/iDPZYZAnH4Ar1nTNz1sv1XYmtI7UvzpxGkBdTetHoKc00hEegzHORQl1Btjo
-	 rwugArlBYd3zdXXXhqki/Ic/l4SUkRkRyqiTan8FT0D2nOqFZEz7hrcuZ9x6Rxpu8oQtZ
-	 HIjcUE4z9Xz3nQMficWEcvlkvJU83H2AXAE3/n5N+ohJgEHhaCIjpbUA7LVx1EOREL6Uz
-	 njISXlgqUASZODk+ytHEOHBAcja2EKdtwFtN+XgV5E5k/4yKUCfT1CWYYodMlnM9g/4na
-	 XXsi3D4rXoG8vwuj/SPZBHm3igh6GQCm/5KMX+oQFOlXmvwZ8TJrT/uowmCWc1aNfBg==
+	bh=K+PeZm9tsGAqhp854CH7k9KBWOkxy9cTCDo0Ktot44Y=;
+	b=WYb9YNROQ3A9mDaS6rqNl460/xW1SG9avRUV0ezqtff+wXdAwrTHeCF/sLwlHa7KhKTJ
+	 ejunwtV30XvTEC+nOeuxpudWZIDW+xk7yQMo8Zv2RU++yQeiSC3SXYdW45WjX6vRE7Ep0
+	 97Z5kNYNZpNmh8MjbOdrI5vRM1HbGUdBuvvQaCC4G64/sDVhqVDb5D9f69+2zJxYm1wfd
+	 2mPguXj6LfxoEaeStuNTYXICsDASuTpEycJ9mIIg9A8rONS/m4kdD5xTeqzg2Hqs73L57
+	 MoEY3X2YVIzidctas5mgRsePRR1a69K7UEpbmRobWVGDIkxlP2XU68ijrXjS84phAfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cs.unc.edu;
-	spf=pass smtp.mailfrom=cs.unc.edu;
-	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=UAIHax9v;
-	arc=none smtp.remote-ip=209.85.160.181
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=AX3+Om9a;
+	arc=none smtp.remote-ip=209.85.216.51
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060E6606A319
-	for <ntfs3@lists.linux.dev>; Thu, 22 Oct 2026 16:20:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 060E6606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC280606A31A
+	for <ntfs3@lists.linux.dev>; Fri, 23 Oct 2026 02:34:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC280606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=UAIHax9v
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5365f9a04c5so29285891cf.1
-        for <ntfs3@lists.linux.dev>; Thu, 22 Oct 2026 09:20:26 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=AX3+Om9a
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3acdcfa2bd3so336516a91.3
+        for <ntfs3@lists.linux.dev>; Thu, 22 Oct 2026 19:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google; t=1792686026; x=1793290826; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792722872; x=1793327672; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=P83f4IprDp7e5obGVb5Vbzr+nVTtl7vkcsibamZws88=;
-        b=UAIHax9v+/rclwuToQZzdGs6guvTXv/Em56cb+lTd0fa4LJRNJrsLya7NjFFrqKEj9
-         KZYKdrWgXjAuk8e5Y93LEwVwOyT6x52632dsJWg//Yl+eR0ZWN6ffnES6vAx8+Bf6EHm
-         cX3+aq4dcjLFDnpR1EUnnpabhVvevE+r5WsVYa+zkHO85cystrYiHx3hj2pmOze/0kbe
-         ELlC3/TKNN7SwgJoxUaOd0i2HBCBn1+YBKU0+5yLPucW7JMrHeYt4G8S9WUioMk4O+Nf
-         olMhkb02FS4n5hIXRN3bkEleVuU8Z3Ti779RTxg7RLIyhk6Mm9uyFSjJ+GCggutV4+o5
-         u51Q==
+        bh=K+PeZm9tsGAqhp854CH7k9KBWOkxy9cTCDo0Ktot44Y=;
+        b=AX3+Om9a88NkYIx31TIQZArfri6Gvn8XiaDFXZg2AePTe3jr5GUvoRffDqGvMPP2dZ
+         b89eSsKKvEC5lY5Qddv25zYsV1LFS63u11hnrde+CtMAzxYp7NkEmRKKtmsZk61KcvQq
+         7ziMNJyHIOoJtcMiNeOndxE1B6BzI4JW9huaa3Ju7GvumLE/UJ5pYHR5gchGtX/F48sd
+         n4wEL6dRhWzlHPPAFsFR2mXvzMa+w/hHflzQICTOsvc4ta/pd7Vj5D9keo6AjL1tIrpR
+         XGvIyTON2rEt1XV1VBNSm46PBwVaFZn4zWRCCvC84CEm3suo1cSN4oT5ggdtDizXFOVU
+         hrdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792686026; x=1793290826;
+        d=1e100.net; s=20260707; t=1792722872; x=1793327672;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=P83f4IprDp7e5obGVb5Vbzr+nVTtl7vkcsibamZws88=;
-        b=EmxJk/ZYDUWfauLd7WYVjzPoWovBPlnsXHq7g+JvX927XF3ObQwf375BsNv7VnzwgP
-         nXNBvi4xroF6w90+SsUuYOF1OHEnFT2qo1GneF1tHb1el12LepjHmbZpumifmqg/SFEo
-         Xp4z4+z3d2QCKeciaAg9rivyg0fiaeIaEls0FkhNW0g5gb7DoDqt1781dGkwl7WSZucx
-         X0cxw3+by0yr2nd0WpixcED1AvxB3beFKa5MWBr1OF6Tgn3ZkH+6RuhGeGnVg0h2tDFU
-         t27g+Iku3aXGdbxHqyAixKhSw8Rb2LaDzRn98NGCIoyQ07J0irvVBlAb3XblYl3mY2TB
-         47gA==
-X-Gm-Message-State: AFq9FYIKPMSCwBHnhuF+BRkDjVbGmrdzbZbItzPi/5yUltviJTYD0qjj
-	+N5Z84ycOhH7E1FhbjDuQM06f97ElVSgX+MCxHH0MIP3VpIzfIWpgRDiNmc56GrFPw==
-X-Gm-Gg: AYBFou3HO3Z1PR4AUOYtIXuVFUhqMMsJFrLLdV8O9bzybdwBDKKrFRdUelpHYtaf17a
-	W69vTIIL/pzP+qwfhfpjQ6lgqkD5n/h1aqLncjKk7uZme+Vx5u5VxjLvdrHiLImiboGt6qInKkq
-	KlfIji5zc7A7chJQggZDwfzEQNht1quFg1iQxISIKgQSD+FN6y7cfR78mX2HfYEZWcokmIDYRXQ
-	wEif9fvU/hFLkj+jA1G+8gWvmqDbw7LSEU1PYz05nzjAKCr/u2gjU1DJtL8T1WZ0x02lruhO1eU
-	xxsCOrVvppv4SIIj0g4jXqRPq0xrJeTyuAMYFsbbkokPbzAa+AEFap6T3AIDk4rBfPhyS0vqmlT
-	FCEDOy6Vlu59CtQnvfaon2fGlTszyejSEZCsKpMYT2mrzILF/zYTiTFLeBpDA3IUpwe+PN9tIyt
-	XWvB9ScFCDdOSWxzmnD66fAMDXDWaZC/L8MsVTJ6xE4F9UR5Sr6xlsRYaoj5yj1inswTKTYYxFe
-	pZ4KQ9zinMB6OPvhtlyzIgHfRXlYbH/RPaMs6upC3eocp4cwwhKdYhDSQO5YfYCQro7IoBSfgRG
-	hQ==
-X-Received: by 2002:a05:622a:1f8e:b0:536:6c4e:13ff with SMTP id d75a77b69052e-5369b861036mr90429941cf.56.1792686025878;
-        Thu, 22 Oct 2026 09:20:25 -0700 (PDT)
-Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-536ab792935sm30803631cf.25.2026.10.22.09.20.25
+        bh=K+PeZm9tsGAqhp854CH7k9KBWOkxy9cTCDo0Ktot44Y=;
+        b=Plma5GwcJfg7iHHquPGumWl25Ouc5NmmJo6IwOkmkRdk1+jswoy8j3G+DaMGISIvca
+         n6fCxIPQw9/AaH/HsJDRYDWn/dwGxTbdMoZjBpLs7mT6cCyudvibqeNAqX+HT8sqF6jK
+         /iC/68QHQvj0rNeDJmf4uKY7RN1rnHTsjfN0cCnSSl6FyPFzGD3wq+UloZIQjZE/RcVi
+         iYpogwq348WefeP1vWJV+ZKoqTzRgEpCwPeORuW6wmhDO5PRBm1jh1Dz0MvzkF7a/1CV
+         ciIY7kYesrHTq8XzWx0ecO1DL6x2//Vgoe47wKkaJ9Z/4TLPXNdKc4LD5eSEiyZoYzcP
+         iFbQ==
+X-Gm-Message-State: AFq9FYKQwv7kbzlN3Zvg8O84Y34qpFhQ5SsNLVbvB64/wjcmID6hqspP
+	7/uwN+7CwJ6OpLTdKcr0tTrd9KjnOtonRS4Ngf8ErRfNMHpjs0vy73eR
+X-Gm-Gg: AYBFou2tYCyiUwNdysDRmxWKWMvNCCcYjMvEAmuAguq/xeiqlVEYbhNHMtL2/IIEos0
+	vu585rIS7UpPlmNVrlg0YWfIEKCGdpp9cCknaI5wcjFptqkDgM1NcM/1ftEtEtOGtixuNhhZdci
+	xs5tGen5/oOgQp2Bg+HFJCrAHMif4/e4JuY1/fyKDgneegu6YuElulI7DSwSKlfA4A5vJKDkR1M
+	E5wugJshw8Lglb2hdkIwzEZVCcWVtcfAsJP3Z7JuxT0xLIyL2T/MhKavigNIpGv8cZP99Li1OqE
+	7wILF8zKWH3SCZj8ba9sqb6I6LJXgbbqONy5AR/1e2CwjT625ZdzJV1H5hFoMuMl2K+U75YyeIP
+	SlL+bZekh4jRw7U0Wlolu85RiMzQQs7zhViuEXRyF5dXVdLkwFo06J0vLHOgHjC8T46AXKqDb3B
+	sexkbQukXUNw28+cVH3TKOsY7K7sdfXgg1REVmRr5yNGcL9vB6KpsdA+hc3lFD0aKJn0KYDsPk2
+	F/WSG7nv9S3XzAfhHLz6UDEFuQ+eTPamJrzziZBuKAZ0YDWR9d8TH6clRVUxk4mOFPVHvL/3YmF
+	Dy5OZwIEXVlWy9Ik0Q==
+X-Received: by 2002:a17:90b:5108:b0:3ad:6090:a190 with SMTP id 98e67ed59e1d1-3adce0cfdc4mr660962a91.41.1792722872119;
+        Thu, 22 Oct 2026 19:34:32 -0700 (PDT)
+Received: from osman.mioffice.cn ([43.224.245.178])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ada490c096sm6544867a91.7.2026.10.22.19.34.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 09:20:25 -0700 (PDT)
-From: Hengyu Liang <hengyul@cs.unc.edu>
-To: almaz.alexandrovich@paragon-software.com
+        Thu, 22 Oct 2026 19:34:31 -0700 (PDT)
+From: Zhan Xusheng <zhanxusheng1024@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
+	Zhan Xusheng <zhanxusheng@xiaomi.com>,
 	stable@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: free clusters on truncate again when prealloc is off
-Date: Thu, 22 Oct 2026 12:20:03 -0400
-Message-ID: <20261022162003.1688315-1-hengyul@cs.unc.edu>
-X-Mailer: git-send-email 2.53.0
+Subject: [PATCH] fs/ntfs3: fix cluster over-free on allocation failure
+Date: Fri, 23 Oct 2026 10:34:24 +0800
+Message-ID: <20261023023424.4003943-1-zhanxusheng1024@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -95,117 +96,43 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit ecbb433f9a8e ("fs/ntfs3: fold file size handling into
-ntfs_set_size()") made truncate go through ntfs_set_size(), which
-always keeps the clusters preallocated past the new size.
+From: Zhan Xusheng <zhanxusheng@xiaomi.com>
 
-However, those clusters are only freed when the last writer closes the
-file, and only if the prealloc mount option is set. As of now, with
-prealloc=0, a file that is made smaller keeps all its clusters until
-it is deleted, also across umount and mount.
+ntfs_look_for_free_space() returns in @flen how many clusters it marked
+used, which is fewer than the requested @len whenever wnd_find() falls
+back to the longest free run it could find.  That run is maximal, so the
+cluster just past it is in use.  The undo path after a failed
+run_add_entry() frees @len, releasing clusters that are still referenced,
+and a later allocation can hand them out again.
 
-The issue can be reproduced on a freshly formatted 32 MiB volume with:
+run_add_entry() fails only when its kvmalloc() does.
 
-    mount -t ntfs3 -o loop,prealloc=0 ntfs.img /mnt
-    dd if=/dev/zero of=/mnt/f bs=1M count=8 conv=fsync
-    truncate -s 0 /mnt/f
-    df -k /mnt
+Commit 0e5b044cbf3a ("fs/ntfs3: Refactoring attr_set_size to restore
+after errors") replaced wnd_set_free(wnd, lcn, flen) here with
+mark_as_free_ex(sbi, lcn, len, false).  Use @flen again.
 
-Before that commit, df shows the 8 MiB as free again. After it, they
-stay in use until /mnt/f is removed.
-
-This patch makes ntfs_set_size() keep preallocated clusters only with
-the prealloc mount option, as ntfs_truncate() did before. fallocate()
-with FALLOC_FL_KEEP_SIZE still keeps the clusters it allocates past
-i_size.
-
-Fixes: ecbb433f9a8e ("fs/ntfs3: fold file size handling into ntfs_set_size()")
+Fixes: 0e5b044cbf3a ("fs/ntfs3: Refactoring attr_set_size to restore after errors")
 Cc: stable@vger.kernel.org
-Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
+Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
 ---
-Tested in KVM with KASAN on ntfs3 master da4391c496fe, without and
-with this patch, on a fresh 32 MiB mkntfs image:
-- The commands above: with prealloc=0, the used space after truncate
-  is 11816K without the patch, also after remount, and 3624K with it.
-- fallocate() with FALLOC_FL_KEEP_SIZE of 8 MiB on a 1-byte file,
-  with prealloc=0 and with the default options: same results with and
-  without the patch.
-- truncate(2) by path on the default mount: same results.
-- 11 runs of a random write/ftruncate model test (15,900 operations,
-  buffered and direct I/O, default, prealloc=0 and sparse mounts, and
-  a nearly full volume): same results with and without the patch.
+ fs/ntfs3/attrib.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- fs/ntfs3/file.c    |  3 ++-
- fs/ntfs3/inode.c   | 12 +++++++++---
- fs/ntfs3/ntfs_fs.h |  1 +
- 3 files changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index c11da747270f..2afc2fe8f009 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -680,7 +680,8 @@ static long ntfs_fallocate(struct file *file, int mode, loff_t vbo, loff_t len)
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index b1c315206ffa..fefd201809a5 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -199,7 +199,7 @@ int attr_allocate_clusters(struct ntfs_sb_info *sbi, struct runs_tree *run,
+ 		if (!run_add_entry(run, vcn, lcn, flen, opt & ALLOCATE_MFT)) {
+ undo_alloc:
+ 			/* Undo last 'ntfs_look_for_free_space' */
+-			mark_as_free_ex(sbi, lcn, len, false);
++			mark_as_free_ex(sbi, lcn, flen, false);
+ 			err = -ENOMEM;
+ 			goto out;
  		}
- 
- 		if (mode & FALLOC_FL_KEEP_SIZE) {
--			err = ntfs_set_size(inode, i_size);
-+			/* Keep the clusters just allocated past i_size. */
-+			err = ntfs_set_size_ex(inode, i_size, true);
- 			if (err)
- 				goto out;
- 		}
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 8adbdf1a7d11..72ecd802a8cf 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -887,7 +887,7 @@ static void ntfs_readahead(struct readahead_control *rac)
- 	iomap_readahead(&ntfs_iomap_ops, &ctx, NULL);
- }
- 
--int ntfs_set_size(struct inode *inode, u64 new_size)
-+int ntfs_set_size_ex(struct inode *inode, u64 new_size, bool keep_prealloc)
- {
- 	struct super_block *sb = inode->i_sb;
- 	struct ntfs_sb_info *sbi = sb->s_fs_info;
-@@ -911,9 +911,8 @@ int ntfs_set_size(struct inode *inode, u64 new_size)
- 	if (new_size < ni->i_valid)
- 		ni->i_valid = new_size;
- 
--	/* last 'true' means keep preallocated. */
- 	err = attr_set_size(ni, ATTR_DATA, ni->file.ads.name, ni->file.ads.len,
--			    &ni->file.run, new_size, &ni->i_valid, true);
-+			    &ni->file.run, new_size, &ni->i_valid, keep_prealloc);
- 
- 	up_write(&ni->file.run_lock);
- 	ni_unlock(ni);
-@@ -921,6 +920,13 @@ int ntfs_set_size(struct inode *inode, u64 new_size)
- 	return err;
- }
- 
-+/* Keep clusters preallocated past the new size only with "prealloc". */
-+int ntfs_set_size(struct inode *inode, u64 new_size)
-+{
-+	return ntfs_set_size_ex(inode, new_size,
-+				ntfs_sb(inode->i_sb)->options->prealloc);
-+}
-+
- /*
-  * Special value to detect ntfs_writeback_range call
-  */
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index 90ccfde951dc..0dd9efa2c88c 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -801,6 +801,7 @@ static inline struct inode *ntfs_iget5(struct super_block *sb,
- 	return ntfs_iget5_flags(sb, ref, name, 0);
- }
- int ntfs_set_size(struct inode *inode, u64 new_size);
-+int ntfs_set_size_ex(struct inode *inode, u64 new_size, bool keep_prealloc);
- int ntfs3_write_inode(struct inode *inode, struct writeback_control *wbc);
- int ntfs_sync_inode(struct inode *inode);
- int inode_read_data(struct inode *inode, void *data, size_t bytes);
 
-base-commit: da4391c496fedc1ca78a99907712f2256ce8fb80
+base-commit: 3ac032ef6ca8e47bb06d1e189dfcf88fa0a09c75
 -- 
-2.53.0
+2.43.0
 
