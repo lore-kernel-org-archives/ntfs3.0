@@ -1,54 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792790971;
-	b=31WtgiWreuXONmym/mBC8fk9W0UyO6khwZJjrTf2bF9lkkkRaO0/oL8FFgjIkeKBCseJ
-	 5YCzyKsRWmr9RRBr0skV/dx3GRECNLtdTqF/O1MoQCg8X4whcid/jLcyNgMLGmiTUErR6
-	 meB+KKRFzF2NOhCLqv3k6OJIvUFf6mdgFuVXVqmZQeiPJuY7JaVhM3MAILI9+lduU5F+2
-	 K3OkTvHPQSr8MzR4dmETAJ9EoXYPDjAhYJkg+3OU2WKTl+J+y+V1rM1od/nPYDVB0c6In
-	 hxNijpplAeqtzhT0fXQ2CBHrbuUzhehwJzuvyrk3l02afirfGRkU0xbW3QZovpPb05w==
+	t=1792795035;
+	b=i+u7AaqR30Q5qL/DxEjqM+6GvHSgagcg3xbi2Ko6nGkJnzXkfGDWYy7J4ulurdAY8kx9
+	 vRl/GeO++SUrCtKfklyQPIMffQ3unpKUmDP35ybsq1/dmS1nmY4WXc8TBQ3Temm0xfH1H
+	 Sni07EY4Jt9ile3MKS5MrJndgdCaFfu4TJcKREJJjRCZWOJtDR3GVOHaR71Yqx1BTA/80
+	 4qYUAhJ8l9I5cET9vBBAJiwf5OjNc+WXmwjbnYGVkCalimVwuFIESsU2kTdQ0fqy8MVZI
+	 7BWDyfZr/LB3vo9pstexA7qYz+CejH1LNlW2xM782dZ6C17R2sAJLdkeRntdjyoGLYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792790971;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=apw8BuHAbhdnuawi78sJ7rVN/a/VQw9Cpb8eaXE2L1I=;
-	b=WG/mZnj9E8OUdF9c/ElRGRGXo/bRgq6VFhkHpex4kU8gNRmqZynsgAQAOHWoPuLUxt4A
-	 SlL7BfJyJRcT4tnoAiEj8O08fSasA/iwsRay9R++WY5eqtgseVk8TjRE09t8sYGV++V9L
-	 e20q/aAtozcshoaWBGWPJWlqGfGz1+QOaZOOTBhNopCqN3X2wDo0Ebsg+eCWldrDdjz+t
-	 +nSuu9AuspenJMmz1UNfD+/6serVRxfsIaZ+fuE/Ea/DiCrrH/s/69H0Na8GJ63t0NrFt
-	 YDzL1N/y1OkKM90xvd9sSnetAHhMHQvByoAlAxG31n37KoLPGeCam/nPPXoULzwL6vA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792795035;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=cJoRqfaV2dmK7samaJuoXpWgrgrZZWBwrjmheHlVWq4=;
+	b=yrWOvmVgVUCfFZ/X5UMXPBnN/cc7fhxHwJq4tgEu1dQmyKIz0bYR80xij8x4DqiH9jtl
+	 i6F1mkb8jxbNCi7J4OzLgGn7EtvGTEdDppHtazOOB2JQv+wX1kj/3C59dQUld/SAldBaT
+	 zDcJyPJ++SYFY7CwQNbshfiX4E9AL6AP6ict0Y1qwo4Kssvfvkr1oJc46pxJeMhVmIECf
+	 mafW7oLJiIaNKXjx322SRINUJveO0kXyq5bqGpywuZk8FWk/WYEriE0lx2OpQoH40jVtf
+	 +tO13nUqhQJsmbJutAcX67IQwcRD4AIICH7fKKknT4a+kqcr5CbmFmYHgIILWxoUa2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.160.70
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com [209.85.160.70])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PxtiX1Uv;
+	arc=none smtp.remote-ip=209.85.222.52
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70253606A31A
-	for <ntfs3@lists.linux.dev>; Fri, 23 Oct 2026 21:29:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70253606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-46509ab0149so1719229fac.2
-        for <ntfs3@lists.linux.dev>; Fri, 23 Oct 2026 14:29:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DA7606A324
+	for <ntfs3@lists.linux.dev>; Fri, 23 Oct 2026 22:37:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05DA7606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PxtiX1Uv
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-988bb309c2bso784209241.1
+        for <ntfs3@lists.linux.dev>; Fri, 23 Oct 2026 15:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792795034; x=1793399834; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cJoRqfaV2dmK7samaJuoXpWgrgrZZWBwrjmheHlVWq4=;
+        b=PxtiX1UvhPqClOyVewu7MvO3RQ1/3vAdJ6ChfwlX4w8fvR8DZ7JJgoxYxXrnTtCDPJ
+         mLNXc8VwMFEGKxz13TLsod3JSUyxTJ5eDZAWgzHBeDmNIMlv/CxEommB7CgdAgwFh6qD
+         UD/JeyTHGFHFQ9N0RNLGHP77/po6RBPbCuVqNh6G04eEr/N0y8wWOmCcmgploGl5Bc/7
+         PkqBC16FU7lHw/qdM1qu9uW+t1PMSY/YXweAaFKaYSind/0rEFuE8YvMYBqmpLlFC4hW
+         8hiOw1aHzLxERxCvDItOtalC9JmAgovr2HbTR+bea9xf3/QyQlkv2hvf66naQeqj1Ns0
+         GdDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792790970; x=1793395770;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=apw8BuHAbhdnuawi78sJ7rVN/a/VQw9Cpb8eaXE2L1I=;
-        b=wwsXUIPepBsmE7gwIDWyA90KZIDz0fl4k0/HhFE8pamvBrgqqRHGsIm2g+n2f0J0kB
-         O1WHV3tfWnzUmP6sDFrU4aWKki0RJS0DXPCxPw9e5DKw6p4cyjsIyLb454/S9GOecFfm
-         PmTK080SKj0jOqazZbdwggr3kwHKB3p+VHI/XfTxDUKwJr8qXQx67tcLnW6T/2Haanqg
-         zbCaaq79JGgS6eJYXvEofxns0z0ha4uXe4f77RxDqeya1kDeZmXBTfqYlrW8kDUkXOqk
-         sWIaLo3sGdnCAL5bIEbcJ5SOIUmxZUdX+3PCZRgvIFztZ7PnAdpCe8uG7fCoqqCDBLyQ
-         y+XA==
-X-Forwarded-Encrypted: i=1; AKwUvBzIR8Yu4NRC8vTWzYznayxM6Md3CVl418PyRb8xWBzivqkKUhA4Pu/jEoKUErTvW1xaCQydOA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLbfX08pZh7RqnISlnlpNGcNHexZJbDHrx1wQ1hmSuwvvTihAui
-	v/81xmt9ao2OT8f254ThOfqbwyTo7gQ24+2CS6eGGtlNZ0jmoYpcbsl0PEX9hV/nTuyRHRcZZy/
-	C6B+Od9Es6MNJvgWCvtB/2Jci0MS6mAkfUcthekrIKWys+2GAZHGqoAkyZiY=
+        d=1e100.net; s=20260707; t=1792795034; x=1793399834;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cJoRqfaV2dmK7samaJuoXpWgrgrZZWBwrjmheHlVWq4=;
+        b=RK1S6vh02orJvD+OPkvZYUmBaIHrF1Klv0ZfDqHtU6MWsmkLvZhJdb9L+cfvnIER/7
+         sveVPV7InkNf5Emd84nydSR6omMQhfRDSEAjH6g4KyQY1Sa11uDFU7vFQsdA5RvYDGXw
+         3qnxcCKPHkayR3QlDdYQemwVV9WWLLuFQ/DNWp4Cs+bLIYbXKOjJkTJJN0VazbeLJScB
+         t3zp/MIa3zsdgtyAGDa1rNoEHWDQ7Sz4Cxw7wulTKDpsp/4Tfivg7v7l+WobDn+b9Tax
+         nZ2RbqyTJtCeXJ2mjjKhFCn6/6AZA/UygyFOsdnJRQM6t4iuutzDkbljpHR+G05wUrhy
+         ItYQ==
+X-Gm-Message-State: AFq9FYKB5qlMG9h1YjigPuAyvjK5dyxUdp6jEdvd63jcfTgtAsLFhEnR
+	po0zC7C5kkr0Eh0qfb7iEvb8q6fXAOf/v1Pw0yVn4VoV03vUs+DZ3x0J
+X-Gm-Gg: AYBFou2VVwuvF069krNnFdhwe47zTUbLnPyIsfTPikZMhGzo8p0qr2rrWAgbX3sHTgj
+	8pmv0UkchCFw71I7H1UoS/Qg1hYC4+KDysJ5mG5e8dtBwLRPlofb1RW0G7FyoAEUq9C9zhO5CXR
+	GIW6lZtWg2ZYxjScP88XBjcFaaN6WGEn20LBkiHuIYdZVw8Fou8duUshwhpd+A+UeCWvTTcF8Nv
+	WUSs+rH2T7OUqZlbsAUNGExDYO2UlZZKtvHVZUMRAM4HFO/3dA+5Tefltm7+jKqWi/2x/dsuJh0
+	/hN4tY26XJ7XxQZStS7zle3q91B7ayAp2XIyJqdlGtTkZhKF5a7ofiaaA13qZdmNqweIfy8uf9A
+	F5LkNhKTt3oOYUYquRFVhvud+fkaUQkY5+X5ThnTuqOf2PGKZUrYM6uKbX5MJqOzdE8TIaYo8fP
+	YCSXYpYc45aLwnEL0vW33SAtRvekya2lKZE+IBFq1hbZ1gsq/bml5MlSqhB/d5eLsPltvIn9e0q
+	+fvkpFLoq8h1RzMu9QswpO+qXjMYPcYDre/1emKlMAMJlKPehP2laEUdF6ZNjOjUBb77WB6Tsmq
+	KTYzPgg=
+X-Received: by 2002:a05:6102:604e:b0:7cc:cb56:bf83 with SMTP id ada2fe7eead31-7ce5cc30470mr211202137.12.1792795033895;
+        Fri, 23 Oct 2026 15:37:13 -0700 (PDT)
+Received: from bridge.. (deps54-26.deps.ufsc.br. [150.162.54.26])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9910e7b8f0csm817532241.5.2026.10.23.15.37.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 15:37:12 -0700 (PDT)
+From: Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	yun.zhou@windriver.com,
+	Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>,
+	syzbot+5c0ed4f2974a8b100ed4@syzkaller.appspotmail.com
+Subject: [PATCH] fs/ntfs3: fix double ni_unlock() in ntfs_readdir()
+Date: Fri, 23 Oct 2026 19:35:33 -0300
+Message-ID: <20261023223533.686085-1-christian.aurichzm@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -58,106 +95,62 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:250d:b0:4d6:9153:295e with SMTP id
- 5614622812f47-55c0038dbc7mr369158b6e.47.1792790970472; Fri, 23 Oct 2026
- 14:29:30 -0700 (PDT)
-Date: Fri, 23 Oct 2026 14:29:30 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6adbd1ba.5b36369a.12654e.000c.GAE@google.com>
-Subject: [syzbot] [ntfs3?] WARNING: bad unlock balance in ntfs_readdir
-From: syzbot <syzbot+5c0ed4f2974a8b100ed4@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Commit da4391c496fe ("ntfs3: release ni_lock before dir_emit in
+ntfs_readdir to fix deadlocks") drops ni_lock before calling
+ntfs_read_hdr() in ntfs_readdir(). If either call returns non-zero,
+execution jumps to out, which calls ni_unlock() even though the lock
+is no longer held.
 
-syzbot found the following issue on:
+This also happens when getdents64() fills the supplied buffer,
+triggering a lockdep "bad unlock balance" warning.
 
-HEAD commit:    3d229ce89862 Add linux-next specific files for 20261019
-git tree:       linux-next
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=16e52e7f980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=a028e57b630bb4be
-dashboard link: https://syzkaller.appspot.com/bug?extid=5c0ed4f2974a8b100ed4
-compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17e61831580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1099cc95580000
+Jump to out_free instead to avoid unlocking an already released lock.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/412cf9c202de/disk-3d229ce8.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/e186f12d19de/vmlinux-3d229ce8.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/7fa13a836daa/bzImage-3d229ce8.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/c9aad314cb9a/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
 Reported-by: syzbot+5c0ed4f2974a8b100ed4@syzkaller.appspotmail.com
-
-ntfs3(loop0): Failed to load $Extend (-22).
-ntfs3(loop0): Failed to initialize $Extend.
-=====================================
-WARNING: bad unlock balance detected!
-syzkaller #0 Not tainted
--------------------------------------
-syz-executor416/5625 is trying to release lock (&ni->ni_lock) at:
-[<ffffffff833dfc48>] ni_unlock fs/ntfs3/ntfs_fs.h:1266 [inline]
-[<ffffffff833dfc48>] ntfs_readdir+0xac8/0xf00 fs/ntfs3/dir.c:625
-but there are no more locks to release!
-
-other info that might help us debug this:
-locks held by syz-executor416/5625: 2, last CPU#0:
- #0: ffff8880741d62b0 (&f->f_pos_lock){+.+.}-{4:4}, at: fdget_pos+0x118/0x160 fs/file.c:1409
- #1: ffff888076ed7490 (&type->i_mutex_dir_key#6){.+.+}-{4:4}, at: iterate_dir+0x287/0x880 fs/readdir.c:106
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 5625 Comm: syz-executor416 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/16/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_unlock_imbalance_bug+0xdc/0xf0 kernel/locking/lockdep.c:5349
- __lock_release kernel/locking/lockdep.c:5590 [inline]
- lock_release+0x252/0x3c0 kernel/locking/lockdep.c:5964
- __mutex_unlock_slowpath+0x88/0x900 kernel/locking/mutex.c:989
- ni_unlock fs/ntfs3/ntfs_fs.h:1266 [inline]
- ntfs_readdir+0xac8/0xf00 fs/ntfs3/dir.c:625
- iterate_dir+0x3db/0x880 fs/readdir.c:114
- __do_sys_getdents fs/readdir.c:324 [inline]
- __se_sys_getdents+0xf1/0x270 fs/readdir.c:309
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f3fff35c289
-Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe78a3d2c8 EFLAGS: 00000246 ORIG_RAX: 000000000000004e
-RAX: ffffffffffffffda RBX: 0000200000000000 RCX: 00007f3fff35c289
-RDX: 00000000000000b8 RSI: 0000200000000040 RDI: 0000000000000004
-RBP: 0000000000000001 R08: 0000000000000000 R09: 00007ffe78a3d3f8
-R10: 00007f3fff3acfb3 R11: 0000000000000246 R12: 00007ffe78a3d3e8
-R13: 0000000000000002 R14: 00007f3fff404c80 R15: 000000000000000
-
-
+Closes: https://syzkaller.appspot.com/bug?extid=5c0ed4f2974a8b100ed4
+Fixes: da4391c496fe ("ntfs3: release ni_lock before dir_emit in ntfs_readdir to fix deadlocks")
+Signed-off-by: Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Based on Paragon's ntfs3 master (da4391c496fe), also in linux-next.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Tested in QEMU with lockdep. A 128-byte getdents64() buffer
+reproduced the warning before the fix. After the fix, no warning
+occurred when reading root-only and 700-entry directories,
+including four concurrent readers and a writer.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+ fs/ntfs3/dir.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+index b54828735d55..45d6a41a7222 100644
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -563,7 +563,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ 		 */
+ 		err = ntfs_read_hdr(sbi, ni, &root->ihdr, 0, pos, name, ctx);
+ 		if (err)
+-			goto out;
++			goto out_free;
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+ 		ni_lock(ni);
+ 		bit = 0;
+@@ -607,7 +607,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ 				    ((u64)bit << index_bits) + sbi->record_size,
+ 				    pos, name, ctx);
+ 		if (err)
+-			goto out;
++			goto out_free;
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+ 		ni_lock(ni);
+ 	}
+@@ -615,6 +615,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ out:
+ 	ni_unlock(ni);
 
-If you want to undo deduplication, reply with:
-#syz undup
++out_free:
+ 	kfree(name);
+ 	put_indx_node(node);
+
+base-commit: da4391c496fedc1ca78a99907712f2256ce8fb80
