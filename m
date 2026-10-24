@@ -1,91 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.11.79.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792795035;
-	b=i+u7AaqR30Q5qL/DxEjqM+6GvHSgagcg3xbi2Ko6nGkJnzXkfGDWYy7J4ulurdAY8kx9
-	 vRl/GeO++SUrCtKfklyQPIMffQ3unpKUmDP35ybsq1/dmS1nmY4WXc8TBQ3Temm0xfH1H
-	 Sni07EY4Jt9ile3MKS5MrJndgdCaFfu4TJcKREJJjRCZWOJtDR3GVOHaR71Yqx1BTA/80
-	 4qYUAhJ8l9I5cET9vBBAJiwf5OjNc+WXmwjbnYGVkCalimVwuFIESsU2kTdQ0fqy8MVZI
-	 7BWDyfZr/LB3vo9pstexA7qYz+CejH1LNlW2xM782dZ6C17R2sAJLdkeRntdjyoGLYQ==
+	t=1792841222;
+	b=gdyykrJ+sTrMAi5aLj99jFkWDzQXjyViYYTxP0YKxFh5HAUlZpHUGrEQHv2od+BLH/j6
+	 DHNULL0zYZ/mfI1H2hBnMnFLwSZ0xk2m5fimHUoZgDPvaKvS3vX25LAZipudZwuA8UHzB
+	 4X5CQZKrocuL6Pr4l6X5EAyuXq5yGeNNEQTu2uE5+0yjCjLZgzwVOHNvyCJjLjgL+9uaN
+	 8b0DfI959NXklhflgJjs0WUXhsHI6aZyZkhr9NDhqbfQ5M7PrnL8rFcURt6XhUQDUlNtD
+	 1H9L0VsdGwTUfQRi0xCrwYRMkQnvHDwEHVpYxWc9jruiltHmdR+m6NPDfplMNlgsxkA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792795035;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=cJoRqfaV2dmK7samaJuoXpWgrgrZZWBwrjmheHlVWq4=;
-	b=yrWOvmVgVUCfFZ/X5UMXPBnN/cc7fhxHwJq4tgEu1dQmyKIz0bYR80xij8x4DqiH9jtl
-	 i6F1mkb8jxbNCi7J4OzLgGn7EtvGTEdDppHtazOOB2JQv+wX1kj/3C59dQUld/SAldBaT
-	 zDcJyPJ++SYFY7CwQNbshfiX4E9AL6AP6ict0Y1qwo4Kssvfvkr1oJc46pxJeMhVmIECf
-	 mafW7oLJiIaNKXjx322SRINUJveO0kXyq5bqGpywuZk8FWk/WYEriE0lx2OpQoH40jVtf
-	 +tO13nUqhQJsmbJutAcX67IQwcRD4AIICH7fKKknT4a+kqcr5CbmFmYHgIILWxoUa2g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792841222;
+	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:X-Mailer-Info:Subject:
+	 From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:
+	 Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=J1ePy/7DtRjSH/7YiNDxqRZYlYA7Rkm9Xz1sKnQwiPM=;
+	b=BAoPWRmsvl0+sMecwNwmtYYktkdU1CmWZO7zaLRD14qOBucItG8MMgCint4zRol/kUtr
+	 ciiei21qnApL835vX0kJRcw9A6e8FW/nNags/LeG269AsJOUMWEr0kt85hBdFngPrxQ6x
+	 rT0yhibb4Fwl2AZ0feysbxMjK5n1ue7BLkxF7fCIqWktzIsO74NV0/fkzA7EPApfIalTs
+	 fm4gaJQPUoN9YjXE9GljOJDspykVP5y9KlzccNMwMS94yiVW00iqIhV70TpReKEh0DWpq
+	 vToFuDHrcifUe6FQZGGr0xlwI3NCrLh4HjKW/FXoVzz8pckA+yMMehyfxCkMvIuiDDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PxtiX1Uv;
-	arc=none smtp.remote-ip=209.85.222.52
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	dmarc=pass header.from=hatchling.org;
+	spf=pass smtp.mailfrom=mta.hatchling.org;
+	dkim=pass header.d=hatchling.org header.i=@hatchling.org header.a=rsa-sha256 header.s=mlsend2 header.b=GZ14414o;
+	dkim=pass header.d=mailersend.net header.i=@mailersend.net header.a=rsa-sha256 header.s=ms1 header.b=eV7mhUbg;
+	arc=none smtp.remote-ip=212.11.79.130
+Received: from mail130.mailersend.net (mail130.mailersend.net [212.11.79.130])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DA7606A324
-	for <ntfs3@lists.linux.dev>; Fri, 23 Oct 2026 22:37:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05DA7606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6162F606A31B
+	for <ntfs3@lists.linux.dev>; Sat, 24 Oct 2026 11:27:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6162F606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hatchling.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mta.hatchling.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PxtiX1Uv
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-988bb309c2bso784209241.1
-        for <ntfs3@lists.linux.dev>; Fri, 23 Oct 2026 15:37:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792795034; x=1793399834; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cJoRqfaV2dmK7samaJuoXpWgrgrZZWBwrjmheHlVWq4=;
-        b=PxtiX1UvhPqClOyVewu7MvO3RQ1/3vAdJ6ChfwlX4w8fvR8DZ7JJgoxYxXrnTtCDPJ
-         mLNXc8VwMFEGKxz13TLsod3JSUyxTJ5eDZAWgzHBeDmNIMlv/CxEommB7CgdAgwFh6qD
-         UD/JeyTHGFHFQ9N0RNLGHP77/po6RBPbCuVqNh6G04eEr/N0y8wWOmCcmgploGl5Bc/7
-         PkqBC16FU7lHw/qdM1qu9uW+t1PMSY/YXweAaFKaYSind/0rEFuE8YvMYBqmpLlFC4hW
-         8hiOw1aHzLxERxCvDItOtalC9JmAgovr2HbTR+bea9xf3/QyQlkv2hvf66naQeqj1Ns0
-         GdDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792795034; x=1793399834;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cJoRqfaV2dmK7samaJuoXpWgrgrZZWBwrjmheHlVWq4=;
-        b=RK1S6vh02orJvD+OPkvZYUmBaIHrF1Klv0ZfDqHtU6MWsmkLvZhJdb9L+cfvnIER/7
-         sveVPV7InkNf5Emd84nydSR6omMQhfRDSEAjH6g4KyQY1Sa11uDFU7vFQsdA5RvYDGXw
-         3qnxcCKPHkayR3QlDdYQemwVV9WWLLuFQ/DNWp4Cs+bLIYbXKOjJkTJJN0VazbeLJScB
-         t3zp/MIa3zsdgtyAGDa1rNoEHWDQ7Sz4Cxw7wulTKDpsp/4Tfivg7v7l+WobDn+b9Tax
-         nZ2RbqyTJtCeXJ2mjjKhFCn6/6AZA/UygyFOsdnJRQM6t4iuutzDkbljpHR+G05wUrhy
-         ItYQ==
-X-Gm-Message-State: AFq9FYKB5qlMG9h1YjigPuAyvjK5dyxUdp6jEdvd63jcfTgtAsLFhEnR
-	po0zC7C5kkr0Eh0qfb7iEvb8q6fXAOf/v1Pw0yVn4VoV03vUs+DZ3x0J
-X-Gm-Gg: AYBFou2VVwuvF069krNnFdhwe47zTUbLnPyIsfTPikZMhGzo8p0qr2rrWAgbX3sHTgj
-	8pmv0UkchCFw71I7H1UoS/Qg1hYC4+KDysJ5mG5e8dtBwLRPlofb1RW0G7FyoAEUq9C9zhO5CXR
-	GIW6lZtWg2ZYxjScP88XBjcFaaN6WGEn20LBkiHuIYdZVw8Fou8duUshwhpd+A+UeCWvTTcF8Nv
-	WUSs+rH2T7OUqZlbsAUNGExDYO2UlZZKtvHVZUMRAM4HFO/3dA+5Tefltm7+jKqWi/2x/dsuJh0
-	/hN4tY26XJ7XxQZStS7zle3q91B7ayAp2XIyJqdlGtTkZhKF5a7ofiaaA13qZdmNqweIfy8uf9A
-	F5LkNhKTt3oOYUYquRFVhvud+fkaUQkY5+X5ThnTuqOf2PGKZUrYM6uKbX5MJqOzdE8TIaYo8fP
-	YCSXYpYc45aLwnEL0vW33SAtRvekya2lKZE+IBFq1hbZ1gsq/bml5MlSqhB/d5eLsPltvIn9e0q
-	+fvkpFLoq8h1RzMu9QswpO+qXjMYPcYDre/1emKlMAMJlKPehP2laEUdF6ZNjOjUBb77WB6Tsmq
-	KTYzPgg=
-X-Received: by 2002:a05:6102:604e:b0:7cc:cb56:bf83 with SMTP id ada2fe7eead31-7ce5cc30470mr211202137.12.1792795033895;
-        Fri, 23 Oct 2026 15:37:13 -0700 (PDT)
-Received: from bridge.. (deps54-26.deps.ufsc.br. [150.162.54.26])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9910e7b8f0csm817532241.5.2026.10.23.15.37.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 15:37:12 -0700 (PDT)
-From: Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	yun.zhou@windriver.com,
-	Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>,
-	syzbot+5c0ed4f2974a8b100ed4@syzkaller.appspotmail.com
-Subject: [PATCH] fs/ntfs3: fix double ni_unlock() in ntfs_readdir()
-Date: Fri, 23 Oct 2026 19:35:33 -0300
-Message-ID: <20261023223533.686085-1-christian.aurichzm@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key, unprotected) header.d=hatchling.org header.i=@hatchling.org header.a=rsa-sha256 header.s=mlsend2 header.b=GZ14414o;
+	dkim=pass (2048-bit key, unprotected) header.d=mailersend.net header.i=@mailersend.net header.a=rsa-sha256 header.s=ms1 header.b=eV7mhUbg
+DKIM-Signature: a=rsa-sha256; bh=J1ePy/7DtRjSH/7YiNDxqRZYlYA7Rkm9Xz1sKnQwiPM=;
+ c=relaxed/relaxed; d=hatchling.org;
+ h=DKIM-Signature:X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
+ s=mlsend2; t=1792841212; v=1;
+ b=GZ14414op2+1liAWGRoHRhs9U0zSh0MlWlM0kH/SFiERjPgMB0re+hufJTiLR5rFjlfXyEBy
+ ufFK2qsIbkGc5OuvpeyA5EPwr/LfccxPNRY6lQHRSElYyAWvBKVRyPE6RbiaiY4QDMakJJIC3ba
+ EBLmN9nyA0Wx0Zi3LFiP5yLQ=
+DKIM-Signature: a=rsa-sha256; bh=J1ePy/7DtRjSH/7YiNDxqRZYlYA7Rkm9Xz1sKnQwiPM=;
+ c=relaxed/relaxed; d=mailersend.net;
+ h=X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
+ s=ms1; t=1792841212; v=1;
+ b=eV7mhUbgTS58Xs1R0ulhjzWzdE4n2yt4/xda4CfDagdxDWxmFCCepfe5l/MP8KO3KYRmPzsw
+ WD6wfIc2VjiIedTJYaZVRRD3zHiozlATlMVukC6lSp2/deOLhyiy5mFHY5PY0Ym6vwcZbN2+dBI
+ dLscdJ6/7QsA6wQljMreLo/qyIycpNu/fLCIQJCsPVHoXcDwXrkJ3MAfsYm1120B0ndMaWa2QKv
+ NqV2aorzkQxycg22pPk4yK0PtV+2Di+L5RHw8OUPQ7QqwZdR7N9IQr6usowC9HT57XoV98k2OSs
+ S3OO/XPFXX9tOC+X+2RBcJzf/ixQpiiLHlhoGPoHTshYQ==
+X-Mailer-Info: 10.AZlZWY1xGd.AZlZWY1xGd0MTN5UzN.uRnZzNDQsl2c0NnLslmb1hnLkVmd.
+ gNhJDOmFWM0IGOmZjYhVzY2MmYjVDO4gzK0MTN5UzN....
+Subject: [PATCH] fs/ntfs3: fix SEEK_DATA/SEEK_HOLE on externally compressed (WOF) files
+From: Senjin <senjin@hatchling.org>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: Senjin <senjin@hatchling.org>,
+ ntfs3@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org,
+ stable@vger.kernel.org
+Date: 24 Oct 2026 11:26:52 -0000
+Received: from 10.8.11.244 by 10.132.0.99 with http; 24 Oct 2026 11:26:52 +0000
+Message-ID: <6adc95fc26efdd1658b01fc5@mailersend.net>
+X-MailerSend-RecipientID: 6adc95fc26efdd1658b01fc5;6a28fa14b8f6ba5c6cbc5888;r9084zv9678gw63d
+Feedback-ID: r9084zv9678gw63d:MailerSend
+X-MailerSend-MessageID: 6adc95fb646700d215d33fb3
+Reply-To: senjin@hatchling.org
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -95,62 +77,131 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Commit da4391c496fe ("ntfs3: release ni_lock before dir_emit in
-ntfs_readdir to fix deadlocks") drops ni_lock before calling
-ntfs_read_hdr() in ntfs_readdir(). If either call returns non-zero,
-execution jumps to out, which calls ni_unlock() even though the lock
-is no longer held.
+ni_seek_data_or_hole() only treats a sparse cluster run as still
+containing data when the file uses classic NTFS compression
+(FILE_ATTRIBUTE_COMPRESSED, LZNT1) and the run isn't aligned to a
+NTFS_LZNT_CLUSTERS (16 cluster) boundary. It never checks whether the
+file is externally compressed (WOF, reparse point, Xpress/LZX,
+NI_FLAG_COMPRESSED_MASK).
 
-This also happens when getdents64() fills the supplied buffer,
-triggering a lockdep "bad unlock balance" warning.
+For an externally compressed file, the main $DATA attribute's run list
+is not frame-compressed in place like LZNT1: it is one continuous
+sparse run end to end. The actual compressed bytes live in a separate
+named attribute ("WofCompressedData", see ni_read_frame() and
+ni_decompress_file()), and ni_read_folio_cmpr()/ni_read_frame()
+reconstruct every logical byte of the file on a normal read. There is
+no real hole anywhere in such a file.
 
-Jump to out_free instead to avoid unlocking an already released lock.
+Because ni_seek_data_or_hole() never recognised this, SEEK_DATA on an
+externally compressed file walks its one sparse run straight to
+EOF_LCN and returns -ENXIO for the entire file, as if it were empty.
 
-Reported-by: syzbot+5c0ed4f2974a8b100ed4@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=5c0ed4f2974a8b100ed4
-Fixes: da4391c496fe ("ntfs3: release ni_lock before dir_emit in ntfs_readdir to fix deadlocks")
-Signed-off-by: Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>
+This silently corrupts anything that trusts SEEK_DATA/SEEK_HOLE to
+decide what to copy. cp(1) on a modern coreutils probes the source
+file with lseek(SEEK_DATA) before falling back to a plain read loop;
+when that probe comes back -ENXIO at offset 0, cp treats the whole
+file as a hole, punches a hole of the same size in the destination
+with fallocate(FALLOC_FL_PUNCH_HOLE), and never calls read() at all.
+The result is a destination file of the right size that is entirely
+zeroed, copied without any error being reported anywhere.
+
+Confirmed with strace: cp of a WOF-compressed file does exactly this,
+producing an all-zero copy every time, unconditionally (no large-folio
+readahead trigger needed, unlike the page-mapping bug fixed earlier in
+this series). A plain read() of the same file, e.g. via Python's
+open().read(), decompresses correctly throughout.
+
+This is not a new class of problem for this driver: ntfs_fiemap()
+already special-cases is_compressed() and refuses fiemap outright for
+any compressed file, with a comment noting that "cp -r incorrectly
+treats compressed clusters". bmap()/FIBMAP is also unreachable for
+compressed files, since they use a separate address_space_operations
+table (ntfs_aops_cmpr) that has no .bmap. SEEK_DATA/SEEK_HOLE was the
+one remaining place that exposes the main attribute's raw run-list
+layout to userspace without either accounting for external compression
+or refusing outright, which is how this went unnoticed until a plain
+cp hit it.
+
+Treat an externally compressed file as having no holes: SEEK_DATA
+returns the requested offset whenever it is inside i_size, and
+SEEK_HOLE returns i_size (the implicit hole at EOF, same as for any
+other file). This mirrors how the already-existing LZNT1 case is
+handled, just without pretending the WOF run list carries any
+frame-aligned structure it doesn't have.
+
+Fixes: c61326967728 ("fs/ntfs3: implement llseek SEEK_DATA/SEEK_HOLE by =
+scanning data runs")
+Cc: stable@vger.kernel.org # 7.0+
+Signed-off-by: Senjin <senjin@hatchling.org>
 ---
-Based on Paragon's ntfs3 master (da4391c496fe), also in linux-next.
+ fs/ntfs3/frecord.c | 33 ++++++++++++++++++++++++++++-----
+ 1 file changed, 28 insertions(+), 5 deletions(-)
 
-Tested in QEMU with lockdep. A 128-byte getdents64() buffer
-reproduced the warning before the fix. After the fix, no warning
-occurred when reading root-only and 700-entry directories,
-including four concurrent readers and a writer.
-
- fs/ntfs3/dir.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index b54828735d55..45d6a41a7222 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -563,7 +563,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 		 */
- 		err = ntfs_read_hdr(sbi, ni, &root->ihdr, 0, pos, name, ctx);
- 		if (err)
--			goto out;
-+			goto out_free;
-
- 		ni_lock(ni);
- 		bit = 0;
-@@ -607,7 +607,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 				    ((u64)bit << index_bits) + sbi->record_size,
- 				    pos, name, ctx);
- 		if (err)
--			goto out;
-+			goto out_free;
-
- 		ni_lock(ni);
- 	}
-@@ -615,6 +615,7 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- out:
- 	ni_unlock(ni);
-
-+out_free:
- 	kfree(name);
- 	put_indx_node(node);
-
-base-commit: da4391c496fedc1ca78a99907712f2256ce8fb80
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index a8b696d..d77465d 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -2910,9 +2910,32 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni=
+, loff_t offset, bool data)
+ {
+ 	int err;
+ 	u8 cluster_bits =3D ni->mi.sbi->cluster_bits;
+-	CLST vcn, lcn, clen;
++	CLST vcn, lcn, clen, frame_clusters =3D 0;
+ 	loff_t vbo;
+=20
++	if (ni->ni_flags & NI_FLAG_COMPRESSED_MASK) {
++		/*
++		 * Xpress or LZX (WOF). The main data attribute's run list is
++		 * entirely sparse: the real, compressed bytes live in a
++		 * separate named attribute (see ni_read_frame()) and every
++		 * logical byte in [0, i_size) is reconstructed on read. There
++		 * is no hole to find here.
++		 */
++		loff_t i_size =3D i_size_read(&ni->vfs_inode);
++
++		if (data)
++			return offset < i_size ? offset : -ENXIO;
++
++		return i_size;
++	}
++
++	if (ni->std_fa & FILE_ATTRIBUTE_COMPRESSED) {
++		/* LZNT compression: compressed frames are embedded directly
++		 * in the main data attribute's own run list.
++		 */
++		frame_clusters =3D NTFS_LZNT_CLUSTERS;
++	}
++
+ 	/* Enumerate all fragments. */
+ 	for (vcn =3D offset >> cluster_bits;; vcn +=3D clen) {
+ 		err =3D attr_data_get_block(ni, vcn, 1, &lcn, &clen, NULL, false,
+@@ -2960,8 +2983,8 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni,=
+ loff_t offset, bool data)
+ 				break;
+ 			}
+=20
+-			if ((ni->std_fa & FILE_ATTRIBUTE_COMPRESSED) &&
+-			    (vcn & (NTFS_LZNT_CLUSTERS - 1))) {
++			if (frame_clusters &&
++			    (vcn & (frame_clusters - 1))) {
+ 				/* Compressed cluster in compressed frame. */
+ 				break;
+ 			}
+@@ -2975,8 +2998,8 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni,=
+ loff_t offset, bool data)
+ 			 */
+ 			if (lcn =3D=3D SPARSE_LCN &&
+ 			    /* native compression hole begins at aligned vcn. */
+-			    (!(ni->std_fa & FILE_ATTRIBUTE_COMPRESSED) ||
+-			     !(vcn & (NTFS_LZNT_CLUSTERS - 1)))) {
++			    (!frame_clusters ||
++			     !(vcn & (frame_clusters - 1)))) {
+ 				/* Hole in sparsed or compressed file frame. */
+ 				break;
+ 			}
+--=20
+2.56.0
