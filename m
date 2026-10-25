@@ -1,73 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.11.79.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.78.23
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792841222;
-	b=gdyykrJ+sTrMAi5aLj99jFkWDzQXjyViYYTxP0YKxFh5HAUlZpHUGrEQHv2od+BLH/j6
-	 DHNULL0zYZ/mfI1H2hBnMnFLwSZ0xk2m5fimHUoZgDPvaKvS3vX25LAZipudZwuA8UHzB
-	 4X5CQZKrocuL6Pr4l6X5EAyuXq5yGeNNEQTu2uE5+0yjCjLZgzwVOHNvyCJjLjgL+9uaN
-	 8b0DfI959NXklhflgJjs0WUXhsHI6aZyZkhr9NDhqbfQ5M7PrnL8rFcURt6XhUQDUlNtD
-	 1H9L0VsdGwTUfQRi0xCrwYRMkQnvHDwEHVpYxWc9jruiltHmdR+m6NPDfplMNlgsxkA==
+	t=1792931073;
+	b=DF6gIT8N/r9yGRfgK4lFgJltaVQeg6R6/w2HAxIs0dFG2jgQM1i7awV41lprmVJICzdb
+	 1Coy1UeZncKj9PKeD1ZqLYN9LSuRdg9YpILbs2TRknxeXiCbP1YiC59bAOmQ4M7kFpHxh
+	 rr4YLiHZtrR6QxSvUfDTOznMV978B8QfyWEqY4E4HxIGAL1az6deTLK4doXchgqrIC5v6
+	 1Pm5mnU8Jm+0BHO5lmT0nkOuVjQwdFZEPTvDz6vLk4Ja7C4ite90DZDn3tkdynFwJxmHo
+	 fEHZBkcIFb9rTeEEMgBZJvS3aOAlQmTpfB0zYCRgn2Tq79WYqKyA8wpvvtGf9Yk0DPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792841222;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:X-Mailer-Info:Subject:
-	 From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:
-	 Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=J1ePy/7DtRjSH/7YiNDxqRZYlYA7Rkm9Xz1sKnQwiPM=;
-	b=BAoPWRmsvl0+sMecwNwmtYYktkdU1CmWZO7zaLRD14qOBucItG8MMgCint4zRol/kUtr
-	 ciiei21qnApL835vX0kJRcw9A6e8FW/nNags/LeG269AsJOUMWEr0kt85hBdFngPrxQ6x
-	 rT0yhibb4Fwl2AZ0feysbxMjK5n1ue7BLkxF7fCIqWktzIsO74NV0/fkzA7EPApfIalTs
-	 fm4gaJQPUoN9YjXE9GljOJDspykVP5y9KlzccNMwMS94yiVW00iqIhV70TpReKEh0DWpq
-	 vToFuDHrcifUe6FQZGGr0xlwI3NCrLh4HjKW/FXoVzz8pckA+yMMehyfxCkMvIuiDDw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792931073;
+	h=DMARC-Filter:Received:X-ICL-RepId:X-ICL-Out-Info:Dkim-Signature:
+	 mail-alias-created-date:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Authority-Info-Out:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:X-JNJ;
+	bh=G9PnTYGt5cIFS5/QBfn2BHe94Zz+eSo3HCSqmXZsUis=;
+	b=4PepK8AcJ0dY93t9Z3P+kuyyB5aomoBMWctj9aby1PBXZR3MarhEbBMbyYgBXuHMKbbM
+	 nqa5mVzQ6nCSLpHzZcVqeqbL0Cyb9XhuhJdjSYT28K3zbTRGwWqFC71rrBchGQ4wf9N+N
+	 sKEb4zRIaqrtTvnMZ8GYuGQ5CGKj3//oRtoTyJ9uW3vFdH+JgFccMDByrzkD2Fmjv3ZPU
+	 d77uHXYwjYH08ZYDke+/RJymfIGXZVOG+Se0iEi7iLZYvZmjcXG5j+MwvM59GMUt8pBrv
+	 h/VfGEeJK/WhAgdvausnus6KhNm6YGJ2qeocAAEYdgfhGhth+K4AN3S9Cr4VQsUAzCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=hatchling.org;
-	spf=pass smtp.mailfrom=mta.hatchling.org;
-	dkim=pass header.d=hatchling.org header.i=@hatchling.org header.a=rsa-sha256 header.s=mlsend2 header.b=GZ14414o;
-	dkim=pass header.d=mailersend.net header.i=@mailersend.net header.a=rsa-sha256 header.s=ms1 header.b=eV7mhUbg;
-	arc=none smtp.remote-ip=212.11.79.130
-Received: from mail130.mailersend.net (mail130.mailersend.net [212.11.79.130])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=mennemann.net;
+	spf=pass smtp.mailfrom=mennemann.net;
+	dkim=pass header.d=mennemann.net header.i=@mennemann.net header.a=rsa-sha256 header.s=sig1 header.b=HDGTjyKM;
+	arc=none smtp.remote-ip=57.103.78.23
+Received: from outbound.st.icloud.com (st-2002b-snip4-11.eps.apple.com [57.103.78.23])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6162F606A31B
-	for <ntfs3@lists.linux.dev>; Sat, 24 Oct 2026 11:27:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6162F606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hatchling.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mta.hatchling.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75320606A31E
+	for <ntfs3@lists.linux.dev>; Sun, 25 Oct 2026 12:24:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75320606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mennemann.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mennemann.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=hatchling.org header.i=@hatchling.org header.a=rsa-sha256 header.s=mlsend2 header.b=GZ14414o;
-	dkim=pass (2048-bit key, unprotected) header.d=mailersend.net header.i=@mailersend.net header.a=rsa-sha256 header.s=ms1 header.b=eV7mhUbg
-DKIM-Signature: a=rsa-sha256; bh=J1ePy/7DtRjSH/7YiNDxqRZYlYA7Rkm9Xz1sKnQwiPM=;
- c=relaxed/relaxed; d=hatchling.org;
- h=DKIM-Signature:X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
- s=mlsend2; t=1792841212; v=1;
- b=GZ14414op2+1liAWGRoHRhs9U0zSh0MlWlM0kH/SFiERjPgMB0re+hufJTiLR5rFjlfXyEBy
- ufFK2qsIbkGc5OuvpeyA5EPwr/LfccxPNRY6lQHRSElYyAWvBKVRyPE6RbiaiY4QDMakJJIC3ba
- EBLmN9nyA0Wx0Zi3LFiP5yLQ=
-DKIM-Signature: a=rsa-sha256; bh=J1ePy/7DtRjSH/7YiNDxqRZYlYA7Rkm9Xz1sKnQwiPM=;
- c=relaxed/relaxed; d=mailersend.net;
- h=X-Mailer-Info:Subject:From:To:Cc:Date:Received:Message-ID:X-MailerSend-RecipientID:Feedback-ID:X-MailerSend-MessageID:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
- s=ms1; t=1792841212; v=1;
- b=eV7mhUbgTS58Xs1R0ulhjzWzdE4n2yt4/xda4CfDagdxDWxmFCCepfe5l/MP8KO3KYRmPzsw
- WD6wfIc2VjiIedTJYaZVRRD3zHiozlATlMVukC6lSp2/deOLhyiy5mFHY5PY0Ym6vwcZbN2+dBI
- dLscdJ6/7QsA6wQljMreLo/qyIycpNu/fLCIQJCsPVHoXcDwXrkJ3MAfsYm1120B0ndMaWa2QKv
- NqV2aorzkQxycg22pPk4yK0PtV+2Di+L5RHw8OUPQ7QqwZdR7N9IQr6usowC9HT57XoV98k2OSs
- S3OO/XPFXX9tOC+X+2RBcJzf/ixQpiiLHlhoGPoHTshYQ==
-X-Mailer-Info: 10.AZlZWY1xGd.AZlZWY1xGd0MTN5UzN.uRnZzNDQsl2c0NnLslmb1hnLkVmd.
- gNhJDOmFWM0IGOmZjYhVzY2MmYjVDO4gzK0MTN5UzN....
-Subject: [PATCH] fs/ntfs3: fix SEEK_DATA/SEEK_HOLE on externally compressed (WOF) files
-From: Senjin <senjin@hatchling.org>
+	dkim=pass (2048-bit key, unprotected) header.d=mennemann.net header.i=@mennemann.net header.a=rsa-sha256 header.s=sig1 header.b=HDGTjyKM
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-1 (Postfix) with ESMTPS id 51F71180018E;
+	Sun, 25 Oct 2026 12:24:30 +0000 (UTC)
+X-ICL-RepId: 01a17305-0112-7a53-a2e1-109895e024c6
+X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhPC0MFWwNeC0gLQwVaAFBcHA4AVhlRGVc4XghZBVcdWBZdQ1kORlBfHA4AUgVcFVQZXQMZBVcEGQpQUAFLWhVVFw4CQh9QH0wWV0NEHxwZWhRcGFNFUR9UWEMZRVZpQQtPHV0ZWxxCZFhXCQoGVx5XHV4MWQUcHlwMEwBeDw9MC0gBWwZbAEUISgFZBlocQQ1NBl0aWh8dWApQBFkrXxVXFlYAVgVcXlcdR1MXH0sAXEVQGEQfXR1mHFwAVgJc
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mennemann.net; s=sig1; t=1792931071; x=1824467071; bh=G9PnTYGt5cIFS5/QBfn2BHe94Zz+eSo3HCSqmXZsUis=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=HDGTjyKMDEy5iIW+OJC5Je3zYydBPqJUEXSwHA4dKgv3nor0eyQv9YhThIAxtkR7X3xUBCbCvaLFs2E6uEiTz8fqG2EO1PZB1f1UJRnnHyz7/WQofgjXRL81DhPuvjRznuaZWO8SZSBN4om/Kqn68sfNGwMpBn8KlkGh9hsqDt52rB29hO6Zsv+wV0KtIZj/VojO9fYTVAcTDArp9xWcSd7sHHQkwcoRybbbYzxsJcvIr7CNSsubGqEt1dUxQmqvktig8WcPl7Ydc8B3AsnNn9QSCIXADdTYQu+8wKAxyzuYFvnyffAnpCz/ne6Ekty2MFtCnCl6/LSgcVcg4QPaYw==
+mail-alias-created-date: 1719251376433
+Received: from archlinux.localdomain (unknown [17.156.216.30])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-1 (Postfix) with ESMTPSA id B304B1800198;
+	Sun, 25 Oct 2026 12:24:28 +0000 (UTC)
+From: Marcin Mennemann <marcin@mennemann.net>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: Senjin <senjin@hatchling.org>,
- ntfs3@lists.linux.dev,
- linux-fsdevel@vger.kernel.org,
- stable@vger.kernel.org
-Date: 24 Oct 2026 11:26:52 -0000
-Received: from 10.8.11.244 by 10.132.0.99 with http; 24 Oct 2026 11:26:52 +0000
-Message-ID: <6adc95fc26efdd1658b01fc5@mailersend.net>
-X-MailerSend-RecipientID: 6adc95fc26efdd1658b01fc5;6a28fa14b8f6ba5c6cbc5888;r9084zv9678gw63d
-Feedback-ID: r9084zv9678gw63d:MailerSend
-X-MailerSend-MessageID: 6adc95fb646700d215d33fb3
-Reply-To: senjin@hatchling.org
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	regressions@lists.linux.dev,
+	Senjin <senjin@hatchling.org>,
+	marcin@mennemann.net
+Subject: Re: [PATCH] fs/ntfs3: fix SEEK_DATA/SEEK_HOLE for WOF compressed and dedup files
+Date: Sun, 25 Oct 2026 13:24:11 +0100
+Message-ID: <20261025122411.14550-1-marcin@mennemann.net>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261005223318.19303-1-marcin@mennemann.net>
+References: <20261005223318.19303-1-marcin@mennemann.net>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -77,131 +67,38 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Authority-Info-Out: v=2.4 cv=X6Vf6WTe c=1 sm=1 tr=0 ts=6addf4ff
+ cx=c_apl:c_pps:t_out a=oyWFxbOnq+dmhQrAPgaJYA==:117
+ a=oyWFxbOnq+dmhQrAPgaJYA==:17 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=Y3k0dO8rAAAA:8 a=T0gKZLgf3h4bJD4k0QUA:9
+ a=Vsd_HAn_fMcgZoXZC4y2:22
+X-Proofpoint-GUID: 61A4-thsRtX51QEt2OGM8FtXUQnc_H08
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI1MDA0OSBTYWx0ZWRfX0lA/WOaDJdXi
+ FxCWqEJjpq3f462E0dVTKrEdjJIRCy72MnaVGBS1wAg7z+NN/8k5RCC4jRO4YfmKmkK8dowogec
+ NJNuqC4xTnd7+LIeJb/ReifTDBKDB+el39XaGJTThR3o30G1VjULyyEwuW/ivRy5HmVdO5/HarA
+ e/O0OJiBHOb5pb3tXeSchPzzUKrAZAdvN6L/VbhLyTDQ4kaqE1JxHe5Acph6TYEODWuZxLCEQ0X
+ NuzSoiF/L/6rMkMke52LwN7g/lylUlL7906OckkmoL78/GMqwEzrvq82n38q8HmHt/l85zYF0c0
+ 3HEGR5CreYsQ1GS2u+KQ5SEwiNSRcssWeJIK7YuYIlrp/RDTw3Epb1DhmlCz34=
+X-Proofpoint-ORIG-GUID: 61A4-thsRtX51QEt2OGM8FtXUQnc_H08
+X-JNJ: AAAAAAABe0xD99npd/L/diIe32U0SdcD3JlWU9DjQLCvAAgm7cO9IM9jj8bDHU9ZSzMmGnpt8fw+aY2Lub6junFjdHbEHPIKJaR8XmdxUeCnVUznVKY6ieUnhhhaOg5vJNT4jmulARbJWQBtRi70VYM6rpoBZwftHJf6B3VzZvMeUyrJDRqoyUx8dY8G9dSQKUf5FqpcXIqbf9uMg5Eqyk7P9zpSPpp6pt+x8VhVaGoRQM8PozcrMrQl2Ryci+kJrg08MYXOgfeDfU8h9WScQMOJEaa8WL3uuvl0DMhVNIQp6IVhhwGgQl0rYCw3B6bjQ7bXv8rXEaIYd/KFQs7Oo9MlL6QPiO/17ev1QxgpAyzMxo7x80qjcw/7Dkbl+3kIZuA5INTxpH7RLTLn3WvgPJCnBMGz75wp0KT8kVgbsIa8hMy5gxPz3JuaCYgQTzc+zK4xUDCLwkoxxcIbA1muGi2sYf+3K9aBgORnnH0j7kYQbbq9R85mWfVAFkBcb1nPGU/SL2teMqg9d3fqmWkVz9uLI60HQR/AigRXjPpO0xKJST7zIQXxQ6ei+azq7xVxtrT8U82ySfcsU9nRH/gJTFpiDvU0V2ypmXEVokO81R/3ssdH4WS9wmX1c+l4EXcinavhFOm3Mg7Sg/Q/DEhV7Ao/E3ET/GeakqwBHz1WgaBOnthj87ky7B4UAp5uKH23wTdWYe/EeV0fotnHUjjNPhzEe9f4msA1ZuzFaGOpVmUD7FEz23bqvRnnJBYNjmFfJGIe0qNzl5GtDJaR2gACoQ4eP+cp1m0oDLX0MqAB0WfRoenkdTgphQst8T3uUpXcIgmlQ1lZ4dTX2S9yj9IL8j2TCsQc9dgVLO6yf8qPkSwudNJ/dHVLIFfTxIfTfRDquBTff7S4NGur0ghMDUmklD+n1TPfhcAlx1rvkUR0iqSWoCpELyZTvAYBVADU0yj7Ss7dMZ+ZNIQoO8AXClek3BUx0apcGD4
+ QNztOYNM4tU2FrK5il2Lh/IFFDBHHqioLq7OlUKHYsmcsSn+uO+NbBnvQZ7jLNMDgvco8OD4Ob6bzH8kQzCSfPxBo1BSizWhDhC3YnMjZAOlvc98kf28OuI3GWU5AJ/LHYG8BBvSufcqHkvgORaI1Mdb1G7d7n8xN4gbz2TG9/LT5QrMXJ7QXMK4xf2Ucj9+BE4PocJK4MDt/A8D2prrPCSlTtbRmbX78O9GsmZOEXI5VM6vQat0oIEy5xemadixHoEsddlYW+sf02jVN4FLFwegKyTj3rOwQa3iE7JUIUatiahoY8YfOXrYnixAaFFl6B100JWJSnxsq9S0rq4b2P7wBaLXm
 
-ni_seek_data_or_hole() only treats a sparse cluster run as still
-containing data when the file uses classic NTFS compression
-(FILE_ATTRIBUTE_COMPRESSED, LZNT1) and the run isn't aligned to a
-NTFS_LZNT_CLUSTERS (16 cluster) boundary. It never checks whether the
-file is externally compressed (WOF, reparse point, Xpress/LZX,
-NI_FLAG_COMPRESSED_MASK).
+Hi Konstantin,
 
-For an externally compressed file, the main $DATA attribute's run list
-is not frame-compressed in place like LZNT1: it is one continuous
-sparse run end to end. The actual compressed bytes live in a separate
-named attribute ("WofCompressedData", see ni_read_frame() and
-ni_decompress_file()), and ni_read_folio_cmpr()/ni_read_frame()
-reconstruct every logical byte of the file on a normal read. There is
-no real hole anywhere in such a file.
+gentle ping on this one. This is a regression since v7.0: before
+c61326967728, cp copied WOF compressed files correctly; since then it
+silently produces zero-filled copies.
 
-Because ni_seek_data_or_hole() never recognised this, SEEK_DATA on an
-externally compressed file walks its one sparse run straight to
-EOF_LCN and returns -ENXIO for the entire file, as if it were empty.
+Senjin has since posted a fix for the same problem [1]; either works
+for me, I just want to make sure the bug gets fixed. Mine also covers
+deduplicated files.
 
-This silently corrupts anything that trusts SEEK_DATA/SEEK_HOLE to
-decide what to copy. cp(1) on a modern coreutils probes the source
-file with lseek(SEEK_DATA) before falling back to a plain read loop;
-when that probe comes back -ENXIO at offset 0, cp treats the whole
-file as a hole, punches a hole of the same size in the destination
-with fallocate(FALLOC_FL_PUNCH_HOLE), and never calls read() at all.
-The result is a destination file of the right size that is entirely
-zeroed, copied without any error being reported anywhere.
+#regzbot introduced: c61326967728
+#regzbot title: ntfs3: SEEK_DATA reports WOF compressed files as holes, cp creates zero-filled copies
+#regzbot monitor: https://lore.kernel.org/ntfs3/6adc95fc26efdd1658b01fc5@mailersend.net/
 
-Confirmed with strace: cp of a WOF-compressed file does exactly this,
-producing an all-zero copy every time, unconditionally (no large-folio
-readahead trigger needed, unlike the page-mapping bug fixed earlier in
-this series). A plain read() of the same file, e.g. via Python's
-open().read(), decompresses correctly throughout.
+[1] https://lore.kernel.org/ntfs3/6adc95fc26efdd1658b01fc5@mailersend.net/
 
-This is not a new class of problem for this driver: ntfs_fiemap()
-already special-cases is_compressed() and refuses fiemap outright for
-any compressed file, with a comment noting that "cp -r incorrectly
-treats compressed clusters". bmap()/FIBMAP is also unreachable for
-compressed files, since they use a separate address_space_operations
-table (ntfs_aops_cmpr) that has no .bmap. SEEK_DATA/SEEK_HOLE was the
-one remaining place that exposes the main attribute's raw run-list
-layout to userspace without either accounting for external compression
-or refusing outright, which is how this went unnoticed until a plain
-cp hit it.
-
-Treat an externally compressed file as having no holes: SEEK_DATA
-returns the requested offset whenever it is inside i_size, and
-SEEK_HOLE returns i_size (the implicit hole at EOF, same as for any
-other file). This mirrors how the already-existing LZNT1 case is
-handled, just without pretending the WOF run list carries any
-frame-aligned structure it doesn't have.
-
-Fixes: c61326967728 ("fs/ntfs3: implement llseek SEEK_DATA/SEEK_HOLE by =
-scanning data runs")
-Cc: stable@vger.kernel.org # 7.0+
-Signed-off-by: Senjin <senjin@hatchling.org>
----
- fs/ntfs3/frecord.c | 33 ++++++++++++++++++++++++++++-----
- 1 file changed, 28 insertions(+), 5 deletions(-)
-
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index a8b696d..d77465d 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -2910,9 +2910,32 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni=
-, loff_t offset, bool data)
- {
- 	int err;
- 	u8 cluster_bits =3D ni->mi.sbi->cluster_bits;
--	CLST vcn, lcn, clen;
-+	CLST vcn, lcn, clen, frame_clusters =3D 0;
- 	loff_t vbo;
-=20
-+	if (ni->ni_flags & NI_FLAG_COMPRESSED_MASK) {
-+		/*
-+		 * Xpress or LZX (WOF). The main data attribute's run list is
-+		 * entirely sparse: the real, compressed bytes live in a
-+		 * separate named attribute (see ni_read_frame()) and every
-+		 * logical byte in [0, i_size) is reconstructed on read. There
-+		 * is no hole to find here.
-+		 */
-+		loff_t i_size =3D i_size_read(&ni->vfs_inode);
-+
-+		if (data)
-+			return offset < i_size ? offset : -ENXIO;
-+
-+		return i_size;
-+	}
-+
-+	if (ni->std_fa & FILE_ATTRIBUTE_COMPRESSED) {
-+		/* LZNT compression: compressed frames are embedded directly
-+		 * in the main data attribute's own run list.
-+		 */
-+		frame_clusters =3D NTFS_LZNT_CLUSTERS;
-+	}
-+
- 	/* Enumerate all fragments. */
- 	for (vcn =3D offset >> cluster_bits;; vcn +=3D clen) {
- 		err =3D attr_data_get_block(ni, vcn, 1, &lcn, &clen, NULL, false,
-@@ -2960,8 +2983,8 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni,=
- loff_t offset, bool data)
- 				break;
- 			}
-=20
--			if ((ni->std_fa & FILE_ATTRIBUTE_COMPRESSED) &&
--			    (vcn & (NTFS_LZNT_CLUSTERS - 1))) {
-+			if (frame_clusters &&
-+			    (vcn & (frame_clusters - 1))) {
- 				/* Compressed cluster in compressed frame. */
- 				break;
- 			}
-@@ -2975,8 +2998,8 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni,=
- loff_t offset, bool data)
- 			 */
- 			if (lcn =3D=3D SPARSE_LCN &&
- 			    /* native compression hole begins at aligned vcn. */
--			    (!(ni->std_fa & FILE_ATTRIBUTE_COMPRESSED) ||
--			     !(vcn & (NTFS_LZNT_CLUSTERS - 1)))) {
-+			    (!frame_clusters ||
-+			     !(vcn & (frame_clusters - 1)))) {
- 				/* Hole in sparsed or compressed file frame. */
- 				break;
- 			}
---=20
-2.56.0
+Thanks,
+Marcin
