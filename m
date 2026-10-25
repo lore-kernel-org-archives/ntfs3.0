@@ -1,63 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.78.23
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=189.12.193.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792931073;
-	b=DF6gIT8N/r9yGRfgK4lFgJltaVQeg6R6/w2HAxIs0dFG2jgQM1i7awV41lprmVJICzdb
-	 1Coy1UeZncKj9PKeD1ZqLYN9LSuRdg9YpILbs2TRknxeXiCbP1YiC59bAOmQ4M7kFpHxh
-	 rr4YLiHZtrR6QxSvUfDTOznMV978B8QfyWEqY4E4HxIGAL1az6deTLK4doXchgqrIC5v6
-	 1Pm5mnU8Jm+0BHO5lmT0nkOuVjQwdFZEPTvDz6vLk4Ja7C4ite90DZDn3tkdynFwJxmHo
-	 fEHZBkcIFb9rTeEEMgBZJvS3aOAlQmTpfB0zYCRgn2Tq79WYqKyA8wpvvtGf9Yk0DPw==
+	t=1792965844;
+	b=aZ5qIxwm6RlOH/5h8/qAzzxvi//b6XgaArRQ1PBshyt33c2E9Um0zWxzghFtm2VRMmKI
+	 Ml6f+mBdkRn0UadDrz47ZkztfDhloLlLZwFzPEcD8ciO2YnYu91WG7izh8UyGYQDXdtGz
+	 LpE21Gu49T2eydBKsvbxVQgsU5C+CqRe5RqfgM5an55TmthxutyBBDrR/vUiPs0UuoDbR
+	 i6C0kz+jitZGsbVPGt1xqErcEyGfPrxXzbF7ZV+p/8shdrbeXre/84zo3OXrBe8Tffhaa
+	 DQv0HmulO1N1at91t6dfX9Q+kEf/4UlY98b9NrL5DPgNu2kfXCtHt5IruLCnJxj4lWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792931073;
-	h=DMARC-Filter:Received:X-ICL-RepId:X-ICL-Out-Info:Dkim-Signature:
-	 mail-alias-created-date:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Authority-Info-Out:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:X-JNJ;
-	bh=G9PnTYGt5cIFS5/QBfn2BHe94Zz+eSo3HCSqmXZsUis=;
-	b=4PepK8AcJ0dY93t9Z3P+kuyyB5aomoBMWctj9aby1PBXZR3MarhEbBMbyYgBXuHMKbbM
-	 nqa5mVzQ6nCSLpHzZcVqeqbL0Cyb9XhuhJdjSYT28K3zbTRGwWqFC71rrBchGQ4wf9N+N
-	 sKEb4zRIaqrtTvnMZ8GYuGQ5CGKj3//oRtoTyJ9uW3vFdH+JgFccMDByrzkD2Fmjv3ZPU
-	 d77uHXYwjYH08ZYDke+/RJymfIGXZVOG+Se0iEi7iLZYvZmjcXG5j+MwvM59GMUt8pBrv
-	 h/VfGEeJK/WhAgdvausnus6KhNm6YGJ2qeocAAEYdgfhGhth+K4AN3S9Cr4VQsUAzCg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792965844;
+	h=DMARC-Filter:X-Hostinger-Mail-Ref:DKIM-Signature:Feedback-ID:
+	 X-Hostinger-Mail-Id:Received:DKIM-Signature:Received:From:To:Cc:
+	 Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Date:X-CM-Analysis:X-CM-Envelope;
+	bh=LykHmQgAirmHdRdpYmnxGGe5Lq6TgH6FQkpalmB/QVM=;
+	b=pz65ovNl+K7V8DByUNkyl6k323PYDd2Ld/TcHVQa3Ikn8tjp2N9BjerC/hFpGre2vDF3
+	 hHVpT1fYZNXRTvIqXFjhts0LKBCqNDvY9GsU23CCGQXPJ90G0GJml8hmPqqe5MQkCvaSz
+	 mnM6KbbuC2OyBMqa27Mk/hr2ehLVHlc6GPGuQicdgHSQ7XsTkdOmTFTwdApYvOc3tlt9/
+	 gE4RgX2tkPx1TwsprimdWVbtcvApcKdCVMuQyZJHRmjUv9q35SK30TDcy/cpivBTHcDMu
+	 9/lhqpPeqLte5MnWpv1rKKQOYoDZsjK9qUp1jf7HM35INSsD5sio5TQHn76CXiICs3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=mennemann.net;
-	spf=pass smtp.mailfrom=mennemann.net;
-	dkim=pass header.d=mennemann.net header.i=@mennemann.net header.a=rsa-sha256 header.s=sig1 header.b=HDGTjyKM;
-	arc=none smtp.remote-ip=57.103.78.23
-Received: from outbound.st.icloud.com (st-2002b-snip4-11.eps.apple.com [57.103.78.23])
+	dmarc=pass header.from=espilon.net;
+	spf=pass smtp.mailfrom=espilon.net;
+	dkim=pass header.d=relay.mail.hostinger.com header.i=@relay.mail.hostinger.com header.a=rsa-sha256 header.s=elm202607 header.b=Grdigb0g;
+	dkim=pass header.d=espilon.net header.i=@espilon.net header.a=rsa-sha256 header.s=hostingermail1 header.b=cHrmXtcu;
+	arc=none smtp.remote-ip=189.12.193.8
+Received: from elm1.relay.mail.hostinger.com (elm1.relay.mail.hostinger.com [189.12.193.8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75320606A31E
-	for <ntfs3@lists.linux.dev>; Sun, 25 Oct 2026 12:24:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75320606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mennemann.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mennemann.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611DC606A31A
+	for <ntfs3@lists.linux.dev>; Sun, 25 Oct 2026 22:04:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 611DC606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=espilon.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=espilon.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mennemann.net header.i=@mennemann.net header.a=rsa-sha256 header.s=sig1 header.b=HDGTjyKM
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-100-percent-1 (Postfix) with ESMTPS id 51F71180018E;
-	Sun, 25 Oct 2026 12:24:30 +0000 (UTC)
-X-ICL-RepId: 01a17305-0112-7a53-a2e1-109895e024c6
-X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhPC0MFWwNeC0gLQwVaAFBcHA4AVhlRGVc4XghZBVcdWBZdQ1kORlBfHA4AUgVcFVQZXQMZBVcEGQpQUAFLWhVVFw4CQh9QH0wWV0NEHxwZWhRcGFNFUR9UWEMZRVZpQQtPHV0ZWxxCZFhXCQoGVx5XHV4MWQUcHlwMEwBeDw9MC0gBWwZbAEUISgFZBlocQQ1NBl0aWh8dWApQBFkrXxVXFlYAVgVcXlcdR1MXH0sAXEVQGEQfXR1mHFwAVgJc
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mennemann.net; s=sig1; t=1792931071; x=1824467071; bh=G9PnTYGt5cIFS5/QBfn2BHe94Zz+eSo3HCSqmXZsUis=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=HDGTjyKMDEy5iIW+OJC5Je3zYydBPqJUEXSwHA4dKgv3nor0eyQv9YhThIAxtkR7X3xUBCbCvaLFs2E6uEiTz8fqG2EO1PZB1f1UJRnnHyz7/WQofgjXRL81DhPuvjRznuaZWO8SZSBN4om/Kqn68sfNGwMpBn8KlkGh9hsqDt52rB29hO6Zsv+wV0KtIZj/VojO9fYTVAcTDArp9xWcSd7sHHQkwcoRybbbYzxsJcvIr7CNSsubGqEt1dUxQmqvktig8WcPl7Ydc8B3AsnNn9QSCIXADdTYQu+8wKAxyzuYFvnyffAnpCz/ne6Ekty2MFtCnCl6/LSgcVcg4QPaYw==
-mail-alias-created-date: 1719251376433
-Received: from archlinux.localdomain (unknown [17.156.216.30])
-	by p00-icloudmta-asmtp-us-east-1a-100-percent-1 (Postfix) with ESMTPSA id B304B1800198;
-	Sun, 25 Oct 2026 12:24:28 +0000 (UTC)
-From: Marcin Mennemann <marcin@mennemann.net>
+	dkim=pass (2048-bit key, unprotected) header.d=relay.mail.hostinger.com header.i=@relay.mail.hostinger.com header.a=rsa-sha256 header.s=elm202607 header.b=Grdigb0g;
+	dkim=pass (2048-bit key, unprotected) header.d=espilon.net header.i=@espilon.net header.a=rsa-sha256 header.s=hostingermail1 header.b=cHrmXtcu
+X-Hostinger-Mail-Ref: eyJfQF8iOiJcXF8vIiwicmVjaXBpZW50IjoibnRmczNAbGlzdHMubGludXguZGV2IiwidGVuYW5
+	0IjoiZXVuMHVzPWVzcGlsb24ubmV0IiwieF9jdXN0b21lciI6ImV1bjB1c0Blc3BpbG9uLm5ldC
+	J9
+DKIM-Signature: v=1; a=rsa-sha256; d=relay.mail.hostinger.com; s=elm202607;
+	c=relaxed/relaxed; bh=LykHmQgAirmHdRdpYmnxGGe5Lq6TgH6FQkpalmB/QVM=;
+	h=cc:cc:content-transfer-encoding:content-transfer-encoding:content-type:
+		content-type:date:date:feedback-id:feedback-id:from:from:in-reply-to:
+		list-id:list-unsubscribe:list-unsubscribe-post:message-id:message-id:
+		mime-version:mime-version:references:reply-to:subject:subject:to:to:
+		x-hostinger-mail-id:x-hostinger-mail-id; t=1792965836;
+	b=Grdigb0gKmJyBx26voFY8tjaV1vt+AduunlrsXKPKbGnNrnTpQG9rcq6Vf6h0SGIDq5pBcfQ8
+	MkNrsgQ0DimGKFSiKUccW4/BuFOM/R5HLf5oJpFO5wAQXdSGMPRou8sxcD7ChrypHXvC9SYAI2V
+	cYBfFXqYSJBkeHMmHwfzV59vUsV4PK5kmAMQf7CmW4IMAz8hoeT0j4Qnvx0ni0DZoziDGaAgUBW
+	ty6Jyf3byicdY56trK0X4w+7P/Ag4j3RBz1ewnn9MSGRUUOpaOcVo8u/41vH1+Kl+kfZgIv5e/g
+	RHgsPzQMbCSeaScZPk7KexeWx03yOqYM7dS71ckT6XZQ==;
+Feedback-ID: elm202607:espilon.net:hmail
+X-Hostinger-Mail-Id: f91371e4d0bf11f1884bbc2411537836
+Received: from fr-int-smtpout22.hostinger.io (::ffff:148.222.54.26)
+  by fr-int-hmail-krelay1.hostinger.io (KumoMTA ::ffff:148.222.54.53) 
+  with ESMTPS (TLSv1_3:TLS13_AES_256_GCM_SHA384)  id f91371e4d0bf11f1884bbc2411537836 for <ntfs3@lists.linux.dev>;
+  Sun, 25 Oct 2026 22:03:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=espilon.net;
+	s=hostingermail1; t=1792965835;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=LykHmQgAirmHdRdpYmnxGGe5Lq6TgH6FQkpalmB/QVM=;
+	b=cHrmXtcuMek7tzJ/XJOHkbwX0HfhWW+r73c+0LJjDunSW0jOPEh+rzAOCp8jxMBwZQEZEo
+	hlrq14jo8CjmjH7MMHWIeiixSftccOF1nb2Wvm3yFWCtDqhwF41mlm7ED2OwtMvI1TZt/4
+	1qzG9fZCUfi2rcfQhFg3ahSm+oIwFcWCDHUZG8aricdfv++tD4E3LKnN3pSSSjHlz0WI4M
+	DQLEbBawxACn3TJFXidvWk5Tu6gevbPjizdPeAm0M3UEzEHjaT/2JNLEzogVO3B48Qd/1j
+	zxWX4mGsdljpObQCIJv0QI9msLXHxoSoZ3CosceSi68fE2CotdxJQHCUSGpNow==
+Received: from [127.0.1.1] (unknown [IPv6:2001:861:5b02:4810:d535:8293:aee4:a9e])
+	(Authenticated sender: eun0us@espilon.net)
+	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4jCW4C270gzypS;
+	Sun, 25 Oct 2026 22:03:55 +0000 (UTC)
+From: Marouane El Moufid <eun0us@espilon.net>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev,
-	Senjin <senjin@hatchling.org>,
-	marcin@mennemann.net
-Subject: Re: [PATCH] fs/ntfs3: fix SEEK_DATA/SEEK_HOLE for WOF compressed and dedup files
-Date: Sun, 25 Oct 2026 13:24:11 +0100
-Message-ID: <20261025122411.14550-1-marcin@mennemann.net>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261005223318.19303-1-marcin@mennemann.net>
-References: <20261005223318.19303-1-marcin@mennemann.net>
+Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: bound FILE_NAME name_len in ntfs_read_mft()
+Message-ID: <179296581973.931625.13252978361798627418@espilon.net>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -67,38 +87,38 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authority-Info-Out: v=2.4 cv=X6Vf6WTe c=1 sm=1 tr=0 ts=6addf4ff
- cx=c_apl:c_pps:t_out a=oyWFxbOnq+dmhQrAPgaJYA==:117
- a=oyWFxbOnq+dmhQrAPgaJYA==:17 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=Y3k0dO8rAAAA:8 a=T0gKZLgf3h4bJD4k0QUA:9
- a=Vsd_HAn_fMcgZoXZC4y2:22
-X-Proofpoint-GUID: 61A4-thsRtX51QEt2OGM8FtXUQnc_H08
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI1MDA0OSBTYWx0ZWRfX0lA/WOaDJdXi
- FxCWqEJjpq3f462E0dVTKrEdjJIRCy72MnaVGBS1wAg7z+NN/8k5RCC4jRO4YfmKmkK8dowogec
- NJNuqC4xTnd7+LIeJb/ReifTDBKDB+el39XaGJTThR3o30G1VjULyyEwuW/ivRy5HmVdO5/HarA
- e/O0OJiBHOb5pb3tXeSchPzzUKrAZAdvN6L/VbhLyTDQ4kaqE1JxHe5Acph6TYEODWuZxLCEQ0X
- NuzSoiF/L/6rMkMke52LwN7g/lylUlL7906OckkmoL78/GMqwEzrvq82n38q8HmHt/l85zYF0c0
- 3HEGR5CreYsQ1GS2u+KQ5SEwiNSRcssWeJIK7YuYIlrp/RDTw3Epb1DhmlCz34=
-X-Proofpoint-ORIG-GUID: 61A4-thsRtX51QEt2OGM8FtXUQnc_H08
-X-JNJ: AAAAAAABe0xD99npd/L/diIe32U0SdcD3JlWU9DjQLCvAAgm7cO9IM9jj8bDHU9ZSzMmGnpt8fw+aY2Lub6junFjdHbEHPIKJaR8XmdxUeCnVUznVKY6ieUnhhhaOg5vJNT4jmulARbJWQBtRi70VYM6rpoBZwftHJf6B3VzZvMeUyrJDRqoyUx8dY8G9dSQKUf5FqpcXIqbf9uMg5Eqyk7P9zpSPpp6pt+x8VhVaGoRQM8PozcrMrQl2Ryci+kJrg08MYXOgfeDfU8h9WScQMOJEaa8WL3uuvl0DMhVNIQp6IVhhwGgQl0rYCw3B6bjQ7bXv8rXEaIYd/KFQs7Oo9MlL6QPiO/17ev1QxgpAyzMxo7x80qjcw/7Dkbl+3kIZuA5INTxpH7RLTLn3WvgPJCnBMGz75wp0KT8kVgbsIa8hMy5gxPz3JuaCYgQTzc+zK4xUDCLwkoxxcIbA1muGi2sYf+3K9aBgORnnH0j7kYQbbq9R85mWfVAFkBcb1nPGU/SL2teMqg9d3fqmWkVz9uLI60HQR/AigRXjPpO0xKJST7zIQXxQ6ei+azq7xVxtrT8U82ySfcsU9nRH/gJTFpiDvU0V2ypmXEVokO81R/3ssdH4WS9wmX1c+l4EXcinavhFOm3Mg7Sg/Q/DEhV7Ao/E3ET/GeakqwBHz1WgaBOnthj87ky7B4UAp5uKH23wTdWYe/EeV0fotnHUjjNPhzEe9f4msA1ZuzFaGOpVmUD7FEz23bqvRnnJBYNjmFfJGIe0qNzl5GtDJaR2gACoQ4eP+cp1m0oDLX0MqAB0WfRoenkdTgphQst8T3uUpXcIgmlQ1lZ4dTX2S9yj9IL8j2TCsQc9dgVLO6yf8qPkSwudNJ/dHVLIFfTxIfTfRDquBTff7S4NGur0ghMDUmklD+n1TPfhcAlx1rvkUR0iqSWoCpELyZTvAYBVADU0yj7Ss7dMZ+ZNIQoO8AXClek3BUx0apcGD4
- QNztOYNM4tU2FrK5il2Lh/IFFDBHHqioLq7OlUKHYsmcsSn+uO+NbBnvQZ7jLNMDgvco8OD4Ob6bzH8kQzCSfPxBo1BSizWhDhC3YnMjZAOlvc98kf28OuI3GWU5AJ/LHYG8BBvSufcqHkvgORaI1Mdb1G7d7n8xN4gbz2TG9/LT5QrMXJ7QXMK4xf2Ucj9+BE4PocJK4MDt/A8D2prrPCSlTtbRmbX78O9GsmZOEXI5VM6vQat0oIEy5xemadixHoEsddlYW+sf02jVN4FLFwegKyTj3rOwQa3iE7JUIUatiahoY8YfOXrYnixAaFFl6B100JWJSnxsq9S0rq4b2P7wBaLXm
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Date: Sun, 25 Oct 2026 22:03:55 +0000 (UTC)
+X-CM-Analysis: v=2.4 cv=UdEDS7SN c=1 sm=1 tr=0 ts=6ade7ccb a=NNrdi8j+18+XpAC5aQBFGw==:617 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=ICNSGLm3AAAA:8 a=7ZULHuQFvs6KFiE_kvcA:9 a=CjuIK1q_8ugA:10 a=-W5iAdWQbIJCsXvgvhpT:22
+X-CM-Envelope: MS4xfJxFNKp+gHPa42C+Qxbci0Kt3BQm40sK7dgGdDdcotMVquTsRUyUSbczcHD46d+Eb3S0qgRahE00mamURInGkJmVGcZKv5kj1z3AxEod4TIsiAFSbdiC vRYzoNoyTjuiiUxpLZy6Pe8+A8d/9VZ0jUwL2kQNnaGV+yXVG3wsXlzO7FIxzfjP6YLmVSZU4ghK2n27HYGo0b5J2U2YddJE7fGZjPKK2pyfVQin3wLpWtlx Ra18ThDkUr9Z0EY0jPev5k8VpgqSQFHvwZ4A40fIfjOLZVLKbmKfHzj4OlvA054kqwJm3KnpHWA9LLm277rEYBg149gK2EVEVXUIt/sK46HSzKXKTneo9aRL BqstMcCP0eqokhd0m6cXpcUz4kreDx/cSATBYF8B8uQvz2zsx88OVl+STRsfUJ81TPhaIR7k
 
-Hi Konstantin,
+When reading an MFT record attribute of type ATTR_NAME, ntfs_read_mft()
+validates only the fixed FILE_NAME header (SIZEOF_ATTRIBUTE_FILENAME)
+against the resident attribute size, but never bounds the variable name
+length. A crafted record with fname->name_len up to 255 and a minimal
+resident size then makes ntfs_cmp_names_cpu() read fname->name past the
+end of the MFT-record buffer (KASAN: slab-out-of-bounds, read of size 2),
+reachable from a mounted crafted NTFS image by a stat() of the name.
 
-gentle ping on this one. This is a regression since v7.0: before
-c61326967728, cp copied WOF compressed files correctly; since then it
-silently produces zero-filled copies.
+The directory enumeration path (ntfs_dir_emit) already bounds the name
+against the entry size; apply the same bound here using the existing
+fname_full_size() helper.
 
-Senjin has since posted a fix for the same problem [1]; either works
-for me, I just want to make sure the bug gets fixed. Mine also covers
-deduplicated files.
+Signed-off-by: Marouane El Moufid <eun0us@espilon.net>
+---
+ fs/ntfs3/inode.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-#regzbot introduced: c61326967728
-#regzbot title: ntfs3: SEEK_DATA reports WOF compressed files as holes, cp creates zero-filled copies
-#regzbot monitor: https://lore.kernel.org/ntfs3/6adc95fc26efdd1658b01fc5@mailersend.net/
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -202,6 +202,8 @@
 
-[1] https://lore.kernel.org/ntfs3/6adc95fc26efdd1658b01fc5@mailersend.net/
+ 		names += 1;
+ 		fname = Add2Ptr(attr, roff);
++		if (fname_full_size(fname) > rsize)
++			goto out;
+ 		if (fname->type == FILE_NAME_DOS)
+ 			goto next_attr;
 
-Thanks,
-Marcin
