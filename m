@@ -1,83 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=189.12.193.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.155.198.111
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792965844;
-	b=aZ5qIxwm6RlOH/5h8/qAzzxvi//b6XgaArRQ1PBshyt33c2E9Um0zWxzghFtm2VRMmKI
-	 Ml6f+mBdkRn0UadDrz47ZkztfDhloLlLZwFzPEcD8ciO2YnYu91WG7izh8UyGYQDXdtGz
-	 LpE21Gu49T2eydBKsvbxVQgsU5C+CqRe5RqfgM5an55TmthxutyBBDrR/vUiPs0UuoDbR
-	 i6C0kz+jitZGsbVPGt1xqErcEyGfPrxXzbF7ZV+p/8shdrbeXre/84zo3OXrBe8Tffhaa
-	 DQv0HmulO1N1at91t6dfX9Q+kEf/4UlY98b9NrL5DPgNu2kfXCtHt5IruLCnJxj4lWA==
+	t=1793100455;
+	b=GyL5B07KqN+VPCKZ7NmhdYabahTwbLfmHxMdVARPT4gkjxsFYCwDcOCv+inCoUMJvqht
+	 Z+U2Uy1mocpzlrpY6v+xqTjP6rvCl8s5UOaGDcQ2iU7WnIH7bcUVDRspE6v/ruvnOtV28
+	 CxdqnPGAvkZScDIqYJKK3AfWhhdlCl7Uk0AhoO68Dz8lNWrHsZpZtOLiDbB3U2FVjBGnH
+	 GFAzo0xYJd02+thgduq9HlspuJbT5707fAPFXWpXxSewOMgkmk+FTx+BOK8YiXBjuN76M
+	 eNOAiLHXkeyetzk0ULjECpRcUeceaYGlkSZFfiOIi/OrIRvdW0PpYVBkeeZYZjR8tcw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792965844;
-	h=DMARC-Filter:X-Hostinger-Mail-Ref:DKIM-Signature:Feedback-ID:
-	 X-Hostinger-Mail-Id:Received:DKIM-Signature:Received:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Date:X-CM-Analysis:X-CM-Envelope;
-	bh=LykHmQgAirmHdRdpYmnxGGe5Lq6TgH6FQkpalmB/QVM=;
-	b=pz65ovNl+K7V8DByUNkyl6k323PYDd2Ld/TcHVQa3Ikn8tjp2N9BjerC/hFpGre2vDF3
-	 hHVpT1fYZNXRTvIqXFjhts0LKBCqNDvY9GsU23CCGQXPJ90G0GJml8hmPqqe5MQkCvaSz
-	 mnM6KbbuC2OyBMqa27Mk/hr2ehLVHlc6GPGuQicdgHSQ7XsTkdOmTFTwdApYvOc3tlt9/
-	 gE4RgX2tkPx1TwsprimdWVbtcvApcKdCVMuQyZJHRmjUv9q35SK30TDcy/cpivBTHcDMu
-	 9/lhqpPeqLte5MnWpv1rKKQOYoDZsjK9qUp1jf7HM35INSsD5sio5TQHn76CXiICs3w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793100455;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:X-Originating-IP:X-ClientProxiedBy:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=2HsKdK9P6x+a2bQCUw3wOJJDVhpLfIWOP/r/ePtVHGk=;
+	b=Yrth6HUkflx9L3NlatiUJbJ/zf7L0lW34biQB3ABzSCsoa/f3TF4U4jcACC/thkb/uj+
+	 zWJ00RaCmh2JEt+x2pdDadebEXL1Ser/uPg2oqGUzeQ6gjPMTjkdH/XASH2QGyjIWBR39
+	 C2H7+2pB//QIg7IG+HCQzkrR7a3IRAoa3Zb/qd3N6nvGM7N/H5Rop5mWnV8z0bpivWpI5
+	 Pw+aHpDTU0J/XQ15x5IN/YhLNe3N8DnvnyGjR+3RshlgtiN2jeGBzy6ivHPEwgJ2VHIe8
+	 baDjxEOGZ8NsKAN9oHx3islYhM0e/EXZKql0xlh8Ln7re5j9xRjxhVcVk9FQfy/eIoA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=espilon.net;
-	spf=pass smtp.mailfrom=espilon.net;
-	dkim=pass header.d=relay.mail.hostinger.com header.i=@relay.mail.hostinger.com header.a=rsa-sha256 header.s=elm202607 header.b=Grdigb0g;
-	dkim=pass header.d=espilon.net header.i=@espilon.net header.a=rsa-sha256 header.s=hostingermail1 header.b=cHrmXtcu;
-	arc=none smtp.remote-ip=189.12.193.8
-Received: from elm1.relay.mail.hostinger.com (elm1.relay.mail.hostinger.com [189.12.193.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=amazon.it;
+	spf=pass smtp.mailfrom=amazon.it;
+	dkim=pass header.d=amazon.it header.i=@amazon.it header.a=rsa-sha256 header.s=amazoncorp2 header.b=HzerxRDq;
+	arc=none smtp.remote-ip=35.155.198.111
+Received: from pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.155.198.111])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611DC606A31A
-	for <ntfs3@lists.linux.dev>; Sun, 25 Oct 2026 22:04:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 611DC606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=espilon.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=espilon.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEA8606A31A;
+	Tue, 27 Oct 2026 11:27:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AEA8606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=relay.mail.hostinger.com header.i=@relay.mail.hostinger.com header.a=rsa-sha256 header.s=elm202607 header.b=Grdigb0g;
-	dkim=pass (2048-bit key, unprotected) header.d=espilon.net header.i=@espilon.net header.a=rsa-sha256 header.s=hostingermail1 header.b=cHrmXtcu
-X-Hostinger-Mail-Ref: eyJfQF8iOiJcXF8vIiwicmVjaXBpZW50IjoibnRmczNAbGlzdHMubGludXguZGV2IiwidGVuYW5
-	0IjoiZXVuMHVzPWVzcGlsb24ubmV0IiwieF9jdXN0b21lciI6ImV1bjB1c0Blc3BpbG9uLm5ldC
-	J9
-DKIM-Signature: v=1; a=rsa-sha256; d=relay.mail.hostinger.com; s=elm202607;
-	c=relaxed/relaxed; bh=LykHmQgAirmHdRdpYmnxGGe5Lq6TgH6FQkpalmB/QVM=;
-	h=cc:cc:content-transfer-encoding:content-transfer-encoding:content-type:
-		content-type:date:date:feedback-id:feedback-id:from:from:in-reply-to:
-		list-id:list-unsubscribe:list-unsubscribe-post:message-id:message-id:
-		mime-version:mime-version:references:reply-to:subject:subject:to:to:
-		x-hostinger-mail-id:x-hostinger-mail-id; t=1792965836;
-	b=Grdigb0gKmJyBx26voFY8tjaV1vt+AduunlrsXKPKbGnNrnTpQG9rcq6Vf6h0SGIDq5pBcfQ8
-	MkNrsgQ0DimGKFSiKUccW4/BuFOM/R5HLf5oJpFO5wAQXdSGMPRou8sxcD7ChrypHXvC9SYAI2V
-	cYBfFXqYSJBkeHMmHwfzV59vUsV4PK5kmAMQf7CmW4IMAz8hoeT0j4Qnvx0ni0DZoziDGaAgUBW
-	ty6Jyf3byicdY56trK0X4w+7P/Ag4j3RBz1ewnn9MSGRUUOpaOcVo8u/41vH1+Kl+kfZgIv5e/g
-	RHgsPzQMbCSeaScZPk7KexeWx03yOqYM7dS71ckT6XZQ==;
-Feedback-ID: elm202607:espilon.net:hmail
-X-Hostinger-Mail-Id: f91371e4d0bf11f1884bbc2411537836
-Received: from fr-int-smtpout22.hostinger.io (::ffff:148.222.54.26)
-  by fr-int-hmail-krelay1.hostinger.io (KumoMTA ::ffff:148.222.54.53) 
-  with ESMTPS (TLSv1_3:TLS13_AES_256_GCM_SHA384)  id f91371e4d0bf11f1884bbc2411537836 for <ntfs3@lists.linux.dev>;
-  Sun, 25 Oct 2026 22:03:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=espilon.net;
-	s=hostingermail1; t=1792965835;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=LykHmQgAirmHdRdpYmnxGGe5Lq6TgH6FQkpalmB/QVM=;
-	b=cHrmXtcuMek7tzJ/XJOHkbwX0HfhWW+r73c+0LJjDunSW0jOPEh+rzAOCp8jxMBwZQEZEo
-	hlrq14jo8CjmjH7MMHWIeiixSftccOF1nb2Wvm3yFWCtDqhwF41mlm7ED2OwtMvI1TZt/4
-	1qzG9fZCUfi2rcfQhFg3ahSm+oIwFcWCDHUZG8aricdfv++tD4E3LKnN3pSSSjHlz0WI4M
-	DQLEbBawxACn3TJFXidvWk5Tu6gevbPjizdPeAm0M3UEzEHjaT/2JNLEzogVO3B48Qd/1j
-	zxWX4mGsdljpObQCIJv0QI9msLXHxoSoZ3CosceSi68fE2CotdxJQHCUSGpNow==
-Received: from [127.0.1.1] (unknown [IPv6:2001:861:5b02:4810:d535:8293:aee4:a9e])
-	(Authenticated sender: eun0us@espilon.net)
-	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4jCW4C270gzypS;
-	Sun, 25 Oct 2026 22:03:55 +0000 (UTC)
-From: Marouane El Moufid <eun0us@espilon.net>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: bound FILE_NAME name_len in ntfs_read_mft()
-Message-ID: <179296581973.931625.13252978361798627418@espilon.net>
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.it header.i=@amazon.it header.a=rsa-sha256 header.s=amazoncorp2 header.b=HzerxRDq
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
+  t=1793100454; x=1824636454;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=2HsKdK9P6x+a2bQCUw3wOJJDVhpLfIWOP/r/ePtVHGk=;
+  b=HzerxRDqQLBB/gAd+f9/iLi9mrLeBGOvCtFCecRUfpkxyTn1WSlmjw1q
+   UWhP6E0F9z5g3FAATO0RPQdKpHBvjkPElyCGLwLRbbNrzJBTUFlxBcBba
+   QsIOnbZLutEraaqccDX4K6dwXFpQ5Ev6fJB8O8cEBFzaWFzjmHWQ4uD6F
+   GTvjE/qz86VHSxRA4J9BQqBrGfWfo3tM4TLK2gBUznBGDcFKTgH3y/x88
+   8Nlj270kjUsCBPmpD+d0UZ28oOKcAlmFDMit8L3q3N+7IuVXRb5oD/LOk
+   3nrKoDR5yGjYuIOpzVw/SN0ydq7G0GGM9iNe6BGlVgrqGjkAWSX6uuLyB
+   w==;
+X-CSE-ConnectionGUID: 385GSDEWQP6GfoP9TG5oPQ==
+X-CSE-MsgGUID: wuJCmHMiTHui2Zvf77Ci4g==
+X-IronPort-AV: E=Sophos;i="6.27,181,1787011200"; 
+   d="scan'208";a="32251280"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 11:27:31 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.178:23464]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.51.230:2525] with esmtp (Farcaster)
+ id c8175336-d6c7-4fea-bc92-125eeab3bbca; Tue, 27 Oct 2026 11:27:30 +0000 (UTC)
+X-Farcaster-Flow-ID: c8175336-d6c7-4fea-bc92-125eeab3bbca
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Tue, 27 Oct 2026 11:27:30 +0000
+Received: from dev-dsk-dipiets-1b-77b833da.eu-west-1.amazon.com
+ (10.253.66.177) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56; Tue, 27 Oct 2026
+ 11:27:24 +0000
+From: Salvatore Dipietro <dipiets@amazon.it>
+To: <akpm@linux-foundation.org>, <linux-mm@kvack.org>
+CC: <ryan.roberts@arm.com>, <abuehaze@amazon.com>, <alisaidi@amazon.com>,
+	<blakgeof@amazon.com>, <dipietro.salvatore@gmail.com>, <rvvandan@amazon.com>,
+	<viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
+	<linkinjeon@kernel.org>, <sj1557.seo@samsung.com>, <yuezhang.mo@sony.com>,
+	<miklos@szeredi.hu>, <agruenba@redhat.com>, <djwong@kernel.org>,
+	<hyc.lee@gmail.com>, <almaz.alexandrovich@paragon-software.com>,
+	<cem@kernel.org>, <dlemoal@kernel.org>, <naohiro.aota@wdc.com>,
+	<jth@kernel.org>, <willy@infradead.org>, <david@kernel.org>,
+	<ljs@kernel.org>, <liam@infradead.org>, <vbabka@kernel.org>,
+	<rppt@kernel.org>, <surenb@google.com>, <mhocko@suse.com>, <ziy@nvidia.com>,
+	<matthew.brost@intel.com>, <joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>,
+	<byungchul@sk.com>, <gourry@gourry.net>, <ying.huang@linux.alibaba.com>,
+	<apopple@nvidia.com>, <ritesh.list@gmail.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<exfat@lists.linux.dev>, <fuse-devel@lists.linux.dev>,
+	<gfs2@lists.linux.dev>, <linux-xfs@vger.kernel.org>, <ntfs@lists.linux.dev>,
+	<ntfs3@lists.linux.dev>, <stable@vger.kernel.org>
+Subject: [PATCH 1/2] mm: add infrastructure for per-dirty-page accounting
+Date: Tue, 27 Oct 2026 11:27:01 +0000
+Message-ID: <20261027112702.3747009-2-dipiets@amazon.it>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20261027112702.3747009-1-dipiets@amazon.it>
+References: <20261027112702.3747009-1-dipiets@amazon.it>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -87,38 +100,354 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+X-ClientProxiedBy: EX19D031UWA003.ant.amazon.com (10.13.139.47) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Date: Sun, 25 Oct 2026 22:03:55 +0000 (UTC)
-X-CM-Analysis: v=2.4 cv=UdEDS7SN c=1 sm=1 tr=0 ts=6ade7ccb a=NNrdi8j+18+XpAC5aQBFGw==:617 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=ICNSGLm3AAAA:8 a=7ZULHuQFvs6KFiE_kvcA:9 a=CjuIK1q_8ugA:10 a=-W5iAdWQbIJCsXvgvhpT:22
-X-CM-Envelope: MS4xfJxFNKp+gHPa42C+Qxbci0Kt3BQm40sK7dgGdDdcotMVquTsRUyUSbczcHD46d+Eb3S0qgRahE00mamURInGkJmVGcZKv5kj1z3AxEod4TIsiAFSbdiC vRYzoNoyTjuiiUxpLZy6Pe8+A8d/9VZ0jUwL2kQNnaGV+yXVG3wsXlzO7FIxzfjP6YLmVSZU4ghK2n27HYGo0b5J2U2YddJE7fGZjPKK2pyfVQin3wLpWtlx Ra18ThDkUr9Z0EY0jPev5k8VpgqSQFHvwZ4A40fIfjOLZVLKbmKfHzj4OlvA054kqwJm3KnpHWA9LLm277rEYBg149gK2EVEVXUIt/sK46HSzKXKTneo9aRL BqstMcCP0eqokhd0m6cXpcUz4kreDx/cSATBYF8B8uQvz2zsx88OVl+STRsfUJ81TPhaIR7k
 
-When reading an MFT record attribute of type ATTR_NAME, ntfs_read_mft()
-validates only the fixed FILE_NAME header (SIZEOF_ATTRIBUTE_FILENAME)
-against the resident attribute size, but never bounds the variable name
-length. A crafted record with fname->name_len up to 255 and a minimal
-resident size then makes ntfs_cmp_names_cpu() read fname->name past the
-end of the MFT-record buffer (KASAN: slab-out-of-bounds, read of size 2),
-reachable from a mounted crafted NTFS image by a stat() of the name.
+Add the mm-side machinery that lets a filesystem charge the dirty
+counters (NR_FILE_DIRTY, NR_ZONE_WRITE_PENDING, WB_RECLAIMABLE) per
+dirty page instead of per whole folio, without yet enabling it for
+any filesystem.
 
-The directory enumeration path (ntfs_dir_emit) already bounds the name
-against the entry size; apply the same bound here using the existing
-fname_full_size() helper.
+Add an AS_DIRTY_PER_BLOCK mapping flag with
+mapping_set_dirty_per_block()/mapping_dirty_per_block() helpers, an
+accounted_dirty_pages() address_space_operations callback, and an
+@accounted argument to __folio_mark_dirty() (with filemap_dirty_folio()
+split into __filemap_dirty_folio()) so the generic per-folio charge can
+be suppressed for folios a filesystem has already accounted.
 
-Signed-off-by: Marouane El Moufid <eun0us@espilon.net>
+folio_accounted_dirty_pages() dispatches through the new a_ops callback,
+falling back to folio_nr_pages() when no filesystem opts in, and
+folio_account_cleaned() and folio migration use it in place of
+folio_nr_pages().  folio_clear_dirty_for_io() leaves the charge of
+per-block folios to the filesystem.  No filesystem sets the flag or
+registers the callback yet, so this commit is a no-op on its own.
+
+This is a prerequisite for the following iomap patch, which fixes the
+over-accounting; both are needed for stable.
+
+Cc: stable@vger.kernel.org # v6.17+
+Signed-off-by: Salvatore Dipietro <dipiets@amazon.it>
+Reviewed-by: Hazem Mohamed Abuelfotoh <abuehaze@amazon.com>
 ---
- fs/ntfs3/inode.c | 2 ++
- 1 file changed, 2 insertions(+)
+ fs/buffer.c             |  4 +-
+ include/linux/fs.h      |  7 ++++
+ include/linux/pagemap.h | 20 ++++++++-
+ mm/internal.h           |  3 ++
+ mm/migrate.c            | 17 ++++++--
+ mm/page-writeback.c     | 91 ++++++++++++++++++++++++++++++++---------
+ 6 files changed, 115 insertions(+), 27 deletions(-)
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -202,6 +202,8 @@
+diff --git a/fs/buffer.c b/fs/buffer.c
+index ed966fa73b1b..7ed5250dda9d 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -693,7 +693,7 @@ bool block_dirty_folio(struct address_space *mapping, struct folio *folio)
+ 	spin_unlock(&mapping->i_private_lock);
+ 
+ 	if (newly_dirty)
+-		__folio_mark_dirty(folio, mapping, 1);
++		__folio_mark_dirty(folio, mapping, 1, false);
+ 
+ 	if (newly_dirty)
+ 		__mark_inode_dirty(mapping->host, I_DIRTY_PAGES);
+@@ -1011,7 +1011,7 @@ void mark_buffer_dirty(struct buffer_head *bh)
+ 		if (!folio_test_set_dirty(folio)) {
+ 			mapping = folio->mapping;
+ 			if (mapping)
+-				__folio_mark_dirty(folio, mapping, 0);
++				__folio_mark_dirty(folio, mapping, 0, false);
+ 		}
+ 		if (mapping)
+ 			__mark_inode_dirty(mapping->host, I_DIRTY_PAGES);
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index deb411e86661..5abd2af50b59 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -407,6 +407,13 @@ struct address_space_operations {
+ 	/* Mark a folio dirty.  Return true if this dirtied it */
+ 	bool (*dirty_folio)(struct address_space *, struct folio *);
+ 
++	/*
++	 * Pages of the folio currently charged to the dirty counters, for
++	 * filesystems that account dirty state at sub-folio (per-block)
++	 * granularity.
++	 */
++	long (*accounted_dirty_pages)(struct folio *folio);
++
+ 	void (*readahead)(struct readahead_control *);
+ 
+ 	int (*write_begin)(const struct kiocb *, struct address_space *mapping,
+diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+index 0adfa6605653..5bbcd9da1a6b 100644
+--- a/include/linux/pagemap.h
++++ b/include/linux/pagemap.h
+@@ -210,6 +210,7 @@ enum mapping_flags {
+ 	AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM = 9,
+ 	AS_KERNEL_FILE = 10,	/* mapping for a fake kernel file that shouldn't
+ 				   account usage to user cgroups */
++	AS_DIRTY_PER_BLOCK = 11, /* fs accounts dirty pages, not whole folios */
+ 	/* Bits 16-25 are used for FOLIO_ORDER */
+ 	AS_FOLIO_ORDER_BITS = 5,
+ 	AS_FOLIO_ORDER_MIN = 16,
+@@ -304,6 +305,20 @@ static inline void mapping_clear_release_always(struct address_space *mapping)
+ 	clear_bit(AS_RELEASE_ALWAYS, &mapping->flags);
+ }
+ 
++/*
++ * Set by filesystems that charge the mm dirty counters per dirty page rather
++ * than per folio, so the generic paths must not also account whole folios.
++ */
++static inline void mapping_set_dirty_per_block(struct address_space *mapping)
++{
++	set_bit(AS_DIRTY_PER_BLOCK, &mapping->flags);
++}
++
++static inline bool mapping_dirty_per_block(const struct address_space *mapping)
++{
++	return test_bit(AS_DIRTY_PER_BLOCK, &mapping->flags);
++}
++
+ static inline bool mapping_stable_writes(const struct address_space *mapping)
+ {
+ 	return test_bit(AS_STABLE_WRITES, &mapping->flags);
+@@ -1311,7 +1326,10 @@ void folio_end_writeback(struct folio *folio);
+ void folio_end_writeback_no_dropbehind(struct folio *folio);
+ void folio_end_dropbehind(struct folio *folio);
+ void folio_wait_stable(struct folio *folio);
+-void __folio_mark_dirty(struct folio *folio, struct address_space *, int warn);
++void __folio_mark_dirty(struct folio *folio, struct address_space *mapping,
++		int warn, bool accounted);
++bool __filemap_dirty_folio(struct address_space *mapping, struct folio *folio,
++		bool accounted);
+ void folio_account_cleaned(struct folio *folio, struct bdi_writeback *wb);
+ void __folio_cancel_dirty(struct folio *folio);
+ static inline void folio_cancel_dirty(struct folio *folio)
+diff --git a/mm/internal.h b/mm/internal.h
+index 38b1165212c9..4647aca5fe8d 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -40,6 +40,9 @@ void *workingset_eviction(struct folio *folio,
+ void workingset_refault(struct folio *folio, void *shadow);
+ void workingset_activation(struct folio *folio);
+ 
++/* mm/page-writeback.c */
++long folio_accounted_dirty_pages(struct folio *folio);
++
+ /* mm/folio.c */
+ void folio_add_lru_vma(struct folio *folio, struct vm_area_struct *vma);
+ 
+diff --git a/mm/migrate.c b/mm/migrate.c
+index 15b45832bcfa..0e7b7834a9fd 100644
+--- a/mm/migrate.c
++++ b/mm/migrate.c
+@@ -588,6 +588,7 @@ static int __folio_migrate_mapping(struct address_space *mapping,
+ 	struct zone *oldzone, *newzone;
+ 	int dirty;
+ 	long nr = folio_nr_pages(folio);
++	long nr_dirty = nr;
+ 
+ 	if (!mapping) {
+ 		/* Take off deferred split queue while frozen and memcg set */
+@@ -614,6 +615,14 @@ static int __folio_migrate_mapping(struct address_space *mapping,
+ 	oldzone = folio_zone(folio);
+ 	newzone = folio_zone(newfolio);
+ 
++	/*
++	 * Only what was charged moves between the zones below, which may be less
++	 * than the whole folio.  Sample it outside the i_pages lock, as it walks
++	 * the per-block state, and while the folio is still dirty.
++	 */
++	if (folio_test_dirty(folio))
++		nr_dirty = folio_accounted_dirty_pages(folio);
++
+ 	if (folio_test_swapcache(folio))
+ 		ci = swap_cluster_get_and_lock_irq(folio);
+ 	else
+@@ -708,10 +717,10 @@ static int __folio_migrate_mapping(struct address_space *mapping,
+ 		}
+ #endif
+ 		if (dirty && mapping_can_writeback(mapping)) {
+-			mod_lruvec_state(old_lruvec, NR_FILE_DIRTY, -nr);
+-			__mod_zone_page_state(oldzone, NR_ZONE_WRITE_PENDING, -nr);
+-			mod_lruvec_state(new_lruvec, NR_FILE_DIRTY, nr);
+-			__mod_zone_page_state(newzone, NR_ZONE_WRITE_PENDING, nr);
++			mod_lruvec_state(old_lruvec, NR_FILE_DIRTY, -nr_dirty);
++			__mod_zone_page_state(oldzone, NR_ZONE_WRITE_PENDING, -nr_dirty);
++			mod_lruvec_state(new_lruvec, NR_FILE_DIRTY, nr_dirty);
++			__mod_zone_page_state(newzone, NR_ZONE_WRITE_PENDING, nr_dirty);
+ 		}
+ 		rcu_read_unlock();
+ 	}
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index eeab25d6ce36..6b4a8b6ad34c 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -2601,7 +2601,7 @@ EXPORT_SYMBOL(noop_dirty_folio);
+  * NOTE: This relies on being atomic wrt interrupts.
+  */
+ static void folio_account_dirtied(struct folio *folio,
+-		struct address_space *mapping)
++		struct address_space *mapping, bool accounted)
+ {
+ 	struct inode *inode = mapping->host;
+ 
+@@ -2614,14 +2614,21 @@ static void folio_account_dirtied(struct folio *folio,
+ 		inode_attach_wb(inode, folio);
+ 		wb = inode_to_wb(inode);
+ 
+-		lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, nr);
+-		if (folio_test_dropbehind(folio))
+-			wb_stat_mod(wb, WB_DONTCACHE_DIRTY, nr);
+-		__zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, nr);
+-		__node_stat_mod_folio(folio, NR_DIRTIED, nr);
+-		wb_stat_mod(wb, WB_RECLAIMABLE, nr);
+-		wb_stat_mod(wb, WB_DIRTIED, nr);
+-		task_io_account_write(nr * PAGE_SIZE);
++		/*
++		 * @accounted means the filesystem charged these per dirty page
++		 * already; the rate limiters below stay per-folio.  Keep in sync
++		 * with folio_account_cleaned() and folio_clear_dirty_for_io().
++		 */
++		if (!accounted) {
++			lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, nr);
++			if (folio_test_dropbehind(folio))
++				wb_stat_mod(wb, WB_DONTCACHE_DIRTY, nr);
++			__zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, nr);
++			wb_stat_mod(wb, WB_RECLAIMABLE, nr);
++			__node_stat_mod_folio(folio, NR_DIRTIED, nr);
++			wb_stat_mod(wb, WB_DIRTIED, nr);
++			task_io_account_write(nr * PAGE_SIZE);
++		}
+ 		current->nr_dirtied += nr;
+ 		__this_cpu_add(bdp_ratelimits, nr);
+ 
+@@ -2629,13 +2636,41 @@ static void folio_account_dirtied(struct folio *folio,
+ 	}
+ }
+ 
++/**
++ * folio_accounted_dirty_pages - pages of @folio charged to the dirty counters
++ * @folio: folio to query
++ *
++ * Use this rather than folio_nr_pages() when moving or discharging a folio's dirty
++ * accounting, as a folio is not necessarily charged for all of its pages.  Walks
++ * per-block state that truncation frees, so the caller must hold the folio lock.
++ *
++ * Return: the whole folio for the usual per-folio accounting, otherwise only the
++ * pages holding a dirty block, and zero once those have been discharged.
++ */
++long folio_accounted_dirty_pages(struct folio *folio)
++{
++	struct address_space *mapping = folio->mapping;
++
++	if (mapping && mapping_dirty_per_block(mapping) && folio->private &&
++	    mapping->a_ops->accounted_dirty_pages)
++		return mapping->a_ops->accounted_dirty_pages(folio);
++	return folio_nr_pages(folio);
++}
++
+ /*
+  * Helper function for deaccounting dirty page without writeback.
+  *
+  */
+ void folio_account_cleaned(struct folio *folio, struct bdi_writeback *wb)
+ {
+-	long nr = folio_nr_pages(folio);
++	/*
++	 * Discharge exactly what was charged; zero if the fs already did it.
++	 * Counters below mirror folio_account_dirtied().
++	 */
++	long nr = folio_accounted_dirty_pages(folio);
++
++	if (!nr)
++		return;
+ 
+ 	lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, -nr);
+ 	if (folio_test_dropbehind(folio))
+@@ -2661,7 +2696,7 @@ void folio_account_cleaned(struct folio *folio, struct bdi_writeback *wb)
+  * try_to_free_buffers() to fail.
+  */
+ void __folio_mark_dirty(struct folio *folio, struct address_space *mapping,
+-			     int warn)
++			     int warn, bool accounted)
+ {
+ 	unsigned long flags;
+ 
+@@ -2674,7 +2709,7 @@ void __folio_mark_dirty(struct folio *folio, struct address_space *mapping,
+ 	xa_lock_irqsave(&mapping->i_pages, flags);
+ 	if (folio->mapping) {	/* Race with truncate? */
+ 		WARN_ON_ONCE(warn && !folio_test_uptodate(folio));
+-		folio_account_dirtied(folio, mapping);
++		folio_account_dirtied(folio, mapping, accounted);
+ 		__xa_set_mark(&mapping->i_pages, folio->index,
+ 			      PAGECACHE_TAG_DIRTY);
+ 	}
+@@ -2700,12 +2735,13 @@ void __folio_mark_dirty(struct folio *folio, struct address_space *mapping,
+  * simply hold the folio lock, but e.g. zap_pte_range() calls with the
+  * folio mapped and the pte lock held, which also locks out truncation.
+  */
+-bool filemap_dirty_folio(struct address_space *mapping, struct folio *folio)
++bool __filemap_dirty_folio(struct address_space *mapping, struct folio *folio,
++		bool accounted)
+ {
+ 	if (folio_test_set_dirty(folio))
+ 		return false;
+ 
+-	__folio_mark_dirty(folio, mapping, !folio_test_private(folio));
++	__folio_mark_dirty(folio, mapping, !folio_test_private(folio), accounted);
+ 
+ 	if (mapping->host) {
+ 		/* !PageAnon && !swapper_space */
+@@ -2713,6 +2749,12 @@ bool filemap_dirty_folio(struct address_space *mapping, struct folio *folio)
+ 	}
+ 	return true;
+ }
++EXPORT_SYMBOL_GPL(__filemap_dirty_folio);
++
++bool filemap_dirty_folio(struct address_space *mapping, struct folio *folio)
++{
++	return __filemap_dirty_folio(mapping, folio, false);
++}
+ EXPORT_SYMBOL(filemap_dirty_folio);
+ 
+ /**
+@@ -2912,12 +2954,21 @@ bool folio_clear_dirty_for_io(struct folio *folio)
+ 		 */
+ 		wb = unlocked_inode_to_wb_begin(inode, &cookie);
+ 		if (folio_test_clear_dirty(folio)) {
+-			long nr = folio_nr_pages(folio);
+-			lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, -nr);
+-			if (folio_test_dropbehind(folio))
+-				wb_stat_mod(wb, WB_DONTCACHE_DIRTY, -nr);
+-			zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, -nr);
+-			wb_stat_mod(wb, WB_RECLAIMABLE, -nr);
++			/*
++			 * Per-block folios keep their dirty bits, and the charge,
++			 * until the fs writes them back.  Folios of such a mapping
++			 * that never got per-block state were charged whole, so
++			 * they discharge here as usual.
++			 */
++			if (!mapping_dirty_per_block(mapping) || !folio->private) {
++				long nr = folio_nr_pages(folio);
++
++				lruvec_stat_mod_folio(folio, NR_FILE_DIRTY, -nr);
++				if (folio_test_dropbehind(folio))
++					wb_stat_mod(wb, WB_DONTCACHE_DIRTY, -nr);
++				zone_stat_mod_folio(folio, NR_ZONE_WRITE_PENDING, -nr);
++				wb_stat_mod(wb, WB_RECLAIMABLE, -nr);
++			}
+ 			ret = true;
+ 		}
+ 		unlocked_inode_to_wb_end(inode, &cookie);
+-- 
+2.50.1
 
- 		names += 1;
- 		fname = Add2Ptr(attr, roff);
-+		if (fname_full_size(fname) > rsize)
-+			goto out;
- 		if (fname->type == FILE_NAME_DOS)
- 			goto next_attr;
+
+
+
+AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
+
+
 
