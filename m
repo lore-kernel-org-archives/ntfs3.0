@@ -1,95 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.231.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793114205;
-	b=lQBxHFfK8/lgW00sSAuk0FsEwiSUxgbNh5Rv6wwIzNThTXBkiOf3/EcZrz6GblRyHu/O
-	 3y2TyNBA1qQ4DWNgNcGu/RQPHxhzwF4p3VUQrWYexu6ZcmWeQiyYp1e5L05Rw0JIC2x3o
-	 534Lv20TJ5LpVPLfUgAENIR6f0FJd/fLT1ovL3SY169V0Tvk5GqiC46kgaMwiZHyKibf/
-	 83g/5LMv7Rvtf+2TmbE3U6pdqyf5jk/ID8eQgw+QnW+5SRnTuCfXteJ5PeNi79UyGjIzk
-	 sHSgL76D9eWKGYiVlgffW140v3stbNqu7NTpP4HCRzOWNvIQZXlHzlJBXCvQR14aNkA==
+	t=1793142654;
+	b=ZhokHMQD4k9/osuqMMpK7MoRy3ZD3yfDl1vtGcGnnmtQPB5OFE+mscIXHfTR8+tUlKvX
+	 QFhMnLQuCJ01xxNiDjA0oC1QigqxJg/D4VTtDlt6PdH0lpZel5msS2tlzCbJqJk2/JiJk
+	 ZFvvPBaRuIzA5l51Su7PO+iyqKpuqj1xaPmcu57udrNWzSIkEFX7RSBYcGf0x0la5I6+1
+	 i3d824/gXoacUBOICW+DtGZBIp1oyiLS5VLUv63qGVaoglIhKVceL3iWwsA/Jvr3pVhTC
+	 I8Lt2vhbDlapmKoW7xKYg/55+Rwv+W7FUoTHU9MCiZfgaNfte+nFJk36cwcPzCGRpeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793114205;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=IFHTFkFZHATvDyA9vMl3gA5TnmzEIZlmMLjprD1MJL8=;
-	b=OyVOjYc1lCoz0cLxGGmSZ4OL49eHzqVOa0kEaDqKDQyb/3WcrwSrf0bexfMM9ZaY2BEG
-	 TqcNaI9iJXWaAY6zrab62aN4dW8dxxJ5vKI9h/clj0A1kpfYn9ahDVhi5n3uaFYoLbw5q
-	 ywuXpVCRZx5sFuo8kMguoj/5zNSr3GLuRO2CpXn6cYfCeN23VIItJAqH+H5k8/IoTMyFz
-	 05Djuw8mntLPP7Vl/L2amAxCECqGOsXPHHsReMoTSfSV3c6f+9VmNotejNSmB8a9V0c2F
-	 EcKkJd+RBYN7djna/iwDgX3BCa++qrOXOfDucMafOdKS+FSxGIox2RzpDT79tnAiiZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793142654;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Cc:Content-Type;
+	bh=A3E77K8iCCovhISJvCAtXH/UuMVbqTit6GWjoYdyLWE=;
+	b=CyJ5UraCFirdNAtFXCdlmJD0tLTShB3Ew09aRFBY/41/sHuSihS49izJ60rvi5Mh0GIO
+	 Wjv5crYojdfToajUr+01BO2Umfa7rYQMiQjO7qx+EyNb8MZkpJ6uT7FDn56ctatvcq9v6
+	 am2XdS4mI3yl+77fxZWaP/tthh6AxJ1OesW47NCYa7P4a7M5jctDnnZVzyMI/lOpYVbjD
+	 ng35MIbec6OlHhblGfqp6OCqBKDupCI+petW1ISyB0jUpM4qAlWM13oOhRYhXCDLns/ic
+	 X93cjqkVY2QxCAtu2VkvENmi6YV+NuY92x+2tOUeu7CWxZ8/+ndYDjADz+KArznX3MA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MSrcMtDt;
-	arc=none smtp.remote-ip=74.125.231.137
-Received: from mail-oo2-f9.google.com (mail-oo2-f9.google.com [74.125.231.137])
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.210.69
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58787606A320
-	for <ntfs3@lists.linux.dev>; Tue, 27 Oct 2026 15:16:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58787606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MSrcMtDt
-Received: by mail-oo2-f9.google.com with SMTP id 46e09a7af769-821a4a69647so2153993a34.0
-        for <ntfs3@lists.linux.dev>; Tue, 27 Oct 2026 08:16:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793114204; x=1793719004; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=IFHTFkFZHATvDyA9vMl3gA5TnmzEIZlmMLjprD1MJL8=;
-        b=MSrcMtDthe1XLQcek2DPbCUFpiyjINSufbdpiRl2qMvzI/GDw8YDigVDneiCdG6XSs
-         Nt66WuRmmL7MPd1EgB//k3OeMfae9MHgsGvdraHYNM0ob2I/ni4DPgdGJqh1dTCN/vAp
-         XujaqdkpcKG2MZiCfE0M3V5SxVlZn963QVD7bJchwLbxga0FACWMI2f8i6dofiI2vkVo
-         I+hmtc8WUeRzqDS/am9eLgTk0T0lx7ldl9PRM8N/3zxTzXf3VGq5Bjv6osv17WGTbM4V
-         nOBGKqn/2HcZCuJTIZXyP2C6oEFqojqG6pYgeGTSMSXj9Kvwwya6aN9K3AU2G+3uewP7
-         JeMQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAD3606A324
+	for <ntfs3@lists.linux.dev>; Tue, 27 Oct 2026 23:10:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFAD3606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-84fe2593525so604283a34.3
+        for <ntfs3@lists.linux.dev>; Tue, 27 Oct 2026 16:10:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793114204; x=1793719004;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IFHTFkFZHATvDyA9vMl3gA5TnmzEIZlmMLjprD1MJL8=;
-        b=N8J142lNeGjvdnUD++r1zBpZH8Q0v14IW0JHmChhX0misXwAAcR88bgxi7p2t5X0/a
-         8vIFIDKuo+NcqdQ0JR5/7EcPcQ5ojW7S50PkI5XMws9woxaCO1iSSQV12SrRbu+ZLgp7
-         NeafCg/5GqwW7JD+FAU89glGyPVBpZBwphXlAvUcvAh4PDdOurOoD3/mVvwB1a9Yw8RO
-         E/VwbpZsoaXXBtmQAPwJf7tbKojnYAC1loSSDTPuCnYQ5hqRljwj4R7/mjbuLSTTCC+k
-         MYA4g2k2XIEcbOhKc9xWyc1k2YszsRlivcU28Hm1YP+AAWEMwNiotM1wkbQEUnXGmBk3
-         JvkA==
-X-Gm-Message-State: AFq9FYJLOpim4apBWy36y5pFX6wU+pCO0R08nywnupaHwePUCpd1M6j/
-	WFWxdpOTTs0/c7XI2EmH+Cy7TS/uRQcuOMAV/soSSpxQyStgSDvfKWsY
-X-Gm-Gg: AYBFou3TZCTseDvPY9VzFnyOrEFC9mB4EO1JuWz1YqUta1ZmIJ1lEE4fR90oRhU8b9x
-	mm+Z/5zgUk2BDEZCU66YMDWs6qo+lfpGYO7sv2c+fRZhYOrj0pQb6eiXnjMAjWjwnFCyrTDkxcH
-	qUmQNgmnskmrIdqTdHNdtBEI4tsM1Xr9x5B4t2NBMTaqHf75KF3QOGWxfeCa1fphOnxUDR640ZE
-	rHZOXWf2YEkXBhvmuzMPKmQpy2ByCgROGt5KmPP5mzZekwjLkX8sy5MxN2DdnuMrTs+OhzMxiSY
-	Rr2kMRIHlQ96eO1+K41J5/VdX/RL7E3nlTG3reSrVLDzIcPKMNPoannEswLFpGmS0Kb8JFnUvYR
-	Brp5zytKdoyQ0HXlXsFlOwUl94Gh2Ez3szjrXiq45gp5cKQhfNcnirqf4vgXCIViXb/7a/5hLH5
-	SHa6cXNma6Rph9RnEziPsjq//zwljOqyZZTVEPNKAYRiOB6DEIfxjdyFKQBVlxU2AT+lQFs9cEV
-	pk3AKkHHy9odKtsGnOwKxQHm3WboabtF9/DyuYGRf0iQideMF5gcgO/o3i54joZTvCypu5JB4N8
-	rFuYs8nCP9KlwOQWIky9/N3IvYQSpXBdKNoPpFCLTQ==
-X-Received: by 2002:a05:6830:2b10:b0:821:c75e:5309 with SMTP id 46e09a7af769-850fdb42781mr8911434a34.7.1793114204118;
-        Tue, 27 Oct 2026 08:16:44 -0700 (PDT)
-Received: from localhost.localdomain ([14.116.239.40])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-850f8458d7fsm10768970a34.2.2026.10.27.08.16.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 08:16:43 -0700 (PDT)
-From: Henry Martin <bsdhenrymartin@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Henry Martin <bsdhenrymartin@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: fix NULL deref in ni_std5() on stream inodes
-Date: Tue, 27 Oct 2026 23:16:15 +0800
-Message-ID: <20261027151615.971171-2-bsdhenrymartin@gmail.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20261027151615.971171-1-bsdhenrymartin@gmail.com>
-References: <20261027151615.971171-1-bsdhenrymartin@gmail.com>
+        d=1e100.net; s=20260707; t=1793142653; x=1793747453;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=A3E77K8iCCovhISJvCAtXH/UuMVbqTit6GWjoYdyLWE=;
+        b=S9dB6nsis7b2yrk7vMYPutGyECuRFmHk7bW4TINmIebLicpMMA9gev2Zw8pFAninV1
+         Lu8n/G9o518Hm+x5/Ogc277Dwr+324ZFasM6sYYfjjxtOgWbe4nxz2TzpE5j7z2T930I
+         AFXucoHamW82Rbdq4HURyr0IuDjQz641VHPf835mOcOS/uFfVQzS6/pjtjuoxObrE9iN
+         0FySktOJMcmrBc81TlHzMEkoV5sg2nPFlJJcZcUVVF+NvyfVk/Z+sZwzxAJS3D4SFToK
+         J6nXWTsTB23rKOgqsQ4lkxm0AU4hhpaWF8u3zsic1fAEGTQqK2Ir6ZD2QZJtsMZM4SrK
+         htEg==
+X-Forwarded-Encrypted: i=1; AKwUvBxUHNuCbu39De1KjZnpqOPEMqY9vsNIQADN7esAIbCjH+ZIW6aTMbvPLDYs150FDYPXX5asDA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJeXfnomTeiKgpqspXbatmMJjcrN50R41qCeIbBjxQXJREb1Tb9
+	wJKzrsREf5QjyOJLtFGHN8iRTr3+XCTSkBw3Kyi2EtgWzGw6Xt8idc4pU2yHq8k47tUTSlJOFnN
+	6/QmJ5fX5U+215q6e2JiPmYnEBQpgcfRhIyNq0vmMB+DYi1ZA6mQzd2PXIRc=
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -99,58 +58,437 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:c1f4:b0:55c:836:597e with SMTP id
+ 5614622812f47-56383e9013amr518556b6e.31.1793142652810; Tue, 27 Oct 2026
+ 16:10:52 -0700 (PDT)
+Date: Tue, 27 Oct 2026 16:10:52 -0700
+In-Reply-To: <20261027112702.3747009-1-dipiets@amazon.it>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ae12f7c.768774f5.3237ab.002d.GAE@google.com>
+Subject: [syzbot ci] Re: mm, iomap: account dirty at page granularity for
+ per-block dirty folios
+From: syzbot ci <syzbot+ci96d4e003e13d8147@syzkaller.appspotmail.com>
+To: abuehaze@amazon.com, agruenba@redhat.com, akpm@linux-foundation.org, 
+	alisaidi@amazon.com, almaz.alexandrovich@paragon-software.com, 
+	apopple@nvidia.com, blakgeof@amazon.com, brauner@kernel.org, byungchul@sk.com, 
+	cem@kernel.org, david@kernel.org, dipietro.salvatore@gmail.com, 
+	dipiets@amazon.it, djwong@kernel.org, dlemoal@kernel.org, 
+	exfat@lists.linux.dev, fuse-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	gourry@gourry.net, hyc.lee@gmail.com, jack@suse.cz, joshua.hahnjy@gmail.com, 
+	jth@kernel.org, liam@infradead.org, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-xfs@vger.kernel.org, ljs@kernel.org, 
+	matthew.brost@intel.com, mhocko@suse.com, miklos@szeredi.hu, 
+	naohiro.aota@wdc.com, ntfs3@lists.linux.dev, ntfs@lists.linux.dev, 
+	rakie.kim@sk.com, ritesh.list@gmail.com, rppt@kernel.org, rvvandan@amazon.com, 
+	ryan.roberts@arm.com, sj1557.seo@samsung.com, stable@vger.kernel.org, 
+	surenb@google.com, vbabka@kernel.org, viro@zeniv.linux.org.uk, 
+	willy@infradead.org, ying.huang@linux.alibaba.com, yuezhang.mo@sony.com, 
+	ziy@nvidia.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-ni_std5() looks up the standard information attribute in the inode's
-own MFT record:
+syzbot ci has tested the following series
 
-    attr = mi_find_attr(ni, &ni->mi, NULL, ATTR_STD, NULL, 0, NULL);
+[v1] mm, iomap: account dirty at page granularity for per-block dirty folios
+https://lore.kernel.org/all/20261027112702.3747009-1-dipiets@amazon.it
+* [PATCH 1/2] mm: add infrastructure for per-dirty-page accounting
+* [PATCH 2/2] mm, iomap: account dirty at page granularity for per-block dirty folios
 
-without redirecting to the base inode.  For an ADS stream inode,
-ni->mi.mrec is never initialized (ntfs_init_ads_node() in
-fs/ntfs3/inode.c leaves mi.mrec NULL), so mi_find_attr() ->
-mi_enum_attr() dereferences rec == NULL:
+and found the following issues:
+* KASAN: slab-out-of-bounds Read in folio_accounted_dirty_pages
+* KASAN: slab-use-after-free Read in folio_accounted_dirty_pages
 
-    BUG: unable to handle kernel NULL pointer dereference
-    RIP: mi_enum_attr+0x18/0x180
+Full report is available here:
+https://ci.syzbot.org/series/05041e6c-d357-4fc5-9bbe-6aae1760d639
 
-The SYSTEM_NTFS_SECURITY xattr path calls ni_std5() without a guard
-for stream inodes (fs/ntfs3/xattr.c): ntfs_set_acl()/ntfs_xattr_set()
-reach it via ntfs_insert_security -> ni_lock(ni) -> ni_std5(ni) on the
-stream inode, and the stream inode inherits the base's i_mode/uid/gid,
-so the may_write_xattr() ownership check passes for the file owner.
-The default stream-name parsing (colons) is enabled, so an
-unprivileged local user can open("file:stream"), set the security
-descriptor xattr on it and panic the kernel.
+***
 
-Redirect stream inodes to their base record in ni_std5().
+KASAN: slab-out-of-bounds Read in folio_accounted_dirty_pages
 
-This issue was discovered by Tencent CodeBuddy Security.
+tree:      axboe
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/axboe/linux.git
+base:      24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/9865cf75-69fb-4fbd-b5fe-d0be9cd03802/config
+syz repro: https://ci.syzbot.org/findings/98cdf846-0b4c-4f94-8430-3b7db9efe057/syz_repro
 
-Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
-Cc: stable@vger.kernel.org
-Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
+==================================================================
+BUG: KASAN: slab-out-of-bounds in instrument_atomic_read include/linux/instrumented.h:82 [inline]
+BUG: KASAN: slab-out-of-bounds in _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+BUG: KASAN: slab-out-of-bounds in mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
+BUG: KASAN: slab-out-of-bounds in folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
+Read of size 8 at addr ffff888168669f89 by task syz.1.47/5860
+
+CPU: 0 UID: 0 PID: 5860 Comm: syz.1.47 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ check_region_inline mm/kasan/generic.c:-1 [inline]
+ kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
+ instrument_atomic_read include/linux/instrumented.h:82 [inline]
+ _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+ mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
+ folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
+ __folio_migrate_mapping+0x3d0/0x2830 mm/migrate.c:624
+ __migrate_folio mm/migrate.c:893 [inline]
+ migrate_folio+0x10a/0x1a0 mm/migrate.c:920
+ move_to_new_folio+0x1ed/0x460 mm/migrate.c:1135
+ migrate_folio_move mm/migrate.c:1401 [inline]
+ migrate_folios_move mm/migrate.c:1758 [inline]
+ migrate_pages_batch+0x30b3/0x4f50 mm/migrate.c:2014
+ migrate_pages_sync mm/migrate.c:2044 [inline]
+ migrate_pages+0x1b9f/0x2920 mm/migrate.c:2153
+ migrate_to_node mm/mempolicy.c:1322 [inline]
+ do_migrate_pages+0x656/0x8b0 mm/mempolicy.c:1421
+ kernel_migrate_pages mm/mempolicy.c:1935 [inline]
+ __do_sys_migrate_pages mm/mempolicy.c:1953 [inline]
+ __se_sys_migrate_pages+0xaa2/0xc90 mm/mempolicy.c:1949
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f04fcf9f559
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f04fc5fe028 EFLAGS: 00000246 ORIG_RAX: 0000000000000100
+RAX: ffffffffffffffda RBX: 00007f04fd225fa0 RCX: 00007f04fcf9f559
+RDX: 0000200000000040 RSI: 0000000000000009 RDI: 0000000000000000
+RBP: 00007f04fd036b20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000200000000380 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f04fd226038 R14: 00007f04fd225fa0 R15: 00007ffc667db8b8
+ </TASK>
+
+Allocated by task 5729:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ unpoison_slab_object mm/kasan/common.c:351 [inline]
+ __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:377
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ kmem_cache_alloc_noprof+0x2b9/0x600 mm/slub.c:5010
+ anon_vma_alloc mm/rmap.c:94 [inline]
+ anon_vma_fork+0x88/0x540 mm/rmap.c:395
+ dup_mmap+0x954/0x1dc0 mm/mmap.c:1781
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm+0x115/0x480 kernel/fork.c:1595
+ copy_process+0x1e79/0x4400 kernel/fork.c:2311
+ kernel_clone+0x2d7/0x940 kernel/fork.c:2771
+ __do_sys_clone kernel/fork.c:2913 [inline]
+ __se_sys_clone kernel/fork.c:2897 [inline]
+ __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2897
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff888168669e70
+ which belongs to the cache anon_vma of size 200
+The buggy address is located 81 bytes to the right of
+ allocated 200-byte region [ffff888168669e70, ffff888168669f38)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888168669108 pfn:0x168669
+memcg:ffff88816db0e201
+flags: 0x57ff00000000200(workingset|node=1|zone=2|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 057ff00000000200 ffff888101687140 ffff88816040c7c8 ffffea0005b62950
+raw: ffff888168669108 00000002000f000b 00000000f5000000 ffff88816db0e201
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5535, tgid 5535 (rm), ts 43255388535
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0x2209/0x2280 mm/page_alloc.c:3943
+ __alloc_frozen_pages_noprof+0x217/0x5a0 mm/page_alloc.c:5436
+ alloc_slab_page mm/slub.c:3347 [inline]
+ allocate_slab+0x7d/0x620 mm/slub.c:3462
+ new_slab mm/slub.c:3513 [inline]
+ refill_objects+0x2d5/0x350 mm/slub.c:7418
+ refill_sheaf mm/slub.c:2885 [inline]
+ __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4774
+ alloc_from_pcs mm/slub.c:4850 [inline]
+ slab_alloc_node mm/slub.c:4984 [inline]
+ kmem_cache_alloc_noprof+0x399/0x600 mm/slub.c:5010
+ anon_vma_alloc mm/rmap.c:94 [inline]
+ __anon_vma_prepare+0x10e/0x4d0 mm/rmap.c:201
+ __vmf_anon_prepare mm/memory.c:3961 [inline]
+ vmf_anon_prepare mm/internal.h:572 [inline]
+ do_anonymous_page mm/memory.c:5478 [inline]
+ do_pte_missing+0x2f18/0x34b0 mm/memory.c:4698
+ handle_pte_fault mm/memory.c:6558 [inline]
+ __handle_mm_fault mm/memory.c:6707 [inline]
+ handle_mm_fault+0x1a53/0x3750 mm/memory.c:6876
+ do_user_addr_fault+0xa4f/0x1340 arch/x86/mm/fault.c:1343
+ handle_page_fault arch/x86/mm/fault.c:1483 [inline]
+ exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
+page last free pid 5049 tgid 5049 ts 18476194117 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1418 [inline]
+ __free_frozen_pages+0xc93/0xd90 mm/page_alloc.c:2962
+ __slab_free+0x274/0x2c0 mm/slub.c:5823
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:361
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ kmem_cache_alloc_node_noprof+0x354/0x610 mm/slub.c:5068
+ __alloc_skb+0x1db/0x7a0 net/core/skbuff.c:704
+ alloc_skb include/linux/skbuff.h:1384 [inline]
+ alloc_skb_with_frags+0xc6/0x760 net/core/skbuff.c:6803
+ sock_alloc_send_pskb+0x878/0x990 net/core/sock.c:3022
+ unix_dgram_sendmsg+0x4da/0x17b0 net/unix/af_unix.c:2144
+ sock_sendmsg_nosec+0x13a/0x180 net/socket.c:800
+ __sock_sendmsg net/socket.c:815 [inline]
+ sock_write_iter+0x2de/0x3e0 net/socket.c:1266
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Memory state around the buggy address:
+ ffff888168669e80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff888168669f00: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
+>ffff888168669f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                      ^
+ ffff88816866a000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88816866a080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fc fc
+==================================================================
+
+
+***
+
+KASAN: slab-use-after-free Read in folio_accounted_dirty_pages
+
+tree:      axboe
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/axboe/linux.git
+base:      24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/9865cf75-69fb-4fbd-b5fe-d0be9cd03802/config
+syz repro: https://ci.syzbot.org/findings/f9e47a91-9c37-465b-b43c-7404e404cbfd/syz_repro
+
+==================================================================
+BUG: KASAN: slab-use-after-free in instrument_atomic_read include/linux/instrumented.h:82 [inline]
+BUG: KASAN: slab-use-after-free in _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+BUG: KASAN: slab-use-after-free in mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
+BUG: KASAN: slab-use-after-free in folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
+Read of size 8 at addr ffff888111a3d539 by task syz.0.17/5870
+
+CPU: 0 UID: 0 PID: 5870 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TAS
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ check_region_inline mm/kasan/generic.c:-1 [inline]
+ kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
+ instrument_atomic_read include/linux/instrumented.h:82 [inline]
+ _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+ mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
+ folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
+ __folio_migrate_mapping+0x3d0/0x2830 mm/migrate.c:624
+ __migrate_folio mm/migrate.c:893 [inline]
+ migrate_folio+0x10a/0x1a0 mm/migrate.c:920
+ move_to_new_folio+0x1ed/0x460 mm/migrate.c:1135
+ migrate_folio_move mm/migrate.c:1401 [inline]
+ migrate_folios_move mm/migrate.c:1758 [inline]
+ migrate_pages_batch+0x30b3/0x4f50 mm/migrate.c:2014
+ migrate_pages_sync mm/migrate.c:2044 [inline]
+ migrate_pages+0x1b9f/0x2920 mm/migrate.c:2153
+ migrate_to_node mm/mempolicy.c:1322 [inline]
+ do_migrate_pages+0x656/0x8b0 mm/mempolicy.c:1421
+ kernel_migrate_pages mm/mempolicy.c:1935 [inline]
+ __do_sys_migrate_pages mm/mempolicy.c:1953 [inline]
+ __se_sys_migrate_pages+0xaa2/0xc90 mm/mempolicy.c:1949
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f600f39f559
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f6010302028 EFLAGS: 00000246 ORIG_RAX: 0000000000000100
+RAX: ffffffffffffffda RBX: 00007f600f625fa0 RCX: 00007f600f39f559
+RDX: 0000200000000040 RSI: 0000000000000009 RDI: 0000000000000000
+RBP: 00007f600f436b20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000200000000380 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f600f626038 R14: 00007f600f625fa0 R15: 00007ffcbfa14028
+ </TASK>
+
+Allocated by task 5645:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ unpoison_slab_object mm/kasan/common.c:351 [inline]
+ __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:377
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ kmem_cache_alloc_noprof+0x2b9/0x600 mm/slub.c:5010
+ anon_vma_alloc mm/rmap.c:94 [inline]
+ __anon_vma_prepare+0x10e/0x4d0 mm/rmap.c:201
+ __vmf_anon_prepare mm/memory.c:3961 [inline]
+ vmf_anon_prepare mm/internal.h:572 [inline]
+ do_anonymous_page mm/memory.c:5478 [inline]
+ do_pte_missing+0x2f18/0x34b0 mm/memory.c:4698
+ handle_pte_fault mm/memory.c:6558 [inline]
+ __handle_mm_fault mm/memory.c:6707 [inline]
+ handle_mm_fault+0x1a53/0x3750 mm/memory.c:6876
+ do_user_addr_fault+0xa4f/0x1340 arch/x86/mm/fault.c:1343
+ handle_page_fault arch/x86/mm/fault.c:1483 [inline]
+ exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
+
+Freed by task 5646:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:264 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2748 [inline]
+ slab_free_after_rcu_debug+0x12a/0x220 mm/slub.c:6571
+ rcu_do_batch kernel/rcu/tree.c:2650 [inline]
+ rcu_core+0x926/0x1260 kernel/rcu/tree.c:2919
+ handle_softirqs+0x226/0x860 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:758
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1062
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+
+Last potentially related work creation:
+ kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
+ slab_free_hook mm/slub.c:2709 [inline]
+ slab_free mm/slub.c:6509 [inline]
+ kmem_cache_free+0x45e/0x650 mm/slub.c:6636
+ anon_vma_free mm/rmap.c:137 [inline]
+ __put_anon_vma+0x12b/0x2d0 mm/rmap.c:2974
+ put_anon_vma mm/internal.h:293 [inline]
+ unlink_anon_vmas+0x544/0x720 mm/rmap.c:540
+ free_pgtables+0x663/0xb70 mm/memory.c:401
+ unmap_region+0x29d/0x330 mm/vma.c:534
+ vms_clear_ptes mm/vma.c:1383 [inline]
+ vms_complete_munmap_vmas+0x427/0xbe0 mm/vma.c:1425
+ do_vmi_align_munmap+0x3b7/0x4b0 mm/vma.c:1684
+ do_vmi_munmap+0x252/0x2d0 mm/vma.c:1732
+ __vm_munmap+0x241/0x3e0 mm/vma.c:3415
+ __do_sys_munmap mm/mmap.c:1094 [inline]
+ __se_sys_munmap mm/mmap.c:1091 [inline]
+ __x64_sys_munmap+0x60/0x70 mm/mmap.c:1091
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff888111a3d528
+ which belongs to the cache anon_vma of size 200
+The buggy address is located 17 bytes inside of
+ freed 200-byte region [ffff888111a3d528, ffff888111a3d5f0)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888111a3d528 pfn:0x111a3d
+memcg:ffff888111a3df79
+flags: 0x17ff00000000200(workingset|node=0|zone=2|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 017ff00000000200 ffff888101688140 ffff8881006957c8 ffffea00047d6bd0
+raw: ffff888111a3d528 00000002000f0009 00000000f5000000 ffff888111a3df79
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5634, tgid 5634 (syz-executor), ts 59634551582
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0x2209/0x2280 mm/page_alloc.c:3943
+ __alloc_frozen_pages_noprof+0x217/0x5a0 mm/page_alloc.c:5436
+ alloc_slab_page mm/slub.c:3347 [inline]
+ allocate_slab+0x7d/0x620 mm/slub.c:3462
+ new_slab mm/slub.c:3513 [inline]
+ refill_objects+0x2d5/0x350 mm/slub.c:7418
+ refill_sheaf mm/slub.c:2885 [inline]
+ __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4774
+ alloc_from_pcs mm/slub.c:4850 [inline]
+ slab_alloc_node mm/slub.c:4984 [inline]
+ kmem_cache_alloc_noprof+0x399/0x600 mm/slub.c:5010
+ anon_vma_alloc mm/rmap.c:94 [inline]
+ anon_vma_fork+0x88/0x540 mm/rmap.c:395
+ dup_mmap+0x954/0x1dc0 mm/mmap.c:1781
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm+0x115/0x480 kernel/fork.c:1595
+ copy_process+0x1e79/0x4400 kernel/fork.c:2311
+ kernel_clone+0x2d7/0x940 kernel/fork.c:2771
+ __do_sys_clone kernel/fork.c:2913 [inline]
+ __se_sys_clone kernel/fork.c:2897 [inline]
+ __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2897
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+page last free pid 805 tgid 805 ts 42732995302 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1418 [inline]
+ __free_frozen_pages+0xc93/0xd90 mm/page_alloc.c:2962
+ __slab_free+0x274/0x2c0 mm/slub.c:5823
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:361
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ __kmalloc_cache_noprof+0x29f/0x600 mm/slub.c:5559
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ drm_atomic_commit_alloc+0xa9/0x100 drivers/gpu/drm/drm_atomic.c:258
+ drm_atomic_helper_dirtyfb+0x129/0xfd0 drivers/gpu/drm/drm_damage_helper.c:128
+ drm_fbdev_shmem_helper_fb_dirty+0x160/0x310 drivers/gpu/drm/drm_fbdev_shmem.c:117
+ drm_fb_helper_fb_dirty drivers/gpu/drm/drm_fb_helper.c:339 [inline]
+ drm_fb_helper_damage_work+0x84c/0xf20 drivers/gpu/drm/drm_fb_helper.c:365
+ process_one_work kernel/workqueue.c:3396 [inline]
+ process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3479
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3560
+ kthread+0x38b/0x480 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Memory state around the buggy address:
+ ffff888111a3d400: fc fc fc fc 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff888111a3d480: 00 00 00 00 00 00 00 00 00 00 00 00 00 fc fc fc
+>ffff888111a3d500: fc fc fc fc fc fa fb fb fb fb fb fb fb fb fb fb
+                                        ^
+ ffff888111a3d580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fc fc
+ ffff888111a3d600: fc fc fc fc fc fc fa fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
 ---
- fs/ntfs3/frecord.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index bead01a953f3f..dce6400195aee 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -89,6 +89,13 @@ struct ATTR_STD_INFO5 *ni_std5(struct ntfs_inode *ni)
- {
- 	const struct ATTRIB *attr;
- 
-+	/* Stream inodes have no MFT record of their own (mi.mrec is
-+	 * NULL); the standard information attribute lives in the base
-+	 * record.
-+	 */
-+	if (ni->base && ni->base != ni)
-+		ni = ni->base;
-+
- 	attr = mi_find_attr(ni, &ni->mi, NULL, ATTR_STD, NULL, 0, NULL);
- 
- 	return attr ? resident_data_ex(attr, sizeof(struct ATTR_STD_INFO5)) :
--- 
-2.43.7
+To test a fix for this bug, please reply with `#syz test`
+(on a separate line) and attach the patch to the email.
+
+Notes:
+- The patch will be applied on top of the tested series (as an
+  incremental fix).
+- To test a new version of the whole series, please send it directly
+  to syzbot@lists.linux.dev.
+- Arguments like custom git repos and branches are not supported.
