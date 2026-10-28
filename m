@@ -1,55 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.157.23.187
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793155491;
-	b=rpV5MqRieIaotZ5b0nQXsn8sJQqHZC0R5nYur+NdpHMDr7nUf/UtsewCNBqYzVVm6p74
-	 htcfbtz+el2JO5G6cqlsPN3nzAUo7GWvFLsryYBi6iMPZi/VnsrrXap0eCN7GTnfkTJcn
-	 xa2oD6hwdaWnUEyc2pasmQ2ySiWoCp1tAh3bxWdP0/g4kvdR4imwEMLyDBy0VF7P95Vhy
-	 9cOjGaUd0hjYgwVzXfoUBP7R3teL3u2M3GsT7t5plCjm2J4XxHVJUE1eSNVMt43w//a04
-	 wjN5y4DhBPR0yjZUhbD8WTohGanGfPr0hX3b1B7H/TlZGDMTyCg9RJBcf5+HMLwgCbA==
+	t=1793173004;
+	b=olWSRYJLsiKNEFo/3j2OIcggpOspcsGKk6cEDPusgLNrqbZaeSOp9CK2Z2jO83ScN917
+	 iv6d8JRM2vxf/K8lVw4svqvoOwCXvEy5zwxQguOpS1DUlA2IDbfzhQHrUgq4QR4vs7rgy
+	 TAQ6WFsKZzLbeGza/Ihr8o0Kn8oJue8j179qfFkY56DqpgDWtWTX7ht8NfJSAFT3z8HN8
+	 P03P7AbMju1n4BvOAq/81+kFbpjMBUiGDny1Hi4VGuL+yrJinK97Q3HfcotrrEYKWeTrS
+	 +TrR60ktIrzRGSr56yKG+IY4qQyncb2k6fGm9cK4rhXCqnEInKKao5BV4ph9+ImkswA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793155491;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=WOL4+D5dXDoziRa8ClTS8VQqRnnMXSqv697kaQ02AW0=;
-	b=xfm+PT2c4PqtPWxJFVPDl5+dQhOAcMakV8j1oWJjNSfoaQQIG2wuEZiTJS4SyyaskLGu
-	 xYWV078se8WAnDCs3hF1gLuYMqs+Pkzvtom0D2uHS0/rcjL7WPB3JOi5uSXeoLGi+n7Hf
-	 DYjHt1cwHHznou4HNkgbqmUHvF+4n55S/HdcHO0pi4ZXnKMCi5cl33Z6rf9WNj/mKILUr
-	 vvSzjlmeiO+DFZNT43XmFxSEXSgYgvGFMXvPNBjKQxquFbJMU90tBAt5OJB5/D/Hjv1Rj
-	 OrTVLEEhJXA9++W+yWagSk6SLxeYIfM9LjV3KbpqO8TCBjATC5bKPY2k1mdwjg+F+Lg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793173004;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=iDxtdBCxNRy120Jr7U7dKBOjk9V5+i35Ujgi5oq7B+c=;
+	b=SHCG/svaA93EAfns0cpKoqs4oPs7Rh1T++qgu79KIgyjN5O6AFEnN95F+1IN8dz01t48
+	 CUQMnmO3sv4BUPzj3GqjtKwEOsCImcHEWDLHVBjFNzVWEqRNQsMtp2Gdoq6zOb9tbakUf
+	 ZwgQBQ/2FhL5xRKo5+EaaP6Dgn9IC6B4xlkn5cs2JFo1K9EoX2X0Sn4qW6EhV+rEa5fpl
+	 qoIVvnGVXX1bLCkVL/OgF/R+n3IlRJP0d/Ip2PVdF3bcc1Jg8Ia2QJtiUMMhlMOFpv6Y7
+	 DWudO3eXsvR4o8r5e1kBnTxjE7nCRx++UgnuZ3Yq11ylGUVkRspsw+x3Xfuy8sk7Iag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=COJbszoA;
-	arc=none smtp.remote-ip=117.135.210.2
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=paragon-software.com;
+	spf=pass smtp.mailfrom=paragon-software.com;
+	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=BlnvUqsz;
+	arc=none smtp.remote-ip=35.157.23.187
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2174B606A31A
-	for <ntfs3@lists.linux.dev>; Wed, 28 Oct 2026 02:44:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2174B606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F09606A31A
+	for <ntfs3@lists.linux.dev>; Wed, 28 Oct 2026 07:36:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54F09606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=COJbszoA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=WO
-	L4+D5dXDoziRa8ClTS8VQqRnnMXSqv697kaQ02AW0=; b=COJbszoAoNmXsaPh2v
-	XtvSfcNLEw+xkIorW7T7YwHQzn1ybiSJ0mIeuhm4zk9k7nWDDwGNDTpWXzrfiCd3
-	xonlTPyhCP2NQoUB3y7Xbyqgk2m5z0meB1z+++UM8Wi3aIcHtYqYnnK16IWByGfS
-	LOw9ibiNFaC+DMmNSj9VldwgU=
-Received: from WIN-TOG0NDEIICD.localdomain (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id PigvCgD3wCicYeFqV0gkCg--.55043S2;
-	Wed, 28 Oct 2026 10:44:44 +0800 (CST)
-From: Shirong Zhao <shxzhaosr@163.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: validate INDEX_ROOT size before reading its fields
-Date: Wed, 28 Oct 2026 10:44:43 +0800
-Message-ID: <20261028024443.25-1-shxzhaosr@163.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key, unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=BlnvUqsz
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 8CBAD1D15;
+	Wed, 28 Oct 2026 07:37:23 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=BlnvUqsz;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id ED39A213E;
+	Wed, 28 Oct 2026 07:36:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1793172995;
+	bh=iDxtdBCxNRy120Jr7U7dKBOjk9V5+i35Ujgi5oq7B+c=;
+	h=From:To:CC:Subject:Date;
+	b=BlnvUqszZtfdezwyaI94elQJRNdk6yrg+qu/zFRbyKqVLa5jIezSSlGc9bUgG3RZO
+	 MXlY6zM2kh46KqfJElTE3nUpA2EquYST3+nUGCnXiLUd1dDQg2D5ij7PFcNUtuVLo2
+	 gE22r05+rYmst20yC0kHF/z38KuWmW+Y+c+taV50=
+Received: from localhost.localdomain (172.30.20.183) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 28 Oct 2026 10:36:32 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <torvalds@linux-foundation.org>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Aldo Ariel Panzardo <qwe.aldo@gmail.com>,
+	Alexandro Calo <alexandro.calo@nozominetworks.com>, Baolin Liu
+	<liubaolin@kylinos.cn>, Dmitry Morgun <d.morgun@ispras.ru>, Hongling Zeng
+	<zenghongling@kylinos.cn>, Hyeontae Lee <wonju345@naver.com>, Ibrahim
+ Hashimov <security@auditcode.ai>, Konstantin Komarov
+	<almaz.alexandrovich@paragon-software.com>, liyouhong <liyouhong@kylinos.cn>,
+	Matvey Kovalev <matvey.kovalev@ispras.ru>, Michael Bommarito
+	<michael.bommarito@gmail.com>, Slawomir Stepien <sst@poczta.fm>, Vidhu Sarwal
+	<vidhu.linux@gmail.com>, Weiming Shi <bestswngs@gmail.com>, Xiang Mei
+	<xmei5@asu.edu>, Yi Xie <xieyi@kylinos.cn>, Yousef Alhouseen
+	<alhouseenyousef@gmail.com>, Yuejie Shi <syjcnss@gmail.com>, Yun Zhou
+	<yun.zhou@windriver.com>, Zhan Xusheng <zhanxusheng1024@gmail.com>
+Subject: [GIT PULL] ntfs3: changes for 7.4
+Date: Wed, 28 Oct 2026 08:36:22 +0100
+Message-ID: <20261028073622.8942-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -60,59 +82,170 @@ List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PigvCgD3wCicYeFqV0gkCg--.55043S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7uF1UWFWDXry7Wr18Cw48JFb_yoW8Ww4rpF
-	n7AFZ7GrW8Gr129wsIyF4DX3y8Cw48Ww1UtFW8Zr4Iyr93twn7G3sFyryrAryDtrWDJr9x
-	XFs0qrW7W34UGaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UlJmUUUUUU=
-X-CM-SenderInfo: hvk06xhdrv2qqrwthudrp/xtbC7R2S0GrhYZ026QAA3a
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-check_index_root() reads root->index_block_size and
-root->index_block_clst before checking that the resident data is
-large enough.  check_attr() accepts a resident attribute with
-data_size == 0 and data_off == asize, and mi->mrec is exactly
-record_size bytes, so a crafted $LogFile record can make the
-first read go past the end of the allocation.
+Hello, please pull this branch containing ntfs3 code for 7.4.
 
-Use resident_data_ex() so the attribute is validated before the
-fields are read.
-
-Signed-off-by: Shirong Zhao <shxzhaosr@163.com>
----
- fs/ntfs3/fslog.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
-
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 2460a4a..e208f4c 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -2721,15 +2721,21 @@ static inline bool check_index_root(const struct ATTRIB *attr,
- 				    struct ntfs_sb_info *sbi)
- {
- 	bool ret;
--	const struct INDEX_ROOT *root = resident_data(attr);
--	u8 index_bits = le32_to_cpu(root->index_block_size) >=
-+	const struct INDEX_ROOT *root;
-+	u8 index_bits;
-+	u8 block_clst;
-+
-+	root = resident_data_ex(attr, sizeof(struct INDEX_ROOT));
-+	if (!root)
-+		return false;
-+
-+	index_bits = le32_to_cpu(root->index_block_size) >=
- 					sbi->cluster_size ?
- 				sbi->cluster_bits :
- 				SECTOR_SHIFT;
--	u8 block_clst = root->index_block_clst;
-+	block_clst = root->index_block_clst;
+Added a better description of changes in pull-request.
  
--	if (le32_to_cpu(attr->res.data_size) < sizeof(struct INDEX_ROOT) ||
--	    (root->type != ATTR_NAME && root->type != ATTR_ZERO) ||
-+	if ((root->type != ATTR_NAME && root->type != ATTR_ZERO) ||
- 	    (root->type == ATTR_NAME &&
- 	     root->rule != NTFS_COLLATION_TYPE_FILENAME) ||
- 	    (le32_to_cpu(root->index_block_size) !=
--- 
-2.53.0
+Regards,
+Konstantin
 
+----------------------------------------------------------------
+The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
+
+  Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.4
+
+for you to fetch changes up to ee1cb3443cff5a800948b662756f75b17ca63fe2:
+
+  ntfs3: add file I/O tracepoints (2026-10-28 08:09:20 +0100)
+
+----------------------------------------------------------------
+Changes for 7.4-rc1
+
+The bulk of this cycle is hardening against corrupted or maliciously
+crafted volumes. Most of these fixes come from fuzzing and KASAN
+reports. The main areas are:
+
+- $LogFile replay, where several unchecked on-disk sizes could make
+  mount write past the MFT record buffer;
+- MFT record and index parsing;
+- extended attributes, where a bad $EA entry could leak up to 64K of
+  kernel heap to userspace through getxattr().
+
+Reading a damaged compressed file could also return uninitialized
+page cache contents to userspace; that is fixed too.
+
+A few fixes affect healthy volumes as well: a heap overflow in
+fallocate(INSERT_RANGE) on small files, a use-after-free when a
+WOF-compressed file is opened for writing during a concurrent read,
+a lock-order deadlock in readdir, and stale disk data showing up in
+newly allocated clusters of compressed files.
+
+On the feature side there are new tracepoints covering mount, log
+replay, lookup, directory index, allocation, iomap and file I/O.
+There is also a new 'ugm' mount option (on by default): with ugm=0,
+newly created files don't get the WSL uid/gid/mode extended
+attributes, which Windows doesn't use.
+
+The rest is smaller correctness fixes and cleanups.
+
+----------------------------------------------------------------
+Aldo Ariel Panzardo (1):
+      fs/ntfs3: validate that EA entry size covers its name and value
+
+Alexandro Calo (3):
+      fs/ntfs3: Fix OOB write if ret == buf_len in ntfs_utf16_to_nls()
+      fs/ntfs3: Fix heap overflow after ALIGN in mi_pack_runs()
+      Fix OOB write if err == buflen in ntfs_readlink_hlp()
+
+Baolin Liu (10):
+      fs/ntfs3: update ctime only on successful setxattr
+      fs/ntfs3: reject FS_IOC_SETFSLABEL on readonly mounts
+      fs/ntfs3: return -ERANGE for short xattr buffers
+      ntfs3: add mount and log replay tracepoints
+      ntfs3: add namei tracepoints
+      ntfs3: add create inode tracepoint
+      ntfs3: add directory index tracepoints
+      ntfs3: add allocation tracepoints
+      ntfs3: add iomap tracepoints
+      ntfs3: add file I/O tracepoints
+
+Dmitry Morgun (1):
+      fs/ntfs3: check return values in indx_delete_entry()
+
+Hongling Zeng (1):
+      ntfs3: fix mapping pairs bounds check for alignment
+
+Hyeontae Lee (2):
+      fs/ntfs3: bound CreateAttribute asize against record_size in do_action
+      fs/ntfs3: bound DeleteAttribute asize against rec->used in do_action
+
+Ibrahim Hashimov (1):
+      fs/ntfs3: fix integer overflow in find_log_rec() causing OOB read
+
+Konstantin Komarov (15):
+      fs/ntfs3: document ads, nocase, and delalloc
+      fs/ntfs3: convert to non-resident when the new size exceeds the record size
+      fs/ntfs3: use MAX_LFS_FILESIZE for maxbytes with 64-bit clusters
+      fs/ntfs3: validate EA entry layout against ef->size in ntfs_read_ea
+      fs/ntfs3: show supported options when an unknown one is given
+      fs/ntfs3: zero newly allocated clusters when the request is smaller than the frame
+      fs/ntfs3: drop unused new_size argument from attr_make_nonresident()
+      fs/ntfs3: minor code cleanups
+      fs/ntfs3: do not force allocation for IOMAP_ZERO on a partial cluster
+      fs/ntfs3: add 'ugm' mount option to control storing uid/gid/mode in xattrs
+      fs/ntfs3: allow a zero cluster count for resident attributes
+      fs/ntfs3: reserve a compression unit in maxbytes_sparse
+      fs/ntfs3: take ni_lock() once in ntfs_readdir()
+      fs/ntfs3: reject unaligned hole punching on compressed files
+      fs/ntfs3: fix stale attr_b in attr_allocate_frame()
+
+Matvey Kovalev (1):
+      fs/ntfs3: remove redundant if-block in check_attr()
+
+Michael Bommarito (1):
+      fs/ntfs3: reject an oversized resident attribute on the inline iomap path
+
+Slawomir Stepien (1):
+      fs/ntfs3: handle partial allocation in attr_data_get_block_locked()
+
+Vidhu Sarwal (1):
+      fs/ntfs3: prevent positive E_NTFS_NONRESIDENT from reaching writeback error handling
+
+Weiming Shi (4):
+      fs/ntfs3: take run_lock when freeing offs_folio in ni_decompress_file
+      fs/ntfs3: zero frame pages on read error
+      ntfs3: fix out-of-bounds read in ntfs_read_mft()
+      fs/ntfs3: do not mark frame pages uptodate on read error
+
+Xiang Mei (1):
+      fs/ntfs3: validate $SDH entry size in ntfs_insert_security
+
+Xiang Mei (Microsoft) (2):
+      fs/ntfs3: check INDEX_ROOT resident size before use in ntfs_read_mft()
+      fs/ntfs3: fix slab-out-of-bounds write in attr_insert_range()
+
+Yi Xie (1):
+      ntfs3: fix resident attribute handling in run load paths
+
+Yousef Alhouseen (2):
+      ntfs3: reject empty iomap before reading its LCN
+      ntfs3: bound index head insertions by buffer capacity
+
+Yuejie Shi (1):
+      fs/ntfs3: validate the EA value length in ntfs_read_ea()
+
+Yun Zhou (1):
+      ntfs3: release ni_lock before dir_emit in ntfs_readdir to fix deadlocks
+
+Zhan Xusheng (1):
+      fs/ntfs3: fix valid_size not being updated in attr_allocate_frame()
+
+liyouhong (1):
+      fs/ntfs3: fix ntfs_fnd leak when compare function is missing
+
+ Documentation/filesystems/ntfs3.rst |  23 +++
+ MAINTAINERS                         |   1 +
+ fs/ntfs3/attrib.c                   | 189 +++++++++++-------
+ fs/ntfs3/dir.c                      |  62 ++++--
+ fs/ntfs3/file.c                     |   8 +
+ fs/ntfs3/frecord.c                  |  16 +-
+ fs/ntfs3/fslog.c                    |  35 +++-
+ fs/ntfs3/fsntfs.c                   |   3 +
+ fs/ntfs3/index.c                    |  40 +++-
+ fs/ntfs3/inode.c                    |  37 +++-
+ fs/ntfs3/namei.c                    |  11 +-
+ fs/ntfs3/ntfs_fs.h                  |   5 +-
+ fs/ntfs3/record.c                   |  16 +-
+ fs/ntfs3/super.c                    |  44 +++-
+ fs/ntfs3/xattr.c                    |  44 ++--
+ include/trace/events/ntfs3.h        | 389 ++++++++++++++++++++++++++++++++++++
+ 16 files changed, 781 insertions(+), 142 deletions(-)
+ create mode 100644 include/trace/events/ntfs3.h
