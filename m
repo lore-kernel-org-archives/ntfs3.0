@@ -1,60 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.157.23.187
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793173217;
-	b=0fZ5ii1BkejZlX1C/m1FVCJ0pW0Y31jeIh25IlGSNmv0IRgxk3fLI34q48qau6qODWCm
-	 35eoc/ylBIHSoCDAOkPGD+htzOlSTab2AWSrMwbsOTzRfTElr+cBzN0MdhCzl+qiPV78s
-	 RnYMge0NYscnPTNLx4NR4K4KwKHmkHHsAY2kZNOfzB8vM0h78ZqySGmJciFHVic6SVqfR
-	 N1D08c+YTM1XuIKqJLh6vfaaqXYasX9oym1JJhHb00xf4ogwcEI+al+Xvt/VCOek4ZnBO
-	 Dqp/OjFZTBbmwg/qMVRKOzx6+zQMF/JrJ5m8i03Ji3h/H1mF8eOG4R4Nkq5UXUNfnsg==
+	t=1793173247;
+	b=bp3RX4zLGrq4tuAZ5vRsDQrCf/Gu6lKE+JeWRYY3lwrAsuGduVo27strnERfBZIzNsng
+	 o1/ctXnEwBJf++nbxZ4woJEEemiJLfnNd1keFGtS5+/qWfCwTBwO72uhVWVfsWa5UBp5c
+	 O07YkZoluMsJe3MVR49h5gd4t3li+Ub71CGqM6pSy1dk+zXjnTwiPqqaSi9pIhoD5ht2R
+	 nX/U0zQonZw3Z5SpfzVmrHMrVLK068trvy/AGQSfqkMZrYFSKJJvYpPHDC2kZZ/dQ3Tgx
+	 KUFm8CKj7zuOI3SALRAMyXO7Mp3G5wcsT6E4E59SKoTCRka9sZItAqfX0BcIvXyInKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793173217;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793173247;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:Received:Message-ID:
 	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-	bh=Bkq3KKgk1UDWj5HUSb5RnpmLfHpybAznAxoeESK/0zI=;
-	b=a+9tZgiOOyR9qrdaeLhWtVzwY8ZLFGMJD+m6uB2a+KMEdcO6Nq7qk1xDud/EtEEGlUWb
-	 bRhup5+awtyZhECQ79V07Gq/uIGt5CVHd+aqCuYkP3xrtUz0V5oCt5hO3hhRtgNc8RyYt
-	 fGIpUF6pPO0NkBLDfdoXorsTlt0nU6RjorP3Xt8R0Ctbvzs/Dx20wfTq55dFrUF7W139a
-	 gP0xaTQJ1W72nITM4lx/4W7qhncVf3TLTEBeigbeK1FJxcAi4G1UKP54JOzLBk4DxQcVO
-	 pdUeL38RSPCav/YwcVw7K8djYWOx2IrVG+srx3EvEdv63fMeQMyHlxksKH2FHkCww/g==
+	bh=JgSqjGLkhPK3vICnAOXyWbM67kSh/OMJMraMs0151RA=;
+	b=uetwnEAzRmsB7Kxr0a5Nn20ymr+v9YL9eU8ajjsCWLRKi4KL/tXr1zDu3nBKLFv1MtZE
+	 dp5NNfXz65E7klv4dafQVMIfsRm3QCmLH3PaP0XHFUMeoF2uLSRL1xJ0mfJhHF3xAYu/8
+	 nkqz8UlUmjczM0Z3c3LJrudZOHcFdT4Yl8IFK5cshopdBUVNEkCtzHWaT/wLip6xpiDcm
+	 EAjbwS6jpomiDdJrgzv+Uw6wx9Jh22yAm+oTpp3KI8D6S125QypOqggcDeGS6xXNjodPG
+	 cQl1nToyUuCBvTcQo/gZneHCjG7IKg6K/RqmFre19tW/jqrPaIb4SnMe5cxw+9ckLfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=paragon-software.com;
 	spf=pass smtp.mailfrom=paragon-software.com;
-	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=GQUxsp7H;
+	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=NoEC3t0D;
 	arc=none smtp.remote-ip=35.157.23.187
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C200606A31D
-	for <ntfs3@lists.linux.dev>; Wed, 28 Oct 2026 07:40:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C200606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097DF606A31D;
+	Wed, 28 Oct 2026 07:40:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 097DF606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=GQUxsp7H
+	dkim=pass (1024-bit key, unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=NoEC3t0D
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id DDB1D1D15;
-	Wed, 28 Oct 2026 07:41:01 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 95D6D1D15;
+	Wed, 28 Oct 2026 07:41:32 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=GQUxsp7H;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=NoEC3t0D;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 56E12D9;
-	Wed, 28 Oct 2026 07:40:14 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 0F881D9;
+	Wed, 28 Oct 2026 07:40:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1793173214;
-	bh=Bkq3KKgk1UDWj5HUSb5RnpmLfHpybAznAxoeESK/0zI=;
+	d=paragon-software.com; s=mail; t=1793173245;
+	bh=JgSqjGLkhPK3vICnAOXyWbM67kSh/OMJMraMs0151RA=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=GQUxsp7HCByZY1c2QjSn89awZ4q/dSASImo2Ncg4tkS6SZDzezuOdKsc8HEMNmhEd
-	 df/hqCNrJxIq9AIR8ZXA+fNZU8Bx49j84CGv4yV4QRMX9De4MuJRzZJQNgG4y4J3YP
-	 4G8GVvgh29qhVripRPb+NPoYpaiXV8VJO2qJuDY8=
+	b=NoEC3t0DHZkfT3Qqa/klBaPU3+nWgQJJd1zTNeR7hQXw9AC0sTIKlByhPUlxDSu/Z
+	 hFjbxknPQ2chfPTzsM9yT0s++dIK1Kq89xw3ODrQtdUptswNKYATiN6xwpJK6UJA/F
+	 JPKEeSO8rl33wb0vvVrHVchOKJnu7S9OUjSEzYcc=
 Received: from [192.168.95.128] (172.30.20.183) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 28 Oct 2026 10:40:13 +0300
-Message-ID: <5593517a-a75e-4e03-b74e-0399069c03c5@paragon-software.com>
-Date: Wed, 28 Oct 2026 08:40:11 +0100
+ 15.1.2375.7; Wed, 28 Oct 2026 10:40:43 +0300
+Message-ID: <16cff409-fe5e-4aa7-8f0f-abe0b62982f5@paragon-software.com>
+Date: Wed, 28 Oct 2026 08:40:42 +0100
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -65,160 +65,100 @@ List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: validate the EA value length in ntfs_read_ea()
-To: Yuejie Shi <syjcnss@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<stable@vger.kernel.org>
-References: <20260803043432.94886-1-syjcnss@gmail.com>
+Subject: Re: [PATCH] fs/ntfs3: handle partial allocation in
+ attr_data_get_block_locked()
+To: Slawomir Stepien <sst@poczta.fm>, <ntfs3@lists.linux.dev>
+CC: syzbot <syzbot@kernel.org>, <syzkaller-bugs@googlegroups.com>,
+	<linux-kernel@vger.kernel.org>, <syzbot@lists.linux.dev>,
+	<syzkaller-upstream-moderation@googlegroups.com>
+References: <8fc44517-e231-4539-a353-3dd47045a203@mail.kernel.org>
+ <ammdVFSsD9cP8eYU@nr200>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260803043432.94886-1-syjcnss@gmail.com>
+In-Reply-To: <ammdVFSsD9cP8eYU@nr200>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 8/3/26 06:34, Yuejie Shi wrote:
+On 7/29/26 08:27, Slawomir Stepien wrote:
 
-> ntfs_read_ea() checks the $EA list for consistency, but it only
-> recomputes the packed size of an entry when the entry's own size field is
-> zero:
+> Hello
 >
->          for (off = 0; off < size; off += ea_size) {
->                  const struct EA_FULL *ef = Add2Ptr(ea_p, off);
->                  u32 bytes = size - off;
->                  ...
->                  if (ef->size) {
->                          ea_size = le32_to_cpu(ef->size);
->                          if (ea_size > bytes)
->                                  goto out1;
->                          continue;              /* <- elength never checked */
->                  }
->                  ...
->                  ea_size = ALIGN(struct_size(ef, name,
->                                              1 + ef->name_len +
->                                                      le16_to_cpu(ef->elength)),
->                                  4);
->                  if (ea_size > bytes)
->                          goto out1;
->          }
+> A gentle reminder about this PATCH.
 >
-> ef->size is non-zero for every entry except the last one, and it is what
-> ntfs3 itself writes (ntfs_set_ea() stores exactly that aligned packed
-> size), so in practice elength is not validated at all.  find_ea() then
-> uses unpacked_ea_size(), which also prefers ea->size when it is set, so
-> it agrees and hands the entry back.
->
-> ntfs_get_ea() copies elength bytes with no further bound of its own:
->
->          len = le16_to_cpu(ea->elength);
->          ...
->          if (len > size) {              /* size is the *caller's* buffer */
->                  err = -ERANGE;
->                  ...
->          }
->          memcpy(buffer, ea->name + ea->name_len + 1, len);
->
-> so a caller that supplies a large enough buffer receives up to 64 KiB of
-> whatever follows the small $EA allocation -- straight to userspace via
-> getxattr(2).
->
-> Compute the packed size unconditionally and require it to fit in the
-> entry.  Hoist the "bytes < offsetof(struct EA_FULL, name)" test above the
-> ef->size branch as well: name_len and elength were being read there
-> without it, which is itself a small over-read of the kmalloc'd buffer
-> when fewer than 8 bytes are left.  The old "bytes < sizeof(ef->size)"
-> test is subsumed by it.
->
->    # mkntfs image; create /mnt/ntfs/poc with user.ntfs6 set, then rewrite
->    # that EA_FULL's elength from 0xf to 0xff00 on the raw device
->    mount -t ntfs3 -o ro /dev/vda /mnt/ntfs
->    getxattr("/mnt/ntfs/poc", "user.ntfs6", buf, 128 * 1024);
->
->    BUG: KASAN: slab-out-of-bounds in ntfs_get_ea+0x294/0x3e0
->    Read of size 65280 at addr ffff0000cca53acf by task xattr_probe/142
->     __asan_memcpy+0x3c/0xa0
->     ntfs_get_ea+0x294/0x3e0
->     ntfs_getxattr+0x284/0x318
->     __vfs_getxattr+0x104/0x160
->     vfs_getxattr+0x1b4/0x1e0
->     do_getxattr+0xcc/0x230
->     path_getxattrat+0x184/0x270
->     __arm64_sys_getxattr+0x64/0x80
->    Allocated by task 142:
->     __kmalloc_noprof+0x294/0x668
->     ntfs_read_ea+0x1e4/0x420
->     ntfs_get_ea+0x2c8/0x3e0
->    The buggy address belongs to the object at ffff0000cca53a80
->     which belongs to the cache kmalloc-96 of size 96
->
-> The object being over-read is the one ntfs_read_ea() just allocated, and
-> it is 96 bytes.
->
-> Entries written by ntfs3 and by Windows set size to the aligned packed
-> size, so the new test does not reject anything a working filesystem
-> produces.
->
-> Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Yuejie Shi <syjcnss@gmail.com>
-> ---
->   fs/ntfs3/xattr.c | 27 ++++++++++++++++-----------
->   1 file changed, 16 insertions(+), 11 deletions(-)
->
-> diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-> index 04814dd29375..e67a1100d0cd 100644
-> --- a/fs/ntfs3/xattr.c
-> +++ b/fs/ntfs3/xattr.c
-> @@ -146,26 +146,31 @@ static int ntfs_read_ea(struct ntfs_inode *ni, struct
->          for (off = 0; off < size; off += ea_size) {
->                  const struct EA_FULL *ef = Add2Ptr(ea_p, off);
->                  u32 bytes = size - off;
-> +               u32 packed_size;
->
-> -               /* Check if we can use field ea->size. */
-> -               if (bytes < sizeof(ef->size))
-> +               /* Check if we can use fields ef->name_len and ef->elength. */
-> +               if (bytes < offsetof(struct EA_FULL, name))
->                          goto out1;
->
-> +               /*
-> +                * The name and the value have to fit in the entry whether or
-> +                * not ef->size is set, because ntfs_get_ea() copies elength
-> +                * bytes out of this buffer and checks them only against the
-> +                * caller supplied buffer size.
-> +                */
-> +               packed_size = ALIGN(struct_size(ef, name,
-> +                                               1 + ef->name_len +
-> +                                                       le16_to_cpu(ef->elength)),
-> +                                   4);
-> +
->                  if (ef->size) {
->                          ea_size = le32_to_cpu(ef->size);
-> -                       if (ea_size > bytes)
-> +                       if (ea_size > bytes || packed_size > ea_size)
->                                  goto out1;
->                          continue;
->                  }
->
-> -               /* Check if we can use fields ef->name_len and ef->elength. */
-> -               if (bytes < offsetof(struct EA_FULL, name))
-> -                       goto out1;
-> -
-> -               ea_size = ALIGN(struct_size(ef, name,
-> -                                           1 + ef->name_len +
-> -                                                   le16_to_cpu(ef->elength)),
-> -                               4);
-> +               ea_size = packed_size;
->                  if (ea_size > bytes)
->                          goto out1;
->          }
+> On lip 15, 2026 12:29, syzbot wrote:
+>> From: Slawomir Stepien <sst@poczta.fm>
+>>
+>> When allocating clusters for a sparse or compressed attribute in
+>> attr_data_get_block_locked(), the requested virtual cluster number (vcn0)
+>> is aligned down to a frame boundary (vcn). The function then attempts to
+>> allocate a full frame of clusters.
+>>
+>> If the disk is nearly full and highly fragmented, attr_allocate_clusters()
+>> might only manage to allocate a small fragment and return success with a
+>> partial allocation length. If this partial allocation is so small that it
+>> does not even reach the originally requested vcn0 (i.e., end <= vcn0), vcn0
+>> remains unallocated (a sparse hole).
+>>
+>> When the code subsequently calls run_lookup_entry() for vcn0, it finds the
+>> original SPARSE_LCN entry, which triggers a WARN_ON(1).
+>>
+>> Fix this by adding a check to verify if the partial allocation reached
+>> vcn0. If it did not (vcn0 >= end), treat this as an -ENOSPC failure and
+>> jump to the undo1 label. This safely rolls back the partial allocation,
+>> restores the original size, and repacks the runs, leaving the inode in a
+>> consistent state before returning the error to the caller.
+>>
+>> WARNING: fs/ntfs3/attrib.c:1236 at attr_data_get_block_locked+0x1980/0x25d0
+>> fs/ntfs3/attrib.c:1236
+>> RIP: 0010:attr_data_get_block_locked+0x1980/0x25d0 fs/ntfs3/attrib.c:1236
+>> Call Trace:
+>>   <TASK>
+>>   attr_data_get_block+0x1f1/0x2a0 fs/ntfs3/attrib.c:979
+>>   ntfs_fallocate+0xd3d/0xf70 fs/ntfs3/file.c:670
+>>   vfs_fallocate+0x663/0x7f0 fs/open.c:338
+>>   ksys_fallocate fs/open.c:362 [inline]
+>>   __do_sys_fallocate fs/open.c:367 [inline]
+>>   __se_sys_fallocate fs/open.c:365 [inline]
+>>   __x64_sys_fallocate+0xbf/0x110 fs/open.c:365
+>>   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>>   do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+>>   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>>   </TASK>
+>>
+>> Fixes: 099ef9ab9203 ("fs/ntfs3: implement iomap-based file operations")
+>> Assisted-by: Gemini:gemini-3.1-pro-preview Gemini:gemini-3-flash-preview syzbot
+>> Reported-by: syzbot+7be6ad5cb228286af3e3@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=7be6ad5cb228286af3e3
+>> Link: https://syzkaller.appspot.com/ai_job?id=3c9dee6e-001d-4972-8bf6-f6c960708246
+>> Signed-off-by: Slawomir Stepien <sst@poczta.fm>
+>>
+>> ---
+>> diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+>> index c621a4c58..786fd0ec0 100644
+>> --- a/fs/ntfs3/attrib.c
+>> +++ b/fs/ntfs3/attrib.c
+>> @@ -1227,6 +1227,10 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
+>>        total_size = total_size0 + ((u64)*len << cluster_bits);
+>>
+>>        if (vcn != vcn0) {
+>> +             if (vcn0 >= end) {
+>> +                     err = -ENOSPC;
+>> +                     goto undo1;
+>> +             }
+>>                if (!run_lookup_entry(run, vcn0, lcn, len, NULL)) {
+>>                        err = -EINVAL;
+>>                        goto out;
+>>
+>>
+>> base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
 > --
-> 2.51.0
+> Slawomir Stepien
 
 Hello,
 
-The patch was applied, thank you.
+Sorry for the delay. Your patch was applied, thanks.
 
 Regards,
 Konstantin
