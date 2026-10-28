@@ -1,77 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.157.23.187
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793173004;
-	b=olWSRYJLsiKNEFo/3j2OIcggpOspcsGKk6cEDPusgLNrqbZaeSOp9CK2Z2jO83ScN917
-	 iv6d8JRM2vxf/K8lVw4svqvoOwCXvEy5zwxQguOpS1DUlA2IDbfzhQHrUgq4QR4vs7rgy
-	 TAQ6WFsKZzLbeGza/Ihr8o0Kn8oJue8j179qfFkY56DqpgDWtWTX7ht8NfJSAFT3z8HN8
-	 P03P7AbMju1n4BvOAq/81+kFbpjMBUiGDny1Hi4VGuL+yrJinK97Q3HfcotrrEYKWeTrS
-	 +TrR60ktIrzRGSr56yKG+IY4qQyncb2k6fGm9cK4rhXCqnEInKKao5BV4ph9+ImkswA==
+	t=1793173115;
+	b=yZL34t1ED05TE0Zpn6srPfYyZHs5OVdwbyDjjYA6JAEggwh7pW94ZnWH+OYFBsNUIK+M
+	 wYrCTMjPzqd6Qstcg8vocdmt29iDcBiOIDle0SUQunkv3XKef+zI/B+iXKClZxF70Aegu
+	 0pyqWT/IghgxN3X1S4poNRwTQBCNB1f2Cx8MHjW8iFI6+pGhKrPI0Kh2iwtRE9aG2E5kz
+	 Y8jnAoyftkHm7HRRKDw8lVtWWXg4wJxgTHcUnkuJQOtDAlZPsDkmaV8Vcg1SdVwqkoLv9
+	 3T8kd7Yo6N0JayeTi0RGwBasuqZPHium1V73g0Z+PH8upqnTvW0YxkSi032+yf3ys3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793173004;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=iDxtdBCxNRy120Jr7U7dKBOjk9V5+i35Ujgi5oq7B+c=;
-	b=SHCG/svaA93EAfns0cpKoqs4oPs7Rh1T++qgu79KIgyjN5O6AFEnN95F+1IN8dz01t48
-	 CUQMnmO3sv4BUPzj3GqjtKwEOsCImcHEWDLHVBjFNzVWEqRNQsMtp2Gdoq6zOb9tbakUf
-	 ZwgQBQ/2FhL5xRKo5+EaaP6Dgn9IC6B4xlkn5cs2JFo1K9EoX2X0Sn4qW6EhV+rEa5fpl
-	 qoIVvnGVXX1bLCkVL/OgF/R+n3IlRJP0d/Ip2PVdF3bcc1Jg8Ia2QJtiUMMhlMOFpv6Y7
-	 DWudO3eXsvR4o8r5e1kBnTxjE7nCRx++UgnuZ3Yq11ylGUVkRspsw+x3Xfuy8sk7Iag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793173115;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+	bh=iLWVqNA5ql0MHsthh1YnLfVO5+ygJTfilKNO3lm7vcc=;
+	b=Zky2DqTccbopt0w6aTY8GcU7KzOHoWUwwjj/UsPy8Q5aWodMGnatEzDpcqN/7v0xgwuS
+	 67uXP0xDT6ElNXbmqhWvR++BJ2MgHmLcCU0ymrfrxPD9K8Y0ZlilsbqQKTg/5YIRdnto6
+	 NQK69f07gebFU6FHypg85Yfy1r3G6tz0zZ5zmy4ptvz42w1GTDuOSwM7zb4+olslMb/Jz
+	 R14fiYeXSQVMUyus8013mhFyYxAtK67iTJlIHlSpBlHXTvjHyNdVjnDWBUeKZTd8Ll8SD
+	 CZYeU+IVbQdpw2NWsGEDLJLDP5Vu4kwIJbF2sz/ntZlN0nroPMaoPBQnWU2fE3C2zwg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=paragon-software.com;
 	spf=pass smtp.mailfrom=paragon-software.com;
-	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=BlnvUqsz;
+	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=j52neKj9;
 	arc=none smtp.remote-ip=35.157.23.187
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F09606A31A
-	for <ntfs3@lists.linux.dev>; Wed, 28 Oct 2026 07:36:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54F09606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21FB606A31A
+	for <ntfs3@lists.linux.dev>; Wed, 28 Oct 2026 07:38:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B21FB606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=BlnvUqsz
+	dkim=pass (1024-bit key, unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=j52neKj9
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 8CBAD1D15;
-	Wed, 28 Oct 2026 07:37:23 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 36B701D15;
+	Wed, 28 Oct 2026 07:39:19 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=BlnvUqsz;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=j52neKj9;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id ED39A213E;
-	Wed, 28 Oct 2026 07:36:35 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 8FAE6213E;
+	Wed, 28 Oct 2026 07:38:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1793172995;
-	bh=iDxtdBCxNRy120Jr7U7dKBOjk9V5+i35Ujgi5oq7B+c=;
-	h=From:To:CC:Subject:Date;
-	b=BlnvUqszZtfdezwyaI94elQJRNdk6yrg+qu/zFRbyKqVLa5jIezSSlGc9bUgG3RZO
-	 MXlY6zM2kh46KqfJElTE3nUpA2EquYST3+nUGCnXiLUd1dDQg2D5ij7PFcNUtuVLo2
-	 gE22r05+rYmst20yC0kHF/z38KuWmW+Y+c+taV50=
-Received: from localhost.localdomain (172.30.20.183) by
+	d=paragon-software.com; s=mail; t=1793173111;
+	bh=iLWVqNA5ql0MHsthh1YnLfVO5+ygJTfilKNO3lm7vcc=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=j52neKj9uCMT3oMcgq70s+qx+B3cl5SEOPUWE/Gl5clZYiXSJM7u4jk5+1CPLiw+Z
+	 sSOCrHVy6eB+1Obn1p04eSTC/vyVydt4qEoSXKLKY65yVAToaJvH/QRW1uxZ9YDXKb
+	 FXaDD1+2gBPeXCGiXtk0G/7TY6gtRS8IDrutgAJI=
+Received: from [192.168.95.128] (172.30.20.183) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 28 Oct 2026 10:36:32 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Aldo Ariel Panzardo <qwe.aldo@gmail.com>,
-	Alexandro Calo <alexandro.calo@nozominetworks.com>, Baolin Liu
-	<liubaolin@kylinos.cn>, Dmitry Morgun <d.morgun@ispras.ru>, Hongling Zeng
-	<zenghongling@kylinos.cn>, Hyeontae Lee <wonju345@naver.com>, Ibrahim
- Hashimov <security@auditcode.ai>, Konstantin Komarov
-	<almaz.alexandrovich@paragon-software.com>, liyouhong <liyouhong@kylinos.cn>,
-	Matvey Kovalev <matvey.kovalev@ispras.ru>, Michael Bommarito
-	<michael.bommarito@gmail.com>, Slawomir Stepien <sst@poczta.fm>, Vidhu Sarwal
-	<vidhu.linux@gmail.com>, Weiming Shi <bestswngs@gmail.com>, Xiang Mei
-	<xmei5@asu.edu>, Yi Xie <xieyi@kylinos.cn>, Yousef Alhouseen
-	<alhouseenyousef@gmail.com>, Yuejie Shi <syjcnss@gmail.com>, Yun Zhou
-	<yun.zhou@windriver.com>, Zhan Xusheng <zhanxusheng1024@gmail.com>
-Subject: [GIT PULL] ntfs3: changes for 7.4
-Date: Wed, 28 Oct 2026 08:36:22 +0100
-Message-ID: <20261028073622.8942-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
+ 15.1.2375.7; Wed, 28 Oct 2026 10:38:30 +0300
+Message-ID: <644d8241-eca6-41aa-b6bc-1ab4a1594da4@paragon-software.com>
+Date: Wed, 28 Oct 2026 08:38:28 +0100
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -81,171 +64,169 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs/ntfs3: bound DeleteAttribute asize against rec->used
+ in do_action
+To: Hyeontae Lee <wonju345@naver.com>, <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+References: <20260803052145.71949-1-wonju345@naver.com>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20260803052145.71949-1-wonju345@naver.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hello, please pull this branch containing ntfs3 code for 7.4.
+On 8/3/26 07:21, Hyeontae Lee wrote:
 
-Added a better description of changes in pull-request.
- 
+> In do_action()'s DeleteAttribute case (fslog.c:3316), attr is
+> Add2Ptr(rec, roff) with roff taken from the on-disk lrh->record_off, and
+> asize = le32_to_cpu(attr->size) is read straight out of the MFT record:
+>
+> 	asize = le32_to_cpu(attr->size);
+> 	used  = le32_to_cpu(rec->used);
+>
+> 	if (!check_if_attr(rec, lrh))
+> 		goto dirty_vol;
+> 	...
+> 	memmove(attr, Add2Ptr(attr, asize), used - asize - roff);
+>
+> check_if_attr() (fslog.c:2869) walks the attribute chain from
+> rec->attr_off and returns o == ro.  Its loop breaks on ATTR_END, so ro may
+> legitimately equal the offset of the ATTR_END marker; that is exactly how
+> CreateAttribute appends to a record.  But check_file_record()'s walk
+> (fslog.c:2831) also stops at ATTR_END, so check_attr() never inspects the
+> bytes there.  When roff is the ATTR_END offset, those never-validated bytes
+> are what gets read as attr->size, and used - asize - roff underflows.
+>
+> The read itself is also unbounded: roff is a u16 and attr->size is
+> dereferenced at fslog.c:3317, before check_if_attr() has constrained roff
+> at all, so it can be up to ~64K past a record_size-sized object.
+>
+> Commit 0ca0485e4b2e ("fs/ntfs3: validate rec->used in journal-replay file
+> record check") added at fslog.c:2844
+>
+> 	if (used < PtrOffset(rec, attr) + sizeof(attr->type))
+> 		return false;
+>
+> and its changelog names this very memmove.  It bounds rec->used against the
+> ATTR_END offset; it does not bound asize.  With record_size 0x400,
+> attr_off 0x38, a valid three-attribute chain ending in ATTR_END at 0x158
+> and used 0x160, a record whose four bytes at 0x15c read 0x100 gives
+>
+> 	used - asize - roff = 0x160 - 0x100 - 0x158 = 0xffffff08
+>
+> i.e. a ~4 GiB memmove whose source and destination both run off the end of
+> rec, a kmalloc(sbi->record_size) object (record.c:105).
+>
+> The equivalent non-replay path already refuses this.  mi_remove_attr()
+> performs the same removal and starts with (record.c:548):
+>
+> 	if (aoff + asize > used)
+> 		return false;
+>
+> Apply the same bound, spelled as a subtraction to match the neighbouring
+> cases, and move the attr->size read after check_if_attr() so that the
+> header is known to lie inside the record before it is dereferenced.
+> Requiring roff + SIZEOF_RESIDENT <= used rejects the ATTR_END offset
+> without rejecting any real attribute: for an attribute the walk validated,
+> roff + asize <= off(ATTR_END) <= used - 4, and any attribute a
+> DeleteAttribute record can legitimately name carries a full resident
+> header, so roff + SIZEOF_RESIDENT <= roff + asize <= used - 4.
+> check_attr() itself imposes no lower bound on asize, so a crafted
+> sub-header asize can still pass the first test; the second test then
+> bounds it and the memmove stays inside the record.
+>
+> Reproduced by mounting a crafted image on v7.2-rc5, which already contains
+> 0ca0485e4b2e, under KASAN.  The image is an ordinary mkfs.ntfs volume with
+> four bytes of one MFT record changed and a crafted $LogFile:
+>
+>    BUG: KASAN: slab-out-of-bounds in do_action.isra.0+0x3211/0x83c0
+>    Read of size 4294967048 at addr ffff888002423258 by task mount/66
+>
+>    CPU: 1 UID: 0 PID: 66 Comm: mount Not tainted 7.2.0-rc5 #3
+>    Call Trace:
+>     kasan_report+0xce/0x100
+>     kasan_check_range+0x105/0x1b0
+>     __asan_memmove+0x23/0x60
+>     do_action.isra.0+0x3211/0x83c0
+>     log_replay+0x920a/0xd300
+>     ntfs_loadlog_and_replay+0x3ef/0x510
+>     ntfs_fill_super+0x1d23/0x4550
+>     get_tree_bdev_flags+0x2ef/0x550
+>     vfs_get_tree+0x82/0x2f0
+>     fc_mount+0x10/0x1b0
+>     path_mount+0x517/0x1df0
+>     __x64_sys_mount+0x20b/0x270
+>     do_syscall_64+0xf9/0x540
+>     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>
+>    Allocated by task 66:
+>     __kasan_kmalloc+0x8f/0xa0
+>     __kmalloc_noprof+0x1b4/0x460
+>     mi_init+0x81/0x110
+>     mi_get+0x6a/0x220
+>     do_action.isra.0+0x1dbf/0x83c0
+>     log_replay+0x920a/0xd300
+>     ntfs_loadlog_and_replay+0x3ef/0x510
+>     ntfs_fill_super+0x1d23/0x4550
+>
+>    The buggy address belongs to the object at ffff888002423000
+>     which belongs to the cache kmalloc-1k of size 1024
+>    The buggy address is located 600 bytes inside of
+>     allocated 1024-byte region [ffff888002423000, ffff888002423400)
+>
+> KASAN reports the source side because __asan_memmove()
+> (mm/kasan/shadow.c:94) validates src before dest and returns without
+> copying.  Both ends are out of bounds, and on a kernel built without
+> KASAN the copy is performed.
+>
+> rec->used is also left at used - asize by fslog.c:3323 before the memmove,
+> so the record stays inconsistent even when the copy is suppressed; the same
+> mount goes on to report "ino=1a, mi_enum_attr" and marks the volume dirty.
+>
+> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: Hyeontae Lee <wonju345@naver.com>
+> ---
+>   fs/ntfs3/fslog.c | 15 +++++++++++++--
+>   1 file changed, 13 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+> index f038c799e7ac..f415785c60f9 100644
+> --- a/fs/ntfs3/fslog.c
+> +++ b/fs/ntfs3/fslog.c
+> @@ -3314,10 +3314,21 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+>   		break;
+>   
+>   	case DeleteAttribute:
+> -		asize = le32_to_cpu(attr->size);
+>   		used = le32_to_cpu(rec->used);
+>   
+> -		if (!check_if_attr(rec, lrh))
+> +		/*
+> +		 * check_if_attr() accepts a record_off that points at the
+> +		 * ATTR_END marker, which is how CreateAttribute appends.  The
+> +		 * bytes there are not an attribute and check_attr() never
+> +		 * validated them, so refuse an offset that cannot hold a
+> +		 * resident header before reading attr->size, and then bound it
+> +		 * as mi_remove_attr() does.
+> +		 */
+> +		if (!check_if_attr(rec, lrh) || roff + SIZEOF_RESIDENT > used)
+> +			goto dirty_vol;
+> +
+> +		asize = le32_to_cpu(attr->size);
+> +		if (asize > used - roff)
+>   			goto dirty_vol;
+>   
+>   		rec->used = cpu_to_le32(used - asize);
+
+Hello,
+
+Your patch was applied, thanks.
+
 Regards,
 Konstantin
 
-----------------------------------------------------------------
-The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
-
-  Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
-
-are available in the Git repository at:
-
-  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.4
-
-for you to fetch changes up to ee1cb3443cff5a800948b662756f75b17ca63fe2:
-
-  ntfs3: add file I/O tracepoints (2026-10-28 08:09:20 +0100)
-
-----------------------------------------------------------------
-Changes for 7.4-rc1
-
-The bulk of this cycle is hardening against corrupted or maliciously
-crafted volumes. Most of these fixes come from fuzzing and KASAN
-reports. The main areas are:
-
-- $LogFile replay, where several unchecked on-disk sizes could make
-  mount write past the MFT record buffer;
-- MFT record and index parsing;
-- extended attributes, where a bad $EA entry could leak up to 64K of
-  kernel heap to userspace through getxattr().
-
-Reading a damaged compressed file could also return uninitialized
-page cache contents to userspace; that is fixed too.
-
-A few fixes affect healthy volumes as well: a heap overflow in
-fallocate(INSERT_RANGE) on small files, a use-after-free when a
-WOF-compressed file is opened for writing during a concurrent read,
-a lock-order deadlock in readdir, and stale disk data showing up in
-newly allocated clusters of compressed files.
-
-On the feature side there are new tracepoints covering mount, log
-replay, lookup, directory index, allocation, iomap and file I/O.
-There is also a new 'ugm' mount option (on by default): with ugm=0,
-newly created files don't get the WSL uid/gid/mode extended
-attributes, which Windows doesn't use.
-
-The rest is smaller correctness fixes and cleanups.
-
-----------------------------------------------------------------
-Aldo Ariel Panzardo (1):
-      fs/ntfs3: validate that EA entry size covers its name and value
-
-Alexandro Calo (3):
-      fs/ntfs3: Fix OOB write if ret == buf_len in ntfs_utf16_to_nls()
-      fs/ntfs3: Fix heap overflow after ALIGN in mi_pack_runs()
-      Fix OOB write if err == buflen in ntfs_readlink_hlp()
-
-Baolin Liu (10):
-      fs/ntfs3: update ctime only on successful setxattr
-      fs/ntfs3: reject FS_IOC_SETFSLABEL on readonly mounts
-      fs/ntfs3: return -ERANGE for short xattr buffers
-      ntfs3: add mount and log replay tracepoints
-      ntfs3: add namei tracepoints
-      ntfs3: add create inode tracepoint
-      ntfs3: add directory index tracepoints
-      ntfs3: add allocation tracepoints
-      ntfs3: add iomap tracepoints
-      ntfs3: add file I/O tracepoints
-
-Dmitry Morgun (1):
-      fs/ntfs3: check return values in indx_delete_entry()
-
-Hongling Zeng (1):
-      ntfs3: fix mapping pairs bounds check for alignment
-
-Hyeontae Lee (2):
-      fs/ntfs3: bound CreateAttribute asize against record_size in do_action
-      fs/ntfs3: bound DeleteAttribute asize against rec->used in do_action
-
-Ibrahim Hashimov (1):
-      fs/ntfs3: fix integer overflow in find_log_rec() causing OOB read
-
-Konstantin Komarov (15):
-      fs/ntfs3: document ads, nocase, and delalloc
-      fs/ntfs3: convert to non-resident when the new size exceeds the record size
-      fs/ntfs3: use MAX_LFS_FILESIZE for maxbytes with 64-bit clusters
-      fs/ntfs3: validate EA entry layout against ef->size in ntfs_read_ea
-      fs/ntfs3: show supported options when an unknown one is given
-      fs/ntfs3: zero newly allocated clusters when the request is smaller than the frame
-      fs/ntfs3: drop unused new_size argument from attr_make_nonresident()
-      fs/ntfs3: minor code cleanups
-      fs/ntfs3: do not force allocation for IOMAP_ZERO on a partial cluster
-      fs/ntfs3: add 'ugm' mount option to control storing uid/gid/mode in xattrs
-      fs/ntfs3: allow a zero cluster count for resident attributes
-      fs/ntfs3: reserve a compression unit in maxbytes_sparse
-      fs/ntfs3: take ni_lock() once in ntfs_readdir()
-      fs/ntfs3: reject unaligned hole punching on compressed files
-      fs/ntfs3: fix stale attr_b in attr_allocate_frame()
-
-Matvey Kovalev (1):
-      fs/ntfs3: remove redundant if-block in check_attr()
-
-Michael Bommarito (1):
-      fs/ntfs3: reject an oversized resident attribute on the inline iomap path
-
-Slawomir Stepien (1):
-      fs/ntfs3: handle partial allocation in attr_data_get_block_locked()
-
-Vidhu Sarwal (1):
-      fs/ntfs3: prevent positive E_NTFS_NONRESIDENT from reaching writeback error handling
-
-Weiming Shi (4):
-      fs/ntfs3: take run_lock when freeing offs_folio in ni_decompress_file
-      fs/ntfs3: zero frame pages on read error
-      ntfs3: fix out-of-bounds read in ntfs_read_mft()
-      fs/ntfs3: do not mark frame pages uptodate on read error
-
-Xiang Mei (1):
-      fs/ntfs3: validate $SDH entry size in ntfs_insert_security
-
-Xiang Mei (Microsoft) (2):
-      fs/ntfs3: check INDEX_ROOT resident size before use in ntfs_read_mft()
-      fs/ntfs3: fix slab-out-of-bounds write in attr_insert_range()
-
-Yi Xie (1):
-      ntfs3: fix resident attribute handling in run load paths
-
-Yousef Alhouseen (2):
-      ntfs3: reject empty iomap before reading its LCN
-      ntfs3: bound index head insertions by buffer capacity
-
-Yuejie Shi (1):
-      fs/ntfs3: validate the EA value length in ntfs_read_ea()
-
-Yun Zhou (1):
-      ntfs3: release ni_lock before dir_emit in ntfs_readdir to fix deadlocks
-
-Zhan Xusheng (1):
-      fs/ntfs3: fix valid_size not being updated in attr_allocate_frame()
-
-liyouhong (1):
-      fs/ntfs3: fix ntfs_fnd leak when compare function is missing
-
- Documentation/filesystems/ntfs3.rst |  23 +++
- MAINTAINERS                         |   1 +
- fs/ntfs3/attrib.c                   | 189 +++++++++++-------
- fs/ntfs3/dir.c                      |  62 ++++--
- fs/ntfs3/file.c                     |   8 +
- fs/ntfs3/frecord.c                  |  16 +-
- fs/ntfs3/fslog.c                    |  35 +++-
- fs/ntfs3/fsntfs.c                   |   3 +
- fs/ntfs3/index.c                    |  40 +++-
- fs/ntfs3/inode.c                    |  37 +++-
- fs/ntfs3/namei.c                    |  11 +-
- fs/ntfs3/ntfs_fs.h                  |   5 +-
- fs/ntfs3/record.c                   |  16 +-
- fs/ntfs3/super.c                    |  44 +++-
- fs/ntfs3/xattr.c                    |  44 ++--
- include/trace/events/ntfs3.h        | 389 ++++++++++++++++++++++++++++++++++++
- 16 files changed, 781 insertions(+), 142 deletions(-)
- create mode 100644 include/trace/events/ntfs3.h
