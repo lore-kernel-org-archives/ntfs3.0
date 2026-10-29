@@ -1,69 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793224778;
-	b=4a7WyEeC/CXFaycOjHtwmAw3bpxRxdkupsobEa5szR2kN5qx+aylbCSUMbDuO8dRMc1V
-	 5Bmkb5IQ4iSKkoeYxMy4VGdbKw20RTFV46JXrbotO/Rs1qhP5d3uVBMBnRaXiwrX3FNW6
-	 lRYIHv2G6L5o5BWRTpHL1T3Hg8xFk599jK4C1hGYaNUygo3v6ySzlnumN2t6ZuTeJK+2Y
-	 X67rbWlA8ADu6mtbgmnobdSfFpeTHFTHArx6xWF05aQv2S0r81qeiEx2ldWcjDBofDOrZ
-	 lNZJ0qnDAlpN7TJVAMpcMh6HVvkrILvLFHIQ5ZWe32WGjcxDzEcfvRmm5HyhLo6zXsg==
+	t=1793243900;
+	b=FkzwTz94oI9xgWNVygl1Y+HyQHZuOFskdXLAj39fbwoZB0TNYNgQQ5kcajU3lTr2p4WI
+	 shhqRLIIVmJMscTx5HttfawWg0Gz0CwHRUE9bItOCF2SlBePaho7tuOoks4y2SAWuJrTI
+	 AwxcRtxxeEoRhAfWJ7b+dQ52Se0u7YxJaB3D3BwfFxadSr9mR8+zIPKKLMLMoUzrQR3G7
+	 CpeC++VFvaOHJ0F7FTZVMaRiQJNjsC0TOGdYbULtNup8/w/qW/eWeqqKGYsyyj2jcpSBy
+	 xAFEamENGk96ML9Vxx0O5ngnv3yIJVW6eMhBUNUeVG3SXDoOz5h9EyTvTTIa4LBK8UA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793224778;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=KN0FgIJMajTdk9Ymv64LA7EQejo37NTwYsXl8rzrDcw=;
-	b=fo9inZ7VJsv9/W6lLZfxb/eKhwbQeBnuaBTV4905NK8eMRLCDth6/9tsZa5xP909KJ5E
-	 g3MaN1JD+Cit1GuQGE/LDDD6gUtgUSgIyezgKFJ0/wovqZ9Sz463ZLBZih6XtuoMP3DjT
-	 vGqS77mbgkr2gmivJQ77muw/LM90ia2jTxwp+e8Izb22weYgz/L2yNBiFla06wE4WdQ7i
-	 TXDotrItejKZdgCCX+XYB3i0Jus4KKI1PGY3mChJdNLzsIaqu+GZgV2Wbb8DDSo1ldlJe
-	 GMMijEqydnNxCRzY+h5OhjFDrYZ4Tne0lO38+UP09KbEhpYVTiW2KW+5kk6X/JjqAoA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793243900;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=Pqa3G+YdkYhQdI9IZ8D/yqKBWxvlf8m9JxMAstqjQIY=;
+	b=r6msvNnZw488LFTZH5QMf9q8NBaMgbmj5o6UFMjqKKBDS/6eZpVEgQu2Q74T9JeAwi+H
+	 +uTYidPPYz1sJPxLgsrHx4j7yFPkQCUWe2BLv+czHa8H72ZPLlwszE/9SXai5L7+kOodj
+	 8NxAuQnDMXJszZGyWhRQ5SkHD0KjxiZgntzCw/94SJnhlcnbQHDhcf1KAKys/8dFQtN5A
+	 jJPLPk11wg+rzoCHIXoJmvbpIHCwIXQAbnbhES1+XA9ZpfVkH9q5wrwcP+KS00Vt4oK2C
+	 4DyH5G40vVKevY9JiwNthGM7YjsAXrCwB6vQwxVL6bX+VUdGhlG514MPS3pnm4/3hLw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a3RA0sBt;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--cmllamas.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="p/uPOqFd";
+	arc=none smtp.remote-ip=74.125.82.69
+Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC24606A334;
-	Wed, 28 Oct 2026 21:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D43A606A31A
+	for <ntfs3@lists.linux.dev>; Thu, 29 Oct 2026 03:18:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D43A606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--cmllamas.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a3RA0sBt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 735ED1F01825;
-	Wed, 28 Oct 2026 21:59:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793224777;
-	bh=KN0FgIJMajTdk9Ymv64LA7EQejo37NTwYsXl8rzrDcw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=a3RA0sBt4j+5IOAxEQxpVDoeAzK+P2lBLhl6gq2sX+rpplyk7XL+xEh8DUFIe7llV
-	 7Xwjeho+6cJzY+Al3GxT+KpIrqYT4GruKZzBB1gefgy9Gm6mRgcxx4CtoAIwqa9gCk
-	 ZOb2MydTxzI70JvhNAi/zd7B3b/0uyaMJCy5gjs666f5X12czMgE5UGdw6HEM9/HmT
-	 roFeNjsFe73Sd1FC9UdXdQNt04xT8PcR2DZKB6YITl5USRXo3YWmrLpEotk9nHElM9
-	 23qPe0bvRd63mi3/Y0Yk+bs/cjlLa1pNzQg1YCqRV+kfADzUNXig3J22jjQPaJ76zt
-	 b5A4bYdaO7/sw==
-Date: Thu, 29 Oct 2026 08:59:20 +1100
-From: Dave Chinner <dgc@kernel.org>
-To: Salvatore Dipietro <dipiets@amazon.it>
-Cc: akpm@linux-foundation.org, linux-mm@kvack.org, ryan.roberts@arm.com,
-	abuehaze@amazon.com, alisaidi@amazon.com, blakgeof@amazon.com,
-	dipietro.salvatore@gmail.com, rvvandan@amazon.com,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com,
-	miklos@szeredi.hu, agruenba@redhat.com, djwong@kernel.org,
-	hyc.lee@gmail.com, almaz.alexandrovich@paragon-software.com,
-	cem@kernel.org, dlemoal@kernel.org, naohiro.aota@wdc.com,
-	jth@kernel.org, willy@infradead.org, david@kernel.org,
-	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com, ziy@nvidia.com,
-	matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
-	byungchul@sk.com, gourry@gourry.net, ying.huang@linux.alibaba.com,
-	apopple@nvidia.com, ritesh.list@gmail.com,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	exfat@lists.linux.dev, fuse-devel@lists.linux.dev,
-	gfs2@lists.linux.dev, linux-xfs@vger.kernel.org,
-	ntfs@lists.linux.dev, ntfs3@lists.linux.dev
-Subject: Re: [PATCH 0/2] mm, iomap: account dirty at page granularity for
- per-block dirty folios
-Message-ID: <auJwOJ-dQCHLAvMq@dread>
-References: <20261027112702.3747009-1-dipiets@amazon.it>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=p/uPOqFd
+Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-139b62317d0so4888224c88.0
+        for <ntfs3@lists.linux.dev>; Wed, 28 Oct 2026 20:18:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793243898; x=1793848698; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Pqa3G+YdkYhQdI9IZ8D/yqKBWxvlf8m9JxMAstqjQIY=;
+        b=p/uPOqFdYzH0XpppQb+nKl4NqVtr8Mps9ZowjB4iawpvcHQoaV3pYhJw830nvkFGyV
+         csujStHXoZWD1GzdS7xwePJTPJ57EbO7Y/7EBvuOUdUJoCrqQROEd9Uw3JnWAPy2HZm2
+         YHi5QUwVSp8+bPVIFkZz/5imyqKN2EkCdc7yulHVaKrFqLy31zKCH2LxDDelwtUwEKMO
+         BB4ZUCTB7ymPUKymLj8uDphVV/Gi0tV8OMcOQEbE+QkrkrqvNf4/uatVgpvk//sU5XmB
+         MU6jC8KZnVkj1d8aZAZYGDIymOvzzL/+hXIxE2aJfLmwO5AFTqGR7TPAqPoeixZ62mKM
+         K4aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793243898; x=1793848698;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Pqa3G+YdkYhQdI9IZ8D/yqKBWxvlf8m9JxMAstqjQIY=;
+        b=PZp7g8/Edvn/GdhEKFZiQ7PGG40oeLVK5dGoJFP1ebUkkOcVzVZTIroapL1wPPmIQ+
+         iSsQ/viVv4yrJDAYUR/QewdLpND/ajAeHWDBPwd0vfkmb2Z2XyAehgrs8sfhLHmOSe27
+         qD3tT+wBHWooC+fMBpai0GEtpoOp47wT3VK/MEEVgv7Yno1bnc1NyV00YF5vDythUIa9
+         E5DYQDnt+RztIrwo0XD38cYABsMlH/fB/2k5uVHPrXAEcU3Uzc5fw3skliwMh3DGPNt5
+         pWf1iLImrbQ7Q1l1IevQt634IukRxrz0qeoiC79ZJWtJYoB8dAq3H8zXVzLAIcMJ1kfg
+         co/g==
+X-Forwarded-Encrypted: i=1; AKwUvBzWEZEX93hFYJerbbhbDPm324MGf0gHe5j6TCUun35yIsOycz1VVyaG44WMFyjeXBCU6mMKQg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJhN4v+SXVf4zEPzu3BThDfgm78lewYol2O/HXnU9Di9nWQySM6
+	GZvv8O6aFWBCw4LI3dqB0CK+eZ16mgwO2/sZGgMR5MB5cm+Q1qJykSLtxLi57r8w4w4LlpIuGtH
+	bhimhJE1MAhzT+Q==
+X-Received: from dlbcf38.prod.google.com ([2002:a05:7022:45a6:b0:195:8b4e:20b7])
+ (user=cmllamas job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7022:1716:b0:186:3f0c:bd09 with SMTP id a92af1059eb24-1a6c800e43amr5835246c88.5.1793243897959;
+ Wed, 28 Oct 2026 20:18:17 -0700 (PDT)
+Date: Thu, 29 Oct 2026 03:18:14 +0000
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -72,145 +75,99 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027112702.3747009-1-dipiets@amazon.it>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.317.g454f8302e1-goog
+Message-ID: <20261029031815.2783998-1-cmllamas@google.com>
+Subject: [PATCH 6.1.y] fs/ntfs3: fix null-ptr-deref in ntfs_lock_new_page()
+From: Carlos Llamas <cmllamas@google.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel-team@android.com, linux-kernel@vger.kernel.org, 
+	Carlos Llamas <cmllamas@google.com>, stable@vger.kernel.org, 
+	"open list:NTFS3 FILESYSTEM" <ntfs3@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 27, 2026 at 11:27:00AM +0000, Salvatore Dipietro wrote:
-> Since iomap gained per-block dirty tracking, a large folio can be
-> partially dirty: struct iomap_folio_state records exactly which
-> blocks are dirty, and writeback only writes those ranges.  The mm
-> dirty accounting, however, still charges the whole folio even if a
-> single block is dirty (up to 512x over-accounting for a 2 MB folio
-> over 4 KB blocks).
-> 
-> balance_dirty_pages() then throttles writers against a number that
-> is unrelated to how much data actually needs writing back.  On
-> workloads that repeatedly dirty small ranges of large folios --
-> e.g. PostgreSQL, which writes mostly 8/16 KB pages -- dirty_thresh
-> is crossed and writers are throttled long before the real dirty data
-> justifies it.  On the benchmark below, run on v7.3-rc7, the
-> unpatched kernel charges ~159 TB of dirtied pages while writing
-> ~6 TB to the array, a factor of 27; with this series the dirtied
-> pages charged match the data actually written.
-> 
-> This series makes iomap charge and discharge the mm dirty counters
-> per dirty page for folios that carry per-block dirty state, so a
-> partially dirty large folio is accounted for the dirty part only:
-> 
->   - Patch 1 adds the mm infrastructure: an AS_DIRTY_PER_BLOCK
->     mapping flag, an @accounted argument to __folio_mark_dirty()
->     and __filemap_dirty_folio() to skip the generic per-folio
->     charge, and an address_space_operations::accounted_dirty_pages()
->     callback used by the discharge and migration paths instead of
->     folio_nr_pages().  No filesystem opts in, so it is a no-op on
->     its own.
-> 
->   - Patch 2 makes iomap charge per dirty page from the per-block
->     dirty bitmap and wires iomap_accounted_dirty_pages() into every
->     iomap-based filesystem.
+Commit 95b917a14b15 ("ntfs: Do not overwrite uptodate pages") added an
+IS_ERR() check on the folio returned by __filemap_get_folio(). However,
+__filemap_get_folio() only started returning ERR_PTR() in v6.4 with
+commit 66dabbb65d67 ("mm: return an ERR_PTR from __filemap_get_folio").
+In 6.1.y, it returns NULL when the folio cannot be allocated. IS_ERR()
+misses this and a NULL folio gets passed to folio_test_uptodate(), which
+dereferences it.
 
-This feels to me like a pretty gross layering violation.
+This is easily reproduced by reading a compressed file while failing the
+folio allocation:
 
-iomap is tracking dirty filesystem block state, for the purposes of
-efficiently writing back dirty blocks.
+  BUG: kernel NULL pointer dereference, address: 0000000000000000
+  #PF: supervisor read access in kernel mode
+  #PF: error_code(0x0000) - not-present page
+  PGD 1952067 P4D 1952067 PUD 2601067 PMD 0
+  Oops: 0000 [#1] PREEMPT SMP NOPTI
+  CPU: 0 PID: 79 Comm: init Not tainted 6.1.190-02250-g79807e970724 #1
+  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.17.0-debian-1.17.0-1 04/01/2014
+  RIP: 0010:ntfs_lock_new_page+0x23/0x120
+  Code: e9 54 ff ff ff 66 90 55 89 d1 48 89 f5 53 89 d3 ba 07 00 00 00 48 83 ec 08 e8 f9 a1 dc ff 48 3d 00 f0 ff ff 0f 87 dc 00 00 00 <48> 8b 10 83 e2 04 74 53 48 89 c7 48 89 04 24 e8 d9 63 dc ff 48 8b
+  RSP: 0018:ffffb9e2c024fbe8 EFLAGS: 00010207
+  RAX: 0000000000000000 RBX: 0000000000100cca RCX: 0000000000000000
+  RDX: ffff9f56c1ad2c00 RSI: 0000000000000001 RDI: 0000000000000000
+  RBP: 0000000000000001 R08: 0000000000000000 R09: ffff9f56c260e000
+  R10: ffffffffb6963140 R11: ffffb9e2c024fbd0 R12: 0000000000000010
+  R13: ffffe4fc804266c0 R14: 0000000000000000 R15: 0000000000000001
+  FS:  00000000092ca3c0(0000) GS:ffff9f56fec00000(0000) knlGS:0000000000000000
+  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+  CR2: 0000000000000000 CR3: 000000000135e005 CR4: 0000000000370ef0
+  DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+  DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+  Call Trace:
+   <TASK>
+   ni_readpage_cmpr+0x102/0x270
+   ntfs_read_folio+0x44/0xd0
+   filemap_read_folio+0x1f/0x90
+   filemap_get_pages+0x41b/0x5d0
+   filemap_read+0xd3/0x350
+   vfs_read+0x28c/0x370
+   ksys_pread64+0x62/0xa0
+   do_syscall_64+0x35/0x90
+   entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+  RIP: 0033:0x445162
+  Code: 18 41 8b 93 08 03 00 00 59 5e 48 83 f8 fc 75 1a 83 e2 39 83 fa 08 75 12 e8 1b ff ff ff 0f 1f 00 49 89 ca 48 8b 44 24 20 0f 05 <48> 83 c4 18 c3 66 0f 1f 84 00 00 00 00 00 48 83 ec 10 ff 74 24 18
+  RSP: 002b:00007ffd593a3b30 EFLAGS: 00000202 ORIG_RAX: 0000000000000011
+  RAX: ffffffffffffffda RBX: 0000000000000002 RCX: 0000000000445162
+  RDX: 0000000000001000 RSI: 00000000004a9ac0 RDI: 0000000000000003
+  RBP: 0000000000000004 R08: 0000000000000000 R09: 0000000000000000
+  R10: 0000000000000000 R11: 0000000000000202 R12: 00007ffd593a3d28
+  R13: 0000000000000002 R14: 0000000000000003 R15: 00000000004a4100
+   </TASK>
+  Modules linked in:
+  CR2: 0000000000000000
+  ---[ end trace 0000000000000000 ]---
 
-iomap was designed to keep filesystem state entirely separate from
-the page cache, including the tracking of sub-page dirty filesystem
-state.  One of the underlying design principles of iomap (all those
-years ago) was to avoid needing the page cache to know anything
-about filesystem block sizes at all. having the page cache track
-anything at filesystem block granularity was inefficient, wasteful
-in terms of memory needed to track each block, had coherency
-problems with filesystem state vs cached mm/pagecache state, etc.
+Fix this by checking for NULL and returning -ENOMEM instead.
 
-iomap tracks block dirty state per folio for writeback efficiency,
-not for pagecache drity tracking optimisation. Large folios are a
-pagecache optimisation, and they were really only made possible by
-the isolation iomap provides between filesystem state and page cache
-state.
+This is a stable-only fix.
 
-Pushing the mm dirty folio accounting implementations directly into
-iomap breaks that isolation - it once again tightly couples the
-filesystem dirty block tracking to mm pagecache accounting and
-accounting. Hence I think this approach is a non-starter - nothing
-should bleed across the filemap interfaces in either direction....
+Cc: stable@vger.kernel.org
+Fixes: 95b917a14b15 ("ntfs: Do not overwrite uptodate pages")
+Signed-off-by: Carlos Llamas <cmllamas@google.com>
+---
+ fs/ntfs3/frecord.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> This was benchmarked with PostgreSQL using the pgbench simple-update
-> workload on v7.3-rc7.  Average throughput rises 46.8% (139.8k ->
-> 205.2k tps) and run-to-run variability drops from a 23.60% to a
-> 3.98% coefficient of variation: the worst iteration improves from
-> 97.9k to 191.5k tps, while the best gains 8%, 199.4k -> 215.9k.
-
-If postgresql is only doing 8/16kb writes, then how is it getting
-the page cache populated with large folios? That's the underlying
-fundamental problem here, yes?
-
-I ask, because iomap caps the folio size to the write() IO length,
-so for 8/16kB writes it will only be asking for 8-16kB folios and so
-there won't be huge 2MB folios in the page cache to cause
-issues. Hence there must be something else populating the cache
-first....
-
-> Ten iterations per kernel, same database and workload (tps):
-> 
->   Kernel                     Avg     Min     Max      CV   iters   iters
->                                                              1-5    6-10
->   ______________________  ______  ______  ______  ______  ______  ______
->   v7.3-rc7                139.8k   97.9k  199.4k  23.60%  164.4k  115.2k
->   v7.3-rc7 + this series  205.2k  191.5k  215.9k   3.98%  200.1k  210.2k
-> 
-> On unpatched v7.3-rc7 the worst iteration lands ~51% below the best,
-> and throughput decays as the run progresses: iterations 6-10 average
-> 30% below iterations 1-5.  With this series the decay is gone -- the
-> second half is similar to the first -- and the coefficient of
-> variation stays at 3.98%.
-> 
-> The over-accounting has existed since commit 4ce02c679722 ("iomap: Add
-> per-block dirty state tracking to improve performance"), merged in
-> v6.6, where the ifs bitmap started recording partial dirty state while
-> the mm counters kept charging whole folios.
-> 
-> The throughput collapse bisects to the v6.17 readahead series, first
-> bad commit c4602f9fa77f ("mm/readahead: store folio order in struct
-> file_ra_state"), which lets readahead stay at the largest folio order
-> once it has ramped up, so a single dirty block charges far more than
-> is written.
-
-.... and that implies there is a sequential read portion of the
-benchmark that is first populating the page cache with large folios.
-
-Do you get the same sort of improvement if you make postgres use
-POSIX_FADV_RANDOM on these files? This will cap the size of folios
-in the cache to whatever the postgresql read() IO size is. Yes, it
-will slow down whatever the sequential read portion of the benchmark
-is, but I don't care about that right now.
-
-What I want to know is if the application preventing readahead from
-populating large folios gets you back all the write performance
-without needing to modify any kernel code at all.  i.e. if we make a
-different choice for initial folio sizes in readahead, then does the
-write performance improve?
-
-Alternatively, if there is distinct sequential read vs random write
-phases to postgres behaviour, then does issuing POSIX_FADV_DONTNEED
-between them restore the random write performance?
-
-If choosing smaller folios for readhaead makes the problem go away,
-then the answer may be to add FADV_RANDOM_WRITE which allows full
-readahead but caps page cache folio size to, say, 64kB.  That would
-allow sequential buffered reads to run at full speed, prevent the
-worst of the issues with PAGE_SIZE folios in the page cache, but
-also not perform terribly for random 8-16kB writes....
-
-Indeed, we could use the fadvise64(count) parameter for something
-like FADV_RANDOM_WRITE to provide an IO size hint that would be used
-to derive the folio size we use for that file during readahead....
-
-Cheers,
-
-Dave.
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index fcdaea02ba04..49766278eb1e 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -2157,8 +2157,8 @@ static struct page *ntfs_lock_new_page(struct address_space *mapping,
+ 			FGP_LOCK | FGP_ACCESSED | FGP_CREAT, gfp);
+ 	struct page *page;
+ 
+-	if (IS_ERR(folio))
+-		return ERR_CAST(folio);
++	if (!folio)
++		return ERR_PTR(-ENOMEM);
+ 
+ 	if (!folio_test_uptodate(folio))
+ 		return folio_file_page(folio, index);
 -- 
-Dave Chinner
-dgc@kernel.org
+2.56.0.317.g454f8302e1-goog
+
