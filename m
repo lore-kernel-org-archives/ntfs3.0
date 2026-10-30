@@ -1,63 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793349940;
-	b=ZvjCdWbsoiJaSNOIOInaijtTVJ/Nll8oCfY2/hstbQ+ZrZ+N5zg9jNS4O4ECoX6IeEYZ
-	 zo39sCvlJxNL+o5kuJbEgnPuJbPydPxDuvC9w2DxS09g1rp57txcl8P3uCv8FD/hXc8eK
-	 GbDu/TfLuBXV4bxT6UJcbBqdDNtgLjBbjQ/Zc4W5fWRoIiTwDjDd/pB7MuE4QPKGMO19z
-	 s9X834v+ZKNbFhzvvi1fWMJWgGvWh6uJ0jS1JqP4l7kPhaFvOqYd0P+lBLIv8OzouX3DF
-	 3TEUXGuSPo35NuZMTKGZ3wllrJo8EAwfnTVKFJ4IjO8pqUBjtRgdTmtYZ5cXHceMLNg==
+	t=1793350401;
+	b=WgJbdoevM9oAbU4qVDN4oLA/F1zc0tVZVweqxneHj1O7PQ8i8MCS1OsewqcAxJSOa/r1
+	 OnQGQWKvcPTx3WORDCHlSYyqEi0+4D/Ag/jxP0e+7kyJg28XYOXxVIjW1ZzSGmnMKPCeA
+	 iKAzqvQD/O5DtFq78GjHPrvKUQYvOVuFN11G6UdGJTdv6mv8JjRqla3IiGWhYpUEmGvZW
+	 bPjWa7RlTQEvf2W/6KXA5JOBJYvCNstVPw0lTgOqhQNmKoEGAYV8GDLEjy0oXatV8FkzN
+	 wCZ0YLUhJ6QEcAEXxE5FrSdZbzS68FKZDZQqv9+F6Idx+0NV9BgcFtmqXyzRBqMfFXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793349940;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793350401;
 	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
 	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
 	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
 	bh=KOWLgTTNF56L+ttK/sHSbzAGSYyGQRT1y5BH1OOM+sI=;
-	b=Y4G7ZyytBz7cqU3D4eOT8MkBP1HOs87y/9VTePZz81mOd/tE0YXgM1+OxzhZsbLuGmxP
-	 xLG/1BAJgVr8KehEEwfYmfXPE3qszNS+1xB0wg9LOEJiGFcv9gnho8hvpUOM0qFGmY/CY
-	 ALb3b2GGzCxMwgouYrrkeAp/6Edaro84QFuizSExMweR05RHjcb4THsOp7UQIGN/KK5LH
-	 1hgjlFG/ojyiYAZFvRnMTQfOXhfVGzi1qrryZtZ7SrGLMnHsmXpOVZLJ/BqVsqL8j0Glh
-	 ETbmT8P8V7/o3M/TnDqlZ0bDZzgLLHHjPZmGXSsWZJvj0yM2GB9YSSut3xGB4r1UrMA==
+	b=YN3IFJqpcRdU2lK4EVC3fdy/tHSgDv9+uljGMQc5Z25jY+QdDspZfgp0BKK3IPOWdXOL
+	 ZJIvZjvbjjNfXE+foRT4qpHc99Ym/zt952X+nWefY5ZWx8vzxqSDCNlyUyj46WwaAI1o4
+	 5wG8Rsrek5xKFr7AZx/N6IbTHj+ksIMf5odTzItrrhvnSttg37CqAxu8zCBbfUor3j6Cu
+	 aiUA7Ok+vSQwzbSUswATohgE87fc404/S7VzKRU3yhjTDD3y1bXZT1jKXuPbJFrgLm9dY
+	 iqDxBW+lk55i6OER01wW3N39eRQ1K8IrBRgyZ3zx7Qw3FDOMTOFhjZ6GbcRR4hPNB6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cmss.chinamobile.com;
 	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=o0L1NIFX;
-	arc=none smtp.remote-ip=111.22.67.151
-Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C28A0606A31D
-	for <ntfs3@lists.linux.dev>; Fri, 30 Oct 2026 08:45:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C28A0606A31D
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=vqlrnKlc;
+	arc=none smtp.remote-ip=111.22.67.139
+Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61A3C606A320
+	for <ntfs3@lists.linux.dev>; Fri, 30 Oct 2026 08:53:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61A3C606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=o0L1NIFX
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=vqlrnKlc
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=cmss.chinamobile.com; s=default; l=0;
 	h=from:subject:message-id:to:cc:mime-version;
 	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=o0L1NIFXpelSbCkoJUycPd5LABJVAZgjzv4wkfnezexDTMWG8pbYaAQP2qg8L5bJjDFt4flhCUnRX
-	 juaco6gaE1SkPnsIWV4QpWfJHLD7O6V1HIXhS520kmC1REbXDc24++/6z6OSslsxud7kFshVmSo43K
-	 p+maDsZ9KurtYwHo=
+	b=vqlrnKlcMUGQL9YtFdWW/LLvN5QB4qq2LS9Wym8oEtfgVtnN/PoyKzq0x8SFQwyuYlWpkkjRNzeqL
+	 Brx0JwB7TVYzOgeLwucIyNNHBnXNzrVdhenUYW+glc4pgU7A+ME94SwhvTAZUoq6cAMxSvnsmZ5MS3
+	 aMEQesdVllSM7/m4=
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee66ae4592dd0f-40184;
-	Fri, 30 Oct 2026 16:45:35 +0800 (CST)
-X-RM-TRANSID:2ee66ae4592dd0f-40184
+	by rmmx-syy-dmz-app09-12009 (RichMail) with SMTP id 2ee96ae45afc001-78b2b;
+	Fri, 30 Oct 2026 16:53:17 +0800 (CST)
+X-RM-TRANSID:2ee96ae45afc001-78b2b
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from DESKTOP-3K8GUTQ (unknown[223.108.79.101])
-	by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee16ae4592d047-57447;
-	Fri, 30 Oct 2026 16:45:35 +0800 (CST)
-X-RM-TRANSID:2ee16ae4592d047-57447
+	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee86ae45afb1d0-5759e;
+	Fri, 30 Oct 2026 16:53:17 +0800 (CST)
+X-RM-TRANSID:2ee86ae45afb1d0-5759e
 From: laixiangwu <laixiangwu@cmss.chinamobile.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	laixiangwu <laixiangwu@cmss.chinamobile.com>
 Subject: [PATCH] fs/ntfs3: Fix memory leak of ntfs_fnd on corrupted index root
-Date: Fri, 30 Oct 2026 16:45:32 +0800
-Message-ID: <20261030084532.1748-1-laixiangwu@cmss.chinamobile.com>
+Date: Fri, 30 Oct 2026 16:53:15 +0800
+Message-ID: <20261030085315.1814-1-laixiangwu@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.50.1.windows.1
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
