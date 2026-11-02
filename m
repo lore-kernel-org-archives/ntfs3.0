@@ -1,97 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.46
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793628048;
-	b=1YYzStY/eR+/s+/IMHs4vlgxJzLjlD4o3CCkOQBcNa0tPUOzGuHPwRXU/UOWO6WIRtMh
-	 kh2H67tTP3pceQjuNJPK04+KMAj7Lhlff4Yli7vcIJ4B0jFyvToIFI1JyVwy5CQOb6/JO
-	 puBjTfijEP2Dbv9jEs0myFF/NFivNyUbHh+LsQB4MWUMvVb1Wd9pltbwf2hq9CDgaM6g9
-	 SLLmGXN5ipvWD/BzCZ3jOi+7lEZH4DNCTzkGXtSNbr1Q6yTGF3ydHhk+yrcMFOL6NpfRz
-	 2V11SD3aj26Kw8Qg9HyzVEPQw+a3B5Evx1bI20Z2RI+j9YkKzG4EqRlEdiCZCxJahfg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793628048;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=s5Xf4onWksy+tbgDhi+LvOuZ3PKtrfpCQRc1Tg6vJHg=;
-	b=jeOvB8u/bxaFylLkkjOTkWBoeCSSiGnPn48ODKSDPiv4Jm6CUIkA7+aO+wGSv8x0IhGr
-	 aCneUPgVmdCWmjguQaECpF4AWxb6C2xSOznBQ1xWRC5MGRxKIrGzR//ebdluXfdPYxkR1
-	 m1+Xx7si5/VmX5lpjMsko34SCh+6JMy/FHQQT98sxUNNmVNv7lPAzCeD06FceU3lppisK
-	 RE5Xq3Dze873KlrpYKxUzU6jU2kTamyGSMsP1Old2cAsFXFXtVy4/oA3tCl20p+GolH8+
-	 2T/IBsrvjUFN3YDZzwP2dEgaSRegCYFkax10ttz7SbO5jWKWzC8sDpMG2/fdDvRgMFA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.46
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793629260;
+	b=pCpHSVZDMMdk6s2/SWjI0YYQxt3cLXCpszddhZgCLrD+zL+P1nSYoDjGmWwEsPGQRuoS
+	 cAF+bgvb4//kt5Wwy5h30dajrh4j4Oyu4lOfrLg9hYjc+HhlN9WcTQLOx97AxD9fJDKmY
+	 GImIjoJ0o5r6bMWBreBX3aZy2fGlhnYDKn1wJzqL6Wxaav6MS4KzJC9Z5/1wzOzE8CLt9
+	 t9NIHnDkbziEWw6zFMPilZPTpBAKhNswWQpO6JtBnrRLy7fpM3gm/E/DWhUO8j+IB6HnY
+	 wm503hZLiIrM4tF2OY8MYwnk+JmVUbqFEciduIYQE6lhvx0uU1BUyMmhHg3uQqZ/32g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793629260;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:X-Developer-Signature:X-Developer-Key:
+	 Content-Transfer-Encoding;
+	bh=AMQhAUoLjC1OsRhPIF0X/aZZvhoGLtnfpHmE2nV4Wn8=;
+	b=w0iUuu25LcgkA3xGhaCiKMEKC4+WEmJvuCSsM7a4JcQzbZkbzH95lmjyghuNDSZ636lM
+	 zDqlTkdA53RBUQ/pfPUtP35lwyf23hoIVTza23nSQ/mxH15ctyh9mOtI68HNAhD4vZQq2
+	 H1pAwc8FT0JABLkWPADeSKIfS3K0Si2FdjU7nGK5JKm78OPZr0ETnE6cVeYr9JSM8ejlT
+	 qSV26qfr4m9ADzs0JeKUvRhT3WqpTt1yNreGV/9s3Zy1LwstRqheSzSloj1kmuJYwmew3
+	 hQf23VzxVy8e0WCjv8ctXarDx8UwmqgUEp8H2W9zOkRKd4ZYX1BHGBPLKByfm8j/6Qg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0H9lG0B;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628C960A2636
-	for <ntfs3@lists.linux.dev>; Mon,  2 Nov 2026 14:00:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 628C960A2636
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c4203bbb1e9so488624966b.3
-        for <ntfs3@lists.linux.dev>; Mon, 02 Nov 2026 06:00:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793628042; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NqB3C7HhaKRUMy8itz+p8KJOl4ijn4+I5C2/H5HsH/T+cO14beB5R9TaKic3oWA6eq
-         9lO3tGmqh4IosoOZ/vcw8qxUQYWjUv4TN/Ury4udr8efh0S5QBwUtwubRtHsu9+5cGHf
-         bD+k61d1AKY6gA17pSSfYPVnrDWi/ywu5KCS8oujrhKpK084g3WV63cLMhdXPnQdtkcZ
-         Kxo4hffYlLpPEmIFeRMVegvti6v7mFmrSgi0skpl7PGTaitwYblhJGiAKdCh2XdH/XQI
-         mee8NjmtM29jmQC2kPCXxpVyhlb+PEQBRmgLQlO9McXfLmceeNfirU9WYm9z0FNoRkmb
-         ITzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=s5Xf4onWksy+tbgDhi+LvOuZ3PKtrfpCQRc1Tg6vJHg=;
-        fh=mD4nLcBRhtxdPBFNGrhgjgefp4jypUnFYyFwPsNDDvU=;
-        b=oIuMiC6ojLnZZ0DBy2OMmSe44pb1ZVr7HSXQz3TLNBDJ5pzga5ktIJybmp78wNYLpP
-         vpaaj6wPd8nTA/qPzEukTdTLZVx9kTk8m98SyqjLYrCSP/IU/PMSw8OGsLQPiIegrRrF
-         FteOUBrVzUdIWbOjPRnH9o6FAVc1PJ3m1XqECpR6vSV16Z0Nuvw0D9a7lp1g0OYzVoGE
-         7dFAAl8oC5Nn10TonAFsI3ANOcYxm8hzTdMFJlKY6lO1Lv9OKPmo/rwdn3qZnwW9Sbdh
-         anH1cV52/xMQrgy4KpkUKdqq4AydThPzx0r/D3ZjKSlU4BreXI5E9YOCXDo1kkFXHYtj
-         yRfw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793628042; x=1794232842; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=s5Xf4onWksy+tbgDhi+LvOuZ3PKtrfpCQRc1Tg6vJHg=;
-        b=cHgSMpBwtlzDeUSJVncSojDt4Z8dPmCcpdxzKZY6Zej1HDqFJ0f/XC540nCsl+dXIH
-         V4vgS5ZPpp9zfRnZvV9SYEFtLnFFmMB4sNpOaTLXMJaamAwRIMHbC0twOW4hB+AZfiRU
-         D5wOmWFcJ3mwZkYoVcL9Ig59H6YS7jO2FUIExUL3LGtFmVj92uIeyNDgXlKw4gPKdra4
-         ukWOIJr14HWFkk868QdHgXwk63nUp7UNrthE2UKeDGMdzwsz2pO8MxlP9A42R1qNyNkZ
-         ayBpAysuseDSjoza67frjoJZfsRcpURrmD/MosUI0Sn1dGiQaYYkVw5hPpSocpWdXjMg
-         2azQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793628042; x=1794232842;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=s5Xf4onWksy+tbgDhi+LvOuZ3PKtrfpCQRc1Tg6vJHg=;
-        b=Rfv+nhACjYnde7ODSijqFS6kGe3oXnwyTIAB5LBHPtyAUAGt+K7Tb/TG9A1Uye4KUG
-         C8LFP85JXrsSI6Re1VDu2jP1yohASpZfaFan/AnFj9e9PECWT6unxEdbMnuvNJw4cjIp
-         V0xAcPfVgEdqXyoRKY6LV95PZyeZ/dp85jpoRDHDRgPbdgYYbHluFrR7o3i6ZBBcVOxh
-         clrM3Aey2Sg2JMHiDSH6YzKJ6g+FoQnM/5QN7KCasT71ynFcRyOFC/mTGZNLdu0kQmMl
-         Xfx3XkNZ2Ks99RFXDM9Yya3Zj8kfdF8FZNORdrRFdJfIPyfYX1vgiS69oXvZM4rM3fF8
-         lf8A==
-X-Forwarded-Encrypted: i=1; AKwUvBy559PALxxMPXWs7lXPpmSi79h1gjjiw9e2h57c2q2yzG33UstMv2fECt6z9lc6bVpL5jatTQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+IoHI16bD/rKf55DjUkTh3vuEChVVCdg+oXOJhsZ57Ff0/IkDS
-	lq7QqidxJgisPcj7Mpan5I3h97R8iD/xZK3zPixtn19RuK9xxoq66p4HMws92VfNn4ZFQhNMKB7
-	GL9+1tWxCztJiOoawfHL+nfHHVSfjwBw=
-X-Gm-Gg: AYBFou04FqNzfdUF7qQZHh0ZquwXHPJgu9evdDkbKhR24pySmF/1tYbDSa7Hc/6yaRK
-	j3l9zgMb9FoKmfYITeqB0xgEa01OpXxmiYPmz7USHsFUbkk7vxb4fvUs631YKBiTena5XLg6dAM
-	A7eratL58jQPZkS+Os1N8kvMdOkDQGf5HYaC8wOBRhhQLvhYg8ciksxvim7qtlaBCI3DoVBn3rs
-	dh+J5tgyMKe2k0xNBlAJ3JzPN5jp/y2oFuaPMGmCR3DcNWw3LN8+oBWiSia3akoxLbfEfRuZBqE
-	RQW8DsDvEVCF8LLFg9qJes9rgV3sC9IqhZ8C5j4ewpiHhDVsw2BejhQZNkhRTN42RD6r7+IoVeX
-	f0ECO147749cnrHrdI4//4T6GYxsQyUyI1HIGCqcOn8r+8GunTIu07vbjlJeqx+pqqlp4Sw==
-X-Received: by 2002:a17:906:9f87:b0:c33:9fab:5f61 with SMTP id
- a640c23a62f3a-c4ca7a80dfcmr888696766b.29.1793628041476; Mon, 02 Nov 2026
- 06:00:41 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821D9606A327;
+	Mon,  2 Nov 2026 14:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0H9lG0B
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EED4A1F00A24;
+	Mon,  2 Nov 2026 14:20:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793629260;
+	bh=AMQhAUoLjC1OsRhPIF0X/aZZvhoGLtnfpHmE2nV4Wn8=;
+	h=From:To:Cc:Subject:Date;
+	b=i0H9lG0Be05TEfu/3sSSx1mNu2tXsbt81HU4VhWr1YaNjWqP1nbmV2PU6N9fCZNuw
+	 nivi01r4yhBVK5q6ZZ/2sNWNfeS1/SVvtod3GB/cMk9XHlaJxrROzU9uNyaCbwueWN
+	 AE/rw/aIukHRd/bUpfVF3u6Oo+d1/1nWu8xicACG8hfScuBzUWJR1oSKGUI3TT1yza
+	 I6qw7gNhliBS+HPnhAgAxa3M/VUpvB8uzbr6ovyo5O6M56NbveIxMw0j6pJhZqxruk
+	 pALxbTScur8TNXplk3A0Y4Q0gW4y8sE5l288k+10HrKs8+OO7WmnOZctFatwni3om7
+	 HzOPbsKYJ2AYQ==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Christian Brauner <brauner@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jann Horn <jannh@google.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Chris Mason <mason@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@suse.de>,
+	Joel Granados <joel.granados@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jan Kara <jack@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-wireless@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	coreteam@netfilter.org,
+	kexec@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	netfilter-devel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	jfs-discussion@lists.sourceforge.net,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sh@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	sparclinux@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-doc@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-input@vger.kernel.org,
+	linux-raid@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-debuggers@vger.kernel.org
+Subject: [PATCH RFC 0/7] proc: move procfs to what kernfs does
+Date: Mon,  2 Nov 2026 15:19:15 +0100
+Message-ID: <20261102-defizit-jobaussicht-kurios-7016c6e67442@brauner>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -101,112 +113,129 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261101015551.786044-1-koray.fra@gmail.com> <20261101015551.786044-2-koray.fra@gmail.com>
-In-Reply-To: <20261101015551.786044-2-koray.fra@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 2 Nov 2026 15:00:29 +0100
-X-Gm-Features: AclHuK8C6KXo0yGTK4G9AdpXOF6ch7dlD0GPHOdparCBMVqSIwGLvVGFGi1BG64
-Message-ID: <CAOQ4uxiuJ=eZu28FZAUz3rpqPKqCimPxJucOnYYuBowvD09_Cw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/5] vfs: add provenance time (ptime)
-To: koraynilay <koray.fra@gmail.com>
-Cc: David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Chris Mason <mason@kernel.org>, 
-	Jan Kara <jack@suse.cz>, Yuezhang Mo <yuezhang.mo@sony.com>, Chuck Lever <cel@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Sean Smith <defendthedisabled@gmail.com>, 
-	Andrey Albershteyn <aalbersh@kernel.org>, Pedro Falcato <pfalcato@suse.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, exfat@lists.linux.dev, ntfs3@lists.linux.dev, 
-	linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6321; i=brauner@kernel.org; h=from:subject:message-id; bh=DeFgfcqlv/TY20j7H/EH1gPUF0B7m3TaniK1kcChAz8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9mGNqL7pz+vPzk4KWfT6wfNmBh/f/+az2dnquniC7r OfbdVtpkY5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJLNFkZJi9z+Wc51MV9sWG KyZ0i3EcLl3135Rh1V/p2TenWEnnPCln+F99gMWOyX62xk4Du399RQ9XTQsXMmEy4ArfuSn16RK 3R1wA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 1, 2026 at 2:57=E2=80=AFAM koraynilay <koray.fra@gmail.com> wro=
-te:
->
-> Add provenance time (ptime), indicating the time when a file or
-> directory was created. This is user-settable via file_setattr() and
-> retrievable via statx(2) (using STATX_PTIME) or file_getattr().
->
-> The semantics of when to preserve this new timestamp are the same as
-> mtime, the idea being that there is a correspondence like this:
->
-> ctime <-> btime
-> mtime <-> ptime
->
-> so every operation (copying, moving, ...) that currently preserves mtime
-> should also preserve ptime.
->
-> Furthermore, in order to avoid the legacy FS_IOC_FSSETXATTR accepting
-> FS_XFLAG_PTIME, add an FS_FILE_ATTR_XFLAGS_MASK mask to support new
-> xflags, and use it in fileattr_to_file_attr()/file_attr_to_fileattr() to
-> allow ptime to be used with the file_setattr()/file_getattr() syscalls.
->
-> [ This is a re-implementation of the initial patch[1] by Sean Smith
->   <defendthedisabled@gmail.com>, following the advice[2] from Darrick J.
->   Wong <djwong@kernel.org> of using file_setattr() instead of updating
->   utimensat() ]
->
-> [1]: https://lore.kernel.org/20260405195007.1306-2-DefendTheDisabled@gmai=
-l.com
-> [2]: https://lore.kernel.org/20260407014129.GC6192@frogsfrogsfrogs
->
-> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.4.7
-> Signed-off-by: koraynilay <koray.fra@gmail.com>
-> ---
->  fs/file_attr.c            | 33 +++++++++++++++++++++++++++++++--
->  fs/stat.c                 |  2 ++
->  include/linux/fileattr.h  |  5 +++++
->  include/linux/stat.h      |  1 +
->  include/uapi/linux/fs.h   |  8 +++++++-
->  include/uapi/linux/stat.h |  7 ++++++-
->  6 files changed, 52 insertions(+), 4 deletions(-)
->
-> diff --git a/fs/file_attr.c b/fs/file_attr.c
-> index 833e03810b24..c0645cb22bf3 100644
-> --- a/fs/file_attr.c
-> +++ b/fs/file_attr.c
-> @@ -102,7 +102,7 @@ EXPORT_SYMBOL(vfs_fileattr_get);
->  static void fileattr_to_file_attr(const struct file_kattr *fa,
->                                   struct file_attr *fattr)
->  {
-> -       __u32 mask =3D FS_XFLAGS_MASK;
-> +       __u32 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
->
->         memset(fattr, 0, sizeof(struct file_attr));
->         fattr->fa_xflags =3D fa->fsx_xflags & mask;
-> @@ -110,6 +110,8 @@ static void fileattr_to_file_attr(const struct file_k=
-attr *fa,
->         fattr->fa_nextents =3D fa->fsx_nextents;
->         fattr->fa_projid =3D fa->fsx_projid;
->         fattr->fa_cowextsize =3D fa->fsx_cowextsize;
-> +       fattr->fa_ptime_sec =3D fa->fsx_ptime.tv_sec;
-> +       fattr->fa_ptime_nsec =3D fa->fsx_ptime.tv_nsec;
->  }
->
->  /**
-> @@ -141,15 +143,20 @@ EXPORT_SYMBOL(copy_fsxattr_to_user);
->  static int file_attr_to_fileattr(const struct file_attr *fattr,
->                                  struct file_kattr *fa)
->  {
-> -       __u64 mask =3D FS_XFLAGS_MASK;
-> +       __u64 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
+Ok, as mentioned off-list I have an RFC version of getting rid of page
+fault induced stalls in procfs when removing entry which plagues
+networking devices among others.
 
-That is not the correct way to extend this API.
-This fixed mask was added as a placeholder for
-"We intend to add support for more xflags to selective filesystems":
-https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-2-amir73il@gma=
-il.com/
+There was a hackish very narrow AI solution to a part of this bug class
+that was floated off-list. It used a second buffering mechanism on top
+of seqfiles which was really nasty. Plus, it didn't fix the whole bug
+class, it only eliminated a small portion. If we want to get rid of the
+whole page fault issue we need a bigger hammer. So I tried to work
+through that over the last couple of weeks. The series in a shape where
+it's not totally insane to have someone else look at it. So here it is.
 
-Please see this POC patch for filesystems to publish their supported
-xflags mask:
-https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-3-amir73il@gma=
-il.com/
+I understand it's big but I thought it's probably nicer to look at the
+end result than just making a promise of what it might end up looking
+like.
 
-This will allow callers of file_getattr() to know if the filesystem
-supports ptime
-without trying to set it and failing.
+It's not super polished yet and I haven't gotten into sorting out all
+the warts as there were some really gnarly bugs in there like the whole
+readdir mess that repeated entries or terminated early. I think we could
+go a lot further there if we wanted to but I think that blows this out
+of proportion and at some point it becomes difficult to grasp the scope.
+So I'd rather delay that until I have a sense of how acceptable this all
+is.
 
-Thanks,
-Amir.
+remove_proc_entry() waits until every call into the entry has returned,
+and most of those calls copy to or from userspace with the entry pinned.
+
+A reader or writer can make a page fault in that copy take as long as
+it wants, with userfaultfd or by punching holes into a memfd over and
+over. And the callers of remove_proc_entry() like to hold locks while
+they wait. addrconf holds RTNL when it removes /proc/net/dev_snmp6/<dev>
+and xt_hashlimit holds a mutex that all network namespaces share.
+
+Every network device with IPv6 gets a /proc/net/dev_snmp6/<dev> that
+everyone can read, and addrconf_ifdown() removes it with RTNL held. So
+any local user can keep RTNL for as long as their read stays stalled.
+Until then no device can be registered, removed or renamed and no
+network namespace can be created or torn down.
+
+Without privileges a FUSE mount in a user namespace whose daemon never
+answers is enough to stall the copy. Killing the reader ends it, but
+until then whoever removes the file sits in D state.
+
+xt_hashlimit removes the proc file of a table with hashlimit_mutex
+held. Every rule insert in every network namespace takes that mutex and
+so does network namespace cleanup. cleanup_net() runs on a single
+workqueue with pernet_ops_rwsem held, so a stalled reader also stops
+every later network namespace teardown and every module load that
+registers pernet operations. xt_recent does the same with recent_mutex.
+
+And it's not specific to networking. remove_proc_entry(), proc_remove()
+and remove_proc_subtree() have over 200 callers and plenty of them hold
+locks. A stalled reader of /proc/fs/ext4/<dev>/options holds up the
+unmount of that filesystem with s_umount held, and every sync(2) with
+it. The same goes for PCI hot-removal, for freeing IRQ descriptors,
+which CPU bring-up waits on, and for unplugging a USB sound card.
+syzbot has hit removal under locks before (cf. [1]), and the xt_recent
+deadlock fixed in (1) below is another one.
+
+Stalling the kernel in a copy to or from userspace is a well-known
+exploitation primitive. It's why unprivileged userfaultfd can't do it
+by default anymore since v5.11 (d0d4730ac2e4), and FUSE has been used
+the same way.
+
+kernfs doesn't have that problem. The code of a kernfs file only ever
+runs with the node pinned and never touches userspace memory, kernfs
+copies in and out itself. This moves procfs over to the same scheme.
+
+sysfs has only held its active reference around ->show() and ->store()
+since v2.6.23, the same release that made remove_proc_entry() wait for
+the entry's callers. A copy to userspace couldn't be stalled for long
+back then. userfaultfd only came in v4.3 and FUSE in user namespaces in
+v4.18. configfs moved its copies out of its active reference in v5.3
+and DRM copies ioctl arguments in and out around the driver's handler
+the same way. debugfs still holds its reference across the copies,
+ran into a deadlock with wifi drivers because of it and grew an API to
+cancel operations instead (cf. [2]).
+
+That touches just about every ->proc_read(), ->proc_write() and
+->proc_ioctl() in the tree, so I've split it up into seven series. They
+go out as replies to this mail:
+
+(1) proc: fix a few old bugs in /proc handlers (38 patches)
+
+    Bugs in the handlers and in procfs itself that are a lot older than
+    the conversion and that reviewing it turned up. Most of them are for
+    stable. They come first so they can go there on their own and the
+    conversion doesn't have to bother with that crap.
+
+(2) proc: let procfs own the data path (16 patches)
+
+    The procfs side. procfs owns the seq_file of an entry, copies in
+    writes, copies out reads and copies ioctl arguments in and out, and
+    only calls into an entry with it pinned. proc_create_seq() and
+    friends and the plain seq_file users are switched over here too.
+
+(3) proc: convert the arch and platform entries (22 patches)
+(4) proc: convert the driver entries (23 patches)
+(5) proc: convert the fs, kernel and mm entries (27 patches)
+(6) proc: convert the net entries and the kfifo samples (11 patches)
+
+(7) proc: drop the __user methods (5 patches)
+
+    Drops the old methods for every entry that can be removed and gives
+    the new ones the names kernfs uses, ->proc_read(), ->proc_write()
+    and ->proc_ioctl(). This needs all four conversion series.
+
+The series should all indicate cleanly what dependencies they have so b4
+should be able to pull it for review. But I could be wrong.
+
+With all of it on a KASAN and lockdep kernel the removal selftests of
+every part pass, the proc, pktgen and allocinfo selftests behave like
+without it and the bugs from (1) that reproduce in a VM are gone. Every
+patch builds on its own on x86_64 and i386, and with W=1 on the
+architectures it touches.
+
+[1]: https://lore.kernel.org/r/000000000000f24f4705b6988f3e@google.com
+[2]: https://lore.kernel.org/r/20231109212251.213873-7-johannes@sipsolutions.net
+
+-- 
+Christian Brauner <brauner@kernel.org>
