@@ -1,49 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793631250;
-	b=H7YJg/ftyPHTKzsN4tfdXhVD+3qg+kc1/GejYgXj6zz2wgopJ6oYepDABjzVdFIcsFui
-	 ksENVNE8Z8Geu8FAhXbDEEWOZW2WCvrxkEyLEy6OsKCk9kTuZePnFeKV13vFAAOMMgMsx
-	 9BWfSVqIcKyUg7txJPA3BNzb3xhhH4FBhPw6oouIc2yhep3ipm8wV+4WqTRG3PhZ+4AkF
-	 L5AVBCJKUIO+PtE2gfBQFeFOzXDG+SfxTJ5ieIkl+aeBlg3/Ut8Ur9ts0DCkAXkXdaVXp
-	 YEF03Zg8kRw6NI1Kvvz885rwcE+Jwz5POPEwUVmTiiNjcr+IF5uNvQVUR6lIuZ1eqIw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793631250;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer;
-	bh=6D+rhj9AMzsL4ZxAMbTTFRqO6BNcfNzlOGN8XoIy1BQ=;
-	b=2GCg/mc9/6AUTHT2gRIauO6of0bto0JieH9xVZq+7ShAP2AyxpUCe1cLOujqQFeXZDoE
-	 lNnERBN4VAxxKmxWs3nP90zWNPhV2ep7m5Ko+hlWn/6Liwg08aCg8ZrqV4rQqJLYXuCTm
-	 YzLcedmIJl+9BK8SO9PrG/KCgj9uL7KcckVuo/GfNTWuoBabia6Ph9hcLQSqPdEoz+Z2O
-	 BlW4Mwe72mCqf4NshKd/QDrIo0nFfPclNlohqlzWHOKU7e5+jbBeNo5FKfgX7d8aN+lkF
-	 cZhyd+aCs/Hyf42OwbC2Hbj3Aikmyr1CilUUWxqPNPj9Pr01RX64TiYQAb+w7Gqo/+g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KxNpZEKk;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.53
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793631257;
+	b=r/oO3EfD6uRNwM+7W1MXzEADEyX7XhRisplD+fHoG6K8PvscGvNAsxMD3tnneNbsS+JV
+	 aqyYeJZlM4RDWp/3aJrXLBRdfbjXud4B5gStykpqCdKUkPAI4d5FE1A3YIolCNG2AoRsK
+	 XiVRBFXXDaENDQ/gSDxZwvan5yK5EqyzKXw8/3VMfFx5Ka1Za9lI0i+Crv7tcQm9SeEkR
+	 ECL0OWOXcMQzb4vNSpilvvEdYi3uRVygMa73/GkQW3/Co68wsndlQFVk6Qfy+7s5rPRin
+	 7GgA0RPTUBY6Lw6eNIRPT5p358tf/o9QYXGQUMpuB9bzENi9A9KM9Wr44aTNqbRD3nw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793631257;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=9S45ohuGWD9KQ2+FLxafTobKS8uDh2Gv9DIfHDLQSno=;
+	b=zVgRy8fMKjlvjF/TJj8B0atWoQtr89PsiQDCxtOxFy3pdrN8TXiE59+718fy6sWY2+Sp
+	 9cX4OSzlNnRCW9AZmLL58+ErdbggoI8DYYmHXyhZG2XXGLZcZ/PWGik/dirpfctDHIys5
+	 wBY4FHh3i6tpOeYFblln7ouEBDGSVSddk2Lh0y+sc6e8G04obuB8SfSYZvNVx+FoLhTik
+	 fp9L04EkWQJPzsgC7R26K2JJEueP8udb9LBEJc1jMlI9g1UEA1cjejRNh9BqEuBz298YN
+	 DeIYQfX9ttNIZpXVnwhIbQ+0F4FOR93qe0bQd61zrT2BQfcrNUw7jGxdSfhHe2uqulg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sEPyL5xp;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.53
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90BA607905F;
-	Mon,  2 Nov 2026 14:54:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5A2607A8A2
+	for <ntfs3@lists.linux.dev>; Mon,  2 Nov 2026 14:54:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E5A2607A8A2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KxNpZEKk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 292341F00A16;
-	Mon,  2 Nov 2026 14:53:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793631249;
-	bh=6D+rhj9AMzsL4ZxAMbTTFRqO6BNcfNzlOGN8XoIy1BQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=KxNpZEKkyph0s1VFnWYugNb2QhC01F2/bH2mO62CWQZ+LGZOjH8D13WJhEvaEvssq
-	 ll1kDcMtrg3ROkFYJi4p7/Ri4zQ67sgTvcwZMysRa8udyqg9CDy7DJ1FOKzlD3OUC5
-	 hck0+uoaMFl0apM+ydUoJxSpyX1BiEd45EYN5ZcmyZZdhFNON3LUDyLw+HmFRG6kWj
-	 hKJyb7cb24m5nGVzK7xwTb/BfbuX6mn66mIH+I2qikOKVjpdkTR++4BkGvLnpQYbfU
-	 N42B37TnDt/oZhvY4ym1lTPmywWw6rqu+aAeSl/T4Fq53VdxKX+t4v7df9GH9Jeepm
-	 bu9oR3VWn5S8Q==
-From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 02 Nov 2026 15:48:53 +0100
-Subject: [PATCH RFC 13/16] proc: let procfs copy out reads that don't go
- through seq_file
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sEPyL5xp
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c4550d8ab15so366157166b.2
+        for <ntfs3@lists.linux.dev>; Mon, 02 Nov 2026 06:54:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793631255; cv=none;
+        d=google.com; s=arc-20260327;
+        b=J1VtV7pOmso9PrtX+U4SEBzAilV6avbyDxg4yFZq795b6CAnUi0Kh+K6iQnQmVLp73
+         TE3K1Tm7vsZLbOnNDu38W4521MvSVA2+JfSaKo15YIJ7H1/eO3z5/zrjgNNkkmWNeRg5
+         u1Aj0KYdt2mwlCAoDd+Fkc05j217pI/IAKSWwrLMEMb8dtQIs4KA+6QlG+WJ5wWXiTJ9
+         E34A9djL8BIbM1a8ia7ccjUi64CrYPZ2SiOnw/ygEYhCDFS3O37IyJRdZ7QnDIRvd4yR
+         M3BOTctQDOG6fjr+H6q/zAyA5Ca9fJN3GTsgEH70CPB96TpWi2nJsU/juCs3TyVpOIsJ
+         suxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9S45ohuGWD9KQ2+FLxafTobKS8uDh2Gv9DIfHDLQSno=;
+        fh=9IJKbq/N5U2rv1iVeiRkzoCRKWRSAv9kGqSiyIFRpQ0=;
+        b=NMjTOL5eUaRo0uuUGx/a0eavW+D3xgYXZUvaLcr3uOy9LC6sLOQiH2EhfUKbWYVMCe
+         qY/iLW4xyj475kL3bzNwcrT1ou2pci+Wp0SvsA1orzRx7ZayR5ERFB6VQaHgK6/uAXcv
+         ZaMOTwxAA9sbVur1wmOeq0r09G3Bt7vjBHRx2t1xM/uLaHmA3Df9+1yLPjpntd/QYIGa
+         eFRY8ddaAs7QapqIu0P5oF5ASdf61AYpyD97mySf+svPpA9YFLJB7KdzIE2/YMX9X51R
+         dmT0QNUiLwNCiBPFdxjFgDNHmMG+VYHsYTA2hw/v7vjaBdB+jDlyk2KLDcPW82myQEow
+         X6Aw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793631255; x=1794236055; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9S45ohuGWD9KQ2+FLxafTobKS8uDh2Gv9DIfHDLQSno=;
+        b=sEPyL5xpkpDb1+VnPuA4jOO6zJhcaOso7I8Xiry8kSqdzS5h3a/WXwhB7BPxu9y18f
+         ETEqer5eARSDrgPLxLRrOyuDBsilduvx3Pv3lLSUpjKqfEdvWr2IBWfz1qkcFGKlzEtD
+         uWegKJl2VOZ0umrFC5S/0PXSHyo+Ussg//AX9Q309QOQx2VYpGRVwK4luKs1bmsEVj3+
+         Hq1NyJ8AmNbR8OMCmOFD3JnaTyiAmfujg/AhC6azutXS/GiPBs/rfceRp8AhrAQhW8qE
+         ssCoF+GCoaSgm3iR9BJScMpULxe9D5OgjiM7Bckkp8hd73pBu11iZmsWKI4O1JtmMCez
+         Qxmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793631255; x=1794236055;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9S45ohuGWD9KQ2+FLxafTobKS8uDh2Gv9DIfHDLQSno=;
+        b=w18sc4la73JTHLZS7RGIosbZ4VGpsGmXjtu1UcJcdgqQddHZbl+rRJMF3mnNHZyRTT
+         PCwLyMUug4xqwyRqfmryL1ZBXakSt42PNRChhSdW9r4W+QnAKIneXkxAP2UOZkJpAJHm
+         03wD5V5B+rWdnu4u8yCxLrArI/cBWYotN5gdGcYgUic5J1W1u60uvSC6C5BW7tVuN64J
+         4n5E0WTJBZqN91Oiq2sg0rL7wbjf1ZgPfJY0OX/IXaoyQGvAWvHz671a1Wx1Wm1ilz6x
+         a+H0B4iEHOMG8vkFzgxJKdK9cbGHABSwgjrdkuX58rQ8E4SCRh5c+F+rrB7BwhmMwbHJ
+         BcTg==
+X-Forwarded-Encrypted: i=1; AKwUvBxxHyE1Ww0HQT2Cqyj3ohZGsiSuw0mud2ttgUt3dhCJk3cKqPMWBlZIwL6ZSS63rOvVsOCk9Q==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8v7xc9u0bcEksOLZc1vMcPzHNufs0lui6wy/OJ6ogfIfdgAVhQ
+	EHLW6nnfNNRC6EzRwtXIpcZo3j+mHrRiUDcm3z6jkqDv/8cM0uMrk8uZ/oxzMzdJFMyMq4HEeGs
+	xGv7DQULX4jksY3zGtr0m52vMKEmTa1I=
+X-Gm-Gg: AYBFou17rqvKK1J5fpQKZR4oxnC2cFCH/JN0DiZS2HL/2ezg1BEriXTXZ/vLsMpHGoB
+	4jTdQBCum20Ep+k+FrW8dGApMDyxen+1ermZMXsVo7eDNLd2THSCrDv121rT7gEfucIrKpiCO5I
+	F8fNY3F6o4Twa5UNdt7oluuaZqUl81SaUyrmF+DyHs2XuGoi/7orqcbOwhY0fgGizGfYSLQDe6A
+	9+HOb+Q+1td/2PuIpBOWX/zxrfP+xiwwPbACxA6azOJy7WBPSuTrNllNbYksWzuQayrF3XfPY8L
+	fa2cGAJTT2/lNmYcwOyx5qHwMH1YHNvJFxDaRKOiBBcgoJREjkueir8aKTJ20IY+M/lyxdbgWaj
+	tM1gTlPT5/67SjsE+p1Qg5kwFP4eb0zzoAJmlfwRsrwcrs9HmsbQD0lfG6dsRMJktEvqTVLJbOx
+	ZF0uSDvBwXylNqJZM=
+X-Received: by 2002:a17:906:eec8:b0:c2e:317e:d711 with SMTP id
+ a640c23a62f3a-c4ca7aac250mr889529566b.27.1793631254792; Mon, 02 Nov 2026
+ 06:54:14 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -53,265 +105,150 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-work-procfs-core-v1-13-75df35e4f8b8@kernel.org>
-References: <20261102-work-procfs-core-v1-0-75df35e4f8b8@kernel.org>
-In-Reply-To: <20261102-work-procfs-core-v1-0-75df35e4f8b8@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
- Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
- Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
- NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
- Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
- Greg Kroah-Hartman <gregkh@suse.de>, 
- Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, 
- Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
- linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
- linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
- ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
- coreteam@netfilter.org, kexec@lists.infradead.org, 
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
- netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
- linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org, 
- linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
- sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
- linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, 
- linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>, 
- linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
- linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
- linux-debuggers@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, 
- Chuck Lever <cel@kernel.org>
-X-Mailer: b4 0.17-dev
+References: <20261101015551.786044-1-koray.fra@gmail.com>
+In-Reply-To: <20261101015551.786044-1-koray.fra@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 2 Nov 2026 15:54:03 +0100
+X-Gm-Features: AclHuK8MPfC_dz5RbDokIFz7RFGIRe7sv4kFXfjOWYu6Sb9FQLskiRuGBNP5Y1c
+Message-ID: <CAOQ4uxjkG=1j1z==Mv4wzkF042rXstodokKnBfMFBf2e-Eztmw@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 0/5] add provenance time (ptime)
+To: koraynilay <koray.fra@gmail.com>
+Cc: David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Chris Mason <mason@kernel.org>, 
+	Jan Kara <jack@suse.cz>, Yuezhang Mo <yuezhang.mo@sony.com>, Chuck Lever <cel@kernel.org>, 
+	"Darrick J . Wong" <djwong@kernel.org>, Sean Smith <defendthedisabled@gmail.com>, 
+	Andrey Albershteyn <aalbersh@kernel.org>, Pedro Falcato <pfalcato@suse.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, exfat@lists.linux.dev, ntfs3@lists.linux.dev, 
+	linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-proc_reg_read() and proc_reg_read_iter() pin the entry and call
-->proc_read() or ->proc_read_iter() which copy to userspace
-themselves. Like for seq_file reads and for writes, a reader can make
-a page fault in that copy take as long as it wants and
-remove_proc_entry() waits for it.
+On Sun, Nov 1, 2026 at 2:57=E2=80=AFAM koraynilay <koray.fra@gmail.com> wro=
+te:
+>
+> This is an initial implementation of a new timestamp to indicate the
+> time when a file/directory was initially created.
+>
+> This patch series takes inspiration from the one by Sean Smith
+> <defendthedisabled@gmail.com> [1], but using
+> file_setattr()/file_getattr() as suggested by Darrick J. Wong
+> <djwong@kernel.org> in [2].
+>
+> The semantics of this new timestamp should be at least these:
+> - it should be the same as btime on a newly created file
+> - it's user-settable, so it can be preserved for backups, filesystem
+>   conversions, archives and any similar operation
+> - it should be preserved every time mtime gets preserved
+>
+> and the correspondence with the other timestamps is as follows:
+>
+> ctime <-> btime
+> mtime <-> ptime
+>
+> Examples:
+> 1) a .zsh_history file created in 2019, then after a few years the user
+>    decides to switch to another filesystem, copying the .zsh_history to
+>    the new home, in that case btime would have the timestamp of the copy
+>    and ptime would have the 2019 timestamp (just like mtime would have
+>    been preserved)
+> 2) a symlink created in 2020 from the home directory to a /path going
+>    through the same process as the .zsh_history, in this case it would
+>    also make sense to sync the ptime to the 2020 timestamp instead of
+>    keeping only the btime (so the inode creation time).
+>
+> The proof-of-concept code (for testing) for stat(1) and cp(1) is
+> available at https://github.com/koraynilay/coreutils (master branch)
+> (Note: these coreutils code changes are a prototype and won't be
+> submitted upstream as-is, but they work as expected in simple stat and
+> cp -a/--preserve=3Dptime tests)
+>
+> Lastly, the name "provenance" and "ptime" are not final, I personally
+> don't have a strong opinion on any name, but while testing with stat(1)
+> I noticed that "Provenance" is definitely too long for the normal
+> output, so another option which would fit well is "Origin time",
+> abbreviated as "ntime" (OrigiN time) and not as "otime", as that would
+> conflict with btrfs' internal naming and create confusion.
 
-So do what kernfs does for these reads as well. An entry that implements
-->proc_read_buf() fills a kernel buffer of at most ->proc_read_size
-bytes, a page if the entry doesn't care, and procfs copies it to
-userspace after unpinning the entry. The entry moves the position like
-it did for ->proc_read() but that only sticks if the copy to userspace
-worked, like in kernfs_file_read_iter(). If the copy fails halfway the
-read fails with -EFAULT and the position stays, where
-simple_read_from_buffer() returned what it had copied until then.
-procfs remembers ->proc_read_size in the entry like ->proc_write_size.
+FWIW, I agree that given the existing uses of btime and crtime in the
+kernel and various XXXprogs, using 'ptime' for kernel code is probably
+the lesser evil.
 
-Larger reads come up short, like with kernfs. An entry whose readers
-want all of a large file in one read asks for PROC_ENTRY_FULL_READS and
-procfs fills the read in pieces of ->proc_read_size, unpinning the entry
-in between. A piece whose copy fails ends the read with what the pieces
-before it returned. kexec-tools treats any short read of /proc/vmcore
-as fatal for example (cf. [1]).
+The question of how to display this in stat and tool is a different questio=
+n
+that can be left to the userspace developers.
 
-These entries are read through ->read_iter() so readv(), splice(), aio,
-the RWF flags, kernel_read() and io_uring work for them like for the
-->proc_read_iter() ones. io_uring's nonblocking attempt gets -EAGAIN
-though, like loop_rw_iter() gave it for ->proc_read() entries. Neither
-the allocation nor the entry can honor IOCB_NOWAIT, and io_uring would
-take a short read of a record file for an unfinished one and glue the
-next record to it. So it retries from a worker like before.
+The UAPI headers uses Birth time language and stat displays:
 
-An entry that implements ->proc_read_buf() and also declares a seq_file
-or one of the other read methods fails to register.
+Access: 2026-11-02 15:22:27.067329367 +0100
+Modify: 2026-11-02 15:22:27.067329367 +0100
+Change: 2026-11-02 15:22:27.067329367 +0100
+ Birth: 2026-11-02 15:22:27.067329367 +0100
 
-No users yet.
+If the UAPI headers will use consistent language:
 
-[1]: https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git/tree/util_lib/elf_info.c
++       /* provenance (settable creation) time */
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/proc/generic.c       |  9 ++++++++
- fs/proc/inode.c         | 60 ++++++++++++++++++++++++++++++++++++++++++++++++-
- fs/proc/internal.h      | 11 +++++++++
- include/linux/proc_fs.h | 16 +++++++++++++
- 4 files changed, 95 insertions(+), 1 deletion(-)
++       __s64 fa_ptime_sec;     /* provenance (settable creation) time
+(seconds) */
 
-diff --git a/fs/proc/generic.c b/fs/proc/generic.c
-index 83d273778a60..fc4d10c92d7c 100644
---- a/fs/proc/generic.c
-+++ b/fs/proc/generic.c
-@@ -476,6 +476,15 @@ static int pde_set_flags(struct proc_dir_entry *pde)
- 		if (proc_ops->proc_flags & PROC_ENTRY_SHORT_WRITES)
- 			pde->flags |= PROC_ENTRY_SHORT_WRITES;
- 	}
-+	if (proc_ops->proc_read_buf) {
-+		if (WARN_ON_ONCE(pde_is_seq_file(pde) || proc_ops->proc_read ||
-+				 proc_ops->proc_read_iter))
-+			return -EINVAL;
-+		pde->flags |= PROC_ENTRY_proc_read_buf;
-+		pde->read_size = proc_ops->proc_read_size ?: PAGE_SIZE;
-+		if (proc_ops->proc_flags & PROC_ENTRY_FULL_READS)
-+			pde->flags |= PROC_ENTRY_FULL_READS;
-+	}
- 	return 0;
- }
- 
-diff --git a/fs/proc/inode.c b/fs/proc/inode.c
-index c0bb40e7ff96..3f29a1663d26 100644
---- a/fs/proc/inode.c
-+++ b/fs/proc/inode.c
-@@ -23,6 +23,8 @@
- #include <linux/sysctl.h>
- #include <linux/seq_file.h>
- #include <linux/slab.h>
-+#include <linux/sched/signal.h>
-+#include <linux/uio.h>
- #include <linux/mount.h>
- #include <linux/bug.h>
- 
-@@ -400,11 +402,67 @@ static loff_t proc_reg_llseek(struct file *file, loff_t offset, int whence)
- 	return rv;
- }
- 
-+/*
-+ * The entry fills a kernel buffer and procfs copies that to userspace after
-+ * unpinning the entry. A reader that faults on its buffer then doesn't hold
-+ * up remove_proc_entry().
-+ */
-+static ssize_t pde_read_buf(struct proc_dir_entry *pde, struct kiocb *iocb,
-+			    struct iov_iter *iter)
-+{
-+	struct file *file = iocb->ki_filp;
-+	char *buf __free(kvfree) = NULL;
-+	ssize_t rv, done = 0;
-+	size_t len, count;
-+	loff_t pos;
-+
-+	if (!iov_iter_count(iter))
-+		return 0;
-+	/* neither the allocation nor the entry can honor IOCB_NOWAIT */
-+	if ((iocb->ki_flags & IOCB_NOWAIT) && !(file->f_flags & O_NONBLOCK))
-+		return -EAGAIN;
-+	len = min_t(size_t, iov_iter_count(iter), pde->read_size);
-+	buf = kvmalloc(len, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	/* PROC_ENTRY_FULL_READS fills the read in pieces */
-+	do {
-+		count = min_t(size_t, iov_iter_count(iter), len);
-+		pos = iocb->ki_pos;
-+		if (!pde_pin(pde)) {
-+			rv = -EIO;
-+			break;
-+		}
-+		rv = pde->proc_ops->proc_read_buf(file, buf, count, &pos);
-+		pde_unpin(pde);
-+		if (rv <= 0)
-+			break;
-+		if (WARN_ON_ONCE(rv > count)) {
-+			rv = -EIO;
-+			break;
-+		}
-+		if (copy_to_iter(buf, rv, iter) != rv) {
-+			rv = -EFAULT;
-+			break;
-+		}
-+		iocb->ki_pos = pos;
-+		done += rv;
-+		if (!pde_has_full_reads(pde) || rv < count)
-+			break;
-+		cond_resched();
-+	} while (iov_iter_count(iter) && !fatal_signal_pending(current));
-+
-+	return done ?: rv;
-+}
-+
- static ssize_t proc_reg_read_iter(struct kiocb *iocb, struct iov_iter *iter)
- {
- 	struct proc_dir_entry *pde = PDE(file_inode(iocb->ki_filp));
- 	ssize_t ret;
- 
-+	if (pde_has_proc_read_buf(pde))
-+		return pde_read_buf(pde, iocb, iter);
- 	if (!pde_pin(pde))
- 		return -EIO;
- 	ret = pde->proc_ops->proc_read_iter(iocb, iter);
-@@ -814,7 +872,7 @@ struct inode *proc_get_inode(struct super_block *sb, struct proc_dir_entry *de)
- 		inode->i_op = de->proc_iops;
- 		if (pde_is_seq_file(de))
- 			inode->i_fop = &proc_seq_file_ops;
--		else if (pde_has_proc_read_iter(de))
-+		else if (pde_has_proc_read_iter(de) || pde_has_proc_read_buf(de))
- 			inode->i_fop = &proc_iter_file_ops;
- 		else
- 			inode->i_fop = &proc_reg_file_ops;
-diff --git a/fs/proc/internal.h b/fs/proc/internal.h
-index ed22c6dfb0bf..11bd3fa07705 100644
---- a/fs/proc/internal.h
-+++ b/fs/proc/internal.h
-@@ -52,6 +52,7 @@ struct proc_dir_entry {
- 	void *data;
- 	unsigned int state_size;
- 	unsigned int write_size;
-+	unsigned int read_size;
- 	unsigned int low_ino;
- 	nlink_t nlink;
- 	kuid_t uid;
-@@ -118,6 +119,16 @@ static inline bool pde_has_short_writes(const struct proc_dir_entry *pde)
- 	return pde->flags & PROC_ENTRY_SHORT_WRITES;
- }
- 
-+static inline bool pde_has_proc_read_buf(const struct proc_dir_entry *pde)
-+{
-+	return pde->flags & PROC_ENTRY_proc_read_buf;
-+}
-+
-+static inline bool pde_has_full_reads(const struct proc_dir_entry *pde)
-+{
-+	return pde->flags & PROC_ENTRY_FULL_READS;
-+}
-+
- /* procfs owns the seq_file, see pde_seq_ops */
- static inline bool pde_is_seq_file(const struct proc_dir_entry *pde)
- {
-diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
-index c81c93325044..0f0997898ba3 100644
---- a/include/linux/proc_fs.h
-+++ b/include/linux/proc_fs.h
-@@ -38,6 +38,13 @@ enum {
- 	 * failing with -EINVAL.
- 	 */
- 	PROC_ENTRY_SHORT_WRITES		= 1U << 9,
-+	PROC_ENTRY_proc_read_buf	= 1U << 10,
-+
-+	/*
-+	 * Reads larger than ->proc_read_size are filled in pieces instead of
-+	 * coming up short.
-+	 */
-+	PROC_ENTRY_FULL_READS		= 1U << 11,
- };
- 
- struct proc_ops {
-@@ -84,6 +91,15 @@ struct proc_ops {
- 	 */
- 	ssize_t	(*proc_write_buf)(struct file *, char *, size_t, loff_t *);
- 	unsigned int proc_write_size;
-+	/*
-+	 * procfs calls ->proc_read_buf() to fill a kernel buffer of at most
-+	 * ->proc_read_size bytes, PAGE_SIZE if that's 0, and copies it to
-+	 * userspace afterwards. Larger reads come up short unless the entry
-+	 * asks for PROC_ENTRY_FULL_READS. The position the entry moves to only
-+	 * sticks if the copy works.
-+	 */
-+	ssize_t	(*proc_read_buf)(struct file *, char *, size_t, loff_t *);
-+	unsigned int proc_read_size;
- } __randomize_layout;
- 
- /* definitions for hide_pid field */
+I  think that the man pages could be unambiguous:
 
--- 
-2.53.0
+stat(1)
+       %w     time of file birth (immutable), human-readable; - if unknown
+       %W    time of file birth (immutable), seconds since Epoch; 0 if unkn=
+own
+       %p     time of file creation (mutable), human-readable; - if unknown
+       %P     time of file creation (mutable), seconds since Epoch; 0 if un=
+known
 
+statx(2)
+       stx_btime
+              The file's (immutable) creation timestamp.
+       stx_ptime
+              The file's (mutable) creation timestamp.
+
+And userspace tools could be displaying ptime as:
+
+Access: 2026-11-02 15:22:27.067329367 +0100
+Modify: 2026-11-02 15:22:27.067329367 +0100
+Change: 2026-11-02 15:22:27.067329367 +0100
+Create: 2026-11-02 15:22:27.067329367 +0100
+ Birth: 2026-11-02 15:22:27.067329367 +0100
+
+If they want to, without that being more confusing than Provenance.
+
+>
+> v2 changes:
+> - fix permission bypass leading to ptime update on immutable and
+>   append-only files (found by sashiko[3])
+> - normalize ptime timestamp as done in fs/attr.c:notify_change() (found
+>   by sashiko[3])
+> - fix wording in vfs patch to be like the cover-letter
+>
+> v3 changes:
+> - vfs: reject setting ptime with -EOPNOTSUPP on filesystems that do not
+>   support it instead of silently ignoring it (found by sashiko[4])
+
+Please see my review on patch 1/5 on exporting the supported mask
+to userspace.
+
+> - vfs: fix not being able to clear immutable and append-only on files
+>   with ptime, and allow updating immutable/append-only atomically along
+>   with ptime (found by sashiko[4])
+> - btrfs: validate on-disk ptime nanoseconds and reset to otime if
+>   invalid (found by sashiko[4])
+> - btrfs: avoid re-assigning ptime on unrelated chattr calls (found by
+>   sashiko[4])
+> - add ntfs3 and exfat support as suggested by Amir Goldstein[5], but no
+>   vfat, smb, or nfs4 yet as they are a bit more complex
+
+Please explain what makes them more complex.
+My concern is that I would like to see that the proposed API fits the exist=
+ing
+fs and we won't need to change the API again later to support them.
+
+Thanks,
+Amir.
