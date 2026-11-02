@@ -1,71 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793633929;
-	b=3IEv5/59GwfcTgAfrYhqfNkBu7beRnl4SS3eA8JRBfAOJNS8Hib8gXvTD3fwuo5EdCY5
-	 CNKykuzQhsctC3+mHpbO4gkTTOkCTnQMBZJdHg/qNblqxSsXflcJLIlzYg03gSPTEm+UK
-	 XnEKhWfU5/cTOxUqciCLq5XlEymiq4yLzQJPNY38vKs+QTay6yPbPl1zOP6ivzWxoCrzc
-	 6ZGTQsXGS6rKWfKeU73kJ8VCnvQdAmMsZrbJTK6Ke5cYX29cxpEBC0k8R+8NOwych15jY
-	 2EMu4ff/fSH3XR7ZWrng23OLltu45o+Wt1x+mOxclH9gzgUEnibDIOLkzcoVB7BLkTw==
+	t=1793640172;
+	b=skeG7PD4Eh9Hogp+jZZ0c427nI86n4Yml5595uGxPeanUFwZV2a1RUrpwgNgFS5VaPCP
+	 aUnqv2X5p94DKEoZDhD7MPoiRUA9Rj98c6mCqGcG6PJLnCvEKulzCyTtl/NBjldsTyaKh
+	 SwjvuHW3m4ueTFsnYJv3Dx8p0+PyflzMNmu7bG36apaapHFwHfGtDBAAGX4FmwssJiMvF
+	 3JBb4m7v/+CArX/TrPIxwAgyS91uYUGuOOXMv/4zB2iCyAOpCMhjobm5CgAFsvZsVksin
+	 QuoP2XMebHV1NlQJCcG/LKY5AqmWlccaXAdJfykzWlry1iZUxr7Twheyv00HsAy2ncg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793633929;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:User-Agent;
-	bh=VJqjaO5K9E/B76JPrTD775/RWHSZm7cCk23GyJS2CyE=;
-	b=SyCgX0KNuPQDmEv3PLtEeyttaZ1AISU/7IVp02upYHxMy/c9lrNb7SOZcDPmH73AXN1/
-	 UpQ2IyDGlQShvVHyVNohQ3EvgNoHdLOnnIMzIkORwGbsGlHFDT59piyJAWeaA7q08LH9/
-	 /L9cQQvbT8WYcuuCdvrZMNKahMWhdsddeyVENcFvFlYP76EB+cUPuVxHErHpMc8t4Ee6+
-	 pXqO5SJGXWDRjQlX/pF/gafHsPQd0ay6VQrUs861vXRpU0C6EIWg66gzaw/mZ7SV71Tti
-	 DE7YQ9VHkJU/dw7klQMUaNSQWQXGJx4Shf66DBuU/6XynCf8CO7CxG4I5GgodeK+YUw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793640172;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Spam-Status:X-Spam-Checker-Version;
+	bh=GemoAJ3Z9yvwRRBlFGwLRVr4LorqE6trrN/CR7hKuuw=;
+	b=P6JNZSJxCguo8cerT7MsSPXmrucBl9S9rl90X/YbQBjpspvK8CKvCK60Qzt10Z6FQM+V
+	 MF38Drb+Cr2BxYGm8dw8RU6aGXaqe76NVuclPkmYBty/iUajZtexEOhZeJgTJ4ubSE++r
+	 1Wh24V4PYy8q2fb4xvm/MpYSpcbarlujE/Rw+N1tsi0DD8aJ8Iqut3Sqcqw0iSgzm8gIG
+	 ooiqzDZi5q2/u96mfmLSs+w9JrH0CXUrT4mNc5CWJ6jjLOYXZ1IHId1yknS6x5ARuoPSI
+	 xvREnVZzSc0wtTwRbFN+QFxV+ZQjlsRlKGbsRBMCrRFQIbdn7FWXFp3Znb/wsbDOJOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BmkYZwb7;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E556606B1C8;
-	Mon,  2 Nov 2026 15:38:49 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=r3Ai1HxN;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E61F8606B0E7;
+	Mon,  2 Nov 2026 17:22:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E61F8606B0E7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BmkYZwb7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BFF41F00A17;
-	Mon,  2 Nov 2026 15:38:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793633928;
-	bh=VJqjaO5K9E/B76JPrTD775/RWHSZm7cCk23GyJS2CyE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BmkYZwb7Hs5zwPysZ5Kbl9fP9AMmO7IR2bykQ5NA7X3z6kB06OVeJj5nemJnHncK9
-	 ZPjbEB8hAlAkehkrzV7bHpiWjMzp8GBRWMtNSZVKxUvfhHwy/NXma4fb7tQIAlbwCq
-	 KLAc65lW9AYc2FnhJl7eFFm6Ez0/0/gfiQmjMba9umO8Erv9V426ETgi7Ou/5/IoWu
-	 oVcPMRJCNjLzy8fjFkuQiXZStL8cXxzNrdwawemQkMte9/6qoy3URP7oZyc5Z+90gP
-	 ANSFbWhluWAKjuPtvrcVp+jSpjnzpAO5XYzO2r1Wx7GWuuLuzwbbb6gGOMG/PaRDpV
-	 cnQCu2MUVw8jw==
-Received: by pali.im (Postfix)
-	id A2841A13; Mon,  2 Nov 2026 16:38:45 +0100 (CET)
-Date: Mon, 2 Nov 2026 16:38:45 +0100
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: koraynilay <koray.fra@gmail.com>, David Sterba <dsterba@suse.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Chris Mason <mason@kernel.org>, Jan Kara <jack@suse.cz>,
-	Yuezhang Mo <yuezhang.mo@sony.com>, Chuck Lever <cel@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Sean Smith <defendthedisabled@gmail.com>,
-	Andrey Albershteyn <aalbersh@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>, linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	exfat@lists.linux.dev, ntfs3@lists.linux.dev,
-	linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH v3 3/5] ntfs3: make crtime user-settable using ptime
-Message-ID: <20261102153845.d67wlorqcbe3c2w7@pali>
-References: <20261101015551.786044-1-koray.fra@gmail.com>
- <20261101015551.786044-4-koray.fra@gmail.com>
- <20261102142452.d6jkitgdeuquy23i@pali>
- <CAOQ4uxhQ3uhq6s+4deEJAQV5iy8QZoucojR58_dUNYrnjt_yvA@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=r3Ai1HxN
+Received: from CPC-namja-026ON.localdomain (unknown [4.213.232.21])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6A3FA20B7167;
+	Mon,  2 Nov 2026 09:22:33 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6A3FA20B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1793640157;
+	bh=GemoAJ3Z9yvwRRBlFGwLRVr4LorqE6trrN/CR7hKuuw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=r3Ai1HxNbWb3kZc4YpHHnwyB78qJED3cJGIzV/bToDtYwEpr98VNzVmUp9+1kiLWk
+	 dZcZ1liJefSKJgjTKMNKZvng1Jrqiw+a/ND3e5GT88xYQf+jjuLbmRWiC7/acABq6w
+	 q4+yOeght4ytzHjxfCRDYA3BTCwYDa3KhniGNwvk=
+From: Naman Jain <namjain@linux.microsoft.com>
+To: elliotjb@elliotjb.com
+Cc: tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	sashal@kernel.org,
+	willy@infradead.org,
+	almaz.alexandrovich@paragon-software.com,
+	gregkh@linuxfoundation.org,
+	jack@suse.cz,
+	sunyongjian1@huawei.com,
+	tomberek@gmail.com,
+	stable@vger.kernel.org,
+	regressions@lists.linux.dev,
+	linux-ext4@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ntfs3@lists.linux.dev
+Subject: Re: [PATCH 6.1.y 0/2] Fix NULL folio dereferences from IS_ERR() checks in 6.1.191
+Date: Mon,  2 Nov 2026 17:22:43 +0000
+Message-ID: <20261102172243.2183638-1-namjain@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261102-ext4-ntfs3-null-folio-v1-0-4fd91ee23a4a@elliotjb.com>
+References: <20261102-ext4-ntfs3-null-folio-v1-0-4fd91ee23a4a@elliotjb.com>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -75,96 +72,39 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxhQ3uhq6s+4deEJAQV5iy8QZoucojR58_dUNYrnjt_yvA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
 
-On Monday 02 November 2026 16:09:41 Amir Goldstein wrote:
-> On Mon, Nov 2, 2026 at 3:24 PM Pali Rohár <pali@kernel.org> wrote:
-> >
-> > On Sunday 01 November 2026 02:55:49 koraynilay wrote:
-> > > @@ -154,6 +158,11 @@ int ntfs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *dentry,
-> > >       if (flags & FS_APPEND_FL)
-> > >               new_fl |= S_APPEND;
-> > >
-> > > +     if (fa->fsx_xflags & FS_XFLAG_PTIME) {
-> > > +             ni->i_crtime.tv_sec = fa->fsx_ptime.tv_sec;
-> > > +             ni->i_crtime.tv_nsec = fa->fsx_ptime.tv_nsec;
-> > > +     }
-> > > +
-> > >       inode_set_flags(inode, new_fl, S_IMMUTABLE | S_APPEND);
-> > >
-> > >       /* Save nodump flag to return in ntfs_getattr. */
-> > > @@ -275,8 +284,9 @@ int ntfs_getattr(const struct mnt_idmap *idmap, const struct path *path,
-> > >       if (unlikely(is_bad_ni(ni)))
-> > >               return -EINVAL;
-> > >
-> > > -     stat->result_mask |= STATX_BTIME;
-> > > +     stat->result_mask |= (STATX_BTIME | STATX_PTIME);
-> > >       stat->btime = ni->i_crtime;
-> > > +     stat->ptime = ni->i_crtime;
-> >
-> > For me this patch looks dangerous. Somehow I would expect that the
-> > "btime" will never change for existing inode.
-> >
-> > But because the ptime is mapped to i_crtime and ptime is settable from
-> > userspace, with this patch it is directly possible to change btime.
-> >
-> >
-> >
-> > I was thinking more about it... Is not this just misunderstanding of how
-> > the security model around the times is working on different systems?
-> > Because on NTFS there is stored just one field which says when the file
-> > was created. There are not two fields like "time set by user and time
-> > set by system".
-> >
-> > Windows security model allows anybody with WRITE_ATTRIBUTES access to
-> > change that create time. Linux security model does not allow to change it.
-> >
-> > NTFS in this view is just a filesystem like any other (ext4, btrfs, ...).
-> > In my opinion if the ext4 or btrfs filesystem is correctly implemented
-> > on Windows systems, then Windows security model should handle it in the
-> > same way like for NTFS or exFAT. So if something grants WRITE_ATTRIBUTES
-> > access, then Windows should allow to change also btime on ext4 or btrfs.
-> >
-> >
-> >
-> > On the other hand, I understand the use case to have two creation times.
-> > One time which would never be changed and could be used for any kind of
-> > atomic / synchronization by userspace application logic (this btime).
-> > And another time for human which can be changed at any time to any value
-> > which user wants (this ptime).
-> >
-> > In any case, I would suggest that filesystem driver would not report to
-> > userspace unsupported values and would not try to invent other values
-> > and lying about them.
-> 
-> But all those fs with mutable creation time already report it with STATX_BTIME
-> so what can we do about this?
+> Elliot Berman <elliotjb@elliotjb.com>
+>
+> We hit a kernel oops in 6.1.191 in ext4_mb_regular_allocator(), When
+> ext4's s_buddy_cache pages are evicted, the next block allocation
+> dereferences a NULL folio.
+> The cause is a mismatch in these backports first released in 6.1.191:
+>     d34e4fd4e73f ("ext4: convert bd_bitmap_page to bd_bitmap_folio")
+>     862483175d3d ("ext4: convert bd_buddy_page to bd_buddy_folio")
+>
+> The ext4 mballoc folio conversions were written for v6.4 and later,
+> where __filemap_get_folio() returns ERR_PTR() on failure. 6.1 does
+> not have commit 66dabbb65d67 ("mm: return an ERR_PTR from
+> __filemap_get_folio") and returns NULL instead. The backports should
+> check for NULL and not IS_ERR.
+> Since the same mistake could exist elsewhere, I ran a Coccinelle script
+> over the tree to flag similar missed backports. Besides ext4, I found
+> one more case in ntfs3:
+>     95b917a14b15 ("ntfs: Do not overwrite uptodate pages")
+>
+> That one needs a folio allocation failure while reading a compressed
+> file, so it required crafting a fault injection in
+> __filemap_add_folio to reproduce. I've fixed this one as well.
 
-Well, what I wanted above to point out is that the "mutability" of
-creation time is not feature of filesystem, but in my opinion rather
-property of the security model on the running operating system.
+I actually sent a similar patch a little later to fix the same issue :)
+We can now ignore that. For ntfs3, there is already a patch fixing the
+same issue:
 
-Maybe better question is: how ext4 btimes differs from the ntfs btime?
-In my opinion there is no much difference, both of them has meaning
-"time when was the file created".
+https://lore.kernel.org/all/20261029031815.2783998-1-cmllamas@google.com/
 
-> If userspace requests both STATX_BTIME|STATX_PTIME in mask arg,
-> those fs could technically return only STATX_PTIME and it should not regress
-> existing programs.
-> 
-> But this is still a bit surprising behavior is it not?
-> 
-> Thanks,
-> Amir.
+For the series:
+Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
 
-I'm not sure what to do with it.
-
-If we allow to change btime of ntfs then for consistency we should also
-allow to change btime of ext4.
-
-Maybe another idea... define new capability which would allow to change
-btime (on any filesystem)? This would at least make the consistency.
+Regards,
+Naman Jain
