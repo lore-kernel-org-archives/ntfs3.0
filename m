@@ -1,68 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793640172;
-	b=skeG7PD4Eh9Hogp+jZZ0c427nI86n4Yml5595uGxPeanUFwZV2a1RUrpwgNgFS5VaPCP
-	 aUnqv2X5p94DKEoZDhD7MPoiRUA9Rj98c6mCqGcG6PJLnCvEKulzCyTtl/NBjldsTyaKh
-	 SwjvuHW3m4ueTFsnYJv3Dx8p0+PyflzMNmu7bG36apaapHFwHfGtDBAAGX4FmwssJiMvF
-	 3JBb4m7v/+CArX/TrPIxwAgyS91uYUGuOOXMv/4zB2iCyAOpCMhjobm5CgAFsvZsVksin
-	 QuoP2XMebHV1NlQJCcG/LKY5AqmWlccaXAdJfykzWlry1iZUxr7Twheyv00HsAy2ncg==
+	t=1793642351;
+	b=hWlJrmB+hToNYM8UNjP6sQ4T3/4SIpdBs5LBaXn2aIOz/sDx4yzBkZoqgpjWYNL6X4sn
+	 rkc9Gy836iB4acfsooMf32mVULjqumzEnEX5MnRYTM2a2FEGkiPisYeU7C6J3lHOXh/L1
+	 ULyErRoPRodmwLbacZraEYQUVEOmdp6lrYaBfBSkL90sVTSW1vbjFCL9StK05m6vAdg60
+	 BpQpafArPe0VJaiWa3sdg69LpQMLGlcAr2s0YbAsTdGl0MiTXB1EVrMQJHPMPEuR1Uvr8
+	 C18ue046xV4E7hEZN/kHGm6yuktd+mdDbXcQVJn3mFuJd5n2K1EkXbVLvK2UR4gMUSQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793640172;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Spam-Status:X-Spam-Checker-Version;
-	bh=GemoAJ3Z9yvwRRBlFGwLRVr4LorqE6trrN/CR7hKuuw=;
-	b=P6JNZSJxCguo8cerT7MsSPXmrucBl9S9rl90X/YbQBjpspvK8CKvCK60Qzt10Z6FQM+V
-	 MF38Drb+Cr2BxYGm8dw8RU6aGXaqe76NVuclPkmYBty/iUajZtexEOhZeJgTJ4ubSE++r
-	 1Wh24V4PYy8q2fb4xvm/MpYSpcbarlujE/Rw+N1tsi0DD8aJ8Iqut3Sqcqw0iSgzm8gIG
-	 ooiqzDZi5q2/u96mfmLSs+w9JrH0CXUrT4mNc5CWJ6jjLOYXZ1IHId1yknS6x5ARuoPSI
-	 xvREnVZzSc0wtTwRbFN+QFxV+ZQjlsRlKGbsRBMCrRFQIbdn7FWXFp3Znb/wsbDOJOw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793642351;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=/vXXDZI2TLqXD/tqTZGHj/cF0YcMq0fXP1TpWYkM2ME=;
+	b=43C4ioMBlWonCo7BgQy0HyPD3/DJhN3ZbXIntWyRAzZjWgHRgA/V6s+tz88RQTS6i2Gt
+	 A20B/fG0rsOyjtKMPKJqJgfqUqH+6yRlvCYXiiZFiVxg/R9zcPxxGhZbHpxukBQTdqz+t
+	 3ORU0JlBINppMv8MSqmQwtxH/6tPDm2eJ9W4cYmJDvPJgmB9J8Kjm74yJkA9n7I0kPE7G
+	 x5sPVB4I3uGROhd8aNjgQWiDyh/jd58Mwq+sVI0/dIorzZ5mIwKJbhRg99hlUg7DL/BRG
+	 bvKbFvavUAo+TFQ0YqBpv6ftLBrk8K3ermNDb7XBuumBG0ARmMjoPSD+I2Q5ybZigWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=r3Ai1HxN;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E61F8606B0E7;
-	Mon,  2 Nov 2026 17:22:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E61F8606B0E7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dmarc=none header.from=linux-foundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=DApXZtXN;
+	arc=none smtp.remote-ip=209.85.218.54
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F19A606A331
+	for <ntfs3@lists.linux.dev>; Mon,  2 Nov 2026 17:59:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F19A606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=r3Ai1HxN
-Received: from CPC-namja-026ON.localdomain (unknown [4.213.232.21])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6A3FA20B7167;
-	Mon,  2 Nov 2026 09:22:33 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6A3FA20B7167
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1793640157;
-	bh=GemoAJ3Z9yvwRRBlFGwLRVr4LorqE6trrN/CR7hKuuw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=r3Ai1HxNbWb3kZc4YpHHnwyB78qJED3cJGIzV/bToDtYwEpr98VNzVmUp9+1kiLWk
-	 dZcZ1liJefSKJgjTKMNKZvng1Jrqiw+a/ND3e5GT88xYQf+jjuLbmRWiC7/acABq6w
-	 q4+yOeght4ytzHjxfCRDYA3BTCwYDa3KhniGNwvk=
-From: Naman Jain <namjain@linux.microsoft.com>
-To: elliotjb@elliotjb.com
-Cc: tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	sashal@kernel.org,
-	willy@infradead.org,
-	almaz.alexandrovich@paragon-software.com,
-	gregkh@linuxfoundation.org,
-	jack@suse.cz,
-	sunyongjian1@huawei.com,
-	tomberek@gmail.com,
-	stable@vger.kernel.org,
-	regressions@lists.linux.dev,
-	linux-ext4@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev
-Subject: Re: [PATCH 6.1.y 0/2] Fix NULL folio dereferences from IS_ERR() checks in 6.1.191
-Date: Mon,  2 Nov 2026 17:22:43 +0000
-Message-ID: <20261102172243.2183638-1-namjain@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261102-ext4-ntfs3-null-folio-v1-0-4fd91ee23a4a@elliotjb.com>
-References: <20261102-ext4-ntfs3-null-folio-v1-0-4fd91ee23a4a@elliotjb.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=DApXZtXN
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c40e30c26a4so833827366b.0
+        for <ntfs3@lists.linux.dev>; Mon, 02 Nov 2026 09:59:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1793642349; x=1794247149; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/vXXDZI2TLqXD/tqTZGHj/cF0YcMq0fXP1TpWYkM2ME=;
+        b=DApXZtXNn/T4yDTck/qzbmPQgaYc07t8AgDxZKHUrLXKnIdKXokjT6mrekgpgGBLys
+         b4cbKCYsR1/6hHMbPkkE5LWBWxKS0JG2UVG5A3B9PVhyiv04/kkrcXeFWHFjQEpz7hzi
+         3j7iitWiiGYc3HQXIgVcpdrIFYuEQEwwP36/E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793642349; x=1794247149;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/vXXDZI2TLqXD/tqTZGHj/cF0YcMq0fXP1TpWYkM2ME=;
+        b=e0cqOsq3i2kd//Yb/Ghv94IuV4MxovIUTm0iLWMBcWsKLiuuXmuER8Cd5sHO/1Akm1
+         v3vY4TaOl55K2gBfImuDau5/907I9706L9yjZI3cbYsHGLiUFqqNHYuIVOv1+aFPS4/V
+         4PYuwWiixIy6LbLbqqlHOFGAlfo68rEL6NESSb5aOuzZy35CwUKIZycrUMtlhjFPhvG8
+         9D0lBdxDjxiaMJq+CAF94uH3DvOcnWwuCICcYKh7boUN0552Gy3EvC1u8T0epmcy7dob
+         pxBpYoHojKk9Uom/sOu9k62/lIqYHvdP1MFnMRx6V2+XSixVrJr5a4BdQp6dfsQajo3q
+         S1CA==
+X-Forwarded-Encrypted: i=1; AKwUvBycgV6NfUgKyIKDz2ZWNJv/PeNOx7Z6L+46eKmcCkvbZ0M4v8wkTjTtwHZ4XzYmfUzZijM0uQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJCYpI1W3B5/q3renkiEiZ51TZ6Tw2Ce9AvSiD/c+CarUMnMMTZ
+	QOL/PlUA2Ygy3ZB7jF1PfRqBndbfa/9eN+Y+W2CSMxexrDdccHLgu1vFtKDMpX1FGJ40zjyXrHz
+	Vev6Wa5M=
+X-Gm-Gg: AYBFou1X91UJkvKX1heebNKydIMQ37oll3PumhwuzD66H1/SoZMlU5eyV9s4Uu64lGO
+	ahJUk0RFi8LldSbc9tknR0QriKPtu0pzqFpphk/xNPK3r5JHoanQdUs5RdxRWsfbnmDEJscIm+9
+	Fw7CpO/Z1K/iKRIDDwKpfeiOtZndgmHdAu4mp9DQnSzeYa6iOlZWSiGJAEUYxRjJ8+sQxgTPjhY
+	qIIlCOofSqZ23zyi99T90LpDhVr8lcSvPcjIwDiWS4pLHmBrsV4fXIczt16umhFY3FrfibeRUON
+	a7C6MG4+C8ctbqkbM1VFaIdErG8sc7B1ydBsrd9eevww8HF3/kgJjb13mH7FyAb/jH/CkAXgDZm
+	u8S/QsFyDYPp7zReJdZEA6FVlD+umx2esknaMpYUPd2cGxPxOor+8krpyWJHPWeWTReOQQRciAe
+	tE2rj4QP59flm8PASYZOw8quMuLikSh/M9H1wUR/rkyrSPh5dBY+UUfUDZW+1ODVnMkqk8KR8Gw
+	XutkycgMwvofKwgatqoj5YPRSUyQY+cRk0tJmc84IGtkrC4fBCYtAJ/qfRr8AbGRc6WWmJ3Ko1M
+	I87gZaI+mTw5aYDArGffK9eJyuvEj2G5e1pz0ZbpjGCb/Wr6Kgv8ycOPB120TLHlRpu4cfFyorp
+	kpg==
+X-Received: by 2002:a17:907:3e90:b0:c2e:62af:b6fe with SMTP id a640c23a62f3a-c4ca7a42386mr952564266b.8.1793642348751;
+        Mon, 02 Nov 2026 09:59:08 -0800 (PST)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com. [209.85.208.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4cebebf241sm12489866b.24.2026.11.02.09.59.08
+        for <ntfs3@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Nov 2026 09:59:08 -0800 (PST)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6b1aa27963eso7716048a12.1
+        for <ntfs3@lists.linux.dev>; Mon, 02 Nov 2026 09:59:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AKwUvBzlxxMUSzQaan0fi5oCctoNfaz7s5xCWXjCFlntBCxlcCm0Q+We/C7tjacMRuFTzOfOszG+PQ==@lists.linux.dev
+X-Received: by 2002:a17:907:d94:b0:c2d:c80e:8366 with SMTP id
+ a640c23a62f3a-c4ca7426f6emr874452266b.0.1793642348398; Mon, 02 Nov 2026
+ 09:59:08 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -72,39 +94,60 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org> <20261102-work-procfs-bugfixes-v1-1-59422ed3e465@kernel.org>
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-1-59422ed3e465@kernel.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 2 Nov 2026 09:58:51 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wiSA7-mqmAjTQDaU7UjUyWt0TxYwXHafL8ZAPudy+B_uQ@mail.gmail.com>
+X-Gm-Features: AclHuK_qZTBVsLQIdymgRHScSFenC6XsGggUDmcuOugjrSTbuVkeASUmC_hYPZo
+Message-ID: <CAHk-=wiSA7-mqmAjTQDaU7UjUyWt0TxYwXHafL8ZAPudy+B_uQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 01/38] PCI/proc: don't truncate the position of config
+ space accesses
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>, 
+	Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Jan Kara <jack@suse.com>, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
+	platform-driver-x86@vger.kernel.org, coreteam@netfilter.org, 
+	kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net, 
+	jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, 
+	samba-technical@lists.samba.org, sparclinux@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-> Elliot Berman <elliotjb@elliotjb.com>
+On Mon, 2 Nov 2026 at 06:22, Christian Brauner <brauner@kernel.org> wrote:
 >
-> We hit a kernel oops in 6.1.191 in ext4_mb_regular_allocator(), When
-> ext4's s_buddy_cache pages are evicted, the next block allocation
-> dereferences a NULL folio.
-> The cause is a mismatch in these backports first released in 6.1.191:
->     d34e4fd4e73f ("ext4: convert bd_bitmap_page to bd_bitmap_folio")
->     862483175d3d ("ext4: convert bd_buddy_page to bd_buddy_folio")
->
-> The ext4 mballoc folio conversions were written for v6.4 and later,
-> where __filemap_get_folio() returns ERR_PTR() on failure. 6.1 does
-> not have commit 66dabbb65d67 ("mm: return an ERR_PTR from
-> __filemap_get_folio") and returns NULL instead. The backports should
-> check for NULL and not IS_ERR.
-> Since the same mistake could exist elsewhere, I ran a Coccinelle script
-> over the tree to flag similar missed backports. Besides ext4, I found
-> one more case in ntfs3:
->     95b917a14b15 ("ntfs: Do not overwrite uptodate pages")
->
-> That one needs a folio allocation failure while reading a compressed
-> file, so it required crafting a fault injection in
-> __filemap_add_folio to reproduce. I've fixed this one as well.
+> proc_bus_pci_write() truncates the file position to an int. A pwrite()
+> at an offset like 0xfffff000 turns it negative [..]
 
-I actually sent a similar patch a little later to fix the same issue :)
-We can now ignore that. For ntfs3, there is already a patch fixing the
-same issue:
+I think this would actually be better with rw_verify_area() just
+checking a per-file maxbytes.
 
-https://lore.kernel.org/all/20261029031815.2783998-1-cmllamas@google.com/
+We already have that logic for lseek and friends - using that fairly
+hacky combination of s_maxbytes and !unsigned_offsets().
 
-For the series:
-Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
+We should combine s_maxbytes and unsigned_offsets() at file open time
+into f_maxbytes and check that not just at lseek but in
+rw_verify_area.
 
-Regards,
-Naman Jain
+And then things like proc_bus_pci could set it's size limit in one single place.
+
+Hmm?
+
+                   Linus
