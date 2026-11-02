@@ -1,95 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.48
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793595180;
-	b=m3my+bKSOxHbpD6QeL2ztO33lTH8FBvMRbKsvoCN+rXIlrwQg40elqTaL6TKFyfYMP2e
-	 BahCBdQqzzlP8+EJqgOIuPeJKjr9JA+4bCLcY6G+vfvJrItmODMgpEpWRCmXOs9IGMN/8
-	 skT9kl9IP6Q71JJPnRLJIy90a1BGk+WJE5joJWrbltY+uP3iOwTkHU+JE0FABe8lGvtt8
-	 Ezapx3g6b77atb5lJOqNSIiCAN97S9f9hRy6G+AtQTBHai6b3KzqpwJ34FflZjyk1cmkf
-	 eIJ8KJZP89hFNHziWJWCqn5G9R+fCz7DvM8MtKQJnioGiwlZzUR6Ci7odWNfkU0rF7A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793595180;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.46
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793628048;
+	b=1YYzStY/eR+/s+/IMHs4vlgxJzLjlD4o3CCkOQBcNa0tPUOzGuHPwRXU/UOWO6WIRtMh
+	 kh2H67tTP3pceQjuNJPK04+KMAj7Lhlff4Yli7vcIJ4B0jFyvToIFI1JyVwy5CQOb6/JO
+	 puBjTfijEP2Dbv9jEs0myFF/NFivNyUbHh+LsQB4MWUMvVb1Wd9pltbwf2hq9CDgaM6g9
+	 SLLmGXN5ipvWD/BzCZ3jOi+7lEZH4DNCTzkGXtSNbr1Q6yTGF3ydHhk+yrcMFOL6NpfRz
+	 2V11SD3aj26Kw8Qg9HyzVEPQw+a3B5Evx1bI20Z2RI+j9YkKzG4EqRlEdiCZCxJahfg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793628048;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=6oqpKxk86SD+jV+VPFMFYNzOMC1DXOMLFvPv0KulzKw=;
-	b=XR1s/wSFuQ0+vSWbFgP5mgJaJU4QWmtQFYeA78MCfuoTgYYVCBoZiiTuwsOe+dAby1bM
-	 r0WLLSmYx2Bo0JJDThSk8aGrSO98JHjC8Hh0MweCpYpr/h4wa5IyAW7r1IwbzYTxblanU
-	 +2oG1InB6F3e6nTj/bF8zL04SPf3zvHzY2tg86nfW5I9Ijyh9Uv0wAgzSIkFcCUiKw5Qz
-	 Od5JPfB7ZHg3utKLxWFYoI2CRL0bMFDz5qiWYAihUGkbbEpE8urGr7WdEmHXDQzuZhn6D
-	 Cab884mTnE2S0CzPwoWHSoy0oKKbimZJ89EYmrS1crLBILaA8grgS3tF8nXA4/L263Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=s5Xf4onWksy+tbgDhi+LvOuZ3PKtrfpCQRc1Tg6vJHg=;
+	b=jeOvB8u/bxaFylLkkjOTkWBoeCSSiGnPn48ODKSDPiv4Jm6CUIkA7+aO+wGSv8x0IhGr
+	 aCneUPgVmdCWmjguQaECpF4AWxb6C2xSOznBQ1xWRC5MGRxKIrGzR//ebdluXfdPYxkR1
+	 m1+Xx7si5/VmX5lpjMsko34SCh+6JMy/FHQQT98sxUNNmVNv7lPAzCeD06FceU3lppisK
+	 RE5Xq3Dze873KlrpYKxUzU6jU2kTamyGSMsP1Old2cAsFXFXtVy4/oA3tCl20p+GolH8+
+	 2T/IBsrvjUFN3YDZzwP2dEgaSRegCYFkax10ttz7SbO5jWKWzC8sDpMG2/fdDvRgMFA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NIPbQ3vd;
-	arc=none smtp.remote-ip=209.85.222.48
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.46
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DE6606A326
-	for <ntfs3@lists.linux.dev>; Mon,  2 Nov 2026 04:52:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14DE6606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628C960A2636
+	for <ntfs3@lists.linux.dev>; Mon,  2 Nov 2026 14:00:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 628C960A2636
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NIPbQ3vd
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-980c4258105so1467600241.2
-        for <ntfs3@lists.linux.dev>; Sun, 01 Nov 2026 20:52:59 -0800 (PST)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c4203bbb1e9so488624966b.3
+        for <ntfs3@lists.linux.dev>; Mon, 02 Nov 2026 06:00:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793628042; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NqB3C7HhaKRUMy8itz+p8KJOl4ijn4+I5C2/H5HsH/T+cO14beB5R9TaKic3oWA6eq
+         9lO3tGmqh4IosoOZ/vcw8qxUQYWjUv4TN/Ury4udr8efh0S5QBwUtwubRtHsu9+5cGHf
+         bD+k61d1AKY6gA17pSSfYPVnrDWi/ywu5KCS8oujrhKpK084g3WV63cLMhdXPnQdtkcZ
+         Kxo4hffYlLpPEmIFeRMVegvti6v7mFmrSgi0skpl7PGTaitwYblhJGiAKdCh2XdH/XQI
+         mee8NjmtM29jmQC2kPCXxpVyhlb+PEQBRmgLQlO9McXfLmceeNfirU9WYm9z0FNoRkmb
+         ITzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=s5Xf4onWksy+tbgDhi+LvOuZ3PKtrfpCQRc1Tg6vJHg=;
+        fh=mD4nLcBRhtxdPBFNGrhgjgefp4jypUnFYyFwPsNDDvU=;
+        b=oIuMiC6ojLnZZ0DBy2OMmSe44pb1ZVr7HSXQz3TLNBDJ5pzga5ktIJybmp78wNYLpP
+         vpaaj6wPd8nTA/qPzEukTdTLZVx9kTk8m98SyqjLYrCSP/IU/PMSw8OGsLQPiIegrRrF
+         FteOUBrVzUdIWbOjPRnH9o6FAVc1PJ3m1XqECpR6vSV16Z0Nuvw0D9a7lp1g0OYzVoGE
+         7dFAAl8oC5Nn10TonAFsI3ANOcYxm8hzTdMFJlKY6lO1Lv9OKPmo/rwdn3qZnwW9Sbdh
+         anH1cV52/xMQrgy4KpkUKdqq4AydThPzx0r/D3ZjKSlU4BreXI5E9YOCXDo1kkFXHYtj
+         yRfw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793595179; x=1794199979; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6oqpKxk86SD+jV+VPFMFYNzOMC1DXOMLFvPv0KulzKw=;
-        b=NIPbQ3vdSyxbQyGwnEkDyRVAPt9S6YQ/zYC7TX6cqTJKKt9cvGxniNzaONfAjoDjCQ
-         uUuqk4TqcJy5GcMR7iRizOrUBZIJUTnM198+1QhVCsrw2rCVkJrbzKrBR6ZeRC6cdWc8
-         JPoxz2Z7XrWV13ftO61SLt1kI4Qm5T7tNuIJ/MhIpOcvaUK5NZUjQwicWIeO6B7Xpcgv
-         ZEVpnTJhSD78C5eYIZ1XIJPAOdU2Y//S4D3LZg102FXSpE2/C6eaWzFKV4DrRo+WBv5N
-         omJqO13Re6Us5xr1OO6OIGuI9YgAMY7HFmkgQqwLpPA0OH1EA8J+twZLN9JYzxTJnclP
-         V5bQ==
+        d=gmail.com; s=20260707; t=1793628042; x=1794232842; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=s5Xf4onWksy+tbgDhi+LvOuZ3PKtrfpCQRc1Tg6vJHg=;
+        b=cHgSMpBwtlzDeUSJVncSojDt4Z8dPmCcpdxzKZY6Zej1HDqFJ0f/XC540nCsl+dXIH
+         V4vgS5ZPpp9zfRnZvV9SYEFtLnFFmMB4sNpOaTLXMJaamAwRIMHbC0twOW4hB+AZfiRU
+         D5wOmWFcJ3mwZkYoVcL9Ig59H6YS7jO2FUIExUL3LGtFmVj92uIeyNDgXlKw4gPKdra4
+         ukWOIJr14HWFkk868QdHgXwk63nUp7UNrthE2UKeDGMdzwsz2pO8MxlP9A42R1qNyNkZ
+         ayBpAysuseDSjoza67frjoJZfsRcpURrmD/MosUI0Sn1dGiQaYYkVw5hPpSocpWdXjMg
+         2azQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793595179; x=1794199979;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6oqpKxk86SD+jV+VPFMFYNzOMC1DXOMLFvPv0KulzKw=;
-        b=u/AHJYG3lTeyt0v/KX2fPtefvx6KFnc5Rf+MQIl515pymcU5eGPLH7x0DvmyY/1ly+
-         VYP+rps3VygDjZqjLAEH4HiuPhNvYRYYG++7WNvDyR5hP/crNeccsRGIWlYoSGXwBg1d
-         TLPCm0sVMnRNYXSv6mawDrGx/1tsgaetDc0RZ9jonPTMGeZRxmffJ9VLY+MxDvRDQ3bj
-         GfHcKxgcpU0fWWsSKJ5foY02qMvw8gxsAkk4YQFW0v+HbE7ZVaHzHxeJt8D9qJk94Mx0
-         RfAL3k6JYGGiA/DLNXCCvF0+TiyXBJRlCOA8HmadCg7CPjIpqbhKl1EdMsxT3q8RKR1y
-         oNug==
-X-Gm-Message-State: APuU4Z8LPBt9RtExFZNP948LWd0iWdvFSlhzUarglSt2OHY+Cx3tCf89
-	PwmAfa4gU/wr6M+bP22YO7wPinNESJErMnPhykOIiLqtMLY8tNI4az5I
-X-Gm-Gg: AYBFou17cwsDhoR3p148lm+2eBq2S1WkK2OT/M4ScekIkCMAhiPPZxYc4ESWb+H5M97
-	STlzJEy1xSfU1mCkPXSADELbhpayp+4iGzOqadS/u2t76Z5wPcXwUmslvKBPYghGgb3HzACjyIJ
-	ynCDbsFeuGHj5Qx+3YpRvH/6C8gmFvLrSfibiDs5ufCalq9J9j3Efmy8jGUrFFPD4Q+QaoB/dZx
-	wsoY/yNO/3MhZqpO306cZ1dyOh3pRXNS1KVLQfXID7yL+oghcX4PN/W/TNcea4aMI2lknjfu61L
-	XXEZwrz3Vj5WR5NwJJcGtrXMd2FQ7gbrq6uQFJsgYnagE/+WtlEW4R07eegmLizdSJ2iUr8WOBI
-	WyI/CaZPyJKVl0qBT7Njsz5tqpXmYPl+nALAbRSgbyf0uTtOM01PvW4TbfM1ZPGkNrXlBGczUpi
-	rOweOxpz3TLchKgWaZvNysOZApYg6LyfH5hksyr8nr2IcwgfZ1bfwjdzICHfIUVo1y556GrjmC3
-	k1YivFVDTxjnJU/3uXrbwLoe5M3u/yM/CKDHCMx7PheU54Grf4CpvQxWpJoAEmBylXXp1HnY5Jc
-	sN/c9l8xHEibUO0jUX0PB/D4fS61df27wdB0iWevczVnhTuOmEtE2BQq8WY=
-X-Received: by 2002:a67:e102:0:b0:7cc:2086:34e0 with SMTP id ada2fe7eead31-7d0728b1cffmr2728316137.4.1793595179009;
-        Sun, 01 Nov 2026 20:52:59 -0800 (PST)
-Received: from bridge.. ([2804:14d:ba6b:8339:72cc:e44:b5d6:98cb])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-992ee4c1603sm10652171241.10.2026.11.01.20.52.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 20:52:57 -0800 (PST)
-From: Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	yun.zhou@windriver.com,
-	syzbot+5c0ed4f2974a8b100ed4@syzkaller.appspotmail.com,
-	Christian Aurich Zanettini Martins <christian.aurichzm@gmail.com>
-Subject: Re: [PATCH v2] fs/ntfs3: fix double ni_unlock() in ntfs_readdir()
-Date: Mon,  2 Nov 2026 01:52:33 -0300
-Message-ID: <20261102045233.16718-1-christian.aurichzm@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261029052102.1585462-1-christian.aurichzm@gmail.com>
-References: <20261029052102.1585462-1-christian.aurichzm@gmail.com>
+        d=1e100.net; s=20260707; t=1793628042; x=1794232842;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=s5Xf4onWksy+tbgDhi+LvOuZ3PKtrfpCQRc1Tg6vJHg=;
+        b=Rfv+nhACjYnde7ODSijqFS6kGe3oXnwyTIAB5LBHPtyAUAGt+K7Tb/TG9A1Uye4KUG
+         C8LFP85JXrsSI6Re1VDu2jP1yohASpZfaFan/AnFj9e9PECWT6unxEdbMnuvNJw4cjIp
+         V0xAcPfVgEdqXyoRKY6LV95PZyeZ/dp85jpoRDHDRgPbdgYYbHluFrR7o3i6ZBBcVOxh
+         clrM3Aey2Sg2JMHiDSH6YzKJ6g+FoQnM/5QN7KCasT71ynFcRyOFC/mTGZNLdu0kQmMl
+         Xfx3XkNZ2Ks99RFXDM9Yya3Zj8kfdF8FZNORdrRFdJfIPyfYX1vgiS69oXvZM4rM3fF8
+         lf8A==
+X-Forwarded-Encrypted: i=1; AKwUvBy559PALxxMPXWs7lXPpmSi79h1gjjiw9e2h57c2q2yzG33UstMv2fECt6z9lc6bVpL5jatTQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+IoHI16bD/rKf55DjUkTh3vuEChVVCdg+oXOJhsZ57Ff0/IkDS
+	lq7QqidxJgisPcj7Mpan5I3h97R8iD/xZK3zPixtn19RuK9xxoq66p4HMws92VfNn4ZFQhNMKB7
+	GL9+1tWxCztJiOoawfHL+nfHHVSfjwBw=
+X-Gm-Gg: AYBFou04FqNzfdUF7qQZHh0ZquwXHPJgu9evdDkbKhR24pySmF/1tYbDSa7Hc/6yaRK
+	j3l9zgMb9FoKmfYITeqB0xgEa01OpXxmiYPmz7USHsFUbkk7vxb4fvUs631YKBiTena5XLg6dAM
+	A7eratL58jQPZkS+Os1N8kvMdOkDQGf5HYaC8wOBRhhQLvhYg8ciksxvim7qtlaBCI3DoVBn3rs
+	dh+J5tgyMKe2k0xNBlAJ3JzPN5jp/y2oFuaPMGmCR3DcNWw3LN8+oBWiSia3akoxLbfEfRuZBqE
+	RQW8DsDvEVCF8LLFg9qJes9rgV3sC9IqhZ8C5j4ewpiHhDVsw2BejhQZNkhRTN42RD6r7+IoVeX
+	f0ECO147749cnrHrdI4//4T6GYxsQyUyI1HIGCqcOn8r+8GunTIu07vbjlJeqx+pqqlp4Sw==
+X-Received: by 2002:a17:906:9f87:b0:c33:9fab:5f61 with SMTP id
+ a640c23a62f3a-c4ca7a80dfcmr888696766b.29.1793628041476; Mon, 02 Nov 2026
+ 06:00:41 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -99,9 +101,112 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261101015551.786044-1-koray.fra@gmail.com> <20261101015551.786044-2-koray.fra@gmail.com>
+In-Reply-To: <20261101015551.786044-2-koray.fra@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 2 Nov 2026 15:00:29 +0100
+X-Gm-Features: AclHuK8C6KXo0yGTK4G9AdpXOF6ch7dlD0GPHOdparCBMVqSIwGLvVGFGi1BG64
+Message-ID: <CAOQ4uxiuJ=eZu28FZAUz3rpqPKqCimPxJucOnYYuBowvD09_Cw@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 1/5] vfs: add provenance time (ptime)
+To: koraynilay <koray.fra@gmail.com>
+Cc: David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Chris Mason <mason@kernel.org>, 
+	Jan Kara <jack@suse.cz>, Yuezhang Mo <yuezhang.mo@sony.com>, Chuck Lever <cel@kernel.org>, 
+	"Darrick J . Wong" <djwong@kernel.org>, Sean Smith <defendthedisabled@gmail.com>, 
+	Andrey Albershteyn <aalbersh@kernel.org>, Pedro Falcato <pfalcato@suse.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, exfat@lists.linux.dev, ntfs3@lists.linux.dev, 
+	linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Konstantin,
+On Sun, Nov 1, 2026 at 2:57=E2=80=AFAM koraynilay <koray.fra@gmail.com> wro=
+te:
+>
+> Add provenance time (ptime), indicating the time when a file or
+> directory was created. This is user-settable via file_setattr() and
+> retrievable via statx(2) (using STATX_PTIME) or file_getattr().
+>
+> The semantics of when to preserve this new timestamp are the same as
+> mtime, the idea being that there is a correspondence like this:
+>
+> ctime <-> btime
+> mtime <-> ptime
+>
+> so every operation (copying, moving, ...) that currently preserves mtime
+> should also preserve ptime.
+>
+> Furthermore, in order to avoid the legacy FS_IOC_FSSETXATTR accepting
+> FS_XFLAG_PTIME, add an FS_FILE_ATTR_XFLAGS_MASK mask to support new
+> xflags, and use it in fileattr_to_file_attr()/file_attr_to_fileattr() to
+> allow ptime to be used with the file_setattr()/file_getattr() syscalls.
+>
+> [ This is a re-implementation of the initial patch[1] by Sean Smith
+>   <defendthedisabled@gmail.com>, following the advice[2] from Darrick J.
+>   Wong <djwong@kernel.org> of using file_setattr() instead of updating
+>   utimensat() ]
+>
+> [1]: https://lore.kernel.org/20260405195007.1306-2-DefendTheDisabled@gmai=
+l.com
+> [2]: https://lore.kernel.org/20260407014129.GC6192@frogsfrogsfrogs
+>
+> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.4.7
+> Signed-off-by: koraynilay <koray.fra@gmail.com>
+> ---
+>  fs/file_attr.c            | 33 +++++++++++++++++++++++++++++++--
+>  fs/stat.c                 |  2 ++
+>  include/linux/fileattr.h  |  5 +++++
+>  include/linux/stat.h      |  1 +
+>  include/uapi/linux/fs.h   |  8 +++++++-
+>  include/uapi/linux/stat.h |  7 ++++++-
+>  6 files changed, 52 insertions(+), 4 deletions(-)
+>
+> diff --git a/fs/file_attr.c b/fs/file_attr.c
+> index 833e03810b24..c0645cb22bf3 100644
+> --- a/fs/file_attr.c
+> +++ b/fs/file_attr.c
+> @@ -102,7 +102,7 @@ EXPORT_SYMBOL(vfs_fileattr_get);
+>  static void fileattr_to_file_attr(const struct file_kattr *fa,
+>                                   struct file_attr *fattr)
+>  {
+> -       __u32 mask =3D FS_XFLAGS_MASK;
+> +       __u32 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
+>
+>         memset(fattr, 0, sizeof(struct file_attr));
+>         fattr->fa_xflags =3D fa->fsx_xflags & mask;
+> @@ -110,6 +110,8 @@ static void fileattr_to_file_attr(const struct file_k=
+attr *fa,
+>         fattr->fa_nextents =3D fa->fsx_nextents;
+>         fattr->fa_projid =3D fa->fsx_projid;
+>         fattr->fa_cowextsize =3D fa->fsx_cowextsize;
+> +       fattr->fa_ptime_sec =3D fa->fsx_ptime.tv_sec;
+> +       fattr->fa_ptime_nsec =3D fa->fsx_ptime.tv_nsec;
+>  }
+>
+>  /**
+> @@ -141,15 +143,20 @@ EXPORT_SYMBOL(copy_fsxattr_to_user);
+>  static int file_attr_to_fileattr(const struct file_attr *fattr,
+>                                  struct file_kattr *fa)
+>  {
+> -       __u64 mask =3D FS_XFLAGS_MASK;
+> +       __u64 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
 
-Any update on this? The bug is in 7.4-rc1 now and syzbot is still
-hitting it. v2 still applies.
+That is not the correct way to extend this API.
+This fixed mask was added as a placeholder for
+"We intend to add support for more xflags to selective filesystems":
+https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-2-amir73il@gma=
+il.com/
+
+Please see this POC patch for filesystems to publish their supported
+xflags mask:
+https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-3-amir73il@gma=
+il.com/
+
+This will allow callers of file_getattr() to know if the filesystem
+supports ptime
+without trying to set it and failing.
+
+Thanks,
+Amir.
