@@ -1,75 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793723196;
-	b=de0t5tAyrnyXAbkQbiTZ2C+cbAYfDQs2cTyl/SqxKfDJG3XHdMeMj3022Ufe+mERdVAT
-	 +ZzygmdJOITO18ZCTcF6Hze1dneVPtjYSJLLNNOZ4bq4JZQoTyhfB2H4OWGAlSDtbAp8X
-	 lMw+lQb0HBhfuqekU6sPU6XOcgN62V2BzWtztyYNkR5lDMcxukdlo1ZJ+1pazOpZmQLfn
-	 yWXqCMjxYFEfYAIrmYqyKPh7vya7mLyXWm99lwJ3Yunl0DlePoZ15H46ZKsOVXA5XjajR
-	 amsBuX0CyCvpY0OOus2YL65Do0Uox5LMAGQG9R6+YMBItQrG2k2yVSvVPsokIp2mzZA==
+	t=1793725672;
+	b=Ne4aI8FcysQf+rxiy5vL1eNzY1fW5LaviJvE5Uoy3zuUNUVdnKpjz5rY9b2ygr4U2GW7
+	 HvbNOB95nWIrBnWkYvqKKOanbzDqLXKc641LZT1HYtFlzTGTyEXspGna0XSzBpNbE50Cd
+	 D0Qcff2Uh5q/Peb7WBrB2GYRYIoI6YMmAsZcGd8goRhaXo2pJisA80iQwWJ093VjEckWe
+	 RPp+pBFk/xFc+/mTgZzQe2bBiv9bclNnOzKQ27bAb76l/Bh1TbfDe9Cj5AtKg79Ba+nCp
+	 SC6CUp7Py6YvjIEtFfUNczrq7BS2bYGGLWB28Sq6Kf9Y6A4gGYTJZhEubZqOntsdylw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793723196;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=88x5nWCU4/5DUnm5J75+/44oJREtwTCj+m3lJcaJoNE=;
-	b=tdawQlYfgDrb3alGEDfr439O5Cw+xIZMzgxuDQTvu1eq98R7olpfgWnXNElxe+6RNneW
-	 +WtM6uldUVExM54iZpuquygLBgV4ss9v1DdlPrhBRgjlpJsdA9htasb5VqBuKI9xdRRZQ
-	 mXNqPuVznzoA01sj3DERKYaelKX3fIa36NpOutkvXGqh8Mxsj0eSKWhsIaJedFVEQIxti
-	 n7X9odVx6mncFTtIw7BeW8JUrJIaRC0dbILM11QFF47/8afyZkTDuml9E/fnFFfGtarJY
-	 +ME6FErInGL9MCUfBY7Ykc5Ds6s17BJZSRUQzGoG5BB1MPpvwHhtpkwzrDzTAt0asVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793725672;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:X-Mailer:
+	 References:In-Reply-To;
+	bh=sbBBeL9FwNcs8isoaaS5jNhxkuwqK/l+rrUFmNYN+7A=;
+	b=jqEYibUlI3qBuDw0o1b8u0FXhLx087OlgWVeKawRjZgS1b6GbRP8zqLQFeKDs4zGy4N6
+	 J1gIUKUttYf/KrVyHmfMiUgc5uq9gkmqRhhn6cJvRs95Heg+xJLJDCqPzziQivk3uHS0x
+	 whZEWRHuFGzcCcRF6exGmMZssb5n4zsrgthhtoJA0bFIflZVHEwXk7bdkJNlhftIToyCg
+	 EYZJXU+hCNzikKyZQm8D4H8oqG8Th+UFltr6nSid/xx4TBt4Qc9ujobzWeaJSbq6HAerC
+	 t33LjQ0rOyvPKhZBih79Y0Q7r73TA4f/r0KABTZbID5xc4xReBpYtB9GIlyrihgFkUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HyDteQG2;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NVm7J0ZK;
+	arc=none smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259F4606A327;
-	Tue,  3 Nov 2026 16:26:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB28606A333
+	for <ntfs3@lists.linux.dev>; Tue,  3 Nov 2026 17:07:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BB28606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HyDteQG2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09A721F000C1;
-	Tue,  3 Nov 2026 16:26:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793723195;
-	bh=88x5nWCU4/5DUnm5J75+/44oJREtwTCj+m3lJcaJoNE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HyDteQG2VBDz2pwudxJvRFZ3NzuhMM1n/qoJyRpSIEa+4sIo8qfNjCKCMkx9fqPnu
-	 PTXEB3HB8c+csEYJbUqrD18YNji+Wb3P0nPR4rCDriU41qd0d35Q951xfxtaew6zqD
-	 xTRV7HQa/evoV4YEWVb3yEGxlVh8/pDAOnR650sPVOaA2QtXNMiUjYtFVGzVyuFmxJ
-	 cuqSFcaDMPcPNDAwdq/HarCHKLW8nQ/TcudxBJnTO/IQN1HpQ6LTm2xHx92xHn7YRV
-	 9GYQVIg2n29fkajQrtiWC1hueIuFYRrAfwMXbzDr3+UFxfeou5MMiBIFbN+ZYhp4th
-	 RFlMkVbcaKQDw==
-Date: Tue, 3 Nov 2026 17:26:21 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, 
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
-	Linuxppc Dev <linuxppc-dev@lists.ozlabs.org>, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
-	platform-driver-x86@vger.kernel.org, coreteam@netfilter.org, kexec@lists.infradead.org, 
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net, 
-	jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org, 
-	linux-usb@vger.kernel.org, samba-technical@lists.samba.org, sparclinux@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, 
-	linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH RFC 27/38] sunrpc: make queue_wait a global wait queue
- again
-Message-ID: <20261103-lufttemperatur-absondern-zweifach-31d272ad55ab@brauner>
-References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
- <20261102-work-procfs-bugfixes-v1-27-59422ed3e465@kernel.org>
- <16f91f93-16b4-49b1-b7fa-cec69759c349@app.fastmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NVm7J0ZK
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a2d6d01ecbso28482885e9.0
+        for <ntfs3@lists.linux.dev>; Tue, 03 Nov 2026 09:07:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793725669; x=1794330469; darn=lists.linux.dev;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=sbBBeL9FwNcs8isoaaS5jNhxkuwqK/l+rrUFmNYN+7A=;
+        b=NVm7J0ZKzIz+BEBj3K1/MabVWGzWQ4qu6kvlCRBrZWNT9Oldoy9DvI5Tr1NdNG4qpw
+         NnZHtPQgUdB6+qqKtAx5hX0FxgW5RP9QpRVzgoCS1V/OKcE0RWMvsjGT+h76CbCK8tUu
+         ILmRC2n+bwfub4hQ8/ZjYnUN7SHWOQ3vrAD26uHSBMkfQBUi/fxzSSH6Jct8AJ6MisDl
+         FTLKYAy2wpOEXK1MnQQksCm3yc1sLv18UVsdfPaVu+eZlmnyqq2QaVz11d7BPHRA9g6u
+         keHQJfVDNikQlLIYgvKYae9AiQFgPgQNoWA1rwP+sShrZASN/S74s1GX9YqgqeBcztRM
+         x9+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793725669; x=1794330469;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=sbBBeL9FwNcs8isoaaS5jNhxkuwqK/l+rrUFmNYN+7A=;
+        b=vwGC4dfN7HktGl1h9Sq/9MF10YntTa7U1Duh46lS3+UTeXXpWNY3NveV23Wm+PHshR
+         gA84/GDln7+wHnrsu2mJRJoMZICcUt7EtbUr7JciWE/pCc0mG2L9pxNQhPsNFYh1iR53
+         Cuo2my+kjoXcS/rucc8Z2FZVGEA5JZXfsagLrqx6bJMMu5gyXkgUsXFpHMc2SfffuAIY
+         vzFr1JeR50qutmET3xLBHPMynY6oVLpLQFqawPtmjqiZD1uT9iJuqD1MiHHUrLuZlAHX
+         hkdh0yXQL3tfOQVkzA2+hYPeKdzKlh7zGN0Wxn6RZcMdCGKjCWR3vv4olr1GY96ejFcU
+         m3Iw==
+X-Forwarded-Encrypted: i=1; AKwUvBx7UnU+V5jV5ROj0JjdQuXNcurM6UqFJr5A07l+t3WCYK4PGvHNGhchzs4F8zhEQkIicJs6NQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/3xe0h0rvffGwHYd0o96YEWAjzrpPjm0r4LyDJQAd6P1ZCY+b4
+	TyG62tuEGTUK+W76J9EAqJN8jIeqfHD9u8/Ido9oHQ8IKEoXDTbYnNFs
+X-Gm-Gg: AYBFou1H4NT68/wppyDZtbuGtIHb9DWyblyVSTJ0MMUz33YWNrh1LkP5JvXlOG/s/6K
+	OlqmheWRNwWxNRcyrh8rsF3KeyHVqQllymERwYUCRghdikD1naq3ojf9tHJt7uY5bIBo+i3Nti3
+	FNIadm9VXJ7kS437trpen0g995j6oWsgfPAdHJ60xcoF9u2CA4WjT5RDS2r+5mayeGuSY5KiVa4
+	I2oP4WC/2EC6eObQQWonr76Md1uco6p7VkmWJmu0hQnGzqpOI8aQ34hkDkcITXA5NXv5ZRHzkEE
+	BP+QIoIoK29iOdqM5uqAxtH5Vl067weF7yDIQvkQXVMXaLYRG/c/0JYmYBe894AHv4nEGcqCh9O
+	Xe+l62W8neLBxAwNbUZ/9/nwm9iWxhlBqN2dZmEdoRlhdxbRqsM5zMUEqcHDhhqV+qnjeRDLwW3
+	xFrAOPA0kWgM8/G7dmCLJ0QadaQeTeoTKisxqVfGKqbFBq8k9tmm+o3cW9q7lWSlKL3vrf/XYxt
+	cSyJNqnAjMzPvxK7ZQ7AmTIYYblhgfQjvYW0GWb3p3UdyvfS4upJfJ+gRnTHCu9Zrx8Mx46XwKv
+	IVN9ZpgEvZT5JZSZsOxVXB5vZg==
+X-Received: by 2002:a05:600c:3b09:b0:4b1:4017:c4f4 with SMTP id 5b1f17b1804b1-4b14017c507mr134378295e9.20.1793725669031;
+        Tue, 03 Nov 2026 09:07:49 -0800 (PST)
+Received: from localhost ([151.60.201.12])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ac0a66caefsm286352155e9.5.2026.11.03.09.07.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Nov 2026 09:07:47 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -78,73 +86,291 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <16f91f93-16b4-49b1-b7fa-cec69759c349@app.fastmail.com>
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=765487391675193c01a2810812621c4a1fd65a1637755f1280332809fdcb;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Tue, 03 Nov 2026 18:07:43 +0100
+Message-Id: <DMLQOHTQ5UV5.32Z3QPMCWLPOS@gmail.com>
+Subject: Re: [RFC PATCH v3 3/5] ntfs3: make crtime user-settable using ptime
+From: "koraynilay" <koray.fra@gmail.com>
+To: =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, "Amir Goldstein"
+ <amir73il@gmail.com>
+Cc: "Andreas Dilger" <adilger@dilger.ca>, "koraynilay"
+ <koray.fra@gmail.com>, "David Sterba" <dsterba@suse.com>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Namjae Jeon" <linkinjeon@kernel.org>, "Sungjong Seo"
+ <sj1557.seo@samsung.com>, "Konstantin Komarov"
+ <almaz.alexandrovich@paragon-software.com>, "Chris Mason"
+ <mason@kernel.org>, "Jan Kara" <jack@suse.cz>, "Yuezhang Mo"
+ <yuezhang.mo@sony.com>, "Chuck Lever" <cel@kernel.org>, "Darrick J . Wong"
+ <djwong@kernel.org>, "Sean Smith" <defendthedisabled@gmail.com>, "Andrey
+ Albershteyn" <aalbersh@kernel.org>, "Pedro Falcato" <pfalcato@suse.de>,
+ <linux-btrfs@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <exfat@lists.linux.dev>,
+ <ntfs3@lists.linux.dev>, <linux-api@vger.kernel.org>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261101015551.786044-1-koray.fra@gmail.com>
+ <20261101015551.786044-4-koray.fra@gmail.com>
+ <20261102142452.d6jkitgdeuquy23i@pali>
+ <CAOQ4uxhQ3uhq6s+4deEJAQV5iy8QZoucojR58_dUNYrnjt_yvA@mail.gmail.com>
+ <20261102153845.d67wlorqcbe3c2w7@pali>
+ <DD1A08F1-8F47-4612-A807-AEA39461AF9B@dilger.ca>
+ <CAOQ4uxh8EDX5HzFFKWv10-mHYVcSC1zXN+BS2qCm5cTMq=GOCA@mail.gmail.com>
+ <20261103094906.n55n5dhrpct5ykmw@pali>
+ <CAOQ4uxizEdR-MauSMOTfVcdxnuSMkrEuPth3nm3MsZuhcN5vjA@mail.gmail.com>
+ <20261103152515.svzvdugqxrwpz5ju@pali>
+In-Reply-To: <20261103152515.svzvdugqxrwpz5ju@pali>
 
-On Mon, Nov 02, 2026 at 10:12:12AM -0500, Chuck Lever wrote:
-> 
-> 
-> On Mon, Nov 2, 2026, at 9:21 AM, Christian Brauner wrote:
-> > Since commit 552d0e17ea04 ("sunrpc: convert queue_wait from global to
-> > per-cache-detail waitqueue") poll() and epoll queue their waiters for a
-> > channel file on the queue_wait head in struct cache_detail. But the
-> > cache_detail can be freed while its channel file is still open and
-> > waited on.
-> >
-> > The procfs channel files of a network namespace are removed when the
-> > namespace goes away. Removing a procfs file waits for the callers that
-> > are in one of its methods right now and then calls ->release on every
-> > file that is still open (cf. close_pdeo()). The waiters that poll() and
-> > epoll left on the head stay queued until their file is really closed.
-> > So:
-> >
-> >   sunrpc_exit_net()
-> >   -> ip_map_cache_destroy()
-> >      -> cache_unregister_net()
-> >         -> remove_cache_proc_entries()
-> >            -> proc_remove()      // ->release, the waiters stay queued
-> >      -> cache_destroy_net()      // kfree(cd)
-> >
-> > and when poll() returns remove_wait_queue() writes to the freed
-> > cache_detail:
-> >
-> >   BUG: KASAN: slab-use-after-free in _raw_spin_lock_irqsave+0x4b/0xa0
-> >   Read of size 1 at addr ff110001131bb570 by task sunrpc-poll-uaf/242
-> >   Call Trace:
-> >    remove_wait_queue+0x22/0x1c0
-> >    poll_freewait+0xc2/0x230
-> >    do_sys_poll+0x9ba/0xd50
-> >    __x64_sys_poll+0x165/0x470
-> >   Freed by task 12:
-> >    kfree+0x267/0x620
-> >    sunrpc_exit_net+0x34/0x80
-> >    ops_undo_list+0x271/0x8d0
-> >    cleanup_net+0x3f3/0x860
-> >
-> > Closing an epoll instance that watches the file gets there through
-> > ep_unregister_pollwait() instead.
-> >
-> > The channel files of a network namespace belong to the root of its
-> > user namespace and cache_open() doesn't check for a capability. So an
-> > unprivileged user can open the channel file of a namespace of its own
-> > from the outside, poll it and let the namespace die.
-> >
-> > Go back to a single static wait queue that never goes away. A wakeup
-> > for one cache wakes the waiters of all caches again but cache_poll()
-> > reports per cache_detail so that's just a spurious wakeup. procfs
-> > should really own the wait queue of its files like kernfs does but
-> > that's nothing for stable.
-> >
-> > Reported-by: Chris Mason <mason@kernel.org>
-> > Fixes: 552d0e17ea04 ("sunrpc: convert queue_wait from global to 
-> > per-cache-detail waitqueue")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> 
-> Acked-by: Chuck Lever <cel@kernel.org>
+--765487391675193c01a2810812621c4a1fd65a1637755f1280332809fdcb
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Fwiw, I have a patch series on top of this that makes procfs own the
-waitqueue and then this whole UAF issues goes away structurally and you
-get to elide that global thing here.
+On Tue Nov 3, 2026 at 4:25 PM CET, Pali Roh=C3=A1r wrote:
+> On Tuesday 03 November 2026 16:10:24 Amir Goldstein wrote:
+>> On Tue, Nov 3, 2026 at 10:49=E2=80=AFAM Pali Roh=C3=A1r <pali@kernel.org=
+> wrote:
+>> >
+>> > On Tuesday 03 November 2026 09:23:32 Amir Goldstein wrote:
+>> > > On Tue, Nov 3, 2026 at 2:19=E2=80=AFAM Andreas Dilger <adilger@dilge=
+r.ca> wrote:
+>> > > >
+>> > > > On Nov 2, 2026, at 09:38, Pali Roh=C3=A1r <pali@kernel.org> wrote:
+>> > > > >
+>> > > > > On Monday 02 November 2026 16:09:41 Amir Goldstein wrote:
+>> > > > >> On Mon, Nov 2, 2026 at 3:24=E2=80=AFPM Pali Roh=C3=A1r <pali@ke=
+rnel.org> wrote:
+>> > > > >>>
+>> > > > >>> On Sunday 01 November 2026 02:55:49 koraynilay wrote:
+>> > > > >>>> @@ -154,6 +158,11 @@ int ntfs_fileattr_set(const struct mnt_i=
+dmap *idmap, struct dentry *dentry,
+>> > > > >>>>      if (flags & FS_APPEND_FL)
+>> > > > >>>>              new_fl |=3D S_APPEND;
+>> > > > >>>>
+>> > > > >>>> +     if (fa->fsx_xflags & FS_XFLAG_PTIME) {
+>> > > > >>>> +             ni->i_crtime.tv_sec =3D fa->fsx_ptime.tv_sec;
+>> > > > >>>> +             ni->i_crtime.tv_nsec =3D fa->fsx_ptime.tv_nsec;
+>> > > > >>>> +     }
+>> > > > >>>> +
+>> > > > >>>>      inode_set_flags(inode, new_fl, S_IMMUTABLE | S_APPEND);
+>> > > > >>>>
+>> > > > >>>>      /* Save nodump flag to return in ntfs_getattr. */
+>> > > > >>>> @@ -275,8 +284,9 @@ int ntfs_getattr(const struct mnt_idmap *=
+idmap, const struct path *path,
+>> > > > >>>>      if (unlikely(is_bad_ni(ni)))
+>> > > > >>>>              return -EINVAL;
+>> > > > >>>>
+>> > > > >>>> -     stat->result_mask |=3D STATX_BTIME;
+>> > > > >>>> +     stat->result_mask |=3D (STATX_BTIME | STATX_PTIME);
+>> > > > >>>>      stat->btime =3D ni->i_crtime;
+>> > > > >>>> +     stat->ptime =3D ni->i_crtime;
+>> > > > >>>
+>> > > > >>> For me this patch looks dangerous. Somehow I would expect that=
+ the
+>> > > > >>> "btime" will never change for existing inode.
+>> > > > >>>
+>> > > > >>> But because the ptime is mapped to i_crtime and ptime is setta=
+ble from
+>> > > > >>> userspace, with this patch it is directly possible to change b=
+time.
+>> > > > >>>
+>> > > > >>>
+>> > > > >>>
+>> > > > >>> I was thinking more about it... Is not this just misunderstand=
+ing of how
+>> > > > >>> the security model around the times is working on different sy=
+stems?
+>> > > > >>> Because on NTFS there is stored just one field which says when=
+ the file
+>> > > > >>> was created. There are not two fields like "time set by user a=
+nd time
+>> > > > >>> set by system".
+>> > > > >>>
+>> > > > >>> Windows security model allows anybody with WRITE_ATTRIBUTES ac=
+cess to
+>> > > > >>> change that create time. Linux security model does not allow t=
+o change it.
+>> > > > >>>
+>> > > > >>> NTFS in this view is just a filesystem like any other (ext4, b=
+trfs, ...).
+>> > > > >>> In my opinion if the ext4 or btrfs filesystem is correctly imp=
+lemented
+>> > > > >>> on Windows systems, then Windows security model should handle =
+it in the
+>> > > > >>> same way like for NTFS or exFAT. So if something grants WRITE_=
+ATTRIBUTES
+>> > > > >>> access, then Windows should allow to change also btime on ext4=
+ or btrfs.
+>> > > > >>>
+>> > > > >>>
+>> > > > >>>
+>> > > > >>> On the other hand, I understand the use case to have two creat=
+ion times.
+>> > > > >>> One time which would never be changed and could be used for an=
+y kind of
+>> > > > >>> atomic / synchronization by userspace application logic (this =
+btime).
+>> > > > >>> And another time for human which can be changed at any time to=
+ any value
+>> > > > >>> which user wants (this ptime).
+>> > > > >>>
+>> > > > >>> In any case, I would suggest that filesystem driver would not =
+report to
+>> > > > >>> userspace unsupported values and would not try to invent other=
+ values
+>> > > > >>> and lying about them.
+>> > > > >>
+>> > > > >> But all those fs with mutable creation time already report it w=
+ith STATX_BTIME
+>> > > > >> so what can we do about this?
+>> > > > >
+>> > > > > Well, what I wanted above to point out is that the "mutability" =
+of
+>> > > > > creation time is not feature of filesystem, but in my opinion ra=
+ther
+>> > > > > property of the security model on the running operating system.
+>> > > > >
+>> > > > > Maybe better question is: how ext4 btimes differs from the ntfs =
+btime?
+>> > > > > In my opinion there is no much difference, both of them has mean=
+ing
+>> > > > > "time when was the file created".
+>> > > > >
+>> > > > >> If userspace requests both STATX_BTIME|STATX_PTIME in mask arg,
+>> > > > >> those fs could technically return only STATX_PTIME and it shoul=
+d not regress
+>> > > > >> existing programs.
+>> > > > >>
+>> > > > >> But this is still a bit surprising behavior is it not?
+>> > > > >>
+>> > > > >> Thanks,
+>> > > > >> Amir.
+>> > > > >
+>> > > > > I'm not sure what to do with it.
+>> > > > >
+>> > > > > If we allow to change btime of ntfs then for consistency we shou=
+ld also
+>> > > > > allow to change btime of ext4.
+>> > > > >
+>> > > > > Maybe another idea... define new capability which would allow to=
+ change
+>> > > > > btime (on any filesystem)? This would at least make the consiste=
+ncy.
+>> > >
+>> > > Pali, I think this is a very bad idea.
+>> >
+>> > Ok, if the point is that ext4 btime must stay immutable then it is a b=
+ad idea.
+>> >
+>> > > This has nothing to do with capabilities.
+>> > > The Windows and MacOS filesystems have allowed setting their
+>> > > "creation time" forever
+>> >
+>> > FreeBSD for some fs allow it too (see below).
+>> >
+>> > > and for all the other Linux filesystems that had
+>> > > "birth time" it was immutable, so let's not mix filesystem features
+>> > > with capabilities.
+>> >
+>> > I think that it is important to first define behavior and invariants o=
+f
+>> > these "btime" and "ptime" kernel properties.
+>> >
+>> > If we want to be consistent then there are two possible options:
+>> >
+>> > 1. If we choose that the STATX_BTIME is immutable then no kernel fs
+>> >    driver should allow to change.
+>> >
+>> > 2. If we choose that the "NTFS create time" is reported via STATX_BTIM=
+E
+>> >    then STATX_BTIME is not immutable at all.
+>> >
+>> > These two options cannot be chosen together because option 1 would
+>> > implie that the modifiable "NTFS create time" cannot be reported over
+>> > STATX_BTIME.
+>> >
+>> > We are have currently STATX_BTIME immutable and "NTFS create time"
+>> > reported via STATX_BTIME.
+>> >
+>> > If we want to stay _consistent_ across fs drivers then adding API for
+>> > changing "NTFS create time" would break one of those two things.
+>> >
+>> > In my opinion we should stay consistent across filesystem drivers and
+>> > provide unified behavior of APIs independently of used filesystem.
+>> > Otherwise userspace applications would have to write fs specific code
+>> > for doing their use cases (and we can stay with fs-specific xattrs, no
+>> > need to create unified APIs).
+>> >
+>> > Does it make sense? Or it is still a bad idea to think about it in thi=
+s way?
+>> >
+>>=20
+>> My "bad idea" comment was only referring to capability.
+>>=20
+>> w.r.t the STATX_BTIME ambiguity there is another option we may want to
+>> consider: Don't publish STATX_PTIME via statx() at all.
+>>=20
+>> One of the reasons that developers have pointed to fileattr as the right=
+ API
+>> to host the creation time as well as the DOS attributes is that it has a=
+ history
+>> of carrying filesystem specific attributes.
+>>=20
+>> Not every attribute available in lsattr is also available in statx().
+>> If projid is not available in statx() then the settable creation time
+>> doesn't need to be in statx() either.
+>>=20
+>> The file_[sg]etattr() syscalls provides a symmetric API to set/get it.
+>>=20
+>> The same could be true to HIDDEN/ARCHIVE/SYSTEM flags if those
+>> are added to fileattr.
+>>=20
+>> Do we need to stop publishing NTFS creation time in STATX_BTIME?
+>> I think it's too late for that and nobody is going to gain anything
+>> from doing that.
+>>=20
+>> Thanks,
+>> Amir.
+>
+> Kernel NTFS driver changed more times, so I would not say that it is too
+> late to stop publishing NTFS creation time in STATX_BTIME, and start
+> publishing it in STATX_PTIME.
+>
+>
+> Anyway, I have another idea (if stopping publishing of NTFS is not possib=
+le):
+> Let fs drivers to fill ptime and btime members only when fs itself
+> supports particular field (ext4 would fill only btime, nfts would fill
+> only ptime; btrfs with patch would fill both). For userspace STATX_BTIME
+> request, VFS will copy ptime to btime if the btime is not provided.
+> For userspace STATX_PTIME request or STATX_BTIME|STATX_PTIME request,
+> the VFS will not do this copy. Or We can introduce new flag
+> STATX_NO_FAKE_BTIME (just random name for now) and this would cause that
+> the ptime would not be copied to btime (so it would not be needed to
+> misuse STATX_BTIME|STATX_PTIME). The logic would be unified in VFS
+> layer, not in the fs drivers.
+
+I feel like this would be a bit of an over-complication/not clear
+enough, as we would merge a lot more of the meaning of btime and ptime,
+while you would never return mtime when userspace asks for  ctime (I
+think?).
+
+But maybe it could make sense as a compromise to not break userspace too
+much.
+
+
+Best,
+koraynilay
+
+--765487391675193c01a2810812621c4a1fd65a1637755f1280332809fdcb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCauoU3wAKCRA0bnTtJTDo
+OE/bAP4totYbTaeW1CrdoWanatGI8Xs7nwRhpOXfUQOLfIfAIAD/epBBEKW49pOz
+UccPyppm1LJkU4ZUjjXBG917JI4mdA8=
+=vhHD
+-----END PGP SIGNATURE-----
+
+--765487391675193c01a2810812621c4a1fd65a1637755f1280332809fdcb--
