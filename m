@@ -1,73 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793654102;
-	b=qT9za4HmiEuD+ZhSy07GR0SXesBFK9MHiOMCkp+539oM4rloHdXiFjasef43N2yaKvoF
-	 yWgDYAkekODJ6Q5RA4zGJxCSQlq7cl8NMhlQUvn+l76InJLqww+tZEaGlx5mU1zJlyw+Y
-	 TgG2EQGAMJWQs12Lw60RAFctreWxHHczDww7oavRYYv3Xw4IfPv+pdpvETfZvqE4MvN9G
-	 ytCCrgdwu9maL6lhBYXVnI6YV/1Xm6shFwPZUmV1Lhbc+oKapQSxnCcm175W+dQxxm2CK
-	 OeYPJEXY3+ElmyDni3Kkyfsz11SN4RTq0TNxaRjXGEUNgsyAUjYrS5MPdyEBhtxRztA==
+	t=1793668026;
+	b=wZZ57rP0XySmkelbFlOfVrYsHj7DRLZmjF79PH/4UeistEVenPKR/JH9qlDFDBFEoErQ
+	 SZnvwMUyH9Ncgx/6bgQO5XfcPADi0l6XA5cWfWqcmvIdhxYLU8dDk7uF3gf7Ssq1+gVAf
+	 xKEsKLFLVZ65grZDDffaPUAlC/HUjqcLIsUVduhV117EDUju/AAr1rNeEOYWiUKY0lS/G
+	 1E6LB2bLiVwevO4U+VSRIeihkQqGJQMErCSIP4D6/ZyUsUu6lWI3+79ZNXC+ZXF7Xb5Hm
+	 EGnjN5l5ZQ9F4kd/PidF2l0/0RCbRRs6S//xc/75FJISo9Hh1YYEBdeQYf+5CR1Ihdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793654102;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=IboT5prE1F2zgLUjN3M8JJkwTsSKYt9w9Q1ZY5Lm5jE=;
-	b=kZhG1qmNvaqZXdfbTPxZIK47CnIzlkUO7vCqR2VEgCXzUPMb4JJpdhU9mATIvL3Mi6h/
-	 fWt0AoewxIuKMBumnVRQxvkzjdpDsQbH64qYJGf6YvIF7WqthjJgF2/je++gZ6BW18YaH
-	 vcfau6ZrPONRCu/TPVZJqxnAY3+TGcTa7UA9wE+3JHN1Lwv0mqH0J7C/iaOzUO+EvCc17
-	 iyHOCDPHIvzMYcbybtPnQuxCVchu+nEotEYaE33D/tg68W1lF/u7bhvAH/gUcjKVbOSiD
-	 E4WNqQxXXiERpaKemiXCBHQoioubBCL+HKLrcTJLnt2whMK87+YksileVjytN+lQ91A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793668026;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=iw/fWoRrccFojpUKteaeVfiegzWbJTWaZy5KVRGPlk8=;
+	b=nL/VGx+2IfOMBWLA+vGR4Agl5KPP0vxg5ncbQ60Ykvljjq4E8j01vWa012+MGMYcmc1I
+	 4MNRzPECxqrGalhQMTfEmrDKxTCl/pKrC6qJm1xuPoJZ70JK7AbCckmdB1/lTraJicJfx
+	 dqNiEQp7ubGQkbjeKteBfO7aGzcU0/aFj7fzna+0UiUtT0fioa3r+qH0cj+xCzGYxFi9d
+	 3iMTGKxRsOb/yr2qvkrYyxc440v8JP0Xd/a49s7HhXSVZODKE3zX381MkR3Co/0JTkrXU
+	 jfmH/1g7ge4cTielwMx/Hwf0/JVj5aQHfy6yNWMC8EcccVPTUV1DRZYhEuspy/JNLGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="i4XS/+Qp";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OwnSFy+w;
+	arc=none smtp.remote-ip=74.125.229.6
+Received: from mail-dy2-f6.google.com (mail-dy2-f6.google.com [74.125.229.6])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3F6606D837;
-	Mon,  2 Nov 2026 21:15:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F65606A326
+	for <ntfs3@lists.linux.dev>; Tue,  3 Nov 2026 01:07:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7F65606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i4XS/+Qp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E19181F00A1A;
-	Mon,  2 Nov 2026 21:14:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793654101;
-	bh=IboT5prE1F2zgLUjN3M8JJkwTsSKYt9w9Q1ZY5Lm5jE=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=i4XS/+Qp/XJpkpHyhLatkkxrTnb76H0AyrbluP9UrYsSjjvFvYed65zWeP+n5bDMR
-	 T4jrppxwRxmsiUoLJtpEDBZOQUgSEb2I7JAqNJICoUtmRZqGDSr+AkbMY5KraB9hcp
-	 LJSetra0CCoguNvIXys8kMbF38qG79C7rZIljzi9OxsucTBr2qJtAKy2hNxphivV7X
-	 SqR7z4TvF6OS2jxQo3eWdNU0GD2TA876qUhcb25obxs7Qa0hq+gMR1c2AKZ0TYfXxl
-	 /PRnwvUkfYbroZLwoik/xUkslivJlp+q60cSPVqp80BDXlYt0jmnPbIlU0+2JbsucT
-	 rjIixFbj3/TrQ==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 3FB84F4006B;
-	Mon,  2 Nov 2026 16:14:59 -0500 (EST)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Mon, 02 Nov 2026 16:14:59 -0500
-X-ME-Sender: <xms:U_3oagUAPKL0KahIhejOYJwKEPfYb6twqYG_HHugM7_eLn8Er-TgPg>
-    <xme:U_3oavZTuzGHMfK0qXbinG0nc7CYskrIhJQ5eHOz_Ha7XvQtwnXU_T7hJPsGo9qg4
-    BhXiwA3Pdzj3QiIOE4JzHYJnc55BkwZtZcinLkFBcrDsA6sylLxQvo7>
-X-ME-Proxy-Cause: dmFkZTGSCWblgfsMhzNjEIN00ph1bmXztXGhYrK6FQCSJysx8m5mqsCTJHkCuZD0tpZuBG
-    pYnx6qST1krVMCyjpYhoMBo2TltjSYVP2LKGOkZnOBb4t//k/nGoJ/SIXKKJyIATQl84il
-    BuXRlRV3aPeB88TAd/llIDq/9PMZ1EzorVjUV4ox06mXS/IOKUqdbOTFcr2gFtJFq3Gx7F
-    Zq0nEujwlkDiPcDOX28riG6oQW7iLTgD6BaMnfnV9H0ADvTknFe8adm4EFa+o6I1mSuG3K
-    LJ3epAVfTBg3DuzNRu88aZuYWYeuI7KoVJah/eioVIkx6sAoHZjqyTVRvcNhYqHYgvNdOh
-    F7RoapMXPpPy7fnRDGp1EnOzRafp7mYLbQvUWevKonPpL0zVugnrni/xwOB0ZUdq15K6LL
-    U4eIWAyGEDjfaCYO/Dppo1HoBBuP1Ugp4Zki+kXZHcTkA1gjEQVaV70KrwrPcut26vPd/h
-    q5yJSVyn3x/Ch0xklWbVCXPbWoaIS17brwWPL/guaVzJxizQ0P/jgX0plm53NXTsLd+70V
-    110yVl467ZsRMKGBWdC4JnWQHbcxAMHjeZkhkyAsfOuCVSLebxwzvInrQKLcoImyb5UwHY
-    pO0Oc+d4/j2oJCRnrCOkOe51eLIclfMVgyBLq7y/6qqZiV8XA97NvuTzr1lg
-X-ME-Proxy: <xmx:U_3oatxqYhX0hWpcSGJgdTO64UmbQLn1zkSvkgmn2QN3P9YNu5WJ0w>
-    <xmx:U_3oav5HgW2k6KeJbHXAdQUNPTjXcBKAkESvLUwa5JME7gNZc5c0tQ>
-    <xmx:U_3oasSgNqIt2BaGeBZ12VcERyFoy0lpk1cdl0eiT57vWKlvWpphXg>
-    <xmx:U_3oaifZ0cTDaYHT72Jch7KjTqrgvVpyqwgckwFzCeMt7Uwl9HyKaw>
-    <xmx:U_3oapwU7EvPML2sBaImLYgTk9SsDSGibfYemkcHEOBIYG1GVrkdWT-b>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 181AE78273B; Mon,  2 Nov 2026 16:14:59 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OwnSFy+w
+Received: by mail-dy2-f6.google.com with SMTP id 5a478bee46e88-3537f63c9e6so1448352eec.1
+        for <ntfs3@lists.linux.dev>; Mon, 02 Nov 2026 17:07:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793668025; x=1794272825; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=iw/fWoRrccFojpUKteaeVfiegzWbJTWaZy5KVRGPlk8=;
+        b=OwnSFy+wDT9R1w1o7upOxsXgasXt/kjmHeLnFuUpeOsljhRDQaGsSFM8GxxUfmamVf
+         1rMGR0+eyieaXEFsQgjJdyhu8ZoNE4pGgF5GEMSRDphBbRWd8qNFLTTn6plytRvhZztR
+         eW4utUCcCXgmfDNh250BSrE2hswtDwvBxlRobxmCDaxQ7Kl8lOAALP1UB4jCgr6JjsrG
+         3o4A7LjSoaaqnJUFb0v/u5CmMJfv6klijQmFEyep+AkwA2Bk8qOVEsvol6mpYHkrI4zk
+         Xb1pHf44d0Ju9S8sRDfzT8uhLmE9duXZHNUVDYub3fmAnk7AaRMgVRc0kojf5yQJay1S
+         b8Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793668025; x=1794272825;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=iw/fWoRrccFojpUKteaeVfiegzWbJTWaZy5KVRGPlk8=;
+        b=0K9Jtek4XloGCoG49jyYCeskHE6P3EjrTWrJtdVk8WxUm1RckWPbchfTrvwlSCD+TP
+         7JtEdRnnvGAQBmANYoD3LPC1RKouRFA+gcByNEJI6L/ieLjPfaK63TxRFUzvezqKZ1Mn
+         vOShoZQIEgjbH1DeJir2e/NRsnMpbmtkpKBjtwycdYD2/kHl8vonf6o3ou0P4YSq6h+q
+         4oHWqFeArat8YLqEgqw+AaWl6O8Ib/mUf/D3LGOHT7JUyaSw66+Y+2p13Zci244a4l6f
+         ItjMZhtKxw0gnmqDXfgoje2QFN7CKAi/TLNAKsvsEmj8t6r0zOnKdnnh8YVnp2iGGsGO
+         wQug==
+X-Gm-Message-State: AFq9FYKPAqmurZ7svW8sTGsv9H0d6EAgfz26VDdpUpWUS5wK5hc1uKtH
+	AdfrLxNa0+mRrKr2fWvRJVn7wS78oDy5CqqV/jwRtneTJzWckEljGyhS
+X-Gm-Gg: AYBFou0GlC4kJoH4zDjdp9bCaXYrk/06CGiYJ6c9EvfKhwY9C6wfv2+aQFNFNK8mV/S
+	a0AEwSHK0oa622zJ06aCzpH3R1ZmJECYMszx65vWCghnXMGpVN8Rb/ofJY2k/8YKO1e+1RqkUrT
+	nvRObSvcqscNgV6i0W5/nFEdIFaADkPCjoM+IMC2ZUxOB/3GNTzeyLUfV1AbylMIWeHR+5NIwGl
+	/PIZUtepLk7a51OsSwaNZCbraBPJnDgjal23Obloj9F592rZLZmJcFdpuRDkZi+nyNxBpy77zOq
+	a+VrqV6yoTAembjO8eEcpbmwQFtnOgnPpbc6ThwC3YJOXMzk1aDuZdbyCppezQVghgtiZszHONy
+	jlNQj+vJhq0m8Rkq09mKFieLuJjbcefvvZn0J5+40TxXO8qgM751oPhfqaDAr8iRZ1Pg49ORNKN
+	CG+iQFUDjyS48+22fKYQRl9lGKrXQt7aLgwPobo6W9uPcTSP5fUqmaFmTunb10LMl460kMlSOB4
+	mA/WZQ7HExiVtLbV2DfVM8162syNnTok+QTDSe50lpcXtQPV8ANKuAGRw5T5RbgYXBaY3vNya5y
+	6XA062sh0xK9ZF71w35rt7KBhgrIAg7KjjfjrvFVxonKLoWm2UuKPKIn
+X-Received: by 2002:a05:7022:38b:b0:1aa:47e7:97e3 with SMTP id a92af1059eb24-1ac5c45fd1dmr20515706c88.15.1793668024586;
+        Mon, 02 Nov 2026 17:07:04 -0800 (PST)
+Received: from localhost.localdomain ([98.148.34.5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b23b847348sm3767727c88.4.2026.11.02.17.07.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 17:07:04 -0800 (PST)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH] fs/ntfs3: advertise nodump in the statx attributes mask
+Date: Tue,  3 Nov 2026 01:04:37 +0000
+Message-ID: <20261103010437.55455-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -77,61 +93,35 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: AlKaHQIBeldV
-Date: Mon, 02 Nov 2026 16:14:38 -0500
-From: "Chuck Lever" <cel@kernel.org>
-To: "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
- "Jann Horn" <jannh@google.com>, "Josef Bacik" <josef@toxicpanda.com>,
- "Chris Mason" <mason@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
- NeilBrown <neil@brown.name>, "Eric Dumazet" <edumazet@kernel.org>,
- "Thomas Gleixner" <tglx@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Jonathan Corbet" <corbet@lwn.net>, "Christoph Hellwig" <hch@lst.de>,
- "Greg Kroah-Hartman" <gregkh@suse.de>,
- "Joel Granados" <joel.granados@kernel.org>, "Kees Cook" <kees@kernel.org>,
- "Jan Kara" <jack@suse.cz>, "Jan Kara" <jack@suse.com>,
- linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-s390@vger.kernel.org,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- linux-um@lists.infradead.org, linux-wireless@vger.kernel.org,
- "Linuxppc Dev" <linuxppc-dev@lists.ozlabs.org>, netdev@vger.kernel.org,
- ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org,
- coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org,
- linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net,
- jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org,
- linux-sh@vger.kernel.org, linux-usb@vger.kernel.org,
- samba-technical@lists.samba.org, sparclinux@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
- "Takashi Iwai" <tiwai@suse.de>, linux-input@vger.kernel.org,
- linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org
-Message-Id: <961e7e3d-2117-48ee-8a7e-a7a851ec8ef8@app.fastmail.com>
-In-Reply-To: <20261102-work-procfs-fs-v1-6-d09a996317b3@kernel.org>
-References: <20261102-work-procfs-fs-v1-0-d09a996317b3@kernel.org>
- <20261102-work-procfs-fs-v1-6-d09a996317b3@kernel.org>
-Subject: Re: [PATCH RFC 06/27] nfsd: let procfs own the seq_file of
- /proc/fs/nfs/exports
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+ntfs_getattr() reports STATX_ATTR_NODUMP when ni->nodump is set, but
+omits the bit from attributes_mask. The returned mask therefore tells
+statx callers that the flag is unsupported even when attributes contains
+it. Callers that check both fields cannot recognize the nodump state.
 
+Include STATX_ATTR_NODUMP in attributes_mask, whether the flag is set or
+clear, to describe the state already reported by ntfs_getattr().
 
-On Mon, Nov 2, 2026, at 10:07 AM, Christian Brauner wrote:
-> Declare the seq_operations and let procfs open and free the seq_file.
-> ->proc_open() and ->proc_release() only set up ->private and take and
-> drop the reference to the network namespace now. Reading the file then
-> no longer holds up its removal.
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Fixes: 33f29fc7c67e ("fs/ntfs3: add fileattr support")
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+---
+ fs/ntfs3/file.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Chuck Lever <cel@kernel.org>
-
-
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 1624f9b014e0..d5c87d608bd9 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -295,7 +295,7 @@ int ntfs_getattr(const struct mnt_idmap *idmap, const struct path *path,
+ 		stat->attributes |= STATX_ATTR_ENCRYPTED;
+ 
+ 	stat->attributes_mask |= STATX_ATTR_COMPRESSED | STATX_ATTR_ENCRYPTED |
+-				 STATX_ATTR_IMMUTABLE | STATX_ATTR_APPEND;
++				 STATX_ATTR_IMMUTABLE | STATX_ATTR_APPEND | STATX_ATTR_NODUMP;
+ 
+ 	generic_fillattr(idmap, request_mask, inode, stat);
+ 
 -- 
-Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
+2.43.0
+
