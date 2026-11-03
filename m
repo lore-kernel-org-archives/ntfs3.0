@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793726518;
-	b=3MO+wJ+nVDxhGA5Kc31vA7i9Gi+T3HGETRMQg8VgHe3QISUpdK35kpNww/XkwZad2d8Y
-	 SF+Jen7Ne8rgx35WezS2L6euwt7pmExBUC/s9JCIjbzCF08F46pdT2Q6Au+0Zn/vdmV1B
-	 k932xe+46YK/I+0O5zRHi8f9vmJeo8xPd8olpOazOYp2dRqefK9XucaiV8H+WzmjNPo1v
-	 WyhDkXLSgAfmlv5wO9/mWHz5SeC0GSlm1J1UbEWiYbTtKuPtzIQgbrX86usSGkVfcH7a9
-	 GzheEhDtH6KHSBBjW8sQyAcrUcd7XL9Zc5MfarrciODFH6Bt+0FtS6CbXYgJ064Tudw==
+	t=1793726874;
+	b=H+7JIUgkqSdWjVyFWWB1mCCeZMRmpe7VXhDUpdVmUF+I49weMC7OJ33tv7fBnbvFC/B9
+	 ysfi+MJdYhZ/PcnEdp4Yg37RwAkawy53lWj7Xqlh5AefSmiC9M687XGwU7xFYD+y5cgFT
+	 pQk5YaeWXOSJMlG6TL6k+9Sdv9kYU/F3uqqdtZnLsVVkDJuzLFjKk3WJ3Yv0nNLHtPZqH
+	 gnlZd9jrQ+cj2YvZj3SxiaTPYBKzGxcpudk+65PTK+7AWPUCk06a2eYCVSVj60JlRmJ5l
+	 Yj7nRp2FwUxHOs79FdoFX0LaEiub7r6JurX7re4YzwmRbe7GzdFy/1O1SQvv/0Tg0bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793726518;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793726874;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:X-Mailer:
 	 References:In-Reply-To;
-	bh=AD4L42H0HNVoYlglqMFr39a2BJYBFr7pQM1pceNP/MA=;
-	b=CKQ+d72WXom/vWoL6uY+XGdEzpEasWKfNGd4NTrPS+VZUDNDgcE/RX+pbar+TYyeH0KI
-	 gkJgTdweU0nd4JfO5E5MdEI9kDhXCgAjhqvhkt4AkwlBX3hS0tj52r33J9e/t5V2mJZbo
-	 j+nhIepPnifAO7+JWhkmPTZowXlvVJtnfTtJFx5/FhBEybOLfghN7Ud2klr3UlOX4RrE3
-	 PKADaztL9ctk3MK6FjmXBvcECrQGl3Blqeg5tMI7OnSa/BSsNnjHb8HQoMzGWAI/FSXfF
-	 N0B/w+d07t49W+UoKxpquk2o4nwXOWZ80+suybv5rpR/82zFWr+6/9+BapV99n2MuiA==
+	bh=C7J2xwMhxMcLYQn+HgHArsLVIUvcNtC3sZDiMzWGQG0=;
+	b=oKMEcF2PAyOocEDwObL6wnde/zXpgF0oFx/OSHqc4yVwP+oTxJqrnecqgtEeZeY4VtzC
+	 +dtUIjpdxLrlXZly6bFEIsNYjyeENbJncJggAPGeutQdMHDnnjR4T8jHtuWVPWrh966aD
+	 J5gO+75Nxv2Ubam1oirxTcEJERmiqFRTPwUPqZlUzlkKvl7Cml8tTsvXKla5pkleNVPs1
+	 Qj0UIRMhvSE+YfCtfwFDwBoyG/KF7fe/TubsYXVxxPZl8efqqN3KNENggjxJdavG0bARg
+	 DpLzZTWuVil/CXNBR8Enq43WyFHZ0/Yrqq644ISRuvh5pd1dess8VcBHVpWQbW5M33g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MBhNH4lb;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JMcfU2Hy;
+	arc=none smtp.remote-ip=209.85.221.51
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58A6606A32D
-	for <ntfs3@lists.linux.dev>; Tue,  3 Nov 2026 17:21:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A58A6606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0F3606A328
+	for <ntfs3@lists.linux.dev>; Tue,  3 Nov 2026 17:27:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD0F3606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MBhNH4lb
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so45076775e9.2
-        for <ntfs3@lists.linux.dev>; Tue, 03 Nov 2026 09:21:57 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JMcfU2Hy
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48e4831c028so3912016f8f.0
+        for <ntfs3@lists.linux.dev>; Tue, 03 Nov 2026 09:27:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793726516; x=1794331316; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793726872; x=1794331672; darn=lists.linux.dev;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:mime-version:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=AD4L42H0HNVoYlglqMFr39a2BJYBFr7pQM1pceNP/MA=;
-        b=MBhNH4lbjHVjov9tsn+tt2t2re+N4KTTSAWHXb0AUqfhiV25n27MdDXgj9HwLdnOgf
-         pp3+hI9h7YkZ6/x4LFzfp7+DvFe/3FfAWDloKKu/oMfnJbqItkoAqKX51a6hQcBmAj62
-         jcEGfyGZr6aFTpOPZHrhlpVRaRd1CVFCkVRwp4mueoAViH8+kzz9h9KB4wwsp+YvCg5O
-         fl3Sdli1aHBR9gSm0ZL7RrD/+WudmHEedvxeraoXPOfoxIttmmRlOaRUMcG/kucTQLVo
-         ajWOURbn24/F+4nXOA1dMSEoohUc4rZkp7ID5Kb6f8q+3YBz2RuAhqjkbScUL2/13Dk+
-         chvQ==
+        bh=C7J2xwMhxMcLYQn+HgHArsLVIUvcNtC3sZDiMzWGQG0=;
+        b=JMcfU2HyiYd97mrt9qKuKs9c5fKdIdoNeIYUHBpodRRiEA/hbzj4KKhPMEvoQa5BBx
+         sDbPIP6BQ3eGX9ncyH8AflEV3XzfGLBYp48Cqa8H2O+I7SutwrwadCzlwv+u9+7gbuqu
+         5/ggGKR2IrcayVSJMtQyVAer7AhCsjdi8nUfD97bryCQbXkGKRElxhfMFeoD08D5QBcY
+         efBGbAd4Tos3pSTrAaOg+qh0bL7rYP0yNMr6DfqAHAqcS3U9dWyFCHtTLN89UNvVSMBP
+         tLUeXY77/9AocNh6go01iqVI5XbPBnrZa4/vpdt4nEFssgo0WZuaLnUbUxoergxHTLBc
+         CU3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793726516; x=1794331316;
+        d=1e100.net; s=20260707; t=1793726872; x=1794331672;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=AD4L42H0HNVoYlglqMFr39a2BJYBFr7pQM1pceNP/MA=;
-        b=fJ9mI3nh+cdVzHYpaWUSgOiORasn1kx+KzWbDvnAlYOfnDcGUmQO3bYW/o9Xrf5nk+
-         JWx5R92EvJ2lZmteTpru4i4WDkGFhlz9q8FEgiy/ii7VZmZPOPtNZle++e1KFc7FxI26
-         mXODon1Y+4yv/WyA24KFgVqzq152nxKDgJe1LoXiL1sS3RnhUG+a3hKvxYCLlW6XTB0f
-         zTm/BYfViLz5UHasNNrXvcKzeruj7vL4UU11xYv8svpGf5oF+r/jOtyv5AM6Ly1MeYgh
-         FY63UiTRjab5vj0TAbU43f4R2b5Da4ij+bYvdHzmQXhPb5xuzjA6GGLt4uUrsSUkHJY3
-         GJaw==
-X-Forwarded-Encrypted: i=1; AKwUvBzEp1ER+iJrJ4ONj67K4wiDtJNwH6f+iAgDMBLJy4OriW8ylH1PzM+E96HtHr5vOkkzPWeq1w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8c96USzTHf9BTsl42aOhcnHH908ebJZ8PahFPyPie0eXW0uFdR
-	AV6ZE2ByStRrH5IC4Eh7TGC6DRrmJpwoExTZxBaVxHOwqcLmllAwJYzS
-X-Gm-Gg: AYBFou0um5J3z9sY9bpr+YqaUCQ/UMu8JHyzGtdVM5B4w6+o/SVljBc0h0Raxt0Xcs0
-	BFBdvIMujJAYImeusVNvwOIlntRhDGmHNxrZMWMjddamRft1y8+WnXENQpi9m/vCue8lfVSnoD/
-	pLhEq4qXSZVoIpIzajPUK+GWTRa7FPQidAWXx7NZNu5sWTpp7vrb4I+aC8bXI98sZUxxixHNyy7
-	iNhFnU3Y1TQALXciOZNBHM1YT8oApqNfrQ5/SbYkBJUjGbPWOjODF7NAigsLaZg4PsALZzNXvzJ
-	caJHt57rN65AcQ9IuZqFL44lkKPeUBbGySw34ggcD4g0fvgtFfcNjzpIexQwGvMArv9ubuODt8r
-	TlQiN8txQ8fArvG9ziIJLuxI/F71OuLXg/7Q/U+TT/1TXurIHndF7hvTUucAWCjfg6YK6SXkOcw
-	3oIpWQl/FsT6ulaLi8fk3EgnZW805+NDZatNeZ1LIiDKeRQSoO8JOodBJuemSz9jSyLp8Mkrakj
-	96aLLVNUyblUF01LQbwMxR/cIaSP1tkIXOi9Rr88qeP21FIBYREHT1xNSB2sdeD8FsQzytUy0Yn
-	zhjGouIrX/P+2xZv5s7u54AO
-X-Received: by 2002:a05:600c:3b0e:b0:4a7:7d22:c50c with SMTP id 5b1f17b1804b1-4ac150b2243mr345177055e9.2.1793726515970;
-        Tue, 03 Nov 2026 09:21:55 -0800 (PST)
+        bh=C7J2xwMhxMcLYQn+HgHArsLVIUvcNtC3sZDiMzWGQG0=;
+        b=MLh5fGNTbaz7+0omui627JRbLzCE0yIETQ9ReggyGWuNtI6PtbtIuHRfuWuH6oGF74
+         w+YWkkK/kcgf8pdIwWYT4rjc/my4g7NYBdvpNvR28q42vnz+BwQnGjldDQ4I2pO71//u
+         x7T5GTuMdj5xvKDxBXaCnPQi8Hvo7ZrLpHJfnigFTs4xBCmSqonciEG7HqRIZB4vUzWL
+         MNZEZpU8Al4a/dFh/Vn/k0I4dHBQifRXUf0cUhZtf+/0N0ZuJUSTqK2d12f3QhjDaS00
+         NvFbS5T9m07ecvXdE3lEzxvqeu8+T8AKoeUb23Cmb7V66hjPBHRU6MBPt9zeNglsgoup
+         3pdg==
+X-Forwarded-Encrypted: i=1; AKwUvByYfqmJvHv1lhC1/eB+/haktJomTvUmlQ+ShAFgfEtousF4rk1E3Q8mqTd8mm+Wfow56kijLw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8tfAwf5VTBpdthual5m8gT0aQ0At52ZUYkSGi03UqWvDHYP5ee
+	tjuK8Rx6T+dmFPjfQfAL82fizZiriQAtA6HElhIVoRlPE4MNaGqWEa3T
+X-Gm-Gg: AYBFou1Tjh4IMO+9lOD7mbyrINaaDaVZJMjNknXkV5x10/OmZlhxw9HXZNKO2tLvliX
+	q4rNShNVIZIZjqhFfE8VuF5o4xCHMpLDkJZNBs/ieQnNyx8qVOnF+tWZMZ5NLhdRgjHFNJPNHQ1
+	DitFQCpzZkYZP5K5eyqzumVvAmzV6MgjCJuvzenBH8Kmex4zj7An+uDWgJiK/yESGFJnWA8UVsb
+	CUJmuq37yXUtEn0x95xSsz2NKO/IGt8Fy195XHT+PfOCHVlafeMgRvw3dvmHIIjPJy4ODwzk7Q2
+	1mKJLJbv3ZS2k66xxVBP55Jy1KpK6WfIyn3cMa5LbhENbMs9C+968szfLpCvkYOfxfXQlu+DDRL
+	f59++X8rSLzRfAVHmM54eE7RF7gBitDEyivHtTdr07wZbH+GaeIicu+sOroEerCOF6dtQf29izL
+	PB+mZVu9c2Pm3l/rcUiE66jaWTzfnbat3f7hTtwReICBgEGjP+D40pGGf5iTiMP5u1l+pwihfdG
+	EzhWxUAGeSezWOGYGdRWU/UdP5DO/5DWiWktRVAZHnbkLndxkQwfl264K83uiWpTkqaabMqn4gu
+	/MI5VwingpRefa0PWhY6vzqkadvilrn3ZPd2DGLC767+Cg==
+X-Received: by 2002:a05:6000:26c8:b0:48e:10a7:40f with SMTP id ffacd0b85a97d-48e6e302612mr29233891f8f.17.1793726872045;
+        Tue, 03 Nov 2026 09:27:52 -0800 (PST)
 Received: from localhost ([151.60.201.12])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ac0a66caefsm287061365e9.5.2026.11.03.09.21.54
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b728ddsm25764477f8f.9.2026.11.03.09.27.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Nov 2026 09:21:55 -0800 (PST)
+        Tue, 03 Nov 2026 09:27:50 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -88,10 +88,10 @@ List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 Mime-Version: 1.0
 Content-Type: multipart/signed;
- boundary=1ae0fec9eeabe43856471b243f1ece3413edf7686407593b3575066613d8;
+ boundary=7bf7be77af3bb2ca970a31782cf12336c55eb4edcc365a7f2b8809684642;
  micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Tue, 03 Nov 2026 18:21:53 +0100
-Message-Id: <DMLQZCDREHI8.1PLK04U05AP4S@gmail.com>
+Date: Tue, 03 Nov 2026 18:27:48 +0100
+Message-Id: <DMLR3VF6HEMW.34XWXBBJLV9A3@gmail.com>
 Cc: "David Sterba" <dsterba@suse.com>, "Alexander Viro"
  <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
  "Namjae Jeon" <linkinjeon@kernel.org>, "Sungjong Seo"
@@ -105,94 +105,134 @@ Cc: "David Sterba" <dsterba@suse.com>, "Alexander Viro"
  <linux-btrfs@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <exfat@lists.linux.dev>,
  <ntfs3@lists.linux.dev>, <linux-api@vger.kernel.org>
-Subject: Re: [RFC PATCH v3 0/5] add provenance time (ptime)
+Subject: Re: [RFC PATCH v3 1/5] vfs: add provenance time (ptime)
 From: "koraynilay" <koray.fra@gmail.com>
 To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
  <koray.fra@gmail.com>
 X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
 References: <20261101015551.786044-1-koray.fra@gmail.com>
- <CAOQ4uxjkG=1j1z==Mv4wzkF042rXstodokKnBfMFBf2e-Eztmw@mail.gmail.com>
- <DMLJE2Z57AD9.1W22LSE7V9HH2@gmail.com>
- <CAOQ4uxiMLDgMXuij99-43UfCqfZN2a=CTet560o_RzU2m_Y4SA@mail.gmail.com>
-In-Reply-To: <CAOQ4uxiMLDgMXuij99-43UfCqfZN2a=CTet560o_RzU2m_Y4SA@mail.gmail.com>
+ <20261101015551.786044-2-koray.fra@gmail.com>
+ <CAOQ4uxiuJ=eZu28FZAUz3rpqPKqCimPxJucOnYYuBowvD09_Cw@mail.gmail.com>
+ <DMLJ5DR2A4KZ.28U8XSZ0KFJTG@gmail.com>
+ <CAOQ4uxiTS-QT7y1avNSasJSffkt2uRNkdrb2_GrK7kJ82-MoXw@mail.gmail.com>
+In-Reply-To: <CAOQ4uxiTS-QT7y1avNSasJSffkt2uRNkdrb2_GrK7kJ82-MoXw@mail.gmail.com>
 
---1ae0fec9eeabe43856471b243f1ece3413edf7686407593b3575066613d8
+--7bf7be77af3bb2ca970a31782cf12336c55eb4edcc365a7f2b8809684642
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
 
-On Tue Nov 3, 2026 at 4:12 PM CET, Amir Goldstein wrote:
-> On Tue, Nov 3, 2026 at 12:25=E2=80=AFPM koraynilay <koray.fra@gmail.com> =
+On Tue Nov 3, 2026 at 4:14 PM CET, Amir Goldstein wrote:
+> On Tue, Nov 3, 2026 at 12:13=E2=80=AFPM koraynilay <koray.fra@gmail.com> =
 wrote:
 >>
->> On Mon Nov 2, 2026 at 3:54 PM CET, Amir Goldstein wrote:
+>> On Mon Nov 2, 2026 at 3:00 PM CET, Amir Goldstein wrote:
 >> > On Sun, Nov 1, 2026 at 2:57=E2=80=AFAM koraynilay <koray.fra@gmail.com=
 > wrote:
 >> >>
->> >> This is an initial implementation of a new timestamp to indicate the
->> >> time when a file/directory was initially created.
+>> >> Add provenance time (ptime), indicating the time when a file or
+>> >> directory was created. This is user-settable via file_setattr() and
+>> >> retrievable via statx(2) (using STATX_PTIME) or file_getattr().
 >> >>
->> >> This patch series takes inspiration from the one by Sean Smith
->> >> <defendthedisabled@gmail.com> [1], but using
->> >> file_setattr()/file_getattr() as suggested by Darrick J. Wong
->> >> <djwong@kernel.org> in [2].
->> >>
->> >> The semantics of this new timestamp should be at least these:
->> >> - it should be the same as btime on a newly created file
->> >> - it's user-settable, so it can be preserved for backups, filesystem
->> >>   conversions, archives and any similar operation
->> >> - it should be preserved every time mtime gets preserved
->> >>
->> >> and the correspondence with the other timestamps is as follows:
+>> >> The semantics of when to preserve this new timestamp are the same as
+>> >> mtime, the idea being that there is a correspondence like this:
 >> >>
 >> >> ctime <-> btime
 >> >> mtime <-> ptime
 >> >>
->> >> Examples:
->> >> 1) a .zsh_history file created in 2019, then after a few years the us=
-er
->> >>    decides to switch to another filesystem, copying the .zsh_history =
-to
->> >>    the new home, in that case btime would have the timestamp of the c=
-opy
->> >>    and ptime would have the 2019 timestamp (just like mtime would hav=
-e
->> >>    been preserved)
->> >> 2) a symlink created in 2020 from the home directory to a /path going
->> >>    through the same process as the .zsh_history, in this case it woul=
-d
->> >>    also make sense to sync the ptime to the 2020 timestamp instead of
->> >>    keeping only the btime (so the inode creation time).
+>> >> so every operation (copying, moving, ...) that currently preserves mt=
+ime
+>> >> should also preserve ptime.
 >> >>
->> >> The proof-of-concept code (for testing) for stat(1) and cp(1) is
->> >> available at https://github.com/koraynilay/coreutils (master branch)
->> >> (Note: these coreutils code changes are a prototype and won't be
->> >> submitted upstream as-is, but they work as expected in simple stat an=
-d
->> >> cp -a/--preserve=3Dptime tests)
+>> >> Furthermore, in order to avoid the legacy FS_IOC_FSSETXATTR accepting
+>> >> FS_XFLAG_PTIME, add an FS_FILE_ATTR_XFLAGS_MASK mask to support new
+>> >> xflags, and use it in fileattr_to_file_attr()/file_attr_to_fileattr()=
+ to
+>> >> allow ptime to be used with the file_setattr()/file_getattr() syscall=
+s.
 >> >>
->> >> Lastly, the name "provenance" and "ptime" are not final, I personally
->> >> don't have a strong opinion on any name, but while testing with stat(=
-1)
->> >> I noticed that "Provenance" is definitely too long for the normal
->> >> output, so another option which would fit well is "Origin time",
->> >> abbreviated as "ntime" (OrigiN time) and not as "otime", as that woul=
-d
->> >> conflict with btrfs' internal naming and create confusion.
+>> >> [ This is a re-implementation of the initial patch[1] by Sean Smith
+>> >>   <defendthedisabled@gmail.com>, following the advice[2] from Darrick=
+ J.
+>> >>   Wong <djwong@kernel.org> of using file_setattr() instead of updatin=
+g
+>> >>   utimensat() ]
+>> >>
+>> >> [1]: https://lore.kernel.org/20260405195007.1306-2-DefendTheDisabled@=
+gmail.com
+>> >> [2]: https://lore.kernel.org/20260407014129.GC6192@frogsfrogsfrogs
+>> >>
+>> >> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.4.7
+>> >> Signed-off-by: koraynilay <koray.fra@gmail.com>
+>> >> ---
+>> >>  fs/file_attr.c            | 33 +++++++++++++++++++++++++++++++--
+>> >>  fs/stat.c                 |  2 ++
+>> >>  include/linux/fileattr.h  |  5 +++++
+>> >>  include/linux/stat.h      |  1 +
+>> >>  include/uapi/linux/fs.h   |  8 +++++++-
+>> >>  include/uapi/linux/stat.h |  7 ++++++-
+>> >>  6 files changed, 52 insertions(+), 4 deletions(-)
+>> >>
+>> >> diff --git a/fs/file_attr.c b/fs/file_attr.c
+>> >> index 833e03810b24..c0645cb22bf3 100644
+>> >> --- a/fs/file_attr.c
+>> >> +++ b/fs/file_attr.c
+>> >> @@ -102,7 +102,7 @@ EXPORT_SYMBOL(vfs_fileattr_get);
+>> >>  static void fileattr_to_file_attr(const struct file_kattr *fa,
+>> >>                                   struct file_attr *fattr)
+>> >>  {
+>> >> -       __u32 mask =3D FS_XFLAGS_MASK;
+>> >> +       __u32 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
+>> >>
+>> >>         memset(fattr, 0, sizeof(struct file_attr));
+>> >>         fattr->fa_xflags =3D fa->fsx_xflags & mask;
+>> >> @@ -110,6 +110,8 @@ static void fileattr_to_file_attr(const struct fi=
+le_kattr *fa,
+>> >>         fattr->fa_nextents =3D fa->fsx_nextents;
+>> >>         fattr->fa_projid =3D fa->fsx_projid;
+>> >>         fattr->fa_cowextsize =3D fa->fsx_cowextsize;
+>> >> +       fattr->fa_ptime_sec =3D fa->fsx_ptime.tv_sec;
+>> >> +       fattr->fa_ptime_nsec =3D fa->fsx_ptime.tv_nsec;
+>> >>  }
+>> >>
+>> >>  /**
+>> >> @@ -141,15 +143,20 @@ EXPORT_SYMBOL(copy_fsxattr_to_user);
+>> >>  static int file_attr_to_fileattr(const struct file_attr *fattr,
+>> >>                                  struct file_kattr *fa)
+>> >>  {
+>> >> -       __u64 mask =3D FS_XFLAGS_MASK;
+>> >> +       __u64 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
 >> >
->> > FWIW, I agree that given the existing uses of btime and crtime in the
->> > kernel and various XXXprogs, using 'ptime' for kernel code is probably
->> > the lesser evil.
+>> > That is not the correct way to extend this API.
+>> > This fixed mask was added as a placeholder for
+>> > "We intend to add support for more xflags to selective filesystems":
+>> > https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-2-amir73i=
+l@gmail.com/
+>> >
+>> > Please see this POC patch for filesystems to publish their supported
+>> > xflags mask:
+>> > https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-3-amir73i=
+l@gmail.com/
 >>
->> What do you think about the origiN time (ntime) (Origin: in stat)?
->> It would also coincidentally be alphabetically (ntime <-> mtime, n -> m)
->> the same as btime <-> ctime (b -> c) ahah.
+>> Thanks, I did not think of adding a dynamic mask like that, I will look
+>> into it and implement it for v4.
 >>
+>> > This will allow callers of file_getattr() to know if the filesystem
+>> > supports ptime
+>> > without trying to set it and failing.
+>>
+>> So after adding fsx_xflags_mask to file_kattr, every filesystem would
+>> populate fsx_xflags_mask with all the returned (=3D=3D supported) FS_XFL=
+AG_*
+>> in their own specific .fileattr_get, correct?
 >
-> Honestly I don't know.
-> My new idea is don't publish it in statx() at all.
+> Not all filesystems. Just the ones that wish to extend the constant
+> legacy FS_XFLAGS_MASK.
+> So just the ones that you change to support XFLAGS_PTIME
 
-Well I was more talking about the actual variable names in all patches
-ahah.
+Ah ok yeah that makes more sense, so like the fileattr_has_fsx_mask()
+(that checks if fa has fsx, ignoring the suppored/allowed ones specified
+as second arg) that I added, but in the opposite way: "I advertise only
+the extra fsx (so only 0 or FS_XFLAG_PTIME rn) that I support".
 
 Thanks,
 koraynilay
@@ -202,15 +242,15 @@ koraynilay
 
 
 
---1ae0fec9eeabe43856471b243f1ece3413edf7686407593b3575066613d8
+--7bf7be77af3bb2ca970a31782cf12336c55eb4edcc365a7f2b8809684642
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCauoYMQAKCRA0bnTtJTDo
-OI2UAQDfLMxbWJxZCtj5g/a2TQHWFv3yLHmv7IEjclN8pYY5IgD/VFtdYZ3g+FW5
-oxEEhXF7xBfTTV5O+6Ag8QIL/lM51wc=
-=XiPH
+iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCauoZlAAKCRA0bnTtJTDo
+OBnVAP9J2oe3Q/z4+CIvNcDvvOtFdyX98jyvuqmiHKySHzb6XAD+N8QVNASksB7a
+or/C2uBDgyHnZr93FRknmz2MMzGnvwQ=
+=0YAO
 -----END PGP SIGNATURE-----
 
---1ae0fec9eeabe43856471b243f1ece3413edf7686407593b3575066613d8--
+--7bf7be77af3bb2ca970a31782cf12336c55eb4edcc365a7f2b8809684642--
