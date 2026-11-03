@@ -1,56 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.188.251
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.235
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793730077;
-	b=o3Txo+/f/FMJjwdZnlqbXLU9KFF7cEAsixO48i8H9C3GPZkwY6rbaoggVsr7JBUSghhT
-	 fEK7pXnGvwQzvJ4kaprJDAI+2c9xpvNssr9rIuyYvs9XIEWWnS21T41fRJyA3OwCKBPiS
-	 DnMPnJIm6ssqTm6FvgsHTzsSUdEIW8tac+dywNL6btZkdeaJmOvHwhJnPXeFluu5se6Ip
-	 85zbRr3d1PioHtZoUNIlCiw1Osi2DFoFaM663oQ7E6oW6FztXtqjZf5jjoeSNgt4v2qAK
-	 qHAZmytVXRj8iuOlIvrJb4FZq30vsCUBhMIV+spUWVfYlP17UiNl9phI3jJOTYa/STA==
+	t=1793763531;
+	b=fH2aXJhGtFwn4MPG+ZXF4P8O5Ve1GT3cWsDthU6Tmmeg/8b9bB9WkNnPewDwq2NuKb/+
+	 zi2+/h4GvYz3+aE43ACZ1xCJf+O+UxCLyykDRhKty+53k1021zb5aFUgDk8wRHXKJy55Y
+	 uF9/CXApEP18HcnSoBhg7kYvgoSpKl5a+ufqbTNEt8W6JJTkegJUl4xI+8HYq1zvBmHsD
+	 GNVbwjLxjiwwNN8VGoxMilswbdQWLzbEWFw1FPC33uy6goHUhc2W1FoizdKbZxh8S24fl
+	 Z8A8GkQi2ZWdTWbPzPAt4rsi7mBLADk48YmwX8yTef6H/c8WI2oUu15pY7x0PeuWOYw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793730077;
-	h=DMARC-Filter:DKIM-Signature:Received:MIME-Version:Date:From:To:Cc:
-	 Subject:In-Reply-To:References:User-Agent:Message-ID:X-Sender:
-	 Content-Type:Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-Get-Message-Sender-Via:
-	 X-Authenticated-Sender:X-Source:X-Source-Args:X-Source-Dir;
-	bh=ytUhEil0wlgsVUoCP0Yd74A/AIwBqr40dkibQ+gxCqs=;
-	b=CS5zcpbQxsabFqan6Am6ZodG92KFzrjVrahmvXXGrrMBD5+aghwX5SpSH4X6Iipse8Qp
-	 WSENbOR3hNO6r8yJHtlwQ/o35faNj6/QaTGw93E5w430jfs057QMHu4Z+k92N2Wddy4Mm
-	 hCYrr6iXQXZPKRN7sOvYdkxXB/u5Gv7X5maa6Bl/wLAOaosl4pJIw6CcK2xf0RkORKRlD
-	 Yg94zClll+XzYDaZMsUQqBImhb/pymmToT23K6FeYJD7eaqq677rTQBDRRVXSnYy+IPXf
-	 a3lGOZOwylBUWRksfj5dXY+4R92ACGhi1yrO6nxZ4ID+xnt33f1cJi1cVGKfhMl1FgA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793763531;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:X-OQ-MSGID:Date:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=Ld/0/oO5/dcyaFSZVTGSJT7CZ63LB3da6H6DL8O7euU=;
+	b=x+eB/5w38NPUQqTGH4b8PNuHye/OipWddfgm0+TXfTVTRIE8ZMF+yTDxalIzwGlFg5/m
+	 9Lch91cyzmppySuWqr21aHIfJ3WtFfgtfg1Iztn9kfOpfYTdsU4uWXuZkkvMxHb9dqgsz
+	 z4jM1bao6GJk2+rOsArhJ43LRs9nNedViH6TPsaBhnjeArfqPVjSc8t+mh4tAkS0a5ZVC
+	 pZR3gxtEzG9BlrZLUistPNt8+5RK6lV1LjdZ00LOndzR77wtGYgJ4hDvGdtsRg4ZeFj2E
+	 /jxOWKbhDiY9HmLalTO2n71P3mDWXwuE4bFGCbhCWwRMYHVc4J2YX4ERGSJm7a3+phw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.cyber.gouv.fr;
-	spf=pass smtp.mailfrom=oss.cyber.gouv.fr;
-	dkim=pass header.d=oss.cyber.gouv.fr header.i=@oss.cyber.gouv.fr header.a=rsa-sha256 header.s=default header.b=Yx9kYchn;
-	arc=none smtp.remote-ip=51.159.188.251
-Received: from oss.cyber.gouv.fr (oss.cyber.gouv.fr [51.159.188.251])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b="zDdQR/oN";
+	arc=none smtp.remote-ip=203.205.221.235
+Received: from out203-205-221-235.mail.qq.com (out203-205-221-235.mail.qq.com [203.205.221.235])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF50606A328
-	for <ntfs3@lists.linux.dev>; Tue,  3 Nov 2026 18:21:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6FF50606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.cyber.gouv.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.cyber.gouv.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCFA606A329
+	for <ntfs3@lists.linux.dev>; Wed,  4 Nov 2026 03:38:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBCFA606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.cyber.gouv.fr header.i=@oss.cyber.gouv.fr header.a=rsa-sha256 header.s=default header.b=Yx9kYchn
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=oss.cyber.gouv.fr; s=default; h=Content-Transfer-Encoding:Content-Type:
-	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:
-	Reply-To:Sender:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=ytUhEil0wlgsVUoCP0Yd74A/AIwBqr40dkibQ+gxCqs=; b=Yx9kYchnkLyzqx+G+jIs35+s0N
-	TeqUwlJOnFBRDHIxoVeahtVbQVO+cKsTfVIsgDDJ0q1wpJGgFYRKpcNu4nLWiGKn8ciqq9VtaY9JW
-	w12WWmyab5Wi+QQ+x0ZhhqxeRXBz5NonmDlsGoujJouQDHnrODNSTkELOAZDrdxzYRm2/I4bzIwgR
-	r2BwLiuE2CQq0hs30x4V3uUl0a43qkt2xO4dbB+1G/8FhjVxWFZvWh1vctxp9eQcLmJF8bU/8I7dU
-	0GegwYVnIoNB/qMVHH8dT7nQyKQTdLoZwBJMjXgiLNZZSJOLyuR015xxLtTKWo1WIbfiC08ahxjqH
-	wE5mIgrQ==;
-Received: from [::1] (port=52456 helo=pf-012.whm.fr-par.scw.cloud)
-	by pf-012.whm.fr-par.scw.cloud with esmtpa (Exim 4.100.1)
-	(envelope-from <jeremy.jean@oss.cyber.gouv.fr>)
-	id 1xOJ8G-00000008iQi-3HiN;
-	Tue, 03 Nov 2026 19:21:15 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=zDdQR/oN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1793763521; bh=Ld/0/oO5/dcyaFSZVTGSJT7CZ63LB3da6H6DL8O7euU=;
+	h=From:To:Cc:Subject:Date;
+	b=zDdQR/oNBiRYRgam32mzLNqqNN4+LyxgpmKjjPXIe4k3zEfsTk/C753e4auFhzHqr
+	 nbUY+j8lDMX1OijRnOpRtKgGlRYpKnf1w0DOP2n+HNmyrk8W0sPFq84UZh8zkt64Hg
+	 OrvnOOMivjsYs/bZvmeqfH++n0Haquz931e//tCA=
+Received: from [172.18.4.77] ([61.136.26.103])
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id 9A7B4E35; Wed, 04 Nov 2026 11:38:39 +0800
+X-QQ-mid: xmsmtpt1793763519t1zc3rdps
+Message-ID: <tencent_2BA96BDF7A23284E7DA60251823E63515808@qq.com>
+X-QQ-XMAILINFO: NC4p7XQIBeahv0YBCtuDRj6dEHyIkojQmXqyn3geZQd7rrVELvo9W8+QfzBLrC
+	 GT768jPzDl87QVpd6GDWHvQjsP7nAOVg6eoY9NF641Cegs3UdZQs76sHoURyANmbJQR9Iii1xGcZ
+	 MgpkQ7lTjS+w7mWPj+pDdfbrje4omrS52DW4OQbG0/SDzZqZ9ArzCVLR+VGBdiu8UDpM7U17NsYM
+	 SIH9DmFdHhXpIAa34N1Awmw1FIU8lnqTmtekD656XFubiBZQneaB8Yyo07Pch+Cb8pomyRjyunpV
+	 nKLjuBN56jfkzKKQjSK732mJFXBjO+kfQDMkiiOX744w1o6zwL+szLKoysMXG3x5n2pIfMjXG0wG
+	 HW+ZAaM9M2cCu7CxG3XbAuNOqABh5O7CbYT4nLosxE5JCuYxEp5YalZwUBl8Hng0/pEc2ZlR9T9R
+	 8V9dLOykJZTzp2obc3cL2arm52Sa2BzN257x5zHPmOgCMp4+SuEeaS+Myfb7CBPFQMmCgeKvpyio
+	 4/G0jPoYTn7Eu2V2A/aRsW5SVnMlsnwOq963I7Gguxy3RW3pyNlEC7C0LT7/f7G/SNeTMo7QKcJi
+	 XtgTAB7IyZe6fHfK8jPI6JN5fitmP0qBUMLIPr5l9W6pEwK6zm741vuAb/z67/4KMwoPKCcNcHpE
+	 xghdkH4nNT10UjIsNI3SXcSpoHWvYvgvQQXQMt8hseupJJnZmHerup6Ly/NZB3qG/V3nvg3tEQ+o
+	 VEtHYS+DozrjwJUa9uCNjqWX8WNM26+aJx8/EPwBmDpIYoc/biRFfEBss64uxgHkP89EXU7gAe07
+	 YbcU9GHb3b5dzyVZqvL5ZXFEgTN0wrGUeIzS/IpPd84JGYUE0PEn49TG1hZyhqUNrLwxZjwZOmRN
+	 K/xNR4UznH/s+jF8j9KTdZ40sKi9IjuTY7Mk/O0yjlHY+UsrnGlLxdqQTvJK6YbqyN+3W4yBs8Pt
+	 lEvu64x2WHNe+Cib+jx/Jbqsx2yYnYVLYOrWJMWwnFXStZudhzb8sCp6XttJZ7IvKPhTtgVJv6FR
+	 tOIXrmYUdr456Re5u0phNa3dZXw91VfvEqyzzeFvRJ11xigPX4HrkLyZGCbaPo4hQNXLH6xZwPPL
+	 qivLhO
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+From: Guikun Yang <yangguikun19@qq.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: ntfs3: unvalidated c_unit in sparse/compressed attribute header
+ triggers UBSAN shift-out-of-bounds in attr_set_size_ex()
+X-OQ-MSGID: <c18-ntfs3-cunit-shift-20261103@qq.com>
+Date: Tue, 03 Nov 2026 18:00:00 +0800
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -60,50 +79,95 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Date: Tue, 03 Nov 2026 19:21:15 +0100
-From: =?UTF-8?Q?J=C3=A9r=C3=A9my_Jean?= <jeremy.jean@oss.cyber.gouv.fr>
-To: =?UTF-8?Q?J=C3=A9r=C3=A9my_Jean?= <Jeremy.Jean@oss.cyber.gouv.fr>
-Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fs/ntfs3: validate log replay bitmap buffer spans
-In-Reply-To: <20260817202941.1635505-2-Jeremy.Jean@oss.cyber.gouv.fr>
-References: <20260817202941.1635505-2-Jeremy.Jean@oss.cyber.gouv.fr>
-User-Agent: Roundcube Webmail/1.6.20
-Message-ID: <3f1d3f776bfa0e8c705ae9bd264f13e9@oss.cyber.gouv.fr>
-X-Sender: jeremy.jean@oss.cyber.gouv.fr
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - pf-012.whm.fr-par.scw.cloud
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - oss.cyber.gouv.fr
-X-Get-Message-Sender-Via: pf-012.whm.fr-par.scw.cloud: authenticated_id: jeremy.jean@oss.cyber.gouv.fr
-X-Authenticated-Sender: pf-012.whm.fr-par.scw.cloud: jeremy.jean@oss.cyber.gouv.fr
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 
-On 2026-08-17 22:29, Jérémy Jean wrote:
-> do_action() derives the read buffer size for bitmap replay records from
-> lrh->lcns_follow in u64, then stores it in u32 bytes. A log record that
-> covers more than U32_MAX bytes therefore allocates and reads only the
-> truncated tail while the bitmap range checks still compare against the
-> full u64 span. ntfs_bitmap_{set,clear}_le() can then access past
-> buffer_le.
-> 
-> Keep the span in u64 until the read size has been validated against the
-> u32 ntfs_read_run_nb() interface. Also validate bitmap ranges in u64 
-> and
-> reject lengths that cannot be represented by the helpers' int len
-> parameter, so crafted bitmap_off/bits values cannot wrap the existing
-> u32 arithmetic before the bounds check.
+Hi,
 
-Hello,
+Truncating a file whose non-resident attribute carries the sparse or
+compressed flag ends in a UBSAN shift-out-of-bounds. The shift amount
+is the raw on-disk c_unit byte, which is never bounds-checked on the
+ext attribute path.
 
-Did anyone had time to check at this?
-Current master branch is still unfixed.
+  UBSAN: shift-out-of-bounds in fs/ntfs3/attrib.c:485:9
+  shift exponent 32 is too large for 32-bit type 'unsigned int'
+  Call Trace:
+   __ubsan_handle_shift_out_of_bounds
+   attr_set_size_ex.cold+0x152/0x1bf [ntfs3]
+   ntfs_set_size+0x202/0x360 [ntfs3]
+   ntfs_setattr+0x363/0x6d0 [ntfs3]
 
-Regards,
-Jérémy
+## The gap
+
+mi_enum_attr() (fs/ntfs3/record.c) validates each attribute it walks.
+For a plain non-resident attribute it rejects any nonzero c_unit:
+
+  } else {
+          if (attr->nres.c_unit)
+                  goto out;
+          ...
+  }
+
+but the ext branch - first segment of an attribute with
+ATTR_FLAG_SPARSED or ATTR_FLAG_COMPRESSED set - checks asize,
+total_size alignment and total_size <= alloc_size only. c_unit is
+accepted unbounded, and it is a raw u8 at attribute offset 0x22.
+
+The first consumer is attr_set_size_ex() (fs/ntfs3/attrib.c:501):
+
+  align = sbi->cluster_size;
+  if (is_ext) {
+          align <<= attr_b->nres.c_unit;
+          ...
+  }
+
+and there are four more shift sites using the same field
+(attrib.c:1168, 1732, 2089, 2401).
+
+The kernel itself only ever writes 0 or NTFS_LZNT_CUNIT (4) into
+c_unit (fs/ntfs3/frecord.c), so anything above 4 is a state the
+filesystem never produces legitimately.
+
+## Observed
+
+The reported exponent tracks the on-disk byte exactly - one run per
+forged value, each deterministic:
+
+  c_unit = 32  ->  "shift exponent 32"
+  c_unit = 64  ->  "shift exponent 64"
+  c_unit = 255 ->  "shift exponent 255"
+
+Trigger is open + ftruncate after mount; no privileges needed.
+
+## Notes on reproduction
+
+Two details make this awkward to reach by blind mutation and worth
+spelling out:
+
+- MFT records are covered by the update sequence array. Any field
+  edit has to undo the USA fixup first and recompute it afterwards,
+  or the record is rejected as corrupt.
+- Converting the attribute to ext form makes total_size land at
+  offset 0x40, where the runlist used to be. The attribute has to
+  grow from 0x48 to 0x50, the runlist moves to 0x48, ATTR_END is
+  re-appended and used is updated.
+
+The reproducer (image builder with USA handling, ready-made image,
+crash logs for all three c_unit values) is available on request.
+
+## Suggested fix
+
+Symmetric with the plain-attribute branch in mi_enum_attr():
+
+  if (!attr->nres.svcn && is_attr_ext(attr)) {
+          ...
+          if (tot_size > alloc_size)
+                  goto out;
+  +       if (attr->nres.c_unit > NTFS_LZNT_CUNIT)
+  +               goto out;
+  } else {
+
+Tested on 7.3.0 (ntfs3 as a module), deterministic; the ext branch
+and the unbounded shift are unchanged in current mainline.
+
+Thanks,
+Guikun Yang
+
