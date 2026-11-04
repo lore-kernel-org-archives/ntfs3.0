@@ -1,103 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793831034;
-	b=QlMH9qpEO5KvNYcLGE04p5Aq0abz0KN438rCFfwdGA7yjU+spjKSd/h/ZcYMe+fjslue
-	 sugAsRqGR1h3UclThQ/dS493ufkUHSKQiadFe0Lg3LWUnVfn8nix+K+lafIXsJd1qe8RK
-	 X88S4NEgaUU6Pjdun6k16eUQVmrEAdI+80UlTxL54Dt/sHBxeZGA0oQuhE16Vf+gQ9TUD
-	 JQ0KKBta1brCY0l4VUsGI+BnmOPYweVpMQZVPjltwRgl4/bvXBR3LoPR7oTkm54+YIOxV
-	 +9sIEe6dE0JBu7xo030eX3tFjaYIbuUZGMSeUnWTp/QRn5N1iqvJkLm0cuOHd6Hq5mw==
+	t=1793832370;
+	b=GiPJj/b5IETTgaiAxC956zQaYbDdSyZGCxNYuLZCFetISqeOrO3uXvnnxHK/YH+Y5AdN
+	 4y8iWiN+H2uWkXG5NYIeMWDex1F6hAD7Iiwz8nY+Y/tgL3WlQEzCOoYI9bNEtMBe9C1VJ
+	 Z9NOIQQ9aeTnjEUWkEV93rwBqp+0i4UklS/GTPjExFt6z7o5tIVZHumYX25qS1/VXXXZo
+	 W/t6qH6hbIPDpGauq8KUwS60tWoCyzSZyhrKape3UE6/6HA5ZCLzUWE5ww0+Gbs2PdKIw
+	 bfE8s5rueKgjC9MAVHCQX4l3CO3W0PJYEIeu5pCJ7/8DoJ43V/TWU8KY+Kgw6AoKxOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793831034;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=KeZ2aB0X0IqNy32Bwapb83gUzvOHb7jOV5nmidAoLRQ=;
-	b=yVxgMMn4OzQ0i0zr7quoOvjKv1eIg39X6YblXBT68t9LzH7SWkso6qsWfenh5aiN2Ppg
-	 W3ywhyqJjrLtnPRd0DhzfDTQYspOlVOdBqxR41LC3LafWr9LBtfpueRLv9oEiPat0KA4k
-	 2g4tzhRN5R3NJ66PpwwsIHfhNLEqDui5HbG0aNpK4/AAV2C+q67xnkfBaHEkNU5WOiK5d
-	 xKsz3+5qkGvpF2akC5RVFrCngLxRG8qphmOnhk/jtmZh4pkEVzrJxgK1qzbM72HhAn4Tk
-	 Rc8kS0wyGORGsmUHF8wBCGqQlyWAtDSoCIZ6wZEDz2qnAasH/YuWP7g7sBc+RbUDWLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793832370;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=XBOw8umZc0PSygGL6ZhSsNEhyMPfzoczgqWFX+5YDNY=;
+	b=Re/6Rg9jSD9Xebvi70a84ZeMmu/I2lfDULXQp8gVW/rAcQgEQo7H7Bm2B45i/4cWD2Qz
+	 bA5PiYIc9GvM4LsvRra4bsZTC675SEPOrg8kMw2nb505Tv9nEXMOEXBmWOA2oIxYMgmqJ
+	 +lHWOwBIftcc35KCKzB0hLHvHE/OhEFsHLfPgbhC0Ts/pbORmj97PoUbWtjBounXmDjiB
+	 mQfvZZDBX4X96/9TtFlVhx528WLd9pGG+gUaWMkQQO/cRYvFd1uTPq/NWJKxb2Q0AZYRH
+	 dcHEjS7kMdFBNNoIBuEl1SVfzq//hK+nG7BkfvMxHJqFrp/DW75GAm8UPQXw5VfKfrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=toxicpanda.com;
-	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=fIkR9P+7;
-	arc=none smtp.remote-ip=209.85.222.177
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y+guEyix;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9195606B387
-	for <ntfs3@lists.linux.dev>; Wed,  4 Nov 2026 22:23:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9195606B387
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24D4606A31B;
+	Wed,  4 Nov 2026 22:46:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=fIkR9P+7
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-93f3c616c84so109982585a.1
-        for <ntfs3@lists.linux.dev>; Wed, 04 Nov 2026 14:23:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793831033; x=1794435833; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KeZ2aB0X0IqNy32Bwapb83gUzvOHb7jOV5nmidAoLRQ=;
-        b=fIkR9P+7jc/WNZNc8oxcv3NW6FiKNH+uxJYrg7PjpXQv2zIEHBBIE3T856A99ISL09
-         BMLn2N2PS2pAGSh3B2vzkDamicCqw+EPJJkuVnSo8SC96tRuG3+MfZQockULEkp8ooff
-         9+h4tPKtl1Qs5G3twe63OLni8l2iRuSB0Bg1/GWq5axf+EH96hdt91W6khRM+TOOYdJr
-         nOHL3nhUOH+au7FjkJ9IADfncamqV5BlCY6DWQ0bCRamQmwr3HJRVruoHdwBZQMaEPDq
-         Eoj/CylqM0ch1ayGoOM/ew/yLTz8oamgw0o2iiOFadPfqf9TGBptzihjjKHaVgdZYLRZ
-         +PSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793831033; x=1794435833;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KeZ2aB0X0IqNy32Bwapb83gUzvOHb7jOV5nmidAoLRQ=;
-        b=zfjatzxWZm+7Vc63XfbkautbdXTwRG41pttP8twINoPnBBnhMl2S2LpGTnhvL0HthE
-         h25QTA+xlyytkEIud+qqnlHKL5OQHe6wVNY+yIKsmDgM9CcRgI1nNd6f72qwD2FZJWWL
-         JEfnK6adAzV5SydZGO99I0gkwlXvBK7fjk+WxmLPkhGvi4Hir1ISntrNm1sY0l+MQSUr
-         NJfVk6zKM7FMlY7hHDtad3XsH7qr8G+fEXYRiiJrC1fht8oeCOtJ9QKnptsoRfLFNht3
-         FnOyIJd+GhwuES2I3i20jfHRE1X66DBHh/cit/8eWgpYN+GrEL4A8k9PoCWED4KA8sUA
-         v1og==
-X-Forwarded-Encrypted: i=1; AKwUvBzNgNFJCmwpnUvNRkhuJ5wgIIT8bdxK3Meo8EebclMv5D6njkxSWhD/sfZK3SwrLEG7Wzs7wQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+5/23BVs5iFU9vJZ4GMxWv3uY7s/UIdAMGBTx7hIz93Hhuu1VJ
-	y4UXZZNhxib8/LcOqyQMpFzSONNWXEw2GcwtfviMsmxwM2bQzfzSxZqs5b3SWK1lSqg=
-X-Gm-Gg: AYBFou1xctpueutjPt3sci3vYO7mr1DSadvshkv9oJxYWi+AB9EPsgVhNGjkaIY6pNk
-	Et8OePFGq5yUOhzoE2RsDHr4XwQj8CxvsLQqAWOSrpwTLtvaXzoC7z7IQ3iuTitEmTNoQX5dTTN
-	Whd00W2Pi90RYLPGYd4t1t1Kp5FMy8Ldh4RrbPwybmjIJSFCf6+DhVcEIPNtTHLVBJ8EIDCjKCU
-	gS1fPKVA/TdTnDtwrJDNz5sEOsLzku0tgdvpothZmnm3ZRUVJ1j5PGm+c2Fd6qLuIuZQN4ywNb/
-	OhH0ZBbk3oODRlT5FbMaUu4ZbGnYS94Y9rX1uDMIYXzusGqBFImgHkaCf74BcVoIy67fuvyixY2
-	a8bcqGSfWriFvj4D9ED1/QjkLHjAwFc4U7S1F/7qmhMNotp/MZL5pdznX7eZQMPkkDp1BViB+5b
-	WJgwUsDy5hIuhHEORT4A/zByENa5K7s4XrdIg+pVtfh+FvTNP9u6rc1haCpMKM0zQlb/GEe76v8
-	CsvBkIxpgozvuNsynYL97Hz0vpz/XWvgvJroy3X3d6rkEUoBeLvM3dOKJNj5c6ANAIRForyD+u0
-	aoI7cn/vStoERUFlL/ihvKHE1F5Ilvl56+1F3ATTxer1/g==
-X-Received: by 2002:a05:620a:608d:b0:93c:7e9c:3bba with SMTP id af79cd13be357-944216bd4bdmr3093198785a.41.1793831032557;
-        Wed, 04 Nov 2026 14:23:52 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.240])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d4691a76sm312610285a.4.2026.11.04.14.23.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 14:23:51 -0800 (PST)
-Date: Wed, 04 Nov 2026 22:23:51 +0000
-Message-ID: <464ef986eab97abf226791c7e19ad111.josef@toxicpanda.com>
-From: Josef Bacik <josef@toxicpanda.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
- Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
- Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>,
- Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>,
- Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>,
- Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>,
- linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev,
- linux-sound@vger.kernel.org, linux-mm@kvack.org,
- Chuck Lever <chuck.lever@oracle.com>, Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH RFC 0/7] proc: move procfs to what kernfs does
-In-Reply-To: <20261102-defizit-jobaussicht-kurios-7016c6e67442@brauner>
-References: <20261102-defizit-jobaussicht-kurios-7016c6e67442@brauner>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y+guEyix
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6C1B1F000C1;
+	Wed,  4 Nov 2026 22:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793832369;
+	bh=XBOw8umZc0PSygGL6ZhSsNEhyMPfzoczgqWFX+5YDNY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Y+guEyixDVYqpS8g3d4FmlRYq/qp1tQeGL16K2BSxNthPOaRsDL0VFTK+tjHByNf5
+	 UG3G3TR4IbDk5BaZwlgwVySr0HiRvL1WeYdDEujyS+zzG35LMJqu1Pm8BzfQ5Z+w4F
+	 3DGZwBGiTOYlKSVRIgaBstWj6LtjUlnMrGUfTY6AgB7LPx3pVl/0nxTfWzl1eRWVeu
+	 9SzZPPQ7yLUIbBzvzOD5olkzaVc7Od6fJQ93jvoDvEvbyLIezG28vK5PJuGqQJ/Zu+
+	 C/TFnkMniWMHftytXgdebgJiyvQu099dnGFvQXlwnwRKY6VGKt0bkFzVDUexAPr+Sm
+	 GvRbuyQmKti0Q==
+Date: Wed, 4 Nov 2026 23:45:55 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>
+Subject: Re: [PATCH RESEND v2 00/30] proc: convert the fs, kernel and mm
+ entries (Part 5/7)
+Message-ID: <20261104-allein-bepacken-hitzig-5e517d3c129f@brauner>
+References: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner>
+ <20261104-work-procfs-fs-v2-0-319e0f9a8aae@kernel.org>
+ <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -107,199 +79,20 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
 
-Hey Christian,
+On Wed, Nov 04, 2026 at 12:05:08PM -0800, Linus Torvalds wrote:
+> On Wed, 4 Nov 2026 at 11:49, Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > Part 5/7 of "proc: move procfs to what kernfs does", on top of part 2
+> 
+> Christian - way too many patches, re-sent much too often, cc'd to way
+> too many people.
+> 
+> Nobody is going to read these repeated resends, and all you are doing
+> is clogging up peoples mailboxes.
 
-This is a summary of my Claude review of everything.  It didn't find
-anything wrong with the conversions in parts 3 to 6, the findings are in
-part 1 and on the procfs side.  1-3 are reproduced in a VM, 4-6 are from
-reading the code.
-
-1) bugfixes 19/38 ("proc: resume readdir after the last name it
-   returned")
-
-proc_readdir_de() now returns 1 instead of 0 when there's nothing left
-to emit:
-
-	if (!de) {
-		read_unlock(&proc_subdir_lock);
-		return 1;
-	}
-
-proc_root_readdir() needs that to go on to the pids, but proc_readdir()
-and proc_tgid_net_readdir() are also the ->iterate_shared() of every
-other directory, and iterate_dir() hands the value to its caller.
-getdents doesn't look at it, old_readdir() and the compat one do:
-
-	error = iterate_dir(fd_file(f), &buf.ctx);
-	if (buf.result)
-		error = buf.result;
-
-	return error;
-
-So at the end of the directory readdir(2) returns 1 without having
-written a dirent, and keeps doing that.  This is syscall 89 through
-int $0x80 in a loop on x86_64 with IA32_EMULATION, giving up after
-100000 calls:
-
-	             base, 18/38         19/38, whole series
-	/proc        106 entries, 0      106 entries, 0
-	/proc/fs       4 entries, 0        4 entries, 1 from then on
-	/proc/net     31 entries, 0       31 entries, 1 from then on
-	/proc/sys     10 entries, 0       10 entries, 0
-
-/proc/bus, driver, irq, tty and self/net do the same as /proc/fs.
-glibc doesn't use that syscall, but this patch is tagged for stable.
-
-proc_readdir() has to keep returning the 1 for proc_root_readdir(), so
-I think proc_dir_operations and proc_net_operations want a wrapper that
-turns it into 0.  The comment above proc_readdir_de() that says the VFS
-doesn't care about the return value should go as well.
-
-2) cleanup 5/5 ("proc: drop the _buf suffix from the new methods")
-
-4/5 renames the old ->proc_read() so that "A module that sets one of
-them doesn't build anymore".  5/5 hands the name to the new method, and
-the old and the new prototype only differ in __user:
-
-	ssize_t (*proc_read)(struct file *, char __user *, size_t, loff_t *);
-	ssize_t (*proc_read)(struct file *, char *, size_t, loff_t *);
-
-Only sparse sees that.  The compiler does reject an old ->proc_write()
-or ->proc_ioctl() (gcc 13, clang 18), but this
-
-	.proc_open	= foo_open,	/* single_open() */
-	.proc_read	= seq_read,
-	.proc_lseek	= seq_lseek,
-	.proc_release	= single_release,
-
-builds without a warning with W=1.  pde_set_flags() only refuses the
-release helpers for seq_file entries, which this isn't one of, so it
-registers too.  With a module that has exactly that loaded on top of the
-series there's no warning, open() works and every read() fails with
--EFAULT.
-
-The tree had 84 of those at your base.  None are left, but whatever is
-in flight in other trees, gets backported or lives out of tree ends up
-there without anybody noticing.  Either the read method keeps a name of
-its own or pde_set_flags() refuses seq_read, and either way this
-probably wants an entry in porting.rst.
-
-3) bugfixes 38/38 ("selftests/proc: check that a faulting readlink()
-   doesn't hold up removal")
-
-This adds proc-remove-slow-reader to the Makefile and to .gitignore
-along with proc-remove-slow-readlink, but proc-remove-slow-reader.c
-only shows up in core 08/16.  From here up to core 07/16 make says
-
-	make: *** No rule to make target '[...]/proc-remove-slow-reader'.  Stop.
-
-in tools/testing/selftests/proc, so also with part 1 applied on its
-own.  The two lines want to move to core 08/16.
-
-4) core 04/16 ("proc: let procfs own the seq_file of seq_file entries")
-
-pde_seq_start() returns right after it unpinned, pde_seq_next() goes on:
-
-	v = pde->seq_ops->next(m, v, pos);
-	if (v == ERR_PTR(-EIO))
-		pde_seq_stop_pinned(m, v);
-	/* seq_file would blame these seq_operations, blame the entry's */
-	if (*pos == old) {
-		pr_info_ratelimited("buggy .next function %ps did not update position index\n",
-				    pde->seq_ops->next);
-		++*pos;
-	}
-	return v;
-
-core 16/16 documents that next() may return ERR_PTR(-EIO).  A next()
-that does and leaves *pos alone is called buggy for it, and
-pde->seq_ops is read after the unpin, when the module it points into
-can be gone.  Nothing in the tree returns -EIO from next() today.  A
-return v after pde_seq_stop_pinned() takes care of both.
-
-5) bugfixes 35/38 ("proc: sysctl: don't hold the tables while readdir
-   copies to userspace")
-
-	while (err > 0) {
-		if (!d.skip) {
-			err = proc_sys_fill_dirent(file, &d);
-			if (err)
-				break;
-	...
-	sysctl_dir_done(&d);
-	return 0;
-
-sysctl_dir_next() only pins the memory, so the entry can be unregistered
-before proc_sys_make_inode() looks at it and returns -ENOENT.  The loop
-breaks without moving ctx->pos and returns 0.  If that was the first
-entry of the getdents64() call userspace sees the end of the directory
-and loses everything behind it.
-
-The old code bailed out the same way, so it's not a regression, but
-it's the "terminated early" case you set out to fix and these are the
-lines that get rewritten.  Handling -ENOENT like d.skip would carry on
-after that name.  -ENOMEM probably wants to be returned instead of
-turning into EOF.
-
-6) stable tags, bugfixes 34/38 and 37/38
-
-34/38 has no Fixes: or stable tag and says "No functional changes", but
-35/38 is tagged for stable and depends on it.  Without 34/38
-proc_sys_make_inode() reads table->mode and calls ->set_ownership()
-after it dropped sysctl_lock, and the caller 35/38 adds doesn't keep the
-table registered.  35/38 applies cleanly without 34/38, so nothing will
-complain if only the tagged one gets picked up.
-
-37/38 has Fixes: 7e0e953bb0cf, which is 4.0.  "the inode holds a
-reference to the entry" only covers RCU walk since 47458802f660
-("procfs: move dropping pde and pid from ->evict_inode() to
-->free_inode()"), which went into 6.8.  Before that the inode drops the
-entry in ->evict_inode() without a grace period, and the pin is what
-keeps ->data around for a walker that got it from ->get_link().  Which
-stable trees have that commit isn't something I checked.
-
-Smaller stuff:
-
-- The cursors in bugfixes 19/38 and 31/38 hang off an open file and
-  anybody can have as many as they have fds, so GFP_KERNEL_ACCOUNT.
-
-- copy_to_user_fromio() has no callers left after drivers 22/23.
-
-- fs 07/27 says ntfs_set_label() refused a label that's too long with
-  -ENAMETOOLONG or -EFBIG.  It doesn't always, cpu_str.len is a u8 and
-  ntfs_nls_to_utf16() is allowed (PATH_MAX - 2) / 2 here, so 300
-  characters come out as 44 and pass the check.  That's an old ntfs3
-  bug, it's only the sentence in the changelog.
-
-Two more old ones that you might want in part 1, the series doesn't
-change either of them:
-
-- allocinfo can deadlock against a module load.
-  codetag_alloc_module_section() calls reserve_module_tags() with
-  mod_lock held for write, and its three error paths call
-  shutdown_mem_profiling(true) -> remove_proc_entry("allocinfo"), which
-  waits for the readers.  A reader that's pinned and in
-  allocinfo_start() -> codetag_lock_module_list() sits in
-  down_read(mod_lock).  There's no copy to userspace involved, so
-  moving the copies out doesn't help this one.
-
-- snd_info_text_entry_write() allocates the larger buffer and frees the
-  old one without copying what's in it, so a text entry written in
-  pieces loses the start once it crosses a page.  It's been like that
-  since ffb73b08e794.
-
-For what it's worth the end state checks out.  Every proc_ops
-initializer in the tree matches the final struct, the only entries that
-still read straight into userspace are kcore, kmsg, kpagecount,
-kpageflags, kpagecgroup and profile, all built in and never removed, and
-nothing in the tree trips the new checks in pde_set_flags().
-
-This part is me. I have a selftest that my claude wrote to validate #1.
-If you want I can send it along, but we should probably have a test for
-that.
-
-Thanks,
-Josef
+I resent once after I cleaned things up post RFC and I don't plan on
+resending (one failed attempt due to my network dropping).
