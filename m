@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.235
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793763531;
-	b=fH2aXJhGtFwn4MPG+ZXF4P8O5Ve1GT3cWsDthU6Tmmeg/8b9bB9WkNnPewDwq2NuKb/+
-	 zi2+/h4GvYz3+aE43ACZ1xCJf+O+UxCLyykDRhKty+53k1021zb5aFUgDk8wRHXKJy55Y
-	 uF9/CXApEP18HcnSoBhg7kYvgoSpKl5a+ufqbTNEt8W6JJTkegJUl4xI+8HYq1zvBmHsD
-	 GNVbwjLxjiwwNN8VGoxMilswbdQWLzbEWFw1FPC33uy6goHUhc2W1FoizdKbZxh8S24fl
-	 Z8A8GkQi2ZWdTWbPzPAt4rsi7mBLADk48YmwX8yTef6H/c8WI2oUu15pY7x0PeuWOYw==
+	t=1793783736;
+	b=heY8DZfjs596eoeBD5Z2sDOUU9B1ozsiyIw9Ub5j5NN18cL3ACo/mUb+8fdUQxz5eknT
+	 AGHLKCBcM82NzD0fuSMaukcw6smbGvzmBLwxSSuq5fKTgnyFK3wIgZtHAwOfjsyOLGNUl
+	 EiCrjnO3XhFFGMySJ3xCOCLWogk3C1BrrMYba4ksBCT8888DurqYn6Vt6hFNjwvkESbOU
+	 /ilzQS+Bmzpgc8XaQVtUdl3qH0LHiLromofkdHAcDZgzYez5ObWIz+6D+m3kF3Mt6fzkT
+	 kzuU+alJ51HWmnUBCnfr72czmjbMxJZizh+ZFsMPXlAwFP7C4rrf0/Ct+Mu9O4f6a7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793763531;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:X-OQ-MSGID:Date:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=Ld/0/oO5/dcyaFSZVTGSJT7CZ63LB3da6H6DL8O7euU=;
-	b=x+eB/5w38NPUQqTGH4b8PNuHye/OipWddfgm0+TXfTVTRIE8ZMF+yTDxalIzwGlFg5/m
-	 9Lch91cyzmppySuWqr21aHIfJ3WtFfgtfg1Iztn9kfOpfYTdsU4uWXuZkkvMxHb9dqgsz
-	 z4jM1bao6GJk2+rOsArhJ43LRs9nNedViH6TPsaBhnjeArfqPVjSc8t+mh4tAkS0a5ZVC
-	 pZR3gxtEzG9BlrZLUistPNt8+5RK6lV1LjdZ00LOndzR77wtGYgJ4hDvGdtsRg4ZeFj2E
-	 /jxOWKbhDiY9HmLalTO2n71P3mDWXwuE4bFGCbhCWwRMYHVc4J2YX4ERGSJm7a3+phw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793783736;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=tun3DxnivT6n8ykyvHDle1jgjloMyn9wMMyaVwUBJtE=;
+	b=xmcr7yec+WPhYpeNieSszKshZJXr/3jZlrcW8PLnr+8Zh4T2kyeXJvf1i/aGPlwa+qVS
+	 R6xPzgd1Ro2Z+SaMXtkyN6ZxEdLAAtVN6DqR2QjzGXvdlwahqdhv6qUOiaQl1kLdUMPPo
+	 svBQYusftCZ8mNsJ9Le9tpJsm1Jf6NSf+sX3zXiHp5gTlqJVORtB3x1oNI6PIm6r1kdGV
+	 PolVhj4xUkvFWlKwY7Lk1oM+acc8YBO0v7qi0n7xFCNGfHNKesXbXw7JqXVKcphP3VWel
+	 PHCWI5ukpuhM5nNOHoVBztxqRAXPCZbK895HWGrw28um8DVKOXnYgI8YqQOODf7vdeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b="zDdQR/oN";
-	arc=none smtp.remote-ip=203.205.221.235
-Received: from out203-205-221-235.mail.qq.com (out203-205-221-235.mail.qq.com [203.205.221.235])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QF98rpjB;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCFA606A329
-	for <ntfs3@lists.linux.dev>; Wed,  4 Nov 2026 03:38:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBCFA606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1070606A31B;
+	Wed,  4 Nov 2026 09:15:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=zDdQR/oN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1793763521; bh=Ld/0/oO5/dcyaFSZVTGSJT7CZ63LB3da6H6DL8O7euU=;
-	h=From:To:Cc:Subject:Date;
-	b=zDdQR/oNBiRYRgam32mzLNqqNN4+LyxgpmKjjPXIe4k3zEfsTk/C753e4auFhzHqr
-	 nbUY+j8lDMX1OijRnOpRtKgGlRYpKnf1w0DOP2n+HNmyrk8W0sPFq84UZh8zkt64Hg
-	 OrvnOOMivjsYs/bZvmeqfH++n0Haquz931e//tCA=
-Received: from [172.18.4.77] ([61.136.26.103])
-	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
-	id 9A7B4E35; Wed, 04 Nov 2026 11:38:39 +0800
-X-QQ-mid: xmsmtpt1793763519t1zc3rdps
-Message-ID: <tencent_2BA96BDF7A23284E7DA60251823E63515808@qq.com>
-X-QQ-XMAILINFO: NC4p7XQIBeahv0YBCtuDRj6dEHyIkojQmXqyn3geZQd7rrVELvo9W8+QfzBLrC
-	 GT768jPzDl87QVpd6GDWHvQjsP7nAOVg6eoY9NF641Cegs3UdZQs76sHoURyANmbJQR9Iii1xGcZ
-	 MgpkQ7lTjS+w7mWPj+pDdfbrje4omrS52DW4OQbG0/SDzZqZ9ArzCVLR+VGBdiu8UDpM7U17NsYM
-	 SIH9DmFdHhXpIAa34N1Awmw1FIU8lnqTmtekD656XFubiBZQneaB8Yyo07Pch+Cb8pomyRjyunpV
-	 nKLjuBN56jfkzKKQjSK732mJFXBjO+kfQDMkiiOX744w1o6zwL+szLKoysMXG3x5n2pIfMjXG0wG
-	 HW+ZAaM9M2cCu7CxG3XbAuNOqABh5O7CbYT4nLosxE5JCuYxEp5YalZwUBl8Hng0/pEc2ZlR9T9R
-	 8V9dLOykJZTzp2obc3cL2arm52Sa2BzN257x5zHPmOgCMp4+SuEeaS+Myfb7CBPFQMmCgeKvpyio
-	 4/G0jPoYTn7Eu2V2A/aRsW5SVnMlsnwOq963I7Gguxy3RW3pyNlEC7C0LT7/f7G/SNeTMo7QKcJi
-	 XtgTAB7IyZe6fHfK8jPI6JN5fitmP0qBUMLIPr5l9W6pEwK6zm741vuAb/z67/4KMwoPKCcNcHpE
-	 xghdkH4nNT10UjIsNI3SXcSpoHWvYvgvQQXQMt8hseupJJnZmHerup6Ly/NZB3qG/V3nvg3tEQ+o
-	 VEtHYS+DozrjwJUa9uCNjqWX8WNM26+aJx8/EPwBmDpIYoc/biRFfEBss64uxgHkP89EXU7gAe07
-	 YbcU9GHb3b5dzyVZqvL5ZXFEgTN0wrGUeIzS/IpPd84JGYUE0PEn49TG1hZyhqUNrLwxZjwZOmRN
-	 K/xNR4UznH/s+jF8j9KTdZ40sKi9IjuTY7Mk/O0yjlHY+UsrnGlLxdqQTvJK6YbqyN+3W4yBs8Pt
-	 lEvu64x2WHNe+Cib+jx/Jbqsx2yYnYVLYOrWJMWwnFXStZudhzb8sCp6XttJZ7IvKPhTtgVJv6FR
-	 tOIXrmYUdr456Re5u0phNa3dZXw91VfvEqyzzeFvRJ11xigPX4HrkLyZGCbaPo4hQNXLH6xZwPPL
-	 qivLhO
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-From: Guikun Yang <yangguikun19@qq.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: ntfs3: unvalidated c_unit in sparse/compressed attribute header
- triggers UBSAN shift-out-of-bounds in attr_set_size_ex()
-X-OQ-MSGID: <c18-ntfs3-cunit-shift-20261103@qq.com>
-Date: Tue, 03 Nov 2026 18:00:00 +0800
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QF98rpjB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 786C51F000C1;
+	Wed,  4 Nov 2026 09:15:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793783735;
+	bh=tun3DxnivT6n8ykyvHDle1jgjloMyn9wMMyaVwUBJtE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QF98rpjBzH7nX1jmz4Zo8ykeu0WPbxz0HGt6XxCXrOQ4V4PB3P/wbn5sluIzZ3bgP
+	 woOpkCVq06Ek6V7bKkHEP2phdvrGGARxXAl1OBE0IhgkRUa/IQ935AFbXxh1YUY5bJ
+	 utfjbIjp7LtybAhtZNGHqFcIoDw2mhpfxaUaUe5IHuBCvHt5tgYAPu/YfrtEAf4jWd
+	 v5zbJS1rE1Hby/io2vM2SNwmccLVR3w7pjdFYCtf7rR4Wu4skeBeZ5GH0Q1ajKmHHR
+	 yetiYqpJqieJOdcKUSYdWCjNW5p22mqd+bHsoVYbOTO4y8Ft2ybe6f5kRc5h/hiSzc
+	 /PiiXfUYZ7Gcw==
+Date: Wed, 4 Nov 2026 10:15:18 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Florian Westphal <fw@strlen.de>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 03/38] netfilter: xt_recent: don't remove the proc
+ entries under a spinlock
+Message-ID: <20261104-entgangen-nettigkeiten-intuitiv-f39521735261@brauner>
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+ <20261102-work-procfs-bugfixes-v1-3-59422ed3e465@kernel.org>
+ <auig_zhd3L0HEis3@strlen.de>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -79,95 +79,12 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <auig_zhd3L0HEis3@strlen.de>
 
-Hi,
+On Mon, Nov 02, 2026 at 03:41:03PM +0100, Florian Westphal wrote:
+> Yes, but note that this change is already part of a pending nf -> net
+> merge request.
 
-Truncating a file whose non-resident attribute carries the sparse or
-compressed flag ends in a UBSAN shift-out-of-bounds. The shift amount
-is the raw on-disk c_unit byte, which is never bounds-checked on the
-ext attribute path.
-
-  UBSAN: shift-out-of-bounds in fs/ntfs3/attrib.c:485:9
-  shift exponent 32 is too large for 32-bit type 'unsigned int'
-  Call Trace:
-   __ubsan_handle_shift_out_of_bounds
-   attr_set_size_ex.cold+0x152/0x1bf [ntfs3]
-   ntfs_set_size+0x202/0x360 [ntfs3]
-   ntfs_setattr+0x363/0x6d0 [ntfs3]
-
-## The gap
-
-mi_enum_attr() (fs/ntfs3/record.c) validates each attribute it walks.
-For a plain non-resident attribute it rejects any nonzero c_unit:
-
-  } else {
-          if (attr->nres.c_unit)
-                  goto out;
-          ...
-  }
-
-but the ext branch - first segment of an attribute with
-ATTR_FLAG_SPARSED or ATTR_FLAG_COMPRESSED set - checks asize,
-total_size alignment and total_size <= alloc_size only. c_unit is
-accepted unbounded, and it is a raw u8 at attribute offset 0x22.
-
-The first consumer is attr_set_size_ex() (fs/ntfs3/attrib.c:501):
-
-  align = sbi->cluster_size;
-  if (is_ext) {
-          align <<= attr_b->nres.c_unit;
-          ...
-  }
-
-and there are four more shift sites using the same field
-(attrib.c:1168, 1732, 2089, 2401).
-
-The kernel itself only ever writes 0 or NTFS_LZNT_CUNIT (4) into
-c_unit (fs/ntfs3/frecord.c), so anything above 4 is a state the
-filesystem never produces legitimately.
-
-## Observed
-
-The reported exponent tracks the on-disk byte exactly - one run per
-forged value, each deterministic:
-
-  c_unit = 32  ->  "shift exponent 32"
-  c_unit = 64  ->  "shift exponent 64"
-  c_unit = 255 ->  "shift exponent 255"
-
-Trigger is open + ftruncate after mount; no privileges needed.
-
-## Notes on reproduction
-
-Two details make this awkward to reach by blind mutation and worth
-spelling out:
-
-- MFT records are covered by the update sequence array. Any field
-  edit has to undo the USA fixup first and recompute it afterwards,
-  or the record is rejected as corrupt.
-- Converting the attribute to ext form makes total_size land at
-  offset 0x40, where the runlist used to be. The attribute has to
-  grow from 0x48 to 0x50, the runlist moves to 0x48, ATTR_END is
-  re-appended and used is updated.
-
-The reproducer (image builder with USA handling, ready-made image,
-crash logs for all three c_unit values) is available on request.
-
-## Suggested fix
-
-Symmetric with the plain-attribute branch in mi_enum_attr():
-
-  if (!attr->nres.svcn && is_attr_ext(attr)) {
-          ...
-          if (tot_size > alloc_size)
-                  goto out;
-  +       if (attr->nres.c_unit > NTFS_LZNT_CUNIT)
-  +               goto out;
-  } else {
-
-Tested on 7.3.0 (ntfs3 as a module), deterministic; the ext branch
-and the unbounded shift are unchanged in current mainline.
-
-Thanks,
-Guikun Yang
-
+Dropped.
