@@ -1,98 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793880503;
-	b=1g9SE7tN9CtSs9WnpUyNVNKsRy0vnHeoUZHZ3aZgVbPmFoGlzW8ZGXHupKNMMdiQHAyG
-	 5hVPG34YiZAB74G/euPsEX1GSdOMHnjNnKMiT3rspRps8xRecjvcLlO6xzTOt4+unJXLb
-	 8K1URq2tM6XI3mNOD3yu6e8NPxnR/vzqG3FtqF8ksAFEEhrxTPK733DBAZd+JG5L/hPEy
-	 zGu/u9TENfLqcCFMYBD1WGbG1tlYMvbzsVFrQwnSoqERrfNPAJ+6jUl5Bgxu1fzh34CFr
-	 CiNeGKLVQJOzfUXf/qWhGvec1fVKFfKDnD2Kl+fw/pQjdzrXRB7AoYicq4GrxzjFNqw==
+	t=1793880669;
+	b=ryF6Et25I6ypdcQXGMe9pDW1fTQEPKJdAS+I5q58sf4BjudZFtYI74S1AIwTgwpxi+4A
+	 a5eUalAAbXoMYfFC9WYEykGbsRn54n7TyMyl48lWcyNMdPl1bHFveZZTrS/SmmU+i36jY
+	 jWP7v2A3nX35M6wbB48NOtCfTJ7U0z0OBGcotVOfsjAgPGRO+PBp7yQB8dPsnsYMdb8gX
+	 +QtQVFkge/3WcRni0NmLhA7CGk0lWCF52p34fP8MKuvJg7057RCC6p4oon2wHihcLLGzs
+	 3nWEHnvxhrFTq8AVbGQnnIQSQttdyGp2sjGTOqiaxfHDrQ67QRQGwKNk7ck9YAshk2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793880503;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793880669;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=+AscXsLOMvfsFvCViguJi+L1fCFKAfWK/UhUpwog254=;
-	b=DqdnTgdqHVhajJkrcB+BgQWGKW5vB+OA46G7qWEYfivdL0XMBmY73Fq1ZbDKSwuXldxS
-	 xXVFQRffdSZ2jqllyD3v1RhxQlQJgjzk0B8k74fdwghW72+n4mNCjRKmzaaARe0CEdsal
-	 zNlQ+x1P6awdYsDYnOK1WEIiT0pbIUTC3vglA+CPzzMTYLF3NcxY8jL/onwohtnq7Nl9X
-	 pK1pwHznPNwMdVAWGp3fViB8LCIaHXMd2wFwmwWrwrsyfPyncGmXhP4nwUSdNsTl+u7AR
-	 BIEXSAhd/7en8WL4HdtrUECWhhVfxubXIN0a/JGU1NPamrxK8niCdlrr0d3jDh9mesw==
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=Tiu8/sTPNEplZjLK9CvT6QJBjBM6O2zkosy8TKudNwI=;
+	b=LVjBxTvAppo9gD2VGRcMBNj3fU++DyayZ+3TK9hZIftHYuiuAocJDdbNe/b3EZTVufCD
+	 mD/Cn+n+/5kiwCMR0YvW474XIufis5+Mydquq38UN+KuC7ubV2bdUsDyew7NVC71Xm2hJ
+	 etK3EsNob1tuATQFvDxcuDMuUaIdSZt7WvsLG4pkol0hvUTRualKXA3W9BjbA9P24IYPd
+	 1o8S46rqKH2BMIsy4lcbGVC6xzjZEnMqLUgoZW21zu2lZrb9GgpuQlK12TYkXpn3Y7cNp
+	 Re3K+2rYQvN2/ddXFh2uTBDJMLSsCyA8dhw2iykSfGZ8XcINqq1MBl77aCnR0c56IMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=duEJD6LP;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=nEuQ44sk;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=muH5tH8X;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="Twh/XSEi";
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=AF0vBzVY;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=7JoiF1X7;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=AF0vBzVY;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=7JoiF1X7;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C016E606A326
-	for <ntfs3@lists.linux.dev>; Thu,  5 Nov 2026 12:08:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C016E606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB325606A329
+	for <ntfs3@lists.linux.dev>; Thu,  5 Nov 2026 12:11:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB325606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=duEJD6LP;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=nEuQ44sk;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=muH5tH8X;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Twh/XSEi
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=AF0vBzVY;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=7JoiF1X7;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=AF0vBzVY;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=7JoiF1X7
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E09301F7A8;
-	Thu,  5 Nov 2026 12:08:19 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2B33A21FA1;
+	Thu,  5 Nov 2026 12:11:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793880500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793880667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+AscXsLOMvfsFvCViguJi+L1fCFKAfWK/UhUpwog254=;
-	b=duEJD6LPekOEhn61R53kKb81GPHaXPGJIngKUTQX9WEfL8ykFAMPfmr3OERdgYmnfr5bEr
-	no/QUoCTwr2IM6pfVyWZvbGB+kH7jg6VMI0t/BL5piRkhHqFijSOo3qTB/uJ7xYzQrEyBs
-	gOFq7XIKvrhTvOnsUSKrNoDYiDAIbok=
+	bh=Tiu8/sTPNEplZjLK9CvT6QJBjBM6O2zkosy8TKudNwI=;
+	b=AF0vBzVY3zQ6Vdtyzlnd2GX1KnIr1XJT3SFmA54tWfPHGy6ECYuTRMeTFFLnasIgVme0YZ
+	PThupxuU6qmedBWykcq8T+6m0PpaGSoqpA2H5zGIK2sKtK6eDiPUzWRwILl2WLIL1NXKQk
+	HTqj2KBB6e0dR9olXjD094Hc8YjLNc8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793880500;
+	s=susede2_ed25519; t=1793880667;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+AscXsLOMvfsFvCViguJi+L1fCFKAfWK/UhUpwog254=;
-	b=nEuQ44skKENyJxG2nI0WEya/Z6UeAf8j7o1gUA14jvXxD5ttTBDmJR+hSpD3AjkE27erIs
-	22RVTyoAXPvvBVDA==
-Authentication-Results: smtp-out2.suse.de;
+	bh=Tiu8/sTPNEplZjLK9CvT6QJBjBM6O2zkosy8TKudNwI=;
+	b=7JoiF1X7I2Iguu9nV9GXjnaaMmyPjs8fCUlps77JZ5omTCl+PEQZZxIADuFQG05WHYF+cK
+	CBi4Cau1ROf8pYCA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793880499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793880667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+AscXsLOMvfsFvCViguJi+L1fCFKAfWK/UhUpwog254=;
-	b=muH5tH8XGabU7XsT+4HLUn0YWyclJMbdrP8YC6jbblzcOUCNg6bIn+AZUHE8jVHVN8jliF
-	hdBtv4Gwr4LOd7CEkfIcFH+Z/XWj4sxlIWVLYY8yjERT78lqpfyk0ziLE47S7PXtNzHXyJ
-	8uq8NljKVjD/sxwntTPUE8trLhX/m8Y=
+	bh=Tiu8/sTPNEplZjLK9CvT6QJBjBM6O2zkosy8TKudNwI=;
+	b=AF0vBzVY3zQ6Vdtyzlnd2GX1KnIr1XJT3SFmA54tWfPHGy6ECYuTRMeTFFLnasIgVme0YZ
+	PThupxuU6qmedBWykcq8T+6m0PpaGSoqpA2H5zGIK2sKtK6eDiPUzWRwILl2WLIL1NXKQk
+	HTqj2KBB6e0dR9olXjD094Hc8YjLNc8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793880499;
+	s=susede2_ed25519; t=1793880667;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+AscXsLOMvfsFvCViguJi+L1fCFKAfWK/UhUpwog254=;
-	b=Twh/XSEinlJ2UHBYu888sP3yxbsAvwQL1/rVLh+t/1fyMiI6SbhSYK2ev17aVQ6HLXKdNo
-	dDP1A3DjZ6h02FAg==
+	bh=Tiu8/sTPNEplZjLK9CvT6QJBjBM6O2zkosy8TKudNwI=;
+	b=7JoiF1X7I2Iguu9nV9GXjnaaMmyPjs8fCUlps77JZ5omTCl+PEQZZxIADuFQG05WHYF+cK
+	CBi4Cau1ROf8pYCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC4C6134F4;
-	Thu,  5 Nov 2026 12:08:19 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F14FC133F6;
+	Thu,  5 Nov 2026 12:11:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LbztIbNx7GrJEgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 12:08:19 +0000
+	id RrhmMVpy7GoeFgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 12:11:06 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 3E083B6CC; Thu, 05 Nov 2026 13:08:15 +0100 (CET)
-Date: Thu, 5 Nov 2026 13:08:15 +0100
+	id 6CB91B6CE; Thu, 05 Nov 2026 13:11:06 +0100 (CET)
+Date: Thu, 5 Nov 2026 13:11:06 +0100
 From: Jan Kara <jack@suse.cz>
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, 
@@ -116,12 +116,12 @@ Cc: linux-fsdevel@vger.kernel.org,
 	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
 	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
 	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>
-Subject: Re: [PATCH RFC 21/38] proc: let proc_remove() remove the entry it
- was given
-Message-ID: <4woxjrofo67qve236jz54znbp74hk34ouesbpgh46g5lfb7bwn@v7dnw5ixlgff>
+	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 24/38] proc/vmcore: don't let vmcore_cleanup() run
+ twice at once
+Message-ID: <6deqqw2vjfaot34sgogukcsbdh2vngvu2ewmsjzb2h53zo7mwn@zofl4rxl2nnb>
 References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
- <20261102-work-procfs-bugfixes-v1-21-59422ed3e465@kernel.org>
+ <20261102-work-procfs-bugfixes-v1-24-59422ed3e465@kernel.org>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -133,7 +133,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261102-work-procfs-bugfixes-v1-21-59422ed3e465@kernel.org>
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-24-59422ed3e465@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-Spamd-Result: default: False [-11.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -142,152 +144,75 @@ X-Spamd-Result: default: False [-11.30 / 50.00];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_LAST(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email];
 	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	R_RATELIMIT(0.00)[to_ip_from(RL63fqwwx8ot6gmekemcs76f9d)];
 	MISSING_XM_UA(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	TO_MATCH_ENVRCPT_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[59];
+	RCPT_COUNT_GT_50(0.00)[60];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
 X-Spam-Score: -11.30
-X-Spam-Level: 
-X-Spam-Flag: NO
 
-On Mon 02-11-26 15:21:36, Christian Brauner wrote:
-> proc_remove() looks the entry up by its name in its parent and removes
-> whatever it finds there:
+On Mon 02-11-26 15:21:39, Christian Brauner wrote:
+> vmcore_cleanup() has a single caller, fadump's release_mem_store() on
+> powerpc. That checks fw_dump.dump_active without a lock and calls
+> vmcore_cleanup() without one, and kernfs only serializes the writers of
+> one open file. So two tasks that write to
+> /sys/kernel/fadump/release_mem through different files run
+> vmcore_cleanup() at the same time.
 > 
->   remove_proc_subtree(de->name, de->parent);
+> The first one removes /proc/vmcore and waits for its readers in
+> proc_remove(). The second one finds the entry already unlinked, returns
+> from proc_remove() right away and frees vmcore_list, the ELF headers
+> and the device dumps while those readers still walk them. Or both of
+> them free the same lists at once.
 > 
-> If the entry was removed already, say along with its parent, that is
-> either nothing or a different entry that got the same name in the
-> meantime, and de->parent may well be gone. Two removals of the same
-> entry are a bug in the caller, but going by the name turns it into
-> removing an entry that belongs to somebody else.
-> 
-> Since commit 895b4c0c79b0 ("fs/proc: fix uaf in proc_readdir_de()")
-> an entry that was unlinked has an empty rb node. So check for that
-> under proc_subdir_lock and otherwise remove the entry itself, with the
-> loop of remove_proc_subtree() moved into a helper both of them use.
-> Nothing can help a caller that passes an entry that has been freed
-> already.
+> Serialize vmcore_cleanup() with a mutex of its own. It can't be
+> vmcore_mutex, removing /proc/vmcore calls release_vmcore() which takes
+> it. The second caller then finds nothing left to free.
 > 
 > Reported-by: Chris Mason <mason@kernel.org>
-> Fixes: a8ca16ea7b0a ("proc: Supply a function to remove a proc entry by PDE")
+> Fixes: b500afff11f6 ("fadump: Invalidate registration and release reserved memory for general use.")
+> Cc: stable@vger.kernel.org
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-One nitpick below. Otherwise feel free to add:
+Looks good. Feel free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 
-> -int remove_proc_subtree(const char *name, struct proc_dir_entry *parent)
-> +/*
-> + * Remove @root, already erased from its parent, and everything below it.
-> + * Called with proc_subdir_lock held for writing, returns with it dropped.
-> + */
-> +static int __remove_proc_subtree(struct proc_dir_entry *root)
->  {
-> -	struct proc_dir_entry *root = NULL, *de, *next;
-> -	const char *fn = name;
-> -	unsigned int len;
-> -
-> -	write_lock(&proc_subdir_lock);
-> -	if (__xlate_proc_name(name, &parent, &fn) != 0) {
-> -		write_unlock(&proc_subdir_lock);
-> -		return -ENOENT;
-> -	}
-> -	len = strlen(fn);
-> +	struct proc_dir_entry *de = root, *next;
->  
-> -	root = pde_subdir_find(parent, fn, len);
-> -	if (!root) {
-> -		write_unlock(&proc_subdir_lock);
-> -		return -ENOENT;
-> -	}
-> -	if (unlikely(pde_is_permanent(root))) {
-> -		write_unlock(&proc_subdir_lock);
-> -		WARN(1, "removing permanent /proc entry '%s/%s'",
-> -			root->parent->name, root->name);
-> -		return -EINVAL;
-> -	}
-> -	pde_erase(root, parent);
-> -
-> -	de = root;
->  	while (1) {
->  		next = pde_subdir_first(de);
->  		if (next) {
-> @@ -871,6 +852,34 @@ int remove_proc_subtree(const char *name, struct proc_dir_entry *parent)
->  	pde_put(root);
->  	return 0;
->  }
-> +
-> +int remove_proc_subtree(const char *name, struct proc_dir_entry *parent)
-> +{
-> +	struct proc_dir_entry *root = NULL;
-> +	const char *fn = name;
-> +	unsigned int len;
-> +
-> +	write_lock(&proc_subdir_lock);
-> +	if (__xlate_proc_name(name, &parent, &fn) != 0) {
-> +		write_unlock(&proc_subdir_lock);
-> +		return -ENOENT;
-> +	}
-> +	len = strlen(fn);
-> +
-> +	root = pde_subdir_find(parent, fn, len);
-> +	if (!root) {
-> +		write_unlock(&proc_subdir_lock);
-> +		return -ENOENT;
-> +	}
-> +	if (unlikely(pde_is_permanent(root))) {
-> +		write_unlock(&proc_subdir_lock);
-> +		WARN(1, "removing permanent /proc entry '%s/%s'",
-> +			root->parent->name, root->name);
-> +		return -EINVAL;
-> +	}
-> +	pde_erase(root, parent);
-> +	return __remove_proc_subtree(root);
-> +}
->  EXPORT_SYMBOL(remove_proc_subtree);
->  
->  void *proc_get_parent_data(const struct inode *inode)
-> @@ -882,8 +891,23 @@ EXPORT_SYMBOL_GPL(proc_get_parent_data);
->  
->  void proc_remove(struct proc_dir_entry *de)
->  {
-> -	if (de)
-> -		remove_proc_subtree(de->name, de->parent);
-> +	if (!de)
-> +		return;
-> +
-> +	write_lock(&proc_subdir_lock);
-> +	/* Removed already, maybe along with its parent. */
-> +	if (RB_EMPTY_NODE(&de->subdir_node)) {
-> +		write_unlock(&proc_subdir_lock);
-> +		return;
-> +	}
-> +	if (unlikely(pde_is_permanent(de))) {
-> +		write_unlock(&proc_subdir_lock);
-> +		WARN(1, "removing permanent /proc entry '%s/%s'",
-> +		     de->parent->name, de->name);
-> +		return;
-> +	}
-> +	pde_erase(de, de->parent);
-> +	__remove_proc_subtree(de);
-
-I'd move the RB_EMPTY_NODE() and pde_is_permanent() along with pde_erase()
-call back to __remove_proc_subtree(). Both callers need them (so it is
-unnecessary duplication) and also logically it makes sense there.
-
 								Honza
+
+> ---
+>  fs/proc/vmcore.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/fs/proc/vmcore.c b/fs/proc/vmcore.c
+> index 1fe70c4ecc54..ccb795b85509 100644
+> --- a/fs/proc/vmcore.c
+> +++ b/fs/proc/vmcore.c
+> @@ -1764,6 +1764,11 @@ fs_initcall(vmcore_init);
+>  /* Cleanup function for vmcore module. */
+>  void vmcore_cleanup(void)
+>  {
+> +	/* Not vmcore_mutex, removing /proc/vmcore calls release_vmcore(). */
+> +	static DEFINE_MUTEX(vmcore_cleanup_mutex);
+> +
+> +	/* Two writers of fadump's release_mem can get here at once. */
+> +	guard(mutex)(&vmcore_cleanup_mutex);
+>  	if (proc_vmcore) {
+>  		proc_remove(proc_vmcore);
+>  		proc_vmcore = NULL;
+> 
+> -- 
+> 2.53.0
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
