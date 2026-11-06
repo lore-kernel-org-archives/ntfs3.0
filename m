@@ -1,54 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793939631;
-	b=EUfFvx1cF7E+OEb1y6w4qX9qhlIfyXHnpp26Wkrr8swt+2JwtHx6r4JSH8gHyKZxoz+u
-	 bfX1NI+pxGA/9mrFvY8DDVh55kAFQSKeaXhEqlkovFUj8jugS25DSEMqYbaygD4rPadz9
-	 6tPaPmLOh4Bk6vbXqqz+AzbCGqrqzWnXFW22VFmIxEhuCBiMyo202XaqvVemQOwpaepqq
-	 bnFIVD3LfY516T1lTPDuO/PJR3Pb/2h6AHRVer4bA8jZ7QePAUAfNygmOrCZA3uU0dzHE
-	 8DLVarLof23h/J6WN6aTwGQFwFOFHqHZmVPEvmYVNeJTJLOx+hpnhEkERrbl+FBF0+g==
+	t=1793945427;
+	b=VUaC4tzVBIRp9E60BP6KFhiWtUrF4iO6r5O80JgfySz7K09dZCmnEdr66Itxm6Vf0dtk
+	 3lKBCkSP1FSYMigNATcsBtvr7wwqEA2jlSQJiXdQ6tnAQ1fBile91ffLkkxelFK+CStZH
+	 qhFeGz2wnbvD81boxC4xpByrtCf7ReH9SzXfdXB1LRjxnrEgczesqqJWWFyZk9RI6MuGz
+	 KR91oT75MeLHCEKFC8bFuo1+KwEWbCyn5A6uOaAzujj/SpfeLr6WgIWPqd7eIMcBLBwvF
+	 Ai1ExWTIdx2KCJkYYXTADj7WaMIEwosopoMB5bfh2F4oALk61WGiR3++cvZTT7+KwCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793939631;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=H3PCrpQOKeukqMHQivsvquj4Uxt0wqhi596+Jc4CmmE=;
-	b=aU/0GhrIr0nHC7fUEm6hfd9bJfz40xwlamhPcpr1sepIom0Z5ugclGN1LJijnT1XNaor
-	 Dd8oMW7W0YDwKSDsoq066TcHlQFK4J/CzGNFM0dGBD7gXxogh0SoJzugnjvU9dTwUsTeU
-	 CC/u28BP95cFFtVRrpFuLnMwyafHFFzqHrCr3u7qN5a+OOUk3htZZ5SBnIbW7eFAWpfW4
-	 RuwSagX4l+rc04SO1+RYFaNuRd0u4juUY2k2Bqico1XqD6hnIaXiIRz5E5OKUnDqeX7AA
-	 hokEygnTDZmqy+iAdCKd55tkhEZPrtOtiPucVEb8YjHA26zMo6pniZ+VhdUGDgLq2ug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793945427;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=d+AcYVf8reTWXFlWM/d+zw4B23JCw+ulbjBtfDhJI3w=;
+	b=xG6bJlp09PM+otr1DkkjYQiQKt8Av/jHGlrVfDCyz2RUnf9KrBdDkKLrb9c1itD5S+zB
+	 hE4bFZMs5GDBVQ4urx99z8IKLwqt3kF3gRC3g4ZejTGuqX1N5erqwIyGbvyLrzrtGTByf
+	 fX2xeKdXOzMyHWkgnGWjvK9mlLj1sHCNcvv9hyIHV4uRmPqMhX5zZbSadrz5VYGulCRSZ
+	 E5DD79C3hKn8V05Cmrixc8ZUstNJf2F1JeHwd4V4jvuK80kTWsbVkVW6HkSkv1NUghHGg
+	 jvZSCyunXn3HcrUO5ffruaZ2BvhZjudtRNRlaYNPHu+k0sryjMWEsxkRk73iIxMfwoA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.198
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tpTttJMc;
+	arc=none smtp.remote-ip=74.125.82.175
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060C7606A335
-	for <ntfs3@lists.linux.dev>; Fri,  6 Nov 2026 04:33:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 060C7606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4a41f46d629so344073b6e.3
-        for <ntfs3@lists.linux.dev>; Thu, 05 Nov 2026 20:33:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5099A606A32C
+	for <ntfs3@lists.linux.dev>; Fri,  6 Nov 2026 06:10:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5099A606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tpTttJMc
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-36ff9c9da34so150186eec.1
+        for <ntfs3@lists.linux.dev>; Thu, 05 Nov 2026 22:10:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793945426; x=1794550226; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=d+AcYVf8reTWXFlWM/d+zw4B23JCw+ulbjBtfDhJI3w=;
+        b=tpTttJMcNeD0ecNwxZjcXJtOj13pAZSbAw3U4SK2pW57adau9byyiIEp6Y+wdHN9FJ
+         ZiiVSMFtAzzJXpf8nBd2b60XX5vWynp1krXxmq4qDCW2vLKqx87aA4x/DxyZUiKJHXQK
+         Mi0XfrXr5GvP2snPYMxAP76LAPFdfxruCTCfCmHIMSSbUh50kZRs1ddK/WhU8Znj/SfQ
+         g08LkGoHfmWj/Gd42rMV73m2+lQexn0rh5vlUIvLuHlt2HlhSXnUfF2ZYZS5eGBhq4in
+         pzx8I5dyAp7jjVBZ1nX0fGTEcdJrlEO3RPAP2npjLDNK0qHUSQrEf6OIKDB8priQXBmR
+         EBxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793939630; x=1794544430;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=H3PCrpQOKeukqMHQivsvquj4Uxt0wqhi596+Jc4CmmE=;
-        b=XQinYkB3Eteq5OoEh0N6u48+1zYOg3kzFdCiSaZ2CuptxhzTcRx+ywcZUDaFRsWNCN
-         92TOkRx6y63T1miV5EVjgzMhBUrX+j2L7SQuySxpTUmZACkVHdVUNMN1t2llNZaxp7aB
-         lFyb2rE2txdbpymRX1AOkLcaod1hsPFDKZVA5IdsMpqWEAQRiRfbbx6YqMj9TrWm46lp
-         Jmf+ek9WbLqG7/K9x6XRA+lv/zMKvlX0Dx5Ar+sDNZ9/7d8V/bE3JVsyn3/ep9Kq1Wwc
-         cKeD2FAuMiaLYf1qY8WStolmb0tiW2QDmMl9GbeTy6YkbY2OsDK+gO17CTJOHb/dheNg
-         /Hew==
-X-Forwarded-Encrypted: i=1; AKwUvBwkcwiha+Cy7xcunKxhTN7jNK4N/JNv9RO1HXmRMDTflt/6Fb96OGt2NRkDNvT2WI3QTqa59w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9VNK886QMHndgwn4K/grbFaMKxaYlgl4/zRqB9ajlVOLmtr6S5
-	5MA+ZBRBV80iQ9t28JjkQVWkk9gB4tKXQVpO/fSSObOP8gzjERuCaV2ZRNYMm0mAe56YC7IHymD
-	iItAKO3ry8hPO7AJ/xXdpwhTw09/47AkIvqBfPrltxHm4o6XeWyzGsJwe2uA=
+        d=1e100.net; s=20260707; t=1793945426; x=1794550226;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=d+AcYVf8reTWXFlWM/d+zw4B23JCw+ulbjBtfDhJI3w=;
+        b=z4MO+jEdmqvNGQ2R+DE7ClEFBtJ/wCGiZrQ8VYIcoDKUyjOuaz1j0Mqb2LckeMWTUI
+         GzJsSzpdroFP+8PGfk4kTTiMXgmYDp+/74ON68vn5oSV3wKy4zfEJr61dW4sUDzIcO6t
+         7UHqxM+tydtwEj4+Jfd1w13aPJRhjTTXlFa/SCz6w0LKkg2tysIca0s8/b/4a8gjX9ns
+         WK5bmC5Desa7ALdK6scA4obi+VdeuHC+aPurs+R0zZQPQD7oxwS/Co26LALWp6iFp06p
+         hgFfmdcuNgP1yPjY3Rtf1ndMyVRYAgeo0itCdQiuVIJ5yq0UDcsdDzXIsiXpodhvvOLJ
+         Dpvw==
+X-Gm-Message-State: APuU4Z+m+wXywx/GhhelpufSieZHWiZpWkMzuMpVbQUJXVOW6kEkoOUs
+	mP55VkGFhXwfV0GutR2Cs9P5TPCLiSYGYsPM4tpLkIb3V3bN5eMUp6qcBZc0/22EdKXztg==
+X-Gm-Gg: AYBFou1yTQK6ayDM4xf0GcJeVT1OUp4zFkwB4zJ1hYMQ6xzXHhEPrbRa2mFj1Iwmneh
+	3Ejx0IDuM6lRAPB5foT6jZhWO0SSgHEk200c/agwiIWbs4Sf21HtBwUxKbjqbjggSL+Il3Bl6TB
+	xOg9HlC6LTcuNavjZSDMxZMUHzKEck65tSLPIOPY4jLVdnH/qgJTdvRN6Vn6dWD8KYPFybkSmZ6
+	N73NtD+1oZT+G59hc+P04jtamxMbQ4KwT17/I5AoI+BaSeoXN4LfI4hao4tavnsbSX6UQgluqP+
+	CADewNbjxtsq7YbPkxoYxFxhIaa/TNQAAVy1Il7V6q7dgBA5DfXg3Wsh2er358WrtVpKErp//Ni
+	SWgnZStnPZ/gMrumoHWKnC/aQG8ssWYEmSHJrGMokA/3/f7T7VCpCWIbB6i2y08Mf/mcvLKNhKC
+	fkBZOtghccWO/WUN5zf33H1kc9Ptv6jNcZMHdj7/699zyIDRJ8lUTKPbz2L29rPBO7aTPZGP1W6
+	V8ulGp3aiZRj2G4T44Jzpa82aGxNvfv77Z/cAzc5lmbxFcZXHP/x/WpbWaEePZNyNttHt5TN5vb
+	LZxLqyD0bGQAcLUPtYrfah8o4As49Yu6wDWxB7CAtkvhQoKF/Ef2AA9GPcYE5bagVg==
+X-Received: by 2002:a05:7300:c8c2:b0:36e:b3e6:ebe7 with SMTP id 5a478bee46e88-36f76326a0emr1961423eec.26.1793945426214;
+        Thu, 05 Nov 2026 22:10:26 -0800 (PST)
+Received: from anon-laptop ([103.187.196.159])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa651eccdsm3160531eec.1.2026.11.05.22.10.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 22:10:24 -0800 (PST)
+From: Wahid Khan <wahidzk0091@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Wahid Khan <wahidzk0091@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: fix endless readdir loop on a directory without a $BITMAP
+Date: Fri,  6 Nov 2026 11:40:04 +0530
+Message-ID: <20261106061004.2338569-1-wahidzk0091@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -58,48 +94,47 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:c1ad:b0:4b2:8ee8:8a38 with SMTP id
- 5614622812f47-567e095e8c3mr948527b6e.0.1793939630097; Thu, 05 Nov 2026
- 20:33:50 -0800 (PST)
-Date: Thu, 05 Nov 2026 20:33:50 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aed58ae.02d3f859.2829d1.0004.GAE@google.com>
-Subject: [syzbot] Monthly ntfs3 report (Nov 2026)
-From: syzbot <syzbot+list41376c1b07a9e4ea8fb6@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello ntfs3 maintainers/developers,
+ntfs_readdir() saves ctx->pos in "pos" before it emits "." and "..".
+If indx_used_bit() returns -ENOENT, the exit path puts that stale value
+back into ctx->pos and returns 0, although the dot entries were already
+copied to user space. The next getdents64() call starts at the same
+position and emits them again, so a reader of the directory never sees
+the end of it. ls, find and rm -r spin forever.
 
-This is a 31-day syzbot report for the ntfs3 subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/ntfs3
+indx_used_bit() returns -ENOENT when the directory has no $BITMAP
+attribute named $I30. That is a damaged directory, but it simply means
+that no index block is in use, and indx_find_sort() already treats it
+that way. Do the same in ntfs_readdir() and end the enumeration.
 
-During the period, 2 new issues were detected and 0 were fixed.
-In total, 12 issues are still open and 85 have already been fixed.
-There are also 3 low-priority issues.
+Reproduced under KASAN with a crafted image: changing the first
+character of the $I30 name of the $BITMAP attribute in the root
+directory's MFT record is enough.
 
-Some of the still happening issues:
-
-Ref Crashes Repro Title
-<1> 4035    Yes   general protection fault in al_destroy
-                  https://syzkaller.appspot.com/bug?extid=04cf7b83f6dd2c3a54c8
-<2> 703     Yes   possible deadlock in mi_read (2)
-                  https://syzkaller.appspot.com/bug?extid=17f812893d5906837f33
-<3> 25      Yes   possible deadlock in page_cache_ra_order
-                  https://syzkaller.appspot.com/bug?extid=8bd419f88e25ab12cb75
-
+Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+Cc: stable@vger.kernel.org
+Signed-off-by: Wahid Khan <wahidzk0091@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/dir.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+index 7ee1a5d4189e..dafd309e136d 100644
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -584,6 +584,11 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ 	for (; bit < max_bit; bit += 1) {
+ 		/* Get the next used index. */
+ 		err = indx_used_bit(&ni->dir, ni, &bit);
++		if (err == -ENOENT) {
++			/* No $BITMAP, so no used indexes. End of dir. */
++			err = 0;
++			break;
++		}
+ 		if (err)
+ 			goto out;
+ 
+-- 
+2.56.0
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
