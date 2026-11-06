@@ -1,90 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.210
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793972952;
-	b=Eu9vy6ZJ28hSZ6Fykx+Gj+IlUiR8zpSVov5pd/Oaaq7tpbPHFKrWDv4gt4YzeY16ffQ0
-	 vYneyCTd+6UDFDVGPwjDWaY9TyJstEwbalNVUR4EgYaVcohEPrNTEtwlLF55rPBYcx0um
-	 Uu7RiOdRHQTv2xTL4VqSwxiYBx8vrVP+yb9oaf6jjIE0Hwud+tYydULrRce/SbNMwxSl/
-	 lI/o+Z6GMF40UrTelUvQ4E2a3nJJPHu6TtVvD/coP9m8vCKon/Ob/NqLWnzpiCP3QGxvh
-	 asA/7AshRGQajQRapSIXBFqyzQqDfEmm34E5qh/zmU6WCl+Aaf37NXEVY7mepz+0s5Q==
+	t=1793973288;
+	b=TMfxsk34mQT418iS4oI2e7/Yj2PkGexm7vg+FBcmP+JIOiik6o3l0krpI2OESztF/9Oe
+	 oMb8+lniSEzCoatnDmLoFIkwdGPFZrvB0C2O82J0S1hT3RCkyWFGvSHzS7pK8fGGs7k7w
+	 WJiSKCZFGJ1o5F/6fGCdwzViyMPMphCVN551974F91pg1spAPm/UPdWoibhTPa1uV/esx
+	 7zQ9I2LxyMVZcEboB5DPd1m9JEhutFPP8b2ZmOqalWzxXV98u1AwB0QEvnsEUSh1NAcuo
+	 25x46SUHbLyS8IWSfN5oJsinP0fOK6ZpwGJm0D+U2NoooBD3ZyzEc1k/3IoFoL2DRCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793972952;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=goEwqDn2eYKToeRxOVfZCjIr5NYHVGNIUeiTdWCM6aE=;
-	b=3ibFu+6PH9gpo3Yc1qrUgmiAIKyT0wg5NittM767+tzTzh2JyF32lT8+lhenFI5cgc/1
-	 A9yCcuw0ifXo/zgP8/1Ba+s136ntUtsn63ICdK1aZuf5IGo7DCaw35IaWEwTfxi6IbS+p
-	 ghla/s/79k/NOG/czGJzXAi/EywqKiZAimCeYhGCMP/AOqXs0AU95WEJD+t1FW0X9vVej
-	 mu8tTtemH8Y+vBnf3coWMKV8UTgaQMxYn52yVV1JcYmTIxrz0P/92ReewOmz8+5jll50q
-	 b8liA6BBN6sW5LgnIvKvPAkFac2gCzDZbVdrvzcBRcduPmL0K1rZSQnSS1u1lUwaZ4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793973288;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:X-OQ-MSGID:Date:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=f9AcNQk+E2Uh8Cu5xVuG9tcvbwsMIkzO8WOpBpYCAgs=;
+	b=3g0vplCA2Tv48izIDbTIHdFMpyKzsqBY495wqn5TC0ne42s7ZxnCTsx0A2m12Eh7TEHp
+	 6KCksxC5X5ioQfCDSvVhLRfiBZ4sJFdI9M/0/wv5ay9C+bfTBP8RWBX8BZbeHK469fFWA
+	 rUhCWMBEbQhdmROxtYc98lj07ImL0ZJ1mzMq38uXuz3ojcrt8suZeCUNS9mur/MqZawQp
+	 WY2mq44Djaukhx2rK4XE6CvpjUuVeoUKs85qRElK6CIkGGuNtD/kXhm98oC6rjGQtJyNe
+	 IK7AH9sUccxN4tubsyrVZHjz8QJzcWU0B5RUkNcDITgnHSt6HSLubbTAp1gQWxY6eEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Leehn/2h";
-	arc=none smtp.remote-ip=209.85.210.169
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=tQuCMTAl;
+	arc=none smtp.remote-ip=162.62.57.210
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EBF606A32F
-	for <ntfs3@lists.linux.dev>; Fri,  6 Nov 2026 13:49:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33EBF606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3725C606A326
+	for <ntfs3@lists.linux.dev>; Fri,  6 Nov 2026 13:54:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3725C606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Leehn/2h
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8a06e79e152so297596b3a.0
-        for <ntfs3@lists.linux.dev>; Fri, 06 Nov 2026 05:49:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793972951; x=1794577751; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=goEwqDn2eYKToeRxOVfZCjIr5NYHVGNIUeiTdWCM6aE=;
-        b=Leehn/2hMoZYlHra3CfG4Q6EbiBvOJ2tqlg2jCDBbdCAe9+IdT6VyTVt7UJy5BnXo+
-         OQQscTzE4sJOguBX/DijJynPojZvAa6Y8WxpOjN5/EhaGkcq0jjnaQkrPlfy4a1d1mLU
-         M8iXuq5/Amd36jAE+ylQ7saRxV/1z3G3jTy4MeG8g8Bhqc0S1+/oucw+/BFLOQoQCFDg
-         hkonK7emYWCI9ZaxAIrfLGymhh9E5kjmjfBgjuYFT9q1faScmjfRdyVLh2QqnQIOpqnY
-         fdtldrGZGlfIHHB6zrn0lg1y6+yGRKWZ4HfW6wmDWYZZl2ryHyqVxqrDleUvtmO5uo5s
-         6iig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793972951; x=1794577751;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=goEwqDn2eYKToeRxOVfZCjIr5NYHVGNIUeiTdWCM6aE=;
-        b=qItdxEE7wi4Nk+c5ghsWHgkWiK4U1QpVXf8EO1FA2kKdeLBiLZxjiNA6rZ/twS0y5t
-         dktwpb3ngaP0G69Avw1Slubw6nicHPx3lC3hxZuTJQsXDGJlNmGJJnKo8cc7KEvgIXdK
-         EzFF7agxaaqMrx2WJlRtChY+J8DHThmb8mcYegWDGbBe6Sbad/d368foeykEiOYwissY
-         XEzr8w+Cts2sH1z2osyKTLRRvFXOAkBJFvAGIDWr1YuN0xoi/ODO/H26TIUJqDVRpURX
-         RZoZTJ8zjqUb/TadBlzGUT4zYEhJZbz1HwdZEvjVDJW4y3q1rj5OBviUf+FmBmM/9OW0
-         6uAA==
-X-Gm-Message-State: APuU4Z8whe16RbSASzTCGRF9yCbPbrNMrwL7WUV9OP3MCHXwTFfw2QKv
-	mz5J1dB5k0dwY/J4juL+kHXlnz7eyi3Ego2YuBH4+tXMyZ+fX4AH8fjF
-X-Gm-Gg: AYBFou3e29l1dqHUXO4hVqPE01VbM/+AFL9lvqr/odCoS6Y7g6+jUT7XuWBhAd2Y9We
-	c23MgDXCMkjYDRrafoMuA0OdMGPa4XrTwYieo5FqFEjg1nCDaaycHjoBgUZv8A9F6nX2RbUt/+e
-	kPN+1K/Y/sux5Qdn9dSsev2hj6V71kbM7/WG66LfO3/mMphSWI44TXxxjPc+wQjzBGMyC9hSWqS
-	md2/q5VyqAED91cUWT9BcF3+20OiWuvCK90+zf0H8sFA0to8DRzYys16il2ZWHzhZNeZp6tsdUi
-	vG8ysKZLQMSVCa5eVbvlG0HOlcfadQ/Z4eTn5JJcQrECBV+7Qr3kPuPSrhpEk9ZVj3OKOEYJ70B
-	66tdfVDGkuYYT56l/PjZZWjrTvSLYrK1bgSGhCKjx0XCE6IsQudusNHZFFsf93XPHXaGA3q+sQH
-	+XpvyO+xC3+1wuDMG1J3YXYxuPEbUJ0cigbgOAgF/qfRZ/cDZOxLEdBLl1BcbUdqhFm5MJb2Pvu
-	5aVyIqy1CcwpZFLK8zCQoe7xG6Z428w/wX1Cd0qqhxE6bi2QxTAf08fwTTZ3Po92Lbg9cg6oLjw
-	JXm/K/fr7H2ssnJqiKsWbU8hp0CLtmAAgeAoNChc+qqcfA==
-X-Received: by 2002:a05:6a00:3ccf:b0:898:efb4:ec4 with SMTP id d2e1a72fcca58-8b37c826278mr2349025b3a.55.1793972951123;
-        Fri, 06 Nov 2026 05:49:11 -0800 (PST)
-Received: from osman.mioffice.cn ([43.224.245.178])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8b35a0c4431sm603114b3a.42.2026.11.06.05.49.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 05:49:10 -0800 (PST)
-From: Zhan Xusheng <zhanxusheng1024@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=tQuCMTAl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1793973281; bh=f9AcNQk+E2Uh8Cu5xVuG9tcvbwsMIkzO8WOpBpYCAgs=;
+	h=From:To:Cc:Subject:Date;
+	b=tQuCMTAlJdh9TBAB0kcxFJ3oATVWzvPPBHXN5P9liFaO6jerquWh9POmyHPNt/020
+	 54iLXlJAK9/cJbWm5KDeov0r1o3wOPAtADj9EO61PFkw8567zaWzkyvhLJ7JPW4taC
+	 t+cuLhx0YJNjgOtNWOinVGGN0zLKKnos8tkwNIrw=
+Received: from [172.18.4.77] ([202.113.185.209])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id DA7AD633; Fri, 06 Nov 2026 21:54:39 +0800
+X-QQ-mid: xmsmtpt1793973279tsdxdqbg3
+Message-ID: <tencent_A85D514AA9FADF1423994E41A6F851213E08@qq.com>
+X-QQ-XMAILINFO: MDbayGdXPuoeF9R5xDbzU0MXB0V86cqjgru6iz3yUgboFdp3Wp3qZEkdVcYCk7
+	 1BdupbI8FTABzocOqn1iq/MIdF5qIYO8r73iZNXG2No2Fs1UWjaACRFWN0acwg8dZVpx1t9zDQoM
+	 IFIKYA5I8tLtQovYIOUdcYx+7bELy6/Jgns7AEWcn4xyG0i4CqS602cYUBTSsL0sx+trOyXA4Snj
+	 ojYwwRk6e1/kMBBb9Up8vSku2prOigJ8YTORvKuSMkYZSvLGxejGX4+qtuDyGqJr8vH2vjP3eaS2
+	 of3mh1RKX+PJIWsxz26Ly/5OixCL1j1/YCWRNAKf++VWRof1UVnJ6aKKxBX51W5CxoIBH+3+Hav9
+	 jJyzrheSndFCzqK2iPGa7ktDb/oelHIthfJcYzXBr3bhGtM0t63gWBpZBDQdeeHFyo+gC2xKmbVI
+	 JHolu4ETxJaWh3GNN4IKlguihpw+qF6G0DD3b7JcvL9OCD7wr2jLZ5B8k7DebDSZM/EImKERfPR0
+	 nww3alyp550F/iewtdYc7F325t7o9KdzQEyxKrfLhf0WXR1Yg3zJ/7RJhqN40kC0/OR55TnpcQVN
+	 WT7zslcH/niTB8pSp3400jzeQHK3gAN8qoQxaDwKslxswsUAHZFemBlyL7DZKudCRBS0rE8ADX5w
+	 8KFZj8aR2BOQHyoI4CjGsbOZoYYRX3fq2JETvj0YiIPzQqisIAPtDEQOU+ZEi1WX85tAyypPEMWM
+	 eWiouAXcDax1VIeRVc/yX6KYUwL1VaSRcVUWcor5zaMWkjSntBJY/LTp2yOmO1VhANjPWFS5+roG
+	 MO7CLIs0+mpcAmZSqth+7aupct3Qhpfws/Jfl1yFCePcsb94cKos7y2OT3m8yZvXxV52N/R1c5Cr
+	 T9wBjkUShONx0gYzFt9/kz1X0XLwOfoHpe14Fxajjm0tO/Is/ins6/oguhtX15NltbyPiOjo+RG3
+	 ZW3pOrzGM4w/40R0HQtuAT3H0hXr/nZlQaXQezDMIVFPaVZ1f7YJFUPsKeePz/2bw7OB+nMAxLHY
+	 snskZTgccP7a6yPypUKaGNF9JdqLO5+Kt92Nzj/lEJ7c4vba9H
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+From: Guikun Yang <yangguikun19@qq.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	zhanxusheng@xiaomi.com,
-	stable@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: don't write a compressed frame after a short copy
-Date: Fri,  6 Nov 2026 21:49:05 +0800
-Message-ID: <20261106134906.3139994-1-zhanxusheng1024@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: ntfs3: log replay reads past the restart page buffer when the on-disk
+ sys_page_size is larger - slab-out-of-bounds in log_replay()
+X-OQ-MSGID: <c21-ntfs3-logreplay-oob-20261106@qq.com>
+Date: Fri, 06 Nov 2026 20:00:00 +0800
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -94,93 +78,104 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
+Hi,
 
-ntfs_compress_write() skips ni_read_frame() when the write covers the
-whole frame, or runs from the start of the frame to past i_size. If
-the copy from user space then comes up short, the rest of the frame
-is whatever the folios held; ni_write_frame() compresses it to disk
-and the folios are marked uptodate.
+Mounting an NTFS volume whose restart page declares a sys_page_size
+larger than the host page size ends in a slab-out-of-bounds read inside
+log_replay(), during mount:
 
-The copy can come up short after fault_in_iov_iter_readable() has
-succeeded if the source buffer is unmapped in between. On a volume
-with 4K clusters, writing 64K at offset 0 of a compressed file while
-another thread unmaps and remaps the last page of the buffer replaces
-the last 4096 bytes of the frame with zeros. The write returns
--EFAULT.
+  BUG: KASAN: slab-out-of-bounds Read in log_replay+0x...
+  Read of size 80 at addr ... (kmalloc-4k)
+  Call Trace:
+   log_replay fs/ntfs3/fslog.c
+   ntfs_load_log_and_replay
+   ntfs_fill_super
 
-Don't write the frame in that case; fail with -EFAULT as if nothing
-had been copied.
+## The gap
 
-Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-Cc: stable@vger.kernel.org
-Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
----
-Tested in QEMU on v7.4-rc1 with KASAN, page cache dropped before each
-write:
+log_replay() starts with the host page size:
 
-  before: 3 of 755 writes left zeros at bytes 61440-65535
-  after:  0 of 821 writes changed the file on failure
+  log->page_size = norm_file_page(PAGE_SIZE, &log->l_size, true);  /* 4096 */
+  log->one_page_buf = kmalloc(log->page_size, GFP_NOFS);
 
- fs/ntfs3/file.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+The restart page is read by log_read_rst() -> read_log_page() while
+log->page_size is still 4096, so the buffer holding it
+(log->rst_info.r_page) is a 4096-byte allocation.
 
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 1624f9b014e0..b1b925f95b8d 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -1099,7 +1099,8 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
- 
- 	/* Copy user data [pos : pos + count). */
- 	while (count) {
--		size_t copied, bytes;
-+		size_t copied, bytes, want;
-+		bool full_frame = false;
- 
- 		off = pos & (frame_size - 1);
- 		bytes = frame_size - off;
-@@ -1135,10 +1136,13 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
- 					}
- 					goto out;
- 				}
-+			} else {
-+				full_frame = true;
- 			}
- 		}
- 
- 		WARN_ON(!bytes);
-+		want = bytes;
- 		copied = 0;
- 		ip = off >> PAGE_SHIFT;
- 		off = offset_in_page(pos);
-@@ -1165,6 +1169,23 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
- 			}
- 		}
- 
-+		/*
-+		 * A fully overwritten frame was not read in, so after a short
-+		 * copy the rest of it holds whatever the folios contained.
-+		 * Don't write that out.
-+		 */
-+		if (full_frame && copied < want) {
-+			iov_iter_revert(from, copied);
-+			for (ip = 0; ip < pages_per_frame; ip++) {
-+				folio = page_folio(pages[ip]);
-+				folio_clear_uptodate(folio);
-+				folio_unlock(folio);
-+				folio_put(folio);
-+			}
-+			err = -EFAULT;
-+			goto out;
-+		}
-+
- 		ni_lock(ni);
- 		err = ni_write_frame(ni, pages, pages_per_frame);
- 		ni_unlock(ni);
+Later, log_replay() adopts the on-disk page size:
 
-base-commit: f66469d9905b39d2c260a15d7d6db450f4db67c1
--- 
-2.43.0
+  t32 = le32_to_cpu(log->rst_info.r_page->sys_page_size);
+  if (log->page_size != t32) {
+          log->page_size = norm_file_page(t32, &log->l_size, ...);
+          if (log->page_size > old_page_size) {
+                  buf = krealloc(log->one_page_buf, log->page_size, ...);
+                  log->one_page_buf = buf;
+          }
+  }
+
+5a35454179 ("fs/ntfs3: resize log->one_page_buf when adopting on-disk
+page size") added exactly this krealloc, but it only covers
+one_page_buf. rst_info.r_page is left allocated at the old page size
+and is never re-read:
+
+  ra2 = Add2Ptr(log->rst_info.r_page, ra_off);
+  ...
+  log->ra_size = le16_to_cpu(ra2->ra_len);   /* raw on-disk u16 */
+  ...
+  memcpy(ra, ra2, log->ra_size);             /* fs/ntfs3/fslog.c:4176 */
+
+The destination ra is kzalloc(log->restart_size) - sized from the
+adopted page size, so it is large enough. The source ra2 points into
+the still-4096-byte r_page, and ra_len is a raw on-disk field bounded
+only by sys_page_size - ra_off. With sys_page_size = 8192 (a legal
+power of two, accepted by norm_file_page) and ra_len = ra_off + 80,
+the memcpy reads 80 bytes past the end of the kmalloc-4k object.
+
+The branch at fslog.c:4181 has the same problem from the other side:
+
+  memcpy(ra->clients, Add2Ptr(ra2, t16), le16_to_cpu(ra2->ra_len) - t16);
+
+same source, same unbounded length.
+
+## Observed
+
+Deterministic, 6/6 runs with panic_on_warn=1; the unmodified volume
+mounts cleanly as a control. Trigger is mount(2) alone - no file is
+opened. The forged restart page carries a valid update sequence array,
+a consistent client list and matching seq_num_bits, so every existing
+check passes; only the page-size adoption is abused.
+
+sys_page_size = 8192, ra_len chosen just past 4096 - ra_off gives the
+reported 80-byte overread; larger ra_len values read further.
+
+## Suggested fix
+
+Re-read (and reallocate) the restart page at the adopted page size, or
+grow rst_info.r_page alongside one_page_buf in the same branch, before
+ra2 is derived from it:
+
+  if (log->page_size > old_page_size) {
+          ...
+          log->one_page_buf = buf;
+  +       /* r_page was allocated with the old page size */
+  +       kfree(log->rst_info.r_page);
+  +       log->rst_info.r_page = kmalloc(log->page_size, GFP_NOFS);
+  +       /* re-read the restart page at the new size */
+  ...
+  }
+
+Alternatively, validating that ra_len fits within the buffer the page
+was actually allocated with would bound the memcpy directly.
+
+The reproducer (image builder that walks $MFT/$LogFile runlists and
+writes the restart page with USA and client-list consistency, plus a
+ready-made image and serial log) is available on request.
+
+Tested on 7.3.0 (ntfs3 as a module); the adoption branch, ra_len
+handling and the memcpy are unchanged in current mainline as of
+2026-11-06.
+
+Thanks,
+Guikun Yang
 
