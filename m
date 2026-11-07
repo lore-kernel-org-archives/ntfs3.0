@@ -1,76 +1,165 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=43.163.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794025754;
-	b=N7LNRjD6eoYkJ5zOQhj84TJTvCauDaGyXwB2mFMFuK7neMyK5lyDW6n7CRVPM+lJVi0u
-	 y8Zwhn4vwUZNU0yLWPyTPvduIQvMheKMZ+e/OMMbqLkYy1b6dFDVCxez5xtu6yJsUujqa
-	 Fd2Ar3SjmwLjITej7InFVDvzOZIOa0QNxa/LD5TaAn6M6nTv2sQcqrZGY3FHGL8u898bx
-	 tStSliP6iPkht8ZmA+mtlwqVZGhgDbaXXWzgzKIpsCDW9mXIZ87pX3SsvHirog76cGt3g
-	 M2vpxJ1cN9CGKgmdgg2ry6Wnk6pC8c9X5s3GVbduSwS6OciP23zrVBLca3jPy4njHng==
+	t=1794042019;
+	b=VEUEcn8H/+Y8XQ2yFoOOwD9KyileB3nIMh5wl5iAHybCSagFuZePd1zkTuq3aMUVAeLw
+	 xSgssL/2fSuk67qBnWOsWYeuHpKPuA8uCxa8uDMuVWmWocGxjVc1DEmHknKrWmk/A2zvJ
+	 VCR7AaFNzvZCPlUN+ensNPCp0ryhVSD2S3GIeWMIQ6Vb5IcH+XGOQYWx5jqISmEBT/YTN
+	 +t6wJOpoUyQ4r8Io6gdvtLETlbVAF9lIQ/JU0d5+uThOAwoNMO2j5Pz72KEc00utngjAb
+	 IT+OlLcZ4zSMHhebABXgyZ8cwCLH11eT1LgQ7MIEKXHx6vP/x5k/XzDuV7MoEjxSpog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794025754;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:X-OQ-MSGID:In-Reply-To:
-	 References:Date:Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=iX4UozUO3MlxlRY8rbobS09QzTYf/voPJs4YZBBQplg=;
-	b=fybJTu/wKsMF+1BwH8GOmPtJnHkg8Y5EZLl1+ipsdirrCh4oAVGIencRRV/EGsC6HWih
-	 o/W/si4KS8/fukhf3wNs15p3Rj88AcAKanMWRV7sOGAouwqmJVZ1MnzM2GyEqm9HsRyhd
-	 v6AtnVemjJFRaZhzqmaY8e0CVHOxRWOYfxne7FQ3nu0Ac0IeJyIWh2skeajBHNPOXv/uT
-	 YLk2A3h5KyTSz7k8l0fEv1yU8LtV6LPWtqz7GKGyz9KKZ4aT5404HgXbFzjQvTOgjIBYp
-	 QCg8/KckSofVUas8+C5LR4PIilsbDjEENCd7+PEvssF6hFJduJ1IVW8023vuVyREMVA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794042019;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=2pUKIrJSjwOPfwhHfcJFzwrup6gCdhbZ3XgMEjE3Sk8=;
+	b=bqI0+1ZQjqqo83PSfiaWEsvWEZ4IjYIX/BLPI6fYbZCr0jD92Ks8CfBZXbxs1pzu5JxP
+	 j/CcXRlFCqYWgo3KvILjj3l02ZrFwXtw2HmRysATBhmO1GtxSTLapMsHfnS3Od7OGv4u+
+	 7+imk93aEzkQafQDXdXGGQ5nOit3+z5gLwLzBYqZPTnU0HFH5rlJw+ujRHi3bcBAZYIfU
+	 kUM8B1S0uMrZjf4e37Z8FzDjo+s6CKXaZYmGIUlQg/i1RCPrEWk3ZwfW3MpUtwsma98p/
+	 kpy5DmQROOTKiQEyBYVLCNQEXgyGmtuhlAPiWQjMaQ4XLv3UNOPPVJtFZRCMsG7m73A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=shlc24jQ;
-	arc=none smtp.remote-ip=43.163.128.48
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.48])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=AwkH5jyM;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JTEoL3TZ;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nvoaJ0mE;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DZerp02L;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8471A606A32C
-	for <ntfs3@lists.linux.dev>; Sat,  7 Nov 2026 04:29:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8471A606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8304606A32F
+	for <ntfs3@lists.linux.dev>; Sat,  7 Nov 2026 09:00:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8304606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=shlc24jQ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1794025743; bh=iX4UozUO3MlxlRY8rbobS09QzTYf/voPJs4YZBBQplg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=shlc24jQJ74+lIJeryVOU3Ie4wZZa93jFmqZaAcH2LIpeuTo1G8vkx4L6hVHT3cX3
-	 wL5Ku3/ISAVoG5Rus/iGgpSVL3B5H4jsx30ikHv03OZVjmYid6refOjJI7mrABvXD6
-	 q5FeRFAzJJUENxnBwJ08l8NRx9nww8+0lCeRymyA=
-Received: from [172.18.4.77] ([202.113.185.209])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id 7411C4AF; Sat, 07 Nov 2026 12:29:01 +0800
-X-QQ-mid: xmsmtpt1794025741tbj3z0pz6
-Message-ID: <tencent_64A24695F85844F5A5227DB38C503A219B0A@qq.com>
-X-QQ-XMAILINFO: OdpilHhB3Diu2r6R4FAx8c2RirsIeTm5JbdNmOK7nBwz0WY/VumI1MvGEw0FG2
-	 ogEgiRKlib/BThli9MIVJbUQ7UNuJ6ON7Zs7C31Td1Y1rjWyLvmdDBoXv/+PbTznfn8E4C8Gimkh
-	 zW23l2yU7hdfda6Gsc6GKoizcI5ml1YwNFVAJgp6nHPX2w3CMlcQRqvjmoj5Db7ANX1H3gRuwRlb
-	 7s7g2Y1nZpHsvTwAdPc+Xcwr+nhrsmJ47K5fMoEm0+7M1XnNbyHbf3/u8y7ze23bnRswBboF3xwr
-	 +dd3/qI/g81GAzPI+HKoK9d9iEUsT9MyaY626SdQWWSXIM7z8fACyMZJVOfgp41KKXCdhxEx8k8K
-	 OBCtItnwlK7ISuhAUbfS1l33XOK7/0NoPPR7RsBCl2QtoPwxi11C/YYdDFqwjt46tAi6NJKOWOt+
-	 SFxT0L8WVrt8kZFwptgUGVmwzCrTmrgKl9Of/tplR47/Kg+WyRr71M8Rd8/+69FxL/SxOKOF2vj+
-	 nln10/A/MhAurVkCJxNOU6tEdFbBI7VZM50AAzfg2/FhfThx1mcI8/NkIFTYSbPMFQVfG6vMVvdE
-	 /ZsgeaFTD3lERGAkECJ7kg3NRRIeMGT75lEOxiGoJvm367HwB8lM4qiagbBX3U7TsjVh+5MKfr41
-	 ODKyZB5CvtZSpYjxtYfyHvLzBOVtzeKD9flN2nOsigtNltjGjAiPZyNGjAvRJx3EQ7OvApXFOjAh
-	 jHlZBOctFNWBrF/NwPwu8WXEgNPbcc5eX/vbqBhqOdr9PWks32lANlHE3ES5rl7qpo1kAkY4eGPM
-	 sAvItfKsbJ/H2qEzY5BbC2qLUbCIxhqiEOxMBH6KYxql4ILyBlCqJhkh5qghReU4DsNdiNhDMu0+
-	 BWiZ/v5tikGq0DdSLYKgsEf9yBusrPKXgDG4/rwU3CYOp84q+4z39x4KBADn9y2WvKLZvnBFGdky
-	 SemNPvk8tkxaoeDTTnoy4e3F92lyeFRr5cP1uVqh42QXO/Txq452PzgbVszYfTNyk/DRlTUdK6R7
-	 nVM2G2siFp6Yk2blcc7cONAzACkZnW4udyfQ5cPUMwjEgSEeFEExtXlCiVRWE=
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-From: Guikun Yang <yangguikun19@qq.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: ntfs3: two out-of-bounds reads in $LogFile replay (restart page
- resize, restart table offset)
-X-OQ-MSGID: <c26c27-ntfs3-logfile-more-20261106@qq.com>
-In-Reply-To: <c21c25-ntfs3-logfile-oob-20261106@qq.com>
-References: <c21c25-ntfs3-logfile-oob-20261106@qq.com>
-Date: Fri, 06 Nov 2026 23:30:00 +0800
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=AwkH5jyM;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JTEoL3TZ;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nvoaJ0mE;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DZerp02L
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 630761F74D;
+	Sat,  7 Nov 2026 09:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794042016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2pUKIrJSjwOPfwhHfcJFzwrup6gCdhbZ3XgMEjE3Sk8=;
+	b=AwkH5jyM7t60XRGf7G1aRSt+1A3cbarzW4z/QkvISjLGNPrA/fY2MleEP5q/AQIm+UOa85
+	wJkleCWTNZsU7rGkzPqgTOEFser1A2ESxcK9o91TyOKwj1NxwYRnab9MqOSmomM2duqzSM
+	4ziRifDlEsg/eNGZ4IfRyZBtKF7+5L4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794042016;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2pUKIrJSjwOPfwhHfcJFzwrup6gCdhbZ3XgMEjE3Sk8=;
+	b=JTEoL3TZlb1DCclunsyxaCbXUYbLeMKEOnsS7PWO9bNheMA+zCRiSp1byJB7A+sAicRsv4
+	5OXD2QVrenEMHmAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nvoaJ0mE;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DZerp02L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794042015; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2pUKIrJSjwOPfwhHfcJFzwrup6gCdhbZ3XgMEjE3Sk8=;
+	b=nvoaJ0mEP/zd/0bKFGcoiLmtApr9OQGHZOiEECFWhUq1H30dGD7ZkdmACOX8M4XQGS4NuW
+	oB4Mc0g4OfzK2wWf0UF/9cqPMqA/oflypYavZBONS2BSNW+J/B7gdSUDzy/0qA9b4r1pv4
+	UXAedxogQW7c2CJkDX8oa4Afmn/sre4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794042015;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2pUKIrJSjwOPfwhHfcJFzwrup6gCdhbZ3XgMEjE3Sk8=;
+	b=DZerp02LRPNT9d5/AecFdQdh+IJlOFhOxwpkpzQNy3DQvQ4hOwgMkZ3mhYuZ46BFCA5rf0
+	CaTL33x7XZsPDhBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0528132C9;
+	Sat,  7 Nov 2026 09:00:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 19k0LZ3o7mq9VwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 07 Nov 2026 09:00:13 +0000
+Date: Sat, 07 Nov 2026 10:00:13 +0100
+Message-ID: <87jympyq1u.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jann Horn <jannh@google.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Chris Mason <mason@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@suse.de>,
+	Joel Granados <joel.granados@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jan Kara <jack@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-wireless@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	coreteam@netfilter.org,
+	kexec@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	netfilter-devel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	jfs-discussion@lists.sourceforge.net,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sh@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	sparclinux@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-doc@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-input@vger.kernel.org,
+	linux-raid@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-debuggers@vger.kernel.org,
+	Chuck Lever <cel@kernel.org>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH RESEND v2 03/51] ALSA: cs46xx: hand the region to the region proc files
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-3-021c84d852e0@kernel.org>
+References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
+	<20261104-work-procfs-bugfixes-v2-3-021c84d852e0@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -79,96 +168,57 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-11.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim];
+	R_RATELIMIT(0.00)[to_ip_from(RLij3mi59gqb8x3hiq1dpi8wgt)];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[60];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -11.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 630761F74D
 
-Hi,
+On Wed, 04 Nov 2026 20:16:45 +0100,
+Christian Brauner wrote:
+> 
+> snd_cs46xx_proc_init() stores the chip in the private data of the five
+> region entries, but snd_cs46xx_io_read() reads that back as the region,
+> so a read of /proc/asound/cardN/CS46xx_BA0 and friends copies from
+> whatever sits at the region's offset in struct snd_cs46xx instead of
+> the mapped registers. Store the region.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Two more in the same path while re-checking it - one OOB read, one OOB
-write. Same forged-logfile setup as before, mainline 2026-11-06
-unchanged.
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 
-## 3. Undo pass indexes the open-attribute table without the bound the
-   redo pass has
 
-The redo pass bounds target_attr (fs/ntfs3/fslog.c:5105):
+thanks,
 
-  t16 = le16_to_cpu(lrh->target_attr);
-  if (t16 >= bytes_per_rt(oatbl)) {
-          err = -EINVAL;
-          goto out;
-  }
-  oe = Add2Ptr(oatbl, t16);
-
-The undo pass does not (fslog.c:5251):
-
-  oe = Add2Ptr(oatbl, le16_to_cpu(lrh->target_attr));
-  oa = oe->ptr;
-
-check_log_rec() only validates target_attr when lcns_follow != 0, so a
-record with undo_op != Noop, lcns_follow = 0 and target_attr beyond
-the open-attribute table reaches oe->ptr outside the table:
-
-  BUG: KASAN: slab-out-of-bounds in log_replay+0xafda/0xf580
-  Read of size 8 ... located 104 bytes to the right of allocated
-  344-byte region (kmalloc-512)
-  Allocated by: init_rsttbl -> log_replay
-
-In our run the table is 0x158 bytes and target_attr = 0x1A0.
-
-Suggested fix: mirror the redo-pass check in the undo pass.
-
-## 4. Dirty page table size underflow in the analysis pass ->
-   OOB write via copy_lcns()
-
-The number of lcns per dirty-page entry is computed differently in
-two places. The version-0 conversion has a guard (fslog.c:4357):
-
-  t16 = le16_to_cpu(dptbl->size);
-  if (t16 < sizeof(struct DIR_PAGE_ENTRY)) { ... goto out; }
-  t32 = (t16 - sizeof(struct DIR_PAGE_ENTRY)) / sizeof(u64);
-
-The analysis pass does the same subtraction without the guard
-(fslog.c:4666):
-
-  if (dptbl) {
-          t32 = (le16_to_cpu(dptbl->size) -
-                 sizeof(struct DIR_PAGE_ENTRY)) / sizeof(u64);
-  }
-
-dptbl->size is an on-disk u16. A table header of size = 0x10, total = 0
-passes check_rstbl() (rsize nonzero, no allocated entries) and
-check_dp_table() (nothing to enumerate). The unsigned subtraction then
-wraps, and copy_lcns() copies lrh->lcns_follow = 0x60 entries into
-dp->page_lcns[] of a table that extend_rsttbl() allocated for the
-bogus per-entry size - the 29th entry writes past the end:
-
-  BUG: KASAN: slab-out-of-bounds in log_replay+0x8b01/0xf580
-  Write of size 8 ... located 0 bytes to the right of allocated
-  280-byte region (kmalloc-512)
-  Allocated by: extend_rsttbl -> log_replay
-
-This is an OOB write, unlike the three reads reported so far.
-
-Suggested fix: apply the same t16 < sizeof(struct DIR_PAGE_ENTRY)
-guard (or reject size < sizeof(struct DIR_PAGE_ENTRY) in
-check_rstbl()/check_dp_table() itself, which covers both sites).
-
-## Context
-
-Both reproduce 3/3 with panic_on_warn=1, mount(2) alone, clean image
-mounts fine as control. The forged volume is the same one used for
-reports 1 and 2 - each of the four findings differs from the last by
-one field of one log record.
-
-Four different missing-bound mechanisms are now known on this replay
-path: buffer resizing (report 1), unbounded in-record offset (report
-2), redo/undo asymmetry (3) and the version-0/analysis asymmetry plus
-underflow (4). Given the pattern, a systematic pass over the remaining
-offsets in log_replay() may be more effective than fixing these one by
-one - happy to test any patch.
-
-Both sites are unchanged in mainline as of 2026-11-06.
-
-Thanks,
-Guikun Yang
-
+Takashi
