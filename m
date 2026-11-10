@@ -1,79 +1,127 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794278330;
-	b=XZPBTh5Sbj6HY002AKDtQTcg7pksO1g3zq9WG82pTdFjZxLZ39AeFNil8q42foP1pe6F
-	 elHPzXFmB6mWp5ex7PtBMea6LZDsBjVKTPHCqS3qJ1KSTTP8H0pCc1R88RNuTb77vza+I
-	 XYho9JhiVcLuyElQJpXNfjvBMIxauJtg+24N1F/HtX/uJQNqDCq5Oj37r9jxBkdI6pLU6
-	 7ReyzzshLrlZrNFoUB/BpCOBSw8+HvixeCb44Uaw7mXoeBAP18BKk7gwd88Q4c/Yjkd3p
-	 dFmYe3FBv8hrfhU0jZU3PSAxIT3hyzcTjb+HQo0tNOO6r7WuWewdQqTmcK0ot9olX/g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794278330;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=hLFpIj06iWIjWH062UOt1GWvTFb9FnA3jx3mjAJmQOk=;
-	b=R4CHXP/uEABDtKmGS9TUJcoGrzRRnZshUPRe2+y2LmNQr8qd3mlIv6NfFHRlWtfG59zF
-	 cGU+WgPqXxriPpMOeCeDcuYLQlJkBBs4dtVB43nDG1yr5klW1rLFFC4Tj2lp7yYtw7aCw
-	 CwwhkmhvWLgqmqsw1W7urm9ZJObVAfDdWMUztFPwyY8+V+p1uRr21UgXYxmNKA0k7c+qE
-	 S/BXdGegXp0YKC9dvgyOG3cOIW+sessu6Z+Fh3iwl6jWOHJU6pkQl0eq/gDFiFl63TYVC
-	 CRomY+uK7OeGZXEgPb0QjK4Q1PivONJq27WdOlmgLZ6uH3BXRnIQyjHaKpL78eJlFMQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HV15tRNd;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BB5606A32E;
-	Tue, 10 Nov 2026 02:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HV15tRNd
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794278329;
-	b=X8NSPErzXXC3gpZbngSn0jnmxlNv103UzE3RVbhLbNBalWeUft2k/tjwFdVhA2rRDqyg
-	 PJl7a5pejfz4eHDCPOF1RP+za2+TvSNVA31kRa2IfDtOokSvMwtfe+Mb5NL81/9MLqWTw
-	 +U6FEYq4T3CfV4JexSencSjLlxXQgljhK6+uAQBj9qnPAtgcs+Thy/PSYfv/J1P7FwoCd
-	 owykBrQ0Qq9Dj8v35zkzg/qTr3AJTzZjfupWJFYUzkG99Q1B7EjZJ4DyBEBlMZlewPz8C
-	 mysm1X1Qnl5bY9lN1bN8qwOa0iLvUCPcY6yAIUF8UnZ04mXzVDm9Z7mKy34oCE/SNCQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794278329;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=hLFpIj06iWIjWH062UOt1GWvTFb9FnA3jx3mjAJmQOk=;
-	b=BmBPhsvuxR6af5EAp3ESGK2KTYb5RYBjcZlbUAhzKRnkSY0NfBeJZ8JW9fyS4Wlhumyu
-	 hc8Comgr/hiEnPigPGT7A1NTD063yyFXAMhRftUFxCSt2anOnJ4wb4VK7Y1LoHUDUy4gB
-	 dwN3E6qTHUNe2SHf/kJ7zCUM7LCBKA/3d7SYfqKWEOdNowUm3igSmo9HP5LLkXd19/DTv
-	 DonqqDy5PNdBBEpvT3zSTbADuoTLImeYsGOCQ/BnF9LG5mThrvlourAwAg0pkO0qFhocz
-	 6KSV7xhapvA90IHY/InrFiUShUB9c2QSnS2wMFgZaAkQdHy8diZylxUwJJiVrtpA9FQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794320380;
+	b=BZM72840VYIImYF14ui6a/P0pfdCMXq+DL58wlaAniaSVGULTnisB3P+KAcwMeHdvO+Z
+	 G36sI5Y4Q8OaYUkmsATxmK924e9I9NTFCxIAyijIOpgXkzfaoYPxP3GIFzF37cnLek3Ha
+	 tHFSr4naYsh2/tlW9kq0sXSDOQ3EO2eSBdKSrquKSOyH+XLSKUobfUP9Jbp1+NLnMPs7D
+	 qrWNV/GSzigmqJVxrzks7YLSsVmkQmhARIjmFr2o7KENybj7HV7QqH0bpDxXEN/pjadXW
+	 LnQXrKatGRw0aTMDLJAFbA1qdyAS17Z7t573JpNvZLRclcMOkh2jfy8iLEC0eBmEqbA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794320380;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=JE8WQ9EUNZEheaAnnKiJenVzHxRSWkBYTEKhAPWeMeyRVqNa8Tubtpmt6fnGIDfgz1bN
+	 CiZon6Q2muD8FXtKndH9vF7j+q4SbLeEPU3zacaIz15VUZwUJ5U6UsWtFvKMzziaO55vP
+	 GMSAYP3ublL7ORxDnQEbdR7g1PB0D6JVPZPkX+UPs9DEFqgzgAxv0mXGxouqFtki/JDyi
+	 DRMAZW90iQheCHNRDghHqfssRON6wDn2g3NasckaxmZu2YrRYvyjZCQAv5erc2mbAbO1I
+	 8ngnWPaW7S5vgLbH7Av+UdEVABtt0cnH/IoEW6CVO6R7grcl7rjCZfgw+W+Hvhw04Xw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=24m00Mxy;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gWL5bCh6;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=24m00Mxy;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gWL5bCh6;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id E9FEC1F008A3;
-	Tue, 10 Nov 2026 02:38:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794278329;
-	bh=hLFpIj06iWIjWH062UOt1GWvTFb9FnA3jx3mjAJmQOk=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=HV15tRNd+I1BJ+QTFJHbiH4Io+ncUYaorppya3b2v/DfbcRY4uBru2yyyhFC5p30k
-	 vYDZX0WJJkVElO66aOda+CF/xueUU0Knc4xostr6ccAxCFEMVqNkXSYyW+bjzlhAjf
-	 dHKowPF55lrlzwkx9WMZC7/zLd1rbq07UjZiA088YsvVeGbSObKRrCZGo2hy1LmnJi
-	 9zM3k+4fKuTKuriWPxfl8FhuNPZqY8iHccV+syS+tCY8/KSO1rpPb6cNCBffy4LmTV
-	 EEDoFmOW5c0CinEqcPl1O/klVlR2lZsPWxwD+prBGPFGbGLoHJE0WGMYtmy7luwv1g
-	 xzWc7yljxqweg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 6756D48764;
-	Tue, 10 Nov 2026 02:38:48 +0000 (UTC)
-From: "Eric A. Stalee via B4 Relay" <devnull+mail.eric-stalee.eu@kernel.org>
-Date: Tue, 10 Nov 2026 03:38:13 +0100
-Subject: [PATCH] fs/ntfs3: load index allocation runs before use in
- indx_new()
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7C960A2634
+	for <ntfs3@lists.linux.dev>; Tue, 10 Nov 2026 14:19:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D7C960A2634
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=24m00Mxy;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gWL5bCh6;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=24m00Mxy;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gWL5bCh6
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8A12F21E31;
+	Tue, 10 Nov 2026 14:19:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794320377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=24m00MxyS14C4kCTYYtxKWJP25EBVNVIxLRshWhDnl2XZwRpRipDNZJw4Avu/J2svsqCMy
+	VTYT/SHAlqxbP0FIU7B9V7eV3/1rBXkEe/Lcm9f8ja9SENmigoj1MKRmnopRtQWBaY3OFh
+	eux20BDfQ6AJqBojuMAzQiJJg3QKDxU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794320377;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=gWL5bCh6bmxfDaClyKTxrGr/cthAMhYHhVBSAgTvyrROUNgpSm1do5CLIUVQzQAzFJlTzk
+	zIhImlSyPcZvZwDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794320377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=24m00MxyS14C4kCTYYtxKWJP25EBVNVIxLRshWhDnl2XZwRpRipDNZJw4Avu/J2svsqCMy
+	VTYT/SHAlqxbP0FIU7B9V7eV3/1rBXkEe/Lcm9f8ja9SENmigoj1MKRmnopRtQWBaY3OFh
+	eux20BDfQ6AJqBojuMAzQiJJg3QKDxU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794320377;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=gWL5bCh6bmxfDaClyKTxrGr/cthAMhYHhVBSAgTvyrROUNgpSm1do5CLIUVQzQAzFJlTzk
+	zIhImlSyPcZvZwDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5517613479;
+	Tue, 10 Nov 2026 14:19:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id I5aLDPkn82qLGgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 14:19:37 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id D0CEC22536; Tue, 10 Nov 2026 15:19:36 +0100 (CET)
+Date: Tue, 10 Nov 2026 15:19:36 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 29/51] proc: don't walk through a non-directory when
+ resolving a name
+Message-ID: <okuebbxuf5q6xy452dlnxaqwainsafs5waulvn54j3vqxg2dhx@hh6ql7sg3pte>
+References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
+ <20261104-work-procfs-bugfixes-v2-29-bbf7d5546809@kernel.org>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -83,126 +131,105 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261110-ntfs3-indx-new-load-runs-v1-1-061378c2d45e@eric-stalee.eu>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ6CQAxA4auQrm0yHZCoVzEsBqZgjSlmyl9Cu
- LujLr/FezsYJ2GDW7FD4kVMRs2gUwHdI+jAKDEbvPM1ETnUqbcSReOGyiu+xhAxzWrI/hyrQO5
- 6cRXk/J24l+23vjd/29w+uZu+PziOD4eJcGZ8AAAA
-X-Change-ID: 20261110-ntfs3-indx-new-load-runs-e25d4a109804
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
- "Eric A. Stalee" <mail@eric-stalee.eu>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794278328; l=4039;
- i=mail@eric-stalee.eu; s=20261110; h=from:subject:message-id;
- bh=ljuOubNiF29ICM1zvurt0a9eMhRnzv4IXWbSHt8+7bE=;
- b=j7DyAqOo5H3uyh0znlxbg1uT5qlRDSALeA+akNO7C9t4HbQ7T8vA2ilU7MbVT6eJ2Hy9EvcQA
- amFDJ15gImBDXPS8lH70g6YMN7uniUfonI0u7ZRkKA9Aj3rY824w0n2
-X-Developer-Key: i=mail@eric-stalee.eu; a=ed25519;
- pk=Vp3vCG+vzRAtKQmuxwsKy8/XIbX003wXmany+Up3BfY=
-X-Endpoint-Received: by B4 Relay for mail@eric-stalee.eu/20261110 with
- auth_id=1473
-X-Original-From: "Eric A. Stalee" <mail@eric-stalee.eu>
-Reply-To: mail@eric-stalee.eu
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-29-bbf7d5546809@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL63fqwwx8ot6gmekemcs76f9d)];
+	MISSING_XM_UA(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[60];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
+X-Spam-Score: -11.30
 
-From: "Eric A. Stalee" <mail@eric-stalee.eu>
+On Wed 04-11-26 18:47:15, Christian Brauner wrote:
+> __xlate_proc_name() walks the components of a name like "a/b/c" and
+> takes whatever it finds for "a" and "b" as the directory to go on in.
+> It never checks that they actually are directories. So
+> proc_create("file/x") hangs x into the subdir tree of the regular file
+> "file". Nobody can look x up there, but remove_proc_subtree() on the
+> file removes and frees x along with it, behind the back of whoever
+> registered x.
+> 
+> pktgen passes the name the writer of "add_device" picks to
+> proc_create_data(), and only the part in front of the '@' has to name
+> a network device:
+> 
+>   echo "add_device lo@"   > /proc/net/pktgen/kpktgend_0
+>   echo "add_device lo@/x" > /proc/net/pktgen/kpktgend_1
+>   echo "rem_device_all"   > /proc/net/pktgen/kpktgend_0
+>   echo "rem_device_all"   > /proc/net/pktgen/kpktgend_1
+> 
+> The third write frees both entries and the fourth one makes kpktgend_1
+> call proc_remove() on the freed second one:
+> 
+>   BUG: KASAN: slab-use-after-free in proc_remove+0x8f/0xa0
+>   Read of size 8 at addr ff110001134c8e70 by task kpktgend_1/243
+>   Call Trace:
+>    proc_remove+0x8f/0xa0
+>    pktgen_remove_device.isra.0+0x118/0x500
+>    pktgen_rem_all_ifs+0xeb/0x1a0
+>    pktgen_thread_worker+0x1b42/0x7280
+> 
+> The files of a network namespace belong to the root of its user
+> namespace and these writes don't require a capability. So once pktgen
+> is loaded an unprivileged user can do this in namespaces of its own.
+> 
+> Treat a component that isn't a directory like one that doesn't exist.
+> All names with a '/' that the tree passes in as literals only walk
+> through directories. pktgen is fixed separately to not pass such names
+> in the first place.
+> 
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-indx_new() maps a new index buffer through indx->alloc_run with
-ntfs_get_bh(). The runs of $INDEX_ALLOCATION in alloc_run are loaded on
-demand: indx_read() loads the missing range with attr_load_runs_range()
-and retries when ntfs_read_bh() returns -ENOENT, but indx_new() does not.
+Looks good. Feel free to add:
 
-When indx_add_allocate() finds a free bit in the index $BITMAP, it
-reuses that buffer without touching $INDEX_ALLOCATION, so no runs are
-loaded on that path either. If the reused buffer lies in a range whose
-runs have not been loaded during the current mount, run_lookup_entry()
-fails in ntfs_get_bh(), indx_new() returns -ENOENT and the insertion
-that needed the split fails.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-This was seen on a 1.7 TiB NTFS volume that is also used by Windows.
-Its $Extend/$Reparse index has $INDEX_ALLOCATION:$R split over two MFT
-records through an attribute list, with 149 index buffers allocated and
-148 in use. Every symlink() on the volume failed with ENOENT, while
-creating files and directories worked and the other NTFS volumes on the
-same system were not affected. The failure persisted across remounts
-and reboots, and did not depend on the MFT record number of the new
-inode.
+								Honza
 
-Return values from a kretprobe trace of one failing symlink():
-
-  indx_add_allocate()   <- indx_insert_into_buffer()  =  0
-  ntfs_get_bh()         <- indx_new()                 = -2
-  indx_new()            <- indx_insert_into_buffer()  = -2
-  indx_insert_entry()   <- ntfs_insert_reparse()      = -2
-  ntfs_insert_reparse() <- ntfs_create_inode()        = -2
-  ntfs_create_inode()   <- ntfs_symlink()             = -2
-
-Load the missing runs and retry when ntfs_get_bh() returns -ENOENT, as
-indx_read() does. With this change, symlink creation on the affected
-volume works.
-
-The analysis and this patch were produced with an AI coding assistant
-(Claude Opus 5.5 in Claude Code) under my direction. It read the ntfs3
-source, wrote the kprobe script I ran to get the trace above, wrote the
-fix and drafted this changelog. I reviewed the change and tested it as
-described below.
-
-Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
-Signed-off-by: Eric A. Stalee <mail@eric-stalee.eu>
----
-Testing:
- - Built as an out-of-tree module without warnings for 6.18.60 (CachyOS
-   kernel, gcc 16.2.1) and 7.3.3 (CachyOS kernel, clang 23.1.4 with
-   ThinLTO). The CachyOS tree's fs/ntfs3 at 6.18.60 is identical to
-   v6.18.60.
- - With the patched module on 6.18.60, symlink() on the affected volume
-   succeeds for absolute and relative targets and for names containing
-   ':'. With the unpatched module it fails every time.
- - Not run on mainline. The patch applies to current mainline with a
-   5 line offset.
- - No reproducer from a freshly formatted volume: I could not recreate
-   the on-disk state from scratch, so the affected volume is the only
-   test case.
----
- fs/ntfs3/index.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
-
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index c06b36760..4970188a0 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -987,6 +987,23 @@ static struct indx_node *indx_new(struct ntfs_index *indx,
- 	}
- 
- 	err = ntfs_get_bh(ni->mi.sbi, &indx->alloc_run, vbo, bytes, &r->nb);
-+	if (err == -ENOENT) {
-+		/*
-+		 * A reused index buffer can lie in a part of $INDEX_ALLOCATION
-+		 * whose runs were never loaded. Load them and retry, as
-+		 * indx_read() does.
-+		 */
-+		const struct INDEX_NAMES *name = &s_index_names[indx->type];
-+
-+		down_write(&indx->run_lock);
-+		err = attr_load_runs_range(ni, ATTR_ALLOC, name->name,
-+					   name->name_len, &indx->alloc_run,
-+					   vbo, vbo + bytes);
-+		up_write(&indx->run_lock);
-+		if (!err)
-+			err = ntfs_get_bh(ni->mi.sbi, &indx->alloc_run, vbo,
-+					  bytes, &r->nb);
-+	}
- 
- 	if (err) {
- 		kfree(index);
-
----
-base-commit: b3dfbde62cf1981c4638939c159dfd087b7a72e9
-change-id: 20261110-ntfs3-indx-new-load-runs-e25d4a109804
-
-Best regards,
---  
-Eric A. Stalee <mail@eric-stalee.eu>
-
-
+> ---
+>  fs/proc/generic.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/proc/generic.c b/fs/proc/generic.c
+> index 4c3fcaf68ef4..6ac9c4c13897 100644
+> --- a/fs/proc/generic.c
+> +++ b/fs/proc/generic.c
+> @@ -170,7 +170,7 @@ static int __xlate_proc_name(const char *name, struct proc_dir_entry **ret,
+>  	de = *ret ?: &proc_root;
+>  	while ((next = strchr(cp, '/')) != NULL) {
+>  		de = pde_subdir_find(de, cp, next - cp);
+> -		if (!de) {
+> +		if (!de || !S_ISDIR(de->mode)) {
+>  			WARN(1, "name '%s'\n", name);
+>  			return -ENOENT;
+>  		}
+> 
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
