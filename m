@@ -1,60 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794394058;
-	b=GjjR8agt6+5agma6vm/pSocVIRNSzOp7el8V1zR7J2CL7ghv/4DCF+S0Vl9DejfaN39j
-	 hhPd1g+yIENqe1ZauN4dXjBRhB9Ddmf9uHE4VICj2C/t6fItPy1pjLVj0ZIfVcA72FSB8
-	 Kr/yM9qeY4XPGi69lauAq7vp0bKW8T9fKlGmaHNsIaNM6+X8LmQ52lKe9zyH3AwZpgo76
-	 vzR3kNYplsZ4CTmupQ9xOxHCVKBRnJTs9yLCD7HEWdPByMt2y6mHtKXlsrTlB+xWzf/hG
-	 mMXMyhG5mBlrmSwlnM6/6NNod73MWARilAgU8P8qC9jlUonr50abrDhvHe4abVxuqrA==
+	t=1794398064;
+	b=eBaSdccKQpBHGgvYilgSk5nY1nsrRJApqPHXTfJqLhJbAXt6oWRDVwg2DIna5NpEJxFx
+	 3PjRg2F53FP/ohb3jalNgRok/rLnQsc66QQA6Y3nchx7q2odXZ1sjSGdGvTlvvuzGIfoH
+	 pAvhCYUPKpxYBXYkzJKJhcUXtZlqjT1cvy8TZJFspFZnnT84yEmOkVavMvvWca7aUKN3j
+	 5SDwW/Zk9ZM6n2XxKNu2NgoujIBAwl5c7ZXpvP2rNVQaiwo4QfdsOnjqFk684yzx6qpii
+	 93eE1ac5INl/0t0Qy8DbyVy9UUgiH4i/uZ5FBkWpsT+pPSPipJ20xZOGXq5Lm43r0Gw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794394058;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-	bh=vuP1cQMJfVaVjVYw/27kHpoCiavhllPegZXximWZIa4=;
-	b=SIKv61XROXFS4klUJwpnYfxssLdWxsD6MWf/WXr8hdMZ4kIwykFHuYJzWQMsgkZtJCzD
-	 btIpl4dR+H/JZqBS4iU+PVjk65De4M0HNRtcN4DE3KWYoqwpFn84qr+M4Wh+UWhu8gB24
-	 pXXBxU8CWrzyaqVh1ozdop0US58a+iv7u2u494SZUcYkCzdj3GQjLjPSLWTiWFjEtCc6A
-	 inLab1LzEgikOGiW13Th/E79hXRRfwJ3wtaiLfgik+Qnq5ReefG3MaJnfiDDYn3LMWbpT
-	 bH6ER6Pnh8o4bBFWqxQwxozUe/9i9J3QzlWUmilMoTcXWacC0o1TEqHdLxDwEfKufXQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794398064;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=Ep5AJlsUvRo/Sl9Rg+NwP6D7Lq/wQPVEaLy1Gie9QQ4=;
+	b=kSLfRzPZ+UKsasYkIbpqJ/vITapkU0elP5o0JXeuaDjOpN+g3TP59lLBg2hg5PXjNGJt
+	 vwgPYlXZR1d9ZvixRGmUHeOkWt+tsdyV0qBn9ZAY5xzYVzXf7hmuGyTFX6S57GOTnpIzF
+	 AcnCBHNlTmWJ5edE+ZyX1yJLTuL6ve8DMStbkxWbSK+bfFfRnr8+kFgNTssE4l4ykYMFS
+	 M6LTGpqnK4ylkmAdd9kx7/CPXQ14EKwSdB/OAXpAMzpoK7U+2i6ZyeY1r7zS9k45HxshI
+	 LG6WpR1UQ4lYITagxJN5ayExy30UWYFegZa4g5E4JZiBEI2ZpVK+KshwtMpXC/95joA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=paragon-software.com;
-	spf=pass smtp.mailfrom=paragon-software.com;
-	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=nnZXuKB7;
-	arc=none smtp.remote-ip=35.157.23.187
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=vV5nh+mu;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A831606A327
-	for <ntfs3@lists.linux.dev>; Wed, 11 Nov 2026 10:47:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A831606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E310B606A321;
+	Wed, 11 Nov 2026 11:54:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E310B606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=nnZXuKB7
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 1581B1D28;
-	Wed, 11 Nov 2026 10:48:21 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=nnZXuKB7;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 4797F1D27;
-	Wed, 11 Nov 2026 10:47:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1794394056;
-	bh=vuP1cQMJfVaVjVYw/27kHpoCiavhllPegZXximWZIa4=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=nnZXuKB7KKQg9Ip1Ql4z1CrGCkVsOaLHOrq8GPrhWaxXi29K+EEwVy4X3NVZDhrmo
-	 X7b60/j5tAPwajJOEcgif9Q/yO/l7JRdSFM4ylziKZIrpDlYaXyUlr4V+Bd0woKFTx
-	 pXLFxiyG26BnaFcrWqjJcW1UodxQfubTaJSScem0=
-Received: from [192.168.95.128] (172.30.20.211) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 11 Nov 2026 13:47:35 +0300
-Message-ID: <1730cdd0-fb23-413c-b7b0-4270d7cffe14@paragon-software.com>
-Date: Wed, 11 Nov 2026 11:47:33 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=vV5nh+mu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Ep5AJlsUvRo/Sl9Rg+NwP6D7Lq/wQPVEaLy1Gie9QQ4=; b=vV5nh+muii9KUwMXfoK65C9FPK
+	aNSl0OiG0j4I+LFXc7WeA74kYOFf834TBtI7qS+ZEF0cf7hSHSrnoI47iOSAXQPCAXQU9fne6O/8R
+	G2wk/XluU5ugbAZ7f5jU4JBscAk6nd/VyyPFhAk65/tq7U9wZjt9SJD8a8A/m2R6Cxj7l7C76kg9H
+	1KIPLAQYQ/Fv+JWvD04uouKwGYT/8gu4uHiCPUf9Bg4PxVdqeWdNvrfltP4AIW+MdO1/5WBfOmizl
+	DellelcAiKmJM9KaaC82wP83/72jAdgWurCb/I4tMo/beG16KgajqNT/PO+VCT1shIIGmoQlyuzr0
+	Arg3hVEA==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xR6u3-00DA6f-37;
+	Wed, 11 Nov 2026 11:54:12 +0000
+Date: Wed, 11 Nov 2026 03:54:00 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 25/38] powerpc/crash_dump: check ioremap_cache() in
+ copy_oldmem_page()
+Message-ID: <avRXHYDKemkiDvoj@gmail.com>
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+ <20261102-work-procfs-bugfixes-v1-25-59422ed3e465@kernel.org>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -64,116 +88,24 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Fwd: InjectionBunny: NTFS3 SUID injection leading to local
- privilege escalation
-To: vova tokarev <vladimirelitokarev@gmail.com>
-CC: <security@kernel.org>, <ntfs3@lists.linux.dev>
-References: <CAGBKPgMqBMsBH4mm2fwggA8rJZ3R15nPxuEh0emOeVpX2kgHPA@mail.gmail.com>
- <CAGBKPgPiXyKWtjgYSACnugmG1XPs=mPg-Zu-xQziUZ1k921+qA@mail.gmail.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <CAGBKPgPiXyKWtjgYSACnugmG1XPs=mPg-Zu-xQziUZ1k921+qA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-25-59422ed3e465@kernel.org>
+X-Debian-User: leitao
 
-On 8/7/26 12:39, vova tokarev wrote:
+On Mon, Nov 02, 2026 at 03:21:40PM +0100, Christian Brauner wrote:
+> copy_oldmem_page() maps a page of the old kernel that isn't in the
+> linear mapping with ioremap_cache() and copies from it without checking
+> whether the mapping worked. If it didn't, the copy reads from an offset
+> into the NULL page. That oopses unless the copy happens to be a user
+> copy, whose exception table entries turn the fault into a short copy.
+> 
+> Return -ENOMEM like the other architectures do. read_from_oldmem()
+> turns that into -EFAULT like any other short copy.
+> 
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: 54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-> Hi,
->
-> It's been almost two months since I reported this, and I haven't heard
-> back. I recently learned I should reach out to the subsystem maintainer
-> directly, so forwarding this to you.
->
-> I noticed that CVE-2026-63833 (commit f8d420949b33) was assigned and
-> merged for a related issue -- blocking setxattr() writes to $LX*
-> names. However, this only fixes one of the two attack vectors I
-> reported. The primary vector in my original report remains open:
->
-> A pre-crafted NTFS image (e.g. USB drive) with $LXUID=0, $LXGID=0,
-> $LXMOD=0104755 already in the MFT produces a setuid-root binary the
-> moment the volume is mounted. No setxattr() is involved -- the EAs
-> are on disk. The -EPERM check doesn't help.
->
-> The root cause is still at fs/ntfs3/xattr.c:1022:
->
->     inode->i_mode = le32_to_cpu(value[2]);
->
-> This loads S_ISUID/S_ISGID directly from untrusted on-disk data.
-> Desktop automounters (udisks) mount NTFS with suid by default, so
-> plugging in a crafted USB gives any local user euid=0.
->
-> Suggested one-line fix:
->
-> -   inode->i_mode = le32_to_cpu(value[2]);
-> +   inode->i_mode = le32_to_cpu(value[2]) & ~(S_ISUID | S_ISGID);
->
-> I have a full PoC and working demo (included in my original report
-> below). Would love to hear your thoughts.
->
-> Thanks,
-> Vladimir
->
-> ---------- Forwarded message ---------
-> From: *vova tokarev* <vladimirelitokarev@gmail.com>
-> Date: Thu, Jun 25, 2026 at 2:18 PM
-> Subject: InjectionBunny: NTFS3 SUID injection leading to local 
-> privilege escalation
-> To: <security@kernel.org>
->
->
-> Hi,
->
-> I found a local privilege escalation (InjectionBunny) in the ntfs3
-> filesystem driver. The function ntfs_get_wsl_perm() in fs/ntfs3/xattr.c
-> assigns the on-disk $LXMOD extended attribute directly to inode->i_mode
-> without masking S_ISUID or S_ISGID bits.
->
-> A crafted NTFS image (e.g., on a USB drive) with $LXUID=0, $LXGID=0,
-> $LXMOD=0104755 on a binary makes it appear as a setuid-root executable
-> when mounted. Executing the binary gives immediate root access.
->
-> The attack is deterministic (no race condition, no heap spray), works
-> on first attempt, and affects every Linux system with CONFIG_NTFS3_FS
-> that mounts NTFS volumes without the nosuid option.
->
-> The same pattern exists in the old ntfs driver (fs/ntfs/ea.c function
-> ntfs_ea_get_wsl_inode).
->
-> Affected versions: Linux 4.11+ (since ntfs3 WSL EA support)
-> Confirmed on: 7.1.0 (aarch64)
->
-> Attached files:
->   - InjectionBunny.mov             Video demo of full exploit
->   - injection_bunny.py             Creates malicious NTFS image
->   - suidhelper.c                   SUID payload (setuid(0) + shell)
->   - InjectionBunny_report.md       Detailed writeup with root cause,
->                                    reproduction, and suggested fix
->
-> Suggested fix: mask S_ISUID/S_ISGID in ntfs_get_wsl_perm():
->   inode->i_mode = le32_to_cpu(value[2]) & ~(S_ISUID | S_ISGID);
->
-> Thank you,
-> Vladimir Tokarev
->
->
-Hello,
-
-Sorry for the late reply.
-
-I'll look into it. Note, though, that this is not specific to ntfs3:
-any filesystem that stores Unix permissions (ext4, xfs, ...) can carry
-a setuid-root binary on removable media, and the usual protection is
-mounting untrusted media with nosuid. As far as I know, udisks2 does
-use nosuid for removable devices.
-
-Unconditionally masking S_ISUID/S_ISGID would also break users who
-legitimately keep Linux binaries on NTFS. I'm considering ignoring these
-bits by default and honoring them only when explicitly requested by a
-mount option.
-
-Regards,
-Konstantin
-
+Reviewed-by: Breno Leitao <leitao@debian.org>
