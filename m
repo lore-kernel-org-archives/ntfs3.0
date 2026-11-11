@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794336116;
-	b=wzHwUXgvLxc1YrZIIfQbh2plCddVTMDDyZG6IAus0i0c/qofMME4wv6MiasHwOZ3n1sj
-	 Vlfzxnp+2nZhOIYoWRBSfdy4prFriGfkHSbWxs4E2IbR+qkNZSjQAZ0WRFgloeo+JSyGt
-	 DrnF+MSPPhFwhuGLOpY+i4piQ3Vfse7Z4NKIPnigh906wDFZjL3IioERBxRfCQRU/FAHF
-	 61NA6bB/CYhT1fQqeK/JnR/QqAg6ejACdcbLJGOd0B4HYUrYQuR5N2+YI5jSamEaeKK0w
-	 0sXObo53/t1T78CccN+VO91xFec/EWbX3+bOGWl1jPZsX4kd4Pr+wnoSOf3mDx3keCQ==
+	t=1794372740;
+	b=MNlg+whuULAFaNvRUHqy43c2vErd6Flu3W9BdukSBa7k5OIy7En26luZeAiLxKuju/5t
+	 ZUaxs7Lj9z6ybDYIiauS4sQXxA0Fel4QmBxQksear5qb9Le8fw9BAxJ9Z/BQYT4VZgmfR
+	 1tiApLaI89Il/njeRX2HrAAn0R8fuvJ5UsAIzrqMTRdHQBuaIDONzezUFqFP48c3+Hin2
+	 Kc5AxtW8gnJW47M4W0NMbqzN99MS8/RPN1DwthwUy1Ly0TL7RvFvbnBcPQmhu5BMsOTDM
+	 Wy/F9RVDyqcY4NJj8cHb7tOglPzDH3zmq6w7+75QQRH2jlMSmqGKafprGAd3IOvFnOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794336116;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=8wcorGQR2HiBVbL9to1uyCRJ7JujFQe4DI/FxRdi+rw=;
-	b=HaU3a+6lvJ9VjhIMan3FOha+NcLge5X8ULzXAjmaMorfRsghQxV+PtWa64xak+vG0vY4
-	 yQAWlHFlfCwDibiOMKb8bcKDDIgbqpmcdyqIMYhbudLyqKML+AUnr+jx3sa0nYX++Y2oz
-	 i7h1LK7KhfR2wPiFe0f62MR4vcVxLHEp5JSwUOiIEi5kRvyKw15bDSMJcR/7X35zQD27k
-	 Pp8pPisTys0/tdUeczAeZNG75/nY8v2kmqSGMmIkEEA27B3z4iawqNbR7Ou9i9+5g64jI
-	 q0P7mWuKPXgPcEvEeW6SagamiONe61WyDtT7ghyca6JiJ4COlAmwakTGJVgsvc+JwbA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794372740;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=hwdIlGdI3MDaUnbfk28lpVH5xVCoICuoL7tUfNBOz9g=;
+	b=tBKt1N2UTbuN6SPyUL/04RVoYiM20dvxrZQjayFV8xTTspKtJDSMXWV1LNxqS3Ho/4ZH
+	 e39NOf3iWMD8e6aDIR8ApiZMy9vekI7FJhsY6lYXk8vkpVWPG3en+DzrqpQds/JgEaK6a
+	 GlOI/XzSm4T1+s3/ejmKJ+xS3R/6qNCT98tghDVeAH64jqJaiUfovBM+NQT0athrA/B4E
+	 6SSeTy+jgPPdioSpQ3S7cdAtrKIEf7qukH5sbtgjIUDIUoU2f1pfqphxQHVo9MU/Yc66+
+	 jLL5enHsh6KVtL3Jz8Ch6JpXboq8QPDQqoMpeEWMtNKt4Mzm60/grfUmnxo8Zogsj8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.197
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B370606A905
-	for <ntfs3@lists.linux.dev>; Tue, 10 Nov 2026 18:41:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B370606A905
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4b2d1eb484aso2993637b6e.2
-        for <ntfs3@lists.linux.dev>; Tue, 10 Nov 2026 10:41:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794336115; x=1794940915;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8wcorGQR2HiBVbL9to1uyCRJ7JujFQe4DI/FxRdi+rw=;
-        b=KcMXlUozi6tgcKVS2lems3i2ilgHIVBYLiUBojso1uHV8LRkaZDkiB3MwThkB87Vv+
-         K7IXmMgX4fFOEu2T+8Bk5p9dZdWCGIp2HqCTj69NEdfbPSfdJJWeYllu/lk7CLxxEVan
-         4YSMZBWun97pyhz7gKW1qI5rg4mBTnJWUV28ivkYWStELiJnSbAb47ARKxBa0BHDtR0T
-         /V6sukwP1Hp/u2WiGexjXK4XJrg0YTQCtVihcwCdUJDUikzq1v2gsC3zVVH7PvQOr1Sj
-         qdnoGE9ZVzaFwveGzsZhRBj5N23pq025Etm3lJcy1a9Cw5UmGVpFQ/0ZWAbLfwv3fbZg
-         r3Mg==
-X-Forwarded-Encrypted: i=1; AL+hErE9QOVkFHYmalqxsc7zZTrD9yAmetJKnpvaz5587/Ogjk7GTi4HJ//lAjKSkGjZc861OUbxiA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/YeQJn8nugtMrKB+A3FhIdhwnidSRbWdN5qNykNLl+8+ummLZA
-	itPcwl50y5/Dzm7k++9S+7CNXuMkoAgo4UhXF+OH4RF1agn1klXleNvtFKexP+fsVV6paDoJtn2
-	i+uQnS2B7nR5QW5dK5Bv5TvmUNtE3Al+W3h7ywLece4jX9OqQGFa2jlw7DKc=
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD4A4606A31C
+	for <ntfs3@lists.linux.dev>; Wed, 11 Nov 2026 04:52:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD4A4606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=hwdIlGdI3M
+	DaUnbfk28lpVH5xVCoICuoL7tUfNBOz9g=; b=L5+I3QsfgPJzGqqI6dKnhNpxw8
+	9DtscHQ9FOgRjwnZp+MLO129fZuagWPKWx8gIAOYEC1sq10+SVYPJPVGqQv9IPbh
+	rQTKt6F9cAsUcnlj4/EJEJGNESSBNWYazZ5RHvdmHNCEhlhqkfHN938pevuwJNeT
+	q1ZWi12C8GhyefC/8=
+Received: from LAPTOP-FRMFRHCN.localdomain (unknown [240e:457:1010:6360:5829:9b4f:7181:f594])
+	by hzbj-edu-front-3.icoremail.net (Coremail) with UTF8SMTPA id BbQMCkB2fwJ19PNqQthyAQ--.44177S2;
+	Wed, 11 Nov 2026 12:52:06 +0800 (CST)
+From: Haoli Zhang <26031212468@stu.xidian.edu.cn>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	syzbot+62769d828b0914efeb09@syzkaller.appspotmail.com,
+	25031212117@stu.xidian.edu.cn,
+	byu@xidian.edu.cn,
+	Haoli Zhang <26031212468@stu.xidian.edu.cn>
+Subject: [PATCH] ntfs3: snapshot root index entries before unlocking
+Date: Wed, 11 Nov 2026 12:52:02 +0800
+Message-Id: <20261111045202.14654-1-26031212468@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -58,255 +58,223 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:c1f4:b0:54e:31cd:dcd2 with SMTP id
- 5614622812f47-5683cd3d902mr3434677b6e.44.1794336115099; Tue, 10 Nov 2026
- 10:41:55 -0800 (PST)
-Date: Tue, 10 Nov 2026 10:41:55 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6af36573.c2a1e073.10a5a1.1171.GAE@google.com>
-Subject: [syzbot] [ntfs3?] KASAN: slab-use-after-free Read in ntfs_iget5_flags
-From: syzbot <syzbot+62769d828b0914efeb09@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:BbQMCkB2fwJ19PNqQthyAQ--.44177S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3WF1UWr13CFWDury7WF18uFg_yoWxGF4rpF
+	43Ca93Kw4xJr43uw1qkF1rZr1S934xKF4UKrWkZa1Sywn5tr10ya4jkFWUuFyfAr93Jwn0
+	qFs8tFW8G348JFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9C14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+	1j6F4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr
+	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
+	x2IErcIFxwCY1x0262kKe7AKxVWUAVWUtwCY02Avz4vE14v_Gryl42xK82IYc2Ij64vIr4
+	1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
+	67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
+	8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAv
+	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
+	v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUIYLkUUUUU=
+X-CM-SenderInfo: yswqjiasrskluy6v33wo0lvxldqovvfxof0/1tbiAQUOEWrzM1aXCAAAs4
 
-Hello,
+The syzbot report shows a slab use-after-free while ntfs_readdir() emits
+a directory entry. The root index header and entries are borrowed from an
+MFT record. ntfs_readdir() drops ni_lock before walking them because
+dir_emit() may fault while writing to userspace, but writeback can replace
+and free the record under the same ni_lock.
 
-syzbot found the following issue on:
+The unlocked path also checks each entry's parent MFT reference with
+mi_is_ref(), which reads the current MFT record sequence number. Snapshot
+the directory MFT reference while holding ni_lock and pass that stable
+value to both root and allocation-index traversal. Copy the used root
+index header under the lock as well, then walk the copy after unlocking.
+This keeps dir_emit() outside ni_lock while avoiding references to the
+replaceable MFT record. Validate the copied range and use subtraction-based
+bounds checks when walking index entries.
 
-HEAD commit:    7475ea8b5861 Linux 7.4-rc2
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11634ebe580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3cc6a7ee2d24d208
-dashboard link: https://syzkaller.appspot.com/bug?extid=62769d828b0914efeb09
-compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-7475ea8b.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d9e65074cbc3/vmlinux-7475ea8b.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/5b6a12c6fb21/bzImage-7475ea8b.xz
-
-AI-generated root cause summary:
-A slab use-after-free occurs in the ntfs3 filesystem due to a synchronization
-flaw between directory enumeration and background writeback. In
-fs/ntfs3/dir.c:ntfs_readdir(), ni_lock(ni) is released before invoking
-ntfs_read_hdr() under the assumption that root->ihdr inside the primary MFT
-record buffer (ni->mi.mrec) has an immutable lifetime bound to the inode under
-shared i_rwsem. However, background writeback (ni_write_inode() ->
-ni_try_remove_attr_list() in fs/ntfs3/frecord.c) only acquires ni_trylock(ni)
-without taking i_rwsem, and on failure executes swap(mrec, ni->mi.mrec) and
-kfree(mrec), freeing the original ni->mi.mrec buffer. Consequently,
-ntfs_read_hdr() continues iterating over entries within the freed buffer,
-passing &e->ref to ntfs_dir_emit() and ntfs_iget5_flags(), resulting in a
-use-after-free read at ref->seq.
-
-full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=62769d828b0914efeb09
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Fixes: 7a5aa6c45072 ("ntfs3: release ni_lock before dir_emit in ntfs_readdir to fix deadlocks")
 Reported-by: syzbot+62769d828b0914efeb09@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-use-after-free in ntfs_read_mft fs/ntfs3/inode.c:86 [inline]
-BUG: KASAN: slab-use-after-free in ntfs_iget5_flags+0x441a/0x4780 fs/ntfs3/inode.c:735
-Read of size 2 at addr ffff88805403523e by task syz.0.0/5348
-
-CPU: 0 UID: 0 PID: 5348 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- ntfs_read_mft fs/ntfs3/inode.c:86 [inline]
- ntfs_iget5_flags+0x441a/0x4780 fs/ntfs3/inode.c:735
- ntfs_iget5 fs/ntfs3/ntfs_fs.h:804 [inline]
- ntfs_dir_emit fs/ntfs3/dir.c:396 [inline]
- ntfs_read_hdr+0x793/0xc10 fs/ntfs3/dir.c:444
- ntfs_readdir+0x68c/0xf00 fs/ntfs3/dir.c:573
- iterate_dir+0x3db/0x880 fs/readdir.c:114
- __do_sys_getdents fs/readdir.c:324 [inline]
- __se_sys_getdents+0xf1/0x270 fs/readdir.c:309
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f0f0ad9fb19
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f0f071f4fe8 EFLAGS: 00000246 ORIG_RAX: 000000000000004e
-RAX: ffffffffffffffda RBX: 00007f0f0b026090 RCX: 00007f0f0ad9fb19
-RDX: 00000000000000b8 RSI: 0000200000023900 RDI: 0000000000000004
-RBP: 00007f0f0ae37b70 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f0f0b026128 R14: 00007f0f0b026090 R15: 00007ffe5a93e948
- </TASK>
-
-Allocated by task 5347:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:426
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5531 [inline]
- __kmalloc_noprof+0x366/0x710 mm/slub.c:5556
- _kmalloc_noprof include/linux/slab.h:995 [inline]
- mi_init+0x76/0xe0 fs/ntfs3/record.c:105
- ntfs_read_mft fs/ntfs3/inode.c:61 [inline]
- ntfs_iget5_flags+0x67e/0x4780 fs/ntfs3/inode.c:735
- dir_search_flags+0x2d7/0x560 fs/ntfs3/dir.c:318
- ntfs_lookup+0x1d9/0x450 fs/ntfs3/namei.c:96
- __lookup_slow+0x1fb/0x2f0 fs/namei.c:1925
- lookup_slow+0x59/0x80 fs/namei.c:1942
- walk_component fs/namei.c:2288 [inline]
- lookup_last fs/namei.c:2795 [inline]
- path_lookupat+0x3f5/0x8c0 fs/namei.c:2819
- filename_lookup+0x265/0x5d0 fs/namei.c:2848
- do_fchownat+0xfa/0x250 fs/open.c:849
- __do_sys_chown fs/open.c:873 [inline]
- __se_sys_chown fs/open.c:871 [inline]
- __x64_sys_chown+0x82/0xa0 fs/open.c:871
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Freed by task 13:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:264 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2780 [inline]
- slab_free mm/slub.c:6630 [inline]
- kfree+0x1c5/0x650 mm/slub.c:6923
- ni_try_remove_attr_list+0xda6/0xf40 fs/ntfs3/frecord.c:-1
- ni_write_inode+0xbf1/0x1200 fs/ntfs3/frecord.c:3266
- write_inode fs/fs-writeback.c:1629 [inline]
- __writeback_single_inode+0x69d/0x1220 fs/fs-writeback.c:1872
- writeback_sb_inodes+0x9de/0x1af0 fs/fs-writeback.c:2120
- __writeback_inodes_wb+0x114/0x250 fs/fs-writeback.c:2196
- wb_writeback+0x42f/0xad0 fs/fs-writeback.c:2307
- wb_check_start_all fs/fs-writeback.c:2433 [inline]
- wb_do_writeback fs/fs-writeback.c:2480 [inline]
- wb_workfn+0x980/0x10f0 fs/fs-writeback.c:2518
- process_one_work kernel/workqueue.c:3495 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3578
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3659
- kthread+0x38b/0x480 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-The buggy address belongs to the object at ffff888054035000
- which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 574 bytes inside of
- freed 1024-byte region [ffff888054035000, ffff888054035400)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x54034
-head: order:2 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0x4fff00000000040(head|node=1|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 04fff00000000040 ffff88801c841dc0 dead000000000100 dead000000000122
-raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
-head: 04fff00000000040 ffff88801c841dc0 dead000000000100 dead000000000122
-head: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
-head: 04fff00000000002 ffffffffffffff01 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000004
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 2, migratetype Unmovable, gfp_mask 0xd2040(__GFP_IO|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5347, tgid 5346 (syz.0.0), ts 105458573353
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1859
- prep_new_page mm/page_alloc.c:1867 [inline]
- get_page_from_freelist+0x2224/0x2290 mm/page_alloc.c:3940
- __alloc_frozen_pages_noprof+0x1fe/0x410 mm/page_alloc.c:5464
- alloc_slab_page mm/slub.c:3384 [inline]
- allocate_slab+0x7d/0x5e0 mm/slub.c:3499
- new_slab mm/slub.c:3550 [inline]
- refill_objects+0x2d5/0x350 mm/slub.c:7539
- refill_sheaf mm/slub.c:2917 [inline]
- __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4811
- alloc_from_pcs mm/slub.c:4887 [inline]
- slab_alloc_node mm/slub.c:5021 [inline]
- __do_kmalloc_node mm/slub.c:5530 [inline]
- __kmalloc_noprof+0x476/0x710 mm/slub.c:5556
- _kmalloc_noprof include/linux/slab.h:995 [inline]
- mi_init+0x76/0xe0 fs/ntfs3/record.c:105
- ntfs_read_mft fs/ntfs3/inode.c:61 [inline]
- ntfs_iget5_flags+0x67e/0x4780 fs/ntfs3/inode.c:735
- ntfs_iget5 fs/ntfs3/ntfs_fs.h:804 [inline]
- ntfs_extend_init+0xff/0x510 fs/ntfs3/fsntfs.c:230
- ntfs_fill_super+0x44a0/0x49c0 fs/ntfs3/super.c:1742
- get_tree_bdev_flags+0x436/0x500 fs/super.c:1821
- vfs_get_tree+0x92/0x2a0 fs/super.c:1881
- fc_mount fs/namespace.c:1282 [inline]
- do_new_mount_fc fs/namespace.c:3910 [inline]
- do_new_mount+0x325/0xb00 fs/namespace.c:3986
- do_mount fs/namespace.c:4350 [inline]
- __do_sys_mount fs/namespace.c:4565 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4542
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
-page last free pid 5347 tgid 5346 ts 105440119943 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1403 [inline]
- __free_frozen_pages+0xc97/0xd90 mm/page_alloc.c:2957
- stack_depot_save_flags+0x41e/0x810 lib/stackdepot.c:735
- kasan_save_stack mm/kasan/common.c:58 [inline]
- kasan_save_track+0x4f/0x80 mm/kasan/common.c:78
- unpoison_slab_object mm/kasan/common.c:351 [inline]
- __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:377
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4720 [inline]
- slab_alloc_node mm/slub.c:5033 [inline]
- kmem_cache_alloc_lru_noprof+0x29e/0x5f0 mm/slub.c:5066
- ntfs_alloc_inode+0x28/0x80 fs/ntfs3/super.c:681
- alloc_inode+0x6a/0x1b0 fs/inode.c:338
- iget5_locked+0x4a/0xa0 fs/inode.c:1391
- ntfs_iget5_flags+0x19a/0x4780 fs/ntfs3/inode.c:710
- ntfs_iget5 fs/ntfs3/ntfs_fs.h:804 [inline]
- ntfs_fill_super+0x38e3/0x49c0 fs/ntfs3/super.c:1594
- get_tree_bdev_flags+0x436/0x500 fs/super.c:1821
- vfs_get_tree+0x92/0x2a0 fs/super.c:1881
- fc_mount fs/namespace.c:1282 [inline]
- do_new_mount_fc fs/namespace.c:3910 [inline]
- do_new_mount+0x325/0xb00 fs/namespace.c:3986
- do_mount fs/namespace.c:4350 [inline]
- __do_sys_mount fs/namespace.c:4565 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4542
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Memory state around the buggy address:
- ffff888054035100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888054035180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff888054035200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                        ^
- ffff888054035280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888054035300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
+Closes: https://syzkaller.appspot.com/bug?extid=62769d828b0914efeb09
+Co-developed-by: Jinning Zhang <25031212117@stu.xidian.edu.cn>
+Signed-off-by: Jinning Zhang <25031212117@stu.xidian.edu.cn>
+Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Haoli Zhang <26031212468@stu.xidian.edu.cn>
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/ntfs3/dir.c | 75 +++++++++++++++++++++--------------
+ 1 file changed, 46 insertions(+), 29 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -336,8 +336,9 @@
+  * returns false if 'ctx' if full
+  */
+ static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
+-				 struct ntfs_inode *ni, const struct NTFS_DE *e,
+-				 u8 *name, struct dir_context *ctx)
++				 const struct MFT_REF *dir_ref,
++				 const struct NTFS_DE *e, u8 *name,
++				 struct dir_context *ctx)
+ {
+ 	const struct ATTR_FILE_NAME *fname;
+ 	u64 ino;
+@@ -349,7 +350,9 @@
+ 	if (fname->type == FILE_NAME_DOS)
+ 		return true;
+ 
+-	if (!mi_is_ref(&ni->mi, &fname->home))
++	if (fname->home.low != dir_ref->low ||
++	    fname->home.high != dir_ref->high ||
++	    fname->home.seq != dir_ref->seq)
+ 		return true;
+ 
+ 	ino = ino_get(&e->ref);
+@@ -392,7 +395,7 @@
+ 	 * It does additional locks/reads just to get the type of name.
+ 	 * Should we use additional mount option to enable branch below?
+ 	 */
+-	if (fname->dup.extend_data && ino != ni->mi.rno) {
++	if (fname->dup.extend_data && ino != ino_get(dir_ref)) {
+ 		struct inode *inode = ntfs_iget5(sbi->sb, &e->ref, NULL);
+ 		if (!IS_ERR_OR_NULL(inode)) {
+ 			dt_type = fs_umode_to_dtype(inode->i_mode);
+@@ -410,7 +413,8 @@
+  * returns -EINVAL if directory is corrupted.
+  * returns +1 if 'ctx' is full.
+  */
+-static int ntfs_read_hdr(struct ntfs_sb_info *sbi, struct ntfs_inode *ni,
++static int ntfs_read_hdr(struct ntfs_sb_info *sbi,
++			 const struct MFT_REF *dir_ref,
+ 			 const struct INDEX_HDR *hdr, u64 vbo, u64 pos,
+ 			 u8 *name, struct dir_context *ctx)
+ {
+@@ -420,12 +424,12 @@
+ 	u32 off = le32_to_cpu(hdr->de_off);
+ 
+ 	for (;; off += e_size) {
+-		if (off + sizeof(struct NTFS_DE) > end)
++		if (off > end || end - off < sizeof(struct NTFS_DE))
+ 			return -EINVAL;
+ 
+ 		e = Add2Ptr(hdr, off);
+ 		e_size = le16_to_cpu(e->size);
+-		if (e_size < sizeof(struct NTFS_DE) || off + e_size > end)
++		if (e_size < sizeof(struct NTFS_DE) || e_size > end - off)
+ 			return -EINVAL;
+ 
+ 		if (de_is_last(e))
+@@ -441,7 +445,7 @@
+ 		ctx->pos = vbo + off;
+ 
+ 		/* Submit the name to the filldir callback. */
+-		if (!ntfs_dir_emit(sbi, ni, e, name, ctx)) {
++		if (!ntfs_dir_emit(sbi, dir_ref, e, name, ctx)) {
+ 			/* ctx is full. */
+ 			return +1;
+ 		}
+@@ -457,6 +461,9 @@
+ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ {
+ 	const struct INDEX_ROOT *root;
++	struct INDEX_HDR *root_hdr = NULL;
++	struct MFT_REF dir_ref;
++	struct mft_inode *root_mi;
+ 	size_t bit;
+ 	int err = 0;
+ 	struct inode *dir = file_inode(file);
+@@ -530,12 +537,15 @@
+ 	name = kmalloc(PATH_MAX, GFP_KERNEL);
+ 	if (!name)
+ 		return -ENOMEM;
++	if (pos < sbi->record_size) {
++		root_hdr = kmalloc(sbi->record_size, GFP_KERNEL);
++		if (!root_hdr) {
++			kfree(name);
++			return -ENOMEM;
++		}
++	}
+ 
+-	/*
+-	 * Keep directory metadata stable for the whole walk. Loading subrecords
+-	 * once is not enough if concurrent writeback can still compact ATTR_LIST
+-	 * entries and free the record that ntfs_read_hdr() is currently walking.
+-	 */
++	/* Serialize metadata lookup with writeback; snapshot root entries below. */
+ 	ni_lock(ni);
+ 
+ 	if (!ni->mi_loaded && ni->attr_list.size) {
+@@ -550,7 +560,8 @@
+ 		ni->mi_loaded = true;
+ 	}
+ 
+-	root = indx_get_root(&ni->dir, ni, NULL, NULL);
++	mi_get_ref(&ni->mi, &dir_ref);
++	root = indx_get_root(&ni->dir, ni, NULL, &root_mi);
+ 	if (!root) {
+ 		err = -EINVAL;
+ 		goto out;
+@@ -559,20 +570,25 @@
+ 	if (pos >= sbi->record_size) {
+ 		bit = (pos - sbi->record_size) >> index_bits;
+ 	} else {
+-		/*
+-		 * Release ni_lock before dir_emit (which may fault into
+-		 * user pages).  root->ihdr lives in the main MFT record
+-		 * whose lifetime is bound to the inode, and i_rwsem shared
+-		 * prevents concurrent directory modifications.
+-		 */
+-		ni_unlock(ni);
++		size_t root_off = (u8 *)&root->ihdr - (u8 *)root_mi->mrec;
++		size_t root_size = max_t(size_t, sizeof(*root_hdr),
++					  le32_to_cpu(root->ihdr.used));
++
++		/* Keep the root entries alive while dir_emit() may fault. */
++		if (root_off > sbi->record_size ||
++		    root_size > sbi->record_size - root_off) {
++			err = -EINVAL;
++			goto out;
++		}
+ 
+-		/*
+-		 * Add each name from root in 'ctx'.
+-		 */
+-		err = ntfs_read_hdr(sbi, ni, &root->ihdr, 0, pos, name, ctx);
++		memcpy(root_hdr, &root->ihdr, root_size);
++
++		ni_unlock(ni);
++		err = ntfs_read_hdr(sbi, &dir_ref, root_hdr, 0, pos, name, ctx);
++		kfree(root_hdr);
++		root_hdr = NULL;
+ 		if (err)
+-			goto out;
++			goto out_free;
+ 
+ 		ni_lock(ni);
+ 		bit = 0;
+@@ -612,18 +628,19 @@
+ 		/*
+ 		 * Add each name from index in 'ctx'.
+ 		 */
+-		err = ntfs_read_hdr(sbi, ni, &node->index->ihdr,
++		err = ntfs_read_hdr(sbi, &dir_ref, &node->index->ihdr,
+ 				    ((u64)bit << index_bits) + sbi->record_size,
+ 				    pos, name, ctx);
+ 		if (err)
+-			goto out;
++			goto out_free;
+ 
+ 		ni_lock(ni);
+ 	}
+ 
+ out:
+ 	ni_unlock(ni);
+-
++out_free:
++	kfree(root_hdr);
+ 	kfree(name);
+ 	put_indx_node(node);
+ 
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
