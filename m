@@ -1,60 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.157.23.187
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794386935;
-	b=HotOgGpc+N7IOvvWZYBt8OAPSV7As6F71WPtBogA34/QislPuRCVGnvjI3Boc5ab2mTG
-	 VrAbyV+90UODzDCiYL3Ue5SvpLv8PXMWvNvvXGiNYn/IN+yW4gwPXu2wFNAyVaxPNyjLA
-	 0TYZtOuMMnRDNop8FtCEqxLKdZaLyWkyKk7QGsJmcSEYCZdcITWld7DjJ/P3PAZV5sw6j
-	 m5OwsPTxMX9PMGU6PRCpj2ku+Wc0UT+g2F3KCWvUc+KbNncCv0O/ga7WOQ9zA3Hgg0aiI
-	 FZawS/W46rUteWzUYGzc6EnFfAwuy/mJObNMfPfnG0TtpPTColiku3MF3b2jL9TUPqw==
+	t=1794388507;
+	b=B25ofiapk2cWN+st492r6pF/k7TpoVIm/qOGPMgiHq86ULzaS00oTahWIftGYbCa3krG
+	 zX5kx2WXbVq5AF/Dv6Z35A9lXIQ7EC9XMG0MU79QUkyfXTGjJRbLRM8h5JaBrKm6oBxIX
+	 n6EIklIuAa1d+A8P2hejDdDyEelGcgXoEF5aZu/8PwjwGSVZtRfgRNngShxxLbJgqU02L
+	 8K2jaVv6CXSYF5BFAOKzKhC4O8ZnzcxW3V5tzRTqrEFCN5SFnTuQ9C5bZFvhdHeHAAnb8
+	 fzALHbtn9r1FWjPCU0vhxcLmq3SZIFRr1gHchRd4g70cde2UUU1OEwfZnuUNk/wJdew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794386935;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794388507;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:Received:Message-ID:
 	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-	bh=h2mcr5qbrOkUwIV5FRHs1EuG1w/QzbTvgXeqDmHoSzk=;
-	b=SVTpC6sr3upt3y/u2Wed5XWiGk1nxj47OUEnd00iv6rvXOE1szLC0sE6qj0A9t90Ts++
-	 dx0w+/CCpAmREhOgI3M50ez6U3crJIO2xbKapu3MJzASnkGHriBfhKz1o+60PQioDcKOx
-	 U/AMuxC8S+exzmT4UFfL9iXR4OI9fRR/fqjy8bPZ/iZptAJ0QhnZTpN5vKXK3i/5i5sO3
-	 VzeCr65P7sKu8aZSuhPJybWv1J39fSpkoGAJDXH/oVU0GdMyUjpqvMZNGj14IfXm2SRcv
-	 wUV+5fe4VCI7OO731czCVI2UoGja0zSep3IshNEvFcuY/k1iXbPwoEMgl6gIZ/YVNyg==
+	bh=0+CgbwybaiTL/onVXenjL9lJTFScjyLVLl+Z42tjuTM=;
+	b=Icw5nzl3klkZJwGeBDRAS6O5HPjhFJD7eoeeTFYw6Cns47paJpcUtZIrESstCMr8WeDx
+	 kDL4WpAoYz/B191n/z3JWSh+9U3RkXLfoG/FNLMKBXzYpuZtmfK+8JMJycBAXBZu1V2b6
+	 dd29FCkYn72EPDQut9X2H316aWz0UqXo0YSYk5mmQ3CsopvqfR3F8XC67T4r0phwXF5VO
+	 zTe6MbK2AMws/S1iZFb37mo94aXbd0LCVWQVfGyGcNcULcdb+VSZ80NJ4k4qgZd3qmVyx
+	 7wp0ihMJNwYLNOfq13+MYggHV0W6w4EyAqmE7sDvzgc2Ra5Memb4qvoCYfoXTYmhhaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=paragon-software.com;
 	spf=pass smtp.mailfrom=paragon-software.com;
-	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=U1cKfgCf;
+	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=nFjuETd7;
 	arc=none smtp.remote-ip=35.157.23.187
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425B3606A31C
-	for <ntfs3@lists.linux.dev>; Wed, 11 Nov 2026 08:48:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 425B3606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81FEC606A33E
+	for <ntfs3@lists.linux.dev>; Wed, 11 Nov 2026 09:15:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81FEC606A33E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=U1cKfgCf
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=nFjuETd7
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 31C521D28;
-	Wed, 11 Nov 2026 08:49:37 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 5AD021D28;
+	Wed, 11 Nov 2026 09:15:49 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=U1cKfgCf;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=nFjuETd7;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 530742389;
-	Wed, 11 Nov 2026 08:48:51 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 8F800238A;
+	Wed, 11 Nov 2026 09:15:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1794386931;
-	bh=h2mcr5qbrOkUwIV5FRHs1EuG1w/QzbTvgXeqDmHoSzk=;
+	d=paragon-software.com; s=mail; t=1794388504;
+	bh=0+CgbwybaiTL/onVXenjL9lJTFScjyLVLl+Z42tjuTM=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=U1cKfgCf+cUC6kWzElnJ7F8K37tf+3IWR/rqvGDC9GXlLbJznxzVxA04Qy9LyXdoB
-	 WIVHSxJC7vK5enUiLXT0APS5Ad9mcAnJScPlpNU0u5yWl+jWYv382wEnHei2AD100h
-	 3+QOFfeId+gydGRwrqrK7ETZ7eJ72B3vvdhS9ar0=
+	b=nFjuETd7yrUkbrpX4qd5bLhlioecIpVTSBW1RNvpZi4jA5axmrmbtwBmm50Hs5nxf
+	 SNLm3S52gC8fIQqK6ru7LuCki3plRrihFi/evQ1OP750h+eZF2aOVdkStmGRvjW58C
+	 f+zY1mymUvYERypzM/qF/A08txJWxpqOwp03P5cs=
 Received: from [192.168.95.128] (172.30.20.190) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 11 Nov 2026 11:48:50 +0300
-Message-ID: <b54d213e-dae1-4d4e-af1c-c28c5a6cf84c@paragon-software.com>
-Date: Wed, 11 Nov 2026 09:48:49 +0100
+ 15.1.2375.7; Wed, 11 Nov 2026 12:15:03 +0300
+Message-ID: <c465cde4-727e-4ff5-bd2a-324f444c330a@paragon-software.com>
+Date: Wed, 11 Nov 2026 10:15:01 +0100
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -65,155 +65,100 @@ List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: validate log replay bitmap buffer spans
-To: =?UTF-8?B?SsOpcsOpbXkgSmVhbg==?= <Jeremy.Jean@oss.cyber.gouv.fr>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-References: <20260817202941.1635505-2-Jeremy.Jean@oss.cyber.gouv.fr>
+Subject: Re: [PATCH] ntfs3: Update only the member values without replacing
+ the opts pointer
+To: Edward Adam Davis <eadavis@qq.com>,
+	<syzbot+4c22f022eb39c86b9d19@syzkaller.appspotmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<syzkaller-bugs@googlegroups.com>
+References: <6a778cc0.01d0871a.3a0d52.006c.GAE@google.com>
+ <tencent_1C66CE3D8B3704962236124B067405761909@qq.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260817202941.1635505-2-Jeremy.Jean@oss.cyber.gouv.fr>
+In-Reply-To: <tencent_1C66CE3D8B3704962236124B067405761909@qq.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 8/17/26 22:29, Jérémy Jean wrote:
+On 8/9/26 08:07, Edward Adam Davis wrote:
 
-> do_action() derives the read buffer size for bitmap replay records from
-> lrh->lcns_follow in u64, then stores it in u32 bytes. A log record that
-> covers more than U32_MAX bytes therefore allocates and reads only the
-> truncated tail while the bitmap range checks still compare against the
-> full u64 span. ntfs_bitmap_{set,clear}_le() can then access past
-> buffer_le.
+> There is a potential race condition when accessing options during remount
+> and read operations. This would trigger a uaf [1].
 >
-> Keep the span in u64 until the read size has been validated against the
-> u32 ntfs_read_run_nb() interface. Also validate bitmap ranges in u64 and
-> reject lengths that cannot be represented by the helpers' int len
-> parameter, so crafted bitmap_off/bits values cannot wrap the existing
-> u32 arithmetic before the bounds check.
+> CPU0: remount				CPU1: read options
+> ==================================	==================
+> do_remount()
+> reconfigure_super()
+>   ntfs_fs_reconfigure()
+>    sbi->options = fc->fs_private
+> put_fs_context()
+>   ntfs_fs_free()
+>    put_mount_options()			ntfs_show_options()
+>     kfree(sbi->options)			 opts = sbi->options
+> 				         opts->dmask //trigger uaf
 >
-> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> Signed-off-by: Jérémy Jean <Jeremy.Jean@oss.cyber.gouv.fr>
-> Assisted-by: Codex:gpt-5
+> The fix involves not updating the sbi->options pointer during
+> reconfiguration, but instead using fc->fs_private to update the
+> corresponding member values.
+>
+> [1]
+> BUG: KASAN: slab-use-after-free in ntfs_show_options+0x656/0x800 fs/ntfs3/super.c:762
+> Call Trace:
+>   ntfs_show_options+0x656/0x800 fs/ntfs3/super.c:762
+>   show_vfsmnt+0x637/0x780 fs/proc_namespace.c:129
+>   seq_read_iter+0x8d6/0xcb0 fs/seq_file.c:273
+>   new_sync_read fs/read_write.c:493 [inline]
+>   vfs_read+0x59e/0xa90 fs/read_write.c:574
+>
+> Allocated by task 6027:
+>   ntfs_init_fs_context+0x55/0x570 fs/ntfs3/super.c:1862
+>   alloc_fs_context+0x9a3/0xd00 fs/fs_context.c:295
+>   do_remount fs/namespace.c:3392 [inline]
+>   path_mount+0xc5e/0x1040 fs/namespace.c:4153
+>   do_mount fs/namespace.c:4174 [inline]
+>
+> Freed by task 6026:
+>   kfree+0x1c5/0x6c0 mm/slub.c:6692
+>   put_fs_context+0x123/0xb00 fs/fs_context.c:498
+>   do_remount fs/namespace.c:3419 [inline]
+>   path_mount+0xef9/0x1040 fs/namespace.c:4153
+>   do_mount fs/namespace.c:4174 [inline]
+>
+> Fixes: cd39981fb92a ("fs/ntfs3: Fix double free on remount")
+> Reported-by: syzbot+4c22f022eb39c86b9d19@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=4c22f022eb39c86b9d19
+> Tested-by: syzbot+4c22f022eb39c86b9d19@syzkaller.appspotmail.com
+> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 > ---
->   fs/ntfs3/fslog.c | 53 +++++++++++++++++++++++++++++++++++++-----------
->   1 file changed, 41 insertions(+), 12 deletions(-)
+>   fs/ntfs3/super.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index f038c799e7ac..21d89de96ba1 100644
-> --- a/fs/ntfs3/fslog.c
-> +++ b/fs/ntfs3/fslog.c
-> @@ -7,6 +7,8 @@
->
->   #include <linux/blkdev.h>
->   #include <linux/fs.h>
-> +#include <linux/limits.h>
-> +#include <linux/overflow.h>
->   #include <linux/random.h>
->   #include <linux/slab.h>
->
-> @@ -2967,6 +2969,35 @@ static inline bool check_if_alloc_index(const struct INDEX_HDR *hdr,
->          return o == attr_off;
+> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+> index 3305fe406cb2..58540491e68b 100644
+> --- a/fs/ntfs3/super.c
+> +++ b/fs/ntfs3/super.c
+> @@ -461,7 +461,7 @@ static int ntfs_fs_reconfigure(struct fs_context *fc)
+>   	}
+>   
+>   	sync_filesystem(sb);
+> -	swap(sbi->options, fc->fs_private);
+> +	memcpy(sbi->options, fc->fs_private, sizeof(*sbi->options));
+>   
+>   	return 0;
 >   }
->
-> +static inline bool calc_log_buffer_size(u32 min_bytes, u64 data_bytes,
-> +                                       u16 roff, bool align, u32 *bytes)
-> +{
-> +       u64 bytes64 = min_bytes ? min_bytes : data_bytes;
-> +
-> +       if (check_add_overflow(bytes64, (u64)roff, &bytes64))
-> +               return false;
-> +
-> +       if (align) {
-> +               if (check_add_overflow(bytes64, 511ULL, &bytes64))
-> +                       return false;
-> +               bytes64 &= ~511ULL;
-> +       }
-> +
-> +       if (bytes64 > U32_MAX)
-> +               return false;
-> +
-> +       *bytes = bytes64;
-> +       return true;
-> +}
-> +
-> +static inline bool check_if_bitmap_range(u64 bytes, u32 off, u32 bits)
-> +{
-> +       u64 start = ((u64)off + 7) / 8;
-> +       u64 end = ((u64)off + bits + 7) / 8;
-> +
-> +       return bits <= S32_MAX && start <= bytes && end <= bytes;
-> +}
-> +
->   static inline void change_attr_size(struct MFT_REC *rec, struct ATTRIB *attr,
->                                      u32 nsize)
->   {
-> @@ -3114,6 +3145,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
->          u16 roff = le16_to_cpu(lrh->record_off);
->          u16 aoff = le16_to_cpu(lrh->attr_off);
->          u64 lco = 0;
-> +       u64 data_bytes = 0;
->          u64 cbo = (u64)le16_to_cpu(lrh->cluster_off) << SECTOR_SHIFT;
->          u64 tvo = le64_to_cpu(lrh->target_vcn) << sbi->cluster_bits;
->          u64 vbo = cbo + tvo;
-> @@ -3225,6 +3257,10 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
->                  attr = oa->attr;
->                  bytes = UpdateNonresidentValue == op ? dlen : 0;
->                  lco = (u64)le16_to_cpu(lrh->lcns_follow) << sbi->cluster_bits;
-> +               if (lco < cbo)
-> +                       goto dirty_vol;
-> +
-> +               data_bytes = lco - cbo;
->
->                  if (attr->type == ATTR_ALLOC) {
->                          t32 = le32_to_cpu(oe->bytes_per_index);
-> @@ -3232,12 +3268,9 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
->                                  bytes = t32;
->                  }
->
-> -               if (!bytes)
-> -                       bytes = lco - cbo;
-> -
-> -               bytes += roff;
-> -               if (attr->type == ATTR_ALLOC)
-> -                       bytes = (bytes + 511) & ~511; // align
-> +               if (!calc_log_buffer_size(bytes, data_bytes, roff,
-> +                                         attr->type == ATTR_ALLOC, &bytes))
-> +                       goto dirty_vol;
->
->                  buffer_le = kmalloc(bytes, GFP_NOFS);
->                  if (!buffer_le)
-> @@ -3717,10 +3750,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
->                  off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
->                  bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
->
-> -               if (cbo + (off + 7) / 8 > lco ||
-> -                   cbo + ((off + bits + 7) / 8) > lco) {
-> +               if (!check_if_bitmap_range(data_bytes, off, bits))
->                          goto dirty_vol;
-> -               }
->
->                  ntfs_bitmap_set_le(Add2Ptr(buffer_le, roff), off, bits);
->                  a_dirty = true;
-> @@ -3730,10 +3761,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
->                  off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
->                  bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
->
-> -               if (cbo + (off + 7) / 8 > lco ||
-> -                   cbo + ((off + bits + 7) / 8) > lco) {
-> +               if (!check_if_bitmap_range(data_bytes, off, bits))
->                          goto dirty_vol;
-> -               }
->
->                  ntfs_bitmap_clear_le(Add2Ptr(buffer_le, roff), off, bits);
->                  a_dirty = true;
-> --
-> 2.47.3
 
 Hello,
 
 Sorry for the delay.
-The patch was applied, thank you.
+
+In the meantime commit 56c3824de56b ("ntfs3: free replaced mount
+options after a grace period") went upstream. It addresses the same
+root cause: sbi->options is replaced and the old options are now freed
+after an RCU grace period instead of immediately. Since that approach
+is already merged, I won't apply your patch.
+
+Thanks for the work and the report.
 
 Regards,
 Konstantin
