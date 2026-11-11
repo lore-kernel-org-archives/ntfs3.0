@@ -1,60 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.157.23.187
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794388507;
-	b=B25ofiapk2cWN+st492r6pF/k7TpoVIm/qOGPMgiHq86ULzaS00oTahWIftGYbCa3krG
-	 zX5kx2WXbVq5AF/Dv6Z35A9lXIQ7EC9XMG0MU79QUkyfXTGjJRbLRM8h5JaBrKm6oBxIX
-	 n6EIklIuAa1d+A8P2hejDdDyEelGcgXoEF5aZu/8PwjwGSVZtRfgRNngShxxLbJgqU02L
-	 8K2jaVv6CXSYF5BFAOKzKhC4O8ZnzcxW3V5tzRTqrEFCN5SFnTuQ9C5bZFvhdHeHAAnb8
-	 fzALHbtn9r1FWjPCU0vhxcLmq3SZIFRr1gHchRd4g70cde2UUU1OEwfZnuUNk/wJdew==
+	t=1794394058;
+	b=GjjR8agt6+5agma6vm/pSocVIRNSzOp7el8V1zR7J2CL7ghv/4DCF+S0Vl9DejfaN39j
+	 hhPd1g+yIENqe1ZauN4dXjBRhB9Ddmf9uHE4VICj2C/t6fItPy1pjLVj0ZIfVcA72FSB8
+	 Kr/yM9qeY4XPGi69lauAq7vp0bKW8T9fKlGmaHNsIaNM6+X8LmQ52lKe9zyH3AwZpgo76
+	 vzR3kNYplsZ4CTmupQ9xOxHCVKBRnJTs9yLCD7HEWdPByMt2y6mHtKXlsrTlB+xWzf/hG
+	 mMXMyhG5mBlrmSwlnM6/6NNod73MWARilAgU8P8qC9jlUonr50abrDhvHe4abVxuqrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794388507;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794394058;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:Received:Message-ID:
 	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-	bh=0+CgbwybaiTL/onVXenjL9lJTFScjyLVLl+Z42tjuTM=;
-	b=Icw5nzl3klkZJwGeBDRAS6O5HPjhFJD7eoeeTFYw6Cns47paJpcUtZIrESstCMr8WeDx
-	 kDL4WpAoYz/B191n/z3JWSh+9U3RkXLfoG/FNLMKBXzYpuZtmfK+8JMJycBAXBZu1V2b6
-	 dd29FCkYn72EPDQut9X2H316aWz0UqXo0YSYk5mmQ3CsopvqfR3F8XC67T4r0phwXF5VO
-	 zTe6MbK2AMws/S1iZFb37mo94aXbd0LCVWQVfGyGcNcULcdb+VSZ80NJ4k4qgZd3qmVyx
-	 7wp0ihMJNwYLNOfq13+MYggHV0W6w4EyAqmE7sDvzgc2Ra5Memb4qvoCYfoXTYmhhaA==
+	bh=vuP1cQMJfVaVjVYw/27kHpoCiavhllPegZXximWZIa4=;
+	b=SIKv61XROXFS4klUJwpnYfxssLdWxsD6MWf/WXr8hdMZ4kIwykFHuYJzWQMsgkZtJCzD
+	 btIpl4dR+H/JZqBS4iU+PVjk65De4M0HNRtcN4DE3KWYoqwpFn84qr+M4Wh+UWhu8gB24
+	 pXXBxU8CWrzyaqVh1ozdop0US58a+iv7u2u494SZUcYkCzdj3GQjLjPSLWTiWFjEtCc6A
+	 inLab1LzEgikOGiW13Th/E79hXRRfwJ3wtaiLfgik+Qnq5ReefG3MaJnfiDDYn3LMWbpT
+	 bH6ER6Pnh8o4bBFWqxQwxozUe/9i9J3QzlWUmilMoTcXWacC0o1TEqHdLxDwEfKufXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=paragon-software.com;
 	spf=pass smtp.mailfrom=paragon-software.com;
-	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=nFjuETd7;
+	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=nnZXuKB7;
 	arc=none smtp.remote-ip=35.157.23.187
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81FEC606A33E
-	for <ntfs3@lists.linux.dev>; Wed, 11 Nov 2026 09:15:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81FEC606A33E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A831606A327
+	for <ntfs3@lists.linux.dev>; Wed, 11 Nov 2026 10:47:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A831606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=nFjuETd7
+	dkim=pass (1024-bit key, unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=nnZXuKB7
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 5AD021D28;
-	Wed, 11 Nov 2026 09:15:49 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 1581B1D28;
+	Wed, 11 Nov 2026 10:48:21 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=nFjuETd7;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=nnZXuKB7;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 8F800238A;
-	Wed, 11 Nov 2026 09:15:04 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 4797F1D27;
+	Wed, 11 Nov 2026 10:47:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1794388504;
-	bh=0+CgbwybaiTL/onVXenjL9lJTFScjyLVLl+Z42tjuTM=;
+	d=paragon-software.com; s=mail; t=1794394056;
+	bh=vuP1cQMJfVaVjVYw/27kHpoCiavhllPegZXximWZIa4=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=nFjuETd7yrUkbrpX4qd5bLhlioecIpVTSBW1RNvpZi4jA5axmrmbtwBmm50Hs5nxf
-	 SNLm3S52gC8fIQqK6ru7LuCki3plRrihFi/evQ1OP750h+eZF2aOVdkStmGRvjW58C
-	 f+zY1mymUvYERypzM/qF/A08txJWxpqOwp03P5cs=
-Received: from [192.168.95.128] (172.30.20.190) by
+	b=nnZXuKB7KKQg9Ip1Ql4z1CrGCkVsOaLHOrq8GPrhWaxXi29K+EEwVy4X3NVZDhrmo
+	 X7b60/j5tAPwajJOEcgif9Q/yO/l7JRdSFM4ylziKZIrpDlYaXyUlr4V+Bd0woKFTx
+	 pXLFxiyG26BnaFcrWqjJcW1UodxQfubTaJSScem0=
+Received: from [192.168.95.128] (172.30.20.211) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 11 Nov 2026 12:15:03 +0300
-Message-ID: <c465cde4-727e-4ff5-bd2a-324f444c330a@paragon-software.com>
-Date: Wed, 11 Nov 2026 10:15:01 +0100
+ 15.1.2375.7; Wed, 11 Nov 2026 13:47:35 +0300
+Message-ID: <1730cdd0-fb23-413c-b7b0-4270d7cffe14@paragon-software.com>
+Date: Wed, 11 Nov 2026 11:47:33 +0100
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -65,100 +65,114 @@ List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ntfs3: Update only the member values without replacing
- the opts pointer
-To: Edward Adam Davis <eadavis@qq.com>,
-	<syzbot+4c22f022eb39c86b9d19@syzkaller.appspotmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<syzkaller-bugs@googlegroups.com>
-References: <6a778cc0.01d0871a.3a0d52.006c.GAE@google.com>
- <tencent_1C66CE3D8B3704962236124B067405761909@qq.com>
+Subject: Re: Fwd: InjectionBunny: NTFS3 SUID injection leading to local
+ privilege escalation
+To: vova tokarev <vladimirelitokarev@gmail.com>
+CC: <security@kernel.org>, <ntfs3@lists.linux.dev>
+References: <CAGBKPgMqBMsBH4mm2fwggA8rJZ3R15nPxuEh0emOeVpX2kgHPA@mail.gmail.com>
+ <CAGBKPgPiXyKWtjgYSACnugmG1XPs=mPg-Zu-xQziUZ1k921+qA@mail.gmail.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <tencent_1C66CE3D8B3704962236124B067405761909@qq.com>
+In-Reply-To: <CAGBKPgPiXyKWtjgYSACnugmG1XPs=mPg-Zu-xQziUZ1k921+qA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 8/9/26 08:07, Edward Adam Davis wrote:
+On 8/7/26 12:39, vova tokarev wrote:
 
-> There is a potential race condition when accessing options during remount
-> and read operations. This would trigger a uaf [1].
+> Hi,
 >
-> CPU0: remount				CPU1: read options
-> ==================================	==================
-> do_remount()
-> reconfigure_super()
->   ntfs_fs_reconfigure()
->    sbi->options = fc->fs_private
-> put_fs_context()
->   ntfs_fs_free()
->    put_mount_options()			ntfs_show_options()
->     kfree(sbi->options)			 opts = sbi->options
-> 				         opts->dmask //trigger uaf
+> It's been almost two months since I reported this, and I haven't heard
+> back. I recently learned I should reach out to the subsystem maintainer
+> directly, so forwarding this to you.
 >
-> The fix involves not updating the sbi->options pointer during
-> reconfiguration, but instead using fc->fs_private to update the
-> corresponding member values.
+> I noticed that CVE-2026-63833 (commit f8d420949b33) was assigned and
+> merged for a related issue -- blocking setxattr() writes to $LX*
+> names. However, this only fixes one of the two attack vectors I
+> reported. The primary vector in my original report remains open:
 >
-> [1]
-> BUG: KASAN: slab-use-after-free in ntfs_show_options+0x656/0x800 fs/ntfs3/super.c:762
-> Call Trace:
->   ntfs_show_options+0x656/0x800 fs/ntfs3/super.c:762
->   show_vfsmnt+0x637/0x780 fs/proc_namespace.c:129
->   seq_read_iter+0x8d6/0xcb0 fs/seq_file.c:273
->   new_sync_read fs/read_write.c:493 [inline]
->   vfs_read+0x59e/0xa90 fs/read_write.c:574
+> A pre-crafted NTFS image (e.g. USB drive) with $LXUID=0, $LXGID=0,
+> $LXMOD=0104755 already in the MFT produces a setuid-root binary the
+> moment the volume is mounted. No setxattr() is involved -- the EAs
+> are on disk. The -EPERM check doesn't help.
 >
-> Allocated by task 6027:
->   ntfs_init_fs_context+0x55/0x570 fs/ntfs3/super.c:1862
->   alloc_fs_context+0x9a3/0xd00 fs/fs_context.c:295
->   do_remount fs/namespace.c:3392 [inline]
->   path_mount+0xc5e/0x1040 fs/namespace.c:4153
->   do_mount fs/namespace.c:4174 [inline]
+> The root cause is still at fs/ntfs3/xattr.c:1022:
 >
-> Freed by task 6026:
->   kfree+0x1c5/0x6c0 mm/slub.c:6692
->   put_fs_context+0x123/0xb00 fs/fs_context.c:498
->   do_remount fs/namespace.c:3419 [inline]
->   path_mount+0xef9/0x1040 fs/namespace.c:4153
->   do_mount fs/namespace.c:4174 [inline]
+>     inode->i_mode = le32_to_cpu(value[2]);
 >
-> Fixes: cd39981fb92a ("fs/ntfs3: Fix double free on remount")
-> Reported-by: syzbot+4c22f022eb39c86b9d19@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=4c22f022eb39c86b9d19
-> Tested-by: syzbot+4c22f022eb39c86b9d19@syzkaller.appspotmail.com
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> ---
->   fs/ntfs3/super.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> This loads S_ISUID/S_ISGID directly from untrusted on-disk data.
+> Desktop automounters (udisks) mount NTFS with suid by default, so
+> plugging in a crafted USB gives any local user euid=0.
 >
-> diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-> index 3305fe406cb2..58540491e68b 100644
-> --- a/fs/ntfs3/super.c
-> +++ b/fs/ntfs3/super.c
-> @@ -461,7 +461,7 @@ static int ntfs_fs_reconfigure(struct fs_context *fc)
->   	}
->   
->   	sync_filesystem(sb);
-> -	swap(sbi->options, fc->fs_private);
-> +	memcpy(sbi->options, fc->fs_private, sizeof(*sbi->options));
->   
->   	return 0;
->   }
-
+> Suggested one-line fix:
+>
+> -   inode->i_mode = le32_to_cpu(value[2]);
+> +   inode->i_mode = le32_to_cpu(value[2]) & ~(S_ISUID | S_ISGID);
+>
+> I have a full PoC and working demo (included in my original report
+> below). Would love to hear your thoughts.
+>
+> Thanks,
+> Vladimir
+>
+> ---------- Forwarded message ---------
+> From: *vova tokarev* <vladimirelitokarev@gmail.com>
+> Date: Thu, Jun 25, 2026 at 2:18 PM
+> Subject: InjectionBunny: NTFS3 SUID injection leading to local 
+> privilege escalation
+> To: <security@kernel.org>
+>
+>
+> Hi,
+>
+> I found a local privilege escalation (InjectionBunny) in the ntfs3
+> filesystem driver. The function ntfs_get_wsl_perm() in fs/ntfs3/xattr.c
+> assigns the on-disk $LXMOD extended attribute directly to inode->i_mode
+> without masking S_ISUID or S_ISGID bits.
+>
+> A crafted NTFS image (e.g., on a USB drive) with $LXUID=0, $LXGID=0,
+> $LXMOD=0104755 on a binary makes it appear as a setuid-root executable
+> when mounted. Executing the binary gives immediate root access.
+>
+> The attack is deterministic (no race condition, no heap spray), works
+> on first attempt, and affects every Linux system with CONFIG_NTFS3_FS
+> that mounts NTFS volumes without the nosuid option.
+>
+> The same pattern exists in the old ntfs driver (fs/ntfs/ea.c function
+> ntfs_ea_get_wsl_inode).
+>
+> Affected versions: Linux 4.11+ (since ntfs3 WSL EA support)
+> Confirmed on: 7.1.0 (aarch64)
+>
+> Attached files:
+>   - InjectionBunny.mov             Video demo of full exploit
+>   - injection_bunny.py             Creates malicious NTFS image
+>   - suidhelper.c                   SUID payload (setuid(0) + shell)
+>   - InjectionBunny_report.md       Detailed writeup with root cause,
+>                                    reproduction, and suggested fix
+>
+> Suggested fix: mask S_ISUID/S_ISGID in ntfs_get_wsl_perm():
+>   inode->i_mode = le32_to_cpu(value[2]) & ~(S_ISUID | S_ISGID);
+>
+> Thank you,
+> Vladimir Tokarev
+>
+>
 Hello,
 
-Sorry for the delay.
+Sorry for the late reply.
 
-In the meantime commit 56c3824de56b ("ntfs3: free replaced mount
-options after a grace period") went upstream. It addresses the same
-root cause: sbi->options is replaced and the old options are now freed
-after an RCU grace period instead of immediately. Since that approach
-is already merged, I won't apply your patch.
+I'll look into it. Note, though, that this is not specific to ntfs3:
+any filesystem that stores Unix permissions (ext4, xfs, ...) can carry
+a setuid-root binary on removable media, and the usual protection is
+mounting untrusted media with nosuid. As far as I know, udisks2 does
+use nosuid for removable devices.
 
-Thanks for the work and the report.
+Unconditionally masking S_ISUID/S_ISGID would also break users who
+legitimately keep Linux binaries on NTFS. I'm considering ignoring these
+bits by default and honoring them only when explicitly requested by a
+mount option.
 
 Regards,
 Konstantin
