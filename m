@@ -1,65 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.157.23.187
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794384142;
-	b=yNjMfss1ZPWhFDAQvunFJbf9SlSwLxezNCMm8kWcJ+Nm/elO5JwjRJiTXwTbUXfxuqz8
-	 ND+k23A017w9//6lZQFnNOlYzLiG5xWvzpWI0tM1nSV1Ox0yM6Ww5/QKU6hXAWhG2dpe5
-	 /Z1rbqfts4fCOwSunpp0vCiyoJ127C1FdDkjiuXz3ofZlxs20xLZwn+Zk/ffth+2sMFcC
-	 oOZA3XvyK+yMXmhChuzgqkrXxQcnGWPMORmQbsjbdd1ysBZojlR5eqmoh08pp1yUAl+C8
-	 ZogriFjdBy7L1zD/ye4OnVM00wHBivZjswdLsHj1PDvhvjJpCRcHFRGvuAYS26BnuSw==
+	t=1794386799;
+	b=hfn0NdV/B/IttSdrGe+EKwISQ+I/GeC2T+jxoBggakcgUEme8OkTpEK83IPrMMTaYg1J
+	 5AgGrMGrArytwMNmJtzRoP3z0K5J28ArGHMMgzvSErC8cd3AnBBwcCdf/8oa4NVipD/8c
+	 818GERhV+e28+BP8V0iNRRDp0kJYE3T+oObQlRUQeri1knOLor2DfoyepiId5XnNBpVwI
+	 NRdTjh9eTEuLeKCeRNtm9U9nAzFsXYvfha44CSVjZzv7HpIkx+OpD4kT3mYCxCKW2DjNZ
+	 ajGasoCzBZ1/V+WOkeGAveyC0B22qlP/ZYA7w3ByUVwV4FMwNETJ+5psnQNiCHxoGlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794384142;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=1MfWhKRJnGNQuiv1S74it4d0E6/yGd9NIUqLlfkgtBw=;
-	b=3ODFjlgOR5hPTF1XnMovhspunWeohT4Oel9dZSzRbc6RCJriJCwPmDrhxNyJhT+OavNZ
-	 /PXh5UV7RQvnYAjKIXFxvLJRLyaK+MHSSTRSXRF0RO7TT8hbWI7ju3Th0u0R6o2+bTaFB
-	 qFNWua3NypNrtq/WgS0J/kON0vj/tUJczIzTjM2ivrQ8vHU7k/CbkZJnpM98iXPZserv7
-	 W8gGYu0MlfVeMe8UG/aFRv/2YGyyvyEERT+SxzZGbtqCCvcxDBHnjGh3aLKOoDsXJ+ele
-	 uWfP0beY37U6LHlBK7wnx+3y7qhQehguaw7Kb3rzlELDEVsVBjzowSxnkyJ7J2J2Myg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794386799;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+	bh=9P1O4WQgnVQDl+a4kZrp5MX4deKhKwsEC4dzzWtFl6E=;
+	b=Tk4ezKfXiky5f3kp3fOv2ofzuBnzTXXUepHNnhrpel4gCDneRNFFoRXfS5CwoeYPI4yh
+	 8wWj5E65Dgh+crYfq1ljUuT1MJPf9mrHFhNdWSH2WqzBHYx41EF4pDq1dSAzGRhHm5D6o
+	 iZ93+mDuA4M+TZB1SLvlcMlhJTcwssLX5YcnlNzpNtqSqu8ANGuBHB0XzGqrLCmKwW7nw
+	 8o881WJnmzmMC1y30ZgPc8WS7DOqyN1+dgWMXqGxaAZRfADLJ2NUeUzQx4q+F4v381a8S
+	 OwRl8EqF649h8WE4o3kGGnkHmTQaqfeK+3kmm+j/n43ljXwNTN7QS5sZPL1Cc3uIYOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=aKqCMg2M;
-	arc=none smtp.remote-ip=111.22.67.139
-Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13330606A321
-	for <ntfs3@lists.linux.dev>; Wed, 11 Nov 2026 08:02:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13330606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dmarc=pass header.from=paragon-software.com;
+	spf=pass smtp.mailfrom=paragon-software.com;
+	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=bD7N8s5w;
+	arc=none smtp.remote-ip=35.157.23.187
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5F5606A31C
+	for <ntfs3@lists.linux.dev>; Wed, 11 Nov 2026 08:46:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E5F5606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=aKqCMg2M
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=bD7N8s5w
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 09F241D28;
+	Wed, 11 Nov 2026 08:47:16 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=bD7N8s5w;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 3581F2389;
+	Wed, 11 Nov 2026 08:46:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=aKqCMg2MpqQSJP2uOD84xWh5kO3aJpeCcmdGJqR2WWRHMgU/XcFMS/yWDtJULt3CNNqbmCi1qalRs
-	 5ypfAfFDWVUIknAgapzCwPLF0vCtGnPkq0kS6HLc6VHHx3RxALg6a+em5mrIlm6CPljylBDZlUG27H
-	 A/i6MnjbjKR/FCUs=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee16af42108b9f-b2021;
-	Wed, 11 Nov 2026 16:02:18 +0800 (CST)
-X-RM-TRANSID:2ee16af42108b9f-b2021
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from DESKTOP-3K8GUTQ (unknown[223.108.79.98])
-	by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee16af42108507-d4631;
-	Wed, 11 Nov 2026 16:02:17 +0800 (CST)
-X-RM-TRANSID:2ee16af42108507-d4631
-From: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: laixiangwu <laixiangwu@cmss.chinamobile.com>,
-	ntfs3@lists.linux.dev
-Subject: Re: [PATCH] fs/ntfs3: Fix memory leak of ntfs_fnd on corrupted index root
-Date: Wed, 11 Nov 2026 16:02:15 +0800
-Message-ID: <20261111080216.1583-1-laixiangwu@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.50.1.windows.1
-In-Reply-To: <20261030084532.1748-1-laixiangwu@cmss.chinamobile.com>
-References: <20261030084532.1748-1-laixiangwu@cmss.chinamobile.com>
+	d=paragon-software.com; s=mail; t=1794386791;
+	bh=9P1O4WQgnVQDl+a4kZrp5MX4deKhKwsEC4dzzWtFl6E=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=bD7N8s5whNgWjE+CyrjIwhmdqcvcL8b+4/ntRoRwjS7Zwwe1mJOyhklrawSy736nl
+	 +wUaaz4GKKvvsoYRBYNOIiJr80kfVL0CmUux/oXIWXNrboOfWHmRU2kHTRa1gR6dNb
+	 2OPPia8okK+1ylbSVzD/UkodIOfiRlsA6EdccROQ=
+Received: from [192.168.95.128] (172.30.20.190) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 11 Nov 2026 11:46:29 +0300
+Message-ID: <8b98d6c9-2277-43e8-94e3-a00b9de7e2bb@paragon-software.com>
+Date: Wed, 11 Nov 2026 09:46:28 +0100
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -69,19 +64,75 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ntfs3: fix buffer overflow in CreateAttribute
+ validation
+To: Hongling Zeng <zenghongling@kylinos.cn>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<zhongling0719@126.com>, <stable@vger.kernel.org>
+References: <20260813094129.1366996-1-zenghongling@kylinos.cn>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20260813094129.1366996-1-zenghongling@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-From: laixiangwu <laixiangwu@cmss.chinamobile.com>
+On 8/13/26 11:41, Hongling Zeng wrote:
 
-Hi,
+> In the CreateAttribute action, the validation checks whether dlen
+> fits within the available MFT record space, but the actual memcpy
+> uses asize (the attribute size from the log record) as the copy length.
+>
+> A malicious NTFS journal record can set a small dlen to pass the
+> validation while setting a large asize that exceeds the MFT record
+> buffer size, causing a buffer overflow when memcpy copies asize bytes
+> into the destination buffer.
+>
+> The validation must use the same size that is later passed to memcpy().
+>
+> Fix this by using asize in the bounds check instead of dlen, since
+> asize is the actual length used by memcpy. The source buffer boundary
+> is already validated by the existing check:
+>        Add2Ptr(attr2, asize) > Add2Ptr(lrh, rec_len)
+>
+> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+> ---
+> Change in v2:
+>   Also fix the lower bound check to use asize instead of dlen. A malicious
+>   log record with dlen >= 24 (passing dlen < SIZE_OF_RESIDENT check) but
+>   asize < 24 could allocate insufficient memory and trigger OOB accesses
+>   in subsequent operations.
+> ---
+>   fs/ntfs3/fslog.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+> index 3440212ecb12..e15f7621863e 100644
+> --- a/fs/ntfs3/fslog.c
+> +++ b/fs/ntfs3/fslog.c
+> @@ -3285,10 +3285,10 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+>   		asize = le32_to_cpu(attr2->size);
+>   		used = le32_to_cpu(rec->used);
+>   
+> -		if (!check_if_attr(rec, lrh) || dlen < SIZEOF_RESIDENT ||
+> +		if (!check_if_attr(rec, lrh) || asize < SIZEOF_RESIDENT ||
+>   		    !IS_ALIGNED(asize, 8) ||
+>   		    Add2Ptr(attr2, asize) > Add2Ptr(lrh, rec_len) ||
+> -		    dlen > record_size - used) {
+> +		    asize > record_size - used) {
+>   			goto dirty_vol;
+>   		}
+>   
 
-this patch was accidentally submitted twice within a few minutes and
-the content of both submissions is identical.  Please treat the
-submission below as the current one and disregard this thread:
+Hello,
 
-https://lore.kernel.org/all/20261030085315.1814-1-laixiangwu@cmss.chinamobile.com/
+Sorry for the delay.
+Your patch was applied, thanks.
 
-Best regards,
-laixiangwu
-
+Regards,
+Konstantin
 
