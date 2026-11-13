@@ -1,91 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794588371;
-	b=e1Eoh8dtV+TnFK0QXFPlsnGlCa6TzHLpv4KN6knkUi6Rk6ZLVvVtL/KTMAJtdSbTy1Tg
-	 EMr8+IiyP1CF0a4/9iVRLJ8EnUKf+qjbs3EhlAVUt6h48BAuneSInfXU/tu+VHwfVYcWn
-	 ZNb068XDwyyxoOu/sj7q5uu1e583ag45jtJVH8Z9bhx/eCsoYS7chjxZPViigO3DMwRqR
-	 DMdfh4rHh3JZS9nmyPXt3A7PlMhPgjugmyEYkW05vmM05mDZMLpiSWxT6Ji68jIM8Oxk3
-	 Wj5UXSl26oyesbBoNx48W7Q5Tg33vMqE9zvvX2kAjbtuRjQ4BreYNAuwtMe6BQ7V4Hw==
+	t=1794597196;
+	b=soN3l4f0AbYtJfuQJQFV8ZVojJqDmtKdSULDLlmnEdPC8epYZjB6wxketxjy5gfxVGh4
+	 YnKRTF5bKtG/YS2HOX1OalfXJ83U/deDV15/MOsPdtxIAGNB8u0HO1WBJ05fLqPcSVAld
+	 gnvszNXSFn0ZUCvkMOl2Q3RZXANvpLM7LggbY6sdZQAyvmr86NpUeOg1O/Of+ni7Cl7lc
+	 l4Cj9GcY/lMshDDCVG4j6H1NCngST8VhPF1nb0TnAFhOteov7NnvUtLI4Of6ZgnIkShQa
+	 13LdqPtEoDU2i0ErsSFP6yZf7hgNdwho1FZR6Fi70mWB3ib3WlsOKbMkRmrJZLmcobA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794588371;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=7adDJu+xJ9rJRwV/7K7rSG0s5vC11B4S7V3+Mb90FEk=;
-	b=BpZHM5pZOP1PSlJv1CYonsIVFGhk+/R2cZpjs7teUVZU9mtnw3PsRMb8JbugDTHC5QS/
-	 bZxZ6I3zCEVEM7Ef9JOO8NkgQ5d5ewlW9qF7Q8mpUuFgT8MUVmjwgK5E0FoLVzjVny9M7
-	 YYyaaEL3JwZfnOwSHz+nnJFClYRtgbxEdcR0GsoS2KhK31xCYIxSBKqLs6CdY6sf8K0wX
-	 bsMmGCGecuiCVKTZG5aFEvsfC2Rnz/S6ReXSd6zIJOvS/s16WqcivQHiFta9aXG3vbdtM
-	 GXiJBacE5+HT7oonyCNiFeaO1jlmJrbDaSUXkZOoderYXcTbQ46vH1jsBFyVb3BPKlA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794597196;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=19uX3cVjKh3oQCJxRBIfRcpKq58CZsyDKOYCWbtw5ps=;
+	b=e7kgNTKEuxNtI4onQGYTFZUdPVZ4A/RGPPq7cnBVrYS8f+yLZFfs2skV1JmpufmK6cVi
+	 VVSWe2BZQ2UkCXkMFK/VPazBQclQvEz/bqVd+zma/eMmfYy2Gf40amMcTcUkCmJrRD9tQ
+	 dTPRiOmebtYt8RzkJ3Zaxl+UPTN4Kp0wR97+Bj8NHr3xDektSztxUFWmyH0BRbjk/CWI5
+	 tca//IHzq8pdNKWDjoJCcSqJI+CO50o+yIn6seJVfpeOXZhONgrkhAEwQkMfs2Lrws5yF
+	 zmVeLn/BZeBU2tHMOHJxGJpufXeOVVygeQjx2ipJbbJyzVf83uTAefO131G+ErNaOPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mWQ8mAwC;
-	arc=none smtp.remote-ip=209.85.214.179
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gobMN0Go;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=k3yJ2X1I;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="T/wFHoCc";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XwA+jkCg;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E88F606E217
-	for <ntfs3@lists.linux.dev>; Fri, 13 Nov 2026 16:46:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E88F606E217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1762B606A323;
+	Fri, 13 Nov 2026 19:13:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1762B606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mWQ8mAwC
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ed28bac8d7so5588785ad.0
-        for <ntfs3@lists.linux.dev>; Fri, 13 Nov 2026 08:46:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794588371; x=1795193171; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7adDJu+xJ9rJRwV/7K7rSG0s5vC11B4S7V3+Mb90FEk=;
-        b=mWQ8mAwCW2LaajgpQtD2ZFYYwS9XFifpkxa25bhf1g0TWWTENpiFzWMwROkMZHlrAV
-         C9FgUsDcBzce9oPRVqyaCZEkoz+6/VLVDRYsqZDAEaZ5hUhNyXbxkCZu20JSs/Xt5mDy
-         fjZLROKTAj4XmUrY0BZFdFMqytHf1c1hcVYMD6OhC5UDSasaqIVhlFd7u8ObAvPdooqo
-         TgqUnfLF1MNxJlxzWzgsOXj6WcvL8ha47GG1jP/2HsdVg+lNrn0VFeS3M5BLEVs6YK9L
-         EJyjCMm+BOjjdywJYGAj0kpVXA2ZINb5KGELxOK0aSqaWBbiZ97ishSIw3nFUEdAKP5P
-         SlQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794588371; x=1795193171;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7adDJu+xJ9rJRwV/7K7rSG0s5vC11B4S7V3+Mb90FEk=;
-        b=zU1TNUVbyuNb5+3ktWvHorToIb6EWg+2k0+IxyrBYOycnPK6w10MSMYP6jA2PvLPbm
-         2MGN3HGoJS+FiL4jhfgydOenlSJHt04toAWS1wgwjwjN/OQYlJVWK5h+AoC05Nwt8m7f
-         VPL4pevhPteZWKXWlBXGeXye+9bn/z3uGjpWUp3Ckn6qxAtp7DDUITVwKhNwkcbz/l5V
-         V49SN0u0VOQBsPFQGJ/XSjBJNqUrvUKQHzKvTAl6fofjMLZ9IlmVM/jZDVEatLY2uPks
-         sfq5QSjLU+S4K+mHW3TC+BLEN3Pd6KH3E0P0IEu5BQbEOYSSAweIiIT8jeT/IAf8MQzS
-         YKow==
-X-Forwarded-Encrypted: i=1; AL+hErHmc1LMxhJwUPK6oUcUkowFtfbCXGKXwCYPmvNSV6INUL/hBZzwX5SjAApoHZx5CnKiaaCkCw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8wKGrd4ZBfr0UjiQx+jdYfz7pG4rbVtBIX/IQDRvnjXZcE56sC
-	llxZXqCyU4K76TMi6WG/gWdnbOH472j9LVJfiYITSkfXfhf21oinP6x+
-X-Gm-Gg: AYBFou0wDYodbjGCVE23YQB79tH7ZfX35bOXOgEAomLyAr2foiy2sAxNpwbAYoFV+6N
-	fE6NZA2FAdnIUmyyz52dPW3LwhXBIEJUD+iAsI2Dm8UXR+wsE5liomJkLKncNKW5IsS+bikWlH0
-	nL47b6iGpnNxF/nFC84dY3MWqTmV56TrophohA1x1RZxQGM3cTC3ifvEiX9Bw2z3Ou20CtQQq+F
-	wZD383QrPWva3uR/Pq0wPrOJSo/0CeWE1bsjSGvZvrIEI4aRgjLKRM6G1yQ924LB7nrphFciNZ3
-	XMxnhkgI5Wf4SmNUbi+h+BmDyjN1iGJIMc9/+JG6sVahnExJleuVpOgrhlSuE4X3t+Trn17N6kL
-	/NzLqZHUg8NyJm+7qjvpN4k1zHMcFez/37YKmam2hfuFNZbaSk0bjSuv89IaOfCc6olAp+Bg+DE
-	IduUCoBDMr6VncaUvQ6TY8JjjCoQ1JPgKimxbW9l5vEZPIsuPv49OUEb+Fwy1wvQ+kF6xZEUmi2
-	GlM8BFZ+HRjkwXy+btA5V8ab+N/T524RJhU4Wy64qZITcuEZfiWDTUDmj6j9Lf8hf2jAd/6FP1B
-	zZ7a7xH9UHSwe460WgGu5ez2i+u+Nyp4j++TPIaWgMcTY6RzPA==
-X-Received: by 2002:a17:903:22c3:b0:2ea:f85d:a076 with SMTP id d9443c01a7336-2edf21c0a32mr46602165ad.35.1794588370521;
-        Fri, 13 Nov 2026 08:46:10 -0800 (PST)
-Received: from localhost.localdomain ([112.170.44.210])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ee0f868231sm12908475ad.50.2026.11.13.08.46.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 08:46:08 -0800 (PST)
-From: Junyoung Jang <graypanda.inzag@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: Junyoung Jang <graypanda.inzag@gmail.com>,
-	ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: validate dlen before copying filename dup in do_action()
-Date: Sat, 14 Nov 2026 01:46:04 +0900
-Message-ID: <20261113164605.782979-1-graypanda.inzag@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gobMN0Go;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=k3yJ2X1I;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=T/wFHoCc;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XwA+jkCg
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F01941F7D5;
+	Fri, 13 Nov 2026 19:13:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794597194; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=19uX3cVjKh3oQCJxRBIfRcpKq58CZsyDKOYCWbtw5ps=;
+	b=gobMN0Go7dtgesD60abepmHGjJqiT7XR8JBrmRTZeIjGmsD9WF5vhroV2KpmFqnqFiRhz0
+	4Xxmax1aPsE4onLeo85S5qJmTnlpp2wcPx627Fn7LL9utblNw73BIqyR9fHZuz1inuaUOW
+	qqAQbUChbIer5y0r7/jwg23IKvJY6g4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794597194;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=19uX3cVjKh3oQCJxRBIfRcpKq58CZsyDKOYCWbtw5ps=;
+	b=k3yJ2X1I5Au6tqt4bU0rNcvnsJDJ2hvTev+loJ0jYdWf+66F8YQ2E4qnBrPL5E8OoHzWdM
+	VVUDEYPg0aud3DDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794597193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=19uX3cVjKh3oQCJxRBIfRcpKq58CZsyDKOYCWbtw5ps=;
+	b=T/wFHoCcYRQLNMnwBHW35jb6KJ0V7qyiWglsW7xN6wn8BWhHCdN46eovtrskuM0kGfoNw8
+	kl/ooMcM9AgFS1XJgIG04qGwVMFYL+5eyOVT1rYw0J6CvZP72XHwFcVD49n4suJb6UEU8I
+	d3CddHx6e1pA2jAAXzYfA6ANet9Xn2I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794597193;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=19uX3cVjKh3oQCJxRBIfRcpKq58CZsyDKOYCWbtw5ps=;
+	b=XwA+jkCgr723dqgXsfRZbBHmScQ9TpV/WWV7Ql2L5ASjlOMMdc33+YzLt2gYs4LHcNme44
+	+FobGJlXO23Lb3BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E30913485;
+	Fri, 13 Nov 2026 19:13:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id TaZ4GkVh92poGgAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Fri, 13 Nov 2026 19:13:09 +0000
+Date: Fri, 13 Nov 2026 19:13:07 +0000
+From: Pedro Falcato <pfalcato@suse.de>
+To: Salvatore Dipietro <dipiets@amazon.com>
+Cc: jack@suse.cz, abuehaze@amazon.com, agruenba@redhat.com, 
+	akpm@linux-foundation.org, alisaidi@amazon.com, almaz.alexandrovich@paragon-software.com, 
+	apopple@nvidia.com, blakgeof@amazon.com, brauner@kernel.org, byungchul@sk.com, 
+	cem@kernel.org, david@kernel.org, dipietro.salvatore@gmail.com, 
+	dipiets@amazon.it, djwong@kernel.org, dlemoal@kernel.org, exfat@lists.linux.dev, 
+	fuse-devel@lists.linux.dev, gfs2@lists.linux.dev, gourry@gourry.net, hyc.lee@gmail.com, 
+	joshua.hahnjy@gmail.com, jth@kernel.org, liam@infradead.org, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-xfs@vger.kernel.org, ljs@kernel.org, matthew.brost@intel.com, mhocko@suse.com, 
+	miklos@szeredi.hu, naohiro.aota@wdc.com, ntfs3@lists.linux.dev, 
+	ntfs@lists.linux.dev, rakie.kim@sk.com, ritesh.list@gmail.com, rppt@kernel.org, 
+	rvvandan@amazon.com, ryan.roberts@arm.com, sj1557.seo@samsung.com, surenb@google.com, 
+	vbabka@kernel.org, viro@zeniv.linux.org.uk, willy@infradead.org, 
+	ying.huang@linux.alibaba.com, yuezhang.mo@sony.com, ziy@nvidia.com, kirill@shutemov.name, 
+	dgc@kernel.org
+Subject: Re: [PATCH 0/2] mm, iomap: account dirty at page granularity for
+ per-block dirty folios
+Message-ID: <avdg_Q08T-ilyNmK@pedro-suse.tail5790ac.ts.net>
+References: <mcskrz2zbav5r3xtlwqytyotgjcmmi3wapeibkqornuhb3qp5y@qk22j77kvkqx>
+ <20261113155015.516481-1-dipiets@amazon.com>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -95,115 +122,184 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261113155015.516481-1-dipiets@amazon.com>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,amazon.com,redhat.com,linux-foundation.org,paragon-software.com,nvidia.com,kernel.org,sk.com,gmail.com,amazon.it,lists.linux.dev,gourry.net,infradead.org,vger.kernel.org,kvack.org,intel.com,suse.com,szeredi.hu,wdc.com,arm.com,samsung.com,google.com,zeniv.linux.org.uk,linux.alibaba.com,sony.com,shutemov.name];
+	R_RATELIMIT(0.00)[to_ip_from(RLe18ogjrzj7gw3iux4c8rw8c6)];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[52];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -11.80
 
-In log_replay(), data and dlen are derived from the on-disk redo_off/len
-and undo_off/len fields. When handling UpdateFileNameRoot and
-UpdateFileNameAllocation in do_action(), the code unconditionally copies
-sizeof(fname->dup) (56 bytes) from data:
+On Fri, Nov 13, 2026 at 03:50:15PM +0000, Salvatore Dipietro wrote:
+> Hi all,
+> 
+> Thanks Jan, Pedro, Dave, David and Kiryl for the feedback.
+> 
+> Following Dave's question about how PostgreSQL gets large folios on
+> files it writes 8 KiB at a time, we looked deeper and found a
+> reproducer that needs only fio and a single disk.
+> 
+> What happens:
+> 
+>   1. A buffered sequential read (VACUUM, a backup, a scan) builds large
+>      folios through readahead.  They stay large in the page cache until
+>      they are evicted.
+>   2. The first small write into one of these clean folios charges the
+>      whole folio as dirty: a 4 KiB write into a 256 KiB folio charges
+>      256 KiB, while writeback only writes the dirty 4 KiB.
+>   3. With random writes, most writes land in a different clean folio,
+>      so the dirty count reaches the limits with little real data.
+>      balance_dirty_pages() then throttles the writers, and they end up
+>      paced by how many folios writeback can clean per second rather
+>      than by the bytes to write.
+> 
+> Reproducer: XFS on one EBS gp3 volume (3000 IOPS), m8g.8xlarge
+> (32 CPUs, 128 GiB), default read_ahead_kb=128. fio's 1 MiB reads grow
+> the readahead window up to the device's max_sectors_kb (256 KiB), so
+> the read builds 256 KiB folios.
+> 
+>   ; create.fio: 16 x 3 GiB files, direct I/O so nothing is cached
+>   [global]
+>   directory=/mnt/xfs/fio
+>   filename_format=f.$jobnum
+>   size=3072m
+>   numjobs=16
+>   group_reporting=1
+>   [create]
+>   rw=write
+>   bs=1m
+>   direct=1
+>   ioengine=libaio
+>   iodepth=16
+> 
+>   ; load.fio: buffered sequential read; builds the large folios
+>   [global]
+>   directory=/mnt/xfs/fio
+>   filename_format=f.$jobnum
+>   size=3072m
+>   numjobs=16
+>   group_reporting=1
+>   [load]
+>   rw=read
+>   bs=1m
+>   direct=0
+>   ioengine=psync
+> 
+>   ; randwrite.fio: random 4 KiB buffered writes, 32 x 312 = ~10k IOPS
+>   ; invalidate=0 keeps the cached folios when fio opens the files
+>   [randwrite]
+>   directory=/mnt/xfs/fio
+>   filename=f.0:f.1:f.2:f.3:f.4:f.5:f.6:f.7:f.8:f.9:f.10:f.11:f.12:f.13:f.14:f.15
+>   rw=randwrite
+>   bs=4k
+>   direct=0
+>   ioengine=psync
+>   invalidate=0
+>   numjobs=32
+>   rate_iops=312
+>   time_based=1
+>   runtime=120
+>   group_reporting=1
+> 
+> To reproduce it, run (as root):
+> 
+>   fio create.fio
+>   sync; echo 3 > /proc/sys/vm/drop_caches
+>   fio load.fio          # skip this step for the control run
+>   fio randwrite.fio
+> 
+> fio asks for ~10k write IOPS, more than the volume's 3000, so dirty
+> data builds up in both runs.  In the control run (no load step) each
+> 4 KiB write creates a 4 KiB folio: after 120 s only 3.3G is dirty,
+> below the 12.2G background threshold, and nothing is throttled.  After
+> the load step the same writes land in 256 KiB folios, and each write
+> into a clean folio is charged 256 KiB: the dirty count passes the
+> background threshold after 6 s and writers are throttled from 13 s.
+> 
+> Results on v7.4-rc2, one run per kernel, each on a fresh instance.
+> Writer sleep is the total balance_dirty_pages() pause time over the
+> 32 writers during the 120 s write phase:
+> 
+>                          write   p99 / max   writer   max    folio
+>                           IOPS     lat ms    sleep s  dirty  size
+>   baseline, control      9,984  0.01 / 0.30      0    3.3G    -
+>   baseline               4,061    60 / 160     179   23.5G   256K
+>   v1 (this series)       9,984  0.01 / 0.67      0    3.6G   256K
+>   max order cap 64K      7,071    50 / 280      73   22.3G    64K
+>   max order cap 16K      9,984  0.02 / 0.05      0   11.9G    16K
+>   split on write         9,984  0.02 / 0.17      0    3.6G   256K
+>   evict on write         9,984  0.03 / 0.19      0    3.3G   256K
+>   POSIX_FADV_RANDOM      9,984  0.02 / 0.05      0    3.3G     4K
+> 
+> The control run gave 9,984 IOPS and max latency up to 0.30 ms on every
+> kernel.
+> 
+>   - max order cap: the global cap in mapping_max_folio_order() that Jan
+>     suggested trying.  At 64 KiB a 4 KiB write still charges 16x and is
+>     throttled.  At 16 KiB this run is not throttled, but dirty reached
+>     11.9G, just below the 12.2G background threshold.  The cap that
+>     avoids throttling depends on the write size, and it removes large
+>     folios for every file, including ones that never see small writes.
+>   - split on write: when a buffered write (iomap opts in, not for
+>     zeroing or unshare) finds a clean, uptodate, unmapped folio at least
+>     4x the write size, folio_split() it down to the write's order before
+>     dirtying it.  The rest of the folio stays cached in large folios.
+>     On the concerns Jan raised about splitting [1]: split on write only
+>     splits clean, uptodate, unmapped folios, so it needs no new
+>     filesystem state beyond an opt-in flag in iomap, and if
+>     folio_split() fails the write simply proceeds as today; evict on
+>     write avoids splitting altogether.
+>   - evict on write: same trigger, but mapping_evict_folio() the folio
+>     instead of splitting it (~40 lines).  This discards the folio's
+>     other cached data; nothing reads it back in this test, so the read
+>     cost does not show here.
+>   - POSIX_FADV_RANDOM (Dave's question): fio's fadvise_hint=random on
+>     the load job.  It avoids the problem without a kernel change, but
+>     only where the application opts in: the hint is per open file, so
+>     every process that reads a file must issue it, and a reader that
+>     doesn't (a backup or copy tool, for example) still builds large
+>     folios.  Every application that reads files sequentially and then
+>     rewrites them in place would have to adopt it, and keeps the
+>     regression until it does.  It also turns readahead off for those
+>     files, so their sequential reads lose readahead.
 
-    memmove(&fname->dup, data, sizeof(fname->dup));
+Holy heck, did an LLM write this?
 
-Neither handler checks that dlen is at least sizeof(fname->dup), and the
-generic log record validation does not enforce this operation-specific
-minimum.
+> 
+> Split and evict on write keep whole-folio accounting and act at write
+> time, so they also cover large folios already in the page cache,
+> whoever built them, without each application having to opt in.  Both
+> only touch clean, uptodate, unmapped folios at least 4x the write
+> size, and only on iomap buffered writes.  Split keeps the rest of the
+> folio cached at the cost of the split; evict is simpler but drops it.
+> I'd appreciate your opinion on these options, or any other direction
+> you think is more appropriate.
 
-A crafted journal record with client_data_len=0x98, redo_off=0x90,
-redo_len=1, and the multi-page flag set passes the record range check
-(0x90 + 1 <= 0x98), allocates a 152-byte buffer in find_log_rec(), and
-triggers a 48-byte KASAN slab-out-of-bounds read past the end of that
-buffer during a read-write mount:
+I think you'll face strong resistance to any of these options.
 
-  BUG: KASAN: slab-out-of-bounds in do_action.isra.0+0x353f/0x83c0
-  Read of size 56 at addr ffff888007d9bc90 by task busybox/67
-  Call Trace:
-   <TASK>
-   __asan_memmove+0x23/0x60
-   do_action.isra.0+0x353f/0x83c0
-   find_log_rec+0x277/0x500
-   ...
-  The buggy address belongs to the object at ffff888007d9bc00
-   allocated 152-byte region [ffff888007d9bc00, ffff888007d9bc98)
-
-Validate that dlen is at least sizeof(fname->dup) before copying in both
-UpdateFileNameRoot and UpdateFileNameAllocation, jumping to dirty_vol on
-a short payload.
-
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Cc: stable@vger.kernel.org
-Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
----
-Notes / Reproducer:
-
-- Tested on Linux 7.4.0-rc2 (067c5c24cef2) x86-64 in QEMU/KVM with
-  CONFIG_NTFS3_FS=y, CONFIG_KASAN=y, CONFIG_KASAN_INLINE=y, and
-  CONFIG_FORTIFY_SOURCE=n (patched kernel mounts cleanly with 0 KASAN
-  splats).
-- Note that previously posted patches bounding the destination index
-  entry or checking off + len <= client_data_len do not catch this case,
-  because the destination entry is valid and 0x90 + 1 <= 0x98 holds.
-- Disclosure: Assisted by a custom LLM-based tool; all results,
-  including the root-cause analysis, reproducer, and patch, were
-  manually reviewed and verified by a human.
-
-To reproduce:
-1. Fetch windows-interrupted-1.img.gz from:
-   https://raw.githubusercontent.com/antimatter-studios/rust-fs-ntfs/main/test-disks/windows-interrupted-1.img.gz
-2. Patch 3 bytes using poc.py below (`python3 poc.py windows-interrupted-1.img.gz short-source.img`)
-   and mount read-write (`mount -t ntfs3 -o force short-source.img /mnt`).
-
-Reproducer script (poc.py):
-
-  #!/usr/bin/env python3
-  # SPDX-License-Identifier: GPL-2.0-only
-  import argparse, gzip, hashlib
-  from pathlib import Path
-
-  BASE_SHA256 = "c45659e95104eca5f793c3f21061f42705a01783e62d1c7a46c63e4089db0b9a"
-  TRIGGER_SHA256 = "0e176bdd374e73dc3f40163320d6d69bfe36fe664735a50001a3bcbcad2ec2e4"
-  CHANGES = (
-      (0x292F878, 0x00, 0x01),  # LFS_RECORD_HDR.flags: separate allocation
-      (0x292F884, 0x28, 0x90),  # LOG_REC_HDR.redo_off low byte
-      (0x292F886, 0x38, 0x01),  # LOG_REC_HDR.redo_len low byte
-  )
-
-  parser = argparse.ArgumentParser()
-  parser.add_argument("fixture_gz", type=Path)
-  parser.add_argument("output_img", type=Path)
-  args = parser.parse_args()
-
-  image = bytearray(gzip.decompress(args.fixture_gz.read_bytes()))
-  assert hashlib.sha256(image).hexdigest() == BASE_SHA256
-  for offset, old, new in CHANGES:
-      assert image[offset] == old
-      image[offset] = new
-  assert hashlib.sha256(image).hexdigest() == TRIGGER_SHA256
-  args.output_img.write_bytes(image)
-
- fs/ntfs3/fslog.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index bb8d40bb5869..29840814c82e 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -3568,6 +3568,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 
- 		e = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
- 		fname = (struct ATTR_FILE_NAME *)(e + 1);
-+		if (dlen < sizeof(fname->dup))
-+			goto dirty_vol;
- 		memmove(&fname->dup, data, sizeof(fname->dup)); //
- 		mi->dirty = true;
- 		break;
-@@ -3753,6 +3755,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 		}
- 
- 		fname = (struct ATTR_FILE_NAME *)(e + 1);
-+		if (dlen < sizeof(fname->dup))
-+			goto dirty_vol;
- 		memmove(&fname->dup, data, sizeof(fname->dup));
- 
- 		a_dirty = true;
 -- 
-2.43.0
+Pedro
