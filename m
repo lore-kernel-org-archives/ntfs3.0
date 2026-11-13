@@ -1,54 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794457108;
-	b=QBoDo9XyDqRHY3hMcejC7DND91f8wOvwCXayDl1GQ2Y0fAVS9hQFD9Iq4vfSQ1SpDxox
-	 UX5RKGi9pVthLC0L8ZImmImrsTEwJOHfkqS7+KPv+WUTTE5mAW0dKYpaKsEd67a+QqNx4
-	 ip1TA0aZk3QFikiaXiKk5MoP/6eybufFYUjMQ6D70UWZpQC8ICjv7NR2g85x1sF9qnTeJ
-	 bYaZyGpmHnjtCpfW1YAyEQ/za6vwT3dXSrAybpSfZP6eU6uLnwSj1/YuSbbcoFUxq2AO5
-	 jc0F3DCjQQ8ZnrduQn1uk+EWqGsJnF4HDnbcvQ9OsmzgF4vaxebOVjd9+ndop/V6XEw==
+	t=1794544766;
+	b=N6CWBHLUpNxn/v7CB/rXbwn+OcXe34Je0Jnoi0J66vjnqkgLyyW0DH+dcZnUx5gf3NvK
+	 YnYxs2qZGd+KiDyUFDno3+NIsJL0wOmYQvLMQZckX+M+JHtCQUKlJY56+uvmXbStywtme
+	 RyMYCHrUQq3mKRkhC+V9On/aw89elELFHbGTQFggHKoa8/CBSsyX0vWqAWmtHRDqB6hvh
+	 zPhbPveX4fvU6VXK6rlTHieIQ6K/508mL2+NWvrXwJHCzL3YgEyjAKks7UzeTOCPDJ9Cq
+	 BzzT+DGio0bZZbVt8MQXpBFYBu5QPUk9nK1k7C270jp1YlSAwkst/KbLPJGGuVwoQBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794457108;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=k4HE90bYZv4XR8k3ShuBdFdLtlc06sKmYlxgX4yc6BQ=;
-	b=K09kMrMgDVvQcQX3UcX0bgookL5zuZxsBDU5yeJo4Wn+/esshi9vKFBeCnrdTnlRZ45W
-	 6fnxSgs504nMqe8tl+7mXWb0PK4WGEPaHxZsICya2PUswR59lZWMHlAXrd4RGjJHOK2GY
-	 +zDqNgaHMwjiKIIoOpEqSUnbAPQGTPKG4J5nbyukKgWpmUB4GARaBwtxTB1h2nChxGhgL
-	 2hntFuZi/beJbFysTHWQRa2HwvQqHI18b0RC1LRn0oZXx4CCtEi62z/Bm8zRe8FFfw0Ri
-	 2DNKK+V3re2cvPFO/fYzHO9arQOw5LYLhhUlCoT8fGtK6qyYw423KoOoK2rXwugLSDw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794544766;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=tFaT0DZ6F3QRjTbdaYV7CT46FZwUMHFmzpgE4p3kzPo=;
+	b=nLR44YStRym1XBkE7AfaWYpjGXnXN9rW9paZ3kcU+s6nVffOwCocWtDnzdyOuAwSWzwV
+	 FydpoaaVWOfz2Gl8bHNe+/bKsoX/MwNiL2jmkr8clXgR6n6AnnjAzG5888TODB64J4dns
+	 KOXsiYkTrot9MhX5ZxjDtCHi9bwK4mXpMMkQmU97qNgxVjVZV3hsQs2BSH6IJ4rqMUJHA
+	 jtfOcV16SVfhhXsMb6nfT0GTRSbCCD5skGcrpuMnxFidRKAXKrYCtO1yxBmVC5FQoqb3y
+	 fUgSlLuHF2tpdUzrVDpa7pYOoWH/2vff2jLs7jIF6c6GiyOj6Bk+r2Q0KcY+iBBBK5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.200
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	dmarc=pass header.from=cs.unc.edu;
+	spf=pass smtp.mailfrom=cs.unc.edu;
+	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=gcyDcJwP;
+	arc=none smtp.remote-ip=74.125.224.52
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF26A606A331
-	for <ntfs3@lists.linux.dev>; Thu, 12 Nov 2026 04:18:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF26A606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4b597558c4cso4493822b6e.1
-        for <ntfs3@lists.linux.dev>; Wed, 11 Nov 2026 20:18:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3283F606A327
+	for <ntfs3@lists.linux.dev>; Fri, 13 Nov 2026 04:39:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3283F606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=gcyDcJwP
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-679a2b5fe87so532553d50.3
+        for <ntfs3@lists.linux.dev>; Thu, 12 Nov 2026 20:39:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.unc.edu; s=google; t=1794544765; x=1795149565; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tFaT0DZ6F3QRjTbdaYV7CT46FZwUMHFmzpgE4p3kzPo=;
+        b=gcyDcJwPbCozNFHL7LjpKgOGptI6nN1c8z9nsxYG60gR8lfcF/h+aPJo0MVuzfQ1JT
+         ojhCd3oF9Lbuwt72OMWyn6GfKQT8t7HNQTzle3fooTCMxJCXPLvpcvdyL3LTPo/iqlH3
+         8yPbinG7iPaiQq5Q0ZvqVE7L63eIywxtb+pVPsSNvxJz1w6cUt6y42DF5ZJX1gq1n4T7
+         +1L8VVPpNLxrki4XJn55tnCXc1YA2lzWyjx6YLClV2zcN0KOT1S2pDHDK6DhD4100kzj
+         MGNafGdWAICvl8ydlI4BRBSXeKoBnPkK6DGssZklvnwV2aQCPU4DWBJk5KNj/iB2cux6
+         Xz2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794457107; x=1795061907;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=k4HE90bYZv4XR8k3ShuBdFdLtlc06sKmYlxgX4yc6BQ=;
-        b=1h3F8vDXaZ5ZHNRTW/CfVbN5u/iWyDbe93lxvjQvB3mD/SB2RI25WglUio8qIH9aiU
-         9hVeWe6qjDzMT7tpy50uG/hUdOc/ZbuxrhCw7bF/XpKKGGc/NdhWSobYXdb++DTCpqNV
-         m23nOxFPqkoqYENM9E9ZL9LYFNVimeygxQCAE9a7kvpUU2c5LYcE1nwYxd5zjwhA6/Jq
-         b9Yv9sGkyuzoAFrAx/SmNhzAQ97sivBB7cc7MX8fhe8xKKL5jCbtFDKdmIiOa5fMja/F
-         jHVDirrEvWCw4g9mHWO63p160C+Jbq2v5s2W5qHhKBW8JtJbV5BoPVtf0I1l3BGMo3o+
-         ZVDA==
-X-Forwarded-Encrypted: i=1; AL+hErFvfBcJWyxiMX8XMwZQmuwXF0cUHj/h796RBy039XLdaC1qlknN87qZRTioGVWudiS+XMBhTg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9NcHUYQvDkmYzZ/wcj1++1iFMJoySLZizUJg7ekqiL55OE7dar
-	1eIB8sNMdqyYx+r5AXhVdbRAIWn9ZCcnTiiO/0Yth0c0q7lJdoJGeGSM7Y2f7F2xGtvFtDQJD+X
-	jHNe/okkR5UmhcJzavnNROVbqbhZkdaZyhcTCgqFlHjfxD5WG7dpPY/MP1ak=
+        d=1e100.net; s=20260707; t=1794544765; x=1795149565;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tFaT0DZ6F3QRjTbdaYV7CT46FZwUMHFmzpgE4p3kzPo=;
+        b=LGhvWXQmanxyJSwgKrFe99sx8wLIHsFipo231fn8suFfH7n3/gFRyo1dzFTUaIE/YL
+         c7y9Rup32EyWgH2nCzFJvb9x2vcr0TOCzb+DkhM7VGY/x70HMjv26jD65RPcwKC2/k8G
+         EX20PhB4rtY9svLLTV39tSXT/G3FyMAO3xCtk3om0RCyzkADXtBeJ/1gDMGa8cKWTBcm
+         k16qCM1ymJrLEq0pI187TTRMVQXI5f5MCPzyoBme6piukdSa+gKcH+ItXKbKC2dit0MN
+         7qYiXoCbi88cMrtDG3n6HQnrwudAGUJlDlHDW/j/Kqcb1uFaYaQwsJAsjFC/RVy0/aTr
+         KRpw==
+X-Gm-Message-State: APuU4Z84PRHjEAG4uha7Nf43lA/50ZbTg3a0h1O3mPlNwMTMPiyau8le
+	pp+4ysxrPODhGm5HexxYdE1ME0t6+gztbavIj0X8pMUtU1NIwmvlSSKRColggEECiQ==
+X-Gm-Gg: AYBFou2l0zLvsPAn+opeFkC9zS5PkaFNAk9c2O/5tw+17UQBpLuDHVkDR0H3D7VZ1dI
+	uRYznHHSWb/3qgLyOlF+2BFDOO7uoW5LXA70sYEde4RG2Z4UlenMkPFjr968I5pd6wP8eVuScHO
+	ztkBfGkw90/pJkfo/3XFc1X2zn10EMg37q+cGEKLcyuzntwZCWMr1rZzmbqMLhNic7qyCEYeSmp
+	v+YEjrqt5cnUqBQ9PXKk7KHBVOJGClWYk9VT92DmoO6YwpoY4iDFNSEP3fD+YZsIV3g9TGS5fZm
+	OTpYvMvFRsp9yCTtEvlCasX3Iov293Qohh0UhdksXKJ20mbIF2DzHgkcT1hivdRT3MrvjADAy1G
+	M/YSPLFNpUB64LrL+G6YU24z0/qoLr5FpueqR7z6Uzco1kyEs3fTqMxitkwAJyZHNiQvPvkgUUO
+	vCsiUjVG0PUPgMF7usT6kKBA+P6KTjHZ4j8Lt+wfHpBGAexfLtTn0xYeuDn0Lj6zmokATXcbGnp
+	ZCexT3NTkLvphjLVC+ly1G67MYpZaTfD1LWpMRXaU3jchsrEjQqEGeFlh5lRrfQcdPue43enQdW
+	45YApGrUkI5mjaLihGarRWxbnk9Zixkp7aq56Pn/J/y9d1NPsN16AM8vfkDzDDJtStm0/xxg
+X-Received: by 2002:a05:690e:1917:b0:679:ba40:efaf with SMTP id 956f58d0204a3-67d895e5adamr679117d50.46.1794544765076;
+        Thu, 12 Nov 2026 20:39:25 -0800 (PST)
+Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67d8a64b04bsm1078108d50.23.2026.11.12.20.39.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 20:39:24 -0800 (PST)
+From: Hengyu Liang <hengyul@cs.unc.edu>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: do not restart readdir() when entries are added
+Date: Thu, 12 Nov 2026 23:39:20 -0500
+Message-ID: <20261113043920.2583254-1-hengyul@cs.unc.edu>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -58,252 +93,111 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:8806:b0:539:4d53:170e with SMTP id
- 5614622812f47-56bf68b47a3mr2484129b6e.43.1794457106985; Wed, 11 Nov 2026
- 20:18:26 -0800 (PST)
-Date: Wed, 11 Nov 2026 20:18:26 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6af53e12.6d8d289a.8382.0004.GAE@google.com>
-Subject: [syzbot] [ntfs3?] KASAN: slab-use-after-free Read in ntfs_read_hdr (2)
-From: syzbot <syzbot+7f14bc1da1f4da6518e5@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Commit dffc7f2f177b ("fs/ntfs3: allow readdir() to finish after
+directory mutations without rewinddir()") made ntfs_readdir() start
+again from the first entry when it reaches the end of a directory whose
+version has changed. This helps programs that remove the entries while
+they read them.
 
-syzbot found the following issue on:
+However, indx_insert_entry() increments the version as well. As of now,
+a program that reads a directory while another program adds files to it
+gets the same names again and again, and reaches the end only after a
+pass during which no file was added.
 
-HEAD commit:    067c5c24cef2 Merge tag 'page_alloc-for-7.4-rc2' of git://g..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=12f45155580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3cc6a7ee2d24d208
-dashboard link: https://syzkaller.appspot.com/bug?extid=7f14bc1da1f4da6518e5
-compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+The issue can be reproduced on an NTFS volume mounted on /mnt:
 
-Unfortunately, I don't have any reproducer for this issue yet.
+    mkdir /mnt/d
+    for i in $(seq 3000); do echo > /mnt/d/a$i; done
+    for i in $(seq 10000); do echo > /mnt/d/b$i; done &
+    sleep 1
+    ls /mnt/d | wc -l
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-067c5c24.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/e180e707408c/vmlinux-067c5c24.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/3ca866fdd4ef/bzImage-067c5c24.xz
+Before commit dffc7f2f177b ("fs/ntfs3: allow readdir() to finish after
+directory mutations without rewinddir()"), the result is:
 
-AI-generated root cause summary:
-A slab-use-after-free occurs in ntfs_read_hdr() because ntfs_readdir() unlocks
-ni_lock before calling ntfs_read_hdr() with a pointer to root->ihdr located
-inside the MFT record buffer (ni->mi.mrec). The directory code erroneously
-assumed that holding shared i_rwsem was sufficient to keep the record buffer
-stable. However, background writeback (ni_write_inode()) does not take i_rwsem
-and only checks ni_trylock(), so it concurrently runs ni_try_remove_attr_list()
-on the inode. In ni_try_remove_attr_list(), the error recovery path restores the
-primary record via swap(mrec, ni->mi.mrec) followed by kfree(mrec), freeing the
-original MFT record buffer while ntfs_read_hdr() is actively traversing entries
-within it.
+    5489
 
-full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=7f14bc1da1f4da6518e5
+After that commit, the result is:
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7f14bc1da1f4da6518e5@syzkaller.appspotmail.com
+    1837538
 
-loop0: detected capacity change from 0 to 4096
-ntfs3(loop0): Different NTFS sector size (1024) and media sector size (512).
-ntfs3(loop0): Mark volume as dirty due to NTFS errors
-==================================================================
-BUG: KASAN: slab-use-after-free in ntfs_read_hdr+0x8f2/0xc10 fs/ntfs3/dir.c:427
-Read of size 2 at addr ffff888014a9faa0 by task syz.0.0/5342
+This patch will increment the version only in indx_delete_entry(), so
+that added entries do not restart readdir().
 
-CPU: 0 UID: 0 PID: 5342 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- ntfs_read_hdr+0x8f2/0xc10 fs/ntfs3/dir.c:427
- ntfs_readdir+0x68c/0xf00 fs/ntfs3/dir.c:573
- iterate_dir+0x3db/0x880 fs/readdir.c:114
- __do_sys_getdents fs/readdir.c:324 [inline]
- __se_sys_getdents+0xf1/0x270 fs/readdir.c:309
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f52ac5a8f19
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f52a89f4fe8 EFLAGS: 00000246 ORIG_RAX: 000000000000004e
-RAX: ffffffffffffffda RBX: 00007f52ac825fa0 RCX: 00007f52ac5a8f19
-RDX: 00000000000000b8 RSI: 00002000000452c0 RDI: 0000000000000005
-RBP: 00007f52ac637f6d R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f52ac826038 R14: 00007f52ac825fa0 R15: 00007ffee86c7a08
- </TASK>
-
-Allocated by task 5342:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:426
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5531 [inline]
- __kmalloc_noprof+0x366/0x710 mm/slub.c:5556
- _kmalloc_noprof include/linux/slab.h:995 [inline]
- mi_init+0x76/0xe0 fs/ntfs3/record.c:105
- ntfs_read_mft fs/ntfs3/inode.c:61 [inline]
- ntfs_iget5_flags+0x67e/0x4780 fs/ntfs3/inode.c:735
- dir_search_flags+0x2d7/0x560 fs/ntfs3/dir.c:318
- ntfs_lookup+0x1d9/0x450 fs/ntfs3/namei.c:96
- __lookup_slow+0x1fb/0x2f0 fs/namei.c:1925
- lookup_slow+0x59/0x80 fs/namei.c:1942
- walk_component fs/namei.c:2288 [inline]
- lookup_last fs/namei.c:2795 [inline]
- path_lookupat+0x3f5/0x8c0 fs/namei.c:2819
- filename_lookup+0x265/0x5d0 fs/namei.c:2848
- do_fchownat+0xfa/0x250 fs/open.c:849
- __do_sys_chown fs/open.c:873 [inline]
- __se_sys_chown fs/open.c:871 [inline]
- __x64_sys_chown+0x82/0xa0 fs/open.c:871
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Freed by task 78:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:264 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2780 [inline]
- slab_free mm/slub.c:6630 [inline]
- kfree+0x1c5/0x650 mm/slub.c:6923
- ni_try_remove_attr_list+0xda6/0xf40 fs/ntfs3/frecord.c:-1
- ni_write_inode+0xbf1/0x1200 fs/ntfs3/frecord.c:3266
- write_inode fs/fs-writeback.c:1629 [inline]
- __writeback_single_inode+0x69d/0x1220 fs/fs-writeback.c:1872
- writeback_sb_inodes+0x9de/0x1af0 fs/fs-writeback.c:2120
- __writeback_inodes_wb+0x114/0x250 fs/fs-writeback.c:2196
- wb_writeback+0x42f/0xad0 fs/fs-writeback.c:2307
- wb_check_start_all fs/fs-writeback.c:2433 [inline]
- wb_do_writeback fs/fs-writeback.c:2480 [inline]
- wb_workfn+0x980/0x10f0 fs/fs-writeback.c:2518
- process_one_work kernel/workqueue.c:3495 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3578
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3659
- kthread+0x38b/0x480 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-The buggy address belongs to the object at ffff888014a9f800
- which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 672 bytes inside of
- freed 1024-byte region [ffff888014a9f800, ffff888014a9fc00)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x14a9c
-head: order:2 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000040 ffff88801c841dc0 dead000000000100 dead000000000122
-raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
-head: 00fff00000000040 ffff88801c841dc0 dead000000000100 dead000000000122
-head: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
-head: 00fff00000000002 ffffffffffffff01 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000004
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 2, migratetype Unmovable, gfp_mask 0x252800(GFP_NOWAIT|__GFP_NORETRY|__GFP_COMP|__GFP_THISNODE), pid 5342, tgid 5341 (syz.0.0), ts 95348393709
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1860
- prep_new_page mm/page_alloc.c:1868 [inline]
- get_page_from_freelist+0x225d/0x22e0 mm/page_alloc.c:3950
- __alloc_frozen_pages_noprof+0x211/0x450 mm/page_alloc.c:5492
- alloc_slab_page mm/slub.c:3384 [inline]
- allocate_slab+0x7d/0x5e0 mm/slub.c:3499
- new_slab mm/slub.c:3550 [inline]
- ___slab_alloc+0x16a/0x960 mm/slub.c:4605
- slab_alloc_node mm/slub.c:5024 [inline]
- __do_kmalloc_node mm/slub.c:5530 [inline]
- __kmalloc_flags_noprof+0x33c/0x790 mm/slub.c:5719
- _kmalloc_flags_noprof mm/slab.h:55 [inline]
- alloc_slab_obj_exts+0x5c/0x180 mm/slub.c:2218
- __memcg_slab_post_alloc_hook+0x5f0/0xdb0 mm/memcontrol.c:3713
- memcg_slab_post_alloc_hook mm/slub.c:2549 [inline]
- slab_post_alloc_hook mm/slub.c:4739 [inline]
- slab_alloc_node mm/slub.c:5033 [inline]
- __do_kmalloc_node mm/slub.c:5530 [inline]
- __kmalloc_node_track_caller_noprof+0x515/0x720 mm/slub.c:5662
- __kmemdup_nul mm/util.c:64 [inline]
- kstrdup+0x42/0x100 mm/util.c:84
- alloc_vfsmnt+0x193/0x510 fs/namespace.c:329
- vfs_create_mount+0x68/0x310 fs/namespace.c:1267
- fc_mount fs/namespace.c:1285 [inline]
- do_new_mount_fc fs/namespace.c:3910 [inline]
- do_new_mount+0x3a6/0xb00 fs/namespace.c:3986
- do_mount fs/namespace.c:4350 [inline]
- __do_sys_mount fs/namespace.c:4565 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4542
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-page last free pid 5342 tgid 5341 ts 95315765400 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1402 [inline]
- __free_frozen_pages+0xd1a/0xe10 mm/page_alloc.c:2958
- stack_depot_save_flags+0x41e/0x810 lib/stackdepot.c:735
- kasan_save_stack mm/kasan/common.c:58 [inline]
- kasan_save_track+0x4f/0x80 mm/kasan/common.c:78
- unpoison_slab_object mm/kasan/common.c:351 [inline]
- __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:377
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4720 [inline]
- slab_alloc_node mm/slub.c:5033 [inline]
- kmem_cache_alloc_lru_noprof+0x29e/0x5f0 mm/slub.c:5066
- ntfs_alloc_inode+0x28/0x80 fs/ntfs3/super.c:681
- alloc_inode+0x6a/0x1b0 fs/inode.c:338
- iget5_locked+0x4a/0xa0 fs/inode.c:1391
- ntfs_iget5_flags+0x19a/0x4780 fs/ntfs3/inode.c:710
- ntfs_iget5 fs/ntfs3/ntfs_fs.h:805 [inline]
- ntfs_extend_init+0xff/0x510 fs/ntfs3/fsntfs.c:230
- ntfs_fill_super+0x44a0/0x49c0 fs/ntfs3/super.c:1742
- get_tree_bdev_flags+0x436/0x500 fs/super.c:1821
- vfs_get_tree+0x92/0x2a0 fs/super.c:1881
- fc_mount fs/namespace.c:1282 [inline]
- do_new_mount_fc fs/namespace.c:3910 [inline]
- do_new_mount+0x325/0xb00 fs/namespace.c:3986
- do_mount fs/namespace.c:4350 [inline]
- __do_sys_mount fs/namespace.c:4565 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4542
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
-
-Memory state around the buggy address:
- ffff888014a9f980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888014a9fa00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff888014a9fa80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                               ^
- ffff888014a9fb00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888014a9fb80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
+Fixes: dffc7f2f177b ("fs/ntfs3: allow readdir() to finish after directory mutations without rewinddir()")
+Cc: stable@vger.kernel.org # v7.0
+Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+The readdir() + unlink() loop of that commit keeps working: it still
+empties a directory of 20000 files in one pass (298 files are left on
+v6.19).
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Application impact (Ubuntu 26.04 user space): "tar -cf" (GNU tar 1.35)
+of a folder with 3000 files while "cp -r" adds 2000 files to it. On
+v6.19, tar ends after 1.2 s and the archive has each file once. On
+v7.0, tar runs for 29 s and the archive has 200434 members, each file
+up to 48 times.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Tested on ntfs3 master: without this patch the archive has 261512
+members; with it each file is there once.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+ fs/ntfs3/dir.c     | 6 +++---
+ fs/ntfs3/index.c   | 1 -
+ fs/ntfs3/ntfs_fs.h | 2 +-
+ 3 files changed, 4 insertions(+), 5 deletions(-)
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+index 7ee1a5d4189e..defc84693e39 100644
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -476,15 +476,15 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
+ 
+ 	if (!pos) {
+ 		/*
+-		 * ni->dir.version increments each directory change.
+-		 * Save the initial value of ni->dir.version.
++		 * ni->dir.version increments when a delete reshapes the
++		 * name tree. Save the initial value of ni->dir.version.
+ 		 */
+ 		file->private_data = (void *)ni->dir.version;
+ 	}
+ 
+ 	if (pos >= eod) {
+ 		if (file->private_data == (void *)ni->dir.version) {
+-			/* No changes since first readdir. */
++			/* No such delete since first readdir. */
+ 			return 0;
+ 		}
+ 
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index c06b36760448..29884bf3d35e 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -2100,7 +2100,6 @@ int indx_insert_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
+ 					      fnd->level - 1, fnd, cmp);
+ 	}
+ 
+-	indx->version += 1;
+ out:
+ 	fnd_put(fnd_a);
+ out1:
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index f400cf94d05b..12212fb7a2be 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -198,7 +198,7 @@ struct ntfs_index {
+ 	struct runs_tree alloc_run;
+ 	/* read/write access to 'bitmap_run'/'alloc_run' while ntfs_readdir */
+ 	struct rw_semaphore run_lock;
+-	size_t version; /* increment each change */
++	size_t version; /* incremented when a delete reshapes the tree */
+ 
+ 	u8 index_bits; // log2(root->index_block_size)
+ 	u8 idx2vbn_bits; // log2(root->index_block_clst)
 
-If you want to undo deduplication, reply with:
-#syz undup
+base-commit: 0c895b1f6ab37a7c72a437818f307ef6e629051c
+-- 
+2.53.0
+
