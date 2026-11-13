@@ -1,54 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.26.1.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794554393;
-	b=fx380uO19CQCM2GbCjKk3MGLkPwrp2iWeL7nSAzFnmeuGLTKhnXDxbaoDabe2X8vbVar
-	 9kwgYNQrqsQ7p+Uh2L1i8B3tWmmYIMJuFXR3cDNJOQrVDgV+ASpSD5A4kxaMV16E7j++O
-	 Czcsl0mavCmA/TFtAPvBJFdHmftgLJVTbu52GBjZHqPbXHXbB0K8HI2hppzmwBM6bn/PK
-	 lKpUNl6X/vA53UzKTP+5gxgHHZI90OgBl/JLAGuhyTlDwmKg7uwjCpDxP4tRHRtXcSARL
-	 iEddN9J0wFQGETRcj01SZfuvpnHrZaYPBKrz5tlR/+jiI5doh8lb7I6eC0W9IjP4RrQ==
+	t=1794585067;
+	b=jYCogwid6sM4PP/EeBoh1pUIP8sOqvg+NmHb8rzS3Yw6hgjxxITli2iSoDKSDMZHARb6
+	 5DHGLgS3+BG39XtfhC2TqRnITE+aZNSVnkDhXKHbT4i79L1ZEF8nFL/CFFJUI5UZhSV8U
+	 kC+ehZ8VV9kZgSonErMvAom8Cj4nu6ydI0JmBmbF/Q9tvH9nIN8wB4FtwqWHgvp0hLt3R
+	 hcBFznL/irXGFMbX8inJGKd61QEtA75mmIYBQSQTzbPsAeBwbgYMromEUTcoeX+GuZjB5
+	 7HrexOZKeFYtAlPigVMB+B6AhNvTwEmUL2sV6Avtjw/jrQvgRK3Z8o4+8gm+17fputw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794554393;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=NImTOund7I1UAbtUhNpwSFZMAy/nW2gw4woQxmofC1Y=;
-	b=DvPybLrumJVyogz+fDTL/jLlxx9CgnzW/bY4UaZVuo9uG8sjR1/RrGYyT+uBIKaL91zQ
-	 cFmv5k5f14nngTe+RuUabethSIvXHpDh4M5caQU55KwPKRpTItLHYTIXsaV1zzQmZ76Fp
-	 kI/cOxZH2CFfNpdTQyAZjQZwS0Fpv7WcWj2P6R9ZAMd/trveitFdeFkvs2E761dOqbDTC
-	 2jwBJE/IDFAMyIfrYr1HQ3VS3awq7LVFAT34S7tbs4JNjIVFqxkG+nthOIImiICEH+OeN
-	 uhPtkFw2rBxOyP6v4hRgwCRNZtVkGXL80mMRBtX1IrEJMJkU/68bijVMqVVwF8izJtw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794585067;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:X-Originating-IP:X-ClientProxiedBy:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=ttqAfDxUfq10cMBrxuj6822Y6w4QHwk60wHnUr65sec=;
+	b=ZV59/25woEGIHh2llS74XnbVB1XaaJ8fqjHWfNCXvvgSAYvMmTqqLPigyDFPXjSx0Jql
+	 N/4suIyPocQOJdlRt3ljAZeKnHr3Tm4QEyUcI3jQzf7GzAOpmh+MDoPQPkvArEUoYhkOx
+	 nBJ6oKLozX1U8qMXbOYGSbswTW6nLrPe/m9vGrYEKvOt+78myy/s8VqdIeRc46yuxdeWx
+	 lh1KpB83lGNPCQFwhsAagsW6rmkpSXQKWZaeqYB7iFonXr2vjV3RixqekJwivK1wkoGhn
+	 jdMbwHeKhZTcg6BVVfN1gerGMtpBc0ofhmVdV3awGscjzcluATDmfl4lUl65GEUVcBw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.198
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.it;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=A2YWGP1F;
+	arc=none smtp.remote-ip=52.26.1.71
+Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73931606A323
-	for <ntfs3@lists.linux.dev>; Fri, 13 Nov 2026 07:19:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73931606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4b37620eb73so1009098b6e.1
-        for <ntfs3@lists.linux.dev>; Thu, 12 Nov 2026 23:19:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794554392; x=1795159192;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NImTOund7I1UAbtUhNpwSFZMAy/nW2gw4woQxmofC1Y=;
-        b=RKNzN3z0s1q29Tmv6M5E+G2rArH3ydh0nicSDjVXr9bSddar/7X2YFxuFYV0uVoHmt
-         CI+YgXtXAOCGRpFYNIAL08QA9SQF/mPEKPZfKYh+uq+egdXGTd3Sq0K9Io1aNgMCkLqd
-         qmeoOR7/KX22OpbyboFkHnTp77aGo7Hr265CnVZLZRTb8DTHw4QlAKYOcxUmsa0tctzh
-         S+iNHC+GCmd8UtiOPKm1KF9F4knldhuOz1HiweD9lCR7iN6bNwygak0Wwog5xpeFZJ+v
-         sF8gDEtfWaocInL3auBjknKpjCEXBBX+WV1bbQstC9vz5p+pGghnqSmvWPxiy2LUYwDE
-         bDmA==
-X-Forwarded-Encrypted: i=1; AL+hErHDsftwmorWvjBwamOO+qeDmlDXizMdbgjJ3e3VzuT/IsY8AaeEpAgnxiRKbpAVs0AJDNL5HQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z80LmbivAvRC6iZ2IInwb/MtfTcEhKsGh2K+z/Q+y+/taCfB70t
-	hi+kiUcDagk9sPMmZLBiZ/jcwhWBqyTbYcLJqq0sM9xswTOvcnvuXRpA33WKcvF12Eng9oQW8s9
-	HtY8xcUqNHQfpfQAwcyKWo2CYgcQIwhznNM18RGRwSXlj0EGEqEn2v+ORIO8=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA9F606A32E;
+	Fri, 13 Nov 2026 15:51:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EA9F606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=A2YWGP1F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1794585065; x=1826121065;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ttqAfDxUfq10cMBrxuj6822Y6w4QHwk60wHnUr65sec=;
+  b=A2YWGP1Fpk2ennvvIVzm+5gKtGrHfZqwO3k6Fac3QUJHHaNGlbsKOe82
+   ZZT5fkrCxezz3MVrW43yrWb+Thpo+s410hHAHtwrwQiXvwIMWaQdrhI9B
+   ud6B5Er5bzUSFGIOKZscALODbNt+OsQLk8ngsDzgwIg//uYfWcp5lxkQS
+   t4/foga8HVDruCDogUljFI93EI6AzEX3ugqCqmXbZCPv5LDIfCGi1xMD0
+   Jp6EUnskndoCjsiyMUi45J+zod9wAL4o653QwfVWt5HvBj+pBjyG3qBsR
+   6bnGlnGZoHjLk1m2hj3Z7BXb74iDvQ1p3vdKDPYSlgNgEILjNZc5ogMwo
+   A==;
+X-CSE-ConnectionGUID: mEzGvvEbQ/eZvW+yJkWFSA==
+X-CSE-MsgGUID: 726PIJdYTv201+SXclxh0w==
+X-IronPort-AV: E=Sophos;i="6.27,211,1787011200"; 
+   d="scan'208";a="33924868"
+Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
+  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 15:50:57 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:27372]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.10.61:2525] with esmtp (Farcaster)
+ id 06ade6d6-3062-4e83-9e5f-28bb5c92f1e7; Fri, 13 Nov 2026 15:50:57 +0000 (UTC)
+X-Farcaster-Flow-ID: 06ade6d6-3062-4e83-9e5f-28bb5c92f1e7
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Fri, 13 Nov 2026 15:50:55 +0000
+Received: from dev-dsk-dipiets-1b-77b833da.eu-west-1.amazon.com
+ (10.253.66.177) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56; Fri, 13 Nov 2026
+ 15:50:49 +0000
+From: Salvatore Dipietro <dipiets@amazon.com>
+To: <jack@suse.cz>
+CC: <abuehaze@amazon.com>, <agruenba@redhat.com>, <akpm@linux-foundation.org>,
+	<alisaidi@amazon.com>, <almaz.alexandrovich@paragon-software.com>,
+	<apopple@nvidia.com>, <blakgeof@amazon.com>, <brauner@kernel.org>,
+	<byungchul@sk.com>, <cem@kernel.org>, <david@kernel.org>,
+	<dipietro.salvatore@gmail.com>, <dipiets@amazon.it>, <djwong@kernel.org>,
+	<dlemoal@kernel.org>, <exfat@lists.linux.dev>, <fuse-devel@lists.linux.dev>,
+	<gfs2@lists.linux.dev>, <gourry@gourry.net>, <hyc.lee@gmail.com>,
+	<joshua.hahnjy@gmail.com>, <jth@kernel.org>, <liam@infradead.org>,
+	<linkinjeon@kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-xfs@vger.kernel.org>, <ljs@kernel.org>, <matthew.brost@intel.com>,
+	<mhocko@suse.com>, <miklos@szeredi.hu>, <naohiro.aota@wdc.com>,
+	<ntfs3@lists.linux.dev>, <ntfs@lists.linux.dev>, <pfalcato@suse.de>,
+	<rakie.kim@sk.com>, <ritesh.list@gmail.com>, <rppt@kernel.org>,
+	<rvvandan@amazon.com>, <ryan.roberts@arm.com>, <sj1557.seo@samsung.com>,
+	<surenb@google.com>, <vbabka@kernel.org>, <viro@zeniv.linux.org.uk>,
+	<willy@infradead.org>, <ying.huang@linux.alibaba.com>,
+	<yuezhang.mo@sony.com>, <ziy@nvidia.com>, <kirill@shutemov.name>,
+	<dgc@kernel.org>
+Subject: Re: [PATCH 0/2] mm, iomap: account dirty at page granularity for per-block dirty folios
+Date: Fri, 13 Nov 2026 15:50:15 +0000
+Message-ID: <20261113155015.516481-1-dipiets@amazon.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <mcskrz2zbav5r3xtlwqytyotgjcmmi3wapeibkqornuhb3qp5y@qk22j77kvkqx>
+References: <mcskrz2zbav5r3xtlwqytyotgjcmmi3wapeibkqornuhb3qp5y@qk22j77kvkqx>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -58,268 +102,160 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:13ce:b0:4f5:aa1c:d934 with SMTP id
- 5614622812f47-56e64cf7e79mr1513625b6e.38.1794554392407; Thu, 12 Nov 2026
- 23:19:52 -0800 (PST)
-Date: Thu, 12 Nov 2026 23:19:52 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6af6ba18.c3c214cc.692fa.00e5.GAE@google.com>
-Subject: [syzbot] [btrfs?] [ntfs3?] memory leak in __pcs_replace_empty_main
-From: syzbot <syzbot+527fed49e5b988882c9a@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, dsterba@suse.com, 
-	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ntfs3@lists.linux.dev, radu@rendec.net, syzkaller-bugs@googlegroups.com, 
-	tglx@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-ClientProxiedBy: EX19D031UWA001.ant.amazon.com (10.13.139.88) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Hello,
+Hi all,
 
-syzbot found the following issue on:
+Thanks Jan, Pedro, Dave, David and Kiryl for the feedback.
 
-HEAD commit:    8a65162514fb Merge tag 'driver-core-7.4-rc2' of git://git...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=149c9409580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4361b1bb937ae1c4
-dashboard link: https://syzkaller.appspot.com/bug?extid=527fed49e5b988882c9a
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=129c9409580000
+Following Dave's question about how PostgreSQL gets large folios on
+files it writes 8 KiB at a time, we looked deeper and found a
+reproducer that needs only fio and a single disk.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/4cd10f0ff0b1/disk-8a651625.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/055634bde6e5/vmlinux-8a651625.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/523697a102d6/bzImage-8a651625.xz
-mounted in repro #1: https://storage.googleapis.com/syzbot-assets/6cf790da15a7/mount_0.gz
-  fsck result: OK (log: https://syzkaller.appspot.com/x/fsck.log?x=17c154d9580000)
-mounted in repro #2: https://storage.googleapis.com/syzbot-assets/9fee673d5c4a/mount_11.gz
-  fsck result: OK (log: https://syzkaller.appspot.com/x/fsck.log?x=1161e7a5580000)
-mounted in repro #3: https://storage.googleapis.com/syzbot-assets/5f1986de5655/mount_13.gz
+What happens:
 
-AI-generated root cause summary:
-In SLUB's per-CPU sheaves (PCS) implementation (mm/slub.c), struct slab_sheaf
-objects allocated via __alloc_empty_sheaf() are tracked as standard heap
-allocations by kmemleak. When an rcu_free sheaf reaches capacity in
-__kfree_rcu_sheaf(), it is detached from pcs->rcu_free and queued for deferred
-cleanup via call_rcu(&rcu_sheaf->rcu_head, rcu_free_sheaf). While queued, the
-only pointer to the sheaf exists in RCU's segmented callback list
-(rcu_data.cblist); if any earlier callback in the singly-linked list resides in
-memory untracked or unscanned by kmemleak (such as struct slab allocated in
-struct page, SLAB_NOLEAKTRACE objects, or already-freed objects), kmemleak
-cannot traverse the chain. Because recycled sheaves retain their early-boot
-allocation timestamps, kmemleak exceeds its scan age threshold and falsely
-reports these in-flight sheaves as unreferenced memory leaks.
+  1. A buffered sequential read (VACUUM, a backup, a scan) builds large
+     folios through readahead.  They stay large in the page cache until
+     they are evicted.
+  2. The first small write into one of these clean folios charges the
+     whole folio as dirty: a 4 KiB write into a 256 KiB folio charges
+     256 KiB, while writeback only writes the dirty 4 KiB.
+  3. With random writes, most writes land in a different clean folio,
+     so the dirty count reaches the limits with little real data.
+     balance_dirty_pages() then throttles the writers, and they end up
+     paced by how many folios writeback can clean per second rather
+     than by the bytes to write.
 
-full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=527fed49e5b988882c9a
+Reproducer: XFS on one EBS gp3 volume (3000 IOPS), m8g.8xlarge
+(32 CPUs, 128 GiB), default read_ahead_kb=128. fio's 1 MiB reads grow
+the readahead window up to the device's max_sectors_kb (256 KiB), so
+the read builds 256 KiB folios.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+527fed49e5b988882c9a@syzkaller.appspotmail.com
+  ; create.fio: 16 x 3 GiB files, direct I/O so nothing is cached
+  [global]
+  directory=/mnt/xfs/fio
+  filename_format=f.$jobnum
+  size=3072m
+  numjobs=16
+  group_reporting=1
+  [create]
+  rw=write
+  bs=1m
+  direct=1
+  ioengine=libaio
+  iodepth=16
 
-BUG: memory leak
-unreferenced object 0xffff88810005f600 (size 512):
-  comm "swapper/0", pid 0, jiffies 4294937296
-  hex dump (first 32 bytes):
-    e0 79 f0 2b 81 88 ff ff 20 00 b4 81 ff ff ff ff  .y.+.... .......
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 9e0404a6):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4733 [inline]
-    slab_alloc_node mm/slub.c:5033 [inline]
-    __do_kmalloc_node mm/slub.c:5530 [inline]
-    __kmalloc_flags_noprof+0x42c/0x570 mm/slub.c:5719
-    _kmalloc_flags_noprof mm/slab.h:55 [inline]
-    __alloc_empty_sheaf mm/slub.c:2854 [inline]
-    alloc_empty_sheaf mm/slub.c:2874 [inline]
-    __pcs_replace_empty_main+0x260/0x2e0 mm/slub.c:4806
-    alloc_from_pcs mm/slub.c:4887 [inline]
-    slab_alloc_node mm/slub.c:5021 [inline]
-    __kmalloc_cache_noprof+0x370/0x3f0 mm/slub.c:5676
-    _kmalloc_noprof include/linux/slab.h:991 [inline]
-    _kzalloc_noprof include/linux/slab.h:1312 [inline]
-    __irq_domain_alloc_fwnode+0x37/0x160 kernel/irq/irqdomain.c:97
-    irq_domain_alloc_named_fwnode include/linux/irqdomain.h:271 [inline]
-    arch_early_irq_init+0x1c/0x70 arch/x86/kernel/apic/vector.c:803
-    start_kernel+0x9c5/0xc10 init/main.c:1150
-    x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
-    x86_64_start_kernel+0xce/0xd0 arch/x86/kernel/head64.c:291
-    common_startup_64+0x13e/0x158
+  ; load.fio: buffered sequential read; builds the large folios
+  [global]
+  directory=/mnt/xfs/fio
+  filename_format=f.$jobnum
+  size=3072m
+  numjobs=16
+  group_reporting=1
+  [load]
+  rw=read
+  bs=1m
+  direct=0
+  ioengine=psync
 
-BUG: memory leak
-unreferenced object 0xffff8881009c5000 (size 512):
-  comm "kthreadd", pid 2, jiffies 4294937342
-  hex dump (first 32 bytes):
-    a0 5c 9b 2a 81 88 ff ff 20 00 b4 81 ff ff ff ff  .\.*.... .......
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 3e15a3c6):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4733 [inline]
-    slab_alloc_node mm/slub.c:5033 [inline]
-    __do_kmalloc_node mm/slub.c:5530 [inline]
-    __kmalloc_flags_noprof+0x42c/0x570 mm/slub.c:5719
-    _kmalloc_flags_noprof mm/slab.h:55 [inline]
-    __alloc_empty_sheaf mm/slub.c:2854 [inline]
-    alloc_empty_sheaf mm/slub.c:2874 [inline]
-    __pcs_replace_empty_main+0x260/0x2e0 mm/slub.c:4806
-    alloc_from_pcs mm/slub.c:4887 [inline]
-    slab_alloc_node mm/slub.c:5021 [inline]
-    __kmalloc_cache_node_noprof+0x381/0x410 mm/slub.c:5695
-    _kmalloc_node_noprof include/linux/slab.h:1196 [inline]
-    __get_vm_area_node+0xe9/0x1f0 mm/vmalloc.c:3270
-    __vmalloc_node_range_noprof+0x1e1/0xd90 mm/vmalloc.c:4112
-    __vmalloc_node_noprof+0x71/0x90 mm/vmalloc.c:4213
-    alloc_thread_stack_node kernel/fork.c:359 [inline]
-    dup_task_struct kernel/fork.c:931 [inline]
-    copy_process+0x527/0x3060 kernel/fork.c:2150
-    kernel_clone+0x101/0x710 kernel/fork.c:2798
-    kernel_thread+0x80/0xb0 kernel/fork.c:2859
-    create_kthread kernel/kthread.c:459 [inline]
-    kthreadd+0x186/0x250 kernel/kthread.c:817
-    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+  ; randwrite.fio: random 4 KiB buffered writes, 32 x 312 = ~10k IOPS
+  ; invalidate=0 keeps the cached folios when fio opens the files
+  [randwrite]
+  directory=/mnt/xfs/fio
+  filename=f.0:f.1:f.2:f.3:f.4:f.5:f.6:f.7:f.8:f.9:f.10:f.11:f.12:f.13:f.14:f.15
+  rw=randwrite
+  bs=4k
+  direct=0
+  ioengine=psync
+  invalidate=0
+  numjobs=32
+  rate_iops=312
+  time_based=1
+  runtime=120
+  group_reporting=1
 
-BUG: memory leak
-unreferenced object 0xffff888102d99800 (size 512):
-  comm "kworker/u8:3", pid 235, jiffies 4294937447
-  hex dump (first 32 bytes):
-    f0 6b 9d 2a 81 88 ff ff 20 00 b4 81 ff ff ff ff  .k.*.... .......
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 282505aa):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4733 [inline]
-    slab_alloc_node mm/slub.c:5033 [inline]
-    __do_kmalloc_node mm/slub.c:5530 [inline]
-    __kmalloc_flags_noprof+0x42c/0x570 mm/slub.c:5719
-    _kmalloc_flags_noprof mm/slab.h:55 [inline]
-    __alloc_empty_sheaf mm/slub.c:2854 [inline]
-    alloc_empty_sheaf mm/slub.c:2874 [inline]
-    __pcs_replace_full_main+0xf7/0x330 mm/slub.c:6094
-    free_to_pcs mm/slub.c:6147 [inline]
-    slab_free mm/slub.c:6633 [inline]
-    kfree+0x353/0x390 mm/slub.c:6923
-    call_usermodehelper_freeinfo kernel/umh.c:43 [inline]
-    umh_complete kernel/umh.c:57 [inline]
-    call_usermodehelper_exec_async+0x1c7/0x1f0 kernel/umh.c:117
-    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+To reproduce it, run (as root):
 
-BUG: memory leak
-unreferenced object 0xffff888101943a00 (size 512):
-  comm "kdevtmpfs", pid 27, jiffies 4294937449
-  hex dump (first 32 bytes):
-    b0 c3 b7 0b 81 88 ff ff 20 00 b4 81 ff ff ff ff  ........ .......
-    00 4a 04 00 81 88 ff ff 20 00 00 00 00 00 00 00  .J...... .......
-  backtrace (crc 6be06b44):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4733 [inline]
-    slab_alloc_node mm/slub.c:5033 [inline]
-    __do_kmalloc_node mm/slub.c:5530 [inline]
-    __kmalloc_flags_noprof+0x42c/0x570 mm/slub.c:5719
-    _kmalloc_flags_noprof mm/slab.h:55 [inline]
-    __alloc_empty_sheaf mm/slub.c:2854 [inline]
-    alloc_empty_sheaf mm/slub.c:2874 [inline]
-    __kfree_rcu_sheaf+0x1aa/0x2d0 mm/slub.c:6282
-    kfree_rcu_sheaf mm/slab_common.c:1689 [inline]
-    kvfree_call_rcu+0x1ef/0x3a0 mm/slab_common.c:2044
-    ma_free_rcu lib/maple_tree.c:173 [inline]
-    ma_free_rcu+0x29/0x40 lib/maple_tree.c:170
-    mas_topiary_node lib/maple_tree.c:1829 [inline]
-    mas_topiary_node lib/maple_tree.c:1817 [inline]
-    mas_topiary_replace+0xc49/0x1560 lib/maple_tree.c:1928
-    mas_wmb_replace+0x3c/0x630 lib/maple_tree.c:2114
-    mas_wr_split+0xcda/0x1650 lib/maple_tree.c:3502
-    mas_wr_store_entry+0x520/0xf60 lib/maple_tree.c:3575
-    mas_insert lib/maple_tree.c:3819 [inline]
-    mas_alloc_cyclic+0x481/0xa30 lib/maple_tree.c:3862
-    mtree_alloc_cyclic+0xc7/0x140 lib/maple_tree.c:5975
-    simple_offset_add+0x5c/0xd0 fs/libfs.c:296
-    shmem_mknod+0x1df/0x260 mm/shmem.c:4092
-    vfs_mknod+0x229/0x460 fs/namei.c:5287
-    handle_create drivers/base/devtmpfs.c:283 [inline]
-    handle drivers/base/devtmpfs.c:435 [inline]
-    devtmpfs_work_loop+0x292/0x64b drivers/base/devtmpfs.c:450
-    devtmpfsd+0x3a/0x50 drivers/base/devtmpfs.c:492
-    kthread+0x150/0x1a0 kernel/kthread.c:436
+  fio create.fio
+  sync; echo 3 > /proc/sys/vm/drop_caches
+  fio load.fio          # skip this step for the control run
+  fio randwrite.fio
 
-BUG: memory leak
-unreferenced object 0xffff888102d98200 (size 512):
-  comm "kworker/0:1", pid 11, jiffies 4294937453
-  hex dump (first 32 bytes):
-    f0 6b 99 2a 81 88 ff ff 20 00 b4 81 ff ff ff ff  .k.*.... .......
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 946da91f):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4733 [inline]
-    slab_alloc_node mm/slub.c:5033 [inline]
-    __do_kmalloc_node mm/slub.c:5530 [inline]
-    __kmalloc_flags_noprof+0x42c/0x570 mm/slub.c:5719
-    _kmalloc_flags_noprof mm/slab.h:55 [inline]
-    __alloc_empty_sheaf mm/slub.c:2854 [inline]
-    alloc_empty_sheaf mm/slub.c:2874 [inline]
-    __pcs_replace_full_main+0xf7/0x330 mm/slub.c:6094
-    free_to_pcs mm/slub.c:6147 [inline]
-    slab_free mm/slub.c:6633 [inline]
-    kfree+0x353/0x390 mm/slub.c:6923
-    vfree mm/vmalloc.c:3549 [inline]
-    vfree+0xa8/0x390 mm/vmalloc.c:3521
-    delayed_vfree_work+0x29/0x40 mm/vmalloc.c:3451
-    process_one_work+0x2b7/0x5c0 kernel/workqueue.c:3495
-    process_scheduled_works kernel/workqueue.c:3578 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3659
-    kthread+0x150/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+fio asks for ~10k write IOPS, more than the volume's 3000, so dirty
+data builds up in both runs.  In the control run (no load step) each
+4 KiB write creates a 4 KiB folio: after 120 s only 3.3G is dirty,
+below the 12.2G background threshold, and nothing is throttled.  After
+the load step the same writes land in 256 KiB folios, and each write
+into a clean folio is charged 256 KiB: the dirty count passes the
+background threshold after 6 s and writers are throttled from 13 s.
 
-BUG: memory leak
-unreferenced object 0xffff8881024bee00 (size 512):
-  comm "softirq", pid 0, jiffies 4294937453
-  hex dump (first 32 bytes):
-    70 66 90 2a 81 88 ff ff 20 00 b4 81 ff ff ff ff  pf.*.... .......
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 3d09b414):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4733 [inline]
-    slab_alloc_node mm/slub.c:5033 [inline]
-    __do_kmalloc_node mm/slub.c:5530 [inline]
-    __kmalloc_flags_noprof+0x42c/0x570 mm/slub.c:5719
-    _kmalloc_flags_noprof mm/slab.h:55 [inline]
-    __alloc_empty_sheaf mm/slub.c:2854 [inline]
-    alloc_empty_sheaf mm/slub.c:2874 [inline]
-    __pcs_replace_full_main+0xf7/0x330 mm/slub.c:6094
-    free_to_pcs mm/slub.c:6147 [inline]
-    slab_free mm/slub.c:6633 [inline]
-    kfree+0x353/0x390 mm/slub.c:6923
-    security_task_free+0x6e/0x130 security/security.c:2827
-    __put_task_struct+0x9f/0x260 kernel/fork.c:792
-    rcu_do_batch kernel/rcu/tree.c:2650 [inline]
-    rcu_core+0x269/0x720 kernel/rcu/tree.c:2919
-    handle_softirqs+0x114/0x330 kernel/softirq.c:669
-    __do_softirq kernel/softirq.c:703 [inline]
-    invoke_softirq kernel/softirq.c:542 [inline]
-    __irq_exit_rcu+0xb5/0xf0 kernel/softirq.c:786
-    instr_sysvec_irq_work arch/x86/kernel/irq_work.c:17 [inline]
-    sysvec_irq_work+0x73/0x80 arch/x86/kernel/irq_work.c:17
-    asm_sysvec_irq_work+0x1a/0x20 arch/x86/include/asm/idtentry.h:710
+Results on v7.4-rc2, one run per kernel, each on a fresh instance.
+Writer sleep is the total balance_dirty_pages() pause time over the
+32 writers during the 120 s write phase:
 
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
-** replaying previous printk message **
+                         write   p99 / max   writer   max    folio
+                          IOPS     lat ms    sleep s  dirty  size
+  baseline, control      9,984  0.01 / 0.30      0    3.3G    -
+  baseline               4,061    60 / 160     179   23.5G   256K
+  v1 (this series)       9,984  0.01 / 0.67      0    3.6G   256K
+  max order cap 64K      7,071    50 / 280      73   22.3G    64K
+  max order cap 16K      9,984  0.02 / 0.05      0   11.9G    16K
+  split on write         9,984  0.02 / 0.17      0    3.6G   256K
+  evict on write         9,984  0.03 / 0.19      0    3.3G   256K
+  POSIX_FADV_RANDOM      9,984  0.02 / 0.05      0    3.3G     4K
+
+The control run gave 9,984 IOPS and max latency up to 0.30 ms on every
+kernel.
+
+  - max order cap: the global cap in mapping_max_folio_order() that Jan
+    suggested trying.  At 64 KiB a 4 KiB write still charges 16x and is
+    throttled.  At 16 KiB this run is not throttled, but dirty reached
+    11.9G, just below the 12.2G background threshold.  The cap that
+    avoids throttling depends on the write size, and it removes large
+    folios for every file, including ones that never see small writes.
+  - split on write: when a buffered write (iomap opts in, not for
+    zeroing or unshare) finds a clean, uptodate, unmapped folio at least
+    4x the write size, folio_split() it down to the write's order before
+    dirtying it.  The rest of the folio stays cached in large folios.
+    On the concerns Jan raised about splitting [1]: split on write only
+    splits clean, uptodate, unmapped folios, so it needs no new
+    filesystem state beyond an opt-in flag in iomap, and if
+    folio_split() fails the write simply proceeds as today; evict on
+    write avoids splitting altogether.
+  - evict on write: same trigger, but mapping_evict_folio() the folio
+    instead of splitting it (~40 lines).  This discards the folio's
+    other cached data; nothing reads it back in this test, so the read
+    cost does not show here.
+  - POSIX_FADV_RANDOM (Dave's question): fio's fadvise_hint=random on
+    the load job.  It avoids the problem without a kernel change, but
+    only where the application opts in: the hint is per open file, so
+    every process that reads a file must issue it, and a reader that
+    doesn't (a backup or copy tool, for example) still builds large
+    folios.  Every application that reads files sequentially and then
+    rewrites them in place would have to adopt it, and keeps the
+    regression until it does.  It also turns readahead off for those
+    files, so their sequential reads lose readahead.
+
+Split and evict on write keep whole-folio accounting and act at write
+time, so they also cover large folios already in the page cache,
+whoever built them, without each application having to opt in.  Both
+only touch clean, uptodate, unmapped folios at least 4x the write
+size, and only on iomap buffered writes.  Split keeps the rest of the
+folio cached at the cost of the split; evict is simpler but drops it.
+I'd appreciate your opinion on these options, or any other direction
+you think is more appropriate.
+
+Thanks,
+Salvatore
+
+[1] https://lore.kernel.org/all/oocwnxqgd4klrem6hkya3sddqoxkosml4ysz23if4j7wj2qdwi@5skgc4ftu7io/
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
