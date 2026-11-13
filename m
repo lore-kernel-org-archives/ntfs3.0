@@ -1,89 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.198
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794544766;
-	b=N6CWBHLUpNxn/v7CB/rXbwn+OcXe34Je0Jnoi0J66vjnqkgLyyW0DH+dcZnUx5gf3NvK
-	 YnYxs2qZGd+KiDyUFDno3+NIsJL0wOmYQvLMQZckX+M+JHtCQUKlJY56+uvmXbStywtme
-	 RyMYCHrUQq3mKRkhC+V9On/aw89elELFHbGTQFggHKoa8/CBSsyX0vWqAWmtHRDqB6hvh
-	 zPhbPveX4fvU6VXK6rlTHieIQ6K/508mL2+NWvrXwJHCzL3YgEyjAKks7UzeTOCPDJ9Cq
-	 BzzT+DGio0bZZbVt8MQXpBFYBu5QPUk9nK1k7C270jp1YlSAwkst/KbLPJGGuVwoQBg==
+	t=1794554393;
+	b=fx380uO19CQCM2GbCjKk3MGLkPwrp2iWeL7nSAzFnmeuGLTKhnXDxbaoDabe2X8vbVar
+	 9kwgYNQrqsQ7p+Uh2L1i8B3tWmmYIMJuFXR3cDNJOQrVDgV+ASpSD5A4kxaMV16E7j++O
+	 Czcsl0mavCmA/TFtAPvBJFdHmftgLJVTbu52GBjZHqPbXHXbB0K8HI2hppzmwBM6bn/PK
+	 lKpUNl6X/vA53UzKTP+5gxgHHZI90OgBl/JLAGuhyTlDwmKg7uwjCpDxP4tRHRtXcSARL
+	 iEddN9J0wFQGETRcj01SZfuvpnHrZaYPBKrz5tlR/+jiI5doh8lb7I6eC0W9IjP4RrQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794544766;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=tFaT0DZ6F3QRjTbdaYV7CT46FZwUMHFmzpgE4p3kzPo=;
-	b=nLR44YStRym1XBkE7AfaWYpjGXnXN9rW9paZ3kcU+s6nVffOwCocWtDnzdyOuAwSWzwV
-	 FydpoaaVWOfz2Gl8bHNe+/bKsoX/MwNiL2jmkr8clXgR6n6AnnjAzG5888TODB64J4dns
-	 KOXsiYkTrot9MhX5ZxjDtCHi9bwK4mXpMMkQmU97qNgxVjVZV3hsQs2BSH6IJ4rqMUJHA
-	 jtfOcV16SVfhhXsMb6nfT0GTRSbCCD5skGcrpuMnxFidRKAXKrYCtO1yxBmVC5FQoqb3y
-	 fUgSlLuHF2tpdUzrVDpa7pYOoWH/2vff2jLs7jIF6c6GiyOj6Bk+r2Q0KcY+iBBBK5A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794554393;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=NImTOund7I1UAbtUhNpwSFZMAy/nW2gw4woQxmofC1Y=;
+	b=DvPybLrumJVyogz+fDTL/jLlxx9CgnzW/bY4UaZVuo9uG8sjR1/RrGYyT+uBIKaL91zQ
+	 cFmv5k5f14nngTe+RuUabethSIvXHpDh4M5caQU55KwPKRpTItLHYTIXsaV1zzQmZ76Fp
+	 kI/cOxZH2CFfNpdTQyAZjQZwS0Fpv7WcWj2P6R9ZAMd/trveitFdeFkvs2E761dOqbDTC
+	 2jwBJE/IDFAMyIfrYr1HQ3VS3awq7LVFAT34S7tbs4JNjIVFqxkG+nthOIImiICEH+OeN
+	 uhPtkFw2rBxOyP6v4hRgwCRNZtVkGXL80mMRBtX1IrEJMJkU/68bijVMqVVwF8izJtw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cs.unc.edu;
-	spf=pass smtp.mailfrom=cs.unc.edu;
-	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=gcyDcJwP;
-	arc=none smtp.remote-ip=74.125.224.52
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.198
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3283F606A327
-	for <ntfs3@lists.linux.dev>; Fri, 13 Nov 2026 04:39:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3283F606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=gcyDcJwP
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-679a2b5fe87so532553d50.3
-        for <ntfs3@lists.linux.dev>; Thu, 12 Nov 2026 20:39:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google; t=1794544765; x=1795149565; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tFaT0DZ6F3QRjTbdaYV7CT46FZwUMHFmzpgE4p3kzPo=;
-        b=gcyDcJwPbCozNFHL7LjpKgOGptI6nN1c8z9nsxYG60gR8lfcF/h+aPJo0MVuzfQ1JT
-         ojhCd3oF9Lbuwt72OMWyn6GfKQT8t7HNQTzle3fooTCMxJCXPLvpcvdyL3LTPo/iqlH3
-         8yPbinG7iPaiQq5Q0ZvqVE7L63eIywxtb+pVPsSNvxJz1w6cUt6y42DF5ZJX1gq1n4T7
-         +1L8VVPpNLxrki4XJn55tnCXc1YA2lzWyjx6YLClV2zcN0KOT1S2pDHDK6DhD4100kzj
-         MGNafGdWAICvl8ydlI4BRBSXeKoBnPkK6DGssZklvnwV2aQCPU4DWBJk5KNj/iB2cux6
-         Xz2w==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73931606A323
+	for <ntfs3@lists.linux.dev>; Fri, 13 Nov 2026 07:19:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73931606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4b37620eb73so1009098b6e.1
+        for <ntfs3@lists.linux.dev>; Thu, 12 Nov 2026 23:19:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794544765; x=1795149565;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tFaT0DZ6F3QRjTbdaYV7CT46FZwUMHFmzpgE4p3kzPo=;
-        b=LGhvWXQmanxyJSwgKrFe99sx8wLIHsFipo231fn8suFfH7n3/gFRyo1dzFTUaIE/YL
-         c7y9Rup32EyWgH2nCzFJvb9x2vcr0TOCzb+DkhM7VGY/x70HMjv26jD65RPcwKC2/k8G
-         EX20PhB4rtY9svLLTV39tSXT/G3FyMAO3xCtk3om0RCyzkADXtBeJ/1gDMGa8cKWTBcm
-         k16qCM1ymJrLEq0pI187TTRMVQXI5f5MCPzyoBme6piukdSa+gKcH+ItXKbKC2dit0MN
-         7qYiXoCbi88cMrtDG3n6HQnrwudAGUJlDlHDW/j/Kqcb1uFaYaQwsJAsjFC/RVy0/aTr
-         KRpw==
-X-Gm-Message-State: APuU4Z84PRHjEAG4uha7Nf43lA/50ZbTg3a0h1O3mPlNwMTMPiyau8le
-	pp+4ysxrPODhGm5HexxYdE1ME0t6+gztbavIj0X8pMUtU1NIwmvlSSKRColggEECiQ==
-X-Gm-Gg: AYBFou2l0zLvsPAn+opeFkC9zS5PkaFNAk9c2O/5tw+17UQBpLuDHVkDR0H3D7VZ1dI
-	uRYznHHSWb/3qgLyOlF+2BFDOO7uoW5LXA70sYEde4RG2Z4UlenMkPFjr968I5pd6wP8eVuScHO
-	ztkBfGkw90/pJkfo/3XFc1X2zn10EMg37q+cGEKLcyuzntwZCWMr1rZzmbqMLhNic7qyCEYeSmp
-	v+YEjrqt5cnUqBQ9PXKk7KHBVOJGClWYk9VT92DmoO6YwpoY4iDFNSEP3fD+YZsIV3g9TGS5fZm
-	OTpYvMvFRsp9yCTtEvlCasX3Iov293Qohh0UhdksXKJ20mbIF2DzHgkcT1hivdRT3MrvjADAy1G
-	M/YSPLFNpUB64LrL+G6YU24z0/qoLr5FpueqR7z6Uzco1kyEs3fTqMxitkwAJyZHNiQvPvkgUUO
-	vCsiUjVG0PUPgMF7usT6kKBA+P6KTjHZ4j8Lt+wfHpBGAexfLtTn0xYeuDn0Lj6zmokATXcbGnp
-	ZCexT3NTkLvphjLVC+ly1G67MYpZaTfD1LWpMRXaU3jchsrEjQqEGeFlh5lRrfQcdPue43enQdW
-	45YApGrUkI5mjaLihGarRWxbnk9Zixkp7aq56Pn/J/y9d1NPsN16AM8vfkDzDDJtStm0/xxg
-X-Received: by 2002:a05:690e:1917:b0:679:ba40:efaf with SMTP id 956f58d0204a3-67d895e5adamr679117d50.46.1794544765076;
-        Thu, 12 Nov 2026 20:39:25 -0800 (PST)
-Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67d8a64b04bsm1078108d50.23.2026.11.12.20.39.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 20:39:24 -0800 (PST)
-From: Hengyu Liang <hengyul@cs.unc.edu>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] fs/ntfs3: do not restart readdir() when entries are added
-Date: Thu, 12 Nov 2026 23:39:20 -0500
-Message-ID: <20261113043920.2583254-1-hengyul@cs.unc.edu>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20260707; t=1794554392; x=1795159192;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NImTOund7I1UAbtUhNpwSFZMAy/nW2gw4woQxmofC1Y=;
+        b=RKNzN3z0s1q29Tmv6M5E+G2rArH3ydh0nicSDjVXr9bSddar/7X2YFxuFYV0uVoHmt
+         CI+YgXtXAOCGRpFYNIAL08QA9SQF/mPEKPZfKYh+uq+egdXGTd3Sq0K9Io1aNgMCkLqd
+         qmeoOR7/KX22OpbyboFkHnTp77aGo7Hr265CnVZLZRTb8DTHw4QlAKYOcxUmsa0tctzh
+         S+iNHC+GCmd8UtiOPKm1KF9F4knldhuOz1HiweD9lCR7iN6bNwygak0Wwog5xpeFZJ+v
+         sF8gDEtfWaocInL3auBjknKpjCEXBBX+WV1bbQstC9vz5p+pGghnqSmvWPxiy2LUYwDE
+         bDmA==
+X-Forwarded-Encrypted: i=1; AL+hErHDsftwmorWvjBwamOO+qeDmlDXizMdbgjJ3e3VzuT/IsY8AaeEpAgnxiRKbpAVs0AJDNL5HQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z80LmbivAvRC6iZ2IInwb/MtfTcEhKsGh2K+z/Q+y+/taCfB70t
+	hi+kiUcDagk9sPMmZLBiZ/jcwhWBqyTbYcLJqq0sM9xswTOvcnvuXRpA33WKcvF12Eng9oQW8s9
+	HtY8xcUqNHQfpfQAwcyKWo2CYgcQIwhznNM18RGRwSXlj0EGEqEn2v+ORIO8=
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -93,111 +58,268 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:13ce:b0:4f5:aa1c:d934 with SMTP id
+ 5614622812f47-56e64cf7e79mr1513625b6e.38.1794554392407; Thu, 12 Nov 2026
+ 23:19:52 -0800 (PST)
+Date: Thu, 12 Nov 2026 23:19:52 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6af6ba18.c3c214cc.692fa.00e5.GAE@google.com>
+Subject: [syzbot] [btrfs?] [ntfs3?] memory leak in __pcs_replace_empty_main
+From: syzbot <syzbot+527fed49e5b988882c9a@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, dsterba@suse.com, 
+	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, radu@rendec.net, syzkaller-bugs@googlegroups.com, 
+	tglx@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Commit dffc7f2f177b ("fs/ntfs3: allow readdir() to finish after
-directory mutations without rewinddir()") made ntfs_readdir() start
-again from the first entry when it reaches the end of a directory whose
-version has changed. This helps programs that remove the entries while
-they read them.
+Hello,
 
-However, indx_insert_entry() increments the version as well. As of now,
-a program that reads a directory while another program adds files to it
-gets the same names again and again, and reaches the end only after a
-pass during which no file was added.
+syzbot found the following issue on:
 
-The issue can be reproduced on an NTFS volume mounted on /mnt:
+HEAD commit:    8a65162514fb Merge tag 'driver-core-7.4-rc2' of git://git...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=149c9409580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4361b1bb937ae1c4
+dashboard link: https://syzkaller.appspot.com/bug?extid=527fed49e5b988882c9a
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=129c9409580000
 
-    mkdir /mnt/d
-    for i in $(seq 3000); do echo > /mnt/d/a$i; done
-    for i in $(seq 10000); do echo > /mnt/d/b$i; done &
-    sleep 1
-    ls /mnt/d | wc -l
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/4cd10f0ff0b1/disk-8a651625.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/055634bde6e5/vmlinux-8a651625.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/523697a102d6/bzImage-8a651625.xz
+mounted in repro #1: https://storage.googleapis.com/syzbot-assets/6cf790da15a7/mount_0.gz
+  fsck result: OK (log: https://syzkaller.appspot.com/x/fsck.log?x=17c154d9580000)
+mounted in repro #2: https://storage.googleapis.com/syzbot-assets/9fee673d5c4a/mount_11.gz
+  fsck result: OK (log: https://syzkaller.appspot.com/x/fsck.log?x=1161e7a5580000)
+mounted in repro #3: https://storage.googleapis.com/syzbot-assets/5f1986de5655/mount_13.gz
 
-Before commit dffc7f2f177b ("fs/ntfs3: allow readdir() to finish after
-directory mutations without rewinddir()"), the result is:
+AI-generated root cause summary:
+In SLUB's per-CPU sheaves (PCS) implementation (mm/slub.c), struct slab_sheaf
+objects allocated via __alloc_empty_sheaf() are tracked as standard heap
+allocations by kmemleak. When an rcu_free sheaf reaches capacity in
+__kfree_rcu_sheaf(), it is detached from pcs->rcu_free and queued for deferred
+cleanup via call_rcu(&rcu_sheaf->rcu_head, rcu_free_sheaf). While queued, the
+only pointer to the sheaf exists in RCU's segmented callback list
+(rcu_data.cblist); if any earlier callback in the singly-linked list resides in
+memory untracked or unscanned by kmemleak (such as struct slab allocated in
+struct page, SLAB_NOLEAKTRACE objects, or already-freed objects), kmemleak
+cannot traverse the chain. Because recycled sheaves retain their early-boot
+allocation timestamps, kmemleak exceeds its scan age threshold and falsely
+reports these in-flight sheaves as unreferenced memory leaks.
 
-    5489
+full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=527fed49e5b988882c9a
 
-After that commit, the result is:
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+527fed49e5b988882c9a@syzkaller.appspotmail.com
 
-    1837538
+BUG: memory leak
+unreferenced object 0xffff88810005f600 (size 512):
+  comm "swapper/0", pid 0, jiffies 4294937296
+  hex dump (first 32 bytes):
+    e0 79 f0 2b 81 88 ff ff 20 00 b4 81 ff ff ff ff  .y.+.... .......
+    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
+  backtrace (crc 9e0404a6):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4733 [inline]
+    slab_alloc_node mm/slub.c:5033 [inline]
+    __do_kmalloc_node mm/slub.c:5530 [inline]
+    __kmalloc_flags_noprof+0x42c/0x570 mm/slub.c:5719
+    _kmalloc_flags_noprof mm/slab.h:55 [inline]
+    __alloc_empty_sheaf mm/slub.c:2854 [inline]
+    alloc_empty_sheaf mm/slub.c:2874 [inline]
+    __pcs_replace_empty_main+0x260/0x2e0 mm/slub.c:4806
+    alloc_from_pcs mm/slub.c:4887 [inline]
+    slab_alloc_node mm/slub.c:5021 [inline]
+    __kmalloc_cache_noprof+0x370/0x3f0 mm/slub.c:5676
+    _kmalloc_noprof include/linux/slab.h:991 [inline]
+    _kzalloc_noprof include/linux/slab.h:1312 [inline]
+    __irq_domain_alloc_fwnode+0x37/0x160 kernel/irq/irqdomain.c:97
+    irq_domain_alloc_named_fwnode include/linux/irqdomain.h:271 [inline]
+    arch_early_irq_init+0x1c/0x70 arch/x86/kernel/apic/vector.c:803
+    start_kernel+0x9c5/0xc10 init/main.c:1150
+    x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+    x86_64_start_kernel+0xce/0xd0 arch/x86/kernel/head64.c:291
+    common_startup_64+0x13e/0x158
 
-This patch will increment the version only in indx_delete_entry(), so
-that added entries do not restart readdir().
+BUG: memory leak
+unreferenced object 0xffff8881009c5000 (size 512):
+  comm "kthreadd", pid 2, jiffies 4294937342
+  hex dump (first 32 bytes):
+    a0 5c 9b 2a 81 88 ff ff 20 00 b4 81 ff ff ff ff  .\.*.... .......
+    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
+  backtrace (crc 3e15a3c6):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4733 [inline]
+    slab_alloc_node mm/slub.c:5033 [inline]
+    __do_kmalloc_node mm/slub.c:5530 [inline]
+    __kmalloc_flags_noprof+0x42c/0x570 mm/slub.c:5719
+    _kmalloc_flags_noprof mm/slab.h:55 [inline]
+    __alloc_empty_sheaf mm/slub.c:2854 [inline]
+    alloc_empty_sheaf mm/slub.c:2874 [inline]
+    __pcs_replace_empty_main+0x260/0x2e0 mm/slub.c:4806
+    alloc_from_pcs mm/slub.c:4887 [inline]
+    slab_alloc_node mm/slub.c:5021 [inline]
+    __kmalloc_cache_node_noprof+0x381/0x410 mm/slub.c:5695
+    _kmalloc_node_noprof include/linux/slab.h:1196 [inline]
+    __get_vm_area_node+0xe9/0x1f0 mm/vmalloc.c:3270
+    __vmalloc_node_range_noprof+0x1e1/0xd90 mm/vmalloc.c:4112
+    __vmalloc_node_noprof+0x71/0x90 mm/vmalloc.c:4213
+    alloc_thread_stack_node kernel/fork.c:359 [inline]
+    dup_task_struct kernel/fork.c:931 [inline]
+    copy_process+0x527/0x3060 kernel/fork.c:2150
+    kernel_clone+0x101/0x710 kernel/fork.c:2798
+    kernel_thread+0x80/0xb0 kernel/fork.c:2859
+    create_kthread kernel/kthread.c:459 [inline]
+    kthreadd+0x186/0x250 kernel/kthread.c:817
+    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
+    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
-Fixes: dffc7f2f177b ("fs/ntfs3: allow readdir() to finish after directory mutations without rewinddir()")
-Cc: stable@vger.kernel.org # v7.0
-Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
+BUG: memory leak
+unreferenced object 0xffff888102d99800 (size 512):
+  comm "kworker/u8:3", pid 235, jiffies 4294937447
+  hex dump (first 32 bytes):
+    f0 6b 9d 2a 81 88 ff ff 20 00 b4 81 ff ff ff ff  .k.*.... .......
+    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
+  backtrace (crc 282505aa):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4733 [inline]
+    slab_alloc_node mm/slub.c:5033 [inline]
+    __do_kmalloc_node mm/slub.c:5530 [inline]
+    __kmalloc_flags_noprof+0x42c/0x570 mm/slub.c:5719
+    _kmalloc_flags_noprof mm/slab.h:55 [inline]
+    __alloc_empty_sheaf mm/slub.c:2854 [inline]
+    alloc_empty_sheaf mm/slub.c:2874 [inline]
+    __pcs_replace_full_main+0xf7/0x330 mm/slub.c:6094
+    free_to_pcs mm/slub.c:6147 [inline]
+    slab_free mm/slub.c:6633 [inline]
+    kfree+0x353/0x390 mm/slub.c:6923
+    call_usermodehelper_freeinfo kernel/umh.c:43 [inline]
+    umh_complete kernel/umh.c:57 [inline]
+    call_usermodehelper_exec_async+0x1c7/0x1f0 kernel/umh.c:117
+    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
+    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+BUG: memory leak
+unreferenced object 0xffff888101943a00 (size 512):
+  comm "kdevtmpfs", pid 27, jiffies 4294937449
+  hex dump (first 32 bytes):
+    b0 c3 b7 0b 81 88 ff ff 20 00 b4 81 ff ff ff ff  ........ .......
+    00 4a 04 00 81 88 ff ff 20 00 00 00 00 00 00 00  .J...... .......
+  backtrace (crc 6be06b44):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4733 [inline]
+    slab_alloc_node mm/slub.c:5033 [inline]
+    __do_kmalloc_node mm/slub.c:5530 [inline]
+    __kmalloc_flags_noprof+0x42c/0x570 mm/slub.c:5719
+    _kmalloc_flags_noprof mm/slab.h:55 [inline]
+    __alloc_empty_sheaf mm/slub.c:2854 [inline]
+    alloc_empty_sheaf mm/slub.c:2874 [inline]
+    __kfree_rcu_sheaf+0x1aa/0x2d0 mm/slub.c:6282
+    kfree_rcu_sheaf mm/slab_common.c:1689 [inline]
+    kvfree_call_rcu+0x1ef/0x3a0 mm/slab_common.c:2044
+    ma_free_rcu lib/maple_tree.c:173 [inline]
+    ma_free_rcu+0x29/0x40 lib/maple_tree.c:170
+    mas_topiary_node lib/maple_tree.c:1829 [inline]
+    mas_topiary_node lib/maple_tree.c:1817 [inline]
+    mas_topiary_replace+0xc49/0x1560 lib/maple_tree.c:1928
+    mas_wmb_replace+0x3c/0x630 lib/maple_tree.c:2114
+    mas_wr_split+0xcda/0x1650 lib/maple_tree.c:3502
+    mas_wr_store_entry+0x520/0xf60 lib/maple_tree.c:3575
+    mas_insert lib/maple_tree.c:3819 [inline]
+    mas_alloc_cyclic+0x481/0xa30 lib/maple_tree.c:3862
+    mtree_alloc_cyclic+0xc7/0x140 lib/maple_tree.c:5975
+    simple_offset_add+0x5c/0xd0 fs/libfs.c:296
+    shmem_mknod+0x1df/0x260 mm/shmem.c:4092
+    vfs_mknod+0x229/0x460 fs/namei.c:5287
+    handle_create drivers/base/devtmpfs.c:283 [inline]
+    handle drivers/base/devtmpfs.c:435 [inline]
+    devtmpfs_work_loop+0x292/0x64b drivers/base/devtmpfs.c:450
+    devtmpfsd+0x3a/0x50 drivers/base/devtmpfs.c:492
+    kthread+0x150/0x1a0 kernel/kthread.c:436
+
+BUG: memory leak
+unreferenced object 0xffff888102d98200 (size 512):
+  comm "kworker/0:1", pid 11, jiffies 4294937453
+  hex dump (first 32 bytes):
+    f0 6b 99 2a 81 88 ff ff 20 00 b4 81 ff ff ff ff  .k.*.... .......
+    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
+  backtrace (crc 946da91f):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4733 [inline]
+    slab_alloc_node mm/slub.c:5033 [inline]
+    __do_kmalloc_node mm/slub.c:5530 [inline]
+    __kmalloc_flags_noprof+0x42c/0x570 mm/slub.c:5719
+    _kmalloc_flags_noprof mm/slab.h:55 [inline]
+    __alloc_empty_sheaf mm/slub.c:2854 [inline]
+    alloc_empty_sheaf mm/slub.c:2874 [inline]
+    __pcs_replace_full_main+0xf7/0x330 mm/slub.c:6094
+    free_to_pcs mm/slub.c:6147 [inline]
+    slab_free mm/slub.c:6633 [inline]
+    kfree+0x353/0x390 mm/slub.c:6923
+    vfree mm/vmalloc.c:3549 [inline]
+    vfree+0xa8/0x390 mm/vmalloc.c:3521
+    delayed_vfree_work+0x29/0x40 mm/vmalloc.c:3451
+    process_one_work+0x2b7/0x5c0 kernel/workqueue.c:3495
+    process_scheduled_works kernel/workqueue.c:3578 [inline]
+    worker_thread+0x255/0x4a0 kernel/workqueue.c:3659
+    kthread+0x150/0x1a0 kernel/kthread.c:436
+    ret_from_fork+0x219/0x490 arch/x86/kernel/process.c:158
+    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+BUG: memory leak
+unreferenced object 0xffff8881024bee00 (size 512):
+  comm "softirq", pid 0, jiffies 4294937453
+  hex dump (first 32 bytes):
+    70 66 90 2a 81 88 ff ff 20 00 b4 81 ff ff ff ff  pf.*.... .......
+    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
+  backtrace (crc 3d09b414):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4733 [inline]
+    slab_alloc_node mm/slub.c:5033 [inline]
+    __do_kmalloc_node mm/slub.c:5530 [inline]
+    __kmalloc_flags_noprof+0x42c/0x570 mm/slub.c:5719
+    _kmalloc_flags_noprof mm/slab.h:55 [inline]
+    __alloc_empty_sheaf mm/slub.c:2854 [inline]
+    alloc_empty_sheaf mm/slub.c:2874 [inline]
+    __pcs_replace_full_main+0xf7/0x330 mm/slub.c:6094
+    free_to_pcs mm/slub.c:6147 [inline]
+    slab_free mm/slub.c:6633 [inline]
+    kfree+0x353/0x390 mm/slub.c:6923
+    security_task_free+0x6e/0x130 security/security.c:2827
+    __put_task_struct+0x9f/0x260 kernel/fork.c:792
+    rcu_do_batch kernel/rcu/tree.c:2650 [inline]
+    rcu_core+0x269/0x720 kernel/rcu/tree.c:2919
+    handle_softirqs+0x114/0x330 kernel/softirq.c:669
+    __do_softirq kernel/softirq.c:703 [inline]
+    invoke_softirq kernel/softirq.c:542 [inline]
+    __irq_exit_rcu+0xb5/0xf0 kernel/softirq.c:786
+    instr_sysvec_irq_work arch/x86/kernel/irq_work.c:17 [inline]
+    sysvec_irq_work+0x73/0x80 arch/x86/kernel/irq_work.c:17
+    asm_sysvec_irq_work+0x1a/0x20 arch/x86/include/asm/idtentry.h:710
+
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
+** replaying previous printk message **
+
+
 ---
-The readdir() + unlink() loop of that commit keeps working: it still
-empties a directory of 20000 files in one pass (298 files are left on
-v6.19).
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Application impact (Ubuntu 26.04 user space): "tar -cf" (GNU tar 1.35)
-of a folder with 3000 files while "cp -r" adds 2000 files to it. On
-v6.19, tar ends after 1.2 s and the archive has each file once. On
-v7.0, tar runs for 29 s and the archive has 200434 members, each file
-up to 48 times.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-Tested on ntfs3 master: without this patch the archive has 261512
-members; with it each file is there once.
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
- fs/ntfs3/dir.c     | 6 +++---
- fs/ntfs3/index.c   | 1 -
- fs/ntfs3/ntfs_fs.h | 2 +-
- 3 files changed, 4 insertions(+), 5 deletions(-)
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index 7ee1a5d4189e..defc84693e39 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -476,15 +476,15 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 
- 	if (!pos) {
- 		/*
--		 * ni->dir.version increments each directory change.
--		 * Save the initial value of ni->dir.version.
-+		 * ni->dir.version increments when a delete reshapes the
-+		 * name tree. Save the initial value of ni->dir.version.
- 		 */
- 		file->private_data = (void *)ni->dir.version;
- 	}
- 
- 	if (pos >= eod) {
- 		if (file->private_data == (void *)ni->dir.version) {
--			/* No changes since first readdir. */
-+			/* No such delete since first readdir. */
- 			return 0;
- 		}
- 
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index c06b36760448..29884bf3d35e 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -2100,7 +2100,6 @@ int indx_insert_entry(struct ntfs_index *indx, struct ntfs_inode *ni,
- 					      fnd->level - 1, fnd, cmp);
- 	}
- 
--	indx->version += 1;
- out:
- 	fnd_put(fnd_a);
- out1:
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index f400cf94d05b..12212fb7a2be 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -198,7 +198,7 @@ struct ntfs_index {
- 	struct runs_tree alloc_run;
- 	/* read/write access to 'bitmap_run'/'alloc_run' while ntfs_readdir */
- 	struct rw_semaphore run_lock;
--	size_t version; /* increment each change */
-+	size_t version; /* incremented when a delete reshapes the tree */
- 
- 	u8 index_bits; // log2(root->index_block_size)
- 	u8 idx2vbn_bits; // log2(root->index_block_clst)
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-base-commit: 0c895b1f6ab37a7c72a437818f307ef6e629051c
--- 
-2.53.0
-
+If you want to undo deduplication, reply with:
+#syz undup
