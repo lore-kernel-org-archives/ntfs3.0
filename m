@@ -1,118 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794597196;
-	b=soN3l4f0AbYtJfuQJQFV8ZVojJqDmtKdSULDLlmnEdPC8epYZjB6wxketxjy5gfxVGh4
-	 YnKRTF5bKtG/YS2HOX1OalfXJ83U/deDV15/MOsPdtxIAGNB8u0HO1WBJ05fLqPcSVAld
-	 gnvszNXSFn0ZUCvkMOl2Q3RZXANvpLM7LggbY6sdZQAyvmr86NpUeOg1O/Of+ni7Cl7lc
-	 l4Cj9GcY/lMshDDCVG4j6H1NCngST8VhPF1nb0TnAFhOteov7NnvUtLI4Of6ZgnIkShQa
-	 13LdqPtEoDU2i0ErsSFP6yZf7hgNdwho1FZR6Fi70mWB3ib3WlsOKbMkRmrJZLmcobA==
+	t=1794646051;
+	b=KWjBn2IhD5btfP38hWmi8xUoFVB6JqPSymt0TBXrOcmvCt50kbmfK9VwM8C3KyuaUAjU
+	 rq5O7aWs7flo37Ihb4gRltacBuePZzwN9gKkMNx3+Ad7Lngz9XEuCP0MnTzALfCG31X2c
+	 YkDMMvnpEAVLW7+5e3dQjx5/udrf2q+YggFQWL5mT50vSTffRxbzmbKOZcn/qgv6FFR+V
+	 1XXGX3XnpfbFsbrYba72dNT814sLYgq/3GLkeZ6EambTWHep2jxyP3iVRUyqaXtW2YaLb
+	 YPtcA8H7IFh+IszJqCiLsQZm+AbV3ONv8KpFAhlvaFto5qcFOrd5pVMVo6a65hEinNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794597196;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=19uX3cVjKh3oQCJxRBIfRcpKq58CZsyDKOYCWbtw5ps=;
-	b=e7kgNTKEuxNtI4onQGYTFZUdPVZ4A/RGPPq7cnBVrYS8f+yLZFfs2skV1JmpufmK6cVi
-	 VVSWe2BZQ2UkCXkMFK/VPazBQclQvEz/bqVd+zma/eMmfYy2Gf40amMcTcUkCmJrRD9tQ
-	 dTPRiOmebtYt8RzkJ3Zaxl+UPTN4Kp0wR97+Bj8NHr3xDektSztxUFWmyH0BRbjk/CWI5
-	 tca//IHzq8pdNKWDjoJCcSqJI+CO50o+yIn6seJVfpeOXZhONgrkhAEwQkMfs2Lrws5yF
-	 zmVeLn/BZeBU2tHMOHJxGJpufXeOVVygeQjx2ipJbbJyzVf83uTAefO131G+ErNaOPw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794646051;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=QZow5gF9A3oF8F9f2iUXyBFNDUBD0v/YVRX+8fupRp0=;
+	b=SR0q58zQsaXRF54pTGmlWat5+OhGQ6p/12C+tmdUSXwNTHEhl8fo/pN8BWGkmmTzj93i
+	 iRajFamnHdFbQ3eOefOTI0Own+XChk9QjBPliQuovwzjGsf1g/XjgTAUOj9Vql2E5Z2rX
+	 bBUCv2Af/ekbMgf9J688i5TWH76UIGKCEiyG90ZqJh5MP8kLznTU8TsGri3LGTd0xZj9E
+	 AirfGl6z2YrETi6zCdqg0477+CqLP9OrEWftQqbg11cB5heN4IZep6MWlQiuWXTdXxuon
+	 m7um0WOKgrd77lpwThtD9+QMQlPm5URxkFzGNqPnuxuy4K1fcSglXXJXcKCawafUGCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gobMN0Go;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=k3yJ2X1I;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="T/wFHoCc";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XwA+jkCg;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.200
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1762B606A323;
-	Fri, 13 Nov 2026 19:13:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1762B606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gobMN0Go;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=k3yJ2X1I;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=T/wFHoCc;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XwA+jkCg
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id F01941F7D5;
-	Fri, 13 Nov 2026 19:13:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794597194; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=19uX3cVjKh3oQCJxRBIfRcpKq58CZsyDKOYCWbtw5ps=;
-	b=gobMN0Go7dtgesD60abepmHGjJqiT7XR8JBrmRTZeIjGmsD9WF5vhroV2KpmFqnqFiRhz0
-	4Xxmax1aPsE4onLeo85S5qJmTnlpp2wcPx627Fn7LL9utblNw73BIqyR9fHZuz1inuaUOW
-	qqAQbUChbIer5y0r7/jwg23IKvJY6g4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794597194;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=19uX3cVjKh3oQCJxRBIfRcpKq58CZsyDKOYCWbtw5ps=;
-	b=k3yJ2X1I5Au6tqt4bU0rNcvnsJDJ2hvTev+loJ0jYdWf+66F8YQ2E4qnBrPL5E8OoHzWdM
-	VVUDEYPg0aud3DDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794597193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=19uX3cVjKh3oQCJxRBIfRcpKq58CZsyDKOYCWbtw5ps=;
-	b=T/wFHoCcYRQLNMnwBHW35jb6KJ0V7qyiWglsW7xN6wn8BWhHCdN46eovtrskuM0kGfoNw8
-	kl/ooMcM9AgFS1XJgIG04qGwVMFYL+5eyOVT1rYw0J6CvZP72XHwFcVD49n4suJb6UEU8I
-	d3CddHx6e1pA2jAAXzYfA6ANet9Xn2I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794597193;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=19uX3cVjKh3oQCJxRBIfRcpKq58CZsyDKOYCWbtw5ps=;
-	b=XwA+jkCgr723dqgXsfRZbBHmScQ9TpV/WWV7Ql2L5ASjlOMMdc33+YzLt2gYs4LHcNme44
-	+FobGJlXO23Lb3BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E30913485;
-	Fri, 13 Nov 2026 19:13:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TaZ4GkVh92poGgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Fri, 13 Nov 2026 19:13:09 +0000
-Date: Fri, 13 Nov 2026 19:13:07 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: Salvatore Dipietro <dipiets@amazon.com>
-Cc: jack@suse.cz, abuehaze@amazon.com, agruenba@redhat.com, 
-	akpm@linux-foundation.org, alisaidi@amazon.com, almaz.alexandrovich@paragon-software.com, 
-	apopple@nvidia.com, blakgeof@amazon.com, brauner@kernel.org, byungchul@sk.com, 
-	cem@kernel.org, david@kernel.org, dipietro.salvatore@gmail.com, 
-	dipiets@amazon.it, djwong@kernel.org, dlemoal@kernel.org, exfat@lists.linux.dev, 
-	fuse-devel@lists.linux.dev, gfs2@lists.linux.dev, gourry@gourry.net, hyc.lee@gmail.com, 
-	joshua.hahnjy@gmail.com, jth@kernel.org, liam@infradead.org, linkinjeon@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-xfs@vger.kernel.org, ljs@kernel.org, matthew.brost@intel.com, mhocko@suse.com, 
-	miklos@szeredi.hu, naohiro.aota@wdc.com, ntfs3@lists.linux.dev, 
-	ntfs@lists.linux.dev, rakie.kim@sk.com, ritesh.list@gmail.com, rppt@kernel.org, 
-	rvvandan@amazon.com, ryan.roberts@arm.com, sj1557.seo@samsung.com, surenb@google.com, 
-	vbabka@kernel.org, viro@zeniv.linux.org.uk, willy@infradead.org, 
-	ying.huang@linux.alibaba.com, yuezhang.mo@sony.com, ziy@nvidia.com, kirill@shutemov.name, 
-	dgc@kernel.org
-Subject: Re: [PATCH 0/2] mm, iomap: account dirty at page granularity for
- per-block dirty folios
-Message-ID: <avdg_Q08T-ilyNmK@pedro-suse.tail5790ac.ts.net>
-References: <mcskrz2zbav5r3xtlwqytyotgjcmmi3wapeibkqornuhb3qp5y@qk22j77kvkqx>
- <20261113155015.516481-1-dipiets@amazon.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A623606A330
+	for <ntfs3@lists.linux.dev>; Sat, 14 Nov 2026 08:47:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A623606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4dc57e2a3f2so2556579b6e.0
+        for <ntfs3@lists.linux.dev>; Sat, 14 Nov 2026 00:47:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794646050; x=1795250850;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=QZow5gF9A3oF8F9f2iUXyBFNDUBD0v/YVRX+8fupRp0=;
+        b=H0N0BwK0W/3FcFQb33W8XIntMndVm/shT0+d7zpPZRq50wC5Ql/kqV9Lvw0DZkQr2c
+         Dhyz1MJ9StbDw21soYyxj91Z/WB1lo5G1SuguMubehMUh5iK0UkVJ79pVM3zIuEPJWKD
+         t7Z1XEtmjw8WVyUL+0PFl0cIWTcYZBSJDpEC29cb4m3TbX3Z0C1JujbhH9Ub7E3WWL/E
+         hQGyywrrS5gcnhA3zXolmccerFcqIlaFOW/EXqjXvO2o/aSydhluPy4noZ9WF3Q4UqFY
+         rwT7Ln2+Zk8x3XeZIA5HpT8Wlx5m0I4gDDya7XcbuncaQRZCCFPUXnCJxr9Re3n1L7VH
+         KoGw==
+X-Forwarded-Encrypted: i=1; AL+hErEkQZ9raMawZRpta18fSXHDSmDK+6/+vxyfu/IOphRA0JMt7xHmQh8ZYg+wjd01sAN6ZujSRw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8AQM+zxS49XpxfmZd+kemn0exlu+YSkGGQkWAveosxjF182YBQ
+	IPCHHhFbvDSPVFbSh0HUAYE8mU9OavqOTepgNln539mx8pI047kop2P2fw2i3v1KmJxsq7oW4ns
+	Apnoid8Qcd/qz7iAalHB9ytq+LuHlPe/+nU/zFW86JGYrdzgYSi/b438dc4E=
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -122,184 +58,214 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113155015.516481-1-dipiets@amazon.com>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-11.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,amazon.com,redhat.com,linux-foundation.org,paragon-software.com,nvidia.com,kernel.org,sk.com,gmail.com,amazon.it,lists.linux.dev,gourry.net,infradead.org,vger.kernel.org,kvack.org,intel.com,suse.com,szeredi.hu,wdc.com,arm.com,samsung.com,google.com,zeniv.linux.org.uk,linux.alibaba.com,sony.com,shutemov.name];
-	R_RATELIMIT(0.00)[to_ip_from(RLe18ogjrzj7gw3iux4c8rw8c6)];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[52];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -11.80
+X-Received: by 2002:a05:6808:c1d3:b0:4e8:e664:f268 with SMTP id
+ 5614622812f47-56e63fb930cmr4454021b6e.25.1794646050017; Sat, 14 Nov 2026
+ 00:47:30 -0800 (PST)
+Date: Sat, 14 Nov 2026 00:47:29 -0800
+In-Reply-To: <6af53e12.6d8d289a.8382.0004.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6af82021.097d52ff.3d440.0002.GAE@google.com>
+Subject: Re: [syzbot] [ntfs3?] KASAN: slab-use-after-free Read in
+ ntfs_read_hdr (2)
+From: syzbot <syzbot+7f14bc1da1f4da6518e5@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Nov 13, 2026 at 03:50:15PM +0000, Salvatore Dipietro wrote:
-> Hi all,
-> 
-> Thanks Jan, Pedro, Dave, David and Kiryl for the feedback.
-> 
-> Following Dave's question about how PostgreSQL gets large folios on
-> files it writes 8 KiB at a time, we looked deeper and found a
-> reproducer that needs only fio and a single disk.
-> 
-> What happens:
-> 
->   1. A buffered sequential read (VACUUM, a backup, a scan) builds large
->      folios through readahead.  They stay large in the page cache until
->      they are evicted.
->   2. The first small write into one of these clean folios charges the
->      whole folio as dirty: a 4 KiB write into a 256 KiB folio charges
->      256 KiB, while writeback only writes the dirty 4 KiB.
->   3. With random writes, most writes land in a different clean folio,
->      so the dirty count reaches the limits with little real data.
->      balance_dirty_pages() then throttles the writers, and they end up
->      paced by how many folios writeback can clean per second rather
->      than by the bytes to write.
-> 
-> Reproducer: XFS on one EBS gp3 volume (3000 IOPS), m8g.8xlarge
-> (32 CPUs, 128 GiB), default read_ahead_kb=128. fio's 1 MiB reads grow
-> the readahead window up to the device's max_sectors_kb (256 KiB), so
-> the read builds 256 KiB folios.
-> 
->   ; create.fio: 16 x 3 GiB files, direct I/O so nothing is cached
->   [global]
->   directory=/mnt/xfs/fio
->   filename_format=f.$jobnum
->   size=3072m
->   numjobs=16
->   group_reporting=1
->   [create]
->   rw=write
->   bs=1m
->   direct=1
->   ioengine=libaio
->   iodepth=16
-> 
->   ; load.fio: buffered sequential read; builds the large folios
->   [global]
->   directory=/mnt/xfs/fio
->   filename_format=f.$jobnum
->   size=3072m
->   numjobs=16
->   group_reporting=1
->   [load]
->   rw=read
->   bs=1m
->   direct=0
->   ioengine=psync
-> 
->   ; randwrite.fio: random 4 KiB buffered writes, 32 x 312 = ~10k IOPS
->   ; invalidate=0 keeps the cached folios when fio opens the files
->   [randwrite]
->   directory=/mnt/xfs/fio
->   filename=f.0:f.1:f.2:f.3:f.4:f.5:f.6:f.7:f.8:f.9:f.10:f.11:f.12:f.13:f.14:f.15
->   rw=randwrite
->   bs=4k
->   direct=0
->   ioengine=psync
->   invalidate=0
->   numjobs=32
->   rate_iops=312
->   time_based=1
->   runtime=120
->   group_reporting=1
-> 
-> To reproduce it, run (as root):
-> 
->   fio create.fio
->   sync; echo 3 > /proc/sys/vm/drop_caches
->   fio load.fio          # skip this step for the control run
->   fio randwrite.fio
-> 
-> fio asks for ~10k write IOPS, more than the volume's 3000, so dirty
-> data builds up in both runs.  In the control run (no load step) each
-> 4 KiB write creates a 4 KiB folio: after 120 s only 3.3G is dirty,
-> below the 12.2G background threshold, and nothing is throttled.  After
-> the load step the same writes land in 256 KiB folios, and each write
-> into a clean folio is charged 256 KiB: the dirty count passes the
-> background threshold after 6 s and writers are throttled from 13 s.
-> 
-> Results on v7.4-rc2, one run per kernel, each on a fresh instance.
-> Writer sleep is the total balance_dirty_pages() pause time over the
-> 32 writers during the 120 s write phase:
-> 
->                          write   p99 / max   writer   max    folio
->                           IOPS     lat ms    sleep s  dirty  size
->   baseline, control      9,984  0.01 / 0.30      0    3.3G    -
->   baseline               4,061    60 / 160     179   23.5G   256K
->   v1 (this series)       9,984  0.01 / 0.67      0    3.6G   256K
->   max order cap 64K      7,071    50 / 280      73   22.3G    64K
->   max order cap 16K      9,984  0.02 / 0.05      0   11.9G    16K
->   split on write         9,984  0.02 / 0.17      0    3.6G   256K
->   evict on write         9,984  0.03 / 0.19      0    3.3G   256K
->   POSIX_FADV_RANDOM      9,984  0.02 / 0.05      0    3.3G     4K
-> 
-> The control run gave 9,984 IOPS and max latency up to 0.30 ms on every
-> kernel.
-> 
->   - max order cap: the global cap in mapping_max_folio_order() that Jan
->     suggested trying.  At 64 KiB a 4 KiB write still charges 16x and is
->     throttled.  At 16 KiB this run is not throttled, but dirty reached
->     11.9G, just below the 12.2G background threshold.  The cap that
->     avoids throttling depends on the write size, and it removes large
->     folios for every file, including ones that never see small writes.
->   - split on write: when a buffered write (iomap opts in, not for
->     zeroing or unshare) finds a clean, uptodate, unmapped folio at least
->     4x the write size, folio_split() it down to the write's order before
->     dirtying it.  The rest of the folio stays cached in large folios.
->     On the concerns Jan raised about splitting [1]: split on write only
->     splits clean, uptodate, unmapped folios, so it needs no new
->     filesystem state beyond an opt-in flag in iomap, and if
->     folio_split() fails the write simply proceeds as today; evict on
->     write avoids splitting altogether.
->   - evict on write: same trigger, but mapping_evict_folio() the folio
->     instead of splitting it (~40 lines).  This discards the folio's
->     other cached data; nothing reads it back in this test, so the read
->     cost does not show here.
->   - POSIX_FADV_RANDOM (Dave's question): fio's fadvise_hint=random on
->     the load job.  It avoids the problem without a kernel change, but
->     only where the application opts in: the hint is per open file, so
->     every process that reads a file must issue it, and a reader that
->     doesn't (a backup or copy tool, for example) still builds large
->     folios.  Every application that reads files sequentially and then
->     rewrites them in place would have to adopt it, and keeps the
->     regression until it does.  It also turns readahead off for those
->     files, so their sequential reads lose readahead.
+syzbot has found a reproducer for the following issue on:
 
-Holy heck, did an LLM write this?
+HEAD commit:    2800868f6322 Merge tag 'sound-7.4-rc3' of git://git.kernel..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=17b9a755580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3cc6a7ee2d24d208
+dashboard link: https://syzkaller.appspot.com/bug?extid=7f14bc1da1f4da6518e5
+compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11dfc9ad580000
 
-> 
-> Split and evict on write keep whole-folio accounting and act at write
-> time, so they also cover large folios already in the page cache,
-> whoever built them, without each application having to opt in.  Both
-> only touch clean, uptodate, unmapped folios at least 4x the write
-> size, and only on iomap buffered writes.  Split keeps the rest of the
-> folio cached at the cost of the split; evict is simpler but drops it.
-> I'd appreciate your opinion on these options, or any other direction
-> you think is more appropriate.
+AI-generated root cause summary:
+A slab-use-after-free occurs in ntfs_read_hdr() because ntfs_readdir() unlocks
+ni_lock before calling ntfs_read_hdr() with a pointer to root->ihdr located
+inside the MFT record buffer (ni->mi.mrec). The directory code erroneously
+assumed that holding shared i_rwsem was sufficient to keep the record buffer
+stable. However, background writeback (ni_write_inode()) does not take i_rwsem
+and only checks ni_trylock(), so it concurrently runs ni_try_remove_attr_list()
+on the inode. In ni_try_remove_attr_list(), the error recovery path restores the
+primary record via swap(mrec, ni->mi.mrec) followed by kfree(mrec), freeing the
+original MFT record buffer while ntfs_read_hdr() is actively traversing entries
+within it.
 
-I think you'll face strong resistance to any of these options.
+full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=7f14bc1da1f4da6518e5
 
--- 
-Pedro
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7f14bc1da1f4da6518e5@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: slab-use-after-free in ntfs_read_hdr+0x8f2/0xc10 fs/ntfs3/dir.c:427
+Read of size 2 at addr ffff88801f8f6268 by task syz-executor233/5623
+
+CPU: 0 UID: 0 PID: 5623 Comm: syz-executor233 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ ntfs_read_hdr+0x8f2/0xc10 fs/ntfs3/dir.c:427
+ ntfs_readdir+0x68c/0xf00 fs/ntfs3/dir.c:573
+ iterate_dir+0x3db/0x880 fs/readdir.c:114
+ __do_sys_getdents fs/readdir.c:324 [inline]
+ __se_sys_getdents+0xf1/0x270 fs/readdir.c:309
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fbe88d96f69
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fffcfbaca88 EFLAGS: 00000246 ORIG_RAX: 000000000000004e
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007fbe88d96f69
+RDX: 0000000000001000 RSI: 00007fbe88d60fd0 RDI: 0000000000000003
+RBP: 00007fffcfbacae0 R08: 0000000000000000 R09: 00007fffcfbacac0
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007fbe88e04112
+R13: 00007fbe88d60fd0 R14: 00007fbe88e040cb R15: 00007fffcfbacb00
+ </TASK>
+
+Allocated by task 5623:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:426
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __do_kmalloc_node mm/slub.c:5531 [inline]
+ __kmalloc_noprof+0x366/0x710 mm/slub.c:5556
+ _kmalloc_noprof include/linux/slab.h:995 [inline]
+ mi_init+0x76/0xe0 fs/ntfs3/record.c:105
+ ntfs_read_mft fs/ntfs3/inode.c:61 [inline]
+ ntfs_iget5_flags+0x67e/0x4780 fs/ntfs3/inode.c:735
+ dir_search_flags+0x2d7/0x560 fs/ntfs3/dir.c:318
+ ntfs_lookup+0x1d9/0x450 fs/ntfs3/namei.c:96
+ lookup_open+0xa54/0x1ae0 fs/namei.c:4536
+ open_last_lookups fs/namei.c:4774 [inline]
+ path_openat+0x70c/0x20f0 fs/namei.c:5013
+ do_file_open+0x23e/0x4a0 fs/namei.c:5045
+ do_sys_openat2+0x115/0x200 fs/open.c:1443
+ do_sys_open fs/open.c:1449 [inline]
+ __do_sys_openat fs/open.c:1465 [inline]
+ __se_sys_openat fs/open.c:1460 [inline]
+ __x64_sys_openat+0x138/0x170 fs/open.c:1460
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 5625:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:264 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2780 [inline]
+ slab_free mm/slub.c:6630 [inline]
+ kfree+0x1c5/0x650 mm/slub.c:6923
+ ni_try_remove_attr_list+0xda6/0xf40 fs/ntfs3/frecord.c:-1
+ ni_write_inode+0xbf1/0x1200 fs/ntfs3/frecord.c:3266
+ write_inode fs/fs-writeback.c:1629 [inline]
+ __writeback_single_inode+0x69d/0x1220 fs/fs-writeback.c:1872
+ writeback_single_inode+0x544/0xf70 fs/fs-writeback.c:1947
+ write_inode_now+0x1bd/0x290 fs/fs-writeback.c:3102
+ ntfs_file_fsync+0x133/0x250 fs/ntfs3/file.c:1536
+ vfs_fsync_range fs/sync.c:186 [inline]
+ vfs_fsync fs/sync.c:200 [inline]
+ do_fsync fs/sync.c:211 [inline]
+ __do_sys_fsync fs/sync.c:216 [inline]
+ __se_sys_fsync fs/sync.c:214 [inline]
+ __x64_sys_fsync+0x12a/0x180 fs/sync.c:214
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff88801f8f6000
+ which belongs to the cache kmalloc-1k of size 1024
+The buggy address is located 616 bytes inside of
+ freed 1024-byte region [ffff88801f8f6000, ffff88801f8f6400)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1f8f4
+head: order:2 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000040 ffff88801c841dc0 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+head: 00fff00000000040 ffff88801c841dc0 dead000000000100 dead000000000122
+head: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+head: 00fff00000000002 ffffffffffffff01 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000004
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 2, migratetype Unmovable, gfp_mask 0xd2820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 38, tgid 38 (kworker/u4:2), ts 105555018334
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1860
+ prep_new_page mm/page_alloc.c:1868 [inline]
+ get_page_from_freelist+0x225d/0x22e0 mm/page_alloc.c:3950
+ __alloc_pages_slowpath+0x768/0x14a0 mm/page_alloc.c:4893
+ __alloc_frozen_pages_noprof+0x3ea/0x450 mm/page_alloc.c:5510
+ alloc_slab_page mm/slub.c:3384 [inline]
+ allocate_slab+0x7d/0x5e0 mm/slub.c:3499
+ new_slab mm/slub.c:3550 [inline]
+ refill_objects+0x2d5/0x350 mm/slub.c:7539
+ refill_sheaf mm/slub.c:2917 [inline]
+ __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4811
+ alloc_from_pcs mm/slub.c:4887 [inline]
+ slab_alloc_node mm/slub.c:5021 [inline]
+ __do_kmalloc_node mm/slub.c:5530 [inline]
+ __kmalloc_noprof+0x476/0x710 mm/slub.c:5556
+ _kmalloc_noprof include/linux/slab.h:995 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ ieee802_11_parse_elems_full+0x14b/0x2a10 net/mac80211/parse.c:1077
+ ieee80211_inform_bss+0x1b3/0x1150 net/mac80211/scan.c:91
+ rdev_inform_bss net/wireless/rdev-ops.h:457 [inline]
+ cfg80211_inform_single_bss_data+0xd9d/0x1df0 net/wireless/scan.c:2447
+ cfg80211_inform_bss_data+0x25b/0x3be0 net/wireless/scan.c:3304
+ cfg80211_inform_bss_frame_data+0x51a/0xae0 net/wireless/scan.c:3400
+ ieee80211_bss_info_update+0x791/0xa50 net/mac80211/scan.c:237
+ ieee80211_rx_bss_info net/mac80211/ibss.c:1070 [inline]
+ ieee80211_rx_mgmt_probe_beacon net/mac80211/ibss.c:1560 [inline]
+ ieee80211_ibss_rx_queued_mgmt+0x1ce1/0x2c40 net/mac80211/ibss.c:1587
+ ieee80211_iface_process_skb net/mac80211/iface.c:1808 [inline]
+ ieee80211_iface_work+0x78a/0x1010 net/mac80211/iface.c:1862
+page last free pid 5310 tgid 5310 ts 95675130580 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1402 [inline]
+ __free_frozen_pages+0xd1a/0xe10 mm/page_alloc.c:2958
+ __slab_free+0x269/0x2c0 mm/slub.c:5926
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:361
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4720 [inline]
+ slab_alloc_node mm/slub.c:5033 [inline]
+ __kmalloc_cache_noprof+0x29a/0x600 mm/slub.c:5676
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ ref_tracker_alloc+0x221/0x530 lib/ref_tracker.c:270
+ register_netdevice+0x1aa9/0x2280 net/core/dev.c:11764
+ lowpan_newlink+0x3b6/0x580 net/ieee802154/6lowpan/core.c:178
+ rtnl_newlink_create+0x305/0x7b0 net/core/rtnetlink.c:4006
+ __rtnl_newlink net/core/rtnetlink.c:4135 [inline]
+ rtnl_newlink+0x167a/0x1c30 net/core/rtnetlink.c:4252
+ rtnetlink_rcv_msg+0x802/0xc00 net/core/rtnetlink.c:7169
+ netlink_rcv_skb+0x226/0x4a0 net/netlink/af_netlink.c:2585
+ netlink_unicast_kernel net/netlink/af_netlink.c:1336 [inline]
+ netlink_unicast+0x8ef/0xa80 net/netlink/af_netlink.c:1362
+ netlink_sendmsg+0x7f0/0xb20 net/netlink/af_netlink.c:1921
+ sock_sendmsg_nosec+0x14e/0x190 net/socket.c:800
+
+Memory state around the buggy address:
+ ffff88801f8f6100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88801f8f6180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff88801f8f6200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                          ^
+ ffff88801f8f6280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88801f8f6300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
