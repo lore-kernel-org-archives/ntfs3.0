@@ -1,69 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=188.68.63.102
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.135
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794661921;
-	b=FMQDi/rkXati/2FGPRh5BGlr8OcS2+NICkW9sfe+FyMaPDCoseFVMe22j9kN2v69bIK8
-	 3QSCCn6F8eDmmgiq7OpeK4CNXpRbcXLWg9KPJuApqtWQwy4V8yNu4k7V9efrBKacCl8sv
-	 DU+qNKBv5iuP3DijYTMaiDHgAE00yfnr9sOLIyCFp6Zuwzyp6J4IUA5ZI4YoClNcWpZdJ
-	 MqjXd1i31bTKjNKFA3/4vPfAiBaOCAezthvzGfF35R3G/ap0NP9VZidMPC7lfGAgd4BTy
-	 5qPViSDl5/Xk61KYqPCyfJ0eMQqguExUDSw6XUJPOyKakYNeYZrNGSnxGWnolrYzAjA==
+	t=1794670405;
+	b=Ki/CHEugKtBc1MkcdFS/JwgvyF5fevy9tuYZr0bdZvVlT84mo5rBAuSVyZvHMG9Ac5rX
+	 d5WUKbeus+zP2gpDdUXfSxLnwsluqW+frFHMEMdY58eICcO/NapgT2mFmvZu+QhMCx1l2
+	 cxzgXcQLY3P3HBUuzILqE9ozxNJPl1x+aM+6vzpM+cYpxM2ZF9AZIFUJGKqxkgODZ7o63
+	 CMjPBSNPoxY45hefzVluAvRHWWlwISUiU4Bz1kjHGLQj8ZYE2tMRYY/dj6nRtW56TsYrh
+	 2xZVporzhX20bb3GspwC8crC593D6hmB1HJg+MzJjZutx2pQY1jgkCyO3hC+XUqIYTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794661921;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received-SPF:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:From:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-PPP-Message-ID:X-NC-CID;
-	bh=jkIuL1Du9Rz9/iFN28RWamH9I2/+774Jzc1qYwXytK8=;
-	b=DUCsXbXjCnkW2ymoIULP8CYfCVYVkDc88jeF/tj2+aJ8FeRun5Hj+KAWmc1rL3j3B3mL
-	 y5Nwm5N/tpH9gO2QB3+sleju/hGe7G8MBr8E+6ivExQbn9nEVxGdLnJB1+O3nskoZxHK3
-	 a4jcA0bX972FfMkWiFSTtU+/VmoKUEcTVt8eXo2dqE+k3OGtQfy7Xf5jjeRLPyttCoXqb
-	 1LKon41SWGMPNDc86TaO2+Z/zll8i4j9lfmacKs1ZHFmrXRDiwDHHXsd0UjmKp+WpFEnd
-	 Ukrt48qxaiu2EevWHYQu5j6gMTgfWga8XkpYkKK1j57NI/ieu1aL4Y5h81IM/DynsGQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794670405;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=4q3kUu9JIedyxJ4iVH9PzI9Cl+q0QeVcndIO9QpwHY0=;
+	b=d/IJGhKS4RwTeQ6Cximbj/V/q7QMAu6ifBFM9pNSWP/23wiLirFTSiTRStNYGzLEk8Kc
+	 4iCtEg8UjMP8duIVJfZiPrSroWI7VDD0BHfEFT/0SVr3DDpMLuSxrzU5yeR0RLN1JMm4W
+	 IMQLsHhrMAOX3zjDDuIxrmRoACbJlPCJEPWR6AMT2AaPpsBXKKZz20VE6m1po+vcQb1Qr
+	 d9zT5brf9DyGw5Ni/hNZBj+Lo70Xp6s4sc6JfIKsrfE+5VcNodylHZhj4Jp70iPpKY8b6
+	 jwZQ0uyaiMPcYUYxjgvZZK4s8fDi4Ofar8frv7Oh0xIIGJUiuI4sUMhE7bG1XldpLFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=leemhuis.info;
-	spf=pass smtp.mailfrom=leemhuis.info;
-	dkim=pass header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=F2CugZEz;
-	arc=none smtp.remote-ip=188.68.63.102
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EA8606A323;
-	Sat, 14 Nov 2026 13:12:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36EA8606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=MwwbkSDC;
+	arc=none smtp.remote-ip=111.22.67.135
+Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 945AE606A32E
+	for <ntfs3@lists.linux.dev>; Sat, 14 Nov 2026 15:33:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 945AE606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=F2CugZEz
-Received: from mors-relay-2502.netcup.net (localhost [127.0.0.1])
-	by mors-relay-2502.netcup.net (Postfix) with ESMTPS id 4jRZHY43d4z6NNT;
-	Sat, 14 Nov 2026 14:10:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
-	s=key2; t=1794661833;
-	bh=15VH+AEro2mttEXcM9CvM/8eaV1naupQ60+t7WXg9kI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=F2CugZEzIPVPlipR11ijhAk1soUBPyyc6ZV5rK27VMUlMaOPh3rFCBIlxo+g0hze8
-	 +X28oxihHUtI/5D/SnjlM1hRRHs6H7Lo/y+BNfhD3VnuVn8A/T745M8L+Zc27F3KKI
-	 Atmtmuuqc8/OOvU6OxnaiaMOA49iqxFDbthM/QRxyGXxHXcXkyTAGffV1p3YQ2Kzhz
-	 KmtGKjvjtokF6caZXEEiOV5X2ukimfowUjm1PhbRGXgpy7U7y1pVOLtUINCH2QYuWs
-	 qh4tE7QrQxlxF7dLAIzD9/VoICXIYrVBk7AB/EAhtwUSG3r3cUeyFkJjYslg6gLxio
-	 iLL93sHAVliQw==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
-	by mors-relay-2502.netcup.net (Postfix) with ESMTPS id 4jRZH35YjNz50Sf;
-	Sat, 14 Nov 2026 14:10:07 +0100 (CET)
-Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4jRZH25bB9z8sbs;
-	Sat, 14 Nov 2026 14:10:06 +0100 (CET)
-Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
-	by mxe9fb.netcup.net (Postfix) with ESMTPSA id C4AD05F9C0;
-	Sat, 14 Nov 2026 14:09:57 +0100 (CET)
-Authentication-Results: mxe9fb;
-        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
-Received-SPF: pass (mxe9fb: connection is authenticated)
-Message-ID: <6ab4a114-57b2-40c7-99d4-55a4ac4c9a9c@leemhuis.info>
-Date: Sat, 14 Nov 2026 14:09:55 +0100
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=MwwbkSDC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=MwwbkSDCAmjx4a1mauM2h6gz7ykse4J/DZ7Cjkv4Kcdj1bYuPoEJxkAWJOMBe9N/qeI5ABQyG6COZ
+	 tSG+WeKc8XDEs++GpbWOp6JaN/AY3GIzH0Yd9VytVSVZsSmiYiU1cbIrg2gxhoslK0XJjVMMWditJT
+	 hfk79h/6zP+Tt3sM=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee36af87f34665-be0f7;
+	Sat, 14 Nov 2026 23:33:21 +0800 (CST)
+X-RM-TRANSID:2ee36af87f34665-be0f7
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from FHD-W7400297 (unknown[10.55.1.70])
+	by rmsmtp-syy-appsvr09-12009 (RichMail) with SMTP id 2ee96af87f3e6db-48513;
+	Sat, 14 Nov 2026 23:33:21 +0800 (CST)
+X-RM-TRANSID:2ee96af87f3e6db-48513
+From: Aibing Chen <chenaibing@cmss.chinamobile.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ntfs3: avoid freeing the primary MFT record during attribute list removal
+Date: Sat, 14 Nov 2026 23:33:19 +0800
+Message-ID: <20261114153319.658-1-chenaibing@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.50.1.windows.1
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -73,123 +67,60 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] ntfs3: existing files/dirs with ':' in their name
- became inaccessible in 7.3 (ads on by default)
-To: =?UTF-8?Q?Cl=C3=A9ment_Smagghe?= <cle.smagghe@gmail.com>,
- almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev, regressions@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Hungyu Lin <dennylin0707@gmail.com>
-References: 
- <CAJ6F8CFSfgdZqaKMndGZtbaww32Xr_KVL3gA_2Jemgv9i9vskg@mail.gmail.com>
- <CAJ6F8CFgkgksyk6YM3NdMkQNhSFWV4depC4c-mHvpDHpnjhM-Q@mail.gmail.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Language: de-DE, en-US
-In-Reply-To: 
- <CAJ6F8CFgkgksyk6YM3NdMkQNhSFWV4depC4c-mHvpDHpnjhM-Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <179466179818.1208270.3574409074914180624@mxe9fb.netcup.net>
-X-NC-CID: EU+0QZkIB9NezqSe64faDuFa/GTsNEnpkhwU8iFfWpWgBQYqgZY=
 
-On 11/14/26 13:50, Clément Smagghe wrote:
->> Hi Konstantin,>>>> Since upgrading from 7.2.11 to 7.3.4, files and directories on an
->> ntfs3 volume whose name contains a colon are listed by readdir but can
->> no longer be looked up: stat/open/rename/unlink all fail with ENOENT.
->> Nothing changed on the volume or in my fstab; the only change is the
->> kernel. This is caused by commit be310476e886 ("fs/ntfs3: Add basic
->> support for alternative data streams"), merged for v7.3-rc1, which
->> enables the new 'ads' mount option by default.
+ni_try_remove_attr_list() keeps a backup copy of the primary MFT record
+and, when moving an attribute out of a subrecord fails, restores it with
+swap(mrec, ni->mi.mrec) and frees the buffer that ni->mi.mrec used to
+point to.
 
-Thx for the reports. This sounds a lot like a problem Hungyu Lin is
-trying to fix with these patches:
+ntfs_readdir() now drops ni_lock before walking the root index header
+(commit 7a5aa6c45072), assuming that the header lives in the main record
+whose lifetime is bound to the inode.  Background writeback does not
+take i_rwsem: ni_write_inode() only needs ni_trylock(), which succeeds as
+soon as ntfs_readdir() has released the lock.  If the attribute list is
+dirty, writeback calls ni_try_remove_attr_list(), and the error path
+above frees the record that the unlocked reader is walking:
 
-[PATCH] fs/ntfs3: preserve colons in symlink targets
-https://lore.kernel.org/all/20261029203457.59990-1-dennylin0707@gmail.com/
+  BUG: KASAN: slab-use-after-free in ntfs_read_hdr
+  Read of size 2 at ...
+  Freed by task ...:
+   kfree
+   ni_try_remove_attr_list
+   ni_write_inode
+   write_inode
 
-[PATCH] fs/ntfs3: preserve colons in volume labels
-https://lore.kernel.org/all/20261029225856.1173-1-dennylin0707@gmail.com/
+Restore the primary record contents in place with memcpy() so that the
+allocation stays alive for concurrent readers, and free only the backup
+copy.
 
-Please look into those -- and if your's is a different problem, please
-report back.
+Reported-by: syzbot+7f14bc1da1f4da6518e5@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=7f14bc1da1f4da6518e5
+Fixes: 7a5aa6c45072 ("ntfs3: release ni_lock before dir_emit in ntfs_readdir to fix deadlocks")
+Signed-off-by: Aibing Chen <chenaibing@cmss.chinamobile.com>
+---
+ fs/ntfs3/frecord.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Ciao, Thorsten
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 16ac847de..50c5d301b 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -755,8 +755,13 @@ static int ni_try_remove_attr_list(struct ntfs_inode *ni)
+ 	kfree(mrec);
+ 	return 0;
+ out:
+-	/* Restore primary record. */
+-	swap(mrec, ni->mi.mrec);
++	/*
++	 * Restore the primary record contents in place.  ntfs_readdir() walks
++	 * the root index header after releasing ni_lock (see commit 7a5aa6c45072),
++	 * so a concurrent reader may still hold pointers into this buffer; swapping
++	 * it out and freeing it would leave that reader with freed memory.
++	 */
++	memcpy(ni->mi.mrec, mrec, sbi->record_size);
+ 	kfree(mrec);
+ 	return 0;
+ }
 
->> Example (the directory was created on Linux and was perfectly usable
->> with 7.2.11):
->>
->>   $ ls -1b "Game Soundtracks" | grep Reverse
->>   Reverse:\ 1999
->>   $ ls Rever*
->>   ls: cannot access 'Reverse: 1999': No such file or directory
->>   $ stat "Reverse: 1999"
->>   stat: cannot statx 'Reverse: 1999': No such file or directory
->>   $ mv "Reverse: 1999" "Reverse - 1999"
->>   mv: cannot stat 'Reverse: 1999': No such file or directory
->>
->> With 'ads' enabled, ntfs_nls_to_utf16() splits every lookup name at
->> the first ':' and treats the rest as a stream name, so "Reverse: 1999"
->> is looked up as stream " 1999" of a non-existent file "Reverse". The
->> real directory entry is never matched.
->>
->> Why I think this should be treated as a regression:
->>
->> 1. Userspace that worked on 7.2 breaks on 7.3 without any
->>    configuration change. Names with ':' are legal on NTFS (they exist
->>    on volumes written by Linux, by ntfs-3g, by macOS, by WSL, ...),
->>    and they are still returned by readdir, so the directory listing
->>    and the lookup now disagree with each other. Tools like ls, find,
->>    rsync or backup software report errors, and the files cannot even
->>    be renamed or deleted to work around it.
->>
->> 2. There is no obvious way out. The current mount line is:
->>
->>      /dev/sdb1 on /mnt/HDD_2TB_WD type ntfs3
->>      (rw,noatime,uid=1000,gid=1000,dmask=0000,fmask=0000,acl,
->>       iocharset=utf8,prealloc,ads)
->>
->>    'ads' is shown although it was never requested. Following
->>    Documentation/filesystems/ntfs3.rst ("You can use every mount option
->>    with no option"), I tried 'noads', which is rejected, because the
->>    parser only registers fsparam_flag("ads") and fsparam_bool("ads").
->>    The only way to get the old behaviour back is 'ads=0', which I only
->>    found by reading the commit message.
->>
->> 3. Silently enabling a new syntax that changes the meaning of an
->>    existing, valid file name is also a data safety concern: with a
->>    regular file "a" present, an application asking to create "a:b"
->>    now writes into a hidden stream of "a" instead of creating a new
->>    file.
->>
->> Could you please make 'ads' opt-in (default off), or at the very
->> least make lookup prefer an existing directory entry whose full name
->> contains ':' before interpreting the name as file:stream? It would
->> also help to accept 'noads' like the other options and document
->> 'ads=0' in ntfs3.rst.
->>
->> Workaround confirmed here: mounting with 'ads=0' makes the entries
->> accessible again.
->>
->> Environment:
->>   Linux version 7.3.4-arch1-1 (linux@archlinux) (gcc (GCC) 16.2.1
->>   20260810, GNU ld (GNU Binutils) 2.47) #1 SMP PREEMPT_DYNAMIC Wed,
->>   11 Nov 2026 19:02:39 +0000
->>   Arch Linux, x86_64
->>   Last good: 7.2.11 (Arch)   First bad: 7.3.4 (Arch)
->>   The Arch kernel carries no ntfs3 patches. I have not built mainline,
->>   but in v7.4-rc2 fs/ntfs3/super.c still sets opts->ads = 1 by default
->>   and has no "noads" parameter, so the behaviour is unchanged there.
->>   The kernel is tainted (OE) by out-of-tree nvidia and tuxedo laptop
->>   modules, which are unrelated to the filesystem path involved.
->>
->> fstab entry:
->>   UUID=717D6EE943D0AF06 /mnt/HDD_2TB_WD ntfs3 x-systemd.automount,uid=1000,gid=1000,fmask=000,dmask=000,noatime,exec,rw 0 0
->>
->> #regzbot introduced: be310476e886
->> #regzbot title: ntfs3: names containing ':' inaccessible since ADS support is enabled by default
->>
->> Thanks,
->> Clément Smagghe
-> 
 
