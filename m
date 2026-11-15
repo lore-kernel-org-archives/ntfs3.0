@@ -1,93 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.68
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794739213;
-	b=nrXkjc2spdPW/X2lGutay8hTPPJ966qS4mLJmmNT/4f7hqqsN1OyyPc8ADa+XDWvVo9R
-	 W1r96QBx7QHypj0sb8BcT9cURGHATNNHvLF1qtCTakfI5edr8iSetPnKtt8sEKF8e4K4n
-	 oRLgCNW0+aXACELsRGgnH/PsDlJHnGP2Zfj7+Rf3oostk227BGwovAlIWv5DimmwqSygj
-	 fEIVKEP2xL7GkoyvBdnjSRwwMYeegBeXj8ueQLxaD8h3XGsGQlpdsPtt0iMCf57PeiYuf
-	 B74HIHIIm6IDsItSNux+ZhEBMukYHe6nNKq6izaOmDm62Mmuu7iYWtTtSyGAS5B57hg==
+	t=1794765841;
+	b=3y2PT49VaZnecJ5HSpV40aJ5iQfyV4TkjlPCiVCbyD4TTXhYWqL60m6Bc+FnRHHKqLRb
+	 YP9RA2nc+ZBpNeA5D58QlAU4EIGv+DzWtmCU0FFxIU9RVLwHO6gaVFSYc7ASKLdqwVbwm
+	 P6BBCCU/H+toUbfB7iI1LhCAy9MlPQnS4AdbH5EwqTO4oqJ+GM8tXNHofLQR8O+wiXnML
+	 dULfYvQOzeQeB49+jsXw1tjCz+oD83FJp/mMl32bxJKXw0wrnD/M9YEzpQIRCvq9SaaT1
+	 2ZGlVDuW7FebmEJhHVplZkOX0dZxV9f0AdSVESB7ZAMA1ekVCFVENzLQsadV55GHEYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794739213;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794765841;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=1er+HG2BILvztOapsYBpIy58le3UOu55avMYSXyvdec=;
-	b=Ojl0oO95AM+5hqssmKy3/EdWxJWOQAshTzi9mLA4RILT/72RElkkOw04jpUY5gnhMBcX
-	 wJyYvG03T5f4C4hZ2ypMxa0r2apLqSP7dK8f1VbboJl11jFJLE9m0dltpIWOGgMe58N5i
-	 yHev2NzIlQkK4IjPo+XZtOKZ8H9tziTp/D+XaejWwmgx0wcmFggNTf82cfoaMg2oA73v3
-	 ES9FlBWzdMYA09JkdGH/8PEC12eN/3L9CSfMEEUQf+0zzWWLP+LRpg9uq/GPi7rrNnPeh
-	 TnbCH/fVcs3bG/XWZTjoBS9EDDBBHrMnMn9N3BYMocOPU2EKzFSk98gSjdxAGd9zNfg==
+	bh=hBlOq65iTbPwnmm9a0uCTpZoFUv5trwfurUuD+0VEDk=;
+	b=k1AZ3E7v+jH8YmExsTVSWme8QfxHVtAqBLfaO5rFO8uj9dj+HAN7zuSC1+XggQ4dN4Jv
+	 HJpcMdrUKgV517nuVE36JylcqSKJDk7feqnp1g+pG/iPbdWIETKwrbO/eH/3ClSqt+7cd
+	 xcMFToTpaEDpsYRIi1+jbptSUIyphoCDUbhrJF4HjU2Ws/GWUEn3tUbTHai3v+XeQmyZz
+	 AyhhG4jv4NzL9N6RXmzKMPU/JkKsUBtwjlGZhkZ7P8a6Y/Ns5Hm+TsWpp6W0nVMJd5KvP
+	 kSkXJzELM7ja5zgg00m8CgECtT8ht8VKSXuPEiH7dgl0k9w4kWzBnMHMOC1EZcqyO4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kK3AkFeT;
-	arc=none smtp.remote-ip=74.125.82.68
-Received: from mail-dl1-f68.google.com (mail-dl1-f68.google.com [74.125.82.68])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nVEboZm2;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB50A606A31A
-	for <ntfs3@lists.linux.dev>; Sun, 15 Nov 2026 10:40:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB50A606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7510606A327
+	for <ntfs3@lists.linux.dev>; Sun, 15 Nov 2026 18:04:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7510606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kK3AkFeT
-Received: by mail-dl1-f68.google.com with SMTP id a92af1059eb24-1438d9363fbso1167447c88.0
-        for <ntfs3@lists.linux.dev>; Sun, 15 Nov 2026 02:40:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nVEboZm2
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bb702a7548so1672315e9.1
+        for <ntfs3@lists.linux.dev>; Sun, 15 Nov 2026 10:04:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794739212; x=1795344012; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1er+HG2BILvztOapsYBpIy58le3UOu55avMYSXyvdec=;
-        b=kK3AkFeTUNhpjJAzD6RgeORiFU8XgZFuQLhM9IW2YZQbYPThbOqM25NGG+/Iphtb7/
-         Ni7k6qz2NEU11whrtssiiin+id9Z3CX7iUlnLc3OuFQR7qlt1IRvtUFBiYCuIgNqkxLK
-         PJj1a566Idu58iu5PhUanIgtZoNNVzXP3bHy/PuHhA3eo10onSTm/SyX4y5kg4JZYeK9
-         +P570qqCZFb560sAQaWVnxoofINvPDK1Tac9sBqGXkWWi2RsQwn1IWjYGBZUYaBFY6JW
-         k6BO7uf5eufW56NKiHbKaIMT5Eb+RDRVZPbuQ5AJQ6/pHbzCF5JPLK156ZdM/RteIc+Y
-         wGCQ==
+        d=gmail.com; s=20260707; t=1794765839; x=1795370639; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=hBlOq65iTbPwnmm9a0uCTpZoFUv5trwfurUuD+0VEDk=;
+        b=nVEboZm2hTpgkrj0zCRu1pZeUa9wsR9yyPryM3i+eFb2Uim4Skv392rVJFY6D83CPG
+         izJhLNTGxzF+ETz6DmZ2+2Izb6SWfmA9ydEw0/pGLn7Hxnzwbkj+2FHO1NPa+jfxciZT
+         RZrHcD/nfdu+Gmkvr0AR21KSX/0nQ86J61Mq9cg5vh94AEx6cd/gK+vqkQ9lHHkvFyeo
+         0Ue6l6Qt/SvpE2DgpCSQWfb5jdz+Z09NpZPxubZ2wJSv0mXswmWyPDYEai0rTU715Vng
+         bO3Y4ov0DWVAvpyRcFyIe6scizn2kKsEHubo/0BODvX7umn902HSqAzyJyp42MwxKEjQ
+         dAfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794739212; x=1795344012;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1er+HG2BILvztOapsYBpIy58le3UOu55avMYSXyvdec=;
-        b=Z4Pdycwp9Xy6wqFxkcJFohKBB8bBNXnYsQSdQqo0U453GRHLpgHBPYwKeJvmBET18u
-         Eo2j9ViDTue9FmMuWT6OW829ar5dt6YBisB1IJjZ4YCpxIi/SNcs6LLZMl0RZWXE3/n9
-         EhoiTJsANPymJZiVEw/5z9EMMaGwhaekW0MuKBgOzpq9V0nSqyj7sTaMCVecMBDTwCPd
-         xX5pDDvxfMqoTWT7ACgjSZNwlL1wudOALuTvcjKOVms0BdDFd/Z8bsJhsdf7sI0vtBpG
-         3g6RbuNinR4K1y0JPgLlnC2vOr1Xz8gf1ZBPHbweb3JRHGFCbIMBcstk2/ukUXcnWg0l
-         IbLg==
-X-Gm-Message-State: APuU4Z8XkZ0ZqVXDzHvAYGKl9PvJ7ffnFeH2UhKCNiP9C8HB0+SQYtud
-	tLz4eRHvHMJfGORXbw86vVCPHrRMhlvLm3mitGx2wSgtfbZaINlqaPdH
-X-Gm-Gg: AYBFou3zOkT7k2YOT9BGlxcJTdPVGtS/RvfCsJJqNiohZoRIfePUT91Uo+HQG02qnkl
-	/k/FsBDeK5+vqZjBOxDIjDtbuSj6vJ2madAjdT56wo7+3tB64c/reXP/Jl5JUz9xxwcphgUhgsG
-	a5ltLnL/wzO2bFfTl0SmTS7YdI+JI/2fmz/M5my6tSIvf4xeC93Bhwynzb9B1GhptZKdkfGNNCt
-	sDPT3DhxI4WNvRaAGYsu6ya67/igf9GYfvATf3CQoVBskElzCy98cLzSWS3rCxkD4+irXKDCWwW
-	pkL/6Vs/d6BbNeH0ND+b5MBibtx/uqa50cUDlYgT2HV9W4PcWOS6mjOnjLZHhISiq+dbSrc4F/b
-	G751e2AoYwqpryIw5kBw3cdLjy70v0ZM19mHDkOzuqu92J8Nnl/y0ma6vcwdH7sp4FbZIDB3Vig
-	LBlREEMcIwEUGoMP4tB5JWPOwvL9pDCQLSCxDSBskHWQmtpgGRYKkueQDnEGqRO89QYVdS+ebVD
-	qFmIr+s4Q/B+BHbWJZiBqFTfD+X1LVZg2DlNMLTH9lH8gtCpM8CZuNr+P/nzV75LrnNDEpgKVca
-	UZuoQS8nyGzKKbb4ekUaCe/cW/IrKwqoOoyGDdgs5VrSK5SFpUuVveSI7CAQOmwRYTudzR/2oyQ
-	mSh2YRcGAfziPtXFOQwkj1xelpbAn1CjTzOCRtQ==
-X-Received: by 2002:a05:701b:4594:10b0:1ab:cbd0:1c96 with SMTP id a92af1059eb24-1b4f5f1f344mr9022632c88.4.1794739211963;
-        Sun, 15 Nov 2026 02:40:11 -0800 (PST)
-Received: from localhost.localdomain ([98.148.34.5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5031bc518sm21315758c88.15.2026.11.15.02.40.11
+        d=1e100.net; s=20260707; t=1794765839; x=1795370639;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hBlOq65iTbPwnmm9a0uCTpZoFUv5trwfurUuD+0VEDk=;
+        b=FNUgyOrragKVuRQMd8010QRO6q2fIaAHQZRzSF7lVdhGOhet8OoD40+bEGXV5sUWG0
+         Xg81Hf8IjzJ9rslAnqslbaStZbqPW4UYTisq5DN5IFsT8d5sISq5qM+sgXrwr/WLiL13
+         zrk4aAtHV8ayXy8r1fVU2UicJzCLAV0alCqh5YHWpjDEdGBE8UguPVdAXSqBuypDbT9w
+         gB2HeLJBcfbKTE9x2tVMvqrouxipFxpElQ4iO+CYPVq079HgunP3i45ljTCgKQvPOcKL
+         3ZYRBtDLVZMR8vwuanBRzvHJ5bccNsU6U/RD5rq9qjeyEPmMtZ11374RqFUnDyKS16LC
+         dtcw==
+X-Forwarded-Encrypted: i=1; AL+hErEEYkHKT0dLk87vEbgiIy41PNzcNVdS7qqoW1V1Z58yK0G0Xf68zpJZoMNcd+Sk+etW1CBO+g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9QHY5kXWa7ZpJmKr7hP1MzNj4Z3DcYe/NSXlQHNz2KQyWHmRXj
+	SIAMj41TrO9FlHmX6RvGw8rBRH83qYoqwTetQy9dSbXgWavPr+WKzgIN
+X-Gm-Gg: AYBFou2uAb2oJ+59uFOJH9Xy7ZgyRcMuolzXIM8hQ8eRWTncgkRS+TqkrAikgu2sut3
+	Eq6sUYHsHLKpDbK+shM5klNx47OUmDdT3lsWjxjo8VmvEJ2hVpmltSNyZ4+NqGYBsSJtWK3JmkP
+	SIrAgBwh51FdiI0dclSwcAp8PxhETTrdp3Ur9Q0mqEvOf7PqGdVLCaJBZ8tHEqo8i6tI9KA2bIy
+	uEw08wA7kH1/hAGs2ejYJTKgH3h4WbrB/iKhkJfyaLwMX5f+wTa05jSR5GgxpmZNKzrAtNX8nFk
+	MTffwp7+qlCN2O1lz5VQJzUxWsiWzURu7DtQPbBZWXpdLGDcDSW5T3U+bms9k+w8xrbLKN8W5t5
+	hI84lYDberwNe3tqO8LUKUi8E1i7NNTl1FzCDKkbFjtRpr2rwKTqm0ChcCUOnnKjzCE1CbGtgaX
+	6wDf/pzEBBr6Wt+UkzyZbZxx2i9tpNXTk1TzoGJmFZZaZAOEwLF804QjYujo4wGWak8DpFL3/Cr
+	4KUpTmmHrPXZaRZ2wKBjpjlSpxTu2oVOZhuISvs/OmKyjhv6I/k0x4i8R9dgMc7XuHLssH8dupE
+	6Qry7sBafcfur4PR5ArsIScH
+X-Received: by 2002:a05:600c:4e88:b0:4bb:6f41:399f with SMTP id 5b1f17b1804b1-4bb6f413a83mr36468725e9.24.1794765839050;
+        Sun, 15 Nov 2026 10:03:59 -0800 (PST)
+Received: from infinity ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60f8c248sm17980448f8f.58.2026.11.15.10.03.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 02:40:11 -0800 (PST)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
+        Sun, 15 Nov 2026 10:03:58 -0800 (PST)
+From: koraynilay <koray.fra@gmail.com>
+To: David Sterba <dsterba@suse.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Paulo Alcantara <pc@manguebit.org>
+Cc: Chris Mason <mason@kernel.org>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	Jan Kara <jack@suse.cz>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+	Shyam Prasad N <sprasad@microsoft.com>,
+	Bharath SM <bharathsm@microsoft.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Sean Smith <defendthedisabled@gmail.com>,
+	Andrey Albershteyn <aalbersh@kernel.org>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Amir Goldstein <amir73il@gmail.com>,
+	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+	linux-btrfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	dennylin0707@gmail.com,
-	=?UTF-8?q?Cl=C3=A9ment=20Smagghe?= <cle.smagghe@gmail.com>
-Subject: [PATCH] fs/ntfs3: disable the 'ads' mount option by default
-Date: Sun, 15 Nov 2026 10:38:45 +0000
-Message-ID: <20261115103845.56074-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-fsdevel@vger.kernel.org,
+	exfat@lists.linux.dev,
+	ntfs3@lists.linux.dev,
+	linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	koraynilay <koray.fra@gmail.com>
+Subject: [RFC PATCH v4 00/10] add provenance time (ptime)
+Date: Sun, 15 Nov 2026 19:03:33 +0100
+Message-ID: <20261115180343.576773-1-koray.fra@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -97,38 +129,155 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Since commit be310476e886 ("fs/ntfs3: Add basic support for alternative
-data streams") the 'ads' mount option is enabled by default, and
-ntfs_nls_to_utf16() treats a ':' inside a name as the start of a stream
-name. Existing files and directories whose names contain ':' are still
-listed by readdir but can no longer be looked up, and such names can no
-longer be created.
+This is an initial implementation of a new timestamp to indicate the
+time when a file/directory was initially created.
 
-Make 'ads' opt-in, so that volumes mounted without it behave as before.
+This patch series takes inspiration from the one by Sean Smith
+<defendthedisabled@gmail.com> [1], but using
+file_setattr()/file_getattr() as suggested by Darrick J. Wong
+<djwong@kernel.org> in [2].
 
-Fixes: be310476e886 ("fs/ntfs3: Add basic support for alternative data streams")
-Reported-by: Clément Smagghe <cle.smagghe@gmail.com>
-Closes: https://lore.kernel.org/all/CAJ6F8CFgkgksyk6YM3NdMkQNhSFWV4depC4c-mHvpDHpnjhM-Q@mail.gmail.com/
-Cc: stable@vger.kernel.org
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
- fs/ntfs3/super.c | 1 -
- 1 file changed, 1 deletion(-)
+The semantics of this new timestamp should be at least these:
+- it should be the same as btime on a newly created file
+- it's user-settable, so it can be preserved for backups, filesystem
+  conversions, archives and any similar operation
+- it should be preserved every time mtime gets preserved
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 29aabdc8a801..0c317cda836b 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -1949,7 +1949,6 @@ static int ntfs_init_fs_context(struct fs_context *fc)
- 	opts->fs_gid = current_gid();
- 	opts->fs_fmask_inv = opts->fs_dmask_inv = ~current_umask();
- 	opts->prealloc = 1;
--	opts->ads = 1;
- 	opts->ugm = 1;
- 
- #ifdef CONFIG_NTFS3_FS_POSIX_ACL
+and the correspondence with the other timestamps is as follows:
+
+ctime <-> btime
+mtime <-> ptime
+
+Examples:
+1) a .zsh_history file created in 2019, then after a few years the user
+   decides to switch to another filesystem, copying the .zsh_history to
+   the new home, in that case btime would have the timestamp of the copy
+   and ptime would have the 2019 timestamp (just like mtime would have
+   been preserved)
+2) a symlink created in 2020 from the home directory to a /path going
+   through the same process as the .zsh_history, in this case it would
+   also make sense to sync the ptime to the 2020 timestamp instead of
+   keeping only the btime (so the inode creation time).
+
+The proof-of-concept code (for testing) for stat(1) and cp(1) is
+available at https://github.com/koraynilay/coreutils (master branch)
+(Note: these coreutils code changes are a prototype and won't be
+submitted upstream as-is, but they work as expected in simple stat and
+cp -a/--preserve=ptime tests)
+
+Lastly, the name "provenance" and "ptime" are not final, I personally
+don't have a strong opinion on any name, but while testing with stat(1)
+I noticed that "Provenance" is definitely too long for the normal
+output, so another option which would fit well is "Origin time",
+abbreviated as "ntime" (OrigiN time) and not as "otime", as that would
+conflict with btrfs' internal naming and create confusion.
+
+v2 changes:
+- fix permission bypass leading to ptime update on immutable and
+  append-only files (found by sashiko[3])
+- normalize ptime timestamp as done in fs/attr.c:notify_change() (found
+  by sashiko[3])
+- fix wording in vfs patch to be like the cover-letter
+
+v3 changes:
+- vfs: reject setting ptime with -EOPNOTSUPP on filesystems that do not
+  support it instead of silently ignoring it (found by sashiko[4])
+- vfs: fix not being able to clear immutable and append-only on files
+  with ptime, and allow updating immutable/append-only atomically along
+  with ptime (found by sashiko[4])
+- btrfs: validate on-disk ptime nanoseconds and reset to otime if
+  invalid (found by sashiko[4])
+- btrfs: avoid re-assigning ptime on unrelated chattr calls (found by
+  sashiko[4])
+- add ntfs3 and exfat support as suggested by Amir Goldstein[5], but no
+  vfat, smb, or nfs4 yet as they are a bit more complex
+- move the introduction of fileattr_has_fsx_mask() from the btrfs patch
+  to a standalone patch in the series
+- btrfs: add fileattr_[gs]et to symlink and special file operations
+
+v4 changes:
+- vfs: implement fsx_xflags_mask as suggested by Amir Goldstein[6];
+- add SMB (ksmbd/cifs) and nfs (nfsd/nfs) support as requested in
+  previous threads;
+
+Note:
+to apply this patch 2 previous patches[7][8] from the ksmbd/cifs
+subsystem are needed.
+
+New Question:
+should I rename fileattr_has_fsx_mask() to something like
+fileattr_has_unsupported_fsx() and keep its code as-is, or should I add
+the fsx_xflags_mask & ~allowed check in it and keep the name as-is? (or
+both?)
+
+Thanks.
+
+[1]: https://lore.kernel.org/20260405195007.1306-2-DefendTheDisabled@gmail.com
+[2]: https://lore.kernel.org/20260407014129.GC6192@frogsfrogsfrogs
+[3]: https://sashiko.dev/#/patchset/20261027220532.736352-1-koray.fra%40gmail.com
+[4]: https://sashiko.dev/#/patchset/20261028134728.294127-1-koray.fra%40gmail.com
+[5]: https://lore.kernel.org/CAOQ4uxiuy0VwZj+3M-zRqQ49WTpHZpiaQ+6MZ8z8WdLjyQM_zA@mail.gmail.com/
+[6]: https://lore.kernel.org/CAOQ4uxjtuTDT63vJdYaq+RHQEQFLTksp66e46OMN99WhJz3SbA@mail.gmail.com/
+[7]: https://lore.kernel.org/linux-cifs/20261112111637.184045-2-koray.fra@gmail.com/
+[8]: https://lore.kernel.org/linux-cifs/20261115155308.415734-1-koray.fra@gmail.com/
+
+
+koraynilay (10):
+  vfs: add provenance time (ptime)
+  vfs: add fileattr_has_fsx_mask()
+  ntfs3: make crtime user-settable using ptime
+  exfat: make crtime user-settable using ptime
+  btrfs: add provenance time (ptime)
+  vfs: add __vfs_fileattr_set_locked() for inode_lock()'d callers
+  nfsd: add provenance time (ptime) via FATTR4_TIME_CREATE
+  nfs: add provenance time (ptime) via FATTR4_TIME_CREATE
+  ksmbd: add provenance time (ptime) and map it to CreationTime
+  cifs: add provenance time (ptime) and map it to SMB's CreationTime
+
+ fs/btrfs/btrfs_inode.h          |   4 +
+ fs/btrfs/delayed-inode.c        |   6 ++
+ fs/btrfs/inode.c                |  29 +++++-
+ fs/btrfs/ioctl.c                |  24 ++++-
+ fs/btrfs/print-tree.c           |   1 +
+ fs/btrfs/tree-log.c             |   3 +
+ fs/exfat/exfat_fs.h             |   2 +
+ fs/exfat/file.c                 |  42 ++++++++-
+ fs/exfat/namei.c                |   1 +
+ fs/file_attr.c                  | 156 ++++++++++++++++++++++++++------
+ fs/nfs/inode.c                  |  27 +++++-
+ fs/nfs/internal.h               |   2 +
+ fs/nfs/nfs4proc.c               |  56 +++++++++++-
+ fs/nfs/nfs4xdr.c                |  19 ++--
+ fs/nfs/symlink.c                |   1 +
+ fs/nfsd/nfs4proc.c              |   9 ++
+ fs/nfsd/nfs4xdr.c               |  40 +++++---
+ fs/nfsd/vfs.c                   |  17 ++++
+ fs/nfsd/vfs.h                   |   4 +-
+ fs/nfsd/xdr4.h                  |   3 +
+ fs/ntfs3/file.c                 |  20 +++-
+ fs/ntfs3/frecord.c              |   8 +-
+ fs/smb/client/cifsfs.c          |   8 ++
+ fs/smb/client/inode.c           |   7 +-
+ fs/smb/client/ioctl.c           | 109 ++++++++++++++++------
+ fs/smb/server/smb2pdu.c         |  37 +++++---
+ fs/smb/server/vfs.c             |  43 ++++++++-
+ fs/smb/server/vfs.h             |   1 +
+ fs/stat.c                       |   2 +
+ include/linux/fileattr.h        |  29 +++++-
+ include/linux/nfs_xdr.h         |   3 +
+ include/linux/stat.h            |   1 +
+ include/uapi/linux/btrfs_tree.h |   3 +-
+ include/uapi/linux/fs.h         |   9 +-
+ include/uapi/linux/stat.h       |   7 +-
+ 35 files changed, 614 insertions(+), 119 deletions(-)
+
+
+base-commit: 3bc1fb9c3b20cd478c83496ab16addecb401770d
+prerequisite-patch-id: 049ae0eba275b5be35a238833107e0b251a55aa2
+prerequisite-patch-id: 614f0bc9411391403d4e9702bafeb31b0ec04ec1
+prerequisite-patch-id: ddf636b9d33d82ea206ce265d817371350bf8858
 -- 
-2.43.0
+2.56.0
+
