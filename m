@@ -1,101 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.202
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794943778;
-	b=V5q/ixzjdYtpCYWq6InwJWSV8kJBI6Qk4Z6kZkOXWvIDngwndoBZd+M6em2Waby4Q5qu
-	 JkhiRI9MSINr8lsNvKjCilpCVc2oZnxtqn+shgd7/RS5l3U08svuO/kAA4EGWk6M+V+qs
-	 xcAOzfE7zWxdkta9js6cTBlMqlLwLc0zsyDHyrsukZGKLE92Bg/8uxCRcnhRUqmsmlZmz
-	 x/FuPyvnHq1bkaqgGRM+2k2BQlWV6N0/diXBLFD9NCOS+0Lpm9Xj0mXr1B8bP/TWVm/ip
-	 t1o0/+PKbT5eeL5J/+H64yjSMEk5hAkDqpPTuaEBYJKGbaMCwcm8qxCFgpAlqc166ZQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794943778;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=PGjBYsfF8c+MCFmt2RtqM8D82MXv6pCt/UIwi1wWB78=;
-	b=gTl8Mh8z4nrNATktp7DmPL3ZXwm+YotBfSzX5baS2m3RSYfokWlzHIaiN4Uw+fngE3Z+
-	 +ZfRq5TVSa1np5RHZuHYiUq2fAvUy3gOtu6g2xU8HrcaM9TniTa01LxqxDl/FH907sLV0
-	 tw2bX8XdtjKNL5D5Lq5+iDKBW7yQWfexlgOCjVKwDAjczb+n7HhWfrtAGx3ZuxCgfvCuM
-	 lnirElblSRMLkJ0PBlmRCn/TL0BKqjlhavvlFBcZtzVH+cYRF87fDGOfi6gvD9wKU+uss
-	 Rt6oUBlflFpOlkL84UtXdi6dwB/fST3CBApyrmYTiT8/dRxFc3gZgZS+F0EsrnYU6zA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=raxo7Xvy;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.202
-Received: from mail-oi2-f10.google.com (mail-oi2-f10.google.com [74.125.231.202])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794952926;
+	b=V2UUi8zUcwixyyfm2u9NIsi34U9FKpdpC640Bz4uEUZa2NX8hZzH5u0JzjNnQtqEnY/M
+	 VbBhOtAx2itb2H+mQQ1x1R07uK9wrYRTezCyuI5oXiuyWtHuk6o5kYQLVn9mopmsrhF0a
+	 emzVuztX6OhVkUCgKiz56rCWCnD7HIzxMj8ZeotQbgsR9grrCybOpPScbfGZjFZelUYOC
+	 9+tAqE+Huw2PIeNpl5jnuu2vQ3UUcz59DvGBIr3t9/vbaf3SOWtrsoHESI8hdIBwV/2L8
+	 0cE1ANW+0YG+rjkat2jcJVnEjn/X18N1Jze092yTEX4oDv3/F3Szgik70BCNE7mv/PA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794952926;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=EsQiVnWdklcglRbIqoscQFF5X7p4jGIU+Y0OOx+78ps=;
+	b=wYmoywYVa9edac6lpGIXzxI9a0XVx3jBSVXQ/VkkY4Ar5jZbBFakWctb0TkLb7etLkBD
+	 dbQC27m2p/mcWM0A5DxJmu0zod6eaFO3PcqLiAd/X4CzprAj6dA8yb1vfRIjoF6vpNjXB
+	 dShxsGbyvz5HKV3f00YLnZFw9+YgCQ8AXvrYHxsazFUYqo9HKbFY51Mt14nTCOr+NTWhg
+	 iuGLIKp9jXxdwBuvJRZJbG01UaRq63gson3/KfCBixQCFf9cPMeyrwuQP2aPH3L21KVBm
+	 AMrD5G5D2o7MnAKjfQGZSM2FJK4duj1qKmQnACfNsyQpBzXuwgZIiqAF6BvnkWMqWaQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eRKKuDOC;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387E0606A31C
-	for <ntfs3@lists.linux.dev>; Tue, 17 Nov 2026 19:29:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 387E0606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742A1606A31C;
+	Tue, 17 Nov 2026 22:02:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=raxo7Xvy
-Received: by mail-oi2-f10.google.com with SMTP id 5614622812f47-4b94bb43008so10406b6e.0
-        for <ntfs3@lists.linux.dev>; Tue, 17 Nov 2026 11:29:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794943777; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Y9/Z1jIRxGQnrqk2LsvSChxfutbTGfZGUPHWJ6s2jCYNY0RO38pl0Bvk2umbnJgmiz
-         6FfRwLaJ2VBY8vOr22xgqzYrz2H2W0cGZEHOfdrYZxxDzmS3KODit5EV6dEZ2KGkdWN3
-         j/VKmooGkgj6/zkO6f8Ot65mcO7RG2F0lQWSGF/aPfWv18lAlFWQu8nhZJ8kQ+aQ2MuP
-         43qgceb7C6BXc5RHqfP3G+JjLVZ5WH8ypKcvUp1Z6ttPsnWte4GjJmR/isMZTLECYKEw
-         jNI6xEXlzB+oLJCvJD9YVGt8uV4XvGTRXEBD5/hDFOwRmVFAQylSfsfhLpSurI5KeAzF
-         m0EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=PGjBYsfF8c+MCFmt2RtqM8D82MXv6pCt/UIwi1wWB78=;
-        fh=S8GjBnXSCXBDjPXMsSP3ssS1Eb0CmqmF2KkqBlqPfSw=;
-        b=brEVAm3JUDwCBTpOq+UlETP6mQPzDezIIdwHEVvWBL2ZZc7v5ljud9Gl6iMTIhQn3v
-         82G98Imvy9lYBU4cC6fqiPHzyqJlrsQ8LZ8A1nkbKohvJlgpf3VYaf9ognQn2t/QQM4m
-         LNUf2+XRWY5Os3h8wkSgj1sKxE/FCvdQpjEXEknYj+8p6LUCkZEL8f5h6cf1799m2Zsu
-         f3TynTyMrU8lrzPvKscWr51iYloiqjEGEujxWNlxSjEmZzhbTSvdOOzr8LGJWKbalVL7
-         00aZuPTNR6DVSt1LvrX5bTIETVPH5NzdXousiURbHHmwsqik35/AjzEk5JymkaRRbsj+
-         si4g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794943777; x=1795548577; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=PGjBYsfF8c+MCFmt2RtqM8D82MXv6pCt/UIwi1wWB78=;
-        b=raxo7XvyjWnwks15PNm1DmPs+Du/nTIp90HQt6YwrHztXk5QpU36zdlx+CzMX+txlb
-         9380y81QOgQ4IQhryCVVsNn0x/ZBqsBCkQha+Np7Qxrvs2J92RTInZ7Cpcrsq9E6ex0x
-         S+7uyiwoMZ324ZOmKKv6VWMnuRfEkUA/316mwJSulU8Xu7dboNdY/8c0wt6bd6Cys/9p
-         vQaO3e2lb/N5J5iW+6RAHygqY1aiVrYKIQ2iSWJ4+DUiED/pcrMSaSkRT2j9UAmhY/UI
-         KQNnnJjOnr0ghBoCMIUD3F8UmO81eLzWaUIvS9Y+gQHzfp96TvkS9V6WsGbLpi+FsHOV
-         BwaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794943777; x=1795548577;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PGjBYsfF8c+MCFmt2RtqM8D82MXv6pCt/UIwi1wWB78=;
-        b=RnjKYH/UriqniVoHZbxsiL6xFigFvs0DuJ2ngJRoK4QzBCghUUeejdndfCvsxO+Fdw
-         zp4n1vvjngHkR+iZmrRDrPrKtS7T4wI3qcnhLD5c97ZqdE8e+kgR3uvCa9eU59p0GxtN
-         J04VbPwD39d1LtiCjNpI+fOUwi9Q8oM9r+U0HeqAWCisqr731W+PpZ8ErQZTLsIe05xz
-         eOnTo2OwpsUHw36RbPXjO2s1idKZAK4YGbXmOo6Jntrl6wIdwWCID6OEK+IS1rUY9T4v
-         X0UOZ74C0JsDFdHOgrtBZ0m4CvdhotH6TSYJb1NJAcnSEG+zSiJgw2nSs+Wps7wQdCk3
-         HbZg==
-X-Forwarded-Encrypted: i=1; AL+hErEpnt9THKwqJ43Wmeo5M4oz2+KC5V2d5Er/pbzzcrHpQl7Lv5YvFwNKn53/uEAlAH6JVEJkdA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8td691ZCKQR0VS+kwbtxnFe5u/kX1dwDVRuNyWAO2CLUfQL9GD
-	7HhVJhrz4XKiBsLQvP5iHq6bHcN78Pm70DFw9pBpAIhtiPL2dpKlyq0wtxnmmCWetTvZJMH0fh3
-	a9570ZQ+0xA4MafqUPymsWGr5yPdxMns=
-X-Gm-Gg: AYBFou3N7xPOMp0hxoVlY6YCPdq52pn2cpCBFgEKTuEmPvf+fKCmckXYJaJy6+YOj13
-	h90oNi/Ap61xuHRRsrNxfZO9Yf0UGjnAtLBnsTTmTu1IfhTclL5mXvGcE8bhR9NxDqrpr9PsA4S
-	dN+bNLn6Ed5QMBsFKY25JNnWv99L++ancvPulxkan7TkL6l4Zb8779xJczFHsfWrmFReJ0pUVGS
-	M6vqjLsqVcQZGDr/UhmPgOhE/+Lu6cY8MCWvD830ARMaMoeZ/NZ4SO+hatWoOwLY4AJgxion8OK
-	UqzGgyLzYoM1T6uWvqVaH71HafqWW0e6QiBpWneNSGJJHstwP//0pH3RpN33bQQxyOY+uaWWl4n
-	rSwf4pQ/Cb5IPocQQEMgrZ0EgyHFxZJ6Li17iSb/Ox/l8v6mRylk+zS9cR6HTiA69qvlxqPit8f
-	7qN7/hBGllVM+mTVhBrhEsnbUNdPHRtY0JSSHlyg7tBk28Nst7RaPk
-X-Received: by 2002:a05:6808:30a9:b0:53a:e153:e8e7 with SMTP id
- 5614622812f47-57741d17630mr920531b6e.44.1794943777052; Tue, 17 Nov 2026
- 11:29:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eRKKuDOC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 184F41F000CB;
+	Tue, 17 Nov 2026 22:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794952926;
+	bh=EsQiVnWdklcglRbIqoscQFF5X7p4jGIU+Y0OOx+78ps=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=eRKKuDOCG4lZI0ZtmAAIpexh5saMlRjXYGgquqnGJHw5xx0hKiSTtEpRMTU0UnEZx
+	 IcVAie3qbTbLtwat8lgNDCP6zhB7QCTVdVvmIBlqP9fuJUX+csyhPtr5Pct2KMF+dr
+	 sKEIWoHciSIaSRbPXtRwsvShsS664//k6GK3BjshzeV1onoC5SB/aS7wLmCyLKJ9K8
+	 m5LAARW1i0RM6erGJTXwnJLIbMj19kpQzxaJV5KdnARcC1GmD4YHak/fh/wBY2ukPa
+	 yhfRyDN1zjqulKDzMqoKKSTFXathlkGd8lIzu3DnyeBMJBeCEbjKT0GFxDySnJK8UV
+	 YAtD4XE3Ry5Ag==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 50504F40066;
+	Tue, 17 Nov 2026 17:02:04 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Tue, 17 Nov 2026 17:02:04 -0500
+X-ME-Sender: <xms:3M78aq1jfwU6kkpHJYfkamLb7k26diePkGr8HYaND-ZrMBjnohMrzQ>
+    <xme:3M78an6y1Y_GR0u1TwtOXDhTJSDOYemr1m9Hmyh5XEDGdsDAx71bEoAOEShnFinjM
+    69EF-AeO1bjSPJvAvqEXXhgqHUGSfFOCO013H2g38lm6F7OfmUkmU4v>
+X-ME-Proxy-Cause: dmFkZTEFWk4jFRq2Ypvh/OGGpN3RYf9yAIcrjwoio2l5SxvidVJI3djILaxgpL7LyuOL7E
+    lli1okH5QEaMWzCUMyMt49RTjdtkb7p5j8SnJ7vko/DXCHPESNoXMFqc8eAYVU7BGtrfNE
+    O8Wkt/X+eQscT/cb/kG8LbWg6SuLpK+A11UAMB+QAdy5UWJZaV2trmsj/oQjP/6lPcVVP0
+    p+nLQemqrSyF8f9utiFf/d15PjZvnAYnKe5plmCnfbGuYaAIvR4RuHbeaDv3ZwgaqwEoTc
+    O56V45wyKdQUyvAqx58jhwnrJqlfVvWKvX0EJKReKmJux7PwleYyLgjD7P44v937Li49Qw
+    3PfPZt4Tz5Ch4ICbtemCoWAFkhd9LpRHHoQMM6xH+uQv2Cf4FlSCV6BNrPskaFpbE2Gt1a
+    ss+P7AhsTRHraYWbE5wed0xL9iCm70tSnIKB//n/ZBAuWR+D7Nfc9NMkA+fe4C2g5UFBLM
+    HmApoPfgE08+h48RscbkJ1zXPfd8wMImQd71BRZR8wJOu7FYt+A09ttWsoXwQ9M7voSEdh
+    iRB9mHPKZYTCf5j5tYY9XJfVHu4mQQzGd7r79LEO7RpJ1QmejEfUCnIUQqmekcp8PP/D1n
+    CB+FZEcYdo/YsJxNiNswgtVIPlyCf6Ab0g19TFApN5j+o5xqL9Y5EgaGlC7g
+X-ME-Proxy: <xmx:3M78anU0MJ35zJ3NF5t0f4ScxkcsT3P7nBy3grYqehD-Bs0aT3fDkg>
+    <xmx:3M78ai64XGO4B10f_mx5toxFs_hI5crqdE1ZqJkyW4lQCVpizqa6Sw>
+    <xmx:3M78avOt7UDMa5ZXcad-yrMZ1xx7rDvSS6ajIf1O1pvu-h3fvDtK-Q>
+    <xmx:3M78algMt1NSKEj31TOL76bmFCAw6QHR4dwEMMeuS0i8PnqzpbVH4Q>
+    <xmx:3M78alib9v_mERwNSmE9KLKWOVL58rpYH24tW96EQor0v_frdN4CGY3f>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 219C2780077; Tue, 17 Nov 2026 17:02:04 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -105,34 +77,91 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <CAJ6F8CFSfgdZqaKMndGZtbaww32Xr_KVL3gA_2Jemgv9i9vskg@mail.gmail.com>
- <CAJ6F8CFgkgksyk6YM3NdMkQNhSFWV4depC4c-mHvpDHpnjhM-Q@mail.gmail.com>
- <6ab4a114-57b2-40c7-99d4-55a4ac4c9a9c@leemhuis.info> <CAJ6F8CHzm4=ryY+j3ao6doR=-67Lq=3-w-kbhk1wdvtYDhyNeA@mail.gmail.com>
-In-Reply-To: <CAJ6F8CHzm4=ryY+j3ao6doR=-67Lq=3-w-kbhk1wdvtYDhyNeA@mail.gmail.com>
-From: Hungyu Lin <dennylin0707@gmail.com>
-Date: Tue, 17 Nov 2026 11:29:25 -0800
-X-Gm-Features: AclHuK-EvuFT3sTbDUuzVCeVohToLo20JL-jPaY9zCV6KfEdKeWy3NzN4uK5qVs
-Message-ID: <CAGEkeHdxaC2BBg5wWOCL0pj0r4Ks6mD_a3KpE7h+en9Aupb4zA@mail.gmail.com>
-Subject: Re: [REGRESSION] ntfs3: existing files/dirs with ':' in their name
- became inaccessible in 7.3 (ads on by default)
-To: =?UTF-8?Q?Cl=C3=A9ment_Smagghe?= <cle.smagghe@gmail.com>
-Cc: Thorsten Leemhuis <regressions@leemhuis.info>, almaz.alexandrovich@paragon-software.com, 
-	ntfs3@lists.linux.dev, regressions@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ThreadId: AgKvhXN-CN1w
+Date: Tue, 17 Nov 2026 17:01:43 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: koraynilay <koray.fra@gmail.com>, "David Sterba" <dsterba@suse.com>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Sungjong Seo" <sj1557.seo@samsung.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>,
+ "Paulo Alcantara" <pc@manguebit.org>
+Cc: "Chris Mason" <mason@kernel.org>, "Yuezhang Mo" <yuezhang.mo@sony.com>,
+ "Jan Kara" <jack@suse.cz>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
+ "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Bharath SM" <bharathsm@microsoft.com>,
+ "Sergey Senozhatsky" <senozhatsky@chromium.org>,
+ ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
+ "Darrick J. Wong" <djwong@kernel.org>,
+ "Sean Smith" <defendthedisabled@gmail.com>,
+ "Andrey Albershteyn" <aalbersh@kernel.org>,
+ "Pedro Falcato" <pfalcato@suse.de>, "Amir Goldstein" <amir73il@gmail.com>,
+ =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ exfat@lists.linux.dev, ntfs3@lists.linux.dev, linux-cifs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-api@vger.kernel.org
+Message-Id: <f297d9ea-ebd7-47f4-ab7b-de5c45980000@app.fastmail.com>
+In-Reply-To: <20261115180343.576773-8-koray.fra@gmail.com>
+References: <20261115180343.576773-1-koray.fra@gmail.com>
+ <20261115180343.576773-8-koray.fra@gmail.com>
+Subject: Re: [RFC PATCH v4 07/10] nfsd: add provenance time (ptime) via
+ FATTR4_TIME_CREATE
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 14, 2026 at 7:43 AM Cl=C3=A9ment Smagghe <cle.smagghe@gmail.com=
-> wrote:
+
+
+On Sun, Nov 15, 2026, at 1:03 PM, koraynilay wrote:
+> Implement provenance time (ptime) in NFSD, as introduced in a
+> previous commit ("vfs: add provenance time (ptime)").
 >
-> I'm happy to test patches.
+> Map ptime to FATTR4_TIME_CREATE, allowing clients to set it across
+> CREATE, OPEN and SETATTR compounds.
+>
+> If the underlying filesystem supports it, use __vfs_fileattr_set_locked()
+> to set it, returning -EOPNOTSUPP in case it's not supported (i.e. when
+> __vfs_fileattr_set_locked() returns -ENOIOCTLCMD).
+>
+> When querying FATTR4_TIME_CREATE, request both STATX_PTIME and
+> STATX_BTIME, preferring ptime over btime if available, and advertise
+> FATTR4_TIME_CREATE support if either ptime or btime is available.
+>
+> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
+> Signed-off-by: koraynilay <koray.fra@gmail.com>
 
-Hi Cl=C3=A9ment,
+> @@ -3646,7 +3649,14 @@ static __be32 
+> nfsd4_encode_fattr4_time_access(struct xdr_stream *xdr,
+>  static __be32 nfsd4_encode_fattr4_time_create(struct xdr_stream *xdr,
+>  					      const struct nfsd4_fattr_args *args)
+>  {
+> -	return nfsd4_encode_nfstime4(xdr, &args->stat.btime);
+> +	const struct timespec64 *ts;
+> +
+> +	if (args->stat.result_mask & STATX_PTIME)
+> +		ts = &args->stat.ptime;
+> +	else
+> +		ts = &args->stat.btime;
+> +
+> +	return nfsd4_encode_nfstime4(xdr, ts);
+>  }
 
-I sent a fix that makes 'ads' opt-in again:
-https://lore.kernel.org/all/20261115103845.56074-1-dennylin0707@gmail.com/
+I have trouble with this approach.
 
-Could you reply with your Tested-by if it works for you?
+We've already established that, for the Linux in-kernel NFS server
+implementation, FATTR4_TIME_CREATE reports a file's birth time and
+does not permit NFS clients to modify that.
 
-Thanks,
-Hungyu
+After this patch is applied, the server reports the ptime instead
+of the btime on some filesystems but not others.
+
+Essentially this changes the semantics of existing files that have
+a btime set -- technically that's a regression.
+
+
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
