@@ -1,96 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.202
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794928761;
-	b=stK6pCJ2FMnsnAiEorZ04vDdS7gwPob+PVFCnsupUdX8SiA/UFlK9fcyRrJKTc2fupR7
-	 3nq1lF/mbGkEUsaPrJtpu+L6bddnei4GBMeJoiMIoIrBzOVDIosqYsQiWrgmotT9/8T6R
-	 qJMEXzUiiYstxaUaSpG/I0P2uQypmD0IzGZQOAg5UZX4HROthXLNYnU0KXJP1n4zHxI2h
-	 7qDHJ+xIoVe57+ErK7no/wxdutsdMOxe/O1pYKO4b4cWMLTT3+vWuKF6NeX3n5+c76rY9
-	 UOVFrbZcsu3LT6UtHef2o0/TGTp1mH5mZSWjeTMad95YXH2yaq+U9jpA46FkYlIJidQ==
+	t=1794943778;
+	b=V5q/ixzjdYtpCYWq6InwJWSV8kJBI6Qk4Z6kZkOXWvIDngwndoBZd+M6em2Waby4Q5qu
+	 JkhiRI9MSINr8lsNvKjCilpCVc2oZnxtqn+shgd7/RS5l3U08svuO/kAA4EGWk6M+V+qs
+	 xcAOzfE7zWxdkta9js6cTBlMqlLwLc0zsyDHyrsukZGKLE92Bg/8uxCRcnhRUqmsmlZmz
+	 x/FuPyvnHq1bkaqgGRM+2k2BQlWV6N0/diXBLFD9NCOS+0Lpm9Xj0mXr1B8bP/TWVm/ip
+	 t1o0/+PKbT5eeL5J/+H64yjSMEk5hAkDqpPTuaEBYJKGbaMCwcm8qxCFgpAlqc166ZQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794928761;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794943778;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=i1opcLATHYSZbKrehl/jImCbKegTnyl1wL00MhA2upI=;
-	b=t++odNfg651B5k0JTqMgqL24G7c5qebXG8lCwUT6U268yJVh7w/1uKktoewyuWBgfjOn
-	 077FhluNw7FXz1nmutbUFGZDzvc2vMqWqp0eXShcb5iMZnncgUalMJYFBjGVZl5V+dPqL
-	 UiIi2F2h72fKdcmM4vsnpmA2nNpMHer/7Znc/uqFc1XfLNst6iOXtXNh+eG4A58844z6h
-	 0DeIrqotodkxaRHet0ZS6zVa7u4l3FIAuq42kzSNmhU7rKgD3O2WqFfd29za3tvKkAOY1
-	 j71SPQSECk34qwsQBdIHFgD2gNjf3fijTsdoLK7M2zbcBsp4HB1dwKRHO/GS3T0xsVA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=PGjBYsfF8c+MCFmt2RtqM8D82MXv6pCt/UIwi1wWB78=;
+	b=gTl8Mh8z4nrNATktp7DmPL3ZXwm+YotBfSzX5baS2m3RSYfokWlzHIaiN4Uw+fngE3Z+
+	 +ZfRq5TVSa1np5RHZuHYiUq2fAvUy3gOtu6g2xU8HrcaM9TniTa01LxqxDl/FH907sLV0
+	 tw2bX8XdtjKNL5D5Lq5+iDKBW7yQWfexlgOCjVKwDAjczb+n7HhWfrtAGx3ZuxCgfvCuM
+	 lnirElblSRMLkJ0PBlmRCn/TL0BKqjlhavvlFBcZtzVH+cYRF87fDGOfi6gvD9wKU+uss
+	 Rt6oUBlflFpOlkL84UtXdi6dwB/fST3CBApyrmYTiT8/dRxFc3gZgZS+F0EsrnYU6zA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=X+zRpFwh;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.172
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=raxo7Xvy;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.202
+Received: from mail-oi2-f10.google.com (mail-oi2-f10.google.com [74.125.231.202])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6456D606A31C
-	for <ntfs3@lists.linux.dev>; Tue, 17 Nov 2026 15:19:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6456D606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387E0606A31C
+	for <ntfs3@lists.linux.dev>; Tue, 17 Nov 2026 19:29:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 387E0606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=X+zRpFwh
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5365f9a04c5so76131491cf.1
-        for <ntfs3@lists.linux.dev>; Tue, 17 Nov 2026 07:19:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794928759; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=raxo7Xvy
+Received: by mail-oi2-f10.google.com with SMTP id 5614622812f47-4b94bb43008so10406b6e.0
+        for <ntfs3@lists.linux.dev>; Tue, 17 Nov 2026 11:29:38 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794943777; cv=none;
         d=google.com; s=arc-20260327;
-        b=q/LuNAL3VdlySUch6O/BXWgQ4ZuHFkHqA0mlI77+EP7l1orN6dDBjs8TJrY9lZAYS2
-         ApKfwR4BtsIszz8Jz72GDOS2EB3EP9kUtgZMzMxudt3eadXIkKkpwKXt+Z0qXeNLo8bj
-         d/Aji2h3St6+CzrYYohUyXbhqtii4wgXR6eptitWPKS+5rRO6rP4dFrQQRyWcjo6rS4y
-         GZ2ynJEQN+4Vu8ZaK3K57v0GuCAkCaLFnjygow+o9R3FS6ZrkZ6gG+bILlRWiEgW82qE
-         ysmxUUFIJCLs7iwmmh6BBZBuDRrjQVgeeikr86wo5CbLISaw86UcOlvVvmhz6opAp8mT
-         yJ0A==
+        b=Y9/Z1jIRxGQnrqk2LsvSChxfutbTGfZGUPHWJ6s2jCYNY0RO38pl0Bvk2umbnJgmiz
+         6FfRwLaJ2VBY8vOr22xgqzYrz2H2W0cGZEHOfdrYZxxDzmS3KODit5EV6dEZ2KGkdWN3
+         j/VKmooGkgj6/zkO6f8Ot65mcO7RG2F0lQWSGF/aPfWv18lAlFWQu8nhZJ8kQ+aQ2MuP
+         43qgceb7C6BXc5RHqfP3G+JjLVZ5WH8ypKcvUp1Z6ttPsnWte4GjJmR/isMZTLECYKEw
+         jNI6xEXlzB+oLJCvJD9YVGt8uV4XvGTRXEBD5/hDFOwRmVFAQylSfsfhLpSurI5KeAzF
+         m0EA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=i1opcLATHYSZbKrehl/jImCbKegTnyl1wL00MhA2upI=;
-        fh=IIV28/3DSHNNQHPrnGGJjPRJY33SOTSd0sQCUmfhrKA=;
-        b=s9MPbE1G4yCkzsdMuX1tL/VjMAcWu7yBbA/NXZYZ1kxtVBGJ8wSd+Zh/jlA8UVk2jU
-         2M9cnY/ndOm6Qesbz/JFCzhPkltimm7GN8IYixhDbSLpDYiejOFGBz6G+WvP5m9CIi11
-         1d3YYdq5FuhUFqsKN9FlB4QkHr9KCZn0bEXYGCyAf+lBWjYIEsa/1S668NYEJXCulZxi
-         pgTVeVRMvRQ67nIaZRGCFGxjOVfTw+1PHYhwAmZsDKnpvTx0RPjK5klPDiFCKKBwjKMR
-         i7dljy0Wrr6FLplcTRVJGydSZhRdTzJFPI5q/KepIgtkdh26sBo2o+3rTiku7rHoMmwx
-         ZUTQ==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PGjBYsfF8c+MCFmt2RtqM8D82MXv6pCt/UIwi1wWB78=;
+        fh=S8GjBnXSCXBDjPXMsSP3ssS1Eb0CmqmF2KkqBlqPfSw=;
+        b=brEVAm3JUDwCBTpOq+UlETP6mQPzDezIIdwHEVvWBL2ZZc7v5ljud9Gl6iMTIhQn3v
+         82G98Imvy9lYBU4cC6fqiPHzyqJlrsQ8LZ8A1nkbKohvJlgpf3VYaf9ognQn2t/QQM4m
+         LNUf2+XRWY5Os3h8wkSgj1sKxE/FCvdQpjEXEknYj+8p6LUCkZEL8f5h6cf1799m2Zsu
+         f3TynTyMrU8lrzPvKscWr51iYloiqjEGEujxWNlxSjEmZzhbTSvdOOzr8LGJWKbalVL7
+         00aZuPTNR6DVSt1LvrX5bTIETVPH5NzdXousiURbHHmwsqik35/AjzEk5JymkaRRbsj+
+         si4g==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794928759; x=1795533559; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=i1opcLATHYSZbKrehl/jImCbKegTnyl1wL00MhA2upI=;
-        b=X+zRpFwh5IO+6FOiDNSYwxrXQ7fhcXPH/xMKv7VQlckGqCzMehHtWJdfiwgcqhlil1
-         LyYlvp56mgj+HDi3s31CfYzMke3/W3FvDvyx89Z1FbjC4sPAfZnrqBNgqEWbGMnr6Wlr
-         f8wsCM1iMWF86JAzRFm4gncCetPkBQDMRvOX8hOfgb/Dp/CvOlN+ZOSZUXZw/CVLbgiL
-         +xxA9lxv/mCGCacgon6dw7G8+7zjBnU9KBXx2bG3RyNpzq7Qv6GOTeuoetugl5v5LBM4
-         ubljTg2JWMxjg+BXKPzEHtP2XJjc5TTKSWPEkm8qinjyAqdfPURJPk+tMDCqQ0ecHboB
-         0pjA==
+        d=gmail.com; s=20260707; t=1794943777; x=1795548577; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PGjBYsfF8c+MCFmt2RtqM8D82MXv6pCt/UIwi1wWB78=;
+        b=raxo7XvyjWnwks15PNm1DmPs+Du/nTIp90HQt6YwrHztXk5QpU36zdlx+CzMX+txlb
+         9380y81QOgQ4IQhryCVVsNn0x/ZBqsBCkQha+Np7Qxrvs2J92RTInZ7Cpcrsq9E6ex0x
+         S+7uyiwoMZ324ZOmKKv6VWMnuRfEkUA/316mwJSulU8Xu7dboNdY/8c0wt6bd6Cys/9p
+         vQaO3e2lb/N5J5iW+6RAHygqY1aiVrYKIQ2iSWJ4+DUiED/pcrMSaSkRT2j9UAmhY/UI
+         KQNnnJjOnr0ghBoCMIUD3F8UmO81eLzWaUIvS9Y+gQHzfp96TvkS9V6WsGbLpi+FsHOV
+         BwaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794928759; x=1795533559;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=i1opcLATHYSZbKrehl/jImCbKegTnyl1wL00MhA2upI=;
-        b=u/5/weJiWeRau6CxRv/HmNGx3/K1FSx9z64HTLD+JgSs6UdfkPKWEmEoeVqqRRtyuZ
-         2jXBkuxIZI3kySeUsjuHMk1Vd/Oggn58fNFOEIA78+qBNYAKqcKKhHc9gdyTEZTMst+H
-         YCaVCjVXyd2X8G5Va0GYvO1hP/cfPYRViEwkiaGV0cFESIyXM1ImLbzjIwmimGV0+9T9
-         tVx75UuwsIkv1z+uu9/bWW9gY5NfJMDLyFEL0iOdcaV8kgd/R/Pga/68YTlIU5sC8xAF
-         sJ0n0XUzxzoS53NGSKPZf2mF3iFxBddS79NJV7pGrRuT7jJL3JvNwzpo+O9KrOmZk53z
-         kUZA==
-X-Gm-Message-State: APuU4Z9GO/pqhgaxaHzcZkoTE7JDMVs7VQ0App0ihMTsRhgZG1k7eQNB
-	4sWKESs231Uxd9ZEV2vTWUFLuVeyD1lwheZqQDqGAE0QlgOWsZ/NBDDfuK/IBqipHi1/8lvjBy5
-	biS3k7gzOWVTQBW7ZkA2QC2Ed6Vz0oWUVcBU3
-X-Gm-Gg: AYBFou3vHdZaFy4ifHJc8DuE82pRFXaoOztx1kCM/NcQM2qWScjnWe9qojRovfMLuF3
-	Vd9cWTLdA8ynjrBUMQwq+Eu22CHWX2T+D/Rboa0YiszRQqgIH1nUekFvGepBVruqxoKM+DQgYXJ
-	HpVzyzxHDFA7LrbW2ssw8NRr3adJVi3REm0iZpEUcPoaQY23OmxPLU4mjlwiVzB0yXekxf1p49A
-	sBevGJOvu/b+fJa228tYv8auVosndC1biZ85rfUkovT7U+NAhmXZsSOtRx8HvxY+s9cJbq0hfLe
-	XvZkFYw8kVQSn2JHdoh6kTjytJFhLKmEPJpHGYDbsk0dKnAtneVwHDzI4vAY+rsgGEhJM6IsxY3
-	ULq2Vlow8Y0sBeYLIpakSoafga42TxGnZ8r4uwSR624YsAUttXZZ9H9eiZA7DeRwoipn8e12PUE
-	MPDvY7ga9tcVxCdxSAgH7XUA==
-X-Received: by 2002:a05:622a:1b86:b0:536:6013:bea6 with SMTP id
- d75a77b69052e-55ac4890974mr233444481cf.2.1794928759121; Tue, 17 Nov 2026
- 07:19:19 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794943777; x=1795548577;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PGjBYsfF8c+MCFmt2RtqM8D82MXv6pCt/UIwi1wWB78=;
+        b=RnjKYH/UriqniVoHZbxsiL6xFigFvs0DuJ2ngJRoK4QzBCghUUeejdndfCvsxO+Fdw
+         zp4n1vvjngHkR+iZmrRDrPrKtS7T4wI3qcnhLD5c97ZqdE8e+kgR3uvCa9eU59p0GxtN
+         J04VbPwD39d1LtiCjNpI+fOUwi9Q8oM9r+U0HeqAWCisqr731W+PpZ8ErQZTLsIe05xz
+         eOnTo2OwpsUHw36RbPXjO2s1idKZAK4YGbXmOo6Jntrl6wIdwWCID6OEK+IS1rUY9T4v
+         X0UOZ74C0JsDFdHOgrtBZ0m4CvdhotH6TSYJb1NJAcnSEG+zSiJgw2nSs+Wps7wQdCk3
+         HbZg==
+X-Forwarded-Encrypted: i=1; AL+hErEpnt9THKwqJ43Wmeo5M4oz2+KC5V2d5Er/pbzzcrHpQl7Lv5YvFwNKn53/uEAlAH6JVEJkdA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8td691ZCKQR0VS+kwbtxnFe5u/kX1dwDVRuNyWAO2CLUfQL9GD
+	7HhVJhrz4XKiBsLQvP5iHq6bHcN78Pm70DFw9pBpAIhtiPL2dpKlyq0wtxnmmCWetTvZJMH0fh3
+	a9570ZQ+0xA4MafqUPymsWGr5yPdxMns=
+X-Gm-Gg: AYBFou3N7xPOMp0hxoVlY6YCPdq52pn2cpCBFgEKTuEmPvf+fKCmckXYJaJy6+YOj13
+	h90oNi/Ap61xuHRRsrNxfZO9Yf0UGjnAtLBnsTTmTu1IfhTclL5mXvGcE8bhR9NxDqrpr9PsA4S
+	dN+bNLn6Ed5QMBsFKY25JNnWv99L++ancvPulxkan7TkL6l4Zb8779xJczFHsfWrmFReJ0pUVGS
+	M6vqjLsqVcQZGDr/UhmPgOhE/+Lu6cY8MCWvD830ARMaMoeZ/NZ4SO+hatWoOwLY4AJgxion8OK
+	UqzGgyLzYoM1T6uWvqVaH71HafqWW0e6QiBpWneNSGJJHstwP//0pH3RpN33bQQxyOY+uaWWl4n
+	rSwf4pQ/Cb5IPocQQEMgrZ0EgyHFxZJ6Li17iSb/Ox/l8v6mRylk+zS9cR6HTiA69qvlxqPit8f
+	7qN7/hBGllVM+mTVhBrhEsnbUNdPHRtY0JSSHlyg7tBk28Nst7RaPk
+X-Received: by 2002:a05:6808:30a9:b0:53a:e153:e8e7 with SMTP id
+ 5614622812f47-57741d17630mr920531b6e.44.1794943777052; Tue, 17 Nov 2026
+ 11:29:37 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -100,68 +105,34 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-From: Jonathan Pitre <jakeld@gmail.com>
-Date: Tue, 17 Nov 2026 22:19:06 +0700
-X-Gm-Features: Aa3M54pCNXWC4nGUnYZ9mUgVgL8BS47JjAVrHPkj77CyV1a8GCoGTi9EPWWJqPY
-Message-ID: <CADjMKxV2F-vgD6kVoo58j83p9Cc-xn1U_L6T7V5Y+FNNHaGUNQ@mail.gmail.com>
-Subject: ntfs3: valid $BadClus rejected when the sector count is not a cluster multiple
-To: ntfs3@lists.linux.dev
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Zhan Xusheng <zhanxusheng1024@gmail.com>
+References: <CAJ6F8CFSfgdZqaKMndGZtbaww32Xr_KVL3gA_2Jemgv9i9vskg@mail.gmail.com>
+ <CAJ6F8CFgkgksyk6YM3NdMkQNhSFWV4depC4c-mHvpDHpnjhM-Q@mail.gmail.com>
+ <6ab4a114-57b2-40c7-99d4-55a4ac4c9a9c@leemhuis.info> <CAJ6F8CHzm4=ryY+j3ao6doR=-67Lq=3-w-kbhk1wdvtYDhyNeA@mail.gmail.com>
+In-Reply-To: <CAJ6F8CHzm4=ryY+j3ao6doR=-67Lq=3-w-kbhk1wdvtYDhyNeA@mail.gmail.com>
+From: Hungyu Lin <dennylin0707@gmail.com>
+Date: Tue, 17 Nov 2026 11:29:25 -0800
+X-Gm-Features: AclHuK-EvuFT3sTbDUuzVCeVohToLo20JL-jPaY9zCV6KfEdKeWy3NzN4uK5qVs
+Message-ID: <CAGEkeHdxaC2BBg5wWOCL0pj0r4Ks6mD_a3KpE7h+en9Aupb4zA@mail.gmail.com>
+Subject: Re: [REGRESSION] ntfs3: existing files/dirs with ':' in their name
+ became inaccessible in 7.3 (ads on by default)
+To: =?UTF-8?Q?Cl=C3=A9ment_Smagghe?= <cle.smagghe@gmail.com>
+Cc: Thorsten Leemhuis <regressions@leemhuis.info>, almaz.alexandrovich@paragon-software.com, 
+	ntfs3@lists.linux.dev, regressions@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Konstantin,
+On Sat, Nov 14, 2026 at 7:43 AM Cl=C3=A9ment Smagghe <cle.smagghe@gmail.com=
+> wrote:
+>
+> I'm happy to test patches.
 
-ntfs3 refuses a healthy volume that Windows and the in-tree ntfs driver
-both mount. Kernel 7.2.15, CONFIG_NTFS3_64BIT_CLUSTER=n:
+Hi Cl=C3=A9ment,
 
-  ntfs3: ino=8, mi_enum_attr
-  ntfs3: Mark volume as dirty due to NTFS errors
-  ntfs3: Failed to load $BadClus (-22)
+I sent a fix that makes 'ads' opt-in again:
+https://lore.kernel.org/all/20261115103845.56074-1-dennylin0707@gmail.com/
 
-Volume (BitLocker, opened with cryptsetup):
-
-  bytes per sector     512
-  sectors per cluster  128 (64 KiB clusters)
-  sectors_per_volume   7337721855  (one sector short of a cluster multiple)
-
-  ntfs3 volume.size    3756913589760
-  ntfs3 nbits          57325951     (volume.size >> cluster_bits)
-
-$BadClus:$Bad, MFT record 8, non-resident, not sparse:
-
-  svcn 0, evcn 57325951
-  alloc_size 3756913590272  (57325952 clusters, 512 bytes over volume.size)
-
-Windows sizes $Bad to the volume rounded up to a whole cluster, so the
-last VCN covers the partial cluster at the end. Two checks in
-mi_enum_attr() treat that as corruption:
-
-  c4a8ba334262 ("fs/ntfs3: Add rough attr alloc_size check")
-    alloc_size > sbi->volume.size
-
-  the evcn check applied for 7.3 ("reject out-of-range evcn in
-  mi_enum_attr()", this thread)
-    evcn >= sbi->used.bitmap.nbits   (57325951 >= 57325951)
-
-On 7.2.15 the first one fires; once the second lands it would reject the
-volume too. chkdsk /f reports nothing, and because ntfs3 marks the
-volume dirty itself, the error comes back on every mount.
-
-A fix could compare against the cluster-rounded volume size in both
-places, e.g. ntfs_up_cluster(sbi, sbi->volume.size) for alloc_size and
-the matching cluster count for evcn. I have not tested a patch.
-
-Other users have hit the same message since about 6.11, without a cause
-being found:
-
-  https://bbs.archlinux.org/viewtopic.php?id=301270
-  https://forum.proxmox.com/threads/backup-file-restore-cannot-mount-windows-10-ntfs-partition.176446/
-
-I can share the boot sector and MFT record 8 (no file data), or test a
-patch.
+Could you reply with your Tested-by if it works for you?
 
 Thanks,
-
--- 
-Jonathan Pitre
+Hungyu
