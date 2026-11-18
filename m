@@ -1,60 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795020462;
-	b=LhxMSbamE+YEJD6gudzNFY1eWy2u/Moe9VOi8Y199YcNCxfEMq8/NAcgRhv9+2yVEnr0
-	 MJtSMfaZUGesHBop/8SVjXHpb7mKv5j25uOtX3d9z5AVs5bqPLZesFupL1eCDRqhXVvQC
-	 FgFiSVj7cb3Auucps+X/i6/if/BqIfcEZa8+n6GmyzStJ0tIwcdWJ9h6mUKrvNMEcIrCF
-	 7uojUVFfi5fsxSIiD+ERW1WZdP7ASTjmx/12DfdY4bQlcfWm3WD0ahnnRl8tQP/mgKfMv
-	 0RRK5SvnPSsrO6Fp4hOGlreie5Ovmg0xupFJWmto32tt9nFtQIvSS2iGmVoqKJHKhWQ==
+	t=1795020651;
+	b=ZxEPJAHMYwtDVz39YRKkGDZmAG1GhQG55tD1tfkWJMArFY36s9hufDdx/Ph33ndll63T
+	 y/gu3L+h2kQOCOz0mi0EKIBFx9grzF1PfRgtY+zz+lRbxOT65eJq+3FQtOCGIMhCLll0e
+	 Wo3I4DWmCo54ozNRowwAMH4jHqUCYAApGF342JqyKWbZaRuUg4LECCBsr74psVKxPDs6f
+	 ocT1f5YHQ7dlDusKPP8ATNxs+htIKKhygL4pYTS9vYxdhP8V9HyE0HVSJ6zAUoB+EScUl
+	 tdlKuhEoyw98znCpLt8czZdV0QYk2/TEFwyNp6GTTV0FpC2ol1LouosMRg0ka1B15Lg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795020462;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-	bh=5cYW0TR9tV134qZctJYpMdsgw91sglysq8a2/DPv0JE=;
-	b=I0H57AIalRcnTWSFb9iLDOsihusUOgG4vUqDGK+veh7tebCluHMDl+sRErGolqF7c2tA
-	 NDV/e39QUjaqF8+Ork5KuDJxebwZveanj907pmnGfL/9eqaYQ+40CvQTpjKpSg/wF69YT
-	 k5BE9EFp2dF2iJ3l0OOZ0RKB4c9crqT05LqFrQMkNBJkP+QMGlnA0TFoNfkpakO7Uh7+W
-	 hkD/GWv77mpC1efdsqYy1akNyX47q20L7jIbFX6y77vZg5hoWjchaycCcl57Ev7zd1K6a
-	 jjWoQNJRGw1bDnzSmmcydAvR1XhCx1osrbhL7c+T7hKFMiJRt7y1c9pKmtWlIuMJtgA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795020651;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:X-Mailer:
+	 References:In-Reply-To;
+	bh=m3pvNF133wcwSGy+HdLA8hjMu+z12FMemfmO2dtjbkM=;
+	b=RdXcyEYZApoEYeb+it3V/E8UmhozN2MZuU7tJIYrLgGIdkUdiasKNysXeW+os5cRFQbS
+	 9iEzK9Pp5tDgEx5EfD1L/PvZsIFtcccB5onMsENUisth+WYFQ481k/t04J9Qr2tVt4+nS
+	 KQcD/DsOKURl1Jd0XdxF00svC7sazh4JvDeviFYEYBvdMhDijhe2rkpoNsZY/dRbSweX3
+	 9Z66LjPChd/42KUMPqGRWQ2wAk0C5HP+VeE9x1jxq+S+YYEogQB5sQYIQRxKqDZm9jL59
+	 PXzluk+aYwdLXxmghvQmpCkh9XHsJaBZgH45sC/wBIIhoG8epwPmQZtZ5oyHESte/0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=paragon-software.com;
-	spf=pass smtp.mailfrom=paragon-software.com;
-	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=dBS6KRKv;
-	arc=none smtp.remote-ip=35.157.23.187
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="o+7rzf/m";
+	arc=none smtp.remote-ip=209.85.221.43
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900E1606A330
-	for <ntfs3@lists.linux.dev>; Wed, 18 Nov 2026 16:47:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 900E1606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47ACF60A2614
+	for <ntfs3@lists.linux.dev>; Wed, 18 Nov 2026 16:50:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47ACF60A2614
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=dBS6KRKv
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 1AACE1D42;
-	Wed, 18 Nov 2026 16:48:23 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=dBS6KRKv;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id AE3DB217F;
-	Wed, 18 Nov 2026 16:47:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=o+7rzf/m
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-490f38e9688so8922f8f.0
+        for <ntfs3@lists.linux.dev>; Wed, 18 Nov 2026 08:50:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1795020459;
-	bh=5cYW0TR9tV134qZctJYpMdsgw91sglysq8a2/DPv0JE=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=dBS6KRKv+UmEpl9O3r6L6/3oFdBJzJWpmN4GIWomQtrXIVwAmq4z87hUlnooidyXh
-	 PlQZUixN+UBKBiSMgQ3sbfv47EeaYb7uwjtdJM18P68EF5xk7xPA0KcgAzQ7silQdh
-	 1qyRLDJEgJJ3Hwd4YUCZszXrPFOKcZMqGlOJn7FE=
-Received: from [192.168.95.128] (172.30.20.220) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 18 Nov 2026 19:47:38 +0300
-Message-ID: <82a1d7b1-5eb9-43c9-a432-5c4054de330e@paragon-software.com>
-Date: Wed, 18 Nov 2026 17:47:36 +0100
+        d=gmail.com; s=20260707; t=1795020650; x=1795625450; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=m3pvNF133wcwSGy+HdLA8hjMu+z12FMemfmO2dtjbkM=;
+        b=o+7rzf/mdwZdtUJFsT356+AVtPAaE2yb7InKRW4XDS9HUTTQ16S5UsQi4cI3HnmzML
+         fxebko0cFEKLczF0CeZZ8qfWyfK96sOksqtEbBSRanr9BnIH7MieFeIH1jhhDiSz7kC7
+         9dcI8k+x52P0IKT2z3AVUNe9W/Pk7paOrenFtzKqzbp5SGLBhp8D72WkeVk80/KGFpfz
+         oPjV0IvSVs63OlBVrZXZ/rvcD+WHV+Wc1j5hzEfPVq2zQ1gIl3Fw2EeBdSwvWobh1xiv
+         z8tTnyAnJkSq9YcYFkZ5GnGkrBXcd1LyXvKOOEZCqKDiwfOUYnUgyKvUPa2D8+pYuX3D
+         NP1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795020650; x=1795625450;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=m3pvNF133wcwSGy+HdLA8hjMu+z12FMemfmO2dtjbkM=;
+        b=lbOKs1FtOtcokpdUFJYNlNNMzUVss/a1bdhcFRyzp7R5EQUCOP5lDxZ91NY7ofzzyn
+         M4Fesh9RrKt9BZwyMjK3BWIKbffr/TSEbn/GZC3g6Irek+iep+VTvCyzfRpBN4Olggfu
+         2u395lcuqSLAX+1GAMpsdVfCjMMvm6IqDXkfUK6NUoJwRN9bXCt//zjcO7ENkCP0qxE0
+         yan6TmwpxjXvFoo2WKzB+DmeKX6a8RMiTDdto4GjuCDOsVKYrZneMnFjISx6d0Wm3LPI
+         8+M6wJ2Q9uXB/cRkAGbazMbdLQ9IeESyeTCwNcwz+GJdtavhYA3j4039+zQ6GkkQthvF
+         z7MA==
+X-Forwarded-Encrypted: i=1; AL+hErFeRiS0RZird0yD6K4ESgf7KWtKFTVJBRLNEM7UPC0NYhtRghh9d4qK/MWM0I3rpFoLra0i7g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8xqjZaPxulmJ1FfN9ug0E4qX0Oy983pzo0jlVriia951kqDiWt
+	cxWZr3UlRdWx4obt2ixF+owShb60j0SvLin0RvT6OXNcufC6xMT86k9I
+X-Gm-Gg: AZFdTZcbC1d/bxNNZ3dRfD/njAA1PwimPgQo1IF1deR3NCWaUw5CRRpdFvD4tOcXrQc
+	1c0s3FXugpw/35DfnRnqS9MN2jTLP3BlgxjA9hsmeEyb/h7hqWWTzHAPvfcTVjRx4/6QJTU+HUy
+	nAp2SoAWC5B7vLizQ5Hcr3NJpAAfoSgR0LBDAvoNjNczKRwZ4OCSsvjdUWQOzaRkCoCotJtAUm2
+	YmEdx1C9cVJtGJvzXcLxthJd6G23qE13x2S5pS1S5skPR9pgpC1APqzjGkU1LvMRmT7IHkiZz3Z
+	BTF3ZvOxXqLvACHXetrrmz+3RNAZkCMcNqgbnm7qzLIbfSo4twVaCHmkhBW15uY5fh6tQlGWPvk
+	EmfV7fc+5dLtLMFjo/ZDm6k0mLzh1R9uHxg2w2lA9kr9qKfgVHYUkuKuk9ysNJSB/KvLU+1oqC/
+	1WVphPt5aPSFtaXaa1/sg6nr/GX8voQxgS5D5R8yILfr78cIyYohdbGwiBG/gDBei+Ciqm9pz8h
+	Y9ui3KMo0unPt6Ce8pttTkmw0Xb3WvKcPd5BzJgJCizFhP47qHXHovoYuvFch8glvfpDxMmd9EO
+	g7uLtfIVaRR6TjrAJdP6h2eOVuM=
+X-Received: by 2002:a05:6000:29d6:b0:48c:585b:8825 with SMTP id ffacd0b85a97d-4a8e60ff7eamr118137f8f.18.1795020649313;
+        Wed, 18 Nov 2026 08:50:49 -0800 (PST)
+Received: from localhost ([2001:b07:5d26:7a6a:de3b:51f3:e461:c0df])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a650d2ecd0sm6451582f8f.8.2026.11.18.08.50.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Nov 2026 08:50:48 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -63,186 +86,172 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ntfs3: fix INSERT_RANGE for resident data
-To: <shakevsky@berkeley.edu>
-CC: <linux-kernel@vger.kernel.org>, <ntfs3@lists.linux.dev>
-References: <20260830-ntfs3-submission-v1-v1-1-08f61d390cd2@berkeley.edu>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260830-ntfs3-submission-v1-v1-1-08f61d390cd2@berkeley.edu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=e68d7a3c08e03032b674b625d495d35f9a655e5ba7e0e8c8006911574197;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Wed, 18 Nov 2026 17:50:39 +0100
+Message-Id: <DMYHPLWKPSH3.MUM1IIZZIWNR@gmail.com>
+Cc: "David Sterba" <dsterba@suse.com>, "Namjae Jeon"
+ <linkinjeon@kernel.org>, "Sungjong Seo" <sj1557.seo@samsung.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
+ <brauner@kernel.org>, "Trond Myklebust" <trondmy@kernel.org>, "Anna
+ Schumaker" <anna@kernel.org>, "Chuck Lever" <cel@kernel.org>, "Jeff Layton"
+ <jlayton@kernel.org>, "Konstantin Komarov"
+ <almaz.alexandrovich@paragon-software.com>, "Paulo Alcantara"
+ <pc@manguebit.org>, "Chris Mason" <mason@kernel.org>, "Yuezhang Mo"
+ <yuezhang.mo@sony.com>, "Jan Kara" <jack@suse.cz>, "NeilBrown"
+ <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo"
+ <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>, "Ronnie Sahlberg"
+ <ronniesahlberg@gmail.com>, "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Bharath SM" <bharathsm@microsoft.com>, "Sergey Senozhatsky"
+ <senozhatsky@chromium.org>, "ChenXiaoSong" <chenxiaosong@chenxiaosong.com>,
+ "Darrick J . Wong" <djwong@kernel.org>, "Sean Smith"
+ <defendthedisabled@gmail.com>, "Andrey Albershteyn" <aalbersh@kernel.org>,
+ "Pedro Falcato" <pfalcato@suse.de>, "Amir Goldstein" <amir73il@gmail.com>,
+ <linux-btrfs@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <exfat@lists.linux.dev>,
+ <ntfs3@lists.linux.dev>, <linux-cifs@vger.kernel.org>,
+ <linux-nfs@vger.kernel.org>, <linux-api@vger.kernel.org>
+Subject: Re: [RFC PATCH v4 00/10] add provenance time (ptime)
+From: "koraynilay" <koray.fra@gmail.com>
+To: =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, "koraynilay"
+ <koray.fra@gmail.com>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261115180343.576773-1-koray.fra@gmail.com>
+ <20261118142613.be3r3s6kobkkxnz4@pali>
+ <DMYFBDIV4Y08.35ZKR5G86U1H7@gmail.com>
+ <20261118151605.lqtn5fz423kuswk5@pali>
+In-Reply-To: <20261118151605.lqtn5fz423kuswk5@pali>
 
-On 8/30/26 10:59, Alon Shakevsky via B4 Relay wrote:
+--e68d7a3c08e03032b674b625d495d35f9a655e5ba7e0e8c8006911574197
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-> From: Alon Shakevsky <shakevsky@berkeley.edu>
+On Wed Nov 18, 2026 at 4:16 PM CET, Pali Roh=C3=A1r wrote:
+> On Wednesday 18 November 2026 15:58:02 koraynilay wrote:
+>> On Wed Nov 18, 2026 at 3:26 PM CET, Pali Roh=C3=A1r wrote:
+>> > Hello,
+>> >
+>> > I have just one issue with the userspace API. It does not allow me to
+>> > figure out what is the source of statx btime field. If it is fs ptime =
+or
+>> > fs btime because this RFC implementation is mixing both fs ptime and
+>> > fs btime into the statx btime field.
+>> >
+>> > I have feeling that this is quite a mess in API and I would like to se=
+e
+>> > a clear distinguish between btime and ptime in the API, like there is =
+a
+>> > difference in the fs storage.
+>> >
+>> > If the btime is used for forensic analysis then somehow I would expect
+>> > that the statx would not report / not fill changeable ptime value into
+>> > the statx btime.
+>>=20
+>> Hi, for native linux filesystems it will report ptime as PTIME and btime
+>> as BTIME (also semnatically).
 >
-> attr_insert_range() grows a resident data attribute before creating the
-> hole. It then moves data with:
+> That is fine.
 >
->    memmove(data + bytes, data, bytes);
+>> for the windows-like ones that only have
+>> ptime (semantically) I think it's reasonable to not expect btime to be
+>> immutable, since they are meant to be used with other OSs who lack btime
+>> semantics.
 >
-> The move starts at offset zero and copies the insertion length. It should
-> start at vbo and copy the bytes between vbo and the old end of the value. A
-> valid insertion can therefore write past the MFT record allocation. KASAN
-> reports a slab out-of-bounds write in attr_insert_range().
+> The problem is here that the RFC statx API does not provide this
+> information that the fs lacks btime semantics and instead it fills
+> non-immutable ptime value there.
 >
-> attr_set_size() also sets i_size to the expanded size. The resident path
-> adds the insertion length again after the copy. If attr_set_size() converts
-> the value to nonresident storage, attr_insert_range() shifts the cluster
-> mapping using the expanded size and then adds the length again. Both paths
-> grow the file twice. The conversion path also leaves the original data at
-> its old offset.
+> I'm pointing only about this inconsistency.
 >
-> An unprivileged user who can create files on a writable NTFS3 mount can
-> reach the resident path by marking a file sparse while it is empty, writing
-> resident data, and calling FALLOC_FL_INSERT_RANGE.
+>> > It would be really helpful if the statx API on inode can differ betwee=
+n:
+>> >
+>> > 1. btime is present and its value is ..., ptime is not supported
+>> > 2. btime is not supported, ptime is set to value ...
+>> > 3. btime is present and its value is ..., ptime is set to value ...
+>> > 4. both btime and ptime are not supported
+>> >
+>> > This should cover all cases of different filesystems and also allows
+>> > userspace to do proper backup of both ptime and btime fields (if it wa=
+nt
+>> > to do forensic analysis or anything else).
+>>=20
+>> These should already all be covered by STATX_BTIME/PTIME and their
+>> fields in struct statx, the only problems are windows-like filesystems,
+>> which IMO shuold be handled as mentioned above.
 >
-> Before resizing a resident value, check whether the expanded value will fit
-> in its MFT record. If it fits, move the data from vbo, clear the new range,
-> and keep the size set by attr_set_size(). Otherwise, return
-> E_NTFS_NONRESIDENT so ntfs_fallocate() converts the original value before
-> retrying the insertion.
->
-> The new conversion path can fail while writing the cached data through its
-> new mapping. Update i_blocks and mark the inode dirty in
-> attr_force_nonresident() so the converted attribute does not leave stale
-> inode accounting.
->
-> Fixes: aa30eccb24e5 ("fs/ntfs3: Fallocate (FALLOC_FL_INSERT_RANGE) implementation")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Antiproof:GPT-5.6-Sol
-> Signed-off-by: Alon Shakevsky <shakevsky@berkeley.edu>
-> ---
->   fs/ntfs3/attrib.c | 42 ++++++++++++++++++++++++------------------
->   fs/ntfs3/file.c   | 17 +++++++++++++++++
->   2 files changed, 41 insertions(+), 18 deletions(-)
->
-> diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-> index b1c315206ffa..a16e0c259ab1 100644
-> --- a/fs/ntfs3/attrib.c
-> +++ b/fs/ntfs3/attrib.c
-> @@ -2589,35 +2589,37 @@ int attr_insert_range(struct ntfs_inode *ni, u64 vbo, u64 bytes)
->          down_write(&ni->file.run_lock);
->
->          if (!attr_b->non_res) {
-> +               char *data;
-> +               u32 used = le32_to_cpu(mi_b->mrec->used);
-> +               u64 dsize;
-> +
-> +               dsize = ALIGN(data_size + bytes, 8) - ALIGN(data_size, 8);
-> +               if (used + dsize > sbi->max_bytes_per_attr) {
-> +                       err = E_NTFS_NONRESIDENT;
-> +                       goto out;
-> +               }
-> +
->                  err = attr_set_size(ni, ATTR_DATA, ni->file.ads.name,
->                                      ni->file.ads.len, run, data_size + bytes,
->                                      NULL, false);
-> +               if (err)
-> +                       goto out;
->
->                  le_b = NULL;
->                  attr_b = ni_find_attr(ni, NULL, &le_b, ATTR_DATA,
->                                        ni->file.ads.name, ni->file.ads.len, NULL,
->                                        &mi_b);
-> -               if (!attr_b) {
-> +               if (!attr_b || attr_b->non_res) {
->                          err = -EINVAL;
->                          goto bad_inode;
->                  }
->
-> -               if (err)
-> -                       goto out;
-> -
-> -               if (!attr_b->non_res) {
-> -                       /* Still resident. */
-> -                       char *data = Add2Ptr(attr_b,
-> -                                            le16_to_cpu(attr_b->res.data_off));
-> -
-> -                       memmove(data + bytes, data, bytes);
-> -                       memset(data, 0, bytes);
-> -                       goto done;
-> -               }
-> -
-> -               /* Resident file becomes nonresident. */
-> -               data_size = le64_to_cpu(attr_b->nres.data_size);
-> -               alloc_size = le64_to_cpu(attr_b->nres.alloc_size);
-> +               data = resident_data(attr_b);
-> +               memmove(data + vbo + bytes, data + vbo, data_size - vbo);
-> +               memset(data + vbo, 0, bytes);
-> +               if (vbo <= ni->i_valid)
-> +                       ni->i_valid += bytes;
-> +               goto out;
->          }
->
->          /*
-> @@ -2716,7 +2718,6 @@ int attr_insert_range(struct ntfs_inode *ni, u64 vbo, u64 bytes)
->                  attr_b->nres.valid_size = cpu_to_le64(ni->i_valid);
->          mi_b->dirty = true;
->
-> -done:
->          i_size_write(&ni->vfs_inode, ni->vfs_inode.i_size + bytes);
->          ni->ni_flags |= NI_FLAG_UPDATE_PARENT;
->          mark_inode_dirty(&ni->vfs_inode);
-> @@ -2807,6 +2808,11 @@ int attr_force_nonresident(struct ntfs_inode *ni)
->                                      le32_to_cpu(attr->res.data_size),
->                                      &ni->file.run, &attr, NULL);
->          up_write(&ni->file.run_lock);
-> +       if (!err) {
-> +               inode_set_bytes(&ni->vfs_inode, attr_ondisk_size(attr));
-> +               ni->ni_flags |= NI_FLAG_UPDATE_PARENT;
-> +               mark_inode_dirty(&ni->vfs_inode);
-> +       }
->
->          return err;
->   }
-> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-> index 2abf334bfa0c..e11b17f14087 100644
-> --- a/fs/ntfs3/file.c
-> +++ b/fs/ntfs3/file.c
-> @@ -617,6 +617,23 @@ static long ntfs_fallocate(struct file *file, int mode, loff_t vbo, loff_t len)
->                  ni_lock(ni);
->                  err = attr_insert_range(ni, vbo, len);
->                  ni_unlock(ni);
-> +               if (err == E_NTFS_NONRESIDENT) {
-> +                       ni_lock(ni);
-> +                       err = attr_force_nonresident(ni);
-> +                       ni_unlock(ni);
-> +                       if (err)
-> +                               goto out;
-> +
-> +                       err = filemap_write_and_wait_range(mapping, vbo_down,
-> +                                                          LLONG_MAX);
-> +                       if (err)
-> +                               goto out;
-> +                       truncate_pagecache(inode, vbo_down);
-> +
-> +                       ni_lock(ni);
-> +                       err = attr_insert_range(ni, vbo, len);
-> +                       ni_unlock(ni);
-> +               }
->                  if (err)
->                          goto out;
->          } else {
->
-> ---
-> base-commit: 08dbfad3f5040f5bdb6c529da20d6d4e81fefd72
-> change-id: 20260830-ntfs3-submission-v1-922a1af22503
->
-> Best regards,
-> --
-> Alon Shakevsky <shakevsky@berkeley.edu>
+> Exactly, I pointed out about these problems. I somehow expect that the
+> new API would be generic and uniform across filesystem. IMHO it does not
+> matter if the filesystem is windows-like or not (there are also FreeBSD
+> fs and also others which allows to modify that time). So better
+> description is fs belongs to category 2. from my above description.
 
-Hello,
+Ah yes, I used windows-like to mean "only have ptime semantics", so same
+as your category 2.
 
-Sorry for the delay.
-The patch was applied, thank you.
+>> Of course, as in the other discussion, I'm open to changing ptime
+>> NTFS/exFAT/... support to remove btime altogether and only use ptime for
+>> their own crtime if that's what wanted (I'm fairly impartial on this
+>> specific issue).
+>
+> I'm giving some ideas how to possible handle this situation:
+>
+> 1. do not fill btime it at all when it is not available (remove btime
+>    altogether - the case like you wrote above)
 
-Regards,
-Konstantin
+This would be the most semantically correct option, but would break at
+least 1 script/program/use case.
 
+> 2. when userspace ask both ptime and btime, then do not fill btime
+>    (remove btime altogether - but only for that new case)
+
+This probably is the best compromise.
+
+> 3. fill btime with ptime value, but add a new output flag indicating that
+>    the btime is not present at all and instead kernel filled ptime value
+>    into the statx btime field
+
+I don't really like this, it adds complexity and uses memory/1 flag big
+for a single specific field, IMO it's not worth it.
+
+> 4. let statx btime as currently is, and add two new statx fields:
+>    immutable_btime and ptime. immutable_btime would be filled only if the
+>    fs supports real btime (so not for ntfs/extfat crtime) and ptime would
+>    be what is currently in RFC
+
+I think this is also too complex.
+
+> Ideas 2. 3. and 4. should be fully backward compatible as it would
+> affect statx output only when called with new flags.
+
+Then 2. is probably the best way to go forward (maybe I'll include it in
+some way in v5), but I think we should let each filesystem maintainer
+decide if they think their users want to have statx report their own
+crtime as btime, ptime or both (native linux ones would of course
+report btime as btime and ptime as ptime).
+
+Thanks,
+koraynilay
+
+>> Thanks,
+>> koraynilay
+>>=20
+>> >
+>> > Pali
+
+
+
+--e68d7a3c08e03032b674b625d495d35f9a655e5ba7e0e8c8006911574197
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCav3XXwAKCRA0bnTtJTDo
+OHCeAQCEIeCKM23PngeIMoBXCQU9k+fpxVE5Iim2Z6kczs7U7QD/QrQdNXwKde9D
+5NVqKpZ3hIlgyN/x854bwe3ySGv/rQc=
+=h4y9
+-----END PGP SIGNATURE-----
+
+--e68d7a3c08e03032b674b625d495d35f9a655e5ba7e0e8c8006911574197--
