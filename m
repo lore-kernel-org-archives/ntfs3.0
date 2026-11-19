@@ -1,83 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795125091;
-	b=F7szly5CmL4QnvAg9DNydZ4R3KF473ilHUUyJy9uc6DTUgNJg+nFWwSrOA6vHzZRF914
-	 4dDh3LsyCZEbrz1MhU3LXgbu3hR546zwNYguw2q/YKmYOA7kWDarqI48816XbGntnNN5v
-	 w0v+bT7qIjwDpCNjEA5gDILkwYkwp28Jp0EAZOFLBwS02SB789rDsavj1WwobWikZoaqc
-	 /bE49FzXg77sAf47Oj8pWAzoTDJx6wDTmiMMjYwnMaQKypU/WI+acOfy8crdrVIQxNAF9
-	 TAyYgHw01ikBNBv/MQSBe9ZSzi+IFEmN0j0ZpudFkt2NVterpcB3Zdo1XcnbrDAURCg==
+	t=1795125764;
+	b=2z0YmTgZNV6t9JhucrWy5nEC46MBKe0THk4GTmpfSbDgSr3v5AX6rLsqt9Hc76SUZAe8
+	 M8LrxCLNTncsnzKIsfukmSl1li6sKSvTfiyRffl+zjgBfyRd9E2RmrehBg9SkGxgS5CWr
+	 tyPM6fZWKxKdlOVIjo2fyUIw5ZuiMvI0fSwA1u2qprVRrc7Cxf9yHPS7+oQLxLCz9ACya
+	 mzLKo1kwvX9I5cUdUh7VpxRdbD1zq/ZPd5aGUXEotlmy3Rua1RBN+6N1UrqV9lOJV/3T9
+	 Zftyf4+fkNy6NE7NG4PknyLZk43oPLorErRYDDsmW2Ynr5bgpniphh+2Azeec1jQ62g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795125091;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795125764;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:X-Mailer:
 	 References:In-Reply-To;
-	bh=Ny3Sl9Bn6sHIvah8OWFokkLcjHbV6BwIAehQvpJWiOM=;
-	b=RgOw7Zr5yrPyMxBckcDKbBx3aHIcqKzeJbXaEKvgR7e7EadiunqIrrf8FvVxun4UXHa2
-	 UAsQMsNy85YnWbJSL9Z0yWMud5NW47gTWfhELbzhKDThi5I21KjlO4oxcqmg25ljjnjpI
-	 +eY9zf6m73Zk/g4Q02gWg60Ygu7yP6oSBvbCMkAxxdhyTk2AjENnGwGTctGxwz0tVktGy
-	 NUe5Tb/Gf69hViGLcHrCmDUJEU2YAacA/72Wu6ylrQZUZDl5bcz60PbVwdctfrNMft2Ac
-	 Ze8Lvn9rBkflyKPwDMkeKhxG1r0P6TjuUJs8vhSqfwEGKOP7IRY/QuqgY3esHAjCbqQ==
+	bh=RC1M1DCn8/ofSzuC5iVNf1vc0j24iEFLlIbk8QgE6o0=;
+	b=acZUD8vBM25no2AOY2CVBvc/CR4WQBA4SjknfyJpYH8ypyUXhtgud7LlM7cg4J8oF3BR
+	 Flwfv6j/iyilJnEOkaw6FeFifODfVkdxNGR9g0bllE1waTFaUMu9+mpKBSHm1c67QuUhe
+	 0MbWLJ0nrJ5bEYtJr0dluwn+iwy8qUz+4Fe8tzSfQa1o4OovKXTXoPOpHflHMdKJUxN7H
+	 4vyXpLgGrnIAl49LgWmNV/bX/t4SoHT0fePE/mu/UpyS40jeX9aiccOBXx0T9aAMzcupE
+	 Pa7m3JQoqCDAb0NKyq6eLzkNoBMDc79d9hKehtd0wzkmnVWK8zJ98vGuFBeWpz9IN5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JKh8H0Rs;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=L2MUKphp;
 	arc=none smtp.remote-ip=209.85.128.42
 Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FF9606A326
-	for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 21:51:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3FF9606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02E3606A320
+	for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 22:02:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D02E3606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JKh8H0Rs
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4b467581b98so2359665e9.0
-        for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 13:51:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=L2MUKphp
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4bb666304fdso13220265e9.0
+        for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 14:02:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795125089; x=1795729889; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795125762; x=1795730562; darn=lists.linux.dev;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:mime-version:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Ny3Sl9Bn6sHIvah8OWFokkLcjHbV6BwIAehQvpJWiOM=;
-        b=JKh8H0RsZIu297rExACVnaZ3tTgcOS7bhTnYCKZIg5/givMNsianqfDT9M9PyZLPvM
-         FJn/8tdFd4AxJCKQ/dTuRy9xfeeY4LdR3EUfM8aPxU3fPKN/GbLhX/n7l3KiZeFPUK54
-         ehAAocJsCOzkQ9AvbvZ7+mD6tWgdKRlx1V5eClaxZfhBqXtB8kGlfixLNRX/eDU8+MAK
-         6xZOmlSJqszQ7kbKPIWAfb9RWvGHPc/Hv4VKarztKOVNJcCxXTA15GRG9oPKwSQlZ0O6
-         5qHrnfMuHaivkiGi7rt7sKS+3OwbKaINb7xjwTv73eNlF4q5qcP3H8srY7Fy6Z0TdZHz
-         GhjA==
+        bh=RC1M1DCn8/ofSzuC5iVNf1vc0j24iEFLlIbk8QgE6o0=;
+        b=L2MUKphp0URyJdIcywJv75lI3lclUiZauTS7gjPMtw4Z7hHe4Dp/qxOgV2jy6s/rI0
+         K1gIEehrrE4hquY3GZEXAcf+zpP1iWNfNIyAnrr8UCFOv1DxQWE7oa3D1dTwQq5MjTEI
+         hrBSdwtfuTOtyMEZYr9OIbJYtU41Ek/2QAWhVm68SDksL8rnyCopdeI8Gs+OfbbFNwJo
+         nmU9MW0bzgDr1sEeytCqk2eX5osTh5lPiXfN0czoPOXY54pavuB7kEfUsTWGSHyXb3Y2
+         Ti9guqNChruA65oOdmsSd70X9ztEmx53kcTeeyIMs8+lRgGMMMgBDokHXqierQwGD18x
+         OEYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795125089; x=1795729889;
+        d=1e100.net; s=20260707; t=1795125762; x=1795730562;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=Ny3Sl9Bn6sHIvah8OWFokkLcjHbV6BwIAehQvpJWiOM=;
-        b=MO8uqMUQ54xIOtowiTu6DCLUxYARBcj1zJj3RSR8EutpVCxPdanLFIkipMvWgMUrD4
-         2oMS5WsmpkTBidchF0c7tBxeenQl0k3VVyCdy4Zjop9VmfBJyeKibpAJ8qIIXxRnXtnw
-         vEFXyv5xFXoeXvXpJwNmCVJTKP941SJe56gm/DYC5F+W0IIbE5eKQAKhDY7RsQA3RR70
-         34Jk2c7W4qzQ8emdI6pHsgwwcUxIJXS5PgvbLO3YYt01zupL3IKnRG75AyRbe/03xQnp
-         5Iqv59IpzBZg7bxaNyOpSCjQ4arrDJX59fWbU7IpWuXeIT+mBHvNSOyrS1UTkm7p2lO5
-         3qVw==
-X-Forwarded-Encrypted: i=1; AL+hErFWaeqNebYu90c9JQw8zPzzKQ58Hp7tY15jLxsfnujENwMN43OV52hDsvTtUGoogeYqV6wSsA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+ER8SiSksrTHUZquTCwhFb3pehvimDhuDvP8R0JM1259V4X5is
-	5BFBjQ+g6IOSuJ0UH0fJsUvbkFoy4AAhJ7dSO0sVUBuKuXUadMnpl41F
-X-Gm-Gg: AYBFou2o3/+JhvexGck1Smgi7bsG9l7z1y50dcTyB1BO/UP4J1UoXBqhZpSYByYMSSj
-	IBv1OUOidMU7iUGVCaqV3U8wdLQsP81DUGl3kxr78lwIdO3dnk1V/ASeUabHytV+Mw8MnLEmFsc
-	nVEkPMrnzdMAe+NkbuLjrsK+R5zXw8QZ4CiEZehq3qdON4fPZF87x+tnsSXEiBvFg73mBRhP6vY
-	5KvTYLkNIp9GrgZ1QXzRQw8iZftY18JZ2rtLmKm8XWrk6MA1cyj6Sqp++1qwlX4LRCgwotpFg52
-	Uxy1WjuD2AYmT+6yA8btpIhyxb65WZsJu3OCCyyYOJYO7mrLolwoE2i5wmp1MNdvieTEFO2KXpc
-	B+m5kBjmvXAckHuMbGAGnHROBza6t/cgwgFQ2sO96ZBlJCitzJdpOWydU+R8CdBjQiMEegZhM3A
-	SG4judHrdUERwj+oN+Q5+2LHIcDBIEZSHasR9m42cTTqeyk80zkZsNxqSdFa1AfqM05cGrvXZuL
-	Gz2ABoO8pLDFHhChYKPd7hmyc4tymIHAo6i0PjSSN20b3ipqsUF3Hh3b6rivyN8q+OSA/vkJQ2z
-	uMe+H5Lx4d5oLrs8eKsMylu4CCCqOyV4hlSKMyPxZGdOxfg=
-X-Received: by 2002:a05:600c:4f48:b0:4a6:44b:2593 with SMTP id 5b1f17b1804b1-4bb8893ab9cmr20069015e9.29.1795125089289;
-        Thu, 19 Nov 2026 13:51:29 -0800 (PST)
+        bh=RC1M1DCn8/ofSzuC5iVNf1vc0j24iEFLlIbk8QgE6o0=;
+        b=KwGDPNTjBVfPSGCBvKfMeP5Fm5JuSUdaTOvSe1YEUEK4nagFoJiawgEUVehaM4d3vV
+         GobahPACXZJAZzQpgRlQtCERGiBImxW4C+OmdYYC2O6r1hNL7q3X4eHe9z0U8vmXVuK0
+         qwDTEBhsD8FHADvKhNofqcrQCxD/i41h/1M9mAYtCCEf5XJ8jChfamUY4h2HcvM/fxv7
+         Tu1csjiZ3PHz9ftD9cp0CFgsO4JbzeJEWbEpOu0ioFYyIT6umDWA9jY7v+/URloyi9/3
+         iaN3ZIZonjnAi6gixJ5Yyr42DQDH4zXcQUU4rTdLu/38zIKrVR82iMUu8KQjVwILB8NX
+         VjeA==
+X-Forwarded-Encrypted: i=1; AL+hErEG9t06SHo7jgYezVZe+S70m6eGOzGfZ8RV7MP3j2uSQlVTaVFhNBptPuESJVg0soETEXUbaw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/I9p+TduOgWYogrhTdCDHIE6Qu67aEQhDjvl8vRCphqacBUSxe
+	SL/o0HLawPU5y1St7YHzM1D5AHaziDu/kycXqtS/KcbvFtV0pO1TZ/Q5
+X-Gm-Gg: AYBFou0UFaotar+sezbXl+L+4sVt84Ka/6UEYrmsNIdwrYJ5sVZPClUhqiTOVibaGM8
+	2oLJ+E3Kv6HWHz8Jcs2cep3rwcWN/+FIvIR3HkglffjXwWiqWNQD+B+m7Zbz8jtwefKm7yUJTO2
+	eMCEHlwDht3pm1hvF6D01TEtSJwLvJUQxj23TxsEGhizjHJ32ZQ7QOWuMtBpRqi0dZiTqCEYI3C
+	hLeyk3XMlNNH+hMJdGmJkBjwmQWDK/IZCz9eUFskKFyo741uB7YuX0AqBYPz/80EABksgj8N6g9
+	gtaUCG88Dw3ZqrHWEL0SQdCaYRMVx0tqc/gRhrOksJdFhDdKxoW2U8gR9bTlP28jFq3aeOyF+ES
+	od4If2Gkq8L9nyqr4koV//l7TcTQAqYVtbF08/qoIRF9P86BLMlYoEqlT77K2TapnQrf9YFJJuX
+	UGRofjjFzqLZVFAaVcTCs5EUVSO/OXsFkJofUwhydeBWHm0ousplreqgyUiNj0UlWhpFqIJo/N2
+	HebUXiMMOhRXRmiq2MEnJTLyFf/4GfHoYlJiFfUgAkNrSM3cnoyW4pyACoxEWkzYAKyqOMdW9hy
+	hCfpALQIvG4f+13AO6NOhUrh+A==
+X-Received: by 2002:a05:600c:a085:b0:4bb:85d9:156e with SMTP id 5b1f17b1804b1-4bb8880fe46mr21935945e9.11.1795125761923;
+        Thu, 19 Nov 2026 14:02:41 -0800 (PST)
 Received: from localhost ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884a3a3dsm24821245e9.10.2026.11.19.13.51.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b2052c8sm1735463f8f.41.2026.11.19.14.02.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Nov 2026 13:51:28 -0800 (PST)
+        Thu, 19 Nov 2026 14:02:40 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -88,10 +88,10 @@ List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 Mime-Version: 1.0
 Content-Type: multipart/signed;
- boundary=305c4db69b4b7682b4927e5c7245ccd497c3eba9918a22ec95937c8c862e;
+ boundary=c2bf06ad23101c2dd736021b19ff33522859edba8be8e5bfafa93f393781;
  micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Thu, 19 Nov 2026 22:51:26 +0100
-Message-Id: <DMZIQG4U1NTH.2IN0S2YIWEYTG@gmail.com>
+Date: Thu, 19 Nov 2026 23:02:37 +0100
+Message-Id: <DMZIZ05H7MMB.1WYNR4X44BPGR@gmail.com>
 Cc: "David Sterba" <dsterba@suse.com>, "Namjae Jeon"
  <linkinjeon@kernel.org>, "Sungjong Seo" <sj1557.seo@samsung.com>,
  "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
@@ -113,84 +113,284 @@ Cc: "David Sterba" <dsterba@suse.com>, "Namjae Jeon"
  <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
  <exfat@lists.linux.dev>, <ntfs3@lists.linux.dev>,
  <linux-cifs@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
- <linux-api@vger.kernel.org>
-Subject: Re: [RFC PATCH v4 09/10] ksmbd: add provenance time (ptime) and map
- it to CreationTime
+ <linux-api@vger.kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>
+Subject: Re: [RFC PATCH v4 10/10] cifs: add provenance time (ptime) and map
+ it to SMB's CreationTime
 From: "koraynilay" <koray.fra@gmail.com>
 To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
  <koray.fra@gmail.com>
 X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
 References: <20261115180343.576773-1-koray.fra@gmail.com>
- <20261115180343.576773-10-koray.fra@gmail.com>
- <CAOQ4uxhjxp5sxYphWoB=8sgX3XHOv9zLVYf+8ZjYbS_gQDxO3w@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhjxp5sxYphWoB=8sgX3XHOv9zLVYf+8ZjYbS_gQDxO3w@mail.gmail.com>
+ <20261115180343.576773-11-koray.fra@gmail.com>
+ <CAOQ4uxg2gpC99ohuvKm-SgPzuffJy1fSvXorbuBnYZ=OFSxT3w@mail.gmail.com>
+In-Reply-To: <CAOQ4uxg2gpC99ohuvKm-SgPzuffJy1fSvXorbuBnYZ=OFSxT3w@mail.gmail.com>
 
---305c4db69b4b7682b4927e5c7245ccd497c3eba9918a22ec95937c8c862e
+--c2bf06ad23101c2dd736021b19ff33522859edba8be8e5bfafa93f393781
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
 
-On Thu Nov 19, 2026 at 6:34 PM CET, Amir Goldstein wrote:
+On Thu Nov 19, 2026 at 7:32 PM CET, Amir Goldstein wrote:
 > On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail.com> =
 wrote:
 >>
->> Implement provenance time (ptime) in ksmbd, as introduced in a
+>> Implement provenance time (ptime) in cifs, as introduced in a
 >> previous commit ("vfs: add provenance time (ptime)").
 >>
->> Map it to SMB's CreationTime, making it settable by SMB clients. When
->> reporting CreationTime to clients, prioritize ptime over da.create_time
->> memorized in the user.DOSATTRIB xattr.
+>> Map it to SMB's CreationTime, making it settable from userspace and
+>> propagating it to the SMB server via FILE_BASIC_INFO.
+>>
+>> Support reading ptime via statx(2) and fileattr_get() from the cached
+>> CreationTime.
+>>
+>> Update cifs_fileattr_set() to check xflags instead of only legacy flags
+>> and add the cifs_set_file_crtime() helper to wrap the RPC call to the
+>> SMB server.
+>>
+>> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
+>> Signed-off-by: koraynilay <koray.fra@gmail.com>
+>> ---
+>>  fs/smb/client/cifsfs.c |   8 +++
+>>  fs/smb/client/inode.c  |   7 ++-
+>>  fs/smb/client/ioctl.c  | 109 ++++++++++++++++++++++++++++++-----------
+>>  3 files changed, 94 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/fs/smb/client/cifsfs.c b/fs/smb/client/cifsfs.c
+>> index 8cff7857b450..c2f557e406d3 100644
+>> --- a/fs/smb/client/cifsfs.c
+>> +++ b/fs/smb/client/cifsfs.c
+>> @@ -1307,6 +1307,14 @@ int cifs_fileattr_get(struct dentry *dentry, stru=
+ct file_kattr *fa)
+>>         if (READ_ONCE(CIFS_I(inode)->cifsAttrs) & ATTR_COMPRESSED)
+>>                 fa->flags |=3D FS_COMPR_FL;
+>>
+>> +       /* Report provenance time (ptime) to userspace */
+>> +       if (CIFS_I(inode)->createtime) {
+>> +               fa->fsx_xflags |=3D FS_XFLAG_PTIME;
+>> +               fa->fsx_xflags_mask |=3D FS_XFLAG_PTIME;
+>> +               fa->fsx_ptime =3D
+>> +                     cifs_NTtimeToUnix(cpu_to_le64(CIFS_I(inode)->creat=
+etime));
+>> +       }
+>> +
+>>         /*
+>>          * FS_CASEFOLD_FL is defined by UAPI as a folder attribute,
+>>          * and userspace tools (e.g., lsattr) display it only on
+>> diff --git a/fs/smb/client/inode.c b/fs/smb/client/inode.c
+>> index 2647785ec1e4..f0b20a72b9c2 100644
+>> --- a/fs/smb/client/inode.c
+>> +++ b/fs/smb/client/inode.c
+>> @@ -222,6 +222,7 @@ cifs_fattr_to_inode(struct inode *inode, struct cifs=
+_fattr *fattr,
+>>
+>>         cifs_i->cifsAttrs =3D fattr->cf_cifsattrs;
+>>         cifs_i->reparse_tag =3D fattr->cf_cifstag;
+>> +       cifs_i->createtime =3D fattr->cf_createtime;
+>>
+>>         if (fattr->cf_flags & CIFS_FATTR_NEED_REVAL)
+>>                 cifs_i->time =3D 0;
+>> @@ -2958,7 +2959,8 @@ int cifs_getattr(const struct mnt_idmap *idmap, co=
+nst struct path *path,
+>>          * We need to be sure that all dirty pages are written and the s=
+erver
+>>          * has actual ctime, mtime and file length.
+>>          */
+>> -       if ((request_mask & (STATX_CTIME | STATX_MTIME | STATX_SIZE | ST=
+ATX_BLOCKS)) &&
+>> +       if ((request_mask & (STATX_CTIME | STATX_MTIME | STATX_PTIME
+>> +                            | STATX_SIZE | STATX_BLOCKS)) &&
+>>             !CIFS_CACHE_READ(CIFS_I(inode)) &&
+>>             inode->i_mapping && inode->i_mapping->nrpages !=3D 0) {
+>>                 rc =3D filemap_fdatawait(inode->i_mapping);
+>> @@ -2992,6 +2994,9 @@ int cifs_getattr(const struct mnt_idmap *idmap, co=
+nst struct path *path,
+>>                 stat->result_mask |=3D STATX_BTIME;
+>>                 stat->btime =3D
+>>                       cifs_NTtimeToUnix(cpu_to_le64(CIFS_I(inode)->creat=
+etime));
+>> +               stat->result_mask |=3D STATX_PTIME;
+>> +               stat->ptime =3D
+>> +                     cifs_NTtimeToUnix(cpu_to_le64(CIFS_I(inode)->creat=
+etime));
+>>         }
+>>
+>>         stat->attributes_mask |=3D (STATX_ATTR_COMPRESSED | STATX_ATTR_E=
+NCRYPTED);
+>> diff --git a/fs/smb/client/ioctl.c b/fs/smb/client/ioctl.c
+>> index bb8808289a46..19a9556d39b4 100644
+>> --- a/fs/smb/client/ioctl.c
+>> +++ b/fs/smb/client/ioctl.c
+>> @@ -181,6 +181,41 @@ static int cifs_set_compression(unsigned int xid, s=
+truct dentry *dentry,
+>>                                             compression_state);
+>>  }
+>>
+>> +static int cifs_set_file_crtime(unsigned int xid, struct dentry *dentry=
+,
+>> +                               struct cifs_tcon *tcon, u64 crtime)
+>> +{
+>> +       struct inode *inode =3D d_inode(dentry);
+>> +       struct TCP_Server_Info *server =3D tcon->ses->server;
+>> +       FILE_BASIC_INFO info_buf =3D {};
+>> +       const char *full_path;
+>> +       void *page;
+>> +       int rc;
+>> +
+>> +       if (!server->ops->set_file_info)
+>> +               return -EOPNOTSUPP;
+>> +
+>> +       info_buf.CreationTime =3D cpu_to_le64(crtime);
+>> +
+>> +       page =3D alloc_dentry_path();
+>> +       full_path =3D build_path_from_dentry(dentry, page);
+>> +       if (IS_ERR(full_path)) {
+>> +               rc =3D PTR_ERR(full_path);
+>> +               goto out;
+>> +       }
+>> +
+>> +       rc =3D server->ops->set_file_info(inode, full_path, &info_buf, x=
+id);
+>> +       if (rc =3D=3D 0) {
+>> +               CIFS_I(inode)->createtime =3D crtime;
+>> +               CIFS_I(inode)->time =3D 0;
+>> +               inode_set_ctime_current(inode);
+>> +       }
+>> +
+>> +out:
+>> +       free_dentry_path(page);
+>> +       return rc;
+>> +}
+>> +
+>> +#define CIFS_SUPPORTED_XFLAGS (FS_XFLAG_PTIME)
+>>  int cifs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *den=
+try,
+>>                       struct file_kattr *fa)
+>>  {
+>> @@ -193,49 +228,65 @@ int cifs_fileattr_set(const struct mnt_idmap *idma=
+p, struct dentry *dentry,
+>>         bool enable_compression;
+>>         struct cifs_tcon *tcon;
+>>         unsigned int xid;
+>> -       int rc;
+>> +       int rc =3D 0;
+>>
+>> -       if (!fa->flags_valid)
+>> +       if (fileattr_has_fsx_mask(fa, CIFS_SUPPORTED_XFLAGS))
+>>                 return -EOPNOTSUPP;
 >
-> That doesn't sound like the right thing to do.
+> What is this supposed to check that is not already checked
+> explicitly with fsx_xflags_mask below?
+
+It should work for FS_IOC_FSSETXATTR, where mask is 0... but it's also
+there because when I started writing the various filesystems code I
+hadn't added _mask yet, so I'll need to take a little step back and
+revisit.
+
+>>
+>> -       /*
+>> -        * chattr writes back all flags returned by fileattr_get(). Acce=
+pt
+>> -        * FS_CASEFOLD_FL only when it reflects the share's casefold sta=
+te.
+>> -        */
+>> -       if (fa->flags & FS_CASEFOLD_FL) {
+>> -               rc =3D cifs_fileattr_get(dentry, &current_fa);
+>> -               if (rc)
+>> -                       return rc;
+>> -               if (current_fa.flags & FS_CASEFOLD_FL)
+>> -                       allowed |=3D FS_CASEFOLD_FL;
+>> -       }
+>> -       if (fa->flags & ~allowed)
+>> +       if (fa->fsx_xflags_mask & ~CIFS_SUPPORTED_XFLAGS)
+>>                 return -EOPNOTSUPP;
+>>
+>> -       enable_compression =3D fa->flags & FS_COMPR_FL;
+>> -       compression_state =3D enable_compression ? COMPRESSION_FORMAT_DE=
+FAULT :
+>> -                                                COMPRESSION_FORMAT_NONE=
+;
+>> +       if (fa->flags_valid) {
+>> +               /*
+>> +                * chattr writes back all flags returned by fileattr_get=
+(). Accept
+>> +                * FS_CASEFOLD_FL only when it reflects the share's case=
+fold state.
+>> +                */
+>> +               if (fa->flags & FS_CASEFOLD_FL) {
+>> +                       rc =3D cifs_fileattr_get(dentry, &current_fa);
+>> +                       if (rc)
+>> +                               return rc;
+>> +                       if (current_fa.flags & FS_CASEFOLD_FL)
+>> +                               allowed |=3D FS_CASEFOLD_FL;
+>> +               }
+>> +               if (fa->flags & ~allowed)
+>> +                       return -EOPNOTSUPP;
 >
-> If the server stored a CreationTime that client had set, you cannot
-> override this.
+> This whole mess could be sorted out by switching the cifs
+> implementation to the new API
 
-Ah, yes, but how would we handle older files which get a custom
-CreationTime both before (in the xattr) and after (in ptime) a kernel
-upgrade?
+("new API" you mean _mask right?)
 
-> When the client sets CreationTime, the server can decide if it can and wa=
-nts
-> (may be a policy decision) to store CreationTime in PTIME and not store
-> it in user.DOSATTRIB.
+> and implementing a generic vfs
+> helper which does something like the above code to handle the
+> old ioctls.
+> FS_XFLAG_CASEFOLD would then be removed from
+> FS_XFLAG_RDONLY_MASK and set explicitly in xflags_ro_mask
+> by fs which don't allow to set if (e.g. nfs) and added to
+> FS_COMMON_FL/FS_XFLAG_COMMON
+>
+> cifs would advertise FS_XFLAG_CASEFOLD in its ro_mask
+> and then the generic helper would mask it and the new syscall
+> will not allow it.
+>
+>> +       }
+>> [...]
+>> +               cifs_dbg(FYI, "set compress flag rc %d\n", rc);
+>
+> I think that the roadmap should be to slowly define all the old FS_*_FL
+> flags as FS_XFLAGS_* and let the generic helpers deal with the conversion=
+.
 
-To fix the above problem we should probably keep storing it in both
-ptime and the xattr though.
+> But it is not so hard to convert one filesystem at a time in a way that
+> fa->fsx_valid will have to be true, because, for example, here
+> all the relevant flags would be supported by the new xflags API.
 
-> Fun fact: the user.DOSATTRIB format also has a mask so storing the
-> creation time inside it is also optional.
+So, something like what fileattr_fill_{x,}flags() do now, but for
+file_attr_to_fileattr()?
 
-With my current patch series applied, when CreationTime gets set by a
-client, ksmbd writes it to ptime and fixes/heals the xattr (=3D removing
-the CREATE_TIME flag created by older kernels, see the other fun fact
-below).
+> No need to do that now, as part of this patch set which is complicated
+> enough, just need to see the road ahead of us that we have a way
+> forward out of this messy flags_valid/fsx_valid inside filesystem
+> implementations.
 
-And another fun fact: until [1] ksmbd ignored the flags and just
-read/wrote the attribs every time :) so that can only be honored for
-files that have been written to/updated with newer kernels.
-(That's why there is the ((flags & CREATE_TIME) || da.create_time > 0)
-in my patch, and not just the flag check)
+I think it's probably better to clean up the API now, before introducing
+new flags (like FS_XFLAG_BTIME/PTIME or the shared extent one in the
+other thread) and as I'll say in that reply (I'll write it in a bit) I
+think it's even better to first split the _mask changes into their own
+RFC PATCH series, then have a separate one for ptime/btime.
+
+> My understanding is that Miklos introduced those hints to reduce the
+> work needed per filesystem for the initial implementation of the
+> vfs methods.
+
+Ah yeah that would make sense.
 
 Thanks,
 koraynilay
-
-[1]: https://lore.kernel.org/linux-cifs/20261115155308.415734-1-koray.fra@g=
-mail.com/
 
 > Thanks,
 > Amir.
 
 
 
---305c4db69b4b7682b4927e5c7245ccd497c3eba9918a22ec95937c8c862e
+--c2bf06ad23101c2dd736021b19ff33522859edba8be8e5bfafa93f393781
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSgVimKafU5DQMcjcDmj22qf5IGXAUCav9vXgAKCRDmj22qf5IG
-XM7AAPsG6qghsrCfCEnMzpWg6QyG3mDtqVzO2LuI2Jbx+5MdmwEAqDTU6SUvXvP1
-4H1OcrcMro3Ek7i+OVcH9ZQ2xF4lngw=
-=LZNw
+iHUEABYKAB0WIQSgVimKafU5DQMcjcDmj22qf5IGXAUCav9x/QAKCRDmj22qf5IG
+XCsaAP90pDHkiG6FypqZoMEgsWt2zJhENiftUx4825vQrWbqSQEAv2tho2ttv5d3
+4LEx3lAKlpln+AG5aT7npnHOlcow/AM=
+=prrA
 -----END PGP SIGNATURE-----
 
---305c4db69b4b7682b4927e5c7245ccd497c3eba9918a22ec95937c8c862e--
+--c2bf06ad23101c2dd736021b19ff33522859edba8be8e5bfafa93f393781--
