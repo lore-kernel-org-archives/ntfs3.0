@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795126212;
-	b=FH5mUhJflhIa/4Jp17vIwNsMzQdxQiubo0pgCS6NDJ5U6M1PiZ54eM6HbbFrZBjulk1I
-	 WDjM8UBlklZGo6lKLCKDdXJLjbSHy7L2aPRexCbTDccuwEcsPcj4xh/s1ZjVL/YxtM5To
-	 7JthVEXPqV/SyiwvMDqApMCzdTwK3mA7mA/+uBbCKKPFDxvRcVmTUReFFA3TkUCCDlmQd
-	 Fa/LPYktQFPuG/+wQA6m4I4IQMkXvIJqu5lJcZDKg0O83DspxPnB0zdmb2HobXJc7hfaH
-	 lKGlwqjcCG/r9Z7fdyhpx3GpgYr8O14BqQZa/+wXJGsXcWwfzKtzHoTHqj9QCykC/+w==
+	t=1795126385;
+	b=RyBln9WBNa3vCQ+j4uguK4x/HOAN7YE6J6W7XCrbxG+YpVcdBWanz3lXqLhqUDksDDA6
+	 EkPGQGjUTb6pBbxx6IFUupv1DGPrAZLxJcShlG2/fuvXsXYkpPWxNufPC8vpAvGGjM4Nw
+	 mfAO/4uKfTUXPX84UFVSaisR1Bj/fin4SMpig28c6SdpwOAsXkSCZcveR9IWG5l12yvOi
+	 fKKh5zJchL0zNFPuR4WI1P789gbgaz8w3owDikQMz7nRk4dP2j5HkeLZpvXELaftQpZ8y
+	 3O/7obKSUQlUYQ/JWKRc22jr3nLfB//z5zgO3Uio7s+TWRcnmhYhbzEl5shkuiD6YRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795126212;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795126385;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:X-Mailer:
 	 References:In-Reply-To;
-	bh=XrQlXENkswmdOJaF0OEDBush4tY7hFip+Dmv215gdyM=;
-	b=LYt40ORH4g4KOAa6CWRVZEp2YpwKu91uH+MTD2hbmrIfv5hRl8HUeLSIBvzKzrGtTe7o
-	 PqL9ZO5PBDalBQQCdqIXUHZmuz2bJzF0fqcll9nyvnopGtKJeyZPEi60giHYRcDxdpNGu
-	 jk7W2zxCU5y1cojmJycc4bE4iQMICSkLb798xwt//NllAIjN9fPIGLY4QRIXU5TiwgeNs
-	 LmDWahbHP26rgwLpJMH6+JLytyt1kLSHMWSh2XltDMSVzJ0RPZqgF0kdxx+Vy3lFL8HLy
-	 sTYifLUmKGh/KfeIFStOpycTrweKP//HR4CycO9OeHOdkrHkjTYWjlf5dCfeZhvdEVw==
+	bh=IoYLwm6HerTHe4foGRx/rnGtvlKmmT7FHejTxyvI3lY=;
+	b=xHLzjTHcyKtRg3p/230+cwDsgDdM/I5rW1DjP83Cjq8hV5w4t0f197k9ryk84RIz6KAf
+	 Q+6JtWQhs7pmZbt9xLtAEtbtqlYUmgc4tKpSGkG8rTr25IKG/qlmIQe/9x3yWgYSdFuZg
+	 gZ2Lo8B2dvh2OO/phTuJjaq3URHaNey7kWX7Z3f94Gbl4ENJOBpAzLtzZFGo87e3vfZDH
+	 08ul3uj4ucnzex32Rm6ZbMz8EM0sZCdqFuHdiJbA8kSGnosqANk+udQa3HYVLHQFEYnBT
+	 pVupxIMIAaa2wyJ5sB/MfxgMCMO3OFy0eWdKmOdssbBfVsKiJtWVnc+BAU6F4lcViPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=su5O8DJq;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EjZGPI1q;
+	arc=none smtp.remote-ip=209.85.221.52
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DBA60A2614
-	for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 22:10:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9DBA60A2614
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2728E60A2600
+	for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 22:13:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2728E60A2600
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=su5O8DJq
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb6ba3b244so1804715e9.3
-        for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 14:10:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EjZGPI1q
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4a3e706b5dfso132512f8f.2
+        for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 14:13:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795126207; x=1795731007; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795126381; x=1795731181; darn=lists.linux.dev;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:mime-version:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=XrQlXENkswmdOJaF0OEDBush4tY7hFip+Dmv215gdyM=;
-        b=su5O8DJqF8Ev9KOfpj7mFavnb7EBkkv3sguI6M+wI5uOxn2ZKJ6MSIjdKzrnbxfAcs
-         XlZWH2Hi0e8FGfzKMqNRQnvVU4gzrIqmOjwprdaOqp7jGfV/0iuU3AzU5GULKmG8UE06
-         BYFMjHuiYRcgZYQJogV6mg71WRUrPc/16JDVwLjqB/l1FQVrArOX4GirX3etoQ+HvA9f
-         +f6baFDxANc+hVf6Xt5n+SQoNKdicWF9SpvvwzsW5PMvaSDPIe4P1oGMKDDtCJ1h5vtu
-         fgmEkM1Cbxf5JbVId4EkPrP9g1NnOk1EdUJBeKH4ECOkJ1/TI0Ot/tgApK3xSqKt+Vuc
-         N3Cg==
+        bh=IoYLwm6HerTHe4foGRx/rnGtvlKmmT7FHejTxyvI3lY=;
+        b=EjZGPI1qnUGk18/j+5aPYgS8kt66UQ0Xf2cr7NNoKBiVL47U8nlM3SqOnAlBM8OsMZ
+         Yrgh0OBxzeYLewARQKRSZu57CiVbydT11Pa5vUXv9E/WPl10rW3foBaqI+QIB5NKUAjj
+         Rcz1JFKYG5nWU92dScEoLsLbroaCkO0gFqy8MG+YLM0JcRRiNqfeECD34dmt+j4XWwLm
+         DpaHHmq8t8nUBprJyJqDjJAEX8L8OQFdPD5YFH3C4UV/qss2PuZDohb8ZzXTtW9mbK2Z
+         oc1QuJetQxqGc/th1vkXDcHHHdZ+UHf3oi3KcfEP7XAEAf82x/wjjsQef2cDs+FNHdUN
+         cR3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795126207; x=1795731007;
+        d=1e100.net; s=20260707; t=1795126381; x=1795731181;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=XrQlXENkswmdOJaF0OEDBush4tY7hFip+Dmv215gdyM=;
-        b=g4AF99QSyTYU2lqs1VD+clXCxspAVC/nBRo67doLf0+qbuPgobK9wwpNhqMikQdXjT
-         LuvKomOxspper6+AjaNavx3zdyNPIgLaW4ZMTaIulDH4A57gfcTTUlVyBsvn+3hKCaB3
-         0NbW+M5qxQnAif5hqGyVcHAYrM+Qc7QrwcyNCg5FB8W9Y/XMw8dVnOIQFXTyadKHY6v6
-         ddow5DWuBS/ooNkPyYbEdUtGaHXWGd+L6wt/qkPwKKy0nadViXw8JzKtee/5Muxmn+dj
-         CO+AG1GC9RvnwKlyb1n+TI7ZVdhwYAT5eaD+HxEBC44/CB7RDH7SnqiiANX/Q+wEg1fe
-         W16Q==
-X-Forwarded-Encrypted: i=1; AL+hErEdEZOPqXF4/n8bdI/BrpsvYIAOQPdVNNodPewCn/7ewA509NArT1YJgky1K4ZHvWvLtJry3Q==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/5DqaB93XW0BoaomIyCf4Kgkl/43KUDO2+VsUAewRgdgKM7wZV
-	bHwxemcrD50mtoA3UHpKYF/6y5DetMtqVYd6/mZRQmcYElRcReljjS2S
-X-Gm-Gg: AYBFou0MGP9c0ftS09Dh/WfT+Jlsc9rT16/OjUBlZ9hHYGYyiIiY+aEdffDxV8LENkb
-	aR8vWRvNKKpbXtP7IUIBaPBtDc0vKARQvWd0phoNPIx2BnLR/EZ+RFaJCwOTNR5nEv0ruzHi1C/
-	Sae9bdErUpRLcQpso0TfN9jYgbS7ANq2tiN81EBBq3tHrWXt5+kbs+jgrUVofVkiNEmNKvey5jU
-	tCfjTCq8LrofHeg2Q8/rLCdNacSXI4j+m+BHFm7fANgip6yCXv53jSoye+WLxW+MVeGcFOEIoJK
-	GtCgDDXyfLDv2lHXOMVPk6k72z4FeWKD8GBPhbYzdKoHLaM0NFywlnIlCCl0U/41eZZaFpVGKa7
-	G8lL0tZND3hazyWB9T1sdwX66cgDZ01gT5yqlI+iUj3sf884py5REc3+Tr6I5eF5GHfrBMVpnRW
-	wdHqcTbzEbu1FZ8hFKTVRg0kmicdYQtbnLhrDVvotxnhdhzMbMfpCRpSKUvhKnDUJ9a5rljh7YO
-	F0kBX9B1t/TU60M0LVMPQVfA+OdCWNjL8SsjZbpnpGZluqht5HKBeAhlRV+JPprB0vw/W4+3sRF
-	xDYbIMRwThqwJxG+tR3DwmitpA==
-X-Received: by 2002:a05:600c:46d3:b0:4bb:6687:5394 with SMTP id 5b1f17b1804b1-4bb888097b0mr22161085e9.9.1795126207129;
-        Thu, 19 Nov 2026 14:10:07 -0800 (PST)
+        bh=IoYLwm6HerTHe4foGRx/rnGtvlKmmT7FHejTxyvI3lY=;
+        b=JFmaoSeZi0/hL4hHqXENEH3v+dzulLEW4g052Dtu8xOvGzjicr4ZFn0ZMZDKC+pLgM
+         Llwh3aPAyXAE9BMz3Z3M789o+lKVKy+ZXbIOtoAfBtVc/5fRDcoBgXQmhwEy/34O2DqX
+         hKrJq7JxHolpnljSPl5s4cstw4cOAcychM/oPseoxO4usO6F3Lmrut6bZVVsRMa6dpbF
+         p0H8qvvUNyGY9X2Yf1cYDOh4cqVkdIW/lvkXKIFvAuQcQG6anqkNVM1dV7Z0HnnkaVgO
+         /Qzr7PGXEROCJSe7aqeETaQKBT6I/h1Yp3zRKTHcDZKnnfbILz4zJckiZ8Cs972mOarX
+         6V3w==
+X-Forwarded-Encrypted: i=1; AL+hErFSg3/rN6l//qinmZ4iD46mJunMzOJZyT0wFKBppZ/k+rk6SQ4eU3PNoyUXFmP0cUJaGMES8A==@lists.linux.dev
+X-Gm-Message-State: APuU4Z89MPfdx+Nj3auQwkIMjw4ObmsC4rxZJfs+Rsyl7iDgyqGXeSR/
+	qaEMMQcPmA4Rc2nFXpajU9BhSZlM1o/srBkRTx5Tpbi/OahdmCmlWxsY
+X-Gm-Gg: AZFdTZftPm7jBVZXh3Ut7tcIgoTPHJpgMtvEB4r1Rr0LVxERO4NRreisbsbL7qDWeIt
+	VcIQeQEjzeHlzr8hWPf8JD11HeZ+zFATTH3hxB3NyNhKMWjJBmu7isBBEurilZCBkBYiU6im4dN
+	+m4L2E2X+CBDAXiHVqzjLAIc5/hS1ufOXFDuZNnB50mlJfao8n0jT6Mx0pG0bLrol6QObpYIczr
+	baba7+NWq7qHvU4NErfyEPRN22sA5YpZOidOhO/9gOQLP+7L2e8aPIqbt7/TiFFkyGBLIk80D8A
+	jWboB4Q/q1MqvV/gXUk7doBxob7t3YqiOUvD122FK+St8Ss5JLVprVXbAsUhKxTUy0xp0HBcF0x
+	8lwhV3uPExLtIOV8E+tLmmJULiq88GygRyXXkj6GwiMcgPQvYBusyh7ICLV93otOV8XcTH0DibB
+	aifB8Vr2mlOud4d9Ozu1aO1VG8Q5Yve/iiQx5p5X75lxekawa886DcjpbCKj45eFnwQXcAzdEt5
+	DSarQSssHNNI4CPjMuBS9OtoWhZHnbgpu3jWJZaEuFF0jBlf4mxsVCNbSfa3BpNaI1Z4NhL8BIx
+	rzhVjso6tGPP/v4CgVKH9Qrd9Q==
+X-Received: by 2002:a05:6000:4904:b0:4a6:60b2:afed with SMTP id ffacd0b85a97d-4abb3c37a2dmr1397766f8f.11.1795126381480;
+        Thu, 19 Nov 2026 14:13:01 -0800 (PST)
 Received: from localhost ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8538b2c5sm64509225e9.5.2026.11.19.14.10.04
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6c61f558sm1875580f8f.58.2026.11.19.14.12.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Nov 2026 14:10:06 -0800 (PST)
+        Thu, 19 Nov 2026 14:13:00 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -88,10 +88,10 @@ List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 Mime-Version: 1.0
 Content-Type: multipart/signed;
- boundary=3d15f75e39637138c31b5eb6b42e208a295fb1f9999d6996307de0cb3004;
+ boundary=7470484374e391fd8d57fd43029902e8671499255fadfb82b8d5a6f90081;
  micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Thu, 19 Nov 2026 23:10:04 +0100
-Message-Id: <DMZJ4PL1JVA4.2YEB7EPYJR5Q7@gmail.com>
+Date: Thu, 19 Nov 2026 23:12:58 +0100
+Message-Id: <DMZJ6XR1X3QE.LSJGBL45MSM6@gmail.com>
 Cc: "David Sterba" <dsterba@suse.com>, "Namjae Jeon"
  <linkinjeon@kernel.org>, "Sungjong Seo" <sj1557.seo@samsung.com>,
  "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
@@ -114,338 +114,146 @@ Cc: "David Sterba" <dsterba@suse.com>, "Namjae Jeon"
  <exfat@lists.linux.dev>, <ntfs3@lists.linux.dev>,
  <linux-cifs@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
  <linux-api@vger.kernel.org>
-Subject: Re: [RFC PATCH v4 08/10] nfs: add provenance time (ptime) via
- FATTR4_TIME_CREATE
+Subject: Re: [RFC PATCH v4 02/10] vfs: add fileattr_has_fsx_mask()
 From: "koraynilay" <koray.fra@gmail.com>
 To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
  <koray.fra@gmail.com>
 X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
 References: <20261115180343.576773-1-koray.fra@gmail.com>
- <20261115180343.576773-9-koray.fra@gmail.com>
- <CAOQ4uxgoNsOH82FyrCxc+qSoid_CFmbmpL0qgWFw-e8E689fFA@mail.gmail.com>
-In-Reply-To: <CAOQ4uxgoNsOH82FyrCxc+qSoid_CFmbmpL0qgWFw-e8E689fFA@mail.gmail.com>
+ <20261115180343.576773-3-koray.fra@gmail.com>
+ <CAOQ4uxiRFUqgUMvngvXc1nA7e_HMKSs+aXWVQmAEpcR7yQiQLw@mail.gmail.com>
+In-Reply-To: <CAOQ4uxiRFUqgUMvngvXc1nA7e_HMKSs+aXWVQmAEpcR7yQiQLw@mail.gmail.com>
 
---3d15f75e39637138c31b5eb6b42e208a295fb1f9999d6996307de0cb3004
+--7470484374e391fd8d57fd43029902e8671499255fadfb82b8d5a6f90081
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
 
-On Thu Nov 19, 2026 at 7:06 PM CET, Amir Goldstein wrote:
+On Thu Nov 19, 2026 at 8:36 PM CET, Amir Goldstein wrote:
 > On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail.com> =
 wrote:
 >>
->> Implement provenance time (ptime) in the NFS client, as introduced in a
->> previous commit ("vfs: add provenance time (ptime)").
+>> Add fileattr_has_fsx_mask() as a helper to let filesystems check for
+>> unsupported xflags while allowing supported ones. Can be used in the
+>> same way as fileattr_has_fsx().
 >>
->> Support reading ptime via statx(2) and file_getattr(), returning the
->> cached creation time when the server advertises NFS_ATTR_FATTR_BTIME.
+>> Also make fileattr_has_fsx() a wrapper around fileattr_has_fsx_mask().
 >>
->> Implement sending FATTR4_TIME_CREATE, asking the server to persist the
->> file creation time using ptime on the underlying filesystem.
->>
->> Also add .fileattr_set to struct nfs_rpc_ops and set it to
->> nfs4_fileattr_set() in nfs_v4_clientops. Provide a generic
->> nfs_fileattr_set() dispatcher so even symlinks can update ptime under
->> NFSv4 while cleanly returning -EOPNOTSUPP on NFSv2/v3.
->>
->> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
+>> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.4.7
 >> Signed-off-by: koraynilay <koray.fra@gmail.com>
 >> ---
->>  fs/nfs/inode.c          | 27 ++++++++++++++++----
->>  fs/nfs/internal.h       |  2 ++
->>  fs/nfs/nfs4proc.c       | 56 ++++++++++++++++++++++++++++++++++++++---
->>  fs/nfs/nfs4xdr.c        | 19 +++++++++-----
->>  fs/nfs/symlink.c        |  1 +
->>  include/linux/nfs_xdr.h |  3 +++
->>  6 files changed, 93 insertions(+), 15 deletions(-)
+>>  include/linux/fileattr.h | 21 ++++++++++++++++++---
+>>  1 file changed, 18 insertions(+), 3 deletions(-)
 >>
->> diff --git a/fs/nfs/inode.c b/fs/nfs/inode.c
->> index e0a2e92952af..2ddcfd872616 100644
->> --- a/fs/nfs/inode.c
->> +++ b/fs/nfs/inode.c
->> @@ -955,7 +955,7 @@ static u32 nfs_get_valid_attrmask(struct inode *inod=
-e)
->>                 reply_mask |=3D STATX_BLOCKS;
->>         if (!(cache_validity & NFS_INO_INVALID_BTIME) &&
->>             (fattr_valid & NFS_ATTR_FATTR_BTIME))
->> -               reply_mask |=3D STATX_BTIME;
->> +               reply_mask |=3D STATX_BTIME | STATX_PTIME;
->>         if (!(cache_validity & NFS_INO_INVALID_CHANGE))
->>                 reply_mask |=3D STATX_CHANGE_COOKIE;
->>         return reply_mask;
->> @@ -978,10 +978,10 @@ int nfs_getattr(const struct mnt_idmap *idmap, con=
-st struct path *path,
->>         request_mask &=3D STATX_TYPE | STATX_MODE | STATX_NLINK | STATX_=
-UID |
->>                         STATX_GID | STATX_ATIME | STATX_MTIME | STATX_CT=
-IME |
->>                         STATX_INO | STATX_SIZE | STATX_BLOCKS | STATX_BT=
-IME |
->> -                       STATX_CHANGE_COOKIE;
->> +                       STATX_PTIME | STATX_CHANGE_COOKIE;
+>> diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
+>> index 42b92ccdc583..ba7ed3b387d8 100644
+>> --- a/include/linux/fileattr.h
+>> +++ b/include/linux/fileattr.h
+>> @@ -65,6 +65,23 @@ int copy_fsxattr_to_user(const struct file_kattr *fa,=
+ struct fsxattr __user *ufa
+>>  void fileattr_fill_xflags(struct file_kattr *fa, u32 xflags);
+>>  void fileattr_fill_flags(struct file_kattr *fa, u32 flags);
 >>
->>         if (!(fattr_valid & NFS_ATTR_FATTR_BTIME))
->> -               request_mask &=3D ~STATX_BTIME;
->> +               request_mask &=3D ~(STATX_BTIME | STATX_PTIME);
->>
->>         if ((query_flags & AT_STATX_DONT_SYNC) && !force_sync) {
->>                 if (readdirplus_enabled)
->> @@ -1015,7 +1015,7 @@ int nfs_getattr(const struct mnt_idmap *idmap, con=
-st struct path *path,
->>         if (!(request_mask & (STATX_MODE|STATX_NLINK|STATX_ATIME|STATX_C=
-TIME|
->>                                         STATX_MTIME|STATX_UID|STATX_GID|
->>                                         STATX_SIZE|STATX_BLOCKS|STATX_BT=
-IME|
->> -                                       STATX_CHANGE_COOKIE)))
->> +                                       STATX_PTIME|STATX_CHANGE_COOKIE)=
-))
->>                 goto out_no_revalidate;
->>
->>         /* Check whether the cached attributes are stale */
->> @@ -1038,7 +1038,7 @@ int nfs_getattr(const struct mnt_idmap *idmap, con=
-st struct path *path,
->>                 do_update |=3D cache_validity & NFS_INO_INVALID_OTHER;
->>         if (request_mask & STATX_BLOCKS)
->>                 do_update |=3D cache_validity & NFS_INO_INVALID_BLOCKS;
->> -       if (request_mask & STATX_BTIME)
->> +       if (request_mask & (STATX_BTIME | STATX_PTIME))
->>                 do_update |=3D cache_validity & NFS_INO_INVALID_BTIME;
->>
->>         if (do_update) {
->> @@ -1061,6 +1061,7 @@ int nfs_getattr(const struct mnt_idmap *idmap, con=
-st struct path *path,
->>         if (S_ISDIR(inode->i_mode))
->>                 stat->blksize =3D NFS_SERVER(inode)->dtsize;
->>         stat->btime =3D NFS_I(inode)->btime;
->> +       stat->ptime =3D NFS_I(inode)->btime;
->>
->
-> As an example of what would be needed per the mutable btime proposal,
-> adding stat->ptime and STATX_PTIME will not be needed...
->
->>         /* Special handling for STATX_DIOALIGN and STATX_DIO_READ_ALIGN
->>          * - NFS doesn't have DIO alignment constraints, avoid getting
->> @@ -1092,10 +1093,26 @@ int nfs_fileattr_get(struct dentry *dentry, stru=
-ct file_kattr *fa)
->>         }
->>         if (nfs_server_capable(inode, NFS_CAP_CASE_NONPRESERVING))
->>                 fa->fsx_xflags |=3D FS_XFLAG_CASENONPRESERVING;
->
-> This would need:
->                   fa->fsx_xflags |=3D FS_XFLAG_CASEFOLD;
-> +                fa->fsx_xflags_mask |=3D FS_XFLAG_CASEFOLD;
-> +                fa->fsx_xflags_ro_mask |=3D FS_XFLAG_CASEFOLD;
-> +                /* unlink other fs FS_CASEFOLD_FL is read-only */
-(oh, s/unlink/unlike/?)
-
->                   fa->flags |=3D FS_CASEFOLD_FL;
-With the new API and vfs helpers, this would need to get removed, as vfs
-would already handle this for legacy ioctls, correct?
-
->         }
->                    fa->fsx_xflags |=3D FS_XFLAG_CASENONPRESERVING;
-> +                 fa->fsx_xflags_mask |=3D FS_XFLAG_CASENONPRESERVING;
-> +                 fa->fsx_xflags_ro_mask |=3D FS_XFLAG_CASENONPRESERVING;
-Uhm, why both in _mask and _ro_mask? If it's a RDONLY flag shouldn't
-it *only* be in _ro_mask? (same for CASEFOLD)
-
->
->> +       if (NFS_SERVER(inode)->fattr_valid & NFS_ATTR_FATTR_BTIME) {
->> +               fa->fsx_xflags |=3D FS_XFLAG_PTIME;
->> +               fa->fsx_xflags_mask |=3D FS_XFLAG_PTIME;
->> +               fa->fsx_ptime =3D NFS_I(inode)->btime;
->> +       }
->
-> +               fa->fsx_xflags |=3D FS_XFLAG_BTIME;
-> +               fa->fsx_xflags_mask |=3D FS_XFLAG_BTIME;
-> +               fa->fsx_btime =3D NFS_I(inode)->btime;
->
-> Fs with immutable btime could either not advertise the BTIME flag
-> in xflags/xflags_mask or advertise the flag also in xflags_ro_mask.
-
-That makes sense.
-
->>         return 0;
->>  }
->>  EXPORT_SYMBOL_GPL(nfs_fileattr_get);
->>
->> +int nfs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *dent=
-ry,
->> +                    struct file_kattr *fa)
+>> +/**
+>> + * fileattr_has_fsx_mask - check for extended flags/attributes
+>> + * @fa:                                fileattr pointer
+>> + * @allowed_xflags_mask:       additional xflags permitted
+>> + *
+>> + * Return: true if any attributes are present that are not represented =
+in
+>> + * ->flags or @allowed_xflags_mask.
+>> + */
+>> +static inline bool fileattr_has_fsx_mask(const struct file_kattr *fa,
+>> +                                        u32 allowed_xflags_mask)
 >> +{
->> +       const struct nfs_rpc_ops *ops =3D NFS_PROTO(d_inode(dentry));
->> +
->> +       if (ops->fileattr_set)
->> +               return ops->fileattr_set(idmap, dentry, fa);
->> +       return -EOPNOTSUPP;
+>> +       return fa->fsx_valid &&
+>> +               ((fa->fsx_xflags & ~(FS_XFLAG_COMMON | allowed_xflags_ma=
+sk)) ||
+>> +                fa->fsx_extsize !=3D 0 || fa->fsx_projid !=3D 0 ||
+>> +                fa->fsx_cowextsize !=3D 0);
 >> +}
->> +EXPORT_SYMBOL_GPL(nfs_fileattr_set);
->> +
->>  static void nfs_init_lock_context(struct nfs_lock_context *l_ctx)
->>  {
->>         refcount_set(&l_ctx->count, 1);
->> diff --git a/fs/nfs/internal.h b/fs/nfs/internal.h
->> index 5af6a032f145..0e47fad944de 100644
->> --- a/fs/nfs/internal.h
->> +++ b/fs/nfs/internal.h
->> @@ -458,6 +458,8 @@ extern int nfs_wait_bit_killable(struct wait_bit_key=
- *key, int mode);
->>
->>  struct file_kattr;
->>  int nfs_fileattr_get(struct dentry *dentry, struct file_kattr *fa);
->> +int nfs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *dent=
-ry,
->> +                    struct file_kattr *fa);
->>
->>  #if IS_ENABLED(CONFIG_NFS_LOCALIO)
->>  /* localio.c */
->> diff --git a/fs/nfs/nfs4proc.c b/fs/nfs/nfs4proc.c
->> index e1018b03c1cb..31d58ceb4dc0 100644
->> --- a/fs/nfs/nfs4proc.c
->> +++ b/fs/nfs/nfs4proc.c
->> @@ -55,6 +55,7 @@
->>  #include <linux/utsname.h>
->>  #include <linux/freezer.h>
->>  #include <linux/iversion.h>
->> +#include <linux/fileattr.h>
->>
->>  #include "nfs4_fs.h"
->>  #include "delegation.h"
->> @@ -98,7 +99,8 @@ static int _nfs4_proc_getattr(struct nfs_server *serve=
-r, struct nfs_fh *fhandle,
->>                               struct nfs_fattr *fattr, struct inode *ino=
-de);
->>  static int nfs4_do_setattr(struct inode *inode, const struct cred *cred=
-,
->>                             struct nfs_fattr *fattr, struct iattr *sattr=
-,
->> -                           struct nfs_open_context *ctx, struct nfs4_la=
-bel *ilabel);
->> +                           struct nfs_open_context *ctx, struct nfs4_la=
-bel *ilabel,
->> +                           const struct timespec64 *time_create);
->>  static struct rpc_task *_nfs41_proc_sequence(struct nfs_client *clp,
->>                 const struct cred *cred,
->>                 struct nfs4_slot *slot,
->> @@ -3216,7 +3218,7 @@ static int _nfs4_do_open(struct inode *dir,
->>                         nfs_fattr_init(opendata->o_res.f_attr);
->>                         status =3D nfs4_do_setattr(state->inode, cred,
->>                                         opendata->o_res.f_attr, sattr,
->> -                                       ctx, label);
->> +                                       ctx, label, NULL);
->>                         if (status =3D=3D 0) {
->>                                 nfs_setattr_update_inode(state->inode, s=
-attr,
->>                                                 opendata->o_res.f_attr);
->> @@ -3380,7 +3382,8 @@ static int _nfs4_do_setattr(struct inode *inode,
->>
->>  static int nfs4_do_setattr(struct inode *inode, const struct cred *cred=
-,
->>                            struct nfs_fattr *fattr, struct iattr *sattr,
->> -                          struct nfs_open_context *ctx, struct nfs4_lab=
-el *ilabel)
->> +                          struct nfs_open_context *ctx, struct nfs4_lab=
-el *ilabel,
->> +                          const struct timespec64 *time_create)
->>  {
->>         struct nfs_server *server =3D NFS_SERVER(inode);
->>         __u32 bitmask[NFS4_BITMASK_SZ];
->> @@ -3391,6 +3394,7 @@ static int nfs4_do_setattr(struct inode *inode, co=
-nst struct cred *cred,
->>                 .server         =3D server,
->>                 .bitmask =3D bitmask,
->>                 .label          =3D ilabel,
->> +               .time_create    =3D time_create,
->>         };
->>         struct nfs_setattrres  res =3D {
->>                 .fattr          =3D fattr,
->> @@ -3414,6 +3418,9 @@ static int nfs4_do_setattr(struct inode *inode, co=
-nst struct cred *cred,
->>         if (sattr->ia_valid & ATTR_MTIME)
->>                 adjust_flags |=3D NFS_INO_INVALID_MTIME;
->>
->> +       if (time_create)
->> +               adjust_flags |=3D NFS_INO_INVALID_BTIME;
->> +
->>         do {
->>                 nfs4_bitmap_copy_adjust(bitmask, nfs4_bitmask(server, fa=
-ttr->label),
->>                                         inode, adjust_flags);
->> @@ -4587,7 +4594,7 @@ nfs4_proc_setattr(struct dentry *dentry, struct nf=
-s_fattr *fattr,
->>         if ((sattr->ia_valid & (ATTR_MODE|ATTR_UID|ATTR_GID)) !=3D 0)
->>                 nfs4_inode_make_writeable(inode);
->>
->> -       status =3D nfs4_do_setattr(inode, cred, fattr, sattr, ctx, NULL)=
-;
->> +       status =3D nfs4_do_setattr(inode, cred, fattr, sattr, ctx, NULL,=
- NULL);
->>         if (status =3D=3D 0) {
->>                 nfs_setattr_update_inode(inode, sattr, fattr);
->>                 nfs_setsecurity(inode, fattr);
->> @@ -10845,6 +10852,44 @@ static void nfs4_disable_swap(struct inode *ino=
-de)
->>         wake_up_var(&clp->cl_state);
->>  }
->>
->> +#define NFS4_SUPPORTED_XFLAGS  (FS_XFLAG_PTIME)
->> +static int nfs4_fileattr_set(const struct mnt_idmap *idmap, struct dent=
-ry *dentry,
->> +                            struct file_kattr *fa)
->> +{
->> +       struct inode *inode =3D d_inode(dentry);
->> +       struct nfs_server *server =3D NFS_SERVER(inode);
->> +       struct nfs_fattr *fattr;
->> +       struct iattr sattr =3D { .ia_valid =3D 0 };
->> +       const struct timespec64 *time_create =3D NULL;
->> +       int error;
->> +
->> +       if (!(server->fattr_valid & NFS_ATTR_FATTR_BTIME))
->> +               return -EOPNOTSUPP;
->> +
->> +       if (fa->flags_valid)
->> +               return -EOPNOTSUPP;
->> +
->> +       if (fileattr_has_fsx_mask(fa, NFS4_SUPPORTED_XFLAGS))
->> +               return -EOPNOTSUPP;
->> +
->> +       if (fa->fsx_xflags_mask & ~NFS4_SUPPORTED_XFLAGS)
->> +               return -EOPNOTSUPP;
 >> +
 >
-> These two checks look semantically identical.
-> I am not sure yet what you intention was with the
-> fileattr_has_fsx_mask() helper - I know you had reservations about it
-> but at least in this code, it doesn't look like it is needed at all.
+> Every patch in your series did:
+>
+>        if (fileattr_has_fsx_mask(fa, EXFAT_SUPPORTED_XFLAGS))
+>                return -EOPNOTSUPP;
+>
+>        if (fa->fsx_xflags_mask & ~EXFAT_SUPPORTED_XFLAGS)
+>                return -EOPNOTSUPP;
+>
+> It looks like this helper is not as helpful as it could have been
+> and you have raised this question yourself in the cover letter.
+>
+> Effectively every filesystem that supports fileattr_set() already has
+> a defined SUPPORTED mask, so I think it's better to do the negated
+> something like:
+>
+> static inline bool fileattr_supported_fsx_mask(const struct file_kattr *f=
+a,
+>                                                u32 supported)
+> {
+>         if (!fa->fsx_valid)
+>                 return true;
+>         if ((fa->fsx_xflags | fa->fsx_xflags_mask) & ~supported)
+>                 return false;
+>         if (fa->fsx_extsize &&
+>             !(supported & (FS_XFLAG_EXTSIZE | FS_XFLAG_EXTSZINHERIT)))
+>                 return false;
+>         if (fa->fsx_cowextsize && !(supported & FS_XFLAG_COWEXTSIZE))
+>                 return false;
+>         if (fa->fsx_projid && !(supported & FS_XFLAG_PROJID))
+>                 return false;
+>         return true;
+> }
+>
+>
+> ...
+>
+>        if (!fileattr_supported_fsx_mask(fa, EXFAT_SUPPORTED_XFLAGS))
+>                return -EOPNOTSUPP;
+>
+>
+>>  /**
+>>   * fileattr_has_fsx - check for extended flags/attributes
+>>   * @fa:                fileattr pointer
+>> @@ -74,9 +91,7 @@ void fileattr_fill_flags(struct file_kattr *fa, u32 fl=
+ags);
+>>   */
+>>  static inline bool fileattr_has_fsx(const struct file_kattr *fa)
+>>  {
+>> -       return fa->fsx_valid &&
+>> -               ((fa->fsx_xflags & ~FS_XFLAG_COMMON) || fa->fsx_extsize =
+!=3D 0 ||
+>> -                fa->fsx_projid !=3D 0 || fa->fsx_cowextsize !=3D 0);
+>> +       return fileattr_has_fsx_mask(fa, 0);
+>
+>             return !fileattr_supported_fsx_mask(fa, FS_XFLAG_COMMON);
+>
+> I hope I got this right.
 
-Eh, the name is not the best, but they aren't, _mask & check the _mask
-field, has_fsx_mask checks the xflags field (which is why I added the
-question of keeping its name as it is or changing it to
-"fileattr_has_unsupported_fsx").
-But I'm not even sure we still need this helper, so I may just drop it.
+I think so yeah, though for me it's easier to think about it as
+"unsupported" instead of "supported", but the idea should be correct.
+
+Though yeah, this helper may not even be needed, I'll see if it's better
+to keep it and write it like you did here, or just remove it altogether
+and just do & ~SUPPORTED.
 
 Thanks,
 koraynilay
 
->> +       if (fa->fsx_xflags_mask & FS_XFLAG_PTIME)
->> +               time_create =3D &fa->fsx_ptime;
->
-> This would be BTIME/btime but otherwise the same.
->
 > Thanks,
 > Amir.
 
 
-
---3d15f75e39637138c31b5eb6b42e208a295fb1f9999d6996307de0cb3004
+--7470484374e391fd8d57fd43029902e8671499255fadfb82b8d5a6f90081
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSgVimKafU5DQMcjcDmj22qf5IGXAUCav9zvAAKCRDmj22qf5IG
-XEu7AP0c9QT/KQu0eG63cpYzurcE7LoPHmzKV1r0ma0pNA660wEAz/ZrwIX/0f7l
-NT9CD1fW2/fXVSRBSR06DNatdB/xhwc=
-=Pvsm
+iHUEABYKAB0WIQSgVimKafU5DQMcjcDmj22qf5IGXAUCav90agAKCRDmj22qf5IG
+XPKZAP0VIIYNYcMXcJcBnssVPLsh/PdS/1YfbeS+1fY2/mTfywEAh1K4KuZwkU+c
+so3nKRdXgi3OcK+mKOduMSp71HXfUgE=
+=ip1X
 -----END PGP SIGNATURE-----
 
---3d15f75e39637138c31b5eb6b42e208a295fb1f9999d6996307de0cb3004--
+--7470484374e391fd8d57fd43029902e8671499255fadfb82b8d5a6f90081--
