@@ -1,90 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.178
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795101186;
-	b=m2UiWDB/JCFw3mO8EEw6DNlVQJrYtGys4KWG5fiHl2/p7fzRp3RvBjAruuydPWxUDDuw
-	 e2Lp0f+H3ObO7k+noz5DHKgfm/43CoThc8UbVRl1ZDYtDSRiuonm3PcHMw8d3t2H+C95X
-	 J8n1LB+go4s+/qIKl3nOeBD15AtUgfe4yiko0l47vGFjritcdAyUk8jzzsvQBPlc5ij7C
-	 SpXW/QMvrpbIc+MpRzxAn2obnsfR/bde0qg8C+aLvpVYTQ3zT2GLb/2h82/w2g0H42qBq
-	 kAhZN80otjJzVkcfoCt+OezoCnwzgs1U/JJ7VF1zB/5UmtRFWW7jvsQw8TiaMmcj4sw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795101186;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.47
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795109669;
+	b=C80+jXeLq+ZUfon/lVbkb0oQzOsiXKHyV2sXPVtZavBs7ElLBE+UdDwAq+bATmv9iaZS
+	 /fDUYPgP/DqrsFkGizsFsLcOSWR2DMHJcuYoVvxzL13KPhnUNmT/Ac2UgXK4uhTQieZDD
+	 JbEE3ZQbBbq85j5VpPDYyBs9WXFlIb8Xieutlu56BT1cK7lTSlLl9CLEtQSBZtqHhnNoi
+	 rkvenL3Y2I73aIPq1X/77NYnLqUaxA4bhBpLflEPFNdeERCFTl5OPwYPWqCsckE5qIpaD
+	 IH/Ie9/jXVTuJgrNZp5ZwCvyMA2y/WbMj65Qj/H0kPEfymCRpzyS7v/Z8PGlU2Lgc4Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795109669;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=JpxIvevc+k3PDqIuz3tCAw053u2XWq+vX93HZah6pos=;
-	b=s9N54EAfBbxMFbhH4AeUvHv6cZYjmbI23PxjoGtRQ/DJ+MCGRGy/m7oh/7Whv+i6ewoj
-	 KXVh5ioxUL6nhZU5edpcK8SUHK+UjpASDZFw1z8+uu/VJZk8KzJOWqS2fHrUT23STybP9
-	 PF0I3NPXfiQxJCBz6f/c8Rderrs+I41tq/dDZjf2wHDof1Yre1r6XhjbTyfWEvAMxnPa3
-	 dfxtXk9jvLkkjtXMcTcJC/767LVXtUCkb1ML4bEJ4FSHHVRo4v0lz+VPbNhKWCtTvuEhY
-	 HLQFPJXba1XdRPZeUdHWPG6lzRt8b6IIixw6doQmfyhjM+xyJJLxFlcPRa0aOQaPofA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=m1EYDKjHcJ1IGh49gGW/JeuREp9e8GQDYfzpAeI0szc=;
+	b=RusQE7Pva+VTyRbC+AaVZNqZDrGtExEBQ4kgmyzCrkJZ/1Q5nEpCp2vrq2LNsC+6lebA
+	 ivsC3M7neNh36HMJhfKIk9Qd19tJaIWbjXkKDxVxuAVIQgQAkDlTFnHJqToE5q9EOsFSl
+	 TDrgElUkPzVN4BYUYnISRJeO2KEoNO5rlpRYwLZub1zRtlU9559Dw1fv5Sv87ZhoXrBmp
+	 QJTjnulguPqg4wXvVM/8yFvGxKpjFwZlEkZoDfmaxhr8MOQFxUn2x3kjOVs8GupD4ENmm
+	 7HcBbg633tngJ351048S5s1hSMOS8rLjXhj6TBk+0tc3LUaXRFWR/HO3kplTfQBQ+rQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RuotuOeo;
-	arc=none smtp.remote-ip=209.85.214.178
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=I8ebf+74;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.47
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2667606A324
-	for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 15:13:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2667606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ADB606A331
+	for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 17:34:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7ADB606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RuotuOeo
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2efddf749e5so4878175ad.1
-        for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 07:13:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=I8ebf+74
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6b8a2518f7cso2886936a12.2
+        for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 09:34:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795109667; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JrTpOJ8wzHkYVkCmck9PDpEJCU8t7/wH0TQ8xnA13T3jynsTy8cawZGDmmJkxZ+RUE
+         v4wGHx4227I/uzxPVQW3Yz/WUmTP+FfbVUI5hPoKSXT42XMihy5eCWDlqGYtM6HinNgy
+         aptQyjBvnfAprKkJCG7/96HhAf97E+wHecUKE3ffM9nn+IjSWhZBs99V1sMMDBs6ADD0
+         LzkropHW06YCDJpgZBly5I7JEgEDhLGyPFvNro8cfr4jV78/FXzKgoIZ/VpGvegE4pUz
+         /V8v+X73alB6LiA9AEbHPazu98vy+WB28Gw12IZDYvRow7Ga9/vT/nk9MBRZC2cC6uOo
+         KQQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=m1EYDKjHcJ1IGh49gGW/JeuREp9e8GQDYfzpAeI0szc=;
+        fh=ijQzeMvVKLkp3ArVbT7yVq2kgBWGvA3cIET+wbH42pc=;
+        b=kM0MBWBMGthwUWH2AV2e4Wwa2Czhe2HMvZfvqgAPk++6CxOn9Dsl5CCHYtC0mM2g0i
+         F6qiHvBvVRzfgl+OUrY1c0bj3kHswxPxY04fzHp8RtMterx+b29s2eRU/J2tuLNxRoGl
+         XBDqncUIkHPl9DXDN3LC+vTHfsv7gHNiZorrbW1t5jiQufIrqnKrSgFwZIs5LmEl8Nzk
+         PJhQuLB5Js3wC8//vgbXap9wlSUhG27BZAHYrcR8D8R0DgTKK3j3MBBgtz9ZeTCJ7Z5J
+         MABT4BqfcI3bznt6W7TR1q3n+c7/6yXuxJeyxxIIN4uVAl/ph3rDHl4hvUWK/O/3ASUb
+         LyZg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795101185; x=1795705985; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JpxIvevc+k3PDqIuz3tCAw053u2XWq+vX93HZah6pos=;
-        b=RuotuOeodKwMFAVH15X0TiZmmJuecjfUI/gD1/XU1VjCP9suTJK8lXHftDOTgrzg4k
-         rq6eOT53pc6nZMxLpSsBXpcA8TGf/f8aw4PjiSVZlqqm07OMLbdSOvNxZ+ANli9HcQH+
-         DP+yGIL6wIlmqO4opAa+uCyOfyqXW85lcyUWEAJ7jNEnjQnI759SaS61dEKbsghn7Bo9
-         UGOsSlCdsJxZtIlavcJ6YO7VkTSia1oKghpieCDBuIKqhjMFjal+hXbkYja/cr8NlonL
-         Gw3xxHJBVV1ddp7+EA/dv07iMwxWRdjvb0Ikw4bFh3EXUeR5bmmzNIIBN6ht2L9RN0WC
-         e5zQ==
+        d=gmail.com; s=20260707; t=1795109667; x=1795714467; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=m1EYDKjHcJ1IGh49gGW/JeuREp9e8GQDYfzpAeI0szc=;
+        b=I8ebf+74NWTXhV1uOxx+PK6uOE8+w4xF6Y+ajETKb6ZH6Oed3RVNpRcreUSBdPF+6s
+         KJJ1OSZnI8tqZBuxTgiwreV4EZJYRsxB2MKaqaH9flB968rtPRKyl1xjguizs2dgpvBt
+         3Jny2U0T2rIIEX/eaIZf9KAl6yE8PuBs6EZZehrmmnsJObkOPiMg+aGyefBjLXbmyGgi
+         ni6EyUqV+wTK0VRLXBiYeFsEhr8gbU16L+ymYmuon8eF1aCwROKu05xiutx3Ji8ZQBLp
+         YqFhZn3Fl70ldbDzwNDTQTECBvwcWAFskWYEteBxnR5wMFcKE3IKyC7N+B3IfcEcU1EW
+         S6DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795101185; x=1795705985;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JpxIvevc+k3PDqIuz3tCAw053u2XWq+vX93HZah6pos=;
-        b=p6Y7PmfiO6QT2eAUMfbkuEa+TYdCXoPrKeviWtAWWl/KTyIr4BE+wv6VWnu/VUXbmD
-         ubaAzK2b2qN13OnEjff3cGsv9ZsRu1azHh4CfkerZZtFN67BT08AaZ3/HnL4FspuxUVO
-         p/Kf79phAUMOJXuvLExfBC/jT0usZZUhKb5TJAo2EEBgm6/znOC3026zJ67XG6vnD20J
-         RB3Eg1HnpBAQ9uOO3M6ekAKeoYRKR/VSQ+WiPSGppIPP3ZOMv1bE5R6zmYvix50tFO6i
-         zQqvGh9k8S6xjNr4x5e8stPhR7FcU1DKsl5muNxyq0gmSHGWHHgeiGArpJ5Y5BJymNA/
-         zPaw==
-X-Gm-Message-State: APuU4Z/16TFsZ+LycaHSaNfDroNed2riFBvA6T3v9Zkw+PkFSqWJzv5o
-	kD4/hw1pczCy3MhgHRnu4Z+hHTDc6OwiRZaSTnpI7b0AMpPrIFWybMD9
-X-Gm-Gg: AYBFou3LJtWtomi/fC+i/rchxz7xOq4TihENU8s68umcydIRXGSvNGWpLfAkByh0GNo
-	Cfey9vjjOCdVjnLebMidTx3N8vvT+kW9AIqoTew9o64hd4AI+GQ3MyxBOUIJNtjXtjvPFjt5F8A
-	YkBSLMVPjM6m6WGTDgKg1YUrfVFLuZ19OaZEowq5XIdIyP5RufY7RREepyiBK6qhKBrQtSS0FAi
-	jtlhVBjMWUtY8jVknokVX4/Z8DtSgI9jONwBWD4oc7F2x+IcngjkMUR0qg7Ph4OAXoodTlLHxIf
-	wTqoStLpFp20R7t0ev09xbQPlVh9W4/bYzctY2FlK56CLHunnAAIr2fLgFkl1AFIAAHH6wHCZfT
-	k27G0PGPBJbolptSd/YrkcS+eSNqFilymZTSedHLAU1Fqx9+07/6NFyYhawAti3Wfj7cWdT+mkB
-	cYnoa2VRiRBdv6eiPz9Kq6A5B615ZTpVzjigAXglDka8nKTT6B8xl9uf/YgtKrz5FSbDtf3RgZl
-	NGaiH+t88GffFeqP2tbpVjqw+jEVoN+i+j6Swu3IkPGzlgsmE57CFL3Cnxdi7fmdWY9Md/V9ENZ
-	pzWDQxj5KPWl3FT4YzKGGfr0HeON9Y6v6rVIvTPOOH121A==
-X-Received: by 2002:a17:903:198b:b0:2e8:95d8:6423 with SMTP id d9443c01a7336-2f0320782aemr12269375ad.38.1795101184871;
-        Thu, 19 Nov 2026 07:13:04 -0800 (PST)
-Received: from osman.mioffice.cn ([43.224.245.178])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f1276c5sm1157095ad.67.2026.11.19.07.13.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 07:13:04 -0800 (PST)
-From: Zhan Xusheng <zhanxusheng1024@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	zhanxusheng@xiaomi.com
-Subject: [PATCH] fs/ntfs3: don't prepare private mappings for writing
-Date: Thu, 19 Nov 2026 23:12:59 +0800
-Message-ID: <20261119151259.3965463-1-zhanxusheng1024@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20260707; t=1795109667; x=1795714467;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=m1EYDKjHcJ1IGh49gGW/JeuREp9e8GQDYfzpAeI0szc=;
+        b=qpyxCghAy0XFWbxY9BhBGM/BK43Lu8fuATjzDbIiKfdmrgCoEdkZ8JjTHQ74/TqbFS
+         r96xnNteXnjMWBCohdB31Ktuzje3mzDkN3OBrPk9xa7lCpZuERcBMYwwyLC11dyl3Prs
+         zudw4/M9++qPB8eAfsHMr/8I9RzXDCksXh0zxeY2Fk+x/V8HEd/auvYupS6ChKJr2XYR
+         N20+MJhjlbozRU9DlhBqCV4lLve5ikE8t+M9b8akB675M6OK9XXd2n23z/76vc+oS0St
+         51+QlN07rIT6KIKxf5QfmAOxPABPU3pUdWx6KPpPVmd3GbvFL508dbNTKBDgKiAI0ydA
+         Rw9Q==
+X-Forwarded-Encrypted: i=1; AL+hErFb4b2bc10ai1fMW9PREjlQahye+b75jI6p/1/QoMzGurwaix3XA1NJS7Zg9kX1siBecaAALg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8oGBrDIR1ZheUX/64YSilEbThUEKPrh4/nPgkyWhqEda8jD1M9
+	PiUwJsmkiT/a7+qCbt2yy2wAKI058cDMYEE4IleIzvOHEijjFWJ1xj7hivv5WmxnuAO81p8Fr2a
+	cahCzsyu1aSFqbjqevb1G2F+FBx++pTM=
+X-Gm-Gg: AYBFou02KARcdyEW6K4ybRAKWK+NAqQojVzcFG+elBIlG1x4eGUV+7GKS9fuyEYNCw9
+	gj6L0/fiQNmYp/+zPBv8JK2f49UlLteKnufEdeOD6CubFtU2eHPBu/zT+aA3loGAtA+bbBYCfBt
+	9Fhi+ASizxSpbM/3HQT/dEBBIgy4gK3XjX4fbU4UcgNax6RMZpb1ejlXvGKM8c9Fi1Uwk0lMohE
+	7SoZWeQCk4jFA/GhZOK0cOz+UcMSl1L0j8EzUAzD1CiqOie8Bb5N0pAihokk5I78fGXx0FeGoyA
+	Jvvdm4GYvDIa34ndobGDhH1AeOkzE3YEAVV7q+gdflL1hUOGVM4QGDbVbzfEqBc+Aox+18EFSFV
+	vidpPB7vtSwhEcs57z5MR+lpraIyVFaaALrtejMsVKmndrMTlD4Vmr9TPggSGapRkYxOD0A==
+X-Received: by 2002:a05:6402:70c:b0:6b8:7d98:4826 with SMTP id
+ 4fb4d7f45d1cf-6ba37d5bf0amr50117a12.11.1795109666761; Thu, 19 Nov 2026
+ 09:34:26 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -94,70 +104,57 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261115180343.576773-1-koray.fra@gmail.com> <20261115180343.576773-10-koray.fra@gmail.com>
+In-Reply-To: <20261115180343.576773-10-koray.fra@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 19 Nov 2026 18:34:14 +0100
+X-Gm-Features: Aa3M54rix9St5Car4447U2IPLFR0HdY95bNJiBlGTi0-FAZstJdvxSGCP5IQDxw
+Message-ID: <CAOQ4uxhjxp5sxYphWoB=8sgX3XHOv9zLVYf+8ZjYbS_gQDxO3w@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 09/10] ksmbd: add provenance time (ptime) and map
+ it to CreationTime
+To: koraynilay <koray.fra@gmail.com>
+Cc: David Sterba <dsterba@suse.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Paulo Alcantara <pc@manguebit.org>, Chris Mason <mason@kernel.org>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
+	Bharath SM <bharathsm@microsoft.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	ChenXiaoSong <chenxiaosong@chenxiaosong.com>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Sean Smith <defendthedisabled@gmail.com>, Andrey Albershteyn <aalbersh@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, exfat@lists.linux.dev, ntfs3@lists.linux.dev, 
+	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
+On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail.com> wr=
+ote:
+>
+> Implement provenance time (ptime) in ksmbd, as introduced in a
+> previous commit ("vfs: add provenance time (ptime)").
+>
+> Map it to SMB's CreationTime, making it settable by SMB clients. When
+> reporting CreationTime to clients, prioritize ptime over da.create_time
+> memorized in the user.DOSATTRIB xattr.
 
-ntfs_file_mmap_prepare() allocates the clusters of a sparse file and
-zeroes the file up to the end of the mapping when the mapping has
-VMA_WRITE.  A MAP_PRIVATE mapping never writes the file, but it gets
-the same treatment, so any user who can read a file can make ntfs3
-write to the volume, also when it is mounted read-only.
+That doesn't sound like the right thing to do.
 
-With -o ro, a MAP_PRIVATE mapping with PROT_WRITE by uid 1000 of a
-4 MiB sparse file zeroes 4 MiB on the device and marks 1024 clusters
-used in the bitmap.  The runlist is not updated, so the clusters are
-lost.  The same mapping of a 4 MiB file with 4096 initialized bytes
-writes 4190208 bytes of zeroes.  On a writable mount, it allocates all
-clusters of a sparse file that the user cannot write.
+If the server stored a CreationTime that client had set, you cannot
+override this.
 
-Only prepare shared writable mappings.
+When the client sets CreationTime, the server can decide if it can and want=
+s
+(may be a policy decision) to store CreationTime in PTIME and not store
+it in user.DOSATTRIB.
 
-Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
-Cc: stable@vger.kernel.org
-Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
----
-Tested in a VM on 7.4-rc3 (20eef29b7c84): with the patch, both read-only
-cases leave the device unchanged and the sparse file is not allocated.
-fsx with mmap on 4K and 64K cluster volumes and on sparse and compressed
-files gives the same results as before.
+Fun fact: the user.DOSATTRIB format also has a mask so storing the
+creation time inside it is also optional.
 
- fs/ntfs3/file.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 6c84a3e1c7fe..3da8b65793e1 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -388,6 +388,8 @@ static int ntfs_file_mmap_prepare(struct vm_area_desc *desc)
- 	struct inode *inode = file_inode(file);
- 	struct ntfs_inode *ni = ntfs_i(inode);
- 	const bool rw = vma_desc_test(desc, VMA_WRITE_BIT);
-+	/* A private mapping never writes the file. */
-+	const bool shared_rw = rw && vma_desc_test(desc, VMA_SHARED_BIT);
- 	int err;
- 
- 	/* Avoid any operation if inode is bad. */
-@@ -417,7 +419,7 @@ static int ntfs_file_mmap_prepare(struct vm_area_desc *desc)
- 		file->f_ra.ra_pages = 0;
- 	}
- 
--	if (rw) {
-+	if (shared_rw) {
- 		u64 from = (u64)desc->pgoff << PAGE_SHIFT;
- 		u64 to = min_t(u64, i_size_read(inode),
- 			       from + vma_desc_size(desc));
-@@ -452,7 +454,7 @@ static int ntfs_file_mmap_prepare(struct vm_area_desc *desc)
- 	}
- 
- 	err = generic_file_mmap_prepare(desc);
--	if (!err && rw)
-+	if (!err && shared_rw)
- 		desc->vm_ops = &ntfs_file_vm_ops;
- out:
- 	return err;
-
-base-commit: 20eef29b7c8465ac98d7dd6d6f2ac07a8d8056ca
--- 
-2.43.0
-
+Thanks,
+Amir.
