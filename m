@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795181032;
-	b=CDC8H6b4D+1SjjNXsLjaZ4wKWF95qZPy+upP2TT3+gff9o9HOCG0Pjt7NZnCRtMSFWh3
-	 hkduzKXIoDmAKwYM+vweuWUn+FHCcALBpP406WhUWAVCfnwZzzxutWJxneMGlKhj3mvxy
-	 rspUFB8IFHC9QnUeGY0ESIps/IfuesbK7SGqQ55NO6b3uSwVLSt7CK35l+7hO3K/cuoqt
-	 pgHlh5yzwLmk1BqxWaN08Qy81Pi7eENRbZdQpBKbN/CxFAjghll6n5Yrm+Xrn6UpHSjHm
-	 +gRT93pFATV5VMWn4s5Og535PkaoCAdlmdqt0zVX9mpdqE2ZOZ4TX3kcrnjkRCK+f6Q==
+	t=1795181642;
+	b=sy7cacvuVbSQDEaQgN2bcPgMv8UbgqG7d5Ktu6pJ9viiQXUx5WsuYQFc42dagg9aJK0O
+	 39rXir2g2jyRxh9UNK1qO4iNSkVa0l75vYnOd8ZfZDuEgNaCJvatDSgJLI+e8s9VwvE7o
+	 zWGSbk1AWrZd40NpTv19xSY7yKKlpEilDFo1sPAIyTmGvr/xRh/ptru66XHpk3TCK/F5h
+	 zWw2ELoI5VMYfYyiSWkQSlB7dlGtbYaVSbG0mh4kKqNkxoI8nhE1sdSADxai9Ps2yHwJW
+	 RoYXQufU5nqfaAQeEXb8TdMqYC6zmr8xlGuKdeiO2vS517+WRTGCpLe29g0Y6iFxTxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795181032;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795181642;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:X-Mailer:
+	 Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:X-Mailer:
 	 References:In-Reply-To;
-	bh=U9t5C73ir3/3QySglAwAwVOJ69q66296+82EjWEvxrc=;
-	b=IJhB2lbN/vMs1G37g9Yhl69h7pSk7jO+vW8ykxmVOry1z6tJeQd2Vv0xEfAbEUwB0VOO
-	 /3xRxKpMV4DFOSOQ584wiSQWD3kEIdAG6/IvRwBisrXh2dwblOkonD5EfcMSljE45cJcJ
-	 Yh0ejEw3zbIpeQYn7qNGLadUtRFyeDgucCj4U4yECU1EYtD8Qgwcw1eKyS+1RW6ugjG6h
-	 2YNdMHha81smusmjSp97sTT6JiQinYsnHz/SlxGGRLUjnZQymBb6zMtESbm++i+x+foga
-	 L2NGq1iW2EDDN96f2R6ckvf+segXA8CgXe8phc8d4ldUefb3n6uEvTzBJkw9Mx+GooQ==
+	bh=/tgGW37WPbOQT+N8dT1q60bLbw3ltn29ONzKHbalNio=;
+	b=EF17+JxAcikcnHBk2Z8b78nxrQf8Fdd01oiWPVVA4Ru14tFFEQryeekaoKmqwxp/+rpU
+	 d8DtcbTn21c8StHe/4xhI80GU8uAVRTVQia3zKtwSPNyMTCUs4BxCR62lZ2Q6x8tm3GlH
+	 YJhNRDD/w5Npq+LxcRWL4nanZZfjC1/C4K+ntzs6OgkPszS5fsDkOVHijjaKfz2ahWBZ5
+	 e4VAPXmzZTEcCrQq4Neg0PsNegfAvMf2TDkJP9yZU5KYBBf+65BZ3c2lZ6NWML7GqURa4
+	 UAZw7pq/F8Ui0Xk61jLkhcD70yWIu1kZU1ogsxDvUNP9m2/e11PuSm9SmXUSfgu9UvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Pg2c1J0Q;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=E6SgGQtH;
+	arc=none smtp.remote-ip=209.85.221.52
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E23060A2612
-	for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 13:23:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E23060A2612
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1E5606A330
+	for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 13:34:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D1E5606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Pg2c1J0Q
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso6348875e9.2
-        for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 05:23:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=E6SgGQtH
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-491f34b4e0fso408547f8f.2
+        for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 05:34:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795181031; x=1795785831; darn=lists.linux.dev;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
+        d=gmail.com; s=20260707; t=1795181640; x=1795786440; darn=lists.linux.dev;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
          :content-type:mime-version:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=U9t5C73ir3/3QySglAwAwVOJ69q66296+82EjWEvxrc=;
-        b=Pg2c1J0QcAdNwMMVBdoNBwOZgWeASog0U/+WXWRzEpQ61o3k9JmD+Vchr99Uz0YKW0
-         wp0zLMOYI3VD1zUZGIIFWVEj5kH4W2yrwJUXE10nlK8s5Bm+4RH7m0IC8rUCJmeQUt/x
-         ZYtx0Z1FHD38JZ+KCs5JjbGex9ObyrMsQyGkCUqwex5s4RqlJ/XGIabrIlW9OXeSnKFu
-         9fGyC55LP3HZQyYOtWBbvkwpseFLnaU3OTWtIO/OSrx5DgF3OG2RkWP9tg5Gdt0miJZ9
-         3J94IPLEx4dRRTpwWSmf9Bo0ZCMRWz74jgRpTdALug0eVRHmWuSEKUeLGtphbXdkzpRf
-         P7xA==
+        bh=/tgGW37WPbOQT+N8dT1q60bLbw3ltn29ONzKHbalNio=;
+        b=E6SgGQtHN34MFlZN3YSK/I9JaPuPQ/fspNGf/EPrQvCsZJZwBiz2S5BoTzodShkyB3
+         HpHtyrzw33P+binStpZleX+LJMXfcfPGRkwfE/4tMmhPQ7n3KXXJNki3L40JnIR85dFg
+         bBBuDPV6IogFarEJXA+ayiZiZI9oEMJM4JR/CAcXGa9ptLGRsQkPvdekk1NacP1Dw/58
+         YmlWU0i5Wa0fymjTMbEoTWnJjU7h1gUlpiuG6oC5qe8VuW+hCJZVTV9HOeSFsh4fxaGt
+         J3piTcDz0WMHDjL02uwWC++9PSLFTx6uIw+CjFT0ahfuPkE1XTKSg8dh2zr1XmGhWQfe
+         XCDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795181031; x=1795785831;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
+        d=1e100.net; s=20260707; t=1795181640; x=1795786440;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
          :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=U9t5C73ir3/3QySglAwAwVOJ69q66296+82EjWEvxrc=;
-        b=eZz9qh+VR1j+2OXqWROpTdCol212os/HL5J0mMR/aT5sRV/3LyrT7NcdRnWpdb0vjb
-         J60NXlAh1k84UT7JafnN05RqiRoK/1P5KBmkvLlHl50zVtMRbfoVNSXtaujZ0r+5UTSF
-         3EtEyV5HkDsWuxD80qIKf9/M0epNJZFEu+WppMtXEnfVwPfOv2tYHkbJ1tBx09IMfmix
-         kC90kwaUJfIR7iik80//VoJYZpULPYEnmZSOebufaBCkXtPwhV/QmjupoW1w402No+tc
-         L3e6L6cfxwUmuMqnO4eJGhmdSyNQZ01ilaNREB2wJ3MC1ZcXkDFArgPvwVONiWMp1Dy6
-         TzZQ==
-X-Forwarded-Encrypted: i=1; AL+hErEzmoavJbdWr8eBdYa0trQF9ufxpEKhw7Foe3wA/YjyoucNbXm0vzMl34cM8rOp7vOCLmC6DQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8etH22ljddA104cEqoz4UoHL51BS82uUZB0waL1iTR1m+qYzRE
-	F+WxBZOeKoiXV17RGcEF1n8wmniY/tPEiUaG7kVc5dIiqcxKzz7cIly7
-X-Gm-Gg: AYBFou1bTHbhaV0Ew6FDnglK41boJe63ihGWbk2H0mqOYUOBBpfzqZgpV6uZ2NjtnON
-	tkOnAc/Nm7bQk9iDgqHSdS9B4ScnShTBuSeNjKzg5JRj76vaNgrkqR+P0xygsDqoqlZoF39p4+z
-	D8anKm9uyL4e3Oi2tXQkx58SmrzPRQW73G3zBJh9NI6pDubNh1bPRpT3fYVIIUsUBAQ5WQIzNnw
-	iGlCBnP/rxmIgH9Y8GPXGKf34yB3/fQO/MDUMBnfn0kROcMpHBkcMCK59GTXSP1hhEGMI+MynBK
-	XOweVRBym4XsUDTw5AYgeS+yscKjIb5j3tKRVPcrfmzTh0fsYgH+Cdh2wiaOi2xXMmi6fiZlnLz
-	QCyeGN2DqnJcBPS8Ic/Jl6h7jEpkKq9Auq0HxMWNUE+R+5I5TJGP1zXC3qbv3cy55oDx4d9EgG/
-	yHh0tP84+dKhy5DiLl41CP/x9zNPB1AZ6qRIHlGg6PgtEsaLH99owMs/lxBLHTyzox3KVtHEJHp
-	uD3X0vp0sdqsOPmYK6C0dnM22Uc5zmxrAFk1DTGlQjYDgTYgplQf79bcJy0gS64SKhn5iEhm27h
-	PscpBic8xbXqmzBkwNWNmtK/Kms33CCf2Z91Z6NXMowkCSn1
-X-Received: by 2002:a05:600c:3b83:b0:4b7:6b96:e431 with SMTP id 5b1f17b1804b1-4bb88822242mr75040685e9.28.1795181030668;
-        Fri, 20 Nov 2026 05:23:50 -0800 (PST)
+        bh=/tgGW37WPbOQT+N8dT1q60bLbw3ltn29ONzKHbalNio=;
+        b=xL6zfRujJFG21SvVhJDBKmrWRGObWeswcby7fxXMUAlmW0KGBI6emSthQOl5M9GH5n
+         xbgrk/8UkVEV0e31MZPU8o6NzVgEROwTKUx4RcOiKJJB1o8T8ABfo9LPqdBocpA6h1DJ
+         cetLulUOQZjoQ4A/YAzGQg/72RMshwBJWWgxPcIVhpdLjVbS621WPWOHdD5GT0TmthrF
+         Xnt3swKQgxYQtvCVRvgEruHObOLLbgxiPPVkPGOPqS63008ZX9gy1pWv/hAuPDqhX2Td
+         8cMMrhRZ2FoDSAu4yX+PoObSJoRd9XcrKLd7qpU+ywYjxsKFcq4XVABuGDX5QrMP1FBr
+         PmcQ==
+X-Forwarded-Encrypted: i=1; AL+hErHEXfzFKsFxeqoi1p6wVRxfWv0N8+58fOaHJUrArTFaY/cnBoT7m1we0z/GNbI49uGpQ2eP1Q==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8J0gWkLPWafpFpIuJncQfYOC27O5OaW9vy5l96h90N1MQ+J9WG
+	pb1t0LheTjPuJzBLmnYYpV0u1SSXIgOu9vtsF3bXLjiAb33Ejd2gY7C1
+X-Gm-Gg: AZFdTZfcGdv24L46dA9XIuU8YuA9BzImBkygllLUTe7c61CtRpU4EEy9GZKRi+zbE3h
+	SbLA53D5hY8PnN+BiG1YxCZnQqfUTbneWz7z8s8zHU9Mc8PEuDiTHvmsZdOOn66NJELxCLT2lg8
+	gG+q2fP8xma+cvJvKF1A5iQVR+OocVFNNluX7vz8HN6YC/BFl/hYSN/Zt/ueKiS4P8XL/u4JZq3
+	95Myw2SXMbHmwsWURnnj+HY3gMLm7dCvFTxyFfYTqOe4AidilmpqzjyDOfMOp5KTqGMSCXw7/9R
+	wqhjA+HRnhKXEj14ZyiuTTgQFN8ROtfIBf2SkH+ieAf0Zg7UepuPPHQZrgPqsyacUyk0nJrdjtd
+	Y6rJTzrdeU97LQtLagIkOOqB0hI25Fzn05m/PBJjA1TxeDTAcjpu2jrkKgdrfTYilVKVbZVPYgZ
+	bGeytwbposFTds4ff29V/YVum959zaRWBtVbSECC1EK5GYmvXmNOvlI/f+Xv5Wr4i7ZIHAxvXxm
+	yZ8cYyKLFlSvz1lBKXJ2ZPewMFe9kTWYY6tgzn4KRTrrjinhYGJxN2pJtivasnyXUXMNDtW22dI
+	mssUwqFY4EGIQa+b2oJkvunFrEyhFAGaaF0fJ1gP9Iqgx5GrnbKFbExlXtg1l+QL7xd6uQ==
+X-Received: by 2002:a05:6000:299c:20b0:4aa:2bf2:4d98 with SMTP id ffacd0b85a97d-4abb0f3b4b0mr4807067f8f.29.1795181639710;
+        Fri, 20 Nov 2026 05:33:59 -0800 (PST)
 Received: from localhost ([130.192.98.149])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab65cb41f4sm5518234f8f.7.2026.11.20.05.23.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6a67fe75sm6332019f8f.24.2026.11.20.05.33.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Nov 2026 05:23:49 -0800 (PST)
+        Fri, 20 Nov 2026 05:33:58 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -88,19 +88,21 @@ List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 Mime-Version: 1.0
 Content-Type: multipart/signed;
- boundary=7e8bd4a9c12ebb9d8a66b83f0766d89a19a194b2b3f96510da164a6c43d9;
+ boundary=d4d0a5d1810b38e9a5b5d406e137fc7cd12d6afa0f1bd49929aebcd96cb5;
  micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Fri, 20 Nov 2026 14:23:41 +0100
-Message-Id: <DN02K8EYWHSW.1FP154N0I9QCK@gmail.com>
+Date: Fri, 20 Nov 2026 14:33:56 +0100
+Message-Id: <DN02S2XNGRZD.1KNOZJ0GGDJNG@gmail.com>
+Subject: Re: [RFC PATCH v4 08/10] nfs: add provenance time (ptime) via
+ FATTR4_TIME_CREATE
 From: "koraynilay" <koray.fra@gmail.com>
 To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
  <koray.fra@gmail.com>
-Cc: =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, "David Sterba"
- <dsterba@suse.com>, "Namjae Jeon" <linkinjeon@kernel.org>, "Sungjong Seo"
- <sj1557.seo@samsung.com>, "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Trond Myklebust"
- <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>, "Chuck Lever"
- <cel@kernel.org>, "Jeff Layton" <jlayton@kernel.org>, "Konstantin Komarov"
+Cc: "David Sterba" <dsterba@suse.com>, "Namjae Jeon"
+ <linkinjeon@kernel.org>, "Sungjong Seo" <sj1557.seo@samsung.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
+ <brauner@kernel.org>, "Trond Myklebust" <trondmy@kernel.org>, "Anna
+ Schumaker" <anna@kernel.org>, "Chuck Lever" <cel@kernel.org>, "Jeff Layton"
+ <jlayton@kernel.org>, "Konstantin Komarov"
  <almaz.alexandrovich@paragon-software.com>, "Paulo Alcantara"
  <pc@manguebit.org>, "Chris Mason" <mason@kernel.org>, "Yuezhang Mo"
  <yuezhang.mo@sony.com>, "Jan Kara" <jack@suse.cz>, "NeilBrown"
@@ -111,108 +113,150 @@ Cc: =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, "David Sterba"
  <senozhatsky@chromium.org>, "ChenXiaoSong" <chenxiaosong@chenxiaosong.com>,
  "Darrick J . Wong" <djwong@kernel.org>, "Sean Smith"
  <defendthedisabled@gmail.com>, "Andrey Albershteyn" <aalbersh@kernel.org>,
- "Pedro Falcato" <pfalcato@suse.de>, <linux-btrfs@vger.kernel.org>,
+ "Pedro Falcato" <pfalcato@suse.de>, =?utf-8?q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>, <linux-btrfs@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
  <exfat@lists.linux.dev>, <ntfs3@lists.linux.dev>,
  <linux-cifs@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
- <linux-api@vger.kernel.org>
-Subject: Re: [RFC PATCH v4 09/10] ksmbd: add provenance time (ptime) and map
- it to CreationTime
+ <linux-api@vger.kernel.org>, "Theodore Tso" <tytso@mit.edu>
 X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
 References: <20261115180343.576773-1-koray.fra@gmail.com>
- <20261115180343.576773-10-koray.fra@gmail.com>
- <CAOQ4uxhjxp5sxYphWoB=8sgX3XHOv9zLVYf+8ZjYbS_gQDxO3w@mail.gmail.com>
- <DMZIQG4U1NTH.2IN0S2YIWEYTG@gmail.com>
- <20261119220936.mssmaixcorn2gzli@pali> <DMZJGB07CO56.IZ20OCGGH6C@gmail.com>
- <CAOQ4uxhqgsh9ahJsX7C4YyZH2n_r8VwOe9X9jZwsKALCoYvyag@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhqgsh9ahJsX7C4YyZH2n_r8VwOe9X9jZwsKALCoYvyag@mail.gmail.com>
+ <20261115180343.576773-9-koray.fra@gmail.com>
+ <CAOQ4uxgoNsOH82FyrCxc+qSoid_CFmbmpL0qgWFw-e8E689fFA@mail.gmail.com>
+ <DMZJ4PL1JVA4.2YEB7EPYJR5Q7@gmail.com>
+ <CAOQ4uxi6h9BBP7pf4sR+gc2+4XtkEgbxXZha45iZzdB_wGFVgQ@mail.gmail.com>
+In-Reply-To: <CAOQ4uxi6h9BBP7pf4sR+gc2+4XtkEgbxXZha45iZzdB_wGFVgQ@mail.gmail.com>
 
---7e8bd4a9c12ebb9d8a66b83f0766d89a19a194b2b3f96510da164a6c43d9
+--d4d0a5d1810b38e9a5b5d406e137fc7cd12d6afa0f1bd49929aebcd96cb5
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
 
-On Fri Nov 20, 2026 at 7:03 AM CET, Amir Goldstein wrote:
-> On Thu, Nov 19, 2026 at 11:25=E2=80=AFPM koraynilay <koray.fra@gmail.com>=
+On Fri Nov 20, 2026 at 7:45 AM CET, Amir Goldstein wrote:
+> On Thu, Nov 19, 2026 at 11:10=E2=80=AFPM koraynilay <koray.fra@gmail.com>=
  wrote:
 >>
->> On Thu Nov 19, 2026 at 11:09 PM CET, Pali Roh=C3=A1r wrote:
->> > On Thursday 19 November 2026 22:51:26 koraynilay wrote:
->> >> On Thu Nov 19, 2026 at 6:34 PM CET, Amir Goldstein wrote:
->> >> > On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail=
-.com> wrote:
->> >> >>
->> >> >> Implement provenance time (ptime) in ksmbd, as introduced in a
->> >> >> previous commit ("vfs: add provenance time (ptime)").
->> >> >>
->> >> >> Map it to SMB's CreationTime, making it settable by SMB clients. W=
-hen
->> >> >> reporting CreationTime to clients, prioritize ptime over da.create=
-_time
->> >> >> memorized in the user.DOSATTRIB xattr.
->> >> >
->> >> > That doesn't sound like the right thing to do.
->> >> >
->> >> > If the server stored a CreationTime that client had set, you cannot
->> >> > override this.
+>> On Thu Nov 19, 2026 at 7:06 PM CET, Amir Goldstein wrote:
+>> > On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail.co=
+m> wrote:
 >> >>
->> >> Ah, yes, but how would we handle older files which get a custom
->> >> CreationTime both before (in the xattr) and after (in ptime) a kernel
->> >> upgrade?
->> >
->> > Just to note that this problem is already there. ksmbd can export for
->> > example ntfs filesystem on removable disk. And this removable disk can
->> > be connected to Windows machine which will always only touch
->> > CreationTime and ignores xattr DOSATTRIB.
->> >
->> >> > When the client sets CreationTime, the server can decide if it can =
-and wants
->> >> > (may be a policy decision) to store CreationTime in PTIME and not s=
-tore
->> >> > it in user.DOSATTRIB.
+>> >> Implement provenance time (ptime) in the NFS client, as introduced in=
+ a
+>> >> previous commit ("vfs: add provenance time (ptime)").
+>> >> [...]
+>> >>         if (do_update) {
+>> >> @@ -1061,6 +1061,7 @@ int nfs_getattr(const struct mnt_idmap *idmap, =
+const struct path *path,
+>> >>         if (S_ISDIR(inode->i_mode))
+>> >>                 stat->blksize =3D NFS_SERVER(inode)->dtsize;
+>> >>         stat->btime =3D NFS_I(inode)->btime;
+>> >> +       stat->ptime =3D NFS_I(inode)->btime;
 >> >>
->> >> To fix the above problem we should probably keep storing it in both
->> >> ptime and the xattr though.
 >> >
->> > IMHO for a long term solution it is better to not have duplicated
->> > information in xattr. Because duplicated information are going to be
->> > out-of-sync. Windows NTFS driver will not update xattr DOSATTRIB.
->>
->> Yeah, to avoid out-of-sync issues is why I made ksmbd prefer ptime over
->> the xattr's CreationTime.
->>
+>> > As an example of what would be needed per the mutable btime proposal,
+>> > adding stat->ptime and STATX_PTIME will not be needed...
 >> >
->> > For me it looks like that this needs some policy / configuration
->> > decision done by user. We do not know if the user will replug that dis=
-k
->> > also to Windows NTFS driver (and then those xattr DOSATTRIB could caus=
-e
->> > out-of-sync issues) or will only use it from Linux or Samba and then
->> > xattr DOSATTRIB is probably fine.
+>> >>         /* Special handling for STATX_DIOALIGN and STATX_DIO_READ_ALI=
+GN
+>> >>          * - NFS doesn't have DIO alignment constraints, avoid gettin=
+g
+>> >> @@ -1092,10 +1093,26 @@ int nfs_fileattr_get(struct dentry *dentry, s=
+truct file_kattr *fa)
+>> >>         }
+>> >>         if (nfs_server_capable(inode, NFS_CAP_CASE_NONPRESERVING))
+>> >>                 fa->fsx_xflags |=3D FS_XFLAG_CASENONPRESERVING;
+>> >
+>> > This would need:
+>> >                   fa->fsx_xflags |=3D FS_XFLAG_CASEFOLD;
+>> > +                fa->fsx_xflags_mask |=3D FS_XFLAG_CASEFOLD;
+>> > +                fa->fsx_xflags_ro_mask |=3D FS_XFLAG_CASEFOLD;
+>> > +                /* unlink other fs FS_CASEFOLD_FL is read-only */
+>> (oh, s/unlink/unlike/?)
+>
+> Yeh :)
+> It's a comment for you not for the code
+>
 >>
->> I'm not sure if this is the best solution, it doesn't feel too right
->> to me, but maybe there isn't a better one.
+>> >                   fa->flags |=3D FS_CASEFOLD_FL;
+>> With the new API and vfs helpers, this would need to get removed, as vfs
+>> would already handle this for legacy ioctls, correct?
+>>
+>> >         }
+>> >                    fa->fsx_xflags |=3D FS_XFLAG_CASENONPRESERVING;
+>> > +                 fa->fsx_xflags_mask |=3D FS_XFLAG_CASENONPRESERVING;
+>> > +                 fa->fsx_xflags_ro_mask |=3D FS_XFLAG_CASENONPRESERVI=
+NG;
+>> Uhm, why both in _mask and _ro_mask? If it's a RDONLY flag shouldn't
+>> it *only* be in _ro_mask? (same for CASEFOLD)
 >>
 >
-> If you ask me, this is not your problem and I agree with Pali that
-> this is a policy decision.
+> Good question. Maybe
+> I guess if you want to follow some percent
+> FS_FL_USER_MODIFIABLE is a subset of FS_FL_USER_VISIBLE
+> but I think that exporting ro_mask and _mask is going to be easier and
+> cleaner than rw_mask but not sure.
+
+Hmm I asked that also because you said in the xfs shared extent thread:
+
+> The advantage being that it makes the interface symmetric.
+> User can alway setattr() with the buffer they got from getattr()
+> and instead of randomly ignoring flags in set, the fsx_ro_mask
+> along with fsx_mask defines the behavior exactly.
+
+But by putting the ro flags in _mask too, a user would have to clean
+them out or vfs will reject the call with -EINVAL/something else, since
+in that case the vfs would see the user say "I want to change this [ro]
+flag".
+
+>> >> +       if (NFS_SERVER(inode)->fattr_valid & NFS_ATTR_FATTR_BTIME) {
+>> >> +               fa->fsx_xflags |=3D FS_XFLAG_PTIME;
+>> >> +               fa->fsx_xflags_mask |=3D FS_XFLAG_PTIME;
+>> >> +               fa->fsx_ptime =3D NFS_I(inode)->btime;
+>> >> +       }
+>> >
+>> > +               fa->fsx_xflags |=3D FS_XFLAG_BTIME;
+>> > +               fa->fsx_xflags_mask |=3D FS_XFLAG_BTIME;
+>> > +               fa->fsx_btime =3D NFS_I(inode)->btime;
+>> >
+>> > Fs with immutable btime could either not advertise the BTIME flag
+>> > in xflags/xflags_mask or advertise the flag also in xflags_ro_mask.
+>>
+>> That makes sense.
+>>
+>> >>         return 0;
+>> >>  }
+>> >>  EXPORT_SYMBOL_GPL(nfs_fileattr_get);
+>> >>
+>> >> +int nfs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *d=
+entry,
+>> >> [...]
+>> >> +       if (!(server->fattr_valid & NFS_ATTR_FATTR_BTIME))
+>> >> +               return -EOPNOTSUPP;
+>> >> +
+>> >> +       if (fa->flags_valid)
+>> >> +               return -EOPNOTSUPP;
+>> >> +
+>> >> +       if (fileattr_has_fsx_mask(fa, NFS4_SUPPORTED_XFLAGS))
+>> >> +               return -EOPNOTSUPP;
+>> >> +
+>> >> +       if (fa->fsx_xflags_mask & ~NFS4_SUPPORTED_XFLAGS)
+>> >> +               return -EOPNOTSUPP;
+>> >> +
+>> >
+>> > These two checks look semantically identical.
+>> > I am not sure yet what you intention was with the
+>> > fileattr_has_fsx_mask() helper - I know you had reservations about it
+>> > but at least in this code, it doesn't look like it is needed at all.
+>>
+>> Eh, the name is not the best, but they aren't, _mask & check the _mask
+>> field, has_fsx_mask checks the xflags field (which is why I added the
+>> question of keeping its name as it is or changing it to
+>> "fileattr_has_unsupported_fsx").
+>> But I'm not even sure we still need this helper, so I may just drop it.
+>>
 >
-> I would not include this patch at all in the series if I were you.
-> Maybe as a demo user, but you could just as well include a demo
-> user application.
+> I don't care either way as long as the code reads fine.
 
-Ah, ok, fair.
-
-> The nfsd user is a simpler demo, so as long as the nfsd maintainers
-> are on the same page wrt the mutable btime plan, you could include
-> it in your series.
->
-> The problem you raise with DOSATTRIB xattr is similar to the problems
-> that Chuck raised for ptime vs. btime as the source of FATTR4_TIME_CREATE
-
-Ah right, I can see the parallel, tho before the ptime change you
-couldn't modify the creation time at all from linux with nfsd, so in
-that case unless a user manually changed it after a kernel upgrade, it
-wouldn't have this desync problem (apart from a kernel downgrade).
+Fair.
 
 Thanks,
 koraynilay
@@ -220,17 +264,15 @@ koraynilay
 > Thanks,
 > Amir.
 
-
-
---7e8bd4a9c12ebb9d8a66b83f0766d89a19a194b2b3f96510da164a6c43d9
+--d4d0a5d1810b38e9a5b5d406e137fc7cd12d6afa0f1bd49929aebcd96cb5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCawBJ3gAKCRA0bnTtJTDo
-OJc/AQCn/pvK3+PSezucUXa1GtiKLjE7oMlXGStcJfzdnlWtcAD9GPZFH0ccIs4C
-afAlaO9nsoqLSUJ3Hk7qioPrnGVqrQM=
-=CBTM
+iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCawBMRQAKCRA0bnTtJTDo
+OAxdAQDZAHDxwrsYEK/NjLvhU9XZYKoNPOA+bHn/PxMRXWrsowEAkLcPoymguHvp
+ICHPpc1SRc0TROj5o6iGwNAiGXHeGgo=
+=NG+4
 -----END PGP SIGNATURE-----
 
---7e8bd4a9c12ebb9d8a66b83f0766d89a19a194b2b3f96510da164a6c43d9--
+--d4d0a5d1810b38e9a5b5d406e137fc7cd12d6afa0f1bd49929aebcd96cb5--
